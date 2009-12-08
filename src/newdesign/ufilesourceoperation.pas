@@ -2,6 +2,23 @@ unit uFileSourceOperation;
 
 {$mode objfpc}{$H+}
 
+// If defined causes to synchronize executing callback for events.
+// This ensures that the callbacks always have the operation in the current state,
+// which might be safer, but it is slower because the operation must wait
+// until all callbacks are executed.
+// If undefined then all events are sent asynchronously, which is faster.
+// However, it may result in those events to be reported much later after
+// they have happened in the operation and the operation state might
+// not be valid anymore.
+//{$DEFINE fsoSynchronizeEvents}
+
+// If defined it will only send one event and will not send more
+// until that event is processed (so some events may be lost).
+// This normally shouldn't be defined.
+//{$DEFINE fsoSendOnlyCurrentState}
+
+//{$DEFINE debugFileSourceOperation}
+
 interface
 
 uses
@@ -22,6 +39,12 @@ type
      fsosStopping,    //<en responded to Stop command
      fsosStopped);    //<en finished due to Stop command or on its own
 
+  TFileSourceOperationStates = set of TFileSourceOperationState;
+
+const
+  fsosAllStates  = [Low(TFileSourceOperationState) .. High(TFileSourceOperationState)];
+
+type
   TFileSourceOperationResult =
     (fsorFinished,    //<en operation has finished successfully
      fsorAborted);    //<en operation has been aborted by user
@@ -39,14 +62,9 @@ type
 
   TFileSourceOperation = class;
 
-  TFileSourceOperationEvent =
-    (fsoevStateChanged);   //<en State has changed (paused, started, stopped, etc.)
-
-  TFileSourceOperationEvents = set of TFileSourceOperationEvent;
-
-  TFileSourceOperationEventNotify =
+  TFileSourceOperationStateChangedNotify =
       procedure(Operation: TFileSourceOperation;
-                Event: TFileSourceOperationEvent) of object;
+                State: TFileSourceOperationState) of object;
 
   TAskQuestionFunction =
       function(Msg: String; Question: String;
@@ -94,10 +112,17 @@ type
     FConnectionAvailableEvent: PRTLEvent;
 
     {en
-       An array of lists of listeners for each event type.
-       Does not have to be synchronized as it is read and written to from GUI thread only.
+       A list of listeners of state-changed event.
+       Must be synchronized using FEventsLock.
     }
-    FEventsListeners: array[TFileSourceOperationEvent] of TFPList;
+    FStateChangedEventListeners: TFPList;
+    {en
+       Used to synchronize access to:
+       - FStateChangedEventListeners
+       - FScheduledEventsListenersCalls
+       - FNoEventsListenersCallsScheduledEvent
+    }
+    FEventsLock: TCriticalSection;
 
     {en
        The thread that runs this operation.
@@ -105,15 +130,9 @@ type
     }
     FThread: TThread;
 
+{$IFNDEF fsoSynchronizeEvents}
     {en
-       Set of events that occurred and listeners have to be notified about.
-       Access must be synchronized with FEventsLock.
-    }
-    FEventsToNotify: TFileSourceOperationEvents;
-    FEventsLock: TCriticalSection; // used to synchronize access to FEventsToNotify
-    {en
-       How many calls to CallEventsListeners are scheduled.
-       It is only modified from the main thread.
+       How many events are scheduled to execute.
     }
     FScheduledEventsListenersCalls: Integer;
 
@@ -122,6 +141,7 @@ type
        finish until all scheduled calls to CallEventsListeners are made.
     }
     FNoEventsListenersCallsScheduledEvent: PRTLEvent;
+{$ENDIF}
 
     {en
        List of assigned user interfaces that operation can use to ask user questions.
@@ -160,13 +180,12 @@ type
     }
     FConnection: TObject;
 
-    {en
-       This function must be run from the GUI thread.
-       It posts a function to the application message queue that will call
-       all the needed event functions.
-    }
-    procedure QueueEventsListeners;
-    procedure CallEventsListeners(Data: PtrInt);
+    // This function is called from main thread.
+{$IFDEF fsoSynchronizeEvents}
+    procedure CallEventsListeners;
+{$ELSE}
+    procedure CallEventsListeners(Data: Pointer);
+{$ENDIF}
 
     // This should be run from GUI thread only.
     procedure TryAskQuestion;
@@ -233,11 +252,11 @@ type
     procedure Finalize; virtual;
 
     {en
-       Notifies all listeners that an event has occurred (or multiple events).
+       Notifies all listeners that operation has changed its state.
        This function can be called from the operation thread or from the main thread.
        Don't call it under a lock.
     }
-    procedure NotifyEvents(Events: TFileSourceOperationEvents);
+    procedure NotifyStateChanged(NewState: TFileSourceOperationState);
 
     {en
        General function to ask questions from operations.
@@ -325,16 +344,21 @@ type
     procedure AssignThread(AThread: TThread);
 
     {en
-       Adds a function to call on specific events.
+       Adds a function to call when the operation's state changes.
+       @param(States
+              The function will be called if the operation changes its state
+              to one of these states.)
     }
-    procedure AddEventsListener(Events: TFileSourceOperationEvents;
-                                FunctionToCall: TFileSourceOperationEventNotify);
+    procedure AddStateChangedListener(
+                States: TFileSourceOperationStates;
+                FunctionToCall: TFileSourceOperationStateChangedNotify);
 
     {en
-       Removes a registered function callback for events.
+       Removes a registered function callback for state-changed event.
     }
-    procedure RemoveEventsListener(Events: TFileSourceOperationEvents;
-                                   FunctionToCall: TFileSourceOperationEventNotify);
+    procedure RemoveStateChangedListener(
+                States: TFileSourceOperationStates;
+                FunctionToCall: TFileSourceOperationStateChangedNotify);
 
     // These functions are run from the GUI thread.
     procedure AddUserInterface(UserInterface: TFileSourceOperationUI);
@@ -356,12 +380,17 @@ type
 implementation
 
 uses
-  Forms, uFileSource, uFileSourceProperty;
+  Forms, uFileSource, uFileSourceProperty
+  {$IFNDEF fsoSynchronizeEvents}
+  , uGuiMessageQueue
+  {$ENDIF}
+  ;
 
 type
-  PEventsListEntry = ^TEventsListEntry;
-  TEventsListEntry = record
-    EventFunction: TFileSourceOperationEventNotify;
+  PStateChangedEventEntry = ^TStateChangedEventEntry;
+  TStateChangedEventEntry = record
+    FunctionToCall: TFileSourceOperationStateChangedNotify;
+    States        : TFileSourceOperationStates;
   end;
 
   PUserInterfacesEntry = ^TUserInterfacesEntry;
@@ -370,8 +399,6 @@ type
   end;
 
 constructor TFileSourceOperation.Create(const aFileSource: IInterface);
-var
-  Event: TFileSourceOperationEvent;
 begin
   FState := fsosNotStarted;
   FDesiredState := fsosRunning;  // set for auto-start unless prevented by PreventStart
@@ -384,20 +411,20 @@ begin
   FThread := nil;
   FConnection := nil;
 
-  FEventsToNotify := [];
+{$IFNDEF fsoSynchronizeEvents}
   FScheduledEventsListenersCalls := 0;
 
   FNoEventsListenersCallsScheduledEvent := RTLEventCreate;
   // Set at start because we don't have any calls scheduled at this time.
   RTLeventSetEvent(FNoEventsListenersCallsScheduledEvent);
+{$ENDIF}
 
   FUserInterfaces := TFPList.Create;
   FUserInterfaceAssignedEvent := RTLEventCreate;
   // Reset at start because we have no interface assigned.
   RTLeventResetEvent(FUserInterfaceAssignedEvent);
 
-  for Event := Low(FEventsListeners) to High(FEventsListeners) do
-    FEventsListeners[Event] := TFPList.Create;
+  FStateChangedEventListeners := TFPList.Create;
 
   FStartTime := 0;
 
@@ -410,7 +437,6 @@ end;
 
 destructor TFileSourceOperation.Destroy;
 var
-  Event: TFileSourceOperationEvent;
   i: Integer;
 begin
   inherited Destroy;
@@ -419,13 +445,9 @@ begin
   // (it can still be there if it was aborted while waiting).
   (FileSource as IFileSource).RemoveOperationFromQueue(Self);
 
-  for Event := Low(FEventsListeners) to High(FEventsListeners) do
-  begin
-    for i := 0 to FEventsListeners[Event].Count - 1 do
-      Dispose(PEventsListEntry(FEventsListeners[Event].Items[i]));
-
-    FreeAndNil(FEventsListeners[Event]);
-  end;
+  for i := 0 to FStateChangedEventListeners.Count - 1 do
+    Dispose(PStateChangedEventEntry(FStateChangedEventListeners.Items[i]));
+  FreeAndNil(FStateChangedEventListeners);
 
   for i := 0 to FUserInterfaces.Count - 1 do
     Dispose(PUserInterfacesEntry(FUserInterfaces.Items[i]));
@@ -435,12 +457,16 @@ begin
   // in case the thread is still waiting (this should normally not happen).
   RTLeventSetEvent(FPauseEvent);
   RTLeventSetEvent(FConnectionAvailableEvent);
+{$IFNDEF fsoSynchronizeEvents}
   RTLeventSetEvent(FNoEventsListenersCallsScheduledEvent);
+{$ENDIF}
   RTLeventSetEvent(FUserInterfaceAssignedEvent);
 
   RTLeventdestroy(FPauseEvent);
   RTLeventdestroy(FConnectionAvailableEvent);
+{$IFNDEF fsoSynchronizeEvents}
   RTLeventdestroy(FNoEventsListenersCallsScheduledEvent);
+{$ENDIF}
   RTLeventdestroy(FUserInterfaceAssignedEvent);
 
   FreeAndNil(FStateLock);
@@ -462,7 +488,10 @@ var
   initialized: Boolean = False;
 begin
   try
-    UpdateState(fsosNotStarted);
+{$IFDEF debugFileSourceOperation}
+   DebugLn('Op: ', hexStr(Self), ' ', FormatDateTime('nnss.zzzz', Now), ': Start operation ', ClassName);
+{$ENDIF}
+
     UpdateProgress(0);
     FOperationResult := fsorAborted;
 
@@ -504,7 +533,15 @@ begin
       UpdateStartTime(SysUtils.Now);
       UpdateState(fsosRunning);
 
+{$IFDEF debugFileSourceOperation}
+      DebugLn('Op: ', hexStr(Self), ' ', FormatDateTime('nnss.zzzz', Now), ': Before main execute');
+{$ENDIF}
+
       MainExecute;
+
+{$IFDEF debugFileSourceOperation}
+      DebugLn('Op: ', hexStr(Self), ' ', FormatDateTime('nnss.zzzz', Now), ': After main execute');
+{$ENDIF}
 
       FOperationResult := fsorFinished;
     except
@@ -522,13 +559,24 @@ begin
   finally
     UpdateState(fsosStopped);
 
-    if initialized then
-      ReloadFileSources;
+{$IFDEF debugFileSourceOperation}
+    DebugLn('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Operation finished ', ClassName);
+{$ENDIF}
 
+{$IFNDEF fsoSynchronizeEvents}
     // Wait until all the scheduled calls to events listeners have been processed
     // by the main thread (otherwise the calls can be made to a freed memory location).
     RTLeventWaitFor(FNoEventsListenersCallsScheduledEvent);
+
+{$IFDEF debugFileSourceOperation}
+    DebugLn('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': After wait for events');
+{$ENDIF}
+{$ENDIF}
   end;
+
+  // It is best to reload after the operation and all events are finished.
+  if initialized then
+    ReloadFileSources;
 end;
 
 procedure TFileSourceOperation.UpdateProgress(NewProgress: Integer);
@@ -540,12 +588,17 @@ procedure TFileSourceOperation.UpdateState(NewState: TFileSourceOperationState);
 begin
   FStateLock.Acquire;
   try
+    if FState = NewState then
+      Exit;
     FState := NewState;
   finally
     FStateLock.Release;
   end;
 
-  NotifyEvents([fsoevStateChanged]);
+{$IFDEF debugFileSourceOperation}
+  DebugLn('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Updated state to ', IntToStr(Integer(NewState)));
+{$ENDIF}
+  NotifyStateChanged(NewState);
 end;
 
 function TFileSourceOperation.GetDesiredState: TFileSourceOperationState;
@@ -643,7 +696,7 @@ begin
     FStateLock.Release;
   end;
 
-  NotifyEvents([fsoevStateChanged]);
+  NotifyStateChanged(fsosStarting);
   FDesiredState := fsosRunning;
   DoUnPause;
 end;
@@ -660,7 +713,7 @@ begin
     FStateLock.Release;
   end;
 
-  NotifyEvents([fsoevStateChanged]);
+  NotifyStateChanged(fsosPausing);
   FDesiredState := fsosPaused;
 
   // Also set "Connection available" event in case the operation is waiting
@@ -681,7 +734,7 @@ begin
     FStateLock.Release;
   end;
 
-  NotifyEvents([fsoevStateChanged]);
+  NotifyStateChanged(fsosStopping);
   FDesiredState := fsosStopped;
 
   DoUnPause;
@@ -707,136 +760,188 @@ begin
   FThread := AThread;
 end;
 
-procedure TFileSourceOperation.AddEventsListener(Events: TFileSourceOperationEvents;
-                                                 FunctionToCall: TFileSourceOperationEventNotify);
+procedure TFileSourceOperation.AddStateChangedListener(
+            States: TFileSourceOperationStates;
+            FunctionToCall: TFileSourceOperationStateChangedNotify);
 var
-  Entry: PEventsListEntry;
-  Event: TFileSourceOperationEvent;
-begin
-  for Event := Low(TFileSourceOperationEvent) to High(TFileSourceOperationEvent) do
-  begin
-    if Event in Events then
-    begin
-      Entry := New(PEventsListEntry);
-      Entry^.EventFunction := FunctionToCall;
-      FEventsListeners[Event].Add(Entry);
-    end;
-  end;
-end;
-
-procedure TFileSourceOperation.RemoveEventsListener(Events: TFileSourceOperationEvents;
-                                                    FunctionToCall: TFileSourceOperationEventNotify);
-var
-  Entry: PEventsListEntry;
-  Event: TFileSourceOperationEvent;
+  Entry: PStateChangedEventEntry;
   i: Integer;
 begin
-  for Event := Low(TFileSourceOperationEvent) to High(TFileSourceOperationEvent) do
-  begin
-    if Event in Events then
+  FEventsLock.Acquire;
+  try
+    // Check if this function isn't already added.
+    for i := 0 to FStateChangedEventListeners.Count - 1 do
     begin
-      for i := 0 to FEventsListeners[Event].Count - 1 do
+      Entry := PStateChangedEventEntry(FStateChangedEventListeners.Items[i]);
+      if Entry^.FunctionToCall = FunctionToCall then
       begin
-        Entry := PEventsListEntry(FEventsListeners[Event].Items[i]);
-        if Entry^.EventFunction = FunctionToCall then
-        begin
-          FEventsListeners[Event].Delete(i);
-          Dispose(Entry);
-          break;  // break from one for only
-        end;
+        // Add states to listen for.
+        Entry^.States := Entry^.States + States;
+        Exit;
       end;
     end;
+
+    // Add new listener.
+    Entry := New(PStateChangedEventEntry);
+    Entry^.FunctionToCall := FunctionToCall;
+    Entry^.States := States;
+    FStateChangedEventListeners.Add(Entry);
+  finally
+    FEventsLock.Release;
   end;
 end;
 
-procedure TFileSourceOperation.NotifyEvents(Events: TFileSourceOperationEvents);
+procedure TFileSourceOperation.RemoveStateChangedListener(
+             States: TFileSourceOperationStates;
+             FunctionToCall: TFileSourceOperationStateChangedNotify);
+var
+  Entry: PStateChangedEventEntry;
+  i: Integer;
 begin
-  // Add events to set of events to notify about.
-  FEventsLock.Acquire; // must be done under the same lock as in CallEventsListeners
+  FEventsLock.Acquire;
   try
-    FEventsToNotify := FEventsToNotify + Events;
+    for i := 0 to FStateChangedEventListeners.Count - 1 do
+    begin
+      Entry := PStateChangedEventEntry(FStateChangedEventListeners.Items[i]);
+      if Entry^.FunctionToCall = FunctionToCall then
+      begin
+        // Remove listening for states.
+        Entry^.States := Entry^.States - States;
 
-    // If there is already a scheduled (queued) call to CallEventsListeners,
-    // it will also notify about the new events set above, so we don't have to
-    // schedule another one. This must be done under lock, because it must be
-    // synchronized with adding new events to FEventsToNotify.
+        // If all states removed - remove the callback function itself.
+        if Entry^.States = [] then
+        begin
+          FStateChangedEventListeners.Delete(i);
+          Dispose(Entry);
+        end;
+
+        break;
+      end;
+    end;
+  finally
+    FEventsLock.Release;
+  end;
+end;
+
+procedure TFileSourceOperation.NotifyStateChanged(NewState: TFileSourceOperationState);
+var
+  i: Integer;
+  found: Boolean = False;
+begin
+  FEventsLock.Acquire;
+  try
+{$IFNDEF fsoSynchronizeEvents}
+{$IFDEF fsoSendOnlyCurrentState}
+    // If we only want to notify about the current state, first check
+    // if there already isn't scheduled (queued) a call to CallEventsListeners.
     if FScheduledEventsListenersCalls > 0 then
       Exit;
+{$ENDIF}
+{$ENDIF}
 
+    // Check if there is at least one listener that wants the new state.
+    for i := 0 to FStateChangedEventListeners.Count - 1 do
+    begin
+      if NewState in PStateChangedEventEntry(FStateChangedEventListeners.Items[i])^.States then
+      begin
+        found := True;
+        break;
+      end;
+    end;
+
+    if not found then
+      Exit;
+
+{$IFNDEF fsoSynchronizeEvents}
+    // This must be under the same lock as in CallEventsListeners.
+    InterLockedIncrement(FScheduledEventsListenersCalls);
+    RTLeventResetEvent(FNoEventsListenersCallsScheduledEvent);
+{$ENDIF}
   finally
     FEventsLock.Release;
   end;
 
-  // NotifyEvents() is run from the operation thread so we cannot call event
-  // listeners directly, because they may update the GUI. Instead they will be
-  // queued to be called by the main thread (through application message queue).
-  // We don't want to call events listeners through Synchronize because the
-  // operation thread would be suspended while the listeners are executing and
-  // it would slow down executing of the operation.
+{$IFDEF debugFileSourceOperation}
+  DebugLn('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Before notify events');
+{$ENDIF}
+
   if Assigned(FThread) then
-    TThread.Synchronize(FThread, @Self.QueueEventsListeners) // queueing must be from the GUI thread
+    // NotifyStateChanged() is run from the operation thread so we cannot
+    // call event listeners directly, because they may update the GUI.
+{$IFDEF fsoSynchronizeEvents}
+    // Call listeners through Synchronize.
+    TThread.Synchronize(FThread, @CallEventsListeners)
+{$ELSE}
+    // Schedule listeners through asynchronous message queue.
+    GuiMessageQueue.QueueMethod(@CallEventsListeners, Pointer(NewState))
+{$ENDIF}
   else
   begin
     // The function was called from main thread - call directly.
-    Inc(FScheduledEventsListenersCalls, 1);
-    // Dont't have to reset FNoEventsListenersCallsScheduledEvent event here
-    // because calls are not scheduled but rather run directly by the main thread,
-    // so we never have to wait for their completion.
-    CallEventsListeners(0);
+{$IFDEF fsoSynchronizeEvents}
+    CallEventsListeners;
+{$ELSE}
+    CallEventsListeners(Pointer(NewState));
+{$ENDIF}
   end;
+
+{$IFDEF debugFileSourceOperation}
+  DebugLn('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': After notify events');
+{$ENDIF}
 end;
 
-procedure TFileSourceOperation.QueueEventsListeners;
-begin
-  // While this function is executing the operation thread is suspended,
-  // so only queue function and quickly exit.
-
-  Inc(FScheduledEventsListenersCalls, 1); // don't have to do under lock, operation thread is suspended here
-  RTLeventResetEvent(FNoEventsListenersCallsScheduledEvent);
-
-  Application.QueueAsyncCall(@Self.CallEventsListeners, 0);
-end;
-
-procedure TFileSourceOperation.CallEventsListeners(Data: PtrInt);
+{$IFDEF fsoSynchronizeEvents}
+procedure TFileSourceOperation.CallEventsListeners;
+{$ELSE}
+procedure TFileSourceOperation.CallEventsListeners(Data: Pointer);
+{$ENDIF}
 var
-  Event: TFileSourceOperationEvent;
-  Entry: PEventsListEntry;
+  Entry: PStateChangedEventEntry;
   i: Integer;
-  LocalEventsToNotify: TFileSourceOperationEvents;
+  aState: TFileSourceOperationState;
 begin
+{$IFDEF debugFileSourceOperation}
+  DebugLn('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Before call events');
+{$ENDIF}
+
   // This function is run from the main thread, so we are sure that
   // while it is executing no registered listener is destroyed.
 
-  FEventsLock.Acquire; // must be done under the same lock as in NotifyEvents
+{$IFDEF fsoSynchronizeEvents}
+  aState := Self.State;
+{$ELSE}
+ {$IFDEF fsoSendOnlyCurrentState}
+  aState := Self.State;
+ {$ELSE}
+  aState := TFileSourceOperationState(Data);
+ {$ENDIF}
+
+  InterLockedDecrement(FScheduledEventsListenersCalls);
+{$ENDIF}
+
+  // Call each listener function.
+  for i := 0 to FStateChangedEventListeners.Count - 1 do
+  begin
+    Entry := PStateChangedEventEntry(FStateChangedEventListeners.Items[i]);
+    // Check if the listener wants this state.
+    if (aState in Entry^.States) then
+      Entry^.FunctionToCall(Self, aState);
+  end;
+
+{$IFNDEF fsoSynchronizeEvents}
+  FEventsLock.Acquire;
   try
-    LocalEventsToNotify := FEventsToNotify; // read events to notify
-    FEventsToNotify := [];                  // clear events to notify
-    Dec(FScheduledEventsListenersCalls, 1); // must be under lock too as it needs to be
-                                            // synchronized with clearing FEventsToNotify
+    // This must be under the same lock as in NotifyStateChanged.
+    if FScheduledEventsListenersCalls = 0 then
+      RTLeventSetEvent(FNoEventsListenersCallsScheduledEvent);
   finally
     FEventsLock.Release;
   end;
+{$ENDIF}
 
-  if LocalEventsToNotify <> [] then
-  begin
-    for Event := Low(TFileSourceOperationEvent) to High(TFileSourceOperationEvent) do
-    begin
-      if Event in LocalEventsToNotify then // Check if this event occurred.
-      begin
-        // Call each listener function.
-        for i := 0 to FEventsListeners[Event].Count - 1 do
-        begin
-          Entry := PEventsListEntry(FEventsListeners[Event].Items[i]);
-          Entry^.EventFunction(Self, Event);
-        end;
-      end;
-    end;
-  end;
-
-  if FScheduledEventsListenersCalls = 0 then
-    // After setting this event the operation object (Self) may already
-    // be destroyed, so it must be the last thing to do.
-    RTLeventSetEvent(FNoEventsListenersCallsScheduledEvent);
+{$IFDEF debugFileSourceOperation}
+  DebugLn('Op: ', hexStr(Self), ' ', FormatDateTime('nnss.zzzz', Now), ': After call events');
+{$ENDIF}
 end;
 
 procedure TFileSourceOperation.AddUserInterface(UserInterface: TFileSourceOperationUI);
@@ -896,7 +1001,7 @@ begin
     FStateLock.Release;
   end;
 
-  NotifyEvents([fsoevStateChanged]);
+  NotifyStateChanged(fsosWaitingForFeedback);
 
   // Set up parameters through variables because
   // we cannot pass them via Synchronize call to TryAskQuestion.
@@ -964,7 +1069,7 @@ begin
   end;
 
   if bStateChanged then
-    NotifyEvents([fsoevStateChanged]);
+    NotifyStateChanged(OldState);
 end;
 
 procedure TFileSourceOperation.TryAskQuestion;

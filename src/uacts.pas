@@ -58,9 +58,9 @@ const cf_Null=0;
    procedure ShowException(e: Exception);
 
    procedure OnCalcStatisticsStateChanged(Operation: TFileSourceOperation;
-                                          Event: TFileSourceOperationEvent);
+                                          State: TFileSourceOperationState);
    procedure OnCalcChecksumStateChanged(Operation: TFileSourceOperation;
-                                        Event: TFileSourceOperationEvent);
+                                        State: TFileSourceOperationState);
 
   public
    FActionsState: TStringHashList;
@@ -546,12 +546,12 @@ end;
 //------------------------------------------------------
 
 procedure TActs.OnCalcStatisticsStateChanged(Operation: TFileSourceOperation;
-                                             Event: TFileSourceOperationEvent);
+                                             State: TFileSourceOperationState);
 var
   CalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
   CalcStatisticsOperationStatistics: TFileSourceCalcStatisticsOperationStatistics;
 begin
-  if (Operation.State = fsosStopped) and (Operation.Result = fsorFinished) then
+  if (State = fsosStopped) and (Operation.Result = fsorFinished) then
   begin
     CalcStatisticsOperation := Operation as TFileSourceCalcStatisticsOperation;
     CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
@@ -563,11 +563,11 @@ begin
 end;
 
 procedure TActs.OnCalcChecksumStateChanged(Operation: TFileSourceOperation;
-                                           Event: TFileSourceOperationEvent);
+                                           State: TFileSourceOperationState);
 var
   CalcChecksumOperation: TFileSourceCalcChecksumOperation;
 begin
-  if (Operation.State = fsosStopped) and (Operation.Result = fsorFinished) then
+  if (State = fsosStopped) and (Operation.Result = fsorFinished) then
   begin
     CalcChecksumOperation := Operation as TFileSourceCalcChecksumOperation;
     if CalcChecksumOperation.Mode = checksum_verify then
@@ -1558,7 +1558,7 @@ begin
 
       if Assigned(Operation) then
       begin
-        Operation.AddEventsListener([fsoevStateChanged], @OnCalcChecksumStateChanged);
+        Operation.AddStateChangedListener([fsosStopped], @OnCalcChecksumStateChanged);
         Operation.Mode := checksum_verify;
 
         // Start operation.
@@ -2170,7 +2170,7 @@ begin
     SelectedFiles := ActiveFrame.SelectedFiles;
     try
       Operation := ActiveFrame.FileSource.CreateCalcStatisticsOperation(SelectedFiles);
-      Operation.AddEventsListener([fsoevStateChanged], @OnCalcStatisticsStateChanged);
+      Operation.AddStateChangedListener([fsosStopped], @OnCalcStatisticsStateChanged);
       OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
       ProgressDialog := TfrmFileOp.Create(OperationHandle);
       ProgressDialog.Show;
