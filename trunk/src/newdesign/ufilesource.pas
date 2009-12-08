@@ -95,7 +95,7 @@ type
        It just redirects to a virtual function.
     }
     procedure OperationFinishedCallback(Operation: TFileSourceOperation;
-                                        Event: TFileSourceOperationEvent);
+                                        State: TFileSourceOperationState);
 
   protected
     FCurrentAddress: String;
@@ -539,7 +539,7 @@ begin
   begin
     // We must know when the operation is finished,
     // that is when the connection is free again.
-    operation.AddEventsListener([fsoevStateChanged], @OperationFinishedCallback);
+    operation.AddStateChangedListener([fsosStopped], @OperationFinishedCallback);
     Result := connection;
   end
   else
@@ -554,11 +554,11 @@ begin
 end;
 
 procedure TFileSource.OperationFinishedCallback(Operation: TFileSourceOperation;
-                                                Event: TFileSourceOperationEvent);
+                                                State: TFileSourceOperationState);
 begin
-  if (Operation.State = fsosStopped) then
+  if State = fsosStopped then
   begin
-    Operation.RemoveEventsListener([fsoevStateChanged], @OperationFinishedCallback);
+    Operation.RemoveStateChangedListener([fsosStopped], @OperationFinishedCallback);
     OperationFinished(Operation);
   end;
 end;

@@ -95,7 +95,7 @@ type
     procedure RemoveOperationListeners(Operation: TFileSourceOperation);
 
     procedure OperationStateChangedEvent(Operation: TFileSourceOperation;
-                                         Event: TFileSourceOperationEvent);
+                                         State: TFileSourceOperationState);
 
     {en
        Notifies all listeners that an event has occurred (or multiple events).
@@ -437,7 +437,8 @@ begin
     begin
       Entry := POperationsManagerEntry(FOperations.Items[i]);
 
-      if Entry^.StartingState in [ossQueueFirst, ossQueueLast] then
+      if (Entry^.StartingState in [ossQueueFirst, ossQueueLast]) and
+         (Entry^.Operation.State = fsosNotStarted) then
       begin
         StartOperation(Entry);
         Exit;
@@ -495,26 +496,28 @@ end;
 
 procedure TOperationsManager.AddOperationListeners(Operation: TFileSourceOperation);
 begin
-  Operation.AddEventsListener([fsoevStateChanged], @Self.OperationStateChangedEvent);
+  Operation.AddStateChangedListener([fsosStarting], @OperationStateChangedEvent);
 end;
 
 procedure TOperationsManager.RemoveOperationListeners(Operation: TFileSourceOperation);
 begin
-  Operation.RemoveEventsListener([fsoevStateChanged], @Self.OperationStateChangedEvent);
+  Operation.RemoveStateChangedListener(fsosAllStates, @OperationStateChangedEvent);
 end;
 
 procedure TOperationsManager.OperationStateChangedEvent(Operation: TFileSourceOperation;
-                                                        Event: TFileSourceOperationEvent);
+                                                        State: TFileSourceOperationState);
 var
   Entry: POperationsManagerEntry;
 begin
   Entry := GetEntryByOperation(Operation);
   if Assigned(Entry) then
   begin
-    if Operation.State <> fsosNotStarted then
+    if State = fsosStarting then
     begin
       // Remove 'queue' flag, because the operation was manually started by the user.
       Entry^.StartingState := ossManualStart;
+      // Listener is not needed anymore.
+      Operation.RemoveStateChangedListener(fsosAllStates, @OperationStateChangedEvent);
     end;
   end;
 end;
