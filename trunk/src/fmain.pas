@@ -1687,7 +1687,7 @@ end;
 
 procedure TfrmMain.AppException(Sender: TObject; E: Exception);
 begin
-  WriteExceptionToFile(gErrorFile);
+  WriteExceptionToErrorFile;
   ShowExceptionDialog;
 end;
 

@@ -9,6 +9,7 @@ uses
 
 function ExceptionToString: String;
 procedure WriteExceptionToFile(const aFileName: UTF8String; const ExceptionText: String = '');
+procedure WriteExceptionToErrorFile(const ExceptionText: String = ''); inline;
 procedure ShowExceptionDialog(const ExceptionText: String = '');
 
 implementation
@@ -75,6 +76,11 @@ begin
       CloseFile(f);
     end;
   end;
+end;
+
+procedure WriteExceptionToErrorFile(const ExceptionText: String = '');
+begin
+  WriteExceptionToFile(gErrorFile, ExceptionText);
 end;
 
 procedure ShowExceptionDialog(const ExceptionText: String = '');
