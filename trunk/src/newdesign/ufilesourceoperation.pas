@@ -873,7 +873,7 @@ begin
     TThread.Synchronize(FThread, @CallEventsListeners)
 {$ELSE}
     // Schedule listeners through asynchronous message queue.
-    GuiMessageQueue.QueueMethod(@CallEventsListeners, Pointer(NewState))
+    GuiMessageQueue.QueueMethod(@CallEventsListeners, Pointer(PtrUInt(NewState)))
 {$ENDIF}
   else
   begin
@@ -888,7 +888,7 @@ begin
 {$IFDEF fsoSynchronizeEvents}
         CallEventsListeners;
 {$ELSE}
-        CallEventsListeners(Pointer(NewState));
+        CallEventsListeners(Pointer(PtrUInt(NewState)));
 {$ENDIF}
       except
         on Exception do
@@ -904,7 +904,7 @@ begin
 {$IFDEF fsoSynchronizeEvents}
         CallEventsListeners;
 {$ELSE}
-        CallEventsListeners(Pointer(NewState));
+        CallEventsListeners(Pointer(PtrUInt(NewState)));
 {$ENDIF}
     end;
   end;
@@ -936,7 +936,7 @@ begin
  {$IFDEF fsoSendOnlyCurrentState}
   aState := Self.State;
  {$ELSE}
-  aState := TFileSourceOperationState(Data);
+  aState := TFileSourceOperationState(PtrUInt(Data));
  {$ENDIF}
 
   InterLockedDecrement(FScheduledEventsListenersCalls);
