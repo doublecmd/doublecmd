@@ -254,7 +254,7 @@ type
     {en
        Notifies all listeners that operation has changed its state.
        This function can be called from the operation thread or from the main thread.
-       Don't call it under a lock.
+       Don't call it under the FEventsLock lock.
     }
     procedure NotifyStateChanged(NewState: TFileSourceOperationState);
 
@@ -380,7 +380,7 @@ type
 implementation
 
 uses
-  Forms, uFileSource, uFileSourceProperty
+  Forms, uFileSource, uFileSourceProperty, uExceptions
   {$IFNDEF fsoSynchronizeEvents}
   , uGuiMessageQueue
   {$ENDIF}
@@ -726,7 +726,7 @@ procedure TFileSourceOperation.Stop;
 begin
   FStateLock.Acquire;
   try
-    if not (FState in [fsosStarting, fsosPausing, fsosStopped]) then
+    if not (FState in [fsosStopping, fsosStopped]) then
       FState := fsosStopping
     else
       Exit;
@@ -865,7 +865,7 @@ begin
   DebugLn('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Before notify events');
 {$ENDIF}
 
-  if Assigned(FThread) then
+  if Assigned(FThread) and (GetCurrentThreadID <> MainThreadID) then
     // NotifyStateChanged() is run from the operation thread so we cannot
     // call event listeners directly, because they may update the GUI.
 {$IFDEF fsoSynchronizeEvents}
@@ -878,11 +878,35 @@ begin
   else
   begin
     // The function was called from main thread - call directly.
+
+    if Assigned(FThread) then
+    begin
+      // The operation runs in a thread.
+      // Handle exceptions for the GUI thread because it controls the operation
+      // and in case of error the operation may be left in infinite waiting state.
+      try
 {$IFDEF fsoSynchronizeEvents}
-    CallEventsListeners;
+        CallEventsListeners;
 {$ELSE}
-    CallEventsListeners(Pointer(NewState));
+        CallEventsListeners(Pointer(NewState));
 {$ENDIF}
+      except
+        on Exception do
+          begin
+            WriteExceptionToErrorFile;
+            DebugLn(ExceptionToString);
+            ShowExceptionDialog;
+          end;
+      end;
+    end
+    else
+    begin
+{$IFDEF fsoSynchronizeEvents}
+        CallEventsListeners;
+{$ELSE}
+        CallEventsListeners(Pointer(NewState));
+{$ENDIF}
+    end;
   end;
 
 {$IFDEF debugFileSourceOperation}
@@ -899,13 +923,12 @@ var
   Entry: PStateChangedEventEntry;
   i: Integer;
   aState: TFileSourceOperationState;
+  FunctionsToCall: array of TFileSourceOperationStateChangedNotify;
+  FunctionsCount: Integer = 0;
 begin
 {$IFDEF debugFileSourceOperation}
   DebugLn('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Before call events');
 {$ENDIF}
-
-  // This function is run from the main thread, so we are sure that
-  // while it is executing no registered listener is destroyed.
 
 {$IFDEF fsoSynchronizeEvents}
   aState := Self.State;
@@ -919,14 +942,30 @@ begin
   InterLockedDecrement(FScheduledEventsListenersCalls);
 {$ENDIF}
 
-  // Call each listener function.
-  for i := 0 to FStateChangedEventListeners.Count - 1 do
-  begin
-    Entry := PStateChangedEventEntry(FStateChangedEventListeners.Items[i]);
-    // Check if the listener wants this state.
-    if (aState in Entry^.States) then
-      Entry^.FunctionToCall(Self, aState);
+  // First the listeners functions must be copied under lock before calling them,
+  // because any function called may attempt to add/remove listeners from the list.
+  FEventsLock.Acquire;
+  try
+    SetLength(FunctionsToCall, FStateChangedEventListeners.Count);
+
+    for i := 0 to FStateChangedEventListeners.Count - 1 do
+    begin
+      Entry := PStateChangedEventEntry(FStateChangedEventListeners.Items[i]);
+      // Check if the listener wants this state.
+      if (aState in Entry^.States) then
+      begin
+        FunctionsToCall[FunctionsCount] := Entry^.FunctionToCall;
+        Inc(FunctionsCount, 1);
+      end;
+    end;
+
+  finally
+    FEventsLock.Release;
   end;
+
+  // Call each listener function (not under lock).
+  for i := 0 to FunctionsCount - 1 do
+    FunctionsToCall[i](Self, aState);
 
 {$IFNDEF fsoSynchronizeEvents}
   FEventsLock.Acquire;
