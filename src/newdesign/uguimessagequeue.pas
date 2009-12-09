@@ -46,6 +46,10 @@ type
     FMessageQueueLastItem: PMessageQueueItem;
     FMessageQueueLock: TCriticalSection;
 
+    {en
+       This method executes some queued functions.
+       It is called from main thread through Synchronize.
+    }
     procedure CallMethods;
 
   public
@@ -72,6 +76,13 @@ var
   GuiMessageQueue: TGuiMessageQueueThread;
 
 implementation
+
+uses
+  LCLProc, uExceptions;
+
+const
+  // How many functions maximum to call per one Synchronize.
+  MaxMessages = 10;
 
 constructor TGuiMessageQueueThread.Create(CreateSuspended: Boolean = False);
 begin
@@ -165,13 +176,22 @@ end;
 
 procedure TGuiMessageQueueThread.CallMethods;
 var
-  MaxMessages: Integer = 10; // Call this maximum methods per one Synchronize.
+  MessagesCount: Integer = MaxMessages;
   item: PMessageQueueItem;
 begin
-  while Assigned(FMessageQueue) and (MaxMessages > 0) do
+  while Assigned(FMessageQueue) and (MessagesCount > 0) do
   begin
-    // Call method with parameter.
-    FMessageQueue^.Method(FMessageQueue^.Data);
+    try
+      // Call method with parameter.
+      FMessageQueue^.Method(FMessageQueue^.Data);
+    except
+      on Exception do
+        begin
+          WriteExceptionToErrorFile;
+          DebugLn(ExceptionToString);
+          ShowExceptionDialog;
+        end;
+    end;
 
     FMessageQueueLock.Acquire;
     try
@@ -186,7 +206,7 @@ begin
       FMessageQueueLock.Release;
     end;
 
-    Dec(MaxMessages, 1);
+    Dec(MessagesCount, 1);
   end;
 end;
 
