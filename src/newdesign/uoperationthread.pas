@@ -37,7 +37,7 @@ type
 implementation
 
 uses
-  LCLProc, uExceptions, uGlobs;
+  LCLProc, uExceptions;
 
 constructor TOperationThread.Create(CreateSuspended: Boolean; Operation: TFileSourceOperation);
 begin
@@ -75,7 +75,7 @@ end;
 
 procedure TOperationThread.ShowException;
 begin
-  WriteExceptionToFile(gErrorFile, FExceptionBackTrace);
+  WriteExceptionToErrorFile(FExceptionBackTrace);
   ShowExceptionDialog(FExceptionMessage);
 end;
 
