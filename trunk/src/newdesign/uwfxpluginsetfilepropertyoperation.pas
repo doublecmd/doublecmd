@@ -91,7 +91,7 @@ begin
     end
   else
     begin
-      FWfxPluginFileSource.FillAndCount(TargetFiles,
+      FWfxPluginFileSource.FillAndCount(TargetFiles, True,
                                         FFullFilesTree,
                                         FStatistics.TotalFiles,
                                         TotalBytes);     // gets full list of files (recursive)

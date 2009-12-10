@@ -152,7 +152,7 @@ begin
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
-  FillAndCount(SourceFiles as TFileSystemFiles,
+  FillAndCount(SourceFiles as TFileSystemFiles, False,
                FFullFilesTree,
                FStatistics.TotalFiles,
                FStatistics.TotalBytes);     // gets full list of files (recursive)

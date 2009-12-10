@@ -17,8 +17,11 @@ uses
   function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String;
   function GetAbsoluteTargetFileName(aFile: TFile; SourcePath: String; TargetPath: String;
                                      NameMask: String; ExtMask: String): String;
-  procedure FillAndCount(Files: TFileSystemFiles; out NewFiles: TFileSystemFiles;
-                         out FilesCount: Int64; out FilesSize: Int64); overload;
+  procedure FillAndCount(Files: TFileSystemFiles;
+                         CountDirs: Boolean;
+                         out NewFiles: TFileSystemFiles;
+                         out FilesCount: Int64;
+                         out FilesSize: Int64);
 
 type
   // Additional data for the filesystem tree node.
@@ -45,6 +48,7 @@ type
   private
     FFilesTree: TFileTree;
     FFilesCount: Int64;
+    FDirectoriesCount: Int64;
     FFilesSize: Int64;
     FSymlinkOption: TFileSourceOperationOptionSymLink;
     FRecursive: Boolean;
@@ -60,6 +64,8 @@ type
     procedure AddDirectory(aFile: TFileSystemFile; CurrentNode: TFileTreeNode);
     procedure DecideOnLink(aFile: TFileSystemFile; CurrentNode: TFileTreeNode);
 
+    function GetItemsCount: Int64;
+
   public
     constructor Create(AskQuestionFunction: TAskQuestionFunction;
                        CheckOperationStateFunction: TCheckOperationStateFunction);
@@ -72,8 +78,10 @@ type
     property SymLinkOption: TFileSourceOperationOptionSymLink read FSymlinkOption write FSymlinkOption;
 
     property FilesTree: TFileTree read FFilesTree;
-    property FilesCount: Int64 read FFilesCount;
     property FilesSize: Int64 read FFilesSize;
+    property FilesCount: Int64 read FFilesCount;
+    property DirectoriesCount: Int64 read FDirectoriesCount;
+    property ItemsCount: Int64 read GetItemsCount;
   end;
 
   TFileSystemOperationHelper = class
@@ -212,8 +220,8 @@ begin
           + ApplyRenameMask(aFile, NameMask, ExtMask);
 end;
 
-procedure FillAndCount(Files: TFileSystemFiles; out NewFiles: TFileSystemFiles;
-                       out FilesCount: Int64; out FilesSize: Int64);
+procedure FillAndCount(Files: TFileSystemFiles; CountDirs: Boolean;
+  out NewFiles: TFileSystemFiles; out FilesCount: Int64; out FilesSize: Int64);
 
   procedure FillAndCountRec(const srcPath: String);
   var
@@ -236,12 +244,14 @@ procedure FillAndCount(Files: TFileSystemFiles; out NewFiles: TFileSystemFiles;
         end
         else if aFile.IsDirectory then
         begin
+          if CountDirs then
+            Inc(FilesCount);
           FillAndCountRec(srcPath + sr.Name + DirectorySeparator); // go down to directory
         end
         else
         begin
-          inc(FilesSize, aFile.Size);
-          inc(FilesCount);
+          Inc(FilesSize, aFile.Size);
+          Inc(FilesCount);
         end;
       until FindNextEx(sr) <> 0;
     end;
@@ -268,12 +278,14 @@ begin
 
     if aFile.IsDirectory and (not aFile.IsLinkToDirectory) then
     begin
+      if CountDirs then
+        Inc(FilesCount);
       FillAndCountRec(aFile.Path + aFile.Name + DirectorySeparator);  // recursive browse child dir
     end
     else
     begin
-      inc(FilesCount);
-      inc(FilesSize, aFile.Size); // in first level we know file size -> use it
+      Inc(FilesCount);
+      Inc(FilesSize, aFile.Size); // in first level we know file size -> use it
     end;
   end;
 end;
@@ -316,8 +328,9 @@ begin
 
   FFilesTree := TFileTreeNode.Create;
   FFilesTree.Data := TFileTreeNodeData.Create;
-  FFilesCount:= 0;
-  FFilesSize:= 0;
+  FFilesSize := 0;
+  FFilesCount := 0;
+  FDirectoriesCount := 0;
 
   for i := 0 to Files.Count - 1 do
   begin
@@ -398,6 +411,9 @@ begin
   AddedIndex := CurrentNode.AddSubNode(aFile);
   AddedNode := CurrentNode.SubNodes[AddedIndex];
   AddedNode.Data := TFileTreeNodeData.Create;
+
+  Inc(FDirectoriesCount);
+
   if FRecursive then
   begin
     AddFilesInDirectory(aFile.FullPath + DirectorySeparator, AddedNode);
@@ -480,6 +496,11 @@ function TFileSystemTreeBuilder.ReleaseTree: TFileTree;
 begin
   Result := FFilesTree;
   FFilesTree := nil;
+end;
+
+function TFileSystemTreeBuilder.GetItemsCount: Int64;
+begin
+  Result := FilesCount + DirectoriesCount;
 end;
 
 // ----------------------------------------------------------------------------

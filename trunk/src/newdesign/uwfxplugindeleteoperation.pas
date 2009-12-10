@@ -71,12 +71,12 @@ end;
 procedure TWfxPluginDeleteOperation.Initialize;
 begin
   with FWfxPluginFileSource do
-  WfxModule.WfxStatusInfo({CurrentPath}FilesToDelete.Path, FS_STATUS_START, FS_STATUS_OP_DELETE);
+  WfxModule.WfxStatusInfo(FilesToDelete.Path, FS_STATUS_START, FS_STATUS_OP_DELETE);
 
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
-  FWfxPluginFileSource.FillAndCount(FilesToDelete,
+  FWfxPluginFileSource.FillAndCount(FilesToDelete, True,
                                     FFullFilesTreeToDelete,
                                     FStatistics.TotalFiles,
                                     FStatistics.TotalBytes);     // gets full list of files (recursive)
@@ -111,7 +111,7 @@ end;
 procedure TWfxPluginDeleteOperation.Finalize;
 begin
   with FWfxPluginFileSource do
-  WfxModule.WfxStatusInfo({CurrentPath}FilesToDelete.Path, FS_STATUS_END, FS_STATUS_OP_DELETE);
+  WfxModule.WfxStatusInfo(FilesToDelete.Path, FS_STATUS_END, FS_STATUS_OP_DELETE);
 end;
 
 function TWfxPluginDeleteOperation.ProcessFile(aFile: TWfxPluginFile): Boolean;

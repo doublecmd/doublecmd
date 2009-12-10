@@ -99,7 +99,7 @@ begin
     end
   else
     begin
-      FillAndCount(FilesToDelete as TFileSystemFiles,
+      FillAndCount(FilesToDelete as TFileSystemFiles, True,
                    FFullFilesTreeToDelete,
                    FStatistics.TotalFiles,
                    FStatistics.TotalBytes);     // gets full list of files (recursive)
