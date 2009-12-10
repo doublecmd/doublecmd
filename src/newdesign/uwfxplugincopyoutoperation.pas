@@ -101,12 +101,12 @@ begin
   FCallbackDataClass.UpdateProgressFunction:= @UpdateProgress;
   with FWfxPluginFileSource do
   begin
-    WfxModule.WfxStatusInfo({CurrentPath}SourceFiles.Path, FS_STATUS_START, FS_STATUS_OP_PUT_MULTI);
+    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_START, FS_STATUS_OP_PUT_MULTI);
     WfxOperationList.Objects[PluginNumber]:= FCallbackDataClass;
     // Get initialized statistics; then we change only what is needed.
     FStatistics := RetrieveStatistics;
 
-    FillAndCount(SourceFiles,
+    FillAndCount(SourceFiles, False,
                  FFullFilesTreeToCopy,
                  FStatistics.TotalFiles,
                  FStatistics.TotalBytes);     // gets full list of files (recursive)
@@ -144,7 +144,7 @@ procedure TWfxPluginCopyOutOperation.Finalize;
 begin
   with FWfxPluginFileSource do
   begin
-    WfxModule.WfxStatusInfo({CurrentPath}SourceFiles.Path, FS_STATUS_END, FS_STATUS_OP_PUT_MULTI);
+    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_END, FS_STATUS_OP_PUT_MULTI);
     WfxOperationList.Objects[PluginNumber]:= nil;
   end;
 end;

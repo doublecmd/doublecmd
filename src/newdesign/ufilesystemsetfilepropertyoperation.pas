@@ -88,7 +88,7 @@ begin
     end
   else
     begin
-      FillAndCount(TargetFiles as TFileSystemFiles,
+      FillAndCount(TargetFiles as TFileSystemFiles, True,
                    FFullFilesTree,
                    FStatistics.TotalFiles,
                    TotalBytes);     // gets full list of files (recursive)

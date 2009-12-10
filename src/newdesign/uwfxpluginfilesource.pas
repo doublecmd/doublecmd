@@ -16,7 +16,8 @@ type
   IWfxPluginFileSource = interface(IFileSource)
     ['{F1F728C6-F718-4B17-8DE2-BE0134134ED8}']
 
-    procedure FillAndCount(Files: TFiles; out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
+    procedure FillAndCount(Files: TFiles; CountDirs: Boolean;
+                           out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
 
@@ -42,7 +43,8 @@ type
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetCurrentAddress: String; override;
   public
-    procedure FillAndCount(Files: TFiles; out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
+    procedure FillAndCount(Files: TFiles; CountDirs: Boolean;
+                           out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
   public
@@ -436,7 +438,8 @@ begin
   Result := FWFXModule;
 end;
 
-procedure TWfxPluginFileSource.FillAndCount(Files: TFiles; out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
+procedure TWfxPluginFileSource.FillAndCount(Files: TFiles; CountDirs: Boolean;
+  out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
 
   procedure FillAndCountRec(const srcPath: UTF8String);
   var
@@ -457,6 +460,8 @@ procedure TWfxPluginFileSource.FillAndCount(Files: TFiles; out NewFiles: TFiles;
 
         if aFile.IsDirectory then
           begin
+            if CountDirs then
+              Inc(FilesCount);
             FillAndCountRec(srcPath + FindData.FileName + PathDelim);
           end
         else
@@ -485,6 +490,8 @@ begin
 
     if aFile.IsDirectory and (not aFile.IsLinkToDirectory) then
       begin
+        if CountDirs then
+          Inc(FilesCount);
         FillAndCountRec(aFile.Path + aFile.Name + DirectorySeparator);  // recursive browse child dir
       end
     else

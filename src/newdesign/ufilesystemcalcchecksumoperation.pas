@@ -109,7 +109,7 @@ begin
 
   case Mode of
     checksum_calc:
-      FillAndCount(Files as TFileSystemFiles,
+      FillAndCount(Files as TFileSystemFiles, False,
                    FFullFilesTree,
                    FStatistics.TotalFiles,
                    FStatistics.TotalBytes);     // gets full list of files (recursive)
@@ -144,29 +144,31 @@ begin
 
     UpdateStatistics(FStatistics);
 
-    // If there will be an error in ProcessFile the DoneBytes value
-    // will be inconsistent, so remember it here.
-    OldDoneBytes := FStatistics.DoneBytes;
+    if not aFile.IsDirectory then
+    begin
+      // If there will be an error in ProcessFile the DoneBytes value
+      // will be inconsistent, so remember it here.
+      OldDoneBytes := FStatistics.DoneBytes;
 
-    case Mode of
-      checksum_calc:
-        if not aFile.IsDirectory then
+      case Mode of
+        checksum_calc:
           CalcChecksumProcessFile(aFile);
 
-      checksum_verify:
-        begin
-          Entry := FChecksumsList.Items[CurrentFileIndex] as TChecksumEntry;
-          Algorithm := Entry.Algorithm;
-          VerifyChecksumProcessFile(aFile, Entry.Checksum);
-        end;
-    end;
+        checksum_verify:
+          begin
+            Entry := FChecksumsList.Items[CurrentFileIndex] as TChecksumEntry;
+            Algorithm := Entry.Algorithm;
+            VerifyChecksumProcessFile(aFile, Entry.Checksum);
+          end;
+      end;
 
-    with FStatistics do
-    begin
-      DoneFiles := DoneFiles + 1;
-      DoneBytes := OldDoneBytes + aFile.Size;
+      with FStatistics do
+      begin
+        DoneFiles := DoneFiles + 1;
+        DoneBytes := OldDoneBytes + aFile.Size;
 
-      UpdateStatistics(FStatistics);
+        UpdateStatistics(FStatistics);
+      end;
     end;
 
     CheckOperationState;
@@ -180,10 +182,6 @@ begin
 
     checksum_verify:
       begin
-      {
-         Synchronize(@FFileOpDlg.Hide);
-         Synchronize(@ShowVerifyCheckSumResult);
-      }
       end;
   end;
 end;
@@ -214,9 +212,10 @@ begin
     for I := 0 to FCheckSumFile.Count - 1 do
     begin
       FileName := aFile.Path + Copy(FCheckSumFile.ValueFromIndex[I], 2, MaxInt);
+      aFileToVerify := TFileSystemFile.Create(FileName);
       try
-        aFileToVerify := TFileSystemFile.Create(FileName);
-        try
+        if not (aFileToVerify.IsDirectory or aFileToVerify.IsLinkToDirectory) then
+        begin
           with FStatistics do
           begin
             TotalFiles := TotalFiles + 1;
@@ -228,16 +227,19 @@ begin
           FChecksumsList.Add(Entry);
           Entry.Checksum := FCheckSumFile.Names[I];
           Entry.Algorithm := anAlgorithm;
-
-        except
+        end
+        else
           FreeAndNil(aFileToVerify);
-          raise;
-        end;
 
       except
         on EFileSystemFileNotExists do
           begin
             // error - file does not exist
+          end
+        else
+          begin
+            FreeAndNil(aFileToVerify);
+            raise;
           end;
       end;
 
@@ -259,7 +261,7 @@ begin
 
   sCheckSum := CheckSumCalc(aFile);
   FCheckSumFile.Add(sCheckSum + ' *' +
-                    ExtractDirLevel({FileSource.CurrentPath}FFullFilesTree.Path,
+                    ExtractDirLevel(FFullFilesTree.Path,
                                     aFile.Path) + aFile.Name);
 
   if not OneFile then
@@ -276,7 +278,7 @@ begin
 
   sCheckSum:= CheckSumCalc(aFile);
   bResult:= (StrComp(PChar(sCheckSum), PChar(ExpectedChecksum)) = 0);
-  FResult.Add(ExtractDirLevel(FFullFilesTree.Path{FileSource.CurrentPath}, aFile.Path) +
+  FResult.Add(ExtractDirLevel(FFullFilesTree.Path, aFile.Path) +
               aFile.Name + ': ' +
               IfThen(bResult, 'True', 'False'));
 end;
@@ -328,7 +330,7 @@ begin
                   begin
                     LogMessage(rsMsgErrERead + ' ' + aFile.FullPath + ': ' + E.Message,
                                [], lmtError);
-		    Exit;
+                    Exit;
                   end
                   else
                   case AskQuestion(rsMsgErrERead + ' ' + aFile.FullPath + ': ',
