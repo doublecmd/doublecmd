@@ -1481,9 +1481,6 @@ end;
 { -------------------------------------------------------------------------- }
 function TAbZipItem.GetSystemSpecificAttributes: LongWord;
 var
-{$IFDEF MSWINDOWS}
-  Attrs: LongWord;
-{$ENDIF}
   SystemCode: TAbZipHostOs;
 begin
   Result := GetExternalFileAttributes;
@@ -1495,16 +1492,15 @@ begin
      // Ugly hack: $1FFFF is max value of attributes on Windows
      (Result > $1FFFF) then
   begin
-    // high 16 bits are permissions.
-    // low 16 bits are: ?
-    Attrs := Result shr 16;
-    Result := AbUnix2DosFileAttributes(Attrs);
+    // Zip stores Unix attributes in high 16 bits.
+    Result := AbUnix2DosFileAttributes(Result shr 16);
   end;
 {$ENDIF}
 {$IFDEF UNIX}
   if (SystemCode = hosMSDOS) or (SystemCode = hosNTFS) then
     Result := AbDOS2UnixFileAttributes(Result)
   else
+    // Zip stores Unix attributes in high 16 bits.
     Result := Result shr 16;
 {$ENDIF}
 end;
@@ -1520,6 +1516,7 @@ var
   DateTime: TDateTime;
 {$ENDIF}
 begin
+  // Zip stores MS-DOS date/time.
   LongRec(Result).Hi := LastModFileDate;
   LongRec(Result).Lo := LastModFileTime;
 
@@ -1657,7 +1654,6 @@ var
 begin
   inherited SetFileName(Value);
   FItemInfo.FileName := AnsiString(Value);
-  VersionMadeBy := Lo(VersionMadeBy);
 {$IFDEF MSWINDOWS}
   for I := 1 to Length(FItemInfo.FileName) do
     if Ord(FItemInfo.FileName[I]) >= 128 then begin
@@ -1699,19 +1695,12 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.SetSystemSpecificAttributes(Value: LongWord);
-var
-  Attrs: LongWord;
 begin
-  Attrs := Value;
-
 {$IFDEF UNIX}
-  Attrs := Attrs shl 16;
-  // Don't know what low 16 bits are
+  // Zip stores Unix attributes in high 16 bits.
+  Value := Value shl 16;
 {$ENDIF}
-
-  SetExternalFileAttributes(Attrs);
-  VersionMadeBy := MakeVersionMadeBy;
-  // Convert FileName (OEM/Ansi)?
+  SetExternalFileAttributes(Value);
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.SetSystemSpecificLastModFileTime(const Value: Longint);
@@ -1721,8 +1710,9 @@ var
 {$ENDIF}
   DosFileTime: Longint;
 begin
+  // Zip stores MS-DOS date/time.
 {$IFDEF UNIX}
-  DateTime    := AbUnixFileTimeToDateTime(DosFileTime);
+  DateTime    := AbUnixFileTimeToDateTime(Value);
   DosFileTime := AbDateTimeToDosFileTime(DateTime);
 {$ELSE}
   DosFileTime := Value;

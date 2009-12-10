@@ -325,10 +325,12 @@ var
   Attrs: LongInt;
   FileTime : LongInt;
 begin
-  if TAbZipHostOS((Item.VersionMadeBy shr 8) and $FF) = hosMSDOS then
-    Name := AbStrOemToAnsi(Item.DiskFileName)
-  else
-    Name := Item.DiskFileName;
+{$IFDEF MSWINDOWS}
+//  if TAbZipHostOS((Item.VersionMadeBy shr 8) and $FF) = hosMSDOS then
+//    Name := AbStrOemToAnsi(Item.DiskFileName)
+//  else
+{$ENDIF}
+  Name := Item.DiskFileName;
 
   {Now get the file's attributes}
   Attrs := AbFileGetAttr(Name);
@@ -356,7 +358,7 @@ begin
     Item.VersionNeededToExtract := 20;
     Item.CRC32 := 0;
     Item.InternalFileAttributes := 0;
-    Item.CompressionMethod:=cmStored;
+    Item.CompressionMethod := cmStored;
 
   end else begin
     { File. Open stream for compression. }
