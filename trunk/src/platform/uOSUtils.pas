@@ -1034,6 +1034,7 @@ end;
          (mnt_type = 'fuse.gvfs-fuse-daemon') or
          (mnt_type = 'fuse.truecrypt') or
          (mnt_type = 'nfsd') or
+         (mnt_type = 'usbfs') or
          (mnt_type = 'rpc_pipefs') then Exit;
 
       MountPoint := ExcludeTrailingPathDelimiter(mnt_dir);
