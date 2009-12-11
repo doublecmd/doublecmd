@@ -2881,7 +2881,7 @@ procedure TColumnsFileView.cm_RenameOnly(param: string='');
 var
   aFile: TFile;
 begin
-  if (fsoMove in FileSource.GetOperationsTypes) then
+  if (fsoSetFileProperty in FileSource.GetOperationsTypes) then
     begin
       aFile:= ActiveFile;
       if Assigned(aFile) and aFile.IsNameValid then

@@ -44,7 +44,7 @@ type
 implementation
 
 uses
-  uOSUtils, uDCUtils, WfxPlugin, uWfxPluginFile;
+  uOSUtils, uDCUtils, WfxPlugin, uWfxPluginFile, uWfxPluginUtil;
 
 constructor TWfxPluginSetFilePropertyOperation.Create(aTargetFileSource: IFileSource;
                                                       var theTargetFiles: TFiles;
@@ -57,7 +57,8 @@ begin
   inherited Create(aTargetFileSource, theTargetFiles, theNewProperties);
 
   // Assign after calling inherited constructor.
-  FSupportedProperties := [fpAttributes,
+  FSupportedProperties := [fpName,
+                           fpAttributes,
                            fpModificationTime,
                            fpCreationTime,
                            fpLastAccessTime];
@@ -144,6 +145,12 @@ begin
   Result := True;
 
   case aTemplateProperty.GetID of
+    fpName:
+      if (aTemplateProperty as TFileNameProperty).Value <> aFile.Name then
+      begin
+        Result := WfxRenameFile(FWfxPluginFileSource, aFile, (aTemplateProperty as TFileNameProperty).Value);
+      end;
+
     fpAttributes:
       if (aTemplateProperty as TFileAttributesProperty).Value <>
          (aFile.Properties[fpAttributes] as TFileAttributesProperty).Value then
