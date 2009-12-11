@@ -114,6 +114,7 @@ var
   glsMaskHistory : TStringListEx;
   glsSearchHistory : TStringListEx;
   glsReplaceHistory : TStringListEx;
+  gOnlyOnce,
   gCutTextToColWidth : Boolean;
   gSpaceMovesDown: Boolean;
   gScrollMode: Integer;
@@ -262,7 +263,8 @@ var
 implementation
 
 uses
-   LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils, uDCUtils;
+   LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils,
+   uDCUtils, uUniqueInstance;
 
 procedure LoadDefaultHotkeyBindings;
 begin
@@ -504,7 +506,11 @@ begin
   gUseIniInProgramDir := Ini.ReadBool('Configuration', 'UseIniInProgramDir', False);
   gUseIniInProgramDirNew:= gUseIniInProgramDir;
   Ini.Free;
-  
+
+  { Check is unique instance }
+  gOnlyOnce:= gIni.ReadBool('Configuration', 'OnlyOnce', False);
+  if gOnlyOnce and not IsUniqueInstance(ApplicationName) then Exit(False);
+
   { Layout page }
   
   gButtonBar := gIni.ReadBool('Layout', 'ButtonBar', True);
@@ -761,6 +767,7 @@ begin
   gIni.WriteBool('Configuration', 'ShowSystemFiles', gShowSystemFiles);
   gIni.WriteString('Configuration', 'Language', gPOFileName);
   gIni.WriteString('Configuration', 'RunInTerm', gRunInTerm);
+  gIni.WriteBool('Configuration', 'OnlyOnce', gOnlyOnce);
   gIni.WriteBool('Configuration', 'CaseSensitiveSort', gCaseSensitiveSort);
   gIni.WriteBool('Configuration', 'LynxLike', gLynxLike);
   gIni.WriteBool('Configuration', 'DirSelect', gDirSelect);

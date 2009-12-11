@@ -414,6 +414,7 @@ type
     procedure edtCommandExit(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
     procedure FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
+    procedure OnUniqueInstanceMessage(Sender: TObject; Params: array of UTF8String; ParamCount: Integer);
     procedure tmHALTimer(Sender: TObject);
   private
     { Private declarations }
@@ -540,7 +541,7 @@ uses
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSystemCopyOperation, uFileSystemMoveOperation,
   uArchiveFileSource, uShellExecute, uActs, uFileSystemFile,
-  fSymLink, fHardLink, uExceptions
+  fSymLink, fHardLink, uExceptions, uUniqueInstance
   {$IFDEF LCLQT}
     , qtwidgets
   {$ENDIF}
@@ -565,7 +566,7 @@ procedure TfrmMain.FormCreate(Sender: TObject);
 
 var
   slCommandHistory: TStringListEx;
-  i: Integer;
+  I: Integer;
 begin
   nbLeft := CreateNotebook(pnlLeft, fpLeft);
   nbRight := CreateNotebook(pnlRight, fpRight);
@@ -574,6 +575,8 @@ begin
   HidingTrayIcon := False;
 
   inherited;
+  if gOnlyOnce and Assigned(UniqueInstance) then
+    UniqueInstance.OnMessage:= @OnUniqueInstanceMessage;
   // frost_asm begin
   MainSplitterLeftMouseBtnDown:=false;
   // frost_asm end
@@ -2999,6 +3002,16 @@ begin
     end;
 
   FileView.Reload;
+end;
+
+procedure TfrmMain.OnUniqueInstanceMessage(Sender: TObject; Params: array of UTF8String; ParamCount: Integer);
+var
+  I: Integer;
+begin
+  WindowState:= lastWindowState;
+  BringToFront;
+  for I:= 0 to ParamCount - 1 do
+    DebugLn(Params[I]);
 end;
 
 procedure TfrmMain.tmHALTimer(Sender: TObject);
