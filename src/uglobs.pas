@@ -100,7 +100,6 @@ var
   gRunTerm: String;
   gCaseSensitiveSort:Boolean=True;
   gLynxLike:Boolean=True;
-  gDirSelect:Boolean=True;
   gFirstTextSearch: Boolean = True;
 
   gMouseSelectionEnabled: Boolean = True;
@@ -537,7 +536,6 @@ begin
   gRunInTerm := gIni.ReadString('Configuration', 'RunInTerm', RunInTerm);
   gCaseSensitiveSort := gIni.ReadBool('Configuration', 'CaseSensitiveSort', False);
   gLynxLike := gIni.ReadBool('Configuration', 'LynxLike', True);
-  gDirSelect := gIni.ReadBool('Configuration', 'DirSelect', True);
   gShortFileSizeFormat := gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True);
   gScrollMode := gIni.ReadInteger('Configuration', 'ScrollMode', 0);
   gMinimizeToTray := gIni.ReadBool('Configuration', 'MinimizeToTray', False);
@@ -770,7 +768,6 @@ begin
   gIni.WriteBool('Configuration', 'OnlyOnce', gOnlyOnce);
   gIni.WriteBool('Configuration', 'CaseSensitiveSort', gCaseSensitiveSort);
   gIni.WriteBool('Configuration', 'LynxLike', gLynxLike);
-  gIni.WriteBool('Configuration', 'DirSelect', gDirSelect);
 
   gIni.WriteBool('Configuration', 'ShortFileSizeFormat', gShortFileSizeFormat);
   gIni.WriteInteger('Configuration', 'ScrollMode', gScrollMode);

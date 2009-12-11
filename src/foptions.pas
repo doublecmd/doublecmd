@@ -73,7 +73,7 @@ type
     cBackGrndLabel: TLabel;
     cbCaseSensitiveSort: TCheckBox;
     cbCategoryColor: TColorBox;
-    cbDirSelect: TCheckBox;
+    cbOnlyOnce: TCheckBox;
     cbDropReadOnlyFlag: TCheckBox;
     cbEditorFont: TComboBox;
     cbExtDiffer: TCheckBox;
@@ -2081,7 +2081,7 @@ begin
   cbLogWindow.Checked := gLogWindow;
   cbTermWindow.Checked := gTermWindow;
 
-  cbDirSelect.Checked:=gDirSelect;
+  cbOnlyOnce.Checked:= gOnlyOnce;
   cbCaseSensitiveSort.Checked:=gCaseSensitiveSort;
   cbLynxLike.Checked:=gLynxLike;
   cbShortFileSizeFormat.Checked:=gShortFileSizeFormat;
@@ -2269,7 +2269,7 @@ begin
   gTermWindow := cbTermWindow.Checked;
   
   gRunInTerm:=edtRunInTerm.Text;
-  gDirSelect:=cbDirSelect.Checked;
+  gOnlyOnce:=cbOnlyOnce.Checked;
   gCaseSensitiveSort:=cbCaseSensitiveSort.Checked;
   gLynxLike:=cbLynxLike.Checked;
   gShortFileSizeFormat:=cbShortFileSizeFormat.Checked;

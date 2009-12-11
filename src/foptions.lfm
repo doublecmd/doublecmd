@@ -208,14 +208,14 @@ object frmOptions: TfrmOptions
           ClientHeight = 158
           ClientWidth = 238
           TabOrder = 3
-          object cbDirSelect: TCheckBox
+          object cbOnlyOnce: TCheckBox
             AnchorSideTop.Control = gbMisc1
             Left = 8
             Height = 17
             Top = 6
-            Width = 154
+            Width = 188
             BorderSpacing.Top = 6
-            Caption = 'Select directory with keypad'
+            Caption = 'Allow only one copy of DC at a time'
             TabOrder = 0
           end
           object cbCaseSensitiveSort: TCheckBox
@@ -230,7 +230,7 @@ object frmOptions: TfrmOptions
             TabOrder = 1
           end
           object cbLynxLike: TCheckBox
-            AnchorSideTop.Control = cbDirSelect
+            AnchorSideTop.Control = cbOnlyOnce
             AnchorSideTop.Side = asrBottom
             Left = 8
             Height = 17
