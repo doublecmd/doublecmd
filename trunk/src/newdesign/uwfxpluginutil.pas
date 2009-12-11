@@ -80,10 +80,31 @@ type
     property RenameMask: String read FRenameMask write FRenameMask;
   end;
 
+  function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: UTF8String): Boolean;
+
 implementation
 
 uses
   uFileProcs, uDCUtils, uLng, WfxPlugin, uWfxModule, uFileSystemUtil, uFileProperty, uOSUtils;
+
+function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: UTF8String): Boolean;
+var
+  RemoteInfo: TRemoteInfo;
+  iTemp: TInt64Rec;
+begin
+  with aFileSource do
+  begin
+    with RemoteInfo do
+    begin
+      iTemp.Value := (aFile.Properties[fpSize] as TFileSizeProperty).Value;
+      SizeLow := iTemp.Low;
+      SizeHigh := iTemp.High;
+      LastWriteTime := DateTimeToFileTime((aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
+      Attr := LongInt((aFile.Properties[fpAttributes] as TFileAttributesProperty).Value);
+    end;
+    Result := (WfxCopyMove(aFile.Path + aFile.Name, NewFileName, FS_COPYFLAGS_MOVE, @RemoteInfo, True, True) = FS_FILE_OK);
+  end;
+end;
 
 { TWfxPluginOperationHelper }
 
@@ -306,8 +327,8 @@ begin
       sTargetFile := FRootTargetPath + ExtractDirLevel(aFiles.Path, aFile.Path);
       sTargetFile := sTargetFile + ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask);
 
-      DebugLn('Source name == ' + sSourceFile);
-      DebugLn('Target name == ' + sTargetFile);
+      //DebugLn('Source name == ' + sSourceFile);
+      //DebugLn('Target name == ' + sTargetFile);
 
       with FStatistics do
       begin
