@@ -362,7 +362,7 @@ begin
     Exit;
   end;
 
-  if not (bImage or bPlugin) then
+  if (not bImage) then
     case Key of
       VK_F:
         if Shift = [ssCtrl] then
@@ -797,8 +797,8 @@ begin
   miPlugins.Checked  := (Panel = pnlLister);
   miGraphics.Checked := (Panel = pnlImage);
   miImage.Visible    := (Panel = pnlImage);
-  miEdit.Visible     := (Panel = pnlText);
   miEncoding.Visible := (Panel = pnlText);
+  miEdit.Visible     := (Panel = pnlText) or (Panel = pnlLister);
 
   if Panel = pnlLister then
   begin
@@ -825,4 +825,5 @@ end;
 
 initialization
  {$I fviewer.lrs}
+
 end.
