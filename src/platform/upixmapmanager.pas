@@ -467,7 +467,9 @@ begin
   FIconTheme:= nil;
   IconTheme:= TIconTheme.Create(GetCurrentIconTheme);
   if IconTheme.Load then
-    FIconTheme:= Pointer(IconTheme);
+    FIconTheme:= Pointer(IconTheme)
+  else
+    FreeAndNil(IconTheme);
 end;
 {$ENDIF}
 

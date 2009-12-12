@@ -48,21 +48,21 @@ type
     function GetIconDir(Index: Integer): TIconDirInfo;
   public
     destructor Destroy; override;
-    function Add(IconDirName: String; IconDirInfo: PIconDirInfo): Integer;
+    function Add(IconDirName: String; IconDirInfo: PIconDirInfo): Integer; reintroduce;
     property Items[Index: Integer]: TIconDirInfo read GetIconDir;
   end;
 
   { TIconTheme }
 
   TIconTheme = class
-    FIniFile: TIniFile;
     FTheme,
     FThemeName: String;
     FComment: UTF8String;
     FInherits: TStringList;
+    FOwnsInheritsObject: Boolean;
     FDirectories: TIconDirList;
     FBaseNameList: array of String;
-    function LoadIconDirInfo(const sIconDirName: String): PIconDirInfo;
+    function LoadIconDirInfo(const IniFile: TIniFile; const sIconDirName: String): PIconDirInfo;
     function FindIconHelper(aIconName: String; AIconSize: Integer): UTF8String;
   protected
     function LookupIcon(AIconName: String; AIconSize: Integer): UTF8String;
@@ -161,9 +161,10 @@ var
 begin
   FTheme:= sThemeName;
   FInherits:= nil;
+  FOwnsInheritsObject:= False;
   FDirectories:= nil;
   J:= 0;
-  SetLength(FBaseNameList, High(BaseNameList));
+  SetLength(FBaseNameList, Length(BaseNameList));
   for I:= Low(BaseNameList) to  High(BaseNameList) do
     begin
       sElement:= BaseNameList[I];
@@ -181,7 +182,7 @@ destructor TIconTheme.Destroy;
 var
   I: Integer;
 begin
-  if Assigned(FInherits) then
+  if FOwnsInheritsObject and Assigned(FInherits) then
     begin
       for I:= FInherits.Count - 1 downto 0 do
         begin
@@ -190,7 +191,6 @@ begin
               TIconTheme(FInherits.Objects[I]).Free;
               FInherits.Objects[I]:= nil;
             end;
-          FInherits.Delete(I);
         end;
       FreeThenNil(FInherits);
     end;
@@ -205,6 +205,7 @@ var
  sElement: String;
  sThemeName: String;
  ParentTheme: TIconTheme;
+ IniFile: TIniFile = nil;
 begin
    Result:= False;
    for I:= Low(FBaseNameList) to  High(FBaseNameList) do
@@ -225,41 +226,49 @@ begin
    if Assigned(AInherits) then // if this theme is child
      FInherits:= AInherits
    else // new theme
-     FInherits:= TStringList.Create;
+     begin
+       FInherits:= TStringList.Create;
+       FOwnsInheritsObject:= True;
+     end;
 
    // load theme from file
-   FIniFile:= TIniFile.Create(sThemeName);
-   FThemeName:= FIniFile.ReadString('Icon Theme', 'Name', EmptyStr);
-   FComment:= FIniFile.ReadString('Icon Theme', 'Comment', EmptyStr);
+   IniFile:= TIniFile.Create(sThemeName);
+   try
+     FThemeName:= IniFile.ReadString('Icon Theme', 'Name', EmptyStr);
+     FComment:= IniFile.ReadString('Icon Theme', 'Comment', EmptyStr);
 
-   // read theme directories
-   sValue:= FIniFile.ReadString('Icon Theme', 'Directories', EmptyStr);
-   WriteLn(sValue);
-   repeat
-     sElement:= Copy2SymbDel(sValue, ',');
-     FDirectories.Add(sElement, LoadIconDirInfo(sElement));
-   until sValue = EmptyStr;
-
-   // read parent themes
-   sValue:= FIniFile.ReadString('Icon Theme', 'Inherits', EmptyStr);
-   if sValue <> EmptyStr then
+     // read theme directories
+     sValue:= IniFile.ReadString('Icon Theme', 'Directories', EmptyStr);
+     WriteLn(sValue);
      repeat
        sElement:= Copy2SymbDel(sValue, ',');
-       // skip if already loaded
-       if FInherits.IndexOf(sElement) >= 0 then Continue;
-       // load parent theme
-       ParentTheme:= TIconTheme.Create(sElement);
-       FInherits.AddObject(sElement, ParentTheme);
-       ParentTheme.Load(FInherits);
+       FDirectories.Add(sElement, LoadIconDirInfo(IniFile, sElement));
      until sValue = EmptyStr;
 
-   // add default theme if needed
-   if FInherits.IndexOf(DEFAULT_THEME_NAME) < 0 then
-     begin
-       ParentTheme:= TIconTheme.Create(DEFAULT_THEME_NAME);
-       FInherits.AddObject(DEFAULT_THEME_NAME, ParentTheme);
-       ParentTheme.Load(FInherits);
-     end;
+     // read parent themes
+     sValue:= IniFile.ReadString('Icon Theme', 'Inherits', EmptyStr);
+     if sValue <> EmptyStr then
+       repeat
+         sElement:= Copy2SymbDel(sValue, ',');
+         // skip if already loaded
+         if FInherits.IndexOf(sElement) >= 0 then Continue;
+         // load parent theme
+         ParentTheme:= TIconTheme.Create(sElement);
+         FInherits.AddObject(sElement, ParentTheme);
+         ParentTheme.Load(FInherits);
+       until sValue = EmptyStr;
+
+     // add default theme if needed
+     if FInherits.IndexOf(DEFAULT_THEME_NAME) < 0 then
+       begin
+         ParentTheme:= TIconTheme.Create(DEFAULT_THEME_NAME);
+         FInherits.AddObject(DEFAULT_THEME_NAME, ParentTheme);
+         ParentTheme.Load(FInherits);
+       end;
+
+   finally
+     FreeAndNil(IniFile);
+   end;
 end;
 
 function TIconTheme.FindIcon(AIconName: String; AIconSize: Integer): UTF8String;
@@ -313,17 +322,17 @@ begin
     Result:= EmptyStr;
 end;
 
-function TIconTheme.LoadIconDirInfo(const sIconDirName: String): PIconDirInfo;
+function TIconTheme.LoadIconDirInfo(const IniFile: TIniFile; const sIconDirName: String): PIconDirInfo;
 begin
   New(Result);
   with Result^ do
   begin
-    IconSize:= FIniFile.ReadInteger(sIconDirName, 'Size', 48);
-    IconContext:= FIniFile.ReadString(sIconDirName, 'Context', EmptyStr);
-    IconType:= FIniFile.ReadString(sIconDirName, 'Type', 'Threshold');
-    IconMaxSize:= FIniFile.ReadInteger(sIconDirName, 'MaxSize', IconSize);
-    IconMinSize:= FIniFile.ReadInteger(sIconDirName, 'MinSize', IconSize);
-    IconThreshold:= FIniFile.ReadInteger(sIconDirName, 'Threshold', 2);
+    IconSize:= IniFile.ReadInteger(sIconDirName, 'Size', 48);
+    IconContext:= IniFile.ReadString(sIconDirName, 'Context', EmptyStr);
+    IconType:= IniFile.ReadString(sIconDirName, 'Type', 'Threshold');
+    IconMaxSize:= IniFile.ReadInteger(sIconDirName, 'MaxSize', IconSize);
+    IconMinSize:= IniFile.ReadInteger(sIconDirName, 'MinSize', IconSize);
+    IconThreshold:= IniFile.ReadInteger(sIconDirName, 'Threshold', 2);
   end;
 end;
 
@@ -364,7 +373,6 @@ begin
     begin
       if Assigned(Objects[I]) then
         Dispose(PIconDirInfo(Objects[I]));
-      Delete(I);
     end;
   inherited Destroy;
 end;
