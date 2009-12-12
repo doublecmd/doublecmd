@@ -125,6 +125,8 @@ type
     cbAlwaysShowTrayIcon: TCheckBox;
     cbSkipFileOpError: TCheckBox;
     cbShowDialogOnDragDrop: TCheckBox;
+    cbListFilesInThread: TCheckBox;
+    cbLoadIconsSeparately: TCheckBox;
     chkAutoFillColumns: TCheckBox;
     cmbTabsPosition: TComboBox;
     cmbAutoSizeColumn: TComboBox;
@@ -319,6 +321,7 @@ type
     procedure btnSearchTemplateClick(Sender: TObject);
     procedure cbAlwaysShowTrayIconChange(Sender: TObject);
     procedure cbIconsSizeChange(Sender: TObject);
+    procedure cbListFilesInThreadChange(Sender: TObject);
     procedure edHotKeyKeyPress(Sender: TObject; var Key: char);
     procedure fneExtDifferChange(Sender: TObject);
     procedure fneExtEditorChange(Sender: TObject);
@@ -1764,6 +1767,11 @@ begin
   FreeThenNil(bmpTemp);
 end;
 
+procedure TfrmOptions.cbListFilesInThreadChange(Sender: TObject);
+begin
+  cbLoadIconsSeparately.Enabled := cbListFilesInThread.Checked;
+end;
+
 procedure TfrmOptions.edHotKeyKeyPress(Sender: TObject; var Key: char);
 begin
   Key := #0;
@@ -2108,6 +2116,9 @@ begin
   cbCutTextToColWidth.Checked:= gCutTextToColWidth;
   ledDriveBlackList.Text:= gDriveBlackList;
   cbShowSystemFiles.Checked:= gShowSystemFiles;
+  cbListFilesInThread.Checked:= gListFilesInThread;
+  cbLoadIconsSeparately.Checked:= gLoadIconsSeparately;
+  cbLoadIconsSeparately.Enabled:= gListFilesInThread;
 
   fneExtEditor.FileName := gExtEdit;
   fneExtViewer.FileName := gExtView;
@@ -2281,6 +2292,8 @@ begin
   gCutTextToColWidth:= cbCutTextToColWidth.Checked;
   gDriveBlackList:= ledDriveBlackList.Text;
   gShowSystemFiles:= cbShowSystemFiles.Checked;
+  gListFilesInThread:= cbListFilesInThread.Checked;
+  gLoadIconsSeparately:= cbLoadIconsSeparately.Checked;
   
   gMouseSelectionEnabled := cbSelectionByMouse.Checked;
   gMouseSelectionButton := cbMouseMode.ItemIndex;

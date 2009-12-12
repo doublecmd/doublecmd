@@ -475,21 +475,21 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = gbDateTimeFormat
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 85
-          Top = 359
+          Height = 125
+          Top = 369
           Width = 242
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
-          ClientHeight = 67
+          ClientHeight = 121
           ClientWidth = 238
           TabOrder = 6
           object cbCutTextToColWidth: TCheckBox
             AnchorSideLeft.Control = gbMisc3
             AnchorSideTop.Control = gbMisc3
             Left = 10
-            Height = 17
+            Height = 22
             Top = 6
-            Width = 136
+            Width = 171
             BorderSpacing.Left = 10
             BorderSpacing.Top = 6
             Caption = 'Cut text to column width'
@@ -500,13 +500,38 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbCutTextToColWidth
             AnchorSideTop.Side = asrBottom
             Left = 10
-            Height = 17
-            Top = 29
-            Width = 139
+            Height = 22
+            Top = 34
+            Width = 177
             BorderSpacing.Left = 10
             BorderSpacing.Top = 6
             Caption = 'Show hidden/system files'
             TabOrder = 1
+          end
+          object cbListFilesInThread: TCheckBox
+            AnchorSideLeft.Control = cbShowSystemFiles
+            AnchorSideTop.Control = cbShowSystemFiles
+            AnchorSideTop.Side = asrBottom
+            Left = 10
+            Height = 22
+            Top = 62
+            Width = 214
+            BorderSpacing.Top = 6
+            Caption = 'Load file list in separate thread'
+            OnChange = cbListFilesInThreadChange
+            TabOrder = 2
+          end
+          object cbLoadIconsSeparately: TCheckBox
+            AnchorSideLeft.Control = cbListFilesInThread
+            AnchorSideTop.Control = cbListFilesInThread
+            AnchorSideTop.Side = asrBottom
+            Left = 10
+            Height = 22
+            Top = 90
+            Width = 171
+            BorderSpacing.Top = 6
+            Caption = 'Load icons after file list'
+            TabOrder = 3
           end
         end
         object gbMisc4: TGroupBox
@@ -516,13 +541,13 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = rgScrolling
           AnchorSideRight.Side = asrBottom
           Left = 258
-          Height = 85
-          Top = 359
-          Width = 256
+          Height = 125
+          Top = 369
+          Width = 260
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
-          ClientHeight = 67
-          ClientWidth = 252
+          ClientHeight = 121
+          ClientWidth = 256
           TabOrder = 7
           object ledDriveBlackList: TLabeledEdit
             AnchorSideLeft.Control = gbMisc4
