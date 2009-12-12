@@ -1,11 +1,13 @@
 msgid ""
 msgstr ""
-"Last-Translator: Jose Angel <angelhjose@gmail.com>\n"
-"PO-Revision-Date: 2008-02-26\n"
+"Last-Translator: javivf <javivf@gmail.com>\n"
+"PO-Revision-Date: 2009-09-03 15:57+0100\n"
 "Language-Team: \n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: lcl\n"
+"POT-Creation-Date: \n"
+"MIME-Version: 1.0\n"
 
 #: lclstrconsts.hhshelpbrowsernotexecutable
 msgid "Browser %s%s%s not executable."
@@ -58,7 +60,7 @@ msgstr "Retroceso"
 #: lclstrconsts.ifsvk_cancel
 msgctxt "lclstrconsts.ifsvk_cancel"
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: lclstrconsts.ifsvk_capital
 msgid "Capital"
@@ -79,7 +81,7 @@ msgstr "Convertir"
 #: lclstrconsts.ifsvk_delete
 msgctxt "lclstrconsts.ifsvk_delete"
 msgid "Delete"
-msgstr ""
+msgstr "Borrar"
 
 #: lclstrconsts.ifsvk_down
 msgid "Down"
@@ -116,7 +118,7 @@ msgstr "Inicio"
 #: lclstrconsts.ifsvk_insert
 msgctxt "lclstrconsts.ifsvk_insert"
 msgid "Insert"
-msgstr ""
+msgstr "Insertar"
 
 #: lclstrconsts.ifsvk_junja
 msgid "Junja"
@@ -154,7 +156,7 @@ msgstr "Modo Cambio"
 #: lclstrconsts.ifsvk_next
 msgctxt "lclstrconsts.ifsvk_next"
 msgid "Next"
-msgstr ""
+msgstr "Siguiente"
 
 #: lclstrconsts.ifsvk_nonconvert
 msgid "Nonconvert"
@@ -179,7 +181,7 @@ msgstr "Imprimir"
 #: lclstrconsts.ifsvk_prior
 msgctxt "lclstrconsts.ifsvk_prior"
 msgid "Prior"
-msgstr ""
+msgstr "Anterior"
 
 #: lclstrconsts.ifsvk_rbutton
 msgid "Mouse Button Right"
@@ -280,7 +282,7 @@ msgstr "Bitmaps"
 
 #: lclstrconsts.rsblackcolorcaption
 msgid "Black"
-msgstr ""
+msgstr "Negro"
 
 #: lclstrconsts.rsblank
 msgid "Blank"
@@ -288,7 +290,7 @@ msgstr "Vacío"
 
 #: lclstrconsts.rsbluecolorcaption
 msgid "Blue"
-msgstr ""
+msgstr "Azul"
 
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
@@ -313,7 +315,7 @@ msgstr "Calculadora"
 #: lclstrconsts.rscancelrecordhint
 msgctxt "lclstrconsts.rscancelrecordhint"
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: lclstrconsts.rscannotfocus
 msgid "Can not focus"
@@ -345,11 +347,11 @@ msgstr ""
 
 #: lclstrconsts.rscustomcolorcaption
 msgid "Custom ..."
-msgstr ""
+msgstr "Personalizado ..."
 
 #: lclstrconsts.rsdefaultcolorcaption
 msgid "Default"
-msgstr ""
+msgstr "Predeterminado"
 
 #: lclstrconsts.rsdefaultfileinfovalue
 msgid "permissions user group size date time"
@@ -382,11 +384,11 @@ msgstr ""
 
 #: lclstrconsts.rseditrecordhint
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: lclstrconsts.rsentirescope
 msgid "Search entire file"
-msgstr ""
+msgstr "Buscar en todo el archivo"
 
 #: lclstrconsts.rserror
 msgctxt "lclstrconsts.rserror"
@@ -487,7 +489,7 @@ msgstr "Buscar más"
 
 #: lclstrconsts.rsfirstrecordhint
 msgid "First"
-msgstr ""
+msgstr "Primero"
 
 #: lclstrconsts.rsfixedcolstoobig
 msgid "FixedCols can't be >= ColCount"
@@ -499,7 +501,7 @@ msgstr "FixedRows no puede ser >= RowCount"
 
 #: lclstrconsts.rsformcolorcaption
 msgid "Form"
-msgstr ""
+msgstr "Formulario"
 
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
@@ -535,15 +537,15 @@ msgstr ""
 
 #: lclstrconsts.rsgraycolorcaption
 msgid "Gray"
-msgstr ""
+msgstr "Gris"
 
 #: lclstrconsts.rsgraytextcolorcaption
 msgid "Gray Text"
-msgstr ""
+msgstr "Texto Gris"
 
 #: lclstrconsts.rsgreencolorcaption
 msgid "Green"
-msgstr ""
+msgstr "Verde"
 
 #: lclstrconsts.rsgridfiledoesnotexists
 msgid "Grid file doesn't exists"
@@ -707,7 +709,7 @@ msgstr ""
 
 #: lclstrconsts.rsiconimageformatchange
 msgid "Cannot change format of icon image"
-msgstr ""
+msgstr "No se puede cambiar el formato del icono"
 
 #: lclstrconsts.rsiconimagesize
 msgid "Icon image must have the same size"
@@ -715,7 +717,7 @@ msgstr ""
 
 #: lclstrconsts.rsiconimagesizechange
 msgid "Cannot change size of icon image"
-msgstr ""
+msgstr "No se puede cambiar el tamaño del icono"
 
 #: lclstrconsts.rsiconnocurrent
 msgid "Icon has no current image"
@@ -786,11 +788,11 @@ msgstr "Joint Picture Expert Group"
 
 #: lclstrconsts.rslastrecordhint
 msgid "Last"
-msgstr ""
+msgstr "Ultimo"
 
 #: lclstrconsts.rslimecolorcaption
 msgid "Lime"
-msgstr ""
+msgstr "Lima"
 
 #: lclstrconsts.rslistindexexceedsbounds
 msgid "List index exceeds bounds (%d)"
@@ -802,7 +804,7 @@ msgstr "La lista debe estar vacía"
 
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
-msgstr ""
+msgstr "Marron"
 
 #: lclstrconsts.rsmbabort
 msgid "Abort"
@@ -843,7 +845,7 @@ msgstr "Aceptar"
 
 #: lclstrconsts.rsmbopen
 msgid "&Open"
-msgstr ""
+msgstr "Abrir"
 
 #: lclstrconsts.rsmbretry
 msgid "&Retry"
@@ -851,11 +853,11 @@ msgstr "&Reintentar"
 
 #: lclstrconsts.rsmbsave
 msgid "&Save"
-msgstr ""
+msgstr "Guardar"
 
 #: lclstrconsts.rsmbunlock
 msgid "&Unlock"
-msgstr ""
+msgstr "Desbloquear"
 
 #: lclstrconsts.rsmbyes
 msgid "&Yes"
@@ -896,7 +898,7 @@ msgstr ""
 
 #: lclstrconsts.rsmtauthentication
 msgid "Authentication"
-msgstr ""
+msgstr "Autenticación"
 
 #: lclstrconsts.rsmtconfirmation
 msgid "Confirmation"
@@ -930,7 +932,7 @@ msgstr "Siguiente"
 
 #: lclstrconsts.rsnonecolorcaption
 msgid "None"
-msgstr ""
+msgstr "Ninguno"
 
 #: lclstrconsts.rsnotavalidgridfile
 msgid "Not a valid grid file"
@@ -942,7 +944,7 @@ msgstr "No existe un objeto widgetset. Por favor, compruebe que la unidad \"inte
 
 #: lclstrconsts.rsolivecolorcaption
 msgid "Olive"
-msgstr ""
+msgstr "Oliva"
 
 #: lclstrconsts.rspickdate
 msgid "Select a date"
@@ -989,7 +991,7 @@ msgstr "La propiedad %s no existe"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
-msgstr ""
+msgstr "Purpura"
 
 #: lclstrconsts.rsrasterimageendupdate
 msgid "Endupdate while no update in progress"
@@ -997,7 +999,7 @@ msgstr ""
 
 #: lclstrconsts.rsrasterimagesaveinupdate
 msgid "Cannot save image while update in progress"
-msgstr ""
+msgstr "No se puede guardar la imagen mientras la actualizacion esta en progreso"
 
 #: lclstrconsts.rsrasterimageupdateall
 msgid "Cannot begin update all when canvas only update in progress"
@@ -1005,11 +1007,11 @@ msgstr ""
 
 #: lclstrconsts.rsredcolorcaption
 msgid "Red"
-msgstr ""
+msgstr "Rojo"
 
 #: lclstrconsts.rsrefreshrecordshint
 msgid "Refresh"
-msgstr ""
+msgstr "Refrescar"
 
 #: lclstrconsts.rsreplace
 msgid "Replace"
@@ -1042,7 +1044,7 @@ msgstr "Escoja una fuente"
 
 #: lclstrconsts.rssilvercolorcaption
 msgid "Silver"
-msgstr ""
+msgstr "Plateado"
 
 #: lclstrconsts.rssize
 msgid "  size "
@@ -1062,7 +1064,7 @@ msgstr "Texto"
 
 #: lclstrconsts.rsunabletoloaddefaultfont
 msgid "Unable to load default font"
-msgstr "No se ha podido cargar la fuente por defecto"
+msgstr "No se ha podido cargar la fuente predeterminada"
 
 #: lclstrconsts.rsunknownerrorpleasereportthisbug
 msgid "Unknown Error, please report this bug"
@@ -1102,7 +1104,7 @@ msgstr " ADVERTENCIA: Hay %s mensajes de enlaces LM_PAINT/LM_GtkPAINT sin elimin
 
 #: lclstrconsts.rswhitecolorcaption
 msgid "White"
-msgstr ""
+msgstr "Blanco"
 
 #: lclstrconsts.rswholewordsonly
 msgid "Whole words only"
@@ -1118,7 +1120,7 @@ msgstr "Advertencia:"
 
 #: lclstrconsts.rswindowcolorcaption
 msgid "Window"
-msgstr ""
+msgstr "Ventana"
 
 #: lclstrconsts.rswindowframecolorcaption
 msgid "Window Frame"
@@ -1130,7 +1132,7 @@ msgstr ""
 
 #: lclstrconsts.rsyellowcolorcaption
 msgid "Yellow"
-msgstr ""
+msgstr "Amarillo"
 
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
@@ -1194,11 +1196,11 @@ msgstr ""
 
 #: lclstrconsts.sparinvalidfloat
 msgid "Invalid floating point number: %s"
-msgstr ""
+msgstr "Número de coma flotante no válido : %s"
 
 #: lclstrconsts.sparinvalidinteger
 msgid "Invalid integer number: %s"
-msgstr ""
+msgstr "Número entero no válido: %s"
 
 #: lclstrconsts.sparlocinfo
 msgid " (at %d,%d, stream offset %.8x)"

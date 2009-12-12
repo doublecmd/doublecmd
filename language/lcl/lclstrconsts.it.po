@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
-"PO-Revision-Date: 2005-06-01 22:09+0200\n"
+"Last-Translator: Pietro Bua <BPsoftw@hotmail.com>\n"
+"PO-Revision-Date: 2009-11-29 13:59+0200\n"
 "Language-Team: italiano <tp@lists.linux.it>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -59,7 +59,7 @@ msgstr "Backspace"
 #: lclstrconsts.ifsvk_cancel
 msgctxt "lclstrconsts.ifsvk_cancel"
 msgid "Cancel"
-msgstr ""
+msgstr "Cancella"
 
 #: lclstrconsts.ifsvk_capital
 msgid "Capital"
@@ -80,7 +80,7 @@ msgstr "Converti"
 #: lclstrconsts.ifsvk_delete
 msgctxt "lclstrconsts.ifsvk_delete"
 msgid "Delete"
-msgstr ""
+msgstr "Elimina"
 
 #: lclstrconsts.ifsvk_down
 msgid "Down"
@@ -117,7 +117,7 @@ msgstr "Home"
 #: lclstrconsts.ifsvk_insert
 msgctxt "lclstrconsts.ifsvk_insert"
 msgid "Insert"
-msgstr ""
+msgstr "Inserisci"
 
 #: lclstrconsts.ifsvk_junja
 msgid "Junja"
@@ -155,7 +155,7 @@ msgstr "Cambiamento di modalità"
 #: lclstrconsts.ifsvk_next
 msgctxt "lclstrconsts.ifsvk_next"
 msgid "Next"
-msgstr ""
+msgstr "Successivo"
 
 #: lclstrconsts.ifsvk_nonconvert
 msgid "Nonconvert"
@@ -180,7 +180,7 @@ msgstr "Stampa"
 #: lclstrconsts.ifsvk_prior
 msgctxt "lclstrconsts.ifsvk_prior"
 msgid "Prior"
-msgstr ""
+msgstr "Precedente"
 
 #: lclstrconsts.ifsvk_rbutton
 msgid "Mouse Button Right"
@@ -241,7 +241,7 @@ msgstr ""
 
 #: lclstrconsts.rs3dlightcolorcaption
 msgid "3D Light"
-msgstr ""
+msgstr "Luce 3D"
 
 #: lclstrconsts.rsacontrolcannothaveitselfasparent
 msgid "A control can't have itself as parent"
@@ -249,7 +249,7 @@ msgstr "Un controllo non può avere sè stesso come genitore"
 
 #: lclstrconsts.rsactivebordercolorcaption
 msgid "Active Border"
-msgstr ""
+msgstr "Bordo attivo"
 
 #: lclstrconsts.rsactivecaptioncolorcaption
 msgid "Active Caption"
@@ -265,11 +265,11 @@ msgstr ""
 
 #: lclstrconsts.rsaquacolorcaption
 msgid "Aqua"
-msgstr ""
+msgstr "Acqua"
 
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
-msgstr ""
+msgstr "Scrivania"
 
 #: lclstrconsts.rsbackward
 msgid "Backward"
@@ -281,7 +281,7 @@ msgstr "Bitmap"
 
 #: lclstrconsts.rsblackcolorcaption
 msgid "Black"
-msgstr ""
+msgstr "Nero"
 
 #: lclstrconsts.rsblank
 msgid "Blank"
@@ -289,11 +289,11 @@ msgstr "Vuoto"
 
 #: lclstrconsts.rsbluecolorcaption
 msgid "Blue"
-msgstr ""
+msgstr "Blu"
 
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
-msgstr ""
+msgstr "Superfice pulsante"
 
 #: lclstrconsts.rsbtnhighlightcolorcaption
 msgid "Button Highlight"
@@ -301,11 +301,11 @@ msgstr ""
 
 #: lclstrconsts.rsbtnshadowcolorcaption
 msgid "Button Shadow"
-msgstr ""
+msgstr "Ombra pulsante"
 
 #: lclstrconsts.rsbtntextcolorcaption
 msgid "Button Text"
-msgstr ""
+msgstr "Testo pulsante"
 
 #: lclstrconsts.rscalculator
 msgid "Calculator"
@@ -314,7 +314,7 @@ msgstr "Calcolatore"
 #: lclstrconsts.rscancelrecordhint
 msgctxt "lclstrconsts.rscancelrecordhint"
 msgid "Cancel"
-msgstr ""
+msgstr "Cancella"
 
 #: lclstrconsts.rscannotfocus
 msgid "Can not focus"
@@ -326,7 +326,7 @@ msgstr "Le tele non permettono il disegno"
 
 #: lclstrconsts.rscaptiontextcolorcaption
 msgid "Caption Text"
-msgstr ""
+msgstr "Testo caption"
 
 #: lclstrconsts.rscasesensitive
 msgid "Case sensitive"
@@ -334,7 +334,7 @@ msgstr "Differenzia maiuscolo e minuscolo"
 
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
-msgstr ""
+msgstr "Crema"
 
 #: lclstrconsts.rscreatinggdbcatchableerror
 msgid "Creating gdb catchable error:"
@@ -342,15 +342,15 @@ msgstr "Creazione errore intercettabile gdb:"
 
 #: lclstrconsts.rscursor
 msgid "Cursor"
-msgstr ""
+msgstr "cursore"
 
 #: lclstrconsts.rscustomcolorcaption
 msgid "Custom ..."
-msgstr ""
+msgstr "Personalizzato ..."
 
 #: lclstrconsts.rsdefaultcolorcaption
 msgid "Default"
-msgstr ""
+msgstr "Standard"
 
 #: lclstrconsts.rsdefaultfileinfovalue
 msgid "permissions user group size date time"
@@ -358,7 +358,7 @@ msgstr "permessi utente gruppo ampiezza data ora"
 
 #: lclstrconsts.rsdeleterecord
 msgid "Delete record?"
-msgstr ""
+msgstr "Eliminare un record?"
 
 #: lclstrconsts.rsdeleterecordhint
 msgctxt "lclstrconsts.rsdeleterecordhint"
@@ -379,20 +379,20 @@ msgstr "Aggancia"
 
 #: lclstrconsts.rsduplicateiconformat
 msgid "Duplicate icon format."
-msgstr ""
+msgstr "Formato icona duplice."
 
 #: lclstrconsts.rseditrecordhint
 msgid "Edit"
-msgstr ""
+msgstr "Modifica"
 
 #: lclstrconsts.rsentirescope
 msgid "Search entire file"
-msgstr ""
+msgstr "Ricerca il file interamente"
 
 #: lclstrconsts.rserror
 msgctxt "lclstrconsts.rserror"
 msgid "Error"
-msgstr ""
+msgstr "Errpre"
 
 #: lclstrconsts.rserrorcreatingdevicecontext
 msgid "Error creating device context for %s.%s"
@@ -488,7 +488,7 @@ msgstr "Trova successivo"
 
 #: lclstrconsts.rsfirstrecordhint
 msgid "First"
-msgstr ""
+msgstr "Primo"
 
 #: lclstrconsts.rsfixedcolstoobig
 msgid "FixedCols can't be >= ColCount"
@@ -500,7 +500,7 @@ msgstr "FixedRows non può essere >= RowCount"
 
 #: lclstrconsts.rsformcolorcaption
 msgid "Form"
-msgstr ""
+msgstr "Form"
 
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
@@ -512,7 +512,7 @@ msgstr "Avanti"
 
 #: lclstrconsts.rsfuchsiacolorcaption
 msgid "Fuchsia"
-msgstr ""
+msgstr "Fucsia"
 
 #: lclstrconsts.rsgdkoptiondebug
 msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
@@ -528,23 +528,23 @@ msgstr "--g-fatal-warnings    Avvertimenti ed errori generati da Gtk/GDK blocche
 
 #: lclstrconsts.rsgradientactivecaptioncolorcaption
 msgid "Gradient Active Caption"
-msgstr ""
+msgstr "Caption con gradient attiva"
 
 #: lclstrconsts.rsgradientinactivecaptioncolorcaption
 msgid "Gradient Inactive Caption"
-msgstr ""
+msgstr "Caption con gradient disattiva"
 
 #: lclstrconsts.rsgraycolorcaption
 msgid "Gray"
-msgstr ""
+msgstr "Grigio"
 
 #: lclstrconsts.rsgraytextcolorcaption
 msgid "Gray Text"
-msgstr ""
+msgstr "testo grigio"
 
 #: lclstrconsts.rsgreencolorcaption
 msgid "Green"
-msgstr ""
+msgstr "Verde"
 
 #: lclstrconsts.rsgridfiledoesnotexists
 msgid "Grid file doesn't exists"
@@ -584,7 +584,7 @@ msgstr "--gtk-module-module   Carica il modulo specificato alla partenza."
 
 #: lclstrconsts.rsgtkoptionname
 msgid "--name programe       Set program name to \"progname\". If not specified, program name will be set to ParamStrUTF8(0)."
-msgstr ""
+msgstr "--name programe       Imposta il nome del programma a \"progname\". Se non specificato, il nome del programma sar� impostato a ParamStrUTF8(0)."
 
 #: lclstrconsts.rsgtkoptionnodebug
 msgid "--gtk-no-debug flags  Turn off specific Gtk+ trace/debug messages."
@@ -700,41 +700,41 @@ msgstr "Icona"
 
 #: lclstrconsts.rsiconimageempty
 msgid "Icon image cannot be empty"
-msgstr ""
+msgstr "L'immagine dell'icona non pu� essere vuota"
 
 #: lclstrconsts.rsiconimageformat
 msgid "Icon image must have the same format"
-msgstr ""
+msgstr "L'immagine dell'icona deve avere lo stesso formato"
 
 #: lclstrconsts.rsiconimageformatchange
 msgid "Cannot change format of icon image"
-msgstr ""
+msgstr "Impossibile cambiare il formato dell'immagine dell'icona"
 
 #: lclstrconsts.rsiconimagesize
 msgid "Icon image must have the same size"
-msgstr ""
+msgstr "L'immaigne dell'icona deve avere le stesse dimensioni"
 
 #: lclstrconsts.rsiconimagesizechange
 msgid "Cannot change size of icon image"
-msgstr ""
+msgstr "Impossibile cambiare il formato dell'immagine dell'icona"
 
 #: lclstrconsts.rsiconnocurrent
 msgid "Icon has no current image"
-msgstr ""
+msgstr "L'icona non ha nessuna immagine corrente"
 
 #: lclstrconsts.rsinactivebordercolorcaption
 msgid "Inactive Border"
-msgstr ""
+msgstr "Bordo inattivo"
 
 #: lclstrconsts.rsinactivecaptioncolorcaption
 msgctxt "lclstrconsts.rsinactivecaptioncolorcaption"
 msgid "Inactive Caption"
-msgstr ""
+msgstr "Caption inattiva"
 
 #: lclstrconsts.rsinactivecaptiontext
 msgctxt "lclstrconsts.rsinactivecaptiontext"
 msgid "Inactive Caption"
-msgstr ""
+msgstr "Caption inattiva"
 
 #: lclstrconsts.rsindexoutofbounds
 msgid "%s Index %d out of bounds 0 .. %d"
@@ -746,11 +746,11 @@ msgstr "Indice fuori dall'ampiezza massima Cell[Col=%d Row=%d]"
 
 #: lclstrconsts.rsinfobkcolorcaption
 msgid "Info Background"
-msgstr ""
+msgstr "Informazioni sfondo"
 
 #: lclstrconsts.rsinfotextcolorcaption
 msgid "Info Text"
-msgstr ""
+msgstr "Informazioni testo"
 
 #: lclstrconsts.rsinsertrecordhint
 msgctxt "lclstrconsts.rsinsertrecordhint"
@@ -787,7 +787,7 @@ msgstr ""
 
 #: lclstrconsts.rslastrecordhint
 msgid "Last"
-msgstr ""
+msgstr "Ultimo"
 
 #: lclstrconsts.rslimecolorcaption
 msgid "Lime"
@@ -844,7 +844,7 @@ msgstr "&OK"
 
 #: lclstrconsts.rsmbopen
 msgid "&Open"
-msgstr ""
+msgstr "&Apri"
 
 #: lclstrconsts.rsmbretry
 msgid "&Retry"
@@ -852,11 +852,11 @@ msgstr "&Riprova"
 
 #: lclstrconsts.rsmbsave
 msgid "&Save"
-msgstr ""
+msgstr "&Salva"
 
 #: lclstrconsts.rsmbunlock
 msgid "&Unlock"
-msgstr ""
+msgstr "&Sblocca"
 
 #: lclstrconsts.rsmbyes
 msgid "&Yes"
@@ -897,7 +897,7 @@ msgstr ""
 
 #: lclstrconsts.rsmtauthentication
 msgid "Authentication"
-msgstr ""
+msgstr "Autenticazione"
 
 #: lclstrconsts.rsmtconfirmation
 msgid "Confirmation"
@@ -931,7 +931,7 @@ msgstr "Successivo"
 
 #: lclstrconsts.rsnonecolorcaption
 msgid "None"
-msgstr ""
+msgstr "Niente"
 
 #: lclstrconsts.rsnotavalidgridfile
 msgid "Not a valid grid file"
@@ -990,7 +990,7 @@ msgstr "La proprietà %s non esiste"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
-msgstr ""
+msgstr "Viola"
 
 #: lclstrconsts.rsrasterimageendupdate
 msgid "Endupdate while no update in progress"
@@ -1006,11 +1006,11 @@ msgstr ""
 
 #: lclstrconsts.rsredcolorcaption
 msgid "Red"
-msgstr ""
+msgstr "Rosso"
 
 #: lclstrconsts.rsrefreshrecordshint
 msgid "Refresh"
-msgstr ""
+msgstr "Aggiorna"
 
 #: lclstrconsts.rsreplace
 msgid "Replace"
@@ -1043,7 +1043,7 @@ msgstr "Selezionare un font"
 
 #: lclstrconsts.rssilvercolorcaption
 msgid "Silver"
-msgstr ""
+msgstr "Argento"
 
 #: lclstrconsts.rssize
 msgid "  size "
@@ -1103,7 +1103,7 @@ msgstr "Attenzione: esistono ancora %s collegamenti a messaggi LM_GtkPAINT."
 
 #: lclstrconsts.rswhitecolorcaption
 msgid "White"
-msgstr ""
+msgstr "Bianco"
 
 #: lclstrconsts.rswholewordsonly
 msgid "Whole words only"
@@ -1119,19 +1119,19 @@ msgstr "Attenzione:"
 
 #: lclstrconsts.rswindowcolorcaption
 msgid "Window"
-msgstr ""
+msgstr "Finestra"
 
 #: lclstrconsts.rswindowframecolorcaption
 msgid "Window Frame"
-msgstr ""
+msgstr "Frame della finestra"
 
 #: lclstrconsts.rswindowtextcolorcaption
 msgid "Window Text"
-msgstr ""
+msgstr "Testo della finestra"
 
 #: lclstrconsts.rsyellowcolorcaption
 msgid "Yellow"
-msgstr ""
+msgstr "Giallo"
 
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
@@ -1211,7 +1211,7 @@ msgstr ""
 
 #: lclstrconsts.sparunterminatedstring
 msgid "Unterminated string"
-msgstr ""
+msgstr "String non determinata"
 
 #: lclstrconsts.sparwrongtokensymbol
 msgid "Wrong token symbol: %s expected but %s found"
