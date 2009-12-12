@@ -270,9 +270,9 @@ var
   ListRec: PListRec;
 begin
   Result := False;
-
   ListRec := PListRec(Pointer(Hdl));
 
+  FillChar(FindData, SizeOf(FindData), #0);
   if ListRec^.Handle <> INVALID_HANDLE_VALUE then
     Result := FindNextFile(ListRec^.Handle, FindData)
   else if Assigned(ListRec^.List) and (ListRec^.Index < ListRec^.List.Count - 1) then
