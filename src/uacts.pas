@@ -1375,10 +1375,10 @@ begin
       Exit;
     end;
 
-    if ((gUseTrash = True) and ((param = '') or (param = 'recyclesetting'))) or
+    if (((gUseTrash = True) and ((param = '') or (param = 'recyclesetting'))) or
        ((gUseTrash = False) and (param = 'recyclesettingrev')) or
        (param = 'recycle') and
-       FileSource.IsClass(TFileSystemFileSource) and
+       FileSource.IsClass(TFileSystemFileSource)) and
        mbCheckTrash(CurrentPath) then
     begin
       bRecycle := True;

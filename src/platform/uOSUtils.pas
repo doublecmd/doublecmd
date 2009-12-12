@@ -1616,6 +1616,7 @@ var
   ValueSize: LongInt;
 begin
   Result:= False;
+  if not mbDirectoryExists(sPath) then Exit;
   ValueSize:= SizeOf(DWORD);
   if RegOpenKeyExW(HKEY_LOCAL_MACHINE, PWideChar(wsRoot), 0, KEY_READ, Key) = ERROR_SUCCESS then
     begin
