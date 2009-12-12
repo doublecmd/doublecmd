@@ -124,6 +124,10 @@ var
   gDateTimeFormat : String;
   
   gDriveBlackList: String;
+
+  gListFilesInThread: Boolean = False;
+  gLoadIconsSeparately: Boolean = False;
+
   
   { Tools page }
 
@@ -544,6 +548,9 @@ begin
   gDriveBlackList:= gIni.ReadString('Configuration', 'DriveBlackList', '');
   gSpaceMovesDown := gIni.ReadBool('Configuration', 'SpaceMovesDown', False);
 
+  gListFilesInThread := gIni.ReadBool('Configuration', 'ListFilesInThread', gListFilesInThread);
+  gLoadIconsSeparately := gIni.ReadBool('Configuration', 'LoadIconsSeparately', gLoadIconsSeparately);
+
   gMouseSelectionEnabled:= gIni.ReadBool('Configuration', 'MouseSelectionEnabled', True);
   gMouseSelectionButton := gIni.ReadInteger('Configuration', 'MouseSelectionButton', 0);
 
@@ -777,6 +784,9 @@ begin
   gIni.WriteString('Configuration', 'DriveBlackList', gDriveBlackList);
   gIni.WriteBool('Configuration', 'SpaceMovesDown', gSpaceMovesDown);
   
+  gIni.WriteBool('Configuration', 'ListFilesInThread', gListFilesInThread);
+  gIni.WriteBool('Configuration', 'LoadIconsSeparately', gLoadIconsSeparately);
+
   gIni.WriteBool('Configuration', 'MouseSelectionEnabled', gMouseSelectionEnabled);
   gIni.WriteInteger('Configuration', 'MouseSelectionButton', gMouseSelectionButton);
 

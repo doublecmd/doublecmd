@@ -11,10 +11,14 @@ uses
   uFile,
   uFileView,
   uFileSource,
+  uFileSourceListOperation,
   uColumnsFileViewFiles,
   uColumns,
-  uFileSorting
+  uFileSorting,
+  uFunctionThread
   ;
+
+//{$DEFINE timeFileView}
 
 type
 
@@ -37,6 +41,8 @@ type
   end;
 
   PFileListSorting = ^TFileListSorting;
+
+  TRetrievingFilesState = (rfsNone, rfsLoadingFiles, rfsLoadingIcons);
 
   TColumnsFileView = class;
 
@@ -153,6 +159,9 @@ type
   private
     FFiles: TColumnsViewFiles;  //<en List of displayed files
     FFileSourceFiles: TFiles;   //<en List of files from file source
+    FRetrievingFiles: TRetrievingFilesState;  //<en Current state of retrieving files.
+    FListFilesThread: TFunctionThread;
+    FListOperation: TFileSourceListOperation;
 
     FActive: Boolean;           //<en Is this view active
     FLastActive: String;        //<en Last active file
@@ -209,6 +218,43 @@ type
     procedure MarkAllFiles(bMarked: Boolean);
     procedure InvertFileSelection(AFile: TColumnsViewFile);
     procedure MarkGroup(const sMask: String; bSelect: Boolean);
+
+    {en
+       Retrieves file list from file source into FFileSourceFiles.
+       Either runs directly or starts a new thread.
+    }
+    procedure MakeFileSourceFileList;
+    {en
+       Does the actual work for MakeFileSourceFileList.
+       It may be run from a worker thread so it cannot access GUI directly.
+    }
+    procedure DoMakeFileSourceFileList;
+    {en
+       Executes those parts of making file source file list
+       that must be run from GUI thread.
+    }
+    procedure DoMakeFileSourceFileListGui;
+
+    {en
+       Fills FFiles with files from FFileSourceFiles.
+       Filters out any files that shouldn't be shown.
+       It may be run from a worker thread so it cannot access GUI directly.
+    }
+    procedure MakeDisplayFileList;
+    {en
+       Updates GUI after the display file list has changed.
+    }
+    procedure DisplayFileListHasChanged;
+    {en
+       Makes a new display file list and redisplays the changed list.
+    }
+    procedure ReDisplayFileList;
+    {en
+       Load icon of each file from display file list.
+       It may be run from a thread.
+    }
+    procedure LoadFilesIcons;
+    procedure UpdateIcon(Data: Pointer);
 
     {en
        Sorts files in file source file list (FFileSourceFiles).
@@ -282,7 +328,6 @@ type
 
     procedure UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
 
-
     property FileFilter: String read FFileFilter write SetFileFilter;
 
   protected
@@ -308,16 +353,6 @@ type
 
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
     procedure RemoveLastFileSource; override;
-
-    {en
-       Retrieves file list from file source into FFileSourceFiles.
-    }
-    procedure MakeFileSourceFileList;
-    {en
-       Fills FFiles with files from FFileSourceFiles
-       (filtered and sorted already?).
-    }
-    procedure MakeDisplayFileList;
 
     procedure Reload(const PathsToReload: TPathsArray = nil); override;
 
@@ -404,12 +439,18 @@ uses
   uFileSystemFileSource,
   fColumnsSetConf,
   uKeyboard,
-  uFileSourceUtil
+  uFileSourceUtil,
+  uGuiMessageQueue
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   , GtkProc  // for ReleaseMouseCapture
   , GTKGlobals  // for DblClickTime
 {$ENDIF}
   ;
+
+{$IFDEF timeFileView}
+var
+  startTime: TDateTime;
+{$ENDIF}
 
 function TColumnsFileView.Focused: Boolean;
 begin
@@ -932,9 +973,9 @@ begin
   end;
 
   FSorting.AddSorting(Index, SortingDirection);
+  Sort;
 
-  MakeDisplayFileList;
-  RedrawGrid;
+  ReDisplayFileList;
 end;
 
 procedure TColumnsFileView.dgPanelMouseWheelUp(Sender: TObject;
@@ -1202,8 +1243,8 @@ begin
     FSorting.Clear;
     FSorting.AddSorting(iColumn, FSortDirection);
     FSortColumn := iColumn;
-    MakeDisplayFileList; // sorted here
-    RedrawGrid;
+    Sort;
+    ReDisplayFileList;
   end;
 end;
 
@@ -1224,7 +1265,9 @@ var
 begin
   ColumnsClass := GetColumnsClass;
 
-  if (FFileSourceFiles.Count = 0) or (ColumnsClass.ColumnsCount = 0) then Exit;
+  if (not Assigned(FFileSourceFiles)) or
+     (FFileSourceFiles.Count = 0) or
+     (ColumnsClass.ColumnsCount = 0) then Exit;
 
   TempSorting := TFileListSorting.Create;
 
@@ -1334,7 +1377,7 @@ end;
 procedure TColumnsFileView.SetFileFilter(NewFilter: String);
 begin
   FFileFilter := NewFilter;
-  MakeDisplayFileList;
+  ReDisplayFileList;
 end;
 
 procedure TColumnsFileView.edtPathExit(Sender: TObject);
@@ -1772,7 +1815,7 @@ procedure TColumnsFileView.SetActiveFile(const aFileName: String);
 var
   i: Integer;
 begin
-  LastActive := '';
+  LastActive := aFileName;// '';
   if aFileName <> '' then // find correct cursor position in Panel (drawgrid)
   begin
     for i := 0 to FFiles.Count - 1 do
@@ -2238,6 +2281,9 @@ begin
 
   FFiles := nil;
   FFileSourceFiles := nil;
+  FRetrievingFiles := rfsNone;
+  FListFilesThread := nil;
+  FListOperation := nil;
 
   ActiveColmSlave := nil;
   isSlave := False;
@@ -2391,14 +2437,25 @@ begin
     FSorting := TFileListSorting.Create;
     FSorting.AddSorting(FSortColumn, FSortDirection);
 
-    MakeFileSourceFileList;
-  end;
+    // Update view before making file source file list,
+    // so that file list isn't unnecessarily displayed twice.
+    UpdateView;
 
-  UpdateView;
+    MakeFileSourceFileList;
+  end
+  else
+    UpdateView;
 end;
 
 destructor TColumnsFileView.Destroy;
 begin
+  if Assigned(FListFilesThread) then
+  begin
+    FListFilesThread.Finish;
+    FListFilesThread.WaitFor;
+    FListFilesThread := nil;
+  end;
+
   if Assigned(FFiles) then
     FreeAndNil(FFiles);
   if Assigned(FFileSourceFiles) then
@@ -2449,12 +2506,6 @@ begin
 
       // All the visual controls don't need cloning.
 
-      // Update row count because we set display files list.
-      dgPanel.RowCount := FFiles.Count
-                        + dgPanel.FixedRows; // header rows
-
-      SetActiveFile(FLastActive);
-      UpDatelblInfo;
       UpdateView;
     end;
   end;
@@ -2492,34 +2543,136 @@ begin
 end;
 
 procedure TColumnsFileView.MakeFileSourceFileList;
-var
-  AFile: TFileSystemFile;
 begin
-  if Assigned(FFileSourceFiles) then
+  {$IFDEF timeFileView}
+  startTime := Now;
+  DebugLn('---- Start ----');
+  {$ENDIF}
+
+  if gListFilesInThread then
   begin
-    FFiles.Clear; // Clear references to files from the source.
-    FreeAndNil(FFileSourceFiles);
+    if FRetrievingFiles = rfsNone then
+    begin
+      if not Assigned(FListFilesThread) then
+        FListFilesThread := TFunctionThread.Create(False);
+
+      FRetrievingFiles := rfsLoadingFiles;
+
+      if Assigned(FFileSourceFiles) then
+      begin
+        FFiles.Clear; // Clear references to files from the source.
+        FreeAndNil(FFileSourceFiles);
+      end;
+
+      dgPanel.Cursor := crHourGlass;
+
+      // Clear grid.
+      dgPanel.RowCount := dgPanel.FixedRows;
+      UpDatelblInfo;
+
+      FListFilesThread.AssignFunction(@DoMakeFileSourceFileList);
+    end;
+  end
+  else
+  begin
+    if Assigned(FFileSourceFiles) then
+    begin
+      FFiles.Clear; // Clear references to files from the source.
+      FreeAndNil(FFileSourceFiles);
+    end;
+
+    DoMakeFileSourceFileList;
+  end;
+end;
+
+procedure TColumnsFileView.DoMakeFileSourceFileList;
+var
+  AFile: TFile;
+begin
+  if fsoList in FileSource.GetOperationsTypes then
+  begin
+    FListOperation := FileSource.CreateListOperation(CurrentPath) as TFileSourceListOperation;
+    if Assigned(FListOperation) then
+      try
+        FListOperation.AssignThread(FListFilesThread);
+        FListOperation.Execute;
+        FFileSourceFiles := FListOperation.ReleaseFiles;
+      finally
+        FreeAndNil(FListOperation);
+      end;
   end;
 
-  FFileSourceFiles := FileSource.GetFiles(CurrentPath);
+  {$IFDEF timeFileView}
+  DebugLn('Loaded files   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+  {$ENDIF}
 
   if Assigned(FFileSourceFiles) then
   begin
+    Sort;
+
     // Add '..' to go to higher level file source, if there is more than one.
     if (FileSourcesCount > 1) and (FileSource.IsPathAtRoot(CurrentPath)) then
     begin
-      AFile := TFileSystemFile.Create; // Should be appropriate class type
+      AFile := FFileSourceFiles.CreateFileObject;
       AFile.Path := CurrentPath;
       AFile.Name := '..';
-      AFile.Attributes := faFolder;
-      FFileSourceFiles.Add(AFile);
+      if fpAttributes in AFile.SupportedProperties then
+        (AFile.Properties[fpAttributes] as TFileAttributesProperty).Value := faFolder;
+      FFileSourceFiles.Insert(AFile, 0);
     end;
   end;
+
+  {$IFDEF timeFileView}
+  DebugLn('Sorted files   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+  {$ENDIF}
 
   // Make display file list from file source file list.
   MakeDisplayFileList;
 
-  RedrawGrid;
+  {$IFDEF timeFileView}
+  DebugLn('Made disp. list: ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+  {$ENDIF}
+
+  if gListFilesInThread then
+  begin
+    // Loading file list is complete. Now will load icons.
+    if gLoadIconsSeparately then
+      FRetrievingFiles := rfsLoadingIcons
+    else
+      FRetrievingFiles := rfsNone;
+
+    // Update grid with the file list.
+    TThread.Synchronize(FListFilesThread, @DoMakeFileSourceFileListGui);
+
+    {$IFDEF timeFileView}
+    DebugLn('Grid redrawn   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+    {$ENDIF}
+
+    if gLoadIconsSeparately then
+    begin
+      LoadFilesIcons;
+      FRetrievingFiles := rfsNone;
+      {$IFDEF timeFileView}
+      DebugLn('Loaded icons   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+      {$ENDIF}
+    end;
+  end
+  else
+  begin
+    DisplayFileListHasChanged;
+    RedrawGrid;
+  end;
+
+  {$IFDEF timeFileView}
+  DebugLn('Finished       : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+  {$ENDIF}
+end;
+
+procedure TColumnsFileView.DoMakeFileSourceFileListGui;
+begin
+  DisplayFileListHasChanged;
+  //RedrawGrid;
+  dgPanel.Cursor := crDefault;
 end;
 
 procedure TColumnsFileView.MakeDisplayFileList;
@@ -2528,13 +2681,12 @@ var
   i: Integer;
   invalidFilter: Boolean = False;
   localFilter: String;
+  bLoadIcons: Boolean;
 begin
   FFiles.Clear;
 
   if Assigned(FFileSourceFiles) then
   begin
-    Sort;
-
     // Prepare filter string based on options.
     if FileFilter <> EmptyStr then
     begin
@@ -2544,6 +2696,9 @@ begin
       if not gQuickSearchMatchEnding then
         localFilter := localFilter + '*';
     end;
+
+    bLoadIcons := (not gListFilesInThread) or
+                  ((not gLoadIconsSeparately) and (gShowIcons <> sim_none));
 
     for i := 0 to FFileSourceFiles.Count - 1 do
     begin
@@ -2575,18 +2730,56 @@ begin
       end;
 
       AFile := TColumnsViewFile.Create(FFileSourceFiles[i]);
-      if (gShowIcons <> sim_none) then
+      if bLoadIcons then
         AFile.IconID := PixMapManager.GetIconByFile(AFile.TheFile,
                                                     fspDirectAccess in FileSource.Properties);
       FFiles.Add(AFile);
     end;
   end;
+end;
 
-  // Update row count.
+procedure TColumnsFileView.DisplayFileListHasChanged;
+begin
+  // Update grid row count.
   dgPanel.RowCount := FFiles.Count
                     + dgPanel.FixedRows; // header rows
 
+  SetActiveFile(LastActive);
   UpDatelblInfo;
+end;
+
+procedure TColumnsFileView.ReDisplayFileList;
+begin
+  MakeDisplayFileList;
+  DisplayFileListHasChanged;
+  if gListFilesInThread and gLoadIconsSeparately then
+    // TODO: Do this via separate thread.
+    LoadFilesIcons;
+  //RedrawGrid;
+end;
+
+procedure TColumnsFileView.LoadFilesIcons;
+var
+  i: Integer;
+begin
+  if gShowIcons <> sim_none then
+    for i := 0 to FFiles.Count - 1 do
+    begin
+      FFiles[i].IconID := PixMapManager.GetIconByFile(FFiles[i].TheFile,
+                                                      fspDirectAccess in FileSource.Properties);
+
+      // Redraw column with the icon.
+
+      // This condition appears to be safe to run from worker thread.
+      if dgPanel.IscellVisible(0, i + dgPanel.FixedRows) then
+        // This must be done from GUI thread.
+        GuiMessageQueue.QueueMethod(@UpdateIcon, Pointer(PtrInt(i)));
+    end;
+end;
+
+procedure TColumnsFileView.UpdateIcon(Data: Pointer);
+begin
+  dgPanel.InvalidateCell(0, Integer(PtrInt(Data)) + dgPanel.FixedRows);
 end;
 
 procedure TColumnsFileView.Reload(const PathsToReload: TPathsArray);
@@ -2611,8 +2804,7 @@ begin
 
   MakeFileSourceFileList;
 
-  if LastActive <> '' then
-    SetActiveFile(LastActive);
+  SetActiveFile(LastActive);
 
   if Assigned(OnReload) then
     OnReload(Self);
@@ -2630,10 +2822,8 @@ begin
   dgPanel.UpdateView;
   UpdateColumnsView;
 
-  if Assigned(FFiles) then
-  begin
-    MakeDisplayFileList;
-  end;
+  if Assigned(FFiles) then  // This condition is needed when cloning.
+    ReDisplayFileList;
 end;
 
 function TColumnsFileView.GetActiveItem: TColumnsViewFile;
@@ -3276,6 +3466,10 @@ begin
   if gdFixed in aState then
   begin
     DrawFixed  // Draw column headers
+  end
+  else if Panel.FRetrievingFiles = rfsLoadingFiles then
+  begin
+    Exit
   end
   else if Panel.FFiles.Count > 0 then
   begin

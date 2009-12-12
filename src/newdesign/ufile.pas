@@ -135,6 +135,10 @@ type
        Creates a new object of the same type.
     }
     function CreateObjectOfSameType: TFiles; virtual;
+    {en
+       Creates a file object of appropriate type.
+    }
+    function CreateFileObject: TFile; virtual;
 
     {en
        Create a list with cloned files.
@@ -143,6 +147,7 @@ type
     procedure CloneTo(Files: TFiles); virtual;
 
     function Add(AFile: TFile): Integer;
+    procedure Insert(AFile: TFile; AtIndex: Integer);
     procedure Clear;
 
     property Count: Integer read GetCount write SetCount;
@@ -462,6 +467,11 @@ begin
   Result := TFiles.Create;
 end;
 
+function TFiles.CreateFileObject: TFile;
+begin
+  Result := TFile.Create;
+end;
+
 function TFiles.Clone: TFiles;
 begin
   Result := TFiles.Create;
@@ -493,6 +503,11 @@ end;
 function TFiles.Add(AFile: TFile): Integer;
 begin
   Result := FList.Add(AFile);
+end;
+
+procedure TFiles.Insert(AFile: TFile; AtIndex: Integer);
+begin
+  FList.Insert(AtIndex, AFile);
 end;
 
 procedure TFiles.Clear;

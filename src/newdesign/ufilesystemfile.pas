@@ -62,6 +62,7 @@ type
 
   public
     function CreateObjectOfSameType: TFiles; override;
+    function CreateFileObject: TFile; override;
     function Clone: TFileSystemFiles; override;
 
     {en
@@ -291,6 +292,11 @@ end;
 function TFileSystemFiles.CreateObjectOfSameType: TFiles;
 begin
   Result := TFileSystemFiles.Create;
+end;
+
+function TFileSystemFiles.CreateFileObject: TFile;
+begin
+  Result := TFileSystemFile.Create;
 end;
 
 function TFileSystemFiles.Clone: TFileSystemFiles;
