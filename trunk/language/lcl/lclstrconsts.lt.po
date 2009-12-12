@@ -1,13 +1,13 @@
 # translation of lclstrconsts.po to
-# Valdas Jankūnas <zmuogs@gmail.com>, 2008.
+# Valdas Jankūnas <zmuogs@gmail.com>, 2008, 2009.
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2008-12-23 01:08+0200\n"
+"PO-Revision-Date: 2009-08-23 15:10+0300\n"
 "Project-Id-Version: lclstrconsts\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
-"X-Generator: Lokalize 0.2\n"
+"X-Generator: Lokalize 1.0\n"
 "MIME-Version: 1.0\n"
 "Last-Translator: Valdas Jankūnas <zmuogs@gmail.com>\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
@@ -30,7 +30,7 @@ msgstr "Nepavyko rasti HTML naršyklės."
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineoneinhelpconfigurehe
 msgid "No HTML Browser found.%sPlease define one in Help -> Configure Help -> Viewers"
-msgstr "Nerasta HTML naršyklė.%sNurodykite kokią nors meniu „Žinynas -> Derinti žinyną -> Žiūriklės“."
+msgstr "Nerasta HTML naršyklė.%sNurodykite kokią nors meniu „Žinynas -> Derinti žinyną -> Žiūryklės“."
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 msgid "The help database %s%s%s was unable to find file %s%s%s."
@@ -269,7 +269,7 @@ msgstr "Programos darbo laukas"
 
 #: lclstrconsts.rsaquacolorcaption
 msgid "Aqua"
-msgstr ""
+msgstr "Žydra"
 
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
@@ -285,7 +285,7 @@ msgstr "Bitmap"
 
 #: lclstrconsts.rsblackcolorcaption
 msgid "Black"
-msgstr ""
+msgstr "Juoda"
 
 #: lclstrconsts.rsblank
 msgid "Blank"
@@ -293,7 +293,7 @@ msgstr "Tuščias"
 
 #: lclstrconsts.rsbluecolorcaption
 msgid "Blue"
-msgstr ""
+msgstr "Mėlyna"
 
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
@@ -338,7 +338,7 @@ msgstr "Paisyti raidžių lygio"
 
 #: lclstrconsts.rscreamcolorcaption
 msgid "Cream"
-msgstr ""
+msgstr "Kreminė"
 
 #: lclstrconsts.rscreatinggdbcatchableerror
 msgid "Creating gdb catchable error:"
@@ -354,7 +354,7 @@ msgstr "Naudotojo…"
 
 #: lclstrconsts.rsdefaultcolorcaption
 msgid "Default"
-msgstr ""
+msgstr "Numatytasis"
 
 #: lclstrconsts.rsdefaultfileinfovalue
 msgid "permissions user group size date time"
@@ -391,7 +391,7 @@ msgstr "Keisti"
 
 #: lclstrconsts.rsentirescope
 msgid "Search entire file"
-msgstr ""
+msgstr "Ieškoti visame faile"
 
 #: lclstrconsts.rserror
 msgctxt "lclstrconsts.rserror"
@@ -432,7 +432,7 @@ msgstr "Aplankas „%s“ neegzistuoja."
 
 #: lclstrconsts.rsfdfilealreadyexists
 msgid "The file \"%s\" already exists. Overwrite ?"
-msgstr "Toks failas „%s“ jayu yra. Rašyti ant viršaus?"
+msgstr "Toks failas „%s“ jau yra. Rašyti ant viršaus?"
 
 #: lclstrconsts.rsfdfilemustexist
 msgid "File must exist"
@@ -516,7 +516,7 @@ msgstr "Pirmyn"
 
 #: lclstrconsts.rsfuchsiacolorcaption
 msgid "Fuchsia"
-msgstr ""
+msgstr "Purpurinė"
 
 #: lclstrconsts.rsgdkoptiondebug
 msgid "--gdk-debug flags     Turn on specific GDK trace/debug messages."
@@ -540,7 +540,7 @@ msgstr "Įprastos antraštės gradientas"
 
 #: lclstrconsts.rsgraycolorcaption
 msgid "Gray"
-msgstr ""
+msgstr "Pilka"
 
 #: lclstrconsts.rsgraytextcolorcaption
 msgid "Gray Text"
@@ -548,7 +548,7 @@ msgstr "Neveiksnus tekstas"
 
 #: lclstrconsts.rsgreencolorcaption
 msgid "Green"
-msgstr ""
+msgstr "Žalia"
 
 #: lclstrconsts.rsgridfiledoesnotexists
 msgid "Grid file doesn't exists"
@@ -580,7 +580,7 @@ msgstr "--gtk-debug žymės     Įjungiami nurodyti GTK+ sekimo/derinimo praneš
 
 #: lclstrconsts.rsgtkoptiondisplay
 msgid "--display h:s:d       Connect to the specified X server, where \"h\" is the hostname, \"s\" is the server number (usually 0), and \"d\" is the display number (typically omitted). If --display is not specified, the DISPLAY environment variable is used."
-msgstr "--display h:s:d     Prisijunti prie nurodyto X serverio, čia „h“ yra hostname, „s“ - serverio numeris (paprastai 0), ir „d“ - ekrano numeris (dažniausia praleidžiamas). Jei --display nenurodytas, tada naudojamas DISPLAY aplinkos kintamasis."
+msgstr "--display h:s:d     Prisijungti prie nurodyto X serverio, čia „h“ yra hostname, „s“ - serverio numeris (paprastai 0), ir „d“ - ekrano numeris (dažniausia praleidžiamas). Jei --display nenurodytas, tada naudojamas DISPLAY aplinkos kintamasis."
 
 #: lclstrconsts.rsgtkoptionmodule
 msgid "--gtk-module module   Load the specified module at startup."
@@ -592,7 +592,7 @@ msgstr "--name programa       Programos pavadinimą nustatyti į „programa“.
 
 #: lclstrconsts.rsgtkoptionnodebug
 msgid "--gtk-no-debug flags  Turn off specific Gtk+ trace/debug messages."
-msgstr "--gtk-no-debug žymės     Išungiami nurodyti GTK+ sekimo/derinimo pranešimai."
+msgstr "--gtk-no-debug žymės     Išjungiami nurodyti GTK+ sekimo/derinimo pranešimai."
 
 #: lclstrconsts.rsgtkoptionnotransient
 msgid "--lcl-no-transient    Do not set transient order for modal forms"
@@ -632,7 +632,7 @@ msgstr "Žinyno turinys %s duomenų bazėje %s%s%s nerastas."
 
 #: lclstrconsts.rshelphelpdatabasedidnotfoundaviewerforahelppageoftype
 msgid "Help Database %s%s%s did not found a viewer for a help page of type %s"
-msgstr "Žinyno duomenų bazė %s%s%s nerado žiūriklės %s tipo žinyno lapui."
+msgstr "Žinyno duomenų bazė %s%s%s nerado žiūryklės %s tipo žinyno lapui."
 
 #: lclstrconsts.rshelphelpdatabasenotfound
 msgid "Help Database %s%s%s not found"
@@ -648,7 +648,7 @@ msgstr "Žinyno raktažodis %s%s%s duomenų bazėje %s%s%s nerastas."
 
 #: lclstrconsts.rshelphelpnodehasnohelpdatabase
 msgid "Help node %s%s%s has no Help Database"
-msgstr "Žynyno mazgas %s%s%s neturi žinyno duomenų bazės."
+msgstr "Žinyno mazgas %s%s%s neturi žinyno duomenų bazės."
 
 #: lclstrconsts.rshelpnohelpfoundforsource
 msgid "No help found for line %d, column %d of %s."
@@ -672,15 +672,15 @@ msgstr "Žinyno išrinkėjo klaida"
 
 #: lclstrconsts.rshelpthereisnoviewerforhelptype
 msgid "There is no viewer for help type %s%s%s"
-msgstr "Nerasta žiūriklė %s%s%s žinyno tipui."
+msgstr "Nerasta žiūryklė %s%s%s žinyno tipui."
 
 #: lclstrconsts.rshelpviewererror
 msgid "Help Viewer Error"
-msgstr "Žinyno žiūriklės klaida"
+msgstr "Žinyno žiūryklės klaida"
 
 #: lclstrconsts.rshelpviewernotfound
 msgid "Help Viewer not found"
-msgstr "Žinyno žiūriklė nerasta"
+msgstr "Žinyno žiūryklė nerasta"
 
 #: lclstrconsts.rshighlightcolorcaption
 msgid "Highlight"
@@ -728,7 +728,7 @@ msgstr "Veikiamoji piktograma neturi paveikslėlio"
 
 #: lclstrconsts.rsinactivebordercolorcaption
 msgid "Inactive Border"
-msgstr "Neaktuvus rėmelis"
+msgstr "Neaktyvus rėmelis"
 
 #: lclstrconsts.rsinactivecaptioncolorcaption
 msgctxt "lclstrconsts.rsinactivecaptioncolorcaption"
@@ -795,7 +795,7 @@ msgstr "Paskutinysis"
 
 #: lclstrconsts.rslimecolorcaption
 msgid "Lime"
-msgstr ""
+msgstr "Citrininė"
 
 #: lclstrconsts.rslistindexexceedsbounds
 msgid "List index exceeds bounds (%d)"
@@ -807,7 +807,7 @@ msgstr "Sąrašas turi būti tuščias"
 
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
-msgstr ""
+msgstr "Kaštoninė"
 
 #: lclstrconsts.rsmbabort
 msgid "Abort"
@@ -840,7 +840,7 @@ msgstr "&Ne"
 
 #: lclstrconsts.rsmbnotoall
 msgid "No to all"
-msgstr "Visiada ne"
+msgstr "Visada ne"
 
 #: lclstrconsts.rsmbok
 msgid "&OK"
@@ -848,7 +848,7 @@ msgstr "&Tinka"
 
 #: lclstrconsts.rsmbopen
 msgid "&Open"
-msgstr ""
+msgstr "At&verti"
 
 #: lclstrconsts.rsmbretry
 msgid "&Retry"
@@ -856,11 +856,11 @@ msgstr "Ka&rtoti"
 
 #: lclstrconsts.rsmbsave
 msgid "&Save"
-msgstr ""
+msgstr "Į&rašyti"
 
 #: lclstrconsts.rsmbunlock
 msgid "&Unlock"
-msgstr ""
+msgstr "&Atsklęsti"
 
 #: lclstrconsts.rsmbyes
 msgid "&Yes"
@@ -872,7 +872,7 @@ msgstr "Vis&ada taip"
 
 #: lclstrconsts.rsmedgraycolorcaption
 msgid "Medium Gray"
-msgstr ""
+msgstr "Vidutiniškai pilka"
 
 #: lclstrconsts.rsmenubarcolorcaption
 msgid "Menu Bar"
@@ -897,11 +897,11 @@ msgstr "  pakeista "
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
-msgstr ""
+msgstr "Žalsva"
 
 #: lclstrconsts.rsmtauthentication
 msgid "Authentication"
-msgstr ""
+msgstr "Tapatumo nustatymas"
 
 #: lclstrconsts.rsmtconfirmation
 msgid "Confirmation"
@@ -926,7 +926,7 @@ msgstr "Perspėjimas"
 
 #: lclstrconsts.rsnavycolorcaption
 msgid "Navy"
-msgstr ""
+msgstr "Tamsiai mėlyna"
 
 #: lclstrconsts.rsnextrecordhint
 msgctxt "lclstrconsts.rsnextrecordhint"
@@ -935,7 +935,7 @@ msgstr "Kitas"
 
 #: lclstrconsts.rsnonecolorcaption
 msgid "None"
-msgstr ""
+msgstr "Jokia"
 
 #: lclstrconsts.rsnotavalidgridfile
 msgid "Not a valid grid file"
@@ -943,11 +943,11 @@ msgstr "Klaidingas tinklelio failas"
 
 #: lclstrconsts.rsnowidgetset
 msgid "No widgetset object. Please check if the unit \"interfaces\" was added to the programs uses clause."
-msgstr "Nevaldiklio objektas. Patikrinkite ar modulis „interfaces“ yra paminėtas programos naudojamų modulių sąraše."
+msgstr "Ne valdiklio objektas. Patikrinkite ar modulis „interfaces“ yra paminėtas programos naudojamų modulių sąraše."
 
 #: lclstrconsts.rsolivecolorcaption
 msgid "Olive"
-msgstr ""
+msgstr "Alyvuogių"
 
 #: lclstrconsts.rspickdate
 msgid "Select a date"
@@ -978,10 +978,9 @@ msgid "Post"
 msgstr "Tolesnis"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
-#, fuzzy
 #| msgid "%s%sPress Ok to ignore and risk data corruption.%sPress Cancel to kill the program."
 msgid "%s%sPress OK to ignore and risk data corruption.%sPress Cancel to kill the program."
-msgstr "%s%sPaspaude „Tinka“ ignoruosite, tačiau rizikuosite duomenimis.%sPaspaude „Atsisakyti“ sustabdysite programą."
+msgstr "%s%sPaspaudę „Tinka“ ignoruosite, tačiau rizikuosite duomenimis.%sPaspaudę „Atsisakyti“ sustabdysite programą."
 
 #: lclstrconsts.rspriorrecordhint
 msgctxt "lclstrconsts.rspriorrecordhint"
@@ -994,7 +993,7 @@ msgstr "Savybė %s neegzistuoja"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
-msgstr ""
+msgstr "Purpurinė"
 
 #: lclstrconsts.rsrasterimageendupdate
 msgid "Endupdate while no update in progress"
@@ -1010,7 +1009,7 @@ msgstr "Visko atnaujinti negalima kai atnaujinamas tik „Canvas“"
 
 #: lclstrconsts.rsredcolorcaption
 msgid "Red"
-msgstr ""
+msgstr "Raudona"
 
 #: lclstrconsts.rsrefreshrecordshint
 msgid "Refresh"
@@ -1031,7 +1030,7 @@ msgstr "Resursas %s nerastas"
 
 #: lclstrconsts.rsscrollbarcolorcaption
 msgid "ScrollBar"
-msgstr "Slinkies juosta"
+msgstr "Slinkties juosta"
 
 #: lclstrconsts.rsscrollbaroutofrange
 msgid "ScrollBar property out of range"
@@ -1047,7 +1046,7 @@ msgstr "Nurodykit šriftą"
 
 #: lclstrconsts.rssilvercolorcaption
 msgid "Silver"
-msgstr ""
+msgstr "Sidabrinė"
 
 #: lclstrconsts.rssize
 msgid "  size "
@@ -1055,11 +1054,11 @@ msgstr "  dydis "
 
 #: lclstrconsts.rsskybluecolorcaption
 msgid "Sky Blue"
-msgstr ""
+msgstr "Dangaus žydrumo"
 
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
-msgstr ""
+msgstr "Tamsiai žydra"
 
 #: lclstrconsts.rstext
 msgid "Text"
@@ -1107,7 +1106,7 @@ msgstr " Perspėjimas: liko %s nepašalintos nuorodos į LM_PAINT/LM_GtkPAINT pr
 
 #: lclstrconsts.rswhitecolorcaption
 msgid "White"
-msgstr ""
+msgstr "Balta"
 
 #: lclstrconsts.rswholewordsonly
 msgid "Whole words only"
@@ -1135,7 +1134,7 @@ msgstr "Lango tekstas"
 
 #: lclstrconsts.rsyellowcolorcaption
 msgid "Yellow"
-msgstr ""
+msgstr "Geltona"
 
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
@@ -1159,7 +1158,7 @@ msgstr "Klaidingas veiksmo registravimas"
 
 #: lclstrconsts.sinvalidactionunregistration
 msgid "Invalid action unregistration"
-msgstr "Klaidingas veiksmo išregravimas"
+msgstr "Klaidingas veiksmo išregistravimas"
 
 #: lclstrconsts.sinvalidcharset
 msgid "The char set in mask \"%s\" is not valid!"
