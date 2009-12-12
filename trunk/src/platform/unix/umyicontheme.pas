@@ -74,7 +74,6 @@ begin
   xmlCfg:= nil;
   if FileExists(GetHomeDir + gnomeConfig) then
     try
-      xmlCfg:= TXMLDocument.Create;
       ReadXMLFile(xmlCfg, GetHomeDir + gnomeConfig);
       for I := 0 to xmlCfg.DocumentElement.ChildNodes.Count -1 do
         begin
@@ -106,7 +105,6 @@ begin
   xmlCfg:= nil;
   if FileExists(GetHomeDir + xfceConfig) then
     try
-      xmlCfg:= TXMLDocument.Create;
       ReadXMLFile(xmlCfg, GetHomeDir + xfceConfig);
       for J := 0 to xmlCfg.DocumentElement.ChildNodes.Count -1 do
         begin
@@ -120,7 +118,7 @@ begin
                     if (ChildNode2.Attributes.Length > 2) and (ChildNode2.Attributes[0].NodeValue = 'IconThemeName') then
                       begin
                         Result:= ChildNode2.Attributes[2].NodeValue;
-                        Break;
+                        Exit;
                       end;
                 end;
         end;
