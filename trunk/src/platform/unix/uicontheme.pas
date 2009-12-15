@@ -28,16 +28,19 @@ unit uIconTheme;
 interface
 
 uses
-  SysUtils, Classes, IniFiles;
+  SysUtils, Classes, IniFiles, StringHashList;
 
 type
+  TIconType = (itFixed, itScalable, itThreshold);
+
   TIconDirInfo = record
     IconSize: Integer;
-    IconContext: String;
-    IconType: String;
+    //IconContext: String; // currently not used
+    IconType: TIconType;
     IconMaxSize,
     IconMinSize,
     IconThreshold: Integer;
+    FileListCache: array of TStringHashList;
   end;
   PIconDirInfo = ^TIconDirInfo;
 
@@ -45,16 +48,17 @@ type
 
   TIconDirList = class (TStringList)
   private
-    function GetIconDir(Index: Integer): TIconDirInfo;
+    function GetIconDir(Index: Integer): PIconDirInfo;
   public
     destructor Destroy; override;
     function Add(IconDirName: String; IconDirInfo: PIconDirInfo): Integer; reintroduce;
-    property Items[Index: Integer]: TIconDirInfo read GetIconDir;
+    property Items[Index: Integer]: PIconDirInfo read GetIconDir;
   end;
 
   { TIconTheme }
 
   TIconTheme = class
+  private
     FTheme,
     FThemeName: String;
     FComment: UTF8String;
@@ -64,12 +68,14 @@ type
     FBaseNameList: array of String;
     function LoadIconDirInfo(const IniFile: TIniFile; const sIconDirName: String): PIconDirInfo;
     function FindIconHelper(aIconName: String; AIconSize: Integer): UTF8String;
+    function LoadThemeWithInherited(AInherits: TStringList): Boolean;
+    procedure CacheDirectoryFiles(SubDirIndex: Integer; BaseDirIndex: Integer);
   protected
     function LookupIcon(AIconName: String; AIconSize: Integer): UTF8String;
   public
     constructor Create(sThemeName: String);
     destructor Destroy; override;
-    function Load(AInherits: TStringList = nil): Boolean;
+    function Load: Boolean;
     function FindIcon(AIconName: String; AIconSize: Integer): UTF8String;
     function DirectoryMatchesSize(SubDirIndex: Integer; AIconSize: Integer): Boolean;
     function DirectorySizeDistance(SubDirIndex: Integer; AIconSize: Integer): Integer;
@@ -92,7 +98,7 @@ var
 implementation
 
 uses
-  LCLProc, StrUtils;
+  LCLProc, StrUtils, BaseUnix;
 
 { TIconTheme }
 
@@ -115,13 +121,13 @@ begin
   Result:= False;
   // read Type and Size data from subdir
   if SubDirIndex < 0 then Exit;
-  with FDirectories.Items[SubDirIndex] do
-  begin
-    if IconType = 'Fixed' then
-      Result:= (IconSize = AIconSize)
-    else if IconType = 'Scaled' then
-      Result:= (IconMinSize <= AIconSize) and (AIconSize <= IconMaxSize)
-    else if IconType = 'Threshold' then
+  with FDirectories.Items[SubDirIndex]^ do
+  case IconType of
+    itFixed:
+      Result:= (IconSize = AIconSize);
+    itScalable:
+      Result:= (IconMinSize <= AIconSize) and (AIconSize <= IconMaxSize);
+    itThreshold:
       Result:= ((IconSize - IconThreshold) <= AIconSize) and (AIconSize <= (IconSize + IconThreshold));
   end;
 end;
@@ -132,18 +138,18 @@ begin
   Result:= 0;
   // read Type and Size data from subdir
   if SubDirIndex < 0 then Exit;
-  with FDirectories.Items[SubDirIndex] do
-  begin
-    if IconType = 'Fixed' then
-      Result:= abs(IconSize - AIconSize)
-    else if IconType = 'Scaled' then
+  with FDirectories.Items[SubDirIndex]^ do
+  case IconType of
+    itFixed:
+      Result:= abs(IconSize - AIconSize);
+    itScalable:
       begin
         if AIconSize < IconMinSize then
           Result:= IconMinSize - AIconSize;
         if AIconSize > IconMaxSize then
           Result:= AIconSize - IconMaxSize;
-      end
-    else if IconType = 'Threshold' then
+      end;
+    itThreshold:
       begin
         if AIconSize < IconSize - IconThreshold then
           Result:= IconMinSize - AIconSize;
@@ -198,7 +204,22 @@ begin
   inherited Destroy;
 end;
 
-function TIconTheme.Load(AInherits: TStringList): Boolean;
+function TIconTheme.Load: Boolean;
+var
+ ParentTheme: TIconTheme;
+begin
+   Result := LoadThemeWithInherited(FInherits);
+
+   // add default theme if needed
+   if FInherits.IndexOf(DEFAULT_THEME_NAME) < 0 then
+     begin
+       ParentTheme:= TIconTheme.Create(DEFAULT_THEME_NAME);
+       FInherits.AddObject(DEFAULT_THEME_NAME, ParentTheme);
+       ParentTheme.LoadThemeWithInherited(FInherits);
+     end;
+end;
+
+function TIconTheme.LoadThemeWithInherited(AInherits: TStringList): Boolean;
 var
  I: Integer;
  sValue: String;
@@ -237,9 +258,10 @@ begin
      FThemeName:= IniFile.ReadString('Icon Theme', 'Name', EmptyStr);
      FComment:= IniFile.ReadString('Icon Theme', 'Comment', EmptyStr);
 
+     DebugLn('Loading icon theme ', FThemeName);
+
      // read theme directories
      sValue:= IniFile.ReadString('Icon Theme', 'Directories', EmptyStr);
-     WriteLn(sValue);
      repeat
        sElement:= Copy2SymbDel(sValue, ',');
        FDirectories.Add(sElement, LoadIconDirInfo(IniFile, sElement));
@@ -255,16 +277,8 @@ begin
          // load parent theme
          ParentTheme:= TIconTheme.Create(sElement);
          FInherits.AddObject(sElement, ParentTheme);
-         ParentTheme.Load(FInherits);
+         ParentTheme.LoadThemeWithInherited(FInherits);
        until sValue = EmptyStr;
-
-     // add default theme if needed
-     if FInherits.IndexOf(DEFAULT_THEME_NAME) < 0 then
-       begin
-         ParentTheme:= TIconTheme.Create(DEFAULT_THEME_NAME);
-         FInherits.AddObject(DEFAULT_THEME_NAME, ParentTheme);
-         ParentTheme.Load(FInherits);
-       end;
 
    finally
      FreeAndNil(IniFile);
@@ -274,65 +288,89 @@ end;
 function TIconTheme.FindIcon(AIconName: String; AIconSize: Integer): UTF8String;
 begin
   Result:= FindIconHelper(AIconName, AIconSize);
+{
   if Result = EmptyStr then
     Result:= LookupFallbackIcon(AIconName);
+}
 end;
 
 function TIconTheme.LookupIcon(AIconName: String; AIconSize: Integer): UTF8String;
 var
-  I, J, K: Integer;
-  sFileName,
-  sClosestFileName: String;
+  I, J, FoundIndex: Integer;
   MinimalSize,
   NewSize: Integer;
+
+  procedure MakeResult; inline;
+  begin
+    Result:= FBaseNameList[J] + PathDelim + FTheme + PathDelim +
+             FDirectories.Strings[I] + PathDelim +
+             AIconName + '.' +
+             IconExtensionList[Integer(FDirectories.Items[I]^.FileListCache[J].List[FoundIndex]^.Data)];
+  end;
+
 begin
-  for I:= 0 to FDirectories.Count - 1 do
-    for J:= Low(FBaseNameList) to  High(FBaseNameList) do
-      for K:= Low(IconExtensionList) to High(IconExtensionList) do
-        if DirectoryMatchesSize(I, AIconSize) then
-        begin
-          sFileName:= FBaseNameList[J] + PathDelim + FTheme + PathDelim + FDirectories[I] + PathDelim + AIconName + '.' + IconExtensionList[K];
-          if FileExists(sFileName) then
-            begin
-    	      Result:= sFileName;
-              Exit;
-            end;
-        end;
+  { This is a slightly more optimized version of
+    the original algorithm from freedesktop.org. }
 
+  Result:= EmptyStr;
   MinimalSize:= MaxInt;
-  for I:= 0 to FDirectories.Count - 1 do
-    for J:= Low(FBaseNameList) to  High(FBaseNameList) do
-      for K:= Low(IconExtensionList) to High(IconExtensionList) do
-        begin
-          sFileName:= FBaseNameList[J] + PathDelim + FTheme + PathDelim + FDirectories[I] + PathDelim + AIconName + '.' + IconExtensionList[K];
-          if FileExists(sFileName) then
-            begin
-              NewSize:= DirectorySizeDistance(I, AIconSize);
-              if NewSize < MinimalSize then
-                begin
-	          sClosestFileName:= sFileName;
-	          MinimalSize:= NewSize;
-                end;
-            end;
-        end;
+  for J:= Low(FBaseNameList) to  High(FBaseNameList) do
+  begin
+    for I:= 0 to FDirectories.Count - 1 do
+      begin
+        if not Assigned(FDirectories.Items[I]^.FileListCache[J]) then
+          CacheDirectoryFiles(I, J);
 
-  if (sClosestFileName <> EmptyStr) then
-    Result:= sClosestFileName
-  else
-    Result:= EmptyStr;
+        FoundIndex:= FDirectories.Items[I]^.FileListCache[J].Find(AIconName);
+        if FoundIndex >= 0 then
+          begin
+            NewSize:= DirectorySizeDistance(I, AIconSize);
+            if NewSize = 0 then  // exact match
+              begin
+                MakeResult;
+                Exit;
+              end
+            else if NewSize < MinimalSize then
+              begin
+                MakeResult;
+                MinimalSize:= NewSize;
+              end;
+          end;
+      end;
+  end;
 end;
 
 function TIconTheme.LoadIconDirInfo(const IniFile: TIniFile; const sIconDirName: String): PIconDirInfo;
+var
+  IconTypeStr: String;
+  I: Integer;
 begin
   New(Result);
   with Result^ do
   begin
     IconSize:= IniFile.ReadInteger(sIconDirName, 'Size', 48);
-    IconContext:= IniFile.ReadString(sIconDirName, 'Context', EmptyStr);
-    IconType:= IniFile.ReadString(sIconDirName, 'Type', 'Threshold');
+    //IconContext:= IniFile.ReadString(sIconDirName, 'Context', EmptyStr); // currently not used
+    IconTypeStr:= IniFile.ReadString(sIconDirName, 'Type', 'Threshold');
     IconMaxSize:= IniFile.ReadInteger(sIconDirName, 'MaxSize', IconSize);
     IconMinSize:= IniFile.ReadInteger(sIconDirName, 'MinSize', IconSize);
     IconThreshold:= IniFile.ReadInteger(sIconDirName, 'Threshold', 2);
+
+    if IconTypeStr = 'Fixed' then
+      IconType:= itFixed
+    else if IconTypeStr = 'Scalable' then
+      IconType:= itScalable
+    else if IconTypeStr = 'Threshold' then
+      IconType:= itThreshold
+    else
+      begin
+        Dispose(Result);
+        raise Exception.Create('Unsupported icon type');
+      end;
+
+    SetLength(FileListCache, Length(FBaseNameList));
+
+    for I:= 0 to Length(FBaseNameList) - 1 do
+      FileListCache[I]:= nil;
   end;
 end;
 
@@ -353,6 +391,51 @@ begin
   Result:= EmptyStr;
 end;
 
+procedure TIconTheme.CacheDirectoryFiles(SubDirIndex: Integer; BaseDirIndex: Integer);
+var
+  SearchDir, FoundName, FoundExt: String;
+  DirPtr: PDir;
+  PtrDirEnt: pDirent;
+  DirList: TStringHashList;
+  I: Integer;
+begin
+  DirList:= TStringHashList.Create(True);
+  FDirectories.Items[SubDirIndex]^.FileListCache[BaseDirIndex]:= DirList;
+
+  SearchDir := FBaseNameList[BaseDirIndex] + PathDelim +
+               FTheme + PathDelim +
+               FDirectories.Strings[SubDirIndex];
+
+  DirPtr:= BaseUnix.fpOpenDir(PChar(SearchDir));
+  if Assigned(DirPtr) then
+    begin
+      PtrDirEnt:= BaseUnix.fpReadDir(DirPtr^);
+      while PtrDirEnt <> nil do
+        begin
+          FoundName := string(PtrDirEnt^.d_name);
+          if (FoundName <> '.') and (FoundName <> '..') then
+          begin
+            FoundExt := ExtractFileExt(FoundName);
+            if Length(FoundExt) > 0 then
+            begin
+              FoundName := Copy(FoundName, 1, Length(FoundName) - Length(FoundExt));
+              Delete(FoundExt, 1, 1); // remove the dot
+
+              // Add only files with supported extensions.
+              for I:= Low(IconExtensionList) to High(IconExtensionList) do
+                if IconExtensionList[I] = FoundExt then
+                begin
+                  DirList.Add(FoundName, TObject(I));
+                  break;
+                end;
+            end;
+          end;
+          PtrDirEnt:= BaseUnix.fpReadDir(DirPtr^);
+        end;
+      BaseUnix.fpCloseDir(DirPtr^);
+    end;
+end;
+
 { TIconDirList }
 
 function TIconDirList.Add(IconDirName: String; IconDirInfo: PIconDirInfo): Integer;
@@ -360,19 +443,25 @@ begin
   Result:= AddObject(IconDirName, TObject(IconDirInfo));
 end;
 
-function TIconDirList.GetIconDir(Index: Integer): TIconDirInfo;
+function TIconDirList.GetIconDir(Index: Integer): PIconDirInfo;
 begin
-  Result:= PIconDirInfo(Objects[Index])^;
+  Result:= PIconDirInfo(Objects[Index]);
 end;
 
 destructor TIconDirList.Destroy;
 var
-  I: Integer;
+  I, J: Integer;
+  IconDirInfo: PIconDirInfo;
 begin
   for I:= Count - 1 downto 0 do
     begin
       if Assigned(Objects[I]) then
-        Dispose(PIconDirInfo(Objects[I]));
+        begin
+          IconDirInfo:= PIconDirInfo(Objects[I]);
+          for J := 0 to Length(IconDirInfo^.FileListCache) - 1 do
+            IconDirInfo^.FileListCache[J].Free;
+          Dispose(IconDirInfo);
+        end;
     end;
   inherited Destroy;
 end;
