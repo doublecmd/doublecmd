@@ -2266,7 +2266,7 @@ begin
           FreeAndNil(SelectedFiles);
         end;
       end
-    else
+    else if (fsoExecute in ActiveFrame.FileSource.GetOperationsTypes) then
       begin
         aFile:= ActiveFrame.ActiveFile;
         if Assigned(aFile) then
