@@ -56,6 +56,15 @@ type
     property ModificationTime: TDateTime read GetModificationTime write SetModificationTime;
   end;
 
+  { TWfxPluginFiles }
+
+  TWfxPluginFiles = class(TFiles)
+  public
+    function CreateObjectOfSameType: TFiles; override;
+    function CreateFileObject: TFile; override;
+    function Clone: TWfxPluginFiles; override;
+  end;
+
 implementation
 
 uses
@@ -205,6 +214,24 @@ end;
 function TWfxPluginFile.IsLinkToDirectory: Boolean;
 begin
   Result := FIsLinkToDirectory;
+end;
+
+{ TWfxPluginFiles }
+
+function TWfxPluginFiles.CreateObjectOfSameType: TFiles;
+begin
+  Result:= TWfxPluginFiles.Create;
+end;
+
+function TWfxPluginFiles.CreateFileObject: TFile;
+begin
+  Result:= TWfxPluginFile.Create;
+end;
+
+function TWfxPluginFiles.Clone: TWfxPluginFiles;
+begin
+  Result:= TWfxPluginFiles.Create;
+  CloneTo(Result);
 end;
 
 end.

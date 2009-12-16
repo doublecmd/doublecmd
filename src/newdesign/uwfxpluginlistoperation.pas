@@ -37,7 +37,7 @@ uses
 
 constructor TWfxPluginListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
-  FFiles := TFiles.Create;
+  FFiles := TWfxPluginFiles.Create;
   FWfxPluginFileSource := aFileSource as IWfxPluginFileSource;
   FCallbackDataClass:= TCallbackDataClass.Create;
   FCurrentPath:= ExcludeBackPathDelimiter(aPath);
