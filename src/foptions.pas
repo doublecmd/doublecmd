@@ -1222,6 +1222,7 @@ begin
         if WFXmodule.LoadModule(PluginFileName) then
          begin
            DebugLn('WFXModule Loaded');
+           WfxModule.VFSInit(0);
            WFXmodule.VFSConfigure(stgPlugins.Handle);
            DebugLn('Dialog executed');
            WFXModule.UnloadModule;

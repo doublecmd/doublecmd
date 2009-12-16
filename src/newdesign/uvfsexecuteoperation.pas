@@ -71,6 +71,7 @@ begin
           WfxModule:= TWfxModule.Create;
           if WfxModule.LoadModule(sFileName) then
             begin
+              WfxModule.VFSInit(0);
               WfxModule.VFSConfigure(0);
               WfxModule.UnloadModule;
             end;
