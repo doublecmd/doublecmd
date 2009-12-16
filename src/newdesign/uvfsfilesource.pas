@@ -73,7 +73,7 @@ end;
 
 function TVfsFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result := [fsoList];
+  Result := [fsoList, fsoExecute];
 end;
 
 function TVfsFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
