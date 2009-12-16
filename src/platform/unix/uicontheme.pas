@@ -425,7 +425,7 @@ begin
               for I:= Low(IconExtensionList) to High(IconExtensionList) do
                 if IconExtensionList[I] = FoundExt then
                 begin
-                  DirList.Add(FoundName, TObject(I));
+                  DirList.Add(FoundName, Pointer(PtrInt(I)));
                   break;
                 end;
             end;
