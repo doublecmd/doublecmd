@@ -27,7 +27,7 @@ uses
 
 constructor TWcxArchiveListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
-  FFiles := TFiles.Create;
+  FFiles := TWcxArchiveFiles.Create;
   FWcxArchiveFileSource := aFileSource as IWcxArchiveFileSource;
   inherited Create(aFileSource, aPath);
 end;
