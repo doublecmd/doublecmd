@@ -27,7 +27,7 @@ uses
 
 constructor TVfsListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
-  FFiles := TFiles.Create;
+  FFiles := TVfsFiles.Create;
   FVfsFileSource := aFileSource as IVfsFileSource;
   inherited Create(aFileSource, aPath);
 end;

@@ -43,6 +43,15 @@ type
     property ModificationTime: TDateTime read GetModificationTime write SetModificationTime;
   end;
 
+  { TVfsFiles }
+
+  TVfsFiles = class(TFiles)
+  public
+    function CreateObjectOfSameType: TFiles; override;
+    function CreateFileObject: TFile; override;
+    function Clone: TVfsFiles; override;
+  end;
+
 implementation
 
 constructor TVfsFile.Create;
@@ -124,6 +133,24 @@ end;
 procedure TVfsFile.SetModificationTime(NewTime: TDateTime);
 begin
   FModificationTime.Value := NewTime;
+end;
+
+{ TVfsFiles }
+
+function TVfsFiles.CreateObjectOfSameType: TFiles;
+begin
+  Result:= TVfsFiles.Create;
+end;
+
+function TVfsFiles.CreateFileObject: TFile;
+begin
+  Result:= TVfsFile.Create;
+end;
+
+function TVfsFiles.Clone: TVfsFiles;
+begin
+  Result:= TVfsFiles.Create;
+  CloneTo(Result);
 end;
 
 end.
