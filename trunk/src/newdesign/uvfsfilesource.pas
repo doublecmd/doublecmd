@@ -19,6 +19,8 @@ type
     property VfsFileList: TWFXModuleList read GetWfxModuleList;
   end;
 
+  { TVfsFileSource }
+
   TVfsFileSource = class(TVirtualFileSource, IVfsFileSource)
   private
     FWFXModuleList: TWFXModuleList;
@@ -43,6 +45,7 @@ type
 
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
+    function CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation; override;
 
     property VfsFileList: TWFXModuleList read FWFXModuleList;
 
@@ -53,7 +56,7 @@ implementation
 
 uses
   LCLProc, uGlobs,
-  uVfsListOperation;
+  uVfsListOperation, uVfsExecuteOperation;
 
 constructor TVfsFileSource.Create(aWFXModuleList: TWFXModuleList);
 begin
@@ -99,6 +102,14 @@ var
 begin
   TargetFileSource := Self;
   Result := TVfsListOperation.Create(TargetFileSource, TargetPath);
+end;
+
+function TVfsFileSource.CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation;
+var
+  TargetFileSource: IFileSource;
+begin
+  TargetFileSource := Self;
+  Result:=  TVfsExecuteOperation.Create(TargetFileSource, BasePath, ExecutablePath, Verb);
 end;
 
 end.
