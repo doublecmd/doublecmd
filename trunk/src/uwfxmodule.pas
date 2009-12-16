@@ -148,11 +148,11 @@ type
     procedure UnloadModule;
     procedure VFSInit(Data: PtrInt);
     procedure VFSDestroy;
-    function VFSCaps : TVFSCaps;
 
     function VFSConfigure(Parent: THandle):Boolean;
-
     function VFSMisc: PtrUInt;
+
+    function IsLoaded: Boolean;
   end;
 
   { TWFXModuleList }
@@ -412,12 +412,15 @@ end;
 
 destructor TWFXModule.Destroy;
 begin
-//TODO:Remove this and use VFSDestroy
-//------------------------------------------------------
-  if Assigned(FsContentPluginUnloading) then
-  FsContentPluginUnloading;
-//------------------------------------------------------
-  UnloadModule;
+  if IsLoaded then
+    begin
+      //TODO:Remove this and use VFSDestroy
+      //------------------------------------------------------
+      if Assigned(FsContentPluginUnloading) then
+        FsContentPluginUnloading;
+      //------------------------------------------------------
+      UnloadModule;
+    end;
 end;
 
 function TWFXModule.LoadModule(const sName: String): Boolean;
@@ -528,6 +531,7 @@ begin
   FsContentGetSupportedFieldFlags := nil;
   FsContentSetValue := nil;
   FsContentGetDefaultView := nil;
+  FsContentPluginUnloading := nil;
 { Unicode }
   FsInitW := nil;
   FsFindFirstW := nil;
@@ -592,22 +596,9 @@ end;
 
 procedure TWFXModule.VFSDestroy;
 begin
-//TODO: need to invoke this func
-if Assigned(FsContentPluginUnloading) then
-  FsContentPluginUnloading;
-end;
-
-function TWFXModule.VFSCaps: TVFSCaps;
-begin
-  Result := [];
-  if Assigned(FsGetFile) then
-    Include(Result, VFS_CAPS_COPYOUT);
-  if Assigned(FsPutFile) then
-    Include(Result, VFS_CAPS_COPYIN);
-  if Assigned(FsDeleteFile) then
-    Include(Result, VFS_CAPS_DELETE);
-  if Assigned(FsMkDir) then
-    Include(Result, VFS_CAPS_MKDIR);
+  //TODO: need to invoke this func
+  if Assigned(FsContentPluginUnloading) then
+    FsContentPluginUnloading;
 end;
 
 function TWFXModule.VFSConfigure(Parent: THandle): Boolean;
@@ -636,6 +627,11 @@ begin
     end
   else
     Result:=0;
+end;
+
+function TWFXModule.IsLoaded: Boolean;
+begin
+Result := (FModuleHandle <> 0);
 end;
 
 { TWFXModuleList }
