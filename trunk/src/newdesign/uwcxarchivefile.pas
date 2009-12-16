@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uArchiveFile, uFileProperty, uWCXmodule;
+  uFile, uArchiveFile, uFileProperty, uWCXmodule;
 
 type
 
@@ -15,6 +15,15 @@ type
     constructor Create(WcxHeader: TWCXHeader); overload;
 
     class function GetSupportedProperties: TFilePropertiesTypes; override;
+  end;
+
+  { TWcxArchiveFiles }
+
+  TWcxArchiveFiles = class(TFiles)
+  public
+    function CreateObjectOfSameType: TFiles; override;
+    function CreateFileObject: TFile; override;
+    function Clone: TWcxArchiveFiles; override;
   end;
 
 implementation
@@ -43,6 +52,24 @@ end;
 class function TWcxArchiveFile.GetSupportedProperties: TFilePropertiesTypes;
 begin
   Result := inherited GetSupportedProperties;
+end;
+
+{ TWcxArchiveFiles }
+
+function TWcxArchiveFiles.CreateObjectOfSameType: TFiles;
+begin
+  Result:= TWcxArchiveFiles.Create;
+end;
+
+function TWcxArchiveFiles.CreateFileObject: TFile;
+begin
+  Result:= TWcxArchiveFile.Create;
+end;
+
+function TWcxArchiveFiles.Clone: TWcxArchiveFiles;
+begin
+  Result:= TWcxArchiveFiles.Create;
+  CloneTo(Result);
 end;
 
 end.
