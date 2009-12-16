@@ -189,7 +189,7 @@ begin
   if FChangeTriggersEnabled then
   begin
     FChangeTriggersEnabled := False;
-    ShowAttr(OctToDec(edtOctal.Text));
+    ShowMode(OctToDec(edtOctal.Text));
     FChangeTriggersEnabled := True;
   end;
 end;
