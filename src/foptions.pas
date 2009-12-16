@@ -753,6 +753,7 @@ begin
       cbEditorFont.Text := dlgFnt.Font.Name;
       edtEditorSize.Value := dlgFnt.Font.Size;
       edtTest2.Font := dlgFnt.Font;
+      edtTest2.Text:= cbEditorFont.Text;
     end;
 end;
 
@@ -766,6 +767,7 @@ begin
       cbMainFont.Text := dlgFnt.Font.Name;
       edtMainSize.Value := dlgFnt.Font.Size;
       edtTest1.Font := dlgFnt.Font;
+      edtTest1.Text:= cbMainFont.Text;
     end;
 end;
 
@@ -779,6 +781,7 @@ begin
       cbViewerFont.Text := dlgFnt.Font.Name;
       edtViewerSize.Value:= dlgFnt.Font.Size;
       edtTest3.Font := dlgFnt.Font;
+      edtTest3.Text:= cbViewerFont.Text;
     end;
 end;
 
@@ -810,20 +813,23 @@ begin
   edtViewerSize.Value:=gViewerFontSize;
   edtMainSize.Value:=gFontSize;
   
+  edtTest1.Text:= gFontName;
   with edtTest1.Font do
   begin
     Name := gFontName;
     Size := gFontSize;
     Style:= gFontStyle;
   end; // with
-  
+
+  edtTest2.Text:= gEditorFontName;
   with edtTest2.Font do
   begin
     Name := gEditorFontName;
     Size := gEditorFontSize;
     Style:= gEditorFontStyle;
   end; // with
-  
+
+  edtTest3.Text:= gViewerFontName;
   with edtTest3.Font do
   begin
     Name := gViewerFontName;
