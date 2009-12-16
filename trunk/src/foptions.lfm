@@ -726,7 +726,7 @@ object frmOptions: TfrmOptions
           Width = 55
           Anchors = [akTop, akRight]
           MaxValue = 25
-          MinValue = 8
+          MinValue = 6
           OnChange = edtMainSizeChange
           TabOrder = 2
           Value = 14
@@ -789,7 +789,7 @@ object frmOptions: TfrmOptions
           Width = 55
           Anchors = [akTop, akRight]
           MaxValue = 25
-          MinValue = 8
+          MinValue = 6
           OnChange = edtEditorSizeChange
           TabOrder = 7
           Value = 14
@@ -841,7 +841,7 @@ object frmOptions: TfrmOptions
           Width = 56
           Anchors = [akTop, akRight]
           MaxValue = 25
-          MinValue = 8
+          MinValue = 6
           OnChange = edtViewerSizeChange
           TabOrder = 11
           Value = 14
