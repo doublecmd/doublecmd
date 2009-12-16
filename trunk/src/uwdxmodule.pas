@@ -36,10 +36,10 @@ uses
   {$IFDEF MSWINDOWS}
     Windows,
   {$ENDIF}
-    Classes, SysUtils,uClassesEx,
-    uwdxprototypes,WdxPlugin,
+    Classes, SysUtils, uClassesEx,
+    uWdxPrototypes, WdxPlugin,
     dynlibs, uDCUtils, uOSUtils,
-    uDetectStr, uTypes,lua,LCLProc;
+    uDetectStr, lua, LCLProc, uFile;
   
 type
 
@@ -70,7 +70,7 @@ type
         function FieldList:TStringlist; virtual;abstract;
         function WdxFieldType(n: integer): string;
         function GetFieldIndex(FieldName:string):integer;  virtual;abstract;
-        function FileParamVSDetectStr(ptr:PFileRecItem):boolean;  virtual;abstract;
+        function FileParamVSDetectStr(const aFile: TFile):boolean;  virtual;abstract;
         //------------------------------------------------------
         procedure CallContentGetSupportedField; virtual;abstract;
         procedure CallContentSetDefaultParams; virtual;abstract;
@@ -141,7 +141,7 @@ type
         //---------------------
         function FieldList:TStringlist;override;
         function GetFieldIndex(FieldName:string):integer;override;
-        function FileParamVSDetectStr(ptr:PFileRecItem):boolean;override;
+        function FileParamVSDetectStr(const aFile: TFile):boolean;override;
         //------------------------------------------------------
         procedure CallContentGetSupportedField;override;
         procedure CallContentSetDefaultParams;override;
@@ -198,7 +198,7 @@ type
         //---------------------
         function FieldList:TStringlist;override;
         function GetFieldIndex(FieldName:string):integer; override;
-        function FileParamVSDetectStr(ptr:PFileRecItem):boolean;   override;
+        function FileParamVSDetectStr(const aFile: TFile):boolean;   override;
         //------------------------------------------------------
         procedure CallContentGetSupportedField;override;
         procedure CallContentSetDefaultParams;override;
@@ -754,10 +754,10 @@ begin
 end;
 
 
-function TPluginWDX.FileParamVSDetectStr(ptr:PFileRecItem): boolean;
+function TPluginWDX.FileParamVSDetectStr(const aFile: TFile): boolean;
 begin
-  FParser.DetectStr:=Self.DetectStr;
-  Result:=FParser.TestFileResult(ptr);
+  FParser.DetectStr:= Self.DetectStr;
+  Result:= FParser.TestFileResult(aFile);
 end;
 
 
@@ -874,10 +874,10 @@ begin
    Result:= FFieldsList.IndexOf(FieldName);
 end;
 
-function TLuaWdx.FileParamVSDetectStr(ptr: PFileRecItem): boolean;
+function TLuaWdx.FileParamVSDetectStr(const aFile: TFile): boolean;
 begin
-  FParser.DetectStr:=Self.DetectStr;
-  Result:=FParser.TestFileResult(ptr);
+  FParser.DetectStr:= Self.DetectStr;
+  Result:= FParser.TestFileResult(aFile);
 end;
 
 function TLuaWdx.WdxLuaContentGetSupportedField(Index:integer; var xFieldName, xUnits:string): integer;

@@ -1,4 +1,5 @@
-{   Double Commander
+{
+   Double Commander
    -------------------------------------------------------------------------
    Detect string parser.
 
@@ -21,47 +22,50 @@
 }
 
 unit uDetectStr;
+
 {$mode objfpc}{$H+}
- interface
 
- uses
- SysUtils, Classes, uTypes,uFileOp,LCLProc,Masks;
+interface
 
+uses
+  SysUtils, Classes, LCLProc, Masks,
+  uFile,
+  uFileSystemFile;
 
- type
- TMathtype=(mtnil,mtoperator,mtlbracket,mtrbracket,mtoperand);
+type
+  TMathtype=(mtnil,mtoperator,mtlbracket,mtrbracket,mtoperand);
 
- type
- TMathOperatortype=(monone, // NULL
-                    moequ,  // =
-                    moneq,  // != replaced with #
-                    moles,  // <
-                    momor,  // >
-                    moand,  // &
-                    moor,   // |
-                    monot   // NOT
+type
+  TMathOperatortype=(monone, // NULL
+                     moequ,  // =
+                     moneq,  // != replaced with #
+                     moles,  // <
+                     momor,  // >
+                     moand,  // &
+                     moor,   // |
+                     monot   // NOT
                     );
 
- type
- pmathchar = ^Tmathchar;
- TMathChar = record
-   case mathtype: Tmathtype of
-    mtoperand:(data:shortstring);
-    mtoperator:(op:TMathOperatortype);
- end;
+type
+  pmathchar = ^Tmathchar;
+  TMathChar = record
+    case mathtype: Tmathtype of
+      mtoperand:(data:shortstring);
+      mtoperator:(op:TMathOperatortype);
+  end;
 
- type
+type
 
    { TParserControl }
 
    TParserControl = class
    public
-    Function TestFileResult(ptr:PFileRecItem):boolean; overload;
-    function TestFileResult(AFileName: string): boolean; overload;
+    function TestFileResult(const aFile: TFile): boolean; overload;
+    function TestFileResult(const aFileName: UTF8String): boolean; overload;
    private
     input,output,stack:array of tmathchar;
     fmathstring:string;
-    fptr:PFileRecItem;
+    fFile: TFile;
     fforce:boolean;
     function getresult:boolean;
     function calculate(operand1,operand2,Aoperator:Tmathchar):string;
@@ -74,16 +78,17 @@ unit uDetectStr;
     function getprecedence(mop:TMathOperatortype):integer;
     function BooleanToStr(x:boolean):string;
     function StrToBoolean(s:string):boolean;
-
-   protected
+   public
+     destructor Destroy; override;
    published
     property DetectStr:string read fmathstring write fmathstring;
     property IsForce:boolean read fforce write fforce;
    end;
 
- implementation
+implementation
 
-
+uses
+  uFileProperty;
   
 function TParserControl.calculate(operand1,operand2,Aoperator:Tmathchar):string;
 var tmp:string;
@@ -110,10 +115,9 @@ begin
    if (operand1.data='EXT') then
      begin
        //---------------------
-       tmp:=fptr^.sExt;
-       if length(tmp)>0 then delete(tmp,1,1);
-       tmp:=UpperCase(tmp);
-       tmp:='"'+tmp+'"';
+       tmp:= FFile.Extension;
+       tmp:= UpperCase(tmp);
+       tmp:= '"'+tmp+'"';
        //---------------------
        case Aoperator.op of
         moequ: Result:=BooleanToStr(MatchesMask(tmp,operand2.data));
@@ -122,9 +126,9 @@ begin
      end;
 
    //SIZE > < = !=
-   if (operand1.data='SIZE') then
+   if (operand1.data='SIZE') and (fpSize in FFile.GetSupportedProperties) then
      begin
-       tmp:=IntToStr(fptr^.iSize);
+       tmp:= IntToStr((FFile.Properties[fpSize] as TFileSizeProperty).Value);
         case Aoperator.op of
            moequ: Result:= BooleanToStr(strtoint(tmp)=strtoint(operand2.data));
            moneq: Result:= BooleanToStr(strtoint(tmp)<>strtoint(operand2.data));
@@ -146,21 +150,18 @@ begin
  end;}
 end;
 
-function TParserControl.TestFileResult(ptr:PFileRecItem):boolean;
+function TParserControl.TestFileResult(const aFile: TFile):boolean;
 begin
-   fptr:=ptr;
-   Result:=getresult;
+  FFile:= aFile.Clone;
+  Result:= getresult;
 end;
 
 
-function TParserControl.TestFileResult(AFileName: string): boolean;
-var fr:TFileRecItem;
+function TParserControl.TestFileResult(const aFileName: UTF8String): boolean;
 begin
-   fr:=LoadFilebyName(AFileName);
-   fptr:=@fr;
-   DebugLn('fptr.sExt = '+fptr^.sExt);
-   DebugLn('fptr.sExt = '+fr.sExt);
-   Result:=getresult;
+  FFile:= TFileSystemFile.Create(aFileName);
+  DebugLn('FFile.Extension = ' + FFile.Extension);
+  Result:= getresult;
 end;
 
 function TParserControl.getresult:boolean;
@@ -354,6 +355,12 @@ function TParserControl.StrToBoolean(s: string): boolean;
   if s='true' then Result:=true else
    Result:=false;
  end;
+
+destructor TParserControl.Destroy;
+begin
+  FreeThenNil(FFile);
+  inherited Destroy;
+end;
 
  procedure TParserControl.convertinfixtopostfix;
  var
