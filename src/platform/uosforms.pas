@@ -352,14 +352,14 @@ begin
                   InsertMenuItemEx(hActionsSubMenu,0, nil, 0, 0, MFT_SEPARATOR);
 
                 // now add VIEW item
-                sCmd:= '{!VIEWER}' + aFile.Path + aFile.Name;
+                sCmd:= '{!VIEWER} ' + aFile.Path + aFile.Name;
                 I := sl.Add(sCmd);
-                InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 1, I + $1000, MFT_STRING);
+                InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(rsMnuView)), 1, I + $1000, MFT_STRING);
 
-                // now add EDITconfigure item
-                sCmd:= '{!EDITOR}' + aFile.Path + aFile.Name;
+                // now add EDIT item
+                sCmd:= '{!EDITOR} ' + aFile.Path + aFile.Name;
                 I := sl.Add(sCmd);
-                InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 1, I + $1000, MFT_STRING);
+                InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(rsMnuEdit)), 1, I + $1000, MFT_STRING);
               end;
           end;
         { /Actions submenu }
@@ -561,15 +561,15 @@ begin
 
               // now add VIEW item
               mi:=TMenuItem.Create(miActions);
-              mi.Caption:='{!VIEWER}' + aFile.Path + aFile.Name;
-              mi.Hint:=mi.Caption;
+              mi.Caption:= rsMnuView;
+              mi.Hint:= '{!VIEWER} ' + aFile.Path + aFile.Name;
               mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
               miActions.Add(mi);
 
               // now add EDITconfigure item
               mi:=TMenuItem.Create(miActions);
-              mi.Caption:='{!EDITOR}' + aFile.Path + aFile.Name;
-              mi.Hint:=mi.Caption;
+              mi.Caption:= rsMnuEdit;
+              mi.Hint:= '{!EDITOR} ' + aFile.Path + aFile.Name;
               mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
               miActions.Add(mi);
             end;
