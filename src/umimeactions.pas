@@ -5,7 +5,7 @@ unit uMimeActions;
 interface
 
 uses
-  Classes,
+  Classes, SysUtils, // for AnsiString version of StrPas function
   glib2;
 
 type

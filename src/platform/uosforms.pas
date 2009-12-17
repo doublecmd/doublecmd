@@ -581,50 +581,52 @@ begin
           CM.Items.Add(miActions);
        end;
        { /Actions submenu }
-        {$IFDEF LINUX}
-        //  Open with ...  (for now only for 1 selected file)
-        FileNames := TStringList.Create;
-        try
-          for i := 0 to Files.Count - 1 do
-            FileNames.Add(Files[i].Path + Files[i].Name);
-
-          DesktopEntries := GetDesktopEntries(FileNames);
-
-          if Assigned(DesktopEntries) and (DesktopEntries.Count > 0) then
-          begin
-            miOpenWith := TMenuItem.Create(CM);
-            miOpenWith.Caption := rsMnuOpenWith;
-            CM.Items.Add(miOpenWith);
-            AddOpenWithMenu := True;
-
-            for i := 0 to DesktopEntries.Count - 1 do
-            begin
-              mi := TMenuItem.Create(miOpenWith);
-              mi.Caption := PDesktopFileEntry(DesktopEntries[i])^.DisplayName;
-              mi.Hint := PDesktopFileEntry(DesktopEntries[i])^.Exec;
-              mi.OnClick := TContextMenu.OpenWithMenuItemSelect;
-              miOpenWith.Add(mi);
-            end;
-          end;
-
-        finally
-          FreeAndNil(FileNames);
-          if Assigned(DesktopEntries) then
-          begin
-            for i := 0 to DesktopEntries.Count - 1 do
-              Dispose(PDesktopFileEntry(DesktopEntries[i]));
-            FreeAndNil(DesktopEntries);
-          end;
-        end;
-        {$ENDIF}
-        // Add separator after actions and openwith menu.
-        if AddActionsMenu or AddOpenWithMenu then
-        begin
-          mi:=TMenuItem.Create(CM);
-          mi.Caption:='-';
-          CM.Items.Add(mi);
-        end;
       end; // if count = 1
+
+    {$IFDEF LINUX}
+    //  Open with ...
+    FileNames := TStringList.Create;
+    try
+      for i := 0 to Files.Count - 1 do
+        FileNames.Add(Files[i].Path + Files[i].Name);
+
+      DesktopEntries := GetDesktopEntries(FileNames);
+
+      if Assigned(DesktopEntries) and (DesktopEntries.Count > 0) then
+      begin
+        miOpenWith := TMenuItem.Create(CM);
+        miOpenWith.Caption := rsMnuOpenWith;
+        CM.Items.Add(miOpenWith);
+        AddOpenWithMenu := True;
+
+        for i := 0 to DesktopEntries.Count - 1 do
+        begin
+          mi := TMenuItem.Create(miOpenWith);
+          mi.Caption := PDesktopFileEntry(DesktopEntries[i])^.DisplayName;
+          mi.Hint := PDesktopFileEntry(DesktopEntries[i])^.Exec;
+          mi.OnClick := TContextMenu.OpenWithMenuItemSelect;
+          miOpenWith.Add(mi);
+        end;
+      end;
+
+    finally
+      FreeAndNil(FileNames);
+      if Assigned(DesktopEntries) then
+      begin
+        for i := 0 to DesktopEntries.Count - 1 do
+          Dispose(PDesktopFileEntry(DesktopEntries[i]));
+        FreeAndNil(DesktopEntries);
+      end;
+    end;
+    {$ENDIF}
+
+    // Add separator after actions and openwith menu.
+    if AddActionsMenu or AddOpenWithMenu then
+    begin
+      mi:=TMenuItem.Create(CM);
+      mi.Caption:='-';
+      CM.Items.Add(mi);
+    end;
 
     mi:=TMenuItem.Create(CM);
     mi.Action := frmMain.actRename;
