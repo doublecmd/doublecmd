@@ -489,10 +489,10 @@ end;
 var
   aFile: TFile;
   sl: TStringList;
-  i: Integer;
+  I: Integer;
   bmpTemp: TBitmap;
   ImageIndex: PtrInt;
-  sCmd: String;
+  sAct, sCmd: UTF8String;
   mi, miActions, miOpenWith: TMenuItem;
   FileNames: TStringList;
   DesktopEntries: TList = nil;
@@ -533,16 +533,16 @@ begin
             begin
               AddActionsMenu := True;
 
-              for i:=0 to sl.Count-1 do
+              for I:= 0 to sl.Count - 1 do
                 begin
-                  sCmd:=sl.Strings[i];
-                  if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
+                  sAct:= sl.Names[I];
+                  if (Pos('VIEW', sAct) > 0) or (Pos('EDIT', sAct) > 0) then Continue;
+                  sCmd:= sl.ValueFromIndex[I];
                   ReplaceExtCommand(sCmd, aFile, aFile.Path);
-                  mi:=TMenuItem.Create(miActions);
-                  mi.Caption:=RemoveQuotation(sCmd);
-                  mi.Hint:=Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
-                  // length is bad, but in Copy is corrected
-                  mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
+                  mi:= TMenuItem.Create(miActions);
+                  mi.Caption:= sAct;
+                  mi.Hint:= sCmd;
+                  mi.OnClick:= TContextMenu.ContextMenuSelect; // handler
                   miActions.Add(mi);
                 end;
             end;
