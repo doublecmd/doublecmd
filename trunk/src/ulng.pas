@@ -90,6 +90,8 @@ resourcestring
   rsMsgErrSetDateTime = 'Can not set date/time for "%s"';
   // for context menu
   rsMnuActions = 'Actions';
+  rsMnuView = 'View';
+  rsMnuEdit = 'Edit';
   rsMnuOpenWith = 'Open with ...';
   rsMnuMount = 'Mount';
   rsMnuUmount = 'Umount';
