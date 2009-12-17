@@ -29,7 +29,7 @@ interface
 uses
   Classes, SysUtils, Menus, Controls, ExtDlgs, uFile,
   {$IFDEF UNIX}
-  BaseUnix, Unix, fFileProperties;
+  Graphics, BaseUnix, Unix, fFileProperties, uPixMapManager;
   {$ELSE}
   FileUtil, Windows, ShlObj, ActiveX, uShlObjAdditional,
   JwaShlGuid, JwaDbt, uMyWindows;
@@ -490,6 +490,8 @@ var
   aFile: TFile;
   sl: TStringList;
   i: Integer;
+  bmpTemp: TBitmap;
+  ImageIndex: PtrInt;
   sCmd: String;
   mi, miActions, miOpenWith: TMenuItem;
   FileNames: TStringList;
@@ -604,6 +606,16 @@ begin
           mi := TMenuItem.Create(miOpenWith);
           mi.Caption := PDesktopFileEntry(DesktopEntries[i])^.DisplayName;
           mi.Hint := PDesktopFileEntry(DesktopEntries[i])^.Exec;
+          ImageIndex:= PixMapManager.GetIconByName(PDesktopFileEntry(DesktopEntries[i])^.IconName);
+          if ImageIndex >= 0 then
+            begin
+              bmpTemp:= PixMapManager.GetBitmap(ImageIndex, clMenu);
+              if Assigned(bmpTemp) then
+                begin
+                  mi.Bitmap.Assign(bmpTemp);
+                  FreeAndNil(bmpTemp);
+                end;
+            end;
           mi.OnClick := TContextMenu.OpenWithMenuItemSelect;
           miOpenWith.Add(mi);
         end;

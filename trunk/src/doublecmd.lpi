@@ -60,7 +60,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="95">
+    <Units Count="96">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -637,6 +637,11 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fSetFileProperties"/>
       </Unit94>
+      <Unit95>
+        <Filename Value="platform\upixmapgtk.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uPixMapGtk"/>
+      </Unit95>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -107,6 +107,7 @@ type
     function DrawBitmap(iIndex: Integer; AFile: TFile; DirectAccess: Boolean; Canvas : TCanvas; X, Y: Integer) : Boolean;
     function GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
     function GetIconByFile(AFile: TFile; DirectAccess: Boolean):PtrInt;
+    function GetIconByName(const AIconName: UTF8String): PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
@@ -127,7 +128,7 @@ uses
   GraphType, LCLIntf, LCLType, LCLProc, Forms, FileUtil, uGlobsPaths, WcxPlugin,
   uGlobs, uDCUtils, uFileSystemFile
   {$IFDEF LCLGTK2}
-    , gtkdef, gtk2, gdk2pixbuf, gdk2, glib2
+    , uPixMapGtk, gtkdef, gtk2, gdk2pixbuf, gdk2, glib2
   {$ENDIF}
   {$IFDEF MSWINDOWS}
     , CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus, IntfGraphics, uShlObjAdditional
@@ -147,21 +148,6 @@ begin
     clNone: Result := CLR_NONE;
     clDefault: Result := CLR_DEFAULT;
   end;
-end;
-{$ENDIF}
-
-{$IFDEF LCLGTK2}
-procedure DrawPixbufAtCanvas(Canvas: TCanvas; Pixbuf : PGdkPixbuf; SrcX, SrcY, DstX, DstY, Width, Height: Integer);
-var
-  gdkDrawable : PGdkDrawable;
-  gdkGC : PGdkGC;
-  gtkDC : TGtkDeviceContext;
-begin
-  gtkDC := TGtkDeviceContext(Canvas.Handle);
-  gdkDrawable := gtkDC.Drawable;
-  gdkGC := gdk_gc_new(gdkDrawable);
-  gdk_draw_pixbuf(gdkDrawable, gdkGC, Pixbuf, SrcX, SrcY, DstX, DstY, Width, Height, GDK_RGB_DITHER_NONE, 0, 0);
-  g_object_unref(gdkGC)
 end;
 {$ENDIF}
 
@@ -214,8 +200,6 @@ var
   bmStandartBitmap : Graphics.TBitMap = nil;
   {$IFDEF LCLGTK2}
   pbPicture : PGdkPixbuf;
-  iPixbufWidth : Integer;
-  iPixbufHeight : Integer;
   {$ENDIF}
 begin
   Result := nil;
@@ -287,15 +271,7 @@ begin
         pbPicture := gdk_pixbuf_new_from_file(PChar(sFileName), nil);
         if pbPicture <> nil then
         begin
-          iPixbufWidth := gdk_pixbuf_get_width(pbPicture);
-          iPixbufHeight := gdk_pixbuf_get_height(pbPicture);
-
-          bmStandartBitmap := TBitMap.Create;
-          bmStandartBitmap.SetSize(iPixbufWidth, iPixbufHeight);
-          bmStandartBitmap.Canvas.Brush.Color := clBackColor;
-          bmStandartBitmap.Canvas.FillRect(0, 0, iPixbufWidth, iPixbufHeight);
-
-          DrawPixbufAtCanvas(bmStandartBitmap.Canvas, pbPicture, 0, 0, 0, 0, iPixbufWidth, iPixbufHeight);
+          bmStandartBitmap:= PixBufToBitmap(pbPicture);
           gdk_pixmap_unref(pbPicture);
         end
         else // Try loading the standard way.
@@ -658,7 +634,6 @@ var
   iniDesktop: TIniFileEx;
   sIconName: UTF8String;
 begin
-  Result:= iDefaultIcon;
   //DebugLn(sFileName);
   try
     iniDesktop:= TIniFileEx.Create(sFileName, fmOpenRead);
@@ -667,41 +642,11 @@ begin
     FreeThenNil(iniDesktop);
   end;
 
-  if sIconName <> EmptyStr then
-  begin
-    if GetPathType(sIconName) = ptAbsolute then
-      begin
-        sFileName:= sIconName;
-        sIconName:= ExtractOnlyFileName(sIconName);
-        I:= FExtList.IndexOf(sIconName);
-        if I >= 0 then
-          Result:= PtrInt(FExtList.Objects[I])
-        else
-          begin
-            I:= CheckAddPixmap(sFileName, gIconsSize, False);
-            if I >= 0 then
-              begin
-                FExtList.AddObject(sIconName, TObject(I));
-                Result:= I;
-              end;
-          end;
-      end
-    else
-      begin
-        I:= FExtList.IndexOf(sIconName);
-        if I >= 0 then
-          Result:= PtrInt(FExtList.Objects[I])
-        else
-          begin
-            if LoadIconThemeIcon(sIconName, sIconName, gIconsSize) then
-              begin
-                I:= FExtList.IndexOf(sIconName);
-                Result:= PtrInt(FExtList.Objects[I]);
-              end;
-          end;
-      end;
-    //DebugLn(sIconName);
-  end;
+  I:= GetIconByName(sIconName);
+  if I < 0 then
+    Result:= iDefaultIcon
+  else
+    Result:= I;
 end;
 
 {$ENDIF} // Unix
@@ -916,6 +861,13 @@ var
   memstream: TMemoryStream;
 {$ENDIF}
 begin
+{$IFDEF LCLGTK2}
+  if (iIndex >= 0) and (iIndex < FPixbufList.Count) then
+  begin
+    Result:= PixBufToBitmap(PGdkPixbuf(FPixbufList.Objects[iIndex]));
+  end
+  else
+{$ELSE}
   if (iIndex >= 0) and (iIndex < FPixmapList.Count) then
   begin
     // Make a new copy.
@@ -923,6 +875,7 @@ begin
     Result.Assign(Graphics.TBitmap(FPixmapList.Objects[iIndex]));
   end
   else
+{$ENDIF}
 {$IFDEF MSWINDOWS}
   if iIndex >= $1000 then
   begin
@@ -1223,6 +1176,53 @@ begin
       Exit;
     end;
     Result := PtrInt(FExtList.Objects[Result]);
+  end;
+end;
+
+function TPixMapManager.GetIconByName(const AIconName: UTF8String): PtrInt;
+var
+  I: PtrInt;
+  sFileName,
+  sIconName: UTF8String;
+begin
+  Result:= -1;
+  sIconName:= AIconName;
+  if sIconName <> EmptyStr then
+  begin
+    if GetPathType(sIconName) = ptAbsolute then
+      begin
+        sFileName:= sIconName;
+        sIconName:= ExtractOnlyFileName(sIconName);
+        I:= FExtList.IndexOf(sIconName);
+        if I >= 0 then
+          Result:= PtrInt(FExtList.Objects[I])
+        else
+          begin
+            I:= CheckAddPixmap(sFileName, gIconsSize, False);
+            if I >= 0 then
+              begin
+                FExtList.AddObject(sIconName, TObject(I));
+                Result:= I;
+              end;
+          end;
+      end
+    else
+      begin
+        I:= FExtList.IndexOf(sIconName);
+        if I >= 0 then
+          Result:= PtrInt(FExtList.Objects[I])
+{$IF DEFINED(UNIX) and NOT DEFINED(DARWIN)}
+        else
+          begin
+            if LoadIconThemeIcon(sIconName, sIconName, gIconsSize) then
+              begin
+                I:= FExtList.IndexOf(sIconName);
+                Result:= PtrInt(FExtList.Objects[I]);
+              end;
+          end;
+{$ENDIF}
+      end;
+    //DebugLn(sIconName);
   end;
 end;
 
