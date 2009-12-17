@@ -296,7 +296,7 @@ var
   aFile: TFile;
   sl: TStringList = nil;
   i:Integer;
-  sCmd:String;  
+  sAct, sCmd: UTF8String;
   contMenu: IContextMenu;
   menu: HMENU = 0;
   hActionsSubMenu: HMENU = 0;
@@ -332,14 +332,11 @@ begin
               begin
               //founded any commands
                 InsertMenuItemEx(menu, hActionsSubMenu, PWChar(UTF8Decode(rsMnuActions)), 0, 333, MFT_STRING);
-                for i:=0 to sl.Count-1 do
+                for I:= 0 to sl.Count - 1 do
                   begin
-                    sCmd:=sl.Strings[i];
-                    if pos('VIEW=',sCmd)>0 then Continue;  // view command is only for viewer
-                    ReplaceExtCommand(sCmd, aFile, aFile.Path);
-
-                    sCmd:= RemoveQuotation(sCmd);
-                    InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sCmd)), 0, I + $1000, MFT_STRING);
+                    sAct:= sl.Names[I];
+                    if (Pos('VIEW', sAct) > 0) or (Pos('EDIT', sAct) > 0) then Continue;
+                    InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sAct)), 0, I + $1000, MFT_STRING);
                   end;
               end;
 
@@ -453,8 +450,8 @@ begin
       else if (cmd >= $1000) then // actions sub menu
         begin
           sCmd:= sl.Strings[cmd - $1000];
+          sCmd:= Copy(sCmd, Pos('=', sCmd) + 1, Length(sCmd));
           ReplaceExtCommand(sCmd, aFile, aFile.Path);
-          sCmd:= Copy(sCmd, pos('=',sCmd)+1, length(sCmd));
           try
             with frmMain.ActiveFrame do
             begin
