@@ -17,9 +17,19 @@ uses
 {$E wfx}
 //{$R *.res}
 
+var
+  gPluginNr: integer;
+  gProgressProc: tProgressProc;
+  gLogProc: tLogProc;
+  gRequestProc: tRequestProc;
+
 function FsInit(PluginNr:integer;pProgressProc:tProgressProc;pLogProc:tLogProc;
                 pRequestProc:tRequestProc):integer; stdcall;
 begin
+  gPluginNr:= PluginNr;
+  gProgressProc:= pProgressProc;
+  gLogProc:= pLogProc;
+  gRequestProc:= pRequestProc;
   Result:= 0;
 end;
 
@@ -33,7 +43,8 @@ end;
 
 function FsFindNext(Hdl:thandle;var FindData:tWIN32FINDDATA): BOOL; stdcall;
 begin
- Result:= False;
+//  gRequestProc(gPluginNr, RT_URL, nil, nil, nil, 0);
+  Result:= False;
 end;
 
 function FsFindClose(Hdl:thandle):integer; stdcall;
