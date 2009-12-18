@@ -66,7 +66,7 @@ var
 implementation
 
 uses
-  LCLProc, Dialogs, Base64, BlowFish, md5, uShowMsg, uGlobsPaths, uLng;
+  LCLProc, LCLType, Base64, BlowFish, md5, uShowMsg, uGlobsPaths, uLng;
 
 type
   TBlowFishKeyRec = record
@@ -171,7 +171,7 @@ begin
     end
   else
     begin
-      MessageDlg('Error!', 'Wrong password!'#13'Please try again!', mtError, [mbOK], 0);
+      ShowMessageBox('Wrong password!'#13'Please try again!', 'Error!', MB_OK or MB_ICONERROR);
     end;
 end;
 
