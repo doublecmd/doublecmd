@@ -34,11 +34,25 @@ unit uPixMapManager;
 
 interface
 
+{
+  GTK2 is used directly in PixmapManager, because FPC/Lazarus draws bitmaps
+  without alpha channel under GTK2, so bitmaps looks ugly.
+  If this problem will be fixed then GTK2 specific code could be dropped.
+}
+
 uses
-  Classes, SysUtils, Graphics, uOSUtils, uFileSorting,
+  Classes, SysUtils, Graphics, uOSUtils, uFileSorting, StringHashList,
   uFile
   {$IF DEFINED(UNIX)}
   , uClassesEx
+    {$IF NOT DEFINED(DARWIN)}
+    , contnrs
+      {$IFDEF LCLGTK2}
+      , gtk2
+      {$ELSE}
+      , uIconTheme, uMyIconTheme
+      {$ENDIF}
+    {$ENDIF}
   {$ENDIF};
 
 type
@@ -55,8 +69,20 @@ type
   TPixMapManager = class
   
   private
-    FExtList : TStringList;
-    FPixmapList : TStringList;
+    {en
+       Maps file extension to index of bitmap (in FPixmapList) for this file extension.
+    }
+    FExtList : TStringHashList;
+    {en
+       Maps icon filename to index of bitmap (in FPixmapList) for this icon.
+       Uses absolute file names.
+    }
+    FPixmapsFileNames : TStringHashList;
+    {en
+       A list of loaded bitmaps.
+       Stores TBitmap objects (on GTK2 it stores PGdkPixbuf pointers).
+    }
+    FPixmapList : TFPList;
     FDriveIconList : TStringList;
     FiDirIconID : PtrInt;
     FiDirLinkIconID : PtrInt;
@@ -69,24 +95,33 @@ type
     FiSortAscID : PtrInt;
     FiSortDescID : PtrInt;
     FPixmapSize : String;
-    {$IFDEF MSWINDOWS}
+    {$IF DEFINED(MSWINDOWS)}
     FSysImgList : THandle;
-    {$ELSE}
-    FIconTheme: Pointer;
-    {$ENDIF}
+    {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+    {en
+       Maps file extension to MIME icon name(s).
+    }
+    FExtToMimeIconName: TFPDataHashTable;
+    {en
+       Maps mime icon name to index of bitmap (in FPixmapList) for this icon.
+    }
+    FThemePixmapsFileNames: TStringHashList;
     {$IFDEF LCLGTK2}
-    FPixbufList : TStringList;
+    FIconTheme: PGtkIconTheme;
+    {$ELSE}
+    FIconTheme: TIconTheme;
+    {$ENDIF}
     {$ENDIF}
   protected
     function LoadBitmap(AIconFileName: String; out ABitmap: TBitmap): Boolean;
-    function CheckLoadPixmap(const sName : String; bUsePixmapPath : Boolean = True) : TBitmap;
-    function CheckAddPixmap(const sName : String; IconSize : Integer = 0; bUsePixmapPath : Boolean = True): Integer;
+    function CheckLoadPixmap(const AIconName: String; bUsePixmapPath : Boolean = True) : TBitmap;
+    function CheckAddPixmap(AIconName: String; IconSize : Integer = 0; bUsePixmapPath : Boolean = True): PtrInt;
   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
     procedure CreateIconTheme;
     procedure DestroyIconTheme;
-    function LoadIconThemeIcon(AFileExt, AIconName: String; AIconSize: Integer): Boolean;
-    procedure LoadMimeIcons;
-    function GetGenericIcons(const slGenericIcons: TStringListEx): Boolean;
+    procedure LoadMimeIconNames;
+    function LoadIconThemeIcon(AIconName: String; AIconSize: Integer): PtrInt;
+    function GetMimeIcon(AFileExt: String; AIconSize: Integer): PtrInt;
     function GetIconByDesktopFile(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
   {$ENDIF}
     function GetBuiltInDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
@@ -94,8 +129,8 @@ type
     constructor Create;
     destructor Destroy; override;
     procedure Load(const sFileName : String);
-    function GetBitmap(iIndex : Integer; BkColor : TColor) : TBitmap; // Always returns new copy.
-    function DrawBitmap(iIndex: Integer; Canvas : TCanvas; X, Y: Integer) : Boolean;
+    function GetBitmap(iIndex : PtrInt; BkColor : TColor) : TBitmap; // Always returns new copy.
+    function DrawBitmap(iIndex: PtrInt; Canvas : TCanvas; X, Y: Integer) : Boolean;
     {en
        Draws bitmap stretching it if needed to Width x Height.
        If Width is 0 then full bitmap width is used.
@@ -103,10 +138,10 @@ type
        @param(iIndex
               Index of pixmap manager's bitmap.)
     }
-    function DrawBitmap(iIndex: Integer; Canvas : TCanvas; X, Y, Width, Height: Integer) : Boolean;
-    function DrawBitmap(iIndex: Integer; AFile: TFile; DirectAccess: Boolean; Canvas : TCanvas; X, Y: Integer) : Boolean;
+    function DrawBitmap(iIndex: PtrInt; Canvas : TCanvas; X, Y, Width, Height: Integer) : Boolean;
+    function DrawBitmap(iIndex: PtrInt; AFile: TFile; DirectAccess: Boolean; Canvas : TCanvas; X, Y: Integer) : Boolean;
     function GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
-    function GetIconByFile(AFile: TFile; DirectAccess: Boolean):PtrInt;
+    function GetIconByFile(AFile: TFile; DirectAccess: Boolean): PtrInt;
     function GetIconByName(const AIconName: UTF8String): PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
@@ -128,15 +163,12 @@ uses
   GraphType, LCLIntf, LCLType, LCLProc, Forms, FileUtil, uGlobsPaths, WcxPlugin,
   uGlobs, uDCUtils, uFileSystemFile
   {$IFDEF LCLGTK2}
-    , uPixMapGtk, gtkdef, gtk2, gdk2pixbuf, gdk2, glib2
+    , uPixMapGtk, gtkdef, gdk2pixbuf, gdk2, glib2
   {$ENDIF}
   {$IFDEF MSWINDOWS}
     , CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus, IntfGraphics, uShlObjAdditional
   {$ELSE}
     , StrUtils
-    {$IFNDEF LCLGTK2}
-    , uIconTheme, uMyIconTheme
-    {$ENDIF}
   {$ENDIF}
   ;
 
@@ -193,7 +225,7 @@ var
   Icon : TIcon = nil;
 {$ENDIF}
   AFile: TFileSystemFile;
-  iIndex : Integer;
+  iIndex : PtrInt;
   sExtFilter,
   sGraphicFilter : String;
   bFreeAtEnd : Boolean;
@@ -338,16 +370,16 @@ begin
   end;
 end;
 
-function TPixMapManager.CheckLoadPixmap(const sName: String; bUsePixmapPath : Boolean = True): Graphics.TBitmap;
+function TPixMapManager.CheckLoadPixmap(const AIconName: String; bUsePixmapPath : Boolean = True): Graphics.TBitmap;
 var
   sFileName: String;
 begin
   Result:= nil;
 
   if bUsePixmapPath then
-    sFileName:= gpPixmapPath+FPixmapSize+sName
+    sFileName:= gpPixmapPath + FPixmapSize + AIconName
   else
-    sFileName:= sName;
+    sFileName:= AIconName;
     
   if not mbFileExists(sFileName) then
     begin
@@ -357,9 +389,9 @@ begin
   LoadBitmap(sFileName, Result);
 end;
 
-function TPixMapManager.CheckAddPixmap(const sName: String; IconSize : Integer; bUsePixmapPath : Boolean): Integer;
+function TPixMapManager.CheckAddPixmap(AIconName: String; IconSize : Integer; bUsePixmapPath : Boolean): PtrInt;
 var
-  sFileName : String;
+  fileIndex: PtrInt;
   {$IFDEF LCLGTK2}
   pbPicture : PGdkPixbuf;
   {$ELSE}
@@ -367,85 +399,85 @@ var
   {$ENDIF}
 begin
   Result:= -1;
+  if AIconName = EmptyStr then Exit;
 
   if IconSize = 0 then IconSize:= gIconsSize;
 
-  if bUsePixmapPath then
-    sFileName:= gpPixmapPath + FPixmapSize + sName
-  else
-    sFileName:= sName;
-  
-  if not mbFileExists(sFileName) then
+  if bUsePixmapPath or (GetPathType(AIconName) = ptAbsolute) then
     begin
-      DebugLn(Format('Warning: pixmap [%s] not exists!',[sFileName]));
-      Exit;
-    end;
-  // determine: known this file?
-  {$IFDEF LCLGTK2}
-  Result:= FPixbufList.IndexOf(sName);
-  if Result < 0 then
-  begin
-    pbPicture := gdk_pixbuf_new_from_file_at_size(PChar(sFileName), IconSize, IconSize, nil);
-    if pbPicture = nil then
-    begin
-      DebugLn(Format('Error: pixmap [%s] not loaded!', [sFileName]));
-      Exit;
-    end;
-    Result := FPixbufList.AddObject(sName, TObject(pbPicture));
-  end;
-  {$ELSE}
-  Result:= FPixmapList.IndexOf(sName);
-  if Result < 0 then // no
-    begin
-      if LoadBitmap(sFileName, bmpBitmap) then
-      begin
-        // Shrink big bitmaps before putting them into PixmapManager,
-        // to speed up later drawing.
-        //
-        // Note: Transparent bitmaps may lose transparency, because
-        // they must drawn onto a background, so we allow smaller bitmaps
-        // up to 48x48 (icons for example) to load in full size and they
-        // are resized upon drawing.
-        //
-        // TODO:
-        // This should resize any non-transparent,
-        // non-alpha channel bitmaps to gIconsSize
-        // (so if Width<>gIconsSize or Height<>gIconsSize then Resize).
-        if (bmpBitmap.Width > 48) or (bmpBitmap.Height > 48) then
+      if bUsePixmapPath then
+        AIconName := gpPixmapPath + FPixmapSize + AIconName;
+
+      // Determine if this file is already loaded.
+      fileIndex := FPixmapsFileNames.Find(AIconName);
+      if fileIndex < 0 then
         begin
-          bmpBitmap := StretchBitmap(bmpBitmap, IconSize, clBlack, True);
+          if not mbFileExists(AIconName) then
+            begin
+              DebugLn(Format('Warning: pixmap [%s] not exists!', [AIconName]));
+              Exit;
+            end;
+      {$IFDEF LCLGTK2}
+          pbPicture := gdk_pixbuf_new_from_file_at_size(PChar(AIconName), IconSize, IconSize, nil);
+          if Assigned(pbPicture) then
+            begin
+              Result := FPixmapList.Add(pbPicture);
+              FPixmapsFileNames.Add(AIconName, Pointer(Result));
+            end
+          else
+            DebugLn(Format('Error: pixmap [%s] not loaded!', [AIconName]));
+      {$ELSE}
+          if LoadBitmap(AIconName, bmpBitmap) then
+          begin
+            // Shrink big bitmaps before putting them into PixmapManager,
+            // to speed up later drawing.
+            //
+            // Note: Transparent bitmaps may lose transparency, because
+            // they must drawn onto a background, so we allow smaller bitmaps
+            // up to 48x48 (icons for example) to load in full size and they
+            // are resized upon drawing.
+            //
+            // TODO:
+            // This should resize any non-transparent,
+            // non-alpha channel bitmaps to gIconsSize
+            // (so if Width<>gIconsSize or Height<>gIconsSize then Resize).
+            if (bmpBitmap.Width > 48) or (bmpBitmap.Height > 48) then
+            begin
+              bmpBitmap := StretchBitmap(bmpBitmap, IconSize, clBlack, True);
+            end;
+            Result := FPixmapList.Add(bmpBitmap);
+            FPixmapsFileNames.Add(AIconName, Pointer(Result));
+          end;
+      {$ENDIF}
+        end
+      else
+        begin
+          Result:= PtrInt(FPixmapsFileNames.List[fileIndex]^.Data);
         end;
-        Result:= FPixmapList.AddObject(sName, bmpBitmap); // add to list
-      end;
+    end
+{$IF DEFINED(UNIX) and NOT DEFINED(DARWIN)}
+  else  // Load theme icon
+    begin
+      Result := LoadIconThemeIcon(AIconName, IconSize);
     end;
-  {$ENDIF}
+{$ENDIF}
 end;
 
 {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 
 procedure TPixMapManager.CreateIconTheme;
 {$IFDEF LCLGTK2}
-var
-  GtkIconTheme: PGtkIconTheme;
 begin
   // get current gtk theme
-  GtkIconTheme:= gtk_icon_theme_get_for_screen(gdk_screen_get_default);
+  FIconTheme:= gtk_icon_theme_get_for_screen(gdk_screen_get_default);
   { // load custom theme
-  GtkIconTheme:= gtk_icon_theme_new;
-  gtk_icon_theme_set_custom_theme(GtkIconTheme, 'oxygen');
+  FIconTheme:= gtk_icon_theme_new;
+  gtk_icon_theme_set_custom_theme(FIconTheme, 'oxygen');
   }
-  FIconTheme:= GtkIconTheme;
 end;
 {$ELSE}
-var
-  IconTheme: TIconTheme;
 begin
-  FIconTheme:= nil;
-  IconTheme:= TIconTheme.Create(GetCurrentIconTheme);
-  if IconTheme.Load then
-    FIconTheme:= Pointer(IconTheme)
-  else
-    FreeAndNil(IconTheme);
+  FIconTheme:= TIconTheme.Create(GetCurrentIconTheme);
 end;
 {$ENDIF}
 
@@ -455,177 +487,224 @@ begin
   FIconTheme:= nil;
 end;
 {$ELSE}
-var
-  IconTheme: TIconTheme;
 begin
-  IconTheme:= TIconTheme(FIconTheme);
-  FreeThenNil(IconTheme);
+  if Assigned(FIconTheme) then
+    FreeAndNil(FIconTheme);
 end;
 {$ENDIF}
 
-function TPixMapManager.LoadIconThemeIcon(AFileExt, AIconName: String; AIconSize: Integer): Boolean;
-{$IFDEF LCLGTK2}
-var
-  GtkIconTheme: PGtkIconTheme;
-  pbPicture: PGdkPixbuf;
-  pgcIconName: Pgchar;
-  iPixMap: PtrInt;
-begin
-  Result:= False;
-  GtkIconTheme:= PGtkIconTheme(FIconTheme);
-  pgcIconName:= Pgchar(AIconName);
-  pbPicture:= gtk_icon_theme_load_icon(GtkIconTheme, pgcIconName, AIconSize, GTK_ICON_LOOKUP_NO_SVG, nil);
-  if pbPicture <> nil then
-    begin
-     iPixMap:= FPixbufList.AddObject(AFileExt, TObject(pbPicture));
-     FExtList.AddObject(AFileExt, TObject(iPixMap));
-     Result:= True;
-    end;
-end;
-{$ELSE}
-var
-  IconTheme: TIconTheme;
-  sIconFileName: String;
-  bmpBitmap: TBitmap;
-  iPixMap: PtrInt;
-begin
-  Result:= False;
-  IconTheme:= TIconTheme(FIconTheme);
-  sIconFileName:= IconTheme.FindIcon(AIconName, AIconSize);
-  if sIconFileName <> EmptyStr then
-  begin
-    iPixMap:= FPixmapList.IndexOf(sIconFileName);
-    if (iPixMap >= 0) then
-      begin
-        FExtList.AddObject(AFileExt, TObject(iPixMap));
-        Result:= True;
-      end
-    else if LoadBitmap(sIconFileName, bmpBitmap) then
-      begin
-        iPixMap:= FPixmapList.AddObject(sIconFileName, bmpBitmap);
-        FExtList.AddObject(AFileExt, TObject(iPixMap));
-        Result:= True;
-      end;
-  end;
-end;
-{$ENDIF}
-
-procedure TPixMapManager.LoadMimeIcons;
+procedure TPixMapManager.LoadMimeIconNames;
 const
-  // From update-mime-database.c
-  media_types: array[0..10] of String = (
-        'text', 'application', 'image', 'audio',
-        'inode', 'video', 'message', 'model', 'multipart',
-        'x-content', 'x-epoc');
-var
-  slGenericIcons: TStringListEx;
-  I, J: Integer;
-  scIconName: String;
-  sExt, sIconName: String;
-  bResult: Boolean;
-begin
-  slGenericIcons:= TStringListEx.Create;
-  //slGenericIcons.LoadFromFile(gpIniDir + 'mimetypes.txt');
-  if GetGenericIcons(slGenericIcons) then
-    begin
-      // get current icon theme
-      CreateIconTheme;
-      // load theme icons
-      for I:= 0 to slGenericIcons.Count - 1 do
-        begin
-          sExt:= slGenericIcons.Names[I];
-          if FExtList.IndexOf(sExt) >= 0 then Continue;
-          sIconName:= slGenericIcons.ValueFromIndex[I];
-          // try to load mime icon
-          scIconName:= Copy2SymbDel(sIconName, ':');
-          bResult:= LoadIconThemeIcon(sExt, scIconName, gIconsSize);
-          // if icon not found then try to load generic icon
-          if (bResult = False) and (sIconName <> '') then
-            begin
-              scIconName:= sIconName;
-              bResult:= LoadIconThemeIcon(sExt, scIconName, gIconsSize);
-            end;
-          // Shared-mime-info spec says:
-          // "If [generic-icon] is not specified then the mimetype is used to generate the
-          // generic icon by using the top-level media type (e.g. "video" in "video/ogg")
-          // and appending "-x-generic" (i.e. "video-x-generic" in the previous example)."
-          if bResult = False then
-            begin
-              sIconName:= slGenericIcons.ValueFromIndex[I];
-              for J:= Low(media_types) to High(media_types) do
-                begin
-                  if Pos(media_types[J], sIconName) = 1 then
-                    begin
-                      scIconName:= media_types[J] + '-x-generic';
-                      bResult:= LoadIconThemeIcon(sExt, scIconName, gIconsSize);
-                      if bResult = True then Break;
-                    end; // if
-                end; // for
-            end; // if
-        end;
-    end;
-  slGenericIcons.Free;
-end;
-
-function TPixMapManager.GetGenericIcons(const slGenericIcons: TStringListEx): Boolean;
-const
-  pixmaps_cache = 'pixmaps.cache';
   mime_globs = '/usr/share/mime/globs';
   mime_generic_icons = '/usr/share/mime/generic-icons';
+  pixmaps_cache = 'pixmaps.cache';
+  cache_signature: DWord = $44435043; // 'DCPC'
+  cache_version: DWord = 1;
 var
-  globs,
-  generic_icons: TStringListEx;
+  I, J, K: Integer;
+  globs: TStringListEx = nil;
+  generic_icons: TStringListEx = nil;
+  cache: TFileStreamEx = nil;
   mTime: LongInt;
-  I: Integer;
+  sMimeType,
   sMimeIconName,
-  sGenericIconName: String;
+  sExtension: String;
+  node: THTDataNode = nil;
+  iconsList: TStringList;
+  EntriesCount, IconsCount: Cardinal;
+  nodeList: TFPObjectList;
 begin
   try
-    Result:= False;
-    globs:= nil;
-    generic_icons:= nil;
-    // try to load from cache
+    // Try to load from cache.
     mTime:= mbFileAge(mime_globs);
-    if mbFileAge(gpIniDir + pixmaps_cache) = mTime then
+    if (mbFileAge(gpIniDir + pixmaps_cache) = mTime) and
+       (mbFileAccess(gpIniDir + pixmaps_cache, fmOpenRead)) and
+       (mbFileSize(gpIniDir + pixmaps_cache) > SizeOf(DWord) * 2) then
+    begin
+      cache := TFileStreamEx.Create(gpIniDir + pixmaps_cache, fmOpenRead);
+      if (cache.ReadDWord <> NtoBE(cache_signature)) or
+         (cache.ReadDWord <> cache_version) then
       begin
-        slGenericIcons.LoadFromFile(gpIniDir + pixmaps_cache);
-        Exit(True);
+        FreeAndNil(cache);
       end;
-    // load mime types list
-    globs:= TStringListEx.Create;
-    globs.NameValueSeparator:= ':';
-    globs.LoadFromFile(mime_globs);
-    // try to load generic icons list
-    if mbFileExists(mime_generic_icons) then
+    end;
+
+    if Assigned(cache) then
       begin
-        generic_icons:= TStringListEx.Create;
-        generic_icons.NameValueSeparator:= ':';
-        generic_icons.LoadFromFile(mime_generic_icons);
-      end;
-    // fill icons list (format "extension=mimeiconname:genericiconname")
-    if Assigned(generic_icons) then
-      for I:= 0 to globs.Count - 1 do
+        EntriesCount := cache.ReadDWord;
+        FExtToMimeIconName.HashTableSize := EntriesCount;
+
+        // Each entry is a file extension with a list of icon names.
+        for I := 0 to EntriesCount - 1 do
         begin
-          sGenericIconName:= generic_icons.Values[globs.Names[I]];
-          sMimeIconName:= StringReplace(globs.Names[I], '/', '-', []);
-          slGenericIcons.Add(PChar(globs.ValueFromIndex[I])+2 + '=' + sMimeIconName + ':' + sGenericIconName);
-        end
-    else
-      for I:= 0 to globs.Count - 1 do
-        begin
-          sMimeIconName:= StringReplace(globs.Names[I], '/', '-', []);
-          slGenericIcons.Add(PChar(globs.ValueFromIndex[I])+2 + '=' + sMimeIconName);
+          sExtension := cache.ReadAnsiString;
+          IconsCount := cache.ReadDWord;
+          iconsList := TStringList.Create;
+          FExtToMimeIconName.Add(sExtension, iconsList);
+          iconsList.Capacity := IconsCount;
+          for J := 0 to IconsCount - 1 do
+            iconsList.Add(cache.ReadAnsiString);
         end;
-    Result:= True;
-    // save to cache
-    slGenericIcons.SaveToFile(gpIniDir + pixmaps_cache);
-    mbFileSetTime(gpIniDir + pixmaps_cache, mTime, 0, 0);
+      end
+    else if mbFileAccess(mime_globs, fmOpenRead) then
+      begin
+        // Load mapping: MIME type -> file extension.
+        globs:= TStringListEx.Create;
+        globs.NameValueSeparator:= ':';
+        globs.LoadFromFile(mime_globs);
+
+        // Try to load mapping: MIME type -> generic MIME icon name.
+        if mbFileExists(mime_generic_icons) then
+          begin
+            generic_icons:= TStringListEx.Create;
+            generic_icons.NameValueSeparator:= ':';
+            generic_icons.LoadFromFile(mime_generic_icons);
+          end;
+
+        EntriesCount := 0;
+        // Create mapping: file extension -> list of MIME icon names.
+        for I:= 0 to globs.Count - 1 do
+          if (globs.Strings[I]    <> '') and   // bypass empty lines
+             (globs.Strings[I][1] <> '#') then // and comments
+          begin
+            sMimeType := globs.Names[I];
+            sMimeIconName:= StringReplace(sMimeType, '/', '-', []);
+            sExtension:= ExtractFileExt(globs.ValueFromIndex[I]);
+
+            // Support only extensions, not full file name masks.
+            if (sExtension <> '') and (sExtension <> '.*') then
+            begin
+              Delete(sExtension, 1, 1);
+
+              node := THTDataNode(FExtToMimeIconName.Find(sExtension));
+              if not Assigned(node) then
+                begin
+                  iconsList := TStringList.Create;
+                  FExtToMimeIconName.Add(sExtension, iconsList);
+                  Inc(EntriesCount);
+                end
+              else
+                iconsList := TStringList(node.Data);
+
+              if iconsList.IndexOf(sMimeIconName) < 0 then
+                iconsList.Add(sMimeIconName);
+
+              // Shared-mime-info spec says:
+              // "If [generic-icon] is not specified then the mimetype is used to generate the
+              // generic icon by using the top-level media type (e.g. "video" in "video/ogg")
+              // and appending "-x-generic" (i.e. "video-x-generic" in the previous example)."
+              if Assigned(generic_icons) then
+                begin
+                  J := generic_icons.IndexOfName(sMimeType);
+                  if J <> -1 then
+                    sMimeIconName := generic_icons.ValueFromIndex[J] // found generic icon
+                  else
+                    sMimeIconName := Copy2Symb(sMimeIconName, '-') + '-x-generic';
+                end
+              else
+                sMimeIconName := Copy2Symb(sMimeIconName, '-') + '-x-generic';
+
+              if iconsList.IndexOf(sMimeIconName) < 0 then
+                iconsList.Add(sMimeIconName);
+            end;
+          end;
+
+        // save to cache
+        cache := TFileStreamEx.Create(gpIniDir + pixmaps_cache, fmCreate);
+        cache.WriteDWord(NtoBE(cache_signature));
+        cache.WriteDWord(cache_version);
+        cache.WriteDWord(EntriesCount);
+        for I := 0 to FExtToMimeIconName.HashTable.Count - 1 do
+          begin
+            nodeList := TFPObjectList(FExtToMimeIconName.HashTable.Items[I]);
+            if Assigned(nodeList) then
+              for J := 0 to nodeList.Count - 1 do
+                begin
+                  node := THtDataNode(nodeList.Items[J]);
+                  iconsList := TStringList(node.Data);
+                  cache.WriteAnsiString(node.Key);
+                  cache.WriteDWord(iconsList.Count);
+                  for K := 0 to iconsList.Count - 1 do
+                    cache.WriteAnsiString(iconsList.Strings[K]);
+                end;
+          end;
+        FreeAndNil(cache); // Close file
+        mbFileSetTime(gpIniDir + pixmaps_cache, mTime, 0, 0);
+      end;
+
   finally
     if Assigned(globs) then
       FreeAndNil(globs);
     if Assigned(generic_icons) then
       FreeAndNil(generic_icons);
+    if Assigned(cache) then
+      FreeAndNil(cache);
   end;
+end;
+
+function TPixMapManager.GetMimeIcon(AFileExt: String; AIconSize: Integer): PtrInt;
+var
+  I: Integer;
+  node: THTDataNode;
+  iconList: TStringList;
+begin
+  Result := -1;
+
+  // Search for an icon for this file extension.
+  node := THTDataNode(FExtToMimeIconName.Find(AFileExt));
+  if Assigned(node) then
+    begin
+      iconList := TStringList(node.Data);
+      // Try to load one of the icons in the list.
+      for I := 0 to iconList.Count - 1 do
+        begin
+          Result := LoadIconThemeIcon(iconList.Strings[I], AIconSize);
+          if Result <> -1 then break;
+        end;
+    end;
+end;
+
+function TPixMapManager.LoadIconThemeIcon(AIconName: String; AIconSize: Integer): PtrInt;
+var
+  fileIndex: PtrInt;
+{$IFDEF LCLGTK2}
+  pbPicture: PGdkPixbuf;
+  pgcIconName: Pgchar;
+{$ELSE}
+  sIconFileName: UTF8String;
+  bmpBitmap: Graphics.TBitmap;
+{$ENDIF}
+begin
+  fileIndex := FThemePixmapsFileNames.Find(AIconName);
+  if fileIndex < 0 then
+    begin
+{$IFDEF LCLGTK2}
+      pgcIconName:= Pgchar(AIconName);
+      pbPicture:= gtk_icon_theme_load_icon(FIconTheme, pgcIconName, AIconSize, GTK_ICON_LOOKUP_NO_SVG, nil);
+      if pbPicture <> nil then
+        begin
+          Result := FPixmapList.Add(pbPicture);
+          FThemePixmapsFileNames.Add(AIconName, Pointer(Result));
+        end
+      else
+        Result := -1;
+{$ELSE}
+      sIconFileName:= FIconTheme.FindIcon(AIconName, AIconSize);
+      if sIconFileName <> EmptyStr then
+        begin
+          bmpBitmap := CheckLoadPixmap(sIconFileName, False);
+          if Assigned(bmpBitmap) then
+            begin
+              Result := FPixmapList.Add(bmpBitmap); // add to list
+              FThemePixmapsFileNames.Add(AIconName, Pointer(Result));
+            end;
+        end
+      else
+        Result := -1;
+{$ENDIF}
+    end
+  else
+    Result := PtrInt(FThemePixmapsFileNames.List[fileIndex]^.Data);
 end;
 
 function TPixMapManager.GetIconByDesktopFile(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
@@ -634,9 +713,8 @@ var
   iniDesktop: TIniFileEx;
   sIconName: UTF8String;
 begin
-  //DebugLn(sFileName);
+  iniDesktop:= TIniFileEx.Create(sFileName, fmOpenRead);
   try
-    iniDesktop:= TIniFileEx.Create(sFileName, fmOpenRead);
     sIconName:= iniDesktop.ReadString('Desktop Entry', 'Icon', EmptyStr);
   finally
     FreeThenNil(iniDesktop);
@@ -658,42 +736,55 @@ var
   iIconSize : Integer;
 {$ENDIF}
 begin
-  FExtList:=TStringList.Create;
-  FPixmapList:=TStringList.Create;
-  FDriveIconList:= TStringList.Create;
+  FExtList := TStringHashList.Create(True);
+  FPixmapsFileNames := TStringHashList.Create(True);
+  FPixmapList := TFPList.Create;
+  FDriveIconList := TStringList.Create;
 
-  {$IFDEF LCLGTK2}
-  FPixbufList := TStringList.Create;
+  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+  FExtToMimeIconName := TFPDataHashTable.Create;
+  FThemePixmapsFileNames := TStringHashList.Create(True);
+  CreateIconTheme;
   {$ENDIF}
 
   {$IFDEF MSWINDOWS}
-    if gIconsSize = 16 then
-      iIconSize := SHGFI_SMALLICON
-    else
-      iIconSize := SHGFI_LARGEICON;
-      
-    FSysImgList := SHGetFileInfoW(PWideChar(UTF8Decode(mbGetCurrentDir)),
-                           0,
-                           FileInfo,
-                           SizeOf(FileInfo),
-                           SHGFI_SYSICONINDEX or iIconSize);
+  if gIconsSize = 16 then
+    iIconSize := SHGFI_SMALLICON
+  else
+    iIconSize := SHGFI_LARGEICON;
+
+  FSysImgList := SHGetFileInfoW(PWideChar(UTF8Decode(mbGetCurrentDir)),
+                                0,
+                                FileInfo,
+                                SizeOf(FileInfo),
+                                SHGFI_SYSICONINDEX or iIconSize);
   {$ENDIF}
 end;
 
 destructor TPixMapManager.Destroy;
 var
   I : Integer;
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+  J : Integer;
+  nodeList: TFPObjectList;
+{$ENDIF}
 begin
   if Assigned(FPixmapList) then
   begin
     for I := 0 to FPixmapList.Count - 1 do
-      if Assigned(FPixmapList.Objects[I]) then
-        Graphics.TBitmap(FPixmapList.Objects[I]).Free;
+      if Assigned(FPixmapList.Items[I]) then
+  {$IFDEF LCLGTK2}
+        g_object_unref(PGdkPixbuf(FPixmapList.Items[I]));
+  {$ELSE}
+        Graphics.TBitmap(FPixmapList.Items[I]).Free;
+  {$ENDIF}
     FreeAndNil(FPixmapList);
   end;
 
   if Assigned(FExtList) then
     FreeAndNil(FExtList);
+  if Assigned(FPixmapsFileNames) then
+    FreeAndNil(FPixmapsFileNames);
 
   if Assigned(FDriveIconList) then
   begin
@@ -710,20 +801,21 @@ begin
     FreeAndNil(FDriveIconList);
   end;
 
-  {$IFDEF LCLGTK2}
-  if Assigned(FPixbufList) then
-  begin
-    for I := 0 to FPixbufList.Count - 1 do
-      g_object_unref(PGdkPixbuf(FPixbufList.Objects[I]));
-
-    FreeAndNil(FPixbufList);
-  end;
-  {$ENDIF}
-
   {$IF DEFINED(MSWINDOWS)}
   ImageList_Destroy(FSysImgList);
-  {$ELSEIF NOT DEFINED(DARWIN)}
+  {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   DestroyIconTheme;
+
+  for I := 0 to FExtToMimeIconName.HashTable.Count - 1 do
+    begin
+      nodeList := TFPObjectList(FExtToMimeIconName.HashTable.Items[I]);
+      if Assigned(nodeList) then
+        for J := 0 to nodeList.Count - 1 do
+          TStringList(THtDataNode(nodeList.Items[J]).Data).Free;
+    end;
+
+  FreeThenNil(FExtToMimeIconName);
+  FreeThenNil(FThemePixmapsFileNames);
   {$ENDIF}
   inherited Destroy;
 end;
@@ -793,8 +885,8 @@ begin
           for iekv := 0 to gExts.Items[I].Extensions.Count - 1 do
             begin
               sExt := gExts.Items[I].Extensions[iekv];
-              if FExtList.IndexOf(sExt) < 0 then
-                FExtList.AddObject(sExt, TObject(iPixMap));
+              if FExtList.Find(sExt) < 0 then
+                FExtList.Add(sExt, TObject(iPixMap));
             end;
         end;
     end;
@@ -818,8 +910,8 @@ begin
         if iPixMap<0 then
           Continue;
 
-        if FExtList.IndexOf(sExt)<0 then
-          FExtList.AddObject(sExt, TObject(iPixMap));
+        if FExtList.Find(sExt)<0 then
+          FExtList.Add(sExt, TObject(iPixMap));
       end;
     finally
       slPixmapList.Free;
@@ -840,8 +932,8 @@ begin
           iCurPlugCaps := StrToInt(Copy(sCurrentPlugin, 1, Pos(',',sCurrentPlugin) - 1));
           if (iCurPlugCaps and PK_CAPS_HIDE) <> PK_CAPS_HIDE then
             begin
-                if FExtList.IndexOf(sExt) < 0 then
-                  FExtList.AddObject(sExt, TObject(FiArcIconID));
+                if FExtList.Find(sExt) < 0 then
+                  FExtList.Add(sExt, TObject(FiArcIconID));
             end;
             end;
         end; //for
@@ -851,77 +943,78 @@ begin
 
   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   if (gShowIcons <> sim_none) and (gShowIcons <> sim_standart) then
-    LoadMimeIcons;
+    begin
+      LoadMimeIconNames;
+      {$IFNDEF LCLGTK2}
+      FIconTheme.Load;
+      {$ENDIF}
+    end;
   {$ENDIF}
 end;
 
-function TPixMapManager.GetBitmap(iIndex: Integer; BkColor : TColor): Graphics.TBitmap;
+function TPixMapManager.GetBitmap(iIndex: PtrInt; BkColor : TColor): Graphics.TBitmap;
 {$IFDEF MSWINDOWS}
 var
   memstream: TMemoryStream;
 {$ENDIF}
 begin
-{$IFDEF LCLGTK2}
-  if (iIndex >= 0) and (iIndex < FPixbufList.Count) then
-  begin
-    Result:= PixBufToBitmap(PGdkPixbuf(FPixbufList.Objects[iIndex]));
-  end
-  else
-{$ELSE}
   if (iIndex >= 0) and (iIndex < FPixmapList.Count) then
   begin
+{$IFDEF LCLGTK2}
+    Result:= PixBufToBitmap(PGdkPixbuf(FPixmapList[iIndex]));
+{$ELSE}
     // Make a new copy.
     Result := Graphics.TBitmap.Create;
-    Result.Assign(Graphics.TBitmap(FPixmapList.Objects[iIndex]));
+    Result.Assign(Graphics.TBitmap(FPixmapList[iIndex]));
+{$ENDIF}
   end
   else
-{$ENDIF}
 {$IFDEF MSWINDOWS}
   if iIndex >= $1000 then
   begin
-  Result := Graphics.TBitmap.Create;
-  if gIconsSize < 32 then
-    begin
-      Result.Width := GetSystemMetrics( SM_CXSMICON );
-      Result.Height := GetSystemMetrics( SM_CYSMICON );
-    end
-  else
-    begin
-      Result.Width := GetSystemMetrics( SM_CXICON );
-      Result.Height := GetSystemMetrics( SM_CYICON );
-    end;
+    Result := Graphics.TBitmap.Create;
+    if gIconsSize < 32 then
+      begin
+        Result.Width := GetSystemMetrics( SM_CXSMICON );
+        Result.Height := GetSystemMetrics( SM_CYSMICON );
+      end
+    else
+      begin
+        Result.Width := GetSystemMetrics( SM_CXICON );
+        Result.Height := GetSystemMetrics( SM_CYICON );
+      end;
 
-  try
-    (*For pseudo transparent*)
-    ImageList_DrawEx(FSysImgList, iIndex - $1000, Result.Canvas.Handle, 0, 0, 0, 0, GetRGBColor(BkColor), clNone, ILD_NORMAL);
-    { For drawing color transparent bitmaps }
-    memstream := TMemoryStream.create;
     try
-      Result.SaveToStream(memstream);
-      memstream.position := 0;
-      Result.LoadFromStream(memstream);
-    finally
-      memstream.free;
-    end;
+      (*For pseudo transparent*)
+      ImageList_DrawEx(FSysImgList, iIndex - $1000, Result.Canvas.Handle, 0, 0, 0, 0, GetRGBColor(BkColor), clNone, ILD_NORMAL);
+      { For drawing color transparent bitmaps }
+      memstream := TMemoryStream.create;
+      try
+        Result.SaveToStream(memstream);
+        memstream.position := 0;
+        Result.LoadFromStream(memstream);
+      finally
+        memstream.free;
+      end;
 
-    Result.Transparent := True;
-    Result.TransparentColor := BkColor;
-  except
-    Result:=nil;
-  end;
+      Result.Transparent := True;
+      Result.TransparentColor := BkColor;
+    except
+      Result:=nil;
+    end;
   end;
 
 {$ELSE}
-    Result:=nil;
+  Result:=nil;
 {$ENDIF}
 end;
 
-function TPixMapManager.DrawBitmap(iIndex: Integer; Canvas : TCanvas; X, Y: Integer) : Boolean;
+function TPixMapManager.DrawBitmap(iIndex: PtrInt; Canvas : TCanvas; X, Y: Integer) : Boolean;
 begin
   Result := DrawBitmap(iIndex, Canvas, X, Y, gIconsSize, gIconsSize); // X, Y, 0, 0 - No bitmap stretching.
 end;
 
-function TPixMapManager.DrawBitmap(iIndex: Integer; Canvas: TCanvas; X, Y, Width, Height: Integer): Boolean;
+function TPixMapManager.DrawBitmap(iIndex: PtrInt; Canvas: TCanvas; X, Y, Width, Height: Integer): Boolean;
 
   procedure TrySetSize(aWidth, aHeight: Integer);
   begin
@@ -949,27 +1042,23 @@ var
   {$ENDIF}
 begin
   Result := True;
-  {$IFDEF LCLGTK2}
-  if (iIndex >= 0) and (iIndex < FPixbufList.Count) then
+  if (iIndex >= 0) and (iIndex < FPixmapList.Count) then
   begin
-    pbPicture := PGdkPixbuf(FPixbufList.Objects[iIndex]);
+  {$IFDEF LCLGTK2}
+    pbPicture := PGdkPixbuf(FPixmapList[iIndex]);
     iPixbufWidth :=  gdk_pixbuf_get_width(pbPicture);
     iPixbufHeight :=  gdk_pixbuf_get_height(pbPicture);
     TrySetSize(iPixbufWidth, iPixbufHeight);
     DrawPixbufAtCanvas(Canvas, pbPicture, 0, 0, X, Y, Width, Height);
-  end
-  else
   {$ELSE}
-  if (iIndex >= 0) and (iIndex < FPixmapList.Count) then
-  begin
-    Bitmap := Graphics.TBitmap(FPixmapList.Objects[iIndex]);
+    Bitmap := Graphics.TBitmap(FPixmapList[iIndex]);
     TrySetSize(Bitmap.Width, Bitmap.Height);
     aRect := Classes.Bounds(X, Y, Width, Height);
     Canvas.StretchDraw(aRect, Bitmap);
+  {$ENDIF}
   end
   else
-  {$ENDIF}
-{$IFDEF MSWINDOWS}
+  {$IFDEF MSWINDOWS}
   if iIndex >= $1000 then
     try
       if ImageList_GetIconSize(FSysImgList, @cx, @cy) then
@@ -996,12 +1085,12 @@ begin
       Result:= False;
     end;
 
-{$ELSE}
+  {$ELSE}
     Result:= False;
-{$ENDIF}
+  {$ENDIF}
 end;
 
-function TPixMapManager.DrawBitmap(iIndex: Integer; AFile: TFile; DirectAccess: Boolean; Canvas: TCanvas; X, Y: Integer): Boolean;
+function TPixMapManager.DrawBitmap(iIndex: PtrInt; AFile: TFile; DirectAccess: Boolean; Canvas: TCanvas; X, Y: Integer): Boolean;
 var
   I: Integer;
 begin
@@ -1080,7 +1169,7 @@ begin
       if ((gShowIcons = sim_standart) or
          (not (DirectAccess and mbFileExists(Path + Name + '\desktop.ini')))) and
          (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
-      {$ELSEIF NOT DEFINED(DARWIN)}
+      {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
       if (gShowIcons = sim_all_and_exe) and
          (DirectAccess and mbFileExists(Path + Name + '/.directory')) then
         begin
@@ -1119,7 +1208,7 @@ begin
         else if Ext = 'ico' then
           Exit(FiDefaultIconID)
       end;
-    {$ELSEIF NOT DEFINED(DARWIN)}
+    {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
     if gShowIcons = sim_all_and_exe then
       begin
         if DirectAccess and (Ext = 'desktop') then
@@ -1130,100 +1219,69 @@ begin
       end;
     {$ENDIF}
 
-    Result:= FExtList.IndexOf(Ext);
-    if Result < 0 then
-    begin
-    {$IFDEF MSWINDOWS}
-
-    if gShowIcons = sim_standart then
-      Exit(FiDefaultIconID);
-
-    if DirectAccess then
-      begin
-        _para2 := 0;
-        _para5 := SHGFI_SYSICONINDEX;
-        sFileName := Path + Name;
-      end
+    Result:= FExtList.Find(Ext);
+    if Result >= 0 then
+      Result := PtrInt(FExtList.List[Result]^.Data)
     else
+    begin
+      if gShowIcons = sim_standart then
+        Exit(FiDefaultIconID);
+
+      {$IF DEFINED(MSWINDOWS)}
+
+      if DirectAccess then
+        begin
+          _para2 := 0;
+          _para5 := SHGFI_SYSICONINDEX;
+          sFileName := Path + Name;
+        end
+      else
+        begin
+          _para2 := FILE_ATTRIBUTE_NORMAL;
+          _para5 := SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES;
+          sFileName := Name;
+        end;
+
+      if gIconsSize = 16 then
+        _para5 := _para5 or SHGFI_SMALLICON
+      else
+        _para5 := _para5 or SHGFI_LARGEICON;
+
+      //WriteLN('Icon for file == ' + sName);
+
+      SHGetFileInfoW(PWideChar(UTF8Decode(sFileName)),
+                     _para2,
+                     FileInfo,
+                     SizeOf(FileInfo),
+                     _para5);
+
+      Result := FileInfo.iIcon + $1000;
+       
+      if (Ext <> 'exe') and
+         (Ext <> 'ico') and
+         (Ext <> 'lnk') and (not IsDirectory) then
       begin
-        _para2 := FILE_ATTRIBUTE_NORMAL;
-        _para5 := SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES;
-        sFileName := Name;
+        FExtList.Add(Ext, TObject(Result));
       end;
 
-    if gIconsSize = 16 then
-      _para5 := _para5 or SHGFI_SMALLICON
-    else
-      _para5 := _para5 or SHGFI_LARGEICON;
+      {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 
-    //WriteLN('Icon for file == ' + sName);
-          
-    SHGetFileInfoW(PWideChar(UTF8Decode(sFileName)),
-                           _para2,
-                           FileInfo,
-                           SizeOf(FileInfo),
-                           _para5);
-       Result := FileInfo.iIcon + $1000;
-       
-       //WriteLN('FileInfo.iIcon == ' + IntToStr(FileInfo.iIcon));
-       
-       if (FExtList.IndexOf(Ext) < 0) and (Ext <> 'exe') and
-          (Ext <> 'ico') and (Ext <> 'lnk') and (not IsDirectory) then
-        FExtList.AddObject(Ext, TObject(Result));
-    {$ELSE}
-      Result := FiDefaultIconID;
-    {$ENDIF}
-      Exit;
+      Result := GetMimeIcon(Ext, gIconsSize);
+      if Result < 0 then
+        Result := FiDefaultIconID;
+
+      // Default icon should also be associated with the extension
+      // because it will be faster to find next time.
+      FExtList.Add(Ext, Pointer(Result));
+
+      {$ENDIF}
     end;
-    Result := PtrInt(FExtList.Objects[Result]);
   end;
 end;
 
 function TPixMapManager.GetIconByName(const AIconName: UTF8String): PtrInt;
-var
-  I: PtrInt;
-  sFileName,
-  sIconName: UTF8String;
 begin
-  Result:= -1;
-  sIconName:= AIconName;
-  if sIconName <> EmptyStr then
-  begin
-    if GetPathType(sIconName) = ptAbsolute then
-      begin
-        sFileName:= sIconName;
-        sIconName:= ExtractOnlyFileName(sIconName);
-        I:= FExtList.IndexOf(sIconName);
-        if I >= 0 then
-          Result:= PtrInt(FExtList.Objects[I])
-        else
-          begin
-            I:= CheckAddPixmap(sFileName, gIconsSize, False);
-            if I >= 0 then
-              begin
-                FExtList.AddObject(sIconName, TObject(I));
-                Result:= I;
-              end;
-          end;
-      end
-    else
-      begin
-        I:= FExtList.IndexOf(sIconName);
-        if I >= 0 then
-          Result:= PtrInt(FExtList.Objects[I])
-{$IF DEFINED(UNIX) and NOT DEFINED(DARWIN)}
-        else
-          begin
-            if LoadIconThemeIcon(sIconName, sIconName, gIconsSize) then
-              begin
-                I:= FExtList.IndexOf(sIconName);
-                Result:= PtrInt(FExtList.Objects[I]);
-              end;
-          end;
-{$ENDIF}
-      end;
-    //DebugLn(sIconName);
-  end;
+  Result := CheckAddPixmap(AIconName, gIconsSize, False);
 end;
 
 function TPixMapManager.GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
