@@ -88,7 +88,7 @@ var
 implementation
 
 uses
-  LCLProc, FileUtil,{} Forms, Dialogs, LCLType, uShowMsg, {} uGlobs, uDCUtils, uLog, uLng, uCryptProc,
+  LCLProc, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, uDCUtils, uLog, uLng, uCryptProc,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation, uWfxPluginExecuteOperation,
   uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation, uWfxPluginDeleteOperation,
   uWfxPluginFile, uWfxPluginUtil, uWfxPluginSetFilePropertyOperation;
@@ -192,37 +192,37 @@ begin
     RT_UserName:
       begin
         sReq:= 'RT_UserName';
-        Result:= ShowInputQuery(CustomTitle, 'User name:', ReturnedText);
+        Result:= ShowInputQuery(CustomTitle, IfThen(CustomText = EmptyStr, rsMsgUserName, CustomText), ReturnedText);
       end;
     RT_Password:
       begin
         sReq:= 'RT_Password';
-        Result:= ShowInputQuery(CustomTitle, 'Password:', True, ReturnedText);
+        Result:= ShowInputQuery(CustomTitle, IfThen(CustomText = EmptyStr, rsMsgPassword, CustomText), True, ReturnedText);
       end;
     RT_Account:
       begin
         sReq:= 'RT_Account';
-        Result:= ShowInputQuery(CustomTitle, 'Account request', ReturnedText);
+        Result:= ShowInputQuery(CustomTitle, IfThen(CustomText = EmptyStr, rsMsgAccount, CustomText), ReturnedText);
       end;
     RT_UserNameFirewall:
       begin
         sReq:= 'RT_UserNameFirewall';
-        Result:= ShowInputQuery(CustomTitle, 'Firewall username request', ReturnedText);
+        Result:= ShowInputQuery(CustomTitle, IfThen(CustomText = EmptyStr, rsMsgUserNameFirewall, CustomText), ReturnedText);
       end;
     RT_PasswordFirewall:
       begin
         sReq:= 'RT_PasswordFirewall';
-        Result:= ShowInputQuery(CustomTitle, 'Firewall password request', True, ReturnedText);
+        Result:= ShowInputQuery(CustomTitle, IfThen(CustomText = EmptyStr, rsMsgPasswordFirewall, CustomText), True, ReturnedText);
       end;
     RT_TargetDir:
       begin
         sReq:= 'RT_TargetDir';
-        Result:= ShowInputQuery(CustomTitle, 'Target path:', ReturnedText);
+        Result:= ShowInputQuery(CustomTitle, IfThen(CustomText = EmptyStr, rsMsgTargetDir, CustomText), ReturnedText);
       end;
     RT_URL:
       begin
         sReq:= 'RT_URL';
-        Result:= ShowInputQuery(CustomTitle, 'URL:', ReturnedText);
+        Result:= ShowInputQuery(CustomTitle, IfThen(CustomText = EmptyStr, rsMsgURL, CustomText), ReturnedText);
       end;
     RT_MsgOK:
       begin
