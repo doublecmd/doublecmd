@@ -206,7 +206,8 @@ end;
 
 function TIconTheme.Load: Boolean;
 var
- ParentTheme: TIconTheme;
+  I: Integer;
+  ParentTheme: TIconTheme;
 begin
    Result := LoadThemeWithInherited(FInherits);
 
@@ -214,8 +215,12 @@ begin
    if FInherits.IndexOf(DEFAULT_THEME_NAME) < 0 then
      begin
        ParentTheme:= TIconTheme.Create(DEFAULT_THEME_NAME);
-       FInherits.AddObject(DEFAULT_THEME_NAME, ParentTheme);
-       ParentTheme.LoadThemeWithInherited(FInherits);
+       I:= FInherits.AddObject(DEFAULT_THEME_NAME, ParentTheme);
+       if not ParentTheme.LoadThemeWithInherited(FInherits) then
+         begin
+           ParentTheme.Free;
+           FInherits.Delete(I);
+         end;
      end;
 end;
 
@@ -276,8 +281,12 @@ begin
          if FInherits.IndexOf(sElement) >= 0 then Continue;
          // load parent theme
          ParentTheme:= TIconTheme.Create(sElement);
-         FInherits.AddObject(sElement, ParentTheme);
-         ParentTheme.LoadThemeWithInherited(FInherits);
+         I:= FInherits.AddObject(sElement, ParentTheme);
+         if not ParentTheme.LoadThemeWithInherited(FInherits) then
+           begin
+             ParentTheme.Free;
+             FInherits.Delete(I);
+           end;
        until sValue = EmptyStr;
 
    finally
