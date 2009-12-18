@@ -2265,6 +2265,7 @@ begin
 
       UpdateSelectedDrive(ANoteBook);
       UpdateFreeSpace(ANoteBook.Side);
+      UpdatePrompt;
     end;
 end;
 
@@ -2291,6 +2292,7 @@ begin
 
         UpdateSelectedDrive(ANoteBook);
         UpdateFreeSpace(ANoteBook.Side);
+        UpdatePrompt;
       end;
     end;
 end;
@@ -3389,22 +3391,32 @@ procedure TfrmMain.UpdatePrompt;
 const
   PTLen = 40;
 begin
-  with lblCommandPath do
+  if ActiveFrame.FileSource.IsInterface(IFileSystemFileSource) then
   begin
-    AutoSize := False;
-    if Length(ActiveFrame.CurrentPath) > PTLen then
-      Caption := '[' + Copy(ActiveFrame.CurrentPath,
-                            Length(ActiveFrame.CurrentPath) - PTLen,
-                            PTLen) + ']$:'
-    else
-      Caption := '[' + ActiveFrame.CurrentPath + ']$:';
+    with lblCommandPath do
+    begin
+      Visible := True;
+      AutoSize := False;
+      if Length(ActiveFrame.CurrentPath) > PTLen then
+        Caption := '[' + Copy(ActiveFrame.CurrentPath,
+                              Length(ActiveFrame.CurrentPath) - PTLen,
+                              PTLen) + ']$:'
+      else
+        Caption := '[' + ActiveFrame.CurrentPath + ']$:';
 
-    AutoSize := True;
-    Left := 1;
+      AutoSize := True;
+      Left := 1;
+    end;
+
+    edtCommand.Left := lblCommandPath.Width + 5;
+    edtCommand.Width := TControl(edtCommand.Parent).Width - edtCommand.Left;
+    edtCommand.Visible := True;
+  end
+  else
+  begin
+    lblCommandPath.Visible := False;
+    edtCommand.Visible := False;
   end;
-
-  edtCommand.Left := lblCommandPath.Width + 5;
-  edtCommand.Width := TControl(edtCommand.Parent).Width - edtCommand.Left;
 end;
 
 procedure TfrmMain.UpdateFreeSpace(Panel: TFilePanelSelect);

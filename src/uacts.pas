@@ -1581,13 +1581,16 @@ end;
 
 procedure TActs.cm_FocusCmdLine(param:string);
 begin
-  // Show temporarily command line on user request.
-  if (not gCmdLine) and (frmMain.IsCommandLineVisible = False) then
+  if frmMain.edtCommand.Visible then
   begin
-    frmMain.pnlCommand.Show;
-  end;
+    // Show temporarily command line on user request.
+    if (not gCmdLine) and (frmMain.IsCommandLineVisible = False) then
+    begin
+      frmMain.pnlCommand.Show;
+    end;
 
-  frmMain.edtCommand.SetFocus;
+    frmMain.edtCommand.SetFocus;
+  end;
 end;
 
 procedure TActs.cm_FileAssoc(param:string);
