@@ -86,6 +86,13 @@ resourcestring
   rsMsgManualHotDirQuery = 'Enter name and path (format name=path):';
   rsMsgMasterPassword = 'Master Password';
   rsMsgMasterPasswordEnter = 'Please enter the master password:';
+  rsMsgUserName = 'User name:';
+  rsMsgPassword = 'Password:';
+  rsMsgAccount = 'Account:';
+  rsMsgUserNameFirewall = 'User name (Firewall):';
+  rsMsgPasswordFirewall = 'Password (Firewall):';
+  rsMsgTargetDir = 'Target path:';
+  rsMsgURL = 'URL:';
   rsMsgErrSetAttribute = 'Can not set attributes for "%s"';
   rsMsgErrSetDateTime = 'Can not set date/time for "%s"';
   // for context menu
