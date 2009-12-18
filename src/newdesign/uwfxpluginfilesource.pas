@@ -88,7 +88,7 @@ var
 implementation
 
 uses
-  LCLProc, FileUtil,{} Forms, Dialogs, LCLType,{} uGlobs, uDCUtils, uLog, uLng, uCryptProc,
+  LCLProc, FileUtil,{} Forms, Dialogs, LCLType, uShowMsg, {} uGlobs, uDCUtils, uLog, uLng, uCryptProc,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation, uWfxPluginExecuteOperation,
   uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation, uWfxPluginDeleteOperation,
   uWfxPluginFile, uWfxPluginUtil, uWfxPluginSetFilePropertyOperation;
@@ -187,57 +187,57 @@ begin
     RT_Other:
       begin
         sReq:= 'RT_Other';
-        Result:= InputQuery(CustomTitle, CustomText, ReturnedText);
+        Result:= ShowInputQuery(CustomTitle, CustomText, ReturnedText);
       end;
     RT_UserName:
       begin
         sReq:= 'RT_UserName';
-        Result:= InputQuery(CustomTitle, 'User name:', ReturnedText);
+        Result:= ShowInputQuery(CustomTitle, 'User name:', ReturnedText);
       end;
     RT_Password:
       begin
         sReq:= 'RT_Password';
-        Result:= InputQuery(CustomTitle, 'Password:', True, ReturnedText);
+        Result:= ShowInputQuery(CustomTitle, 'Password:', True, ReturnedText);
       end;
     RT_Account:
       begin
         sReq:= 'RT_Account';
-        Result:= InputQuery(CustomTitle, 'Account request', ReturnedText);
+        Result:= ShowInputQuery(CustomTitle, 'Account request', ReturnedText);
       end;
     RT_UserNameFirewall:
       begin
         sReq:= 'RT_UserNameFirewall';
-        Result:= InputQuery(CustomTitle, 'Firewall username request', ReturnedText);
+        Result:= ShowInputQuery(CustomTitle, 'Firewall username request', ReturnedText);
       end;
     RT_PasswordFirewall:
       begin
         sReq:= 'RT_PasswordFirewall';
-        Result:= InputQuery(CustomTitle, 'Firewall password request', True, ReturnedText);
+        Result:= ShowInputQuery(CustomTitle, 'Firewall password request', True, ReturnedText);
       end;
     RT_TargetDir:
       begin
         sReq:= 'RT_TargetDir';
-        Result:= InputQuery(CustomTitle, 'Target path:', ReturnedText);
+        Result:= ShowInputQuery(CustomTitle, 'Target path:', ReturnedText);
       end;
     RT_URL:
       begin
         sReq:= 'RT_URL';
-        Result:= InputQuery(CustomTitle, 'URL:', ReturnedText);
+        Result:= ShowInputQuery(CustomTitle, 'URL:', ReturnedText);
       end;
     RT_MsgOK:
       begin
         sReq:= 'RT_MsgOK';
-        Result:= (MessageBoxFunction(PAnsiChar(CustomText), PAnsiChar(CustomTitle), MB_OK) = IDOK);
+        Result:= (ShowMessageBox(CustomText, CustomTitle, MB_OK) = IDOK);
       end;
     RT_MsgYesNo:
       begin
         sReq:= 'RT_MsgYesNo';
-        Result:= (MessageBoxFunction (PAnsiChar(CustomText), PAnsiChar(CustomTitle), MB_YESNO) = IDYES);
+        Result:= (ShowMessageBox(CustomText, CustomTitle, MB_YESNO) = IDYES);
       end;
     RT_MsgOKCancel:
       begin
         sReq:= 'RT_MsgOKCancel';
-        Result:= (MessageBoxFunction(PAnsiChar(CustomText), PAnsiChar(CustomTitle), MB_OKCANCEL) = IDOK);
+        Result:= (ShowMessageBox(CustomText, CustomTitle, MB_OKCANCEL) = IDOK);
       end;
   end;
 

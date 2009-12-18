@@ -66,7 +66,7 @@ var
 implementation
 
 uses
-  LCLProc, Dialogs, Base64, BlowFish, md5, uGlobsPaths, uLng;
+  LCLProc, Dialogs, Base64, BlowFish, md5, uShowMsg, uGlobsPaths, uLng;
 
 type
   TBlowFishKeyRec = record
@@ -153,7 +153,7 @@ var
 begin
   Result:= False;
   if Length(FMasterKey) <> 0 then Exit(True);
-  if not InputQuery(rsMsgMasterPassword, rsMsgMasterPasswordEnter, True, MasterKey) then
+  if not ShowInputQuery(rsMsgMasterPassword, rsMsgMasterPasswordEnter, True, MasterKey) then
     Exit;
   if Length(MasterKey) = 0 then Exit;
   MasterKeyHash:= MD5Print(MD5String(MasterKey));
