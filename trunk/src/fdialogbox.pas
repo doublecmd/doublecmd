@@ -91,7 +91,7 @@ function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PChar; Msg, wParam, lParam: PtrI
 implementation
 
 uses
-  uClassesEx, uDCUtils;
+  uShowMsg, uClassesEx, uDCUtils;
 
 function InputBox(Caption, Prompt: PWideChar; MaskInput: Boolean; Value: PWideChar; ValueMaxLen: Integer): Boolean; stdcall;
 var
@@ -103,7 +103,7 @@ begin
   sCaption:= UTF8Encode(WideString(Caption));
   sPrompt:= UTF8Encode(WideString(Prompt));
   sValue:= UTF8Encode(WideString(Value));
-  if Dialogs.InputQuery(sCaption, sPrompt, MaskInput, sValue) then
+  if ShowInputQuery(sCaption, sPrompt, MaskInput, sValue) then
     begin
       StrLCopyW(Value, PWideChar(UTF8Decode(sValue)), ValueMaxLen);
       Result:= True;
@@ -117,7 +117,7 @@ var
 begin
   sText:= UTF8Encode(WideString(Text));
   sCaption:= UTF8Encode(WideString(Caption));
-  Result:= Application.MessageBox(PChar(sText), PChar(sCaption), Flags);
+  Result:= ShowMessageBox(sText, sCaption, Flags);
 end;
 
 function DialogBox(DlgData: PWideChar; DlgProc: TDlgProc): Boolean;stdcall;

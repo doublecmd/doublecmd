@@ -13,9 +13,10 @@
 
 unit uShowMsg;
 
-{$MODE Delphi}{$H+}
+{$mode delphi}{$H+}
 
 interface
+
 uses
   Forms, Classes;
 
@@ -29,83 +30,114 @@ type
                 msmbAll, msmbRetry, msmbAbort);
 
 
-  { TDlgOpThread }
+  { TDialogMainThread }
 
-  TDlgOpThread = class
+  TDialogMainThread = class
   private
-    procedure ShowInTheThread;
+    procedure SyncMsgBox;
+    procedure SyncMessageBox;
+    procedure SyncInputQuery;
   protected
-    FThread : TThread;
-    FMsg : String;
+    FThread: TThread;
+    FCaption,
+    FMessage,
+    FValue: UTF8String;
+    FMaskInput: Boolean;
+    FFlags: Longint;
     FButtons: array of TMyMsgButton;
     FButDefault,
-    FButEscape : TMyMsgButton;
-    FDlgResult : TMyMsgResult;
+    FButEscape: TMyMsgButton;
+    FInputQueryResult: Boolean;
+    FMsgBoxResult: TMyMsgResult;
+    FMessageBoxResult: LongInt;
   public
-    constructor Create(Thread : TThread);
+    constructor Create(AThread: TThread);
     destructor Destroy;override;
-    function Show(const sMsg:String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton) : TMyMsgResult;
+    function ShowMsgBox(const sMsg: UTF8String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton) : TMyMsgResult;
+    function ShowMessageBox(const AText, ACaption: UTF8String; Flags: LongInt): LongInt;
+    function ShowInputQuery(const ACaption, APrompt: UTF8String; MaskInput: Boolean; var Value: UTF8String) : Boolean;
   end;
 
-function msgYesNo(const sMsg:String):Boolean; overload;
-function msgYesNo(Thread: TThread; const sMsg:String):Boolean; overload;
+function msgYesNo(const sMsg: UTF8String): Boolean; overload;
+function msgYesNo(Thread: TThread; const sMsg: UTF8String): Boolean; overload;
 
-function msgYesNoCancel(const sMsg:String):TMyMsgResult; overload;
-function msgYesNoCancel(Thread: TThread; const sMsg:String):TMyMsgResult; overload;
+function msgYesNoCancel(const sMsg: UTF8String): TMyMsgResult; overload;
+function msgYesNoCancel(Thread: TThread; const sMsg: UTF8String): TMyMsgResult; overload;
 
-procedure msgOK(const sMsg:String); overload;
-procedure msgOK(Thread: TThread; const sMsg: String); overload;
+procedure msgOK(const sMsg: UTF8String); overload;
+procedure msgOK(Thread: TThread; const sMsg: UTF8String); overload;
 
-procedure msgWarning(const sMsg: String); overload;
-procedure msgWarning(Thread: TThread; const sMsg: String); overload;
+procedure msgWarning(const sMsg: UTF8String); overload;
+procedure msgWarning(Thread: TThread; const sMsg: UTF8String); overload;
 
-procedure msgError(const sMsg: String); overload;
-procedure msgError(Thread: TThread; const sMsg: String); overload;
+procedure msgError(const sMsg: UTF8String); overload;
+procedure msgError(Thread: TThread; const sMsg: UTF8String); overload;
 
-function MsgBox(const sMsg: String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape: TMyMsgButton): TMyMsgResult; overload;
-function MsgBox(Thread: TThread;const sMsg: String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape: TMyMsgButton): TMyMsgResult; overload;
+function MsgBox(const sMsg: UTF8String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape: TMyMsgButton): TMyMsgResult; overload;
+function MsgBox(Thread: TThread; const sMsg: UTF8String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape: TMyMsgButton): TMyMsgResult; overload;
 
 function MsgTest:TMyMsgResult;
-function ShowInputComboBox(const sCaption, sPrompt : String; slValueList : TStringList;
-                           var sValue : String) : Boolean;
+
+function ShowMessageBox(const AText, ACaption: UTF8String; Flags: LongInt): LongInt; overload;
+function ShowMessageBox(Thread: TThread; const AText, ACaption: UTF8String; Flags: LongInt): LongInt; overload;
+
+function ShowInputQuery(const ACaption, APrompt: UTF8String; MaskInput: Boolean; var Value: UTF8String): Boolean; overload;
+function ShowInputQuery(Thread: TThread; const ACaption, APrompt: UTF8String; MaskInput: Boolean; var Value: UTF8String): Boolean; overload;
+
+function ShowInputQuery(const ACaption, APrompt: UTF8String; var Value: UTF8String): Boolean; overload;
+function ShowInputQuery(Thread: TThread; const ACaption, APrompt: UTF8String; var Value: UTF8String): Boolean; overload;
+
+function ShowInputComboBox(const sCaption, sPrompt : UTF8String; slValueList : TStringList; var sValue : UTF8String) : Boolean;
+
 procedure msgLoadLng;
 
 
 implementation
+
 uses
-  SysUtils, StdCtrls, Graphics, math, fMsg, uLng, Buttons, Controls, uLog, uGlobs;
+  LCLIntf, SysUtils, StdCtrls, Graphics, Math, fMsg, uLng, Buttons, Controls, uLog, uGlobs;
 
 const
-  cMsgName='Double Commander';
+  cMsgName = 'Double Commander';
 
 var
-  cLngButton:Array[TMyMsgButton] of String;
+  cLngButton: array[TMyMsgButton] of UTF8String;
 
-{ TDlgOpThread }
+{ TDialogMainThread }
 
-procedure TDlgOpThread.ShowInTheThread;
+procedure TDialogMainThread.SyncMsgBox;
 begin
-  FDlgResult := MsgBox(FMsg, FButtons, FButDefault, FButEscape);
+  FMsgBoxResult:= MsgBox(FMessage, FButtons, FButDefault, FButEscape);
 end;
 
-constructor TDlgOpThread.Create(Thread : TThread);
+procedure TDialogMainThread.SyncMessageBox;
 begin
-  FThread := Thread;
+  FMessageBoxResult:= MessageBoxFunction(PAnsiChar(FMessage), PAnsiChar(FCaption), FFlags);
 end;
 
-destructor TDlgOpThread.Destroy;
+procedure TDialogMainThread.SyncInputQuery;
 begin
-  FButtons := nil;
+  FInputQueryResult := LCLIntf.RequestInput(FCaption, FMessage, FMaskInput, FValue);
+end;
+
+constructor TDialogMainThread.Create(AThread : TThread);
+begin
+  FThread:= AThread;
+end;
+
+destructor TDialogMainThread.Destroy;
+begin
+  FButtons:= nil;
   inherited Destroy;
 end;
 
-function TDlgOpThread.Show(const sMsg: String;
+function TDialogMainThread.ShowMsgBox(const sMsg: UTF8String;
                            const Buttons: array of TMyMsgButton; ButDefault,
                            ButEscape: TMyMsgButton) : TMyMsgResult;
 var
   I : Integer;
 begin
-  FMsg := sMsg;
+  FMessage := sMsg;
 
   SetLength(FButtons, SizeOf(Buttons));
   for I := Low(Buttons) to High(Buttons) do
@@ -114,13 +146,38 @@ begin
   FButDefault := ButDefault;
   FButEscape := ButEscape;
 
-  FThread.Synchronize(FThread, ShowInTheThread);
+  TThread.Synchronize(FThread, SyncMsgBox);
 
-  Result := FDlgResult;
+  Result := FMsgBoxResult;
+end;
+
+function TDialogMainThread.ShowMessageBox(const AText, ACaption: UTF8String; Flags: LongInt): LongInt;
+begin
+  FCaption:= ACaption;
+  FMessage:= AText;
+  FFlags:= Flags;
+
+  TThread.Synchronize(FThread, SyncMessageBox);
+
+  Result:= FMessageBoxResult;
+end;
+
+function TDialogMainThread.ShowInputQuery(const ACaption, APrompt: UTF8String;
+  MaskInput: Boolean; var Value: UTF8String): Boolean;
+begin
+  FCaption:= ACaption;
+  FMessage:= APrompt;
+  FMaskInput:= MaskInput;
+  FValue:= Value;
+
+  TThread.Synchronize(FThread, SyncInputQuery);
+
+  Value:= FValue;
+  Result:= FInputQueryResult;
 end;
 
 { This is workaround for autosize}
-function MeasureText(Canvas:TCanvas; const sText:String):Integer;
+function MeasureText(Canvas:TCanvas; const sText: UTF8String):Integer;
 var
   xEnter:Integer;
 begin
@@ -131,7 +188,7 @@ begin
     Result:=Canvas.TextWidth(sText);
 end;
 
-procedure SetMsgBoxParams(var frmMsg : TfrmMsg; const sMsg:String;
+procedure SetMsgBoxParams(var frmMsg : TfrmMsg; const sMsg: UTF8String;
                        const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton);
 var
   iIndex:Integer;
@@ -187,7 +244,7 @@ begin
     end;
 end;
 
-function MsgBox(const sMsg:String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton):TMyMsgResult;
+function MsgBox(const sMsg: UTF8String; const Buttons: array of TMyMsgButton; ButDefault, ButEscape:TMyMsgButton):TMyMsgResult;
 var
   frmMsg:TfrmMsg;
 begin
@@ -206,18 +263,18 @@ begin
   end;
 end;
 
-function MsgBox(Thread: TThread; const sMsg: String;
+function MsgBox(Thread: TThread; const sMsg: UTF8String;
                          const Buttons: array of TMyMsgButton; ButDefault,
                          ButEscape: TMyMsgButton): TMyMsgResult;
 var
-  DlgOpThread : TDlgOpThread;
+  DialogMainThread : TDialogMainThread;
 begin
   Result := mmrNone;
   try
-    DlgOpThread := TDlgOpThread.Create(Thread);
-    Result := DlgOpThread.Show(sMsg, Buttons, ButDefault, ButEscape);
+    DialogMainThread := TDialogMainThread.Create(Thread);
+    Result := DialogMainThread.ShowMsgBox(sMsg, Buttons, ButDefault, ButEscape);
   finally
-    DlgOpThread.Free;
+    DialogMainThread.Free;
   end;
 end;
 
@@ -227,47 +284,47 @@ begin
                        msmbAppend, msmbRewrite, msmbRewriteAll],msmbOK, msmbNO);
 end;
 
-function msgYesNo(const sMsg:String):Boolean;
+function msgYesNo(const sMsg: UTF8String):Boolean;
 begin
   Result:= MsgBox(sMsg,[msmbYes, msmbNo], msmbYes, msmbNo )= mmrYes;
 end;
 
-function msgYesNo(Thread: TThread; const sMsg: String): Boolean;
+function msgYesNo(Thread: TThread; const sMsg: UTF8String): Boolean;
 begin
   Result:= MsgBox(Thread, sMsg,[msmbYes, msmbNo], msmbYes, msmbNo )= mmrYes;
 end;
 
-function msgYesNoCancel(const sMsg:String):TMyMsgResult;
+function msgYesNoCancel(const sMsg: UTF8String):TMyMsgResult;
 begin
   Result:= MsgBox(sMsg,[msmbYes, msmbNo, msmbCancel], msmbYes, msmbNo);
 end;
 
-function msgYesNoCancel(Thread: TThread; const sMsg: String): TMyMsgResult;
+function msgYesNoCancel(Thread: TThread; const sMsg: UTF8String): TMyMsgResult;
 begin
   Result:= MsgBox(Thread, sMsg,[msmbYes, msmbNo, msmbCancel], msmbYes, msmbNo);
 end;
 
-procedure msgOK(const sMsg:String);
+procedure msgOK(const sMsg: UTF8String);
 begin
   MsgBox(sMsg,[msmbOK],msmbOK, msmbOK);
 end;
 
-procedure msgOK(Thread: TThread; const sMsg: String);
+procedure msgOK(Thread: TThread; const sMsg: UTF8String);
 begin
   MsgBox(Thread, sMsg,[msmbOK],msmbOK, msmbOK);
 end;
 
-procedure msgError(const sMsg: String);
+procedure msgError(const sMsg: UTF8String);
 begin
   MsgBox(sMsg,[msmbOK],msmbOK, msmbOK);
 end;
 
-procedure msgError(Thread: TThread; const sMsg: String);
+procedure msgError(Thread: TThread; const sMsg: UTF8String);
 begin
   MsgBox(Thread, sMsg,[msmbOK],msmbOK, msmbOK)
 end;
 
-procedure msgWarning(const sMsg: String);
+procedure msgWarning(const sMsg: UTF8String);
 begin
   if gShowWarningMessages then
     MsgBox(sMsg,[msmbOK],msmbOK, msmbOK)
@@ -280,7 +337,7 @@ begin
     end;
 end;
 
-procedure msgWarning(Thread: TThread; const sMsg: String);
+procedure msgWarning(Thread: TThread; const sMsg: UTF8String);
 begin
   if gShowWarningMessages then
     MsgBox(Thread, sMsg,[msmbOK],msmbOK, msmbOK)
@@ -293,8 +350,59 @@ begin
     end;
 end;
 
-function ShowInputComboBox(const sCaption, sPrompt : String; slValueList : TStringList;
-                           var sValue : String) : Boolean;
+function ShowMessageBox(const AText, ACaption: UTF8String; Flags: LongInt): LongInt;
+begin
+  Result:= ShowMessageBox(nil, AText, ACaption, Flags);
+end;
+
+function ShowMessageBox(Thread: TThread; const AText, ACaption: UTF8String;
+  Flags: LongInt): LongInt;
+var
+  DialogMainThread : TDialogMainThread;
+begin
+  Result:= 0;
+  try
+    DialogMainThread:= TDialogMainThread.Create(Thread);
+    Result:= DialogMainThread.ShowMessageBox(AText, ACaption, Flags);
+  finally
+    DialogMainThread.Free;
+  end;
+end;
+
+function ShowInputQuery(const ACaption, APrompt: UTF8String;
+  MaskInput: Boolean; var Value: UTF8String): Boolean; overload;
+begin
+  Result:= ShowInputQuery(nil, ACaption, APrompt, MaskInput, Value);
+end;
+
+function ShowInputQuery(Thread: TThread; const ACaption, APrompt: UTF8String;
+  MaskInput: Boolean; var Value: UTF8String): Boolean;
+var
+  DialogMainThread : TDialogMainThread;
+begin
+  Result := False;
+  try
+    DialogMainThread:= TDialogMainThread.Create(Thread);
+    Result:= DialogMainThread.ShowInputQuery(ACaption, APrompt, MaskInput, Value);
+  finally
+    DialogMainThread.Free;
+  end;
+end;
+
+function ShowInputQuery(const ACaption, APrompt: UTF8String;
+  var Value: UTF8String): Boolean; overload;
+begin
+  Result:= ShowInputQuery(nil, ACaption, APrompt, False, Value);
+end;
+
+function ShowInputQuery(Thread: TThread; const ACaption, APrompt: UTF8String;
+  var Value: UTF8String): Boolean;
+begin
+  Result:= ShowInputQuery(Thread, ACaption, APrompt, False, Value);
+end;
+
+function ShowInputComboBox(const sCaption, sPrompt : UTF8String; slValueList : TStringList;
+                           var sValue : UTF8String) : Boolean;
 var
   frmDialog : TForm;
   lblPrompt : TLabel;
@@ -370,7 +478,7 @@ end;
 procedure msgLoadLng;
 var
   I: TMyMsgButton;
-  s: String;
+  s: UTF8String;
   xPos: Integer;
 begin
   s:= rsDlgButtons;
