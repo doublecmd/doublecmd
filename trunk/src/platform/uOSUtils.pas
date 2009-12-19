@@ -227,9 +227,9 @@ function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
 function mbFileCreate(const FileName: UTF8String): THandle; overload;
 function mbFileCreate(const FileName: UTF8String; Mode: Integer): THandle; overload;
 function mbFileAge(const FileName: UTF8String): LongInt;
-// On success returns non-zero value.
+// On success returns True.
 function mbFileSetTime(const FileName: UTF8String; ModificationTime: Longint;
-                       CreationTime: Longint = 0; LastAccessTime: Longint = 0): Longint;
+                       CreationTime: Longint = 0; LastAccessTime: Longint = 0): Boolean;
 {en
    Checks if a given file exists - it can be a real file or a link to a file,
    but it can be opened and read from.
@@ -1345,11 +1345,13 @@ var
 begin
   Result:= -1;
   if fpStat(FileName, Info) >= 0 then
+{$PUSH}{$R-}
     Result:=UnixToWinAge(Info.st_mtime);
+{$POP}
 end;
 {$ENDIF}
 
-function mbFileSetTime(const FileName: UTF8String; ModificationTime, CreationTime, LastAccessTime: Longint): Longint;
+function mbFileSetTime(const FileName: UTF8String; ModificationTime, CreationTime, LastAccessTime: Longint): Boolean;
 {$IFDEF MSWINDOWS}
 var
   Handle: THandle;
@@ -1388,18 +1390,18 @@ begin
         PWinLastAccessTime := @WinLastAccessTime;
       end;
 
-      Result := Longint(Windows.SetFileTime(Handle,
-                                            PWinCreationTime,
-                                            PWinLastAccessTime,
-                                            PWinModificationTime));
+      Result := Windows.SetFileTime(Handle,
+                                    PWinCreationTime,
+                                    PWinLastAccessTime,
+                                    PWinModificationTime);
       CloseHandle(Handle);
     end
   else
-    Result := 0;
+    Result := False;
 end;
 {$ELSE}
 begin
-  Result := FileSetDate(FileName, ModificationTime);
+  Result := FileSetDate(FileName, ModificationTime) = 0;
 end;
 {$ENDIF}
 
