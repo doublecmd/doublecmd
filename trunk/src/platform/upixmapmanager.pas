@@ -149,8 +149,10 @@ type
   end;
 
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
+                       bFreeAtEnd : Boolean = False) : Graphics.TBitmap; overload;
+function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
-function LoadBitmapFromFile(sFileName : String; iIconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
+function LoadBitmapFromFile(sFileName : String; iIconSize : Integer; clBackColor : TColor) : Graphics.TBitmap; overload;
 
 var
   PixMapManager:TPixMapManager = nil;
@@ -161,7 +163,7 @@ implementation
 
 uses
   GraphType, LCLIntf, LCLType, LCLProc, Forms, FileUtil, uGlobsPaths, WcxPlugin,
-  uGlobs, uDCUtils, uFileSystemFile
+  uGlobs, uDCUtils, uFileSystemFile, uReSample
   {$IFDEF LCLGTK2}
     , uPixMapGtk, gtkdef, gdk2pixbuf, gdk2, glib2
   {$ENDIF}
@@ -182,6 +184,16 @@ begin
   end;
 end;
 {$ENDIF}
+
+function StretchBitmap(var bmBitmap: Graphics.TBitmap; iIconSize: Integer;
+                       bFreeAtEnd: Boolean): Graphics.TBitmap; overload;
+begin
+  Result := Graphics.TBitMap.Create;
+  Result.SetSize(iIconSize, iIconSize);
+  Stretch(bmBitmap, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width);
+  if bFreeAtEnd then
+    FreeAndNil(bmBitmap);
+end;
 
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
