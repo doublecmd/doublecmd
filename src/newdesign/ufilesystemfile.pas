@@ -132,9 +132,12 @@ begin
     // We don't want to use it.
     FSize := TFileSizeProperty.Create(0)
   else
+{$PUSH}{$R-}
     FSize := TFileSizeProperty.Create(StatInfo.st_size);
+
   FModificationTime := TFileModificationDateTimeProperty.Create(
                            FileDateToDateTime(StatInfo.st_mtime));
+{$POP}
 
   if FAttributes.IsLink then
   begin

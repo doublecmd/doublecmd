@@ -91,9 +91,12 @@ begin
         begin
           WinAttr:= LinuxToWinAttr(PChar(Rslt.Name), UnixFindData^.StatRec);
           if (WinAttr and UnixFindData^.iAttr) = 0 then Exit;
+{$PUSH}
+{$R-}
           Rslt.Size:= st_size;
           Rslt.Time:= UnixToWinAge(st_mtime);
           Rslt.Attr:= st_mode;
+{$POP}
         end;
       Result:= 0;
     end;

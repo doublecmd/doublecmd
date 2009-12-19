@@ -160,7 +160,7 @@ begin
           aFile.FullPath,
           DateTimeToFileDate((aTemplateProperty as TFileModificationDateTimeProperty).Value),
           0,
-          0) <> 0;
+          0);
       end;
 
     fpCreationTime:
@@ -171,7 +171,7 @@ begin
           aFile.FullPath,
           0,
           DateTimeToFileDate((aTemplateProperty as TFileCreationDateTimeProperty).Value),
-          0) <> 0;
+          0);
       end;
 
     fpLastAccessTime:
@@ -182,7 +182,7 @@ begin
           aFile.FullPath,
           0,
           0,
-          DateTimeToFileDate((aTemplateProperty as TFileLastAccessDateTimeProperty).Value)) <> 0;
+          DateTimeToFileDate((aTemplateProperty as TFileLastAccessDateTimeProperty).Value));
       end;
 
     else

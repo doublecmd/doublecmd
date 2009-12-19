@@ -161,7 +161,7 @@ function fpReadDir(__dirp: pDir): pDirent; cdecl; external libc name 'readdir64'
 function fpCloseDir(__dirp: pDir): cInt; cdecl; external libc name 'closedir';
 {$ENDIF}
 
-function UnixToWinAge(UnixAge: time_t): LongInt;
+function UnixToWinAge(UnixAge: LongInt): LongInt;
 function LinuxToWinAttr(pFileName: PChar; const srInfo: BaseUnix.Stat): Longint;
 function GetDesktopEnvironment: Cardinal;
 
@@ -181,7 +181,7 @@ end;
 
 {$ENDIF}
 
-function UnixToWinAge(UnixAge: time_t): LongInt;
+function UnixToWinAge(UnixAge: LongInt): LongInt;
 var
   Y,M,D,hh,mm,ss : word;
 begin
