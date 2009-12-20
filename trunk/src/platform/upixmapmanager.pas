@@ -265,12 +265,14 @@ begin
             phicon := phIconLarge // Use large icon
           else
             phicon := phIconSmall; // Use small icon
-          Icon:= CreateIconFromHandle(phicon);
+          Icon:= CreateIconFromHandle(phIcon);
           bmStandartBitmap.Assign(Icon);
           Result:= StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True);
         finally
           FreeThenNil(Icon)
         end;  // non standart size
+      DestroyIcon(phIconLarge);
+      DestroyIcon(phIconSmall);
     end  // IsExecutable
   else
 {$ENDIF}
