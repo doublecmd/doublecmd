@@ -149,10 +149,8 @@ type
   end;
 
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
-                       bFreeAtEnd : Boolean = False) : Graphics.TBitmap; overload;
-function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
-function LoadBitmapFromFile(sFileName : String; iIconSize : Integer; clBackColor : TColor) : Graphics.TBitmap; overload;
+function LoadBitmapFromFile(sFileName : String; iIconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 
 var
   PixMapManager:TPixMapManager = nil;
@@ -185,44 +183,35 @@ begin
 end;
 {$ENDIF}
 
-function StretchBitmap(var bmBitmap: Graphics.TBitmap; iIconSize: Integer;
-                       bFreeAtEnd: Boolean): Graphics.TBitmap; overload;
-begin
-  Result := Graphics.TBitMap.Create;
-  Result.SetSize(iIconSize, iIconSize);
-  Stretch(bmBitmap, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width);
-  if bFreeAtEnd then
-    FreeAndNil(bmBitmap);
-end;
-
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
 var
   memstream: TMemoryStream;
 begin
   Result := Graphics.TBitMap.Create;
+  Result.SetSize(iIconSize, iIconSize);
+  if bmBitmap.RawImage.Description.AlphaPrec <> 0 then // if bitmap has alpha channel
+    Stretch(bmBitmap, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width)
+  else
     with Result do
-      begin
-        Width := iIconSize;
-        Height := iIconSize;
-
-        Canvas.Brush.Color := clBackColor;
-        Canvas.FillRect(Canvas.ClipRect);
-        Canvas.StretchDraw(Canvas.ClipRect, bmBitmap);
-        { For drawing color transparent bitmaps }
-        memstream := TMemoryStream.Create;
-        try
-          SaveToStream(memstream);
-          memstream.position := 0;
-          LoadFromStream(memstream);
-        finally
-          memstream.free;
-        end;
-        Transparent := True;
-        TransparentColor := clBackColor;
-        if bFreeAtEnd then
-          FreeAndNil(bmBitmap);
-      end; //  with
+    begin
+      Canvas.Brush.Color := clBackColor;
+      Canvas.FillRect(Canvas.ClipRect);
+      Canvas.StretchDraw(Canvas.ClipRect, bmBitmap);
+      { For drawing color transparent bitmaps }
+      memstream := TMemoryStream.Create;
+      try
+        SaveToStream(memstream);
+        memstream.position := 0;
+        LoadFromStream(memstream);
+      finally
+        memstream.free;
+      end;
+      Transparent := True;
+      TransparentColor := clBackColor;
+    end; //  with
+  if bFreeAtEnd then
+    FreeAndNil(bmBitmap);
 end;
 
 function LoadBitmapFromFile(sFileName : String; iIconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
