@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.45 alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-07 12:40+0300\n"
+"POT-Creation-Date: 2009-12-20 12:40+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: \n"
@@ -100,7 +100,7 @@ msgstr "DoubleCommander"
 
 #: TFRMABOUT.LBLVERSION.CAPTION
 msgid "Version %s"
-msgstr "Version %s, deutsch by Vacon"
+msgstr "Version %s,\ndeutsch by Vacon"
 
 #: TFRMABOUT.OKBUTTON.CAPTION
 msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
@@ -1152,7 +1152,7 @@ msgstr "Kopiere Dateinamen in die Zwischenablage"
 
 #: TFRMMAIN.ACTCOPYNOASK.CAPTION
 msgid "Copy files without asking for confirmation"
-msgstr ""
+msgstr "Datei(en) ohne Nachfrage kopieren"
 
 #: TFRMMAIN.ACTCOPYSAMEPANEL.CAPTION
 msgid "Copy to same panel"
@@ -1337,7 +1337,7 @@ msgstr "Zum vorherigen Reiter wechseln"
 
 #: TFRMMAIN.ACTQUICKFILTER.CAPTION
 msgid "Quick filter"
-msgstr ""
+msgstr "Schneller Filter"
 
 #: TFRMMAIN.ACTQUICKSEARCH.CAPTION
 msgctxt "TFRMMAIN.ACTQUICKSEARCH.CAPTION"
@@ -1362,7 +1362,7 @@ msgstr "Umbenennen F6"
 
 #: TFRMMAIN.ACTRENAMENOASK.CAPTION
 msgid "Move/Rename files without asking for confirmation"
-msgstr ""
+msgstr "Verschieben / Umbenennen von Datei(en) ohne Nachfrage"
 
 #: TFRMMAIN.ACTRENAMEONLY.CAPTION
 msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
@@ -1392,11 +1392,11 @@ msgstr "Suchen"
 #: TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change file properties"
-msgstr ""
+msgstr "Dateieigenschaften ändern"
 
 #: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
 msgid "Directories are opened in new tabs"
-msgstr ""
+msgstr "Verzeichnisse in neuem Reiter öffnen"
 
 #: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
 msgid "Normal"
@@ -1404,7 +1404,7 @@ msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHLOCKED.CAPTION
 msgid "Locked"
-msgstr ""
+msgstr "Gesperrt"
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
@@ -2258,11 +2258,11 @@ msgstr "16x16"
 
 #: TFRMOPTIONS.CBLISTFILESINTHREAD.CAPTION
 msgid "Load file list in separate thread"
-msgstr ""
+msgstr "Datei(en) in eigenem Prozess starten"
 
 #: TFRMOPTIONS.CBLOADICONSSEPARATELY.CAPTION
 msgid "Load icons after file list"
-msgstr ""
+msgstr "Icons nach Dateiliste laden"
 
 #: TFRMOPTIONS.CBLOGARCOP.CAPTION
 msgid "Pack/Unpack"
@@ -2315,7 +2315,7 @@ msgstr "In den Sys-Tray minimieren (neben der Uhr)"
 
 #: TFRMOPTIONS.CBONLYONCE.CAPTION
 msgid "Allow only one copy of DC at a time"
-msgstr ""
+msgstr "Nur eine Instanz von DoubleCommander gleichzeitig erlauben"
 
 #: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
 msgid "Process comments with files/folders"
@@ -2347,7 +2347,7 @@ msgstr "Zeige aktuelles Verzeichnis"
 
 #: TFRMOPTIONS.CBSHOWDIALOGONDRAGDROP.CAPTION
 msgid "Show confirmation dialog on drag&&drop operations"
-msgstr ""
+msgstr "Bestätigungs-Dialog bei Drag&&Drop-Aktionen zeigen"
 
 #: TFRMOPTIONS.CBSHOWDISKPANEL.CAPTION
 msgid "Show &drive buttons"
@@ -2456,7 +2456,7 @@ msgstr "Nicht auf Änderungen reagieren wenn im Hintergrund"
 
 #: TFRMOPTIONS.CHKAUTOFILLCOLUMNS.CAPTION
 msgid "Auto fill columns"
-msgstr ""
+msgstr "Spalten automatisch füllen"
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
@@ -2498,7 +2498,7 @@ msgstr "Generelle Optionen"
 
 #: TFRMOPTIONS.GBICONSSIZE.CAPTION
 msgid " Icon &size "
-msgstr ""
+msgstr "Icon-Grö&sse"
 
 #: TFRMOPTIONS.GBLOCCONFIGFILES.CAPTION
 msgid "Location of configuration files"
@@ -2530,7 +2530,7 @@ msgstr "Gitternetz anzeigen"
 
 #: TFRMOPTIONS.GBSHOWICONSMODE.CAPTION
 msgid " Show icons to the left of the filename "
-msgstr ""
+msgstr "Icons links vom Dateinamen anzeigen"
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -2538,7 +2538,7 @@ msgstr "Verzeichnisreiter-Titel"
 
 #: TFRMOPTIONS.GRPQUICKSEARCHFILTERKEYS.CAPTION
 msgid "Keys settings"
-msgstr ""
+msgstr "Tasten-Einstellungen"
 
 #: TFRMOPTIONS.LBCOMMANDS.CAPTION
 msgid "Commands:"
@@ -2550,7 +2550,7 @@ msgstr ""
 
 #: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
 msgid "Auto size column:"
-msgstr ""
+msgstr "Grösse der Spalten automatisch einstellen"
 
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
 msgid "Background 2:"
@@ -2626,11 +2626,11 @@ msgstr "Parameter:"
 
 #: TFRMOPTIONS.LBLQUICKFILTER.CAPTION
 msgid "Quick &filter:"
-msgstr ""
+msgstr "Schneller &Filter:"
 
 #: TFRMOPTIONS.LBLQUICKSEARCH.CAPTION
 msgid "Quick &search:"
-msgstr ""
+msgstr "Schnelle &Suche:"
 
 #: TFRMOPTIONS.LBLRUNINTERM.CAPTION
 msgid "Run in terminal:"
@@ -2642,7 +2642,7 @@ msgstr "Befehlszeile:"
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
 msgid "Tabs position:"
-msgstr ""
+msgstr "Reiter-Position"
 
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
@@ -2703,15 +2703,15 @@ msgstr "&Alle"
 
 #: TFRMOPTIONS.RBICONSSHOWALLANDEXE.CAPTION
 msgid "All associated + &EXE/LNK (slow)"
-msgstr ""
+msgstr "Alle verknüpften .exe / .lnk - Dateien (langsam)"
 
 #: TFRMOPTIONS.RBICONSSHOWNONE.CAPTION
 msgid "&No icons"
-msgstr ""
+msgstr "&Keine Icons"
 
 #: TFRMOPTIONS.RBICONSSHOWSTANDARD.CAPTION
 msgid "&Only standard icons"
-msgstr ""
+msgstr "&Nur Standard-Icons"
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
 #, fuzzy
@@ -2887,7 +2887,7 @@ msgstr "&Ok"
 #: TFRMSETFILEPROPERTIES.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CAPTION"
 msgid "Change file properties"
-msgstr ""
+msgstr "Ändern von Dateieigenschaften"
 
 #: TFRMSETFILEPROPERTIES.CBSGID.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CBSGID.CAPTION"
@@ -2906,7 +2906,7 @@ msgstr "SUID"
 
 #: TFRMSETFILEPROPERTIES.CHKARCHIVE.CAPTION
 msgid "Archive"
-msgstr ""
+msgstr "Archiv"
 
 #: TFRMSETFILEPROPERTIES.CHKCREATIONTIME.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CHKCREATIONTIME.CAPTION"
@@ -2915,23 +2915,23 @@ msgstr "Erstellt:"
 
 #: TFRMSETFILEPROPERTIES.CHKHIDDEN.CAPTION
 msgid "Hidden"
-msgstr ""
+msgstr "Versteckt"
 
 #: TFRMSETFILEPROPERTIES.CHKLASTACCESSTIME.CAPTION
 msgid "Accessed:"
-msgstr ""
+msgstr "Zugriff:"
 
 #: TFRMSETFILEPROPERTIES.CHKLASTWRITETIME.CAPTION
 msgid "Modified:"
-msgstr ""
+msgstr "Geändert"
 
 #: TFRMSETFILEPROPERTIES.CHKREADONLY.CAPTION
 msgid "Read only"
-msgstr ""
+msgstr "Schreibgeschützt"
 
 #: TFRMSETFILEPROPERTIES.CHKRECURSIVE.CAPTION
 msgid "Recursive"
-msgstr ""
+msgstr "Auch Unterverzeichnisse"
 
 #: TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION
 msgid "System"
@@ -2949,7 +2949,7 @@ msgstr "Gruppe"
 
 #: TFRMSETFILEPROPERTIES.LBLATTRINFO.CAPTION
 msgid "(gray = unchanged, checked=set attribute)"
-msgstr ""
+msgstr "(grau = unverändert, markiert = Attribut setzen)"
 
 #: TFRMSETFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.LBLATTROTHERSTR.CAPTION"
@@ -2992,7 +2992,7 @@ msgstr "Schreiben"
 
 #: TFRMSETFILEPROPERTIES.PGDATETIME.CAPTION
 msgid "Date/Time"
-msgstr ""
+msgstr "Datum / Zeit"
 
 #: TFRMSETFILEPROPERTIES.PGUNIXMODE.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.PGUNIXMODE.CAPTION"
@@ -3237,7 +3237,7 @@ msgstr "&Vorherige"
 
 #: TFRMVIEWER.MIPRINT.CAPTION
 msgid "Print..."
-msgstr ""
+msgstr "Drucken..."
 
 #: TFRMVIEWER.MISAVEPOS.CAPTION
 msgid "&Save Position"
@@ -3250,11 +3250,11 @@ msgstr "Suchen"
 
 #: TFRMVIEWER.MISEARCHNEXT.CAPTION
 msgid "Search next"
-msgstr ""
+msgstr "Nächste suchen"
 
 #: TFRMVIEWER.MISEARCHPREV.CAPTION
 msgid "Search prev"
-msgstr ""
+msgstr "Voriges suchen"
 
 #: TFRMVIEWER.MISELECTALL.CAPTION
 msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
@@ -3627,7 +3627,7 @@ msgstr "Verzeichnis %s kann nicht erstellt werden!"
 
 #: ulng.rsmsgerrinvalidlink
 msgid "Invalid link"
-msgstr ""
+msgstr "Ungültige Verknüpfung"
 
 #: ulng.rsmsgerrnofiles
 msgid "No files found"
@@ -3651,11 +3651,11 @@ msgstr "Kann Datei %s nicht zu %s umbenennen"
 
 #: ulng.rsmsgerrsetattribute
 msgid "Can not set attributes for \"%s\""
-msgstr ""
+msgstr "Kann Attribut für  \"%s\" nicht setzen"
 
 #: ulng.rsmsgerrsetdatetime
 msgid "Can not set date/time for \"%s\""
-msgstr ""
+msgstr "Kann Datum / Zeit für  \"%s\" nicht setzen"
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -3747,23 +3747,23 @@ msgstr "Erstelle symb. Link für %s"
 
 #: ulng.rsmsgmanualaddhotdir
 msgid "Manually add hot path"
-msgstr ""
+msgstr "Favoriten-Pfad von Hand angeben"
 
 #: ulng.rsmsgmanualedithotdir
 msgid "Manualy edit hot path"
-msgstr ""
+msgstr "Favoriten-Pfad von Hand bearbeiten"
 
 #: ulng.rsmsgmanualhotdirquery
 msgid "Enter name and path (format name=path):"
-msgstr ""
+msgstr "NAme und Pfad eingeben (Format Name=Pfad)"
 
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
-msgstr ""
+msgstr "Master-Passwort"
 
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
-msgstr ""
+msgstr "Bitte Master-Passwort eingeben"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -3873,7 +3873,7 @@ msgstr "Beendet"
 
 #: ulng.rsopermanualstart
 msgid "Manually started"
-msgstr ""
+msgstr "Manuell gestartet"
 
 #: ulng.rsopernotstarted
 msgid "Not started"
@@ -3905,15 +3905,15 @@ msgstr ""
 
 #: ulng.rsoperstartstatemanualstart
 msgid "Manual start"
-msgstr ""
+msgstr "Manueller Start"
 
 #: ulng.rsoperstartstatequeuefirst
 msgid "Queue as first"
-msgstr ""
+msgstr "Warteschlange zuerst"
 
 #: ulng.rsoperstartstatequeuelast
 msgid "Queue as last"
-msgstr ""
+msgstr "Warteschlange zuletzt"
 
 #: ulng.rsoperstopped
 msgid "Stopped"
@@ -3925,7 +3925,7 @@ msgstr "Stoppe"
 
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
-msgstr ""
+msgstr "Warte auf Zugriff auf Datei-Quelle"
 
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
@@ -3995,19 +3995,19 @@ msgstr "Tastaurkürzel"
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
-msgstr ""
+msgstr "Verknüpfung in Gebrauch"
 
 #: ulng.rsopthotkeysshortcutusedtext1
 msgid "Shortcut %s is already used for %s."
-msgstr ""
+msgstr "Verknüpfunf %s wird bereits für %s benutzt"
 
 #: ulng.rsopthotkeysshortcutusedtext2
 msgid "Change it to %s?"
-msgstr ""
+msgstr "Verändern zu %s?"
 
 #: ulng.rsopthotkeysusedby
 msgid "used by"
-msgstr ""
+msgstr "Benutzt von"
 
 #: ulng.rsopticons
 msgid "Icons"
@@ -4158,7 +4158,7 @@ msgstr "Fehler beim Erstellen des symb. Link."
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
-msgstr ""
+msgstr "Bitte diesen Fehler im Bug-Tracker melden, mit einer Beschreibung was Sie getan haben und der folgend Datei:%s Klicken Sie auf %s zum Fortfahren oder %s zum Abbrechen."
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
@@ -4166,9 +4166,9 @@ msgstr "Interner Betrachter des Double Commander"
 
 #: ulng.rsviewencoding
 msgid "Encoding"
-msgstr ""
+msgstr "Codierung"
 
 #: ulng.rsviewnotfound
 msgid "%s not found!"
-msgstr ""
+msgstr "%s nicht gefunden!"
 
