@@ -172,17 +172,6 @@ uses
   {$ENDIF}
   ;
 
-{$IFDEF MSWINDOWS}
-function GetRGBColor(Value: TColor): DWORD;
-begin
-  Result := ColorToRGB(Value);
-  case Result of
-    clNone: Result := CLR_NONE;
-    clDefault: Result := CLR_DEFAULT;
-  end;
-end;
-{$ENDIF}
-
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
 var
@@ -947,7 +936,8 @@ end;
 function TPixMapManager.GetBitmap(iIndex: PtrInt; BkColor : TColor): Graphics.TBitmap;
 {$IFDEF MSWINDOWS}
 var
-  memstream: TMemoryStream;
+  hicn: HICON;
+  Icon: TIcon = nil;
 {$ENDIF}
 begin
   if (iIndex >= 0) and (iIndex < FPixmapList.Count) then
@@ -963,41 +953,21 @@ begin
   else
 {$IFDEF MSWINDOWS}
   if iIndex >= $1000 then
-  begin
-    Result := Graphics.TBitmap.Create;
-    if gIconsSize < 32 then
-      begin
-        Result.Width := GetSystemMetrics( SM_CXSMICON );
-        Result.Height := GetSystemMetrics( SM_CYSMICON );
-      end
-    else
-      begin
-        Result.Width := GetSystemMetrics( SM_CXICON );
-        Result.Height := GetSystemMetrics( SM_CYICON );
-      end;
-
-    try
-      (*For pseudo transparent*)
-      ImageList_DrawEx(FSysImgList, iIndex - $1000, Result.Canvas.Handle, 0, 0, 0, 0, GetRGBColor(BkColor), clNone, ILD_NORMAL);
-      { For drawing color transparent bitmaps }
-      memstream := TMemoryStream.create;
-      try
-        Result.SaveToStream(memstream);
-        memstream.position := 0;
-        Result.LoadFromStream(memstream);
-      finally
-        memstream.free;
-      end;
-
-      Result.Transparent := True;
-      Result.TransparentColor := BkColor;
-    except
-      Result:=nil;
+    begin
+      Result:= nil;
+      hicn:= ImageList_GetIcon(FSysImgList, iIndex - $1000, ILD_NORMAL);
+      if hicn <> 0 then
+        try
+          Icon := CreateIconFromHandle(hicn);
+          Result := Graphics.TBitmap.Create;
+          Result.Assign(Icon);
+        finally
+          FreeThenNil(Icon);
+          DestroyIcon(hicn);
+        end
     end;
-  end;
-
 {$ELSE}
-  Result:=nil;
+  Result:= nil;
 {$ENDIF}
 end;
 
@@ -1063,7 +1033,7 @@ begin
         ImageList_Draw(FSysImgList, iIndex - $1000, Canvas.Handle, X, Y, ILD_TRANSPARENT)
       else
       begin
-        hicn:= ImageList_GetIcon(FSysImgList, iIndex - $1000, 0);
+        hicn:= ImageList_GetIcon(FSysImgList, iIndex - $1000, ILD_NORMAL);
         try
           if IsGdiPlusLoaded then
             Result:= GdiPlusStretchDraw(hicn, Canvas.Handle, X, Y, Width, Height)
