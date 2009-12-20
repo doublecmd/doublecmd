@@ -197,7 +197,8 @@ begin
         memstream.free;
       end;
       Transparent := True;
-      TransparentColor := clBackColor;
+      if bmBitmap.RawImage.Description.MaskBitsPerPixel = 0 then
+        TransparentColor := clBackColor;
     end; //  with
   if bFreeAtEnd then
     FreeAndNil(bmBitmap);
