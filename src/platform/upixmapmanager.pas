@@ -1028,7 +1028,7 @@ begin
       else
         TrySetSize(gIconsSize, gIconsSize);
 
-      if Height in [16, 32] then
+      if (Height in [16, 32]) and (cx = Width) and (cy = Height) then
         // for transparent
         ImageList_Draw(FSysImgList, iIndex - $1000, Canvas.Handle, X, Y, ILD_TRANSPARENT)
       else
