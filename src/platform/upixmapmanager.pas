@@ -218,11 +218,12 @@ function LoadBitmapFromFile(sFileName : String; iIconSize : Integer; clBackColor
 var
 {$IFDEF MSWINDOWS}
   iPos,
-  iIconIndex : Integer;
-  phicon,
-  phiconLarge,
-  phiconSmall : HIcon;
-  IntfImage: TLazIntfImage = nil;
+  iIconIndex,
+  iIconLarge,
+  iIconSmall: Integer;
+  phIcon: HICON = INVALID_HANDLE_VALUE;
+  phIconLarge,
+  phIconSmall : HICON;
   Icon : TIcon = nil;
 {$ENDIF}
   AFile: TFileSystemFile;
@@ -250,46 +251,36 @@ begin
   if FileIsExeLib(sFileName) then
     begin
       if iIconIndex < 0 then iIconIndex := 0;
-      ExtractIconExW(PWChar(UTF8Decode(sFileName)), iIconIndex, phiconLarge, phiconSmall, 1);
-      case iIconSize of
-        16, 32:
-          try
-            Result:= Graphics.TBitMap.Create;
-            if iIconSize = 16 then
-              Icon:= CreateIconFromHandle(phiconSmall)    // Small icon
-            else
-              Icon:= CreateIconFromHandle(phiconLarge);   // Large icon
-            IntfImage := Icon.CreateIntfImage;
-            Result.LoadFromIntfImage(IntfImage);
-          finally
-            if Assigned(Icon) then
-              FreeAndNil(Icon);
-            if Assigned(IntfImage) then
-              FreeAndNil(IntfImage);
-          end;
-        else
-          begin
-            { Convert TIcon to TBitMap  }
-            bmStandartBitmap := Graphics.TBitMap.Create;
-            if iIconSize > 16 then  // Large icon
-              begin
-                bmStandartBitmap.Width := GetSystemMetrics(SM_CXICON);
-                bmStandartBitmap.Height := GetSystemMetrics(SM_CYICON);
-                phicon := phiconLarge;
-              end
-            else  // Small icon
-              begin
-                bmStandartBitmap.Width := GetSystemMetrics(SM_CXSMICON);
-                bmStandartBitmap.Height := GetSystemMetrics(SM_CYSMICON);
-                phicon := phiconSmall;
-              end;
+      ExtractIconExW(PWChar(UTF8Decode(sFileName)), iIconIndex, phIconLarge, phIconSmall, 1);
+      // Get system metrics
+      iIconSmall:= GetSystemMetrics(SM_CXSMICON);
+      iIconLarge:= GetSystemMetrics(SM_CXICON);
+      if (iIconSize = 16) and (iIconSmall = 16) then
+        phIcon:= phIconSmall    // Use small icon
+      else if (iIconSize = 32) and (iIconLarge = 32) then
+        phIcon:= phIconLarge;   // Use large icon
 
-            bmStandartBitmap.Canvas.Brush.Color := clBackColor;
-            bmStandartBitmap.Canvas.FillRect(bmStandartBitmap.Canvas.ClipRect);
-            Windows.DrawIcon(bmStandartBitmap.Canvas.Handle, 0, 0, phicon);
-            Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True);
+      if phIcon <> INVALID_HANDLE_VALUE then // standart icon size
+        try
+          Result:= Graphics.TBitMap.Create;
+          Icon:= CreateIconFromHandle(phIcon);
+          Result.Assign(Icon);
+        finally
+          FreeThenNil(Icon);
+        end
+      else // non standart icon size
+        try
+          bmStandartBitmap := Graphics.TBitMap.Create;
+          if iIconSize > iIconSmall then
+            phicon := phIconLarge // Use large icon
+          else
+            phicon := phIconSmall; // Use small icon
+          Icon:= CreateIconFromHandle(phicon);
+          bmStandartBitmap.Assign(Icon);
+          Result:= StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True);
+        finally
+          FreeThenNil(Icon)
         end;  // non standart size
-      end;  // case
     end  // IsExecutable
   else
 {$ENDIF}
@@ -1137,9 +1128,9 @@ var
   Ext: String;
 {$IFDEF MSWINDOWS}
   sFileName: String;
-    FileInfo: TSHFileInfoW;
-    _para2: DWORD;
-    _para5: UINT;
+  FileInfo: TSHFileInfoW;
+  dwFileAttributes: DWORD;
+  uFlags: UINT;
 {$ENDIF}
 begin
   Result := -1;
@@ -1232,29 +1223,29 @@ begin
 
       if DirectAccess then
         begin
-          _para2 := 0;
-          _para5 := SHGFI_SYSICONINDEX;
+          dwFileAttributes := 0;
+          uFlags := SHGFI_SYSICONINDEX;
           sFileName := Path + Name;
         end
       else
         begin
-          _para2 := FILE_ATTRIBUTE_NORMAL;
-          _para5 := SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES;
+          dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
+          uFlags := SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES;
           sFileName := Name;
         end;
 
       if gIconsSize = 16 then
-        _para5 := _para5 or SHGFI_SMALLICON
+        uFlags := uFlags or SHGFI_SMALLICON
       else
-        _para5 := _para5 or SHGFI_LARGEICON;
+        uFlags := uFlags or SHGFI_LARGEICON;
 
       //WriteLN('Icon for file == ' + sName);
 
       SHGetFileInfoW(PWideChar(UTF8Decode(sFileName)),
-                     _para2,
+                     dwFileAttributes,
                      FileInfo,
                      SizeOf(FileInfo),
-                     _para5);
+                     uFlags);
 
       Result := FileInfo.iIcon + $1000;
        
@@ -1290,8 +1281,9 @@ function TPixMapManager.GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackC
 var
   SFI: TSHFileInfo;
   Icon: TIcon = nil;
-  IntfImage: TLazIntfImage = nil;
-  _para5 : UINT;
+  uFlags: UINT;
+  iIconSmall,
+  iIconLarge: Integer;
 {$ENDIF}
 begin
   Result := nil;
@@ -1301,45 +1293,39 @@ begin
     begin
       SFI.hIcon := 0;
       Result := Graphics.TBitMap.Create;
-      case IconSize of
-      16, 32: // Standart icon size
-        begin
-          if IconSize = 16 then
-            _para5 := SHGFI_SMALLICON
-          else
-            _para5 := SHGFI_LARGEICON;
+      iIconSmall:= GetSystemMetrics(SM_CXSMICON);
+      iIconLarge:= GetSystemMetrics(SM_CXICON);
 
-          if (SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), _para5 or SHGFI_ICON) <> 0) and
-             (SFI.hIcon <> 0) then
+      if (IconSize = 16) and (iIconSmall = 16) then // standart small icon
+        uFlags := SHGFI_SMALLICON // Use small icon
+      else if (IconSize = 32) and (iIconLarge = 32) then // standart large icon
+        uFlags := SHGFI_LARGEICON // Use large icon
+      else if IconSize > iIconSmall then
+        uFlags := SHGFI_LARGEICON // Use large icon
+      else
+        uFlags := SHGFI_SMALLICON; // Use small icon
+
+      if (SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), uFlags or SHGFI_ICON) <> 0) and
+          (SFI.hIcon <> 0) then
+        begin
+          if (IconSize = iIconSmall) or (IconSize = iIconLarge) then // standart icon size
             try
               Icon := CreateIconFromHandle(SFI.hIcon);
-              IntfImage := Icon.CreateIntfImage;
-              Result.LoadFromIntfImage(IntfImage);
+              Result.Assign(Icon);
             finally
-              if Assigned(Icon) then
-                FreeAndNil(Icon);
-              if Assigned(IntfImage) then
-                FreeAndNil(IntfImage);
+              FreeThenNil(Icon);
               DestroyIcon(SFI.hIcon);
-            end;
+            end
+          else // non standart icon size
+            try
+              Icon := CreateIconFromHandle(SFI.hIcon);
+              Result.Assign(Icon);
+              Result := StretchBitmap(Result, IconSize, clBackColor, True);
+            finally
+              FreeThenNil(Icon);
+              DestroyIcon(SFI.hIcon);
+            end
         end;
-      else  // for non standart icon size we Convert HIcon to TBitMap
-        begin
-          if (SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), SHGFI_ICON) <> 0) and
-             (SFI.hIcon <> 0) then
-          try
-            Result.Width := GetSystemMetrics(SM_CXICON);
-            Result.Height := GetSystemMetrics(SM_CYICON);
-            Result.Canvas.Brush.Color := clBackColor;
-            Result.Canvas.FillRect(Result.Canvas.ClipRect);
-            Windows.DrawIcon(Result.Canvas.Handle,0,0,SFI.hIcon);
-
-            Result := StretchBitmap(Result, IconSize, clBackColor, True);
-          finally
-            DestroyIcon(SFI.hIcon);
-          end;
-        end;
-      end;  //  case
     end // not gCustomDriveIcons
   else
 {$ENDIF}
