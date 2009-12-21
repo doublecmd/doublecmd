@@ -28,7 +28,7 @@ unit fPackInfoDlg;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  SysUtils, LResources, Forms, StdCtrls,
   ExtCtrls, uWCXModule, uOSUtils;
 
 type
@@ -74,7 +74,7 @@ function ShowPackInfoDlg(WCXModule: TWCXModule; HeaderData: TWCXHeader): Boolean
 implementation
 
 uses
-  LCLProc, FileUtil,  uTypes, uFileOp, uFileList, uDCUtils, uShellExecute, uDateTimeUtils;
+  uTypes, uFileList, uDCUtils, uShellExecute;
 
 function ShowPackInfoDlg(WCXModule: TWCXModule; HeaderData: TWCXHeader): Boolean;
 var
