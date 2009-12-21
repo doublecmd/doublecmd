@@ -86,7 +86,7 @@ implementation
 
 uses
   uFileProcs, uDCUtils, uLng, WfxPlugin, uWfxModule, uFileSystemUtil, uFileProperty,
-  uOSUtils, uDateTimeUtils;
+  uDateTimeUtils;
 
 function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: UTF8String): Boolean;
 var

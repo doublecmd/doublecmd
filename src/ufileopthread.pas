@@ -20,7 +20,7 @@ unit uFileOpThread;
 interface
 
 uses
-  Classes, uFileList, fFileOpDlg, uTypes, uDescr, fMsg, uShowMsg {$IFNDEF NOFAKETHREAD}, uFakeThread{$ENDIF};
+  Classes, uFileList, fFileOpDlg, uTypes, uDescr, uShowMsg {$IFNDEF NOFAKETHREAD}, uFakeThread{$ENDIF};
 
 type
   { TFileOpThread }
@@ -82,8 +82,7 @@ const
 implementation
 
 uses
-  SysUtils, DateUtils, uLng, uFileOp, Forms, uFindEx, uDCUtils, uOSUtils,
-  LCLProc, uGlobs;
+  SysUtils, uLng, uFindEx, uDCUtils, uOSUtils, uGlobs;
 
 { TFileOpThread }
 
@@ -330,7 +329,6 @@ begin
         iSize := sr.Size;
         sTime := DateTimeToStr(Trunc(FileDateToDateTime(sr.Time)));
         iMode := sr.Attr;
-        sModeStr := AttrToStr(sr.Attr);
         bLinkIsDir:=False;
         bSelected:=False;
       end;

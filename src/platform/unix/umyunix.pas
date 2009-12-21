@@ -31,7 +31,7 @@ unit uMyUnix;
 interface
 
 uses
-  Classes, SysUtils, BaseUnix, UnixUtil;
+  Classes, SysUtils, BaseUnix;
 
 const
   libc = 'c';

@@ -31,8 +31,7 @@ interface
 
 uses
   LResources,
-  SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ComCtrls, uTypes,
+  SysUtils, Classes, Graphics, Forms, StdCtrls, Buttons, ComCtrls, uTypes,
   uFile, uFileProperty;
 
 type
@@ -127,8 +126,9 @@ procedure ShowFileProperties(const Files: TFiles);
 implementation
 
 uses
-  LCLType, uLng, uFileOp, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
-  uDefaultFilePropertyFormatter, uFileSystemFile, uMyUnix, uDateTimeUtils;
+  LCLType, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
+  uDefaultFilePropertyFormatter, uFileSystemFile, uMyUnix, uDateTimeUtils,
+  uFileAttributes;
 
 procedure ShowFileProperties(const Files: TFiles);
 begin
@@ -324,7 +324,7 @@ begin
 
       ShowAttr(Attrs);
       edtOctal.Text:= DecToOct(GetModeFromForm);
-      lblAttrText.Caption:=AttrToStr(Attrs);
+      lblAttrText.Caption := Properties[fpAttributes].Format(DefaultFilePropertyFormatter);
 
       if FPS_ISDIR(Attrs) then
         lblType.Caption:=rsPropsFolder

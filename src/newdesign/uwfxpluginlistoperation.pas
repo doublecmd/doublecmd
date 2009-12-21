@@ -32,7 +32,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uOSUtils, uDCUtils, uWfxPluginFile, uFile,
+  LCLProc, FileUtil, uOSUtils, uDCUtils, uWfxPluginFile,
   WfxPlugin, uWfxModule;
 
 constructor TWfxPluginListOperation.Create(aFileSource: IFileSource; aPath: String);

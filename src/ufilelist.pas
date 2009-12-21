@@ -25,12 +25,11 @@ unit uFileList;
 
 {$mode objfpc}{$H+}
 interface
+
 uses
-  SysUtils, Classes, uTypes, uColumns, uFileSorting;
+  SysUtils, Classes, uTypes;
 
 Type
-
-  TFileListSorting = class;
 
   {en
      Class for storing list of files
@@ -45,7 +44,6 @@ Type
        to TFileRecItem strucrures
     }
     fList: TList;
-    CurrentSorting : TFileListSorting;
   public
     {en
        Create TFileList
@@ -75,13 +73,6 @@ Type
        @param(iIndex Item index)
        @returns(Pointer to TFileRecItem strucrure)
     }
-    procedure LoadFromFileNames(const FileNamesList: TStringList);
-    {en
-       Clears the filelist and fills it with file records using
-       a list of filenames with full paths. It is used generally
-       to convert a list of file paths from external applications.
-       @param(FileNamesList List of filenames with full paths)
-    }
     function  GetItem(iIndex: Integer) : PFileRecItem;
     {en
        Return full file name of item by index
@@ -96,16 +87,6 @@ Type
     }
     function  CheckFileName(const sFileName:String):Integer;
     {en
-       Update icon index information
-       @param(PanelMode Current panel mode)
-    }
-    procedure  UpdateFileInformation(PanelMode: TPanelMode);
-    {en
-       Sort file list
-       @param(Sorting object)
-    }
-    procedure Sort(Sorting : TFileListSorting; ColumnsClass: TPanelColumnsClass); overload;
-    {en
        Indicates the number of items in the file list
     }
     property Count      : Integer read GetCount;
@@ -117,30 +98,10 @@ Type
 
   PFileList = ^TFileList;
 
-  TFileListSortingColumn = record
-    iField : Integer;
-    SortDirection : TSortDirection;
-  end;
-
-  PFileListSortingColumn = ^TFileListSortingColumn;
-
-  TFileListSorting = class(TList)
-  public
-    Destructor Destroy; override;
-    procedure AddSorting(iField : Integer; SortDirection : TSortDirection);
-    procedure Clear; override;
-    function GetSortingDirection(iField : Integer) : TSortDirection;
-  end;
-
-  PFileListSorting = ^TFileListSorting;
-
-  procedure CopyListSelectedExpandNames(srcFileList, dstFileList: TFileList; sPath: String;
-                                        bFullName: Boolean = True; bSkipFolder: Boolean = False);
-
 implementation
 
 uses
-  LCLProc, uGlobs, uPixmapManager, uDCUtils, uOSUtils, uFileOp;
+  LCLProc;
 
 {
 class constructor
@@ -148,7 +109,6 @@ class constructor
 Constructor TFileList.Create;
 begin
   fList := TList.Create;
-  CurrentSorting := TFileListSorting.Create;
 end;
 
 
@@ -156,7 +116,6 @@ Destructor TFileList.Destroy;
 begin
   Clear;
   FreeAndNil(fList);
-  FreeAndNil(CurrentSorting);
   inherited;
 end;
 
@@ -228,28 +187,6 @@ begin
   Result := fList.Add(p);
 end;
 
-procedure TFileList.LoadFromFileNames(const FileNamesList: TStringList);
-var
-  fr: TFileRecItem;
-  i: Integer;
-begin
-  fList.Clear;
-
-  if not Assigned(FileNamesList) or (FileNamesList.Count <= 0) then Exit;
-
-  // TODO: File names can be from different directories.
-  //       Maybe set individual sPath's instead.
-  CurrentDirectory := ExtractFilePath(FileNamesList[0]);
-
-  for i := 0 to FileNamesList.Count-1 do
-    begin
-      fr:= LoadFilebyName(FileNamesList[i]);
-      fr.sName:= FileNamesList[i];
-      fr.sNameNoExt:= ExtractFileName(FileNamesList[i]);
-      AddItem(@fr);
-    end;
-end;
-
 {
 return item with index iIndex
 }
@@ -275,202 +212,9 @@ begin
   Result:=p^.sName;
 end;
 
-{
-Sort files by multicolumn sorting.
-}
-procedure TFileList.Sort(Sorting : TFileListSorting; ColumnsClass: TPanelColumnsClass);
-var
-  i : Integer;
-  pSortingColumn : PFileListSortingColumn;
-  Column: TPanelColumn;
-  bSortedByName: Boolean;
-  bSortedByExtension: Boolean;
-  FileSortings: TFileSortings;
-  FileListSorter: TListSorter = nil;
-begin
-  if (fList.Count = 0) or (ColumnsClass.ColumnsCount = 0) then Exit;
-
-  CurrentSorting.Clear;
-
-  for i := 0 to Sorting.Count - 1 do
-  begin
-    pSortingColumn := PFileListSortingColumn(Sorting[i]);
-    CurrentSorting.AddSorting(pSortingColumn^.iField, pSortingColumn^.SortDirection);
-  end;
-
-  bSortedByName := False;
-  bSortedByExtension := False;
-
-  SetLength(FileSortings, CurrentSorting.Count);
-
-  for i := 0 to CurrentSorting.Count - 1 do
-  begin
-    pSortingColumn := PFileListSortingColumn(CurrentSorting[i]);
-
-    if (pSortingColumn^.iField >= 0) and
-       (pSortingColumn^.iField < ColumnsClass.ColumnsCount) then
-    begin
-      Column := ColumnsClass.GetColumnItem(pSortingColumn^.iField);
-      FileSortings[i].SortFunctions := Column.GetColumnFunctions;
-      FileSortings[i].SortDirection := pSortingColumn^.SortDirection;
-
-      if HasSortFunction(FileSortings[i].SortFunctions, fsfName) then
-      begin
-        bSortedByName := True;
-        bSortedByExtension := True;
-      end
-      else if HasSortFunction(FileSortings[i].SortFunctions, fsfNameNoExtension)
-      then
-      begin
-        bSortedByName := True;
-      end
-      else if HasSortFunction(FileSortings[i].SortFunctions, fsfExtension)
-      then
-      begin
-        bSortedByExtension := True;
-      end;
-    end
-    else
-      Raise Exception.Create('Invalid column number in sorting - fix me');
-  end;
-
-  // Add automatic sorting by name and/or extension if there wasn't any.
-
-  if not bSortedByName then
-  begin
-    if not bSortedByExtension then
-      AddSorting(FileSortings, fsfName, sdAscending)
-    else
-      AddSorting(FileSortings, fsfNameNoExtension, sdAscending);
-  end
-  else
-  begin
-    if not bSortedByExtension then
-      AddSorting(FileSortings, fsfExtension, sdAscending);
-    // else
-    //   There is already a sorting by filename and extension.
-  end;
-
-  // Sort.
-{  FileListSorter := TListSorter.Create(fList, FileSortings);
-  try
-    FileListSorter.Sort;
-  finally
-    FreeAndNil(FileListSorter);
-  end;}
-end;
-
 function TFileList.GetCount:Integer;
 begin
   Result:=flist.Count;
-end;
-
-procedure TFileList.UpdateFileInformation(PanelMode: TPanelMode);
-var
-  i:Integer;
-  frp:PFileRecItem;
-begin
-  for i:=0 to fList.Count-1 do
-  begin
-    frp:=PFileRecItem(Flist.Items[i]);
-    //frp^.iIconID:=PixMapManager.GetIconByFile(frp, PanelMode);
-  end;
-end;
-
-procedure CopyListSelectedExpandNames(srcFileList, dstFileList: TFileList; sPath: String;
-                                      bFullName: Boolean = True; bSkipFolder: Boolean = False);
-var
-  xIndex:Integer;
-  p:TFileRecItem;
-begin
-  Assert(srcFileList <> nil,'CopyListExpandNames: srcFileList=nil');
-  Assert(dstFileList <> nil,'CopyListExpandNames: dstFileList=nil');
-  dstFileList.Clear;
-  dstFileList.CurrentDirectory := sPath;
-  for xIndex:=0 to srcFileList.Count-1 do
-  begin
-    p:=srcFileList.GetItem(xIndex)^;
-    if (not p.bSelected) or (p.sName = '..') then Continue;
-    if bSkipFolder and FPS_ISDIR(p.iMode) then Continue;
-    if bFullName then
-      begin
-        p.sNameNoExt:=p.sName; //dstname
-        p.sName := GetSplitFileName(p.sNameNoExt, sPath);
-        p.sPath:='';
-      end
-    else
-      begin
-        GetSplitFileName(p.sName, sPath);
-        p.sPath := sPath;
-      end;
-    DebugLN(p.sName);
-    dstFileList.AddItem(@p);
-  end;
-end;
-
-procedure TFileListSorting.AddSorting(iField : Integer; SortDirection : TSortDirection);
-var
-  i : Integer;
-  pSortingColumn : PFileListSortingColumn;
-begin
-  i := Count - 1;
-  while i >= 0 do
-  begin
-    pSortingColumn := PFileListSortingColumn(Self[i]);
-    if pSortingColumn^.iField = iField then
-    begin
-      pSortingColumn^.SortDirection := ReverseSortDirection(pSortingColumn^.SortDirection);
-      Exit;
-    end;
-    dec(i);
-  end;
-
-  new(pSortingColumn);
-  pSortingColumn^.iField := iField;
-  pSortingColumn^.SortDirection := SortDirection;
-  Add(pSortingColumn);
-end;
-
-Destructor TFileListSorting.Destroy;
-begin
-  Clear;
-  inherited;
-end;
-
-procedure TFileListSorting.Clear;
-var
-  i : Integer;
-  pSortingColumn : PFileListSortingColumn;
-begin
-  i := Count - 1;
-  while i >= 0 do
-  begin
-    pSortingColumn := PFileListSortingColumn(Self[i]);
-    dispose(pSortingColumn);
-    dec(i);
-  end;
-
-  Inherited Clear;
-end;
-
-function TFileListSorting.GetSortingDirection(iField : Integer) : TSortDirection;
-var
-  i : Integer;
-  pSortingColumn : PFileListSortingColumn;
-begin
-  Result := sdNone;
-
-  i := Count - 1;
-  while i >= 0 do
-  begin
-    pSortingColumn := PFileListSortingColumn(Self[i]);
-    if pSortingColumn^.iField = iField then
-    begin
-      Result := pSortingColumn^.SortDirection;
-      break;
-    end;
-    dec(i);
-  end;
 end;
 
 end.

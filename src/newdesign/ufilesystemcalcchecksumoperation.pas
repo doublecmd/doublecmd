@@ -8,7 +8,6 @@ uses
   Classes, SysUtils, contnrs,
   uFileSourceCalcChecksumOperation,
   uFileSource,
-  uFileSourceOperation,
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFile,
