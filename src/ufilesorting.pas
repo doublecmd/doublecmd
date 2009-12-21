@@ -76,7 +76,7 @@ type
   function ICompareByNameNoExt(item1, item2: TFile; bSortNegative: Boolean):Integer;
   function ICompareByExt (item1, item2: TFile; bSortNegative: Boolean):Integer;
   function ICompareBySize(item1, item2: TFile; bSortNegative: Boolean):Integer;
-  function ICompareByDate(item1, item2: TFile; bSortNegative: Boolean):Integer;
+  function ICompareByDate(date1, date2: TDateTime; bSortNegative: Boolean):Integer;
   function ICompareByAttr(item1, item2: TFile; bSortNegative: Boolean):Integer;
 
   function ReverseSortDirection(SortDirection: TSortDirection): TSortDirection;
@@ -122,10 +122,6 @@ function ICompareByDirectory(item1, item2: TFile; bSortNegative: Boolean):Intege
 var
   IsDir1, IsDir2: Boolean;
 begin
-{> 0 (positive)   Item1 is less than Item2
-  0              Item1 is equal to Item2
-< 0 (negative)  Item1 is greater than Item2}
-
   Result:=0;
 
   IsDir1 := item1.IsDirectory or item1.IsLinkToDirectory;
@@ -154,9 +150,6 @@ end;
 
 function ICompareByName(item1, item2: TFile; bSortNegative: Boolean):Integer;
 begin
-{> 0 (positive)   Item1 is less than Item2
-  0              Item1 is equal to Item2
-< 0 (negative)  Item1 is greater than Item2}
   Result := 0;
 
   if gCaseSensitiveSort then
@@ -172,9 +165,6 @@ function ICompareByNameNoExt(item1, item2: TFile; bSortNegative: Boolean):Intege
 var
   name1, name2: string;
 begin
-{> 0 (positive)   Item1 is less than Item2
-  0              Item1 is equal to Item2
-< 0 (negative)  Item1 is greater than Item2}
   Result := 0;
 
   // Don't sort directories only by name.
@@ -201,10 +191,6 @@ end;
 
 function ICompareByExt(item1, item2: TFile; bSortNegative: Boolean):Integer;
 begin
-{> 0 (positive)   Item1 is less than Item2
-  0              Item1 is equal to Item2
-< 0 (negative)  Item1 is greater than Item2}
-
   Result:=0;
 
   if item1.Extension = item2.Extension then
@@ -219,47 +205,27 @@ begin
     Result := -Result;
 end;
 
-function ICompareByDate(item1, item2: TFile; bSortNegative: Boolean):Integer;
-var
-  Time1, Time2: TDateTime;
+function ICompareByDate(date1, date2: TDateTime; bSortNegative: Boolean):Integer;
 begin
-{> 0 (positive)   Item1 is less than Item2
-  0              Item1 is equal to Item2
-< 0 (negative)  Item1 is greater than Item2}
-
-  Result:=0;
-
-  // move this check before sorting starts?
-  // then don't add sorting by date if not supported.
-  if (not (fpDateTime in item1.SupportedProperties)) or
-     (not (fpDateTime in item2.SupportedProperties)) then Exit;
-
-  Time1 := (item1.Properties[fpDateTime] as TFileDateTimeProperty).Value;
-  Time2 := (item2.Properties[fpDateTime] as TFileDateTimeProperty).Value;
-
-  if Time1 = Time2 then Exit;
-
-  if Time1 < Time2 then
-    Result := -1
+  if date1 = date2 then
+    Result := 0
   else
-    Result := +1;
+  begin
+    if date1 < date2 then
+      Result := -1
+    else
+      Result := +1;
 
-  if bSortNegative then
-    Result := -Result;
+    if bSortNegative then
+      Result := -Result;
+  end;
 end;
 
 function ICompareByAttr(item1, item2: TFile; bSortNegative: Boolean):Integer;
 var
   Attr1, Attr2: TFileAttrs;
 begin
-{> 0 (positive)   Item1 is less than Item2
-  0              Item1 is equal to Item2
-< 0 (negative)  Item1 is greater than Item2}
-
   Result:=0;
-
-  if (not (fpAttributes in item1.SupportedProperties)) or
-     (not (fpAttributes in item2.SupportedProperties)) then Exit;
 
   Attr1 := (item1.Properties[fpAttributes] as TFileAttributesProperty).Value;
   Attr2 := (item2.Properties[fpAttributes] as TFileAttributesProperty).Value;
@@ -281,14 +247,7 @@ var
   iSize1 : Int64;
   iSize2 : Int64;
 begin
-{> 0 (positive)   Item1 is less than Item2
-  0              Item1 is equal to Item2
-< 0 (negative)  Item1 is greater than Item2}
-
   Result := 0;
-
-  if (not (fpSize in item1.SupportedProperties)) or
-     (not (fpSize in item2.SupportedProperties)) then Exit;
 
   iSize1 := (item1.Properties[fpSize] as TFileSizeProperty).Value;
   iSize2 := (item2.Properties[fpSize] as TFileSizeProperty).Value;
@@ -336,9 +295,9 @@ end;
 
 { Return Values for ICompareByxxxx function
 
-> 0 (positive)   Item1 is less than Item2
+> 0 (positive)   Item1 is greater than Item2
   0              Item1 is equal to Item2
-< 0 (negative)  Item1 is greater than Item2
+< 0 (negative)   Item1 is less than Item2
 }
 
 {
@@ -349,18 +308,12 @@ end;
   or not a directory (both).
 
   Else return +/- as ICompare****
-  > 0 (positive)   Item1 is less than Item2
-  < 0 (negative)  Item1 is greater than Item2
 }
 
 function TListSorter.MultiCompare(item1, item2: Pointer):Integer;
 var
   i : Integer;
 begin
-{> 0 (positive)   Item1 is less than Item2
-  0              Item1 is equal to Item2
-< 0 (negative)  Item1 is greater than Item2}
-
   Result := 0;
   if item1 = item2 then Exit;
 
@@ -431,8 +384,11 @@ begin
                Result := -Result;
            end;
 }
-        fsfTime:
-          Result := ICompareByDate(File1, File2, bNegative);
+        fsfModificationTime:
+          Result := ICompareByDate(
+                     (File1.Properties[fpModificationTime] as TFileDateTimeProperty).Value,
+                     (File2.Properties[fpModificationTime] as TFileDateTimeProperty).Value,
+                     bNegative);
 {
         fsfLinkTo:
           begin
