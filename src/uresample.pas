@@ -292,6 +292,34 @@ type
   TRGBAList = packed array[0..0] of TColorRGBA;
   PRGBAList = ^TRGBAList;
 
+function CreateAlphaFromMask(Bitmap: TBitmap): TLazIntfImage;
+var
+  SrcIntfImage: TLazIntfImage;
+  x, y, xStop, yStop: Integer;
+  Color: TFPColor;
+begin
+  SrcIntfImage := TLazIntfImage.Create(Bitmap.RawImage, False);
+  with SrcIntfImage do
+  begin
+    if MaskData = nil then Exit(SrcIntfImage);
+    Result := TLazIntfImage.Create(Width, Height, [riqfRGB, riqfAlpha]);
+    Result.CreateData;
+    xStop := Width - 1;
+    yStop := Height - 1;
+  end;
+  for x:= 0 to xStop do
+    for y:= 0 to yStop do
+    begin
+      Color := SrcIntfImage.Colors[x, y];
+      if SrcIntfImage.Masked[x, y] then
+        Color.Alpha := Low(Color.Alpha)
+      else
+        Color.Alpha := High(Color.Alpha);
+      Result.Colors[x, y] := Color;
+    end;
+  SrcIntfImage.Free;
+end;
+
 procedure Stretch(Src, Dst: TBitmap; filter: TFilterProc; fwidth: single);
 var
   xscale, yscale	: single;		// Zoom scale factors
@@ -355,8 +383,10 @@ begin
       yscale:= (DstHeight - 1) / (SrcHeight - 1);
 
 {++++++++++++++++++++}
-    Dst.PixelFormat := Src.PixelFormat;
-    SrcIntfImage := Src.CreateIntfImage;
+    if Src.RawImage.Description.AlphaPrec = 0 then // if bitmap has not alpha channel
+      SrcIntfImage := CreateAlphaFromMask(Src)
+    else
+      SrcIntfImage := Src.CreateIntfImage;
     DstIntfImage := Dst.CreateIntfImage;
     ImgFormatDescription.Init_BPP32_B8G8R8A8_BIO_TTB(DstWidth, DstHeight);
     DstIntfImage.DataDescription := ImgFormatDescription;
