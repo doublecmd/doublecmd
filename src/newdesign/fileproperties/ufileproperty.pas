@@ -446,12 +446,12 @@ end;
 
 function TFileDateTimeProperty.GetMinimumValue: TDateTime;
 begin
-  Result := 0;
+  Result := MinDateTime;
 end;
 
 function TFileDateTimeProperty.GetMaximumValue: TDateTime;
 begin
-  Result := High(TDateTime);
+  Result := MaxDateTime;
 end;
 
 // ----------------------------------------------------------------------------
