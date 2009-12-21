@@ -46,7 +46,7 @@ uses
   KASToolBar, KASBarMenu, KASBarFiles,
   uCmdBox, uFileSystemWatcher, uFilePanelSelect,
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
-  uFileSourceOperation, uOperationsManager
+  uOperationsManager
   {$IF NOT DEFINED(DARWIN)}
   , uTerminal
   {$ENDIF}

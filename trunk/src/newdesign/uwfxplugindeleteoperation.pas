@@ -9,7 +9,6 @@ uses
   uFileSourceDeleteOperation,
   uWfxPluginFileSource,
   uFileSource,
-  uFileSourceOperation,
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFile,
@@ -49,7 +48,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uOSUtils, uLng, WfxPlugin;
+  uOSUtils, uLng, WfxPlugin;
 
 constructor TWfxPluginDeleteOperation.Create(aTargetFileSource: IFileSource;
                                              var theFilesToDelete: TFiles);

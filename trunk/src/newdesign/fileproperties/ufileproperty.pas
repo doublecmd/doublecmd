@@ -122,7 +122,6 @@ type
     constructor Create; override;
     constructor Create(DateTime: TDateTime); virtual; overload;
 
-    function Clone: TFileDateTimeProperty; override;
     procedure CloneTo(FileProperty: TFileProperty); override;
 
     // Retrieve possible values for the property.
@@ -423,12 +422,6 @@ constructor TFileDateTimeProperty.Create(DateTime: TDateTime);
 begin
   inherited Create;
   Value := DateTime;
-end;
-
-function TFileDateTimeProperty.Clone: TFileDateTimeProperty;
-begin
-  Result := TFileDateTimeProperty.Create;
-  CloneTo(Result);
 end;
 
 procedure TFileDateTimeProperty.CloneTo(FileProperty: TFileProperty);
