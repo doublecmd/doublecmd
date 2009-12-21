@@ -1131,9 +1131,9 @@ begin
     if IsDirectory then
     begin
       {$IF DEFINED(MSWINDOWS)}
-      if ((gShowIcons = sim_standart) or
-         (not (DirectAccess and mbFileExists(Path + Name + '\desktop.ini')))) and
-         (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) > 16) then
+      if (gShowIcons = sim_standart) or
+         (not (DirectAccess and mbFileExists(Path + Name + '\desktop.ini'))) or
+         (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 16) then
       {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
       if (gShowIcons = sim_all_and_exe) and
          (DirectAccess and mbFileExists(Path + Name + '/.directory')) then
@@ -1144,92 +1144,48 @@ begin
       else
       {$ENDIF}
         begin
-          Result := FiDirIconID;
-          Exit;
+          Exit(FiDirIconID);
         end;
-    end;
-
-    if IsLink and not gIconOverlays then
+    end
+    else // not directory
     begin
-      Result := FiLinkIconID;
-      Exit;
-    end;
+      if IsLink and not gIconOverlays then
+        Exit(FiLinkIconID);
 
-    if (Extension = '') and (not IsDirectory) then
-    begin
-      Result := FiDefaultIconID;
-      Exit;
-    end;
+      if (Extension = '') then
+        Exit(FiDefaultIconID);
 
-    Ext := UTF8LowerCase(Extension);
+      Ext := UTF8LowerCase(Extension);
 
-    {$IF DEFINED(MSWINDOWS)}
-    if gShowIcons <> sim_all_and_exe then
-      begin
-        if Ext = 'exe' then
-          Exit(FiExeIconID)
-        else if Ext = 'lnk' then
-          Exit(FiLinkIconID)
-        else if Ext = 'ico' then
-          Exit(FiDefaultIconID)
-      end;
-    {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-    if gShowIcons = sim_all_and_exe then
-      begin
-        if DirectAccess and (Ext = 'desktop') then
-          begin
-            Result:= GetIconByDesktopFile(Path + Name, FiDefaultIconID);
-            Exit;
-          end;
-      end;
-    {$ENDIF}
+      {$IF DEFINED(MSWINDOWS)}
+      if gShowIcons <> sim_all_and_exe then
+        begin
+          if Ext = 'exe' then
+            Exit(FiExeIconID)
+          else if Ext = 'lnk' then
+            Exit(FiLinkIconID)
+          else if Ext = 'ico' then
+            Exit(FiDefaultIconID)
+        end;
+      {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+      if gShowIcons = sim_all_and_exe then
+        begin
+          if DirectAccess and (Ext = 'desktop') then
+            begin
+              Result:= GetIconByDesktopFile(Path + Name, FiDefaultIconID);
+              Exit;
+            end;
+        end;
+      {$ENDIF}
 
-    Result:= FExtList.Find(Ext);
-    if Result >= 0 then
-      Result := PtrInt(FExtList.List[Result]^.Data)
-    else
-    begin
+      Result := FExtList.Find(Ext);
+      if Result >= 0 then
+        Exit(PtrInt(FExtList.List[Result]^.Data));
+
       if gShowIcons = sim_standart then
         Exit(FiDefaultIconID);
 
-      {$IF DEFINED(MSWINDOWS)}
-
-      if DirectAccess then
-        begin
-          dwFileAttributes := 0;
-          uFlags := SHGFI_SYSICONINDEX;
-          sFileName := Path + Name;
-        end
-      else
-        begin
-          dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
-          uFlags := SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES;
-          sFileName := Name;
-        end;
-
-      if gIconsSize = 16 then
-        uFlags := uFlags or SHGFI_SMALLICON
-      else
-        uFlags := uFlags or SHGFI_LARGEICON;
-
-      //WriteLN('Icon for file == ' + sName);
-
-      SHGetFileInfoW(PWideChar(UTF8Decode(sFileName)),
-                     dwFileAttributes,
-                     FileInfo,
-                     SizeOf(FileInfo),
-                     uFlags);
-
-      Result := FileInfo.iIcon + $1000;
-       
-      if (Ext <> 'exe') and
-         (Ext <> 'ico') and
-         (Ext <> 'lnk') and (not IsDirectory) then
-      begin
-        FExtList.Add(Ext, TObject(Result));
-      end;
-
-      {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+      {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 
       Result := GetMimeIcon(Ext, gIconsSize);
       if Result < 0 then
@@ -1241,6 +1197,53 @@ begin
 
       {$ENDIF}
     end;
+
+    {$IF DEFINED(MSWINDOWS)}
+
+    if DirectAccess then
+      begin
+        dwFileAttributes := 0;
+        uFlags := SHGFI_SYSICONINDEX;
+        sFileName := Path + Name;
+      end
+    else
+      begin
+        dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
+        uFlags := SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES;
+        sFileName := Name;
+      end;
+
+    if gIconsSize = 16 then
+      uFlags := uFlags or SHGFI_SMALLICON
+    else
+      uFlags := uFlags or SHGFI_LARGEICON;
+
+    if (SHGetFileInfoW(PWideChar(UTF8Decode(sFileName)),
+                       dwFileAttributes,
+                       FileInfo,
+                       SizeOf(FileInfo),
+                       uFlags) = 0) then
+    begin
+      // Could not retrieve icon.
+      if IsDirectory then
+        Result := FiDirIconID
+      else
+        Result := FiDefaultIconID;
+    end
+    else
+    begin
+      Result := FileInfo.iIcon + $1000;
+
+      if (not IsDirectory) and
+         (Ext <> 'exe') and
+         (Ext <> 'ico') and
+         (Ext <> 'lnk') then
+      begin
+        FExtList.Add(Ext, Pointer(Result));
+      end;
+    end;
+
+    {$ENDIF}
   end;
 end;
 
