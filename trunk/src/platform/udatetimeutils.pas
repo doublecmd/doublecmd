@@ -78,7 +78,6 @@ function DateTimeToWinFileTime(dt : TDateTime) : TWinFileTime;
 
 {$IFDEF MSWINDOWS}
 function WinFileTimeToDateTime(ft : Windows.FILETIME) : TDateTime; inline; overload;
-function DateTimeToWinFileTime(dt : TDateTime) : Windows.FILETIME; inline; overload;
 
 function DosFileTimeToDateTime(const DosTime: TDosFileTime): TDateTime;
 function DateTimeToDosFileTime(const DateTime: TDateTime): TDosFileTime;
@@ -249,11 +248,6 @@ end;
 function WinFileTimeToDateTime(ft : Windows.FILETIME) : TDateTime;
 begin
   Result := WinFileTimeToDateTime(TWinFileTime(ft));
-end;
-
-function DateTimeToWinFileTime(dt : TDateTime) : Windows.FILETIME;
-begin
-  Result := Windows.FILETIME(DateTimeToWinFileTime(dt));
 end;
 
 function DosFileTimeToDateTime(const DosTime: TDosFileTime): TDateTime;
