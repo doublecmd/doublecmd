@@ -107,7 +107,7 @@ end;
 
 procedure TFileOpThread.FillAndCountRec(const srcPath, dstPath:String);
 var
-  sr:TSearchRec;
+  sr:TSearchRecEx;
   fr:TFileRecItem;
 begin
   if FindFirstEx(srcPath+'*',faAnyFile,sr)<>0 then
@@ -313,7 +313,7 @@ end;
 function TFileOpThread.CheckFile(FileRecItem: PFileRecItem): Boolean;
 var
   sRealName: String;
-  sr: TSearchRec;
+  sr: TSearchRecEx;
 begin
   Result:= True;
   // For process symlink or real file/folder

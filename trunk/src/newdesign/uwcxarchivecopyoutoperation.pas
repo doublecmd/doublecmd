@@ -71,7 +71,7 @@ implementation
 
 uses
   LCLProc, Masks, FileUtil, contnrs, uOSUtils, uDCUtils, WcxPlugin,
-  uFileSourceOperationUI, uWCXmodule, uFileProcs, uLng;
+  uFileSourceOperationUI, uWCXmodule, uFileProcs, uLng, uDateTimeUtils, uTypes;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
@@ -438,7 +438,7 @@ var
   PathIndex: Integer;
   TargetDir: String;
   Header: TWCXHeader;
-  Time: Longint;
+  Time: TFileTime;
 begin
   Result := True;
 
@@ -456,8 +456,13 @@ begin
         // Restore attributes, e.g., hidden, read-only.
         // On Unix attributes value would have to be translated somehow.
         mbFileSetAttr(TargetDir, Header.FileAttr);
-{$ENDIF}
+
+        DosToWinTime(TDosFileTime(Header.FileTime), Time);
+{$ELSE}
+  {$PUSH}{$R-}
         Time := Header.FileTime;
+  {$POP}
+{$ENDIF}
 
         // Set creation, modification time
         mbFileSetTime(TargetDir, Time, Time, Time);

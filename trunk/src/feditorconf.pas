@@ -122,7 +122,7 @@ implementation
 
 
 uses
-  FileUtil, uFindEx, uOSUtils;
+  FileUtil, uFindEx, uOSUtils, uTypes;
 
 procedure SetupColorOfHighlighter(var h: TSynCustomHighlighter);
 var
@@ -316,7 +316,7 @@ end;
 
 procedure TfrmEditorConf.FillComboPred;
 var
-  fr:TSearchRec;
+  fr:TSearchRecEx;
   iIndex:Integer;
 begin
   cmbPredefined.Clear;

@@ -46,7 +46,7 @@ var
 
 procedure FillAndCountRec(const srcPath, dstPath:String);
 var
-  sr:TSearchRec;
+  sr:TSearchRecEx;
   fr:TFileRecItem;
 
 begin

@@ -41,7 +41,7 @@ var
 implementation
 
 uses
-  uGlobs, uDCUtils, uOSUtils
+  uGlobs, uDCUtils, uTypes
 {$IFDEF UNIX}
   , BaseUnix, Unix
 {$ENDIF}

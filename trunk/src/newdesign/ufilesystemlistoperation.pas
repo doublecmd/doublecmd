@@ -21,7 +21,7 @@ type
 implementation
 
 uses
-  uFileSystemFile, uFindEx, uOSUtils;
+  uFileSystemFile, uFindEx, uOSUtils, uTypes;
 
 constructor TFileSystemListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
@@ -32,7 +32,7 @@ end;
 procedure TFileSystemListOperation.MainExecute;
 var
   AFile: TFileSystemFile;
-  sr: TSearchRec;
+  sr: TSearchRecEx;
   IsRootPath: Boolean;
 begin
   FFiles.Clear;

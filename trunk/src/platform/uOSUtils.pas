@@ -27,11 +27,11 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, LCLProc, uClassesEx
-    {$IFDEF MSWINDOWS}
+    SysUtils, Classes, LCLProc, uClassesEx, uTypes
+    {$IF DEFINED(MSWINDOWS)}
     , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk
-    {$ELSE}
-    , BaseUnix, Unix, UnixType, UnixUtil, dl, uMyUnix, WfxPlugin
+    {$ELSEIF DEFINED(UNIX)}
+    , BaseUnix, Unix, UnixType, dl
       {$IFDEF DARWIN}
       , MacOSAll
       {$ELSE}
@@ -72,11 +72,6 @@ type
   end;
   PDrive = ^TDrive;
 
-  {$IFNDEF WINDOWS}
-  TFileTime = FILETIME;
-  PFileTime = ^FILETIME;
-  {$ENDIF}
-
 type
   TFileMapRec = record
     FileHandle : THandle;
@@ -86,10 +81,6 @@ type
 {$ENDIF}
     MappedFile : PChar;
   end;
-
-  TLibHandle = PtrInt;
-
-  TFileAttrs = Cardinal;  // file attributes type regardless of system
 
 const
   faInvalidAttributes: TFileAttrs = TFileAttrs(-1);
@@ -192,44 +183,18 @@ function MapFile(const sFileName : UTF8String; out FileMapRec : TFileMapRec) : B
 }
 procedure UnMapFile(var FileMapRec : TFileMapRec);
 
-(* Date/Time routines *)
-{en
-   Converts a file time based on the Coordinated Universal Time (UTC) to a local file time
-   @param(lpFileTime TFileTime structure containing the UTC-based file time)
-   @param(lpLocalFileTime TFileTime structure to receive the converted local file time)
-   @returns(The function returns @true if successful, @false otherwise)
-}
-function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): LongBool;
-{en
-   Converts a local file time to a file time based on the Coordinated Universal Time (UTC)
-   @param(lpLocalFileTime TFileTime structure that specifies the local file time)
-   @param(lpFileTime TFileTime structure to receive the converted UTC-based file time)
-   @returns(The function returns @true if successful, @false otherwise)
-}
-function LocalFileTimeToFileTimeEx(const lpLocalFileTime: TFileTime; var lpFileTime: TFileTime): LongBool;
-{en
-   Converts a file time based on the Coordinated Universal Time (UTC) to a TDateTime format
-   @param(ft TFileTime structure containing the UTC-based file time)
-   @returns(File time in TDateTime format)
-}
-function FileTimeToDateTime(ft : TFileTime) : TDateTime;
-{en
-   Converts a file time in TDateTime format to a file time based on the Coordinated Universal Time (UTC)
-   @param(dt File time in TDateTime format)
-   @returns(UTC-based file time)
-}
-function DateTimeToFileTime(dt : TDateTime) : TFileTime;
-
 function GetShell : String;
 
 { File handling functions}
 function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
 function mbFileCreate(const FileName: UTF8String): THandle; overload;
 function mbFileCreate(const FileName: UTF8String; Mode: Integer): THandle; overload;
-function mbFileAge(const FileName: UTF8String): LongInt;
+function mbFileAge(const FileName: UTF8String): uTypes.TFileTime;
 // On success returns True.
-function mbFileSetTime(const FileName: UTF8String; ModificationTime: Longint;
-                       CreationTime: Longint = 0; LastAccessTime: Longint = 0): Boolean;
+function mbFileSetTime(const FileName: UTF8String;
+                       ModificationTime: uTypes.TFileTime;
+                       CreationTime    : uTypes.TFileTime = 0;
+                       LastAccessTime  : uTypes.TFileTime = 0): Boolean;
 {en
    Checks if a given file exists - it can be a real file or a link to a file,
    but it can be opened and read from.
@@ -301,6 +266,8 @@ uses
   // 30.04.2009 - для удаления в корзину
   {$IFDEF MSWINDOWS}
   , Win32Int, InterfaceBase
+  {$ELSE}
+  , uMyUnix
   {$ENDIF}
   ;
 
@@ -421,7 +388,7 @@ function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Bool
 {$IFDEF MSWINDOWS}
 var
   iAttr : TFileAttrs;
-  ft : TFileTime;
+  ft : Windows.TFileTime;
   Handle: THandle;
 begin
   iAttr := mbFileGetAttr(sSrc);
@@ -1225,44 +1192,6 @@ begin
 end;
 {$ENDIF}  
 
-(* Date/Time routines *)
-
-function FileTimeToLocalFileTimeEx(const lpFileTime: TFileTime; var lpLocalFileTime: TFileTime): LongBool;
-{$IFDEF MSWINDOWS}
-begin
-  Result := FileTimeToLocalFileTime(lpFileTime, lpLocalFileTime);
-end;
-{$ELSE}
-begin
-  Int64(lpLocalFileTime) := Int64(lpFileTime) + 10000000 * Int64(TZSeconds);
-  Result := True;
-end;
-{$ENDIF}
-
-function LocalFileTimeToFileTimeEx(const lpLocalFileTime: TFileTime; var lpFileTime: TFileTime): LongBool;
-{$IFDEF MSWINDOWS}
-begin
-  Result := LocalFileTimeToFileTime(lpLocalFileTime, lpFileTime);
-end;
-{$ELSE}
-begin
-  Int64(lpFileTime) := Int64(lpLocalFileTime) - 10000000 * Int64(TZSeconds);
-  Result := True;
-end;
-{$ENDIF}
-
-function FileTimeToDateTime(ft : TFileTime) : TDateTime;
-begin
-  FileTimeToLocalFileTimeEx(ft,ft);
-  Result := (Int64(ft) / 864000000000.0) - 109205.0;
-end;
-
-function DateTimeToFileTime(dt : TDateTime) : TFileTime;
-begin
-  Int64(Result) := Round((dt + 109205.0) * 864000000000.0);
-  LocalFileTimeToFileTimeEx(Result, Result);
-end;
-
 function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
 {$IFDEF MSWINDOWS}
 const
@@ -1321,7 +1250,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileAge(const FileName: UTF8String): LongInt;
+function mbFileAge(const FileName: UTF8String): uTypes.TFileTime;
 {$IFDEF MSWINDOWS}
 var
   Handle: THandle;
@@ -1334,34 +1263,33 @@ begin
     begin
       Windows.FindClose(Handle);
       if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) = 0 then
-        If WinToDosTime(FindData.ftLastWriteTime,Result) then
-          Exit;
+        Exit(uTypes.TWinFileTime(FindData.ftLastWriteTime));
     end;
-  Result:= -1;
+  Result:= uTypes.TFileTime(-1);
 end;
 {$ELSE}
 var
   Info: BaseUnix.Stat;
 begin
-  Result:= -1;
+  Result:= uTypes.TFileTime(-1);
   if fpStat(FileName, Info) >= 0 then
 {$PUSH}{$R-}
-    Result:=UnixToWinAge(Info.st_mtime);
+    Result := Info.st_mtime;
 {$POP}
 end;
 {$ENDIF}
 
-function mbFileSetTime(const FileName: UTF8String; ModificationTime, CreationTime, LastAccessTime: Longint): Boolean;
+function mbFileSetTime(const FileName: UTF8String;
+                       ModificationTime: uTypes.TFileTime;
+                       CreationTime    : uTypes.TFileTime = 0;
+                       LastAccessTime  : uTypes.TFileTime = 0): Boolean;
 {$IFDEF MSWINDOWS}
 var
   Handle: THandle;
   wFileName: WideString;
-  WinModificationTime: TFileTime;
-  WinCreationTime: TFileTime;
-  WinLastAccessTime: TFileTime;
-  PWinModificationTime: PFileTime = nil;
-  PWinCreationTime: PFileTime = nil;
-  PWinLastAccessTime: PFileTime = nil;
+  PWinModificationTime: Windows.LPFILETIME = nil;
+  PWinCreationTime: Windows.LPFILETIME = nil;
+  PWinLastAccessTime: Windows.LPFILETIME = nil;
 begin
   wFileName:= UTF8Decode(FileName);
   Handle := CreateFileW(PWChar(wFileName),
@@ -1376,18 +1304,15 @@ begin
     begin
       if ModificationTime <> 0 then
       begin
-        DosToWinTime(ModificationTime, WinModificationTime);
-        PWinModificationTime := @WinModificationTime;
+        PWinModificationTime := @ModificationTime;
       end;
       if CreationTime <> 0 then
       begin
-        DosToWinTime(CreationTime, WinCreationTime);
-        PWinCreationTime := @WinCreationTime;
+        PWinCreationTime := @CreationTime;
       end;
       if LastAccessTime <> 0 then
       begin
-        DosToWinTime(LastAccessTime, WinLastAccessTime);
-        PWinLastAccessTime := @WinLastAccessTime;
+        PWinLastAccessTime := @LastAccessTime;
       end;
 
       Result := Windows.SetFileTime(Handle,
@@ -1400,8 +1325,12 @@ begin
     Result := False;
 end;
 {$ELSE}
+var
+  t: TUTimBuf;
 begin
-  Result := FileSetDate(FileName, ModificationTime) = 0;
+  t.actime := LastAccessTime;
+  t.modtime := ModificationTime;
+  Result := (fputime(PChar(pointer(FileName)), @t) <> -1);
 end;
 {$ENDIF}
 

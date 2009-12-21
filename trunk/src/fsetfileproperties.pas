@@ -29,7 +29,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
   ExtCtrls, ComCtrls, StdCtrls, Buttons, EditBtn,
-  uFileProperty, uFileSourceSetFilePropertyOperation, uOSUtils;
+  uFileProperty, uFileSourceSetFilePropertyOperation, uTypes;
 
 type
 
@@ -106,7 +106,7 @@ type
     function GetModeFromForm: TFileAttrs;
     function GetAttrFromForm: TFileAttrs;
   public
-    constructor Create(aOwner: TComponent; const aOperation: TFileSourceSetFilePropertyOperation);
+    constructor Create(aOwner: TComponent; const aOperation: TFileSourceSetFilePropertyOperation); reintroduce;
   end;
 
 function ShowChangeFilePropertiesDialog(const aOperation: TFileSourceSetFilePropertyOperation): Boolean;

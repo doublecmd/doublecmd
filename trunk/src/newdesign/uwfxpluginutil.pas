@@ -85,7 +85,8 @@ type
 implementation
 
 uses
-  uFileProcs, uDCUtils, uLng, WfxPlugin, uWfxModule, uFileSystemUtil, uFileProperty, uOSUtils;
+  uFileProcs, uDCUtils, uLng, WfxPlugin, uWfxModule, uFileSystemUtil, uFileProperty,
+  uOSUtils, uDateTimeUtils;
 
 function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: UTF8String): Boolean;
 var
@@ -99,7 +100,7 @@ begin
       iTemp.Value := (aFile.Properties[fpSize] as TFileSizeProperty).Value;
       SizeLow := iTemp.Low;
       SizeHigh := iTemp.High;
-      LastWriteTime := DateTimeToFileTime((aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
+      LastWriteTime := DateTimeToWinFileTime((aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
       Attr := LongInt((aFile.Properties[fpAttributes] as TFileAttributesProperty).Value);
     end;
     Result := (WfxCopyMove(aFile.Path + aFile.Name, NewFileName, FS_COPYFLAGS_MOVE, @RemoteInfo, True, True) = FS_FILE_OK);

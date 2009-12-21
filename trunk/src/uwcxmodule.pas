@@ -29,7 +29,7 @@ interface
 
 uses
   uWCXprototypes, WcxPlugin, dynlibs, Classes,
-  uVFSTypes, Dialogs, DialogAPI, uClassesEx, uOSUtils;
+  uVFSTypes, Dialogs, DialogAPI, uClassesEx, uTypes;
 
 Type
   TWCXOperation = (OP_EXTRACT, OP_PACK, OP_DELETE);
@@ -145,10 +145,13 @@ Type
   end;
 
   function GetErrorMsg(iErrorMsg : Integer): String;
+  function WcxFileTimeToDateTime(Header: TWCXHeader): TDateTime;
 
 implementation
 
-uses SysUtils, LCLProc, uLng, fDialogBox, uGlobsPaths, FileUtil;
+uses
+  SysUtils, LCLProc, uLng, fDialogBox, uGlobsPaths, FileUtil, uOSUtils,
+  uDateTimeUtils;
 
 const
   WcxIniFileName = 'wcx.ini';
@@ -579,6 +582,21 @@ begin
 
   SetString(TempString, CharString, NameLength);
   Result := SysToUTF8(TempString);
+end;
+
+// --
+
+function WcxFileTimeToDateTime(Header: TWCXHeader): TDateTime;
+begin
+{$IF DEFINED(MSWINDOWS)}
+  Result := DosFileTimeToDateTime(Header.FileTime);
+{$ELSEIF DEFINED(UNIX)}
+{$PUSH}{$R-}
+  Result := FileTimeToDateTime(Header.FileTime);
+{$POP}
+{$ELSE}
+  Result := 0;
+{$ENDIF}
 end;
 
 end.

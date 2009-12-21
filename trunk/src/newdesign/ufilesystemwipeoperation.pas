@@ -95,7 +95,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng, uFindEx, uClassesEx, uFileSystemUtil, LCLProc;
+  uOSUtils, uLng, uFindEx, uClassesEx, uFileSystemUtil, LCLProc, uTypes;
 
 constructor TFileSystemWipeOperation.Create(aTargetFileSource: IFileSource;
                                             var theFilesToWipe: TFiles);
@@ -292,7 +292,7 @@ end;
 
 procedure TFileSystemWipeOperation.WipeDir(dir: string);
 var
-  Search: TSearchRec;
+  Search: TSearchRecEx;
   ok: Integer;
   sPath: String;
 begin
@@ -352,7 +352,7 @@ end;
 procedure TFileSystemWipeOperation.WipeFile(filename: String);
 var
   Found: Integer;
-  SRec: TSearchRec;
+  SRec: TSearchRecEx;
   sPath: String;
 begin
   sPath:= ExtractFilePath(filename);
