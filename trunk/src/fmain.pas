@@ -2597,6 +2597,8 @@ begin
         Page.LockPath := sPath;
 
       Page.FileView.LoadConfiguration(TabsSection, StrToInt(sIndex));
+      // Reload file list after loading configuration.
+      Page.FileView.Reload;
 
       Inc(I);
       // get page index in string representation

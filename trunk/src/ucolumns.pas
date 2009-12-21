@@ -29,7 +29,7 @@ unit uColumns;
 interface
 
 uses
-  Classes, SysUtils, uClassesEx, LCLProc, Graphics, uFile;
+  Classes, SysUtils, uClassesEx, LCLProc, Graphics, uFile, uFileProperty;
 
   type
 
@@ -51,8 +51,8 @@ uses
    end;
 
   TFileFunction = (fsfName, fsfExtension, fsfSize, fsfAttr, fsfPath,
-                   fsfGroup, fsfOwner, fsfTime, fsfLinkTo, fsfNameNoExtension,
-                   fsfInvalid);
+                   fsfGroup, fsfOwner, fsfModificationTime, fsfLinkTo,
+                   fsfNameNoExtension, fsfInvalid);
 
   TFileFunctions = array of TFileFunction;
 
@@ -69,6 +69,20 @@ uses
                'GETFILENAMENOEXT',
                ''                 // fsfInvalid
                );
+
+  // Which file properties must be supported for each file function to work.
+  const TFileFunctionToProperty: array [TFileFunction] of TFilePropertiesTypes
+            = ([fpName],
+               [fpName],
+               [fpSize],
+               [fpAttributes],
+               [] { path },
+               [] {fpGroup},
+               [] {fpOwner},
+               [fpModificationTime],
+               [] {fpLinkTo},
+               [fpName],
+               [] { invalid });
 
 type
 
@@ -256,7 +270,7 @@ type
 implementation
 
 uses
-  uLng, uGlobs, uFileProperty, uDefaultFilePropertyFormatter;
+  uLng, uGlobs, uDefaultFilePropertyFormatter;
 
 function StrToAlign(str:string):TAlignment;
 begin
@@ -893,7 +907,7 @@ begin
               fsfOwner:
                 Result:=ptr^.sOwner;
 }
-              fsfTime:
+              fsfModificationTime:
                 Result := AFile.Properties[fpModificationTime].Format(DefaultFilePropertyFormatter);
 {
               fsfLinkTo:

@@ -1254,7 +1254,7 @@ Sort files by multicolumn sorting.
 procedure TColumnsFileView.Sort;
 var
   ColumnsClass: TPanelColumnsClass;
-  i : Integer;
+  i, j, sortingIndex : Integer;
   pSortingColumn : PFileListSortingColumn;
   Column: TPanelColumn;
   bSortedByName: Boolean;
@@ -1262,6 +1262,7 @@ var
   FileSortings: TFileSortings;
   FileListSorter: TListSorter = nil;
   TempSorting: TFileListSorting;
+  SortFunctions: TFileFunctions;
 begin
   ColumnsClass := GetColumnsClass;
 
@@ -1282,6 +1283,7 @@ begin
 
   SetLength(FileSortings, TempSorting.Count);
 
+  sortingIndex := 0;
   for i := 0 to TempSorting.Count - 1 do
   begin
     pSortingColumn := PFileListSortingColumn(TempSorting[i]);
@@ -1290,28 +1292,41 @@ begin
        (pSortingColumn^.iField < ColumnsClass.ColumnsCount) then
     begin
       Column := ColumnsClass.GetColumnItem(pSortingColumn^.iField);
-      FileSortings[i].SortFunctions := Column.GetColumnFunctions;
-      FileSortings[i].SortDirection := pSortingColumn^.SortDirection;
+      SortFunctions := Column.GetColumnFunctions;
 
-      if HasSortFunction(FileSortings[i].SortFunctions, fsfName) then
+      // Check if each sort function is supported.
+      for j := 0 to Length(SortFunctions) - 1 do
+        if (TFileFunctionToProperty[SortFunctions[j]] * FileSource.GetSupportedFileProperties) <> [] then
+          AddSortFunction(FileSortings[sortingIndex].SortFunctions, SortFunctions[j]);
+
+      if Length(FileSortings[sortingIndex].SortFunctions) > 0 then
       begin
-        bSortedByName := True;
-        bSortedByExtension := True;
-      end
-      else if HasSortFunction(FileSortings[i].SortFunctions, fsfNameNoExtension)
-      then
-      begin
-        bSortedByName := True;
-      end
-      else if HasSortFunction(FileSortings[i].SortFunctions, fsfExtension)
-      then
-      begin
-        bSortedByExtension := True;
+        FileSortings[sortingIndex].SortDirection := pSortingColumn^.SortDirection;
+
+        if HasSortFunction(FileSortings[sortingIndex].SortFunctions, fsfName) then
+        begin
+          bSortedByName := True;
+          bSortedByExtension := True;
+        end
+        else if HasSortFunction(FileSortings[sortingIndex].SortFunctions, fsfNameNoExtension)
+        then
+        begin
+          bSortedByName := True;
+        end
+        else if HasSortFunction(FileSortings[sortingIndex].SortFunctions, fsfExtension)
+        then
+        begin
+          bSortedByExtension := True;
+        end;
+
+        Inc(sortingIndex);
       end;
     end
     else
       Raise Exception.Create('Invalid column number in sorting - fix me');
   end;
+
+  SetLength(FileSortings, sortingIndex);
 
   // Add automatic sorting by name and/or extension if there wasn't any.
 
@@ -2433,15 +2448,14 @@ begin
   if not Cloning then
   begin
     FFiles := TColumnsViewFiles.Create;
-
     FSorting := TFileListSorting.Create;
-    FSorting.AddSorting(FSortColumn, FSortDirection);
 
     // Update view before making file source file list,
     // so that file list isn't unnecessarily displayed twice.
     UpdateView;
 
-    MakeFileSourceFileList;
+    // Configuration should be read before loading file list.
+    //MakeFileSourceFileList;
   end
   else
     UpdateView;
@@ -2480,7 +2494,8 @@ begin
     with FileView as TColumnsFileView do
     begin
       // Clone file source files before display files because they are the reference files.
-      FFileSourceFiles := Self.FFileSourceFiles.Clone;
+      if Assigned(Self.FFileSourceFiles) then
+        FFileSourceFiles := Self.FFileSourceFiles.Clone;
       FFiles := Self.FFiles.Clone(Self.FFileSourceFiles, FFileSourceFiles);
 
       FLastActive := Self.FLastActive;
