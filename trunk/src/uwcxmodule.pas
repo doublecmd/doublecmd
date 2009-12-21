@@ -28,8 +28,7 @@ unit uWCXmodule;
 interface
 
 uses
-  uWCXprototypes, WcxPlugin, dynlibs, Classes,
-  uVFSTypes, Dialogs, DialogAPI, uClassesEx, uTypes;
+  uWCXprototypes, WcxPlugin, dynlibs, Classes, Dialogs, DialogAPI, uClassesEx, uTypes;
 
 Type
   TWCXOperation = (OP_EXTRACT, OP_PACK, OP_DELETE);
@@ -109,12 +108,7 @@ Type
 
     procedure VFSInit(Data: PtrInt);
     procedure VFSDestroy;
-    function VFSCaps : TVFSCaps;
-
     procedure VFSConfigure(Parent: THandle);
-
-    function VFSRun(const sName:String):Boolean;
-
     function VFSMisc : PtrUInt;
 
     function IsLoaded: Boolean;
@@ -327,16 +321,6 @@ begin
   UnloadModule;
 end;
 
-function TWCXModule.VFSCaps: TVFSCaps;
-begin
-  Result := [];
-  Include(Result, VFS_CAPS_COPYOUT);
-  if Assigned(PackFiles) then
-    Include(Result, VFS_CAPS_COPYIN);
-  if Boolean(FPackerCaps and PK_CAPS_DELETE) and Assigned(DeleteFiles) then
-    Include(Result, VFS_CAPS_DELETE);
-end;
-
 procedure TWCXModule.VFSConfigure(Parent: THandle);
 begin
   if Assigned(ConfigurePacker) then
@@ -373,26 +357,6 @@ begin
   begin
     Result := E_NOT_SUPPORTED;
   end;
-end;
-
-function TWCXModule.VFSRun(const sName: String): Boolean;
-var
-  iCount, I: Integer;
-  Header: TWCXHeader;
-begin
-{
-  iCount := FArcFileList.Count - 1;
-  for I := 0 to  iCount do
-   begin
-     Header := TWCXHeader(FArcFileList.Items[I]);
-     if PathDelim + Header.FileName = FFolder + sName then
-     begin
-       Result := ShowPackInfoDlg(Self, Header);
-       Exit;
-     end;
-   end;
-   Result:= False;
-}
 end;
 
 function TWCXModule.VFSMisc: PtrUInt;

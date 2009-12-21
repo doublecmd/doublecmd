@@ -15,20 +15,15 @@
 unit uFileOpThread;
 
 {$mode objfpc}{$H+}
-{$DEFINE NOFAKETHREAD}
 
 interface
 
 uses
-  Classes, uFileList, fFileOpDlg, uTypes, uDescr, uShowMsg {$IFNDEF NOFAKETHREAD}, uFakeThread{$ENDIF};
+  Classes, uFileList, fFileOpDlg, uTypes, uDescr, uShowMsg;
 
 type
   { TFileOpThread }
-{$IFDEF NOFAKETHREAD}
   TFileOpThread = class(TThread)
-{$ELSE}
-  TFileOpThread = class(TFakeThread)
-{$ENDIF}
   private
     { Private declarations }
     FPaused: Boolean;
