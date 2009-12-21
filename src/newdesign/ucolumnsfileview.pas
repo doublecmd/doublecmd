@@ -2660,7 +2660,6 @@ begin
   else
   begin
     DisplayFileListHasChanged;
-    RedrawGrid;
   end;
 
   {$IFDEF timeFileView}
@@ -2671,7 +2670,6 @@ end;
 procedure TColumnsFileView.DoMakeFileSourceFileListGui;
 begin
   DisplayFileListHasChanged;
-  //RedrawGrid;
   dgPanel.Cursor := crDefault;
 end;
 
@@ -2743,6 +2741,7 @@ begin
   // Update grid row count.
   dgPanel.RowCount := FFiles.Count
                     + dgPanel.FixedRows; // header rows
+  RedrawGrid;
 
   SetActiveFile(LastActive);
   UpDatelblInfo;
@@ -2755,7 +2754,6 @@ begin
   if gListFilesInThread and gLoadIconsSeparately then
     // TODO: Do this via separate thread.
     LoadFilesIcons;
-  //RedrawGrid;
 end;
 
 procedure TColumnsFileView.LoadFilesIcons;
