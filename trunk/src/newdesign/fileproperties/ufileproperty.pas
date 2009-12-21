@@ -14,8 +14,6 @@ type
     fpSize,             // = fpUncompressedSize
     fpCompressedSize,
     fpAttributes,
-    fpDateTime,         // non-specific - should be used?
-                        // maybe it should be a default time
     fpModificationTime,
     fpCreationTime,
     fpLastAccessTime
@@ -127,14 +125,9 @@ type
     function Clone: TFileDateTimeProperty; override;
     procedure CloneTo(FileProperty: TFileProperty); override;
 
-    class function GetDescription: String; override;
-    class function GetID: TFilePropertyType; override;
-
     // Retrieve possible values for the property.
     function GetMinimumValue: TDateTime;
     function GetMaximumValue: TDateTime;
-
-    function Format(Formatter: IFilePropertyFormatter): String; override;
 
     property Value: TDateTime read FDateTime write FDateTime;
   end;
@@ -451,16 +444,6 @@ begin
   end;
 end;
 
-class function TFileDateTimeProperty.GetDescription: String;
-begin
-  Result := rsDateTimeDescription;
-end;
-
-class function TFileDateTimeProperty.GetID: TFilePropertyType;
-begin
-  Result := fpDateTime;
-end;
-
 function TFileDateTimeProperty.GetMinimumValue: TDateTime;
 begin
   Result := 0;
@@ -468,12 +451,7 @@ end;
 
 function TFileDateTimeProperty.GetMaximumValue: TDateTime;
 begin
-  Result := 0; // maximum file size
-end;
-
-function TFileDateTimeProperty.Format(Formatter: IFilePropertyFormatter): String;
-begin
-  Result := Formatter.FormatDateTime(Self);
+  Result := High(TDateTime);
 end;
 
 // ----------------------------------------------------------------------------

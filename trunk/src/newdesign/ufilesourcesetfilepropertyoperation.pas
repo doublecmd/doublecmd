@@ -335,7 +335,7 @@ begin
     fpAttributes:
       Result := Format(rsMsgErrSetAttribute, [aFile.FullPath]);
 
-    fpDateTime, fpModificationTime, fpCreationTime, fpLastAccessTime:
+    fpModificationTime, fpCreationTime, fpLastAccessTime:
       Result := Format(rsMsgErrSetDateTime, [aFile.FullPath]);
 
     else
