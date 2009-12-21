@@ -931,13 +931,13 @@ begin
          begin
             Brush.Color := cbMarkColor.Color;
             Font.Color := cbTextColor.Color;
-            sText := 'Mark';
+            sText := rsOptExampleMark;
          end
        else
          begin
             Brush.Color := cbBackColor.Color;
             Font.Color := cbMarkColor.Color;
-            sText := 'Mark';
+            sText := rsOptExampleMark;
          end;
       end;
     2:
@@ -946,32 +946,32 @@ begin
          begin
             Brush.Color := cbMarkColor.Color;
             Font.Color := cbTextColor.Color;
-            sText := 'Mark';
+            sText := rsOptExampleMark;
          end
        else
          begin
             Brush.Color := cbBackColor2.Color;
             Font.Color := cbMarkColor.Color;
-            sText := 'Mark';
+            sText := rsOptExampleMark;
          end;
       end;
     3:
       begin
         Brush.Color := cbBackColor.Color;
         Font.Color := cbTextColor.Color;
-        sText := 'Text';
+        sText := rsOptExampleText;
       end;
     4:
       begin
         Brush.Color := cbBackColor2.Color;
         Font.Color := cbTextColor.Color;
-        sText := 'Text';
+        sText := rsOptExampleText;
       end;
     5:
       begin
         Brush.Color := cbCursorColor.Color;
         Font.Color := cbCursorText.Color;
-        sText := 'Cursor';
+        sText := rsOptExampleCursor;
       end;
     6:
       begin
@@ -979,13 +979,13 @@ begin
          begin
             Brush.Color := cbCursorColor.Color;
             Font.Color :=InvertColor(cbCursorText.Color);
-            sText := 'Mark + Cursor';
+            sText := rsOptExampleMarkCursor;
          end
        else
          begin
             Brush.Color := cbCursorColor.Color;
             Font.Color := cbMarkColor.Color;
-            sText := 'Mark + Cursor';
+            sText := rsOptExampleMarkCursor;
          end;
       end;
     end; // case

@@ -254,6 +254,11 @@ resourcestring
   rsOptEnable = 'Enable';
   rsOptDisable = 'Disable';
   rsOptMouseSelectionButton = 'Left button;Right button;';
+  //-------------------------------
+  rsOptExampleMark = 'Mark';
+  rsOptExampleText = 'Text';
+  rsOptExampleCursor = 'Cursor';
+  rsOptExampleMarkCursor = 'Mark + Cursor';
   // Hotkeys
   rsOptHotkeysShortCutUsed = 'Shortcut in use';
   rsOptHotkeysShortCutUsedText1 = 'Shortcut %s is already used for %s.';
