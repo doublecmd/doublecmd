@@ -159,7 +159,7 @@ type
 implementation
 
 uses
-  uOSUtils, uDCUtils, FileUtil, uFindEx, uClassesEx, uFileProcs, uLng;
+  uOSUtils, uDCUtils, FileUtil, uFindEx, uClassesEx, uFileProcs, uLng, uTypes;
 
 procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
 begin
@@ -225,7 +225,7 @@ procedure FillAndCount(Files: TFileSystemFiles; CountDirs: Boolean;
 
   procedure FillAndCountRec(const srcPath: String);
   var
-    sr: TSearchRec;
+    sr: TSearchRecEx;
     aFile: TFileSystemFile;
   begin
     if FindFirstEx(srcPath + '*', faAnyFile, sr) = 0 then
@@ -474,7 +474,7 @@ procedure TFileSystemTreeBuilder.AddFilesInDirectory(
               srcPath: String;
               CurrentNode: TFileTreeNode);
 var
-  sr: TSearchRec;
+  sr: TSearchRecEx;
   aFile: TFileSystemFile;
 begin
   if FindFirstEx(srcPath + '*', faAnyFile, sr) = 0 then

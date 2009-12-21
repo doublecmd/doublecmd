@@ -22,7 +22,7 @@ interface
 uses
   SysUtils, uFileList, uTypes,lclproc;
   
-function LoadFileInfoBySearchRec(Path: String; SearchRec: TSearchRec): TFileRecItem;
+function LoadFileInfoBySearchRec(Path: String; SearchRec: TSearchRecEx): TFileRecItem;
 function LoadFilebyName(const sFileName: String): TFileRecItem;
 function LoadFilesbyDir(const sDir: String; fl: TFileList): Boolean;
 function AttrToStr(iAttr: Cardinal): String;
@@ -65,7 +65,7 @@ begin
 end;
 {$ENDIF}
 
-function LoadFileInfoBySearchRec(Path: String; SearchRec: TSearchRec): TFileRecItem;
+function LoadFileInfoBySearchRec(Path: String; SearchRec: TSearchRecEx): TFileRecItem;
 {$IFDEF MSWINDOWS}
 begin
   with Result do
@@ -156,7 +156,7 @@ end;
 function LoadFilebyName(const sFileName: String): TFileRecItem;
 var
   fr:TFileRecItem;
-  sr:TSearchRec;
+  sr:TSearchRecEx;
 begin
 //  writeln('Enter LoadFilesbyDir');
   DebugLn('LoadFileByName sFileName = '+sFileName);
@@ -196,7 +196,7 @@ end;
 function LoadFilesbyDir(const sDir: String; fl: TFileList): Boolean;
 var
   fr: TFileRecItem;
-  sr: TSearchRec;
+  sr: TSearchRecEx;
   sParentDir: UTF8String;
 begin
 //  DebugLn('Enter LoadFilesbyDir');

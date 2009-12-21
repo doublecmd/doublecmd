@@ -11,8 +11,7 @@ uses
   uFileSourceOperationOptions,
   uFile,
   uFileProperty,
-  uFileSystemFile,
-  uGlobs, uOSUtils;
+  uFileSystemFile;
 
 type
 
@@ -44,7 +43,8 @@ type
 implementation
 
 uses
-  uFileSystemUtil;
+  uGlobs, uOSUtils, uLng, uDateTimeUtils, uFileSystemUtil,
+  uFileSourceOperationUI;
 
 constructor TFileSystemSetFilePropertyOperation.Create(aTargetFileSource: IFileSource;
                                                        var theTargetFiles: TFiles;
@@ -134,59 +134,72 @@ function TFileSystemSetFilePropertyOperation.SetNewProperty(aFile: TFile;
 begin
   Result := True;
 
-  case aTemplateProperty.GetID of
-    fpName:
-      if (aTemplateProperty as TFileNameProperty).Value <> aFile.Name then
-      begin
-        Result := mbRenameFile(
-          aFile.FullPath,
-          (aTemplateProperty as TFileNameProperty).Value);
-      end;
+  try
+    case aTemplateProperty.GetID of
+      fpName:
+        if (aTemplateProperty as TFileNameProperty).Value <> aFile.Name then
+        begin
+          Result := mbRenameFile(
+            aFile.FullPath,
+            (aTemplateProperty as TFileNameProperty).Value);
+        end;
 
-    fpAttributes:
-      if (aTemplateProperty as TFileAttributesProperty).Value <>
-         (aFile.Properties[fpAttributes] as TFileAttributesProperty).Value then
-      begin
-        Result := mbFileSetAttr(
-          aFile.FullPath,
-          (aTemplateProperty as TFileAttributesProperty).Value) = 0;
-      end;
+      fpAttributes:
+        if (aTemplateProperty as TFileAttributesProperty).Value <>
+           (aFile.Properties[fpAttributes] as TFileAttributesProperty).Value then
+        begin
+          Result := mbFileSetAttr(
+            aFile.FullPath,
+            (aTemplateProperty as TFileAttributesProperty).Value) = 0;
+        end;
 
-    fpModificationTime:
-      if (aTemplateProperty as TFileModificationDateTimeProperty).Value <>
-         (aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value then
-      begin
-        Result := mbFileSetTime(
-          aFile.FullPath,
-          DateTimeToFileDate((aTemplateProperty as TFileModificationDateTimeProperty).Value),
-          0,
-          0);
-      end;
+      fpModificationTime:
+        if (aTemplateProperty as TFileModificationDateTimeProperty).Value <>
+           (aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value then
+        begin
+          Result := mbFileSetTime(
+            aFile.FullPath,
+            DateTimeToFileTime((aTemplateProperty as TFileModificationDateTimeProperty).Value),
+            0,
+            0);
+        end;
 
-    fpCreationTime:
-      if (aTemplateProperty as TFileCreationDateTimeProperty).Value <>
-         (aFile.Properties[fpCreationTime] as TFileCreationDateTimeProperty).Value then
-      begin
-        Result := mbFileSetTime(
-          aFile.FullPath,
-          0,
-          DateTimeToFileDate((aTemplateProperty as TFileCreationDateTimeProperty).Value),
-          0);
-      end;
+      fpCreationTime:
+        if (aTemplateProperty as TFileCreationDateTimeProperty).Value <>
+           (aFile.Properties[fpCreationTime] as TFileCreationDateTimeProperty).Value then
+        begin
+          Result := mbFileSetTime(
+            aFile.FullPath,
+            0,
+            DateTimeToFileTime((aTemplateProperty as TFileCreationDateTimeProperty).Value),
+            0);
+        end;
 
-    fpLastAccessTime:
-      if (aTemplateProperty as TFileLastAccessDateTimeProperty).Value <>
-         (aFile.Properties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value then
-      begin
-        Result := mbFileSetTime(
-          aFile.FullPath,
-          0,
-          0,
-          DateTimeToFileDate((aTemplateProperty as TFileLastAccessDateTimeProperty).Value));
-      end;
+      fpLastAccessTime:
+        if (aTemplateProperty as TFileLastAccessDateTimeProperty).Value <>
+           (aFile.Properties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value then
+        begin
+          Result := mbFileSetTime(
+            aFile.FullPath,
+            0,
+            0,
+            DateTimeToFileTime((aTemplateProperty as TFileLastAccessDateTimeProperty).Value));
+        end;
 
-    else
-      raise Exception.Create('Trying to set unsupported property');
+      else
+        raise Exception.Create('Trying to set unsupported property');
+    end;
+
+  except
+    on e: EConvertError do
+    begin
+      if not gSkipFileOpError then
+        if AskQuestion(rsMsgLogError + e.Message, '', [fsourSkip, fsourAbort],
+                       fsourSkip, fsourAbort) = fsourAbort then
+        begin
+          RaiseAbortOperation;
+        end;
+    end;
   end;
 end;
 

@@ -40,7 +40,7 @@ begin
   CompressedSize := WcxHeader.PackSize;
   Attributes := {TNtfsFileAttributesProperty or Unix?} WcxHeader.FileAttr;
   try
-    ModificationTime := FileDateToDateTime(WcxHeader.FileTime);
+    ModificationTime := WcxFileTimeToDateTime(WcxHeader);
   except
     ModificationTime := 0;
   end;

@@ -123,7 +123,7 @@ type
 implementation
 
 uses
-  uGlobs, LCLProc, uDCUtils,
+  uGlobs, LCLProc, uDCUtils, uDateTimeUtils,
   FileUtil, uWcxArchiveFile,
   uWcxArchiveListOperation,
   uWcxArchiveCopyInOperation,
@@ -446,7 +446,13 @@ begin
             Header.FileName := AllDirsList.List[I]^.Key;
             Header.ArcName  := ArchiveFileName;
             Header.FileAttr := faFolder;
-            Header.FileTime := mbFileAge(ArchiveFileName);
+{$IFDEF MSWINDOWS}
+            WinToDosTime(mbFileAge(ArchiveFileName), Header.FileTime);
+{$ELSE}
+{$PUSH}{$R-}
+            Header.FileTime := LongInt(mbFileAge(ArchiveFileName));
+{$POP}
+{$ENDIF}
             FArcFileList.Add(Header);
           except
             FreeAndNil(Header);

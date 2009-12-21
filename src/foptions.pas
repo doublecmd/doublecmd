@@ -422,6 +422,7 @@ var
   tmpWLXPlugins: TWLXModuleList;
 
 implementation
+
 uses
   uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
@@ -706,7 +707,7 @@ end;
 
 procedure TfrmOptions.FillLngListBox;
 var
-  fr:TSearchRec;
+  fr:TSearchRecEx;
   iIndex:Integer;
   sLangName : String;
 begin

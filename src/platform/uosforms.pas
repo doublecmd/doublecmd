@@ -92,7 +92,7 @@ function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boo
 implementation
 
 uses
-  fMain, uOSUtils, uGlobs, uLng, uDCUtils, uShellExecute
+  fMain, uOSUtils, uGlobs, uLng, uShellExecute
   {$IF DEFINED(MSWINDOWS)}
   , Dialogs, Graphics, comobj, uFileSystemFile, uTotalCommander
   {$ENDIF}

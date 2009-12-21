@@ -27,7 +27,10 @@ unit uFindEx;
 interface
 
 uses
-   SysUtils {$IFDEF UNIX}, BaseUnix{$ELSE}, Windows{$ENDIF};
+   SysUtils, uTypes
+   {$IFDEF UNIX}
+   , BaseUnix
+   {$ENDIF};
 
 {$IFDEF UNIX}
 type
@@ -41,10 +44,10 @@ type
   PUnixFindData = ^TUnixFindData;
 {$ENDIF}
 
-function FindFirstEx (const Path : UTF8String; Attr : Longint; out Rslt : TSearchRec) : Longint;
-function FindNextEx (var Rslt : TSearchRec) : Longint;
-procedure FindCloseEx(var Rslt: TSearchRec);
-function CheckAttrMask(DefaultAttr : Cardinal; sAttr : String; Attr : Cardinal) : Boolean;
+function FindFirstEx (const Path : UTF8String; Attr : TFileAttrs; out SearchRec : TSearchRecEx) : Longint;
+function FindNextEx (var SearchRec : TSearchRecEx) : Longint;
+procedure FindCloseEx(var SearchRec: TSearchRecEx);
+function CheckAttrMask(DefaultAttr : TFileAttrs; sAttr : String; Attr : TFileAttrs) : Boolean;
 
 implementation
 
@@ -52,27 +55,22 @@ uses
   LCLProc
   {$IFDEF UNIX}
   , UnixUtil, uMyUnix, Unix
+  {$ELSE}
+  , Windows
   {$ENDIF};
 
-function mbFindMatchingFile(var Rslt: TSearchRec): Integer;
+function mbFindMatchingFile(var SearchRec: TSearchRecEx): Integer;
 {$IFDEF MSWINDOWS}
-var
-  LocalFileTime: TFileTime;
-  wFindData: TWin32FindDataW; 
-  pwFindData: PWIN32FINDDATAW absolute Rslt.FindData; // for use PWin32FindDataW instead TWin32FindData   
 begin
-  with Rslt do
+  with SearchRec do
   begin
-   wFindData:= pwFindData^;
-    while (wFindData.dwFileAttributes and ExcludeAttr) <> 0 do
-      if not FindNextFileW(FindHandle, wFindData) then Exit(GetLastError);
-    
-    pwFindData:= @wFindData;
-    FileTimeToLocalFileTime(wFindData.ftLastWriteTime, LocalFileTime);
-    FileTimeToDosDateTime(LocalFileTime, LongRec(Time).Hi, LongRec(Time).Lo);
-    Size:= (Int64(wFindData.nFileSizeHigh) shl 32) + wFindData.nFileSizeLow;
-    Attr:= wFindData.dwFileAttributes;
-    Name:= UTF8Encode(WideString(wFindData.cFileName));
+    while (FindData.dwFileAttributes and ExcludeAttr) <> 0 do
+      if not FindNextFileW(FindHandle, FindData) then Exit(GetLastError);
+
+    Time:= TWinFileTime(FindData.ftLastWriteTime);
+    Size:= (Int64(FindData.nFileSizeHigh) shl 32) + FindData.nFileSizeLow;
+    Attr:= FindData.dwFileAttributes;
+    Name:= UTF8Encode(WideString(FindData.cFileName));
   end;
   Result:= 0;
 end;
@@ -82,20 +80,20 @@ var
   WinAttr: LongInt;
 begin
   Result:= -1;
-  UnixFindData:= PUnixFindData(Rslt.FindHandle);
+  UnixFindData:= PUnixFindData(SearchRec.FindHandle);
   if UnixFindData = nil then Exit;
-  if FNMatch(UnixFindData^.sMask, Rslt.Name) then
+  if FNMatch(UnixFindData^.sMask, SearchRec.Name) then
     begin
-      if fpLStat(UnixFindData^.sPath + Rslt.Name, @UnixFindData^.StatRec) >= 0 then
+      if fpLStat(UnixFindData^.sPath + SearchRec.Name, @UnixFindData^.StatRec) >= 0 then
         with UnixFindData^.StatRec do
         begin
-          WinAttr:= LinuxToWinAttr(PChar(Rslt.Name), UnixFindData^.StatRec);
+          WinAttr:= LinuxToWinAttr(PChar(SearchRec.Name), UnixFindData^.StatRec);
           if (WinAttr and UnixFindData^.iAttr) = 0 then Exit;
 {$PUSH}
 {$R-}
-          Rslt.Size:= st_size;
-          Rslt.Time:= UnixToWinAge(st_mtime);
-          Rslt.Attr:= st_mode;
+          SearchRec.Size:= st_size;
+          SearchRec.Time:= st_mtime;
+          SearchRec.Attr:= st_mode;
 {$POP}
         end;
       Result:= 0;
@@ -103,24 +101,19 @@ begin
 end;
 {$ENDIF}
 
-function FindFirstEx (const Path : UTF8String; Attr : Longint; out Rslt : TSearchRec) : Longint;
+function FindFirstEx (const Path : UTF8String; Attr : TFileAttrs; out SearchRec : TSearchRecEx) : Longint;
 {$IFDEF MSWINDOWS}
 const
   faSpecial = faHidden or faSysFile or faVolumeID or faDirectory;
 var
   wPath: WideString;
-  wFindData: TWin32FindDataW;
-  pwFindData: PWIN32FINDDATAW absolute Rslt.FindData; // for use PWin32FindDataW instead TWin32FindData 
 begin
   wPath:= UTF8Decode(Path);
-  Rslt.ExcludeAttr:= not Attr and faSpecial;
-  Rslt.FindHandle:= FindFirstFileW(PWideChar(wPath), wFindData);
+  SearchRec.ExcludeAttr:= not Attr and faSpecial;
+  SearchRec.FindHandle:= FindFirstFileW(PWideChar(wPath), SearchRec.FindData);
   // if error then exit
-  if Rslt.FindHandle = INVALID_HANDLE_VALUE then Exit(GetLastError);	
-  
-  pwFindData:= @wFindData;	
-  
-  Result:= mbFindMatchingFile(Rslt);
+  if SearchRec.FindHandle = INVALID_HANDLE_VALUE then Exit(GetLastError);
+  Result:= mbFindMatchingFile(SearchRec);
 end;
 {$ELSE}
 var
@@ -130,7 +123,7 @@ begin
   { Allocate UnixFindData }
   New(UnixFindData);
   FillChar(UnixFindData^, SizeOf(UnixFindData^), 0);
-  Rslt.FindHandle:= UnixFindData;
+  SearchRec.FindHandle:= UnixFindData;
 
   with UnixFindData^ do
   begin
@@ -145,35 +138,30 @@ begin
 
     if (Pos('?', sMask) = 0) and (Pos('*', sMask) = 0) and FileExists(Path) then
       begin
-        Rslt.Name:= sMask;
-        if mbFindMatchingFile(Rslt) = 0 then
+        SearchRec.Name:= sMask;
+        if mbFindMatchingFile(SearchRec) = 0 then
           Exit(0);
       end;
 
     DirPtr:= fpOpenDir(PChar(sPath));
   end;
-  Result:= FindNextEx(Rslt);
+  Result:= FindNextEx(SearchRec);
 end;
 {$ENDIF}
 
-function FindNextEx (var Rslt : TSearchRec) : Longint;
+function FindNextEx (var SearchRec : TSearchRecEx) : Longint;
 {$IFDEF MSWINDOWS}
-var  
-  wFindData: TWin32FindDataW;
-  pwFindData: PWIN32FINDDATAW absolute Rslt.FindData; // for use PWin32FindDataW instead TWin32FindData    
 begin
-  wFindData:= pwFindData^;
-  if FindNextFileW(Rslt.FindHandle, wFindData) then
+  if FindNextFileW(SearchRec.FindHandle, SearchRec.FindData) then
     begin
-      pwFindData:= @wFindData;
-      Result:= mbFindMatchingFile(Rslt);
+      Result:= mbFindMatchingFile(SearchRec);
     end
   else
     Result:= GetLastError;
 end;
 {$ELSE}
 var
-  UnixFindData: PUnixFindData absolute Rslt.FindHandle;
+  UnixFindData: PUnixFindData absolute SearchRec.FindHandle;
   PtrDirEnt: pDirent;
 begin
   Result:= -1;
@@ -182,8 +170,8 @@ begin
   PtrDirEnt:= fpReadDir(UnixFindData^.DirPtr);
   while PtrDirEnt <> nil do
   begin
-    Rslt.Name:= PtrDirEnt^.d_name;
-    Result:= mbFindMatchingFile(Rslt);
+    SearchRec.Name:= PtrDirEnt^.d_name;
+    Result:= mbFindMatchingFile(SearchRec);
     if Result = 0 then // if found then exit
       Exit
     else // else read next
@@ -192,25 +180,25 @@ begin
 end;
 {$ENDIF}
 
-procedure FindCloseEx(var Rslt: TSearchRec);
+procedure FindCloseEx(var SearchRec: TSearchRecEx);
 {$IFDEF MSWINDOWS}
 begin
-   if Rslt.FindHandle <> INVALID_HANDLE_VALUE then
-    Windows.FindClose(Rslt.FindHandle);
+   if SearchRec.FindHandle <> INVALID_HANDLE_VALUE then
+    Windows.FindClose(SearchRec.FindHandle);
 end;
 {$ELSE}
 var
-  UnixFindData: PUnixFindData absolute Rslt.FindHandle;
+  UnixFindData: PUnixFindData absolute SearchRec.FindHandle;
 begin
   if UnixFindData = nil then Exit;
   if UnixFindData^.DirPtr <> nil then
     fpCloseDir(UnixFindData^.DirPtr);
   Dispose(UnixFindData);
-  Rslt.FindHandle:= nil;
+  SearchRec.FindHandle:= nil;
 end;
 {$ENDIF}
 
-function CheckAttrMask(DefaultAttr : Cardinal; sAttr : String; Attr : Cardinal) : Boolean;
+function CheckAttrMask(DefaultAttr : TFileAttrs; sAttr : String; Attr : TFileAttrs) : Boolean;
 {$IFDEF WINDOWS}
 begin
   Result := True;

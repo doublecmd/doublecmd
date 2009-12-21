@@ -27,7 +27,7 @@ type
 implementation
 
 uses
-  uFileSourceOperationUI, uFileProcs, uLog, uLng, uGlobs, uOSUtils;
+  uFileSourceOperationUI, uFileProcs, uLog, uLng, uGlobs, uOSUtils, uTypes;
 
 constructor TFileSystemCreateDirectoryOperation.Create(
                 aTargetFileSource: IFileSource;

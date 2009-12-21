@@ -5,7 +5,7 @@ unit uFileSystemFile;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, uTypes,
   uLocalFile,
   uFile,
   uFileProperty;
@@ -31,7 +31,7 @@ type
 
   public
     constructor Create; override;
-    constructor Create(SearchRecord: TSearchRec); overload;
+    constructor Create(SearchRecord: TSearchRecEx); overload;
     {en
        Creates a file using an existing file as a template.
        All the properties will reflect the existing file.
@@ -80,7 +80,7 @@ type
 implementation
 
 uses
-  uFindEx
+  uFindEx, uDateTimeUtils
 {$IFDEF UNIX}
   , BaseUnix, uUsersGroups, FileUtil
 {$ENDIF}
@@ -101,7 +101,7 @@ begin
   Name := '';
 end;
 
-constructor TFileSystemFile.Create(SearchRecord: TSearchRec);
+constructor TFileSystemFile.Create(SearchRecord: TSearchRecEx);
 {$IF DEFINED(UNIX)}
 var
   StatInfo: BaseUnix.Stat; //buffer for stat info
@@ -115,12 +115,11 @@ begin
   FAttributes := TNtfsFileAttributesProperty.Create(SearchRecord.Attr);
   FSize := TFileSizeProperty.Create(SearchRecord.Size);
   FModificationTime := TFileModificationDateTimeProperty.Create(
-                           FileDateToDateTime(SearchRecord.Time));
+                           WinFileTimeToDateTime(SearchRecord.FindData.ftLastWriteTime));
+  //Other times: SearchRecord.FindData.ftCreationTime
 
   //Because symbolic link works on Windows 2k/XP for directories only
   FIsLinkToDirectory := FAttributes.IsLink;
-
-  //Other times: SearchRecord.FindData.ftCreationTime ...?
 
 {$ELSEIF DEFINED(UNIX)}
 
@@ -136,7 +135,7 @@ begin
     FSize := TFileSizeProperty.Create(StatInfo.st_size);
 
   FModificationTime := TFileModificationDateTimeProperty.Create(
-                           FileDateToDateTime(StatInfo.st_mtime));
+                           FileTimeToDateTime(StatInfo.st_mtime));
 {$POP}
 
   if FAttributes.IsLink then
@@ -191,7 +190,7 @@ end;
 
 constructor TFileSystemFile.Create(FilePath: String);
 var
-  SearchRecord: TSearchRec;
+  SearchRecord: TSearchRecEx;
   FindResult: Longint;
 begin
   FindResult := FindFirstEx(FilePath, faAnyFile, SearchRecord);

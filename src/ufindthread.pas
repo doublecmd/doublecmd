@@ -28,7 +28,7 @@ unit uFindThread;
 interface
 
 uses
-  Classes, StdCtrls, SysUtils, DsxPlugin;
+  Classes, StdCtrls, SysUtils, DsxPlugin, uTypes;
 
 type
 
@@ -47,7 +47,7 @@ TFindThread = class(TThread)
     FFilesFound:Integer;
     FFoundFile:String;
     FFileMask : String;
-    FAttributes: Cardinal;
+    FAttributes: TFileAttrs;
     FAttribStr : String;
     FCaseSens: Boolean;
     FRegExp: Boolean;
@@ -75,9 +75,9 @@ TFindThread = class(TThread)
     FReplaceData : String;
 
     procedure SetSearchDepth(const AValue: Integer);
-    function CheckFileDate(DT : LongInt) : Boolean;
+    function CheckFileDate(DT : TFileTime) : Boolean;
     function CheckFileSize(FileSize : Int64) : Boolean;
-    function CheckFile(const Folder : String; const sr : TSearchRec) : Boolean;
+    function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
     function FindInFile(const sFileName:UTF8String;
                         sData: String; bCase:Boolean): Boolean;
   protected
@@ -122,8 +122,8 @@ TFindThread = class(TThread)
     property FileSizeFrom : Int64 read FFileSizeFrom write FFileSizeFrom;
     property FileSizeTo : Int64 read FFileSizeTo write FFileSizeTo;
     
-    property Attributes: Cardinal read FAttributes write FAttributes;
-    property  AttribStr : String read FAttribStr write FAttribStr;
+    property Attributes: TFileAttrs read FAttributes write FAttributes;
+    property AttribStr : String read FAttribStr write FAttribStr;
   end;
 
 
@@ -131,7 +131,7 @@ implementation
 
 uses
   LCLProc, Dialogs, DateUtils, Masks, SynRegExpr, uLng, uClassesEx, uFindMmap, uFindEx,
-  uGlobs, uShowMsg, uOSUtils, uLog;
+  uGlobs, uShowMsg, uOSUtils, uLog, uDateTimeUtils;
 
 { TFindThread }
 
@@ -327,12 +327,12 @@ begin
   end;
 end;
 
-function TFindThread.CheckFileDate(DT : LongInt) : Boolean;
+function TFindThread.CheckFileDate(DT : TFileTime) : Boolean;
 var
   DateTime: TDateTime;
 begin
    Result := True;
-   DateTime := FileDateToDateTime(DT);
+   DateTime := FileTimeToDateTime(DT);
 
    (* Check date from *)
    if FIsDateFrom then
@@ -367,7 +367,7 @@ begin
    //DebugLn('After To',  FileSize, '-',  FFileSizeTo, BoolToStr(Result));
 end;
 
-function TFindThread.CheckFile(const Folder : String; const sr : TSearchRec) : Boolean;
+function TFindThread.CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
 begin
   Result := True;
 
@@ -453,7 +453,7 @@ end;
 
 procedure TFindThread.WalkAdr(const sNewDir:String);
 var
-  sr: TSearchRec;
+  sr: TSearchRecEx;
   Path : String;
 begin
   DebugLn(sNewDir);

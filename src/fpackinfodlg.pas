@@ -72,8 +72,9 @@ type
 function ShowPackInfoDlg(WCXModule: TWCXModule; HeaderData: TWCXHeader): Boolean;
 
 implementation
+
 uses
-  LCLProc, FileUtil,  uTypes, uFileOp, uFileList, uDCUtils, uShellExecute;
+  LCLProc, FileUtil,  uTypes, uFileOp, uFileList, uDCUtils, uShellExecute, uDateTimeUtils;
 
 function ShowPackInfoDlg(WCXModule: TWCXModule; HeaderData: TWCXHeader): Boolean;
 var
@@ -101,7 +102,7 @@ begin
 
     // DateTime and Attributes
     try
-      dtDateTime:= FileDateToDateTime(HeaderData.FileTime);
+      dtDateTime:= WcxFileTimeToDateTime(HeaderData.FileTime);
     except
       dtDateTime:= 0;
     end;

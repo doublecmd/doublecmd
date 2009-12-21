@@ -256,7 +256,8 @@ type
 
 implementation
 
-uses uGlobs, uGlobsPaths, FileUtil;
+uses
+  uGlobs, uGlobsPaths, FileUtil;
 
 const
   WdxIniFileName = 'wdx.ini';
@@ -697,9 +698,12 @@ var Rez:integer;
     ffval: Double absolute buf;
     fdate: TDateFormat absolute buf;
     ftime: TTimeFormat absolute buf;
-    xtime: TFileTime absolute buf;
-    stime: TSystemTime;
+    {$IF DEFINED(MSWINDOWS)}
+    xtime: Windows.FILETIME absolute buf;
+    {$ELSEIF DEFINED(UNIX)}
     dtime: TDateTime absolute buf;
+    {$ENDIF}
+    stime: TSystemTime;
 begin
   if Assigned(ContentGetValueW) then
     Rez:= ContentGetValueW(PWideChar(UTF8Decode(FileName)),FieldIndex,UnitIndex,@Buf,SizeOf(buf),flags)
@@ -714,14 +718,13 @@ begin
     ft_date:             Result:= Format('%2.2d.%2.2d.%4.4d', [fdate.wDay, fdate.wMonth, fdate.wYear]);
     ft_time:             Result:= Format('%2.2d:%2.2d:%2.2d', [ftime.wHour, ftime.wMinute, ftime.wSecond]);
     ft_datetime:         begin
-                           {$IFDEF MSWINDOWS}
-                                    FileTimeToSystemTime(xtime, stime);
+                           {$IF DEFINED(MSWINDOWS)}
+                            Windows.FileTimeToSystemTime(xtime, stime);
                             Result:= Format('%2.2d.%2.2d.%4.4d %2.2d:%2.2d:%2.2d',
                                     [stime.wDay, stime.wMonth, stime.wYear,
                                      stime.wHour, stime.wMinute, stime.wSecond]);
-                           {$ENDIF}
-                           {$IFDEF unix}
-                           DateTimeToSystemTime(dtime, stime);
+                           {$ELSEIF DEFINED(UNIX)}
+                            DateTimeToSystemTime(dtime, stime);
                             Result:= Format('%2.2d.%2.2d.%4.4d %2.2d:%2.2d:%2.2d',
                                     [stime.Day, stime.Month, stime.Year,
                                      stime.Hour, stime.Minute, stime.Second]);

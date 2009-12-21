@@ -92,9 +92,6 @@ procedure mbCloseCD(const sDrv: UTF8String);
 }
 function mbGetRemoteFileName(const sLocalName: UTF8String): UTF8String;
 
-function WinToDosTime (const Wtime: TFileTime; var DTime: LongInt): LongBool;
-function DosToWinTime (const DTime: LongInt; var Wtime: TFileTime): LongBool;
-
 implementation
 
 uses
@@ -219,22 +216,6 @@ begin
   finally
     FreeMem(lpBuffer);
   end;
-end;
-
-function WinToDosTime (const Wtime: TFileTime; var DTime: LongInt): LongBool;
-var
-  lft : TFileTime;
-begin
-  Result:= FileTimeToLocalFileTime(WTime,lft) and
-                FileTimeToDosDateTime(lft,Longrec(Dtime).Hi,LongRec(DTIME).lo);
-end;
-
-function DosToWinTime (const DTime: LongInt; var Wtime: TFileTime): LongBool;
-var
-  lft : TFileTime;
-begin
-  Result := DosDateTimeToFileTime(Longrec(Dtime).Hi, Longrec(Dtime).Lo, lft) and
-                LocalFileTimeToFileTime(lft, WTime);
 end;
 
 end.

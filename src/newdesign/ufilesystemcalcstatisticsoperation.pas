@@ -38,7 +38,7 @@ type
 implementation
 
 uses
-  uFileSourceOperationOptions, uOSUtils, uLng, uFindEx;
+  uFileSourceOperationOptions, uOSUtils, uLng, uFindEx, uTypes;
 
 constructor TFileSystemCalcStatisticsOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -158,7 +158,7 @@ end;
 
 procedure TFileSystemCalcStatisticsOperation.ProcessSubDirs(const srcPath: String);
 var
-  sr: TSearchRec;
+  sr: TSearchRecEx;
   aFile: TFileSystemFile;
   FindResult: Longint;
 begin

@@ -3,7 +3,7 @@ unit WfxPlugin;    {Plugin definitions version 1.5}
 interface
 
 uses
-  SysUtils {$IFDEF MSWINDOWS}, Windows{$ENDIF};
+  SysUtils {$IFDEF MSWINDOWS}, Windows{$ENDIF}, uTypes;
 
 { ids for FsGetFile }
 
@@ -196,24 +196,13 @@ type
 
 type
 {$IFDEF MSWINDOWS}
-  FILETIME = Windows.FILETIME;
-{$ELSE}
-  FILETIME = record
-    dwLowDateTime : DWORD;
-    dwHighDateTime : DWORD;
-  end;
-{$ENDIF}
-  TFileTime = FILETIME;
-  PFileTime = ^FILETIME;
-
-{$IFDEF MSWINDOWS}
   WIN32_FIND_DATAA = Windows.WIN32_FIND_DATA;
 {$ELSE}
   WIN32_FIND_DATAA = record
     dwFileAttributes : DWORD;
-    ftCreationTime : TFILETIME;
-    ftLastAccessTime : TFILETIME;
-    ftLastWriteTime : TFILETIME;
+    ftCreationTime : TWinFileTime;
+    ftLastAccessTime : TWinFileTime;
+    ftLastWriteTime : TWinFileTime;
     nFileSizeHigh : DWORD;
     nFileSizeLow : DWORD;
     dwReserved0 : DWORD;
@@ -229,9 +218,9 @@ type
 {$ELSE}
   WIN32_FIND_DATAW = record
     dwFileAttributes : DWORD;
-    ftCreationTime : TFILETIME;
-    ftLastAccessTime : TFILETIME;
-    ftLastWriteTime : TFILETIME;
+    ftCreationTime : TWinFileTime;
+    ftLastAccessTime : TWinFileTime;
+    ftLastWriteTime : TWinFileTime;
     nFileSizeHigh : DWORD;
     nFileSizeLow : DWORD;
     dwReserved0 : DWORD;
@@ -248,7 +237,7 @@ type
 
     SizeLow,SizeHigh:longint;
 
-    LastWriteTime:TFileTime;
+    LastWriteTime: TWinFileTime;
 
     Attr:longint;
 

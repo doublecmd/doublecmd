@@ -44,7 +44,7 @@ type
 implementation
 
 uses
-  uOSUtils, uDCUtils, WfxPlugin, uWfxPluginFile, uWfxPluginUtil;
+  uTypes, uDCUtils, WfxPlugin, uWfxPluginFile, uWfxPluginUtil, uDateTimeUtils;
 
 constructor TWfxPluginSetFilePropertyOperation.Create(aTargetFileSource: IFileSource;
                                                       var theTargetFiles: TFiles;

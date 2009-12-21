@@ -24,13 +24,15 @@
 }
 
 unit fFileProperties;
+
 {$mode objfpc}{$H+}
+
 interface
 
 uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ComCtrls, uOSUtils,
+  Dialogs, StdCtrls, Buttons, ComCtrls, uTypes,
   uFile, uFileProperty;
 
 type
@@ -125,8 +127,8 @@ procedure ShowFileProperties(const Files: TFiles);
 implementation
 
 uses
-  LCLType, uLng, uFileOp, BaseUnix, uUsersGroups, uDCUtils,
-  uDefaultFilePropertyFormatter, uFileSystemFile, uMyUnix;
+  LCLType, uLng, uFileOp, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
+  uDefaultFilePropertyFormatter, uFileSystemFile, uMyUnix, uDateTimeUtils;
 
 procedure ShowFileProperties(const Files: TFiles);
 begin
@@ -280,9 +282,9 @@ begin
     if isFileSystem then
     begin
       fpLStat(PChar(FullPath), sb);
-      dtFileDates := FileDateToDateTime(sb.st_atime);
+      dtFileDates := FileTimeToDateTime(sb.st_atime);
       lblLastAccess.Caption := DateTimeToStr(dtFileDates);
-      dtFileDates := FileDateToDateTime(sb.st_ctime);
+      dtFileDates := FileTimeToDateTime(sb.st_ctime);
       lblLastStChange.Caption := DateTimeToStr(dtFileDates);
     end
     else

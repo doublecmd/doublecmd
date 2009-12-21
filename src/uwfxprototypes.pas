@@ -5,7 +5,7 @@ unit uWFXprototypes;
 interface
 
 uses
-  WfxPlugin;
+  WfxPlugin, uTypes;
 
 type
 {File system plugins API (version 2.0) for TC}
@@ -29,7 +29,7 @@ type
 {R}  TFsGetDefRootName=procedure (DefRootName:pchar;maxlen:integer); stdcall;
 //------------------------------------------------------
 {U}  TFsSetAttr=function (RemoteName:pchar;NewAttr:integer):boolean; stdcall;
-{U}  TFsSetTime=Function(RemoteName:pchar;CreationTime,LastAccessTime,LastWriteTime:PFileTime):boolean; stdcall;
+{U}  TFsSetTime=Function(RemoteName:pchar;CreationTime,LastAccessTime,LastWriteTime:PWinFileTime):boolean; stdcall;
 {U}  TFsExtractCustomIcon=function(RemoteName:pchar;ExtractFlags:integer;var TheIcon:hicon):integer; stdcall;
 {U}  TFsRenMovFile= function(OldName,NewName:pchar;  Move, OverWrite:boolean; ri:pRemoteInfo):Integer; stdcall;
 {U}  TFsDisconnect = function (DisconnectRoot:pchar):boolean; stdcall;
@@ -62,7 +62,7 @@ type
      TFsRemoveDirW = function(RemoteName:pwidechar):bool; stdcall;
      TFsDisconnectW = function(DisconnectRoot:pwidechar):bool; stdcall;
      TFsSetAttrW = function(RemoteName:pwidechar;NewAttr:integer):bool; stdcall;
-     TFsSetTimeW = function(RemoteName:pwidechar;CreationTime,LastAccessTime, LastWriteTime:PFileTime):bool; stdcall;
+     TFsSetTimeW = function(RemoteName:pwidechar;CreationTime,LastAccessTime, LastWriteTime:PWinFileTime):bool; stdcall;
      TFsStatusInfoW = procedure(RemoteDir:pwidechar;InfoStartEnd,InfoOperation:integer); stdcall;
      TFsExtractCustomIconW = function(RemoteName:pwidechar;ExtractFlags:integer; var TheIcon:hicon):integer; stdcall;
      TFsGetPreviewBitmapW = function(RemoteName:pwidechar;width,height:integer; var ReturnedBitmap:hbitmap):integer; stdcall;
