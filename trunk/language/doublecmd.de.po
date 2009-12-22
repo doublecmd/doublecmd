@@ -100,7 +100,9 @@ msgstr "DoubleCommander"
 
 #: TFRMABOUT.LBLVERSION.CAPTION
 msgid "Version %s"
-msgstr "Version %s,\ndeutsch by Vacon"
+msgstr ""
+"Version %s,\n"
+"deutsch by Vacon\n"
 
 #: TFRMABOUT.OKBUTTON.CAPTION
 msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
@@ -182,14 +184,48 @@ msgstr "Scrollen fortsetzen"
 msgid "&Append"
 msgstr "An&fügen"
 
-#: TFRMCONFIGTOOLBAR.BTNADDSUBBAR.CAPTION
-msgid "Add S&ubbar >>"
-msgstr "Unter&leiste einfügen"
+#: TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Abbruch"
+
+#: TFRMCONFIGTOOLBAR.BTNCHANGEBUTTON.CAPTION
+msgid "Change >>"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
 msgid "&Delete"
 msgstr "L&öschen"
+
+#: TFRMCONFIGTOOLBAR.BTNHELP.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.BTNHELP.CAPTION"
+msgid "&Help"
+msgstr "&Hilfe"
+
+#: TFRMCONFIGTOOLBAR.BTNINSERTBUTTON.CAPTION
+msgid "Insert"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.BTNOK.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.BTNOK.CAPTION"
+msgid "OK"
+msgstr "OK"
+
+#: TFRMCONFIGTOOLBAR.BTNOPENBARFILE.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.BTNOPENBARFILE.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMCONFIGTOOLBAR.BTNOPENFILE.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.BTNOPENFILE.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMCONFIGTOOLBAR.BTNOPENICONFILE.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.BTNOPENICONFILE.CAPTION"
+msgid ">>"
+msgstr ">>"
 
 #: TFRMCONFIGTOOLBAR.CAPTION
 msgid "Change button bar"
@@ -239,6 +275,19 @@ msgstr "&Startpfad"
 #: TFRMCONFIGTOOLBAR.LBLTOOLTIP.CAPTION
 msgid "&Tooltip:"
 msgstr "&Tooltip"
+
+#: TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION"
+msgid "Add S&ubbar >>"
+msgstr "Unter&leiste einfügen"
+
+#: TFRMCONFIGTOOLBAR.MIADDSUBMENU.CAPTION
+msgid "Add Sub&menu >>"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.MIINSERTSEPARATOR.CAPTION
+msgid "Insert separator"
+msgstr ""
 
 #: TFRMCOPYDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
