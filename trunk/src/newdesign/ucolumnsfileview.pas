@@ -814,6 +814,11 @@ begin
         begin
           Actions.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y);
         end;
+    end
+  { Open folder in new tab on middle click }
+  else if (Button = mbMiddle) and (Y > dgPanel.GetHeaderHeight) then
+    begin
+      Actions.cm_OpenDirInNewTab();
     end;
 end;
 
