@@ -92,6 +92,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure lbActionsSelectionChange(Sender: TObject; User: boolean);
+    procedure lbExtsSelectionChange(Sender: TObject; User: boolean);
     procedure lbFileTypesDrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; State: TOwnerDrawState);
     procedure lbFileTypesSelectionChange(Sender: TObject; User: boolean);
@@ -300,6 +301,12 @@ begin
   slActions := TStringList(lbActions.Items.Objects[iIndex]);
   edbAction.Text := slActions.Names[iIndex];
   fneCommand.FileName := slActions.ValueFromIndex[iIndex];
+  UpdateEnabledButtons;
+end;
+
+procedure TfrmFileAssoc.lbExtsSelectionChange(Sender: TObject; User: boolean);
+begin
+  if (lbExts.ItemIndex < 0) then Exit;
   UpdateEnabledButtons;
 end;
 
@@ -525,7 +532,10 @@ begin
     I := ItemIndex;
     if I = - 1 then exit;
     Items.Delete(I);
-    ItemIndex := I - 1;
+    if I = 0 then
+      ItemIndex := I
+    else
+      ItemIndex := I - 1;
   end;
   // remove extension from TExts object
   with lbFileTypes do
@@ -622,7 +632,10 @@ begin
     I := ItemIndex;
     if I = - 1 then exit;
     Items.Delete(I);
-    ItemIndex := Count - 1;
+    if I = 0 then
+      ItemIndex := I
+    else
+      ItemIndex := I - 1;
   end;
   // remove action from TExts object
   with lbFileTypes do
