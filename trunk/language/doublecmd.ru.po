@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-12-22 03:12+0300\n"
+"PO-Revision-Date: 2009-12-22 17:14+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -188,7 +188,7 @@ msgstr "Отмена"
 
 #: TFRMCONFIGTOOLBAR.BTNCHANGEBUTTON.CAPTION
 msgid "Change >>"
-msgstr ""
+msgstr "Изменить >>"
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
@@ -202,7 +202,7 @@ msgstr "Помощь"
 
 #: TFRMCONFIGTOOLBAR.BTNINSERTBUTTON.CAPTION
 msgid "Insert"
-msgstr ""
+msgstr "Вставить"
 
 #: TFRMCONFIGTOOLBAR.BTNOK.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNOK.CAPTION"
@@ -280,11 +280,11 @@ msgstr "Добавить панель..."
 
 #: TFRMCONFIGTOOLBAR.MIADDSUBMENU.CAPTION
 msgid "Add Sub&menu >>"
-msgstr ""
+msgstr "Добавить подменю..."
 
 #: TFRMCONFIGTOOLBAR.MIINSERTSEPARATOR.CAPTION
 msgid "Insert separator"
-msgstr ""
+msgstr "Вставить разделитель"
 
 #: TFRMCOPYDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
@@ -1389,7 +1389,7 @@ msgstr "Переключиться на предыдущую вкладку"
 
 #: TFRMMAIN.ACTQUICKFILTER.CAPTION
 msgid "Quick filter"
-msgstr ""
+msgstr "Быстрый фильтр"
 
 #: TFRMMAIN.ACTQUICKSEARCH.CAPTION
 msgctxt "TFRMMAIN.ACTQUICKSEARCH.CAPTION"
@@ -1452,11 +1452,11 @@ msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
 msgid "Normal"
-msgstr ""
+msgstr "Обычная"
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHLOCKED.CAPTION
 msgid "Locked"
-msgstr ""
+msgstr "Заблокированная"
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
