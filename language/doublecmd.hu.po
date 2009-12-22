@@ -644,6 +644,7 @@ msgid "Open in VFS"
 msgstr "Megnyitás VFS-ben"
 
 #: TFRMFILEASSOC.MIVIEW.CAPTION
+msgctxt "TFRMFILEASSOC.MIVIEW.CAPTION"
 msgid "View"
 msgstr "Nézőke"
 
@@ -3534,6 +3535,11 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Műveletek"
 
+#: ulng.rsmnuedit
+msgctxt "ulng.rsmnuedit"
+msgid "Edit"
+msgstr "Szerkesztés"
+
 #: ulng.rsmnueject
 msgid "Eject"
 msgstr "Kiadás"
@@ -3549,6 +3555,15 @@ msgstr ""
 #: ulng.rsmnuumount
 msgid "Umount"
 msgstr "Lecsatolás"
+
+#: ulng.rsmnuview
+msgctxt "ulng.rsmnuview"
+msgid "View"
+msgstr "Nézőke"
+
+#: ulng.rsmsgaccount
+msgid "Account:"
+msgstr ""
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -3605,6 +3620,10 @@ msgstr "CRC hiba az archívumban"
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
 msgstr "Hibás adat"
+
+#: ulng.rsmsgerrdatenotsupported
+msgid "Date %s is not supported"
+msgstr ""
 
 #: ulng.rsmsgerrdirexists
 msgid "Directory %s exists!"
@@ -3810,6 +3829,14 @@ msgstr "Nem lehet törölni a %s fájlt"
 msgid "Not implemented."
 msgstr ""
 
+#: ulng.rsmsgpassword
+msgid "Password:"
+msgstr ""
+
+#: ulng.rsmsgpasswordfirewall
+msgid "Password (Firewall):"
+msgstr ""
+
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
 msgstr "%s hozzá&adása"
@@ -3854,8 +3881,24 @@ msgstr "Válassza ki a következő darab helyét"
 msgid "Set volume label"
 msgstr "Kötetcimke beállítása"
 
+#: ulng.rsmsgtargetdir
+msgid "Target path:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
+msgstr ""
+
+#: ulng.rsmsgurl
+msgid "URL:"
+msgstr ""
+
+#: ulng.rsmsgusername
+msgid "User name:"
+msgstr ""
+
+#: ulng.rsmsgusernamefirewall
+msgid "User name (Firewall):"
 msgstr ""
 
 #: ulng.rsmsgvolumelabel
@@ -3984,6 +4027,22 @@ msgstr "Engedélyezés"
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Kiterjesztés megadása"
+
+#: ulng.rsoptexamplecursor
+msgid "Cursor"
+msgstr ""
+
+#: ulng.rsoptexamplemark
+msgid "Mark"
+msgstr ""
+
+#: ulng.rsoptexamplemarkcursor
+msgid "Mark + Cursor"
+msgstr ""
+
+#: ulng.rsoptexampletext
+msgid "Text"
+msgstr ""
 
 #: ulng.rsoptfileop
 msgid "File operations"

@@ -636,6 +636,7 @@ msgid "Open in VFS"
 msgstr "In VFS öffnen"
 
 #: TFRMFILEASSOC.MIVIEW.CAPTION
+msgctxt "TFRMFILEASSOC.MIVIEW.CAPTION"
 msgid "View"
 msgstr "Betrachten"
 
@@ -3517,6 +3518,11 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Aktionen"
 
+#: ulng.rsmnuedit
+msgctxt "ulng.rsmnuedit"
+msgid "Edit"
+msgstr "Bea&rbeiten"
+
 #: ulng.rsmnueject
 msgid "Eject"
 msgstr "Auswerfen"
@@ -3532,6 +3538,15 @@ msgstr "Öffnen mit..."
 #: ulng.rsmnuumount
 msgid "Umount"
 msgstr "Einbindung lösen"
+
+#: ulng.rsmnuview
+msgctxt "ulng.rsmnuview"
+msgid "View"
+msgstr "Betrachten"
+
+#: ulng.rsmsgaccount
+msgid "Account:"
+msgstr ""
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -3588,6 +3603,10 @@ msgstr "CRC-Fehler in der Archivdatei"
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
 msgstr "Datenfehler"
+
+#: ulng.rsmsgerrdatenotsupported
+msgid "Date %s is not supported"
+msgstr ""
 
 #: ulng.rsmsgerrdirexists
 msgid "Directory %s exists!"
@@ -3793,6 +3812,14 @@ msgstr "Kann Datei %s nicht löschen"
 msgid "Not implemented."
 msgstr "Nicht möglich."
 
+#: ulng.rsmsgpassword
+msgid "Password:"
+msgstr ""
+
+#: ulng.rsmsgpasswordfirewall
+msgid "Password (Firewall):"
+msgstr ""
+
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
 msgstr "&Füge %s hinzu"
@@ -3837,9 +3864,25 @@ msgstr "Speicherort des nächsten Teils angeben"
 msgid "Set volume label"
 msgstr "Laufwerksbezeichnung angeben"
 
+#: ulng.rsmsgtargetdir
+msgid "Target path:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Zuviele Dateien ausgewählt."
+
+#: ulng.rsmsgurl
+msgid "URL:"
+msgstr ""
+
+#: ulng.rsmsgusername
+msgid "User name:"
+msgstr ""
+
+#: ulng.rsmsgusernamefirewall
+msgid "User name (Firewall):"
+msgstr ""
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
@@ -3967,6 +4010,22 @@ msgstr "Aktivieren"
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Endung eingeben"
+
+#: ulng.rsoptexamplecursor
+msgid "Cursor"
+msgstr ""
+
+#: ulng.rsoptexamplemark
+msgid "Mark"
+msgstr ""
+
+#: ulng.rsoptexamplemarkcursor
+msgid "Mark + Cursor"
+msgstr ""
+
+#: ulng.rsoptexampletext
+msgid "Text"
+msgstr ""
 
 #: ulng.rsoptfileop
 msgid "File operations"

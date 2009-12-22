@@ -644,6 +644,7 @@ msgid "Open in VFS"
 msgstr ""
 
 #: TFRMFILEASSOC.MIVIEW.CAPTION
+msgctxt "TFRMFILEASSOC.MIVIEW.CAPTION"
 msgid "View"
 msgstr ""
 
@@ -3518,6 +3519,11 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr ""
 
+#: ulng.rsmnuedit
+msgctxt "ulng.rsmnuedit"
+msgid "Edit"
+msgstr ""
+
 #: ulng.rsmnueject
 msgid "Eject"
 msgstr ""
@@ -3532,6 +3538,15 @@ msgstr ""
 
 #: ulng.rsmnuumount
 msgid "Umount"
+msgstr ""
+
+#: ulng.rsmnuview
+msgctxt "ulng.rsmnuview"
+msgid "View"
+msgstr ""
+
+#: ulng.rsmsgaccount
+msgid "Account:"
 msgstr ""
 
 #: ulng.rsmsgchdirfailed
@@ -3588,6 +3603,10 @@ msgstr ""
 
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
+msgstr ""
+
+#: ulng.rsmsgerrdatenotsupported
+msgid "Date %s is not supported"
 msgstr ""
 
 #: ulng.rsmsgerrdirexists
@@ -3794,6 +3813,14 @@ msgstr ""
 msgid "Not implemented."
 msgstr ""
 
+#: ulng.rsmsgpassword
+msgid "Password:"
+msgstr ""
+
+#: ulng.rsmsgpasswordfirewall
+msgid "Password (Firewall):"
+msgstr ""
+
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
 msgstr ""
@@ -3838,8 +3865,24 @@ msgstr ""
 msgid "Set volume label"
 msgstr ""
 
+#: ulng.rsmsgtargetdir
+msgid "Target path:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
+msgstr ""
+
+#: ulng.rsmsgurl
+msgid "URL:"
+msgstr ""
+
+#: ulng.rsmsgusername
+msgid "User name:"
+msgstr ""
+
+#: ulng.rsmsgusernamefirewall
+msgid "User name (Firewall):"
 msgstr ""
 
 #: ulng.rsmsgvolumelabel
@@ -3965,6 +4008,22 @@ msgstr ""
 
 #: ulng.rsoptenterext
 msgid "Enter extension"
+msgstr ""
+
+#: ulng.rsoptexamplecursor
+msgid "Cursor"
+msgstr ""
+
+#: ulng.rsoptexamplemark
+msgid "Mark"
+msgstr ""
+
+#: ulng.rsoptexamplemarkcursor
+msgid "Mark + Cursor"
+msgstr ""
+
+#: ulng.rsoptexampletext
+msgid "Text"
 msgstr ""
 
 #: ulng.rsoptfileop

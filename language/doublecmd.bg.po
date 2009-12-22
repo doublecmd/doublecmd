@@ -644,6 +644,7 @@ msgid "Open in VFS"
 msgstr "Отваряне във VFS"
 
 #: TFRMFILEASSOC.MIVIEW.CAPTION
+msgctxt "TFRMFILEASSOC.MIVIEW.CAPTION"
 msgid "View"
 msgstr "Преглед"
 
@@ -3523,6 +3524,11 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Действия"
 
+#: ulng.rsmnuedit
+msgctxt "ulng.rsmnuedit"
+msgid "Edit"
+msgstr "Обработка"
+
 #: ulng.rsmnueject
 msgid "Eject"
 msgstr "Изваждане"
@@ -3538,6 +3544,15 @@ msgstr ""
 #: ulng.rsmnuumount
 msgid "Umount"
 msgstr "Разкачане"
+
+#: ulng.rsmnuview
+msgctxt "ulng.rsmnuview"
+msgid "View"
+msgstr "Преглед"
+
+#: ulng.rsmsgaccount
+msgid "Account:"
+msgstr ""
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -3594,6 +3609,10 @@ msgstr "Грешка CRC в данните на сбивката"
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
 msgstr "Данните са лоши"
+
+#: ulng.rsmsgerrdatenotsupported
+msgid "Date %s is not supported"
+msgstr ""
 
 #: ulng.rsmsgerrdirexists
 msgid "Directory %s exists!"
@@ -3799,6 +3818,14 @@ msgstr "Невъзможно е изтриването на %s"
 msgid "Not implemented."
 msgstr ""
 
+#: ulng.rsmsgpassword
+msgid "Password:"
+msgstr ""
+
+#: ulng.rsmsgpasswordfirewall
+msgid "Password (Firewall):"
+msgstr ""
+
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
 msgstr "&Добавяне на %s"
@@ -3843,8 +3870,24 @@ msgstr "Посочете местоположението на следващи�
 msgid "Set volume label"
 msgstr "Слагане име на тома"
 
+#: ulng.rsmsgtargetdir
+msgid "Target path:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
+msgstr ""
+
+#: ulng.rsmsgurl
+msgid "URL:"
+msgstr ""
+
+#: ulng.rsmsgusername
+msgid "User name:"
+msgstr ""
+
+#: ulng.rsmsgusernamefirewall
+msgid "User name (Firewall):"
 msgstr ""
 
 #: ulng.rsmsgvolumelabel
@@ -3973,6 +4016,22 @@ msgstr "Разрешаване"
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Въведете разширение"
+
+#: ulng.rsoptexamplecursor
+msgid "Cursor"
+msgstr ""
+
+#: ulng.rsoptexamplemark
+msgid "Mark"
+msgstr ""
+
+#: ulng.rsoptexamplemarkcursor
+msgid "Mark + Cursor"
+msgstr ""
+
+#: ulng.rsoptexampletext
+msgid "Text"
+msgstr ""
 
 #: ulng.rsoptfileop
 msgid "File operations"
