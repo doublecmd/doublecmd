@@ -117,7 +117,7 @@ msgstr "Abbruch"
 #: TFRMCHECKSUMCALC.BTNOK.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
-msgstr ""
+msgstr "&Ok"
 
 #: TFRMCHECKSUMCALC.CAPTION
 msgctxt "TFRMCHECKSUMCALC.CAPTION"
@@ -191,7 +191,7 @@ msgstr "Abbruch"
 
 #: TFRMCONFIGTOOLBAR.BTNCHANGEBUTTON.CAPTION
 msgid "Change >>"
-msgstr ""
+msgstr "Ändern >>"
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
@@ -205,7 +205,7 @@ msgstr "&Hilfe"
 
 #: TFRMCONFIGTOOLBAR.BTNINSERTBUTTON.CAPTION
 msgid "Insert"
-msgstr ""
+msgstr "Einfügen"
 
 #: TFRMCONFIGTOOLBAR.BTNOK.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNOK.CAPTION"
@@ -283,11 +283,11 @@ msgstr "Unter&leiste einfügen"
 
 #: TFRMCONFIGTOOLBAR.MIADDSUBMENU.CAPTION
 msgid "Add Sub&menu >>"
-msgstr ""
+msgstr "Untermenü hinzufügen"
 
 #: TFRMCONFIGTOOLBAR.MIINSERTSEPARATOR.CAPTION
 msgid "Insert separator"
-msgstr ""
+msgstr "Trennlinie einfügen"
 
 #: TFRMCOPYDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
@@ -1345,7 +1345,7 @@ msgstr "Ne&uer Reiter"
 
 #: TFRMMAIN.ACTNEXTTAB.CAPTION
 msgid "Switch to next tab"
-msgstr "Zum nächsten Tab wechseln"
+msgstr "Zum nächsten Reiter wechseln"
 
 #: TFRMMAIN.ACTOPEN.CAPTION
 msgctxt "TFRMMAIN.ACTOPEN.CAPTION"
@@ -1799,7 +1799,7 @@ msgstr "Erstelle symb. Link"
 
 #: TFRMMAIN.MITABOPTIONS.CAPTION
 msgid "Tab options"
-msgstr ""
+msgstr "Reiter-Optionen"
 
 #: TFRMMAIN.MITRAYICONEXIT.CAPTION
 msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
@@ -1845,7 +1845,7 @@ msgstr "&Zeigen"
 
 #: TFRMMAIN.MNUSHOWOPERATIONS.CAPTION
 msgid "Operations viewer"
-msgstr ""
+msgstr "Abläufe beobachten"
 
 #: TFRMMAIN.MNUTABOPTIONS.CAPTION
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
@@ -2300,7 +2300,7 @@ msgstr "Vertikale Linien"
 
 #: TFRMOPTIONS.CBICONSSHOWOVERLAY.CAPTION
 msgid "Show overlay i&cons, e.g. for links"
-msgstr ""
+msgstr "Überlagernde Icons zeigen (z. B. Pfeile bei Verknüpfungen)"
 
 #: TFRMOPTIONS.CBICONSSIZE.TEXT
 msgid "16x16"
@@ -3595,7 +3595,7 @@ msgstr "Betrachten"
 
 #: ulng.rsmsgaccount
 msgid "Account:"
-msgstr ""
+msgstr "Zugang:"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -3655,7 +3655,7 @@ msgstr "Datenfehler"
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
-msgstr ""
+msgstr "Datum %s wird nicht nicht unterstützt"
 
 #: ulng.rsmsgerrdirexists
 msgid "Directory %s exists!"
@@ -3863,11 +3863,11 @@ msgstr "Nicht möglich."
 
 #: ulng.rsmsgpassword
 msgid "Password:"
-msgstr ""
+msgstr "Passwort"
 
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
-msgstr ""
+msgstr "Passwort (Firewall):"
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -3915,7 +3915,7 @@ msgstr "Laufwerksbezeichnung angeben"
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
-msgstr ""
+msgstr "Zielpfad"
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
@@ -3927,11 +3927,11 @@ msgstr ""
 
 #: ulng.rsmsgusername
 msgid "User name:"
-msgstr ""
+msgstr "Nutzername:"
 
 #: ulng.rsmsgusernamefirewall
 msgid "User name (Firewall):"
-msgstr ""
+msgstr "Nutzername (Firewall):"
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
@@ -4062,15 +4062,15 @@ msgstr "Endung eingeben"
 
 #: ulng.rsoptexamplecursor
 msgid "Cursor"
-msgstr ""
+msgstr "Zeiger"
 
 #: ulng.rsoptexamplemark
 msgid "Mark"
-msgstr ""
+msgstr "Einfügemarke"
 
 #: ulng.rsoptexamplemarkcursor
 msgid "Mark + Cursor"
-msgstr ""
+msgstr "Einfügemarke + Zeiger"
 
 #: ulng.rsoptexampletext
 msgid "Text"
