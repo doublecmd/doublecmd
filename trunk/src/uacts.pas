@@ -159,6 +159,7 @@ const cf_Null=0;
    procedure cm_QuickSearch(param: string='');
    procedure cm_QuickFilter(param: string='');
    procedure cm_RightOpenDrives(param: string='');
+   procedure cm_OpenBar(param: string='');
    procedure cm_ShowButtonMenu(param: string='');
    procedure cm_TransferLeft(param: string='');
    procedure cm_TransferRight(param: string='');
@@ -964,6 +965,22 @@ begin
     p := pnlRightTools.ClientToScreen(p);
     UpdateDriveButtonMenuSelection(btnRightDrive, FrameRight);
     pmDrivesMenu.PopUp(p.x, p.y);
+  end;
+end;
+
+procedure TActs.cm_OpenBar(param: string);
+var
+  IniFile: TIniFileEx;
+begin
+  with frmMain do
+  try
+    if Pos(PathDelim, param) <> 0 then
+      IniFile:= TIniFileEx.Create(GetCmdDirFromEnvVar(param))
+    else
+      IniFile:= TIniFileEx.Create(gpIniDir + param);
+    MainToolBar.LoadFromIniFile(IniFile);
+  finally
+    FreeThenNil(IniFile);
   end;
 end;
 

@@ -80,6 +80,7 @@ type
     actAddPathAndFilenameToCmdLine: TAction;
     actDriveContextMenu: TAction;
     actCopyNoAsk: TAction;
+    actOpenBar: TAction;
     actSetFileProperties: TAction;
     actQuickFilter: TAction;
     actRenameNoAsk: TAction;
@@ -786,7 +787,7 @@ begin
     end;  
   {*Tool Bar*}
   try
-    IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
+    IniBarFile:= TIniFileEx.Create(MainToolBar.BarFile.CurrentBar);
     MainToolBar.SaveToIniFile(IniBarFile);
   finally
     FreeThenNil(IniBarFile);
@@ -1154,7 +1155,7 @@ begin
   begin
     MainToolBar.AddButtonX('', aFile.FullPath, '', aFile.Path,
                            aFile.Name, '',  aFile.FullPath);
-    IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
+    IniBarFile:= TIniFileEx.Create(MainToolBar.BarFile.CurrentBar);
     try
       MainToolBar.SaveToIniFile(IniBarFile);
     finally
@@ -1188,7 +1189,7 @@ begin
     if msgYesNo(Format(rsMsgDelSel, [MainToolBar.Buttons[pmToolBar.Tag].Hint])) then
     begin
        MainToolBar.RemoveButton (pmToolBar.Tag);
-       MainToolBar.SaveToFile(gpIniDir + 'default.bar');
+       MainToolBar.SaveToFile(MainToolBar.BarFile.CurrentBar);
     end;
   end;
 end;
@@ -2977,9 +2978,33 @@ begin
 end;
 
 procedure TfrmMain.tbEditClick(Sender: TObject);
+var
+  iDelta: Integer;
+  IniFile: TIniFileEx;
 begin
   if ShowConfigToolbar(MainToolBar.BarFile.CurrentBar, pmToolBar.Tag) then
-    MainToolBar.LoadFromFile(MainToolBar.BarFile.CurrentBar);
+    begin
+      // apply new parameters to main toolbar
+      if gToolBarSmallIcons then
+        begin
+          MainToolBar.GlyphSize:= gToolBarIconSize;
+          iDelta:= 0;
+        end
+      else
+        begin
+          MainToolBar.GlyphSize:= gToolBarButtonSize;
+          iDelta:= 4;
+        end;
+      MainToolBar.ButtonHeight:= gToolBarButtonSize + iDelta;
+      MainToolBar.ButtonWidth:= gToolBarButtonSize + iDelta;
+      MainToolBar.Flat:= gToolBarFlat;
+      try
+        IniFile:= TIniFileEx.Create(MainToolBar.BarFile.CurrentBar, fmOpenRead);
+        MainToolBar.LoadFromIniFile(IniFile);
+      finally
+        FreeThenNil(IniFile);
+      end;
+    end;
 end;
 
 procedure TfrmMain.FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);

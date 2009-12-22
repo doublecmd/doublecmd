@@ -1718,6 +1718,11 @@ object frmMain: TfrmMain
       Caption = 'Switch to previous tab'
       OnExecute = actExecute
     end
+    object actOpenBar: TAction
+      Category = 'Commands'
+      Caption = 'Open bar file'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 152
