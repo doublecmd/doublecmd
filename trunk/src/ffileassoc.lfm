@@ -111,6 +111,7 @@ object frmFileAssoc: TfrmFileAssoc
       Top = 6
       Width = 145
       ItemHeight = 0
+      OnSelectionChange = lbExtsSelectionChange
       TabOrder = 0
       TabStop = False
       TopIndex = -1
