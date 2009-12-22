@@ -103,7 +103,7 @@ type
     procedure Save;
     function  GetSelectedButton: Integer;
     procedure InsertButton(InsertAt: Integer);
-    function AddGoBackButton(out aFileName: UTF8String): Boolean;
+    function AddSpecialButton(const sCommand: AnsiString; out aFileName: UTF8String): Boolean;
 
   public
     constructor Create(TheOwner: TComponent; const aBarFileName: UTF8String); reintroduce;
@@ -203,6 +203,7 @@ var
   IniBarFile: TIniFileEx;
 begin
   OpenDialog.FileName := pnlToolBarFileName.Hint;
+  OpenDialog.DefaultExt:= '.bar';
   OpenDialog.Filter:= '*.bar|*.bar';
   if OpenDialog.Execute then
     begin
@@ -353,7 +354,8 @@ end;
 
 procedure TfrmConfigToolBar.btnOpenFileClick(Sender: TObject);
 begin
-  OpenDialog.Filter:= '';
+  OpenDialog.DefaultExt:= EmptyStr;
+  OpenDialog.Filter:= EmptyStr;
   if OpenDialog.Execute then
      cbCommand.Text := OpenDialog.FileName;
 end;
@@ -382,7 +384,7 @@ procedure TfrmConfigToolBar.miAddSubBarClick(Sender: TObject);
 var
   sFileName: UTF8String;
 begin
-  if AddGoBackButton(sFileName) then
+  if AddSpecialButton(cOpenBar, sFileName) then
     begin
       cbCommand.Text:= cOpenBar;
       edtParams.Text:= SetCmdDirAsEnvVar(sFileName);
@@ -394,7 +396,7 @@ procedure TfrmConfigToolBar.miAddSubMenuClick(Sender: TObject);
 var
   sFileName: UTF8String;
 begin
-  if AddGoBackButton(sFileName) then
+  if AddSpecialButton(cShowButtonMenu, sFileName) then
     begin
       cbCommand.Text:= cShowButtonMenu;
       edtParams.Text:= SetCmdDirAsEnvVar(sFileName);
@@ -404,6 +406,10 @@ end;
 
 procedure TfrmConfigToolBar.miInsertSeparatorClick(Sender: TObject);
 begin
+  cbCommand.Text:= EmptyStr;
+  edtParams.Text:= EmptyStr;
+  edtStartPath.Text:= EmptyStr;
+  kedtIconFileName.Text:= EmptyStr;
   edtToolTip.Text:= '-';
 end;
 
@@ -441,22 +447,31 @@ begin
     LastToolButton := -1;
 end;
 
-function TfrmConfigToolBar.AddGoBackButton(out aFileName: UTF8String): Boolean;
+function TfrmConfigToolBar.AddSpecialButton(const sCommand: AnsiString; out aFileName: UTF8String): Boolean;
 var
   IniBarFile: TIniFileEx;
+  sIconFileName: UTF8String;
 begin
   Result:= False;
+  OpenDialog.DefaultExt:= '.bar';
+  OpenDialog.Filter:= '*.bar|*.bar';
   if OpenDialog.Execute then
     begin
       aFileName:= OpenDialog.FileName;
       if not mbFileExists(aFileName) then
-        begin
+        try
           IniBarFile:= TIniFileEx.Create(aFileName);
-          IniBarFile.WriteInteger('ButtonBar', 'ButtonCount', 1);
-          IniBarFile.WriteString('ButtonBar', 'cmd1', cOpenBar);
-          IniBarFile.WriteString('ButtonBar', 'param1', SetCmdDirAsEnvVar(FBarFileName));
-          IniBarFile.WriteString('ButtonBar', 'menu1', Actions.GetCommandCaption(cOpenBar));
-          IniBarFile.Free;
+          if SameText(sCommand, cOpenBar) then
+            begin
+              sIconFileName:= gpPixmapPath + IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize) + PathDelim + 'actions' + PathDelim + 'go-up.png';
+              IniBarFile.WriteInteger('ButtonBar', 'ButtonCount', 1);
+              IniBarFile.WriteString('ButtonBar', 'cmd1', cOpenBar);
+              IniBarFile.WriteString('ButtonBar', 'param1', SetCmdDirAsEnvVar(FBarFileName));
+              IniBarFile.WriteString('ButtonBar', 'menu1', Actions.GetCommandCaption(cOpenBar));
+              IniBarFile.WriteString('ButtonBar', 'button1', SetCmdDirAsEnvVar(sIconFileName));
+            end;
+        finally
+          FreeThenNil(IniBarFile);
         end;
       Result:= ShowConfigToolbar(aFileName);
     end;

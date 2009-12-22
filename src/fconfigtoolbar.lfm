@@ -455,8 +455,6 @@ object frmConfigToolBar: TfrmConfigToolBar
     TabOrder = 17
   end
   object OpenDialog: TOpenDialog
-    DefaultExt = '.bar'
-    Filter = '*.bar|*.bar'
     FilterIndex = 0
     left = 552
     top = 96
