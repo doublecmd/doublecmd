@@ -470,6 +470,7 @@ object frmConfigToolBar: TfrmConfigToolBar
     end
     object miAddSubBar: TMenuItem
       Caption = 'Add S&ubbar >>'
+      OnClick = miAddSubBarClick
     end
     object miAddSubMenu: TMenuItem
       Caption = 'Add Sub&menu >>'

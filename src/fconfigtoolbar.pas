@@ -88,6 +88,7 @@ type
     procedure btnDeleteButtonClick(Sender: TObject);
     procedure btnOpenFileClick(Sender: TObject);
     procedure btnOpenIconFileClick(Sender: TObject);
+    procedure miAddSubBarClick(Sender: TObject);
     procedure miAddSubMenuClick(Sender: TObject);
     procedure miInsertSeparatorClick(Sender: TObject);
     procedure sbIconExampleClick(Sender: TObject);
@@ -113,7 +114,7 @@ type
 implementation
 
 uses
-  ActnList, LCLProc, uClassesEx, fMain, uOSForms, uPixMapManager,
+  ActnList, LCLProc, uClassesEx, uOSForms, uPixMapManager,
   uGlobsPaths, uGlobs, uDCUtils, uOSUtils;
 
 function ShowConfigToolbar(const aBarFileName: UTF8String; iButtonIndex : Integer = -1): Boolean;
@@ -128,6 +129,7 @@ begin
 end;
 
 const
+  cOpenBar = 'cm_OpenBar';
   cShowButtonMenu = 'cm_ShowButtonMenu';
 
 { TfrmConfigToolBar }
@@ -244,7 +246,6 @@ end;
 procedure TfrmConfigToolBar.btnOKClick(Sender: TObject);
 var
   IniBarFile: TIniFileEx;
-  iDelta: Integer = 4;
 begin
   Save;
 
@@ -252,18 +253,7 @@ begin
   gToolBarButtonSize:= StrToIntDef(edtBarSize.Text, 16);
   gToolBarSmallIcons:= cbSmallIcons.Checked;
   if gToolBarSmallIcons then
-    begin
-      gToolBarIconSize:= StrToIntDef(edtSmallIconSize.Text, 16);
-      iDelta:= 0;
-    end;
-  // apply new parameters to main toolbar
-  if gToolBarSmallIcons then
-    frmMain.MainToolBar.GlyphSize:= gToolBarIconSize
-  else
-    frmMain.MainToolBar.GlyphSize:= gToolBarButtonSize;
-  frmMain.MainToolBar.ButtonHeight:= gToolBarButtonSize + iDelta;
-  frmMain.MainToolBar.ButtonWidth:= gToolBarButtonSize + iDelta;
-  frmMain.MainToolBar.Flat:= gToolBarFlat;
+    gToolBarIconSize:= StrToIntDef(edtSmallIconSize.Text, 16);
 
   IniBarFile:= TIniFileEx.Create(FBarFileName);
   try
@@ -275,6 +265,7 @@ begin
   end;
 
   Close;
+
   ModalResult:= mrOK;
 end;
 
@@ -387,6 +378,18 @@ begin
     end;
 end;
 
+procedure TfrmConfigToolBar.miAddSubBarClick(Sender: TObject);
+var
+  sFileName: UTF8String;
+begin
+  if AddGoBackButton(sFileName) then
+    begin
+      cbCommand.Text:= cOpenBar;
+      edtParams.Text:= SetCmdDirAsEnvVar(sFileName);
+      edtToolTip.Text:= Actions.GetCommandCaption(cOpenBar);
+    end;
+end;
+
 procedure TfrmConfigToolBar.miAddSubMenuClick(Sender: TObject);
 var
   sFileName: UTF8String;
@@ -439,8 +442,6 @@ begin
 end;
 
 function TfrmConfigToolBar.AddGoBackButton(out aFileName: UTF8String): Boolean;
-const
-  cBackCommand = 'cm_ShowButtonMenu';
 var
   IniBarFile: TIniFileEx;
 begin
@@ -452,9 +453,9 @@ begin
         begin
           IniBarFile:= TIniFileEx.Create(aFileName);
           IniBarFile.WriteInteger('ButtonBar', 'ButtonCount', 1);
-          IniBarFile.WriteString('ButtonBar', 'cmd1', cBackCommand);
+          IniBarFile.WriteString('ButtonBar', 'cmd1', cOpenBar);
           IniBarFile.WriteString('ButtonBar', 'param1', SetCmdDirAsEnvVar(FBarFileName));
-          IniBarFile.WriteString('ButtonBar', 'menu1', Actions.GetCommandCaption(cBackCommand));
+          IniBarFile.WriteString('ButtonBar', 'menu1', Actions.GetCommandCaption(cOpenBar));
           IniBarFile.Free;
         end;
       Result:= ShowConfigToolbar(aFileName);

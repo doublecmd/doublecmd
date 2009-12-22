@@ -343,18 +343,26 @@ procedure TKASToolBar.LoadFromFile(FileName: String);
 var
   IniFile: TIniFile;
 begin
-  IniFile:= TIniFile.Create(FileName);
-  FBarFile.LoadFromIniFile(IniFile);
-  IniFile.Free;
+  try
+    IniFile:= TIniFile.Create(FileName);
+    LoadFromIniFile(IniFile);
+  finally
+    if Assigned(IniFile) then
+      FreeAndNil(IniFile);
+  end;
 end;
 
 procedure TKASToolBar.SaveToFile(FileName: String);
 var
   IniFile: TIniFile;
 begin
-  IniFile:= TInifile.Create(FileName);
-  FBarFile.SaveToIniFile(IniFile);
-  IniFile.Free;
+  try
+    IniFile:= TIniFile.Create(FileName);
+    FBarFile.SaveToIniFile(IniFile);
+  finally
+    if Assigned(IniFile) then
+      FreeAndNil(IniFile);
+  end;
 end;
 
 function TKASToolBar.AddDivider: Integer;
