@@ -27,8 +27,8 @@ unit fConfigToolBar;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons, KASToolBar,
-  ExtCtrls, KASBarFiles;
+  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Menus,
+  StdCtrls, Buttons, KASToolBar, ExtCtrls, KASBarFiles;
 
 type
 
@@ -50,7 +50,7 @@ type
     cbCommand: TComboBox;
     btnDeleteButton: TButton;
     btnOpenFile: TButton;
-    btnAddSubBar: TButton;
+    btnChangeButton: TButton;
     btnOpenIconFile: TButton;
     kedtIconFileName: TEdit;
     edtParams: TEdit;
@@ -61,14 +61,19 @@ type
     cbSmallIcons: TCheckBox;
     lblLabel: TLabel;
     btnOK: TButton;
+    miAddSubMenu: TMenuItem;
+    miInsertSeparator: TMenuItem;
+    miAddSubBar: TMenuItem;
     OpenDialog: TOpenDialog;
     lblParameters: TLabel;
+    pmChangeButton: TPopupMenu;
     sbIconExample: TSpeedButton;
     pnlToolBarFileName: TPanel;
     tbScrollBox: TScrollBox;
     lblSize: TLabel;
     lblStartPath: TLabel;
     lblToolTip: TLabel;
+    procedure btnChangeButtonClick(Sender: TObject);
     procedure btnInsertButtonClick(Sender: TObject);
     procedure btnOpenBarFileClick(Sender: TObject);
     procedure cbCommandSelect(Sender: TObject);
@@ -83,9 +88,12 @@ type
     procedure btnDeleteButtonClick(Sender: TObject);
     procedure btnOpenFileClick(Sender: TObject);
     procedure btnOpenIconFileClick(Sender: TObject);
+    procedure miAddSubMenuClick(Sender: TObject);
+    procedure miInsertSeparatorClick(Sender: TObject);
     procedure sbIconExampleClick(Sender: TObject);
 
   private
+    FBarFileName: UTF8String;
     LastToolButton : Integer;
 
     procedure FillActionLists;
@@ -94,36 +102,41 @@ type
     procedure Save;
     function  GetSelectedButton: Integer;
     procedure InsertButton(InsertAt: Integer);
+    function AddGoBackButton(out aFileName: UTF8String): Boolean;
 
   public
-    constructor Create(TheOwner: TComponent); override;
+    constructor Create(TheOwner: TComponent; const aBarFileName: UTF8String); reintroduce;
   end;
 
-  procedure ShowConfigToolbar(iButtonIndex : Integer = -1);
+  function ShowConfigToolbar(const aBarFileName: UTF8String; iButtonIndex : Integer = -1): Boolean;
 
 implementation
 
 uses
   ActnList, LCLProc, uClassesEx, fMain, uOSForms, uPixMapManager,
-  uGlobsPaths, uGlobs, uDCUtils;
+  uGlobsPaths, uGlobs, uDCUtils, uOSUtils;
 
-procedure ShowConfigToolbar(iButtonIndex : Integer = -1);
+function ShowConfigToolbar(const aBarFileName: UTF8String; iButtonIndex : Integer = -1): Boolean;
 begin
-  with TfrmConfigToolBar.Create(Application) do
+  with TfrmConfigToolBar.Create(Application, aBarFileName) do
   try
     ktbBar.Tag := iButtonIndex; // Selected button index
-    ShowModal;
+    Result:= (ShowModal = mrOK);
   finally
     Free;
   end;
 end;
 
+const
+  cShowButtonMenu = 'cm_ShowButtonMenu';
+
 { TfrmConfigToolBar }
 
-constructor TfrmConfigToolBar.Create(TheOwner: TComponent);
+constructor TfrmConfigToolBar.Create(TheOwner: TComponent; const aBarFileName:UTF8String);
 begin
+  FBarFileName:= aBarFileName;
   LastToolButton := -1;
-  inherited;
+  inherited Create(TheOwner);
 end;
 
 procedure TfrmConfigToolBar.FillActionLists;
@@ -146,13 +159,13 @@ begin
   ktbBar.Flat:= gToolBarFlat;
   ktbBar.ChangePath:= gpExePath;
   ktbBar.EnvVar:= '%commander_path%';
-  IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
+  IniBarFile:= TIniFileEx.Create(FBarFileName);
   ktbBar.LoadFromIniFile(IniBarFile);
   IniBarFile.Free;
   with pnlToolBarFileName do
   begin
-    Caption:= MinimizeFilePath(gpIniDir + 'default.bar', Canvas, Width);
-    Hint:= gpIniDir + 'default.bar';
+    Caption:= MinimizeFilePath(FBarFileName, Canvas, Width);
+    Hint:= FBarFileName;
   end;
   if ktbBar.Tag >= 0 then
     begin
@@ -213,6 +226,16 @@ begin
     InsertButton(SelectedIndex);
 end;
 
+procedure TfrmConfigToolBar.btnChangeButtonClick(Sender: TObject);
+var
+  Point: TPoint;
+begin
+  with btnChangeButton do
+  Point:= Classes.Point(Left, Top + Height);
+  Point:= ClientToScreen(Point);
+  pmChangeButton.PopUp(Point.X, Point.Y);
+end;
+
 procedure TfrmConfigToolBar.cbCommandSelect(Sender: TObject);
 begin
   edtToolTip.Text := Actions.GetCommandCaption(cbCommand.Items[cbCommand.ItemIndex]);
@@ -242,20 +265,17 @@ begin
   frmMain.MainToolBar.ButtonWidth:= gToolBarButtonSize + iDelta;
   frmMain.MainToolBar.Flat:= gToolBarFlat;
 
-  IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar');
+  IniBarFile:= TIniFileEx.Create(FBarFileName);
   try
     IniBarFile.CacheUpdates:= True;
     ktbBar.SaveToIniFile(IniBarFile);
     IniBarFile.UpdateFile;
-
-    frmMain.MainToolBar.Clear;
-    frmMain.MainToolBar.LoadFromIniFile(IniBarFile);
-
   finally
     FreeAndNil(IniBarFile);
   end;
 
   Close;
+  ModalResult:= mrOK;
 end;
 
 (*Add new button on tool bar*)
@@ -367,6 +387,23 @@ begin
     end;
 end;
 
+procedure TfrmConfigToolBar.miAddSubMenuClick(Sender: TObject);
+var
+  sFileName: UTF8String;
+begin
+  if AddGoBackButton(sFileName) then
+    begin
+      cbCommand.Text:= cShowButtonMenu;
+      edtParams.Text:= SetCmdDirAsEnvVar(sFileName);
+      edtToolTip.Text:= Actions.GetCommandCaption(cShowButtonMenu);
+    end;
+end;
+
+procedure TfrmConfigToolBar.miInsertSeparatorClick(Sender: TObject);
+begin
+  edtToolTip.Text:= '-';
+end;
+
 procedure TfrmConfigToolBar.sbIconExampleClick(Sender: TObject);
 begin
   btnOpenIconFileClick(Sender);
@@ -399,6 +436,29 @@ begin
   end
   else
     LastToolButton := -1;
+end;
+
+function TfrmConfigToolBar.AddGoBackButton(out aFileName: UTF8String): Boolean;
+const
+  cBackCommand = 'cm_ShowButtonMenu';
+var
+  IniBarFile: TIniFileEx;
+begin
+  Result:= False;
+  if OpenDialog.Execute then
+    begin
+      aFileName:= OpenDialog.FileName;
+      if not mbFileExists(aFileName) then
+        begin
+          IniBarFile:= TIniFileEx.Create(aFileName);
+          IniBarFile.WriteInteger('ButtonBar', 'ButtonCount', 1);
+          IniBarFile.WriteString('ButtonBar', 'cmd1', cBackCommand);
+          IniBarFile.WriteString('ButtonBar', 'param1', SetCmdDirAsEnvVar(FBarFileName));
+          IniBarFile.WriteString('ButtonBar', 'menu1', Actions.GetCommandCaption(cBackCommand));
+          IniBarFile.Free;
+        end;
+      Result:= ShowConfigToolbar(aFileName);
+    end;
 end;
 
 initialization

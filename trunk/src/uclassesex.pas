@@ -54,14 +54,22 @@ type
   
   { TIniFileEx }
 
+  THackIniFile = class
+  private
+    FFileName: UTF8String;
+  end;
+
   TIniFileEx = class(TIniFile)
   private
     FIniFileStream: TFileStreamEx;
+    function GetFileName: UTF8String;
+    procedure SetFileName(const AValue: UTF8String);
   public
     constructor Create(const AFileName: String; Mode: Word); virtual;
     constructor Create(const AFileName: string; AEscapeLineFeeds : Boolean = False); override;
     destructor Destroy; override;
     procedure UpdateFile; override;
+    property FileName: UTF8String read GetFileName write SetFileName;
   end;
 
   { TIniPropStorageEx }
@@ -159,6 +167,16 @@ end;
 
 { TIniFileEx }
 
+function TIniFileEx.GetFileName: UTF8String;
+begin
+  Result:= THackIniFile(Self).FFileName;
+end;
+
+procedure TIniFileEx.SetFileName(const AValue: UTF8String);
+begin
+  THackIniFile(Self).FFileName:= AValue;
+end;
+
 constructor TIniFileEx.Create(const AFileName: String; Mode: Word);
 begin
   if mbFileExists(AFileName) then
@@ -166,6 +184,7 @@ begin
   else
     FIniFileStream:= TFileStreamEx.Create(AFileName, fmCreate);
   inherited Create(FIniFileStream);
+  FileName:= AFileName;
 end;
 
 constructor TIniFileEx.Create(const AFileName: string; AEscapeLineFeeds: Boolean);
@@ -177,7 +196,9 @@ procedure TIniFileEx.UpdateFile;
 begin
   Stream.Position:=0;
   Stream.Size:= 0;
+  FileName:= EmptyStr;
   inherited UpdateFile;
+  FileName:= FIniFileStream.FileName;
 end; 
 
 destructor TIniFileEx.Destroy;

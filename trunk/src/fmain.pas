@@ -2978,7 +2978,8 @@ end;
 
 procedure TfrmMain.tbEditClick(Sender: TObject);
 begin
-  ShowConfigToolbar(pmToolBar.Tag);
+  if ShowConfigToolbar(MainToolBar.BarFile.CurrentBar, pmToolBar.Tag) then
+    MainToolBar.LoadFromFile(MainToolBar.BarFile.CurrentBar);
 end;
 
 procedure TfrmMain.FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
