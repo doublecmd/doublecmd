@@ -1301,7 +1301,7 @@ begin
 
       // Check if each sort function is supported.
       for j := 0 to Length(SortFunctions) - 1 do
-        if (TFileFunctionToProperty[SortFunctions[j]] * FileSource.GetSupportedFileProperties) <> [] then
+        if TFileFunctionToProperty[SortFunctions[j]] <= FileSource.GetSupportedFileProperties then
           AddSortFunction(FileSortings[sortingIndex].SortFunctions, SortFunctions[j]);
 
       if Length(FileSortings[sortingIndex].SortFunctions) > 0 then
