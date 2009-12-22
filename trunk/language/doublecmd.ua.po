@@ -644,6 +644,7 @@ msgid "Open in VFS"
 msgstr "Відкрити з VFS"
 
 #: TFRMFILEASSOC.MIVIEW.CAPTION
+msgctxt "TFRMFILEASSOC.MIVIEW.CAPTION"
 msgid "View"
 msgstr "перегляд"
 
@@ -3526,6 +3527,11 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Команди"
 
+#: ulng.rsmnuedit
+msgctxt "ulng.rsmnuedit"
+msgid "Edit"
+msgstr "Редактувати"
+
 #: ulng.rsmnueject
 msgid "Eject"
 msgstr "Витягнути"
@@ -3541,6 +3547,15 @@ msgstr ""
 #: ulng.rsmnuumount
 msgid "Umount"
 msgstr "Демонтувати"
+
+#: ulng.rsmnuview
+msgctxt "ulng.rsmnuview"
+msgid "View"
+msgstr "перегляд"
+
+#: ulng.rsmsgaccount
+msgid "Account:"
+msgstr ""
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -3597,6 +3612,10 @@ msgstr "Контрольна сума не співпадає, архів пош
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
 msgstr "Данні пошкоджено"
+
+#: ulng.rsmsgerrdatenotsupported
+msgid "Date %s is not supported"
+msgstr ""
 
 #: ulng.rsmsgerrdirexists
 msgid "Directory %s exists!"
@@ -3802,6 +3821,14 @@ msgstr "Не могу стерти файл %s"
 msgid "Not implemented."
 msgstr ""
 
+#: ulng.rsmsgpassword
+msgid "Password:"
+msgstr ""
+
+#: ulng.rsmsgpasswordfirewall
+msgid "Password (Firewall):"
+msgstr ""
+
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
 msgstr "&Додати %s"
@@ -3846,8 +3873,24 @@ msgstr "Вкажіть шлях до наступного тому"
 msgid "Set volume label"
 msgstr "Встановити мітку диска"
 
+#: ulng.rsmsgtargetdir
+msgid "Target path:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
+msgstr ""
+
+#: ulng.rsmsgurl
+msgid "URL:"
+msgstr ""
+
+#: ulng.rsmsgusername
+msgid "User name:"
+msgstr ""
+
+#: ulng.rsmsgusernamefirewall
+msgid "User name (Firewall):"
 msgstr ""
 
 #: ulng.rsmsgvolumelabel
@@ -3976,6 +4019,22 @@ msgstr "Увімкнути"
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Введіть розширення"
+
+#: ulng.rsoptexamplecursor
+msgid "Cursor"
+msgstr ""
+
+#: ulng.rsoptexamplemark
+msgid "Mark"
+msgstr ""
+
+#: ulng.rsoptexamplemarkcursor
+msgid "Mark + Cursor"
+msgstr ""
+
+#: ulng.rsoptexampletext
+msgid "Text"
+msgstr ""
 
 #: ulng.rsoptfileop
 msgid "File operations"

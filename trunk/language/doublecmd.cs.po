@@ -659,6 +659,7 @@ msgid "Open in VFS"
 msgstr "Otevřív v VFS"
 
 #: TFRMFILEASSOC.MIVIEW.CAPTION
+msgctxt "TFRMFILEASSOC.MIVIEW.CAPTION"
 msgid "View"
 msgstr "Zobrazit"
 
@@ -3553,6 +3554,11 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Akce"
 
+#: ulng.rsmnuedit
+msgctxt "ulng.rsmnuedit"
+msgid "Edit"
+msgstr "Upravit"
+
 #: ulng.rsmnueject
 msgid "Eject"
 msgstr "Vysunout"
@@ -3568,6 +3574,15 @@ msgstr "otevřít v ..."
 #: ulng.rsmnuumount
 msgid "Umount"
 msgstr "Odpojit"
+
+#: ulng.rsmnuview
+msgctxt "ulng.rsmnuview"
+msgid "View"
+msgstr "Zobrazit"
+
+#: ulng.rsmsgaccount
+msgid "Account:"
+msgstr ""
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -3625,6 +3640,10 @@ msgstr "CRC chyba (kontrolní součet nesouhlasí)"
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
 msgstr "Data jsou špatná"
+
+#: ulng.rsmsgerrdatenotsupported
+msgid "Date %s is not supported"
+msgstr ""
 
 #: ulng.rsmsgerrdirexists
 msgid "Directory %s exists!"
@@ -3830,6 +3849,14 @@ msgstr "Nelze vymazat soubor %s"
 msgid "Not implemented."
 msgstr "Není implementováno."
 
+#: ulng.rsmsgpassword
+msgid "Password:"
+msgstr ""
+
+#: ulng.rsmsgpasswordfirewall
+msgid "Password (Firewall):"
+msgstr ""
+
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
 msgstr "&Přidat %s"
@@ -3875,9 +3902,25 @@ msgstr "Prosím vyberte umístění další části"
 msgid "Set volume label"
 msgstr "Nastavit název disku"
 
+#: ulng.rsmsgtargetdir
+msgid "Target path:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Vybráno příliš mnoho souborů."
+
+#: ulng.rsmsgurl
+msgid "URL:"
+msgstr ""
+
+#: ulng.rsmsgusername
+msgid "User name:"
+msgstr ""
+
+#: ulng.rsmsgusernamefirewall
+msgid "User name (Firewall):"
+msgstr ""
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
@@ -4008,6 +4051,22 @@ msgstr "Povolit"
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "Zadej výraz"
+
+#: ulng.rsoptexamplecursor
+msgid "Cursor"
+msgstr ""
+
+#: ulng.rsoptexamplemark
+msgid "Mark"
+msgstr ""
+
+#: ulng.rsoptexamplemarkcursor
+msgid "Mark + Cursor"
+msgstr ""
+
+#: ulng.rsoptexampletext
+msgid "Text"
+msgstr ""
 
 #: ulng.rsoptfileop
 #, fuzzy

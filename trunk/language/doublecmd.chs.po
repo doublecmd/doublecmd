@@ -644,6 +644,7 @@ msgid "Open in VFS"
 msgstr "在VFS中打开"
 
 #: TFRMFILEASSOC.MIVIEW.CAPTION
+msgctxt "TFRMFILEASSOC.MIVIEW.CAPTION"
 msgid "View"
 msgstr "视图"
 
@@ -3525,6 +3526,11 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "动作"
 
+#: ulng.rsmnuedit
+msgctxt "ulng.rsmnuedit"
+msgid "Edit"
+msgstr "编辑"
+
 #: ulng.rsmnueject
 msgid "Eject"
 msgstr "弹出"
@@ -3540,6 +3546,15 @@ msgstr "打开..."
 #: ulng.rsmnuumount
 msgid "Umount"
 msgstr "挂载"
+
+#: ulng.rsmnuview
+msgctxt "ulng.rsmnuview"
+msgid "View"
+msgstr "视图"
+
+#: ulng.rsmsgaccount
+msgid "Account:"
+msgstr ""
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -3596,6 +3611,10 @@ msgstr "压缩文件CRC错误"
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
 msgstr "数据损坏"
+
+#: ulng.rsmsgerrdatenotsupported
+msgid "Date %s is not supported"
+msgstr ""
 
 #: ulng.rsmsgerrdirexists
 msgid "Directory %s exists!"
@@ -3801,6 +3820,14 @@ msgstr "不能删除文件 %s"
 msgid "Not implemented."
 msgstr "没有实现。"
 
+#: ulng.rsmsgpassword
+msgid "Password:"
+msgstr ""
+
+#: ulng.rsmsgpasswordfirewall
+msgid "Password (Firewall):"
+msgstr ""
+
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
 msgstr "添加(&A) %s"
@@ -3845,9 +3872,25 @@ msgstr "选择下一卷位置"
 msgid "Set volume label"
 msgstr "设置卷标"
 
+#: ulng.rsmsgtargetdir
+msgid "Target path:"
+msgstr ""
+
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "选择了太多文件"
+
+#: ulng.rsmsgurl
+msgid "URL:"
+msgstr ""
+
+#: ulng.rsmsgusername
+msgid "User name:"
+msgstr ""
+
+#: ulng.rsmsgusernamefirewall
+msgid "User name (Firewall):"
+msgstr ""
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
@@ -3975,6 +4018,22 @@ msgstr "允许"
 #: ulng.rsoptenterext
 msgid "Enter extension"
 msgstr "输入扩张名"
+
+#: ulng.rsoptexamplecursor
+msgid "Cursor"
+msgstr ""
+
+#: ulng.rsoptexamplemark
+msgid "Mark"
+msgstr ""
+
+#: ulng.rsoptexamplemarkcursor
+msgid "Mark + Cursor"
+msgstr ""
+
+#: ulng.rsoptexampletext
+msgid "Text"
+msgstr ""
 
 #: ulng.rsoptfileop
 msgid "File operations"
