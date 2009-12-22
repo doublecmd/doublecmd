@@ -71,7 +71,7 @@ implementation
 
 uses
   LCLProc, Masks, FileUtil, contnrs, uOSUtils, uDCUtils, WcxPlugin,
-  uFileSourceOperationUI, uWCXmodule, uFileProcs, uLng, uTypes;
+  uFileSourceOperationUI, uWCXmodule, uFileProcs, uLng, uDateTimeUtils, uTypes;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
