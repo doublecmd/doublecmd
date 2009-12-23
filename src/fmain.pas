@@ -409,7 +409,6 @@ type
 
     function FileViewBeforeChangeDirectory(Sender: TFileView; const NewDir : String): Boolean;
     procedure FileViewAfterChangeDirectory(Sender: TFileView; const NewDir : String);
-    procedure FileViewChangeActiveFile(Sender: TFileView; const aFile : TFile);
     procedure FileViewChangeFileSource(Sender: TFileView);
     procedure FileViewActivate(Sender: TFileView);
     procedure FileViewReload(Sender: TFileView);
@@ -546,8 +545,7 @@ uses
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSystemCopyOperation, uFileSystemMoveOperation,
   uArchiveFileSource, uShellExecute, uActs, uFileSystemFile, uFileSourceOperation,
-  fSymLink, fHardLink, uExceptions, uUniqueInstance, uTempFileSystemFileSource,
-  uFileSourceProperty
+  fSymLink, fHardLink, uExceptions, uUniqueInstance
   {$IFDEF LCLQT}
     , qtwidgets
   {$ENDIF}
@@ -2275,60 +2273,6 @@ begin
       UpdateFreeSpace(ANoteBook.Side);
       UpdatePrompt;
     end;
-end;
-
-procedure TfrmMain.FileViewChangeActiveFile(Sender: TFileView; const aFile : TFile);
-var
-  ActiveFile: TFile = nil;
-  TempFiles: TFiles = nil;
-  TempFileSource: ITempFileSystemFileSource = nil;
-  Operation: TFileSourceOperation;
-  aFileSource: IFileSource;
-begin
-  try
-  // If files not directly accessible copy them to temp file source.
-   if not (fspDirectAccess in Sender.FileSource.Properties) then
-   begin
-     if not (fsoCopyOut in Sender.FileSource.GetOperationsTypes) then
-     begin
-       Exit;
-     end;
-     ActiveFile:= aFile.Clone;
-     TempFiles := Sender.FileSource.CreateFiles;
-     TempFiles.Add(aFile);
-     TempFileSource := TTempFileSystemFileSource.GetFileSource;
-
-     Operation := ActiveFrame.FileSource.CreateCopyOutOperation(
-                      TempFileSource,
-                      TempFiles,
-                      TempFileSource.FileSystemRoot);
-
-     if Assigned(Operation) then
-     begin
-       Operation.Execute;
-       FreeAndNil(Operation);
-
-       aFileSource := TempFileSource;
-       ActiveFile.Path:= TempFileSource.FileSystemRoot;
-     end
-     else
-     begin
-       Exit;
-     end;
-   end
-   else
-   begin
-     // We can use the file source directly.
-     aFileSource := ActiveFrame.FileSource;
-     ActiveFile:= aFile.Clone;
-   end;
-
-  QuickViewLoadFile(ActiveFile.FullPath, aFileSource);
-
-  finally
-    FreeThenNil(TempFiles);
-    FreeThenNil(ActiveFile);
-  end;
 end;
 
 procedure TfrmMain.FileViewChangeFileSource(Sender: TFileView);

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, ExtCtrls, fViewer,
-  uFileViewNotebook, uFileSource;
+  uFileViewNotebook, uFile, uFileSource, uFileView;
 
 type
 
@@ -23,10 +23,10 @@ type
     destructor Destroy; override;
     procedure CreateViewer(aFileSource: IFileSource);
     procedure LoadFile(const aFileName: UTF8String);
+    procedure FileViewChangeActiveFile(Sender: TFileView; const aFile : TFile);
   end;
 
 procedure QuickViewShow(aFileViewPage: TFileViewPage; const aFileSource: IFileSource);
-procedure QuickViewLoadFile(const aFileName: UTF8String; const aFileSource: IFileSource);
 procedure QuickViewClose;
 
 var
@@ -35,24 +35,13 @@ var
 implementation
 
 uses
-  LCLProc, Forms, Controls;
+  LCLProc, Forms, Controls, uTempFileSystemFileSource,
+  uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes;
 
 procedure QuickViewShow(aFileViewPage: TFileViewPage; const aFileSource: IFileSource);
 begin
   QuickViewPanel:= TQuickViewPanel.Create(Application, aFileViewPage);
   QuickViewPanel.CreateViewer(aFileSource);
-end;
-
-procedure QuickViewLoadFile(const aFileName: UTF8String; const aFileSource: IFileSource);
-begin
-  {
-  if (not QuickViewPanel.FFileSource.IsInterface(aFileSource)) then
-    begin
-      QuickViewPanel.FViewer.Close;
-      QuickViewPanel.CreateViewer(aFileSource);
-    end;
-  }
-  QuickViewPanel.LoadFile(aFileName);
 end;
 
 procedure QuickViewClose;
@@ -81,13 +70,14 @@ end;
 
 procedure TQuickViewPanel.CreateViewer(aFileSource: IFileSource);
 begin
-  FViewer:= TfrmViewer.Create(Self, aFileSource);
+  FViewer:= TfrmViewer.Create(Self, nil);
   FViewer.Parent:= Self;
   FViewer.BorderStyle:= bsNone;
   FViewer.Menu:= nil;
   FViewer.Align:= alClient;
   FViewer.QuickView:= True;
   FFirstFile:= True;
+  FFileSource:= aFileSource;
   FFileViewPage.FileView.Visible:= False;
 end;
 
@@ -103,6 +93,57 @@ begin
     begin
       FViewer.LoadNextFile(aFileName);
     end;
+end;
+
+procedure TQuickViewPanel.FileViewChangeActiveFile(Sender: TFileView; const aFile: TFile);
+var
+  ActiveFile: TFile = nil;
+  TempFiles: TFiles = nil;
+  TempFileSource: ITempFileSystemFileSource = nil;
+  Operation: TFileSourceOperation = nil;
+begin
+  try
+    // If files not directly accessible copy them to temp file source.
+    if not (fspDirectAccess in Sender.FileSource.Properties) then
+      begin
+        if not (fsoCopyOut in Sender.FileSource.GetOperationsTypes) then Exit;
+
+       ActiveFile:= aFile.Clone;
+       TempFiles:= Sender.FileSource.CreateFiles;
+       TempFiles.Path:= Sender.CurrentPath;
+       TempFiles.Add(aFile.Clone);
+
+       if FFileSource.IsClass(TTempFileSystemFileSource) then
+         TempFileSource := (FFileSource as ITempFileSystemFileSource)
+       else
+         TempFileSource := TTempFileSystemFileSource.GetFileSource;
+
+       Operation := Sender.FileSource.CreateCopyOutOperation(
+                        TempFileSource,
+                        TempFiles,
+                        TempFileSource.FileSystemRoot);
+
+       if not Assigned(Operation) then Exit;
+
+       Operation.Execute;
+       FreeAndNil(Operation);
+
+       FFileSource := TempFileSource;
+       ActiveFile.Path:= TempFileSource.FileSystemRoot;
+     end
+   else
+     begin
+       // We can use the file source directly.
+       FFileSource := Sender.FileSource;
+       ActiveFile:= aFile.Clone;
+     end;
+
+  LoadFile(ActiveFile.FullPath);
+
+  finally
+    FreeThenNil(TempFiles);
+    FreeThenNil(ActiveFile);
+  end;
 end;
 
 end.
