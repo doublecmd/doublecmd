@@ -77,7 +77,7 @@ const
 implementation
 
 uses
-  SysUtils, uLng, uFindEx, uDCUtils, uOSUtils, uGlobs;
+  SysUtils, uLng, uFindEx, uDCUtils, uOSUtils, uGlobs, uDateTimeUtils;
 
 { TFileOpThread }
 
@@ -119,7 +119,7 @@ begin
 
     fr.iSize:= sr.Size;
     fr.iMode:= sr.Attr;
-    fr.fTimeI:= FileDateToDateTime(sr.Time);
+    fr.fTimeI:= FileTimeToDateTime(sr.Time);
 
     fr.sTime:='';   // not interested
     

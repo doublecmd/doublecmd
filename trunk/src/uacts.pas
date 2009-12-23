@@ -1275,8 +1275,8 @@ begin
     else if (param <> 'Close') then
       begin
         QuickViewShow(NotActiveNotebook.ActivePage, ActiveFrame.FileSource);
-        FileViewChangeActiveFile(ActiveFrame, ActiveFrame.ActiveFile);
-        ActiveFrame.OnChangeActiveFile:= @FileViewChangeActiveFile;
+        QuickViewPanel.FileViewChangeActiveFile(ActiveFrame, ActiveFrame.ActiveFile);
+        ActiveFrame.OnChangeActiveFile:= @QuickViewPanel.FileViewChangeActiveFile;
       end;
   end;
 end;
