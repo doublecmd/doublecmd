@@ -185,6 +185,7 @@ const cf_Null=0;
    procedure cm_Rename(param: string='');
    procedure cm_RenameNoAsk(param: string='');
    procedure cm_View(param: string='');
+   procedure cm_QuickView(param: string='');
    procedure cm_CopyNamesToClip(param: string='');
    procedure cm_FocusCmdLine(param: string='');
    procedure cm_FileAssoc(param: string='');
@@ -255,7 +256,7 @@ uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uGlobsPaths,
      uClassesEx, uShowForm, uShellExecute, uClipboard, uHash,
-     uFilePanelSelect, uFile, uFileSystemFileSource,
+     uFilePanelSelect, uFile, uFileSystemFileSource, uQuickViewPanel,
      uOperationsManager, uFileSourceOperationTypes,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
@@ -1259,6 +1260,24 @@ begin
       FreeAndNil(SelectedFiles);
     if Assigned(TempFiles) then
       FreeAndNil(TempFiles);
+  end;
+end;
+
+procedure TActs.cm_QuickView(param: string);
+begin
+  with frmMain do
+  begin
+    if Assigned(QuickViewPanel) then
+      begin
+        ActiveFrame.OnChangeActiveFile:= nil;
+        QuickViewClose;
+      end
+    else if (param <> 'Close') then
+      begin
+        QuickViewShow(NotActiveNotebook.ActivePage, ActiveFrame.FileSource);
+        FileViewChangeActiveFile(ActiveFrame, ActiveFrame.ActiveFile);
+        ActiveFrame.OnChangeActiveFile:= @FileViewChangeActiveFile;
+      end;
   end;
 end;
 

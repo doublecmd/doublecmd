@@ -14,7 +14,7 @@ type
 
   TOnBeforeChangeDirectory = function (FileView: TFileView; const NewDir : String): Boolean of object;
   TOnAfterChangeDirectory = procedure (FileView: TFileView; const NewDir : String) of object;
-  TOnChangeActiveFile = procedure (FileView: TFileView; const NewFile : String) of object;
+  TOnChangeActiveFile = procedure (FileView: TFileView; const aFile : TFile) of object;
   TOnChangeFileSource = procedure (FileView: TFileView) of object;
   TOnActivate = procedure (aFileView: TFileView) of object;
   TOnReload = procedure (aFileView: TFileView) of object;

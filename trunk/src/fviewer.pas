@@ -116,7 +116,8 @@ type
     FileList: TStringList;
     iActiveFile:Integer;
     bImage,
-    bPlugin: Boolean;
+    bPlugin,
+    bQuickView: Boolean;
     FFindDialog:TfrmFindView;
     FFileSource: IFileSource;
     FLastSearchPos: PtrInt;
@@ -138,7 +139,9 @@ type
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource); reintroduce;
     destructor Destroy; override;
     procedure LoadFile(const aFileName: UTF8String);
+    procedure LoadNextFile(const aFileName: UTF8String);
     procedure LoadFile(iIndex:Integer);
+    property QuickView: Boolean read bQuickView write bQuickView;
   end;
 
 
@@ -165,14 +168,15 @@ const
 
 procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource);
 var
-  viewer: TfrmViewer;
+  Viewer: TfrmViewer;
 begin
   //DebugLn('ShowViewer - Using Internal');
-  viewer := TfrmViewer.Create(Application, aFileSource);
-  gViewerPos.Restore(viewer);
-  viewer.FileList.Assign(FilesToView); // Make a copy of the list
-  viewer.LoadFile(0);
-  viewer.Show;
+  Viewer := TfrmViewer.Create(Application, aFileSource);
+  Viewer.QuickView:= False;
+  gViewerPos.Restore(Viewer);
+  Viewer.FileList.Assign(FilesToView); // Make a copy of the list
+  Viewer.LoadFile(0);
+  Viewer.Show;
 end;
 
 constructor TfrmViewer.Create(TheOwner: TComponent; aFileSource: IFileSource);
@@ -225,6 +229,17 @@ begin
   finally
     Screen.Cursor:=crDefault;
   end;
+end;
+
+procedure TfrmViewer.LoadNextFile(const aFileName: UTF8String);
+begin
+  if bPlugin then
+    begin
+      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, aFileName, 0) <> LISTPLUGIN_ERROR then
+        Exit;
+    end;
+
+  LoadFile(aFileName);
 end;
 
 procedure TfrmViewer.LoadFile(iIndex: Integer);
@@ -811,7 +826,7 @@ begin
   end
   else if Panel = pnlText then
   begin
-    if CanFocus and pnlText.CanFocus and ViewerControl.CanFocus then
+    if (not bQuickView) and CanFocus and pnlText.CanFocus and ViewerControl.CanFocus then
       ViewerControl.SetFocus;
 
     case ViewerControl.ViewerMode of

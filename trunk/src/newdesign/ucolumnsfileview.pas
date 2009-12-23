@@ -1019,7 +1019,7 @@ procedure TColumnsFileView.dgPanelSelection(Sender: TObject; aCol, aRow: Integer
 begin
   if Assigned(OnChangeActiveFile) and (FLastActiveRow <> aRow) then
     begin
-      OnChangeActiveFile(Self, ActiveFile.FullPath);
+      OnChangeActiveFile(Self, ActiveFile);
       FLastActiveRow:= aRow;
     end;
 end;
