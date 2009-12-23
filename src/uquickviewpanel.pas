@@ -102,6 +102,7 @@ var
   TempFileSource: ITempFileSystemFileSource = nil;
   Operation: TFileSourceOperation = nil;
 begin
+  if not (Assigned(aFile) and (aFile.Name <> '..')) then Exit;
   try
     // If files not directly accessible copy them to temp file source.
     if not (fspDirectAccess in Sender.FileSource.Properties) then
