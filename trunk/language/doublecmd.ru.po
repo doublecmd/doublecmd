@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-12-22 17:14+0300\n"
+"PO-Revision-Date: 2009-12-23 18:32+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -109,7 +109,7 @@ msgstr ""
 #: TFRMCHECKSUMCALC.BTNCANCEL.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
 #: TFRMCHECKSUMCALC.BTNOK.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
@@ -1045,7 +1045,7 @@ msgstr "В каталоге:"
 
 #: TFRMFINDDLG.LBLFOUND.CAPTION
 msgid "Found"
-msgstr ""
+msgstr "Найден"
 
 #: TFRMFINDDLG.LBLINFO.CAPTION
 msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
@@ -1204,7 +1204,7 @@ msgstr "Копировать имена &файлов в буфер"
 
 #: TFRMMAIN.ACTCOPYNOASK.CAPTION
 msgid "Copy files without asking for confirmation"
-msgstr ""
+msgstr "Копирует файлы без запроса подтверждения"
 
 #: TFRMMAIN.ACTCOPYSAMEPANEL.CAPTION
 msgid "Copy to same panel"
@@ -1299,7 +1299,7 @@ msgstr "Горячие клавиши"
 
 #: TFRMMAIN.ACTLEFTEQUALRIGHT.CAPTION
 msgid "Left &= Right"
-msgstr ""
+msgstr "Левая &= Правая"
 
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
@@ -1356,11 +1356,11 @@ msgstr "Открыть"
 
 #: TFRMMAIN.ACTOPENARCHIVE.CAPTION
 msgid "Try open archive"
-msgstr ""
+msgstr "Попробовать открыть архив"
 
 #: TFRMMAIN.ACTOPENBAR.CAPTION
 msgid "Open bar file"
-msgstr ""
+msgstr "Открыть bar файл"
 
 #: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
 msgid "Open folder in new tab"
@@ -1381,7 +1381,7 @@ msgstr "Упаковать..."
 
 #: TFRMMAIN.ACTPANELSSPLITTERPERPOS.CAPTION
 msgid "Set splitter position"
-msgstr ""
+msgstr "Установить позицию разделителя"
 
 #: TFRMMAIN.ACTPASTEFROMCLIPBOARD.CAPTION
 msgid "&Paste"
@@ -1402,7 +1402,7 @@ msgstr "Быстрый поиск"
 
 #: TFRMMAIN.ACTQUICKVIEW.CAPTION
 msgid "Quick View Panel"
-msgstr ""
+msgstr "Быстрый просмотр"
 
 #: TFRMMAIN.ACTREFRESH.CAPTION
 msgid "&Refresh"
@@ -1422,7 +1422,7 @@ msgstr "Переместить F6"
 
 #: TFRMMAIN.ACTRENAMENOASK.CAPTION
 msgid "Move/Rename files without asking for confirmation"
-msgstr ""
+msgstr "Перемещает файлы без запроса подтверждения"
 
 #: TFRMMAIN.ACTRENAMEONLY.CAPTION
 msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
@@ -1435,7 +1435,7 @@ msgstr "Обратный п&орядок"
 
 #: TFRMMAIN.ACTRIGHTEQUALLEFT.CAPTION
 msgid "Right &= Left"
-msgstr ""
+msgstr "Правая &= Левая"
 
 #: TFRMMAIN.ACTRIGHTOPENDRIVES.CAPTION
 msgid "Open right drive list"
@@ -1494,7 +1494,7 @@ msgstr "&Атрибуты"
 
 #: TFRMMAIN.ACTSORTBYCOLUMN.CAPTION
 msgid "Sort by column"
-msgstr ""
+msgstr "Сортировать по колонке"
 
 #: TFRMMAIN.ACTSORTBYDATE.CAPTION
 msgid "Sort by date"
@@ -1556,7 +1556,7 @@ msgstr ""
 
 #: TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.HINT
 msgid "Directory hotlist"
-msgstr ""
+msgstr "Избранные каталоги"
 
 #: TFRMMAIN.BTNLEFTHOME.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTHOME.CAPTION"
@@ -1583,7 +1583,7 @@ msgstr ""
 
 #: TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.HINT
 msgid "Show same directory in opposite panel"
-msgstr ""
+msgstr "Открыть текущий каталог в противоположной панели"
 
 #: TFRMMAIN.BTNLEFTUP.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTUP.CAPTION"
@@ -1592,7 +1592,7 @@ msgstr ""
 
 #: TFRMMAIN.BTNLEFTUP.HINT
 msgid "Go to parent directory"
-msgstr ""
+msgstr "Перейти в вышестоящий диалог"
 
 #: TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.CAPTION
 msgctxt "TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.CAPTION"
@@ -2412,7 +2412,7 @@ msgstr "Имя &текущего каталога"
 
 #: TFRMOPTIONS.CBSHOWDIALOGONDRAGDROP.CAPTION
 msgid "Show confirmation dialog on drag&&drop operations"
-msgstr ""
+msgstr "Показывать диалог подтверждения при операциях Drag&&Drop"
 
 #: TFRMOPTIONS.CBSHOWDISKPANEL.CAPTION
 msgid "Show &drive buttons"
@@ -3321,7 +3321,7 @@ msgstr "&Найти..."
 
 #: TFRMVIEWER.MISEARCHNEXT.CAPTION
 msgid "Search next"
-msgstr ""
+msgstr "Найти далее"
 
 #: TFRMVIEWER.MISEARCHPREV.CAPTION
 msgid "Search prev"
@@ -3531,7 +3531,7 @@ msgstr "Найдено: %d"
 
 #: ulng.rsfindsavetemplatecaption
 msgid "Save search template"
-msgstr ""
+msgstr "Сохранить поисковый шаблон"
 
 #: ulng.rsfindsavetemplatetitle
 msgid "Template name:"
@@ -3543,7 +3543,7 @@ msgstr "Просмотрено: %d"
 
 #: ulng.rsfindscanning
 msgid "Scanning"
-msgstr ""
+msgstr "Сканирование"
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
@@ -3734,7 +3734,7 @@ msgstr "Ошибка синтаксиса в регулярном выражен
 
 #: ulng.rsmsgerrrename
 msgid "Cannot rename file %s to %s"
-msgstr ""
+msgstr "Невозможно переименовать файл %s в %s"
 
 #: ulng.rsmsgerrsetattribute
 msgid "Can not set attributes for \"%s\""
@@ -3834,19 +3834,19 @@ msgstr "Создание символьной ссылки %s"
 
 #: ulng.rsmsgmanualaddhotdir
 msgid "Manually add hot path"
-msgstr ""
+msgstr "Добавить избранный каталог"
 
 #: ulng.rsmsgmanualedithotdir
 msgid "Manualy edit hot path"
-msgstr ""
+msgstr "Редактировать избранный каталог"
 
 #: ulng.rsmsgmanualhotdirquery
 msgid "Enter name and path (format name=path):"
-msgstr ""
+msgstr "Введите имя и путь (формат имя=путь):"
 
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
-msgstr ""
+msgstr "Мастер пароль:"
 
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
@@ -3882,7 +3882,7 @@ msgstr "Не реализовано."
 
 #: ulng.rsmsgpassword
 msgid "Password:"
-msgstr ""
+msgstr "Пароль:"
 
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
@@ -3902,7 +3902,7 @@ msgstr "Удалить %s"
 
 #: ulng.rsmsgpresetalreadyexists
 msgid "Preset \"%s\" already exists. Overwrite?"
-msgstr ""
+msgstr "Шаблон \"%s\" существует. Перезаписать?"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
@@ -3938,7 +3938,7 @@ msgstr ""
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
-msgstr ""
+msgstr "Выделено слишком много файлов"
 
 #: ulng.rsmsgurl
 msgid "URL:"
@@ -3946,7 +3946,7 @@ msgstr ""
 
 #: ulng.rsmsgusername
 msgid "User name:"
-msgstr ""
+msgstr "Имя пользователя:"
 
 #: ulng.rsmsgusernamefirewall
 msgid "User name (Firewall):"
@@ -4080,19 +4080,19 @@ msgstr "Введите расширение"
 
 #: ulng.rsoptexamplecursor
 msgid "Cursor"
-msgstr ""
+msgstr "Курсор"
 
 #: ulng.rsoptexamplemark
 msgid "Mark"
-msgstr ""
+msgstr "Выделение"
 
 #: ulng.rsoptexamplemarkcursor
 msgid "Mark + Cursor"
-msgstr ""
+msgstr "Выделение + Курсор"
 
 #: ulng.rsoptexampletext
 msgid "Text"
-msgstr ""
+msgstr "Текст"
 
 #: ulng.rsoptfileop
 msgid "File operations"
