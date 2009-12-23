@@ -43,8 +43,7 @@ type
                         log_vfs_op, log_success, log_errors, log_info);
   { Watch dirs options }
   TWatchOptions = set of (watch_file_name_change, watch_attributes_change,
-                          watch_only_foreground, watch_total_number_files,
-                          watch_free_disk_space);
+                          watch_only_foreground, watch_exclude_dirs);
   { Tabs options }
   TTabsOptions = set of (tb_always_visible, tb_multiple_lines, tb_same_width,
                          tb_text_length_limit, tb_confirm_close_all,

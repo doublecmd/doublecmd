@@ -3141,121 +3141,105 @@ object frmOptions: TfrmOptions
         end
       end
       object pgAutoRefresh: TPage
-        ClientWidth = 524
-        ClientHeight = 501
-        object gbAutoRefresh: TGroupBox
+        ClientWidth = 528
+        ClientHeight = 505
+        object gbAutoRefreshEnable: TGroupBox
           AnchorSideLeft.Control = pgAutoRefresh
           AnchorSideTop.Control = pgAutoRefresh
           AnchorSideRight.Control = pgAutoRefresh
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 200
-          Top = 10
-          Width = 504
+          Height = 77
+          Top = 5
+          Width = 508
           Anchors = [akTop, akLeft, akRight]
           AutoSize = True
           BorderSpacing.Left = 10
-          BorderSpacing.Top = 10
+          BorderSpacing.Top = 5
           BorderSpacing.Right = 10
-          Caption = 'Auto-Refresh when the file system changes'
-          ChildSizing.TopBottomSpacing = 6
-          ClientHeight = 182
-          ClientWidth = 500
+          Caption = 'Refresh file list'
+          ChildSizing.LeftRightSpacing = 10
+          ChildSizing.TopBottomSpacing = 5
+          ChildSizing.VerticalSpacing = 3
+          ChildSizing.Layout = cclLeftToRightThenTopToBottom
+          ClientHeight = 57
+          ClientWidth = 504
           TabOrder = 0
-          object lblWatchExcludeDrives: TLabel
-            AnchorSideLeft.Control = gbAutoRefresh
-            AnchorSideTop.Control = cbWatchFreeSpace
-            AnchorSideTop.Side = asrBottom
-            Left = 12
-            Height = 20
-            Top = 121
-            Width = 195
-            BorderSpacing.Left = 12
-            BorderSpacing.Top = 6
-            Caption = 'No refresh for &these drives:'
-            FocusControl = edtWatchExcludeDrives
-            ParentColor = False
-          end
           object cbWatchFileNameChange: TCheckBox
-            AnchorSideLeft.Control = gbAutoRefresh
-            AnchorSideTop.Control = gbAutoRefresh
-            Left = 12
-            Height = 17
-            Top = 6
-            Width = 270
-            BorderSpacing.Left = 12
-            BorderSpacing.Top = 6
-            Caption = 'Refresh when files are &created, deleted and renamed'
+            Left = 10
+            Height = 22
+            Top = 5
+            Width = 288
+            Caption = 'When files are &created, deleted or renamed'
+            OnChange = OnAutoRefreshOptionChanged
             TabOrder = 0
           end
           object cbWatchAttributesChange: TCheckBox
-            AnchorSideLeft.Control = gbAutoRefresh
-            AnchorSideTop.Control = cbWatchFileNameChange
-            AnchorSideTop.Side = asrBottom
-            Left = 12
-            Height = 17
-            Top = 29
-            Width = 217
-            BorderSpacing.Left = 12
-            BorderSpacing.Top = 6
-            Caption = 'Also when &size, date, or attributes change'
+            Left = 10
+            Height = 22
+            Top = 30
+            Width = 288
+            Caption = 'When &size, date or attributes change'
+            OnChange = OnAutoRefreshOptionChanged
             TabOrder = 1
           end
+        end
+        object gbAutoRefreshDisable: TGroupBox
+          AnchorSideLeft.Control = gbAutoRefreshEnable
+          AnchorSideTop.Control = gbAutoRefreshEnable
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = gbAutoRefreshEnable
+          AnchorSideRight.Side = asrBottom
+          Left = 10
+          Height = 110
+          Top = 86
+          Width = 508
+          Anchors = [akTop, akLeft, akRight]
+          AutoSize = True
+          BorderSpacing.Top = 4
+          Caption = 'Disable auto-refresh'
+          ChildSizing.LeftRightSpacing = 10
+          ChildSizing.TopBottomSpacing = 5
+          ChildSizing.VerticalSpacing = 3
+          ClientHeight = 90
+          ClientWidth = 504
+          TabOrder = 1
           object cbWatchOnlyForeground: TCheckBox
-            AnchorSideLeft.Control = gbAutoRefresh
-            AnchorSideTop.Control = cbWatchAttributesChange
-            AnchorSideTop.Side = asrBottom
-            Left = 12
-            Height = 17
-            Top = 52
-            Width = 241
-            BorderSpacing.Left = 12
-            BorderSpacing.Top = 6
-            Caption = 'Don''t &react to updates while in the background'
-            TabOrder = 2
+            AnchorSideLeft.Control = gbAutoRefreshDisable
+            AnchorSideTop.Control = gbAutoRefreshDisable
+            Left = 10
+            Height = 22
+            Top = 5
+            Width = 258
+            Caption = 'When application is in the &background'
+            TabOrder = 0
           end
-          object cbWatchFileCount: TCheckBox
-            AnchorSideLeft.Control = gbAutoRefresh
+          object cbWatchExcludeDirs: TCheckBox
+            AnchorSideLeft.Control = cbWatchOnlyForeground
             AnchorSideTop.Control = cbWatchOnlyForeground
             AnchorSideTop.Side = asrBottom
-            Left = 12
-            Height = 17
-            Top = 75
-            Width = 185
-            BorderSpacing.Left = 12
-            BorderSpacing.Top = 6
-            Caption = 'Update &footer (total number of files)'
-            TabOrder = 3
+            Left = 10
+            Height = 22
+            Top = 30
+            Width = 316
+            Caption = 'For the following &paths and their subdirectories:'
+            OnChange = cbWatchExcludeDirsChange
+            TabOrder = 1
           end
-          object cbWatchFreeSpace: TCheckBox
-            AnchorSideLeft.Control = gbAutoRefresh
-            AnchorSideTop.Control = cbWatchFileCount
+          object edtWatchExcludeDirs: TEdit
+            AnchorSideLeft.Control = cbWatchExcludeDirs
+            AnchorSideTop.Control = cbWatchExcludeDirs
             AnchorSideTop.Side = asrBottom
-            Left = 12
-            Height = 17
-            Top = 98
-            Width = 172
-            BorderSpacing.Left = 12
-            BorderSpacing.Top = 6
-            Caption = 'Update &header (free disk space)'
-            TabOrder = 4
-          end
-          object edtWatchExcludeDrives: TEdit
-            AnchorSideLeft.Control = lblWatchExcludeDrives
-            AnchorSideLeft.Side = asrBottom
-            AnchorSideTop.Control = lblWatchExcludeDrives
-            AnchorSideTop.Side = asrCenter
-            AnchorSideRight.Control = gbAutoRefresh
+            AnchorSideRight.Control = gbAutoRefreshDisable
             AnchorSideRight.Side = asrBottom
-            Left = 213
-            Height = 27
-            Top = 118
-            Width = 275
+            Left = 30
+            Height = 26
+            Top = 55
+            Width = 464
             Anchors = [akTop, akLeft, akRight]
-            BorderSpacing.Left = 6
-            BorderSpacing.Top = 6
-            BorderSpacing.Right = 12
-            TabOrder = 5
+            BorderSpacing.Left = 20
+            BorderSpacing.Bottom = 15
+            TabOrder = 2
           end
         end
       end

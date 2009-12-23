@@ -173,9 +173,6 @@ type
     fPrevious : Boolean;
     FFileFilter: String;
 
-    fUpdateFileCount,
-    fUpdateDiskFreeSpace: Boolean;
-
     FSorting: TFileListSorting;
     FSortColumn: Integer;
     FSortDirection: TSortDirection;
@@ -1215,8 +1212,6 @@ var
   SizeProperty: TFileSizeProperty;
   SizeSupported: Boolean;
 begin
-  if not fUpdateFileCount then Exit;
-
   FilesInDir := 0;
   FilesSelected := 0;
   SizeInDir := 0;
@@ -1586,8 +1581,6 @@ var
   SizeProperty: TFileSizeProperty;
   SizeSupported: Boolean;
 begin
-  if not fUpdateFileCount then Exit;
-
   FilesInDir := 0;
   FilesSelected := 0;
   SizeInDir := 0;
@@ -2323,9 +2316,6 @@ begin
   FLastActive := '';
   FActive := False;
 
-  FUpdateFileCount := True;
-  FUpdateDiskFreeSpace := True;
-
   FSorting := nil;
   // default to sorting by 0-th column
   FSortColumn := 0;
@@ -2522,8 +2512,6 @@ begin
       fSearchDirect,
       fNext,
       fPrevious : Boolean;
-      fUpdateFileCount,
-      fUpdateDiskFreeSpace: Boolean;
       }
 
       FSorting := Self.FSorting.Clone;

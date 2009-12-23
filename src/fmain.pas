@@ -2748,7 +2748,7 @@ begin
   if (watch_attributes_change in gWatchDirs) then
     Include(WatchFilter, wfAttributesChange);
 
-  if (gWatchDirs <> []) and (FrameLeft.FileSource.IsClass(TFileSystemFileSource)) then
+  if (WatchFilter <> []) and (FrameLeft.FileSource.IsClass(TFileSystemFileSource)) then
     begin
       if not Assigned(LeftFrameWatcher) then
         begin
@@ -2763,7 +2763,7 @@ begin
         FreeAndNil(LeftFrameWatcher);
     end;
 
-  if (gWatchDirs <> []) and (FrameRight.FileSource.IsClass(TFileSystemFileSource)) then
+  if (WatchFilter <> []) and (FrameRight.FileSource.IsClass(TFileSystemFileSource)) then
     begin
       if not Assigned(RightFrameWatcher) then
         begin
@@ -3021,7 +3021,7 @@ begin
   if not Assigned(FileView) then Exit;
 
   // if current path in exclude list then exit
-  if gWatchDirsExclude <> '' then
+  if (watch_exclude_dirs in gWatchDirs) and (gWatchDirsExclude <> '') then
     begin
       sWatchDirsExclude:= gWatchDirsExclude;
       repeat

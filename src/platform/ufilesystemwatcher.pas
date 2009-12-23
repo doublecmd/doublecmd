@@ -383,7 +383,7 @@ end;
 
 function IsFileSystemWatcher: Boolean;
 begin
-  Result := (gWatchDirs <> []);
+  Result := ([watch_file_name_change, watch_attributes_change] * gWatchDirs <> []);
 end;
 
 end.

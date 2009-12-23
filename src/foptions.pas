@@ -127,6 +127,7 @@ type
     cbShowDialogOnDragDrop: TCheckBox;
     cbListFilesInThread: TCheckBox;
     cbLoadIconsSeparately: TCheckBox;
+    cbWatchExcludeDirs: TCheckBox;
     chkAutoFillColumns: TCheckBox;
     cmbTabsPosition: TComboBox;
     cmbAutoSizeColumn: TComboBox;
@@ -184,8 +185,9 @@ type
     gbMisc4: TGroupBox;
     gbShowGrid: TGroupBox;
     gbExtended: TGroupBox;
-    gbAutoRefresh: TGroupBox;
     gbShowIconsMode: TGroupBox;
+    gbAutoRefreshEnable: TGroupBox;
+    gbAutoRefreshDisable: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
     lblAutoSizeColumn: TLabel;
     lblQuickSearch: TLabel;
@@ -304,10 +306,7 @@ type
     tsWFX: TTabSheet;
     tvTreeView: TTreeView;
     cbWatchFileNameChange: TCheckBox;
-    edtWatchExcludeDrives: TEdit;
-    lblWatchExcludeDrives: TLabel;
-    cbWatchFileCount: TCheckBox;
-    cbWatchFreeSpace: TCheckBox;
+    edtWatchExcludeDirs: TEdit;
     cbWatchOnlyForeground: TCheckBox;
     cbWatchAttributesChange: TCheckBox;
     procedure bbtnAddCategoryClick(Sender: TObject);
@@ -322,6 +321,8 @@ type
     procedure cbAlwaysShowTrayIconChange(Sender: TObject);
     procedure cbIconsSizeChange(Sender: TObject);
     procedure cbListFilesInThreadChange(Sender: TObject);
+    procedure cbWatchExcludeDirsChange(Sender: TObject);
+    procedure OnAutoRefreshOptionChanged(Sender: TObject);
     procedure edHotKeyKeyPress(Sender: TObject; var Key: char);
     procedure fneExtDifferChange(Sender: TObject);
     procedure fneExtEditorChange(Sender: TObject);
@@ -1780,6 +1781,17 @@ begin
   cbLoadIconsSeparately.Enabled := cbListFilesInThread.Checked;
 end;
 
+procedure TfrmOptions.cbWatchExcludeDirsChange(Sender: TObject);
+begin
+  edtWatchExcludeDirs.Enabled := cbWatchExcludeDirs.Checked;
+end;
+
+procedure TfrmOptions.OnAutoRefreshOptionChanged(Sender: TObject);
+begin
+  gbAutoRefreshDisable.Enabled := cbWatchFileNameChange.Checked or
+                                  cbWatchAttributesChange.Checked;
+end;
+
 procedure TfrmOptions.edHotKeyKeyPress(Sender: TObject; var Key: char);
 begin
   Key := #0;
@@ -2225,19 +2237,23 @@ begin
 
   cbExactBeginning.Checked := gQuickSearchMatchBeginning;
   cbExactEnding.Checked := gQuickSearchMatchEnding;
+
   { Misc page }
   cbGridVertLine.Checked:= gGridVertLine;
   cbGridHorzLine.Checked:= gGridHorzLine;
   cbShowWarningMessages.Checked:= gShowWarningMessages;
   cbSpaceMovesDown.Checked:= gSpaceMovesDown;
   cbDirBrackets.Checked:= gDirBrackets;
+
   { Auto refresh }
   cbWatchFileNameChange.Checked := (watch_file_name_change in gWatchDirs);
   cbWatchAttributesChange.Checked := (watch_attributes_change in gWatchDirs);
   cbWatchOnlyForeground.Checked := (watch_only_foreground in gWatchDirs);
-  cbWatchFileCount.Checked := (watch_total_number_files in gWatchDirs);
-  cbWatchFreeSpace.Checked := (watch_free_disk_space in gWatchDirs);
-  edtWatchExcludeDrives.Text:= gWatchDirsExclude;
+  cbWatchExcludeDirs.Checked := (watch_exclude_dirs in gWatchDirs);
+  edtWatchExcludeDirs.Text := gWatchDirsExclude;
+  OnAutoRefreshOptionChanged(nil);
+  cbWatchExcludeDirsChange(nil);
+
   { Icons sizes in file panels }
   case gShowIconsNew of
     sim_none: rbIconsShowNone.Checked:= True;
@@ -2443,11 +2459,9 @@ begin
     Include(gWatchDirs, watch_attributes_change);
   if cbWatchOnlyForeground.Checked then
     Include(gWatchDirs, watch_only_foreground);
-  if cbWatchFileCount.Checked then
-    Include(gWatchDirs, watch_total_number_files);
-  if cbWatchFreeSpace.Checked then
-    Include(gWatchDirs, watch_free_disk_space);
-  gWatchDirsExclude:= edtWatchExcludeDrives.Text;
+  if cbWatchExcludeDirs.Checked then
+    Include(gWatchDirs, watch_exclude_dirs);
+  gWatchDirsExclude:= edtWatchExcludeDirs.Text;
 
   { Icons }
   if rbIconsShowNone.Checked then
