@@ -1843,7 +1843,7 @@ begin
   begin
     DeviceWasChange := True;
   end;
-  DebugLn(udi);
+//  DebugLn(udi);
   // add to array
   DeviceList.Add(udi);
 
@@ -1861,7 +1861,7 @@ begin
   end;
 
 //  if not CreateArray then
-    DebugLn('udi = ',udi,s);
+//    DebugLn('udi = ',udi,s);
 
 end;
 
@@ -1940,7 +1940,7 @@ end;
 
 procedure LibHalDeviceAdded(ctx: PLibHalContext; const udi: PChar); cdecl;
 begin
-  DebugLn('add dev  ',udi);
+//  DebugLn('add dev  ',udi);
 //  sleep(1500); // if we dont do it we don`t see new dev
   CheckBlockDev(ctx,udi,nil); // it return value 2 time on one flash like /dev/sda /dev/sda1
 end;
@@ -1954,7 +1954,7 @@ begin
   // here we can know only UDI
   // UDI here don`t have mount point and dev name
 
-  DebugLn('remove dev  ', udi);
+//  DebugLn('remove dev  ', udi);
 //  ShowDevInfo(ctx,udi,@MyError); // don`t work
   if DeviceList.IndexOf(udi) > -1 then
   begin
