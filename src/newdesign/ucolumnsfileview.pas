@@ -62,6 +62,8 @@ type
     FMouseDown: Boolean; // Used to check if button-up was received after button-down
                          // or after dropping something after dragging with right mouse button
 
+    ColumnsView: TColumnsFileView;
+
     // Updates the drop row index, which is used to draw a rectangle
     // on directories during drag&drop operations.
     procedure ChangeDropRowIndex(NewIndex: Integer);
@@ -277,15 +279,18 @@ type
     {en
        Changes drawing colors depending on if this panel is active.
     }
-    procedure SetActive(Active: Boolean);
+    procedure SetActive(bActive: Boolean);
 
     procedure SetFileFilter(NewFilter: String);
+
+    function DimColor(AColor: TColor): TColor;
 
     // -- Events --------------------------------------------------------------
 
     procedure edtPathExit(Sender: TObject);
     procedure edtSearchExit(Sender: TObject);
     procedure edtRenameExit(Sender: TObject);
+    procedure edtFilterEnter(Sender: TObject);
     procedure edtFilterExit(Sender: TObject);
 
     procedure edtSearchChange(Sender: TObject);
@@ -1394,16 +1399,28 @@ begin
       end;
 end;
 
-procedure TColumnsFileView.SetActive(Active: Boolean);
+procedure TColumnsFileView.SetActive(bActive: Boolean);
 begin
-  lblAddress.SetActive(Active);
-  lblPath.SetActive(Active);
+  FActive := bActive;
+
+  lblAddress.SetActive(bActive);
+  lblPath.SetActive(bActive);
+
+  dgPanel.Color := DimColor(gBackColor);
 end;
 
 procedure TColumnsFileView.SetFileFilter(NewFilter: String);
 begin
   FFileFilter := NewFilter;
   ReDisplayFileList;
+end;
+
+function TColumnsFileView.DimColor(AColor: TColor): TColor;
+begin
+  if (not FActive) and (gInactivePanelBrightness < 100) then
+    Result := ModColor(AColor, gInactivePanelBrightness)
+  else
+    Result := AColor;
 end;
 
 procedure TColumnsFileView.edtPathExit(Sender: TObject);
@@ -1424,10 +1441,17 @@ begin
   UnMarkAll;
 end;
 
+procedure TColumnsFileView.edtFilterEnter(Sender: TObject);
+begin
+  SetActive(True);
+end;
+
 procedure TColumnsFileView.edtFilterExit(Sender: TObject);
 begin
   if edtFilter.Text = '' then
-    CloseFilterPanel;
+    pnlFilter.Visible := False;
+
+  SetActive(False);
 end;
 
 procedure TColumnsFileView.edtSearchChange(Sender: TObject);
@@ -1518,7 +1542,7 @@ procedure TColumnsFileView.CloseSearchPanel;
 begin
   pnAltSearch.Visible:=False;
   edtSearch.Text:='';
-  FActive:= False;
+  SetActive(False);
 end;
 
 procedure TColumnsFileView.CloseFilterPanel;
@@ -1550,7 +1574,7 @@ begin
   fPrevious := False;
   edtSearch.Text := Char;
   edtSearch.SelStart := UTF8Length(edtSearch.Text) + 1;
-  FActive:= True;
+  SetActive(True);
 end;
 
 procedure TColumnsFileView.ShowFilterPanel(Char : TUTF8Char = #0);
@@ -1825,7 +1849,6 @@ end;
 
 procedure TColumnsFileView.dgPanelExit(Sender: TObject);
 begin
-  FActive:= False;
   SetActive(False);
 end;
 
@@ -1879,11 +1902,10 @@ end;
 
 procedure TColumnsFileView.dgPanelEnter(Sender: TObject);
 begin
-  FActive := True;
+  SetActive(True);
+
   UpDatelblInfo;
   frmMain.EnableHotkeys(True);
-
-  SetActive(True);
 
   if Assigned(OnActivate) then
     OnActivate(Self);
@@ -2430,6 +2452,7 @@ begin
 
   edtFilter.OnChange := @edtFilterChange;
   edtFilter.OnKeyDown := @edtFilterKeyDown;
+  edtFilter.OnEnter := @edtFilterEnter;
   edtFilter.OnExit := @edtFilterExit;
 
   edtPath.OnKeyDown := @edtPathKeyDown;
@@ -3127,6 +3150,7 @@ begin
   inherited Create(AOwner);
 
   Self.Parent := AParent;
+  ColumnsView := AParent as TColumnsFileView;
 
   StartDrag := False;
   DropRowIndex := -1;
@@ -3198,7 +3222,7 @@ var
   TempRowHeight: Integer;
 begin
   Flat := gInterfaceFlat;
-  Color := gBackColor;
+  Color := ColumnsView.DimColor(gBackColor);
   AutoFillColumns:= gAutoFillColumns;
 
   // Calculate row height.
@@ -3260,7 +3284,6 @@ var
   iTextTop: Integer;
   AFile: TColumnsViewFile;
   FileSourceDirectAccess: Boolean;
-  Panel: TColumnsFileView;
   ColumnsSet: TPanelColumnsClass;
 
   //------------------------------------------------------
@@ -3286,7 +3309,7 @@ var
     TitleX := 0;
     s      := ColumnsSet.GetColumnTitle(ACol);
 
-    SortingDirection := Panel.FSorting.GetSortingDirection(ACol);
+    SortingDirection := ColumnsView.FSorting.GetSortingDirection(ACol);
     if SortingDirection <> sdNone then
     begin
       TitleX := TitleX + gIconsSize;
@@ -3387,10 +3410,12 @@ var
   procedure NewPrepareColors;
   //------------------------------------------------------
   var
-    newColor, tmp: TColor;
+    newColor, BackgroundColor: TColor;
 
     procedure TextSelect;
     //---------------------
+    var
+      tmp: TColor;
     begin
       tmp := ColumnsSet.GetColumnTextColor(ACol);
       if (tmp <> newColor) and (newColor <> -1) and
@@ -3407,15 +3432,15 @@ var
     Canvas.Font.Style  := ColumnsSet.GetColumnFontStyle(ACol);
 
     // Set up default brush color first
-    if (gdSelected in aState) and Panel.FActive then
-      Canvas.Brush.Color := ColumnsSet.GetColumnCursorColor(ACol)
+    if (gdSelected in aState) and ColumnsView.FActive then
+      BackgroundColor := ColumnsSet.GetColumnCursorColor(ACol)
     else
       begin
         // Alternate rows background color.
         if odd(ARow) then
-          Canvas.Brush.Color := ColumnsSet.GetColumnBackground(ACol)
+          BackgroundColor := ColumnsSet.GetColumnBackground(ACol)
         else
-          Canvas.Brush.Color := ColumnsSet.GetColumnBackground2(ACol);
+          BackgroundColor := ColumnsSet.GetColumnBackground2(ACol);
       end;
 
     newColor := gColorExt.GetColorBy(AFile.TheFile);
@@ -3425,14 +3450,14 @@ var
       if gUseInvertedSelection then
         begin
           //------------------------------------------------------
-          if (gdSelected in aState) and Panel.FActive then
+          if (gdSelected in aState) and ColumnsView.FActive then
             begin
-              Canvas.Brush.Color := ColumnsSet.GetColumnCursorColor(ACol);
+              BackgroundColor := ColumnsSet.GetColumnCursorColor(ACol);
               Canvas.Font.Color := InvertColor(ColumnsSet.GetColumnCursorText(ACol));
             end
           else
             begin
-              Canvas.Brush.Color := ColumnsSet.GetColumnMarkColor(ACol);
+              BackgroundColor := ColumnsSet.GetColumnMarkColor(ACol);
               TextSelect;
             end;
           //------------------------------------------------------
@@ -3442,7 +3467,7 @@ var
           Canvas.Font.Color := ColumnsSet.GetColumnMarkColor(ACol);
         end;
     end
-    else if (gdSelected in aState) and Panel.FActive then
+    else if (gdSelected in aState) and ColumnsView.FActive then
       begin
         Canvas.Font.Color := ColumnsSet.GetColumnCursorText(ACol);
       end
@@ -3452,6 +3477,7 @@ var
       end;
 
     // Draw background.
+    Canvas.Brush.Color := ColumnsView.DimColor(BackgroundColor);
     Canvas.Brush.Style := bsSolid;
     Canvas.FillRect(aRect);
 
@@ -3469,9 +3495,7 @@ var
   //------------------------------------------------------
 
 begin
-  Panel := (Parent as TColumnsFileView);
-
-  with Panel do
+  with ColumnsView do
   begin
     if not isSlave then
       ColumnsSet := ColSet.GetColumnSet(ActiveColm)
@@ -3483,14 +3507,14 @@ begin
   begin
     DrawFixed  // Draw column headers
   end
-  else if Panel.FRetrievingFiles = rfsLoadingFiles then
+  else if ColumnsView.FRetrievingFiles = rfsLoadingFiles then
   begin
     Exit
   end
-  else if Panel.FFiles.Count > 0 then
+  else if ColumnsView.FFiles.Count > 0 then
   begin
-    AFile := Panel.FFiles[ARow - FixedRows]; // substract fixed rows (header)
-    FileSourceDirectAccess := fspDirectAccess in Panel.FileSource.Properties;
+    AFile := ColumnsView.FFiles[ARow - FixedRows]; // substract fixed rows (header)
+    FileSourceDirectAccess := fspDirectAccess in ColumnsView.FileSource.Properties;
 
     NewPrepareColors;
 

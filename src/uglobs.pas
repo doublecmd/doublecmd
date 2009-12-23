@@ -164,7 +164,8 @@ var
   gMarkColor,  // Mark color
   gCursorColor, //Cursor color
   gCursorText : TColor; //text color under cursor
-  gUseInvertedSelection:boolean=false;
+  gUseInvertedSelection: Boolean = False;
+  gInactivePanelBrightness: Integer = 100; // 0 - black, 100 - full color
   
   gShowIcons: TShowIconsMode = sim_all_and_exe;
   gShowIconsNew: TShowIconsMode;
@@ -585,6 +586,7 @@ begin
   gFontStyle := TFontStyles(gIni.ReadInteger('Configuration', 'Font.Style', 1));
   gEditorFontStyle:= TFontStyles(gIni.ReadInteger('Editor', 'Font.Style', 0));
   gViewerFontStyle:= TFontStyles(gIni.ReadInteger('Viewer', 'Font.Style', 0));
+
   { Colors }
   gForeColor  := gIni.ReadInteger('Colors', 'ForeColor', clDefault);
   gBackColor := gIni.ReadInteger('Colors', 'BackColor', clWhite);
@@ -592,7 +594,9 @@ begin
   gMarkColor := gIni.ReadInteger('Colors', 'MarkColor', clRed);
   gCursorColor := gIni.ReadInteger('Colors', 'CursorColor', clHighlight);
   gCursorText := gIni.ReadInteger('Colors', 'CursorText', clHighlightText);
-  gUseInvertedSelection:= gIni.ReadBool('Colors', 'UseInvertedSelection', false);
+  gUseInvertedSelection:= gIni.ReadBool('Colors', 'UseInvertedSelection', False);
+  gInactivePanelBrightness:= gIni.ReadInteger('Colors', 'InactivePanelBrightness', gInactivePanelBrightness);
+
   { File operations }
   gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 65536);
   gSkipFileOpError:= gIni.ReadBool('Configuration', 'SkipFileOpError', False);
@@ -827,7 +831,7 @@ begin
   gIni.WriteInteger('Colors', 'CursorColor', gCursorColor);
   gIni.WriteInteger('Colors', 'CursorText', gCursorText);
   gIni.WriteBool('Colors', 'UseInvertedSelection', gUseInvertedSelection);
-  
+  gIni.WriteInteger('Colors', 'InactivePanelBrightness', gInactivePanelBrightness);
 
   { File operations }
   gIni.WriteInteger('Configuration', 'CopyBlockSize', gCopyBlockSize);

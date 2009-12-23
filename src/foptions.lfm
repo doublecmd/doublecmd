@@ -912,7 +912,7 @@ object frmOptions: TfrmOptions
         end
         object cbTextColor: TColorBox
           Left = 160
-          Height = 22
+          Height = 30
           Top = 26
           Width = 100
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
@@ -925,15 +925,15 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbTextColor
           AnchorSideTop.Side = asrBottom
           Left = 160
-          Height = 22
-          Top = 56
+          Height = 30
+          Top = 64
           Width = 100
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
           BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
-          TabOrder = 1
+          TabOrder = 2
         end
         object btnForeColor: TButton
           AnchorSideLeft.Control = cbTextColor
@@ -942,7 +942,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Control = cbTextColor
           AnchorSideBottom.Side = asrBottom
           Left = 266
-          Height = 22
+          Height = 30
           Top = 26
           Width = 28
           Anchors = [akTop, akLeft, akBottom]
@@ -950,7 +950,7 @@ object frmOptions: TfrmOptions
           BorderSpacing.InnerBorder = 4
           Caption = '>>'
           OnClick = btnForeColorClick
-          TabOrder = 2
+          TabOrder = 1
         end
         object btnBackColor: TButton
           AnchorSideLeft.Control = cbBackColor
@@ -959,8 +959,8 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Control = cbBackColor
           AnchorSideBottom.Side = asrBottom
           Left = 266
-          Height = 22
-          Top = 56
+          Height = 30
+          Top = 64
           Width = 28
           Anchors = [akTop, akLeft, akBottom]
           BorderSpacing.Left = 6
@@ -973,8 +973,8 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbBackColor
           AnchorSideTop.Side = asrBottom
           Left = 160
-          Height = 22
-          Top = 86
+          Height = 30
+          Top = 102
           Width = 100
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
           BorderSpacing.Top = 8
@@ -987,22 +987,8 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbBackColor2
           AnchorSideTop.Side = asrBottom
           Left = 160
-          Height = 22
-          Top = 116
-          Width = 100
-          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-          BorderSpacing.Top = 8
-          ItemHeight = 16
-          OnChange = cbColorBoxChange
-          OnDropDown = cbColorBoxDropDown
-          TabOrder = 5
-        end
-        object cbCursorColor: TColorBox
-          AnchorSideTop.Control = cbMarkColor
-          AnchorSideTop.Side = asrBottom
-          Left = 160
-          Height = 22
-          Top = 146
+          Height = 30
+          Top = 140
           Width = 100
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
           BorderSpacing.Top = 8
@@ -1011,19 +997,33 @@ object frmOptions: TfrmOptions
           OnDropDown = cbColorBoxDropDown
           TabOrder = 6
         end
-        object cbCursorText: TColorBox
-          AnchorSideTop.Control = cbCursorColor
+        object cbCursorColor: TColorBox
+          AnchorSideTop.Control = cbMarkColor
           AnchorSideTop.Side = asrBottom
           Left = 160
-          Height = 22
-          Top = 176
+          Height = 30
+          Top = 178
           Width = 100
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
           BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
-          TabOrder = 7
+          TabOrder = 8
+        end
+        object cbCursorText: TColorBox
+          AnchorSideTop.Control = cbCursorColor
+          AnchorSideTop.Side = asrBottom
+          Left = 160
+          Height = 30
+          Top = 216
+          Width = 100
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          BorderSpacing.Top = 8
+          ItemHeight = 16
+          OnChange = cbColorBoxChange
+          OnDropDown = cbColorBoxDropDown
+          TabOrder = 10
         end
         object btnMarkColor: TButton
           AnchorSideLeft.Control = cbMarkColor
@@ -1032,15 +1032,15 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Control = cbMarkColor
           AnchorSideBottom.Side = asrBottom
           Left = 266
-          Height = 22
-          Top = 116
+          Height = 30
+          Top = 140
           Width = 28
           Anchors = [akTop, akLeft, akBottom]
           BorderSpacing.Left = 6
           BorderSpacing.InnerBorder = 4
           Caption = '>>'
           OnClick = btnMarkColorClick
-          TabOrder = 8
+          TabOrder = 7
         end
         object btnCursorColor: TButton
           AnchorSideLeft.Control = cbCursorColor
@@ -1049,8 +1049,8 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Control = cbCursorColor
           AnchorSideBottom.Side = asrBottom
           Left = 266
-          Height = 22
-          Top = 146
+          Height = 30
+          Top = 178
           Width = 28
           Anchors = [akTop, akLeft, akBottom]
           BorderSpacing.Left = 6
@@ -1066,15 +1066,15 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Control = cbCursorText
           AnchorSideBottom.Side = asrBottom
           Left = 266
-          Height = 22
-          Top = 176
+          Height = 30
+          Top = 216
           Width = 28
           Anchors = [akTop, akLeft, akBottom]
           BorderSpacing.Left = 6
           BorderSpacing.InnerBorder = 4
           Caption = '>>'
           OnClick = btnCursorTextClick
-          TabOrder = 10
+          TabOrder = 11
         end
         object btnBackColor2: TButton
           AnchorSideLeft.Control = cbBackColor2
@@ -1083,15 +1083,15 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Control = cbBackColor2
           AnchorSideBottom.Side = asrBottom
           Left = 266
-          Height = 22
-          Top = 86
+          Height = 30
+          Top = 102
           Width = 28
           Anchors = [akTop, akLeft, akBottom]
           BorderSpacing.Left = 6
           BorderSpacing.InnerBorder = 4
           Caption = '>>'
           OnClick = btnBackColor2Click
-          TabOrder = 11
+          TabOrder = 5
         end
         object gbExample: TGroupBox
           AnchorSideLeft.Control = btnForeColor
@@ -1099,20 +1099,20 @@ object frmOptions: TfrmOptions
           Left = 304
           Height = 172
           Top = 26
-          Width = 205
+          Width = 209
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           Caption = 'Example'
           ChildSizing.LeftRightSpacing = 6
           ChildSizing.TopBottomSpacing = 6
-          ClientHeight = 154
-          ClientWidth = 201
+          ClientHeight = 152
+          ClientWidth = 205
           TabOrder = 12
           object pbExample: TPaintBox
             Left = 6
-            Height = 142
+            Height = 156
             Top = 6
-            Width = 189
+            Width = 193
             Align = alClient
             OnPaint = pbExamplePaint
           end
@@ -1121,13 +1121,41 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbCursorText
           AnchorSideTop.Side = asrBottom
           Left = 10
-          Height = 17
-          Top = 210
-          Width = 126
+          Height = 22
+          Top = 258
+          Width = 160
           BorderSpacing.Top = 12
           Caption = 'Use Inverted Selection'
           OnChange = cbbUseInvertedSelectionChange
           TabOrder = 13
+        end
+        object tbInactivePanelBrightness: TTrackBar
+          AnchorSideLeft.Control = lblInactivePanelBrightness
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = lblInactivePanelBrightness
+          AnchorSideTop.Side = asrCenter
+          Left = 226
+          Height = 46
+          Top = 274
+          Width = 216
+          Max = 100
+          PageSize = 10
+          Position = 0
+          ScalePos = trRight
+          BorderSpacing.Left = 8
+          TabOrder = 14
+        end
+        object lblInactivePanelBrightness: TLabel
+          AnchorSideLeft.Control = cbbUseInvertedSelection
+          AnchorSideTop.Control = cbbUseInvertedSelection
+          AnchorSideTop.Side = asrBottom
+          Left = 10
+          Height = 19
+          Top = 288
+          Width = 208
+          BorderSpacing.Top = 8
+          Caption = 'Brightness level of inactive panel'
+          ParentColor = False
         end
       end
       object pgHotKey: TPage

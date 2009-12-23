@@ -274,6 +274,8 @@ function EstimateRemainingTime(StartValue, CurrentValue, EndValue: Int64;
                                StartTime: TDateTime; CurrentTime: TDateTime;
                                out SpeedPerSecond: Int64): TDateTime;
 
+function ModColor(AColor: TColor; APercent: Byte) : TColor;
+
 implementation
 
 uses
@@ -989,6 +991,17 @@ begin
       Result := Double(EndValue - CurrentValue) / Speed;
       SpeedPerSecond := Trunc(Speed) div SecsPerDay;
     end;
+end;
+
+function ModColor(AColor: TColor; APercent: Byte) : TColor;
+var
+  R, G, B : Byte;
+begin
+  RedGreenBlue(ColorToRGB(AColor), R, G, B);
+  R := R * APercent div 100;
+  G := G * APercent div 100;
+  B := B * APercent div 100;
+  Result := RGBToColor(R, G, B);
 end;
 
 end.
