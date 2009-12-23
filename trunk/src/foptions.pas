@@ -189,6 +189,7 @@ type
     gbAutoRefreshEnable: TGroupBox;
     gbAutoRefreshDisable: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
+    lblInactivePanelBrightness: TLabel;
     lblAutoSizeColumn: TLabel;
     lblQuickSearch: TLabel;
     lblQuickFilter: TLabel;
@@ -299,6 +300,7 @@ type
     stgCommands: TStringGrid;
     gbIconsSize: TGroupBox;
     stgHotkeys: TStringGrid;
+    tbInactivePanelBrightness: TTrackBar;
     tsWLX: TTabSheet;
     tsDSX: TTabSheet;
     tsWDX: TTabSheet;
@@ -2158,6 +2160,7 @@ begin
   SetColorInColorBox(cbCursorColor,gCursorColor);
   SetColorInColorBox(cbCursorText,gCursorText);
   cbbUseInvertedSelection.Checked:=gUseInvertedSelection;
+  tbInactivePanelBrightness.Position:=gInactivePanelBrightness;
 
   { File operations }
   edtCopyBufferSize.Text:= IntToStr(gCopyBlockSize div 1024);
@@ -2357,6 +2360,7 @@ begin
   gCursorColor := cbCursorColor.Color;
   gCursorText := cbCursorText.Color;
   gUseInvertedSelection:=cbbUseInvertedSelection.Checked;
+  gInactivePanelBrightness:=tbInactivePanelBrightness.Position;
 
   { File operations }
   gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
