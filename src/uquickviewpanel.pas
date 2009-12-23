@@ -18,6 +18,7 @@ type
     FFileViewPage: TFileViewPage;
     FFileSource: IFileSource;
     FViewer: TfrmViewer;
+    FFileName: UTF8String;
   public
     constructor Create(TheOwner: TComponent; aParent: TFileViewPage); reintroduce;
     destructor Destroy; override;
@@ -65,6 +66,7 @@ destructor TQuickViewPanel.Destroy;
 begin
   FFileViewPage.FileView.Visible:= True;
   FreeThenNil(FViewer);
+  FFileSource:= nil;
   inherited Destroy;
 end;
 
@@ -107,6 +109,7 @@ begin
     // If files not directly accessible copy them to temp file source.
     if not (fspDirectAccess in Sender.FileSource.Properties) then
       begin
+        if aFile.IsDirectory or SameText(FFileName, aFile.Name) then Exit;
         if not (fsoCopyOut in Sender.FileSource.GetOperationsTypes) then Exit;
 
        ActiveFile:= aFile.Clone;
@@ -129,6 +132,7 @@ begin
        Operation.Execute;
        FreeAndNil(Operation);
 
+       FFileName:= ActiveFile.Name;
        FFileSource := TempFileSource;
        ActiveFile.Path:= TempFileSource.FileSystemRoot;
      end
