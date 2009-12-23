@@ -124,7 +124,7 @@ type
     WlxPlugins:TWLXModuleList;
     ActivePlugin:Integer;
     //---------------------
-    function CheckPlugins(Index:integer; Force: boolean=false):boolean;
+    function CheckPlugins(const sFileName: UTF8String; Force: boolean=false):boolean;
     procedure ExitPluginMode;
     Function CheckGraphics(const sFileName:String):Boolean;
     procedure AdjustImageSize;
@@ -137,6 +137,7 @@ type
   public
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource); reintroduce;
     destructor Destroy; override;
+    procedure LoadFile(const aFileName: UTF8String);
     procedure LoadFile(iIndex:Integer);
   end;
 
@@ -188,13 +189,12 @@ begin
   FFileSource := nil; // If this is temp file source, the files will be deleted.
 end;
 
-procedure TfrmViewer.LoadFile(iIndex:Integer);
+procedure TfrmViewer.LoadFile(const aFileName: UTF8String);
 var
   i: Integer;
 begin
   FLastSearchPos := -1;
-  iActiveFile := iIndex;
-  Caption := FileList.Strings[iIndex];
+  Caption := aFileName;
 
   // Clear text on status bar.
   for i := 0 to Status.Panels.Count - 1 do
@@ -202,30 +202,36 @@ begin
 
   Screen.Cursor:=crHourGlass;
   try
-    bPlugin:= CheckPlugins(iIndex);
+    bPlugin:= CheckPlugins(aFileName);
     if bPlugin then
       begin
         Status.Panels[sbpPluginName].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name;
         ActivatePanel(pnlLister);
       end
-    else if CheckGraphics(FileList.Strings[iIndex]) then
+    else if CheckGraphics(aFileName) then
       begin
-        LoadGraphics(FileList.Strings[iIndex]);
+        LoadGraphics(aFileName);
         ActivatePanel(pnlImage);
       end
     else
       begin
-        ViewerControl.FileName := FileList.Strings[iIndex];     //handled by miProcess.Click
+        ViewerControl.FileName := aFileName;     //handled by miProcess.Click
         ActivatePanel(pnlText);
 //        miProcess.Click;
       end;
 
-    Status.Panels[sbpFileName].Text:=FileList.Strings[iIndex];
-    Status.Panels[sbpFileNr].Text:=Format('%d/%d',[iIndex+1,FileList.Count]);
+    Status.Panels[sbpFileName].Text:=aFileName;
     Status.Panels[sbpFileSize].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
   finally
     Screen.Cursor:=crDefault;
   end;
+end;
+
+procedure TfrmViewer.LoadFile(iIndex: Integer);
+begin
+  iActiveFile := iIndex;
+  LoadFile(FileList.Strings[iIndex]);
+  Status.Panels[sbpFileNr].Text:=Format('%d/%d',[iIndex+1,FileList.Count]);
 end;
 
 procedure TfrmViewer.FormKeyPress(Sender: TObject; var Key: Char);
@@ -246,21 +252,21 @@ begin
   end;
 end;
 
-function TfrmViewer.CheckPlugins(Index:integer; Force:boolean=false):boolean;
+function TfrmViewer.CheckPlugins(const sFileName: UTF8String; Force:boolean=false):boolean;
 var
   I: Integer;
 begin
   I:= 0;
   DebugLn('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
   while (I < WlxPlugins.Count) do
-   if WlxPlugins.GetWLxModule(I).FileParamVSDetectStr(FileList[Index]) then
+   if WlxPlugins.GetWLxModule(I).FileParamVSDetectStr(sFileName) then
      begin
        Result:= True;
        DebugLn('I = '+IntToStr(I));
        if not WlxPrepareContainer(pnlLister.Handle) then {TODO: ERROR and exit;};
        WlxPlugins.LoadModule(I);
        DebugLn('WlxModule.Name = ', WlxPlugins.GetWLxModule(I).Name);
-       if WlxPlugins.GetWLxModule(I).CallListLoad(pnlLister.Handle,FileList[Index], {TODO: showFlags}0) = 0 then
+       if WlxPlugins.GetWLxModule(I).CallListLoad(pnlLister.Handle, sFileName, {TODO: showFlags}0) = 0 then
          begin
            WlxPlugins.GetWLxModule(I).UnloadModule;
            Inc(I);
@@ -288,7 +294,7 @@ end;
 
 procedure TfrmViewer.miPluginsClick(Sender: TObject);
 begin
-  bPlugin:= CheckPlugins(iActiveFile, True);
+  bPlugin:= CheckPlugins(FileList.Strings[iActiveFile], True);
   if bPlugin then
   begin
     Status.Panels[sbpPluginName].Text:= WlxPlugins.GetWLxModule(ActivePlugin).Name;
