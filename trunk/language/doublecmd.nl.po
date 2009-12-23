@@ -1362,6 +1362,10 @@ msgstr "Open"
 msgid "Try open archive"
 msgstr "Probeer archief te openen"
 
+#: TFRMMAIN.ACTOPENBAR.CAPTION
+msgid "Open bar file"
+msgstr ""
+
 #: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
 msgid "Open folder in new tab"
 msgstr "Open map in nieuwe tab"
@@ -1399,6 +1403,10 @@ msgstr ""
 msgctxt "TFRMMAIN.ACTQUICKSEARCH.CAPTION"
 msgid "Quick search"
 msgstr "Snel zoeken"
+
+#: TFRMMAIN.ACTQUICKVIEW.CAPTION
+msgid "Quick View Panel"
+msgstr ""
 
 #: TFRMMAIN.ACTREFRESH.CAPTION
 msgid "&Refresh"
@@ -1743,6 +1751,11 @@ msgstr "-"
 
 #: TFRMMAIN.MILINE3.CAPTION
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMMAIN.MILINE32.CAPTION
+msgctxt "TFRMMAIN.MILINE32.CAPTION"
 msgid "-"
 msgstr "-"
 
@@ -2489,23 +2502,19 @@ msgid "Show two drive button bars (fixed width, above file windows)"
 msgstr "Toon twee drive knoppenbalken (vaste breedte, boven bestandspaneel"
 
 #: TFRMOPTIONS.CBWATCHATTRIBUTESCHANGE.CAPTION
-msgid "Also when &size, date, or attributes change"
+msgid "When &size, date or attributes change"
 msgstr ""
 
-#: TFRMOPTIONS.CBWATCHFILECOUNT.CAPTION
-msgid "Update &footer (total number of files)"
+#: TFRMOPTIONS.CBWATCHEXCLUDEDIRS.CAPTION
+msgid "For the following &paths and their subdirectories:"
 msgstr ""
 
 #: TFRMOPTIONS.CBWATCHFILENAMECHANGE.CAPTION
-msgid "Refresh when files are &created, deleted and renamed"
-msgstr ""
-
-#: TFRMOPTIONS.CBWATCHFREESPACE.CAPTION
-msgid "Update &header (free disk space)"
+msgid "When files are &created, deleted or renamed"
 msgstr ""
 
 #: TFRMOPTIONS.CBWATCHONLYFOREGROUND.CAPTION
-msgid "Don't &react to updates while in the background"
+msgid "When application is in the &background"
 msgstr ""
 
 #: TFRMOPTIONS.CHKAUTOFILLCOLUMNS.CAPTION
@@ -2516,8 +2525,12 @@ msgstr ""
 msgid "Text Color:"
 msgstr "Tekst kleur:"
 
-#: TFRMOPTIONS.GBAUTOREFRESH.CAPTION
-msgid "Auto-Refresh when the file system changes"
+#: TFRMOPTIONS.GBAUTOREFRESHDISABLE.CAPTION
+msgid "Disable auto-refresh"
+msgstr ""
+
+#: TFRMOPTIONS.GBAUTOREFRESHENABLE.CAPTION
+msgid "Refresh file list"
 msgstr ""
 
 #: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
@@ -2662,6 +2675,10 @@ msgstr "Editor lettertype"
 msgid "Hot Key:"
 msgstr "Hot Key:"
 
+#: TFRMOPTIONS.LBLINACTIVEPANELBRIGHTNESS.CAPTION
+msgid "Brightness level of inactive panel"
+msgstr ""
+
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
 msgstr "Standaard lettertype"
@@ -2701,10 +2718,6 @@ msgstr ""
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Viewer lettertype"
-
-#: TFRMOPTIONS.LBLWATCHEXCLUDEDRIVES.CAPTION
-msgid "No refresh for &these drives:"
-msgstr ""
 
 #: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
 msgid "Packer plugins are used to work with archives."
