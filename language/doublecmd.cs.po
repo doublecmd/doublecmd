@@ -1380,6 +1380,10 @@ msgstr "Otevřít"
 msgid "Try open archive"
 msgstr "Zkusit otevřít archív"
 
+#: TFRMMAIN.ACTOPENBAR.CAPTION
+msgid "Open bar file"
+msgstr ""
+
 #: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
 msgid "Open folder in new tab"
 msgstr "Otevřít adresář v nové záložce"
@@ -1418,6 +1422,10 @@ msgstr ""
 msgctxt "TFRMMAIN.ACTQUICKSEARCH.CAPTION"
 msgid "Quick search"
 msgstr "Rychlé hledání"
+
+#: TFRMMAIN.ACTQUICKVIEW.CAPTION
+msgid "Quick View Panel"
+msgstr ""
 
 #: TFRMMAIN.ACTREFRESH.CAPTION
 msgid "&Refresh"
@@ -1764,6 +1772,11 @@ msgstr "-"
 
 #: TFRMMAIN.MILINE3.CAPTION
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMMAIN.MILINE32.CAPTION
+msgctxt "TFRMMAIN.MILINE32.CAPTION"
 msgid "-"
 msgstr "-"
 
@@ -2513,23 +2526,25 @@ msgid "Show two drive button bars (fixed width, above file windows)"
 msgstr "Zobrazit 2 seznamy disků (fixed width, above file windows)"
 
 #: TFRMOPTIONS.CBWATCHATTRIBUTESCHANGE.CAPTION
-msgid "Also when &size, date, or attributes change"
+#, fuzzy
+#| msgid "Also when &size, date, or attributes change"
+msgid "When &size, date or attributes change"
 msgstr "Také při změně &velikosti, data, nebo atributů"
 
-#: TFRMOPTIONS.CBWATCHFILECOUNT.CAPTION
-msgid "Update &footer (total number of files)"
-msgstr "Aktualizovat &zápatí (celkový počet souborů)"
+#: TFRMOPTIONS.CBWATCHEXCLUDEDIRS.CAPTION
+msgid "For the following &paths and their subdirectories:"
+msgstr ""
 
 #: TFRMOPTIONS.CBWATCHFILENAMECHANGE.CAPTION
-msgid "Refresh when files are &created, deleted and renamed"
+#, fuzzy
+#| msgid "Refresh when files are &created, deleted and renamed"
+msgid "When files are &created, deleted or renamed"
 msgstr "Aktualizovat seznam při vy&tvoření, smazání, nebo přejmenování"
 
-#: TFRMOPTIONS.CBWATCHFREESPACE.CAPTION
-msgid "Update &header (free disk space)"
-msgstr "Aktualizace &záhlaví (volné místo na disku)"
-
 #: TFRMOPTIONS.CBWATCHONLYFOREGROUND.CAPTION
-msgid "Don't &react to updates while in the background"
+#, fuzzy
+#| msgid "Don't &react to updates while in the background"
+msgid "When application is in the &background"
 msgstr "Nep&rovádět aktualizace, pokud je na pozadí"
 
 #: TFRMOPTIONS.CHKAUTOFILLCOLUMNS.CAPTION
@@ -2540,9 +2555,13 @@ msgstr ""
 msgid "Text Color:"
 msgstr "Barva písma:"
 
-#: TFRMOPTIONS.GBAUTOREFRESH.CAPTION
-msgid "Auto-Refresh when the file system changes"
-msgstr "Automaticky obnovit při změně souborového systému"
+#: TFRMOPTIONS.GBAUTOREFRESHDISABLE.CAPTION
+msgid "Disable auto-refresh"
+msgstr ""
+
+#: TFRMOPTIONS.GBAUTOREFRESHENABLE.CAPTION
+msgid "Refresh file list"
+msgstr ""
 
 #: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
 msgid "&Buffer size for files:"
@@ -2688,6 +2707,10 @@ msgstr "Písmo editoru"
 msgid "Hot Key:"
 msgstr "Horká klávesa:"
 
+#: TFRMOPTIONS.LBLINACTIVEPANELBRIGHTNESS.CAPTION
+msgid "Brightness level of inactive panel"
+msgstr ""
+
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
 msgstr "Hlavní písmo"
@@ -2727,10 +2750,6 @@ msgstr "Pozice \"oušek\":"
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Písmo prohlížeče"
-
-#: TFRMOPTIONS.LBLWATCHEXCLUDEDRIVES.CAPTION
-msgid "No refresh for &these drives:"
-msgstr "Neaktualizovat &tyto disky:"
 
 #: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
 msgid "Packer plugins are used to work with archives."

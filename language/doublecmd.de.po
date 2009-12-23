@@ -1356,6 +1356,10 @@ msgstr "Öffne"
 msgid "Try open archive"
 msgstr "Versuche Archiv zu öffnen"
 
+#: TFRMMAIN.ACTOPENBAR.CAPTION
+msgid "Open bar file"
+msgstr ""
+
 #: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
 msgid "Open folder in new tab"
 msgstr "Verzeichnis in neuem Reiter öffnen"
@@ -1393,6 +1397,10 @@ msgstr "Schneller Filter"
 msgctxt "TFRMMAIN.ACTQUICKSEARCH.CAPTION"
 msgid "Quick search"
 msgstr "Schnelle Suche"
+
+#: TFRMMAIN.ACTQUICKVIEW.CAPTION
+msgid "Quick View Panel"
+msgstr ""
 
 #: TFRMMAIN.ACTREFRESH.CAPTION
 msgid "&Refresh"
@@ -1737,6 +1745,11 @@ msgstr "-"
 
 #: TFRMMAIN.MILINE3.CAPTION
 msgctxt "TFRMMAIN.MILINE3.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMMAIN.MILINE32.CAPTION
+msgctxt "TFRMMAIN.MILINE32.CAPTION"
 msgid "-"
 msgstr "-"
 
@@ -2485,23 +2498,25 @@ msgid "Show two drive button bars (fixed width, above file windows)"
 msgstr "Zeige zwei Laufwerksleisten (feste Breite, über den Dateifenstern)"
 
 #: TFRMOPTIONS.CBWATCHATTRIBUTESCHANGE.CAPTION
-msgid "Also when &size, date, or attributes change"
+#, fuzzy
+#| msgid "Also when &size, date, or attributes change"
+msgid "When &size, date or attributes change"
 msgstr "Auch wenn &Grösse, Datum oder Attribut geändert werden"
 
-#: TFRMOPTIONS.CBWATCHFILECOUNT.CAPTION
-msgid "Update &footer (total number of files)"
-msgstr "Fusszeile auffrischen (Gesamt-Anzahl der Dateien)"
+#: TFRMOPTIONS.CBWATCHEXCLUDEDIRS.CAPTION
+msgid "For the following &paths and their subdirectories:"
+msgstr ""
 
 #: TFRMOPTIONS.CBWATCHFILENAMECHANGE.CAPTION
-msgid "Refresh when files are &created, deleted and renamed"
+#, fuzzy
+#| msgid "Refresh when files are &created, deleted and renamed"
+msgid "When files are &created, deleted or renamed"
 msgstr "Auffrischen wenn Dateien &erstellt, gelöscht oder umbenannt werden"
 
-#: TFRMOPTIONS.CBWATCHFREESPACE.CAPTION
-msgid "Update &header (free disk space)"
-msgstr "Kopfzeile auffrischen (freier Speicherplatz)"
-
 #: TFRMOPTIONS.CBWATCHONLYFOREGROUND.CAPTION
-msgid "Don't &react to updates while in the background"
+#, fuzzy
+#| msgid "Don't &react to updates while in the background"
+msgid "When application is in the &background"
 msgstr "Nicht auf Änderungen reagieren wenn im Hintergrund"
 
 #: TFRMOPTIONS.CHKAUTOFILLCOLUMNS.CAPTION
@@ -2512,9 +2527,13 @@ msgstr "Spalten automatisch füllen"
 msgid "Text Color:"
 msgstr "Textfarbe"
 
-#: TFRMOPTIONS.GBAUTOREFRESH.CAPTION
-msgid "Auto-Refresh when the file system changes"
-msgstr "Automatisch auffrischen wenn das Dateisystem verändert wird"
+#: TFRMOPTIONS.GBAUTOREFRESHDISABLE.CAPTION
+msgid "Disable auto-refresh"
+msgstr ""
+
+#: TFRMOPTIONS.GBAUTOREFRESHENABLE.CAPTION
+msgid "Refresh file list"
+msgstr ""
 
 #: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
 msgid "&Buffer size for files:"
@@ -2658,6 +2677,10 @@ msgstr "Schrift für Editor"
 msgid "Hot Key:"
 msgstr "Tastaturkürzel"
 
+#: TFRMOPTIONS.LBLINACTIVEPANELBRIGHTNESS.CAPTION
+msgid "Brightness level of inactive panel"
+msgstr ""
+
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
 msgstr "Hauptschriftart"
@@ -2697,10 +2720,6 @@ msgstr "Reiter-Position"
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Schriftart für Betrachter"
-
-#: TFRMOPTIONS.LBLWATCHEXCLUDEDRIVES.CAPTION
-msgid "No refresh for &these drives:"
-msgstr "Diese Laufwerke nicht auffrischen"
 
 #: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
 msgid "Packer plugins are used to work with archives."
