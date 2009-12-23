@@ -60,7 +60,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="96">
+    <Units Count="97">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -642,6 +642,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uPixMapGtk"/>
       </Unit95>
+      <Unit96>
+        <Filename Value="uquickviewpanel.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uQuickViewPanel"/>
+      </Unit96>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

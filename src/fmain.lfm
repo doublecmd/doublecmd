@@ -1108,6 +1108,13 @@ object frmMain: TfrmMain
     end
     object mnuShow: TMenuItem
       Caption = '&Show'
+      object mnuQuickView: TMenuItem
+        Action = actQuickView
+        OnClick = actExecute
+      end
+      object miLine32: TMenuItem
+        Caption = '-'
+      end
       object mnuShowName: TMenuItem
         Action = actSortByName
         OnClick = actExecute
@@ -1721,6 +1728,11 @@ object frmMain: TfrmMain
     object actOpenBar: TAction
       Category = 'Commands'
       Caption = 'Open bar file'
+      OnExecute = actExecute
+    end
+    object actQuickView: TAction
+      Category = 'Show'
+      Caption = 'Quick View Panel'
       OnExecute = actExecute
     end
   end
