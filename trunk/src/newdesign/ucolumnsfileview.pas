@@ -165,6 +165,7 @@ type
 
     FActive: Boolean;           //<en Is this view active
     FLastActive: String;        //<en Last active file
+    FLastActiveRow: Integer;    //<en Last active row
     FLastMark: String;
     FLastSelectionStartRow: Integer;
     fSearchDirect,
@@ -320,6 +321,7 @@ type
                                   MousePos: TPoint; var Handled: Boolean);
     procedure dgPanelMouseWheelDown(Sender: TObject; Shift: TShiftState;
                                   MousePos: TPoint; var Handled: Boolean);
+    procedure dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
     procedure lblPathClick(Sender: TObject);
     procedure lblPathMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -1009,6 +1011,15 @@ begin
   else
     Handled:= False;
   end;
+end;
+
+procedure TColumnsFileView.dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
+begin
+  if Assigned(OnChangeActiveFile) and (FLastActiveRow <> aRow) then
+    begin
+      OnChangeActiveFile(Self, ActiveFile.FullPath);
+      FLastActiveRow:= aRow;
+    end;
 end;
 
 procedure TColumnsFileView.edtSearchKeyDown(Sender: TObject; var Key: Word;
@@ -2419,10 +2430,9 @@ begin
   dgPanel.OnKeyUp:=@dgPanelKeyUp;
   dgPanel.OnKeyDown:=@dgPanelKeyDown;
   dgPanel.OnHeaderClick:=@dgPanelHeaderClick;
-  {Alexx2000}
   dgPanel.OnMouseWheelUp := @dgPanelMouseWheelUp;
   dgPanel.OnMouseWheelDown := @dgPanelMouseWheelDown;
-  {/Alexx2000}
+  dgPanel.OnSelection:= @dgPanelSelection;
 
   edtSearch.OnChange := @edtSearchChange;
   edtSearch.OnKeyDown := @edtSearchKeyDown;
