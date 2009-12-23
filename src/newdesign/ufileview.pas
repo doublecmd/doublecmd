@@ -14,6 +14,7 @@ type
 
   TOnBeforeChangeDirectory = function (FileView: TFileView; const NewDir : String): Boolean of object;
   TOnAfterChangeDirectory = procedure (FileView: TFileView; const NewDir : String) of object;
+  TOnChangeActiveFile = procedure (FileView: TFileView; const NewFile : String) of object;
   TOnChangeFileSource = procedure (FileView: TFileView) of object;
   TOnActivate = procedure (aFileView: TFileView) of object;
   TOnReload = procedure (aFileView: TFileView) of object;
@@ -45,6 +46,7 @@ type
 
     FOnBeforeChangeDirectory : TOnBeforeChangeDirectory;
     FOnAfterChangeDirectory : TOnAfterChangeDirectory;
+    FOnChangeActiveFile: TOnChangeActiveFile;
     FOnChangeFileSource : TOnChangeFileSource;
     FOnActivate : TOnActivate;
     FOnReload : TOnReload;
@@ -164,6 +166,7 @@ type
     property NotebookPage: TCustomPage read GetNotebookPage;
     property OnBeforeChangeDirectory : TOnBeforeChangeDirectory read FOnBeforeChangeDirectory write FOnBeforeChangeDirectory;
     property OnAfterChangeDirectory : TOnAfterChangeDirectory read FOnAfterChangeDirectory write FOnAfterChangeDirectory;
+    property OnChangeActiveFile : TOnChangeActiveFile read FOnChangeActiveFile write FOnChangeActiveFile;
     property OnChangeFileSource : TOnChangeFileSource read FOnChangeFileSource write FOnChangeFileSource;
     property OnActivate : TOnActivate read FOnActivate write FOnActivate;
     property OnReload : TOnReload read FOnReload write FOnReload;
@@ -222,6 +225,7 @@ constructor TFileView.Create(AOwner: TWinControl; FileSource: IFileSource; Path:
 begin
   FOnBeforeChangeDirectory := nil;
   FOnAfterChangeDirectory := nil;
+  FOnChangeActiveFile := nil;
   FOnChangeFileSource := nil;
   FOnActivate := nil;
   FOnReload := nil;
