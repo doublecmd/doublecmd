@@ -1985,18 +1985,10 @@ begin
   end;
 end;
 
+// Uses to change sort direction when columns header is disabled
 procedure TActs.cm_ReverseOrder(param:string);
 begin
-// This action is used?
-{
-  inherited;
-  with frmMain.ActiveFrame do
-  begin
-    pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection);
-    pnlFile.Sort;
-    RefreshPanel;
-  end;
-}
+ frmMain.ActiveFrame.ExecuteCommand('cm_ReverseOrder', param);
 end;
 
 procedure TActs.cm_SortByName(param:string);
