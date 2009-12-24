@@ -157,12 +157,12 @@ type
     procedure SplitterCustomizeCanResize(Sender: TObject; var NewSize: Integer;
       var Accept: Boolean);
     procedure stgColumnsEditingDone(Sender: TObject);
-    procedure stgColumnsHeaderSized(Sender: TObject; IsColumn: Boolean;
-      Index: Integer);
     procedure stgColumnsKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure stgColumnsMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure stgColumnsMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
     procedure stgColumnsSelectEditor(Sender: TObject; aCol, aRow: Integer;
       var Editor: TWinControl);
 
@@ -309,7 +309,6 @@ begin
              begin
                Height:=stgColumns.RowHeights[aRow];
                Width:=stgColumns.ColWidths[aCol]-2;
-               Tag:=aRow;
                Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Right-Width;
                Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
              end;
@@ -326,7 +325,6 @@ begin
              Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
              Height:=(Sender as TStringGrid).RowHeights[aRow];
              Width:=(Sender as TStringGrid).ColWidths[aCol];
-             Tag:=aRow;
              Value:=StrToInt((Sender as TStringGrid).Cells[aCol,aRow]);
            end;
          Editor:=updWidth;
@@ -338,7 +336,6 @@ begin
              Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Left;
              Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
              Height:=(Sender as TStringGrid).RowHeights[aRow];
-             Tag:=aRow;
              ItemIndex:=Items.IndexOf((Sender as TStringGrid).Cells[aCol,aRow]);
            end;
          Editor:=cbbAlign;
@@ -350,7 +347,6 @@ begin
              Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Right-Width;
              Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
              Height:=(Sender as TStringGrid).RowHeights[aRow];
-             Tag:=aRow;
              Show;
            end;
 
@@ -360,7 +356,6 @@ begin
              Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Left;
              Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
              Height:=(Sender as TStringGrid).RowHeights[aRow];
-             Tag:=aRow;
              Text:=(Sender as TStringGrid).Cells[aCol,aRow];
            end;
          Editor:=edtField;
@@ -370,7 +365,6 @@ begin
            begin
              Height:=stgColumns.RowHeights[aRow];
              Width:=stgColumns.ColWidths[aCol]-2;
-             Tag:=aRow;
              Min:=-((Sender as TStringGrid).RowCount-1);
              Max:=-1;
              Position:=-aRow;
@@ -385,7 +379,6 @@ begin
            begin
             Height:=stgColumns.RowHeights[aRow];
             Width:=stgColumns.ColWidths[aCol]-2;
-            Tag:=aRow;
             Left:=(Sender as TStringGrid).CellRect(aCol,aRow).Right-Width;
             Top:=(Sender as TStringGrid).CellRect(aCol,aRow).Top;
            end;
@@ -394,16 +387,13 @@ begin
   end;
 
  finally
+   if Assigned(Editor) then
+     begin
+       Editor.Tag:= aRow;
+       Editor.Hint:= IntToStr(aCol);
+     end;
  end;
 end;
-
-
-procedure TfColumnsSetConf.stgColumnsHeaderSized(Sender: TObject;
-  IsColumn: Boolean; Index: Integer);
-begin
-  //TODO: move editors
-end;
-
 
 procedure TfColumnsSetConf.stgColumnsKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
@@ -436,6 +426,30 @@ begin
     if btnAdd.Visible then
       btnAdd.Hide;
   end;
+end;
+
+type
+  THackStringGrid = class(TCustomStringGrid)
+  end;
+
+procedure TfColumnsSetConf.stgColumnsMouseMove(Sender: TObject;
+  Shift: TShiftState; X, Y: Integer);
+var
+  iCol: Integer;
+  StringGrid: THackStringGrid absolute Sender;
+begin
+  if (StringGrid.fGridState = gsColSizing) then
+    begin
+      if StringGrid.EditorMode then
+      with StringGrid.Editor do
+      begin
+        iCol:= StrToInt(Hint);
+        Width:= StringGrid.ColWidths[iCol];
+        Left:= StringGrid.CellRect(iCol, StringGrid.Row).Left;
+      end;
+      if btnAdd.Visible then
+        btnAdd.Left:= StringGrid.CellRect(4, StringGrid.Row).Right - btnAdd.Width;
+    end;
 end;
 
 procedure TfColumnsSetConf.EditorKeyDown(Sender: TObject; var Key: Word;

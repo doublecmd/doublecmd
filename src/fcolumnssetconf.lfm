@@ -83,9 +83,9 @@ object fColumnsSetConf: TfColumnsSetConf
       RowCount = 3
       TabOrder = 0
       OnEditingDone = stgColumnsEditingDone
-      OnHeaderSized = stgColumnsHeaderSized
       OnKeyDown = stgColumnsKeyDown
       OnMouseDown = stgColumnsMouseDown
+      OnMouseMove = stgColumnsMouseMove
       OnSelectEditor = stgColumnsSelectEditor
       ColWidths = (
         67
