@@ -299,6 +299,7 @@ begin
       AddHotKey('Shift+F5','cm_CopySamePanel','','FrmMain','FrmMain');
       AddHotKey('Shift+F6','cm_RenameOnly','','FrmMain','FrmMain');
       AddHotKey('Shift+F4','cm_EditNew','','FrmMain','FrmMain');
+      AddHotKey('Shift+F10','cm_ContextMenu','','FrmMain','FrmMain');
       AddHotKey('Ctrl+H','cm_DirHistory','','FrmMain','FrmMain');
       AddHotKey('Ctrl+7','cm_ShowCmdLineHistory','','FrmMain','FrmMain');
       AddHotKey('Ctrl+L','cm_CalculateSpace','','FrmMain','FrmMain');
