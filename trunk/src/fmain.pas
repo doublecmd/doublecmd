@@ -3119,11 +3119,11 @@ end;
 procedure TfrmMain.LoadWindowState;
 begin
   (* Load window bounds and state*)
-  Left := gIni.ReadInteger('Configuration', 'Main.Left', Left);
-  Top := gIni.ReadInteger('Configuration', 'Main.Top', Top);
-  Width :=  gIni.ReadInteger('Configuration', 'Main.Width', Width);
-  Height :=  gIni.ReadInteger('Configuration', 'Main.Height', Height);
-  if gIni.ReadBool('Configuration', 'maximized', True) then
+  Left := gIni.ReadInteger('Configuration', 'Main.Left', 80);
+  Top := gIni.ReadInteger('Configuration', 'Main.Top', 48);
+  Width :=  gIni.ReadInteger('Configuration', 'Main.Width', 800);
+  Height :=  gIni.ReadInteger('Configuration', 'Main.Height', 480);
+  if gIni.ReadBool('Configuration', 'Maximized', True) then
     Self.WindowState := wsMaximized;
 
   (* Load all tabs *)
@@ -3152,7 +3152,7 @@ begin
     gIni.WriteInteger('Configuration', 'Main.Top', Top);
     gIni.WriteInteger('Configuration', 'Main.Width', Width);
     gIni.WriteInteger('Configuration', 'Main.Height', Height);
-    gIni.WriteBool('Configuration', 'maximized', (WindowState = wsMaximized));
+    gIni.WriteBool('Configuration', 'Maximized', (WindowState = wsMaximized));
   except
   end;
 end;
