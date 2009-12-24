@@ -422,6 +422,7 @@ type
     procedure cm_QuickSearch(param: string='');
     procedure cm_QuickFilter(param: string='');
     procedure cm_Open(param: string='');
+    procedure cm_ReverseOrder(param:string);
     procedure cm_SortByColumn(param: string='');
     procedure cm_CountDirContent(param: string='');
     procedure cm_RenameOnly(param: string='');
@@ -3084,6 +3085,12 @@ procedure TColumnsFileView.cm_Open(param: string='');
 begin
   if Assigned(GetActiveItem) then
     ChooseFile(GetActiveItem);
+end;
+
+procedure TColumnsFileView.cm_ReverseOrder(param:string);
+begin
+  FSortDirection := ReverseSortDirection(FSortDirection);
+  SortByColumn(FSortColumn);
 end;
 
 procedure TColumnsFileView.cm_SortByColumn(param: string='');
