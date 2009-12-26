@@ -95,9 +95,9 @@ begin
             end;
           fseorSymLink:
             begin
-              // change directory to new path (returned in Operation.ExecutablePath)
-              DebugLn('Change directory to ', Operation.ExecutablePath);
-              aFileView.CurrentPath:= Operation.ExecutablePath;
+              // change directory to new path (returned in Operation.SymLinkPath)
+              DebugLn('Change directory to ', Operation.SymLinkPath);
+              aFileView.CurrentPath:= Operation.SymLinkPath;
             end;
           end;
         finally
