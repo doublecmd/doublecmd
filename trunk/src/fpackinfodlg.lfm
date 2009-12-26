@@ -9,7 +9,7 @@ object frmPackInfoDlg: TfrmPackInfoDlg
   ClientHeight = 350
   ClientWidth = 335
   Position = poScreenCenter
-  LCLVersion = '0.9.25'
+  LCLVersion = '0.9.29'
   object btnClose: TButton
     AnchorSideTop.Control = nbProperties
     AnchorSideTop.Side = asrBottom
@@ -40,7 +40,7 @@ object frmPackInfoDlg: TfrmPackInfoDlg
     BorderSpacing.Top = 4
     BorderSpacing.Right = 4
     Caption = '&Unpack and execute'
-    OnClick = btnUnpackAndExecClick
+    ModalResult = 1
     TabOrder = 1
   end
   object nbProperties: TNotebook
@@ -276,7 +276,7 @@ object frmPackInfoDlg: TfrmPackInfoDlg
         AnchorSideTop.Control = lblPackedFile
         AnchorSideTop.Side = asrCenter
         Left = 60
-        Height = 20
+        Height = 21
         Top = 8
         Width = 259
         Color = clBtnFace
@@ -300,7 +300,7 @@ object frmPackInfoDlg: TfrmPackInfoDlg
     BorderSpacing.Top = 4
     BorderSpacing.Right = 4
     Caption = 'Unpack &all and execute'
-    OnClick = btnUnpackAllAndExecClick
+    ModalResult = 8
     TabOrder = 2
   end
 end

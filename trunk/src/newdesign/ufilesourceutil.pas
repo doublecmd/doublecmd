@@ -114,7 +114,7 @@ begin
   Result := False;
 
   if ChooseArchive(aFileView, aFile) then
-    Exit;
+    Exit(True);
 
   // Work only for TVfsFileSource.
   if aFileView.FileSource.IsClass(TVfsFileSource) then
