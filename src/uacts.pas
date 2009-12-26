@@ -971,14 +971,17 @@ end;
 
 procedure TActs.cm_OpenBar(param: string);
 var
+  sFileName: UTF8String;
   IniFile: TIniFileEx = nil;
 begin
+  if param = EmptyStr then Exit;
   with frmMain do
   try
     if Pos(PathDelim, param) <> 0 then
-      IniFile:= TIniFileEx.Create(GetCmdDirFromEnvVar(param))
+      sFileName:= GetCmdDirFromEnvVar(param)
     else
-      IniFile:= TIniFileEx.Create(gpIniDir + param);
+      sFileName:= gpIniDir + param;
+    IniFile:= TIniFileEx.Create(sFileName);
     MainToolBar.LoadFromIniFile(IniFile);
   finally
     FreeThenNil(IniFile);
@@ -988,14 +991,17 @@ end;
 procedure TActs.cm_ShowButtonMenu(param:string);
 var
   Point: TPoint;
+  sFileName: UTF8String;
   IniFile: TIniFileEx = nil;
 begin
+  if param = EmptyStr then Exit;
   with frmMain do
   try
     if Pos(PathDelim, param) <> 0 then
-      IniFile:= TIniFileEx.Create(GetCmdDirFromEnvVar(param))
+      sFileName:= GetCmdDirFromEnvVar(param)
     else
-      IniFile:= TIniFileEx.Create(gpIniDir + param);
+      sFileName:= gpIniDir + param;
+    IniFile:= TIniFileEx.Create(sFileName);
     pmButtonMenu.LoadFromIniFile(IniFile);
     Point:=MainToolBar.ClientToScreen(Classes.Point(0,0));
     Point.Y:=Point.Y+MainToolbar.Height;
