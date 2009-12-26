@@ -65,7 +65,7 @@ type
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; override;
     function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; override;
-    function CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation; override;
+    function CreateExecuteOperation(const ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
     function CreateCalcChecksumOperation(var theFiles: TFiles;
                                          aTargetPath: String;
                                          aTargetMask: String): TFileSourceOperation; override;
@@ -265,12 +265,12 @@ begin
   Result := TFileSystemCreateDirectoryOperation.Create(TargetFileSource, BasePath, DirectoryPath);
 end;
 
-function TFileSystemFileSource.CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation;
+function TFileSystemFileSource.CreateExecuteOperation(const ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation;
 var
   TargetFileSource: IFileSource;
 begin
   TargetFileSource := Self;
-  Result:=  TFileSystemExecuteOperation.Create(TargetFileSource, BasePath, ExecutablePath, Verb);
+  Result:=  TFileSystemExecuteOperation.Create(TargetFileSource, ExecutableFile, BasePath, Verb);
 end;
 
 function TFileSystemFileSource.CreateCalcChecksumOperation(var theFiles: TFiles;

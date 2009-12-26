@@ -7,7 +7,8 @@ interface
 uses
   Classes, SysUtils, uWFXModule,
   uFileSourceProperty, uFileSourceOperationTypes,
-  uVirtualFileSource, uFileProperty, uFileSource, uFileSourceOperation;
+  uVirtualFileSource, uFileProperty, uFileSource,
+  uFileSourceOperation, uFile;
 
 type
 
@@ -45,7 +46,7 @@ type
 
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
-    function CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation; override;
+    function CreateExecuteOperation(const ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
 
     property VfsFileList: TWFXModuleList read FWFXModuleList;
 
@@ -104,12 +105,12 @@ begin
   Result := TVfsListOperation.Create(TargetFileSource, TargetPath);
 end;
 
-function TVfsFileSource.CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation;
+function TVfsFileSource.CreateExecuteOperation(const ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation;
 var
   TargetFileSource: IFileSource;
 begin
   TargetFileSource := Self;
-  Result:=  TVfsExecuteOperation.Create(TargetFileSource, BasePath, ExecutablePath, Verb);
+  Result:=  TVfsExecuteOperation.Create(TargetFileSource, ExecutableFile, BasePath, Verb);
 end;
 
 end.

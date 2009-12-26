@@ -78,8 +78,9 @@ begin
   if (fsoExecute in aFileView.FileSource.GetOperationsTypes) then
     begin
       Operation := aFileView.FileSource.CreateExecuteOperation(
-                       aFileView.CurrentPath,
-                       aFile.Name, 'open') as TFileSourceExecuteOperation;
+                        aFile,
+                        aFileView.CurrentPath,
+                        'open') as TFileSourceExecuteOperation;
 
       if Assigned(Operation) then
         try

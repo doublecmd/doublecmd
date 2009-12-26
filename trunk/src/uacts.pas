@@ -2303,8 +2303,8 @@ begin
         if Assigned(aFile) then
           try
             Operation:= ActiveFrame.FileSource.CreateExecuteOperation(
+                            aFile,
                             ActiveFrame.CurrentPath,
-                            aFile.Path + aFile.Name,
                             'properties') as TFileSourceExecuteOperation;
             if Assigned(Operation) then
               Operation.Execute;

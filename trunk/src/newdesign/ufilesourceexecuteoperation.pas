@@ -8,7 +8,8 @@ uses
   Classes, SysUtils,
   uFileSourceOperation,
   uFileSourceOperationTypes,
-  uFileSource;
+  uFileSource,
+  uFile;
 
 type
 
@@ -39,16 +40,16 @@ type
   public
     {en
        @param(aTargetFileSource
-              File source where the directory should be created.)
+              File source where the file should be executed.)
+       @param(aExecutableFile
+              File that should be executed.)
        @param(aCurrentPath
               Path of the file source where the execution should take place.)
-       @param(aExecutablePath
-              Absolute or relative (to aCurrentPath) path
-              to a executable that should be executed.)
     }
     constructor Create(aTargetFileSource: IFileSource;
-                       aCurrentPath: String;
-                       aExecutablePath, aVerb: UTF8String); virtual reintroduce;
+                       aExecutableFile: TFile;
+                       aCurrentPath,
+                       aVerb: UTF8String); virtual reintroduce;
 
     destructor Destroy; override;
 
@@ -67,26 +68,19 @@ uses
 
 constructor TFileSourceExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
-                aCurrentPath: String;
-                aExecutablePath, aVerb: UTF8String);
+                aExecutableFile: TFile;
+                aCurrentPath,
+                aVerb: UTF8String);
 begin
   inherited Create(aTargetFileSource);
 
   FFileSource := aTargetFileSource;
   FCurrentPath := aCurrentPath;
-  FExecutablePath := aExecutablePath;
+//  FExecutablePath := aExecutablePath;
   FVerb := aVerb;
 
-  if FFileSource.GetPathType(FExecutablePath) = ptAbsolute then
-  begin
-    FAbsolutePath := FExecutablePath;
-    FRelativePath := ExtractDirLevel(aCurrentPath, FExecutablePath);
-  end
-  else
-  begin
-    FAbsolutePath := aCurrentPath + FExecutablePath;
-    FRelativePath := FExecutablePath;
-  end;
+  FAbsolutePath := aExecutableFile.FullPath;
+  FRelativePath := aExecutableFile.Name;
 end;
 
 destructor TFileSourceExecuteOperation.Destroy;

@@ -70,7 +70,7 @@ type
                                     TargetPath: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; override;
-    function CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation; override;
+    function CreateExecuteOperation(const ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
                                             var theNewProperties: TFileProperties): TFileSourceOperation; override;
 
@@ -577,12 +577,12 @@ begin
   Result := TWfxPluginCreateDirectoryOperation.Create(TargetFileSource, BasePath, DirectoryPath);
 end;
 
-function TWfxPluginFileSource.CreateExecuteOperation(BasePath, ExecutablePath, Verb: String): TFileSourceOperation;
+function TWfxPluginFileSource.CreateExecuteOperation(const ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation;
 var
   TargetFileSource: IFileSource;
 begin
   TargetFileSource := Self;
-  Result:=  TWfxPluginExecuteOperation.Create(TargetFileSource, BasePath, ExecutablePath, Verb);
+  Result:=  TWfxPluginExecuteOperation.Create(TargetFileSource, ExecutableFile, BasePath, Verb);
 end;
 
 function TWfxPluginFileSource.CreateSetFilePropertyOperation(
