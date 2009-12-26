@@ -31,7 +31,7 @@ type
     FVerb: UTF8String;
 
   protected
-    FExecutablePath: UTF8String;
+    FSymLinkPath: UTF8String;
     FExecuteOperationResult: TFileSourceExecuteOperationResult;
     function GetID: TFileSourceOperationType; override;
     procedure UpdateStatisticsAtStartTime; override;
@@ -54,7 +54,7 @@ type
     destructor Destroy; override;
 
     property CurrentPath: UTF8String read FCurrentPath;
-    property ExecutablePath: UTF8String read FExecutablePath write FExecutablePath;
+    property SymLinkPath: UTF8String read FSymLinkPath write FSymLinkPath;
     property AbsolutePath: UTF8String read FAbsolutePath;
     property RelativePath: UTF8String read FRelativePath;
     property Verb: UTF8String read FVerb;

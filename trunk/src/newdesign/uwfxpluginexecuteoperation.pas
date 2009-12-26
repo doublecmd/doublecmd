@@ -65,7 +65,7 @@ var
 begin
     RemoteName:= AbsolutePath;
     iResult:= FWfxPluginFileSource.WfxModule.WfxExecuteFile(0, RemoteName, Verb);
-    FExecutablePath:= RemoteName;
+    FSymLinkPath:= RemoteName;
     case iResult of
     FS_EXEC_OK:
       FExecuteOperationResult:= fseorSuccess;
