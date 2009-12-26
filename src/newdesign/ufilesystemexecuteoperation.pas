@@ -8,7 +8,8 @@ uses
   Classes, SysUtils,
   uFileSource,
   uFileSourceExecuteOperation,
-  uFileSystemFileSource;
+  uFileSystemFileSource,
+  uFile;
 
 type
 
@@ -20,17 +21,16 @@ type
   public
     {en
        @param(aTargetFileSource
-              File source where the directory should be created.
-              Class takes ownership of the pointer.)
+              File source where the file should be executed.)
+       @param(aExecutableFile
+              File that should be executed.)
        @param(aCurrentPath
               Path of the file source where the execution should take place.)
-       @param(aExecutablePath
-              Absolute or relative (to aCurrentPath) path
-              to a executable that should be executed.)
     }
     constructor Create(aTargetFileSource: IFileSource;
-                       aCurrentPath: String;
-                       aExecutablePath, aVerb: UTF8String); override;
+                       aExecutableFile: TFile;
+                       aCurrentPath,
+                       aVerb: UTF8String); override;
 
     procedure Initialize; override;
     procedure MainExecute; override;
@@ -44,11 +44,12 @@ uses
 
 constructor TFileSystemExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
-                aCurrentPath: String;
-                aExecutablePath, aVerb: UTF8String);
+                aExecutableFile: TFile;
+                aCurrentPath,
+                aVerb: UTF8String);
 begin
   FFileSystemFileSource := aTargetFileSource as IFileSystemFileSource;
-  inherited Create(aTargetFileSource, aCurrentPath, aExecutablePath, aVerb);
+  inherited Create(aTargetFileSource, aExecutableFile, aCurrentPath, aVerb);
 end;
 
 procedure TFileSystemExecuteOperation.Initialize;
