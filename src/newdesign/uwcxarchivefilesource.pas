@@ -95,6 +95,8 @@ type
                                     var SourceFiles: TFiles;
                                     TargetPath: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
+    function CreateExecuteOperation(const ExecutableFile: TFile;
+                                    BasePath, Verb: String): TFileSourceOperation; override;
 
     class function CreateByArchiveName(anArchiveFileName: String): IWcxArchiveFileSource;
 
@@ -129,7 +131,8 @@ uses
   uWcxArchiveListOperation,
   uWcxArchiveCopyInOperation,
   uWcxArchiveCopyOutOperation,
-  uWcxArchiveDeleteOperation;
+  uWcxArchiveDeleteOperation,
+  uWcxArchiveExecuteOperation;
 
 const
   connCopyIn  = 0;
@@ -218,7 +221,7 @@ end;
 
 function TWcxArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result := [fsoList, fsoCopyIn, fsoCopyOut, fsoDelete];
+  Result := [fsoList, fsoCopyIn, fsoCopyOut, fsoDelete, fsoExecute];
 end;
 
 function TWcxArchiveFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
@@ -334,6 +337,15 @@ begin
   TargetFileSource := Self;
   Result := TWcxArchiveDeleteOperation.Create(TargetFileSource,
                                               FilesToDelete);
+end;
+
+function TWcxArchiveFileSource.CreateExecuteOperation(const ExecutableFile: TFile;
+                                                      BasePath, Verb: String): TFileSourceOperation;
+var
+  TargetFileSource: IFileSource;
+begin
+  TargetFileSource := Self;
+  Result:=  TWcxArchiveExecuteOperation.Create(TargetFileSource, ExecutableFile, BasePath, Verb);
 end;
 
 function TWcxArchiveFileSource.ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;

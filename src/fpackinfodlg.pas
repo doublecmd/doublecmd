@@ -28,8 +28,8 @@ unit fPackInfoDlg;
 interface
 
 uses
-  SysUtils, LResources, Forms, StdCtrls,
-  ExtCtrls, uWCXModule, uOSUtils;
+  SysUtils, Classes, LResources, Forms, StdCtrls, ExtCtrls, Controls,
+  uWcxArchiveFile, uWcxArchiveFileSource, uFileSourceExecuteOperation;
 
 type
 
@@ -61,98 +61,63 @@ type
     lblPackedPacker: TLabel;
     lblPackedTime: TLabel;
     pgGeneral: TPage;
-    procedure btnUnpackAllAndExecClick(Sender: TObject);
-    procedure btnUnpackAndExecClick(Sender: TObject);
   private
-    fWCXModule: TWCXModule;
+    { private declarations }
   public
-    { public declarations }
+    constructor Create(TheOwner: TComponent; aFileSource: IWcxArchiveFileSource; aFile: TWcxArchiveFile); reintroduce;
   end; 
 
-function ShowPackInfoDlg(WCXModule: TWCXModule; HeaderData: TWCXHeader): Boolean;
+function ShowPackInfoDlg(aFileSource: IWcxArchiveFileSource; aFile: TWcxArchiveFile): TFileSourceExecuteOperationResult;
 
 implementation
 
 uses
-  uTypes, uFileList, uDCUtils, uShellExecute;
+  LCLType, uTypes, uFileProperty;
 
-function ShowPackInfoDlg(WCXModule: TWCXModule; HeaderData: TWCXHeader): Boolean;
-var
-  dtDateTime: TDateTime;
-  sArcType: String;
+function ShowPackInfoDlg(aFileSource: IWcxArchiveFileSource; aFile: TWcxArchiveFile): TFileSourceExecuteOperationResult;
 begin
-  with TfrmPackInfoDlg.Create(Application) do
+  Result:= fseorSuccess;
+  with TfrmPackInfoDlg.Create(Application, aFileSource, aFile) do
   begin
-    // save current VFS module
-    fWCXModule:= WCXModule;
-
-    edtPackedFile.Text:= HeaderData.FileName;
-    sArcType:= ExtractFileExt(HeaderData.ArcName);
-    Delete(sArcType, 1, 1);
-    lblPackedPacker.Caption:= sArcType;
-
-    if not FPS_ISDIR(HeaderData.FileAttr) then
-    begin
-      lblPackedOrgSize.Caption:=  IntToStr(HeaderData.UnpSize);
-      lblPackedPackedSize.Caption:= IntToStr(HeaderData.PackSize);
-      if HeaderData.UnpSize > 0 then
-        lblPackedCompression.Caption:= IntToStr(100 - (HeaderData.PackSize*100 div HeaderData.UnpSize))+'%';
-      lblPackedMethod.Caption:= IntToStr(HeaderData.Method);
+    case ShowModal of
+    mrCancel:
+      Result:= fseorSuccess;
+    mrOK:
+      Result:= fseorYourSelf;
+    mrAll:
+      Result:= fseorYourSelf;
     end;
-
-    // DateTime and Attributes
-    try
-      dtDateTime:= WcxFileTimeToDateTime(HeaderData.FileTime);
-    except
-      dtDateTime:= 0;
-    end;
-    lblPackedDate.Caption:= DateToStr(dtDateTime);
-    lblPackedTime.Caption:= TimeToStr(dtDateTime);
-    lblPackedAttr.Caption:= AttrToStr(HeaderData.FileAttr);
-    ShowModal;
     Free;
   end;
-  Result := True;
 end;
 
 { TfrmPackInfoDlg }
 
-procedure TfrmPackInfoDlg.btnUnpackAndExecClick(Sender: TObject);
+constructor TfrmPackInfoDlg.Create(TheOwner: TComponent;
+                                   aFileSource: IWcxArchiveFileSource; aFile: TWcxArchiveFile);
 var
-  ExtractFileList : TFileList;
-  sDestPath: String;
-  pfri: PFileRecItem;
+  sArcType: String;
 begin
-  Close;
-  ExtractFileList:= TFileList.Create;
-  ExtractFileList.CurrentDirectory:= PathDelim + ExtractFilePath(edtPackedFile.Text);
-  sDestPath:= GetTempFolder;
-  //DebugLn('sDestPath == ', sDestPath);
-  New(pfri);
-  pfri^.sName:= edtPackedFile.Text;
-  pfri^.iMode:= 0;
-  ExtractFileList.AddItem(pfri);
-  Dispose(pfri);
-  fWCXModule.VFSCopyOut(ExtractFileList, sDestPath + '*', 0);
-  // execute file
-  ShellExecuteEx('open', sDestPath+ExtractFileName(edtPackedFile.Text), sDestPath);
-end;
+  inherited Create(TheOwner);
 
-procedure TfrmPackInfoDlg.btnUnpackAllAndExecClick(Sender: TObject);
-var
-  ExtractFileList : TFileList;
-  sDestPath: String;
-begin
-  Close;
-  ExtractFileList:= TFileList.Create;
-  ExtractFileList.CurrentDirectory:= PathDelim;
-  sDestPath:= GetTempFolder;
-  //DebugLn('sDestPath == ', sDestPath);
-  fWCXModule.VFSList(PathDelim, ExtractFileList);
+  edtPackedFile.Text:= aFile.FullPath;
+  sArcType:= ExtractFileExt(aFileSource.ArchiveFileName);
+  Delete(sArcType, 1, 1);
+  lblPackedPacker.Caption:= sArcType;
 
-  fWCXModule.VFSCopyOut(ExtractFileList, sDestPath + '*', 0);
-  // execute file
-  ShellExecuteEx('open', sDestPath+edtPackedFile.Text, sDestPath);
+  if not aFile.IsDirectory then
+  begin
+    lblPackedOrgSize.Caption:=  IntToStr(aFile.Size);
+    lblPackedPackedSize.Caption:= IntToStr(aFile.CompressedSize);
+    if aFile.Size > 0 then
+      lblPackedCompression.Caption:= IntToStr(100 - (aFile.CompressedSize *100 div aFile.Size))+'%';
+//      lblPackedMethod.Caption:= IntToStr(HeaderData.Method);
+  end;
+
+  // DateTime and Attributes
+  lblPackedDate.Caption:= DateToStr(aFile.ModificationTime);
+  lblPackedTime.Caption:= TimeToStr(aFile.ModificationTime);
+  lblPackedAttr.Caption:= aFile.Properties[fpAttributes].AsString;
 end;
 
 initialization
