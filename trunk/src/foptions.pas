@@ -1725,7 +1725,7 @@ begin
   With (Control as TListBox) do
    begin
      Canvas.FillRect(ARect);
-     if not Selected[Index] then
+     if (not Selected[Index]) and Assigned(Items.Objects[Index]) then
        Canvas.Font.Color:=TMaskItem(Items.Objects[Index]).cColor
      else
        Canvas.Font.Color:=gCursorText;
