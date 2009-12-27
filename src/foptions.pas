@@ -452,8 +452,10 @@ end;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
-  // Localize Mouse selection mode ComboBox
+  // Localize some ComboBox
   ParseLineToList(rsOptMouseSelectionButton, cbMouseMode.Items);
+  ParseLineToList(rsOptAutoSizeColumn, cmbAutoSizeColumn.Items);
+  ParseLineToList(rsOptTabsPosition, cmbTabsPosition.Items);
   // Scrolling radio group localization
   with rgScrolling do
     begin
