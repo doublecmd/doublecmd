@@ -529,6 +529,7 @@ msgid "Cancel"
 msgstr ""
 
 #: TFRMEXTRACTDLG.BTNHELP.CAPTION
+msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
 msgid "Help"
 msgstr ""
 
@@ -2846,6 +2847,26 @@ msgstr ""
 msgid "Viewer plugins (.WLX)"
 msgstr ""
 
+#: TFRMPACKDLG.BTNCANCEL.CAPTION
+msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr ""
+
+#: TFRMPACKDLG.BTNCONFIG.CAPTION
+msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
+msgid "&Configure"
+msgstr ""
+
+#: TFRMPACKDLG.BTNHELP.CAPTION
+msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
+msgid "Help"
+msgstr ""
+
+#: TFRMPACKDLG.BTNOK.CAPTION
+msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
+msgid "OK"
+msgstr ""
+
 #: TFRMPACKDLG.CAPTION
 msgid "Pack files"
 msgstr ""
@@ -3886,6 +3907,7 @@ msgid "&Add %s"
 msgstr ""
 
 #: ulng.rsmsgpopuphotcnf
+msgctxt "ulng.rsmsgpopuphotcnf"
 msgid "&Configure"
 msgstr ""
 
@@ -4041,6 +4063,10 @@ msgstr ""
 msgid "Auto refresh"
 msgstr ""
 
+#: ulng.rsoptautosizecolumn
+msgid "First;Last;"
+msgstr ""
+
 #: ulng.rsoptbehav
 msgid "Behaviors"
 msgstr ""
@@ -4172,6 +4198,10 @@ msgstr ""
 #: ulng.rsoptquicksearch
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
+msgstr ""
+
+#: ulng.rsopttabsposition
+msgid "Top;Bottom;"
 msgstr ""
 
 #: ulng.rsopttools

@@ -529,6 +529,7 @@ msgid "Cancel"
 msgstr "取消"
 
 #: TFRMEXTRACTDLG.BTNHELP.CAPTION
+msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
 msgid "Help"
 msgstr "帮助"
 
@@ -2857,6 +2858,26 @@ msgstr "文件系统插件(.WFX)"
 msgid "Viewer plugins (.WLX)"
 msgstr "查看器插件 (.WLX)"
 
+#: TFRMPACKDLG.BTNCANCEL.CAPTION
+msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "取消"
+
+#: TFRMPACKDLG.BTNCONFIG.CAPTION
+msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
+msgid "&Configure"
+msgstr "配置(&C)"
+
+#: TFRMPACKDLG.BTNHELP.CAPTION
+msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
+msgid "Help"
+msgstr "帮助"
+
+#: TFRMPACKDLG.BTNOK.CAPTION
+msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
+msgid "OK"
+msgstr "确定"
+
 #: TFRMPACKDLG.CAPTION
 msgid "Pack files"
 msgstr "打包文件"
@@ -3899,6 +3920,7 @@ msgid "&Add %s"
 msgstr "添加(&A) %s"
 
 #: ulng.rsmsgpopuphotcnf
+msgctxt "ulng.rsmsgpopuphotcnf"
 msgid "&Configure"
 msgstr "配置(&C)"
 
@@ -4056,6 +4078,10 @@ msgstr " \"%s\" 相关插件:"
 msgid "Auto refresh"
 msgstr "自动刷新"
 
+#: ulng.rsoptautosizecolumn
+msgid "First;Last;"
+msgstr ""
+
 #: ulng.rsoptbehav
 msgid "Behaviors"
 msgstr "行为"
@@ -4190,6 +4216,10 @@ msgstr "插件"
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
 msgstr "快速搜索"
+
+#: ulng.rsopttabsposition
+msgid "Top;Bottom;"
+msgstr ""
 
 #: ulng.rsopttools
 msgid "Tools"

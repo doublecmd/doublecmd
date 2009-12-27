@@ -542,6 +542,7 @@ msgid "Cancel"
 msgstr "Zrušit"
 
 #: TFRMEXTRACTDLG.BTNHELP.CAPTION
+msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
 msgid "Help"
 msgstr "Nápověda"
 
@@ -2881,6 +2882,26 @@ msgstr "Pluginy souborových systémů (.WFX)"
 msgid "Viewer plugins (.WLX)"
 msgstr "Zobrazovací pluginy (.WLX)"
 
+#: TFRMPACKDLG.BTNCANCEL.CAPTION
+msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: TFRMPACKDLG.BTNCONFIG.CAPTION
+msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
+msgid "&Configure"
+msgstr "&Konfigurovat"
+
+#: TFRMPACKDLG.BTNHELP.CAPTION
+msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
+msgid "Help"
+msgstr "Nápověda"
+
+#: TFRMPACKDLG.BTNOK.CAPTION
+msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
+msgid "OK"
+msgstr "OK"
+
 #: TFRMPACKDLG.CAPTION
 msgid "Pack files"
 msgstr "Komprimovat soubory"
@@ -3928,6 +3949,7 @@ msgid "&Add %s"
 msgstr "&Přidat %s"
 
 #: ulng.rsmsgpopuphotcnf
+msgctxt "ulng.rsmsgpopuphotcnf"
 msgid "&Configure"
 msgstr "&Konfigurovat"
 
@@ -4088,6 +4110,10 @@ msgstr "Asociovat plugin \"%s\" s:"
 msgid "Auto refresh"
 msgstr "Automatická obnova"
 
+#: ulng.rsoptautosizecolumn
+msgid "First;Last;"
+msgstr ""
+
 #: ulng.rsoptbehav
 msgid "Behaviors"
 msgstr "Funkce"
@@ -4225,6 +4251,10 @@ msgstr "Zásuvné moduly"
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
 msgstr "Rychlé hledání"
+
+#: ulng.rsopttabsposition
+msgid "Top;Bottom;"
+msgstr ""
 
 #: ulng.rsopttools
 msgid "Tools"
