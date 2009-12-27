@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-12-28 01:14+0300\n"
+"PO-Revision-Date: 2009-12-28 01:36+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -528,6 +528,7 @@ msgid "Cancel"
 msgstr "Отмена"
 
 #: TFRMEXTRACTDLG.BTNHELP.CAPTION
+msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
 msgid "Help"
 msgstr "Помощь"
 
@@ -2853,6 +2854,26 @@ msgstr "Плагины файловой системы (.WFX)"
 msgid "Viewer plugins (.WLX)"
 msgstr "Плагины просмотрщика (.WLX)"
 
+#: TFRMPACKDLG.BTNCANCEL.CAPTION
+msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Отмена"
+
+#: TFRMPACKDLG.BTNCONFIG.CAPTION
+msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
+msgid "&Configure"
+msgstr "&Настроить"
+
+#: TFRMPACKDLG.BTNHELP.CAPTION
+msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
+msgid "Help"
+msgstr "Помощь"
+
+#: TFRMPACKDLG.BTNOK.CAPTION
+msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
+msgid "OK"
+msgstr ""
+
 #: TFRMPACKDLG.CAPTION
 msgid "Pack files"
 msgstr "Упаковка файлов"
@@ -3674,7 +3695,7 @@ msgstr "Данные повреждены"
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
-msgstr ""
+msgstr "Дата %s не поддерживается"
 
 #: ulng.rsmsgerrdirexists
 msgid "Directory %s exists!"
@@ -3893,6 +3914,7 @@ msgid "&Add %s"
 msgstr "&Добавить %s"
 
 #: ulng.rsmsgpopuphotcnf
+msgctxt "ulng.rsmsgpopuphotcnf"
 msgid "&Configure"
 msgstr "&Настроить"
 
@@ -4049,6 +4071,10 @@ msgstr "Связать плагин \"%s\" с расширением:"
 msgid "Auto refresh"
 msgstr "Автообновление"
 
+#: ulng.rsoptautosizecolumn
+msgid "First;Last;"
+msgstr "Первой;Последней;"
+
 #: ulng.rsoptbehav
 msgid "Behaviors"
 msgstr "Поведение"
@@ -4121,11 +4147,11 @@ msgstr "Горячие клавиши"
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
-msgstr ""
+msgstr "Горячая клавиша уже используется"
 
 #: ulng.rsopthotkeysshortcutusedtext1
 msgid "Shortcut %s is already used for %s."
-msgstr ""
+msgstr "Горячая клавиша %s уже использована для %s."
 
 #: ulng.rsopthotkeysshortcutusedtext2
 msgid "Change it to %s?"
@@ -4183,6 +4209,10 @@ msgstr "Плагины"
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
 msgstr "Быстрый поиск"
+
+#: ulng.rsopttabsposition
+msgid "Top;Bottom;"
+msgstr "Вверху;Внизу;"
 
 #: ulng.rsopttools
 msgid "Tools"
@@ -4292,9 +4322,9 @@ msgstr "Внутренняя программа просмотра Double Comman
 
 #: ulng.rsviewencoding
 msgid "Encoding"
-msgstr ""
+msgstr "Кодировка"
 
 #: ulng.rsviewnotfound
 msgid "%s not found!"
-msgstr ""
+msgstr "%s не найден!"
 

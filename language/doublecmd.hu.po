@@ -529,6 +529,7 @@ msgid "Cancel"
 msgstr "Mégsem"
 
 #: TFRMEXTRACTDLG.BTNHELP.CAPTION
+msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
 msgid "Help"
 msgstr "Súgó"
 
@@ -2857,6 +2858,26 @@ msgstr "Fájlrendszer beépülők (.WFX)"
 msgid "Viewer plugins (.WLX)"
 msgstr "Nézőke beépülők (.WLX)"
 
+#: TFRMPACKDLG.BTNCANCEL.CAPTION
+msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: TFRMPACKDLG.BTNCONFIG.CAPTION
+msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
+msgid "&Configure"
+msgstr "&Beállítás"
+
+#: TFRMPACKDLG.BTNHELP.CAPTION
+msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
+msgid "Help"
+msgstr "Súgó"
+
+#: TFRMPACKDLG.BTNOK.CAPTION
+msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
+msgid "OK"
+msgstr "Oké"
+
 #: TFRMPACKDLG.CAPTION
 msgid "Pack files"
 msgstr "Fájlok tömörítése"
@@ -3902,6 +3923,7 @@ msgid "&Add %s"
 msgstr "%s hozzá&adása"
 
 #: ulng.rsmsgpopuphotcnf
+msgctxt "ulng.rsmsgpopuphotcnf"
 msgid "&Configure"
 msgstr "&Beállítás"
 
@@ -4059,6 +4081,10 @@ msgstr "A \"%s\" beépülő társítása ezzel:"
 msgid "Auto refresh"
 msgstr ""
 
+#: ulng.rsoptautosizecolumn
+msgid "First;Last;"
+msgstr ""
+
 #: ulng.rsoptbehav
 msgid "Behaviors"
 msgstr "Viselkedés"
@@ -4193,6 +4219,10 @@ msgstr "Beépülők"
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
 msgstr "Gyorskeresés"
+
+#: ulng.rsopttabsposition
+msgid "Top;Bottom;"
+msgstr ""
 
 #: ulng.rsopttools
 msgid "Tools"

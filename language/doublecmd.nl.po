@@ -529,6 +529,7 @@ msgid "Cancel"
 msgstr "Afbreken"
 
 #: TFRMEXTRACTDLG.BTNHELP.CAPTION
+msgctxt "TFRMEXTRACTDLG.BTNHELP.CAPTION"
 msgid "Help"
 msgstr "Help"
 
@@ -2849,6 +2850,26 @@ msgstr "Bestandsysteem plugins (.WFX)"
 msgid "Viewer plugins (.WLX)"
 msgstr "Viewer plug-ins (.WLX)"
 
+#: TFRMPACKDLG.BTNCANCEL.CAPTION
+msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Afbreken"
+
+#: TFRMPACKDLG.BTNCONFIG.CAPTION
+msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
+msgid "&Configure"
+msgstr "&Configureer"
+
+#: TFRMPACKDLG.BTNHELP.CAPTION
+msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
+msgid "Help"
+msgstr "Help"
+
+#: TFRMPACKDLG.BTNOK.CAPTION
+msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
+msgid "OK"
+msgstr "OK"
+
 #: TFRMPACKDLG.CAPTION
 msgid "Pack files"
 msgstr "Bestanden inpakken"
@@ -3891,6 +3912,7 @@ msgid "&Add %s"
 msgstr "Voeg toe"
 
 #: ulng.rsmsgpopuphotcnf
+msgctxt "ulng.rsmsgpopuphotcnf"
 msgid "&Configure"
 msgstr "&Configureer"
 
@@ -4048,6 +4070,10 @@ msgstr "Assosiëer plug-in  \"%s\" met:"
 msgid "Auto refresh"
 msgstr ""
 
+#: ulng.rsoptautosizecolumn
+msgid "First;Last;"
+msgstr ""
+
 #: ulng.rsoptbehav
 msgid "Behaviors"
 msgstr "Gedrag"
@@ -4182,6 +4208,10 @@ msgstr "PLugins"
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
 msgstr "Snel zoeken"
+
+#: ulng.rsopttabsposition
+msgid "Top;Bottom;"
+msgstr ""
 
 #: ulng.rsopttools
 msgid "Tools"
