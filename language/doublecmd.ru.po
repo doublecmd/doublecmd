@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-12-28 01:36+0300\n"
+"PO-Revision-Date: 2009-12-28 19:24+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1861,7 +1861,7 @@ msgstr "Ви&д"
 
 #: TFRMMAIN.MNUSHOWOPERATIONS.CAPTION
 msgid "Operations viewer"
-msgstr ""
+msgstr "Файловые операции"
 
 #: TFRMMAIN.MNUTABOPTIONS.CAPTION
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
@@ -2381,7 +2381,7 @@ msgstr "Сворачивать в системный трей"
 
 #: TFRMOPTIONS.CBONLYONCE.CAPTION
 msgid "Allow only one copy of DC at a time"
-msgstr ""
+msgstr "Не запускать более одной копии DC"
 
 #: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
 msgid "Process comments with files/folders"
@@ -2610,7 +2610,7 @@ msgstr "Заголовки вкладок"
 
 #: TFRMOPTIONS.GRPQUICKSEARCHFILTERKEYS.CAPTION
 msgid "Keys settings"
-msgstr ""
+msgstr "Установки клавиш"
 
 #: TFRMOPTIONS.LBCOMMANDS.CAPTION
 msgid "Commands:"
@@ -3635,7 +3635,7 @@ msgstr "Просмотреть"
 
 #: ulng.rsmsgaccount
 msgid "Account:"
-msgstr ""
+msgstr "Учетная запись:"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -3759,11 +3759,11 @@ msgstr "Невозможно переименовать файл %s в %s"
 
 #: ulng.rsmsgerrsetattribute
 msgid "Can not set attributes for \"%s\""
-msgstr ""
+msgstr "Невозможно установить атрибуты для \"%s\""
 
 #: ulng.rsmsgerrsetdatetime
 msgid "Can not set date/time for \"%s\""
-msgstr ""
+msgstr "Невозможно установить дату/время для \"%s\""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -3907,7 +3907,7 @@ msgstr "Пароль:"
 
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
-msgstr ""
+msgstr "Пароль (Firewall):"
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -3956,7 +3956,7 @@ msgstr "Изменение метки диска"
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
-msgstr ""
+msgstr "Путь назначения:"
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
@@ -3972,7 +3972,7 @@ msgstr "Имя пользователя:"
 
 #: ulng.rsmsgusernamefirewall
 msgid "User name (Firewall):"
-msgstr ""
+msgstr "Имя пользователя (Firewall):"
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
@@ -3997,11 +3997,11 @@ msgstr ""
 
 #: ulng.rsoperautostart
 msgid "Auto-started"
-msgstr ""
+msgstr "Запущено автоматически"
 
 #: ulng.rsoperfinished
 msgid "Finished"
-msgstr ""
+msgstr "Завершено"
 
 #: ulng.rsopermanualstart
 msgid "Manually started"
@@ -4009,51 +4009,51 @@ msgstr ""
 
 #: ulng.rsopernotstarted
 msgid "Not started"
-msgstr ""
+msgstr "Не запущено"
 
 #: ulng.rsoperpaused
 msgid "Paused"
-msgstr ""
+msgstr "На паузе"
 
 #: ulng.rsoperpausing
 msgid "Pausing"
-msgstr ""
+msgstr "Установка на паузу"
 
 #: ulng.rsoperqueue
 msgid "Queued"
-msgstr ""
+msgstr "В очереди"
 
 #: ulng.rsoperrunning
 msgid "Running"
-msgstr ""
+msgstr "Выполняется"
 
 #: ulng.rsoperstarting
 msgid "Starting"
-msgstr ""
+msgstr "Запускается"
 
 #: ulng.rsoperstartstateautostart
 msgid "Start"
-msgstr ""
+msgstr "Старт"
 
 #: ulng.rsoperstartstatemanualstart
 msgid "Manual start"
-msgstr ""
+msgstr "Ручной старт"
 
 #: ulng.rsoperstartstatequeuefirst
 msgid "Queue as first"
-msgstr ""
+msgstr "В очередь (первым)"
 
 #: ulng.rsoperstartstatequeuelast
 msgid "Queue as last"
-msgstr ""
+msgstr "В очередь (последним)"
 
 #: ulng.rsoperstopped
 msgid "Stopped"
-msgstr ""
+msgstr "Остановлено"
 
 #: ulng.rsoperstopping
 msgid "Stopping"
-msgstr ""
+msgstr "Останавливается"
 
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
@@ -4061,7 +4061,7 @@ msgstr ""
 
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
-msgstr ""
+msgstr "Ожидание ответа от пользователя"
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
@@ -4155,7 +4155,7 @@ msgstr "Горячая клавиша %s уже использована для 
 
 #: ulng.rsopthotkeysshortcutusedtext2
 msgid "Change it to %s?"
-msgstr ""
+msgstr "Изменить на %s?"
 
 #: ulng.rsopthotkeysusedby
 msgid "used by"
