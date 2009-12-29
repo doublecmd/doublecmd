@@ -233,7 +233,7 @@ begin
   FFileSources := TFileSources.Create;
   FFileSources.Add(FileSource);
   FCurrentPaths := TStringList.Create;
-  FCurrentPaths.Add(Path);
+  FCurrentPaths.Add(IncludeTrailingPathDelimiter(Path));
 
   FileSource.AddReloadEventListener(@ReloadEvent);
 
