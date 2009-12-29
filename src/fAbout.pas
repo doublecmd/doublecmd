@@ -86,27 +86,32 @@ uses
   LCLVersion, dmHelpManager;
 
 const
+  cIndention = LineEnding + #32#32;
   cAboutMsg =
-    'This program is free software under GNU GPL 2 license, see COPYING file'+LineEnding+
-    'Authors: '+ LineEnding +
-    'Alexander Koblov (Alexx2000@mail.ru)' + LineEnding +
-    'Radek Cervinka (radek.cervinka@centrum.cz) - author of Seksi Commander'+LineEnding+
-    'Contributors:'+LineEnding+
-    'Dmitry Kolomiets (B4rr4cuda@rambler.ru)'+LineEnding+
-    'Tolstov Igor (attid@yandex.ru)'+LineEnding+
-    'Vitaly Zotov (vitalyzotov@mail.ru)'+LineEnding+
-    'Zolotov Alex (zolotov-alex@shamangrad.net)'+LineEnding+
-    'Peter Cernoch (pcernoch@volny.cz) - author PFM'+LineEnding+
-    'Pavel Letko (letcuv@centrum.cz) - multirename, split, linker'+LineEnding+
-    'Jiri Karasek (jkarasek@centrum.cz)'+LineEnding+
-    'Vladimir Pilny (vladimir@pilny.com)'+LineEnding+
-    'Vaclav Juza (vaclavjuza@seznam.cz)'+LineEnding+
-    'Martin Matusu (xmat@volny.cz) - chown, chgrp'+LineEnding+
-    'Radek Polak - some viewer fixes'+LineEnding+
-    'translators (see detail in lng files)  '+LineEnding+LineEnding+
-    'In program used icons from:'+LineEnding+
-    '- Tango Icon Library (http://tango.freedesktop.org/Tango_Icon_Library)'+LineEnding+
-    '- Silk icon set 1.3 by Mark James (http://www.famfamfam.com/lab/icons/silk/)'+LineEnding+LineEnding+
+    'This program is free software under GNU GPL 2 license, see COPYING file' + LineEnding +
+    'Active developers: '+ cIndention +
+    'Alexander Koblov (Alexx2000@mail.ru) - author, core developer' + cIndention +
+    'Przemysław Nagay (cobines@gmail.com) - core developer' + LineEnding +
+    'Recent developers: ' + cIndention +
+    'Dmitry Kolomiets (B4rr4cuda@rambler.ru) - developer' + cIndention +
+    'Radek Cervinka (radek.cervinka@centrum.cz) - author of Seksi Commander' + LineEnding +
+    'Contributors:' + cIndention +
+    'Tolstov Igor (attid@yandex.ru)' + cIndention +
+    'Moroz Serhiy (frost.asm@gmail.com)' + cIndention +
+    'Vitaly Zotov (vitalyzotov@mail.ru)' + cIndention +
+    'Zolotov Alex (zolotov-alex@shamangrad.net)' + cIndention +
+    'Peter Cernoch (pcernoch@volny.cz) - author PFM' + cIndention +
+    'Pavel Letko (letcuv@centrum.cz) - multirename, split, linker' + cIndention +
+    'Jiri Karasek (jkarasek@centrum.cz)' + cIndention +
+    'Vladimir Pilny (vladimir@pilny.com)' + cIndention +
+    'Vaclav Juza (vaclavjuza@seznam.cz)' + cIndention +
+    'Martin Matusu (xmat@volny.cz) - chown, chgrp' + cIndention +
+    'Radek Polak - some viewer fixes' + cIndention +
+    'translators (see detail in lng files)  ' + LineEnding + LineEnding +
+    'In program used icons from:' + LineEnding +
+    '- Tango Icon Library (http://tango.freedesktop.org/Tango_Icon_Library)' + LineEnding +
+    '- Silk icon set 1.3 by Mark James (http://www.famfamfam.com/lab/icons/silk/)' + LineEnding +
+    '- Oxygen icon theme (http://oxygen-icons.org)' + LineEnding + LineEnding +
     'Big thanks to Lazarus and FreePascal Team';
 
 procedure ShowAboutBox;
