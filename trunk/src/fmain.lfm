@@ -87,6 +87,8 @@ object frmMain: TfrmMain
       object dskRight: TKASToolBar
         AnchorSideLeft.Control = dskLeft
         AnchorSideLeft.Side = asrBottom
+        AnchorSideRight.Control = pnlDisk
+        AnchorSideRight.Side = asrBottom
         Left = 143
         Height = 20
         Top = 1
