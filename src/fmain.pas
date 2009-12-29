@@ -3185,7 +3185,7 @@ begin
 
   for i := 0 to DriveToolbar.ButtonCount - 1 do
   begin
-    ToolButtonPath := DriveToolbar.Buttons[i].Hint;
+    ToolButtonPath := DriveToolbar.Commands[i];
     if IsInPath(UTF8UpperCase(ToolButtonPath), UTF8UpperCase(Path), True) then
     begin
       DriveToolbar.Buttons[i].Down := True;
