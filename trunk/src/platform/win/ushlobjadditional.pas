@@ -1943,7 +1943,7 @@ begin
       CoTaskMemFree(ParentPidl);
     end;
 
-    DesktopFolder._Release;
+    DesktopFolder:= nil;
   end; // SHGetDesktopFolder
 end;
 
