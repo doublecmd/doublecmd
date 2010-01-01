@@ -251,20 +251,42 @@ end;
 
 procedure TfrmViewer.FormKeyPress(Sender: TObject; var Key: Char);
 begin
-  case Key of
-    'N', 'n':
-      miNextClick(Sender);
-    'P', 'p':
-      miPrevClick(Sender);
-    '1':
-      ViewerControl.ViewerMode := vmText;
-    '2':
-      ViewerControl.ViewerMode := vmBin;
-    '3':
-      ViewerControl.ViewerMode := vmHex;
-    '4':
-      ViewerControl.ViewerMode := vmWrap;
-  end;
+  // The following keys work only in QuickView mode because there is no menu there.
+  // Otherwise this function is never called for those keys
+  // because the menu shortcuts are automatically used.
+  if bQuickView then
+    case Key of
+      'N', 'n':
+        begin
+          miNextClick(Sender);
+          Key := #0;
+        end;
+      'P', 'p':
+        begin
+          miPrevClick(Sender);
+          Key := #0;
+        end;
+      '1':
+        begin
+          miTextClick(Sender);
+          Key := #0;
+        end;
+      '2':
+        begin
+          miBinClick(Sender);
+          Key := #0;
+        end;
+      '3':
+        begin
+          miHexClick(Sender);
+          Key := #0;
+        end;
+      '4':
+        begin
+          miWrapTextClick(Sender);
+          Key := #0;
+        end;
+    end;
 end;
 
 function TfrmViewer.CheckPlugins(const sFileName: UTF8String; Force:boolean=false):boolean;
@@ -376,7 +398,7 @@ end;
 procedure TfrmViewer.frmViewerKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if Key in [VK_Q, VK_ESCAPE] then
+  if (not bQuickView) and (Key in [VK_Q, VK_ESCAPE]) then
   begin
     Key := 0;
     Close;
