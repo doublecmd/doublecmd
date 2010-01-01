@@ -133,7 +133,7 @@ type
     procedure DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
     procedure MakeTextEncodingsMenu;
     procedure ActivatePanel(Panel: TPanel);
-    procedure ReMmapIfNeed;
+    procedure ReopenAsTextIfNeeded;
 
   public
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource); reintroduce;
@@ -461,40 +461,32 @@ end;
 procedure TfrmViewer.miTextClick(Sender: TObject);
 begin
   ExitPluginMode;
-  ReMmapIfNeed;
+  ReopenAsTextIfNeeded;
   ViewerControl.ViewerMode := vmText;
-  ViewerControl.SetFocus;
-  ActivatePanel(pnlText);
   miText.Checked := True;
 end;
 
 procedure TfrmViewer.miBinClick(Sender: TObject);
 begin
   ExitPluginMode;
-  ReMmapIfNeed;
+  ReopenAsTextIfNeeded;
   ViewerControl.ViewerMode := vmBin;
-  ViewerControl.SetFocus;
-  ActivatePanel(pnlText);
   miBin.Checked := True;
 end;
 
 procedure TfrmViewer.miHexClick(Sender: TObject);
 begin
   ExitPluginMode;
-  ReMmapIfNeed;
+  ReopenAsTextIfNeeded;
   ViewerControl.ViewerMode := vmHex;
-  ViewerControl.SetFocus;
-  ActivatePanel(pnlText);
   miHex.Checked := True;
 end;
 
 procedure TfrmViewer.miWrapTextClick(Sender: TObject);
 begin
   ExitPluginMode;
-  ReMmapIfNeed;
+  ReopenAsTextIfNeeded;
   ViewerControl.ViewerMode := vmWrap;
-  ViewerControl.SetFocus;
-  ActivatePanel(pnlText);
   miWrapText.Checked := True;
 end;
 
@@ -576,7 +568,7 @@ begin
 }
 end;
 
-procedure TfrmViewer.ReMmapIfNeed;
+procedure TfrmViewer.ReopenAsTextIfNeeded;
 begin
   if bImage or bPlugin then
   begin
@@ -669,7 +661,7 @@ begin
       Image.Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
     except
       FreeAndNil(fsFileStream);
-      ReMmapIfNeed; // open as text
+      ReopenAsTextIfNeeded; // open as text
       Exit;
     end;
   finally
@@ -826,7 +818,7 @@ begin
   end
   else if Panel = pnlText then
   begin
-    if (not bQuickView) and CanFocus and pnlText.CanFocus and ViewerControl.CanFocus then
+    if (not bQuickView) and CanFocus and ViewerControl.CanFocus then
       ViewerControl.SetFocus;
 
     case ViewerControl.ViewerMode of
