@@ -2814,8 +2814,14 @@ begin
 end;
 
 procedure TColumnsFileView.UpdateView;
+var
+  bLoadingFilelist: Boolean;
 begin
-  StopBackgroundWork;
+  bLoadingFilelist := Assigned(FCurrentFileListBuilder) and
+                      FCurrentFileListBuilder.IsWorking;
+
+  if bLoadingFilelist then
+    StopBackgroundWork;
 
   pnlHeader.Visible := gCurDir;  // Current directory
   pnlFooter.Visible := gStatusBar;  // Status bar
@@ -2827,7 +2833,9 @@ begin
   dgPanel.UpdateView;
   UpdateColumnsView;
 
-  if Assigned(FFiles) then  // This condition is needed when cloning.
+  if bLoadingFilelist then
+    MakeFileSourceFileList
+  else if Assigned(FFiles) then  // This condition is needed when cloning.
     ReDisplayFileList;
 end;
 
