@@ -93,6 +93,7 @@ resourcestring
   rsMsgPasswordFirewall = 'Password (Firewall):';
   rsMsgTargetDir = 'Target path:';
   rsMsgURL = 'URL:';
+  rsMsgLoadingFileList = 'Loading file list...';
   rsMsgErrSetAttribute = 'Can not set attributes for "%s"';
   rsMsgErrSetDateTime = 'Can not set date/time for "%s"';
   rsMsgErrDateNotSupported = 'Date %s is not supported';
@@ -396,4 +397,4 @@ finalization
   if Assigned(LRSTranslator) then
     FreeAndNil(LRSTranslator);
 
-end.
+end.

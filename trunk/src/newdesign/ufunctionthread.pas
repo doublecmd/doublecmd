@@ -26,33 +26,43 @@ unit uFunctionThread;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, syncobjs;
 
 type
+  TFunctionThreadMethod = procedure(Params: Pointer) of object;
+
+  PFunctionThreadItem = ^TFunctionThreadItem;
+  TFunctionThreadItem = record
+    Method: TFunctionThreadMethod;
+    Params: Pointer;
+  end;
 
   TFunctionThread = class(TThread)
   private
-    FFunctionToCall: TThreadMethod;
+    FFunctionsToCall: TFPList;
     FExceptionMessage: String;
     FExceptionBackTrace: String;
     FWaitEvent: PRTLEvent;
-    FFunctionFinished: TNotifyEvent;
+    FLock: TCriticalSection;
+    FFinished: Boolean;
+    FFinishedEvent: PRTLEvent;
 
   protected
     procedure Execute; override;
 
     procedure ShowException;
-    procedure DoFunctionFinished;
-    procedure CallFunctionFinished;
 
   public
     constructor Create(CreateSuspended: Boolean); reintroduce;
     destructor Destroy; override;
 
-    procedure AssignFunction(AFunctionToCall: TThreadMethod);
+    procedure QueueFunction(AFunctionToCall: TFunctionThreadMethod; AParams: Pointer = nil);
     procedure Finish;
 
-    property OnFunctionFinished: TNotifyEvent read FFunctionFinished write FFunctionFinished;
+    class procedure WaitForWithSynchronize(AThread: TFunctionThread; WaitTimeMs: Cardinal = 0);
+
+    property Finished: Boolean read FFinished;
+    property FinishedEvent: PRTLEvent read FFinishedEvent;
   end;
 
 implementation
@@ -62,29 +72,54 @@ uses
 
 constructor TFunctionThread.Create(CreateSuspended: Boolean);
 begin
-  FreeOnTerminate := True;
+  FreeOnTerminate := False;
 
   FWaitEvent := RTLEventCreate;
-  FFunctionToCall := nil;
+  FFunctionsToCall := TFPList.Create;
+  FLock := TCriticalSection.Create;
+  FFinished := False;
+  FFinishedEvent := RTLEventCreate;
 
   inherited Create(CreateSuspended, DefaultStackSize);
 end;
 
 destructor TFunctionThread.Destroy;
+var
+  i: Integer;
 begin
   RTLeventdestroy(FWaitEvent);
+
+  FLock.Acquire;
+  for i := 0 to FFunctionsToCall.Count - 1 do
+    Dispose(PFunctionThreadItem(FFunctionsToCall[i]));
+  FLock.Release;
+
+  FreeThenNil(FFunctionsToCall);
+  FreeThenNil(FLock);
+
+  RTLeventSetEvent(FFinishedEvent);
+  RTLeventdestroy(FFinishedEvent);
 
   inherited Destroy;
 end;
 
-procedure TFunctionThread.AssignFunction(AFunctionToCall: TThreadMethod);
+procedure TFunctionThread.QueueFunction(AFunctionToCall: TFunctionThreadMethod; AParams: Pointer);
+var
+  pItem: PFunctionThreadItem;
 begin
-  if Assigned(AFunctionToCall) then
+  if (not Terminated) and Assigned(AFunctionToCall) then
   begin
-    if Assigned(FFunctionToCall) then
-      raise Exception.Create('A function is already running in this thread');
+    New(pItem);
+    pItem^.Method := AFunctionToCall;
+    pItem^.Params := AParams;
 
-    FFunctionToCall := AFunctionToCall;
+    FLock.Acquire;
+    try
+      FFunctionsToCall.Add(pItem);
+    finally
+      FLock.Release;
+    end;
+
     RTLeventSetEvent(FWaitEvent);
   end;
 end;
@@ -96,22 +131,35 @@ begin
 end;
 
 procedure TFunctionThread.Execute;
+var
+  pItem: PFunctionThreadItem;
 begin
-  while not Terminated do
+  while (not Terminated) {or (FFunctionsToCall.Count > 0)} do
   begin
     RTLeventResetEvent(FWaitEvent);
 
-    if Assigned(FFunctionToCall) then
+    pItem := nil;
+
+    FLock.Acquire;
+    try
+      if FFunctionsToCall.Count > 0 then
+      begin
+        pItem := PFunctionThreadItem(FFunctionsToCall[0]);
+        FFunctionsToCall.Delete(0);
+      end;
+    finally
+      FLock.Release;
+    end;
+
+    if Assigned(pItem) then
     begin
       try
-        FFunctionToCall();
-        DoFunctionFinished;
-        FFunctionToCall := nil;
+        pItem^.Method(pItem^.Params);
+        Dispose(pItem);
       except
         on e: Exception do
         begin
-          FFunctionToCall := nil;
-
+          Dispose(pItem);
           FExceptionMessage := e.Message;
           FExceptionBackTrace := ExceptionToString;
 
@@ -127,23 +175,45 @@ begin
       RTLeventWaitFor(FWaitEvent);
     end;
   end;
-end;
 
-procedure TFunctionThread.DoFunctionFinished;
-begin
-  if Assigned(FFunctionFinished) then
-    Synchronize(@CallFunctionFinished);
-end;
-
-procedure TFunctionThread.CallFunctionFinished;
-begin
-  FFunctionFinished(Self);
+  FFinished := True;
+  RTLeventSetEvent(FFinishedEvent);
 end;
 
 procedure TFunctionThread.ShowException;
 begin
   WriteExceptionToErrorFile(FExceptionBackTrace);
   ShowExceptionDialog(FExceptionMessage);
+end;
+
+class procedure TFunctionThread.WaitForWithSynchronize(AThread: TFunctionThread; WaitTimeMs: Cardinal);
+var
+  Waited: Cardinal = 0;
+begin
+  AThread.Finish;
+
+  while not AThread.Finished do
+  begin
+    RTLeventWaitFor(AThread.FinishedEvent, 100);
+    if AThread.Finished then
+      Break;
+
+    if WaitTimeMs > 0 then
+    begin
+      Inc(Waited, 100);
+      if Waited >= WaitTimeMs then
+      begin
+        AThread.FreeOnTerminate := True;
+        Exit;
+      end;
+    end;
+
+    CheckSynchronize;
+  end;
+
+  // Can now safely wait without checking for Synchronize.
+  WaitForThreadTerminate(AThread.Handle, WaitTimeMs - Waited);
+  AThread.Free;
 end;
 
 end.

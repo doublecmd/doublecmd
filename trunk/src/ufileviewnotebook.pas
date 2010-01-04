@@ -84,6 +84,7 @@ type
     function InsertPage(Index: Integer; aCaption: String = ''): TFileViewPage;
     procedure RemovePage(Index: Integer);
     procedure RemovePage(var aPage: TFileViewPage);
+    procedure RemoveAllPages;
     procedure ActivatePrevTab;
     procedure ActivateNextTab;
 
@@ -330,6 +331,11 @@ begin
   aPage := nil;
 end;
 
+procedure TFileViewNotebook.RemoveAllPages;
+begin
+  Pages.Clear;
+end;
+
 procedure TFileViewNotebook.ActivatePrevTab;
 begin
   if PageIndex = 0 then
@@ -424,4 +430,4 @@ begin
 end;
 
 end.
-
+

@@ -451,6 +451,7 @@ type
     procedure HideTrayIconDelayed(Data: PtrInt);
 
     procedure PopupDragDropMenu(var DropParams: TDropParams);
+    procedure CloseNotebook(ANotebook: TFileViewNotebook);
 
   public
     procedure HandleActionHotKeys(var Key: Word; Shift: TShiftState);
@@ -777,6 +778,10 @@ begin
     FreeAndNil(LeftFrameWatcher);
   if Assigned(RightFrameWatcher) then
     FreeAndNil(RightFrameWatcher);
+
+  // Close all tabs.
+  CloseNotebook(LeftTabs);
+  CloseNotebook(RightTabs);
 
   if gSaveCmdLineHistory then
     begin
@@ -3477,6 +3482,17 @@ begin
     lblDriveInfo.Caption := '';
 end;
 
+procedure TfrmMain.CloseNotebook(ANotebook: TFileViewNotebook);
+var
+  i: Integer;
+begin
+  // First stop all work in threads.
+  for i := 0 to ANotebook.PageCount - 1 do
+    ANotebook.View[i].StopBackgroundWork;
+  // Then remove file views.
+  ANotebook.RemoveAllPages;
+end;
+
 initialization
  {$I fmain.lrs}
-end.
+end.
