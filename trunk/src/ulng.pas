@@ -97,6 +97,7 @@ resourcestring
   rsMsgErrSetAttribute = 'Can not set attributes for "%s"';
   rsMsgErrSetDateTime = 'Can not set date/time for "%s"';
   rsMsgErrDateNotSupported = 'Date %s is not supported';
+  rsMsgErrSaveFile = 'Cannot save file';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuView = 'View';

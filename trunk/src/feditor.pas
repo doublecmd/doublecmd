@@ -149,7 +149,14 @@ type
     sEncodingIn,
     sEncodingOut,
     sOriginalText: String;
+
     procedure ChooseEncoding(mnuMenuItem: TMenuItem; sEncoding: String);
+    {en
+       Saves editor content to a file.
+       @returns(@true if successful)
+    }
+    function SaveFile(const sFileName: String): Boolean;
+
   public
     { Public declarations }
     SynEditSearch: TSynEditSearch;
@@ -157,7 +164,11 @@ type
     Function CreateNewTab:Integer; // return tab number
     Function OpenFileNewTab(const sFileName:String):Integer;
     }
-    procedure OpenFile(const sFileName:String);
+    {en
+       Opens a file.
+       @returns(@true if successful)
+    }
+    function OpenFile(const sFileName: String): Boolean;
     procedure UpdateStatus;
     procedure SetEncodingIn(Sender:TObject);
     procedure SetEncodingOut(Sender:TObject);
@@ -177,20 +188,22 @@ uses
   SynEditTypes, uGlobsPaths, uGlobs, fEditorConf, LCLType, LConvEncoding;
 
 procedure ShowEditor(const sFileName:String);
-var editor: TfrmEditor;
+var
+  editor: TfrmEditor;
 begin
   editor := TfrmEditor.Create(Application);
   gEditorPos.Restore(editor);
-  try
-    LoadAttrFromFile(gpIniDir + csDefaultName);
-    if sFileName = '' then
-      editor.actFileNew.Execute
-    else
-      editor.OpenFile(sFileName);
-    editor.ShowOnTop;
-  finally
-    //editor.Free;
+  LoadAttrFromFile(gpIniDir + csDefaultName);
+
+  if sFileName = '' then
+    editor.actFileNew.Execute
+  else
+  begin
+    if not editor.OpenFile(sFileName) then
+      Exit;
   end;
+
+  editor.ShowOnTop;
 end;
 
 procedure TfrmEditor.FormCreate(Sender: TObject);
@@ -264,17 +277,32 @@ begin
     end;
 end;
 
-procedure TfrmEditor.OpenFile(const sFileName:String);
+function TfrmEditor.OpenFile(const sFileName: String): Boolean;
 var
   h: TSynCustomHighlighter;
   fsFileStream: TFileStreamEx;
 begin
+  Result := False;
   try
     fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
-    Editor.Lines.LoadFromStream(fsFileStream);
-  finally
-    fsFileStream.Free;
+    try
+      Editor.Lines.LoadFromStream(fsFileStream);
+    finally
+      fsFileStream.Free;
+    end;
+  except
+    on EFCreateError do
+      begin
+        msgWarning(rsMsgErrECreate + ' ' + sFileName);
+        Exit;
+      end;
+    on EFOpenError do
+      begin
+        msgWarning(rsMsgErrEOpen + ' ' + sFileName);
+        Exit;
+      end;
   end;
+
   // set up text encoding
   sOriginalText:= Editor.Lines.Text; // save original text
   sEncodingIn:= GuessEncoding(sOriginalText); // try to guess encoding
@@ -292,6 +320,39 @@ begin
   bChanged:=False;
   bNoname:=False;
   UpdateStatus;
+  Result := True;
+end;
+
+function TfrmEditor.SaveFile(const sFileName: String): Boolean;
+var
+  slStringList: TStringListEx;
+begin
+  Result := False;
+  slStringList:= TStringListEx.Create;
+  try
+    // restore encoding
+    slStringList.Text:= ConvertEncoding(Editor.Lines.Text, EncodingUTF8, sEncodingOut);
+    try
+      // save to file
+      slStringList.SaveToFile(sFileName);
+    except
+      on e: EFCreateError do
+        begin
+          msgWarning(rsMsgErrSaveFile + ' ' + sFileName);
+          Exit;
+        end;
+      on EFOpenError do
+        begin
+          msgWarning(rsMsgErrSaveFile + ' ' + sFileName);
+          Exit;
+        end;
+    end;
+
+    Result := True;
+
+  finally
+    slStringList.Free;
+  end;
 end;
 
 procedure TfrmEditor.actFileNewExecute(Sender: TObject);
@@ -414,11 +475,10 @@ end;
 
 procedure TfrmEditor.actFileOpenExecute(Sender: TObject);
 begin
-  //inherited;
   dmComData.OpenDialog.Filter:='*.*';
   if not dmComData.OpenDialog.Execute then Exit;
-  OpenFile(dmComData.OpenDialog.FileName);
-  UpdateStatus;
+  if OpenFile(dmComData.OpenDialog.FileName) then
+    UpdateStatus;
 end;
 
 procedure TfrmEditor.SetHighLighter(Sender:TObject);
@@ -528,45 +588,23 @@ begin
 end;
 
 procedure TfrmEditor.actFileSaveExecute(Sender: TObject);
-var
-  slStringList: TStringListEx;
 begin
-  inherited;
   if bNoname then
     actFileSaveAs.Execute
   else
   begin
-    try
-      // restore encoding
-      slStringList:= TStringListEx.Create;
-      slStringList.Text:= ConvertEncoding(Editor.Lines.Text, EncodingUTF8, sEncodingOut);
-      // save to file
-      slStringList.SaveToFile(Caption);
-    finally
-      slStringList.Free;
-    end;
+    SaveFile(Caption);
     bChanged:=False;
     UpdateStatus;
   end;
 end;
 
 procedure TfrmEditor.actFileSaveAsExecute(Sender: TObject);
-var
-  slStringList: TStringListEx;
 begin
-  inherited;
   dmComData.SaveDialog.FileName:=Caption;
   dmComData.SaveDialog.Filter:='*.*'; // rewrite for highlighter
   if not dmComData.SaveDialog.Execute then Exit;
-  try
-    // restore encoding
-    slStringList:= TStringListEx.Create;
-    slStringList.Text:= ConvertEncoding(Editor.Lines.Text, EncodingUTF8, sEncodingOut);
-    // save to file
-    slStringList.SaveToFile(dmComData.SaveDialog.FileName);
-  finally
-    slStringList.Free;
-  end;
+  SaveFile(dmComData.SaveDialog.FileName);
   bChanged:=False;
   bNoname:=False;
   Caption:=dmComData.SaveDialog.FileName;
@@ -777,4 +815,4 @@ end;
 initialization
  {$I feditor.lrs}
 
-end.
+end.
