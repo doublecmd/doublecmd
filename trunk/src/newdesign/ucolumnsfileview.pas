@@ -287,6 +287,7 @@ type
     procedure ShowSearchPanel(Char : TUTF8Char = #0);
     procedure CloseSearchPanel;
     procedure ShowFilterPanel(Char : TUTF8Char = #0);
+    procedure FilterPanelVisible;
     procedure CloseFilterPanel;
 
     procedure CalculateSpaceOfAllDirectories;
@@ -1569,6 +1570,12 @@ begin
   SetActive(False);
 end;
 
+procedure TColumnsFileView.FilterPanelVisible;
+begin
+  pnlFilter.Visible := True;
+  edtFilter.Width := pnlFilter.Width div 2;
+end;
+
 procedure TColumnsFileView.CloseFilterPanel;
 begin
   edtFilter.Text := '';      // Automatically triggers edtFilterChange.
@@ -1605,8 +1612,7 @@ procedure TColumnsFileView.ShowFilterPanel(Char : TUTF8Char = #0);
 begin
   frmMain.EnableHotkeys(False);
 
-  pnlFilter.Visible := True;
-  edtFilter.Width  := pnlFilter.Width div 2;
+  FilterPanelVisible;
   edtFilter.SetFocus;
 
   if Char <> #0 then
@@ -2591,6 +2597,12 @@ begin
       fNext,
       fPrevious : Boolean;
       }
+
+      if Self.FileFilter <> '' then
+      begin
+        edtFilter.Text := Self.FileFilter; // will trigger assiging to FileFilter
+        FilterPanelVisible;
+      end;
 
       FSorting := Self.FSorting.Clone;
       FSortColumn := Self.FSortColumn;
