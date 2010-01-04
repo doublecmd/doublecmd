@@ -212,21 +212,50 @@ type
     function GetGridVertLine: Boolean;
     procedure SetGridHorzLine(const AValue: Boolean);
     procedure SetGridVertLine(const AValue: Boolean);
+    function GetColumnsClass: TPanelColumnsClass;
     function GetActiveItem: TColumnsViewFile;
+    {en
+       Returns True if item is not nil and not '..'.
+       May be extended to include other conditions.
+    }
+    function IsItemValid(AFile: TColumnsViewFile): Boolean;
+    function IsActiveItemValid: Boolean;
+    {en
+       Returns True if there are no files shown in the panel.
+    }
+    function IsEmpty: Boolean;
+
+    procedure SetFileFilter(NewFilter: String);
+    {en
+       Changes drawing colors depending on if this panel is active.
+    }
+    procedure SetActive(bActive: Boolean);
 
     function StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
-    procedure UpdateColCount(NewColCount: Integer);
     procedure ChooseFile(AFile: TColumnsViewFile; FolderMode: Boolean = False);
-    procedure SortByColumn(iColumn: Integer);
+
     procedure UpdateAddressLabel;
     procedure UpdatePathLabel;
-    procedure UpdateCountStatus;
+    procedure UpdateInfoPanel;
+    procedure UpdateColCount(NewColCount: Integer);
+    procedure SetColumnsWidths;
+    procedure RedrawGrid;
 
+    procedure MakeVisible(iRow: Integer);
+    procedure MakeSelectedVisible;
+    procedure SelectFile(AFile: TColumnsViewFile);
     procedure SelectRange(iRow: PtrInt);
     procedure MarkFile(AFile: TColumnsViewFile; bMarked: Boolean);
     procedure MarkAllFiles(bMarked: Boolean);
     procedure InvertFileSelection(AFile: TColumnsViewFile);
     procedure MarkGroup(const sMask: String; bSelect: Boolean);
+    procedure InvertAll;
+    procedure MarkAll;
+    procedure UnMarkAll;
+    procedure MarkMinus;
+    procedure MarkPlus;
+    procedure MarkShiftPlus;
+    procedure MarkShiftMinus;
 
     {en
        Retrieves file list from file source into FFileSourceFiles.
@@ -251,6 +280,7 @@ type
        Sorts files in file source file list (FFileSourceFiles).
     }
     procedure Sort(FilesToSort: TFiles);
+    procedure SortByColumn(iColumn: Integer);
 
     procedure ShowRenameFileEdit(const sFileName:String);
     procedure ShowPathEdit;
@@ -261,15 +291,6 @@ type
 
     procedure CalculateSpaceOfAllDirectories;
     procedure CalculateSpace(theFile: TColumnsViewFile);
-
-    procedure SetColumnsWidths;
-
-    {en
-       Changes drawing colors depending on if this panel is active.
-    }
-    procedure SetActive(bActive: Boolean);
-
-    procedure SetFileFilter(NewFilter: String);
 
     function DimColor(AColor: TColor): TColor;
 
@@ -357,43 +378,15 @@ type
     procedure LoadConfiguration(Section: String; TabIndex: Integer); override;
     procedure SaveConfiguration(Section: String; TabIndex: Integer); override;
 
-    procedure SelectFile(AFile: TColumnsViewFile);
-    procedure MakeVisible(iRow:Integer);
-    procedure MakeSelectedVisible;
-
     {en
        Moves the selection focus to the file specified by FileName.
     }
     procedure SetActiveFile(const aFileName: String); override;
 
-    procedure InvertAll;
-    procedure MarkAll;
-    procedure UnMarkAll;
-    procedure MarkMinus;
-    procedure MarkPlus;
-    procedure MarkShiftPlus;
-    procedure MarkShiftMinus;
-
-    procedure RedrawGrid;
-
-    procedure UpDatelblInfo;
     procedure UpdateColumnsView;
     procedure UpdateView; override;
 
-    {en
-       Returns True if there are no files shown in the panel.
-    }
-    function IsEmpty: Boolean;
-    {en
-       Returns True if item is not nil and not '..'.
-       May be extended to include other conditions.
-    }
-    function IsItemValid(AFile: TColumnsViewFile): Boolean;
-    function IsActiveItemValid: Boolean;
-
     function HasSelectedFiles: Boolean; override;
-
-    function GetColumnsClass: TPanelColumnsClass;
 
     procedure DoDragDropOperation(Operation: TDragDropOperation;
                                   var DropParams: TDropParams); override;
@@ -631,7 +624,7 @@ end;
 procedure TColumnsFileView.SelectFile(AFile: TColumnsViewFile);
 begin
   InvertFileSelection(AFile);
-  UpDatelblInfo;
+  UpdateInfoPanel;
 end;
 
 procedure TColumnsFileView.MarkFile(AFile: TColumnsViewFile; bMarked: Boolean);
@@ -661,7 +654,7 @@ begin
   for i := 0 to FFiles.Count-1 do
     InvertFileSelection(FFiles[i]);
 
-  UpDatelblInfo;
+  UpdateInfoPanel;
   dgPanel.Invalidate;
 end;
 
@@ -732,7 +725,7 @@ begin
     AFile := FFiles[ARow];
     MarkFile(AFile, True);
   end;
-  UpDatelblInfo;
+  UpdateInfoPanel;
   dgPanel.Invalidate;
 end;
 
@@ -764,7 +757,7 @@ begin
         if Assigned(AFile) then
         begin
           InvertFileSelection(AFile);
-          UpDatelblInfo;
+          UpdateInfoPanel;
           dgPanel.Invalidate;
         end;
       end;
@@ -783,7 +776,7 @@ begin
             if Assigned(AFile) then
               begin
                 InvertFileSelection(AFile);
-                UpDatelblInfo;
+                UpdateInfoPanel;
                 dgPanel.Invalidate;
               end;
           end
@@ -797,7 +790,7 @@ begin
             if Assigned(AFile) and not AFile.Selected then
               begin
                 MarkAllFiles(False);
-                UpDatelblInfo;
+                UpdateInfoPanel;
                 dgPanel.Invalidate;
               end;
           end;
@@ -1269,45 +1262,6 @@ begin
   lblPath.Caption := MinimizeFilePath(CurrentPath, lblPath.Canvas, lblPath.Width);
 end;
 
-procedure TColumnsFileView.UpdateCountStatus;
-var
-  i: Integer;
-  FilesInDir, FilesSelected: Integer;
-  SizeInDir, SizeSelected: Int64;
-  SizeProperty: TFileSizeProperty;
-  SizeSupported: Boolean;
-begin
-  FilesInDir := 0;
-  FilesSelected := 0;
-  SizeInDir := 0;
-  SizeSelected := 0;
-
-  SizeSupported := fpSize in FileSource.SupportedFileProperties;
-
-  for i := 0 to FFiles.Count - 1 do
-  begin
-    with FFiles[i] do
-    begin
-      if TheFile.Name = '..' then Continue;
-
-      inc(FilesInDir);
-      if Selected then
-        inc(FilesSelected);
-
-      // Count size if Size property is supported.
-      if SizeSupported then
-      begin
-        SizeProperty := TheFile.Properties[fpSize] as TFileSizeProperty;
-
-        if Selected then
-          SizeSelected := SizeSelected + SizeProperty.Value;
-
-        SizeInDir := SizeInDir + SizeProperty.Value;
-      end;
-    end;
-  end;
-end;
-
 procedure TColumnsFileView.SortByColumn(iColumn: Integer);
 var
   ColumnsClass: TPanelColumnsClass;
@@ -1667,7 +1621,7 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.UpDatelblInfo;
+procedure TColumnsFileView.UpdateInfoPanel;
 var
   i: Integer;
   FilesInDir, FilesSelected: Integer;
@@ -1723,7 +1677,7 @@ end;
 procedure TColumnsFileView.MarkAll;
 begin
   MarkAllFiles(True);
-  UpDatelblInfo;
+  UpdateInfoPanel;
   dgPanel.Invalidate;
 end;
 
@@ -1736,7 +1690,7 @@ begin
   if not ShowInputComboBox(rsMarkPlus, rsMaskInput, glsMaskHistory, s) then Exit;
   FLastMark := s;
   MarkGroup(s, True);
-  UpDatelblInfo;
+  UpdateInfoPanel;
   dgPanel.Invalidate;
 end;
 
@@ -1750,7 +1704,7 @@ begin
     if sGroup <> '' then
       sGroup := '.' + sGroup;
     MarkGroup('*' + sGroup, True);
-    UpDatelblInfo;
+    UpdateInfoPanel;
     dgPanel.Invalidate;
   end;
 end;
@@ -1765,7 +1719,7 @@ begin
     if sGroup <> '' then
       sGroup := '.' + sGroup;
     MarkGroup('*' + sGroup, False);
-    UpDatelblInfo;
+    UpdateInfoPanel;
     dgPanel.Invalidate;
   end;
 end;
@@ -1779,14 +1733,14 @@ begin
   if not ShowInputComboBox(rsMarkMinus, rsMaskInput, glsMaskHistory, s) then Exit;
   FLastMark := s;
   MarkGroup(s, False);
-  UpDatelblInfo;
+  UpdateInfoPanel;
   dgPanel.Invalidate;
 end;
 
 procedure TColumnsFileView.UnMarkAll;
 begin
   MarkAllFiles(False);
-  UpDatelblInfo;
+  UpdateInfoPanel;
   dgPanel.Invalidate;
 end;
 
@@ -1979,7 +1933,7 @@ procedure TColumnsFileView.dgPanelEnter(Sender: TObject);
 begin
   SetActive(True);
 
-  UpDatelblInfo;
+  UpdateInfoPanel;
   frmMain.EnableHotkeys(True);
 
   if Assigned(OnActivate) then
@@ -2763,7 +2717,7 @@ begin
     dgPanel.RowCount := dgPanel.FixedRows;
 
     // Display info that file list is being loaded (after assigning builder).
-    UpDatelblInfo;
+    UpdateInfoPanel;
 
     dgPanel.Cursor := crHourGlass;
 
@@ -2792,7 +2746,7 @@ begin
   RedrawGrid;
 
   SetActiveFile(LastActive);
-  UpDatelblInfo;
+  UpdateInfoPanel;
 end;
 
 procedure TColumnsFileView.ReDisplayFileList;
