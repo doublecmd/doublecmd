@@ -96,6 +96,7 @@ type
 
     // Retrieves files from file source again and displays the new list of files.
     procedure Reload(const PathsToReload: TPathsArray = nil); virtual abstract;
+    procedure StopBackgroundWork; virtual;
 
     // For now we use here the knowledge that there are tabs.
     // Config should be independent of that in the future.
@@ -317,6 +318,10 @@ procedure TFileView.SetActiveFile(const aFileName: String);
 begin
 end;
 
+procedure TFileView.StopBackgroundWork;
+begin
+end;
+
 procedure TFileView.ChangePathToParent(AllowChangingFileSource: Boolean);
 var
   PreviousSubDirectory,
@@ -459,4 +464,4 @@ begin
 end;
 
 end.
-
+
