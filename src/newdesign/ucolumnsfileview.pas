@@ -277,9 +277,20 @@ type
     procedure ReDisplayFileList;
 
     {en
-       Sorts files in file source file list (FFileSourceFiles).
+       Sorts files in FilesToSort using current sorting.
+       It must be called from main thread.
     }
     procedure Sort(FilesToSort: TFiles);
+    {en
+       Sorts files in FilesToSort using a previously prepared sorting.
+       This function may be called from a worker thread.
+    }
+    class procedure Sort(FilesToSort: TFiles; ASortings: TFileSortings); overload;
+    {en
+       Prepares sortings for later use in Sort function.
+       This function must be called from main thread.
+    }
+    function PrepareSortings: TFileSortings;
     procedure SortByColumn(iColumn: Integer);
 
     procedure ShowRenameFileEdit(const sFileName:String);
@@ -425,6 +436,15 @@ type
     FState: TFileListBuilderState;
     FIconsToLoad: Integer;
 
+    // Data captured from the columns view before start.
+    FColumnsView: TColumnsFileView;
+    FFileSource: IFileSource;
+    FFileSourcesCount: Integer;
+    FFileFilter: String;
+    FCurrentPath: String;
+    FThread: TThread;
+    FSortings: TFileSortings;
+
     {en
        Fills aFiles with files from aFileSourceFiles.
        Filters out any files that shouldn't be shown using aFileFilter.
@@ -456,13 +476,6 @@ type
     function IsWorking: Boolean; inline;
 
   public
-    FileSource: IFileSource;
-    FileSourcesCount: Integer;
-    FileFilter: String;
-    CurrentPath: String;
-    Thread: TThread;
-    ColumnsView: TColumnsFileView;
-
     constructor Create;
     procedure Abort;
 
@@ -471,7 +484,7 @@ type
        This function must be called from the main thread just before
        the builder is scheduled to work.
     }
-    procedure InitializeBeforeWork;
+    procedure InitializeBeforeWork(AColumnsView: TColumnsFileView);
 
     {en
        Retrieves file list from file source, sorts and creates a display file list.
@@ -1279,10 +1292,31 @@ begin
   end;
 end;
 
-{
-Sort files by multicolumn sorting.
-}
 procedure TColumnsFileView.Sort(FilesToSort: TFiles);
+begin
+  if (not Assigned(FilesToSort)) or
+     (FilesToSort.Count = 0) then Exit;
+
+  Sort(FilesToSort, PrepareSortings);
+end;
+
+class procedure TColumnsFileView.Sort(FilesToSort: TFiles; ASortings: TFileSortings);
+var
+  FileListSorter: TListSorter;
+begin
+  if (not Assigned(FilesToSort)) or
+     (FilesToSort.Count = 0) or
+     (not Assigned(ASortings)) then Exit;
+
+  FileListSorter := TListSorter.Create(FilesToSort.List, ASortings);
+  try
+    FileListSorter.Sort;
+  finally
+    FreeAndNil(FileListSorter);
+  end;
+end;
+
+function TColumnsFileView.PrepareSortings: TFileSortings;
 var
   ColumnsClass: TPanelColumnsClass;
   i, j, sortingIndex : Integer;
@@ -1291,100 +1325,95 @@ var
   bSortedByName: Boolean;
   bSortedByExtension: Boolean;
   FileSortings: TFileSortings;
-  FileListSorter: TListSorter = nil;
   TempSorting: TFileListSorting;
   SortFunctions: TFileFunctions;
 begin
-  ColumnsClass := GetColumnsClass;
+  Result := nil;
 
-  if (not Assigned(FilesToSort)) or
-     (FilesToSort.Count = 0) or
-     (ColumnsClass.ColumnsCount = 0) then Exit;
+  ColumnsClass := GetColumnsClass;
+  if ColumnsClass.ColumnsCount = 0 then
+    Exit;
 
   TempSorting := TFileListSorting.Create;
-
-  for i := 0 to FSorting.Count - 1 do
-  begin
-    pSortingColumn := PFileListSortingColumn(FSorting[i]);
-    TempSorting.AddSorting(pSortingColumn^.iField, pSortingColumn^.SortDirection);
-  end;
-
-  bSortedByName := False;
-  bSortedByExtension := False;
-
-  SetLength(FileSortings, TempSorting.Count);
-
-  sortingIndex := 0;
-  for i := 0 to TempSorting.Count - 1 do
-  begin
-    pSortingColumn := PFileListSortingColumn(TempSorting[i]);
-
-    if (pSortingColumn^.iField >= 0) and
-       (pSortingColumn^.iField < ColumnsClass.ColumnsCount) then
+  try
+    for i := 0 to FSorting.Count - 1 do
     begin
-      Column := ColumnsClass.GetColumnItem(pSortingColumn^.iField);
-      SortFunctions := Column.GetColumnFunctions;
+      pSortingColumn := PFileListSortingColumn(FSorting[i]);
+      TempSorting.AddSorting(pSortingColumn^.iField, pSortingColumn^.SortDirection);
+    end;
 
-      // Check if each sort function is supported.
-      for j := 0 to Length(SortFunctions) - 1 do
-        if TFileFunctionToProperty[SortFunctions[j]] <= FileSource.GetSupportedFileProperties then
-          AddSortFunction(FileSortings[sortingIndex].SortFunctions, SortFunctions[j]);
+    bSortedByName := False;
+    bSortedByExtension := False;
 
-      if Length(FileSortings[sortingIndex].SortFunctions) > 0 then
+    SetLength(FileSortings, TempSorting.Count);
+
+    sortingIndex := 0;
+    for i := 0 to TempSorting.Count - 1 do
+    begin
+      pSortingColumn := PFileListSortingColumn(TempSorting[i]);
+
+      if (pSortingColumn^.iField >= 0) and
+         (pSortingColumn^.iField < ColumnsClass.ColumnsCount) then
       begin
-        FileSortings[sortingIndex].SortDirection := pSortingColumn^.SortDirection;
+        Column := ColumnsClass.GetColumnItem(pSortingColumn^.iField);
+        SortFunctions := Column.GetColumnFunctions;
 
-        if HasSortFunction(FileSortings[sortingIndex].SortFunctions, fsfName) then
+        // Check if each sort function is supported.
+        for j := 0 to Length(SortFunctions) - 1 do
+          if TFileFunctionToProperty[SortFunctions[j]] <= FileSource.GetSupportedFileProperties then
+            AddSortFunction(FileSortings[sortingIndex].SortFunctions, SortFunctions[j]);
+
+        if Length(FileSortings[sortingIndex].SortFunctions) > 0 then
         begin
-          bSortedByName := True;
-          bSortedByExtension := True;
-        end
-        else if HasSortFunction(FileSortings[sortingIndex].SortFunctions, fsfNameNoExtension)
-        then
-        begin
-          bSortedByName := True;
-        end
-        else if HasSortFunction(FileSortings[sortingIndex].SortFunctions, fsfExtension)
-        then
-        begin
-          bSortedByExtension := True;
+          FileSortings[sortingIndex].SortDirection := pSortingColumn^.SortDirection;
+
+          if HasSortFunction(FileSortings[sortingIndex].SortFunctions, fsfName) then
+          begin
+            bSortedByName := True;
+            bSortedByExtension := True;
+          end
+          else if HasSortFunction(FileSortings[sortingIndex].SortFunctions, fsfNameNoExtension)
+          then
+          begin
+            bSortedByName := True;
+          end
+          else if HasSortFunction(FileSortings[sortingIndex].SortFunctions, fsfExtension)
+          then
+          begin
+            bSortedByExtension := True;
+          end;
+
+          Inc(sortingIndex);
         end;
+      end
+      else
+        Raise Exception.Create('Invalid column number in sorting - fix me');
+    end;
 
-        Inc(sortingIndex);
-      end;
+    SetLength(FileSortings, sortingIndex);
+
+    // Add automatic sorting by name and/or extension if there wasn't any.
+
+    if not bSortedByName then
+    begin
+      if not bSortedByExtension then
+        AddSorting(FileSortings, fsfName, sdAscending)
+      else
+        AddSorting(FileSortings, fsfNameNoExtension, sdAscending);
     end
     else
-      Raise Exception.Create('Invalid column number in sorting - fix me');
-  end;
+    begin
+      if not bSortedByExtension then
+        AddSorting(FileSortings, fsfExtension, sdAscending);
+      // else
+      //   There is already a sorting by filename and extension.
+    end;
 
-  SetLength(FileSortings, sortingIndex);
+    Result := FileSortings;
 
-  // Add automatic sorting by name and/or extension if there wasn't any.
-
-  if not bSortedByName then
-  begin
-    if not bSortedByExtension then
-      AddSorting(FileSortings, fsfName, sdAscending)
-    else
-      AddSorting(FileSortings, fsfNameNoExtension, sdAscending);
-  end
-  else
-  begin
-    if not bSortedByExtension then
-      AddSorting(FileSortings, fsfExtension, sdAscending);
-    // else
-    //   There is already a sorting by filename and extension.
-  end;
-
-  // Sort.
-  FileListSorter := TListSorter.Create(FilesToSort.List, FileSortings);
-  try
-    FileListSorter.Sort;
   finally
-    FreeAndNil(FileListSorter);
+    FreeAndNil(TempSorting);
   end;
-
-  FreeAndNil(TempSorting);
 end;
 
 procedure TColumnsFileView.UpdateColCount(NewColCount: Integer);
@@ -2690,18 +2719,6 @@ procedure TColumnsFileView.MakeFileSourceFileList;
     end;
   end;
 
-  procedure SetBuilderParams(ABuilder: TColumnsFileListBuilder);
-  begin
-    ABuilder.FileSource := FileSource;
-    ABuilder.FileSourcesCount := FileSourcesCount;
-    ABuilder.FileFilter := FileFilter;
-    ABuilder.CurrentPath := CurrentPath;
-    ABuilder.Thread := FListFilesThread;
-    ABuilder.ColumnsView := Self;
-
-    ABuilder.InitializeBeforeWork;
-  end;
-
 begin
   if csDestroying in ComponentState then
     Exit;
@@ -2716,7 +2733,7 @@ begin
   // Pass parameters to the builder
   // (it is unsafe to access them directly from the worker thread).
   FCurrentFileListBuilder := GetBuilder;
-  SetBuilderParams(FCurrentFileListBuilder);
+  FCurrentFileListBuilder.InitializeBeforeWork(Self);
 
   if gListFilesInThread then
   begin
@@ -4074,11 +4091,20 @@ begin
   FAborted := True;
 end;
 
-procedure TColumnsFileListBuilder.InitializeBeforeWork;
+procedure TColumnsFileListBuilder.InitializeBeforeWork(AColumnsView: TColumnsFileView);
 begin
   FAborted := False;
   FState := rfsLoadingFiles;
   FIconsToLoad := 0;
+
+  // Copy these parameters while it's still safe to access them from the main thread.
+  FColumnsView      := AColumnsView;
+  FFileSource       := AColumnsView.FileSource;
+  FFileSourcesCount := AColumnsView.FileSourcesCount;
+  FFileFilter       := AColumnsView.FileFilter;
+  FCurrentPath      := AColumnsView.CurrentPath;
+  FThread           := AColumnsView.FListFilesThread;
+  FSortings         := AColumnsView.PrepareSortings;
 end;
 
 procedure TColumnsFileListBuilder.MakeFileSourceFileList(Params: Pointer);
@@ -4090,12 +4116,12 @@ begin
     if FAborted then
       Exit;
 
-    if fsoList in FileSource.GetOperationsTypes then
+    if fsoList in FFileSource.GetOperationsTypes then
     begin
-      ListOperation := FileSource.CreateListOperation(CurrentPath) as TFileSourceListOperation;
+      ListOperation := FFileSource.CreateListOperation(FCurrentPath) as TFileSourceListOperation;
       if Assigned(ListOperation) then
         try
-          ListOperation.AssignThread(Thread);
+          ListOperation.AssignThread(FThread);
           ListOperation.Execute;
           FTmpFileSourceFiles := ListOperation.ReleaseFiles;
         finally
@@ -4112,14 +4138,13 @@ begin
 
     if Assigned(FTmpFileSourceFiles) then
     begin
-      // TODO: make sorting thread-safe and allow aborting
-      ColumnsView.Sort(FTmpFileSourceFiles);
+      TColumnsFileView.Sort(FTmpFileSourceFiles, FSortings);
 
       // Add '..' to go to higher level file source, if there is more than one.
-      if (FileSourcesCount > 1) and (FileSource.IsPathAtRoot(CurrentPath)) then
+      if (FFileSourcesCount > 1) and (FFileSource.IsPathAtRoot(FCurrentPath)) then
       begin
         AFile := FTmpFileSourceFiles.CreateFileObject;
-        AFile.Path := CurrentPath;
+        AFile.Path := FCurrentPath;
         AFile.Name := '..';
         if fpAttributes in AFile.SupportedProperties then
           (AFile.Properties[fpAttributes] as TFileAttributesProperty).Value := faFolder;
@@ -4136,7 +4161,7 @@ begin
 
     // Make display file list from file source file list.
     FTmpDisplayFiles := TColumnsViewFiles.Create;
-    MakeDisplayFileList(FileSource, FTmpFileSourceFiles, FTmpDisplayFiles, FileFilter);
+    MakeDisplayFileList(FFileSource, FTmpFileSourceFiles, FTmpDisplayFiles, FFileFilter);
 
     {$IFDEF timeFileView}
     DebugLn('Made disp. list: ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
@@ -4234,7 +4259,7 @@ begin
       FIconsToLoad := FTmpDisplayFiles.Count;
 
     // Loading file list is complete. Update grid with the new file list.
-    TThread.Synchronize(Thread, @SetColumnsFilelist);
+    TThread.Synchronize(FThread, @SetColumnsFilelist);
 
     {$IFDEF timeFileView}
     DebugLn('Grid updated   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
@@ -4256,7 +4281,7 @@ begin
         Exit;
 
       // Loading file list is complete.
-      TThread.Synchronize(Thread, @ClearBuilder);
+      TThread.Synchronize(FThread, @ClearBuilder);
     end;
   end
   else
@@ -4271,7 +4296,7 @@ begin
   begin
     // The following swap must occur in the main thread because
     // access to FFileSourceFiles and FFiles is not protected.
-    with ColumnsView do
+    with FColumnsView do
     begin
       if Assigned(FFiles) then
         FFiles.Free;
@@ -4292,7 +4317,7 @@ begin
       ClearBuilder;
 
     // Display new file list.
-    ColumnsView.AfterMakeFileList;
+    FColumnsView.AfterMakeFileList;
   end;
 end;
 
@@ -4312,27 +4337,27 @@ begin
 
   for i := 0 to FIconsToLoad - 1 do
   begin
-    ColumnsView.FFileListBuilderLock.Acquire;
+    FColumnsView.FFileListBuilderLock.Acquire;
     try
       if FAborted then
         Exit;
 
-      with ColumnsView.FFiles[i] do
-        IconID := PixMapManager.GetIconByFile(TheFile, fspDirectAccess in FileSource.Properties);
+      with FColumnsView.FFiles[i] do
+        IconID := PixMapManager.GetIconByFile(TheFile, fspDirectAccess in FFileSource.Properties);
 
       // This access to dgPanel should be safe from worker thread.
-      with ColumnsView.dgPanel do
+      with FColumnsView.dgPanel do
         bRedrawIcon := IscellVisible(0, i + FixedRows);
 
     finally
-      ColumnsView.FFileListBuilderLock.Release;
+      FColumnsView.FFileListBuilderLock.Release;
     end;
 
     // Redraw column with the icon. This must be done from the GUI thread.
     if bRedrawIcon then
     begin
       FFileIndexToUpdate := i;
-      TThread.Synchronize(Thread, @UpdateIcon);
+      TThread.Synchronize(FThread, @UpdateIcon);
     end;
   end;
 end;
@@ -4341,7 +4366,7 @@ procedure TColumnsFileListBuilder.UpdateIcon;
 begin
   if not FAborted then
   begin
-    with ColumnsView.dgPanel do
+    with FColumnsView.dgPanel do
     begin
       if IscellVisible(0, FFileIndexToUpdate + FixedRows) then
         InvalidateCell(0, FFileIndexToUpdate + FixedRows);
@@ -4351,7 +4376,7 @@ end;
 
 procedure TColumnsFileListBuilder.ClearBuilder;
 begin
-  ColumnsView.FCurrentFileListBuilder := nil;
+  FColumnsView.FCurrentFileListBuilder := nil;
 end;
 
 function TColumnsFileListBuilder.IsWorking: Boolean;
