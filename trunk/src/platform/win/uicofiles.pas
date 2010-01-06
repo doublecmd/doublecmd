@@ -114,8 +114,9 @@ destructor TIcoFile.Destroy;
 var 
   i: integer;
 begin
-  for i:=low(FIcons) to high(FIcons) do
-    DestroyIconData(FIcons[i]);
+  if Length(FIcons) > 0 then
+    for i:=low(FIcons) to high(FIcons) do
+      DestroyIconData(FIcons[i]);
   inherited;
 end;
 
@@ -240,49 +241,55 @@ var
   Size: Cardinal;
   i: integer;
 begin
+  if not GetIconInfo(h, IconInfo) then
+    Exit;
+
   try
-    setLength(FIcons,length(FIcons)+1);
-    with FIcons[high(FIcons)] do
-      begin
-        Assert(GetIconInfo(h,IconInfo));
+    try
+      setLength(FIcons,length(FIcons)+1);
+      with FIcons[high(FIcons)] do
+        begin
+          InternalGetDIB(IconInfo.hbmColor,iRgbTable,BitmapInfo,ImageBits);
+          InternalGetDIB(IconInfo.hbmMask,i,MaskBitmapInfo,MaskBits);
+          // MaskBitmapInfo может понадобиться только для отрисовки, для сохранения в файл она не нужна}
 
-        InternalGetDIB(IconInfo.hbmColor,iRgbTable,BitmapInfo,ImageBits);
-        InternalGetDIB(IconInfo.hbmMask,i,MaskBitmapInfo,MaskBits);
-        // MaskBitmapInfo может понадобиться только для отрисовки, для сохранения в файл она не нужна}
+          with Info do
+            begin
+              Colors := 0;
+              Width := BitmapInfo^.bmiHeader.biWidth;
+              Height := BitmapInfo^.bmiHeader.biHeight;
+              Reserved1 := MaskBitmapInfo^.bmiHeader.biBitCount;
+              Reserved2 := BitmapInfo^.bmiHeader.biBitCount;
+              DIBSize := MaskBitmapInfo^.bmiHeader.biSizeImage+DWORD(iRgbTable)+BitmapInfo^.bmiHeader.biSize+BitmapInfo^.bmiHeader.biSizeImage;
+              DIBOffset := -1; // Надо проставить при сохранении.
+            end;
 
-        with Info do
-          begin
-            Colors := 0;
-            Width := BitmapInfo^.bmiHeader.biWidth;
-            Height := BitmapInfo^.bmiHeader.biHeight;
-            Reserved1 := MaskBitmapInfo^.bmiHeader.biBitCount;
-            Reserved2 := BitmapInfo^.bmiHeader.biBitCount;
-            DIBSize := MaskBitmapInfo^.bmiHeader.biSizeImage+DWORD(iRgbTable)+BitmapInfo^.bmiHeader.biSize+BitmapInfo^.bmiHeader.biSizeImage;
-            DIBOffset := -1; // Надо проставить при сохранении.
-          end;
+          with BitmapInfo^.bmiHeader do
+            begin
+              ImageLineWidth := BytesPerScanline(biWidth,biBitCount,32); // По нему определяем размер линии
 
-        with BitmapInfo^.bmiHeader do
-          begin
-            ImageLineWidth := BytesPerScanline(biWidth,biBitCount,32); // По нему определяем размер линии
+              Assert((biWidth*biBitCount+31) div 32*4 = ImageLineWidth);
+              Size := biHeight*ImageLineWidth; // И должен получиться размер всего битмапа
+              Assert(Size=biSizeImage);
 
-            Assert((biWidth*biBitCount+31) div 32*4 = ImageLineWidth);
-            Size := biHeight*ImageLineWidth; // И должен получиться размер всего битмапа
-            Assert(Size=biSizeImage);
+              biHeight := biHeight*2; // Так должно быть якобы из-за наличия маски
+            end;
 
-            biHeight := biHeight*2; // Так должно быть якобы из-за наличия маски
-          end;
+          with MaskBitmapInfo^.bmiHeader do
+            begin
+              MaskLineWidth := BytesPerScanline(biWidth,biBitCount,32);
 
-        with MaskBitmapInfo^.bmiHeader do
-          begin
-            MaskLineWidth := BytesPerScanline(biWidth,biBitCount,32);
-
-            Assert((biWidth+31) div 32*4 = MaskLineWidth); // Проверки
-            Size := biHeight*MaskLineWidth; // Размер маски (1-битной)
-            Assert(Size=biSizeImage);
-          end;
-      end;
-  except
-    setLength(FIcons,length(FIcons)-1);
+              Assert((biWidth+31) div 32*4 = MaskLineWidth); // Проверки
+              Size := biHeight*MaskLineWidth; // Размер маски (1-битной)
+              Assert(Size=biSizeImage);
+            end;
+        end;
+    except
+      setLength(FIcons,length(FIcons)-1);
+    end;
+  finally
+    DeleteObject(IconInfo.hbmColor);
+    DeleteObject(IconInfo.hbmMask);
   end;
 end;
 
@@ -413,20 +420,24 @@ begin
   FileHeader.Count := length(FIcons);
   Stream.WriteBuffer(FileHeader,SizeOf(FileHeader));
   offset := Stream.Position+length(FIcons)*SizeOf(TIconRec); // Битмапы начнутся здесь
-  for i:=low(FIcons) to high(FIcons) do
-    with FIcons[i] do
-      begin
-        Info.DIBOffset := offset;
-        Stream.WriteBuffer(Info,SizeOf(TIconRec));
-        offset := offset+SizeOf(BitmapInfo^.bmiHeader)+iRgbTable+length(ImageBits)+length(MaskBits);
-      end;
-  for i:=low(FIcons) to high(FIcons) do
-    with FIcons[i] do
-      begin
-        Stream.WriteBuffer(BitmapInfo^.bmiHeader,SizeOf(BitmapInfo^.bmiHeader)+iRgbTable);
-        Stream.WriteBuffer(ImageBits[0],length(ImageBits));
-        Stream.WriteBuffer(MaskBits[0],length(MaskBits));
-      end;
+
+  if Length(FIcons) > 0 then
+  begin
+    for i:=low(FIcons) to high(FIcons) do
+      with FIcons[i] do
+        begin
+          Info.DIBOffset := offset;
+          Stream.WriteBuffer(Info,SizeOf(TIconRec));
+          offset := offset+SizeOf(BitmapInfo^.bmiHeader)+iRgbTable+length(ImageBits)+length(MaskBits);
+        end;
+    for i:=low(FIcons) to high(FIcons) do
+      with FIcons[i] do
+        begin
+          Stream.WriteBuffer(BitmapInfo^.bmiHeader,SizeOf(BitmapInfo^.bmiHeader)+iRgbTable);
+          Stream.WriteBuffer(ImageBits[0],length(ImageBits));
+          Stream.WriteBuffer(MaskBits[0],length(MaskBits));
+        end;
+  end;
 end;
 
 procedure TIcoFile.check;
@@ -437,25 +448,26 @@ begin
   // Можно также применять, чтобы проверить правильность загрузки и вообще на всякий случай
   // чтобы отловить глюки.
   // "Социализм - это контроль и учёт."
-  for i:=low(FIcons) to high(FIcons) do
-    with FIcons[i] do
-      begin
-        Assert((Info.Reserved1=0) = (Info.Reserved2=0)); // Равны нулю только одновременно
-        Assert((Info.Colors<>0) or (Info.Reserved1<>0));
-        Assert(Info.Reserved1 in [0,1]);
-        with BitmapInfo^.bmiHeader do
-          begin
-            Assert(biSize=sizeOf(BitmapInfo^.bmiHeader));
-            Assert(Info.Width=biWidth);
-            Assert(Info.Height*2=biHeight);
-            Assert(biPlanes=1);
-            Assert(Info.Reserved2 in [0,biBitCount]);
-            Assert(biBitCount in [1,4,8,16,24,32]);
-            Assert(biCompression=BI_RGB{=0});
-            Assert(biXPelsPerMeter=0);
-            Assert(biYPelsPerMeter=0);
-          end;
-      end;
+  if Length(FIcons) > 0 then
+    for i:=low(FIcons) to high(FIcons) do
+      with FIcons[i] do
+        begin
+          Assert((Info.Reserved1=0) = (Info.Reserved2=0)); // Равны нулю только одновременно
+          Assert((Info.Colors<>0) or (Info.Reserved1<>0));
+          Assert(Info.Reserved1 in [0,1]);
+          with BitmapInfo^.bmiHeader do
+            begin
+              Assert(biSize=sizeOf(BitmapInfo^.bmiHeader));
+              Assert(Info.Width=biWidth);
+              Assert(Info.Height*2=biHeight);
+              Assert(biPlanes=1);
+              Assert(Info.Reserved2 in [0,biBitCount]);
+              Assert(biBitCount in [1,4,8,16,24,32]);
+              Assert(biCompression=BI_RGB{=0});
+              Assert(biXPelsPerMeter=0);
+              Assert(biYPelsPerMeter=0);
+            end;
+        end;
 end;
 
 procedure TIcoFile.draw(icoNo,x,y:integer;dest:hdc;drawMask,drawImage,drawAlpha:boolean);
@@ -597,29 +609,35 @@ end;
 
 function CreateIconFromHandle(IconHandle : HIcon) : TIcon;
 var 
-  IcoFile : TIcoFile;
-  memstream : TMemoryStream;
+  IcoFile : TIcoFile = nil;
+  memstream : TMemoryStream = nil;
   IconData : TIconData;
   I : Integer;
 begin
+  Result := nil;
   try
     IcoFile := TIcoFile.Create(nil);
     memstream := TMemoryStream.Create;
     IcoFile.loadFromHandle(IconHandle);
-    for I := Low(IcoFile.Icons) to High(IcoFile.Icons) do
-      if not IcoFile.IsValidAlpha(I) then
-        begin
-          IcoFile.saveTrueColorFrom32(I, IconData);
-          IcoFile.DestroyIconData(IcoFile.Icons[i]);
-          IcoFile.Icons[I] := IconData;
-        end;
-    IcoFile.saveToStream(memstream);
-    Result := TIcon.Create;
-    memstream.Position := 0;
-    Result.LoadFromStream(memstream);
+    if Length(IcoFile.Icons) > 0 then
+    begin
+      for I := Low(IcoFile.Icons) to High(IcoFile.Icons) do
+        if not IcoFile.IsValidAlpha(I) then
+          begin
+            IcoFile.saveTrueColorFrom32(I, IconData);
+            IcoFile.DestroyIconData(IcoFile.Icons[i]);
+            IcoFile.Icons[I] := IconData;
+          end;
+      IcoFile.saveToStream(memstream);
+      Result := TIcon.Create;
+      memstream.Position := 0;
+      Result.LoadFromStream(memstream);
+    end;
   finally
-    IcoFile.Free;
-    memstream.Free;
+    if Assigned(IcoFile) then
+      IcoFile.Free;
+    if Assigned(memstream) then
+      memstream.Free;
   end;
 end;
 
