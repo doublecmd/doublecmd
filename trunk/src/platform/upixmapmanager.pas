@@ -1329,7 +1329,7 @@ end;
 function TPixMapManager.GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 {$IFDEF MSWINDOWS}
 var
-  SFI: TSHFileInfo;
+  SFI: TSHFileInfoW;
   Icon: TIcon = nil;
   uFlags: UINT;
   iIconSmall,
@@ -1355,8 +1355,9 @@ begin
       else
         uFlags := SHGFI_SMALLICON; // Use small icon
 
-      if (SHGetFileInfo(PChar(Drive^.Path), 0, SFI, SizeOf(SFI), uFlags or SHGFI_ICON) <> 0) and
-          (SFI.hIcon <> 0) then
+      if (SHGetFileInfoW(PWideChar(UTF8Decode(Drive^.Path)), 0, SFI,
+                         SizeOf(SFI), uFlags or SHGFI_ICON) <> 0) and
+         (SFI.hIcon <> 0) then
         begin
           if (IconSize = iIconSmall) or (IconSize = iIconLarge) then // standart icon size
             try
