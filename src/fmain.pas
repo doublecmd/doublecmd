@@ -46,7 +46,7 @@ uses
   KASToolBar, KASBarMenu, KASBarFiles,
   uCmdBox, uFileSystemWatcher, uFilePanelSelect,
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
-  uOperationsManager
+  uOperationsManager, uDrivesList
   {$IF NOT DEFINED(DARWIN)}
   , uTerminal
   {$ENDIF}
@@ -229,7 +229,6 @@ type
     btnRightHome: TSpeedButton;
     btnRightUp: TSpeedButton;
     btnRightRoot: TSpeedButton;
-    pmDrivesMenu: TPopupMenu;
     LogSplitter: TSplitter;
     pmColumnsMenu: TPopupMenu;
     pmDropMenu: TPopupMenu;
@@ -434,6 +433,7 @@ type
        Used to pass drag&drop parameters to pmDropMenu. Single variable
        can be used, because the user can do only one menu popup at a time. }
     FDropParams: TDropParams;
+    FDrivesListPopup: TDrivesListPopup;
 
     // frost_asm begin
     // mainsplitter
@@ -452,6 +452,10 @@ type
 
     procedure PopupDragDropMenu(var DropParams: TDropParams);
     procedure CloseNotebook(ANotebook: TFileViewNotebook);
+
+    procedure DriveListDriveSelected(Sender: TObject; ADriveIndex: Integer;
+      APanel: TFilePanelSelect);
+    procedure DriveListClose(Sender: TObject);
 
   public
     procedure HandleActionHotKeys(var Key: Word; Shift: TShiftState);
@@ -484,8 +488,6 @@ type
                                         out DestPath, DestMask: String);
     procedure SetActiveFrame(panel: TFilePanelSelect);
     procedure UpdateDiskCount;
-    procedure CreateDrivesMenu;
-    procedure DrivesMenuClick(Sender: TObject);
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
     function CreateFileView(sType: String; FileSource: IFileSource; Path: String; Page: TFileViewPage): TFileView;
     function RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer): LongInt;
@@ -503,8 +505,9 @@ type
     procedure LoadShortCuts;
     function  IsCommandLineVisible: Boolean;
     procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
-    procedure UpdateDriveButtonMenuSelection(DriveButton: TSpeedButton; FileView: TFileView);
+    procedure UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
     procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
+    procedure ShowDrivesList(APanel: TFilePanelSelect);
     procedure EnableHotkeys(Enable: Boolean);
     procedure ExecuteCommandLine(bRunInTerm: Boolean);
     procedure UpdatePrompt;
@@ -545,7 +548,7 @@ uses
   uDragDropEx, StrUtils, uKeyboard, uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSystemCopyOperation, uFileSystemMoveOperation,
-  uArchiveFileSource, uShellExecute, uActs, uFileSystemFile, uFileSourceOperation,
+  uArchiveFileSource, uShellExecute, uActs, uFileSystemFile,
   fSymLink, fHardLink, uExceptions, uUniqueInstance
   {$IFDEF LCLQT}
     , qtwidgets
@@ -576,10 +579,13 @@ begin
   nbLeft := CreateNotebook(pnlLeft, fpLeft);
   nbRight := CreateNotebook(pnlRight, fpRight);
 
+  FDrivesListPopup := TDrivesListPopup.Create(Self, Self);
+  FDrivesListPopup.OnDriveSelected := @DriveListDriveSelected;
+  FDrivesListPopup.OnClose := @DriveListClose;
+
   HiddenToTray := False;
   HidingTrayIcon := False;
 
-  inherited;
   if gOnlyOnce and Assigned(UniqueInstance) then
     UniqueInstance.OnMessage:= @OnUniqueInstanceMessage;
   // frost_asm begin
@@ -2365,81 +2371,13 @@ begin
     end;  
 
   // create drives drop down menu
-  CreateDrivesMenu;
+  FDrivesListPopup.UpdateDrivesList(DrivesList);
 
   // create drives left/right panels
   if gDriveBar2 and gDriveBar1 then
     CreateDiskPanel(dskLeft);
   if gDriveBar1 then
     CreateDiskPanel(dskRight);
-end;
-
-procedure TfrmMain.CreateDrivesMenu;
-const
-  Separator = #32#32 + '|' + #32#32;
-var
-  I, Count : Integer;
-  Drive : PDrive;
-  miTmp : TMenuItem;
-  BitmapTmp: Graphics.TBitmap;
-begin
-  pmDrivesMenu.Items.Clear;
-  Count := DrivesList.Count - 1;
-  for I := 0 to Count do
-    begin
-      Drive := PDrive(DrivesList.Items[I]);
-      with Drive^ do
-      begin
-        miTmp := TMenuItem.Create(pmDrivesMenu);
-        miTmp.Tag := I;
-
-        if Length(Name) > 0 then
-          miTmp.Caption := '&' + Name + Separator + DriveLabel
-        else
-          miTmp.Caption := Path + Separator + DriveLabel;
-
-        // get disk icon
-        BitmapTmp := PixMapManager.GetDriveIcon(Drive, 16, clMenu);
-        miTmp.Bitmap := BitmapTmp;
-        if Assigned(BitmapTmp) then
-          FreeAndNil(BitmapTmp);
-
-        miTmp.RadioItem := True;
-        miTmp.AutoCheck := True;
-        miTmp.GroupIndex := 1;
-        miTmp.OnClick := @DrivesMenuClick;
-        pmDrivesMenu.Items.Add(miTmp);
-      end;  // with
-    end; // for
-end;
-
-procedure TfrmMain.DrivesMenuClick(Sender: TObject);
-var
-  Drive: PDrive;
-begin
-  with Sender as TMenuItem do
-  begin
-    Drive := PDrive(DrivesList.Items[(Sender as TMenuItem).Tag]);
-    if IsAvailable(Drive^.Path) then
-       begin
-         case pmDrivesMenu.Tag of
-         0:
-           begin
-             FrameLeft.CurrentPath := Drive^.Path;
-             SetActiveFrame(fpLeft);
-           end;
-         1:
-           begin
-             FrameRight.CurrentPath := Drive^.Path;
-             SetActiveFrame(fpRight);
-           end;
-         end;  // case
-       end
-     else
-       begin
-         msgOK(rsMsgDiskNotAvail);
-       end;
-  end;
 end;
 
 procedure TfrmMain.AddSpecialButtons(dskPanel: TKASToolBar);
@@ -2833,8 +2771,8 @@ begin
 
   UpdateDriveToolbarSelection(dskLeft, FrameLeft);
   UpdateDriveToolbarSelection(dskRight, FrameRight);
-  UpdateDriveButtonMenuSelection(btnLeftDrive, FrameLeft);
-  UpdateDriveButtonMenuSelection(btnRightDrive, FrameRight);
+  UpdateDriveButtonSelection(btnLeftDrive, FrameLeft);
+  UpdateDriveButtonSelection(btnRightDrive, FrameRight);
 
   pnlSyncSize.Visible := gDriveBar1;
   (*/ Disk Panels *)
@@ -3203,39 +3141,37 @@ begin
   DriveToolbar.UncheckAllButtons;
 end;
 
-procedure TfrmMain.UpdateDriveButtonMenuSelection(DriveButton: TSpeedButton; FileView: TFileView);
+procedure TfrmMain.UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
 var
   i : Integer;
   BitmapTmp: Graphics.TBitmap;
   Drive: PDrive;
   Path: String;
 begin
+  if not gDriveMenuButton then
+    Exit;
+
   Path := FileView.CurrentPath;
 
-  for i := 0 to pmDrivesMenu.Items.Count - 1 do
+  for i := 0 to FDrivesListPopup.DrivesCount - 1 do
   begin
-    Drive := PDrive(DrivesList.Items[pmDrivesMenu.Items[i].Tag]);
+    Drive := PDrive(DrivesList.Items[i]);
 
     if IsInPath(UTF8UpperCase(Drive^.Path), UTF8UpperCase(Path), True) then
     begin
-      if gDriveMenuButton then
-      begin
-        DriveButton.Caption := Drive^.Name;
+      DriveButton.Caption := Drive^.Name;
+      DriveButton.Tag := i;
 
-        BitmapTmp := PixMapManager.GetDriveIcon(Drive,
-                                                DriveButton.Height - 2,
-                                                DriveButton.Color);
-        DriveButton.Glyph := BitmapTmp;
+      BitmapTmp := PixMapManager.GetDriveIcon(Drive,
+                                              DriveButton.Height - 2,
+                                              DriveButton.Color);
+      DriveButton.Glyph := BitmapTmp;
 
-        if Assigned(BitmapTmp) then
-          FreeAndNil(BitmapTmp);
+      if Assigned(BitmapTmp) then
+        FreeAndNil(BitmapTmp);
 
-        DriveButton.Width := DriveButton.Glyph.Width
-                           + DriveButton.Canvas.TextWidth(DriveButton.Caption) + 16;
-      end;
-
-      pmDrivesMenu.Items[i].Checked := True;
-
+      DriveButton.Width := DriveButton.Glyph.Width
+                         + DriveButton.Canvas.TextWidth(DriveButton.Caption) + 16;
       Exit;
     end;
   end;
@@ -3243,6 +3179,7 @@ begin
   // Path not found in menu.
 
   DriveButton.Caption := '';
+  DriveButton.Tag := -1;
 
   if FileView.FileSource.IsClass(TArchiveFileSource) then
     BitmapTmp := PixMapManager.GetArchiveIcon(DriveButton.Height - 2,
@@ -3255,9 +3192,6 @@ begin
 
   if Assigned(BitmapTmp) then
     FreeAndNil(BitmapTmp);
-
-  for i := 0 to pmDrivesMenu.Items.Count - 1 do
-    pmDrivesMenu.Items[i].Checked := False;
 end;
 
 procedure TfrmMain.UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
@@ -3271,7 +3205,7 @@ begin
     if (ANoteBook = nbLeft) then
     begin
       UpdateDriveToolbarSelection(dskLeft, FileView);
-      UpdateDriveButtonMenuSelection(btnLeftDrive, FileView);
+      UpdateDriveButtonSelection(btnLeftDrive, FileView);
 
       // If only one drive toolbar is displayed then also change it.
       if gDriveBar1 and not gDriveBar2 then
@@ -3282,9 +3216,32 @@ begin
     else if (ANoteBook = nbRight) then
     begin
       UpdateDriveToolbarSelection(dskRight, FileView);
-      UpdateDriveButtonMenuSelection(btnRightDrive, FileView);
+      UpdateDriveButtonSelection(btnRightDrive, FileView);
     end;
   end;
+end;
+
+procedure TfrmMain.ShowDrivesList(APanel: TFilePanelSelect);
+var
+  p: TPoint;
+  ADriveIndex: Integer;
+begin
+  case APanel of
+    fpLeft:
+      begin
+        p := Classes.Point(btnLeftDrive.Left, btnLeftDrive.Height);
+        p := pnlLeftTools.ClientToScreen(p);
+        ADriveIndex := btnLeftDrive.Tag;
+      end;
+    fpRight:
+      begin
+        p := Classes.Point(btnRightDrive.Left, btnRightDrive.Height);
+        p := pnlRightTools.ClientToScreen(p);
+        ADriveIndex := btnRightDrive.Tag;
+      end;
+  end;
+  p := ScreenToClient(p);
+  FDrivesListPopup.Show(p, APanel, ADriveIndex);
 end;
 
 procedure TfrmMain.HideToTray;
@@ -3491,6 +3448,39 @@ begin
     ANotebook.View[i].StopBackgroundWork;
   // Then remove file views.
   ANotebook.RemoveAllPages;
+end;
+
+procedure TfrmMain.DriveListDriveSelected(Sender: TObject; ADriveIndex: Integer;
+  APanel: TFilePanelSelect);
+var
+  Drive: PDrive;
+begin
+  begin
+    Drive := PDrive(DrivesList.Items[ADriveIndex]);
+    if IsAvailable(Drive^.Path) then
+       begin
+         case APanel of
+           fpLeft:
+             begin
+               FrameLeft.CurrentPath := Drive^.Path;
+             end;
+           fpRight:
+             begin
+               FrameRight.CurrentPath := Drive^.Path;
+             end;
+         end;  // case
+       end
+     else
+       begin
+         msgOK(rsMsgDiskNotAvail);
+       end;
+  end;
+end;
+
+procedure TfrmMain.DriveListClose(Sender: TObject);
+begin
+  if Sender is TDrivesListPopup then
+    SetActiveFrame(TDrivesListPopup(Sender).Panel);
 end;
 
 initialization
