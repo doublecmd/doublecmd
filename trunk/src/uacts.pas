@@ -146,7 +146,6 @@ const cf_Null=0;
    procedure cm_DriveContextMenu(param: string='');
    procedure cm_CopyFullNamesToClip(param: string='');
    procedure cm_Exchange(param:string='');
-   procedure cm_LeftOpenDrives(param:string='');
    procedure cm_OpenArchive(param:string='');
    procedure cm_OpenDirInNewTab(param:string='');
    procedure cm_Open(param:string='');
@@ -158,6 +157,7 @@ const cf_Null=0;
    procedure cm_ExtractFiles(param: string='');
    procedure cm_QuickSearch(param: string='');
    procedure cm_QuickFilter(param: string='');
+   procedure cm_LeftOpenDrives(param:string='');
    procedure cm_RightOpenDrives(param: string='');
    procedure cm_OpenBar(param: string='');
    procedure cm_ShowButtonMenu(param: string='');
@@ -796,20 +796,6 @@ begin
   FrmMain.NotActiveFrame.CurrentPath:= sDir;
 end;
 
-procedure TActs.cm_LeftOpenDrives(param:string);
-var
-  p : TPoint;
-begin
- with FrmMain do
- begin
-  pmDrivesMenu.Tag := 0;  // indicate that is left panel menu
-  p := Classes.Point(btnLeftDrive.Left,btnLeftDrive.Height);
-  p := pnlLeftTools.ClientToScreen(p);
-  UpdateDriveButtonMenuSelection(btnLeftDrive, FrameLeft);
-  pmDrivesMenu.PopUp(p.x, p.y);
- end;
-end;
-
 procedure TActs.cm_OpenDirInNewTab(param:string);
 var
   NewPage: TFileViewPage;
@@ -955,18 +941,14 @@ begin
   FrmMain.ActiveFrame.ExecuteCommand('cm_QuickFilter', param);
 end;
 
-procedure TActs.cm_RightOpenDrives(param:string);
-var
-  p : TPoint;
+procedure TActs.cm_LeftOpenDrives(param:string);
 begin
-  with frmMain do
-  begin
-    pmDrivesMenu.Tag := 1;  // indicate that is right panel menu
-    p := Classes.Point(btnRightDrive.Left,btnRightDrive.Height);
-    p := pnlRightTools.ClientToScreen(p);
-    UpdateDriveButtonMenuSelection(btnRightDrive, FrameRight);
-    pmDrivesMenu.PopUp(p.x, p.y);
-  end;
+  frmMain.ShowDrivesList(fpLeft);
+end;
+
+procedure TActs.cm_RightOpenDrives(param:string);
+begin
+  frmMain.ShowDrivesList(fpRight);
 end;
 
 procedure TActs.cm_OpenBar(param: string);
@@ -2619,4 +2601,4 @@ begin
 end;
 
 end.
-
+
