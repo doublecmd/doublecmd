@@ -108,7 +108,7 @@ implementation
 
 uses
   WSExtCtrls,
-  fMain, uGlobs;
+  uGlobs;
 
 // -- TFileViewPage -----------------------------------------------------------
 
@@ -142,6 +142,8 @@ begin
       Caption := Copy(NewCaption, 1, gDirTabLimit) + '...'
     else
       Caption := NewCaption;
+
+    UpdateTabLockState;
   end;
 end;
 
