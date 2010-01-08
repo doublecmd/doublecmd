@@ -2754,7 +2754,8 @@ procedure TfrmMain.UpdateWindowView;
 
     for I := 0 to NoteBook.PageCount - 1 do  //  change on all tabs
     begin
-      NoteBook[I].UpdateView;
+      NoteBook.Page[I].UpdateCaption(GetLastDir(NoteBook.View[I].CurrentPath));
+      NoteBook.View[I].UpdateView;
     end;
   end;
 
