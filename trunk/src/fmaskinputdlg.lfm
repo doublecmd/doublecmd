@@ -1,0 +1,122 @@
+object frmMaskInputDlg: TfrmMaskInputDlg
+  Left = 404
+  Height = 231
+  Top = 176
+  Width = 339
+  AutoSize = True
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  ChildSizing.LeftRightSpacing = 10
+  ChildSizing.TopBottomSpacing = 10
+  ClientHeight = 231
+  ClientWidth = 339
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '0.9.29'
+  object lblPrompt: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 10
+    Height = 28
+    Top = 10
+    Width = 319
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    BorderSpacing.Left = 10
+    BorderSpacing.Right = 10
+    ParentColor = False
+    WordWrap = True
+  end
+  object lblSearchTemplate: TLabel
+    AnchorSideLeft.Control = cmbMask
+    AnchorSideTop.Control = cmbMask
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = cmbMask
+    AnchorSideRight.Side = asrBottom
+    Left = 10
+    Height = 16
+    Top = 71
+    Width = 319
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    BorderSpacing.Top = 6
+    Caption = 'Or select predefined selection type:'
+    ParentColor = False
+    WordWrap = True
+  end
+  object cmbMask: TComboBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblPrompt
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 10
+    Height = 21
+    Top = 44
+    Width = 319
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 10
+    DropDownCount = 10
+    ItemHeight = 13
+    TabOrder = 0
+  end
+  object btnOK: TBitBtn
+    AnchorSideTop.Control = lbxSearchTemplate
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = btnCancel
+    Left = 163
+    Height = 32
+    Top = 192
+    Width = 80
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
+    Caption = '&OK'
+    Default = True
+    Kind = bkOK
+    ModalResult = 1
+    TabOrder = 3
+  end
+  object btnCancel: TBitBtn
+    AnchorSideTop.Control = lbxSearchTemplate
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 249
+    Height = 32
+    Top = 192
+    Width = 80
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 10
+    Cancel = True
+    Caption = 'Cancel'
+    Kind = bkCancel
+    ModalResult = 2
+    TabOrder = 2
+  end
+  object lbxSearchTemplate: TListBox
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblSearchTemplate
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 10
+    Height = 93
+    Top = 93
+    Width = 319
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 10
+    ItemHeight = 0
+    OnClick = lbxSearchTemplateClick
+    OnDblClick = lbxSearchTemplateDblClick
+    Sorted = True
+    TabOrder = 1
+  end
+end

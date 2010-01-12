@@ -500,7 +500,7 @@ implementation
 
 uses
   LCLProc, Masks, Dialogs, uLng, uShowMsg, uGlobs, uPixmapManager,
-  uDCUtils, uOSUtils, math, fMain,
+  uDCUtils, uOSUtils, math, fMain, fMaskInputDlg, uSearchTemplate,
   uFileProperty,
   uFileSourceProperty,
   uFileSourceOperation,
@@ -1722,7 +1722,7 @@ var
 begin
   if IsEmpty then Exit;
   s := FLastMark;
-  if not ShowInputComboBox(rsMarkPlus, rsMaskInput, glsMaskHistory, s) then Exit;
+  if not ShowMaskInputDlg(rsMarkPlus, rsMaskInput, glsMaskHistory, s) then Exit;
   FLastMark := s;
   MarkGroup(s, True);
   UpdateInfoPanel;
@@ -1765,7 +1765,7 @@ var
 begin
   if IsEmpty then Exit;
   s := FLastMark;
-  if not ShowInputComboBox(rsMarkMinus, rsMaskInput, glsMaskHistory, s) then Exit;
+  if not ShowMaskInputDlg(rsMarkMinus, rsMaskInput, glsMaskHistory, s) then Exit;
   FLastMark := s;
   MarkGroup(s, False);
   UpdateInfoPanel;
@@ -1781,14 +1781,27 @@ end;
 
 procedure TColumnsFileView.MarkGroup(const sMask: String; bSelect: Boolean);
 var
-  i: Integer;
+  I: Integer;
+  SearchTemplate: TSearchTemplate = nil;
 begin
-  for i := 0 to FFiles.Count - 1 do
-  begin
-    if FFiles[i].TheFile.Name = '..' then Continue;
-    if MatchesMaskList(FFiles[i].TheFile.Name, sMask) then
-      FFiles[i].Selected := bSelect;
-  end;
+  if IsMaskSearchTemplate(sMask) then
+    begin
+      SearchTemplate:= gSearchTemplateList.TemplateByName[sMask];
+      if Assigned(SearchTemplate) then
+        for I := 0 to FFiles.Count - 1 do
+          begin
+            if FFiles[I].TheFile.Name = '..' then Continue;
+            if SearchTemplate.CheckFile(FFiles[I].TheFile) then
+              FFiles[I].Selected := bSelect;
+          end;
+    end
+  else
+    for I := 0 to FFiles.Count - 1 do
+      begin
+        if FFiles[I].TheFile.Name = '..' then Continue;
+        if MatchesMaskList(FFiles[I].TheFile.Name, sMask) then
+          FFiles[I].Selected := bSelect;
+      end;
 end;
 
 procedure TColumnsFileView.edtPathKeyDown(Sender: TObject; var Key: Word;

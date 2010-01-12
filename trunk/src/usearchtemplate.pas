@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Load/Save search templates
 
-   Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2010  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -57,19 +57,31 @@ type
   TSearchTemplateList = class(TList)
   private
     function GetTemplate(Index: Integer): TSearchTemplate;
+    function GetTemplate(const AName: UTF8String): TSearchTemplate;
   public
     function Add(SearchTemplate: TSearchTemplate): Integer;
     procedure DeleteTemplate(Index: Integer);
     procedure LoadToStringList(StringList: TStrings);
     procedure LoadFromIni(IniFile: TIniFileEx);
     procedure SaveToIni(IniFile: TIniFileEx);
+    property TemplateByName[const AName: UTF8String]: TSearchTemplate read GetTemplate;
     property Templates[Index: Integer]: TSearchTemplate read GetTemplate;
   end;
+
+const
+  cTemplateSign = '>';
+
+function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
 
 implementation
 
 uses
-  DateUtils, uFileProperty;
+  DateUtils, Masks, uFileProperty;
+
+function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
+begin
+  Result:= (Length(sMask) > 0) and (sMask[1] = cTemplateSign);
+end;
 
 { TSearchTemplate }
 
@@ -171,6 +183,9 @@ begin
   Result:= True;
   with SearchRecord do
   begin
+    if (fpName in AFile.GetSupportedProperties) then
+      Result:= MatchesMaskList(AFile.Name, SearchRecord.rFileMask);
+
     if (fpModificationTime in AFile.GetSupportedProperties) then
       if (rIsDateFrom or rIsDateTo or rIsTimeFrom or rIsTimeTo or FIsNotOlderThan) then
         Result:= CheckFileDate((AFile.Properties[fpModificationTime] as TFileDateTimeProperty).Value);
@@ -186,6 +201,26 @@ end;
 function TSearchTemplateList.GetTemplate(Index: Integer): TSearchTemplate;
 begin
   Result:= TSearchTemplate(Items[Index]);
+end;
+
+function TSearchTemplateList.GetTemplate(const AName: UTF8String): TSearchTemplate;
+var
+  I: Integer;
+  sName: UTF8String;
+begin
+  Result:= nil;
+
+  if IsMaskSearchTemplate(AName) then
+    sName:= PChar(AName) + 1 // skip template sign
+  else
+    sName:= AName;
+
+  for I:= 0 to Count - 1 do
+    if SameText(TSearchTemplate(Items[I]).TemplateName, sName) then
+      begin
+        Result:= TSearchTemplate(Items[I]);
+        Exit;
+      end;
 end;
 
 function TSearchTemplateList.Add(SearchTemplate: TSearchTemplate): Integer;
