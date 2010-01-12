@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-12-28 19:24+0300\n"
+"PO-Revision-Date: 2010-01-12 15:14+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1882,6 +1882,20 @@ msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
 msgstr "Редактировать"
 
+#: TFRMMASKINPUTDLG.BTNCANCEL.CAPTION
+msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Отмена"
+
+#: TFRMMASKINPUTDLG.BTNOK.CAPTION
+msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&ОК"
+
+#: TFRMMASKINPUTDLG.LBLSEARCHTEMPLATE.CAPTION
+msgid "Or select predefined selection type:"
+msgstr "или выберите тип файлов по шаблону:"
+
 #: TFRMMKDIR.CAPTION
 msgid "Create new directory"
 msgstr "Создать новый каталог"
@@ -3592,7 +3606,7 @@ msgstr "Маска выбора"
 
 #: ulng.rsmaskinput
 msgid "Input mask:"
-msgstr "Маска ввода:"
+msgstr "Укажите маску файлов (разделитель - ';'):"
 
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"

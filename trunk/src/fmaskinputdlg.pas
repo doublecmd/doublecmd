@@ -36,13 +36,13 @@ uses
   uGlobs, uSearchTemplate;
 
 function ShowMaskInputDlg(const sCaption, sPrompt: UTF8String;
-  slValueList: TStringList; var sValue: UTF8String): Boolean;
+                                slValueList: TStringList; var sValue: UTF8String): Boolean;
 begin
   Result:= False;
   with TfrmMaskInputDlg.Create(Application) do
   try
     Caption:= sCaption;
-    lblPrompt.Caption:= sCaption;
+    lblPrompt.Caption:= sPrompt;
     cmbMask.Items.Assign(slValueList);
     cmbMask.Text := sValue;
     if ShowModal = mrOK then
