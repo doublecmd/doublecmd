@@ -68,10 +68,10 @@ object frmMaskInputDlg: TfrmMaskInputDlg
     AnchorSideTop.Control = lbxSearchTemplate
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnCancel
-    Left = 163
+    Left = 143
     Height = 32
     Top = 192
-    Width = 80
+    Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 6
@@ -86,10 +86,10 @@ object frmMaskInputDlg: TfrmMaskInputDlg
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 249
+    Left = 239
     Height = 32
     Top = 192
-    Width = 80
+    Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 10
