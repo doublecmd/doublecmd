@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="95">
+    <Units Count="98">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -144,6 +144,7 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmAbout"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="fAbout"/>
       </Unit11>
       <Unit12>
@@ -636,6 +637,24 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fSetFileProperties"/>
       </Unit94>
+      <Unit95>
+        <Filename Value="platform\upixmapgtk.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uPixMapGtk"/>
+      </Unit95>
+      <Unit96>
+        <Filename Value="uquickviewpanel.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uQuickViewPanel"/>
+      </Unit96>
+      <Unit97>
+        <Filename Value="fmaskinputdlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmMaskInputDlg"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fMaskInputDlg"/>
+      </Unit97>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
