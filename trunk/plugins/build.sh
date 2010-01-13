@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Build all plugins
 
 # This script run from _make.sh
@@ -8,23 +8,23 @@
 pushd plugins
 
 # WCX plugins
-$lazpath/lazbuild wcx/cpio/src/cpio.lpi
-$lazpath/lazbuild wcx/deb/src/deb.lpi
-$lazpath/lazbuild wcx/lzma/src/lzma.lpi
-$lazpath/lazbuild wcx/rpm/src/rpm.lpi
-$lazpath/lazbuild wcx/unbz2/src/unbz2.lpi
-$lazpath/lazbuild wcx/unrar/src/unrar.lpi
-$lazpath/lazbuild wcx/zip/src/Zip.lpi
+$lazpath/lazbuild wcx/cpio/src/cpio.lpi $DC_ARCH
+$lazpath/lazbuild wcx/deb/src/deb.lpi $DC_ARCH
+$lazpath/lazbuild wcx/lzma/src/lzma.lpi $DC_ARCH
+$lazpath/lazbuild wcx/rpm/src/rpm.lpi $DC_ARCH
+$lazpath/lazbuild wcx/unbz2/src/unbz2.lpi $DC_ARCH
+$lazpath/lazbuild wcx/unrar/src/unrar.lpi $DC_ARCH
+$lazpath/lazbuild wcx/zip/src/Zip.lpi $DC_ARCH
 
 # WDX plugins
-$lazpath/lazbuild wdx/rpm_wdx/src/rpm_wdx.lpi
-$lazpath/lazbuild wdx/deb_wdx/src/deb_wdx.lpi
+$lazpath/lazbuild wdx/rpm_wdx/src/rpm_wdx.lpi $DC_ARCH
+$lazpath/lazbuild wdx/deb_wdx/src/deb_wdx.lpi $DC_ARCH
 
 # WLX plugins
-$lazpath/lazbuild wlx/WlxMplayer/src/wlxMplayer.lpi
+$lazpath/lazbuild wlx/WlxMplayer/src/wlxMplayer.lpi $DC_ARCH
 
 # DSX plugins
-$lazpath/lazbuild dsx/DSXLocate/src/DSXLocate.lpi
+$lazpath/lazbuild dsx/DSXLocate/src/DSXLocate.lpi $DC_ARCH
 
 # Strip and rename WCX
 pushd wcx/cpio/lib/

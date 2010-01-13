@@ -60,6 +60,19 @@ cd $BUILD_PACK_DIR
 sed -i -e 's/UseIniInProgramDir=0/UseIniInProgramDir=1/' doublecmd/doublecmd.ini
 tar -cvjf $PACK_DIR/doublecmd-$DC_VER-1.$lcl.$CPU_TARGET.tar.bz2 doublecmd
 
+# Create help packages ------------------------------------------------------------
+cd $BUILD_DC_TMP_DIR
+# Copy help files
+install/linux/install-help.sh $BUILD_PACK_DIR
+# Create help package for each language
+cd $BUILD_PACK_DIR/doublecmd/doc
+for HELP_LANG in `ls`
+  do
+    cd $BUILD_PACK_DIR/doublecmd
+    tar -cvjf $PACK_DIR/doublecmd-help.$HELP_LANG-$DC_VER.noarch.tar.bz2 doc/$HELP_LANG
+  done
+# ---------------------------------------------------------------------------------
+
 # Clean DC build dir
 rm -rf $BUILD_DC_TMP_DIR
 rm -rf $BUILD_PACK_DIR
