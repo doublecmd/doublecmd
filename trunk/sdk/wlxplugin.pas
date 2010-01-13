@@ -9,7 +9,8 @@ interface
 
 {$IFDEF MSWINDOWS}
 uses
-Windows;{$ENDIF}
+  Windows;
+{$ENDIF}
 
 const
   lc_copy=1;
@@ -37,7 +38,12 @@ const
   LISTPLUGIN_OK=0;
   LISTPLUGIN_ERROR=1;
 
-const MAX_PATH=32000;
+const
+  MAX_PATH=32000;
+
+type
+  { Unsigned integer with pointer size }
+  THandle = {$IFDEF CPU64}QWord{$ELSE}LongWord{$ENDIF};
 
 type
   tListDefaultParamStruct=record
@@ -59,7 +65,7 @@ type ttimeformat=record
      end;
      ptimeformat=^ttimeformat;
 
-type HBITMAP = type LongWord;
+type HBITMAP = type THandle;
 
 
 { Function prototypes: Functions need to be defined exactly like this!}
