@@ -16,16 +16,22 @@
 # all - compiling components, plugins and DC with *.lrs files generation
 # default - compiling DC with *.lrs files generation (using by default)
 
-#path to lazarus
+# path to lazarus
 export lazpath=/home/alexx/bin/lazarus
-#widgetset gtk or gtk2
-if [ -z $lcl ]
-  then export lcl=gtk2
+
+# Set up widgetset: gtk or gtk2 or qt
+if [ $lcl ]
+  then export DC_ARCH=$(echo "$DC_ARCH --widgetset=$lcl")
+fi
+
+# Set up processor architecture
+if [ $CPU_TARGET ] 
+  then export DC_ARCH=$(echo "$DC_ARCH --cpu=$CPU_TARGET")
 fi
 
 build_doublecmd()
 {
-  $lazpath/lazbuild --widgetset=$lcl src/doublecmd.lpi
+  $lazpath/lazbuild src/doublecmd.lpi $DC_ARCH
   
   strip --strip-all doublecmd
 }

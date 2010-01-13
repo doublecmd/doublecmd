@@ -65,6 +65,14 @@ rem Create *.zip package
 patch doublecmd/doublecmd.ini portable.diff
 zip -9 -Dr %PACK_DIR%\doublecmd-%DC_VER%.%CPU_TARGET%-%OS_TARGET%.zip doublecmd 
 
+rem Create help packages
+cd /D %BUILD_DC_TMP_DIR%
+rem Copy help files
+call %BUILD_DC_TMP_DIR%\install\windows\install-help.bat
+rem Create help package for each language
+cd %BUILD_PACK_DIR%\doublecmd
+for /D %%f in (doc\*) do zip -9 -Dr %PACK_DIR%\doublecmd-help.%%~nf-%DC_VER%.noarch.zip %%f
+
 rem Clean temp directories
 cd \
 rm -rf %BUILD_DC_TMP_DIR%

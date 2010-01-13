@@ -24,9 +24,10 @@ mkdir  %DC_INSTALL_DIR%\plugins\wdx\deb_wdx
 
 rem Copy directories
 xcopy /E language %DC_INSTALL_DIR%\language\
-xcopy /E doc %DC_INSTALL_DIR%\doc\
-xcopy /E pixmaps %DC_INSTALL_DIR%\pixmaps\
+xcopy /E doc\en   %DC_INSTALL_DIR%\doc\en\
+xcopy /E pixmaps  %DC_INSTALL_DIR%\pixmaps\
 rem Copy files
+copy doc\*.txt              %DC_INSTALL_DIR%\doc\
 copy doublecmd.exe          %DC_INSTALL_DIR%\
 copy doublecmd.ini          %DC_INSTALL_DIR%\
 copy doublecmd.ext.example  %DC_INSTALL_DIR%\

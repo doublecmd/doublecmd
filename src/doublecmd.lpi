@@ -695,6 +695,10 @@
       </Debugging>
     </Linking>
     <Other>
+      <ConfigFile>
+        <CustomConfigFile Value="True"/>
+        <ConfigFilePath Value="fpc-extra.cfg"/>
+      </ConfigFile>
       <CompilerPath Value="$(CompPath)"/>
       <ExecuteBefore>
         <Command Value="_getsvnrev.cmd $(LazarusDir)"/>

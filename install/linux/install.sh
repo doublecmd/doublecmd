@@ -7,6 +7,8 @@ fi
 
 mkdir -p $DC_INSTALL_DIR
 
+mkdir -p $DC_INSTALL_DIR/doc
+
 mkdir -p $DC_INSTALL_DIR/plugins
 # WCX plugins directories
 mkdir -p $DC_INSTALL_DIR/plugins/wcx
@@ -31,9 +33,10 @@ mkdir -p $DC_INSTALL_DIR/plugins/dsx/DSXLocate
 
 # Copy directories
 cp -r language $DC_INSTALL_DIR/
-cp -r doc $DC_INSTALL_DIR/
-cp -r pixmaps $DC_INSTALL_DIR/
+cp -r doc/en   $DC_INSTALL_DIR/doc/
+cp -r pixmaps  $DC_INSTALL_DIR/
 # Copy files
+cp -a doc/*.txt                    $DC_INSTALL_DIR/doc/   
 cp -a doublecmd                    $DC_INSTALL_DIR/
 cp -a install/linux/doublecmd.ini  $DC_INSTALL_DIR/
 cp -a doublecmd.ext.example        $DC_INSTALL_DIR/
@@ -66,8 +69,11 @@ if [ -z $1 ]
     # Copy libraries
     if [ "$CPU_TARGET" = "x86_64" ]
       then
+	# for cross compiling try to create library directory
+	mkdir /usr/lib64
         install -m 644 *.so           /usr/lib64/
       else
+	mkdir /usr/lib
         install -m 644 *.so           /usr/lib/
     fi
     # Create symlink and desktop files
