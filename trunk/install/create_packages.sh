@@ -21,11 +21,6 @@ cp -a ../.svn/entries $BUILD_DC_TMP_DIR/.svn/
 # Copy package description file
 cp linux/description-pak $BUILD_DC_TMP_DIR/
 
-# Copy libraries
-cp -a linux/lib/*.so $BUILD_DC_TMP_DIR/
-
-cd $BUILD_DC_TMP_DIR
-
 # Set widgetset
 if [ -z $1 ]
   then export lcl=gtk2
@@ -36,6 +31,11 @@ fi
 if [ -z $CPU_TARGET ] 
   then export CPU_TARGET=$(fpc -iTP)
 fi
+
+# Copy libraries
+cp -a linux/lib/$CPU_TARGET/*.so    $BUILD_DC_TMP_DIR/
+
+cd $BUILD_DC_TMP_DIR
 
 # Build all components of Double Commander
 ./_make.sh all

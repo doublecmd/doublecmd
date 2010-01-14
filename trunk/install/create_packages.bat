@@ -32,11 +32,6 @@ rem Copy needed files
 copy windows\doublecmd.iss %BUILD_PACK_DIR%\
 copy windows\portable.diff %BUILD_PACK_DIR%\
 
-rem Copy libraries
-copy windows\lib\*.dll %BUILD_DC_TMP_DIR%\
-
-cd /D %BUILD_DC_TMP_DIR%
-
 rem Get processor architecture
 if "%CPU_TARGET%" == "" (
   if "%PROCESSOR_ARCHITECTURE%" == "x86" (
@@ -47,6 +42,11 @@ if "%CPU_TARGET%" == "" (
     set OS_TARGET=win64
   )
 )
+
+rem Copy libraries
+copy windows\lib\%CPU_TARGET%\*.dll    %BUILD_DC_TMP_DIR%\
+
+cd /D %BUILD_DC_TMP_DIR%
 
 rem Build all components of Double Commander
 call _make.bat all
