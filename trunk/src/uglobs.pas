@@ -374,7 +374,7 @@ begin
     begin
       sWidth:= IntToStr(Monitor.Width);
       sHeight:= IntToStr(Monitor.Height);
-      Result.IniSection:= Name + '(' + sWidth + 'x' + sHeight + ')';
+      Result.IniSection:= ClassName + '(' + sWidth + 'x' + sHeight + ')';
     end;
 end;
 
@@ -908,4 +908,4 @@ initialization
 
 finalization
   DeInitGlobs;
-end.
+end.

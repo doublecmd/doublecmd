@@ -77,19 +77,24 @@ type
   TIniPropStorageEx = class(TCustomIniPropStorage)
   private
     FPercentSize: Integer;
+    function ChangeIdent(const Ident: String): String;
   protected
     function IniFileClass: TIniFileClass; override;
   public
     constructor Create(AOwner: TComponent); override;
     procedure Restore; override;
+    function DoReadString(const Section, Ident, default: string): string; override;
+    procedure DoWriteString(const Section, Ident, Value: string); override;
+
     property PercentSize: Integer read FPercentSize write FPercentSize;
   end;
 
 implementation
 
-uses Forms, uOSUtils;
+uses
+  Forms, uOSUtils, uDCUtils;
 
-{ TFileStreamEx}
+{ TFileStreamEx }
 
 constructor TFileStreamEx.Create(const AFileName: UTF8String; Mode: Word);
 begin
@@ -252,4 +257,23 @@ begin
     end;
 end;
 
-end.
+function TIniPropStorageEx.DoReadString(const Section, Ident, default: string): string;
+begin
+  Result := inherited DoReadString(Section, ChangeIdent(Ident), default);
+end;
+
+procedure TIniPropStorageEx.DoWriteString(const Section, Ident, Value: string);
+begin
+  inherited DoWriteString(Section, ChangeIdent(Ident), Value);
+end;
+
+function TIniPropStorageEx.ChangeIdent(const Ident: String): String;
+begin
+  // Change component name to class name.
+  if StrBegins(Ident, Owner.Name) then
+    Result := Owner.ClassName + Copy(Ident, 1 + Length(Owner.Name), MaxInt)
+  else
+    Result := Ident;
+end;
+
+end.
