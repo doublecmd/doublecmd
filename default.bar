@@ -1,5 +1,5 @@
 [Buttonbar]
-Buttoncount=7
+Buttoncount=9
 button1=%commander_path%\pixmaps\16x16\actions\view-refresh.png
 cmd1=cm_Refresh
 menu1=Refresh
@@ -17,6 +17,10 @@ button6=%commander_path%\pixmaps\16x16\actions\go-up.png
 cmd6=cm_ShowButtonMenu
 param6=default.bar
 menu6=Example of ShowButtonMenu
-button7=%commander_path%\pixmaps\16x16\filesystems\archive.png
+button7=%commander_path%\pixmaps\16x16\mimetypes\package-x-generic.png
 cmd7=cm_PackFiles
 menu7=Pack files...
+menu8=-
+button9=%commander_path%\pixmaps\16x16\actions\system-search.png
+cmd9=cm_Search
+menu9=Search
