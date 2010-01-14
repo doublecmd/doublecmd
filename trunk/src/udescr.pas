@@ -120,12 +120,15 @@ var
 begin
   sDescrFile:= ExtractFilePath(FileName) + 'descript.ion';
   if sDescrFile <> FLastDescrFile then
-    begin
+    try
       if (FLastDescrFile <> '') and (Count > 0) then
         SaveToFile(FLastDescrFile);
       FLastDescrFile:= sDescrFile;
       if mbFileExists(FLastDescrFile) then
         LoadFromFile(FLastDescrFile);
+    except
+      on E: Exception do
+        DebugLn('TDescription.PrepareDescrFile - ' + E.Message);
     end;
 end;
 
@@ -287,12 +290,17 @@ end;
 
 procedure TDescription.SaveDescription;
 begin
-  if Count > 0 then
-    SaveToFile(FLastDescrFile)
-  else
-    mbDeleteFile(FLastDescrFile);
-  if Assigned(FDestDescr) then
-    FDestDescr.SaveDescription;
+  try
+    if Count > 0 then
+      SaveToFile(FLastDescrFile)
+    else
+      mbDeleteFile(FLastDescrFile);
+    if Assigned(FDestDescr) then
+      FDestDescr.SaveDescription;
+    except
+      on E: Exception do
+        DebugLn('TDescription.SaveDescription - ' + E.Message);
+    end;
 end;
 
 end.
