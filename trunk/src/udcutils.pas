@@ -260,6 +260,14 @@ procedure StrDisposeW(var pStr : PWideChar);
 function StrLCopyW(Dest, Source: PWideChar; MaxLen: SizeInt): PWideChar;
 function StrPCopyW(Dest: PWideChar; const Source: WideString): PWideChar;
 function StrPLCopyW(Dest: PWideChar; const Source: WideString; MaxLen: Cardinal): PWideChar;
+
+{en
+   Checks if a string begins with another string.
+   @returns(@true if StringToCheck begins with StringToMatch.
+            StringToCheck may be longer than StringToMatch.)
+}
+function StrBegins(const StringToCheck, StringToMatch: String): Boolean;
+
 {en
    Convert a number specified as an octal number to it's decimal value.
    @param(Value Octal number as string)
@@ -960,6 +968,12 @@ begin
   Result := StrLCopyW(Dest, PWideChar(Source), MaxLen);
 end;
 
+function StrBegins(const StringToCheck, StringToMatch: String): Boolean;
+begin
+  Result := (Length(StringToCheck) >= Length(StringToMatch)) and
+            (CompareChar(StringToCheck[1], StringToMatch[1], Length(StringToMatch)) = 0);
+end;
+
 function OctToDec(Value: String): LongInt;
 var
   I: Integer;
@@ -1011,4 +1025,4 @@ begin
 end;
 
 end.
-
+

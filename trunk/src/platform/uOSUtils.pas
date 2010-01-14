@@ -1525,11 +1525,16 @@ end;
 var f: textfile;
     s: string;
 begin
-  popen(f, _PATH_GVFS_TRASH + #32 + FileName, 'r');     // try to delete.
-  readln(f,s);
-  If (Pos('Error trashing',s) = 1) then Result := false // 17.05.2009 - return result from gvfs-trash;
-  else Result := true;
-  pclose(f);
+  // Open pipe to gvfs-trash to read the output in case of error.
+  // The errors are written to stderr hence "2>&1" is needed because popen only catches stdout.
+  if popen(f, _PATH_GVFS_TRASH + #32 + QuoteStr(FileName) + ' 2>&1', 'r') = 0 then
+  begin
+    readln(f,s);
+    Result := not StrBegins(s, 'Error trashing');
+    pclose(f);
+  end
+  else
+   Result := False;
 end;
 {$ENDIF}
 // --------------------------------------------------------------------------------
@@ -2005,4 +2010,4 @@ finalization
 
 {$ENDIF}
 
-end.
+end.
