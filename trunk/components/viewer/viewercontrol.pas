@@ -2690,7 +2690,9 @@ begin
         end;
       end;
     end;
-  end;
+  end
+  else
+    Result := veAutoDetect;
 end;
 
 procedure TViewerControl.GetSupportedEncodings(List: TStrings);
