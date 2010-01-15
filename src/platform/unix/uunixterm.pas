@@ -32,8 +32,10 @@ uses
    {libc,}ExtCtrls, LCLProc, cwstring,
    LCLType, Graphics, TermInfo, termio, uTerminal, uOSUtils;
 
-//линковка с либой libutil.a содержащей функции forkpty и тд.
-{$L libutil.a}
+{$IF DEFINED(LINUX)}
+{$L libutil.a} // under Linux forkpty is situated in libutil.a library
+{$ENDIF}
+
 const clib = 'c';
       C_stdin   = 0;
       C_stdout  = 1;
@@ -581,7 +583,9 @@ begin
  tio.c_cc[VEOF]:=CEOF;
  tio.c_cc[VEOL]:=CEOL;
  tio.c_cc[VEOL2]:=CEOL2;
+{$IF NOT DEFINED(DARWIN)}
  tio.c_cc[VSWTC]:=CSWTC;
+{$ENDIF}
  tio.c_cc[VMIN]:=CMIN;
  tio.c_cc[VTIME]:=CTIME;
 
