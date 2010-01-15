@@ -27,17 +27,6 @@ uses
   uFileSourceOperationOptions;
 
 type
-  TControlPosition = object
-    Left: Integer;
-    Top: Integer;
-    Width: Integer;
-    Height: Integer;
-    
-    procedure Save(Control: TControl);
-    procedure Restore(Control: TControl);
-  end;
-
-type
   { Log options }
   TLogOptions = set of (log_cp_mv_ln, log_delete, log_dir_op, log_arc_op,
                         log_vfs_op, log_success, log_errors, log_info);
@@ -150,10 +139,6 @@ var
   gViewerFontName: String;
   gViewerFontSize: Integer;
   gViewerFontStyle: TFontStyles;
-
-  gViewerPos:TControlPosition;
-  gEditorPos:TControlPosition;
-
   gViewerImageStretch: Boolean;
   
   { File panels color page }
@@ -251,11 +236,7 @@ function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boo
 
 procedure LoadDefaultHotkeyBindings;
 
-procedure MinimizeToScreen(Form: TCustomForm; Width: Integer = 1024; Height: Integer = 768);
 function InitPropStorage(Owner: TComponent): TIniPropStorageEx;
-
-// for debugging only, can be removed
-procedure dbgShowWindowPos(const pos: TControlPosition);
 
 const
   cMaxStringItems=50;
@@ -340,29 +321,6 @@ begin
     end;
 end;
 
-procedure MinimizeToScreen(Form: TCustomForm; Width: Integer = 1024; Height: Integer = 768);
-var
-  mWidth, mHeight,
-  PersW, PersH,
-  NewW, NewH: Integer;
-begin
-  mWidth:= Form.Monitor.Width;
-  mHeight:= Form.Monitor.Height;
-
-  if (mWidth = Width) and (mHeight = Height) then exit;
-
-  if (mWidth > Form.Width) and (mHeight > Form.Height) then Exit;
-
-  PersW:= (mWidth * 100) div Width;
-  PersH:= (mHeight * 100) div Height;
-
-  NewW:= (Form.Width * PersW) div 100;
-  NewH:= (Form.Height * PersH) div 100;
-
-  Form.Width:= NewW;
-  Form.Height:= NewH;
-end;
-
 function InitPropStorage(Owner: TComponent): TIniPropStorageEx;
 var
   sWidth, sHeight: String;
@@ -376,52 +334,6 @@ begin
       sHeight:= IntToStr(Monitor.Height);
       Result.IniSection:= ClassName + '(' + sWidth + 'x' + sHeight + ')';
     end;
-end;
-
-// for debugging only, can be removed
-procedure dbgShowWindowPos(const pos: TControlPosition);
-begin
-  DebugLn('TWindowPos');
-  DebugLn('Left: ', IntToStr(pos.Left));
-  DebugLn('Top:  ', IntToStr(pos.Top));
-  DebugLn('Width: ', IntToStr(pos.Width));
-  DebugLn('Height: ', IntToStr(pos.Height));
-  DebugLn('END');
-end;
-
-procedure TControlPosition.Save(Control: TControl);
-begin
-  Left := Control.Left;
-  Top := Control.Top;
-  Width := Control.Width;
-  Height := Control.Height;
-end;
-
-procedure TControlPosition.Restore(Control: TControl);
-begin
-  Control.Left := Left;
-  Control.Top := Top;
-  Control.Width := Width;
-  Control.Height := Height;
-  // Resize window for screen size if need
-  if Control is TForm then
-    MinimizeToScreen(Control as TForm);
-end;
-
-procedure LoadWindowPos(var pos:TControlPosition; sPrefix:String);
-begin
-  pos.Left:=gIni.ReadInteger('Configuration', sPrefix+'left',50);
-  pos.Top:=gIni.ReadInteger('Configuration', sPrefix+'top',50);
-  pos.Width:= gIni.ReadInteger('Configuration', sPrefix+'width',300);
-  pos.Height:= gIni.ReadInteger('Configuration', sPrefix+'height',400);
-end;
-
-procedure SaveWindowPos(pos: TControlPosition; sPrefix:String);
-begin
-  gIni.WriteInteger('Configuration', sPrefix+'left', pos.Left);
-  gIni.WriteInteger('Configuration', sPrefix+'top', pos.Top);
-  gIni.WriteInteger('Configuration', sPrefix+'width', pos.Width);
-  gIni.WriteInteger('Configuration', sPrefix+'height', pos.Height);
 end;
 
 procedure InitGlobs;
@@ -675,11 +587,6 @@ begin
 
   gColorExt.Load;
 
-  DebugLn('Loading viewer position...');
-  LoadWindowPos(gViewerPos, 'Viewer.');
-  DebugLn('Loading editor position...');
-  LoadWindowPos(gEditorPos, 'Editor.');
-
   { Localization }
   DoLoadLng;
   msgLoadLng;
@@ -886,9 +793,6 @@ begin
   gIni.WriteInteger('Operations', 'DirectoryExists', Integer(gOperationOptionDirectoryExists));
   gIni.WriteBool('Operations', 'CheckFreeSpace', gOperationOptionCheckFreeSpace);
 
-  SaveWindowPos(gViewerPos, 'Viewer.');
-  SaveWindowPos(gEditorPos, 'Editor.');
-  
   gExts.SaveToFile(gpIniDir + 'doublecmd.ext');
   gColorExt.Save;
   

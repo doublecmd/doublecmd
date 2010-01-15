@@ -130,8 +130,6 @@ type
     procedure EditorKeyPress(Sender: TObject; var Key: Char);
     procedure actEditFindExecute(Sender: TObject);
     procedure actEditRplcExecute(Sender: TObject);
-
-    procedure FormDestroy(Sender: TObject);
     procedure actSave2Execute(Sender: TObject);
     procedure actConfHighExecute(Sender: TObject);
     procedure frmEditorClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -192,7 +190,6 @@ var
   editor: TfrmEditor;
 begin
   editor := TfrmEditor.Create(Application);
-  gEditorPos.Restore(editor);
   LoadAttrFromFile(gpIniDir + csDefaultName);
 
   if sFileName = '' then
@@ -212,6 +209,8 @@ var
   mi:TMenuItem;
   EncodingsList: TStringList;
 begin
+  InitPropStorage(Self);
+
   Editor.Font.Name:=gEditorFontName;
   Editor.Font.Size:=gEditorFontSize;
   Editor.Font.Style:=gEditorFontStyle;
@@ -769,12 +768,6 @@ end;
 procedure TfrmEditor.actEditRplcExecute(Sender: TObject);
 begin
   ShowSearchReplaceDialog(True);
-end;
-
-procedure TfrmEditor.FormDestroy(Sender: TObject);
-begin
-  gEditorPos.Save(Self);;
-  inherited;
 end;
 
 procedure TfrmEditor.actSave2Execute(Sender: TObject);
