@@ -46,10 +46,7 @@ uses
   KASToolBar, KASBarMenu, KASBarFiles,
   uCmdBox, uFileSystemWatcher, uFilePanelSelect,
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
-  uOperationsManager, uDrivesList
-  {$IF NOT DEFINED(DARWIN)}
-  , uTerminal
-  {$ENDIF}
+  uOperationsManager, uDrivesList, uTerminal
   ;
 
 const
@@ -536,9 +533,7 @@ type
 
 var
   frmMain: TfrmMain;
-{$IF NOT DEFINED(DARWIN)}
   Cons: TConsoleThread = nil;
-{$ENDIF}
 
 implementation
 
@@ -1319,10 +1314,9 @@ begin
   except
   end;
 
-{$IF NOT DEFINED(DARWIN)}
  if assigned(Cons) then
   Cons.Free;
-{$ENDIF}
+
   Application.Terminate;
 end;
 
@@ -2347,10 +2341,8 @@ procedure TfrmMain.SetActiveFrame(panel: TFilePanelSelect);
 begin
   PanelSelected:=panel;
   ActiveFrame.SetFocus;
-  {$IF NOT DEFINED(DARWIN)}
   if gTermWindow and Assigned(Cons) then
     Cons.Terminal.Write_pty(' cd "'+ActiveFrame.CurrentPath+'"'+#13+#10);
-  {$ENDIF}
 end;
 
 procedure TfrmMain.UpdateDiskCount;
@@ -2652,7 +2644,6 @@ end;
 
 procedure TfrmMain.ToggleConsole;
 begin
-{$IF NOT DEFINED(DARWIN)}
   if gTermWindow then
     begin
       if not Assigned(Cons) then
@@ -2678,12 +2669,6 @@ begin
   nbConsole.Visible:= gTermWindow;
   Splitter1.Visible:= gTermWindow;
   pnlCommand.AutoSize:= not gTermWindow;
-{$ELSE} // temporarily while console not implemented under Mac OS X
-  pnlCommand.ClientHeight:= Panel1.Height;
-  pnlCommand.AutoSize:= True;
-  nbConsole.Visible:= False;
-  Splitter1.Visible:= False;
-{$ENDIF}
 end;
 
 procedure TfrmMain.ToggleFileSystemWatcher;
@@ -2895,10 +2880,8 @@ begin
 
       VK_PAUSE:
         begin
-          {$IF NOT DEFINED(DARWIN)}
           if gTermWindow and Assigned(Cons) then
             Cons.Terminal.SendBreak_pty();
-          {$ENDIF}
         end;
 
       else
@@ -3024,10 +3007,8 @@ begin
       sDir := mbGetCurrentDir;
       ActiveFrame.CurrentPath := sDir;
       DebugLn(sDir);
-{$IF NOT DEFINED(DARWIN)}
       if gTermWindow and Assigned(Cons) then
         Cons.Terminal.Write_pty(' cd "'+sDir+'"'+#13#10);
-{$ENDIF}
     end;
   end
   else
@@ -3035,11 +3016,9 @@ begin
     if edtCommand.Items.IndexOf(sCmd)=-1 then
       edtCommand.Items.Insert(0,sCmd);
 
-{$IF NOT DEFINED(DARWIN)}
     if gTermWindow and Assigned(Cons) then
       Cons.Terminal.Write_pty(sCmd+#13#10)
     else
-{$ENDIF}
     if bRunInTerm then
       ExecCmdFork(sCmd, True, gRunInTerm)
     else
@@ -3486,4 +3465,4 @@ end;
 
 initialization
  {$I fmain.lrs}
-end.
+end.
