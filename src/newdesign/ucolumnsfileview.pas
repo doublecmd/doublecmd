@@ -1514,12 +1514,12 @@ var
   Result : Boolean;
   sSearchName,
   sSearchNameNoExt,
-  sSearchExt : String;
+  sSearchExt : UTF8String;
 begin
   if (edtSearch.Text='') or IsEmpty then Exit;
   //DebugLn('edtSearchChange: '+ edtSearch.Text);
 
-  sSearchName := AnsiLowerCase(edtSearch.Text);
+  sSearchName := UTF8LowerCase(edtSearch.Text);
 
   if Pos('.', sSearchName) <> 0 then
     begin
@@ -1559,7 +1559,7 @@ begin
   try
     while I <> iEnd do
       begin
-        Result := MatchesMask(AnsiLowerCase(FFiles[I - dgPanel.FixedRows].TheFile.Name), sSearchName);
+        Result := MatchesMask(UTF8LowerCase(FFiles[I - dgPanel.FixedRows].TheFile.Name), sSearchName);
 
         if Result then
           begin
