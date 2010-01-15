@@ -142,8 +142,6 @@ resourcestring
 
   rsQuickSearchPanel = 'Find:';
   rsQuickFilterPanel = 'Filter:';
-  rsSavePosition = '&Save position';
-  rsPositionSaved = 'Position saved.';
   // File operations dialog
   rsDlgSpeedTime = 'Speed %s/s, remaining time %s';
   rsDlgDel = 'Delete file(s)';

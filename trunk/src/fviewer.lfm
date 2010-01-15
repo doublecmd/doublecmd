@@ -57,7 +57,8 @@ object frmViewer: TfrmViewer
   OnDestroy = FormDestroy
   OnKeyDown = frmViewerKeyDown
   OnKeyPress = FormKeyPress
-  Position = poDefault
+  Position = poScreenCenter
+  SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.29'
   object pnlLister: TPanel
@@ -166,13 +167,6 @@ object frmViewer: TfrmViewer
         OnClick = miPrintClick
       end
       object miSeparator: TMenuItem
-        Caption = '-'
-      end
-      object miSavePos: TMenuItem
-        Caption = '&Save Position'
-        OnClick = miSavePosClick
-      end
-      object N1: TMenuItem
         Caption = '-'
       end
       object miExit: TMenuItem

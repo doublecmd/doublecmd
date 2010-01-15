@@ -1,12 +1,12 @@
 object frmEditor: TfrmEditor
-  Left = 330
-  Height = 220
-  Top = 169
-  Width = 342
+  Left = 224
+  Height = 500
+  Top = 174
+  Width = 719
   ActiveControl = Editor
   Caption = 'Editor'
-  ClientHeight = 200
-  ClientWidth = 342
+  ClientHeight = 469
+  ClientWidth = 719
   Icon.Data = {
     7E04000000000100010010100000010020006804000016000000280000001000
     0000200000000100200000000000000000000000000000000000000000000000
@@ -51,9 +51,9 @@ object frmEditor: TfrmEditor
   OnClose = frmEditorClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   ParentFont = False
   Position = poScreenCenter
+  SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.27'
   object StatusBar: TStatusBar

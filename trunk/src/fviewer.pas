@@ -53,7 +53,6 @@ type
     miEncoding: TMenuItem;
     miPlugins: TMenuItem;
     miSeparator: TMenuItem;
-    miSavePos: TMenuItem;
     pnlLister: TPanel;
     pmEditMenu: TPopupMenu;
     sboxImage: TScrollBox;
@@ -64,7 +63,6 @@ type
     miNext: TMenuItem;
     miView: TMenuItem;
     miExit: TMenuItem;
-    N1: TMenuItem;
     miImage: TMenuItem;
     miStretch: TMenuItem;
     miText: TMenuItem;
@@ -97,7 +95,6 @@ type
     procedure miExitClick(Sender: TObject);
     procedure miNextClick(Sender: TObject);
     procedure miPrevClick(Sender: TObject);
-    procedure miSavePosClick(Sender: TObject);
     procedure miStretchClick(Sender: TObject);
     procedure miTextClick(Sender: TObject);
     procedure miBinClick(Sender: TObject);
@@ -173,7 +170,6 @@ begin
   //DebugLn('ShowViewer - Using Internal');
   Viewer := TfrmViewer.Create(Application, aFileSource);
   Viewer.QuickView:= False;
-  gViewerPos.Restore(Viewer);
   Viewer.FileList.Assign(FilesToView); // Make a copy of the list
   Viewer.LoadFile(0);
   Viewer.Show;
@@ -383,10 +379,7 @@ end;
 procedure TfrmViewer.frmViewerClose(Sender: TObject;
                                     var CloseAction: TCloseAction);
 begin
-  // TODO: may be better automtic save
-  // (see also TfrmViewer.miSavePosClick)
   CloseAction:=caFree;
-  if not bImage then gViewerPos.Save(Self);
   gViewerImageStretch:= miStretch.Checked;
   if Assigned(WlxPlugins) then
      begin
@@ -464,13 +457,6 @@ begin
   LoadFile(I);
 end;
 
-procedure TfrmViewer.miSavePosClick(Sender: TObject);
-begin
-  // TODO: It really need? may be better automtic save
-  gViewerPos.Save(Self);
-  msgOK(rsPositionSaved);
-end;
-
 procedure TfrmViewer.miStretchClick(Sender: TObject);
 begin
   miStretch.Checked:= not miStretch.Checked;
@@ -525,6 +511,8 @@ end;
 
 procedure TfrmViewer.FormCreate(Sender: TObject);
 begin
+  InitPropStorage(Self);
+
   ViewerControl.Font.Name  := gViewerFontName;
   ViewerControl.Font.Size  := gViewerFontSize;
   ViewerControl.Font.Style := gViewerFontStyle;
@@ -861,4 +849,4 @@ end;
 initialization
  {$I fviewer.lrs}
 
-end.
+end.
