@@ -2669,6 +2669,10 @@ begin
   nbConsole.Visible:= gTermWindow;
   Splitter1.Visible:= gTermWindow;
   pnlCommand.AutoSize:= not gTermWindow;
+{$IF DEFINED(DARWIN)}
+  if not gTermWindow then
+    pnlCommand.ClientHeight:= Panel1.Height;
+{$ENDIF}
 end;
 
 procedure TfrmMain.ToggleFileSystemWatcher;
@@ -3465,4 +3469,4 @@ end;
 
 initialization
  {$I fmain.lrs}
-end.
+end.
