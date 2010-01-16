@@ -2506,6 +2506,10 @@ msgstr "在多行上显示标签页(&T)"
 msgid "Ctrl+&Up opens new tab in foreground"
 msgstr "Ctrl+&Up 前台打开新标签页"
 
+#: TFRMOPTIONS.CBTABSOPENNEARCURRENT.CAPTION
+msgid "Open &new tabs near current tab"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
 msgid "Show tab close button"
 msgstr "标签页显示关闭"

@@ -2506,6 +2506,10 @@ msgstr "Розміщати вкладки в декілька рядів"
 msgid "Ctrl+&Up opens new tab in foreground"
 msgstr "Ctrl+&Up відкриває нову вкладку у фоні"
 
+#: TFRMOPTIONS.CBTABSOPENNEARCURRENT.CAPTION
+msgid "Open &new tabs near current tab"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
 msgid "Show tab close button"
 msgstr ""

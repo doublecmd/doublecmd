@@ -2528,6 +2528,10 @@ msgstr "&Záložky na více řádků"
 msgid "Ctrl+&Up opens new tab in foreground"
 msgstr "Ctrl+&Nahoru otevře novou záložku na pozadí"
 
+#: TFRMOPTIONS.CBTABSOPENNEARCURRENT.CAPTION
+msgid "Open &new tabs near current tab"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
 msgid "Show tab close button"
 msgstr "Na záložkách i tlačítko zavřít"

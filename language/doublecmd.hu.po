@@ -2511,6 +2511,10 @@ msgstr "Fülek &több sorban"
 msgid "Ctrl+&Up opens new tab in foreground"
 msgstr "CTRL-Fel új fület nyit az előtérben"
 
+#: TFRMOPTIONS.CBTABSOPENNEARCURRENT.CAPTION
+msgid "Open &new tabs near current tab"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
 msgid "Show tab close button"
 msgstr ""

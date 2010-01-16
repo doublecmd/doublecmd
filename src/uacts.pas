@@ -627,7 +627,10 @@ procedure TActs.DoNewTab(Notebook: TFileViewNotebook);
 var
   NewPage: TFileViewPage;
 begin
-  NewPage := Notebook.AddPage;
+  if tb_open_new_near_current in gDirTabOptions then
+    NewPage := Notebook.InsertPage(Notebook.PageIndex + 1)
+  else
+    NewPage := Notebook.AddPage;
   Notebook.ActiveView.Clone(NewPage);
   NewPage.MakeActive;
   NewPage.UpdateCaption(GetLastDir(ExcludeTrailingPathDelimiter(NewPage.FileView.CurrentPath)));
@@ -2601,4 +2604,4 @@ begin
 end;
 
 end.
-
+

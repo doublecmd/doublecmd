@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-01-12 15:14+0300\n"
+"PO-Revision-Date: 2010-01-16 01:17+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2502,6 +2502,10 @@ msgstr "Размещать вкладки в несколько рядов"
 msgid "Ctrl+&Up opens new tab in foreground"
 msgstr "Ctrl+вверх делает новую вкладку активной"
 
+#: TFRMOPTIONS.CBTABSOPENNEARCURRENT.CAPTION
+msgid "Open &new tabs near current tab"
+msgstr "Открывать новую вкладку р&ядом с текущей"
+
 #: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
 msgid "Show tab close button"
 msgstr "Кнопка закрытия таба"
@@ -4341,4 +4345,3 @@ msgstr "Кодировка"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s не найден!"
-
