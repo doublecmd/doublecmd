@@ -128,6 +128,7 @@ type
     cbListFilesInThread: TCheckBox;
     cbLoadIconsSeparately: TCheckBox;
     cbWatchExcludeDirs: TCheckBox;
+    cbTabsOpenNearCurrent: TCheckBox;
     chkAutoFillColumns: TCheckBox;
     cmbTabsPosition: TComboBox;
     cmbAutoSizeColumn: TComboBox;
@@ -2188,6 +2189,7 @@ begin
   cbTabsLimitOption.Checked := tb_text_length_limit in gDirTabOptions;
   cbTabsConfirmCloseAll.Checked:= tb_confirm_close_all in gDirTabOptions;
   cbTabsOpenForeground.Checked:= tb_open_new_in_foreground in gDirTabOptions;
+  cbTabsOpenNearCurrent.Checked:= tb_open_new_near_current in gDirTabOptions;
   cbTabsLockedAsterisk.Checked:= tb_show_asterisk_for_locked in gDirTabOptions;
   cbTabsActivateOnClick.Checked:= tb_activate_panel_on_click in gDirTabOptions;
   cbTabsMultiLines.Visible:= (nbcMultiline in nbNotebook.GetCapabilities);
@@ -2404,6 +2406,8 @@ begin
     gDirTabOptions := gDirTabOptions + [tb_confirm_close_all];
   if cbTabsOpenForeground.Checked then
     gDirTabOptions := gDirTabOptions + [tb_open_new_in_foreground];
+  if cbTabsOpenNearCurrent.Checked then
+    gDirTabOptions := gDirTabOptions + [tb_open_new_near_current];
   if cbTabsLockedAsterisk.Checked then
     gDirTabOptions := gDirTabOptions + [tb_show_asterisk_for_locked];
   if cbTabsActivateOnClick.Checked then

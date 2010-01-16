@@ -2504,6 +2504,10 @@ msgstr "&Pestañas en varias líneas"
 msgid "Ctrl+&Up opens new tab in foreground"
 msgstr ""
 
+#: TFRMOPTIONS.CBTABSOPENNEARCURRENT.CAPTION
+msgid "Open &new tabs near current tab"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
 msgid "Show tab close button"
 msgstr ""

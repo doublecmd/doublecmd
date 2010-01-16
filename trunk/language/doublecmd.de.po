@@ -2500,6 +2500,10 @@ msgstr "Rei&ter-Titel auf mehrere Zeilen verteilen"
 msgid "Ctrl+&Up opens new tab in foreground"
 msgstr "Strg+Pf&eil hoch öffnet einen neuen Reiter im Vordergrund"
 
+#: TFRMOPTIONS.CBTABSOPENNEARCURRENT.CAPTION
+msgid "Open &new tabs near current tab"
+msgstr ""
+
 #: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
 msgid "Show tab close button"
 msgstr "Zeige Schalter um Tabs zu schliessen"
