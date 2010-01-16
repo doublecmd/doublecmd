@@ -188,7 +188,7 @@ var
 begin
   for i:= cbSearchText.Items.Count - 1 downto 25 do
     cbSearchText.Items.Delete(i);
-  Result:=cbSearchText.Items.CommaText;
+  Result:=cbSearchText.Items.Text;
 end;
 
 function TfrmEditSearchReplace.GetSearchWholeWords: boolean;
@@ -212,7 +212,7 @@ var
 begin
   for i:= cbSearchText.Items.Count - 1 downto 25 do
     cbReplaceText.Items.Delete(i);
-  Result:=cbReplaceText.Items.CommaText;
+  Result:=cbReplaceText.Items.Text;
 end;
 
 procedure TfrmEditSearchReplace.SetSearchBackwards(Value: boolean);
@@ -242,7 +242,7 @@ end;
 
 procedure TfrmEditSearchReplace.SetSearchTextHistory(Value: string);
 begin
-  cbSearchText.Items.CommaText := Value;
+  cbSearchText.Items.Text := Value;
 end;
 
 procedure TfrmEditSearchReplace.SetSearchWholeWords(Value: boolean);
@@ -257,7 +257,7 @@ end;
 
 procedure TfrmEditSearchReplace.SetReplaceText(Value: string);
 begin
-  cbReplaceText.Items.CommaText := Value;
+  cbReplaceText.Items.Text := Value;
 end;
 
 procedure TfrmEditSearchReplace.SetReplaceTextHistory(Value: string);

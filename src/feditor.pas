@@ -728,10 +728,10 @@ begin
       else
         SearchText := Editor.GetWordAtRowCol(Editor.CaretXY);
 //    end;
-    SearchTextHistory := glsSearchHistory.CommaText;
+    SearchTextHistory := glsSearchHistory.Text;
     if AReplace then with dlg as TfrmEditSearchReplace do begin
       ReplaceText := sReplaceText;
-      ReplaceTextHistory := glsReplaceHistory.CommaText;
+      ReplaceTextHistory := glsReplaceHistory.Text;
     end;
     SearchWholeWords := bSearchWholeWords;
     if ShowModal = mrOK then begin
@@ -742,10 +742,10 @@ begin
       bSearchWholeWords := SearchWholeWords;
       bSearchRegExp := SearchRegExp;
       sSearchText := SearchText;
-      glsSearchHistory.CommaText := SearchTextHistory;
+      glsSearchHistory.Text := SearchTextHistory;
       if AReplace then with dlg as TfrmEditSearchReplace do begin
         sReplaceText := ReplaceText;
-        glsReplaceHistory.CommaText := ReplaceTextHistory;
+        glsReplaceHistory.Text := ReplaceTextHistory;
       end;
 //      bSearchFromCaret := gbSearchFromCaret;
       if sSearchText <> '' then
@@ -808,4 +808,4 @@ end;
 initialization
  {$I feditor.lrs}
 
-end.
+end.
