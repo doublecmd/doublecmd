@@ -59,6 +59,8 @@ uses
   LConvEncoding;
 
 function ShowDescrEditDlg(sFileName: String): Boolean;
+const
+  nbsp = #194#160;
 begin
   Result:= False;
   with TfrmDescrEdit.Create(Application) do
@@ -66,11 +68,11 @@ begin
     FDescr:= TDescription.Create(False);
     lblFileName.Caption:= sFileName;
     // read description
-    memDescr.Lines.Text:= FDescr.ReadDescription(sFileName);
+    memDescr.Lines.Text:= StringReplace(FDescr.ReadDescription(sFileName), nbsp, LineEnding, [rfReplaceAll]);
     DisplayEncoding;
     if ShowModal = mrOK then
       begin
-        FDescr.WriteDescription(sFileName, StringReplace(memDescr.Lines.Text, LineEnding, #32, [rfReplaceAll]));
+        FDescr.WriteDescription(sFileName, StringReplace(memDescr.Lines.Text, LineEnding, nbsp, [rfReplaceAll]));
         FDescr.SaveDescription;
         Result:= True;
       end;
