@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Dialog for editing file comments.
 
-   Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2010  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -46,8 +46,6 @@ type
     procedure FormCreate(Sender: TObject);
   private
     FDescr: TDescription;
-    FEncoding,
-    FOriginalText: String;
     procedure DisplayEncoding;
   public
     { public declarations }
@@ -67,16 +65,12 @@ begin
   begin
     FDescr:= TDescription.Create(False);
     lblFileName.Caption:= sFileName;
-    // save original description
-    FOriginalText:= FDescr.ReadDescription(sFileName);
-    // try to guess encoding
-    FEncoding:= GuessEncoding(FOriginalText);
+    // read description
+    memDescr.Lines.Text:= FDescr.ReadDescription(sFileName);
     DisplayEncoding;
-    memDescr.Lines.Text:= ConvertEncoding(FOriginalText, FEncoding, EncodingUTF8);
     if ShowModal = mrOK then
       begin
-        FOriginalText:= ConvertEncoding(memDescr.Lines.Text, EncodingUTF8, FEncoding);
-        FDescr.WriteDescription(sFileName, StringReplace(FOriginalText, LineEnding, #32, [rfReplaceAll]));
+        FDescr.WriteDescription(sFileName, StringReplace(memDescr.Lines.Text, LineEnding, #32, [rfReplaceAll]));
         FDescr.SaveDescription;
         Result:= True;
       end;
@@ -98,10 +92,8 @@ procedure TfrmDescrEdit.DisplayEncoding;
 var
   I: Integer;
 begin
-  if FEncoding = EmptyStr then // by default use UTF-8
-    FEncoding:= EncodingUTF8;
   for I:= 0 to cbEncoding.Items.Count - 1 do
-    if SameText(NormalizeEncoding(cbEncoding.Items.Strings[I]), FEncoding) then
+    if SameText(NormalizeEncoding(cbEncoding.Items.Strings[I]), FDescr.Encoding) then
       begin
         cbEncoding.ItemIndex:= I;
         Break;
@@ -110,8 +102,8 @@ end;
 
 procedure TfrmDescrEdit.cbEncodingChange(Sender: TObject);
 begin
-  FEncoding:= cbEncoding.Text;
-  memDescr.Lines.Text:= ConvertEncoding(FOriginalText, FEncoding, EncodingUTF8);
+  FDescr.Encoding:= cbEncoding.Text;
+  memDescr.Lines.Text:= FDescr.ReadDescription(lblFileName.Caption);
 end;
 
 initialization

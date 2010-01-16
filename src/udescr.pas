@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains class for working with file comments.
 
-   Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2010  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,13 +35,15 @@ type
 
   TDescription = class(TStringListEx)
   private
-    FLastDescrFile: String;
+    FLastDescrFile,
+    FEncoding: String;
     FDestDescr: TDescription;
     procedure PrepareDescrFile(FileName: String);
     function GetDescription(Index: Integer): String;
     function GetDescription(const FileName: String): String;
     procedure SetDescription(Index: Integer; const AValue: String);
     procedure SetDescription(const FileName: String; const AValue: String);
+    procedure SetEncoding(const AValue: String);
   public
     {en
        Create TDescription class
@@ -52,6 +54,14 @@ type
        Destroy TDescription class
     }
     destructor Destroy; override;
+    {en
+       Load data from description file
+    }
+    procedure LoadFromFile(const FileName: String); override;
+    {en
+       Save data to description file
+    }
+    procedure SaveToFile(const FileName: String); override;
     {en
        Add description for file
        @param(FileName File name)
@@ -99,6 +109,10 @@ type
     function Find(const S: string; var Index: Integer): Boolean; override;
 
     {en
+       File description encoding
+    }
+    property Encoding: String read FEncoding write SetEncoding;
+    {en
        Get description by file name
     }
     property DescrByFileName[const FileName: String]: String read GetDescription write SetDescription;
@@ -109,8 +123,9 @@ type
   end;
 
 implementation
+
 uses
-  LCLProc, uOSUtils;
+  LCLProc, LConvEncoding, uOSUtils;
 
 { TDescription }
 
@@ -121,11 +136,20 @@ begin
   sDescrFile:= ExtractFilePath(FileName) + 'descript.ion';
   if sDescrFile <> FLastDescrFile then
     try
-      if (FLastDescrFile <> '') and (Count > 0) then
+      // save previous decription file if need
+      if (FLastDescrFile <> EmptyStr) and (Count > 0) then
         SaveToFile(FLastDescrFile);
+      // load description file if exists
       FLastDescrFile:= sDescrFile;
       if mbFileExists(FLastDescrFile) then
-        LoadFromFile(FLastDescrFile);
+        begin
+          LoadFromFile(FLastDescrFile);
+          FEncoding:= GuessEncoding(Text); // try to guess encoding
+          if FEncoding = EmptyStr then // by default use UTF-8
+            FEncoding:= EncodingUTF8;
+          if FEncoding <> EncodingUTF8 then
+            Text:= ConvertEncoding(Text, FEncoding, EncodingUTF8);
+        end;
     except
       on E: Exception do
         DebugLn('TDescription.PrepareDescrFile - ' + E.Message);
@@ -209,8 +233,18 @@ begin
     AddDescription(FileName, AValue);
 end;
 
+procedure TDescription.SetEncoding(const AValue: String);
+begin
+  if FEncoding <> AValue then
+    begin
+      FEncoding:= AValue;
+      LoadFromFile(FLastDescrFile);
+    end;
+end;
+
 constructor TDescription.Create(UseSubDescr: Boolean);
 begin
+  FEncoding:= EncodingUTF8; // by default
   if UseSubDescr then
     FDestDescr:= TDescription.Create(False)
   else
@@ -223,6 +257,20 @@ begin
   if Assigned(FDestDescr) then
     FreeAndNil(FDestDescr);
   inherited Destroy;
+end;
+
+procedure TDescription.LoadFromFile(const FileName: String);
+begin
+  inherited LoadFromFile(FileName);
+  if FEncoding <> EncodingUTF8 then
+    Text:= ConvertEncoding(Text, FEncoding, EncodingUTF8);
+end;
+
+procedure TDescription.SaveToFile(const FileName: String);
+begin
+  if FEncoding <> EncodingUTF8 then
+    Text:= ConvertEncoding(Text, EncodingUTF8, FEncoding);
+  inherited SaveToFile(FileName);
 end;
 
 function TDescription.AddDescription(FileName, Descr: String): Integer;
