@@ -238,7 +238,8 @@ begin
   if FEncoding <> AValue then
     begin
       FEncoding:= AValue;
-      LoadFromFile(FLastDescrFile);
+      if mbFileExists(FLastDescrFile) then
+        LoadFromFile(FLastDescrFile);
     end;
 end;
 
