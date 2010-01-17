@@ -3784,6 +3784,10 @@ msgstr ""
 msgid "Cannot rename file %s to %s"
 msgstr ""
 
+#: ulng.rsmsgerrsavefile
+msgid "Cannot save file"
+msgstr ""
+
 #: ulng.rsmsgerrsetattribute
 msgid "Can not set attributes for \"%s\""
 msgstr ""
@@ -3830,6 +3834,10 @@ msgstr ""
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
+msgstr ""
+
+#: ulng.rsmsgloadingfilelist
+msgid "Loading file list..."
 msgstr ""
 
 #: ulng.rsmsglogcopy
@@ -4246,10 +4254,6 @@ msgstr ""
 msgid "Tools"
 msgstr "Eszközök"
 
-#: ulng.rspositionsaved
-msgid "Position saved."
-msgstr "Pozíció mentve."
-
 #: ulng.rspropsfile
 msgid "File"
 msgstr "Fájl"
@@ -4298,10 +4302,6 @@ msgstr ""
 #: ulng.rsquicksearchpanel
 msgid "Find:"
 msgstr "Keresés:"
-
-#: ulng.rssaveposition
-msgid "&Save position"
-msgstr "Pozíció menté&se"
 
 #: ulng.rsselectdir
 msgid "Select a directory"

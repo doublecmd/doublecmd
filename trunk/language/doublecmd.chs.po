@@ -3781,6 +3781,10 @@ msgstr "正则表达式语法错误！"
 msgid "Cannot rename file %s to %s"
 msgstr "不能重命名文件 %s 为 %s"
 
+#: ulng.rsmsgerrsavefile
+msgid "Cannot save file"
+msgstr ""
+
 #: ulng.rsmsgerrsetattribute
 msgid "Can not set attributes for \"%s\""
 msgstr ""
@@ -3828,6 +3832,10 @@ msgstr "无效的文件名"
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
 msgstr "无效的选择"
+
+#: ulng.rsmsgloadingfilelist
+msgid "Loading file list..."
+msgstr ""
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
@@ -4243,10 +4251,6 @@ msgstr ""
 msgid "Tools"
 msgstr "工具栏"
 
-#: ulng.rspositionsaved
-msgid "Position saved."
-msgstr "位置已保存."
-
 #: ulng.rspropsfile
 msgid "File"
 msgstr "文件"
@@ -4295,10 +4299,6 @@ msgstr ""
 #: ulng.rsquicksearchpanel
 msgid "Find:"
 msgstr "查找:"
-
-#: ulng.rssaveposition
-msgid "&Save position"
-msgstr "保存位置(&S)"
 
 #: ulng.rsselectdir
 msgid "Select a directory"

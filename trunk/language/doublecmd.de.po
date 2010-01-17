@@ -3775,6 +3775,10 @@ msgstr "Syntax-fehler im regulären Ausdruck!"
 msgid "Cannot rename file %s to %s"
 msgstr "Kann Datei %s nicht zu %s umbenennen"
 
+#: ulng.rsmsgerrsavefile
+msgid "Cannot save file"
+msgstr ""
+
 #: ulng.rsmsgerrsetattribute
 msgid "Can not set attributes for \"%s\""
 msgstr "Kann Attribut für  \"%s\" nicht setzen"
@@ -3822,6 +3826,10 @@ msgstr "Ungültiger Dateiname"
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
 msgstr "Ungültige Auswahl"
+
+#: ulng.rsmsgloadingfilelist
+msgid "Loading file list..."
+msgstr ""
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
@@ -4237,10 +4245,6 @@ msgstr ""
 msgid "Tools"
 msgstr "Tools"
 
-#: ulng.rspositionsaved
-msgid "Position saved."
-msgstr "Position gespeichert"
-
 #: ulng.rspropsfile
 msgid "File"
 msgstr "Datei"
@@ -4289,10 +4293,6 @@ msgstr ""
 #: ulng.rsquicksearchpanel
 msgid "Find:"
 msgstr "Finde:"
-
-#: ulng.rssaveposition
-msgid "&Save position"
-msgstr "&Position speichern"
 
 #: ulng.rsselectdir
 msgid "Select a directory"

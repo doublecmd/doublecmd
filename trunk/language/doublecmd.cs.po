@@ -3810,6 +3810,10 @@ msgstr "Chybý syntax v regulárním výrazu!"
 msgid "Cannot rename file %s to %s"
 msgstr "Nelze přejmenovat soubor %s na %s"
 
+#: ulng.rsmsgerrsavefile
+msgid "Cannot save file"
+msgstr ""
+
 #: ulng.rsmsgerrsetattribute
 msgid "Can not set attributes for \"%s\""
 msgstr ""
@@ -3857,6 +3861,10 @@ msgstr "Nesprávné jméno souboru"
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
 msgstr "Nesprávný výběr."
+
+#: ulng.rsmsgloadingfilelist
+msgid "Loading file list..."
+msgstr ""
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
@@ -4278,10 +4286,6 @@ msgstr ""
 msgid "Tools"
 msgstr "Nástroje"
 
-#: ulng.rspositionsaved
-msgid "Position saved."
-msgstr "Pozice uložena."
-
 #: ulng.rspropsfile
 msgid "File"
 msgstr "Soubor"
@@ -4330,10 +4334,6 @@ msgstr ""
 #: ulng.rsquicksearchpanel
 msgid "Find:"
 msgstr "Hledat:"
-
-#: ulng.rssaveposition
-msgid "&Save position"
-msgstr "&Uložit pozici"
 
 #: ulng.rsselectdir
 msgid "Select a directory"

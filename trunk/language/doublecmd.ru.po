@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-01-16 01:17+0300\n"
+"PO-Revision-Date: 2010-01-17 00:33+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3775,6 +3775,10 @@ msgstr "Ошибка синтаксиса в регулярном выражен
 msgid "Cannot rename file %s to %s"
 msgstr "Невозможно переименовать файл %s в %s"
 
+#: ulng.rsmsgerrsavefile
+msgid "Cannot save file"
+msgstr "Невозможно сохранить файл"
+
 #: ulng.rsmsgerrsetattribute
 msgid "Can not set attributes for \"%s\""
 msgstr "Невозможно установить атрибуты для \"%s\""
@@ -3822,6 +3826,10 @@ msgstr "Некорректное имя файла"
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
 msgstr "Некорректное выделение."
+
+#: ulng.rsmsgloadingfilelist
+msgid "Loading file list..."
+msgstr "Загрузка списка файлов..."
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
@@ -4236,10 +4244,6 @@ msgstr "Вверху;Внизу;"
 msgid "Tools"
 msgstr "Инструменты"
 
-#: ulng.rspositionsaved
-msgid "Position saved."
-msgstr "Позиция сохранена"
-
 #: ulng.rspropsfile
 msgid "File"
 msgstr "Файл"
@@ -4288,10 +4292,6 @@ msgstr "Фильтр:"
 #: ulng.rsquicksearchpanel
 msgid "Find:"
 msgstr "Найти:"
-
-#: ulng.rssaveposition
-msgid "&Save position"
-msgstr "Сохранить позицию"
 
 #: ulng.rsselectdir
 msgid "Select a directory"
