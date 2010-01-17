@@ -5,26 +5,26 @@ interface
 const
   // dialog messages
   DM_FIRST                = 0;
-  DM_CLOSE                = DM_FIRST+1;
+  DM_CLOSE                = DM_FIRST+1; // A signal that the dialog is about to close
   DM_ENABLE               = DM_FIRST+2;
   DM_GETDLGDATA           = DM_FIRST+3;
   DM_GETDLGBOUNDS         = DM_FIRST+4;
   DM_GETITEMBOUNDS        = DM_FIRST+5;
-  DM_GETTEXT              = DM_FIRST+6;
+  DM_GETTEXT              = DM_FIRST+6; // Retrieve the text of an edit string or the caption of an item
   DM_KEYDOWN              = DM_FIRST+7;
   DM_KEYUP                = DM_FIRST+8;
   DM_SETDLGDATA           = DM_FIRST+9;
-  DM_SETFOCUS             = DM_FIRST+10;
-  DM_REDRAW               = DM_FIRST+11;
-  DM_SETTEXT              = DM_FIRST+12;
-  DM_SETMAXTEXTLENGTH     = DM_FIRST+13;
-  DM_SHOWDIALOG           = DM_FIRST+14;
-  DM_SHOWITEM             = DM_FIRST+15;
-  DM_GETCHECK             = DM_FIRST+16;
-  DM_SETCHECK             = DM_FIRST+17;
-  DM_LISTGETITEM          = DM_FIRST+18;
-  DM_LISTGETITEMINDEX     = DM_FIRST+19;
-  DM_LISTSETITEMINDEX     = DM_FIRST+20;
+  DM_SETFOCUS             = DM_FIRST+10; // Set the keyboard focus to the given dialog item
+  DM_REDRAW               = DM_FIRST+11; // Redraw the whole dialog
+  DM_SETTEXT              = DM_FIRST+12; // Set a new string value for an edit line or a new caption for an item
+  DM_SETMAXTEXTLENGTH     = DM_FIRST+13; // Set the maximum length of an edit string
+  DM_SHOWDIALOG           = DM_FIRST+14; // Show/hide the dialog window
+  DM_SHOWITEM             = DM_FIRST+15; // Show/hide a dialog item
+  DM_GETCHECK             = DM_FIRST+16; // Retrieve the state of TCheckBox or TRadioButton items
+  DM_SETCHECK             = DM_FIRST+17; // Change the state of TCheckBox and TRadioButton items
+  DM_LISTGETITEM          = DM_FIRST+18; // Retrieve a list item
+  DM_LISTGETITEMINDEX     = DM_FIRST+19; // Get current item index in a list
+  DM_LISTSETITEMINDEX     = DM_FIRST+20; // Set current item index in a list
   DM_LISTDELETE           = DM_FIRST+21;
   DM_LISTADD              = DM_FIRST+22;
   DM_LISTADDSTR           = DM_FIRST+23;
@@ -44,18 +44,19 @@ const
 
   // events messages
   DN_FIRST                = $1000;
-  DN_CLICK                = DN_FIRST+1;
-  DN_DBLCLICK             = DN_FIRST+2;
-  DN_CHANGE               = DN_FIRST+3;
-  DN_GOTFOCUS             = DN_FIRST+4;
-  DN_INITDIALOG           = DN_FIRST+5;
-  DN_KILLFOCUS            = DN_FIRST+6;
+  DN_CLICK                = DN_FIRST+1; // Sent after mouse click
+  DN_DBLCLICK             = DN_FIRST+2; // Sent after mouse double click
+  DN_CHANGE               = DN_FIRST+3; // Sent after the dialog item is changed
+  DN_GOTFOCUS             = DN_FIRST+4; // Sent when the dialog item gets input focus
+  DN_INITDIALOG           = DN_FIRST+5; // Sent before showing the dialog
+  DN_KILLFOCUS            = DN_FIRST+6; // Sent before a dialog item loses the input focus
 
   DN_KEYDOWN              = DM_KEYDOWN;
   DN_KEYUP                = DM_KEYUP;
-  DN_CLOSE                = DM_CLOSE;
+  DN_CLOSE                = DM_CLOSE; // Sent before the dialog is closed
 
-  DM_USER                 = $4000;
+  DM_USER                 = $4000; // Starting value for user defined messages
+
 type
   { Dialog window callback function }
   TDlgProc = function(pDlg: PtrUInt; DlgItemName: PChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
