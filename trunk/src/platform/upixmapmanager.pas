@@ -914,8 +914,9 @@ begin
         end;
     end;
   {/ Load icons from doublecmd.ext }  
-  
-  if mbFileExists(sFileName) then
+
+  // Load icons from pixmaps.txt only if "Only standart icons" enabled
+  if (gShowIcons = sim_standart) and mbFileExists(sFileName) then
   begin
     slPixmapList:= TStringList.Create;
     slPixmapList.LoadFromFile(sFileName);
