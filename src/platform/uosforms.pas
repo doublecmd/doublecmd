@@ -335,7 +335,7 @@ begin
                 for I:= 0 to sl.Count - 1 do
                   begin
                     sAct:= sl.Names[I];
-                    if (Pos('VIEW', sAct) > 0) or (Pos('EDIT', sAct) > 0) then Continue;
+                    if (CompareText('OPEN', sAct) = 0) or (CompareText('VIEW', sAct) = 0) or (CompareText('EDIT', sAct) = 0) then Continue;
                     InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sAct)), 0, I + $1000, MFT_STRING);
                   end;
               end;
@@ -533,7 +533,7 @@ begin
               for I:= 0 to sl.Count - 1 do
                 begin
                   sAct:= sl.Names[I];
-                  if (Pos('VIEW', sAct) > 0) or (Pos('EDIT', sAct) > 0) then Continue;
+                  if (CompareText('OPEN', sAct) = 0) or (CompareText('VIEW', sAct) = 0) or (CompareText('EDIT', sAct) = 0) then Continue;
                   sCmd:= sl.ValueFromIndex[I];
                   ReplaceExtCommand(sCmd, aFile, aFile.Path);
                   mi:= TMenuItem.Create(miActions);
