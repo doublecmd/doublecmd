@@ -616,4 +616,11 @@ object frmFileProperties: TfrmFileProperties
       TabOrder = 1
     end
   end
+  object tmUpdateFolderSize: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = tmUpdateFolderSizeTimer
+    left = 350
+    top = 145
+  end
 end

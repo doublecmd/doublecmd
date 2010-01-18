@@ -27,7 +27,7 @@ unit uOSForms;
 interface
 
 uses
-  Classes, SysUtils, Menus, Controls, ExtDlgs, uFile,
+  Classes, SysUtils, Menus, Controls, ExtDlgs, uFile, uFileSource,
   {$IFDEF UNIX}
   Graphics, BaseUnix, Unix, fFileProperties, uPixMapManager;
   {$ELSE}
@@ -64,7 +64,7 @@ procedure SetMyWndProc(Handle : THandle);
    Show file/folder properties dialog
    @param(Files List of files to show properties for)
 }
-procedure ShowFilePropertiesDialog(const Files: TFiles);
+procedure ShowFilePropertiesDialog(aFileSource: IFileSource; const Files: TFiles);
 {en
    Show file/folder context menu
    @param(Owner Parent window)
@@ -747,10 +747,10 @@ end;
 {$ENDIF}
 
 (* Show file properties dialog *)
-procedure ShowFilePropertiesDialog(const Files: TFiles);
+procedure ShowFilePropertiesDialog(aFileSource: IFileSource; const Files: TFiles);
 {$IFDEF UNIX}
 begin
-  ShowFileProperties(Files);
+  ShowFileProperties(aFileSource, Files);
 end;
 {$ELSE}
 var
