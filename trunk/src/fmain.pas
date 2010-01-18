@@ -641,7 +641,8 @@ begin
   HotMan.RegisterHotkeyManager(Self);
   HotMan.RegisterHotkeyManager(edtCommand);
 
-  if HotMan.HotkeyList.Count=0 then LoadDefaultHotkeyBindings;
+  if (HotMan.HotkeyList.Count = 0) or (CompareText(HotMan.Version, dcVersion) <> 0) then
+    LoadDefaultHotkeyBindings;
   // load shortcuts to action list for showing it in menu
   HotMan.LoadShortCutToActionList(ActionLst);
 
@@ -3469,4 +3470,4 @@ end;
 
 initialization
  {$I fmain.lrs}
-end.
+end.

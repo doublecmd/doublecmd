@@ -75,7 +75,7 @@ begin
   LoadPaths; // must be first
   Application.ShowMainForm:= False;
   Application.CreateForm(TfrmHackForm, frmHackForm);
-  if LoadGlobs then
+  if LoadGlobs(dcVersion) then
      begin
        InitPasswordStore;
        LoadPixMapManager;

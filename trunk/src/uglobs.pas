@@ -45,10 +45,13 @@ type
   TShowIconsMode = (sim_none, sim_standart, sim_all, sim_all_and_exe);
 
 var
+  { Double Commander Version }
+  dcVersion: String;
+
   { For localization }
   gPOFileName,
   gHelpLang: String;
-  
+
   { WDX plugins }
   gWdxPlugins:TWDXModuleList;
   { WCX plugins }
@@ -230,7 +233,7 @@ var
   {Error file}
   gErrorFile: String;
 
-function LoadGlobs : Boolean;
+function LoadGlobs(Version: String = '') : Boolean;
 procedure SaveGlobs;
 function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
 
@@ -255,69 +258,69 @@ begin
 //  if not assigned(HotMan) then exit;
   With HotMan do
     begin
-      AddHotKey('Alt+X','cm_Exit','','FrmMain','FrmMain');
-      AddHotKey('F1','cm_About','','FrmMain','FrmMain');
-      AddHotKey('F2','cm_RenameOnly','','FrmMain','FrmMain');
-      AddHotKey('F3','cm_View','','FrmMain','FrmMain');
-      AddHotKey('F4','cm_Edit','','FrmMain','FrmMain');
-      AddHotKey('F5','cm_Copy','','FrmMain','FrmMain');
-      AddHotKey('F6','cm_Rename','','FrmMain','FrmMain');
-      AddHotKey('F7','cm_MakeDir','','FrmMain','FrmMain');
-      AddHotKey('F8','cm_Delete','','FrmMain','FrmMain');
-      AddHotKey('Shift+F8','cm_Delete','recyclesettingrev','FrmMain','FrmMain');
-      AddHotKey('Del','cm_Delete','','FrmMain','FrmMain');
-      AddHotKey('Shift+Del','cm_Delete','recyclesettingrev','FrmMain','FrmMain');
-      AddHotKey('F9','cm_RunTerm','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+A','cm_MarkMarkAll','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+R','cm_Refresh','','FrmMain','FrmMain');
-      AddHotKey('Alt+F7','cm_Search','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+D','cm_DirHotList','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+F3','cm_SortByName','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+F4','cm_SortByExt','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+F6','cm_SortBySize','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+F5','cm_SortByDate','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+M','cm_MultiRename','','FrmMain','FrmMain');
-      AddHotKey('Shift+F5','cm_CopySamePanel','','FrmMain','FrmMain');
-      AddHotKey('Shift+F6','cm_RenameOnly','','FrmMain','FrmMain');
-      AddHotKey('Shift+F4','cm_EditNew','','FrmMain','FrmMain');
-      AddHotKey('Shift+F10','cm_ContextMenu','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+H','cm_DirHistory','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+7','cm_ShowCmdLineHistory','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+L','cm_CalculateSpace','','FrmMain','FrmMain');
-      AddHotKey('Alt+Shift+Enter','cm_CountDirContent','','FrmMain','FrmMain');
-      AddHotKey('Alt+Enter','cm_FileProperties','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+T','cm_NewTab','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+W','cm_RemoveTab','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+Z','cm_EditComment','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+Q','cm_QuickView','','FrmMain','FrmMain');
-      AddHotKey('Alt+F5','cm_PackFiles','','FrmMain','FrmMain');
-      AddHotKey('Alt+F9','cm_ExtractFiles','','FrmMain','FrmMain');
-      AddHotKey('Alt+F1','cm_LeftOpenDrives','','FrmMain','FrmMain');
-      AddHotKey('Alt+F2','cm_RightOpenDrives','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+P','cm_AddPathToCmdLine','','FrmMain','FrmMain');
-      AddHotKey('Shift+F2','cm_FocusCmdLine','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+Left','cm_TransferLeft','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+Right','cm_TransferRight','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+PgDn','cm_OpenArchive','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+S','cm_QuickSearch','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+F','cm_QuickFilter','','FrmMain','FrmMain');
-      AddHotKey('Shift+Ctrl+X','cm_CopyNamesToClip','','FrmMain','FrmMain');
-      AddHotKey('Shift+Ctrl+C','cm_CopyFullNamesToClip','','FrmMain','FrmMain');
-      AddHotKey('Alt+Z','cm_TargetEqualSource','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+U','cm_Exchange','','FrmMain','FrmMain');
-      AddHotKey('Alt+Del','cm_Wipe','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+Tab','cm_NextTab','','FrmMain','FrmMain');
-      AddHotKey('Shift+Ctrl+Tab','cm_PrevTab','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+X','cm_CutToClipboard','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+C','cm_CopyToClipboard','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+V','cm_PasteFromClipboard','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+\','cm_ChangeDirToRoot','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+PgUp','cm_ChangeDirToParent','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+Up','cm_OpenDirInNewTab','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+Down','cm_ShowCmdLineHistory','','FrmMain','FrmMain');
-      AddHotKey('Ctrl+Enter','cm_AddFilenameToCmdLine','','FrmMain','FrmMain');
-      AddHotKey('Shift+Ctrl+Enter','cm_AddPathAndFilenameToCmdLine','','FrmMain','FrmMain');
-//      AddHotKey('','cm_','','FrmMain','FrmMain');
+      AddHotKeyEx('Alt+X','cm_Exit','','FrmMain','FrmMain');
+      AddHotKeyEx('F1','cm_About','','FrmMain','FrmMain');
+      AddHotKeyEx('F2','cm_RenameOnly','','FrmMain','FrmMain');
+      AddHotKeyEx('F3','cm_View','','FrmMain','FrmMain');
+      AddHotKeyEx('F4','cm_Edit','','FrmMain','FrmMain');
+      AddHotKeyEx('F5','cm_Copy','','FrmMain','FrmMain');
+      AddHotKeyEx('F6','cm_Rename','','FrmMain','FrmMain');
+      AddHotKeyEx('F7','cm_MakeDir','','FrmMain','FrmMain');
+      AddHotKeyEx('F8','cm_Delete','','FrmMain','FrmMain');
+      AddHotKeyEx('Shift+F8','cm_Delete','recyclesettingrev','FrmMain','FrmMain');
+      AddHotKeyEx('Del','cm_Delete','','FrmMain','FrmMain');
+      AddHotKeyEx('Shift+Del','cm_Delete','recyclesettingrev','FrmMain','FrmMain');
+      AddHotKeyEx('F9','cm_RunTerm','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+A','cm_MarkMarkAll','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+R','cm_Refresh','','FrmMain','FrmMain');
+      AddHotKeyEx('Alt+F7','cm_Search','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+D','cm_DirHotList','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+F3','cm_SortByName','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+F4','cm_SortByExt','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+F6','cm_SortBySize','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+F5','cm_SortByDate','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+M','cm_MultiRename','','FrmMain','FrmMain');
+      AddHotKeyEx('Shift+F5','cm_CopySamePanel','','FrmMain','FrmMain');
+      AddHotKeyEx('Shift+F6','cm_RenameOnly','','FrmMain','FrmMain');
+      AddHotKeyEx('Shift+F4','cm_EditNew','','FrmMain','FrmMain');
+      AddHotKeyEx('Shift+F10','cm_ContextMenu','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+H','cm_DirHistory','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+7','cm_ShowCmdLineHistory','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+L','cm_CalculateSpace','','FrmMain','FrmMain');
+      AddHotKeyEx('Alt+Shift+Enter','cm_CountDirContent','','FrmMain','FrmMain');
+      AddHotKeyEx('Alt+Enter','cm_FileProperties','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+T','cm_NewTab','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+W','cm_RemoveTab','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+Z','cm_EditComment','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+Q','cm_QuickView','','FrmMain','FrmMain');
+      AddHotKeyEx('Alt+F5','cm_PackFiles','','FrmMain','FrmMain');
+      AddHotKeyEx('Alt+F9','cm_ExtractFiles','','FrmMain','FrmMain');
+      AddHotKeyEx('Alt+F1','cm_LeftOpenDrives','','FrmMain','FrmMain');
+      AddHotKeyEx('Alt+F2','cm_RightOpenDrives','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+P','cm_AddPathToCmdLine','','FrmMain','FrmMain');
+      AddHotKeyEx('Shift+F2','cm_FocusCmdLine','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+Left','cm_TransferLeft','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+Right','cm_TransferRight','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+PgDn','cm_OpenArchive','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+S','cm_QuickSearch','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+F','cm_QuickFilter','','FrmMain','FrmMain');
+      AddHotKeyEx('Shift+Ctrl+X','cm_CopyNamesToClip','','FrmMain','FrmMain');
+      AddHotKeyEx('Shift+Ctrl+C','cm_CopyFullNamesToClip','','FrmMain','FrmMain');
+      AddHotKeyEx('Alt+Z','cm_TargetEqualSource','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+U','cm_Exchange','','FrmMain','FrmMain');
+      AddHotKeyEx('Alt+Del','cm_Wipe','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+Tab','cm_NextTab','','FrmMain','FrmMain');
+      AddHotKeyEx('Shift+Ctrl+Tab','cm_PrevTab','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+X','cm_CutToClipboard','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+C','cm_CopyToClipboard','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+V','cm_PasteFromClipboard','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+\','cm_ChangeDirToRoot','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+PgUp','cm_ChangeDirToParent','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+Up','cm_OpenDirInNewTab','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+Down','cm_ShowCmdLineHistory','','FrmMain','FrmMain');
+      AddHotKeyEx('Ctrl+Enter','cm_AddFilenameToCmdLine','','FrmMain','FrmMain');
+      AddHotKeyEx('Shift+Ctrl+Enter','cm_AddPathAndFilenameToCmdLine','','FrmMain','FrmMain');
+//      AddHotKeyEx('','cm_','','FrmMain','FrmMain');
     end;
 end;
 
@@ -410,11 +413,12 @@ begin
     FreeAndNil(Actions);
 end;
 
-function LoadGlobs : Boolean;
+function LoadGlobs(Version: String) : Boolean;
 var
   Ini: TIniFileEx;
 begin
   Result := False;
+  dcVersion:= Version;
   DebugLn('Loading configuration...');
   InitGlobs;
 
@@ -812,4 +816,4 @@ initialization
 
 finalization
   DeInitGlobs;
-end.
+end.

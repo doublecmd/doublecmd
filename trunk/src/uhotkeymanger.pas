@@ -62,6 +62,7 @@ type
     //Main listы
     FHotList:TStringList;
     FFormsList:TStringList;
+    FVersion: String;
     //---------------------
     //Hotkey Handler
     procedure KeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -85,6 +86,10 @@ type
      //---------------------
      function AddHotKey(AHotKey,ACommand,AParams:string; AObject:TWinControl):integer;
      function AddHotKey(AHotKey,ACommand,AParams,AObjectName,AObjectFormName:string):integer;
+     {en
+        Add hotkey if it does not exists
+     }
+     function AddHotKeyEx(AHotKey,ACommand,AParams,AObjectName,AObjectFormName:string):integer;
      function DeleteHotKey(AHotKey,AObjectName,AObjectFormName:string):boolean;
      function DeleteHotKey(AHotKey:string; AObject:TWinControl):boolean;
      function ReplaceHotkey(AOldHotkey,ANewHotKey:string):integer;
@@ -103,6 +108,7 @@ type
      procedure RegisterHotkeyManager(AObject:TWinControl);
      procedure UnRegisterHotkeyManager(AObject: TWinControl);
      //---------------------
+     property Version: String read FVersion;
      property HotkeyList:TStringList read FHotList;
    end;
 
@@ -340,6 +346,40 @@ begin
     Result := -1;
 end;
 
+function THotKeyManager.AddHotKeyEx(AHotKey, ACommand, AParams, AObjectName,
+  AObjectFormName: String): Integer;
+var
+  tmp, k: Integer;
+  TH: THotkeyInfoClass;
+  shortCut: String;
+begin
+  Result := -1;
+  shortCut := ShortCutToTextEx(TextToShortCutEx(AHotKey));
+  // Omit invalid shortcuts.
+  if shortCut <> '' then
+  begin
+    Result:= FHotList.IndexOf(shortCut);
+    if Result < 0 then
+      begin
+        Th:= THotkeyInfoClass.Create;
+        th.ACommand:= ACommand;
+        th.AParams:= AParams;
+        th.AObjectName:= AObjectName;
+        th.AObjectFormName:= AObjectFormName;
+
+        tmp:= FHotList.AddObject(shortCut,TStringList.Create);
+
+        //find form and add it in form list
+        k:= TStringList(FHotList.Objects[tmp]).IndexOf(th.AObjectFormName);
+        if k=-1 then
+          k:=TStringList(FHotList.Objects[tmp]).AddObject(th.AObjectFormName,TStringList.Create);
+
+        TStringList(TStringList(FHotList.Objects[tmp]).Objects[k]).AddObject(th.AObjectName,th);
+        Result:= tmp;
+      end;
+  end;
+end;
+
 function THotKeyManager.DeleteHotKey(AHotKey, AObjectName,
   AObjectFormName: string): boolean;
 var i,j,k:integer;
@@ -413,6 +453,7 @@ begin
   begin
     if FileExists(FileName) then DeleteFile(FileName);
     ini:=TIniFileEx.Create(FileName);
+    ini.WriteString('Configuration', 'Version', dcVersion);
     for i:=0 to FHotList.Count-1 do
        begin
          fst:=TStringList(FHotList.Objects[i]);
@@ -450,6 +491,7 @@ begin
   Self.ClearHotKeyS;
   st:=TStringList.Create;
   ini:=TIniFileEx.Create(FileName);
+  FVersion:= ini.ReadString('Configuration', 'Version', EmptyStr);
   ini.ReadSections(st);
 
   for i:=0 to st.Count-1 do
