@@ -17,6 +17,8 @@ type
     FSize: TFileSizeProperty;
     FAttributes: TFileAttributesProperty;
     FModificationTime: TFileModificationDateTimeProperty;
+    FCreationTime: TFileCreationDateTimeProperty;
+    FLastAccessTime: TFileLastAccessDateTimeProperty;
     FIsLinkToDirectory: Boolean;
 
     procedure AssignProperties;
@@ -93,6 +95,8 @@ begin
   FAttributes := TFileAttributesProperty.CreateOSAttributes;
   FSize := TFileSizeProperty.Create;
   FModificationTime := TFileModificationDateTimeProperty.Create;
+  FCreationTime := TFileCreationDateTimeProperty.Create;
+  FLastAccessTime := TFileLastAccessDateTimeProperty.Create;
   FIsLinkToDirectory := False;
 
   AssignProperties;
@@ -116,6 +120,10 @@ begin
   FSize := TFileSizeProperty.Create(SearchRecord.Size);
   FModificationTime := TFileModificationDateTimeProperty.Create(
                            WinFileTimeToDateTime(SearchRecord.FindData.ftLastWriteTime));
+  FCreationTime := TFileCreationDateTimeProperty.Create(
+                           WinFileTimeToDateTime(SearchRecord.FindData.ftCreationTime));
+  FLastAccessTime := TFileLastAccessDateTimeProperty.Create(
+                           WinFileTimeToDateTime(SearchRecord.FindData.ftLastAccessTime));
   //Other times: SearchRecord.FindData.ftCreationTime
 
   //Because symbolic link works on Windows 2k/XP for directories only
@@ -136,6 +144,10 @@ begin
 
   FModificationTime := TFileModificationDateTimeProperty.Create(
                            FileTimeToDateTime(StatInfo.st_mtime));
+  FCreationTime := TFileCreationDateTimeProperty.Create(
+                           FileTimeToDateTime(StatInfo.st_ctime));
+  FLastAccessTime := TFileLastAccessDateTimeProperty.Create(
+                           FileTimeToDateTime(StatInfo.st_atime));
 {$POP}
 
   if FAttributes.IsLink then
@@ -163,6 +175,8 @@ begin
   FAttributes := TFileAttributesProperty.Create(SearchRecord.Attributes);
   FSize := TFileSizeProperty.Create(SearchRecord.Size);
   FModificationTime := TFileModificationDateTimeProperty.Create(SearchRecord.Time);
+  FCreationTime := TFileCreationDateTimeProperty.Create(SearchRecord.Time);
+  FLastAccessTime := TFileLastAccessDateTimeProperty.Create(SearchRecord.Time);
   FIsLinkToDirectory := False;
 
 {$ENDIF}
@@ -217,6 +231,10 @@ begin
     FreeAndNil(FSize);
   if Assigned(FModificationTime) then
     FreeAndNil(FModificationTime);
+  if Assigned(FCreationTime) then
+    FreeAndNil(FCreationTime);
+  if Assigned(FLastAccessTime) then
+    FreeAndNil(FLastAccessTime);
 
   inherited;
 end;
@@ -246,12 +264,15 @@ begin
   FProperties[fpSize] := FSize;
   FProperties[fpAttributes] := FAttributes;
   FProperties[fpModificationTime] := FModificationTime;
+  FProperties[fpCreationTime] := FCreationTime;
+  FProperties[fpLastAccessTime] := FLastAccessTime;
 end;
 
 class function TFileSystemFile.GetSupportedProperties: TFilePropertiesTypes;
 begin
   Result := inherited GetSupportedProperties
-          + [fpSize, fpAttributes, fpModificationTime];
+          + [fpSize, fpAttributes, fpModificationTime, fpCreationTime,
+             fpLastAccessTime];
 end;
 
 function TFileSystemFile.GetAttributes: Cardinal;
