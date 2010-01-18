@@ -44,6 +44,10 @@ type
   { Show icons mode }
   TShowIconsMode = (sim_none, sim_standart, sim_all, sim_all_and_exe);
 
+const
+  { Default hotkey list version number }
+  hkVersion: String = '0.4.6.r2205';
+
 var
   { Double Commander Version }
   dcVersion: String;
@@ -255,8 +259,8 @@ uses
 
 procedure LoadDefaultHotkeyBindings;
 begin
-//  if not assigned(HotMan) then exit;
-  With HotMan do
+  // Note: Update hkVersion if you change default hotkeys list
+  with HotMan do
     begin
       AddHotKeyEx('Alt+X','cm_Exit','','FrmMain','FrmMain');
       AddHotKeyEx('F1','cm_About','','FrmMain','FrmMain');

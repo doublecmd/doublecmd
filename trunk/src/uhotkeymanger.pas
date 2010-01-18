@@ -453,7 +453,7 @@ begin
   begin
     if FileExists(FileName) then DeleteFile(FileName);
     ini:=TIniFileEx.Create(FileName);
-    ini.WriteString('Configuration', 'Version', dcVersion);
+    ini.WriteString('Configuration', 'Version', hkVersion);
     for i:=0 to FHotList.Count-1 do
        begin
          fst:=TStringList(FHotList.Objects[i]);
