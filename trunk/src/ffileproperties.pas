@@ -30,9 +30,9 @@ unit fFileProperties;
 interface
 
 uses
-  LResources,
-  SysUtils, Classes, Graphics, Forms, StdCtrls, Buttons, ComCtrls, uTypes,
-  uFile, uFileProperty;
+  LResources, SysUtils, Classes, Graphics, Forms, StdCtrls, Buttons, ComCtrls,
+  ExtCtrls, uTypes, uFile, uFileProperty, uFileSource, uFileSourceOperation,
+  uFileSourceCalcStatisticsOperation;
 
 type
 
@@ -91,6 +91,7 @@ type
     lblTypeStr: TLabel;
     lblWrite: TLabel;
     pcPageControl: TPageControl;
+    tmUpdateFolderSize: TTimer;
     tsProperties: TTabSheet;
     tsAttributes: TTabSheet;
     procedure btnAllClick(Sender: TObject);
@@ -101,11 +102,16 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnSkipClick(Sender: TObject);
+    procedure tmUpdateFolderSizeTimer(Sender: TObject);
+    procedure FileSourceOperationStateChangedNotify(Operation: TFileSourceOperation;
+                                                               State: TFileSourceOperationState);
   private
     bPerm: Boolean;
     iCurrent: Integer;
+    FFileSource: IFileSource;
     fFiles: TFiles;
     FPropertyFormatter: IFilePropertyFormatter;
+    FFileSourceCalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
     ChangeTriggersEnabled: Boolean;
 
     procedure ShowAttr(Mode: TFileAttrs);
@@ -114,27 +120,28 @@ type
     function GetModeFromForm: TFileAttrs;
     procedure ShowFile(iIndex:Integer);
     procedure AllowChange(Allow: Boolean);
-
+    procedure StartCalcFolderSize;
+    procedure StopCalcFolderSize;
   public
-    constructor Create(AOwner: TComponent; theFiles: TFiles); reintroduce;
+    constructor Create(AOwner: TComponent; aFileSource: IFileSource; theFiles: TFiles); reintroduce;
     destructor Destroy; override;
   end;
 
 
-procedure ShowFileProperties(const Files: TFiles);
+procedure ShowFileProperties(aFileSource: IFileSource; const aFiles: TFiles);
 
 implementation
 
 uses
-  LCLType, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
+  LCLType, StrUtils, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
   uDefaultFilePropertyFormatter, uFileSystemFile, uMyUnix, uDateTimeUtils,
-  uFileAttributes;
+  uFileAttributes, uFileSourceOperationTypes, uOperationsManager;
 
-procedure ShowFileProperties(const Files: TFiles);
+procedure ShowFileProperties(aFileSource: IFileSource; const aFiles: TFiles);
 begin
-  if Files.Count > 0 then
+  if aFiles.Count > 0 then
   begin
-    with TfrmFileProperties.Create(Application, Files) do
+    with TfrmFileProperties.Create(Application, aFileSource, aFiles) do
     try
       ShowModal;
     finally
@@ -143,11 +150,13 @@ begin
   end;
 end;
 
-constructor TfrmFileProperties.Create(AOwner: TComponent; theFiles: TFiles);
+constructor TfrmFileProperties.Create(AOwner: TComponent; aFileSource: IFileSource; theFiles: TFiles);
 begin
   iCurrent := 0;
+  FFileSource:= aFileSource;
   fFiles := theFiles;
   FPropertyFormatter := MaxDetailsFilePropertyFormatter;
+  FFileSourceCalcStatisticsOperation:= nil;
   ChangeTriggersEnabled := True;
 
   inherited Create(AOwner);
@@ -155,6 +164,7 @@ end;
 
 destructor TfrmFileProperties.Destroy;
 begin
+  StopCalcFolderSize;
   inherited Destroy;
   FPropertyFormatter := nil; // free interface
 end;
@@ -209,7 +219,7 @@ end;
 
 procedure TfrmFileProperties.edtOctalKeyPress(Sender: TObject; var Key: char);
 begin
-  if not ((Key in ['0'..'7']) or (Key = Chr(VK_BACK))) then
+  if not ((Key in ['0'..'7']) or (Key = Chr(VK_BACK)) or (Key = Chr(VK_DELETE))) then
     Key:= #0;
 end;
 
@@ -263,6 +273,7 @@ var
   isFileSystem: Boolean;
   hasSize: Boolean;
 begin
+  StopCalcFolderSize; // Stop previous calculate folder size operation
   isFileSystem := fFiles[iIndex] is TFileSystemFile;
 
   with fFiles[iIndex] do
@@ -272,11 +283,16 @@ begin
     lblFolder.Caption:= Path;
 
     // Size
-    hasSize := (fpSize in SupportedProperties) and (not IsDirectory);
+    hasSize := (fpSize in SupportedProperties);
+    if hasSize then
+      begin
+        if IsDirectory and (fsoCalcStatistics in FFileSource.GetOperationsTypes) then
+          StartCalcFolderSize // Start calculate folder size operation
+        else
+          lblSize.Caption := Properties[fpSize].Format(FPropertyFormatter);
+      end;
     lblSize.Visible := hasSize;
     lblSizeStr.Visible := hasSize;
-    if hasSize then
-      lblSize.Caption := Properties[fpSize].Format(FPropertyFormatter);
 
     // Times
     if isFileSystem then
@@ -395,10 +411,53 @@ begin
     ShowFile(iCurrent);
 end;
 
+procedure TfrmFileProperties.tmUpdateFolderSizeTimer(Sender: TObject);
+begin
+  if Assigned(FFileSourceCalcStatisticsOperation) then
+    with FFileSourceCalcStatisticsOperation.RetrieveStatistics do
+    lblSize.Caption := Format('%s (%s)', [cnvFormatFileSize(Size), Numb2USA(IntToStr(Size))]);
+end;
+
+procedure TfrmFileProperties.FileSourceOperationStateChangedNotify(
+  Operation: TFileSourceOperation; State: TFileSourceOperationState);
+begin
+  if State = fsosStopped then
+    begin
+      tmUpdateFolderSize.Enabled:= False;
+      tmUpdateFolderSizeTimer(tmUpdateFolderSize);
+      FFileSourceCalcStatisticsOperation := nil;
+    end;
+end;
+
 procedure TfrmFileProperties.AllowChange(Allow: Boolean);
 begin
   btnAll.Enabled := Allow;
   btnOK.Enabled := Allow;
+end;
+
+procedure TfrmFileProperties.StartCalcFolderSize;
+var
+  aFiles: TFiles;
+begin
+  aFiles:= FFileSource.CreateFiles;
+  aFiles.Add(FFiles.Items[iCurrent].Clone);
+  FFileSourceCalcStatisticsOperation:= FFileSource.CreateCalcStatisticsOperation(aFiles) as TFileSourceCalcStatisticsOperation;
+  if Assigned(FFileSourceCalcStatisticsOperation) then
+    begin
+      FFileSourceCalcStatisticsOperation.AddStateChangedListener([fsosStopped], @FileSourceOperationStateChangedNotify);
+      OperationsManager.AddOperation(FFileSourceCalcStatisticsOperation, ossAutoStart);
+      tmUpdateFolderSize.Enabled:= True;
+    end;
+end;
+
+procedure TfrmFileProperties.StopCalcFolderSize;
+begin
+  if Assigned(FFileSourceCalcStatisticsOperation) then
+    begin
+      tmUpdateFolderSize.Enabled:= False;
+      FFileSourceCalcStatisticsOperation.Stop;
+    end;
+  FFileSourceCalcStatisticsOperation:= nil;
 end;
 
 initialization

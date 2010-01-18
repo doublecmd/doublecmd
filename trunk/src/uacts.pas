@@ -2279,7 +2279,7 @@ begin
         try
           if SelectedFiles.Count > 0 then
           try
-            ShowFilePropertiesDialog(SelectedFiles);
+            ShowFilePropertiesDialog(ActiveFrame.FileSource, SelectedFiles);
             ActiveFrame.Reload;
           except
             on e: EContextMenuException do
