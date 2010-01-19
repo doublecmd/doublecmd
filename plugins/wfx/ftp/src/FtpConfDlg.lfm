@@ -3,12 +3,9 @@ object DialogBox: TDialogBox
   Height = 357
   Top = 144
   Width = 400
-  AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'FTP'
-  ChildSizing.LeftRightSpacing = 12
-  ChildSizing.TopBottomSpacing = 12
   ClientHeight = 357
   ClientWidth = 400
   OnShow = DialogBoxShow
@@ -138,7 +135,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     Left = 12
     Height = 17
-    Top = 242
+    Top = 238
     Width = 273
     BorderSpacing.Left = 12
     BorderSpacing.Top = 18
@@ -151,7 +148,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     Left = 12
     Height = 17
-    Top = 265
+    Top = 261
     Width = 213
     BorderSpacing.Left = 12
     BorderSpacing.Top = 6
@@ -165,7 +162,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrCenter
     Left = 18
     Height = 14
-    Top = 291
+    Top = 287
     Width = 52
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
@@ -179,7 +176,7 @@ object DialogBox: TDialogBox
     AnchorSideTop.Side = asrBottom
     Left = 80
     Height = 21
-    Top = 288
+    Top = 284
     Width = 100
     BorderSpacing.Left = 10
     BorderSpacing.Top = 6
@@ -200,7 +197,7 @@ object DialogBox: TDialogBox
     AnchorSideRight.Control = edtInterval
     Left = 212
     Height = 14
-    Top = 291
+    Top = 287
     Width = 84
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 12
@@ -214,7 +211,7 @@ object DialogBox: TDialogBox
     AnchorSideRight.Side = asrBottom
     Left = 308
     Height = 21
-    Top = 288
+    Top = 284
     Width = 80
     Alignment = taRightJustify
     Anchors = [akTop, akRight]
@@ -224,32 +221,32 @@ object DialogBox: TDialogBox
     Text = '90'
   end
   object btnCancel: TButton
-    AnchorSideTop.Control = edtInterval
-    AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtRemoteDir
     AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 313
     Height = 25
-    Top = 321
+    Top = 320
     Width = 75
-    Anchors = [akTop, akRight]
-    BorderSpacing.Top = 12
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Bottom = 12
     Caption = 'Cancel'
     ModalResult = 2
     OnClick = ButtonClick
     TabOrder = 9
   end
   object btnOK: TButton
-    AnchorSideTop.Control = btnCancel
     AnchorSideRight.Control = btnCancel
+    AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 226
     Height = 25
-    Top = 321
+    Top = 320
     Width = 75
-    Anchors = [akTop, akRight]
+    Anchors = [akRight, akBottom]
     BorderSpacing.Right = 12
+    BorderSpacing.Bottom = 12
     Caption = '&OK'
     ModalResult = 1
     OnClick = ButtonClick
