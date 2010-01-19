@@ -810,7 +810,7 @@ var
 begin
   gSetDlgProcInfo:= SetDlgProcInfo;
 
-  gPluginDir := UTF8Encode(gSetDlgProcInfo.PluginDir);
+  gPluginDir := UTF8Encode(WideString(gSetDlgProcInfo.PluginDir));
 
   // Clear so they are not used anymore.
   gSetDlgProcInfo.PluginDir := nil;
