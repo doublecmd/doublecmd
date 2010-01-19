@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-01-17 00:33+0300\n"
+"PO-Revision-Date: 2010-01-19 18:55+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -568,17 +568,17 @@ msgstr "&Маска для распаковки:"
 #: TFRMFILEASSOC.BTNADDACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 #: TFRMFILEASSOC.BTNADDEXT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNADDEXT.CAPTION"
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 #: TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNADDNEWTYPE.CAPTION"
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 #: TFRMFILEASSOC.BTNCANCEL.CAPTION
 msgctxt "TFRMFILEASSOC.BTNCANCEL.CAPTION"
@@ -598,12 +598,12 @@ msgstr "&ОК"
 #: TFRMFILEASSOC.BTNREMOVEACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
 msgid "Remove"
-msgstr ""
+msgstr "Удалить"
 
 #: TFRMFILEASSOC.BTNREMOVEEXT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
 msgid "Remove"
-msgstr ""
+msgstr "Удалить"
 
 #: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
@@ -1457,7 +1457,7 @@ msgstr "Изменить свойства"
 
 #: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
 msgid "Directories are opened in new tabs"
-msgstr ""
+msgstr "Открывать каталоги в новой вкладке"
 
 #: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
 msgid "Normal"
@@ -2542,7 +2542,7 @@ msgstr "Не реаг&ировать на изменения, если окно 
 
 #: TFRMOPTIONS.CHKAUTOFILLCOLUMNS.CAPTION
 msgid "Auto fill columns"
-msgstr "Автоматически растягивать колонки на всю ширину панели"
+msgstr "Растягивать колонки на всю ширину панели"
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
@@ -3809,7 +3809,7 @@ msgstr "Файл %s существует, переписать?"
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
-msgstr ""
+msgstr "Файл %s помечен как доступный только для чтения. Удалить?"
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
@@ -3897,7 +3897,7 @@ msgstr "Мастер пароль:"
 
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
-msgstr ""
+msgstr "Введите мастер пароль:"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -4185,7 +4185,7 @@ msgstr "Изменить на %s?"
 
 #: ulng.rsopthotkeysusedby
 msgid "used by"
-msgstr ""
+msgstr "используется"
 
 #: ulng.rsopticons
 msgid "Icons"
