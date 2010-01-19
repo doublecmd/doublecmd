@@ -327,9 +327,7 @@ type
     procedure cbWatchExcludeDirsChange(Sender: TObject);
     procedure OnAutoRefreshOptionChanged(Sender: TObject);
     procedure edHotKeyKeyPress(Sender: TObject; var Key: char);
-    procedure fneExtDifferChange(Sender: TObject);
-    procedure fneExtEditorChange(Sender: TObject);
-    procedure fneExtViewerChange(Sender: TObject);
+    procedure fneExtToolChange(Sender: TObject);
     procedure miSearchTemplateClick(Sender: TObject);
     procedure btnWDXAddClick(Sender: TObject);
     procedure btnWFXAddClick(Sender: TObject);
@@ -1800,19 +1798,13 @@ begin
   btSetHotKey.Enabled := False;
 end;
 
-procedure TfrmOptions.fneExtDifferChange(Sender: TObject);
+procedure TfrmOptions.fneExtToolChange(Sender: TObject);
 begin
-  fneExtDiffer.FileName := fneExtDiffer.Caption;
-end;
-
-procedure TfrmOptions.fneExtEditorChange(Sender: TObject);
-begin
-  fneExtEditor.FileName := fneExtEditor.Caption;
-end;
-
-procedure TfrmOptions.fneExtViewerChange(Sender: TObject);
-begin
-  fneExtViewer.FileName := fneExtViewer.Caption;
+  with Sender as TFileNameEdit do
+  begin
+    FileName := Caption;
+    SelStart := UTF8Length(Caption);
+  end;
 end;
 
 procedure TfrmOptions.miSearchTemplateClick(Sender: TObject);
