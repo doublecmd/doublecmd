@@ -138,7 +138,7 @@ type
     {en
        Each of CreationTime, LastAccessTime, LastWriteTime may be @nil to leave the value unchanged.
     }
-    function WfxSetTime(RemoteName: UTF8String; pCreationTime, pLastAccessTime, pLastWriteTime: PWinFileTime): Boolean;
+    function WfxSetTime(RemoteName: UTF8String; pCreationTime, pLastAccessTime, pLastWriteTime: PWfxFileTime): Boolean;
     function WfxMkDir(const sBasePath, sDirName: UTF8String): LongInt;
     function WfxRemoveDir(const sDirName: UTF8String): Boolean;
     function WfxDeleteFile(const sFileName: UTF8String): Boolean;
@@ -181,7 +181,7 @@ type
 implementation
 
 uses
-  LCLProc, uLng, FileUtil, uGlobsPaths, uDCUtils, uOSUtils, uDateTimeUtils,
+  LCLProc, uLng, FileUtil, uGlobsPaths, uDCUtils, uOSUtils, uWfxPluginUtil,
   fDialogBox;
 
 const
@@ -213,9 +213,9 @@ begin
   with Result do
   begin
     FileAttributes:= FindData.dwFileAttributes;
-    CreationTime:= WinFileTimeToDateTime(FindData.ftCreationTime);
-    LastAccessTime:= WinFileTimeToDateTime(FindData.ftLastAccessTime);
-    LastWriteTime:= WinFileTimeToDateTime(FindData.ftLastWriteTime);
+    CreationTime:= WfxFileTimeToDateTime(FindData.ftCreationTime);
+    LastAccessTime:= WfxFileTimeToDateTime(FindData.ftLastAccessTime);
+    LastWriteTime:= WfxFileTimeToDateTime(FindData.ftLastWriteTime);
     FileSize:= (Int64(FindData.nFileSizeHigh) * MAXDWORD) + FindData.nFileSizeLow;
     Reserved0:= FindData.dwReserved0;
     Reserved1:= FindData.dwReserved1;
@@ -229,9 +229,9 @@ begin
   with Result do
   begin
     FileAttributes:= FindData.dwFileAttributes;
-    CreationTime:= WinFileTimeToDateTime(FindData.ftCreationTime);
-    LastAccessTime:= WinFileTimeToDateTime(FindData.ftLastAccessTime);
-    LastWriteTime:= WinFileTimeToDateTime(FindData.ftLastWriteTime);
+    CreationTime:= WfxFileTimeToDateTime(FindData.ftCreationTime);
+    LastAccessTime:= WfxFileTimeToDateTime(FindData.ftLastAccessTime);
+    LastWriteTime:= WfxFileTimeToDateTime(FindData.ftLastWriteTime);
     FileSize:= (Int64(FindData.nFileSizeHigh) * MAXDWORD) + FindData.nFileSizeLow;
     Reserved0:= FindData.dwReserved0;
     Reserved1:= FindData.dwReserved1;
@@ -357,7 +357,7 @@ begin
 end;
 
 function TWFXModule.WfxSetTime(RemoteName: UTF8String; pCreationTime,
-                               pLastAccessTime, pLastWriteTime: PWinFileTime): Boolean;
+                               pLastAccessTime, pLastWriteTime: PWfxFileTime): Boolean;
 begin
   Result:= False;
   if Assigned(FsSetTimeW) then

@@ -6,6 +6,7 @@ interface
 
 uses
   Classes, SysUtils, LCLProc, uLog, uGlobs,
+  WfxPlugin,
   uFile,
   uFileSource,
   uFileSourceOperation,
@@ -82,11 +83,14 @@ type
 
   function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: UTF8String): Boolean;
 
+  function WfxFileTimeToDateTime(FileTime : TWfxFileTime) : TDateTime; inline;
+  function DateTimeToWfxFileTime(DateTime : TDateTime) : TWfxFileTime; inline;
+
 implementation
 
 uses
-  uFileProcs, uDCUtils, uLng, WfxPlugin, uWfxModule, uFileSystemUtil, uFileProperty,
-  uDateTimeUtils;
+  uFileProcs, uDCUtils, uLng, uWfxModule, uFileSystemUtil, uFileProperty,
+  uDateTimeUtils, uTypes;
 
 function WfxRenameFile(aFileSource: IWfxPluginFileSource; const aFile: TFile; const NewFileName: UTF8String): Boolean;
 var
@@ -100,11 +104,21 @@ begin
       iTemp.Value := (aFile.Properties[fpSize] as TFileSizeProperty).Value;
       SizeLow := iTemp.Low;
       SizeHigh := iTemp.High;
-      LastWriteTime := DateTimeToWinFileTime((aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
+      LastWriteTime := DateTimeToWfxFileTime((aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
       Attr := LongInt((aFile.Properties[fpAttributes] as TFileAttributesProperty).Value);
     end;
     Result := (WfxCopyMove(aFile.Path + aFile.Name, NewFileName, FS_COPYFLAGS_MOVE, @RemoteInfo, True, True) = FS_FILE_OK);
   end;
+end;
+
+function WfxFileTimeToDateTime(FileTime: TWfxFileTime): TDateTime;
+begin
+  Result:= WinFileTimeToDateTime(TWinFileTime(FileTime));
+end;
+
+function DateTimeToWfxFileTime(DateTime: TDateTime): TWfxFileTime;
+begin
+  Result:= TWfxFileTime(DateTimeToWinFileTime(DateTime));
 end;
 
 { TWfxPluginOperationHelper }
@@ -183,7 +197,7 @@ begin
         iTemp.Value := (aFile.Properties[fpSize] as TFileSizeProperty).Value;
         SizeLow := iTemp.Low;
         SizeHigh := iTemp.High;
-        LastWriteTime := DateTimeToFileTime((aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
+        LastWriteTime := DateTimeToWfxFileTime((aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
         Attr := LongInt((aFile.Properties[fpAttributes] as TFileAttributesProperty).Value);
       end;
       Result := WfxCopyMove(aFile.Path + aFile.Name, AbsoluteTargetFileName, iFlags, @RemoteInfo, FInternal, FMode = wpohmCopyMoveIn);

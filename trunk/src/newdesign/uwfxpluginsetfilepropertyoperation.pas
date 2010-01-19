@@ -171,7 +171,7 @@ begin
       if (aTemplateProperty as TFileModificationDateTimeProperty).Value <>
          (aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value then
       begin
-        ftTime := DateTimeToFileTime((aTemplateProperty as TFileModificationDateTimeProperty).Value);
+        ftTime := DateTimeToWfxFileTime((aTemplateProperty as TFileModificationDateTimeProperty).Value);
         with FWfxPluginFileSource.WfxModule do
           Result := WfxSetTime(aFile.FullPath, nil, nil, @ftTime);
       end;
@@ -180,7 +180,7 @@ begin
       if (aTemplateProperty as TFileCreationDateTimeProperty).Value <>
          (aFile.Properties[fpCreationTime] as TFileCreationDateTimeProperty).Value then
       begin
-        ftTime := DateTimeToFileTime((aTemplateProperty as TFileCreationDateTimeProperty).Value);
+        ftTime := DateTimeToWfxFileTime((aTemplateProperty as TFileCreationDateTimeProperty).Value);
         with FWfxPluginFileSource.WfxModule do
           Result := WfxSetTime(aFile.FullPath, @ftTime, nil, nil);
       end;
@@ -189,7 +189,7 @@ begin
       if (aTemplateProperty as TFileLastAccessDateTimeProperty).Value <>
          (aFile.Properties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value then
       begin
-        ftTime := DateTimeToFileTime((aTemplateProperty as TFileLastAccessDateTimeProperty).Value);
+        ftTime := DateTimeToWfxFileTime((aTemplateProperty as TFileLastAccessDateTimeProperty).Value);
         with FWfxPluginFileSource.WfxModule do
           Result := WfxSetTime(aFile.FullPath, nil, @ftTime, nil);
       end;

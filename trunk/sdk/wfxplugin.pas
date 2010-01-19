@@ -1,9 +1,9 @@
-unit WfxPlugin;    {Plugin definitions version 1.5}
+unit WfxPlugin;    { Plugin definitions version 2.0 }
 
 interface
 
 uses
-  SysUtils {$IFDEF MSWINDOWS}, Windows{$ENDIF}, uTypes;
+  SysUtils {$IFDEF MSWINDOWS}, Windows{$ENDIF};
 
 { ids for FsGetFile }
 
@@ -186,7 +186,7 @@ type
   TInt64Rec = packed record
     case Boolean of
       True : (Value : Int64);
-      False : (Low,High : DWORD);
+      False : (Low, High : DWORD);
   end;
 
   BOOL = LongBool;
@@ -196,13 +196,26 @@ type
 
 type
 {$IFDEF MSWINDOWS}
+  FILETIME = Windows.FILETIME;
+{$ELSE}
+  FILETIME = packed record
+    dwLowDateTime : DWORD;
+    dwHighDateTime : DWORD;
+  end;
+{$ENDIF}
+  TFileTime = FILETIME; // for compatibility with all plugins
+  PFileTime = ^FILETIME;
+  TWfxFileTime = FILETIME;
+  PWfxFileTime = ^FILETIME;
+
+{$IFDEF MSWINDOWS}
   WIN32_FIND_DATAA = Windows.WIN32_FIND_DATA;
 {$ELSE}
-  WIN32_FIND_DATAA = record
+  WIN32_FIND_DATAA = packed record
     dwFileAttributes : DWORD;
-    ftCreationTime : TWinFileTime;
-    ftLastAccessTime : TWinFileTime;
-    ftLastWriteTime : TWinFileTime;
+    ftCreationTime : TFILETIME;
+    ftLastAccessTime : TFILETIME;
+    ftLastWriteTime : TFILETIME;
     nFileSizeHigh : DWORD;
     nFileSizeLow : DWORD;
     dwReserved0 : DWORD;
@@ -216,11 +229,11 @@ type
 {$IFDEF MSWINDOWS}
   WIN32_FIND_DATAW = Windows.WIN32_FIND_DATAW;
 {$ELSE}
-  WIN32_FIND_DATAW = record
+  WIN32_FIND_DATAW = packed record
     dwFileAttributes : DWORD;
-    ftCreationTime : TWinFileTime;
-    ftLastAccessTime : TWinFileTime;
-    ftLastWriteTime : TWinFileTime;
+    ftCreationTime : TFILETIME;
+    ftLastAccessTime : TFILETIME;
+    ftLastWriteTime : TFILETIME;
     nFileSizeHigh : DWORD;
     nFileSizeLow : DWORD;
     dwReserved0 : DWORD;
@@ -237,7 +250,7 @@ type
 
     SizeLow,SizeHigh:longint;
 
-    LastWriteTime: TWinFileTime;
+    LastWriteTime:TFileTime;
 
     Attr:longint;
 
