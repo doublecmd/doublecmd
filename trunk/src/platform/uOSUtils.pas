@@ -162,6 +162,21 @@ function GetHomeDir : String;
 }
 function GetAppConfigDir: String;
 
+{en
+   Returns path to a temporary name. It ensures that returned path doesn't exist,
+   i.e., there is no filesystem entry by that name.
+   If it could not create a unique temporary name then it returns empty string.
+
+   @param(PathPrefix
+          This parameter is added at the beginning of each path that is tried.
+          The directories in this path are not created if they don't exist.
+          If it is empty then the system temporary directory is used.
+          For example:
+            If PathPrefix is '/tmp/myfile' then files '/tmp/myfileXXXXXX' are tried.
+            The path '/tmp' must already exist.)
+}
+function GetTempName(PathPrefix: String): String;
+
 function IsAvailable(Path : String) : Boolean;
 function GetAllDrives : TList;
 {en
@@ -233,6 +248,11 @@ function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
 function mbDirectoryExists(const Directory : UTF8String) : Boolean;
 function mbCreateDir(const NewDir: UTF8String): Boolean;
 function mbRemoveDir(const Dir: UTF8String): Boolean;
+{en
+   Checks if any file system entry exists at given path.
+   It can be file, directory, link, etc. (links are not followed).
+}
+function mbFileSystemEntryExists(const Path: UTF8String): Boolean;
 { Other functions }
 function mbCompareText(const s1, s2: UTF8String): PtrInt;
 function mbGetEnvironmentString(Index : Integer) : UTF8String;
@@ -788,6 +808,22 @@ begin
     Result:= SysUtils.GetAppConfigDir(False);
 end;
 {$ENDIF}
+
+function GetTempName(PathPrefix: String): String;
+const
+  MaxTries = 100;
+var
+  TryNumber: Integer = 0;
+begin
+  if PathPrefix = '' then
+    PathPrefix := GetTempDir;
+  repeat
+    Result := PathPrefix + IntToStr(Random(MaxInt)); // or use CreateGUID()
+    Inc(TryNumber);
+    if TryNumber = MaxTries then
+      Exit('');
+  until not mbFileSystemEntryExists(Result);
+end;
 
 function IsAvailable(Path: String): Boolean;
 {$IF DEFINED(MSWINDOWS)}
@@ -1739,6 +1775,11 @@ begin
 end;
 {$ENDIF}
 
+function mbFileSystemEntryExists(const Path: UTF8String): Boolean;
+begin
+  Result := mbFileGetAttr(Path) <> faInvalidAttributes;
+end;
+
 function mbCompareText(const s1, s2: UTF8String): PtrInt; inline;
 {$IFDEF MSWINDOWS}
 begin
@@ -2010,4 +2051,4 @@ finalization
 
 {$ENDIF}
 
-end.
+end.
