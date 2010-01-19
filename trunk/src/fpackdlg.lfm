@@ -203,6 +203,8 @@ object frmPackDlg: TfrmPackDlg
       Top = 0
       Width = 260
       Caption = 'Also &pack path names (only recursed)'
+      Checked = True
+      State = cbChecked
       TabOrder = 0
     end
     object cbRecurse: TCheckBox
