@@ -37,7 +37,7 @@ uses
 
 constructor TWfxPluginListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
-  FFiles := TWfxPluginFiles.Create;
+  FFiles := TWfxPluginFiles.Create(aPath);
   FWfxPluginFileSource := aFileSource as IWfxPluginFileSource;
   FCallbackDataClass:= TCallbackDataClass.Create;
   FCurrentPath:= ExcludeBackPathDelimiter(aPath);
@@ -66,19 +66,14 @@ var
   FindData : TWfxFindData;
   Handle: THandle;
   aFile: TWfxPluginFile;
-  sPath : UTF8String;
 begin
   with FWfxPluginFileSource.WFXModule do
   begin
-    sPath:= Path;
-
     FFiles.Clear;
-    FFiles.Path := IncludeTrailingPathDelimiter(sPath);
 
     if not FileSource.IsPathAtRoot(Path) then
     begin
-      aFile := TWfxPluginFile.Create;
-      aFile.Path := sPath;
+      aFile := TWfxPluginFile.Create(Path);
       aFile.Name := '..';
       aFile.Attributes := faFolder;
       FFiles.Add(aFile);
@@ -89,8 +84,7 @@ begin
     repeat
       if (FindData.FileName = '.') or (FindData.FileName = '..') then Continue;
 
-      aFile := TWfxPluginFile.Create(FindData);
-      aFile.Path := sPath;
+      aFile := TWfxPluginFile.Create(Path, FindData);
       FFiles.Add(aFile);
     until (not WfxFindNext(Handle, FindData));
 

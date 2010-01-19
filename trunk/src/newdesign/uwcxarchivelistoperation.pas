@@ -27,7 +27,7 @@ uses
 
 constructor TWcxArchiveListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
-  FFiles := TWcxArchiveFiles.Create;
+  FFiles := TWcxArchiveFiles.Create(aPath);
   FWcxArchiveFileSource := aFileSource as IWcxArchiveFileSource;
   inherited Create(aFileSource, aPath);
 end;
@@ -40,12 +40,10 @@ var
   aFile: TWcxArchiveFile;
 begin
   FFiles.Clear;
-  FFiles.Path := IncludeTrailingPathDelimiter(Path);
 
   if not FileSource.IsPathAtRoot(Path) then
   begin
-    aFile := TWcxArchiveFile.Create;
-    aFile.Path := Path;
+    aFile := TWcxArchiveFile.Create(Path);
     aFile.Name := '..';
     aFile.Attributes := faFolder;
     FFiles.Add(AFile);
@@ -59,8 +57,7 @@ begin
       if not IsInPath(Path, CurrFileName, False) then
         Continue;
 
-      aFile := TWcxArchiveFile.Create(TWCXHeader(ArcFileList.Items[I]));
-      aFile.Path := Path;
+      aFile := TWcxArchiveFile.Create(Path, TWCXHeader(ArcFileList.Items[I]));
       FFiles.Add(AFile);
     end;
 end;

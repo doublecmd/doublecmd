@@ -232,8 +232,7 @@ procedure FillAndCount(Files: TFileSystemFiles; CountDirs: Boolean;
     begin
       repeat
         if (sr.Name='.') or (sr.Name='..') then Continue;
-        aFile := TFileSystemFile.Create(sr);
-        aFile.Path := srcPath;
+        aFile := TFileSystemFile.Create(srcPath, sr);
 
         // For process symlinks, read only files etc.
   //      CheckFile(aFile);
@@ -263,8 +262,7 @@ var
   i: Integer;
   aFile: TFileSystemFile;
 begin
-  NewFiles := TFileSystemFiles.Create;
-  NewFiles.Path := Files.Path;
+  NewFiles := TFileSystemFiles.Create(Files.Path);
   FilesCount:= 0;
   FilesSize:= 0;
   for i := 0 to Files.Count - 1 do
@@ -377,7 +375,7 @@ begin
   if LinkedFilePath <> '' then
   begin
     try
-      LinkedFile := TFileSystemFile.Create(LinkedFilePath);
+      LinkedFile := TFileSystemFile.CreateFromFile(LinkedFilePath);
 
       // Add link to current node.
       AddedIndex := CurrentNode.AddSubNode(aFile);
@@ -482,9 +480,7 @@ begin
     repeat
       if (sr.Name = '.') or (sr.Name = '..') then Continue;
 
-      aFile := TFileSystemFile.Create(sr);
-      aFile.Path := srcPath;
-
+      aFile := TFileSystemFile.Create(srcPath, sr);
       AddItem(aFile, CurrentNode);
     until FindNextEx(sr) <> 0;
   end;

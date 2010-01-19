@@ -41,7 +41,7 @@ type
     function GetProperties: TFileSourceProperties;
     function GetFiles(TargetPath: String): TFiles;
 
-    function CreateFiles: TFiles;
+    function CreateFiles(const APath: String): TFiles;
 
     function CreateListOperation(TargetPath: String): TFileSourceOperation;
     function CreateCopyInOperation(SourceFileSource: IFileSource;
@@ -172,7 +172,7 @@ type
     function GetFiles(TargetPath: String): TFiles; virtual;
 
     // Create an empty TFiles object of appropriate type for the file source.
-    function CreateFiles: TFiles; virtual;
+    function CreateFiles(const APath: String): TFiles; virtual;
 
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; virtual;
@@ -458,9 +458,9 @@ begin
   end;
 end;
 
-function TFileSource.CreateFiles: TFiles;
+function TFileSource.CreateFiles(const APath: String): TFiles;
 begin
-  Result := TFiles.Create;
+  Result := TFiles.Create(APath);
 end;
 
 function TFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
@@ -764,4 +764,4 @@ finalization
   FreeAndNil(FileSourceManager);
 
 end.
-
+

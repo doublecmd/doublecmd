@@ -32,14 +32,14 @@ type
     procedure SetModificationTime(NewTime: TDateTime); virtual;
 
   public
-    constructor Create; override;
-    constructor Create(SearchRecord: TSearchRecEx); overload;
+    constructor Create(const APath: String); override;
+    constructor Create(const APath: String; SearchRecord: TSearchRecEx); overload;
     {en
-       Creates a file using an existing file as a template.
+       Creates a file object using an existing file/directory as a template.
        All the properties will reflect the existing file.
        @param(FilePath denotes absolute path to a file to use as a template.)
     }
-    constructor Create(FilePath: String); overload;
+    constructor CreateFromFile(const aFilePath: String); overload;
 
     destructor Destroy; override;
 
@@ -63,16 +63,16 @@ type
     function Get(Index: Integer): TFileSystemFile;
 
   public
-    function CreateObjectOfSameType: TFiles; override;
-    function CreateFileObject: TFile; override;
-    function Clone: TFileSystemFiles; override;
-
     {en
-       Fills a files list from filenames list.
+       Creates file list from a list of template files.
        @param(FileNamesList
               A list of absolute paths to files.)
     }
-    procedure LoadFromFileNames(const FileNamesList: TStringList);
+    constructor CreateFromFiles(const APath: String; const FileNamesList: TStringList); virtual; overload;
+
+    function CreateObjectOfSameType(const APath: String): TFiles; override;
+    function CreateFileObject(const APath: String): TFile; override;
+    function Clone: TFileSystemFiles; override;
 
     property Items[Index: Integer]: TFileSystemFile read Get{ write Put}; default;
   end;
@@ -88,9 +88,9 @@ uses
 {$ENDIF}
   ;
 
-constructor TFileSystemFile.Create;
+constructor TFileSystemFile.Create(const APath: String);
 begin
-  inherited Create;
+  inherited Create(APath);
 
   FAttributes := TFileAttributesProperty.CreateOSAttributes;
   FSize := TFileSizeProperty.Create;
@@ -105,14 +105,14 @@ begin
   Name := '';
 end;
 
-constructor TFileSystemFile.Create(SearchRecord: TSearchRecEx);
+constructor TFileSystemFile.Create(const APath: String; SearchRecord: TSearchRecEx);
 {$IF DEFINED(UNIX)}
 var
   StatInfo: BaseUnix.Stat; //buffer for stat info
   sFullPath: String;
 {$ENDIF}
 begin
-  inherited Create;
+  inherited Create(APath);
 
 {$IF DEFINED(MSWINDOWS)}
 
@@ -202,21 +202,17 @@ begin
   Name := SearchRecord.Name;
 end;
 
-constructor TFileSystemFile.Create(FilePath: String);
+constructor TFileSystemFile.CreateFromFile(const aFilePath: String);
 var
   SearchRecord: TSearchRecEx;
   FindResult: Longint;
 begin
-  FindResult := FindFirstEx(FilePath, faAnyFile, SearchRecord);
+  FindResult := FindFirstEx(aFilePath, faAnyFile, SearchRecord);
   try
     if FindResult <> 0 then
-    begin
-      raise EFileSystemFileNotExists.Create('File ' + FilePath + ' does not exist.');
-    end
-    else
-      Create(SearchRecord);
+      raise EFileSystemFileNotExists.Create('File ' + aFilePath + ' does not exist.');
 
-    Path := ExtractFilePath(FilePath);
+    Create(ExtractFilePath(aFilePath), SearchRecord);
 
   finally
     FindCloseEx(SearchRecord);
@@ -236,12 +232,12 @@ begin
   if Assigned(FLastAccessTime) then
     FreeAndNil(FLastAccessTime);
 
-  inherited;
+  inherited Destroy;
 end;
 
 function TFileSystemFile.Clone: TFileSystemFile;
 begin
-  Result := TFileSystemFile.Create;
+  Result := TFileSystemFile.Create(Path);
   CloneTo(Result);
 end;
 
@@ -312,38 +308,37 @@ end;
 
 // ----------------------------------------------------------------------------
 
-function TFileSystemFiles.CreateObjectOfSameType: TFiles;
-begin
-  Result := TFileSystemFiles.Create;
-end;
-
-function TFileSystemFiles.CreateFileObject: TFile;
-begin
-  Result := TFileSystemFile.Create;
-end;
-
-function TFileSystemFiles.Clone: TFileSystemFiles;
-begin
-  Result := TFileSystemFiles.Create;
-  CloneTo(Result);
-end;
-
-procedure TFileSystemFiles.LoadFromFileNames(const FileNamesList: TStringList);
+constructor TFileSystemFiles.CreateFromFiles(const APath: String; const FileNamesList: TStringList);
 var
   AFile: TFileSystemFile;
   i: Integer;
 begin
-  Clear;
+  inherited Create(APath);
 
-  if not Assigned(FileNamesList) or (FileNamesList.Count <= 0) then Exit;
-
-  Path := ExtractFilePath(FileNamesList[0]);
-
-  for i := 0 to FileNamesList.Count - 1 do
+  if Assigned(FileNamesList) and (FileNamesList.Count > 0) then
+  begin
+    for i := 0 to FileNamesList.Count - 1 do
     begin
-      AFile := TFileSystemFile.Create(FileNamesList[i]);
+      AFile := TFileSystemFile.CreateFromFile(FileNamesList[i]);
       Add(AFile);
     end;
+  end;
+end;
+
+function TFileSystemFiles.CreateObjectOfSameType(const APath: String): TFiles;
+begin
+  Result := TFileSystemFiles.Create(APath);
+end;
+
+function TFileSystemFiles.CreateFileObject(const APath: String): TFile;
+begin
+  Result := TFileSystemFile.Create(APath);
+end;
+
+function TFileSystemFiles.Clone: TFileSystemFiles;
+begin
+  Result := TFileSystemFiles.Create(Path);
+  CloneTo(Result);
 end;
 
 function TFileSystemFiles.Get(Index: Integer): TFileSystemFile;

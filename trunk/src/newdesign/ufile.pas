@@ -31,8 +31,8 @@ type
     function GetProperties: TFileProperties; virtual;
 
     function GetFullPath: String;
-    procedure SetFullPath(NewFullPath: String);
-    procedure SetPath(NewPath: String);
+    procedure SetFullPath(const NewFullPath: String);
+    procedure SetPath(const NewPath: String);
     function GetName: String;
     procedure SetName(Name: String);
     function GetExtension: String;
@@ -42,7 +42,7 @@ type
     function GetNameNoExt: String;
 
   public
-    constructor Create; virtual;
+    constructor Create(const APath: String); virtual;
     destructor Destroy; override;
 
     {en
@@ -127,18 +127,20 @@ type
     function Get(Index: Integer): TFile;
     procedure Put(Index: Integer; AFile: TFile);
 
+    procedure SetPath(const NewPath: String);
+
   public
-    constructor Create; virtual;
+    constructor Create(const APath: String); virtual;
     destructor Destroy; override;
 
     {en
        Creates a new object of the same type.
     }
-    function CreateObjectOfSameType: TFiles; virtual;
+    function CreateObjectOfSameType(const APath: String): TFiles; virtual;
     {en
        Creates a file object of appropriate type.
     }
-    function CreateFileObject: TFile; virtual;
+    function CreateFileObject(const APath: String): TFile; virtual;
 
     {en
        Create a list with cloned files.
@@ -153,7 +155,7 @@ type
     property Count: Integer read GetCount write SetCount;
     property Items[Index: Integer]: TFile read Get write Put; default;
     property List: TFPList read FList;
-    property Path: String read FPath write FPath;
+    property Path: String read FPath write SetPath;
 
   end;
 
@@ -209,7 +211,7 @@ uses
   BaseUnix;
 {$ENDIF}
 
-constructor TFile.Create;
+constructor TFile.Create(const APath: String);
 begin
   inherited Create;
 
@@ -219,6 +221,8 @@ begin
   {$IFDEF AssignFileNameProperty}
   FProperties[fpName] := TFileNameProperty.Create;
   {$ENDIF}
+
+  Path := APath;
 end;
 
 destructor TFile.Destroy;
@@ -233,7 +237,7 @@ end;
 
 function TFile.Clone: TFile;
 begin
-  Result := TFile.Create;
+  Result := TFile.Create(Path);
   CloneTo(Result);
 end;
 
@@ -244,7 +248,6 @@ begin
   if Assigned(AFile) then
   begin
     AFile.FName := FName;
-    AFile.FPath := FPath;
     AFile.FExtension := FExtension;
     AFile.FNameNoExt := FNameNoExt;
 
@@ -315,7 +318,7 @@ begin
   Result := Path + Name;
 end;
 
-procedure TFile.SetFullPath(NewFullPath: String);
+procedure TFile.SetFullPath(const NewFullPath: String);
 var
   aExtractedName: String;
 begin
@@ -336,7 +339,7 @@ begin
   end;
 end;
 
-procedure TFile.SetPath(NewPath: String);
+procedure TFile.SetPath(const NewPath: String);
 begin
   if NewPath = '' then
     FPath := ''
@@ -449,10 +452,11 @@ end;
 
 // ----------------------------------------------------------------------------
 
-constructor TFiles.Create;
+constructor TFiles.Create(const APath: String);
 begin
-  inherited;
+  inherited Create;
   FList := TFPList.Create;
+  Path := APath;
 end;
 
 destructor TFiles.Destroy;
@@ -462,19 +466,19 @@ begin
   inherited;
 end;
 
-function TFiles.CreateObjectOfSameType: TFiles;
+function TFiles.CreateObjectOfSameType(const APath: String): TFiles;
 begin
-  Result := TFiles.Create;
+  Result := TFiles.Create(APath);
 end;
 
-function TFiles.CreateFileObject: TFile;
+function TFiles.CreateFileObject(const APath: String): TFile;
 begin
-  Result := TFile.Create;
+  Result := TFile.Create(APath);
 end;
 
 function TFiles.Clone: TFiles;
 begin
-  Result := TFiles.Create;
+  Result := TFiles.Create(Path);
   CloneTo(Result);
 end;
 
@@ -486,8 +490,6 @@ begin
   begin
     Files.Add(Get(i).Clone);
   end;
-
-  Files.FPath := FPath;
 end;
 
 function TFiles.GetCount: Integer;
@@ -533,6 +535,14 @@ end;
 procedure TFiles.Put(Index: Integer; AFile: TFile);
 begin
   FList.Items[Index] := AFile;
+end;
+
+procedure TFiles.SetPath(const NewPath: String);
+begin
+  if NewPath = '' then
+    FPath := ''
+  else
+    FPath := IncludeTrailingPathDelimiter(NewPath);
 end;
 
 // ----------------------------------------------------------------------------

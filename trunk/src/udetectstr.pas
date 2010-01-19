@@ -159,7 +159,7 @@ end;
 
 function TParserControl.TestFileResult(const aFileName: UTF8String): boolean;
 begin
-  FFile:= TFileSystemFile.Create(aFileName);
+  FFile:= TFileSystemFile.CreateFromFile(aFileName);
   DebugLn('FFile.Extension = ' + FFile.Extension);
   Result:= getresult;
 end;
@@ -415,4 +415,4 @@ end;
    end;
  end;
 
- end.
+ end.

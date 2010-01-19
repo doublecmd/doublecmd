@@ -12,7 +12,7 @@ type
 
   TWcxArchiveFile = class(TArchiveFile)
   public
-    constructor Create(WcxHeader: TWCXHeader); overload;
+    constructor Create(const APath: String; WcxHeader: TWCXHeader); overload;
 
     class function GetSupportedProperties: TFilePropertiesTypes; override;
   end;
@@ -21,16 +21,16 @@ type
 
   TWcxArchiveFiles = class(TFiles)
   public
-    function CreateObjectOfSameType: TFiles; override;
-    function CreateFileObject: TFile; override;
+    function CreateObjectOfSameType(const APath: String): TFiles; override;
+    function CreateFileObject(const APath: String): TFile; override;
     function Clone: TWcxArchiveFiles; override;
   end;
 
 implementation
 
-constructor TWcxArchiveFile.Create(WcxHeader: TWCXHeader);
+constructor TWcxArchiveFile.Create(const APath: String; WcxHeader: TWCXHeader);
 begin
-  inherited Create;
+  inherited Create(APath);
 {
     FileCRC,
     CompressionMethod,
@@ -56,19 +56,19 @@ end;
 
 { TWcxArchiveFiles }
 
-function TWcxArchiveFiles.CreateObjectOfSameType: TFiles;
+function TWcxArchiveFiles.CreateObjectOfSameType(const APath: String): TFiles;
 begin
-  Result:= TWcxArchiveFiles.Create;
+  Result:= TWcxArchiveFiles.Create(APath);
 end;
 
-function TWcxArchiveFiles.CreateFileObject: TFile;
+function TWcxArchiveFiles.CreateFileObject(const APath: String): TFile;
 begin
-  Result:= TWcxArchiveFile.Create;
+  Result:= TWcxArchiveFile.Create(APath);
 end;
 
 function TWcxArchiveFiles.Clone: TWcxArchiveFiles;
 begin
-  Result:= TWcxArchiveFiles.Create;
+  Result:= TWcxArchiveFiles.Create(Path);
   CloneTo(Result);
 end;
 

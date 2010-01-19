@@ -43,7 +43,7 @@ type
     function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
     function GetProperties: TFileSourceProperties; override;
 
-    function CreateFiles: TFiles; override;
+    function CreateFiles(const APath: String): TFiles; override;
 
     function IsPathAtRoot(Path: String): Boolean; override;
 
@@ -150,9 +150,9 @@ begin
   ];
 end;
 
-function TFileSystemFileSource.CreateFiles: TFiles;
+function TFileSystemFileSource.CreateFiles(const APath: String): TFiles;
 begin
-  Result := TFileSystemFiles.Create;
+  Result := TFileSystemFiles.Create(APath);
 end;
 
 function TFileSystemFileSource.GetCurrentWorkingDirectory: String;
@@ -327,4 +327,4 @@ begin
 end;
 
 end.
-
+

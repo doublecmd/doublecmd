@@ -454,8 +454,7 @@ procedure TWfxPluginFileSource.FillAndCount(Files: TFiles; CountDirs: Boolean;
 
       repeat
         if (FindData.FileName = '.') or (FindData.FileName = '..') then Continue;
-        aFile:= TWfxPluginFile.Create(FindData);
-        aFile.Path:= srcPath;
+        aFile:= TWfxPluginFile.Create(srcPath, FindData);
         NewFiles.Add(aFile);
 
         if aFile.IsDirectory then
@@ -479,7 +478,7 @@ var
   I: Integer;
   aFile: TWfxPluginFile;
 begin
-  NewFiles := TFiles.Create;
+  NewFiles := TFiles.Create(Files.Path);
   FilesCount:= 0;
   FilesSize:= 0;
   for I := 0 to Files.Count - 1 do
@@ -622,4 +621,4 @@ finalization
   if Assigned(WfxOperationList) then
     FreeAndNil(WfxOperationList);
 
-end.
+end.

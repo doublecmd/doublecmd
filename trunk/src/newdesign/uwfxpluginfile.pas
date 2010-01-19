@@ -35,9 +35,9 @@ type
     procedure SetModificationTime(NewTime: TDateTime); virtual;
 
   public
-    constructor Create; override;
-    constructor Create(FileAttributes: TFileAttributesProperty); overload;
-    constructor Create(FindData: TWfxFindData); overload;
+    constructor Create(const APath: String); override;
+    constructor Create(const APath: String; FileAttributes: TFileAttributesProperty); overload;
+    constructor Create(const APath: String; FindData: TWfxFindData); overload;
 
     destructor Destroy; override;
 
@@ -60,8 +60,8 @@ type
 
   TWfxPluginFiles = class(TFiles)
   public
-    function CreateObjectOfSameType: TFiles; override;
-    function CreateFileObject: TFile; override;
+    function CreateObjectOfSameType(const APath: String): TFiles; override;
+    function CreateFileObject(const APath: String): TFile; override;
     function Clone: TWfxPluginFiles; override;
   end;
 
@@ -70,9 +70,9 @@ implementation
 uses
   LCLProc, FileUtil, uFileAttributes;
 
-constructor TWfxPluginFile.Create;
+constructor TWfxPluginFile.Create(const APath: String);
 begin
-  inherited Create;
+  inherited Create(APath);
 
   FAttributes := TFileAttributesProperty.CreateOSAttributes;
   FSize := TFileSizeProperty.Create;
@@ -87,9 +87,9 @@ begin
   Name := '';
 end;
 
-constructor TWfxPluginFile.Create(FileAttributes: TFileAttributesProperty);
+constructor TWfxPluginFile.Create(const APath: String; FileAttributes: TFileAttributesProperty);
 begin
-  inherited Create;
+  inherited Create(APath);
 
   FAttributes := FileAttributes.Clone;
   FSize := TFileSizeProperty.Create;
@@ -104,9 +104,9 @@ begin
   Name := '';
 end;
 
-constructor TWfxPluginFile.Create(FindData: TWfxFindData);
+constructor TWfxPluginFile.Create(const APath: String; FindData: TWfxFindData);
 begin
-  inherited Create;
+  inherited Create(APath);
 
   // Check that attributes is used
   if (FindData.FileAttributes and FILE_ATTRIBUTE_UNIX_MODE) = 0 then // Windows attributes
@@ -148,7 +148,7 @@ end;
 
 function TWfxPluginFile.Clone: TWfxPluginFile;
 begin
-  Result := TWfxPluginFile.Create(FAttributes);
+  Result := TWfxPluginFile.Create(Path, FAttributes);
   CloneTo(Result);
 end;
 
@@ -218,21 +218,21 @@ end;
 
 { TWfxPluginFiles }
 
-function TWfxPluginFiles.CreateObjectOfSameType: TFiles;
+function TWfxPluginFiles.CreateObjectOfSameType(const APath: String): TFiles;
 begin
-  Result:= TWfxPluginFiles.Create;
+  Result:= TWfxPluginFiles.Create(APath);
 end;
 
-function TWfxPluginFiles.CreateFileObject: TFile;
+function TWfxPluginFiles.CreateFileObject(const APath: String): TFile;
 begin
-  Result:= TWfxPluginFile.Create;
+  Result:= TWfxPluginFile.Create(APath);
 end;
 
 function TWfxPluginFiles.Clone: TWfxPluginFiles;
 begin
-  Result:= TWfxPluginFiles.Create;
+  Result:= TWfxPluginFiles.Create(Path);
   CloneTo(Result);
 end;
 
 end.
-
+

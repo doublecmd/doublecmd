@@ -30,7 +30,7 @@ type
     procedure SetModificationTime(NewTime: TDateTime); virtual;
 
   public
-    constructor Create; override;
+    constructor Create(const APath: String); override;
     destructor Destroy; override;
 
     {en
@@ -49,8 +49,10 @@ type
 
 implementation
 
-constructor TArchiveFile.Create;
+constructor TArchiveFile.Create(const APath: String);
 begin
+  inherited Create(APath);
+
   FSize := TFileSizeProperty.Create;
   FCompressedSize := TFileCompressedSizeProperty.Create;
   FAttributes := TFileAttributesProperty.CreateOSAttributes;
@@ -73,12 +75,12 @@ begin
   if Assigned(FModificationTime) then
     FreeAndNil(FModificationTime);
 
-  inherited;
+  inherited Destroy;
 end;
 
 function TArchiveFile.Clone: TArchiveFile;
 begin
-  Result := TArchiveFile.Create;
+  Result := TArchiveFile.Create(Path);
   CloneTo(Result);
 end;
 
@@ -146,4 +148,4 @@ begin
 end;
 
 end.
-
+

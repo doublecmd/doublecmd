@@ -441,7 +441,7 @@ procedure TfrmFileProperties.StartCalcFolderSize;
 var
   aFiles: TFiles;
 begin
-  aFiles:= FFileSource.CreateFiles;
+  aFiles:= FFileSource.CreateFiles(FFiles.Path);
   aFiles.Add(FFiles.Items[iCurrent].Clone);
   FFileSourceCalcStatisticsOperation:= FFileSource.CreateCalcStatisticsOperation(aFiles) as TFileSourceCalcStatisticsOperation;
   if Assigned(FFileSourceCalcStatisticsOperation) then

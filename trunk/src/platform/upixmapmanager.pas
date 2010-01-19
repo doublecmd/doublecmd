@@ -321,7 +321,7 @@ begin
         begin
           if mbFileExists(sFileName) or mbDirectoryExists(sFileName) then
             begin
-              AFile := TFileSystemFile.Create(sFileName);
+              AFile := TFileSystemFile.CreateFromFile(sFileName);
               iIndex := PixMapManager.GetIconByFile(AFile, True);
               bmStandartBitmap := PixMapManager.GetBitmap(iIndex, clBackColor);
               FreeAndNil(AFile);
@@ -1467,4 +1467,4 @@ finalization
     FreeAndNil(PixMapManager);
 
 end.
-
+

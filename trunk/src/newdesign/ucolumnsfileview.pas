@@ -549,8 +549,7 @@ function TColumnsFileView.GetDisplayedFiles: TFiles;
 var
   i: Integer;
 begin
-  Result := FFileSourceFiles.CreateObjectOfSameType;
-  Result.Path := CurrentPath;
+  Result := FFileSourceFiles.CreateObjectOfSameType(CurrentPath);
 
   for i := 0 to FFiles.Count - 1 do
   begin
@@ -563,8 +562,7 @@ var
   i: Integer;
   aFile: TColumnsViewFile;
 begin
-  Result := FFileSourceFiles.CreateObjectOfSameType;
-  Result.Path := CurrentPath;
+  Result := FFileSourceFiles.CreateObjectOfSameType(CurrentPath);
 
   for i := 0 to FFiles.Count - 1 do
   begin
@@ -2925,7 +2923,7 @@ begin
      (fpSize in theFile.TheFile.SupportedProperties) and
      theFile.TheFile.IsDirectory then
   begin
-    TargetFiles := FileSource.CreateFiles;
+    TargetFiles := FileSource.CreateFiles(CurrentPath);
     try
       TargetFiles.Add(theFile.TheFile.Clone);
 
@@ -3759,10 +3757,9 @@ var
 begin
   if FileNamesList.Count > 0 then
   begin
-    Files := TFileSystemFiles.Create;
+    Files := TFileSystemFiles.CreateFromFiles(
+        ExtractFilePath(FileNamesList[0]), FileNamesList);
     try
-      (Files as TFileSystemFiles).LoadFromFileNames(FileNamesList);
-
       TargetFileView := Self.Parent as TFileView;
 
       DropParams := TDropParams.Create(
@@ -4149,8 +4146,7 @@ begin
       // Add '..' to go to higher level file source, if there is more than one.
       if (FFileSourcesCount > 1) and (FFileSource.IsPathAtRoot(FCurrentPath)) then
       begin
-        AFile := FTmpFileSourceFiles.CreateFileObject;
-        AFile.Path := FCurrentPath;
+        AFile := FTmpFileSourceFiles.CreateFileObject(FCurrentPath);
         AFile.Name := '..';
         if fpAttributes in AFile.SupportedProperties then
           (AFile.Properties[fpAttributes] as TFileAttributesProperty).Value := faFolder;
@@ -4391,4 +4387,4 @@ begin
 end;
 
 end.
-
+

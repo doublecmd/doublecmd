@@ -2487,9 +2487,8 @@ begin
     if PasteFromClipboard(ClipboardOp, filenamesList) = True then
     try
       // fill file list with files
-      Files := TFileSystemFiles.Create;
-      with Files as TFileSystemFiles do
-        LoadFromFileNames(fileNamesList);
+      Files := TFileSystemFiles.CreateFromFiles(
+          ExtractFilePath(filenamesList[0]), fileNamesList);
 
       case ClipboardOp of
 

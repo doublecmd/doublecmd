@@ -136,7 +136,7 @@ begin
   if PathToFile <> '' then
   begin
     try
-      aLinkFile := TFileSystemFile.Create(PathToFile);
+      aLinkFile := TFileSystemFile.CreateFromFile(PathToFile);
       try
         ProcessFile(aLinkFile);
       finally
@@ -168,12 +168,9 @@ begin
     repeat
       if (sr.Name='.') or (sr.Name='..') then Continue;
 
-      aFile := TFileSystemFile.Create(sr);
+      aFile := TFileSystemFile.Create(srcPath, sr);
       try
-        aFile.Path := srcPath;
-
         ProcessFile(aFile);
-
       finally
         FreeAndNil(aFile);
       end;
@@ -204,4 +201,4 @@ begin
 end;
 
 end.
-
+
