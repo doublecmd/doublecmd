@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains log write functions.
 
-    Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2008-2010  Koblov Alexander (Alexx2000@mail.ru)
 
     contributors:
 
@@ -41,7 +41,6 @@ type
 
   TLogWriteThread = class
   private
-    FCriticalSection: TRTLCriticalSection;
     procedure LogWriteInTheThread;
   protected
     FThread: TThread;
@@ -56,10 +55,11 @@ type
   end;
 
 procedure ShowLogWindow(bShow: Boolean; bLock: PBoolean = nil);
-procedure logWrite(const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True);
-procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True);
+procedure logWrite(const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True); overload;
+procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True); overload;
 
 implementation
+
 uses
   SysUtils, LCLProc, Forms, fMain, uGlobs, uFileProcs, uOSUtils;
 
@@ -77,23 +77,43 @@ begin
 end;
 
 procedure logWrite(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
+begin
+  logWrite(nil, sText, LogMsgType, bForce, bLogFile);
+end;
+
+procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
+var
+  LogWriteThread: TLogWriteThread;
+begin
+  try
+    LogWriteThread:= TLogWriteThread.Create(Thread);
+    LogWriteThread.WriteLog(sText, LogMsgType, bForce, bLogFile);
+  finally
+    LogWriteThread.Free;
+  end
+end;
+
+{ TLogWriteThread }
+
+procedure TLogWriteThread.LogWriteInTheThread;
 var
   hLogFile: Integer;
-  LogMsgTypeObject: TObject absolute LogMsgType;
+  LogMsgTypeObject: TObject;
   bLock: Boolean;
 begin
+  LogMsgTypeObject:= TObject(PtrInt(FLogMsgType));
   if Assigned(fMain.frmMain) then
   with fMain.frmMain do
   begin
-    if (not (gLogWindow and seLogWindow.Visible)) and bForce then
+    if (not (gLogWindow and seLogWindow.Visible)) and FForce then
       ShowLogWindow(True);
 
     bLock:= not miLogHide.Enabled;
-    if (gLogWindow or bForce or bLock) then // if write log to window
-      seLogWindow.CaretY:= seLogWindow.Lines.AddObject(sText, LogMsgTypeObject) + 1;
+    if (gLogWindow or FForce or bLock) then // if write log to window
+      seLogWindow.CaretY:= seLogWindow.Lines.AddObject(FMsg, LogMsgTypeObject) + 1;
   end;
 
-  if gLogFile and bLogFile then // if write log to file
+  if gLogFile and FLogFile then // if write log to file
     try
       if mbFileExists(gLogFileName) then
         hLogFile:= mbFileOpen(gLogFileName, fmOpenReadWrite)
@@ -101,9 +121,9 @@ begin
         hLogFile:= mbFileCreate(gLogFileName);
 
       FileSeek(hLogFile, 0, soFromEnd);
-      FileWriteLn(hLogFile, Format('%s %s', [DateTimeToStr(Now), sText]));
+      FileWriteLn(hLogFile, Format('%s %s', [DateTimeToStr(Now), FMsg]));
 
-      DebugLn(Format('%s %s',[DateTimeToStr(Now), sText]));
+      DebugLn(Format('%s %s',[DateTimeToStr(Now), FMsg]));
 
       FileClose(hLogFile);
     except
@@ -112,40 +132,14 @@ begin
     end; // gLogWriteFile
 end;
 
-procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
-var
-  LogWriteThread: TLogWriteThread;
-begin
-  if Assigned (Thread) then
-    try
-      LogWriteThread:= TLogWriteThread.Create(Thread);
-      LogWriteThread.WriteLog(sText, LogMsgType, bForce, bLogFile);
-    finally
-      LogWriteThread.Free;
-    end
-  else
-    logWrite(sText, LogMsgType, bForce, bLogFile);
-end;
-
-{ TLogWriteThread }
-
-procedure TLogWriteThread.LogWriteInTheThread;
-begin
-   EnterCriticalsection(FCriticalSection);
-   logWrite(FMsg, FLogMsgType, FForce, FLogFile);
-   LeaveCriticalsection(FCriticalSection);
-end;
-
 constructor TLogWriteThread.Create(Thread: TThread);
 begin
   FThread:= Thread;
-  InitCriticalSection(FCriticalSection);
 end;
 
 destructor TLogWriteThread.Destroy;
 begin
   FMsg:= '';
-  DoneCriticalsection(FCriticalSection);
   inherited Destroy;
 end;
 
@@ -155,7 +149,7 @@ begin
   FLogMsgType:= LogMsgType;
   FForce:= bForce;
   FLogFile:= bLogFile;
-  FThread.Synchronize(FThread, @LogWriteInTheThread);
+  TThread.Synchronize(FThread, @LogWriteInTheThread);
 end;
 
 end.
