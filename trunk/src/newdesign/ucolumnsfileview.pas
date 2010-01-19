@@ -1870,7 +1870,6 @@ begin
         begin
           edtRename.Visible:=False;
           LastActive := NewFileName;
-          Reload;
           SetFocus;
         end
         else
