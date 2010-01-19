@@ -508,7 +508,6 @@ uses
   uFileSourceOperationOptions,
   uFileSourceCalcStatisticsOperation,
   uFileSystemFile,
-  uFileSystemFileSource,
   fColumnsSetConf,
   uKeyboard,
   uFileSourceUtil
@@ -1838,7 +1837,6 @@ procedure TColumnsFileView.edtRenameKeyDown(Sender: TObject; var Key: Word;
 var
   NewFileName: String;
   OldFileNameAbsolute: String;
-  NewFileNameAbsolute: String;
 begin
   case Key of
     VK_ESCAPE:
@@ -1855,25 +1853,21 @@ begin
 
         NewFileName         := edtRename.Text;
         OldFileNameAbsolute := edtRename.Hint;
-        NewFileNameAbsolute := ExtractFilePath(OldFileNameAbsolute) + NewFileName;
 
-        if (FileSource.IsClass(TFileSystemFileSource)) and mbFileExists(NewFileNameAbsolute) then
-        begin
-          if MsgBox(Format(rsMsgFileExistsRwrt, [NewFileName]),
-                    [msmbYes, msmbNo], msmbYes, msmbNo) = mmrNo then
+        try
+          if RenameFile(FileSource, ActiveFile, NewFileName, True) = True then
           begin
-            Exit;
-          end;
-        end;
+            edtRename.Visible:=False;
+            LastActive := NewFileName;
+            SetFocus;
+          end
+          else
+            msgError(Format(rsMsgErrRename, [ExtractFileName(OldFileNameAbsolute), NewFileName]));
 
-        if RenameFile(FileSource, ActiveFile, NewFileNameAbsolute, True) = True then
-        begin
-          edtRename.Visible:=False;
-          LastActive := NewFileName;
-          SetFocus;
-        end
-        else
-          msgError(Format(rsMsgErrRename, [ExtractFileName(OldFileNameAbsolute), NewFileName]));
+        except
+          on e: EInvalidFileProperty do
+            msgError(Format(rsMsgErrRename + ':' + LineEnding + '%s (%s)', [ExtractFileName(OldFileNameAbsolute), NewFileName, rsMsgInvalidFileName, e.Message]));
+        end;
       end;
 
 {$IFDEF LCLGTK2}
