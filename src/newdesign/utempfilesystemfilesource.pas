@@ -66,27 +66,6 @@ implementation
 uses
   uOSUtils, uDCUtils, uFileProcs;
 
-function GetTempDirName: String;
-const
-  MaxTries = 100;
-var
-  sDir: String;
-  TryNumber: Integer = 0;
-begin
-  Result := GetTempDir + '_dc';
-
-  repeat
-    sDir := Result + IntToStr(Random(MaxInt)); // or use CreateGUID()
-    Inc(TryNumber, 1);
-    if TryNumber = MaxTries then
-      Exit('');
-  until not mbDirectoryExists(sDir);
-
-  Result := IncludeTrailingPathDelimiter(sDir);
-end;
-
-// ----------------------------------------------------------------------------
-
 constructor TTempFileSystemFileSource.Create;
 begin
   Create('');
@@ -99,7 +78,7 @@ begin
   if (aPath <> EmptyStr) and mbDirectoryExists(aPath) then
     FTempRootDir := aPath
   else
-    FTempRootDir := GetTempDirName;
+    FTempRootDir := GetTempName(GetTempDir + '_dc');
 
   if (FTempRootDir = EmptyStr) or (mbForceDirectory(FTempRootDir) = False) then
   begin
@@ -168,4 +147,4 @@ begin
 end;
 
 end.
-
+
