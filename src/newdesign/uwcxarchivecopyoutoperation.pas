@@ -70,7 +70,7 @@ type
 implementation
 
 uses
-  LCLProc, Masks, FileUtil, contnrs, uOSUtils, uDCUtils, WcxPlugin,
+  LCLProc, Masks, FileUtil, contnrs, uOSUtils, uDCUtils, uShowMsg, WcxPlugin,
   uFileSourceOperationUI, uWCXmodule, uFileProcs, uLng, uDateTimeUtils, uTypes;
 
 // ----------------------------------------------------------------------------
@@ -82,18 +82,25 @@ var
   // (There may be other running concurrently, but only one may report progress.)
   WcxCopyOutOperation: TWcxArchiveCopyOutOperation = nil;
 
-function ChangeVolProc(ArcName : Pchar; Mode:Longint):Longint; stdcall;
+function ChangeVolProc(ArcName : PAnsiChar; Mode:Longint):Longint; stdcall;
+var
+  sArcName: UTF8String;
 begin
-{ // Use operation UI for this.
-
+  Result:= 1;
+  sArcName:= SysToUTF8(ArcName);
   case Mode of
-    PK_VOL_ASK:
-      ArcName := PChar(UTF8ToSys(Dialogs.InputBox('Double Commander', rsMsgSelLocNextVol, SysToUTF8(ArcName))));
-    PK_VOL_NOTIFY:
-      ShowMessage(rsMsgNextVolUnpack);
+  PK_VOL_ASK:
+    begin
+      // Use operation UI for this?
+      if ShowInputQuery('Double Commander', rsMsgSelLocNextVol, sArcName) then
+        StrPLCopy(ArcName, UTF8ToSys(sArcName), MAX_PATH)
+      else
+        Result := 0; // Abort operation
+    end;
+  PK_VOL_NOTIFY:
+    if log_arc_op in gLogOptions then
+      LogWrite(rsMsgNextVolUnpack + #32 + sArcName);
   end;
-}
-  Result := 0;
 end;
 
 function ProcessDataProc(FileName: PChar; Size: Integer): Integer; stdcall;
