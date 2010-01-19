@@ -157,20 +157,22 @@ end;
 function RenameFile(aFileSource: IFileSource; const aFile: TFile;
                     const NewFileName: UTF8String; Interactive: Boolean): Boolean;
 var
-  aFiles: TFiles;
+  aFiles: TFiles = nil;
   Operation: TFileSourceSetFilePropertyOperation = nil;
   NewProperties: TFileProperties;
   UserInterface: TFileSourceOperationMessageBoxesUI = nil;
 begin
   Result:= False;
-  aFiles := aFileSource.CreateFiles;
-  aFiles.Add(aFile.Clone);
 
   if fsoSetFileProperty in aFileSource.GetOperationsTypes then
   begin
     FillByte(NewProperties, SizeOf(NewProperties), 0);
     NewProperties[fpName] := TFileNameProperty.Create(NewFileName);
     try
+      aFiles := aFileSource.CreateFiles;
+      aFiles.Path := aFile.Path;
+      aFiles.Add(aFile.Clone);
+
       Operation := aFileSource.CreateSetFilePropertyOperation(
                      aFiles,
                      NewProperties) as TFileSourceSetFilePropertyOperation;
@@ -197,10 +199,9 @@ begin
       FreeThenNil(NewProperties[fpName]);
       FreeThenNil(Operation);
       FreeThenNil(UserInterface);
+      FreeThenNil(aFiles);
     end;
   end;
-
-  FreeThenNil(aFiles);
 end;
 
 end.
