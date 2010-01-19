@@ -734,8 +734,7 @@ begin
     for c:=0 to lsvwFile.Items.Count-1 do
       with lsvwFile.Items do
       begin
-        if RenameFile(FFileSource, TFile(Item[c].Data),
-            Item[c].SubItems[1]+pathdelim+Item[c].SubItems[0], True) = True then
+        if RenameFile(FFileSource, TFile(Item[c].Data), Item[c].SubItems[0], True) = True then
         begin
           Item[c].Caption          := Item[c].SubItems[0]; // write the new name to table
           TFile(Item[c].Data).Name := Item[c].SubItems[0]; // and to the file object
@@ -1020,4 +1019,4 @@ end;
 initialization
  {$I fmultirename.lrs}
 end.
-
+

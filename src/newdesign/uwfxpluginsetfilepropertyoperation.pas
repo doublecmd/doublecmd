@@ -26,7 +26,7 @@ type
     FSymLinkOption: TFileSourceOperationOptionSymLink;
 
   protected
-    function SetNewProperty(aFile: TFile; aTemplateProperty: TFileProperty): Boolean; override;
+    function SetNewProperty(aFile: TFile; aTemplateProperty: TFileProperty): TSetFilePropertyResult; override;
 
   public
     constructor Create(aTargetFileSource: IFileSource;
@@ -136,20 +136,23 @@ begin
 end;
 
 function TWfxPluginSetFilePropertyOperation.SetNewProperty(aFile: TFile;
-                                                           aTemplateProperty: TFileProperty): Boolean;
+                                                           aTemplateProperty: TFileProperty): TSetFilePropertyResult;
 var
   FileName: UTF8String;
   NewAttributes: TFileAttrs;
   ftTime: TFileTime;
 begin
-  Result := True;
+  Result := sfprSuccess;
 
   case aTemplateProperty.GetID of
     fpName:
       if (aTemplateProperty as TFileNameProperty).Value <> aFile.Name then
       begin
-        Result := WfxRenameFile(FWfxPluginFileSource, aFile, (aTemplateProperty as TFileNameProperty).Value);
-      end;
+        if not WfxRenameFile(FWfxPluginFileSource, aFile, (aTemplateProperty as TFileNameProperty).Value) then
+          Result := sfprError;
+      end
+      else
+        Result := sfprSkipped;
 
     fpAttributes:
       if (aTemplateProperty as TFileAttributesProperty).Value <>
@@ -160,12 +163,20 @@ begin
 
         with FWfxPluginFileSource.WfxModule do
           if aTemplateProperty is TNtfsFileAttributesProperty then
-            Result:= WfxSetAttr(FileName, NewAttributes)
+          begin
+            if not WfxSetAttr(FileName, NewAttributes) then
+              Result := sfprError;
+          end
           else if aTemplateProperty is TUnixFileAttributesProperty then
-            Result:= WfxExecuteFile(0, FileName, 'chmod' + #32 + DecToOct(NewAttributes)) = FS_EXEC_OK
+          begin
+            if WfxExecuteFile(0, FileName, 'chmod' + #32 + DecToOct(NewAttributes)) <> FS_EXEC_OK then
+              Result := sfprError;
+          end
           else
             raise Exception.Create('Unsupported file attributes type');
-      end;
+      end
+      else
+        Result := sfprSkipped;
 
     fpModificationTime:
       if (aTemplateProperty as TFileModificationDateTimeProperty).Value <>
@@ -173,8 +184,11 @@ begin
       begin
         ftTime := DateTimeToWfxFileTime((aTemplateProperty as TFileModificationDateTimeProperty).Value);
         with FWfxPluginFileSource.WfxModule do
-          Result := WfxSetTime(aFile.FullPath, nil, nil, @ftTime);
-      end;
+          if not WfxSetTime(aFile.FullPath, nil, nil, @ftTime) then
+            Result := sfprError;
+      end
+      else
+        Result := sfprSkipped;
 
     fpCreationTime:
       if (aTemplateProperty as TFileCreationDateTimeProperty).Value <>
@@ -182,8 +196,11 @@ begin
       begin
         ftTime := DateTimeToWfxFileTime((aTemplateProperty as TFileCreationDateTimeProperty).Value);
         with FWfxPluginFileSource.WfxModule do
-          Result := WfxSetTime(aFile.FullPath, @ftTime, nil, nil);
-      end;
+          if not WfxSetTime(aFile.FullPath, @ftTime, nil, nil) then
+            Result := sfprError;
+      end
+      else
+        Result := sfprSkipped;
 
     fpLastAccessTime:
       if (aTemplateProperty as TFileLastAccessDateTimeProperty).Value <>
@@ -191,8 +208,11 @@ begin
       begin
         ftTime := DateTimeToWfxFileTime((aTemplateProperty as TFileLastAccessDateTimeProperty).Value);
         with FWfxPluginFileSource.WfxModule do
-          Result := WfxSetTime(aFile.FullPath, nil, @ftTime, nil);
-      end;
+          if not WfxSetTime(aFile.FullPath, nil, @ftTime, nil) then
+            Result := sfprError;
+      end
+      else
+        Result := sfprSkipped;
 
     else
       raise Exception.Create('Trying to set unsupported property');

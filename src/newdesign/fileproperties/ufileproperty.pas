@@ -23,6 +23,8 @@ type
 
   TFilePropertiesDescriptions = array of String;//TFileProperty;
 
+  EInvalidFileProperty = class(Exception);
+
   // Forward declarations.
   IFilePropertyFormatter = interface;
 
@@ -67,6 +69,8 @@ type
   private
     FName: UTF8String;   // only name, no path
 
+    procedure SetName(NewName: UTF8String);
+
   public
     constructor Create; override;
     constructor Create(Name: UTF8String); virtual; overload;
@@ -79,7 +83,7 @@ type
 
     function Format(Formatter: IFilePropertyFormatter): String; override;
 
-    property Value: UTF8String read FName write FName;
+    property Value: UTF8String read FName write SetName;
   end;
 
   TFileSizeProperty = class(TFileProperty)
@@ -339,6 +343,17 @@ end;
 function TFileNameProperty.Format(Formatter: IFilePropertyFormatter): String;
 begin
   Result := Formatter.FormatFileName(Self);
+end;
+
+procedure TFileNameProperty.SetName(NewName: UTF8String);
+var
+  i: Integer;
+begin
+  for i := 1 to Length(NewName) do
+    if NewName[i] in AllowDirectorySeparators then
+      raise EInvalidFileProperty.Create('Name cannot have directory separators');
+
+  FName := NewName;
 end;
 
 // ----------------------------------------------------------------------------

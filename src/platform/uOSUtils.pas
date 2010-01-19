@@ -234,7 +234,7 @@ function mbDeleteToTrash(const FileName: UTF8String): Boolean;
 // 14.05.2009 - this funtion checks 'gvfs-trash' BEFORE deleting. Need for various linux disributives.
 function mbCheckTrash(sPath: UTF8String): Boolean;
 // ----------------
-function mbRenameFile(const OldName, NewName : UTF8String): Boolean;
+function mbRenameFile(const OldName: UTF8String; NewName: UTF8String): Boolean;
 function mbFileSize(const FileName: UTF8String): Int64;
 function FileFlush(Handle: THandle): Boolean;
 { Directory handling functions}
@@ -1535,7 +1535,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= fpUnLink(FileName) >= 0;
+  Result:= fpUnLink(FileName) = 0;
 end;
 {$ENDIF}
 
@@ -1621,7 +1621,7 @@ end;
 
 // --------------------------------------------------------------------------------
 
-function mbRenameFile(const OldName, NewName: UTF8String): Boolean;
+function mbRenameFile(const OldName: UTF8String; NewName: UTF8String): Boolean;
 {$IFDEF MSWINDOWS}
 var
   wOldName,
@@ -1632,8 +1632,83 @@ begin
   Result:= MoveFileExW(PWChar(wOldName), PWChar(wNewName), MOVEFILE_REPLACE_EXISTING);
 end;
 {$ELSE}
+var
+  tmpFileName: UTF8String;
+  OldFileStat, NewFileStat: stat;
 begin
-  Result:= BaseUnix.FpRename(OldNAme, NewName) >= 0;
+  if GetPathType(NewName) <> ptAbsolute then
+    NewName := ExtractFilePath(OldName) + NewName;
+
+  if OldName = NewName then
+    Exit(True);
+
+  if fpLstat(OldName, OldFileStat) <> 0 then
+    Exit(False);
+
+  // Check if target file exists.
+  if fpLstat(NewName, NewFileStat) = 0 then
+  begin
+    // Check if source and target are the same files (same inode and same device).
+    if (OldFileStat.st_ino = NewFileStat.st_ino) and
+       (OldFileStat.st_dev = NewFileStat.st_dev) then
+    begin
+      // Check number of links.
+      // If it is 1 then source and target names most probably differ only
+      // by case on a case-insensitive filesystem. Direct rename() in such case
+      // fails on Linux, so we use a temporary file name and rename in two stages.
+      // If number of links is more than 1 then it's enough to simply unlink
+      // the source file, since both files are technically identical.
+      // (On Linux rename() returns success but doesn't do anything
+      // if renaming a file to its hard link.)
+      // We cannot use st_nlink for directories because it means "number of
+      // subdirectories"; hard links to directories are not supported on Linux
+      // or Windows anyway (on MacOSX they are). Therefore we always treat
+      // directories as if they were a single link and rename them using temporary name.
+
+      if (NewFileStat.st_nlink = 1) or BaseUnix.fpS_ISDIR(NewFileStat.st_mode) then
+      begin
+        tmpFileName := GetTempName(OldName);
+
+        if FpRename(OldName, tmpFileName) = 0 then
+        begin
+          if fpLstat(NewName, NewFileStat) = 0 then
+          begin
+            // We have renamed the old file but the new file name still exists,
+            // so this wasn't a single file on a case-insensitive filesystem
+            // accessible by two names that differ by case.
+
+            FpRename(tmpFileName, OldName);  // Restore old file.
+{$IFDEF DARWIN}
+            // If it's a directory with multiple hard links then simply unlink the source.
+            if BaseUnix.fpS_ISDIR(NewFileStat.st_mode) and (NewFileStat.st_nlink > 1) then
+              Result := (fpUnLink(OldName) = 0)
+            else
+{$ENDIF}
+            Result := False;
+          end
+          else if FpRename(tmpFileName, NewName) = 0 then
+          begin
+            Result := True;
+          end
+          else
+          begin
+            FpRename(tmpFileName, OldName);  // Restore old file.
+            Result := False;
+          end;
+        end
+        else
+          Result := False;
+      end
+      else
+      begin
+        // Multiple links - simply unlink the source file.
+        Result := (fpUnLink(OldName) = 0);
+      end;
+
+      Exit;
+    end;
+  end;
+  Result := FpRename(OldName, NewName) = 0;
 end;
 {$ENDIF}
 
@@ -2051,4 +2126,4 @@ finalization
 
 {$ENDIF}
 
-end.
+end.

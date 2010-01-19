@@ -15,6 +15,8 @@ uses
 
 type
 
+  TSetFilePropertyResult = (sfprSuccess, sfprError, sfprSkipped);
+
   TFileSourceSetFilePropertyOperationStatistics = record
     CurrentFile: String;
     TotalFiles: Int64;
@@ -80,7 +82,7 @@ type
     procedure UpdateStatisticsAtStartTime; override;
 
     procedure SetProperties(aFile: TFile; aTemplateFile: TFile);
-    function SetNewProperty(aFile: TFile; aTemplateProperty: TFileProperty): Boolean; virtual abstract;
+    function SetNewProperty(aFile: TFile; aTemplateProperty: TFileProperty): TSetFilePropertyResult; virtual abstract;
 
     function GetErrorString(aFile: TFile; aProperty: TFileProperty): String;
 
@@ -245,7 +247,7 @@ var
   templateProperty: TFileProperty;
   bRetry: Boolean;
   sMessage, sQuestion: String;
-  Success: Boolean;
+  SetResult: TSetFilePropertyResult;
   {$IFNDEF AssignFileNameProperty}
   TargetName: UTF8String;  // for reporting errors when setting fpName property
   {$ENDIF}
@@ -256,7 +258,7 @@ begin
   begin
     repeat
       bRetry := False;
-      Success := True;
+      SetResult := sfprSuccess;
 
       {$IFNDEF AssignFileNameProperty}
       if prop = fpName then
@@ -265,13 +267,13 @@ begin
         begin
           templateProperty := TFileNameProperty.Create(aTemplateFile.Name);
           TargetName := aTemplateFile.Name;
-          Success := SetNewProperty(aFile, templateProperty);
+          SetResult := SetNewProperty(aFile, templateProperty);
           FreeAndNil(templateProperty);
         end
         else if Assigned(NewProperties[fpName]) then
         begin
           TargetName := (NewProperties[fpName] as TFileNameProperty).Value;
-          Success := SetNewProperty(aFile, NewProperties[fpName]);
+          SetResult := SetNewProperty(aFile, NewProperties[fpName]);
         end;
       end
       else
@@ -287,10 +289,10 @@ begin
 
         // Check if there is a new property to be set.
         if Assigned(templateProperty) then
-          Success := SetNewProperty(aFile, templateProperty);
+          SetResult := SetNewProperty(aFile, templateProperty);
       end;
 
-      if not Success then
+      if SetResult = sfprError then
         begin
           {$IFNDEF AssignFileNameProperty}
           if prop = fpName then
