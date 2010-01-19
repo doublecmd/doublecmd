@@ -59,24 +59,24 @@ type
     cbxUsers: TComboBox;
     edtOctal: TEdit;
     gbOwner: TGroupBox;
-    lblOctal: TLabel;
-    lblAttrBitsStr: TLabel;
-    lblAttrText: TLabel;
-    lblExec: TLabel;
-    lblFile: TLabel;
     lblFileName: TLabel;
-    lblFileName1: TLabel;
     lblFileNameStr: TLabel;
     lblFolder: TLabel;
     lblFolderStr: TLabel;
-    lblAttrGroupStr: TLabel;
-    lblGroupStr: TLabel;
     lblLastAccess: TLabel;
     lblLastAccessStr: TLabel;
     lblLastModif: TLabel;
     lblLastModifStr: TLabel;
     lblLastStChange: TLabel;
     lblLastStChangeStr: TLabel;
+    lblOctal: TLabel;
+    lblAttrBitsStr: TLabel;
+    lblAttrText: TLabel;
+    lblExec: TLabel;
+    lblFileStr: TLabel;
+    lblFile: TLabel;
+    lblAttrGroupStr: TLabel;
+    lblGroupStr: TLabel;
     lblAttrOtherStr: TLabel;
     lblAttrOwnerStr: TLabel;
     lblOwnerStr: TLabel;
@@ -85,11 +85,13 @@ type
     lblSize: TLabel;
     lblSizeStr: TLabel;
     lblSymlink: TLabel;
-    lblSymlinkStr: TLabel;
     lblAttrTextStr: TLabel;
+    lblSymlinkStr: TLabel;
     lblType: TLabel;
     lblTypeStr: TLabel;
     lblWrite: TLabel;
+    pnlCaption: TPanel;
+    pnlData: TPanel;
     pcPageControl: TPageControl;
     tmUpdateFolderSize: TTimer;
     tsProperties: TTabSheet;
@@ -279,7 +281,7 @@ begin
   with fFiles[iIndex] do
   begin
     lblFileName.Caption:= Name;
-    lblFileName1.Caption:= Name;
+    lblFile.Caption:= Name;
     lblFolder.Caption:= Path;
 
     // Size
