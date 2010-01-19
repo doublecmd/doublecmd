@@ -1,12 +1,12 @@
 object frmOptions: TfrmOptions
-  Left = 246
+  Left = 137
   Height = 577
-  Top = 115
-  Width = 704
+  Top = 2
+  Width = 803
   ActiveControl = tvTreeView
   Caption = 'Options'
   ClientHeight = 577
-  ClientWidth = 704
+  ClientWidth = 803
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -18,15 +18,15 @@ object frmOptions: TfrmOptions
     Left = 0
     Height = 43
     Top = 534
-    Width = 704
+    Width = 803
     Align = alBottom
     ClientHeight = 43
-    ClientWidth = 704
+    ClientWidth = 803
     FullRepaint = False
     TabOrder = 1
     object btnOK: TBitBtn
       AnchorSideRight.Control = btnCancel
-      Left = 386
+      Left = 485
       Height = 31
       Top = 5
       Width = 98
@@ -43,7 +43,7 @@ object frmOptions: TfrmOptions
     end
     object btnCancel: TBitBtn
       AnchorSideRight.Control = btnApply
-      Left = 492
+      Left = 591
       Height = 31
       Top = 5
       Width = 98
@@ -60,7 +60,7 @@ object frmOptions: TfrmOptions
     object btnApply: TBitBtn
       AnchorSideRight.Control = Panel1
       AnchorSideRight.Side = asrBottom
-      Left = 598
+      Left = 697
       Height = 31
       Top = 5
       Width = 98
@@ -117,16 +117,16 @@ object frmOptions: TfrmOptions
     Left = 170
     Height = 534
     Top = 0
-    Width = 534
+    Width = 633
     Align = alClient
     ClientHeight = 534
-    ClientWidth = 534
+    ClientWidth = 633
     TabOrder = 2
     object nbNotebook: TNotebook
       Left = 1
       Height = 509
       Top = 24
-      Width = 532
+      Width = 631
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
       PageIndex = 1
@@ -848,7 +848,7 @@ object frmOptions: TfrmOptions
         end
       end
       object pgColor: TPage
-        ClientWidth = 524
+        ClientWidth = 623
         ClientHeight = 501
         object cTextLabel: TLabel
           AnchorSideTop.Control = cbTextColor
@@ -911,24 +911,30 @@ object frmOptions: TfrmOptions
           ParentColor = False
         end
         object cbTextColor: TColorBox
+          AnchorSideRight.Side = asrBottom
           Left = 160
           Height = 22
           Top = 26
-          Width = 100
+          Width = 180
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          Anchors = [akTop, akLeft, akRight]
           ItemHeight = 16
           OnChange = cbColorBoxChange
           OnDropDown = cbColorBoxDropDown
           TabOrder = 0
         end
         object cbBackColor: TColorBox
+          AnchorSideLeft.Control = cbTextColor
           AnchorSideTop.Control = cbTextColor
           AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = cbTextColor
+          AnchorSideRight.Side = asrBottom
           Left = 160
           Height = 22
           Top = 56
-          Width = 100
+          Width = 180
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbColorBoxChange
@@ -941,7 +947,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbTextColor
           AnchorSideBottom.Control = cbTextColor
           AnchorSideBottom.Side = asrBottom
-          Left = 266
+          Left = 346
           Height = 22
           Top = 26
           Width = 28
@@ -958,7 +964,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbBackColor
           AnchorSideBottom.Control = cbBackColor
           AnchorSideBottom.Side = asrBottom
-          Left = 266
+          Left = 346
           Height = 22
           Top = 56
           Width = 28
@@ -970,13 +976,17 @@ object frmOptions: TfrmOptions
           TabOrder = 3
         end
         object cbBackColor2: TColorBox
+          AnchorSideLeft.Control = cbTextColor
           AnchorSideTop.Control = cbBackColor
           AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = cbTextColor
+          AnchorSideRight.Side = asrBottom
           Left = 160
           Height = 22
           Top = 86
-          Width = 100
+          Width = 180
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbColorBoxChange
@@ -984,13 +994,17 @@ object frmOptions: TfrmOptions
           TabOrder = 4
         end
         object cbMarkColor: TColorBox
+          AnchorSideLeft.Control = cbTextColor
           AnchorSideTop.Control = cbBackColor2
           AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = cbTextColor
+          AnchorSideRight.Side = asrBottom
           Left = 160
           Height = 22
           Top = 116
-          Width = 100
+          Width = 180
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbColorBoxChange
@@ -998,13 +1012,17 @@ object frmOptions: TfrmOptions
           TabOrder = 6
         end
         object cbCursorColor: TColorBox
+          AnchorSideLeft.Control = cbTextColor
           AnchorSideTop.Control = cbMarkColor
           AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = cbTextColor
+          AnchorSideRight.Side = asrBottom
           Left = 160
           Height = 22
           Top = 146
-          Width = 100
+          Width = 180
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbColorBoxChange
@@ -1012,13 +1030,17 @@ object frmOptions: TfrmOptions
           TabOrder = 8
         end
         object cbCursorText: TColorBox
+          AnchorSideLeft.Control = cbTextColor
           AnchorSideTop.Control = cbCursorColor
           AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = cbTextColor
+          AnchorSideRight.Side = asrBottom
           Left = 160
           Height = 22
           Top = 176
-          Width = 100
+          Width = 180
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+          Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbColorBoxChange
@@ -1031,7 +1053,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbMarkColor
           AnchorSideBottom.Control = cbMarkColor
           AnchorSideBottom.Side = asrBottom
-          Left = 266
+          Left = 346
           Height = 22
           Top = 116
           Width = 28
@@ -1048,7 +1070,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbCursorColor
           AnchorSideBottom.Control = cbCursorColor
           AnchorSideBottom.Side = asrBottom
-          Left = 266
+          Left = 346
           Height = 22
           Top = 146
           Width = 28
@@ -1065,7 +1087,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbCursorText
           AnchorSideBottom.Control = cbCursorText
           AnchorSideBottom.Side = asrBottom
-          Left = 266
+          Left = 346
           Height = 22
           Top = 176
           Width = 28
@@ -1082,7 +1104,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbBackColor2
           AnchorSideBottom.Control = cbBackColor2
           AnchorSideBottom.Side = asrBottom
-          Left = 266
+          Left = 346
           Height = 22
           Top = 86
           Width = 28
@@ -1096,23 +1118,26 @@ object frmOptions: TfrmOptions
         object gbExample: TGroupBox
           AnchorSideLeft.Control = btnForeColor
           AnchorSideLeft.Side = asrBottom
-          Left = 304
+          AnchorSideRight.Control = pgColor
+          AnchorSideRight.Side = asrBottom
+          Left = 384
           Height = 172
           Top = 26
-          Width = 209
+          Width = 229
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
+          BorderSpacing.Right = 10
           Caption = 'Example'
           ChildSizing.LeftRightSpacing = 6
           ChildSizing.TopBottomSpacing = 6
           ClientHeight = 154
-          ClientWidth = 205
+          ClientWidth = 225
           TabOrder = 12
           object pbExample: TPaintBox
             Left = 6
             Height = 142
             Top = 6
-            Width = 193
+            Width = 213
             Align = alClient
             OnPaint = pbExamplePaint
           end
@@ -1121,9 +1146,9 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbCursorText
           AnchorSideTop.Side = asrBottom
           Left = 10
-          Height = 22
+          Height = 17
           Top = 210
-          Width = 160
+          Width = 127
           BorderSpacing.Top = 12
           Caption = 'Use Inverted Selection'
           OnChange = cbbUseInvertedSelectionChange
@@ -1132,28 +1157,29 @@ object frmOptions: TfrmOptions
         object tbInactivePanelBrightness: TTrackBar
           AnchorSideLeft.Control = lblInactivePanelBrightness
           AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = lblInactivePanelBrightness
-          AnchorSideTop.Side = asrCenter
-          Left = 226
+          AnchorSideTop.Control = cbbUseInvertedSelection
+          AnchorSideTop.Side = asrBottom
+          Left = 176
           Height = 46
-          Top = 226
-          Width = 216
+          Top = 233
+          Width = 298
           Max = 100
           PageSize = 10
           Position = 0
           ScalePos = trRight
+          Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 8
+          BorderSpacing.Top = 6
           TabOrder = 14
         end
         object lblInactivePanelBrightness: TLabel
           AnchorSideLeft.Control = cbbUseInvertedSelection
-          AnchorSideTop.Control = cbbUseInvertedSelection
-          AnchorSideTop.Side = asrBottom
+          AnchorSideTop.Control = tbInactivePanelBrightness
+          AnchorSideTop.Side = asrCenter
           Left = 10
-          Height = 19
-          Top = 240
-          Width = 208
-          BorderSpacing.Top = 8
+          Height = 14
+          Top = 249
+          Width = 158
           Caption = 'Brightness level of inactive panel'
           ParentColor = False
         end
@@ -1747,7 +1773,7 @@ object frmOptions: TfrmOptions
         end
       end
       object pgFileTypesColors: TPage
-        ClientWidth = 524
+        ClientWidth = 623
         ClientHeight = 501
         object gbFileTypesColors: TGroupBox
           AnchorSideLeft.Control = pgFileTypesColors
@@ -1759,7 +1785,7 @@ object frmOptions: TfrmOptions
           Left = 8
           Height = 487
           Top = 6
-          Width = 508
+          Width = 607
           Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Left = 8
           BorderSpacing.Top = 6
@@ -1767,14 +1793,14 @@ object frmOptions: TfrmOptions
           BorderSpacing.Bottom = 8
           Caption = 'File types colors'
           ClientHeight = 469
-          ClientWidth = 504
+          ClientWidth = 603
           TabOrder = 0
           object lblCategoryName: TLabel
             AnchorSideTop.Control = edtCategoryName
             AnchorSideTop.Side = asrCenter
             Left = 12
             Height = 14
-            Top = 242
+            Top = 241
             Width = 79
             Caption = 'Category name:'
             ParentColor = False
@@ -1784,7 +1810,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrCenter
             Left = 12
             Height = 14
-            Top = 273
+            Top = 270
             Width = 77
             Caption = 'Category mask:'
             ParentColor = False
@@ -1794,7 +1820,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrCenter
             Left = 12
             Height = 14
-            Top = 335
+            Top = 329
             Width = 76
             Caption = 'Category color:'
             ParentColor = False
@@ -1804,7 +1830,7 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrCenter
             Left = 12
             Height = 14
-            Top = 304
+            Top = 299
             Width = 100
             Caption = 'Category attributes:'
             ParentColor = False
@@ -1815,9 +1841,9 @@ object frmOptions: TfrmOptions
             AnchorSideRight.Control = lbCategories
             AnchorSideRight.Side = asrBottom
             Left = 174
-            Height = 23
+            Height = 21
             Top = 238
-            Width = 322
+            Width = 421
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Top = 12
             TabOrder = 0
@@ -1827,9 +1853,9 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = btnSearchTemplate
             Left = 174
-            Height = 23
-            Top = 269
-            Width = 293
+            Height = 21
+            Top = 267
+            Width = 392
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Top = 8
             BorderSpacing.Right = 6
@@ -1838,12 +1864,15 @@ object frmOptions: TfrmOptions
           object cbCategoryColor: TColorBox
             AnchorSideTop.Control = edtCategoryAttr
             AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = btnCategoryColor
             Left = 174
             Height = 22
-            Top = 331
-            Width = 140
+            Top = 325
+            Width = 387
             Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
+            Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Top = 8
+            BorderSpacing.Right = 6
             ItemHeight = 16
             OnChange = cbCategoryColorChange
             OnDropDown = cbColorBoxDropDown
@@ -1853,10 +1882,10 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbCategoryColor
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = bbtnDeleteCategory
-            Left = 214
+            Left = 253
             Height = 32
-            Top = 365
-            Width = 90
+            Top = 359
+            Width = 110
             Anchors = [akTop, akRight]
             BorderSpacing.Top = 12
             BorderSpacing.Right = 6
@@ -1869,10 +1898,10 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Control = cbCategoryColor
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = bbtnApplyCategory
-            Left = 310
+            Left = 369
             Height = 32
-            Top = 365
-            Width = 90
+            Top = 359
+            Width = 110
             Anchors = [akTop, akRight]
             BorderSpacing.Top = 12
             BorderSpacing.Right = 6
@@ -1882,14 +1911,17 @@ object frmOptions: TfrmOptions
             TabOrder = 4
           end
           object btnCategoryColor: TButton
+            AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = cbCategoryColor
+            AnchorSideRight.Control = edtCategoryAttr
+            AnchorSideRight.Side = asrBottom
             AnchorSideBottom.Control = cbCategoryColor
             AnchorSideBottom.Side = asrBottom
-            Left = 318
+            Left = 567
             Height = 22
-            Top = 331
+            Top = 325
             Width = 28
-            Anchors = [akTop, akLeft, akBottom]
+            Anchors = [akTop, akRight, akBottom]
             BorderSpacing.InnerBorder = 4
             Caption = '>>'
             OnClick = btnCategoryColorClick
@@ -1902,7 +1934,7 @@ object frmOptions: TfrmOptions
             Left = 12
             Height = 220
             Top = 6
-            Width = 484
+            Width = 583
             Anchors = [akTop, akLeft, akRight, akBottom]
             BorderSpacing.Top = 6
             BorderSpacing.Right = 8
@@ -1917,10 +1949,10 @@ object frmOptions: TfrmOptions
             AnchorSideTop.Side = asrBottom
             AnchorSideRight.Control = lbCategories
             AnchorSideRight.Side = asrBottom
-            Left = 406
+            Left = 485
             Height = 32
-            Top = 365
-            Width = 90
+            Top = 359
+            Width = 110
             Anchors = [akTop, akRight]
             BorderSpacing.Top = 12
             Caption = 'Apply'
@@ -1934,9 +1966,9 @@ object frmOptions: TfrmOptions
             AnchorSideRight.Control = lbCategories
             AnchorSideRight.Side = asrBottom
             Left = 174
-            Height = 23
-            Top = 300
-            Width = 322
+            Height = 21
+            Top = 296
+            Width = 421
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Top = 8
             TabOrder = 8
@@ -1947,10 +1979,10 @@ object frmOptions: TfrmOptions
             AnchorSideRight.Side = asrBottom
             AnchorSideBottom.Control = edtCategoryMask
             AnchorSideBottom.Side = asrBottom
-            Left = 473
-            Height = 23
+            Left = 572
+            Height = 21
             Hint = 'Template...'
-            Top = 269
+            Top = 267
             Width = 23
             Anchors = [akTop, akRight, akBottom]
             Glyph.Data = {
@@ -3448,7 +3480,7 @@ object frmOptions: TfrmOptions
       Left = 1
       Height = 23
       Top = 1
-      Width = 532
+      Width = 631
       Align = alTop
       Color = clActiveCaption
       Font.Color = clCaptionText
