@@ -25,7 +25,7 @@ uses
 
 constructor TFileSystemListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
-  FFiles := TFileSystemFiles.Create;
+  FFiles := TFileSystemFiles.Create(aPath);
   inherited Create(aFileSource, aPath);
 end;
 
@@ -36,7 +36,6 @@ var
   IsRootPath: Boolean;
 begin
   FFiles.Clear;
-  FFiles.Path := Path;
 
   IsRootPath := FileSource.IsPathAtRoot(Path);
 
@@ -47,8 +46,7 @@ begin
 
     if not IsRootPath then
     begin
-      AFile := TFileSystemFile.Create;
-      AFile.Path := Path;
+      AFile := TFileSystemFile.Create(Path);
       AFile.Name := '..';
       AFile.Attributes := faFolder;
       FFiles.Add(AFile);
@@ -64,8 +62,7 @@ begin
     if (sr.Name='..') and IsRootPath then
       Continue;
 
-    AFile := TFileSystemFile.Create(sr);
-    AFile.Path := Path;
+    AFile := TFileSystemFile.Create(Path, sr);
     FFiles.Add(AFile);
 
   until FindNextEx(sr)<>0;
@@ -73,4 +70,4 @@ begin
 end;
 
 end.
-
+

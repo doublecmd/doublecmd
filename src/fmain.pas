@@ -851,14 +851,13 @@ begin
 
   if Assigned(TargetFileView) then
   try
-    Files := TFileSystemFiles.Create;
-    FileNamesList := TStringList.Create;
-
     // fill file list by files
+    FileNamesList := TStringList.Create;
     for I := Low(FileNames) to High(FileNames) do
       FileNamesList.Add(FileNames[I]);
 
-    (Files as TFileSystemFiles).LoadFromFileNames(FileNamesList);
+    Files := TFileSystemFiles.CreateFromFiles(
+        ExtractFilePath(FileNames[Low(FileNames)]), FileNamesList);
 
     GetCursorPos(Point);
 
@@ -3470,4 +3469,4 @@ end;
 
 initialization
  {$I fmain.lrs}
-end.
+end.

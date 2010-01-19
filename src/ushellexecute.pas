@@ -477,8 +477,7 @@ begin
 
   // Executing files directly only works for FileSystem.
 
-  aFile := TFileSystemFile.Create;
-  aFile.Path := ExtractFilePath(sFileName);
+  aFile := TFileSystemFile.Create(ExtractFilePath(sFileName));
   aFile.Name := ExtractFileName(sFileName);
 
   sCommand:= gExts.GetExtActionCmd(aFile, sCmd);
@@ -496,4 +495,4 @@ begin
 end;
 
 end.
-
+

@@ -27,7 +27,7 @@ uses
 
 constructor TVfsListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
-  FFiles := TVfsFiles.Create;
+  FFiles := TVfsFiles.Create(aPath);
   FVfsFileSource := aFileSource as IVfsFileSource;
   inherited Create(aFileSource, aPath);
 end;
@@ -38,14 +38,12 @@ var
   aFile: TVfsFile;
 begin
   FFiles.Clear;
-  FFiles.Path := IncludeTrailingPathDelimiter(Path);
 
   with FVfsFileSource do
   for I := 0 to VfsFileList.Count - 1 do
     begin
-      aFile := TVfsFile.Create;
+      aFile := TVfsFile.Create(Path);
       aFile.Name:= VfsFileList.Name[I];
-      aFile.Path := Path;
       //aFile.ModificationTime:= FileDateToDateTime(mbFileAge(VfsFileList.FileName[I]));
       FFiles.Add(aFile);
     end;

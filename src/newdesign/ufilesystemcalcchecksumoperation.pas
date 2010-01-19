@@ -197,7 +197,7 @@ var
   FileName: String;
   Entry: TChecksumEntry;
 begin
-  FFullFilesTree := TFileSystemFiles.Create;
+  FFullFilesTree := TFileSystemFiles.Create(Files.Path);
   FChecksumsList.Clear;
   for CurrentFileIndex := 0 to Files.Count - 1 do
   begin
@@ -211,7 +211,7 @@ begin
     for I := 0 to FCheckSumFile.Count - 1 do
     begin
       FileName := aFile.Path + Copy(FCheckSumFile.ValueFromIndex[I], 2, MaxInt);
-      aFileToVerify := TFileSystemFile.Create(FileName);
+      aFileToVerify := TFileSystemFile.CreateFromFile(FileName);
       try
         if not (aFileToVerify.IsDirectory or aFileToVerify.IsLinkToDirectory) then
         begin

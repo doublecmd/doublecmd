@@ -27,7 +27,7 @@ type
     procedure SetModificationTime(NewTime: TDateTime); virtual;
 
   public
-    constructor Create; override;
+    constructor Create(const APath: String); override;
     destructor Destroy; override;
 
     {en
@@ -47,15 +47,17 @@ type
 
   TVfsFiles = class(TFiles)
   public
-    function CreateObjectOfSameType: TFiles; override;
-    function CreateFileObject: TFile; override;
+    function CreateObjectOfSameType(const APath: String): TFiles; override;
+    function CreateFileObject(const APath: String): TFile; override;
     function Clone: TVfsFiles; override;
   end;
 
 implementation
 
-constructor TVfsFile.Create;
+constructor TVfsFile.Create(const APath: String);
 begin
+  inherited Create(APath);
+
   FSize := TFileSizeProperty.Create;
   FAttributes := TNtfsFileAttributesProperty.Create;
   FModificationTime := TFileModificationDateTimeProperty.Create;
@@ -75,12 +77,12 @@ begin
   if Assigned(FModificationTime) then
     FreeAndNil(FModificationTime);
 
-  inherited;
+  inherited Destroy;
 end;
 
 function TVfsFile.Clone: TVfsFile;
 begin
-  Result := TVfsFile.Create;
+  Result := TVfsFile.Create(Path);
   CloneTo(Result);
 end;
 
@@ -137,21 +139,21 @@ end;
 
 { TVfsFiles }
 
-function TVfsFiles.CreateObjectOfSameType: TFiles;
+function TVfsFiles.CreateObjectOfSameType(const APath: String): TFiles;
 begin
-  Result:= TVfsFiles.Create;
+  Result:= TVfsFiles.Create(APath);
 end;
 
-function TVfsFiles.CreateFileObject: TFile;
+function TVfsFiles.CreateFileObject(const APath: String): TFile;
 begin
-  Result:= TVfsFile.Create;
+  Result:= TVfsFile.Create(APath);
 end;
 
 function TVfsFiles.Clone: TVfsFiles;
 begin
-  Result:= TVfsFiles.Create;
+  Result:= TVfsFiles.Create(Path);
   CloneTo(Result);
 end;
 
 end.
-
+
