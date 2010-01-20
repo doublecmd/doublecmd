@@ -1093,11 +1093,8 @@ end;
 procedure TColumnsFileView.dgPanelShowHint(Sender: TObject; HintInfo: PHintInfo);
 var
   AFile: TColumnsViewFile;
-  iCol, iRow: Integer;
   sHint: UTF8String;
 begin
-  with HintInfo^.CursorPos do
-  dgPanel.MouseToCell(X, Y, iCol, iRow);
   with dgPanel do
   AFile := FFiles[HintRowIndex - FixedRows];
   if not AFile.TheFile.IsDirectory then
@@ -3579,7 +3576,6 @@ var
   ExpectedButton: TShiftStateEnum;
   iCol, iRow: Integer;
   aRect: TRect;
-  sHint: UTF8String;
 begin
   inherited MouseMove(Shift, X, Y);
 
