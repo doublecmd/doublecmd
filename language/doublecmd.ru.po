@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-01-19 18:55+0300\n"
+"PO-Revision-Date: 2010-01-20 20:49+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2622,6 +2622,10 @@ msgstr "Показывать сетку в файловой панели"
 msgid " Show icons to the left of the filename "
 msgstr " Показ значков, связанных с типом файлов "
 
+#: TFRMOPTIONS.GBSHOWTOOLTIP.CAPTION
+msgid "Show tool tip"
+msgstr "Показывать всплывающие подсказки"
+
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
 msgstr "Заголовки вкладок"
@@ -2818,6 +2822,14 @@ msgstr "Отключен"
 #: TFRMOPTIONS.RBPROGRAMDIR.CAPTION
 msgid "Program directory (portable version)"
 msgstr "Каталог программы (portable version)"
+
+#: TFRMOPTIONS.RBTOOLTIPALLFILES.CAPTION
+msgid "Show tool tip for all files in file panel"
+msgstr "Для всех файлов в файловой панели"
+
+#: TFRMOPTIONS.RBTOOLTIPONLYLARGE.CAPTION
+msgid "Show tool tip for files in file panel if truncated"
+msgstr "Для файлов с именами не помещающимися на панели"
 
 #: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
 msgid "Use memory mapping for search text in files"

@@ -2620,6 +2620,10 @@ msgstr "Відображати сітку для панелі"
 msgid " Show icons to the left of the filename "
 msgstr ""
 
+#: TFRMOPTIONS.GBSHOWTOOLTIP.CAPTION
+msgid "Show tool tip"
+msgstr ""
+
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
 msgstr "Заголовки вкладок"
@@ -2816,6 +2820,14 @@ msgstr "Відключено"
 #: TFRMOPTIONS.RBPROGRAMDIR.CAPTION
 msgid "Program directory (portable version)"
 msgstr "Каталог програми (portable version)"
+
+#: TFRMOPTIONS.RBTOOLTIPALLFILES.CAPTION
+msgid "Show tool tip for all files in file panel"
+msgstr ""
+
+#: TFRMOPTIONS.RBTOOLTIPONLYLARGE.CAPTION
+msgid "Show tool tip for files in file panel if truncated"
+msgstr ""
 
 #: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
 msgid "Use memory mapping for search text in files"
