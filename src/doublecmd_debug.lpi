@@ -59,7 +59,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="98">
+    <Units Count="99">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -655,6 +655,11 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fMaskInputDlg"/>
       </Unit97>
+      <Unit98>
+        <Filename Value="platform\uinfotooltip.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uInfoToolTip"/>
+      </Unit98>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
