@@ -189,6 +189,7 @@ type
     gbShowIconsMode: TGroupBox;
     gbAutoRefreshEnable: TGroupBox;
     gbAutoRefreshDisable: TGroupBox;
+    gbShowToolTip: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
     lblInactivePanelBrightness: TLabel;
     lblAutoSizeColumn: TLabel;
@@ -196,6 +197,8 @@ type
     lblQuickFilter: TLabel;
     pnlQuickSearch: TPanel;
     pnlQuickFilter: TPanel;
+    rbToolTipOnlyLarge: TRadioButton;
+    rbToolTipAllFiles: TRadioButton;
     rbAltLetterQF: TRadioButton;
     rbCtrlAltLetterQF: TRadioButton;
     rbLetterQF: TRadioButton;
@@ -2239,6 +2242,8 @@ begin
   cbShowWarningMessages.Checked:= gShowWarningMessages;
   cbSpaceMovesDown.Checked:= gSpaceMovesDown;
   cbDirBrackets.Checked:= gDirBrackets;
+  rbToolTipAllFiles.Checked:= (stm_show_for_all in gShowToolTipMode);
+  rbToolTipOnlyLarge.Checked:= (stm_only_large_name in gShowToolTipMode);
 
   { Auto refresh }
   cbWatchFileNameChange.Checked := (watch_file_name_change in gWatchDirs);
@@ -2448,6 +2453,11 @@ begin
   gShowWarningMessages:= cbShowWarningMessages.Checked;
   gSpaceMovesDown:= cbSpaceMovesDown.Checked;
   gDirBrackets:= cbDirBrackets.Checked;
+  gShowToolTipMode:= []; // Reset tool tip show mode
+  if rbToolTipAllFiles.Checked then
+    Include(gShowToolTipMode, stm_show_for_all);
+  if rbToolTipOnlyLarge.Checked then
+    Include(gShowToolTipMode, stm_only_large_name);
 
   { Auto refresh }
   gWatchDirs := []; // Reset watch options
