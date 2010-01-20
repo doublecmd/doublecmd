@@ -58,7 +58,8 @@ type
     StartDrag: Boolean;
     DragStartPoint: TPoint;
     DragRowIndex,
-    DropRowIndex: Integer;
+    DropRowIndex,
+    HintRowIndex: Integer;
     LastMouseButton: TMouseButton; // Mouse button that initiated dragging
     FMouseDown: Boolean; // Used to check if button-up was received after button-down
                          // or after dropping something after dragging with right mouse button
@@ -500,7 +501,7 @@ implementation
 
 uses
   LCLProc, Masks, Dialogs, uLng, uShowMsg, uGlobs, uPixmapManager,
-  uDCUtils, uOSUtils, math, fMain, fMaskInputDlg, uSearchTemplate,
+  uDCUtils, uOSUtils, math, fMain, fMaskInputDlg, uSearchTemplate, uInfoToolTip,
   uFileProperty,
   uFileSourceProperty,
   uFileSourceOperation,
@@ -3179,6 +3180,8 @@ begin
   TitleStyle := tsStandard;
   TabStop := False;
 
+  ShowHint:= True;
+
   UpdateView;
 end;
 
@@ -3547,6 +3550,7 @@ var
   Point: TPoint;
   AFile: TColumnsViewFile;
   ExpectedButton: TShiftStateEnum;
+  iCol, iRow: Integer;
 begin
   inherited MouseMove(Shift, X, Y);
 
@@ -3604,6 +3608,24 @@ begin
           BeginDrag(False);
         end;
       end;
+    end;
+  // Show file info tooltip
+  if ShowHint then
+    begin
+      MouseToCell(X, Y, iCol, iRow);
+      if (iRow <> HintRowIndex) and (iRow >= FixedRows) then
+        begin
+          HintRowIndex:= iRow;
+          Application.CancelHint;
+          with (Parent as TColumnsFileView) do
+          begin
+            AFile := FFiles[HintRowIndex - FixedRows];
+            if AFile.TheFile.IsDirectory then
+              Self.Hint:= EmptyStr
+            else
+              Self.Hint:= GetFileInfoToolTip(FileSource, AFile.TheFile);
+          end;
+        end;
     end;
 end;
 
@@ -4387,4 +4409,4 @@ begin
 end;
 
 end.
-
+
