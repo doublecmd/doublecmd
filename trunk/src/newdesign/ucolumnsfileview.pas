@@ -348,6 +348,7 @@ type
     procedure dgPanelMouseWheelDown(Sender: TObject; Shift: TShiftState;
                                   MousePos: TPoint; var Handled: Boolean);
     procedure dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
+    procedure dgPanelShowHint(Sender: TObject; HintInfo: PHintInfo);
     procedure lblPathClick(Sender: TObject);
     procedure lblPathMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -1086,6 +1087,32 @@ begin
     begin
       OnChangeActiveFile(Self, ActiveFile);
       FLastActiveRow:= aRow;
+    end;
+end;
+
+procedure TColumnsFileView.dgPanelShowHint(Sender: TObject; HintInfo: PHintInfo);
+var
+  AFile: TColumnsViewFile;
+  iCol, iRow: Integer;
+  sHint: UTF8String;
+begin
+  with HintInfo^.CursorPos do
+  dgPanel.MouseToCell(X, Y, iCol, iRow);
+  with dgPanel do
+  AFile := FFiles[HintRowIndex - FixedRows];
+  if not AFile.TheFile.IsDirectory then
+    begin
+      sHint:= GetFileInfoToolTip(FileSource, AFile.TheFile);
+      with HintInfo^ do
+      if (sHint = EmptyStr) and (HintStr = #32) then  // no tooltip
+        HintStr:= EmptyStr
+      else if (sHint <> EmptyStr) then // has tooltip
+        begin
+          if HintStr = #32 then // without name
+            HintStr:= sHint
+          else
+            HintStr:= HintStr + LineEnding + sHint;
+        end;
     end;
 end;
 
@@ -2518,6 +2545,7 @@ begin
   dgPanel.OnMouseWheelUp := @dgPanelMouseWheelUp;
   dgPanel.OnMouseWheelDown := @dgPanelMouseWheelDown;
   dgPanel.OnSelection:= @dgPanelSelection;
+  dgPanel.OnShowHint:= @dgPanelShowHint;
 
   edtSearch.OnChange := @edtSearchChange;
   edtSearch.OnKeyDown := @edtSearchKeyDown;
@@ -3619,26 +3647,19 @@ begin
           aRect:= CellRect(iCol, iRow);
           HintRowIndex:= iRow;
           Application.CancelHint;
-          Self.Hint:= EmptyStr;
+          Self.Hint:= EmptyStr; // don't show by default
           with (Parent as TColumnsFileView) do
           begin
             AFile := FFiles[HintRowIndex - FixedRows];
             iCol:= aRect.Right - aRect.Left - 8;
             if gShowIcons <> sim_none then
               Dec(iCol, gIconsSize);
-            if (iCol) < Canvas.TextWidth(AFile.TheFile.Name) then
+            if (iCol) < Canvas.TextWidth(AFile.TheFile.Name) then // with file name
                 Self.Hint:= AFile.TheFile.Name
-            else if (stm_only_large_name in gShowToolTipMode) then Exit;
-
-            if not AFile.TheFile.IsDirectory then
-              begin
-                sHint:= GetFileInfoToolTip(FileSource, AFile.TheFile);
-                if (sHint <> EmptyStr) then
-                  if Self.Hint = EmptyStr then
-                    Self.Hint:= sHint
-                  else
-                    Self.Hint:= Self.Hint + LineEnding + sHint;
-              end;
+            else if (stm_only_large_name in gShowToolTipMode) then // don't show
+              Exit
+            else if not AFile.TheFile.IsDirectory then // without name
+              Self.Hint:= #32;
           end;
         end;
     end;
