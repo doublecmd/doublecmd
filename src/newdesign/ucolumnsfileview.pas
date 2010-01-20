@@ -1095,6 +1095,7 @@ var
   AFile: TColumnsViewFile;
   sHint: UTF8String;
 begin
+  if HintInfo^.HintStr = EmptyStr then Exit; // don't show
   with dgPanel do
   AFile := FFiles[HintRowIndex - FixedRows];
   if not AFile.TheFile.IsDirectory then

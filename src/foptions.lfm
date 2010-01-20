@@ -3211,6 +3211,49 @@ object frmOptions: TfrmOptions
             TabOrder = 2
           end
         end
+        object gbShowToolTip: TGroupBox
+          AnchorSideLeft.Control = pgMisc
+          AnchorSideTop.Control = gbExtended
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = pgMisc
+          AnchorSideRight.Side = asrBottom
+          Left = 8
+          Height = 64
+          Top = 208
+          Width = 607
+          Anchors = [akTop, akLeft, akRight]
+          AutoSize = True
+          BorderSpacing.Left = 8
+          BorderSpacing.Top = 6
+          BorderSpacing.Right = 8
+          Caption = 'Show tool tip'
+          ChildSizing.LeftRightSpacing = 12
+          ChildSizing.TopBottomSpacing = 6
+          ClientHeight = 46
+          ClientWidth = 603
+          TabOrder = 2
+          object rbToolTipAllFiles: TRadioButton
+            AnchorSideLeft.Control = gbShowToolTip
+            AnchorSideTop.Control = gbShowToolTip
+            Left = 12
+            Height = 17
+            Top = 6
+            Width = 189
+            Caption = 'Show tool tip for all files in file panel'
+            TabOrder = 0
+          end
+          object rbToolTipOnlyLarge: TRadioButton
+            AnchorSideLeft.Control = gbShowToolTip
+            AnchorSideTop.Control = rbToolTipAllFiles
+            AnchorSideTop.Side = asrBottom
+            Left = 12
+            Height = 17
+            Top = 23
+            Width = 235
+            Caption = 'Show tool tip for files in file panel if truncated'
+            TabOrder = 1
+          end
+        end
       end
       object pgAutoRefresh: TPage
         ClientWidth = 524
