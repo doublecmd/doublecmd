@@ -110,10 +110,13 @@ type
     property Value: Int64 read FSize write FSize;
   end;
 
+  { TFileCompressedSizeProperty }
+
   TFileCompressedSizeProperty = class(TFileSizeProperty)
   public
     function Clone: TFileCompressedSizeProperty; override;
 
+    class function GetDescription: String; override;
     class function GetID: TFilePropertyType; override;
   end;
 
@@ -274,6 +277,7 @@ uses
 
 resourcestring
   rsSizeDescription = 'Size';
+  rsCompressedSizeDescription = 'Compressed size';
   rsDateTimeDescription = 'DateTime';
   rsModificationDateTimeDescription = 'Modification date/time';
 
@@ -419,6 +423,11 @@ function TFileCompressedSizeProperty.Clone: TFileCompressedSizeProperty;
 begin
   Result := TFileCompressedSizeProperty.Create;
   CloneTo(Result);
+end;
+
+class function TFileCompressedSizeProperty.GetDescription: String;
+begin
+  Result:= rsCompressedSizeDescription;
 end;
 
 class function TFileCompressedSizeProperty.GetID: TFilePropertyType;

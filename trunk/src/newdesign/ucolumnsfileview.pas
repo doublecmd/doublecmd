@@ -3180,8 +3180,6 @@ begin
   TitleStyle := tsStandard;
   TabStop := False;
 
-  ShowHint:= True;
-
   UpdateView;
 end;
 
@@ -3243,6 +3241,7 @@ begin
   Flat := gInterfaceFlat;
   Color := ColumnsView.DimColor(gBackColor);
   AutoFillColumns:= gAutoFillColumns;
+  ShowHint:= (gShowToolTipMode <> []);
 
   // Calculate row height.
   TempRowHeight := CalculateDefaultRowHeight;
@@ -3551,6 +3550,8 @@ var
   AFile: TColumnsViewFile;
   ExpectedButton: TShiftStateEnum;
   iCol, iRow: Integer;
+  aRect: TRect;
+  sHint: UTF8String;
 begin
   inherited MouseMove(Shift, X, Y);
 
@@ -3615,15 +3616,29 @@ begin
       MouseToCell(X, Y, iCol, iRow);
       if (iRow <> HintRowIndex) and (iRow >= FixedRows) then
         begin
+          aRect:= CellRect(iCol, iRow);
           HintRowIndex:= iRow;
           Application.CancelHint;
+          Self.Hint:= EmptyStr;
           with (Parent as TColumnsFileView) do
           begin
             AFile := FFiles[HintRowIndex - FixedRows];
-            if AFile.TheFile.IsDirectory then
-              Self.Hint:= EmptyStr
-            else
-              Self.Hint:= GetFileInfoToolTip(FileSource, AFile.TheFile);
+            iCol:= aRect.Right - aRect.Left - 8;
+            if gShowIcons <> sim_none then
+              Dec(iCol, gIconsSize);
+            if (iCol) < Canvas.TextWidth(AFile.TheFile.Name) then
+                Self.Hint:= AFile.TheFile.Name
+            else if (stm_only_large_name in gShowToolTipMode) then Exit;
+
+            if not AFile.TheFile.IsDirectory then
+              begin
+                sHint:= GetFileInfoToolTip(FileSource, AFile.TheFile);
+                if (sHint <> EmptyStr) then
+                  if Self.Hint = EmptyStr then
+                    Self.Hint:= sHint
+                  else
+                    Self.Hint:= Self.Hint + LineEnding + sHint;
+              end;
           end;
         end;
     end;
