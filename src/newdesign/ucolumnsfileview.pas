@@ -3641,7 +3641,7 @@ begin
       MouseToCell(X, Y, iCol, iRow);
       if (iRow <> HintRowIndex) and (iRow >= FixedRows) then
         begin
-          aRect:= CellRect(iCol, iRow);
+          aRect:= CellRect(0, iRow);
           HintRowIndex:= iRow;
           Application.CancelHint;
           Self.Hint:= EmptyStr; // don't show by default
@@ -3651,7 +3651,7 @@ begin
             iCol:= aRect.Right - aRect.Left - 8;
             if gShowIcons <> sim_none then
               Dec(iCol, gIconsSize);
-            if (iCol) < Canvas.TextWidth(AFile.TheFile.Name) then // with file name
+            if iCol < Self.Canvas.TextWidth(AFile.TheFile.Name) then // with file name
                 Self.Hint:= AFile.TheFile.Name
             else if (stm_only_large_name in gShowToolTipMode) then // don't show
               Exit
