@@ -43,6 +43,8 @@ type
   TTabsPosition = (tbpos_top, tbpos_bottom);
   { Show icons mode }
   TShowIconsMode = (sim_none, sim_standart, sim_all, sim_all_and_exe);
+  { Show tooltip mode }
+  TShowToolTipMode = set of (stm_show_for_all, stm_only_large_name);
 
 const
   { Default hotkey list version number }
@@ -214,7 +216,7 @@ var
   gGridHorzLine,
   gShowWarningMessages,
   gDirBrackets: Boolean;
-
+  gShowToolTipMode: TShowToolTipMode = [stm_show_for_all];
   { Auto refresh page }
   gWatchDirs: TWatchOptions;
   gWatchDirsExclude: String;
@@ -551,6 +553,7 @@ begin
   gGridHorzLine:= gIni.ReadBool('Configuration', 'GridHorzLine', False);
   gShowWarningMessages := gIni.ReadBool('Configuration', 'ShowWarningMessages', True);
   gDirBrackets:= gIni.ReadBool('Configuration', 'DirBrackets', True);
+  gShowToolTipMode:= TShowToolTipMode(gIni.ReadInteger('Configuration', 'ShowToolTipMode', Integer(gShowToolTipMode)));
   { Auto refresh page }
   gWatchDirs := TWatchOptions(gIni.ReadInteger('Configuration', 'WatchDirs', Integer(gWatchDirs)));
   gWatchDirsExclude := gIni.ReadString('Configuration', 'WatchDirsExclude', '');
@@ -782,6 +785,7 @@ begin
   gIni.WriteBool('Configuration', 'GridHorzLine', gGridHorzLine);
   gIni.WriteBool('Configuration', 'ShowWarningMessages', gShowWarningMessages);
   gIni.WriteBool('Configuration', 'DirBrackets', gDirBrackets);
+  gIni.WriteInteger('Configuration', 'ShowToolTipMode', Integer(gShowToolTipMode));
   { Auto refresh page }
   gIni.WriteInteger('Configuration', 'WatchDirs', Integer(gWatchDirs));
   gIni.WriteString('Configuration', 'WatchDirsExclude', gWatchDirsExclude);
