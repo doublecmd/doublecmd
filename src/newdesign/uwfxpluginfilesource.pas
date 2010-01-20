@@ -105,7 +105,7 @@ begin
 
   CallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNr]);
 
-  if not Assigned(CallbackDataClass) then Exit;
+  if not (Assigned(CallbackDataClass) and Assigned(CallbackDataClass.UpdateProgressFunction)) then Exit;
 
   Result:= CallbackDataClass.UpdateProgressFunction(SourceName, TargetName, PercentDone);
 end;
@@ -621,4 +621,4 @@ finalization
   if Assigned(WfxOperationList) then
     FreeAndNil(WfxOperationList);
 
-end.
+end.

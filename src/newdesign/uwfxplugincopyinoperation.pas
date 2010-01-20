@@ -85,7 +85,7 @@ constructor TWfxPluginCopyInOperation.Create(aSourceFileSource: IFileSource;
                                              aTargetPath: String);
 begin
   FWfxPluginFileSource:= aTargetFileSource as IWfxPluginFileSource;
-  FCallbackDataClass:= TCallbackDataClass.Create;
+  FCallbackDataClass:= TCallbackDataClass.Create(FWfxPluginFileSource, @UpdateProgress);
   FInternal:= aSourceFileSource.IsInterface(IWfxPluginFileSource);
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
@@ -99,8 +99,6 @@ end;
 
 procedure TWfxPluginCopyInOperation.Initialize;
 begin
-  FCallbackDataClass.FileSource:= FWfxPluginFileSource;
-  FCallbackDataClass.UpdateProgressFunction:= @UpdateProgress;
   with FWfxPluginFileSource do
   begin
     WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_START, FS_STATUS_OP_PUT_MULTI);
