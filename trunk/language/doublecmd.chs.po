@@ -2626,6 +2626,10 @@ msgstr "文件面板显示栅格"
 msgid " Show icons to the left of the filename "
 msgstr "在文件名左侧显示图标"
 
+#: TFRMOPTIONS.GBSHOWTOOLTIP.CAPTION
+msgid "Show tool tip"
+msgstr ""
+
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
 msgstr "文件夹标签页头"
@@ -2822,6 +2826,14 @@ msgstr "禁止(&S)"
 #: TFRMOPTIONS.RBPROGRAMDIR.CAPTION
 msgid "Program directory (portable version)"
 msgstr "程序目录(便携版)"
+
+#: TFRMOPTIONS.RBTOOLTIPALLFILES.CAPTION
+msgid "Show tool tip for all files in file panel"
+msgstr ""
+
+#: TFRMOPTIONS.RBTOOLTIPONLYLARGE.CAPTION
+msgid "Show tool tip for files in file panel if truncated"
+msgstr ""
 
 #: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
 msgid "Use memory mapping for search text in files"
