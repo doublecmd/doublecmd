@@ -692,9 +692,9 @@ var
   Files: TFiles;
   OldErrorMode: Word;
 begin
-  aFile := TFileSystemFile.Create;
+  aFile := TFileSystemFile.Create(EmptyStr);
   aFile.Name := sPath;
-  Files:= TFiles.Create; // free in ShowContextMenu
+  Files:= TFiles.Create(EmptyStr); // free in ShowContextMenu
   Files.Add(aFile);
   OldErrorMode:= SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOOPENFILEERRORBOX);
   ShowContextMenu(Owner, Files, X, Y);
