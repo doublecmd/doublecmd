@@ -197,6 +197,7 @@ type
     lblQuickFilter: TLabel;
     pnlQuickSearch: TPanel;
     pnlQuickFilter: TPanel;
+    rbToolTipNone: TRadioButton;
     rbToolTipOnlyLarge: TRadioButton;
     rbToolTipAllFiles: TRadioButton;
     rbAltLetterQF: TRadioButton;
