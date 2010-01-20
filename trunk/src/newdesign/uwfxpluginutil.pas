@@ -19,10 +19,13 @@ type
 
   TUpdateProgress = function(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer of object;
 
+  { TCallbackDataClass }
+
   TCallbackDataClass = class
   public
     FileSource: IWfxPluginFileSource;
     UpdateProgressFunction: TUpdateProgress;
+    constructor Create(aFileSource: IWfxPluginFileSource; aUpdateProgress: TUpdateProgress);
   end;
 
   TWfxPluginOperationHelperMode =
@@ -376,6 +379,15 @@ begin
 
       CheckOperationState;
     end;
+end;
+
+{ TCallbackDataClass }
+
+constructor TCallbackDataClass.Create(aFileSource: IWfxPluginFileSource; aUpdateProgress: TUpdateProgress);
+begin
+  inherited Create;
+  FileSource:= aFileSource;
+  UpdateProgressFunction:= aUpdateProgress;
 end;
 
 end.

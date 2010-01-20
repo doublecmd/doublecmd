@@ -39,7 +39,7 @@ constructor TWfxPluginListOperation.Create(aFileSource: IFileSource; aPath: Stri
 begin
   FFiles := TWfxPluginFiles.Create(aPath);
   FWfxPluginFileSource := aFileSource as IWfxPluginFileSource;
-  FCallbackDataClass:= TCallbackDataClass.Create;
+  FCallbackDataClass:= TCallbackDataClass.Create(FWfxPluginFileSource, nil);
   FCurrentPath:= ExcludeBackPathDelimiter(aPath);
   inherited Create(aFileSource, aPath);
 end;
@@ -53,7 +53,6 @@ end;
 
 procedure TWfxPluginListOperation.Initialize;
 begin
-  FCallbackDataClass.FileSource:= FWfxPluginFileSource;
   with FWfxPluginFileSource do
   begin
     WfxModule.WfxStatusInfo(FCurrentPath, FS_STATUS_START, FS_STATUS_OP_LIST);
