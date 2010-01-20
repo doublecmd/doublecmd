@@ -2823,6 +2823,10 @@ msgstr "Programma map (draagbare versie)"
 msgid "Show tool tip for all files in file panel"
 msgstr ""
 
+#: TFRMOPTIONS.RBTOOLTIPNONE.CAPTION
+msgid "Don't show"
+msgstr ""
+
 #: TFRMOPTIONS.RBTOOLTIPONLYLARGE.CAPTION
 msgid "Show tool tip for files in file panel if truncated"
 msgstr ""
