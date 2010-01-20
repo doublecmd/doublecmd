@@ -3263,6 +3263,8 @@ object frmOptions: TfrmOptions
             Top = 6
             Width = 71
             Caption = 'Don''t show'
+            Checked = True
+            State = cbChecked
             TabOrder = 2
           end
         end
