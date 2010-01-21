@@ -69,11 +69,11 @@ if [ -z $1 ]
     # Copy libraries
     if [ "$CPU_TARGET" = "x86_64" ]
       then
-	# for cross compiling try to create library directory
-	mkdir /usr/lib64
+        # for cross compiling try to create library directory
+        mkdir /usr/lib64
         install -m 644 *.so           /usr/lib64/
       else
-	mkdir /usr/lib
+        mkdir /usr/lib
         install -m 644 *.so           /usr/lib/
     fi
     # Create symlink and desktop files

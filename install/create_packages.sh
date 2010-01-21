@@ -32,6 +32,14 @@ if [ -z $CPU_TARGET ]
   then export CPU_TARGET=$(fpc -iTP)
 fi
 
+# Debian package architecture
+if [ "$CPU_TARGET" = "x86_64" ]
+  then
+    export DEB_ARCH = "amd64"
+  else
+    export DEB_ARCH = $CPU_TARGET
+fi
+
 # Copy libraries
 cp -a linux/lib/$CPU_TARGET/*.so    $BUILD_DC_TMP_DIR/
 
@@ -46,7 +54,7 @@ checkinstall -R --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$CP
 
 # Create *.deb package
 
-checkinstall -D --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$CPU_TARGET --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --maintainer=Alexx2000@mail.ru --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
+checkinstall -D --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=DEB_ARCH --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --maintainer=Alexx2000@mail.ru --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
 
 # Create *.tgz package
 
