@@ -83,15 +83,14 @@ constructor TWfxPluginCopyOutOperation.Create(aSourceFileSource: IFileSource;
                                               aTargetPath: String);
 begin
   FWfxPluginFileSource:= aSourceFileSource as IWfxPluginFileSource;
-  FCallbackDataClass:= TCallbackDataClass.Create(FWfxPluginFileSource, @UpdateProgress);
+  with FWfxPluginFileSource do
+  FCallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNumber]);
   FInternal:= aTargetFileSource.IsInterface(IWfxPluginFileSource);
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
 
 destructor TWfxPluginCopyOutOperation.Destroy;
 begin
-  if Assigned(FCallbackDataClass) then
-    FreeAndNil(FCallbackDataClass);
   inherited Destroy;
 end;
 
@@ -100,7 +99,7 @@ begin
   with FWfxPluginFileSource do
   begin
     WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_START, FS_STATUS_OP_PUT_MULTI);
-    WfxOperationList.Objects[PluginNumber]:= FCallbackDataClass;
+    FCallbackDataClass.UpdateProgressFunction:= @UpdateProgress;
     // Get initialized statistics; then we change only what is needed.
     FStatistics := RetrieveStatistics;
 
@@ -143,7 +142,7 @@ begin
   with FWfxPluginFileSource do
   begin
     WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_END, FS_STATUS_OP_PUT_MULTI);
-    WfxOperationList.Objects[PluginNumber]:= nil;
+    FCallbackDataClass.UpdateProgressFunction:= nil;
   end;
 end;
 
