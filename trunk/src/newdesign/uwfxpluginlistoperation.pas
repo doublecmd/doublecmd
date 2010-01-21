@@ -20,6 +20,8 @@ type
     FWfxPluginFileSource: IWfxPluginFileSource;
     FCallbackDataClass: TCallbackDataClass;
     FCurrentPath: UTF8String;
+  protected
+    function UpdateProgress(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
   public
     constructor Create(aFileSource: IFileSource; aPath: String); override;
     destructor Destroy; override;
@@ -33,21 +35,26 @@ implementation
 
 uses
   LCLProc, FileUtil, uOSUtils, uDCUtils, uWfxPluginFile,
-  WfxPlugin, uWfxModule;
+  WfxPlugin, uWfxModule, uLog, uLng;
+
+function TWfxPluginListOperation.UpdateProgress(SourceName, TargetName: UTF8String;
+                                                PercentDone: Integer): Integer;
+begin
+  logWrite(rsMsgLoadingFileList + IntToStr(PercentDone) + '%', lmtInfo, False, False);
+end;
 
 constructor TWfxPluginListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
   FFiles := TWfxPluginFiles.Create(aPath);
   FWfxPluginFileSource := aFileSource as IWfxPluginFileSource;
-  FCallbackDataClass:= TCallbackDataClass.Create(FWfxPluginFileSource, nil);
+  with FWfxPluginFileSource do
+  FCallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNumber]);
   FCurrentPath:= ExcludeBackPathDelimiter(aPath);
   inherited Create(aFileSource, aPath);
 end;
 
 destructor TWfxPluginListOperation.Destroy;
 begin
-  if Assigned(FCallbackDataClass) then
-    FreeAndNil(FCallbackDataClass);
   inherited Destroy;
 end;
 
@@ -56,7 +63,7 @@ begin
   with FWfxPluginFileSource do
   begin
     WfxModule.WfxStatusInfo(FCurrentPath, FS_STATUS_START, FS_STATUS_OP_LIST);
-    WfxOperationList.Objects[PluginNumber]:= FCallbackDataClass;
+    FCallbackDataClass.UpdateProgressFunction:= @UpdateProgress;
   end;
 end;
 
@@ -97,7 +104,7 @@ begin
   with FWfxPluginFileSource do
   begin
     WfxModule.WfxStatusInfo(FCurrentPath, FS_STATUS_END, FS_STATUS_OP_LIST);
-    WfxOperationList.Objects[PluginNumber]:= nil;
+    FCallbackDataClass.UpdateProgressFunction:= nil;
   end;
 end;
 

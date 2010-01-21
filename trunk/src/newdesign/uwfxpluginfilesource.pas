@@ -11,6 +11,8 @@ uses
 
 type
 
+  TUpdateProgress = function(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer of object;
+
   { IWfxPluginFileSource }
 
   IWfxPluginFileSource = interface(IFileSource)
@@ -28,6 +30,15 @@ type
     property WfxModule: TWfxModule read GetWfxModule;
   end;
 
+  { TCallbackDataClass }
+
+  TCallbackDataClass = class
+  public
+    FileSource: IWfxPluginFileSource;
+    UpdateProgressFunction: TUpdateProgress;
+    constructor Create(aFileSource: IWfxPluginFileSource);
+  end;
+
   { TWfxPluginFileSource }
 
   TWfxPluginFileSource = class(TFileSource, IWfxPluginFileSource)
@@ -36,6 +47,7 @@ type
     FPluginRootName: UTF8String;
     FWFXModule: TWFXModule;
     FPluginNumber: LongInt;
+    FCallbackDataClass: TCallbackDataClass;
 
     function GetPluginNumber: LongInt;
     function GetWfxModule: TWfxModule;
@@ -86,6 +98,7 @@ type
 var
   // Used in callback functions
   WfxOperationList: TStringList = nil;
+  WfxConnectionList: TStringList = nil;
 
 implementation
 
@@ -134,20 +147,39 @@ end;
 
 procedure MainLogProc(PluginNr, MsgType: Integer; LogString: UTF8String);
 var
+  I: Integer;
   sMsg: UTF8String;
   LogMsgType: TLogMsgType = lmtInfo;
   bLogFile: Boolean;
   bLock: Boolean = True;
+  sName: UTF8String;
+  CallbackDataClass: TCallbackDataClass;
 Begin
   sMsg:= rsMsgLogInfo;
   bLogFile:= ((log_vfs_op in gLogOptions) and (log_info in gLogOptions));
+  CallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNr]);
   case MsgType of
     msgtype_connect:
       begin
+        if Assigned(CallbackDataClass) then
+          begin
+            I:= Pos(#32, sMsg);
+            sName:= WfxOperationList[PluginNr] + ':' + Copy(sMsg, I, MaxInt);
+            WfxConnectionList.AddObject(sName, TObject(CallbackDataClass.FileSource));
+          end;
         sMsg:= sMsg + '[' + IntToStr(MsgType) + ']';
         ShowLogWindow(True, @bLock);
       end;
-    msgtype_disconnect,
+    msgtype_disconnect:
+      begin
+        if Assigned(CallbackDataClass) then
+          begin
+            I:= Pos(#32, sMsg);
+            sName:= WfxOperationList[PluginNr] + Copy(sMsg, I, MaxInt);
+            I:= WfxConnectionList.IndexOf(sName);
+            WfxConnectionList.Delete(I);
+          end;
+      end;
     msgtype_details,
     msgtype_operationcomplete,
     msgtype_transfercomplete,
@@ -367,12 +399,12 @@ begin
   inherited Create;
   FModuleFileName:= aModuleFileName;
   FPluginRootName:= aPluginRootName;
-
+  FCallbackDataClass:= TCallbackDataClass.Create(Self);
   FWfxModule:= TWfxModule.Create;
   if FWfxModule.LoadModule(FModuleFileName) then
     with FWfxModule do
     begin
-      FPluginNumber:= WfxOperationList.AddObject(FPluginRootName, nil);
+      FPluginNumber:= WfxOperationList.AddObject(FPluginRootName, FCallbackDataClass);
       FsInit(FPluginNumber, @MainProgressProcA, @MainLogProcA, @MainRequestProcA);
       if Assigned(FsInitW) then
         FsInitW(FPluginNumber, @MainProgressProcW, @MainLogProcW, @MainRequestProcW);
@@ -386,6 +418,7 @@ end;
 
 destructor TWfxPluginFileSource.Destroy;
 begin
+  FreeThenNil(FCallbackDataClass);
   inherited Destroy;
 end;
 
@@ -628,10 +661,22 @@ begin
     end;
 end;
 
+{ TCallbackDataClass }
+
+constructor TCallbackDataClass.Create(aFileSource: IWfxPluginFileSource);
+begin
+  inherited Create;
+  FileSource:= aFileSource;
+  UpdateProgressFunction:= nil;
+end;
+
 initialization
   WfxOperationList:= TStringList.Create;
+  WfxConnectionList:= TStringList.Create;
 finalization
   if Assigned(WfxOperationList) then
     FreeAndNil(WfxOperationList);
+  if Assigned(WfxConnectionList) then
+    FreeAndNil(WfxConnectionList);
 
 end.
