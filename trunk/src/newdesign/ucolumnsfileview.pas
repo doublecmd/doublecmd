@@ -178,6 +178,7 @@ type
     FLastActiveRow: Integer;    //<en Last active row
     FLastMark: String;
     FLastSelectionStartRow: Integer;
+    FLastSelectionState: Boolean;
     fSearchDirect,
     fNext,
     fPrevious : Boolean;
@@ -335,6 +336,8 @@ type
       Shift: TShiftState);
     procedure dgPanelMouseDown(Sender: TObject; Button: TMouseButton;
                                     Shift: TShiftState; X, Y: Integer);
+    procedure dgPanelMouseMove(Sender: TObject; Shift: TShiftState;
+                               X, Y: Integer);
     procedure dgPanelMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure dgPanelStartDrag(Sender: TObject; var DragObject: TDragObject);
@@ -759,6 +762,8 @@ begin
   if iRow < dgPanel.FixedRows then  // clicked on header
     Exit;
 
+  dgPanel.LastMouseButton:= Button;
+
   case Button of
     mbRight: begin
       dgPanel.Row := iRow;
@@ -769,9 +774,11 @@ begin
 
         if Assigned(AFile) then
         begin
-          InvertFileSelection(AFile);
+          FLastSelectionState:= not AFile.Selected;
+          MarkFile(AFile, FLastSelectionState);
           UpdateInfoPanel;
           dgPanel.Invalidate;
+          Exit;
         end;
       end;
     end;
@@ -821,13 +828,38 @@ begin
   begin
     // indicate that drag start at next mouse move event
     dgPanel.StartDrag:= True;
-    dgPanel.LastMouseButton:= Button;
     dgPanel.DragStartPoint.X := X;
     dgPanel.DragStartPoint.Y := Y;
     dgPanel.DragRowIndex := iRow;
     uDragDropEx.TransformDragging := False;
     uDragDropEx.AllowTransformToInternal := True;
   end;
+end;
+
+procedure TColumnsFileView.dgPanelMouseMove(Sender: TObject;
+  Shift: TShiftState; X, Y: Integer);
+var
+  AFile: TColumnsViewFile;
+  iCol, iRow: Integer;
+begin
+  // if right mouse button selection enabled
+  if dgPanel.FMouseDown and (dgPanel.LastMouseButton = mbRight) and
+     gMouseSelectionEnabled and (gMouseSelectionButton = 1) then
+    begin
+      dgPanel.MouseToCell(X, Y, iCol, iRow);
+      if iRow < dgPanel.FixedRows then Exit; // move on header
+      if dgPanel.Row <> iRow then // if new row index
+        begin
+          dgPanel.Row:= iRow;
+          AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
+          if Assigned(AFile) then
+            begin
+              MarkFile(AFile, FLastSelectionState);
+              UpdateInfoPanel;
+              dgPanel.InvalidateRow(iRow);
+            end;
+        end;
+    end;
 end;
 
 { Show context or columns menu on right click }
@@ -2531,6 +2563,7 @@ begin
   dgPanel.OnUTF8KeyPress := @UTF8KeyPressEvent;
   dgPanel.OnMouseDown := @dgPanelMouseDown;
   dgPanel.OnStartDrag := @dgPanelStartDrag;
+  dgPanel.OnMouseMove:= @dgPanelMouseMove;
   dgPanel.OnDragOver := @dgPanelDragOver;
   dgPanel.OnDragDrop:= @dgPanelDragDrop;
   dgPanel.OnEndDrag:= @dgPanelEndDrag;
