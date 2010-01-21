@@ -1425,28 +1425,28 @@ end;
 procedure TfrmOptions.btnWFXAddClick(Sender: TObject);
 var
   I, J: Integer;
-  WFXmodule : TWFXmodule;
-  s,sPluginName : String;
-  tmpPc: PtrUInt;
+  WfxModule : TWFXmodule;
+  sPluginName,
+  sRootName: UTF8String;
 begin
   odOpenDialog.Filter := 'File system plugins (*.wfx)|*.wfx';
   if odOpenDialog.Execute then
   begin
   DebugLn('Dialog executed');
-    WFXmodule := TWFXmodule.Create;
+    WfxModule := TWfxModule.Create;
     DebugLn('TWFXmodule created');
-    if WFXmodule.LoadModule(odOpenDialog.FileName) then
+    if WfxModule.LoadModule(odOpenDialog.FileName) then
      begin
        DebugLn('WFXModule Loaded');
-       tmpPc:= WFXmodule.VFSMisc;
-       if tmpPc > 0 then
-        sPluginName := PChar(Pointer(tmpPc)) + '=' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
+       sRootName:= WfxModule.VFSRootName;
+       if sRootName <> EmptyStr then
+        sPluginName := sRootName + '=' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
        else
          begin
            DebugLn('WFX alternate name');
-           s:= ExtractFileName(odOpenDialog.FileName);
-           s:= Copy(s,1,pos('.',s)-1);
-           sPluginName := s + '=' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
+           sRootName:= ExtractFileName(odOpenDialog.FileName);
+           sRootName:= Copy(sRootName, 1, Pos('.', sRootName) - 1);
+           sPluginName := sRootName + '=' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
          end;
      end
     else
