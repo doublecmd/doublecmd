@@ -125,7 +125,7 @@ begin
                         @CheckOperationState,
                         @UpdateStatistics,
                         Thread,
-                        wpohmCopyMoveIn,
+                        wpohmCopyIn,
                         TargetPath,
                         FStatistics);
 

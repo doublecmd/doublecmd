@@ -123,7 +123,7 @@ begin
                         @CheckOperationState,
                         @UpdateStatistics,
                         Thread,
-                        wpohmCopyMoveOut,
+                        wpohmCopyOut,
                         TargetPath,
                         FStatistics);
 

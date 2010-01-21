@@ -29,7 +29,7 @@ type
   end;
 
   TWfxPluginOperationHelperMode =
-    (wpohmCopyMoveIn, wpohmCopyMoveOut);
+    (wpohmCopyIn, wpohmCopyOut, wpohmMoveIn, wpohmMoveOut);
 
   TUpdateStatisticsFunction = procedure(var NewStatistics: TFileSourceCopyOperationStatistics) of object;
 
@@ -166,11 +166,13 @@ function TWfxPluginOperationHelper.ProcessDirectory(aFile: TFile;
 begin
   Result:= WFX_ERROR;
   case FMode of
-  wpohmCopyMoveIn:
+  wpohmCopyIn,
+  wpohmMoveIn:
     begin
       Result:= FWfxPluginFileSource.WfxModule.WfxMkDir('', AbsoluteTargetFileName);
     end;
-  wpohmCopyMoveOut:
+  wpohmCopyOut,
+  wpohmMoveOut:
     begin
       if mbForceDirectory(AbsoluteTargetFileName) then
         Result:= WFX_SUCCESS;
@@ -184,6 +186,7 @@ var
   iFlags: Integer;
   RemoteInfo: TRemoteInfo;
   iTemp: TInt64Rec;
+  bCopyMoveIn: Boolean;
   OldDoneBytes: Int64; // for if there was an error
 begin
   // If there will be an error the DoneBytes value
@@ -203,7 +206,10 @@ begin
         LastWriteTime := DateTimeToWfxFileTime((aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
         Attr := LongInt((aFile.Properties[fpAttributes] as TFileAttributesProperty).Value);
       end;
-      Result := WfxCopyMove(aFile.Path + aFile.Name, AbsoluteTargetFileName, iFlags, @RemoteInfo, FInternal, FMode = wpohmCopyMoveIn);
+      if (FMode in [wpohmMoveIn, wpohmMoveOut]) then
+        iFlags:= iFlags + FS_COPYFLAGS_MOVE;
+      bCopyMoveIn:= (FMode in [wpohmCopyIn, wpohmMoveIn]);
+      Result := WfxCopyMove(aFile.Path + aFile.Name, AbsoluteTargetFileName, iFlags, @RemoteInfo, FInternal, bCopyMoveIn);
 
       case Result of
       FS_FILE_EXISTS, // The file already exists, and resume isn't supported
@@ -219,7 +225,7 @@ begin
           else
             raise Exception.Create('Invalid file exists option');
           end;
-          Result := WfxCopyMove(aFile.Path + aFile.Name, AbsoluteTargetFileName, iFlags, @RemoteInfo, FInternal, FMode = wpohmCopyMoveIn);
+          Result := WfxCopyMove(aFile.Path + aFile.Name, AbsoluteTargetFileName, iFlags, @RemoteInfo, FInternal, bCopyMoveIn);
         end;
       end;
    end;
@@ -318,9 +324,11 @@ begin
   FInternal:= Internal;
 
   case FMode of
-  wpohmCopyMoveIn:
+  wpohmCopyIn,
+  wpohmCopyOut:
     FLogCaption := rsMsgLogCopy;
-  wpohmCopyMoveOut:
+  wpohmMoveIn,
+  wpohmMoveOut:
     FLogCaption := rsMsgLogMove;
   end;
 

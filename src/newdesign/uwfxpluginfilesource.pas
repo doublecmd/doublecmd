@@ -68,6 +68,8 @@ type
     function CreateCopyOutOperation(TargetFileSource: IFileSource;
                                     var SourceFiles: TFiles;
                                     TargetPath: String): TFileSourceOperation; override;
+    function CreateMoveOperation(var SourceFiles: TFiles;
+                                 TargetPath: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; override;
     function CreateExecuteOperation(const ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
@@ -89,9 +91,9 @@ implementation
 
 uses
   LCLProc, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, uDCUtils, uLog, uLng, uCryptProc,
-  uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation, uWfxPluginExecuteOperation,
-  uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation, uWfxPluginDeleteOperation,
-  uWfxPluginFile, uWfxPluginUtil, uWfxPluginSetFilePropertyOperation;
+  uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation,
+  uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
+  uWfxPluginDeleteOperation, uWfxPluginFile, uWfxPluginUtil, uWfxPluginSetFilePropertyOperation;
 
 { CallBack functions }
 
@@ -396,6 +398,8 @@ begin
       Result:= Result + [fsoCopyIn];
     if Assigned(FsGetFile) or Assigned(FsGetFileW) then
       Result:= Result + [fsoCopyOut];
+    if Assigned(FsRenMovFile) or Assigned(FsRenMovFileW) then
+      Result:= Result + [fsoMove];
     if Assigned(FsDeleteFile) or Assigned(FsDeleteFileW) then
         Result:= Result + [fsoDelete];
     if Assigned(FsMkDir) or Assigned(FsMkDirW) then
@@ -558,6 +562,15 @@ begin
   Result := TWfxPluginCopyOutOperation.Create(SourceFileSource,
                                               TargetFileSource,
                                               SourceFiles, TargetPath);
+end;
+
+function TWfxPluginFileSource.CreateMoveOperation(var SourceFiles: TFiles;
+                                                      TargetPath: String): TFileSourceOperation;
+var
+  TargetFileSource: IFileSource;
+begin
+  TargetFileSource := Self;
+  Result := TWfxPluginMoveOperation.Create(TargetFileSource, SourceFiles, TargetPath);
 end;
 
 function TWfxPluginFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
