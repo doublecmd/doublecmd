@@ -151,7 +151,7 @@ type
     procedure VFSDestroy;
 
     function VFSConfigure(Parent: THandle):Boolean;
-    function VFSMisc: PtrUInt;
+    function VFSRootName: UTF8String;
 
     function IsLoaded: Boolean;
   end;
@@ -617,18 +617,19 @@ begin
   end;	
 end;
 
-function TWFXModule.VFSMisc: PtrUInt;
+function TWFXModule.VFSRootName: UTF8String;
 var
-  pPlgName : PChar;
+  pcRootName : PAnsiChar;
 begin
-  New(pPlgName);
+  Result:= EmptyStr;
   if Assigned(FsGetDefRootName) then
-    begin
-      FsGetDefRootName(pPlgName, 256);
-      Result := PtrUInt(pPlgName);
-    end
-  else
-    Result:=0;
+    try
+      pcRootName:= GetMem(MAX_PATH);
+      FsGetDefRootName(pcRootName, MAX_PATH);
+      Result := StrPas(pcRootName);
+    finally
+      FreeMem(pcRootName);
+    end;
 end;
 
 function TWFXModule.IsLoaded: Boolean;
