@@ -202,6 +202,7 @@ type
     lblPath: TPathLabel;
     lblAddress: TPathLabel;
     dgPanel: TDrawGridEx;
+    tmContextMenu: TTimer;
 
     {en
        Private constructor used to create an object intended to be a clone
@@ -334,6 +335,7 @@ type
       Shift: TShiftState);
     procedure dgPanelKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure dgPanelMouseLeave(Sender: TObject);
     procedure dgPanelMouseDown(Sender: TObject; Button: TMouseButton;
                                     Shift: TShiftState; X, Y: Integer);
     procedure dgPanelMouseMove(Sender: TObject; Shift: TShiftState;
@@ -352,6 +354,7 @@ type
                                   MousePos: TPoint; var Handled: Boolean);
     procedure dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
     procedure dgPanelShowHint(Sender: TObject; HintInfo: PHintInfo);
+    procedure tmContextMenuTimer(Sender: TObject);
     procedure lblPathClick(Sender: TObject);
     procedure lblPathMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -774,6 +777,7 @@ begin
 
         if Assigned(AFile) then
         begin
+          tmContextMenu.Enabled:= True; // start context menu timer
           FLastSelectionState:= not AFile.Selected;
           MarkFile(AFile, FLastSelectionState);
           UpdateInfoPanel;
@@ -850,6 +854,7 @@ begin
       if iRow < dgPanel.FixedRows then Exit; // move on header
       if dgPanel.Row <> iRow then // if new row index
         begin
+          tmContextMenu.Enabled:= False; // stop context menu timer
           dgPanel.Row:= iRow;
           AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
           if Assigned(AFile) then
@@ -915,6 +920,10 @@ begin
            and ((gMouseSelectionButton<>1) or not gMouseSelectionEnabled) then
         begin
           Actions.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y);
+        end
+      else if (gMouseSelectionEnabled and (gMouseSelectionButton = 1)) then
+        begin
+          tmContextMenu.Enabled:= False; // stop context menu timer
         end;
     end
   { Open folder in new tab on middle click }
@@ -1144,6 +1153,22 @@ begin
             HintStr:= HintStr + LineEnding + sHint;
         end;
     end;
+end;
+
+procedure TColumnsFileView.tmContextMenuTimer(Sender: TObject);
+var
+  AFile: TColumnsViewFile;
+  iRow, iCol: Integer;
+begin
+  dgPanel.FMouseDown:= False;
+  tmContextMenu.Enabled:= False; // stop context menu timer
+  // show context menu
+  Actions.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y);
+  // get current row
+  dgPanel.MouseToCell(Mouse.CursorPos.x, Mouse.CursorPos.y, iRow, iCol);
+  AFile := FFiles[iRow - dgPanel.FixedRows]; // get current file
+  MarkFile(AFile, False); // unselect file
+  dgPanel.InvalidateRow(iRow); // invalidate current row
 end;
 
 procedure TColumnsFileView.edtSearchKeyDown(Sender: TObject; var Key: Word;
@@ -2077,6 +2102,12 @@ begin
   end;
 end;
 
+procedure TColumnsFileView.dgPanelMouseLeave(Sender: TObject);
+begin
+  if (gMouseSelectionEnabled) and (gMouseSelectionButton = 1) then
+    dgPanel.FMouseDown:= False;
+end;
+
 procedure TColumnsFileView.dgPanelKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 
@@ -2559,8 +2590,13 @@ begin
   btnCloseFilter.Caption := 'x';
   btnCloseFilter.AutoSize := True;
 
+  tmContextMenu:= TTimer.Create(Self);
+  tmContextMenu.Enabled:= False;
+  tmContextMenu.Interval:= 500;
+
   // ---
   dgPanel.OnUTF8KeyPress := @UTF8KeyPressEvent;
+  dgPanel.OnMouseLeave:= @dgPanelMouseLeave;
   dgPanel.OnMouseDown := @dgPanelMouseDown;
   dgPanel.OnStartDrag := @dgPanelStartDrag;
   dgPanel.OnMouseMove:= @dgPanelMouseMove;
@@ -2599,6 +2635,8 @@ begin
 
   lblPath.OnClick := @lblPathClick;
   lblPath.OnMouseUp := @lblPathMouseUp;
+
+  tmContextMenu.OnTimer:= @tmContextMenuTimer;
 
   pmColumnsMenu := TPopupMenu.Create(Self);
   pmColumnsMenu.Parent := Self;
