@@ -2008,10 +2008,6 @@ begin
     GetDestinationPathAndMask(TargetFileSource, sDestination,
                               SourceFiles.Path, TargetPath, sDstMaskTemp);
 
-    // For now at least one must be FileSystem.
-    if not (SourceFileSource.IsClass(TFileSystemFileSource) or
-            TargetFileSource.IsClass(TFileSystemFileSource)) then Exit;
-
     if bMove then
     begin
       Operation := SourceFileSource.CreateMoveOperation(
@@ -3469,4 +3465,4 @@ end;
 
 initialization
  {$I fmain.lrs}
-end.
+end.
