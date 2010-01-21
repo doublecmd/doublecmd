@@ -468,7 +468,7 @@ begin
   begin
     Connection := TConnection(ConnectionList.Objects[I - RootCount]);
     StrPCopy(FindData.cFileName, Connection.ConnectionName);
-    FindData.dwFileAttributes := FILE_ATTRIBUTE_REPARSE_POINT;
+    FindData.dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
     Inc(ListRec^.Index);
     Result := True;
   end;

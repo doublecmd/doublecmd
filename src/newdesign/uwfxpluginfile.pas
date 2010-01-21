@@ -116,7 +116,8 @@ begin
     end
   else  // Unix attributes
     begin
-      FIsLinkToDirectory := ((FindData.FileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0) and
+      FIsLinkToDirectory := (((FindData.FileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0) or
+                            ((FindData.FileAttributes and FILE_ATTRIBUTE_REPARSE_POINT) <> 0)) and
                             ((FindData.Reserved0 and S_IFMT) = S_IFLNK);
       if ((FindData.FileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0) and
          ((FindData.Reserved0 and S_IFMT) <> S_IFDIR) then
@@ -235,4 +236,4 @@ begin
 end;
 
 end.
-
+
