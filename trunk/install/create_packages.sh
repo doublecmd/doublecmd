@@ -35,9 +35,9 @@ fi
 # Debian package architecture
 if [ "$CPU_TARGET" = "x86_64" ]
   then
-    export DEB_ARCH = "amd64"
+    export DEB_ARCH="amd64"
   else
-    export DEB_ARCH = $CPU_TARGET
+    export DEB_ARCH=$CPU_TARGET
 fi
 
 # Copy libraries
