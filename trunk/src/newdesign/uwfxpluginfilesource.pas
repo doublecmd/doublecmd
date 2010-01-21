@@ -163,8 +163,8 @@ Begin
       begin
         if Assigned(CallbackDataClass) then
           begin
-            I:= Pos(#32, sMsg);
-            sName:= WfxOperationList[PluginNr] + ':' + Copy(sMsg, I, MaxInt);
+            I:= Pos(#32, LogString);
+            sName:= WfxOperationList[PluginNr] + ':' + Copy(LogString, I, MaxInt);
             WfxConnectionList.AddObject(sName, TObject(CallbackDataClass.FileSource));
           end;
         sMsg:= sMsg + '[' + IntToStr(MsgType) + ']';
@@ -174,8 +174,8 @@ Begin
       begin
         if Assigned(CallbackDataClass) then
           begin
-            I:= Pos(#32, sMsg);
-            sName:= WfxOperationList[PluginNr] + Copy(sMsg, I, MaxInt);
+            I:= Pos(#32, LogString);
+            sName:= WfxOperationList[PluginNr] + Copy(LogString, I, MaxInt);
             I:= WfxConnectionList.IndexOf(sName);
             WfxConnectionList.Delete(I);
           end;
