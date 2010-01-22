@@ -1,4 +1,4 @@
-unit uWfxPluginCopyInOperation;
+unit uWfxPluginCopyOperation;
 
 {$mode objfpc}{$H+}
 
@@ -11,25 +11,23 @@ uses
   uFileSourceOperation,
   uFileSourceOperationOptions,
   uFile,
-  uFileSystemFile,
   uWfxPluginFileSource,
   uWfxPluginUtil;
 
 type
 
-  { TWfxPluginCopyInOperation }
+  { TWfxPluginCopyOperation }
 
-  TWfxPluginCopyInOperation = class(TFileSourceCopyInOperation)
+  TWfxPluginCopyOperation = class(TFileSourceCopyOperation)
 
   private
     FWfxPluginFileSource: IWfxPluginFileSource;
     FOperationHelper: TWfxPluginOperationHelper;
     FCallbackDataClass: TCallbackDataClass;
-    FFullFilesTreeToCopy: TFileSystemFiles;  // source files including all files/dirs in subdirectories
+    FFullFilesTreeToCopy: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     // Options
     FFileExistsOption: TFileSourceOperationOptionFileExists;
-
   protected
     function UpdateProgress(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
 
@@ -52,12 +50,12 @@ type
 implementation
 
 uses
-  WfxPlugin, uFileSystemUtil;
+  WfxPlugin;
 
-// -- TWfxPluginCopyInOperation ---------------------------------------------
+// -- TWfxPluginCopyOperation ---------------------------------------------
 
-function TWfxPluginCopyInOperation.UpdateProgress(SourceName,TargetName: UTF8String;
-                                                  PercentDone: Integer): Integer;
+function TWfxPluginCopyOperation.UpdateProgress(SourceName, TargetName: UTF8String;
+                                                   PercentDone: Integer): Integer;
 begin
   Result := 0;
 
@@ -78,36 +76,36 @@ begin
   end;
 end;
 
-constructor TWfxPluginCopyInOperation.Create(aSourceFileSource: IFileSource;
-                                             aTargetFileSource: IFileSource;
-                                             var theSourceFiles: TFiles;
-                                             aTargetPath: String);
+constructor TWfxPluginCopyOperation.Create(aSourceFileSource: IFileSource;
+                                              aTargetFileSource: IFileSource;
+                                              var theSourceFiles: TFiles;
+                                              aTargetPath: String);
 begin
-  FWfxPluginFileSource:= aTargetFileSource as IWfxPluginFileSource;
+  FWfxPluginFileSource:= aSourceFileSource as IWfxPluginFileSource;
   with FWfxPluginFileSource do
   FCallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNumber]);
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
 
-destructor TWfxPluginCopyInOperation.Destroy;
+destructor TWfxPluginCopyOperation.Destroy;
 begin
   inherited Destroy;
 end;
 
-procedure TWfxPluginCopyInOperation.Initialize;
+procedure TWfxPluginCopyOperation.Initialize;
 begin
   with FWfxPluginFileSource do
   begin
-    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_START, FS_STATUS_OP_PUT_MULTI);
+    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_START, FS_STATUS_OP_RENMOV_MULTI);
     FCallbackDataClass.UpdateProgressFunction:= @UpdateProgress;
-  end;
-  // Get initialized statistics; then we change only what is needed.
-  FStatistics := RetrieveStatistics;
+    // Get initialized statistics; then we change only what is needed.
+    FStatistics := RetrieveStatistics;
 
-  FillAndCount(SourceFiles as TFileSystemFiles, False,
-               FFullFilesTreeToCopy,
-               FStatistics.TotalFiles,
-               FStatistics.TotalBytes);     // gets full list of files (recursive)
+    FillAndCount(SourceFiles, False,
+                 FFullFilesTreeToCopy,
+                 FStatistics.TotalFiles,
+                 FStatistics.TotalBytes);     // gets full list of files (recursive)
+  end;
 
   // Make filenames relative to current directory.
   FFullFilesTreeToCopy.Path := SourceFiles.Path;
@@ -122,7 +120,7 @@ begin
                         @CheckOperationState,
                         @UpdateStatistics,
                         Thread,
-                        wpohmCopyIn,
+                        wpohmCopy,
                         TargetPath,
                         FStatistics);
 
@@ -132,16 +130,16 @@ begin
   FOperationHelper.Initialize;
 end;
 
-procedure TWfxPluginCopyInOperation.MainExecute;
+procedure TWfxPluginCopyOperation.MainExecute;
 begin
   FOperationHelper.ProcessFiles(FFullFilesTreeToCopy);
 end;
 
-procedure TWfxPluginCopyInOperation.Finalize;
+procedure TWfxPluginCopyOperation.Finalize;
 begin
   with FWfxPluginFileSource do
   begin
-    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_END, FS_STATUS_OP_PUT_MULTI);
+    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_END, FS_STATUS_OP_RENMOV_MULTI);
     FCallbackDataClass.UpdateProgressFunction:= nil;
   end;
 end;

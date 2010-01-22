@@ -1830,7 +1830,7 @@ procedure TfrmMain.CopyFiles(SourceFileSource, TargetFileSource: IFileSource;
 var
   sDestination: String;
   sDstMaskTemp: String;
-  Operation: TFileSourceCopyOperation;
+  Operation: TFileSourceCopyOperation = nil;
   OperationHandle: TOperationHandle;
   ProgressDialog: TfrmFileOp;
   CopyDialog: TfrmCopyDlg = nil;
