@@ -1875,9 +1875,18 @@ begin
     GetDestinationPathAndMask(TargetFileSource, sDestination,
                               SourceFiles.Path, TargetPath, sDstMaskTemp);
 
-    // For now at least one must be FileSystem.
-
-    if TargetFileSource.IsClass(TFileSystemFileSource) then
+    // If same file source and address
+    if (fsoCopy in SourceFileSource.GetOperationsTypes) and
+      (fsoCopy  in TargetFileSource.GetOperationsTypes) and
+      SourceFileSource.IsInterface(TargetFileSource) and
+      SameText(SourceFileSource.GetCurrentAddress, TargetFileSource.GetCurrentAddress) then
+      begin
+        // Copy to between same file source
+        Operation := SourceFileSource.CreateCopyOperation(
+                       SourceFiles,
+                       TargetPath) as TFileSourceCopyOperation;
+      end
+    else if TargetFileSource.IsClass(TFileSystemFileSource) then
     begin
       // CopyOut to filesystem.
       Operation := SourceFileSource.CreateCopyOutOperation(
@@ -1910,8 +1919,8 @@ begin
 
       if Assigned(CopyDialog) then
       begin
-        if Operation is TFileSystemCopyOutOperation then
-          CopyDialog.SetOperationOptions(Operation as TFileSystemCopyOutOperation);
+        if Operation is TFileSystemCopyOperation then
+          CopyDialog.SetOperationOptions(Operation as TFileSystemCopyOperation);
       end;
 
       // Start operation.

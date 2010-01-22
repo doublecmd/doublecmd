@@ -74,7 +74,7 @@ type
 
   public
     constructor Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType); reintroduce;
-    procedure SetOperationOptions(CopyOperation: TFileSystemCopyOutOperation); overload;
+    procedure SetOperationOptions(CopyOperation: TFileSystemCopyOperation); overload;
     procedure SetOperationOptions(MoveOperation: TFileSystemMoveOperation); overload;
 
     property OperationStartingState: TOperationStartingState read FOperationStartingState;
@@ -372,7 +372,7 @@ begin
     pmOperationStartMode.Items[i].Checked := False;
 end;
 
-procedure TfrmCopyDlg.SetOperationOptions(CopyOperation: TFileSystemCopyOutOperation);
+procedure TfrmCopyDlg.SetOperationOptions(CopyOperation: TFileSystemCopyOperation);
 begin
   with CopyOperation do
   begin

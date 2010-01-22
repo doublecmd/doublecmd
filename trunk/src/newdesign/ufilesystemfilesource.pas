@@ -54,6 +54,8 @@ type
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; override;
 
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
+    function CreateCopyOperation(var SourceFiles: TFiles;
+                                 TargetPath: String): TFileSourceOperation; override;
     function CreateCopyInOperation(SourceFileSource: IFileSource;
                                    var SourceFiles: TFiles;
                                    TargetPath: String): TFileSourceOperation; override;
@@ -120,6 +122,7 @@ end;
 function TFileSystemFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   Result := [fsoList,
+             fsoCopy,
              fsoCopyIn,
              fsoCopyOut,
              fsoMove,
@@ -206,6 +209,15 @@ var
 begin
   TargetFileSource := Self;
   Result := TFileSystemListOperation.Create(TargetFileSource, TargetPath);
+end;
+
+function TFileSystemFileSource.CreateCopyOperation(var SourceFiles: TFiles;
+  TargetPath: String): TFileSourceOperation;
+var
+  FileSource: IFileSource;
+begin
+  FileSource := Self;
+  Result := TFileSystemCopyOperation.Create(FileSource, FileSource, SourceFiles, TargetPath);
 end;
 
 function TFileSystemFileSource.CreateCopyInOperation(SourceFileSource: IFileSource;
@@ -327,4 +339,4 @@ begin
 end;
 
 end.
-
+

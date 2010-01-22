@@ -13,6 +13,7 @@ type
   // (or make a separate type TFileSourceCapability with fsc... ?)
   TFileSourceOperationType = (
     fsoList,
+    fsoCopy,            // Copy files within the same file source.
     fsoCopyIn,
     fsoCopyOut,
     fsoMove,            // Move/rename files within the same file source.

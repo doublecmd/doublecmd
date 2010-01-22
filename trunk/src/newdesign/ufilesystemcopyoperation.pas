@@ -8,33 +8,17 @@ uses
   Classes, SysUtils,
   uFileSourceCopyOperation,
   uFileSource,
+  uFileSourceOperationTypes,
   uFileSourceOperationOptions,
   uFile,
   uFileSystemFile,
   uFileSystemUtil;
 
 type
-  {
-    Both operations are the same, just source and target reversed.
-    Implement them in terms of the same functions,
-    or have one use the other.
-  }
 
-  TFileSystemCopyInOperation = class(TFileSourceCopyInOperation)
+  { TFileSystemCopyOperation }
 
-  private
-
-  public
-    constructor Create(aSourceFileSource: IFileSource;
-                       aTargetFileSource: IFileSource;
-                       var theSourceFiles: TFiles;
-                       aTargetPath: String); override;
-
-    procedure MainExecute; override;
-
-  end;
-
-  TFileSystemCopyOutOperation = class(TFileSourceCopyOutOperation)
+  TFileSystemCopyOperation = class(TFileSourceCopyOperation)
 
   private
     FOperationHelper: TFileSystemOperationHelper;
@@ -73,28 +57,38 @@ type
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
   end;
 
+  {
+    Both operations are the same, just source and target reversed.
+    Implement them in terms of the same functions,
+    or have one use the other.
+  }
+
+  { TFileSystemCopyInOperation }
+
+  TFileSystemCopyInOperation = class(TFileSystemCopyOperation)
+
+  protected
+    function GetID: TFileSourceOperationType; override;
+
+  end;
+
+  { TFileSystemCopyOutOperation }
+
+  TFileSystemCopyOutOperation = class(TFileSystemCopyOperation)
+
+  protected
+    function GetID: TFileSourceOperationType; override;
+
+  end;
+
 implementation
 
 uses
   uGlobs;
 
-// -- TFileSystemCopyInOperation ----------------------------------------------
+// -- TFileSystemCopyOperation ---------------------------------------------
 
-constructor TFileSystemCopyInOperation.Create(aSourceFileSource: IFileSource;
-                                              aTargetFileSource: IFileSource;
-                                              var theSourceFiles: TFiles;
-                                              aTargetPath: String);
-begin
-  inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
-end;
-
-procedure TFileSystemCopyInOperation.MainExecute;
-begin
-end;
-
-// -- TFileSystemCopyOutOperation ---------------------------------------------
-
-constructor TFileSystemCopyOutOperation.Create(aSourceFileSource: IFileSource;
+constructor TFileSystemCopyOperation.Create(aSourceFileSource: IFileSource;
                                                aTargetFileSource: IFileSource;
                                                var theSourceFiles: TFiles;
                                                aTargetPath: String);
@@ -113,7 +107,7 @@ begin
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
 
-destructor TFileSystemCopyOutOperation.Destroy;
+destructor TFileSystemCopyOperation.Destroy;
 begin
   inherited Destroy;
 
@@ -124,7 +118,7 @@ begin
     FreeAndNil(FOperationHelper);
 end;
 
-procedure TFileSystemCopyOutOperation.Initialize;
+procedure TFileSystemCopyOperation.Initialize;
 var
   TreeBuilder: TFileSystemTreeBuilder;
 begin
@@ -170,15 +164,29 @@ begin
   FOperationHelper.Initialize;
 end;
 
-procedure TFileSystemCopyOutOperation.MainExecute;
+procedure TFileSystemCopyOperation.MainExecute;
 begin
   FOperationHelper.ProcessTree(FSourceFilesTree);
 end;
 
-procedure TFileSystemCopyOutOperation.Finalize;
+procedure TFileSystemCopyOperation.Finalize;
 begin
   if Assigned(FOperationHelper) then
     FreeAndNil(FOperationHelper);
+end;
+
+{ TFileSystemCopyInOperation }
+
+function TFileSystemCopyInOperation.GetID: TFileSourceOperationType;
+begin
+  Result:= fsoCopyIn;
+end;
+
+{ TFileSystemCopyOutOperation }
+
+function TFileSystemCopyOutOperation.GetID: TFileSourceOperationType;
+begin
+  Result:= fsoCopyOut;
 end;
 
 end.
