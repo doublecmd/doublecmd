@@ -1795,12 +1795,22 @@ end;
 
 procedure TfrmMain.HotDirSelected(Sender: TObject);
 var
-  sDummy: String;
+  aPath: String;
 begin
   // this handler is used by HotDir and DirHistory
-  sDummy:= (Sender as TMenuItem).Hint;
-  sDummy:= mbExpandFileName(sDummy);
-  ActiveFrame.CurrentPath:= sDummy;
+  aPath := (Sender as TMenuItem).Hint;
+  aPath := mbExpandFileName(aPath);
+
+  // Hot dirs only supported for filesystem.
+  if not ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
+  begin
+    ActiveFrame.RemoveAllFileSources;
+    ActiveFrame.AddFileSource(TFileSystemFileSource.GetFileSource, aPath);
+  end
+  else
+  begin
+    ActiveFrame.CurrentPath := aPath;
+  end;
 end;
 
 procedure TfrmMain.edtCommandKeyUp(Sender: TObject; var Key: Word;
