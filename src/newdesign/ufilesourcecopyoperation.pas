@@ -30,6 +30,9 @@ type
   {en
      Base class for CopyIn and CopyOut operations.
   }
+
+  { TFileSourceCopyOperation }
+
   TFileSourceCopyOperation = class(TFileSourceOperation)
 
   private
@@ -44,6 +47,7 @@ type
     FDropReadOnlyAttribute: Boolean;
 
   protected
+    function GetID: TFileSourceOperationType; override;
     procedure DoReloadFileSources; override;
     procedure UpdateStatistics(var NewStatistics: TFileSourceCopyOperationStatistics);
     procedure UpdateStatisticsAtStartTime; override;
@@ -146,6 +150,7 @@ begin
   FStatisticsLock := TCriticalSection.Create;
 
   case GetID of
+    fsoCopy,
     fsoCopyIn:
       // Copy into target - run on target.
       inherited Create(aTargetFileSource);
@@ -174,6 +179,11 @@ begin
     FreeAndNil(FStatisticsLock);
   if Assigned(FSourceFiles) then
     FreeAndNil(FSourceFiles);
+end;
+
+function TFileSourceCopyOperation.GetID: TFileSourceOperationType;
+begin
+  Result:= fsoCopy;
 end;
 
 procedure TFileSourceCopyOperation.DoReloadFileSources;

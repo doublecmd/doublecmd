@@ -44,6 +44,8 @@ type
     function CreateFiles(const APath: String): TFiles;
 
     function CreateListOperation(TargetPath: String): TFileSourceOperation;
+    function CreateCopyOperation(var SourceFiles: TFiles;
+                                 TargetPath: String): TFileSourceOperation;
     function CreateCopyInOperation(SourceFileSource: IFileSource;
                                    var SourceFiles: TFiles;
                                    TargetPath: String): TFileSourceOperation;
@@ -176,6 +178,8 @@ type
 
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; virtual;
+    function CreateCopyOperation(var SourceFiles: TFiles;
+                                 TargetPath: String): TFileSourceOperation; virtual;
     function CreateCopyInOperation(SourceFileSource: IFileSource;
                                    var SourceFiles: TFiles;
                                    TargetPath: String): TFileSourceOperation; virtual;
@@ -464,6 +468,12 @@ begin
 end;
 
 function TFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
+begin
+  Result := nil;
+end;
+
+function TFileSource.CreateCopyOperation(var SourceFiles: TFiles;
+                                         TargetPath: String): TFileSourceOperation;
 begin
   Result := nil;
 end;
@@ -764,4 +774,4 @@ finalization
   FreeAndNil(FileSourceManager);
 
 end.
-
+
