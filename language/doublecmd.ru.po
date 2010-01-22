@@ -798,8 +798,8 @@ msgid "-----------"
 msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
-msgid "Representation in text:"
-msgstr "В виде текста:"
+msgid "Text:"
+msgstr "Текст:"
 
 #: TFRMFILEPROPERTIES.LBLEXEC.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"

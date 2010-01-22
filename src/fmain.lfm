@@ -891,7 +891,7 @@ object frmMain: TfrmMain
     left = 283
     top = 8
     object mnuFiles: TMenuItem
-      Caption = 'Files'
+      Caption = '&Files'
       object mnuFilesLink: TMenuItem
         Action = actHardLink
         OnClick = actExecute
@@ -1078,7 +1078,7 @@ object frmMain: TfrmMain
         Caption = '-'
       end
       object mnuTabOptions: TMenuItem
-        Caption = 'Options'
+        Caption = '&Options'
         object mnuTabOptionNormal: TMenuItem
           Action = actSetTabOptionNormal
           OnClick = actExecute
@@ -1202,7 +1202,7 @@ object frmMain: TfrmMain
     top = 8
     object actExit: TAction
       Category = 'File'
-      Caption = 'Exit'
+      Caption = 'E&xit'
       HelpType = htKeyword
       OnExecute = actExecute
     end
@@ -1244,7 +1244,7 @@ object frmMain: TfrmMain
     end
     object actAbout: TAction
       Category = 'Help'
-      Caption = 'About'
+      Caption = '&About'
       HelpType = htKeyword
       OnExecute = actExecute
     end
@@ -1257,7 +1257,7 @@ object frmMain: TfrmMain
     end
     object actOptions: TAction
       Category = 'Config'
-      Caption = 'Options...'
+      Caption = '&Options...'
       HelpType = htKeyword
       OnExecute = actExecute
     end
@@ -1437,7 +1437,7 @@ object frmMain: TfrmMain
     end
     object actNewTab: TAction
       Category = 'Tabs'
-      Caption = 'New tab'
+      Caption = '&New tab'
       HelpType = htKeyword
       OnExecute = actExecute
     end
@@ -1453,7 +1453,7 @@ object frmMain: TfrmMain
     end
     object actOpenVirtualFileSystemList: TAction
       Category = 'Commands'
-      Caption = 'Open VFS List'
+      Caption = 'Open &VFS List'
       OnExecute = actExecute
     end
     object actLeftOpenDrives: TAction
@@ -1508,7 +1508,7 @@ object frmMain: TfrmMain
     end
     object actFileAssoc: TAction
       Category = 'Config'
-      Caption = 'File associations...'
+      Caption = 'File &associations...'
       OnExecute = actExecute
     end
     object actOpen: TAction
@@ -1573,17 +1573,17 @@ object frmMain: TfrmMain
     end
     object actKeyboard: TAction
       Category = 'Help'
-      Caption = 'Keyboard'
+      Caption = '&Keyboard'
       OnExecute = actExecute
     end
     object actVisitHomePage: TAction
       Category = 'Help'
-      Caption = 'Visit Double Commander Web Site'
+      Caption = '&Visit Double Commander Web Site'
       OnExecute = actExecute
     end
     object actHelpIndex: TAction
       Category = 'Help'
-      Caption = 'Contents'
+      Caption = '&Contents'
       OnExecute = actExecute
     end
     object actLeftEqualRight: TAction
@@ -1683,48 +1683,48 @@ object frmMain: TfrmMain
     end
     object actOpenDirInNewTab: TAction
       Category = 'Tabs'
-      Caption = 'Open folder in new tab'
+      Caption = 'Open &folder in new tab'
       OnExecute = actExecute
     end
     object actRemoveTab: TAction
       Category = 'Tabs'
-      Caption = 'Remove tab'
+      Caption = '&Remove tab'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actRemoveAllTabs: TAction
       Category = 'Tabs'
-      Caption = 'Remove all tabs'
+      Caption = 'Remove &all tabs'
       OnExecute = actExecute
     end
     object actSetTabOptionNormal: TAction
       Category = 'Tabs'
-      Caption = 'Normal'
+      Caption = '&Normal'
       OnExecute = actExecute
     end
     object actSetTabOptionPathLocked: TAction
       Category = 'Tabs'
-      Caption = 'Locked'
+      Caption = '&Locked'
       OnExecute = actExecute
     end
     object actSetTabOptionPathResets: TAction
       Category = 'Tabs'
-      Caption = 'Locked, but directory changes allowed'
+      Caption = 'Locked, but &directory changes allowed'
       OnExecute = actExecute
     end
     object actSetTabOptionDirsInNewTab: TAction
       Category = 'Tabs'
-      Caption = 'Directories are opened in new tabs'
+      Caption = 'Directories are opened in new &tabs'
       OnExecute = actExecute
     end
     object actNextTab: TAction
       Category = 'Tabs'
-      Caption = 'Switch to next tab'
+      Caption = 'Switch to nex&t tab'
       OnExecute = actExecute
     end
     object actPrevTab: TAction
       Category = 'Tabs'
-      Caption = 'Switch to previous tab'
+      Caption = 'Switch to &previous tab'
       OnExecute = actExecute
     end
     object actOpenBar: TAction
@@ -2921,7 +2921,7 @@ object frmMain: TfrmMain
       Caption = '-'
     end
     object miTrayIconExit: TMenuItem
-      Caption = 'Exit'
+      Caption = 'E&xit'
       OnClick = miTrayIconExitClick
     end
   end
