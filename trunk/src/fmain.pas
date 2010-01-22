@@ -453,6 +453,7 @@ type
     procedure DriveListDriveSelected(Sender: TObject; ADriveIndex: Integer;
       APanel: TFilePanelSelect);
     procedure DriveListClose(Sender: TObject);
+    procedure SetPanelDrive(aPanel: TFilePanelSelect; aPath: UTF8String);
 
   public
     procedure HandleActionHotKeys(var Key: Word; Shift: TShiftState);
@@ -1239,38 +1240,17 @@ begin
     end;
     
   if dskPanel.Buttons[NumberOfButton].GroupIndex = 0 then
-     begin
-       // Command := dskPanel.Commands[NumberOfButton];
-       PanelButtonClick(dskPanel.Buttons[NumberOfButton], FileView, PanelSelected)
-     end
+    begin
+      // Command := dskPanel.Commands[NumberOfButton];
+      PanelButtonClick(dskPanel.Buttons[NumberOfButton], FileView, PanelSelected)
+    end
   else
-   begin
-     if IsAvailable(dskPanel.Commands[NumberOfButton]) then
-       begin
-         if PanelSelected = fpRight then
-           begin
-             if IncludeTrailingPathDelimiter(ExtractFileDrive(FrameLeft.CurrentPath)) = dskPanel.Commands[NumberOfButton] then
-               FileView.CurrentPath := FrameLeft.CurrentPath
-             else
-               FileView.CurrentPath := dskPanel.Commands[NumberOfButton];
-           end
-         else
-           begin
-             if IncludeTrailingPathDelimiter(ExtractFileDrive(FrameRight.CurrentPath)) = dskPanel.Commands[NumberOfButton] then
-               FileView.CurrentPath := FrameRight.CurrentPath
-             else
-               FileView.CurrentPath := dskPanel.Commands[NumberOfButton];
-           end;
-       end
-     else
-       begin
-         msgOK(rsMsgDiskNotAvail);
-       end;
-  end;
+    begin
+      SetPanelDrive(PanelSelected, dskPanel.Commands[NumberOfButton]);
+    end;
 
   SetActiveFrame(PanelSelected);
 end;
-
 
 procedure TfrmMain.MainToolBarMouseUp(Sender: TOBject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
@@ -3435,32 +3415,56 @@ procedure TfrmMain.DriveListDriveSelected(Sender: TObject; ADriveIndex: Integer;
 var
   Drive: PDrive;
 begin
-  begin
-    Drive := PDrive(DrivesList.Items[ADriveIndex]);
-    if IsAvailable(Drive^.Path) then
-       begin
-         case APanel of
-           fpLeft:
-             begin
-               FrameLeft.CurrentPath := Drive^.Path;
-             end;
-           fpRight:
-             begin
-               FrameRight.CurrentPath := Drive^.Path;
-             end;
-         end;  // case
-       end
-     else
-       begin
-         msgOK(rsMsgDiskNotAvail);
-       end;
-  end;
+  Drive := PDrive(DrivesList.Items[ADriveIndex]);
+  SetPanelDrive(APanel, Drive^.Path);
 end;
 
 procedure TfrmMain.DriveListClose(Sender: TObject);
 begin
   if Sender is TDrivesListPopup then
     SetActiveFrame(TDrivesListPopup(Sender).Panel);
+end;
+
+procedure TfrmMain.SetPanelDrive(aPanel: TFilePanelSelect; aPath: UTF8String);
+var
+  FileView, OtherFileView: TFileView;
+begin
+  if IsAvailable(aPath) then
+  begin
+    case aPanel of
+      fpLeft:
+        begin
+          FileView := FrameLeft;
+          OtherFileView := FrameRight;
+        end;
+      fpRight:
+        begin
+          FileView := FrameRight;
+          OtherFileView := FrameLeft;
+        end;
+    end;
+
+    // Copy path opened in the other panel if the file source and drive match.
+    if OtherFileView.FileSource.IsClass(TFileSystemFileSource) and
+       (OtherFileView.FileSource.GetRootDir(OtherFileView.CurrentPath) = aPath) then
+    begin
+      aPath := OtherFileView.CurrentPath;
+    end;
+
+    if not FileView.FileSource.IsClass(TFileSystemFileSource) then
+    begin
+      FileView.RemoveAllFileSources;
+      FileView.AddFileSource(TFileSystemFileSource.GetFileSource, aPath);
+    end
+    else
+    begin
+      FileView.CurrentPath := aPath;
+    end;
+  end
+  else
+  begin
+    msgWarning(rsMsgDiskNotAvail);
+  end;
 end;
 
 initialization

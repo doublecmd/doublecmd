@@ -88,6 +88,7 @@ type
 
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); virtual;
     procedure RemoveLastFileSource; virtual;
+    procedure RemoveAllFileSources; virtual;
     {en
        Assigns the list of file sources and paths into those file sources
        from another file view.
@@ -250,6 +251,8 @@ begin
   for i := 0 to FFileSources.Count - 1 do
     FFileSources.Items[i].RemoveReloadEventListener(@ReloadEvent);
 
+  RemoveAllFileSources;
+
   inherited;
 
   FreeAndNil(FMethods);
@@ -375,7 +378,8 @@ end;
 procedure TFileView.AddFileSource(aFileSource: IFileSource;
                                   aPath: String);
 begin
-  FileSource.RemoveReloadEventListener(@ReloadEvent);
+  if Assigned(FileSource) then
+    FileSource.RemoveReloadEventListener(@ReloadEvent);
   FFileSources.Add(aFileSource);
   FCurrentPaths.Add(aPath);
   Reload;
@@ -385,12 +389,25 @@ end;
 
 procedure TFileView.RemoveLastFileSource;
 begin
-  FileSource.RemoveReloadEventListener(@ReloadEvent);
-  FFileSources.Delete(FFileSources.Count - 1);
-  FCurrentPaths.Delete(FCurrentPaths.Count - 1);
-  Reload;
-  UpdateView;
-  FileSource.AddReloadEventListener(@ReloadEvent);
+  if FileSourcesCount > 0 then
+  begin
+    FileSource.RemoveReloadEventListener(@ReloadEvent);
+    FFileSources.Delete(FFileSources.Count - 1);
+    FCurrentPaths.Delete(FCurrentPaths.Count - 1);
+    Reload;
+    UpdateView;
+    FileSource.AddReloadEventListener(@ReloadEvent);
+  end;
+end;
+
+procedure TFileView.RemoveAllFileSources;
+begin
+  if FileSourcesCount > 0 then
+  begin
+    FileSource.RemoveReloadEventListener(@ReloadEvent);
+    FFileSources.Clear;
+    FCurrentPaths.Clear;
+  end;
 end;
 
 procedure TFileView.AssignFileSources(const otherFileView: TFileView);
@@ -464,4 +481,4 @@ begin
 end;
 
 end.
-
+
