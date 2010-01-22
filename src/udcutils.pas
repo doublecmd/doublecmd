@@ -358,6 +358,8 @@ function GetRootDir(sPath : String) : String;
 begin
 {$IF DEFINED(MSWINDOWS)}
   Result := ExtractFileDrive(sPath);
+  if Result <> '' then
+    Result := Result + PathDelim;
 {$ELSEIF DEFINED(UNIX)}
   Result := PathDelim;  // Hardcoded
 {$ELSE}
@@ -1025,4 +1027,4 @@ begin
 end;
 
 end.
-
+
