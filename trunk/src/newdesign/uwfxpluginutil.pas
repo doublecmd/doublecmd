@@ -18,7 +18,7 @@ uses
 type
 
   TWfxPluginOperationHelperMode =
-    (wpohmCopyIn, wpohmCopyOut, wpohmMoveIn, wpohmMoveOut);
+    (wpohmCopy, wpohmCopyIn, wpohmCopyOut, wpohmMove);
 
   TUpdateStatisticsFunction = procedure(var NewStatistics: TFileSourceCopyOperationStatistics) of object;
 
@@ -65,7 +65,7 @@ type
                        StartingStatistics: TFileSourceCopyOperationStatistics);
     destructor Destroy; override;
 
-    procedure Initialize(Internal: Boolean);
+    procedure Initialize;
 
     procedure ProcessFiles(aFiles: TFiles);
 
@@ -155,13 +155,13 @@ function TWfxPluginOperationHelper.ProcessDirectory(aFile: TFile;
 begin
   Result:= WFX_ERROR;
   case FMode of
+  wpohmCopy,
   wpohmCopyIn,
-  wpohmMoveIn:
+  wpohmMove:
     begin
       Result:= FWfxPluginFileSource.WfxModule.WfxMkDir('', AbsoluteTargetFileName);
     end;
-  wpohmCopyOut,
-  wpohmMoveOut:
+  wpohmCopyOut:
     begin
       if mbForceDirectory(AbsoluteTargetFileName) then
         Result:= WFX_SUCCESS;
@@ -195,9 +195,9 @@ begin
         LastWriteTime := DateTimeToWfxFileTime((aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
         Attr := LongInt((aFile.Properties[fpAttributes] as TFileAttributesProperty).Value);
       end;
-      if (FMode in [wpohmMoveIn, wpohmMoveOut]) then
+      if (FMode = wpohmMove) then
         iFlags:= iFlags + FS_COPYFLAGS_MOVE;
-      bCopyMoveIn:= (FMode in [wpohmCopyIn, wpohmMoveIn]);
+      bCopyMoveIn:= (FMode = wpohmCopyIn);
       Result := WfxCopyMove(aFile.Path + aFile.Name, AbsoluteTargetFileName, iFlags, @RemoteInfo, FInternal, bCopyMoveIn);
 
       case Result of
@@ -293,6 +293,7 @@ begin
   UpdateStatistics := UpdateStatisticsFunction;
   FOperationThread:= OperationThread;
   FMode := Mode;
+  FInternal:= (FMode in [wpohmCopy, wpohmMove]);
 
   FFileExistsOption := fsoofeNone;
   FRootTargetPath := TargetPath;
@@ -308,16 +309,14 @@ begin
   inherited Destroy;
 end;
 
-procedure TWfxPluginOperationHelper.Initialize(Internal: Boolean);
+procedure TWfxPluginOperationHelper.Initialize;
 begin
-  FInternal:= Internal;
-
   case FMode of
+  wpohmCopy,
   wpohmCopyIn,
   wpohmCopyOut:
     FLogCaption := rsMsgLogCopy;
-  wpohmMoveIn,
-  wpohmMoveOut:
+  wpohmMove:
     FLogCaption := rsMsgLogMove;
   end;
 
@@ -355,7 +354,7 @@ begin
 
       UpdateStatistics(FStatistics);
 
-      if (not aFile.IsDirectory) or FInternal then
+      if not aFile.IsDirectory then
         iResult := ProcessFile(aFile, sTargetFile)
       else
         iResult := ProcessDirectory(aFile, sTargetFile);

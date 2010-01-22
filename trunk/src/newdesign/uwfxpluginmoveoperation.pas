@@ -30,7 +30,6 @@ type
     FStatistics: TFileSourceMoveOperationStatistics; // local copy of statistics
     FCurrentFileSize: Int64;
     // Options
-    FInternal: Boolean;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
   protected
     function UpdateProgress(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
@@ -86,7 +85,6 @@ begin
   FWfxPluginFileSource:= aFileSource as IWfxPluginFileSource;
   with FWfxPluginFileSource do
   FCallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNumber]);
-  FInternal:= True;
   inherited Create(aFileSource, theSourceFiles, aTargetPath);
 end;
 
@@ -123,14 +121,14 @@ begin
                         @CheckOperationState,
                         @UpdateStatistics,
                         Thread,
-                        wpohmMoveIn,
+                        wpohmMove,
                         TargetPath,
                         FStatistics);
 
   FOperationHelper.RenameMask := RenameMask;
   FOperationHelper.FileExistsOption := FileExistsOption;
 
-  FOperationHelper.Initialize(FInternal);
+  FOperationHelper.Initialize;
 end;
 
 procedure TWfxPluginMoveOperation.MainExecute;

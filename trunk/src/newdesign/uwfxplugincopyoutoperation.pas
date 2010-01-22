@@ -27,7 +27,6 @@ type
     FFullFilesTreeToCopy: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     // Options
-    FInternal: Boolean;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
   protected
     function UpdateProgress(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
@@ -85,7 +84,6 @@ begin
   FWfxPluginFileSource:= aSourceFileSource as IWfxPluginFileSource;
   with FWfxPluginFileSource do
   FCallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNumber]);
-  FInternal:= aTargetFileSource.IsInterface(IWfxPluginFileSource);
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
 
@@ -129,7 +127,7 @@ begin
   FOperationHelper.RenameMask := RenameMask;
   FOperationHelper.FileExistsOption := FileExistsOption;
 
-  FOperationHelper.Initialize(FInternal);
+  FOperationHelper.Initialize;
 end;
 
 procedure TWfxPluginCopyOutOperation.MainExecute;

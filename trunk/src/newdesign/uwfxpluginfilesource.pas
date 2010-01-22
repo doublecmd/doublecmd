@@ -74,6 +74,8 @@ type
 
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
+    function CreateCopyOperation(var SourceFiles: TFiles;
+                                 TargetPath: String): TFileSourceOperation; override;
     function CreateCopyInOperation(SourceFileSource: IFileSource;
                                    var SourceFiles: TFiles;
                                    TargetPath: String): TFileSourceOperation; override;
@@ -106,7 +108,8 @@ uses
   LCLProc, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, uDCUtils, uLog, uLng, uCryptProc,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
-  uWfxPluginDeleteOperation, uWfxPluginFile, uWfxPluginUtil, uWfxPluginSetFilePropertyOperation;
+  uWfxPluginDeleteOperation, uWfxPluginFile, uWfxPluginUtil, uWfxPluginSetFilePropertyOperation,
+  uWfxPluginCopyOperation;
 
 { CallBack functions }
 
@@ -432,7 +435,7 @@ begin
     if Assigned(FsGetFile) or Assigned(FsGetFileW) then
       Result:= Result + [fsoCopyOut];
     if Assigned(FsRenMovFile) or Assigned(FsRenMovFileW) then
-      Result:= Result + [fsoMove];
+      Result:= Result + [fsoCopy, fsoMove];
     if Assigned(FsDeleteFile) or Assigned(FsDeleteFileW) then
         Result:= Result + [fsoDelete];
     if Assigned(FsMkDir) or Assigned(FsMkDirW) then
@@ -569,6 +572,15 @@ var
 begin
   TargetFileSource := Self;
   Result := TWfxPluginListOperation.Create(TargetFileSource, TargetPath);
+end;
+
+function TWfxPluginFileSource.CreateCopyOperation(var SourceFiles: TFiles;
+                                                  TargetPath: String): TFileSourceOperation;
+var
+  FileSource: IFileSource;
+begin
+  FileSource := Self;
+  Result := TWfxPluginCopyOperation.Create(FileSource, FileSource, SourceFiles, TargetPath);
 end;
 
 function TWfxPluginFileSource.CreateCopyInOperation(
