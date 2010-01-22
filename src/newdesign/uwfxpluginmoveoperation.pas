@@ -30,6 +30,7 @@ type
     FStatistics: TFileSourceMoveOperationStatistics; // local copy of statistics
     FCurrentFileSize: Int64;
     // Options
+    FInfoOperation: LongInt;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
   protected
     function UpdateProgress(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
@@ -85,6 +86,12 @@ begin
   FWfxPluginFileSource:= aFileSource as IWfxPluginFileSource;
   with FWfxPluginFileSource do
   FCallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNumber]);
+
+  if theSourceFiles.Count > 1 then
+    FInfoOperation:= FS_STATUS_OP_RENMOV_MULTI
+  else
+    FInfoOperation:= FS_STATUS_OP_RENMOV_SINGLE;
+
   inherited Create(aFileSource, theSourceFiles, aTargetPath);
 end;
 
@@ -97,7 +104,7 @@ procedure TWfxPluginMoveOperation.Initialize;
 begin
   with FWfxPluginFileSource do
   begin
-    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_START, FS_STATUS_OP_PUT_MULTI);
+    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_START, FInfoOperation);
     FCallbackDataClass.UpdateProgressFunction:= @UpdateProgress;
     // Get initialized statistics; then we change only what is needed.
     FStatistics := RetrieveStatistics;
@@ -140,7 +147,7 @@ procedure TWfxPluginMoveOperation.Finalize;
 begin
   with FWfxPluginFileSource do
   begin
-    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_END, FS_STATUS_OP_PUT_MULTI);
+    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_END, FInfoOperation);
     FCallbackDataClass.UpdateProgressFunction:= nil;
   end;
 end;
