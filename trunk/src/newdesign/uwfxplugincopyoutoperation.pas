@@ -27,6 +27,7 @@ type
     FFullFilesTreeToCopy: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     // Options
+    FInfoOperation: LongInt;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
   protected
     function UpdateProgress(SourceName, TargetName: UTF8String; PercentDone: Integer): Integer;
@@ -84,6 +85,12 @@ begin
   FWfxPluginFileSource:= aSourceFileSource as IWfxPluginFileSource;
   with FWfxPluginFileSource do
   FCallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNumber]);
+
+  if theSourceFiles.Count > 1 then
+    FInfoOperation:= FS_STATUS_OP_GET_MULTI
+  else
+    FInfoOperation:= FS_STATUS_OP_GET_SINGLE;
+
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
 
@@ -96,7 +103,7 @@ procedure TWfxPluginCopyOutOperation.Initialize;
 begin
   with FWfxPluginFileSource do
   begin
-    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_START, FS_STATUS_OP_PUT_MULTI);
+    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_START, FInfoOperation);
     FCallbackDataClass.UpdateProgressFunction:= @UpdateProgress;
     // Get initialized statistics; then we change only what is needed.
     FStatistics := RetrieveStatistics;
@@ -139,7 +146,7 @@ procedure TWfxPluginCopyOutOperation.Finalize;
 begin
   with FWfxPluginFileSource do
   begin
-    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_END, FS_STATUS_OP_PUT_MULTI);
+    WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_END, FInfoOperation);
     FCallbackDataClass.UpdateProgressFunction:= nil;
   end;
 end;
