@@ -3268,6 +3268,7 @@ begin
 
   StartDrag := False;
   DropRowIndex := -1;
+  HintRowIndex := -1;
 
   DoubleBuffered := True;
   Align := alClient;
@@ -3706,29 +3707,39 @@ begin
         end;
       end;
     end;
+
   // Show file info tooltip
   if ShowHint then
     begin
-      MouseToCell(X, Y, iCol, iRow);
-      if (iRow <> HintRowIndex) and (iRow >= FixedRows) then
+      if Y < GridHeight then
         begin
-          aRect:= CellRect(0, iRow);
-          HintRowIndex:= iRow;
+          MouseToCell(X, Y, iCol, iRow);
+          if (iRow <> HintRowIndex) and (iRow >= FixedRows) then
+            begin
+              aRect:= CellRect(0, iRow);
+              HintRowIndex:= iRow;
+              Application.CancelHint;
+              Self.Hint:= EmptyStr; // don't show by default
+              with (Parent as TColumnsFileView) do
+              begin
+                AFile := FFiles[HintRowIndex - FixedRows];
+                iCol:= aRect.Right - aRect.Left - 8;
+                if gShowIcons <> sim_none then
+                  Dec(iCol, gIconsSize);
+                if iCol < Self.Canvas.TextWidth(AFile.TheFile.Name) then // with file name
+                    Self.Hint:= AFile.TheFile.Name
+                else if (stm_only_large_name in gShowToolTipMode) then // don't show
+                  Exit
+                else if not AFile.TheFile.IsDirectory then // without name
+                  Self.Hint:= #32;
+              end;
+            end;
+        end
+      else
+        begin
+          HintRowIndex:= -1;
           Application.CancelHint;
-          Self.Hint:= EmptyStr; // don't show by default
-          with (Parent as TColumnsFileView) do
-          begin
-            AFile := FFiles[HintRowIndex - FixedRows];
-            iCol:= aRect.Right - aRect.Left - 8;
-            if gShowIcons <> sim_none then
-              Dec(iCol, gIconsSize);
-            if iCol < Self.Canvas.TextWidth(AFile.TheFile.Name) then // with file name
-                Self.Hint:= AFile.TheFile.Name
-            else if (stm_only_large_name in gShowToolTipMode) then // don't show
-              Exit
-            else if not AFile.TheFile.IsDirectory then // without name
-              Self.Hint:= #32;
-          end;
+          Self.Hint:= EmptyStr;
         end;
     end;
 end;
