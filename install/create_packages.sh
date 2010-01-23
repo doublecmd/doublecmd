@@ -41,7 +41,8 @@ if [ "$CPU_TARGET" = "x86_64" ]
 fi
 
 # Copy libraries
-cp -a linux/lib/$CPU_TARGET/*.so    $BUILD_DC_TMP_DIR/
+cp -a linux/lib/$CPU_TARGET/*.so         $BUILD_DC_TMP_DIR/
+cp -a linux/lib/$CPU_TARGET/$lcl/*.so    $BUILD_DC_TMP_DIR/
 
 cd $BUILD_DC_TMP_DIR
 
