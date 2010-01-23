@@ -57,7 +57,7 @@ checkinstall -R --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$CP
 
 # Create *.deb package
 
-checkinstall -D --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$DEB_ARCH --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --requires=libx11-6 --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
+checkinstall -D --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$DEB_ARCH --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=contrib/misc --requires=libx11-6 --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
 
 # Create *.tgz package
 
