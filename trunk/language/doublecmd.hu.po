@@ -1088,6 +1088,10 @@ msgstr "Haladó"
 msgid "Load/Save"
 msgstr ""
 
+#: TFRMFINDDLG.TSRESULTS.CAPTION
+msgid "Results"
+msgstr ""
+
 #: TFRMFINDDLG.TSSTANDARD.CAPTION
 msgid "Standard"
 msgstr "Alap"

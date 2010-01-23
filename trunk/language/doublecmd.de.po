@@ -1074,6 +1074,10 @@ msgstr "Fortgeschritten"
 msgid "Load/Save"
 msgstr "Laden/Speichern"
 
+#: TFRMFINDDLG.TSRESULTS.CAPTION
+msgid "Results"
+msgstr ""
+
 #: TFRMFINDDLG.TSSTANDARD.CAPTION
 msgid "Standard"
 msgstr "Standard"
