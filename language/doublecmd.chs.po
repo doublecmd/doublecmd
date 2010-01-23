@@ -1080,6 +1080,10 @@ msgstr "高级"
 msgid "Load/Save"
 msgstr "载入/保存"
 
+#: TFRMFINDDLG.TSRESULTS.CAPTION
+msgid "Results"
+msgstr ""
+
 #: TFRMFINDDLG.TSSTANDARD.CAPTION
 msgid "Standard"
 msgstr "标准"

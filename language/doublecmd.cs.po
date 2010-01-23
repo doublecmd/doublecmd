@@ -1098,6 +1098,10 @@ msgstr "Rozžířené"
 msgid "Load/Save"
 msgstr "Načist/uložit"
 
+#: TFRMFINDDLG.TSRESULTS.CAPTION
+msgid "Results"
+msgstr ""
+
 #: TFRMFINDDLG.TSSTANDARD.CAPTION
 msgid "Standard"
 msgstr "Standard"
