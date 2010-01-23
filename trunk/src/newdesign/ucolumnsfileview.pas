@@ -1166,6 +1166,7 @@ begin
   Actions.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y);
   // get current row
   dgPanel.MouseToCell(Mouse.CursorPos.x, Mouse.CursorPos.y, iRow, iCol);
+  if iRow < dgPanel.FixedRows then Exit;
   AFile := FFiles[iRow - dgPanel.FixedRows]; // get current file
   MarkFile(AFile, False); // unselect file
   dgPanel.InvalidateRow(iRow); // invalidate current row
