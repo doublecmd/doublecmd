@@ -912,18 +912,23 @@ end;
 
 procedure InsertFirstItem(sLine: String; comboBox: TCustomComboBox);
 var
-  I: Integer;
+  I: Integer = 0;
 begin
   if sLine = EmptyStr then Exit;
-  I:= comboBox.Items.IndexOf(sLine);
-  if I < 0 then
-    comboBox.Items.Insert(0, sLine)
-  else
-    begin
-      comboBox.Items.Move(I, 0);
-      // Reset selected item (and combobox text), because Move has destroyed it.
-      comboBox.ItemIndex := 0;
-    end;
+  with comboBox.Items do
+  begin
+    // Use case sensitive search
+    while (I < Count) and (CompareStr(Strings[I], sLine) <> 0) do Inc(I);
+
+    if (I < 0) or (I >= Count) then
+      comboBox.Items.Insert(0, sLine)
+    else
+      begin
+        comboBox.Items.Move(I, 0);
+        // Reset selected item (and combobox text), because Move has destroyed it.
+        comboBox.ItemIndex := 0;
+      end;
+  end;
 end;
 
 function StrNewW(const mbString: UTF8String): PWideChar;
