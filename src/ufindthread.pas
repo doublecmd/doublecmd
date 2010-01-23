@@ -74,6 +74,7 @@ TFindThread = class(TThread)
     FReplaceInFiles : Boolean;
     FReplaceData : String;
 
+    procedure SetFileMask(const AValue: String);
     procedure SetSearchDepth(const AValue: Integer);
     function CheckFileDate(DT : TFileTime) : Boolean;
     function CheckFileSize(FileSize : Int64) : Boolean;
@@ -91,7 +92,7 @@ TFindThread = class(TThread)
     procedure FillSearchRecord(var Srec:TSearchAttrRecord);
     function IsAborting: Boolean;
 
-    property FilterMask:String read FFileMask write FFileMask;
+    property FilterMask:String read FFileMask write SetFileMask;
     property PathStart:String read FPathStart write FPathStart;
     property Items:TStrings write FItems;
     property RegularExpressions: Boolean read FRegExp write FRegExp;
@@ -190,6 +191,14 @@ begin
     FSearchDepth:= MaxInt
   else
     FSearchDepth:= AValue;
+end;
+
+procedure TFindThread.SetFileMask(const AValue: String);
+begin
+  // use case insensitive mask because
+  // MatchesMaskList work incorrect with non ACSII characters
+  // since it use UpCase function
+  FFileMask:= UTF8UpperCase(AValue);
 end;
 
 procedure TFindThread.AddFile;
@@ -376,7 +385,7 @@ begin
     Exit(False);
 
   //DebugLn('File = ', sr.Name);
-  if (not FRegExp) and (not MatchesMaskList(sr.Name, FFileMask)) then
+  if (not FRegExp) and (not MatchesMaskList(UTF8UpperCase(sr.Name), FFileMask)) then
     Exit(False);
 
   if (FIsDateFrom or FIsDateTo or FIsTimeFrom or FIsTimeTo) then
