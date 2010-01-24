@@ -73,12 +73,12 @@ Type
 
   public
     // module's functions
-  //**mandatory:
+    { Mandatory }
     OpenArchive : TOpenArchive;
     ReadHeader : TReadHeader;
     ProcessFile : TProcessFile;
     CloseArchive : TCloseArchive;
-  //**optional:
+    { Optional }
     ReadHeaderEx : TReadHeaderEx;
     PackFiles : TPackFiles;
     DeleteFiles : TDeleteFiles;
@@ -91,7 +91,17 @@ Type
     DoneMemPack : TDoneMemPack;
     CanYouHandleThisFile : TCanYouHandleThisFile;
     PackSetDefaultParams : TPackSetDefaultParams;
-    // Dialog API
+    { Unicode }
+    OpenArchiveW: TOpenArchiveW;
+    ReadHeaderExW: TReadHeaderExW;
+    ProcessFileW: TProcessFileW;
+    SetChangeVolProcW: TSetChangeVolProcW;
+    SetProcessDataProcW:TSetProcessDataProcW;
+    PackFilesW: TPackFilesW;
+    DeleteFilesW: TDeleteFilesW;
+    StartMemPackW: TStartMemPackW;
+    CanYouHandleThisFileW: TCanYouHandleThisFileW;
+    { Dialog API }
     SetDlgProc: TSetDlgProc;
 
     constructor Create;
@@ -194,7 +204,7 @@ begin
 
   DebugLn('WCX module loaded ' + sName + ' at ' + hexStr(Pointer(FModuleHandle)));
 
-  // mandatory functions
+  // Mandatory functions
   OpenArchive:= TOpenArchive(GetProcAddress(FModuleHandle,'OpenArchive'));
   ReadHeader:= TReadHeader(GetProcAddress(FModuleHandle,'ReadHeader'));
   ReadHeaderEx:= TReadHeaderEx(GetProcAddress(FModuleHandle,'ReadHeaderEx'));
@@ -212,7 +222,7 @@ begin
       Exit;
     end;
 
-  // optional functions
+  // Optional functions
   PackFiles:= TPackFiles(GetProcAddress(FModuleHandle,'PackFiles'));
   DeleteFiles:= TDeleteFiles(GetProcAddress(FModuleHandle,'DeleteFiles'));
   GetPackerCaps:= TGetPackerCaps(GetProcAddress(FModuleHandle,'GetPackerCaps'));
@@ -224,6 +234,16 @@ begin
   DoneMemPack:= TDoneMemPack(GetProcAddress(FModuleHandle,'DoneMemPack'));
   CanYouHandleThisFile:= TCanYouHandleThisFile(GetProcAddress(FModuleHandle,'CanYouHandleThisFile'));
   PackSetDefaultParams:= TPackSetDefaultParams(GetProcAddress(FModuleHandle,'PackSetDefaultParams'));
+  // Unicode
+  OpenArchiveW:= TOpenArchiveW(GetProcAddress(FModuleHandle,'OpenArchiveW'));
+  ReadHeaderExW:= TReadHeaderExW(GetProcAddress(FModuleHandle,'ReadHeaderExW'));
+  ProcessFileW:= TProcessFileW(GetProcAddress(FModuleHandle,'ProcessFileW'));
+  SetChangeVolProcW:= TSetChangeVolProcW(GetProcAddress(FModuleHandle,'SetChangeVolProcW'));
+  SetProcessDataProcW:= TSetProcessDataProcW(GetProcAddress(FModuleHandle,'SetProcessDataProcW'));
+  PackFilesW:= TPackFilesW(GetProcAddress(FModuleHandle,'PackFilesW'));
+  DeleteFilesW:= TDeleteFilesW(GetProcAddress(FModuleHandle,'DeleteFilesW'));
+  StartMemPackW:= TStartMemPackW(GetProcAddress(FModuleHandle,'StartMemPackW'));
+  CanYouHandleThisFileW:= TCanYouHandleThisFileW(GetProcAddress(FModuleHandle,'CanYouHandleThisFileW'));
   // Dialog API function
   SetDlgProc:= TSetDlgProc(GetProcAddress(FModuleHandle,'SetDlgProc'));
 
@@ -269,12 +289,13 @@ begin
     FreeLibrary(FModuleHandle);
     FModuleHandle := 0;
   end;
-
+  // Mandatory
   OpenArchive:= nil;
   ReadHeader:= nil;
   ReadHeaderEx:= nil;
   ProcessFile:= nil;
   CloseArchive:= nil;
+  // Optional
   PackFiles:= nil;
   DeleteFiles:= nil;
   GetPackerCaps:= nil;
@@ -286,6 +307,17 @@ begin
   DoneMemPack:= nil;
   CanYouHandleThisFile:= nil;
   PackSetDefaultParams:= nil;
+  // Unicode
+  OpenArchiveW:= nil;
+  ReadHeaderExW:= nil;
+  ProcessFileW:= nil;
+  SetChangeVolProcW:= nil;
+  SetProcessDataProcW:= nil;
+  PackFilesW:= nil;
+  DeleteFilesW:= nil;
+  StartMemPackW:= nil;
+  CanYouHandleThisFileW:= nil;
+  // DialogAPI
   SetDlgProc:= nil;
 end;
 
