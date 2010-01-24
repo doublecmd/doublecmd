@@ -57,6 +57,7 @@ Type
 
     constructor Create(const Data: PHeaderData); overload;
     constructor Create(const Data: PHeaderDataEx); overload;
+    constructor Create(const Data: PHeaderDataExW); overload;
     constructor Create; overload; // allows creating empty record
   end;
 
@@ -173,19 +174,36 @@ end;
 function TWCXModule.OpenArchiveHandle(FileName: String; anOpenMode: Longint; out OpenResult: Longint): TArcHandle;
 var
   ArcFile: tOpenArchiveData;
-  AnsiFileName: String;
+  ArcFileW: tOpenArchiveDataW;
+  AnsiFileName: AnsiString;
+  WideFileName: WideString;
 begin
   if (anOpenMode >= PK_OM_LIST) and (anOpenMode <= PK_OM_EXTRACT) then
   begin
-    FillChar(ArcFile, SizeOf(ArcFile), #0);
-    AnsiFileName := UTF8ToSys(FileName);
-    ArcFile.ArcName := PAnsiChar(AnsiFileName); // Pointer to local variable.
-    ArcFile.OpenMode := anOpenMode;
-    Result := OpenArchive(ArcFile);
-    if Result = 0 then
-      OpenResult := ArcFile.OpenResult
-    else
-      OpenResult := E_SUCCESS;
+    if Assigned(OpenArchiveW) then
+      begin
+        FillChar(ArcFileW, SizeOf(ArcFileW), #0);
+        WideFileName := UTF8Decode(FileName);
+        ArcFileW.ArcName := PWideChar(WideFileName); // Pointer to local variable.
+        ArcFileW.OpenMode := anOpenMode;
+        Result := OpenArchiveW(ArcFileW);
+        if Result = 0 then
+          OpenResult := ArcFileW.OpenResult
+        else
+          OpenResult := E_SUCCESS;
+      end
+    else if Assigned(OpenArchive) then
+      begin
+        FillChar(ArcFile, SizeOf(ArcFile), #0);
+        AnsiFileName := UTF8ToSys(FileName);
+        ArcFile.ArcName := PAnsiChar(AnsiFileName); // Pointer to local variable.
+        ArcFile.OpenMode := anOpenMode;
+        Result := OpenArchive(ArcFile);
+        if Result = 0 then
+          OpenResult := ArcFile.OpenResult
+        else
+          OpenResult := E_SUCCESS;
+      end;
   end
   else
     raise Exception.Create('Invalid WCX open mode');
@@ -364,10 +382,20 @@ function TWCXModule.ReadWCXHeader(hArcData: TArcHandle;
 var
   ArcHeader : THeaderData;
   ArcHeaderEx : THeaderDataEx;
+  ArcHeaderExW : THeaderDataExW;
 begin
   HeaderData := nil;
 
-  if Assigned(ReadHeaderEx) then
+  {if Assigned(ReadHeaderExW) then
+  begin
+    FillChar(ArcHeaderExW, SizeOf(ArcHeaderExW), #0);
+    Result := ReadHeaderExW(hArcData, ArcHeaderExW);
+    if Result = E_SUCCESS then
+    begin
+      HeaderData := TWCXHeader.Create(PHeaderDataExW(@ArcHeaderExW));
+    end;
+  end
+  else} if Assigned(ReadHeaderEx) then
   begin
     FillChar(ArcHeaderEx, SizeOf(ArcHeaderEx), #0);
     Result := ReadHeaderEx(hArcData, ArcHeaderEx);
@@ -549,6 +577,31 @@ constructor TWCXHeader.Create(const Data: PHeaderDataEx);
 begin
   ArcName  := PCharLToUTF8(Data^.ArcName, SizeOf(Data^.ArcName));
   FileName := PCharLToUTF8(Data^.FileName, SizeOf(Data^.FileName));
+  Flags    := Data^.Flags;
+  HostOS   := Data^.HostOS;
+  FileCRC  := Data^.FileCRC;
+  FileTime := Data^.FileTime;
+  UnpVer   := Data^.UnpVer;
+  Method   := Data^.Method;
+  FileAttr := TFileAttrs(Data^.FileAttr);
+  PackSize := Combine64(Data^.PackSizeHigh, Data^.PackSize);
+  UnpSize  := Combine64(Data^.UnpSizeHigh, Data^.UnpSize);
+  if Assigned(Data^.CmtBuf) then
+    Cmt := PCharLToUTF8(Data^.CmtBuf, Data^.CmtSize);
+  CmtState := Data^.CmtState;
+end;
+
+constructor TWCXHeader.Create(const Data: PHeaderDataExW);
+
+  function Combine64(High, Low: Longint): Int64;
+  begin
+    Result := Int64(High) shl (SizeOf(Int64) shl 2);
+    Result := Result + Int64(Low);
+  end;
+
+begin
+  ArcName  := UTF8Encode(WideString(Data^.ArcName));
+  FileName := UTF8Encode(WideString(Data^.FileName));
   Flags    := Data^.Flags;
   HostOS   := Data^.HostOS;
   FileCRC  := Data^.FileCRC;
