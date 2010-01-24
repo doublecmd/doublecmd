@@ -180,7 +180,7 @@ var
 begin
   if (anOpenMode >= PK_OM_LIST) and (anOpenMode <= PK_OM_EXTRACT) then
   begin
-    if Assigned(OpenArchiveW) then
+    {if Assigned(OpenArchiveW) then
       begin
         FillChar(ArcFileW, SizeOf(ArcFileW), #0);
         WideFileName := UTF8Decode(FileName);
@@ -192,7 +192,7 @@ begin
         else
           OpenResult := E_SUCCESS;
       end
-    else if Assigned(OpenArchive) then
+    else} if Assigned(OpenArchive) then
       begin
         FillChar(ArcFile, SizeOf(ArcFile), #0);
         AnsiFileName := UTF8ToSys(FileName);
