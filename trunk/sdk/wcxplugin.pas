@@ -143,6 +143,7 @@ type
     Reserved:array[0..1023] of char;
   end;
 
+  PHeaderDataExW=^THeaderDataExW;
   THeaderDataExW=packed record
     ArcName:array [0..1023] of widechar;
     FileName:array [0..1023] of widechar;
