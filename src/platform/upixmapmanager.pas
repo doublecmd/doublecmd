@@ -463,7 +463,7 @@ begin
           end;
       end
   {$IF DEFINED(UNIX) and NOT DEFINED(DARWIN)}
-    else  // Load theme icon
+    else if (gShowIcons <> sim_none) and (gShowIcons <> sim_standart) then // Load theme icon
       begin
         Result := LoadIconThemeIcon(AIconName, IconSize);
       end;
@@ -1467,4 +1467,4 @@ finalization
     FreeAndNil(PixMapManager);
 
 end.
-
+
