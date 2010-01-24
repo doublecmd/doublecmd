@@ -54,7 +54,7 @@ implementation
 uses
   LCLProc
   {$IFDEF UNIX}
-  , UnixUtil, uMyUnix, Unix
+  , Masks, UnixUtil, uMyUnix, Unix
   {$ELSE}
   , Windows
   {$ENDIF};
@@ -82,7 +82,7 @@ begin
   Result:= -1;
   UnixFindData:= PUnixFindData(SearchRec.FindHandle);
   if UnixFindData = nil then Exit;
-  if FNMatch(UnixFindData^.sMask, SearchRec.Name) then
+  if MatchesMask(UTF8UpperCase(SearchRec.Name), UnixFindData^.sMask) then
     begin
       if fpLStat(UnixFindData^.sPath + SearchRec.Name, @UnixFindData^.StatRec) >= 0 then
         with UnixFindData^.StatRec do
@@ -130,6 +130,7 @@ begin
     iAttr:= Attr;
     sPath:= ExtractFileDir(Path);
     sMask:= ExtractFileName(Path);
+    sMask:= UTF8UpperCase(sMask);
     if sPath = '' then
       GetDir(0, sPath);
     if sMask = '' then
