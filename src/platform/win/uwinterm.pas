@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Terminal emulator implementation for Windows
 
-    Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2009-2010  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -54,6 +54,7 @@ type
      function SendBreak_pty(): Boolean;  override; // ^C
      function SendSignal_pty(Sig: Cint): Boolean; override;
      function SetScreenSize(ColCount, RowCount: Integer): Boolean; override;
+     function SetCurrentDir(const NewDir: UTF8String): Boolean; override;
      //---------------------
      function KillShell: LongInt; override;
    end;
@@ -224,6 +225,11 @@ end;
 function TWinTerm.SetScreenSize(ColCount, RowCount: Integer): Boolean;
 begin
   Result:= False;
+end;
+
+function TWinTerm.SetCurrentDir(const NewDir: UTF8String): Boolean;
+begin
+  Result:= Write_pty('cd /D "' + NewDir + '"' + #13#10);
 end;
 
 function TWinTerm.KillShell: LongInt;
