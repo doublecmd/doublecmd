@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Terminal emulator abstract class
 
-   Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2010  Koblov Alexander (Alexx2000@mail.ru)
 
    Based on terminal emulator implementation
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
@@ -58,6 +58,7 @@ type
      function SendBreak_pty(): Boolean; virtual; abstract; // ^C
      function SendSignal_pty(Sig: Cint): Boolean; virtual; abstract;
      function SetScreenSize(ColCount, RowCount: Integer): Boolean; virtual; abstract;
+     function SetCurrentDir(const NewDir: UTF8String): Boolean; virtual; abstract;
      //---------------------
      function KillShell: LongInt; virtual; abstract;
      function CSI_GetTaskId(const buf:UTF8string):integer; virtual; abstract; //get index of sequence in CSILast list

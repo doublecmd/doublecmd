@@ -2337,7 +2337,7 @@ begin
   PanelSelected:=panel;
   ActiveFrame.SetFocus;
   if gTermWindow and Assigned(Cons) then
-    Cons.Terminal.Write_pty(' cd "'+ActiveFrame.CurrentPath+'"'+#13+#10);
+    Cons.Terminal.SetCurrentDir(ActiveFrame.CurrentPath);
 end;
 
 procedure TfrmMain.UpdateDiskCount;
@@ -3007,7 +3007,7 @@ begin
       ActiveFrame.CurrentPath := sDir;
       DebugLn(sDir);
       if gTermWindow and Assigned(Cons) then
-        Cons.Terminal.Write_pty(' cd "'+sDir+'"'+#13#10);
+        Cons.Terminal.SetCurrentDir(sDir);
     end;
   end
   else
@@ -3016,7 +3016,7 @@ begin
       edtCommand.Items.Insert(0,sCmd);
 
     if gTermWindow and Assigned(Cons) then
-      Cons.Terminal.Write_pty(sCmd+#13#10)
+      Cons.Terminal.Write_pty(sCmd + #13#10)
     else
     if bRunInTerm then
       ExecCmdFork(sCmd, True, gRunInTerm)
@@ -3381,6 +3381,10 @@ begin
       AutoSize := True;
       Left := 1;
     end;
+
+    // Change path in terminal
+    if gTermWindow and Assigned(Cons) then
+      Cons.Terminal.SetCurrentDir(ActiveFrame.CurrentPath);
 
     edtCommand.Left := lblCommandPath.Width + 5;
     edtCommand.Width := TControl(edtCommand.Parent).Width - edtCommand.Left;

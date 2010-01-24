@@ -160,6 +160,7 @@ type
       function SendBreak_pty():boolean; override; // ^C
       function SendSignal_pty(Sig:Cint):boolean; override;
       function SetScreenSize(aCols,aRows:integer):boolean; override;
+      function SetCurrentDir(const NewDir: UTF8String): Boolean; override;
       //---------------------
       function KillShell:LongInt; override;
       function CSI_GetTaskId(const buf:UTF8string):integer; override; //get index of sequence in CSILast list
@@ -550,6 +551,10 @@ begin
   else Result:=false;
 end;
 
+function TUnixTerm.SetCurrentDir(const NewDir: UTF8String): Boolean;
+begin
+  Result:= Write_pty(' cd "' + NewDir + '"' + #13#10);
+end;
 
 function TUnixTerm.KillShell: LongInt;
 begin

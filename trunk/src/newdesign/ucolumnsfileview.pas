@@ -1246,10 +1246,8 @@ begin
     LastActive := '';
     dgPanel.Row := 0;
 
-    {$IF NOT DEFINED(DARWIN)}
     if gTermWindow and Assigned(Cons) then
-      Cons.Terminal.Write_pty('cd "' + NewPath + '"'+#13#10);
-    {$ENDIF}
+      Cons.Terminal.SetCurrentDir(NewPath);
 
     MakeFileSourceFileList;
 
