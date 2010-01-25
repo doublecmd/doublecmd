@@ -612,7 +612,7 @@ begin
       end;
 
       Clipboard.Clear;   // prevent multiple formats in Clipboard (specially synedit)
-      Clipboard.AsText := sl.Text;
+      Clipboard.AsText:= TrimRightLineEnding(sl.Text, sl.TextLineBreakStyle);
     end;
 
   finally

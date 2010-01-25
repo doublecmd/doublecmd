@@ -251,6 +251,12 @@ function RemoveQuotation(const Str: String): String;
    @param(CmdLine Command line)
 }
 procedure SplitArgs(var Args: TOpenStringArray; CmdLine: String);
+{en
+   Remove last line ending in text
+   @param(sText Text)
+   @param(TextLineBreakStyle Text line break style)
+}
+function TrimRightLineEnding(const sText: UTF8String; TextLineBreakStyle: TTextLineBreakStyle): UTF8String;
 
 procedure ParseLineToList(sLine: String; ssItems: TStrings);
 procedure InsertFirstItem(sLine: String; comboBox: TCustomComboBox);
@@ -892,6 +898,18 @@ begin
     Args[Length(Args) - 1] := Trim(Copy(CMDLine, Start, Length(CmdLine) + 1 - Start));
     TrimQuotes(Args[Length(Args) - 1]);
   end;
+end;
+
+function TrimRightLineEnding(const sText: UTF8String;
+                                    TextLineBreakStyle: TTextLineBreakStyle): UTF8String;
+const
+  TextLineBreakArray: array[TTextLineBreakStyle] of Integer = (1, 2, 1);
+var
+  I, L: Integer;
+begin
+  L:= Length(sText);
+  I:= TextLineBreakArray[TextLineBreakStyle];
+  Result:= Copy(sText, 1, L - I); // Copy without last line ending
 end;
 
 procedure ParseLineToList(sLine: String; ssItems: TStrings);
