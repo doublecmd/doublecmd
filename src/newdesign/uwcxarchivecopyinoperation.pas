@@ -163,9 +163,6 @@ begin
                FFullFilesTree,
                FStatistics.TotalFiles,
                FStatistics.TotalBytes);     // gets full list of files (recursive)
-
-  // Make filenames relative to current directory.
-  FFullFilesTree.Path := SourceFiles.Path;
 end;
 
 procedure TWcxArchiveCopyInOperation.MainExecute;
