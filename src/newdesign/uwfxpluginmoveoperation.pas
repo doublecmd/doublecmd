@@ -26,7 +26,7 @@ type
     FWfxPluginFileSource: IWfxPluginFileSource;
     FOperationHelper: TWfxPluginOperationHelper;
     FCallbackDataClass: TCallbackDataClass;
-    FFullFilesTreeToCopy: TFileSystemFiles;  // source files including all files/dirs in subdirectories
+    FFullFilesTreeToCopy: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceMoveOperationStatistics; // local copy of statistics
     FCurrentFileSize: Int64;
     // Options
@@ -153,4 +153,4 @@ begin
 end;
 
 end.
-
+
