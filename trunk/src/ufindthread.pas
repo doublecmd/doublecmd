@@ -507,7 +507,7 @@ begin
     DebugLn('Search in sub folders = ', Path);
     if not Terminated and (FindFirstEx(Path, faDirectory, sr) = 0) then
       repeat
-        if (sr.Name[1] <> '.') then
+        if ((sr.Name <> '.') and (sr.Name <> '..')) then
           WalkAdr(sNewDir + PathDelim + sr.Name);
       until Terminated or (FindNextEx(sr) <> 0);
     FindCloseEx(sr);
