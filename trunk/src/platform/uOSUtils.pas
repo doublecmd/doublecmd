@@ -554,11 +554,25 @@ end;
 {$ENDIF}
 
 function ShellExecute(URL: String): Boolean;
-{$IFDEF MSWINDOWS}
+{$IF DEFINED(MSWINDOWS)}
 begin
   Result:= ExecCmdFork(Format('"%s"', [URL]));
   if Result = False then
       Result:= ExecCmdFork('rundll32 shell32.dll OpenAs_RunDLL ' + URL);
+end;
+{$ELSEIF DEFINED(DARWIN)}
+var
+  theFileNameCFRef: CFStringRef;
+  theFileNameUrlRef: CFURLRef;
+  theFileNameFSRef: FSRef;
+begin
+  Result:= False;
+  theFileNameCFRef:= CFStringCreateWithFileSystemRepresentation(nil, PAnsiChar(URL));
+  theFileNameUrlRef:= CFURLCreateWithFileSystemPath(nil, theFileNameCFRef, kCFURLPOSIXPathStyle, False);
+  if (CFURLGetFSRef(theFileNameUrlRef, theFileNameFSRef)) then
+    begin
+      Result:= (LSOpenFSRef(theFileNameFSRef, nil) = noErr);
+    end;
 end;
 {$ELSE}
 var
@@ -818,7 +832,7 @@ begin
   if PathPrefix = '' then
     PathPrefix := GetTempDir;
   repeat
-    Result := PathPrefix + IntToStr(Random(MaxInt)); // or use CreateGUID()
+    Result := PathPrefix + IntToStr(System.Random(MaxInt)); // or use CreateGUID()
     Inc(TryNumber);
     if TryNumber = MaxTries then
       Exit('');
