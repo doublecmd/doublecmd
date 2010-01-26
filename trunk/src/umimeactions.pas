@@ -30,6 +30,9 @@ function GetDesktopEntries(FileNames: TStringList): TList;
 
 implementation
 
+uses
+  uDCUtils, uIconTheme;
+
 type
   PCDesktopFileEntry = ^TCDesktopFileEntry;
   TCDesktopFileEntry = record
@@ -96,6 +99,14 @@ begin
     Entry^.IconName := StrPas(app.IconName);
     Entry^.Terminal := app.Terminal;
     Entry^.Hidden := app.Hidden;
+
+    {
+      Some icon names in .desktop files are specified with an extension,
+      even though it is not allowed by the standard unless an absolute path
+      to the icon is supplied. We delete this extension here.
+    }
+    if GetPathType(Entry^.IconName) = ptNone then
+      Entry^.IconName := TIconTheme.CutTrailingExtension(Entry^.IconName);
 
     Result.Add(Entry);
 
