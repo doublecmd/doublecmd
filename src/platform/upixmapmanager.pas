@@ -734,6 +734,14 @@ begin
     FreeThenNil(iniDesktop);
   end;
 
+  {
+    Some icon names in .desktop files are specified with an extension,
+    even though it is not allowed by the standard unless an absolute path
+    to the icon is supplied. We delete this extension here.
+  }
+  if GetPathType(sIconName) = ptNone then
+    sIconName := TIconTheme.CutTrailingExtension(sIconName);
+
   I:= GetIconByName(sIconName);
   if I < 0 then
     Result:= iDefaultIcon

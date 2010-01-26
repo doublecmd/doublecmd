@@ -79,6 +79,7 @@ type
     function FindIcon(AIconName: String; AIconSize: Integer): UTF8String;
     function DirectoryMatchesSize(SubDirIndex: Integer; AIconSize: Integer): Boolean;
     function DirectorySizeDistance(SubDirIndex: Integer; AIconSize: Integer): Integer;
+    class function CutTrailingExtension(const AIconName: String): String;
     property ThemeName: String read FThemeName;
     property Directories: TIconDirList read FDirectories;
   end;
@@ -98,7 +99,7 @@ var
 implementation
 
 uses
-  LCLProc, StrUtils, BaseUnix;
+  LCLProc, StrUtils, BaseUnix, uDCUtils;
 
 { TIconTheme }
 
@@ -443,6 +444,16 @@ begin
         end;
       BaseUnix.fpCloseDir(DirPtr^);
     end;
+end;
+
+class function TIconTheme.CutTrailingExtension(const AIconName: String): String;
+var
+  I: Integer;
+begin
+  for I:= Low(IconExtensionList) to High(IconExtensionList) do
+    if StrEnds(AIconName, '.' + IconExtensionList[I]) then
+      Exit(Copy(AIconName, 1, Length(AIconName) - Length(IconExtensionList[I]) - 1));
+  Result := AIconName;
 end;
 
 { TIconDirList }

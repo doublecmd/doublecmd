@@ -273,6 +273,12 @@ function StrPLCopyW(Dest: PWideChar; const Source: WideString; MaxLen: Cardinal)
             StringToCheck may be longer than StringToMatch.)
 }
 function StrBegins(const StringToCheck, StringToMatch: String): Boolean;
+{en
+   Checks if a string ends with another string.
+   @returns(@true if StringToCheck ends with StringToMatch.
+            StringToCheck may be longer than StringToMatch.)
+}
+function StrEnds(const StringToCheck, StringToMatch: String): Boolean;
 
 {en
    Convert a number specified as an octal number to it's decimal value.
@@ -1003,6 +1009,13 @@ function StrBegins(const StringToCheck, StringToMatch: String): Boolean;
 begin
   Result := (Length(StringToCheck) >= Length(StringToMatch)) and
             (CompareChar(StringToCheck[1], StringToMatch[1], Length(StringToMatch)) = 0);
+end;
+
+function StrEnds(const StringToCheck, StringToMatch: String): Boolean;
+begin
+  Result := (Length(StringToCheck) >= Length(StringToMatch)) and
+            (CompareChar(StringToCheck[1 + Length(StringToCheck) - Length(StringToMatch)],
+                         StringToMatch[1], Length(StringToMatch)) = 0);
 end;
 
 function OctToDec(Value: String): LongInt;
