@@ -46,11 +46,11 @@ uses
   {$IF DEFINED(UNIX)}
   , uClassesEx
     {$IF NOT DEFINED(DARWIN)}
-    , contnrs
+    , contnrs, uIconTheme
       {$IFDEF LCLGTK2}
       , gtk2
       {$ELSE}
-      , uIconTheme, uMyIconTheme
+      , uMyIconTheme
       {$ENDIF}
     {$ENDIF}
   {$ENDIF};
