@@ -102,7 +102,7 @@ function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
             ptRelative if a path is relative                  (MyDir/MySubDir)
             ptAbsolute if a path is absolute)                 (/root/MyDir)
 }
-function GetPathType(sPath : String): TPathType;
+function GetPathType(const sPath : String): TPathType;
 {en
    Get file name without path and extension
    @param(FileName File name)
@@ -445,20 +445,26 @@ begin
   end;
 end;
 
-function GetPathType(sPath : String): TPathType;
+function GetPathType(const sPath : String): TPathType;
 begin
-  Result := ptNone;
+  if sPath <> EmptyStr then
+  begin
 {$IFDEF MSWINDOWS}
-{check for drive/unc info}
-  if ( Pos( '\\', sPath ) > 0 ) or ( Pos( DriveDelim, sPath ) > 0 ) then
+    {check for drive/unc info}
+    if ( Pos( '\\', sPath ) > 0 ) or ( Pos( DriveDelim, sPath ) > 0 ) then
 {$ENDIF MSWINDOWS}
 {$IFDEF UNIX}
-{ UNIX absolute paths start with a slash }
-  if (sPath[1] = PathDelim) then
+    { UNIX absolute paths start with a slash }
+    if (sPath[1] = PathDelim) then
 {$ENDIF UNIX}
-    Result := ptAbsolute
-  else if ( Pos( PathDelim, sPath ) > 0 ) then
-    Result := ptRelative;
+      Result := ptAbsolute
+    else if ( Pos( PathDelim, sPath ) > 0 ) then
+      Result := ptRelative
+    else
+      Result := ptNone;
+  end
+  else
+    Result := ptNone;
 end;
 
 function ExtractOnlyFileName(const FileName: string): string;
