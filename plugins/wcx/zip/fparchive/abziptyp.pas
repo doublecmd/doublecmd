@@ -665,7 +665,7 @@ function MakeVersionMadeBy : Word;
 begin
   Result := Ab_ZipVersion;
 {$IFDEF MSWINDOWS}
-  if (GetVersion and $FF) >= $05 then
+  if (GetVersion and $FF) > $05 then
     Result := Result + (10 shl 8) // Windows/NTFS
   else
     Result := Result + (0 shl 8)  // MS-DOS/FAT
@@ -1229,6 +1229,7 @@ constructor TAbZipDirectoryFileHeader.Create;
 begin
   inherited Create;
   FValidSignature := Ab_ZipCentralDirectoryFileHeaderSignature;
+  FVersionMadeBy:= MakeVersionMadeBy;
 end;
 { -------------------------------------------------------------------------- }
 destructor TAbZipDirectoryFileHeader.Destroy;
@@ -1803,7 +1804,11 @@ begin
       FullSourceFileName := IncludeTrailingPathDelimiter(FullSourceFileName);
     end;
 
-    Result.FileName := AbStrAnsiToOem(FullArchiveFileName);
+    if TAbZipHostOS((VersionMadeBy shr 8) and $FF) = hosMSDOS then
+      Result.FileName := AbStrAnsiToOem(FullArchiveFileName)
+    else
+      Result.FileName := FullArchiveFileName;
+
     Result.DiskFileName := FullSourceFileName;
   end;
 end;
