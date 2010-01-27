@@ -117,6 +117,8 @@ Type
     function WcxPackFiles(PackedFile, SubPath, SrcPath, AddList: UTF8String; Flags: LongInt): LongInt;
     function WcxDeleteFiles(PackedFile, DeleteList: UTF8String): LongInt;
     function WcxCanYouHandleThisFile(FileName: UTF8String): Boolean;
+    procedure WcxSetChangeVolProc(hArcData: TArcHandle; ChangeVolProcA: TChangeVolProc; ChangeVolProcW: TChangeVolProcW);
+    procedure WcxSetProcessDataProc(hArcData: TArcHandle; ProcessDataProcA: TProcessDataProc; ProcessDataProcW: TProcessDataProcW);
 
     function LoadModule(const sName:String):Boolean; {Load WCX plugin}
     procedure UnloadModule;                          {UnLoad WCX plugin}
@@ -247,6 +249,24 @@ begin
     Result:= CanYouHandleThisFileW(PWideChar(UTF8Decode(FileName)))
   else if Assigned(CanYouHandleThisFile) then
     Result:= CanYouHandleThisFile(PAnsiChar(UTF8ToSys(FileName)));
+end;
+
+procedure TWCXModule.WcxSetChangeVolProc(hArcData: TArcHandle;
+  ChangeVolProcA: TChangeVolProc; ChangeVolProcW: TChangeVolProcW);
+begin
+  if Assigned(SetChangeVolProcW) then
+    SetChangeVolProcW(hArcData, ChangeVolProcW)
+  else if Assigned(SetChangeVolProc) then
+    SetChangeVolProc(hArcData, ChangeVolProcA);
+end;
+
+procedure TWCXModule.WcxSetProcessDataProc(hArcData: TArcHandle;
+  ProcessDataProcA: TProcessDataProc; ProcessDataProcW: TProcessDataProcW);
+begin
+  if Assigned(SetProcessDataProcW) then
+    SetProcessDataProcW(hArcData, ProcessDataProcW)
+  else if Assigned(SetProcessDataProc) then
+    SetProcessDataProc(hArcData, ProcessDataProcA);
 end;
 
 function TWCXModule.LoadModule(const sName:String):Boolean;
