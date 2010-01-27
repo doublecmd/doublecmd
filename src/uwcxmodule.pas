@@ -113,6 +113,10 @@ Type
                            out HeaderData: TWCXHeader): Integer;
 
     function OpenArchiveHandle(FileName: String; anOpenMode: Longint; out OpenResult: Longint): TArcHandle;
+    function WcxProcessFile(hArcData: TArcHandle; Operation: LongInt; DestPath, DestName: UTF8String): LongInt;
+    function WcxPackFiles(PackedFile, SubPath, SrcPath, AddList: UTF8String; Flags: LongInt): LongInt;
+    function WcxDeleteFiles(PackedFile, DeleteList: UTF8String): LongInt;
+    function WcxCanYouHandleThisFile(FileName: UTF8String): Boolean;
 
     function LoadModule(const sName:String):Boolean; {Load WCX plugin}
     procedure UnloadModule;                          {UnLoad WCX plugin}
@@ -207,6 +211,42 @@ begin
   end
   else
     raise Exception.Create('Invalid WCX open mode');
+end;
+
+function TWCXModule.WcxProcessFile(hArcData: TArcHandle; Operation: LongInt;
+  DestPath, DestName: UTF8String): LongInt;
+begin
+  if Assigned(ProcessFileW) then
+    Result:= ProcessFileW(hArcData, Operation, PWideChar(UTF8Decode(DestPath)), PWideChar(UTF8Decode(DestName)))
+  else if Assigned(ProcessFile) then
+    Result:= ProcessFile(hArcData, Operation, PAnsiChar(UTF8ToSys(DestPath)), PAnsiChar(UTF8ToSys(DestName)));
+end;
+
+function TWCXModule.WcxPackFiles(PackedFile, SubPath, SrcPath,
+  AddList: UTF8String; Flags: LongInt): LongInt;
+begin
+  if Assigned(PackFilesW) then
+    Result:= PackFilesW(PWideChar(UTF8Decode(PackedFile)), PWideChar(UTF8Decode(SubPath)),
+                       PWideChar(UTF8Decode(SrcPath)), PWideChar(UTF8Decode(AddList)), Flags)
+  else if Assigned(PackFiles) then
+    Result:= PackFiles(PAnsiChar(UTF8ToSys(PackedFile)), PAnsiChar(UTF8ToSys(SubPath)),
+                       PAnsiChar(UTF8ToSys(SrcPath)), PAnsiChar(UTF8ToSys(AddList)), Flags)
+end;
+
+function TWCXModule.WcxDeleteFiles(PackedFile, DeleteList: UTF8String): LongInt;
+begin
+  if Assigned(DeleteFilesW) then
+    Result:= DeleteFilesW(PWideChar(UTF8Decode(PackedFile)), PWideChar(UTF8Decode(DeleteList)))
+  else if Assigned(DeleteFiles) then
+    Result:= DeleteFiles(PAnsiChar(UTF8ToSys(PackedFile)), PAnsiChar(UTF8ToSys(DeleteList)));
+end;
+
+function TWCXModule.WcxCanYouHandleThisFile(FileName: UTF8String): Boolean;
+begin
+  if Assigned(CanYouHandleThisFileW) then
+    Result:= CanYouHandleThisFileW(PWideChar(UTF8Decode(FileName)))
+  else if Assigned(CanYouHandleThisFile) then
+    Result:= CanYouHandleThisFile(PAnsiChar(UTF8ToSys(FileName)));
 end;
 
 function TWCXModule.LoadModule(const sName:String):Boolean;
