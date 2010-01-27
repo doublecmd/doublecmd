@@ -74,7 +74,7 @@ type
 
   RARHeaderData = packed record
     ArcName: packed array[0..259] of Char;
-    FileName: packed array[0..259] of Char;
+    FileName: packed array[0..259] of Char; // a zero terminated string of the file name in OEM (DOS) encoding.
     Flags: LongWord;
     PackSize: LongWord;
     UnpSize: LongWord;
@@ -185,7 +185,11 @@ procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcess
 implementation
 
 uses
-  DynLibs, osFileUtil;
+  DynLibs, osFileUtil
+  {$IFDEF MSWINDOWS}
+  , Windows
+  {$ENDIF}
+  ;
 
 type
   // From libunrar (dll.hpp)
@@ -214,9 +218,22 @@ var
   ProcessedFileName:  array [0..1023] of Char;
   ProcessedFileNameW: array [0..1023] of WideChar;
 
-procedure StringToArray(src: WideString;
-                        pDst: PWideChar;
-                        MaxDstLength: Integer);
+procedure StringToArrayA(src: AnsiString;
+                         pDst: PAnsiChar;
+                         MaxDstLength: Integer);
+begin
+  if Length(src) < MaxDstLength then
+    MaxDstLength := Length(src)
+  else
+    MaxDstLength := MaxDstLength - 1; // for ending #0
+
+  Move(src[1], pDst^, SizeOf(AnsiChar) * MaxDstLength);
+  pDst[MaxDstLength] := AnsiChar(0);
+end;
+
+procedure StringToArrayW(src: WideString;
+                         pDst: PWideChar;
+                         MaxDstLength: Integer);
 begin
   if Length(src) < MaxDstLength then
     MaxDstLength := Length(src)
@@ -226,6 +243,40 @@ begin
   Move(src[1], pDst^, SizeOf(WideChar) * MaxDstLength);
   pDst[MaxDstLength] := WideChar(0);
 end;
+
+function RarOemStringToAnsiString(src: AnsiString): AnsiString;
+{$IFDEF MSWINDOWS}
+var
+  Dst: PAnsiChar;
+begin
+  Result:= Src;
+  Dst:= AllocMem((Length(Result) + 1) * SizeOf(AnsiChar));
+  if OEMToChar(PAnsiChar(Result), Dst) then
+    Result:= StrPas(Dst);
+  FreeMem(Dst);
+end;
+{$ELSE}
+begin
+  Result := src;
+end; 
+{$ENDIF}
+
+function AnsiStringToRarOemString(src: AnsiString): AnsiString;
+{$IFDEF MSWINDOWS}
+var
+  Dst: PAnsiChar;
+begin
+  Result := Src;
+  Dst := AllocMem((Length(Result) + 1) * SizeOf(AnsiChar));
+  if CharToOEM(PAnsiChar(Result), Dst) then
+    Result := StrPas(Dst);
+  FreeMem(Dst);
+end;
+{$ELSE}
+begin
+  Result := src;
+end;  
+{$ENDIF}
 
 function RarUnicodeStringToWideString(src: TRarUnicodeString): WideString;
 begin
@@ -398,7 +449,11 @@ begin
 {$Q-}
 {$R-}
       HeaderData.ArcName    := RarHeader.ArcName;
-      HeaderData.FileName   := RarHeader.FileName;
+
+      StringToArrayA(
+          RarOemStringToAnsiString(AnsiString(RarHeader.FileName)),
+          @HeaderData.FileName, SizeOf(HeaderData.FileName));
+
       HeaderData.Flags      := RarHeader.Flags;
       HeaderData.PackSize   := RarHeader.PackSize;
       HeaderData.UnpSize    := RarHeader.UnpSize;
@@ -442,7 +497,11 @@ begin
 {$Q-}
 {$R-}
       HeaderData.ArcName      := RarHeader.ArcName;
-      HeaderData.FileName     := RarHeader.FileName;
+
+      StringToArrayA(
+          RarOemStringToAnsiString(AnsiString(RarHeader.FileName)),
+          @HeaderData.FileName, SizeOf(HeaderData.FileName));
+
       HeaderData.Flags        := RarHeader.Flags;
       HeaderData.PackSize     := RarHeader.PackSize;
       HeaderData.PackSizeHigh := RarHeader.PackSizeHigh;
@@ -487,11 +546,11 @@ begin
 {$PUSH}
 {$Q-}
 {$R-}
-      StringToArray(
+      StringToArrayW(
           RarUnicodeStringToWideString(TRarUnicodeString(RarHeader.ArcNameW)),
           @HeaderData.ArcName, SizeOf(HeaderData.ArcName));
 
-      StringToArray(
+      StringToArrayW(
           RarUnicodeStringToWideString(TRarUnicodeString(RarHeader.FileNameW)),
           @HeaderData.FileName, SizeOf(HeaderData.FileName));
 
@@ -526,7 +585,10 @@ end;
 function ProcessFile(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PChar) : Integer;stdcall;
 begin
   if Assigned(RARProcessFile) then
-    Result := RARProcessFile(hArcData, Operation, DestPath, DestName)
+    // Both DestPath and DestName must be in OEM encoding.
+    Result := RARProcessFile(hArcData, Operation,
+                             PAnsiChar(AnsiStringToRarOemString(DestPath)),
+                             PAnsiChar(AnsiStringToRarOemString(DestName)))
   else
     Result := E_EREAD;
 end;
