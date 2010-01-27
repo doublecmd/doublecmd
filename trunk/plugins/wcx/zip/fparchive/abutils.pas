@@ -45,6 +45,7 @@ uses
   Unix,
   BaseUnix,
   unixutil,
+  iconvenc_dyn,
 {$ENDIF}
   DateUtils,
   SysUtils,
@@ -193,6 +194,11 @@ type
 
   function AbAttrIsDir(Attributes: LongWord): Boolean;
     { Returns True, if Attributes have 'directory' flag. }
+
+  // OEM to System encoding, if needed
+  function OEMToSys(Source: String): String;
+  // Ansi to System encoding, if needed
+  function AnsiToSys(Source: String): String;
 
   // Ansi to OEM, if needed
   function AbStrAnsiToOem(Source: string): string;
@@ -501,7 +507,78 @@ begin
   Result := (Attributes <> LongWord(-1)) and ((Attributes and AB_FMODE_DIR) <> 0);
 {$ENDIF}
 end;
+{ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ }
+{$IFDEF UNIX}
+function GetSystemEncoding(out Language, Encoding: String): Boolean;
+var
+  I: Integer;
+  Lang: String;
+begin
+  Result:= True;
+  Lang:= SysUtils.GetEnvironmentVariable('LC_ALL');
+  if Length(Lang) = 0 then
+    begin
+      Lang:= SysUtils.GetEnvironmentVariable('LC_MESSAGES');
+      if Length(Lang) = 0 then
+      begin
+        Lang:= SysUtils.GetEnvironmentVariable('LANG');
+        if Length(Lang) = 0 then
+          Exit(False);
+      end;
+    end;
+  Language:= Copy(Lang, 1, 2);
+  I:= System.Pos('.', Lang);
+  if (I > 0) then
+    Encoding:= Copy(Lang, I + 1, Length(Lang) - I);
+  if Length(Encoding) = 0 then
+    Lang:= 'UTF-8';
+end;
+{$ENDIF}
 { -------------------------------------------------------------------------- }
+function OEMToSys(Source: String): String;
+{$IFDEF MSWINDOWS}
+begin
+  Result:= AbStrOemToAnsi(Source);
+end;
+{$ELSE}
+var
+  sError: String;
+  Language, Encoding: String;
+begin
+  Result:= Source;
+  if GetSystemEncoding(Language, Encoding) then
+    begin
+      if SameText(Language, 'ru') then
+        if InitIconv(sError) then
+          begin
+            Iconvert(Source, Result, 'CP866', Encoding);
+          end;
+   end;
+end;
+{$ENDIF}
+{ -------------------------------------------------------------------------- }
+function AnsiToSys(Source: String): String;
+{$IFDEF MSWINDOWS}
+begin
+  Result:= Source;
+end;
+{$ELSE}
+var
+  sError: String;
+  Language, Encoding: String;
+begin
+  Result:= Source;
+  if GetSystemEncoding(Language, Encoding) then
+    begin
+      if SameText(Language, 'ru') then
+        if InitIconv(sError) then
+          begin
+            Iconvert(Source, Result, 'CP1251', Encoding);
+          end;
+   end;
+end;
+{$ENDIF}
+{ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ }
 // Ansi to OEM, if needed
 function AbStrAnsiToOem(Source: string): string;
 {$IFDEF MSWINDOWS}
