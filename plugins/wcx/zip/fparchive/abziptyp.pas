@@ -1555,13 +1555,19 @@ end;
 procedure TAbZipItem.LoadFromStream( Stream : TStream );
 var
   tempFileName: string;
+  SystemCode: TAbZipHostOs;
 begin
   FItemInfo.LoadFromStream( Stream );
   tempFileName := string(FItemInfo.FileName);
-  {$IFDEF MSWINDOWS}
-  if (Hi(VersionMadeBy) = 0) and (GetACP <> GetOEMCP) then
-    OemToCharBuff(PAnsiChar(FItemInfo.FileName), PChar(tempFileName),
-      Length(tempFileName));
+  SystemCode := TAbZipHostOs(Byte(VersionMadeBy shr 8));
+  {$IF DEFINED(MSWINDOWS)}
+  if (SystemCode = hosMSDOS) and (GetACP <> GetOEMCP) then
+    tempFileName:= AbStrOemToAnsi(tempFileName);
+  {$ELSEIF DEFINED(LINUX)}
+  if (SystemCode = hosMSDOS) then
+    tempFileName := OEMToSys(tempFileName)
+  else if (SystemCode = hosNTFS) then
+    tempFileName := AnsiToSys(tempFileName);
   {$ENDIF}
   FileName := tempFileName;
   IsDirectory := ((FItemInfo.ExternalFileAttributes and faDirectory) <> 0) or
