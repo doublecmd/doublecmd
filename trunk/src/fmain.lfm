@@ -68,6 +68,7 @@ object frmMain: TfrmMain
       ParentColor = False
       TabOrder = 0
       object dskLeft: TKASToolBar
+        AnchorSideLeft.Control = pnlDisk
         Left = 1
         Height = 20
         Top = 1
