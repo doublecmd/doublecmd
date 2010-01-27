@@ -405,8 +405,8 @@ begin
       Exit;
     end;
 
-  WcxModule.SetChangeVolProc(ArcHandle, nil {ChangeVolProc});
-  WcxModule.SetProcessDataProc(ArcHandle, nil {ProcessDataProc});
+  WcxModule.WcxSetChangeVolProc(ArcHandle, nil, nil {ChangeVolProc});
+  WcxModule.WcxSetProcessDataProc(ArcHandle, nil, nil {ProcessDataProc});
 
   DebugLN('Get File List');
   (*Get File List*)
