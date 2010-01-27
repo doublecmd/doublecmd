@@ -82,28 +82,43 @@ var
   // (There may be other running concurrently, but only one may report progress.)
   WcxCopyOutOperation: TWcxArchiveCopyOutOperation = nil;
 
-function ChangeVolProc(ArcName : PAnsiChar; Mode:Longint):Longint; stdcall;
-var
-  sArcName: UTF8String;
+function ChangeVolProc(var ArcName : UTF8String; Mode: LongInt): LongInt;
 begin
   Result:= 1;
-  sArcName:= SysToUTF8(ArcName);
   case Mode of
   PK_VOL_ASK:
     begin
       // Use operation UI for this?
-      if ShowInputQuery('Double Commander', rsMsgSelLocNextVol, sArcName) then
-        StrPLCopy(ArcName, UTF8ToSys(sArcName), MAX_PATH)
-      else
+      if not ShowInputQuery('Double Commander', rsMsgSelLocNextVol, ArcName) then
         Result := 0; // Abort operation
     end;
   PK_VOL_NOTIFY:
     if log_arc_op in gLogOptions then
-      LogWrite(rsMsgNextVolUnpack + #32 + sArcName);
+      LogWrite(rsMsgNextVolUnpack + #32 + ArcName);
   end;
 end;
 
-function ProcessDataProc(FileName: PChar; Size: Integer): Integer; stdcall;
+function ChangeVolProcA(ArcName : PAnsiChar; Mode: LongInt): LongInt; stdcall;
+var
+  sArcName: UTF8String;
+begin
+  sArcName:= SysToUTF8(StrPas(ArcName));
+  Result:= ChangeVolProc(sArcName, Mode);
+  if Result <> 0 then
+    StrPLCopy(ArcName, UTF8ToSys(sArcName), MAX_PATH);
+end;
+
+function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; stdcall;
+var
+  sArcName: UTF8String;
+begin
+  sArcName:= UTF8Encode(WideString(ArcName));
+  Result:= ChangeVolProc(sArcName, Mode);
+  if Result <> 0 then
+    StrPLCopyW(ArcName, UTF8Decode(sArcName), MAX_PATH);
+end;
+
+function ProcessDataProc(FileName: UTF8String; Size: LongInt): LongInt;
 begin
   //DebugLn('Working ' + FileName + ' Size = ' + IntToStr(Size));
 
@@ -146,6 +161,16 @@ begin
       WcxCopyOutOperation.UpdateStatistics(WcxCopyOutOperation.FStatistics);
     end;
   end;
+end;
+
+function ProcessDataProcA(FileName: PAnsiChar; Size: LongInt): LongInt; stdcall;
+begin
+  Result:= ProcessDataProc(SysToUTF8(StrPas(FileName)), Size);
+end;
+
+function ProcessDataProcW(FileName: PWideChar; Size: LongInt): LongInt; stdcall;
+begin
+  Result:= ProcessDataProc(UTF8Encode(WideString(FileName)), Size);
 end;
 
 // ----------------------------------------------------------------------------
@@ -221,14 +246,14 @@ begin
     // Operation allowed to run, but not to report progress.
     if WcxCopyOutOperation <> Self then
     begin
-      WcxModule.SetChangeVolProc(ArcHandle, nil);
-      WcxModule.SetProcessDataProc(ArcHandle, nil);
+      WcxModule.WcxSetChangeVolProc(ArcHandle, nil, nil);
+      WcxModule.WcxSetProcessDataProc(ArcHandle, nil, nil);
     end
     else
     {$ENDIF}
     begin
-      WcxModule.SetChangeVolProc(ArcHandle, @ChangeVolProc);
-      WcxModule.SetProcessDataProc(ArcHandle, @ProcessDataProc);
+      WcxModule.WcxSetChangeVolProc(ArcHandle, @ChangeVolProcA, @ChangeVolProcW);
+      WcxModule.WcxSetProcessDataProc(ArcHandle, @ProcessDataProcA, @ProcessDataProcW);
     end;
 
     while (WcxModule.ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do
@@ -256,7 +281,7 @@ begin
           FCurrentFileSize := Header.UnpSize;
         end;
 
-        iResult := WcxModule.ProcessFile(ArcHandle, PK_EXTRACT, nil, PAnsiChar(UTF8ToSys(TargetFileName)));
+        iResult := WcxModule.WcxProcessFile(ArcHandle, PK_EXTRACT, EmptyStr, TargetFileName);
 
         if iResult <> E_SUCCESS then
         begin

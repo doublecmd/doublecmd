@@ -387,9 +387,9 @@ begin
       Exit;
     end;
 
-  if bCanYouHandleThisFile and Assigned(WcxModule.CanYouHandleThisFile) then
+  if bCanYouHandleThisFile and (Assigned(WcxModule.CanYouHandleThisFile) or Assigned(WcxModule.CanYouHandleThisFileW)) then
     begin
-      Result := WcxModule.CanYouHandleThisFile(PChar(UTF8ToSys(ArchiveFileName)));
+      Result := WcxModule.WcxCanYouHandleThisFile(ArchiveFileName);
       if not Result then Exit;
     end;
 
@@ -441,7 +441,7 @@ begin
         FArcFileList.Add(Header);
 
         // get next file
-        iResult := WcxModule.ProcessFile(ArcHandle, PK_SKIP, nil, nil);
+        iResult := WcxModule.WcxProcessFile(ArcHandle, PK_SKIP, EmptyStr, EmptyStr);
 
         //Check for errors
         {if iResult <> E_SUCCESS then
