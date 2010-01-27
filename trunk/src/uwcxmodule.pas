@@ -186,7 +186,7 @@ var
 begin
   if (anOpenMode >= PK_OM_LIST) and (anOpenMode <= PK_OM_EXTRACT) then
   begin
-    {if Assigned(OpenArchiveW) then
+    if Assigned(OpenArchiveW) then
       begin
         FillChar(ArcFileW, SizeOf(ArcFileW), #0);
         WideFileName := UTF8Decode(FileName);
@@ -198,7 +198,7 @@ begin
         else
           OpenResult := E_SUCCESS;
       end
-    else} if Assigned(OpenArchive) then
+    else if Assigned(OpenArchive) then
       begin
         FillChar(ArcFile, SizeOf(ArcFile), #0);
         AnsiFileName := UTF8ToSys(FileName);
@@ -217,22 +217,52 @@ end;
 
 function TWCXModule.WcxProcessFile(hArcData: TArcHandle; Operation: LongInt;
   DestPath, DestName: UTF8String): LongInt;
+var
+  pwcDestPath: PWideChar;
+  pacDestPath: PAnsiChar;
 begin
   if Assigned(ProcessFileW) then
-    Result:= ProcessFileW(hArcData, Operation, PWideChar(UTF8Decode(DestPath)), PWideChar(UTF8Decode(DestName)))
+    begin
+      if DestPath = EmptyStr then
+        pwcDestPath:= nil
+      else
+        pwcDestPath:= PWideChar(UTF8Decode(DestPath));
+      Result:= ProcessFileW(hArcData, Operation, pwcDestPath, PWideChar(UTF8Decode(DestName)));
+    end
   else if Assigned(ProcessFile) then
-    Result:= ProcessFile(hArcData, Operation, PAnsiChar(UTF8ToSys(DestPath)), PAnsiChar(UTF8ToSys(DestName)));
+    begin
+      if DestPath = EmptyStr then
+        pacDestPath:= nil
+      else
+        pacDestPath:= PAnsiChar(UTF8ToSys(DestPath));
+      Result:= ProcessFile(hArcData, Operation, pacDestPath, PAnsiChar(UTF8ToSys(DestName)));
+    end;
 end;
 
 function TWCXModule.WcxPackFiles(PackedFile, SubPath, SrcPath,
   AddList: UTF8String; Flags: LongInt): LongInt;
+var
+  pwcSubPath: PWideChar;
+  pacSubPath: PAnsiChar;
 begin
   if Assigned(PackFilesW) then
-    Result:= PackFilesW(PWideChar(UTF8Decode(PackedFile)), PWideChar(UTF8Decode(SubPath)),
-                       PWideChar(UTF8Decode(SrcPath)), PWideChar(UTF8Decode(AddList)), Flags)
+    begin
+      if SubPath = EmptyStr then
+        pwcSubPath:= nil
+      else
+        pwcSubPath:= PWideChar(UTF8Decode(SubPath));
+      Result:= PackFilesW(PWideChar(UTF8Decode(PackedFile)), pwcSubPath,
+                          PWideChar(UTF8Decode(SrcPath)), PWideChar(UTF8Decode(AddList)), Flags);
+    end
   else if Assigned(PackFiles) then
-    Result:= PackFiles(PAnsiChar(UTF8ToSys(PackedFile)), PAnsiChar(UTF8ToSys(SubPath)),
-                       PAnsiChar(UTF8ToSys(SrcPath)), PAnsiChar(UTF8ToSys(AddList)), Flags)
+    begin
+      if SubPath = EmptyStr then
+        pacSubPath:= nil
+      else
+        pacSubPath:= PAnsiChar(UTF8ToSys(SubPath));
+      Result:= PackFiles(PAnsiChar(UTF8ToSys(PackedFile)), pacSubPath,
+                         PAnsiChar(UTF8ToSys(SrcPath)), PAnsiChar(UTF8ToSys(AddList)), Flags);
+    end;
 end;
 
 function TWCXModule.WcxDeleteFiles(PackedFile, DeleteList: UTF8String): LongInt;
@@ -446,7 +476,7 @@ var
 begin
   HeaderData := nil;
 
-  {if Assigned(ReadHeaderExW) then
+  if Assigned(ReadHeaderExW) then
   begin
     FillChar(ArcHeaderExW, SizeOf(ArcHeaderExW), #0);
     Result := ReadHeaderExW(hArcData, ArcHeaderExW);
@@ -455,7 +485,7 @@ begin
       HeaderData := TWCXHeader.Create(PHeaderDataExW(@ArcHeaderExW));
     end;
   end
-  else} if Assigned(ReadHeaderEx) then
+  else if Assigned(ReadHeaderEx) then
   begin
     FillChar(ArcHeaderEx, SizeOf(ArcHeaderEx), #0);
     Result := ReadHeaderEx(hArcData, ArcHeaderEx);

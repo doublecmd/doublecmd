@@ -61,28 +61,43 @@ var
   // (There may be other running concurrently, but only one may report progress.)
   WcxDeleteOperation: TWcxArchiveDeleteOperation = nil;
 
-function ChangeVolProc(ArcName : PAnsiChar; Mode:Longint):Longint; stdcall;
-var
-  sArcName: UTF8String;
+function ChangeVolProc(var ArcName : UTF8String; Mode: LongInt): LongInt;
 begin
   Result:= 1;
-  sArcName:= SysToUTF8(ArcName);
   case Mode of
   PK_VOL_ASK:
     begin
       // Use operation UI for this?
-      if ShowInputQuery('Double Commander', rsMsgSelLocNextVol, sArcName) then
-        StrPLCopy(ArcName, UTF8ToSys(sArcName), MAX_PATH)
-      else
+      if not ShowInputQuery('Double Commander', rsMsgSelLocNextVol, ArcName) then
         Result := 0; // Abort operation
     end;
   PK_VOL_NOTIFY:
     if log_arc_op in gLogOptions then
-      LogWrite(rsMsgNextVolUnpack + #32 + sArcName);
+      LogWrite(rsMsgNextVolUnpack + #32 + ArcName);
   end;
 end;
 
-function ProcessDataProc(FileName: PChar; Size: Integer): Integer; stdcall;
+function ChangeVolProcA(ArcName : PAnsiChar; Mode: LongInt): LongInt; stdcall;
+var
+  sArcName: UTF8String;
+begin
+  sArcName:= SysToUTF8(StrPas(ArcName));
+  Result:= ChangeVolProc(sArcName, Mode);
+  if Result <> 0 then
+    StrPLCopy(ArcName, UTF8ToSys(sArcName), MAX_PATH);
+end;
+
+function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; stdcall;
+var
+  sArcName: UTF8String;
+begin
+  sArcName:= UTF8Encode(WideString(ArcName));
+  Result:= ChangeVolProc(sArcName, Mode);
+  if Result <> 0 then
+    StrPLCopyW(ArcName, UTF8Decode(sArcName), MAX_PATH);
+end;
+
+function ProcessDataProc(FileName: UTF8String; Size: LongInt): LongInt;
 begin
   //DebugLn('Working ' + FileName + ' Size = ' + IntToStr(Size));
 
@@ -95,7 +110,7 @@ begin
 
     with WcxDeleteOperation.FStatistics do
     begin
-      CurrentFile := SysToUTF8(FileName);
+      CurrentFile := FileName;
 
       if Size >= 0 then
       begin
@@ -126,6 +141,16 @@ begin
       WcxDeleteOperation.UpdateStatistics(WcxDeleteOperation.FStatistics);
     end;
   end;
+end;
+
+function ProcessDataProcA(FileName: PAnsiChar; Size: LongInt): LongInt; stdcall;
+begin
+  Result:= ProcessDataProc(SysToUTF8(StrPas(FileName)), Size);
+end;
+
+function ProcessDataProcW(FileName: PWideChar; Size: LongInt): LongInt; stdcall;
+begin
+  Result:= ProcessDataProc(UTF8Encode(WideString(FileName)), Size);
 end;
 
 // ----------------------------------------------------------------------------
@@ -164,12 +189,11 @@ var
 begin
   WcxModule := FWcxArchiveFileSource.WcxModule;
 
-  WcxModule.SetChangeVolProc(wcxInvalidHandle, @ChangeVolProc);
-  WcxModule.SetProcessDataProc(wcxInvalidHandle, @ProcessDataProc);
+  WcxModule.WcxSetChangeVolProc(wcxInvalidHandle, @ChangeVolProcA, @ChangeVolProcW);
+  WcxModule.WcxSetProcessDataProc(wcxInvalidHandle, @ProcessDataProcA, @ProcessDataProcW);
 
-  iResult := WcxModule.DeleteFiles(
-               PAnsiChar(UTF8ToSys(FWcxArchiveFileSource.ArchiveFileName)),
-               PAnsiChar(UTF8ToSys(GetFileList(FilesToDelete))));
+  iResult := WcxModule.WcxDeleteFiles(FWcxArchiveFileSource.ArchiveFileName,
+                                      GetFileList(FilesToDelete));
 
   // Check for errors.
   if iResult <> E_SUCCESS then
