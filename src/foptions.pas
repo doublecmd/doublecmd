@@ -1018,8 +1018,7 @@ var
   iWidth: Integer;
 begin
   iWidth:= (pgBehav.Width div 2) - 26;
-  gbMisc1.Width:= iWidth;
-  gbDateTimeFormat.Width:= iWidth;
+  gbMisc2.Width:= iWidth;
 end;
 
 procedure TfrmOptions.rbIconsShowNoneChange(Sender: TObject);
