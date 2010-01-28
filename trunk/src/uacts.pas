@@ -967,8 +967,10 @@ begin
     else
       sFileName:= gpIniDir + param;
     IniFile:= TIniFileEx.Create(sFileName);
+    MainToolBar.AutoSize:= False;
     MainToolBar.LoadFromIniFile(IniFile);
   finally
+    MainToolBar.AutoSize:= True;
     FreeThenNil(IniFile);
   end;
 end;
