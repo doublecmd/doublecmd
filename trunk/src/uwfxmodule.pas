@@ -33,7 +33,7 @@ interface
 
 uses
   SysUtils, Classes, WfxPlugin, uWFXprototypes,
-  dynlibs, uClassesEx, DialogAPI, uTypes;
+  dynlibs, uClassesEx, DialogAPI, uTypes, uXmlConfig;
 
 const
   WFX_SUCCESS      =  0;
@@ -168,7 +168,10 @@ type
     procedure SetAName(Index: Integer; const AValue: String);
   public
     procedure Load(Ini: TIniFileEx); overload;
+    procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     procedure Save(Ini: TIniFileEx); overload;
+    procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
+    function Add(Ext: String; FileName: String): Integer; reintroduce;
     function FindFirstEnabledByName(Name: String): Integer;
 
     property Name[Index: Integer]: String read GetAName write SetAName;
@@ -691,6 +694,35 @@ begin
       end;
 end;
 
+procedure TWFXModuleList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  I: Integer;
+  AName, APath: String;
+  AFlags: Integer;
+begin
+  Clear;
+
+  ANode := ANode.FindNode('WfxPlugins');
+  if Assigned(ANode) then
+  begin
+    ANode := ANode.FirstChild;
+    while Assigned(ANode) do
+    begin
+      if ANode.CompareName('WfxPlugin') = 0 then
+      begin
+        if AConfig.TryGetValue(ANode, 'Name', AName) and
+           AConfig.TryGetValue(ANode, 'Path', APath) then
+        begin
+          I := Add(AName, APath);
+          Enabled[I] := AConfig.GetAttr(ANode, 'Enabled', True);
+        end
+        else
+          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+      end;
+    end;
+  end;
+end;
+
 procedure TWFXModuleList.Save(Ini: TIniFileEx);
 var
  I: Integer;
@@ -707,6 +739,27 @@ begin
           Ini.WriteString('FileSystemPlugins', '#' + Name[I], FileName[I]);
         end;
     end;
+end;
+
+procedure TWFXModuleList.Save(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  I: Integer;
+  SubNode: TXmlNode;
+begin
+  ANode := AConfig.FindNode(ANode, 'WfxPlugins', True);
+  AConfig.ClearNode(ANode);
+  for I := 0 to Count - 1 do
+    begin
+      SubNode := AConfig.AddNode(ANode, 'WfxPlugin');
+      AConfig.SetAttr(SubNode, 'Enabled', Enabled[I]);
+      AConfig.AddValue(SubNode, 'Name', Name[I]);
+      AConfig.AddValue(SubNode, 'Path', FileName[I]);
+    end;
+end;
+
+function TWFXModuleList.Add(Ext: String; FileName: String): Integer;
+begin
+  Result:= AddObject(Ext + '=' + FileName, TObject(True));
 end;
 
 function TWFXModuleList.FindFirstEnabledByName(Name: String): Integer;

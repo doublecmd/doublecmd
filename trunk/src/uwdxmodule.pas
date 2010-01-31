@@ -39,7 +39,7 @@ uses
     Classes, SysUtils, uClassesEx,
     uWdxPrototypes, WdxPlugin,
     dynlibs, uDCUtils, uOSUtils,
-    uDetectStr, lua, LCLProc, uFile;
+    uDetectStr, lua, LCLProc, uFile, uXmlConfig;
   
 type
 
@@ -234,8 +234,10 @@ type
         procedure Clear;
         procedure Load(FileName:string);overload;
         procedure Load(Ini:TIniFileEx); overload;
+        procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
         procedure Save(FileName:string);overload;
         procedure Save(Ini:TIniFileEx); overload;
+        procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
         procedure DeleteItem(Index: integer);
         //---------------------
         function Add(Item:TWDXModule):integer;overload;
@@ -345,6 +347,46 @@ begin
 
 end;
 
+procedure TWDXModuleList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  AName, APath: String;
+  AWdxModule: TWDXModule;
+begin
+  Self.Clear;
+
+  ANode := ANode.FindNode('WdxPlugins');
+  if Assigned(ANode) then
+  begin
+    ANode := ANode.FirstChild;
+    while Assigned(ANode) do
+    begin
+      if ANode.CompareName('WdxPlugin') = 0 then
+      begin
+        if AConfig.TryGetValue(ANode, 'Name', AName) and
+           AConfig.TryGetValue(ANode, 'Path', APath) then
+        begin
+          // Create a correct object based on plugin file extension.
+          APath := GetCmdDirFromEnvVar(APath);
+          DebugLn('WDX: LOAD: ' + APath);
+          if UpCase(ExtractFileExt(APath)) = '.WDX' then
+            AWdxModule := TPluginWDX.Create
+          else if UpCase(ExtractFileExt(APath)) = '.LUA' then
+            AWdxModule := TLuaWdx.Create
+          else
+            raise Exception.Create('Invalid WDX plugin: ' + APath);
+
+          AWdxModule.Name := AName;
+          AWdxModule.FileName := APath;
+          AWdxModule.DetectStr := AConfig.GetValue(ANode, 'DetectString', '');
+          Flist.AddObject(UpCase(AName), AWdxModule);
+        end
+        else
+          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+      end;
+    end;
+  end;
+end;
+
 procedure TWDXModuleList.Save(FileName: string);
  var  Ini:TIniFileEx;
 begin
@@ -366,6 +408,23 @@ begin
       Ini.WriteString('Content Plugins','Plugin'+IntToStr(I+1)+'Name',TWDXModule(Flist.Objects[I]).Name);
       Ini.WriteString('Content Plugins','Plugin'+IntToStr(I+1)+'Detect',TWDXModule(Flist.Objects[I]).DetectStr);
       Ini.WriteString('Content Plugins','Plugin'+IntToStr(I+1)+'Path',SetCmdDirAsEnvVar(TWDXModule(Flist.Objects[I]).FileName));
+    end;
+end;
+
+procedure TWDXModuleList.Save(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  i: Integer;
+  SubNode: TXmlNode;
+begin
+  ANode := AConfig.FindNode(ANode, 'WdxPlugins', True);
+  AConfig.ClearNode(ANode);
+
+  For i:=0 to Flist.Count-1 do
+    begin
+      SubNode := AConfig.AddNode(ANode, 'WdxPlugin');
+      AConfig.AddValue(SubNode, 'Name', TWDXModule(Flist.Objects[I]).Name);
+      AConfig.AddValue(SubNode, 'Path', SetCmdDirAsEnvVar(TWDXModule(Flist.Objects[I]).FileName));
+      AConfig.AddValue(SubNode, 'DetectString', TWDXModule(Flist.Objects[I]).DetectStr);
     end;
 end;
 
@@ -1042,4 +1101,4 @@ function TWDXModule.WdxFieldType(n: integer): string;
 end;
 
 end.
-
+

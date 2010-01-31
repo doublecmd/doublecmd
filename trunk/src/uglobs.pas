@@ -60,7 +60,7 @@ var
   gHelpLang: String;
 
   { WDX plugins }
-  gWdxPlugins:TWDXModuleList;
+  gWDXPlugins:TWDXModuleList;
   { WCX plugins }
   gWCXPlugins: TWCXModuleList;
   { WFX plugins }
@@ -461,7 +461,12 @@ begin
   glsMaskHistory := TStringListEx.Create;
   glsSearchHistory := TStringListEx.Create;
   glsReplaceHistory := TStringListEx.Create;
-  
+  gSearchTemplateList := TSearchTemplateList.Create;
+  gWCXPlugins := TWCXModuleList.Create;
+  gWDXPlugins := TWDXModuleList.Create;
+  gWFXPlugins := TWFXModuleList.Create;
+  ColSet := TPanelColumnsList.Create;
+
   HotMan:=THotKeyManager.Create;
   Actions:=TActs.Create;
 
@@ -490,10 +495,10 @@ begin
     FreeAndNil(gConfig);
   if Assigned(gSearchTemplateList) then
     FreeAndNil(gSearchTemplateList);
-  if Assigned(gWdxPlugins) then
-    gWdxPlugins.Free;
   if Assigned(gWCXPlugins) then
     FreeAndNil(gWCXPlugins);
+  if Assigned(gWDXPlugins) then
+    FreeAndNil(gWDXPlugins);
   if Assigned(gWFXPlugins) then
     FreeAndNil(gWFXPlugins);
   if Assigned(ColSet) then
@@ -734,21 +739,14 @@ begin
   gColorExt.LoadIni;
 
   { Search template list }
-  gSearchTemplateList:= TSearchTemplateList.Create;
   gSearchTemplateList.LoadFromIni(gIni);
 
-  {Wdx Plugins and columns}
-  //---------------------
-  gWdxPlugins:=TWDXModuleList.Create;
-  gWdxPlugins.Load(gIni);
-  ColSet:=TPanelColumnsList.Create;
+  { Columns sets }
   ColSet.Load(gIni);
-  //---------------------
-  { WCX plugins }
-  gWCXPlugins:= TWCXModuleList.Create;
+
+  { Plugins }
   gWCXPlugins.Load(gIni);
-  { WFX plugins }
-  gWFXPlugins:= TWFXModuleList.Create;
+  gWDXPlugins.Load(gIni);
   gWFXPlugins.Load(gIni);
 end;
 
@@ -900,9 +898,9 @@ begin
   gSearchTemplateList.SaveToIni(gIni);
 
   { Plugins }
-  gWdxPlugins.Save(gIni);
-  gWFXPlugins.Save(gIni);
   gWCXPlugins.Save(gIni);
+  gWDXPlugins.Save(gIni);
+  gWFXPlugins.Save(gIni);
 end;
 
 function LoadXmlConfig : Boolean;
@@ -1120,24 +1118,21 @@ begin
   end;
 
   { Search template list }
-  gSearchTemplateList:= TSearchTemplateList.Create;
   gSearchTemplateList.LoadFromXml(gConfig, Root);
 
 (*
-  {Wdx Plugins and columns}
-  //---------------------
-  gWdxPlugins:=TWDXModuleList.Create;
-  gWdxPlugins.Load(gIni);
-  ColSet:=TPanelColumnsList.Create;
+  { Columns sets }
   ColSet.Load(gIni);
-  //---------------------
-  { WCX plugins }
-  gWCXPlugins:= TWCXModuleList.Create;
-  gWCXPlugins.Load(gIni);
-  { WFX plugins }
-  gWFXPlugins:= TWFXModuleList.Create;
-  gWFXPlugins.Load(gIni);
 *)
+
+  { Plugins }
+  Node := gConfig.FindNode(Root, 'Plugins');
+  if Assigned(Node) then
+  begin
+    gWCXPlugins.Load(gConfig, Root);
+    gWDXPlugins.Load(gConfig, Root);
+    gWFXPlugins.Load(gConfig, Root);
+  end;
 end;
 
 procedure SaveXmlConfig;
@@ -1312,16 +1307,16 @@ begin
 
   { Search template list }
   gSearchTemplateList.SaveToXml(gConfig, Root);
-(*
+
   { Plugins }
-  gWdxPlugins.Save(gIni);
-  gWFXPlugins.Save(gIni);
-  gWCXPlugins.Save(gIni);
-*)
+  Node := gConfig.FindNode(Root, 'Plugins', True);
+  gWCXPlugins.Save(gConfig, Node);
+  gWDXPlugins.Save(gConfig, Node);
+  gWFXPlugins.Save(gConfig, Node);
 end;
 
 initialization
 
 finalization
   DeInitGlobs;
-end.
+end.
