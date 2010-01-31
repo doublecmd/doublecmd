@@ -24,7 +24,7 @@ interface
 uses
   Classes, Controls, Forms, uExts, uColorExt, Graphics, uClassesEx, uWDXModule,
   uColumns,uhotkeymanger,uActs, uWFXModule, uWCXModule, uSearchTemplate,
-  uFileSourceOperationOptions;
+  uFileSourceOperationOptions, uXmlConfig;
 
 type
   { Log options }
@@ -49,6 +49,7 @@ type
 const
   { Default hotkey list version number }
   hkVersion: String = '0.4.6.r2205';
+  ConfigVersion = '1';
 
 var
   { Double Commander Version }
@@ -241,6 +242,11 @@ var
 
 function LoadGlobs(Version: String = '') : Boolean;
 procedure SaveGlobs;
+function LoadIniConfig : Boolean;
+procedure SaveIniConfig;
+function LoadXmlConfig : Boolean;
+procedure SaveXmlConfig;
+
 function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
 
 procedure LoadDefaultHotkeyBindings;
@@ -251,7 +257,8 @@ const
   cMaxStringItems=50;
   
 var
-  gIni:TIniFileEx = nil;
+  gIni: TIniFileEx = nil;
+  gConfig: TXmlConfig = nil;
 
 implementation
 
@@ -345,6 +352,71 @@ begin
     end;
 end;
 
+function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
+var
+  i:Integer;
+begin
+  Assert(list <> nil,'LoadStringsFromFile: list=nil');
+  list.Clear;
+  Result:=False;
+  if not mbFileExists(sFileName) then Exit;
+  list.LoadFromFile(sFileName);
+  for i:=list.Count-1 downto 0 do
+    if i>cMaxStringItems then
+      list.Delete(i)
+    else
+      Break;
+  Result:=True;
+end;
+
+procedure LoadDirHotList(AConfig: TXmlConfig; Node: TXmlNode);
+var
+  Name, Path: String;
+begin
+  glsHotDir.Clear;
+
+  Node := Node.FindNode('DirectoryHotList');
+  if Assigned(Node) then
+  begin
+    Node := Node.FirstChild;
+    while Assigned(Node) do
+    begin
+      if Node.CompareName('HotDir') = 0 then
+      begin
+        if AConfig.TryGetAttr(Node, 'Name', Name) and
+           AConfig.TryGetAttr(Node, 'Path', Path) then
+        begin
+          glsHotDir.Add(Name + '=' + Path);
+        end
+        else
+          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(Node) + '.');
+      end;
+      Node := Node.NextSibling;
+    end;
+  end;
+end;
+
+procedure ReadFont(const AConfig: TXmlConfig; const aNode: TXmlNode; Path: TXmlPath;
+                   out Name: UTF8String; out Size: Integer; out Style: Integer;
+                   const DefName: UTF8String; const DefSize: Integer; const DefStyle: Integer);
+begin
+  if Path <> '' then
+    Path := Path + '/';
+  Name := AConfig.GetValue(aNode, Path + 'Name', DefName);
+  Size := AConfig.GetValue(aNode, Path + 'Size', DefSize);
+  Style := AConfig.GetValue(aNode, Path + 'Style', DefStyle);
+end;
+
+procedure WriteFont(const AConfig: TXmlConfig; const aNode: TXmlNode; Path: TXmlPath;
+                    const Name: UTF8String; const Size: Integer; const Style: Integer);
+begin
+  if Path <> '' then
+    Path := Path + '/';
+  AConfig.SetValue(aNode, Path + 'Name', Name);
+  AConfig.SetValue(aNode, Path + 'Size', Size);
+  AConfig.SetValue(aNode, Path + 'Style', Style);
+end;
+
 procedure InitGlobs;
 begin
   { Create default configuration files if need }
@@ -353,6 +425,8 @@ begin
       // main ini file
       if not mbFileExists(gpIniDir + 'doublecmd.ini') then
         CopyFile(gpCfgDir + 'doublecmd.ini', gpIniDir + 'doublecmd.ini');
+      if not mbFileExists(gpIniDir + 'doublecmd.xml') then
+        CopyFile(gpCfgDir + 'doublecmd.xml', gpIniDir + 'doublecmd.xml');
       // toolbar file
       if not mbFileExists(gpIniDir + 'default.bar') then
         CopyFile(gpCfgDir + 'default.bar', gpIniDir + 'default.bar');
@@ -371,6 +445,15 @@ begin
     end;
 
   gIni := TIniFileEx.Create(gpIniDir + 'doublecmd.ini');
+
+  // For now, enable loading/saving XML only if testing, until all done.
+{$IFDEF DC_USE_XML_CONFIG}
+  gConfig := TXmlConfig.Create(gpIniDir + 'doublecmd.xml');
+  gConfig.SaveOnDestroy := True;
+{$ELSE}
+  gConfig := TXmlConfig.Create;
+{$ENDIF}
+
   gExts := TExts.Create;
   gColorExt := TColorExt.Create;
   glsHotDir := TStringListEx.Create;
@@ -403,6 +486,8 @@ begin
     FreeAndNil(gExts);
   if Assigned(gIni) then
     FreeAndNil(gIni);
+  if Assigned(gConfig) then
+    FreeAndNil(gConfig);
   if Assigned(gSearchTemplateList) then
     FreeAndNil(gSearchTemplateList);
   if Assigned(gWdxPlugins) then
@@ -438,8 +523,69 @@ begin
   gOnlyOnce:= gIni.ReadBool('Configuration', 'OnlyOnce', False);
   if gOnlyOnce and not IsUniqueInstance(ApplicationName) then Exit(False);
 
+  LoadIniConfig;
+  LoadXmlConfig;
+
+  if mbFileExists(gpIniDir + 'doublecmd.ext') then
+    gExts.LoadFromFile(gpIniDir + 'doublecmd.ext');
+
+  if mbFileExists(gpIniDir + 'dirhistory.txt') then
+    LoadStringsFromFile(glsDirHistory,gpIniDir + 'dirhistory.txt');
+
+  if mbFileExists(gpIniDir + 'maskhistory.txt') then
+    LoadStringsFromFile(glsMaskHistory, gpIniDir + 'maskhistory.txt');
+
+  if mbFileExists(gpIniDir + 'searchhistory.txt') then
+    LoadStringsFromFile(glsSearchHistory, gpIniDir + 'searchhistory.txt');
+
+  if mbFileExists(gpIniDir + 'replacehistory.txt') then
+    LoadStringsFromFile(glsReplaceHistory, gpIniDir + 'replacehistory.txt');
+
+  { Localization }
+  DoLoadLng;
+  msgLoadLng;
+  Result := True;
+end;
+
+procedure SaveGlobs;
+var
+  Ini: TIniFileEx;
+begin
+  if gUseIniInProgramDirNew <> gUseIniInProgramDir then
+    begin
+      gIni.Free;
+      { Save location of configuration files }
+      try
+        Ini:= TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
+        Ini.WriteBool('Configuration', 'UseIniInProgramDir', gUseIniInProgramDirNew);
+      finally
+        Ini.Free;
+      end;
+      LoadPaths;
+      gIni := TIniFileEx.Create(gpIniDir + 'doublecmd.ini');
+    end;
+
+  gExts.SaveToFile(gpIniDir + 'doublecmd.ext');
+
+  if gSaveDirHistory then
+    glsDirHistory.SaveToFile(gpIniDir + 'dirhistory.txt');
+  if gSaveFileMaskHistory then
+    glsMaskHistory.SaveToFile(gpIniDir + 'maskhistory.txt');
+
+  glsSearchHistory.SaveToFile(gpIniDir + 'searchhistory.txt');
+  glsReplaceHistory.SaveToFile(gpIniDir + 'replacehistory.txt');
+
+  //TODO: Save hotkeys
+  //HotMan.Save();
+
+  SaveIniConfig;
+  SaveXmlConfig;
+end;
+
+function LoadIniConfig : Boolean;
+begin
   { Layout page }
-  
+
   gButtonBar := gIni.ReadBool('Layout', 'ButtonBar', True);
   gToolBarFlat := gIni.ReadBool('ButtonBar', 'FlatIcons', True);
   gToolBarButtonSize := gIni.ReadInteger('ButtonBar', 'ButtonHeight', 16);
@@ -458,7 +604,7 @@ begin
   gTermWindow := gIni.ReadBool('Layout', 'TermWindow', False);
   gKeyButtons := gIni.ReadBool('Layout', 'KeyButtons', True);
   gInterfaceFlat := gIni.ReadBool('Layout', 'InterfaceFlat', True);
-  
+
   gShowSystemFiles := gIni.ReadBool('Configuration', 'ShowSystemFiles', False);
   gPOFileName := gIni.ReadString('Configuration', 'Language', '?');
   gRunInTerm := gIni.ReadString('Configuration', 'RunInTerm', RunInTerm);
@@ -496,7 +642,7 @@ begin
 
   gLuaLib:=gIni.ReadString('Configuration', 'LuaLib', gLuaLib);
 
-  
+
   { Fonts }
   gFontName:=gIni.ReadString('Configuration', 'Font.Name', 'default');
   DebugLn('gFontName:',gFontName);
@@ -581,27 +727,7 @@ begin
 
   gIni.ReadSectionRaw('DirectoryHotList', glsHotDir);
 
-  if mbFileExists(gpIniDir + 'doublecmd.ext') then
-    gExts.LoadFromFile(gpIniDir + 'doublecmd.ext');
-
-  if mbFileExists(gpIniDir + 'dirhistory.txt') then
-    LoadStringsFromFile(glsDirHistory,gpIniDir + 'dirhistory.txt');
-
-  if mbFileExists(gpIniDir + 'maskhistory.txt') then
-    LoadStringsFromFile(glsMaskHistory, gpIniDir + 'maskhistory.txt');
-
-  if mbFileExists(gpIniDir + 'searchhistory.txt') then
-    LoadStringsFromFile(glsSearchHistory, gpIniDir + 'searchhistory.txt');
-
-  if mbFileExists(gpIniDir + 'replacehistory.txt') then
-    LoadStringsFromFile(glsReplaceHistory, gpIniDir + 'replacehistory.txt');
-
-  gColorExt.Load;
-
-  { Localization }
-  DoLoadLng;
-  msgLoadLng;
-  Result := True;
+  gColorExt.LoadIni;
 
   { Search template list }
   gSearchTemplateList:= TSearchTemplateList.Create;
@@ -622,55 +748,14 @@ begin
   gWFXPlugins.Load(gIni);
 end;
 
-function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
+procedure SaveIniConfig;
 var
-  i:Integer;
-begin
-  Assert(list <> nil,'LoadStringsFromFile: list=nil');
-  list.Clear;
-  Result:=False;
-  if not mbFileExists(sFileName) then Exit;
-  list.LoadFromFile(sFileName);
-  for i:=list.Count-1 downto 0 do
-    if i>cMaxStringItems then
-      list.Delete(i)
-    else
-      Break;
-  Result:=True;
-end;
-
-
-procedure SaveGlobs;
-var
-  Ini: TIniFileEx;
   I: LongInt;
 begin
-  if gUseIniInProgramDirNew <> gUseIniInProgramDir then
-    begin
-      gIni.Free;
-      { Save location of configuration files }
-      try
-        Ini:= TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
-        Ini.WriteBool('Configuration', 'UseIniInProgramDir', gUseIniInProgramDirNew);
-      finally
-        Ini.Free;
-      end;
-      LoadPaths;
-      gIni := TIniFileEx.Create(gpIniDir + 'doublecmd.ini');
-    end;
-
   gIni.EraseSection('DirectoryHotList');
   for I:= 0 to glsHotDir.Count - 1 do
     gIni.WriteString('DirectoryHotList', glsHotDir.Names[I], glsHotDir.ValueFromIndex[I]);
 
-  if gSaveDirHistory then
-    glsDirHistory.SaveToFile(gpIniDir + 'dirhistory.txt');
-  if gSaveFileMaskHistory then
-    glsMaskHistory.SaveToFile(gpIniDir + 'maskhistory.txt');
-
-  glsSearchHistory.SaveToFile(gpIniDir + 'searchhistory.txt');
-  glsReplaceHistory.SaveToFile(gpIniDir + 'replacehistory.txt');
-	
   { Layout page }
 
   gIni.WriteBool('Layout', 'ButtonBar', gButtonBar);
@@ -706,7 +791,7 @@ begin
   gIni.WriteString('Configuration', 'DateTimeFormat', gDateTimeFormat);
   gIni.WriteString('Configuration', 'DriveBlackList', gDriveBlackList);
   gIni.WriteBool('Configuration', 'SpaceMovesDown', gSpaceMovesDown);
-  
+
   gIni.WriteBool('Configuration', 'ListFilesInThread', gListFilesInThread);
   gIni.WriteBool('Configuration', 'LoadIconsSeparately', gLoadIconsSeparately);
 
@@ -730,7 +815,7 @@ begin
   gIni.WriteString('Configuration', 'RunTerm', gRunTerm);
 
   gIni.WriteString('Configuration', 'LuaLib', gLuaLib);
-  
+
   { Fonts }
   gIni.WriteString('Configuration', 'Font.Name', gFontName);
   gIni.WriteString('Editor', 'Font.Name', gEditorFontName);
@@ -793,7 +878,7 @@ begin
   gIni.WriteInteger('Configuration', 'ShowIcons', Integer(gShowIconsNew));
   gIni.WriteBool('Configuration', 'IconOverlays', gIconOverlays);
   gIni.WriteInteger('Configuration', 'IconsSize', gIconsSizeNew);
-  
+
   gIni.WriteBool('Configuration', 'CutTextToColWidth', gCutTextToColWidth);
 
   gIni.WriteBool('Viewer', 'Image.Stretch', gViewerImageStretch);
@@ -805,11 +890,7 @@ begin
   gIni.WriteInteger('Operations', 'DirectoryExists', Integer(gOperationOptionDirectoryExists));
   gIni.WriteBool('Operations', 'CheckFreeSpace', gOperationOptionCheckFreeSpace);
 
-  gExts.SaveToFile(gpIniDir + 'doublecmd.ext');
-  gColorExt.Save;
-  
-  //TODO: Save hotkeys
-  //HotMan.Save();
+  gColorExt.SaveIni;
 
   { Search template list }
   gSearchTemplateList.SaveToIni(gIni);
@@ -818,6 +899,421 @@ begin
   gWdxPlugins.Save(gIni);
   gWFXPlugins.Save(gIni);
   gWCXPlugins.Save(gIni);
+end;
+
+function LoadXmlConfig : Boolean;
+var
+  Root, Node, SubNode: TXmlNode;
+  TmpConfig: TXmlConfig;
+begin
+  { Load location of configuration files }
+{$IFDEF DC_USE_XML_CONFIG}
+  TmpConfig := TXmlConfig.Create(gpCfgDir + 'doublecmd.xml');
+  gUseIniInProgramDir := TmpConfig.GetValue(TmpConfig.RootNode, 'Configuration/UseIniInProgramDir', False);
+  FreeAndNil(TmpConfig);
+  gUseIniInProgramDirNew:= gUseIniInProgramDir;
+{$ENDIF}
+
+  with gConfig do
+  begin
+    Root := gConfig.RootNode;
+
+    { Check is unique instance }
+    gOnlyOnce := GetValue(Root, 'Behaviours/OnlyOneInstance', gOnlyOnce);
+    if gOnlyOnce and not IsUniqueInstance(ApplicationName) then Exit(False);
+
+    { Language page }
+    gPOFileName := GetValue(Root, 'Language/POFileName', '');
+
+    { Behaviours page }
+    Node := Root.FindNode('Behaviours');
+    if Assigned(Node) then
+    begin
+      gRunInTerm := GetValue(Node, 'RunInTerminal', RunInTerm);
+      gRunTerm := GetValue(Node, 'RunTerminal', RunTerm);
+//      gOnlyOnce := GetValue(Node, 'OnlyOneInstance', gOnlyOnce);
+      gLynxLike := GetValue(Node, 'LynxLike', True);
+      gCaseSensitiveSort := GetValue(Node, 'CaseSensitiveSort', False);
+      gShortFileSizeFormat := GetValue(Node, 'ShortFileSizeFormat', True);
+      gMinimizeToTray := GetValue(Node, 'MinimizeToTray', False);
+      gAlwaysShowTrayIcon := GetValue(Node, 'AlwaysShowTrayIcon', False);
+      gMouseSelectionEnabled := GetAttr(Node, 'Mouse/Selection/Enabled', True);
+      gMouseSelectionButton := GetValue(Node, 'Mouse/Selection/Button', 0);
+      gScrollMode := GetValue(Node, 'Mouse/ScrollMode', 0);
+      gAutoFillColumns := GetValue(Node, 'AutoFillColumns', False);
+      gAutoSizeColumn := GetValue(Node, 'AutoSizeColumn', 1);
+      gDateTimeFormat := GetValue(Node, 'DateTimeFormat', 'dd.mm.yy');
+      gCutTextToColWidth := GetValue(Node, 'CutTextToColumnWidth', True);
+      gShowSystemFiles := GetValue(Node, 'ShowSystemFiles', False);
+      gListFilesInThread := GetValue(Node, 'ListFilesInThread', gListFilesInThread);
+      gLoadIconsSeparately := GetValue(Node, 'LoadIconsSeparately', gLoadIconsSeparately);
+      gDriveBlackList := GetValue(Node, 'DriveBlackList', '');
+    end;
+
+    { Tools page }
+    gUseExtEdit := GetAttr(Root, 'Tools/Editor/Enabled', False);
+    gExtEdit := GetValue(Root, 'Tools/Editor/Path', '');
+    gUseExtView := GetAttr(Root, 'Tools/Viewer/Enabled', False);
+    gExtView := GetValue(Root, 'Tools/Viewer/Path', '');
+    gUseExtDiff := GetAttr(Root, 'Tools/Differ/Enabled', False);
+    gExtDiff := GetValue(Root, 'Tools/Differ/Path', '');
+
+    { Fonts page }
+    ReadFont(gConfig, Root, 'Fonts/Main', gFontName, gFontSize, Integer(gFontStyle),
+             'default', 10, 0);
+    ReadFont(gConfig, Root, 'Fonts/Editor', gEditorFontName, gEditorFontSize, Integer(gEditorFontStyle),
+             MonoSpaceFont, 14, 0);
+    ReadFont(gConfig, Root, 'Fonts/Viewer', gViewerFontName, gViewerFontSize, Integer(gViewerFontStyle),
+             MonoSpaceFont, 14, 0);
+
+    { Colors page }
+    Node := Root.FindNode('Colors');
+    if Assigned(Node) then
+    begin
+      gForeColor := GetValue(Node, 'Foreground', clDefault);
+      gBackColor := GetValue(Node, 'Background', clWhite);
+      gBackColor2 := GetValue(Node, 'Background2', gBackColor2);
+      gMarkColor := GetValue(Node, 'Mark', clRed);
+      gCursorColor := GetValue(Node, 'Cursor', clHighlight);
+      gCursorText := GetValue(Node, 'CursorText', clHighlightText);
+      gUseInvertedSelection := GetValue(Node, 'UseInvertedSelection', False);
+      gInactivePanelBrightness := GetValue(Node, 'InactivePanelBrightness', gInactivePanelBrightness);
+
+      gColorExt.Load(gConfig, Node);
+    end;
+
+    { Layout page }
+    Node := Root.FindNode('Layout');
+    if Assigned(Node) then
+    begin
+      SubNode := Node.FindNode('ButtonBar');
+      if Assigned(SubNode) then
+      begin
+        gButtonBar := GetAttr(SubNode, 'Enabled', True);
+        gToolBarFlat := GetValue(SubNode, 'FlatIcons', True);
+        gToolBarButtonSize := GetValue(SubNode, 'ButtonHeight', 16);
+        gToolBarIconSize := GetValue(SubNode, 'SmallIconSize', 16);
+        gToolBarSmallIcons := GetValue(SubNode, 'SmallIcons', False);
+      end;
+      gDriveBar1 := GetValue(Node, 'DriveBar1', True);
+      gDriveBar2 := GetValue(Node, 'DriveBar2', True);
+      gDriveBarFlat := GetValue(Node, 'DriveBarFlat', True);
+      gDriveMenuButton := GetValue(Node, 'DriveMenuButton', True);
+      gDirectoryTabs := GetValue(Node, 'DirectoryTabs', True);
+      gCurDir := GetValue(Node, 'CurrentDirectory', True);
+      gTabHeader := GetValue(Node, 'TabHeader', True);
+      gStatusBar := GetValue(Node, 'StatusBar', True);
+      gCmdLine := GetValue(Node, 'CmdLine', True);
+      gLogWindow := GetValue(Node, 'LogWindow', True);
+      gTermWindow := GetValue(Node, 'TermWindow', False);
+      gKeyButtons := GetValue(Node, 'KeyButtons', True);
+      gInterfaceFlat := GetValue(Node, 'InterfaceFlat', True);
+    end;
+
+    { File operations page }
+    Node := Root.FindNode('FileOperations');
+    if Assigned(Node) then
+    begin
+      gCopyBlockSize := GetValue(Node, 'BufferSize', 65536);
+      gUseMmapInSearch := GetValue(Node, 'UseMmapInSearch', False);
+      gWipePassNumber := GetValue(Node, 'WipePassNumber', 1);
+      gDropReadOnlyFlag := GetValue(Node, 'DropReadOnlyFlag', True);
+      gProcessComments := GetValue(Node, 'ProcessComments', True);
+      gRenameSelOnlyName := GetValue(Node, 'RenameSelOnlyName', False);
+      gShowCopyTabSelectPanel := GetValue(Node, 'ShowCopyTabSelectPanel', False);
+      gUseTrash := GetValue(Node, 'UseTrash', True);
+      gSkipFileOpError := GetValue(Node, 'SkipFileOpError', False);
+      gShowDialogOnDragDrop := GetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
+      // Operations options
+      SubNode := Node.FindNode('Options');
+      if Assigned(SubNode) then
+      begin
+        gOperationOptionSymLinks := TFileSourceOperationOptionSymLink(GetValue(SubNode, 'Symlink', Integer(gOperationOptionSymLinks)));
+        gOperationOptionCorrectLinks := GetValue(SubNode, 'CorrectLinks', gOperationOptionCorrectLinks);
+        gOperationOptionFileExists := TFileSourceOperationOptionFileExists(GetValue(SubNode, 'FileExists', Integer(gOperationOptionFileExists)));
+        gOperationOptionDirectoryExists := TFileSourceOperationOptionDirectoryExists(GetValue(SubNode, 'DirectoryExists', Integer(gOperationOptionDirectoryExists)));
+        gOperationOptionCheckFreeSpace := GetValue(SubNode, 'CheckFreeSpace', gOperationOptionCheckFreeSpace);
+      end;
+    end;
+
+    { Tabs page }
+    Node := Root.FindNode('Tabs');
+    if Assigned(Node) then
+    begin
+      gDirTabOptions := TTabsOptions(GetValue(Node, 'Options', Integer(gDirTabOptions)));
+      gDirTabLimit := GetValue(Node, 'CharacterLimit', 32);
+      gDirTabPosition := TTabsPosition(GetValue(Node, 'Position', Integer(gDirTabPosition)));
+    end;
+
+    { Log page }
+    Node := Root.FindNode('Log');
+    if Assigned(Node) then
+    begin
+      gLogFile := GetAttr(Node, 'Enabled', True);
+      gLogFileName := GetValue(Node, 'FileName', gpIniDir + 'doublecmd.log');
+      gLogOptions := TLogOptions(GetValue(Node, 'Options', Integer(gLogOptions)));
+    end;
+
+    { Configuration page }
+    gSaveDirHistory := GetAttr(Root, 'History/DirHistory/Save', True);
+    gSaveCmdLineHistory := GetAttr(Root, 'History/CmdLineHistory/Save', True);
+    gSaveFileMaskHistory := GetAttr(Root, 'History/FileMaskHistory/Save', True);
+
+    { Quick Search/Filter page }
+    Node := Root.FindNode('QuickSearch');
+    if Assigned(Node) then
+    begin
+      gQuickSearch := GetAttr(Node, 'Enabled', True);
+      gQuickSearchMode := TShiftState(GetValue(Node, 'Mode', Integer(gQuickSearchMode)));
+      gQuickSearchMatchBeginning := GetValue(Node, 'MatchBeginning', True);
+      gQuickSearchMatchEnding := GetValue(Node, 'MatchEnding', True);
+    end;
+    Node := Root.FindNode('QuickFilter');
+    if Assigned(Node) then
+    begin
+      gQuickFilter := GetAttr(Node, 'Enabled', gQuickFilter);
+      gQuickFilterMode := TShiftState(GetValue(Node, 'Mode', Integer(gQuickFilterMode)));
+    end;
+
+    { Miscellaneous page }
+    Node := Root.FindNode('Miscellaneous');
+    if Assigned(Node) then
+    begin
+      gGridVertLine := GetValue(Node, 'GridVertLine', False);
+      gGridHorzLine := GetValue(Node, 'GridHorzLine', False);
+      gShowWarningMessages := GetValue(Node, 'ShowWarningMessages', True);
+      gSpaceMovesDown := GetValue(Node, 'SpaceMovesDown', False);
+      gDirBrackets := GetValue(Node, 'DirBrackets', True);
+      gShowToolTipMode := TShowToolTipMode(GetValue(Node, 'ShowToolTipMode', Integer(gShowToolTipMode)));
+    end;
+
+    { Auto refresh page }
+    Node := Root.FindNode('AutoRefresh');
+    if Assigned(Node) then
+    begin
+      gWatchDirs := TWatchOptions(GetValue(Node, 'Options', Integer(gWatchDirs)));
+      gWatchDirsExclude := GetValue(Node, 'ExcludeDirs', '');
+    end;
+
+    { Icons page }
+    Node := Root.FindNode('Icons');
+    if Assigned(Node) then
+    begin
+      gShowIcons := TShowIconsMode(GetValue(Node, 'ShowMode', Integer(gShowIcons)));
+      gShowIconsNew := gShowIcons;
+      gIconOverlays := GetValue(Node, 'ShowOverlays', True);
+      gIconsSize := GetValue(Node, 'Size', 16);
+      gIconsSizeNew := gIconsSize;
+      gCustomDriveIcons := GetValue(Node, 'CustomDriveIcons', False);
+    end;
+
+    { Directories HotList }
+    LoadDirHotList(gConfig, Root);
+
+    { - Other - }
+    gLuaLib := GetValue(Root, 'Lua/PathToLibrary', gLuaLib);
+    gViewerImageStretch := GetValue(Root, 'Viewer/ImageStretch', False);
+  end;
+
+  { Search template list }
+  gSearchTemplateList:= TSearchTemplateList.Create;
+  gSearchTemplateList.LoadFromXml(gConfig, Root);
+
+(*
+  {Wdx Plugins and columns}
+  //---------------------
+  gWdxPlugins:=TWDXModuleList.Create;
+  gWdxPlugins.Load(gIni);
+  ColSet:=TPanelColumnsList.Create;
+  ColSet.Load(gIni);
+  //---------------------
+  { WCX plugins }
+  gWCXPlugins:= TWCXModuleList.Create;
+  gWCXPlugins.Load(gIni);
+  { WFX plugins }
+  gWFXPlugins:= TWFXModuleList.Create;
+  gWFXPlugins.Load(gIni);
+*)
+end;
+
+procedure SaveXmlConfig;
+var
+  I: Integer;
+  Root, Node, SubNode: TXmlNode;
+begin
+  with gConfig do
+  begin
+    Root := gConfig.RootNode;
+
+    SetAttr(Root, 'DCVersion', dcVersion);
+    SetAttr(Root, 'ConfigVersion', ConfigVersion);
+
+    SetValue(Root, 'Configuration/UseIniInProgramDir', gUseIniInProgramDirNew);
+
+    { Language page }
+    SetValue(Root, 'Language/POFileName', gPOFileName);
+
+    { Behaviours page }
+    Node := FindNode(Root, 'Behaviours', True);
+    SetValue(Node, 'RunInTerminal', gRunInTerm);
+    SetValue(Node, 'RunTerminal', gRunTerm);
+    SetValue(Node, 'OnlyOneInstance', gOnlyOnce);
+    SetValue(Node, 'LynxLike', gLynxLike);
+    SetValue(Node, 'CaseSensitiveSort', gCaseSensitiveSort);
+    SetValue(Node, 'ShortFileSizeFormat', gShortFileSizeFormat);
+    SetValue(Node, 'MinimizeToTray', gMinimizeToTray);
+    SetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
+    SubNode := FindNode(Node, 'Mouse', True);
+    SetAttr(SubNode, 'Selection/Enabled', gMouseSelectionEnabled);
+    SetValue(SubNode, 'Selection/Button', gMouseSelectionButton);
+    SetValue(SubNode, 'ScrollMode', gScrollMode);
+    SetValue(Node, 'AutoFillColumns', gAutoFillColumns);
+    SetValue(Node, 'AutoSizeColumn', gAutoSizeColumn);
+    SetValue(Node, 'DateTimeFormat', gDateTimeFormat);
+    SetValue(Node, 'CutTextToColumnWidth', gCutTextToColWidth);
+    SetValue(Node, 'ShowSystemFiles', gShowSystemFiles);
+    SetValue(Node, 'ListFilesInThread', gListFilesInThread);
+    SetValue(Node, 'LoadIconsSeparately', gLoadIconsSeparately);
+    SetValue(Node, 'DriveBlackList', gDriveBlackList);
+
+    { Tools page }
+    SetAttr(Root, 'Tools/Editor/Enabled', gUseExtEdit);
+    SetValue(Root, 'Tools/Editor/Path', gExtEdit);
+    SetAttr(Root, 'Tools/Viewer/Enabled', gUseExtView);
+    SetValue(Root, 'Tools/Viewer/Path', gExtView);
+    SetAttr(Root, 'Tools/Differ/Enabled', gUseExtDiff);
+    SetValue(Root, 'Tools/Differ/Path', gExtDiff);
+
+    { Fonts page }
+    WriteFont(gConfig, Root, 'Fonts/Main', gFontName, gFontSize, Integer(gFontStyle));
+    WriteFont(gConfig, Root, 'Fonts/Editor', gEditorFontName, gEditorFontSize, Integer(gEditorFontStyle));
+    WriteFont(gConfig, Root, 'Fonts/Viewer', gViewerFontName, gViewerFontSize, Integer(gViewerFontStyle));
+
+    { Colors page }
+    Node := FindNode(Root, 'Colors', True);
+    SetValue(Node, 'Foreground', gForeColor);
+    SetValue(Node, 'Background', gBackColor);
+    SetValue(Node, 'Background2', gBackColor2);
+    SetValue(Node, 'Mark', gMarkColor);
+    SetValue(Node, 'Cursor', gCursorColor);
+    SetValue(Node, 'CursorText', gCursorText);
+    SetValue(Node, 'UseInvertedSelection', gUseInvertedSelection);
+    SetValue(Node, 'InactivePanelBrightness', gInactivePanelBrightness);
+    gColorExt.Save(gConfig, Node);
+
+    { Layout page }
+    Node := FindNode(Root, 'Layout', True);
+    SubNode := FindNode(Node, 'ButtonBar', True);
+    SetAttr(SubNode, 'Enabled', gButtonBar);
+    SetValue(SubNode, 'FlatIcons', gToolBarFlat);
+    SetValue(SubNode, 'ButtonHeight', gToolBarButtonSize);
+    SetValue(SubNode, 'SmallIconSize', gToolBarIconSize);
+    SetValue(SubNode, 'SmallIcons', gToolBarSmallIcons);
+    SetValue(Node, 'DriveBar1', gDriveBar1);
+    SetValue(Node, 'DriveBar2', gDriveBar2);
+    SetValue(Node, 'DriveBarFlat', gDriveBarFlat);
+    SetValue(Node, 'DriveMenuButton', gDriveMenuButton);
+    SetValue(Node, 'DirectoryTabs', gDirectoryTabs);
+    SetValue(Node, 'CurrentDirectory', gCurDir);
+    SetValue(Node, 'TabHeader', gTabHeader);
+    SetValue(Node, 'StatusBar', gStatusBar);
+    SetValue(Node, 'CmdLine', gCmdLine);
+    SetValue(Node, 'LogWindow', gLogWindow);
+    SetValue(Node, 'TermWindow', gTermWindow);
+    SetValue(Node, 'KeyButtons', gKeyButtons);
+    SetValue(Node, 'InterfaceFlat', gInterfaceFlat);
+
+    { File operations page }
+    Node := FindNode(Root, 'FileOperations', True);
+    SetValue(Node, 'BufferSize', gCopyBlockSize);
+    SetValue(Node, 'UseMmapInSearch', gUseMmapInSearch);
+    SetValue(Node, 'WipePassNumber', gWipePassNumber);
+    SetValue(Node, 'DropReadOnlyFlag', gDropReadOnlyFlag);
+    SetValue(Node, 'ProcessComments', gProcessComments);
+    SetValue(Node, 'RenameSelOnlyName', gRenameSelOnlyName);
+    SetValue(Node, 'ShowCopyTabSelectPanel', gShowCopyTabSelectPanel);
+    SetValue(Node, 'UseTrash', gUseTrash);
+    SetValue(Node, 'SkipFileOpError', gSkipFileOpError);
+    SetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
+    // Operations options
+    SubNode := FindNode(Node, 'Options', True);
+    SetValue(SubNode, 'Symlink', Integer(gOperationOptionSymLinks));
+    SetValue(SubNode, 'CorrectLinks', gOperationOptionCorrectLinks);
+    SetValue(SubNode, 'FileExists', Integer(gOperationOptionFileExists));
+    SetValue(SubNode, 'DirectoryExists', Integer(gOperationOptionDirectoryExists));
+    SetValue(SubNode, 'CheckFreeSpace', gOperationOptionCheckFreeSpace);
+
+    { Tabs page }
+    Node := FindNode(Root, 'Tabs', True);
+    SetValue(Node, 'Options', Integer(gDirTabOptions));
+    SetValue(Node, 'CharacterLimit', gDirTabLimit);
+    SetValue(Node, 'Position', Integer(gDirTabPosition));
+
+    { Log page }
+    Node := FindNode(Root, 'Log', True);
+    SetAttr(Node, 'Enabled', gLogFile);
+    SetValue(Node, 'FileName', gLogFileName);
+    SetValue(Node, 'Options', Integer(gLogOptions));
+
+    { Configuration page }
+    SetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
+    SetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
+    SetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
+
+    { Quick Search/Filter page }
+    Node := FindNode(Root, 'QuickSearch', True);
+    SetAttr(Node, 'Enabled', gQuickSearch);
+    SetValue(Node, 'Mode', Integer(gQuickSearchMode));
+    SetValue(Node, 'MatchBeginning', gQuickSearchMatchBeginning);
+    SetValue(Node, 'MatchEnding', gQuickSearchMatchEnding);
+    Node := FindNode(Root, 'QuickFilter', True);
+    SetAttr(Node, 'Enabled', gQuickFilter);
+    SetValue(Node, 'Mode', Integer(gQuickFilterMode));
+
+    { Misc page }
+    Node := FindNode(Root, 'Miscellaneous', True);
+    SetValue(Node, 'GridVertLine', gGridVertLine);
+    SetValue(Node, 'GridHorzLine', gGridHorzLine);
+    SetValue(Node, 'ShowWarningMessages', gShowWarningMessages);
+    SetValue(Node, 'SpaceMovesDown', gSpaceMovesDown);
+    SetValue(Node, 'DirBrackets', gDirBrackets);
+    SetValue(Node, 'ShowToolTipMode', Integer(gShowToolTipMode));
+
+    { Auto refresh page }
+    Node := FindNode(Root, 'AutoRefresh', True);
+    SetValue(Node, 'Options', Integer(gWatchDirs));
+    SetValue(Node, 'ExcludeDirs', gWatchDirsExclude);
+
+    { Icons page }
+    Node := FindNode(Root, 'Icons', True);
+    SetValue(Node, 'ShowMode', Integer(gShowIconsNew));
+    SetValue(Node, 'ShowOverlays', gIconOverlays);
+    SetValue(Node, 'Size', gIconsSizeNew);
+    SetValue(Node, 'CustomDriveIcons', gCustomDriveIcons);
+
+    { Directories HotList }
+    Node := FindNode(Root, 'DirectoryHotList', True);
+    gConfig.ClearNode(Node);
+    for I:= 0 to glsHotDir.Count - 1 do
+    begin
+      SubNode := AddNode(Node, 'HotDir');
+      SetAttr(SubNode, 'Name', glsHotDir.Names[I]);
+      SetAttr(SubNode, 'Path', glsHotDir.ValueFromIndex[I]);
+    end;
+
+    { - Other - }
+    SetValue(Root, 'Lua/PathToLibrary', gLuaLib);
+    SetValue(Root, 'Viewer/ImageStretch', gViewerImageStretch);
+  end;
+
+  { Search template list }
+  gSearchTemplateList.SaveToXml(gConfig, Root);
+(*
+  { Plugins }
+  gWdxPlugins.Save(gIni);
+  gWFXPlugins.Save(gIni);
+  gWCXPlugins.Save(gIni);
+*)
 end;
 
 initialization
