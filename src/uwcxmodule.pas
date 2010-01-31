@@ -28,7 +28,8 @@ unit uWCXmodule;
 interface
 
 uses
-  uWCXprototypes, WcxPlugin, dynlibs, Classes, Dialogs, DialogAPI, uClassesEx, uTypes;
+  uWCXprototypes, WcxPlugin, dynlibs, Classes, Dialogs, DialogAPI, uClassesEx,
+  uTypes, uXmlConfig;
 
 Type
   TWCXOperation = (OP_EXTRACT, OP_PACK, OP_DELETE);
@@ -145,7 +146,9 @@ Type
     procedure SetExt(Index: Integer; const AValue: String);
   public
     procedure Load(Ini: TIniFileEx);
+    procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);
     procedure Save(Ini: TIniFileEx);
+    procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);
     function Add(Ext: String; Flags: PtrInt; FileName: String): Integer; reintroduce;
     function FindFirstEnabledByName(Name: String): Integer;
 
@@ -600,6 +603,36 @@ begin
       end;
 end;
 
+procedure TWCXModuleList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  I: Integer;
+  AExt, APath: String;
+  AFlags: Integer;
+begin
+  Clear;
+
+  ANode := ANode.FindNode('WcxPlugins');
+  if Assigned(ANode) then
+  begin
+    ANode := ANode.FirstChild;
+    while Assigned(ANode) do
+    begin
+      if ANode.CompareName('WcxPlugin') = 0 then
+      begin
+        if AConfig.TryGetValue(ANode, 'ArchiveExt', AExt) and
+           AConfig.TryGetValue(ANode, 'Path', APath) then
+        begin
+          AFlags := AConfig.GetValue(ANode, 'Flags', 0);
+          I := Add(AExt, AFlags, APath);
+          Enabled[I] := AConfig.GetAttr(ANode, 'Enabled', True);
+        end
+        else
+          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+      end;
+    end;
+  end;
+end;
+
 procedure TWCXModuleList.Save(Ini: TIniFileEx);
 var
  I: Integer;
@@ -615,6 +648,23 @@ begin
         begin
           Ini.WriteString('PackerPlugins', '#' + Names[I], ValueFromIndex[I]);
         end;
+    end;
+end;
+
+procedure TWCXModuleList.Save(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  I: Integer;
+  SubNode: TXmlNode;
+begin
+  ANode := AConfig.FindNode(ANode, 'WcxPlugins', True);
+  AConfig.ClearNode(ANode);
+  for I := 0 to Count - 1 do
+    begin
+      SubNode := AConfig.AddNode(ANode, 'WcxPlugin');
+      AConfig.SetAttr(SubNode, 'Enabled', Enabled[I]);
+      AConfig.AddValue(SubNode, 'ArchiveExt', Ext[I]);
+      AConfig.AddValue(SubNode, 'Path', FileName[I]);
+      AConfig.AddValue(SubNode, 'Flags', Flags[I]);
     end;
 end;
 
