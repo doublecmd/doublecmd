@@ -524,7 +524,9 @@ begin
   if gOnlyOnce and not IsUniqueInstance(ApplicationName) then Exit(False);
 
   LoadIniConfig;
+{$IFDEF DC_USE_XML_CONFIG}
   LoadXmlConfig;
+{$ENDIF}
 
   if mbFileExists(gpIniDir + 'doublecmd.ext') then
     gExts.LoadFromFile(gpIniDir + 'doublecmd.ext');
@@ -579,7 +581,9 @@ begin
   //HotMan.Save();
 
   SaveIniConfig;
+{$IFDEF DC_USE_XML_CONFIG}
   SaveXmlConfig;
+{$ENDIF}
 end;
 
 function LoadIniConfig : Boolean;
