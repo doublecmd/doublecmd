@@ -27,7 +27,7 @@ unit uSearchTemplate;
 interface
 
 uses
-  Classes, SysUtils, DsxPlugin, uClassesEx, uFile;
+  Classes, SysUtils, DsxPlugin, uClassesEx, uFile, uXmlConfig;
 
 type
 
@@ -59,11 +59,14 @@ type
     function GetTemplate(Index: Integer): TSearchTemplate;
     function GetTemplate(const AName: UTF8String): TSearchTemplate;
   public
+    procedure Clear; override;
     function Add(SearchTemplate: TSearchTemplate): Integer;
     procedure DeleteTemplate(Index: Integer);
     procedure LoadToStringList(StringList: TStrings);
     procedure LoadFromIni(IniFile: TIniFileEx);
+    procedure LoadFromXml(AConfig: TXmlConfig; ANode: TXmlNode);
     procedure SaveToIni(IniFile: TIniFileEx);
+    procedure SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode);
     property TemplateByName[const AName: UTF8String]: TSearchTemplate read GetTemplate;
     property Templates[Index: Integer]: TSearchTemplate read GetTemplate;
   end;
@@ -223,6 +226,15 @@ begin
       end;
 end;
 
+procedure TSearchTemplateList.Clear;
+var
+  i: Integer;
+begin
+  for i := 0 to Count - 1 do
+    Templates[i].Free;
+  inherited Clear;
+end;
+
 function TSearchTemplateList.Add(SearchTemplate: TSearchTemplate): Integer;
 begin
   Result:= inherited Add(SearchTemplate);
@@ -299,6 +311,68 @@ begin
     end;
 end;
 
+procedure TSearchTemplateList.LoadFromXml(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  I: Integer;
+  sTemplate: String;
+  SearchTemplate: TSearchTemplate;
+begin
+  Clear;
+
+  ANode := ANode.FindNode(cSection);
+  if Assigned(ANode) then
+  begin
+    ANode := ANode.FirstChild;
+    while Assigned(ANode) do
+    begin
+      if ANode.CompareName('Template') = 0 then
+      begin
+        SearchTemplate:= TSearchTemplate.Create;
+        with SearchTemplate.SearchRecord do
+        begin
+          SearchTemplate.TemplateName:= AConfig.GetValue(ANode, 'Name', '');
+          SearchTemplate.StartPath:= AConfig.GetValue(ANode, 'StartPath', '');
+          rFileMask:= StrNew(PChar(AConfig.GetValue(ANode, 'FileMask', '*')));
+          rAttributes:= AConfig.GetValue(ANode, 'Attributes', faAnyFile);
+          rAttribStr:= StrNew(PChar(AConfig.GetValue(ANode, 'AttribStr', '*')));
+          // date/time
+          rCaseSens:= AConfig.GetValue(ANode, 'CaseSens', False);
+          rIsDateFrom:= AConfig.GetValue(ANode, 'IsDateFrom', False);
+          rIsDateTo:= AConfig.GetValue(ANode, 'IsDateTo', False);
+          rIsTimeFrom:= AConfig.GetValue(ANode, 'IsTimeFrom', False);
+          rIsTimeTo:= AConfig.GetValue(ANode, 'IsTimeTo', False);
+          if rIsDateFrom or rIsTimeFrom then
+            rDateTimeFrom:= AConfig.GetValue(ANode, 'DateTimeFrom', 0);
+          if rIsDateTo or rIsTimeTo then
+            rDateTimeTo:= AConfig.GetValue(ANode, 'DateTimeTo', Now);
+          // not older than
+          SearchTemplate.IsNotOlderThan:= AConfig.GetValue(ANode, 'IsNotOlderThan', False);
+          if SearchTemplate.IsNotOlderThan then
+            SearchTemplate.NotOlderThan:= AConfig.GetValue(ANode, 'NotOlderThan', 0);
+          // file size
+          rIsFileSizeFrom:= AConfig.GetValue(ANode, 'IsFileSizeFrom', False);
+          rIsFileSizeTo:= AConfig.GetValue(ANode, 'IsFileSizeTo', False);
+          if rIsFileSizeFrom then
+            rFileSizeFrom:= AConfig.GetValue(ANode, 'FileSizeFrom', 0);
+          if rIsFileSizeTo then
+            rFileSizeTo:= AConfig.GetValue(ANode, 'FileSizeTo', MaxInt);
+          // find text
+          rIsNoThisText:= AConfig.GetValue(ANode, 'IsNoThisText', False);
+          rFindInFiles:= AConfig.GetValue(ANode, 'FindInFiles', False);
+          if rFindInFiles then
+            rFindData:= StrNew(PChar(AConfig.GetValue(ANode, 'FindData', '')));
+          // replace text
+          rReplaceInFiles:= AConfig.GetValue(ANode, 'ReplaceInFiles', False);
+          if rReplaceInFiles then
+            rReplaceData:= StrNew(PChar(AConfig.GetValue(ANode, 'ReplaceData', '')));
+        end;
+        Add(SearchTemplate)
+      end;
+      ANode := ANode.NextSibling;
+    end;
+  end;
+end;
+
 procedure TSearchTemplateList.SaveToIni(IniFile: TIniFileEx);
 var
   I: Integer;
@@ -345,6 +419,56 @@ begin
       IniFile.WriteBool(cSection, sTemplate+'ReplaceInFiles', rReplaceInFiles);
       if rReplaceInFiles then
         IniFile.WriteString(cSection, sTemplate+'ReplaceData', StrPas(rReplaceData));
+    end;
+end;
+
+procedure TSearchTemplateList.SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  I: Integer;
+  sTemplate: String;
+  SubNode: TXmlNode;
+begin
+  ANode := AConfig.FindNode(ANode, cSection, True);
+  AConfig.ClearNode(ANode);
+  for I:= 0 to Count - 1 do
+    with Templates[I].SearchRecord do
+    begin
+      SubNode := AConfig.AddNode(ANode, 'Template');
+      AConfig.AddValue(SubNode, 'Name', Templates[I].TemplateName);
+      AConfig.AddValue(SubNode, 'StartPath', Templates[I].StartPath);
+      AConfig.AddValue(SubNode, 'FileMask', StrPas(rFileMask));
+      AConfig.AddValue(SubNode, 'Attributes', rAttributes);
+      AConfig.AddValue(SubNode, 'AttribStr', StrPas(rAttribStr));
+      // date/time
+      AConfig.AddValue(SubNode, 'CaseSens', rCaseSens);
+      AConfig.AddValue(SubNode, 'IsDateFrom', rIsDateFrom);
+      AConfig.AddValue(SubNode, 'IsDateTo', rIsDateTo);
+      AConfig.AddValue(SubNode, 'IsTimeFrom', rIsTimeFrom);
+      AConfig.AddValue(SubNode, 'IsTimeTo', rIsTimeTo);
+      if rIsDateFrom or rIsTimeFrom then
+        AConfig.AddValue(SubNode, 'DateTimeFrom', rDateTimeFrom);
+      if rIsDateTo or rIsTimeTo then
+        AConfig.AddValue(SubNode, 'DateTimeTo', rDateTimeTo);
+      // not older than
+      AConfig.AddValue(SubNode, 'IsNotOlderThan', Templates[I].IsNotOlderThan);
+      if Templates[I].IsNotOlderThan then
+        AConfig.AddValue(SubNode, 'NotOlderThan', Templates[I].NotOlderThan);
+      // file size
+      AConfig.AddValue(SubNode, 'IsFileSizeFrom', rIsFileSizeFrom);
+      AConfig.AddValue(SubNode, 'IsFileSizeTo', rIsFileSizeTo);
+      if rIsFileSizeFrom then
+        AConfig.AddValue(SubNode, 'FileSizeFrom', rFileSizeFrom);
+      if rIsFileSizeTo then
+        AConfig.AddValue(SubNode, 'FileSizeTo', rFileSizeTo);
+      // find text
+      AConfig.AddValue(SubNode, 'IsNoThisText', rIsNoThisText);
+      AConfig.AddValue(SubNode, 'FindInFiles', rFindInFiles);
+      if rFindInFiles then
+        AConfig.AddValue(SubNode, 'FindData', StrPas(rFindData));
+      // replace text
+      AConfig.AddValue(SubNode, 'ReplaceInFiles', rReplaceInFiles);
+      if rReplaceInFiles then
+        AConfig.AddValue(SubNode, 'ReplaceData', StrPas(rReplaceData));
     end;
 end;
 

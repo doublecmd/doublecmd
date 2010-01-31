@@ -28,7 +28,7 @@ unit uColorExt;
 interface
 
 uses
-  Classes, Graphics, uFile;
+  Classes, Graphics, uFile, uXmlConfig;
 
 type
 
@@ -46,6 +46,7 @@ type
   TColorExt = class
   private
     fOldCount: Integer;
+    procedure Clear;
   protected
     lslist: TList;
   public
@@ -54,16 +55,17 @@ type
     function GetColorByExt(const sExt: String): TColor;
     function GetColorByAttr(const sModeStr: String): TColor;
     function GetColorBy(const AFile: TFile): TColor;
-    procedure Load;
-    procedure Save;
-    property  MaskItemList: TList read lslist write lslist;
+    procedure LoadIni;
+    procedure SaveIni;
+    procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);
+    procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);
+    property  MaskItemList: TList read lslist;
   end;
 
 implementation
 
 uses
-  SysUtils, uGlobs, Masks, uFileProperty;
-
+  SysUtils, LCLProc, uGlobs, Masks, uFileProperty;
 
 constructor TColorExt.Create;
 begin
@@ -75,12 +77,17 @@ destructor TColorExt.Destroy;
 begin
   if assigned(lsList) then
     begin
-      while lslist.Count > 0 do
-       begin
-         TMaskItem(lslist[0]).Free;
-         lslist.Delete(0);
-       end;
+      Clear;
       FreeAndNil(lsList);
+    end;
+end;
+
+procedure TColorExt.Clear;
+begin
+  while lslist.Count > 0 do
+    begin
+      TMaskItem(lslist[0]).Free;
+      lslist.Delete(0);
     end;
 end;
 
@@ -195,7 +202,7 @@ Added Attributes:
 
 }
 
-procedure TColorExt.Load;
+procedure TColorExt.LoadIni;
 var
   sExtMask,
   sAttr,
@@ -205,15 +212,7 @@ var
 begin
   I := 1;
 
-  if assigned(lsList) then
-    begin
-      while lslist.Count>0 do
-       begin
-         TMaskItem(lslist[0]).Free;
-         lslist.Delete(0);
-       end;
-    end;
-
+  Clear;
 
   while gIni.ReadString('Colors', 'ColorFilter' + IntToStr(I), '') <> '' do
     begin
@@ -233,7 +232,7 @@ begin
     end; // while gIni.ReadString();
 end;
 
-procedure TColorExt.Save;
+procedure TColorExt.SaveIni;
 var
   I : Integer;
 begin
@@ -255,6 +254,65 @@ begin
       gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I) + 'Color');
       gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I)+'Name');
       gIni.DeleteKey('Colors', 'ColorFilter' + IntToStr(I) + 'Attributes');
+    end;
+end;
+
+procedure TColorExt.Load(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  sExtMask,
+  sAttr,
+  sName: String;
+  iColor: Integer;
+begin
+  Clear;
+
+  ANode := ANode.FindNode('FileFilters');
+  if Assigned(ANode) then
+  begin
+    ANode := ANode.FirstChild;
+    while Assigned(ANode) do
+    begin
+      if ANode.CompareName('Filter') = 0 then
+      begin
+        if AConfig.TryGetValue(ANode, 'Name', sName) and
+           AConfig.TryGetValue(ANode, 'FileMasks', sExtMask) and
+           AConfig.TryGetValue(ANode, 'Color', iColor) and
+           AConfig.TryGetValue(ANode, 'Attributes', sAttr) then
+        begin
+          lsList.Add(TMaskItem.Create);
+          TMaskItem(lsList.Last).sName    := sName;
+          TMaskItem(lsList.Last).cColor   := iColor;
+          TMaskItem(lsList.Last).sExt     := sExtMask;
+          TMaskItem(lsList.Last).sModeStr := sAttr;
+        end
+        else
+        begin
+          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+        end;
+      end;
+      ANode := ANode.NextSibling;
+    end;
+  end;
+end;
+
+procedure TColorExt.Save(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  I : Integer;
+  SubNode: TXmlNode;
+begin
+  if not Assigned(lslist) then
+    Exit;
+
+  ANode := AConfig.FindNode(ANode, 'FileFilters', True);
+  AConfig.ClearNode(ANode);
+
+  for I:=0 to lslist.Count - 1 do
+    begin
+      SubNode := AConfig.AddNode(ANode, 'Filter');
+      AConfig.AddValue(SubNode, 'Name', TMaskItem(lsList[I]).sName);
+      AConfig.AddValue(SubNode, 'FileMasks', TMaskItem(lsList[I]).sExt);
+      AConfig.AddValue(SubNode, 'Color', TMaskItem(lsList[I]).cColor);
+      AConfig.AddValue(SubNode, 'Attributes', TMaskItem(lsList[I]).sModeStr);
     end;
 end;
 
