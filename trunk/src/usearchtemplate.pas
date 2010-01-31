@@ -45,6 +45,7 @@ type
     SearchRecord: TSearchAttrRecord;
 
     constructor Create;
+    destructor Destroy; override;
     function CheckFile(const AFile: TFile): Boolean;
     property TemplateName: UTF8String read FTemplateName write FTemplateName;
     property StartPath: UTF8String read FStartPath write FStartPath;
@@ -181,6 +182,18 @@ begin
   FillByte(SearchRecord, SizeOf(SearchRecord), 0);
 end;
 
+destructor TSearchTemplate.Destroy;
+begin
+  with SearchRecord do
+  begin
+    StrDispose(rFileMask);
+    StrDispose(rAttribStr);
+    StrDispose(rFindData);
+    StrDispose(rReplaceData);
+  end;
+  inherited Destroy;
+end;
+
 function TSearchTemplate.CheckFile(const AFile: TFile): Boolean;
 begin
   Result:= True;
@@ -264,6 +277,8 @@ var
   sTemplate: String;
   SearchTemplate: TSearchTemplate;
 begin
+  Clear;
+
   iCount:= IniFile.ReadInteger(cSection, 'TemplateCount', 0);
   for I:= 0 to iCount - 1 do
     begin
