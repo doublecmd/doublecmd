@@ -331,7 +331,6 @@ type
     procedure cbWatchExcludeDirsChange(Sender: TObject);
     procedure OnAutoRefreshOptionChanged(Sender: TObject);
     procedure edHotKeyKeyPress(Sender: TObject; var Key: char);
-    procedure fneExtToolChange(Sender: TObject);
     procedure miSearchTemplateClick(Sender: TObject);
     procedure btnWDXAddClick(Sender: TObject);
     procedure btnWFXAddClick(Sender: TObject);
@@ -1799,15 +1798,6 @@ begin
   Key := #0;
   edHotKey.Text := '';
   btSetHotKey.Enabled := False;
-end;
-
-procedure TfrmOptions.fneExtToolChange(Sender: TObject);
-begin
-  with Sender as TFileNameEdit do
-  begin
-    FileName := Caption;
-    SelStart := UTF8Length(Caption);
-  end;
 end;
 
 procedure TfrmOptions.miSearchTemplateClick(Sender: TObject);
