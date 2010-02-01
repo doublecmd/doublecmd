@@ -117,7 +117,11 @@ implementation
 
 uses
   StdCtrls, Graphics, LCLProc,
-  uPixMapManager, uOSUtils, uDCUtils;
+  uPixMapManager, uOSUtils, uDCUtils
+  {$IFDEF LCLGTK2}
+  , GtkProc  // for ReleaseMouseCapture
+  {$ENDIF}
+  ;
 
 const
   DriveIconSize = 16;
@@ -504,6 +508,9 @@ begin
   begin
     MouseCapture := False;
 {$IFDEF LCLGTK2}
+    // Workaround a bug in GTK2 where mouse capture is not released.
+    ReleaseMouseCapture;
+
     // On GTK2 first the control must be hidden (to lose focus), otherwise
     // any modal form shown in the OnDriveSelected handler cannot be closed
     // due to a bug in LCLGTK2.
@@ -539,6 +546,10 @@ end;
 procedure TDrivesListPopup.Close;
 begin
   MouseCapture := False;
+{$IFDEF LCLGTK2}
+  // Workaround a bug in GTK2 where mouse capture is not released.
+  ReleaseMouseCapture;
+{$ENDIF}
   Visible := False;
 
   if Assigned(FOnClose) then
@@ -546,4 +557,4 @@ begin
 end;
 
 end.
-
+
