@@ -1929,7 +1929,7 @@ procedure TfrmOptions.btnDelColumnsSetClick(Sender: TObject);
 begin
   if lstColumnsSets.ItemIndex=-1 then exit;
   if lstColumnsSets.Count=1 then exit;
-  ColSet.DeleteColumnSet(gIni,lstColumnsSets.Items[lstColumnsSets.ItemIndex]);
+  ColSet.DeleteColumnSet(lstColumnsSets.Items[lstColumnsSets.ItemIndex]);
   FillColumnsList;
 end;
 

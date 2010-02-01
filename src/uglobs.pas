@@ -396,27 +396,6 @@ begin
   end;
 end;
 
-procedure ReadFont(const AConfig: TXmlConfig; const aNode: TXmlNode; Path: TXmlPath;
-                   out Name: UTF8String; out Size: Integer; out Style: Integer;
-                   const DefName: UTF8String; const DefSize: Integer; const DefStyle: Integer);
-begin
-  if Path <> '' then
-    Path := Path + '/';
-  Name := AConfig.GetValue(aNode, Path + 'Name', DefName);
-  Size := AConfig.GetValue(aNode, Path + 'Size', DefSize);
-  Style := AConfig.GetValue(aNode, Path + 'Style', DefStyle);
-end;
-
-procedure WriteFont(const AConfig: TXmlConfig; const aNode: TXmlNode; Path: TXmlPath;
-                    const Name: UTF8String; const Size: Integer; const Style: Integer);
-begin
-  if Path <> '' then
-    Path := Path + '/';
-  AConfig.SetValue(aNode, Path + 'Name', Name);
-  AConfig.SetValue(aNode, Path + 'Size', Size);
-  AConfig.SetValue(aNode, Path + 'Style', Style);
-end;
-
 procedure InitGlobs;
 begin
   { Create default configuration files if need }
@@ -961,12 +940,12 @@ begin
     gExtDiff := GetValue(Root, 'Tools/Differ/Path', '');
 
     { Fonts page }
-    ReadFont(gConfig, Root, 'Fonts/Main', gFontName, gFontSize, Integer(gFontStyle),
-             'default', 10, 0);
-    ReadFont(gConfig, Root, 'Fonts/Editor', gEditorFontName, gEditorFontSize, Integer(gEditorFontStyle),
-             MonoSpaceFont, 14, 0);
-    ReadFont(gConfig, Root, 'Fonts/Viewer', gViewerFontName, gViewerFontSize, Integer(gViewerFontStyle),
-             MonoSpaceFont, 14, 0);
+    gConfig.GetFont(Root, 'Fonts/Main', gFontName, gFontSize, Integer(gFontStyle),
+                    'default', 10, 1);
+    gConfig.GetFont(Root, 'Fonts/Editor', gEditorFontName, gEditorFontSize, Integer(gEditorFontStyle),
+                    MonoSpaceFont, 14, 0);
+    gConfig.GetFont(Root, 'Fonts/Viewer', gViewerFontName, gViewerFontSize, Integer(gViewerFontStyle),
+                     MonoSpaceFont, 14, 0);
 
     { Colors page }
     Node := Root.FindNode('Colors');
@@ -1120,10 +1099,8 @@ begin
   { Search template list }
   gSearchTemplateList.LoadFromXml(gConfig, Root);
 
-(*
   { Columns sets }
-  ColSet.Load(gIni);
-*)
+  ColSet.Load(gConfig, Root);
 
   { Plugins }
   Node := gConfig.FindNode(Root, 'Plugins');
@@ -1184,9 +1161,9 @@ begin
     SetValue(Root, 'Tools/Differ/Path', gExtDiff);
 
     { Fonts page }
-    WriteFont(gConfig, Root, 'Fonts/Main', gFontName, gFontSize, Integer(gFontStyle));
-    WriteFont(gConfig, Root, 'Fonts/Editor', gEditorFontName, gEditorFontSize, Integer(gEditorFontStyle));
-    WriteFont(gConfig, Root, 'Fonts/Viewer', gViewerFontName, gViewerFontSize, Integer(gViewerFontStyle));
+    gConfig.SetFont(Root, 'Fonts/Main', gFontName, gFontSize, Integer(gFontStyle));
+    gConfig.SetFont(Root, 'Fonts/Editor', gEditorFontName, gEditorFontSize, Integer(gEditorFontStyle));
+    gConfig.SetFont(Root, 'Fonts/Viewer', gViewerFontName, gViewerFontSize, Integer(gViewerFontStyle));
 
     { Colors page }
     Node := FindNode(Root, 'Colors', True);
@@ -1308,6 +1285,9 @@ begin
   { Search template list }
   gSearchTemplateList.SaveToXml(gConfig, Root);
 
+  { Columns sets }
+  ColSet.Save(gConfig, Root);
+
   { Plugins }
   Node := gConfig.FindNode(Root, 'Plugins', True);
   gWCXPlugins.Save(gConfig, Node);
@@ -1319,4 +1299,4 @@ initialization
 
 finalization
   DeInitGlobs;
-end.
+end.
