@@ -207,6 +207,7 @@ begin
         // Display free space only for some drives
         // (removable, network, etc. may be slow).
         if (DriveType in [dtFixed, dtCDROM, dtRAM]) and
+           IsAvailable(Path, False) and
            GetDiskFreeSpace(Path, FreeSize, TotalSize) then
         begin
           Cells[3, RowNr] :=
@@ -545,4 +546,4 @@ begin
 end;
 
 end.
-
+

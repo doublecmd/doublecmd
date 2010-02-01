@@ -177,7 +177,7 @@ function GetAppConfigDir: String;
 }
 function GetTempName(PathPrefix: String): String;
 
-function IsAvailable(Path : String) : Boolean;
+function IsAvailable(Path : String; TryMount: Boolean = True) : Boolean;
 function GetAllDrives : TList;
 {en
    Destroys drives list created by GetAllDrives.
@@ -839,17 +839,17 @@ begin
   until not mbFileSystemEntryExists(Result);
 end;
 
-function IsAvailable(Path: String): Boolean;
+function IsAvailable(Path: String; TryMount: Boolean): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 var
   Drv: String;
-  DriveLabel: string;
+  DriveLabel: String;
 begin
   Drv:= ExtractFileDrive(Path) + PathDelim;
 
   { Close CD/DVD }
   if (GetDriveType(PChar(Drv)) = DRIVE_CDROM) and
-     (not mbDriveReady(Drv)) then
+     TryMount and (not mbDriveReady(Drv)) then
     begin
        DriveLabel:= mbGetVolumeLabel(Drv, False);
        mbCloseCD(Drv);
@@ -2140,4 +2140,4 @@ finalization
 
 {$ENDIF}
 
-end.
+end.
