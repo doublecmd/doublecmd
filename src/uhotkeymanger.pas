@@ -797,7 +797,8 @@ begin
  Sinfo:=TObjInfoClass(FFormsList.Objects[i]);
 
  // Don't execute hotkeys that coincide with quick search/filter combination
- if not (((Shift = gQuickSearchMode) or (Shift = gQuickFilterMode)) and (Key in [$21..$7E])) then
+ if not ((Shift <> []) and ((Shift = gQuickSearchMode) or (Shift = gQuickFilterMode)) and
+         (Key in [VK_0..VK_9, VK_A..VK_Z])) then
 {$IFDEF MSWINDOWS}
   // Don't execute hotkeys with AltGr on Windows.
   if not (GetKeyShiftStateEx = [ssAltGr]) then
