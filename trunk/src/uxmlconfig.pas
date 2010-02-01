@@ -98,8 +98,18 @@ type
 
     // ------------------------------------------------------------------------
 
+    procedure GetFont(const aNode: TXmlNode; Path: TXmlPath;
+                      out Name: UTF8String; out Size: Integer; out Style: Integer;
+                      const DefName: UTF8String; const DefSize: Integer; const DefStyle: Integer);
+
+    procedure SetFont(const aNode: TXmlNode; Path: TXmlPath;
+                      const Name: UTF8String; const Size: Integer; const Style: Integer);
+
+    // ------------------------------------------------------------------------
+
     procedure ReadFromFile(const AFilename: UTF8String);
     procedure WriteToFile(const AFilename: UTF8String);
+
     function Load: Boolean;
     function Save: Boolean;
 
@@ -593,6 +603,27 @@ begin
     Result := aNode.NodeName + '/' + Result;
     aNode := aNode.ParentNode;
   end;
+end;
+
+procedure TXmlConfig.GetFont(const aNode: TXmlNode; Path: TXmlPath;
+                             out Name: UTF8String; out Size: Integer; out Style: Integer;
+                             const DefName: UTF8String; const DefSize: Integer; const DefStyle: Integer);
+begin
+  if Path <> '' then
+    Path := Path + '/';
+  Name := GetValue(aNode, Path + 'Name', DefName);
+  Size := GetValue(aNode, Path + 'Size', DefSize);
+  Style := GetValue(aNode, Path + 'Style', DefStyle);
+end;
+
+procedure TXmlConfig.SetFont(const aNode: TXmlNode; Path: TXmlPath;
+                             const Name: UTF8String; const Size: Integer; const Style: Integer);
+begin
+  if Path <> '' then
+    Path := Path + '/';
+  SetValue(aNode, Path + 'Name', Name);
+  SetValue(aNode, Path + 'Size', Size);
+  SetValue(aNode, Path + 'Style', Style);
 end;
 
 end.

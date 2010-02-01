@@ -29,7 +29,8 @@ unit uColumns;
 interface
 
 uses
-  Classes, SysUtils, uClassesEx, LCLProc, Graphics, uFile, uFileProperty;
+  Classes, SysUtils, uClassesEx, LCLProc, Graphics, uFile, uFileProperty,
+  uXmlConfig;
 
   type
 
@@ -140,7 +141,6 @@ type
   //------------------------------------------------------
   private
    FList:TList;
-   FCurrentColumnsFile:string;
    fSetName:string;
 
    // Global settings for columns view.
@@ -206,26 +206,15 @@ type
     procedure AddDefaultColumns;
 
     //---------------------
-    procedure Load(FileName,SetName:String);overload;
     procedure Load(Ini:TIniFileEx; SetName:string);overload;
+    procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);overload;
     //---------------------
-
-    procedure Load(FileName:String);
-    procedure Load(Ini:TIniFileEx);overload;
-
-    //---------------------
-    procedure Save(FileName,ASetName:string); overload;
     procedure Save(Ini:TIniFileEx;ASetName:string); overload;
-    //---------------------
-
-    procedure Save;
-    procedure Save(FileName:string); overload;
-    procedure Save(Ini:TIniFileEx); overload;
+    procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);overload;
     //---------------------
     property ColumnsCount:Integer read GetCount;
     property Count:Integer read GetCount;
     property CustomView: Boolean read FCustomView write FCustomView;
-    property CurrentColumnsFile:string read FCurrentColumnsFile;
     property CurrentColumnsSetName:string read fSetName write fSetName;
     property SetName:string read fSetName write fSetName;
     property Name:string read fSetName write fSetName;
@@ -243,14 +232,14 @@ type
     destructor Destroy; override;
     //---------------------
     procedure Clear;
-    procedure Load(FileName:String);
     procedure Load(Ini:TIniFileEx);overload;
-    procedure Save(FileName:string);
+    procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);overload;
     procedure Save(Ini:TIniFileEx); overload;
+    procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);overload;
     function Add(AName:string;Item:TPanelColumnsClass):integer;
     procedure Insert(AIndex: integer; AName: string; Item: TPanelColumnsClass);
-    procedure DeleteColumnSet(ini:TIniFileEx; SetName:string);
-    procedure DeleteColumnSet(ini:TIniFileEx; SetIndex:Integer); overload;
+    procedure DeleteColumnSet(SetName:string);
+    procedure DeleteColumnSet(SetIndex:Integer); overload;
     procedure CopyColumnSet(ini:TIniFileEx; SetName,NewSetName:string);
     function GetColumnSet(const Index:Integer):TPanelColumnsClass;
     function GetColumnSet(Setname:string):TPanelColumnsClass;
@@ -452,7 +441,6 @@ begin
       TPanelColumn(Flist[0]).Free;
       FList.Delete(0);
     end;
-    FCurrentColumnsFile:='';
 end;
 
 destructor TPanelColumnsClass.Destroy;
@@ -647,35 +635,11 @@ begin
   Add(rsColAttr, '[DC().GETFILEATTR{}]', 175, taLeftJustify);
 end;
 
-
-procedure TPanelColumnsClass.Load(FileName, SetName: String);
-begin
-  fSetName:=SetName;
-  Load(FileName);
-end;
-
 procedure TPanelColumnsClass.Load(Ini: TIniFileEx; SetName: string);
-begin
-  fSetName:=SetName;
-  Load(Ini);
-end;
-
-procedure TPanelColumnsClass.Load(FileName:string);
-var Ini:TIniFileEx;
-begin
-  try
-    Ini:=TIniFileEx.Create(FileName);
-    Load(Ini);
-  finally
-    Ini.Free;
-  end;
-end;
-
-procedure TPanelColumnsClass.Load(Ini: TIniFileEx);
 var aCount,I:Integer;
 begin
+    fSetName:=SetName;
     Self.Clear;
-    FCurrentColumnsFile:=Ini.FileName;
     aCount:=Ini.ReadInteger(fSetName,'ColumnCount',0);
     //---------------------
     if aCount=0 then
@@ -714,37 +678,55 @@ begin
     SetCursorBorderColor(TColor(Ini.ReadInteger(fSetName, 'CursorBorderColor', gCursorColor)));
 end;
 
-procedure TPanelColumnsClass.Save(FileName, ASetName: string);
+procedure TPanelColumnsClass.Load(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  AColumn: TPanelColumn;
+  SubNode: TXmlNode;
 begin
-  fSetName:=ASetName;
-  Save(FileName);
+  FCustomView := AConfig.GetValue(ANode, 'CustomView', False);
+  SetCursorBorder(AConfig.GetAttr(ANode, 'CursorBorder/Enabled', False));
+  SetCursorBorderColor(TColor(AConfig.GetValue(ANode, 'CursorBorder/Color', gCursorColor)));
+
+  Clear;
+
+  SubNode := ANode.FindNode('Columns');
+  if Assigned(SubNode) then
+  begin
+    SubNode := SubNode.FirstChild;
+    while Assigned(SubNode) do
+    begin
+      if SubNode.CompareName('Column') = 0 then
+      begin
+        AColumn := TPanelColumn.Create;
+        FList.Add(AColumn);
+
+        AColumn.Title := AConfig.GetValue(SubNode, 'Title', '');
+        AColumn.FuncString := AConfig.GetValue(SubNode, 'FuncString', '');
+        FillListFromString(AColumn.FuncList, AColumn.FuncString);
+        AColumn.Width := AConfig.GetValue(SubNode, 'Width', 50);
+        AColumn.Align := TAlignment(AConfig.GetValue(SubNode, 'Align', Integer(0)));
+        AConfig.GetFont(SubNode, 'Font', AColumn.FontName, AColumn.FontSize, Integer(AColumn.FontStyle),
+                        gFontName, gFontSize, Integer(gFontStyle));
+        AColumn.Overcolor := AConfig.GetValue(SubNode, 'Overcolor', True);
+        AColumn.TextColor := TColor(AConfig.GetValue(SubNode, 'TextColor', gForeColor));
+        AColumn.Background := TColor(AConfig.GetValue(SubNode, 'Background', gBackColor));
+        AColumn.Background2 := TColor(AConfig.GetValue(SubNode, 'Background2', gBackColor2));
+        AColumn.MarkColor := TColor(AConfig.GetValue(SubNode, 'MarkColor', gMarkColor));
+        AColumn.CursorColor := TColor(AConfig.GetValue(SubNode, 'CursorColor', gCursorColor));
+        AColumn.CursorText := TColor(AConfig.GetValue(SubNode, 'CursorText', gCursorText));
+      end;
+      SubNode := SubNode.NextSibling;
+    end;
+  end;
+
+  if Count = 0 then
+    AddDefaultColumns;
 end;
 
 procedure TPanelColumnsClass.Save(Ini: TIniFileEx; ASetName: string);
-begin
-  fSetName:=ASetName;
-  Save(Ini);
-end;
-
-procedure TPanelColumnsClass.Save;
-begin
- Save(CurrentColumnsFile);
-end;
-
-procedure TPanelColumnsClass.Save(FileName: string);
- var  Ini:TIniFileEx;
-begin
-  try
-    Ini:=TIniFileEx.Create(FileName);
-     Save(Ini);
-  finally
-    Ini.Free;
-  end;
-end;
-
-procedure TPanelColumnsClass.Save(Ini: TIniFileEx);
  var I:Integer;
 begin
+    fSetName:=ASetName;
     if fSetName='' then Exit;
     Ini.EraseSection(fSetName);
     Ini.WriteInteger(fSetName,'ColumnCount',FList.Count);
@@ -779,6 +761,48 @@ begin
     Ini.WriteBool(fSetName, 'CursorBorder', GetCursorBorder);
     if GetCursorBorderColor <> clNone then
       Ini.WriteInteger(fSetName, 'CursorBorderColor', GetCursorBorderColor);
+end;
+
+procedure TPanelColumnsClass.Save(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  I: Integer;
+  SubNode: TXmlNode;
+  AColumn: TPanelColumn;
+begin
+  AConfig.SetValue(ANode, 'CustomView', FCustomView);
+  AConfig.SetAttr(ANode, 'CursorBorder/Enabled', GetCursorBorder);
+  if GetCursorBorderColor <> clNone then
+    AConfig.SetValue(ANode, 'CursorBorder/Color', GetCursorBorderColor);
+
+  ANode := AConfig.FindNode(ANode, 'Columns', True);
+  AConfig.ClearNode(ANode);
+
+  for I := 0 to FList.Count - 1 do
+    begin
+      AColumn := TPanelColumn(FList[I]);
+      SubNode := AConfig.AddNode(ANode, 'Column');
+
+      AConfig.AddValue(SubNode, 'Title', AColumn.Title);
+      AConfig.AddValue(SubNode, 'FuncString', AColumn.FuncString);
+      AConfig.AddValue(SubNode, 'Width', AColumn.Width);
+      AConfig.AddValue(SubNode, 'Align', Integer(AColumn.Align));
+      AConfig.SetFont(SubNode, 'Font', AColumn.FontName,
+                      AColumn.FontSize, Integer(AColumn.FontStyle));
+      AConfig.AddValue(SubNode, 'Overcolor', AColumn.Overcolor);
+
+      if AColumn.TextColor <> clNone then
+        AConfig.AddValue(SubNode, 'TextColor', AColumn.TextColor);
+      if AColumn.Background <> clNone then
+        AConfig.AddValue(SubNode, 'Background', AColumn.Background);
+      if AColumn.Background2 <> clNone then
+        AConfig.AddValue(SubNode, 'Background2', AColumn.Background2);
+      if AColumn.MarkColor <> clNone then
+        AConfig.AddValue(SubNode, 'MarkColor', AColumn.MarkColor);
+      if AColumn.CursorColor <> clNone then
+        AConfig.AddValue(SubNode, 'CursorColor', AColumn.CursorColor);
+      if AColumn.CursorText <> clNone then
+        AConfig.AddValue(SubNode, 'CursorText', AColumn.CursorText);
+    end;
 end;
 
 procedure TPanelColumnsClass.Delete(const Index: Integer);
@@ -1054,17 +1078,6 @@ begin
   Fset.Clear;
 end;
 
-procedure TPanelColumnsList.Load(FileName: String);
-var Ini:TIniFileEx;
-begin
-  try
-    Ini:=TIniFileEx.Create(FileName);
-    Load(Ini);
-  finally
-    Ini.Free;
-  end;
-end;
-
 procedure TPanelColumnsList.Load(Ini: TIniFileEx);
 var aCount,I:Integer;
 begin
@@ -1079,14 +1092,33 @@ begin
       DebugLn('FsetCount='+inttostr(fset.Count));
 end;
 
-procedure TPanelColumnsList.Save(FileName: string);
- var  Ini:TIniFileEx;
+procedure TPanelColumnsList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  AName: String;
+  AnObject: TPanelColumnsClass;
 begin
-  try
-    Ini:=TIniFileEx.Create(FileName);
-     Save(Ini);
-  finally
-    Ini.Free;
+  Clear;
+
+  ANode := ANode.FindNode('ColumnsSets');
+  if Assigned(ANode) then
+  begin
+    ANode := ANode.FirstChild;
+    while Assigned(ANode) do
+    begin
+      if ANode.CompareName('ColumnsSet') = 0 then
+      begin
+        if AConfig.TryGetValue(ANode, 'Name', AName) then
+        begin
+          AnObject := TPanelColumnsClass.Create;
+          fSet.AddObject(AName, AnObject);
+          AnObject.Name := AName;
+          AnObject.Load(AConfig, ANode);
+        end
+        else
+          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+      end;
+      ANode := ANode.NextSibling;
+    end;
   end;
 end;
 
@@ -1102,6 +1134,22 @@ begin
       end;
 end;
 
+procedure TPanelColumnsList.Save(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  I: Integer;
+  SubNode: TXmlNode;
+begin
+  ANode := AConfig.FindNode(ANode, 'ColumnsSets', True);
+  AConfig.ClearNode(ANode);
+
+  for I := 0 to FSet.Count - 1 do
+    begin
+      SubNode := AConfig.AddNode(ANode, 'ColumnsSet');
+      AConfig.AddValue(SubNode, 'Name', FSet[I]);
+      TPanelColumnsClass(Fset.Objects[I]).Save(AConfig, SubNode);
+    end;
+end;
+
 function TPanelColumnsList.Add(AName:string;Item: TPanelColumnsClass): integer;
 begin
   Result:=Fset.AddObject(AName,Item);
@@ -1114,20 +1162,16 @@ begin
 end;
 
 
-procedure TPanelColumnsList.DeleteColumnSet(ini: TIniFileEx; SetName: string);
-var x:integer;
+procedure TPanelColumnsList.DeleteColumnSet(SetName: string);
 begin
-    x:=fSet.IndexOf(SetName);
-    if x<>-1 then
-      DeleteColumnSet(ini,x);
+  DeleteColumnSet(fSet.IndexOf(SetName));
 end;
 
-procedure TPanelColumnsList.DeleteColumnSet(ini: TIniFileEx; SetIndex: Integer);
+procedure TPanelColumnsList.DeleteColumnSet(SetIndex: Integer);
 begin
-    if (SetIndex>=Fset.Count) or (SetIndex<0) then exit;
-    Ini.EraseSection(FSet[SetIndex]);
-    TPanelColumnsClass(fSet.Objects[SetIndex]).Free;
-    fSet.Delete(SetIndex);
+  if (SetIndex>=Fset.Count) or (SetIndex<0) then exit;
+  TPanelColumnsClass(fSet.Objects[SetIndex]).Free;
+  fSet.Delete(SetIndex);
 end;
 
 procedure TPanelColumnsList.CopyColumnSet(ini: TIniFileEx; SetName,
