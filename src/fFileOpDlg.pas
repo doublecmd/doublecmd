@@ -152,7 +152,7 @@ begin
   begin
     case Operation.ID of
 
-      fsoCopyIn, fsoCopyOut:
+      fsoCopy, fsoCopyIn, fsoCopyOut:
         InitializeCopyOperation(Operation);
       fsoMove:
         InitializeMoveOperation(Operation);
@@ -247,7 +247,7 @@ begin
   begin
     case Operation.ID of
 
-      fsoCopyIn, fsoCopyOut:
+      fsoCopy, fsoCopyIn, fsoCopyOut:
         UpdateCopyOperation(Operation);
       fsoMove:
         UpdateMoveOperation(Operation);
