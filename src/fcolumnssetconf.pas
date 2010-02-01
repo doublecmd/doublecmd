@@ -735,7 +735,7 @@ begin
   -1: ColSet.Add(edtNameofColumnsSet.Text,ColumnClass);
   else
     begin
-      ColSet.DeleteColumnSet(gIni,Self.Tag);
+      ColSet.DeleteColumnSet(Self.Tag);
       Colset.Insert(Self.Tag,edtNameofColumnsSet.Text,ColumnClass);
     end;
   end;
@@ -743,7 +743,11 @@ begin
   // Release ownership of ColumnClass (ColSet is now responsible for it).
   ColumnClassOwnership := False;
 
+{$IFDEF DC_USE_XML_CONFIG}
+  ColSet.Save(gConfig, gConfig.RootNode);
+{$ELSE}
   ColSet.Save(gIni);
+{$ENDIF}
 end;
 
 procedure TfColumnsSetConf.btnPrevClick(Sender: TObject);
