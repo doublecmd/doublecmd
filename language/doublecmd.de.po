@@ -3485,10 +3485,8 @@ msgid "Customize column"
 msgstr "Spalten anpassen"
 
 #: ulng.rsdlgbuttons
-#, fuzzy
-#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
 msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
-msgstr "&OK;&Nein;&Ja;&Abbruch;&Keine;&Anhängen;&Überschreiben;Überschreibe &alle;&Überspringen;Übers&pringe alle;Alle;"
+msgstr "&OK;&Nein;&Ja;&Abbruch;&Keine;&Anhängen;Copy &Into;&Überschreiben;Überschreibe &alle;&Überspringen;Übers&pringe alle;Alle;"
 
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
