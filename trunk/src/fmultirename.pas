@@ -21,7 +21,7 @@ uses
   LResources,
   SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, ComCtrls, Menus, Buttons, SynRegExpr, LCLType,
-  uClassesEx, uFile, uFileSource, StringHashList;
+  uClassesEx, uFile, uFileSource, StringHashList, uXmlConfig;
 
 type
 
@@ -162,8 +162,12 @@ type
     function ApplyStyle(InputString: String; Style: Integer): String;
     {Load preset configuration}
     procedure LoadPresets;
+    procedure LoadPresetsIni;
+    procedure LoadPresetsXml(AConfig: TXmlConfig);
     {Save preset configuration}
     procedure SavePresets;
+    procedure SavePresetsIni;
+    procedure SavePresetsXml(AConfig: TXmlConfig);
     {Loads specified preset from the configuration}
     procedure LoadPreset(PresetName: String);
     {Saves specified preset to the configuration}
@@ -833,6 +837,14 @@ begin
 end;
 
 procedure TfrmMultiRename.LoadPresets;
+begin
+  if Assigned(gIni) then
+    LoadPresetsIni
+  else
+    LoadPresetsXml(gConfig);
+end;
+
+procedure TfrmMultiRename.LoadPresetsIni;
 var
   i: Integer;
   PresetIndex: Integer;
@@ -877,7 +889,64 @@ begin
   end;
 end;
 
+procedure TfrmMultiRename.LoadPresetsXml(AConfig: TXmlConfig);
+var
+  PresetName: String;
+  APreset: PMultiRenamePreset;
+  ANode: TXmlNode;
+begin
+  ClearPresetsList;
+
+  ANode := AConfig.FindNode(AConfig.RootNode, sPresetsSection);
+  FLastPreset := AConfig.GetValue(ANode, 'LastPreset', '');
+
+  ANode := AConfig.FindNode(ANode, 'Presets');
+  if Assigned(ANode) then
+  begin
+    ANode := ANode.FirstChild;
+    while Assigned(ANode) do
+    begin
+      if ANode.CompareName('Preset') = 0 then
+      begin
+        if AConfig.TryGetValue(ANode, 'Name', PresetName) then
+        begin
+          APreset := New(PMultiRenamePreset);
+          FPresets.Add(PresetName, APreset);
+          with APreset^ do
+          begin
+            FileName := AConfig.GetValue(ANode, 'Filename', '[N]');
+            Extension := AConfig.GetValue(ANode, 'Extension', '[E]');
+            FileNameStyle := AConfig.GetValue(ANode, 'FilenameStyle', 0);
+            ExtensionStyle := AConfig.GetValue(ANode, 'ExtensionStyle', 0);
+            Find := AConfig.GetValue(ANode, 'Find', '');
+            Replace := AConfig.GetValue(ANode, 'Replace', '');
+            RegExp := AConfig.GetValue(ANode, 'RegExp', False);
+            UseSubs := AConfig.GetValue(ANode, 'UseSubs', False);
+            Counter := AConfig.GetValue(ANode, 'Counter', '1');
+            Interval := AConfig.GetValue(ANode, 'Interval', '1');
+            Width := AConfig.GetValue(ANode, 'Width', 0);
+            Log := AConfig.GetValue(ANode, 'Log/Enabled', False);
+            LogFile := AConfig.GetValue(ANode, 'Log/File', '');
+          end;
+        end
+        else
+          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+      end;
+      ANode := ANode.NextSibling;
+    end;
+  end;
+end;
+
 procedure TfrmMultiRename.SavePresets;
+begin
+{$IFDEF DC_USE_XML_CONFIG}
+  SavePresetsXml(gConfig);
+{$ELSE}
+  SavePresetsIni;
+{$ENDIF}
+end;
+
+procedure TfrmMultiRename.SavePresetsIni;
 var
   IniFile: TIniFileEx;
   i: Integer;
@@ -908,6 +977,39 @@ begin
       IniFile.WriteBool(sPresetsSection, sPresetNr + 'Log', Log);
       IniFile.WriteString(sPresetsSection, sPresetNr + 'LogFile', LogFile);
     end;
+end;
+
+procedure TfrmMultiRename.SavePresetsXml(AConfig: TXmlConfig);
+var
+  i: Integer;
+  ANode, SubNode: TXmlNode;
+begin
+  ANode := AConfig.FindNode(AConfig.RootNode, sPresetsSection, True);
+  AConfig.ClearNode(ANode);
+  AConfig.SetValue(ANode, 'LastPreset', FLastPreset);
+
+  ANode := AConfig.FindNode(ANode, 'Presets', True);
+  for i := 0 to FPresets.Count - 1 do
+  begin
+    SubNode := AConfig.AddNode(ANode, 'Preset');
+    with PMultiRenamePreset(FPresets.List[i]^.Data)^ do
+    begin
+      AConfig.AddValue(SubNode, 'Name', FPresets.List[i]^.Key);
+      AConfig.AddValue(SubNode, 'Filename', FileName);
+      AConfig.AddValue(SubNode, 'Extension', Extension);
+      AConfig.AddValue(SubNode, 'FilenameStyle', FileNameStyle);
+      AConfig.AddValue(SubNode, 'ExtensionStyle', ExtensionStyle);
+      AConfig.AddValue(SubNode, 'Find', Find);
+      AConfig.AddValue(SubNode, 'Replace', Replace);
+      AConfig.AddValue(SubNode, 'RegExp', RegExp);
+      AConfig.AddValue(SubNode, 'UseSubs', UseSubs);
+      AConfig.AddValue(SubNode, 'Counter', Counter);
+      AConfig.AddValue(SubNode, 'Interval', Interval);
+      AConfig.AddValue(SubNode, 'Width', Width);
+      AConfig.SetValue(SubNode, 'Log/Enabled', Log);
+      AConfig.SetValue(SubNode, 'Log/File', LogFile);
+    end;
+  end;
 end;
 
 procedure TfrmMultiRename.LoadPreset(PresetName: String);
@@ -1019,4 +1121,4 @@ end;
 initialization
  {$I fmultirename.lrs}
 end.
-
+
