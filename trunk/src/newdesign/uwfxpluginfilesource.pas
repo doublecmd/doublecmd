@@ -443,7 +443,8 @@ begin
     if Assigned(FsExecuteFile) or Assigned(FsExecuteFileW) then
         Result:= Result + [fsoExecute];
     if Assigned(FsSetAttr) or Assigned(FsSetAttrW) or
-       Assigned(FsExecuteFile) or Assigned(FsExecuteFileW) then
+       Assigned(FsExecuteFile) or Assigned(FsExecuteFileW) or
+       Assigned(FsRenMovFile) or Assigned(FsRenMovFileW) then
         Result:= Result + [fsoSetFileProperty];
   end;
 end;

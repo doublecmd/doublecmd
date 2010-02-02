@@ -99,7 +99,7 @@ begin
       LastWriteTime := DateTimeToWfxFileTime((aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
       Attr := LongInt((aFile.Properties[fpAttributes] as TFileAttributesProperty).Value);
     end;
-    Result := (WfxCopyMove(aFile.Path + aFile.Name, NewFileName, FS_COPYFLAGS_MOVE, @RemoteInfo, True, True) = FS_FILE_OK);
+    Result := (WfxCopyMove(aFile.Path + aFile.Name, aFile.Path + NewFileName, FS_COPYFLAGS_MOVE, @RemoteInfo, True, True) = FS_FILE_OK);
   end;
 end;
 
