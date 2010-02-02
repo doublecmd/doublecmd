@@ -1501,6 +1501,7 @@ HANDLE __stdcall FsFindFirst(char* Path,WIN32_FIND_DATAA *FindData)
 BOOL __stdcall FsFindNext(HANDLE Hdl,WIN32_FIND_DATAA *FindData)
 {
   PListRec ListRec = (PListRec) Hdl;
+  memset(FindData, 0, sizeof(WIN32_FIND_DATAA));  
   if (strcmp(ListRec->Path, PathDelim) == 0)
   {
     return LocalFindNext(Hdl, FindData);
