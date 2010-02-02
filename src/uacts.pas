@@ -2087,8 +2087,11 @@ begin
     aFiles:= ActiveFrame.SelectedFiles;
     if Assigned(aFiles) then
       try
-        ShowMultiRenameForm(ActiveFrame.FileSource, aFiles);
-      except
+        if aFiles.Count > 0 then
+          ShowMultiRenameForm(ActiveFrame.FileSource, aFiles)
+        else
+          msgWarning(rsMsgNoFilesSelected);
+      finally
         FreeAndNil(aFiles);
       end;
   end;

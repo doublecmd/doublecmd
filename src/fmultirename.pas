@@ -180,12 +180,12 @@ type
     procedure ClearPresetsList;
   public
     { Public declarations }
-    constructor Create(TheOwner: TComponent; aFileSource: IFileSource; aFiles: TFiles); reintroduce;
+    constructor Create(TheOwner: TComponent; aFileSource: IFileSource; var aFiles: TFiles); reintroduce;
     destructor Destroy; override;
   end;
 
 {initialization function}
-  function ShowMultiRenameForm(aFileSource: IFileSource; const aFiles: TFiles):Boolean;
+  function ShowMultiRenameForm(aFileSource: IFileSource; var aFiles: TFiles):Boolean;
 
 implementation
 
@@ -195,7 +195,7 @@ uses
 const
   sPresetsSection = 'MultiRenamePresets';
 
-function ShowMultiRenameForm(aFileSource: IFileSource; const aFiles: TFiles):Boolean;
+function ShowMultiRenameForm(aFileSource: IFileSource; var aFiles: TFiles):Boolean;
 begin
   Result:= True;
   try
@@ -208,11 +208,12 @@ begin
   end;
 end;
 
-constructor TfrmMultiRename.Create(TheOwner: TComponent; aFileSource: IFileSource; aFiles: TFiles);
+constructor TfrmMultiRename.Create(TheOwner: TComponent; aFileSource: IFileSource; var aFiles: TFiles);
 begin
   FPresets := TStringHashList.Create(False);
   FFileSource := aFileSource;
   FFiles := aFiles;
+  aFiles := nil;
   inherited Create(TheOwner);
 end;
 
@@ -502,7 +503,10 @@ begin
   cmbxWidth.ItemIndex:=0;
   cbLog.Checked:=False;
   edFile.Enabled:=cbLog.Checked;
-  edFile.Text:=IncludeTrailingBackslash(lsvwFile.Items.Item[0].SubItems[1])+'default.log';
+  if (lsvwFile.Items.Count > 0) and (lsvwFile.Items[0].SubItems.Count > 1) then
+    edFile.Text:=IncludeTrailingBackslash(lsvwFile.Items.Item[0].SubItems[1])+'default.log'
+  else
+    edFile.Text:='default.log';
   edFile.SelStart:=length(edFile.Text);
   cbPresets.Text:='';
   FLastPreset:='';
