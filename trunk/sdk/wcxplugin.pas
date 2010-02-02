@@ -77,7 +77,8 @@ const       {Error codes returned to calling application}
   PK_CRYPTOPT_MASTERPASS_SET = 1;   // The user already has a master password defined
 
 type
-  TArcHandle = type PtrUInt;
+  { Unsigned integer with pointer size }
+  TArcHandle = {$IFDEF CPU64}QWord{$ELSE}LongWord{$ENDIF};
 
 const
   wcxInvalidHandle = TArcHandle(-1);
