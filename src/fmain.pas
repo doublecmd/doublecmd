@@ -2945,7 +2945,7 @@ var
   FileView: TFileView;
 begin
   // if not active and refresh only in foreground then exit
-  if (not Focused) and (watch_only_foreground in gWatchDirs) then Exit;
+  if (watch_only_foreground in gWatchDirs) and (not Application.Active) then Exit;
   if not (Sender is TFileViewNotebook) then Exit;
 
   FileView := (Sender as TFileViewNotebook).ActiveView;
