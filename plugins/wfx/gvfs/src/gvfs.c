@@ -72,7 +72,6 @@ struct TVFSGlobs {
   gchar *RemotePath;
   GFile *file;
   GFileEnumerator *enumerator;
-  GCancellable *cancellable;
 
   GMainLoop *mount_main_loop;
   TVFSResult mount_result;
@@ -87,6 +86,13 @@ typedef struct
   GList *list;
   struct TVFSGlobs *globs;
 } TListRec, *PListRec;
+
+typedef struct _ProgressInfo 
+{
+  gchar SourceName[MAX_PATH];
+  gchar TargetName[MAX_PATH];
+  GCancellable *cancellable;
+} TProgressInfo, *PProgressInfo;
 
 //---------------------------------------------------------------------
 // global variables
@@ -386,7 +392,6 @@ struct TVFSGlobs * VFSNew ()
 
   globs->file = NULL;
   globs->enumerator = NULL;
-  globs->cancellable = NULL;
 
   return globs;
 }
@@ -935,20 +940,29 @@ static void vfs_copy_progress_callback (goffset current_num_bytes,
                                         goffset total_num_bytes,
                                         gpointer user_data)
 {
-  struct TVFSGlobs *globs;
+  PProgressInfo ProgressInfo;
+  int Percent;  
 
 //  g_print ("(II) vfs_copy_progress_callback spawned: current_num_bytes = %lu, total_num_bytes = %lu\n", current_num_bytes, total_num_bytes);
 
   if (! user_data)
     return;
-  globs = (struct TVFSGlobs *)user_data;
+  ProgressInfo = (PProgressInfo)user_data;
 
-/*
-  if (globs->callback_progress) {
-    if (! globs->callback_progress (current_num_bytes, total_num_bytes, globs->callback_data))
-      g_cancellable_cancel (globs->cancellable);
+  if (gProgressProc) {
+    if (total_num_bytes == 0)
+    {
+      Percent = 0;
+    }
+    else
+    {
+      Percent = (current_num_bytes * 100) / total_num_bytes;
+    }
+   /* 
+    if (gProgressProc(gPluginNumber, ProgressInfo->SourceName, ProgressInfo->TargetName, Percent) == 1)
+      g_cancellable_cancel (ProgressInfo->cancellable);
+   */ 
   }
-*/
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1367,6 +1381,10 @@ struct TVFSGlobs * GetConnectionByPath(gchar *Path)
        return globs;
     }
     free(ConnectionName);
+    if (globs->RemotePath != NULL)
+    {
+      free(globs->RemotePath);
+    }  
     globs->RemotePath = ExtractRemoteFileName(Path);
     g_print("GetConnectionByPath: RemotePath = %s\n", globs->RemotePath);
     return globs;
@@ -1656,8 +1674,7 @@ int __stdcall FsGetFile(char* RemoteName,char* LocalName,int CopyFlags,
   GFile *src, *dst;
   GError *error;
   TVFSResult res;
-  char *sSrcName;
-  char *sDstName;
+  PProgressInfo ProgressInfo;
 
   globs = GetConnectionByPath(RemoteName);
 
@@ -1670,27 +1687,30 @@ int __stdcall FsGetFile(char* RemoteName,char* LocalName,int CopyFlags,
     return FS_FILE_NOTSUPPORTED;
   }
 
-  sSrcName = globs->RemotePath;
-  sDstName = LocalName;
+  ProgressInfo = (PProgressInfo) g_malloc(sizeof(TProgressInfo));
+  g_strlcpy(ProgressInfo->SourceName, globs->RemotePath, MAX_PATH);
+  g_strlcpy(ProgressInfo->TargetName, LocalName, MAX_PATH);
 
-  g_print ("(II) FsGetFile: '%s' --> '%s'\n", sSrcName, sDstName);
+  g_print ("(II) FsGetFile: '%s' --> '%s'\n", ProgressInfo->SourceName, ProgressInfo->TargetName);
 
-  src = g_file_resolve_relative_path (globs->file, sSrcName);
+  src = g_file_resolve_relative_path (globs->file, ProgressInfo->SourceName);
   if (src == NULL) {
     g_print ("(EE) FsGetFile: g_file_resolve_relative_path() failed.\n");
+    g_free(ProgressInfo);
     return FS_FILE_NOTFOUND;
   }
-  dst = g_file_new_for_path (sDstName);
+  dst = g_file_new_for_path (ProgressInfo->TargetName);
   if (dst == NULL) {
     g_print ("(EE) FsGetFile: g_file_resolve_relative_path() failed.\n");
+    g_free(ProgressInfo);
     return FS_FILE_NOTFOUND;
   }
 
-  globs->cancellable = g_cancellable_new ();
+  ProgressInfo->cancellable = g_cancellable_new ();
 
   res = FS_FILE_OK;
   error = NULL;
-  g_file_copy (src, dst, TUXCMD_DEFAULT_COPY_FLAGS, globs->cancellable, vfs_copy_progress_callback, globs, &error);
+  g_file_copy (src, dst, TUXCMD_DEFAULT_COPY_FLAGS, ProgressInfo->cancellable, vfs_copy_progress_callback, ProgressInfo, &error);
   if (error) {
     g_print ("(EE) FsGetFile: g_file_copy() error: %s\n", error->message);
 //    res = g_error_to_TVFSResult (error);
@@ -1701,7 +1721,8 @@ int __stdcall FsGetFile(char* RemoteName,char* LocalName,int CopyFlags,
     g_error_free (error);
   }
 
-  g_object_unref (globs->cancellable);
+  g_object_unref (ProgressInfo->cancellable);
+  g_free(ProgressInfo);  
   g_object_unref (src);
   g_object_unref (dst);
   return res;
@@ -1713,8 +1734,7 @@ int __stdcall FsPutFile(char* LocalName,char* RemoteName,int CopyFlags)
   GFile *src, *dst;
   GError *error;
   TVFSResult res;
-  char *sSrcName;
-  char *sDstName;
+  PProgressInfo ProgressInfo;
 
   globs = GetConnectionByPath(RemoteName);
 
@@ -1727,28 +1747,31 @@ int __stdcall FsPutFile(char* LocalName,char* RemoteName,int CopyFlags)
     return FS_FILE_NOTSUPPORTED;
   }
 
-  sSrcName = LocalName;
-  sDstName = globs->RemotePath;
+  ProgressInfo = (PProgressInfo) g_malloc(sizeof(TProgressInfo));
+  g_strlcpy(ProgressInfo->SourceName, LocalName, MAX_PATH);
+  g_strlcpy(ProgressInfo->TargetName, globs->RemotePath, MAX_PATH);
 
-  g_print ("(II) FsPutFile: '%s' --> '%s'\n", sSrcName, sDstName);
+  g_print ("(II) FsPutFile: '%s' --> '%s'\n", ProgressInfo->SourceName, ProgressInfo->TargetName);
 
-  src = g_file_new_for_path (sSrcName);
+  src = g_file_new_for_path (ProgressInfo->SourceName);
   if (src == NULL) {
     g_print ("(EE) FsPutFile: g_file_resolve_relative_path() failed.\n");
+    g_free(ProgressInfo);
     return FS_FILE_NOTFOUND;
   }
-  dst = g_file_resolve_relative_path (globs->file, sDstName);
+  dst = g_file_resolve_relative_path (globs->file, ProgressInfo->TargetName);
   if (dst == NULL) {
     g_print ("(EE) FsPutFile: g_file_resolve_relative_path() failed.\n");
+    g_free(ProgressInfo);    
     return FS_FILE_NOTFOUND;
   }
 
-  globs->cancellable = g_cancellable_new ();
+  ProgressInfo->cancellable = g_cancellable_new ();
 
   res = FS_FILE_OK;
   error = NULL;
   /* FIXME: Appending not supported */
-  g_file_copy (src, dst, TUXCMD_DEFAULT_COPY_FLAGS, globs->cancellable, vfs_copy_progress_callback, globs, &error);
+  g_file_copy (src, dst, TUXCMD_DEFAULT_COPY_FLAGS, ProgressInfo->cancellable, vfs_copy_progress_callback, ProgressInfo, &error);
   if (error) {
     g_print ("(EE) FsPutFile: g_file_copy() error: %s\n", error->message);
 //    res = g_error_to_TVFSResult (error);
@@ -1759,7 +1782,8 @@ int __stdcall FsPutFile(char* LocalName,char* RemoteName,int CopyFlags)
     g_error_free (error);
   }
 
-  g_object_unref (globs->cancellable);
+  g_object_unref (ProgressInfo->cancellable);
+  g_free(ProgressInfo);    
   g_object_unref (src);
   g_object_unref (dst);
   return res;
