@@ -1164,7 +1164,7 @@ begin
   if Assigned(aFile) and aFile.IsNameValid then
   begin
     MainToolBar.AddButtonX('', aFile.FullPath, '', aFile.Path,
-                           aFile.Name, '',  aFile.FullPath);
+                           ExtractOnlyFileName(aFile.Name), '',  aFile.FullPath);
     IniBarFile:= TIniFileEx.Create(MainToolBar.BarFile.CurrentBar);
     try
       MainToolBar.SaveToIniFile(IniBarFile);
