@@ -174,8 +174,20 @@ begin
 end;
 
 procedure TKASToolBar.SetButtonX(Index: Integer; What: TInfor; Value: String);
+var
+  Bitmap: TBitmap;
 begin
   FBarFile.SetButtonX(Index, What, Value);
+  if What = ButtonX then
+    begin
+      if Assigned(FOnLoadButtonGlyph) then
+        Bitmap := FOnLoadButtonGlyph(Value, FGlyphSize, Color)
+      else
+        Bitmap := LoadBtnIcon(Value);
+      Buttons[Index].Glyph.Assign(Bitmap);
+      if Assigned(Bitmap) then
+        FreeAndNil(Bitmap);
+    end;
 end;
 
 function TKASToolBar.LoadBtnIcon(IconPath: String): TBitMap;
@@ -231,21 +243,6 @@ procedure TKASToolBar.SetEnvVar(const AValue: String);
 begin
   FBarFile.EnvVar:= AValue;
 end;
-
-{
-procedure TKASToolBar.SetIconPath(Index: Integer; const AValue: String);
-var
-  PNG : TPortableNetworkGraphic;
-begin
-//  FIconList[Index] := AValue;
- SetButtonX(Index,ButtonX,AValue);
-  with TSpeedButton(FButtonsList.Items[Index]) do
-  if Assigned(FOnLoadButtonGlyph) then
-    Glyph := FOnLoadButtonGlyph(AValue, FIconSize, Color)
-  else
-    Glyph := LoadBtnIcon(AValue);
-end;
-}
 
 procedure TKASToolBar.SetFlat(const AValue: Boolean);
 var

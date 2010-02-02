@@ -353,11 +353,25 @@ begin
 end;
 
 procedure TfrmConfigToolBar.btnOpenFileClick(Sender: TObject);
+var
+  Bitmap: TBitmap;
 begin
   OpenDialog.DefaultExt:= EmptyStr;
   OpenDialog.Filter:= EmptyStr;
   if OpenDialog.Execute then
-     cbCommand.Text := OpenDialog.FileName;
+    begin
+      cbCommand.Text := OpenDialog.FileName;
+      edtStartPath.Text:= ExtractFilePath(OpenDialog.FileName);
+      kedtIconFileName.Text:= OpenDialog.FileName;
+      edtToolTip.Text:= ExtractOnlyFileName(OpenDialog.FileName);
+
+      Bitmap := LoadBitmapFromFile(kedtIconFileName.Text, 32, Color);
+      sbIconExample.Glyph.Assign(Bitmap);
+      FreeThenNil(Bitmap);
+
+      // Refresh icon on the toolbar.
+      ktbBar.SetButtonX(LastToolButton, ButtonX, kedtIconFileName.Text);
+    end;
 end;
 
 procedure TfrmConfigToolBar.btnOpenIconFileClick(Sender: TObject);
@@ -372,8 +386,7 @@ begin
 
       Bitmap := LoadBitmapFromFile(kedtIconFileName.Text, 32, Color);
       sbIconExample.Glyph := Bitmap;
-      if Assigned(Bitmap) then
-        FreeAndNil(Bitmap);
+      FreeThenNil(Bitmap);
 
       // Refresh icon on the toolbar.
       ktbBar.SetButtonX(LastToolButton, ButtonX, kedtIconFileName.Text);
