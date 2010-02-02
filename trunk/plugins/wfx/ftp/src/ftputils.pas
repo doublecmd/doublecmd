@@ -180,6 +180,8 @@ function ExtractConnectionHost(Connection: AnsiString): AnsiString;
 var
   I: Integer;
 begin
+  if Pos('ftp://', LowerCase(Connection)) <> 0 then
+    Delete(Connection, 1, 6);
   I:= Pos(':', Connection);
   if I > 0 then
     Result:= Copy(Connection, 1, I - 1)
@@ -192,6 +194,8 @@ var
   I, J: Integer;
 begin
   Result:= EmptyStr;
+  if Pos('ftp://', LowerCase(Connection)) <> 0 then
+    Delete(Connection, 1, 6);
   I:= Pos(':', Connection);
   if I > 0 then
     begin
