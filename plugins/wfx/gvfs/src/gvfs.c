@@ -1800,10 +1800,14 @@ int __stdcall FsExecuteFile(HWND MainWin,char* RemoteName,char* Verb)
      {
        if (strchr(RemoteName, 0x3c) == NULL) // connection
        {
-         if (NetworkConnect(RemoteName + 1) != NULL)
-           return FS_EXEC_SYMLINK;
-         else
-           return FS_EXEC_ERROR;
+         struct TVFSGlobs *globs = NetworkConnect(RemoteName + 1);
+	 if (globs != NULL)
+	 {
+	   // go to Connection->Path
+	   g_strlcat(RemoteName, globs->Connection->Path, MAX_PATH);
+	   return FS_EXEC_SYMLINK;
+	 }                   
+         return FS_EXEC_ERROR;
        }
        else  // special item
        {
