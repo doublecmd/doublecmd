@@ -3483,10 +3483,8 @@ msgid "Customize column"
 msgstr "Нагласяване на стълбове:"
 
 #: ulng.rsdlgbuttons
-#, fuzzy
-#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
 msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
-msgstr "&Добре;&Не;&Да;&Отказ;&Няма;&Довършване;&Замяна;Замяна &Всички;&Пропускане;П&ропускане на всички;Всички;"
+msgstr "&Добре;&Не;&Да;&Отказ;&Няма;&Довършване;Copy &Into;&Замяна;Замяна &Всички;&Пропускане;П&ропускане на всички;Всички;"
 
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
