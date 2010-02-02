@@ -52,12 +52,22 @@ begin
   Result:= 0;
 end;
 
+function FsRenMovFile(OldName,NewName:pchar;Move,OverWrite:bool;
+  RemoteInfo:pRemoteInfo):integer; stdcall;
+begin
+  gRequestProc(gPluginNr, RT_MsgOK, OldName, NewName, nil, 0);
+  Result:= FS_FILE_OK;
+end;
+
 
 exports
+      // mandatory
       FsInit,
       FsFindFirst,
       FsFindNext,
-      FsFindClose;
+      FsFindClose,
+      // optional
+      FsRenMovFile;
 
 begin
 end.
