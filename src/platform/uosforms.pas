@@ -539,7 +539,7 @@ begin
                   mi:= TMenuItem.Create(miActions);
                   mi.Caption:= sAct;
                   mi.Hint:= sCmd;
-                  mi.OnClick:= TContextMenu.ContextMenuSelect; // handler
+                  mi.OnClick:= CM.ContextMenuSelect; // handler
                   miActions.Add(mi);
                 end;
             end;
@@ -560,14 +560,14 @@ begin
               mi:=TMenuItem.Create(miActions);
               mi.Caption:= rsMnuView;
               mi.Hint:= '{!VIEWER} ' + aFile.Path + aFile.Name;
-              mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
+              mi.OnClick:=CM.ContextMenuSelect; // handler
               miActions.Add(mi);
 
               // now add EDITconfigure item
               mi:=TMenuItem.Create(miActions);
               mi.Caption:= rsMnuEdit;
               mi.Hint:= '{!EDITOR} ' + aFile.Path + aFile.Name;
-              mi.OnClick:=TContextMenu.ContextMenuSelect; // handler
+              mi.OnClick:=CM.ContextMenuSelect; // handler
               miActions.Add(mi);
             end;
         finally
@@ -613,7 +613,7 @@ begin
                   FreeAndNil(bmpTemp);
                 end;
             end;
-          mi.OnClick := TContextMenu.OpenWithMenuItemSelect;
+          mi.OnClick := CM.OpenWithMenuItemSelect;
           miOpenWith.Add(mi);
         end;
       end;
@@ -718,7 +718,7 @@ begin
   else
     begin
       mi.Hint:= '{!MOUNT}' + sPath;
-      mi.OnClick:= TContextMenu.DriveContextMenuSelect;
+      mi.OnClick:= CM.DriveContextMenuSelect;
     end;
   CM.Items.Add(mi);
 
@@ -731,14 +731,14 @@ begin
   else
     begin
       mi.Hint:= '{!UMOUNT}' + sPath;
-      mi.OnClick:= TContextMenu.DriveContextMenuSelect;
+      mi.OnClick:= CM.DriveContextMenuSelect;
     end;
   CM.Items.Add(mi);
   
   mi:=TMenuItem.Create(CM);
   mi.Caption:= rsMnuEject;
   mi.Hint:= '{!EJECT}' + sPath;
-  mi.OnClick:= TContextMenu.DriveContextMenuSelect;
+  mi.OnClick:= CM.DriveContextMenuSelect;
   CM.Items.Add(mi);
 
   // show context menu
