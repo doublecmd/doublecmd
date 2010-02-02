@@ -856,9 +856,6 @@ var
   iPixMap:PtrInt;
   sPixMapSize : String;
   I : Integer;
-  Plugins : TStringList;
-  sCurrentPlugin : String;
-  iCurPlugCaps : Integer;
 begin
   // This function doesn't need to be synchronized
   // as long as it is called before creating the main form
@@ -952,25 +949,16 @@ begin
 
   (* Set archive icons *)
   
-  Plugins := TStringList.Create;
-  gIni.ReadSectionRaw('PackerPlugins', Plugins);
-  
-  for I:=0 to Plugins.Count - 1 do
+  for I:=0 to gWCXPlugins.Count - 1 do
+    begin
+      if gWCXPlugins.Enabled[I] and ((gWCXPlugins.Flags[I] and PK_CAPS_HIDE) <> PK_CAPS_HIDE) then
         begin
-          sCurrentPlugin := Plugins.ValueFromIndex[I];
-          sExt := Plugins.Names[I];
-          if (Length(sExt) > 0) and (sExt[1] <> '#') then // if plugin not disabled
-            begin
-          iCurPlugCaps := StrToInt(Copy(sCurrentPlugin, 1, Pos(',',sCurrentPlugin) - 1));
-          if (iCurPlugCaps and PK_CAPS_HIDE) <> PK_CAPS_HIDE then
-            begin
-                if FExtList.Find(sExt) < 0 then
-                  FExtList.Add(sExt, TObject(FiArcIconID));
-            end;
-            end;
-        end; //for
-  Plugins.Free;
-  
+          sExt := gWCXPlugins.Ext[I];
+          if (Length(sExt) > 0) and (FExtList.Find(sExt) < 0) then
+            FExtList.Add(sExt, TObject(FiArcIconID));
+        end;
+    end; //for
+
   (* /Set archive icons *)
 
   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
