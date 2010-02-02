@@ -1381,10 +1381,12 @@ struct TVFSGlobs * GetConnectionByPath(gchar *Path)
        return globs;
     }
     free(ConnectionName);
+    /*
     if (globs->RemotePath != NULL)
     {
       free(globs->RemotePath);
-    }  
+    } 
+    */
     globs->RemotePath = ExtractRemoteFileName(Path);
     g_print("GetConnectionByPath: RemotePath = %s\n", globs->RemotePath);
     return globs;
