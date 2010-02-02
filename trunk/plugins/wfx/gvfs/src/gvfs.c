@@ -241,8 +241,8 @@ static void ask_password_cb (GMountOperation *op,
   if (gRequestProc) {
     fprintf (stderr, "  (II) Spawning callback_ask_password (%p)...\n", gRequestProc);
 
-    strcpy(username, default_user);
-    strcpy(domain, default_domain);
+    g_strlcpy(username, default_user, MAX_PATH);
+    g_strlcpy(domain, default_domain, MAX_PATH);
 
     if (flags & G_ASK_PASSWORD_NEED_USERNAME)
     {
@@ -604,7 +604,7 @@ static void GFileInfoToWin32FindData (GFileInfo *info, WIN32_FIND_DATAA *FindDat
   g_assert (info != NULL);
   g_assert (FindData != NULL);
 
-  strcpy(FindData->cFileName, g_strdup (g_file_info_get_name (info)));
+  g_strlcpy(FindData->cFileName, g_strdup (g_file_info_get_name (info)), MAX_PATH);
   // File size
   goffset filesize = g_file_info_get_size (info);
   FindData->nFileSizeLow = (DWORD)filesize;
@@ -1422,7 +1422,7 @@ BOOL LocalFindNext(HANDLE Hdl, WIN32_FIND_DATAA *FindData)
        return FALSE;
      }
      PConnection Connection = (PConnection) ListRec->list->data;
-     strcpy(FindData->cFileName, Connection->Name);
+     g_strlcpy(FindData->cFileName, Connection->Name, MAX_PATH);
      ListRec->list = g_list_next(ListRec->list);
      return TRUE;
    }
@@ -1927,7 +1927,7 @@ BOOL __stdcall FsDisconnect(char *DisconnectRoot)
 
 void __stdcall FsSetDefaultParams(FsDefaultParamStruct* dps)
 {
-  strcpy(gDefaultIniName, dps->DefaultIniName);
+  g_strlcpy(gDefaultIniName, dps->DefaultIniName, MAX_PATH);
   g_print ("gDefaultIniName: %s\n", gDefaultIniName);
   ReadConnectionList();
 }
