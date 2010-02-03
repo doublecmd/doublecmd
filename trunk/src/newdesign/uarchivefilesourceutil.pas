@@ -14,32 +14,32 @@ function TestArchive(aFileView: TFileView; aFiles: TFiles): Boolean;
 implementation
 
 uses
- fFileOpDlg,
- uShowMsg,
- uLng,
- uFileSource,
- uArchiveFileSource,
- uWcxArchiveFileSource,
- uFileSystemFileSource,
- uFileSourceOperation,
- uFileSourceTestArchiveOperation,
- uFileSourceOperationTypes,
- uOperationsManager;
+  fFileOpDlg,
+  uShowMsg,
+  uLng,
+  uFileSource,
+  uArchiveFileSource,
+  uWcxArchiveFileSource,
+  uFileSystemFileSource,
+  uFileSourceOperation,
+  uFileSourceTestArchiveOperation,
+  uFileSourceOperationTypes,
+  uOperationsManager;
 
 function TestArchive(aFileView: TFileView; aFiles: TFiles): Boolean;
 var
   I: Integer;
-  FilesToTest: TFiles;
-  Operation: TFileSourceOperation;
+  FilesToTest: TFiles = nil;
+  Operation: TFileSourceOperation = nil;
   OperationHandle: TOperationHandle;
-  ProgressDialog: TfrmFileOp;
+  ProgressDialog: TfrmFileOp = nil;
   ArchiveFileSource: IArchiveFileSource;
 begin
   try
     // if in archive
     if aFileView.FileSource.IsClass(TArchiveFileSource) then
       begin
-       FilesToTest := aFiles;
+       FilesToTest := aFiles.Clone;
        if fsoTestArchive in aFileView.FileSource.GetOperationsTypes then
          begin
            Operation := aFileView.FileSource.CreateTestArchiveOperation(FilesToTest);

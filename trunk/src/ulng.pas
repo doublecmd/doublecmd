@@ -139,6 +139,7 @@ resourcestring
   rsMsgLogRmDir = 'Remove directory %s';
   rsMsgLogPack = 'Pack to file %s';
   rsMsgLogExtract = 'Extract file %s';
+  rsMsgLogTest = 'Test file integrity %s';
 
   rsQuickSearchPanel = 'Find:';
   rsQuickFilterPanel = 'Filter:';
@@ -150,6 +151,7 @@ resourcestring
   rsDlgMv = 'Move file(s)';
   rsDlgPack = 'Packing...';
   rsDlgExtract = 'Extracting...';
+  rsDlgTest = 'Testing...';
   rsDlgDeleting = 'Deleting';
   rsDlgCheckSumCalc = 'Calculate check sum...';
   rsDlgCheckSumVerify = 'Verify check sum...';
@@ -396,4 +398,4 @@ finalization
   if Assigned(LRSTranslator) then
     FreeAndNil(LRSTranslator);
 
-end.
+end.
