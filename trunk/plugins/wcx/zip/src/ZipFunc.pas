@@ -232,9 +232,20 @@ begin
 
     case Operation of
     PK_TEST:
-      begin
-        Arc.TagItems('*.*');
+      try
+        Arc.TagItems(Arc.Items[Arc.Tag].FileName);
         Arc.TestTaggedItems;
+      except
+        on EAbZipVersion do
+          Result:= E_BAD_DATA;
+        on EAbZipBadSpanStream do
+          Result:= E_BAD_DATA;
+        on EAbUserAbort do
+          Result:= E_EABORTED;
+        on EAbZipInvalidLFH do
+          Result:= E_BAD_ARCHIVE;
+        else
+          Result:= E_BAD_DATA;
       end;
 
     PK_EXTRACT:
@@ -265,6 +276,7 @@ begin
       Result := E_BAD_DATA;
   end;
 
+  Arc.UnTagItems(Arc.Items[Arc.Tag].FileName);
   Arc.Tag := Arc.Tag + 1;
 end;
 
