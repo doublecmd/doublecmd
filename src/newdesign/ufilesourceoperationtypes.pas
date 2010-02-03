@@ -25,7 +25,8 @@ type
     fsoCalcChecksum,
     fsoCalcStatistics,  // Should probably always be supported if fsoList is supported.
     fsoSetFileProperty,
-    fsoExecute
+    fsoExecute,
+    fsoTestArchive
   );
 
   TFileSourceOperationTypes = set of TFileSourceOperationType;
