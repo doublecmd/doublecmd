@@ -1145,8 +1145,10 @@ msgid "Up"
 msgstr "上"
 
 #: TFRMMAIN.ACTABOUT.CAPTION
+#, fuzzy
+#| msgid "About"
 msgctxt "TFRMMAIN.ACTABOUT.CAPTION"
-msgid "About"
+msgid "&About"
 msgstr "关于"
 
 #: TFRMMAIN.ACTADDFILENAMETOCMDLINE.CAPTION
@@ -1265,8 +1267,10 @@ msgid "Swap &Panels"
 msgstr "交换面板(&P)"
 
 #: TFRMMAIN.ACTEXIT.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
-msgid "Exit"
+msgid "E&xit"
 msgstr "退出"
 
 #: TFRMMAIN.ACTEXTRACTFILES.CAPTION
@@ -1274,7 +1278,9 @@ msgid "Extract files..."
 msgstr "解压缩文件"
 
 #: TFRMMAIN.ACTFILEASSOC.CAPTION
-msgid "File associations..."
+#, fuzzy
+#| msgid "File associations..."
+msgid "File &associations..."
 msgstr "文件关联..."
 
 #: TFRMMAIN.ACTFILELINKER.CAPTION
@@ -1299,11 +1305,15 @@ msgid "Create link..."
 msgstr "创建硬链接"
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
-msgid "Contents"
+#, fuzzy
+#| msgid "Contents"
+msgid "&Contents"
 msgstr "内容"
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
-msgid "Keyboard"
+#, fuzzy
+#| msgid "Keyboard"
+msgid "&Keyboard"
 msgstr "热键列表"
 
 #: TFRMMAIN.ACTLEFTEQUALRIGHT.CAPTION
@@ -1351,11 +1361,15 @@ msgid "Multi Rename Tool"
 msgstr "多文件改名工具"
 
 #: TFRMMAIN.ACTNEWTAB.CAPTION
-msgid "New tab"
+#, fuzzy
+#| msgid "New tab"
+msgid "&New tab"
 msgstr "新建标签页"
 
 #: TFRMMAIN.ACTNEXTTAB.CAPTION
-msgid "Switch to next tab"
+#, fuzzy
+#| msgid "Switch to next tab"
+msgid "Switch to nex&t tab"
 msgstr "切换到下一标签"
 
 #: TFRMMAIN.ACTOPEN.CAPTION
@@ -1372,16 +1386,22 @@ msgid "Open bar file"
 msgstr ""
 
 #: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
-msgid "Open folder in new tab"
+#, fuzzy
+#| msgid "Open folder in new tab"
+msgid "Open &folder in new tab"
 msgstr "新标签页打开文件夹"
 
 #: TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION
+#, fuzzy
+#| msgid "Open VFS List"
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
-msgid "Open VFS List"
+msgid "Open &VFS List"
 msgstr "打开VFS列表"
 
 #: TFRMMAIN.ACTOPTIONS.CAPTION
-msgid "Options..."
+#, fuzzy
+#| msgid "Options..."
+msgid "&Options..."
 msgstr "选项..."
 
 #: TFRMMAIN.ACTPACKFILES.CAPTION
@@ -1397,7 +1417,9 @@ msgid "&Paste"
 msgstr "粘贴"
 
 #: TFRMMAIN.ACTPREVTAB.CAPTION
-msgid "Switch to previous tab"
+#, fuzzy
+#| msgid "Switch to previous tab"
+msgid "Switch to &previous tab"
 msgstr "切换到上一标签"
 
 #: TFRMMAIN.ACTQUICKFILTER.CAPTION
@@ -1418,11 +1440,15 @@ msgid "&Refresh"
 msgstr "刷新(&R)"
 
 #: TFRMMAIN.ACTREMOVEALLTABS.CAPTION
-msgid "Remove all tabs"
+#, fuzzy
+#| msgid "Remove all tabs"
+msgid "Remove &all tabs"
 msgstr "移除所有标签"
 
 #: TFRMMAIN.ACTREMOVETAB.CAPTION
-msgid "Remove tab"
+#, fuzzy
+#| msgid "Remove tab"
+msgid "&Remove tab"
 msgstr "删除标签页"
 
 #: TFRMMAIN.ACTRENAME.CAPTION
@@ -1464,20 +1490,22 @@ msgid "Change file properties"
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
-msgid "Directories are opened in new tabs"
+msgid "Directories are opened in new &tabs"
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
-msgid "Normal"
+msgid "&Normal"
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHLOCKED.CAPTION
-msgid "Locked"
+msgid "&Locked"
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION
+#, fuzzy
+#| msgid "Locked, but directory changes allowed"
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
-msgid "Locked, but directory changes allowed"
+msgid "Locked, but &directory changes allowed"
 msgstr "锁定,但目录允许修改"
 
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
@@ -1530,6 +1558,10 @@ msgstr "创建符号链接"
 msgid "Target &= Source"
 msgstr "目标 &= 源"
 
+#: TFRMMAIN.ACTTESTARCHIVE.CAPTION
+msgid "Test Archive(s)"
+msgstr ""
+
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
 msgid "Transfer dir under cursor to left window"
 msgstr "传输当前行到左窗口"
@@ -1547,7 +1579,9 @@ msgid "View F3"
 msgstr "查看 F3"
 
 #: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
-msgid "Visit Double Commander Web Site"
+#, fuzzy
+#| msgid "Visit Double Commander Web Site"
+msgid "&Visit Double Commander Web Site"
 msgstr "访问 Double Commander 网站"
 
 #: TFRMMAIN.ACTWIPE.CAPTION
@@ -1826,8 +1860,10 @@ msgid "Tab options"
 msgstr ""
 
 #: TFRMMAIN.MITRAYICONEXIT.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
-msgid "Exit"
+msgid "E&xit"
 msgstr "退出"
 
 #: TFRMMAIN.MITRAYICONRESTORE.CAPTION
@@ -1843,7 +1879,9 @@ msgid "C&onfiguration"
 msgstr "配置(&O)"
 
 #: TFRMMAIN.MNUFILES.CAPTION
-msgid "Files"
+#, fuzzy
+#| msgid "Files"
+msgid "&Files"
 msgstr "文件(&F)"
 
 #: TFRMMAIN.MNUFILESCOMBINE.CAPTION
@@ -1872,8 +1910,10 @@ msgid "Operations viewer"
 msgstr ""
 
 #: TFRMMAIN.MNUTABOPTIONS.CAPTION
+#, fuzzy
+#| msgid "Options"
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
-msgid "Options"
+msgid "&Options"
 msgstr "选项"
 
 #: TFRMMAIN.MNUTABS.CAPTION
