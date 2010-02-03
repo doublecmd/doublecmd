@@ -1902,6 +1902,7 @@ BOOL __stdcall FsDeleteFile(char* RemoteName)
 	 return TRUE;
        }
     }
+    return FALSE;
   }    
   struct TVFSGlobs *globs = GetConnectionByPath(RemoteName);
   return (VFSRemove(globs, globs->RemotePath) == FS_FILE_OK);
