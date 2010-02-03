@@ -1246,8 +1246,11 @@ begin
     LastActive := '';
     dgPanel.Row := 0;
 
-    if gTermWindow and Assigned(Cons) then
-      Cons.Terminal.SetCurrentDir(NewPath);
+    if (fspDirectAccess in FileSource.GetProperties) then
+      begin
+        if gTermWindow and Assigned(Cons) then
+          Cons.Terminal.SetCurrentDir(NewPath);
+      end;
 
     MakeFileSourceFileList;
 

@@ -543,7 +543,7 @@ uses
   uShowMsg, uClassesEx, fHotDir, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   uDragDropEx, StrUtils, uKeyboard, uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
-  fFileOpDlg, uFileSystemCopyOperation, uFileSystemMoveOperation,
+  fFileOpDlg, uFileSystemCopyOperation, uFileSystemMoveOperation, uFileSourceProperty,
   uArchiveFileSource, uShellExecute, uActs, uFileSystemFile,
   fSymLink, fHardLink, uExceptions, uUniqueInstance
   {$IFDEF LCLQT}
@@ -2336,8 +2336,11 @@ procedure TfrmMain.SetActiveFrame(panel: TFilePanelSelect);
 begin
   PanelSelected:=panel;
   ActiveFrame.SetFocus;
-  if gTermWindow and Assigned(Cons) then
-    Cons.Terminal.SetCurrentDir(ActiveFrame.CurrentPath);
+  if (fspDirectAccess in ActiveFrame.FileSource.GetProperties) then
+    begin
+      if gTermWindow and Assigned(Cons) then
+        Cons.Terminal.SetCurrentDir(ActiveFrame.CurrentPath);
+    end;
 end;
 
 procedure TfrmMain.UpdateDiskCount;
@@ -3386,8 +3389,11 @@ begin
     end;
 
     // Change path in terminal
-    if gTermWindow and Assigned(Cons) then
-      Cons.Terminal.SetCurrentDir(ActiveFrame.CurrentPath);
+    if (fspDirectAccess in ActiveFrame.FileSource.GetProperties) then
+      begin
+        if gTermWindow and Assigned(Cons) then
+          Cons.Terminal.SetCurrentDir(ActiveFrame.CurrentPath);
+      end;
 
     edtCommand.Left := lblCommandPath.Width + 5;
     edtCommand.Width := TControl(edtCommand.Parent).Width - edtCommand.Left;
