@@ -147,6 +147,7 @@ const cf_Null=0;
    procedure cm_CopyFullNamesToClip(param: string='');
    procedure cm_Exchange(param:string='');
    procedure cm_OpenArchive(param:string='');
+   procedure cm_TestArchive(param:string='');
    procedure cm_OpenDirInNewTab(param:string='');
    procedure cm_Open(param:string='');
    procedure cm_OpenVirtualFileSystemList(param:string='');
@@ -867,6 +868,11 @@ begin
         ChooseArchive(frmMain.ActiveFrame, aFile); // TryOpenArchive(aFile);
     end;
   end;
+end;
+
+procedure TActs.cm_TestArchive(param: string);
+begin
+  DebugLn('TActs.cm_TestArchive');
 end;
 
 procedure TActs.cm_Open(param:string);

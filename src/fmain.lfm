@@ -939,6 +939,10 @@ object frmMain: TfrmMain
         Action = actExtractFiles
         OnClick = actExecute
       end
+      object mnuTestArchive: TMenuItem
+        Action = actTestArchive
+        OnClick = actExecute
+      end
       object mnuFilesSplit: TMenuItem
         Action = actFileSpliter
         OnClick = actExecute
@@ -1736,6 +1740,11 @@ object frmMain: TfrmMain
     object actQuickView: TAction
       Category = 'Show'
       Caption = 'Quick View Panel'
+      OnExecute = actExecute
+    end
+    object actTestArchive: TAction
+      Category = 'File'
+      Caption = 'Test Archive(s)'
       OnExecute = actExecute
     end
   end
