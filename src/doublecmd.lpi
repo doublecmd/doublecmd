@@ -12,8 +12,8 @@
       <MainUnit Value="0"/>
       <TargetFileExt Value=""/>
       <Title Value="Double Commander"/>
-      <Icon Value="0"/>
       <UseXPManifest Value="True"/>
+      <Icon Value="0"/>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
@@ -60,7 +60,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="99">
+    <Units Count="100">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -662,6 +662,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uInfoToolTip"/>
       </Unit98>
+      <Unit99>
+        <Filename Value="newdesign\uarchivefilesourceutil.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uArchiveFileSourceUtil"/>
+      </Unit99>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
