@@ -1147,8 +1147,10 @@ msgid "Up"
 msgstr "Вгору"
 
 #: TFRMMAIN.ACTABOUT.CAPTION
+#, fuzzy
+#| msgid "About"
 msgctxt "TFRMMAIN.ACTABOUT.CAPTION"
-msgid "About"
+msgid "&About"
 msgstr "Про програму..."
 
 #: TFRMMAIN.ACTADDFILENAMETOCMDLINE.CAPTION
@@ -1267,8 +1269,10 @@ msgid "Swap &Panels"
 msgstr "Поміняти місцями панелі"
 
 #: TFRMMAIN.ACTEXIT.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
-msgid "Exit"
+msgid "E&xit"
 msgstr "Вихід"
 
 #: TFRMMAIN.ACTEXTRACTFILES.CAPTION
@@ -1276,7 +1280,9 @@ msgid "Extract files..."
 msgstr "Розпакувати..."
 
 #: TFRMMAIN.ACTFILEASSOC.CAPTION
-msgid "File associations..."
+#, fuzzy
+#| msgid "File associations..."
+msgid "File &associations..."
 msgstr "Файлові асоціації..."
 
 #: TFRMMAIN.ACTFILELINKER.CAPTION
@@ -1301,11 +1307,15 @@ msgid "Create link..."
 msgstr "Створити по&силання..."
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
-msgid "Contents"
+#, fuzzy
+#| msgid "Contents"
+msgid "&Contents"
 msgstr "Зміст"
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
-msgid "Keyboard"
+#, fuzzy
+#| msgid "Keyboard"
+msgid "&Keyboard"
 msgstr "Клавіатура"
 
 #: TFRMMAIN.ACTLEFTEQUALRIGHT.CAPTION
@@ -1353,11 +1363,15 @@ msgid "Multi Rename Tool"
 msgstr "Мульти&переіменування"
 
 #: TFRMMAIN.ACTNEWTAB.CAPTION
-msgid "New tab"
+#, fuzzy
+#| msgid "New tab"
+msgid "&New tab"
 msgstr "Нова вкладка"
 
 #: TFRMMAIN.ACTNEXTTAB.CAPTION
-msgid "Switch to next tab"
+#, fuzzy
+#| msgid "Switch to next tab"
+msgid "Switch to nex&t tab"
 msgstr "Перейти до наступної вкладки"
 
 #: TFRMMAIN.ACTOPEN.CAPTION
@@ -1374,16 +1388,22 @@ msgid "Open bar file"
 msgstr ""
 
 #: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
-msgid "Open folder in new tab"
+#, fuzzy
+#| msgid "Open folder in new tab"
+msgid "Open &folder in new tab"
 msgstr "Відкрити каталог в новій вкладці"
 
 #: TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION
+#, fuzzy
+#| msgid "Open VFS List"
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
-msgid "Open VFS List"
+msgid "Open &VFS List"
 msgstr "Відкрити список VFS"
 
 #: TFRMMAIN.ACTOPTIONS.CAPTION
-msgid "Options..."
+#, fuzzy
+#| msgid "Options..."
+msgid "&Options..."
 msgstr "&Параметри..."
 
 #: TFRMMAIN.ACTPACKFILES.CAPTION
@@ -1399,7 +1419,9 @@ msgid "&Paste"
 msgstr "Вставити"
 
 #: TFRMMAIN.ACTPREVTAB.CAPTION
-msgid "Switch to previous tab"
+#, fuzzy
+#| msgid "Switch to previous tab"
+msgid "Switch to &previous tab"
 msgstr "Перейти до попередньої вкладки"
 
 #: TFRMMAIN.ACTQUICKFILTER.CAPTION
@@ -1420,11 +1442,15 @@ msgid "&Refresh"
 msgstr "Обновити"
 
 #: TFRMMAIN.ACTREMOVEALLTABS.CAPTION
-msgid "Remove all tabs"
+#, fuzzy
+#| msgid "Remove all tabs"
+msgid "Remove &all tabs"
 msgstr "Видалити всі вкладки"
 
 #: TFRMMAIN.ACTREMOVETAB.CAPTION
-msgid "Remove tab"
+#, fuzzy
+#| msgid "Remove tab"
+msgid "&Remove tab"
 msgstr "Видалити вкладку"
 
 #: TFRMMAIN.ACTRENAME.CAPTION
@@ -1466,20 +1492,22 @@ msgid "Change file properties"
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
-msgid "Directories are opened in new tabs"
+msgid "Directories are opened in new &tabs"
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
-msgid "Normal"
+msgid "&Normal"
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHLOCKED.CAPTION
-msgid "Locked"
+msgid "&Locked"
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION
+#, fuzzy
+#| msgid "Locked, but directory changes allowed"
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
-msgid "Locked, but directory changes allowed"
+msgid "Locked, but &directory changes allowed"
 msgstr "Заблокувати, але дозволити зміну каталога"
 
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
@@ -1532,6 +1560,10 @@ msgstr "Створити символьне пос&илання..."
 msgid "Target &= Source"
 msgstr "Ціль = Джерелу"
 
+#: TFRMMAIN.ACTTESTARCHIVE.CAPTION
+msgid "Test Archive(s)"
+msgstr ""
+
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
 msgid "Transfer dir under cursor to left window"
 msgstr "Відкрити каталог під курсором на ліві панелі"
@@ -1549,7 +1581,9 @@ msgid "View F3"
 msgstr "Перегляд F3"
 
 #: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
-msgid "Visit Double Commander Web Site"
+#, fuzzy
+#| msgid "Visit Double Commander Web Site"
+msgid "&Visit Double Commander Web Site"
 msgstr "Відвідати домашню сторінку Double Commander"
 
 #: TFRMMAIN.ACTWIPE.CAPTION
@@ -1828,8 +1862,10 @@ msgid "Tab options"
 msgstr ""
 
 #: TFRMMAIN.MITRAYICONEXIT.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
-msgid "Exit"
+msgid "E&xit"
 msgstr "Вихід"
 
 #: TFRMMAIN.MITRAYICONRESTORE.CAPTION
@@ -1845,7 +1881,9 @@ msgid "C&onfiguration"
 msgstr "&Настройка"
 
 #: TFRMMAIN.MNUFILES.CAPTION
-msgid "Files"
+#, fuzzy
+#| msgid "Files"
+msgid "&Files"
 msgstr "&Файли"
 
 #: TFRMMAIN.MNUFILESCOMBINE.CAPTION
@@ -1874,8 +1912,10 @@ msgid "Operations viewer"
 msgstr ""
 
 #: TFRMMAIN.MNUTABOPTIONS.CAPTION
+#, fuzzy
+#| msgid "Options"
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
-msgid "Options"
+msgid "&Options"
 msgstr "Настройка"
 
 #: TFRMMAIN.MNUTABS.CAPTION

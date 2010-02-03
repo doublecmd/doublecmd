@@ -1142,7 +1142,7 @@ msgstr ""
 
 #: TFRMMAIN.ACTABOUT.CAPTION
 msgctxt "TFRMMAIN.ACTABOUT.CAPTION"
-msgid "About"
+msgid "&About"
 msgstr ""
 
 #: TFRMMAIN.ACTADDFILENAMETOCMDLINE.CAPTION
@@ -1262,7 +1262,7 @@ msgstr ""
 
 #: TFRMMAIN.ACTEXIT.CAPTION
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
-msgid "Exit"
+msgid "E&xit"
 msgstr ""
 
 #: TFRMMAIN.ACTEXTRACTFILES.CAPTION
@@ -1270,7 +1270,7 @@ msgid "Extract files..."
 msgstr ""
 
 #: TFRMMAIN.ACTFILEASSOC.CAPTION
-msgid "File associations..."
+msgid "File &associations..."
 msgstr ""
 
 #: TFRMMAIN.ACTFILELINKER.CAPTION
@@ -1295,11 +1295,11 @@ msgid "Create link..."
 msgstr ""
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
-msgid "Contents"
+msgid "&Contents"
 msgstr ""
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
-msgid "Keyboard"
+msgid "&Keyboard"
 msgstr ""
 
 #: TFRMMAIN.ACTLEFTEQUALRIGHT.CAPTION
@@ -1347,11 +1347,11 @@ msgid "Multi Rename Tool"
 msgstr ""
 
 #: TFRMMAIN.ACTNEWTAB.CAPTION
-msgid "New tab"
+msgid "&New tab"
 msgstr ""
 
 #: TFRMMAIN.ACTNEXTTAB.CAPTION
-msgid "Switch to next tab"
+msgid "Switch to nex&t tab"
 msgstr ""
 
 #: TFRMMAIN.ACTOPEN.CAPTION
@@ -1368,16 +1368,16 @@ msgid "Open bar file"
 msgstr ""
 
 #: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
-msgid "Open folder in new tab"
+msgid "Open &folder in new tab"
 msgstr ""
 
 #: TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
-msgid "Open VFS List"
+msgid "Open &VFS List"
 msgstr ""
 
 #: TFRMMAIN.ACTOPTIONS.CAPTION
-msgid "Options..."
+msgid "&Options..."
 msgstr ""
 
 #: TFRMMAIN.ACTPACKFILES.CAPTION
@@ -1393,7 +1393,7 @@ msgid "&Paste"
 msgstr ""
 
 #: TFRMMAIN.ACTPREVTAB.CAPTION
-msgid "Switch to previous tab"
+msgid "Switch to &previous tab"
 msgstr ""
 
 #: TFRMMAIN.ACTQUICKFILTER.CAPTION
@@ -1414,11 +1414,11 @@ msgid "&Refresh"
 msgstr ""
 
 #: TFRMMAIN.ACTREMOVEALLTABS.CAPTION
-msgid "Remove all tabs"
+msgid "Remove &all tabs"
 msgstr ""
 
 #: TFRMMAIN.ACTREMOVETAB.CAPTION
-msgid "Remove tab"
+msgid "&Remove tab"
 msgstr ""
 
 #: TFRMMAIN.ACTRENAME.CAPTION
@@ -1460,20 +1460,20 @@ msgid "Change file properties"
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
-msgid "Directories are opened in new tabs"
+msgid "Directories are opened in new &tabs"
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
-msgid "Normal"
+msgid "&Normal"
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHLOCKED.CAPTION
-msgid "Locked"
+msgid "&Locked"
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
-msgid "Locked, but directory changes allowed"
+msgid "Locked, but &directory changes allowed"
 msgstr ""
 
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
@@ -1526,6 +1526,10 @@ msgstr ""
 msgid "Target &= Source"
 msgstr ""
 
+#: TFRMMAIN.ACTTESTARCHIVE.CAPTION
+msgid "Test Archive(s)"
+msgstr ""
+
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
 msgid "Transfer dir under cursor to left window"
 msgstr ""
@@ -1543,7 +1547,7 @@ msgid "View F3"
 msgstr ""
 
 #: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
-msgid "Visit Double Commander Web Site"
+msgid "&Visit Double Commander Web Site"
 msgstr ""
 
 #: TFRMMAIN.ACTWIPE.CAPTION
@@ -1828,7 +1832,7 @@ msgstr ""
 
 #: TFRMMAIN.MITRAYICONEXIT.CAPTION
 msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
-msgid "Exit"
+msgid "E&xit"
 msgstr ""
 
 #: TFRMMAIN.MITRAYICONRESTORE.CAPTION
@@ -1844,7 +1848,7 @@ msgid "C&onfiguration"
 msgstr ""
 
 #: TFRMMAIN.MNUFILES.CAPTION
-msgid "Files"
+msgid "&Files"
 msgstr ""
 
 #: TFRMMAIN.MNUFILESCOMBINE.CAPTION
@@ -1874,7 +1878,7 @@ msgstr ""
 
 #: TFRMMAIN.MNUTABOPTIONS.CAPTION
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
-msgid "Options"
+msgid "&Options"
 msgstr ""
 
 #: TFRMMAIN.MNUTABS.CAPTION
