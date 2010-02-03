@@ -3577,6 +3577,10 @@ msgstr "Tömörítés..."
 msgid "Speed %s/s, remaining time %s"
 msgstr "Sebesség %s/s, hátralevő idő %s"
 
+#: ulng.rsdlgtest
+msgid "Testing..."
+msgstr ""
+
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
 msgstr ""
@@ -3945,6 +3949,10 @@ msgstr "Kész: "
 #: ulng.rsmsglogsymlink
 msgid "Create symlink %s"
 msgstr "%s symlink létrehozása"
+
+#: ulng.rsmsglogtest
+msgid "Test file integrity %s"
+msgstr ""
 
 #: ulng.rsmsgmanualaddhotdir
 msgid "Manually add hot path"
