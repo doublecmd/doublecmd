@@ -28,11 +28,12 @@ interface
 
 uses 
   WcxPlugin, AbZipKit, AbArcTyp, AbZipTyp, DialogAPI,
-  AbExcept, AbUtils;
+  AbExcept, AbUtils, AbConst;
 
 type
   TAbZipKitEx = class (TAbZipKit)
   private
+    FOperationResult: LongInt;
     FProcessDataProc : TProcessDataProc;
     procedure AbArchiveItemProgressEvent(Sender : TObject; Item : TAbArchiveItem; Progress : Byte;
                                          var Abort : Boolean);
@@ -97,14 +98,26 @@ procedure TAbZipKitEx.AbProcessItemFailureEvent(Sender: TObject;
 var
   Msg: String;
 begin
-//ProcessType:(ptAdd, ptDelete, ptExtract, ptFreshen, ptMove, ptReplace, ptFoundUnhandled);
-
+  // ProcessType: (ptAdd, ptDelete, ptExtract, ptFreshen, ptMove, ptReplace, ptFoundUnhandled);
+  {
   Msg := 'Error while processing: ' + Item.FileName;
-
-{$IFDEF MSWINDOWS}
-  // This is supposedly thread-safe.
-  MessageBox(0, PCHAR(msg), 'Error', MB_OK or MB_ICONERROR);
-{$ENDIF}
+  {$IFDEF MSWINDOWS}
+    // This is supposedly thread-safe.
+    MessageBox(0, PCHAR(msg), 'Error', MB_OK or MB_ICONERROR);
+  {$ENDIF}
+  }
+  case ErrorCode of
+  AbUserAbort:
+    FOperationResult:= E_EABORTED;
+  AbZipBadCRC:
+    FOperationResult:= E_BAD_ARCHIVE;
+  AbFileNotFound:
+    FOperationResult:= E_NO_FILES;
+  AbReadError:
+    FOperationResult:= E_EREAD;
+  else
+    FOperationResult:= E_BAD_DATA;
+  end;
 end;
 
 function ExtractOnlyFileName(const FileName: string): string;
@@ -196,7 +209,6 @@ begin
       Exit;
     end;
 
-
   with HeaderData do
     begin
       //MessageBox(0,PChar(Arc.Items[Arc.Tag].FileName),'',16);
@@ -217,8 +229,8 @@ begin
       FileTime := Arc.Items[Arc.Tag].SystemSpecificLastModFileTime;
       FileAttr := Arc.Items[Arc.Tag].SystemSpecificAttributes;
     end;
-  Result := 0;
 
+  Result := E_SUCCESS;
 end;
 
 function ProcessFile (hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PChar) : Integer;stdcall;
@@ -228,24 +240,13 @@ begin
   Arc := TAbZipKitEx(Pointer(hArcData));
 
   try
-    Result := E_SUCCESS;
+    Arc.FOperationResult := E_SUCCESS;
 
     case Operation of
     PK_TEST:
-      try
+      begin
         Arc.TagItems(Arc.Items[Arc.Tag].FileName);
         Arc.TestTaggedItems;
-      except
-        on EAbZipVersion do
-          Result:= E_BAD_DATA;
-        on EAbZipBadSpanStream do
-          Result:= E_BAD_DATA;
-        on EAbUserAbort do
-          Result:= E_EABORTED;
-        on EAbZipInvalidLFH do
-          Result:= E_BAD_ARCHIVE;
-        else
-          Result:= E_BAD_DATA;
       end;
 
     PK_EXTRACT:
@@ -259,7 +260,7 @@ begin
           if Arc.FProcessDataProc(PChar(Arc.Items[Arc.Tag].FileName),
                                   Arc.Items[Arc.Tag].UncompressedSize) = 0
           then
-            Result := E_EABORTED;
+            Arc.FOperationResult := E_EABORTED;
         end;
       end;
 
@@ -271,11 +272,12 @@ begin
 
   except
     on EAbUserAbort do
-      Result := E_EABORTED;
+      Arc.FOperationResult := E_EABORTED;
     else
-      Result := E_BAD_DATA;
+      Arc.FOperationResult := E_BAD_DATA;
   end;
 
+  Result:= Arc.FOperationResult;
   Arc.UnTagItems(Arc.Items[Arc.Tag].FileName);
   Arc.Tag := Arc.Tag + 1;
 end;
@@ -287,7 +289,7 @@ begin
   Arc := TAbZipKitEx(Pointer(hArcData));
   Arc.CloseArchive;
   FreeAndNil(Arc);
-  Result := 0;
+  Result := E_SUCCESS;
 end;
 
 procedure SetChangeVolProc (hArcData : TArcHandle; pChangeVolProc1 : PChangeVolProc);stdcall;
