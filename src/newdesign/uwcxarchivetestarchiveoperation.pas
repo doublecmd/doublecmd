@@ -178,7 +178,6 @@ procedure TWcxArchiveTestArchiveOperation.MainExecute;
 var
   ArcHandle: TArcHandle;
   Header: TWCXHeader;
-  TargetFileName: String;
   OpenResult: Longint;
   iResult: Integer;
   Files: TFiles = nil;
@@ -238,9 +237,9 @@ begin
 
         if iResult <> E_SUCCESS then
         begin
-          ShowError(Format(rsMsgLogError + rsMsgLogExtract,
+          ShowError(Format(rsMsgLogError + rsMsgLogTest,
                            [FWcxArchiveFileSource.ArchiveFileName + PathDelim +
-                            Header.FileName + ' -> ' + TargetFileName +
+                            Header.FileName +
                             ' - ' + GetErrorMsg(iResult)]), [log_arc_op]);
 
           // User aborted operation.
@@ -249,21 +248,21 @@ begin
         end // Error
         else
         begin
-          LogMessage(Format(rsMsgLogSuccess + rsMsgLogExtract,
+          LogMessage(Format(rsMsgLogSuccess + rsMsgLogTest,
                             [FWcxArchiveFileSource.ArchiveFileName + PathDelim +
-                             Header.FileName +' -> ' + TargetFileName]), [log_arc_op], lmtSuccess);
+                             Header.FileName]), [log_arc_op], lmtSuccess);
         end; // Success
       end // Extract
       else // Skip
       begin
-        iResult := WcxModule.ProcessFile(ArcHandle, PK_SKIP, nil, nil);
+        iResult := WcxModule.WcxProcessFile(ArcHandle, PK_SKIP, EmptyStr, EmptyStr);
 
         //Check for errors
         if iResult <> E_SUCCESS then
         begin
-          ShowError(Format(rsMsgLogError + rsMsgLogExtract,
+          ShowError(Format(rsMsgLogError + rsMsgLogTest,
                            [FWcxArchiveFileSource.ArchiveFileName + PathDelim +
-                            Header.FileName + ' -> ' + TargetFileName +
+                            Header.FileName +
                             ' - ' + GetErrorMsg(iResult)]), [log_arc_op]);
         end;
       end; // Skip

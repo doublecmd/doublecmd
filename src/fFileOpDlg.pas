@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2010  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit fFileOpDlg;
@@ -67,11 +67,13 @@ type
     procedure InitializeDeleteOperation(Operation: TFileSourceOperation);
     procedure InitializeWipeOperation(Operation: TFileSourceOperation);
     procedure InitializeCalcChecksumOperation(Operation: TFileSourceOperation);
+    procedure InitializeTestArchiveOperation(Operation: TFileSourceOperation);
     procedure UpdateCopyOperation(Operation: TFileSourceOperation);
     procedure UpdateMoveOperation(Operation: TFileSourceOperation);
     procedure UpdateDeleteOperation(Operation: TFileSourceOperation);
     procedure UpdateWipeOperation(Operation: TFileSourceOperation);
     procedure UpdateCalcChecksumOperation(Operation: TFileSourceOperation);
+    procedure UpdateTestArchiveOperation(Operation: TFileSourceOperation);
 
   public
     // Change to override later.
@@ -93,6 +95,7 @@ uses
    uFileSourceDeleteOperation,
    uFileSourceWipeOperation,
    uFileSourceCalcChecksumOperation,
+   uFileSourceTestArchiveOperation,
    uFileSourceOperationMessageBoxesUI;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
@@ -162,6 +165,8 @@ begin
         InitializeWipeOperation(Operation);
       fsoCalcChecksum:
         InitializeCalcChecksumOperation(Operation);
+      fsoTestArchive:
+        InitializeTestArchiveOperation(Operation);
 
       else
         begin
@@ -257,6 +262,8 @@ begin
         UpdateWipeOperation(Operation);
       fsoCalcChecksum:
         UpdateCalcChecksumOperation(Operation);
+      fsoTestArchive:
+        UpdateTestArchiveOperation(Operation);
 
       else
       begin
@@ -389,6 +396,12 @@ begin
   lblFrom.Visible := False;
 end;
 
+procedure TfrmFileOp.InitializeTestArchiveOperation(Operation: TFileSourceOperation);
+begin
+  Caption := rsDlgTest;
+  InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
+end;
+
 procedure TfrmFileOp.UpdateCopyOperation(Operation: TFileSourceOperation);
 var
   CopyOperation: TFileSourceCopyOperation;
@@ -473,6 +486,25 @@ begin
   with CalcChecksumStatistics do
   begin
     lblFileNameFrom.Caption := CurrentFile;
+
+    SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgress(pbSecond, DoneBytes, TotalBytes);
+    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond));
+  end;
+end;
+
+procedure TfrmFileOp.UpdateTestArchiveOperation(Operation: TFileSourceOperation);
+var
+  TestArchiveOperation: TFileSourceTestArchiveOperation;
+  TestArchiveStatistics: TFileSourceTestArchiveOperationStatistics;
+begin
+  TestArchiveOperation := Operation as TFileSourceTestArchiveOperation;
+  TestArchiveStatistics := TestArchiveOperation.RetrieveStatistics;
+
+  with TestArchiveStatistics do
+  begin
+    lblFileNameFrom.Caption := ArchiveFile;
+    lblFileNameTo.Caption := CurrentFile;
 
     SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgress(pbSecond, DoneBytes, TotalBytes);
