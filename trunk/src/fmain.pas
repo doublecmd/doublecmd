@@ -77,6 +77,7 @@ type
     actAddPathAndFilenameToCmdLine: TAction;
     actDriveContextMenu: TAction;
     actCopyNoAsk: TAction;
+    actTestArchive: TAction;
     actQuickView: TAction;
     actOpenBar: TAction;
     actSetFileProperties: TAction;
@@ -132,6 +133,7 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     lblCommandPath: TLabel;
+    mnuTestArchive: TMenuItem;
     mnuQuickView: TMenuItem;
     miLine32: TMenuItem;
     miLine14: TMenuItem;
@@ -210,6 +212,7 @@ type
     MainToolBar: TKASToolBar;
     mnuOpenVFSList: TMenuItem;
     mnuExtractFiles: TMenuItem;
+    pmDrivesMenu: TPopupMenu;
     pmSplitterPercent: TPopupMenu;
     pnlCommand: TPanel;
     pnlKeys: TPanel;
