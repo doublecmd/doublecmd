@@ -1889,8 +1889,21 @@ int __stdcall FsExecuteFile(HWND MainWin,char* RemoteName,char* Verb)
 
 BOOL __stdcall FsDeleteFile(char* RemoteName)
 {
-  struct TVFSGlobs *globs;
-  globs = GetConnectionByPath(RemoteName);
+  if (strrchr(RemoteName, 0x2f) == RemoteName) // root path
+  {
+    if (strchr(RemoteName, 0x3c) == NULL) // connection
+    {
+       // find in exists connection list
+       PConnection Connection = (PConnection) g_list_lookup(ConnectionList, RemoteName + 1);
+       if (Connection != NULL)
+       {
+	 ConnectionList = g_list_remove(ConnectionList, Connection);
+	 WriteConnectionList();
+	 return TRUE;
+       }
+    }
+  }    
+  struct TVFSGlobs *globs = GetConnectionByPath(RemoteName);
   return (VFSRemove(globs, globs->RemotePath) == FS_FILE_OK);
 }
 
