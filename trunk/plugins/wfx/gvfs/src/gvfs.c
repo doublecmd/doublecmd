@@ -52,6 +52,7 @@
 #define cAddConnection "<Add connection>"
 #define cQuickConnection "<Quick connection>"
 #define cAnonymous "anonymous"
+#define cDefaultIniName "gvfs.ini"
 #define IS_DIR_SEP(ch) ((ch) == '/')
 #define Int32x32To64(a,b) ((gint64)(a)*(gint64)(b))
 
@@ -1963,7 +1964,14 @@ BOOL __stdcall FsDisconnect(char *DisconnectRoot)
 
 void __stdcall FsSetDefaultParams(FsDefaultParamStruct* dps)
 {
-  g_strlcpy(gDefaultIniName, dps->DefaultIniName, MAX_PATH);
+  // use default location, but our own ini file name
+  g_strlcpy(gDefaultIniName, dps->DefaultIniName, MAX_PATH - 1);
+  gchar* tmp = strrchr(gDefaultIniName, 0x2f);
+  if (tmp)
+  {  
+    tmp[1] = 0;
+    g_strlcat(gDefaultIniName, cDefaultIniName, sizeof(gDefaultIniName) - 1);        
+  }    
   g_print ("gDefaultIniName: %s\n", gDefaultIniName);
   ReadConnectionList();
 }
