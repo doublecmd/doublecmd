@@ -262,7 +262,7 @@ uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
      uFileSourceCalcStatisticsOperation, uFileSystemFile,
-     uFileSource, uFileSourceProperty, uVfsFileSource, uFileSourceUtil,
+     uFileSource, uFileSourceProperty, uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation;
 
 { TActs }
@@ -871,8 +871,19 @@ begin
 end;
 
 procedure TActs.cm_TestArchive(param: string);
+var
+  SelectedFiles: TFiles;
 begin
-  DebugLn('TActs.cm_TestArchive');
+  with frmMain do
+  begin
+    SelectedFiles := ActiveFrame.SelectedFiles;
+    try
+      TestArchive(ActiveFrame, SelectedFiles);
+    finally
+      if Assigned(SelectedFiles) then
+        FreeAndNil(SelectedFiles);
+    end;
+  end;
 end;
 
 procedure TActs.cm_Open(param:string);
@@ -1021,7 +1032,7 @@ end;
 
 procedure TActs.cm_Minimize(param:string);
 begin
-	FrmMain.MinimizeWindow;
+  FrmMain.MinimizeWindow;
 end;
 
 procedure TActs.cm_Wipe(param:string);
