@@ -303,7 +303,7 @@ begin
       end // Extract
       else // Skip
       begin
-        iResult := WcxModule.ProcessFile(ArcHandle, PK_SKIP, nil, nil);
+        iResult := WcxModule.WcxProcessFile(ArcHandle, PK_SKIP, EmptyStr, EmptyStr);
 
         //Check for errors
         if iResult <> E_SUCCESS then
