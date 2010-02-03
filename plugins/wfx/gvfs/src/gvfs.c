@@ -1030,20 +1030,19 @@ struct TVFSGlobs * g_list_lookup_globs(GList *list, gchar *value)
 }
 
 
-gboolean g_key_file_save_to_file(GKeyFile *key_file, const gchar *file)
+gboolean g_key_file_save_to_file(GKeyFile *key_file, const gchar *file, GError **error)
 {
-  gchar *data;
-  FILE *f;
-  f = fopen(file, "w");
-  if (f != NULL)
-  {
-    data = g_key_file_to_data(key_file, NULL, NULL);  
-    fputs(data, f);
-    fclose(f);
+  gchar *data = NULL;
+  gsize length = 0;
+  gboolean Result = FALSE;
+  
+  data = g_key_file_to_data(key_file, &length, error);
+  if (data)
+  {  
+    Result = g_file_set_contents(file, data, length, error);
     g_free(data);
-    return TRUE;
   }
-  return FALSE;
+  return Result;
 }
 
 PConnection NewConnection()
@@ -1176,7 +1175,14 @@ void WriteConnectionList()
   // save connection count
   g_key_file_set_integer(KeyFile, GROUP_NAME, "ConnectionCount", i);
   // save data to file
-  g_key_file_save_to_file(KeyFile, gDefaultIniName);
+  if (!g_key_file_save_to_file(KeyFile, gDefaultIniName, &error))
+  {
+    if (error)
+    {
+      g_print ("(EE) Impossible to write config file: %s\n", error->message);      
+      g_error_free (error);
+    }
+  }
   g_key_file_free(KeyFile);
 }
 
