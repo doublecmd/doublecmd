@@ -3567,6 +3567,10 @@ msgstr "Inpakken..."
 msgid "Speed %s/s, remaining time %s"
 msgstr "Snelheid %s/s, tijd te gaan %s"
 
+#: ulng.rsdlgtest
+msgid "Testing..."
+msgstr ""
+
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
 msgstr ""
@@ -3934,6 +3938,10 @@ msgstr "Klaar: "
 #: ulng.rsmsglogsymlink
 msgid "Create symlink %s"
 msgstr "Maak symlink %s"
+
+#: ulng.rsmsglogtest
+msgid "Test file integrity %s"
+msgstr ""
 
 #: ulng.rsmsgmanualaddhotdir
 msgid "Manually add hot path"

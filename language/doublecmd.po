@@ -3526,6 +3526,10 @@ msgstr ""
 msgid "Speed %s/s, remaining time %s"
 msgstr ""
 
+#: ulng.rsdlgtest
+msgid "Testing..."
+msgstr ""
+
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
 msgstr ""
@@ -3894,6 +3898,10 @@ msgstr ""
 
 #: ulng.rsmsglogsymlink
 msgid "Create symlink %s"
+msgstr ""
+
+#: ulng.rsmsglogtest
+msgid "Test file integrity %s"
 msgstr ""
 
 #: ulng.rsmsgmanualaddhotdir

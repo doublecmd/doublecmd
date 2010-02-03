@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-01-23 22:03+0300\n"
+"PO-Revision-Date: 2010-02-04 00:36+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1562,7 +1562,7 @@ msgstr "&Две одинаковых панели"
 
 #: TFRMMAIN.ACTTESTARCHIVE.CAPTION
 msgid "Test Archive(s)"
-msgstr ""
+msgstr "Протестировать архив(ы)"
 
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
 msgid "Transfer dir under cursor to left window"
@@ -3578,6 +3578,10 @@ msgstr "Упаковка..."
 msgid "Speed %s/s, remaining time %s"
 msgstr "Скорость %s/с, осталось времени %s"
 
+#: ulng.rsdlgtest
+msgid "Testing..."
+msgstr "Проверка..."
+
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
 msgstr "Стереть файл(ы)"
@@ -3945,6 +3949,10 @@ msgstr "Выполнено: "
 #: ulng.rsmsglogsymlink
 msgid "Create symlink %s"
 msgstr "Создание символьной ссылки %s"
+
+#: ulng.rsmsglogtest
+msgid "Test file integrity %s"
+msgstr "Проверка целостности файла %s"
 
 #: ulng.rsmsgmanualaddhotdir
 msgid "Manually add hot path"

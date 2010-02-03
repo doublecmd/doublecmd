@@ -3567,6 +3567,10 @@ msgstr "Сбиване..."
 msgid "Speed %s/s, remaining time %s"
 msgstr "Скорост %s/s, остава %s"
 
+#: ulng.rsdlgtest
+msgid "Testing..."
+msgstr ""
+
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
 msgstr ""
@@ -3934,6 +3938,10 @@ msgstr "Готово:"
 #: ulng.rsmsglogsymlink
 msgid "Create symlink %s"
 msgstr "Създаване на мека връзка %s"
+
+#: ulng.rsmsglogtest
+msgid "Test file integrity %s"
+msgstr ""
 
 #: ulng.rsmsgmanualaddhotdir
 msgid "Manually add hot path"

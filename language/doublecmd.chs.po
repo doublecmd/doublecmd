@@ -3575,6 +3575,10 @@ msgstr "打包..."
 msgid "Speed %s/s, remaining time %s"
 msgstr "速度 %s/秒, 剩余时间 %s"
 
+#: ulng.rsdlgtest
+msgid "Testing..."
+msgstr ""
+
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
 msgstr "擦除文件"
@@ -3942,6 +3946,10 @@ msgstr "完成:"
 #: ulng.rsmsglogsymlink
 msgid "Create symlink %s"
 msgstr "创建符号链接 %s"
+
+#: ulng.rsmsglogtest
+msgid "Test file integrity %s"
+msgstr ""
 
 #: ulng.rsmsgmanualaddhotdir
 msgid "Manually add hot path"

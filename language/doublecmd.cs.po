@@ -3602,6 +3602,10 @@ msgstr "Komprese..."
 msgid "Speed %s/s, remaining time %s"
 msgstr "Rychlost %s/s, zbývající čas %s"
 
+#: ulng.rsdlgtest
+msgid "Testing..."
+msgstr ""
+
 #: ulng.rsdlgwipe
 #, fuzzy
 msgid "Wipe file(s)"
@@ -3971,6 +3975,10 @@ msgstr "Hotovo:"
 #: ulng.rsmsglogsymlink
 msgid "Create symlink %s"
 msgstr "Vytvořit symbolický odkaz %s"
+
+#: ulng.rsmsglogtest
+msgid "Test file integrity %s"
+msgstr ""
 
 #: ulng.rsmsgmanualaddhotdir
 msgid "Manually add hot path"

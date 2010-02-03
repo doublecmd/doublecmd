@@ -1269,7 +1269,7 @@ msgstr ""
 #: TFRMMAIN.ACTEXIT.CAPTION
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"
-msgstr ""
+msgstr "&Salir"
 
 #: TFRMMAIN.ACTEXTRACTFILES.CAPTION
 msgid "Extract files..."
@@ -1844,7 +1844,7 @@ msgstr ""
 #: TFRMMAIN.MITRAYICONEXIT.CAPTION
 msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
 msgid "E&xit"
-msgstr ""
+msgstr "&Salir"
 
 #: TFRMMAIN.MITRAYICONRESTORE.CAPTION
 msgid "Restore"
@@ -3545,6 +3545,10 @@ msgstr "Comprimiendo..."
 msgid "Speed %s/s, remaining time %s"
 msgstr ""
 
+#: ulng.rsdlgtest
+msgid "Testing..."
+msgstr ""
+
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
 msgstr ""
@@ -3912,6 +3916,10 @@ msgstr "Hecho: "
 #: ulng.rsmsglogsymlink
 msgid "Create symlink %s"
 msgstr "Create enlace simbólico %s"
+
+#: ulng.rsmsglogtest
+msgid "Test file integrity %s"
+msgstr ""
 
 #: ulng.rsmsgmanualaddhotdir
 msgid "Manually add hot path"

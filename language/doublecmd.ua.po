@@ -3570,6 +3570,10 @@ msgstr "Упаковка..."
 msgid "Speed %s/s, remaining time %s"
 msgstr "Швидкіість %s/с, залишилось часу %s"
 
+#: ulng.rsdlgtest
+msgid "Testing..."
+msgstr ""
+
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
 msgstr ""
@@ -3937,6 +3941,10 @@ msgstr "Виконано: "
 #: ulng.rsmsglogsymlink
 msgid "Create symlink %s"
 msgstr "Створення символьного посилання %s"
+
+#: ulng.rsmsglogtest
+msgid "Test file integrity %s"
+msgstr ""
 
 #: ulng.rsmsgmanualaddhotdir
 msgid "Manually add hot path"

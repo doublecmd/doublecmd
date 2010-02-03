@@ -3573,6 +3573,10 @@ msgstr "Packe..."
 msgid "Speed %s/s, remaining time %s"
 msgstr "Geschwindigkeit %s/s, verbleibende Zeit %s"
 
+#: ulng.rsdlgtest
+msgid "Testing..."
+msgstr ""
+
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
 msgstr "Datei(en) durch überschreiben löschen (nicht wiederherstellbar)"
@@ -3940,6 +3944,10 @@ msgstr "Fertig:"
 #: ulng.rsmsglogsymlink
 msgid "Create symlink %s"
 msgstr "Erstelle symb. Link für %s"
+
+#: ulng.rsmsglogtest
+msgid "Test file integrity %s"
+msgstr ""
 
 #: ulng.rsmsgmanualaddhotdir
 msgid "Manually add hot path"
