@@ -48,7 +48,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion: String = '0.4.6.r2205';
+  hkVersion: String = '0.4.6.r2345';
   ConfigVersion = '1';
 
 var
@@ -300,6 +300,7 @@ begin
       AddHotKeyEx('Ctrl+H','cm_DirHistory','','FrmMain','FrmMain');
       AddHotKeyEx('Ctrl+7','cm_ShowCmdLineHistory','','FrmMain','FrmMain');
       AddHotKeyEx('Ctrl+L','cm_CalculateSpace','','FrmMain','FrmMain');
+      AddHotKeyEx('Alt+Shift+F9','cm_TestArchive','','FrmMain','FrmMain');
       AddHotKeyEx('Alt+Shift+Enter','cm_CountDirContent','','FrmMain','FrmMain');
       AddHotKeyEx('Alt+Enter','cm_FileProperties','','FrmMain','FrmMain');
       AddHotKeyEx('Ctrl+T','cm_NewTab','','FrmMain','FrmMain');
