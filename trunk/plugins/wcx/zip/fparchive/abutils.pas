@@ -531,7 +531,7 @@ begin
   if (I > 0) then
     Encoding:= Copy(Lang, I + 1, Length(Lang) - I);
   if Length(Encoding) = 0 then
-    Lang:= 'UTF-8';
+    Encoding:= 'UTF-8';
 end;
 {$ENDIF}
 { -------------------------------------------------------------------------- }
