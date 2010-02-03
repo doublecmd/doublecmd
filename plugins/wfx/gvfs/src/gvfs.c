@@ -3,11 +3,11 @@
    -------------------------------------------------------------------------
    WFX plugin for working with GVFS
 
-   Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2010  Koblov Alexander (Alexx2000@mail.ru)
 
    Based on:
      GVFS plugin for Tux Commander
-     Copyright (C) 2008 Tomas Bzatek <tbzatek@users.sourceforge.net>
+     Copyright (C) 2008-2009 Tomas Bzatek <tbzatek@users.sourceforge.net>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -72,6 +72,7 @@ struct TVFSGlobs {
   gchar *RemotePath;
   GFile *file;
   GFileEnumerator *enumerator;
+  GFile *enumerated_file;
 
   GMainLoop *mount_main_loop;
   TVFSResult mount_result;
@@ -392,6 +393,7 @@ struct TVFSGlobs * VFSNew ()
 
   globs->file = NULL;
   globs->enumerator = NULL;
+  globs->enumerated_file = NULL;
 
   return globs;
 }
@@ -590,6 +592,7 @@ TVFSResult VFSChangeDir (struct TVFSGlobs *globs, char *NewPath)
   }
 
   globs->enumerator = en;
+  globs->enumerated_file = g_file_dup (f);
   g_object_unref (globs->file);
   globs->file = f;
 
@@ -599,12 +602,15 @@ TVFSResult VFSChangeDir (struct TVFSGlobs *globs, char *NewPath)
 /**************************************************************************************************************************************/
 /**************************************************************************************************************************************/
 
-static void GFileInfoToWin32FindData (GFileInfo *info, WIN32_FIND_DATAA *FindData)
+static void GFileInfoToWin32FindData (GFile *reference_file, GFileInfo *info, WIN32_FIND_DATAA *FindData)
 {
+  GFileInfo *symlink_info = NULL;
+  GError *error = NULL;
+  
   g_assert (info != NULL);
   g_assert (FindData != NULL);
 
-  g_strlcpy(FindData->cFileName, g_strdup (g_file_info_get_name (info)), MAX_PATH);
+  g_strlcpy(FindData->cFileName, g_file_info_get_name (info), MAX_PATH);
   // File size
   goffset filesize = g_file_info_get_size (info);
   FindData->nFileSizeLow = (DWORD)filesize;
@@ -640,7 +646,29 @@ static void GFileInfoToWin32FindData (GFileInfo *info, WIN32_FIND_DATAA *FindDat
         break;
       case G_FILE_TYPE_SYMBOLIC_LINK:
         FindData->dwReserved0 |= S_IFLNK;
+	
+        // Check: file is symlink to directory
+        symlink_info = g_file_query_info (reference_file, G_FILE_ATTRIBUTE_UNIX_MODE,
+                                          G_FILE_QUERY_INFO_NONE, NULL, &error);
+
+        if (error) {
+          g_print ("(EE) GFileInfoToWin32FindData: g_file_query_info() error: %s\n", error->message);
+          g_error_free (error);
+        }
+        
+        if (symlink_info)
+	{
+          if (g_file_info_get_file_type (symlink_info) == G_FILE_TYPE_DIRECTORY)
+	  {	  
+	    FindData->dwFileAttributes |= FILE_ATTRIBUTE_REPARSE_POINT;
+	  }  
+	  g_object_unref (symlink_info);
+	}
         break;
+      case G_FILE_TYPE_UNKNOWN:
+      case G_FILE_TYPE_REGULAR:
+      case G_FILE_TYPE_SPECIAL:
+	break;
     }
 
   /*  fallback to default file mode if read fails  */
@@ -713,8 +741,9 @@ TVFSResult VFSFileInfo (struct TVFSGlobs *globs, char *AFileName, WIN32_FIND_DAT
     g_error_free (error);
     return res;
   }
-  GFileInfoToWin32FindData (info, FindData);
+  GFileInfoToWin32FindData (f, info, FindData);
   g_object_unref (info);
+  g_object_unref (f);
   return FS_FILE_OK;
 }
 
@@ -1439,6 +1468,7 @@ BOOL RemoteFindNext(HANDLE Hdl, WIN32_FIND_DATAA *FindData)
   char *sDir;
   GError *error;
   GFileInfo *info;
+  GFile *f;
   g_print ("(EE) RemoteFindNext: Enter\n");
   ListRec = (PListRec) Hdl;
   globs = ListRec->globs;
@@ -1462,7 +1492,11 @@ BOOL RemoteFindNext(HANDLE Hdl, WIN32_FIND_DATAA *FindData)
   }
   if (! error && ! info)
     return FALSE;
-  GFileInfoToWin32FindData(info, FindData);
+  
+  f = g_file_get_child (globs->enumerated_file, g_file_info_get_name (info));
+  GFileInfoToWin32FindData(f, info, FindData);
+  
+  g_object_unref (f);
   g_object_unref (info);
   return TRUE;
 }
@@ -1558,6 +1592,8 @@ int __stdcall FsFindClose(HANDLE Hdl)
   g_file_enumerator_close (ListRec->globs->enumerator, NULL, &error);
   g_object_unref (ListRec->globs->enumerator);
   ListRec->globs->enumerator = NULL;
+  g_object_unref (ListRec->globs->enumerated_file);
+  ListRec->globs->enumerated_file = NULL;
   if (error) {
     g_print ("(EE) FsFindClose: g_file_enumerator_close() error: %s\n", error->message);
     res = g_error_to_TVFSResult (error);
