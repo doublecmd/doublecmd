@@ -115,13 +115,13 @@ var
   sOutputFileName : String;
   iLastPos : LongInt;
 begin
+  Result := E_SUCCESS;
 
   case Operation of
   PK_TEST:
     begin
-
+      Result := E_NOT_SUPPORTED;
     end;
-
 
   PK_EXTRACT:
     begin
@@ -175,9 +175,6 @@ begin
   end; {case}
 
   Count := Count + 1;
-  Result :=0;
-
-
 end;
 
 function CloseArchive (hArcData : TArcHandle) : Integer;

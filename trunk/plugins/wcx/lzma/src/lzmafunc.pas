@@ -156,10 +156,11 @@ var
 begin
   Result:= E_SUCCESS;
   ProgressPos:= 0;
+
   case Operation of
   PK_TEST:
     begin
-
+      Result := E_NOT_SUPPORTED;
     end;
 
   PK_EXTRACT:
