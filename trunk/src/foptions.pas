@@ -45,6 +45,8 @@ type
     bbtnAddCategory: TBitBtn;
     bbtnApplyCategory: TBitBtn;
     bbtnDeleteCategory: TBitBtn;
+    btnAddSelButton: TButton;
+    btnAddSelWithPathButton: TButton;
     btnCategoryColor: TButton;
     btnConfigApply: TBitBtn;
     btnConfigEdit: TBitBtn;
@@ -130,6 +132,7 @@ type
     cbWatchExcludeDirs: TCheckBox;
     cbTabsOpenNearCurrent: TCheckBox;
     chkAutoFillColumns: TCheckBox;
+    chkIgnoreEnable: TCheckBox;
     cmbTabsPosition: TComboBox;
     cmbAutoSizeColumn: TComboBox;
     cTextLabel: TLabel;
@@ -151,6 +154,7 @@ type
     edtTest3: TEdit;
     edtViewerSize: TSpinEdit;
     cbLogFile: TCheckBox;
+    fneSaveIn: TFileNameEdit;
     gbExactNameMatch: TGroupBox;
     fneLogFileName: TFileNameEdit;
     gbFileTypesColors: TGroupBox;
@@ -195,6 +199,9 @@ type
     lblAutoSizeColumn: TLabel;
     lblQuickSearch: TLabel;
     lblQuickFilter: TLabel;
+    lblSaveIn: TLabel;
+    memIgnoreList: TMemo;
+    pgIgnoreList: TPage;
     pnlQuickSearch: TPanel;
     pnlQuickFilter: TPanel;
     rbToolTipNone: TRadioButton;
@@ -301,6 +308,7 @@ type
     rbUseMmapInSearch: TRadioButton;
     rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
+    splOptionsSplitter: TSplitter;
     stgPlugins: TStringGrid;
     stgCommands: TStringGrid;
     gbIconsSize: TGroupBox;

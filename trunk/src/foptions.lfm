@@ -114,19 +114,19 @@ object frmOptions: TfrmOptions
     }
   end
   object Panel3: TPanel
-    Left = 170
+    Left = 175
     Height = 479
     Top = 0
-    Width = 633
+    Width = 628
     Align = alClient
     ClientHeight = 479
-    ClientWidth = 633
+    ClientWidth = 628
     TabOrder = 2
     object nbNotebook: TNotebook
       Left = 1
       Height = 454
       Top = 24
-      Width = 631
+      Width = 626
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
       PageIndex = 1
@@ -3574,6 +3574,113 @@ object frmOptions: TfrmOptions
           end
         end
       end
+      object pgIgnoreList: TPage
+        ClientWidth = 618
+        ClientHeight = 446
+        object lblSaveIn: TLabel
+          Tag = 304
+          AnchorSideLeft.Control = memIgnoreList
+          AnchorSideTop.Control = fneSaveIn
+          AnchorSideTop.Side = asrCenter
+          Left = 10
+          Height = 14
+          Top = 385
+          Width = 40
+          Caption = '&Save in:'
+          ParentColor = False
+        end
+        object chkIgnoreEnable: TCheckBox
+          Tag = 301
+          AnchorSideLeft.Control = pgIgnoreList
+          AnchorSideTop.Control = pgIgnoreList
+          AnchorSideRight.Control = pgIgnoreList
+          AnchorSideRight.Side = asrBottom
+          Left = 10
+          Height = 17
+          Top = 8
+          Width = 598
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 10
+          BorderSpacing.Top = 8
+          BorderSpacing.Right = 10
+          Caption = '&Ignore (don''t show) the following files and folders:'
+          TabOrder = 0
+        end
+        object memIgnoreList: TMemo
+          AnchorSideLeft.Control = chkIgnoreEnable
+          AnchorSideTop.Control = chkIgnoreEnable
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = chkIgnoreEnable
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = fneSaveIn
+          Left = 10
+          Height = 341
+          Top = 31
+          Width = 598
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          BorderSpacing.Top = 6
+          BorderSpacing.Bottom = 10
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 1
+        end
+        object btnAddSelButton: TButton
+          Tag = 303
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = memIgnoreList
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = pgIgnoreList
+          AnchorSideBottom.Side = asrBottom
+          Left = 486
+          Height = 23
+          Top = 413
+          Width = 122
+          Anchors = [akRight, akBottom]
+          AutoSize = True
+          BorderSpacing.Bottom = 10
+          Caption = '&Add selected names'
+          TabOrder = 3
+        end
+        object btnAddSelWithPathButton: TButton
+          Tag = 302
+          AnchorSideLeft.Control = memIgnoreList
+          AnchorSideTop.Side = asrBottom
+          AnchorSideBottom.Control = pgIgnoreList
+          AnchorSideBottom.Side = asrBottom
+          Left = 10
+          Height = 23
+          Top = 413
+          Width = 187
+          Anchors = [akLeft, akBottom]
+          AutoSize = True
+          BorderSpacing.Bottom = 10
+          Caption = 'Add selected names with &full path'
+          TabOrder = 2
+        end
+        object fneSaveIn: TFileNameEdit
+          AnchorSideLeft.Control = lblSaveIn
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Side = asrBottom
+          AnchorSideBottom.Control = btnAddSelButton
+          Left = 58
+          Height = 21
+          Top = 382
+          Width = 530
+          DialogOptions = []
+          FilterIndex = 0
+          HideDirectories = False
+          ButtonWidth = 23
+          NumGlyphs = 0
+          Anchors = [akLeft, akRight, akBottom]
+          BorderSpacing.Left = 8
+          BorderSpacing.Bottom = 10
+          MaxLength = 0
+          TabOrder = 4
+        end
+      end
     end
     object pnlCaption: TPanel
       Left = 1
@@ -3588,6 +3695,12 @@ object frmOptions: TfrmOptions
       ParentFont = False
       TabOrder = 1
     end
+  end
+  object splOptionsSplitter: TSplitter
+    Left = 170
+    Height = 479
+    Top = 0
+    Width = 5
   end
   object dlgFnt: TFontDialog
     MinFontSize = 0
