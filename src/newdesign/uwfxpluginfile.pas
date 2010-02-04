@@ -111,7 +111,8 @@ begin
   // Check that attributes is used
   if (FindData.FileAttributes and FILE_ATTRIBUTE_UNIX_MODE) = 0 then // Windows attributes
     begin
-      FIsLinkToDirectory := (FindData.FileAttributes and FILE_ATTRIBUTE_REPARSE_POINT) <> 0;
+      FIsLinkToDirectory := ((FindData.FileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0) and
+                            ((FindData.FileAttributes and FILE_ATTRIBUTE_REPARSE_POINT) <> 0);
       FAttributes:= TNtfsFileAttributesProperty.Create(FindData.FileAttributes);
     end
   else  // Unix attributes
