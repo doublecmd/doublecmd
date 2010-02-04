@@ -84,11 +84,13 @@ end;
 
 procedure TfrmMaskInputDlg.lbxSearchTemplateClick(Sender: TObject);
 begin
+  if lbxSearchTemplate.ItemIndex < 0 then Exit;
   cmbMask.Text:= cTemplateSign + lbxSearchTemplate.Items[lbxSearchTemplate.ItemIndex];
 end;
 
 procedure TfrmMaskInputDlg.lbxSearchTemplateDblClick(Sender: TObject);
 begin
+  if lbxSearchTemplate.ItemIndex < 0 then Exit;
   cmbMask.Text:= cTemplateSign + lbxSearchTemplate.Items[lbxSearchTemplate.ItemIndex];
   Close;
   ModalResult:= mrOK;

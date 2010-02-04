@@ -244,7 +244,6 @@ type
     pgMisc: TPage;
     pnlButtons: TPanel;
     pgColumns: TPage;
-    pmSearchTemplate: TPopupMenu;
     rgScrolling: TRadioGroup;
     rbCtrlAltLetterQS: TRadioButton;
     rbAltLetterQS: TRadioButton;
@@ -342,7 +341,6 @@ type
     procedure chkIgnoreEnableChange(Sender: TObject);
     procedure OnAutoRefreshOptionChanged(Sender: TObject);
     procedure edHotKeyKeyPress(Sender: TObject; var Key: char);
-    procedure miSearchTemplateClick(Sender: TObject);
     procedure btnWDXAddClick(Sender: TObject);
     procedure btnWFXAddClick(Sender: TObject);
     procedure btnWLXAddClick(Sender: TObject);
@@ -443,7 +441,8 @@ implementation
 uses
   uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
-  fTweakPlugin, uhotkeymanger, uTypes, StrUtils, uFindEx, uKeyboard;
+  fTweakPlugin, uhotkeymanger, uTypes, StrUtils, uFindEx, uKeyboard,
+  fMaskInputDlg, uSearchTemplate;
 
 const
      stgCmdCommandIndex=0;
@@ -1762,25 +1761,17 @@ end;
 
 procedure TfrmOptions.btnSearchTemplateClick(Sender: TObject);
 var
-  mi: TMenuItem;
-  I: Integer;
+  sMask: UTF8String;
+  bTemplate: Boolean;
 begin
-  pmSearchTemplate.Items.Clear;
-  mi:= TMenuItem.Create(pmSearchTemplate);
-  mi.Caption:= '(none)';
-  mi.OnClick:= @miSearchTemplateClick;
-  mi.Tag:= -1;
-  pmSearchTemplate.Items.Add(mi);
-  for I:= 0 to gSearchTemplateList.Count - 1 do
-    with gSearchTemplateList do
+  if ShowMaskInputDlg(rsMarkPlus, rsMaskInput, glsMaskHistory, sMask) then
     begin
-      mi:= TMenuItem.Create(pmSearchTemplate);
-      mi.Caption:= Templates[I].TemplateName;
-      mi.OnClick:= @miSearchTemplateClick;
-      mi.Tag:= I;
-      pmSearchTemplate.Items.Add(mi);
+      bTemplate:= IsMaskSearchTemplate(sMask);
+      edtCategoryMask.Text:= sMask;
+      if bTemplate then edtCategoryAttr.Text:= EmptyStr;
+      edtCategoryMask.Enabled:= not bTemplate;
+      edtCategoryAttr.Enabled:= not bTemplate;
     end;
-  pmSearchTemplate.PopUp();
 end;
 
 procedure TfrmOptions.cbAlwaysShowTrayIconChange(Sender: TObject);
@@ -1833,26 +1824,6 @@ begin
   Key := #0;
   edHotKey.Text := '';
   btSetHotKey.Enabled := False;
-end;
-
-procedure TfrmOptions.miSearchTemplateClick(Sender: TObject);
-begin
-  if Sender is TMenuItem then
-    with Sender as TMenuItem, gSearchTemplateList do
-    begin
-      if Tag = -1 then
-        begin
-          edtCategoryMask.Text:= '*';
-          edtCategoryAttr.Text:= '';
-        end
-      else
-        begin
-          edtCategoryMask.Text:= '>' + Templates[Tag].TemplateName;
-          edtCategoryAttr.Text:= '';
-        end;
-      edtCategoryMask.Enabled:= (Tag = -1);
-      edtCategoryAttr.Enabled:= (Tag = -1);
-    end;
 end;
 
 procedure TfrmOptions.bbtnAddCategoryClick(Sender: TObject);

@@ -4394,8 +4394,4 @@ object frmOptions: TfrmOptions
     left = 112
     top = 368
   end
-  object pmSearchTemplate: TPopupMenu
-    left = 16
-    top = 415
-  end
 end
