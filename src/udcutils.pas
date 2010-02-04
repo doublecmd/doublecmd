@@ -740,11 +740,30 @@ end;
 function MatchesMaskListEx(const aFile: TFile; MaskList: TStringList): Boolean;
 var
   I: Integer;
+  sMask,
+  sFileName: UTF8String;
 begin
   Result:= False;
   for I:= 0 to MaskList.Count - 1 do
-    if MatchesMaskList(aFile.Name, MaskList[I]) then
-      Exit(True);
+    begin
+      sMask:= MaskList[I];
+      case GetPathType(sMask) of
+        ptAbsolute:
+          sFileName:= aFile.FullPath;
+        else
+          sFileName:= aFile.Name;
+      end;
+      // When a mask is ended with a PathDelim, it will match only directories
+      if (Length(sMask) > 1) and (sMask[Length(sMask)] = PathDelim) then
+        begin
+          if aFile.IsDirectory then
+            sMask:= ExcludeTrailingPathDelimiter(sMask)
+          else
+            Continue;
+        end;
+      if MatchesMaskList(sFileName, sMask) then
+        Exit(True);
+    end;
 end;
 
 procedure ChangeFileListRoot(sNewRootPath: String; var Files: TFiles);
