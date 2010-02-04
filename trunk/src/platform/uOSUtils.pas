@@ -345,7 +345,7 @@ end;
 function  FPS_ISDIR(iAttr: TFileAttrs) : Boolean;
 {$IFDEF MSWINDOWS}
 begin
-  Result := (iAttr and faDirectory <> 0);
+  Result := (iAttr and FILE_ATTRIBUTE_DIRECTORY <> 0);
 end;
 {$ELSE}
 begin
@@ -358,7 +358,7 @@ end;
 function FPS_ISLNK(iAttr: TFileAttrs) : Boolean;
 {$IFDEF MSWINDOWS}
 begin
-  Result := (iAttr and faSymLink <> 0);
+  Result := (iAttr and FILE_ATTRIBUTE_REPARSE_POINT <> 0);
 end;
 {$ELSE}
 begin
