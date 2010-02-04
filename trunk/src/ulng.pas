@@ -246,6 +246,7 @@ resourcestring
   rsOptMiscellaneous = 'Miscellaneous';
   rsOptAutoRefresh = 'Auto refresh';
   rsOptIcons = 'Icons';
+  rsOptIgnoreList = 'Ignore list';
   //-------------------------------
   rsOptLineByLineCursor = 'Line by line with cursor movement';
   rsOptLineByLine = 'Line by line';

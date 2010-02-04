@@ -77,6 +77,7 @@ type
     actAddPathAndFilenameToCmdLine: TAction;
     actDriveContextMenu: TAction;
     actCopyNoAsk: TAction;
+    actSwitchIgnoreList: TAction;
     actTestArchive: TAction;
     actQuickView: TAction;
     actOpenBar: TAction;

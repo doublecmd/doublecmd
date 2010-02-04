@@ -178,6 +178,8 @@ function IsInPath(sBasePath : String; sPathToCheck : String; AllowSubDirs: Boole
 }
 function MatchesFileList(const Files: TFiles; FileName: String): Boolean;
 
+function MatchesMaskListEx(const aFile: TFile; MaskList: TStringList): Boolean;
+
 {en
   Changes all the files' paths making them relative to 'sNewRootPath'.
   It is done by removing 'sNewRootPath' prefix from the paths and setting
@@ -302,7 +304,7 @@ function ModColor(AColor: TColor; APercent: Byte) : TColor;
 implementation
 
 uses
-   FileUtil, uOSUtils, uGlobs, uGlobsPaths, dateutils;
+   FileUtil, Masks, uOSUtils, uGlobs, uGlobsPaths, dateutils;
 
 function GetCmdDirFromEnvVar(sPath: String): String;
 begin
@@ -726,6 +728,16 @@ begin
         Result := True;
     end;
   end;
+end;
+
+function MatchesMaskListEx(const aFile: TFile; MaskList: TStringList): Boolean;
+var
+  I: Integer;
+begin
+  Result:= False;
+  for I:= 0 to MaskList.Count - 1 do
+    if MatchesMaskList(aFile.Name, MaskList[I]) then
+      Exit(True);
 end;
 
 procedure ChangeFileListRoot(sNewRootPath: String; var Files: TFiles);

@@ -1747,6 +1747,11 @@ object frmMain: TfrmMain
       Caption = 'Test Archive(s)'
       OnExecute = actExecute
     end
+    object actSwitchIgnoreList: TAction
+      Category = 'Show'
+      Caption = 'Enable/disable ignore list file to not show file names'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 152

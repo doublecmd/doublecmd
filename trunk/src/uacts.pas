@@ -195,6 +195,7 @@ const cf_Null=0;
    procedure cm_VisitHomePage(param: string='');
    procedure cm_About(param: string='');
    procedure cm_ShowSysFiles(param: string='');
+   procedure cm_SwitchIgnoreList(param: string='');
    procedure cm_Options(param: string='');
    procedure cm_CompareContents(param: string='');
    procedure cm_Refresh(param: string='');
@@ -1669,25 +1670,37 @@ end;
 
 procedure TActs.cm_ShowSysFiles(param:string);
 begin
-with frmMain do
-begin
-  uGlobs.gShowSystemFiles:=not uGlobs.gShowSystemFiles;
-  actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
-//repaint both panels
-  FrameLeft.Reload;
-  FrameRight.Reload;
+  with frmMain do
+  begin
+    uGlobs.gShowSystemFiles:= not uGlobs.gShowSystemFiles;
+    actShowSysFiles.Checked:= uGlobs.gShowSystemFiles;
+    //repaint both panels
+    FrameLeft.Reload;
+    FrameRight.Reload;
+  end;
 end;
+
+procedure TActs.cm_SwitchIgnoreList(param: string);
+begin
+  with frmMain do
+  begin
+    gIgnoreListFileEnabled:= not gIgnoreListFileEnabled;
+    actSwitchIgnoreList.Checked:= gIgnoreListFileEnabled;
+    //repaint both panels
+    FrameLeft.Reload;
+    FrameRight.Reload;
+  end;
 end;
 
 procedure TActs.cm_Options(param:string);
-var ind:integer;
+var
+  Ind: Integer;
 begin
-  inherited;
   with TfrmOptions.Create(Application) do
   begin
     try
-      if TryStrToInt(param,ind) then
-      Tag:=Ind;// else Tag:=0;
+      if TryStrToInt(param, Ind) then
+      Tag:= Ind; // else Tag:=0;
       ShowModal;
     finally
       Free;
