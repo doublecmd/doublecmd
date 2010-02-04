@@ -111,6 +111,7 @@ var
   glsMaskHistory : TStringListEx;
   glsSearchHistory : TStringListEx;
   glsReplaceHistory : TStringListEx;
+  glsIgnoreList : TStringListEx;
   gOnlyOnce,
   gCutTextToColWidth : Boolean;
   gSpaceMovesDown: Boolean;
@@ -221,6 +222,9 @@ var
   { Auto refresh page }
   gWatchDirs: TWatchOptions;
   gWatchDirsExclude: String;
+  { Ignore list page }
+  gIgnoreListFileEnabled: Boolean;
+  gIgnoreListFile: UTF8String;
 
   gSearchTemplateList: TSearchTemplateList;
 
@@ -441,6 +445,7 @@ begin
   glsMaskHistory := TStringListEx.Create;
   glsSearchHistory := TStringListEx.Create;
   glsReplaceHistory := TStringListEx.Create;
+  glsIgnoreList := TStringListEx.Create;
   gSearchTemplateList := TSearchTemplateList.Create;
   gWCXPlugins := TWCXModuleList.Create;
   gWDXPlugins := TWDXModuleList.Create;
@@ -467,6 +472,8 @@ begin
     FreeAndNil(glsSearchHistory);
   if Assigned(glsReplaceHistory) then
     FreeAndNil(glsReplaceHistory);
+  if Assigned(glsIgnoreList) then
+    FreeAndNil(glsIgnoreList);
   if Assigned(gExts) then
     FreeAndNil(gExts);
   if Assigned(gIni) then
