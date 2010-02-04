@@ -132,8 +132,10 @@ begin
       OperationHandle := OperationsManager.GetHandleById(i);
 
       case Operation.ID of
-        fsoCopyIn, fsoCopyOut:
+        fsoCopy, fsoCopyIn, fsoCopyOut:
           OutString := rsDlgCp;
+        fsoMove:
+          OutString := rsDlgMv;
         fsoDelete:
           OutString := rsDlgDel;
         fsoWipe:

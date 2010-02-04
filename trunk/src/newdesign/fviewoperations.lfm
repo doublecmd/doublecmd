@@ -3,7 +3,7 @@ object frmViewOperations: TfrmViewOperations
   Height = 221
   Top = 192
   Width = 656
-  Caption = 'frmViewOperations'
+  Caption = 'File operations'
   ClientHeight = 221
   ClientWidth = 656
   FormStyle = fsStayOnTop
