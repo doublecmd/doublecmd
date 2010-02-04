@@ -535,6 +535,9 @@ begin
   if mbFileExists(gpIniDir + 'replacehistory.txt') then
     LoadStringsFromFile(glsReplaceHistory, gpIniDir + 'replacehistory.txt');
 
+  if mbFileExists(gIgnoreListFile) then
+    LoadStringsFromFile(glsIgnoreList, gIgnoreListFile);
+
   { Localization }
   DoLoadLng;
   msgLoadLng;
@@ -568,6 +571,7 @@ begin
 
   glsSearchHistory.SaveToFile(gpIniDir + 'searchhistory.txt');
   glsReplaceHistory.SaveToFile(gpIniDir + 'replacehistory.txt');
+  glsIgnoreList.SaveToFile(gIgnoreListFile);
 
   //TODO: Save hotkeys
   //HotMan.Save();
@@ -699,13 +703,16 @@ begin
   { Auto refresh page }
   gWatchDirs := TWatchOptions(gIni.ReadInteger('Configuration', 'WatchDirs', Integer(gWatchDirs)));
   gWatchDirsExclude := gIni.ReadString('Configuration', 'WatchDirsExclude', '');
-
+  { Icons page }
   gShowIcons := TShowIconsMode(gIni.ReadInteger('Configuration', 'ShowIcons', Integer(gShowIcons)));
   gShowIconsNew:= gShowIcons;
   gIconOverlays:= gIni.ReadBool('Configuration', 'IconOverlays', True);
   gIconsSize := gIni.ReadInteger('Configuration', 'IconsSize', 16);
   gIconsSizeNew:= gIconsSize;
   gCustomDriveIcons := gIni.ReadBool('Configuration', 'CustomDriveIcons', False);
+  { Ignore list page }
+  gIgnoreListFileEnabled:= gIni.ReadBool('Configuration', 'IgnoreListFileEnabled', False);
+  gIgnoreListFile:= gIni.ReadString('Configuration', 'IgnoreListFile', gpIniDir + 'ignorelist.txt');
 
   gCutTextToColWidth := gIni.ReadBool('Configuration', 'CutTextToColWidth', True);
 
@@ -863,10 +870,13 @@ begin
   { Auto refresh page }
   gIni.WriteInteger('Configuration', 'WatchDirs', Integer(gWatchDirs));
   gIni.WriteString('Configuration', 'WatchDirsExclude', gWatchDirsExclude);
-
+  { Icons page }
   gIni.WriteInteger('Configuration', 'ShowIcons', Integer(gShowIconsNew));
   gIni.WriteBool('Configuration', 'IconOverlays', gIconOverlays);
   gIni.WriteInteger('Configuration', 'IconsSize', gIconsSizeNew);
+  { Ignore list page }
+  gIni.WriteBool('Configuration', 'IgnoreListFileEnabled', gIgnoreListFileEnabled);
+  gIni.WriteString('Configuration', 'IgnoreListFile', gIgnoreListFile);
 
   gIni.WriteBool('Configuration', 'CutTextToColWidth', gCutTextToColWidth);
 
@@ -1096,6 +1106,14 @@ begin
       gCustomDriveIcons := GetValue(Node, 'CustomDriveIcons', False);
     end;
 
+    { Ignore list page }
+    Node := Root.FindNode('IgnoreList');
+    if Assigned(Node) then
+    begin
+      gIgnoreListFileEnabled:= GetAttr(Node, 'Enabled', False);
+      gIgnoreListFile:= GetValue(Node, 'IgnoreListFile', gpIniDir + 'ignorelist.txt');
+    end;
+
     { Directories HotList }
     LoadDirHotList(gConfig, Root);
 
@@ -1274,6 +1292,11 @@ begin
     SetValue(Node, 'ShowOverlays', gIconOverlays);
     SetValue(Node, 'Size', gIconsSizeNew);
     SetValue(Node, 'CustomDriveIcons', gCustomDriveIcons);
+
+    { Ignore list page }
+    Node := FindNode(Root, 'IgnoreList', True);
+    SetAttr(Node, 'Enabled', gIgnoreListFileEnabled);
+    SetValue(Node, 'IgnoreListFile', gIgnoreListFile);
 
     { Directories HotList }
     Node := FindNode(Root, 'DirectoryHotList', True);

@@ -174,10 +174,17 @@ function IsInPath(sBasePath : String; sPathToCheck : String; AllowSubDirs: Boole
          List of files to which the filename must be matched.)
   @param(FileName
          Path to a file that will be matched. This may be absolute, relative
-         or contain no path at all (only filename).
+         or contain no path at all (only filename).)
 }
 function MatchesFileList(const Files: TFiles; FileName: String): Boolean;
 
+{en
+  Checks if a file matches any mask in the masklist.
+  @param(aFile
+         File that will be matched.)
+  @param(MaskList
+         List of masks to which the file must be matched.)
+}
 function MatchesMaskListEx(const aFile: TFile; MaskList: TStringList): Boolean;
 
 {en
