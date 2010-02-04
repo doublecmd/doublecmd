@@ -4358,6 +4358,12 @@ begin
         if aFileSourceFiles[i].IsSysFile then Continue;
       end;
 
+      // Ignore list
+      if gIgnoreListFileEnabled then
+      begin
+        if MatchesMaskListEx(aFileSourceFiles[i], glsIgnoreList) then Continue;
+      end;
+
       // Filter files.
       if (aFileFilter <> EmptyStr) and (invalidFilter = False) then
       begin

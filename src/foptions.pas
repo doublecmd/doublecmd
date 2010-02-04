@@ -45,8 +45,8 @@ type
     bbtnAddCategory: TBitBtn;
     bbtnApplyCategory: TBitBtn;
     bbtnDeleteCategory: TBitBtn;
-    btnAddSelButton: TButton;
-    btnAddSelWithPathButton: TButton;
+    btnAddSel: TButton;
+    btnAddSelWithPath: TButton;
     btnCategoryColor: TButton;
     btnConfigApply: TBitBtn;
     btnConfigEdit: TBitBtn;
@@ -327,6 +327,8 @@ type
     procedure bbtnAddCategoryClick(Sender: TObject);
     procedure bbtnApplyCategoryClick(Sender: TObject);
     procedure bbtnDeleteCategoryClick(Sender: TObject);
+    procedure btnAddSelClick(Sender: TObject);
+    procedure btnAddSelWithPathClick(Sender: TObject);
     procedure btnConfigApplyClick(Sender: TObject);
     procedure btnConfigEditClick(Sender: TObject);
     procedure btnConfigPluginClick(Sender: TObject);
@@ -337,6 +339,7 @@ type
     procedure cbIconsSizeChange(Sender: TObject);
     procedure cbListFilesInThreadChange(Sender: TObject);
     procedure cbWatchExcludeDirsChange(Sender: TObject);
+    procedure chkIgnoreEnableChange(Sender: TObject);
     procedure OnAutoRefreshOptionChanged(Sender: TObject);
     procedure edHotKeyKeyPress(Sender: TObject; var Key: char);
     procedure miSearchTemplateClick(Sender: TObject);
@@ -419,6 +422,7 @@ type
     procedure FillFileColorsList;
     procedure FillColumnsList;
     procedure FillCommandsPage;
+    procedure FillIgnoreList(bWithFullPath: Boolean);
     procedure LoadConfig;
     procedure SaveConfig;
     procedure SetColorInColorBox(const lcbColorBox:TColorBox;const lColor:TColor);
@@ -498,6 +502,7 @@ begin
       Item[16].Text := rsOptMiscellaneous;
       Item[17].Text := rsOptAutoRefresh;
       Item[18].Text := rsOptIcons;
+      Item[19].Text := rsOptIgnoreList;
     end;
   tvTreeView.Items.Item[0].Selected:= True;
 
@@ -1590,6 +1595,20 @@ begin
   stgcommands.AutoSizeColumns;
 end;
 
+procedure TfrmOptions.FillIgnoreList(bWithFullPath: Boolean);
+var
+  I: Integer;
+begin
+  with frmMain.ActiveFrame.SelectedFiles do
+  begin
+    for I:= 0 to Count - 1 do
+      if bWithFullPath then
+        memIgnoreList.Lines.Add(Items[I].FullPath)
+      else
+        memIgnoreList.Lines.Add(Items[I].Name);
+  end;
+end;
+
 procedure TfrmOptions.FillCommandList(lstFilter:string);
 //< fill stgCommands by commands and comments
 var
@@ -1795,6 +1814,14 @@ begin
   edtWatchExcludeDirs.Enabled := cbWatchExcludeDirs.Checked;
 end;
 
+procedure TfrmOptions.chkIgnoreEnableChange(Sender: TObject);
+begin
+  memIgnoreList.Enabled:= chkIgnoreEnable.Checked;
+  fneSaveIn.Enabled:= chkIgnoreEnable.Checked;
+  btnAddSelWithPath.Enabled:= chkIgnoreEnable.Checked;
+  btnAddSel.Enabled:= chkIgnoreEnable.Checked;
+end;
+
 procedure TfrmOptions.OnAutoRefreshOptionChanged(Sender: TObject);
 begin
   gbAutoRefreshDisable.Enabled := cbWatchFileNameChange.Checked or
@@ -1900,6 +1927,16 @@ begin
   if lbCategories.Count > 0 then
     lbCategories.ItemIndex := 0;
   lbCategoriesClick(lbCategories);
+end;
+
+procedure TfrmOptions.btnAddSelClick(Sender: TObject);
+begin
+  FillIgnoreList(False);
+end;
+
+procedure TfrmOptions.btnAddSelWithPathClick(Sender: TObject);
+begin
+  FillIgnoreList(True);
 end;
 
 procedure TfrmOptions.btnCategoryColorClick(Sender: TObject);
@@ -2267,6 +2304,7 @@ begin
   chkIgnoreEnable.Checked:= gIgnoreListFileEnabled;
   fneSaveIn.FileName:= gIgnoreListFile;
   memIgnoreList.Lines.Assign(glsIgnoreList);
+  chkIgnoreEnableChange(chkIgnoreEnable);
 
   FillLngListBox;
   FillFontLists;
