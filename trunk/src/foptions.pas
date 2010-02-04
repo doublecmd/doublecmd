@@ -2071,7 +2071,7 @@ end;
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
 begin
   //DebugLN('Page index == ' + IntToStr(Node.Index));
-  if tvTreeView.Selected.ImageIndex = 18 then // special for "Colors" item
+  if tvTreeView.Selected.ImageIndex = 19 then // special for "Colors" item
     begin
       nbNotebook.PageIndex := 4;
       pnlCaption.Caption := tvTreeView.Items.Item[5].Text;
@@ -2262,6 +2262,11 @@ begin
   cbIconsShowOverlay.Checked:= gIconOverlays;
   cbIconsSize.Text := IntToStr(gIconsSizeNew) + 'x' + IntToStr(gIconsSizeNew);
   cbIconsSizeChange(nil);
+
+  { Ignore list page }
+  chkIgnoreEnable.Checked:= gIgnoreListFileEnabled;
+  fneSaveIn.FileName:= gIgnoreListFile;
+  memIgnoreList.Lines.Assign(glsIgnoreList);
 
   FillLngListBox;
   FillFontLists;
@@ -2479,6 +2484,11 @@ begin
   else if rbIconsShowAllAndExe.Checked then
     gShowIconsNew:= sim_all_and_exe;
   gIconOverlays:= cbIconsShowOverlay.Checked;
+
+  { Ignore list page }
+  gIgnoreListFileEnabled:= chkIgnoreEnable.Checked;
+  gIgnoreListFile:= fneSaveIn.FileName;
+  glsIgnoreList.Assign(memIgnoreList.Lines);
 
 //-------------------------------------------------
   if (gIconsSizeNew <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) or
