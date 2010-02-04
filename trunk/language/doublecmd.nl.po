@@ -799,7 +799,9 @@ msgid "-----------"
 msgstr "-----------"
 
 #: TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
-msgid "Representation in text:"
+#, fuzzy
+#| msgid "Representation in text:"
+msgid "Text:"
 msgstr "Representatie in tekst:"
 
 #: TFRMFILEPROPERTIES.LBLEXEC.CAPTION
@@ -1549,6 +1551,10 @@ msgstr "Sorteer op naam"
 msgid "Sort by size"
 msgstr "Sorteer op grootte"
 
+#: TFRMMAIN.ACTSWITCHIGNORELIST.CAPTION
+msgid "Enable/disable ignore list file to not show file names"
+msgstr ""
+
 #: TFRMMAIN.ACTSYMLINK.CAPTION
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
 msgid "Create symlink..."
@@ -2155,6 +2161,14 @@ msgctxt "TFRMOPTIONS.BTNADDPLUGIN.CAPTION"
 msgid "Add"
 msgstr "Voeg toe"
 
+#: TFRMOPTIONS.BTNADDSEL.CAPTION
+msgid "&Add selected names"
+msgstr ""
+
+#: TFRMOPTIONS.BTNADDSELWITHPATH.CAPTION
+msgid "Add selected names with &full path"
+msgstr ""
+
 #: TFRMOPTIONS.BTNAPPLY.CAPTION
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
 msgid "Apply"
@@ -2584,6 +2598,10 @@ msgstr ""
 msgid "Auto fill columns"
 msgstr ""
 
+#: TFRMOPTIONS.CHKIGNOREENABLE.CAPTION
+msgid "&Ignore (don't show) the following files and folders:"
+msgstr ""
+
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
 msgstr "Tekst kleur:"
@@ -2777,6 +2795,10 @@ msgstr "Uitvoeren in terminal:"
 #: TFRMOPTIONS.LBLRUNTERM.CAPTION
 msgid "Run terminal:"
 msgstr "Start terminal:"
+
+#: TFRMOPTIONS.LBLSAVEIN.CAPTION
+msgid "&Save in:"
+msgstr ""
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
 msgid "Tabs position:"
@@ -4254,6 +4276,10 @@ msgstr ""
 
 #: ulng.rsopticons
 msgid "Icons"
+msgstr ""
+
+#: ulng.rsoptignorelist
+msgid "Ignore list"
 msgstr ""
 
 #: ulng.rsoptlanguage

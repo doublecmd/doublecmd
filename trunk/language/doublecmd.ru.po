@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-02-04 00:36+0300\n"
+"PO-Revision-Date: 2010-02-04 13:29+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -798,6 +798,7 @@ msgid "-----------"
 msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
 msgstr "Текст:"
 
@@ -1551,6 +1552,10 @@ msgstr "Имя"
 msgid "Sort by size"
 msgstr "Размер"
 
+#: TFRMMAIN.ACTSWITCHIGNORELIST.CAPTION
+msgid "Enable/disable ignore list file to not show file names"
+msgstr ""
+
 #: TFRMMAIN.ACTSYMLINK.CAPTION
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
 msgid "Create symlink..."
@@ -2157,6 +2162,14 @@ msgctxt "TFRMOPTIONS.BTNADDPLUGIN.CAPTION"
 msgid "Add"
 msgstr "Добавить"
 
+#: TFRMOPTIONS.BTNADDSEL.CAPTION
+msgid "&Add selected names"
+msgstr "&Добавить все выделенные"
+
+#: TFRMOPTIONS.BTNADDSELWITHPATH.CAPTION
+msgid "Add selected names with &full path"
+msgstr "Добавить все выделенные с &путями"
+
 #: TFRMOPTIONS.BTNAPPLY.CAPTION
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
 msgid "Apply"
@@ -2594,6 +2607,10 @@ msgstr "Не реаг&ировать на изменения, если окно 
 msgid "Auto fill columns"
 msgstr "Растягивать колонки на всю ширину панели"
 
+#: TFRMOPTIONS.CHKIGNOREENABLE.CAPTION
+msgid "&Ignore (don't show) the following files and folders:"
+msgstr "&Исключить (не показывать) следующие файлы и каталоги:"
+
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
 msgstr "&Текст:"
@@ -2787,6 +2804,10 @@ msgstr "Запустить в терминале:"
 #: TFRMOPTIONS.LBLRUNTERM.CAPTION
 msgid "Run terminal:"
 msgstr "Пуск терминала:"
+
+#: TFRMOPTIONS.LBLSAVEIN.CAPTION
+msgid "&Save in:"
+msgstr "&Сохранить в:"
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
 msgid "Tabs position:"
@@ -4265,6 +4286,10 @@ msgstr "используется"
 #: ulng.rsopticons
 msgid "Icons"
 msgstr "Значки"
+
+#: ulng.rsoptignorelist
+msgid "Ignore list"
+msgstr "Список исключений"
 
 #: ulng.rsoptlanguage
 msgid "Language"
