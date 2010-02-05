@@ -15,7 +15,9 @@ uses
   uColumnsFileViewFiles,
   uColumns,
   uFileSorting,
-  uFunctionThread
+  uFunctionThread,
+  uXmlConfig,
+  uClassesEx
   ;
 
 //{$DEFINE timeFileView}
@@ -204,13 +206,6 @@ type
     dgPanel: TDrawGridEx;
     tmContextMenu: TTimer;
 
-    {en
-       Private constructor used to create an object intended to be a clone
-       (with its properties copied from another object).
-    }
-    constructor Create(AOwner: TWinControl; AFileSource: IFileSource;
-                       APath: String; Cloning: Boolean = False); overload;
-
     function GetGridHorzLine: Boolean;
     function GetGridVertLine: Boolean;
     procedure SetGridHorzLine(const AValue: Boolean);
@@ -366,6 +361,8 @@ type
     property FileFilter: String read FFileFilter write SetFileFilter;
 
   protected
+    procedure CreateDefault(AOwner: TWinControl); override;
+
     procedure SetCurrentPath(NewPath: String); override;
     function GetActiveFile: TFile; override;
     function GetDisplayedFiles: TFiles; override;
@@ -380,6 +377,9 @@ type
 //---------------------
 
     constructor Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String); override;
+    constructor Create(AOwner: TWinControl; AFileView: TFileView); override;
+    constructor Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer); override;
+    constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode); override;
 
     destructor Destroy; override;
 
@@ -392,11 +392,13 @@ type
     procedure Reload(const PathsToReload: TPathsArray = nil); override;
     procedure StopBackgroundWork; override;
 
-    function Focused: Boolean; override;
-    procedure SetFocus; override;
-
     procedure LoadConfiguration(Section: String; TabIndex: Integer); override;
     procedure SaveConfiguration(Section: String; TabIndex: Integer); override;
+    procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
+    procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
+
+    function Focused: Boolean; override;
+    procedure SetFocus; override;
 
     {en
        Moves the selection focus to the file specified by FileName.
@@ -600,8 +602,6 @@ begin
 
   ActiveColm := gIni.ReadString(Section, sIndex + '_columnsset', 'Default');
 
-  UpdateColumnsView;
-
   // Load sorting options.
   FSorting.Clear;
   ColumnsClass := GetColumnsClass;
@@ -637,6 +637,58 @@ begin
                       SortingColumn^.iField);
     gIni.WriteInteger(Section, sIndex + '_sortdirection' + IntToStr(i),
                       Integer(SortingColumn^.SortDirection));
+  end;
+end;
+
+procedure TColumnsFileView.LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  ColumnsClass: TPanelColumnsClass;
+  SortColumn: Integer;
+  SortDirection: TSortDirection;
+begin
+  ActiveColm := AConfig.GetValue(ANode, 'ColumnsSet', 'Default');
+
+  // Load sorting options.
+  FSorting.Clear;
+  ColumnsClass := GetColumnsClass;
+  ANode := ANode.FindNode('Sorting');
+  if Assigned(ANode) then
+  begin
+    ANode := ANode.FirstChild;
+    while Assigned(ANode) do
+    begin
+      if ANode.CompareName('Sort') = 0 then
+      begin
+        if AConfig.TryGetValue(ANode, 'Column', SortColumn) and
+           (SortColumn >= 0) and (SortColumn < ColumnsClass.ColumnsCount) then
+        begin
+          SortDirection := TSortDirection(AConfig.GetValue(ANode, 'Direction', Integer(sdNone)));
+          FSorting.AddSorting(SortColumn, SortDirection);
+        end
+        else
+          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+      end;
+    end;
+  end;
+end;
+
+procedure TColumnsFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  SortingColumn: PFileListSortingColumn;
+  i: Integer;
+  SubNode: TXmlNode;
+begin
+  AConfig.SetValue(ANode, 'ColumnsSet', ActiveColm);
+  ANode := AConfig.FindNode(ANode, 'Sorting', True);
+  AConfig.ClearNode(ANode);
+
+  // Save sorting options.
+  for i := 0 to FSorting.Count - 1 do
+  begin
+    SortingColumn := PFileListSortingColumn(FSorting.Items[i]);
+    SubNode := AConfig.AddNode(ANode, 'Sort');
+    AConfig.AddValue(SubNode, 'Column', SortingColumn^.iField);
+    AConfig.AddValue(SubNode, 'Direction', Integer(SortingColumn^.SortDirection));
   end;
 end;
 
@@ -2472,19 +2524,52 @@ end;
 
 constructor TColumnsFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String);
 begin
-  Create(AOwner, AFileSource, APath, False);
+  inherited Create(AOwner, AFileSource, APath);
+
+  FFiles := TColumnsViewFiles.Create;
+  FSorting := TFileListSorting.Create;
+  ActiveColm := 'Default';
+
+  // Update view before making file source file list,
+  // so that file list isn't unnecessarily displayed twice.
+  UpdateView;
+  MakeFileSourceFileList;
 end;
 
-constructor TColumnsFileView.Create(AOwner: TWinControl; AFileSource: IFileSource;
-                                    APath: String; Cloning: Boolean = False);
+constructor TColumnsFileView.Create(AOwner: TWinControl; AFileView: TFileView);
+begin
+  inherited Create(AOwner, AFileView);
+  UpdateView;
+end;
+
+constructor TColumnsFileView.Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer);
+begin
+  inherited Create(AOwner, AConfig, ASectionName, ATabIndex);
+
+  FFiles := TColumnsViewFiles.Create;
+  FSorting := TFileListSorting.Create;
+
+  LoadConfiguration(ASectionName, ATabIndex);
+end;
+
+constructor TColumnsFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode);
+begin
+  inherited Create(AOwner, AConfig, ANode);
+
+  FFiles := TColumnsViewFiles.Create;
+  FSorting := TFileListSorting.Create;
+
+  LoadConfiguration(AConfig, ANode);
+end;
+
+procedure TColumnsFileView.CreateDefault(AOwner: TWinControl);
 begin
   DebugLn('TColumnsFileView.Create components');
 
   dgPanel := nil;
 
-  BorderStyle := bsNone; // Before Create or the window may be recreated
-  inherited Create(AOwner, AFileSource, APath);
-  Parent := AOwner;
+  BorderStyle := bsNone; // Before Create or the window handle may be recreated
+  inherited CreateDefault(AOwner);
   Align := alClient;
 
   FFiles := nil;
@@ -2494,12 +2579,14 @@ begin
   FFileListBuilderLock := TCriticalSection.Create;
   FFileListBuilders := TFPList.Create;
 
+  ActiveColm := '';
   ActiveColmSlave := nil;
   isSlave := False;
   FLastSelectionStartRow := -1;
   FLastMark := '*';
   FLastActive := '';
   FActive := False;
+  FFileFilter := '';
 
   FSorting := nil;
   // default to sorting by 0-th column
@@ -2642,23 +2729,6 @@ begin
 
   pmColumnsMenu := TPopupMenu.Create(Self);
   pmColumnsMenu.Parent := Self;
-
-  // Statements which should not be executed
-  // when the object is created for cloning.
-  if not Cloning then
-  begin
-    FFiles := TColumnsViewFiles.Create;
-    FSorting := TFileListSorting.Create;
-
-    // Update view before making file source file list,
-    // so that file list isn't unnecessarily displayed twice.
-    UpdateView;
-
-    // Configuration should be read before loading file list.
-    //MakeFileSourceFileList;
-  end
-  else
-    UpdateView;
 end;
 
 destructor TColumnsFileView.Destroy;
@@ -2703,8 +2773,7 @@ end;
 
 function TColumnsFileView.Clone(NewParent: TWinControl): TColumnsFileView;
 begin
-  Result := TColumnsFileView.Create(NewParent, FileSource, CurrentPath, True);
-  CloneTo(Result);
+  Result := TColumnsFileView.Create(NewParent, Self);
 end;
 
 procedure TColumnsFileView.CloneTo(FileView: TFileView);
@@ -2743,11 +2812,7 @@ begin
 
       ActiveColm := Self.ActiveColm;
       ActiveColmSlave := nil;    // set to nil because only used in preview?
-      isSlave := self.isSlave;
-
-      // All the visual controls don't need cloning.
-
-      UpdateView;
+      isSlave := Self.isSlave;
     end;
   end;
 end;
