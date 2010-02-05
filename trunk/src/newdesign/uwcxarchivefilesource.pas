@@ -137,9 +137,10 @@ uses
   uWcxArchiveTestArchiveOperation;
 
 const
-  connCopyIn  = 0;
-  connCopyOut = 1;
-  connDelete  = 2;
+  connCopyIn      = 0;
+  connCopyOut     = 1;
+  connDelete      = 2;
+  connTestArchive = 3;
 
 var
   // Always use appropriate lock to access these lists.
@@ -203,6 +204,7 @@ begin
       WcxConnections.Add(CreateConnection); // connCopyIn
       WcxConnections.Add(CreateConnection); // connCopyOut
       WcxConnections.Add(CreateConnection); // connDelete
+      WcxConnections.Add(CreateConnection); // connTestArchive
     end;
   finally
     WcxConnectionsLock.Release;
@@ -544,6 +546,8 @@ begin
       Result := WcxConnections[connCopyOut] as TFileSourceConnection;
     fsoDelete:
       Result := WcxConnections[connDelete] as TFileSourceConnection;
+    fsoTestArchive:
+      Result := WcxConnections[connTestArchive] as TFileSourceConnection;
     else
       begin
         Result := CreateConnection;
@@ -611,7 +615,7 @@ begin
       // If there are operations waiting, take the first one and notify
       // that a connection is available.
       // Only check operation types for which there are reserved connections.
-      if Operation.ID in [fsoCopyIn, fsoCopyOut, fsoDelete] then
+      if Operation.ID in [fsoCopyIn, fsoCopyOut, fsoDelete, fsoTestArchive] then
       begin
         Include(allowedIDs, Operation.ID);
         NotifyNextWaitingOperation(allowedIDs);
@@ -658,6 +662,8 @@ begin
       TWcxArchiveCopyOutOperation.ClearCurrentOperation;
     fsoDelete:
       TWcxArchiveDeleteOperation.ClearCurrentOperation;
+    fsoTestArchive:
+      TWcxArchiveTestArchiveOperation.ClearCurrentOperation;
   end;
 end;
 
