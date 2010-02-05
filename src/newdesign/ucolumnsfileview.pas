@@ -428,6 +428,11 @@ type
     procedure cm_MarkMinus(param: string='');
     procedure cm_MarkCurrentExtension(param: string='');
     procedure cm_UnmarkCurrentExtension(param: string='');
+    procedure cm_SaveSelection(param: string='');
+    procedure cm_RestoreSelection(param: string='');
+    procedure cm_SaveSelectionToFile(param: string='');
+    procedure cm_LoadSelectionFromFile(param: string='');
+    procedure cm_LoadSelectionFromClip(param: string='');
     procedure cm_QuickSearch(param: string='');
     procedure cm_QuickFilter(param: string='');
     procedure cm_Open(param: string='');
@@ -512,8 +517,9 @@ type
 implementation
 
 uses
-  LCLProc, Masks, Dialogs, uLng, uShowMsg, uGlobs, uPixmapManager,
-  uDCUtils, uOSUtils, math, fMain, fMaskInputDlg, uSearchTemplate, uInfoToolTip,
+  LCLProc, Masks, Dialogs, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager,
+  uDCUtils, uOSUtils, math, fMain, fMaskInputDlg, uSearchTemplate,
+  uInfoToolTip, dmCommonData,
   uFileProperty,
   uFileSourceProperty,
   uFileSourceOperation,
@@ -1916,6 +1922,7 @@ begin
   for I := 0 to FFiles.Count - 1 do
     with FFiles[I] do
     Selected:= (FSelection.IndexOf(TheFile.Name) >= 0);
+  dgPanel.Invalidate;
 end;
 
 procedure TColumnsFileView.MarkMinus;
@@ -3270,6 +3277,58 @@ end;
 procedure TColumnsFileView.cm_UnmarkCurrentExtension(param: string='');
 begin
   MarkShiftMinus;
+end;
+
+procedure TColumnsFileView.cm_SaveSelection(param: string);
+begin
+  SaveSelection;
+end;
+
+procedure TColumnsFileView.cm_RestoreSelection(param: string);
+begin
+  RestoreSelection;
+end;
+
+procedure TColumnsFileView.cm_SaveSelectionToFile(param: string);
+begin
+  with dmComData do
+  begin
+    SaveDialog.DefaultExt:= '.txt';
+    SaveDialog.Filter:= '*.txt|*.txt';
+    SaveDialog.FileName:= param;
+    if (param <> EmptyStr) or SaveDialog.Execute then
+      try
+        SaveSelection;
+        FSelection.SaveToFile(SaveDialog.FileName);
+      except
+        on E: Exception do
+          msgError(rsMsgErrSaveFile + '-' + E.Message);
+      end;
+  end;
+end;
+
+procedure TColumnsFileView.cm_LoadSelectionFromFile(param: string);
+begin
+  with dmComData do
+  begin
+    OpenDialog.DefaultExt:= '.txt';
+    OpenDialog.Filter:= '*.txt|*.txt';
+    OpenDialog.FileName:= param;
+    if ((param <> EmptyStr) and mbFileExists(param)) or OpenDialog.Execute then
+      try
+        FSelection.LoadFromFile(OpenDialog.FileName);
+        RestoreSelection;
+      except
+        on E: Exception do
+          msgError(rsMsgErrEOpen + '-' + E.Message);
+      end;
+  end;
+end;
+
+procedure TColumnsFileView.cm_LoadSelectionFromClip(param: string);
+begin
+  FSelection.Text:= Clipboard.AsText;
+  RestoreSelection;
 end;
 
 procedure TColumnsFileView.cm_QuickSearch(param: string='');
