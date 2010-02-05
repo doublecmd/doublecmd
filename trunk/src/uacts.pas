@@ -208,6 +208,11 @@ const cf_Null=0;
    procedure cm_MarkMinus(param: string='');
    procedure cm_MarkCurrentExtension(param: string='');
    procedure cm_UnmarkCurrentExtension(param: string='');
+   procedure cm_SaveSelection(param: string='');
+   procedure cm_RestoreSelection(param: string='');
+   procedure cm_SaveSelectionToFile(param: string='');
+   procedure cm_LoadSelectionFromFile(param: string='');
+   procedure cm_LoadSelectionFromClip(param: string='');
    procedure cm_Search(param: string='');
    procedure cm_HardLink(param: string='');
    procedure cm_MultiRename(param: string='');
@@ -1886,6 +1891,31 @@ end;
 procedure TActs.cm_UnmarkCurrentExtension(param: string);
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_UnmarkCurrentExtension', param);
+end;
+
+procedure TActs.cm_SaveSelection(param: string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_SaveSelection', param);
+end;
+
+procedure TActs.cm_RestoreSelection(param: string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_RestoreSelection', param);
+end;
+
+procedure TActs.cm_SaveSelectionToFile(param: string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_SaveSelectionToFile', param);
+end;
+
+procedure TActs.cm_LoadSelectionFromFile(param: string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_LoadSelectionFromFile', param);
+end;
+
+procedure TActs.cm_LoadSelectionFromClip(param: string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_LoadSelectionFromClip', param);
 end;
 
 //------------------------------------------------------
