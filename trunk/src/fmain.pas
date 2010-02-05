@@ -77,6 +77,12 @@ type
     actAddPathAndFilenameToCmdLine: TAction;
     actDriveContextMenu: TAction;
     actCopyNoAsk: TAction;
+    actChangeDirToParent: TAction;
+    actLoadSelectionFromClip: TAction;
+    actLoadSelectionFromFile: TAction;
+    actSaveSelectionToFile: TAction;
+    actSaveSelection: TAction;
+    actRestoreSelection: TAction;
     actSwitchIgnoreList: TAction;
     actTestArchive: TAction;
     actQuickView: TAction;
@@ -134,6 +140,12 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     lblCommandPath: TLabel;
+    mnuLoadSelectionFromClip: TMenuItem;
+    mnuLoadSelectionFromFile: TMenuItem;
+    mnuSaveSelectionToFile: TMenuItem;
+    mnuRestoreSelection: TMenuItem;
+    mnuSaveSelection: TMenuItem;
+    miLine47: TMenuItem;
     mnuTestArchive: TMenuItem;
     mnuQuickView: TMenuItem;
     miLine32: TMenuItem;
