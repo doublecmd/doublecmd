@@ -3174,14 +3174,32 @@ end;
 //LaBero end
 
 procedure TfrmMain.LoadWindowState;
+var
+  ANode: TXmlNode;
 begin
-  (* Load window bounds and state*)
-  Left := gIni.ReadInteger('Configuration', 'Main.Left', 80);
-  Top := gIni.ReadInteger('Configuration', 'Main.Top', 48);
-  Width :=  gIni.ReadInteger('Configuration', 'Main.Width', 800);
-  Height :=  gIni.ReadInteger('Configuration', 'Main.Height', 480);
-  if gIni.ReadBool('Configuration', 'Maximized', True) then
-    Self.WindowState := wsMaximized;
+  (* Load window bounds and state *)
+  if Assigned(gIni) then
+  begin
+    Left := gIni.ReadInteger('Configuration', 'Main.Left', 80);
+    Top := gIni.ReadInteger('Configuration', 'Main.Top', 48);
+    Width :=  gIni.ReadInteger('Configuration', 'Main.Width', 800);
+    Height :=  gIni.ReadInteger('Configuration', 'Main.Height', 480);
+    if gIni.ReadBool('Configuration', 'Maximized', True) then
+      Self.WindowState := wsMaximized;
+  end
+  else
+  begin
+    ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position');
+    if Assigned(ANode) then
+    begin
+      Left := gConfig.GetValue(ANode, 'Left', 80);
+      Top := gConfig.GetValue(ANode, 'Top', 48);
+      Width := gConfig.GetValue(ANode, 'Width', 800);
+      Height := gConfig.GetValue(ANode, 'Height', 480);
+      if gConfig.GetValue(ANode, 'Maximized', True) then
+        Self.WindowState := wsMaximized;
+    end;
+  end;
 
   (* Load all tabs *)
   if Assigned(gIni) then
@@ -3198,34 +3216,41 @@ end;
 
 procedure TfrmMain.SaveWindowState;
 var
-  x: Integer;
+  //x: Integer;
+  ANode: TXmlNode;
 begin
-  try
-    (* Save  columns widths *)
-    // Save columns settings for all colsets.
-  {
-      for x:=0 to ColSet.GetColumnSet(ActiveColm).ColumnsCount - 1 do
-        ColSet.GetColumnSet(ActiveColm).SetColumnWidth(x, dgPanel.ColWidths[x]);
-      ColSet.GetColumnSet(ActiveColm).Save(gIni);
-  }
+  (* Save  columns widths *)
+  // Save columns settings for all colsets.
+{
+    for x:=0 to ColSet.GetColumnSet(ActiveColm).ColumnsCount - 1 do
+      ColSet.GetColumnSet(ActiveColm).SetColumnWidth(x, dgPanel.ColWidths[x]);
+    ColSet.GetColumnSet(ActiveColm).Save(gIni);
+}
 
-    (* Save all tabs *)
+  (* Save all tabs *)
 {$IFDEF DC_USE_XML_CONFIG}
-    SaveTabsXml(nbLeft);
-    SaveTabsXml(nbRight);
+  SaveTabsXml(nbLeft);
+  SaveTabsXml(nbRight);
 {$ELSE}
-    SaveTabsIni(nbLeft);
-    SaveTabsIni(nbRight);
+  SaveTabsIni(nbLeft);
+  SaveTabsIni(nbRight);
 {$ENDIF}
 
-    (* Save window bounds and state*)
-    gIni.WriteInteger('Configuration', 'Main.Left', Left);
-    gIni.WriteInteger('Configuration', 'Main.Top', Top);
-    gIni.WriteInteger('Configuration', 'Main.Width', Width);
-    gIni.WriteInteger('Configuration', 'Main.Height', Height);
-    gIni.WriteBool('Configuration', 'Maximized', (WindowState = wsMaximized));
-  except
-  end;
+  (* Save window bounds and state *)
+{$IFDEF DC_USE_XML_CONFIG}
+  ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
+  gConfig.SetValue(ANode, 'Left', Left);
+  gConfig.SetValue(ANode, 'Top', Top);
+  gConfig.SetValue(ANode, 'Width', Width);
+  gConfig.SetValue(ANode, 'Height', Height);
+  gConfig.SetValue(ANode, 'Maximized', (WindowState = wsMaximized));
+{$ELSE}
+  gIni.WriteInteger('Configuration', 'Main.Left', Left);
+  gIni.WriteInteger('Configuration', 'Main.Top', Top);
+  gIni.WriteInteger('Configuration', 'Main.Width', Width);
+  gIni.WriteInteger('Configuration', 'Main.Height', Height);
+  gIni.WriteBool('Configuration', 'Maximized', (WindowState = wsMaximized));
+{$ENDIF}
 end;
 
 // Save ShortCuts to config file
