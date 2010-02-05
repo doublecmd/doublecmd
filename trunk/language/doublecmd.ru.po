@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-02-04 13:29+0300\n"
+"PO-Revision-Date: 2010-02-05 16:55+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1168,6 +1168,10 @@ msgstr "Рассчитать &занимаемое место..."
 msgid "Change directory"
 msgstr "Сменить каталог"
 
+#: TFRMMAIN.ACTCHANGEDIRTOPARENT.CAPTION
+msgid "Change Directory To Parent"
+msgstr ""
+
 #: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
 msgid "Change directory to root"
 msgstr "Перейти в корневой каталог"
@@ -1321,6 +1325,14 @@ msgstr "Левая &= Правая"
 msgid "Open left drive list"
 msgstr "Открыть список дисков слева"
 
+#: TFRMMAIN.ACTLOADSELECTIONFROMCLIP.CAPTION
+msgid "Load Selection From Clipboard"
+msgstr "Загрузить выделение из &буфера"
+
+#: TFRMMAIN.ACTLOADSELECTIONFROMFILE.CAPTION
+msgid "Load Selection From File"
+msgstr "Загрузить выделение из &файла..."
+
 #: TFRMMAIN.ACTMAKEDIR.CAPTION
 msgid "MakeDir F7"
 msgstr "Каталог F7"
@@ -1461,6 +1473,10 @@ msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
 msgid "Rename"
 msgstr "Переименовать"
 
+#: TFRMMAIN.ACTRESTORESELECTION.CAPTION
+msgid "Restore Selection"
+msgstr "Восс&тановить выделение"
+
 #: TFRMMAIN.ACTREVERSEORDER.CAPTION
 msgid "Reverse order"
 msgstr "Обратный п&орядок"
@@ -1476,6 +1492,14 @@ msgstr "Открыть список дисков справа"
 #: TFRMMAIN.ACTRUNTERM.CAPTION
 msgid "Run Term"
 msgstr "Пуск &терминала"
+
+#: TFRMMAIN.ACTSAVESELECTION.CAPTION
+msgid "Save Selection"
+msgstr "С&охранить выделение"
+
+#: TFRMMAIN.ACTSAVESELECTIONTOFILE.CAPTION
+msgid "Save Selection To File"
+msgstr "Со&хранить выделение в файл..."
 
 #: TFRMMAIN.ACTSEARCH.CAPTION
 msgid "&Search"
