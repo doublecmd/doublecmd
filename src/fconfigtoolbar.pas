@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Configuration Toolbar
 
-    Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -161,9 +161,12 @@ begin
   ktbBar.Flat:= gToolBarFlat;
   ktbBar.ChangePath:= gpExePath;
   ktbBar.EnvVar:= '%commander_path%';
-  IniBarFile:= TIniFileEx.Create(FBarFileName);
-  ktbBar.LoadFromIniFile(IniBarFile);
-  IniBarFile.Free;
+  try
+    IniBarFile:= TIniFileEx.Create(FBarFileName);
+    ktbBar.LoadFromIniFile(IniBarFile);
+  finally
+    FreeThenNil(IniBarFile);
+  end;
   with pnlToolBarFileName do
   begin
     Caption:= MinimizeFilePath(FBarFileName, Canvas, Width);
@@ -176,7 +179,7 @@ begin
     end
   else
     begin
-      if ktbBar.ButtonCount>0 then
+      if ktbBar.ButtonCount > 0 then
         begin
           ktbBar.Buttons[ktbBar.ButtonCount-1].Down := True;
           LoadButton(ktbBar.ButtonCount-1);
@@ -207,14 +210,25 @@ begin
   OpenDialog.Filter:= '*.bar|*.bar';
   if OpenDialog.Execute then
     begin
-      IniBarFile:= TIniFileEx.Create(OpenDialog.FileName);
-      ktbBar.LoadFromIniFile(IniBarFile);
-      IniBarFile.Free;
+      try
+        IniBarFile:= TIniFileEx.Create(OpenDialog.FileName);
+        ktbBar.LoadFromIniFile(IniBarFile);
+      finally
+        FreeThenNil(IniBarFile);
+      end;
+      FBarFileName:= OpenDialog.FileName;
       with pnlToolBarFileName do
       begin
-        Caption:= MinimizeFilePath(OpenDialog.FileName, Canvas, Width);
-        Hint:= OpenDialog.FileName;
+        Caption:= MinimizeFilePath(FBarFileName, Canvas, Width);
+        Hint:= FBarFileName;
       end;
+      ClearControls;
+      if ktbBar.ButtonCount > 0 then
+        begin
+          ktbBar.Buttons[ktbBar.ButtonCount-1].Down := True;
+          LoadButton(ktbBar.ButtonCount-1);
+          LastToolButton := ktbBar.ButtonCount-1;
+        end;
     end;
 end;
 
