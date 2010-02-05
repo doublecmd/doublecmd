@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, ExtCtrls,
-  uFile, uFileSource, uMethodsList, uDragDropEx;
+  uFile, uFileSource, uMethodsList, uDragDropEx, uXmlConfig, uClassesEx;
 
 type
 
@@ -62,6 +62,11 @@ type
     procedure ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
 
   protected
+    {en
+       Initializes parts of the view common to all creation methods.
+    }
+    procedure CreateDefault(AOwner: TWinControl); virtual;
+
     function GetCurrentPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
     function GetActiveFile: TFile; virtual;
@@ -80,11 +85,20 @@ type
     constructor Create(AOwner: TWinControl;
                        FileSource: IFileSource;
                        Path: String); virtual reintroduce;
+    constructor Create(AOwner: TWinControl;
+                       AFileView: TFileView); virtual reintroduce;
+    constructor Create(AOwner: TWinControl;
+                       AConfig: TIniFileEx;
+                       ASectionName: String;
+                       ATabIndex: Integer); virtual reintroduce;
+    constructor Create(AOwner: TWinControl;
+                       AConfig: TXmlConfig;
+                       ANode: TXmlNode); virtual reintroduce;
 
     destructor Destroy; override;
 
     function Clone(NewParent: TWinControl): TFileView; virtual;
-    procedure CloneTo(FileView: TFileView); virtual;
+    procedure CloneTo(AFileView: TFileView); virtual;
 
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); virtual;
     procedure RemoveLastFileSource; virtual;
@@ -103,6 +117,8 @@ type
     // Config should be independent of that in the future.
     procedure LoadConfiguration(Section: String; TabIndex: Integer); virtual abstract;
     procedure SaveConfiguration(Section: String; TabIndex: Integer); virtual abstract;
+    procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); virtual abstract;
+    procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); virtual abstract;
 
     procedure UpdateView; virtual abstract;
 
@@ -225,23 +241,43 @@ uses
 
 constructor TFileView.Create(AOwner: TWinControl; FileSource: IFileSource; Path: String);
 begin
+  CreateDefault(AOwner);
+
+  FFileSources.Add(FileSource);
+  FCurrentPaths.Add(IncludeTrailingPathDelimiter(Path));
+  FileSource.AddReloadEventListener(@ReloadEvent);
+end;
+
+constructor TFileView.Create(AOwner: TWinControl; AFileView: TFileView);
+begin
+  CreateDefault(AOwner);
+  AFileView.CloneTo(Self);
+end;
+
+constructor TFileView.Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer);
+begin
+  CreateDefault(AOwner);
+end;
+
+constructor TFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode);
+begin
+  CreateDefault(AOwner);
+end;
+
+procedure TFileView.CreateDefault(AOwner: TWinControl);
+begin
   FOnBeforeChangeDirectory := nil;
   FOnAfterChangeDirectory := nil;
   FOnChangeActiveFile := nil;
   FOnChangeFileSource := nil;
   FOnActivate := nil;
   FOnReload := nil;
-
   FFileSources := TFileSources.Create;
-  FFileSources.Add(FileSource);
   FCurrentPaths := TStringList.Create;
-  FCurrentPaths.Add(IncludeTrailingPathDelimiter(Path));
-
-  FileSource.AddReloadEventListener(@ReloadEvent);
-
   FMethods := TMethodsList.Create(Self);
 
   inherited Create(AOwner);
+  Parent := AOwner;
 end;
 
 destructor TFileView.Destroy;
@@ -265,20 +301,20 @@ begin
   raise Exception.Create('Cannot create object of abstract class');
 end;
 
-procedure TFileView.CloneTo(FileView: TFileView);
+procedure TFileView.CloneTo(AFileView: TFileView);
 begin
-  if Assigned(FileView) then
+  if Assigned(AFileView) then
   begin
     // FFileSource should have been passed to FileView constructor already.
     // FMethods are created in FileView constructor.
-    FileView.OnBeforeChangeDirectory := Self.OnBeforeChangeDirectory;
-    FileView.OnAfterChangeDirectory := Self.OnAfterChangeDirectory;
-    FileView.OnChangeFileSource := Self.OnChangeFileSource;
-    FileView.OnActivate := Self.OnActivate;
-    FileView.OnReload := Self.OnReload;
+    AFileView.OnBeforeChangeDirectory := Self.OnBeforeChangeDirectory;
+    AFileView.OnAfterChangeDirectory := Self.OnAfterChangeDirectory;
+    AFileView.OnChangeFileSource := Self.OnChangeFileSource;
+    AFileView.OnActivate := Self.OnActivate;
+    AFileView.OnReload := Self.OnReload;
 
-    FileView.FFileSources.Assign(Self.FFileSources);
-    FileView.FCurrentPaths.Assign(Self.FCurrentPaths);
+    AFileView.FFileSources.Assign(Self.FFileSources);
+    AFileView.FCurrentPaths.Assign(Self.FCurrentPaths);
   end;
 end;
 
@@ -292,12 +328,18 @@ end;
 
 function TFileView.GetCurrentAddress: String;
 begin
-  Result := FileSource.CurrentAddress;
+  if FileSourcesCount > 0 then
+    Result := FileSource.CurrentAddress
+  else
+    Result := '';
 end;
 
 function TFileView.GetCurrentPath: String;
 begin
-  Result := FCurrentPaths.Strings[FCurrentPaths.Count - 1];
+  if FCurrentPaths.Count > 0 then
+    Result := FCurrentPaths.Strings[FCurrentPaths.Count - 1]
+  else
+    Result := '';
 end;
 
 procedure TFileView.SetCurrentPath(NewPath: String);

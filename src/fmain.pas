@@ -46,7 +46,7 @@ uses
   KASToolBar, KASBarMenu, KASBarFiles,
   uCmdBox, uFileSystemWatcher, uFilePanelSelect,
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
-  uOperationsManager, uDrivesList, uTerminal
+  uOperationsManager, uDrivesList, uTerminal, uClassesEx, uXmlConfig
   ;
 
 const
@@ -491,10 +491,14 @@ type
     procedure SetActiveFrame(panel: TFilePanelSelect);
     procedure UpdateDiskCount;
     procedure CreateDiskPanel(dskPanel : TKASToolBar);
-    function CreateFileView(sType: String; FileSource: IFileSource; Path: String; Page: TFileViewPage): TFileView;
+    function CreateFileView(sType: String; Page: TFileViewPage; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer): TFileView;
+    function CreateFileView(sType: String; Page: TFileViewPage; AConfig: TXmlConfig; ANode: TXmlNode): TFileView;
+    procedure AssignEvents(AFileView: TFileView);
     function RemovePage(ANoteBook: TFileViewNotebook; iPageIndex:Integer): LongInt;
-    procedure LoadTabs(ANoteBook: TFileViewNotebook);
-    procedure SaveTabs(ANoteBook: TFileViewNotebook);
+    procedure LoadTabsIni(ANoteBook: TFileViewNotebook);
+    procedure LoadTabsXml(ANoteBook: TFileViewNotebook);
+    procedure SaveTabsIni(ANoteBook: TFileViewNotebook);
+    procedure SaveTabsXml(ANoteBook: TFileViewNotebook);
     function ExecCmd(Cmd:string; param:string='') : Boolean;
     function ExecCmdEx(Sender: TObject; NumberOfButton:Integer) : Boolean;
     procedure ToggleConsole;
@@ -544,7 +548,7 @@ implementation
 
 uses
   LCLIntf, uGlobs, uLng, fConfigToolBar, Masks, fCopyMoveDlg, uQuickViewPanel,
-  uShowMsg, uClassesEx, fHotDir, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
+  uShowMsg, fHotDir, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   uDragDropEx, StrUtils, uKeyboard, uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSystemCopyOperation, uFileSystemMoveOperation, uFileSourceProperty,
@@ -576,6 +580,17 @@ var
   slCommandHistory: TStringListEx;
   I: Integer;
 begin
+  Application.OnException := @AppException;
+
+  DrivesList := nil;
+  LeftFrameWatcher:= nil;
+  RightFrameWatcher:= nil;
+  FDropParams := nil;
+
+  PanelSelected:=fpLeft;
+  HiddenToTray := False;
+  HidingTrayIcon := False;
+
   nbLeft := CreateNotebook(pnlLeft, fpLeft);
   nbRight := CreateNotebook(pnlRight, fpRight);
 
@@ -583,17 +598,12 @@ begin
   FDrivesListPopup.OnDriveSelected := @DriveListDriveSelected;
   FDrivesListPopup.OnClose := @DriveListClose;
 
-  HiddenToTray := False;
-  HidingTrayIcon := False;
-
   if gOnlyOnce and Assigned(UniqueInstance) then
     UniqueInstance.OnMessage:= @OnUniqueInstanceMessage;
   // frost_asm begin
   MainSplitterLeftMouseBtnDown:=false;
   // frost_asm end
   SetMyWndProc(Handle);
-
-  Application.OnException := @AppException;
 
   if mbFileExists(gpIniDir+cHistoryFile) then
     begin
@@ -620,14 +630,6 @@ begin
   actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
 
   AllowDropFiles := not uDragDropEx.IsExternalDraggingSupported;
-  FDropParams := nil;
-
-  PanelSelected:=fpLeft;
-
-  DrivesList := nil;
-
-  LeftFrameWatcher:= nil;
-  RightFrameWatcher:= nil;
 
   pmButtonMenu.BarFile.ChangePath := gpExePath;
   pmButtonMenu.BarFile.EnvVar := '%commander_path%';
@@ -1489,7 +1491,6 @@ var
   PopUpPoint: TPoint;
   NoteBook: TFileViewNotebook;
   TabNr: Integer;
-  Index: Integer;
 begin
   NoteBook := Sender as TFileViewNotebook;
 
@@ -2423,22 +2424,29 @@ begin
     AddSpecialButtons(dskPanel);
 end;
 
-function TfrmMain.CreateFileView(sType: String; FileSource: IFileSource;
-                                 Path: String; Page: TFileViewPage): TFileView;
+function TfrmMain.CreateFileView(sType: String; Page: TFileViewPage; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer): TFileView;
 begin
   // This function should be changed to a separate TFileView factory.
 
   if sType = 'columns' then
-  begin
-    Result := TColumnsFileView.Create(Page, FileSource, Path);
-  end
+    Result := TColumnsFileView.Create(Page, AConfig, ASectionName, ATabIndex)
   else
-  begin
-    Result := nil;
-    Exit;
-  end;
+    raise Exception.Create('Invalid file view type');
+end;
 
-  with Result do
+function TfrmMain.CreateFileView(sType: String; Page: TFileViewPage; AConfig: TXmlConfig; ANode: TXmlNode): TFileView;
+begin
+  // This function should be changed to a separate TFileView factory.
+
+  if sType = 'columns' then
+    Result := TColumnsFileView.Create(Page, AConfig, ANode)
+  else
+    raise Exception.Create('Invalid file view type');
+end;
+
+procedure TfrmMain.AssignEvents(AFileView: TFileView);
+begin
+  with AFileView do
   begin
     OnBeforeChangeDirectory := @FileViewBeforeChangeDirectory;
     OnAfterChangeDirectory := @FileViewAfterChangeDirectory;
@@ -2478,7 +2486,7 @@ begin
   end;
 end;
 
-procedure TfrmMain.LoadTabs(ANoteBook: TFileViewNotebook);
+procedure TfrmMain.LoadTabsIni(ANoteBook: TFileViewNotebook);
 var
   I: Integer;
   sIndex,
@@ -2487,6 +2495,7 @@ var
   sPath, sCaption: String;
   iActiveTab: Integer;
   Page: TFileViewPage;
+  AFileView: TFileView;
   aFileSource: IFileSource;
 begin
   if ANoteBook = nbLeft then
@@ -2529,19 +2538,20 @@ begin
 
       aFileSource := TFileSystemFileSource.GetFileSource;
 
-      if not Assigned(CreateFileView('columns', aFileSource, sPath, Page)) then
+      AFileView := CreateFileView('columns', Page, gIni, TabsSection, StrToInt(sIndex));
+      if not Assigned(AFileView) then
       begin
         ANoteBook.RemovePage(Page);
         continue;
       end;
 
-      Page.LockState := TTabLockState(gIni.ReadInteger(TabsSection, sIndex + '_options', 0));
+      Page.LockState := TTabLockState(gIni.ReadInteger(TabsSection, sIndex + '_options', Integer(tlsNormal)));
       if Page.LockState = tlsPathResets then // if locked tab with directory change
         Page.LockPath := sPath;
 
-      Page.FileView.LoadConfiguration(TabsSection, StrToInt(sIndex));
-      // Reload file list after loading configuration.
-      Page.FileView.Reload;
+      AFileView.AddFileSource(aFileSource, sPath);
+      // Assign events after loading file source.
+      AssignEvents(AFileView);
 
       Inc(I);
       // get page index in string representation
@@ -2559,7 +2569,86 @@ begin
     ANoteBook.PageIndex := iActiveTab;
 end;
 
-procedure TfrmMain.SaveTabs(ANoteBook: TFileViewNotebook);
+procedure TfrmMain.LoadTabsXml(ANoteBook: TFileViewNotebook);
+var
+  sCurrentDir,
+  sPath, sCaption: String;
+  iActiveTab: Integer;
+  Page: TFileViewPage;
+  AFileView: TFileView;
+  aFileSource: IFileSource;
+  RootNode, ANode: TXmlNode;
+begin
+  if ANoteBook = nbLeft then
+    RootNode := gConfig.FindNode(gConfig.RootNode, 'Tabs/OpenedTabs/Left')
+  else
+    RootNode := gConfig.FindNode(gConfig.RootNode, 'Tabs/OpenedTabs/Right');
+
+  if not Assigned(RootNode) then
+    Exit;
+
+  if Assigned(RootNode) then
+  begin
+    sCurrentDir := mbGetCurrentDir; // default path
+    ANode := RootNode.FirstChild;
+    while Assigned(ANode) do
+    begin
+      if ANode.CompareName('Tab') = 0 then
+      begin
+        if gConfig.TryGetValue(ANode, 'Path', sPath) then
+        begin
+          if mbDirectoryExists(sPath) then
+            begin
+              if not gConfig.TryGetValue(ANode, 'Caption', sCaption) then
+                sCaption := GetLastDir(sPath);
+            end
+          else
+            begin // find exists directory
+              repeat
+                sPath:= GetParentDir(sPath);
+                if sPath = EmptyStr then
+                  sPath:= sCurrentDir;
+              until mbDirectoryExists(sPath);
+              sCaption:= GetLastDir(sPath);
+            end;
+
+          if sCaption <> '' then
+            if (tb_text_length_limit in gDirTabOptions) and (Length(sCaption) > gDirTabLimit) then
+              sCaption := Copy(sCaption, 1, gDirTabLimit) + '...';
+
+          Page := ANoteBook.AddPage(sCaption);
+
+          aFileSource := TFileSystemFileSource.GetFileSource;
+
+          AFileView := CreateFileView('columns', Page, gConfig, ANode);
+          if not Assigned(AFileView) then
+          begin
+            ANoteBook.RemovePage(Page);
+            continue;
+          end;
+
+          Page.LockState := TTabLockState(gConfig.GetValue(ANode, 'Options', Integer(tlsNormal)));
+          if Page.LockState = tlsPathResets then // if locked tab with directory change
+            Page.LockPath := sPath;
+
+          AFileView.AddFileSource(aFileSource, sPath);
+          // Assign events after loading file source.
+          AssignEvents(AFileView);
+        end
+        else
+          DebugLn('Invalid entry in configuration: ' + gConfig.GetPathFromNode(ANode) + '.');
+      end;
+    end;
+  end;
+
+  // read active tab index
+  iActiveTab := gConfig.GetValue(RootNode, 'ActiveTab', 0);
+  // set active tab
+  if (iActiveTab >= 0) and (iActiveTab < ANoteBook.PageCount) then
+    ANoteBook.PageIndex := iActiveTab;
+end;
+
+procedure TfrmMain.SaveTabsIni(ANoteBook: TFileViewNotebook);
 var
   I, Count: Integer;
   sIndex,
@@ -2596,6 +2685,42 @@ begin
     end;
 
   gIni.WriteInteger(TabsSection, 'activetab', ANoteBook.PageIndex);
+end;
+
+procedure TfrmMain.SaveTabsXml(ANoteBook: TFileViewNotebook);
+var
+  I: Integer;
+  TabsSection: String;
+  sPath : String;
+  Page: TFileViewPage;
+  ANode, SubNode: TXmlNode;
+begin
+  ANode := gConfig.FindNode(gConfig.RootNode, 'Tabs/OpenedTabs', True);
+  if ANoteBook = nbLeft then
+    TabsSection := 'Left'
+  else
+    TabsSection := 'Right';
+  ANode := gConfig.FindNode(ANode, TabsSection, True);
+
+  gConfig.ClearNode(ANode);
+  gConfig.SetValue(ANode, 'ActiveTab', ANoteBook.PageIndex);
+
+  for I:= 0 to ANoteBook.PageCount - 1 do
+    begin
+      SubNode := gConfig.AddNode(ANode, 'Tab');
+      Page := ANoteBook.Page[I];
+
+      if Page.LockState = tlsPathResets then // if locked tab with directory change
+        sPath := Page.LockPath
+      else
+        sPath := Page.FileView.CurrentPath;
+
+      gConfig.AddValue(SubNode, 'Path', sPath);
+      gConfig.AddValue(SubNode, 'Caption', Page.Caption);
+      gConfig.AddValue(SubNode, 'Options', Integer(Page.LockState));
+
+      Page.FileView.SaveConfiguration(gConfig, SubNode);
+    end;
 end;
 
 (* Execute internal or external command *)
@@ -3059,8 +3184,16 @@ begin
     Self.WindowState := wsMaximized;
 
   (* Load all tabs *)
-  LoadTabs(nbLeft);
-  LoadTabs(nbRight);
+  if Assigned(gIni) then
+  begin
+    LoadTabsIni(nbLeft);
+    LoadTabsIni(nbRight);
+  end
+  else
+  begin
+    LoadTabsXml(nbLeft);
+    LoadTabsXml(nbRight);
+  end;
 end;
 
 procedure TfrmMain.SaveWindowState;
@@ -3077,8 +3210,14 @@ begin
   }
 
     (* Save all tabs *)
-    SaveTabs(nbLeft);
-    SaveTabs(nbRight);
+{$IFDEF DC_USE_XML_CONFIG}
+    SaveTabsXml(nbLeft);
+    SaveTabsXml(nbRight);
+{$ELSE}
+    SaveTabsIni(nbLeft);
+    SaveTabsIni(nbRight);
+{$ENDIF}
+
     (* Save window bounds and state*)
     gIni.WriteInteger('Configuration', 'Main.Left', Left);
     gIni.WriteInteger('Configuration', 'Main.Top', Top);
