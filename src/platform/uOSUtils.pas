@@ -253,6 +253,11 @@ function mbRemoveDir(const Dir: UTF8String): Boolean;
    It can be file, directory, link, etc. (links are not followed).
 }
 function mbFileSystemEntryExists(const Path: UTF8String): Boolean;
+{en
+   Convert file name to system encoding, if name can not be represented in
+   current locale then use short file name under Windows.
+}
+function mbFileNameToSysEnc(const LongPath: UTF8String): String;
 { Other functions }
 function mbCompareText(const s1, s2: UTF8String): PtrInt;
 function mbGetEnvironmentString(Index : Integer) : UTF8String;
@@ -1868,6 +1873,19 @@ function mbFileSystemEntryExists(const Path: UTF8String): Boolean;
 begin
   Result := mbFileGetAttr(Path) <> faInvalidAttributes;
 end;
+
+function mbFileNameToSysEnc(const LongPath: UTF8String): String;
+{$IFDEF MSWINDOWS}
+begin
+  Result:= UTF8ToSys(LongPath);
+  if Pos('?', Result) <> 0 then
+    mbGetShortPathName(LongPath, Result);
+end;
+{$ELSE}
+begin
+  Result:= UTF8ToSys(LongPath);
+end;
+{$ENDIF}
 
 function mbCompareText(const s1, s2: UTF8String): PtrInt; inline;
 {$IFDEF MSWINDOWS}

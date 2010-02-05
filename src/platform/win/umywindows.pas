@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific WINDOWS functions.
 
-    Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -91,6 +91,13 @@ procedure mbCloseCD(const sDrv: UTF8String);
    @returns(The function returns remote file name)
 }
 function mbGetRemoteFileName(const sLocalName: UTF8String): UTF8String;
+{en
+   Retrieves the short path form of the specified path
+   @param(sLongPath The path string)
+   @param(sShortPath A string to receive the short form of the path that sLongPath specifies)
+   @returns(The function returns @true if successful, @false otherwise)
+}
+function mbGetShortPathName(const sLongPath: UTF8String; out sShortPath: AnsiString): Boolean;
 
 implementation
 
@@ -216,6 +223,25 @@ begin
   finally
     FreeMem(lpBuffer);
   end;
+end;
+
+function mbGetShortPathName(const sLongPath: UTF8String; out sShortPath: AnsiString): Boolean;
+var
+  wsLongPath,
+  wsShortPath: WideString;
+  cchBuffer: DWORD;
+begin
+  Result:= False;
+  wsLongPath:= UTF8Decode(sLongPath);
+  cchBuffer:= GetShortPathNameW(PWideChar(wsLongPath), nil, 0);
+  if cchBuffer = 0 then Exit;
+  SetLength(wsShortPath, cchBuffer);
+  cchBuffer:= GetShortPathNameW(PWideChar(wsLongPath), PWideChar(wsShortPath), cchBuffer);
+  if cchBuffer <> 0 then
+    begin
+      sShortPath:= wsShortPath;
+      Result:= True;
+    end;
 end;
 
 end.

@@ -1,9 +1,9 @@
 {
    Double commander
    -------------------------------------------------------------------------
-   Archive File support - class for manage WCX plugins (Version 2.10)
+   Archive File support - class for manage WCX plugins (Version 2.20)
 
-   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -204,7 +204,7 @@ begin
     else if Assigned(OpenArchive) then
       begin
         FillChar(ArcFile, SizeOf(ArcFile), #0);
-        AnsiFileName := UTF8ToSys(FileName);
+        AnsiFileName := mbFileNameToSysEnc(FileName);
         ArcFile.ArcName := PAnsiChar(AnsiFileName); // Pointer to local variable.
         ArcFile.OpenMode := anOpenMode;
         Result := OpenArchive(ArcFile);
