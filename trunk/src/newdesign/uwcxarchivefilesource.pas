@@ -164,7 +164,7 @@ begin
     if sExtension <> '' then   // delete '.' at the front
       Delete(sExtension, 1, 1);
 
-    if (sExtension = gWCXPlugins.Ext[i]) and (gWCXPlugins.Enabled[i]) then
+    if SameText(sExtension, gWCXPlugins.Ext[i]) and (gWCXPlugins.Enabled[i]) then
     begin
       ModuleFileName := GetCmdDirFromEnvVar(gWCXPlugins.FileName[I]);
 
