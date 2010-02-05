@@ -174,6 +174,7 @@ type
        Points to currently used builder while the file list is being loaded.
     }
     FCurrentFileListBuilder: TColumnsFileListBuilder;
+    FSelection: TStringListEx;
 
     FActive: Boolean;           //<en Is this view active
     FLastActive: String;        //<en Last active file
@@ -254,6 +255,8 @@ type
     procedure MarkPlus;
     procedure MarkShiftPlus;
     procedure MarkShiftMinus;
+    procedure SaveSelection;
+    procedure RestoreSelection;
 
     {en
        Retrieves file list from file source into FFileSourceFiles.
@@ -1893,6 +1896,28 @@ begin
   end;
 end;
 
+procedure TColumnsFileView.SaveSelection;
+var
+  I: Integer;
+begin
+  FSelection.Clear;
+  for I := 0 to FFiles.Count - 1 do
+    with FFiles[I] do
+    begin
+      if Selected then
+        FSelection.Add(TheFile.Name);
+    end;
+end;
+
+procedure TColumnsFileView.RestoreSelection;
+var
+  I: Integer;
+begin
+  for I := 0 to FFiles.Count - 1 do
+    with FFiles[I] do
+    Selected:= (FSelection.IndexOf(TheFile.Name) >= 0);
+end;
+
 procedure TColumnsFileView.MarkMinus;
 var
   s: String;
@@ -2578,6 +2603,7 @@ begin
   FReloading := False;
   FFileListBuilderLock := TCriticalSection.Create;
   FFileListBuilders := TFPList.Create;
+  FSelection:= TStringListEx.Create;
 
   ActiveColm := '';
   ActiveColmSlave := nil;
@@ -2761,6 +2787,7 @@ begin
   end;
 
   FreeThenNil(FFileListBuilderLock);
+  FreeThenNil(FSelection);
 
   if Assigned(FFiles) then
     FreeAndNil(FFiles);

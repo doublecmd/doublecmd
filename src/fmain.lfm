@@ -998,6 +998,29 @@ object frmMain: TfrmMain
         Action = actUnmarkCurrentExtension
         OnClick = actExecute
       end
+      object miLine47: TMenuItem
+        Caption = '-'
+      end
+      object mnuSaveSelection: TMenuItem
+        Action = actSaveSelection
+        OnClick = actExecute
+      end
+      object mnuRestoreSelection: TMenuItem
+        Action = actRestoreSelection
+        OnClick = actExecute
+      end
+      object mnuSaveSelectionToFile: TMenuItem
+        Action = actSaveSelectionToFile
+        OnClick = actExecute
+      end
+      object mnuLoadSelectionFromFile: TMenuItem
+        Action = actLoadSelectionFromFile
+        OnClick = actExecute
+      end
+      object mnuLoadSelectionFromClip: TMenuItem
+        Action = actLoadSelectionFromClip
+        OnClick = actExecute
+      end
       object miLine5: TMenuItem
         Caption = '-'
       end
@@ -1750,6 +1773,36 @@ object frmMain: TfrmMain
     object actSwitchIgnoreList: TAction
       Category = 'Show'
       Caption = 'Enable/disable ignore list file to not show file names'
+      OnExecute = actExecute
+    end
+    object actRestoreSelection: TAction
+      Category = 'Mark'
+      Caption = 'Restore Selection'
+      OnExecute = actExecute
+    end
+    object actSaveSelection: TAction
+      Category = 'Mark'
+      Caption = 'Save Selection'
+      OnExecute = actExecute
+    end
+    object actSaveSelectionToFile: TAction
+      Category = 'Mark'
+      Caption = 'Save Selection To File'
+      OnExecute = actExecute
+    end
+    object actLoadSelectionFromFile: TAction
+      Category = 'Mark'
+      Caption = 'Load Selection From File'
+      OnExecute = actExecute
+    end
+    object actLoadSelectionFromClip: TAction
+      Category = 'Mark'
+      Caption = 'Load Selection From Clipboard'
+      OnExecute = actExecute
+    end
+    object actChangeDirToParent: TAction
+      Category = 'Commands'
+      Caption = 'Change Directory To Parent'
       OnExecute = actExecute
     end
   end
