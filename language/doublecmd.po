@@ -797,6 +797,7 @@ msgid "-----------"
 msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
 msgstr ""
 
@@ -1165,6 +1166,10 @@ msgstr ""
 msgid "Change directory"
 msgstr ""
 
+#: TFRMMAIN.ACTCHANGEDIRTOPARENT.CAPTION
+msgid "Change Directory To Parent"
+msgstr ""
+
 #: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
 msgid "Change directory to root"
 msgstr ""
@@ -1310,6 +1315,14 @@ msgstr ""
 msgid "Open left drive list"
 msgstr ""
 
+#: TFRMMAIN.ACTLOADSELECTIONFROMCLIP.CAPTION
+msgid "Load Selection From Clipboard"
+msgstr ""
+
+#: TFRMMAIN.ACTLOADSELECTIONFROMFILE.CAPTION
+msgid "Load Selection From File"
+msgstr ""
+
 #: TFRMMAIN.ACTMAKEDIR.CAPTION
 msgid "MakeDir F7"
 msgstr ""
@@ -1434,6 +1447,10 @@ msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
 msgid "Rename"
 msgstr ""
 
+#: TFRMMAIN.ACTRESTORESELECTION.CAPTION
+msgid "Restore Selection"
+msgstr ""
+
 #: TFRMMAIN.ACTREVERSEORDER.CAPTION
 msgid "Reverse order"
 msgstr ""
@@ -1448,6 +1465,14 @@ msgstr ""
 
 #: TFRMMAIN.ACTRUNTERM.CAPTION
 msgid "Run Term"
+msgstr ""
+
+#: TFRMMAIN.ACTSAVESELECTION.CAPTION
+msgid "Save Selection"
+msgstr ""
+
+#: TFRMMAIN.ACTSAVESELECTIONTOFILE.CAPTION
+msgid "Save Selection To File"
 msgstr ""
 
 #: TFRMMAIN.ACTSEARCH.CAPTION
@@ -3114,6 +3139,7 @@ msgid "-----------"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
 msgstr ""
 

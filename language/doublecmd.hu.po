@@ -798,6 +798,7 @@ msgstr ""
 #: TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
 #, fuzzy
 #| msgid "Representation in text:"
+msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
 msgstr "Szöveges megfelelő:"
 
@@ -1181,6 +1182,10 @@ msgstr "Elfoglalt &hely számítása..."
 msgid "Change directory"
 msgstr ""
 
+#: TFRMMAIN.ACTCHANGEDIRTOPARENT.CAPTION
+msgid "Change Directory To Parent"
+msgstr ""
+
 #: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
 msgid "Change directory to root"
 msgstr ""
@@ -1334,6 +1339,14 @@ msgstr ""
 msgid "Open left drive list"
 msgstr ""
 
+#: TFRMMAIN.ACTLOADSELECTIONFROMCLIP.CAPTION
+msgid "Load Selection From Clipboard"
+msgstr ""
+
+#: TFRMMAIN.ACTLOADSELECTIONFROMFILE.CAPTION
+msgid "Load Selection From File"
+msgstr ""
+
 #: TFRMMAIN.ACTMAKEDIR.CAPTION
 msgid "MakeDir F7"
 msgstr "Új könyvtár F7"
@@ -1474,6 +1487,10 @@ msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
 msgid "Rename"
 msgstr "Átnevezés"
 
+#: TFRMMAIN.ACTRESTORESELECTION.CAPTION
+msgid "Restore Selection"
+msgstr ""
+
 #: TFRMMAIN.ACTREVERSEORDER.CAPTION
 msgid "Reverse order"
 msgstr "Fordított sorrend"
@@ -1489,6 +1506,14 @@ msgstr ""
 #: TFRMMAIN.ACTRUNTERM.CAPTION
 msgid "Run Term"
 msgstr "Terminál futtatás"
+
+#: TFRMMAIN.ACTSAVESELECTION.CAPTION
+msgid "Save Selection"
+msgstr ""
+
+#: TFRMMAIN.ACTSAVESELECTIONTOFILE.CAPTION
+msgid "Save Selection To File"
+msgstr ""
 
 #: TFRMMAIN.ACTSEARCH.CAPTION
 msgid "&Search"
@@ -3163,8 +3188,9 @@ msgid "-----------"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
-msgstr ""
+msgstr "Szöveges megfelelő:"
 
 #: TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION"

@@ -801,6 +801,7 @@ msgstr "-----------"
 #: TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
 #, fuzzy
 #| msgid "Representation in text:"
+msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
 msgstr "Словесно представяне:"
 
@@ -1173,6 +1174,10 @@ msgstr "Изчисляване на &заетото място..."
 msgid "Change directory"
 msgstr ""
 
+#: TFRMMAIN.ACTCHANGEDIRTOPARENT.CAPTION
+msgid "Change Directory To Parent"
+msgstr ""
+
 #: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
 msgid "Change directory to root"
 msgstr ""
@@ -1326,6 +1331,14 @@ msgstr ""
 msgid "Open left drive list"
 msgstr "Първо се отваря лявото крило"
 
+#: TFRMMAIN.ACTLOADSELECTIONFROMCLIP.CAPTION
+msgid "Load Selection From Clipboard"
+msgstr ""
+
+#: TFRMMAIN.ACTLOADSELECTIONFROMFILE.CAPTION
+msgid "Load Selection From File"
+msgstr ""
+
 #: TFRMMAIN.ACTMAKEDIR.CAPTION
 msgid "MakeDir F7"
 msgstr "Нова папка F7"
@@ -1466,6 +1479,10 @@ msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
 msgid "Rename"
 msgstr "Преименуване"
 
+#: TFRMMAIN.ACTRESTORESELECTION.CAPTION
+msgid "Restore Selection"
+msgstr ""
+
 #: TFRMMAIN.ACTREVERSEORDER.CAPTION
 msgid "Reverse order"
 msgstr "Обръщане на реда"
@@ -1481,6 +1498,14 @@ msgstr "Първо се отваря дясното крило"
 #: TFRMMAIN.ACTRUNTERM.CAPTION
 msgid "Run Term"
 msgstr "Терминал"
+
+#: TFRMMAIN.ACTSAVESELECTION.CAPTION
+msgid "Save Selection"
+msgstr ""
+
+#: TFRMMAIN.ACTSAVESELECTIONTOFILE.CAPTION
+msgid "Save Selection To File"
+msgstr ""
 
 #: TFRMMAIN.ACTSEARCH.CAPTION
 msgid "&Search"
@@ -3155,8 +3180,9 @@ msgid "-----------"
 msgstr "-----------"
 
 #: TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
-msgstr ""
+msgstr "Словесно представяне:"
 
 #: TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION"
