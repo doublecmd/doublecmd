@@ -1314,46 +1314,58 @@ var
   sFileName,
   sFilePath : String;
   aFile: TFile;
-  SelectedFiles: TFiles;
+  SelectedFiles: TFiles = nil;
 begin
   with frmMain do
-  // For now only works for FileSystem.
-  if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
-  begin
-    SelectedFiles := ActiveFrame.SelectedFiles;
-    try
-      for i := 0 to SelectedFiles.Count - 1 do
+  try
+    // If files are links to local files
+    if (fspLinksToLocalFiles in ActiveFrame.FileSource.Properties) then
       begin
-        aFile := SelectedFiles[i];
-
-        // For now we only process one file.
-        if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
-        begin
-          //now test if exists View command in doublecmd.ext :)
-          sEditCmd:= gExts.GetExtActionCmd(aFile, 'edit');
-
-          if (sEditCmd<>'') then
-            begin
-              ReplaceExtCommand(sEditCmd, aFile);
-              ProcessExtCommand(sEditCmd, ActiveFrame.CurrentPath);
-            end
-          else
-            begin
-              sFileName := aFile.Name;
-              sFilePath := ActiveFrame.CurrentPath;
-              ShowEditorByGlob(GetSplitFileName(sFileName, sFilePath));
-            end;
-          Break;
-        end;
+        SelectedFiles := ActiveFrame.SelectedFiles;
+        for I := 0 to SelectedFiles.Count - 1 do
+          begin
+            aFile := SelectedFiles[I];
+            ActiveFrame.FileSource.GetLocalName(aFile);
+          end;
+      end
+    // If files not directly accessible copy them to temp file source.
+    else if not (fspDirectAccess in ActiveFrame.FileSource.Properties) then
+      begin
+        msgWarning(rsMsgNotImplemented);
+        Exit;
+      end
+    else
+      begin
+        SelectedFiles := ActiveFrame.SelectedFiles;
       end;
 
-    finally
-      if Assigned(SelectedFiles) then
-        FreeAndNil(SelectedFiles);
+    for i := 0 to SelectedFiles.Count - 1 do
+    begin
+      aFile := SelectedFiles[i];
+
+      // For now we only process one file.
+      if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+      begin
+        //now test if exists View command in doublecmd.ext :)
+        sEditCmd:= gExts.GetExtActionCmd(aFile, 'edit');
+
+        if (sEditCmd <> '') then
+          begin
+            ReplaceExtCommand(sEditCmd, aFile);
+            ProcessExtCommand(sEditCmd, aFile.Path);
+          end
+        else
+          begin
+            ShowEditorByGlob(aFile.FullPath);
+          end;
+        Break;
+      end;
     end;
-  end
-  else
-    msgWarning(rsMsgNotImplemented);
+
+  finally
+    if Assigned(SelectedFiles) then
+      FreeAndNil(SelectedFiles);
+  end;
 end;
 
 procedure TActs.cm_Copy(param:string);
