@@ -109,6 +109,7 @@ begin
     // If files are links to local files
     if (fspLinksToLocalFiles in Sender.FileSource.Properties) then
       begin
+        if aFile.IsDirectory or aFile.IsLinkToDirectory then Exit;
         FFileSource := Sender.FileSource;
         ActiveFile:= aFile.Clone;
         if not FFileSource.GetLocalName(ActiveFile) then Exit;
