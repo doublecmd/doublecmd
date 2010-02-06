@@ -1200,8 +1200,17 @@ begin
       Exit;
     end;
 
+    // If files are links to local files
+    if (fspLinksToLocalFiles in ActiveFrame.FileSource.Properties) then
+      begin
+        for I := 0 to SelectedFiles.Count - 1 do
+          begin
+            aFile := SelectedFiles[I];
+            ActiveFrame.FileSource.GetLocalName(aFile);
+          end;
+      end
     // If files not directly accessible copy them to temp file source.
-    if not (fspDirectAccess in ActiveFrame.FileSource.Properties) then
+    else if not (fspDirectAccess in ActiveFrame.FileSource.Properties) then
     begin
       if not (fsoCopyOut in ActiveFrame.FileSource.GetOperationsTypes) then
       begin
