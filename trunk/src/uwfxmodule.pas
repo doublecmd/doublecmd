@@ -142,6 +142,7 @@ type
     function WfxMkDir(const sBasePath, sDirName: UTF8String): LongInt;
     function WfxRemoveDir(const sDirName: UTF8String): Boolean;
     function WfxDeleteFile(const sFileName: UTF8String): Boolean;
+    function WfxGetLocalName(var sFileName: UTF8String): Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -408,6 +409,32 @@ begin
     Result:= FsDeleteFileW(PWideChar(UTF8Decode(sFileName)))
   else if Assigned(FsDeleteFile) then
     Result:= FsDeleteFile(PAnsiChar(UTF8ToSys(sFileName)));
+end;
+
+function TWFXModule.WfxGetLocalName(var sFileName: UTF8String): Boolean;
+var
+  pacRemoteName: PAnsiChar;
+  pwcRemoteName: PWideChar;
+begin
+  Result:= False;
+  if Assigned(FsGetLocalNameW) then
+    begin
+      pwcRemoteName:= GetMem(MAX_PATH * SizeOf(WideChar));
+      StrPCopyW(pwcRemoteName, UTF8Decode(sFileName));
+      Result:= FsGetLocalNameW(pwcRemoteName, MAX_PATH);
+      if Result = True then
+        sFileName:= UTF8Encode(WideString(pwcRemoteName));
+      FreeMem(pwcRemoteName);
+    end
+  else if Assigned(FsGetLocalName) then
+    begin
+      pacRemoteName:= GetMem(MAX_PATH);
+      StrPCopy(pacRemoteName, UTF8ToSys(sFileName));
+      Result:= FsGetLocalName(pacRemoteName, MAX_PATH);
+      if Result = True then
+        sFileName:= SysToUTF8(StrPas(pacRemoteName));
+      FreeMem(pacRemoteName);
+    end;
 end;
 
 constructor TWFXModule.Create;

@@ -2472,9 +2472,7 @@ var
 begin
   with frmMain.ActiveFrame do
   begin
-    if not (fspDirectAccess in FileSource.GetProperties) then
-      msgWarning(rsMsgErrNotSupported)
-    else
+    if (fspDirectAccess in FileSource.GetProperties) then
       begin
         aFile:= ActiveFile;
         if Assigned(aFile) then
@@ -2484,7 +2482,28 @@ begin
             else
               msgWarning(rsMsgNoFilesSelected);
           end;
-      end;
+      end
+    else if (fspLinksToLocalFiles in FileSource.GetProperties) then
+      begin
+        aFile:= ActiveFile.Clone;
+        if Assigned(aFile) then
+          begin
+            if aFile.IsNameValid then
+              begin
+                if FileSource.GetLocalName(aFile) then
+                  ShowDescrEditDlg(aFile.FullPath)
+                else
+                  msgWarning(rsMsgErrNotSupported);
+              end
+            else
+              begin
+                msgWarning(rsMsgNoFilesSelected);
+              end;
+            FreeAndNil(aFile);
+          end;
+      end
+    else
+      msgWarning(rsMsgErrNotSupported);
   end;
 end;
 

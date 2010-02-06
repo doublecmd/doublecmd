@@ -72,6 +72,7 @@ type
     function GetRootDir: String; overload;
     function GetPathType(sPath : String): TPathType;
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
+    function GetLocalName(var aFile: TFile): Boolean;
 
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection;
     procedure RemoveOperationFromQueue(Operation: TFileSourceOperation);
@@ -219,6 +220,7 @@ type
 }
 
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; virtual;
+    function GetLocalName(var aFile: TFile): Boolean; virtual;
 
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; virtual;
 
@@ -438,6 +440,11 @@ end;
 function TFileSource.GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean;
 begin
   Result := False; // not supported by default
+end;
+
+function TFileSource.GetLocalName(var aFile: TFile): Boolean;
+begin
+  Result:= False;
 end;
 
 // Operations.

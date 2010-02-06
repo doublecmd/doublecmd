@@ -31,6 +31,12 @@ type
     fspVirtual,
 
     {en
+       Set, if the files are links to local files that available directly
+       (for example: results from searching, etc.).
+    }
+    fspLinksToLocalFiles,
+
+    {en
        Set, if the file source uses TFileSourceConnection objects
        for access by operations.
     }
