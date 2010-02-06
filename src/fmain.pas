@@ -564,7 +564,7 @@ uses
   uDragDropEx, StrUtils, uKeyboard, uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSystemCopyOperation, uFileSystemMoveOperation, uFileSourceProperty,
-  uArchiveFileSource, uShellExecute, uActs, uFileSystemFile,
+  uFileSourceExecuteOperation, uArchiveFileSource, uShellExecute, uActs, uFileSystemFile,
   fSymLink, fHardLink, uExceptions, uUniqueInstance
   {$IFDEF LCLQT}
     , qtwidgets
@@ -3132,49 +3132,70 @@ end;
 
 function TfrmMain.ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
 var
-  iIndex:Integer;
-  sDir:String;
+  iIndex: Integer;
+  sDir: String;
+  Operation: TFileSourceExecuteOperation = nil;
+  aFile: TFile = nil;
 begin
-  Result:=True;
-  iIndex:=pos('cd ',sCmd);
-  if iIndex=1 then
-  begin
-    sDir:=Trim(Copy(sCmd, iIndex+3, length(sCmd)));
-    sDir:=IncludeTrailingBackslash(sDir);
-    if Pos('~' + PathDelim, sDir) = 1 then
-      sDir:= StringReplace(sDir, '~' + PathDelim, GetHomeDir, []);
-    logWrite('Chdir to: ' + sDir);
-    if not mbSetCurrentDir(sDir) then
+  Result:= True;
+  if (fspDirectAccess in ActiveFrame.FileSource.GetProperties) then
     begin
-      msgWarning(Format(rsMsgChDirFailed, [sDir]));
+      iIndex:= Pos('cd ', sCmd);
+      if iIndex = 1 then
+        begin
+          sDir:= Trim(Copy(sCmd, iIndex + 3, Length(sCmd)));
+          sDir:= IncludeTrailingBackslash(sDir);
+          if Pos('~' + PathDelim, sDir) = 1 then
+            sDir:= StringReplace(sDir, '~' + PathDelim, GetHomeDir, []);
+          logWrite('Chdir to: ' + sDir);
+          if not mbSetCurrentDir(sDir) then
+            begin
+              msgWarning(Format(rsMsgChDirFailed, [sDir]));
+            end
+          else
+            begin
+              sDir := mbGetCurrentDir;
+              ActiveFrame.CurrentPath := sDir;
+              DebugLn(sDir);
+              if gTermWindow and Assigned(Cons) then
+                Cons.Terminal.SetCurrentDir(sDir);
+            end;
+        end
+      else
+        begin
+          if edtCommand.Items.IndexOf(sCmd)=-1 then
+            edtCommand.Items.Insert(0,sCmd);
+
+          if gTermWindow and Assigned(Cons) then
+            Cons.Terminal.Write_pty(sCmd + #13#10)
+          else if bRunInTerm then
+            ExecCmdFork(sCmd, True, gRunInTerm)
+          else
+            ExecCmdFork(sCmd);
+
+          edtCommand.DroppedDown:= False;
+          // only cMaxStringItems(see uGlobs.pas) is stored
+          if edtCommand.Items.Count>cMaxStringItems then
+            edtCommand.Items.Delete(edtCommand.Items.Count-1);
+        end;
     end
-    else
-    begin
-      sDir := mbGetCurrentDir;
-      ActiveFrame.CurrentPath := sDir;
-      DebugLn(sDir);
-      if gTermWindow and Assigned(Cons) then
-        Cons.Terminal.SetCurrentDir(sDir);
-    end;
-  end
   else
-  begin
-    if edtCommand.Items.IndexOf(sCmd)=-1 then
-      edtCommand.Items.Insert(0,sCmd);
-
-    if gTermWindow and Assigned(Cons) then
-      Cons.Terminal.Write_pty(sCmd + #13#10)
-    else
-    if bRunInTerm then
-      ExecCmdFork(sCmd, True, gRunInTerm)
-    else
-      ExecCmdFork(sCmd);
-
-    edtCommand.DroppedDown:=False;
-    // only cMaxStringItems(see uGlobs.pas) is stored
-    if edtCommand.Items.Count>cMaxStringItems then
-      edtCommand.Items.Delete(edtCommand.Items.Count-1);
-  end;
+    begin
+      aFile:= ActiveFrame.ActiveFile;
+      if Assigned(aFile) then
+        try
+          sCmd:= 'quote' + #32 + sCmd;
+          aFile.FullPath:= ActiveFrame.CurrentPath;
+          Operation:= ActiveFrame.FileSource.CreateExecuteOperation(
+                                           aFile,
+                                           ActiveFrame.CurrentPath,
+                                           sCmd) as TFileSourceExecuteOperation;
+          if Assigned(Operation) then
+            Operation.Execute;
+        finally
+          FreeThenNil(Operation);
+        end;
+    end;
 end;
 
 //LaBero begin
@@ -3551,7 +3572,7 @@ procedure TfrmMain.UpdatePrompt;
 const
   PTLen = 40;
 begin
-  if ActiveFrame.FileSource.IsInterface(IFileSystemFileSource) then
+  if (fsoExecute in ActiveFrame.FileSource.GetOperationsTypes) then
   begin
     with lblCommandPath do
     begin
