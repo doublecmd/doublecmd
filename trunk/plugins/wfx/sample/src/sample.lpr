@@ -59,6 +59,11 @@ begin
   Result:= FS_FILE_OK;
 end;
 
+function FsExecuteFile(MainWin:thandle;RemoteName,Verb:pchar):integer; stdcall;
+begin
+  gRequestProc(gPluginNr, RT_MsgOK, RemoteName, Verb, nil, 0);
+  Result:= FS_EXEC_OK;
+end;
 
 exports
       // mandatory
@@ -67,7 +72,8 @@ exports
       FsFindNext,
       FsFindClose,
       // optional
-      FsRenMovFile;
+      FsRenMovFile,
+      FsExecuteFile;
 
 begin
 end.
