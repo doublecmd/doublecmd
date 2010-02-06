@@ -90,6 +90,8 @@ type
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
                                             var theNewProperties: TFileProperties): TFileSourceOperation; override;
 
+    function GetLocalName(var aFile: TFile): Boolean; override;
+
     class function CreateByRootName(aRootName: String): IWfxPluginFileSource;
 
     property PluginNumber: LongInt read FPluginNumber;
@@ -457,6 +459,9 @@ end;
 function TWfxPluginFileSource.GetProperties: TFileSourceProperties;
 begin
   Result := [];
+  with FWfxModule do
+  if Assigned(FsLinksToLocalFiles) and FsLinksToLocalFiles() then
+    Result:= [fspLinksToLocalFiles];
 end;
 
 function TWfxPluginFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
@@ -654,6 +659,19 @@ begin
                 TargetFileSource,
                 theTargetFiles,
                 theNewProperties);
+end;
+
+function TWfxPluginFileSource.GetLocalName(var aFile: TFile): Boolean;
+var
+  sFileName: UTF8String;
+begin
+  Result:= False;
+  sFileName:= aFile.FullPath;
+  if FWfxModule.WfxGetLocalName(sFileName) then
+    begin
+      aFile.FullPath:= sFileName;
+      Result:= True;
+    end;
 end;
 
 class function TWfxPluginFileSource.CreateByRootName(aRootName: String): IWfxPluginFileSource;
