@@ -3184,6 +3184,7 @@ begin
       aFile:= ActiveFrame.ActiveFile;
       if Assigned(aFile) then
         try
+          aFile:= aFile.Clone;
           sCmd:= 'quote' + #32 + sCmd;
           aFile.FullPath:= ActiveFrame.CurrentPath;
           Operation:= ActiveFrame.FileSource.CreateExecuteOperation(
@@ -3193,6 +3194,7 @@ begin
           if Assigned(Operation) then
             Operation.Execute;
         finally
+          FreeThenNil(aFile);
           FreeThenNil(Operation);
         end;
     end;
