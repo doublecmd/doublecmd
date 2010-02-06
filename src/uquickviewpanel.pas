@@ -106,8 +106,15 @@ var
 begin
   if not (Assigned(aFile) and (aFile.Name <> '..')) then Exit;
   try
+    // If files are links to local files
+    if (fspLinksToLocalFiles in Sender.FileSource.Properties) then
+      begin
+        FFileSource := Sender.FileSource;
+        ActiveFile:= aFile.Clone;
+        if not FFileSource.GetLocalName(ActiveFile) then Exit;
+      end
     // If files not directly accessible copy them to temp file source.
-    if not (fspDirectAccess in Sender.FileSource.Properties) then
+    else if not (fspDirectAccess in Sender.FileSource.Properties) then
       begin
         if aFile.IsDirectory or SameText(FFileName, aFile.Name) then Exit;
         if not (fsoCopyOut in Sender.FileSource.GetOperationsTypes) then Exit;
@@ -151,4 +158,4 @@ begin
 end;
 
 end.
-
+
