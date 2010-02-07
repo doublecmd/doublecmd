@@ -232,10 +232,8 @@ type
         //---------------------
         procedure Assign(Source: TWDXModuleList);
         procedure Clear;
-        procedure Load(FileName:string);overload;
         procedure Load(Ini:TIniFileEx); overload;
         procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
-        procedure Save(FileName:string);overload;
         procedure Save(Ini:TIniFileEx); overload;
         procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
         procedure DeleteItem(Index: integer);
@@ -309,17 +307,6 @@ begin
    end;
 end;
 
-procedure TWDXModuleList.Load(FileName: string);
-var Ini:TIniFileEx;
-begin
-  try
-    Ini:=TIniFileEx.Create(FileName);
-    Load(Ini);
-  finally
-    Ini.Free;
-  end;
-end;
-
 procedure TWDXModuleList.Load(Ini: TIniFileEx);
 var Count,I:integer;
     tmp,tp:string;
@@ -383,18 +370,8 @@ begin
         else
           DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
       end;
+      ANode := ANode.NextSibling;
     end;
-  end;
-end;
-
-procedure TWDXModuleList.Save(FileName: string);
- var  Ini:TIniFileEx;
-begin
-  try
-    Ini:=TIniFileEx.Create(FileName);
-     Save(Ini);
-  finally
-    Ini.Free;
   end;
 end;
 
@@ -1101,4 +1078,4 @@ function TWDXModule.WdxFieldType(n: integer): string;
 end;
 
 end.
-
+
