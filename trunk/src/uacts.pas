@@ -1390,8 +1390,9 @@ end;
 
 procedure TActs.cm_MakeDir(param:string);
 var
-  sPath:String;
-  Operation: TFileSourceOperation;
+  sPath: UTF8String;
+  aFile: TFile = nil;
+  Operation: TFileSourceOperation = nil;
   UI: TFileSourceOperationMessageBoxesUI = nil;
 begin
   with frmMain do
@@ -1402,9 +1403,14 @@ begin
       Exit;
     end;
 
-    sPath := ActiveFrame.ActiveFile.Name;         // 21.05.2009 - pass name from cursor to makedir form
+    aFile:= ActiveFrame.ActiveFile;
+    if Assigned(aFile) and aFile.IsNameValid then
+      sPath := aFile.Name // 21.05.2009 - pass name from cursor to makedir form
+    else
+      sPath := EmptyStr;
+
     if not frmMkDir.ShowMkDir(sPath) then Exit;   // show makedir dialog
-    if (sPath='') then Exit;
+    if (sPath = EmptyStr) then Exit;
 
     Operation := ActiveFrame.FileSource.CreateCreateDirectoryOperation(ActiveFrame.CurrentPath, sPath);
     if Assigned(Operation) then
