@@ -22,10 +22,10 @@
 
 }
 
-{ $threading on}
 unit fFindDlg;
+
 {$mode objfpc}{$H+}
-{$DEFINE NOFAKETHREAD}
+
 interface
 
 uses
@@ -156,7 +156,6 @@ type
     procedure PrepareSearch;
   public
     { Public declarations }
-    DSL:TDSXModuleList;
     procedure ThreadTerminate(Sender:TObject);
   end;
 
@@ -236,7 +235,6 @@ begin
   lblStatus.Caption:= '';
   lblFound.Caption:= '';
   Height:= pnlFindFile.Height + 22;
-  DSL:= TDSXModuleList.Create;
   // fill search depth combobox
   cbSearchDepth.Items.Add(rsFindDepthAll);
   cbSearchDepth.Items.Add(rsFindDepthCurDir);
@@ -654,23 +652,17 @@ begin
        //---------------------
        if (cbUsePlugin.Checked) and (cbbSPlugins.ItemIndex<>-1) then
          begin
-           DSL:=TDSXModuleList.Create;
-           DSL.Load(gini);
-           DSL.LoadModule(cbbSPlugins.ItemIndex);
+           gDSXPlugins.LoadModule(cbbSPlugins.ItemIndex);
            FillSearchRecord(sr);
            FreeAndNil(FFindThread);
 
-           DSL.GetDSXModule(cbbSPlugins.ItemIndex).CallInit(@SAddFileProc,@SUpdateStatusProc);
-           DSL.GetDSXModule(cbbSPlugins.ItemIndex).CallStartSearch(PChar(edtFindPathStart.Text),sr);
+           gDSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallInit(@SAddFileProc,@SUpdateStatusProc);
+           gDSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallStartSearch(PChar(edtFindPathStart.Text),sr);
          end
       else
         begin
-      {$IFDEF NOFAKETHREAD}
-          OnTerminate:=@ThreadTerminate; // napojime udalost na obsluhu tlacitka
+          OnTerminate:=@ThreadTerminate; // will update the buttons after search is finished
           Resume;
-      {$ELSE}
-          Resume;
-      {$ENDIF}
         end;
     end;
   except
@@ -819,8 +811,8 @@ procedure TfrmFindDlg.btnStopClick(Sender: TObject);
 begin
   if (cbUsePlugin.Checked) and (cbbSPlugins.ItemIndex<>-1) then
     begin
-      DSL.GetDSXModule(cbbSPlugins.ItemIndex).CallStopSearch;
-      DSL.GetDSXModule(cbbSPlugins.ItemIndex).CallFinalize;
+      gDSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallStopSearch;
+      gDSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallFinalize;
       ThreadTerminate(nil);
     end;
     
@@ -843,7 +835,6 @@ end;
 
 procedure TfrmFindDlg.FormDestroy(Sender: TObject);
 begin
-    FreeAndNil(DSL);
 end;
 
 procedure TfrmFindDlg.frmFindDlgClose(Sender: TObject;
@@ -871,11 +862,10 @@ begin
     end;
   cmbReplaceText.Items.Assign(glsReplaceHistory);
 
-  DSL.Load(gini);
   cbbSPlugins.Clear;
-  for I:= 0 to DSL.Count-1 do
+  for I:= 0 to gDSXPlugins.Count-1 do
     begin
-      cbbSPlugins.AddItem(DSL.GetDSXModule(i).Name+' ('+DSL.GetDSXModule(I).Descr+' )',nil);
+      cbbSPlugins.AddItem(gDSXPlugins.GetDSXModule(i).Name+' (' + gDSXPlugins.GetDSXModule(I).Descr+' )',nil);
     end;
   if (cbbSPlugins.Items.Count>0) then cbbSPlugins.ItemIndex:=0;
 end;
