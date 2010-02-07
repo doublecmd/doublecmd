@@ -2289,11 +2289,11 @@ begin
    FillCommandsPage;
 
   { Fill plugins lists }
-  tmpDSXPlugins.Load(gIni);
+  tmpDSXPlugins.Assign(gDSXPlugins);
   tmpWCXPlugins.Assign(gWCXPlugins);
-  tmpWDXPlugins.Load(gIni);
+  tmpWDXPlugins.Assign(gWDXPlugins);
   tmpWFXPlugins.Assign(gWFXPlugins);
-  tmpWLXPlugins.Load(gIni);
+  tmpWLXPlugins.Assign(gWLXPlugins);
 end;
 
 procedure TfrmOptions.SaveConfig;
@@ -2518,13 +2518,12 @@ begin
   {Columns Set}
   ColSet.Save(gIni);
 
-  DebugLn('Save plugins');
-  { Save plugins lists }
-  tmpDSXPlugins.Save(gIni);
+  { Set plugins lists }
+  gDSXPlugins.Assign(tmpDSXPlugins);
   gWCXPlugins.Assign(tmpWCXPlugins);
   gWDXPlugins.Assign(tmpWDXPlugins);
   gWFXPlugins.Assign(tmpWFXPlugins);
-  tmpWLXPlugins.Save(gIni);
+  gWLXPlugins.Assign(tmpWLXPlugins);
 end;
 
 procedure TfrmOptions.SetColorInColorBox(const lcbColorBox: TColorBox;

@@ -34,7 +34,7 @@ interface
 
 uses
   Classes, SysUtils, dynlibs, uDetectStr, uwlxprototypes, WLXPlugin,
-  uClassesEx, uDCUtils, uGlobs,LCLProc, LCLType
+  uClassesEx, uDCUtils, LCLProc, LCLType, uXmlConfig
   {$IFDEF LCLWIN32}
     , Windows
   {$ENDIF}
@@ -128,15 +128,17 @@ type
         destructor Destroy; override;
         //---------------------
         procedure Clear;
-        procedure Load(FileName:string);overload;
         procedure Load(Ini:TIniFileEx); overload;
-        procedure Save(FileName:string);overload;
+        procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
         procedure Save(Ini:TIniFileEx); overload;
+        procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
         procedure DeleteItem(Index: integer);
         //---------------------
         function Add(Item:TWLXModule):integer;overload;
         function Add(FileName:string):integer;overload;
         function Add(AName,FileName,DetectStr:string):integer;overload;
+        //---------------------
+        procedure Assign(OtherList: TWLXModuleList);
         //---------------------
         function IsLoaded(AName:String):Boolean;overload;
         function IsLoaded(Index: integer):Boolean;overload;
@@ -156,7 +158,7 @@ type
 implementation
 
 uses
-  FileUtil, uOSUtils, uGlobsPaths;
+  FileUtil, uOSUtils, uGlobsPaths, uGlobs;
 
 const
   WlxIniFileName = 'wlx.ini';
@@ -435,13 +437,8 @@ end;
 
 destructor TWLXModuleList.Destroy;
 begin
-  while Flist.Count>0 do
-   begin
-     if assigned(TWLXModule(Flist.Objects[0])) then
-       TWLXModule(Flist.Objects[0]).Free;
-     Flist.Delete(0);
-   end;
-   FreeAndNil(Flist);
+  Clear;
+  FreeAndNil(Flist);
 
   inherited Destroy;
 end;
@@ -453,17 +450,6 @@ begin
      TWLXModule(Flist.Objects[0]).Free;
      Flist.Delete(0);
    end;
-end;
-
-procedure TWLXModuleList.Load(FileName: string);
-var Ini:TIniFileEx;
-begin
-  try
-    Ini:=TIniFileEx.Create(FileName);
-    Load(Ini);
-  finally
-    Ini.Free;
-  end;
 end;
 
 procedure TWLXModuleList.Load(Ini: TIniFileEx);
@@ -484,14 +470,35 @@ begin
     end;
 end;
 
-procedure TWLXModuleList.Save(FileName: string);
- var  Ini:TIniFileEx;
+procedure TWLXModuleList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  AName, APath: String;
+  AWlxModule: TWLXModule;
 begin
-  try
-    Ini:=TIniFileEx.Create(FileName);
-     Save(Ini);
-  finally
-    Ini.Free;
+  Clear;
+
+  ANode := ANode.FindNode('WlxPlugins');
+  if Assigned(ANode) then
+  begin
+    ANode := ANode.FirstChild;
+    while Assigned(ANode) do
+    begin
+      if ANode.CompareName('WlxPlugin') = 0 then
+      begin
+        if AConfig.TryGetValue(ANode, 'Name', AName) and
+           AConfig.TryGetValue(ANode, 'Path', APath) then
+        begin
+          AWlxModule := TWLXModule.Create;
+          Flist.AddObject(UpCase(AName), AWlxModule);
+          AWlxModule.Name := AName;
+          AWlxModule.FileName := GetCmdDirFromEnvVar(APath);
+          AWlxModule.DetectStr := AConfig.GetValue(ANode, 'DetectString', '');
+        end
+        else
+          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+      end;
+      ANode := ANode.NextSibling;
+    end;
   end;
 end;
 
@@ -505,6 +512,23 @@ begin
       Ini.WriteString('Lister Plugins','Plugin'+IntToStr(I+1)+'Name',TWLXModule(Flist.Objects[I]).Name);
       Ini.WriteString('Lister Plugins','Plugin'+IntToStr(I+1)+'Detect',TWLXModule(Flist.Objects[I]).DetectStr);
       Ini.WriteString('Lister Plugins','Plugin'+IntToStr(I+1)+'Path',SetCmdDirAsEnvVar(TWLXModule(Flist.Objects[I]).FileName));
+    end;
+end;
+
+procedure TWLXModuleList.Save(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  i: Integer;
+  SubNode: TXmlNode;
+begin
+  ANode := AConfig.FindNode(ANode, 'WlxPlugins', True);
+  AConfig.ClearNode(ANode);
+
+  for i := 0 to Flist.Count - 1 do
+    begin
+      SubNode := AConfig.AddNode(ANode, 'WlxPlugin');
+      AConfig.AddValue(SubNode, 'Name', TWLXModule(Flist.Objects[I]).Name);
+      AConfig.AddValue(SubNode, 'Path', SetCmdDirAsEnvVar(TWLXModule(Flist.Objects[I]).FileName));
+      AConfig.AddValue(SubNode, 'DetectString', TWLXModule(Flist.Objects[I]).DetectStr);
     end;
 end;
 
@@ -546,6 +570,18 @@ begin
       TWLXModule(Flist.Objects[Result]).Name:=AName;
       TWLXModule(Flist.Objects[Result]).DetectStr:=DetectStr;
       TWLXModule(Flist.Objects[Result]).FileName:=FileName;
+end;
+
+procedure TWLXModuleList.Assign(OtherList: TWLXModuleList);
+var
+  i: Integer;
+begin
+  Clear;
+  for i := 0 to OtherList.Flist.Count - 1 do
+  begin
+    with TWLXModule(OtherList.Flist.Objects[I]) do
+      Add(Name, FileName, DetectStr);
+  end;
 end;
 
 function TWLXModuleList.IsLoaded(AName: String): Boolean;

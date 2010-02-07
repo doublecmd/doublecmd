@@ -22,9 +22,9 @@ unit uGlobs;
 
 interface
 uses
-  Classes, Controls, Forms, uExts, uColorExt, Graphics, uClassesEx, uWDXModule,
-  uColumns,uhotkeymanger,uActs, uWFXModule, uWCXModule, uSearchTemplate,
-  uFileSourceOperationOptions, uXmlConfig;
+  Classes, Controls, Forms, uExts, uColorExt, Graphics, uClassesEx,
+  uColumns, uhotkeymanger, uActs, uSearchTemplate, uFileSourceOperationOptions,
+  uWFXModule, uWCXModule, uWDXModule, uwlxmodule, udsxmodule, uXmlConfig;
 
 type
   { Log options }
@@ -59,13 +59,17 @@ var
   gPOFileName,
   gHelpLang: String;
 
-  { WDX plugins }
-  gWDXPlugins:TWDXModuleList;
+  { DSX plugins }
+  gDSXPlugins: TDSXModuleList;
   { WCX plugins }
   gWCXPlugins: TWCXModuleList;
+  { WDX plugins }
+  gWDXPlugins:TWDXModuleList;
   { WFX plugins }
   gWFXPlugins: TWFXModuleList;
-  
+  { WLX plugins }
+  gWLXPlugins: TWLXModuleList;
+
   { Columns Set }
   ColSet:TPanelColumnsList;
   
@@ -447,9 +451,11 @@ begin
   glsReplaceHistory := TStringListEx.Create;
   glsIgnoreList := TStringListEx.Create;
   gSearchTemplateList := TSearchTemplateList.Create;
+  gDSXPlugins := TDSXModuleList.Create;
   gWCXPlugins := TWCXModuleList.Create;
   gWDXPlugins := TWDXModuleList.Create;
   gWFXPlugins := TWFXModuleList.Create;
+  gWLXPlugins := TWLXModuleList.Create;
   ColSet := TPanelColumnsList.Create;
 
   HotMan:=THotKeyManager.Create;
@@ -482,12 +488,16 @@ begin
     FreeAndNil(gConfig);
   if Assigned(gSearchTemplateList) then
     FreeAndNil(gSearchTemplateList);
+  if Assigned(gDSXPlugins) then
+    FreeAndNil(gDSXPlugins);
   if Assigned(gWCXPlugins) then
     FreeAndNil(gWCXPlugins);
   if Assigned(gWDXPlugins) then
     FreeAndNil(gWDXPlugins);
   if Assigned(gWFXPlugins) then
     FreeAndNil(gWFXPlugins);
+  if Assigned(gWLXPlugins) then
+    FreeAndNil(gWLXPlugins);
   if Assigned(ColSet) then
     FreeAndNil(ColSet);
   if Assigned(HotMan) then
@@ -739,9 +749,11 @@ begin
   ColSet.Load(gIni);
 
   { Plugins }
+  gDSXPlugins.Load(gIni);
   gWCXPlugins.Load(gIni);
   gWDXPlugins.Load(gIni);
   gWFXPlugins.Load(gIni);
+  gWLXPlugins.Load(gIni);
 end;
 
 procedure SaveIniConfig;
@@ -895,9 +907,11 @@ begin
   gSearchTemplateList.SaveToIni(gIni);
 
   { Plugins }
+  gDSXPlugins.Save(gIni);
   gWCXPlugins.Save(gIni);
   gWDXPlugins.Save(gIni);
   gWFXPlugins.Save(gIni);
+  gWLXPlugins.Save(gIni);
 end;
 
 function LoadXmlConfig : Boolean;
@@ -1132,9 +1146,11 @@ begin
   Node := gConfig.FindNode(Root, 'Plugins');
   if Assigned(Node) then
   begin
-    gWCXPlugins.Load(gConfig, Root);
-    gWDXPlugins.Load(gConfig, Root);
-    gWFXPlugins.Load(gConfig, Root);
+    gDSXPlugins.Load(gConfig, Node);
+    gWCXPlugins.Load(gConfig, Node);
+    gWDXPlugins.Load(gConfig, Node);
+    gWFXPlugins.Load(gConfig, Node);
+    gWLXPlugins.Load(gConfig, Node);
   end;
 end;
 
@@ -1321,9 +1337,11 @@ begin
 
   { Plugins }
   Node := gConfig.FindNode(Root, 'Plugins', True);
+  gDSXPlugins.Save(gConfig, Node);
   gWCXPlugins.Save(gConfig, Node);
   gWDXPlugins.Save(gConfig, Node);
   gWFXPlugins.Save(gConfig, Node);
+  gWLXPlugins.Save(gConfig, Node);
 end;
 
 initialization

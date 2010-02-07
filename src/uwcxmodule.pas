@@ -629,6 +629,7 @@ begin
         else
           DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
       end;
+      ANode := ANode.NextSibling;
     end;
   end;
 end;

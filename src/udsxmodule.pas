@@ -29,7 +29,8 @@ unit udsxmodule;
 interface
 
 uses
-  Classes, SysUtils, dynlibs, LCLProc, uGlobs, DsxPlugin,uClassesEx, uDCUtils, uOSUtils;
+  Classes, SysUtils, dynlibs, LCLProc, DsxPlugin, uClassesEx, uDCUtils,
+  uOSUtils, uXmlConfig;
 
 type
 
@@ -88,15 +89,17 @@ TDsxModule=class
         destructor Destroy; override;
         //---------------------
         procedure Clear;
-        procedure Load(FileName:string);overload;
         procedure Load(Ini:TIniFileEx); overload;
-        procedure Save(FileName:string);overload;
+        procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
         procedure Save(Ini:TIniFileEx); overload;
+        procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
         procedure DeleteItem(Index: integer);
         //---------------------
         function Add(Item:TDSXModule):integer;overload;
         function Add(FileName:string):integer;overload;
         function Add(AName,FileName,Descr:string):integer;overload;
+        //---------------------
+        procedure Assign(OtherList: TDSXModuleList);
         //---------------------
         function IsLoaded(AName:String):Boolean;overload;
         function IsLoaded(Index: integer):Boolean;overload;
@@ -114,7 +117,7 @@ TDsxModule=class
 implementation
 
 uses
-  uGlobsPaths;
+  uGlobs, uGlobsPaths;
 
 const
   DsxIniFileName = 'dsx.ini';
@@ -218,13 +221,8 @@ end;
 
 destructor TDSXModuleList.Destroy;
 begin
-  while Flist.Count>0 do
-   begin
-     if assigned(TDSXModule(Flist.Objects[0])) then
-       TDSXModule(Flist.Objects[0]).Free;
-     Flist.Delete(0);
-   end;
-   FreeAndNil(Flist);
+  Clear;
+  FreeAndNil(Flist);
 
   inherited Destroy;
 end;
@@ -237,17 +235,6 @@ begin
      Flist.Delete(0);
    end;
 
-end;
-
-procedure TDSXModuleList.Load(FileName: string);
-var Ini:TIniFileEx;
-begin
-  try
-    Ini:=TIniFileEx.Create(FileName);
-    Load(Ini);
-  finally
-    Ini.Free;
-  end;
 end;
 
 procedure TDSXModuleList.Load(Ini: TIniFileEx);
@@ -268,14 +255,35 @@ begin
     end;
 end;
 
-procedure TDSXModuleList.Save(FileName: string);
- var  Ini:TIniFileEx;
+procedure TDSXModuleList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  AName, APath: String;
+  ADsxModule: TDSXModule;
 begin
-  try
-    Ini:=TIniFileEx.Create(FileName);
-     Save(Ini);
-  finally
-    Ini.Free;
+  Clear;
+
+  ANode := ANode.FindNode('DsxPlugins');
+  if Assigned(ANode) then
+  begin
+    ANode := ANode.FirstChild;
+    while Assigned(ANode) do
+    begin
+      if ANode.CompareName('DsxPlugin') = 0 then
+      begin
+        if AConfig.TryGetValue(ANode, 'Name', AName) and
+           AConfig.TryGetValue(ANode, 'Path', APath) then
+        begin
+          ADsxModule := TDsxModule.Create;
+          Flist.AddObject(UpCase(AName), ADsxModule);
+          ADsxModule.Name := AName;
+          ADsxModule.FileName := GetCmdDirFromEnvVar(APath);
+          ADsxModule.Descr := AConfig.GetValue(ANode, 'Description', '');
+        end
+        else
+          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+      end;
+      ANode := ANode.NextSibling;
+    end;
   end;
 end;
 
@@ -291,6 +299,23 @@ begin
       Ini.WriteString('Search Plugins','Plugin'+IntToStr(I+1)+'Path',SetCmdDirAsEnvVar(TDSXModule(Flist.Objects[I]).FileName));
     end;
  end;
+
+procedure TDSXModuleList.Save(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  i: Integer;
+  SubNode: TXmlNode;
+begin
+  ANode := AConfig.FindNode(ANode, 'DsxPlugins', True);
+  AConfig.ClearNode(ANode);
+
+  for i := 0 to Flist.Count - 1 do
+    begin
+      SubNode := AConfig.AddNode(ANode, 'DsxPlugin');
+      AConfig.AddValue(SubNode, 'Name', TDSXModule(Flist.Objects[I]).Name);
+      AConfig.AddValue(SubNode, 'Path', SetCmdDirAsEnvVar(TDSXModule(Flist.Objects[I]).FileName));
+      AConfig.AddValue(SubNode, 'Description', TDSXModule(Flist.Objects[I]).Descr);
+    end;
+end;
 
 procedure TDSXModuleList.DeleteItem(Index: integer);
 begin
@@ -323,6 +348,18 @@ begin
       TDSXModule(Flist.Objects[Result]).Name:=AName;
       TDSXModule(Flist.Objects[Result]).Descr:=Descr;
       TDSXModule(Flist.Objects[Result]).FileName:=FileName;
+end;
+
+procedure TDSXModuleList.Assign(OtherList: TDSXModuleList);
+var
+  i: Integer;
+begin
+  Clear;
+  for i := 0 to OtherList.Flist.Count - 1 do
+  begin
+    with TDSXModule(OtherList.Flist.Objects[I]) do
+      Add(Name, FileName, Descr);
+  end;
 end;
 
 function TDSXModuleList.IsLoaded(AName: String): Boolean;
