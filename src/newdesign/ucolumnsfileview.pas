@@ -2160,18 +2160,13 @@ var
 begin
   if ActiveColm <> '' then
   begin
-    // If the columns set doesn't exist load the first one or the default one.
-    if ColSet.Items.IndexOf(ActiveColm) = -1 then
-      if ColSet.Items.Count > 0 then
-        ActiveColm := ColSet.Items[0]
-      else
-        ActiveColm := 'Default';
-
-    Colset.GetColumnSet(ActiveColm).Load(gIni, ActiveColm);
+    // If the ActiveColm set doesn't exist this will retrieve either
+    // the first set or the default set.
+    ColumnsClass := GetColumnsClass;
+    // Set name in case a different set was loaded.
+    ActiveColm := ColumnsClass.Name;
 
     SetColumnsWidths;
-
-    ColumnsClass := GetColumnsClass;
 
     dgPanel.FocusRectVisible := ColumnsClass.GetCursorBorder;
     dgPanel.FocusColor := ColumnsClass.GetCursorBorderColor;
@@ -2504,10 +2499,13 @@ begin
             Index:=ColSet.Items.IndexOf(ActiveColm);
             frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1 + Index);
             frmColumnsSetConf.Tag:=Index;
-            frmColumnsSetConf.ColumnClass.Clear;
-            frmColumnsSetConf.ColumnClass.Load(gIni,ActiveColm);
+            frmColumnsSetConf.SetColumnsClass(GetColumnsClass);
             {EDIT Set}
-            frmColumnsSetConf.ShowModal;
+            if frmColumnsSetConf.ShowModal = mrOK then
+            begin
+              // Force saving changes to config file.
+              SaveGlobs;
+            end;
 
             FreeAndNil(frmColumnsSetConf);
 

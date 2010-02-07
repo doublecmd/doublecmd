@@ -191,7 +191,8 @@ type
 
   public
     { public declarations }
-    ColumnClass:TPanelColumnsClass;
+    procedure SetColumnsClass(AColumnsClass: TPanelColumnsClass);
+
   private
     { Editing controls. }
     updWidth: TSpinEdit;
@@ -204,6 +205,7 @@ type
 
     // Make a custom TColumnsFileViewPreview = class(TColumnsFileView).
     PreviewPan: TColumnsFileView;
+    ColumnClass:TPanelColumnsClass;
 
     IndexRaw: Integer;
     Showed: boolean;
@@ -742,12 +744,6 @@ begin
 
   // Release ownership of ColumnClass (ColSet is now responsible for it).
   ColumnClassOwnership := False;
-
-{$IFDEF DC_USE_XML_CONFIG}
-  ColSet.Save(gConfig, gConfig.RootNode);
-{$ELSE}
-  ColSet.Save(gIni);
-{$ENDIF}
 end;
 
 procedure TfColumnsSetConf.btnPrevClick(Sender: TObject);
@@ -1172,6 +1168,10 @@ begin
      end;
 end;
 
+procedure TfColumnsSetConf.SetColumnsClass(AColumnsClass: TPanelColumnsClass);
+begin
+  ColumnClass.Assign(AColumnsClass);
+end;
 
 initialization
   {$I fcolumnssetconf.lrs}
