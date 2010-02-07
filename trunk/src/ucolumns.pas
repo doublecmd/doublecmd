@@ -151,6 +151,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+    procedure Assign(const OtherColumnsClass: TPanelColumnsClass);
     //---------------------
     function GetColumnTitle(const Index:Integer):string;
     function GetColumnFuncString(const Index:Integer):string;
@@ -240,7 +241,7 @@ type
     procedure Insert(AIndex: integer; AName: string; Item: TPanelColumnsClass);
     procedure DeleteColumnSet(SetName:string);
     procedure DeleteColumnSet(SetIndex:Integer); overload;
-    procedure CopyColumnSet(ini:TIniFileEx; SetName,NewSetName:string);
+    procedure CopyColumnSet(SetName, NewSetName: String);
     function GetColumnSet(const Index:Integer):TPanelColumnsClass;
     function GetColumnSet(Setname:string):TPanelColumnsClass;
 
@@ -450,6 +451,44 @@ begin
   inherited Destroy;
 end;
 
+procedure TPanelColumnsClass.Assign(const OtherColumnsClass: TPanelColumnsClass);
+var
+  OldColumn, NewColumn: TPanelColumn;
+  i: Integer;
+begin
+  Clear;
+
+  if not Assigned(OtherColumnsClass) then
+    Exit;
+
+  Name := OtherColumnsClass.Name;
+  FCustomView := OtherColumnsClass.FCustomView;
+  FCursorBorder := OtherColumnsClass.FCursorBorder;
+  FCursorBorderColor := OtherColumnsClass.FCursorBorderColor;
+
+  for i := 0 to OtherColumnsClass.ColumnsCount - 1 do
+    begin
+      OldColumn := OtherColumnsClass.GetColumnItem(i);
+      NewColumn := TPanelColumn.Create;
+      Add(NewColumn);
+
+      NewColumn.Title := OldColumn.Title;
+      NewColumn.FuncString := OldColumn.FuncString;
+      FillListFromString(NewColumn.FuncList, NewColumn.FuncString);
+      NewColumn.Width := OldColumn.Width;
+      NewColumn.Align := OldColumn.Align;
+      NewColumn.FontName := OldColumn.FontName;
+      NewColumn.FontSize := OldColumn.FontSize;
+      NewColumn.FontStyle := OldColumn.FontStyle;
+      NewColumn.Overcolor := OldColumn.Overcolor;
+      NewColumn.TextColor := OldColumn.TextColor;
+      NewColumn.Background := OldColumn.Background;
+      NewColumn.Background2 := OldColumn.Background2;
+      NewColumn.MarkColor := OldColumn.MarkColor;
+      NewColumn.CursorColor := OldColumn.CursorColor;
+      NewColumn.CursorText := OldColumn.CursorText;
+    end;
+end;
 
 function TPanelColumnsClass.GetCount: Integer;
 begin
@@ -473,6 +512,7 @@ begin
   TPanelColumn(Flist[Result]).FontName:=gFontName;
   TPanelColumn(Flist[Result]).FontSize:=gFontSize;
   TPanelColumn(Flist[Result]).FontStyle:=gFontStyle;
+  TPanelColumn(Flist[Result]).Overcolor:=True;
   TPanelColumn(Flist[Result]).TextColor:=gForeColor;
   TPanelColumn(Flist[Result]).Background:=gBackColor;
   TPanelColumn(Flist[Result]).Background2:=gBackColor2;
@@ -1174,28 +1214,28 @@ begin
   fSet.Delete(SetIndex);
 end;
 
-procedure TPanelColumnsList.CopyColumnSet(ini: TIniFileEx; SetName,
-  NewSetName: string);
-var x,i:integer; st:TStringList;
+procedure TPanelColumnsList.CopyColumnSet(SetName, NewSetName: String);
+var
+  OldSetIndex, NewSetIndex: Integer;
+  OldSet, NewSet: TPanelColumnsClass;
 begin
-  x:=fSet.IndexOf(SetName);
-  if x<>-1 then
+  OldSetIndex := fSet.IndexOf(SetName);
+  if OldSetIndex <> -1 then
     begin
-      try
-        st:=TStringList.Create;
-        ini.ReadSectionValues(SetName,st);
-        for i:=0 to st.Count-1 do
-          begin
-            ini.WriteString(NewSetName,st.Names[i],st.Values[st.Names[i]]);
-          end;
-      finally
-        st.Free;
-      end;
-      fSet.AddObject(NewSetName,TPanelColumnsClass.Create);
-      TPanelColumnsClass(fset.Objects[fset.Count-1]).Name:=NewSetName;
-      TPanelColumnsClass(fset.Objects[fset.Count-1]).Load(ini,NewSetName);
-    end;
+      OldSet := TPanelColumnsClass(fSet.Objects[OldSetIndex]);
+      NewSetIndex := fSet.IndexOf(NewSetName);
+      if NewSetIndex <> -1 then
+        NewSet := TPanelColumnsClass(fSet.Objects[NewSetIndex])
+      else
+        begin
+          NewSet := TPanelColumnsClass.Create;
+          fSet.AddObject(NewSetName, NewSet);
+        end;
 
+      NewSet.Assign(OldSet);
+      // Set new name.
+      NewSet.Name := NewSetName;
+    end;
 end;
 
 function TPanelColumnsList.GetColumnSet(const Index: Integer): TPanelColumnsClass;

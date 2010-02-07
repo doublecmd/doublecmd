@@ -1951,8 +1951,7 @@ begin
   frmColumnsSetConf.edtNameofColumnsSet.Text:=lstColumnsSets.Items[lstColumnsSets.ItemIndex];
   frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(lstColumnsSets.ItemIndex+1);
   frmColumnsSetConf.Tag:=lstColumnsSets.ItemIndex;
-  frmColumnsSetConf.ColumnClass.Clear;
-  frmColumnsSetConf.ColumnClass.Load(gIni,lstColumnsSets.Items[lstColumnsSets.ItemIndex]);
+  frmColumnsSetConf.SetColumnsClass(ColSet.GetColumnSet(lstColumnsSets.Items[lstColumnsSets.ItemIndex]));
   {EDIT Set}
   frmColumnsSetConf.ShowModal;
   FreeAndNil(frmColumnsSetConf);
@@ -2025,13 +2024,15 @@ begin
 end;
 
 procedure TfrmOptions.btnCopyColumnsSetClick(Sender: TObject);
-var s:string;
+var
+  s: string;
 begin
-  if lstColumnsSets.ItemIndex=-1 then exit;
-  s:=lstColumnsSets.Items[lstColumnsSets.ItemIndex];
-  ColSet.CopyColumnSet(gIni,s,s+'_Copy');
-  FillColumnsList;
-
+  if lstColumnsSets.ItemIndex <> -1 then
+  begin
+    s := lstColumnsSets.Items[lstColumnsSets.ItemIndex];
+    ColSet.CopyColumnSet(s, s + '_Copy');
+    FillColumnsList;
+  end;
 end;
 
 procedure TfrmOptions.btnCursorColorClick(Sender: TObject);
@@ -2070,7 +2071,7 @@ begin
   frmColumnsSetConf.edtNameofColumnsSet.Text:='New Columns'+inttostr(ColSet.count);
   frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(lstColumnsSets.Count+1);
   frmColumnsSetConf.Tag:=-1;
-  frmColumnsSetConf.ColumnClass.Clear;
+  frmColumnsSetConf.SetColumnsClass(nil);
   frmColumnsSetConf.ShowModal;
   FreeAndNil(frmColumnsSetConf);
   FillColumnsList;
@@ -2515,9 +2516,6 @@ begin
   frmMain.Repaint; // for panels repaint
   frmMain.SaveShortCuts;
   
-  {Columns Set}
-  ColSet.Save(gIni);
-
   { Set plugins lists }
   gDSXPlugins.Assign(tmpDSXPlugins);
   gWCXPlugins.Assign(tmpWCXPlugins);
