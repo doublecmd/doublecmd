@@ -225,7 +225,16 @@ end;
 
 function TWcxArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result := [fsoList, fsoCopyIn, fsoCopyOut, fsoDelete, fsoExecute, fsoTestArchive];
+  Result := [fsoList, fsoCopyOut, fsoTestArchive, fsoExecute]; // by default
+  with FWcxModule do
+  begin
+    if (((FPluginFlags and PK_CAPS_NEW) <> 0) or ((FPluginFlags and PK_CAPS_MODIFY) <> 0)) and
+       (Assigned(PackFiles) or Assigned(PackFilesW)) then
+      Result:= Result + [fsoCopyIn];
+    if ((FPluginFlags and PK_CAPS_DELETE) <> 0) and
+       (Assigned(DeleteFiles) or Assigned(DeleteFilesW)) then
+      Result:= Result + [fsoDelete];
+  end;
 end;
 
 function TWcxArchiveFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
