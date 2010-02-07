@@ -153,6 +153,7 @@ type
   private
     { Private declarations }
     FFindThread:TFindThread;
+    DsxPlugins: TDSXModuleList;
     procedure PrepareSearch;
   public
     { Public declarations }
@@ -235,6 +236,8 @@ begin
   lblStatus.Caption:= '';
   lblFound.Caption:= '';
   Height:= pnlFindFile.Height + 22;
+  DsxPlugins := TDSXModuleList.Create;
+  DsxPlugins.Assign(gDSXPlugins);
   // fill search depth combobox
   cbSearchDepth.Items.Add(rsFindDepthAll);
   cbSearchDepth.Items.Add(rsFindDepthCurDir);
@@ -652,12 +655,12 @@ begin
        //---------------------
        if (cbUsePlugin.Checked) and (cbbSPlugins.ItemIndex<>-1) then
          begin
-           gDSXPlugins.LoadModule(cbbSPlugins.ItemIndex);
+           DSXPlugins.LoadModule(cbbSPlugins.ItemIndex);
            FillSearchRecord(sr);
            FreeAndNil(FFindThread);
 
-           gDSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallInit(@SAddFileProc,@SUpdateStatusProc);
-           gDSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallStartSearch(PChar(edtFindPathStart.Text),sr);
+           DSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallInit(@SAddFileProc,@SUpdateStatusProc);
+           DSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallStartSearch(PChar(edtFindPathStart.Text),sr);
          end
       else
         begin
@@ -811,8 +814,8 @@ procedure TfrmFindDlg.btnStopClick(Sender: TObject);
 begin
   if (cbUsePlugin.Checked) and (cbbSPlugins.ItemIndex<>-1) then
     begin
-      gDSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallStopSearch;
-      gDSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallFinalize;
+      DSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallStopSearch;
+      DSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallFinalize;
       ThreadTerminate(nil);
     end;
     
@@ -835,6 +838,7 @@ end;
 
 procedure TfrmFindDlg.FormDestroy(Sender: TObject);
 begin
+  FreeThenNil(DsxPlugins);
 end;
 
 procedure TfrmFindDlg.frmFindDlgClose(Sender: TObject;
@@ -863,9 +867,9 @@ begin
   cmbReplaceText.Items.Assign(glsReplaceHistory);
 
   cbbSPlugins.Clear;
-  for I:= 0 to gDSXPlugins.Count-1 do
+  for I:= 0 to DSXPlugins.Count-1 do
     begin
-      cbbSPlugins.AddItem(gDSXPlugins.GetDSXModule(i).Name+' (' + gDSXPlugins.GetDSXModule(I).Descr+' )',nil);
+      cbbSPlugins.AddItem(DSXPlugins.GetDSXModule(i).Name+' (' + DSXPlugins.GetDSXModule(I).Descr+' )',nil);
     end;
   if (cbbSPlugins.Items.Count>0) then cbbSPlugins.ItemIndex:=0;
 end;

@@ -384,7 +384,6 @@ begin
   if Assigned(WlxPlugins) then
      begin
        ExitPluginMode;
-       FreeAndNil(WlxPlugins);
      end;
 end;
 
@@ -520,7 +519,7 @@ begin
   FileList := TStringList.Create;
 
   WlxPlugins:=TWLXModuleList.Create;
-  WlxPlugins.Load(gIni);
+  WlxPlugins.Assign(gWLXPlugins);
   DebugLn('WLX: Load - OK');
 
   FFindDialog:=nil; // dialog is created in first use
@@ -849,4 +848,4 @@ end;
 initialization
  {$I fviewer.lrs}
 
-end.
+end.
