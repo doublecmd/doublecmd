@@ -597,7 +597,7 @@ begin
     if Assigned(FsSetDefaultParams) then
     begin
       GetMem(dps,SizeOf(tFsDefaultParamStruct));
-      dps.DefaultIniName:=gpIniDir + WfxIniFileName;
+      dps.DefaultIniName:=gpCfgDir + WfxIniFileName;
       dps.PluginInterfaceVersionHi:=1;
       dps.PluginInterfaceVersionLow:=50;
       dps.size:=SizeOf(tFsDefaultParamStruct);
@@ -609,7 +609,7 @@ begin
   if Assigned(SetDlgProc) then
     begin
       sPluginDir := UTF8Decode(ExtractFilePath(FModuleFileName));
-      sPluginConfDir := UTF8Decode(gpIniDir);
+      sPluginConfDir := UTF8Decode(gpCfgDir);
 
       with SetDlgProcInfo do
       begin

@@ -174,7 +174,7 @@ begin
   if Assigned(SInit) then
     begin
       GetMem(dps,SizeOf(tDSXDefaultParamStruct));
-      dps^.DefaultIniName:=gpIniDir + DsxIniFileName;
+      dps^.DefaultIniName:=gpCfgDir + DsxIniFileName;
       dps^.PluginInterfaceVersionHi:=0;
       dps^.PluginInterfaceVersionLow:=10;
       dps^.size:=SizeOf(tDSXDefaultParamStruct);

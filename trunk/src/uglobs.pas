@@ -203,8 +203,8 @@ var
                                log_vfs_op, log_success, log_errors, log_info];
 
   { Configuration page }
-  gUseIniInProgramDir,
-  gUseIniInProgramDirNew,
+  gUseConfigInProgramDir,
+  gUseConfigInProgramDirNew,
   gSaveDirHistory,
   gSaveCmdLineHistory,
   gSaveFileMaskHistory : Boolean;
@@ -250,10 +250,11 @@ var
 
 function LoadGlobs(Version: String = '') : Boolean;
 procedure SaveGlobs;
-function LoadIniConfig : Boolean;
+procedure LoadIniConfig;
 procedure SaveIniConfig;
-function LoadXmlConfig : Boolean;
+procedure LoadXmlConfig;
 procedure SaveXmlConfig;
+procedure ConvertIniToXml;
 
 function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
 
@@ -272,7 +273,7 @@ implementation
 
 uses
    LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils,
-   uDCUtils, uUniqueInstance;
+   uDCUtils, uUniqueInstance, fMultiRename, uFile;
 
 procedure LoadDefaultHotkeyBindings;
 begin
@@ -351,7 +352,7 @@ var
   sWidth, sHeight: String;
 begin
   Result:= TIniPropStorageEx.Create(Owner);
-  Result.IniFileName:= gpIniDir + 'session.ini';
+  Result.IniFileName:= gpCfgDir + 'session.ini';
   if Owner is TCustomForm then
     with Owner as TCustomForm do
     begin
@@ -405,43 +406,34 @@ begin
   end;
 end;
 
+procedure ConvertIniToXml;
+var
+  MultiRename: TfrmMultiRename = nil;
+  tmpFiles: TFiles = nil;
+begin
+  SaveXmlConfig;
+
+  // Force loading Multi-rename config if it wasn't used yet.
+  tmpFiles := TFiles.Create(mbGetCurrentDir);
+  MultiRename := TfrmMultiRename.Create(nil, nil, tmpFiles);
+  try
+    MultiRename.LoadPresetsIni(gIni);
+    MultiRename.PublicSavePresets;
+  finally
+    FreeThenNil(MultiRename);
+    FreeThenNil(tmpFiles);
+  end;
+
+  FreeAndNil(gIni);
+
+  if mbFileExists(gpGlobalCfgDir + 'doublecmd.ini') then
+    mbRenameFile(gpGlobalCfgDir + 'doublecmd.ini', gpGlobalCfgDir + 'doublecmd.ini.obsolete');
+  if mbFileExists(gpCfgDir + 'doublecmd.ini') then
+    mbRenameFile(gpCfgDir + 'doublecmd.ini', gpCfgDir + 'doublecmd.ini.obsolete');
+end;
+
 procedure InitGlobs;
 begin
-  { Create default configuration files if need }
-  if gpIniDir <> gpCfgDir then
-    begin
-      // main ini file
-      if not mbFileExists(gpIniDir + 'doublecmd.ini') then
-        CopyFile(gpCfgDir + 'doublecmd.ini', gpIniDir + 'doublecmd.ini');
-      if not mbFileExists(gpIniDir + 'doublecmd.xml') then
-        CopyFile(gpCfgDir + 'doublecmd.xml', gpIniDir + 'doublecmd.xml');
-      // toolbar file
-      if not mbFileExists(gpIniDir + 'default.bar') then
-        CopyFile(gpCfgDir + 'default.bar', gpIniDir + 'default.bar');
-      // extension file
-      if not mbFileExists(gpIniDir + 'doublecmd.ext') then
-        CopyFile(gpCfgDir + 'doublecmd.ext.example', gpIniDir + 'doublecmd.ext.example');
-      // pixmaps file
-      if not mbFileExists(gpIniDir + 'pixmaps.txt') then
-        CopyFile(gpCfgDir + 'pixmaps.txt', gpIniDir + 'pixmaps.txt');
-      // editor highlight file1
-      if not mbFileExists(gpIniDir + 'editor.col') then
-        CopyFile(gpCfgDir + 'editor.col', gpIniDir + 'editor.col');
-      // editor highlight file2
-      if not mbFileExists(gpIniDir + 'twilight.col') then
-        CopyFile(gpCfgDir + 'twilight.col', gpIniDir + 'twilight.col');
-    end;
-
-  gIni := TIniFileEx.Create(gpIniDir + 'doublecmd.ini');
-
-  // For now, enable loading/saving XML only if testing, until all done.
-{$IFDEF DC_USE_XML_CONFIG}
-  gConfig := TXmlConfig.Create(gpIniDir + 'doublecmd.xml');
-  gConfig.SaveOnDestroy := True;
-{$ELSE}
-  gConfig := TXmlConfig.Create;
-{$ENDIF}
-
   gExts := TExts.Create;
   gColorExt := TColorExt.Create;
   glsHotDir := TStringListEx.Create;
@@ -457,11 +449,8 @@ begin
   gWFXPlugins := TWFXModuleList.Create;
   gWLXPlugins := TWLXModuleList.Create;
   ColSet := TPanelColumnsList.Create;
-
-  HotMan:=THotKeyManager.Create;
-  Actions:=TActs.Create;
-
-  gErrorFile := gpIniDir + ExtractOnlyFileName(Application.ExeName) + '.err';
+  HotMan := THotKeyManager.Create;
+  Actions := TActs.Create;
 end;
 
 procedure DeInitGlobs;
@@ -506,44 +495,163 @@ begin
     FreeAndNil(Actions);
 end;
 
+function OpenConfig: Boolean;
+begin
+  // Check global directory for XML config.
+  if not Assigned(gConfig) and mbFileExists(gpGlobalCfgDir + 'doublecmd.xml') then
+  begin
+    if mbFileAccess(gpGlobalCfgDir + 'doublecmd.xml', fmOpenRead) then
+    begin
+      gConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml');
+      gUseConfigInProgramDir := gConfig.GetValue(gConfig.RootNode, 'Configuration/UseConfigInProgramDir', False);
+      if not gUseConfigInProgramDir then
+      begin
+        if mbFileExists(gpCfgDir + 'doublecmd.xml') then
+          // Close global config so that the local config is opened below.
+          FreeAndNil(gConfig)
+        else
+          // Local config is used but it doesn't exist. Use global config that has just
+          // been read but set file name accordingly and later save to local config.
+          gConfig.FileName := gpCfgDir + 'doublecmd.xml';
+      end;
+    end
+    else
+      // File is not accessible - print warning and continue below to check config in user directory.
+      DebugLn('Warning: Config file ' + gpGlobalCfgDir + 'doublecmd.xml' +
+              ' exists but is not accessible.');
+  end;
+
+  // Check user directory for XML config.
+  if not Assigned(gConfig) and mbFileExists(gpCfgDir + 'doublecmd.xml') then
+  begin
+    if mbFileAccess(gpCfgDir + 'doublecmd.xml', fmOpenRead) then
+    begin
+      gConfig := TXmlConfig.Create(gpCfgDir + 'doublecmd.xml');
+      gUseConfigInProgramDir := False;
+    end
+    else
+    begin
+      DebugLn('Error: Cannot access config file ' + gpGlobalCfgDir + 'doublecmd.xml.');
+      Exit(False);
+    end;
+  end;
+
+  if not Assigned(gConfig) then
+  begin
+    // Open INI config if present.
+
+    // Check global directory for INI config.
+    if not Assigned(gIni) and mbFileAccess(gpGlobalCfgDir + 'doublecmd.ini', fmOpenRead) then
+    begin
+      gIni := TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini', fmOpenRead);
+      gUseConfigInProgramDir := gIni.ReadBool('Configuration', 'UseIniInProgramDir', False);
+      if not gUseConfigInProgramDir then
+        FreeAndNil(gIni);
+    end;
+
+    // Check user directory for INI config.
+    if not Assigned(gIni) and mbFileAccess(gpCfgDir + 'doublecmd.ini', fmOpenRead) then
+    begin
+      gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini', fmOpenRead);
+      gUseConfigInProgramDir := False;
+    end;
+
+    if Assigned(gIni) then
+    begin
+      if gUseConfigInProgramDir then
+        gConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml')
+      else
+        gConfig := TXmlConfig.Create(gpCfgDir + 'doublecmd.xml');
+    end;
+  end;
+
+  // By default use config in user directory.
+  if not Assigned(gConfig) then
+  begin
+    gConfig := TXmlConfig.Create(gpCfgDir + 'doublecmd.xml');
+    gUseConfigInProgramDir := False;
+  end;
+
+  gUseConfigInProgramDirNew := gUseConfigInProgramDir;
+
+  // If global config is used then set config directory as global config directory.
+  if gUseConfigInProgramDir then
+    gpCfgDir := gpGlobalCfgDir;
+
+  if mbFileExists(gpCfgDir + 'doublecmd.xml') and
+     (not mbFileAccess(gpCfgDir + 'doublecmd.xml', fmOpenWrite)) then
+  begin
+    DebugLn('Warning: Config file ' + gpCfgDir + 'doublecmd.xml' +
+            ' is not accessible for writing. Configuration will not be saved.');
+  end
+  else
+    gConfig.SaveOnDestroy := True;
+
+  Result := True;
+end;
+
+procedure CopySettingsFiles;
+begin
+  { Create default configuration files if need }
+  if gpCfgDir <> gpGlobalCfgDir then
+    begin
+      // toolbar file
+      if not mbFileExists(gpCfgDir + 'default.bar') then
+        CopyFile(gpGlobalCfgDir + 'default.bar', gpCfgDir + 'default.bar');
+      // extension file
+      if not mbFileExists(gpCfgDir + 'doublecmd.ext') then
+        CopyFile(gpGlobalCfgDir + 'doublecmd.ext.example', gpCfgDir + 'doublecmd.ext.example');
+      // pixmaps file
+      if not mbFileExists(gpCfgDir + 'pixmaps.txt') then
+        CopyFile(gpGlobalCfgDir + 'pixmaps.txt', gpCfgDir + 'pixmaps.txt');
+      // editor highlight file1
+      if not mbFileExists(gpCfgDir + 'editor.col') then
+        CopyFile(gpGlobalCfgDir + 'editor.col', gpCfgDir + 'editor.col');
+      // editor highlight file2
+      if not mbFileExists(gpCfgDir + 'twilight.col') then
+        CopyFile(gpGlobalCfgDir + 'twilight.col', gpCfgDir + 'twilight.col');
+    end;
+end;
+
 function LoadGlobs(Version: String) : Boolean;
-var
-  Ini: TIniFileEx;
 begin
   Result := False;
   dcVersion:= Version;
   DebugLn('Loading configuration...');
   InitGlobs;
-
-  { Load location of configuration files }
-  Ini := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini', fmOpenRead);
-  gUseIniInProgramDir := Ini.ReadBool('Configuration', 'UseIniInProgramDir', False);
-  gUseIniInProgramDirNew:= gUseIniInProgramDir;
-  Ini.Free;
+  if not OpenConfig then
+    Exit;
+  if Assigned(gIni) then
+    LoadIniConfig
+  else if Assigned(gConfig) then
+    LoadXmlConfig
+  else
+  begin
+    DebugLn('Error: No config created.');
+    Exit(False);
+  end;
 
   { Check is unique instance }
-  gOnlyOnce:= gIni.ReadBool('Configuration', 'OnlyOnce', False);
   if gOnlyOnce and not IsUniqueInstance(ApplicationName) then Exit(False);
 
-  LoadIniConfig;
-{$IFDEF DC_USE_XML_CONFIG}
-  LoadXmlConfig;
-{$ENDIF}
+  gErrorFile := gpCfgDir + ExtractOnlyFileName(Application.ExeName) + '.err';
 
-  if mbFileExists(gpIniDir + 'doublecmd.ext') then
-    gExts.LoadFromFile(gpIniDir + 'doublecmd.ext');
+  CopySettingsFiles;
 
-  if mbFileExists(gpIniDir + 'dirhistory.txt') then
-    LoadStringsFromFile(glsDirHistory,gpIniDir + 'dirhistory.txt');
+  if mbFileExists(gpCfgDir + 'doublecmd.ext') then
+    gExts.LoadFromFile(gpCfgDir + 'doublecmd.ext');
 
-  if mbFileExists(gpIniDir + 'maskhistory.txt') then
-    LoadStringsFromFile(glsMaskHistory, gpIniDir + 'maskhistory.txt');
+  if mbFileExists(gpCfgDir + 'dirhistory.txt') then
+    LoadStringsFromFile(glsDirHistory, gpCfgDir + 'dirhistory.txt');
 
-  if mbFileExists(gpIniDir + 'searchhistory.txt') then
-    LoadStringsFromFile(glsSearchHistory, gpIniDir + 'searchhistory.txt');
+  if mbFileExists(gpCfgDir + 'maskhistory.txt') then
+    LoadStringsFromFile(glsMaskHistory, gpCfgDir + 'maskhistory.txt');
 
-  if mbFileExists(gpIniDir + 'replacehistory.txt') then
-    LoadStringsFromFile(glsReplaceHistory, gpIniDir + 'replacehistory.txt');
+  if mbFileExists(gpCfgDir + 'searchhistory.txt') then
+    LoadStringsFromFile(glsSearchHistory, gpCfgDir + 'searchhistory.txt');
+
+  if mbFileExists(gpCfgDir + 'replacehistory.txt') then
+    LoadStringsFromFile(glsReplaceHistory, gpCfgDir + 'replacehistory.txt');
 
   if mbFileExists(gIgnoreListFile) then
     LoadStringsFromFile(glsIgnoreList, gIgnoreListFile);
@@ -556,43 +664,60 @@ end;
 
 procedure SaveGlobs;
 var
+  TmpConfig: TXmlConfig;
   Ini: TIniFileEx;
 begin
-  if gUseIniInProgramDirNew <> gUseIniInProgramDir then
+  if gUseConfigInProgramDirNew <> gUseConfigInProgramDir then
     begin
-      gIni.Free;
-      { Save location of configuration files }
-      try
-        Ini:= TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
-        Ini.WriteBool('Configuration', 'UseIniInProgramDir', gUseIniInProgramDirNew);
-      finally
-        Ini.Free;
-      end;
       LoadPaths;
-      gIni := TIniFileEx.Create(gpIniDir + 'doublecmd.ini');
+      if gUseConfigInProgramDirNew then
+        gpCfgDir := gpGlobalCfgDir;
+
+      { Save location of configuration files }
+
+      if Assigned(gIni) then
+      begin
+        // Still using INI config.
+        FreeThenNil(gIni);
+        Ini:= TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini');
+        try
+          Ini.WriteBool('Configuration', 'UseIniInProgramDir', gUseConfigInProgramDirNew);
+        finally
+          Ini.Free;
+        end;
+        gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
+      end;
+
+      TmpConfig := TXmlConfig.Create(gpGlobalCfgDir + 'doublecmd.xml');
+      try
+        TmpConfig.SetValue(TmpConfig.RootNode, 'Configuration/UseConfigInProgramDir', gUseConfigInProgramDirNew);
+        TmpConfig.Save;
+      finally
+        TmpConfig.Free;
+      end;
+      gConfig.FileName := gpCfgDir + 'doublecmd.xml';
     end;
 
-  gExts.SaveToFile(gpIniDir + 'doublecmd.ext');
+  gExts.SaveToFile(gpCfgDir + 'doublecmd.ext');
 
   if gSaveDirHistory then
-    glsDirHistory.SaveToFile(gpIniDir + 'dirhistory.txt');
+    glsDirHistory.SaveToFile(gpCfgDir + 'dirhistory.txt');
   if gSaveFileMaskHistory then
-    glsMaskHistory.SaveToFile(gpIniDir + 'maskhistory.txt');
+    glsMaskHistory.SaveToFile(gpCfgDir + 'maskhistory.txt');
 
-  glsSearchHistory.SaveToFile(gpIniDir + 'searchhistory.txt');
-  glsReplaceHistory.SaveToFile(gpIniDir + 'replacehistory.txt');
+  glsSearchHistory.SaveToFile(gpCfgDir + 'searchhistory.txt');
+  glsReplaceHistory.SaveToFile(gpCfgDir + 'replacehistory.txt');
   glsIgnoreList.SaveToFile(gIgnoreListFile);
 
   //TODO: Save hotkeys
   //HotMan.Save();
 
-  SaveIniConfig;
-{$IFDEF DC_USE_XML_CONFIG}
+  if Assigned(gIni) then
+    SaveIniConfig;
   SaveXmlConfig;
-{$ENDIF}
 end;
 
-function LoadIniConfig : Boolean;
+procedure LoadIniConfig;
 begin
   { Layout page }
 
@@ -618,6 +743,7 @@ begin
   gShowSystemFiles := gIni.ReadBool('Configuration', 'ShowSystemFiles', False);
   gPOFileName := gIni.ReadString('Configuration', 'Language', '?');
   gRunInTerm := gIni.ReadString('Configuration', 'RunInTerm', RunInTerm);
+  gOnlyOnce:= gIni.ReadBool('Configuration', 'OnlyOnce', False);
   gCaseSensitiveSort := gIni.ReadBool('Configuration', 'CaseSensitiveSort', False);
   gLynxLike := gIni.ReadBool('Configuration', 'LynxLike', True);
   gShortFileSizeFormat := gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True);
@@ -691,7 +817,7 @@ begin
 
   { Log }
   gLogFile := gIni.ReadBool('Configuration', 'LogFile', True);
-  gLogFileName := gIni.ReadString('Configuration', 'LogFileName', gpIniDir + 'doublecmd.log');
+  gLogFileName := gIni.ReadString('Configuration', 'LogFileName', gpCfgDir + 'doublecmd.log');
   gLogOptions := TLogOptions(gIni.ReadInteger('Configuration', 'LogOptions', Integer(gLogOptions)));
   { Configuration page }
   gSaveDirHistory := gIni.ReadBool('Configuration', 'SaveDirHistory', True);
@@ -722,7 +848,7 @@ begin
   gCustomDriveIcons := gIni.ReadBool('Configuration', 'CustomDriveIcons', False);
   { Ignore list page }
   gIgnoreListFileEnabled:= gIni.ReadBool('Configuration', 'IgnoreListFileEnabled', False);
-  gIgnoreListFile:= gIni.ReadString('Configuration', 'IgnoreListFile', gpIniDir + 'ignorelist.txt');
+  gIgnoreListFile:= gIni.ReadString('Configuration', 'IgnoreListFile', gpCfgDir + 'ignorelist.txt');
 
   gCutTextToColWidth := gIni.ReadBool('Configuration', 'CutTextToColWidth', True);
 
@@ -914,26 +1040,13 @@ begin
   gWLXPlugins.Save(gIni);
 end;
 
-function LoadXmlConfig : Boolean;
+procedure LoadXmlConfig;
 var
   Root, Node, SubNode: TXmlNode;
-  TmpConfig: TXmlConfig;
 begin
-  { Load location of configuration files }
-{$IFDEF DC_USE_XML_CONFIG}
-  TmpConfig := TXmlConfig.Create(gpCfgDir + 'doublecmd.xml');
-  gUseIniInProgramDir := TmpConfig.GetValue(TmpConfig.RootNode, 'Configuration/UseIniInProgramDir', False);
-  FreeAndNil(TmpConfig);
-  gUseIniInProgramDirNew:= gUseIniInProgramDir;
-{$ENDIF}
-
   with gConfig do
   begin
     Root := gConfig.RootNode;
-
-    { Check is unique instance }
-    gOnlyOnce := GetValue(Root, 'Behaviours/OnlyOneInstance', gOnlyOnce);
-    if gOnlyOnce and not IsUniqueInstance(ApplicationName) then Exit(False);
 
     { Language page }
     gPOFileName := GetValue(Root, 'Language/POFileName', '');
@@ -944,7 +1057,7 @@ begin
     begin
       gRunInTerm := GetValue(Node, 'RunInTerminal', RunInTerm);
       gRunTerm := GetValue(Node, 'RunTerminal', RunTerm);
-//      gOnlyOnce := GetValue(Node, 'OnlyOneInstance', gOnlyOnce);
+      gOnlyOnce := GetValue(Node, 'OnlyOneInstance', gOnlyOnce);
       gLynxLike := GetValue(Node, 'LynxLike', True);
       gCaseSensitiveSort := GetValue(Node, 'CaseSensitiveSort', False);
       gShortFileSizeFormat := GetValue(Node, 'ShortFileSizeFormat', True);
@@ -1063,7 +1176,7 @@ begin
     if Assigned(Node) then
     begin
       gLogFile := GetAttr(Node, 'Enabled', True);
-      gLogFileName := GetValue(Node, 'FileName', gpIniDir + 'doublecmd.log');
+      gLogFileName := GetValue(Node, 'FileName', gpCfgDir + 'doublecmd.log');
       gLogOptions := TLogOptions(GetValue(Node, 'Options', Integer(gLogOptions)));
     end;
 
@@ -1125,7 +1238,7 @@ begin
     if Assigned(Node) then
     begin
       gIgnoreListFileEnabled:= GetAttr(Node, 'Enabled', False);
-      gIgnoreListFile:= GetValue(Node, 'IgnoreListFile', gpIniDir + 'ignorelist.txt');
+      gIgnoreListFile:= GetValue(Node, 'IgnoreListFile', gpCfgDir + 'ignorelist.txt');
     end;
 
     { Directories HotList }
@@ -1166,7 +1279,7 @@ begin
     SetAttr(Root, 'DCVersion', dcVersion);
     SetAttr(Root, 'ConfigVersion', ConfigVersion);
 
-    SetValue(Root, 'Configuration/UseIniInProgramDir', gUseIniInProgramDirNew);
+    SetValue(Root, 'Configuration/UseConfigInProgramDir', gUseConfigInProgramDirNew);
 
     { Language page }
     SetValue(Root, 'Language/POFileName', gPOFileName);

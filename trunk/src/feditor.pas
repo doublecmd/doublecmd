@@ -190,7 +190,7 @@ var
   editor: TfrmEditor;
 begin
   editor := TfrmEditor.Create(Application);
-  LoadAttrFromFile(gpIniDir + csDefaultName);
+  LoadAttrFromFile(gpCfgDir + csDefaultName);
 
   if sFileName = '' then
     editor.actFileNew.Execute

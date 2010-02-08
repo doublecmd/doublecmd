@@ -152,8 +152,8 @@ var
 begin
   Exts := TExts.Create;
   // load extension file
-  if mbFileExists(gpIniDir + 'doublecmd.ext') then
-    Exts.LoadFromFile(gpIniDir + 'doublecmd.ext');
+  if mbFileExists(gpCfgDir + 'doublecmd.ext') then
+    Exts.LoadFromFile(gpCfgDir + 'doublecmd.ext');
   lbFileTypes.ItemHeight := gIconsSize + 4;
   // fill file types list box
   iCount := Exts.Count - 1;
@@ -651,7 +651,7 @@ begin
   gExts.Free;
   gExts := Exts;
   Exts := nil;  // so that it isn't destroyed later
-  gExts.SaveToFile(gpIniDir + 'doublecmd.ext');
+  gExts.SaveToFile(gpCfgDir + 'doublecmd.ext');
   Close;
 end;
 
