@@ -365,7 +365,7 @@ begin
           Size := SizeOf(PackDefaultParamStruct);
           PluginInterfaceVersionLow := 10;
           PluginInterfaceVersionHi := 2;
-          DefaultIniName := gpIniDir + WcxIniFileName;
+          DefaultIniName := gpCfgDir + WcxIniFileName;
         end;
       PackSetDefaultParams(@PackDefaultParamStruct);
     end;
@@ -374,7 +374,7 @@ begin
   if Assigned(SetDlgProc) then
     begin
       sPluginDir := UTF8Decode(ExtractFilePath(sName));
-      sPluginConfDir := UTF8Decode(gpIniDir);
+      sPluginConfDir := UTF8Decode(gpCfgDir);
 
       with SetDlgProcInfo do
       begin

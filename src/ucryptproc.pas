@@ -212,7 +212,7 @@ end;
 procedure InitPasswordStore;
 begin
   try
-    PasswordStore:= TPasswordStore.Create(gpIniDir + 'pwd.ini', fmOpenReadWrite);
+    PasswordStore:= TPasswordStore.Create(gpCfgDir + 'pwd.ini', fmOpenReadWrite);
   except
     DebugLn('Can not create secure password store!');
   end;

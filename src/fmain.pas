@@ -617,11 +617,11 @@ begin
   // frost_asm end
   SetMyWndProc(Handle);
 
-  if mbFileExists(gpIniDir+cHistoryFile) then
+  if mbFileExists(gpCfgDir + cHistoryFile) then
     begin
       slCommandHistory:= TStringListEx.Create;
       try
-        slCommandHistory.LoadFromFile(gpIniDir+cHistoryFile);
+        slCommandHistory.LoadFromFile(gpCfgDir + cHistoryFile);
         edtCommand.Items.Assign(slCommandHistory);
         edtCommand.Text := '';
       finally
@@ -809,7 +809,7 @@ begin
       try
         slCommandHistory:= TStringListEx.Create;
         slCommandHistory.Assign(edtCommand.Items);
-        slCommandHistory.SaveToFile(gpIniDir+cHistoryFile);
+        slCommandHistory.SaveToFile(gpCfgDir + cHistoryFile);
       finally
         FreeThenNil(slCommandHistory);
       end;
@@ -1306,6 +1306,8 @@ begin
   Application.ProcessMessages;
 
   try
+    if Assigned(gIni) then
+      uGlobs.ConvertIniToXml;
     SaveWindowState;
     SaveShortCuts;
     SaveGlobs;
@@ -2930,7 +2932,7 @@ begin
       MainToolBar.ChangePath:= gpExePath;
       MainToolBar.EnvVar:= '%commander_path%';
       try
-        IniBarFile:= TIniFileEx.Create(gpIniDir + 'default.bar', fmOpenRead or fmShareDenyNone);
+        IniBarFile:= TIniFileEx.Create(gpCfgDir + 'default.bar', fmOpenRead or fmShareDenyNone);
         MainToolBar.LoadFromIniFile(IniBarFile);
       finally
         FreeThenNil(IniBarFile);
@@ -3264,42 +3266,29 @@ begin
 }
 
   (* Save all tabs *)
-{$IFDEF DC_USE_XML_CONFIG}
   SaveTabsXml(nbLeft);
   SaveTabsXml(nbRight);
-{$ELSE}
-  SaveTabsIni(nbLeft);
-  SaveTabsIni(nbRight);
-{$ENDIF}
 
   (* Save window bounds and state *)
-{$IFDEF DC_USE_XML_CONFIG}
   ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
   gConfig.SetValue(ANode, 'Left', Left);
   gConfig.SetValue(ANode, 'Top', Top);
   gConfig.SetValue(ANode, 'Width', Width);
   gConfig.SetValue(ANode, 'Height', Height);
   gConfig.SetValue(ANode, 'Maximized', (WindowState = wsMaximized));
-{$ELSE}
-  gIni.WriteInteger('Configuration', 'Main.Left', Left);
-  gIni.WriteInteger('Configuration', 'Main.Top', Top);
-  gIni.WriteInteger('Configuration', 'Main.Width', Width);
-  gIni.WriteInteger('Configuration', 'Main.Height', Height);
-  gIni.WriteBool('Configuration', 'Maximized', (WindowState = wsMaximized));
-{$ENDIF}
 end;
 
 // Save ShortCuts to config file
 procedure TfrmMain.SaveShortCuts;
 begin
-  HotMan.Save(gpIniDir + 'shortcuts.ini');
+  HotMan.Save(gpCfgDir + 'shortcuts.ini');
 end;
 
 // Load ShortCuts from config file
 procedure TfrmMain.LoadShortCuts;
 begin
   // ToDo Black list HotKey which can't use
-  HotMan.Load(gpIniDir + 'shortcuts.ini');
+  HotMan.Load(gpCfgDir + 'shortcuts.ini');
 end;
 
 function TfrmMain.IsCommandLineVisible: Boolean;

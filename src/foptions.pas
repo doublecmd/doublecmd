@@ -477,7 +477,7 @@ begin
       Items.Strings[2] := rsOptPageByPage;
     end;
   // Show configuration directory
-  rbProgramDir.Caption:= rbProgramDir.Caption + ' - [' + gpCfgDir + ']';
+  rbProgramDir.Caption:= rbProgramDir.Caption + ' - [' + gpGlobalCfgDir + ']';
   rbUserHomeDir.Caption:= rbUserHomeDir.Caption + ' - [' + GetAppConfigDir + PathDelim + ']';
   // tvTreeView localization
   with tvTreeView.Items do
@@ -1927,7 +1927,7 @@ end;
 
 procedure TfrmOptions.btnConfigEditClick(Sender: TObject);
 begin
-  ShowEditorByGlob(gpIniDir + 'doublecmd.ini');
+  ShowEditorByGlob(gpCfgDir + 'doublecmd.ini');
   btnConfigApply.Enabled:= True;
 end;
 
@@ -2208,7 +2208,7 @@ begin
   end;
 
   { Configuration storage }
-  if gUseIniInProgramDirNew then
+  if gUseConfigInProgramDirNew then
     rbProgramDir.Checked := True
   else
     rbUserHomeDir.Checked := True;
@@ -2433,7 +2433,7 @@ begin
   end;
 
   { Configuration storage }
-  gUseIniInProgramDirNew := rbProgramDir.Checked;
+  gUseConfigInProgramDirNew := rbProgramDir.Checked;
   gSaveDirHistory := cbDirHistory.Checked;
   gSaveCmdLineHistory := cbCmdLineHistory.Checked;
   gSaveFileMaskHistory := cbFileMaskHistory.Checked;

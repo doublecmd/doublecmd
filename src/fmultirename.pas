@@ -162,11 +162,9 @@ type
     function ApplyStyle(InputString: String; Style: Integer): String;
     {Load preset configuration}
     procedure LoadPresets;
-    procedure LoadPresetsIni;
     procedure LoadPresetsXml(AConfig: TXmlConfig);
     {Save preset configuration}
     procedure SavePresets;
-    procedure SavePresetsIni;
     procedure SavePresetsXml(AConfig: TXmlConfig);
     {Loads specified preset from the configuration}
     procedure LoadPreset(PresetName: String);
@@ -182,6 +180,11 @@ type
     { Public declarations }
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource; var aFiles: TFiles); reintroduce;
     destructor Destroy; override;
+
+    // Temporary for switching configuration from INI to XML
+    procedure PublicSavePresets;
+    procedure LoadPresetsIni(IniFile: TIniFileEx);
+    procedure SavePresetsIni(IniFile: TIniFileEx);
   end;
 
 {initialization function}
@@ -843,22 +846,19 @@ end;
 procedure TfrmMultiRename.LoadPresets;
 begin
   if Assigned(gIni) then
-    LoadPresetsIni
+    LoadPresetsIni(gIni)
   else
     LoadPresetsXml(gConfig);
 end;
 
-procedure TfrmMultiRename.LoadPresetsIni;
+procedure TfrmMultiRename.LoadPresetsIni(IniFile: TIniFileEx);
 var
   i: Integer;
   PresetIndex: Integer;
   PresetName: String;
   sPresetNr: String;
   PresetsCount: Integer;
-  IniFile: TIniFileEx;
 begin
-  IniFile := gIni;
-
   ClearPresetsList;
 
   FLastPreset := IniFile.ReadString(sPresetsSection, 'LastPreset', '');
@@ -943,20 +943,16 @@ end;
 
 procedure TfrmMultiRename.SavePresets;
 begin
-{$IFDEF DC_USE_XML_CONFIG}
+  if Assigned(gIni) then
+    SavePresetsIni(gIni);
   SavePresetsXml(gConfig);
-{$ELSE}
-  SavePresetsIni;
-{$ENDIF}
 end;
 
-procedure TfrmMultiRename.SavePresetsIni;
+procedure TfrmMultiRename.SavePresetsIni(IniFile: TIniFileEx);
 var
-  IniFile: TIniFileEx;
   i: Integer;
   sPresetNr: String;
 begin
-  IniFile := gIni;
   IniFile.EraseSection(sPresetsSection);
   IniFile.WriteString(sPresetsSection, 'LastPreset', FLastPreset);
   IniFile.WriteInteger(sPresetsSection, 'Presets', FPresets.Count);
@@ -1120,6 +1116,12 @@ begin
   for i := 0 to FPresets.Count - 1 do
     Dispose(PMultiRenamePreset(FPresets.List[i]^.Data));
   FPresets.Clear;
+end;
+
+// Temporary for switching configuration from INI to XML
+procedure TfrmMultiRename.PublicSavePresets;
+begin
+  SavePresetsXml(gConfig);
 end;
 
 initialization

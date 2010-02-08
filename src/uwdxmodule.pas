@@ -615,7 +615,7 @@ begin
    if assigned(ContentSetDefaultParams) then
    begin
        GetMem(dps,SizeOf(tContentDefaultParamStruct));
-       dps.DefaultIniName:=gpIniDir + WdxIniFileName;
+       dps.DefaultIniName:=gpCfgDir + WdxIniFileName;
        dps.PluginInterfaceVersionHi:=1;
        dps.PluginInterfaceVersionLow:=50;
        dps.size:=SizeOf(tContentDefaultParamStruct);
@@ -966,7 +966,7 @@ begin
   if not assigned(L) then exit;
   lua_getglobal(L,'ContentSetDefaultParams');
   if not lua_isfunction(L,-1) then exit;
-  lua_pushstring(L,pchar(gini.FileName));
+  lua_pushstring(L,pchar(gpCfgDir + WdxIniFileName));
   lua_pushinteger(L,1);
   lua_pushinteger(L,50);
   lua_call(L,3,0);

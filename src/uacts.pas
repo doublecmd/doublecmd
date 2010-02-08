@@ -988,7 +988,7 @@ begin
     if Pos(PathDelim, param) <> 0 then
       sFileName:= GetCmdDirFromEnvVar(param)
     else
-      sFileName:= gpIniDir + param;
+      sFileName:= gpCfgDir + param;
     IniFile:= TIniFileEx.Create(sFileName);
     MainToolBar.AutoSize:= False;
     MainToolBar.LoadFromIniFile(IniFile);
@@ -1010,7 +1010,7 @@ begin
     if Pos(PathDelim, param) <> 0 then
       sFileName:= GetCmdDirFromEnvVar(param)
     else
-      sFileName:= gpIniDir + param;
+      sFileName:= gpCfgDir + param;
     IniFile:= TIniFileEx.Create(sFileName);
     pmButtonMenu.LoadFromIniFile(IniFile);
     Point:=MainToolBar.ClientToScreen(Classes.Point(0,0));
