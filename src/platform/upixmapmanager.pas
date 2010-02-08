@@ -527,11 +527,11 @@ begin
   try
     // Try to load from cache.
     mTime:= mbFileAge(mime_globs);
-    if (mbFileAge(gpIniDir + pixmaps_cache) = mTime) and
-       (mbFileAccess(gpIniDir + pixmaps_cache, fmOpenRead)) and
-       (mbFileSize(gpIniDir + pixmaps_cache) > SizeOf(DWord) * 2) then
+    if (mbFileAge(gpCfgDir + pixmaps_cache) = mTime) and
+       (mbFileAccess(gpCfgDir + pixmaps_cache, fmOpenRead)) and
+       (mbFileSize(gpCfgDir + pixmaps_cache) > SizeOf(DWord) * 2) then
     begin
-      cache := TFileStreamEx.Create(gpIniDir + pixmaps_cache, fmOpenRead);
+      cache := TFileStreamEx.Create(gpCfgDir + pixmaps_cache, fmOpenRead);
       if (cache.ReadDWord <> NtoBE(cache_signature)) or
          (cache.ReadDWord <> cache_version) then
       begin
@@ -620,7 +620,7 @@ begin
           end;
 
         // save to cache
-        cache := TFileStreamEx.Create(gpIniDir + pixmaps_cache, fmCreate);
+        cache := TFileStreamEx.Create(gpCfgDir + pixmaps_cache, fmCreate);
         cache.WriteDWord(NtoBE(cache_signature));
         cache.WriteDWord(cache_version);
         cache.WriteDWord(EntriesCount);
@@ -639,7 +639,7 @@ begin
                 end;
           end;
         FreeAndNil(cache); // Close file
-        mbFileSetTime(gpIniDir + pixmaps_cache, mTime, 0, 0);
+        mbFileSetTime(gpCfgDir + pixmaps_cache, mTime, 0, 0);
       end;
 
   finally
