@@ -887,6 +887,9 @@ begin
   if Assigned(gIni) then
     SaveIniConfig;
   SaveXmlConfig;
+
+  // Force saving config to file.
+  gConfig.Save;
 end;
 
 procedure LoadIniConfig;

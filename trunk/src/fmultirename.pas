@@ -946,6 +946,7 @@ begin
   if Assigned(gIni) then
     SavePresetsIni(gIni);
   SavePresetsXml(gConfig);
+  gConfig.Save;
 end;
 
 procedure TfrmMultiRename.SavePresetsIni(IniFile: TIniFileEx);
