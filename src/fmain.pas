@@ -610,7 +610,7 @@ begin
   FDrivesListPopup.OnDriveSelected := @DriveListDriveSelected;
   FDrivesListPopup.OnClose := @DriveListClose;
 
-  if gOnlyOnce and Assigned(UniqueInstance) then
+  if gOnlyOneAppInstance and Assigned(UniqueInstance) then
     UniqueInstance.OnMessage:= @OnUniqueInstanceMessage;
   // frost_asm begin
   MainSplitterLeftMouseBtnDown:=false;
