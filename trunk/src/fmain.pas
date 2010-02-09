@@ -2598,9 +2598,6 @@ begin
   else
     RootNode := gConfig.FindNode(gConfig.RootNode, 'Tabs/OpenedTabs/Right');
 
-  if not Assigned(RootNode) then
-    Exit;
-
   if Assigned(RootNode) then
   begin
     sCurrentDir := mbGetCurrentDir; // default path
@@ -2656,11 +2653,27 @@ begin
     end;
   end;
 
-  // read active tab index
-  iActiveTab := gConfig.GetValue(RootNode, 'ActiveTab', 0);
-  // set active tab
-  if (iActiveTab >= 0) and (iActiveTab < ANoteBook.PageCount) then
-    ANoteBook.PageIndex := iActiveTab;
+  // Create at least one tab.
+  if ANoteBook.PageCount = 0 then
+  begin
+    sPath := mbGetCurrentDir;
+    sCaption := GetLastDir(sPath);
+    if (tb_text_length_limit in gDirTabOptions) and (Length(sCaption) > gDirTabLimit) then
+      sCaption := Copy(sCaption, 1, gDirTabLimit) + '...';
+
+    Page := ANoteBook.AddPage(sCaption);
+    aFileSource := TFileSystemFileSource.GetFileSource;
+    AFileView := TColumnsFileView.Create(Page, aFileSource, sPath);
+    AssignEvents(AFileView);
+  end
+  else if Assigned(RootNode) then
+  begin
+    // read active tab index
+    iActiveTab := gConfig.GetValue(RootNode, 'ActiveTab', 0);
+    // set active tab
+    if (iActiveTab >= 0) and (iActiveTab < ANoteBook.PageCount) then
+      ANoteBook.PageIndex := iActiveTab;
+  end;
 end;
 
 procedure TfrmMain.SaveTabsIni(ANoteBook: TFileViewNotebook);
