@@ -116,7 +116,7 @@ var
   glsSearchHistory : TStringListEx;
   glsReplaceHistory : TStringListEx;
   glsIgnoreList : TStringListEx;
-  gOnlyOnce,
+  gOnlyOneAppInstance,
   gCutTextToColWidth : Boolean;
   gSpaceMovesDown: Boolean;
   gScrollMode: Integer;
@@ -632,7 +632,7 @@ begin
   end;
 
   { Check is unique instance }
-  if gOnlyOnce and not IsUniqueInstance(ApplicationName) then Exit(False);
+  if gOnlyOneAppInstance and not IsUniqueInstance(ApplicationName) then Exit(False);
 
   gErrorFile := gpCfgDir + ExtractOnlyFileName(Application.ExeName) + '.err';
 
@@ -743,7 +743,7 @@ begin
   gShowSystemFiles := gIni.ReadBool('Configuration', 'ShowSystemFiles', False);
   gPOFileName := gIni.ReadString('Configuration', 'Language', '?');
   gRunInTerm := gIni.ReadString('Configuration', 'RunInTerm', RunInTerm);
-  gOnlyOnce:= gIni.ReadBool('Configuration', 'OnlyOnce', False);
+  gOnlyOneAppInstance:= gIni.ReadBool('Configuration', 'OnlyOnce', False);
   gCaseSensitiveSort := gIni.ReadBool('Configuration', 'CaseSensitiveSort', False);
   gLynxLike := gIni.ReadBool('Configuration', 'LynxLike', True);
   gShortFileSizeFormat := gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True);
@@ -914,7 +914,7 @@ begin
   gIni.WriteBool('Configuration', 'ShowSystemFiles', gShowSystemFiles);
   gIni.WriteString('Configuration', 'Language', gPOFileName);
   gIni.WriteString('Configuration', 'RunInTerm', gRunInTerm);
-  gIni.WriteBool('Configuration', 'OnlyOnce', gOnlyOnce);
+  gIni.WriteBool('Configuration', 'OnlyOnce', gOnlyOneAppInstance);
   gIni.WriteBool('Configuration', 'CaseSensitiveSort', gCaseSensitiveSort);
   gIni.WriteBool('Configuration', 'LynxLike', gLynxLike);
 
@@ -1057,7 +1057,7 @@ begin
     begin
       gRunInTerm := GetValue(Node, 'RunInTerminal', RunInTerm);
       gRunTerm := GetValue(Node, 'RunTerminal', RunTerm);
-      gOnlyOnce := GetValue(Node, 'OnlyOneInstance', gOnlyOnce);
+      gOnlyOneAppInstance := GetValue(Node, 'OnlyOneInstance', gOnlyOneAppInstance);
       gLynxLike := GetValue(Node, 'LynxLike', True);
       gCaseSensitiveSort := GetValue(Node, 'CaseSensitiveSort', False);
       gShortFileSizeFormat := GetValue(Node, 'ShortFileSizeFormat', True);
@@ -1288,7 +1288,7 @@ begin
     Node := FindNode(Root, 'Behaviours', True);
     SetValue(Node, 'RunInTerminal', gRunInTerm);
     SetValue(Node, 'RunTerminal', gRunTerm);
-    SetValue(Node, 'OnlyOneInstance', gOnlyOnce);
+    SetValue(Node, 'OnlyOneInstance', gOnlyOneAppInstance);
     SetValue(Node, 'LynxLike', gLynxLike);
     SetValue(Node, 'CaseSensitiveSort', gCaseSensitiveSort);
     SetValue(Node, 'ShortFileSizeFormat', gShortFileSizeFormat);

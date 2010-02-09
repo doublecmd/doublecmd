@@ -2112,7 +2112,7 @@ begin
   cbLogWindow.Checked := gLogWindow;
   cbTermWindow.Checked := gTermWindow;
 
-  cbOnlyOnce.Checked:= gOnlyOnce;
+  cbOnlyOnce.Checked:= gOnlyOneAppInstance;
   cbCaseSensitiveSort.Checked:=gCaseSensitiveSort;
   cbLynxLike.Checked:=gLynxLike;
   cbShortFileSizeFormat.Checked:=gShortFileSizeFormat;
@@ -2317,7 +2317,7 @@ begin
   gTermWindow := cbTermWindow.Checked;
   
   gRunInTerm:=edtRunInTerm.Text;
-  gOnlyOnce:=cbOnlyOnce.Checked;
+  gOnlyOneAppInstance:=cbOnlyOnce.Checked;
   gCaseSensitiveSort:=cbCaseSensitiveSort.Checked;
   gLynxLike:=cbLynxLike.Checked;
   gShortFileSizeFormat:=cbShortFileSizeFormat.Checked;
