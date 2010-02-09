@@ -755,7 +755,7 @@ procedure TfrmOptions.btnApplyClick(Sender: TObject);
 begin
   // save all configuration
   SaveConfig;
-  // write to ini file
+  // write to config file
   SaveGlobs;
 end;
 
@@ -1920,14 +1920,18 @@ end;
 
 procedure TfrmOptions.btnConfigApplyClick(Sender: TObject);
 begin
-  LoadGlobs;
+  gConfig.Load; // force reloading config from file
+  LoadGlobs(dcVersion);
   LoadConfig;
   btnConfigApply.Enabled:= False;
 end;
 
 procedure TfrmOptions.btnConfigEditClick(Sender: TObject);
 begin
-  ShowEditorByGlob(gpCfgDir + 'doublecmd.ini');
+  if Assigned(gIni) then
+    ShowEditorByGlob(gpCfgDir + 'doublecmd.ini')
+  else
+    ShowEditorByGlob(gpCfgDir + 'doublecmd.xml');
   btnConfigApply.Enabled:= True;
 end;
 
