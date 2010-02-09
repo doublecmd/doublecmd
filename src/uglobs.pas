@@ -715,7 +715,7 @@ begin
     // Check global directory for INI config.
     if not Assigned(gIni) and mbFileAccess(gpGlobalCfgDir + 'doublecmd.ini', fmOpenRead) then
     begin
-      gIni := TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini', fmOpenRead);
+      gIni := TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini');
       gUseConfigInProgramDir := gIni.ReadBool('Configuration', 'UseIniInProgramDir', False);
       if not gUseConfigInProgramDir then
         FreeAndNil(gIni);
@@ -724,7 +724,7 @@ begin
     // Check user directory for INI config.
     if not Assigned(gIni) and mbFileAccess(gpCfgDir + 'doublecmd.ini', fmOpenRead) then
     begin
-      gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini', fmOpenRead);
+      gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
       gUseConfigInProgramDir := False;
     end;
 
