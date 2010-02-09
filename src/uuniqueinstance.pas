@@ -40,13 +40,19 @@ type
 
 function IsUniqueInstance(aInstanceName: String): Boolean;
 
+{en
+   Returns @true if current application instance is allowed to run.
+   Returns @false if current instance should not be run.
+}
+function IsInstanceAllowed: Boolean;
+
 var
   UniqueInstance: TUniqueInstance = nil;
 
 implementation
 
 uses
-  StrUtils, FileUtil;
+  StrUtils, FileUtil, uGlobs;
 
 const
   Separator = '|';
@@ -167,6 +173,11 @@ begin
     Exit(False);
    end;
   UniqueInstance.RunListen;
+end;
+
+function IsInstanceAllowed: Boolean;
+begin
+  Result := (not gOnlyOneAppInstance) or IsUniqueInstance(ApplicationName);
 end;
 
 finalization
