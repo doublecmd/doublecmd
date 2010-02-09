@@ -723,7 +723,7 @@ begin
 
     end; // SHGetSpecialFolderLocation
 
-    ShellDesktop._Release;
+    ShellDesktop := nil;
 
   end; // SHGetDesktopFolder
 
