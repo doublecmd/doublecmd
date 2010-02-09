@@ -85,6 +85,10 @@ type
     }
     destructor Destroy; override;
     {en
+       Deletes all items.
+    }
+    procedure Clear;
+    {en
        Inserts a new item at the end of the list
        @param(AExtAction TExtAction item)
        @returns(The index of the new item)
@@ -445,6 +449,11 @@ begin
   if assigned(FExtList) then
     FreeAndNil(FExtList);
   inherited
+end;
+
+procedure TExts.Clear;
+begin
+  FExtList.Clear;
 end;
 
 function TExts.AddItem(AExtAction: TExtAction): Integer;

@@ -28,7 +28,8 @@ uses
   dmHigh, dmHelpManager, dmCommonData,
   uCryptProc,
   uPixMapManager,
-  uKeyboard;
+  uKeyboard,
+  uUniqueInstance;
 
 const
   dcBuildDate = {$I %DATE%};
@@ -75,7 +76,7 @@ begin
   LoadPaths; // must be first
   Application.ShowMainForm:= False;
   Application.CreateForm(TfrmHackForm, frmHackForm);
-  if LoadGlobs(dcVersion) then
+  if InitGlobs(dcVersion) and IsInstanceAllowed then
      begin
        InitPasswordStore;
        LoadPixMapManager;

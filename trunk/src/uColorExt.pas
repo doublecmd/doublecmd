@@ -46,12 +46,12 @@ type
   TColorExt = class
   private
     fOldCount: Integer;
-    procedure Clear;
   protected
     lslist: TList;
   public
     constructor Create;
     destructor Destroy; override;
+    procedure Clear;
     function GetColorByExt(const sExt: String): TColor;
     function GetColorByAttr(const sModeStr: String): TColor;
     function GetColorBy(const AFile: TFile): TColor;
