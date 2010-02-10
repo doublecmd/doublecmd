@@ -445,11 +445,11 @@ begin
       fneCommand.SelStart:= Pos('?>', fneCommand.Text) - 1;
     end
   else if miMenuItem.Name = 'miFileName' then
-    fneCommand.Text:= fneCommand.Text + '''%f'''
+    fneCommand.Text:= fneCommand.Text + '%f'
   else if miMenuItem.Name = 'miFilePath' then
-    fneCommand.Text:= fneCommand.Text + '''%d'''
+    fneCommand.Text:= fneCommand.Text + '%d'
   else if miMenuItem.Name = 'miFullPath' then
-    fneCommand.Text:= fneCommand.Text + '''%p''';
+    fneCommand.Text:= fneCommand.Text + '%p';
 end;
 
 procedure TfrmFileAssoc.sbtnIconClick(Sender: TObject);
@@ -681,4 +681,4 @@ initialization
   {$I ffileassoc.lrs}
 
 end.
-
+
