@@ -814,12 +814,16 @@ begin
         FreeThenNil(slCommandHistory);
       end;
     end;  
+
   {*Tool Bar*}
-  try
+  if MainToolBar.BarFile.CurrentBar <> EmptyStr then
+  begin
     IniBarFile:= TIniFileEx.Create(MainToolBar.BarFile.CurrentBar);
-    MainToolBar.SaveToIniFile(IniBarFile);
-  finally
-    FreeThenNil(IniBarFile);
+    try
+      MainToolBar.SaveToIniFile(IniBarFile);
+    finally
+      FreeThenNil(IniBarFile);
+    end;
   end;
   {*Tool Bar*}
 
@@ -3707,4 +3711,4 @@ end;
 
 initialization
  {$I fmain.lrs}
-end.
+end.
