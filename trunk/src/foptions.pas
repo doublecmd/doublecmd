@@ -749,6 +749,8 @@ procedure TfrmOptions.btnOKClick(Sender: TObject);
 begin
   // save all configuration
   SaveConfig;
+  // write to config file
+  SaveGlobs;
 end;
 
 procedure TfrmOptions.btnApplyClick(Sender: TObject);
@@ -2572,4 +2574,4 @@ end;
 initialization
  {$I fOptions.lrs}
 
-end.
+end.
