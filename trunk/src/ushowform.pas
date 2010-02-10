@@ -49,13 +49,12 @@ uses
   uDCUtils, uTempFileSystemFileSource;
 
 const
-  sCmdLine = '%s "%s"';
+  sCmdLine = '%s %s';
 
 function ShowEditorByGlob(sFileName:String):Boolean;
 begin
-  TrimQuotes(sFileName);
   if gUseExtEdit then
-    ExecCmdFork(Format(sCmdLine, [gExtEdit, sFileName]))
+    ExecCmdFork(Format(sCmdLine, [gExtEdit, QuoteStr(sFileName)]))
   else
     ShowEditor(sFileName);
   Result:=True;   
@@ -65,9 +64,8 @@ function ShowViewerByGlob(sFileName:String):Boolean;
 var
   sl:TStringList;
 begin
-  TrimQuotes(sFileName);
   if gUseExtView then
-    ExecCmdFork(Format(sCmdLine, [gExtView, sFileName]))
+    ExecCmdFork(Format(sCmdLine, [gExtView, QuoteStr(sFileName)]))
   else
   begin
     sl:=TStringList.Create;
@@ -97,7 +95,7 @@ begin
       end
     else
      for i:=0 to FilesToView.Count-1 do
-       ExecCmdFork(Format(sCmdLine, [gExtView, FilesToView.Strings[i]]));
+       ExecCmdFork(Format(sCmdLine, [gExtView, QuoteStr(FilesToView.Strings[i])]));
   end // gUseExtView
   else
     ShowViewer(FilesToView, aFileSource);
@@ -135,7 +133,8 @@ var
   Process : TProcessUTF8;
 begin
   Process := TProcessUTF8.Create(nil);
-  Process.CommandLine := Format(sCmdLine, [gExtView, FFileList.Strings[0]]);
+  // TProcess arguments must be enclosed with double quotes and not escaped.
+  Process.CommandLine := Format(sCmdLine, [gExtView, '"' + FFileList.Strings[0] + '"']);
   Process.Options := [poWaitOnExit];
   Process.Execute;
   Process.Free;
@@ -145,4 +144,4 @@ begin
     mbDeleteFile(FFileList.Strings[I]);
 end;
 
-end.
+end.
