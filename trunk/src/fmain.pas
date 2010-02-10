@@ -586,6 +586,9 @@ procedure TfrmMain.FormCreate(Sender: TObject);
     Result.OnMouseDown := @nbPageMouseDown;
     Result.OnMouseUp := @nbPageMouseUp;
     Result.OnPageChanged := @nbPageChanged;
+    {$IF DEFINED(LCLGTK2)}
+    Result.OnDblClick := @pnlLeftRightDblClick;
+    {$ENDIF}
   end;
 
 var
@@ -2215,6 +2218,10 @@ begin
     else if APanel = pnlRight then
       Actions.DoNewTab(nbRight);
   end;
+  {$IF DEFINED(LCLGTK2)}
+  if Sender is TFileViewNotebook then
+    Actions.DoNewTab(Sender as TFileViewNotebook);
+  {$ENDIF}
 end;
 
 procedure TfrmMain.seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
@@ -3711,4 +3718,4 @@ end;
 
 initialization
  {$I fmain.lrs}
-end.
+end.
