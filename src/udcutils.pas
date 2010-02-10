@@ -113,14 +113,6 @@ function GetPathType(const sPath : String): TPathType;
 }
 function ExtractOnlyFileName(const FileName: string): string;
 {en
-   Split command line on command and parameters
-   @param(sCmdLine Command line)
-   @param(sCmd Command)
-   @param(sParams Parameters)
-   @returns(The function returns @true if successful, @false otherwise)
-}
-function SplitCmdLine(sCmdLine : String; var sCmd, sParams : String) : Boolean;
-{en
    Convert file size to string representation in floating format (Kb, Mb, Gb)
    @param(iSize File size)
    @param(ShortFormat If @true than short format is used,
@@ -286,12 +278,24 @@ function EscapeNoQuotes(const Str: String): String;
    @returns(String without quotation characters)
 }
 function RemoveQuotation(const Str: String): String;
+{$IF DEFINED(UNIX)}
 {en
-   Split command line on list of arguments
+   Split command line to command and a list of arguments.
+   Each argument is unquoted.
+   @param(sCmdLine Command line)
+   @param(sCommand Command)
    @param(Args List of arguments)
-   @param(CmdLine Command line)
 }
-procedure SplitArgs(var Args: TOpenStringArray; CmdLine: String);
+procedure SplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TOpenStringArray);
+{$ELSEIF DEFINED(MSWINDOWS)}
+{en
+   Split command line to command and parameters
+   @param(sCmdLine Command line)
+   @param(sCmd Command)
+   @param(sParams Parameters)
+}
+procedure SplitCmdLine(sCmdLine : String; var sCmd, sParams : String);
+{$ENDIF}
 {en
    Remove last line ending in text
    @param(sText Text)
@@ -530,34 +534,6 @@ begin
   I := Length(FileName);
   while (I > 0) and not (FileName[I] in ['/', '\', ':']) do Dec(I);
   Result := Copy(FileName, I + 1, iDotIndex - I - 1);
-end;
-
-function SplitCmdLine(sCmdLine : String; var sCmd, sParams : String) : Boolean;
-var
-  iPos : Integer;
-begin
-  if Pos('"', sCmdLine) = 1 then
-    begin
-      iPos := CharPos('"', sCmdLine, 2);
-      sCmd := Copy(sCmdLine, 2, iPos - 2);
-      sParams := Copy(sCmdLine, iPos + 2, Length(sCmdLine) - iPos + 1)
-    end
-  else
-    begin
-      iPos := Pos(#32, sCmdLine);
-      if iPos <> 0 then
-        begin
-	  sCmd := Copy(sCmdLine, 1, iPos - 1);
-	  sParams := Copy(sCmdLine, iPos + 1, Length(sCmdLine) - iPos + 1)
-        end
-      else
-        begin
-          sCmd := sCmdLine;
-          sParams := '';
-        end;
-    end;
-  sParams:= RemoveQuotation(sParams);
-  Result := (sCmd <>'');
 end;
 
 function cnvFormatFileSize(iSize: Int64; ShortFormat: Boolean): String;
@@ -979,69 +955,151 @@ begin
   // need to be escaped with backslash (single character quote).
   Result := EscapeString(Str, NoQuotesSpecialChars, ShieldChar);
 end;
+
+// Helper for RemoveQuotation and SplitCmdLine.
+procedure RemoveQuotationOrSplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TOpenStringArray; bSplitArgs: Boolean);
+var
+  I : Integer;
+  QuoteChar : Char;
+  CurrentArg: String = '';
+  DoubleQuotesEscape: Boolean = False;
+
+  procedure AddArgument;
+  begin
+    if bSplitArgs then
+    begin
+      if sCommand = '' then
+        sCommand := CurrentArg;
+      else
+      begin
+        SetLength(Args, Length(Args) + 1);
+        Args[Length(Args) - 1] := CurrentArg;
+      end;
+      CurrentArg := '';
+    end;
+  end;
+
+begin
+  sCommand := '';
+  SetLength(Args, 0);
+  QuoteChar := #0;
+  for I := 1 to Length(sCmdLine) do
+    case QuoteChar of
+      '\':
+        begin
+          if sCmdLine[I] <> #10 then
+          begin
+            if not (sCmdLine[I] in NoQuotesSpecialChars) then
+              CurrentArg := CurrentArg + '\';
+            CurrentArg := CurrentArg + sCmdLine[I];
+          end;
+          QuoteChar := #0;
+        end;
+      '''':
+        begin
+          if sCmdLine[I] = '''' then
+            QuoteChar := #0
+          else
+            CurrentArg := CurrentArg + sCmdLine[I];
+        end;
+      '"':
+        begin
+          if DoubleQuotesEscape then
+          begin
+            if not (sCmdLine[I] in DoubleQuotesSpecialChars) then
+              CurrentArg := CurrentArg + '\';
+            CurrentArg := CurrentArg + sCmdLine[I];
+            DoubleQuotesEscape := False;
+          end
+          else
+          begin
+            case sCmdLine[I] of
+              '\':
+                DoubleQuotesEscape := True;
+              '"':
+                QuoteChar := #0;
+              else
+                CurrentArg := CurrentArg + sCmdLine[I];
+            end;
+          end;
+        end;
+      else
+        begin
+          case sCmdLine[I] of
+            '\', '''', '"':
+              QuoteChar := sCmdLine[I];
+            ' ', #9:
+              if CurrentArg <> '' then
+                AddArgument;
+            #10:
+              AddArgument;
+            else
+              CurrentArg := CurrentArg + sCmdLine[I];
+          end;
+        end;
+    end;
+  if QuoteChar <> #0 then
+    raise Exception.Create('Invalid quoting');
+  if CurrentArg <> '' then
+    AddArgument;
+  if (not bSplitArgs) then
+    sCommand := CurrentArg;
+end;
 {$ENDIF}
 
 function RemoveQuotation(const Str: String): String;
+{$IF DEFINED(MSWINDOWS)}
 var
   I : integer;
 begin
   Result := Str;
   if Length(Result) < 2 then Exit;
   for I := Length(Result) downto 2 do
-{$IF DEFINED(MSWINDOWS)}
     if (Result[I] in QuotationCharacters) and (Result[I - 1] = ShieldChar) then Delete(Result, I - 1, 1);
+end;
 {$ELSEIF DEFINED(UNIX)}
-    if (Result[I] in NoQuotesSpecialChars) and (Result[I - 1] = ShieldChar) then Delete(Result, I - 1, 1);
-{$ENDIF}
-end;
-
-procedure SplitArgs(var Args: TOpenStringArray; CmdLine: String);
 var
-  InQuotes : Boolean;
-  I, Start : Integer;
-  QuoteChar : Char;
-  s : string;
+  Args: TOpenStringArray;
 begin
-  SetLength(Args, 0);
-  InQuotes := False;
-  CMDLine := Trim(CmdLine);
-  if Length(CmdLine) = 0 then Exit;
-  Start := 1;
-  QuoteChar := #0;
-  for I := 1 to Length(CmdLine) do
-    case CmdLine[I] of
-      ' ': if (not InQuotes) and ((I = 1) or (CMDLine[I - 1] <> ShieldChar)) then begin
-             s := Trim(Copy(CmdLine, Start, I - Start));
-             TrimQuotes(s);
-             Start := I;
-             if s = '' then Continue;
-             SetLength(Args, Length(Args) + 1);
-             Args[Length(Args) - 1] := s;
-           end;
-      '"', '''': if (I = 1) or (CmdLine[I - 1] <> ShieldChar) then
-           if not InQuotes then begin
-             InQuotes := True;
-             QuoteChar := CmdLine[I];
-//             Start := i;
-           end else
-           if CMDLine[I] = QuoteChar then begin
-             InQuotes := False;
-             s := Trim(Copy(CmdLine, Start, I + 1 - Start));
-             TrimQuotes(s);
-             Start := I;
-             if s = '' then Continue;
-//             if (Pos('"', s) > 1) and (Pos('"', s) < Length(s)) and (NumCountChars('"', s) mod 2 = 1) then s := s + '"';
-//             if (Pos('''', s) > 1) and (Pos('''', s) < Length(s)) and (NumCountChars('''', s) mod 2 = 1) then s := s + '''';
-             SetLength(Args, Length(Args) + 1);
-             Args[Length(Args) - 1] := s;
-           end;
-    end;
-  if (Start <> Length(CmdLine)) or (Start = 1) then begin
-    SetLength(Args, Length(Args) + 1);
-    Args[Length(Args) - 1] := Trim(Copy(CMDLine, Start, Length(CmdLine) + 1 - Start));
-    TrimQuotes(Args[Length(Args) - 1]);
-  end;
+  RemoveQuotationOrSplitCmdLine(Str, Result, Args, False);
 end;
+{$ENDIF}
+
+{$IF DEFINED(UNIX)}
+procedure SplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TOpenStringArray);
+begin
+  sCmdLine := Trim(sCmdLine);
+  RemoveQuotationOrSplitCmdLine(sCmdLine, sCommand, Args, True);
+end;
+{$ELSEIF DEFINED(MSWINDOWS)}
+procedure SplitCmdLine(sCmdLine : String; var sCmd, sParams : String);
+var
+  iPos : Integer;
+begin
+  if Pos('"', sCmdLine) = 1 then
+    begin
+      iPos := CharPos('"', sCmdLine, 2);
+      sCmd := Copy(sCmdLine, 2, iPos - 2);
+      sParams := Copy(sCmdLine, iPos + 2, Length(sCmdLine) - iPos + 1)
+    end
+  else
+    begin
+      iPos := Pos(#32, sCmdLine);
+      if iPos <> 0 then
+        begin
+      	  sCmd := Copy(sCmdLine, 1, iPos - 1);
+      	  sParams := Copy(sCmdLine, iPos + 1, Length(sCmdLine) - iPos + 1)
+        end
+      else
+        begin
+          sCmd := sCmdLine;
+          sParams := '';
+        end;
+    end;
+  sParams:= RemoveQuotation(sParams);
+  Result := (sCmd <>'');
+end;
+{$ENDIF}
 
 function TrimRightLineEnding(const sText: UTF8String;
                                     TextLineBreakStyle: TTextLineBreakStyle): UTF8String;
