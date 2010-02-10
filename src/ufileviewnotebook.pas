@@ -65,6 +65,9 @@ type
     FNotebookSide: TFilePanelSelect;
     FStartDrag: Boolean;
     FDraggedPageIndex: Integer;
+    {$IF DEFINED(LCLGTK2)}
+    FLastMouseDownTime: TDateTime;
+    {$ENDIF}
 
     function GetActivePage: TFileViewPage;
     function GetActiveView: TFileView;
@@ -99,6 +102,7 @@ type
     property Side: TFilePanelSelect read FNotebookSide;
 
   published
+    property OnDblClick;
     property OnMouseDown;
     property OnMouseUp;
     property MultilineTabs: Boolean write SetMultilineTabs;
@@ -108,7 +112,11 @@ implementation
 
 uses
   WSExtCtrls,
-  uGlobs;
+  uGlobs
+  {$IF DEFINED(LCLGTK2)}
+  , GTKGlobals // for DblClickTime
+  {$ENDIF}
+  ;
 
 // -- TFileViewPage -----------------------------------------------------------
 
@@ -363,6 +371,18 @@ begin
     FDraggedPageIndex := TabIndexAtClientPos(Classes.Point(X, Y));
     FStartDrag := (FDraggedPageIndex <> -1);
   end;
+  {$IF DEFINED(LCLGTK2)} // emulate double click under GTK2
+  if (Button = mbLeft) and Assigned(OnDblClick) and (FDraggedPageIndex < 0) then
+    begin
+      if ((Now - FLastMouseDownTime) > ((1/86400)*(DblClickTime/1000))) then
+        FLastMouseDownTime:= Now
+      else
+        begin
+          OnDblClick(Self);
+          FLastMouseDownTime:= 0;
+        end;
+    end;
+  {$ENDIF}
 end;
 
 procedure TFileViewNotebook.MouseMove(Shift: TShiftState; X, Y: Integer);
@@ -432,4 +452,4 @@ begin
 end;
 
 end.
-
+
