@@ -715,12 +715,14 @@ end;
 procedure TActs.cm_AddPathToCmdLine(param:string);
 var
   OldPosition: Integer;
+  AddedString: String;
 begin
   with frmMain do
     begin
       OldPosition := edtCommand.SelStart;
-      edtCommand.Text := edtCommand.Text + (ActiveFrame.CurrentPath);
-      edtCommand.SelStart := OldPosition + Length(ActiveFrame.CurrentPath);
+      AddedString := QuoteStr(ActiveFrame.CurrentPath);
+      edtCommand.Text := edtCommand.Text + AddedString;
+      edtCommand.SelStart := OldPosition + Length(AddedString);
     end;
 end;
 
@@ -736,7 +738,7 @@ begin
       if Assigned(aFile) then
       begin
         OldPosition := edtCommand.SelStart;
-        AddedString := aFile.Name + ' ';
+        AddedString := QuoteStr(aFile.Name) + ' ';
         edtCommand.Text := edtCommand.Text + AddedString;
         edtCommand.SelStart := OldPosition + Length(AddedString);
       end;
@@ -754,16 +756,10 @@ begin
       aFile := ActiveFrame.ActiveFile;
       if Assigned(aFile) then
       begin
-        AddedString := ActiveFrame.CurrentPath;
-
         if aFile.Name = '..' then
-        begin
-          AddedString := AddedString + ' ';
-        end
+          AddedString := QuoteStr(ActiveFrame.CurrentPath) + ' '
         else
-        begin
-          AddedString := AddedString + aFile.Name + ' ';
-        end;
+          AddedString := QuoteStr(aFile.FullPath) + ' ';
 
         OldPosition := edtCommand.SelStart;
         edtCommand.Text := edtCommand.Text + AddedString;
@@ -2714,4 +2710,4 @@ begin
 end;
 
 end.
-
+
