@@ -29,6 +29,8 @@ uses
 type
   TLibHandle = PtrInt;
 
+  TOpenStringArray = array of String;
+
   TFileAttrs = Cardinal;     // file attributes type regardless of system
 
   TWinFileTime = QWord;      // NTFS time (UTC) (2 x DWORD)

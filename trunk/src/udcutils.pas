@@ -35,15 +35,18 @@ unit uDCUtils;
 interface
 
 uses
-  Classes, SysUtils, Graphics, StdCtrls, uFile;
+  Classes, SysUtils, Graphics, StdCtrls, uFile, uTypes;
 
 const
+{$IF DEFINED(UNIX)}
+  NoQuotesSpecialChars     = [' ', '"', '''', '(', ')', ':', '&', '!', '$', '*', '?', '=', '`', '\', #10];
+  DoubleQuotesSpecialChars = ['$', '\', '`', '"', #10];
+{$ELSEIF DEFINED(MSWINDOWS)}
   QuotationCharacters = [' ', '"', '''', '(', ')', ':', '&'];
+{$ENDIF}
   EnvVarCommanderPath = '%commander_path%';
 
 type
-  TOpenStringArray = array of String;
-
   TPathType = ( ptNone, ptRelative, ptAbsolute );
 
 function GetCmdDirFromEnvVar(sPath : String) : String;
@@ -248,8 +251,37 @@ function NumCountChars(const Char: Char; const S: String): Integer;
 }
 procedure TrimQuotes(var s: String);
 function QuoteStr(const Str: String): String;
+{$IFDEF UNIX}
+function QuoteSingle(const Str: String): String;
+function QuoteDouble(const Str: String): String;
 {en
-   Delete quotation characters [' ', '"', '''', '(', ')', ':', '&'] from string
+   Escapes characters to be inserted between single quotes (')
+   and passed to shell command line.
+   The resulting string is not enclosed with '', only escaped.
+
+   For example <cmd1> needs to be escaped with this function:
+     sh -c '<cmd1>' "<cmd2>" <cmd3>
+}
+function EscapeSingleQuotes(const Str: String): String;
+{en
+   Escapes characters to be inserted between double quotes (")
+   and passed to shell command line.
+   The resulting string is not enclosed with "", only escaped.
+
+   For example <cmd2> needs to be escaped with this function:
+     sh -c '<cmd1>' "<cmd2>" <cmd3>
+}
+function EscapeDoubleQuotes(const Str: String): String;
+{en
+   Escapes characters to be passed to shell command line when no quoting is used.
+
+   For example <cmd3> needs to be escaped with this function:
+     sh -c '<cmd1>' "<cmd2>" <cmd3>
+}
+function EscapeNoQuotes(const Str: String): String;
+{$ENDIF}
+{en
+   Delete quotation characters from string
    @param(Str String)
    @returns(String without quotation characters)
 }
@@ -881,6 +913,11 @@ begin
 end;
 
 function QuoteStr(const Str: String): String;
+{$IF DEFINED(UNIX)}
+begin
+  Result := EscapeNoQuotes(Str);
+end;
+{$ELSE}
 var
   I : Integer;
 begin
@@ -888,9 +925,61 @@ begin
   if Length(Str) > 0 then
     for I := 1 to Length(Str) do begin
       if Str[I] in QuotationCharacters then Result := Result + ShieldChar;
-      Result := Result + Str[I];
+        Result := Result + Str[I];
     end;
 end;
+{$ENDIF}
+
+{$IF DEFINED(UNIX)}
+function QuoteSingle(const Str: String): String;
+begin
+  Result := '''' + EscapeSingleQuotes(Str) + '''';
+end;
+
+function QuoteDouble(const Str: String): String;
+begin
+  Result := '"' + EscapeDoubleQuotes(Str) + '"';
+end;
+
+function EscapeString(const Str: String; const EscapeChars: TCharSet; const EscapeWith: String): String;
+var
+  StartPos: Integer = 1;
+  CurPos: Integer = 1;
+begin
+  Result := '';
+  while CurPos <= Length(Str) do
+  begin
+    if Str[CurPos] in EscapeChars then
+    begin
+      Result := Result + Copy(Str, StartPos, CurPos - StartPos) + EscapeWith;
+      // The character being quoted will be copied later.
+      StartPos := CurPos;
+    end;
+    Inc(CurPos);
+  end;
+  Result := Result + Copy(Str, StartPos, CurPos - StartPos);
+end;
+
+function EscapeSingleQuotes(const Str: String): String;
+begin
+  // Single quotes are strong quotes so only ' needs to be escaped.
+  Result := EscapeString(Str, [''''], '''\''');
+end;
+
+function EscapeDoubleQuotes(const Str: String): String;
+begin
+  // Double quotes are weak quotes and a few special characters are allowed
+  // which need to be escaped.
+  Result := EscapeString(Str, DoubleQuotesSpecialChars, ShieldChar);
+end;
+
+function EscapeNoQuotes(const Str: String): String;
+begin
+  // When neither single nor double quotes are used several special characters
+  // need to be escaped with backslash (single character quote).
+  Result := EscapeString(Str, NoQuotesSpecialChars, ShieldChar);
+end;
+{$ENDIF}
 
 function RemoveQuotation(const Str: String): String;
 var
@@ -899,7 +988,11 @@ begin
   Result := Str;
   if Length(Result) < 2 then Exit;
   for I := Length(Result) downto 2 do
+{$IF DEFINED(MSWINDOWS)}
     if (Result[I] in QuotationCharacters) and (Result[I - 1] = ShieldChar) then Delete(Result, I - 1, 1);
+{$ELSEIF DEFINED(UNIX)}
+    if (Result[I] in NoQuotesSpecialChars) and (Result[I - 1] = ShieldChar) then Delete(Result, I - 1, 1);
+{$ENDIF}
 end;
 
 procedure SplitArgs(var Args: TOpenStringArray; CmdLine: String);
