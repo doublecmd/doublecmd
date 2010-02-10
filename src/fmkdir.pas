@@ -64,7 +64,7 @@ begin
   If (sPath <> '..') then cbMkDir.Text := sPath
   else cbMkDir.Text := '';      // передаем имя из фокуса панели в строку ввода, если не фокус не в '..'
   Result:= (ShowModal = mrOK);  // отображение окна
-  sPath:=Trim(cbMkDir.Text);
+  sPath:=cbMkDir.Text;
 {
   Добавляем созданный каталог в список.
   Просматриваем список - если такое имя уже было, то не добавляем.
@@ -86,4 +86,4 @@ end;
 initialization
  {$I fmkdir.lrs}
 
-end.
+end.
