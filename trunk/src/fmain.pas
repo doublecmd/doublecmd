@@ -3163,7 +3163,7 @@ begin
       iIndex:= Pos('cd ', sCmd);
       if iIndex = 1 then
         begin
-          sDir:= Trim(Copy(sCmd, iIndex + 3, Length(sCmd)));
+          sDir:= Trim(RemoveQuotation(Copy(sCmd, iIndex + 3, Length(sCmd))));
           sDir:= IncludeTrailingBackslash(sDir);
           if Pos('~' + PathDelim, sDir) = 1 then
             sDir:= StringReplace(sDir, '~' + PathDelim, GetHomeDir, []);
