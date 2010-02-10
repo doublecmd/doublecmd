@@ -106,14 +106,14 @@ begin
               begin
                 if i <> 0 then
                   Result := Result + ' ';
-                Result := Result + QuoteStr(URIEncode(fileList[i]));
+                Result := Result + QuoteStr(fileScheme + '//' + URIEncode(fileList[i]));
               end;
               filesAdded := True;
             end;
           'u':
             if fileList.Count > 0 then
             begin
-              Result := Result + QuoteStr(URIEncode(fileList[0]));
+              Result := Result + QuoteStr(fileScheme + '//' + URIEncode(fileList[0]));
               filesAdded := True;
             end;
           'F':
