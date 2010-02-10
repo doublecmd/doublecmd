@@ -42,7 +42,7 @@ implementation
 
 uses
   Process, UTF8Process, StrUtils, uDCUtils, uShowForm, uGlobs, uOSUtils,
-  uFileSystemFile;
+  uFileSystemFile, uClassesEx;
 
 {
   Functions (without parameters they give output for all selected files):
@@ -409,14 +409,14 @@ end;
 
 procedure ReplaceExtCommand(var sCmd:String; aFile: TFile; ActiveDir: String);
 var
-  sDir: String;
+  sTmpFile, sCmdLine, sCmdOutput: String;
   iStart,
   iCount: Integer;
   Process: TProcessUTF8;
+  fileStream: TFileStreamEx;
 begin
   with aFile do
   begin
-    sDir:= IfThen(Path<>'', Path, ActiveDir); // Why ActiveDir if we have Path?
     sCmd:= GetCmdDirFromEnvVar(sCmd);
     sCmd:= StringReplace(sCmd,'%f',QuoteStr(Name),[rfReplaceAll]);
     sCmd:= StringReplace(sCmd,'%d',QuoteStr(Path),[rfReplaceAll]);
@@ -427,14 +427,29 @@ begin
       begin
         iStart:= Pos('<?', sCmd) + 2;
         iCount:= Pos('?>', sCmd) - iStart;
-        sDir:= GetTempFolder + Name + '.tmp';
+        sTmpFile := GetTempFolder + Name + '.tmp';
+        sCmdLine := EscapeSingleQuotes(Copy(sCmd, iStart, iCount) + ' > ' + QuoteStr(sTmpFile));
         Process:= TProcessUTF8.Create(nil);
-        Process.CommandLine:= Format(fmtRunInShell, [GetShell, Copy(sCmd, iStart, iCount) + ' > ' + sDir]);
-        Process.Options:= [poNoConsole, poWaitOnExit];
-        Process.Execute;
-        Process.Free;
-        sCmd:= Copy(sCmd, 1, iStart-3) + sDir;
-//        DebugLn('"'+sCmd+'"');
+        try
+          Process.CommandLine:= Format(fmtRunInShell, [GetShell, sCmdLine]);
+          Process.Options:= [poNoConsole, poWaitOnExit];
+          Process.Execute;
+        finally
+          Process.Free;
+        end;
+
+        if mbFileExists(sTmpFile) then
+        begin
+          fileStream := TFileStreamEx.Create(sTmpFile, fmOpenRead);
+          SetLength(sCmdOutput, fileStream.Size);
+          fileStream.Read(sCmdOutput[1], fileStream.Size);
+          FreeAndNil(fileStream);
+          mbDeleteFile(sTmpFile);
+        end
+        else
+          sCmdOutput := '';
+
+        sCmd:= Copy(sCmd, 1, iStart-3) + sCmdOutput + Copy(sCmd, iStart + iCount + 2, MaxInt);
       end;
   end;
 end;
@@ -447,7 +462,7 @@ begin
   bTerm:= False;
   if Pos('{!SHELL}', sCmd) > 0 then
   begin
-    sCmd:= StringReplace(sCmd,'{!SHELL}','',[rfReplaceAll]);
+    sCmd:= Trim(StringReplace(sCmd,'{!SHELL}','',[rfReplaceAll]));
     bTerm:= True;
   end;
   if Pos('{!EDITOR}',sCmd) > 0 then
