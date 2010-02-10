@@ -36,7 +36,7 @@ uses
 type
   PDesktopFileEntry = ^TDesktopFileEntry;
   TDesktopFileEntry = record
-    FileName: String;
+    DesktopFilePath: String;
     MimeType: String;
     DisplayName: String;
     Comment: String;
@@ -56,7 +56,7 @@ function GetDesktopEntries(FileNames: TStringList): TList;
 implementation
 
 uses
-  uDCUtils, uIconTheme;
+  uDCUtils, uIconTheme, uClipboard;
 
 type
   PCDesktopFileEntry = ^TCDesktopFileEntry;
@@ -78,17 +78,127 @@ function mime_type_get_by_filename(filename: PChar; stat: Pointer) : PChar; cdec
 function mime_type_get_actions(mimeType: PChar): PPChar; cdecl; external libmime;
 function mime_type_locate_desktop_file(DirectoryToCheck: PChar; DesktopFileId: PChar): PChar; cdecl; external libmime;
 function mime_get_desktop_entry(DesktopFileName: PChar): TCDesktopFileEntry; cdecl; external libmime;
-function translate_app_exec_to_command_line(const app: PCDesktopFileEntry; file_list: PGList): PChar; cdecl; external libmime;
+
+function TranslateAppExecToCmdLine(const entry: PDesktopFileEntry;
+                                   const fileList: TStringList): String;
+var
+  StartPos: Integer = 1;
+  CurPos: Integer = 1;
+  i: Integer;
+  filesAdded: Boolean = False;
+begin
+  // The .desktop standard does not recommend using % parameters inside quotes
+  // in the Exec entry (the behaviour is undefined), so all those parameters
+  // can be quoted using any method.
+  Result := '';
+  while CurPos <= Length(entry^.ExecWithParams) do
+  begin
+    if entry^.ExecWithParams[CurPos] = '%' then
+    begin
+      Result := Result + Copy(entry^.ExecWithParams, StartPos, CurPos - StartPos);
+      Inc(CurPos);
+
+      if CurPos <= Length(entry^.ExecWithParams) then
+        case entry^.ExecWithParams[CurPos] of
+          'U':
+            begin
+              for i := 0 to fileList.Count - 1 do
+              begin
+                if i <> 0 then
+                  Result := Result + ' ';
+                Result := Result + QuoteStr(URIEncode(fileList[i]));
+              end;
+              filesAdded := True;
+            end;
+          'u':
+            if fileList.Count > 0 then
+            begin
+              Result := Result + QuoteStr(URIEncode(fileList[0]));
+              filesAdded := True;
+            end;
+          'F':
+            begin
+              for i := 0 to fileList.Count - 1 do
+              begin
+                if i <> 0 then
+                  Result := Result + ' ';
+                Result := Result + QuoteStr(fileList[i]);
+              end;
+              filesAdded := True;
+            end;
+          'f':
+            if fileList.Count > 0 then
+            begin
+              Result := Result + QuoteStr(fileList[0]);
+              filesAdded := True;
+            end;
+          'N': // deprecated
+            begin
+              for i := 0 to fileList.Count - 1 do
+              begin
+                if i <> 0 then
+                  Result := Result + ' ';
+                Result := Result + QuoteStr(fileList[i]);
+              end;
+              filesAdded := True;
+            end;
+          'n': // deprecated
+            if fileList.Count > 0 then
+            begin
+              Result := Result + QuoteStr(fileList[0]);
+              filesAdded := True;
+            end;
+          'D': // deprecated
+            begin
+              for i := 0 to fileList.Count - 1 do
+              begin
+                if i <> 0 then
+                  Result := Result + ' ';
+                Result := Result + QuoteStr(ExtractFilePath(fileList[i]));
+              end;
+              filesAdded := True;
+            end;
+          'd': // deprecated
+            if fileList.Count > 0 then
+            begin
+              Result := Result + QuoteStr(ExtractFilePath(fileList[0]));
+              filesAdded := True;
+            end;
+          'i':
+            if entry^.IconName <> '' then
+              Result := Result + '--icon ' + QuoteStr(entry^.IconName);
+          'c':
+            Result := Result + QuoteStr(entry^.DisplayName);
+          'k':
+            Result := Result + QuoteStr(entry^.DesktopFilePath);
+          '%':
+            Result := Result + '%';
+        end;
+
+      Inc(CurPos);
+      StartPos := CurPos;
+    end
+    else
+      Inc(CurPos);
+  end;
+
+  if (StartPos <> CurPos) then
+    Result := Result + Copy(entry^.ExecWithParams, StartPos, CurPos - StartPos);
+
+  if not filesAdded then
+  begin
+    for i := 0 to fileList.Count - 1 do
+      Result := Result + ' ' + QuoteStr(fileList[i]);
+  end;
+end;
 
 function GetDesktopEntries(FileNames: TStringList): TList;
 var
   mimeType: PChar;
   actions: PPChar;
   desktopFile: PChar;
-  i, j: Integer;
+  i: Integer;
   app: TCDesktopFileEntry;
-  list: PGList = nil;
-  exec: PChar;
   Entry: PDesktopFileEntry;
 begin
   if FileNames.Count = 0 then
@@ -107,23 +217,21 @@ begin
   i := 0;
   while (actions[i] <> nil) and (actions[i] <> '') do
   begin
-    for j := 0 to FileNames.Count - 1 do
-    begin
-      list := g_list_append(list, PChar(FileNames[j]));
-    end;
-
     desktopFile := mime_type_locate_desktop_file(nil, actions[i]);
     app := mime_get_desktop_entry(desktopFile);
-    exec := translate_app_exec_to_command_line(@app, list);
 
     New(Entry);
 
+    Entry^.DesktopFilePath := StrPas(desktopFile);
+    Entry^.MimeType := StrPas(mimeType);
     Entry^.DisplayName := StrPas(app.DisplayName);
     Entry^.Comment := StrPas(app.Comment);
-    Entry^.Exec := StrPas(Exec);
+    Entry^.ExecWithParams := StrPas(app.Exec);
     Entry^.IconName := StrPas(app.IconName);
     Entry^.Terminal := app.Terminal;
     Entry^.Hidden := app.Hidden;
+    // Set Exec as last because it uses other fields of Entry.
+    Entry^.Exec := TranslateAppExecToCmdLine(Entry, Filenames);
 
     {
       Some icon names in .desktop files are specified with an extension,
@@ -135,14 +243,11 @@ begin
 
     Result.Add(Entry);
 
-    g_free(exec);
     g_free(desktopFile);
     g_free(app.DisplayName);
     g_free(app.Comment);
     g_free(app.Exec);
     g_free(app.IconName);
-    g_list_free(list);
-    list := nil;
 
     i := i + 1;
   end;

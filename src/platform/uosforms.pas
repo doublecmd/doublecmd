@@ -210,8 +210,6 @@ var
   ExecCmd: String;
 begin
   ExecCmd := (Sender as TMenuItem).Hint;
-  // Special case for file names containing ' char
-  ExecCmd:= StringReplace(ExecCmd, '''\''''', '\''', [rfReplaceAll]);
   ExecCmdFork(ExecCmd);
 end;
 {$ENDIF}
