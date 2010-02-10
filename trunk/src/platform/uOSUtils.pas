@@ -482,9 +482,8 @@ end;
 function ExecCmdFork(sCmdLine:String; bTerm : Boolean; sTerm : String) : Boolean;
 {$IFDEF UNIX}
 var
-  sTempStr : String;
+  sTempStr, Command : String;
   x, pid : LongInt;
-  Command : String;
   Args : TOpenStringArray;
   WaitForPidThread: TWaitForPidThread;
 begin
@@ -492,26 +491,14 @@ begin
 
   if bTerm then
     begin
-      x := 1;
-      while x <= Length(sTempStr) do begin
-        if (sTempStr[x] in [{'"',} '''']) and ((x = 1) or (sTempStr[x - 1] <> ShieldChar)) then
-          Insert(ShieldChar, sTempStr, x);
-        Inc(x);
-      end;
+      // Escape single quotes because such are used in fmtRunInTerm.
+      sTempStr := EscapeSingleQuotes(sTempStr);
       if sTerm = '' then sTerm := RunInTerm;
       sTempStr := Format(fmtRunInTerm, [sTerm, sTempStr]);
     end;
 
-  SplitArgs(Args, sTempStr);
-
-  if Length(Args) = 0 then Exit;
-
-  Command := Args[0];
-
-  // remove command from args (0th element)
-  for x := 1 to Length(Args) - 1 do
-    Args[x-1] := RemoveQuotation(Args[x]);
-  SetLength(Args, Length(Args) - 1);
+  SplitCmdLine(sTempStr, Command, Args);
+  if Command = EmptyStr then Exit(False);
 
   pid := fpFork;
 
@@ -524,7 +511,7 @@ begin
     end
   else if pid = -1 then         { Fork failed }
     begin
-      raise Exception.Create('Fork failed: ' + sCmdLine);
+      raise Exception.Create('Fork failed: ' + Command);
     end
   else if pid > 0 then          { Parent }
     begin
@@ -2158,4 +2145,4 @@ finalization
 
 {$ENDIF}
 
-end.
+end.
