@@ -969,7 +969,7 @@ var
     if bSplitArgs then
     begin
       if sCommand = '' then
-        sCommand := CurrentArg;
+        sCommand := CurrentArg
       else
       begin
         SetLength(Args, Length(Args) + 1);
