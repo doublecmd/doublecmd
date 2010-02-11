@@ -409,11 +409,10 @@ end;
 
 procedure ReplaceExtCommand(var sCmd:String; aFile: TFile; ActiveDir: String);
 var
-  sTmpFile, sCmdLine, sCmdOutput: String;
+  sTmpFile, sCmdLine: String;
   iStart,
   iCount: Integer;
   Process: TProcessUTF8;
-  fileStream: TFileStreamEx;
 begin
   with aFile do
   begin
@@ -422,7 +421,17 @@ begin
     sCmd:= StringReplace(sCmd,'%d',QuoteStr(Path),[rfReplaceAll]);
     sCmd:= StringReplace(sCmd,'%p',QuoteStr(Path + Name),[rfReplaceAll]);
     sCmd:= Trim(sCmd);
-    // get output from command between '<?' and '?>'
+
+    {
+      Check for <? ?> command.
+      This command is used to put output of some console program to a file so
+      that the file can then be viewed. The command is between '<?' and '?>'.
+      The whole <?...?> expression is replaced with a path to the temporary file
+      containing output of the command.
+      For example:
+      {!VIEWER} <?rpm -qivlp --scripts %p?>
+      Show in Viewer information about RPM package
+    }
     if Pos('<?', sCmd) <> 0 then
       begin
         iStart:= Pos('<?', sCmd) + 2;
@@ -438,18 +447,7 @@ begin
           Process.Free;
         end;
 
-        if mbFileExists(sTmpFile) then
-        begin
-          fileStream := TFileStreamEx.Create(sTmpFile, fmOpenRead);
-          SetLength(sCmdOutput, fileStream.Size);
-          fileStream.Read(sCmdOutput[1], fileStream.Size);
-          FreeAndNil(fileStream);
-          mbDeleteFile(sTmpFile);
-        end
-        else
-          sCmdOutput := '';
-
-        sCmd:= Copy(sCmd, 1, iStart-3) + sCmdOutput + Copy(sCmd, iStart + iCount + 2, MaxInt);
+        sCmd:= Copy(sCmd, 1, iStart-3) + sTmpFile + Copy(sCmd, iStart + iCount + 2, MaxInt);
       end;
   end;
 end;
