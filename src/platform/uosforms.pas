@@ -373,64 +373,66 @@ begin
       if (cmd > 0) and (cmd < $1000) then
         begin
           iCmd := LongInt(Cmd) - 1;
-          OleCheckUTF8(contMenu.GetCommandString(iCmd, GCS_VERBA, nil, ZVerb, SizeOf(ZVerb)));
-          sVerb := StrPas(ZVerb);
+          if Succeeded(contMenu.GetCommandString(iCmd, GCS_VERBA, nil, ZVerb, SizeOf(ZVerb))) then
+            begin
+              sVerb := StrPas(ZVerb);
 
-          if SameText(sVerb, sCmdVerbDelete) then
-            begin
-              if ssShift in GetKeyShiftState then
-              Actions.cm_Delete('recyclesettingrev')
-              else
-              Actions.cm_Delete('recyclesetting');
-              bHandled := True;
-            end
-          else if SameText(sVerb, sCmdVerbRename) then
-            begin
-              if Files.Count = 1 then
-                with Files[0] do
-                  begin
-                    if Name <> (ExtractFileDrive(Name)+PathDelim) then
-                      frmMain.actRenameOnly.Execute
-                    else  // change drive label
-                      begin
-                        sCmd:= mbGetVolumeLabel(Name, True);
-                        if InputQuery(rsMsgSetVolumeLabel, rsMsgVolumeLabel, sCmd) then
-                          mbSetVolumeLabel(Name, sCmd);
-                      end;
-                  end
-              else
-                frmMain.actRename.Execute;
-              bHandled := True;
-            end
-          else if SameText(sVerb, sCmdVerbOpen) then
-            begin
-              if Files.Count = 1 then
-                with Files[0] do
-                  begin
-                    if IsDirectory or IsLinkToDirectory then
-                      begin
-                        if Name = '..' then
-                          frmMain.ActiveFrame.ChangePathToParent(True)
-                        else
-                          frmMain.ActiveFrame.ChangePathToChild(Files[0]);
-                        bHandled := True;
-                      end; // is dir
-                  end; // with
-            end
-          else if SameText(sVerb, sCmdVerbCut) then
-            begin
-              frmMain.actCutToClipboard.Execute;
-              bHandled := True;
-            end
-          else if SameText(sVerb, sCmdVerbCopy) then
-            begin
-              frmMain.actCopyToClipboard.Execute;
-              bHandled := True;
-            end
-          else if SameText(sVerb, sCmdVerbPaste) then
-            begin
-              frmMain.actPasteFromClipboard.Execute;
-              bHandled := True;
+              if SameText(sVerb, sCmdVerbDelete) then
+                begin
+                  if ssShift in GetKeyShiftState then
+                    Actions.cm_Delete('recyclesettingrev')
+                  else
+                    Actions.cm_Delete('recyclesetting');
+                  bHandled := True;
+                end
+              else if SameText(sVerb, sCmdVerbRename) then
+                begin
+                  if Files.Count = 1 then
+                    with Files[0] do
+                    begin
+                      if Name <> (ExtractFileDrive(Name)+PathDelim) then
+                        frmMain.actRenameOnly.Execute
+                      else  // change drive label
+                        begin
+                          sCmd:= mbGetVolumeLabel(Name, True);
+                          if InputQuery(rsMsgSetVolumeLabel, rsMsgVolumeLabel, sCmd) then
+                            mbSetVolumeLabel(Name, sCmd);
+                        end;
+                    end
+                  else
+                    frmMain.actRename.Execute;
+                  bHandled := True;
+                end
+              else if SameText(sVerb, sCmdVerbOpen) then
+                begin
+                  if Files.Count = 1 then
+                    with Files[0] do
+                    begin
+                      if IsDirectory or IsLinkToDirectory then
+                        begin
+                          if Name = '..' then
+                            frmMain.ActiveFrame.ChangePathToParent(True)
+                          else
+                            frmMain.ActiveFrame.ChangePathToChild(Files[0]);
+                          bHandled := True;
+                        end; // is dir
+                    end; // with
+                end
+              else if SameText(sVerb, sCmdVerbCut) then
+                begin
+                  frmMain.actCutToClipboard.Execute;
+                  bHandled := True;
+                end
+              else if SameText(sVerb, sCmdVerbCopy) then
+                begin
+                  frmMain.actCopyToClipboard.Execute;
+                  bHandled := True;
+                end
+              else if SameText(sVerb, sCmdVerbPaste) then
+                begin
+                  frmMain.actPasteFromClipboard.Execute;
+                  bHandled := True;
+                end;
             end;
 
           if not bHandled then
