@@ -199,6 +199,10 @@ function MapFile(const sFileName : UTF8String; out FileMapRec : TFileMapRec) : B
 procedure UnMapFile(var FileMapRec : TFileMapRec);
 
 function GetShell : String;
+{en
+   Formats a string which will execute Command via shell.
+}
+function FormatShell(const Command: String): String;
 
 { File handling functions}
 function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
@@ -787,6 +791,15 @@ begin
   Result:= GetEnvironmentVariable('SHELL');
 end;
 {$ENDIF}
+
+function FormatShell(const Command: String): String;
+begin
+{$IF DEFINED(UNIX)}
+  Result := Format('%s -c %s', [GetShell, QuoteSingle(Command)]);
+{$ELSEIF DEFINED(MSWINDOWS)}
+  Result := Format('%s /C %s', [GetShell, QuoteDouble(Command)]);
+{$ENDIF}
+end;
 
 function GetAppConfigDir: String;
 {$IFDEF MSWINDOWS}
@@ -2145,4 +2158,4 @@ finalization
 
 {$ENDIF}
 
-end.
+end.
