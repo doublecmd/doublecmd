@@ -245,7 +245,9 @@ procedure TrimQuotes(var s: String);
 function QuoteStr(const Str: String): String;
 {$IFDEF UNIX}
 function QuoteSingle(const Str: String): String;
+{$ENDIF}
 function QuoteDouble(const Str: String): String;
+{$IFDEF UNIX}
 {en
    Escapes characters to be inserted between single quotes (')
    and passed to shell command line.
@@ -891,18 +893,16 @@ end;
 function QuoteStr(const Str: String): String;
 {$IF DEFINED(UNIX)}
 begin
+  // Default method is to escape every special char with backslash.
   Result := EscapeNoQuotes(Str);
 end;
 {$ELSE}
-var
-  I : Integer;
 begin
-  Result := '';
-  if Length(Str) > 0 then
-    for I := 1 to Length(Str) do begin
-      if Str[I] in QuotationCharacters then Result := Result + ShieldChar;
-        Result := Result + Str[I];
-    end;
+  // On Windows only double quotes can be used for quoting.
+  // The double quotes on Windows can be nested, e.g.,
+  // "cmd /C "type "Some long file name""" or
+  // "cmd /C ""some long file.exe" "long param1" "long param2""
+  Result := QuoteDouble(Str);
 end;
 {$ENDIF}
 
@@ -911,12 +911,22 @@ function QuoteSingle(const Str: String): String;
 begin
   Result := '''' + EscapeSingleQuotes(Str) + '''';
 end;
+{$ENDIF}
 
 function QuoteDouble(const Str: String): String;
 begin
+{$IF DEFINED(UNIX)}
   Result := '"' + EscapeDoubleQuotes(Str) + '"';
+{$ELSEIF DEFINED(MSWINDOWS)}
+  // Nothing needs to be escaped on Windows, because only double quote (") itself
+  // would need to be escaped but there's no standard mechanism for escaping it.
+  // It seems every application handles it on their own and CMD doesn't support it at all.
+  // Also double quote is a forbidden character on FAT, NTFS.
+  Result := '"' + Str + '"';
+{$ENDIF}
 end;
 
+{$IF DEFINED(UNIX)}
 function EscapeString(const Str: String; const EscapeChars: TCharSet; const EscapeWith: String): String;
 var
   StartPos: Integer = 1;
@@ -938,7 +948,8 @@ end;
 
 function EscapeSingleQuotes(const Str: String): String;
 begin
-  // Single quotes are strong quotes so only ' needs to be escaped.
+  // Single quotes are strong quotes - no special characters are recognized
+  // inside those quotes, so only ' needs to be escaped.
   Result := EscapeString(Str, [''''], '''\''');
 end;
 
@@ -1097,7 +1108,6 @@ begin
         end;
     end;
   sParams:= RemoveQuotation(sParams);
-  Result := (sCmd <>'');
 end;
 {$ENDIF}
 

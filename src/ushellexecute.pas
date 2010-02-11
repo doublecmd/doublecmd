@@ -428,10 +428,10 @@ begin
         iStart:= Pos('<?', sCmd) + 2;
         iCount:= Pos('?>', sCmd) - iStart;
         sTmpFile := GetTempFolder + Name + '.tmp';
-        sCmdLine := EscapeSingleQuotes(Copy(sCmd, iStart, iCount) + ' > ' + QuoteStr(sTmpFile));
+        sCmdLine := Copy(sCmd, iStart, iCount) + ' > ' + QuoteStr(sTmpFile);
         Process:= TProcessUTF8.Create(nil);
         try
-          Process.CommandLine:= Format(fmtRunInShell, [GetShell, sCmdLine]);
+          Process.CommandLine:= FormatShell(sCmdLine);
           Process.Options:= [poNoConsole, poWaitOnExit];
           Process.Execute;
         finally
@@ -510,4 +510,4 @@ begin
 end;
 
 end.
-
+
