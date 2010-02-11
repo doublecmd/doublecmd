@@ -2354,15 +2354,12 @@ begin
   gRunTerm:= edtRunTerm.Text;
   
   gFontName:=cbMainFont.Text;
-
   gEditorFontName:=cbEditorFont.Text;
   gViewerFontName:=cbViewerFont.Text;
   
-  {$hints off}
-  gEditorFontSize:=Round(edtEditorSize.Value);
-  gViewerFontSize:=Round(edtViewerSize.Value);
-  gFontSize:=Round(edtMainSize.Value);
-  {$hints on}
+  gFontSize:=edtMainSize.Value;
+  gEditorFontSize:=edtEditorSize.Value;
+  gViewerFontSize:=edtViewerSize.Value;
 
   gFontStyle:= EdtTest1.Font.Style;
   gEditorFontStyle:= EdtTest2.Font.Style;
@@ -2574,4 +2571,4 @@ end;
 initialization
  {$I fOptions.lrs}
 
-end.
+end.
