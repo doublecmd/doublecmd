@@ -41,8 +41,6 @@ const
 {$IF DEFINED(UNIX)}
   NoQuotesSpecialChars     = [' ', '"', '''', '(', ')', ':', '&', '!', '$', '*', '?', '=', '`', '\', #10];
   DoubleQuotesSpecialChars = ['$', '\', '`', '"', #10];
-{$ELSEIF DEFINED(MSWINDOWS)}
-  QuotationCharacters = [' ', '"', '''', '(', ')', ':', '&'];
 {$ENDIF}
   EnvVarCommanderPath = '%commander_path%';
 
@@ -1061,12 +1059,18 @@ end;
 function RemoveQuotation(const Str: String): String;
 {$IF DEFINED(MSWINDOWS)}
 var
-  I : integer;
+  TrimmedStr: String;
 begin
-  Result := Str;
-  if Length(Result) < 2 then Exit;
-  for I := Length(Result) downto 2 do
-    if (Result[I] in QuotationCharacters) and (Result[I - 1] = ShieldChar) then Delete(Result, I - 1, 1);
+  if Length(Str) = 0 then
+    Result := EmptyStr
+  else
+  begin
+    TrimmedStr := Trim(Str);
+    if (TrimmedStr[1] = '"') and (TrimmedStr[Length(TrimmedStr)] = '"') then
+      Result := Copy(TrimmedStr, 2, Length(TrimmedStr) - 2)
+    else
+      Result := Str;
+  end;
 end;
 {$ELSEIF DEFINED(UNIX)}
 var
