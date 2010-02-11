@@ -249,8 +249,8 @@ type
     pmTrayIconMenu: TPopupMenu;
     pmLogMenu: TPopupMenu;
     seLogWindow: TSynEdit;
-    btnLeftTargetEqualSource: TSpeedButton;
-    btnRightTargetEqualSource: TSpeedButton;
+    btnRightEqualLeft: TSpeedButton;
+    btnLeftEqualRight: TSpeedButton;
     Splitter1: TSplitter;
     tbDelete: TMenuItem;
     tbEdit: TMenuItem;
@@ -649,11 +649,10 @@ begin
   pmButtonMenu.BarFile.ChangePath := gpExePath;
   pmButtonMenu.BarFile.EnvVar := '%commander_path%';
 
-  // Use the same tooltips for left and right panel butttons.
+  // Use the same tooltips for some left and right panel butttons.
   btnRightDirectoryHotlist.Hint := btnLeftDirectoryHotlist.Hint;
   btnRightHome.Hint := btnLeftHome.Hint;
   btnRightRoot.Hint := btnLeftRoot.Hint;
-  btnRightTargetEqualSource.Hint := btnLeftTargetEqualSource.Hint;
   btnRightUp.Hint := btnLeftUp.Hint;
 
 
@@ -2973,8 +2972,8 @@ begin
   btnLeftHome.Flat := gInterfaceFlat;
   btnLeftDirectoryHotlist.Visible := gDriveMenuButton;
   btnLeftDirectoryHotlist.Flat := gInterfaceFlat;
-  btnLeftTargetEqualSource.Visible := gDriveMenuButton;
-  btnLeftTargetEqualSource.Flat:= gInterfaceFlat;
+  btnRightEqualLeft.Visible := gDriveMenuButton;
+  btnRightEqualLeft.Flat:= gInterfaceFlat;
 
   btnRightDrive.Visible := gDriveMenuButton;
   btnRightDrive.Flat := gInterfaceFlat;
@@ -2986,8 +2985,8 @@ begin
   btnRightHome.Flat := gInterfaceFlat;
   btnRightDirectoryHotlist.Visible := gDriveMenuButton;
   btnRightDirectoryHotlist.Flat := gInterfaceFlat;
-  btnRightTargetEqualSource.Visible := gDriveMenuButton;
-  btnRightTargetEqualSource.Flat:= gInterfaceFlat;
+  btnLeftEqualRight.Visible := gDriveMenuButton;
+  btnLeftEqualRight.Flat:= gInterfaceFlat;
 
   // Tabs
   UpdateNoteBook(nbLeft);
