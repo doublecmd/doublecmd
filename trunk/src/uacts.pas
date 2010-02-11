@@ -842,6 +842,10 @@ begin
     LeftTabs.ActivePage.FileView := nil;
     FrameRight.Clone(LeftTabs.ActivePage);
     LeftTabs.ActivePage.UpdateCaption(GetLastDir(ExcludeTrailingPathDelimiter(LeftTabs.ActivePage.FileView.CurrentPath)));
+
+    // Destroying active view may have caused losing focus. Restore it if needed.
+    if SelectedPanel = fpLeft then
+      FrameLeft.SetFocus;
   end;
 end;
 
@@ -852,6 +856,10 @@ begin
     RightTabs.ActivePage.FileView := nil;
     FrameLeft.Clone(RightTabs.ActivePage);
     RightTabs.ActivePage.UpdateCaption(GetLastDir(ExcludeTrailingPathDelimiter(RightTabs.ActivePage.FileView.CurrentPath)));
+
+    // Destroying active view may have caused losing focus. Restore it if needed.
+    if SelectedPanel = fpRight then
+      FrameRight.SetFocus;
   end;
 end;
 
@@ -2710,4 +2718,4 @@ begin
 end;
 
 end.
-
+
