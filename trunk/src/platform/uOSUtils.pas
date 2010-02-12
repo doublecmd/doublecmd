@@ -486,22 +486,20 @@ end;
 function ExecCmdFork(sCmdLine:String; bTerm : Boolean; sTerm : String) : Boolean;
 {$IFDEF UNIX}
 var
-  sTempStr, Command : String;
+  Command : String;
   x, pid : LongInt;
   Args : TOpenStringArray;
   WaitForPidThread: TWaitForPidThread;
 begin
-  sTempStr := Trim(sCmdLine);
-
   if bTerm then
     begin
       // Escape single quotes because such are used in fmtRunInTerm.
-      sTempStr := EscapeSingleQuotes(sTempStr);
+      sCmdLine := EscapeSingleQuotes(sCmdLine);
       if sTerm = '' then sTerm := RunInTerm;
-      sTempStr := Format(fmtRunInTerm, [sTerm, sTempStr]);
+      sCmdLine := Format(fmtRunInTerm, [sTerm, sCmdLine]);
     end;
 
-  SplitCmdLine(sTempStr, Command, Args);
+  SplitCmdLine(sCmdLine, Command, Args);
   if Command = EmptyStr then Exit(False);
 
   pid := fpFork;
@@ -509,8 +507,10 @@ begin
   if pid = 0 then
     begin
       { The child does the actual exec, and then exits }
-      FpExecLP(Command, Args);
-      { If the FpExecVP fails, we return an exitvalue of 127, to let it be known }
+      if FpExecLP(Command, Args) = -1 then
+        Writeln(Format('Execute error %d: %s', [fpgeterrno, SysErrorMessageUTF8(fpgeterrno)]));
+
+      { If the FpExecLP fails, we return an exitvalue of 127, to let it be known }
       fpExit(127);
     end
   else if pid = -1 then         { Fork failed }
@@ -2158,4 +2158,4 @@ finalization
 
 {$ENDIF}
 
-end.
+end.
