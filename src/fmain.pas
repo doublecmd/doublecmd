@@ -2808,6 +2808,8 @@ begin
 end;
 
 procedure TfrmMain.ToggleConsole;
+var
+  NewSize: Integer;
 begin
   if gTermWindow then
     begin
@@ -2820,24 +2822,26 @@ begin
           Cons.Resume;
         end;
 
-      // Disable AutoSize before using the splitter
-      // (using both together causes an error).
-      if pnlCommand.AutoSize then
-        pnlCommand.AutoSize:= False;
+      NewSize := Panel1.Height + nbConsole.Height;
     end
   else
     begin
       if Assigned(Cons) then
         FreeAndNil(Cons);
+
+      NewSize := Panel1.Height;
     end;
-  pnlCommand.ClientHeight:= nbConsole.Height;
+
   nbConsole.Visible:= gTermWindow;
   Splitter1.Visible:= gTermWindow;
-  pnlCommand.AutoSize:= not gTermWindow;
-{$IF DEFINED(DARWIN)}
-  if not gTermWindow then
-    pnlCommand.ClientHeight:= Panel1.Height;
-{$ENDIF}
+
+  // Bevel size is not taken into account when setting ClientHeight.
+  if pnlCommand.BevelInner <> bvNone then
+    NewSize := NewSize + pnlCommand.BevelWidth * 2;
+  if pnlCommand.BevelOuter <> bvNone then
+    NewSize := NewSize + pnlCommand.BevelWidth * 2;
+
+  pnlCommand.ClientHeight := NewSize;
 end;
 
 procedure TfrmMain.ToggleFileSystemWatcher;
