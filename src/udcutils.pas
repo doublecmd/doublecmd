@@ -1083,7 +1083,6 @@ end;
 {$IF DEFINED(UNIX)}
 procedure SplitCmdLine(sCmdLine: String; out sCommand: String; out Args: TOpenStringArray);
 begin
-  sCmdLine := Trim(sCmdLine);
   RemoveQuotationOrSplitCmdLine(sCmdLine, sCommand, Args, True);
 end;
 {$ELSEIF DEFINED(MSWINDOWS)}
