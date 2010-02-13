@@ -211,11 +211,7 @@ function TWfxPluginDeleteOperation.ShowError(sMessage: String): TFileSourceOpera
 begin
   if gSkipFileOpError then
   begin
-    if Assigned(Thread) then
-      logWrite(Thread, sMessage, lmtError, True)
-    else
-      logWrite(sMessage, lmtError, True);
-
+    logWrite(Thread, sMessage, lmtError, True);
     Result := fsourSkip;
   end
   else

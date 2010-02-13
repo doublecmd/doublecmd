@@ -415,11 +415,7 @@ begin
   Inc(FErrors);
   if gSkipFileOpError then
   begin
-    if Assigned(Thread) then
-      logWrite(Thread, sMessage, lmtError, True)
-    else
-      logWrite(sMessage, lmtError, True);
-
+    logWrite(Thread, sMessage, lmtError, True);
     Result := fsourSkip;
   end
   else
@@ -448,4 +444,4 @@ begin
 end;
 
 end.
-
+
