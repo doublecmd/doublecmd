@@ -132,9 +132,7 @@ begin
     fl.AddItem(@fri);
 
     DT:= TDeleteThread.Create(fl);
-    //DT.sDstMask:=sDstMaskTemp;
     DT.Resume;
-    DT.WaitFor;
 
   except
     FreeAndNil(fl);
