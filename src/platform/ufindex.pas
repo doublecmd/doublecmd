@@ -87,6 +87,7 @@ begin
   if MatchesMask(UTF8UpperCase(SearchRec.Name), UnixFindData^.sMask) then
     begin
       if fpLStat(UnixFindData^.sPath + SearchRec.Name, @UnixFindData^.StatRec) >= 0 then
+      begin
         with UnixFindData^.StatRec do
         begin
           WinAttr:= LinuxToWinAttr(PChar(SearchRec.Name), UnixFindData^.StatRec);
@@ -98,7 +99,8 @@ begin
           SearchRec.Attr:= st_mode;
 {$POP}
         end;
-      Result:= 0;
+        Result:= 0;
+      end;
     end;
 end;
 {$ENDIF}
@@ -129,19 +131,22 @@ begin
   with UnixFindData^ do
   begin
     sPath:= ExtractFileDir(Path);
-    sMask:= ExtractFileName(Path);
-    sMask:= UTF8UpperCase(sMask);
+    // Assignment of SearchRec.Name also needed if the path points to a specific
+    // file and only a single mbFindMatchingFile() check needs to be done below.
+    SearchRec.Name:= ExtractFileName(Path);
+    sMask:= UTF8UpperCase(SearchRec.Name);
     if sPath = '' then
       GetDir(0, sPath);
     if sMask = '' then
       sMask:= '*';
     sPath:= IncludeTrailingBackSlash(sPath);
 
-    if (Pos('?', sMask) = 0) and (Pos('*', sMask) = 0) and FileExists(Path) then
+    if (Pos('?', sMask) = 0) and (Pos('*', sMask) = 0) then
       begin
-        SearchRec.Name:= sMask;
-        if mbFindMatchingFile(SearchRec) = 0 then
-          Exit(0);
+        if FileExists(Path) and (mbFindMatchingFile(SearchRec) = 0) then
+          Exit(0)
+        else
+          Exit(-1);
       end;
 
     DirPtr:= fpOpenDir(PChar(sPath));
