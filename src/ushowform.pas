@@ -104,7 +104,7 @@ begin
       // TODO: If possible should run one instance of external viewer
       // with multiple file names as parameters.
       for i:=0 to FilesToView.Count-1 do
-        RunExtTool(gExternalTools[etViewer], QuoteStr(FilesToView.Strings[i]));
+        RunExtTool(gExternalTools[etViewer], FilesToView.Strings[i]);
     end;
   end // gUseExtView
   else
