@@ -170,9 +170,12 @@ begin
   Process.Execute;
   Process.Free;
 
-  (* Delete temp files after view *)
-  for I := 0 to FFileList.Count - 1 do
-    mbDeleteFile(FFileList.Strings[I]);
+  if not FFileSource.IsClass(TTempFileSystemFileSource) then
+  begin
+    (* Delete temp files after view *)
+    for I := 0 to FFileList.Count - 1 do
+      mbDeleteFile(FFileList.Strings[I]);
+  end;
 end;
 
 end.
