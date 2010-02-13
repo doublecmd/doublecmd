@@ -137,7 +137,7 @@ var
       else
         Exit('');
     end;
-    Result := state.prefix + {$IFDEF UNIX}QuoteStr{$ENDIF}(Result) + state.postfix;
+    Result := state.prefix + QuoteStr(Result) + state.postfix;
   end;
 
   function BuildAllNames: String;
