@@ -46,6 +46,16 @@ type
   { Show tooltip mode }
   TShowToolTipMode = set of (stm_show_for_all, stm_only_large_name);
 
+  TExternalTool = (etViewer, etEditor, etDiffer);
+  TExternalToolOptions = record
+    Enabled: Boolean;
+    Path: String;
+    Parameters: String;
+    RunInTerminal: Boolean;
+    KeepTerminalOpen: Boolean;
+  end;
+  TExternalToolsOptions = array[TExternalTool] of TExternalToolOptions;
+
 const
   { Default hotkey list version number }
   hkVersion: String = '0.4.6.r2345';
@@ -128,16 +138,9 @@ var
   gListFilesInThread: Boolean;
   gLoadIconsSeparately: Boolean;
 
-  
   { Tools page }
+  gExternalTools: TExternalToolsOptions;
 
-  gUseExtEdit:Boolean;
-  gUseExtView:Boolean;
-  gUseExtDiff:Boolean;
-
-  gExtEdit:String;
-  gExtView:String;
-  gExtDiff:String;
   gLuaLib:String;
   gExts:TExts;
   gColorExt:TColorExt;
@@ -490,6 +493,19 @@ begin
 end;
 
 procedure SetDefaultConfigGlobs;
+
+  procedure SetDefaultExternalTool(var ExternalToolOptions: TExternalToolOptions);
+  begin
+    with ExternalToolOptions do
+    begin
+      Enabled := False;
+      Path := '';
+      Parameters := '';
+      RunInTerminal := False;
+      KeepTerminalOpen := False;
+    end;
+  end;
+
 begin
   { Language page }
   gPOFileName := '';
@@ -516,12 +532,9 @@ begin
   gDriveBlackList := '';
 
   { Tools page }
-  gUseExtEdit := False;
-  gExtEdit := '';
-  gUseExtView := False;
-  gExtView := '';
-  gUseExtDiff := False;
-  gExtDiff := '';
+  SetDefaultExternalTool(gExternalTools[etViewer]);
+  SetDefaultExternalTool(gExternalTools[etEditor]);
+  SetDefaultExternalTool(gExternalTools[etDiffer]);
 
   { Fonts page }
   gFontName := 'default';
@@ -942,13 +955,13 @@ begin
   gDirTabLimit :=  gIni.ReadInteger('Configuration', 'DirTabLimit', 32);
   gDirTabPosition := TTabsPosition(gIni.ReadInteger('Configuration', 'DirTabPosition', Integer(gDirTabPosition)));
 
-  gUseExtEdit := gIni.ReadBool('Configuration', 'UseExtEdit', False);
-  gUseExtView := gIni.ReadBool('Configuration', 'UseExtView', False);
-  gUseExtDiff := gIni.ReadBool('Configuration', 'UseExtDiff', False);
+  gExternalTools[etEditor].Enabled := gIni.ReadBool('Configuration', 'UseExtEdit', False);
+  gExternalTools[etViewer].Enabled := gIni.ReadBool('Configuration', 'UseExtView', False);
+  gExternalTools[etDiffer].Enabled := gIni.ReadBool('Configuration', 'UseExtDiff', False);
+  gExternalTools[etEditor].Path := gIni.ReadString('Configuration', 'ExtEdit', '');
+  gExternalTools[etViewer].Path := gIni.ReadString('Configuration', 'ExtView', '');
+  gExternalTools[etDiffer].Path := gIni.ReadString('Configuration', 'ExtDiff', '');
 
-  gExtEdit := gIni.ReadString('Configuration', 'ExtEdit', '');
-  gExtView := gIni.ReadString('Configuration', 'ExtView', '');
-  gExtDiff := gIni.ReadString('Configuration', 'ExtDiff', '');
   gRunTerm := gIni.ReadString('Configuration', 'RunTerm', RunTerm);
 
   gLuaLib:=gIni.ReadString('Configuration', 'LuaLib', gLuaLib);
@@ -1112,13 +1125,13 @@ begin
   gIni.WriteInteger('Configuration', 'DirTabLimit', gDirTabLimit);
   gIni.WriteInteger('Configuration', 'DirTabPosition', Integer(gDirTabPosition));
 
-  gIni.WriteBool('Configuration', 'UseExtEdit', gUseExtEdit);
-  gIni.WriteBool('Configuration', 'UseExtView', gUseExtView);
-  gIni.WriteBool('Configuration', 'UseExtDiff', gUseExtDiff);
+  gIni.WriteBool('Configuration', 'UseExtEdit', gExternalTools[etEditor].Enabled);
+  gIni.WriteBool('Configuration', 'UseExtView', gExternalTools[etViewer].Enabled);
+  gIni.WriteBool('Configuration', 'UseExtDiff', gExternalTools[etDiffer].Enabled);
 
-  gIni.WriteString('Configuration', 'ExtEdit', gExtEdit);
-  gIni.WriteString('Configuration', 'ExtView', gExtView);
-  gIni.WriteString('Configuration', 'ExtDiff', gExtDiff);
+  gIni.WriteString('Configuration', 'ExtEdit', gExternalTools[etEditor].Path);
+  gIni.WriteString('Configuration', 'ExtView', gExternalTools[etViewer].Path);
+  gIni.WriteString('Configuration', 'ExtDiff', gExternalTools[etDiffer].Path);
   gIni.WriteString('Configuration', 'RunTerm', gRunTerm);
 
   gIni.WriteString('Configuration', 'LuaLib', gLuaLib);
@@ -1214,6 +1227,20 @@ begin
 end;
 
 procedure LoadXmlConfig;
+
+  procedure GetExtTool(Node: TXmlNode; var ExternalToolOptions: TExternalToolOptions);
+  begin
+    if Assigned(Node) then
+      with ExternalToolOptions do
+      begin
+        Enabled          := gConfig.GetAttr(Node, 'Enabled', Enabled);
+        Path             := gConfig.GetValue(Node, 'Path', Path);
+        Parameters       := gConfig.GetValue(Node, 'Parameters', Parameters);
+        RunInTerminal    := gConfig.GetValue(Node, 'RunInTerminal', RunInTerminal);
+        KeepTerminalOpen := gConfig.GetValue(Node, 'KeepTerminalOpen', KeepTerminalOpen);
+      end;
+  end;
+
 var
   Root, Node, SubNode: TXmlNode;
 begin
@@ -1250,12 +1277,9 @@ begin
     end;
 
     { Tools page }
-    gUseExtEdit := GetAttr(Root, 'Tools/Editor/Enabled', gUseExtEdit);
-    gExtEdit := GetValue(Root, 'Tools/Editor/Path', gExtEdit);
-    gUseExtView := GetAttr(Root, 'Tools/Viewer/Enabled', gUseExtView);
-    gExtView := GetValue(Root, 'Tools/Viewer/Path', gExtView);
-    gUseExtDiff := GetAttr(Root, 'Tools/Differ/Enabled', gUseExtDiff);
-    gExtDiff := GetValue(Root, 'Tools/Differ/Path', gExtDiff);
+    GetExtTool(gConfig.FindNode(Root, 'Tools/Viewer'), gExternalTools[etViewer]);
+    GetExtTool(gConfig.FindNode(Root, 'Tools/Editor'), gExternalTools[etEditor]);
+    GetExtTool(gConfig.FindNode(Root, 'Tools/Differ'), gExternalTools[etDiffer]);
 
     { Fonts page }
     gConfig.GetFont(Root, 'Fonts/Main', gFontName, gFontSize, Integer(gFontStyle),
@@ -1439,6 +1463,19 @@ begin
 end;
 
 procedure SaveXmlConfig;
+
+  procedure SetExtTool(Node: TXmlNode; const ExternalToolOptions: TExternalToolOptions);
+  begin
+    if Assigned(Node) then
+      with ExternalToolOptions do
+      begin
+        gConfig.SetAttr(Node, 'Enabled', Enabled);
+        gConfig.SetValue(Node, 'Path', Path);
+        gConfig.SetValue(Node, 'Parameters', Parameters);
+        gConfig.SetValue(Node, 'RunInTerminal', RunInTerminal);
+        gConfig.SetValue(Node, 'KeepTerminalOpen', KeepTerminalOpen);
+      end;
+  end;
 var
   I: Integer;
   Root, Node, SubNode: TXmlNode;
@@ -1479,12 +1516,9 @@ begin
     SetValue(Node, 'DriveBlackList', gDriveBlackList);
 
     { Tools page }
-    SetAttr(Root, 'Tools/Editor/Enabled', gUseExtEdit);
-    SetValue(Root, 'Tools/Editor/Path', gExtEdit);
-    SetAttr(Root, 'Tools/Viewer/Enabled', gUseExtView);
-    SetValue(Root, 'Tools/Viewer/Path', gExtView);
-    SetAttr(Root, 'Tools/Differ/Enabled', gUseExtDiff);
-    SetValue(Root, 'Tools/Differ/Path', gExtDiff);
+    SetExtTool(gConfig.FindNode(Root, 'Tools/Viewer'), gExternalTools[etViewer]);
+    SetExtTool(gConfig.FindNode(Root, 'Tools/Editor'), gExternalTools[etEditor]);
+    SetExtTool(gConfig.FindNode(Root, 'Tools/Differ'), gExternalTools[etDiffer]);
 
     { Fonts page }
     gConfig.SetFont(Root, 'Fonts/Main', gFontName, gFontSize, Integer(gFontStyle));
@@ -1651,4 +1685,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.

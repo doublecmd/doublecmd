@@ -48,13 +48,19 @@ uses
   SysUtils, Process, UTF8Process, LCLProc, uGlobs, uOSUtils, fEditor, fViewer,
   uDCUtils, uTempFileSystemFileSource;
 
-const
-  sCmdLine = '%s %s';
+function RunExtTool(const ExtTool: TExternalToolOptions; sFileName: String): String;
+begin
+  Result := QuoteStr(ExtTool.Path);
+  if ExtTool.Parameters <> EmptyStr then
+    Result := Result + ' ' + ExtTool.Parameters;
+  Result := Result + ' ' + QuoteStr(sFileName);
+  ExecCmdFork(Result, ExtTool.RunInTerminal, '', ExtTool.KeepTerminalOpen);
+end;
 
 function ShowEditorByGlob(sFileName:String):Boolean;
 begin
-  if gUseExtEdit then
-    ExecCmdFork(Format(sCmdLine, [gExtEdit, QuoteStr(sFileName)]))
+  if gExternalTools[etEditor].Enabled then
+    RunExtTool(gExternalTools[etEditor], sFileName)
   else
     ShowEditor(sFileName);
   Result:=True;   
@@ -64,8 +70,8 @@ function ShowViewerByGlob(sFileName:String):Boolean;
 var
   sl:TStringList;
 begin
-  if gUseExtView then
-    ExecCmdFork(Format(sCmdLine, [gExtView, QuoteStr(sFileName)]))
+  if gExternalTools[etViewer].Enabled then
+    RunExtTool(gExternalTools[etViewer], sFileName)
   else
   begin
     sl:=TStringList.Create;
@@ -85,7 +91,7 @@ var
   I : Integer;
   WaitThread : TWaitThread;
 begin
-  if gUseExtView then
+  if gExternalTools[etViewer].Enabled then
   begin
     DebugLN('ShowViewerByGlobList - Use ExtView ');
     if aFileSource.IsClass(TTempFileSystemFileSource) then
@@ -94,8 +100,12 @@ begin
         WaitThread.Resume;
       end
     else
-     for i:=0 to FilesToView.Count-1 do
-       ExecCmdFork(Format(sCmdLine, [gExtView, QuoteStr(FilesToView.Strings[i])]));
+    begin
+      // TODO: If possible should run one instance of external viewer
+      // with multiple file names as parameters.
+      for i:=0 to FilesToView.Count-1 do
+        RunExtTool(gExternalTools[etViewer], QuoteStr(FilesToView.Strings[i]));
+    end;
   end // gUseExtView
   else
     ShowViewer(FilesToView, aFileSource);
@@ -131,10 +141,31 @@ procedure TWaitThread.Execute;
 var
   I : Integer;
   Process : TProcessUTF8;
+  sCmd: String;
 begin
   Process := TProcessUTF8.Create(nil);
-  // TProcess arguments must be enclosed with double quotes and not escaped.
-  Process.CommandLine := Format(sCmdLine, [gExtView, '"' + FFileList.Strings[0] + '"']);
+
+  with gExternalTools[etViewer] do
+  begin
+    // TProcess arguments must be enclosed with double quotes and not escaped.
+    if RunInTerminal then
+    begin
+      sCmd := QuoteStr(Path);
+      if Parameters <> EmptyStr then
+        sCmd := sCmd + ' ' + Parameters;
+      sCmd := sCmd + ' ' + QuoteStr(FFileList.Strings[0]);
+      sCmd := FormatTerminal(sCmd, False);
+    end
+    else
+    begin
+      sCmd := '"' + Path + '"';
+      if Parameters <> EmptyStr then
+        sCmd := sCmd + ' ' + Parameters;
+      sCmd := sCmd + ' "' + FFileList.Strings[0] + '"';
+    end;
+  end;
+
+  Process.CommandLine := sCmd;
   Process.Options := [poWaitOnExit];
   Process.Execute;
   Process.Free;

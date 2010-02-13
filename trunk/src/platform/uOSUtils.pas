@@ -112,7 +112,7 @@ function FileIsExeLib(const sFileName : String) : Boolean;
 }
 function FileIsReadOnly(iAttr: TFileAttrs): Boolean;
 function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
-function ExecCmdFork(sCmdLine:String; bTerm : Boolean = False; sTerm : String = ''):Boolean;
+function ExecCmdFork(sCmdLine:String; bTerm : Boolean = False; sTerm : String = ''; bKeepTerminalOpen: Boolean = True):Boolean;
 {en
    Opens a file or URL in the user's preferred application
    @param(URL File name or URL)
@@ -203,6 +203,10 @@ function GetShell : String;
    Formats a string which will execute Command via shell.
 }
 function FormatShell(const Command: String): String;
+{en
+   Formats a string which will execute Command in a terminal.
+}
+function FormatTerminal(Command: String; bKeepTerminalOpen: Boolean): String;
 
 { File handling functions}
 function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
@@ -291,7 +295,7 @@ var
 implementation
 
 uses
-  FileUtil, uDCUtils
+  FileUtil, uDCUtils, uGlobs
   // 30.04.2009 - для удаления в корзину
   {$IFDEF MSWINDOWS}
   , Win32Int, InterfaceBase
@@ -483,7 +487,7 @@ end;
 
 (* Execute external commands *)
 
-function ExecCmdFork(sCmdLine:String; bTerm : Boolean; sTerm : String) : Boolean;
+function ExecCmdFork(sCmdLine:String; bTerm : Boolean; sTerm : String; bKeepTerminalOpen: Boolean) : Boolean;
 {$IFDEF UNIX}
 var
   Command : String;
@@ -492,12 +496,7 @@ var
   WaitForPidThread: TWaitForPidThread;
 begin
   if bTerm then
-    begin
-      // Escape single quotes because such are used in fmtRunInTerm.
-      sCmdLine := EscapeSingleQuotes(sCmdLine);
-      if sTerm = '' then sTerm := RunInTerm;
-      sCmdLine := Format(fmtRunInTerm, [sTerm, sCmdLine]);
-    end;
+    sCmdLine := FormatTerminal(sCmdLine, bKeepTerminalOpen);
 
   SplitCmdLine(sCmdLine, Command, Args);
   if Command = EmptyStr then Exit(False);
@@ -798,6 +797,18 @@ begin
   Result := Format('%s -c %s', [GetShell, QuoteSingle(Command)]);
 {$ELSEIF DEFINED(MSWINDOWS)}
   Result := Format('%s /C %s', [GetShell, QuoteDouble(Command)]);
+{$ENDIF}
+end;
+
+function FormatTerminal(Command: String; bKeepTerminalOpen: Boolean): String;
+begin
+{$IF DEFINED(UNIX)}
+  if bKeepTerminalOpen then
+    Command := Command + '; echo -n Press ENTER to exit... ; read a';
+  Result := Format('%s %s', [gRunInTerm, QuoteSingle(Command)]);
+{$ELSEIF DEFINED(MSWINDOWS)}
+  // TODO: See if keeping terminal window open can be implemented on Windows.
+  Result := Format('%s %s', [gRunInTerm, QuoteDouble(Command)]);
 {$ENDIF}
 end;
 

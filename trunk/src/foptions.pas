@@ -35,7 +35,7 @@ uses
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, Spin, ColorBox,
   EditBtn, Grids, uDSXModule, uWCXModule, uWDXModule,
-  uWFXmodule, uWLXModule, Menus;
+  uWFXmodule, uWLXModule, uGlobs;
 
 type
 
@@ -78,9 +78,6 @@ type
     cbOnlyOnce: TCheckBox;
     cbDropReadOnlyFlag: TCheckBox;
     cbEditorFont: TComboBox;
-    cbExtDiffer: TCheckBox;
-    cbExtEditor: TCheckBox;
-    cbExtViewer: TCheckBox;
     cbIconsShowOverlay: TCheckBox;
     cbIconsSize: TComboBox;
     cbLynxLike: TCheckBox;
@@ -131,6 +128,9 @@ type
     cbLoadIconsSeparately: TCheckBox;
     cbWatchExcludeDirs: TCheckBox;
     cbTabsOpenNearCurrent: TCheckBox;
+    cbToolsRunInTerminal: TCheckBox;
+    cbToolsKeepTerminalOpen: TCheckBox;
+    cbToolsUseExternalProgram: TCheckBox;
     chkAutoFillColumns: TCheckBox;
     chkIgnoreEnable: TCheckBox;
     cmbTabsPosition: TComboBox;
@@ -138,6 +138,7 @@ type
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
+    edtToolsParameters: TEdit;
     edtCategoryAttr: TEdit;
     edtCategoryMask: TEdit;
     edtCategoryName: TEdit;
@@ -154,6 +155,7 @@ type
     edtTest3: TEdit;
     edtViewerSize: TSpinEdit;
     cbLogFile: TCheckBox;
+    fneToolsPath: TFileNameEdit;
     fneSaveIn: TFileNameEdit;
     gbExactNameMatch: TGroupBox;
     fneLogFileName: TFileNameEdit;
@@ -161,9 +163,6 @@ type
     gbLogFile: TGroupBox;
     gbLogFileOp: TGroupBox;
     gbLogFileStatus: TGroupBox;
-    fneExtViewer: TFileNameEdit;
-    fneExtDiffer: TFileNameEdit;
-    fneExtEditor: TFileNameEdit;
     gbMisc1: TGroupBox;
     gbExample: TGroupBox;
     gbMisc2: TGroupBox;
@@ -195,6 +194,8 @@ type
     gbAutoRefreshDisable: TGroupBox;
     gbShowToolTip: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
+    lblToolsPath: TLabel;
+    lblToolsParameters: TLabel;
     lblInactivePanelBrightness: TLabel;
     lblAutoSizeColumn: TLabel;
     lblQuickSearch: TLabel;
@@ -312,6 +313,7 @@ type
     stgCommands: TStringGrid;
     gbIconsSize: TGroupBox;
     stgHotkeys: TStringGrid;
+    stgTools: TStringGrid;
     tbInactivePanelBrightness: TTrackBar;
     tsWLX: TTabSheet;
     tsDSX: TTabSheet;
@@ -337,8 +339,13 @@ type
     procedure cbAlwaysShowTrayIconChange(Sender: TObject);
     procedure cbIconsSizeChange(Sender: TObject);
     procedure cbListFilesInThreadChange(Sender: TObject);
+    procedure cbToolsKeepTerminalOpenChange(Sender: TObject);
+    procedure cbToolsRunInTerminalChange(Sender: TObject);
+    procedure cbToolsUseExternalProgramChange(Sender: TObject);
     procedure cbWatchExcludeDirsChange(Sender: TObject);
     procedure chkIgnoreEnableChange(Sender: TObject);
+    procedure edtToolsParametersChange(Sender: TObject);
+    procedure fneToolsPathChange(Sender: TObject);
     procedure OnAutoRefreshOptionChanged(Sender: TObject);
     procedure edHotKeyKeyPress(Sender: TObject; var Key: char);
     procedure btnWDXAddClick(Sender: TObject);
@@ -378,9 +385,6 @@ type
     procedure btnSelEditFntClick(Sender: TObject);
     procedure btnSelMainFntClick(Sender: TObject);
     procedure btnSelViewFntClick(Sender: TObject);
-    procedure cbExtEditorClick(Sender: TObject);
-    procedure cbExtDifferClick(Sender: TObject);
-    procedure cbExtViewerClick(Sender: TObject);
     procedure cbMainFontChange(Sender: TObject);
     procedure cbEditorFontChange(Sender: TObject);
     procedure cbViewerFontChange(Sender: TObject);
@@ -403,18 +407,23 @@ type
       var CanSelect: Boolean);
     procedure stgHotkeysSelectCell(Sender: TObject; aCol, aRow: Integer; var CanSelect: Boolean);
     procedure stgPluginsBeforeSelection(Sender: TObject; aCol, aRow: Integer);
+    procedure stgToolsSelectCell(Sender: TObject; aCol, aRow: Integer;
+      var CanSelect: Boolean);
     procedure tsDSXShow(Sender: TObject);
     procedure tsWCXShow(Sender: TObject);
     procedure tsWDXShow(Sender: TObject);
     procedure tsWFXShow(Sender: TObject);
     procedure tsWLXShow(Sender: TObject);
     procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
+
   private
-    { Private declarations }
+    tmpExternalTools: TExternalToolsOptions;
+    FUpdatingTools: Boolean;
+
     procedure DeleteHotkeyFromGrid(aHotkey: String);
+    procedure ShowExternalToolOptions(ExtTool: TExternalTool);
 
   public
-    { Public declarations }
     procedure FillLngListBox;
     procedure FillFontLists;
     procedure FillFileColorsList;
@@ -439,7 +448,7 @@ var
 implementation
 
 uses
-  uLng, uGlobs, uGlobsPaths, uPixMapManager, fMain, ActnList, LCLProc,
+  uLng, uGlobsPaths, uPixMapManager, fMain, LCLProc,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
   fTweakPlugin, uhotkeymanger, uTypes, StrUtils, uFindEx, uKeyboard,
   fMaskInputDlg, uSearchTemplate;
@@ -449,6 +458,9 @@ const
      stgCmdCommentIndex=1;
      stgCmdHotkeysIndex=2;
 
+const
+  // Tools page: what tool is displayed in each row.
+  ExtToolFromRow: array[0..2] of TExternalTool = (etViewer, etEditor, etDiffer);
 
 function StListToStr(separator:string; const lStList:TStringList):string;
 //< convert stringlist to string
@@ -465,6 +477,8 @@ end;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
+  FUpdatingTools := False;
+
   // Localize some ComboBox
   ParseLineToList(rsOptMouseSelectionButton, cbMouseMode.Items);
   ParseLineToList(rsOptAutoSizeColumn, cmbAutoSizeColumn.Items);
@@ -510,6 +524,13 @@ begin
   rbAltLetterQF.Caption     := rbAltLetterQS.Caption;
   rbLetterQF.Caption        := rbLetterQS.Caption;
   rbNoneQF.Caption          := rbNoneQS.Caption;
+
+  // Disable focus rectangle on tools grid.
+  stgTools.FocusRectVisible := False;
+  // Localize tools names.
+  stgTools.Cells[0, stgTools.FixedRows + 0] := rsToolViewer;
+  stgTools.Cells[0, stgTools.FixedRows + 1] := rsToolEditor;
+  stgTools.Cells[0, stgTools.FixedRows + 2] := rsToolDiffer;
 
   // create plugins lists
   tmpDSXPlugins:= TDSXModuleList.Create;
@@ -803,24 +824,6 @@ begin
     end;
 end;
 
-procedure TfrmOptions.cbExtEditorClick(Sender: TObject);
-begin
-  inherited;
-  fneExtEditor.Enabled:=cbExtEditor.Checked
-end;
-
-procedure TfrmOptions.cbExtDifferClick(Sender: TObject);
-begin
-  inherited;
-  fneExtDiffer.Enabled:=cbExtDiffer.Checked
-end;
-
-procedure TfrmOptions.cbExtViewerClick(Sender: TObject);
-begin
-  inherited;
-  fneExtViewer.Enabled:=cbExtViewer.Checked
-end;
-
 procedure TfrmOptions.FillFontLists;
 begin
   cbMainFont.Text := gFontName;
@@ -1107,6 +1110,18 @@ begin
     btnEnablePlugin.Caption:= rsOptEnable;
 
   btnEnablePlugin.Enabled:= (stgPlugins.Cells[0, aRow] <> '');
+end;
+
+procedure TfrmOptions.stgToolsSelectCell(Sender: TObject; aCol, aRow: Integer;
+  var CanSelect: Boolean);
+begin
+  aRow := aRow - stgTools.FixedRows;
+  if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
+  begin
+    FUpdatingTools := True;
+    ShowExternalToolOptions(ExtToolFromRow[aRow]);
+    FUpdatingTools := False;
+  end;
 end;
 
 procedure TfrmOptions.btnEnablePluginClick(Sender: TObject);
@@ -1802,6 +1817,51 @@ begin
   cbLoadIconsSeparately.Enabled := cbListFilesInThread.Checked;
 end;
 
+procedure TfrmOptions.cbToolsKeepTerminalOpenChange(Sender: TObject);
+var
+  aRow: Integer;
+begin
+  if not FUpdatingTools then
+  begin
+    aRow := stgTools.Row - stgTools.FixedRows;
+    if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
+      tmpExternalTools[ExtToolFromRow[aRow]].KeepTerminalOpen := cbToolsKeepTerminalOpen.Checked;
+  end;
+end;
+
+procedure TfrmOptions.cbToolsRunInTerminalChange(Sender: TObject);
+var
+  aRow: Integer;
+begin
+  cbToolsKeepTerminalOpen.Enabled := cbToolsRunInTerminal.Checked;
+
+  if not FUpdatingTools then
+  begin
+    aRow := stgTools.Row - stgTools.FixedRows;
+    if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
+      tmpExternalTools[ExtToolFromRow[aRow]].RunInTerminal := cbToolsRunInTerminal.Checked;
+  end;
+end;
+
+procedure TfrmOptions.cbToolsUseExternalProgramChange(Sender: TObject);
+var
+  aRow: Integer;
+begin
+  lblToolsPath.Enabled            := cbToolsUseExternalProgram.Checked;
+  fneToolsPath.Enabled            := cbToolsUseExternalProgram.Checked;
+  lblToolsParameters.Enabled      := cbToolsUseExternalProgram.Checked;
+  edtToolsParameters.Enabled      := cbToolsUseExternalProgram.Checked;
+  cbToolsRunInTerminal.Enabled    := cbToolsUseExternalProgram.Checked;
+  cbToolsKeepTerminalOpen.Enabled := cbToolsUseExternalProgram.Checked;
+
+  if not FUpdatingTools then
+  begin
+    aRow := stgTools.Row - stgTools.FixedRows;
+    if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
+      tmpExternalTools[ExtToolFromRow[aRow]].Enabled := cbToolsUseExternalProgram.Checked;
+  end;
+end;
+
 procedure TfrmOptions.cbWatchExcludeDirsChange(Sender: TObject);
 begin
   edtWatchExcludeDirs.Enabled := cbWatchExcludeDirs.Checked;
@@ -1813,6 +1873,31 @@ begin
   fneSaveIn.Enabled:= chkIgnoreEnable.Checked;
   btnAddSelWithPath.Enabled:= chkIgnoreEnable.Checked;
   btnAddSel.Enabled:= chkIgnoreEnable.Checked;
+end;
+
+procedure TfrmOptions.edtToolsParametersChange(Sender: TObject);
+var
+  aRow: Integer;
+begin
+  if not FUpdatingTools then
+  begin
+    aRow := stgTools.Row - stgTools.FixedRows;
+    if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
+      tmpExternalTools[ExtToolFromRow[aRow]].Parameters := edtToolsParameters.Text;
+  end;
+end;
+
+procedure TfrmOptions.fneToolsPathChange(Sender: TObject);
+var
+  aRow: Integer;
+begin
+  if not FUpdatingTools then
+  begin
+    aRow := stgTools.Row - stgTools.FixedRows;
+    if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
+      // Use fneToolsPath.Caption because Filename is one letter behind when typing manually.
+      tmpExternalTools[ExtToolFromRow[aRow]].Path := fneToolsPath.Caption;
+  end;
 end;
 
 procedure TfrmOptions.OnAutoRefreshOptionChanged(Sender: TObject);
@@ -2118,6 +2203,9 @@ begin
   cbLogWindow.Checked := gLogWindow;
   cbTermWindow.Checked := gTermWindow;
 
+  { Behaviours page }
+  edtRunInTerm.Text:= gRunInTerm;
+  edtRunTerm.Text:=gRunTerm;
   cbOnlyOnce.Checked:= gOnlyOneAppInstance;
   cbCaseSensitiveSort.Checked:=gCaseSensitiveSort;
   cbLynxLike.Checked:=gLynxLike;
@@ -2129,9 +2217,6 @@ begin
   chkAutoFillColumns.Checked:= gAutoFillColumns;
   cmbAutoSizeColumn.ItemIndex:= gAutoSizeColumn;
 
-  cbExtEditor.Checked:=gUseExtEdit;
-  cbExtViewer.Checked:=gUseExtView;
-  cbExtDiffer.Checked:=gUseExtDiff;
   if gScrollMode < rgScrolling.Items.Count then
     rgScrolling.ItemIndex:=  gScrollMode
   else
@@ -2149,15 +2234,8 @@ begin
   cbLoadIconsSeparately.Checked:= gLoadIconsSeparately;
   cbLoadIconsSeparately.Enabled:= gListFilesInThread;
 
-  fneExtEditor.FileName := gExtEdit;
-  fneExtViewer.FileName := gExtView;
-  fneExtDiffer.FileName := gExtDiff;
-
-  fneExtEditor.Enabled:= cbExtEditor.Checked;
-  fneExtDiffer.Enabled:= cbExtDiffer.Checked;
-  fneExtViewer.Enabled:= cbExtViewer.Checked;
-
-  edtRunTerm.Text:=gRunTerm;
+  { Tools page }
+  tmpExternalTools := gExternalTools;
 
   { Colors }
   SetColorInColorBox(cbTextColor,gForeColor);
@@ -2287,8 +2365,6 @@ begin
   FillLngListBox;
   FillFontLists;
   FillFileColorsList;
-  DebugLn(gRunInTerm);
-  edtRunInTerm.Text:= gRunInTerm;
 
 
    FillColumnsList;
@@ -2321,8 +2397,10 @@ begin
   gInterfaceFlat := cbFlatInterface.Checked;
   gLogWindow := cbLogWindow.Checked;
   gTermWindow := cbTermWindow.Checked;
-  
+
+  { Behaviour page }
   gRunInTerm:=edtRunInTerm.Text;
+  gRunTerm:= edtRunTerm.Text;
   gOnlyOneAppInstance:=cbOnlyOnce.Checked;
   gCaseSensitiveSort:=cbCaseSensitiveSort.Checked;
   gLynxLike:=cbLynxLike.Checked;
@@ -2344,15 +2422,10 @@ begin
   gAutoFillColumns:= chkAutoFillColumns.Checked;
   gAutoSizeColumn:= cmbAutoSizeColumn.ItemIndex;
 
-  gUseExtEdit:=cbExtEditor.Checked;
-  gUseExtView:=cbExtViewer.Checked;
-  gUseExtDiff:=cbExtDiffer.Checked;
+  { Tools page }
+  gExternalTools := tmpExternalTools;
 
-  gExtEdit:= fneExtEditor.Caption;
-  gExtView:= fneExtViewer.Caption;
-  gExtDiff:= fneExtDiffer.Caption;
-  gRunTerm:= edtRunTerm.Text;
-  
+  { Fonts }
   gFontName:=cbMainFont.Text;
   gEditorFontName:=cbEditorFont.Text;
   gViewerFontName:=cbViewerFont.Text;
@@ -2568,7 +2641,19 @@ begin
     end;
 end;
 
+procedure TfrmOptions.ShowExternalToolOptions(ExtTool: TExternalTool);
+begin
+  with tmpExternalTools[ExtTool] do
+  begin
+    cbToolsUseExternalProgram.Checked := Enabled;
+    fneToolsPath.FileName             := Path;
+    edtToolsParameters.Text           := Parameters;
+    cbToolsRunInTerminal.Checked      := RunInTerminal;
+    cbToolsKeepTerminalOpen.Checked   := KeepTerminalOpen;
+  end;
+end;
+
 initialization
  {$I fOptions.lrs}
 
-end.
+end.

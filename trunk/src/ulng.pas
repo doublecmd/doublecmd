@@ -168,6 +168,10 @@ resourcestring
   rsColSize = 'Size';
   rsColDate = 'Date';
   rsColAttr = 'Attr';
+  // Tools
+  rsToolViewer = 'Viewer';
+  rsToolEditor = 'Editor';
+  rsToolDiffer = 'Differ';
   // Configure custom columns dialog
   rsConfColDelete = 'Delete';
   rsConfColCaption = 'Caption';
@@ -399,4 +403,4 @@ finalization
   if Assigned(LRSTranslator) then
     FreeAndNil(LRSTranslator);
 
-end.
+end.
