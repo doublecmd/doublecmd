@@ -18,8 +18,9 @@ unit uFileProcs;
 {$mode objfpc}{$H+}
 
 interface
+
 uses
-  uTypes, ComCtrls;
+  Classes;
 
 {en
    Create a chain of directories
@@ -54,9 +55,11 @@ procedure FileReadLn(hFile: Integer; var S: String);
 procedure FileWriteLn(hFile: Integer; S: String);
 
 implementation
+
 uses
-  LCLProc, SysUtils, uGlobs, uShowMsg, Classes, uClassesEx, uDCUtils,
-  uOSUtils, uDeleteThread, uFileList;
+  LCLProc, SysUtils, uGlobs, uShowMsg, uClassesEx, uDCUtils,
+  uOSUtils, uFileSystemFileSource, uFileSystemFile,
+  uFile, uFileSystemDeleteOperation, uFileSourceOperationOptions;
 
 const
   cBlockSize=16384; // size of block if copyfile
@@ -120,24 +123,23 @@ end;
 
 procedure DelTree(const sFolderName: String);
 var
-  fl: TFileList;
-  DT: TDeleteThread = nil;
-  fri: TFileRecItem;
+  DeleteOperation: TFileSystemDeleteOperation = nil;
+  aFiles: TFiles = nil;
 begin
-  fl:= TFileList.Create; // free at Thread end by thread
+  aFiles := TFileSystemFiles.Create(sFolderName);
   try
-    fri.sName:= sFolderName;
-    fri.iMode:= faFolder;
-    fri.bLinkIsDir:= False;
-    fl.AddItem(@fri);
+    aFiles.Add(TFileSystemFile.CreateFromFile(sFolderName));
 
-    DT:= TDeleteThread.Create(fl);
-    DT.Resume;
+    DeleteOperation := TFileSystemDeleteOperation.Create(
+      TFileSystemFileSource.GetFileSource, aFiles);
+    DeleteOperation.DeleteReadOnly := fsoogYes;
+    DeleteOperation.SymLinkOption := fsooslDontFollow;
+    DeleteOperation.SkipErrors := True;
+    DeleteOperation.Execute;
 
-  except
-    FreeAndNil(fl);
-    if Assigned(DT) then
-      FreeAndNil(DT);
+  finally
+    FreeThenNil(aFiles);
+    FreeThenNil(DeleteOperation);
   end;
 end;
 

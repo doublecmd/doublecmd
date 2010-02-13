@@ -46,6 +46,9 @@ type
 
     // For delete to trash
     property Recycle : boolean read FRecycle write FRecycle default false;
+    property DeleteReadOnly: TFileSourceOperationOptionGeneral read FDeleteReadOnly write FDeleteReadOnly;
+    property SymLinkOption: TFileSourceOperationOptionSymLink read FSymLinkOption write FSymLinkOption;
+    property SkipErrors: Boolean read FSkipErrors write FSkipErrors;
   end;
 
 implementation
@@ -57,7 +60,7 @@ constructor TFileSystemDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);
 begin
   FSymLinkOption := fsooslNone;
-  FSkipErrors := False;
+  FSkipErrors := gSkipFileOpError;
   FRecycle := False;
   FDeleteReadOnly := fsoogNone;
   FFullFilesTreeToDelete := nil;
@@ -225,7 +228,7 @@ begin
         sQuestion := Format(rsMsgNotDelete, [FileName]);
       end;
 
-      if gSkipFileOpError or (FSkipErrors = True) then
+      if FSkipErrors then
         LogMessage(sMessage, logOptions, lmtError)
       else
       begin
@@ -246,7 +249,7 @@ end;
 
 function TFileSystemDeleteOperation.ShowError(sMessage: String): TFileSourceOperationUIResponse;
 begin
-  if gSkipFileOpError then
+  if FSkipErrors then
   begin
     logWrite(Thread, sMessage, lmtError, True);
     Result := fsourSkip;
