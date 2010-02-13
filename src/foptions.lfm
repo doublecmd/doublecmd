@@ -13,7 +13,7 @@ object frmOptions: TfrmOptions
   Position = poScreenCenter
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stNever
-  LCLVersion = '0.9.28.3'
+  LCLVersion = '0.9.29'
   object Panel1: TPanel
     Left = 0
     Height = 43
@@ -644,81 +644,135 @@ object frmOptions: TfrmOptions
       end
       object pgTools: TPage
         ClientWidth = 622
-        ClientHeight = 423
-        object cbExtEditor: TCheckBox
-          Left = 3
-          Height = 17
-          Top = 13
-          Width = 89
-          Caption = 'External editor'
-          OnClick = cbExtEditorClick
+        ClientHeight = 450
+        object stgTools: TStringGrid
+          Left = 0
+          Height = 450
+          Top = 0
+          Width = 142
+          Align = alLeft
+          AutoFillColumns = True
+          ColCount = 1
+          Columns = <          
+            item
+              Title.Caption = 'Tool'
+              Width = 138
+            end>
+          ExtendedSelect = False
+          FixedCols = 0
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goRowSelect, goThumbTracking]
+          RowCount = 4
           TabOrder = 0
+          OnSelectCell = stgToolsSelectCell
+          ColWidths = (
+            138
+          )
+          Cells = (
+            3
+            0
+            1
+            'Viewer'
+            0
+            2
+            'Editor'
+            0
+            3
+            'Differ'
+          )
         end
-        object cbExtDiffer: TCheckBox
-          Left = 3
-          Height = 17
-          Top = 78
-          Width = 87
-          Caption = 'External differ'
-          OnClick = cbExtDifferClick
-          TabOrder = 1
-        end
-        object cbExtViewer: TCheckBox
-          Left = 3
-          Height = 17
-          Top = 143
-          Width = 93
-          Caption = 'External viewer'
-          OnClick = cbExtViewerClick
-          TabOrder = 2
-        end
-        object fneExtEditor: TFileNameEdit
-          AnchorSideTop.Control = cbExtEditor
+        object edtToolsParameters: TEdit
+          AnchorSideLeft.Control = lblToolsParameters
+          AnchorSideTop.Control = lblToolsParameters
           AnchorSideTop.Side = asrBottom
-          Left = 2
-          Height = 21
-          Top = 36
-          Width = 574
-          DialogOptions = []
-          FilterIndex = 0
-          HideDirectories = False
-          ButtonWidth = 23
-          NumGlyphs = 1
+          AnchorSideRight.Control = fneToolsPath
+          AnchorSideRight.Side = asrBottom
+          Left = 150
+          Height = 27
+          Top = 137
+          Width = 432
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 6
+          BorderSpacing.Top = 4
+          OnChange = edtToolsParametersChange
           TabOrder = 3
         end
-        object fneExtDiffer: TFileNameEdit
-          AnchorSideTop.Control = cbExtDiffer
+        object fneToolsPath: TFileNameEdit
+          AnchorSideLeft.Control = lblToolsPath
+          AnchorSideTop.Control = lblToolsPath
           AnchorSideTop.Side = asrBottom
-          Left = 2
-          Height = 21
-          Top = 101
-          Width = 574
+          Left = 150
+          Height = 27
+          Top = 76
+          Width = 432
           DialogOptions = []
           FilterIndex = 0
           HideDirectories = False
           ButtonWidth = 23
-          NumGlyphs = 1
+          NumGlyphs = 0
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 6
+          BorderSpacing.Top = 4
+          MaxLength = 0
+          TabOrder = 2
+          OnChange = fneToolsPathChange
+        end
+        object lblToolsPath: TLabel
+          AnchorSideLeft.Control = cbToolsUseExternalProgram
+          AnchorSideTop.Control = cbToolsUseExternalProgram
+          AnchorSideTop.Side = asrBottom
+          Left = 150
+          Height = 20
+          Top = 52
+          Width = 181
+          BorderSpacing.Top = 15
+          Caption = 'Path to program to execute'
+          ParentColor = False
+        end
+        object lblToolsParameters: TLabel
+          AnchorSideLeft.Control = cbToolsUseExternalProgram
+          AnchorSideTop.Control = fneToolsPath
+          AnchorSideTop.Side = asrBottom
+          Left = 150
+          Height = 20
+          Top = 113
+          Width = 150
+          BorderSpacing.Top = 10
+          Caption = 'Additional parameters'
+          ParentColor = False
+        end
+        object cbToolsKeepTerminalOpen: TCheckBox
+          AnchorSideLeft.Control = cbToolsRunInTerminal
+          AnchorSideTop.Control = cbToolsRunInTerminal
+          AnchorSideTop.Side = asrBottom
+          Left = 165
+          Height = 23
+          Top = 201
+          Width = 376
+          BorderSpacing.Left = 15
+          BorderSpacing.Top = 2
+          Caption = 'Keep terminal window open after executing program'
+          OnChange = cbToolsKeepTerminalOpenChange
+          TabOrder = 5
+        end
+        object cbToolsRunInTerminal: TCheckBox
+          AnchorSideLeft.Control = edtToolsParameters
+          AnchorSideTop.Control = edtToolsParameters
+          AnchorSideTop.Side = asrBottom
+          Left = 150
+          Height = 23
+          Top = 176
+          Width = 149
+          BorderSpacing.Top = 12
+          Caption = 'Execute in terminal'
+          OnChange = cbToolsRunInTerminalChange
           TabOrder = 4
         end
-        object fneExtViewer: TFileNameEdit
-          AnchorSideTop.Control = cbExtViewer
-          AnchorSideTop.Side = asrBottom
-          Left = 2
-          Height = 21
-          Top = 166
-          Width = 574
-          DialogOptions = []
-          FilterIndex = 0
-          HideDirectories = False
-          ButtonWidth = 23
-          NumGlyphs = 1
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 6
-          TabOrder = 5
+        object cbToolsUseExternalProgram: TCheckBox
+          Left = 150
+          Height = 23
+          Top = 14
+          Width = 168
+          Caption = 'Use external program'
+          OnChange = cbToolsUseExternalProgramChange
+          TabOrder = 1
         end
       end
       object pgFonts: TPage

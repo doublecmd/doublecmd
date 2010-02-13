@@ -1757,13 +1757,20 @@ var
       DirsToCompare.Add(aFile.Path + aFile.Name);
   end;
 
-  function FormatCommand(CompareList: TStringList): String;
+  procedure RunExtDiffer(CompareList: TStringList);
   var
     i : Integer;
+    sCommand: String;
   begin
-    Result := gExtDiff;
-    for i := 0 to CompareList.Count - 1 do
-      Result := Result + ' "' + CompareList.Strings[i] + '"';
+    with gExternalTools[etDiffer] do
+    begin
+      sCommand := QuoteStr(Path);
+      if Parameters <> EmptyStr then
+        sCommand := sCommand + ' ' + Parameters;
+      for i := 0 to CompareList.Count - 1 do
+        sCommand := sCommand + ' ' + QuoteStr(CompareList.Strings[i]);
+      ExecCmdFork(sCommand, RunInTerminal, '', KeepTerminalOpen);
+    end;
   end;
 
 var
@@ -1850,8 +1857,8 @@ begin
       end
       else if FilesToCompare.Count > 0 then
       begin
-        if gUseExtDiff then
-          ExecCmdFork(FormatCommand(FilesToCompare))
+        if gExternalTools[etDiffer].Enabled then
+          RunExtDiffer(FilesToCompare)
         else if FilesToCompare.Count = 2 then
           ShowCmpFiles(FilesToCompare.Strings[0], FilesToCompare.Strings[1])
         else
@@ -1859,8 +1866,8 @@ begin
       end
       else if DirsToCompare.Count > 0 then
       begin
-        if gUseExtDiff then
-          ExecCmdFork(FormatCommand(DirsToCompare))
+        if gExternalTools[etDiffer].Enabled then
+          RunExtDiffer(DirsToCompare)
         else
           MsgWarning(rsMsgNotImplemented);
       end
@@ -2718,4 +2725,4 @@ begin
 end;
 
 end.
-
+
