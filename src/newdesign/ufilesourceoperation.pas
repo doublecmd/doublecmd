@@ -865,7 +865,7 @@ begin
   DebugLn('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Before notify events');
 {$ENDIF}
 
-  if Assigned(FThread) and (GetCurrentThreadID <> MainThreadID) then
+  if GetCurrentThreadID <> MainThreadID then
     // NotifyStateChanged() is run from the operation thread so we cannot
     // call event listeners directly, because they may update the GUI.
 {$IFDEF fsoSynchronizeEvents}
@@ -879,7 +879,7 @@ begin
   begin
     // The function was called from main thread - call directly.
 
-    if Assigned(FThread) then
+    if GetCurrentThreadID <> MainThreadID then
     begin
       // The operation runs in a thread.
       // Handle exceptions for the GUI thread because it controls the operation
@@ -1052,7 +1052,7 @@ begin
   FUIDefaultOKResponse := DefaultOKResponse;
   FUIDefaultCancelResponse := DefaultCancelResponse;
 
-  if Assigned(FThread) then
+  if GetCurrentThreadID <> MainThreadID then
   begin
     while True do
     begin
@@ -1141,10 +1141,7 @@ end;
 
 procedure TFileSourceOperation.ReloadFileSources;
 begin
-  if Assigned(FThread) then
-    TThread.Synchronize(FThread, @DoReloadFileSources) // Calls virtual function
-  else
-    DoReloadFileSources;
+  TThread.Synchronize(FThread, @DoReloadFileSources); // Calls virtual function
 end;
 
 procedure TFileSourceOperation.DoReloadFileSources;
