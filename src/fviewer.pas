@@ -296,7 +296,9 @@ begin
      begin
        Result:= True;
        DebugLn('I = '+IntToStr(I));
+       {$PUSH}{$R-}
        if not WlxPrepareContainer(pnlLister.Handle) then {TODO: ERROR and exit;};
+       {$POP}
        WlxPlugins.LoadModule(I);
        DebugLn('WlxModule.Name = ', WlxPlugins.GetWLxModule(I).Name);
        if WlxPlugins.GetWLxModule(I).CallListLoad(pnlLister.Handle, sFileName, {TODO: showFlags}0) = 0 then
@@ -317,7 +319,9 @@ end;
 
 procedure TfrmViewer.ExitPluginMode;
 begin
+  {$PUSH}{$R-}
   WlxPrepareContainer(pnlLister.Handle,true);
+  {$POP}
   if (WlxPlugins.Count > 0) and (ActivePlugin >= 0) then
     begin
       WlxPlugins.GetWLxModule(ActivePlugin).CallListCloseWindow;
@@ -848,4 +852,4 @@ end;
 initialization
  {$I fviewer.lrs}
 
-end.
+end.
