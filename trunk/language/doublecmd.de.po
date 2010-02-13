@@ -2383,18 +2383,6 @@ msgstr "&Beginn (Name soll mit dem ersten eingetippten Buchstaben beginnen)"
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "Ende des Namens (letztes Zeichen vor einem . soll passen)"
 
-#: TFRMOPTIONS.CBEXTDIFFER.CAPTION
-msgid "External differ"
-msgstr "Externer Vergleicher"
-
-#: TFRMOPTIONS.CBEXTEDITOR.CAPTION
-msgid "External editor"
-msgstr "Externer Editor"
-
-#: TFRMOPTIONS.CBEXTVIEWER.CAPTION
-msgid "External viewer"
-msgstr "Externer Betrachter"
-
 #: TFRMOPTIONS.CBFILEMASKHISTORY.CAPTION
 msgid "File mask history"
 msgstr "Dateimasken-Verlauf"
@@ -2606,6 +2594,18 @@ msgstr "Zeige Schalter um Tabs zu schliessen"
 #: TFRMOPTIONS.CBTERMWINDOW.CAPTION
 msgid "Show terminal window"
 msgstr "Konsolenfenster zeigen"
+
+#: TFRMOPTIONS.CBTOOLSKEEPTERMINALOPEN.CAPTION
+msgid "Keep terminal window open after executing program"
+msgstr ""
+
+#: TFRMOPTIONS.CBTOOLSRUNINTERMINAL.CAPTION
+msgid "Execute in terminal"
+msgstr ""
+
+#: TFRMOPTIONS.CBTOOLSUSEEXTERNALPROGRAM.CAPTION
+msgid "Use external program"
+msgstr ""
 
 #: TFRMOPTIONS.CBTWODISKPANELS.CAPTION
 msgid "Show two drive button bars (fixed width, above file windows)"
@@ -2843,6 +2843,14 @@ msgstr ""
 msgid "Tabs position:"
 msgstr "Reiter-Position"
 
+#: TFRMOPTIONS.LBLTOOLSPARAMETERS.CAPTION
+msgid "Additional parameters"
+msgstr ""
+
+#: TFRMOPTIONS.LBLTOOLSPATH.CAPTION
+msgid "Path to program to execute"
+msgstr ""
+
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Schriftart für Betrachter"
@@ -2951,6 +2959,10 @@ msgstr "Nutze Stream zur Textsuche in Dateien"
 #: TFRMOPTIONS.RGSCROLLING.CAPTION
 msgid "Scrolling"
 msgstr "Scrollen"
+
+#: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
+msgid "Tool"
+msgstr ""
 
 #: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
 msgid "Active"

@@ -2383,18 +2383,6 @@ msgstr "&Начало (името трябва да започва с първи
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "&Край (последният знак преди точката . трябва да съвпада)"
 
-#: TFRMOPTIONS.CBEXTDIFFER.CAPTION
-msgid "External differ"
-msgstr "Външен различител"
-
-#: TFRMOPTIONS.CBEXTEDITOR.CAPTION
-msgid "External editor"
-msgstr "Външен обработчик"
-
-#: TFRMOPTIONS.CBEXTVIEWER.CAPTION
-msgid "External viewer"
-msgstr "Външен преглед"
-
 #: TFRMOPTIONS.CBFILEMASKHISTORY.CAPTION
 msgid "File mask history"
 msgstr "Дневник на търсените файловете"
@@ -2606,6 +2594,18 @@ msgstr ""
 #: TFRMOPTIONS.CBTERMWINDOW.CAPTION
 msgid "Show terminal window"
 msgstr "Показване на терминален прозорец"
+
+#: TFRMOPTIONS.CBTOOLSKEEPTERMINALOPEN.CAPTION
+msgid "Keep terminal window open after executing program"
+msgstr ""
+
+#: TFRMOPTIONS.CBTOOLSRUNINTERMINAL.CAPTION
+msgid "Execute in terminal"
+msgstr ""
+
+#: TFRMOPTIONS.CBTOOLSUSEEXTERNALPROGRAM.CAPTION
+msgid "Use external program"
+msgstr ""
 
 #: TFRMOPTIONS.CBTWODISKPANELS.CAPTION
 msgid "Show two drive button bars (fixed width, above file windows)"
@@ -2837,6 +2837,14 @@ msgstr ""
 msgid "Tabs position:"
 msgstr ""
 
+#: TFRMOPTIONS.LBLTOOLSPARAMETERS.CAPTION
+msgid "Additional parameters"
+msgstr ""
+
+#: TFRMOPTIONS.LBLTOOLSPATH.CAPTION
+msgid "Path to program to execute"
+msgstr ""
+
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Шрифт на прегледа"
@@ -2945,6 +2953,10 @@ msgstr "Поточно търсене на текст във файловете"
 #: TFRMOPTIONS.RGSCROLLING.CAPTION
 msgid "Scrolling"
 msgstr "Превъртане"
+
+#: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
+msgid "Tool"
+msgstr ""
 
 #: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
 msgid "Active"

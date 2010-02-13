@@ -2385,18 +2385,6 @@ msgstr "Начало (имя должно начинаться с набранн
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "Конец (последние символы до набранной точки '.' должны совпадать)"
 
-#: TFRMOPTIONS.CBEXTDIFFER.CAPTION
-msgid "External differ"
-msgstr "Внешний differ"
-
-#: TFRMOPTIONS.CBEXTEDITOR.CAPTION
-msgid "External editor"
-msgstr "Внешний редактор"
-
-#: TFRMOPTIONS.CBEXTVIEWER.CAPTION
-msgid "External viewer"
-msgstr "Внешний просмотрщик"
-
 #: TFRMOPTIONS.CBFILEMASKHISTORY.CAPTION
 msgid "File mask history"
 msgstr "История масок файлов"
@@ -2608,6 +2596,18 @@ msgstr "Кнопка закрытия таба"
 #: TFRMOPTIONS.CBTERMWINDOW.CAPTION
 msgid "Show terminal window"
 msgstr "Консоль"
+
+#: TFRMOPTIONS.CBTOOLSKEEPTERMINALOPEN.CAPTION
+msgid "Keep terminal window open after executing program"
+msgstr ""
+
+#: TFRMOPTIONS.CBTOOLSRUNINTERMINAL.CAPTION
+msgid "Execute in terminal"
+msgstr ""
+
+#: TFRMOPTIONS.CBTOOLSUSEEXTERNALPROGRAM.CAPTION
+msgid "Use external program"
+msgstr ""
 
 #: TFRMOPTIONS.CBTWODISKPANELS.CAPTION
 msgid "Show two drive button bars (fixed width, above file windows)"
@@ -2845,6 +2845,14 @@ msgstr "&Сохранить в:"
 msgid "Tabs position:"
 msgstr "Положение вкладок:"
 
+#: TFRMOPTIONS.LBLTOOLSPARAMETERS.CAPTION
+msgid "Additional parameters"
+msgstr ""
+
+#: TFRMOPTIONS.LBLTOOLSPATH.CAPTION
+msgid "Path to program to execute"
+msgstr ""
+
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Просмотрщика"
@@ -2953,6 +2961,10 @@ msgstr "Использовать поток, при поиске текста в
 #: TFRMOPTIONS.RGSCROLLING.CAPTION
 msgid "Scrolling"
 msgstr "Прокрутка"
+
+#: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
+msgid "Tool"
+msgstr ""
 
 #: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
 msgid "Active"
