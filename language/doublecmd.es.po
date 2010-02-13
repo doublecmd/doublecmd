@@ -2363,18 +2363,6 @@ msgstr "&Comienzo (el nombre debe empezar con el primer carácter)"
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "Fi&nal (debe coincidir el último caracter antes de un punto . )"
 
-#: TFRMOPTIONS.CBEXTDIFFER.CAPTION
-msgid "External differ"
-msgstr "Comparador externo"
-
-#: TFRMOPTIONS.CBEXTEDITOR.CAPTION
-msgid "External editor"
-msgstr "Editor externo"
-
-#: TFRMOPTIONS.CBEXTVIEWER.CAPTION
-msgid "External viewer"
-msgstr "Visor externo"
-
 #: TFRMOPTIONS.CBFILEMASKHISTORY.CAPTION
 msgid "File mask history"
 msgstr "Histórico de máscaras"
@@ -2585,6 +2573,18 @@ msgstr ""
 
 #: TFRMOPTIONS.CBTERMWINDOW.CAPTION
 msgid "Show terminal window"
+msgstr ""
+
+#: TFRMOPTIONS.CBTOOLSKEEPTERMINALOPEN.CAPTION
+msgid "Keep terminal window open after executing program"
+msgstr ""
+
+#: TFRMOPTIONS.CBTOOLSRUNINTERMINAL.CAPTION
+msgid "Execute in terminal"
+msgstr ""
+
+#: TFRMOPTIONS.CBTOOLSUSEEXTERNALPROGRAM.CAPTION
+msgid "Use external program"
 msgstr ""
 
 #: TFRMOPTIONS.CBTWODISKPANELS.CAPTION
@@ -2817,6 +2817,14 @@ msgstr ""
 msgid "Tabs position:"
 msgstr ""
 
+#: TFRMOPTIONS.LBLTOOLSPARAMETERS.CAPTION
+msgid "Additional parameters"
+msgstr ""
+
+#: TFRMOPTIONS.LBLTOOLSPATH.CAPTION
+msgid "Path to program to execute"
+msgstr ""
+
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Fuente del visor"
@@ -2925,6 +2933,10 @@ msgstr "Usar disco para buscar texto en ficheros"
 #: TFRMOPTIONS.RGSCROLLING.CAPTION
 msgid "Scrolling"
 msgstr "Desplazamiento"
+
+#: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
+msgid "Tool"
+msgstr ""
 
 #: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
 msgid "Active"

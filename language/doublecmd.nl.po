@@ -2383,18 +2383,6 @@ msgstr "Begin (naam moet beginnen met eerst getypte letter)"
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "Einde (laatste karakter voor een getypte punt . moet overeenkomene"
 
-#: TFRMOPTIONS.CBEXTDIFFER.CAPTION
-msgid "External differ"
-msgstr "External differ"
-
-#: TFRMOPTIONS.CBEXTEDITOR.CAPTION
-msgid "External editor"
-msgstr "Externe editor"
-
-#: TFRMOPTIONS.CBEXTVIEWER.CAPTION
-msgid "External viewer"
-msgstr "Externe viewer"
-
 #: TFRMOPTIONS.CBFILEMASKHISTORY.CAPTION
 msgid "File mask history"
 msgstr "Bestandsmasker geschiedenis"
@@ -2606,6 +2594,18 @@ msgstr ""
 #: TFRMOPTIONS.CBTERMWINDOW.CAPTION
 msgid "Show terminal window"
 msgstr "Toon terminal venster"
+
+#: TFRMOPTIONS.CBTOOLSKEEPTERMINALOPEN.CAPTION
+msgid "Keep terminal window open after executing program"
+msgstr ""
+
+#: TFRMOPTIONS.CBTOOLSRUNINTERMINAL.CAPTION
+msgid "Execute in terminal"
+msgstr ""
+
+#: TFRMOPTIONS.CBTOOLSUSEEXTERNALPROGRAM.CAPTION
+msgid "Use external program"
+msgstr ""
 
 #: TFRMOPTIONS.CBTWODISKPANELS.CAPTION
 msgid "Show two drive button bars (fixed width, above file windows)"
@@ -2837,6 +2837,14 @@ msgstr ""
 msgid "Tabs position:"
 msgstr ""
 
+#: TFRMOPTIONS.LBLTOOLSPARAMETERS.CAPTION
+msgid "Additional parameters"
+msgstr ""
+
+#: TFRMOPTIONS.LBLTOOLSPATH.CAPTION
+msgid "Path to program to execute"
+msgstr ""
+
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
 msgstr "Viewer lettertype"
@@ -2945,6 +2953,10 @@ msgstr "Gebruik stream voor zoeken tekst in bestanden"
 #: TFRMOPTIONS.RGSCROLLING.CAPTION
 msgid "Scrolling"
 msgstr "Schuiven"
+
+#: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
+msgid "Tool"
+msgstr ""
 
 #: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
 msgid "Active"
