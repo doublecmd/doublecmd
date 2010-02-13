@@ -410,6 +410,7 @@ msgid "Sa&ve All"
 msgstr "&Uložit vše"
 
 #: TFRMEDITOR.CAPTION
+msgctxt "TFRMEDITOR.CAPTION"
 msgid "Editor"
 msgstr "Editor"
 
@@ -1653,6 +1654,14 @@ msgstr "*"
 msgid "Directory hotlist"
 msgstr "Hotlist adresářů"
 
+#: TFRMMAIN.BTNLEFTEQUALRIGHT.CAPTION
+msgid "<"
+msgstr ""
+
+#: TFRMMAIN.BTNLEFTEQUALRIGHT.HINT
+msgid "Show current directory of the right panel in the left panel"
+msgstr ""
+
 #: TFRMMAIN.BTNLEFTHOME.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTHOME.CAPTION"
 msgid "~"
@@ -1671,15 +1680,6 @@ msgstr "/"
 msgid "Go to root directory"
 msgstr "Jít do kořenového adresáře"
 
-#: TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.CAPTION
-msgctxt "TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.CAPTION"
-msgid "="
-msgstr "="
-
-#: TFRMMAIN.BTNLEFTTARGETEQUALSOURCE.HINT
-msgid "Show same directory in opposite panel"
-msgstr "Ve druhém panelu zobrazit stejný adresář"
-
 #: TFRMMAIN.BTNLEFTUP.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTUP.CAPTION"
 msgid ".."
@@ -1694,6 +1694,14 @@ msgctxt "TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.CAPTION"
 msgid "*"
 msgstr "*"
 
+#: TFRMMAIN.BTNRIGHTEQUALLEFT.CAPTION
+msgid ">"
+msgstr ""
+
+#: TFRMMAIN.BTNRIGHTEQUALLEFT.HINT
+msgid "Show current directory of the left panel in the right panel"
+msgstr ""
+
 #: TFRMMAIN.BTNRIGHTHOME.CAPTION
 msgctxt "TFRMMAIN.BTNRIGHTHOME.CAPTION"
 msgid "~"
@@ -1703,11 +1711,6 @@ msgstr "~"
 msgctxt "TFRMMAIN.BTNRIGHTROOT.CAPTION"
 msgid "/"
 msgstr "/"
-
-#: TFRMMAIN.BTNRIGHTTARGETEQUALSOURCE.CAPTION
-msgctxt "TFRMMAIN.BTNRIGHTTARGETEQUALSOURCE.CAPTION"
-msgid "="
-msgstr "="
 
 #: TFRMMAIN.BTNRIGHTUP.CAPTION
 msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
@@ -1852,6 +1855,11 @@ msgstr "-"
 
 #: TFRMMAIN.MILINE4.CAPTION
 msgctxt "TFRMMAIN.MILINE4.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMMAIN.MILINE47.CAPTION
+msgctxt "TFRMMAIN.MILINE47.CAPTION"
 msgid "-"
 msgstr "-"
 
@@ -3398,6 +3406,7 @@ msgid "Plugin:"
 msgstr "Zásuvný modul:"
 
 #: TFRMVIEWER.CAPTION
+msgctxt "TFRMVIEWER.CAPTION"
 msgid "Viewer"
 msgstr "Prohlížeč"
 
@@ -4489,6 +4498,20 @@ msgstr "Výběr adreáře:"
 #: ulng.rssymerrcreate
 msgid "Error creating symlink."
 msgstr "Chyba při vytváření zástupce."
+
+#: ulng.rstooldiffer
+msgid "Differ"
+msgstr ""
+
+#: ulng.rstooleditor
+msgctxt "ulng.rstooleditor"
+msgid "Editor"
+msgstr "Editor"
+
+#: ulng.rstoolviewer
+msgctxt "ulng.rstoolviewer"
+msgid "Viewer"
+msgstr "Prohlížeč"
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
