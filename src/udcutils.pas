@@ -1134,11 +1134,16 @@ begin
   while sLine <> '' do
     begin
       xPos:= Pos(';', sLine);
-      if xPos = -1 then
-        ssItems.Add(sLine)
+      if xPos > 0 then
+        begin
+          ssItems.Add(Copy(sLine, 1, xPos - 1));
+          Delete(sLine, 1, xPos);
+        end
       else
-        ssItems.Add(Copy(sLine, 1, xPos - 1));
-      Delete(sLine, 1, xPos);
+        begin
+          ssItems.Add(sLine);
+          Exit;
+        end;
     end;
 end;
 
