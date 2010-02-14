@@ -173,7 +173,7 @@ procedure ShowFindDlg(const sActPath:String);
 implementation
 
 uses
-  LCLProc, LCLType, LConvEncoding, DateUtils, fCalendar, fViewer, uLng, uGlobs, uShowForm, fMain,
+  LCLProc, LCLType, LConvEncoding, StrUtils, DateUtils, fCalendar, fViewer, uLng, uGlobs, uShowForm, fMain,
   uTypes, uOSUtils, uSearchTemplate, uDCUtils;
 
 procedure SAddFileProc(PlugNr:integer; FoundFile:pchar); stdcall;
@@ -612,14 +612,19 @@ end;
 
 procedure TfrmFindDlg.btnStartClick(Sender: TObject);
 var
-  sr:TSearchAttrRecord;
+  sTemp,
+  sPath : UTF8String;
+  sr: TSearchAttrRecord;
 begin
-  if not mbDirectoryExists(edtFindPathStart.Text) then
-  begin
-    ShowMessage(Format(rsFindDirNoEx,[edtFindPathStart.Text]));
-    Exit;
-  end;
-
+  sTemp:= edtFindPathStart.Text;
+  repeat
+    sPath:= Copy2SymbDel(sTemp, ';');
+    if not mbDirectoryExists(sPath) then
+      begin
+        ShowMessage(Format(rsFindDirNoEx,[sPath]));
+        Exit;
+      end;
+  until sTemp = EmptyStr;
   // add to find mask history
   InsertFirstItem(cmbFindFileMask.Text, cmbFindFileMask);
   // add to search text history
