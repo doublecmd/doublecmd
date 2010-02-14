@@ -131,7 +131,7 @@ TFindThread = class(TThread)
 implementation
 
 uses
-  LCLProc, Dialogs, DateUtils, Masks, SynRegExpr, uLng, uClassesEx, uFindMmap, uFindEx,
+  LCLProc, Dialogs, DateUtils, Masks, SynRegExpr, StrUtils, uLng, uClassesEx, uFindMmap, uFindEx,
   uGlobs, uShowMsg, uOSUtils, uLog, uDateTimeUtils;
 
 { TFindThread }
@@ -161,20 +161,25 @@ end;
 
 procedure TFindThread.Execute;
 var
-  sCurrDir:String;
+  sTemp, sPath,
+  sCurrDir: UTF8String;
 begin
   FreeOnTerminate := True;
 
   try
-    assert(Assigned(FItems),'assert:FItems is empty');
+    Assert(Assigned(FItems),'assert:FItems is empty');
     Synchronize(@UpDateProgress);
-    if length(FPathStart)>1 then
-    if FPathStart[length(FPathStart)] = PathDelim then
-      Delete(FPathStart,length(FPathStart),1);
     FCurrentDepth:= -1;
     sCurrDir:= mbGetCurrentDir;
     try
-      WalkAdr(FPathStart);
+      sTemp:= FPathStart;
+      while sTemp <> EmptyStr do
+        begin
+          sPath:= Copy2SymbDel(sTemp, ';');
+          if (Length(sPath) > 1) and (sPath[Length(sPath)] = PathDelim) then
+            Delete(sPath, Length(sPath), 1);
+          WalkAdr(sPath);
+        end;
     finally
       mbSetCurrentDir(sCurrDir);
     end;  
