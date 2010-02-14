@@ -423,7 +423,7 @@ begin
   if Assigned(FileSource) then
     FileSource.RemoveReloadEventListener(@ReloadEvent);
   FFileSources.Add(aFileSource);
-  FCurrentPaths.Add(aPath);
+  FCurrentPaths.Add(IncludeTrailingPathDelimiter(aPath));
   Reload;
   UpdateView;
   FileSource.AddReloadEventListener(@ReloadEvent);
