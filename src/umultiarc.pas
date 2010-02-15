@@ -70,7 +70,7 @@ type
 implementation
 
 uses
-  StrUtils, uClassesEx, uDCUtils;
+  LCLProc, StrUtils, uClassesEx, uDCUtils;
 
 { TMultiArcList }
 
@@ -90,10 +90,16 @@ begin
 end;
 
 destructor TMultiArcList.Destroy;
+begin
+  Clear;
+  FreeThenNil(FList);
+  inherited Destroy;
+end;
+
+procedure TMultiArcList.Clear;
 var
   I: Integer;
 begin
-  inherited Destroy;
   for I:= FList.Count - 1 downto 0 do
     if Assigned(FList.Objects[I]) then
       begin
@@ -101,11 +107,6 @@ begin
         FList.Objects[I]:= nil;
         FList.Delete(I);
       end;
-end;
-
-procedure TMultiArcList.Clear;
-begin
-  FList.Clear;
 end;
 
 procedure TMultiArcList.LoadFromFile(const FileName: UTF8String);
