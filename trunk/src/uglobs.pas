@@ -22,7 +22,7 @@ unit uGlobs;
 
 interface
 uses
-  Classes, Controls, Forms, uExts, uColorExt, Graphics, uClassesEx,
+  Classes, Controls, Forms, uExts, uColorExt, Graphics, uClassesEx, uMultiArc,
   uColumns, uhotkeymanger, uActs, uSearchTemplate, uFileSourceOperationOptions,
   uWFXModule, uWCXModule, uWDXModule, uwlxmodule, udsxmodule, uXmlConfig;
 
@@ -79,6 +79,8 @@ var
   gWFXPlugins: TWFXModuleList;
   { WLX plugins }
   gWLXPlugins: TWLXModuleList;
+  { MultiArc addons }
+  gMultiArcList: TMultiArcList;
 
   { Columns Set }
   ColSet:TPanelColumnsList;
@@ -445,6 +447,7 @@ begin
   gWDXPlugins := TWDXModuleList.Create;
   gWFXPlugins := TWFXModuleList.Create;
   gWLXPlugins := TWLXModuleList.Create;
+  gMultiArcList := TMultiArcList.Create;
   ColSet := TPanelColumnsList.Create;
   HotMan := THotKeyManager.Create;
   Actions := TActs.Create;
@@ -452,44 +455,26 @@ end;
 
 procedure DestroyGlobs;
 begin
-  if Assigned(gColorExt) then
-    FreeAndNil(gColorExt);
-  if Assigned(glsDirHistory) then
-    FreeAndNil(glsDirHistory);
-  if Assigned(glsHotDir) then
-    FreeAndNil(glsHotDir);
-  if Assigned(glsMaskHistory) then
-    FreeAndNil(glsMaskHistory);
-  if Assigned(glsSearchHistory) then
-    FreeAndNil(glsSearchHistory);
-  if Assigned(glsReplaceHistory) then
-    FreeAndNil(glsReplaceHistory);
-  if Assigned(glsIgnoreList) then
-    FreeAndNil(glsIgnoreList);
-  if Assigned(gExts) then
-    FreeAndNil(gExts);
-  if Assigned(gIni) then
-    FreeAndNil(gIni);
-  if Assigned(gConfig) then
-    FreeAndNil(gConfig);
-  if Assigned(gSearchTemplateList) then
-    FreeAndNil(gSearchTemplateList);
-  if Assigned(gDSXPlugins) then
-    FreeAndNil(gDSXPlugins);
-  if Assigned(gWCXPlugins) then
-    FreeAndNil(gWCXPlugins);
-  if Assigned(gWDXPlugins) then
-    FreeAndNil(gWDXPlugins);
-  if Assigned(gWFXPlugins) then
-    FreeAndNil(gWFXPlugins);
-  if Assigned(gWLXPlugins) then
-    FreeAndNil(gWLXPlugins);
-  if Assigned(ColSet) then
-    FreeAndNil(ColSet);
-  if Assigned(HotMan) then
-    FreeAndNil(HotMan);
-  if Assigned(Actions) then
-    FreeAndNil(Actions);
+  FreeThenNil(gColorExt);
+  FreeThenNil(glsDirHistory);
+  FreeThenNil(glsHotDir);
+  FreeThenNil(glsMaskHistory);
+  FreeThenNil(glsSearchHistory);
+  FreeThenNil(glsReplaceHistory);
+  FreeThenNil(glsIgnoreList);
+  FreeThenNil(gExts);
+  FreeThenNil(gIni);
+  FreeThenNil(gConfig);
+  FreeThenNil(gSearchTemplateList);
+  FreeThenNil(gDSXPlugins);
+  FreeThenNil(gWCXPlugins);
+  FreeThenNil(gWDXPlugins);
+  FreeThenNil(gWFXPlugins);
+  FreeThenNil(gMultiArcList);
+  FreeThenNil(gWLXPlugins);
+  FreeThenNil(ColSet);
+  FreeThenNil(HotMan);
+  FreeThenNil(Actions);
 end;
 
 procedure SetDefaultConfigGlobs;
@@ -664,6 +649,7 @@ begin
   gWDXPlugins.Clear;
   gWFXPlugins.Clear;
   gWLXPlugins.Clear;
+  gMultiArcList.Clear;
   ColSet.Clear;
 end;
 
@@ -841,6 +827,10 @@ begin
   if mbFileExists(gIgnoreListFile) then
     LoadStringsFromFile(glsIgnoreList, gIgnoreListFile);
 
+  { MultiArc addons }
+  if mbFileExists(gpCfgDir + 'multiarc.ini') then
+    gMultiArcList.LoadFromFile(gpCfgDir + 'multiarc.ini');
+
   { Localization }
   DoLoadLng;
   msgLoadLng;
@@ -893,7 +883,7 @@ begin
   glsSearchHistory.SaveToFile(gpCfgDir + 'searchhistory.txt');
   glsReplaceHistory.SaveToFile(gpCfgDir + 'replacehistory.txt');
   glsIgnoreList.SaveToFile(gIgnoreListFile);
-
+  gMultiArcList.SaveToFile(gpCfgDir + 'multiarc.ini');
   //TODO: Save hotkeys
   //HotMan.Save();
 
@@ -1685,4 +1675,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.
