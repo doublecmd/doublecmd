@@ -31,7 +31,7 @@ uses
     {$IF DEFINED(MSWINDOWS)}
     , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk
     {$ELSEIF DEFINED(UNIX)}
-    , BaseUnix, Unix, UnixType, dl
+    , BaseUnix, Unix, UnixType, dl, uFileAttributes
       {$IFDEF DARWIN}
       , MacOSAll
       {$ELSE}
@@ -389,6 +389,7 @@ function StrToAttr(Attr: AnsiString): TFileAttrs;
 {$IFDEF MSWINDOWS}
 begin
   Result:= 0;
+  if Length(Attr) < 5 then Exit;
   Attr:= LowerCase(Attr);
 
   if Pos('d', Attr) > 0 then Result := Result or FILE_ATTRIBUTE_DIRECTORY;
@@ -401,6 +402,7 @@ end;
 {$ELSE}
 begin
   Result:= 0;
+  if Length(Attr) < 10 then Exit;
   Attr:= LowerCase(Attr);
 
   if Attr[1]='d' then Result:= Result or S_IFDIR;
