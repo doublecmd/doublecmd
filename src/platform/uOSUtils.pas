@@ -98,6 +98,12 @@ function FPS_ISDIR(iAttr: TFileAttrs) : Boolean;
 }
 function FPS_ISLNK(iAttr: TFileAttrs) : Boolean;
 {en
+   Convert file attributes from string to number
+   @param(Attributes File attributes as string)
+   @returns(File attributes as number)
+}
+function StrToAttr(Attr: AnsiString): TFileAttrs;
+{en
    Is file executable
    @param(sFileName File name)
    @returns(@true if file is executable, @false otherwise)
@@ -376,6 +382,47 @@ end;
 {$ELSE}
 begin
   Result := BaseUnix.FPS_ISLNK(iAttr);
+end;
+{$ENDIF}
+
+function StrToAttr(Attr: AnsiString): TFileAttrs;
+{$IFDEF MSWINDOWS}
+begin
+  Result:= 0;
+  Attr:= LowerCase(Attr);
+
+  if Pos('d', Attr) > 0 then Result := Result or FILE_ATTRIBUTE_DIRECTORY;
+  if Pos('l', Attr) > 0 then Result := Result or FILE_ATTRIBUTE_REPARSE_POINT;
+  if Pos('r', Attr) > 0 then Result := Result or FILE_ATTRIBUTE_READONLY;
+  if Pos('a', Attr) > 0 then Result := Result or FILE_ATTRIBUTE_ARCHIVE;
+  if Pos('h', Attr) > 0 then Result := Result or FILE_ATTRIBUTE_HIDDEN;
+  if Pos('s', Attr) > 0 then Result := Result or FILE_ATTRIBUTE_SYSTEM;
+end;
+{$ELSE}
+begin
+  Result:= 0;
+  Attr:= LowerCase(Attr);
+
+  if Attr[1]='d' then Result:= Result or S_IFDIR;
+  if Attr[1]='l' then Result:= Result or S_IFLNK;
+  if Attr[1]='s' then Result:= Result or S_IFSOCK;
+  if Attr[1]='f' then Result:= Result or S_IFIFO;
+  if Attr[1]='b' then Result:= Result or S_IFBLK;
+  if Attr[1]='c' then Result:= Result or S_IFCHR;
+
+
+  if Attr[2]='r' then Result:= Result or S_IRUSR;
+  if Attr[3]='w' then Result:= Result or S_IWUSR;
+  if Attr[4]='x' then Result:= Result or S_IXUSR;
+  if Attr[5]='r' then Result:= Result or S_IRGRP;
+  if Attr[6]='w' then Result:= Result or S_IWGRP;
+  if Attr[7]='x' then Result:= Result or S_IXGRP;
+  if Attr[8]='r' then Result:= Result or S_IROTH;
+  if Attr[9]='w' then Result:= Result or S_IWOTH;
+  if Attr[10]='x' then Result:= Result or S_IXOTH;
+
+  if Attr[4]='s' then Result:= Result or S_ISUID;
+  if Attr[7]='s' then Result:= Result or S_ISGID;
 end;
 {$ENDIF}
 
@@ -2169,4 +2216,4 @@ finalization
 
 {$ENDIF}
 
-end.
+end.
