@@ -39,6 +39,7 @@ uses
   uFileSystemFileSource,
   uWcxArchiveFileSource,
   uWfxPluginFileSource,
+  uMultiArchiveFileSource,
   uFileSourceOperationTypes,
   uFileSourceOperationMessageBoxesUI,
   uFileProperty;
@@ -146,6 +147,11 @@ begin
     if not Assigned(FileSource) then
       FileSource := TWcxArchiveFileSource.CreateByArchiveName(aFile.Path + aFile.Name);
 
+    // Check if there is a registered MultiArc addon for possible archive.
+    FileSource := FileSourceManager.Find(TMultiArchiveFileSource, aFile.Path + aFile.Name);
+    if not Assigned(FileSource) then
+      FileSource := TMultiArchiveFileSource.CreateByArchiveName(aFile.Path + aFile.Name);
+
     if Assigned(FileSource) then
     begin
       aFileView.AddFileSource(FileSource, FileSource.GetRootDir);
@@ -204,4 +210,4 @@ begin
 end;
 
 end.
-
+
