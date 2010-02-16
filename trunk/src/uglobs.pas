@@ -1506,9 +1506,9 @@ begin
     SetValue(Node, 'DriveBlackList', gDriveBlackList);
 
     { Tools page }
-    SetExtTool(gConfig.FindNode(Root, 'Tools/Viewer'), gExternalTools[etViewer]);
-    SetExtTool(gConfig.FindNode(Root, 'Tools/Editor'), gExternalTools[etEditor]);
-    SetExtTool(gConfig.FindNode(Root, 'Tools/Differ'), gExternalTools[etDiffer]);
+    SetExtTool(gConfig.FindNode(Root, 'Tools/Viewer', True), gExternalTools[etViewer]);
+    SetExtTool(gConfig.FindNode(Root, 'Tools/Editor', True), gExternalTools[etEditor]);
+    SetExtTool(gConfig.FindNode(Root, 'Tools/Differ', True), gExternalTools[etDiffer]);
 
     { Fonts page }
     gConfig.SetFont(Root, 'Fonts/Main', gFontName, gFontSize, Integer(gFontStyle));
