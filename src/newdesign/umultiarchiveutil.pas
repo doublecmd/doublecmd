@@ -117,9 +117,9 @@ begin
     if FNamePos.Index = FFormatIndex then
       FArchiveItem.FileName := Copy(str, FNamePos.Start, FNamePos.Finish);
     if FUnpSizePos.Index = FFormatIndex then
-      FArchiveItem.UnpSize := StrToInt(Trim(Copy(str, FUnpSizePos.Start, FUnpSizePos.Finish)));
+      FArchiveItem.UnpSize := StrToIntDef(Trim(Copy(str, FUnpSizePos.Start, FUnpSizePos.Finish)), 0);
     if FPackSizePos.Index = FFormatIndex then
-      FArchiveItem.PackSize := StrToInt(Trim(Copy(str, FPackSizePos.Start, FPackSizePos.Finish)));
+      FArchiveItem.PackSize := StrToIntDef(Trim(Copy(str, FPackSizePos.Start, FPackSizePos.Finish)), 0);
     if FYearPos.Index = FFormatIndex then
       FArchiveItem.Year := StrToInt(Copy(str, FYearPos.Start, FYearPos.Finish));
     if FMonthPos.Index = FFormatIndex then
