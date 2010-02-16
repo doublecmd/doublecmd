@@ -146,7 +146,7 @@ begin
         FExtract:= IniFile.ReadString(Section, 'Extract', EmptyStr);
         FTest:= IniFile.ReadString(Section, 'Test', EmptyStr);
         FDelete:= IniFile.ReadString(Section, 'Delete', EmptyStr);
-        FAdd:= IniFile.ReadString(Section, 'Add', EmptyStr);
+        FAdd:= TrimSet(IniFile.ReadString(Section, 'Add', EmptyStr), ['"']);
         FMove:= IniFile.ReadString(Section, 'Move', EmptyStr);
       end;
       FList.AddObject(Section, MultiArcItem);
