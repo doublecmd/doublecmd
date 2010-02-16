@@ -205,7 +205,7 @@ end;
 procedure TMultiArchiveCopyInOperation.OnReadLn(str: string);
 begin
   if FMultiArchiveFileSource.MultiArcItem.FConsoleOutput then
-    logWrite(str, lmtInfo, True, False);
+    logWrite(Thread, str, lmtInfo, True, False);
 end;
 
 procedure TMultiArchiveCopyInOperation.UpdateProgress(SourceName,
