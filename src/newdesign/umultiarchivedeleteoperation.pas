@@ -26,14 +26,16 @@ type
     FStatistics: TFileSourceDeleteOperationStatistics; // local copy of statistics
     FFullFilesTreeToDelete: TMultiArchiveFiles;  // source files including all files/dirs in subdirectories
 
+    procedure ShowError(sMessage: String; logOptions: TLogOptions);
+    procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
     procedure CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt);
 
   protected
     FExProcess: TExProcess;
     FTempFile: UTF8String;
+    procedure OnReadLn(str: string);
     procedure UpdateProgress(SourceName: UTF8String; IncSize: Int64);
-    procedure ShowError(sMessage: String; logOptions: TLogOptions);
-    procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
+
 
   public
     constructor Create(aTargetFileSource: IFileSource;
@@ -72,6 +74,7 @@ procedure TMultiArchiveDeleteOperation.Initialize;
 begin
   FExProcess:= TExProcess.Create(EmptyStr);
   FExProcess.Process.Options:= FExProcess.Process.Options + [poWaitOnExit];
+  FExProcess.OnReadLn:= @OnReadLn;
   FTempFile:= GetTempName(GetTempFolder);
 
   // Get initialized statistics; then we change only what is needed.
@@ -167,6 +170,12 @@ begin
   begin
     logWrite(Thread, sMessage, logMsgType);
   end;
+end;
+
+procedure TMultiArchiveDeleteOperation.OnReadLn(str: string);
+begin
+  if FMultiArchiveFileSource.MultiArcItem.FConsoleOutput then
+    logWrite(str, lmtInfo, True, False);
 end;
 
 procedure TMultiArchiveDeleteOperation.CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt);
