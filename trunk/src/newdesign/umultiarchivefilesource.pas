@@ -161,7 +161,13 @@ end;
 
 function TMultiArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result := [fsoList, fsoCopyIn, fsoDelete];
+  Result := [];
+  if FMultiArcItem.FList <> EmptyStr then
+    Result := Result + [fsoList];
+  if FMultiArcItem.FAdd <> EmptyStr then
+    Result := Result + [fsoCopyIn];
+  if FMultiArcItem.FDelete <> EmptyStr then
+    Result := Result + [fsoDelete];
 end;
 
 function TMultiArchiveFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
