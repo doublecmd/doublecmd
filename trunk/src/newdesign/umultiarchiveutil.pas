@@ -77,12 +77,12 @@ begin
       Position.Start := Pos(Key, Format);
       if Position.Start = 0 then
         Continue;
-      Position.Finish := PosEx(#32, Format, Position.Start + 1);
-      if Position.Finish = 0 then
-        Position.Finish := Length(Format);
+      Position.Finish:= Position.Start;
+      while (Format[Position.Finish] = Key) and (Position.Finish < Length(Format)) do
+        Inc(Position.Finish);
       Position.Finish := Position.Finish - Position.Start;
       Position.Index := I;
-      DebugLn('Key: ', Key, ' Start: ', IntToStr(Position.Start), ' Finish: ', IntToStr(Position.Finish));
+      DebugLn('Key: ', Key, ' Format: ', IntToStr(I), ' Start: ', IntToStr(Position.Start), ' Finish: ', IntToStr(Position.Finish));
       Result := True;
       Break;
     end;
