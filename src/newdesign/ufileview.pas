@@ -252,6 +252,8 @@ constructor TFileView.Create(AOwner: TWinControl; AFileView: TFileView);
 begin
   CreateDefault(AOwner);
   AFileView.CloneTo(Self);
+  if Assigned(FileSource) then
+    FileSource.AddReloadEventListener(@ReloadEvent);
 end;
 
 constructor TFileView.Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer);
