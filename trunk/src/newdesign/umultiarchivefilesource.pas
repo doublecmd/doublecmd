@@ -69,10 +69,11 @@ type
 
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
-    {
+
     function CreateCopyInOperation(SourceFileSource: IFileSource;
                                    var SourceFiles: TFiles;
                                    TargetPath: String): TFileSourceOperation; override;
+    {
     function CreateCopyOutOperation(TargetFileSource: IFileSource;
                                     var SourceFiles: TFiles;
                                     TargetPath: String): TFileSourceOperation; override;
@@ -95,9 +96,9 @@ uses
   uGlobs, LCLProc, uDCUtils,
   uDateTimeUtils,
   FileUtil, uMultiArchiveFile,
-  uMultiArchiveListOperation
+  uMultiArchiveListOperation,
+  uMultiArchiveCopyInOperation
   {
-  uMultiArchiveCopyInOperation,
   uMultiArchiveCopyOutOperation,
   uMultiArchiveDeleteOperation,
   uMultiArchiveExecuteOperation,
@@ -157,7 +158,7 @@ end;
 
 function TMultiArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result := [fsoList];
+  Result := [fsoList, fsoCopyIn];
 end;
 
 function TMultiArchiveFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
@@ -229,7 +230,6 @@ begin
   Result := TMultiArchiveListOperation.Create(TargetFileSource, TargetPath);
 end;
 
-{
 function TMultiArchiveFileSource.CreateCopyInOperation(
             SourceFileSource: IFileSource;
             var SourceFiles: TFiles;
@@ -238,11 +238,12 @@ var
   TargetFileSource: IFileSource;
 begin
   TargetFileSource := Self;
-  Result := TWcxArchiveCopyInOperation.Create(SourceFileSource,
-                                              TargetFileSource,
-                                              SourceFiles, TargetPath);
+  Result := TMultiArchiveCopyInOperation.Create(SourceFileSource,
+                                                TargetFileSource,
+                                                SourceFiles, TargetPath);
 end;
 
+{
 function TMultiArchiveFileSource.CreateCopyOutOperation(
             TargetFileSource: IFileSource;
             var SourceFiles: TFiles;

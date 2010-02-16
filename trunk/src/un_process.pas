@@ -26,11 +26,15 @@ type
     procedure Stop;
     procedure SetCmdLine(commandline:string);
     destructor Destroy;
- 
+
+    property Process: TProcessUTF8 read p;
     property ExitStatus: integer read _GetExitStatus;
   end;
 
 implementation
+
+uses
+  LCLProc;
 
 const buf_len = 3000;
 
@@ -55,6 +59,7 @@ var
   buf: string;
   i, j, c, n: integer;
 begin
+  DebugLn('Execute: ', p.CommandLine);
   try
     p.Execute;
     repeat

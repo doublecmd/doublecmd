@@ -51,8 +51,10 @@ type
   end;
 
 function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
-                               aFiles: TFiles;
-                               aDestPath: UTF8String): string;
+                               aFiles: TFiles = nil;
+                               sFileName: UTF8String = '';
+                               aDestPath: UTF8String = '';
+                               sTempFile: UTF8String = ''): string;
 
 implementation
 
@@ -103,12 +105,10 @@ begin
     // get all file properties
     if FNamePos.Index = FFormatIndex then
       FArchiveItem.FileName := Copy(str, FNamePos.Start, FNamePos.Finish);
+    if FUnpSizePos.Index = FFormatIndex then
+      FArchiveItem.UnpSize := StrToInt(Trim(Copy(str, FUnpSizePos.Start, FUnpSizePos.Finish)));
     if FPackSizePos.Index = FFormatIndex then
-      FArchiveItem.UnpSize :=
-        StrToInt(Trim(Copy(str, FPackSizePos.Start, FUnpSizePos.Finish)));
-    if FPackSizePos.Index = FFormatIndex then
-      FArchiveItem.PackSize :=
-        StrToInt(Trim(Copy(str, FPackSizePos.Start, FPackSizePos.Finish)));
+      FArchiveItem.PackSize := StrToInt(Trim(Copy(str, FPackSizePos.Start, FPackSizePos.Finish)));
     if FYearPos.Index = FFormatIndex then
       FArchiveItem.Year := StrToInt(Copy(str, FYearPos.Start, FYearPos.Finish));
     if FMonthPos.Index = FFormatIndex then
@@ -163,7 +163,7 @@ begin
   FStartParsing := False;
   FMultiArcItem := aMultiArcItem;
   FExProcess := TExProcess.Create(FormatArchiverCommand(FMultiArcItem.FArchiver,
-    FMultiArcItem.FList, anArchiveName, nil, EmptyStr));
+    FMultiArcItem.FList, anArchiveName));
   FExProcess.OnReadLn := @OnReadLn;
 end;
 
@@ -193,7 +193,9 @@ end;
 
 function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
                                aFiles: TFiles;
-                               aDestPath: UTF8String): string;
+                               sFileName: UTF8String;
+                               aDestPath: UTF8String;
+                               sTempFile: UTF8String): string;
 type
   TFunctType = (ftNone, ftArchiverLongName, ftArchiverShortName,
     ftArchiveLongName, ftArchiveShortName,
@@ -236,7 +238,7 @@ var
     FileList: TStringListEx;
   begin
     if not Assigned(aFiles) then Exit(EmptyStr);
-    Result := GetTempName(GetTempFolder);
+    Result := sTempFile;
     FileList := TStringListEx.Create;
     for I := 0 to aFiles.Count - 1 do
     begin
@@ -268,6 +270,8 @@ var
         Result := BuildFileList(False);
       ftFileListShortName:
         Result := BuildFileList(True);
+      ftFileName:
+        Result:= BuildName(sFileName);
       ftTargetArchiveDir:
         Result := BuildName(aDestPath);
       else
@@ -297,10 +301,7 @@ var
   procedure DoFunction;
   begin
     AddParsedText(state.functStartIndex);
-    if sOutPut <> EmptyStr then
-      sOutput := sOutput + #32 + BuildOutput
-    else
-      sOutput := BuildOutput;
+    sOutput := sOutput + BuildOutput;
     ResetState(state);
   end;
 
