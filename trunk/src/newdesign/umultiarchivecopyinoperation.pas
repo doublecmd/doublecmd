@@ -31,7 +31,9 @@ type
   protected
     FExProcess: TExProcess;
     FTempFile: UTF8String;
+    procedure OnReadLn(str: string);
     procedure UpdateProgress(SourceName, TargetName: UTF8String; IncSize: Int64);
+
   public
     constructor Create(aSourceFileSource: IFileSource;
                        aTargetFileSource: IFileSource;
@@ -75,6 +77,7 @@ procedure TMultiArchiveCopyInOperation.Initialize;
 begin
   FExProcess:= TExProcess.Create(EmptyStr);
   FExProcess.Process.Options:= FExProcess.Process.Options + [poWaitOnExit];
+  FExProcess.OnReadLn:= @OnReadLn;
   FTempFile:= GetTempName(GetTempFolder);
 
   // Get initialized statistics; then we change only what is needed.
@@ -197,6 +200,12 @@ begin
       LogMessage(Format(rsMsgLogSuccess + rsMsgLogPack,
                         [FileName]), [log_arc_op], lmtSuccess);
     end;
+end;
+
+procedure TMultiArchiveCopyInOperation.OnReadLn(str: string);
+begin
+  if FMultiArchiveFileSource.MultiArcItem.FConsoleOutput then
+    logWrite(str, lmtInfo, True, False);
 end;
 
 procedure TMultiArchiveCopyInOperation.UpdateProgress(SourceName,

@@ -46,6 +46,7 @@ type
     FMove: UTF8String;
   public
     FEnabled: Boolean;
+    FConsoleOutput: Boolean;
     constructor Create;
     destructor Destroy; override;
   end;
@@ -148,6 +149,8 @@ begin
         FDelete:= TrimQuotes(IniFile.ReadString(Section, 'Delete', EmptyStr));
         FAdd:= TrimQuotes(IniFile.ReadString(Section, 'Add', EmptyStr));
         FMove:= TrimQuotes(IniFile.ReadString(Section, 'Move', EmptyStr));
+        // optional
+        FConsoleOutput:= IniFile.ReadBool(Section, 'ConsoleOutput', False);
       end;
       FList.AddObject(Section, MultiArcItem);
     end;
@@ -184,6 +187,8 @@ begin
         IniFile.WriteString(Section, 'Delete', FDelete);
         IniFile.WriteString(Section, 'Add', FAdd);
         IniFile.WriteString(Section, 'Move', FMove);
+        // optional
+        IniFile.WriteBool(Section, 'ConsoleOutput', FConsoleOutput);
       end;
     end;
 end;
