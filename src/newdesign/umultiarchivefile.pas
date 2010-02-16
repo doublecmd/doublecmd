@@ -16,6 +16,11 @@ type
   public
     constructor Create(const APath: String; ArchiveItem: TArchiveItem); overload;
 
+    {en
+       Creates an identical copy of the object (as far as object data is concerned).
+    }
+    function Clone: TMultiArchiveFile; override;
+
     class function GetSupportedProperties: TFilePropertiesTypes; override;
   end;
 
@@ -53,6 +58,12 @@ begin
   Name := ExtractFileName(ArchiveItem.FileName);
   if ArchiveItem.FileExt <> EmptyStr then
     Name:= Name + '.' + ArchiveItem.FileExt;
+end;
+
+function TMultiArchiveFile.Clone: TMultiArchiveFile;
+begin
+  Result := TMultiArchiveFile.Create(Path);
+  CloneTo(Result);
 end;
 
 class function TMultiArchiveFile.GetSupportedProperties: TFilePropertiesTypes;
