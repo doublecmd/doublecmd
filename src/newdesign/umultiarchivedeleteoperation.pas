@@ -175,7 +175,7 @@ end;
 procedure TMultiArchiveDeleteOperation.OnReadLn(str: string);
 begin
   if FMultiArchiveFileSource.MultiArcItem.FConsoleOutput then
-    logWrite(str, lmtInfo, True, False);
+    logWrite(Thread, str, lmtInfo, True, False);
 end;
 
 procedure TMultiArchiveDeleteOperation.CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt);
