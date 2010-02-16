@@ -93,7 +93,12 @@ end;
 procedure TOutputParser.OnReadLn(str: string);
 begin
   DebugLn(str);
-  if FStartParsing and CheckOut(FMultiArcItem.FEnd, Str) then
+  if str = EmptyStr then Exit; // skip empty lines
+
+  if not FStartParsing then
+    FStartParsing:= (FMultiArcItem.FStart = EmptyStr); // if not defined start line
+
+  if FStartParsing and (FMultiArcItem.FEnd <> EmptyStr) and CheckOut(FMultiArcItem.FEnd, Str) then
   begin
     FExProcess.Stop;
     Exit;
@@ -145,7 +150,7 @@ begin
   end
   else
   begin
-    FStartParsing := CheckOut(FMultiArcItem.FStart, Str);
+    FStartParsing := (FMultiArcItem.FStart = EmptyStr) or CheckOut(FMultiArcItem.FStart, Str);
     if FStartParsing then
       FFormatIndex := 0;
   end;
