@@ -89,33 +89,42 @@ end;
 procedure TMultiArchiveCopyInOperation.MainExecute;
 var
   I: Integer;
+  sRootPath,
+  sCurrPath,
   sDestPath: String;
   MultiArcItem: TMultiArcItem;
+  aFile: TFileSystemFile;
 begin
   MultiArcItem := FMultiArchiveFileSource.MultiArcItem;
 
   sDestPath := ExcludeFrontPathDelimiter(TargetPath);
   sDestPath := ExcludeTrailingPathDelimiter(sDestPath);
-  sDestPath := sDestPath;
+  // save current path
+  sCurrPath:= mbGetCurrentDir;
+  sRootPath:= FFullFilesTree.Path;
+  // set current path to file list root
+  mbSetCurrentDir(sRootPath);
+  ChangeFileListRoot(EmptyStr, FFullFilesTree);
 
   if Pos('%F', MultiArcItem.FAdd) <> 0 then // pack file by file
-    for I:=0 to FFullFilesTree.Count - 1 do
+    for I:= 0 to FFullFilesTree.Count - 1 do
     begin
-      UpdateProgress(FFullFilesTree[I].FullPath, sDestPath, 0);
+      aFile:= FFullFilesTree[I];
+      UpdateProgress(sRootPath + aFile.FullPath, sDestPath, 0);
 
       FExProcess.SetCmdLine(FormatArchiverCommand(
                                                   MultiArcItem.FArchiver,
                                                   MultiArcItem.FAdd,
                                                   FMultiArchiveFileSource.ArchiveFileName,
                                                   nil,
-                                                  FFullFilesTree[I].FullPath,
+                                                  aFile.FullPath,
                                                   sDestPath,
                                                   FTempFile));
       FExProcess.Execute;
 
-      UpdateProgress(FFullFilesTree[I].FullPath, sDestPath, FFullFilesTree[I].Size);
+      UpdateProgress(sRootPath + aFile.FullPath, sDestPath, aFile.Size);
       // Check for errors.
-      CheckForErrors(FFullFilesTree[I].FullPath, FExProcess.ExitStatus);
+      CheckForErrors(sRootPath + aFile.FullPath, FExProcess.ExitStatus);
     end
   else  // pack whole file list
     begin
@@ -132,6 +141,8 @@ begin
       // Check for errors.
       CheckForErrors(FMultiArchiveFileSource.ArchiveFileName, FExProcess.ExitStatus);
     end;
+  // restore current path
+  mbSetCurrentDir(sCurrPath);
 end;
 
 procedure TMultiArchiveCopyInOperation.Finalize;
