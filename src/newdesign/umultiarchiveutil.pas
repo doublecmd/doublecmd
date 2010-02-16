@@ -78,7 +78,7 @@ begin
       if Position.Start = 0 then
         Continue;
       Position.Finish:= Position.Start;
-      while (Format[Position.Finish] = Key) and (Position.Finish < Length(Format)) do
+      while ((Position.Finish <= Length(Format)) and (Format[Position.Finish] = Key)) do
         Inc(Position.Finish);
       Position.Finish := Position.Finish - Position.Start;
       Position.Index := I;
