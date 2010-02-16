@@ -77,7 +77,9 @@ type
     function CreateCopyOutOperation(TargetFileSource: IFileSource;
                                     var SourceFiles: TFiles;
                                     TargetPath: String): TFileSourceOperation; override;
+    }
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
+    {
     function CreateExecuteOperation(const ExecutableFile: TFile;
                                     BasePath, Verb: String): TFileSourceOperation; override;
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation; override;
@@ -97,10 +99,12 @@ uses
   uDateTimeUtils,
   FileUtil, uMultiArchiveFile,
   uMultiArchiveListOperation,
-  uMultiArchiveCopyInOperation
+  uMultiArchiveCopyInOperation,
   {
   uMultiArchiveCopyOutOperation,
-  uMultiArchiveDeleteOperation,
+  }
+  uMultiArchiveDeleteOperation
+  {
   uMultiArchiveExecuteOperation,
   uMultiArchiveTestArchiveOperation
   }
@@ -158,7 +162,7 @@ end;
 
 function TMultiArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result := [fsoList, fsoCopyIn];
+  Result := [fsoList, fsoCopyIn, fsoDelete];
 end;
 
 function TMultiArchiveFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
@@ -256,16 +260,18 @@ begin
                                                TargetFileSource,
                                                SourceFiles, TargetPath);
 end;
+}
 
 function TMultiArchiveFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
 var
   TargetFileSource: IFileSource;
 begin
   TargetFileSource := Self;
-  Result := TWcxArchiveDeleteOperation.Create(TargetFileSource,
-                                              FilesToDelete);
+  Result := TMultiArchiveDeleteOperation.Create(TargetFileSource,
+                                                FilesToDelete);
 end;
 
+{
 function TMultiArchiveFileSource.CreateExecuteOperation(const ExecutableFile: TFile;
                                                       BasePath, Verb: String): TFileSourceOperation;
 var
