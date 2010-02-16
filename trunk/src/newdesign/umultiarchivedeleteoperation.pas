@@ -11,6 +11,7 @@ uses
   uFileSourceOperation,
   uFileSourceOperationUI,
   uFile,
+  uMultiArchiveFile,
   uMultiArchiveFileSource,
   uGlobs, uLog, un_process;
 
@@ -23,8 +24,8 @@ type
   private
     FMultiArchiveFileSource: IMultiArchiveFileSource;
     FStatistics: TFileSourceDeleteOperationStatistics; // local copy of statistics
+    FFullFilesTreeToDelete: TMultiArchiveFiles;  // source files including all files/dirs in subdirectories
 
-    procedure CountFiles(const theFiles: TFiles; FileMask: String);
     procedure CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt);
 
   protected
@@ -49,20 +50,21 @@ type
 implementation
 
 uses
-  uOSUtils, uDCUtils, uLng, uShowMsg, uMultiArc, uMultiArchiveUtil, uMultiArchiveFile,
+  uOSUtils, uDCUtils, uLng, uShowMsg, uMultiArc, uMultiArchiveUtil,
   Masks, FileUtil, LCLProc, Process;
 
 constructor TMultiArchiveDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);
 begin
   FMultiArchiveFileSource := aTargetFileSource as IMultiArchiveFileSource;
+  FFullFilesTreeToDelete:= nil;
 
   inherited Create(aTargetFileSource, theFilesToDelete);
 end;
 
 destructor TMultiArchiveDeleteOperation.Destroy;
 begin
-
+  FreeThenNil(FFullFilesTreeToDelete);
   inherited Destroy;
 end;
 
@@ -75,7 +77,12 @@ begin
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
-  CountFiles(FilesToDelete, '*.*');
+  with FMultiArchiveFileSource do
+  FillAndCount('*.*', FilesToDelete as TMultiArchiveFiles,
+               True,
+               FFullFilesTreeToDelete,
+               FStatistics.TotalFiles,
+               FStatistics.TotalBytes);     // gets full list of files (recursive)
 end;
 
 procedure TMultiArchiveDeleteOperation.MainExecute;
@@ -87,9 +94,9 @@ begin
   MultiArcItem := FMultiArchiveFileSource.MultiArcItem;
 
   if Pos('%F', MultiArcItem.FDelete) <> 0 then // delete file by file
-    for I:=0 to FilesToDelete.Count - 1 do
+    for I:=0 to FFullFilesTreeToDelete.Count - 1 do
     begin
-      aFile:= FilesToDelete[I] as TMultiArchiveFile;
+      aFile:= FFullFilesTreeToDelete[I] as TMultiArchiveFile;
       UpdateProgress(aFile.FullPath, 0);
 
       FExProcess.SetCmdLine(FormatArchiverCommand(
@@ -111,7 +118,7 @@ begin
                                                   MultiArcItem.FArchiver,
                                                   MultiArcItem.FDelete,
                                                   FMultiArchiveFileSource.ArchiveFileName,
-                                                  FilesToDelete,
+                                                  FFullFilesTreeToDelete,
                                                   EmptyStr,
                                                   EmptyStr,
                                                   FTempFile
@@ -160,32 +167,6 @@ begin
   begin
     logWrite(Thread, sMessage, logMsgType);
   end;
-end;
-
-procedure TMultiArchiveDeleteOperation.CountFiles(const theFiles: TFiles; FileMask: String);
-var
-  I: Integer;
-  ArchiveItem: TArchiveItem;
-  ArcFileList: TList;
-begin
-  ArcFileList := FMultiArchiveFileSource.ArchiveFileList;
-  for i := 0 to ArcFileList.Count - 1 do
-  begin
-    ArchiveItem := TArchiveItem(ArcFileList.Items[I]);
-
-    // Check if the file from the archive fits the selection given via theFiles.
-    if  (not FPS_ISDIR(ArchiveItem.Attributes))           // Omit directories
-    and MatchesFileList(theFiles, ArchiveItem.FileName) // Check if it's included in the filelist
-    and ((FileMask = '*.*') or (FileMask = '*')    // And name matches file mask
-        or MatchesMaskList(ExtractFileName(ArchiveItem.FileName), FileMask))
-    then
-    begin
-      Inc(FStatistics.TotalBytes, ArchiveItem.UnpSize);
-      Inc(FStatistics.TotalFiles, 1);
-    end;
-  end;
-
-  UpdateStatistics(FStatistics);
 end;
 
 procedure TMultiArchiveDeleteOperation.CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt);

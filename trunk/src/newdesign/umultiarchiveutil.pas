@@ -2,7 +2,7 @@ unit uMultiArchiveUtil;
 
 {$mode objfpc}{$H+}
 
-{$DEFINE DEBUG}
+{.$DEFINE DEBUG}
 
 interface
 
