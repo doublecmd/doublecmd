@@ -363,6 +363,7 @@ begin
   try
     DebugLn('Get File List');
 
+    FOutputParser.Prepare;
     FOutputParser.Execute;
 
     (* if archiver does not give a list of folders *)

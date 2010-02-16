@@ -39,6 +39,7 @@ type
     FStartParsing: boolean;
     FFormatIndex: longint;
     FArchiveItem: TArchiveItem;
+    FArchiveName: UTF8String;
   protected
     function KeyPos(Key: char; out Position: TKeyPos): boolean;
     procedure OnReadLn(str: string);
@@ -46,6 +47,7 @@ type
   public
     constructor Create(aMultiArcItem: TMultiArcItem; const anArchiveName: UTF8String);
     destructor Destroy; override;
+    procedure Prepare;
     procedure Execute;
     property OnGetArchiveItem: TOnGetArchiveItem read FOnGetArchiveItem write FOnGetArchiveItem;
   end;
@@ -59,7 +61,7 @@ function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
 implementation
 
 uses
-  LCLProc, FileUtil, StrUtils, uClassesEx, uDCUtils, uOSUtils;
+  LCLProc, FileUtil, StrUtils, uClassesEx, uOSUtils;
 
 function TOutputParser.KeyPos(Key: char; out Position: TKeyPos): boolean;
 var
@@ -160,11 +162,9 @@ end;
 constructor TOutputParser.Create(aMultiArcItem: TMultiArcItem;
   const anArchiveName: UTF8String);
 begin
-  FStartParsing := False;
   FMultiArcItem := aMultiArcItem;
-  FExProcess := TExProcess.Create(FormatArchiverCommand(FMultiArcItem.FArchiver,
-    FMultiArcItem.FList, anArchiveName));
-  FExProcess.OnReadLn := @OnReadLn;
+  FArchiveName:= anArchiveName;
+  FExProcess := nil;
 end;
 
 destructor TOutputParser.Destroy;
@@ -189,6 +189,16 @@ begin
   KeyPos('a', FAttrPos);
   // execute archiver
   FExProcess.Execute;
+end;
+
+procedure TOutputParser.Prepare;
+begin
+  FStartParsing:= False;
+  FFormatIndex:= 0;
+  FreeThenNil(FExProcess);
+  FExProcess := TExProcess.Create(FormatArchiverCommand(FMultiArcItem.FArchiver,
+    FMultiArcItem.FList, FArchiveName));
+  FExProcess.OnReadLn := @OnReadLn;
 end;
 
 function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
