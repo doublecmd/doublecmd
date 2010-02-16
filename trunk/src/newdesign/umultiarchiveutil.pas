@@ -225,9 +225,11 @@ type
 
   TState = record
     pos: TStatePos;
-    functStartIndex: integer;
+    functStartIndex,
+    bracketStartIndex: integer;
     funct: TFunctType;
     FuncModifiers: TFuncModifiers;
+    closeBracket: Boolean;
   end;
 
 var
@@ -306,6 +308,11 @@ var
       funct := ftNone;
       functStartIndex := 0;
       FuncModifiers := [];
+      if closeBracket then
+        begin
+          closeBracket:= False;
+          bracketStartIndex:= 0;
+        end;
     end;
   end;
 
@@ -318,9 +325,22 @@ var
   end;
 
   procedure DoFunction;
+  var
+    aOutput: UTF8String;
   begin
-    AddParsedText(state.functStartIndex);
-    sOutput := sOutput + BuildOutput;
+    aOutput:= BuildOutput;
+    if (aOutput = EmptyStr) and (state.bracketStartIndex <> 0) then
+      begin
+        AddParsedText(state.bracketStartIndex);
+      end
+    else
+      begin
+        if (state.bracketStartIndex <> 0) then
+          AddParsedText(state.bracketStartIndex)
+        else
+          AddParsedText(state.functStartIndex);
+        sOutput := sOutput + aOutput;
+      end;
     ResetState(state);
   end;
 
@@ -335,10 +355,16 @@ begin
     begin
       case state.pos of
         spNone:
-          if sCmd[index] = '%' then
-          begin
-            state.pos := spPercent;
-            state.functStartIndex := index;
+          case sCmd[index] of
+            '%':
+            begin
+              state.pos := spPercent;
+              state.functStartIndex := index;
+            end;
+            '{':
+            begin
+              state.bracketStartIndex := index;
+            end;
           end;
 
         spPercent:
@@ -384,7 +410,7 @@ begin
               state.pos := spFunction;
             end;
             else
-              ResetState(state);
+              state.pos := spFunction;
           end;
 
         spFunction:
@@ -414,6 +440,10 @@ begin
               state.FuncModifiers := state.FuncModifiers + [fmAnsi];
               state.pos := spFunction;
             end;
+            '}':
+            begin
+              state.closeBracket:= True;
+            end
             else
               state.pos := spComplete;
           end;
@@ -424,7 +454,7 @@ begin
       else
         // Process function and then check current character again after resetting state.
         DoFunction;
-    end;
+    end; // while
 
     // Finish current parse.
     if state.pos in [spFunction] then
