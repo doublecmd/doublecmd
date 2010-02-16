@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Several useful functions
    
-   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
 
    contributors:
    
@@ -11,7 +11,7 @@
    (cnvFormatFileSize and DivFileName functions)
 
    Tomas Bzatek <tbzatek@users.sourceforge.net>
-   (TrimQuotes, QuoteStr, RemoveQuotation and SplitArgs functions)
+   (QuoteStr, RemoveQuotation and SplitArgs functions)
    
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -239,7 +239,7 @@ function NumCountChars(const Char: Char; const S: String): Integer;
    Delete quotes from string
    @param(Str String)
 }
-procedure TrimQuotes(var s: String);
+function TrimQuotes(const Str: String): String;
 function QuoteStr(const Str: String): String;
 {$IFDEF UNIX}
 function QuoteSingle(const Str: String): String;
@@ -347,7 +347,7 @@ function ModColor(AColor: TColor; APercent: Byte) : TColor;
 implementation
 
 uses
-   FileUtil, Masks, uOSUtils, uGlobs, uGlobsPaths, dateutils;
+   FileUtil, Masks, StrUtils, uOSUtils, uGlobs, uGlobsPaths, DateUtils;
 
 function GetCmdDirFromEnvVar(sPath: String): String;
 begin
@@ -882,10 +882,9 @@ begin
       if S[I] = Char then Inc(Result);
 end;
 
-procedure TrimQuotes(var s: String);
+function TrimQuotes(const Str: String): String;
 begin
-  while (Length(s) > 0) and (s[1] in ['"', '''']) do Delete(s, 1, 1);
-  while (Length(s) > 0) and (s[Length(s)] in ['"', '''']) do Delete(s, Length(s), 1);
+  Result:= TrimSet(Str, ['"', '''']);
 end;
 
 function QuoteStr(const Str: String): String;

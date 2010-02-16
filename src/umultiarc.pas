@@ -127,27 +127,27 @@ begin
       MultiArcItem:= TMultiArcItem.Create;
       with MultiArcItem do
       begin
-        FArchiver:= IniFile.ReadString(Section, 'Archiver', EmptyStr);
-        FDescription:= IniFile.ReadString(Section, 'Description', EmptyStr);
-        FID:= IniFile.ReadString(Section, 'ID', EmptyStr);
-        FIDPos:= IniFile.ReadString(Section, 'IDPos', EmptyStr);
-        FExtension:= IniFile.ReadString(Section, 'Extension', EmptyStr);
-        FStart:= TrimSet(IniFile.ReadString(Section, 'Start', EmptyStr), ['"']);
-        FEnd:= TrimSet(IniFile.ReadString(Section, 'End', EmptyStr), ['"']);
+        FArchiver:= TrimQuotes(IniFile.ReadString(Section, 'Archiver', EmptyStr));
+        FDescription:= TrimQuotes(IniFile.ReadString(Section, 'Description', EmptyStr));
+        FID:= TrimQuotes(IniFile.ReadString(Section, 'ID', EmptyStr));
+        FIDPos:= TrimQuotes(IniFile.ReadString(Section, 'IDPos', EmptyStr));
+        FExtension:= TrimQuotes(IniFile.ReadString(Section, 'Extension', EmptyStr));
+        FStart:= TrimQuotes(IniFile.ReadString(Section, 'Start', EmptyStr));
+        FEnd:= TrimQuotes(IniFile.ReadString(Section, 'End', EmptyStr));
         for J:= 0 to 50 do
         begin
-          Format:= TrimSet(IniFile.ReadString(Section, 'Format' + IntToStr(J), EmptyStr), ['"']);
+          Format:= TrimQuotes(IniFile.ReadString(Section, 'Format' + IntToStr(J), EmptyStr));
           if Format <> EmptyStr then
             FFormat.Add(Format)
           else
             Break;
         end;
-        FList:= IniFile.ReadString(Section, 'List', EmptyStr);
-        FExtract:= IniFile.ReadString(Section, 'Extract', EmptyStr);
-        FTest:= IniFile.ReadString(Section, 'Test', EmptyStr);
-        FDelete:= IniFile.ReadString(Section, 'Delete', EmptyStr);
-        FAdd:= TrimSet(IniFile.ReadString(Section, 'Add', EmptyStr), ['"']);
-        FMove:= IniFile.ReadString(Section, 'Move', EmptyStr);
+        FList:= TrimQuotes(IniFile.ReadString(Section, 'List', EmptyStr));
+        FExtract:= TrimQuotes(IniFile.ReadString(Section, 'Extract', EmptyStr));
+        FTest:= TrimQuotes(IniFile.ReadString(Section, 'Test', EmptyStr));
+        FDelete:= TrimQuotes(IniFile.ReadString(Section, 'Delete', EmptyStr));
+        FAdd:= TrimQuotes(IniFile.ReadString(Section, 'Add', EmptyStr));
+        FMove:= TrimQuotes(IniFile.ReadString(Section, 'Move', EmptyStr));
       end;
       FList.AddObject(Section, MultiArcItem);
     end;
