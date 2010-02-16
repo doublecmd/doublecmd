@@ -2,6 +2,8 @@ unit uMultiArchiveUtil;
 
 {$mode objfpc}{$H+}
 
+{$DEFINE DEBUG}
+
 interface
 
 uses
@@ -82,7 +84,9 @@ begin
         Inc(Position.Finish);
       Position.Finish := Position.Finish - Position.Start;
       Position.Index := I;
+      {$IFDEF DEBUG}
       DebugLn('Key: ', Key, ' Format: ', IntToStr(I), ' Start: ', IntToStr(Position.Start), ' Finish: ', IntToStr(Position.Finish));
+      {$ENDIF}
       Result := True;
       Break;
     end;
@@ -137,13 +141,13 @@ begin
     if FFormatIndex >= FMultiArcItem.FFormat.Count then
     begin
       FFormatIndex := 0;
-      //+++++++++++++++++++++++++++++++++++++++++++++++++++
+      {$IFDEF DEBUG}
       DebugLn('FileName: ', FArchiveItem.FileName);
       DebugLn('Size: ', IntToStr(FArchiveItem.UnpSize));
       DebugLn('Pack size: ', IntToStr(FArchiveItem.PackSize));
       DebugLn('Attributes: ', IntToStr(FArchiveItem.Attributes));
       DebugLn('-------------------------------------');
-      //+++++++++++++++++++++++++++++++++++++++++++++++++++
+      {$ENDIF}
       if Assigned(FOnGetArchiveItem) then
         FOnGetArchiveItem(FArchiveItem);
     end;

@@ -5,7 +5,7 @@ unit uMultiArchiveFileSource;
 interface
 
 uses
-  Classes, SysUtils, contnrs, syncobjs, StringHashList, uOSUtils,
+  Classes, SysUtils, contnrs, StringHashList, uOSUtils,
   uMultiArc, uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation,
   uMultiArchiveUtil;
@@ -95,8 +95,7 @@ type
 implementation
 
 uses
-  uGlobs, LCLProc, uDCUtils,
-  uDateTimeUtils,
+  uGlobs, LCLProc,
   FileUtil, uMultiArchiveFile,
   uMultiArchiveListOperation,
   uMultiArchiveCopyInOperation,
