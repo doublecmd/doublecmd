@@ -659,7 +659,8 @@ uses
   AbConst,
   AbExcept,
   AbVMStrm,
-  SysUtils;
+  SysUtils,
+  osConvEncoding;
 
 function MakeVersionMadeBy : Word;
 begin
