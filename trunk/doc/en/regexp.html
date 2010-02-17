@@ -41,12 +41,12 @@
 	
 	<div class="SECT1">
 	  <h2><a name="preface">1. Introduction</a></h2>
-	  <p>Regular Expressions are a widely-used method of specifying patterns of text to search for. Special <span class="bold">metacharacters</span> allow You to specify, for instance, that a particular string You are looking for occurs at the beginning or end of a line, or contains <span class="bold">n</span> recurrences of a certain character.<p>
+	  <p>Regular Expressions are a widely-used method of specifying patterns of text to search for. Special <span class="bold">metacharacters</span> allow you to specify, for instance, that a particular string you are looking for occurs at the beginning or end of a line, or contains <span class="bold">n</span> recurrences of a certain character.<p>
 	  <p>Regular expressions are mainly meant for professionals, but can also be useful in the office for finding certain documents (see examples below).</p>
 	  <p>Double Commander supports regular expressions in the following functions:</p>
 	  <ul>
 		<li><p>Commands &nbsp;&rarr; Search (in file name)</p></li>
-		<li><p>In internal Editor</p></li>
+		<li><p>In the internal Editor</p></li>
 		<li><p>In the Multi-Rename tool</p></li>
 	  </ul>
 	</div>
@@ -54,18 +54,18 @@
 	<div class="SECT1">
 	  <h2><a name="compare">2. Simple matches</a></h2>
 	  <p>Any single character matches itself, unless it is a metacharacter with a special meaning described below.</p>
-	  <p>A series of characters matches that series of characters in the target string, so the pattern "bluh" would match "bluh'' in the target string. Quite simple, eh ?</p>
+	  <p>A series of characters matches that series of characters in the target string, so the pattern "bluh" would match "bluh'' in the target string. Quite simple, eh?</p>
 	  <p>You can cause characters that normally function as metacharacters or <span class="bold">escape sequences</span> to be interpreted literally by 'escaping' them by preceding them with a backslash "\", for instance: metacharacter "^" match beginning of string, but "\^" match character "^", "\\" match "\" and so on.</p>
 	  <p class="bold">Examples:</p>
 	  <table border="0" frame="void" width="100%" class="CALSTABLE">
 		<tbody>
 		  <tr>
 			<td><tt>foobar</tt></td>
-			<td>matchs string 'foobar'</td>
+			<td>matches string 'foobar'</td>
 		  </tr>
 		  <tr>
 			<td><tt>\^FooBarPtr</tt></td>
-			<td>matchs '^FooBarPtr'</td>
+			<td>matches '^FooBarPtr'</td>
 		  </tr>
 		</tbody>
 	  </table>
@@ -73,7 +73,7 @@
 	
 	<div class="SECT1">
 	  <h2><a name="esc">3. Escape sequences</a></h2>
-	  <p>Characters may be specified using a escape sequences syntax much like that used in C and Perl: "\n'' matches a newline, "\t'' a tab, etc. More generally, \xnn, where nn is a string of hexadecimal digits, matches the character whose ASCII value is nn. If You need wide (Unicode) character code, You can use '\x{nnnn}', where 'nnnn' - one or more hexadecimal digits.</p>
+	  <p>Characters may be specified using a escape sequences syntax much like that used in C and Perl: "\n'' matches a newline, "\t'' a tab, etc. More generally, \xnn, where nn is a string of hexadecimal digits, matches the character whose ASCII value is nn. If you need wide (Unicode) character code, you can use '\x{nnnn}', where 'nnnn' - one or more hexadecimal digits.</p>
 	  <table border="0" frame="void" width="100%" class="CALSTABLE">
 		<tbody>
 		  <tr>
@@ -115,11 +115,11 @@
 		<tbody>
 		  <tr>
 			<td><tt>foo\x20bar</tt></td>
-			<td>matchs 'foo bar' (note space in the middle)</td>
+			<td>matches 'foo bar' (note space in the middle)</td>
 		  </tr>
 		  <tr>
 			<td><tt>\tfoobar</tt></td>
-			<td>matchs 'foobar' predefined by tab</td>
+			<td>matches 'foobar' predefined by tab</td>
 		  </tr>
 		</tbody>
 	  </table>
@@ -143,37 +143,37 @@
 		</tbody>
 	  </table>
 	  <p>Within a list, the "-'' character is used to specify a <span class="bold">range</span>, so that a-z represents all characters between "a'' and "z'', inclusive.</p>
-	  <p>ЕIf You want "-'' itself to be a member of a class, put it at the start or end of the list, or escape it with a backslash. If You want ']' you may place it at the start of list or escape it with a backslash.</p>
+	  <p>If you want "-'' itself to be a member of a class, put it at the start or end of the list, or escape it with a backslash. If you want ']' you may place it at the start of list or escape it with a backslash.</p>
 	  <p class="bold">Examples:</p>
 	  <table border="0" frame="void" width="100%" class="CALSTABLE">
 		<tbody>
 		  <tr>
 			<td><tt>[-az]</tt></td>
-			<td>matchs 'a', 'z' and '-'</td>
+			<td>matches 'a', 'z' and '-'</td>
 		  </tr>
 		  <tr>
 			<td><tt>[az-]</tt></td>
-			<td>matchs 'a', 'z' and '-'</td>
+			<td>matches 'a', 'z' and '-'</td>
 		  </tr>
 		  <tr>
 			<td><tt>[a\-z]</tt></td>
-			<td>matchs 'a', 'z' and '-'</td>
+			<td>matches 'a', 'z' and '-'</td>
 		  </tr>
 		  <tr>
 			<td><tt>[a-z]</tt></td>
-			<td>matchs all twenty six small characters from 'a' to 'z'</td>
+			<td>matches all twenty six small characters from 'a' to 'z'</td>
 		  </tr>
 		  <tr>
 			<td><tt>[\n-\x0D]</tt></td>
-			<td>matchs any of #10,#11,#12,#13.</td>
+			<td>matches any of #10,#11,#12,#13.</td>
 		  </tr>
 		  <tr>
 			<td><tt>[\d-t]</tt></td>
-			<td>matchs any digit, '-' or 't'.</td>
+			<td>matches any digit, '-' or 't'.</td>
 		  </tr>
 		  <tr>
 			<td><tt>[]-a]</tt></td>
-			<td>matchs any char from ']'..'a'.</td>
+			<td>matches any char from ']'..'a'.</td>
 		  </tr>
 		</tbody>
 	  </table>
@@ -215,32 +215,32 @@
 		<tbody>
 		  <tr>
 			<td><tt>^foobar</tt></td>
-			<td>matchs string 'foobar' only if it's at the beginning of line</td>
+			<td>matches string 'foobar' only if it's at the beginning of line</td>
 		  </tr>
 		  <tr>
 			<td><tt>foobar$</tt></td>
-			<td>matchs string 'foobar' only if it's at the end of line</td>
+			<td>matches string 'foobar' only if it's at the end of line</td>
 		  </tr>
 		  <tr>
 			<td><tt>^foobar$</tt></td>
-			<td>matchs string 'foobar' only if it's the only string in line</td>
+			<td>matches string 'foobar' only if it's the only string in line</td>
 		  </tr>
 		  <tr>
 			<td><tt>foob.r</tt></td>
-			<td>matchs strings like 'foobar', 'foobbr', 'foob1r' and so on</td>
+			<td>matches strings like 'foobar', 'foobbr', 'foob1r' and so on</td>
 		  </tr>
 		</tbody>
 	  </table>
 	  <p>The "^" metacharacter by default is only guaranteed to match at the beginning of the input string/text, the "$" metacharacter only at the end. Embedded line separators will not be matched by "^'' or "$''.</p>
 	  <p>You may, however, wish to treat a string as a multi-line buffer, such that the "^'' will match after any line separator within the string, and "$'' will match before any line separator. You can do this by switching On the <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_m">modifier /m</a>.</p>
 	  <p>The \A and \Z are just like "^'' and "$'', except that they won't match multiple times when the <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_m">modifier /m</a> is used, while "^'' and "$'' will match at every internal line separator.</p>
-	  <p>The ".'' metacharacter by default matches any character, but if You switch Off the <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_s">modifier /s</a>, then '.' won't match embedded line separators.</p>
+	  <p>The ".'' metacharacter by default matches any character, but if you switch Off the <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_s">modifier /s</a>, then '.' won't match embedded line separators.</p>
 	  <p>TRegExpr works with line separators as recommended at www.unicode.org ( http://www.unicode.org/unicode/reports/tr18/ ):</p>
-	  <p>"^" is at the beginning of a input string, and, if <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_m">modifier /m</a> is On, also immediately following any occurrence of \x0D\x0A or \x0A or \x0D (if You are using <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode version</a> of TRegExpr, then also \x2028 or \x2029 or \x0B or \x0C or \x85). Note that there is no empty line within the sequence \x0D\x0A.</p>
-	  <p>"$" is at the end of a input string, and, if <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_m">modifier /m</a> is On, also immediately preceding any occurrence of \x0D\x0A or \x0A or \x0D (if You are using <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode version</a> of TRegExpr, then also \x2028 or \x2029 or \x0B or \x0C or \x85). Note that there is no empty line within the sequence \x0D\x0A.</p>
-	  <p>"." matchs any character, but if You switch Off <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_m">modifier /s</a> then "." doesn't match \x0D\x0A and \x0A and \x0D (if You are using <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode version</a> of TRegExpr, then also \x2028 and \x2029 and \x0B and \x0C and \x85).</p>
-	  <p>Note that "^.*$" (an empty line pattern) doesnot match the empty string within the sequence \x0D\x0A, but matchs the empty string within the sequence \x0A\x0D.</p>
-	  <p>Multiline processing can be easely tuned for Your own purpose with help of TRegExpr properties <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#lineseparators">LineSeparators</a> and <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#linepairedseparator">LinePairedSeparator</a>, You can use only Unix style separators \n or only DOS/Windows style \r\n or mix them together (as described above and used by default) or define Your own line separators!</p>
+	  <p>"^" is at the beginning of a input string, and, if <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_m">modifier /m</a> is On, also immediately following any occurrence of \x0D\x0A or \x0A or \x0D (if you are using <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode version</a> of TRegExpr, then also \x2028 or \x2029 or \x0B or \x0C or \x85). Note that there is no empty line within the sequence \x0D\x0A.</p>
+	  <p>"$" is at the end of a input string, and, if <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_m">modifier /m</a> is On, also immediately preceding any occurrence of \x0D\x0A or \x0A or \x0D (if you are using <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode version</a> of TRegExpr, then also \x2028 or \x2029 or \x0B or \x0C or \x85). Note that there is no empty line within the sequence \x0D\x0A.</p>
+	  <p>"." matches any character, but if you switch Off <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_m">modifier /s</a> then "." doesn't match \x0D\x0A and \x0A and \x0D (if you are using <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode version</a> of TRegExpr, then also \x2028 and \x2029 and \x0B and \x0C and \x85).</p>
+	  <p>Note that "^.*$" (an empty line pattern) does not match the empty string within the sequence \x0D\x0A, but matches the empty string within the sequence \x0A\x0D.</p>
+	  <p>Multi-line processing can be easily tuned for your own purpose with help of TRegExpr properties <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#lineseparators">LineSeparators</a> and <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#linepairedseparator">LinePairedSeparator</a>, you can use only Unix style separators \n or only DOS/Windows style \r\n or mix them together (as described above and used by default) or define your own line separators!</p>
 	</div>
 	
 	<div class="SECT2">
@@ -279,15 +279,15 @@
 		<tbody>
 		  <tr>
 			<td><tt>foob\dr</tt></td>
-			<td>matchs strings like 'foob1r', ''foob6r' and so on but not 'foobar', 'foobbr' and so on</td>
+			<td>matches strings like 'foob1r', ''foob6r' and so on but not 'foobar', 'foobbr' and so on</td>
 		  </tr>
 		  <tr>
 			<td><tt>foob[\w\s]r</tt></td>
-			<td>matchs strings like 'foobar', 'foob r', 'foobbr' and so on but not 'foob1r', 'foob=r' and so on</td>
+			<td>matches strings like 'foobar', 'foob r', 'foobbr' and so on but not 'foob1r', 'foob=r' and so on</td>
 		  </tr>
 		</tbody>
 	  </table>
-	  <p>TRegExpr uses options <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#tregexpr.spacechars">SpaceChars</a> and <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#tregexpr.wordchars">WordChars</a> to redefine standart \w, \W, \s, \S, classes.</p>
+	  <p>TRegExpr uses options <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#tregexpr.spacechars">SpaceChars</a> and <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#tregexpr.wordchars">WordChars</a> to redefine standard \w, \W, \s, \S, classes.</p>
 	</div>
 	
 	<div class="SECT2">
@@ -309,7 +309,7 @@
 	
 	<div class="SECT2">
 	  <h3><a name="meta-dup">5.4. Metacharacters - iterators</a></h3>
-	  <p>Any item of a regular expression may be followed by another type of metacharacters - iterators. Using this metacharacters You can specify number of occurences of previous character, metacharacter or subexpression.</p>
+	  <p>Any item of a regular expression may be followed by another type of metacharacters - iterators. Using these metacharacters you can specify the number of occurrences of the previous character, metacharacter or subexpression.</p>
 	  <table border="0" frame="void" width="100%" class="CALSTABLE">
 		<tbody>
 		  <tr>
@@ -369,27 +369,27 @@
 		<tbody>
 		  <tr>
 			<td><tt>foob.*r</tt></td>
-			<td>matchs strings like 'foobar', 'foobalkjdflkj9r' and 'foobr'</td>
+			<td>matches strings like 'foobar', 'foobalkjdflkj9r' and 'foobr'</td>
 		  </tr>
 		  <tr>
 			<td><tt>foob.+r</tt></td>
-			<td>matchs strings like 'foobar', 'foobalkjdflkj9r' but not 'foobr'</td>
+			<td>matches strings like 'foobar', 'foobalkjdflkj9r' but not 'foobr'</td>
 		  </tr>
 		  <tr>
 			<td><tt>foob.?r</tt></td>
-			<td>matchs strings like 'foobar', 'foobbr' and 'foobr' but not 'foobalkj9r'</td>
+			<td>matches strings like 'foobar', 'foobbr' and 'foobr' but not 'foobalkj9r'</td>
 		  </tr>
 		  <tr>
 			<td><tt>fooba{2}r</tt></td>
-			<td>matchs the string 'foobaar'</td>
+			<td>matches the string 'foobaar'</td>
 		  </tr>
 		  <tr>
 			<td><tt>fooba{2,}r</tt></td>
-			<td>matchs strings like 'foobaar', 'foobaaar', 'foobaaaar' etc.</td>
+			<td>matches strings like 'foobaar', 'foobaaar', 'foobaaaar' etc.</td>
 		  </tr>
 		  <tr>
 			<td><tt>fooba{2,3}r</tt></td>
-			<td>matchs strings like 'foobaar', or 'foobaaar' but not 'foobaaaar'</td>
+			<td>matches strings like 'foobaar', or 'foobaaar' but not 'foobaaaar'</td>
 		  </tr>
 		</tbody>
 	  </table>
@@ -401,13 +401,13 @@
 	  <h3><a name="meta-vars">5.5. Metacharacters - alternatives</a></h3>
 	  <p>You can specify a series of <span class="bold">alternatives</span> for a pattern using "|'' to separate them, so that fee|fie|foe will match any of "fee'', "fie'', or "foe'' in the target string (as would f(e|i|o)e). The first alternative includes everything from the last pattern delimiter ("('', "['', or the beginning of the pattern) up to the first "|'', and the last alternative contains everything from the last "|'' to the next pattern delimiter. For this reason, it's common practice to include alternatives in parentheses, to minimize confusion about where they start and end.</p>
 	  <p>Alternatives are tried from left to right, so the first alternative found for which the entire expression matches, is the one that is chosen. This means that alternatives are not necessarily greedy. For example: when matching foo|foot against "barefoot'', only the "foo'' part will match, as that is the first alternative tried, and it successfully matches the target string. (This might not seem important, but it is important when you are capturing matched text using parentheses.)</p>
-	  <p>Also remember that "|'' is interpreted as a literal within square brackets, so if You write [fee|fie|foe] You're really only matching [feio|].</p>
+	  <p>Also remember that "|'' is interpreted as a literal within square brackets, so if you write [fee|fie|foe] you're really only matching [feio|].</p>
 	  <p class="bold">Examples:</p>
 	  <table border="0" frame="void" width="100%" class="CALSTABLE">
 		<tbody>
 		  <tr>
 			<td><tt>foo(bar|foo)</tt></td>
-			<td>matchs strings 'foobar' or 'foofoo'.</td>
+			<td>matches strings 'foobar' or 'foofoo'.</td>
 		  </tr>
 		</tbody>
 	  </table>
@@ -417,17 +417,17 @@
 	  <h3><a name="meta-sub">5.6. Metacharacters - subexpressions</a></h3>
 	  <p>The bracketing construct ( ... ) may also be used for define r.e. subexpressions. After search you can call any subexpression using properties MatchPos, MatchLen and <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#tregexpr.match">Match</a>, also you can use subexpressions as masks using <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#tregexpr.substitute">Substitute</a>).</p>
 	  <p>Subexpressions are numbered based on the left to right order of their opening parenthesis.</p>
-	  <p>First subexpression has number '1' (whole r.e. match has number '0' - You can substitute it in <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#tregexpr.substitute">Substitute</a> as '$0' or '$&').</p>
+	  <p>First subexpression has number '1' (whole r.e. match has number '0' - you can substitute it in <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#tregexpr.substitute">Substitute</a> as '$0' or '$&').</p>
 	  <p class="bold">Examples:</p>
 	  <table border="0" frame="void" width="100%" class="CALSTABLE">
 		<tbody>
 		  <tr>
 			<td><tt>(foobar){8,10}</tt></td>
-			<td>matchs strings which contain 8, 9 or 10 instances of the 'foobar'</td>
+			<td>matches strings which contain 8, 9 or 10 instances of the 'foobar'</td>
 		  </tr>
 		  <tr>
 			<td><tt>foob([0-9]|a+)r</tt></td>
-			<td>matchs 'foob0r', 'foob1r' , 'foobar', 'foobaar', 'foobaar' etc.</td>
+			<td>matches 'foob0r', 'foob1r' , 'foobar', 'foobaar', 'foobaar' etc.</td>
 		  </tr>
 		</tbody>
 	  </table>
@@ -435,13 +435,13 @@
 	
 	<div class="SECT2">
 	  <h3><a name="meta-back">5.7. Metacharacters - backreferences</a></h3>
-	  <p>Metacharacters \1 through \9 are interpreted as backreferences. \&lt;n&gt; matches previously matched subexpression #&lt;n&gt;.Метасимволы от \1 до \9 воспринимаются как обратные ссылки. \&lt;n&gt;.</p>
+	  <p>Metacharacters \1 through \9 are interpreted as backreferences. \&lt;n&gt; matches previously matched subexpression #&lt;n&gt;.</p>
 	  <p class="bold">Examples:</p>
 	  <table border="0" frame="void" width="100%" class="CALSTABLE">
 		<tbody>
 		  <tr>
 			<td><tt>(.)\1+</tt></td>
-			<td>matchs 'aaaa' and 'cc'.</td>
+			<td>matches 'aaaa' and 'cc'.</td>
 		  </tr>
 		  <tr>
 			<td><tt>(.+)\1+</tt></td>
@@ -449,7 +449,7 @@
 		  </tr>
 		  <tr>
 			<td><tt>(['"]?)(\d+)\1</tt></td>
-			<td>matchs '"13" (in double quotes), or '4' (in single quotes) or 77 (without quotes) etc</td>
+			<td>matches '"13" (in double quotes), or '4' (in single quotes) or 77 (without quotes) etc</td>
 		  </tr>
 		</tbody>
 	  </table>
@@ -461,17 +461,17 @@
 	  <p>Any of these modifiers may be embedded within the regular expression itself using the <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#inline_modifiers">(?...)</a> construct.</p>
 	  <dl>
 		<dt><tt>i</tt></dt>
-		<dd>Do case-insensitive pattern matching (using installed in you system locale settings), see also <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#invertcase">InvertCase</a>.</dd>
+		<dd>Do case-insensitive pattern matching (using installed in your system locale settings), see also <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#invertcase">InvertCase</a>.</dd>
 		<dt><tt>m</tt></dt>
 		<dd>Treat string as multiple lines. That is, change "^'' and "$'' from matching at only the very start or end of the string to the start or end of any line anywhere within the string, see also <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#syntax_line_separators">Line separators</a>.</dd>
 		<dt><tt>s</tt></dt>
-		<dd>Treat string as single line. That is, change ".'' to match any character whatsoever, even a line separators (see also <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#syntax_line_separators">Line separators</a>), which it normally would not match.</dd>
+		<dd>Treat string as single line. That is, change ".'' to match any character whatsoever, even a line separator (see also <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#syntax_line_separators">Line separators</a>), which it normally would not match.</dd>
 		<dt><tt>g</tt></dt>
-		<dd>Non standard modifier. Switching it Off You'll switch all following operators into non-greedy mode (by default this modifier is On). So, if modifier /g is Off then '+' works as '+?', '*' as '*?' and so on </dd>
+		<dd>Non standard modifier. Switching it Off you'll switch all following operators into non-greedy mode (by default this modifier is On). So, if modifier /g is Off then '+' works as '+?', '*' as '*?' and so on </dd>
 		<dt><tt>x</tt></dt>
 		<dd>Extend your pattern's legibility by permitting whitespace and comments (see explanation below).</dd>
 		<dt><tt>r</tt></dt>
-		<dd>Non-standard modifier. If is set then range 'а-я' additional include russian letter 'ё', 'А-Я' additional include 'Ё', and 'а-Я' include all russian symbols.  
+		<dd>Non-standard modifier. If is set then range 'а-я' additional include Russian letter 'ё', 'А-Я' additional include 'Ё', and 'а-Я' include all Russian symbols.  
 	Sorry for foreign users, but it's set by default. If you want switch if off by default - set false to global variable <a href="http://www.regexpstudio.com/TRegExpr/Help/tregexpr_interface.html#modifier_defs">RegExprModifierR</a>.</dd>
 	  </dl>
 	  <p>The <a href="http://www.regexpstudio.com/TRegExpr/Help/regexp_syntax.html#modifier_x">modifier /x</a> itself needs a little more explanation. It tells to ignore whitespace that is neither backslashed nor within a character class. You can use this to break up your regular expression into (slightly) more readable parts. The # character is also treated as a metacharacter introducing a comment, for example:</p>
@@ -487,25 +487,25 @@
 	<div class="SECT1">
 	  <h2><a name="perl">7. Perl extensions</a></h2>
 	  <p class="bold">(?imsxr-imsxr)</p>
-	  <p>You may use it into r.e. for modifying modifiers by the fly. If this construction inlined into subexpression, then it effects only into this subexpression</p>
+	  <p>You may use it into r.e. for modifying modifiers by the fly. If this construction is inlined into subexpression, then it effects only into this subexpression</p>
 	  <p class="bold">Examples:</p>
 	  <table border="0" frame="void" width="100%" class="CALSTABLE">
 		<tbody>
 		  <tr>
 			<td><tt>(?i)Saint-Petersburg</tt></td>
-			<td>matchs 'Saint-petersburg' and 'Saint-Petersburg'</td>
+			<td>matches 'Saint-petersburg' and 'Saint-Petersburg'</td>
 		  </tr>
 		  <tr>
 			<td><tt>(?i)Saint-(?-i)Petersburg</tt></td>
-			<td>matchs 'Saint-Petersburg' but not 'Saint-petersburg'</td>
+			<td>matches 'Saint-Petersburg' but not 'Saint-petersburg'</td>
 		  </tr>
 		  <tr>
 			<td><tt>(?i)(Saint-)?Petersburg</tt></td>
-			<td>matchs 'Saint-petersburg' and 'saint-petersburg'</td>
+			<td>matches 'Saint-petersburg' and 'saint-petersburg'</td>
 		  </tr>
 		  <tr>
 			<td><tt>((?i)Saint-)?Petersburg</tt></td>
-			<td>matchs 'saint-Petersburg', but not 'saint-petersburg'</td>
+			<td>matches 'saint-Petersburg', but not 'saint-petersburg'</td>
 		  </tr>
 		</tbody>
 	  </table>

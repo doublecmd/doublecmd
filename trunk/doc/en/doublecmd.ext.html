@@ -11,8 +11,8 @@
 	<h1>Structure of <tt>doublecmd.ext</tt> file</h1>
 	
 	<div class="SECT1">
-	  <p>Double Commander extension file based on Midnight Commander 3.0 extension file</p>
-	  <p>All lines starting with # or empty lines are thrown away. All actions for file is showed in "Actions" submenu of file context popup menu.</p>
+	  <p>Double Commander's extension file is based on Midnight Commander's 3.0 extension file</p>
+	  <p>All lines starting with # or empty lines are ignored. All actions for file are shown in "Actions" submenu of the file context popup menu.</p>
 	  <p>File format:</p>
 	  <pre class="CODE">
 	[extension1|extension2|...|extensionX]
@@ -23,28 +23,28 @@
 	actionX=commandX</pre>
 	  <p>Where:</p>
 	  <p><span class="bold">[extension]</span> or <span class="bold">[extension1|extension2 ...]</span>
-	 &nbsp;&mdash; list of extensions (case insensitive !!no regular expression!!). ТAlso you can use "default" keyword as extension. In this case, if command had not found for sought file type, then will be used command from this section.</p>
-	 <p><span class="bold">Name</span>&nbsp;&mdash; Name of this category (showed in file association manager)</p>
-	 <p><span class="bold">Icon</span>&nbsp;&mdash; Path to icon that displays for this file types in file panel</p>
+	 &nbsp;&mdash; list of extensions (case insensitive!! no regular expressions!!). Also you can use "default" keyword as extension. In this case, if no command is found for sought file type, then the command from this section will be used.</p>
+	 <p><span class="bold">Name</span>&nbsp;&mdash; Name of this category (shown in file association manager)</p>
+	 <p><span class="bold">Icon</span>&nbsp;&mdash; Path to the icon that will be displayed for this file type in the file panel</p>
 	 <p>Action can be:</p>
 	 <ul>
-	  <li><p>open&nbsp;&mdash; used with tap on <kbd>Enter</kbd> or mouse double click</p></li>
-	  <li><p>view&nbsp;&mdash; used with tap on <kbd>F3</kbd></p></li>
-	  <li><p>edit&nbsp;&mdash; used with tap on <kbd>F4</kbd></p></li>
+	  <li><p>open&nbsp;&mdash; used with keypress <kbd>Enter</kbd> or mouse double click</p></li>
+	  <li><p>view&nbsp;&mdash; used with keypress <kbd>F3</kbd></p></li>
+	  <li><p>edit&nbsp;&mdash; used with keypress <kbd>F4</kbd></p></li>
 	 </ul>
-	 <p>other actions only is showed in "Actions" submenu of file context popup menu.</p>
+	 <p>other actions will show in the "Actions" submenu of the file context popup menu.</p>
 	</div>
-	<p>Command is any one-line shell command, with the simple macro substitution.</p>
-	<p>Macros should be (case sensitive):</p>
+	<p>Command is any one-line shell command, with a simple macro substitution.</p>
+	<p>Macros (case sensitive) are:</p>
 	<ul>
 	  <li><p><tt>{!VFS}</tt>&nbsp;&mdash; for archives&nbsp;&mdash; use virtual file system</p></li>
-	  <li><p><tt>{!EDITOR}</tt>&nbsp;&mdash; вcall editor (internal or external by configuration)</p></li>
-	  <li><p><tt>{!VIEWER}</tt>&nbsp;&mdash; call viewer (the same)</p></li>
-	  <li><p><tt>{!SHELL}</tt>&nbsp;&mdash; иuse shell from configuration to execute program (see mplayer)</p></li>
-	  <li><p><tt>&lt;?command?&gt;</tt>&nbsp;&mdash; execute 'command' in system shell and save stdout output to file and transfer it as parameter to previous command (see rpm for example...)</p></li>
+	  <li><p><tt>{!EDITOR}</tt>&nbsp;&mdash; call editor (internal or external, depends on the configuration)</p></li>
+	  <li><p><tt>{!VIEWER}</tt>&nbsp;&mdash; call viewer (internal or external, depends on the configuration)</p></li>
+	  <li><p><tt>{!SHELL}</tt>&nbsp;&mdash; use system shell (set in configuration) to execute program</p></li>
+	  <li><p><tt>&lt;?command?&gt;</tt>&nbsp;&mdash; executes 'command' in the system shell and feeds the output to the next command</p></li>
 	  <li><p><tt>%f</tt>&nbsp;&mdash; filename</p></li>
 	  <li><p><tt>%d</tt>&nbsp;&mdash; directory</p></li>
-	  <li><p><tt>%p</tt>&nbsp;&mdash; path(directory+filename)</p></li>
+	  <li><p><tt>%p</tt>&nbsp;&mdash; path (directory+filename)</p></li>
 	</ul>
   </div>
 	<div class="SECT1">
