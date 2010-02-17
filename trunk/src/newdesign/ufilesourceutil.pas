@@ -148,9 +148,12 @@ begin
       FileSource := TWcxArchiveFileSource.CreateByArchiveName(aFile.Path + aFile.Name);
 
     // Check if there is a registered MultiArc addon for possible archive.
-    FileSource := FileSourceManager.Find(TMultiArchiveFileSource, aFile.Path + aFile.Name);
     if not Assigned(FileSource) then
-      FileSource := TMultiArchiveFileSource.CreateByArchiveName(aFile.Path + aFile.Name);
+      begin
+        FileSource := FileSourceManager.Find(TMultiArchiveFileSource, aFile.Path + aFile.Name);
+        if not Assigned(FileSource) then
+          FileSource := TMultiArchiveFileSource.CreateByArchiveName(aFile.Path + aFile.Name);
+      end;
 
     if Assigned(FileSource) then
     begin
