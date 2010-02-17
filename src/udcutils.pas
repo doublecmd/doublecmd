@@ -189,7 +189,7 @@ function MatchesMaskListEx(const aFile: TFile; MaskList: TStringList): Boolean;
   @param(Files
          Contains list of files to change.)
 }
-procedure ChangeFileListRoot(sNewRootPath: String; var Files: TFiles);
+procedure ChangeFileListRoot(sNewRootPath: String; Files: TFiles);
 
 {en
    Changes a path to be relative to some parent directory.
@@ -774,7 +774,7 @@ begin
     end;
 end;
 
-procedure ChangeFileListRoot(sNewRootPath: String; var Files: TFiles);
+procedure ChangeFileListRoot(sNewRootPath: String; Files: TFiles);
 var
   i: Integer;
   aFile: TFile;
@@ -1109,7 +1109,6 @@ begin
           sParams := '';
         end;
     end;
-  sParams:= RemoveQuotation(sParams);
 end;
 {$ENDIF}
 
