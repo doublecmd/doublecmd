@@ -185,11 +185,7 @@ procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcess
 implementation
 
 uses
-  DynLibs, osFileUtil
-  {$IFDEF MSWINDOWS}
-  , Windows
-  {$ENDIF}
-  ;
+  DynLibs, osFileUtil, osConvEncoding;
 
 type
   // From libunrar (dll.hpp)
@@ -217,6 +213,7 @@ var
   // and so it doesn't know about the main program's multithreading.
   ProcessedFileName:  array [0..1023] of Char;
   ProcessedFileNameW: array [0..1023] of WideChar;
+  ProcessedFileHostOS: RarHostSystem;
 
 procedure StringToArrayA(src: AnsiString;
                          pDst: PAnsiChar;
@@ -244,40 +241,6 @@ begin
   pDst[MaxDstLength] := WideChar(0);
 end;
 
-function RarOemStringToAnsiString(src: AnsiString): AnsiString;
-{$IFDEF MSWINDOWS}
-var
-  Dst: PAnsiChar;
-begin
-  Result:= Src;
-  Dst:= AllocMem((Length(Result) + 1) * SizeOf(AnsiChar));
-  if OEMToChar(PAnsiChar(Result), Dst) then
-    Result:= StrPas(Dst);
-  FreeMem(Dst);
-end;
-{$ELSE}
-begin
-  Result := src;
-end; 
-{$ENDIF}
-
-function AnsiStringToRarOemString(src: AnsiString): AnsiString;
-{$IFDEF MSWINDOWS}
-var
-  Dst: PAnsiChar;
-begin
-  Result := Src;
-  Dst := AllocMem((Length(Result) + 1) * SizeOf(AnsiChar));
-  if CharToOEM(PAnsiChar(Result), Dst) then
-    Result := StrPas(Dst);
-  FreeMem(Dst);
-end;
-{$ELSE}
-begin
-  Result := src;
-end;  
-{$ENDIF}
-
 function RarUnicodeStringToWideString(src: TRarUnicodeString): WideString;
 begin
 {$IFDEF UNIX}
@@ -294,6 +257,24 @@ begin
 {$ELSE}
   Result := src;
 {$ENDIF}
+end;
+
+function GetSystemSpecificFileName(HostOS: RarHostSystem; FileName: AnsiString) : AnsiString;
+begin
+  Result:= FileName;
+  if HostOS in [HOST_MSDOS, HOST_WIN32] then
+  begin
+    Result:= OEMToSys(Result);
+  end;
+end;
+
+function SetSystemSpecificFileName(HostOS: RarHostSystem; FileName: AnsiString) : AnsiString;
+begin
+  Result:= FileName;
+  if HostOS in [HOST_MSDOS, HOST_WIN32] then
+  begin
+    Result:= SysToOEM(Result);
+  end;
 end;
 
 function GetSystemSpecificFileTime(HostOS: RarHostSystem; FileTime: LongWord) : LongWord;
@@ -451,8 +432,10 @@ begin
       HeaderData.ArcName    := RarHeader.ArcName;
 
       StringToArrayA(
-          RarOemStringToAnsiString(AnsiString(RarHeader.FileName)),
-          @HeaderData.FileName, SizeOf(HeaderData.FileName));
+                     GetSystemSpecificFileName(RarHostSystem(HeaderData.HostOS),
+                                               AnsiString(RarHeader.FileName)),
+                     @HeaderData.FileName, SizeOf(HeaderData.FileName)
+                     );
 
       HeaderData.Flags      := RarHeader.Flags;
       HeaderData.PackSize   := RarHeader.PackSize;
@@ -475,6 +458,7 @@ begin
 {$POP}
       Move(HeaderData.FileName, ProcessedFileName, SizeOf(HeaderData.FileName));
       ProcessedFileNameW := '';
+      ProcessedFileHostOS:= RarHostSystem(HeaderData.HostOS);
     end
   else
     Result := E_EREAD;
@@ -499,8 +483,10 @@ begin
       HeaderData.ArcName      := RarHeader.ArcName;
 
       StringToArrayA(
-          RarOemStringToAnsiString(AnsiString(RarHeader.FileName)),
-          @HeaderData.FileName, SizeOf(HeaderData.FileName));
+                     GetSystemSpecificFileName(RarHostSystem(HeaderData.HostOS),
+                                               AnsiString(RarHeader.FileName)),
+                     @HeaderData.FileName, SizeOf(HeaderData.FileName)
+                     );
 
       HeaderData.Flags        := RarHeader.Flags;
       HeaderData.PackSize     := RarHeader.PackSize;
@@ -525,6 +511,7 @@ begin
 {$POP}
       ProcessedFileName := HeaderData.FileName;
       ProcessedFileNameW := '';
+      ProcessedFileHostOS:= RarHostSystem(HeaderData.HostOS);
     end
   else
     Result := E_EREAD;
@@ -585,10 +572,10 @@ end;
 function ProcessFile(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PChar) : Integer;stdcall;
 begin
   if Assigned(RARProcessFile) then
-    // Both DestPath and DestName must be in OEM encoding.
+    // Both DestPath and DestName must be in OEM encoding if HostOS is MS DOS or MS Windows.
     Result := RARProcessFile(hArcData, Operation,
-                             PAnsiChar(AnsiStringToRarOemString(DestPath)),
-                             PAnsiChar(AnsiStringToRarOemString(DestName)))
+                             PAnsiChar(SetSystemSpecificFileName(ProcessedFileHostOS, DestPath)),
+                             PAnsiChar(SetSystemSpecificFileName(ProcessedFileHostOS, DestName)))
   else
     Result := E_EREAD;
 end;
