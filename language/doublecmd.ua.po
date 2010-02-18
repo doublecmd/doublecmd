@@ -1502,7 +1502,7 @@ msgstr "Запуск &терміналу"
 
 #: TFRMMAIN.ACTSAVESELECTION.CAPTION
 msgid "Save Selection"
-msgstr "Зберегети виділенння"
+msgstr "Зберегти виділенння"
 
 #: TFRMMAIN.ACTSAVESELECTIONTOFILE.CAPTION
 msgid "Save Selection To File"
@@ -1515,7 +1515,7 @@ msgstr "&Пошук..."
 #: TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change file properties"
-msgstr "Змінити фластивості файлу"
+msgstr "Змінити властивості файлу"
 
 #: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
 msgid "Directories are opened in new &tabs"
@@ -1523,11 +1523,11 @@ msgstr "Відкривати каталоги у новій вкладці"
 
 #: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
 msgid "&Normal"
-msgstr "Звичайно"
+msgstr "Звичай&но"
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHLOCKED.CAPTION
 msgid "&Locked"
-msgstr "Заблокувати"
+msgstr "Заб&локувати"
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
@@ -1951,11 +1951,11 @@ msgstr "Файлові операції"
 #| msgid "Options"
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
 msgid "&Options"
-msgstr "Налаштування"
+msgstr "&Налаштування"
 
 #: TFRMMAIN.MNUTABS.CAPTION
 msgid "&Tabs"
-msgstr "Вкладки"
+msgstr "Вкладк&и"
 
 #: TFRMMAIN.TBDELETE.CAPTION
 msgctxt "TFRMMAIN.TBDELETE.CAPTION"
@@ -1975,7 +1975,7 @@ msgstr "Відміна"
 #: TFRMMASKINPUTDLG.BTNOK.CAPTION
 msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "Так"
+msgstr "&Так"
 
 #: TFRMMASKINPUTDLG.LBLSEARCHTEMPLATE.CAPTION
 msgid "Or select predefined selection type:"
@@ -1987,7 +1987,7 @@ msgstr "Створити новий каталог"
 
 #: TFRMMKDIR.LBLMAKEDIR.CAPTION
 msgid "Input new directory name:"
-msgstr "Введить ім'я каталогу:"
+msgstr "Введіть ім'я каталогу:"
 
 #: TFRMMOVEDLG.LBLFILETYPE.CAPTION
 msgctxt "TFRMMOVEDLG.LBLFILETYPE.CAPTION"
@@ -2093,11 +2093,11 @@ msgstr "Ширина"
 
 #: TFRMMULTIRENAME.LSVWFILE.COLUMN1TITLE.CAPTION
 msgid "Old File Name"
-msgstr "Старе і'мя файлу"
+msgstr "Старе ім'я файлу"
 
 #: TFRMMULTIRENAME.LSVWFILE.COLUMN2TITLE.CAPTION
 msgid "New File Name"
-msgstr "Нове і'мя файлу"
+msgstr "Нове ім'я файлу"
 
 #: TFRMMULTIRENAME.LSVWFILE.COLUMN3TITLE.CAPTION
 msgid "File Path"
@@ -2194,7 +2194,7 @@ msgstr "Додати"
 
 #: TFRMOPTIONS.BTNADDSEL.CAPTION
 msgid "&Add selected names"
-msgstr "&Додати виділені ім'я"
+msgstr "&Додати виділені імена"
 
 #: TFRMOPTIONS.BTNADDSELWITHPATH.CAPTION
 msgid "Add selected names with &full path"
@@ -2345,7 +2345,7 @@ msgstr "Використовувати інверсне виділення"
 
 #: TFRMOPTIONS.CBCASESENSITIVESORT.CAPTION
 msgid "Case sensitive sorting"
-msgstr "Сортування з врахуванням регістра"
+msgstr "Сортувати з врахуванням регістру"
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
@@ -2353,7 +2353,7 @@ msgstr "Історія командної строки"
 
 #: TFRMOPTIONS.CBCUTTEXTTOCOLWIDTH.CAPTION
 msgid "Cut text to column width"
-msgstr "Обрізати текст до ширини колонки"
+msgstr "Обрізати текст по ширині колонки"
 
 #: TFRMOPTIONS.CBDELETETOTRASH.CAPTION
 msgid "Delete to recycle bin (Shift key reverses this setting)"
@@ -2474,7 +2474,7 @@ msgstr "Перемістити іконку в системний трей пр�
 
 #: TFRMOPTIONS.CBONLYONCE.CAPTION
 msgid "Allow only one copy of DC at a time"
-msgstr "Не запускати бульше однієї копії DC"
+msgstr "Не запускати більше однієї копії DC"
 
 #: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
 msgid "Process comments with files/folders"
@@ -2615,7 +2615,7 @@ msgstr "&Також оновлювати при зміні розміру, да�
 
 #: TFRMOPTIONS.CBWATCHEXCLUDEDIRS.CAPTION
 msgid "For the following &paths and their subdirectories:"
-msgstr "Для наступних папок і підпапок"
+msgstr "Для наступних шляхів і підкаталогів"
 
 #: TFRMOPTIONS.CBWATCHFILENAMECHANGE.CAPTION
 msgid "When files are &created, deleted or renamed"
@@ -3128,7 +3128,7 @@ msgstr "SGID"
 #: TFRMSETFILEPROPERTIES.CBSTICKY.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CBSTICKY.CAPTION"
 msgid "Sticky"
-msgstr "закрі́плювальний біт"
+msgstr "Закрі́плювальний біт"
 
 #: TFRMSETFILEPROPERTIES.CBSUID.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CBSUID.CAPTION"
@@ -3598,7 +3598,7 @@ msgstr "&ОК;&Ні;&Так;&Відміна;&Жодного;&Додати;&Ко�
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate check sum..."
-msgstr "Порахувати контольні суми..."
+msgstr "Розрахувати контрольні суми..."
 
 #: ulng.rsdlgchecksumverify
 msgctxt "ulng.rsdlgchecksumverify"
