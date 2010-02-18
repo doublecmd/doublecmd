@@ -273,10 +273,12 @@ end;
 function SetSystemSpecificFileName(HostOS: RarHostSystem; FileName: AnsiString) : AnsiString;
 begin
   Result:= FileName;
+{$IFDEF MSWINDOWS}
   if HostOS in [HOST_MSDOS, HOST_WIN32] then
   begin
     Result:= SysToOEM(Result);
   end;
+{$ENDIF}
 end;
 
 function GetSystemSpecificFileTime(HostOS: RarHostSystem; FileTime: LongWord) : LongWord;
@@ -434,7 +436,7 @@ begin
       HeaderData.ArcName    := RarHeader.ArcName;
 
       StringToArrayA(
-                     GetSystemSpecificFileName(RarHostSystem(HeaderData.HostOS),
+                     GetSystemSpecificFileName(RarHostSystem(RarHeader.HostOS),
                                                AnsiString(RarHeader.FileName)),
                      @HeaderData.FileName, SizeOf(HeaderData.FileName)
                      );
@@ -485,7 +487,7 @@ begin
       HeaderData.ArcName      := RarHeader.ArcName;
 
       StringToArrayA(
-                     GetSystemSpecificFileName(RarHostSystem(HeaderData.HostOS),
+                     GetSystemSpecificFileName(RarHostSystem(RarHeader.HostOS),
                                                AnsiString(RarHeader.FileName)),
                      @HeaderData.FileName, SizeOf(HeaderData.FileName)
                      );
@@ -572,12 +574,22 @@ begin
 end;
 
 function ProcessFile(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PChar) : Integer;stdcall;
+var
+  pcDestPath: PChar;
 begin
   if Assigned(RARProcessFile) then
-    // Both DestPath and DestName must be in OEM encoding if HostOS is MS DOS or MS Windows.
-    Result := RARProcessFile(hArcData, Operation,
-                             PAnsiChar(SetSystemSpecificFileName(ProcessedFileHostOS, DestPath)),
-                             PAnsiChar(SetSystemSpecificFileName(ProcessedFileHostOS, DestName)))
+    begin
+      // Both DestPath and DestName must be in OEM encoding
+      // if HostOS is MS DOS or MS Windows and archive is open under MS Windows.
+      if DestPath = nil then
+        pcDestPath:= nil
+      else
+        pcDestPath:= PAnsiChar(SetSystemSpecificFileName(ProcessedFileHostOS, DestPath));
+
+      Result := RARProcessFile(hArcData, Operation,
+                               pcDestPath,
+                               PAnsiChar(SetSystemSpecificFileName(ProcessedFileHostOS, DestName)));
+    end
   else
     Result := E_EREAD;
 end;
