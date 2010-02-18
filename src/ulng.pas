@@ -216,6 +216,8 @@ resourcestring
   rsSplitErrFileSize = 'Incorrect file size format!';
   rsSplitErrDirectory = 'Unable to create target directory!';
   rsSplitErrSplitFile = 'Unable to split the file!';
+  rsSplitErrTooManyParts = 'Too many parts!';
+  rsSplitMsgManyParts = 'The number of parts is more than 100! Continue?';
   rsSplitMsgCreated = 'Created:';
   rsSplitMsgSize = 'size:';
   // MultiRename dialog
@@ -403,4 +405,4 @@ finalization
   if Assigned(LRSTranslator) then
     FreeAndNil(LRSTranslator);
 
-end.
+end.

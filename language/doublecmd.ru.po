@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-02-05 16:55+0300\n"
+"PO-Revision-Date: 2010-02-18 23:15+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2603,7 +2603,7 @@ msgstr ""
 
 #: TFRMOPTIONS.CBTOOLSRUNINTERMINAL.CAPTION
 msgid "Execute in terminal"
-msgstr ""
+msgstr "Запускать в терминале"
 
 #: TFRMOPTIONS.CBTOOLSUSEEXTERNALPROGRAM.CAPTION
 msgid "Use external program"
@@ -2847,7 +2847,7 @@ msgstr "Положение вкладок:"
 
 #: TFRMOPTIONS.LBLTOOLSPARAMETERS.CAPTION
 msgid "Additional parameters"
-msgstr ""
+msgstr "Дополнительные параметры"
 
 #: TFRMOPTIONS.LBLTOOLSPATH.CAPTION
 msgid "Path to program to execute"
@@ -2964,7 +2964,7 @@ msgstr "Прокрутка"
 
 #: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
 msgid "Tool"
-msgstr ""
+msgstr "Утилита"
 
 #: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
 msgid "Active"
@@ -3256,6 +3256,11 @@ msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
 msgid "..."
 msgstr ""
 
+#: TFRMSPLITTER.BTNOK.CAPTION
+msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
+msgid "OK"
+msgstr ""
+
 #: TFRMSPLITTER.CAPTION
 msgid "Splitter"
 msgstr "Разбиение"
@@ -3263,6 +3268,11 @@ msgstr "Разбиение"
 #: TFRMSPLITTER.CMBXSIZE.TEXT
 msgid "1457664B - 3.5\""
 msgstr ""
+
+#: TFRMSPLITTER.GRBXFILE.CAPTION
+msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
+msgid "File name"
+msgstr "Имя файла"
 
 #: TFRMSPLITTER.GRBXSIZE.CAPTION
 msgid "File size"
@@ -4458,10 +4468,18 @@ msgstr "Неправильный размер файла"
 msgid "Unable to split the file!"
 msgstr "Не могу разрезать файл!"
 
+#: ulng.rsspliterrtoomanyparts
+msgid "Too many parts!"
+msgstr "Слишком много частей!"
+
 #: ulng.rssplitmsgcreated
 msgctxt "ulng.rssplitmsgcreated"
 msgid "Created:"
 msgstr "Создан:"
+
+#: ulng.rssplitmsgmanyparts
+msgid "The number of parts is more than 100! Continue?"
+msgstr "Количество частей больше 100! Продолжить?"
 
 #: ulng.rssplitmsgsize
 msgid "size:"

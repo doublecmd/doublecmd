@@ -3246,6 +3246,11 @@ msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
 msgid "..."
 msgstr "..."
 
+#: TFRMSPLITTER.BTNOK.CAPTION
+msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
+msgid "OK"
+msgstr "Так"
+
 #: TFRMSPLITTER.CAPTION
 msgid "Splitter"
 msgstr "Розбивка"
@@ -3253,6 +3258,11 @@ msgstr "Розбивка"
 #: TFRMSPLITTER.CMBXSIZE.TEXT
 msgid "1457664B - 3.5\""
 msgstr "1457664B - 3.5\""
+
+#: TFRMSPLITTER.GRBXFILE.CAPTION
+msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
+msgid "File name"
+msgstr "Ім'я файлу"
 
 #: TFRMSPLITTER.GRBXSIZE.CAPTION
 msgid "File size"
@@ -4452,10 +4462,18 @@ msgstr "Невірний розмір файла"
 msgid "Unable to split the file!"
 msgstr "Не можу розрізати файл!"
 
+#: ulng.rsspliterrtoomanyparts
+msgid "Too many parts!"
+msgstr ""
+
 #: ulng.rssplitmsgcreated
 msgctxt "ulng.rssplitmsgcreated"
 msgid "Created:"
 msgstr "Створено:"
+
+#: ulng.rssplitmsgmanyparts
+msgid "The number of parts is more than 100! Continue?"
+msgstr ""
 
 #: ulng.rssplitmsgsize
 msgid "size:"
@@ -4470,7 +4488,9 @@ msgid "Error creating symlink."
 msgstr "Помилка створення симв. посилання."
 
 #: ulng.rstooldiffer
-msgid " "
+#, fuzzy
+#| msgid " "
+msgid "Differ"
 msgstr "Порівнювач"
 
 #: ulng.rstooleditor
