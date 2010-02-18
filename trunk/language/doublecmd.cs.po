@@ -1288,6 +1288,10 @@ msgstr "Upravit komentář..."
 msgid "Edit new file"
 msgstr "Editovat nový soubor"
 
+#: TFRMMAIN.ACTEDITPATH.CAPTION
+msgid "Edit path field above file list"
+msgstr ""
+
 #: TFRMMAIN.ACTEXCHANGE.CAPTION
 msgid "Swap &Panels"
 msgstr "Zaměnit &panely"

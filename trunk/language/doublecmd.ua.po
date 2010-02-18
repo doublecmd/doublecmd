@@ -1272,6 +1272,10 @@ msgstr "Редагувати коментар..."
 msgid "Edit new file"
 msgstr "Редагувати новий"
 
+#: TFRMMAIN.ACTEDITPATH.CAPTION
+msgid "Edit path field above file list"
+msgstr ""
+
 #: TFRMMAIN.ACTEXCHANGE.CAPTION
 msgid "Swap &Panels"
 msgstr "Поміняти панелі місцями"

@@ -78,6 +78,7 @@ type
     actDriveContextMenu: TAction;
     actCopyNoAsk: TAction;
     actChangeDirToParent: TAction;
+    actEditPath: TAction;
     actLoadSelectionFromClip: TAction;
     actLoadSelectionFromFile: TAction;
     actSaveSelectionToFile: TAction;

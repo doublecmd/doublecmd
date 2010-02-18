@@ -1278,6 +1278,10 @@ msgstr "Megjegyzés szerkesztése..."
 msgid "Edit new file"
 msgstr "Új fájl szerkesztése"
 
+#: TFRMMAIN.ACTEDITPATH.CAPTION
+msgid "Edit path field above file list"
+msgstr ""
+
 #: TFRMMAIN.ACTEXCHANGE.CAPTION
 msgid "Swap &Panels"
 msgstr "Panelek &cseréje"

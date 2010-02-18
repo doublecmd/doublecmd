@@ -1806,6 +1806,11 @@ object frmMain: TfrmMain
       Caption = 'Change Directory To Parent'
       OnExecute = actExecute
     end
+    object actEditPath: TAction
+      Category = 'Commands'
+      Caption = 'Edit path field above file list'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 152

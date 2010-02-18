@@ -182,6 +182,7 @@ const cf_Null=0;
    procedure cm_CheckSumCalc(param:string);
    procedure cm_CheckSumVerify(param:string);
    procedure cm_Edit(param: string='');
+   procedure cm_EditPath(param: string='');
    procedure cm_MakeDir(param: string='');
    procedure cm_Rename(param: string='');
    procedure cm_RenameNoAsk(param: string='');
@@ -1370,6 +1371,11 @@ begin
     if Assigned(SelectedFiles) then
       FreeAndNil(SelectedFiles);
   end;
+end;
+
+procedure TActs.cm_EditPath(param: string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_EditPath', param);
 end;
 
 procedure TActs.cm_Copy(param:string);
@@ -2725,4 +2731,4 @@ begin
 end;
 
 end.
-
+
