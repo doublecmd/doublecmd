@@ -51,7 +51,7 @@ type
 implementation
 
 uses
-  uLng, uClassesEx, uOSUtils;
+  LCLProc, uLng, uClassesEx, uOSUtils;
 
 function ShowSplitterFileForm(const sFile: TStringList; const sTargetDir: String): Boolean;
 begin
@@ -106,9 +106,11 @@ end;
 
 
 procedure TfrmSplitter.btnOKClick(Sender: TObject);
-var iFileSize:int64;
-    i,num:integer;
-    fSource,fDest:TStream;
+var
+  iFileSize:int64;
+  i,num:integer;
+  fSource: TFileStreamEx = nil;
+  fDest: TFileStreamEx = nil;
 begin
   memWatch.Clear;
   prgbrDoIt.Position:=0;
@@ -187,7 +189,7 @@ begin
         IntToStr(iFileSize)+'b');
         prgbrDoIt.Position:=prgbrDoIt.Position+1;
       finally
-        fDest.Free;
+        FreeThenNil(fDest);
       end;
       inc(i);
     except
@@ -217,7 +219,7 @@ begin
         IntToStr(fSource.Size-(iFileSize*i))+'b');
         prgbrDoIt.Position:=prgbrDoIt.Position+1;
       finally
-        fDest.Free;
+        FreeThenNil(fDest);
       end;
     except
       on E: EFCreateError do
@@ -232,7 +234,7 @@ begin
         end;
     end;
   finally
-    fSource.Free;
+    FreeThenNil(fSource);
   end;
 end;
 
