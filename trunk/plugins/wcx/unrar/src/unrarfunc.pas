@@ -268,6 +268,12 @@ begin
   begin
     Result:= OEMToSys(Result);
   end;
+  {$IFDEF MSWINDOWS}
+  if HostOS in [HOST_UNIX, HOST_MACOS] then
+  begin
+    Result:= UTF8ToAnsi(Result);
+  end;
+  {$ENDIF}
 end;
 
 function SetSystemSpecificFileName(HostOS: RarHostSystem; FileName: AnsiString) : AnsiString;
@@ -275,6 +281,10 @@ begin
   Result:= FileName;
 {$IFDEF MSWINDOWS}
   if HostOS in [HOST_MSDOS, HOST_WIN32] then
+  begin
+    Result:= SysToOEM(Result);
+  end;
+  if HostOS in [HOST_UNIX, HOST_MACOS] then
   begin
     Result:= SysToOEM(Result);
   end;
