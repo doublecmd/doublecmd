@@ -3616,8 +3616,6 @@ begin
           Cons.Terminal.SetCurrentDir(ActiveFrame.CurrentPath);
       end;
 
-    edtCommand.Left := lblCommandPath.Width + 5;
-    edtCommand.Width := TControl(edtCommand.Parent).Width - edtCommand.Left;
     edtCommand.Visible := True;
   end
   else

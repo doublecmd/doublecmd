@@ -363,13 +363,18 @@ object frmMain: TfrmMain
           ShowAccelChar = False
         end
         object edtCommand: TComboBox
+          AnchorSideLeft.Control = lblCommandPath
+          AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = Panel1
-          Left = 49
-          Height = 29
+          AnchorSideRight.Control = Panel1
+          AnchorSideRight.Side = asrBottom
+          Left = 27
+          Height = 21
           Top = 2
-          Width = 597
+          Width = 729
           Anchors = [akTop, akLeft, akRight]
-          ItemHeight = 0
+          BorderSpacing.Left = 4
+          ItemHeight = 13
           OnEnter = edtCommandEnter
           OnExit = edtCommandExit
           OnKeyDown = edtCommandKeyDown
