@@ -3228,6 +3228,11 @@ msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
 msgid "..."
 msgstr "..."
 
+#: TFRMSPLITTER.BTNOK.CAPTION
+msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
+msgid "OK"
+msgstr "Aceptar"
+
 #: TFRMSPLITTER.CAPTION
 msgid "Splitter"
 msgstr "Divisor"
@@ -3235,6 +3240,11 @@ msgstr "Divisor"
 #: TFRMSPLITTER.CMBXSIZE.TEXT
 msgid "1457664B - 3.5\""
 msgstr "1457664B - 3.5\""
+
+#: TFRMSPLITTER.GRBXFILE.CAPTION
+msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
+msgid "File name"
+msgstr "Nombre de fichero"
 
 #: TFRMSPLITTER.GRBXSIZE.CAPTION
 msgid "File size"
@@ -4429,10 +4439,18 @@ msgstr "Formato de tamaño incorrecto!"
 msgid "Unable to split the file!"
 msgstr "Imposible partir el fichero!"
 
+#: ulng.rsspliterrtoomanyparts
+msgid "Too many parts!"
+msgstr ""
+
 #: ulng.rssplitmsgcreated
 msgctxt "ulng.rssplitmsgcreated"
 msgid "Created:"
 msgstr "Creado:"
+
+#: ulng.rssplitmsgmanyparts
+msgid "The number of parts is more than 100! Continue?"
+msgstr ""
 
 #: ulng.rssplitmsgsize
 msgid "size:"

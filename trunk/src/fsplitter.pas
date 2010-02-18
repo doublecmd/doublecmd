@@ -140,6 +140,15 @@ begin
       //Unable to split the file!
       exit;
     end;
+    if prgbrDoIt.Max > 100 then
+      begin
+        if MessageDlg(Caption, rsSplitMsgManyParts, mtWarning, mbYesNo, 0) <> mrYes then
+          begin
+            memWatch.Append(rsSplitErrTooManyParts);
+            // Too many parts
+            Exit;
+          end;
+      end;
     num:=0;
     i:=prgbrDoIt.Max;
     while i>=1 do

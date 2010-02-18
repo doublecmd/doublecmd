@@ -3248,6 +3248,11 @@ msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
 msgid "..."
 msgstr "..."
 
+#: TFRMSPLITTER.BTNOK.CAPTION
+msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
+msgid "OK"
+msgstr "Добре"
+
 #: TFRMSPLITTER.CAPTION
 msgid "Splitter"
 msgstr "Разделител"
@@ -3255,6 +3260,11 @@ msgstr "Разделител"
 #: TFRMSPLITTER.CMBXSIZE.TEXT
 msgid "1457664B - 3.5\""
 msgstr "1457664B - 3.5\""
+
+#: TFRMSPLITTER.GRBXFILE.CAPTION
+msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
+msgid "File name"
+msgstr "Файлово име"
 
 #: TFRMSPLITTER.GRBXSIZE.CAPTION
 msgid "File size"
@@ -4451,10 +4461,18 @@ msgstr "Неправилно изписване на файловия разме
 msgid "Unable to split the file!"
 msgstr "Неуспешно раздробяване на файла!"
 
+#: ulng.rsspliterrtoomanyparts
+msgid "Too many parts!"
+msgstr ""
+
 #: ulng.rssplitmsgcreated
 msgctxt "ulng.rssplitmsgcreated"
 msgid "Created:"
 msgstr "Саздаден:"
+
+#: ulng.rssplitmsgmanyparts
+msgid "The number of parts is more than 100! Continue?"
+msgstr ""
 
 #: ulng.rssplitmsgsize
 msgid "size:"
