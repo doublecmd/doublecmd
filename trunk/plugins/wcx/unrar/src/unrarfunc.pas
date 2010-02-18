@@ -136,22 +136,22 @@ type
     Reserved: packed array [0..31] of LongWord;
   end;
 
-  TUnrarCallback = function(Msg: LongWord; UserData, P1, P2: PtrInt) : Integer;{$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TUnrarChangeVolProc = function(ArcName: PChar; Mode: Integer): Integer; stdcall;
-  TUnrarProcessDataProc = function(BufAddr: Pointer; BufSize: Integer): Integer; stdcall;
+  TUnrarCallback = function(Msg: LongWord; UserData, P1, P2: PtrInt) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TUnrarChangeVolProc = function(ArcName: PChar; Mode: Integer): Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TUnrarProcessDataProc = function(BufAddr: Pointer; BufSize: Integer): Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-  TRAROpenArchive = function(var ArchiveData: RAROpenArchiveData) : TArcHandle;stdcall;
-  TRAROpenArchiveEx = function(var ArchiveData: RAROpenArchiveDataEx) : TArcHandle;stdcall;
-  TRARCloseArchive = function(hArcData: TArcHandle) : Integer;stdcall;
-  TRARReadHeader = function(hArcData: TArcHandle; var HeaderData: RARHeaderData) : Integer;stdcall;
-  TRARReadHeaderEx = function (hArcData: TArcHandle; var HeaderData: RARHeaderDataEx) : Integer;stdcall;
-  TRARProcessFile = function(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PAnsiChar) : Integer;stdcall;
-  TRARProcessFileW = function(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PWideChar) : Integer;stdcall;
-  TRARSetCallback = procedure(hArcData: TArcHandle; UnrarCallback: TUnrarCallback; UserData: PtrInt);stdcall;
-  TRARSetChangeVolProc = procedure(hArcData: TArcHandle; ChangeVolProc: TUnrarChangeVolProc);stdcall;
-  TRARSetProcessDataProc = procedure(hArcData: TArcHandle; ProcessDataProc: TUnrarProcessDataProc);stdcall;
-  TRARSetPassword = procedure(hArcData: TArcHandle; Password: PChar);stdcall;
-  TRARGetDllVersion = function: Integer;stdcall;
+  TRAROpenArchive = function(var ArchiveData: RAROpenArchiveData) : TArcHandle; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TRAROpenArchiveEx = function(var ArchiveData: RAROpenArchiveDataEx) : TArcHandle; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TRARCloseArchive = function(hArcData: TArcHandle) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TRARReadHeader = function(hArcData: TArcHandle; var HeaderData: RARHeaderData) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TRARReadHeaderEx = function (hArcData: TArcHandle; var HeaderData: RARHeaderDataEx) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TRARProcessFile = function(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PAnsiChar) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TRARProcessFileW = function(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PWideChar) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TRARSetCallback = procedure(hArcData: TArcHandle; UnrarCallback: TUnrarCallback; UserData: PtrInt); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TRARSetChangeVolProc = procedure(hArcData: TArcHandle; ChangeVolProc: TUnrarChangeVolProc); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TRARSetProcessDataProc = procedure(hArcData: TArcHandle; ProcessDataProc: TUnrarProcessDataProc); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TRARSetPassword = procedure(hArcData: TArcHandle; Password: PChar); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TRARGetDllVersion = function: Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 var
   RAROpenArchive : TRAROpenArchive = nil;
@@ -224,7 +224,8 @@ begin
   else
     MaxDstLength := MaxDstLength - 1; // for ending #0
 
-  Move(src[1], pDst^, SizeOf(AnsiChar) * MaxDstLength);
+  if Length(src) > 0 then
+    Move(src[1], pDst^, SizeOf(AnsiChar) * MaxDstLength);
   pDst[MaxDstLength] := AnsiChar(0);
 end;
 
@@ -237,7 +238,8 @@ begin
   else
     MaxDstLength := MaxDstLength - 1; // for ending #0
 
-  Move(src[1], pDst^, SizeOf(WideChar) * MaxDstLength);
+  if Length(src) > 0 then
+    Move(src[1], pDst^, SizeOf(WideChar) * MaxDstLength);
   pDst[MaxDstLength] := WideChar(0);
 end;
 
