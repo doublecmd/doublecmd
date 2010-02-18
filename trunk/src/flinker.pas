@@ -132,32 +132,54 @@ end;
 
 procedure TfrmLinker.btnOKClick(Sender: TObject);
 var
-  c:integer;
-  fTarget,fSource:TFileStreamEx;
-
+  c: Integer;
+  fTarget: TFileStreamEx = nil;
+  fSource: TFileStreamEx = nil;
 begin
   if mbForceDirectory(ExtractFileDir(edSave.Text)) then
-  begin
+  try
     fTarget:=TFileStreamEx.Create(edSave.Text,fmCreate);
     try
       prbrWork.Max:=lstFile.Items.Count;
       prbrWork.Position:=0;
       for c:=0 to lstFile.Items.Count-1 do
-      begin
+      try
         fSource:=TFileStreamEx.Create(sDirectory+PathDelim
               +lstFile.Items[c],fmOpenRead);
         try
           fTarget.CopyFrom(fSource,fSource.Size);
           prbrWork.Position:=prbrWork.Position+1;
         finally
-          FreeAndNil(fSource);
+          FreeThenNil(fSource);
         end;
+      except
+        on E: EFOpenError do
+          begin
+            MessageDlg(Caption, rsMsgErrEOpen + ': ' + E.Message, mtError, [mbOK], 0);
+            Exit;
+          end;
+        on E: EReadError do
+          begin
+            MessageDlg(Caption, rsMsgErrERead + ': ' + E.Message, mtError, [mbOK], 0);
+            Exit;
+          end;
       end;
       ShowMessage(rsLinkMsgOK);
     finally
-      FreeAndNil(fTarget);
+      FreeThenNil(fTarget);
       prbrWork.Position:=0;
     end;
+  except
+    on E: EFCreateError do
+      begin
+        MessageDlg(Caption, rsMsgErrECreate + ': ' + E.Message, mtError, [mbOK], 0);
+        Exit;
+      end;
+    on E: EWriteError do
+      begin
+        MessageDlg(Caption, rsMsgErrEWrite + ': ' + E.Message, mtError, [mbOK], 0);
+        Exit;
+      end;
   end;
 end;
 
