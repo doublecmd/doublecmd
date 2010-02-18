@@ -441,6 +441,7 @@ type
     procedure cm_CountDirContent(param: string='');
     procedure cm_RenameOnly(param: string='');
     procedure cm_ContextMenu(param: string='');
+    procedure cm_EditPath(param: string='');
   end;
 
   { TColumnsFileListBuilder }
@@ -3396,6 +3397,11 @@ begin
   Point.Y := Rect.Top + ((Rect.Bottom - Rect.Top) div 2);
   Point := dgPanel.ClientToScreen(Point);
   Actions.DoContextMenu(Self, Point.X, Point.Y);
+end;
+
+procedure TColumnsFileView.cm_EditPath(param: string);
+begin
+  ShowPathEdit;
 end;
 
 { TDrawGridEx }

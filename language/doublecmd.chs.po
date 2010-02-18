@@ -1270,6 +1270,10 @@ msgstr "编辑注释..."
 msgid "Edit new file"
 msgstr "编辑新文件"
 
+#: TFRMMAIN.ACTEDITPATH.CAPTION
+msgid "Edit path field above file list"
+msgstr ""
+
 #: TFRMMAIN.ACTEXCHANGE.CAPTION
 msgid "Swap &Panels"
 msgstr "交换面板(&P)"
