@@ -30,6 +30,9 @@ uses
   ;
 
 {$IFDEF UNIX}
+var
+  IsInitIconv: Boolean = False;
+
 function GetSystemEncoding(out Language, Encoding: String): Boolean;
 var
   I: Integer;
@@ -71,14 +74,13 @@ begin
 end;
 {$ELSE}
 var
-  sError: String;
   Language, Encoding: String;
 begin
   Result:= Source;
   if GetSystemEncoding(Language, Encoding) then
     begin
       if SameText(Language, 'ru') then
-        if InitIconv(sError) then
+        if IsInitIconv then
           begin
             Iconvert(Source, Result, 'CP866', Encoding);
           end;
@@ -99,14 +101,13 @@ begin
 end;
 {$ELSE}
 var
-  sError: String;
   Language, Encoding: String;
 begin
   Result:= Source;
   if GetSystemEncoding(Language, Encoding) then
     begin
       if SameText(Language, 'ru') then
-        if InitIconv(sError) then
+        if IsInitIconv then
           begin
             Iconvert(Source, Result, Encoding, 'CP866');
           end;
@@ -123,14 +124,13 @@ begin
 end;
 {$ELSE}
 var
-  sError: String;
   Language, Encoding: String;
 begin
   Result:= Source;
   if GetSystemEncoding(Language, Encoding) then
     begin
       if SameText(Language, 'ru') then
-        if InitIconv(sError) then
+        if IsInitIconv then
           begin
             Iconvert(Source, Result, 'CP1251', Encoding);
           end;
@@ -145,19 +145,29 @@ begin
 end;
 {$ELSE}
 var
-  sError: String;
   Language, Encoding: String;
 begin
   Result:= Source;
   if GetSystemEncoding(Language, Encoding) then
     begin
       if SameText(Language, 'ru') then
-        if InitIconv(sError) then
+        if IsInitIconv then
           begin
             Iconvert(Source, Result, Encoding, 'CP1251');
           end;
    end;
 end;
+{$ENDIF}
+
+{$IFDEF UNIX}
+var
+  sError: String;
+
+initialization
+
+  IsInitIconv:= InitIconv(sError);
+  if not IsInitIconv then
+    WriteLn(sError);
 {$ENDIF}
 
 end.
