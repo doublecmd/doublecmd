@@ -30,7 +30,6 @@ type
     FSymLinkOption: TFileSourceOperationOptionSymLink;
     FSkipErrors: Boolean;
 
-    //procedure ShowVerifyCheckSumResult;
     function CheckSumCalc(aFile: TFile): String;
     function GetHashAlgByFileName(const sFileName: UTF8String): THashAlgorithm;
     procedure InitializeVerifyMode;
@@ -177,7 +176,16 @@ begin
     checksum_calc:
       // make result
       if OneFile then
-        FCheckSumFile.SaveToFile(TargetMask);
+        try
+          FCheckSumFile.SaveToFile(TargetMask);
+        except
+          on E: EFCreateError do
+            AskQuestion(rsMsgErrECreate + ' ' + TargetMask + ':',
+                                 E.Message, [fsourOk], fsourOk, fsourOk);
+          on E: EWriteError do
+            AskQuestion(rsMsgErrEWrite + ' ' + TargetMask + ':',
+                               E.Message, [fsourOk], fsourOk, fsourOk);
+        end;
 
     checksum_verify:
       begin
@@ -264,7 +272,16 @@ begin
                                     aFile.Path) + aFile.Name);
 
   if not OneFile then
-    FCheckSumFile.SaveToFile(FileName + '.' + HashFileExt[Algorithm]);
+    try
+      FCheckSumFile.SaveToFile(FileName + '.' + HashFileExt[Algorithm]);
+    except
+      on E: EFCreateError do
+        AskQuestion(rsMsgErrECreate + ' ' + FileName + '.' + HashFileExt[Algorithm] + ':',
+                                 E.Message, [fsourOk], fsourOk, fsourOk);
+      on E: EWriteError do
+        AskQuestion(rsMsgErrEWrite + ' ' + FileName + '.' + HashFileExt[Algorithm] + ':',
+                               E.Message, [fsourOk], fsourOk, fsourOk);
+    end;
 end;
 
 function TFileSystemCalcChecksumOperation.VerifyChecksumProcessFile(
