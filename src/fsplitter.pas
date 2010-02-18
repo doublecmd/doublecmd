@@ -131,7 +131,21 @@ begin
   if edDirTarget.Text[Length(edDirTarget.Text)]<>PathDelim then
      edDirTarget.Text:=edDirTarget.Text+PathDelim;
 
-  fSource:=TFileStreamEx.Create(edFileSource.Text,fmOpenRead);
+  try
+    fSource:= TFileStreamEx.Create(edFileSource.Text,fmOpenRead);
+  except
+    on E: EFOpenError do
+      begin
+        MessageDlg(Caption, rsMsgErrEOpen + ': ' + E.Message, mtError, [mbOK], 0);
+        Exit;
+      end;
+    on E: EReadError do
+      begin
+        MessageDlg(Caption, rsMsgErrERead + ': ' + E.Message, mtError, [mbOK], 0);
+        Exit;
+      end;
+  end;
+
   try
     prgbrDoIt.Max:=(fSource.Size div iFileSize);
     if prgbrDoIt.Max=0 then
@@ -158,7 +172,7 @@ begin
     end;
     i:=0;
     while i<=prgbrDoIt.Max-1 do
-    begin
+    try
       fDest:=TFileStreamEx.Create(
         edDirTarget.Text+ExtractFileName(edFileSource.Text)+
         '.'+Format('%.*d',[num+1,i])+'.split'
@@ -176,9 +190,20 @@ begin
         fDest.Free;
       end;
       inc(i);
+    except
+      on E: EFCreateError do
+        begin
+          MessageDlg(Caption, rsMsgErrECreate + ': ' + E.Message, mtError, [mbOK], 0);
+          Exit;
+        end;
+      on E: EWriteError do
+        begin
+          MessageDlg(Caption, rsMsgErrEWrite + ': ' + E.Message, mtError, [mbOK], 0);
+          Exit;
+        end;
     end;
     if (fSource.Position)<fSource.Size then
-    begin
+    try
       fDest:=TFileStreamEx.Create(
         edDirTarget.Text+ExtractFileName(edFileSource.Text)+
         '.'+Format('%.*d',[num+1,i])+'.split'
@@ -194,6 +219,17 @@ begin
       finally
         fDest.Free;
       end;
+    except
+      on E: EFCreateError do
+        begin
+          MessageDlg(Caption, rsMsgErrECreate + ': ' + E.Message, mtError, [mbOK], 0);
+          Exit;
+        end;
+      on E: EWriteError do
+        begin
+          MessageDlg(Caption, rsMsgErrEWrite + ': ' + E.Message, mtError, [mbOK], 0);
+          Exit;
+        end;
     end;
   finally
     fSource.Free;
