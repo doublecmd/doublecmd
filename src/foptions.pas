@@ -131,6 +131,8 @@ type
     cbToolsRunInTerminal: TCheckBox;
     cbToolsKeepTerminalOpen: TCheckBox;
     cbToolsUseExternalProgram: TCheckBox;
+    chkMultiArcDebug: TCheckBox;
+    chkMultiArcConsoleOutput: TCheckBox;
     chkAutoFillColumns: TCheckBox;
     chkIgnoreEnable: TCheckBox;
     cmbTabsPosition: TComboBox;
@@ -201,6 +203,7 @@ type
     gbAutoRefreshEnable: TGroupBox;
     gbAutoRefreshDisable: TGroupBox;
     gbShowToolTip: TGroupBox;
+    gbArchiverOptions: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
     lblArchiveAdd: TLabel;
     lblArchiveDelete: TLabel;
@@ -1946,6 +1949,8 @@ begin
     edtArchiveAdd.Text:= FAdd;
     edtArchiveDelete.Text:= FDelete;
     edtArchiveTest.Text:= FTest;
+    chkMultiArcConsoleOutput.Checked:= FConsoleOutput;
+    chkMultiArcDebug.Checked:= FDebug;
   end;
 end;
 
