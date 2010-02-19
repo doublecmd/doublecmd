@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File unpacking window
 
-   Copyright (C) 2007  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2010  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ uses
   uArchiveFileSource,
   uFileSourceOperation,
   uFileSystemFileSource,
-  uWcxArchiveFileSource,
+  uArchiveFileSourceUtil,
   uFileSourceOperationTypes,
   uOperationsManager,
   fFileOpDlg;
@@ -141,10 +141,8 @@ begin
             begin
               for I := 0 to SourceFiles.Count - 1 do // extract all selected archives
               begin
-                // Check if there is a registered WCX plugin for this archive.
-                ArchiveFileSource := FileSourceManager.Find(TWcxArchiveFileSource, SourceFiles[i].FullPath) as IArchiveFileSource;
-                if not Assigned(ArchiveFileSource) then
-                  ArchiveFileSource := TWcxArchiveFileSource.CreateByArchiveName(SourceFiles[i].FullPath);
+                // Check if there is a ArchiveFileSource for possible archive.
+                ArchiveFileSource := GetArchiveFileSource(SourceFiles[i].FullPath);
 
                 if Assigned(ArchiveFileSource) then
                 begin
