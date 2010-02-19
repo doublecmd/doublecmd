@@ -4340,6 +4340,14 @@ msgstr ""
 msgid "Waiting for user response"
 msgstr "等待用户响应"
 
+#: ulng.rsoptarchivers
+msgid "Archivers"
+msgstr ""
+
+#: ulng.rsoptarchivetypename
+msgid "Archive type name:"
+msgstr ""
+
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
 msgstr " \"%s\" 相关插件:"

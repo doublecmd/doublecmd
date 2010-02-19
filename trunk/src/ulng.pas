@@ -253,6 +253,7 @@ resourcestring
   rsOptAutoRefresh = 'Auto refresh';
   rsOptIcons = 'Icons';
   rsOptIgnoreList = 'Ignore list';
+  rsOptArchivers = 'Archivers';
   //-------------------------------
   rsOptLineByLineCursor = 'Line by line with cursor movement';
   rsOptLineByLine = 'Line by line';

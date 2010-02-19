@@ -4338,6 +4338,14 @@ msgstr "Warte auf Zugriff auf Datei-Quelle"
 msgid "Waiting for user response"
 msgstr "Warte auf Benutzereingabe"
 
+#: ulng.rsoptarchivers
+msgid "Archivers"
+msgstr ""
+
+#: ulng.rsoptarchivetypename
+msgid "Archive type name:"
+msgstr ""
+
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
 msgstr "Verknüpfe PlugIn \"%s\" mit:"
