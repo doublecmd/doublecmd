@@ -92,6 +92,7 @@ var
   I: Integer;
   MultiArcItem: TMultiArcItem;
   aFile: TMultiArchiveFile;
+  sCommandLine: UTF8String;
 begin
   MultiArcItem := FMultiArchiveFileSource.MultiArcItem;
 
@@ -101,13 +102,16 @@ begin
       aFile:= FFullFilesTreeToDelete[I] as TMultiArchiveFile;
       UpdateProgress(aFile.FullPath, 0);
 
-      FExProcess.SetCmdLine(FormatArchiverCommand(
-                                                  MultiArcItem.FArchiver,
-                                                  MultiArcItem.FDelete,
-                                                  FMultiArchiveFileSource.ArchiveFileName,
-                                                  nil,
-                                                  aFile.FullPath
-                                                  ));
+      sCommandLine:= FormatArchiverCommand(
+                                           MultiArcItem.FArchiver,
+                                           MultiArcItem.FDelete,
+                                           FMultiArchiveFileSource.ArchiveFileName,
+                                           nil,
+                                           aFile.FullPath
+                                           );
+      OnReadLn(sCommandLine);
+
+      FExProcess.SetCmdLine(sCommandLine);
       FExProcess.Execute;
 
       UpdateProgress(aFile.FullPath, aFile.Size);
@@ -116,15 +120,18 @@ begin
     end
   else  // delete whole file list
     begin
-      FExProcess.SetCmdLine(FormatArchiverCommand(
-                                                  MultiArcItem.FArchiver,
-                                                  MultiArcItem.FDelete,
-                                                  FMultiArchiveFileSource.ArchiveFileName,
-                                                  FFullFilesTreeToDelete,
-                                                  EmptyStr,
-                                                  EmptyStr,
-                                                  FTempFile
-                                                  ));
+      sCommandLine:= FormatArchiverCommand(
+                                           MultiArcItem.FArchiver,
+                                           MultiArcItem.FDelete,
+                                           FMultiArchiveFileSource.ArchiveFileName,
+                                           FFullFilesTreeToDelete,
+                                           EmptyStr,
+                                           EmptyStr,
+                                           FTempFile
+                                           );
+      OnReadLn(sCommandLine);
+
+      FExProcess.SetCmdLine(sCommandLine);
       FExProcess.Execute;
 
       // Check for errors.
@@ -173,7 +180,8 @@ end;
 
 procedure TMultiArchiveDeleteOperation.OnReadLn(str: string);
 begin
-  if FMultiArchiveFileSource.MultiArcItem.FConsoleOutput then
+  with FMultiArchiveFileSource.MultiArcItem do
+  if FConsoleOutput or FDebug then
     logWrite(Thread, str, lmtInfo, True, False);
 end;
 
