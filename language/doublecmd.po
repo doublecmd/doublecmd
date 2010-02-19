@@ -3004,14 +3004,6 @@ msgstr ""
 msgid "Tool"
 msgstr ""
 
-#: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
-msgid "Active"
-msgstr ""
-
-#: TFRMOPTIONS.TGRIDCOLUMN2TITLE.CAPTION
-msgid "Plugin"
-msgstr ""
-
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
 msgid "Additional"
 msgstr ""
@@ -3019,6 +3011,14 @@ msgstr ""
 #: TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION
 msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
 msgid "General"
+msgstr ""
+
+#: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
+msgid "Active"
+msgstr ""
+
+#: TFRMOPTIONS.TGRIDCOLUMN2TITLE.CAPTION
+msgid "Plugin"
 msgstr ""
 
 #: TFRMOPTIONS.TGRIDCOLUMN3TITLE.CAPTION
@@ -4286,6 +4286,14 @@ msgstr ""
 
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
+msgstr ""
+
+#: ulng.rsoptarchivers
+msgid "Archivers"
+msgstr ""
+
+#: ulng.rsoptarchivetypename
+msgid "Archive type name:"
 msgstr ""
 
 #: ulng.rsoptassocpluginwith

@@ -4372,6 +4372,14 @@ msgstr ""
 msgid "Waiting for user response"
 msgstr "Čekám na reakci uživatele"
 
+#: ulng.rsoptarchivers
+msgid "Archivers"
+msgstr ""
+
+#: ulng.rsoptarchivetypename
+msgid "Archive type name:"
+msgstr ""
+
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
 msgstr "Asociovat plugin \"%s\" s:"

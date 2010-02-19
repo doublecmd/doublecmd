@@ -4343,6 +4343,14 @@ msgstr ""
 msgid "Waiting for user response"
 msgstr ""
 
+#: ulng.rsoptarchivers
+msgid "Archivers"
+msgstr ""
+
+#: ulng.rsoptarchivetypename
+msgid "Archive type name:"
+msgstr ""
+
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
 msgstr "A \"%s\" beépülő társítása ezzel:"

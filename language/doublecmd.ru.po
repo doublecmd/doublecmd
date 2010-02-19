@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-02-20 01:26+0300\n"
+"PO-Revision-Date: 2010-02-20 01:41+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4338,6 +4338,14 @@ msgstr ""
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
 msgstr "Ожидание ответа от пользователя"
+
+#: ulng.rsoptarchivers
+msgid "Archivers"
+msgstr "Архиваторы"
+
+#: ulng.rsoptarchivetypename
+msgid "Archive type name:"
+msgstr "Наименование типа архива:"
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"

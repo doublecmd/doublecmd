@@ -561,6 +561,7 @@ begin
       Item[17].Text := rsOptAutoRefresh;
       Item[18].Text := rsOptIcons;
       Item[19].Text := rsOptIgnoreList;
+      Item[20].Text := rsOptArchivers
     end;
   tvTreeView.Items.Item[0].Selected:= True;
 
@@ -1742,6 +1743,8 @@ begin
     lbxMultiArc.Items.AddObject(gMultiArcList.Names[I], gMultiArcList[I]);
   pcArchiverCommands.Enabled:= (lbxMultiArc.Count <> 0);
   chkMultiArcEnabled.Enabled:= (lbxMultiArc.Count <> 0);
+  if lbxMultiArc.Count > 0 then
+    lbxMultiArc.ItemIndex:= 0;
 end;
 
 procedure TfrmOptions.FillCommandList(lstFilter:string);
@@ -2021,22 +2024,40 @@ end;
 
 procedure TfrmOptions.lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
 begin
-  if lbxMultiArc.ItemIndex < 0 then Exit;
-  with TMultiArcItem(lbxMultiArc.Items.Objects[lbxMultiArc.ItemIndex]) do
-  begin
-    edtDescription.Text:= FDescription;
-    fneArchiver.FileName:= FArchiver;
-    edtArchiveExtension.Text:= FExtension;
-    edtArchiveList.Text:= FList;
-    memArchiveListFormat.Lines.Assign(FFormat);
-    edtArchiveExtract.Text:= FExtract;
-    edtArchiveAdd.Text:= FAdd;
-    edtArchiveDelete.Text:= FDelete;
-    edtArchiveTest.Text:= FTest;
-    edtArchiveMove.Text:= FMove;
-    chkMultiArcConsoleOutput.Checked:= FConsoleOutput;
-    chkMultiArcDebug.Checked:= FDebug;
-    chkMultiArcEnabled.Checked:= FEnabled;
+  if lbxMultiArc.ItemIndex < 0 then
+    begin
+      edtDescription.Text:= EmptyStr;
+      fneArchiver.FileName:= EmptyStr;
+      edtArchiveExtension.Text:= EmptyStr;
+      edtArchiveList.Text:= EmptyStr;
+      memArchiveListFormat.Lines.Clear;
+      edtArchiveExtract.Text:= EmptyStr;
+      edtArchiveAdd.Text:= EmptyStr;
+      edtArchiveDelete.Text:= EmptyStr;
+      edtArchiveTest.Text:= EmptyStr;
+      edtArchiveMove.Text:= EmptyStr;
+      chkMultiArcConsoleOutput.Checked:= False;
+      chkMultiArcDebug.Checked:= False;
+      chkMultiArcEnabled.Checked:= False;
+      pcArchiverCommands.Enabled:= (lbxMultiArc.Count <> 0);
+      chkMultiArcEnabled.Enabled:= (lbxMultiArc.Count <> 0);
+    end
+  else
+    with TMultiArcItem(lbxMultiArc.Items.Objects[lbxMultiArc.ItemIndex]) do
+    begin
+      edtDescription.Text:= FDescription;
+      fneArchiver.FileName:= FArchiver;
+      edtArchiveExtension.Text:= FExtension;
+      edtArchiveList.Text:= FList;
+      memArchiveListFormat.Lines.Assign(FFormat);
+      edtArchiveExtract.Text:= FExtract;
+      edtArchiveAdd.Text:= FAdd;
+      edtArchiveDelete.Text:= FDelete;
+      edtArchiveTest.Text:= FTest;
+      edtArchiveMove.Text:= FMove;
+      chkMultiArcConsoleOutput.Checked:= FConsoleOutput;
+      chkMultiArcDebug.Checked:= FDebug;
+      chkMultiArcEnabled.Checked:= FEnabled;
   end;
 end;
 

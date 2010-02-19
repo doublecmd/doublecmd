@@ -4333,6 +4333,14 @@ msgstr "Очікування доступу до джерела"
 msgid "Waiting for user response"
 msgstr "Очікування відповіді від користувача"
 
+#: ulng.rsoptarchivers
+msgid "Archivers"
+msgstr ""
+
+#: ulng.rsoptarchivetypename
+msgid "Archive type name:"
+msgstr ""
+
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
 msgstr "Асоціювати  плагін \"%s\" з:"
