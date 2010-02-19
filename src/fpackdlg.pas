@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File packing window
 
-   Copyright (C) 2007-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2010  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -61,7 +61,9 @@ type
     procedure arbChange(Sender: TObject);
 
   private
-
+    FArchiveTypeCount: Integer;
+    FExistsArchive : Boolean;
+    procedure AddArchiveType(const FileExt, ArcType: UTF8String);
   public
     { public declarations }
   end;
@@ -78,7 +80,7 @@ implementation
 
 uses
   WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation,
-  uOperationsManager, fFileOpDlg;
+  uOperationsManager, fFileOpDlg, uArchiveFileSourceUtil;
 
 function ShowPackDlg(const SourceFileSource: IFileSource;
                      const TargetFileSource: IArchiveFileSource;
@@ -131,8 +133,8 @@ begin
             begin
               // Create a new target file source.
 
-              // Only WCX now.
-              NewTargetFileSource := TWcxArchiveFileSource.CreateByArchiveName(edtPackCmd.Text);
+              // Check if there is a ArchiveFileSource for possible archive.
+              NewTargetFileSource := GetArchiveFileSource(edtPackCmd.Text);
             end;
 
             if Assigned(NewTargetFileSource) then
@@ -182,45 +184,29 @@ end;
 
 procedure TfrmPackDlg.FormShow(Sender: TObject);
 var
- iIndex,
- I, J : Integer;
- bExistsArchive : Boolean;
- sExt,
- sCurrentPlugin : String;
- iCurPlugCaps : Integer;
+ I : Integer;
+ sExt : String;
 begin
-  J := 0;
+  FArchiveTypeCount := 0;
   sExt := ExtractFileExt(edtPackCmd.Text);
   Delete(sExt, 1, 1);  // delete a dot
-  bExistsArchive := (sExt <> 'none');
+  FExistsArchive := (sExt <> 'none');
 
+  // WCX plugins
   for I:=0 to gWCXPlugins.Count - 1 do
     if gWCXPlugins.Enabled[I] then
     begin
-      sCurrentPlugin := gWCXPlugins.ValueFromIndex[i];
-      iCurPlugCaps := StrToInt(Copy(sCurrentPlugin, 1, Pos(',',sCurrentPlugin) - 1));
-      if (iCurPlugCaps and PK_CAPS_NEW) = PK_CAPS_NEW then
+      if (gWCXPlugins.Flags[I] and PK_CAPS_NEW) = PK_CAPS_NEW then
         begin
-          (* First 9 plugins we display as  RadioButtons *)
-          if J < 9 then
-            begin
-              iIndex := rgPacker.Items.Add(gWCXPlugins.Names[I]);
-              if bExistsArchive then
-                if (sExt = gWCXPlugins.Names[I]) then
-                  rgPacker.ItemIndex := iIndex
-                else
-                  rgPacker.Controls[iIndex + 1].Enabled := False;
-              J := J + 1;
-            end
-          else
-            (* Other plugins we add in ComboBox *)
-            begin
-              iIndex := cbPackerList.Items.Add(gWCXPlugins.Names[I]);
-              if bExistsArchive and (sExt = gWCXPlugins.Names[I]) then
-                cbPackerList.ItemIndex := iIndex;
-            end;
+          AddArchiveType(sExt, gWCXPlugins.Ext[I]);
         end;
-    end; //for
+    end;
+  // MultiArc addons
+  for I:= 0 to gMultiArcList.Count - 1 do
+    if gMultiArcList[I].FEnabled and (gMultiArcList[I].FAdd <> EmptyStr) then
+    begin
+      AddArchiveType(sExt, gMultiArcList[I].FExtension);
+    end;
 
     if (rgPacker.Items.Count > 0) and (rgPacker.ItemIndex < 0) then
       rgPacker.ItemIndex := 0;
@@ -229,7 +215,7 @@ begin
         cbOtherPlugins.Visible := True;
         cbPackerList.Visible := True;
 
-        if bExistsArchive then
+        if FExistsArchive then
           cbPackerList.Enabled:= False
         else
           cbOtherPlugins.Enabled := True;
@@ -280,6 +266,29 @@ begin
     begin
       edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + rgPacker.Items[rgPacker.ItemIndex]);
       cbOtherPlugins.Checked := False;
+    end;
+end;
+
+procedure TfrmPackDlg.AddArchiveType(const FileExt, ArcType: UTF8String);
+var
+  iIndex: Integer;
+begin
+  // First 9 plugins we display as  RadioButtons
+  if FArchiveTypeCount < 9 then
+    begin
+      iIndex := rgPacker.Items.Add(ArcType);
+      if FExistsArchive then
+        if (FileExt = ArcType) then
+          rgPacker.ItemIndex := iIndex
+        else
+          rgPacker.Controls[iIndex + 1].Enabled := False;
+      FArchiveTypeCount := FArchiveTypeCount + 1;
+     end
+   else  // Other plugins we add in ComboBox
+    begin
+      iIndex := cbPackerList.Items.Add(ArcType);
+      if FExistsArchive and (FileExt = ArcType) then
+        cbPackerList.ItemIndex := iIndex;
     end;
 end;
 

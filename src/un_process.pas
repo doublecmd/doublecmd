@@ -59,7 +59,6 @@ var
   buf: string;
   i, j, c, n: integer;
 begin
-  DebugLn('Execute: ', p.CommandLine);
   try
     p.Execute;
     repeat
