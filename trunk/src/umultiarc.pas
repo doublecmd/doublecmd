@@ -68,6 +68,8 @@ type
     procedure Clear;
     procedure LoadFromFile(const FileName: UTF8String);
     procedure SaveToFile(const FileName: UTF8String);
+    function Add(const S: UTF8String; aMultiArcItem: TMultiArcItem): Integer;
+    procedure Delete(Index: Integer);
     property Names[Index: Integer]: UTF8String read GetName write SetName;
     property Items[Index: Integer]: TMultiArcItem read GetItem; default;
     property Count: LongInt read GetCount;
@@ -76,7 +78,7 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, uClassesEx, uDCUtils;
+  LCLProc, StrUtils, uClassesEx, uDCUtils, uOSUtils;
 
 { TMultiArcList }
 
@@ -134,10 +136,11 @@ var
   Format: UTF8String;
   MultiArcItem: TMultiArcItem;
 begin
-  IniFile:= TIniFileEx.Create(FileName, fmOpenRead);
-  Sections:= TStringList.Create;
-  IniFile.ReadSections(Sections);
-  for I:= 0 to Sections.Count - 1 do
+  try
+    IniFile:= TIniFileEx.Create(FileName, fmOpenRead);
+    Sections:= TStringList.Create;
+    IniFile.ReadSections(Sections);
+    for I:= 0 to Sections.Count - 1 do
     begin
       Section:= Sections[I];
       MultiArcItem:= TMultiArcItem.Create;
@@ -172,6 +175,9 @@ begin
       end;
       FList.AddObject(Section, MultiArcItem);
     end;
+  finally
+    FreeThenNil(IniFile);
+  end;
 end;
 
 procedure TMultiArcList.SaveToFile(const FileName: UTF8String);
@@ -181,8 +187,11 @@ var
   Section: UTF8String;
   MultiArcItem: TMultiArcItem;
 begin
-  IniFile:= TIniFileEx.Create(FileName);
-  for I:= 0 to FList.Count - 1 do
+  mbDeleteFile(FileName + '.bak');
+  mbRenameFile(FileName, FileName + '.bak');
+  try
+    IniFile:= TIniFileEx.Create(FileName);
+    for I:= 0 to FList.Count - 1 do
     begin
       Section:= FList.Strings[I];
       MultiArcItem:= TMultiArcItem(FList.Objects[I]);
@@ -212,6 +221,20 @@ begin
         IniFile.WriteBool(Section, 'Debug', FDebug);
       end;
     end;
+  finally
+    FreeThenNil(IniFile);
+  end;
+end;
+
+function TMultiArcList.Add(const S: UTF8String; aMultiArcItem: TMultiArcItem): Integer;
+begin
+  FList.AddObject(S, aMultiArcItem);
+end;
+
+procedure TMultiArcList.Delete(Index: Integer);
+begin
+  Items[Index].Free;
+  FList.Delete(Index);
 end;
 
 { TMultiArcItem }

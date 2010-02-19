@@ -374,6 +374,10 @@ type
     procedure btnConfigPluginClick(Sender: TObject);
     procedure btnDSXAddClick(Sender: TObject);
     procedure btnEnablePluginClick(Sender: TObject);
+    procedure btnMultiArcAddClick(Sender: TObject);
+    procedure btnMultiArcApplyClick(Sender: TObject);
+    procedure btnMultiArcDeleteClick(Sender: TObject);
+    procedure btnMultiArcRenameClick(Sender: TObject);
     procedure btnSearchTemplateClick(Sender: TObject);
     procedure cbAlwaysShowTrayIconChange(Sender: TObject);
     procedure cbIconsSizeChange(Sender: TObject);
@@ -1196,6 +1200,70 @@ begin
     end;
 end;
 
+procedure TfrmOptions.btnMultiArcAddClick(Sender: TObject);
+var
+  sName: UTF8String;
+  MultiArcItem: TMultiArcItem;
+begin
+  if InputQuery(Caption, rsOptArchiveTypeName, sName) then
+    begin
+      MultiArcItem:= TMultiArcItem.Create;
+      lbxMultiArc.Items.AddObject(sName, MultiArcItem);
+      gMultiArcList.Add(sName, MultiArcItem);
+      lbxMultiArc.ItemIndex:= lbxMultiArc.Count - 1;
+      pcArchiverCommands.Enabled:= (lbxMultiArc.Count <> 0);
+      chkMultiArcEnabled.Enabled:= (lbxMultiArc.Count <> 0);
+    end;
+end;
+
+procedure TfrmOptions.btnMultiArcApplyClick(Sender: TObject);
+begin
+  if lbxMultiArc.ItemIndex < 0 then Exit;
+  with TMultiArcItem(lbxMultiArc.Items.Objects[lbxMultiArc.ItemIndex]) do
+  begin
+    FDescription:= edtDescription.Text;
+    FArchiver:= fneArchiver.FileName;
+    FExtension:= edtArchiveExtension.Text;
+    FList:= edtArchiveList.Text;
+    FFormat.Assign(memArchiveListFormat.Lines);
+    FExtract:= edtArchiveExtract.Text;
+    FAdd:= edtArchiveAdd.Text;
+    FDelete:= edtArchiveDelete.Text;
+    FTest:= edtArchiveTest.Text;
+    FMove:= edtArchiveMove.Text;
+    FEncrypt:= edtArchiveEncrypt.Text;
+    FConsoleOutput:= chkMultiArcConsoleOutput.Checked;
+    FDebug:= chkMultiArcDebug.Checked;
+    FEnabled:= chkMultiArcEnabled.Checked;
+  end;
+end;
+
+procedure TfrmOptions.btnMultiArcDeleteClick(Sender: TObject);
+var
+  I: Integer;
+begin
+  if lbxMultiArc.ItemIndex < 0 then Exit;
+  I:= lbxMultiArc.ItemIndex;
+  lbxMultiArc.Items.Delete(I);
+  gMultiArcList.Delete(I);
+  lbxMultiArc.ItemIndex:= lbxMultiArc.Count - 1;
+  pcArchiverCommands.Enabled:= (lbxMultiArc.Count <> 0);
+  chkMultiArcEnabled.Enabled:= (lbxMultiArc.Count <> 0);
+end;
+
+procedure TfrmOptions.btnMultiArcRenameClick(Sender: TObject);
+var
+  sNewName: UTF8String;
+begin
+  if lbxMultiArc.ItemIndex < 0 then Exit;
+  sNewName:= lbxMultiArc.Items[lbxMultiArc.ItemIndex];
+  if InputQuery(Caption, rsOptArchiveTypeName, sNewName) then
+    begin
+      lbxMultiArc.Items[lbxMultiArc.ItemIndex]:= sNewName;
+      gMultiArcList.Names[lbxMultiArc.ItemIndex]:= sNewName;
+    end;
+end;
+
 procedure TfrmOptions.btnRemovePluginClick(Sender: TObject);
 var
   sExt,
@@ -1672,6 +1740,8 @@ var
 begin
   for I:= 0 to gMultiArcList.Count - 1 do
     lbxMultiArc.Items.AddObject(gMultiArcList.Names[I], gMultiArcList[I]);
+  pcArchiverCommands.Enabled:= (lbxMultiArc.Count <> 0);
+  chkMultiArcEnabled.Enabled:= (lbxMultiArc.Count <> 0);
 end;
 
 procedure TfrmOptions.FillCommandList(lstFilter:string);
