@@ -213,6 +213,10 @@ function FormatShell(const Command: String): String;
    Formats a string which will execute Command in a terminal.
 }
 function FormatTerminal(Command: String; bKeepTerminalOpen: Boolean): String;
+{en
+   Convert from console to UTF8 encoding.
+}
+function ConsoleToUTF8(const Str: AnsiString): UTF8String;
 
 { File handling functions}
 function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
@@ -1308,6 +1312,21 @@ begin
     end;
 end;
 {$ENDIF}  
+
+function ConsoleToUTF8(const Str: AnsiString): UTF8String;
+{$IFDEF MSWINDOWS}
+var
+  Dst: PChar;
+{$ENDIF}
+begin
+  Result:= Str;
+  {$IFDEF MSWINDOWS}
+  Dst:= AllocMem((Length(Result) + 1) * SizeOf(Char));
+  if OEMToChar(PChar(Result), Dst) then
+    Result:= SysToUTF8(Dst);
+  FreeMem(Dst);
+  {$ENDIF}
+end;
 
 function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
 {$IFDEF MSWINDOWS}

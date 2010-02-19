@@ -76,21 +76,6 @@ implementation
 uses
   FileUtil, JwaWinCon, uOSUtils;
 
-function ConsoleToUTF8(const Str: AnsiString): UTF8String;
-{$ifdef MSWindows}
-var
-  Dst: PChar;
-{$endif}
-begin
-  Result:= Str;
-  {$ifdef MSWindows}
-  Dst:= AllocMem((Length(Result) + 1) * SizeOf(Char));
-  if OEMToChar(PChar(Result), Dst) then
-    Result:= SysToUTF8(Dst);
-  FreeMem(Dst);
-  {$endif}
-end;
-
 { TWinTerm }
 
 constructor TWinTerm.Create;
