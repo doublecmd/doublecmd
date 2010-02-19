@@ -123,19 +123,19 @@ begin
     if FPackSizePos.Index = FFormatIndex then
       FArchiveItem.PackSize := StrToIntDef(Trim(Copy(str, FPackSizePos.Start, FPackSizePos.Finish)), 0);
     if FYearPos.Index = FFormatIndex then
-      FArchiveItem.Year := StrToInt(Copy(str, FYearPos.Start, FYearPos.Finish));
+      FArchiveItem.Year := StrToIntDef(Trim(Copy(str, FYearPos.Start, FYearPos.Finish)), 0);
     if FMonthPos.Index = FFormatIndex then
-      FArchiveItem.Month := StrToInt(Copy(str, FMonthPos.Start, FMonthPos.Finish));
+      FArchiveItem.Month := StrToIntDef(Trim(Copy(str, FMonthPos.Start, FMonthPos.Finish)), 0);
     if FMonthNamePos.Index = FFormatIndex then
       FArchiveItem.MonthName := Copy(str, FMonthNamePos.Start, FMonthNamePos.Finish);
     if FDayPos.Index = FFormatIndex then
-      FArchiveItem.Day := StrToInt(Copy(str, FDayPos.Start, FDayPos.Finish));
+      FArchiveItem.Day := StrToIntDef(Trim(Copy(str, FDayPos.Start, FDayPos.Finish)), 0);
     if FHourPos.Index = FFormatIndex then
-      FArchiveItem.Hour := StrToInt(Copy(str, FHourPos.Start, FHourPos.Finish));
+      FArchiveItem.Hour := StrToIntDef(Trim(Copy(str, FHourPos.Start, FHourPos.Finish)), 0);
     if FMinPos.Index = FFormatIndex then
-      FArchiveItem.Minute := StrToInt(Copy(str, FMinPos.Start, FMinPos.Finish));
+      FArchiveItem.Minute := StrToIntDef(Trim(Copy(str, FMinPos.Start, FMinPos.Finish)), 0);
     if FSecPos.Index = FFormatIndex then
-      FArchiveItem.Second := StrToInt(Copy(str, FSecPos.Start, FSecPos.Finish));
+      FArchiveItem.Second := StrToIntDef(Trim(Copy(str, FSecPos.Start, FSecPos.Finish)), 0);
     if FAttrPos.Index = FFormatIndex then
       FArchiveItem.Attributes := StrToAttr(Copy(str, FAttrPos.Start, FAttrPos.Finish));
 
