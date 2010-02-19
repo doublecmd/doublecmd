@@ -65,7 +65,7 @@ type
     procedure Clear;
     procedure LoadFromFile(const FileName: UTF8String);
     procedure SaveToFile(const FileName: UTF8String);
-    property Items[Index: Integer]: TMultiArcItem read GetItem;
+    property Items[Index: Integer]: TMultiArcItem read GetItem; default;
     property Count: LongInt read GetCount;
   end;
 
