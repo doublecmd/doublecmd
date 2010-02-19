@@ -90,9 +90,9 @@ type
 
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
 
-    {
     function CreateExecuteOperation(const ExecutableFile: TFile;
                                     BasePath, Verb: String): TFileSourceOperation; override;
+    {
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation; override;
     }
 
@@ -111,9 +111,9 @@ uses
   uMultiArchiveListOperation,
   uMultiArchiveCopyInOperation,
   uMultiArchiveCopyOutOperation,
-  uMultiArchiveDeleteOperation
+  uMultiArchiveDeleteOperation,
+  uMultiArchiveExecuteOperation
   {
-  uMultiArchiveExecuteOperation,
   uMultiArchiveTestArchiveOperation
   }
   ;
@@ -135,7 +135,7 @@ begin
   begin
     aMultiArcItem:= gMultiArcList.Items[I];
 
-    if SameText(sExtension, aMultiArcItem.FExtension) {and (aMultiArcItem.FEnabled)} then
+    if SameText(sExtension, aMultiArcItem.FExtension) and (aMultiArcItem.FEnabled) then
     begin
       Result := TMultiArchiveFileSource.Create(anArchiveFileName,
                                                aMultiArcItem);
@@ -170,7 +170,7 @@ end;
 
 function TMultiArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result := [];
+  Result := [fsoExecute];
   if FMultiArcItem.FList <> EmptyStr then
     Result := Result + [fsoList];
   if FMultiArcItem.FAdd <> EmptyStr then
@@ -285,16 +285,16 @@ begin
                                                 FilesToDelete);
 end;
 
-{
 function TMultiArchiveFileSource.CreateExecuteOperation(const ExecutableFile: TFile;
                                                       BasePath, Verb: String): TFileSourceOperation;
 var
   TargetFileSource: IFileSource;
 begin
   TargetFileSource := Self;
-  Result:=  TWcxArchiveExecuteOperation.Create(TargetFileSource, ExecutableFile, BasePath, Verb);
+  Result:=  TMultiArchiveExecuteOperation.Create(TargetFileSource, ExecutableFile, BasePath, Verb);
 end;
 
+{
 function TMultiArchiveFileSource.CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation;
 var
   SourceFileSource: IFileSource;
