@@ -47,6 +47,7 @@ type
   public
     FEnabled: Boolean;
     FConsoleOutput: Boolean;
+    FDebug: Boolean;
     constructor Create;
     destructor Destroy; override;
   end;
@@ -152,6 +153,7 @@ begin
         // optional
         FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
         FConsoleOutput:= IniFile.ReadBool(Section, 'ConsoleOutput', False);
+        FDebug:= IniFile.ReadBool(Section, 'Debug', False);
       end;
       FList.AddObject(Section, MultiArcItem);
     end;
@@ -191,6 +193,7 @@ begin
         // optional
         IniFile.WriteBool(Section, 'Enabled', FEnabled);
         IniFile.WriteBool(Section, 'ConsoleOutput', FConsoleOutput);
+        IniFile.WriteBool(Section, 'Debug', FDebug);
       end;
     end;
 end;

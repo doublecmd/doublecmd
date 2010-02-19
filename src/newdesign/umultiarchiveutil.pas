@@ -96,7 +96,9 @@ end;
 
 procedure TOutputParser.OnReadLn(str: string);
 begin
-  DebugLn(str);
+  if FMultiArcItem.FDebug then
+    DebugLn(str);
+
   if str = EmptyStr then Exit; // skip empty lines
 
   if not FStartParsing then
@@ -201,12 +203,18 @@ begin
 end;
 
 procedure TOutputParser.Prepare;
+var
+  sCommandLine: UTF8String;
 begin
   FStartParsing:= False;
   FFormatIndex:= 0;
   FreeThenNil(FExProcess);
-  FExProcess := TExProcess.Create(FormatArchiverCommand(FMultiArcItem.FArchiver,
-    FMultiArcItem.FList, FArchiveName));
+  sCommandLine:= FormatArchiverCommand(FMultiArcItem.FArchiver,
+                                       FMultiArcItem.FList, FArchiveName);
+  if FMultiArcItem.FDebug then
+    DebugLn(sCommandLine);
+
+  FExProcess := TExProcess.Create(sCommandLine);
   FExProcess.OnReadLn := @OnReadLn;
 end;
 
