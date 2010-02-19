@@ -4090,6 +4090,48 @@ object frmOptions: TfrmOptions
             MaxLength = 0
             TabOrder = 8
           end
+          object gbArchiverOptions: TGroupBox
+            AnchorSideLeft.Control = lblDescription
+            AnchorSideTop.Control = edtArchiveTest
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = lblDescription
+            AnchorSideRight.Side = asrBottom
+            Left = 10
+            Height = 43
+            Top = 372
+            Width = 534
+            Anchors = [akTop, akLeft, akRight]
+            AutoSize = True
+            BorderSpacing.Top = 2
+            Caption = 'Options'
+            ChildSizing.LeftRightSpacing = 10
+            ChildSizing.TopBottomSpacing = 4
+            ClientHeight = 25
+            ClientWidth = 530
+            TabOrder = 9
+            object chkMultiArcConsoleOutput: TCheckBox
+              AnchorSideTop.Control = gbArchiverOptions
+              Left = 10
+              Height = 17
+              Top = 4
+              Width = 118
+              Caption = 'Show console output'
+              TabOrder = 0
+            end
+            object chkMultiArcDebug: TCheckBox
+              AnchorSideTop.Control = gbArchiverOptions
+              AnchorSideTop.Side = asrCenter
+              AnchorSideRight.Control = gbArchiverOptions
+              AnchorSideRight.Side = asrBottom
+              Left = 442
+              Height = 17
+              Top = 4
+              Width = 78
+              Anchors = [akTop, akRight]
+              Caption = 'Debug mode'
+              TabOrder = 1
+            end
+          end
         end
       end
     end
