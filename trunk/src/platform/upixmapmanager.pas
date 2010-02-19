@@ -959,6 +959,16 @@ begin
         end;
     end; //for
 
+  for I:= 0 to gMultiArcList.Count - 1 do
+    begin
+      if gMultiArcList.Items[I].FEnabled then
+        begin
+          sExt := gMultiArcList.Items[I].FExtension;
+          if (Length(sExt) > 0) and (FExtList.Find(sExt) < 0) then
+            FExtList.Add(sExt, TObject(FiArcIconID));
+        end;
+    end;
+
   (* /Set archive icons *)
 
   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
