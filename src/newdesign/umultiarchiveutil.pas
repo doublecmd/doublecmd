@@ -229,7 +229,7 @@ type
     ftFileListLongName, ftFileListShortName, ftFileName, ftTargetArchiveDir);
   TStatePos = (spNone, spPercent, spFunction, spComplete);
   TFuncModifiers = set of (fmQuoteWithSpaces, fmQuoteAny, fmNameOnly,
-    fmPathOnly, fmAnsi);
+    fmPathOnly, fmUTF8, fmAnsi);
 
   TState = record
     pos: TStatePos;
@@ -257,6 +257,8 @@ var
       Result := '"' + Result + '"';
     if (fmQuoteAny in state.FuncModifiers) then
       Result := '"' + Result + '"';
+    if (fmUTF8 in state.FuncModifiers) then
+      Exit;
     if (fmAnsi in state.FuncModifiers) then
       Result := UTF8ToSys(Result)
     else
@@ -274,9 +276,9 @@ var
     for I := 0 to aFiles.Count - 1 do
     begin
       if bShort then
-        FileList.Add(mbFileNameToSysEnc(aFiles[I].FullPath))
+        FileList.Add(BuildName(mbFileNameToSysEnc(aFiles[I].FullPath)))
       else
-        FileList.Add(aFiles[I].FullPath);
+        FileList.Add(BuildName(aFiles[I].FullPath));
     end;
     try
       FileList.SaveToFile(Result);
@@ -443,6 +445,11 @@ begin
             'P':
             begin
               state.FuncModifiers := state.FuncModifiers + [fmPathOnly];
+              state.pos := spFunction;
+            end;
+            'U':
+            begin
+              state.FuncModifiers := state.FuncModifiers + [fmUTF8];
               state.pos := spFunction;
             end;
             'A':
