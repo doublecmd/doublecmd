@@ -7,7 +7,10 @@ interface
 uses
  Classes, SysUtils,
  uFileView,
- uFile;
+ uFile,
+ uArchiveFileSource;
+
+function GetArchiveFileSource(anArchiveFileName: String): IArchiveFileSource;
 
 function TestArchive(aFileView: TFileView; aFiles: TFiles): Boolean;
 
@@ -18,13 +21,31 @@ uses
   uShowMsg,
   uLng,
   uFileSource,
-  uArchiveFileSource,
   uWcxArchiveFileSource,
+  uMultiArchiveFileSource,
   uFileSystemFileSource,
   uFileSourceOperation,
   uFileSourceTestArchiveOperation,
   uFileSourceOperationTypes,
   uOperationsManager;
+
+function GetArchiveFileSource(anArchiveFileName: String): IArchiveFileSource;
+begin
+  Result:= nil;
+
+  // Check if there is a registered WCX plugin for possible archive.
+  Result := FileSourceManager.Find(TWcxArchiveFileSource, anArchiveFileName) as IArchiveFileSource;
+  if not Assigned(Result) then
+    Result := TWcxArchiveFileSource.CreateByArchiveName(anArchiveFileName);
+
+  // Check if there is a registered MultiArc addon for possible archive.
+  if not Assigned(Result) then
+    begin
+      Result := FileSourceManager.Find(TMultiArchiveFileSource, anArchiveFileName) as IArchiveFileSource;
+      if not Assigned(Result) then
+        Result := TMultiArchiveFileSource.CreateByArchiveName(anArchiveFileName);
+    end;
+end;
 
 function TestArchive(aFileView: TFileView; aFiles: TFiles): Boolean;
 var
@@ -64,10 +85,8 @@ begin
         begin
           for I := 0 to aFiles.Count - 1 do // test all selected archives
             begin
-              // Check if there is a registered WCX plugin for this archive.
-              ArchiveFileSource := FileSourceManager.Find(TWcxArchiveFileSource, aFiles[i].FullPath) as IArchiveFileSource;
-              if not Assigned(ArchiveFileSource) then
-                ArchiveFileSource := TWcxArchiveFileSource.CreateByArchiveName(aFiles[i].FullPath);
+              // Check if there is a ArchiveFileSource for possible archive.
+              ArchiveFileSource := GetArchiveFileSource(aFiles[i].FullPath);
 
               if Assigned(ArchiveFileSource) then
                 begin
