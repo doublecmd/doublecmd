@@ -138,6 +138,14 @@ type
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
+    edtArchiveAdd: TEdit;
+    edtArchiveDelete: TEdit;
+    edtArchiveExtension: TEdit;
+    edtArchiveExtract: TEdit;
+    edtArchiveList: TEdit;
+    edtArchiver: TEdit;
+    edtArchiveTest: TEdit;
+    edtDescription: TEdit;
     edtToolsParameters: TEdit;
     edtCategoryAttr: TEdit;
     edtCategoryMask: TEdit;
@@ -194,6 +202,15 @@ type
     gbAutoRefreshDisable: TGroupBox;
     gbShowToolTip: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
+    lblArchiveAdd: TLabel;
+    lblArchiveDelete: TLabel;
+    lblArchiveExtension: TLabel;
+    lblArchiveExtract: TLabel;
+    lblArchiveList: TLabel;
+    lblArchiveListFormat: TLabel;
+    lblArchiver: TLabel;
+    lblArchiveTest: TLabel;
+    lblDescription: TLabel;
     lblToolsPath: TLabel;
     lblToolsParameters: TLabel;
     lblInactivePanelBrightness: TLabel;
@@ -201,8 +218,12 @@ type
     lblQuickSearch: TLabel;
     lblQuickFilter: TLabel;
     lblSaveIn: TLabel;
+    lbxMultiArc: TListBox;
+    memArchiveListFormat: TMemo;
     memIgnoreList: TMemo;
+    pgArchivers: TPage;
     pgIgnoreList: TPage;
+    pnlMultiArc: TPanel;
     pnlQuickSearch: TPanel;
     pnlQuickFilter: TPanel;
     rbToolTipNone: TRadioButton;
@@ -308,6 +329,7 @@ type
     rbUseMmapInSearch: TRadioButton;
     rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
+    splMultiArc: TSplitter;
     splOptionsSplitter: TSplitter;
     stgPlugins: TStringGrid;
     stgCommands: TStringGrid;
@@ -430,6 +452,7 @@ type
     procedure FillColumnsList;
     procedure FillCommandsPage;
     procedure FillIgnoreList(bWithFullPath: Boolean);
+    procedure FillArchiverList;
     procedure LoadConfig;
     procedure SaveConfig;
     procedure SetColorInColorBox(const lcbColorBox:TColorBox;const lColor:TColor);
@@ -1625,6 +1648,14 @@ begin
   end;
 end;
 
+procedure TfrmOptions.FillArchiverList;
+var
+  I: Integer;
+begin
+  for I:= 0 to gMultiArcList.Count - 1 do
+    lbxMultiArc.Items.AddObject(gMultiArcList[I].FExtension, gMultiArcList[I]);
+end;
+
 procedure TfrmOptions.FillCommandList(lstFilter:string);
 //< fill stgCommands by commands and comments
 var
@@ -2171,7 +2202,7 @@ end;
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
 begin
   //DebugLN('Page index == ' + IntToStr(Node.Index));
-  if tvTreeView.Selected.ImageIndex = 19 then // special for "Colors" item
+  if tvTreeView.Selected.ImageIndex = 20 then // special for "Colors" item
     begin
       nbNotebook.PageIndex := 4;
       pnlCaption.Caption := tvTreeView.Items.Item[5].Text;
@@ -2370,6 +2401,8 @@ begin
    FillColumnsList;
    // fill commands
    FillCommandsPage;
+   // fill archiver list
+   FillArchiverList;
 
   { Fill plugins lists }
   tmpDSXPlugins.Assign(gDSXPlugins);
@@ -2656,4 +2689,4 @@ end;
 initialization
  {$I fOptions.lrs}
 
-end.
+end.
