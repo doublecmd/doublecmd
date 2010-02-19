@@ -37,9 +37,8 @@ uses
   uFileSourceExecuteOperation,
   uVfsFileSource,
   uFileSystemFileSource,
-  uWcxArchiveFileSource,
   uWfxPluginFileSource,
-  uMultiArchiveFileSource,
+  uArchiveFileSourceUtil,
   uFileSourceOperationTypes,
   uFileSourceOperationMessageBoxesUI,
   uFileProperty;
@@ -142,18 +141,8 @@ begin
   // Opening archives directly only from FileSystem.
   if aFileView.FileSource.IsClass(TFileSystemFileSource) then
   begin
-    // Check if there is a registered WCX plugin for possible archive.
-    FileSource := FileSourceManager.Find(TWcxArchiveFileSource, aFile.Path + aFile.Name);
-    if not Assigned(FileSource) then
-      FileSource := TWcxArchiveFileSource.CreateByArchiveName(aFile.Path + aFile.Name);
-
-    // Check if there is a registered MultiArc addon for possible archive.
-    if not Assigned(FileSource) then
-      begin
-        FileSource := FileSourceManager.Find(TMultiArchiveFileSource, aFile.Path + aFile.Name);
-        if not Assigned(FileSource) then
-          FileSource := TMultiArchiveFileSource.CreateByArchiveName(aFile.Path + aFile.Name);
-      end;
+    // Check if there is a ArchiveFileSource for possible archive.
+    FileSource := GetArchiveFileSource(aFile.Path + aFile.Name);
 
     if Assigned(FileSource) then
     begin

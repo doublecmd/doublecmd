@@ -92,9 +92,8 @@ type
 
     function CreateExecuteOperation(const ExecutableFile: TFile;
                                     BasePath, Verb: String): TFileSourceOperation; override;
-    {
+
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation; override;
-    }
 
     class function CreateByArchiveName(anArchiveFileName: String): IMultiArchiveFileSource;
 
@@ -112,10 +111,8 @@ uses
   uMultiArchiveCopyInOperation,
   uMultiArchiveCopyOutOperation,
   uMultiArchiveDeleteOperation,
-  uMultiArchiveExecuteOperation
-  {
+  uMultiArchiveExecuteOperation,
   uMultiArchiveTestArchiveOperation
-  }
   ;
 
 class function TMultiArchiveFileSource.CreateByArchiveName(anArchiveFileName: String): IMultiArchiveFileSource;
@@ -179,6 +176,8 @@ begin
     Result := Result + [fsoCopyOut];
   if FMultiArcItem.FDelete <> EmptyStr then
     Result := Result + [fsoDelete];
+  if FMultiArcItem.FTest <> EmptyStr then
+    Result := Result + [fsoTestArchive];
 end;
 
 function TMultiArchiveFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
@@ -294,15 +293,13 @@ begin
   Result:=  TMultiArchiveExecuteOperation.Create(TargetFileSource, ExecutableFile, BasePath, Verb);
 end;
 
-{
 function TMultiArchiveFileSource.CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation;
 var
   SourceFileSource: IFileSource;
 begin
   SourceFileSource := Self;
-  Result:=  TWcxArchiveTestArchiveOperation.Create(SourceFileSource, theSourceFiles);
+  Result:=  TMultiArchiveTestArchiveOperation.Create(SourceFileSource, theSourceFiles);
 end;
-}
 
 procedure TMultiArchiveFileSource.OnGetArchiveItem(ArchiveItem: TArchiveItem);
 
