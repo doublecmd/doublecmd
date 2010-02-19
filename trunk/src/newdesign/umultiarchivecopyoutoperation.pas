@@ -144,9 +144,7 @@ begin
         CheckOperationState;
         aFile:= FFullFilesTreeToExtract[I] as TMultiArchiveFile;
         // Now check if the file is to be extracted.
-        if (not aFile.IsDirectory)           // Omit directories (we handle them ourselves).
-           and ((FFileMask = '*.*') or (FFileMask = '*')    // And name matches file mask
-           or MatchesMaskList(aFile.Name, FFileMask)) then
+        if (not aFile.IsDirectory) then  // Omit directories (we handle them ourselves).
           begin
             TargetFileName := TargetPath + ExtractDirLevel(SourcePath, aFile.FullPath);
             // go to target directory
@@ -186,6 +184,23 @@ begin
 
       // Check for errors.
       CheckForErrors(FMultiArchiveFileSource.ArchiveFileName, EmptyStr, FExProcess.ExitStatus);
+
+      if SourceFiles.Path <> PathDelim then // if extract from not root directory
+      begin
+        // move files to target directory
+        for I:= 0 to FFullFilesTreeToExtract.Count - 1 do
+        begin
+          aFile:= FFullFilesTreeToExtract[I] as TMultiArchiveFile;
+          if not aFile.IsDirectory then
+            begin
+              TargetFileName := TargetPath + ExtractDirLevel(SourcePath, aFile.FullPath);
+              UpdateProgress(aFile.FullPath, TargetFileName, 0);
+              mbRenameFile(TargetPath + aFile.FullPath, TargetFileName);
+              UpdateProgress(aFile.FullPath, TargetFileName, aFile.Size);
+            end
+        end;
+        DelTree(ExcludeTrailingPathDelimiter(TargetPath + SourcePath));
+      end;
     end;
 
     SetDirsAttributes(CreatedPaths);
