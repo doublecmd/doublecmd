@@ -2285,6 +2285,26 @@ msgctxt "TFRMOPTIONS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+#: TFRMOPTIONS.BTNMULTIARCADD.CAPTION
+msgctxt "TFRMOPTIONS.BTNMULTIARCADD.CAPTION"
+msgid "Add"
+msgstr "Voeg toe"
+
+#: TFRMOPTIONS.BTNMULTIARCAPPLY.CAPTION
+msgctxt "TFRMOPTIONS.BTNMULTIARCAPPLY.CAPTION"
+msgid "Apply"
+msgstr "Toepassen"
+
+#: TFRMOPTIONS.BTNMULTIARCDELETE.CAPTION
+msgctxt "TFRMOPTIONS.BTNMULTIARCDELETE.CAPTION"
+msgid "Delete"
+msgstr "Verwijder"
+
+#: TFRMOPTIONS.BTNMULTIARCRENAME.CAPTION
+msgctxt "TFRMOPTIONS.BTNMULTIARCRENAME.CAPTION"
+msgid "Rename"
+msgstr "Hernoem"
+
 #: TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION"
 msgid "&New"
@@ -2342,6 +2362,7 @@ msgid "Always show tray icon"
 msgstr ""
 
 #: TFRMOPTIONS.CBBFILESYSTEM.TEXT
+msgctxt "TFRMOPTIONS.CBBFILESYSTEM.TEXT"
 msgid "General"
 msgstr "Algemeen"
 
@@ -2639,9 +2660,26 @@ msgstr ""
 msgid "&Ignore (don't show) the following files and folders:"
 msgstr ""
 
+#: TFRMOPTIONS.CHKMULTIARCCONSOLEOUTPUT.CAPTION
+msgid "Show console output"
+msgstr ""
+
+#: TFRMOPTIONS.CHKMULTIARCDEBUG.CAPTION
+msgid "Debug mode"
+msgstr ""
+
+#: TFRMOPTIONS.CHKMULTIARCENABLED.CAPTION
+msgid "Enabled"
+msgstr ""
+
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
 msgstr "Tekst kleur:"
+
+#: TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION"
+msgid "Options"
+msgstr "Opties"
 
 #: TFRMOPTIONS.GBAUTOREFRESHDISABLE.CAPTION
 msgid "Disable auto-refresh"
@@ -2737,6 +2775,47 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
+#: TFRMOPTIONS.LBLARCHIVEADD.CAPTION
+msgid "Add:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEDELETE.CAPTION
+msgid "Delete:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEENCRYPT.CAPTION
+msgid "Encrypt:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION
+msgctxt "TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION"
+msgid "Extension:"
+msgstr "Extentie:"
+
+#: TFRMOPTIONS.LBLARCHIVEEXTRACT.CAPTION
+msgid "Extract:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVELIST.CAPTION
+msgid "List:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVELISTFORMAT.CAPTION
+msgid "Listing format:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEMOVE.CAPTION
+msgid "Move:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVER.CAPTION
+msgid "Archiver:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVETEST.CAPTION
+msgid "Test:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
 msgid "Auto size column:"
 msgstr ""
@@ -2784,6 +2863,11 @@ msgstr "Cursor tekst:"
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
 msgstr "Datum en tijd formaat:"
+
+#: TFRMOPTIONS.LBLDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONS.LBLDESCRIPTION.CAPTION"
+msgid "Description:"
+msgstr "Omschrijving:"
 
 #: TFRMOPTIONS.LBLDSXDESCRIPTION.CAPTION
 msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
@@ -2961,6 +3045,15 @@ msgstr "Schuiven"
 #: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
 msgid "Tool"
 msgstr ""
+
+#: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
+msgid "Additional"
+msgstr ""
+
+#: TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION
+msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
+msgid "General"
+msgstr "Algemeen"
 
 #: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
 msgid "Active"
@@ -3362,6 +3455,7 @@ msgid "Allow searching for text in archives"
 msgstr "Toestaan zoeken tekst in archieven"
 
 #: TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION
+msgctxt "TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION"
 msgid "Description:"
 msgstr "Omschrijving:"
 
@@ -3370,6 +3464,7 @@ msgid "Detect string:"
 msgstr "Detecteer reeks karakters:"
 
 #: TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION
+msgctxt "TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION"
 msgid "Extension:"
 msgstr "Extentie:"
 

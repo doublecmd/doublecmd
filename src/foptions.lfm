@@ -1,5 +1,5 @@
 object frmOptions: TfrmOptions
-  Left = 182
+  Left = 172
   Height = 557
   Top = -15
   Width = 803
@@ -4091,8 +4091,8 @@ object frmOptions: TfrmOptions
             end
             object tbArchiverAdditional: TTabSheet
               Caption = 'Additional'
-              ClientHeight = 403
-              ClientWidth = 548
+              ClientHeight = 405
+              ClientWidth = 550
               object gbArchiverOptions: TGroupBox
                 AnchorSideLeft.Control = lblArchiveMove
                 AnchorSideTop.Control = edtArchiveEncrypt
@@ -4102,7 +4102,7 @@ object frmOptions: TfrmOptions
                 Left = 10
                 Height = 51
                 Top = 86
-                Width = 528
+                Width = 530
                 Anchors = [akTop, akLeft, akRight]
                 AutoSize = True
                 BorderSpacing.Top = 2
@@ -4110,7 +4110,7 @@ object frmOptions: TfrmOptions
                 ChildSizing.LeftRightSpacing = 10
                 ChildSizing.TopBottomSpacing = 8
                 ClientHeight = 33
-                ClientWidth = 524
+                ClientWidth = 526
                 TabOrder = 0
                 object chkMultiArcConsoleOutput: TCheckBox
                   AnchorSideTop.Control = gbArchiverOptions
@@ -4126,7 +4126,7 @@ object frmOptions: TfrmOptions
                   AnchorSideTop.Side = asrCenter
                   AnchorSideRight.Control = gbArchiverOptions
                   AnchorSideRight.Side = asrBottom
-                  Left = 436
+                  Left = 438
                   Height = 17
                   Top = 8
                   Width = 78
@@ -4143,7 +4143,7 @@ object frmOptions: TfrmOptions
                 Left = 10
                 Height = 14
                 Top = 10
-                Width = 528
+                Width = 530
                 Anchors = [akTop, akLeft, akRight]
                 BorderSpacing.Left = 10
                 BorderSpacing.Top = 10
@@ -4160,7 +4160,7 @@ object frmOptions: TfrmOptions
                 Left = 10
                 Height = 21
                 Top = 24
-                Width = 528
+                Width = 530
                 Anchors = [akTop, akLeft, akRight]
                 TabOrder = 1
               end
@@ -4173,7 +4173,7 @@ object frmOptions: TfrmOptions
                 Left = 10
                 Height = 14
                 Top = 49
-                Width = 528
+                Width = 530
                 Anchors = [akTop, akLeft, akRight]
                 BorderSpacing.Top = 4
                 Caption = 'Encrypt:'
@@ -4188,7 +4188,7 @@ object frmOptions: TfrmOptions
                 Left = 10
                 Height = 21
                 Top = 63
-                Width = 528
+                Width = 530
                 Anchors = [akTop, akLeft, akRight]
                 TabOrder = 2
               end
@@ -4216,6 +4216,7 @@ object frmOptions: TfrmOptions
               Anchors = [akTop, akRight]
               BorderSpacing.Right = 10
               Caption = 'Apply'
+              OnClick = btnMultiArcApplyClick
               TabOrder = 0
             end
             object btnMultiArcRename: TBitBtn
@@ -4229,6 +4230,7 @@ object frmOptions: TfrmOptions
               Anchors = [akTop, akRight]
               BorderSpacing.Right = 6
               Caption = 'Rename'
+              OnClick = btnMultiArcRenameClick
               TabOrder = 1
             end
             object btnMultiArcDelete: TBitBtn
@@ -4242,6 +4244,7 @@ object frmOptions: TfrmOptions
               Anchors = [akTop, akRight]
               BorderSpacing.Right = 6
               Caption = 'Delete'
+              OnClick = btnMultiArcDeleteClick
               TabOrder = 2
             end
             object btnMultiArcAdd: TBitBtn
@@ -4255,6 +4258,7 @@ object frmOptions: TfrmOptions
               Anchors = [akTop, akRight]
               BorderSpacing.Right = 6
               Caption = 'Add'
+              OnClick = btnMultiArcAddClick
               TabOrder = 3
             end
             object chkMultiArcEnabled: TCheckBox

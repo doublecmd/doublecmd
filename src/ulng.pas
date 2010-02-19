@@ -265,6 +265,7 @@ resourcestring
   rsOptMouseSelectionButton = 'Left button;Right button;';
   rsOptAutoSizeColumn = 'First;Last;';
   rsOptTabsPosition = 'Top;Bottom;';
+  rsOptArchiveTypeName = 'Archive type name:';
   //-------------------------------
   rsOptExampleMark = 'Mark';
   rsOptExampleText = 'Text';

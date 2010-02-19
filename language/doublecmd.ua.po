@@ -2283,6 +2283,26 @@ msgctxt "TFRMOPTIONS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+#: TFRMOPTIONS.BTNMULTIARCADD.CAPTION
+msgctxt "TFRMOPTIONS.BTNMULTIARCADD.CAPTION"
+msgid "Add"
+msgstr "Додати"
+
+#: TFRMOPTIONS.BTNMULTIARCAPPLY.CAPTION
+msgctxt "TFRMOPTIONS.BTNMULTIARCAPPLY.CAPTION"
+msgid "Apply"
+msgstr "Застосувати"
+
+#: TFRMOPTIONS.BTNMULTIARCDELETE.CAPTION
+msgctxt "TFRMOPTIONS.BTNMULTIARCDELETE.CAPTION"
+msgid "Delete"
+msgstr "Видалити"
+
+#: TFRMOPTIONS.BTNMULTIARCRENAME.CAPTION
+msgctxt "TFRMOPTIONS.BTNMULTIARCRENAME.CAPTION"
+msgid "Rename"
+msgstr "Перейменувати"
+
 #: TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION"
 msgid "&New"
@@ -2340,6 +2360,7 @@ msgid "Always show tray icon"
 msgstr "Завжди показувати іконку в треї"
 
 #: TFRMOPTIONS.CBBFILESYSTEM.TEXT
+msgctxt "TFRMOPTIONS.CBBFILESYSTEM.TEXT"
 msgid "General"
 msgstr "Основні"
 
@@ -2637,9 +2658,26 @@ msgstr "Розтягувати колонки на ширину панелі"
 msgid "&Ignore (don't show) the following files and folders:"
 msgstr "&Ігнорувати (не показувати) такі файли і папки:"
 
+#: TFRMOPTIONS.CHKMULTIARCCONSOLEOUTPUT.CAPTION
+msgid "Show console output"
+msgstr ""
+
+#: TFRMOPTIONS.CHKMULTIARCDEBUG.CAPTION
+msgid "Debug mode"
+msgstr ""
+
+#: TFRMOPTIONS.CHKMULTIARCENABLED.CAPTION
+msgid "Enabled"
+msgstr ""
+
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
 msgstr "Колір тексту:"
+
+#: TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION"
+msgid "Options"
+msgstr "Налаштування"
 
 #: TFRMOPTIONS.GBAUTOREFRESHDISABLE.CAPTION
 msgid "Disable auto-refresh"
@@ -2735,6 +2773,47 @@ msgstr "Команди:"
 msgid "Filter"
 msgstr "Фільтр"
 
+#: TFRMOPTIONS.LBLARCHIVEADD.CAPTION
+msgid "Add:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEDELETE.CAPTION
+msgid "Delete:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEENCRYPT.CAPTION
+msgid "Encrypt:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION
+msgctxt "TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION"
+msgid "Extension:"
+msgstr "Розширення:"
+
+#: TFRMOPTIONS.LBLARCHIVEEXTRACT.CAPTION
+msgid "Extract:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVELIST.CAPTION
+msgid "List:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVELISTFORMAT.CAPTION
+msgid "Listing format:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEMOVE.CAPTION
+msgid "Move:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVER.CAPTION
+msgid "Archiver:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVETEST.CAPTION
+msgid "Test:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
 msgid "Auto size column:"
 msgstr "Змінювати розмір колонок:"
@@ -2782,6 +2861,11 @@ msgstr "Текст &під курсором"
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
 msgstr "Формат дати і часу:"
+
+#: TFRMOPTIONS.LBLDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONS.LBLDESCRIPTION.CAPTION"
+msgid "Description:"
+msgstr "Опис:"
 
 #: TFRMOPTIONS.LBLDSXDESCRIPTION.CAPTION
 msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
@@ -2959,6 +3043,15 @@ msgstr "Прокрутка"
 #: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
 msgid "Tool"
 msgstr "Інструменти"
+
+#: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
+msgid "Additional"
+msgstr ""
+
+#: TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION
+msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
+msgid "General"
+msgstr "Основні"
 
 #: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
 msgid "Active"
@@ -3360,6 +3453,7 @@ msgid "Allow searching for text in archives"
 msgstr "Дозволити шукати у архівах"
 
 #: TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION
+msgctxt "TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION"
 msgid "Description:"
 msgstr "Опис:"
 
@@ -3368,6 +3462,7 @@ msgid "Detect string:"
 msgstr "Визначення рядка:"
 
 #: TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION
+msgctxt "TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION"
 msgid "Extension:"
 msgstr "Розширення:"
 

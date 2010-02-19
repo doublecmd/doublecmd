@@ -2283,6 +2283,26 @@ msgctxt "TFRMOPTIONS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+#: TFRMOPTIONS.BTNMULTIARCADD.CAPTION
+msgctxt "TFRMOPTIONS.BTNMULTIARCADD.CAPTION"
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: TFRMOPTIONS.BTNMULTIARCAPPLY.CAPTION
+msgctxt "TFRMOPTIONS.BTNMULTIARCAPPLY.CAPTION"
+msgid "Apply"
+msgstr "Übernehmen"
+
+#: TFRMOPTIONS.BTNMULTIARCDELETE.CAPTION
+msgctxt "TFRMOPTIONS.BTNMULTIARCDELETE.CAPTION"
+msgid "Delete"
+msgstr "&Löschen"
+
+#: TFRMOPTIONS.BTNMULTIARCRENAME.CAPTION
+msgctxt "TFRMOPTIONS.BTNMULTIARCRENAME.CAPTION"
+msgid "Rename"
+msgstr "Umbenennen"
+
 #: TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION"
 msgid "&New"
@@ -2340,6 +2360,7 @@ msgid "Always show tray icon"
 msgstr "Immer Tray-Icon anzeigen (neben der Uhr)"
 
 #: TFRMOPTIONS.CBBFILESYSTEM.TEXT
+msgctxt "TFRMOPTIONS.CBBFILESYSTEM.TEXT"
 msgid "General"
 msgstr "Allgemein"
 
@@ -2645,9 +2666,26 @@ msgstr "Spalten automatisch füllen"
 msgid "&Ignore (don't show) the following files and folders:"
 msgstr ""
 
+#: TFRMOPTIONS.CHKMULTIARCCONSOLEOUTPUT.CAPTION
+msgid "Show console output"
+msgstr ""
+
+#: TFRMOPTIONS.CHKMULTIARCDEBUG.CAPTION
+msgid "Debug mode"
+msgstr ""
+
+#: TFRMOPTIONS.CHKMULTIARCENABLED.CAPTION
+msgid "Enabled"
+msgstr ""
+
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
 msgstr "Textfarbe"
+
+#: TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION"
+msgid "Options"
+msgstr "Optionen"
 
 #: TFRMOPTIONS.GBAUTOREFRESHDISABLE.CAPTION
 msgid "Disable auto-refresh"
@@ -2743,6 +2781,47 @@ msgstr "Befehle:"
 msgid "Filter"
 msgstr ""
 
+#: TFRMOPTIONS.LBLARCHIVEADD.CAPTION
+msgid "Add:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEDELETE.CAPTION
+msgid "Delete:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEENCRYPT.CAPTION
+msgid "Encrypt:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION
+msgctxt "TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION"
+msgid "Extension:"
+msgstr "Endung:"
+
+#: TFRMOPTIONS.LBLARCHIVEEXTRACT.CAPTION
+msgid "Extract:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVELIST.CAPTION
+msgid "List:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVELISTFORMAT.CAPTION
+msgid "Listing format:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEMOVE.CAPTION
+msgid "Move:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVER.CAPTION
+msgid "Archiver:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVETEST.CAPTION
+msgid "Test:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
 msgid "Auto size column:"
 msgstr "Grösse der Spalten automatisch einstellen"
@@ -2790,6 +2869,11 @@ msgstr "Cursortext"
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
 msgstr "Datums- und Zeitformat"
+
+#: TFRMOPTIONS.LBLDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONS.LBLDESCRIPTION.CAPTION"
+msgid "Description:"
+msgstr "Beschreibung:"
 
 #: TFRMOPTIONS.LBLDSXDESCRIPTION.CAPTION
 msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
@@ -2967,6 +3051,15 @@ msgstr "Scrollen"
 #: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
 msgid "Tool"
 msgstr ""
+
+#: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
+msgid "Additional"
+msgstr ""
+
+#: TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION
+msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
+msgid "General"
+msgstr "Allgemein"
 
 #: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
 msgid "Active"
@@ -3368,6 +3461,7 @@ msgid "Allow searching for text in archives"
 msgstr "Erlaubt die Suche von Text in Archiven"
 
 #: TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION
+msgctxt "TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION"
 msgid "Description:"
 msgstr "Beschreibung:"
 
@@ -3376,6 +3470,7 @@ msgid "Detect string:"
 msgstr "Erkenne String:"
 
 #: TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION
+msgctxt "TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION"
 msgid "Extension:"
 msgstr "Endung:"
 
