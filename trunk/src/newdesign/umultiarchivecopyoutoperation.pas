@@ -44,7 +44,7 @@ type
       Sets attributes for directories.
       @param(Paths
              The list of absolute paths, which attributes are to be set.
-             Each list item's data field must be a pointer to THeaderData,
+             Each list item's data field must be a pointer to TMultiArchiveFile,
              from where the attributes are retrieved.}
     function SetDirsAttributes(const Paths: TStringHashList): Boolean;
 
@@ -162,15 +162,18 @@ begin
                                                         aFile.FullPath,
                                                         TargetPath,
                                                         FTempFile));
-           FExProcess.Execute;
+            FExProcess.Execute;
 
-           UpdateProgress(aFile.FullPath, TargetFileName, aFile.Size);
-           // Check for errors.
-           CheckForErrors(aFile.FullPath, TargetFileName, FExProcess.ExitStatus);
-      end;
-    end
+            UpdateProgress(aFile.FullPath, TargetFileName, aFile.Size);
+            // Check for errors.
+            CheckForErrors(aFile.FullPath, TargetFileName, FExProcess.ExitStatus);
+          end;
+    end // for
   else  // extract whole file list
     begin
+      // go to target directory
+      mbSetCurrentDir(TargetPath);
+
       FExProcess.SetCmdLine(FormatArchiverCommand(
                                                   MultiArcItem.FArchiver,
                                                   MultiArcItem.FExtract,
