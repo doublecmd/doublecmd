@@ -3935,7 +3935,7 @@ object frmOptions: TfrmOptions
                 AnchorSideRight.Side = asrBottom
                 Left = 10
                 Height = 14
-                Top = 224
+                Top = 234
                 Width = 526
                 Anchors = [akTop, akLeft, akRight]
                 BorderSpacing.Left = 10
@@ -3952,7 +3952,7 @@ object frmOptions: TfrmOptions
                 AnchorSideRight.Side = asrBottom
                 Left = 10
                 Height = 21
-                Top = 238
+                Top = 248
                 Width = 526
                 Anchors = [akTop, akLeft, akRight]
                 TabOrder = 3
@@ -3963,7 +3963,7 @@ object frmOptions: TfrmOptions
                 AnchorSideRight.Side = asrBottom
                 Left = 10
                 Height = 14
-                Top = 261
+                Top = 271
                 Width = 526
                 Anchors = [akTop, akLeft, akRight]
                 BorderSpacing.Left = 10
@@ -3980,7 +3980,7 @@ object frmOptions: TfrmOptions
                 AnchorSideRight.Side = asrBottom
                 Left = 10
                 Height = 21
-                Top = 275
+                Top = 285
                 Width = 526
                 Anchors = [akTop, akLeft, akRight]
                 TabOrder = 4
@@ -3991,7 +3991,7 @@ object frmOptions: TfrmOptions
                 AnchorSideRight.Side = asrBottom
                 Left = 10
                 Height = 14
-                Top = 298
+                Top = 308
                 Width = 526
                 Anchors = [akTop, akLeft, akRight]
                 BorderSpacing.Left = 10
@@ -4008,7 +4008,7 @@ object frmOptions: TfrmOptions
                 AnchorSideRight.Side = asrBottom
                 Left = 10
                 Height = 21
-                Top = 312
+                Top = 322
                 Width = 526
                 Anchors = [akTop, akLeft, akRight]
                 TabOrder = 5
@@ -4033,7 +4033,7 @@ object frmOptions: TfrmOptions
                 AnchorSideTop.Side = asrBottom
                 AnchorSideRight.Side = asrBottom
                 Left = 10
-                Height = 50
+                Height = 60
                 Top = 172
                 Width = 526
                 Anchors = [akTop, akLeft, akRight]
@@ -4041,6 +4041,7 @@ object frmOptions: TfrmOptions
                 BorderSpacing.Right = 10
                 ScrollBars = ssAutoBoth
                 TabOrder = 6
+                WordWrap = False
               end
               object lblArchiveTest: TLabel
                 AnchorSideTop.Control = edtArchiveDelete
@@ -4048,7 +4049,7 @@ object frmOptions: TfrmOptions
                 AnchorSideRight.Side = asrBottom
                 Left = 10
                 Height = 14
-                Top = 335
+                Top = 345
                 Width = 526
                 Anchors = [akTop, akLeft, akRight]
                 BorderSpacing.Left = 10
@@ -4065,7 +4066,7 @@ object frmOptions: TfrmOptions
                 AnchorSideRight.Side = asrBottom
                 Left = 10
                 Height = 21
-                Top = 349
+                Top = 359
                 Width = 526
                 Anchors = [akTop, akLeft, akRight]
                 TabOrder = 7
