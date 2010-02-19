@@ -389,7 +389,6 @@ function StrToAttr(Attr: AnsiString): TFileAttrs;
 {$IFDEF MSWINDOWS}
 begin
   Result:= 0;
-  if Length(Attr) < 5 then Exit;
   Attr:= LowerCase(Attr);
 
   if Pos('d', Attr) > 0 then Result := Result or FILE_ATTRIBUTE_DIRECTORY;
