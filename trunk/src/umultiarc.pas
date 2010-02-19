@@ -150,6 +150,7 @@ begin
         FAdd:= TrimQuotes(IniFile.ReadString(Section, 'Add', EmptyStr));
         FMove:= TrimQuotes(IniFile.ReadString(Section, 'Move', EmptyStr));
         // optional
+        FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
         FConsoleOutput:= IniFile.ReadBool(Section, 'ConsoleOutput', False);
       end;
       FList.AddObject(Section, MultiArcItem);
@@ -188,6 +189,7 @@ begin
         IniFile.WriteString(Section, 'Add', FAdd);
         IniFile.WriteString(Section, 'Move', FMove);
         // optional
+        IniFile.WriteBool(Section, 'Enabled', FEnabled);
         IniFile.WriteBool(Section, 'ConsoleOutput', FConsoleOutput);
       end;
     end;
