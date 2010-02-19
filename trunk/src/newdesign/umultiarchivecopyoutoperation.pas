@@ -23,15 +23,12 @@ type
     FMultiArchiveFileSource: IMultiArchiveFileSource;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     FFullFilesTreeToExtract: TMultiArchiveFiles;  // source files including all files/dirs in subdirectories
-    FCurrentFileSize: Int64;
 
     {en
       Creates neccessary paths before extracting files from archive.
 
       @param(Files
              List of files/directories to extract (relative to archive root).)
-      @param(FileMask
-             Only directories containing files matching this mask will be created.)
       @param(sDestPath
              Destination path where the files will be extracted.)
       @param(CurrentArchiveDir
@@ -39,8 +36,8 @@ type
       @param(CreatedPaths
              This list will be filled with absolute paths to directories
              that were created, together with their attributes.)}
-    procedure CreateDirs(const theFiles: TFiles; FileMask: String;
-                                      sDestPath: String; CurrentArchiveDir: String;
+    procedure CreateDirs(const theFiles: TFiles; sDestPath: String;
+                                      CurrentArchiveDir: String;
                                       var CreatedPaths: TStringHashList);
 
     {en
@@ -78,7 +75,7 @@ type
 implementation
 
 uses
-  LCLProc, Masks, FileUtil, contnrs, uOSUtils, uDCUtils, uShowMsg, uMultiArc, Process,
+  LCLProc, Masks, FileUtil, uOSUtils, uDCUtils, uShowMsg, uMultiArc, Process,
   uFileSourceOperationUI, uMultiArchiveUtil, uFileProcs, uLng, uDateTimeUtils, uTypes;
 
 constructor TMultiArchiveCopyOutOperation.Create(aSourceFileSource: IFileSource;
@@ -122,28 +119,24 @@ end;
 procedure TMultiArchiveCopyOutOperation.MainExecute;
 var
   TargetFileName,
+  SourcePath,
   sCurrPath: UTF8String;
   CreatedPaths: TStringHashList;
   I: Integer;
-  Files: TFiles = nil;
   aFile: TMultiArchiveFile;
   MultiArcItem: TMultiArcItem;
 begin
   MultiArcItem := FMultiArchiveFileSource.MultiArcItem;
-
-  // Convert file list so that filenames are relative to archive root.
-  Files := SourceFiles.Clone;
-  ChangeFileListRoot(PathDelim, Files);
 
   CreatedPaths := TStringHashList.Create(True);
 
   try
     // save current path
     sCurrPath:= mbGetCurrentDir;
+    // Archive current path
+    SourcePath:= ExcludeFrontPathDelimiter(SourceFiles.Path);
     // Create needed directories.
-    CreateDirs(FFullFilesTreeToExtract, FFileMask,
-                            TargetPath, Files.Path,
-                            CreatedPaths);
+    CreateDirs(FFullFilesTreeToExtract, TargetPath, SourcePath, CreatedPaths);
 
     if Pos('%F', MultiArcItem.FExtract) <> 0 then // extract file by file
       for I:= 0 to FFullFilesTreeToExtract.Count - 1 do
@@ -155,7 +148,7 @@ begin
            and ((FFileMask = '*.*') or (FFileMask = '*')    // And name matches file mask
            or MatchesMaskList(aFile.Name, FFileMask)) then
           begin
-            TargetFileName := TargetPath + ExtractDirLevel(Files.Path, aFile.FullPath);
+            TargetFileName := TargetPath + ExtractDirLevel(SourcePath, aFile.FullPath);
             // go to target directory
             mbSetCurrentDir(ExtractFileDir(TargetFileName));
 
@@ -182,7 +175,7 @@ begin
                                                   MultiArcItem.FArchiver,
                                                   MultiArcItem.FExtract,
                                                   FMultiArchiveFileSource.ArchiveFileName,
-                                                  Files,
+                                                  FFullFilesTreeToExtract,
                                                   EmptyStr,
                                                   TargetPath,
                                                   FTempFile));
@@ -195,8 +188,6 @@ begin
     SetDirsAttributes(CreatedPaths);
 
   finally
-    if Assigned(Files) then
-      FreeAndNil(Files);
     FreeAndNil(CreatedPaths);
     // restore current path
     mbSetCurrentDir(sCurrPath);
@@ -210,7 +201,7 @@ begin
 end;
 
 procedure TMultiArchiveCopyOutOperation.CreateDirs(
-              const theFiles: TFiles; FileMask: String;
+              const theFiles: TFiles;
               sDestPath: String; CurrentArchiveDir: String;
               var CreatedPaths: TStringHashList);
 var
@@ -223,52 +214,37 @@ var
 
   i: Integer;
   CurrentFileName: String;
-  Header: TArchiveItem;
+  aFile: TMultiArchiveFile;
   Directories: TStringList;
   PathIndex: Integer;
   ListIndex: Integer;
   TargetDir: String;
-  FileList: TObjectList;
 begin
-  FileList := FMultiArchiveFileSource.ArchiveFileList;
-
   { First, collect all the paths that need to be created and their attributes. }
 
   PathsToCreate := TStringHashList.Create(True);
   DirsAttributes := TStringHashList.Create(True);
 
-  for i := 0 to FileList.Count - 1 do
+  for I := 0 to theFiles.Count - 1 do
   begin
-    Header := TArchiveItem(FileList.Items[i]);
+    aFile := theFiles[I] as TMultiArchiveFile;
 
-    // Check if the file from the archive fits the selection given via SourceFiles.
-    if not MatchesFileList(theFiles, Header.FileName) then
-      Continue;
-
-    if FPS_ISDIR(Header.Attributes) then
-    begin
-      CurrentFileName := ExtractDirLevel(CurrentArchiveDir, Header.FileName);
-
-      // Save this directory and a pointer to its entry.
-      DirsAttributes.Add(CurrentFileName, Header);
-
-      // If extracting all files and directories, add this directory
-      // to PathsToCreate so that empty directories are also created.
-      if (FileMask = '*.*') or (FileMask = '*') then
+    if aFile.IsDirectory then
       begin
+        CurrentFileName := ExtractDirLevel(CurrentArchiveDir, aFile.FullPath);
+
+        // Save this directory and a pointer to its entry.
+        DirsAttributes.Add(CurrentFileName, aFile);
+
         // Paths in PathsToCreate list must end with path delimiter.
         CurrentFileName := IncludeTrailingPathDelimiter(CurrentFileName);
 
         if PathsToCreate.Find(CurrentFileName) < 0 then
           PathsToCreate.Add(CurrentFileName);
-      end;
-    end
+      end
     else
-    begin
-      if ((FileMask = '*.*') or (FileMask = '*') or
-          MatchesMaskList(ExtractFileName(Header.FileName), FileMask)) then
       begin
-        CurrentFileName := ExtractDirLevel(CurrentArchiveDir, ExtractFilePath(Header.FileName));
+        CurrentFileName := ExtractDirLevel(CurrentArchiveDir, aFile.Path);
 
         // If CurrentFileName is empty now then it was a file in current archive
         // directory, therefore we don't have to create any paths for it.
@@ -276,7 +252,6 @@ begin
           if PathsToCreate.Find(CurrentFileName) < 0 then
             PathsToCreate.Add(CurrentFileName);
       end;
-    end;
   end;
 
   { Second, create paths and save which paths were created and their attributes. }
@@ -317,11 +292,11 @@ begin
                // Retrieve attributes for this directory, if they are stored.
                ListIndex := DirsAttributes.Find(Directories.Strings[i]);
                if ListIndex <> -1 then
-                 Header := TArchiveItem(DirsAttributes.List[ListIndex]^.Data)
+                 aFile := TMultiArchiveFile(DirsAttributes.List[ListIndex]^.Data)
                else
-                 Header := nil;
+                 aFile := nil;
 
-               CreatedPaths.Add(TargetDir, Header);
+               CreatedPaths.Add(TargetDir, aFile);
              end;
           end;
         end;
@@ -340,7 +315,7 @@ function TMultiArchiveCopyOutOperation.SetDirsAttributes(const Paths: TStringHas
 var
   PathIndex: Integer;
   TargetDir: String;
-  Header: TArchiveItem;
+  aFile: TMultiArchiveFile;
   Time: TFileTime;
 begin
   Result := True;
@@ -348,9 +323,9 @@ begin
   for PathIndex := 0 to Paths.Count - 1 do
   begin
     // Get attributes.
-    Header := TArchiveItem(Paths.List[PathIndex]^.Data);
+    aFile := TMultiArchiveFile(Paths.List[PathIndex]^.Data);
 
-    if Assigned(Header) then
+    if Assigned(aFile) then
     begin
       TargetDir := Paths.List[PathIndex]^.Key;
 
@@ -358,15 +333,9 @@ begin
 {$IF DEFINED(MSWINDOWS)}
         // Restore attributes, e.g., hidden, read-only.
         // On Unix attributes value would have to be translated somehow.
-        mbFileSetAttr(TargetDir, Header.Attributes);
-
-       // DosToWinTime(TDosFileTime(Header.FileTime), Time);
-{$ELSE}
-  {$PUSH}{$R-}
-        Time := Header.FileTime;
-  {$POP}
+        mbFileSetAttr(TargetDir, aFile.Attributes);
 {$ENDIF}
-
+       Time:= DateTimeToFileTime(aFile.ModificationTime);
         // Set creation, modification time
         mbFileSetTime(TargetDir, Time, Time, Time);
 
@@ -438,7 +407,16 @@ end;
 procedure TMultiArchiveCopyOutOperation.UpdateProgress(SourceName,
   TargetName: UTF8String; IncSize: Int64);
 begin
+  with FStatistics do
+  begin
+    FStatistics.CurrentFileFrom:= SourceName;
+    FStatistics.CurrentFileTo:= TargetName;
 
+    CurrentFileDoneBytes:= IncSize;
+    DoneBytes := DoneBytes + CurrentFileDoneBytes;
+
+    UpdateStatistics(FStatistics);
+  end;
 end;
 
 end.
