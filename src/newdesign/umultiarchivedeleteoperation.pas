@@ -73,7 +73,6 @@ end;
 procedure TMultiArchiveDeleteOperation.Initialize;
 begin
   FExProcess:= TExProcess.Create(EmptyStr);
-  FExProcess.Process.Options:= FExProcess.Process.Options + [poWaitOnExit];
   FExProcess.OnReadLn:= @OnReadLn;
   FTempFile:= GetTempName(GetTempFolder);
 
