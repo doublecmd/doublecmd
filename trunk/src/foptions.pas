@@ -143,7 +143,6 @@ type
     edtArchiveExtension: TEdit;
     edtArchiveExtract: TEdit;
     edtArchiveList: TEdit;
-    edtArchiver: TEdit;
     edtArchiveTest: TEdit;
     edtDescription: TEdit;
     edtToolsParameters: TEdit;
@@ -163,6 +162,7 @@ type
     edtTest3: TEdit;
     edtViewerSize: TSpinEdit;
     cbLogFile: TCheckBox;
+    fneArchiver: TFileNameEdit;
     fneToolsPath: TFileNameEdit;
     fneSaveIn: TFileNameEdit;
     gbExactNameMatch: TGroupBox;
@@ -223,7 +223,7 @@ type
     memIgnoreList: TMemo;
     pgArchivers: TPage;
     pgIgnoreList: TPage;
-    pnlMultiArc: TPanel;
+    sbxMultiArc: TScrollBox;
     pnlQuickSearch: TPanel;
     pnlQuickFilter: TPanel;
     rbToolTipNone: TRadioButton;
@@ -368,6 +368,7 @@ type
     procedure chkIgnoreEnableChange(Sender: TObject);
     procedure edtToolsParametersChange(Sender: TObject);
     procedure fneToolsPathChange(Sender: TObject);
+    procedure lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
     procedure OnAutoRefreshOptionChanged(Sender: TObject);
     procedure edHotKeyKeyPress(Sender: TObject; var Key: char);
     procedure btnWDXAddClick(Sender: TObject);
@@ -474,7 +475,7 @@ uses
   uLng, uGlobsPaths, uPixMapManager, fMain, LCLProc,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
   fTweakPlugin, uhotkeymanger, uTypes, StrUtils, uFindEx, uKeyboard,
-  fMaskInputDlg, uSearchTemplate;
+  fMaskInputDlg, uSearchTemplate, uMultiArc;
 
 const
      stgCmdCommandIndex=0;
@@ -1653,7 +1654,7 @@ var
   I: Integer;
 begin
   for I:= 0 to gMultiArcList.Count - 1 do
-    lbxMultiArc.Items.AddObject(gMultiArcList[I].FExtension, gMultiArcList[I]);
+    lbxMultiArc.Items.AddObject(gMultiArcList.Names[I], gMultiArcList[I]);
 end;
 
 procedure TfrmOptions.FillCommandList(lstFilter:string);
@@ -1928,6 +1929,23 @@ begin
     if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
       // Use fneToolsPath.Caption because Filename is one letter behind when typing manually.
       tmpExternalTools[ExtToolFromRow[aRow]].Path := fneToolsPath.Caption;
+  end;
+end;
+
+procedure TfrmOptions.lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
+begin
+  if lbxMultiArc.ItemIndex < 0 then Exit;
+  with TMultiArcItem(lbxMultiArc.Items.Objects[lbxMultiArc.ItemIndex]) do
+  begin
+    edtDescription.Text:= FDescription;
+    fneArchiver.FileName:= FArchiver;
+    edtArchiveExtension.Text:= FExtension;
+    edtArchiveList.Text:= FList;
+    memArchiveListFormat.Lines.Assign(FFormat);
+    edtArchiveExtract.Text:= FExtract;
+    edtArchiveAdd.Text:= FAdd;
+    edtArchiveDelete.Text:= FDelete;
+    edtArchiveTest.Text:= FTest;
   end;
 end;
 
