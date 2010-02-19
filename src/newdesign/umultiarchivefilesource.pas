@@ -83,12 +83,13 @@ type
     function CreateCopyInOperation(SourceFileSource: IFileSource;
                                    var SourceFiles: TFiles;
                                    TargetPath: String): TFileSourceOperation; override;
-    {
+
     function CreateCopyOutOperation(TargetFileSource: IFileSource;
                                     var SourceFiles: TFiles;
                                     TargetPath: String): TFileSourceOperation; override;
-    }
+
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
+
     {
     function CreateExecuteOperation(const ExecutableFile: TFile;
                                     BasePath, Verb: String): TFileSourceOperation; override;
@@ -109,9 +110,7 @@ uses
   FileUtil, Masks, uDCUtils,
   uMultiArchiveListOperation,
   uMultiArchiveCopyInOperation,
-  {
   uMultiArchiveCopyOutOperation,
-  }
   uMultiArchiveDeleteOperation
   {
   uMultiArchiveExecuteOperation,
@@ -176,6 +175,8 @@ begin
     Result := Result + [fsoList];
   if FMultiArcItem.FAdd <> EmptyStr then
     Result := Result + [fsoCopyIn];
+  if FMultiArcItem.FExtract <> EmptyStr then
+    Result := Result + [fsoCopyOut];
   if FMultiArcItem.FDelete <> EmptyStr then
     Result := Result + [fsoDelete];
 end;
@@ -262,7 +263,6 @@ begin
                                                 SourceFiles, TargetPath);
 end;
 
-{
 function TMultiArchiveFileSource.CreateCopyOutOperation(
             TargetFileSource: IFileSource;
             var SourceFiles: TFiles;
@@ -271,11 +271,10 @@ var
   SourceFileSource: IFileSource;
 begin
   SourceFileSource := Self;
-  Result := TWcxArchiveCopyOutOperation.Create(SourceFileSource,
-                                               TargetFileSource,
-                                               SourceFiles, TargetPath);
+  Result := TMultiArchiveCopyOutOperation.Create(SourceFileSource,
+                                                 TargetFileSource,
+                                                 SourceFiles, TargetPath);
 end;
-}
 
 function TMultiArchiveFileSource.CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
 var
