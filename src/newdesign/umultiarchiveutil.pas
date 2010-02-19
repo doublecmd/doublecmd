@@ -117,7 +117,7 @@ begin
       FArchiveItem := TArchiveItem.Create;
     // get all file properties
     if FNamePos.Index = FFormatIndex then
-      FArchiveItem.FileName := Copy(str, FNamePos.Start, FNamePos.Finish);
+      FArchiveItem.FileName := ConsoleToUTF8(Copy(str, FNamePos.Start, FNamePos.Finish));
     if FUnpSizePos.Index = FFormatIndex then
       FArchiveItem.UnpSize := StrToIntDef(Trim(Copy(str, FUnpSizePos.Start, FUnpSizePos.Finish)), 0);
     if FPackSizePos.Index = FFormatIndex then
@@ -257,7 +257,9 @@ var
       Result := '"' + Result + '"';
     if (fmQuoteAny in state.FuncModifiers) then
       Result := '"' + Result + '"';
-    if not (fmAnsi in state.FuncModifiers) then
+    if (fmAnsi in state.FuncModifiers) then
+      Result := UTF8ToSys(Result)
+    else
       Result := UTF8ToConsole(Result);
   end;
 
