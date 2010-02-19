@@ -59,12 +59,15 @@ type
   private
     function GetCount: LongInt;
     function GetItem(Index: Integer): TMultiArcItem;
+    function GetName(Index: Integer): UTF8String;
+    procedure SetName(Index: Integer; const AValue: UTF8String);
   public
     constructor Create; virtual;
     destructor Destroy; override;
     procedure Clear;
     procedure LoadFromFile(const FileName: UTF8String);
     procedure SaveToFile(const FileName: UTF8String);
+    property Names[Index: Integer]: UTF8String read GetName write SetName;
     property Items[Index: Integer]: TMultiArcItem read GetItem; default;
     property Count: LongInt read GetCount;
   end;
@@ -84,6 +87,16 @@ end;
 function TMultiArcList.GetItem(Index: Integer): TMultiArcItem;
 begin
   Result:= TMultiArcItem(FList.Objects[Index]);
+end;
+
+function TMultiArcList.GetName(Index: Integer): UTF8String;
+begin
+  Result:= FList.Strings[Index];
+end;
+
+procedure TMultiArcList.SetName(Index: Integer; const AValue: UTF8String);
+begin
+  FList.Strings[Index]:= AValue;
 end;
 
 constructor TMultiArcList.Create;
