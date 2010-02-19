@@ -45,6 +45,10 @@ type
     bbtnAddCategory: TBitBtn;
     bbtnApplyCategory: TBitBtn;
     bbtnDeleteCategory: TBitBtn;
+    btnMultiArcAdd: TBitBtn;
+    btnMultiArcDelete: TBitBtn;
+    btnMultiArcRename: TBitBtn;
+    btnMultiArcApply: TBitBtn;
     btnAddSel: TButton;
     btnAddSelWithPath: TButton;
     btnCategoryColor: TButton;
@@ -131,15 +135,18 @@ type
     cbToolsRunInTerminal: TCheckBox;
     cbToolsKeepTerminalOpen: TCheckBox;
     cbToolsUseExternalProgram: TCheckBox;
-    chkMultiArcDebug: TCheckBox;
-    chkMultiArcConsoleOutput: TCheckBox;
+    chkMultiArcEnabled: TCheckBox;
     chkAutoFillColumns: TCheckBox;
     chkIgnoreEnable: TCheckBox;
+    chkMultiArcConsoleOutput: TCheckBox;
+    chkMultiArcDebug: TCheckBox;
     cmbTabsPosition: TComboBox;
     cmbAutoSizeColumn: TComboBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
+    edtArchiveEncrypt: TEdit;
+    edtArchiveMove: TEdit;
     edtArchiveAdd: TEdit;
     edtArchiveDelete: TEdit;
     edtArchiveExtension: TEdit;
@@ -167,6 +174,7 @@ type
     fneArchiver: TFileNameEdit;
     fneToolsPath: TFileNameEdit;
     fneSaveIn: TFileNameEdit;
+    gbArchiverOptions: TGroupBox;
     gbExactNameMatch: TGroupBox;
     fneLogFileName: TFileNameEdit;
     gbFileTypesColors: TGroupBox;
@@ -203,8 +211,9 @@ type
     gbAutoRefreshEnable: TGroupBox;
     gbAutoRefreshDisable: TGroupBox;
     gbShowToolTip: TGroupBox;
-    gbArchiverOptions: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
+    lblArchiveEncrypt: TLabel;
+    lblArchiveMove: TLabel;
     lblArchiveAdd: TLabel;
     lblArchiveDelete: TLabel;
     lblArchiveExtension: TLabel;
@@ -224,8 +233,11 @@ type
     lbxMultiArc: TListBox;
     memArchiveListFormat: TMemo;
     memIgnoreList: TMemo;
+    pnlMultiArcButtons: TPanel;
+    pcArchiverCommands: TPageControl;
     pgArchivers: TPage;
     pgIgnoreList: TPage;
+    pnlArchiverCommands: TPanel;
     sbxMultiArc: TScrollBox;
     pnlQuickSearch: TPanel;
     pnlQuickFilter: TPanel;
@@ -339,6 +351,8 @@ type
     gbIconsSize: TGroupBox;
     stgHotkeys: TStringGrid;
     stgTools: TStringGrid;
+    tbArchiverAdditional: TTabSheet;
+    tbArchiverGeneral: TTabSheet;
     tbInactivePanelBrightness: TTrackBar;
     tsWLX: TTabSheet;
     tsDSX: TTabSheet;
@@ -1949,8 +1963,10 @@ begin
     edtArchiveAdd.Text:= FAdd;
     edtArchiveDelete.Text:= FDelete;
     edtArchiveTest.Text:= FTest;
+    edtArchiveMove.Text:= FMove;
     chkMultiArcConsoleOutput.Checked:= FConsoleOutput;
     chkMultiArcDebug.Checked:= FDebug;
+    chkMultiArcEnabled.Checked:= FEnabled;
   end;
 end;
 

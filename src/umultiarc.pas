@@ -43,7 +43,8 @@ type
     FTest,
     FDelete,
     FAdd,
-    FMove: UTF8String;
+    FMove,
+    FEncrypt: UTF8String;
   public
     FEnabled: Boolean;
     FConsoleOutput: Boolean;
@@ -163,6 +164,7 @@ begin
         FDelete:= TrimQuotes(IniFile.ReadString(Section, 'Delete', EmptyStr));
         FAdd:= TrimQuotes(IniFile.ReadString(Section, 'Add', EmptyStr));
         FMove:= TrimQuotes(IniFile.ReadString(Section, 'Move', EmptyStr));
+        FEncrypt:= TrimQuotes(IniFile.ReadString(Section, 'Encrypt', EmptyStr));
         // optional
         FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
         FConsoleOutput:= IniFile.ReadBool(Section, 'ConsoleOutput', False);
@@ -203,6 +205,7 @@ begin
         IniFile.WriteString(Section, 'Delete', FDelete);
         IniFile.WriteString(Section, 'Add', FAdd);
         IniFile.WriteString(Section, 'Move', FMove);
+        IniFile.WriteString(Section, 'Encrypt', FEncrypt);
         // optional
         IniFile.WriteBool(Section, 'Enabled', FEnabled);
         IniFile.WriteBool(Section, 'ConsoleOutput', FConsoleOutput);
