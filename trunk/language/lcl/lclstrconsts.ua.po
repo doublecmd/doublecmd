@@ -261,7 +261,7 @@ msgstr "Робоча область програми"
 
 #: lclstrconsts.rsaquacolorcaption
 msgid "Aqua"
-msgstr "Вода"
+msgstr "Колір морської хвилі"
 
 #: lclstrconsts.rsbackgroundcolorcaption
 msgid "Desktop"
@@ -285,7 +285,7 @@ msgstr "Порожній"
 
 #: lclstrconsts.rsbluecolorcaption
 msgid "Blue"
-msgstr "Блакитний"
+msgstr "Синій"
 
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
@@ -540,7 +540,7 @@ msgstr "Сірий текст"
 
 #: lclstrconsts.rsgreencolorcaption
 msgid "Green"
-msgstr "Зелений"
+msgstr "Пастельно-зелений"
 
 #: lclstrconsts.rsgridfiledoesnotexists
 msgid "Grid file doesn't exists"
@@ -676,7 +676,7 @@ msgstr "Не знайдено переглядач довідки"
 
 #: lclstrconsts.rshighlightcolorcaption
 msgid "Highlight"
-msgstr "Підсвічене"
+msgstr "Підсвічений"
 
 #: lclstrconsts.rshighlighttextcolorcaption
 msgid "Highlight Text"
@@ -712,7 +712,7 @@ msgstr "Зображення іконки має бути того самого 
 
 #: lclstrconsts.rsiconimagesizechange
 msgid "Cannot change size of icon image"
-msgstr "невдалося змінити розмір іконки"
+msgstr "Невдалося змінити розмір іконки"
 
 #: lclstrconsts.rsiconnocurrent
 msgid "Icon has no current image"
@@ -787,7 +787,7 @@ msgstr "Остання"
 
 #: lclstrconsts.rslimecolorcaption
 msgid "Lime"
-msgstr "Лайм"
+msgstr "Зелений"
 
 #: lclstrconsts.rslistindexexceedsbounds
 msgid "List index exceeds bounds (%d)"
@@ -889,7 +889,7 @@ msgstr "  змінений"
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
-msgstr "Світло-зелений"
+msgstr "Сиваво-зелений"
 
 #: lclstrconsts.rsmtauthentication
 msgid "Authentication"
@@ -1045,11 +1045,11 @@ msgstr "  розмір"
 
 #: lclstrconsts.rsskybluecolorcaption
 msgid "Sky Blue"
-msgstr "Небесно-блакитний"
+msgstr "Небесно-синій"
 
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
-msgstr "Зеленувато-блакитний"
+msgstr "Синьо-зелений"
 
 #: lclstrconsts.rstext
 msgid "Text"

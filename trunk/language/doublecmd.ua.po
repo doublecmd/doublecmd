@@ -119,7 +119,7 @@ msgstr "&Так"
 #: TFRMCHECKSUMCALC.CAPTION
 msgctxt "TFRMCHECKSUMCALC.CAPTION"
 msgid "Calculate check sum..."
-msgstr "Вирахувати контрольну суму"
+msgstr "Вирахувати контрольну суму..."
 
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
 msgid "Create separate MD5/SHA1 files for each file"
@@ -231,11 +231,11 @@ msgstr "Налаштування панелі інструментів"
 
 #: TFRMCONFIGTOOLBAR.CBFLATICONS.CAPTION
 msgid "F&lat icons"
-msgstr "П&лоскі"
+msgstr "П&лоскі іконки"
 
 #: TFRMCONFIGTOOLBAR.CBSMALLICONS.CAPTION
 msgid "S&mall icons"
-msgstr "&Маленькі"
+msgstr "&Маленькі іконки"
 
 #: TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION
 msgid "Appearance"
@@ -2660,15 +2660,15 @@ msgstr "&Ігнорувати (не показувати) такі файли і
 
 #: TFRMOPTIONS.CHKMULTIARCCONSOLEOUTPUT.CAPTION
 msgid "Show console output"
-msgstr ""
+msgstr "Показати вивід на консоль"
 
 #: TFRMOPTIONS.CHKMULTIARCDEBUG.CAPTION
 msgid "Debug mode"
-msgstr ""
+msgstr "Режим налагодження"
 
 #: TFRMOPTIONS.CHKMULTIARCENABLED.CAPTION
 msgid "Enabled"
-msgstr ""
+msgstr "Ввімкнено"
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
@@ -2775,15 +2775,15 @@ msgstr "Фільтр"
 
 #: TFRMOPTIONS.LBLARCHIVEADD.CAPTION
 msgid "Add:"
-msgstr ""
+msgstr "Додати:"
 
 #: TFRMOPTIONS.LBLARCHIVEDELETE.CAPTION
 msgid "Delete:"
-msgstr ""
+msgstr "Видалити:"
 
 #: TFRMOPTIONS.LBLARCHIVEENCRYPT.CAPTION
 msgid "Encrypt:"
-msgstr ""
+msgstr "Зашифрувати"
 
 #: TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION
 msgctxt "TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION"
@@ -2792,27 +2792,27 @@ msgstr "Розширення:"
 
 #: TFRMOPTIONS.LBLARCHIVEEXTRACT.CAPTION
 msgid "Extract:"
-msgstr ""
+msgstr "Розпакувати"
 
 #: TFRMOPTIONS.LBLARCHIVELIST.CAPTION
 msgid "List:"
-msgstr ""
+msgstr "Список:"
 
 #: TFRMOPTIONS.LBLARCHIVELISTFORMAT.CAPTION
 msgid "Listing format:"
-msgstr ""
+msgstr "Формат списку:"
 
 #: TFRMOPTIONS.LBLARCHIVEMOVE.CAPTION
 msgid "Move:"
-msgstr ""
+msgstr "Перемістити:"
 
 #: TFRMOPTIONS.LBLARCHIVER.CAPTION
 msgid "Archiver:"
-msgstr ""
+msgstr "Архіватор:"
 
 #: TFRMOPTIONS.LBLARCHIVETEST.CAPTION
 msgid "Test:"
-msgstr ""
+msgstr "Перевірити:"
 
 #: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
 msgid "Auto size column:"
@@ -3046,7 +3046,7 @@ msgstr "Інструменти"
 
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
 msgid "Additional"
-msgstr ""
+msgstr "Додатково"
 
 #: TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION
 msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
@@ -3152,7 +3152,7 @@ msgstr "Ім'я архіву:"
 
 #: TFRMPACKDLG.RGPACKER.CAPTION
 msgid "Packer"
-msgstr "Архіватор"
+msgstr "Упаковщик"
 
 #: TFRMPACKINFODLG.BTNUNPACKALLANDEXEC.CAPTION
 msgid "Unpack &all and execute"
@@ -3588,7 +3588,7 @@ msgstr "Зберегти позицію"
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
 msgid "Search"
-msgstr "З&найти..."
+msgstr "Знайти..."
 
 #: TFRMVIEWER.MISEARCHNEXT.CAPTION
 msgid "Search next"
@@ -4335,11 +4335,11 @@ msgstr "Очікування відповіді від користувача"
 
 #: ulng.rsoptarchivers
 msgid "Archivers"
-msgstr ""
+msgstr "Архіватори"
 
 #: ulng.rsoptarchivetypename
 msgid "Archive type name:"
-msgstr ""
+msgstr "Тип архіву:"
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
