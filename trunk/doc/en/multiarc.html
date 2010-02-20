@@ -1,0 +1,473 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>External archivers</title>
+<link rel="STYLESHEET" type="text/css" href="doublecmd.css"/>
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+body {
+  margin: 5px 5px 5px 5px;
+  background-color: #ffffff;
+}
+/* ========== Text Styles ========== */
+hr { color: #000000}
+body, table /* Normal text */
+{
+ font-size: 10pt;
+ font-family: 'Arial';
+ font-style: normal;
+ font-weight: normal;
+ color: #000000;
+ text-decoration: none;
+}
+span.rvts1 /* Heading */
+{
+ font-weight: bold;
+ color: #0000ff;
+}
+span.rvts2 /* Subheading */
+{
+ font-weight: bold;
+ color: #000080;
+}
+span.rvts3 /* Keywords */
+{
+ font-style: italic;
+ color: #800000;
+}
+a.rvts4, span.rvts4 /* Jump 1 */
+{
+ color: #008000;
+ text-decoration: underline;
+}
+a.rvts5, span.rvts5 /* Jump 2 */
+{
+ color: #008000;
+ text-decoration: underline;
+}
+span.rvts6
+{
+ font-family: 'Courier New';
+ color: #000000;
+}
+span.rvts7
+{
+ font-family: 'Courier New';
+ font-weight: bold;
+ color: #0000ff;
+}
+span.rvts8
+{
+ font-family: 'Courier New';
+ font-weight: bold;
+ color: #000080;
+}
+a.rvts9, span.rvts9
+{
+ font-family: 'Courier New';
+ color: #008000;
+ text-decoration: underline;
+}
+span.rvts10
+{
+ font-size: 12pt;
+ color: #000000;
+}
+span.rvts11
+{
+ font-size: 9pt;
+ color: #000000;
+}
+span.rvts12
+{
+ font-size: 9pt;
+ font-weight: bold;
+ color: #000000;
+}
+span.rvts13
+{
+ font-size: 9pt;
+ color: #000000;
+ text-decoration: underline;
+}
+span.rvts14
+{
+ font-weight: bold;
+ color: #000000;
+}
+span.rvts15
+{
+ font-size: 14pt;
+ color: #000000;
+}
+span.rvts16
+{
+ color: #000000;
+}
+span.rvts17
+{
+ font-size: 9pt;
+ font-style: italic;
+ font-weight: bold;
+ color: #000000;
+}
+span.rvts18
+{
+ font-size: 9pt;
+ font-family: 'Courier';
+ color: #000000;
+}
+span.rvts19
+{
+ font-size: 9pt;
+ font-style: italic;
+ color: #000000;
+}
+span.rvts20
+{
+ font-family: 'Courier';
+ font-weight: bold;
+ color: #000000;
+}
+span.rvts21
+{
+ font-family: 'Courier';
+ color: #000000;
+}
+span.rvts22
+{
+ font-family: 'Courier';
+ color: #000000;
+ text-decoration: underline;
+}
+span.rvts23
+{
+ font-family: 'Courier';
+ font-weight: bold;
+ color: #000000;
+ text-decoration: underline;
+}
+span.rvts24
+{
+ font-size: 9pt;
+ font-family: 'Courier';
+ color: #000000;
+ text-decoration: underline;
+}
+span.rvts25
+{
+ font-size: 9pt;
+ font-family: 'Courier';
+ font-weight: bold;
+ color: #000000;
+}
+span.rvts26
+{
+ font-size: 8pt;
+ font-family: 'Microsoft Sans Serif';
+ color: #000000;
+}
+span.rvts27
+{
+ font-size: 8pt;
+ font-family: 'Microsoft Sans Serif';
+ font-weight: bold;
+ color: #000000;
+}
+span.rvts28
+{
+ font-size: 7pt;
+ color: #000000;
+}
+/* ========== Para Styles ========== */
+p,ul,ol /* Paragraph Style */
+{
+ text-align: left;
+ text-indent: 0px;
+ padding: 0px 0px 0px 0px;
+ margin: 0px 0px 0px 0px;
+}
+.rvps1 /* Centered */
+{
+ text-align: center;
+}
+.rvps2
+{
+ margin: 8px 0px 0px 0px;
+}
+.rvps3
+{
+ margin: 8px 0px 4px 0px;
+}
+.rvps4
+{
+}
+.rvps5
+{
+ text-align: center;
+}
+.rvps6
+{
+ margin: 8px 0px 1px 0px;
+}
+.rvps7
+{
+ margin: 8px 0px 4px 0px;
+}
+.rvps8
+{
+ margin: 8px 0px 0px 0px;
+}
+.rvps9
+{
+ margin: 8px 0px 1px 0px;
+}
+.rvps10
+{
+ text-indent: -16px;
+ margin: 0px 0px 8px 16px;
+}
+.rvps11
+{
+ text-indent: -8px;
+ margin: 8px 0px 0px 8px;
+}
+.rvps12
+{
+ text-indent: -8px;
+ margin: 8px 0px 0px 8px;
+}
+.rvps13
+{
+ text-align: center;
+ text-indent: -8px;
+ margin: 8px 0px 0px 8px;
+}
+.rvps14
+{
+ margin: 1px 0px 5px 0px;
+}
+.rvps15
+{
+ margin: 1px 0px 5px 0px;
+}
+--></style>
+</head>
+<body alink=#ff0000>
+
+<div class="TITLEPAGE">
+	<h1>External archivers</h1>
+	<hr/>
+  </div>
+  
+  <div class="TOC">
+	  <dt class="bold"><a name="TOC">Content</a></dt>
+		<dl>
+		  <dt>1.1. <a href="#multiarc">Multiarc.ini reference</a></dt>
+		  <dt>1.2. <a href="#listformat">Format parsing</a></dt>
+          <dt>1.3. <a href="#commandformat">Command definition format</a></dt>
+		</dl>
+  </div>
+
+	<p>Double Commander uses principle of the work with external arhivers similar to plugin <a href="http://wcx.sourceforge.net/">MultiArc</a> for Total Commander. Most of the explanations are from the help file for this plugin.</p>
+
+<p class=rvps1><a name="multiarc"></a>
+<p><br></p>
+<p><span class=rvts15>Multiarc.ini reference</span></p>
+<p class=rvps2><span class=rvts11> All settings of external archivers is stored in multiarc.ini file. This file is standard INI-file. It contains some sections. Those sections contains keys - the pairs of strings separated by equality sign. Those files is text files and can be edited by every text editor. Every archiver, supported by DC must be described as a separate section in multiarc.ini. See below for detailed info about its structure. There is also special section with name "MultiArc". This sections contains settings that applicable for all archivers - i.e. general settings</span></p>
+<p class=rvps2><span class=rvts11>The structure of typical archiver description section:&nbsp; </span></p>
+<p class=rvps2><span class=rvts18>[TypeName]</span></p>
+<p class=rvps2><span class=rvts18>Parameter = Value of parameter</span></p>
+<p class=rvps2><span class=rvts18>Pattern = String representing a pattern</span></p>
+<p class=rvps2><span class=rvts18>Command = String representing a command</span></p>
+<p class=rvps2><span class=rvts18>Flag = 0 or 1 depending on state of this flag</span></p>
+<p class=rvps3><span class=rvts20>TypeName</span><span class=rvts21> is a short name for archive type. It is required and must be unique.</span></p>
+<p class=rvps3><span class=rvts22>Example:</span></p>
+<p class=rvps3><span class=rvts21>[ARJ] </span></p>
+<p class=rvps3><span class=rvts23>Parameters</span></p>
+<p class=rvps3><span class=rvts20>Archiver</span><span class=rvts21> Path to archiver utilit. Pach can contain enviropment variable such as %WINDIR% or %COMMANDER_PATH%.</span></p>
+<p class=rvps3><span class=rvts20>ID</span><span class=rvts21> (optional) archive ID (2-digit hex numbers delimited with spaces). </span></p>
+<p class=rvps3><span class=rvts20>IDPos</span><span class=rvts21> (optional) ID position in archive. If not present, ID will be searched in starting part of archive. You can define the positions with "-" sign. In this case the positions will be calculated from end of file. Special value &lt;SeekID&gt; determinated search ID if not found by numeric values of IDPos. Seek in range 0 - (Smalest of Size of file or IDSeekRange). Values can be writed as decimal (12345) or heximal (03039). For negative values use notation 0xFFFFFFFF (-1).</span></p>
+<p class=rvps3><span class=rvts20>IDSeekRange</span><span class=rvts21> (optional) count of bytes where ID seek if defined &lt;SeekID&gt;. By default IDSeekRange = 1Mb. See </span><span class=rvts20>IDPOS</span><span class=rvts21>. </span></p>
+<p class=rvps3><span class=rvts20>ExcludeIDs</span><span class=rvts21> (optional) Signatures if found in file, file defined as the "process imposible".</span></p>
+<p class=rvps3><span class=rvts21>This opportunity entered for correct process files, generated&nbsp; InnoSetup, NSIS (NullSoft Instalation System) or other.</span></p>
+<p class=rvps3><span class=rvts21>Algoritm of working of parameter:</span></p>
+<p class=rvps3><span class=rvts21>If fount ID from </span><span class=rvts20>ID</span><span class=rvts21>, then check ExcludeIDs.</span></p>
+<p class=rvps3><span class=rvts21>if found any exclude ID, then file not support by </span><span class=rvts20>Archiver</span><span class=rvts21>. </span></p>
+<p class=rvps3><span class=rvts21>Param format: (Signature, [offset], [Absolute]),(Signature, [offset], [Absolute]), .... (Signature, [offset], [Absolute]). </span></p>
+<p class=rvps3><span class=rvts21>Where:</span></p>
+<p class=rvps3><span class=rvts21>Signature -- sequence of byte for find. </span></p>
+<p class=rvps3><span class=rvts21>Absolute -- (optional) Absolute (1) or relative (0) offset. By default = 0.&nbsp; </span></p>
+<p class=rvps3><span class=rvts21>If 1, then offset start from begin fiel (if Offset &gt;= 0), or end of file (if Offset &lt;0).</span></p>
+<p class=rvps3><span class=rvts21>If 0, then offset start from relative founded ID. See also description of param Offset.</span></p>
+<p class=rvps3><span class=rvts21>Offset -- (optional) Offset relatively current ID (if = 0, see from begin of ID, if &gt;0 then on offset byte forward (to end of file) from begin signature (ID), if &lt;0 then on offset byte backwards (to begin of file) from begin signature. By default = 0. See also description of Absolute.</span></p>
+<p class=rvps3><span class=rvts21>Example for ExcludeIDs.</span></p>
+<p class=rvps3><span class=rvts21>ID= 01 02 03 04, 01 03 02</span></p>
+<p class=rvps3><span class=rvts21>IDPOS = 5</span></p>
+<p class=rvps3><span class=rvts21>ExcludeIDs= (00, -1), (01 02 03 04 05,0), (06,5), (07,11, 1), (08,-1, 1)</span></p>
+<p class=rvps3><span class=rvts21>MultiArc will definedetermine that the file can to be processed if has coincided though one signature from ID, and signatures from ExcludeIDs have not coincided.</span></p>
+<p class=rvps3><span class=rvts21>In this example will files which are accepted comprise sequence of byte (xx in the given example any byte):</span></p>
+<p class=rvps3><span class=rvts21>0&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; 8&nbsp; </span></p>
+<p class=rvps3><span class=rvts21>xx xx xx xx xx 01 02 03 04</span></p>
+<p class=rvps3><span class=rvts21>xx xx xx xx xx 01 03 02 xx</span></p>
+<p class=rvps3><span class=rvts21>but files which are rejected contain</span></p>
+<p class=rvps3><span class=rvts21>0&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; 8&nbsp; 9&nbsp; 10 11 12 13 </span></p>
+<p class=rvps3><span class=rvts21><br></span></p>
+<p class=rvps3><span class=rvts21>xx xx xx xx 00 01 02 03 04 xx xx xx xx xx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule 00, -1</span></p>
+<p class=rvps3><span class=rvts21>xx xx xx xx 00 01 03 02 xx xx xx xx xx xx</span></p>
+<p class=rvps3><span class=rvts21><br></span></p>
+<p class=rvps3><span class=rvts21>xx xx xx xx xx 01 02 03 04 05 xx xx xx xx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule 01 02 03 04 05,0</span></p>
+<p class=rvps3><span class=rvts21><br></span></p>
+<p class=rvps3><span class=rvts21>xx xx xx xx xx 01 02 03 04 xx xx xx xx 06&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule 06,5</span></p>
+<p class=rvps3><span class=rvts21>xx xx xx xx xx 01 03 02 xx xx xx xx 06 xx&nbsp; </span></p>
+<p class=rvps3><span class=rvts21><br></span></p>
+<p class=rvps3><span class=rvts21>xx xx xx xx xx 01 02 03 04 xx xx 07 xx xx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rule 07,11, 1</span></p>
+<p class=rvps3><span class=rvts21>xx xx xx xx xx 01 03 02 xx xx xx 07 xx xx</span></p>
+<p class=rvps3><span class=rvts21><br></span></p>
+<p class=rvps3><span class=rvts21>0&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; 8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EOF </span></p>
+<p class=rvps3><span class=rvts21>xx xx xx xx xx 01 02 03 04 .............. 08&nbsp;&nbsp; rule 08,-1, 1</span></p>
+<p class=rvps3><span class=rvts21>xx xx xx xx xx 01 03 02 xx .............. 08</span></p>
+<p class=rvps3><span class=rvts20>Extension</span><span class=rvts21> archive format extension (without dot). </span></p>
+<p class=rvps3><span class=rvts22>Note:</span><span class=rvts21>All above parameters can be defined with multiple values. You can use comma to separate those multiple values. </span></p>
+<p class=rvps3><span class=rvts20>Description</span><span class=rvts21> archive description. A short string - version, author etc.</span></p>
+<p class=rvps3><span class=rvts22>Example:</span></p>
+<p class=rvps3><span class=rvts21>ID = 00 FF, CC DD, 55 EF 32 12,</span></p>
+<p class=rvps3><span class=rvts21>IDPos = 0, 0xd, -6, &lt;SeekID&gt;</span></p>
+<p class=rvps3><span class=rvts21>Extension = hhh, hpj, tzu</span></p>
+<p class=rvps3><span class=rvts21>Description="PivkARC v7.1365 (c) by Kon' Petrovich"</span></p>
+<p class=rvps3><span class=rvts21>The archives in this example will be checked in the following manner. </span></p>
+<p class=rvps3><span class=rvts21>Set to pos 0 and check for every ID defined in ID parameter. Than go to pos 13 and check for all IDs again and try will be at pos 6 before the end of file and last try find IDs in range 0--SizeOfFile or 0--IDSeekRange, or 0--1Mb. If at some of this checks the file will contains some of ID this file will be assumed as supported by this archiver. </span></p>
+<p class=rvps3><span class=rvts23>Patterns</span></p>
+<p class=rvps3><span class=rvts20>Start</span><span class=rvts21>(optional) any part of line in listing after which processing </span></p>
+<p class=rvps3><span class=rvts20>End</span><span class=rvts21> (optional) any part of line in listing to stop processing of files list.</span></p>
+<p class=rvps3><span class=rvts22>Note for Start and End patterns:</span><span class=rvts21> If text started from '^', it will be compared from second symbol with lines beginning. Otherwise text looked anywhere in lines.</span></p>
+<p class=rvps3><span class=rvts20>Format0 ... Format&lt;n&gt;</span><span class=rvts21> - files listing format. If file description in archive listing contains multiple lines use corresponding format keys count. You can define up to 50 format lines.</span></p>
+<p class=rvps3><span class=rvts21>Format strings description&nbsp;&nbsp;&nbsp; </span></p>
+<p class=rvps3><span class=rvts22>Example:</span></p>
+<p class=rvps3><span class=rvts21>Start="^-------"</span></p>
+<p class=rvps3><span class=rvts21>End="^Total files listed: "</span></p>
+<p class=rvps3><span class=rvts21>Format1="zzzzzzzzzz aaaaa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; yyyy tt dd hh mm ss"</span></p>
+<p class=rvps3><span class=rvts21>Format2=" "</span></p>
+<p class=rvps3><span class=rvts23>Commands</span></p>
+<p class=rvps3><span class=rvts20>List</span><span class=rvts21> - produce listing.</span></p>
+<p class=rvps3><span class=rvts20>Extract</span><span class=rvts21> - extract file from archive.</span></p>
+<p class=rvps3><span class=rvts20>ExtractWithPath</span><span class=rvts21> - extract file(s) from archive with full path.</span></p>
+<p class=rvps3><span class=rvts22>Note for extract commands:</span><span class=rvts21> If BatchUnpack flag is set to 1 the second one will be used.</span></p>
+<p class=rvps3><span class=rvts20>Test</span><span class=rvts21> - test archive.</span></p>
+<p class=rvps3><span class=rvts20>Delete</span><span class=rvts21> - delete file from archive.</span></p>
+<p class=rvps3><span class=rvts20>Add</span><span class=rvts21> - add file to archive.</span></p>
+<p class=rvps3><span class=rvts20>Move</span><span class=rvts21> - move file to archive.</span></p>
+<p class=rvps3><span class=rvts20>InputString</span><span class=rvts21> - insert some string into archivers utility input stream. This is used to emulate pressing some keys at start of archiver. Used for some shareware utilities that requires press Y before work. =-)</span></p>
+<p class=rvps3><span class=rvts22>Note:</span><span class=rvts21> All command excluding InputString use command definition format&nbsp;&nbsp; </span></p>
+<p class=rvps3><span class=rvts23>Flags</span></p>
+<p class=rvps3><span class=rvts20>IgnoreErrors</span><span class=rvts21> if active - archiver commands exit code will be ignored. Use with caution.</span></p>
+<p class=rvps3><span class=rvts20>SkipEmpty</span><span class=rvts21> files with empty names will not be added to list</span></p>
+<p class=rvps3><span class=rvts20>UnixPath</span><span class=rvts21> if paths in output list in Unix format - activate this</span></p>
+<p class=rvps3><span class=rvts20>Debug</span><span class=rvts21> if this flag activated - all archiving utility output will be written to log file, laying in same directory as multiarc.wcx and named "multiarc.%TYPENAME%.log" where %TYPENAME% is TypeName of corresponding archiver description. If some list files used in commands, those files also will be not removed after performing command. Look into %TEMP%/$mltwcx directory for those files. Activate this flag only if you going to track all activity. It is needed during writing new addons. Do not use it if you not need it! This log file can eat your free disk space very quick! =-) You warned.</span></p>
+<p class=rvps2><span class=rvts20>SkipSfxHeader</span><span class=rvts21> default false. Determines whether to skip the SFX part of the archive during archive ID search. Example:</span></p>
+<p class=rvps2><span class=rvts21>7z SFX-Archive, the archive itself is located after the FSX part, so it can be skipped. SkipSfxHeader = 1. </span></p>
+<p class=rvps2><span class=rvts21>InnoSetup Installation. </span><span class=rvts20>ID</span><span class=rvts21> is in the SFX part of the file, so it is not necessary to skip it.SkipSfxHeader = 0.</span><span class=rvts11>&nbsp; </span></p>
+<p class=rvps9><span class=rvts15><br></span></p>
+	<p class="NAVBACK"><a href="#TOC">Top</a></p>
+<p><br></p>
+<p><br></p>
+<p class=rvps1><a name="listformat"></a>
+<p><br></p>
+<p><span class=rvts15>Format parsing</span></p>
+<p class=rvps2><span class=rvts11> To parse file listing MultiArc uses FormatN-pattern. If file list uses some strings to output information about every file in the archive use corresponding count of Format-patterns. The Format-pattern is a string defining mask for extraction information from single strings of files list. It uses following symbols to define pattern:&nbsp; </span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; n - file name</span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; . - remove trailing spaces from file name and append name with dot</span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; z - unpacked size</span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; c - file description</span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; p - packed size</span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; d - day</span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; t - month</span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; TTT - three letters month name (Jan, Feb, Mar, ...)</span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; y - year</span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; h - hours</span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; H - hours modifier letter (a - a.m. time, p - p.m. time)</span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; m - minutes</span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; s - seconds</span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; a - attributes</span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; e - file extension</span></p>
+<p class=rvps2><span class=rvts18>;&nbsp; * - skip until first space or end of line</span></p>
+<p class=rvps2><span class=rvts24>Example:</span><span class=rvts18> </span></p>
+<p class=rvps2><span class=rvts18>The part of JAR output log:</span></p>
+<p class=rvps2><span class=rvts18>346) install\f_0286</span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3656 A.... Win-32&nbsp; Solid&nbsp;&nbsp;&nbsp; 1-1&nbsp;&nbsp; 2002-07-11 13:36:26 2002-12-09 20:41:20</span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2002-12-09 00:00:00</span></p>
+<p class=rvps2><span class=rvts18>347) install\f_0287</span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp; 11323 A.... Win-32&nbsp; Solid&nbsp;&nbsp;&nbsp; 1-1&nbsp;&nbsp; 2002-07-11 13:36:26 2002-12-09 20:41:20</span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2002-12-09 00:00:00</span></p>
+<p class=rvps2><span class=rvts18>and corresponding format patterns:</span></p>
+<p class=rvps2><span class=rvts18>Format0="* nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"</span></p>
+<p class=rvps2><span class=rvts18>Format1="zzzzzzzzzz aaaaa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; yyyy tt dd hh mm ss"</span></p>
+<p class=rvps2><span class=rvts18>Format2=" "</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; </span><span class=rvts11> </span></p>
+<p class=rvps9><span class=rvts15><br></span></p>
+	<p class="NAVBACK"><a href="#TOC">Top</a></p>
+<p><br></p>
+<p><br></p>
+<p class=rvps1><a name="commandformat"></a>
+<p><br></p>
+<p><span class=rvts15>Command definition format</span></p>
+<p class=rvps2><span class=rvts11> Command is string that contains variables. Those variables has the "%"-sign before them and will be substituted during command call.&nbsp; </span></p>
+<p class=rvps2><span class=rvts18>The list of command variables:</span></p>
+<p class=rvps2><span class=rvts18><br></span></p>
+<p class=rvps2><span class=rvts18>&nbsp; %P - long name of archiving utility (as it is in "Archiver" key)</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; %p - short name of archiving utility (as it is in "Archiver" key)</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; %A - long name of archive file</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; %a - short name of archive file</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; %L - Filelist name. Filelist is the file containing names of files </span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to be processed by the external archiver. File names is long</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; %l - Filelist with short file names.</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; %F - The name of a single file to process. The archiver will be</span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; executed several times until all file names are exhausted.</span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This variable should be used only if the destination archiver</span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; does not support filelists on the command line.</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; %E&lt;errorlevel&gt; - maximum acceptable command errorlevel.</span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For example, %E2 indicates that errorlevels 0, 1 and 2</span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; are acceptable. This variable may be specified in any place</span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of command. If it is absent, only errorlevel 0 is considered</span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; as successful.</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; %O - by default, multiarc convert archiver output from OEM encoding to ANSI.</span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Applying it skip encoding.</span></p>
+<p class=rvps2><span class=rvts18><br></span></p>
+<p class=rvps2><span class=rvts18>&nbsp; %R - Target subdirectory IN archive</span></p>
+<p class=rvps2><span class=rvts18><br></span></p>
+<p class=rvps2><span class=rvts18>&nbsp; {} - if some variable is enclosed in braces - it'll be added only if</span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this variable will contain something non-empty. See MsCAB addon</span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for example using. WARNING - Now works only with %R variable. </span></p>
+<p class=rvps2><span class=rvts18>&nbsp; </span></p>
+<p class=rvps2><span class=rvts18>&nbsp; %S - Depends on modes, set in configuration dialog, MultiArc will ask </span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; user about additional command-line parameters should be passed </span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in-place of %S</span></p>
+<p class=rvps2><span class=rvts18><br></span></p>
+<p class=rvps2><span class=rvts18>&nbsp; %C - Do not hide console window during running external archiver utilities.</span></p>
+<p class=rvps2><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The console settings has more configuration options - see configure dialog.</span></p>
+<p class=rvps2><span class=rvts18><br></span></p>
+<p class=rvps2><span class=rvts18><br></span></p>
+<p class=rvps2><span class=rvts18>&nbsp; Variable modifiers Q, q, W, P, A can be used to change file names </span></p>
+<p class=rvps2><span class=rvts18>&nbsp; format details:</span></p>
+<p class=rvps2><span class=rvts18><br></span></p>
+<p class=rvps2><span class=rvts18>&nbsp; Q - quote names with spaces;</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; q - quote all names;</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; W - use name only, without path;</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; P - use path only, without name;</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; A - use ANSI encoding.</span></p>
+<p class=rvps2><span class=rvts18><br></span></p>
+<p class=rvps2><span class=rvts18>&nbsp; These modifiers may be specified immediately after variables without </span></p>
+<p class=rvps2><span class=rvts18>&nbsp; spaces.</span><span class=rvts11> </span></p>
+<p class=rvps2><span class=rvts11>See the addons for real examples of commands.</span></p>
+<p class=rvps2><span class=rvts12>Note:</span></p>
+<p class=rvps2><span class=rvts11> If archiver utility located in path with non English chars, and you see message like this: </span></p>
+<p class=rvps2><span class=rvts11>"Executing command 'C:\Documents and Settings\ a(r)\ ?(r)c?(c) aa(r)"\7za.exe -r0 l D:\same path\7zSfx.7z' returned errorlevel -1. Possibly an error occurred. Archive listing wasn't retrieved."</span></p>
+<p class=rvps2><span class=rvts11>or like this: </span></p>
+<p class=rvps2><span class=rvts11>"Executed command 'C:\Documents and Settings\ a(r)\ ?(r)c?(c) aa(r)"\7za.exe -r0 l D:\same path\7zSfx.7z' returned errorlevel -1, which is higher than configured as normal for this command. Probably error occurred. Check your configuration, please..."</span></p>
+<p class=rvps2><span class=rvts11>Replace in Multiarc.ini on section appropriate archiver parameters </span><span class=rvts12>Extract</span><span class=rvts11>, </span><span class=rvts12>ExtractWithPath</span><span class=rvts11>, </span><span class=rvts12>Test</span><span class=rvts11>, </span><span class=rvts12>Delete</span><span class=rvts11>, </span><span class=rvts12>Add</span><span class=rvts11> from %P to %PA or %PQA.</span></p>
+<p class=rvps9><span class=rvts15><br></span></p>
+	<p class="NAVBACK"><a href="#TOC">Top</a></p>
+<p><br></p>
+	<div class="SECT1">
+	  <p class="NAVBACK"><a href="index.html">Home</a></p>
+	</div>
+<p><br></p>
+</body></html>
