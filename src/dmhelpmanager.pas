@@ -65,7 +65,7 @@ begin
     end;
 
   HTMLHelpDatabase.BaseURL:= 'file://' + gpExePath + 'doc' + PathDelim + gHelpLang;
-  HTMLHelpDatabase.KeywordPrefix:= gHelpLang + '/';
+  HTMLHelpDatabase.KeywordPrefix:= '/';
 end;
 
 initialization

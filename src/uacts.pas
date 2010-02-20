@@ -1690,12 +1690,12 @@ end;
 
 procedure TActs.cm_HelpIndex(param: string='');
 begin
-  ShowHelpOrErrorForKeyword('', gHelpLang+'/index.html');
+  ShowHelpOrErrorForKeyword('', '/index.html');
 end;
 
 procedure TActs.cm_Keyboard(param: string='');
 begin
-  ShowHelpOrErrorForKeyword('', gHelpLang+'/shortcuts.html');
+  ShowHelpOrErrorForKeyword('', '/shortcuts.html');
 end;
 
 procedure TActs.cm_VisitHomePage(param: string='');
