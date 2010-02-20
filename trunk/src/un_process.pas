@@ -5,7 +5,7 @@ unit un_process;
 interface
 
 uses
-  Process, UTF8Process, SysUtils, Math;
+  Process, SysUtils, Math;
  
 type
 
@@ -15,7 +15,7 @@ type
 
   TExProcess = class
   protected
-    p: TProcessUTF8;
+    p: TProcess;
     s: string;
     FStop:boolean;
     function _GetExitStatus(): integer;
@@ -27,7 +27,7 @@ type
     procedure SetCmdLine(commandline:string);
     destructor Destroy;
 
-    property Process: TProcessUTF8 read p;
+    property Process: TProcess read p;
     property ExitStatus: integer read _GetExitStatus;
   end;
 
@@ -49,7 +49,7 @@ end;
 constructor TExProcess.Create(commandline: string='');
 begin
   s:= '';
-  p:= TProcessUTF8.Create(nil);
+  p:= TProcess.Create(nil);
   p.CommandLine:=commandline;
   p.Options:=[poUsePipes,poNoConsole];
 end;
