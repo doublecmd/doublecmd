@@ -1,0 +1,469 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>Внешние архиваторы</title>
+<link rel="STYLESHEET" type="text/css" href="doublecmd.css"/>
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+body {
+  margin: 5px 5px 5px 5px;
+  background-color: #ffffff;
+}
+/* ========== Text Styles ========== */
+hr { color: #000000}
+body, table /* Normal text */
+{
+ font-size: 10pt;
+ font-family: 'Arial';
+ font-style: normal;
+ font-weight: normal;
+ color: #000000;
+ text-decoration: none;
+}
+span.rvts1 /* Heading */
+{
+ font-weight: bold;
+ color: #0000ff;
+}
+span.rvts2 /* Subheading */
+{
+ font-weight: bold;
+ color: #000080;
+}
+span.rvts3 /* Keywords */
+{
+ font-style: italic;
+ color: #800000;
+}
+a.rvts4, span.rvts4 /* Jump 1 */
+{
+ color: #008000;
+ text-decoration: underline;
+}
+a.rvts5, span.rvts5 /* Jump 2 */
+{
+ color: #008000;
+ text-decoration: underline;
+}
+span.rvts6
+{
+ font-family: 'Courier New';
+ color: #000000;
+}
+span.rvts7
+{
+ font-family: 'Courier New';
+ font-weight: bold;
+ color: #0000ff;
+}
+span.rvts8
+{
+ font-family: 'Courier New';
+ font-weight: bold;
+ color: #000080;
+}
+a.rvts9, span.rvts9
+{
+ font-family: 'Courier New';
+ color: #008000;
+ text-decoration: underline;
+}
+span.rvts10
+{
+ font-size: 12pt;
+ color: #000000;
+}
+span.rvts11
+{
+ font-size: 14pt;
+ color: #000000;
+}
+span.rvts12
+{
+ font-size: 9pt;
+ color: #000000;
+}
+span.rvts13
+{
+ font-size: 9pt;
+ color: #000000;
+ text-decoration: underline;
+}
+span.rvts14
+{
+ font-weight: bold;
+ color: #000000;
+}
+span.rvts15
+{
+ font-size: 9pt;
+ font-weight: bold;
+ color: #000000;
+}
+span.rvts16
+{
+ color: #000000;
+}
+span.rvts17
+{
+ font-size: 9pt;
+ font-style: italic;
+ font-weight: bold;
+ color: #000000;
+}
+span.rvts18
+{
+ font-size: 9pt;
+ font-family: 'Courier';
+ color: #000000;
+}
+span.rvts19
+{
+ font-size: 9pt;
+ font-style: italic;
+ color: #000000;
+}
+span.rvts20
+{
+ font-family: 'Courier';
+ font-weight: bold;
+ color: #000000;
+}
+span.rvts21
+{
+ font-family: 'Courier';
+ color: #000000;
+}
+span.rvts22
+{
+ font-family: 'Courier';
+ color: #000000;
+ text-decoration: underline;
+}
+span.rvts23
+{
+ font-family: 'Courier';
+ font-weight: bold;
+ color: #000000;
+ text-decoration: underline;
+}
+span.rvts24
+{
+ font-size: 9pt;
+ font-family: 'Courier';
+ color: #000000;
+ text-decoration: underline;
+}
+span.rvts25
+{
+ font-size: 9pt;
+ font-family: 'Courier';
+ font-weight: bold;
+ color: #000000;
+}
+span.rvts26
+{
+ font-size: 8pt;
+ font-family: 'Microsoft Sans Serif';
+ color: #000000;
+}
+span.rvts27
+{
+ font-size: 8pt;
+ font-family: 'Microsoft Sans Serif';
+ font-weight: bold;
+ color: #000000;
+}
+span.rvts28
+{
+ font-size: 7pt;
+ color: #000000;
+}
+/* ========== Para Styles ========== */
+p,ul,ol /* Paragraph Style */
+{
+ text-align: left;
+ text-indent: 0px;
+ padding: 0px 0px 0px 0px;
+ margin: 0px 0px 0px 0px;
+}
+.rvps1 /* Centered */
+{
+ text-align: center;
+}
+.rvps2
+{
+ margin: 8px 0px 1px 0px;
+}
+.rvps3
+{
+ margin: 8px 0px 0px 0px;
+}
+.rvps4
+{
+ margin: 8px 0px 4px 0px;
+}
+.rvps5
+{
+ text-indent: -16px;
+ margin: 0px 0px 8px 16px;
+}
+.rvps6
+{
+ text-indent: -8px;
+ margin: 8px 0px 0px 8px;
+}
+.rvps7
+{
+ text-indent: -8px;
+ margin: 8px 0px 0px 8px;
+}
+.rvps8
+{
+ text-align: center;
+ text-indent: -8px;
+ margin: 8px 0px 0px 8px;
+}
+.rvps9
+{
+ margin: 1px 0px 5px 0px;
+}
+.rvps10
+{
+ margin: 1px 0px 5px 0px;
+}
+.rvps11
+{
+ margin: 8px 0px 0px 0px;
+}
+.rvps12
+{
+ margin: 8px 0px 1px 0px;
+}
+--></style>
+</head>
+<body alink=#ff0000>
+
+<div class="TITLEPAGE">
+	<h1>Внешние архиваторы</h1>
+	<hr/>
+  </div>
+  
+  <div class="TOC">
+	  <dt class="bold"><a name="TOC">Содержание</a></dt>
+		<dl>
+		  <dt>1.1. <a href="#multiarc">Описание Multiarc.ini</a></dt>
+		  <dt>1.2. <a href="#listformat">Описание строк Format</a></dt>
+          <dt>1.3. <a href="#commandformat">Формат определения команд</a></dt>
+		</dl>
+  </div>
+
+	<p>Double Commander использует механизм работы с внешними архиваторами аналогичный плагину <a href="http://wcx.sourceforge.net/">MultiArc</a> для Total Commander. Большинство из
+	приведённых далее объяснений и примеров позаимствовано из справочного файла к этому плагину.</p>
+
+
+<p class=rvps1><a name="multiarc"></a>
+<p><br></p>
+<p><span class=rvts11>Описание Multiarc.ini</span></p>
+<p class=rvps3><span class=rvts12> Все настройки внешних архиваторов хранятся в файле multiarc.ini. Этот файл это стандартный INI-файл. Он содержит несколько разделов (секций). Эти секции содержат параметры - пары строк разделенные знаком равно (=). Эти файлы являются текстовыми и могут быть отредактированы любым текстовым редактором. Каждый архиватор поддерживаемый DC должен быть описан в отдельной секции в multiarc.ini. Смотрите ниже детальную информацию об их структуре. Также есть специальная секция с именем "MultiArc". Эта секция содержит настройки которые применяются ко всем архиваторам, т.е. общие настройки.</span></p>
+<p class=rvps3><span class=rvts12>Структура типичной секции описания архиватора: </span></p>
+<p class=rvps3><span class=rvts18>[Имя_типа]</span></p>
+<p class=rvps3><span class=rvts18>Параметр=Значение параметра</span></p>
+<p class=rvps3><span class=rvts18>Шаблон= Строка представляющая шаблон</span></p>
+<p class=rvps3><span class=rvts18>Команда= строка команды</span></p>
+<p class=rvps3><span class=rvts18>Флаг = 0 или 1 в зависимости от состояния флага.</span></p>
+<p class=rvps4><span class=rvts20>Имя_типа</span><span class=rvts21> краткое имя типа архиватора. Обязательно, и должно быть уникальным. Должно быть набрано символами английского алфавита.</span></p>
+<p class=rvps4><span class=rvts22>Пример:</span></p>
+<p class=rvps4><span class=rvts21>[ARJ] </span></p>
+<p class=rvps4><span class=rvts23>Параметры</span></p>
+<p class=rvps4><span class=rvts20>Archiver</span><span class=rvts21> Путь к архиватору. Путь может содержать переменные окружения, например %WINDIR% или %COMMANDER_PATH%.</span></p>
+<p class=rvps4><span class=rvts20>ID</span><span class=rvts21> (необязательный) -- сигнатура (ID) архиватора, используется для определения является ли данный файл архивом этого типа. Записывается группами по 2 шестнадцатеричных символа, разделенные пробелами. Если архиватор может обрабатывать несколько версий архивов с разными сигнатурами, они разделяются запятыми.</span></p>
+<p class=rvps4><span class=rvts20>IDPos</span><span class=rvts21> (необязательный) -- позиция ID в архиве. Если позиция не указана, ID будет искаться начиная с начала архива. Вы можете определить позицию с конца файла, с помощью знака "-" (минус). Если для архивов с этим ID может быть несколько мест расположения сигнатуры, они разделяются запятыми (обычно это разные версии архивов, поддерживаемые архиватором). Также обратите внимание на описание флага SkipSfxHeader. Специальное значение &lt;SeekID&gt; определяет нужно ли искать ID, если они не найдены по другим позициям указанным в параметре. Если IDPos отсутствует, тогда ID будет искаться в диаппазоне: меньшее из значений - размер файла, IDSeekRange. Значения можно вводить в десятичном&nbsp; или шестнадцатеричном виде. Например позицию находящуюся в 12345 байт от начала файла можно описать как</span></p>
+<p class=rvps4><span class=rvts21>IDPos = 12345</span></p>
+<p class=rvps4><span class=rvts21>(в десятичном исчислении) или (в шестнадцатеричном исчислении)</span></p>
+<p class=rvps4><span class=rvts21>IDPos = 0х3039</span></p>
+<p class=rvps4><span class=rvts21>Отрицательные значения в шестнадцатеричном виде описываются как 0xFFFFFFFF (-1 в десятичном)</span></p>
+<p class=rvps4><span class=rvts20>IDSeekRange</span><span class=rvts21> (необязательный) число байт, в котором MultiArc будет пытаться найти ID.Если параметр отсутствует, будет использовано меньшее из значений Размер_файла или 1Мбайт. Поиск всегда происходит от начала файла, SkipSfxHeader игнорируется. Это может замедлить открытие архивов или поиск в архиве. Если отсутствует IDPOS, тогда используется поиск ID в диаппазонеот начала файла до меньшего из значений -- (размер файла, IDSeekRange).</span></p>
+<p class=rvps4><span class=rvts20>ExcludeIDs</span><span class=rvts21> (необязательный)&nbsp; Сигнатура при нахождении которой файл определяется как "Обработать не возможно". </span></p>
+<p class=rvps4><span class=rvts21>Данная возможность введена для корректной обработки файлов генерируемых программами InnoSetup, NSIS (NullSoft Instalation System) и возможно другими.</span></p>
+<p class=rvps4><span class=rvts21>Алгоритм работы данного параметра:</span></p>
+<p class=rvps4><span class=rvts21>Если находим ID из параметра </span><span class=rvts20>ID</span><span class=rvts21>, тогда проверяем ExcludeIDs.</span></p>
+<p class=rvps4><span class=rvts21>Если нашли совпадение по любому исключаемому ID, тогда считаем что файл не поддерживается утилитой </span><span class=rvts20>Archiver</span><span class=rvts21>. </span></p>
+<p class=rvps4><span class=rvts21>Формат параметра: (Signature, [offset], [Absolute]),(Signature, [offset], [Absolute]), .... (Signature, [offset], [Absolute]). </span></p>
+<p class=rvps4><span class=rvts21>Где: </span></p>
+<p class=rvps4><span class=rvts21>Signature -- это последовательность байтов которые должны быть найдены. </span></p>
+<p class=rvps4><span class=rvts21>Absolute -- (необязательный) абсолютное (1) или относительное (0) смещение. если не указан, по умолчанию = 0.&nbsp; </span></p>
+<p class=rvps4><span class=rvts21>Если 1, тогда смещение берется от начала файла (если Offset &gt;= 0), или от конца файла (если Offset &lt;0).</span></p>
+<p class=rvps4><span class=rvts21>Если 0, тогда смещение берется относительно найденого ID. Смотри также описание параметра offset</span></p>
+<p class=rvps4><span class=rvts21>Offset -- (необязательный) Смещение относительно текущего ID (если = 0, тогда смотрим начиная с начала ID, если &gt;0 тогда на offset байт в перёд (к концу файла) от начала сигнатуры (ID), если &lt;0 тогда на offset байт назад (к началу файла) от начала сигнатуры. Если опущен, тогда по умолчанию = 0. Смотри также описание параметра Absolute.</span></p>
+<p class=rvps4><span class=rvts21>Пример для параметра ExcludeIDs.</span></p>
+<p class=rvps4><span class=rvts21>ID= 01 02 03 04, 01 03 02</span></p>
+<p class=rvps4><span class=rvts21>IDPOS = 5</span></p>
+<p class=rvps4><span class=rvts21>ExcludeIDs= (00, -1), (01 02 03 04 05,0), (06,5), (07,11, 1), (08,-1, 1)</span></p>
+<p class=rvps4><span class=rvts21>MultiArc будет определять что файл может быть обработан если совпала хоть одна сигнатура из ID, и не совпали сигнатуры из ExcludeIDs.</span></p>
+<p class=rvps4><span class=rvts21>В этом примере будет приняты файлы которые содержат в себе последовательность байт (xx в данном примере любые байты):</span></p>
+<p class=rvps4><span class=rvts21>0&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; 8&nbsp; </span></p>
+<p class=rvps4><span class=rvts21>xx xx xx xx xx 01 02 03 04 xx (кроме правила (01 02 03 04 05,0))</span></p>
+<p class=rvps4><span class=rvts21>xx xx xx xx xx 01 03 02 xx</span></p>
+<p class=rvps4><span class=rvts21>но отвергнуты файлы которые содержат</span></p>
+<p class=rvps4><span class=rvts21>0&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; 8&nbsp; 9</span></p>
+<p class=rvps4><span class=rvts21>xx xx xx xx 00 01 02 03 04 xx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; правило (00, -1)</span></p>
+<p class=rvps4><span class=rvts21>xx xx xx xx 00 01 03 02 xx </span></p>
+<p class=rvps4><span class=rvts21>0&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; 8&nbsp; 9&nbsp; 10 </span></p>
+<p class=rvps4><span class=rvts21>xx xx xx xx xx 01 02 03 04 05 xx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; правило (01 02 03 04 05,0)</span></p>
+<p class=rvps4><span class=rvts21>0&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; 8&nbsp; 9&nbsp; 10 11 12 13 </span></p>
+<p class=rvps4><span class=rvts21>xx xx xx xx xx 01 02 03 04 xx xx xx xx 06&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; правило (06,5)</span></p>
+<p class=rvps4><span class=rvts21>xx xx xx xx xx 01 03 02 xx xx xx xx 06 xx&nbsp; </span></p>
+<p class=rvps4><span class=rvts21>0&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; 8&nbsp; 9&nbsp; 10 11 12 </span></p>
+<p class=rvps4><span class=rvts21>xx xx xx xx xx 01 02 03 04 xx xx 07 xx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; правило&nbsp; (07,11, 1)</span></p>
+<p class=rvps4><span class=rvts21>xx xx xx xx xx 01 03 02 xx xx xx 07 xx </span></p>
+<p class=rvps4><span class=rvts21>0&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; 8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EOF </span></p>
+<p class=rvps4><span class=rvts21>xx xx xx xx xx 01 02 03 04 .............. 08&nbsp;&nbsp; правило (08,-1, 1)</span></p>
+<p class=rvps4><span class=rvts21>xx xx xx xx xx 01 03 02 xx .............. 08</span></p>
+<p class=rvps4><span class=rvts20>Extension</span><span class=rvts21> расширения, которые используются архивами (без точки).</span></p>
+<p class=rvps4><span class=rvts20>Description</span><span class=rvts21> Описание архиватора. Строка содержащая версию, автора и т.п. </span></p>
+<p class=rvps4><span class=rvts22>Пример:</span></p>
+<p class=rvps4><span class=rvts21>ID = 00 FF, CC DD, 55 EF 32 12,</span></p>
+<p class=rvps4><span class=rvts21>IDPos = 0, 0xd, -6, &lt;SeekID&gt;</span></p>
+<p class=rvps4><span class=rvts21>IDSeekRange=100000</span></p>
+<p class=rvps4><span class=rvts21>Extension = hhh, hpj, tzu</span></p>
+<p class=rvps4><span class=rvts21>Description="PivkARC v7.1365 (c) by Kon' Petrovich"</span></p>
+<p class=rvps4><span class=rvts21>Архивы в этом примере будут проверяться в следующем порядке.</span></p>
+<p class=rvps4><span class=rvts21>Установка позиции в 0 и проверка каждого ID определенного в параметре. Затем переход в позицию 13 и проверка всех ID, переход на позицию 6 считая с конца файла, и в конце, искать ID в диаппазоне от 0 до 100000 если файл больше 100000 или 0-размер файла. Если в какой-либо из этих проверок файл будет содержать один из ID файл считается поддерживаемым этим архиватором.</span></p>
+<p class=rvps4><span class=rvts23>Шаблоны</span></p>
+<p class=rvps4><span class=rvts20>Start</span><span class=rvts21>(необязательный) любая часть строки в выводе выдаваемом архиватором в процессе обработки. </span></p>
+<p class=rvps4><span class=rvts20>End</span><span class=rvts21> (необязательный) любая часть строки в выводе выдаваемом архиватором в процессе обработки. </span></p>
+<p class=rvps4><span class=rvts22>Примечание для Start и End шаблонов:</span><span class=rvts21> Если текст начинается с '^', он будет сравниваться начиная с начала строки, символ ^ в сравнении не участвует. В остальных случаях текст будет искаться в любом месте строки.</span></p>
+<p class=rvps4><span class=rvts20>Format0 ... Format&lt;n&gt;</span><span class=rvts21> - формат вывода файлов. Если описание файла в выводе архиватора расположено на нескольких строках, используйте соответствующее число параметров Format. Вы можете определить до 50 строк Format.</span></p>
+<p class=rvps4><span class=rvts21>Описание строк Format&nbsp;&nbsp;&nbsp; </span></p>
+<p class=rvps4><span class=rvts22>Пример:</span></p>
+<p class=rvps4><span class=rvts21>Start="^-------"</span></p>
+<p class=rvps4><span class=rvts21>End="^Total files listed: "</span></p>
+<p class=rvps4><span class=rvts21>Format1="zzzzzzzzzz aaaaa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; yyyy tt dd hh mm ss"</span></p>
+<p class=rvps4><span class=rvts21>Format2=" "</span></p>
+<p class=rvps4><span class=rvts23>Команды</span></p>
+<p class=rvps4><span class=rvts20>List</span><span class=rvts21> - получение списка содержимого архива.</span></p>
+<p class=rvps4><span class=rvts20>Extract</span><span class=rvts21> - Извлечение файла из архива.</span></p>
+<p class=rvps4><span class=rvts20>ExtractWithPath</span><span class=rvts21> - Извлечение файла(-ов) из архива с полным путем.</span></p>
+<p class=rvps4><span class=rvts22>Примечание к командам извлечения:</span><span class=rvts21> Если флаг BatchUnpack установлен в 1 будет использован ExtractWithPath.</span></p>
+<p class=rvps4><span class=rvts20>Test</span><span class=rvts21> - проверка архива.</span></p>
+<p class=rvps4><span class=rvts20>Delete</span><span class=rvts21> - удалить файл из архива.</span></p>
+<p class=rvps4><span class=rvts20>Add</span><span class=rvts21> - добавить файл в архив.</span></p>
+<p class=rvps4><span class=rvts20>Move</span><span class=rvts21> - переместить файл в архив.</span></p>
+<p class=rvps4><span class=rvts20>InputString</span><span class=rvts21> - вставка некоторой строки во входной поток архиватора. Это используется для эмулирования нажатий некоторых клавиш при старте архиватора. Используется для некоторых шароварных утилит требующих нажатия Y перед работой. =-)</span></p>
+<p class=rvps4><span class=rvts22>Обратите внимание:</span><span class=rvts21> Все команды за исключением InputString используют формат определения команд&nbsp;&nbsp; </span></p>
+<p class=rvps4><span class=rvts23>Флаги</span></p>
+<p class=rvps4><span class=rvts20>IgnoreErrors</span><span class=rvts21> если активен, код завершения архиватора игнорируется. Используйте с осторожностью. </span></p>
+<p class=rvps4><span class=rvts20>SkipEmpty</span><span class=rvts21> Файлы с пустыми именами не будут добавляться в список</span></p>
+<p class=rvps4><span class=rvts20>UnixPath</span><span class=rvts21> Если пути в выводе архиватора в формате Unix установите этот флаг.</span></p>
+<p class=rvps4><span class=rvts20>Debug</span><span class=rvts21> если этот флаг активен -- весь вывод утилиты архивирования будет записан в лог-файл, расположенный в той-же директории что и multiarc.wcx с именем "multiarc.%TYPENAME%.log" где %TYPENAME% это TypeName соответствующего описания архиватора. Если некоторый список файлов используется в командах, эти файлы также не будут удалены после выполнения команды. Ищите их в папке %TEMP%/$mltwcx. Устанавливайте этот флаг, только если вы выполняете запись всей активности. Это нужно во время написания нового addon-а. Не используйте его если вы не нуждаетесь в нем. Этот лог файл может "съесть" ваше свободное дисковое пространство очень быстро. =-) Вы предупреждены!.</span></p>
+<p class=rvps4><span class=rvts20>SkipSfxHeader</span><span class=rvts21> по умолчанию false. Определяет нужно ли пропускать SFX-часть архива для поиска </span><span class=rvts20>ID</span><span class=rvts21> архива. Пример:</span></p>
+<p class=rvps4><span class=rvts21>7z SFX-архив, сам архив находится после SFX части, и поиск </span><span class=rvts20>ID</span><span class=rvts21> нужно начинать после пропуска этой части, SkipSfxHeader должно быть TRUE. 7z отличается от других архиваторов, тем что от версии к версии меняется размер SFX распаковщика, кроме того есть другие SFX части, не от авторов 7z. Размер этих частей различен, хотя ID архива находится на фиксированном месте. До этого флага, нужно было указывать список IDPos, но если требуемой позиции не удавалось найти, MultiArc не мог обработать такой архив.</span></p>
+<p class=rvps3><span class=rvts21>Инсталяция InnoSetup. </span><span class=rvts20>ID</span><span class=rvts21> находится в SFX части архива, пропуск делать не нужно. Искать нужно с начала файла, SkipSfxHeader должен быть False.</span></p>
+<p class=rvps3><span class=rvts20>;</span><span class=rvts21> признак комментария, эта строка будет проигнорирована. </span><span class=rvts12> </span></p>
+<p class=rvps3><span class=rvts12>Файл addon-а является секцией MultiArc.ini и предназначен для передачи другим пользователям MultiArc.&nbsp; </span></p>
+<p class=rvps2><span class=rvts11><br></span></p>
+	<p class="NAVBACK"><a href="#TOC">наверх</a></p>
+<p><br></p>
+<p><br></p>
+<p class=rvps1><a name="listformat"></a>
+<p><br></p>
+<p><span class=rvts11>Описание строк Format</span></p>
+<p class=rvps3><span class=rvts12> Для разбора файла вывода MultiArc использует шаблон FormatN. Если список файлов использует одни и те же строки для вывода информации о каждом файле в архиве используйте соответствующее число шаблонов Format. Шаблон Format это строковая маска для извлечения информации из одной строки списка файлов.&nbsp; Используйте следующие символы для определения шаблона:&nbsp; </span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; n - имя файла</span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; . - удаление концевых пробелов из имен файлов и добавление имени с точкой </span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; z - размер не сжатого файла</span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; c - описание файла</span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; p - размер сжатого файла</span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; d - день</span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; t - месяц</span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; TTT - трехбуквенное имя месяца (Jan, Feb, Mar, ...)</span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; y - год</span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; h - часы</span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; H - буква - модификатор часов (a - время до полудня (a.m. time), </span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p - время после полудня (p.m. time))</span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; m - минуты</span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; s - секунды</span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; a - атрибуты</span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; e - расширение файла</span></p>
+<p class=rvps3><span class=rvts18>;&nbsp; * - пропускать до первого пробела или конца строки</span></p>
+<p class=rvps3><span class=rvts24>Пример:</span><span class=rvts18> </span></p>
+<p class=rvps3><span class=rvts18>Часть вывода лога JAR :</span></p>
+<p class=rvps3><span class=rvts18>346) install\f_0286</span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3656 A.... Win-32&nbsp; Solid&nbsp;&nbsp;&nbsp; 1-1&nbsp;&nbsp; 2002-07-11 13:36:26 2002-12-09 20:41:20</span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2002-12-09 00:00:00</span></p>
+<p class=rvps3><span class=rvts18>347) install\f_0287</span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp; 11323 A.... Win-32&nbsp; Solid&nbsp;&nbsp;&nbsp; 1-1&nbsp;&nbsp; 2002-07-11 13:36:26 2002-12-09 20:41:20</span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2002-12-09 00:00:00</span></p>
+<p class=rvps3><span class=rvts18>и соответствующие форматы шаблонов:</span></p>
+<p class=rvps3><span class=rvts18>Format0="* nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"</span></p>
+<p class=rvps3><span class=rvts18>Format1="zzzzzzzzzz aaaaa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; yyyy tt dd hh mm ss"</span></p>
+<p class=rvps3><span class=rvts18>Format2=" "</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; </span><span class=rvts12> </span></p>
+<p class=rvps2><span class=rvts11><br></span></p>
+	<p class="NAVBACK"><a href="#TOC">наверх</a></p>
+<p><br></p>
+<p><br></p>
+<p class=rvps1><a name="commandformat"></a>
+<p><br></p>
+<p><span class=rvts11>Формат определения команд</span></p>
+<p class=rvps3><span class=rvts12> Команда это строка которая содержит переменные. Эти переменные имеют знак "%" перед ними и могут быть заменены во время вызова команды. </span></p>
+<p class=rvps3><span class=rvts18>Список переменных команд:</span></p>
+<p class=rvps3><span class=rvts18><br></span></p>
+<p class=rvps3><span class=rvts18>&nbsp; %P - Длинное имя архиватора (как оно в параметре "Archiver")</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; %p - короткое имя архиватора (как оно в параметре "Archiver")</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; %A - длинное имя архивного файла </span></p>
+<p class=rvps3><span class=rvts18>&nbsp; %a - короткое имя архивного файла </span></p>
+<p class=rvps3><span class=rvts18>&nbsp; %L - имя Filelist (списка файлов). Filelist -это файл содержащий имена файлов </span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; которые должны быть обработаны внешним архиватором. Имена файлов длинные. </span></p>
+<p class=rvps3><span class=rvts18>&nbsp; %l - Filelist с короткими именами файлов.</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; %F - имя одного файла для обработки. Архиватор будет вызван несколько раз, до тех</span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; пор пока все файлы не будут обработаны. </span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Эта переменная должна быть использована только если архиватор не поддерживает </span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; список файлов в строке вызова.</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; %E&lt;errorlevel&gt; - максимальный допустимый код завершения (errorlevel).</span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Например, %E2 означает что принимаются коды завершения 0, 1 и 2.</span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Эта переменная может быть указана в любом месте команды. Если она </span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; отсутствует, только код завершения 0 распознается как успешный.</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; %O - По умолчанию, MultiArc преобразует вывод архиватора из OEM кодировки </span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (DOS) в ANSI (Windows). Применяйте его для пропуска преобразования.</span></p>
+<p class=rvps3><span class=rvts18><br></span></p>
+<p class=rvps3><span class=rvts18>&nbsp; %R - целевая поддиректория В архиве</span></p>
+<p class=rvps3><span class=rvts18><br></span></p>
+<p class=rvps3><span class=rvts18>&nbsp; {} - если некоторые переменные заключены в фигурные скобки она будет </span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; добавлена только если&nbsp; эта переменная содержит что-либо не пустое. Смотрите </span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MsCAB addon для примера использования. ВНИМАНИЕ - сейчас работает только с</span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; переменной %R. </span></p>
+<p class=rvps3><span class=rvts18>&nbsp; </span></p>
+<p class=rvps3><span class=rvts18>&nbsp; %S - Зависит от режима, устанавливается в диалоге Настройка MultiArc, MultiArc будет </span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; запрашивать пользователя дополнительные параметры командной строки, которые </span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; должны быть размещены на месте %S.</span></p>
+<p class=rvps3><span class=rvts18><br></span></p>
+<p class=rvps3><span class=rvts18>&nbsp; %C - Не скрывать окно консоли во время выполнения внешнего архиватора. Настройка консоли</span></p>
+<p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; имеет больше настраиваемых параметров, см диалог Настройка MultiArc.</span></p>
+<p class=rvps3><span class=rvts18><br></span></p>
+<p class=rvps3><span class=rvts18><br></span></p>
+<p class=rvps3><span class=rvts18>&nbsp; модификаторы переменных Q, q, W, P, A могут быть использованы для изменения формата имен </span></p>
+<p class=rvps3><span class=rvts18>&nbsp; файлов: </span></p>
+<p class=rvps3><span class=rvts18><br></span></p>
+<p class=rvps3><span class=rvts18>&nbsp; Q - Заключать в кавычки имена с пробелами;</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; q - Заключать в кавычки все имена;</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; W - Использовать только имена, без пути;</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; P - Использовать только путь, без имени;</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; A - Использовать ANSI кодировку.</span></p>
+<p class=rvps3><span class=rvts18><br></span></p>
+<p class=rvps3><span class=rvts18>&nbsp; Эти модификаторы могут быть указаны сразу после переменной, без пробелов.</span></p>
+<p class=rvps3><span class=rvts18>Реальные примеры команд смотрите в addon-ах.</span></p>
+<p class=rvps3><span class=rvts18><br></span></p>
+<p class=rvps3><span class=rvts25>Примечание:</span></p>
+<p class=rvps3><span class=rvts18> Если у вас архиватор находится в пути с русскими буквами (по логике с любым путем, содержащим символы не английского алфавита и цифры) и вы получаете сообщение наподобии такого: </span></p>
+<p class=rvps3><span class=rvts18>"Executing command 'C:\Documents and Settings\Ђ¤¬Ё­Ёбва в(r)а\ђ Ў(r)зЁ(c) бв(r)"\7za.exe -r0 l D:\Это тест русских имен TC\7zSfx.7z' returned errorlevel -1. Possibly an error occurred. Archive listing wasn't retrieved."</span></p>
+<p class=rvps3><span class=rvts18>либо такого: </span></p>
+<p class=rvps3><span class=rvts18>"Executed command 'C:\Documents and Settings\Ђ¤¬Ё­Ёбва в(r)а\ђ Ў(r)зЁ(c) бв(r)"\7za.exe -r0 l D:\Это тест русских имен TC\7zSfx.7z' returned errorlevel -1, which is higher than configured as normal for this command. Probably error occurred. Check your configuration, please..."</span></p>
+<p class=rvps3><span class=rvts18>Замените в Multiarc.ini в секции соответствующего архиватора параметры </span><span class=rvts25>Extract</span><span class=rvts18>, </span><span class=rvts25>ExtractWithPath</span><span class=rvts18>, </span><span class=rvts25>Test</span><span class=rvts18>, </span><span class=rvts25>Delete</span><span class=rvts18>, </span><span class=rvts25>Add</span><span class=rvts18> с %Р на %PA или %PQA.</span><span class=rvts12> </span></p>
+<p class=rvps2><span class=rvts11><br></span></p>
+	<p class="NAVBACK"><a href="#TOC">наверх</a></p>
+<p><br></p>
+	<div class="SECT1">
+	  <p class="NAVBACK"><a href="index.html">На главную</a></p>
+	</div>
+<p><br></p>
+</body></html>
