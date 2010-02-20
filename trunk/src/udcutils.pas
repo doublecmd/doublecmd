@@ -229,6 +229,12 @@ function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer;
 }
 procedure DivFileName(const sFileName:String; out n,e:String);
 {en
+   Replace executable extension by system specific executable extension
+   @param(sFileName File name)
+   @returns(Executable name with system specific executable extension)
+}
+function FixExeExt(const sFileName: UTF8String): UTF8String;
+{en
    Get count of character in string
    @param(Char Character)
    @param(S String)
@@ -870,6 +876,16 @@ if StartPos <> 1 then
   end
 else
   Result := Pos(C, S);
+end;
+
+function FixExeExt(const sFileName: UTF8String): UTF8String;
+var
+  ExeExt: UTF8String;
+begin
+  Result:= sFileName;
+  ExeExt:= GetExeExt;
+  if not SameText(ExeExt, ExtractFileExt(sFileName)) then
+    Result:= ChangeFileExt(sFileName, ExeExt);
 end;
 
 function NumCountChars(const Char: char; const S: String): Integer;
