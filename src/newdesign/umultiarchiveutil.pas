@@ -63,7 +63,7 @@ function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
 implementation
 
 uses
-  LCLProc, FileUtil, StrUtils, uClassesEx, uOSUtils;
+  LCLProc, FileUtil, StrUtils, uClassesEx, uDCUtils, uOSUtils;
 
 function TOutputParser.KeyPos(Key: char; out Position: TKeyPos): boolean;
 var
@@ -292,9 +292,9 @@ var
   begin
     case state.funct of
       ftArchiverLongName:
-        Result := BuildName(Archiver);
+        Result := BuildName(mbExpandFileName(Archiver));
       ftArchiverShortName:
-        Result := BuildName(mbFileNameToSysEnc(Archiver));
+        Result := BuildName(mbFileNameToSysEnc(mbExpandFileName(Archiver)));
       ftArchiveLongName:
         Result := BuildName(anArchiveName);
       ftArchiveShortName:
