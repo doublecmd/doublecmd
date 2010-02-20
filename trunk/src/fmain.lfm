@@ -1828,6 +1828,7 @@ object frmMain: TfrmMain
   end
   object pmToolBar: TPopupMenu
     Tag = -1
+    OnPopup = pmToolBarPopup
     left = 120
     top = 136
     object tbEdit: TMenuItem
@@ -1837,6 +1838,25 @@ object frmMain: TfrmMain
     object tbDelete: TMenuItem
       Caption = 'Delete'
       OnClick = DeleteClick
+    end
+    object tbSeparator: TMenuItem
+      Caption = '-'
+      Visible = False
+    end
+    object tbCut: TMenuItem
+      Caption = 'Cut'
+      Visible = False
+      OnClick = tbCopyClick
+    end
+    object tbCopy: TMenuItem
+      Caption = 'Copy'
+      Visible = False
+      OnClick = tbCopyClick
+    end
+    object tbPaste: TMenuItem
+      Caption = 'Paste'
+      Visible = False
+      OnClick = tbPasteClick
     end
   end
   object pmDrivesMenu: TPopupMenu
