@@ -141,6 +141,10 @@ type
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
     lblCommandPath: TLabel;
+    tbPaste: TMenuItem;
+    tbCopy: TMenuItem;
+    tbCut: TMenuItem;
+    tbSeparator: TMenuItem;
     mnuLoadSelectionFromClip: TMenuItem;
     mnuLoadSelectionFromFile: TMenuItem;
     mnuSaveSelectionToFile: TMenuItem;
@@ -414,6 +418,7 @@ type
 
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure pmToolBarPopup(Sender: TObject);
 
     procedure pnlLeftResize(Sender: TObject);
     procedure pnlLeftRightDblClick(Sender: TObject);
@@ -429,9 +434,11 @@ type
       Shift: TShiftState);
     procedure edtCommandEnter(Sender: TObject);
     procedure edtCommandExit(Sender: TObject);
+    procedure tbCopyClick(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
     procedure FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
     procedure OnUniqueInstanceMessage(Sender: TObject; Params: array of UTF8String; ParamCount: Integer);
+    procedure tbPasteClick(Sender: TObject);
     procedure tmHALTimer(Sender: TObject);
   private
     { Private declarations }
@@ -522,6 +529,7 @@ type
     procedure SaveWindowState;
     procedure SaveShortCuts;
     procedure LoadShortCuts;
+    procedure SaveMainToolBar;
     function  IsCommandLineVisible: Boolean;
     procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
     procedure UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
@@ -566,7 +574,7 @@ uses
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSystemCopyOperation, uFileSystemMoveOperation, uFileSourceProperty,
   uFileSourceExecuteOperation, uArchiveFileSource, uShellExecute, uActs, uFileSystemFile,
-  fSymLink, fHardLink, uExceptions, uUniqueInstance
+  fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd
   {$IFDEF LCLQT}
     , qtwidgets
   {$ENDIF}
@@ -792,7 +800,6 @@ end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
 var
-  IniBarFile: TIniFileEx;
   slCommandHistory: TStringListEx;
 begin
   DebugLn('frmMain.Destroy');
@@ -818,17 +825,8 @@ begin
       end;
     end;  
 
-  {*Tool Bar*}
-  if MainToolBar.BarFile.CurrentBar <> EmptyStr then
-  begin
-    IniBarFile:= TIniFileEx.Create(MainToolBar.BarFile.CurrentBar);
-    try
-      MainToolBar.SaveToIniFile(IniBarFile);
-    finally
-      FreeThenNil(IniBarFile);
-    end;
-  end;
-  {*Tool Bar*}
+  // Save main toolbar
+  SaveMainToolBar;
 
   DestroyDrivesList(DrivesList);
 end;
@@ -1182,7 +1180,6 @@ end;
 
 procedure TfrmMain.MainToolBarDragDrop(Sender, Source: TObject; X, Y: Integer);
 var
-  IniBarFile: TIniFileEx;
   aFile: TFile;
 begin
   aFile := ActiveFrame.ActiveFile;
@@ -1190,12 +1187,7 @@ begin
   begin
     MainToolBar.AddButtonX('', aFile.FullPath, '', aFile.Path,
                            ExtractOnlyFileName(aFile.Name), '',  aFile.FullPath);
-    IniBarFile:= TIniFileEx.Create(MainToolBar.BarFile.CurrentBar);
-    try
-      MainToolBar.SaveToIniFile(IniBarFile);
-    finally
-      FreeThenNil(IniBarFile);
-    end;
+    SaveMainToolBar;
   end;
 end;
 
@@ -1224,7 +1216,7 @@ begin
     if msgYesNo(Format(rsMsgDelSel, [MainToolBar.Buttons[pmToolBar.Tag].Hint])) then
     begin
        MainToolBar.RemoveButton (pmToolBar.Tag);
-       MainToolBar.SaveToFile(MainToolBar.BarFile.CurrentBar);
+       SaveMainToolBar;
     end;
   end;
 end;
@@ -2198,6 +2190,24 @@ begin
   end;
 end;
 
+procedure TfrmMain.pmToolBarPopup(Sender: TObject);
+var
+  I: Integer;
+  sText: String;
+  bPaste: Boolean;
+begin
+  I:= pmToolBar.Tag;
+  tbSeparator.Visible:= (I >= 0);
+  tbCut.Visible:= (I >= 0);
+  tbCopy.Visible:= (I >= 0);
+
+  sText:= Clipboard.AsText;
+  bPaste:= (Pos('DOUBLECMD#BAR#DATA', sText) = 1) or (Pos('TOTALCMD#BAR#DATA', sText) = 1);
+  if bPaste then
+    tbSeparator.Visible:= True;
+  tbPaste.Visible:= bPaste;
+end;
+
 procedure TfrmMain.pnlLeftResize(Sender: TObject);
 begin
   // ставим спліттер в нужную позицию при смене размера левой панели
@@ -3086,6 +3096,26 @@ begin
     pnlCommand.Hide;
 end;
 
+procedure TfrmMain.tbCopyClick(Sender: TObject);
+var
+  I: Integer;
+begin
+  I:= pmToolBar.Tag;
+  if I >= 0 then
+  begin
+    with MainToolBar do
+    Clipboard.AsText:= 'DOUBLECMD#BAR#DATA' + LineEnding +
+                       GetButtonX(I, CmdX) + LineEnding +
+                       GetButtonX(I, ParamX) + LineEnding +
+                       GetButtonX(I, ButtonX) + LineEnding +
+                       GetButtonX(I, MenuX) + LineEnding +
+                       GetButtonX(I, PathX) + LineEnding;
+    if (Sender is TMenuItem) and ((Sender as TMenuItem).Name = 'tbCut') then
+      MainToolBar.RemoveButton(I);
+    SaveMainToolBar;
+  end;
+end;
+
 procedure TfrmMain.tbEditClick(Sender: TObject);
 var
   iDelta: Integer;
@@ -3151,6 +3181,24 @@ begin
   BringToFront;
   for I:= 0 to ParamCount - 1 do
     DebugLn(Params[I]);
+end;
+
+procedure TfrmMain.tbPasteClick(Sender: TObject);
+var
+  I: Integer;
+  Data: TStringList;
+begin
+  try
+    Data:= TStringList.Create;
+    Data.Text:= Clipboard.AsText;
+    if Data.Count < 6 then Exit;
+    I:= pmToolBar.Tag;
+    if I < 0 then I:= MainToolBar.ButtonCount;
+    MainToolBar.InsertButtonX(I, EmptyStr, Data[1], Data[2], Data[5], Data[4], EmptyStr, Data[3]);
+    SaveMainToolBar;
+  finally
+    Data.Free;
+  end;
 end;
 
 procedure TfrmMain.tmHALTimer(Sender: TObject);
@@ -3317,6 +3365,21 @@ procedure TfrmMain.LoadShortCuts;
 begin
   // ToDo Black list HotKey which can't use
   HotMan.Load(gpCfgDir + 'shortcuts.ini');
+end;
+
+procedure TfrmMain.SaveMainToolBar;
+var
+  IniBarFile: TIniFileEx;
+begin
+  if MainToolBar.BarFile.CurrentBar <> EmptyStr then
+  begin
+    IniBarFile:= TIniFileEx.Create(MainToolBar.BarFile.CurrentBar);
+    try
+      MainToolBar.SaveToIniFile(IniBarFile);
+    finally
+      FreeThenNil(IniBarFile);
+    end;
+  end;
 end;
 
 function TfrmMain.IsCommandLineVisible: Boolean;
