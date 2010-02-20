@@ -3825,7 +3825,7 @@ object frmOptions: TfrmOptions
             Width = 558
             HelpType = htKeyword
             HelpKeyword = '/multiarc.html'
-            ActivePage = tbArchiverAdditional
+            ActivePage = tbArchiverGeneral
             Align = alClient
             Anchors = [akTop, akLeft, akRight]
             TabIndex = 0
