@@ -22,7 +22,6 @@ type
     Hour,
     Minute,
     Second: Word;
-    MonthName: AnsiString;
     Attributes: TFileAttrs;
   end;
 

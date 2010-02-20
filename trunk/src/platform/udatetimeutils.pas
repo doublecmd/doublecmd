@@ -88,11 +88,22 @@ function WinToDosTime(const WinTime: TWinFileTime; var DosTime: TDosFileTime): L
 function DosToWinTime(const DosTime: TDosFileTime; var WinTime: TWinFileTime): LongBool;
 {$ENDIF}
 
+{en
+   Converts a month short name to month number.
+   @param(ShortMonthName Month short name)
+   @param(Default Default month number)
+   @returns(Month number)
+}
+function MonthToNumberDef(const ShortMonthName: String; Default: Word): Word;
+
 implementation
 
 uses
   DateUtils, uLng;
 
+const  { Short names of months. }
+  ShortMonthNames: TMonthNameArray = ('Jan','Feb','Mar','Apr','May','Jun',
+                                      'Jul','Aug','Sep','Oct','Nov','Dec');
 {$IFDEF UNIX}
 const
   SecsPerHour = SecsPerMin * MinsPerHour;
@@ -308,6 +319,17 @@ begin
             Windows.LocalFileTimeToFileTime(lft, Windows.FILETIME(WinTime));
 end;
 {$ENDIF}
+
+function MonthToNumberDef(const ShortMonthName: String; Default: Word): Word;
+var
+  I: Word;
+begin
+  Result:= Default;
+  if ShortMonthName = EmptyStr then Exit;
+  for I:= 1 to 12 do
+  if SameText(ShortMonthName, ShortMonthNames[I]) then
+    Exit(I);
+end;
 
 end.
 
