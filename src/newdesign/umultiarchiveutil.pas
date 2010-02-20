@@ -63,7 +63,7 @@ function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
 implementation
 
 uses
-  LCLProc, FileUtil, StrUtils, uClassesEx, uDCUtils, uOSUtils;
+  LCLProc, FileUtil, StrUtils, uClassesEx, uDCUtils, uOSUtils, uDateTimeUtils;
 
 function TOutputParser.KeyPos(Key: char; out Position: TKeyPos): boolean;
 var
@@ -127,7 +127,7 @@ begin
     if FMonthPos.Index = FFormatIndex then
       FArchiveItem.Month := StrToIntDef(Trim(Copy(str, FMonthPos.Start, FMonthPos.Finish)), 0);
     if FMonthNamePos.Index = FFormatIndex then
-      FArchiveItem.MonthName := Copy(str, FMonthNamePos.Start, FMonthNamePos.Finish);
+      FArchiveItem.Month := MonthToNumberDef(Copy(str, FMonthNamePos.Start, FMonthNamePos.Finish), 0);
     if FDayPos.Index = FFormatIndex then
       FArchiveItem.Day := StrToIntDef(Trim(Copy(str, FDayPos.Start, FDayPos.Finish)), 0);
     if FHourPos.Index = FFormatIndex then
