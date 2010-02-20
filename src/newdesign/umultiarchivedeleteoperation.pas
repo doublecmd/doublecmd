@@ -142,7 +142,9 @@ end;
 procedure TMultiArchiveDeleteOperation.Finalize;
 begin
   FreeThenNil(FExProcess);
-  mbDeleteFile(FTempFile);
+  with FMultiArchiveFileSource.MultiArcItem do
+  if not FDebug then
+    mbDeleteFile(FTempFile);
 end;
 
 procedure TMultiArchiveDeleteOperation.ShowError(sMessage: String; logOptions: TLogOptions);

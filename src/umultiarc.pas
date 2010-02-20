@@ -146,7 +146,7 @@ begin
       MultiArcItem:= TMultiArcItem.Create;
       with MultiArcItem do
       begin
-        FArchiver:= TrimQuotes(IniFile.ReadString(Section, 'Archiver', EmptyStr));
+        FArchiver:= FixExeExt(TrimQuotes(IniFile.ReadString(Section, 'Archiver', EmptyStr)));
         FDescription:= TrimQuotes(IniFile.ReadString(Section, 'Description', EmptyStr));
         FID:= TrimQuotes(IniFile.ReadString(Section, 'ID', EmptyStr));
         FIDPos:= TrimQuotes(IniFile.ReadString(Section, 'IDPos', EmptyStr));

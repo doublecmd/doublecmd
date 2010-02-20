@@ -1274,7 +1274,7 @@ msgstr "Редагувати новий"
 
 #: TFRMMAIN.ACTEDITPATH.CAPTION
 msgid "Edit path field above file list"
-msgstr ""
+msgstr "Редагувати шлях в заголовку панелі"
 
 #: TFRMMAIN.ACTEXCHANGE.CAPTION
 msgid "Swap &Panels"
@@ -2889,7 +2889,7 @@ msgstr "Головний"
 
 #: TFRMOPTIONS.LBLMARKCOLOR.CAPTION
 msgid "Mark Color:"
-msgstr "&Виділення"
+msgstr "Виділення"
 
 #: TFRMOPTIONS.LBLMOUSEMODE.CAPTION
 msgid "Mode:"
@@ -2977,12 +2977,12 @@ msgstr "Al&t+Буква"
 #, fuzzy
 #| msgid "&Ctrl+Alt+Letters"
 msgid "Ctrl+Alt+Letters"
-msgstr "&Ctrl+Alt+Буква"
+msgstr "Ctrl+Alt+Буква"
 
 #: TFRMOPTIONS.RBICONSSHOWALL.CAPTION
 msgctxt "TFRMOPTIONS.RBICONSSHOWALL.CAPTION"
 msgid "&All"
-msgstr "Усі"
+msgstr "&Усі"
 
 #: TFRMOPTIONS.RBICONSSHOWALLANDEXE.CAPTION
 msgid "All associated + &EXE/LNK (slow)"
@@ -3410,7 +3410,7 @@ msgstr "Видалити"
 
 #: TFRMTWEAKPLUGIN.CAPTION
 msgid "Tweak plugin"
-msgstr "Параметри плагіна"
+msgstr "Параметри плагіну"
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_BY_CONTENT.CAPTION
 msgid "Detect archive type by content"
@@ -4571,7 +4571,7 @@ msgstr "Не можу розрізати файл!"
 
 #: ulng.rsspliterrtoomanyparts
 msgid "Too many parts!"
-msgstr ""
+msgstr "Надто багато частин!"
 
 #: ulng.rssplitmsgcreated
 msgctxt "ulng.rssplitmsgcreated"
@@ -4580,7 +4580,7 @@ msgstr "Створено:"
 
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
-msgstr ""
+msgstr "Кількість частин більше 100! Продовжити?"
 
 #: ulng.rssplitmsgsize
 msgid "size:"
