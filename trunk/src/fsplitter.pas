@@ -149,6 +149,12 @@ begin
   end;
 
   try
+    if iFileSize >= fSource.Size then
+    begin
+      memWatch.Append(rsSplitErrSplitFile);
+      //Unable to split the file!
+      exit;
+    end;
     prgbrDoIt.Max:=(fSource.Size div iFileSize);
     if prgbrDoIt.Max=0 then
     begin
