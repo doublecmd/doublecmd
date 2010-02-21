@@ -1080,7 +1080,7 @@ msgstr "Laden/Speichern"
 
 #: TFRMFINDDLG.TSRESULTS.CAPTION
 msgid "Results"
-msgstr ""
+msgstr "Ergebnisse"
 
 #: TFRMFINDDLG.TSSTANDARD.CAPTION
 msgid "Standard"
@@ -1171,7 +1171,7 @@ msgstr "Verzeichnis wechseln"
 
 #: TFRMMAIN.ACTCHANGEDIRTOPARENT.CAPTION
 msgid "Change Directory To Parent"
-msgstr ""
+msgstr "In das übergeordnete Verzeichnis wechseln"
 
 #: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
 msgid "Change directory to root"
@@ -1266,7 +1266,7 @@ msgstr "Datei erstellen und bearbeiten"
 
 #: TFRMMAIN.ACTEDITPATH.CAPTION
 msgid "Edit path field above file list"
-msgstr ""
+msgstr "Pfad-Zeile über der Dateiliste bearbeiten"
 
 #: TFRMMAIN.ACTEXCHANGE.CAPTION
 msgid "Swap &Panels"
@@ -1303,7 +1303,7 @@ msgstr "Tei&le Datei"
 
 #: TFRMMAIN.ACTFOCUSCMDLINE.CAPTION
 msgid "Focus command line"
-msgstr "Focus auf die Kommandoze&ile"
+msgstr "Fokus auf die Kommandoze&ile"
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
@@ -1332,11 +1332,11 @@ msgstr "Öffne linke Laufwerksliste"
 
 #: TFRMMAIN.ACTLOADSELECTIONFROMCLIP.CAPTION
 msgid "Load Selection From Clipboard"
-msgstr ""
+msgstr "Auswahl aus der Zwischenablage laden"
 
 #: TFRMMAIN.ACTLOADSELECTIONFROMFILE.CAPTION
 msgid "Load Selection From File"
-msgstr ""
+msgstr "Auswahl aus Datei laden"
 
 #: TFRMMAIN.ACTMAKEDIR.CAPTION
 msgid "MakeDir F7"
@@ -1397,7 +1397,7 @@ msgstr "Versuche Archiv zu öffnen"
 
 #: TFRMMAIN.ACTOPENBAR.CAPTION
 msgid "Open bar file"
-msgstr ""
+msgstr "Leisten-Datei öffnen"
 
 #: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
 #, fuzzy
@@ -1447,7 +1447,7 @@ msgstr "Schnelle Suche"
 
 #: TFRMMAIN.ACTQUICKVIEW.CAPTION
 msgid "Quick View Panel"
-msgstr ""
+msgstr "Schnellbetrachter-Panel"
 
 #: TFRMMAIN.ACTREFRESH.CAPTION
 msgid "&Refresh"
@@ -1480,7 +1480,7 @@ msgstr "Umbenennen"
 
 #: TFRMMAIN.ACTRESTORESELECTION.CAPTION
 msgid "Restore Selection"
-msgstr ""
+msgstr "Auswahl wieder herstellen"
 
 #: TFRMMAIN.ACTREVERSEORDER.CAPTION
 msgid "Reverse order"
@@ -1500,11 +1500,11 @@ msgstr "Befehl ausführen"
 
 #: TFRMMAIN.ACTSAVESELECTION.CAPTION
 msgid "Save Selection"
-msgstr ""
+msgstr "Auswahl speichern"
 
 #: TFRMMAIN.ACTSAVESELECTIONTOFILE.CAPTION
 msgid "Save Selection To File"
-msgstr ""
+msgstr "Auswahl in Datei speichern"
 
 #: TFRMMAIN.ACTSEARCH.CAPTION
 msgid "&Search"
@@ -1536,7 +1536,7 @@ msgstr "Gesperrt"
 #| msgid "Locked, but directory changes allowed"
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
 msgid "Locked, but &directory changes allowed"
-msgstr "Gesperrt, aber Verzeichniswechsel erlaubt"
+msgstr "Gesperrt, aber &Verzeichniswechsel erlaubt"
 
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
 msgid "Show button menu"
@@ -1581,7 +1581,7 @@ msgstr "Nach Grösse sortieren"
 
 #: TFRMMAIN.ACTSWITCHIGNORELIST.CAPTION
 msgid "Enable/disable ignore list file to not show file names"
-msgstr ""
+msgstr "De-/Aktivieren der Dateiliste um Dateinamen nicht anzuzeigen"
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
@@ -1594,7 +1594,7 @@ msgstr "Ziel &= Quelle"
 
 #: TFRMMAIN.ACTTESTARCHIVE.CAPTION
 msgid "Test Archive(s)"
-msgstr ""
+msgstr "Archiv(e) testen"
 
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
 msgid "Transfer dir under cursor to left window"
@@ -1616,7 +1616,7 @@ msgstr "Betrachten F3"
 #, fuzzy
 #| msgid "Visit Double Commander Web Site"
 msgid "&Visit Double Commander Web Site"
-msgstr "Homepage von DoubleCommander öffnen"
+msgstr "&Homepage von DoubleCommander öffnen"
 
 #: TFRMMAIN.ACTWIPE.CAPTION
 msgid "Wipe"
@@ -1641,7 +1641,7 @@ msgstr ""
 
 #: TFRMMAIN.BTNLEFTEQUALRIGHT.HINT
 msgid "Show current directory of the right panel in the left panel"
-msgstr ""
+msgstr "Aktuelles Verzeichnis auf der rechten Seite in der linken Seite anzeigen"
 
 #: TFRMMAIN.BTNLEFTHOME.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTHOME.CAPTION"
@@ -1681,7 +1681,7 @@ msgstr ""
 
 #: TFRMMAIN.BTNRIGHTEQUALLEFT.HINT
 msgid "Show current directory of the left panel in the right panel"
-msgstr ""
+msgstr "Aktuelles Verzeichnis auf der linken Seite in der rechten Seite anzeigen"
 
 #: TFRMMAIN.BTNRIGHTHOME.CAPTION
 msgctxt "TFRMMAIN.BTNRIGHTHOME.CAPTION"
@@ -1983,7 +1983,7 @@ msgstr "&OK"
 
 #: TFRMMASKINPUTDLG.LBLSEARCHTEMPLATE.CAPTION
 msgid "Or select predefined selection type:"
-msgstr ""
+msgstr "Oder vordefinierten Auswahltyp wählen:"
 
 #: TFRMMKDIR.CAPTION
 msgid "Create new directory"
@@ -2198,11 +2198,11 @@ msgstr "Hinzufügen"
 
 #: TFRMOPTIONS.BTNADDSEL.CAPTION
 msgid "&Add selected names"
-msgstr ""
+msgstr "&Ausgewählte Namen hinzufügen"
 
 #: TFRMOPTIONS.BTNADDSELWITHPATH.CAPTION
 msgid "Add selected names with &full path"
-msgstr ""
+msgstr "Ausgewählte Namen mit &komplettem Pfad hinzufügen"
 
 #: TFRMOPTIONS.BTNAPPLY.CAPTION
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
@@ -2610,7 +2610,7 @@ msgstr "Strg+Pf&eil hoch öffnet einen neuen Reiter im Vordergrund"
 
 #: TFRMOPTIONS.CBTABSOPENNEARCURRENT.CAPTION
 msgid "Open &new tabs near current tab"
-msgstr ""
+msgstr "Neuen Reiter neben aktuellem Reiter einfügen"
 
 #: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
 msgid "Show tab close button"
@@ -2622,15 +2622,15 @@ msgstr "Konsolenfenster zeigen"
 
 #: TFRMOPTIONS.CBTOOLSKEEPTERMINALOPEN.CAPTION
 msgid "Keep terminal window open after executing program"
-msgstr ""
+msgstr "Konsolenfenster offen lassen, wenn der Vorgang abgeschlossen ist"
 
 #: TFRMOPTIONS.CBTOOLSRUNINTERMINAL.CAPTION
 msgid "Execute in terminal"
-msgstr ""
+msgstr "In Konsolenfenster ausführen"
 
 #: TFRMOPTIONS.CBTOOLSUSEEXTERNALPROGRAM.CAPTION
 msgid "Use external program"
-msgstr ""
+msgstr "Externes Programm benutzen"
 
 #: TFRMOPTIONS.CBTWODISKPANELS.CAPTION
 msgid "Show two drive button bars (fixed width, above file windows)"
@@ -2644,7 +2644,7 @@ msgstr "Auch wenn &Grösse, Datum oder Attribut geändert werden"
 
 #: TFRMOPTIONS.CBWATCHEXCLUDEDIRS.CAPTION
 msgid "For the following &paths and their subdirectories:"
-msgstr ""
+msgstr "Für die &folgenden Pfade und Unterverzeichnisse:"
 
 #: TFRMOPTIONS.CBWATCHFILENAMECHANGE.CAPTION
 #, fuzzy
@@ -2664,19 +2664,19 @@ msgstr "Spalten automatisch füllen"
 
 #: TFRMOPTIONS.CHKIGNOREENABLE.CAPTION
 msgid "&Ignore (don't show) the following files and folders:"
-msgstr ""
+msgstr "&Ignoriere (zeige nicht) die folgenden Dateien und Verzeichnisse:"
 
 #: TFRMOPTIONS.CHKMULTIARCCONSOLEOUTPUT.CAPTION
 msgid "Show console output"
-msgstr ""
+msgstr "Zeige die Ausgabe des Konsolenfensters"
 
 #: TFRMOPTIONS.CHKMULTIARCDEBUG.CAPTION
 msgid "Debug mode"
-msgstr ""
+msgstr "Debug-Modus"
 
 #: TFRMOPTIONS.CHKMULTIARCENABLED.CAPTION
 msgid "Enabled"
-msgstr ""
+msgstr "Aktiviert"
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgid "Text Color:"
@@ -2689,11 +2689,11 @@ msgstr "Optionen"
 
 #: TFRMOPTIONS.GBAUTOREFRESHDISABLE.CAPTION
 msgid "Disable auto-refresh"
-msgstr ""
+msgstr "Kein automatisches Auffrischen"
 
 #: TFRMOPTIONS.GBAUTOREFRESHENABLE.CAPTION
 msgid "Refresh file list"
-msgstr ""
+msgstr "Dateiliste auffrischen"
 
 #: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
 msgid "&Buffer size for files:"
@@ -2763,7 +2763,7 @@ msgstr "Icons links vom Dateinamen anzeigen"
 
 #: TFRMOPTIONS.GBSHOWTOOLTIP.CAPTION
 msgid "Show tool tip"
-msgstr ""
+msgstr "Zeige Tooltips (Hinweistexte)"
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -2783,15 +2783,15 @@ msgstr ""
 
 #: TFRMOPTIONS.LBLARCHIVEADD.CAPTION
 msgid "Add:"
-msgstr ""
+msgstr "Füge hinzu:"
 
 #: TFRMOPTIONS.LBLARCHIVEDELETE.CAPTION
 msgid "Delete:"
-msgstr ""
+msgstr "Lösche:"
 
 #: TFRMOPTIONS.LBLARCHIVEENCRYPT.CAPTION
 msgid "Encrypt:"
-msgstr ""
+msgstr "Verschlüssele:"
 
 #: TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION
 msgctxt "TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION"
@@ -2800,31 +2800,31 @@ msgstr "Endung:"
 
 #: TFRMOPTIONS.LBLARCHIVEEXTRACT.CAPTION
 msgid "Extract:"
-msgstr ""
+msgstr "Entpacke:"
 
 #: TFRMOPTIONS.LBLARCHIVELIST.CAPTION
 msgid "List:"
-msgstr ""
+msgstr "Liste auf:"
 
 #: TFRMOPTIONS.LBLARCHIVELISTFORMAT.CAPTION
 msgid "Listing format:"
-msgstr ""
+msgstr "Auflistungsformat"
 
 #: TFRMOPTIONS.LBLARCHIVEMOVE.CAPTION
 msgid "Move:"
-msgstr ""
+msgstr "Verschiebe:"
 
 #: TFRMOPTIONS.LBLARCHIVER.CAPTION
 msgid "Archiver:"
-msgstr ""
+msgstr "Archivierer:"
 
 #: TFRMOPTIONS.LBLARCHIVETEST.CAPTION
 msgid "Test:"
-msgstr ""
+msgstr "Teste:"
 
 #: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
 msgid "Auto size column:"
-msgstr "Grösse der Spalten automatisch einstellen"
+msgstr "Grösse der Spalten automatisch einstellen:"
 
 #: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
 msgid "Background 2:"
@@ -2889,7 +2889,7 @@ msgstr "Tastaturkürzel"
 
 #: TFRMOPTIONS.LBLINACTIVEPANELBRIGHTNESS.CAPTION
 msgid "Brightness level of inactive panel"
-msgstr ""
+msgstr "Helligkeitswert des inaktiven Panels"
 
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
@@ -2925,7 +2925,7 @@ msgstr "Befehlszeile:"
 
 #: TFRMOPTIONS.LBLSAVEIN.CAPTION
 msgid "&Save in:"
-msgstr ""
+msgstr "&Speichern in:"
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
 msgid "Tabs position:"
@@ -2933,11 +2933,11 @@ msgstr "Reiter-Position"
 
 #: TFRMOPTIONS.LBLTOOLSPARAMETERS.CAPTION
 msgid "Additional parameters"
-msgstr ""
+msgstr "Zusätzliche Parameter"
 
 #: TFRMOPTIONS.LBLTOOLSPATH.CAPTION
 msgid "Path to program to execute"
-msgstr ""
+msgstr "Pfad zum ausführbaren Programm"
 
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
@@ -3022,15 +3022,15 @@ msgstr "Programmverzeichnis (portable Version)"
 
 #: TFRMOPTIONS.RBTOOLTIPALLFILES.CAPTION
 msgid "Show tool tip for all files in file panel"
-msgstr ""
+msgstr "Tooltip (Hinweistext) für alle Dateien im Panel anzeigen"
 
 #: TFRMOPTIONS.RBTOOLTIPNONE.CAPTION
 msgid "Don't show"
-msgstr ""
+msgstr "Nicht zeigen"
 
 #: TFRMOPTIONS.RBTOOLTIPONLYLARGE.CAPTION
 msgid "Show tool tip for files in file panel if truncated"
-msgstr ""
+msgstr "Tooltips (Hinweistexte) nur zeigen, wenn Dateinamen abgekürzt werden"
 
 #: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
 msgid "Use memory mapping for search text in files"
@@ -3050,11 +3050,11 @@ msgstr "Scrollen"
 
 #: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
 msgid "Tool"
-msgstr ""
+msgstr "Werkzeug"
 
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
 msgid "Additional"
-msgstr ""
+msgstr "Zusätzlich"
 
 #: TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION
 msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
@@ -3753,7 +3753,7 @@ msgstr "Geschwindigkeit %s/s, verbleibende Zeit %s"
 
 #: ulng.rsdlgtest
 msgid "Testing..."
-msgstr ""
+msgstr "Teste..."
 
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
@@ -4021,7 +4021,7 @@ msgstr "Kann Datei %s nicht zu %s umbenennen"
 
 #: ulng.rsmsgerrsavefile
 msgid "Cannot save file"
-msgstr ""
+msgstr "Kann Datei nicht speichern"
 
 #: ulng.rsmsgerrsetattribute
 msgid "Can not set attributes for \"%s\""
@@ -4073,7 +4073,7 @@ msgstr "Ungültige Auswahl"
 
 #: ulng.rsmsgloadingfilelist
 msgid "Loading file list..."
-msgstr ""
+msgstr "Lade Dateiliste..."
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
@@ -4125,7 +4125,7 @@ msgstr "Erstelle symb. Link für %s"
 
 #: ulng.rsmsglogtest
 msgid "Test file integrity %s"
-msgstr ""
+msgstr "Teste Dateiintegrität von %s"
 
 #: ulng.rsmsgmanualaddhotdir
 msgid "Manually add hot path"
@@ -4340,11 +4340,11 @@ msgstr "Warte auf Benutzereingabe"
 
 #: ulng.rsoptarchivers
 msgid "Archivers"
-msgstr ""
+msgstr "Archivierer"
 
 #: ulng.rsoptarchivetypename
 msgid "Archive type name:"
-msgstr ""
+msgstr "Name des Archiv-Typs:"
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
@@ -4356,7 +4356,7 @@ msgstr "Automatisch Auffrischen"
 
 #: ulng.rsoptautosizecolumn
 msgid "First;Last;"
-msgstr ""
+msgstr "Erste;Letzte;"
 
 #: ulng.rsoptbehav
 msgid "Behaviors"
@@ -4450,7 +4450,7 @@ msgstr ""
 
 #: ulng.rsoptignorelist
 msgid "Ignore list"
-msgstr ""
+msgstr "Ausschluss-Liste"
 
 #: ulng.rsoptlanguage
 msgid "Language"
@@ -4499,7 +4499,7 @@ msgstr "Schnelle Suche"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
-msgstr ""
+msgstr "Oben;Unten;"
 
 #: ulng.rsopttools
 msgid "Tools"
@@ -4576,7 +4576,7 @@ msgstr "Kann Datei nicht teilen!"
 
 #: ulng.rsspliterrtoomanyparts
 msgid "Too many parts!"
-msgstr ""
+msgstr "Zuviele Teile!"
 
 #: ulng.rssplitmsgcreated
 msgctxt "ulng.rssplitmsgcreated"
@@ -4585,7 +4585,7 @@ msgstr "Erstellt:"
 
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
-msgstr ""
+msgstr "Die Anzahl der Teile ist grösser als 100! Fortfahren?"
 
 #: ulng.rssplitmsgsize
 msgid "size:"
@@ -4601,7 +4601,7 @@ msgstr "Fehler beim Erstellen des symb. Link."
 
 #: ulng.rstooldiffer
 msgid "Differ"
-msgstr ""
+msgstr "Unterscheider"
 
 #: ulng.rstooleditor
 msgctxt "ulng.rstooleditor"
