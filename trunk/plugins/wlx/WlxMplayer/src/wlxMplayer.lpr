@@ -246,7 +246,7 @@ end;
 
 function TPlugInfo.AddControl(AItem: TMPlayer): integer;
 begin
-  fControls.AddObject(inttostr(Integer(AItem)),TObject(AItem));
+  fControls.AddObject(inttostr(PtrUInt(AItem)),TObject(AItem));
 end;
 
 {Plugin main part}
