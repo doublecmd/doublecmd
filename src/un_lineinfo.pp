@@ -888,7 +888,7 @@ begin
 {$PUSH}
 {$overflowchecks off}
 {$rangechecks off}
-      addr := PtrUInt(addr) + base_addr - ExeImageBase;
+      addr := addr - base_addr + Pointer(ExeImageBase);
 {$POP}
 
       next_base := 0;
@@ -919,4 +919,4 @@ initialization
   InitLineInfo;
 
 end.
-
+
