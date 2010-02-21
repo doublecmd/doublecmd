@@ -31,8 +31,8 @@ interface
 
 uses
   LResources, SysUtils, Classes, Graphics, Forms, StdCtrls, Buttons, ComCtrls,
-  ExtCtrls, uTypes, uFile, uFileProperty, uFileSource, uFileSourceOperation,
-  uFileSourceCalcStatisticsOperation;
+  Dialogs, Controls, ExtCtrls, uTypes, uFile, uFileProperty, uFileSource,
+  uFileSourceOperation, uFileSourceCalcStatisticsOperation;
 
 type
 
@@ -117,8 +117,7 @@ type
     ChangeTriggersEnabled: Boolean;
 
     procedure ShowAttr(Mode: TFileAttrs);
-    procedure ChangeMod;
-    procedure ChangeOwner;
+    function ChangeProperties: Boolean;
     function GetModeFromForm: TFileAttrs;
     procedure ShowFile(iIndex:Integer);
     procedure AllowChange(Allow: Boolean);
@@ -189,21 +188,6 @@ begin
   if cbSticky.Checked then Result:=(Result OR S_ISVTX);
 end;
 
-procedure TfrmFileProperties.ChangeMod;
-begin
-  if not fFiles[iCurrent].IsLink then
-    fpchmod(PChar(fFiles[iCurrent].FullPath), GetModeFromForm);
-  //show error
-end;
-
-procedure TfrmFileProperties.ChangeOwner;
-begin
-  fplchown(PChar(fFiles[iCurrent].FullPath),
-           StrToUID(cbxUsers.Text),
-           StrToGID(cbxGroups.Text));
-  //show error
-end;
-
 procedure TfrmFileProperties.btnCloseClick(Sender: TObject);
 begin
   Close;
@@ -239,10 +223,8 @@ end;
 procedure TfrmFileProperties.btnAllClick(Sender: TObject);
 begin
   repeat
-    ChangeMod;
-    if(bPerm) then
-      ChangeOwner;
-    inc (iCurrent);
+    if not ChangeProperties then Exit;
+    Inc (iCurrent);
   until (iCurrent = fFiles.Count);
   Close;
 end;
@@ -264,6 +246,26 @@ begin
   cbSuid.Checked:= ((Mode AND S_ISUID) = S_ISUID);
   cbSgid.Checked:= ((Mode AND S_ISGID) = S_ISGID);
   cbSticky.Checked:= ((Mode AND S_ISVTX) = S_ISVTX);
+end;
+
+function TfrmFileProperties.ChangeProperties: Boolean;
+begin
+  Result:= True;
+  if not fFiles[iCurrent].IsLink then
+  begin
+    if fpchmod(PChar(fFiles[iCurrent].FullPath), GetModeFromForm) <> 0 then
+      begin
+        if MessageDlg(Caption, Format(rsPropsErrChMod, [fFiles[iCurrent].Name]), mtError, mbOKCancel, 0) = mrCancel then
+          Exit(False);
+      end;
+  end;
+  if not bPerm then Exit;
+  if fplchown(PChar(fFiles[iCurrent].FullPath), StrToUID(cbxUsers.Text),
+              StrToGID(cbxGroups.Text)) <> 0 then
+    begin
+      if MessageDlg(Caption, Format(rsPropsErrChOwn, [fFiles[iCurrent].Name]), mtError, mbOKCancel, 0) = mrCancel then
+        Exit(False);
+    end;
 end;
 
 procedure TfrmFileProperties.ShowFile(iIndex:Integer);
@@ -398,9 +400,7 @@ end;
 
 procedure TfrmFileProperties.btnOKClick(Sender: TObject);
 begin
-  ChangeMod;
-  if (bPerm) then
-    ChangeOwner;
+  if not ChangeProperties then Exit;
   btnSkipClick(Self);
 end;
 
