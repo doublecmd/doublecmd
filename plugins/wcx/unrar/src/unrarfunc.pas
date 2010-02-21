@@ -146,7 +146,7 @@ type
   TRARReadHeader = function(hArcData: TArcHandle; var HeaderData: RARHeaderData) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TRARReadHeaderEx = function (hArcData: TArcHandle; var HeaderData: RARHeaderDataEx) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TRARProcessFile = function(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PAnsiChar) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TRARProcessFileW = function(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PWideChar) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TRARProcessFileW = function(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PRarUnicodeChar) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TRARSetCallback = procedure(hArcData: TArcHandle; UnrarCallback: TUnrarCallback; UserData: PtrInt); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TRARSetChangeVolProc = procedure(hArcData: TArcHandle; ChangeVolProc: TUnrarChangeVolProc); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   TRARSetProcessDataProc = procedure(hArcData: TArcHandle; ProcessDataProc: TUnrarProcessDataProc); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
@@ -585,29 +585,36 @@ end;
 
 function ProcessFile(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PChar) : Integer;stdcall;
 var
-  pcDestPath: PChar;
+  pacDestPath: PAnsiChar = nil;
+  pacDestName: PAnsiChar = nil;
 begin
   if Assigned(RARProcessFile) then
     begin
       // Both DestPath and DestName must be in OEM encoding
       // if HostOS is MS DOS or MS Windows and archive is open under MS Windows.
-      if DestPath = nil then
-        pcDestPath:= nil
-      else
-        pcDestPath:= PAnsiChar(SetSystemSpecificFileName(ProcessedFileHostOS, DestPath));
-
-      Result := RARProcessFile(hArcData, Operation,
-                               pcDestPath,
-                               PAnsiChar(SetSystemSpecificFileName(ProcessedFileHostOS, DestName)));
+      if DestPath <> nil then
+        pacDestPath:= PAnsiChar(SetSystemSpecificFileName(ProcessedFileHostOS, DestPath));
+      if DestName <> nil then
+        pacDestName:= PAnsiChar(SetSystemSpecificFileName(ProcessedFileHostOS, DestName));
+      Result := RARProcessFile(hArcData, Operation, pacDestPath, pacDestName);
     end
   else
     Result := E_EREAD;
 end;
 
 function ProcessFileW(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PWideChar) : Integer;stdcall;
+var
+  pwcDestPath: PRarUnicodeChar = nil;
+  pwcDestName: PRarUnicodeChar = nil;
 begin
   if Assigned(RARProcessFileW) then
-    Result := RARProcessFileW(hArcData, Operation, DestPath, DestName)
+    begin
+      if DestPath <> nil then
+        pwcDestPath:= PRarUnicodeChar(WideStringToRarUnicodeString(DestPath));
+      if DestName <> nil then
+        pwcDestName:= PRarUnicodeChar(WideStringToRarUnicodeString(DestName));
+      Result := RARProcessFileW(hArcData, Operation, pwcDestPath, pwcDestName);
+    end
   else
     Result := E_EREAD;
 end;
