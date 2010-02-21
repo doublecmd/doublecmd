@@ -79,8 +79,11 @@ uses
   zstream;
 
 const
-  DwarfDebugLine: string = '.debug_line';
-  DwarfZDebugLine: string = '.zdebug_line';
+  // Cannot use reference counted strings because they are emptied
+  // when a function from this module is called two or more times
+  // while an exception is being processed (don't know why).
+  DwarfDebugLine: shortstring = '.debug_line';
+  DwarfZDebugLine: shortstring = '.zdebug_line';
 
 type
   TCheckResult = (header_not_found, header_invalid, no_debug_info, found_debug_info);
@@ -350,6 +353,9 @@ begin
   end;
 
   for i := 0 to (header.e_shnum-1) do begin
+    // Section nr 0 is reserved.
+    if i = 0 then Continue;
+
     f.Position:= header.e_shoff + (i * header.e_shentsize);
     if (f.Read(cursec_header, sizeof(cursec_header)) <> sizeof(cursec_header)) then begin
       ExtractDwarfLineInfoError:='Could not read next section header';
@@ -364,9 +370,9 @@ begin
     end;
     buf[sizeof(buf)-1] := #0;
 
-    DEBUG_WRITELN('This section is ', pchar(@buf[0]), ', offset ', IntToStr(cursec_header.sh_offset), ', size ', IntToStr(cursec_header.sh_size));
-
     sectionName := StrPas(pchar(@buf[0]));
+
+    DEBUG_WRITELN('Section ', i, ': ', sectionName, ', offset ', IntToStr(cursec_header.sh_offset), ', size ', IntToStr(cursec_header.sh_size));
 
     if sectionName = DwarfDebugLine then begin
       DEBUG_WRITELN(sectionName + ' section found');
@@ -376,8 +382,8 @@ begin
       DEBUG_WRITELN(' offset ', DwarfLineInfoOffset, ',  size ', DwarfLineInfoSize);
       Result := (DwarfLineInfoOffset >= 0) and (DwarfLineInfoSize > 0);
       break;
-    end;
-    if sectionName = DwarfZDebugLine then begin
+    end
+    else if sectionName = DwarfZDebugLine then begin
       DEBUG_WRITELN(sectionName + ' section found');
       DwarfLineInfoOffset := cursec_header.sh_offset;
       DEBUG_WRITELN(' offset ', DwarfLineInfoOffset);
@@ -683,4 +689,4 @@ begin
   end;
 end;
 
-end.
+end.
