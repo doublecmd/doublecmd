@@ -192,6 +192,8 @@ resourcestring
   rsPropsSymLink = 'Symbolic link';
   rsPropsSocket = 'Socket';
   rsPropsUnknownType = 'Unknown type';
+  rsPropsErrChMod = 'Can not change access rights for "%s"';
+  rsPropsErrChOwn = 'Can not change owner for "%s"';
   //Compare by content Dialog
   rsCompareDiffs = 'Number of changes:';
   // Find files dialog
