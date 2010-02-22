@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-02-20 01:41+0300\n"
+"PO-Revision-Date: 2010-02-22 15:39+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3981,7 +3981,7 @@ msgstr "Данные повреждены"
 
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
-msgstr ""
+msgstr "Не могу копировать файл из %s в %s"
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
@@ -4534,11 +4534,11 @@ msgstr "Инструменты"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
-msgstr ""
+msgstr "Не могу изменить права доступа для  \"%s\""
 
 #: ulng.rspropserrchown
 msgid "Can not change owner for \"%s\""
-msgstr ""
+msgstr "Не могу изменить владельца для  \"%s\""
 
 #: ulng.rspropsfile
 msgid "File"
