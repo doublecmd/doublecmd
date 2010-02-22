@@ -95,6 +95,8 @@ function libhal_get_all_devices(ctx: PLibHalContext;
 procedure libhal_free_string(str :PChar); cdecl; external 'libhal';
 //* Frees a NULL-terminated array of strings. If passed NULL, does nothing. */
 procedure libhal_free_string_array(str_array: PPChar); cdecl; external 'libhal';
+//* Shutdown a connection to hal */
+function libhal_ctx_shutdown(ctx: PLibHalContext; error: PDBusError):dbus_bool_t; cdecl; external 'libhal';
 //* Free a LibHalContext resource */
 function libhal_ctx_free(ctx: PLibHalContext):dbus_bool_t; cdecl; external 'libhal';
 //* Determine if a property on a device exists. */
@@ -134,4 +136,4 @@ function libhal_ctx_set_device_removed(ctx: PLibHalContext;
 implementation
 
 end.
-
+
