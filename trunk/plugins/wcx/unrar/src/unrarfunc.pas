@@ -587,15 +587,22 @@ function ProcessFile(hArcData: TArcHandle; Operation: Integer; DestPath, DestNam
 var
   pacDestPath: PAnsiChar = nil;
   pacDestName: PAnsiChar = nil;
+  SysSpecDestPath, SysSpecDestName: AnsiString;
 begin
   if Assigned(RARProcessFile) then
     begin
       // Both DestPath and DestName must be in OEM encoding
       // if HostOS is MS DOS or MS Windows and archive is open under MS Windows.
       if DestPath <> nil then
-        pacDestPath:= PAnsiChar(SetSystemSpecificFileName(ProcessedFileHostOS, DestPath));
+        begin
+          SysSpecDestPath:= SetSystemSpecificFileName(ProcessedFileHostOS, DestPath);
+          pacDestPath := PAnsiChar(SysSpecDestPath);
+        end;
       if DestName <> nil then
-        pacDestName:= PAnsiChar(SetSystemSpecificFileName(ProcessedFileHostOS, DestName));
+        begin
+          SysSpecDestName:= SetSystemSpecificFileName(ProcessedFileHostOS, DestName);
+          pacDestName := PAnsiChar(SysSpecDestName);
+        end;
       Result := RARProcessFile(hArcData, Operation, pacDestPath, pacDestName);
     end
   else
@@ -606,13 +613,20 @@ function ProcessFileW(hArcData: TArcHandle; Operation: Integer; DestPath, DestNa
 var
   pwcDestPath: PRarUnicodeChar = nil;
   pwcDestName: PRarUnicodeChar = nil;
+  SysSpecDestPath, SysSpecDestName: TRarUnicodeString;
 begin
   if Assigned(RARProcessFileW) then
     begin
       if DestPath <> nil then
-        pwcDestPath:= PRarUnicodeChar(WideStringToRarUnicodeString(DestPath));
+        begin
+          SysSpecDestPath:= WideStringToRarUnicodeString(DestPath);
+          pwcDestPath := PRarUnicodeChar(SysSpecDestPath);
+        end;
       if DestName <> nil then
-        pwcDestName:= PRarUnicodeChar(WideStringToRarUnicodeString(DestName));
+        begin
+          SysSpecDestName:= WideStringToRarUnicodeString(DestName);
+          pwcDestName := PRarUnicodeChar(SysSpecDestName);
+        end;
       Result := RARProcessFileW(hArcData, Operation, pwcDestPath, pwcDestName);
     end
   else
