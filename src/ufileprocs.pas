@@ -68,19 +68,21 @@ const
 
 function CopyFile(const sSrc, sDst: String; bAppend: Boolean): Boolean;
 var
-  src, dst:TFileStreamEx;
+  src: TFileStreamEx = nil;
+  dst: TFileStreamEx = nil;
   iDstBeg:Integer; // in the append mode we store original size
-  Buffer: PChar;
+  Buffer: PChar = nil;
 begin
   Result:=False;
-  if not FileExists(sSrc) then Exit;
+  if not mbFileExists(sSrc) then Exit;
   
-  dst:=nil; // for safety exception handling
   GetMem(Buffer,cBlockSize+1);
-
   try
     try
       src:=TFileStreamEx.Create(sSrc,fmOpenRead or fmShareDenyNone);
+      if not Assigned(src) then
+        Exit;
+
       if bAppend then
       begin
         dst:=TFileStreamEx.Create(sDst,fmOpenReadWrite);
@@ -88,14 +90,17 @@ begin
       end
       else
         dst:=TFileStreamEx.Create(sDst,fmCreate);
+      if not Assigned(dst) then
+        Exit;
+
       iDstBeg:=dst.Size;
       // we dont't use CopyFrom, because it's alocate and free buffer every time is called
       while (dst.Size+cBlockSize)<= (src.Size+iDstBeg) do
       begin
         Src.ReadBuffer(Buffer^, cBlockSize);
         dst.WriteBuffer(Buffer^, cBlockSize);
-
       end;
+
       if (iDstBeg+src.Size)>dst.Size then
       begin
 //        dst.CopyFrom(src,src.Size-dst.size);
