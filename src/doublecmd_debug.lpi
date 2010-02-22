@@ -685,7 +685,6 @@
     <CodeGeneration>
       <Checks>
         <IOChecks Value="True"/>
-        <StackChecks Value="True"/>
       </Checks>
       <Optimizations>
         <OptimizationLevel Value="0"/>
