@@ -339,6 +339,7 @@ msgid "Copy"
 msgstr "Запомняне"
 
 #: TFRMEDITOR.ACTEDITCUT.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITCUT.CAPTION"
 msgid "Cut"
 msgstr "Изрязване"
 
@@ -351,6 +352,7 @@ msgid "Find next"
 msgstr "Намиране на следващо:"
 
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
 msgid "Paste"
 msgstr "Поставяне"
 
@@ -1963,6 +1965,16 @@ msgstr "Възможности"
 msgid "&Tabs"
 msgstr "&Подпрозорци"
 
+#: TFRMMAIN.TBCOPY.CAPTION
+msgctxt "TFRMMAIN.TBCOPY.CAPTION"
+msgid "Copy"
+msgstr "Запомняне"
+
+#: TFRMMAIN.TBCUT.CAPTION
+msgctxt "TFRMMAIN.TBCUT.CAPTION"
+msgid "Cut"
+msgstr "Изрязване"
+
 #: TFRMMAIN.TBDELETE.CAPTION
 msgctxt "TFRMMAIN.TBDELETE.CAPTION"
 msgid "Delete"
@@ -1972,6 +1984,16 @@ msgstr "Изтриване"
 msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
 msgstr "Обработка"
+
+#: TFRMMAIN.TBPASTE.CAPTION
+msgctxt "TFRMMAIN.TBPASTE.CAPTION"
+msgid "Paste"
+msgstr "Поставяне"
+
+#: TFRMMAIN.TBSEPARATOR.CAPTION
+msgctxt "TFRMMAIN.TBSEPARATOR.CAPTION"
+msgid "-"
+msgstr ""
 
 #: TFRMMASKINPUTDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
@@ -3949,6 +3971,10 @@ msgstr "Грешка CRC в данните на сбивката"
 msgid "Data is bad"
 msgstr "Данните са лоши"
 
+#: ulng.rsmsgerrcannotcopyfile
+msgid "Cannot copy file %s to %s"
+msgstr ""
+
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
 msgstr ""
@@ -4498,6 +4524,14 @@ msgstr ""
 #: ulng.rsopttools
 msgid "Tools"
 msgstr "Средства"
+
+#: ulng.rspropserrchmod
+msgid "Can not change access rights for \"%s\""
+msgstr ""
+
+#: ulng.rspropserrchown
+msgid "Can not change owner for \"%s\""
+msgstr ""
 
 #: ulng.rspropsfile
 msgid "File"

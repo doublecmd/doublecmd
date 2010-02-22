@@ -339,6 +339,7 @@ msgid "Copy"
 msgstr "Kopiëer"
 
 #: TFRMEDITOR.ACTEDITCUT.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITCUT.CAPTION"
 msgid "Cut"
 msgstr "Knip"
 
@@ -351,6 +352,7 @@ msgid "Find next"
 msgstr "Vindt volgende"
 
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
 msgid "Paste"
 msgstr "Plak"
 
@@ -1963,6 +1965,16 @@ msgstr "Opties"
 msgid "&Tabs"
 msgstr "&Tabs"
 
+#: TFRMMAIN.TBCOPY.CAPTION
+msgctxt "TFRMMAIN.TBCOPY.CAPTION"
+msgid "Copy"
+msgstr "Kopiëer"
+
+#: TFRMMAIN.TBCUT.CAPTION
+msgctxt "TFRMMAIN.TBCUT.CAPTION"
+msgid "Cut"
+msgstr "Knip"
+
 #: TFRMMAIN.TBDELETE.CAPTION
 msgctxt "TFRMMAIN.TBDELETE.CAPTION"
 msgid "Delete"
@@ -1972,6 +1984,16 @@ msgstr "Verwijder"
 msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
 msgstr "Bewerk"
+
+#: TFRMMAIN.TBPASTE.CAPTION
+msgctxt "TFRMMAIN.TBPASTE.CAPTION"
+msgid "Paste"
+msgstr "Plak"
+
+#: TFRMMAIN.TBSEPARATOR.CAPTION
+msgctxt "TFRMMAIN.TBSEPARATOR.CAPTION"
+msgid "-"
+msgstr "-"
 
 #: TFRMMASKINPUTDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
@@ -3949,6 +3971,10 @@ msgstr "CRC fout in archief gegevens"
 msgid "Data is bad"
 msgstr "Gegevens zijn niet goed"
 
+#: ulng.rsmsgerrcannotcopyfile
+msgid "Cannot copy file %s to %s"
+msgstr ""
+
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
 msgstr ""
@@ -4498,6 +4524,14 @@ msgstr ""
 #: ulng.rsopttools
 msgid "Tools"
 msgstr "Tools"
+
+#: ulng.rspropserrchmod
+msgid "Can not change access rights for \"%s\""
+msgstr ""
+
+#: ulng.rspropserrchown
+msgid "Can not change owner for \"%s\""
+msgstr ""
 
 #: ulng.rspropsfile
 msgid "File"

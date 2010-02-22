@@ -351,6 +351,7 @@ msgid "Copy"
 msgstr "Kopírovat"
 
 #: TFRMEDITOR.ACTEDITCUT.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITCUT.CAPTION"
 msgid "Cut"
 msgstr "Vyjmout"
 
@@ -363,6 +364,7 @@ msgid "Find next"
 msgstr "Hledat další"
 
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
 msgid "Paste"
 msgstr "Vložiit"
 
@@ -1985,6 +1987,16 @@ msgstr "Nastavení"
 msgid "&Tabs"
 msgstr "&Záložky"
 
+#: TFRMMAIN.TBCOPY.CAPTION
+msgctxt "TFRMMAIN.TBCOPY.CAPTION"
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: TFRMMAIN.TBCUT.CAPTION
+msgctxt "TFRMMAIN.TBCUT.CAPTION"
+msgid "Cut"
+msgstr "Vyjmout"
+
 #: TFRMMAIN.TBDELETE.CAPTION
 msgctxt "TFRMMAIN.TBDELETE.CAPTION"
 msgid "Delete"
@@ -1994,6 +2006,16 @@ msgstr "Vymazat"
 msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
 msgstr "Upravit"
+
+#: TFRMMAIN.TBPASTE.CAPTION
+msgctxt "TFRMMAIN.TBPASTE.CAPTION"
+msgid "Paste"
+msgstr "Vložiit"
+
+#: TFRMMAIN.TBSEPARATOR.CAPTION
+msgctxt "TFRMMAIN.TBSEPARATOR.CAPTION"
+msgid "-"
+msgstr "-"
 
 #: TFRMMASKINPUTDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
@@ -3986,6 +4008,10 @@ msgstr "CRC chyba (kontrolní součet nesouhlasí)"
 msgid "Data is bad"
 msgstr "Data jsou špatná"
 
+#: ulng.rsmsgerrcannotcopyfile
+msgid "Cannot copy file %s to %s"
+msgstr ""
+
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
 msgstr ""
@@ -4541,6 +4567,14 @@ msgstr ""
 #: ulng.rsopttools
 msgid "Tools"
 msgstr "Nástroje"
+
+#: ulng.rspropserrchmod
+msgid "Can not change access rights for \"%s\""
+msgstr ""
+
+#: ulng.rspropserrchown
+msgid "Can not change owner for \"%s\""
+msgstr ""
 
 #: ulng.rspropsfile
 msgid "File"
