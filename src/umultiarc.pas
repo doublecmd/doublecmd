@@ -129,8 +129,8 @@ end;
 procedure TMultiArcList.LoadFromFile(const FileName: UTF8String);
 var
   I, J: Integer;
-  IniFile: TIniFileEx;
-  Sections: TStringList;
+  IniFile: TIniFileEx = nil;
+  Sections: TStringList = nil;
   Section,
   Format: UTF8String;
   MultiArcItem: TMultiArcItem;
@@ -176,6 +176,7 @@ begin
     end;
   finally
     FreeThenNil(IniFile);
+    FreeThenNil(Sections);
   end;
 end;
 
@@ -251,4 +252,4 @@ begin
 end;
 
 end.
-
+
