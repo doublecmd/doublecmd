@@ -31,6 +31,7 @@ uses
 resourcestring
   rsMsgNotDelete = 'Can not delete file %s';
   rsMsgErrRename = 'Cannot rename file %s to %s';
+  rsMsgErrCannotCopyFile = 'Cannot copy file %s to %s';
   rsMsgFileExistsRwrt = 'File %s exists, overwrite?';
   rsMsgFileChangedSave = 'File %s changed, save?';
   rsMsgFolderExistsRwrt = 'Folder %s exists, overwrite?';
