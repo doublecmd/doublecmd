@@ -3974,7 +3974,7 @@ msgstr "Данні пошкоджено"
 
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
-msgstr ""
+msgstr "Помилка при копіюванні файлу %s в %s"
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
@@ -4528,11 +4528,11 @@ msgstr "Інструменти"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
-msgstr ""
+msgstr "Не можу змінити права доступу для \"%s\""
 
 #: ulng.rspropserrchown
 msgid "Can not change owner for \"%s\""
-msgstr ""
+msgstr "Не можу змінити власника для \"%s\""
 
 #: ulng.rspropsfile
 msgid "File"
