@@ -339,6 +339,7 @@ msgid "Copy"
 msgstr "&Копіювати"
 
 #: TFRMEDITOR.ACTEDITCUT.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITCUT.CAPTION"
 msgid "Cut"
 msgstr "В&ирізати"
 
@@ -351,6 +352,7 @@ msgid "Find next"
 msgstr "Знайти наступний"
 
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
 msgid "Paste"
 msgstr "&Вставити"
 
@@ -1961,6 +1963,16 @@ msgstr "&Налаштування"
 msgid "&Tabs"
 msgstr "Вкладк&и"
 
+#: TFRMMAIN.TBCOPY.CAPTION
+msgctxt "TFRMMAIN.TBCOPY.CAPTION"
+msgid "Copy"
+msgstr "&Копіювати"
+
+#: TFRMMAIN.TBCUT.CAPTION
+msgctxt "TFRMMAIN.TBCUT.CAPTION"
+msgid "Cut"
+msgstr "В&ирізати"
+
 #: TFRMMAIN.TBDELETE.CAPTION
 msgctxt "TFRMMAIN.TBDELETE.CAPTION"
 msgid "Delete"
@@ -1970,6 +1982,16 @@ msgstr "Видалити"
 msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
 msgstr "Редагувати"
+
+#: TFRMMAIN.TBPASTE.CAPTION
+msgctxt "TFRMMAIN.TBPASTE.CAPTION"
+msgid "Paste"
+msgstr "&Вставити"
+
+#: TFRMMAIN.TBSEPARATOR.CAPTION
+msgctxt "TFRMMAIN.TBSEPARATOR.CAPTION"
+msgid "-"
+msgstr "-"
 
 #: TFRMMASKINPUTDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
@@ -3950,6 +3972,10 @@ msgstr "Контрольна сума не співпадає, архів пош
 msgid "Data is bad"
 msgstr "Данні пошкоджено"
 
+#: ulng.rsmsgerrcannotcopyfile
+msgid "Cannot copy file %s to %s"
+msgstr ""
+
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
 msgstr "Дата %s не підтримується "
@@ -4499,6 +4525,14 @@ msgstr "Зверху;Знизу"
 #: ulng.rsopttools
 msgid "Tools"
 msgstr "Інструменти"
+
+#: ulng.rspropserrchmod
+msgid "Can not change access rights for \"%s\""
+msgstr ""
+
+#: ulng.rspropserrchown
+msgid "Can not change owner for \"%s\""
+msgstr ""
 
 #: ulng.rspropsfile
 msgid "File"

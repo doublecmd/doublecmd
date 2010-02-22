@@ -341,6 +341,7 @@ msgid "Copy"
 msgstr "Kopieren"
 
 #: TFRMEDITOR.ACTEDITCUT.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITCUT.CAPTION"
 msgid "Cut"
 msgstr "Ausschneiden"
 
@@ -353,6 +354,7 @@ msgid "Find next"
 msgstr "Finde nächste"
 
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
 msgid "Paste"
 msgstr "Einfügen"
 
@@ -1961,6 +1963,16 @@ msgstr "Optionen"
 msgid "&Tabs"
 msgstr "&Reiter"
 
+#: TFRMMAIN.TBCOPY.CAPTION
+msgctxt "TFRMMAIN.TBCOPY.CAPTION"
+msgid "Copy"
+msgstr "Kopieren"
+
+#: TFRMMAIN.TBCUT.CAPTION
+msgctxt "TFRMMAIN.TBCUT.CAPTION"
+msgid "Cut"
+msgstr "Ausschneiden"
+
 #: TFRMMAIN.TBDELETE.CAPTION
 msgctxt "TFRMMAIN.TBDELETE.CAPTION"
 msgid "Delete"
@@ -1970,6 +1982,16 @@ msgstr "&Löschen"
 msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
 msgstr "Bea&rbeiten"
+
+#: TFRMMAIN.TBPASTE.CAPTION
+msgctxt "TFRMMAIN.TBPASTE.CAPTION"
+msgid "Paste"
+msgstr "Einfügen"
+
+#: TFRMMAIN.TBSEPARATOR.CAPTION
+msgctxt "TFRMMAIN.TBSEPARATOR.CAPTION"
+msgid "-"
+msgstr "-"
 
 #: TFRMMASKINPUTDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
@@ -3955,6 +3977,10 @@ msgstr "CRC-Fehler in der Archivdatei"
 msgid "Data is bad"
 msgstr "Datenfehler"
 
+#: ulng.rsmsgerrcannotcopyfile
+msgid "Cannot copy file %s to %s"
+msgstr ""
+
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
 msgstr "Datum %s wird nicht nicht unterstützt"
@@ -4504,6 +4530,14 @@ msgstr "Oben;Unten;"
 #: ulng.rsopttools
 msgid "Tools"
 msgstr "Tools"
+
+#: ulng.rspropserrchmod
+msgid "Can not change access rights for \"%s\""
+msgstr ""
+
+#: ulng.rspropserrchown
+msgid "Can not change owner for \"%s\""
+msgstr ""
 
 #: ulng.rspropsfile
 msgid "File"

@@ -339,6 +339,7 @@ msgid "Copy"
 msgstr ""
 
 #: TFRMEDITOR.ACTEDITCUT.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITCUT.CAPTION"
 msgid "Cut"
 msgstr ""
 
@@ -351,6 +352,7 @@ msgid "Find next"
 msgstr ""
 
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
 msgid "Paste"
 msgstr ""
 
@@ -1925,6 +1927,16 @@ msgstr ""
 msgid "&Tabs"
 msgstr ""
 
+#: TFRMMAIN.TBCOPY.CAPTION
+msgctxt "TFRMMAIN.TBCOPY.CAPTION"
+msgid "Copy"
+msgstr ""
+
+#: TFRMMAIN.TBCUT.CAPTION
+msgctxt "TFRMMAIN.TBCUT.CAPTION"
+msgid "Cut"
+msgstr ""
+
 #: TFRMMAIN.TBDELETE.CAPTION
 msgctxt "TFRMMAIN.TBDELETE.CAPTION"
 msgid "Delete"
@@ -1933,6 +1945,16 @@ msgstr ""
 #: TFRMMAIN.TBEDIT.CAPTION
 msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
+msgstr ""
+
+#: TFRMMAIN.TBPASTE.CAPTION
+msgctxt "TFRMMAIN.TBPASTE.CAPTION"
+msgid "Paste"
+msgstr ""
+
+#: TFRMMAIN.TBSEPARATOR.CAPTION
+msgctxt "TFRMMAIN.TBSEPARATOR.CAPTION"
+msgid "-"
 msgstr ""
 
 #: TFRMMASKINPUTDLG.BTNCANCEL.CAPTION
@@ -3907,6 +3929,10 @@ msgstr ""
 msgid "Data is bad"
 msgstr ""
 
+#: ulng.rsmsgerrcannotcopyfile
+msgid "Cannot copy file %s to %s"
+msgstr ""
+
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
 msgstr ""
@@ -4451,6 +4477,14 @@ msgstr ""
 
 #: ulng.rsopttools
 msgid "Tools"
+msgstr ""
+
+#: ulng.rspropserrchmod
+msgid "Can not change access rights for \"%s\""
+msgstr ""
+
+#: ulng.rspropserrchown
+msgid "Can not change owner for \"%s\""
 msgstr ""
 
 #: ulng.rspropsfile
