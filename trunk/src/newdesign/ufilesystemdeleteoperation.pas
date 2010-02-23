@@ -272,7 +272,7 @@ begin
         sQuestion := Format(rsMsgNotDelete, [FileName]);
       end;
 
-      if FSkipErrors or (RemoveDirectly <> fsoogYes) then
+      if FSkipErrors or (RemoveDirectly = fsoogNo) then
         LogMessage(sMessage, logOptions, lmtError)
       else
       begin
