@@ -27,7 +27,8 @@ type
     FSymLinkOption: TFileSourceOperationOptionSymLink;
     FSkipErrors: Boolean;
     FRecycle: Boolean;
-    FDeleteReadOnly: TFileSourceOperationOptionGeneral;
+    FDeleteReadOnly,
+    FDeleteDirectly: TFileSourceOperationOptionGeneral;
 
   protected
     function ProcessFile(aFile: TFileSystemFile): Boolean;
@@ -54,7 +55,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng, uFileSystemUtil;
+  uOSUtils, uLng, uFileProcs, uFileSystemUtil;
 
 constructor TFileSystemDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);
@@ -63,6 +64,7 @@ begin
   FSkipErrors := gSkipFileOpError;
   FRecycle := False;
   FDeleteReadOnly := fsoogNone;
+  FDeleteDirectly:= fsoogNone;
   FFullFilesTreeToDelete := nil;
 
   if gProcessComments then
@@ -146,6 +148,7 @@ function TFileSystemDeleteOperation.ProcessFile(aFile: TFileSystemFile): Boolean
 var
   FileName: String;
   bRetry: Boolean;
+  RemoveDirectly: TFileSourceOperationOptionGeneral = fsoogNone;
   sMessage, sQuestion: String;
   logOptions: TLogOptions;
 begin
@@ -195,7 +198,48 @@ begin
     else
     begin
       // Delete to trash (one function for file and folder)
-      Result := mbDeleteToTrash(FileName);
+      if not mbDeleteToTrash(FileName) then
+        begin
+          case FDeleteDirectly of
+            fsoogNone:
+              case AskQuestion(Format(rsMsgDelToTrashForce, [FileName]), '',
+                               [fsourYes, fsourAll, fsourSkip, fsourSkipAll, fsourAbort],
+                               fsourYes, fsourSkip) of
+                fsourYes:
+                  RemoveDirectly:= fsoogYes;
+                fsourAll:
+                  begin
+                    FDeleteDirectly := fsoogYes;
+                    RemoveDirectly:= fsoogYes;
+                  end;
+                fsourSkip:
+                  RemoveDirectly:= fsoogNo;
+                fsourSkipAll:
+                  begin
+                    FDeleteDirectly := fsoogNo;
+                    RemoveDirectly:= fsoogNo;
+                  end;
+                fsourAbort:
+                  RaiseAbortOperation;
+              end;
+            fsoogYes:
+              RemoveDirectly:= fsoogYes;
+            fsoogNo:
+              RemoveDirectly:= fsoogNo;
+          end;
+          if RemoveDirectly = fsoogYes then
+            begin
+              if aFile.IsDirectory then // directory
+                begin
+                  DelTree(FileName);
+                  Result := True;
+                end
+              else  // files and other stuff
+                begin
+                  Result := mbDeleteFile(FileName);
+                end;
+            end;
+        end;
     end;
 
     if Result then
@@ -228,7 +272,7 @@ begin
         sQuestion := Format(rsMsgNotDelete, [FileName]);
       end;
 
-      if FSkipErrors then
+      if FSkipErrors or (RemoveDirectly <> fsoogYes) then
         LogMessage(sMessage, logOptions, lmtError)
       else
       begin
