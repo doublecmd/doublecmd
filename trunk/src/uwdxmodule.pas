@@ -707,14 +707,16 @@ begin
 end;
 
 function TPluginWDX.CallContentGetDetectString: string;
-var pc:Pchar;
+var
+  pacDetectString: PAnsiChar;
 begin
-  if assigned(ContentGetDetectString) then
+  if Assigned(ContentGetDetectString) then
    begin
-     GetMem(pc,MAX_PATH);
-     ContentGetDetectString(pc,MAX_PATH);
-     Result:=StrPas(pc);
-     FreeMem(pc);
+     GetMem(pacDetectString, MAX_PATH);
+     FillChar(pacDetectString^, MAX_PATH, #0);
+     ContentGetDetectString(pacDetectString, MAX_PATH);
+     Result:= StrPas(pacDetectString);
+     FreeMem(pacDetectString);
    end
   else
     Result:='';

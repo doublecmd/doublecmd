@@ -1527,9 +1527,8 @@ begin
   odOpenDialog.Filter := 'Content plugins (*.wdx; *.lua)|*.wdx;*.lua';
   if odOpenDialog.Execute then
     begin
-      sPluginName := ExtractFileName(odOpenDialog.FileName);
-      delete(sPluginName,length(sPluginName)-4,4);
-      I:= tmpWDXPlugins.Add(sPluginName,odOpenDialog.FileName,'');
+      sPluginName := ExtractOnlyFileName(odOpenDialog.FileName);
+      I:= tmpWDXPlugins.Add(sPluginName, odOpenDialog.FileName, '');
 
       tmpWDXPlugins.LoadModule(sPluginName);
       tmpWDXPlugins.GetWdxModule(sPluginName).DetectStr:=tmpWDXPlugins.GetWdxModule(sPluginName).CallContentGetDetectString;
