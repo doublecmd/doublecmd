@@ -145,10 +145,12 @@ type
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
+    edtArchiveListEnd: TEdit;
+    edtArchiveListStart: TEdit;
+    edtArchiveDelete: TEdit;
     edtArchiveEncrypt: TEdit;
     edtArchiveMove: TEdit;
     edtArchiveAdd: TEdit;
-    edtArchiveDelete: TEdit;
     edtArchiveExtension: TEdit;
     edtArchiveExtract: TEdit;
     edtArchiveList: TEdit;
@@ -212,10 +214,12 @@ type
     gbAutoRefreshDisable: TGroupBox;
     gbShowToolTip: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
+    lblArchiveListEnd: TLabel;
+    lblArchiveListStart: TLabel;
+    lblArchiveDelete: TLabel;
     lblArchiveEncrypt: TLabel;
     lblArchiveMove: TLabel;
     lblArchiveAdd: TLabel;
-    lblArchiveDelete: TLabel;
     lblArchiveExtension: TLabel;
     lblArchiveExtract: TLabel;
     lblArchiveList: TLabel;
@@ -1226,6 +1230,8 @@ begin
     FArchiver:= fneArchiver.FileName;
     FExtension:= edtArchiveExtension.Text;
     FList:= edtArchiveList.Text;
+    FStart:= edtArchiveListStart.Text;
+    FEnd:= edtArchiveListEnd.Text;
     FFormat.Assign(memArchiveListFormat.Lines);
     FExtract:= edtArchiveExtract.Text;
     FAdd:= edtArchiveAdd.Text;
@@ -2029,6 +2035,8 @@ begin
       fneArchiver.FileName:= EmptyStr;
       edtArchiveExtension.Text:= EmptyStr;
       edtArchiveList.Text:= EmptyStr;
+      edtArchiveListStart.Text:= EmptyStr;
+      edtArchiveListEnd.Text:= EmptyStr;
       memArchiveListFormat.Lines.Clear;
       edtArchiveExtract.Text:= EmptyStr;
       edtArchiveAdd.Text:= EmptyStr;
@@ -2048,6 +2056,8 @@ begin
       fneArchiver.FileName:= FArchiver;
       edtArchiveExtension.Text:= FExtension;
       edtArchiveList.Text:= FList;
+      edtArchiveListStart.Text:= FStart;
+      edtArchiveListEnd.Text:= FEnd;
       memArchiveListFormat.Lines.Assign(FFormat);
       edtArchiveExtract.Text:= FExtract;
       edtArchiveAdd.Text:= FAdd;
