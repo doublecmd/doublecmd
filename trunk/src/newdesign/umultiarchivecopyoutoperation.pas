@@ -56,6 +56,7 @@ type
     FExProcess: TExProcess;
     FTempFile: UTF8String;
     FFileMask: UTF8String;
+    FErrorLevel: LongInt;
     procedure OnReadLn(str: string);
     procedure UpdateProgress(SourceName, TargetName: UTF8String; IncSize: Int64);
   public
@@ -127,9 +128,7 @@ var
   sCommandLine: UTF8String;
 begin
   MultiArcItem := FMultiArchiveFileSource.MultiArcItem;
-
   CreatedPaths := TStringHashList.Create(True);
-
   try
     // save current path
     sCurrPath:= mbGetCurrentDir;
@@ -137,8 +136,10 @@ begin
     SourcePath:= ExcludeFrontPathDelimiter(SourceFiles.Path);
     // Create needed directories.
     CreateDirs(FFullFilesTreeToExtract, TargetPath, SourcePath, CreatedPaths);
-
-    if Pos('%F', MultiArcItem.FExtract) <> 0 then // extract file by file
+    sCommandLine:= MultiArcItem.FExtract;
+    // Get maximum acceptable command errorlevel
+    FErrorLevel:= ExtractErrorLevel(sCommandLine);
+    if Pos('%F', sCommandLine) <> 0 then // extract file by file
       for I:= 0 to FFullFilesTreeToExtract.Count - 1 do
       begin
         CheckOperationState;
@@ -154,7 +155,7 @@ begin
 
             sCommandLine:= FormatArchiverCommand(
                                                  MultiArcItem.FArchiver,
-                                                 MultiArcItem.FExtract,
+                                                 sCommandLine,
                                                  FMultiArchiveFileSource.ArchiveFileName,
                                                  nil,
                                                  aFile.FullPath,
@@ -178,7 +179,7 @@ begin
 
       sCommandLine:= FormatArchiverCommand(
                                            MultiArcItem.FArchiver,
-                                           MultiArcItem.FExtract,
+                                           sCommandLine,
                                            FMultiArchiveFileSource.ArchiveFileName,
                                            FFullFilesTreeToExtract,
                                            EmptyStr,
@@ -411,7 +412,7 @@ procedure TMultiArchiveCopyOutOperation.CheckForErrors(const SourceName,
                                                        TargetName: UTF8String;
                                                        ExitStatus: LongInt);
 begin
-  if ExitStatus <> 0 then
+  if ExitStatus > FErrorLevel then
     begin
       ShowError(Format(rsMsgLogError + rsMsgLogExtract,
                        [FMultiArchiveFileSource.ArchiveFileName + PathDelim +

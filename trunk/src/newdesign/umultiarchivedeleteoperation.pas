@@ -33,6 +33,7 @@ type
   protected
     FExProcess: TExProcess;
     FTempFile: UTF8String;
+    FErrorLevel: LongInt;
     procedure OnReadLn(str: string);
     procedure UpdateProgress(SourceName: UTF8String; IncSize: Int64);
 
@@ -95,8 +96,10 @@ var
   sCommandLine: UTF8String;
 begin
   MultiArcItem := FMultiArchiveFileSource.MultiArcItem;
-
-  if Pos('%F', MultiArcItem.FDelete) <> 0 then // delete file by file
+  sCommandLine:= MultiArcItem.FDelete;
+  // Get maximum acceptable command errorlevel
+  FErrorLevel:= ExtractErrorLevel(sCommandLine);
+  if Pos('%F', sCommandLine) <> 0 then // delete file by file
     for I:=0 to FFullFilesTreeToDelete.Count - 1 do
     begin
       aFile:= FFullFilesTreeToDelete[I] as TMultiArchiveFile;
@@ -104,7 +107,7 @@ begin
 
       sCommandLine:= FormatArchiverCommand(
                                            MultiArcItem.FArchiver,
-                                           MultiArcItem.FDelete,
+                                           sCommandLine,
                                            FMultiArchiveFileSource.ArchiveFileName,
                                            nil,
                                            aFile.FullPath
@@ -122,7 +125,7 @@ begin
     begin
       sCommandLine:= FormatArchiverCommand(
                                            MultiArcItem.FArchiver,
-                                           MultiArcItem.FDelete,
+                                           sCommandLine,
                                            FMultiArchiveFileSource.ArchiveFileName,
                                            FFullFilesTreeToDelete,
                                            EmptyStr,
@@ -189,7 +192,7 @@ end;
 
 procedure TMultiArchiveDeleteOperation.CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt);
 begin
-  if ExitStatus <> 0 then
+  if ExitStatus > FErrorLevel then
     begin
       ShowError(Format(rsMsgLogError + rsMsgLogDelete,
                  [FileName +
