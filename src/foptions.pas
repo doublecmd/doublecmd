@@ -703,15 +703,17 @@ end;
 
 procedure TfrmOptions.btnForeColorClick(Sender: TObject);
 begin
- if optColorDialog.Execute then
- begin
+  optColorDialog.Color:= cbTextColor.Color;
+  if optColorDialog.Execute then
+  begin
     SetColorInColorBox(cbTextColor,optColorDialog.Color);
     pbExample.Repaint;
- end;
+  end;
 end;
 
 procedure TfrmOptions.btnBackColorClick(Sender: TObject);
 begin
+   optColorDialog.Color:= cbBackColor.Color;
    if optColorDialog.Execute then
    begin
     SetColorInColorBox(cbBackColor,optColorDialog.Color);
@@ -2169,6 +2171,7 @@ end;
 
 procedure TfrmOptions.btnCategoryColorClick(Sender: TObject);
 begin
+  optColorDialog.Color:= cbCategoryColor.Color;
   if optColorDialog.Execute then
     SetColorInColorBox(cbCategoryColor,optColorDialog.Color);
 end;
@@ -2277,7 +2280,8 @@ end;
 
 procedure TfrmOptions.btnBackColor2Click(Sender: TObject);
 begin
-   if optColorDialog.Execute then
+  optColorDialog.Color:= cbBackColor2.Color;
+  if optColorDialog.Execute then
    begin
     SetColorInColorBox(cbBackColor2,optColorDialog.Color);
     pbExample.Repaint;
@@ -2298,29 +2302,32 @@ end;
 
 procedure TfrmOptions.btnCursorColorClick(Sender: TObject);
 begin
-   if optColorDialog.Execute then
-   begin
+  optColorDialog.Color:= cbCursorColor.Color;
+  if optColorDialog.Execute then
+  begin
     SetColorInColorBox(cbCursorColor,optColorDialog.Color);
     pbExample.Repaint;
-   end;
+  end;
 end;
 
 procedure TfrmOptions.btnCursorTextClick(Sender: TObject);
 begin
-   if optColorDialog.Execute then
-   begin
+  optColorDialog.Color:= cbCursorText.Color;
+  if optColorDialog.Execute then
+  begin
     SetColorInColorBox(cbCursorText,optColorDialog.Color);
     pbExample.Repaint;
-   end;
+  end;
 end;
 
 procedure TfrmOptions.btnMarkColorClick(Sender: TObject);
 begin
-   if optColorDialog.Execute then
-   begin
+  optColorDialog.Color:= cbMarkColor.Color;
+  if optColorDialog.Execute then
+  begin
     SetColorInColorBox(cbMarkColor,optColorDialog.Color);
     pbExample.Repaint;
-   end;
+  end;
 end;
 
 procedure TfrmOptions.btnNewColumnsSetClick(Sender: TObject);
