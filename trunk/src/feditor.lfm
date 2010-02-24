@@ -428,7 +428,6 @@ object frmEditor: TfrmEditor
   object tbToolBar: TToolBar
     Height = 26
     Width = 342
-    Caption = 'tbToolBar'
     Images = ilImageList
     TabOrder = 1
     object tbNew: TToolButton
@@ -450,7 +449,6 @@ object frmEditor: TfrmEditor
       Left = 70
       Top = 2
       Width = 6
-      Caption = 'tbSeparator1'
       Style = tbsSeparator
     end
     object tbCut: TToolButton
@@ -472,7 +470,6 @@ object frmEditor: TfrmEditor
       Left = 145
       Top = 2
       Width = 6
-      Caption = 'tbSeparator2'
       Style = tbsSeparator
     end
     object tbUndo: TToolButton
@@ -489,7 +486,6 @@ object frmEditor: TfrmEditor
       Left = 197
       Top = 2
       Width = 6
-      Caption = 'tbSeparator3'
       Style = tbsSeparator
     end
     object tbConfig: TToolButton
