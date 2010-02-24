@@ -4047,7 +4047,7 @@ object frmOptions: TfrmOptions
                 Width = 526
                 Anchors = [akTop, akLeft, akRight]
                 BorderSpacing.Top = 2
-                Caption = 'Listing start:'
+                Caption = 'Listing start (optional):'
                 ParentColor = False
               end
               object edtArchiveListStart: TEdit
@@ -4074,7 +4074,7 @@ object frmOptions: TfrmOptions
                 Top = 193
                 Width = 526
                 Anchors = [akTop, akLeft, akRight]
-                Caption = 'Listing finish:'
+                Caption = 'Listing finish (optional):'
                 ParentColor = False
               end
               object edtArchiveListEnd: TEdit
