@@ -16,7 +16,7 @@ type
   TKeyPos = record
     Index,
     Start,
-    Finish: longint;
+    Count: longint;
   end;
 
   { TOutputParser }
@@ -43,7 +43,9 @@ type
     FArchiveItem: TArchiveItem;
     FArchiveName: UTF8String;
   protected
+    function FixPosition(const Str: String; Key: TKeyPos): LongInt;
     function KeyPos(Key: char; out Position: TKeyPos): boolean;
+    function GetKeyValue(const str: String; Key: TKeyPos): UTF8String;
     procedure OnReadLn(str: string);
     function CheckOut(const SubStr, Str: string): boolean;
   public
@@ -67,6 +69,37 @@ implementation
 uses
   LCLProc, FileUtil, StrUtils, uClassesEx, uDCUtils, uOSUtils, uDateTimeUtils;
 
+function TOutputParser.FixPosition(const Str: String; Key: TKeyPos): LongInt;
+var
+  I, K, U, C: LongInt;
+  Format: String;
+begin
+  I:= 0;
+  U:= 0;
+  Result:= Key.Start;
+  Format:= FMultiArcItem.FFormat[Key.Index];
+  repeat
+    C:= 0;
+    I:= PosEx('*', Format, I + 1);
+    if (I = 0) or (I >= Result) then Exit;
+    if (I > 0) then
+    begin
+      I:= I + U;
+      K:= I;
+      while (K <= Length(Str)) and (Str[K] <> #32) do
+        begin
+          Inc(C);
+          Inc(K);
+        end;
+      if C > 0 then
+        U:= C - 1
+      else
+        U:= 0;
+      Result:= Result + U;
+    end;
+  until I = 0;
+end;
+
 function TOutputParser.KeyPos(Key: char; out Position: TKeyPos): boolean;
 var
   I: integer;
@@ -81,17 +114,22 @@ begin
       Position.Start := Pos(Key, Format);
       if Position.Start = 0 then
         Continue;
-      Position.Finish:= Position.Start;
-      while ((Position.Finish <= Length(Format)) and (Format[Position.Finish] = Key)) do
-        Inc(Position.Finish);
-      Position.Finish := Position.Finish - Position.Start;
+      Position.Count:= Position.Start;
+      while ((Position.Count <= Length(Format)) and (Format[Position.Count] = Key)) do
+        Inc(Position.Count);
+      Position.Count := Position.Count - Position.Start;
       Position.Index := I;
       {$IFDEF DEBUG}
-      DebugLn('Key: ', Key, ' Format: ', IntToStr(I), ' Start: ', IntToStr(Position.Start), ' Finish: ', IntToStr(Position.Finish));
+      DebugLn('Key: ', Key, ' Format: ', IntToStr(I), ' Start: ', IntToStr(Position.Start), ' Count: ', IntToStr(Position.Count));
       {$ENDIF}
       Result := True;
       Break;
     end;
+end;
+
+function TOutputParser.GetKeyValue(const str: String; Key: TKeyPos): UTF8String;
+begin
+  Result:= Copy(str, FixPosition(str, Key), Key.Count);
 end;
 
 { TOutputParser }
@@ -119,27 +157,27 @@ begin
       FArchiveItem := TArchiveItem.Create;
     // get all file properties
     if FNamePos.Index = FFormatIndex then
-      FArchiveItem.FileName := ConsoleToUTF8(Copy(str, FNamePos.Start, FNamePos.Finish));
+      FArchiveItem.FileName := ConsoleToUTF8(GetKeyValue(str, FNamePos));
     if FUnpSizePos.Index = FFormatIndex then
-      FArchiveItem.UnpSize := StrToIntDef(Trim(Copy(str, FUnpSizePos.Start, FUnpSizePos.Finish)), 0);
+      FArchiveItem.UnpSize := StrToIntDef(Trim(GetKeyValue(str, FUnpSizePos)), 0);
     if FPackSizePos.Index = FFormatIndex then
-      FArchiveItem.PackSize := StrToIntDef(Trim(Copy(str, FPackSizePos.Start, FPackSizePos.Finish)), 0);
+      FArchiveItem.PackSize := StrToIntDef(Trim(GetKeyValue(str, FPackSizePos)), 0);
     if FYearPos.Index = FFormatIndex then
-      FArchiveItem.Year := StrToIntDef(Trim(Copy(str, FYearPos.Start, FYearPos.Finish)), 0);
+      FArchiveItem.Year := StrToIntDef(Trim(GetKeyValue(str, FYearPos)), 0);
     if FMonthPos.Index = FFormatIndex then
-      FArchiveItem.Month := StrToIntDef(Trim(Copy(str, FMonthPos.Start, FMonthPos.Finish)), 0);
+      FArchiveItem.Month := StrToIntDef(Trim(GetKeyValue(str, FMonthPos)), 0);
     if FMonthNamePos.Index = FFormatIndex then
-      FArchiveItem.Month := MonthToNumberDef(Copy(str, FMonthNamePos.Start, FMonthNamePos.Finish), 0);
+      FArchiveItem.Month := MonthToNumberDef(GetKeyValue(str, FMonthNamePos), 0);
     if FDayPos.Index = FFormatIndex then
-      FArchiveItem.Day := StrToIntDef(Trim(Copy(str, FDayPos.Start, FDayPos.Finish)), 0);
+      FArchiveItem.Day := StrToIntDef(Trim(GetKeyValue(str, FDayPos)), 0);
     if FHourPos.Index = FFormatIndex then
-      FArchiveItem.Hour := StrToIntDef(Trim(Copy(str, FHourPos.Start, FHourPos.Finish)), 0);
+      FArchiveItem.Hour := StrToIntDef(Trim(GetKeyValue(str, FHourPos)), 0);
     if FMinPos.Index = FFormatIndex then
-      FArchiveItem.Minute := StrToIntDef(Trim(Copy(str, FMinPos.Start, FMinPos.Finish)), 0);
+      FArchiveItem.Minute := StrToIntDef(Trim(GetKeyValue(str, FMinPos)), 0);
     if FSecPos.Index = FFormatIndex then
-      FArchiveItem.Second := StrToIntDef(Trim(Copy(str, FSecPos.Start, FSecPos.Finish)), 0);
+      FArchiveItem.Second := StrToIntDef(Trim(GetKeyValue(str, FSecPos)), 0);
     if FAttrPos.Index = FFormatIndex then
-      FArchiveItem.Attributes := StrToAttr(Copy(str, FAttrPos.Start, FAttrPos.Finish));
+      FArchiveItem.Attributes := StrToAttr(GetKeyValue(str, FAttrPos));
 
     FFormatIndex := FFormatIndex + 1;
     if FFormatIndex >= FMultiArcItem.FFormat.Count then
