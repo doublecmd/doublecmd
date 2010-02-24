@@ -33,6 +33,7 @@ type
     FMonthNamePos,
     FDayPos,
     FHourPos,
+    FHourModifierPos,
     FMinPos,
     FSecPos,
     FAttrPos: TKeyPos;
@@ -172,6 +173,8 @@ begin
       FArchiveItem.Day := StrToIntDef(Trim(GetKeyValue(str, FDayPos)), 0);
     if FHourPos.Index = FFormatIndex then
       FArchiveItem.Hour := StrToIntDef(Trim(GetKeyValue(str, FHourPos)), 0);
+    if FHourModifierPos.Index = FFormatIndex then
+      FArchiveItem.Hour := TwelveToTwentyFour(FArchiveItem.Hour, GetKeyValue(str, FHourModifierPos));
     if FMinPos.Index = FFormatIndex then
       FArchiveItem.Minute := StrToIntDef(Trim(GetKeyValue(str, FMinPos)), 0);
     if FSecPos.Index = FFormatIndex then
@@ -235,6 +238,7 @@ begin
   KeyPos('T', FMonthNamePos);
   KeyPos('d', FDayPos);
   KeyPos('h', FHourPos);
+  KeyPos('H', FHourModifierPos);
   KeyPos('m', FMinPos);
   KeyPos('s', FSecPos);
   KeyPos('a', FAttrPos);
