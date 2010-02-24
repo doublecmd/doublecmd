@@ -113,7 +113,7 @@ var
 begin
   if SelectDirectory(rsSelectDir, '', sPath, False) then
     begin
-      sName:= GetLastDir(sPath);
+      sName:= StringReplace(GetLastDir(sPath), '&', '&&', [rfReplaceAll]);
       lsHotDir.ItemIndex:= lsHotDir.Items.Add(sName + '=' + IncludeTrailingPathDelimiter(sPath));
     end;
   btnDelete.Enabled:= (lsHotDir.Items.Count > 0);
