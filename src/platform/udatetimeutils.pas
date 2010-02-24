@@ -96,6 +96,8 @@ function DosToWinTime(const DosTime: TDosFileTime; var WinTime: TWinFileTime): L
 }
 function MonthToNumberDef(const ShortMonthName: String; Default: Word): Word;
 
+function TwelveToTwentyFour(Hour: Word; Modifier: AnsiString): Word;
+
 implementation
 
 uses
@@ -329,6 +331,23 @@ begin
   for I:= 1 to 12 do
   if SameText(ShortMonthName, ShortMonthNames[I]) then
     Exit(I);
+end;
+
+function TwelveToTwentyFour(Hour: Word; Modifier: AnsiString): Word;
+begin
+  if Modifier = EmptyStr then Exit(Hour);
+  case LowerCase(Modifier[1]) of
+    'a':
+      begin
+        if (Hour = 12) then
+          Result:= 0;
+      end;
+    'p':
+      begin
+        if (Hour < 12) then
+          Result:=  Hour + 12;
+      end;
+  end;
 end;
 
 end.
