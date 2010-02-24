@@ -2830,9 +2830,17 @@ msgstr "Извлечь:"
 msgid "List:"
 msgstr "Список:"
 
+#: TFRMOPTIONS.LBLARCHIVELISTEND.CAPTION
+msgid "Listing finish (optional):"
+msgstr ""
+
 #: TFRMOPTIONS.LBLARCHIVELISTFORMAT.CAPTION
 msgid "Listing format:"
 msgstr "Формат списка:"
+
+#: TFRMOPTIONS.LBLARCHIVELISTSTART.CAPTION
+msgid "Listing start (optional):"
+msgstr ""
 
 #: TFRMOPTIONS.LBLARCHIVEMOVE.CAPTION
 msgid "Move:"
