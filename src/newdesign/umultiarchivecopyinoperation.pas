@@ -31,6 +31,7 @@ type
   protected
     FExProcess: TExProcess;
     FTempFile: UTF8String;
+    FErrorLevel: LongInt;
     procedure OnReadLn(str: string);
     procedure UpdateProgress(SourceName, TargetName: UTF8String; IncSize: Int64);
 
@@ -108,8 +109,10 @@ begin
   // set current path to file list root
   mbSetCurrentDir(sRootPath);
   ChangeFileListRoot(EmptyStr, FFullFilesTree);
-
-  if Pos('%F', MultiArcItem.FAdd) <> 0 then // pack file by file
+  sCommandLine:= MultiArcItem.FAdd;
+  // Get maximum acceptable command errorlevel
+  FErrorLevel:= ExtractErrorLevel(sCommandLine);
+  if Pos('%F', sCommandLine) <> 0 then // pack file by file
     for I:= 0 to FFullFilesTree.Count - 1 do
     begin
       aFile:= FFullFilesTree[I];
@@ -117,7 +120,7 @@ begin
 
       sCommandLine:= FormatArchiverCommand(
                                            MultiArcItem.FArchiver,
-                                           MultiArcItem.FAdd,
+                                           sCommandLine,
                                            FMultiArchiveFileSource.ArchiveFileName,
                                            nil,
                                            aFile.FullPath,
@@ -137,7 +140,7 @@ begin
     begin
       sCommandLine:= FormatArchiverCommand(
                                            MultiArcItem.FArchiver,
-                                           MultiArcItem.FAdd,
+                                           sCommandLine,
                                            FMultiArchiveFileSource.ArchiveFileName,
                                            FFullFilesTree,
                                            EmptyStr,
@@ -199,7 +202,7 @@ end;
 
 procedure TMultiArchiveCopyInOperation.CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt);
 begin
-  if ExitStatus <> 0 then
+  if ExitStatus > FErrorLevel then
     begin
       ShowError(Format(rsMsgLogError + rsMsgLogPack,
                        [FileName +

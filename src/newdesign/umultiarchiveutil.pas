@@ -54,6 +54,8 @@ type
     property OnGetArchiveItem: TOnGetArchiveItem read FOnGetArchiveItem write FOnGetArchiveItem;
   end;
 
+function ExtractErrorLevel(var Command: UTF8String): LongInt;
+
 function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
                                aFiles: TFiles = nil;
                                sFileName: UTF8String = '';
@@ -216,6 +218,24 @@ begin
 
   FExProcess := TExProcess.Create(sCommandLine);
   FExProcess.OnReadLn := @OnReadLn;
+end;
+
+function ExtractErrorLevel(var Command: UTF8String): LongInt;
+var
+  I, J: Integer;
+  sErrorLevel: String;
+begin
+  Result:= 0;
+  I:= Pos('%E', Command);
+  if I > 0 then
+    begin
+      J:= I + 2;
+      while (J <= Length(Command)) and (Command[J] in ['0'..'9']) do
+        Inc(J);
+      sErrorLevel:= Copy(Command, I + 2, J - I - 2);
+      Delete(Command, I, J - I);
+      Result:= StrToIntDef(sErrorLevel, 0);
+    end;
 end;
 
 function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
