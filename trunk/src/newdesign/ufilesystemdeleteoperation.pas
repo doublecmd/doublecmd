@@ -198,7 +198,8 @@ begin
     else
     begin
       // Delete to trash (one function for file and folder)
-      if not mbDeleteToTrash(FileName) then
+      Result:= mbDeleteToTrash(FileName);
+      if not Result then
         begin
           case FDeleteDirectly of
             fsoogNone:
