@@ -31,6 +31,9 @@ uses
   AbExcept, AbUtils, AbConst;
 
 type
+
+  { TAbZipKitEx }
+
   TAbZipKitEx = class (TAbZipKit)
   private
     FOperationResult: LongInt;
@@ -38,7 +41,7 @@ type
     procedure AbArchiveItemProgressEvent(Sender : TObject; Item : TAbArchiveItem; Progress : Byte;
                                          var Abort : Boolean);
     procedure AbArchiveProgressEvent (Sender : TObject; Progress : Byte; var Abort : Boolean);
-
+    procedure AbNeedPasswordEvent(Sender : TObject; var NewPassword : AnsiString);
     procedure AbProcessItemFailureEvent(Sender: TObject; Item: TAbArchiveItem; ProcessType: TAbProcessType;
                                         ErrorClass: TAbErrorClass; ErrorCode: Integer);
   end;
@@ -182,6 +185,7 @@ begin
   Arc.OnArchiveItemProgress := @Arc.AbArchiveItemProgressEvent;
   Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
   Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
+  Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
 
   try
     Arc.TarAutoHandle:=true;
@@ -319,7 +323,8 @@ end;
 
 function PackFiles(PackedFile: pchar;  SubPath: pchar;  SrcPath: pchar;  AddList: pchar;  Flags: integer): integer;stdcall;
 var
- Arc : TAbZipKitEx;
+  Arc : TAbZipKitEx;
+  sPassword: AnsiString;
 begin
   try
     try
@@ -330,6 +335,13 @@ begin
       Arc.FProcessDataProc := gProcessDataProc;
       Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
       Arc.StoreOptions := Arc.StoreOptions + [soReplace];
+
+      if ((Flags and PK_PACK_ENCRYPT) <> 0) and
+         (LowerCase(ExtractFileExt(PackedFile)) = '.zip') then // only zip supports encryption
+        begin
+          Arc.AbNeedPasswordEvent(Arc, sPassword);
+          Arc.Password:= sPassword;
+        end;
 
       Arc.TarAutoHandle:=True;
       Arc.OpenArchive(PackedFile);
@@ -379,6 +391,7 @@ begin
       Arc := TAbZipKitEx.Create(nil);
       Arc.FProcessDataProc := gProcessDataProc;
       Arc.OnProcessItemFailure := @Arc.AbProcessItemFailureEvent;
+      Arc.OnNeedPassword:= @Arc.AbNeedPasswordEvent;
 
       Arc.TarAutoHandle:=True;
       Arc.OpenArchive(PackedFile);
@@ -423,8 +436,9 @@ end;
 function GetPackerCaps : Integer;stdcall;
 begin
   Result := PK_CAPS_NEW      or PK_CAPS_DELETE  or PK_CAPS_MODIFY
-         or PK_CAPS_MULTIPLE or PK_CAPS_OPTIONS or PK_CAPS_BY_CONTENT;
-  //     or PK_CAPS_MEMPACK  or PK_CAPS_ENCRYPT
+         or PK_CAPS_MULTIPLE or PK_CAPS_OPTIONS or PK_CAPS_BY_CONTENT
+         or PK_CAPS_ENCRYPT;
+  //     or PK_CAPS_MEMPACK
 end;
 
 procedure ConfigurePacker(Parent: THandle; DllInstance: THandle);stdcall;
@@ -477,6 +491,27 @@ begin
   except
     Abort := True;
   end;
+end;
+
+procedure TAbZipKitEx.AbNeedPasswordEvent(Sender: TObject;
+                                                  var NewPassword: AnsiString);
+var
+  wsNewPassword: WideString;
+  Result: Boolean;
+begin
+  SetLength(wsNewPassword, MAX_PATH);
+  wsNewPassword:= NewPassword;
+  Result:= gSetDlgProcInfo.InputBox('Zip', 'Please enter the password:', True, PWideChar(wsNewPassword), MAX_PATH);
+  if Result then
+    begin
+      DefaultWide2AnsiMove(PWideChar(wsNewPassword), NewPassword, MAX_PATH);
+      SetLength(wsNewPassword, 0);
+    end
+  else
+    begin
+      SetLength(wsNewPassword, 0);
+      raise EAbUserAbort.Create;
+    end;
 end;
 
 end.
