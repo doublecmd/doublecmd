@@ -151,6 +151,7 @@ Type
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);
     function Add(Ext: String; Flags: PtrInt; FileName: String): Integer; reintroduce;
     function FindFirstEnabledByName(Name: String): Integer;
+    function Find(const aFileName, aExt: String): Integer; overload;
 
     property FileName[Index: Integer]: String read GetAFileName write SetAFileName;
     property Flags[Index: Integer]: PtrInt read GetAFlags write SetAFlags;
@@ -680,6 +681,19 @@ begin
   while Result < Count do
   begin
     if Enabled[Result] and (DoCompareText(Names[Result], Name) = 0) then
+       Exit
+    else
+      Result := Result + 1;
+  end;
+  if Result=Count then Result:=-1;
+end;
+
+function TWCXModuleList.Find(const aFileName, aExt: String): Integer;
+begin
+  Result:=0;
+  while Result < Count do
+  begin
+    if (DoCompareText(Ext[Result], aExt) = 0) and (DoCompareText(FileName[Result], aFileName) = 0) then
        Exit
     else
       Result := Result + 1;

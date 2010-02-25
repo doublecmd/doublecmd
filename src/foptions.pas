@@ -1081,8 +1081,8 @@ end;
 
 procedure TfrmOptions.pcPluginsTypesChange(Sender: TObject);
 begin
-  if stgPlugins.RowCount > 1 then
-    stgPluginsBeforeSelection(stgPlugins, 0, 1);
+  if stgPlugins.RowCount > stgPlugins.FixedRows then
+    stgPluginsBeforeSelection(stgPlugins, 0, stgPlugins.FixedRows);
 end;
 
 procedure TfrmOptions.pgBehavResize(Sender: TObject);
@@ -1187,16 +1187,18 @@ var
   iPluginIndex: Integer;
   bEnabled: Boolean;
 begin
-  if stgPlugins.RowCount <= 1 then Exit;
+  if stgPlugins.Row < stgPlugins.FixedRows then Exit;
   if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
     begin
       sExts:= stgPlugins.Cells[2, stgPlugins.Row];
       sExt:= Copy2SpaceDel(sExts);
       repeat
-        //DebugLn('Extension = ', sExt);
-        iPluginIndex:= tmpWCXPlugins.IndexOfName(sExt);
-        bEnabled:= not tmpWCXPlugins.Enabled[iPluginIndex];
-        tmpWCXPlugins.Enabled[iPluginIndex]:= bEnabled;
+        iPluginIndex:= tmpWCXPlugins.Find(stgPlugins.Cells[3, stgPlugins.Row], sExt);
+        if iPluginIndex <> -1 then
+        begin
+          bEnabled:= not tmpWCXPlugins.Enabled[iPluginIndex];
+          tmpWCXPlugins.Enabled[iPluginIndex]:= bEnabled;
+        end;
         sExt:= Copy2SpaceDel(sExts);
       until sExt = '';
       stgPlugins.Cells[0, stgPlugins.Row]:= IfThen(bEnabled, string('+'), string('-'));
@@ -1204,9 +1206,9 @@ begin
     end
   else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
     begin
-      bEnabled:= not tmpWFXPlugins.Enabled[stgPlugins.Row - 1];
+      bEnabled:= not tmpWFXPlugins.Enabled[stgPlugins.Row - stgPlugins.FixedRows];
       stgPlugins.Cells[0, stgPlugins.Row]:= IfThen(bEnabled, string('+'), string('-'));
-      tmpWFXPlugins.Enabled[stgPlugins.Row - 1]:= bEnabled;
+      tmpWFXPlugins.Enabled[stgPlugins.Row - stgPlugins.FixedRows]:= bEnabled;
       btnEnablePlugin.Caption:= IfThen(bEnabled, rsOptDisable, rsOptEnable);
     end;
 end;
@@ -1283,11 +1285,11 @@ var
   sExts: String;
   iPluginIndex: Integer;
 begin
-  if stgPlugins.Row <= 0 then Exit; // no plugins
+  if stgPlugins.Row < stgPlugins.FixedRows then Exit; // no plugins
 
   if pcPluginsTypes.ActivePage.Name = 'tsDSX' then
     begin
-      tmpDSXPlugins.DeleteItem(stgPlugins.Row - 1);
+      tmpDSXPlugins.DeleteItem(stgPlugins.Row - stgPlugins.FixedRows);
       stgPlugins.DeleteColRow(False, stgPlugins.Row);
     end
   else if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
@@ -1295,25 +1297,26 @@ begin
       sExts:= stgPlugins.Cells[2, stgPlugins.Row];
       sExt:= Copy2SpaceDel(sExts);
       repeat
-        iPluginIndex:= tmpWCXPlugins.IndexOfName(sExt);
-        tmpWCXPlugins.Delete(iPluginIndex);
+        iPluginIndex:= tmpWCXPlugins.Find(stgPlugins.Cells[3, stgPlugins.Row], sExt);
+        if iPluginIndex <> -1 then
+          tmpWCXPlugins.Delete(iPluginIndex);
         sExt:= Copy2SpaceDel(sExts);
       until sExt = '';
       stgPlugins.DeleteColRow(False, stgPlugins.Row);
     end
   else if pcPluginsTypes.ActivePage.Name = 'tsWDX' then
     begin
-      tmpWDXPlugins.DeleteItem(stgPlugins.Row - 1);
+      tmpWDXPlugins.DeleteItem(stgPlugins.Row - stgPlugins.FixedRows);
       stgPlugins.DeleteColRow(False, stgPlugins.Row);
     end
   else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
     begin
-      tmpWFXPlugins.Delete(stgPlugins.Row - 1);
+      tmpWFXPlugins.Delete(stgPlugins.Row - stgPlugins.FixedRows);
       stgPlugins.DeleteColRow(False, stgPlugins.Row);
     end
   else if pcPluginsTypes.ActivePage.Name = 'tsWLX' then
     begin
-      tmpWLXPlugins.DeleteItem(stgPlugins.Row - 1);
+      tmpWLXPlugins.DeleteItem(stgPlugins.Row - stgPlugins.FixedRows);
       stgPlugins.DeleteColRow(False, stgPlugins.Row);
     end
 end;
@@ -1323,15 +1326,15 @@ var
   ptPluginType: TPluginType;
   iPluginIndex: Integer;
 begin
-  iPluginIndex:= stgPlugins.Row - 1;
-  if iPluginIndex < 0 then Exit; 
+  iPluginIndex:= stgPlugins.Row - stgPlugins.FixedRows;
   if pcPluginsTypes.ActivePage.Name = 'tsDSX' then
     ptPluginType:= ptDSX
   else if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
     begin
       ptPluginType:= ptWCX;
       // get plugin index
-      iPluginIndex:= tmpWCXPlugins.IndexOfName(Copy2Space(stgPlugins.Cells[2, stgPlugins.Row]));
+      iPluginIndex:= tmpWCXPlugins.Find(stgPlugins.Cells[3, stgPlugins.Row],
+                                        Copy2Space(stgPlugins.Cells[2, stgPlugins.Row]));
     end
   else if pcPluginsTypes.ActivePage.Name = 'tsWDX' then
     ptPluginType:= ptWDX
@@ -1340,6 +1343,7 @@ begin
   else if pcPluginsTypes.ActivePage.Name = 'tsWLX' then
     ptPluginType:= ptWLX;
 
+  if iPluginIndex < 0 then Exit;
   if ShowTweakPluginDlg(ptPluginType, iPluginIndex) then
     pcPluginsTypes.ActivePage.OnShow(pcPluginsTypes.ActivePage); // update info in plugin list
 end;
@@ -1350,7 +1354,7 @@ var
   WFXmodule: TWFXmodule;
   PluginFileName: String;
 begin
-  if stgPlugins.Row <= 0 then Exit; // no plugins
+  if stgPlugins.Row < stgPlugins.FixedRows then Exit; // no plugins
 
   PluginFileName := GetCmdDirFromEnvVar(stgPlugins.Cells[3, stgPlugins.Row]);
 
@@ -1412,7 +1416,7 @@ begin
       I:= tmpDSXPlugins.Add(sPluginName,odOpenDialog.FileName,'');
 
       stgPlugins.RowCount:= stgPlugins.RowCount + 1;
-      J:= stgPlugins.RowCount-1;
+      J:= stgPlugins.RowCount - stgPlugins.FixedRows;
       stgPlugins.Cells[1, J]:= tmpDSXPlugins.GetDsxModule(I).Name;
       stgPlugins.Cells[2, J]:= tmpDSXPlugins.GetDsxModule(I).Descr;
       stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpDSXPlugins.GetDsxModule(I).FileName);
@@ -1423,14 +1427,12 @@ procedure TfrmOptions.tsDSXShow(Sender: TObject);
 var i:integer;
 begin
   btnAddPlugin.OnClick:= @btnDSXAddClick;
-  stgPlugins.RowCount:= tmpDSXPlugins.Count+1;
-  if tmpDSXPlugins.Count=0 then exit;
-
+  stgPlugins.RowCount:= tmpDSXPlugins.Count + stgPlugins.FixedRows;
   for i:=0 to tmpDSXPlugins.Count-1 do
     begin
-    stgPlugins.Cells[1, I+1]:= tmpDSXPlugins.GetDsxModule(i).Name;
-    stgPlugins.Cells[2, I+1]:= tmpDSXPlugins.GetDsxModule(i).Descr;
-    stgPlugins.Cells[3, I+1]:= SetCmdDirAsEnvVar(tmpDSXPlugins.GetDsxModule(i).FileName);
+    stgPlugins.Cells[1, I + stgPlugins.FixedRows]:= tmpDSXPlugins.GetDsxModule(i).Name;
+    stgPlugins.Cells[2, I + stgPlugins.FixedRows]:= tmpDSXPlugins.GetDsxModule(i).Descr;
+    stgPlugins.Cells[3, I + stgPlugins.FixedRows]:= SetCmdDirAsEnvVar(tmpDSXPlugins.GetDsxModule(i).FileName);
     end;
 end;
 
@@ -1485,8 +1487,7 @@ var
   iRow: Integer;
 begin
   btnAddPlugin.OnClick:= @btnWCXAddClick;
-  stgPlugins.RowCount:= 1;
-  iRow:= 0;
+  stgPlugins.RowCount:= stgPlugins.FixedRows;
 
   // Clear column with extensions
   stgPlugins.Clean(2, stgPlugins.FixedRows, 2, stgPlugins.RowCount, [gzNormal]);
@@ -1502,31 +1503,29 @@ begin
     iIndex:= stgPlugins.Cols[3].IndexOf(sFileName);
     if iIndex < 0 then
       begin
-        Inc(iRow);
-        stgPlugins.RowCount:= iRow+1;
+        stgPlugins.RowCount:= stgPlugins.RowCount + 1;
+        iRow := stgPlugins.RowCount - 1;
         stgPlugins.Cells[1, iRow]:= ExtractOnlyFileName(sFileName);
         stgPlugins.Cells[2, iRow]:= sExt + #32;
+
+        if tmpWCXPlugins.Enabled[I] then // enabled
+          begin
+            stgPlugins.Cells[3, iRow]:= sFileName;
+            stgPlugins.Cells[0, iRow]:= '+';
+          end
+        else // disabled
+          begin
+            stgPlugins.Cells[3, iRow]:= sFileName;
+            stgPlugins.Cells[0, iRow]:= '-';
+          end;
       end
     else
       begin
         stgPlugins.Cells[2, iIndex]:= stgPlugins.Cells[2, iIndex] + sExt + #32;
-        Continue;
-      end;
-
-
-    if tmpWCXPlugins.Enabled[I] then // enabled
-      begin
-        stgPlugins.Cells[3, iRow]:= sFileName;
-        stgPlugins.Cells[0, iRow]:= '+';
-      end
-    else // disabled
-      begin
-        stgPlugins.Cells[3, iRow]:= sFileName;
-        stgPlugins.Cells[0, iRow]:= '-';
       end;
   end;
-  if stgPlugins.RowCount > 1 then
-    stgPluginsBeforeSelection(stgPlugins, 0, 1);
+  if stgPlugins.RowCount > stgPlugins.FixedRows then
+    stgPluginsBeforeSelection(stgPlugins, 0, stgPlugins.FixedRows);
 end;
 
 { WDX plugins }
@@ -1557,14 +1556,12 @@ procedure TfrmOptions.tsWDXShow(Sender: TObject);
 var i:integer;
 begin
   btnAddPlugin.OnClick:= @btnWDXAddClick;
-  stgPlugins.RowCount:= tmpWDXPlugins.Count+1;
-  if tmpWDXPlugins.Count=0 then exit;
-
+  stgPlugins.RowCount:= tmpWDXPlugins.Count + stgPlugins.FixedRows;
   for i:=0 to tmpWDXPlugins.Count-1 do
     begin
-    stgPlugins.Cells[1, I+1]:= tmpWDXPlugins.GetWdxModule(i).Name;
-    stgPlugins.Cells[2, I+1]:= tmpWDXPlugins.GetWdxModule(i).DetectStr;
-    stgPlugins.Cells[3, I+1]:= SetCmdDirAsEnvVar(tmpWDXPlugins.GetWdxModule(i).FileName);
+    stgPlugins.Cells[1, I + stgPlugins.FixedRows]:= tmpWDXPlugins.GetWdxModule(i).Name;
+    stgPlugins.Cells[2, I + stgPlugins.FixedRows]:= tmpWDXPlugins.GetWdxModule(i).DetectStr;
+    stgPlugins.Cells[3, I + stgPlugins.FixedRows]:= SetCmdDirAsEnvVar(tmpWDXPlugins.GetWdxModule(i).FileName);
     end;
 end;
 
@@ -1621,25 +1618,26 @@ end;
 
 procedure TfrmOptions.tsWFXShow(Sender: TObject);
 var
-  I: Integer;
+  I, iRow: Integer;
 begin
   btnAddPlugin.OnClick:= @btnWFXAddClick;
-  stgPlugins.RowCount:= tmpWFXPlugins.Count + 1;
+  stgPlugins.RowCount:= tmpWFXPlugins.Count + stgPlugins.FixedRows;
   for I:= 0 to tmpWFXPlugins.Count - 1 do
   begin
+    iRow := I + stgPlugins.FixedRows;
     if tmpWFXPlugins.Enabled[I] then
       begin
-        stgPlugins.Cells[1, I+1]:= tmpWFXPlugins.Name[I];
-        stgPlugins.Cells[3, I+1]:= tmpWFXPlugins.FileName[I];
-        stgPlugins.Cells[0, I+1]:= '+';
+        stgPlugins.Cells[1, iRow]:= tmpWFXPlugins.Name[I];
+        stgPlugins.Cells[3, iRow]:= tmpWFXPlugins.FileName[I];
+        stgPlugins.Cells[0, iRow]:= '+';
       end
     else
       begin
-        stgPlugins.Cells[1, I+1]:= tmpWFXPlugins.Name[I];
-        stgPlugins.Cells[3, I+1]:= tmpWFXPlugins.FileName[I];
-        stgPlugins.Cells[0, I+1]:= '-';
+        stgPlugins.Cells[1, iRow]:= tmpWFXPlugins.Name[I];
+        stgPlugins.Cells[3, iRow]:= tmpWFXPlugins.FileName[I];
+        stgPlugins.Cells[0, iRow]:= '-';
       end;
-    stgPlugins.Cells[2, I+1]:= '';
+    stgPlugins.Cells[2, iRow]:= '';
   end;
 end;
 
@@ -1668,17 +1666,16 @@ begin
 end;
 
 procedure TfrmOptions.tsWLXShow(Sender: TObject);
-var i:integer;
+var
+  i: Integer;
 begin
   btnAddPlugin.OnClick:= @btnWLXAddClick;
-  stgPlugins.RowCount:= tmpWLXPlugins.Count+1;
-  if tmpWLXPlugins.Count=0 then exit;
-
+  stgPlugins.RowCount:= tmpWLXPlugins.Count + stgPlugins.FixedRows;
   for i:=0 to tmpWLXPlugins.Count-1 do
     begin
-    stgPlugins.Cells[1, I+1]:= tmpWLXPlugins.GetWlxModule(i).Name;
-    stgPlugins.Cells[2, I+1]:= tmpWLXPlugins.GetWlxModule(i).DetectStr;
-    stgPlugins.Cells[3, I+1]:= SetCmdDirAsEnvVar(tmpWLXPlugins.GetWlxModule(i).FileName);
+    stgPlugins.Cells[1, I + stgPlugins.FixedRows]:= tmpWLXPlugins.GetWlxModule(i).Name;
+    stgPlugins.Cells[2, I + stgPlugins.FixedRows]:= tmpWLXPlugins.GetWlxModule(i).DetectStr;
+    stgPlugins.Cells[3, I + stgPlugins.FixedRows]:= SetCmdDirAsEnvVar(tmpWLXPlugins.GetWlxModule(i).FileName);
     end;
 end;
 
