@@ -122,7 +122,11 @@ type
 
     procedure UpdateView; virtual abstract;
 
-    procedure SetActiveFile(const aFileName: String); virtual; overload;
+    {en
+       Moves the selection focus to the file specified by aFilePath.
+       @param(aFilePath may be an absolute path to the file or just a file name.)
+    }
+    procedure SetActiveFile(const aFilePath: String); virtual; overload;
 
     {en
        Changes the current path to a parent directory.
@@ -361,7 +365,7 @@ procedure TFileView.SetActiveFile(const aFile: TFile);
 begin
 end;
 
-procedure TFileView.SetActiveFile(const aFileName: String);
+procedure TFileView.SetActiveFile(const aFilePath: String);
 begin
 end;
 
