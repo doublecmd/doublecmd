@@ -332,6 +332,12 @@ function StrBegins(const StringToCheck, StringToMatch: String): Boolean;
 function StrEnds(const StringToCheck, StringToMatch: String): Boolean;
 
 {en
+   Adds a string to another string. If the source string is not empty adds
+   a separator before adding the string.
+}
+procedure AddStrWithSep(var SourceString: String; const StringToAdd: String; const Separator: Char = ' ');
+
+{en
    Convert a number specified as an octal number to it's decimal value.
    @param(Value Octal number as string)
    @returns(Decimal number)
@@ -1237,6 +1243,13 @@ begin
   Result := (Length(StringToCheck) >= Length(StringToMatch)) and
             (CompareChar(StringToCheck[1 + Length(StringToCheck) - Length(StringToMatch)],
                          StringToMatch[1], Length(StringToMatch)) = 0);
+end;
+
+procedure AddStrWithSep(var SourceString: String; const StringToAdd: String; const Separator: Char);
+begin
+  if Length(SourceString) > 0 then
+    SourceString := SourceString + Separator;
+  SourceString := SourceString + StringToAdd;
 end;
 
 function OctToDec(Value: String): LongInt;
