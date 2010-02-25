@@ -1440,41 +1440,65 @@ end;
 
 procedure TfrmOptions.btnWCXAddClick(Sender: TObject);
 var
-  J: Integer;
+  J, iPluginIndex, iFlags: Integer;
   sExt : String;
   sExts : String;
   sExtsTemp : String;
   sPluginName : String;
+  sAlreadyAssignedExts : String;
   WCXmodule : TWCXmodule;
 begin
   odOpenDialog.Filter := 'Archive plugins (*.wcx)|*.wcx';
   if odOpenDialog.Execute then
     begin
       WCXmodule := TWCXmodule.Create;
-      if WCXmodule.LoadModule(odOpenDialog.FileName)then
-        sPluginName := IntToStr(WCXmodule.VFSMisc) + ',' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
-      else
-        sPluginName := '0,' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
+      try
+        if WCXmodule.LoadModule(odOpenDialog.FileName) then
+          begin
+            iFlags := WCXmodule.VFSMisc;
+            WCXModule.UnloadModule;
+          end
+        else
+          iFlags := 0;
 
-      if InputQuery(rsOptEnterExt, Format(rsOptAssocPluginWith, [odOpenDialog.FileName]), sExts) then
-        begin
-          sExtsTemp := sExts;
-          sExt:= Copy2SpaceDel(sExtsTemp);
-          repeat
-            tmpWCXPlugins.AddObject(sExt + '=' + sPluginName, TObject(True));
+        sPluginName := SetCmdDirAsEnvVar(odOpenDialog.FileName);
+        if InputQuery(rsOptEnterExt, Format(rsOptAssocPluginWith, [odOpenDialog.FileName]), sExts) then
+          begin
+            sExtsTemp := sExts;
+            sExts := '';
+            sAlreadyAssignedExts := '';
             sExt:= Copy2SpaceDel(sExtsTemp);
-          until sExt = '';
+            repeat
+              iPluginIndex:= tmpWCXPlugins.Find(sPluginName, sExt);
+              if iPluginIndex <> -1 then
+                begin
+                  AddStrWithSep(sAlreadyAssignedExts, sExt);
+                end
+              else
+                begin
+                  tmpWCXPlugins.AddObject(sExt + '=' + IntToStr(iFlags) + ',' + sPluginName, TObject(True));
+                  AddStrWithSep(sExts, sExt);
+                end;
+              sExt:= Copy2SpaceDel(sExtsTemp);
+            until sExt = '';
 
-          stgPlugins.RowCount:= stgPlugins.RowCount + 1; // Add new row
-          J:= stgPlugins.RowCount-1;
-          stgPlugins.Cells[0, J]:= '+'; // Enabled
-          stgPlugins.Cells[1, J]:= ExtractOnlyFileName(odOpenDialog.FileName);
-          stgPlugins.Cells[2, J]:= sExts;
-          stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(odOpenDialog.FileName);
-        end;
+            if sAlreadyAssignedExts <> '' then
+              MessageDlg(Format(rsOptPluginAlreadyAssigned, [odOpenDialog.FileName]) +
+                         LineEnding + sAlreadyAssignedExts, mtWarning, [mbOK], 0);
 
-      WCXModule.UnloadModule;
-      WCXmodule.Free;
+            if sExts <> '' then
+              begin
+                stgPlugins.RowCount:= stgPlugins.RowCount + 1; // Add new row
+                J:= stgPlugins.RowCount-1;
+                stgPlugins.Cells[0, J]:= '+'; // Enabled
+                stgPlugins.Cells[1, J]:= ExtractOnlyFileName(odOpenDialog.FileName);
+                stgPlugins.Cells[2, J]:= sExts;
+                stgPlugins.Cells[3, J]:= sPluginName;
+              end;
+          end;
+      finally
+        WCXmodule.Free;
+      end;
     end;
 end;
 

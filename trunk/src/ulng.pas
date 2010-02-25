@@ -281,6 +281,8 @@ resourcestring
   rsOptHotkeysShortCutUsedText1 = 'Shortcut %s is already used for %s.';
   rsOptHotkeysShortCutUsedText2 = 'Change it to %s?';
   rsOptHotkeysUsedBy = 'used by';
+  // Plugins
+  rsOptPluginAlreadyAssigned = 'Plugin %s is already assigned for the following extensions:';
 
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';
