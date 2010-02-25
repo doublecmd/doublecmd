@@ -12,11 +12,11 @@ object frmFindDlg: TfrmFindDlg
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  OnKeyPress = FormKeyPress
+  OnKeyDown = FormKeyDown
   OnShow = frmFindDlgShow
   Position = poScreenCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.28.3'
+  LCLVersion = '0.9.29'
   object pnlFindFile: TPanel
     AnchorSideBottom.Side = asrBottom
     Left = 0
@@ -238,6 +238,7 @@ object frmFindDlg: TfrmFindDlg
           NumGlyphs = 1
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 4
+          MaxLength = 0
           TabOrder = 1
         end
         object cbUsePlugin: TCheckBox
@@ -620,6 +621,7 @@ object frmFindDlg: TfrmFindDlg
           BorderSpacing.Left = 6
           BorderSpacing.Top = 6
           ButtonWidth = 23
+          CharCase = ecNormal
           Enabled = False
           Glyph.Data = {
             36040000424D3604000000000000360000002800000010000000100000000100
@@ -657,6 +659,7 @@ object frmFindDlg: TfrmFindDlg
             FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
             FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
           }
+          MaxLength = 0
           NumGlyphs = 1
           OnButtonClick = deDateButtonClick
           TabOrder = 16
@@ -670,6 +673,7 @@ object frmFindDlg: TfrmFindDlg
           Width = 80
           BorderSpacing.Top = 6
           ButtonWidth = 23
+          CharCase = ecNormal
           Enabled = False
           Glyph.Data = {
             36040000424D3604000000000000360000002800000010000000100000000100
@@ -707,6 +711,7 @@ object frmFindDlg: TfrmFindDlg
             FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
             FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
           }
+          MaxLength = 0
           NumGlyphs = 1
           OnButtonClick = deDateButtonClick
           TabOrder = 17
@@ -915,7 +920,6 @@ object frmFindDlg: TfrmFindDlg
             OnKeyDown = lsFoundedFilesKeyDown
             PopupMenu = PopupMenuFind
             TabOrder = 1
-            TopIndex = -1
           end
           object pnlResultsButtons: TPanel
             Left = 0
