@@ -581,6 +581,10 @@ begin
   stgTools.Cells[0, stgTools.FixedRows + 0] := rsToolViewer;
   stgTools.Cells[0, stgTools.FixedRows + 1] := rsToolEditor;
   stgTools.Cells[0, stgTools.FixedRows + 2] := rsToolDiffer;
+  // Enable/disable tools controls.
+  FUpdatingTools := True;
+  cbToolsUseExternalProgramChange(nil);
+  FUpdatingTools := False;
 
   // create plugins lists
   tmpDSXPlugins:= TDSXModuleList.Create;
