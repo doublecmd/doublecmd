@@ -230,6 +230,11 @@ type
     }
     procedure SetActive(bActive: Boolean);
 
+    {en
+       Set last active by row nr in the grid.
+    }
+    procedure SetLastActive(RowNr: Integer);
+
     function StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
     procedure ChooseFile(AFile: TColumnsViewFile; FolderMode: Boolean = False);
 
@@ -403,10 +408,7 @@ type
     function Focused: Boolean; override;
     procedure SetFocus; override;
 
-    {en
-       Moves the selection focus to the file specified by FileName.
-    }
-    procedure SetActiveFile(const aFileName: String); override;
+    procedure SetActiveFile(const aFilePath: String); override;
 
     procedure UpdateColumnsView;
     procedure UpdateView; override;
@@ -1187,10 +1189,13 @@ end;
 
 procedure TColumnsFileView.dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
 begin
-  if Assigned(OnChangeActiveFile) and (FLastActiveRow <> aRow) then
+  if FLastActiveRow <> aRow then
     begin
-      OnChangeActiveFile(Self, ActiveFile);
+      SetLastActive(aRow);
       FLastActiveRow:= aRow;
+
+      if Assigned(OnChangeActiveFile) then
+        OnChangeActiveFile(Self, ActiveFile);
     end;
 end;
 
@@ -1350,8 +1355,6 @@ begin
     end;
 
     if FolderMode then exit;
-
-    LastActive := TheFile.Name;
 
     try
       uFileSourceUtil.ChooseFile(Self, AFile.TheFile);
@@ -2027,7 +2030,7 @@ begin
           if RenameFile(FileSource, ActiveFile, NewFileName, True) = True then
           begin
             edtRename.Visible:=False;
-            LastActive := NewFileName;
+            SetActiveFile(CurrentPath + NewFileName);
             SetFocus;
           end
           else
@@ -2097,21 +2100,47 @@ begin
     MakeVisible(dgPanel.Row);
 end;
 
-procedure TColumnsFileView.SetActiveFile(const aFileName: String);
+procedure TColumnsFileView.SetLastActive(RowNr: Integer);
+begin
+  if (RowNr >= dgPanel.FixedRows) and (RowNr < dgPanel.RowCount) then
+    LastActive := FFiles[RowNr - dgPanel.FixedRows].TheFile.FullPath;
+end;
+
+procedure TColumnsFileView.SetActiveFile(const aFilePath: String);
 var
   i: Integer;
 begin
-  LastActive := aFileName;// '';
-  if aFileName <> '' then // find correct cursor position in Panel (drawgrid)
+  // Don't assign LastActive until we're done using aFilePath.
+  // aFileName is passed as reference ('const') and in one place we are passing
+  // a reference to LastActive, so assigning something to LastActive would destroy
+  // this reference and cause the aFilePath parameter to be a dangling pointer to string.
+
+  if aFilePath <> '' then // find correct cursor position in Panel (drawgrid)
   begin
-    for i := 0 to FFiles.Count - 1 do
-      if FFiles[i].TheFile.Name = aFileName then
-      begin
-        dgPanel.Row := i + dgPanel.FixedRows;
-        LastActive := aFileName;
-        Break;
-      end;
+    if FileSource.GetPathType(aFilePath) = ptAbsolute then
+    begin
+      for i := 0 to FFiles.Count - 1 do
+        if FFiles[i].TheFile.FullPath = aFilePath then
+        begin
+          dgPanel.Row := i + dgPanel.FixedRows;
+          SetLastActive(dgPanel.Row);
+          Exit;
+        end;
+    end
+    else
+    begin
+      for i := 0 to FFiles.Count - 1 do
+        if FFiles[i].TheFile.Name = aFilePath then
+        begin
+          dgPanel.Row := i + dgPanel.FixedRows;
+          SetLastActive(dgPanel.Row);
+          Exit;
+        end;
+    end;
   end;
+
+  LastActive := '';  // Clear first in case row is invalid.
+  SetLastActive(dgPanel.Row);
 end;
 
 procedure TColumnsFileView.dgPanelDblClick(Sender: TObject);
