@@ -1,13 +1,25 @@
 Compiling Double Commander
 
-What you need?
+1) What you need?
 
-At first must download FreePascal. I use FPC 2.2.4  (or higher).
+At first must download FreePascal. I use FPC 2.4.0  (or higher).
 
 After this download Lazarus. I use Lazarus 0.9.29 (or higher).
 
-For compiling Double Commander you must install in Lazarus two component packages
+2) Using the IDE to develop and build DC.
 
-from "components" directory. After this open file doublecmd.lpi 
+If you want to use Lazarus IDE to develop Double Commander, first you have to install a few additional components all of which reside in components directory of DC sources. You must open each .lpk package file (cmdbox.lpk, kascomp.lpk, viewerpackage.lpk) and install it into Lazarus. Choose "No" when asked for rebuilding Lazarus after each package, and only rebuild when you have installed all of them.
+
+After rebuilding Lazarus open the project file doublecmd.lpi (in directory src).
 
 Compile.
+
+3) Building DC from command line.
+
+There are two scripts that you can use to build DC from command line: _make.bat for Windows and _make.sh for Linux. First you need to edit the chosen script file and correct the path to your Lazarus installation (variable lazpath).
+
+To build DC without using the IDE you need a working lazbuild and lazres utilities (both are a part of Lazarus). Lazbuild should be in Lazarus directory set by <lazpath> and lazres should be in <lazpath>/tools. On Linux you may choose the target widgetset (GTK2 or QT4) by setting $LCL environment variable before executing the script to either gtk2 or qt, for example:
+
+    # LCL=qt ./_make.sh
+
+Execute the script to start the build process. Make sure you use all parameter if you're building for the first time, so that also components and plugins are built.
