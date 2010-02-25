@@ -140,6 +140,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure btnCloseClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmFindDlgClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure frmFindDlgShow(Sender: TObject);
     procedure lbSearchTemplatesSelectionChange(Sender: TObject; User: boolean);
@@ -148,13 +149,14 @@ type
       var Key: Word; Shift: TShiftState);
     procedure meTimeChange(Sender: TObject);
     procedure miShowInViewerClick(Sender: TObject);
-    procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure tsLoadSaveShow(Sender: TObject);
   private
     { Private declarations }
     FFindThread:TFindThread;
     DsxPlugins: TDSXModuleList;
+    FSearchingActive: Boolean;
     procedure PrepareSearch;
+    procedure StopSearch;
   public
     { Public declarations }
     procedure ThreadTerminate(Sender:TObject);
@@ -231,6 +233,7 @@ begin
   // load language
   edtFindPathStart.DialogTitle:= rsFindWhereBeg;
   FFindThread:= nil;
+  FSearchingActive := False;
   edtFindPathStart.Text:= mbGetCurrentDir;
   lblCurrent.Caption:= '';
   lblStatus.Caption:= '';
@@ -610,6 +613,21 @@ begin
   end;
 end;
 
+procedure TfrmFindDlg.StopSearch;
+begin
+  if (cbUsePlugin.Checked) and (cbbSPlugins.ItemIndex<>-1) then
+    begin
+      DSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallStopSearch;
+      DSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallFinalize;
+      ThreadTerminate(nil);
+    end;
+
+  if Assigned(FFindThread) then
+  begin
+    FFindThread.Terminate;
+  end;
+end;
+
 procedure TfrmFindDlg.btnStartClick(Sender: TObject);
 var
   sTemp,
@@ -651,6 +669,8 @@ begin
   PrepareSearch;
   if Assigned(FFindThread) then
   try
+    FSearchingActive := True;
+
     with FFindThread do
     begin
       Status:=lblStatus;
@@ -676,6 +696,7 @@ begin
   except
     if Assigned(FFindThread) then
       FreeAndNil(FFindThread);
+    FSearchingActive := False;
   end;
 end;
 
@@ -813,21 +834,12 @@ begin
 {$ENDIF}
   btnClose.Enabled:=True;
   FFindThread:=nil;
+  FSearchingActive := False;
 end;
 
 procedure TfrmFindDlg.btnStopClick(Sender: TObject);
 begin
-  if (cbUsePlugin.Checked) and (cbbSPlugins.ItemIndex<>-1) then
-    begin
-      DSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallStopSearch;
-      DSXPlugins.GetDSXModule(cbbSPlugins.ItemIndex).CallFinalize;
-      ThreadTerminate(nil);
-    end;
-    
-  if Assigned(FFindThread) then
-  begin
-    FFindThread.Terminate;
-  end;
+  StopSearch;
 end;
 
 procedure TfrmFindDlg.FormCloseQuery(Sender: TObject;
@@ -844,6 +856,38 @@ end;
 procedure TfrmFindDlg.FormDestroy(Sender: TObject);
 begin
   FreeThenNil(DsxPlugins);
+end;
+
+procedure TfrmFindDlg.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  case Key of
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+    VK_RETURN, VK_SELECT:
+      begin
+        Key := 0;
+        if btnStart.Enabled then
+          btnStart.Click
+        else
+          btnStop.Click;
+      end;
+{$ENDIF}
+    VK_ESCAPE:
+      begin
+        Key := 0;
+        if FSearchingActive then
+          StopSearch
+        else
+          Close;
+      end;
+    VK_1..VK_4:
+      begin
+        if Shift = [ssAlt] then
+          begin
+            pgcSearch.PageIndex := Key - VK_1;
+            Key := 0;
+          end;
+      end;
+  end;
 end;
 
 procedure TfrmFindDlg.frmFindDlgClose(Sender: TObject;
@@ -945,25 +989,6 @@ begin
     ShowViewer(sl);
   finally
     sl.Free;
-  end;
-end;
-
-procedure TfrmFindDlg.FormKeyPress(Sender: TObject; var Key: Char);
-begin
-{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
-  if key=#13 then
-  begin
-    Key := #0;
-    if btnStart.Enabled then
-      btnStart.Click
-    else
-      btnStop.Click;
-  end else
-{$ENDIF}
-  if key=#27 then
-  begin
-    Key:=#0;
-    Close;
   end;
 end;
 
