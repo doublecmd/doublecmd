@@ -120,7 +120,8 @@ procedure TMultiArchiveCopyOutOperation.MainExecute;
 var
   TargetFileName,
   SourcePath,
-  sCurrPath: UTF8String;
+  sCurrPath,
+  sTempDir: UTF8String;
   CreatedPaths: TStringHashList;
   I: Integer;
   aFile: TMultiArchiveFile;
@@ -174,8 +175,14 @@ begin
     end // for
   else  // extract whole file list
     begin
+      sTempDir:= TargetPath; // directory where files will be unpacked
+      if SourceFiles.Path <> PathDelim then // if extract from not root directory
+        begin
+          sTempDir:= GetTempName(TargetPath);
+          mbCreateDir(sTempDir);
+        end;
       // go to target directory
-      mbSetCurrentDir(TargetPath);
+      mbSetCurrentDir(sTempDir);
 
       sCommandLine:= FormatArchiverCommand(
                                            MultiArcItem.FArchiver,
@@ -196,7 +203,7 @@ begin
 
       if SourceFiles.Path <> PathDelim then // if extract from not root directory
       begin
-        // move files to target directory
+        // move files to real target directory
         for I:= 0 to FFullFilesTreeToExtract.Count - 1 do
         begin
           aFile:= FFullFilesTreeToExtract[I] as TMultiArchiveFile;
@@ -204,11 +211,12 @@ begin
             begin
               TargetFileName := TargetPath + ExtractDirLevel(SourcePath, aFile.FullPath);
               UpdateProgress(aFile.FullPath, TargetFileName, 0);
-              mbRenameFile(TargetPath + aFile.FullPath, TargetFileName);
+              mbRenameFile(sTempDir + PathDelim + aFile.FullPath, TargetFileName);
               UpdateProgress(aFile.FullPath, TargetFileName, aFile.Size);
             end
         end;
-        DelTree(ExcludeTrailingPathDelimiter(TargetPath + SourcePath));
+        mbSetCurrentDir(sCurrPath);
+        DelTree(sTempDir);
       end;
     end;
 
