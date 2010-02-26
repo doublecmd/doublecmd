@@ -95,7 +95,12 @@ function DosToWinTime(const DosTime: TDosFileTime; var WinTime: TWinFileTime): L
    @returns(Month number)
 }
 function MonthToNumberDef(const ShortMonthName: String; Default: Word): Word;
-
+{en
+   Converts a year short record to year long record if need (10 -> 2010).
+   @param(Year Year short record)
+   @returns(Year long record)
+}
+function YearShortToLong(Year: Word): Word;
 function TwelveToTwentyFour(Hour: Word; Modifier: AnsiString): Word;
 
 implementation
@@ -331,6 +336,18 @@ begin
   for I:= 1 to 12 do
   if SameText(ShortMonthName, ShortMonthNames[I]) then
     Exit(I);
+end;
+
+function YearShortToLong(Year: Word): Word;
+begin
+  Result:= Year;
+  if (Year < 100) then
+    begin
+      if (Year < 80) then
+        Result:= Year + 2000
+      else
+        Result:= Year + 1900;
+    end;
 end;
 
 function TwelveToTwentyFour(Hour: Word; Modifier: AnsiString): Word;
