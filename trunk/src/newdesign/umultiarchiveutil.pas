@@ -158,7 +158,7 @@ begin
       FArchiveItem := TArchiveItem.Create;
     // get all file properties
     if FNamePos.Index = FFormatIndex then
-      FArchiveItem.FileName := ConsoleToUTF8(GetKeyValue(str, FNamePos));
+      FArchiveItem.FileName := ConsoleToUTF8(Trim(GetKeyValue(str, FNamePos)));
     if FUnpSizePos.Index = FFormatIndex then
       FArchiveItem.UnpSize := StrToIntDef(Trim(GetKeyValue(str, FUnpSizePos)), 0);
     if FPackSizePos.Index = FFormatIndex then
