@@ -140,7 +140,7 @@ begin
   if FMultiArcItem.FDebug then
     DebugLn(str);
 
-  if str = EmptyStr then Exit; // skip empty lines
+  if (str = EmptyStr) or (Trim(str) = EmptyStr) then Exit; // skip empty lines
 
   if not FStartParsing then
     FStartParsing:= (FMultiArcItem.FStart = EmptyStr); // if not defined start line
@@ -164,7 +164,7 @@ begin
     if FPackSizePos.Index = FFormatIndex then
       FArchiveItem.PackSize := StrToIntDef(Trim(GetKeyValue(str, FPackSizePos)), 0);
     if FYearPos.Index = FFormatIndex then
-      FArchiveItem.Year := StrToIntDef(Trim(GetKeyValue(str, FYearPos)), 0);
+      FArchiveItem.Year := YearShortToLong(StrToIntDef(Trim(GetKeyValue(str, FYearPos)), 0));
     if FMonthPos.Index = FFormatIndex then
       FArchiveItem.Month := StrToIntDef(Trim(GetKeyValue(str, FMonthPos)), 0);
     if FMonthNamePos.Index = FFormatIndex then
