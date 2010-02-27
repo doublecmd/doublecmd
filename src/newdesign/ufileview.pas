@@ -126,7 +126,7 @@ type
        Moves the selection focus to the file specified by aFilePath.
        @param(aFilePath may be an absolute path to the file or just a file name.)
     }
-    procedure SetActiveFile(const aFilePath: String); virtual; overload;
+    procedure SetActiveFile(aFilePath: String); virtual; overload;
 
     {en
        Changes the current path to a parent directory.
@@ -365,7 +365,7 @@ procedure TFileView.SetActiveFile(const aFile: TFile);
 begin
 end;
 
-procedure TFileView.SetActiveFile(const aFilePath: String);
+procedure TFileView.SetActiveFile(aFilePath: String);
 begin
 end;
 
