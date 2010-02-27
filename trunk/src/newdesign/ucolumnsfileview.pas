@@ -179,6 +179,8 @@ type
     FActive: Boolean;           //<en Is this view active
     FLastActive: String;        //<en Last active file
     FLastActiveRow: Integer;    //<en Last active row
+    FUpdatingGrid: Boolean;
+
     FLastMark: String;
     FLastSelectionStartRow: Integer;
     FLastSelectionState: Boolean;
@@ -408,7 +410,7 @@ type
     function Focused: Boolean; override;
     procedure SetFocus; override;
 
-    procedure SetActiveFile(const aFilePath: String); override;
+    procedure SetActiveFile(aFilePath: String); override;
 
     procedure UpdateColumnsView;
     procedure UpdateView; override;
@@ -1189,7 +1191,7 @@ end;
 
 procedure TColumnsFileView.dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
 begin
-  if FLastActiveRow <> aRow then
+  if (FLastActiveRow <> aRow) and (not FUpdatingGrid) then
     begin
       SetLastActive(aRow);
       FLastActiveRow:= aRow;
@@ -1312,7 +1314,9 @@ begin
     inherited SetCurrentPath(NewPath);
 
     LastActive := '';
+    FUpdatingGrid := True;
     dgPanel.Row := 0;
+    FUpdatingGrid := False;
 
     if (fspDirectAccess in FileSource.GetProperties) then
       begin
@@ -2102,45 +2106,54 @@ end;
 
 procedure TColumnsFileView.SetLastActive(RowNr: Integer);
 begin
-  if (RowNr >= dgPanel.FixedRows) and (RowNr < dgPanel.RowCount) then
+  if (RowNr >= dgPanel.FixedRows) and (RowNr < dgPanel.RowCount) and
+     (RowNr - dgPanel.FixedRows < FFiles.Count) then
+  begin
     LastActive := FFiles[RowNr - dgPanel.FixedRows].TheFile.FullPath;
+  end;
 end;
 
-procedure TColumnsFileView.SetActiveFile(const aFilePath: String);
+procedure TColumnsFileView.SetActiveFile(aFilePath: String);
 var
   i: Integer;
 begin
-  // Don't assign LastActive until we're done using aFilePath.
-  // aFileName is passed as reference ('const') and in one place we are passing
-  // a reference to LastActive, so assigning something to LastActive would destroy
-  // this reference and cause the aFilePath parameter to be a dangling pointer to string.
-
-  if aFilePath <> '' then // find correct cursor position in Panel (drawgrid)
+  if Assigned(FCurrentFileListBuilder) then
+    // File list is currently loading - just remember active file.
+    LastActive := aFilePath
+  else
   begin
-    if FileSource.GetPathType(aFilePath) = ptAbsolute then
+    if aFilePath <> '' then // find correct cursor position in Panel (drawgrid)
     begin
-      for i := 0 to FFiles.Count - 1 do
-        if FFiles[i].TheFile.FullPath = aFilePath then
-        begin
-          dgPanel.Row := i + dgPanel.FixedRows;
-          SetLastActive(dgPanel.Row);
-          Exit;
-        end;
-    end
-    else
-    begin
-      for i := 0 to FFiles.Count - 1 do
-        if FFiles[i].TheFile.Name = aFilePath then
-        begin
-          dgPanel.Row := i + dgPanel.FixedRows;
-          SetLastActive(dgPanel.Row);
-          Exit;
-        end;
+      if FileSource.GetPathType(aFilePath) = ptAbsolute then
+      begin
+        for i := 0 to FFiles.Count - 1 do
+          if FFiles[i].TheFile.FullPath = aFilePath then
+          begin
+            FUpdatingGrid := True;
+            dgPanel.Row := i + dgPanel.FixedRows;
+            FUpdatingGrid := False;
+            SetLastActive(dgPanel.Row);
+            Exit;
+          end;
+      end
+      else
+      begin
+        for i := 0 to FFiles.Count - 1 do
+          if FFiles[i].TheFile.Name = aFilePath then
+          begin
+            FUpdatingGrid := True;
+            dgPanel.Row := i + dgPanel.FixedRows;
+            FUpdatingGrid := False;
+            SetLastActive(dgPanel.Row);
+            Exit;
+          end;
+      end;
     end;
-  end;
 
-  LastActive := '';  // Clear first in case row is invalid.
-  SetLastActive(dgPanel.Row);
+    // File not found in the list, so set current row as last active.
+    LastActive := '';  // Clear first in case row is invalid.
+    SetLastActive(dgPanel.Row);
+  end;
 end;
 
 procedure TColumnsFileView.dgPanelDblClick(Sender: TObject);
@@ -2649,6 +2662,7 @@ begin
   FLastActive := '';
   FActive := False;
   FFileFilter := '';
+  FUpdatingGrid := False;
 
   FSorting := nil;
   // default to sorting by 0-th column
@@ -2889,7 +2903,9 @@ begin
   if Assigned(OnChangeFileSource) then
     OnChangeFileSource(Self);
 
+  FUpdatingGrid := True;
   dgPanel.Row := 0;
+  FUpdatingGrid := False;
 
   UpdateAddressLabel;
 end;
@@ -2975,7 +2991,6 @@ begin
       FFiles.Clear; // Clear references to files from the source.
       FreeAndNil(FFileSourceFiles);
     end;
-    dgPanel.RowCount := dgPanel.FixedRows;
 
     // Display info that file list is being loaded (after assigning builder).
     UpdateInfoPanel;
@@ -3002,8 +3017,10 @@ end;
 procedure TColumnsFileView.DisplayFileListHasChanged;
 begin
   // Update grid row count.
-  dgPanel.RowCount := FFiles.Count
-                    + dgPanel.FixedRows; // header rows
+  FUpdatingGrid := True;
+  dgPanel.RowCount := dgPanel.FixedRows + FFiles.Count;
+  FUpdatingGrid := False;
+
   RedrawGrid;
 
   SetActiveFile(LastActive);
