@@ -113,6 +113,8 @@ begin
   begin
     if (VolumeSize <> 0) and (MultiArcItem.FAddMultiVolume <> EmptyStr) then
       sCommandLine:= MultiArcItem.FAddMultiVolume
+    else if (ExtractFileExt(ArchiveFileName) = GetSfxExt) and (MultiArcItem.FAddSelfExtract <> EmptyStr) then
+      sCommandLine:= MultiArcItem.FAddSelfExtract
     else
       sCommandLine:= MultiArcItem.FAdd;
   end;

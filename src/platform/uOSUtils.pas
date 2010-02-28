@@ -180,6 +180,11 @@ function GetAppConfigDir: String;
             The path '/tmp' must already exist.)
 }
 function GetTempName(PathPrefix: String): String;
+{en
+   Get the system specific self extracting archive extension
+   @returns(Self extracting archive extension)
+}
+function GetSfxExt: String;
 
 function IsAvailable(Path : String; TryMount: Boolean = True) : Boolean;
 function GetAllDrives : TList;
@@ -885,6 +890,17 @@ begin
       Exit('');
   until not mbFileSystemEntryExists(Result);
 end;
+
+function GetSfxExt: String;
+{$IFDEF MSWINDOWS}
+begin
+  Result:= '.exe';
+end;
+{$ELSE}
+begin
+  Result:= '.run';
+end;
+{$ENDIF}
 
 function IsAvailable(Path: String; TryMount: Boolean): Boolean;
 {$IF DEFINED(MSWINDOWS)}
