@@ -349,6 +349,8 @@ p,ul,ol /* Paragraph Style */
 <p class=rvps4><span class=rvts20>Delete</span><span class=rvts21> - удалить файл из архива.</span></p>
 <p class=rvps4><span class=rvts20>Add</span><span class=rvts21> - добавить файл в архив.</span></p>
 <p class=rvps4><span class=rvts20>Move</span><span class=rvts21> - переместить файл в архив.</span></p>
+<p class=rvps4><span class=rvts20>AddMultiVolume</span><span class=rvts21> - создать многотомный архив.</span></p>
+<p class=rvps4><span class=rvts20>AddSelfExtract</span><span class=rvts21> - создать самораспаковывающийся архив.</span></p>
 <p class=rvps4><span class=rvts20>InputString</span><span class=rvts21> - вставка некоторой строки во входной поток архиватора. Это используется для эмулирования нажатий некоторых клавиш при старте архиватора. Используется для некоторых шароварных утилит требующих нажатия Y перед работой. =-)</span></p>
 <p class=rvps4><span class=rvts22>Обратите внимание:</span><span class=rvts21> Все команды за исключением InputString используют формат определения команд&nbsp;&nbsp; </span></p>
 <p class=rvps4><span class=rvts23>Флаги</span></p>
@@ -420,6 +422,8 @@ p,ul,ol /* Paragraph Style */
 <p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; пор пока все файлы не будут обработаны. </span></p>
 <p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Эта переменная должна быть использована только если архиватор не поддерживает </span></p>
 <p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; список файлов в строке вызова.</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; %V - Размер тома (для многотомного архива).</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; %W - Пароль.</span></p>
 <p class=rvps3><span class=rvts18>&nbsp; %E&lt;errorlevel&gt; - максимальный допустимый код завершения (errorlevel).</span></p>
 <p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Например, %E2 означает что принимаются коды завершения 0, 1 и 2.</span></p>
 <p class=rvps3><span class=rvts18>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Эта переменная может быть указана в любом месте команды. Если она </span></p>
