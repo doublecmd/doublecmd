@@ -81,7 +81,7 @@ type
 implementation
 
 uses
-  WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation, uLng,
+  WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation, uLng, uOSUtils,
   uOperationsManager, fFileOpDlg, uArchiveFileSourceUtil, uMultiArchiveFileSource;
 
 function ShowPackDlg(const SourceFileSource: IFileSource;
@@ -259,7 +259,7 @@ end;
 procedure TfrmPackDlg.cbCreateSFXChange(Sender: TObject);
 begin
   if cbCreateSFX.Checked then
-    edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + 'exe')
+    edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, GetSfxExt)
   else
     edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + FArchiveType);
 end;
