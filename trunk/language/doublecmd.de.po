@@ -2861,10 +2861,6 @@ msgstr "Spalten automatisch füllen"
 msgid "&Ignore (don't show) the following files and folders:"
 msgstr "&Ignoriere (zeige nicht) die folgenden Dateien und Verzeichnisse:"
 
-#: TFRMOPTIONS.CHKMULTIARCCONSOLEOUTPUT.CAPTION
-msgid "Show console output"
-msgstr "Zeige die Ausgabe des Konsolenfensters"
-
 #: TFRMOPTIONS.CHKMULTIARCDEBUG.CAPTION
 msgid "Debug mode"
 msgstr "Debug-Modus"
@@ -2872,6 +2868,11 @@ msgstr "Debug-Modus"
 #: TFRMOPTIONS.CHKMULTIARCENABLED.CAPTION
 msgid "Enabled"
 msgstr "Aktiviert"
+
+#: TFRMOPTIONS.CHKMULTIARCOUTPUT.CAPTION
+msgctxt "TFRMOPTIONS.CHKMULTIARCOUTPUT.CAPTION"
+msgid "Show console output"
+msgstr "Zeige die Ausgabe des Konsolenfensters"
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
@@ -2985,10 +2986,6 @@ msgstr "Füge hinzu:"
 msgid "Delete:"
 msgstr "Lösche:"
 
-#: TFRMOPTIONS.LBLARCHIVEENCRYPT.CAPTION
-msgid "Encrypt:"
-msgstr "Verschlüssele:"
-
 #: TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION
 msgctxt "TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION"
 msgid "Extension:"
@@ -3014,13 +3011,17 @@ msgstr "Auflistungsformat"
 msgid "Listing start (optional):"
 msgstr ""
 
-#: TFRMOPTIONS.LBLARCHIVEMOVE.CAPTION
-msgid "Move:"
-msgstr "Verschiebe:"
+#: TFRMOPTIONS.LBLARCHIVEMULTIVOLUME.CAPTION
+msgid "Create multivolume archive:"
+msgstr ""
 
 #: TFRMOPTIONS.LBLARCHIVER.CAPTION
 msgid "Archiver:"
 msgstr "Archivierer:"
+
+#: TFRMOPTIONS.LBLARCHIVESELFEXTRACT.CAPTION
+msgid "Create self extracting archive:"
+msgstr ""
 
 #: TFRMOPTIONS.LBLARCHIVETEST.CAPTION
 msgid "Test:"
@@ -4143,6 +4144,10 @@ msgstr "Markierte \"%s löschen\"?"
 msgid "Delete selected \"%s\" into trash can?"
 msgstr "Markierte \"%s\" in den Papierkorb löschen?"
 
+#: ulng.rsmsgdeltotrashforce
+msgid "Can not delete \"%s\" to trash! Delete directly?"
+msgstr ""
+
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "Laufwerk steht nicht zur Verfügung"
@@ -4391,6 +4396,10 @@ msgstr "Nicht möglich."
 msgid "Password:"
 msgstr "Passwort"
 
+#: ulng.rsmsgpasswordenter
+msgid "Please enter the password:"
+msgstr ""
+
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
 msgstr "Passwort (Firewall):"
@@ -4463,6 +4472,10 @@ msgstr "Nutzername (Firewall):"
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "Laufwerksbezeichnung:"
+
+#: ulng.rsmsgvolumesizeenter
+msgid "Please enter the volume size:"
+msgstr ""
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
@@ -4696,6 +4709,10 @@ msgstr "Linke Taste;Rechte Taste;"
 #: ulng.rsoptpagebypage
 msgid "Page by page"
 msgstr "Seite für Seite"
+
+#: ulng.rsoptpluginalreadyassigned
+msgid "Plugin %s is already assigned for the following extensions:"
+msgstr ""
 
 #: ulng.rsoptplugins
 msgctxt "ulng.rsoptplugins"

@@ -2853,10 +2853,6 @@ msgstr "Розтягувати колонки на ширину панелі"
 msgid "&Ignore (don't show) the following files and folders:"
 msgstr "&Ігнорувати (не показувати) такі файли і папки:"
 
-#: TFRMOPTIONS.CHKMULTIARCCONSOLEOUTPUT.CAPTION
-msgid "Show console output"
-msgstr "Показати вивід на консоль"
-
 #: TFRMOPTIONS.CHKMULTIARCDEBUG.CAPTION
 msgid "Debug mode"
 msgstr "Режим налагодження"
@@ -2864,6 +2860,11 @@ msgstr "Режим налагодження"
 #: TFRMOPTIONS.CHKMULTIARCENABLED.CAPTION
 msgid "Enabled"
 msgstr "Ввімкнено"
+
+#: TFRMOPTIONS.CHKMULTIARCOUTPUT.CAPTION
+msgctxt "TFRMOPTIONS.CHKMULTIARCOUTPUT.CAPTION"
+msgid "Show console output"
+msgstr "Показати вивід на консоль"
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
@@ -2977,10 +2978,6 @@ msgstr "Додати:"
 msgid "Delete:"
 msgstr "Видалити:"
 
-#: TFRMOPTIONS.LBLARCHIVEENCRYPT.CAPTION
-msgid "Encrypt:"
-msgstr "Зашифрувати"
-
 #: TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION
 msgctxt "TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION"
 msgid "Extension:"
@@ -3006,13 +3003,17 @@ msgstr "Формат списку:"
 msgid "Listing start (optional):"
 msgstr "Початок списку (за бажанням)"
 
-#: TFRMOPTIONS.LBLARCHIVEMOVE.CAPTION
-msgid "Move:"
-msgstr "Перемістити:"
+#: TFRMOPTIONS.LBLARCHIVEMULTIVOLUME.CAPTION
+msgid "Create multivolume archive:"
+msgstr ""
 
 #: TFRMOPTIONS.LBLARCHIVER.CAPTION
 msgid "Archiver:"
 msgstr "Архіватор:"
+
+#: TFRMOPTIONS.LBLARCHIVESELFEXTRACT.CAPTION
+msgid "Create self extracting archive:"
+msgstr ""
 
 #: TFRMOPTIONS.LBLARCHIVETEST.CAPTION
 msgid "Test:"
@@ -4138,6 +4139,10 @@ msgstr "Видалити \"%s\"?"
 msgid "Delete selected \"%s\" into trash can?"
 msgstr "Видалити \"%s\" в смітник"
 
+#: ulng.rsmsgdeltotrashforce
+msgid "Can not delete \"%s\" to trash! Delete directly?"
+msgstr ""
+
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "Диск не доступний"
@@ -4386,6 +4391,10 @@ msgstr "Не реалізовано"
 msgid "Password:"
 msgstr "Пароль"
 
+#: ulng.rsmsgpasswordenter
+msgid "Please enter the password:"
+msgstr ""
+
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
 msgstr "Пароль (Firewall):"
@@ -4458,6 +4467,10 @@ msgstr "Ім'я користувача (Firewall):"
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "Мітка диску:"
+
+#: ulng.rsmsgvolumesizeenter
+msgid "Please enter the volume size:"
+msgstr ""
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
@@ -4691,6 +4704,10 @@ msgstr "Ліва кнопка;Права кнопка;"
 #: ulng.rsoptpagebypage
 msgid "Page by page"
 msgstr "Посторінково"
+
+#: ulng.rsoptpluginalreadyassigned
+msgid "Plugin %s is already assigned for the following extensions:"
+msgstr ""
 
 #: ulng.rsoptplugins
 msgctxt "ulng.rsoptplugins"
