@@ -126,6 +126,7 @@ var
   I: Integer;
   aFile: TMultiArchiveFile;
   MultiArcItem: TMultiArcItem;
+  sReadyCommand,
   sCommandLine: UTF8String;
 begin
   MultiArcItem := FMultiArchiveFileSource.MultiArcItem;
@@ -154,18 +155,18 @@ begin
 
             UpdateProgress(aFile.FullPath, TargetFileName, 0);
 
-            sCommandLine:= FormatArchiverCommand(
-                                                 MultiArcItem.FArchiver,
-                                                 sCommandLine,
-                                                 FMultiArchiveFileSource.ArchiveFileName,
-                                                 nil,
-                                                 aFile.FullPath,
-                                                 TargetPath,
-                                                 FTempFile
-                                                 );
-            OnReadLn(sCommandLine);
+            sReadyCommand:= FormatArchiverCommand(
+                                                  MultiArcItem.FArchiver,
+                                                  sCommandLine,
+                                                  FMultiArchiveFileSource.ArchiveFileName,
+                                                  nil,
+                                                  aFile.FullPath,
+                                                  TargetPath,
+                                                  FTempFile
+                                                  );
+            OnReadLn(sReadyCommand);
 
-            FExProcess.SetCmdLine(sCommandLine);
+            FExProcess.SetCmdLine(sReadyCommand);
             FExProcess.Execute;
 
             UpdateProgress(aFile.FullPath, TargetFileName, aFile.Size);
@@ -184,18 +185,18 @@ begin
       // go to target directory
       mbSetCurrentDir(sTempDir);
 
-      sCommandLine:= FormatArchiverCommand(
-                                           MultiArcItem.FArchiver,
-                                           sCommandLine,
-                                           FMultiArchiveFileSource.ArchiveFileName,
-                                           FFullFilesTreeToExtract,
-                                           EmptyStr,
-                                           TargetPath,
-                                           FTempFile
-                                           );
-      OnReadLn(sCommandLine);
+      sReadyCommand:= FormatArchiverCommand(
+                                            MultiArcItem.FArchiver,
+                                            sCommandLine,
+                                            FMultiArchiveFileSource.ArchiveFileName,
+                                            FFullFilesTreeToExtract,
+                                            EmptyStr,
+                                            TargetPath,
+                                            FTempFile
+                                            );
+      OnReadLn(sReadyCommand);
 
-      FExProcess.SetCmdLine(sCommandLine);
+      FExProcess.SetCmdLine(sReadyCommand);
       FExProcess.Execute;
 
       // Check for errors.
