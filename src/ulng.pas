@@ -86,8 +86,10 @@ resourcestring
   rsMsgManualAddHotDir = 'Manually add hot path';
   rsMsgManualEditHotDir = 'Manualy edit hot path';
   rsMsgManualHotDirQuery = 'Enter name and path (format name=path):';
+  rsMsgVolumeSizeEnter = 'Please enter the volume size:';
   rsMsgMasterPassword = 'Master Password';
   rsMsgMasterPasswordEnter = 'Please enter the master password:';
+  rsMsgPasswordEnter = 'Please enter the password:';
   rsMsgUserName = 'User name:';
   rsMsgPassword = 'Password:';
   rsMsgAccount = 'Account:';

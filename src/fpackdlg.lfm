@@ -238,7 +238,7 @@ object frmPackDlg: TfrmPackDlg
       Top = 68
       Width = 260
       Caption = 'Create self e&xtracting archive'
-      Enabled = False
+      OnChange = cbCreateSFXChange
       TabOrder = 4
     end
     object cbEncrypt: TCheckBox

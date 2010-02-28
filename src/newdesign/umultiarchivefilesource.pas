@@ -107,6 +107,7 @@ type
 
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation; override;
 
+    class function CreateByArchiveType(anArchiveFileName, anArchiveType: String): IMultiArchiveFileSource;
     class function CreateByArchiveName(anArchiveFileName: String): IMultiArchiveFileSource;
 
     property ArchiveFileList: TObjectList read GetArcFileList;
@@ -129,24 +130,20 @@ uses
   uMultiArchiveTestArchiveOperation
   ;
 
-class function TMultiArchiveFileSource.CreateByArchiveName(anArchiveFileName: String): IMultiArchiveFileSource;
+class function TMultiArchiveFileSource.CreateByArchiveType(anArchiveFileName,
+  anArchiveType: String): IMultiArchiveFileSource;
 var
   I: Integer;
-  sExtension: String;
   aMultiArcItem: TMultiArcItem;
 begin
   Result := nil;
-
-  sExtension := ExtractFileExt(anArchiveFileName);
-  if sExtension <> '' then   // delete '.' at the front
-    Delete(sExtension, 1, 1);
 
   // Check if there is a registered addon for the extension of the archive file name.
   for I := 0 to gMultiArcList.Count - 1 do
   begin
     aMultiArcItem:= gMultiArcList.Items[I];
 
-    if SameText(sExtension, aMultiArcItem.FExtension) and (aMultiArcItem.FEnabled) then
+    if SameText(anArchiveType, aMultiArcItem.FExtension) and (aMultiArcItem.FEnabled) then
     begin
       Result := TMultiArchiveFileSource.Create(anArchiveFileName,
                                                aMultiArcItem);
@@ -155,6 +152,19 @@ begin
       Break;
     end;
   end;
+end;
+
+class function TMultiArchiveFileSource.CreateByArchiveName(anArchiveFileName: String): IMultiArchiveFileSource;
+var
+  sExtension: String;
+begin
+  Result := nil;
+
+  sExtension := ExtractFileExt(anArchiveFileName);
+  if sExtension <> '' then   // delete '.' at the front
+    Delete(sExtension, 1, 1);
+
+  Result:= CreateByArchiveType(anArchiveFileName, sExtension);
 end;
 
 // ----------------------------------------------------------------------------
