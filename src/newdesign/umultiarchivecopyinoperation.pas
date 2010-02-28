@@ -26,7 +26,8 @@ type
 
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
-    procedure CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt);
+    function CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt): Boolean;
+    procedure DeleteFile(const BasePath: UTF8String; aFile: TFile);
 
   protected
     FExProcess: TExProcess;
@@ -52,7 +53,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uDCUtils, uMultiArc, uLng, uShowMsg, Process,
+  LCLProc, FileUtil, uDCUtils, uMultiArc, uLng, uShowMsg, Process, WcxPlugin,
   uFileSourceOperationUI, uFileSystemUtil, uMultiArchiveUtil, uOSUtils;
 
 constructor TMultiArchiveCopyInOperation.Create(aSourceFileSource: IFileSource;
@@ -121,7 +122,7 @@ begin
   // Get maximum acceptable command errorlevel
   FErrorLevel:= ExtractErrorLevel(sCommandLine);
   if Pos('%F', sCommandLine) <> 0 then // pack file by file
-    for I:= 0 to FFullFilesTree.Count - 1 do
+    for I:= FFullFilesTree.Count - 1 downto 0 do
     begin
       aFile:= FFullFilesTree[I];
       UpdateProgress(sRootPath + aFile.FullPath, sDestPath, 0);
@@ -144,7 +145,11 @@ begin
 
       UpdateProgress(sRootPath + aFile.FullPath, sDestPath, aFile.Size);
       // Check for errors.
-      CheckForErrors(sRootPath + aFile.FullPath, FExProcess.ExitStatus);
+      if CheckForErrors(sRootPath + aFile.FullPath, FExProcess.ExitStatus) then
+        begin
+          if (FMultiArchiveFileSource.ArchiveFlags and PK_PACK_MOVE_FILES) <> 0 then
+            DeleteFile(sRootPath, aFile);
+        end;
     end
   else  // pack whole file list
     begin
@@ -165,7 +170,12 @@ begin
       FExProcess.Execute;
 
       // Check for errors.
-      CheckForErrors(FMultiArchiveFileSource.ArchiveFileName, FExProcess.ExitStatus);
+      if CheckForErrors(FMultiArchiveFileSource.ArchiveFileName, FExProcess.ExitStatus) then
+        begin
+           if (FMultiArchiveFileSource.ArchiveFlags and PK_PACK_MOVE_FILES) <> 0 then
+             for I:= FFullFilesTree.Count - 1 downto 0 do
+               DeleteFile(sRootPath, FFullFilesTree[I]);
+        end;
     end;
   // restore current path
   mbSetCurrentDir(sCurrPath);
@@ -212,19 +222,29 @@ begin
   end;
 end;
 
-procedure TMultiArchiveCopyInOperation.CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt);
+function TMultiArchiveCopyInOperation.CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt): Boolean;
 begin
   if ExitStatus > FErrorLevel then
     begin
+      Result:= False;
       ShowError(Format(rsMsgLogError + rsMsgLogPack,
                        [FileName +
                         ' - Exit status: ' + IntToStr(ExitStatus)]), [log_arc_op]);
     end
   else
     begin
+      Result:= True;
       LogMessage(Format(rsMsgLogSuccess + rsMsgLogPack,
                         [FileName]), [log_arc_op], lmtSuccess);
     end;
+end;
+
+procedure TMultiArchiveCopyInOperation.DeleteFile(const BasePath: UTF8String; aFile: TFile);
+begin
+  if aFile.IsDirectory then
+    mbRemoveDir(BasePath + aFile.FullPath)
+  else
+    mbDeleteFile(BasePath + aFile.FullPath);
 end;
 
 procedure TMultiArchiveCopyInOperation.OnReadLn(str: string);
