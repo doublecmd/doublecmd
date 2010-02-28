@@ -2070,6 +2070,7 @@ begin
       edtArchiveDelete.Text:= EmptyStr;
       edtArchiveTest.Text:= EmptyStr;
       edtArchiveMultiVolume.Text:= EmptyStr;
+      edtArchiveSelfExtract.Text:= EmptyStr;
       chkMultiArcOutput.Checked:= False;
       chkMultiArcDebug.Checked:= False;
       chkMultiArcEnabled.Checked:= False;
@@ -2091,6 +2092,7 @@ begin
       edtArchiveDelete.Text:= FDelete;
       edtArchiveTest.Text:= FTest;
       edtArchiveMultiVolume.Text:= FAddMultiVolume;
+      edtArchiveSelfExtract.Text:= FAddSelfExtract;
       chkMultiArcOutput.Checked:= FOutput;
       chkMultiArcDebug.Checked:= FDebug;
       chkMultiArcEnabled.Checked:= FEnabled;
