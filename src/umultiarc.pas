@@ -42,11 +42,11 @@ type
     FTest,
     FDelete,
     FAdd,
-    FMove,
-    FEncrypt: UTF8String;
+    FAddMultiVolume,
+    FAddSelfExtract: UTF8String;
   public
     FEnabled: Boolean;
-    FConsoleOutput: Boolean;
+    FOutput: Boolean;
     FDebug: Boolean;
     constructor Create;
     destructor Destroy; override;
@@ -165,11 +165,11 @@ begin
         FTest:= TrimQuotes(IniFile.ReadString(Section, 'Test', EmptyStr));
         FDelete:= TrimQuotes(IniFile.ReadString(Section, 'Delete', EmptyStr));
         FAdd:= TrimQuotes(IniFile.ReadString(Section, 'Add', EmptyStr));
-        FMove:= TrimQuotes(IniFile.ReadString(Section, 'Move', EmptyStr));
-        FEncrypt:= TrimQuotes(IniFile.ReadString(Section, 'Encrypt', EmptyStr));
+        FAddMultiVolume:= TrimQuotes(IniFile.ReadString(Section, 'AddMultiVolume', EmptyStr));
+        FAddSelfExtract:= TrimQuotes(IniFile.ReadString(Section, 'AddSelfExtract', EmptyStr));
         // optional
         FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
-        FConsoleOutput:= IniFile.ReadBool(Section, 'ConsoleOutput', False);
+        FOutput:= IniFile.ReadBool(Section, 'Output', False);
         FDebug:= IniFile.ReadBool(Section, 'Debug', False);
       end;
       FList.AddObject(Section, MultiArcItem);
@@ -213,11 +213,11 @@ begin
         IniFile.WriteString(Section, 'Test', FTest);
         IniFile.WriteString(Section, 'Delete', FDelete);
         IniFile.WriteString(Section, 'Add', FAdd);
-        IniFile.WriteString(Section, 'Move', FMove);
-        IniFile.WriteString(Section, 'Encrypt', FEncrypt);
+        IniFile.WriteString(Section, 'AddMultiVolume', FAddMultiVolume);
+        IniFile.WriteString(Section, 'AddSelfExtract', FAddSelfExtract);
         // optional
         IniFile.WriteBool(Section, 'Enabled', FEnabled);
-        IniFile.WriteBool(Section, 'ConsoleOutput', FConsoleOutput);
+        IniFile.WriteBool(Section, 'Output', FOutput);
         IniFile.WriteBool(Section, 'Debug', FDebug);
       end;
     end;
@@ -252,4 +252,4 @@ begin
 end;
 
 end.
-
+

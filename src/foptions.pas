@@ -138,7 +138,7 @@ type
     chkMultiArcEnabled: TCheckBox;
     chkAutoFillColumns: TCheckBox;
     chkIgnoreEnable: TCheckBox;
-    chkMultiArcConsoleOutput: TCheckBox;
+    chkMultiArcOutput: TCheckBox;
     chkMultiArcDebug: TCheckBox;
     cmbTabsPosition: TComboBox;
     cmbAutoSizeColumn: TComboBox;
@@ -148,8 +148,8 @@ type
     edtArchiveListEnd: TEdit;
     edtArchiveListStart: TEdit;
     edtArchiveDelete: TEdit;
-    edtArchiveEncrypt: TEdit;
-    edtArchiveMove: TEdit;
+    edtArchiveMultiVolume: TEdit;
+    edtArchiveSelfExtract: TEdit;
     edtArchiveAdd: TEdit;
     edtArchiveExtension: TEdit;
     edtArchiveExtract: TEdit;
@@ -217,8 +217,8 @@ type
     lblArchiveListEnd: TLabel;
     lblArchiveListStart: TLabel;
     lblArchiveDelete: TLabel;
-    lblArchiveEncrypt: TLabel;
-    lblArchiveMove: TLabel;
+    lblArchiveMultiVolume: TLabel;
+    lblArchiveSelfExtract: TLabel;
     lblArchiveAdd: TLabel;
     lblArchiveExtension: TLabel;
     lblArchiveExtract: TLabel;
@@ -1245,9 +1245,9 @@ begin
     FAdd:= edtArchiveAdd.Text;
     FDelete:= edtArchiveDelete.Text;
     FTest:= edtArchiveTest.Text;
-    FMove:= edtArchiveMove.Text;
-    FEncrypt:= edtArchiveEncrypt.Text;
-    FConsoleOutput:= chkMultiArcConsoleOutput.Checked;
+    FAddMultiVolume:= edtArchiveMultiVolume.Text;
+    FAddSelfExtract:= edtArchiveSelfExtract.Text;
+    FOutput:= chkMultiArcOutput.Checked;
     FDebug:= chkMultiArcDebug.Checked;
     FEnabled:= chkMultiArcEnabled.Checked;
   end;
@@ -2069,8 +2069,8 @@ begin
       edtArchiveAdd.Text:= EmptyStr;
       edtArchiveDelete.Text:= EmptyStr;
       edtArchiveTest.Text:= EmptyStr;
-      edtArchiveMove.Text:= EmptyStr;
-      chkMultiArcConsoleOutput.Checked:= False;
+      edtArchiveMultiVolume.Text:= EmptyStr;
+      chkMultiArcOutput.Checked:= False;
       chkMultiArcDebug.Checked:= False;
       chkMultiArcEnabled.Checked:= False;
       pcArchiverCommands.Enabled:= (lbxMultiArc.Count <> 0);
@@ -2090,8 +2090,8 @@ begin
       edtArchiveAdd.Text:= FAdd;
       edtArchiveDelete.Text:= FDelete;
       edtArchiveTest.Text:= FTest;
-      edtArchiveMove.Text:= FMove;
-      chkMultiArcConsoleOutput.Checked:= FConsoleOutput;
+      edtArchiveMultiVolume.Text:= FAddMultiVolume;
+      chkMultiArcOutput.Checked:= FOutput;
       chkMultiArcDebug.Checked:= FDebug;
       chkMultiArcEnabled.Checked:= FEnabled;
   end;

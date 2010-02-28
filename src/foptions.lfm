@@ -4096,10 +4096,10 @@ object frmOptions: TfrmOptions
               ClientHeight = 405
               ClientWidth = 550
               object gbArchiverOptions: TGroupBox
-                AnchorSideLeft.Control = lblArchiveMove
-                AnchorSideTop.Control = edtArchiveEncrypt
+                AnchorSideLeft.Control = lblArchiveMultiVolume
+                AnchorSideTop.Control = edtArchiveSelfExtract
                 AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = lblArchiveMove
+                AnchorSideRight.Control = lblArchiveMultiVolume
                 AnchorSideRight.Side = asrBottom
                 Left = 10
                 Height = 51
@@ -4114,7 +4114,7 @@ object frmOptions: TfrmOptions
                 ClientHeight = 33
                 ClientWidth = 526
                 TabOrder = 0
-                object chkMultiArcConsoleOutput: TCheckBox
+                object chkMultiArcOutput: TCheckBox
                   AnchorSideTop.Control = gbArchiverOptions
                   Left = 10
                   Height = 17
@@ -4137,7 +4137,7 @@ object frmOptions: TfrmOptions
                   TabOrder = 1
                 end
               end
-              object lblArchiveMove: TLabel
+              object lblArchiveMultiVolume: TLabel
                 AnchorSideLeft.Control = tbArchiverAdditional
                 AnchorSideTop.Control = edtArchiveTest
                 AnchorSideTop.Side = asrBottom
@@ -4151,14 +4151,14 @@ object frmOptions: TfrmOptions
                 BorderSpacing.Left = 10
                 BorderSpacing.Top = 2
                 BorderSpacing.Right = 10
-                Caption = 'Move:'
+                Caption = 'Create multivolume archive:'
                 ParentColor = False
               end
-              object edtArchiveMove: TEdit
-                AnchorSideLeft.Control = lblArchiveMove
-                AnchorSideTop.Control = lblArchiveMove
+              object edtArchiveMultiVolume: TEdit
+                AnchorSideLeft.Control = lblArchiveMultiVolume
+                AnchorSideTop.Control = lblArchiveMultiVolume
                 AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = lblArchiveMove
+                AnchorSideRight.Control = lblArchiveMultiVolume
                 AnchorSideRight.Side = asrBottom
                 Left = 10
                 Height = 21
@@ -4167,11 +4167,11 @@ object frmOptions: TfrmOptions
                 Anchors = [akTop, akLeft, akRight]
                 TabOrder = 1
               end
-              object lblArchiveEncrypt: TLabel
-                AnchorSideLeft.Control = lblArchiveMove
-                AnchorSideTop.Control = edtArchiveMove
+              object lblArchiveSelfExtract: TLabel
+                AnchorSideLeft.Control = lblArchiveMultiVolume
+                AnchorSideTop.Control = edtArchiveMultiVolume
                 AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = lblArchiveMove
+                AnchorSideRight.Control = lblArchiveMultiVolume
                 AnchorSideRight.Side = asrBottom
                 Left = 10
                 Height = 14
@@ -4179,14 +4179,14 @@ object frmOptions: TfrmOptions
                 Width = 530
                 Anchors = [akTop, akLeft, akRight]
                 BorderSpacing.Top = 4
-                Caption = 'Encrypt:'
+                Caption = 'Create self extracting archive:'
                 ParentColor = False
               end
-              object edtArchiveEncrypt: TEdit
-                AnchorSideLeft.Control = lblArchiveMove
-                AnchorSideTop.Control = lblArchiveEncrypt
+              object edtArchiveSelfExtract: TEdit
+                AnchorSideLeft.Control = lblArchiveMultiVolume
+                AnchorSideTop.Control = lblArchiveSelfExtract
                 AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = lblArchiveMove
+                AnchorSideRight.Control = lblArchiveMultiVolume
                 AnchorSideRight.Side = asrBottom
                 Left = 10
                 Height = 21
