@@ -106,12 +106,12 @@ begin
           if Files.Count = 1 then
             begin
               edtPackCmd.Text := TargetArchivePath + Files[0].Name;
-              edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, FArchiveType);
+              edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, ExtensionSeparator + FArchiveType);
             end
           else
           (* if some files selected *)
             begin
-              edtPackCmd.Text := TargetArchivePath + MakeFileName(Files.Path, 'archive') + '.' + FArchiveType;
+              edtPackCmd.Text := TargetArchivePath + MakeFileName(Files.Path, 'archive') + ExtensionSeparator + FArchiveType;
             end
         else  // pack in exsists archive
         begin
@@ -261,7 +261,7 @@ begin
   if cbCreateSFX.Checked then
     edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, GetSfxExt)
   else
-    edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + FArchiveType);
+    edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, ExtensionSeparator + FArchiveType);
 end;
 
 procedure TfrmPackDlg.cbOtherPluginsChange(Sender: TObject);
@@ -269,7 +269,7 @@ begin
   if cbOtherPlugins.Checked then
     begin
       FArchiveType:= cbPackerList.Text;
-      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + FArchiveType);
+      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, ExtensionSeparator + FArchiveType);
       rgPacker.ItemIndex := -1;
     end
   else
@@ -290,7 +290,7 @@ begin
   if rgPacker.ItemIndex >= 0 then
     begin
       FArchiveType:= rgPacker.Items[rgPacker.ItemIndex];
-      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + FArchiveType);
+      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, ExtensionSeparator + FArchiveType);
       cbOtherPlugins.Checked := False;
     end;
 end;
