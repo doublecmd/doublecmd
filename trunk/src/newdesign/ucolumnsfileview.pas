@@ -3920,23 +3920,24 @@ begin
           MouseToCell(X, Y, iCol, iRow);
           if (iRow <> HintRowIndex) and (iRow >= FixedRows) then
             begin
-              aRect:= CellRect(0, iRow);
               HintRowIndex:= iRow;
               Application.CancelHint;
               Self.Hint:= EmptyStr; // don't show by default
               with (Parent as TColumnsFileView) do
-              begin
-                AFile := FFiles[HintRowIndex - FixedRows];
-                iCol:= aRect.Right - aRect.Left - 8;
-                if gShowIcons <> sim_none then
-                  Dec(iCol, gIconsSize);
-                if iCol < Self.Canvas.TextWidth(AFile.TheFile.Name) then // with file name
-                    Self.Hint:= AFile.TheFile.Name
-                else if (stm_only_large_name in gShowToolTipMode) then // don't show
-                  Exit
-                else if not AFile.TheFile.IsDirectory then // without name
-                  Self.Hint:= #32;
-              end;
+                if InRange(HintRowIndex - FixedRows, 0, FFiles.Count - 1) then
+                begin
+                  AFile := FFiles[HintRowIndex - FixedRows];
+                  aRect:= CellRect(0, HintRowIndex);
+                  iCol:= aRect.Right - aRect.Left - 8;
+                  if gShowIcons <> sim_none then
+                    Dec(iCol, gIconsSize);
+                  if iCol < Self.Canvas.TextWidth(AFile.TheFile.Name) then // with file name
+                      Self.Hint:= AFile.TheFile.Name
+                  else if (stm_only_large_name in gShowToolTipMode) then // don't show
+                    Exit
+                  else if not AFile.TheFile.IsDirectory then // without name
+                    Self.Hint:= #32;
+                end;
             end;
         end
       else
