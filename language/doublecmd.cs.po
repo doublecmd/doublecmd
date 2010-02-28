@@ -2884,16 +2884,17 @@ msgstr ""
 msgid "&Ignore (don't show) the following files and folders:"
 msgstr ""
 
-#: TFRMOPTIONS.CHKMULTIARCCONSOLEOUTPUT.CAPTION
-msgid "Show console output"
-msgstr ""
-
 #: TFRMOPTIONS.CHKMULTIARCDEBUG.CAPTION
 msgid "Debug mode"
 msgstr ""
 
 #: TFRMOPTIONS.CHKMULTIARCENABLED.CAPTION
 msgid "Enabled"
+msgstr ""
+
+#: TFRMOPTIONS.CHKMULTIARCOUTPUT.CAPTION
+msgctxt "TFRMOPTIONS.CHKMULTIARCOUTPUT.CAPTION"
+msgid "Show console output"
 msgstr ""
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
@@ -3008,10 +3009,6 @@ msgstr ""
 msgid "Delete:"
 msgstr ""
 
-#: TFRMOPTIONS.LBLARCHIVEENCRYPT.CAPTION
-msgid "Encrypt:"
-msgstr ""
-
 #: TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION
 msgctxt "TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION"
 msgid "Extension:"
@@ -3037,12 +3034,16 @@ msgstr ""
 msgid "Listing start (optional):"
 msgstr ""
 
-#: TFRMOPTIONS.LBLARCHIVEMOVE.CAPTION
-msgid "Move:"
+#: TFRMOPTIONS.LBLARCHIVEMULTIVOLUME.CAPTION
+msgid "Create multivolume archive:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLARCHIVER.CAPTION
 msgid "Archiver:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVESELFEXTRACT.CAPTION
+msgid "Create self extracting archive:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLARCHIVETEST.CAPTION
@@ -4172,6 +4173,10 @@ msgstr "Vymazat vybrané \"%s\"?"
 msgid "Delete selected \"%s\" into trash can?"
 msgstr "Přesunout vybrané \"%s\" do koše?"
 
+#: ulng.rsmsgdeltotrashforce
+msgid "Can not delete \"%s\" to trash! Delete directly?"
+msgstr ""
+
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "Disk není dostupný"
@@ -4421,6 +4426,10 @@ msgstr "Není implementováno."
 msgid "Password:"
 msgstr ""
 
+#: ulng.rsmsgpasswordenter
+msgid "Please enter the password:"
+msgstr ""
+
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
 msgstr ""
@@ -4494,6 +4503,10 @@ msgstr ""
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "Název disku:"
+
+#: ulng.rsmsgvolumesizeenter
+msgid "Please enter the volume size:"
+msgstr ""
 
 #: ulng.rsmsgwipefldr
 #, fuzzy
@@ -4732,6 +4745,10 @@ msgstr "Levé tlačítko;Pravé tlačítko;"
 #: ulng.rsoptpagebypage
 msgid "Page by page"
 msgstr "Stranu po straně"
+
+#: ulng.rsoptpluginalreadyassigned
+msgid "Plugin %s is already assigned for the following extensions:"
+msgstr ""
 
 #: ulng.rsoptplugins
 msgctxt "ulng.rsoptplugins"

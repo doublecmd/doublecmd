@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-02-25 00:03+0300\n"
+"PO-Revision-Date: 2010-02-28 15:57+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -271,7 +271,7 @@ msgstr "Отмена"
 #: TFRMCHECKSUMCALC.BTNOK.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
-msgstr ""
+msgstr "&ОК"
 
 #: TFRMCHECKSUMCALC.CAPTION
 msgctxt "TFRMCHECKSUMCALC.CAPTION"
@@ -2863,10 +2863,6 @@ msgstr "Растягивать колонки на всю ширину пане�
 msgid "&Ignore (don't show) the following files and folders:"
 msgstr "&Исключить (не показывать) следующие файлы и каталоги:"
 
-#: TFRMOPTIONS.CHKMULTIARCCONSOLEOUTPUT.CAPTION
-msgid "Show console output"
-msgstr ""
-
 #: TFRMOPTIONS.CHKMULTIARCDEBUG.CAPTION
 msgid "Debug mode"
 msgstr "Режим отладки"
@@ -2874,6 +2870,11 @@ msgstr "Режим отладки"
 #: TFRMOPTIONS.CHKMULTIARCENABLED.CAPTION
 msgid "Enabled"
 msgstr "Включен"
+
+#: TFRMOPTIONS.CHKMULTIARCOUTPUT.CAPTION
+msgctxt "TFRMOPTIONS.CHKMULTIARCOUTPUT.CAPTION"
+msgid "Show console output"
+msgstr ""
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
@@ -2987,10 +2988,6 @@ msgstr "Добавить:"
 msgid "Delete:"
 msgstr "Удалить:"
 
-#: TFRMOPTIONS.LBLARCHIVEENCRYPT.CAPTION
-msgid "Encrypt:"
-msgstr "Шифровать:"
-
 #: TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION
 msgctxt "TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION"
 msgid "Extension:"
@@ -3016,13 +3013,17 @@ msgstr "Формат списка:"
 msgid "Listing start (optional):"
 msgstr ""
 
-#: TFRMOPTIONS.LBLARCHIVEMOVE.CAPTION
-msgid "Move:"
-msgstr "Переместить:"
+#: TFRMOPTIONS.LBLARCHIVEMULTIVOLUME.CAPTION
+msgid "Create multivolume archive:"
+msgstr "Создать многотомный архив:"
 
 #: TFRMOPTIONS.LBLARCHIVER.CAPTION
 msgid "Archiver:"
 msgstr "Архиватор:"
+
+#: TFRMOPTIONS.LBLARCHIVESELFEXTRACT.CAPTION
+msgid "Create self extracting archive:"
+msgstr "Создать самораспаковывающийся архив:"
 
 #: TFRMOPTIONS.LBLARCHIVETEST.CAPTION
 msgid "Test:"
@@ -4145,6 +4146,10 @@ msgstr "Удалить выбранный \"%s\"?"
 msgid "Delete selected \"%s\" into trash can?"
 msgstr "Удалить выбранный \"%s\" в корзину?"
 
+#: ulng.rsmsgdeltotrashforce
+msgid "Can not delete \"%s\" to trash! Delete directly?"
+msgstr ""
+
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
 msgstr "Диск недоступен"
@@ -4393,6 +4398,10 @@ msgstr "Не реализовано."
 msgid "Password:"
 msgstr "Пароль:"
 
+#: ulng.rsmsgpasswordenter
+msgid "Please enter the password:"
+msgstr "Введите пароль:"
+
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
 msgstr "Пароль (Firewall):"
@@ -4465,6 +4474,10 @@ msgstr "Имя пользователя (Firewall):"
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "Метка диска:"
+
+#: ulng.rsmsgvolumesizeenter
+msgid "Please enter the volume size:"
+msgstr "Введите размер тома:"
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
@@ -4697,6 +4710,10 @@ msgstr "Левая клавиша;Правая клавиша;"
 #: ulng.rsoptpagebypage
 msgid "Page by page"
 msgstr "Постранично"
+
+#: ulng.rsoptpluginalreadyassigned
+msgid "Plugin %s is already assigned for the following extensions:"
+msgstr ""
 
 #: ulng.rsoptplugins
 msgctxt "ulng.rsoptplugins"
