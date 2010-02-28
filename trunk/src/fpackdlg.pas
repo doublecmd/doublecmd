@@ -55,12 +55,14 @@ type
     rgPacker: TRadioGroup;
     pnlOptions: TPanel;
     procedure btnConfigClick(Sender: TObject);
+    procedure cbCreateSFXChange(Sender: TObject);
     procedure cbOtherPluginsChange(Sender: TObject);
     procedure edtPackCmdAcceptDirectory(Sender: TObject; var Value: String);
     procedure FormShow(Sender: TObject);
     procedure arbChange(Sender: TObject);
 
   private
+    FArchiveType: String;
     FArchiveTypeCount: Integer;
     FExistsArchive : Boolean;
     procedure AddArchiveType(const FileExt, ArcType: UTF8String);
@@ -79,7 +81,7 @@ type
 implementation
 
 uses
-  WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation,
+  WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation, uLng,
   uOperationsManager, fFileOpDlg, uArchiveFileSourceUtil, uMultiArchiveFileSource;
 
 function ShowPackDlg(const SourceFileSource: IFileSource;
@@ -98,17 +100,18 @@ begin
   try
     with TfrmPackDlg.Create(nil) do
       begin
+        FArchiveType:= 'none';
         if bNewArchive then  // create new archive
           (* if one file selected *)
           if Files.Count = 1 then
             begin
               edtPackCmd.Text := TargetArchivePath + Files[0].Name;
-              edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.none');
+              edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, FArchiveType);
             end
           else
           (* if some files selected *)
             begin
-              edtPackCmd.Text := TargetArchivePath + MakeFileName(Files.Path, 'archive') + '.none';
+              edtPackCmd.Text := TargetArchivePath + MakeFileName(Files.Path, 'archive') + '.' + FArchiveType;
             end
         else  // pack in exsists archive
         begin
@@ -134,19 +137,19 @@ begin
               // Create a new target file source.
 
               // Check if there is a ArchiveFileSource for possible archive.
-              NewTargetFileSource := GetArchiveFileSource(edtPackCmd.Text);
+              NewTargetFileSource := GetArchiveFileSource(edtPackCmd.Text, FArchiveType);
             end;
 
             if Assigned(NewTargetFileSource) then
               begin
+                // Set flags according to user selection in the pack dialog.
+                aFlags := 0;
+                if cbMoveToArchive.Checked then aFlags := aFlags or PK_PACK_MOVE_FILES;
+                if cbStoredir.Checked then aFlags := aFlags or PK_PACK_SAVE_PATHS;
+                if cbEncrypt.Checked then aFlags := aFlags or PK_PACK_ENCRYPT;
+
                 if NewTargetFileSource.IsInterface(IWcxArchiveFileSource) then
                   begin
-                    // Set flags according to user selection in the pack dialog.
-                    aFlags := 0;
-                    if cbMoveToArchive.Checked then aFlags := aFlags or PK_PACK_MOVE_FILES;
-                    if cbStoredir.Checked then aFlags := aFlags or PK_PACK_SAVE_PATHS;
-                    if cbEncrypt.Checked then aFlags := aFlags or PK_PACK_ENCRYPT;
-
                     with NewTargetFileSource as IWcxArchiveFileSource do
                     begin
                       PluginFlags := aFlags;
@@ -157,13 +160,14 @@ begin
                     with NewTargetFileSource as IMultiArchiveFileSource do
                     begin
                       if cbEncrypt.Checked then
-                        Password:= InputBox(Caption, 'Please enter the password:', EmptyStr)
+                        Password:= InputBox(Caption, rsMsgPasswordEnter, EmptyStr)
                       else
                         Password:= EmptyStr;
                       if cbMultivolume.Checked then
-                        VolumeSize:= StrToIntDef(InputBox(Caption, 'Please enter the volume size:', EmptyStr), 0)
+                        VolumeSize:= StrToIntDef(InputBox(Caption, rsMsgVolumeSizeEnter, EmptyStr), 0)
                       else
                         VolumeSize:= 0;
+                      ArchiveFlags:= aFlags;
                     end;
                   end;
 
@@ -202,9 +206,7 @@ var
  sExt : String;
 begin
   FArchiveTypeCount := 0;
-  sExt := ExtractFileExt(edtPackCmd.Text);
-  Delete(sExt, 1, 1);  // delete a dot
-  FExistsArchive := (sExt <> 'none');
+  FExistsArchive := (FArchiveType <> 'none');
 
   // WCX plugins
   for I:=0 to gWCXPlugins.Count - 1 do
@@ -254,11 +256,20 @@ begin
   end;
 end;
 
+procedure TfrmPackDlg.cbCreateSFXChange(Sender: TObject);
+begin
+  if cbCreateSFX.Checked then
+    edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + 'exe')
+  else
+    edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + FArchiveType);
+end;
+
 procedure TfrmPackDlg.cbOtherPluginsChange(Sender: TObject);
 begin
   if cbOtherPlugins.Checked then
     begin
-      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + cbPackerList.Text);
+      FArchiveType:= cbPackerList.Text;
+      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + FArchiveType);
       rgPacker.ItemIndex := -1;
     end
   else
@@ -278,7 +289,8 @@ procedure TfrmPackDlg.arbChange(Sender: TObject);
 begin
   if rgPacker.ItemIndex >= 0 then
     begin
-      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + rgPacker.Items[rgPacker.ItemIndex]);
+      FArchiveType:= rgPacker.Items[rgPacker.ItemIndex];
+      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, '.' + FArchiveType);
       cbOtherPlugins.Checked := False;
     end;
 end;

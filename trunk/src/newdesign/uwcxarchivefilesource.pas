@@ -99,6 +99,7 @@ type
                                     BasePath, Verb: String): TFileSourceOperation; override;
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation; override;
 
+    class function CreateByArchiveType(anArchiveFileName, anArchiveType: String): IWcxArchiveFileSource;
     class function CreateByArchiveName(anArchiveFileName: String): IWcxArchiveFileSource;
 
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; override;
@@ -149,22 +150,17 @@ var
   WcxConnectionsLock: TCriticalSection; // used to synchronize access to connections
   WcxOperationsQueueLock: TCriticalSection; // used to synchronize access to operations queue
 
-class function TWcxArchiveFileSource.CreateByArchiveName(anArchiveFileName: String): IWcxArchiveFileSource;
+class function TWcxArchiveFileSource.CreateByArchiveType(anArchiveFileName, anArchiveType: String): IWcxArchiveFileSource;
 var
   i: Integer;
   ModuleFileName: String;
-  sExtension: String;
 begin
   Result := nil;
 
   // Check if there is a registered plugin for the extension of the archive file name.
   for i := 0 to gWCXPlugins.Count - 1 do
   begin
-    sExtension := ExtractFileExt(anArchiveFileName);
-    if sExtension <> '' then   // delete '.' at the front
-      Delete(sExtension, 1, 1);
-
-    if SameText(sExtension, gWCXPlugins.Ext[i]) and (gWCXPlugins.Enabled[i]) then
+    if SameText(anArchiveType, gWCXPlugins.Ext[i]) and (gWCXPlugins.Enabled[i]) then
     begin
       ModuleFileName := GetCmdDirFromEnvVar(gWCXPlugins.FileName[I]);
 
@@ -176,6 +172,19 @@ begin
       break;
     end;
   end;
+end;
+
+class function TWcxArchiveFileSource.CreateByArchiveName(anArchiveFileName: String): IWcxArchiveFileSource;
+var
+  sExtension: String;
+begin
+  Result := nil;
+
+  sExtension := ExtractFileExt(anArchiveFileName);
+  if sExtension <> '' then   // delete '.' at the front
+    Delete(sExtension, 1, 1);
+
+  Result:= CreateByArchiveType(anArchiveFileName, sExtension);
 end;
 
 // ----------------------------------------------------------------------------

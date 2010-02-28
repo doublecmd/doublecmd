@@ -10,7 +10,7 @@ uses
  uFile,
  uArchiveFileSource;
 
-function GetArchiveFileSource(anArchiveFileName: String): IArchiveFileSource;
+function GetArchiveFileSource(anArchiveFileName: String; anArchiveType: String = ''): IArchiveFileSource;
 
 function TestArchive(aFileView: TFileView; aFiles: TFiles): Boolean;
 
@@ -29,21 +29,28 @@ uses
   uFileSourceOperationTypes,
   uOperationsManager;
 
-function GetArchiveFileSource(anArchiveFileName: String): IArchiveFileSource;
+function GetArchiveFileSource(anArchiveFileName: String; anArchiveType: String): IArchiveFileSource;
 begin
   Result:= nil;
+
+  if (anArchiveType = EmptyStr) then
+  begin
+    anArchiveType := ExtractFileExt(anArchiveFileName);
+    if anArchiveType <> '' then   // delete '.' at the front
+      Delete(anArchiveType, 1, 1);
+  end;
 
   // Check if there is a registered WCX plugin for possible archive.
   Result := FileSourceManager.Find(TWcxArchiveFileSource, anArchiveFileName) as IArchiveFileSource;
   if not Assigned(Result) then
-    Result := TWcxArchiveFileSource.CreateByArchiveName(anArchiveFileName);
+    Result := TWcxArchiveFileSource.CreateByArchiveType(anArchiveFileName, anArchiveType);
 
   // Check if there is a registered MultiArc addon for possible archive.
   if not Assigned(Result) then
     begin
       Result := FileSourceManager.Find(TMultiArchiveFileSource, anArchiveFileName) as IArchiveFileSource;
       if not Assigned(Result) then
-        Result := TMultiArchiveFileSource.CreateByArchiveName(anArchiveFileName);
+        Result := TMultiArchiveFileSource.CreateByArchiveType(anArchiveFileName, anArchiveType);
     end;
 end;
 
