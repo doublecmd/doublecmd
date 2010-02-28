@@ -80,7 +80,7 @@ implementation
 
 uses
   WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation,
-  uOperationsManager, fFileOpDlg, uArchiveFileSourceUtil;
+  uOperationsManager, fFileOpDlg, uArchiveFileSourceUtil, uMultiArchiveFileSource;
 
 function ShowPackDlg(const SourceFileSource: IFileSource;
                      const TargetFileSource: IArchiveFileSource;
@@ -140,18 +140,32 @@ begin
             if Assigned(NewTargetFileSource) then
               begin
                 if NewTargetFileSource.IsInterface(IWcxArchiveFileSource) then
-                begin
-                  // Set flags according to user selection in the pack dialog.
-                  aFlags := 0;
-                  if cbMoveToArchive.Checked then aFlags := aFlags or PK_PACK_MOVE_FILES;
-                  if cbStoredir.Checked then aFlags := aFlags or PK_PACK_SAVE_PATHS;
-                  if cbEncrypt.Checked then aFlags := aFlags or PK_PACK_ENCRYPT;
-
-                  with NewTargetFileSource as IWcxArchiveFileSource do
                   begin
-                    PluginFlags := aFlags;
+                    // Set flags according to user selection in the pack dialog.
+                    aFlags := 0;
+                    if cbMoveToArchive.Checked then aFlags := aFlags or PK_PACK_MOVE_FILES;
+                    if cbStoredir.Checked then aFlags := aFlags or PK_PACK_SAVE_PATHS;
+                    if cbEncrypt.Checked then aFlags := aFlags or PK_PACK_ENCRYPT;
+
+                    with NewTargetFileSource as IWcxArchiveFileSource do
+                    begin
+                      PluginFlags := aFlags;
+                    end;
+                  end
+                else if NewTargetFileSource.IsInterface(IMultiArchiveFileSource) then
+                  begin
+                    with NewTargetFileSource as IMultiArchiveFileSource do
+                    begin
+                      if cbEncrypt.Checked then
+                        Password:= InputBox(Caption, 'Please enter the password:', EmptyStr)
+                      else
+                        Password:= EmptyStr;
+                      if cbMultivolume.Checked then
+                        VolumeSize:= StrToIntDef(InputBox(Caption, 'Please enter the volume size:', EmptyStr), 0)
+                      else
+                        VolumeSize:= 0;
+                    end;
                   end;
-                end;
 
                 Operation := NewTargetFileSource.CreateCopyInOperation(
                                  SourceFileSource,
