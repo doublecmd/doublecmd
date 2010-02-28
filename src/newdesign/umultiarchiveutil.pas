@@ -63,7 +63,9 @@ function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
                                aFiles: TFiles = nil;
                                sFileName: UTF8String = '';
                                aDestPath: UTF8String = '';
-                               sTempFile: UTF8String = ''): string;
+                               sTempFile: UTF8String = '';
+                               sPassword: UTF8String = '';
+                               iVolumeSize: Int64 = 0): string;
 
 implementation
 
@@ -284,11 +286,14 @@ function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
                                aFiles: TFiles;
                                sFileName: UTF8String;
                                aDestPath: UTF8String;
-                               sTempFile: UTF8String): string;
+                               sTempFile: UTF8String;
+                               sPassword: UTF8String;
+                               iVolumeSize: Int64): string;
 type
   TFunctType = (ftNone, ftArchiverLongName, ftArchiverShortName,
     ftArchiveLongName, ftArchiveShortName,
-    ftFileListLongName, ftFileListShortName, ftFileName, ftTargetArchiveDir, ftVolumeSize);
+    ftFileListLongName, ftFileListShortName, ftFileName, ftTargetArchiveDir,
+    ftVolumeSize, ftPassword);
   TStatePos = (spNone, spPercent, spFunction, spComplete);
   TFuncModifiers = set of (fmQuoteWithSpaces, fmQuoteAny, fmNameOnly,
     fmPathOnly, fmUTF8, fmAnsi);
@@ -369,6 +374,15 @@ var
         Result:= BuildName(sFileName);
       ftTargetArchiveDir:
         Result := BuildName(aDestPath);
+      ftVolumeSize:
+        begin
+          if iVolumeSize > 0 then
+            Result:= IntToStr(iVolumeSize)
+          else
+            Result:= EmptyStr;
+        end;
+      ftPassword:
+        Result:= sPassword;
       else
         Exit('');
     end;
@@ -398,6 +412,13 @@ var
     parseStartIndex := index;
   end;
 
+  procedure AddBrackedText(limit: integer);
+  begin
+    // Copy [state.bracketStartIndex + 1 .. limit - 1].
+    if limit > state.bracketStartIndex then
+      sOutput := sOutput + Copy(sCmd, state.bracketStartIndex + 1, limit - state.bracketStartIndex - 1);
+  end;
+
   procedure DoFunction;
   var
     aOutput: UTF8String;
@@ -410,7 +431,12 @@ var
     else
       begin
         if (state.bracketStartIndex <> 0) then
-          AddParsedText(state.bracketStartIndex)
+          begin
+            // add text before bracket
+            AddParsedText(state.bracketStartIndex);
+            //add text after bracket
+            AddBrackedText(state.functStartIndex);
+          end
         else
           AddParsedText(state.functStartIndex);
         sOutput := sOutput + aOutput;
@@ -486,6 +512,11 @@ begin
             'V':
             begin
               state.funct := ftVolumeSize;
+              state.pos := spFunction;
+            end;
+            'W':
+            begin
+              state.funct := ftPassword;
               state.pos := spFunction;
             end;
             else

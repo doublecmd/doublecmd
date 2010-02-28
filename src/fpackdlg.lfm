@@ -222,7 +222,6 @@ object frmPackDlg: TfrmPackDlg
       Top = 34
       Width = 260
       Caption = '&Multiple disk archive'
-      Enabled = False
       TabOrder = 2
     end
     object cbMoveToArchive: TCheckBox

@@ -109,7 +109,13 @@ begin
   // set current path to file list root
   mbSetCurrentDir(sRootPath);
   ChangeFileListRoot(EmptyStr, FFullFilesTree);
-  sCommandLine:= MultiArcItem.FAdd;
+  with FMultiArchiveFileSource do
+  begin
+    if (VolumeSize <> 0) and (MultiArcItem.FAddMultiVolume <> EmptyStr) then
+      sCommandLine:= MultiArcItem.FAddMultiVolume
+    else
+      sCommandLine:= MultiArcItem.FAdd;
+  end;
   // Get maximum acceptable command errorlevel
   FErrorLevel:= ExtractErrorLevel(sCommandLine);
   if Pos('%F', sCommandLine) <> 0 then // pack file by file
@@ -125,7 +131,9 @@ begin
                                            nil,
                                            aFile.FullPath,
                                            sDestPath,
-                                           FTempFile
+                                           FTempFile,
+                                           FMultiArchiveFileSource.Password,
+                                           FMultiArchiveFileSource.VolumeSize
                                            );
       OnReadLn(sCommandLine);
 
@@ -145,7 +153,9 @@ begin
                                            FFullFilesTree,
                                            EmptyStr,
                                            sDestPath,
-                                           FTempFile
+                                           FTempFile,
+                                           FMultiArchiveFileSource.Password,
+                                           FMultiArchiveFileSource.VolumeSize
                                            );
       OnReadLn(sCommandLine);
 
