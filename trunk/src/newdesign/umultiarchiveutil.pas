@@ -288,7 +288,7 @@ function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
 type
   TFunctType = (ftNone, ftArchiverLongName, ftArchiverShortName,
     ftArchiveLongName, ftArchiveShortName,
-    ftFileListLongName, ftFileListShortName, ftFileName, ftTargetArchiveDir);
+    ftFileListLongName, ftFileListShortName, ftFileName, ftTargetArchiveDir, ftVolumeSize);
   TStatePos = (spNone, spPercent, spFunction, spComplete);
   TFuncModifiers = set of (fmQuoteWithSpaces, fmQuoteAny, fmNameOnly,
     fmPathOnly, fmUTF8, fmAnsi);
@@ -481,6 +481,11 @@ begin
             'R':
             begin
               state.funct := ftTargetArchiveDir;
+              state.pos := spFunction;
+            end;
+            'V':
+            begin
+              state.funct := ftVolumeSize;
               state.pos := spFunction;
             end;
             else

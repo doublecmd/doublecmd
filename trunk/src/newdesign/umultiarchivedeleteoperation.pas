@@ -186,7 +186,7 @@ end;
 procedure TMultiArchiveDeleteOperation.OnReadLn(str: string);
 begin
   with FMultiArchiveFileSource.MultiArcItem do
-  if FConsoleOutput or FDebug then
+  if FOutput or FDebug then
     logWrite(Thread, str, lmtInfo, True, False);
 end;
 
