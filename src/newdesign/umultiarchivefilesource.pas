@@ -18,8 +18,10 @@ type
     ['{71BF41D3-1E40-4E84-83BB-B6D3E0DEB6FC}']
 
     function GetArcFileList: TObjectList;
+    function GetArchiveFlags: PtrInt;    
     function GetPassword: UTF8String;
     function GetVolumeSize: Int64;
+    procedure SetArchiveFlags(NewArchiveFlags: PtrInt);    
     procedure SetPassword(const AValue: UTF8String);
     procedure SetVolumeSize(const AValue: Int64);
     function GetMultiArcItem: TMultiArcItem;
@@ -30,6 +32,7 @@ type
                            out FilesCount: Int64; out FilesSize: Int64);
 
     property ArchiveFileList: TObjectList read GetArcFileList;
+    property ArchiveFlags: PtrInt read GetArchiveFlags write SetArchiveFlags;    
     property Password: UTF8String read GetPassword write SetPassword;
     property VolumeSize: Int64 read GetVolumeSize write SetVolumeSize;
     property MultiArcItem: TMultiArcItem read GetMultiArcItem;
@@ -40,6 +43,7 @@ type
   TMultiArchiveFileSource = class(TArchiveFileSource, IMultiArchiveFileSource)
   private
     FOutputParser: TOutputParser;
+    FArchiveFlags: PtrInt;
     FPassword: UTF8String;
     FVolumeSize: Int64;
     FArcFileList : TObjectList;
@@ -48,6 +52,7 @@ type
     FExistsDirList : TStringHashList;
 
     function GetMultiArcItem: TMultiArcItem;
+    function GetArchiveFlags: PtrInt;        
     function GetPassword: UTF8String;
     function GetVolumeSize: Int64;
     procedure OnGetArchiveItem(ArchiveItem: TArchiveItem);
@@ -55,6 +60,7 @@ type
     function ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
 
     function GetArcFileList: TObjectList;
+    procedure SetArchiveFlags(NewArchiveFlags: PtrInt);      
     procedure SetPassword(const AValue: UTF8String);
     procedure SetVolumeSize(const AValue: Int64);
 
@@ -104,6 +110,7 @@ type
     class function CreateByArchiveName(anArchiveFileName: String): IMultiArchiveFileSource;
 
     property ArchiveFileList: TObjectList read GetArcFileList;
+    property ArchiveFlags: PtrInt read GetArchiveFlags write SetArchiveFlags;    
     property Password: UTF8String read GetPassword write SetPassword;
     property VolumeSize: Int64 read GetVolumeSize write SetVolumeSize;
     property MultiArcItem: TMultiArcItem read GetMultiArcItem;
@@ -231,6 +238,16 @@ end;
 function TMultiArchiveFileSource.GetArcFileList: TObjectList;
 begin
   Result := FArcFileList;
+end;
+
+function TMultiArchiveFileSource.GetArchiveFlags: PtrInt;
+begin
+  Result := FArchiveFlags;
+end;
+
+procedure TMultiArchiveFileSource.SetArchiveFlags(NewArchiveFlags: PtrInt);
+begin
+  FArchiveFlags := NewArchiveFlags;
 end;
 
 procedure TMultiArchiveFileSource.SetPassword(const AValue: UTF8String);
