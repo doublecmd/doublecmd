@@ -91,7 +91,6 @@ type
     actSetFileProperties: TAction;
     actQuickFilter: TAction;
     actRenameNoAsk: TAction;
-    actSortByColumn: TAction;
     actPanelsSplitterPerPos: TAction;
     actMinimize: TAction;
     actRightEqualLeft: TAction;

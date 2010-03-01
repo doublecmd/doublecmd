@@ -188,8 +188,6 @@ type
     FFileFilter: String;
 
     FColumnsSorting: TColumnsSortings;
-    FSortColumn: Integer;
-    FSortDirection: TSortDirection;
 
     pnlFooter: TPanel;
     lblInfo: TLabel;
@@ -291,7 +289,6 @@ type
        Translates file sorting by functions to sorting by columns.
     }
     procedure SetColumnsSorting(ASortings: TFileSortings);
-    procedure SortByColumn(iColumn: Integer);
 
     procedure ShowRenameFileEdit(const sFileName:String);
     procedure ShowPathEdit;
@@ -433,8 +430,6 @@ type
     procedure cm_QuickSearch(param: string='');
     procedure cm_QuickFilter(param: string='');
     procedure cm_Open(param: string='');
-    procedure cm_ReverseOrder(param:string);
-    procedure cm_SortByColumn(param: string='');
     procedure cm_CountDirContent(param: string='');
     procedure cm_RenameOnly(param: string='');
     procedure cm_ContextMenu(param: string='');
@@ -1427,24 +1422,6 @@ end;
 procedure TColumnsFileView.UpdatePathLabel;
 begin
   lblPath.Caption := MinimizeFilePath(CurrentPath, lblPath.Canvas, lblPath.Width);
-end;
-
-procedure TColumnsFileView.SortByColumn(iColumn: Integer);
-var
-  ColumnsClass: TPanelColumnsClass;
-begin
-  ColumnsClass := GetColumnsClass;
-
-  if (iColumn >= 0) and (iColumn < ColumnsClass.ColumnsCount) then
-  begin
-    FColumnsSorting.Clear;
-    FColumnsSorting.AddSorting(iColumn, FSortDirection);
-    FSortColumn := iColumn;
-
-    inherited SetSorting(PrepareSortings);
-    Sort(FFileSourceFiles, Sorting);
-    ReDisplayFileList;
-  end;
 end;
 
 function TColumnsFileView.PrepareSortings: TFileSortings;
@@ -2617,9 +2594,6 @@ begin
   FUpdatingGrid := False;
 
   FColumnsSorting := nil;
-  // default to sorting by 0-th column
-  FSortColumn := 0;
-  FSortDirection := sdAscending;
 
   // -- other components
 
@@ -2836,8 +2810,6 @@ begin
       end;
 
       FColumnsSorting := Self.FColumnsSorting.Clone;
-      FSortColumn := Self.FSortColumn;
-      FSortDirection := Self.FSortDirection;
 
       ActiveColm := Self.ActiveColm;
       ActiveColmSlave := nil;    // set to nil because only used in preview?
@@ -3343,27 +3315,6 @@ procedure TColumnsFileView.cm_Open(param: string='');
 begin
   if Assigned(GetActiveItem) then
     ChooseFile(GetActiveItem);
-end;
-
-procedure TColumnsFileView.cm_ReverseOrder(param:string);
-begin
-  FSortDirection := ReverseSortDirection(FSortDirection);
-  SortByColumn(FSortColumn);
-end;
-
-procedure TColumnsFileView.cm_SortByColumn(param: string='');
-var
-  ColumnNumber: Integer;
-begin
-  if TryStrToInt(param, ColumnNumber) then
-  begin
-    if FSortColumn = ColumnNumber then
-      FSortDirection := ReverseSortDirection(FSortDirection)
-    else
-      FSortDirection := sdAscending;
-
-    SortByColumn(ColumnNumber);
-  end;
 end;
 
 procedure TColumnsFileView.cm_CountDirContent(param: string='');
@@ -4401,7 +4352,7 @@ begin
   FFileFilter       := AColumnsView.FileFilter;
   FCurrentPath      := AColumnsView.CurrentPath;
   FThread           := AColumnsView.FListFilesThread;
-  FSortings         := AColumnsView.Sorting;
+  FSortings         := CloneSortings(AColumnsView.Sorting);
 end;
 
 procedure TColumnsFileListBuilder.MakeFileSourceFileList(Params: Pointer);

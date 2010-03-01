@@ -1685,11 +1685,6 @@ object frmMain: TfrmMain
       Caption = 'Set splitter position'
       OnExecute = actExecute
     end
-    object actSortByColumn: TAction
-      Category = 'Show'
-      Caption = 'Sort by column'
-      OnExecute = actExecute
-    end
     object actDriveContextMenu: TAction
       Category = 'Commands'
       Caption = 'Drive context menu'

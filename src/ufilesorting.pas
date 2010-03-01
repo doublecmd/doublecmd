@@ -88,6 +88,11 @@ type
   }
   procedure AddSortingByNameIfNeeded(var FileSortings: TFileSortings);
 
+  {en
+     Creates a deep copy of sortings.
+  }
+  function CloneSortings(Sortings: TFileSortings): TFileSortings;
+
   function ICompareByDirectory(item1, item2: TFile; bSortNegative: Boolean):Integer;
   function ICompareByName(item1, item2: TFile; bSortNegative: Boolean):Integer;
   function ICompareByNameNoExt(item1, item2: TFile; bSortNegative: Boolean):Integer;
@@ -97,6 +102,7 @@ type
   function ICompareByAttr(item1, item2: TFile; bSortNegative: Boolean):Integer;
 
   function ReverseSortDirection(SortDirection: TSortDirection): TSortDirection;
+  function ReverseSortDirection(Sortings: TFileSortings): TFileSortings;
 
 implementation
 
@@ -211,6 +217,20 @@ begin
     AddSorting(FileSortings, fsfExtension, sdAscending);
   // else
   //   There is already a sorting by filename and extension.
+end;
+
+function CloneSortings(Sortings: TFileSortings): TFileSortings;
+var
+  i, j: Integer;
+begin
+  SetLength(Result, Length(Sortings));
+  for i := 0 to Length(Sortings) - 1 do
+  begin
+    SetLength(Result[i].SortFunctions, Length(Sortings[i].SortFunctions));
+    for j := 0 to Length(Sortings[i].SortFunctions) - 1 do
+      Result[i].SortFunctions[j] := Sortings[i].SortFunctions[j];
+    Result[i].SortDirection := Sortings[i].SortDirection;
+  end;
 end;
 
 function ICompareByDirectory(item1, item2: TFile; bSortNegative: Boolean):Integer;
@@ -367,6 +387,15 @@ begin
     sdDescending:
       Result := sdAscending;
   end;
+end;
+
+function ReverseSortDirection(Sortings: TFileSortings): TFileSortings;
+var
+  i: Integer;
+begin
+  Result := CloneSortings(Sortings);
+  for i := 0 to Length(Result) - 1 do
+    Result[i].SortDirection := ReverseSortDirection(Result[i].SortDirection);
 end;
 
 { TListSorter }
