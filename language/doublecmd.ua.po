@@ -3005,7 +3005,7 @@ msgstr "Початок списку (за бажанням)"
 
 #: TFRMOPTIONS.LBLARCHIVEMULTIVOLUME.CAPTION
 msgid "Create multivolume archive:"
-msgstr ""
+msgstr "Створити багатотомний архів:"
 
 #: TFRMOPTIONS.LBLARCHIVER.CAPTION
 msgid "Archiver:"
@@ -3013,7 +3013,7 @@ msgstr "Архіватор:"
 
 #: TFRMOPTIONS.LBLARCHIVESELFEXTRACT.CAPTION
 msgid "Create self extracting archive:"
-msgstr ""
+msgstr "Створити саморозпаковуючийся архів:"
 
 #: TFRMOPTIONS.LBLARCHIVETEST.CAPTION
 msgid "Test:"
@@ -4141,7 +4141,7 @@ msgstr "Видалити \"%s\" в смітник"
 
 #: ulng.rsmsgdeltotrashforce
 msgid "Can not delete \"%s\" to trash! Delete directly?"
-msgstr ""
+msgstr "Неможливо видалити \"%s\" у смітник! Видалити назавжди?"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
@@ -4393,7 +4393,7 @@ msgstr "Пароль"
 
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
-msgstr ""
+msgstr "Будь-ласка, введіть пароль:"
 
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
@@ -4470,7 +4470,7 @@ msgstr "Мітка диску:"
 
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
-msgstr ""
+msgstr "Будь-ласка, введіть розмір тому:"
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
@@ -4707,7 +4707,7 @@ msgstr "Посторінково"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
-msgstr ""
+msgstr "Плагін %s вже призначено для наступних розширень:"
 
 #: ulng.rsoptplugins
 msgctxt "ulng.rsoptplugins"
