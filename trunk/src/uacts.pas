@@ -127,7 +127,7 @@ const cf_Null=0;
    // 1. Global commands intended for the main application (cm_VisitHomePage,
    //    cm_About, cm_Exit, ...).
    //
-   // 2. Commands intended for file views (cm_QuickSearch, cm_SortByColumn, ...).
+   // 2. Commands intended for file views (cm_QuickSearch, cm_EditPath, etc.).
    //    Those commands are simply redirected to the currently active file view by calling:
    //       frmMain.ActiveFrame.ExecuteCommand(CommandName, param);
    //    If they are supported by the given file view they are executed there.
@@ -224,7 +224,6 @@ const cf_Null=0;
    procedure cm_SortByExt(param: string='');
    procedure cm_SortByName(param: string='');
    procedure cm_SortBySize(param: string='');
-   procedure cm_SortByColumn(param: string='');
    procedure cm_SymLink(param: string='');
    procedure cm_CopySamePanel(param: string='');
    procedure cm_DirHistory(param: string='');
@@ -2123,7 +2122,8 @@ end;
 // Uses to change sort direction when columns header is disabled
 procedure TActs.cm_ReverseOrder(param:string);
 begin
- frmMain.ActiveFrame.ExecuteCommand('cm_ReverseOrder', param);
+  with frmMain.ActiveFrame do
+    Sorting := ReverseSortDirection(Sorting);
 end;
 
 procedure TActs.cm_SortByName(param:string);
@@ -2165,13 +2165,6 @@ var
 begin
   AddSortFunction(FileFunctions, fsfAttr);
   DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
-end;
-
-// Parameters:
-// Number of the column to sort by.
-procedure TActs.cm_SortByColumn(param: string='');
-begin
-  frmMain.ActiveFrame.ExecuteCommand('cm_SortByColumn', param);
 end;
 
 procedure TActs.cm_MultiRename(param:string);

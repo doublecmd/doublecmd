@@ -331,7 +331,7 @@ begin
 
     AFileView.FFileSources.Assign(Self.FFileSources);
     AFileView.FCurrentPaths.Assign(Self.FCurrentPaths);
-    AFileView.FSortings := Self.FSortings;
+    AFileView.FSortings := CloneSortings(Self.FSortings);
   end;
 end;
 
@@ -382,7 +382,7 @@ end;
 
 procedure TFileView.SetSorting(NewSortings: TFileSortings);
 begin
-  FSortings := NewSortings;
+  FSortings := CloneSortings(NewSortings);
 end;
 
 procedure TFileView.StopBackgroundWork;
@@ -514,7 +514,7 @@ var
   FileListSorter: TListSorter;
   ASortingsCopy: TFileSortings;
 begin
-  ASortingsCopy := ASortings;
+  ASortingsCopy := CloneSortings(ASortings);
 
   // Add automatic sorting by name and/or extension if there wasn't any.
   AddSortingByNameIfNeeded(ASortingsCopy);
