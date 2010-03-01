@@ -417,7 +417,7 @@ begin
 
     SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgress(pbSecond, DoneBytes, TotalBytes);
-    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond));
+    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
 
@@ -436,7 +436,7 @@ begin
 
     SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgress(pbSecond, DoneBytes, TotalBytes);
-    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond));
+    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
 
@@ -453,7 +453,7 @@ begin
     lblFileNameFrom.Caption := CurrentFile;
 
     SetProgress(pbFirst, DoneFiles, TotalFiles);
-    SetSpeedAndTime(Operation, RemainingTime, IntToStr(FilesPerSecond));
+    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(FilesPerSecond, True));
   end;
 end;
 
@@ -471,7 +471,7 @@ begin
 
     SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgress(pbSecond, DoneBytes, TotalBytes);
-    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond));
+    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
 
@@ -489,7 +489,7 @@ begin
 
     SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgress(pbSecond, DoneBytes, TotalBytes);
-    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond));
+    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
 
@@ -508,7 +508,7 @@ begin
 
     SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgress(pbSecond, DoneBytes, TotalBytes);
-    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond));
+    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
 
