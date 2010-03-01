@@ -24,25 +24,23 @@ uses
 
 type
 
-  { Sorting }
+  { Columns sorting }
 
-  TFileListSortingColumn = record
-    iField : Integer;
+  PColumnsSorting = ^TColumnsSorting;
+  TColumnsSorting = record
+    Column : Integer;
     SortDirection : TSortDirection;
   end;
 
-  PFileListSortingColumn = ^TFileListSortingColumn;
-
-  TFileListSorting = class(TList)
+  PFileListSorting = ^TColumnsSortings;
+  TColumnsSortings = class(TList)
   public
     Destructor Destroy; override;
-    function Clone: TFileListSorting;
-    procedure AddSorting(iField : Integer; SortDirection : TSortDirection);
+    function Clone: TColumnsSortings;
+    procedure AddSorting(iColumn : Integer; SortDirection : TSortDirection);
     procedure Clear; override;
-    function GetSortingDirection(iField : Integer) : TSortDirection;
+    function GetSortingDirection(iColumn : Integer) : TSortDirection;
   end;
-
-  PFileListSorting = ^TFileListSorting;
 
   TFileListBuilderState = (rfsNone, rfsLoadingFiles, rfsLoadingIcons);
 
@@ -189,7 +187,7 @@ type
     fPrevious : Boolean;
     FFileFilter: String;
 
-    FSorting: TFileListSorting;
+    FColumnsSorting: TColumnsSortings;
     FSortColumn: Integer;
     FSortDirection: TSortDirection;
 
@@ -285,20 +283,14 @@ type
     procedure ReDisplayFileList;
 
     {en
-       Sorts files in FilesToSort using current sorting.
-       It must be called from main thread.
-    }
-    procedure Sort(FilesToSort: TFiles);
-    {en
-       Sorts files in FilesToSort using a previously prepared sorting.
-       This function may be called from a worker thread.
-    }
-    class procedure Sort(FilesToSort: TFiles; ASortings: TFileSortings); overload;
-    {en
        Prepares sortings for later use in Sort function.
        This function must be called from main thread.
     }
     function PrepareSortings: TFileSortings;
+    {en
+       Translates file sorting by functions to sorting by columns.
+    }
+    procedure SetColumnsSorting(ASortings: TFileSortings);
     procedure SortByColumn(iColumn: Integer);
 
     procedure ShowRenameFileEdit(const sFileName:String);
@@ -377,6 +369,7 @@ type
     function GetActiveFile: TFile; override;
     function GetDisplayedFiles: TFiles; override;
     function GetSelectedFiles: TFiles; override;
+    procedure SetSorting(NewSortings: TFileSortings); override;
 
     property LastActive: String read FLastActive write FLastActive;
 
@@ -603,6 +596,14 @@ begin
   end;
 end;
 
+procedure TColumnsFileView.SetSorting(NewSortings: TFileSortings);
+begin
+  SetColumnsSorting(NewSortings);
+  inherited SetSorting(PrepareSortings); // NewSortings
+  Sort(FFileSourceFiles, Sorting);
+  ReDisplayFileList;
+end;
+
 procedure TColumnsFileView.LoadConfiguration(Section: String; TabIndex: Integer);
 var
   ColumnsClass: TPanelColumnsClass;
@@ -617,7 +618,7 @@ begin
   ActiveColm := gIni.ReadString(Section, sIndex + '_columnsset', 'Default');
 
   // Load sorting options.
-  FSorting.Clear;
+  FColumnsSorting.Clear;
   ColumnsClass := GetColumnsClass;
   SortCount := gIni.ReadInteger(Section, sIndex + '_sortcount', 0);
   for i := 0 to SortCount - 1 do
@@ -626,14 +627,14 @@ begin
     if (SortColumn >= 0) and (SortColumn < ColumnsClass.ColumnsCount) then
     begin
       SortDirection := TSortDirection(gIni.ReadInteger(Section, sIndex + '_sortdirection' + IntToStr(i), Integer(sdNone)));
-      FSorting.AddSorting(SortColumn, SortDirection);
+      FColumnsSorting.AddSorting(SortColumn, SortDirection);
     end;
   end;
 end;
 
 procedure TColumnsFileView.SaveConfiguration(Section: String; TabIndex: Integer);
 var
-  SortingColumn: PFileListSortingColumn;
+  SortingColumn: PColumnsSorting;
   sIndex: String;
   i: Integer;
 begin
@@ -642,13 +643,13 @@ begin
   gIni.WriteString(Section, sIndex + '_columnsset', ActiveColm);
 
   // Save sorting options.
-  gIni.WriteInteger(Section, sIndex + '_sortcount', FSorting.Count);
-  for i := 0 to FSorting.Count - 1 do
+  gIni.WriteInteger(Section, sIndex + '_sortcount', FColumnsSorting.Count);
+  for i := 0 to FColumnsSorting.Count - 1 do
   begin
-    SortingColumn := PFileListSortingColumn(FSorting.Items[i]);
+    SortingColumn := PColumnsSorting(FColumnsSorting.Items[i]);
 
     gIni.WriteInteger(Section, sIndex + '_sortcolumn' + IntToStr(i),
-                      SortingColumn^.iField);
+                      SortingColumn^.Column);
     gIni.WriteInteger(Section, sIndex + '_sortdirection' + IntToStr(i),
                       Integer(SortingColumn^.SortDirection));
   end;
@@ -663,7 +664,7 @@ begin
   ActiveColm := AConfig.GetValue(ANode, 'ColumnsSet', 'Default');
 
   // Load sorting options.
-  FSorting.Clear;
+  FColumnsSorting.Clear;
   ColumnsClass := GetColumnsClass;
   ANode := ANode.FindNode('Sorting');
   if Assigned(ANode) then
@@ -677,7 +678,7 @@ begin
            (SortColumn >= 0) and (SortColumn < ColumnsClass.ColumnsCount) then
         begin
           SortDirection := TSortDirection(AConfig.GetValue(ANode, 'Direction', Integer(sdNone)));
-          FSorting.AddSorting(SortColumn, SortDirection);
+          FColumnsSorting.AddSorting(SortColumn, SortDirection);
         end
         else
           DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
@@ -689,7 +690,7 @@ end;
 
 procedure TColumnsFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
 var
-  SortingColumn: PFileListSortingColumn;
+  SortingColumn: PColumnsSorting;
   i: Integer;
   SubNode: TXmlNode;
 begin
@@ -698,11 +699,11 @@ begin
   AConfig.ClearNode(ANode);
 
   // Save sorting options.
-  for i := 0 to FSorting.Count - 1 do
+  for i := 0 to FColumnsSorting.Count - 1 do
   begin
-    SortingColumn := PFileListSortingColumn(FSorting.Items[i]);
+    SortingColumn := PColumnsSorting(FColumnsSorting.Items[i]);
     SubNode := AConfig.AddNode(ANode, 'Sort');
-    AConfig.AddValue(SubNode, 'Column', SortingColumn^.iField);
+    AConfig.AddValue(SubNode, 'Column', SortingColumn^.Column);
     AConfig.AddValue(SubNode, 'Direction', Integer(SortingColumn^.SortDirection));
   end;
 end;
@@ -1147,17 +1148,17 @@ begin
   ShiftState := GetKeyShiftState;
   if not ((ssShift in ShiftState) or (ssCtrl in ShiftState)) then
   begin
-    SortingDirection := FSorting.GetSortingDirection(Index);
+    SortingDirection := FColumnsSorting.GetSortingDirection(Index);
     if SortingDirection = sdNone then
       SortingDirection := sdAscending
     else
       SortingDirection := ReverseSortDirection(SortingDirection);
-    FSorting.Clear;
+    FColumnsSorting.Clear;
   end;
 
-  FSorting.AddSorting(Index, SortingDirection);
-  Sort(FFileSourceFiles);
-
+  FColumnsSorting.AddSorting(Index, SortingDirection);
+  inherited SetSorting(PrepareSortings);
+  Sort(FFileSourceFiles, Sorting);
   ReDisplayFileList;
 end;
 
@@ -1436,49 +1437,22 @@ begin
 
   if (iColumn >= 0) and (iColumn < ColumnsClass.ColumnsCount) then
   begin
-    FSorting.Clear;
-    FSorting.AddSorting(iColumn, FSortDirection);
+    FColumnsSorting.Clear;
+    FColumnsSorting.AddSorting(iColumn, FSortDirection);
     FSortColumn := iColumn;
-    Sort(FFileSourceFiles);
+
+    inherited SetSorting(PrepareSortings);
+    Sort(FFileSourceFiles, Sorting);
     ReDisplayFileList;
-  end;
-end;
-
-procedure TColumnsFileView.Sort(FilesToSort: TFiles);
-begin
-  if (not Assigned(FilesToSort)) or
-     (FilesToSort.Count = 0) then Exit;
-
-  Sort(FilesToSort, PrepareSortings);
-end;
-
-class procedure TColumnsFileView.Sort(FilesToSort: TFiles; ASortings: TFileSortings);
-var
-  FileListSorter: TListSorter;
-begin
-  if (not Assigned(FilesToSort)) or
-     (FilesToSort.Count = 0) or
-     (not Assigned(ASortings)) then Exit;
-
-  FileListSorter := TListSorter.Create(FilesToSort.List, ASortings);
-  try
-    FileListSorter.Sort;
-  finally
-    FreeAndNil(FileListSorter);
   end;
 end;
 
 function TColumnsFileView.PrepareSortings: TFileSortings;
 var
   ColumnsClass: TPanelColumnsClass;
-  i, j, sortingIndex : Integer;
-  pSortingColumn : PFileListSortingColumn;
+  i: Integer;
+  pSortingColumn : PColumnsSorting;
   Column: TPanelColumn;
-  bSortedByName: Boolean;
-  bSortedByExtension: Boolean;
-  FileSortings: TFileSortings;
-  TempSorting: TFileListSorting;
-  SortFunctions: TFileFunctions;
 begin
   Result := nil;
 
@@ -1486,85 +1460,62 @@ begin
   if ColumnsClass.ColumnsCount = 0 then
     Exit;
 
-  TempSorting := TFileListSorting.Create;
-  try
-    for i := 0 to FSorting.Count - 1 do
+  for i := 0 to FColumnsSorting.Count - 1 do
+  begin
+    pSortingColumn := PColumnsSorting(FColumnsSorting[i]);
+
+    if (pSortingColumn^.Column >= 0) and
+       (pSortingColumn^.Column < ColumnsClass.ColumnsCount) then
     begin
-      pSortingColumn := PFileListSortingColumn(FSorting[i]);
-      TempSorting.AddSorting(pSortingColumn^.iField, pSortingColumn^.SortDirection);
+      Column := ColumnsClass.GetColumnItem(pSortingColumn^.Column);
+      AddSorting(Result, Column.GetColumnFunctions, pSortingColumn^.SortDirection);
     end;
+  end;
+end;
 
-    bSortedByName := False;
-    bSortedByExtension := False;
+procedure TColumnsFileView.SetColumnsSorting(ASortings: TFileSortings);
 
-    SetLength(FileSortings, TempSorting.Count);
+var
+  Columns: TPanelColumnsClass;
 
-    sortingIndex := 0;
-    for i := 0 to TempSorting.Count - 1 do
+  function AddColumnsSorting(ASortFunction: TFileFunction; ASortDirection: TSortDirection): Boolean;
+  var
+    k, l: Integer;
+    ColumnFunctions: TFileFunctions;
+  begin
+    for k := 0 to Columns.Count - 1 do
     begin
-      pSortingColumn := PFileListSortingColumn(TempSorting[i]);
-
-      if (pSortingColumn^.iField >= 0) and
-         (pSortingColumn^.iField < ColumnsClass.ColumnsCount) then
-      begin
-        Column := ColumnsClass.GetColumnItem(pSortingColumn^.iField);
-        SortFunctions := Column.GetColumnFunctions;
-
-        // Check if each sort function is supported.
-        for j := 0 to Length(SortFunctions) - 1 do
-          if TFileFunctionToProperty[SortFunctions[j]] <= FileSource.GetSupportedFileProperties then
-            AddSortFunction(FileSortings[sortingIndex].SortFunctions, SortFunctions[j]);
-
-        if Length(FileSortings[sortingIndex].SortFunctions) > 0 then
+      ColumnFunctions := Columns.GetColumnItem(k).GetColumnFunctions;
+      for l := 0 to Length(ColumnFunctions) - 1 do
+        if ColumnFunctions[l] = ASortFunction then
         begin
-          FileSortings[sortingIndex].SortDirection := pSortingColumn^.SortDirection;
-
-          if HasSortFunction(FileSortings[sortingIndex].SortFunctions, fsfName) then
-          begin
-            bSortedByName := True;
-            bSortedByExtension := True;
-          end
-          else if HasSortFunction(FileSortings[sortingIndex].SortFunctions, fsfNameNoExtension)
-          then
-          begin
-            bSortedByName := True;
-          end
-          else if HasSortFunction(FileSortings[sortingIndex].SortFunctions, fsfExtension)
-          then
-          begin
-            bSortedByExtension := True;
-          end;
-
-          Inc(sortingIndex);
+          FColumnsSorting.AddSorting(k, ASortDirection);
+          Exit(True);
         end;
-      end
-      else
-        Raise Exception.Create('Invalid column number in sorting - fix me');
     end;
+    Result := False;
+  end;
 
-    SetLength(FileSortings, sortingIndex);
-
-    // Add automatic sorting by name and/or extension if there wasn't any.
-
-    if not bSortedByName then
+var
+  i, j: Integer;
+  Added: Boolean;
+begin
+  FColumnsSorting.Clear;
+  Columns := GetColumnsClass;
+  for i := 0 to Length(ASortings) - 1 do
+  begin
+    for j := 0 to Length(ASortings[i].SortFunctions) - 1 do
     begin
-      if not bSortedByExtension then
-        AddSorting(FileSortings, fsfName, sdAscending)
-      else
-        AddSorting(FileSortings, fsfNameNoExtension, sdAscending);
-    end
-    else
-    begin
-      if not bSortedByExtension then
-        AddSorting(FileSortings, fsfExtension, sdAscending);
-      // else
-      //   There is already a sorting by filename and extension.
+      // Search for the column containing the sort function and add sorting
+      // by that column. If function is Name and it is not found try searching
+      // for NameNoExtension + Extension.
+      if (not AddColumnsSorting(ASortings[i].SortFunctions[j], ASortings[i].SortDirection)) and
+         (ASortings[i].SortFunctions[j] = fsfName) then
+      begin
+        if AddColumnsSorting(fsfNameNoExtension, ASortings[i].SortDirection) then
+          AddColumnsSorting(fsfExtension, ASortings[i].SortDirection);
+      end;
     end;
-
-    Result := FileSortings;
-
-  finally
-    FreeAndNil(TempSorting);
   end;
 end;
 
@@ -2210,6 +2161,7 @@ begin
     ActiveColm := ColumnsClass.Name;
 
     SetColumnsWidths;
+    inherited SetSorting(PrepareSortings);
 
     dgPanel.FocusRectVisible := ColumnsClass.GetCursorBorder;
     dgPanel.FocusColor := ColumnsClass.GetCursorBorderColor;
@@ -2601,7 +2553,7 @@ begin
   inherited Create(AOwner, AFileSource, APath);
 
   FFiles := TColumnsViewFiles.Create;
-  FSorting := TFileListSorting.Create;
+  FColumnsSorting := TColumnsSortings.Create;
   ActiveColm := 'Default';
 
   // Update view before making file source file list,
@@ -2621,7 +2573,7 @@ begin
   inherited Create(AOwner, AConfig, ASectionName, ATabIndex);
 
   FFiles := TColumnsViewFiles.Create;
-  FSorting := TFileListSorting.Create;
+  FColumnsSorting := TColumnsSortings.Create;
 
   LoadConfiguration(ASectionName, ATabIndex);
 end;
@@ -2631,7 +2583,7 @@ begin
   inherited Create(AOwner, AConfig, ANode);
 
   FFiles := TColumnsViewFiles.Create;
-  FSorting := TFileListSorting.Create;
+  FColumnsSorting := TColumnsSortings.Create;
 
   LoadConfiguration(AConfig, ANode);
 end;
@@ -2664,7 +2616,7 @@ begin
   FFileFilter := '';
   FUpdatingGrid := False;
 
-  FSorting := nil;
+  FColumnsSorting := nil;
   // default to sorting by 0-th column
   FSortColumn := 0;
   FSortDirection := sdAscending;
@@ -2843,8 +2795,8 @@ begin
     FreeAndNil(FFiles);
   if Assigned(FFileSourceFiles) then
     FreeAndNil(FFileSourceFiles);
-  if Assigned(FSorting) then
-    FreeAndNil(FSorting);
+  if Assigned(FColumnsSorting) then
+    FreeAndNil(FColumnsSorting);
   inherited Destroy;
 end;
 
@@ -2883,7 +2835,7 @@ begin
         FilterPanelVisible;
       end;
 
-      FSorting := Self.FSorting.Clone;
+      FColumnsSorting := Self.FColumnsSorting.Clone;
       FSortColumn := Self.FSortColumn;
       FSortDirection := Self.FSortDirection;
 
@@ -3629,7 +3581,7 @@ var
     TitleX := 0;
     s      := ColumnsSet.GetColumnTitle(ACol);
 
-    SortingDirection := ColumnsView.FSorting.GetSortingDirection(ACol);
+    SortingDirection := ColumnsView.FColumnsSorting.GetSortingDirection(ACol);
     if SortingDirection <> sdNone then
     begin
       TitleX := TitleX + gIconsSize;
@@ -4340,18 +4292,18 @@ begin
   Result := SelectedDir;
 end;
 
-// -- TFileListSorting --------------------------------------------------------
+// -- TColumnsSortings --------------------------------------------------------
 
-procedure TFileListSorting.AddSorting(iField : Integer; SortDirection : TSortDirection);
+procedure TColumnsSortings.AddSorting(iColumn : Integer; SortDirection : TSortDirection);
 var
   i : Integer;
-  pSortingColumn : PFileListSortingColumn;
+  pSortingColumn : PColumnsSorting;
 begin
   i := Count - 1;
   while i >= 0 do
   begin
-    pSortingColumn := PFileListSortingColumn(Self[i]);
-    if pSortingColumn^.iField = iField then
+    pSortingColumn := PColumnsSorting(Self[i]);
+    if pSortingColumn^.Column = iColumn then
     begin
       pSortingColumn^.SortDirection := ReverseSortDirection(pSortingColumn^.SortDirection);
       Exit;
@@ -4360,40 +4312,40 @@ begin
   end;
 
   new(pSortingColumn);
-  pSortingColumn^.iField := iField;
+  pSortingColumn^.Column := iColumn;
   pSortingColumn^.SortDirection := SortDirection;
   Add(pSortingColumn);
 end;
 
-Destructor TFileListSorting.Destroy;
+Destructor TColumnsSortings.Destroy;
 begin
   Clear;
   inherited;
 end;
 
-function TFileListSorting.Clone: TFileListSorting;
+function TColumnsSortings.Clone: TColumnsSortings;
 var
   i: Integer;
-  pSortingColumn : PFileListSortingColumn;
+  pSortingColumn : PColumnsSorting;
 begin
-  Result := TFileListSorting.Create;
+  Result := TColumnsSortings.Create;
 
   for i := 0 to Count - 1 do
   begin
-    pSortingColumn := PFileListSortingColumn(Self[i]);
-    Result.AddSorting(pSortingColumn^.iField, pSortingColumn^.SortDirection);
+    pSortingColumn := PColumnsSorting(Self[i]);
+    Result.AddSorting(pSortingColumn^.Column, pSortingColumn^.SortDirection);
   end;
 end;
 
-procedure TFileListSorting.Clear;
+procedure TColumnsSortings.Clear;
 var
   i : Integer;
-  pSortingColumn : PFileListSortingColumn;
+  pSortingColumn : PColumnsSorting;
 begin
   i := Count - 1;
   while i >= 0 do
   begin
-    pSortingColumn := PFileListSortingColumn(Self[i]);
+    pSortingColumn := PColumnsSorting(Self[i]);
     dispose(pSortingColumn);
     dec(i);
   end;
@@ -4401,18 +4353,18 @@ begin
   Inherited Clear;
 end;
 
-function TFileListSorting.GetSortingDirection(iField : Integer) : TSortDirection;
+function TColumnsSortings.GetSortingDirection(iColumn : Integer) : TSortDirection;
 var
   i : Integer;
-  pSortingColumn : PFileListSortingColumn;
+  pSortingColumn : PColumnsSorting;
 begin
   Result := sdNone;
 
   i := Count - 1;
   while i >= 0 do
   begin
-    pSortingColumn := PFileListSortingColumn(Self[i]);
-    if pSortingColumn^.iField = iField then
+    pSortingColumn := PColumnsSorting(Self[i]);
+    if pSortingColumn^.Column = iColumn then
     begin
       Result := pSortingColumn^.SortDirection;
       break;
@@ -4449,7 +4401,7 @@ begin
   FFileFilter       := AColumnsView.FileFilter;
   FCurrentPath      := AColumnsView.CurrentPath;
   FThread           := AColumnsView.FListFilesThread;
-  FSortings         := AColumnsView.PrepareSortings;
+  FSortings         := AColumnsView.Sorting;
 end;
 
 procedure TColumnsFileListBuilder.MakeFileSourceFileList(Params: Pointer);

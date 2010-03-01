@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Controls, ExtCtrls,
-  uFile, uFileSource, uMethodsList, uDragDropEx, uXmlConfig, uClassesEx;
+  uFile, uFileSource, uMethodsList, uDragDropEx, uXmlConfig, uClassesEx,
+  uColumns, uFileSorting;
 
 type
 
@@ -41,6 +42,7 @@ type
     }
     FFileSources: TFileSources;
     FCurrentPaths: TStringList;   // always include trailing path delimiter
+    FSortings: TFileSortings;
 
     FMethods: TMethodsList;
 
@@ -80,6 +82,7 @@ type
     procedure SetActiveFile(const aFile: TFile); virtual; overload;
     function GetDisplayedFiles: TFiles; virtual abstract;
     function GetSelectedFiles: TFiles; virtual abstract;
+    procedure SetSorting(NewSortings: TFileSortings); virtual;
 
   public
     constructor Create(AOwner: TWinControl;
@@ -151,6 +154,11 @@ type
     function HasSelectedFiles: Boolean; virtual abstract;
 
     {en
+       Sorts files in FilesToSort using ASorting.
+    }
+    class procedure Sort(FilesToSort: TFiles; ASortings: TFileSortings);
+
+    {en
        Handles drag&drop operations onto the file view.
        Does any graphic work and executes operations with dropped files if allowed.
        Handles freeing DropParams.
@@ -184,6 +192,7 @@ type
        Caller is responsible for freeing the list.
     }
     property SelectedFiles: TFiles read GetSelectedFiles;
+    property Sorting: TFileSortings read FSortings write SetSorting;
 
     property NotebookPage: TCustomPage read GetNotebookPage;
     property OnBeforeChangeDirectory : TOnBeforeChangeDirectory read FOnBeforeChangeDirectory write FOnBeforeChangeDirectory;
@@ -280,6 +289,7 @@ begin
   FOnReload := nil;
   FFileSources := TFileSources.Create;
   FCurrentPaths := TStringList.Create;
+  FSortings := nil;
   FMethods := TMethodsList.Create(Self);
 
   inherited Create(AOwner);
@@ -321,6 +331,7 @@ begin
 
     AFileView.FFileSources.Assign(Self.FFileSources);
     AFileView.FCurrentPaths.Assign(Self.FCurrentPaths);
+    AFileView.FSortings := Self.FSortings;
   end;
 end;
 
@@ -367,6 +378,11 @@ end;
 
 procedure TFileView.SetActiveFile(aFilePath: String);
 begin
+end;
+
+procedure TFileView.SetSorting(NewSortings: TFileSortings);
+begin
+  FSortings := NewSortings;
 end;
 
 procedure TFileView.StopBackgroundWork;
@@ -491,6 +507,24 @@ begin
   // Reload file view, but only if the file source is currently viewed.
   if aFileSource = FileSource then
     Reload(ReloadedPaths);
+end;
+
+class procedure TFileView.Sort(FilesToSort: TFiles; ASortings: TFileSortings);
+var
+  FileListSorter: TListSorter;
+  ASortingsCopy: TFileSortings;
+begin
+  ASortingsCopy := ASortings;
+
+  // Add automatic sorting by name and/or extension if there wasn't any.
+  AddSortingByNameIfNeeded(ASortingsCopy);
+
+  FileListSorter := TListSorter.Create(FilesToSort, ASortingsCopy);
+  try
+    FileListSorter.Sort;
+  finally
+    FreeAndNil(FileListSorter);
+  end;
 end;
 
 { TDropParams }
