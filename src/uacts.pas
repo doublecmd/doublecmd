@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, Dialogs, StringHashList, ActnList,
-  uFileView, uFileViewNotebook, uFileSourceOperation;
+  uFileView, uFileViewNotebook, uFileSourceOperation, uColumns;
   
   
 const cf_Null=0;
@@ -109,6 +109,7 @@ const cf_Null=0;
    procedure DoNewTab(Notebook: TFileViewNotebook);
    procedure DoContextMenu(Panel: TFileView; X, Y: Integer);
    procedure DoTransferFileSources(SourcePage: TFileViewPage; TargetPage: TFileViewPage);
+   procedure DoSortByFunctions(View: TFileView; FileFunctions: TFileFunctions);
    //---------------------
 
   published
@@ -270,7 +271,8 @@ uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
      uFileSourceCalcStatisticsOperation, uFileSystemFile,
      uFileSource, uFileSourceProperty, uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil,
-     uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation;
+     uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
+     uFileSorting;
 
 { TActs }
 
@@ -707,6 +709,41 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TActs.DoSortByFunctions(View: TFileView; FileFunctions: TFileFunctions);
+var
+  NewSorting: TFileSortings = nil;
+  CurrentSorting: TFileSortings;
+  SortDirection: TSortDirection = sdNone;
+  i: Integer;
+begin
+  if Length(FileFunctions) = 0 then
+    Exit;
+
+  CurrentSorting := View.Sorting;
+
+  // Check if there is already sorting by one of the functions.
+  // If it is then reverse direction of sorting.
+  for i := 0 to Length(FileFunctions) - 1 do
+  begin
+    SortDirection := GetSortDirection(CurrentSorting, FileFunctions[i]);
+    if SortDirection <> sdNone then
+    begin
+      SortDirection := ReverseSortDirection(SortDirection);
+      Break;
+    end;
+  end;
+
+  if SortDirection = sdNone then
+    SortDirection := sdAscending;
+
+  SetLength(NewSorting, 1);
+  SetLength(NewSorting[0].SortFunctions, 1);
+  NewSorting[0].SortFunctions[0] := FileFunctions[0]; // Sort by single function.
+  NewSorting[0].SortDirection := SortDirection;
+
+  View.Sorting := NewSorting;
 end;
 
 //------------------------------------------------------
@@ -2090,83 +2127,44 @@ begin
 end;
 
 procedure TActs.cm_SortByName(param:string);
+var
+  FileFunctions: TFileFunctions = nil;
 begin
-{
-  inherited;
-  with frmMain.ActiveFrame do
-  begin
-    if pnlFile.SortColumn = 0 then
-      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection)
-    else
-      pnlFile.SortDirection := sdAscending;
-    pnlFile.SortByCol(0);
-    RefreshPanel;
-  end;
-}
+  AddSortFunction(FileFunctions, fsfName);
+  AddSortFunction(FileFunctions, fsfNameNoExtension);
+  DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
 procedure TActs.cm_SortByExt(param:string);
+var
+  FileFunctions: TFileFunctions = nil;
 begin
-{
-  inherited;
-  with frmMain.ActiveFrame do
-  begin
-    if pnlFile.SortColumn = 1 then
-      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection)
-    else
-      pnlFile.SortDirection := sdAscending;
-    pnlFile.SortByCol(1);
-    RefreshPanel;
-  end;
-}
+  AddSortFunction(FileFunctions, fsfExtension);
+  DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
 procedure TActs.cm_SortBySize(param:string);
+var
+  FileFunctions: TFileFunctions = nil;
 begin
-{
-  inherited;
-  with frmMain.ActiveFrame do
-  begin
-    if pnlFile.SortColumn = 2 then
-      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection)
-    else
-      pnlFile.SortDirection := sdAscending;
-    pnlFile.SortByCol(2);
-    RefreshPanel;
-  end;
-}
+  AddSortFunction(FileFunctions, fsfSize);
+  DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
 procedure TActs.cm_SortByDate(param:string);
+var
+  FileFunctions: TFileFunctions = nil;
 begin
-{
-  inherited;
-  with frmMain.ActiveFrame do
-  begin
-    if pnlFile.SortColumn = 3 then
-      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection)
-    else
-      pnlFile.SortDirection := sdAscending;
-    pnlFile.SortByCol(3);
-    RefreshPanel;
-  end;
-}
+  AddSortFunction(FileFunctions, fsfModificationTime);
+  DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
 procedure TActs.cm_SortByAttr(param:string);
+var
+  FileFunctions: TFileFunctions = nil;
 begin
-{
-  inherited;
-  with frmMain.ActiveFrame do
-  begin
-    if pnlFile.SortColumn = 4 then
-      pnlFile.SortDirection := ReverseSortDirection(pnlFile.SortDirection)
-    else
-      pnlFile.SortDirection := sdAscending;
-    pnlFile.SortByCol(4);
-    RefreshPanel;
-  end;
-}
+  AddSortFunction(FileFunctions, fsfAttr);
+  DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
 // Parameters:

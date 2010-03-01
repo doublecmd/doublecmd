@@ -5,7 +5,7 @@ unit uFileSorting;
 interface
 
 uses
-  Classes, SysUtils, uColumns, uFile;
+  Classes, SysUtils, uColumns, uFile, uFileProperty;
 
 type
 
@@ -22,7 +22,7 @@ type
 
   TListSorter = class
     private
-      FSortList: TFPList;
+      FSortList: TFiles;
       FSortings: TFileSortings;
 
       function MultiCompare(item1, item2: Pointer):Integer;
@@ -41,15 +41,22 @@ type
 
       Procedure QuickSort(FList: PPointerList; L, R : Longint);
 
+      {en
+         Checks the files list for supported properties and removes
+         not supported sortings. Currently treats files as if they
+         all had the same properties.
+      }
+      procedure CheckSupportedProperties(SupportedFileProperties: TFilePropertiesTypes);
+
     public
       {en
          Creates the sorter.
-         @param(List
-                List to be sorted.)
+         @param(Files
+                List of files to be sorted.)
          @param(FileSorting
                 Sorting which will be used to sort file records.)
       }
-      constructor Create(List: TFPList; Sortings: TFileSortings);
+      constructor Create(Files: TFiles; Sortings: TFileSortings);
 
       procedure Sort;
   end;
@@ -59,6 +66,10 @@ type
   }
   function HasSortFunction(FileFunctions: TFileFunctions;
                            SortFunction: TFileFunction): Boolean;
+  function HasSortFunction(FileSortings: TFileSortings;
+                           SortFunction: TFileFunction): Boolean;
+  function GetSortDirection(FileSortings: TFileSortings;
+                            SortFunction: TFileFunction): TSortDirection;
   {en
      Adds a function to the given list of functions.
   }
@@ -66,10 +77,16 @@ type
                             SortFunction: TFileFunction);
 
   {en
-     Adds sorting by a function with a given sorting direction to a file sortings.
+     Adds sorting by functions with a given sorting direction to existing sorting.
   }
-  procedure AddSorting(var FileSortings: TFileSortings;
-                       SortFunction: TFileFunction; SortDirection: TSortDirection);
+  procedure AddSorting(var Sortings: TFileSortings;
+                       SortFunctions: TFileFunctions;
+                       SortDirection: TSortDirection);
+  {en
+     Checks if there is a sorting by Name, NameNoExtension or Extension
+     and adds such sortings if there isn't.
+  }
+  procedure AddSortingByNameIfNeeded(var FileSortings: TFileSortings);
 
   function ICompareByDirectory(item1, item2: TFile; bSortNegative: Boolean):Integer;
   function ICompareByName(item1, item2: TFile; bSortNegative: Boolean):Integer;
@@ -84,7 +101,7 @@ type
 implementation
 
 uses
-  uTypes, uOSUtils, uGlobs, uFileProperty;
+  uTypes, uOSUtils, uGlobs;
 
 
 function HasSortFunction(FileFunctions: TFileFunctions;
@@ -100,6 +117,35 @@ begin
   Result := False;
 end;
 
+function HasSortFunction(FileSortings: TFileSortings;
+                         SortFunction: TFileFunction): Boolean;
+var
+  i: Integer;
+begin
+  for i := 0 to Length(FileSortings) - 1 do
+  begin
+    if HasSortFunction(FileSortings[i].SortFunctions, SortFunction) then
+      Exit(True);
+  end;
+  Result := False;
+end;
+
+function GetSortDirection(FileSortings: TFileSortings;
+                          SortFunction: TFileFunction): TSortDirection;
+var
+  i, j: Integer;
+begin
+  for i := 0 to Length(FileSortings) - 1 do
+  begin
+    for j := 0 to Length(FileSortings[i].SortFunctions) - 1 do
+    begin
+      if FileSortings[i].SortFunctions[j] = SortFunction then
+        Exit(FileSortings[i].SortDirection);
+    end;
+  end;
+  Result := sdNone;
+end;
+
 procedure AddSortFunction(var FileFunctions: TFileFunctions;
                           SortFunction: TFileFunction);
 begin
@@ -107,16 +153,65 @@ begin
   FileFunctions[Length(FileFunctions) - 1] := SortFunction;
 end;
 
+procedure AddSorting(var Sortings: TFileSortings;
+                     SortFunctions: TFileFunctions;
+                     SortDirection: TSortDirection);
+var
+  SortingIndex: Integer;
+begin
+  SortingIndex := Length(Sortings);
+  SetLength(Sortings, SortingIndex + 1);
+  Sortings[SortingIndex].SortFunctions := SortFunctions;
+  Sortings[SortingIndex].SortDirection := SortDirection;
+end;
+
 procedure AddSorting(var FileSortings: TFileSortings;
                      SortFunction: TFileFunction; SortDirection: TSortDirection);
 begin
   SetLength(FileSortings, Length(FileSortings) + 1);
-
   SetLength(FileSortings[Length(FileSortings) - 1].SortFunctions, 0);
   AddSortFunction(FileSortings[Length(FileSortings) - 1].SortFunctions, SortFunction);
   FileSortings[Length(FileSortings) - 1].SortDirection := SortDirection;
 end;
 
+procedure AddSortingByNameIfNeeded(var FileSortings: TFileSortings);
+var
+  bSortedByName: Boolean = False;
+  bSortedByExtension: Boolean = False;
+  i: Integer;
+begin
+  for i := 0 to Length(FileSortings) - 1 do
+  begin
+    if HasSortFunction(FileSortings[i].SortFunctions, fsfName) then
+    begin
+      bSortedByName := True;
+      bSortedByExtension := True;
+      Exit;
+    end
+    else if HasSortFunction(FileSortings[i].SortFunctions, fsfNameNoExtension)
+    then
+    begin
+      bSortedByName := True;
+    end
+    else if HasSortFunction(FileSortings[i].SortFunctions, fsfExtension)
+    then
+    begin
+      bSortedByExtension := True;
+    end;
+  end;
+
+  if not bSortedByName then
+  begin
+    if not bSortedByExtension then
+      AddSorting(FileSortings, fsfName, sdAscending)
+    else
+      AddSorting(FileSortings, fsfNameNoExtension, sdAscending);
+  end
+  else if not bSortedByExtension then
+    AddSorting(FileSortings, fsfExtension, sdAscending);
+  // else
+  //   There is already a sorting by filename and extension.
+end;
 
 function ICompareByDirectory(item1, item2: TFile; bSortNegative: Boolean):Integer;
 var
@@ -276,20 +371,56 @@ end;
 
 { TListSorter }
 
-constructor TListSorter.Create(List: TFPList; Sortings: TFileSortings);
+constructor TListSorter.Create(Files: TFiles; Sortings: TFileSortings);
 begin
-  FSortList := List;
+  FSortList := Files;
   FSortings := Sortings;
+
+  if Assigned(FSortList) and (FSortList.Count > 0) then
+    CheckSupportedProperties(FSortList.Items[0].SupportedProperties);
 
   inherited Create;
 end;
 
+procedure TListSorter.CheckSupportedProperties(SupportedFileProperties: TFilePropertiesTypes);
+var
+  SortingIndex: Integer;
+  FunctionIndex: Integer;
+  i: Integer;
+begin
+  // Check if each sort function is supported.
+  SortingIndex := 0;
+  while SortingIndex < Length(FSortings) do
+  begin
+    FunctionIndex := 0;
+    while FunctionIndex < Length(FSortings[SortingIndex].SortFunctions) do
+    begin
+      if not (TFileFunctionToProperty[FSortings[SortingIndex].SortFunctions[FunctionIndex]] <= SupportedFileProperties) then
+      begin
+        for i := FunctionIndex to Length(FSortings[SortingIndex].SortFunctions) - 2 do
+          FSortings[SortingIndex].SortFunctions[i] := FSortings[SortingIndex].SortFunctions[i+1];
+        SetLength(FSortings[SortingIndex].SortFunctions, Length(FSortings[SortingIndex].SortFunctions) - 1);
+      end
+      else
+        Inc(FunctionIndex);
+    end;
+
+    if Length(FSortings[SortingIndex].SortFunctions) = 0 then
+    begin
+      for i := SortingIndex to Length(FSortings) - 2 do
+        FSortings[i] := FSortings[i+1];
+      SetLength(FSortings, Length(FSortings) - 1);
+    end
+    else
+      Inc(SortingIndex);
+  end;
+end;
+
 procedure TListSorter.Sort;
 begin
-  if Assigned(FSortList) and Assigned(FSortList.List) and
-     (FSortList.Count > 1) then
+  if Assigned(FSortList) and (FSortList.Count > 1) and (Length(FSortings) > 0) then
   begin
-    QuickSort(FSortList.List, 0, FSortList.Count-1);
+    QuickSort(FSortList.List.List, 0, FSortList.List.Count-1);
   end;
 end;
 
