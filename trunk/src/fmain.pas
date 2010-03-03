@@ -3358,10 +3358,14 @@ begin
 
   (* Save window bounds and state *)
   ANode := gConfig.FindNode(gConfig.RootNode, 'MainWindow/Position', True);
-  gConfig.SetValue(ANode, 'Left', Left);
-  gConfig.SetValue(ANode, 'Top', Top);
-  gConfig.SetValue(ANode, 'Width', Width);
-  gConfig.SetValue(ANode, 'Height', Height);
+  // save window size only if it's not Maximized (for not break normal size)
+  if (WindowState <> wsMaximized) then
+  begin
+    gConfig.SetValue(ANode, 'Left', Left);
+    gConfig.SetValue(ANode, 'Top', Top);
+    gConfig.SetValue(ANode, 'Width', Width);
+    gConfig.SetValue(ANode, 'Height', Height);
+  end;
   gConfig.SetValue(ANode, 'Maximized', (WindowState = wsMaximized));
 end;
 
