@@ -319,7 +319,7 @@ begin
   WCXmodule := TWCXmodule.Create;
   if WCXmodule.LoadModule(GetCmdDirFromEnvVar(PluginFileName)) then
     begin
-      Result:= WCXmodule.VFSMisc;
+      Result:= WCXmodule.GetPluginCapabilities;
       WCXModule.UnloadModule;
     end;
   WCXmodule.Free;
