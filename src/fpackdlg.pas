@@ -97,9 +97,11 @@ var
   Operation: TFileSourceOperation;
   OperationHandle: TOperationHandle;
   ProgressDialog: TfrmFileOp;
+  PackDialog: TfrmPackDlg;
 begin
+  PackDialog := TfrmPackDlg.Create(nil);
   try
-    with TfrmPackDlg.Create(nil) do
+    with PackDialog do
       begin
         FArchiveType:= 'none';
         if bNewArchive then  // create new archive
@@ -137,8 +139,16 @@ begin
             begin
               // Create a new target file source.
 
-              // Check if there is a ArchiveFileSource for possible archive.
-              NewTargetFileSource := GetArchiveFileSource(edtPackCmd.Text, FArchiveType);
+              try
+                // Check if there is an ArchiveFileSource for possible archive.
+                NewTargetFileSource := GetArchiveFileSource(edtPackCmd.Text, FArchiveType);
+              except
+                on e: EModuleNotLoadedException do
+                  begin
+                    MessageDlg(e.Message, mtError, [mbOK], 0);
+                    Exit;
+                  end;
+              end;
             end;
 
             if Assigned(NewTargetFileSource) then
@@ -185,11 +195,10 @@ begin
                 end;
               end;
           end;
-
-        Free;
       end;
 
   finally
+    FreeAndNil(PackDialog);
     if Assigned(Files) then
       FreeAndNil(Files);
   end;
