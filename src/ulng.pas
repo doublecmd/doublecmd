@@ -261,10 +261,6 @@ resourcestring
   rsOptIgnoreList = 'Ignore list';
   rsOptArchivers = 'Archivers';
   //-------------------------------
-  rsOptLineByLineCursor = 'Line by line with cursor movement';
-  rsOptLineByLine = 'Line by line';
-  rsOptPageByPage = 'Page by page';
-  //-------------------------------
   rsOptEnterExt = 'Enter extension';
   rsOptAssocPluginWith = 'Associate plugin "%s" with:';
   rsOptEnable = 'Enable';

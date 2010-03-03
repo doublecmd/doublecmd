@@ -130,7 +130,7 @@ object frmOptions: TfrmOptions
       Width = 626
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 19
+      PageIndex = 1
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -487,7 +487,7 @@ object frmOptions: TfrmOptions
             TabOrder = 0
           end
         end
-        object rgScrolling: TRadioGroup
+        object gbScrolling: TGroupBox
           AnchorSideLeft.Control = gbMisc2
           AnchorSideTop.Control = gbMisc2
           AnchorSideTop.Side = asrBottom
@@ -500,25 +500,73 @@ object frmOptions: TfrmOptions
           Top = 230
           Width = 355
           Anchors = [akTop, akLeft, akRight, akBottom]
-          AutoFill = True
+          AutoSize = True
           BorderSpacing.Top = 6
           Caption = 'Scrolling'
           ChildSizing.LeftRightSpacing = 6
           ChildSizing.TopBottomSpacing = 6
-          ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-          ChildSizing.EnlargeVertical = crsHomogenousChildResize
-          ChildSizing.ShrinkHorizontal = crsScaleChilds
-          ChildSizing.ShrinkVertical = crsScaleChilds
-          ChildSizing.Layout = cclLeftToRightThenTopToBottom
-          ChildSizing.ControlsPerLine = 1
           ClientHeight = 91
           ClientWidth = 351
-          Items.Strings = (
-            'Line by line with cursor movement'
-            'Line by line'
-            'Page by page'
-          )
           TabOrder = 2
+          object rbScrollLineByLineCursor: TRadioButton
+            AnchorSideLeft.Control = gbScrolling
+            AnchorSideTop.Control = gbScrolling
+            AnchorSideRight.Control = gbScrolling
+            AnchorSideRight.Side = asrBottom
+            Left = 6
+            Height = 17
+            Top = 6
+            Width = 339
+            Anchors = [akTop, akLeft, akRight]
+            Caption = 'Line by line with cursor movement'
+            TabOrder = 0
+          end
+          object rbScrollLineByLine: TRadioButton
+            AnchorSideLeft.Control = gbScrolling
+            AnchorSideTop.Control = seWheelScrollLines
+            AnchorSideTop.Side = asrCenter
+            Left = 6
+            Height = 17
+            Top = 29
+            Width = 71
+            BorderSpacing.Right = 6
+            Caption = 'Line by line'
+            TabOrder = 1
+          end
+          object rbScrollPageByPage: TRadioButton
+            AnchorSideLeft.Control = gbScrolling
+            AnchorSideTop.Control = seWheelScrollLines
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbScrolling
+            AnchorSideRight.Side = asrBottom
+            Left = 6
+            Height = 17
+            Top = 52
+            Width = 339
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Top = 4
+            Caption = 'Page by page'
+            TabOrder = 2
+          end
+          object seWheelScrollLines: TSpinEdit
+            AnchorSideLeft.Control = rbScrollLineByLine
+            AnchorSideLeft.Side = asrBottom
+            AnchorSideTop.Control = rbScrollLineByLineCursor
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = gbScrolling
+            AnchorSideRight.Side = asrBottom
+            Left = 95
+            Height = 21
+            Top = 27
+            Width = 238
+            Anchors = [akTop, akLeft, akRight]
+            BorderSpacing.Left = 18
+            BorderSpacing.Top = 4
+            BorderSpacing.Right = 18
+            MinValue = 1
+            TabOrder = 3
+            Value = 1
+          end
         end
         object gbMisc3: TGroupBox
           AnchorSideLeft.Control = gbDateTimeFormat
@@ -599,10 +647,10 @@ object frmOptions: TfrmOptions
           end
         end
         object gbMisc4: TGroupBox
-          AnchorSideLeft.Control = rgScrolling
-          AnchorSideTop.Control = rgScrolling
+          AnchorSideLeft.Control = gbScrolling
+          AnchorSideTop.Control = gbScrolling
           AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = rgScrolling
+          AnchorSideRight.Control = gbScrolling
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = gbMisc3
           AnchorSideBottom.Side = asrBottom
