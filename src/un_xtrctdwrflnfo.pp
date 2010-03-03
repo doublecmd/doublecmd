@@ -246,6 +246,8 @@ type
      NumberOfSymbols : longint;
      SizeOfOptionalHeader : word;
      Characteristics : word;
+  end;
+  tpeoptionalheader32 = packed record
      Magic : word;
      MajorLinkerVersion : byte;
      MinorLinkerVersion : byte;
@@ -264,7 +266,7 @@ type
      MinorImageVersion : word;
      MajorSubsystemVersion : word;
      MinorSubsystemVersion : word;
-     Reserved1 : longint;
+     Win32VersionValue : longint;
      SizeOfImage : longint;
      SizeOfHeaders : longint;
      CheckSum : longint;
@@ -274,6 +276,38 @@ type
      SizeOfStackCommit : longint;
      SizeOfHeapReserve : longint;
      SizeOfHeapCommit : longint;
+     LoaderFlags : longint;
+     NumberOfRvaAndSizes : longint;
+     DataDirectory : array[1..$80] of byte;
+  end;
+  tpeoptionalheader64 = packed record
+     Magic : word;
+     MajorLinkerVersion : byte;
+     MinorLinkerVersion : byte;
+     SizeOfCode : longint;
+     SizeOfInitializedData : longint;
+     SizeOfUninitializedData : longint;
+     AddressOfEntryPoint : longint;
+     BaseOfCode : longint;
+     ImageBase : qword;
+     SectionAlignment : longint;
+     FileAlignment : longint;
+     MajorOperatingSystemVersion : word;
+     MinorOperatingSystemVersion : word;
+     MajorImageVersion : word;
+     MinorImageVersion : word;
+     MajorSubsystemVersion : word;
+     MinorSubsystemVersion : word;
+     Win32VersionValue : longint;
+     SizeOfImage : longint;
+     SizeOfHeaders : longint;
+     CheckSum : longint;
+     Subsystem : word;
+     DllCharacteristics : word;
+     SizeOfStackReserve : qword;
+     SizeOfStackCommit : qword;
+     SizeOfHeapReserve : qword;
+     SizeOfHeapCommit : qword;
      LoaderFlags : longint;
      NumberOfRvaAndSizes : longint;
      DataDirectory : array[1..$80] of byte;
@@ -475,9 +509,11 @@ function CheckWindowsExe(
   out IsCompressed: Boolean): TCheckResult;
 
 var
-  dosheader  : tdosheader;
-  peheader   : tpeheader;
-  coffsec    : tcoffsechdr;
+  dosheader     : tdosheader;
+  peheader      : tpeheader;
+  peoptheader32 : tpeoptionalheader32;
+  peoptheader64 : tpeoptionalheader64;
+  coffsec       : tcoffsechdr;
   stringsSectionOffset: PtrUInt;
   sectionName : String;
   i: Integer;
@@ -514,16 +550,33 @@ begin
   if f.Size >= sizeof(tdosheader) then
   begin
     f.Read(dosheader, sizeof(tdosheader));
-    if dosheader.e_magic = $5A4D then
+    if dosheader.e_magic = $5A4D then // 'MZ'
     begin
       f.Position:= dosheader.e_lfanew;
       if (f.Size - f.Position) >= sizeof(tpeheader) then
       begin
         f.Read(peheader, sizeof(tpeheader));
-        if peheader.pemagic = $4550 then
+        if peheader.pemagic = $4550 then // 'PE'
         begin
-          // Found header.
-          DEBUG_WRITELN('Found Windows Portable Executable header.');
+          peoptheader32.magic := f.ReadWord;
+          if (peoptheader32.magic = $10B) and (peheader.SizeOfOptionalHeader = sizeof(tpeoptionalheader32)) then
+          begin
+            DEBUG_WRITELN('Found Windows Portable Executable header (32-bit).');
+            f.Read(peoptheader32.MajorLinkerVersion, sizeof(tpeoptionalheader32) - sizeof(tpeoptionalheader32.Magic));
+            ImageBase:= peoptheader32.Imagebase;
+          end
+          else if (peoptheader32.magic = $20B) and (peheader.SizeOfOptionalHeader = sizeof(tpeoptionalheader64)) then
+          begin
+            DEBUG_WRITELN('Found Windows Portable Executable header (64-bit).');
+            peoptheader64.magic := peoptheader32.magic;
+            f.Read(peoptheader64.MajorLinkerVersion, sizeof(tpeoptionalheader64) - sizeof(tpeoptionalheader64.Magic));
+            ImageBase:= peoptheader64.Imagebase;
+          end
+          else
+          begin
+            DEBUG_WRITELN('Unsupported Windows Portable Executable.');
+            Exit;
+          end;
 
           stringsSectionOffset := peheader.PointerToSymbolTable
                                 + peheader.NumberOfSymbols * sizeof(coffsymbol);
@@ -560,8 +613,6 @@ begin
             Result := found_debug_info
           else
             Result := no_debug_info;
-
-          ImageBase:= peheader.Imagebase;
         end;
       end;
     end;
@@ -689,4 +740,4 @@ begin
   end;
 end;
 
-end.
+end.
