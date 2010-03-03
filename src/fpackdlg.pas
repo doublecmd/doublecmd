@@ -82,7 +82,8 @@ implementation
 
 uses
   WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation, uLng, uOSUtils,
-  uOperationsManager, fFileOpDlg, uArchiveFileSourceUtil, uMultiArchiveFileSource;
+  uOperationsManager, fFileOpDlg, uArchiveFileSourceUtil, uMultiArchiveFileSource,
+  uWcxArchiveCopyInOperation, uMultiArchiveCopyInOperation;
 
 function ShowPackDlg(const SourceFileSource: IFileSource;
                      const TargetFileSource: IArchiveFileSource;
@@ -148,29 +149,6 @@ begin
                 if cbStoredir.Checked then aFlags := aFlags or PK_PACK_SAVE_PATHS;
                 if cbEncrypt.Checked then aFlags := aFlags or PK_PACK_ENCRYPT;
 
-                if NewTargetFileSource.IsInterface(IWcxArchiveFileSource) then
-                  begin
-                    with NewTargetFileSource as IWcxArchiveFileSource do
-                    begin
-                      PluginFlags := aFlags;
-                    end;
-                  end
-                else if NewTargetFileSource.IsInterface(IMultiArchiveFileSource) then
-                  begin
-                    with NewTargetFileSource as IMultiArchiveFileSource do
-                    begin
-                      if cbEncrypt.Checked then
-                        Password:= InputBox(Caption, rsMsgPasswordEnter, EmptyStr)
-                      else
-                        Password:= EmptyStr;
-                      if cbMultivolume.Checked then
-                        VolumeSize:= StrToIntDef(InputBox(Caption, rsMsgVolumeSizeEnter, EmptyStr), 0)
-                      else
-                        VolumeSize:= 0;
-                      ArchiveFlags:= aFlags;
-                    end;
-                  end;
-
                 Operation := NewTargetFileSource.CreateCopyInOperation(
                                  SourceFileSource,
                                  Files,
@@ -179,6 +157,25 @@ begin
                 if Assigned(Operation) then
                 begin
                   // TODO: Check if another operation is not running first (for WCX).
+
+                  if NewTargetFileSource.IsInterface(IWcxArchiveFileSource) then
+                    begin
+                      with Operation as TWcxArchiveCopyInOperation do
+                      begin
+                        PackingFlags := aFlags;
+                      end;
+                    end
+                  else if NewTargetFileSource.IsInterface(IMultiArchiveFileSource) then
+                    begin
+                      with Operation as TMultiArchiveCopyInOperation do
+                      begin
+                        if cbEncrypt.Checked then
+                          Password:= InputBox(Caption, rsMsgPasswordEnter, EmptyStr);
+                        if cbMultivolume.Checked then
+                          VolumeSize:= StrToIntDef(InputBox(Caption, rsMsgVolumeSizeEnter, EmptyStr), 0);
+                        PackingFlags := aFlags;
+                      end;
+                    end;
 
                   // Start operation.
                   OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);

@@ -1455,7 +1455,7 @@ begin
       try
         if WCXmodule.LoadModule(odOpenDialog.FileName) then
           begin
-            iFlags := WCXmodule.VFSMisc;
+            iFlags := WCXmodule.GetPluginCapabilities;
             WCXModule.UnloadModule;
           end
         else

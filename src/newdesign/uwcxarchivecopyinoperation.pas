@@ -20,6 +20,7 @@ type
     FWcxArchiveFileSource: IWcxArchiveFileSource;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     FFullFilesTree: TFileSystemFiles;
+    FPackingFlags: Integer; // Packing flags passed to plugin
 
     {en
       Convert TFiles into a string separated with #0 (format used by WCX).
@@ -43,6 +44,8 @@ type
     procedure Finalize; override;
 
     class procedure ClearCurrentOperation;
+
+    property PackingFlags: Integer read FPackingFlags write FPackingFlags;
   end;
 
 implementation
@@ -160,6 +163,7 @@ constructor TWcxArchiveCopyInOperation.Create(aSourceFileSource: IFileSource;
 begin
   FWcxArchiveFileSource := aTargetFileSource as IWcxArchiveFileSource;
   FFullFilesTree := nil;
+  FPackingFlags := 0;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
@@ -210,7 +214,7 @@ begin
                sDestPath, // no trailing path delimiter here
                IncludeTrailingPathDelimiter(FFullFilesTree.Path), // end with path delimiter here
                GetFileList(FFullFilesTree),  // Convert TFiles into UTF8String
-               FWcxArchiveFileSource.PluginFlags);
+               PackingFlags);
 
   // Check for errors.
   if iResult <> E_SUCCESS then

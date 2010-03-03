@@ -19,12 +19,11 @@ type
     ['{DB32E8A8-486B-4053-9448-4C145C1A33FA}']
 
     function GetArcFileList: TObjectList;
-    function GetPluginFlags: PtrInt;
-    procedure SetPluginFlags(NewPluginFlags: PtrInt);
+    function GetPluginCapabilities: PtrInt;
     function GetWcxModule: TWcxModule;
 
     property ArchiveFileList: TObjectList read GetArcFileList;
-    property PluginFlags: PtrInt read GetPluginFlags write SetPluginFlags;
+    property PluginCapabilities: PtrInt read GetPluginCapabilities;
     property WcxModule: TWCXModule read GetWcxModule;
   end;
 
@@ -33,7 +32,7 @@ type
   TWcxArchiveFileSource = class(TArchiveFileSource, IWcxArchiveFileSource)
   private
     FModuleFileName: String;
-    FPluginFlags: PtrInt;
+    FPluginCapabilities: PtrInt;
     FArcFileList : TObjectList;
     FWcxModule: TWCXModule;
 
@@ -43,8 +42,7 @@ type
     function ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
 
     function GetArcFileList: TObjectList;
-    function GetPluginFlags: PtrInt;
-    procedure SetPluginFlags(NewPluginFlags: PtrInt);
+    function GetPluginCapabilities: PtrInt;
     function GetWcxModule: TWcxModule;
 
     function CreateConnection: TFileSourceConnection;
@@ -74,7 +72,7 @@ type
   public
     constructor Create(anArchiveFileName: String;
                        aWcxPluginFileName: String;
-                       aWcxPluginFlags: PtrInt); reintroduce;
+                       aWcxPluginCapabilities: PtrInt); reintroduce;
     destructor Destroy; override;
 
     // Retrieve operations permitted on the source.  = capabilities?
@@ -106,7 +104,7 @@ type
     procedure RemoveOperationFromQueue(Operation: TFileSourceOperation); override;
 
     property ArchiveFileList: TObjectList read FArcFileList;
-    property PluginFlags: PtrInt read FPluginFlags write FPluginFlags;
+    property PluginCapabilities: PtrInt read FPluginCapabilities;
     property WcxModule: TWCXModule read FWcxModule;
   end;
 
@@ -191,12 +189,12 @@ end;
 
 constructor TWcxArchiveFileSource.Create(anArchiveFileName: String;
                                          aWcxPluginFileName: String;
-                                         aWcxPluginFlags: PtrInt);
+                                         aWcxPluginCapabilities: PtrInt);
 begin
   inherited Create(anArchiveFileName);
 
   FModuleFileName := aWcxPluginFileName;
-  FPluginFlags := aWcxPluginFlags;
+  FPluginCapabilities := aWcxPluginCapabilities;
   FArcFileList := TObjectList.Create(True);
   FWcxModule := TWCXModule.Create;
 
@@ -237,10 +235,10 @@ begin
   Result := [fsoList, fsoCopyOut, fsoTestArchive, fsoExecute]; // by default
   with FWcxModule do
   begin
-    if (((FPluginFlags and PK_CAPS_NEW) <> 0) or ((FPluginFlags and PK_CAPS_MODIFY) <> 0)) and
+    if (((FPluginCapabilities and PK_CAPS_NEW) <> 0) or ((FPluginCapabilities and PK_CAPS_MODIFY) <> 0)) and
        (Assigned(PackFiles) or Assigned(PackFilesW)) then
       Result:= Result + [fsoCopyIn];
-    if ((FPluginFlags and PK_CAPS_DELETE) <> 0) and
+    if ((FPluginCapabilities and PK_CAPS_DELETE) <> 0) and
        (Assigned(DeleteFiles) or Assigned(DeleteFilesW)) then
       Result:= Result + [fsoDelete];
   end;
@@ -289,7 +287,6 @@ end;
 
 function TWcxArchiveFileSource.LoadModule: Boolean;
 begin
-  WcxModule.VFSInit(FPluginFlags);
   Result := WcxModule.LoadModule(FModuleFileName);
 end;
 
@@ -303,14 +300,9 @@ begin
   Result := FArcFileList;
 end;
 
-function TWcxArchiveFileSource.GetPluginFlags: PtrInt;
+function TWcxArchiveFileSource.GetPluginCapabilities: PtrInt;
 begin
-  Result := FPluginFlags;
-end;
-
-procedure TWcxArchiveFileSource.SetPluginFlags(NewPluginFlags: PtrInt);
-begin
-  FPluginFlags := NewPluginFlags;
+  Result := FPluginCapabilities;
 end;
 
 function TWcxArchiveFileSource.GetWcxModule: TWcxModule;

@@ -124,10 +124,8 @@ Type
     function LoadModule(const sName:String):Boolean; {Load WCX plugin}
     procedure UnloadModule;                          {UnLoad WCX plugin}
 
-    procedure VFSInit(Data: PtrInt);
-    procedure VFSDestroy;
     procedure VFSConfigure(Parent: THandle);
-    function VFSMisc : PtrUInt;
+    function GetPluginCapabilities: Integer;
 
     function IsLoaded: Boolean;
   end;
@@ -455,16 +453,6 @@ begin
   end;
 end;
 
-procedure TWCXModule.VFSInit(Data: PtrInt);
-begin
-  FPackerCaps:= Data;
-end;
-
-procedure TWCXModule.VFSDestroy;
-begin
-  UnloadModule;
-end;
-
 procedure TWCXModule.VFSConfigure(Parent: THandle);
 begin
   if Assigned(ConfigurePacker) then
@@ -513,7 +501,7 @@ begin
   end;
 end;
 
-function TWCXModule.VFSMisc: PtrUInt;
+function TWCXModule.GetPluginCapabilities: Integer;
 begin
   if Assigned(GetPackerCaps) then
     Result := GetPackerCaps()
