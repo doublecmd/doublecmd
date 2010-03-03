@@ -2045,9 +2045,12 @@ procedure TColumnsFileView.SetActiveFile(aFilePath: String);
 var
   i: Integer;
 begin
-  if Assigned(FCurrentFileListBuilder) then
+  if Assigned(FCurrentFileListBuilder) and
+     (FCurrentFileListBuilder.State = rfsLoadingFiles) then
+  begin
     // File list is currently loading - just remember active file.
-    LastActive := aFilePath
+    LastActive := aFilePath;
+  end
   else
   begin
     if aFilePath <> '' then // find correct cursor position in Panel (drawgrid)
