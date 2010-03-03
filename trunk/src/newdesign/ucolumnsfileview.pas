@@ -1159,12 +1159,15 @@ end;
 
 procedure TColumnsFileView.dgPanelMouseWheelUp(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+var
+  I: Integer;
 begin
   Handled:= True;
   case gScrollMode of
-  1:
+  smLineByLine:
+    for I:= 1 to gWheelScrollLines do
     dgPanel.Perform(LM_VSCROLL, SB_LINEUP, 0);
-  2:
+  smPageByPage:
     dgPanel.Perform(LM_VSCROLL, SB_PAGEUP, 0);
   else
     Handled:= False;
@@ -1173,12 +1176,15 @@ end;
 
 procedure TColumnsFileView.dgPanelMouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+var
+  I: Integer;
 begin
   Handled:= True;
   case gScrollMode of
-  1:
+  smLineByLine:
+    for I:= 1 to gWheelScrollLines do
     dgPanel.Perform(LM_VSCROLL, SB_LINEDOWN, 0);
-  2:
+  smPageByPage:
     dgPanel.Perform(LM_VSCROLL, SB_PAGEDOWN, 0);
   else
     Handled:= False;

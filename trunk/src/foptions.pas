@@ -242,6 +242,9 @@ type
     pgArchivers: TPage;
     pgIgnoreList: TPage;
     pnlArchiverCommands: TPanel;
+    rbScrollPageByPage: TRadioButton;
+    rbScrollLineByLine: TRadioButton;
+    rbScrollLineByLineCursor: TRadioButton;
     sbxMultiArc: TScrollBox;
     pnlQuickSearch: TPanel;
     pnlQuickFilter: TPanel;
@@ -285,7 +288,7 @@ type
     pgMisc: TPage;
     pnlButtons: TPanel;
     pgColumns: TPage;
-    rgScrolling: TRadioGroup;
+    gbScrolling: TGroupBox;
     rbCtrlAltLetterQS: TRadioButton;
     rbAltLetterQS: TRadioButton;
     rbNoneQS: TRadioButton;
@@ -348,6 +351,7 @@ type
     rbUseMmapInSearch: TRadioButton;
     rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
+    seWheelScrollLines: TSpinEdit;
     splMultiArc: TSplitter;
     splOptionsSplitter: TSplitter;
     stgPlugins: TStringGrid;
@@ -532,13 +536,6 @@ begin
   ParseLineToList(rsOptMouseSelectionButton, cbMouseMode.Items);
   ParseLineToList(rsOptAutoSizeColumn, cmbAutoSizeColumn.Items);
   ParseLineToList(rsOptTabsPosition, cmbTabsPosition.Items);
-  // Scrolling radio group localization
-  with rgScrolling do
-    begin
-      Items.Strings[0] := rsOptLineByLineCursor;
-      Items.Strings[1] := rsOptLineByLine;
-      Items.Strings[2] := rsOptPageByPage;
-    end;
   // Show configuration directory
   rbProgramDir.Caption:= rbProgramDir.Caption + ' - [' + gpGlobalCfgDir + ']';
   rbUserHomeDir.Caption:= rbUserHomeDir.Caption + ' - [' + GetAppConfigDir + PathDelim + ']';
@@ -2421,10 +2418,18 @@ begin
   chkAutoFillColumns.Checked:= gAutoFillColumns;
   cmbAutoSizeColumn.ItemIndex:= gAutoSizeColumn;
 
-  if gScrollMode < rgScrolling.Items.Count then
-    rgScrolling.ItemIndex:=  gScrollMode
-  else
-    rgScrolling.ItemIndex:= 0;
+  case gScrollMode of
+    smLineByLineCursor:
+      rbScrollLineByLineCursor.Checked:= True;
+    smLineByLine:
+      rbScrollLineByLine.Checked:= True;
+    smPageByPage:
+      rbScrollPageByPage.Checked:= True;
+    else
+      rbScrollLineByLine.Checked:= True;
+  end;
+  seWheelScrollLines.Value:= gWheelScrollLines;
+
   cbMinimizeToTray.Checked:= gMinimizeToTray;
   cbMinimizeToTray.Enabled:= not gAlwaysShowTrayIcon;
   cbAlwaysShowTrayIcon.Checked:= gAlwaysShowTrayIcon;
@@ -2611,7 +2616,15 @@ begin
   gCaseSensitiveSort:=cbCaseSensitiveSort.Checked;
   gLynxLike:=cbLynxLike.Checked;
   gShortFileSizeFormat:=cbShortFileSizeFormat.Checked;
-  gScrollMode := rgScrolling.ItemIndex;
+
+  if rbScrollLineByLineCursor.Checked then
+    gScrollMode:= smLineByLineCursor
+  else if rbScrollLineByLine.Checked then
+    gScrollMode:= smLineByLine
+  else if rbScrollPageByPage.Checked then
+    gScrollMode:= smPageByPage;
+  gWheelScrollLines:= seWheelScrollLines.Value;
+
   gMinimizeToTray:= cbMinimizeToTray.Checked;
   gAlwaysShowTrayIcon:= cbAlwaysShowTrayIcon.Checked;
   gDateTimeFormat := cbDateTimeFormat.Text;

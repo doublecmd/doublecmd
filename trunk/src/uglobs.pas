@@ -45,6 +45,7 @@ type
   TShowIconsMode = (sim_none, sim_standart, sim_all, sim_all_and_exe);
   { Show tooltip mode }
   TShowToolTipMode = set of (stm_show_for_all, stm_only_large_name);
+  TScrollMode = (smLineByLineCursor, smLineByLine, smPageByPage);
 
   TExternalTool = (etViewer, etEditor, etDiffer);
   TExternalToolOptions = record
@@ -131,7 +132,8 @@ var
   gOnlyOneAppInstance,
   gCutTextToColWidth : Boolean;
   gSpaceMovesDown: Boolean;
-  gScrollMode: Integer;
+  gScrollMode: TScrollMode;
+  gWheelScrollLines: Integer;
   gAlwaysShowTrayIcon: Boolean;
   gMinimizeToTray: Boolean;
   gShortFileSizeFormat:Boolean;
@@ -506,7 +508,8 @@ begin
   gAlwaysShowTrayIcon := False;
   gMouseSelectionEnabled := True;
   gMouseSelectionButton := 0;  // Left
-  gScrollMode := 0;
+  gScrollMode := smLineByLine;
+  gWheelScrollLines:= Mouse.WheelScrollLines;
   gAutoFillColumns := False;
   gAutoSizeColumn := 1;
   gDateTimeFormat := 'dd.mm.yy';
@@ -925,7 +928,7 @@ begin
   gCaseSensitiveSort := gIni.ReadBool('Configuration', 'CaseSensitiveSort', False);
   gLynxLike := gIni.ReadBool('Configuration', 'LynxLike', True);
   gShortFileSizeFormat := gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True);
-  gScrollMode := gIni.ReadInteger('Configuration', 'ScrollMode', 0);
+  gScrollMode := TScrollMode(gIni.ReadInteger('Configuration', 'ScrollMode', Integer(gScrollMode)));
   gMinimizeToTray := gIni.ReadBool('Configuration', 'MinimizeToTray', False);
   gAlwaysShowTrayIcon := gIni.ReadBool('Configuration', 'AlwaysShowTrayIcon', False);
   gDateTimeFormat := gIni.ReadString('Configuration', 'DateTimeFormat', 'dd.mm.yy');
@@ -1095,7 +1098,7 @@ begin
   gIni.WriteBool('Configuration', 'LynxLike', gLynxLike);
 
   gIni.WriteBool('Configuration', 'ShortFileSizeFormat', gShortFileSizeFormat);
-  gIni.WriteInteger('Configuration', 'ScrollMode', gScrollMode);
+  gIni.WriteInteger('Configuration', 'ScrollMode', Integer(gScrollMode));
   gIni.WriteBool('Configuration', 'MinimizeToTray', gMinimizeToTray);
   gIni.WriteBool('Configuration', 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
   gIni.WriteString('Configuration', 'DateTimeFormat', gDateTimeFormat);
@@ -1255,7 +1258,8 @@ begin
       gAlwaysShowTrayIcon := GetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
       gMouseSelectionEnabled := GetAttr(Node, 'Mouse/Selection/Enabled', gMouseSelectionEnabled);
       gMouseSelectionButton := GetValue(Node, 'Mouse/Selection/Button', gMouseSelectionButton);
-      gScrollMode := GetValue(Node, 'Mouse/ScrollMode', gScrollMode);
+      gScrollMode := TScrollMode(GetValue(Node, 'Mouse/ScrollMode', Integer(gScrollMode)));
+      gWheelScrollLines:= GetValue(Node, 'Mouse/WheelScrollLines', gWheelScrollLines);
       gAutoFillColumns := GetValue(Node, 'AutoFillColumns', gAutoFillColumns);
       gAutoSizeColumn := GetValue(Node, 'AutoSizeColumn', gAutoSizeColumn);
       gDateTimeFormat := GetValue(Node, 'DateTimeFormat', gDateTimeFormat);
@@ -1495,7 +1499,8 @@ begin
     SubNode := FindNode(Node, 'Mouse', True);
     SetAttr(SubNode, 'Selection/Enabled', gMouseSelectionEnabled);
     SetValue(SubNode, 'Selection/Button', gMouseSelectionButton);
-    SetValue(SubNode, 'ScrollMode', gScrollMode);
+    SetValue(SubNode, 'ScrollMode', Integer(gScrollMode));
+    SetValue(SubNode, 'WheelScrollLines', gWheelScrollLines);
     SetValue(Node, 'AutoFillColumns', gAutoFillColumns);
     SetValue(Node, 'AutoSizeColumn', gAutoSizeColumn);
     SetValue(Node, 'DateTimeFormat', gDateTimeFormat);
