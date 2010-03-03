@@ -2944,6 +2944,11 @@ msgstr "Opslaan bij afsluiten"
 msgid " Screen layout "
 msgstr " Scherm opmaak "
 
+#: TFRMOPTIONS.GBSCROLLING.CAPTION
+msgctxt "TFRMOPTIONS.GBSCROLLING.CAPTION"
+msgid "Scrolling"
+msgstr "Schuiven"
+
 #: TFRMOPTIONS.GBSHOWGRID.CAPTION
 msgid "Show grid in file panel"
 msgstr "Toon grid in bestands paneel"
@@ -3223,6 +3228,21 @@ msgstr "Uitgeschakeld"
 msgid "Program directory (portable version)"
 msgstr "Programma map (draagbare versie)"
 
+#: TFRMOPTIONS.RBSCROLLLINEBYLINE.CAPTION
+msgctxt "TFRMOPTIONS.RBSCROLLLINEBYLINE.CAPTION"
+msgid "Line by line"
+msgstr "Regel voor regel"
+
+#: TFRMOPTIONS.RBSCROLLLINEBYLINECURSOR.CAPTION
+msgctxt "TFRMOPTIONS.RBSCROLLLINEBYLINECURSOR.CAPTION"
+msgid "Line by line with cursor movement"
+msgstr "Regel voor regel met cursor verplaatsing"
+
+#: TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION
+msgctxt "TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION"
+msgid "Page by page"
+msgstr "Bladzijde voor bladzijde"
+
 #: TFRMOPTIONS.RBTOOLTIPALLFILES.CAPTION
 msgid "Show tool tip for all files in file panel"
 msgstr ""
@@ -3246,10 +3266,6 @@ msgstr "Gebruikers home map"
 #: TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION
 msgid "Use stream for search text in files"
 msgstr "Gebruik stream voor zoeken tekst in bestanden"
-
-#: TFRMOPTIONS.RGSCROLLING.CAPTION
-msgid "Scrolling"
-msgstr "Schuiven"
 
 #: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
 msgid "Tool"
@@ -4679,14 +4695,6 @@ msgstr "Taal"
 msgid "Layout"
 msgstr "Weergave"
 
-#: ulng.rsoptlinebyline
-msgid "Line by line"
-msgstr "Regel voor regel"
-
-#: ulng.rsoptlinebylinecursor
-msgid "Line by line with cursor movement"
-msgstr "Regel voor regel met cursor verplaatsing"
-
 #: ulng.rsoptlog
 msgctxt "ulng.rsoptlog"
 msgid "Log"
@@ -4699,10 +4707,6 @@ msgstr "Allerlei"
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
 msgstr "Linkerknop;Rechterknop"
-
-#: ulng.rsoptpagebypage
-msgid "Page by page"
-msgstr "Bladzijde voor bladzijde"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"

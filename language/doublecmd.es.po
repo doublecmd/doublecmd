@@ -2924,6 +2924,11 @@ msgstr "Guardar al salir"
 msgid " Screen layout "
 msgstr " Distribución de pantalla"
 
+#: TFRMOPTIONS.GBSCROLLING.CAPTION
+msgctxt "TFRMOPTIONS.GBSCROLLING.CAPTION"
+msgid "Scrolling"
+msgstr "Desplazamiento"
+
 #: TFRMOPTIONS.GBSHOWGRID.CAPTION
 msgid "Show grid in file panel"
 msgstr ""
@@ -3203,6 +3208,21 @@ msgstr "De&shabilitado"
 msgid "Program directory (portable version)"
 msgstr "Directorio de programa (versión portable)"
 
+#: TFRMOPTIONS.RBSCROLLLINEBYLINE.CAPTION
+msgctxt "TFRMOPTIONS.RBSCROLLLINEBYLINE.CAPTION"
+msgid "Line by line"
+msgstr "Línea a línea"
+
+#: TFRMOPTIONS.RBSCROLLLINEBYLINECURSOR.CAPTION
+msgctxt "TFRMOPTIONS.RBSCROLLLINEBYLINECURSOR.CAPTION"
+msgid "Line by line with cursor movement"
+msgstr "Línea a línea con movimiento de cursor"
+
+#: TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION
+msgctxt "TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION"
+msgid "Page by page"
+msgstr "Página a página"
+
 #: TFRMOPTIONS.RBTOOLTIPALLFILES.CAPTION
 msgid "Show tool tip for all files in file panel"
 msgstr ""
@@ -3226,10 +3246,6 @@ msgstr "Directorio inicial de usuario"
 #: TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION
 msgid "Use stream for search text in files"
 msgstr "Usar disco para buscar texto en ficheros"
-
-#: TFRMOPTIONS.RGSCROLLING.CAPTION
-msgid "Scrolling"
-msgstr "Desplazamiento"
 
 #: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
 msgid "Tool"
@@ -4657,14 +4673,6 @@ msgstr "Idioma"
 msgid "Layout"
 msgstr "Distribución"
 
-#: ulng.rsoptlinebyline
-msgid "Line by line"
-msgstr "Línea a línea"
-
-#: ulng.rsoptlinebylinecursor
-msgid "Line by line with cursor movement"
-msgstr "Línea a línea con movimiento de cursor"
-
 #: ulng.rsoptlog
 msgctxt "ulng.rsoptlog"
 msgid "Log"
@@ -4677,10 +4685,6 @@ msgstr ""
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
 msgstr ""
-
-#: ulng.rsoptpagebypage
-msgid "Page by page"
-msgstr "Página a página"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"

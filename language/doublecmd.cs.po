@@ -2973,6 +2973,11 @@ msgstr "Uložit při ukončení"
 msgid " Screen layout "
 msgstr "Vzhled obrazovky"
 
+#: TFRMOPTIONS.GBSCROLLING.CAPTION
+msgctxt "TFRMOPTIONS.GBSCROLLING.CAPTION"
+msgid "Scrolling"
+msgstr "Skrolování"
+
 #: TFRMOPTIONS.GBSHOWGRID.CAPTION
 msgid "Show grid in file panel"
 msgstr "Zobrazit mřížku v panelu souborů"
@@ -3254,6 +3259,21 @@ msgstr "&Zakázáno"
 msgid "Program directory (portable version)"
 msgstr "Adresář programu (\"portable\" verze)"
 
+#: TFRMOPTIONS.RBSCROLLLINEBYLINE.CAPTION
+msgctxt "TFRMOPTIONS.RBSCROLLLINEBYLINE.CAPTION"
+msgid "Line by line"
+msgstr "Řádek po řádku"
+
+#: TFRMOPTIONS.RBSCROLLLINEBYLINECURSOR.CAPTION
+msgctxt "TFRMOPTIONS.RBSCROLLLINEBYLINECURSOR.CAPTION"
+msgid "Line by line with cursor movement"
+msgstr "Řádek po řádku s posuvem kursoru"
+
+#: TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION
+msgctxt "TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION"
+msgid "Page by page"
+msgstr "Stranu po straně"
+
 #: TFRMOPTIONS.RBTOOLTIPALLFILES.CAPTION
 msgid "Show tool tip for all files in file panel"
 msgstr ""
@@ -3277,10 +3297,6 @@ msgstr "Domovský adresář uživatele"
 #: TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION
 msgid "Use stream for search text in files"
 msgstr "Použit stream pro hledání textu v souborech"
-
-#: TFRMOPTIONS.RGSCROLLING.CAPTION
-msgid "Scrolling"
-msgstr "Skrolování"
 
 #: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
 msgid "Tool"
@@ -4721,14 +4737,6 @@ msgstr "Jazyk"
 msgid "Layout"
 msgstr "Rozvržení"
 
-#: ulng.rsoptlinebyline
-msgid "Line by line"
-msgstr "Řádek po řádku"
-
-#: ulng.rsoptlinebylinecursor
-msgid "Line by line with cursor movement"
-msgstr "Řádek po řádku s posuvem kursoru"
-
 #: ulng.rsoptlog
 msgctxt "ulng.rsoptlog"
 msgid "Log"
@@ -4741,10 +4749,6 @@ msgstr "Různé"
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
 msgstr "Levé tlačítko;Pravé tlačítko;"
-
-#: ulng.rsoptpagebypage
-msgid "Page by page"
-msgstr "Stranu po straně"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
