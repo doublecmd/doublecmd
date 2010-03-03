@@ -2951,6 +2951,11 @@ msgstr "Mentés kilépéskor"
 msgid " Screen layout "
 msgstr " Képernyő felosztása "
 
+#: TFRMOPTIONS.GBSCROLLING.CAPTION
+msgctxt "TFRMOPTIONS.GBSCROLLING.CAPTION"
+msgid "Scrolling"
+msgstr "Görgetés"
+
 #: TFRMOPTIONS.GBSHOWGRID.CAPTION
 msgid "Show grid in file panel"
 msgstr "Rácsok megjelenítése a fájlpanelen"
@@ -3231,6 +3236,21 @@ msgstr "Le&tiltva"
 msgid "Program directory (portable version)"
 msgstr "Program könyvtár (hordozható változat)"
 
+#: TFRMOPTIONS.RBSCROLLLINEBYLINE.CAPTION
+msgctxt "TFRMOPTIONS.RBSCROLLLINEBYLINE.CAPTION"
+msgid "Line by line"
+msgstr "Sorról sorra"
+
+#: TFRMOPTIONS.RBSCROLLLINEBYLINECURSOR.CAPTION
+msgctxt "TFRMOPTIONS.RBSCROLLLINEBYLINECURSOR.CAPTION"
+msgid "Line by line with cursor movement"
+msgstr "Sorról sorra kurzormozgással"
+
+#: TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION
+msgctxt "TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION"
+msgid "Page by page"
+msgstr "Oldalról oldalra"
+
 #: TFRMOPTIONS.RBTOOLTIPALLFILES.CAPTION
 msgid "Show tool tip for all files in file panel"
 msgstr ""
@@ -3254,10 +3274,6 @@ msgstr "Felhasználó saját könyvtára"
 #: TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION
 msgid "Use stream for search text in files"
 msgstr "Memóriafolyam használata fájlokban történő kereséskor"
-
-#: TFRMOPTIONS.RGSCROLLING.CAPTION
-msgid "Scrolling"
-msgstr "Görgetés"
 
 #: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
 msgid "Tool"
@@ -4690,14 +4706,6 @@ msgstr "Nyelv"
 msgid "Layout"
 msgstr "Megjelenés"
 
-#: ulng.rsoptlinebyline
-msgid "Line by line"
-msgstr "Sorról sorra"
-
-#: ulng.rsoptlinebylinecursor
-msgid "Line by line with cursor movement"
-msgstr "Sorról sorra kurzormozgással"
-
 #: ulng.rsoptlog
 msgctxt "ulng.rsoptlog"
 msgid "Log"
@@ -4710,10 +4718,6 @@ msgstr "Egyéb"
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
 msgstr "Bal gomb;Jobb gomb;"
-
-#: ulng.rsoptpagebypage
-msgid "Page by page"
-msgstr "Oldalról oldalra"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"

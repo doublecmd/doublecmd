@@ -3205,8 +3205,20 @@ msgstr ""
 msgid "Use stream for search text in files"
 msgstr ""
 
-#: TFRMOPTIONS.RGSCROLLING.CAPTION
+#: TFRMOPTIONS.GBSCROLLING.CAPTION
 msgid "Scrolling"
+msgstr ""
+
+#: TFRMOPTIONS.RBSCROLLLINEBYLINECURSOR.CAPTION
+msgid "Line by line with cursor movement"
+msgstr ""
+
+#: TFRMOPTIONS.RBSCROLLLINEBYLINE.CAPTION
+msgid "Line by line"
+msgstr ""
+
+#: TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION
+msgid "Page by page"
 msgstr ""
 
 #: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
@@ -4635,14 +4647,6 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: ulng.rsoptlinebyline
-msgid "Line by line"
-msgstr ""
-
-#: ulng.rsoptlinebylinecursor
-msgid "Line by line with cursor movement"
-msgstr ""
-
 #: ulng.rsoptlog
 msgctxt "ulng.rsoptlog"
 msgid "Log"
@@ -4654,10 +4658,6 @@ msgstr ""
 
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
-msgstr ""
-
-#: ulng.rsoptpagebypage
-msgid "Page by page"
 msgstr ""
 
 #: ulng.rsoptpluginalreadyassigned
