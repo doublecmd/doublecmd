@@ -23,6 +23,9 @@ type
     FMultiArchiveFileSource: IMultiArchiveFileSource;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     FFullFilesTree: TFileSystemFiles;
+    FPackingFlags: Integer;
+    FPassword: UTF8String;
+    FVolumeSize: Int64;
 
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
@@ -48,6 +51,9 @@ type
     procedure MainExecute; override;
     procedure Finalize; override;
 
+    property PackingFlags: Integer read FPackingFlags write FPackingFlags;
+    property Password: UTF8String read FPassword write FPassword;
+    property VolumeSize: Int64 read FVolumeSize write FVolumeSize;
   end;
 
 implementation
@@ -63,6 +69,9 @@ constructor TMultiArchiveCopyInOperation.Create(aSourceFileSource: IFileSource;
 begin
   FMultiArchiveFileSource := aTargetFileSource as IMultiArchiveFileSource;
   FFullFilesTree := nil;
+  FPackingFlags := 0;
+  FPassword := EmptyStr;
+  FVolumeSize := 0;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
@@ -136,8 +145,8 @@ begin
                                             aFile.FullPath,
                                             sDestPath,
                                             FTempFile,
-                                            FMultiArchiveFileSource.Password,
-                                            FMultiArchiveFileSource.VolumeSize
+                                            Password,
+                                            VolumeSize
                                             );
       OnReadLn(sReadyCommand);
 
@@ -148,7 +157,7 @@ begin
       // Check for errors.
       if CheckForErrors(sRootPath + aFile.FullPath, FExProcess.ExitStatus) then
         begin
-          if (FMultiArchiveFileSource.ArchiveFlags and PK_PACK_MOVE_FILES) <> 0 then
+          if (PackingFlags and PK_PACK_MOVE_FILES) <> 0 then
             DeleteFile(sRootPath, aFile);
         end;
     end
@@ -162,8 +171,8 @@ begin
                                             EmptyStr,
                                             sDestPath,
                                             FTempFile,
-                                            FMultiArchiveFileSource.Password,
-                                            FMultiArchiveFileSource.VolumeSize
+                                            Password,
+                                            VolumeSize
                                             );
       OnReadLn(sReadyCommand);
 
@@ -173,7 +182,7 @@ begin
       // Check for errors.
       if CheckForErrors(FMultiArchiveFileSource.ArchiveFileName, FExProcess.ExitStatus) then
         begin
-           if (FMultiArchiveFileSource.ArchiveFlags and PK_PACK_MOVE_FILES) <> 0 then
+           if (PackingFlags and PK_PACK_MOVE_FILES) <> 0 then
              for I:= FFullFilesTree.Count - 1 downto 0 do
                DeleteFile(sRootPath, FFullFilesTree[I]);
         end;
