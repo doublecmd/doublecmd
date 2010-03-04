@@ -230,16 +230,6 @@ end;
 
 procedure FreeHal;
 begin
-  if Assigned(DcDbus) then
-  begin
-    if DBusConnectionOpen then
-    begin
-      dbus_connection_close(DcDbus);
-      DBusConnectionOpen := False;
-    end;
-    dbus_connection_unref(DcDbus);
-    DcDbus := nil;
-  end;
   if Assigned(DcHalCtx) then
   begin
     if HalConnectionOpen then
@@ -249,6 +239,16 @@ begin
     end;
     libhal_ctx_free(DcHalCtx);
     DcHalCtx := nil;
+  end;
+  if Assigned(DcDbus) then
+  begin
+    if DBusConnectionOpen then
+    begin
+      dbus_connection_close(DcDbus);
+      DBusConnectionOpen := False;
+    end;
+    dbus_connection_unref(DcDbus);
+    DcDbus := nil;
   end;
   FreeThenNil(DeviceList);
 end;
