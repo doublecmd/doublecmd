@@ -59,7 +59,8 @@ type
     procedure SetPauseGlyph;
     procedure SetPlayGlyph;
     procedure UpdatePauseStartButton(OperationState: TFileSourceOperationState);
-    procedure SetProgress(ProgressBar: TProgressBar; CurrentValue: Int64; MaxValue: Int64);
+    procedure SetProgress(ProgressBar: TProgressBar; CurrentValue: Int64; MaxValue: Int64; BarText: String = '');
+    procedure SetProgressBytes(ProgressBar: TProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
     procedure SetSpeedAndTime(Operation: TFileSourceOperation; RemainingTime: TDateTime; Speed: String);
 
     procedure InitializeCopyOperation(Operation: TFileSourceOperation);
@@ -96,7 +97,14 @@ uses
    uFileSourceWipeOperation,
    uFileSourceCalcChecksumOperation,
    uFileSourceTestArchiveOperation,
-   uFileSourceOperationMessageBoxesUI;
+   uFileSourceOperationMessageBoxesUI
+   {$IFDEF LCLGTK2}
+   , Gtk2
+   {$ENDIF}
+   {$IFDEF LCLQT}
+   , qt4, qtwidgets
+   {$ENDIF}
+   ;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
 var
@@ -149,6 +157,13 @@ begin
   pbFirst.DoubleBuffered:= True;
   pbSecond.DoubleBuffered:= True;
   Self.DoubleBuffered:= True;
+
+  {$IFDEF LCLGTK2}
+  // Have to disable LCLGTK2 default progress bar text
+  // set in TGtk2WSProgressBar.UpdateProgressBarText.
+  pbFirst.BarShowText := False;
+  pbSecond.BarShowText := False;
+  {$ENDIF}
 
   Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
   if Assigned(Operation) then
@@ -340,12 +355,56 @@ begin
   end;
 end;
 
-procedure TfrmFileOp.SetProgress(ProgressBar: TProgressBar; CurrentValue: Int64; MaxValue: Int64);
+procedure TfrmFileOp.SetProgress(ProgressBar: TProgressBar; CurrentValue: Int64; MaxValue: Int64; BarText: String);
+{$IFDEF LCLGTK2}
+var
+  wText: String;
+{$ENDIF}
+{$IFDEF LCLQT}
+var
+  wText: WideString;
+{$ENDIF}
 begin
   if MaxValue <> 0 then
     ProgressBar.Position := (CurrentValue * 100) div MaxValue
   else
     ProgressBar.Position := 0;
+
+{$IFDEF LCLGTK2}
+{
+  %v - the current progress value.
+  %l - the lower bound for the progress value.
+  %u - the upper bound for the progress value.
+  %p - the current progress percentage.
+}
+  if BarText <> '' then
+    wText := BarText + ' (%p%%)'
+  else
+    wText := '%p%%';
+  gtk_progress_set_format_string(PGtkProgress(ProgressBar.Handle), PChar(wText));
+  // Have to reset 'show_text' every time because LCLGTK2 will set it according to BarShowText.
+  gtk_progress_set_show_text(PGtkProgress(ProgressBar.Handle), True);
+{$ENDIF}
+{$IFDEF LCLQT}
+{
+  %p - is replaced by the percentage completed.
+  %v - is replaced by the current value.
+  %m - is replaced by the total number of steps.
+}
+  if BarText <> '' then
+    wText := WideString(BarText) + ' (%p%)'
+  else
+    wText := '%p%';
+  QProgressBar_setFormat(QProgressBarH(TQtProgressBar(ProgressBar.Handle).Widget), @wText);
+  //QProgressBar_setTextVisible(QProgressBarH(TQtProgressBar(ProgressBar.Handle).Widget), True);
+{$ENDIF}
+end;
+
+procedure TfrmFileOp.SetProgressBytes(ProgressBar: TProgressBar; CurrentBytes: Int64; TotalBytes: Int64);
+begin
+  SetProgress(ProgressBar, CurrentBytes, TotalBytes,
+    cnvFormatFileSize(CurrentBytes, True) + 'B/' +
+    cnvFormatFileSize(TotalBytes, True) + 'B');
 end;
 
 procedure TfrmFileOp.SetSpeedAndTime(Operation: TFileSourceOperation; RemainingTime: TDateTime; Speed: String);
@@ -415,8 +474,8 @@ begin
     lblFileNameFrom.Caption := CurrentFileFrom;
     lblFileNameTo.Caption := CurrentFileTo;
 
-    SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgress(pbSecond, DoneBytes, TotalBytes);
+    SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -434,8 +493,8 @@ begin
     lblFileNameFrom.Caption := CurrentFileFrom;
     lblFileNameTo.Caption := CurrentFileTo;
 
-    SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgress(pbSecond, DoneBytes, TotalBytes);
+    SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -452,7 +511,9 @@ begin
   begin
     lblFileNameFrom.Caption := CurrentFile;
 
-    SetProgress(pbFirst, DoneFiles, TotalFiles);
+    SetProgress(pbFirst, DoneFiles, TotalFiles,
+      cnvFormatFileSize(DoneFiles, True) + '/' +
+      cnvFormatFileSize(TotalFiles, True));
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(FilesPerSecond, True));
   end;
 end;
@@ -469,8 +530,8 @@ begin
   begin
     lblFileNameFrom.Caption := CurrentFile;
 
-    SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgress(pbSecond, DoneBytes, TotalBytes);
+    SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -487,8 +548,8 @@ begin
   begin
     lblFileNameFrom.Caption := CurrentFile;
 
-    SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgress(pbSecond, DoneBytes, TotalBytes);
+    SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -506,8 +567,8 @@ begin
     lblFileNameFrom.Caption := ArchiveFile;
     lblFileNameTo.Caption := CurrentFile;
 
-    SetProgress(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
-    SetProgress(pbSecond, DoneBytes, TotalBytes);
+    SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
   end;
 end;
@@ -529,4 +590,4 @@ end;
 initialization
  {$I fFileOpDlg.lrs}
 
-end.
+end.
