@@ -153,6 +153,7 @@ implementation
 
 uses
   AbConst,
+  AbResString,
   AbExcept,
   AbTempFileStream,  
   AbBitBkt,
@@ -165,10 +166,10 @@ uses
   SysUtils;
 
 { -------------------------------------------------------------------------- }
-procedure AbReverseBits(var W : Word);{$IFDEF UseGreedyAsm}assembler;{$ENDIF}
+procedure AbReverseBits(var W : Word);
   {-Reverse the order of the bits in W}
 register;
-var
+const
   RevTable : array[0..255] of Byte = ($00, $80, $40, $C0, $20, $A0, $60,
    $E0, $10, $90, $50, $D0, $30, $B0, $70, $F0, $08, $88, $48, $C8, $28,
    $A8, $68, $E8, $18, $98, $58, $D8, $38, $B8, $78, $F8, $04, $84, $44,
@@ -188,31 +189,10 @@ var
    $9B, $5B, $DB, $3B, $BB, $7B, $FB, $07, $87, $47, $C7, $27, $A7, $67,
    $E7, $17, $97, $57, $D7, $37, $B7, $77, $F7, $0F, $8F, $4F, $CF, $2F,
    $AF, $6F, $EF, $1F, $9F, $5F, $DF, $3F, $BF, $7F, $FF);
-{$IFDEF UseGreedyAsm}
-asm
-  push eax                 // save EAX
-  mov  eax, [eax]          // read value into EAX
-  xor  ecx, ecx            // zero ECX
-  mov  cl, al              // prepare for table lookup
-  lea  edx, RevTable       // get address to table
-  mov  al, [edx+ecx]       // table lookup for low byte
-  mov  cl, ah              // prepare high byte for table lookup
-  mov  ah, al              // reverse bytes
-  mov  al, [edx+ecx]       // table lookup for high (now low) byte
-  pop  edx                 // restore address to W
-  mov  [edx], eax          // move value to W
-end;
-{$ENDIF}
-
-{$IFDEF UseGreedyPascal}
-var
-  X: Word;
 begin
-  X:= W;
-  WordRec(W).Lo:= RevTable[WordRec(X).Hi];
-  WordRec(W).Hi:= RevTable[WordRec(X).Lo];
+  W := RevTable[Byte(W shr 8)] or Word(RevTable[Byte(W)] shl 8);
 end;
-{$ENDIF}
+
 
 { TAbUnzipHelper implementation ============================================ }
 
@@ -975,7 +955,6 @@ function DoInflate(Archive : TAbZipArchive; Item : TAbZipItem; OutStream : TStre
 var
   Hlpr  : TAbDeflateHelper;
   Tries : Integer;
-  Successful : Boolean;
   Abort : Boolean;
 begin
   Hlpr := TAbDeflateHelper.Create;
@@ -998,22 +977,22 @@ begin
     end
     else begin { it's encrypted }
       Tries := 0;
-      Successful := False;
       Abort := False;
       CheckPassword(Archive, Tries, Abort);
       if Abort then
         raise EAbUserAbort.Create;
 
-
       Hlpr.CheckValue := TheCRC;
-      repeat
+      while True do begin
         try
           { attempt to inflate }
           Hlpr.Passphrase := Archive.Password;
           Result := Inflate(Archive.FStream, OutStream, Hlpr);
-          Successful := True;
+          Break;
         except
           on E:EAbInflatePasswordError do begin { bad password? }
+            if (Tries >= Archive.PasswordRetries) then
+              raise EAbZipInvalidPassword.Create;
             { request password }
             RequestPassword(Archive, Abort);
             if Abort then
@@ -1022,10 +1001,7 @@ begin
             Inc(Tries);
           end;
         end;
-        if (Tries > Archive.PasswordRetries) then begin
-          raise EAbZipInvalidPassword.Create;
-        end;
-      until Successful or Abort or (Tries >= Archive.PasswordRetries);
+      end;
 
     end; { if encrypted }
 
@@ -1369,22 +1345,24 @@ begin
 
       end else begin  // for larger files copy through temp file
 
-    //  {$IFDEF AbUnZipTempFile}
-        TempFileStream := TAbTempFileStream.Create(false);
         try
-          AbUnZipToStream(Sender, Item, TempFileStream);
-          TempFileName := TempFileStream.FileName;
-        finally
-          TempFileStream.Free;
-        end;
+      //  {$IFDEF AbUnZipTempFile}
+          TempFileStream := TAbTempFileStream.Create(false);
+          try
+            AbUnZipToStream(Sender, Item, TempFileStream);
+            TempFileName := TempFileStream.FileName;
+          finally
+            TempFileStream.Free;
+          end;
 
-        // Now copy the temp File to correct location
-        AbCopyFile(TempFileName, UseName, False);
-        // Check that it exists
-        if not FileExists(UseName) then
-          raise EAbException.CreateFmt(abMoveFileErrorS, [TempFileName, UseName]); // TODO: Add Own Exception Class
-        // Now Delete the Temp File
-        DeleteFile(TempFileName);
+          // Now copy the temp File to correct location
+          if not AbCopyFile(TempFileName, UseName, False) then
+            raise EAbException.CreateFmt(AbMoveFileErrorS, [TempFileName, UseName]); // TODO: Add Own Exception Class
+
+        finally
+          // Now Delete the Temp File
+          DeleteFile(TempFileName);
+        end;
       end;
     // {$ENDIF}
     end;

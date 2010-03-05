@@ -79,8 +79,6 @@ type
                       { always uses the system encoding}
       { Bit 4: FCOMMENT header data contains Comment, null terminated string}
                       { starting immediately after FileName (if any)}
-                      { The comment must consist of ISO 8859-1 (LATIN-1) chars.
-                        Line breaks should be denoted by #10. }
       { Bit 5: FENCRYPTED file is encrypted using zip-1.9 encryption }
                       { header data contains a 12-byte encryption header }
                       { starting immediately after Comment.  Documented in}
@@ -289,6 +287,9 @@ function VerifyGZip(Strm : TStream) : TAbArchiveType;
 function GZOsToStr(OS: Byte) : string;
 
 implementation
+
+uses
+  AbResString;
 
 const
   { Header Signature Values}
@@ -959,7 +960,7 @@ begin
   FGZStream  := FStream;
   FGZItem    := FItemList;
   FTarStream := TAbVirtualMemoryStream.Create;
-  FTarList   := TAbArchiveList.Create;
+  FTarList   := TAbArchiveList.Create(True);
 end;
 
 procedure TAbGzipArchive.SwapToTar;
@@ -990,9 +991,6 @@ begin
     SwapToGzip;
     GzItem := TAbGzipItem.Create;
     try
-      GzItem.CompressedSize := 0;
-      GzItem.CRC32 := 0;
-
       MakeFullNames(SourceFileName, ArchiveDirectory,
                     FullSourceFileName, FullArchiveFileName);
 
@@ -1002,13 +1000,12 @@ begin
       Result := GzItem;
     except
       Result := nil;
+      raise;
     end;
   end;
 end;
 
 destructor TAbGzipArchive.Destroy;
-var
-    i: Integer;
 begin
   SwapToGzip;
   FTarList.Free;

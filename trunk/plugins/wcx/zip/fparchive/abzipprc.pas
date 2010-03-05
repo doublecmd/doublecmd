@@ -211,7 +211,7 @@ var
 procedure ConfigureItem;
 begin
   Item.UncompressedSize := InStream.Size;
-  Item.GeneralPurposeBitFlag := 0;
+  Item.GeneralPurposeBitFlag := Item.GeneralPurposeBitFlag and AbLanguageEncodingFlag;
   Item.CompressedSize := 0;
   Item.VersionMadeBy := MakeVersionMadeBy;
 
