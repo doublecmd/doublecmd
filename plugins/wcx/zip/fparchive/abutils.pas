@@ -84,18 +84,21 @@ const
   AbThisDir       = '.';
   AbParentDir     = '..';
 
-var
-  AbCrc32TableOfs : Word;
-
 type
-  TAbArchiveType = (atUnknown, atZip, atSpannedZip, atSelfExtZip,
-                    atTar, atGzip, atGzippedTar, atCab);
+  TAbArchiveType = (atUnknown, atZip, atSpannedZip {!!.01}, atSelfExtZip,
+                    atTar, atGzip, atGzippedTar, atCab, atBzip2, atBzippedTar);
 
 
 {$IFDEF LINUX}
 type
   DWORD = LongWord;
 {$ENDIF LINUX}
+
+{$IFNDEF UNICODE}
+type
+  RawByteString = AnsiString;
+  UnicodeString = WideString;
+{$ENDIF}
 
 const
   AbCrc32Table : array[0..255] of DWord = (
@@ -168,25 +171,6 @@ const
 
 type
   TAbPathType = ( ptNone, ptRelative, ptAbsolute );
-
-  {===Multithread lock===}
-  TAbPadLock = class
-  protected {public}
-    FCount  : integer;
-    plCritSect : TRTLCriticalSection;
-  protected
-    function GetLocked : boolean;
-    procedure SetLocked(L : boolean);
-  public
-    constructor Create;
-      {-Create a multithread padlock}
-    destructor Destroy; override;
-      {-Free a multithread padlock}
-    property Locked : boolean
-             read GetLocked
-             write SetLocked;
-      {-Lock/unlock a multithread padlock}
-  end;
 
   {===Helper functions===}
   function AbCopyFile(const Source, Destination: string; FailIfExists: Boolean): Boolean;
@@ -290,10 +274,12 @@ type
   procedure AbUnfixName( var FName : string );
     {-changes forward slashes to backslashes}
 
-  procedure AbUpdateCRC( var CRC : LongInt; var Buffer; Len : Word );
+  procedure AbUpdateCRC( var CRC : LongInt; const Buffer; Len : Word );
 
   function AbUpdateCRC32(CurByte : Byte; CurCrc : LongInt) : LongInt;
     {-Returns an updated crc32}
+
+  function AbCRC32Of( const aValue : RawByteString ) : LongInt;
 
 { spanning }
 const
@@ -315,6 +301,16 @@ const
   {$IFDEF LINUX}                                                         {!!.01}
     Int64;                                                               {!!.01}
   {$ENDIF}                                                               {!!.01}
+
+type
+  TAbAttrExRec = record
+    Time: Integer;
+    Size: Int64;
+    Attr: Integer;
+    Mode: {$IFDEF LINUX}mode_t{$ELSE}Cardinal{$ENDIF};
+  end;
+
+  function AbFileGetAttrEx(const aFileName: string; out aAttr: TAbAttrExRec) : Boolean;
 
   function AbSwapLongEndianness(Value : LongInt): LongInt;
 
@@ -390,9 +386,18 @@ const
     AB_FPERMISSION_GROUPREAD or
     AB_FPERMISSION_OTHERREAD;
 
+type
+  TAbCharSet = (csASCII, csANSI, csUTF8);
+
+function AbDetectCharSet(const aValue: RawByteString): TAbCharSet;
+{$IFDEF LINUX}
+function AbSysCharSetIsUTF8: Boolean;
+{$ENDIF}
+
 { Unicode backwards compatibility functions }
 {$IFNDEF UNICODE}
 function CharInSet(C: AnsiChar; CharSet: TSysCharSet): Boolean;
+function UTF8ToString(const S: RawByteString): string;
 {$ENDIF}
 
 implementation
@@ -423,42 +428,6 @@ begin
   {$ENDIF}
 end;
 {====================================================================}
-
-
-{ TAbPadLock implementation ================================================ }
-constructor TAbPadLock.Create;
-begin
-  inherited Create;
-//!!MVC  InitializeCriticalSection(plCritSect);
-end;
-{ -------------------------------------------------------------------------- }
-destructor TAbPadLock.Destroy;
-begin
-//!!MVC  DeleteCriticalSection(plCritSect);
-  inherited Destroy;
-end;
-{ -------------------------------------------------------------------------- }
-function TAbPadLock.GetLocked : boolean;
-begin
-  Result := FCount > 0;
-end;
-{ -------------------------------------------------------------------------- }
-procedure TAbPadLock.SetLocked(L : boolean);
-begin
-  if L {locking} then begin
-    if IsMultiThread then begin
-//!!MVC      EnterCriticalSection(plCritSect);
-      inc(FCount);
-    end;
-  end
-  else {unlocking} begin
-    if (FCount > 0) then begin
-      dec(FCount);
-//!!MVC      LeaveCriticalSection(plCritSect);
-    end;
-  end;
-end;
-{ ========================================================================== }
 
 
 { ========================================================================== }
@@ -1284,7 +1253,7 @@ begin
       FName[i] := AbPathDelim;
 end;
 { -------------------------------------------------------------------------- }
-procedure AbUpdateCRC( var CRC : LongInt; var Buffer; Len : Word );
+procedure AbUpdateCRC( var CRC : LongInt; const Buffer; Len : Word );
 var
   BufPtr : PByte;
   i : Integer;
@@ -1296,7 +1265,7 @@ begin
   begin
     CRCTemp := AbCrc32Table[ Byte(CrcTemp) xor (BufPtr^) ] xor
               ((CrcTemp shr 8) and $00FFFFFF);
-    BufPtr := BufPtr + 1;
+    Inc(BufPtr);
   end;
   CRC := CRCTemp;
 end;
@@ -1308,6 +1277,13 @@ function AbUpdateCRC32(CurByte : Byte; CurCrc : LongInt) : LongInt;
 begin
   Result := DWORD(AbCrc32Table[ Byte(CurCrc xor LongInt( CurByte ) ) ] xor
             ((CurCrc shr 8) and DWORD($00FFFFFF)));
+end;
+{ -------------------------------------------------------------------------- }
+function AbCRC32Of( const aValue : RawByteString ) : LongInt;
+begin
+  Result := -1;
+  AbUpdateCRC(Result, aValue[1], Length(aValue));
+  Result := not Result;
 end;
 { -------------------------------------------------------------------------- }
 function AbWriteVolumeLabel(const VolName : string;
@@ -1762,6 +1738,48 @@ end;
 {!!.01 -- End Added }
 
 
+{ -------------------------------------------------------------------------- }
+function AbFileGetAttrEx(const aFileName: string; out aAttr: TAbAttrExRec) : Boolean;
+{$IFDEF MSWINDOWS}
+var
+  FileDate: LongRec;
+  FindData: TWin32FindData;
+  LocalFileTime: TFileTime;
+{$ENDIF}
+{$IFDEF LINUX}
+var
+  StatBuf: TStatBuf64;
+{$ENDIF}
+begin
+  aAttr.Time := -1;
+  aAttr.Size := -1;
+  aAttr.Attr := -1;
+  aAttr.Mode := 0;
+{$IFDEF MSWINDOWS}
+  Result := GetFileAttributesEx(PChar(aFileName), GetFileExInfoStandard, @FindData);
+  if Result then begin
+    if FileTimeToLocalFileTime(FindData.ftLastWriteTime, LocalFileTime) and
+       FileTimeToDosDateTime(LocalFileTime, FileDate.Hi, FileDate.Lo) then
+      aAttr.Time := Integer(FileDate);
+    LARGE_INTEGER(aAttr.Size).LowPart := FindData.nFileSizeLow;
+    LARGE_INTEGER(aAttr.Size).HighPart := FindData.nFileSizeHigh;
+    aAttr.Attr := FindData.dwFileAttributes;
+    aAttr.Mode := AbDOS2UnixFileAttributes(FindData.dwFileAttributes);
+  end;
+{$ENDIF}
+{$IFDEF LINUX}
+  // Work around Kylix QC#2761: Stat64, et al., are defined incorrectly
+  Result := (__lxstat64(_STAT_VER, PChar(aFileName), StatBuf) = 0);
+  if Result then begin
+    aAttr.Time := StatBuf.st_mtime;
+    aAttr.Size := StatBuf.st_size;
+    aAttr.Attr := AbUnix2DosFileAttributes(StatBuf.st_mode);
+    aAttr.Mode := StatBuf.st_mode;
+  end;
+{$ENDIF}
+end;
+
+
 {!!.04 - Added }
 function AbGetVolumeLabel(Drive : AnsiChar) : AnsiString;
 {-Get the volume label for the specified drive.}
@@ -1807,12 +1825,52 @@ begin
 end;
 {!!.04 - Added End }
 
+function AbDetectCharSet(const aValue: RawByteString): TAbCharSet;
+var
+  i, TrailCnt: Integer;
+begin
+  Result := csASCII;
+  TrailCnt := 0;
+  for i := 1 to Length(aValue) do begin
+    if Byte(aValue[i]) >= $80 then
+      Result := csANSI;
+    if TrailCnt > 0 then
+      if Byte(aValue[i]) in [$80..$BF] then
+        Dec(TrailCnt)
+      else Exit
+    else if Byte(aValue[i]) in [$80..$BF] then
+      Exit
+    else
+      case Byte(aValue[i]) of
+        $C0..$C1, $F5..$FF: Exit;
+        $C2..$DF: TrailCnt := 1;
+        $E0..$EF: TrailCnt := 2;
+        $F0..$F4: TrailCnt := 3;
+      end;
+  end;
+  if (TrailCnt = 0) and (Result = csANSI) then
+    Result := csUTF8;
+end;
+
+{$IFDEF LINUX}
+function AbSysCharSetIsUTF8: Boolean;
+begin
+  //Result := StrComp(nl_langinfo(_NL_CTYPE_CODESET_NAME), 'UTF-8') = 0;
+  Result := False;
+end;
+{$ENDIF}
+
 { Unicode backwards compatibility functions }
 {$IFNDEF UNICODE}
 function CharInSet(C: AnsiChar; CharSet: TSysCharSet): Boolean;
 begin
 Result := C in CharSet;
 end;
+
+function UTF8ToString(const S: RawByteString): string;
+begin
+  Result := UTf8ToAnsi(S);
+end;
 {$ENDIF}
 
-end.
+end.

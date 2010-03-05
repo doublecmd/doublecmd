@@ -20,6 +20,7 @@
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s):
+ *   Craig Peterson <capeterson@users.sourceforge.net>
  *
  * ***** END LICENSE BLOCK ***** *)
 
@@ -54,22 +55,21 @@ const
   Ab_DigitalSignature                       : Longint = $05054B50;
   Ab_Zip64EndCetralDirectory                : Longint = $06064B50;
   Ab_Zip64EndCetralDirectoryLocator         : Longint = $07064B50;
+  Ab_ZipEndCentralDirectorySignature        : Longint = $06054B50;
 
   Ab_WindowsExeSignature                    : Word    = $5A4D;       {!!.02}
   Ab_LinuxExeSigWord1                       : Word    = $457F;       {!!.02}
   Ab_LinuxExeSigWord2                       : Word    = $464C;       {!!.02}
 
-  Ab_iWindowSize            = $8000;  {Inflate window size}
-  Ab_iMaxCodeLen            = 16;     {Maximum bit length of any code}
-  Ab_iMaxCodes              = 288;    {Maximum number of codes in any set}
-  Size32K                   = 32768;
   AbDefZipSpanningThreshold = 0;
   AbDefPasswordRetries      = 3;
   AbFileIsEncryptedFlag     = $0001;
   AbHasDataDescriptorFlag   = $0008;
+  AbLanguageEncodingFlag    = $0800;
 
-var
-  Ab_ZipEndCentralDirectorySignature : Longint = $06054B50;
+  Ab_InfoZipUnicodePathSubfieldID           : Word    = $7075;
+  Ab_XceedUnicodePathSubfieldID             : Word    = $554E;
+  Ab_XceedUnicodePathSignature              : LongWord= $5843554E;
 
 type
   PAbByteArray4K = ^TAbByteArray4K;
@@ -88,20 +88,6 @@ type
 
   PAbIntegerArray = ^TAbIntegerArray;
   TAbIntegerArray = array[0..65535 div sizeof(integer)-1] of integer;
-
-  PAbiSlide = ^TAbiSlide;
-  TAbiSlide = array[0..Ab_iWindowSize] of Byte;
-
-  PPAbHuft           = ^PAbHuft;
-  PAbHuft            = ^TAbHuft;
-  TAbHuft             = packed record
-    ExtraBits      : Byte;   {Number of extra bits}
-    NumBits        : Byte;   {Number of bits in this code or subcode}
-    Filler : Word;
-    case Byte of
-      0: (N        : Word);  {Literal, length base, or distance base}
-      1: (NextLevel: PAbHuft); {Pointer to next level of table}
-  end;
 
   TAbFollower =                      {used to expand reduced files}
     packed record
@@ -127,44 +113,21 @@ type
       Entry : array[0..256] of TAbSfEntry;
     end;
 
-  PAbWord = ^Word;
-
-  TAbFCData = packed record
-    case Byte of
-      0 : (Freq : Word);  {frequency count}
-      1 : (Code : Word);  {bit string}
+  PInfoZipUnicodePathRec = ^TInfoZipUnicodePathRec;
+  TInfoZipUnicodePathRec = packed record
+    Version: Byte;
+    NameCRC32: LongInt;
+    UnicodeName: array[0..0] of AnsiChar;
   end;
 
-  TAbDLData = packed record
-    case Byte of
-      0 : (Dad : Word);  {father node in Huffman tree}
-      1 : (Len : Word);  {length of bit string}
+  PXceedUnicodePathRec = ^TXceedUnicodePathRec;
+  TXceedUnicodePathRec = packed record
+    Signature: LongWord;
+    Length: Integer;
+    UnicodeName: array[0..0] of WideChar;
   end;
-
-  {Data structure describing a single value and its code string}
-  TAbCTData = packed record
-    FC : TAbFCData;
-    Filler : word;
-    DL : TAbDLData;
-  end;
-  PAbCTDataArray = ^TAbCTDataArray;
-  TAbCTDataArray = array[0..65535 div SizeOf(TAbCTData) - 1] of TAbCTData;
-
-  TAbTreeDescription = packed record
-    DynamicTree : PAbCTDataArray;  {the dynamic tree}
-    StaticTree  : PAbCTDataArray;  {corresponding static tree or NULL}
-    ExtraBits   : PAbWordArray;    {extra bits for each code or NULL}
-    ExtraBase   : SmallInt;         {base index for ExtraBits}
-    MaxElements : SmallInt;         {max number of elements in the tree}
-    MaxLength   : SmallInt;         {max bit length for the codes}
-    MaxCode     : SmallInt;         {largest code with non zero frequency}
-  end;
-
 
 type
-  TAbFileType =
-    (Binary, Ascii, Unknown);
-
   TAbZipCompressionMethod =
     (cmStored, cmShrunk, cmReduced1, cmReduced2, cmReduced3,
      cmReduced4, cmImploded, cmTokenized, cmDeflated,
@@ -241,9 +204,11 @@ type
     function GetDeflationOption : TAbZipDeflationOption;
     function GetDictionarySize : TAbZipDictionarySize;
     function GetEncrypted : Boolean;
+    function GetIsUTF8 : Boolean;
     function GetShannonFanoTreeCount : Byte;
     function GetValid : Boolean;
     procedure SetCompressionMethod( Value : TAbZipCompressionMethod );
+    procedure SetIsUTF8( Value : Boolean );
   public {methods}
     constructor Create;
     destructor Destroy; override;
@@ -283,6 +248,8 @@ type
       read GetValid;
     property IsEncrypted : Boolean
       read GetEncrypted;
+    property IsUTF8 : Boolean
+      read GetIsUTF8 write SetIsUTF8;
     property ShannonFanoTreeCount : Byte
       read GetShannonFanoTreeCount;
   end;
@@ -656,7 +623,7 @@ uses
   {$ENDIF}
   {$ENDIF}
   {$ENDIF}
-  AbConst,
+  AbResString,
   AbExcept,
   AbVMStrm,
   SysUtils,
@@ -689,8 +656,7 @@ begin
 
   Strm.Position := 0;                                                {!!.02}
   Strm.Read(Sig, SizeOf(LongInt));                                   {!!.02}
-  if (Sig = Ab_ZipSpannedSetSignature) or                            {!!.02}
-     (Sig = Ab_ZipPossiblySpannedSignature) then                     {!!.02}
+  if (Sig = Ab_ZipSpannedSetSignature) then                          {!!.02}
     Result := atSpannedZip                                           {!!.02}
   else begin                                                         {!!.02}
 
@@ -925,7 +891,7 @@ begin
       end;
 {      else}                                                             {!!.01}
 {        write('.');}                                                    {!!.01}
-      dec(Offset, BufSize - SizeOf(longint));
+      dec(Offset, BufSize - SizeOf(TailRec));
     end;
 
     {if we reach this point, the CD tail is not present}
@@ -1026,6 +992,171 @@ begin
     ZDFF.Free;
   end;
 end;         
+{============================================================================}
+{$IFDEF MSWINDOWS}
+function IsOEM(const aValue: RawByteString): Boolean;
+const
+  // Byte values of alpha-numeric characters in OEM and ANSI codepages.
+  // Excludes NBSP, ordinal indicators, exponents, the florin symbol, and, for
+  // ANSI codepages matched to certain OEM ones, the micro character.
+  //
+  // US (OEM 437, ANSI 1252)
+  Oem437AnsiChars =
+    [138, 140, 142, 154, 156, 158, 159, 181, 192..214, 216..246, 248..255];
+  Oem437OemChars =
+    [128..154, 160..165, 224..235, 237, 238];
+  // Arabic (OEM 720, ANSI 1256)
+  Oem720AnsiChars =
+    [129, 138, 140..144, 152, 154, 156, 159, 170, 181, 192..214, 216..239, 244,
+     249, 251, 252, 255];
+  Oem720OemChars =
+    [130, 131, 133, 135..140, 147, 149..155, 157..173, 224..239];
+  // Greek (OEM 737, ANSI 1253)
+  Oem737AnsiChars =
+    [162, 181, 184..186, 188, 190..209, 211..254];
+  Oem737OemChars =
+    [128..175, 224..240, 244, 245];
+  // Baltic Rim (OEM 775, ANSI 1257)
+  Oem775AnsiChars =
+    [168, 170, 175, 184, 186, 191..214, 216..246, 248..254];
+  Oem775OemChars =
+    [128..149, 151..155, 157, 160..165, 173, 181..184, 189, 190, 198, 199,
+     207..216, 224..238];
+  // Western European (OEM 850, ANSI 1252)
+  Oem850AnsiChars =
+    [138, 140, 142, 154, 156, 158, 159, 192..214, 216..246, 248..255];
+  Oem850OemChars =
+    [128..155, 157, 160..165, 181..183, 198, 199, 208..216, 222, 224..237];
+  // Central & Eastern European (OEM 852, ANSI 1250)
+  Oem852AnsiChars =
+    [138, 140..143, 154, 156..159, 163, 165, 170, 175, 179, 185, 186, 188,
+     190..214, 216..246, 248..254];
+  Oem852OemChars =
+    [128..157, 159..169, 171..173, 181..184, 189, 190, 198, 199, 208..216, 221,
+     222, 224..238, 251..253];
+  // Cyrillic (OEM 855, ANSI 1251)
+  Oem855AnsiChars =
+    [128, 129, 131, 138, 140..144, 154, 156..159, 161..163, 165, 168, 170, 175,
+     178..180, 184, 186, 188..255];
+  Oem855OemChars =
+    [128..173, 181..184, 189, 190, 198, 199, 208..216, 221, 222, 224..238,
+     241..252];
+  // Turkish (OEM 857, ANSI 1254)
+  Oem857AnsiChars =
+    [138, 140, 154, 156, 159, 192..214, 216..246, 248..255];
+  Oem857OemChars =
+    [128..155, 157..167, 181..183, 198, 199, 210..212, 214..216, 222, 224..230,
+     233..237];
+  // Hebrew (OEM 862, ANSI 1255)
+  Oem862AnsiChars =
+    [181, 212..214, 224..250];
+  Oem862OemChars =
+    [128..154, 160..165, 224..235, 237, 238];
+  // Cyrillic CIS (OEM 866, ANSI 1251)
+  Oem866AnsiChars =
+    [128, 129, 131, 138, 140..144, 154, 156..159, 161..163, 165, 168, 170, 175,
+     178..181, 184, 186, 188..255];
+  Oem866OemChars =
+    [128..175, 224..247];
+var
+  AnsiChars, OemChars: set of Byte;
+  IsANSI: Boolean;
+  i: Integer;
+begin
+  case GetOEMCP of
+    437:
+    begin
+      AnsiChars := Oem437AnsiChars;
+      OemChars := Oem437OemChars;
+    end;
+    720:
+    begin
+      AnsiChars := Oem720AnsiChars;
+      OemChars := Oem720OemChars;
+    end;
+    737:
+    begin
+      AnsiChars := Oem737AnsiChars;
+      OemChars := Oem737OemChars;
+    end;
+    775:
+    begin
+      AnsiChars := Oem775AnsiChars;
+      OemChars := Oem775OemChars;
+    end;
+    850:
+    begin
+      AnsiChars := Oem850AnsiChars;
+      OemChars := Oem850OemChars;
+    end;
+    852:
+    begin
+      AnsiChars := Oem852AnsiChars;
+      OemChars := Oem852OemChars;
+    end;
+    855:
+    begin
+      AnsiChars := Oem855AnsiChars;
+      OemChars := Oem855OemChars;
+    end;
+    857:
+    begin
+      AnsiChars := Oem857AnsiChars;
+      OemChars := Oem857OemChars;
+    end;
+    862:
+    begin
+      AnsiChars := Oem862AnsiChars;
+      OemChars := Oem862OemChars;
+    end;
+    866:
+    begin
+      AnsiChars := Oem866AnsiChars;
+      OemChars := Oem866OemChars;
+    end;
+    else
+    begin
+      Result := False;
+      Exit;
+    end;
+  end;
+
+  IsANSI := True;
+  Result := True;
+  for i := 0 to Length(aValue) do
+    if Ord(aValue[i]) >= $80 then
+    begin
+      if IsANSI then
+        IsANSI := Ord(aValue[i]) in AnsiChars;
+      if Result then
+        Result := Ord(aValue[i]) in OemChars;
+      if not IsANSI and not Result then
+        Break
+    end;
+  if IsANSI then
+    Result := False;
+end;
+{============================================================================}
+function TryEncode(const aValue: UnicodeString; aCodePage: UINT; aAllowBestFit: Boolean;
+  out aResult: AnsiString): Boolean;
+const
+  WC_NO_BEST_FIT_CHARS = $00000400;
+  Flags: array[Boolean] of DWORD = (WC_NO_BEST_FIT_CHARS, 0);
+var
+  UsedDefault: BOOL;
+begin
+  if not aAllowBestFit and not CheckWin32Version(4, 1) then
+    Result := False
+  else begin
+    SetLength(aResult, WideCharToMultiByte(aCodePage, Flags[aAllowBestFit],
+      PWideChar(aValue), Length(aValue), nil, 0, nil, @UsedDefault));
+    SetLength(aResult, WideCharToMultiByte(aCodePage, Flags[aAllowBestFit],
+      PWideChar(aValue), Length(aValue), PAnsiChar(aResult),
+      Length(aResult), nil, @UsedDefault));
+    Result := not UsedDefault;
+  end;
+end;
+{$ENDIF MSWINDOWS}
 {============================================================================}
 { TAbZipDataDescriptor implementation ====================================== }
 procedure TAbZipDataDescriptor.LoadFromStream( Stream : TStream );
@@ -1136,6 +1267,11 @@ begin
   Result := ( ( FGeneralPurposeBitFlag and AbFileIsEncryptedFlag ) <> 0 );
 end;
 { -------------------------------------------------------------------------- }
+function TAbZipFileHeader.GetIsUTF8 : Boolean;
+begin
+  Result := ( ( GeneralPurposeBitFlag and AbLanguageEncodingFlag ) <> 0 );
+end;
+{ -------------------------------------------------------------------------- }
 function TAbZipFileHeader.GetShannonFanoTreeCount : Byte;
 begin
   if CompressionMethod = cmImploded then
@@ -1156,6 +1292,14 @@ procedure TAbZipFileHeader.SetCompressionMethod( Value :
                                                TAbZipCompressionMethod );
 begin
   FCompressionMethod := Ord( Value );
+end;
+{ -------------------------------------------------------------------------- }
+procedure TAbZipFileHeader.SetIsUTF8( Value : Boolean );
+begin
+  if Value then
+    GeneralPurposeBitFlag := GeneralPurposeBitFlag or AbLanguageEncodingFlag
+  else
+    GeneralPurposeBitFlag := GeneralPurposeBitFlag and not AbLanguageEncodingFlag;
 end;
 { -------------------------------------------------------------------------- }
 
@@ -1555,28 +1699,58 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.LoadFromStream( Stream : TStream );
 var
+  FieldSize: Word;
+  InfoZipField: PInfoZipUnicodePathRec;
+  UnicodeName: UnicodeString;
+  UTF8Name: UTF8String;
+  XceedField: PXceedUnicodePathRec;
   tempFileName: string;
   SystemCode: TAbZipHostOs;
 begin
   FItemInfo.LoadFromStream( Stream );
-  tempFileName := string(FItemInfo.FileName);
-  SystemCode := TAbZipHostOs(Byte(VersionMadeBy shr 8));
-  {$IF DEFINED(MSWINDOWS)}
-  if (SystemCode = hosMSDOS) and (GetACP <> GetOEMCP) then
-    tempFileName:= AbStrOemToAnsi(tempFileName);
-  {$ELSEIF DEFINED(LINUX)}
-  if (SystemCode = hosMSDOS) then
-    tempFileName := OEMToSys(tempFileName)
-  else if (SystemCode = hosNTFS) then
-    tempFileName := AnsiToSys(tempFileName);
-  {$ENDIF}
-  FileName := tempFileName;
+
+  if FItemInfo.IsUTF8 or (AbDetectCharSet(FItemInfo.FileName) = csUTF8) then
+    FileName := UTF8ToString(FItemInfo.FileName)
+  else if FItemInfo.ExtraField.Get(Ab_InfoZipUnicodePathSubfieldID, Pointer(InfoZipField), FieldSize) and
+     (FieldSize > SizeOf(TInfoZipUnicodePathRec)) and
+     (InfoZipField.Version = 1) and
+     (InfoZipField.NameCRC32 = AbCRC32Of(FItemInfo.FileName)) then begin
+    SetString(UTF8Name, InfoZipField.UnicodeName,
+      FieldSize - SizeOf(TInfoZipUnicodePathRec) + 1);
+    FileName := UTF8ToString(UTF8Name);
+  end
+  else if FItemInfo.ExtraField.Get(Ab_XceedUnicodePathSubfieldID, Pointer(XceedField), FieldSize) and
+     (FieldSize > SizeOf(TXceedUnicodePathRec)) and
+     (XceedField.Signature = Ab_XceedUnicodePathSignature) and
+     (XceedField.Length * SizeOf(WideChar) = FieldSize - SizeOf(TXceedUnicodePathRec) + SizeOf(WideChar)) then begin
+    SetString(UnicodeName, XceedField.UnicodeName, XceedField.Length);
+    FileName := string(UnicodeName);
+  end
+  else
+  begin
+    SystemCode := TAbZipHostOs(Byte(VersionMadeBy shr 8));
+    {$IF DEFINED(MSWINDOWS)}
+    if (GetACP <> GetOEMCP) and (SystemCode = hosMSDOS) or IsOEM(FItemInfo.FileName) then
+      FileName:= AbStrOemToAnsi(FItemInfo.FileName)
+    else
+    {$ELSEIF DEFINED(LINUX)}
+    if (SystemCode = hosMSDOS) then
+      FileName := OEMToSys(FItemInfo.FileName)
+    else if (SystemCode = hosNTFS) then
+      FileName := AnsiToSys(FItemInfo.FileName)
+    else
+    {$ENDIF}
+      FileName := string(FItemInfo.FileName);
+  end;
+
   IsDirectory := ((FItemInfo.ExternalFileAttributes and faDirectory) <> 0) or
-    ((tempFileName <> '') and CharInSet(tempFilename[Length(tempFilename)], ['\','/']));
-  AbUnfixName( tempFileName );
-  DiskFileName := tempFileName;
+    ((FileName <> '') and CharInSet(Filename[Length(Filename)], ['\','/']));
+
   LastModFileTime := FItemInfo.LastModFileTime;
   LastModFileDate := FItemInfo.LastModFileDate;
+  tempFileName := FileName;
+  AbUnfixName( tempFileName );
+  DiskFileName := tempFileName;
   Action := aaNone;
   Tagged := False;
 end;
@@ -1655,21 +1829,67 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.SetFileName(const Value : string );
-{$IFDEF MSWINDOWS}
 var
+  {$IFDEF MSWINDOWS}
+  AnsiName : AnsiString;
+  {$ENDIF}
+  UTF8Name : UTF8String;
+  FieldSize : Word;
   I : Integer;
-{$ENDIF}
+  InfoZipField : PInfoZipUnicodePathRec;
+  UseExtraField: Boolean;
 begin
   inherited SetFileName(Value);
+  {$IFDEF MSWINDOWS}
+  FItemInfo.IsUTF8 := False;
+  VersionMadeBy := Low(VersionMadeBy);
+  if TryEncode(Value, CP_OEMCP, False, AnsiName) then
+    {no-op}
+  else if (GetACP <> GetOEMCP) and TryEncode(Value, CP_ACP, False, AnsiName) then
+    VersionMadeBy := VersionMadeBy or $0B00
+  else if TryEncode(Value, CP_OEMCP, True, AnsiName) then
+    {no-op}
+  else if (GetACP <> GetOEMCP) and TryEncode(Value, CP_ACP, True, AnsiName) then
+    VersionMadeBy := VersionMadeBy or $0B00
+  else
+    FItemInfo.IsUTF8 := True;
+  if FItemInfo.IsUTF8 then
+    FItemInfo.FileName := Utf8Encode(Value)
+  else
+    FItemInfo.FileName := AnsiName;
+  {$ENDIF}
+  {$IFDEF LINUX}
   FItemInfo.FileName := AnsiString(Value);
-{$IFDEF MSWINDOWS}
-  for I := 1 to Length(FItemInfo.FileName) do
-    if Ord(FItemInfo.FileName[I]) >= 128 then begin
-      VersionMadeBy := VersionMadeBy or $0B00;
-      Break;
+  FItemInfo.IsUTF8 := AbSysCharSetIsUTF8;
+  {$ENDIF}
+
+  UseExtraField := False;
+  if not FItemInfo.IsUTF8 then
+    for i := 1 to Length(Value) do begin
+      if Ord(Value[i]) > 127 then begin
+        UseExtraField := True;
+        Break;
+      end;
     end;
-{$ENDIF}
+
+  if UseExtraField then begin
+    UTF8Name := AnsiToUTF8(Value);
+    FieldSize := SizeOf(TInfoZipUnicodePathRec) + Length(UTF8Name) - 1;
+    GetMem(InfoZipField, FieldSize);
+    try
+      InfoZipField.Version := 1;
+      InfoZipField.NameCRC32 := AbCRC32Of(FItemInfo.FileName);
+      Move(UTF8Name[1], InfoZipField.UnicodeName, Length(UTF8Name));
+      FItemInfo.ExtraField.Put(Ab_InfoZipUnicodePathSubfieldID, InfoZipField^, FieldSize);
+    finally
+      FreeMem(InfoZipField);
+    end;
+  end
+  else
+    FItemInfo.ExtraField.Delete(Ab_InfoZipUnicodePathSubfieldID);
+  FItemInfo.ExtraField.Delete(Ab_XceedUnicodePathSubfieldID);
 end;
+{$IFDEF OPTIMIZATIONS_ON}{$O+}{$ENDIF}
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.SetGeneralPurposeBitFlag( Value : Word );
 begin
@@ -1871,8 +2091,8 @@ begin
   if Assigned( FOnRequestLastDisk ) then
     FOnRequestLastDisk( Self, Abort )
   else begin
-    pMessage := AbStrRes(AbLastDiskRequest);
-    pCaption := AbStrRes(AbDiskRequest);
+    pMessage := AbLastDiskRequestS;
+    pCaption := AbDiskRequestS;
 {$IFDEF MSWINDOWS}
     Abort := Windows.MessageBox( 0, PChar(pMessage), PChar(pCaption),
       MB_TASKMODAL or MB_OKCANCEL ) = IDCANCEL;
@@ -1898,10 +2118,10 @@ begin
   if Assigned( FOnRequestNthDisk ) then
     FOnRequestNthDisk( Self, DiskNumber, Abort )
   else begin
-    pMessage := AbStrRes(AbDiskNumRequest);
+    pMessage := AbDiskNumRequestS;
     FMessage := Format(pMessage, [DiskNumber] );
     pMessage := FMessage;
-    pCaption := AbStrRes(AbDiskRequest);
+    pCaption := AbDiskRequestS;
 {$IFDEF MSWINDOWS}
     Abort := Windows.MessageBox( 0, PChar(pMessage), PChar(pCaption),
       MB_TASKMODAL or MB_OKCANCEL ) = IDCANCEL;                      
@@ -1931,8 +2151,8 @@ begin
   if Assigned( FOnRequestBlankDisk ) then
     FOnRequestBlankDisk( Self, Abort )
   else begin
-    pMessage := AbStrRes(AbBlankDisk);
-    pCaption := AbStrRes(AbDiskRequest);
+    pMessage := AbBlankDiskS;
+    pCaption := AbDiskRequestS;
 {$IFDEF MSWINDOWS}
     Abort := Windows.MessageBox( 0, PChar(pMessage), PChar(pCaption),
       MB_TASKMODAL or MB_OKCANCEL ) = IDCANCEL;
@@ -2071,8 +2291,8 @@ begin
    end
   else if Mode = smReading then begin
 
-    pMessage := Format(AbStrRes(AbImageNumRequest), [ImageNumber]);
-    pCaption := AbStrRes(AbImageRequest);
+    pMessage := Format(AbImageNumRequestS, [ImageNumber]);
+    pCaption := AbImageRequestS;
 {$IFDEF MSWINDOWS}
 {!!.04}
     Abort := Windows.MessageBox( 0, PChar(pMessage), PChar(pCaption),
@@ -2264,8 +2484,7 @@ begin
 
 
   { try to locate central directory tail }
-  if (FileSignature = DWord(Ab_ZipSpannedSetSignature)) or           {!!.02}
-     (FileSignature = DWord(Ab_ZipPossiblySpannedSignature)) then    {!!.02}
+  if (FileSignature = DWord(Ab_ZipSpannedSetSignature)) then         {!!.02}
   begin
     if FDriveIsRemovable then        {!!.05}
       TailPosition := -1              {!!.02}

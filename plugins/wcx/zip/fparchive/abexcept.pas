@@ -104,11 +104,6 @@ type
   EAbTarException = class( EAbException ); {Tar Exception}
   EAbGzipException = class( EAbException); {GZip exception}
 
-  EAbInvalidHeaderException = class(EAbException)
-  public 
-    constructor Create;
-  end;
-
   EAbZipBadSpanStream = class( EAbZipException )
   public
     constructor Create;
@@ -403,24 +398,25 @@ implementation
 
 uses
   Classes,
-  AbConst;
+  AbConst,
+  AbResString;
 
 constructor EAbArchiveBusy.Create;
 begin
-  inherited Create(AbStrRes(AbArchiveBusy));
+  inherited Create(AbArchiveBusyS);
   ErrorCode := AbArchiveBusy;
 end;
 
 constructor EAbBadStream.Create;
 begin
-  inherited Create(AbStrRes(AbBadStreamType));
+  inherited Create(AbBadStreamTypeS);
   FInnerException := nil;
   ErrorCode := AbBadStreamType;
 end;
 
 constructor EAbBadStream.CreateInner(aInnerException: Exception);
 begin
-  inherited Create(AbStrRes(AbBadStreamType) + #13#10 + aInnerException.Message);
+  inherited Create(AbBadStreamTypeS + #13#10 + aInnerException.Message);
   FInnerException := aInnerException;
   ErrorCode := AbBadStreamType;
 end;
@@ -428,145 +424,145 @@ end;
 
 constructor EAbDuplicateName.Create;
 begin
-  inherited Create(AbStrRes(AbDuplicateName));
+  inherited Create(AbDuplicateNameS);
   ErrorCode := AbDuplicateName;
 end;
 
 constructor EAbNoSuchDirectory.Create;
 begin
-  inherited Create(AbStrRes(AbNoSuchDirectory));
+  inherited Create(AbNoSuchDirectoryS);
   ErrorCode := AbNoSuchDirectory;
 end;
 
 constructor EAbInvalidSpanningThreshold.Create;
 begin
-  inherited Create(AbStrRes(AbInvalidThreshold));
+  inherited Create(AbInvalidThresholdS);
   ErrorCode := AbInvalidThreshold;
 end;
 
 constructor EAbFileNotFound.Create;
 begin
-  inherited Create(AbStrRes(AbFileNotFound));
+  inherited Create(AbFileNotFoundS);
   ErrorCode := AbFileNotFound;
 end;
 
 constructor EAbNoArchive.Create;
 begin
-  inherited Create(AbStrRes(AbNoArchive));
+  inherited Create(AbNoArchiveS);
   ErrorCode := AbNoArchive;
 end;
 
 constructor EAbUserAbort.Create;
 begin
-  inherited Create(AbStrRes(AbUserAbort));
+  inherited Create(AbUserAbortS);
   ErrorCode := AbUserAbort;
 end;
 
 constructor EAbZipBadSpanStream.Create;
 begin
-  inherited Create(AbStrRes(AbBadSpanStream));
+  inherited Create(AbBadSpanStreamS);
   ErrorCode := AbBadSpanStream;
 end;
 
 constructor EAbZipBadCRC.Create;
 begin
-  inherited Create(AbStrRes(AbZipBadCRC));
+  inherited Create(AbZipBadCRCS);
   ErrorCode := AbZipBadCRC;
 end;
 
 constructor EAbZipInflateBlock.Create;
 begin
-  inherited Create(AbStrRes(AbInflateBlockError));
+  inherited Create(AbInflateBlockErrorS);
   ErrorCode := AbInflateBlockError;
 end;
 
 constructor EAbZipInvalid.Create;
 begin
-  inherited Create(AbStrRes(AbErrZipInvalid));
+  inherited Create(AbErrZipInvalidS);
   ErrorCode := AbErrZipInvalid;
 end;
 
 constructor EAbInvalidIndex.Create;
 begin
-  inherited Create(AbStrRes(AbInvalidIndex));
+  inherited Create(AbInvalidIndexS);
   ErrorCode := AbInvalidIndex;
 end;
 
 constructor EAbZipInvalidFactor.Create;
 begin
-  inherited Create(AbStrRes(AbInvalidFactor));
+  inherited Create(AbInvalidFactorS);
   ErrorCode := AbInvalidFactor;
 end;
 
 constructor EAbZipInvalidLFH.Create;
 begin
-  inherited Create(AbStrRes(AbInvalidLFH));
+  inherited Create(AbInvalidLFHS);
   ErrorCode := AbInvalidLFH;
 end;
 
 constructor EAbZipInvalidMethod.Create;
 begin
-  inherited Create(AbStrRes(AbUnknownCompressionMethod));
+  inherited Create(AbUnknownCompressionMethodS);
   ErrorCode := AbUnknownCompressionMethod;
 end;
 
 constructor EAbZipInvalidPassword.Create;
 begin
-  inherited Create(AbStrRes(AbInvalidPassword));
+  inherited Create(AbInvalidPasswordS);
   ErrorCode := AbInvalidPassword;
 end;
 
 constructor EAbZipInvalidStub.Create;
 begin
-  inherited Create(AbStrRes(AbZipBadStub));
+  inherited Create(AbZipBadStubS);
   ErrorCode := AbZipBadStub;
 end;
 
 constructor EAbZipNoExtraction.Create;
 begin
-  inherited Create(AbStrRes(AbNoExtractionMethod));
+  inherited Create(AbNoExtractionMethodS);
   ErrorCode := AbNoExtractionMethod;
 end;
 
 constructor EAbZipNoInsertion.Create;
 begin
-  inherited Create(AbStrRes(AbNoInsertionMethod));
+  inherited Create(AbNoInsertionMethodS);
   ErrorCode := AbNoInsertionMethod;
 end;
 
 constructor EAbZipSpanOverwrite.Create;
 begin
-  inherited Create(AbStrRes(AbNoOverwriteSpanStream));
+  inherited Create(AbNoOverwriteSpanStreamS);
   ErrorCode := AbNoOverwriteSpanStream;
 end;
 
 constructor EAbZipStreamFull.Create;
 begin
-  inherited Create(AbStrRes(AbStreamFull));
+  inherited Create(AbStreamFullS);
   ErrorCode := AbStreamFull;
 end;
 
 constructor EAbZipTruncate.Create;
 begin
-  inherited Create(AbStrRes(AbTruncateError));
+  inherited Create(AbTruncateErrorS);
   ErrorCode := AbTruncateError;
 end;
 
 constructor EAbZipUnsupported.Create;
 begin
-  inherited Create(AbStrRes(AbUnsupportedCompressionMethod));
+  inherited Create(AbUnsupportedCompressionMethodS);
   ErrorCode := AbUnsupportedCompressionMethod;
 end;
 
 constructor EAbZipVersion.Create;
 begin
-  inherited Create(AbStrRes(AbZipVersionNeeded));
+  inherited Create(AbZipVersionNeededS);
   ErrorCode := AbZipVersionNeeded;
 end;
 
 constructor EAbReadError.Create;
 begin
-  inherited Create(AbStrRes(AbReadError));
+  inherited Create(AbReadErrorS);
   ErrorCode := AbReadError;
 end;
 
@@ -597,189 +593,189 @@ end;
 constructor EAbVMSReadTooManyBytes.Create( Count : Integer;
                                            Dummy : Word );
 begin
-  inherited Create(Format(AbStrRes(AbVMSReadTooManyBytes), [Count]));
+  inherited Create(Format(AbVMSReadTooManyBytesS, [Count]));
   ErrorCode := AbVMSReadTooManyBytes;
 end;
 
 constructor EAbVMSInvalidOrigin.Create( Value : Integer;
                                         Dummy : Word );
 begin
-  inherited Create(Format(AbStrRes(AbVMSInvalidOrigin), [Value]));
+  inherited Create(Format(AbVMSInvalidOriginS, [Value]));
   ErrorCode := AbVMSInvalidOrigin;
 end;
 
 constructor EAbBBSReadTooManyBytes.Create(Count : Integer; Dummy : Word);
 begin
-  inherited Create(Format(AbStrRes(AbBBSReadTooManyBytes), [Count]));
+  inherited Create(Format(AbBBSReadTooManyBytesS, [Count]));
   ErrorCode := AbBBSReadTooManyBytes;
 end;
 
 constructor EAbBBSSeekOutsideBuffer.Create;
 begin
-  inherited Create(AbStrRes(AbBBSSeekOutsideBuffer));
+  inherited Create(AbBBSSeekOutsideBufferS);
   ErrorCode := AbBBSSeekOutsideBuffer;
 end;
 
 constructor EAbBBSInvalidOrigin.Create;
 begin
-  inherited Create(AbStrRes(AbBBSInvalidOrigin));
+  inherited Create(AbBBSInvalidOriginS);
   ErrorCode := AbBBSInvalidOrigin;
 end;
 
 constructor EAbBBSWriteTooManyBytes.Create(Count : Integer; Dummy : Word);
 begin
-  inherited Create(Format(AbStrRes(AbBBSWriteTooManyBytes), [Count]));
+  inherited Create(Format(AbBBSWriteTooManyBytesS, [Count]));
   ErrorCode := AbBBSWriteTooManyBytes;
 end;
 
 constructor EAbVMSErrorOpenSwap.Create( const Value : string );
 begin
-  inherited Create(Format(AbStrRes(AbVMSErrorOpenSwap), [Value]));
+  inherited Create(Format(AbVMSErrorOpenSwapS, [Value]));
   ErrorCode := AbVMSErrorOpenSwap;
 end;
 
 constructor EAbVMSSeekFail.Create( const Value : string );
 begin
-  inherited Create(Format(AbStrRes(AbVMSSeekFail), [Value]));
+  inherited Create(Format(AbVMSSeekFailS, [Value]));
   ErrorCode := AbVMSSeekFail;
 end;
 
 constructor EAbVMSReadFail.Create( Count : Integer; const Value : string );
 begin
-  inherited Create(Format(AbStrRes(AbVMSReadFail), [Count, Value]));
+  inherited Create(Format(AbVMSReadFailS, [Count, Value]));
   ErrorCode := AbVMSReadFail;
 end;
 
 constructor EAbVMSWriteFail.Create( Count : Integer; const Value : string );
 begin
-  inherited Create(Format(AbStrRes(AbVMSWriteFail), [Count, Value]));
+  inherited Create(Format(AbVMSWriteFailS, [Count, Value]));
   ErrorCode := AbVMSWriteFail;
 end;
 
 constructor EAbVMSWriteTooManyBytes.Create( Count : Integer;
                                             Dummy : Word );
 begin
-  inherited Create(Format(AbStrRes(AbVMSWriteTooManyBytes), [Count]));
+  inherited Create(Format(AbVMSWriteTooManyBytesS, [Count]));
   ErrorCode := AbVMSWriteTooManyBytes;
 end;
 
 constructor EAbSWSNotEndofStream.Create;
 begin
-  inherited Create(AbStrRes(AbSWSNotEndofStream));
+  inherited Create(AbSWSNotEndofStreamS);
   ErrorCode := AbSWSNotEndofStream;
 end;
 
 constructor EAbSWSSeekFailed.Create;
 begin
-  inherited Create(AbStrRes(AbSWSSeekFailed));
+  inherited Create(AbSWSSeekFailedS);
   ErrorCode := AbSWSSeekFailed;
 end;
 
 constructor EAbSWSWriteFailed.Create;
 begin
-  inherited Create(AbStrRes(AbSWSWriteFailed));
+  inherited Create(AbSWSWriteFailedS);
   ErrorCode := AbSWSWriteFailed;
 end;
 
 constructor EAbSWSInvalidOrigin.Create;
 begin
-  inherited Create(AbStrRes(AbSWSInvalidOrigin));
+  inherited Create(AbSWSInvalidOriginS);
   ErrorCode := AbSWSInvalidOrigin;
 end;
 
 constructor EAbSWSInvalidNewOrigin.Create;
 begin
-  inherited Create(AbStrRes(AbSWSInvalidNewOrigin));
+  inherited Create(AbSWSInvalidNewOriginS);
   ErrorCode := AbSWSInvalidNewOrigin;
 end;
 
 constructor EAbFCIFileOpenError.Create;
 begin
-  inherited Create(AbStrRes(AbFCIFileOpenError));
+  inherited Create(AbFCIFileOpenErrorS);
   ErrorCode := AbFCIFileOpenError;
 end;
 
 constructor EAbNoCabinetDll.Create;
 begin
-  inherited Create(AbStrRes(AbNoCabinetDllError));
+  inherited Create(AbNoCabinetDllErrorS);
   ErrorCode := AbNoCabinetDllError;
 end;
 
 constructor EAbFCIFileReadError.Create;
 begin
-  inherited Create(AbStrRes(AbFCIFileReadError));
+  inherited Create(AbFCIFileReadErrorS);
   ErrorCode := AbFCIFileReadError;
 end;
 
 constructor EAbFCIFileWriteError.Create;
 begin
-  inherited Create(AbStrRes(AbFCIFileWriteError));
+  inherited Create(AbFCIFileWriteErrorS);
   ErrorCode := AbFCIFileWriteError;
 end;
 
 constructor EAbFCIFileCloseError.Create;
 begin
-  inherited Create(AbStrRes(AbFCIFileCloseError));
+  inherited Create(AbFCIFileCloseErrorS);
   ErrorCode := AbFCIFileCloseError;
 end;
 
 constructor EAbFCIFileSeekError.Create;
 begin
-  inherited Create(AbStrRes(AbFCIFileSeekError));
+  inherited Create(AbFCIFileSeekErrorS);
   ErrorCode := AbFCIFileSeekError;
 end;
 
 constructor EAbFCIFileDeleteError.Create;
 begin
-  inherited Create(AbStrRes(AbFCIFileDeleteError));
+  inherited Create(AbFCIFileDeleteErrorS);
   ErrorCode := AbFCIFileDeleteError;
 end;
 
 constructor EAbFCIAddFileError.Create;
 begin
-  inherited Create(AbStrRes(AbFCIAddFileError));
+  inherited Create(AbFCIAddFileErrorS);
   ErrorCode := AbFCIAddFileError;
 end;
 
 constructor EAbFCICreateError.Create;
 begin
-  inherited Create(AbStrRes(AbFCICreateError));
+  inherited Create(AbFCICreateErrorS);
   ErrorCode := AbFCICreateError;
 end;
 
 constructor EAbFCIFlushCabinetError.Create;
 begin
-  inherited Create(AbStrRes(AbFCIFlushCabinetError));
+  inherited Create(AbFCIFlushCabinetErrorS);
   ErrorCode := AbFCIFlushCabinetError;
 end;
 
 constructor EAbFCIFlushFolderError.Create;
 begin
-  inherited Create(AbStrRes(AbFCIFlushFolderError));
+  inherited Create(AbFCIFlushFolderErrorS);
   ErrorCode := AbFCIFlushFolderError;
 end;
 
 constructor EAbFDICopyError.Create;
 begin
-  inherited Create(AbStrRes(AbFDICopyError));
+  inherited Create(AbFDICopyErrorS);
   ErrorCode := AbFDICopyError;
 end;
 
 constructor EAbFDICreateError.Create;
 begin
-  inherited Create(AbStrRes(AbFDICreateError));
+  inherited Create(AbFDICreateErrorS);
   ErrorCode := AbFDICreateError;
 end;
 
 constructor EAbInvalidCabTemplate.Create;
 begin
-  inherited Create(AbStrRes(AbInvalidCabTemplate));
+  inherited Create(AbInvalidCabTemplateS);
   ErrorCode := AbInvalidCabTemplate;
 end;
 
 constructor EAbInvalidCabFile.Create;
 begin
-  inherited Create(AbStrRes(AbInvalidCabFile));
+  inherited Create(AbInvalidCabFileS);
   ErrorCode := AbInvalidCabFile;
 end;
 
@@ -809,7 +805,7 @@ end;
 
 constructor EAbUnhandledType.Create;
 begin
-  inherited Create(AbStrRes(AbUnhandledFileType));
+  inherited Create(AbUnhandledFileTypeS);
   ErrorCode := AbUnhandledFileType;
 end;
 
@@ -817,7 +813,7 @@ end;
 
 constructor EAbGzipBadCRC.Create;
 begin
-  inherited Create(AbStrRes(AbGzipBadCRC));
+  inherited Create(AbGzipBadCRCS);
   ErrorCode := AbGzipBadCRC;
 end;
 
@@ -825,7 +821,7 @@ end;
 
 constructor EAbGzipBadFileSize.Create;
 begin
-  inherited Create(AbStrRes(AbGzipBadFileSize));
+  inherited Create(AbGzipBadFileSizeS);
   ErrorCode := AbGzipBadFileSize;
 end;
 
@@ -833,7 +829,7 @@ end;
 
 constructor EAbGzipInvalid.Create;
 begin
-  inherited Create(AbStrRes(AbSpanningNotSupported));
+  inherited Create(AbSpanningNotSupportedS);
   ErrorCode := AbSpanningNotSupported;
 
 end;
@@ -842,16 +838,8 @@ end;
 
 constructor EAbSpanningNotSupported.Create;
 begin
-  inherited Create(AbStrRes(AbSpanningNotSupported));
+  inherited Create(AbSpanningNotSupportedS);
   ErrorCode := AbSpanningNotSupported;
-end;
-
-{ EAbInvalidHeader }
-
-constructor EAbInvalidHeaderException.Create;
-begin
-	inherited Create('Invalid Header');
-  ErrorCode := AbInvalidHeader;
 end;
 
 { EAbFileTooLarge }

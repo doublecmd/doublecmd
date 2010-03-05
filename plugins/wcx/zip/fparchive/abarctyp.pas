@@ -163,15 +163,15 @@ type
   TAbArchiveList = class
   protected {private}
     FList     : TList;
+    FOwnsItems: Boolean;
     HashTable : array[0..1020] of TAbArchiveItem;
   protected {methods}
     function GenerateHash(const S : string) : LongInt;
     function GetCount : Integer;
-    procedure SetCount(NewCount : Integer);
     function Get(Index : Integer) : TAbArchiveItem;
     procedure Put(Index : Integer; Item : TAbArchiveItem);
   public {methods}
-    constructor Create;
+    constructor Create(AOwnsItems: Boolean);
     destructor Destroy; override;
     function Add(Item : Pointer): Integer;
     procedure Clear;
@@ -180,8 +180,7 @@ type
     function IsActiveDupe(const FN : string) : Boolean;
   public {properties}
     property Count : Integer
-      read GetCount
-      write SetCount;
+      read GetCount;
     property Items[Index : Integer] : TAbArchiveItem
       read Get
       write Put; default;
@@ -291,7 +290,6 @@ type
     FLogStream      : TFileStream;
     FMode           : Word;
     FOwnsStream     : Boolean;
-    FPadLock        : TAbPadLock;
     FSpanned        : Boolean;
     FStoreOptions   : TAbStoreOptions;
     FTempDir        : string;
@@ -318,7 +316,6 @@ type
     function  FreshenRequired(Item : TAbArchiveItem) : Boolean;
     procedure GetFreshenTarget(Item : TAbArchiveItem);
     function  GetItemCount : Integer;
-    procedure Lock;
     procedure MakeLogEntry(const FN: string; LT : TAbLogType);
     procedure MakeFullNames(const SourceFileName: String;
                             const ArchiveDirectory: String;
@@ -329,7 +326,6 @@ type
     procedure SetBaseDirectory(Value : string);
     procedure SetLogFile(const Value : string);
     procedure SetLogging(Value : Boolean);
-    procedure Unlock;
 
    	class function SupportsEmptyFolder: Boolean; virtual;
 
@@ -579,7 +575,8 @@ uses
   RTLConsts,
   AbExcept,
   AbDfBase,
-  AbConst;
+  AbConst,
+  AbResString;
 
 
 { TAbArchiveItem implementation ============================================ }
@@ -830,10 +827,11 @@ end;
 { TAbArchiveList implementation ============================================ }
 
 { TAbArchiveList }
-constructor TAbArchiveList.Create;
+constructor TAbArchiveList.Create(AOwnsItems: Boolean);
 begin
   inherited Create;
   FList := TList.Create;
+  FOwnsItems := AOwnsItems;
 end;
 { -------------------------------------------------------------------------- }
 destructor TAbArchiveList.Destroy;
@@ -847,9 +845,11 @@ function TAbArchiveList.Add(Item : Pointer) : Integer;
 var
   H : LongInt;
 begin
-  H := GenerateHash(TAbArchiveItem(Item).FileName);
-  TAbArchiveItem(Item).NextItem := HashTable[H];
-  HashTable[H] := TAbArchiveItem(Item);
+  if FOwnsItems then begin
+    H := GenerateHash(TAbArchiveItem(Item).FileName);
+    TAbArchiveItem(Item).NextItem := HashTable[H];
+    HashTable[H] := TAbArchiveItem(Item);
+  end;
   Result := FList.Add(Item);
 end;
 { -------------------------------------------------------------------------- }
@@ -857,8 +857,9 @@ procedure TAbArchiveList.Clear;
 var
   i : Integer;
 begin
-  for i := 0 to Count - 1 do
-    TObject(FList[i]).Free;
+  if FOwnsItems then
+    for i := 0 to Count - 1 do
+      TObject(FList[i]).Free;
   FList.Clear;
   FillChar(HashTable, SizeOf(HashTable), #0);
 end;
@@ -869,43 +870,55 @@ var
   Last : Pointer;
   FN : string;
 begin
-  FN := TAbArchiveItem(FList[Index]).FileName;
-  Last := @HashTable[GenerateHash(FN)];
-  Look := TAbArchiveItem(Last^);
-  while Look <> nil do begin
-    if CompareText(Look.FileName, FN) = 0 then begin
-      Move(Look.NextItem, Last^, 4);
-      Break;
-    end;
-    Last := @Look.NextItem;
+  if FOwnsItems then begin
+    FN := TAbArchiveItem(FList[Index]).FileName;
+    Last := @HashTable[GenerateHash(FN)];
     Look := TAbArchiveItem(Last^);
+    while Look <> nil do begin
+      if CompareText(Look.FileName, FN) = 0 then begin
+        Move(Look.NextItem, Last^, 4);
+        Break;
+      end;
+      Last := @Look.NextItem;
+      Look := TAbArchiveItem(Last^);
+    end;
+    TObject(FList[Index]).Free;
   end;
-  TObject(FList[Index]).Free;
   FList.Delete(Index);
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveList.Find(const FN : string) : Integer;
 var
   Look : TAbArchiveItem;
+  I : Integer;
 begin
-  Look := HashTable[GenerateHash(FN)];
-  while Look <> nil do begin
-    if CompareText(Look.FileName, FN) = 0 then begin
-      Result := FList.IndexOf(Look);
-      Exit;
+  if FOwnsItems then begin
+    Look := HashTable[GenerateHash(FN)];
+    while Look <> nil do begin
+      if CompareText(Look.FileName, FN) = 0 then begin
+        Result := FList.IndexOf(Look);
+        Exit;
+      end;
+      Look := Look.NextItem;
     end;
-    Look := Look.NextItem;
+  end
+  else begin
+    for I := 0 to FList.Count - 1 do
+      if CompareText(Items[I].FileName, FN) = 0 then begin
+        Result := I;
+        Exit;
+      end;
   end;
   Result := -1;
 end;
 { -------------------------------------------------------------------------- }
+{$IFOPT Q+}{$DEFINE OVERFLOW_CHECKS_ON}{$Q-}{$ENDIF}
 function TAbArchiveList.GenerateHash(const S : string) : LongInt;
 var
   G : LongInt;
   I : Integer;
   U : string;
 begin
-{$Q-}
   Result := 0;
   U := AnsiUpperCase(S);
   for I := 1 to Length(U) do begin
@@ -916,8 +929,8 @@ begin
     Result := Result and (not G);
   end;
   Result := Result mod 1021;
-{$Q+}
 end;
+{$IFDEF OVERFLOW_CHECKS_ON}{$Q+}{$ENDIF}
 { -------------------------------------------------------------------------- }
 function TAbArchiveList.Get(Index : Integer): TAbArchiveItem;
 begin
@@ -932,15 +945,26 @@ end;
 function TAbArchiveList.IsActiveDupe(const FN : string) : Boolean;
 var
   Look : TAbArchiveItem;
+  I : Integer;
 begin
-  Look := HashTable[GenerateHash(FN)];
-  while Look <> nil do begin
-    if (CompareText(Look.FileName, FN) = 0) and
-       (Look.Action <> aaDelete) then begin
-      Result := True;
-      Exit;
+  if FOwnsItems then begin
+    Look := HashTable[GenerateHash(FN)];
+    while Look <> nil do begin
+      if (CompareText(Look.FileName, FN) = 0) and
+         (Look.Action <> aaDelete) then begin
+        Result := True;
+        Exit;
+      end;
+      Look := Look.NextItem;
     end;
-    Look := Look.NextItem;
+  end
+  else begin
+    for I := 0 to Count - 1 do
+      if (CompareText(Items[I].FileName, FN) = 0) and
+         (Items[I].Action <> aaDelete) then begin
+        Result := True;
+        Exit;
+      end;
   end;
   Result := False;
 end;
@@ -952,31 +976,28 @@ var
   Last : Pointer;
   FN : string;
 begin
-  FN := TAbArchiveItem(FList[Index]).FileName;
-  Last := @HashTable[GenerateHash(FN)];
-  Look := TAbArchiveItem(Last^);
-  { Delete old index }
-  while Look <> nil do begin
-    if CompareText(Look.FileName, FN) = 0 then begin
-      Move(Look.NextItem, Last^, 4);
-      Break;
-    end;
-    Last := @Look.NextItem;
+  if FOwnsItems then begin
+    FN := TAbArchiveItem(FList[Index]).FileName;
+    Last := @HashTable[GenerateHash(FN)];
     Look := TAbArchiveItem(Last^);
+    { Delete old index }
+    while Look <> nil do begin
+      if CompareText(Look.FileName, FN) = 0 then begin
+        Move(Look.NextItem, Last^, 4);
+        Break;
+      end;
+      Last := @Look.NextItem;
+      Look := TAbArchiveItem(Last^);
+    end;
+    { Free old instance }
+    TObject(FList[Index]).Free;
+    { Add new index }
+    H := GenerateHash(TAbArchiveItem(Item).FileName);
+    TAbArchiveItem(Item).NextItem := HashTable[H];
+    HashTable[H] := TAbArchiveItem(Item);
   end;
-  { Free old instance }
-  TObject(FList[Index]).Free;
-  { Add new index }
-  H := GenerateHash(TAbArchiveItem(Item).FileName);
-  TAbArchiveItem(Item).NextItem := HashTable[H];
-  HashTable[H] := TAbArchiveItem(Item);
   { Replace pointer }
   FList[Index] := Item;
-end;
-{ -------------------------------------------------------------------------- }
-procedure TAbArchiveList.SetCount(NewCount : Integer);
-begin
-  FList.Count := NewCount;
 end;
 
 
@@ -987,8 +1008,7 @@ begin
   inherited Create;
   FIsDirty := False;
   FAutoSave := False;
-  FItemList := TAbArchiveList.Create;
-  FPadLock := TAbPadLock.Create;
+  FItemList := TAbArchiveList.Create(True);
   StoreOptions := [];
   ExtractOptions := [];
   FStatus := asIdle;
@@ -1016,8 +1036,6 @@ destructor TAbArchive.Destroy;
 begin
   FItemList.Free;
   FItemList := nil;
-  FPadLock.Free;
-  FPadLock := nil;
   if FOwnsStream then begin
    if Assigned(FStream) then {!!.05 avoid A/V if Nil (Only occurs if exception is raised)}
      FStream.Free;
@@ -1032,32 +1050,32 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.Add(aItem : TAbArchiveItem);
 var
-  Confirm : Boolean;
+  Confirm, ItemAdded : Boolean;
 begin
-  CheckValid;
-  if FItemList.IsActiveDupe(aItem.FileName) then begin
-    if (soFreshen in StoreOptions) then
-      Freshen(aItem)
-    else if (soReplace in StoreOptions) then
-      Replace(aItem)
-    else begin                                                          
-      DoProcessItemFailure(aItem, ptAdd, ecAbbrevia, AbDuplicateName);  
-      aItem.Free;                                                       
+  ItemAdded := False;
+  try
+    CheckValid;
+    if FItemList.IsActiveDupe(aItem.FileName) then begin
+      if (soFreshen in StoreOptions) then
+        Freshen(aItem)
+      else if (soReplace in StoreOptions) then
+        Replace(aItem)
+      else
+        DoProcessItemFailure(aItem, ptAdd, ecAbbrevia, AbDuplicateName);
+      Exit;
     end;
-  end else begin
     DoConfirmProcessItem(aItem, ptAdd, Confirm);
     if not Confirm then
       Exit;
-    Lock;
-    try
-      aItem.Action := aaAdd;
-      FItemList.Add(aItem);
-      FIsDirty := True;
-      if AutoSave then
-        Save;
-    finally
-      Unlock;
-    end;
+    aItem.Action := aaAdd;
+    FItemList.Add(aItem);
+    ItemAdded := True;
+    FIsDirty := True;
+    if AutoSave then
+      Save;
+  finally
+    if not ItemAdded then
+      aItem.Free;
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -1189,18 +1207,14 @@ begin
 
   if not Confirm then
     Exit;
-  Lock;
-  try
-    FInStream := aStream;
-    Item.Action := aaStreamAdd;
-    if (PT = ptAdd) then                                             
-      FItemList.Add(Item);
-    FIsDirty := True;
-    Save;
-    FInStream := nil;
-  finally
-    Unlock;
-  end;
+
+  FInStream := aStream;
+  Item.Action := aaStreamAdd;
+  if (PT = ptAdd) then
+    FItemList.Add(Item);
+  FIsDirty := True;
+  Save;
+  FInStream := nil;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.CheckValid;
@@ -1267,19 +1281,14 @@ var
 begin
   CheckValid;
   SaveIfNeeded(FItemList[Index]);
-  Lock;
-  try
-    DoConfirmProcessItem(FItemList[Index], ptDelete, Confirm);
-    if not Confirm then
-      Exit;
+  DoConfirmProcessItem(FItemList[Index], ptDelete, Confirm);
+  if not Confirm then
+    Exit;
 
-    TAbArchiveItem(FItemList[Index]).Action := aaDelete;
-    FIsDirty := True;
-    if AutoSave then
-      Save;
-  finally
-    Unlock;
-  end;
+  TAbArchiveItem(FItemList[Index]).Action := aaDelete;
+  FIsDirty := True;
+  if AutoSave then
+    Save;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.DeleteFiles(const FileMask : string; Recursive : Boolean);
@@ -1402,7 +1411,7 @@ var
 begin
   DoProgress(aPercentDone, Abort);
   if Abort then
-    raise EAbAbortProgress.Create(AbStrRes(AbUserAbort));
+    raise EAbAbortProgress.Create(AbUserAbortS);
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.DoInflateProgress(aPercentDone: integer);
@@ -1411,7 +1420,7 @@ var
 begin
   DoProgress(aPercentDone, Abort);
   if Abort then
-    raise EAbAbortProgress.Create(AbStrRes(AbUserAbort));
+    raise EAbAbortProgress.Create(AbUserAbortS);
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.DoLoad;
@@ -1453,28 +1462,21 @@ var
 begin
   CheckValid;
   SaveIfNeeded(FItemList[Index]);
-  Lock;
+  DoConfirmProcessItem(FItemList[Index], ptExtract, Confirm);
+  if not Confirm then
+    Exit;
+
+  if not ConfirmPath(FItemList[Index], NewName, UseName) then
+    Exit;
+
   try
-    DoConfirmProcessItem(FItemList[Index], ptExtract, Confirm);
-    if not Confirm then
-      Exit;
-
-    if not ConfirmPath(FItemList[Index], NewName, UseName) then
-      Exit;
-
-    try
-      FCurrentItem := FItemList[Index];
-      ExtractItemAt(Index, UseName);
-    except
-      on E : Exception do begin
-        AbConvertException(E, ErrorClass, ErrorCode);
-        DoProcessItemFailure(FItemList[Index], ptExtract, ErrorClass,
-                              ErrorCode);
-        Raise;
-      end;
+    FCurrentItem := FItemList[Index];
+    ExtractItemAt(Index, UseName);
+  except
+    on E : Exception do begin
+      AbConvertException(E, ErrorClass, ErrorCode);
+      DoProcessItemFailure(FItemList[Index], ptExtract, ErrorClass, ErrorCode);
     end;
-  finally
-    Unlock;
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -1493,23 +1495,18 @@ begin
     Exit;
 
   SaveIfNeeded(FItemList[Index]);
-  Lock;
+
+  DoConfirmProcessItem(FItemList[Index], ptExtract, Confirm);
+  if not Confirm then
+    Exit;
+  FCurrentItem := FItemList[Index];
   try
-    DoConfirmProcessItem(FItemList[Index], ptExtract, Confirm);
-    if not Confirm then
-      Exit;
-    FCurrentItem := FItemList[Index];
-    try
-      ExtractItemToStreamAt(Index, aStream);
-    except
-      on E : Exception do begin
-        AbConvertException(E, ErrorClass, ErrorCode);
-        DoProcessItemFailure(FItemList[Index], ptExtract, ErrorClass,
-                             ErrorCode);
-      end;
+    ExtractItemToStreamAt(Index, aStream);
+  except
+    on E : Exception do begin
+      AbConvertException(E, ErrorClass, ErrorCode);
+      DoProcessItemFailure(FItemList[Index], ptExtract, ErrorClass, ErrorCode);
     end;
-  finally
-    Unlock;
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -1663,32 +1660,27 @@ var
 begin
   CheckValid;
   SaveIfNeeded(FItemList[Index]);
-  Lock;
-  try
-    GetFreshenTarget(FItemList[Index]);
-    FR := False;
-    try
-      FR := FreshenRequired(FItemList[Index]);
-    except
-      on E : Exception do begin
-        AbConvertException(E, ErrorClass, ErrorCode);
-        DoProcessItemFailure(FItemList[Index], ptFreshen, ErrorClass,
-                              ErrorCode);
-      end;
-    end;
-    if not FR then
-      Exit;
-    DoConfirmProcessItem(FItemList[Index], ptFreshen, Confirm);
-    if not Confirm then
-      Exit;
 
-    TAbArchiveItem(FItemList[Index]).Action := aaFreshen;
-    FIsDirty := True;
-    if AutoSave then
-      Save;
-  finally
-    Unlock;
+  GetFreshenTarget(FItemList[Index]);
+  FR := False;
+  try
+    FR := FreshenRequired(FItemList[Index]);
+  except
+    on E : Exception do begin
+      AbConvertException(E, ErrorClass, ErrorCode);
+      DoProcessItemFailure(FItemList[Index], ptFreshen, ErrorClass, ErrorCode);
+    end;
   end;
+  if not FR then
+    Exit;
+  DoConfirmProcessItem(FItemList[Index], ptFreshen, Confirm);
+  if not Confirm then
+    Exit;
+
+  TAbArchiveItem(FItemList[Index]).Action := aaFreshen;
+  FIsDirty := True;
+  if AutoSave then
+    Save;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.FreshenFiles(const FileMask : string);
@@ -1824,32 +1816,24 @@ end;
 procedure TAbArchive.Load;
   {load the archive}
 begin
-  Lock;
   try
     LoadArchive;
     FStatus := asIdle;
   finally
     DoLoad;
-    Unlock;
   end;
-end;
-{ -------------------------------------------------------------------------- }
-procedure TAbArchive.Lock;
-begin
-  FPadLock.Locked := True;
-  FStatus := asBusy;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.MakeLogEntry(const FN: string; LT : TAbLogType);
 const
-  LogTypeRes : array[TAbLogType] of Integer =
-    (AbLtAdd, AbLtDelete, AbLtExtract, AbLtFreshen, AbLtMove, AbLtReplace,
-     AbLtStart, AbUnhandledEntity);
+  LogTypeRes : array[TAbLogType] of string =
+    (AbLtAddS, AbLtDeleteS, AbLtExtractS, AbLtFreshenS, AbLtMoveS, AbLtReplaceS,
+     AbLtStartS, AbUnhandledEntityS);
 var
   Buf : string;
 begin
   if Assigned(FLogStream) then begin
-    Buf := FN + AbStrRes(LogTypeRes[LT]) + DateTimeToStr(Now) + sLineBreak;
+    Buf := FN + LogTypeRes[LT] + DateTimeToStr(Now) + sLineBreak;
     FLogStream.Write(Buf[1], Length(Buf) * SizeOf(Char));
   end;
 end;
@@ -1898,17 +1882,17 @@ var
   Confirm : Boolean;
   Found : Boolean;
   i : Integer;
+  FixedPath: string;
 begin
   CheckValid;
+  FixedPath := FixName(NewStoredPath);
   Found := False;
   if Count > 0 then
     for i := 0 to pred(Count) do
-      with TAbArchiveItem(FItemList[i]) do begin
-        if CompareText(FixName(NewStoredPath), FileName) = 0 then
-          if Action <> aaDelete then begin
-            Found := True;
-            break;
-          end;
+      if (ItemList[i] <> aItem) and SameText(FixedPath, ItemList[i].FileName) and
+         (ItemList[i].Action <> aaDelete) then begin
+        Found := True;
+        Break;
       end;
   if Found then begin
     DoProcessItemFailure(aItem, ptMove, ecAbbrevia, AbDuplicateName);
@@ -1918,22 +1902,18 @@ begin
   end;
 
   SaveIfNeeded(aItem);
-  Lock;
-  try
-    DoConfirmProcessItem(aItem, ptMove, Confirm);
-    if not Confirm then
-      Exit;
 
-    with aItem do begin
-      FileName := FixName(NewStoredPath);
-      Action := aaMove;
-    end;
-    FIsDirty := True;
-    if AutoSave then
-      Save;
-  finally
-    Unlock;
+  DoConfirmProcessItem(aItem, ptMove, Confirm);
+  if not Confirm then
+    Exit;
+
+  with aItem do begin
+    FileName := FixedPath;
+    Action := aaMove;
   end;
+  FIsDirty := True;
+  if AutoSave then
+    Save;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.Replace(aItem : TAbArchiveItem);
@@ -1954,20 +1934,16 @@ var
 begin
   CheckValid;
   SaveIfNeeded(FItemList[Index]);
-  Lock;
-  try
-    GetFreshenTarget(FItemList[Index]);
-    DoConfirmProcessItem(FItemList[Index], ptReplace, Confirm);
-    if not Confirm then
-      Exit;
 
-    TAbArchiveItem(FItemList[Index]).Action := aaReplace;
-    FIsDirty := True;
-    if AutoSave then
-      Save;
-  finally
-    Unlock;
-  end;
+  GetFreshenTarget(FItemList[Index]);
+  DoConfirmProcessItem(FItemList[Index], ptReplace, Confirm);
+  if not Confirm then
+    Exit;
+
+  TAbArchiveItem(FItemList[Index]).Action := aaReplace;
+  FIsDirty := True;
+  if AutoSave then
+    Save;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.Save;
@@ -1977,18 +1953,13 @@ var
 begin
   if FIsDirty and (Status <> asInvalid) then
   begin
-    Lock;
-    try
-      DoConfirmSave(Confirm);
-      if not Confirm then
-        Exit;
+    DoConfirmSave(Confirm);
+    if not Confirm then
+      Exit;
 
-      SaveArchive;
-      FIsDirty := False;
-      DoSave;
-    finally
-      Unlock;
-    end;
+    SaveArchive;
+    FIsDirty := False;
+    DoSave;
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -2048,13 +2019,6 @@ begin
         if MatchesStoredNameEx(FileMask) then                            
           Tagged := True;
       end;
-end;
-{ -------------------------------------------------------------------------- }
-procedure TAbArchive.Unlock;
-begin
-  if FStatus = asBusy then                                             
-    FStatus := asIdle;
-  FPadLock.Locked := False;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchive.UnTagItems(const FileMask : string);

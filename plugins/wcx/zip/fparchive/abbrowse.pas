@@ -218,7 +218,8 @@ uses
 {$ENDIF}
   AbZipTyp,
   AbTarTyp,
-  AbGzTyp;
+  AbGzTyp,
+  AbBzip2Typ;
 
 { TAbBaseBrowser implementation ======================================= }
 
@@ -493,7 +494,7 @@ begin
     Ext := UpperCase(ExtractFileExt(FN));
     if (Ext = '.ZIP') or (Ext = '.JAR') then
       Result := atZip;
-    if Ext = '.TAR' then
+    if (Ext = '.TAR') then
       Result := atTar;
     if (Ext = '.GZ') then
       Result := atGzip;
@@ -501,6 +502,10 @@ begin
       Result := atGzippedTar;
     if (Ext = '.CAB') then
       Result := atCab;
+    if (Ext = '.BZ2') then
+      Result := atBzip2;
+    if (Ext = '.TBZ') then
+      Result := atBzippedTar;
   end;
 {$IFNDEF MSWINDOWS}
   if Result = atCab then
@@ -526,9 +531,12 @@ begin
         end;
 {$IFDEF MSWINDOWS}
         atCab : begin
-          Result := VerifyCab(FN);
+          Result := VerifyCab(FS);
         end;
 {$ENDIF}
+        atBzip2, atBzippedTar: begin
+          Result := VerifyBzip2(FS);
+        end;
       end;
     finally
       FS.Free;
