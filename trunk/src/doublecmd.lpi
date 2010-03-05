@@ -677,7 +677,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(LazarusDir)\ide\;$(ProjOutDir)\"/>
-      <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)\"/>
+      <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)\"/>
       <OtherUnitFiles Value="$(ProjPath)\platform\;$(ProjPath)\platform\$(SrcOS)\;..\sdk\;$(ProjPath)\newdesign\;$(ProjPath)\newdesign\fileproperties\;newdesign\columnsview\"/>
       <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
       <SrcPath Value="$(LazarusDir)\lcl\;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType)\;$(fpcsrcdir)\packages\fcl-base\src\"/>
