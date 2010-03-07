@@ -289,7 +289,7 @@ function GZOsToStr(OS: Byte) : string;
 implementation
 
 uses
-  AbResString;
+  AbResString, uClassesEx;
 
 const
   { Header Signature Values}
@@ -1017,7 +1017,7 @@ end;
 procedure TAbGzipArchive.ExtractItemAt(Index: Integer;
   const UseName: string);
 var
-  OutStream : TFileStream;
+  OutStream : TStream;
   CurItem : TAbGzipItem;
 begin
   if IsGZippedTar and TarAutoHandle then begin
@@ -1030,7 +1030,7 @@ begin
 
     CurItem := TAbGzipItem(ItemList[Index]);
 
-    OutStream := TFileStream.Create(UseName, fmCreate or fmShareDenyNone);
+    OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyNone);
     try
       try {OutStream}
         ExtractItemToStreamAt(Index, OutStream);
@@ -1272,7 +1272,7 @@ begin
                     if (BaseDirectory <> '') then
                       ChDir(BaseDirectory);
 
-                    UncompressedStream := TFileStream.Create(CurItem.DiskFileName,
+                    UncompressedStream := TFileStreamEx.Create(CurItem.DiskFileName,
                         fmOpenRead or fmShareDenyWrite );
 
                     {Now get the file's attributes}
@@ -1319,7 +1319,7 @@ begin
       FreeAndNil(FStream);
       FGzStream := nil;
       // GZIP does not support spanning
-      FStream := TFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
+      FStream := TFileStreamEx.Create(FArchiveName, fmCreate or fmShareDenyWrite);
       try
         FGZStream := FStream;
         if NewStream.Size > 0 then

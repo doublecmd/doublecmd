@@ -117,7 +117,7 @@ uses
 {$IFDEF MSWINDOWS}
   Windows, // Fix inline warnings
 {$ENDIF}
-  StrUtils, SysUtils,
+  StrUtils, SysUtils, uClassesEx,
   AbBzip2;
 
 { ****************** Helper functions Not from Classes Above ***************** }
@@ -227,7 +227,7 @@ end;
 procedure TAbBzip2Archive.ExtractItemAt(Index: Integer;
   const NewName: string);
 var
-  OutStream : TFileStream;
+  OutStream : TStream;
 begin
   if IsBzippedTar and TarAutoHandle then begin
     SwapToTar;
@@ -235,7 +235,7 @@ begin
   end
   else begin
     SwapToBzip2;
-    OutStream := TFileStream.Create(NewName, fmCreate or fmShareDenyNone);
+    OutStream := TFileStreamEx.Create(NewName, fmCreate or fmShareDenyNone);
     try
       try
         ExtractItemToStreamAt(Index, OutStream);
@@ -346,7 +346,7 @@ begin
             if CurItem.Action = aaStreamAdd then
               CompStream.CopyFrom(InStream, 0){ Copy/compress entire Instream to FBzip2Stream }
             else begin
-              InputFileStream := TFileStream.Create(CurItem.DiskFileName, fmOpenRead or fmShareDenyWrite );
+              InputFileStream := TFileStreamEx.Create(CurItem.DiskFileName, fmOpenRead or fmShareDenyWrite );
               try
                 CompStream.CopyFrom(InputFileStream, 0);{ Copy/compress entire Instream to FBzip2Stream }
               finally

@@ -219,7 +219,8 @@ uses
   AbZipTyp,
   AbTarTyp,
   AbGzTyp,
-  AbBzip2Typ;
+  AbBzip2Typ,
+  uClassesEx;
 
 { TAbBaseBrowser implementation ======================================= }
 
@@ -486,7 +487,7 @@ end;
 function AbDetermineArcType(const FN : string; AssertType : TAbArchiveType) : TAbArchiveType;
 var
   Ext : string;
-  FS : TFileStream;
+  FS : TStream;
 begin
   Result := AssertType;
   if Result = atUnknown then begin
@@ -514,7 +515,7 @@ begin
   if (Result <> atUnknown) and FileExists(FN) and (AbFileGetSize(FN) > 0) then begin
     { If the file doesn't exist (or is empty) presume to make one, otherwise
       verify the contents }
-    FS := TFileStream.Create(FN, fmOpenRead or fmShareDenyNone);
+    FS := TFileStreamEx.Create(FN, fmOpenRead or fmShareDenyNone);
     try
       case Result of
         atZip : begin

@@ -39,7 +39,7 @@ unit AbZipTyp;
 interface
 
 uses
-  Classes, AbArcTyp, AbUtils, AbSpanSt;
+  Classes, AbArcTyp, AbUtils, AbSpanSt, uClassesEx;
 
 const
   { note  #$50 = 'P', #$4B = 'K'}
@@ -2841,7 +2841,7 @@ begin
         end
        else
         begin
-          FStream := TFileStream.Create(FArchiveName,
+          FStream := TFileStreamEx.Create(FArchiveName,
             fmOpenReadWrite or fmShareDenyWrite);
         end;
 
