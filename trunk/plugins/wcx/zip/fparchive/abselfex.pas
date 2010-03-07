@@ -52,9 +52,9 @@ type
     FStubExe      : string;
     FZipFile      : string;
     FSelfExe      : string;
-    FStubStream   : TFileStream;
-    FZipStream    : TFileStream;
-    FSelfStream    : TFileStream;
+    FStubStream   : TStream;
+    FZipStream    : TStream;
+    FSelfStream    : TStream;
     FOnGetStubExe : TAbGetFileEvent;
     FOnGetZipFile : TAbGetFileEvent;
 
@@ -87,7 +87,7 @@ type
 implementation
 
 uses
-  AbConst;
+  AbConst, uClassesEx;
 
 { -------------------------------------------------------------------------- }
 function TAbMakeSelfExe.Execute : Boolean;
@@ -108,11 +108,11 @@ begin
   if not FileExists(FZipFile) then
     raise EAbFileNotFound.Create;
 
-  FStubStream := TFileStream.Create(FStubExe, fmOpenRead or fmShareDenyWrite);
-  FZipStream := TFileStream.Create(FZipFile, fmOpenRead or fmShareDenyWrite);
+  FStubStream := TFileStreamEx.Create(FStubExe, fmOpenRead or fmShareDenyWrite);
+  FZipStream := TFileStreamEx.Create(FZipFile, fmOpenRead or fmShareDenyWrite);
   if (FSelfExe = '') then
     FSelfExe := ChangeFileExt(FZipFile, '.exe');
-  FSelfStream := TFileStream.Create(FSelfExe, fmCreate or fmShareExclusive);
+  FSelfStream := TFileStreamEx.Create(FSelfExe, fmCreate or fmShareExclusive);
   try
     MakeSelfExtracting(FStubStream, FZipStream, FSelfStream);
     Result := True;

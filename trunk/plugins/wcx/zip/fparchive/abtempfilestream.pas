@@ -27,10 +27,10 @@ unit AbTempFileStream;
 
 interface
 
-uses SysUtils,Classes;
+uses SysUtils,Classes,uClassesEx;
 
 type
-  TAbTempFileStream = class (TFileStream)
+  TAbTempFileStream = class (TFileStreamEx)
   private
     FFileName: string;
     FDeleteFile : Boolean;

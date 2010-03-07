@@ -66,7 +66,7 @@ type
 
     FBytesAvail   : Int64;      {Contains the no. of available
                                    bytes on the current media        }
-    FStr          : TFileStream;  {Internal file stream              }
+    FStr          : TStream;      {Internal file stream              }
     FFileMode     : Word;         {File open mode for internal stream}
     FIgnoreSpanning : Boolean;      { only work within current span }    {!!.01}
     FSpanStreamInCharge : Boolean; {Span stream in charge of floppies} {!!.02}
@@ -117,6 +117,9 @@ type
 
 implementation
 
+uses
+  uClassesEx;
+
 {!!.01 -- added}
 function TAbSpanStream.FixSpanNumber(ImageNumber: Integer): Integer;
 begin
@@ -149,7 +152,7 @@ begin
       FSpanStreamInCharge := True;                                       {!!.02}
       Valid := MediaIsValid(FImageName);
       if Valid and not FCancelled then begin
-        FStr := TFileStream.Create(FImageName, FFileMode);
+        FStr := TFileStreamEx.Create(FImageName, FFileMode);
       end else begin
         if not Valid then
           raise EAbFileNotFound.Create;
@@ -314,7 +317,7 @@ begin
       if Valid and not FCancelled then begin
         FStr.Free;
         FStr := nil;
-        FStr := TFileStream.Create(FImageName, FFileMode);
+        FStr := TFileStreamEx.Create(FImageName, FFileMode);
       end else begin
         if not Valid then
           raise EAbFileNotFound.Create;
@@ -336,7 +339,7 @@ begin
       if Valid and not FCancelled then begin
         FStr.Free;
         FStr := nil;
-        FStr := TFileStream.Create(FImageName, FFileMode);
+        FStr := TFileStreamEx.Create(FImageName, FFileMode);
       end else begin
         if not Valid then
           raise EAbFileNotFound.Create;
@@ -381,7 +384,7 @@ begin
   FOnArchiveProgress := nil;
 
   if MediaIsValid(FileName) or (FSpanMode = smReading) then              {!!.02}
-    FStr := TFileStream.Create(FileName, Mode)
+    FStr := TFileStreamEx.Create(FileName, Mode)
   else
     raise EAbException.Create( 'Invalid Media' );
 end;
@@ -457,9 +460,9 @@ begin
           FImageName := NewName;
           Inc(FSpanNumber);
           FBytesWritten := 0;
-          FStr := TFileStream.Create(FImageName, fmCreate);              {!!.01}
+          FStr := TFileStreamEx.Create(FImageName, fmCreate);              {!!.01}
           FStr.Free;                                                     {!!.01}
-          FStr := TFileStream.Create(FImageName, Mode);
+          FStr := TFileStreamEx.Create(FImageName, Mode);
         end
         else                                                             {!!.01}
           Result := False;                                               {!!.01}
@@ -553,11 +556,11 @@ begin
   if not FCancelled then begin
     { open new stream on new media}
     if FSpanMode = smWriting then
-      FStr := TFileStream.Create(FImageName, FFileMode);
+      FStr := TFileStreamEx.Create(FImageName, FFileMode);
 
     if FSpanMode = smReading then begin
       if FileExists(FImageName) then
-        FStr := TFileStream.Create(FImageName, FFileMode)
+        FStr := TFileStreamEx.Create(FImageName, FFileMode)
       else
         raise EAbException.Create('Cannot open spanned file: ' + FImageName);
     end;

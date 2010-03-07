@@ -453,6 +453,9 @@ function VerifyTar(Strm : TStream) : TAbArchiveType;
 
 implementation
 
+uses
+  uClassesEx;
+
 { ****************** Helper functions Not from Classes Above ***************** }
 function OctalToInt(const Oct : PAnsiChar; aLen : integer): Integer;
 var
@@ -2265,7 +2268,7 @@ end;
 
 procedure TAbTarArchive.ExtractItemAt(Index: Integer; const UseName: string);
 var
-  OutStream : TFileStream;
+  OutStream : TStream;
   CurItem : TAbTarItem;
 begin
   { Check the index is not out of range. }
@@ -2282,7 +2285,7 @@ begin
     raise EAbTarBadOp.Create; { Unsupported Type, Cannot Extract }
   { We will allow extractions if the file name/Link name are strickly less than 100 chars }
 
-  OutStream := TFileStream.Create(UseName, fmCreate or fmShareDenyNone);
+  OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyNone);
   try
     try {OutStream}
       ExtractItemToStreamAt(Index, OutStream);
@@ -2523,7 +2526,7 @@ begin
                 try {SaveDir}
                   if (BaseDirectory <> '') then
                     ChDir(BaseDirectory);
-                  TempStream := TFileStream.Create(CurItem.DiskFileName,
+                  TempStream := TFileStreamEx.Create(CurItem.DiskFileName,
                     fmOpenRead or fmShareDenyWrite );
 
                   CurItem.UncompressedSize := TempStream.Size;
@@ -2585,7 +2588,7 @@ begin
     else begin
       { need new stream to write }
       FreeAndNil(FStream);
-      FStream := TFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
+      FStream := TFileStreamEx.Create(FArchiveName, fmCreate or fmShareDenyWrite);
       try
         if NewStream.Size > 0 then
           FStream.CopyFrom(NewStream, NewStream.Size);

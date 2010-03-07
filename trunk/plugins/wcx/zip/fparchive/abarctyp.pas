@@ -576,7 +576,8 @@ uses
   AbExcept,
   AbDfBase,
   AbConst,
-  AbResString;
+  AbResString,
+  uClassesEx;
 
 
 { TAbArchiveItem implementation ============================================ }
@@ -1020,7 +1021,7 @@ constructor TAbArchive.Create(const FileName : string; Mode : Word);
   {create an archive by opening a filestream on filename with the given mode}
 begin
   FOwnsStream := True;
-  CreateFromStream(TFileStream.Create(FileName, Mode), FileName);
+  CreateFromStream(TFileStreamEx.Create(FileName, Mode), FileName);
   FMode := Mode;
 end;
 { -------------------------------------------------------------------------- }

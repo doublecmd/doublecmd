@@ -163,7 +163,8 @@ uses
   QDialogs,
   {$ENDIF}
   {$ENDIF}
-  SysUtils;
+  SysUtils,
+  uClassesEx;
 
 { -------------------------------------------------------------------------- }
 procedure AbReverseBits(var W : Word);
@@ -1278,10 +1279,10 @@ procedure AbUnzip(Sender : TObject; Item : TAbZipItem; const UseName : string);
   {create the output filestream and pass it to AbUnzipToStream}
 var
   {$IFDEF AbUnZipClobber}
-  OutStream  : TFileStream;
+  OutStream  : TFileStreamEx;
   {$ENDIF}
   MemoryStream   : TMemoryStream;
-  OutStream      : TFileStream;
+  OutStream      : TFileStreamEx;
   TempFileStream : TAbTempFileStream;
   TempFileName   : String;
 (*  {$IFDEF AbUnZipMemory}
@@ -1310,7 +1311,7 @@ begin
       // It also may speed up this routine for many.
       // NOTE: Instead of doing what I stated above, I added compiler define logic to allow you to chose for now.
       {$IFDEF AbUnZipClobber}
-      OutStream := TFileStream.Create(UseName, fmCreate or fmShareDenyWrite); {!!.01}
+      OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyWrite); {!!.01}
       try    {OutStream}
         AbUnZipToStream(Sender, Item, OutStream);
       // Some Network Operating Systems cache the file and when we set attributes they are truncated
@@ -1329,7 +1330,7 @@ begin
           MemoryStream.Size := Item.UncompressedSize;// This causes all the memory to allocated at once which is faster
           MemoryStream.Position := 0;
           AbUnZipToStream(Sender, Item, MemoryStream);
-          OutStream := TFileStream.Create(UseName, fmCreate or fmShareDenyWrite); {!!.01}
+          OutStream := TFileStreamEx.Create(UseName, fmCreate or fmShareDenyWrite); {!!.01}
           try
             // Copy Memory Stream To File Stream.
             MemoryStream.SaveToStream(OutStream);

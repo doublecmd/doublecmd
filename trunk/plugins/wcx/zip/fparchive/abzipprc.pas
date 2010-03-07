@@ -61,7 +61,8 @@ uses
   AbDfEnc,
   AbSpanSt,
   AbVMStrm,                                                              {!!.01}
-  SysUtils;
+  SysUtils,
+  uClassesEx;
 
 
 { ========================================================================== }
@@ -216,7 +217,8 @@ begin
   Item.VersionMadeBy := MakeVersionMadeBy;
 
   { if not reading from a file, then set defaults for storing the item }
-  if not (InStream is TFileStream) or (InStream is TAbSpanStream) then begin
+  if not ((InStream is TFileStream) or (InStream is TFileStreamEx)) or
+         (InStream is TAbSpanStream) then begin
     FileTimeStamp := DateTimeToFileDate(SysUtils.Now);
     Item.ExternalFileAttributes := 0;
     Item.UncompressedSize := InStream.Size;
@@ -362,7 +364,7 @@ begin
 
   end else begin
     { File. Open stream for compression. }
-    UncompressedStream := TFileStream.Create(Name,
+    UncompressedStream := TFileStreamEx.Create(Name,
       fmOpenRead or fmShareDenyWrite );
 
     Item.UncompressedSize := UncompressedStream.Size;
