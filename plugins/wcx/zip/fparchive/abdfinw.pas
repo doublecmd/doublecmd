@@ -256,8 +256,7 @@ begin
     HashInx :=
        ((HashInx shl c_HashShift) xor longint(CurPos[2])) and
        c_HashMask;
-    HashChains^[longint(CurPos) and FWinMask] :=
-       HashHeads^[HashInx]; //TODO 64bit pointer
+    HashChains^[PtrUInt(CurPos) and FWinMask] := HashHeads^[HashInx];
     HashHeads^[HashInx] := CurPos;
     inc(CurPos);
   end;
@@ -364,7 +363,6 @@ function TAbDfInputWindow.FindLongestMatch(aAmpleLength : integer;
   {$ENDIF}
 {$ENDIF}
 type
-  PLongint = ^longint;
   PWord    = ^word;
 var
   MaxLen     : longint;
@@ -403,7 +401,7 @@ begin
 
   {update the chain itself: set the entry for this position equal to
    the previous string position}
-  FHashChains^[longint(CurPos) and FWinMask] := PrevStrPos;//TODO 64bit pointer
+  FHashChains^[PtrUInt(CurPos) and FWinMask] := PrevStrPos;
 
   {calculate the maximum match we could do at this position}
   MaxMatch := (FLookAheadEnd - CurPos);
@@ -599,7 +597,7 @@ begin
       Break;
 
     {otherwise move onto the next position}
-    PrevStrPos := FHashChains^[longint(PrevStrPos) and FWinMask];
+    PrevStrPos := FHashChains^[PtrUInt(PrevStrPos) and FWinMask];
   end;
   {$ENDIF}
 
@@ -699,9 +697,9 @@ end;
 procedure TAbDfInputWindow.iwSlide;
 var
   i : integer;
-  ByteCount : integer;
-  Buffer    : longint;
-  ListItem  : PLongint;
+  ByteCount : PtrInt;
+  Buffer    : PAnsiChar;
+  ListItem  : PPointer;
 begin
   {move current valid data back to the start of the buffer}
   ByteCount := FLookAheadEnd - FStart;
@@ -714,22 +712,22 @@ begin
   dec(FLookAheadEnd, ByteCount);
 
   {patch up the hash table: the head pointers}
-  Buffer := longint(FBuffer);//64bit pointer
-  ListItem := PLongint(@FHashHeads^[0]);
+  Buffer := FBuffer;
+  ListItem := @FHashHeads^[0];
   for i := 0 to pred(c_HashCount) do begin
     dec(ListItem^, ByteCount);
     if (ListItem^ < Buffer) then
-      ListItem^ := 0;
-    inc(PAnsiChar(ListItem), sizeof(pointer));
+      ListItem^ := nil;
+    inc(ListItem);
   end;
 
   {..the chain pointers}
-  ListItem  := PLongint(@FHashChains^[0]);
+  ListItem  := @FHashChains^[0];
   for i := 0 to pred(FWinSize) do begin
     dec(ListItem^, ByteCount);
     if (ListItem^ < Buffer) then
-      ListItem^ := 0;
-    inc(PAnsiChar(ListItem), sizeof(pointer));
+      ListItem^ := nil;
+    inc(ListItem);
   end;
 
   {now read some more data from the stream}

@@ -451,8 +451,7 @@ begin
         P := OutBuf;
         Inc(OutBytes, 256);
         ReallocMem(OutBuf, OutBytes);
-        strm.next_out := PByte(Integer(OutBuf)
-			       + (Integer(strm.next_out) - Integer(P)));
+        strm.next_out := OutBuf + strm.next_out - P;
         strm.avail_out := 256;
       end;
     finally
@@ -494,7 +493,7 @@ begin
         P := OutBuf;
         Inc(OutBytes, BufInc);
         ReallocMem(OutBuf, OutBytes);
-        strm.next_out := PByte(Integer(OutBuf) + (Integer(strm.next_out) - Integer(P)));
+        strm.next_out := OutBuf + strm.next_out - P;
         strm.avail_out := BufInc;
       end;
     finally
