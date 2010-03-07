@@ -403,7 +403,7 @@ function UTF8ToString(const S: RawByteString): string;
 implementation
 
 uses
-  AbConst, uClassesEx
+  AbConst
 {$IFDEF MSWINDOWS}
   , AbExcept
 {$ENDIF}
@@ -434,16 +434,16 @@ end;
 function AbCopyFile(const Source, Destination: string; FailIfExists: Boolean): Boolean;
 {$IFDEF LINUX}
 var
-  DesStream, SrcStream: TFileStreamEx;
+  DesStream, SrcStream: TFileStream;
 {$ENDIF}
 begin
 {$IFDEF LINUX}
   Result := False;
   if not FailIfExists or not FileExists(Destination) then
     try
-      SrcStream := TFileStreamEx.Create(Source, fmOpenRead or fmShareDenyWrite);
+      SrcStream := TFileStream.Create(Source, fmOpenRead or fmShareDenyWrite);
       try
-        DesStream := TFileStreamEx.Create(Destination, fmCreate);
+        DesStream := TFileStream.Create(Destination, fmCreate);
         try
           DesStream.CopyFrom(SrcStream, 0);
           Result := True;
