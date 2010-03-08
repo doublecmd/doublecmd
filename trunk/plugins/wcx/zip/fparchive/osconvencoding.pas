@@ -19,6 +19,8 @@ function SysToOEM(Source: String): String;
 function AnsiToSys(Source: String): String;
 function SysToAnsi(Source: String): String;
 
+function GetSystemEncoding(out Language, Encoding: String): Boolean;
+
 implementation
 
 uses

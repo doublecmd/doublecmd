@@ -407,6 +407,9 @@ uses
 {$IFDEF MSWINDOWS}
   , AbExcept
 {$ENDIF}
+{$IFDEF UNIX}
+  , osConvEncoding
+{$ENDIF}
   ;
 
 const
@@ -1863,10 +1866,28 @@ begin
 end;
 
 {$IFDEF LINUX}
+var
+  GotEncoding: Boolean = False;
+  IsSysLangUtf8: Boolean = False;
+
 function AbSysCharSetIsUTF8: Boolean;
+
+  function InternalIsUTF8: Boolean;
+  var
+    Language, Encoding: String;
+  begin
+    Result := GetSystemEncoding(Language, Encoding);
+    if Result then
+      Result := SameText(Encoding, 'UTF8');
+  end;
+
 begin
-  //Result := StrComp(nl_langinfo(_NL_CTYPE_CODESET_NAME), 'UTF-8') = 0;
-  Result := False;
+  if not GotEncoding then
+  begin
+    GotEncoding := True;
+    IsSysLangUtf8 := InternalIsUTF8;
+  end;
+  Result := IsSysLangUtf8;
 end;
 {$ENDIF}
 
