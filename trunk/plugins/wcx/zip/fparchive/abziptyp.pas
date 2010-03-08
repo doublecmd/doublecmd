@@ -1724,7 +1724,7 @@ begin
      (XceedField.Signature = Ab_XceedUnicodePathSignature) and
      (XceedField.Length * SizeOf(WideChar) = FieldSize - SizeOf(TXceedUnicodePathRec) + SizeOf(WideChar)) then begin
     SetString(UnicodeName, XceedField.UnicodeName, XceedField.Length);
-    inherited SetFileName(string(UnicodeName));
+    inherited SetFileName(UTF8Encode(UnicodeName));
   end
   else
   begin
