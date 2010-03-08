@@ -710,14 +710,14 @@ end;
 function ReadSymLink(LinkName : String) : String;
 {$IFDEF MSWINDOWS}
 var
-  wLinkName,
-  wTarget: WideString;
+  wsLinkName,
+  wsTarget: WideString;
   LinkType: TReparsePointType;
 begin
   try
-    wLinkName:= UTF8Decode(LinkName);
-    if uNTFSLinks.FGetSymlinkInfo(wLinkName, wTarget, LinkType) then
-      Result := UTF8Encode(wTarget)
+    wsLinkName:= UTF8Decode(LinkName);
+    if uNTFSLinks.GetSymlinkInfo(wsLinkName, wsTarget, LinkType) then
+      Result := UTF8Encode(wsTarget)
     else
       Result := '';
   except
