@@ -1710,37 +1710,37 @@ begin
   FItemInfo.LoadFromStream( Stream );
 
   if FItemInfo.IsUTF8 or (AbDetectCharSet(FItemInfo.FileName) = csUTF8) then
-    FileName := UTF8ToString(FItemInfo.FileName)
+    inherited SetFileName(FItemInfo.FileName)
   else if FItemInfo.ExtraField.Get(Ab_InfoZipUnicodePathSubfieldID, Pointer(InfoZipField), FieldSize) and
      (FieldSize > SizeOf(TInfoZipUnicodePathRec)) and
      (InfoZipField.Version = 1) and
      (InfoZipField.NameCRC32 = AbCRC32Of(FItemInfo.FileName)) then begin
     SetString(UTF8Name, InfoZipField.UnicodeName,
       FieldSize - SizeOf(TInfoZipUnicodePathRec) + 1);
-    FileName := UTF8ToString(UTF8Name);
+    inherited SetFileName(UTF8Name);
   end
   else if FItemInfo.ExtraField.Get(Ab_XceedUnicodePathSubfieldID, Pointer(XceedField), FieldSize) and
      (FieldSize > SizeOf(TXceedUnicodePathRec)) and
      (XceedField.Signature = Ab_XceedUnicodePathSignature) and
      (XceedField.Length * SizeOf(WideChar) = FieldSize - SizeOf(TXceedUnicodePathRec) + SizeOf(WideChar)) then begin
     SetString(UnicodeName, XceedField.UnicodeName, XceedField.Length);
-    FileName := string(UnicodeName);
+    inherited SetFileName(string(UnicodeName));
   end
   else
   begin
     SystemCode := TAbZipHostOs(Byte(VersionMadeBy shr 8));
     {$IF DEFINED(MSWINDOWS)}
     if (GetACP <> GetOEMCP) and (SystemCode = hosMSDOS) or IsOEM(FItemInfo.FileName) then
-      FileName:= AbStrOemToAnsi(FItemInfo.FileName)
+      inherited SetFileName(AbStrOemToAnsi(FItemInfo.FileName))
     else
     {$ELSEIF DEFINED(LINUX)}
     if (SystemCode = hosMSDOS) then
-      FileName := OEMToSys(FItemInfo.FileName)
+      inherited SetFileName(OEMToSys(FItemInfo.FileName))
     else if (SystemCode = hosNTFS) then
-      FileName := AnsiToSys(FItemInfo.FileName)
+      inherited SetFileName(AnsiToSys(FItemInfo.FileName))
     else
     {$ENDIF}
-      FileName := string(FItemInfo.FileName);
+      inherited SetFileName(FItemInfo.FileName);
   end;
 
   IsDirectory := ((FItemInfo.ExternalFileAttributes and faDirectory) <> 0) or
@@ -2031,11 +2031,7 @@ begin
       FullSourceFileName := IncludeTrailingPathDelimiter(FullSourceFileName);
     end;
 
-    if TAbZipHostOS((VersionMadeBy shr 8) and $FF) = hosMSDOS then
-      Result.FileName := AbStrAnsiToOem(FullArchiveFileName)
-    else
-      Result.FileName := FullArchiveFileName;
-
+    Result.FileName     := FullArchiveFileName;
     Result.DiskFileName := FullSourceFileName;
   end;
 end;
