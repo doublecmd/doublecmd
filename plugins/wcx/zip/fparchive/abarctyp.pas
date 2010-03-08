@@ -2071,11 +2071,10 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbExtraField.DeleteField(aSubField : PAbExtraSubField);
 var
-  Len: Integer;
-  Offset : PtrUInt;
+  Len, Offset : Integer;
 begin
   Len := SizeOf(TAbExtraSubField) + aSubField.Len;
-  Offset := PtrUInt(aSubField) - PtrUInt(FBuffer);
+  Offset := Pointer(aSubField) - Pointer(FBuffer);
   if Offset + Len < Length(FBuffer) then
     Move(FBuffer[Offset + Len], aSubField^, Length(FBuffer) - Offset - Len);
   SetLength(FBuffer, Length(FBuffer) - Len);
@@ -2103,9 +2102,9 @@ begin
   end
   else begin
     BytesLeft := Length(FBuffer) -
-      Integer(PtrUInt(aCurField) - PtrUInt(FBuffer)) -
+      (Pointer(aCurField) - Pointer(FBuffer)) -
       SizeOf(TAbExtraSubField) - aCurField.Len;
-    aCurField := aCurField + aCurField.Len + SizeOf(TAbExtraSubField);
+    Inc(Pointer(aCurField), aCurField.Len + SizeOf(TAbExtraSubField));
   end;
   Result := (BytesLeft >= SizeOf(TAbExtraSubField));
   if Result and (BytesLeft < SizeOf(TAbExtraSubField) + aCurField.Len) then
