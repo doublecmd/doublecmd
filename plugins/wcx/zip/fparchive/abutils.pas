@@ -304,7 +304,7 @@ const
 
 type
   TAbAttrExRec = record
-    Time: Integer;
+    Time: {$IFDEF LINUX}time_t{$ELSE}Integer{$ENDIF};
     Size: Int64;
     Attr: Integer;
     Mode: {$IFDEF LINUX}mode_t{$ELSE}Cardinal{$ENDIF};
@@ -1748,7 +1748,11 @@ var
 {$ENDIF}
 {$IFDEF LINUX}
 var
+  {$IFDEF FPC}
+  StatBuf: TStat;
+  {$ELSE}
   StatBuf: TStatBuf64;
+  {$ENDIF}
 {$ENDIF}
 begin
   aAttr.Time := -1;
@@ -1768,13 +1772,19 @@ begin
   end;
 {$ENDIF}
 {$IFDEF LINUX}
+  {$IFDEF FPC}
+  Result := (FpStat(aFileName, StatBuf) = 0);
+  {$ELSE}
   // Work around Kylix QC#2761: Stat64, et al., are defined incorrectly
   Result := (__lxstat64(_STAT_VER, PChar(aFileName), StatBuf) = 0);
+  {$ENDIF}
   if Result then begin
+    {$PUSH}{$R-,Q-}
     aAttr.Time := StatBuf.st_mtime;
     aAttr.Size := StatBuf.st_size;
     aAttr.Attr := AbUnix2DosFileAttributes(StatBuf.st_mode);
     aAttr.Mode := StatBuf.st_mode;
+    {$POP}
   end;
 {$ENDIF}
 end;
@@ -1873,4 +1883,4 @@ begin
 end;
 {$ENDIF}
 
-end.
+end.
