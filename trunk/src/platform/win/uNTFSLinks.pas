@@ -70,7 +70,11 @@ const
     'Distributed File System point'
     );
 
-(* To create symbolic link (works on Windows 2k/XP for directories only) *)
+{en
+   Create symbolic link on NTFS drive
+   On Windows 2k/XP works for directories only
+   On Windows Vista/Seven works for files and directories
+}
 function CreateSymlink(ATargetName, ALinkName: WideString): Boolean;
 (* To create hardlink(s) (works only for files) *)
 procedure CreateHardlink(AFileName, ALinkName: WideString);

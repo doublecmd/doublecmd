@@ -694,7 +694,7 @@ begin
   try
     wPath:= UTF8Decode(Path);
     wLinkName:= UTF8Decode(LinkName);
-    uNTFSLinks.CreateSymlink(wPath, wLinkName);
+    Result:= uNTFSLinks.CreateSymlink(wPath, wLinkName);
   except
     Result := False;
   end;

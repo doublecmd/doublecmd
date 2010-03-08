@@ -124,10 +124,8 @@ begin
                            WinFileTimeToDateTime(SearchRecord.FindData.ftCreationTime));
   FLastAccessTime := TFileLastAccessDateTimeProperty.Create(
                            WinFileTimeToDateTime(SearchRecord.FindData.ftLastAccessTime));
-  //Other times: SearchRecord.FindData.ftCreationTime
 
-  //Because symbolic link works on Windows 2k/XP for directories only
-  FIsLinkToDirectory := FAttributes.IsLink;
+  FIsLinkToDirectory := FAttributes.IsLink and FAttributes.IsDirectory;
 
 {$ELSEIF DEFINED(UNIX)}
 
