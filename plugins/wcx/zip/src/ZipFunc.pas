@@ -138,22 +138,35 @@ end;
   from file list like "filename1#0filename2#0filename3#0#0"
 }
 
-function MakeFileList(FileList : PChar) : String;
+function MakeFileList(FileList : PAnsiChar) : UTF8String;
 var
-  I : Integer;
-  CurrentChar : Char;
+  FileName: AnsiString;
 begin
-  I := 0;
+  Result := '';
   while True do
   begin
-    CurrentChar :=  (FileList + I)^;
-    if CurrentChar = #0 then
-      CurrentChar := AbPathSep;
+    FileName := AnsiString(FileList);
+    Result := Result + FileName;
+    if (FileList + Length(FileName) + 1)^ = #0 then
+      Break;
+    Result := Result + AbPathSep;
+    Inc(FileList, Length(FileName) + 1);
+  end;
+end;
 
-    if ((FileList + I)^ = #0) and ((FileList + I + 1)^ = #0) then
-      break;
-    Result := Result +  CurrentChar;
-    I := I + 1;
+function MakeFileListW(FileList : PWideChar) : UTF8String;
+var
+  FileName: WideString;
+begin
+  Result := '';
+  while True do
+  begin
+    FileName := WideString(FileList);
+    Result := Result + UTF8Encode(FileName);
+    if (FileList + Length(FileName) + 1)^ = #0 then
+      Break;
+    Result := Result + AbPathSep;
+    Inc(FileList, Length(FileName) + 1);
   end;
 end;
 
@@ -598,8 +611,7 @@ begin
       Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
 
       Arc.BaseDirectory := UTF8Encode(WideString(SrcPath));
-      Arc.AddEntries(MakeFileList(PChar(UTF8Encode(WideString(AddList)))),
-                     UTF8Encode(WideString(SubPath)));
+      Arc.AddEntries(MakeFileListW(AddList), UTF8Encode(WideString(SubPath)));
 
       Arc.Save;
       Arc.CloseArchive;
@@ -877,4 +889,4 @@ begin
 end;
 
 end.
-
+
