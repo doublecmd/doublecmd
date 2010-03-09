@@ -25,13 +25,16 @@ function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean;
 
 function ChooseArchive(aFileView: TFileView; aFile: TFile): Boolean;
 
+procedure ChooseSymbolicLink(aFileView: TFileView; aFile: TFile);
+
 function RenameFile(aFileSource: IFileSource; const aFile: TFile;
                     const NewFileName: UTF8String; Interactive: Boolean): Boolean;
 
 implementation
 
 uses
-  LCLProc, uGlobs, uShellExecute,
+  LCLProc, uGlobs, uShellExecute, uFindEx,
+  uOSUtils, uShowMsg, uTypes, uLng,
   uFileSourceOperation,
   uFileSourceSetFilePropertyOperation,
   uFileSourceExecuteOperation,
@@ -149,6 +152,31 @@ begin
       aFileView.AddFileSource(FileSource, FileSource.GetRootDir);
       Exit(True);
     end;
+  end;
+end;
+
+procedure ChooseSymbolicLink(aFileView: TFileView; aFile: TFile);
+var
+  SearchRec: TSearchRecEx;
+  sPath: UTF8String;
+begin
+  sPath:= aFileView.CurrentPath + IncludeTrailingPathDelimiter(aFile.Name);
+  try
+    if FindFirstEx(sPath + AllFilesMask, faAnyFile, SearchRec) = 0 then
+      begin
+        with aFileView do
+        CurrentPath := CurrentPath + IncludeTrailingPathDelimiter(aFile.Name);
+      end
+    else
+      begin
+        sPath:= ReadSymLink(aFile.FullPath);
+        if sPath <> EmptyStr then
+          aFileView.CurrentPath := IncludeTrailingPathDelimiter(sPath)
+        else
+          msgError(Format(rsMsgChDirFailed, [aFile.FullPath]));
+      end;
+  finally
+    FindCloseEx(SearchRec);
   end;
 end;
 

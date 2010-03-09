@@ -1354,7 +1354,13 @@ begin
       Exit;
     end;
 
-    if TheFile.IsDirectory or TheFile.IsLinkToDirectory then // deeper and deeper
+    if TheFile.IsLinkToDirectory then // deeper and deeper
+    begin
+      ChooseSymbolicLink(Self, TheFile);
+      Exit;
+    end;
+
+    if TheFile.IsDirectory then // deeper and deeper
     begin
       ChangePathToChild(TheFile);
       Exit;
@@ -1363,7 +1369,7 @@ begin
     if FolderMode then exit;
 
     try
-      uFileSourceUtil.ChooseFile(Self, AFile.TheFile);
+      uFileSourceUtil.ChooseFile(Self, TheFile);
 
     except
       on e: Exception do
