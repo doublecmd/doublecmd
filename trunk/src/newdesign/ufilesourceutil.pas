@@ -160,6 +160,12 @@ var
   SearchRec: TSearchRecEx;
   sPath: UTF8String;
 begin
+  if not aFileView.FileSource.IsClass(TFileSystemFileSource) then
+  begin
+    aFileView.ChangePathToChild(aFile);
+    Exit;
+  end;
+
   sPath:= aFileView.CurrentPath + IncludeTrailingPathDelimiter(aFile.Name);
   try
     if FindFirstEx(sPath + AllFilesMask, faAnyFile, SearchRec) = 0 then
