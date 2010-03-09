@@ -1,33 +1,33 @@
 {
-  Create and read link(s) on NTFS.
+  This unit contains functions for work with hard and symbolic links
+  on the NTFS file system.
 
-  *** Based on: ***
+  Based on:
+
+   //====================================================================
+   //  **** UBPFD *********** by kladovka.net.ru ****
+   //
+   //  xlink - РСЃС…РѕРґРЅС‹Р№ РєРѕРґ СѓС‚РёР»РёС‚С‹, РєРѕС‚РѕСЂР°СЏ СЃРѕР·РґР°РµС‚ hard Рё symbolic links
+   //  РїРѕС‡С‚Рё РєР°Рє РІ unix.
+   //
+   //  Author:      Alex Konshin, akonshin@earthlink.net, Boston, USA
+   //  Copyright:   http://home.earthlink.net/~akonshin/files/xlink.zip
+   //  Date:        30.12.2002
+   //====================================================================
+
+   &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+   //====================================================================
+   //  Junction creation and listing utility, based on Junction.c source
+   //  by Mark Russinovich, http://www.sysinternals.com. Thanks Mark!
+   //
+   //  Note: targets of some rare reparse point types are not recognized,
+   //  as in Mark's source.
+   //
+   //  (C) Alexey Torgashin, http://alextpp.narod.ru, atorg@yandex.ru
+   //  18.02.06 - initial version
+   //====================================================================
 }
-{ **** UBPFD *********** by kladovka.net.ru ****
->> Создание hardlink и symbolic link.
-
-Исходный код утилиты, которая создает hard и symbolic links почти как в unix.
-Hardlink можно создать только для файлов и только на NTFS.
-Symbolic link можно создать только для директориев и только на NTFS5 (Win2K/XP) и он не может указывать на сетевой ресурс.
-
-Зависимости: Windows, SysUtils
-Автор:       Alex Konshin, akonshin@earthlink.net, Boston, USA
-Copyright:   http://home.earthlink.net/~akonshin/files/xlink.zip
-Дата:        30 декабря 2002 г.
-********************************************** }
-{
-*** and ***
-}
-//====================================================================
-// Junction creation and listing utility, based on Junction.c source
-// by Mark Russinovich, http://www.sysinternals.com. Thanks Mark!
-//
-// Note: targets of some rare reparse point types are not recognized,
-// as in Mark's source.
-//
-// (C) Alexey Torgashin, http://alextpp.narod.ru, atorg@yandex.ru
-// 18.02.06 - initial version
-//====================================================================
 
 unit uNTFSLinks;
 
@@ -71,13 +71,23 @@ const
     );
 
 {en
-   Create symbolic link on NTFS drive
-   On Windows 2k/XP works for directories only
-   On Windows Vista/Seven works for files and directories
+   Creates a symbolic link. This function is only supported on the NTFS file system.
+   On Windows 2000/XP it works for directories only
+   On Windows Vista/Seven it works for directories and files
+   (for files it works only with Administrator rights)
+   @param(AFileName The name of the existing file)
+   @param(ALinkName The name of the symbolic link)
+   @returns(The function returns @true if successful, @false otherwise)
 }
-function CreateSymlink(ATargetName, ALinkName: WideString): Boolean;
-(* To create hardlink(s) (works only for files) *)
-procedure CreateHardlink(AFileName, ALinkName: WideString);
+function CreateSymLink(ATargetName, ALinkName: WideString): Boolean;
+{en
+   Established a hard link beetwen an existing file and new file. This function
+   is only supported on the NTFS file system, and only for files, not directories.
+   @param(AFileName The name of the existing file)
+   @param(ALinkName The name of the new hard link)
+   @returns(The function returns @true if successful, @false otherwise)
+}
+function CreateHardLink(AFileName, ALinkName: WideString): Boolean;
 
 function GetSymlinkInfo(const fn: WideString; var Target: WideString; var LinkType: TReparsePointType): Boolean;
 function DriveSupportsSymlinks(const fn: WideString): boolean;
@@ -89,7 +99,46 @@ uses
 
 //-------------------------------------------------------------
 
-procedure _CreateHardlink(AFileName : WideString; ALinkName: WideString);
+function HasNewApi: Boolean;
+begin
+  Result:= (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6);
+end;
+
+//-------------------------------------------------------------
+
+type
+  TCreateHardLinkW = function (
+    lpFileName,
+    lpExistingFileName: LPCWSTR;
+    lpSecurityAttributes: LPSECURITY_ATTRIBUTES): BOOL; stdcall;
+
+//-------------------------------------------------------------
+
+function _CreateHardLink_New(AFileName : WideString; ALinkName: WideString): Boolean;
+var
+  hLib: THandle;
+  CreateHardLinkW: TCreateHardLinkW;
+begin
+  Result:= False;
+
+  hLib:= GetModuleHandle('kernel32.dll');
+  if hLib = 0 then
+    begin
+      DebugLn('Can not load library "kernel32.dll"');
+      Exit;
+    end;
+
+  CreateHardLinkW:= TCreateHardLinkW(GetProcAddress(hLib, 'CreateHardLinkW'));
+  if not Assigned(CreateHardLinkW) then
+    begin
+      DebugLn('Can not get function address for "CreateHardLinkW"');
+      Exit;
+    end;
+
+  Result:= CreateHardLinkW(PWideChar(ALinkName), PWideChar(AFileName), nil);
+end;
+
+function _CreateHardLink_Old(AFileName : WideString; ALinkName: WideString): Boolean;
 var
   aLinkFullName: Array[0..MAX_PATH] of WideChar;
   pwFilePart: LPWSTR;
@@ -98,6 +147,7 @@ var
   cbPathLen, dwStreamHeaderSize, dwBytesWritten: DWORD;
   lpContext: Pointer;
 begin
+  Result:= False;
   hFileSource :=
     Windows.CreateFileW(
       PWideChar(AFileName),
@@ -161,20 +211,19 @@ begin
         lpContext
       ) then RaiseLastOSError;
 
+    Result:= True;
   finally
     CloseHandle(hFileSource);
   end;
 end;
 
-//-------------------------------------------------------------
-
-procedure CreateHardlink( AFileName, ALinkName: WideString);
+function CreateHardLink(AFileName, ALinkName: WideString): Boolean;
 var
   dwAttributes: DWORD;
 begin
   dwAttributes := Windows.GetFileAttributesW(PWideChar(AFileName));
   if dwAttributes = FILE_DOES_NOT_EXIST then
-    raise Exception.Create('File "'+AFileName+'" does not exist.');
+    raise Exception.Create('File "' + AFileName + '" does not exist.');
   if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0 then
     raise Exception.Create('Can''t create hardlink for directory (file "' + AFileName + '").');
 
@@ -182,7 +231,10 @@ begin
   if dwAttributes <> FILE_DOES_NOT_EXIST then
     raise Exception.Create('File "' + ALinkName + '" already exists.');
 
-  _CreateHardlink(AFileName, ALinkName);
+  if HasNewApi then
+    Result:= _CreateHardLink_New(AFileName, ALinkName)
+  else
+    Result:= _CreateHardLink_Old(AFileName, ALinkName)
 end;
 
 //-------------------------------------------------------------
@@ -277,14 +329,7 @@ type
 
 //-------------------------------------------------------------
 
-function HasNewApi: Boolean;
-begin
-  Result:= (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6);
-end;
-
-//-------------------------------------------------------------
-
-function _CreateSymlink_New(const ATargetFileName, ASymlinkFileName: WideString): boolean;
+function _CreateSymLink_New(const ATargetFileName, ASymlinkFileName: WideString): boolean;
 var
   hLib: THandle;
   CreateSymbolicLinkW: TCreateSymbolicLinkW;
@@ -308,7 +353,7 @@ begin
   Result:= CreateSymbolicLinkW(PWideChar(ASymlinkFileName), PWideChar(ATargetFileName), SYMBOLIC_LINK_FLAG_FILE);
 end;
 
-function _CreateSymlink_Old(ATargetName, ALinkName: WideString): Boolean;
+function _CreateSymLink_Old(ATargetName, ALinkName: WideString): Boolean;
 var
   hLink : THandle;
   pReparseInfo : PReparseMountPointDataBuffer;
@@ -374,16 +419,16 @@ begin
   end;
 end;
 
-function CreateSymlink(ATargetName, ALinkName: WideString): Boolean;
+function CreateSymLink(ATargetName, ALinkName: WideString): Boolean;
 var
   dwAttributes : DWORD;
 begin
   Result:= False;
   dwAttributes := Windows.GetFileAttributesW(PWideChar(ATargetName));
   if (dwAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0 then
-    Result:= _CreateSymlink_Old(ATargetName, ALinkName)
+    Result:= _CreateSymLink_Old(ATargetName, ALinkName)
   else if HasNewApi then
-    Result:= _CreateSymlink_New(ATargetName, ALinkName);
+    Result:= _CreateSymLink_New(ATargetName, ALinkName);
 end;
 
 //-------------------------------------------------------------

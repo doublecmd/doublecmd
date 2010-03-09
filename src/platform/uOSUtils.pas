@@ -663,18 +663,16 @@ begin
 end;
 {$ENDIF}
 
-
-
 function CreateHardLink(Path, LinkName: String) : Boolean;
 {$IFDEF MSWINDOWS}
 var
-  wPath, wLinkName: WideString;
+  wsPath, wsLinkName: WideString;
 begin
   Result:= True;
   try
-    wPath:= UTF8Decode(Path);
-    wLinkName:= UTF8Decode(LinkName);
-    uNTFSLinks.CreateHardlink(wPath, wLinkName);
+    wsPath:= UTF8Decode(Path);
+    wsLinkName:= UTF8Decode(LinkName);
+    Result:= uNTFSLinks.CreateHardlink(wsPath, wsLinkName);
   except
     Result:= False;
   end;
@@ -688,13 +686,13 @@ end;
 function CreateSymLink(Path, LinkName: string) : Boolean;
 {$IFDEF MSWINDOWS}
 var
-  wPath, wLinkName: WideString;
+  wsPath, wsLinkName: WideString;
 begin
   Result := True;
   try
-    wPath:= UTF8Decode(Path);
-    wLinkName:= UTF8Decode(LinkName);
-    Result:= uNTFSLinks.CreateSymlink(wPath, wLinkName);
+    wsPath:= UTF8Decode(Path);
+    wsLinkName:= UTF8Decode(LinkName);
+    Result:= uNTFSLinks.CreateSymlink(wsPath, wsLinkName);
   except
     Result := False;
   end;
