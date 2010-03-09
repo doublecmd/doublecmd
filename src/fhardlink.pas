@@ -64,7 +64,6 @@ procedure TfrmHardLink.btnOKClick(Sender: TObject);
 var
   sSrc,sDst:String;
 begin
-  inherited;
   sSrc:=edtExistingFile.Text;
   sDst:=edtLinkToCreate.Text;
 
@@ -101,8 +100,10 @@ end;
 procedure TfrmHardLink.btnOKMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   ModalResult := btnOK.ModalResult;
   btnOKClick(Sender);
+{$ENDIF}
 end;
 
 procedure TfrmHardLink.FormShow(Sender: TObject);
