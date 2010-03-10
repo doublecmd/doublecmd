@@ -34,7 +34,7 @@ implementation
 
 uses
   LCLProc, uGlobs, uShellExecute, uFindEx,
-  uOSUtils, uShowMsg, uTypes, uLng,
+  uOSUtils, uShowMsg, uTypes, uLng, uDCUtils,
   uFileSourceOperation,
   uFileSourceSetFilePropertyOperation,
   uFileSourceExecuteOperation,
@@ -177,7 +177,7 @@ begin
       begin
         sPath:= ReadSymLink(aFile.FullPath);
         if sPath <> EmptyStr then
-          aFileView.CurrentPath := IncludeTrailingPathDelimiter(sPath)
+          aFileView.CurrentPath := IncludeTrailingPathDelimiter(GetAbsoluteFileName(aFileView.CurrentPath, sPath))
         else
           msgError(Format(rsMsgChDirFailed, [aFile.FullPath]));
       end;
