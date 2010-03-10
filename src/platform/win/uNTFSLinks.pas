@@ -269,7 +269,6 @@ const
 
 
   IO_REPARSE_TAG_RESERVED_ZERO  = $000000000;
-  IO_REPARSE_TAG_SYMBOLIC_LINK  = IO_REPARSE_TAG_RESERVED_ZERO;
   IO_REPARSE_TAG_RESERVED_ONE   = $000000001;
   IO_REPARSE_TAG_RESERVED_RANGE = $000000001;
   IO_REPARSE_TAG_VALID_VALUES   = $0E000FFFF;
@@ -279,6 +278,7 @@ const
   IO_REPARSE_TAG_SIS            = $080000007;
   IO_REPARSE_TAG_DFS            = $080000008;
   IO_REPARSE_TAG_MOUNT_POINT    = $0A0000003;
+  IO_REPARSE_TAG_SYMBOLIC_LINK  = $0A000000C;
 
 
   FILE_SUPPORTS_REPARSE_POINTS = $00000080;
@@ -510,7 +510,7 @@ begin
         Result:= True;
       end;
 
-    IO_REPARSE_TAG_SYMBOLIC_LINK or $80000000:
+    IO_REPARSE_TAG_SYMBOLIC_LINK:
       begin
         reparseData:= @reparseInfo.PathBuffer;
 
@@ -521,11 +521,15 @@ begin
         }
 
         FillChar(name2, SizeOf(name2), 0);
-        reparseData2:= reparseData + reparseInfo.SubstituteNameOffset;
-        lstrcpynW(name2, reparseData2, reparseInfo.SubstituteNameLength);
+        reparseData2:= reparseData + reparseInfo.SubstituteNameOffset + 4;
+        lstrcpynW(name2, reparseData2, (reparseInfo.SubstituteNameLength div 2) + 1);
 
         Target:= name2;
+        if Pos(wsNativeFileNamePrefix, Target) = 1 then
+          Delete(Target, 1, Length(wsNativeFileNamePrefix));
+
         LinkType:= slSymLink;
+
         Result:= true;
       end;
 
