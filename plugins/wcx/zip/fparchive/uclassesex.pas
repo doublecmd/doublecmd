@@ -46,8 +46,10 @@ implementation
 
 uses
   RtlConsts
-  {$IFDEF MSWINDOWS}
+  {$IF DEFINED(MSWINDOWS)}
   , Windows
+  {$ELSEIF DEFINED(UNIX)}
+  , BaseUnix
   {$ENDIF}
   ;
 
