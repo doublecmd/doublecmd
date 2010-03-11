@@ -84,8 +84,9 @@ type
 
 function InputBox(Caption, Prompt: PWideChar; MaskInput: Boolean; Value: PWideChar; ValueMaxLen: Integer): Boolean; stdcall;
 function MessageBox(Text, Caption: PWideChar; Flags: Longint): Integer; stdcall;
-function DialogBox(DlgData: PWideChar; DlgProc: TDlgProc): Boolean; stdcall;
-function DialogBoxEx(lfmFileName: PWideChar; DlgProc: TDlgProc): Boolean; stdcall;
+function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): Boolean; stdcall;
+function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): Boolean; stdcall;
+function DialogBoxLFMFile(lfmFileName: PWideChar; DlgProc: TDlgProc): Boolean; stdcall;
 function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
 
 implementation
@@ -120,37 +121,28 @@ begin
   Result:= ShowMessageBox(sText, sCaption, Flags);
 end;
 
-function DialogBox(DlgData: PWideChar; DlgProc: TDlgProc): Boolean;stdcall;
+procedure SetDialogBoxResourceLRS(LRSData: UTF8String);
 var
-  DataString: UTF8String;
+  LResource: TLResource;
+begin
+  LResource := LazarusResources.Find('TDialogBox','FORMDATA');
+  if Assigned(LResource) then
+    LResource.Value:= LRSData
+  else
+    LazarusResources.Add('TDialogBox','FORMDATA', LRSData);
+end;
+
+procedure SetDialogBoxResourceLFM(LFMData: UTF8String);
+var
   LFMStream: TStringStream = nil;
   BinStream: TStringStream = nil;
-  LResource: TLResource = nil;
-  Dialog: TDialogBox = nil;
 begin
   try
-    DataString:= UTF8Encode(WideString(DlgData));
-
-    LFMStream:= TStringStream.Create(DataString);
+    LFMStream:= TStringStream.Create(LFMData);
     BinStream:= TStringStream.Create('');
     LRSObjectTextToBinary(LFMStream, BinStream);
-
-    LResource:= LazarusResources.Find('TDialogBox','FORMDATA');
-    if Assigned(LResource) then
-      LResource.Value:= BinStream.DataString
-    else
-      LazarusResources.Add('TDialogBox','FORMDATA', BinStream.DataString);
-
-    Dialog:= TDialogBox.Create(nil);
-    with Dialog do
-    begin
-      fDlgProc:= DlgProc;
-      Result:= (ShowModal = mrOK);
-    end;
-
+    SetDialogBoxResourceLRS(BinStream.DataString);
   finally
-    if Assigned(Dialog) then
-      FreeAndNil(Dialog);
     if Assigned(LFMStream) then
       FreeAndNil(LFMStream);
     if Assigned(BinStream) then
@@ -158,19 +150,68 @@ begin
   end;
 end;
 
-function DialogBoxEx(lfmFileName: PWideChar; DlgProc: TDlgProc): Boolean;stdcall;
+function DialogBox(DlgProc: TDlgProc): Boolean;
+var
+  Dialog: TDialogBox = nil;
+begin
+  Dialog:= TDialogBox.Create(nil);
+  try
+    with Dialog do
+    begin
+      fDlgProc:= DlgProc;
+      Result:= (ShowModal = mrOK);
+    end;
+  finally
+    if Assigned(Dialog) then
+      FreeAndNil(Dialog);
+  end;
+end;
+
+function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): Boolean;stdcall;
+var
+  DataString: UTF8String;
+begin
+  if Assigned(LFMData) and (DataSize > 0) then
+  begin
+    SetString(DataString, LFMData, DataSize);
+    SetDialogBoxResourceLFM(DataString);
+    Result := DialogBox(DlgProc);
+  end
+  else
+    Result := False;
+end;
+
+function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): Boolean; stdcall;
+var
+  DataString: UTF8String;
+begin
+  if Assigned(LRSData) and (DataSize > 0) then
+  begin
+    SetString(DataString, LRSData, DataSize);
+    SetDialogBoxResourceLRS(DataString);
+    Result := DialogBox(DlgProc);
+  end
+  else
+    Result := False;
+end;
+
+function DialogBoxLFMFile(lfmFileName: PWideChar; DlgProc: TDlgProc): Boolean;stdcall;
 var
   lfmStringList: TStringListEx;
-  wDlgData: WideString;
 begin
-  try
+  if Assigned(lfmFileName) then
+  begin
     lfmStringList:= TStringListEx.Create;
-    lfmStringList.LoadFromFile(UTF8Encode(WideString(lfmFileName)));
-    wDlgData:= lfmStringList.Text;
-    Result:= DialogBox(PWideChar(wDlgData), DlgProc);
-  finally
-    FreeAndNil(lfmStringList);
-  end;
+    try
+      lfmStringList.LoadFromFile(UTF8Encode(WideString(lfmFileName)));
+      SetDialogBoxResourceLFM(lfmStringList.Text);
+      Result := DialogBox(DlgProc);
+    finally
+      FreeAndNil(lfmStringList);
+    end;
+  end
+  else
+    Result := False;
 end;
 
 function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PChar; Msg, wParam, lParam: PtrInt): PtrInt;stdcall;
@@ -650,4 +691,4 @@ initialization
   {.$I fdialogbox.lrs}
 
 end.
-
+

@@ -27,6 +27,8 @@ unit ZipConfDlg;
 
 {$mode objfpc}{$H+}
 
+{$R ZipConfDlg.lfm}
+
 interface
 
 uses
@@ -102,13 +104,34 @@ end;
 
 procedure CreateZipConfDlg;
 var
-  wFileName: WideString;
+  ResHandle: TFPResourceHandle = 0;
+  ResGlobal: TFPResourceHGLOBAL = 0;
+  ResData: Pointer = nil;
+  ResSize: LongWord;
 begin
-  wFileName:= UTF8Decode(gPluginDir) + 'ZipConfDlg.lfm';
+  try
+    ResHandle := FindResource(HINSTANCE, PChar('TDIALOGBOX'), MAKEINTRESOURCE(10) {RT_RCDATA});
+    if ResHandle <> 0 then
+    begin
+      ResGlobal := LoadResource(HINSTANCE, ResHandle);
+      if ResGlobal <> 0 then
+      begin
+        ResData := LockResource(ResGlobal);
+        ResSize := SizeofResource(HINSTANCE, ResHandle);
 
-  with gSetDlgProcInfo do
-  begin
-    DialogBoxEx(PWideChar(wFileName), @DlgProc);
+        with gSetDlgProcInfo do
+        begin
+          DialogBoxLRS(ResData, ResSize, @DlgProc);
+        end;
+      end;
+    end;
+
+  finally
+    if ResGlobal <> 0 then
+    begin
+      UnlockResource(ResGlobal);
+      FreeResource(ResGlobal);
+    end;
   end;
 end;
 
