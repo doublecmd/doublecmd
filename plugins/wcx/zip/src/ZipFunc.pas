@@ -868,25 +868,24 @@ begin
 end;
 
 procedure TAbZipKitEx.AbNeedPasswordEvent(Sender: TObject;
-                                                  var NewPassword: AnsiString);
+                                          var NewPassword: AnsiString);
 var
+  waNewPassword: array[0..MAX_PATH] of WideChar;
   wsNewPassword: WideString;
   Result: Boolean;
 begin
-  SetLength(wsNewPassword, MAX_PATH);
-  wsNewPassword:= NewPassword;
-  Result:= gSetDlgProcInfo.InputBox('Zip', 'Please enter the password:', True, PWideChar(wsNewPassword), MAX_PATH);
+  wsNewPassword := UTF8Decode(NewPassword);
+  waNewPassword := Copy(wsNewPassword, 1, MAX_PATH);
+  Result:= gSetDlgProcInfo.InputBox('Zip', 'Please enter the password:', True, PWideChar(waNewPassword), MAX_PATH);
   if Result then
     begin
-      DefaultWide2AnsiMove(PWideChar(wsNewPassword), NewPassword, MAX_PATH);
-      SetLength(wsNewPassword, 0);
+      NewPassword := UTF8Encode(WideString(waNewPassword));
     end
   else
     begin
-      SetLength(wsNewPassword, 0);
       raise EAbUserAbort.Create;
     end;
 end;
 
 end.
-
+
