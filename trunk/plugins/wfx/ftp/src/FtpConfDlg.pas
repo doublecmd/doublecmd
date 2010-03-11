@@ -24,6 +24,8 @@ unit FtpConfDlg;
 
 {$mode objfpc}{$H+}
 
+{$R FtpConfDlg.lfm}
+
 interface
 
 uses
@@ -151,14 +153,36 @@ end;
 
 function ShowFtpConfDlg: Boolean;
 var
-  wFileName: WideString;
+  ResHandle: TFPResourceHandle = 0;
+  ResGlobal: TFPResourceHGLOBAL = 0;
+  ResData: Pointer = nil;
+  ResSize: LongWord;
 begin
-  wFileName:= UTF8Decode(gPluginDir) + 'FtpConfDlg.lfm';
+  Result := False;
+  try
+    ResHandle := FindResource(HINSTANCE, PChar('TDIALOGBOX'), MAKEINTRESOURCE(10) {RT_RCDATA});
+    if ResHandle <> 0 then
+    begin
+      ResGlobal := LoadResource(HINSTANCE, ResHandle);
+      if ResGlobal <> 0 then
+      begin
+        ResData := LockResource(ResGlobal);
+        ResSize := SizeofResource(HINSTANCE, ResHandle);
 
-  with gSetDlgProcInfo do
-  begin
-    Result:= DialogBoxEx(PWideChar(wFileName), @DlgProc);
+        with gSetDlgProcInfo do
+        begin
+          Result := DialogBoxLRS(ResData, ResSize, @DlgProc);
+        end;
+      end;
+    end;
+
+  finally
+    if ResGlobal <> 0 then
+    begin
+      UnlockResource(ResGlobal);
+      FreeResource(ResGlobal);
+    end;
   end;
 end;
 
-end.
+end.

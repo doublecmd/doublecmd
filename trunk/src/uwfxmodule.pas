@@ -617,8 +617,9 @@ begin
         PluginConfDir:= PWideChar(sPluginConfDir);
         InputBox:= @fDialogBox.InputBox;
         MessageBox:= @fDialogBox.MessageBox;
-        DialogBox:= @fDialogBox.DialogBox;
-        DialogBoxEx:= @fDialogBox.DialogBoxEx;
+        DialogBoxLFM:= @fDialogBox.DialogBoxLFM;
+        DialogBoxLRS:= @fDialogBox.DialogBoxLRS;
+        DialogBoxLFMFile:= @fDialogBox.DialogBoxLFMFile;
         SendDlgMsg:= @fDialogBox.SendDlgMsg;
       end;
 

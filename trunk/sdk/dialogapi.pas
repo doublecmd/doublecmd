@@ -63,8 +63,9 @@ type
   { Definition of callback functions called by the DLL }
   TInputBoxProc = function(Caption, Prompt: PWideChar; MaskInput: Boolean; Value: PWideChar; ValueMaxLen: Integer): Boolean; stdcall;
   TMessageBoxProc = function(Text, Caption: PWideChar; Flags: Longint): Integer; stdcall;
-  TDialogBoxProc = function(DlgData: PWideChar; DlgProc: TDlgProc): Boolean; stdcall;
-  TDialogBoxExProc = function(lfmFileName: PWideChar; DlgProc: TDlgProc): Boolean; stdcall;
+  TDialogBoxLFMProc = function(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): Boolean; stdcall;
+  TDialogBoxLRSProc = function(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): Boolean; stdcall;
+  TDialogBoxLFMFileProc = function(lfmFileName: PWideChar; DlgProc: TDlgProc): Boolean; stdcall;
 
 type
   TSetDlgProcInfo = packed record
@@ -72,8 +73,9 @@ type
     PluginConfDir: PWideChar;
     InputBox: TInputBoxProc;
     MessageBox: TMessageBoxProc;
-    DialogBox: TDialogBoxProc;
-    DialogBoxEx: TDialogBoxExProc;
+    DialogBoxLFM: TDialogBoxLFMProc;
+    DialogBoxLRS: TDialogBoxLRSProc;
+    DialogBoxLFMFile: TDialogBoxLFMFileProc;
     SendDlgMsg: TDlgProc;
   end;
 
@@ -89,4 +91,4 @@ procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
 }
 
 end.
-
+
