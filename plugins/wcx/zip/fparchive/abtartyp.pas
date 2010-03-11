@@ -1019,7 +1019,13 @@ begin
     begin
     PHeader := FTarHeaderList.Items[FTarHeaderList.Count-1];
     case FTarItem.ArchiveFormat of
-      USTAR_FORMAT: FTarItem.Name := PHeader.ustar.Prefix+'/'+PHeader.Name;
+      USTAR_FORMAT:
+        begin
+          if PHeader.ustar.Prefix[0] = #0 then
+            FTarItem.Name := PHeader.Name
+          else
+            FTarItem.Name := PHeader.ustar.Prefix+'/'+PHeader.Name;
+        end;
     else
     { V7_FORMAT, OLDGNU_FORMAT }
     { This is way it was before, No-Loss, No-Gain }
