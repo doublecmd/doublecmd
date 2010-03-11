@@ -922,10 +922,10 @@ begin
 
   // Load icons from pixmaps.txt only if "Only standart icons" enabled
   if (gShowIcons = sim_standart) and mbFileExists(sFileName) then
-  begin
+  try
     slPixmapList:= TStringList.Create;
-    slPixmapList.LoadFromFile(sFileName);
     try
+      slPixmapList.LoadFromFile(sFileName);
       for I:= 0 to slPixmapList.Count - 1 do
       begin
         s:= slPixmapList.Strings[I];
@@ -942,9 +942,13 @@ begin
         if FExtList.Find(sExt)<0 then
           FExtList.Add(sExt, TObject(iPixMap));
       end;
-    finally
-      slPixmapList.Free;
+    except
+      on E: Exception do
+      with Application do
+      MessageBox(PAnsiChar(E.Message), PAnsiChar(Title), MB_OK or MB_ICONERROR);
     end;
+  finally
+    slPixmapList.Free;
   end;
 
   (* Set archive icons *)
