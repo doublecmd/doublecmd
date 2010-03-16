@@ -425,9 +425,12 @@ msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: TFRMCOPYDLG.BTNOK.CAPTION
-msgctxt "TFRMCOPYDLG.BTNOK.CAPTION"
-msgid "&OK"
+#: TFRMCOPYDLG.BTNOPTIONS.CAPTION
+msgid "O&ptions"
+msgstr ""
+
+#: TFRMCOPYDLG.BTNSAVEOPTIONS.CAPTION
+msgid "Save these options as default"
 msgstr ""
 
 #: TFRMCOPYDLG.CAPTION
@@ -435,14 +438,34 @@ msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr ""
 
+#: TFRMCOPYDLG.CBCHECKFREESPACE.CAPTION
+msgid "Check free space"
+msgstr ""
+
+#: TFRMCOPYDLG.CBCORRECTLINKS.CAPTION
+msgid "Correct links"
+msgstr ""
+
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
 msgctxt "TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr "Quitar marca de sólo lectura"
 
+#: TFRMCOPYDLG.CBFOLLOWLINKS.CAPTION
+msgid "Follow links"
+msgstr ""
+
 #: TFRMCOPYDLG.LBLCOPYSRC.CAPTION
 msgid "Copy %s:"
 msgstr "Copiar %s:"
+
+#: TFRMCOPYDLG.LBLDIRECTORYEXISTS.CAPTION
+msgid "When directory exists"
+msgstr ""
+
+#: TFRMCOPYDLG.LBLFILEEXISTS.CAPTION
+msgid "When file exists"
+msgstr ""
 
 #: TFRMCOPYDLG.LBLFILETYPE.CAPTION
 msgctxt "TFRMCOPYDLG.LBLFILETYPE.CAPTION"
