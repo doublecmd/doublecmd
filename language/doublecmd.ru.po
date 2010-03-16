@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-02-28 15:57+0300\n"
+"PO-Revision-Date: 2010-03-16 13:31+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -424,24 +424,47 @@ msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Отмена"
 
-#: TFRMCOPYDLG.BTNOK.CAPTION
-msgctxt "TFRMCOPYDLG.BTNOK.CAPTION"
-msgid "&OK"
-msgstr "&ОК"
+#: TFRMCOPYDLG.BTNOPTIONS.CAPTION
+msgid "O&ptions"
+msgstr "Опции"
+
+#: TFRMCOPYDLG.BTNSAVEOPTIONS.CAPTION
+msgid "Save these options as default"
+msgstr ""
 
 #: TFRMCOPYDLG.CAPTION
 msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Копировать файл(ы)"
 
+#: TFRMCOPYDLG.CBCHECKFREESPACE.CAPTION
+msgid "Check free space"
+msgstr "Проверять свободное место"
+
+#: TFRMCOPYDLG.CBCORRECTLINKS.CAPTION
+msgid "Correct links"
+msgstr "Исправлять ссылки"
+
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
 msgctxt "TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr "Сбросить флаг \"Только для чтения\""
 
+#: TFRMCOPYDLG.CBFOLLOWLINKS.CAPTION
+msgid "Follow links"
+msgstr "Следовать ссылкам"
+
 #: TFRMCOPYDLG.LBLCOPYSRC.CAPTION
 msgid "Copy %s:"
 msgstr "Копировать %s:"
+
+#: TFRMCOPYDLG.LBLDIRECTORYEXISTS.CAPTION
+msgid "When directory exists"
+msgstr "Если каталог существует"
+
+#: TFRMCOPYDLG.LBLFILEEXISTS.CAPTION
+msgid "When file exists"
+msgstr "Если файл существует"
 
 #: TFRMCOPYDLG.LBLFILETYPE.CAPTION
 msgctxt "TFRMCOPYDLG.LBLFILETYPE.CAPTION"

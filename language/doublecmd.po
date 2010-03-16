@@ -425,9 +425,12 @@ msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr ""
 
-#: TFRMCOPYDLG.BTNOK.CAPTION
-msgctxt "TFRMCOPYDLG.BTNOK.CAPTION"
-msgid "&OK"
+#: TFRMCOPYDLG.BTNOPTIONS.CAPTION
+msgid "O&ptions"
+msgstr ""
+
+#: TFRMCOPYDLG.BTNSAVEOPTIONS.CAPTION
+msgid "Save these options as default"
 msgstr ""
 
 #: TFRMCOPYDLG.CAPTION
@@ -435,13 +438,33 @@ msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr ""
 
+#: TFRMCOPYDLG.CBCHECKFREESPACE.CAPTION
+msgid "Check free space"
+msgstr ""
+
+#: TFRMCOPYDLG.CBCORRECTLINKS.CAPTION
+msgid "Correct links"
+msgstr ""
+
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
 msgctxt "TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION"
 msgid "Drop readonly flag"
 msgstr ""
 
+#: TFRMCOPYDLG.CBFOLLOWLINKS.CAPTION
+msgid "Follow links"
+msgstr ""
+
 #: TFRMCOPYDLG.LBLCOPYSRC.CAPTION
 msgid "Copy %s:"
+msgstr ""
+
+#: TFRMCOPYDLG.LBLDIRECTORYEXISTS.CAPTION
+msgid "When directory exists"
+msgstr ""
+
+#: TFRMCOPYDLG.LBLFILEEXISTS.CAPTION
+msgid "When file exists"
 msgstr ""
 
 #: TFRMCOPYDLG.LBLFILETYPE.CAPTION
@@ -2906,6 +2929,10 @@ msgstr ""
 msgid " Screen layout "
 msgstr ""
 
+#: TFRMOPTIONS.GBSCROLLING.CAPTION
+msgid "Scrolling"
+msgstr ""
+
 #: TFRMOPTIONS.GBSHOWGRID.CAPTION
 msgid "Show grid in file panel"
 msgstr ""
@@ -3181,6 +3208,18 @@ msgstr ""
 msgid "Program directory (portable version)"
 msgstr ""
 
+#: TFRMOPTIONS.RBSCROLLLINEBYLINE.CAPTION
+msgid "Line by line"
+msgstr ""
+
+#: TFRMOPTIONS.RBSCROLLLINEBYLINECURSOR.CAPTION
+msgid "Line by line with cursor movement"
+msgstr ""
+
+#: TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION
+msgid "Page by page"
+msgstr ""
+
 #: TFRMOPTIONS.RBTOOLTIPALLFILES.CAPTION
 msgid "Show tool tip for all files in file panel"
 msgstr ""
@@ -3203,22 +3242,6 @@ msgstr ""
 
 #: TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION
 msgid "Use stream for search text in files"
-msgstr ""
-
-#: TFRMOPTIONS.GBSCROLLING.CAPTION
-msgid "Scrolling"
-msgstr ""
-
-#: TFRMOPTIONS.RBSCROLLLINEBYLINECURSOR.CAPTION
-msgid "Line by line with cursor movement"
-msgstr ""
-
-#: TFRMOPTIONS.RBSCROLLLINEBYLINE.CAPTION
-msgid "Line by line"
-msgstr ""
-
-#: TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION
-msgid "Page by page"
 msgstr ""
 
 #: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
