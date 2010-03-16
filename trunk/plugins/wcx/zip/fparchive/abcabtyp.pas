@@ -185,7 +185,7 @@ function VerifyCab(Strm : TStream) : TAbArchiveType; overload;
 implementation
 
 uses
-  AbConst, AbExcept;
+  AbConst, AbExcept, uClassesEx;
 
 {$WARN UNIT_PLATFORM OFF}
 {$WARN SYMBOL_PLATFORM OFF}
@@ -268,7 +268,7 @@ function FCI_FileDelete(lpFilename: PAnsiChar;  PError: PInteger;
   cdecl;
   {delete a file}
 begin
-  Result := SysUtils.DeleteFile(string(lpFilename));
+  Result := mbDeleteFile(string(lpFilename));
   if not Result then
     raise EAbFCIFileDeleteError.Create;
 end;
@@ -309,7 +309,7 @@ var
   I: Integer;
   RawName: RawByteString;
 begin
-  Result := FileOpen(string(lpPathname), fmOpenRead or fmShareDenyNone);
+  Result := mbFileOpen(string(lpPathname), fmOpenRead or fmShareDenyNone);
   if (Result = -1) then
     raise EAbFCIFileOpenError.Create;
   AbFileGetAttrEx(string(lpPathname), AttrEx);
@@ -363,9 +363,9 @@ function FDI_FileOpen(lpPathName: PAnsiChar; Flag, Mode: Integer) : Integer;
   cdecl;
   {open a file}
 var
-  Handle : Integer;
+  Handle : THandle;
 begin
-  Handle := FileOpen(string(lpPathName), fmOpenRead or fmShareDenyWrite);
+  Handle := mbFileOpen(string(lpPathName), fmOpenRead or fmShareDenyWrite);
   if Handle <> -1 then
     Result := Integer(THandleStream.Create(Handle))
   else

@@ -246,12 +246,12 @@ begin
     except
       on E : EAbUserAbort do begin
         FStatus := asInvalid;
-        if FileExists(NewName) then
-          DeleteFile(NewName);
+        if mbFileExists(NewName) then
+          mbDeleteFile(NewName);
         raise;
       end else begin
-        if FileExists(NewName) then
-          DeleteFile(NewName);
+        if mbFileExists(NewName) then
+          mbDeleteFile(NewName);
         raise;
       end;
     end;

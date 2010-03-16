@@ -178,7 +178,8 @@ uses
   AbZipPrc,
   AbTarTyp,
   AbGzTyp,
-  AbBzip2Typ;
+  AbBzip2Typ,
+  uClassesEx;
 
 { -------------------------------------------------------------------------- }
 constructor TAbCustomZipper.Create( AOwner : TComponent );
@@ -441,7 +442,7 @@ begin
   ArcType := ArchiveType;
 
   if (FileName <> '') then
-    if FileExists(FileName) then begin { open it }
+    if mbFileExists(FileName) then begin { open it }
 
     if not ForceType then
       ArcType := AbDetermineArcType(FileName, atUnknown);

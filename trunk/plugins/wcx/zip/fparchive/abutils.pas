@@ -294,13 +294,7 @@ const
   function  AbFileGetAttr(const aFileName : string) : integer;
   procedure AbFileSetAttr(const aFileName : string; aAttr : integer);
     {-Get or set file attributes for a file. }
-  function AbFileGetSize(const aFileName : string) :                     {!!.01}
-  {$IFDEF MSWINDOWS}                                                     {!!.01}
-    {$IFDEF VERSION4} Int64 {$ELSE} LongInt {$ENDIF};                    {!!.01}
-  {$ENDIF}                                                               {!!.01}
-  {$IFDEF LINUX}                                                         {!!.01}
-    Int64;                                                               {!!.01}
-  {$ENDIF}                                                               {!!.01}
+  function AbFileGetSize(const aFileName : string) : Int64;              {!!.01}
 
 type
   TAbAttrExRec = record
@@ -403,7 +397,7 @@ function UTF8ToString(const S: RawByteString): string;
 implementation
 
 uses
-  AbConst
+  AbConst, uClassesEx
 {$IFDEF MSWINDOWS}
   , AbExcept
 {$ENDIF}
@@ -442,11 +436,11 @@ var
 begin
 {$IFDEF LINUX}
   Result := False;
-  if not FailIfExists or not FileExists(Destination) then
+  if not FailIfExists or not mbFileExists(Destination) then
     try
-      SrcStream := TFileStream.Create(Source, fmOpenRead or fmShareDenyWrite);
+      SrcStream := TFileStreamEx.Create(Source, fmOpenRead or fmShareDenyWrite);
       try
-        DesStream := TFileStream.Create(Destination, fmCreate);
+        DesStream := TFileStreamEx.Create(Destination, fmCreate);
         try
           DesStream.CopyFrom(SrcStream, 0);
           Result := True;
@@ -542,7 +536,8 @@ begin
     TempPath := Copy( Path, 1, i );
     {if it doesn't exist, create it}
     if not AbDirectoryExists( TempPath ) then
-      MkDir( TempPath );
+      if mbCreateDir( TempPath ) = False then
+        Exit;
     inc( iStartSlash );
   until ( Length( TempPath ) = Length( Path ) );
 end;
@@ -577,9 +572,7 @@ var
 {$IFDEF MSWINDOWS}
   TempPathZ : array [0..259] of char;
 {$ENDIF}
-{$IFDEF UNIX}
-  FileHandle: Integer;
-{$ENDIF}
+  FileHandle: THandle;
 begin
 {$IFDEF MSWINDOWS}
   if not AbDirectoryExists(Dir) then
@@ -589,8 +582,6 @@ begin
   {Alexx2000}
   {$IFDEF FPC}
   Result := TempPathZ + 'VMS'+IntToStr(Random(MaxInt)) + '.tmp';
-  if CreateIt then
-    FileClose(FileCreate(Result));
   {/Alexx2000}
   {$ELSE}
   (* This code not working in Lazarus on Windows *)
@@ -603,13 +594,13 @@ begin
   //GetTempPath
   //AbDirectoryExists
   Result := GetTempFileName(Dir, 'VMSXXXXXX');
+{$ENDIF}
   if CreateIt then
   begin
-    FileHandle := FileCreate(Result);
+    FileHandle := mbFileCreate(Result);
     if FileHandle <> -1 then
       FileClose(FileHandle);
   end;
-{$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 function AbdMax(Var1, Var2: Longint): Longint;
@@ -816,40 +807,18 @@ end;
 
 { -------------------------------------------------------------------------- }
 function AbDirectoryExists( const Path : string ) : Boolean;
-{$IFDEF MSWINDOWS}
 var
-  Attr : DWORD;
-  PathZ: array [0..255] of AnsiChar;
-{$ENDIF}
-{$IFDEF LINUX}
-var
-{$IFDEF FPC}
-  SB: TStat;
-{$ELSE}
-  SB: TStatBuf;
-{$ENDIF}
-{$ENDIF}
-
+  Attr: Cardinal;
 begin
   Result := False;
   {we don't support wildcards}
   if (Pos('*', Path) <> 0) or (Pos('?', Path) <> 0) then
     Exit;
-{$IFDEF MSWINDOWS}
-  Attr := GetFileAttributes( StrPCopy( PathZ, Path ) );
-  if (Attr <> DWORD(-1)) and ((Attr and faDirectory) <> 0) then
-    Result := true;
-{$ENDIF}
-{$IFDEF LINUX}
-  if FileExists(Path) then begin
-{$IFDEF FPC}
-    fpstat(PAnsiChar(Path), SB);
-{$ELSE}
-    stat(PAnsiChar(Path), SB);
-{$ENDIF}
-
-    Result := (SB.st_mode and AB_FMODE_DIR) = AB_FMODE_DIR;
-  end;
+  Attr := mbFileGetAttr(Path);
+{$IF DEFINED(MSWINDOWS)}
+  Result := (Attr <> DWORD(-1)) and ((Attr and faDirectory) <> 0);
+{$ELSEIF DEFINED(UNIX)}
+  Result := (Attr and AB_FMODE_DIR) = AB_FMODE_DIR;
 {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
@@ -1477,7 +1446,7 @@ function AbGetFileTime(const Path : string): Longint;
 {$IFDEF MSWINDOWS}
 var
   Handle: THandle;
-  FindData: TWin32FindData;
+  FindData: TWin32FindDataW;
   WinPath: string;
   Len: Integer;
   LocalWinTime: TFileTime;
@@ -1490,7 +1459,7 @@ begin
     if WinPath[Len] = AbPathDelim then
       WinPath := Copy(Path, 1, Len-1);
 
-    Handle := FindFirstFile(PAnsiChar(WinPath), FindData);
+    Handle := FindFirstFileW(PWideChar(UTF8Decode(WinPath)), FindData);
     if Handle <> Windows.INVALID_HANDLE_VALUE then
       begin
         Windows.FindClose(Handle);
@@ -1527,7 +1496,7 @@ function AbSetFileTime(const FileName : string;const Age : LongInt) : Integer; {
 var
   f: THandle;
 begin
-  f := FileOpen(FileName, fmOpenWrite);
+  f := mbFileOpen(FileName, fmOpenWrite);
   if f = THandle(-1) then
     Result := GetLastError
   else
@@ -1657,7 +1626,7 @@ var
 begin
   {$IFDEF MSWINDOWS}
   {$IFDEF Version6} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
-  Result := FileGetAttr(aFileName);
+  Result := mbFileGetAttr(aFileName);
   {$IFDEF Version6} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
   {$ENDIF}
 
@@ -1675,9 +1644,13 @@ end;
 { -------------------------------------------------------------------------- }
 procedure AbFileSetAttr(const aFileName : string; aAttr : Integer);
 begin
+  {$IFDEF FPC} {$PUSH} {$R-,Q-} {$ENDIF}
+  mbFileSetAttr(aFileName, aAttr);
+  {$IFDEF FPC} {$POP} {$ENDIF}
+
   {$IFDEF MSWINDOWS}
   {$IFDEF Version6} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
-  FileSetAttr(aFileName, aAttr);
+  //FileSetAttr(aFileName, aAttr);
   {$IFDEF Version6} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
   {$ENDIF}
 
@@ -1686,26 +1659,16 @@ begin
   {$IFDEF LINUX}
   {$WARN SYMBOL_PLATFORM OFF}
   {$IFDEF FPC}
-  fpchmod(PAnsiChar(aFileName), aAttr);
+  //fpchmod(PAnsiChar(aFileName), aAttr);
   {$ELSE}
-  chmod(PAnsiChar(aFileName), aAttr);
+  //chmod(PAnsiChar(aFileName), aAttr);
   {$ENDIF}
   {$WARN SYMBOL_PLATFORM ON}
   {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 {!!.01 -- Added }
-function AbFileGetSize(const aFileName : string) :
-{$IFDEF MSWINDOWS}
-  {$IFDEF VERSION4} Int64 {$ELSE} LongInt {$ENDIF};
-{$ENDIF}
-{$IFDEF LINUX}
-  Int64;
-{$ENDIF}
-{$IFDEF MSWINDOWS}
-var
-  SR : TSearchRec;
-{$ENDIF}
+function AbFileGetSize(const aFileName : string) : Int64;
 {$IFDEF LINUX}
 var
 {$IFDEF FPC}
@@ -1716,18 +1679,7 @@ var
 {$ENDIF}
 begin
 {$IFDEF MSWINDOWS}
-  Result := -1;
-  if FindFirst(aFileName, faAnyFile, SR) = 0 then begin       {!!.02}
-  {$IFDEF VERSION4}
-  {$IFDEF Version6} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
-    Int64Rec(Result).Lo := SR.FindData.nFileSizeLow;
-    Int64Rec(Result).Hi := SR.FindData.nFileSizeHigh;
-  {$IFDEF Version6} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
-  {$ELSE}
-    Result := SR.Size;
-  {$ENDIF};
-    FindClose(SR);                                            {!!.02}
-  end;                                                        {!!.02}
+  Result := mbFileSize(aFileName);
 {$ENDIF}
 {$IFDEF LINUX}
 {$IFDEF FPC}
@@ -1746,7 +1698,7 @@ function AbFileGetAttrEx(const aFileName: string; out aAttr: TAbAttrExRec) : Boo
 {$IFDEF MSWINDOWS}
 var
   FileDate: LongRec;
-  FindData: TWin32FindData;
+  FindData: TWin32FindDataW;
   LocalFileTime: TFileTime;
 {$ENDIF}
 {$IFDEF LINUX}
@@ -1763,7 +1715,7 @@ begin
   aAttr.Attr := -1;
   aAttr.Mode := 0;
 {$IFDEF MSWINDOWS}
-  Result := GetFileAttributesEx(PChar(aFileName), GetFileExInfoStandard, @FindData);
+  Result := GetFileAttributesExW(PWideChar(UTF8Decode(aFileName)), GetFileExInfoStandard, @FindData);
   if Result then begin
     if FileTimeToLocalFileTime(FindData.ftLastWriteTime, LocalFileTime) and
        FileTimeToDosDateTime(LocalFileTime, FileDate.Hi, FileDate.Lo) then
@@ -1904,4 +1856,4 @@ begin
 end;
 {$ENDIF}
 
-end.
+end.

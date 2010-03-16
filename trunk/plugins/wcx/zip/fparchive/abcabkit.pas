@@ -195,7 +195,7 @@ begin
     FArchive := nil;
   end;
   if (aFileName <> '') then begin
-    if (aFileName <> '') and FileExists(aFilename) then
+    if (aFileName <> '') and mbFileExists(aFilename) then
       FArchive := TAbCabArchive.Create(aFileName, fmOpenRead)
     else
       FArchive := TAbCabArchive.Create(aFileName, fmOpenWrite);

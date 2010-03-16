@@ -63,7 +63,7 @@ begin
      AbFlushOsBuffers(Handle); // Flush Buffers to make sure commited to disk.
   inherited;
   if ScopeDel then
-     DeleteFile(ScopeFileName);
+     mbDeleteFile(ScopeFileName);
 end;
 
 end.

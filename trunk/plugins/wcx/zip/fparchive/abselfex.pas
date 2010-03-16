@@ -99,13 +99,13 @@ begin
     DoGetStubExe(Abort);
   if Abort then
     raise EAbUserAbort.Create;
-  if not FileExists(FStubExe) then
+  if not mbFileExists(FStubExe) then
     raise EAbFileNotFound.Create;
   if (FZipFile = '') then
     DoGetZipFile(Abort);
   if Abort then
     raise EAbUserAbort.Create;
-  if not FileExists(FZipFile) then
+  if not mbFileExists(FZipFile) then
     raise EAbFileNotFound.Create;
 
   FStubStream := TFileStreamEx.Create(FStubExe, fmOpenRead or fmShareDenyWrite);

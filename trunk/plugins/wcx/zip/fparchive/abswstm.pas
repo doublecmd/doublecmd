@@ -141,7 +141,7 @@ begin
   bsDirty := false;
   {$IFDEF DebugTrace}
   System.Assign(bsF, 'c:\SlideWin.LOG');
-  if FileExists('c:\SlideWin.LOG') then
+  if mbFileExists('c:\SlideWin.LOG') then
     System.Append(bsF)
   else           
     System.Rewrite(bsF);
