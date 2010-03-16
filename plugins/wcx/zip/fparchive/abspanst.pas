@@ -418,7 +418,7 @@ begin
 
   {check that filename doesn't already exist}
   if not Result then begin
-    Result := not FileExists(FName);                                     {!!.01}
+    Result := not mbFileExists(FName);                                     {!!.01}
   end;
   {$ENDIF}
   {$IFDEF LINUX}                                                         {!!.01}
@@ -559,7 +559,7 @@ begin
       FStr := TFileStreamEx.Create(FImageName, FFileMode);
 
     if FSpanMode = smReading then begin
-      if FileExists(FImageName) then
+      if mbFileExists(FImageName) then
         FStr := TFileStreamEx.Create(FImageName, FFileMode)
       else
         raise EAbException.Create('Cannot open spanned file: ' + FImageName);

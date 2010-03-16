@@ -129,7 +129,7 @@ type
 implementation
 
 uses
-  AbConst;
+  AbConst, uClassesEx;
 
 { TAbCustomZipBrowser implementation ======================================= }
 
@@ -205,7 +205,7 @@ begin
   FArchive := nil;
 
   if FileName <> '' then begin
-    if FileExists(FileName) then begin { open it }
+    if mbFileExists(FileName) then begin { open it }
       ArcType := ArchiveType;
       if not ForceType then
          ArcType := AbDetermineArcType(FileName, atUnknown);

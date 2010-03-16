@@ -42,6 +42,15 @@ type
     property FileName : UTF8String read FFileName;
   end; 
 
+  function mbFileCreate(const FileName: UTF8String): THandle;
+  function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
+  function mbFileExists(const FileName: UTF8String): Boolean;
+  function mbDeleteFile(const FileName: UTF8String): Boolean;
+  function mbFileGetAttr(const FileName: UTF8String): Cardinal;
+  function mbFileSetAttr(const FileName: UTF8String; Attr: Cardinal) : LongInt;
+  function mbCreateDir(const NewDir: UTF8String): Boolean;
+  function mbFileSize(const FileName: UTF8String): Int64;
+
 implementation
 
 uses
@@ -135,5 +144,117 @@ begin
   if Handle >= 0 then
     FileClose(Handle);
 end;
+
+function mbFileExists(const FileName: UTF8String) : Boolean;
+{$IFDEF MSWINDOWS}
+var
+  Attr: Dword;
+  wFileName: WideString;
+begin
+  Result:=False;
+  wFileName:= UTF8Decode(FileName);
+  Attr:= GetFileAttributesW(PWChar(wFileName));
+  if Attr <> DWORD(-1) then
+    Result:= (Attr and FILE_ATTRIBUTE_DIRECTORY) = 0;
+end;
+{$ELSE}
+var
+  Info: BaseUnix.Stat;
+begin
+  Result:= False;
+  // Can use fpStat, because link to an existing filename can be opened as if it were a real file.
+  if fpStat(FileName, Info) >= 0 then
+    Result:= fpS_ISREG(Info.st_mode);
+end;
+{$ENDIF}
+
+function mbDeleteFile(const FileName: UTF8String): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  wFileName: WideString;
+begin
+  wFileName:= UTF8Decode(FileName);
+  Result:= Windows.DeleteFileW(PWChar(wFileName));
+end;
+{$ELSE}
+begin
+  Result:= fpUnLink(FileName) = 0;
+end;
+{$ENDIF}
+
+function mbFileGetAttr(const FileName: UTF8String): Cardinal;
+{$IFDEF MSWINDOWS}
+var
+  wFileName: WideString;
+begin
+  wFileName:= UTF8Decode(FileName);
+  Result := GetFileAttributesW(PWChar(wFileName));
+end;
+{$ELSE}
+var
+  Info: BaseUnix.Stat;
+begin
+  Result:= faInvalidAttributes;
+  if fpLStat(FileName, @Info) >= 0 then
+    Result:= Info.st_mode;
+end;
+{$ENDIF}
+
+function mbCreateDir(const NewDir: UTF8String): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  wNewDir: WideString;
+begin
+  wNewDir:= UTF8Decode(NewDir);
+  Result:= CreateDirectoryW(PWChar(wNewDir), nil);
+end;
+{$ELSE}
+begin
+  Result:= fpMkDir(PChar(NewDir), $FFF) = 0;
+end;
+{$ENDIF}
+
+function mbFileSetAttr(const FileName: UTF8String; Attr: Cardinal): LongInt;
+{$IFDEF MSWINDOWS}
+var
+  wFileName: WideString;
+begin
+  Result:= 0;
+  wFileName:= UTF8Decode(FileName);
+  if not SetFileAttributesW(PWChar(wFileName), Attr) then
+    Result:= GetLastError;
+end;
+{$ELSE}
+begin
+  Result:= fpchmod(PChar(FileName), Attr);
+end;
+{$ENDIF}
+
+function mbFileSize(const FileName: UTF8String): Int64;
+{$IFDEF MSWINDOWS}
+var
+  Handle: THandle;
+  FindData: TWin32FindDataW;
+  wFileName: WideString;
+begin
+  Result:= 0;
+  wFileName:= UTF8Decode(FileName);
+  Handle := FindFirstFileW(PWChar(wFileName), FindData);
+  if Handle <> INVALID_HANDLE_VALUE then
+    begin
+      Windows.FindClose(Handle);
+      if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) = 0 then
+        Result:= (Int64(FindData.nFileSizeHigh) * MAXDWORD)+FindData.nFileSizeLow;
+    end;
+end;
+{$ELSE}
+var
+  Info: BaseUnix.Stat;
+begin
+  Result:= 0;
+  if fpStat(FileName, Info) >= 0 then
+    Result:= Info.st_size;
+end;
+{$ENDIF}
 
 end.

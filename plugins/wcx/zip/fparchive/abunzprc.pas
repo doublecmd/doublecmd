@@ -1362,7 +1362,7 @@ begin
 
         finally
           // Now Delete the Temp File
-          DeleteFile(TempFileName);
+          mbDeleteFile(TempFileName);
         end;
       end;
     // {$ENDIF}
@@ -1375,12 +1375,12 @@ begin
   except
     on E : EAbUserAbort do begin
       ZipArchive.FStatus := asInvalid;
-      if FileExists(UseName) then
-        DeleteFile(UseName);
+      if mbFileExists(UseName) then
+        mbDeleteFile(UseName);
       raise;
     end else begin
-      if FileExists(UseName) then
-        DeleteFile(UseName);
+      if mbFileExists(UseName) then
+        mbDeleteFile(UseName);
       raise;
     end;
   end;

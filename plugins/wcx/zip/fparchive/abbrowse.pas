@@ -512,7 +512,7 @@ begin
   if Result = atCab then
     Result := atUnknown;
 {$ENDIF}
-  if (Result <> atUnknown) and FileExists(FN) and (AbFileGetSize(FN) > 0) then begin
+  if (Result <> atUnknown) and mbFileExists(FN) and (AbFileGetSize(FN) > 0) then begin
     { If the file doesn't exist (or is empty) presume to make one, otherwise
       verify the contents }
     FS := TFileStreamEx.Create(FN, fmOpenRead or fmShareDenyNone);

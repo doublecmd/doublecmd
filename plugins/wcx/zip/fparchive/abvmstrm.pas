@@ -64,7 +64,7 @@ type
       vmsSwapFileDir  : string;     {swap file directory}
       vmsSwapFileName : string;     {swap file name}
       vmsSwapFileSize : Int64;      {size of swap file}
-      vmsSwapHandle   : integer;    {swap file handle}
+      vmsSwapHandle   : System.THandle;    {swap file handle}
     protected
       procedure vmsSetMaxMemToUse(aNewMem : Longword);
 
@@ -107,7 +107,8 @@ uses
   SysUtils,
   AbConst,
   AbExcept,                                                            
-  AbUtils;
+  AbUtils,
+  uClassesEx;
 
 const
   LastLRUValue = $7FFFFFFF;
@@ -435,10 +436,10 @@ procedure TAbVirtualMemoryStream.vmsSwapFileCreate;
 begin
   if (vmsSwapHandle = 0) then begin
     vmsSwapFileName := AbCreateTempFile(vmsSwapFileDir);
-    vmsSwapHandle := FileOpen(vmsSwapFileName, fmOpenReadWrite);
+    vmsSwapHandle := mbFileOpen(vmsSwapFileName, fmOpenReadWrite);
     if (vmsSwapHandle <= 0) then begin
       vmsSwapHandle := 0;
-      DeleteFile(vmsSwapFileName);
+      mbDeleteFile(vmsSwapFileName);
       raise EAbVMSErrorOpenSwap.Create( vmsSwapFileName );             
     end;
     vmsSwapFileSize := 0;
@@ -449,7 +450,7 @@ procedure TAbVirtualMemoryStream.vmsSwapFileDestroy;
 begin
   if (vmsSwapHandle <> 0) then begin
     FileClose(vmsSwapHandle);
-    DeleteFile(vmsSwapFileName);
+    mbDeleteFile(vmsSwapFileName);
     vmsSwapHandle := 0;
   end;
 end;

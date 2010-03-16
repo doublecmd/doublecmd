@@ -1260,7 +1260,7 @@ begin
       raise EAbNoSuchDirectory.Create;
 
   Result := True;
-  if FileExists(UseName) then
+  if mbFileExists(UseName) then
     DoConfirmOverwrite(UseName, Result);
 end;
 { -------------------------------------------------------------------------- }
@@ -1708,7 +1708,7 @@ end;
 { -------------------------------------------------------------------------- }
 function TAbArchive.FreshenRequired(Item : TAbArchiveItem) : Boolean;
 var
-  FS : TFileStream;
+  FS : TFileStreamEx;
   DateTime : LongInt;
   FileTime : Word;
   FileDate : Word;
@@ -1719,8 +1719,8 @@ begin
   if BaseDirectory <> '' then
     ChDir(BaseDirectory);
   try
-    FS := TFileStream.Create(Item.DiskFileName,
-                              fmOpenRead or fmShareDenyWrite);
+    FS := TFileStreamEx.Create(Item.DiskFileName,
+                               fmOpenRead or fmShareDenyWrite);
     try
       DateTime := FileGetDate(FS.Handle);
       FileTime := LongRec(DateTime).Lo;

@@ -2231,7 +2231,7 @@ begin
 //      ImageName := FArchiveName
 //    else
       AbIncFilename(ImageName, ImageNumber);
-    if not FileExists(ImageName) then
+    if not mbFileExists(ImageName) then
       raise EAbFileNotFound.Create;
     Stream.Free;
     Stream := TAbSpanStream.Create(ImageName, fmOpenRead, MediaType, FSpanningThreshold);
@@ -2246,7 +2246,7 @@ begin
   FAutoGen := True;                                                  {!!.02}
   for i := 1 to 99 do begin
     AbIncFilename(ImageName, i);
-    if not FileExists(ImageName) then
+    if not mbFileExists(ImageName) then
       raise EAbFileNotFound.Create;
     // 885670 (Moved Stream to avoid file corruption)
     if Assigned(Stream) then
@@ -2282,7 +2282,7 @@ begin
     // if we are reading and the file does not exist
     // then we must be at last file in archive, change to .ZIP extention
     // as the last file is there.
-    if (Mode = smReading) and Not FileExists(ImageName) then         {!!.05}
+    if (Mode = smReading) and Not mbFileExists(ImageName) then         {!!.05}
       ImageName := ChangeFileExt(ImageName,'.ZIP');
    end
   else if Mode = smReading then begin
