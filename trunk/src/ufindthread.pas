@@ -23,21 +23,20 @@
 }
 
 unit uFindThread;
+
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, StdCtrls, SysUtils, DsxPlugin, uTypes;
+  Classes, StdCtrls, SysUtils, uTypes, uFindFiles;
 
 type
 
-{ TFindThread }
+  { TFindThread }
 
-TFindThread = class(TThread)
+  TFindThread = class(TThread)
   private
-    { Private declarations }
-    FPathStart:String;
     FItems: TStrings;
     FStatus: TLabel;
     FFound: TLabel;
@@ -46,112 +45,62 @@ TFindThread = class(TThread)
     FFilesScanned:Integer;
     FFilesFound:Integer;
     FFoundFile:String;
-    FFileMask : String;
-    FAttributes: TFileAttrs;
-    FAttribStr : String;
-    FCaseSens: Boolean;
-    FRegExp: Boolean;
-    FCurrentDepth,
-    FSearchDepth: Integer;
-    {Date search}
-    FIsDateFrom,
-    FIsDateTo : Boolean;
-    FDateTimeFrom,
-    FDateTimeTo : TDateTime;
-    {Time search}
-    FIsTimeFrom,
-    FIsTimeTo : Boolean;
-    (* File size search *)
-    FIsFileSizeFrom,
-    FIsFileSizeTo : Boolean;
-    FFileSizeFrom,
-    FFileSizeTo : Int64;
-    (* Find text *)
-    FIsNoThisText,
-    FFindInFiles:Boolean;
-    FFindData:String;
-    (* Replace text *)
-    FReplaceInFiles : Boolean;
-    FReplaceData : String;
+    FCurrentDepth: Integer;
+    FSearchTemplate: TSearchTemplateRec;
+    FFileChecks: TFindFileChecks;
 
-    procedure SetFileMask(const AValue: String);
-    procedure SetSearchDepth(const AValue: Integer);
-    function CheckFileDate(DT : TFileTime) : Boolean;
-    function CheckFileSize(FileSize : Int64) : Boolean;
     function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
     function FindInFile(const sFileName:UTF8String;
                         sData: String; bCase:Boolean): Boolean;
   protected
     procedure Execute; override;
   public
-    constructor Create;
+    constructor Create(const AFindOptions: TSearchTemplateRec);
     destructor Destroy; override;
     procedure AddFile;
     procedure WalkAdr(const sNewDir:String);
     procedure UpDateProgress;
-    procedure FillSearchRecord(var Srec:TSearchAttrRecord);
     function IsAborting: Boolean;
 
-    property FilterMask:String read FFileMask write SetFileMask;
-    property PathStart:String read FPathStart write FPathStart;
     property Items:TStrings write FItems;
-    property RegularExpressions: Boolean read FRegExp write FRegExp;
-    property SearchDepth: Integer read FSearchDepth write SetSearchDepth;
-    (* Find text *)
-    property FindInFiles:Boolean write FFindInFiles;
-    property IsNoThisText:Boolean write FIsNoThisText default False;
     property Status:TLabel read FStatus write FStatus;
     property Found:TLabel read FFound write FFound;
     property Current:TLabel read FCurrent write FCurrent; // label current file
-    property CaseSensitive:boolean read FCaseSens write FCaseSens;
-    property FindData:String read FFindData write FFindData;
-    (* Replace text *)
-    property ReplaceInFiles:Boolean write FReplaceInFiles;
-    property ReplaceData:String read FReplaceData write FReplaceData;
-    (* Date search *)
-    property IsDateFrom:Boolean read FIsDateFrom write FIsDateFrom;
-    property IsDateTo:Boolean read FIsDateTo write FIsDateTo;
-    property DateTimeFrom:TDateTime read FDateTimeFrom write FDateTimeFrom;
-    property DateTimeTo:TDateTime read FDateTimeTo write FDateTimeTo;
-    (* Time search *)
-    property IsTimeFrom:Boolean read FIsTimeFrom write FIsTimeFrom;
-    property IsTimeTo:Boolean read FIsTimeTo write FIsTimeTo;
-
-    (* File size search *)
-    property IsFileSizeFrom : Boolean read FIsFileSizeFrom write FIsFileSizeFrom;
-    property IsFileSizeTo : Boolean read FIsFileSizeTo write FIsFileSizeTo;
-    property FileSizeFrom : Int64 read FFileSizeFrom write FFileSizeFrom;
-    property FileSizeTo : Int64 read FFileSizeTo write FFileSizeTo;
-    
-    property Attributes: TFileAttrs read FAttributes write FAttributes;
-    property AttribStr : String read FAttribStr write FAttribStr;
   end;
-
 
 implementation
 
 uses
-  LCLProc, Dialogs, DateUtils, Masks, SynRegExpr, StrUtils, uLng, uClassesEx, uFindMmap, uFindEx,
-  uGlobs, uShowMsg, uOSUtils, uLog, uDateTimeUtils;
+  LCLProc, Masks, SynRegExpr, StrUtils, LConvEncoding,
+  uLng, uClassesEx, uFindMmap, uFindEx, uGlobs, uShowMsg, uOSUtils, uLog;
 
 { TFindThread }
 
-constructor TFindThread.Create;
+constructor TFindThread.Create(const AFindOptions: TSearchTemplateRec);
 begin
   inherited Create(True);
-  FCaseSens:=True;
+
   FFilesScanned:=0;
   FFilesFound := 0;
-  FilterMask:='*';
-  FPathStart:= mbGetCurrentDir;
-  FItems:=nil;
-  FIsDateFrom := False;
-  FIsDateTo := False;
-  FIsFileSizeFrom := False;
-  FIsFileSizeTo := False;
-  FAttributes := faAnyFile;
-  FAttribStr := '?????????';
-  FSearchDepth:= MaxInt;
+  FItems := nil;
+
+  FSearchTemplate := AFindOptions;
+
+  with FSearchTemplate do
+  begin
+    if SearchDepth < 0 then
+      SearchDepth := MaxInt;
+
+    // use case insensitive mask because
+    // MatchesMaskList work incorrect with non ASCII characters
+    // since it uses UpCase function
+    FilesMasks := UTF8UpperCase(FilesMasks);
+
+    FindText := ConvertEncoding(FindText, EncodingUTF8, TextEncoding);
+    ReplaceText := ConvertEncoding(ReplaceText, EncodingUTF8, TextEncoding);
+  end;
+
+  SearchTemplateToFindFileChecks(FSearchTemplate, FFileChecks);
 end;
 
 destructor TFindThread.Destroy;
@@ -172,7 +121,7 @@ begin
     FCurrentDepth:= -1;
     sCurrDir:= mbGetCurrentDir;
     try
-      sTemp:= FPathStart;
+      sTemp:= FSearchTemplate.StartPath;
       while sTemp <> EmptyStr do
         begin
           sPath:= Copy2SymbDel(sTemp, ';');
@@ -188,22 +137,6 @@ begin
     on E:Exception do
       msgError(Self, E.Message);
   end;
-end;
-
-procedure TFindThread.SetSearchDepth(const AValue: Integer);
-begin
-  if AValue < 0 then
-    FSearchDepth:= MaxInt
-  else
-    FSearchDepth:= AValue;
-end;
-
-procedure TFindThread.SetFileMask(const AValue: String);
-begin
-  // use case insensitive mask because
-  // MatchesMaskList work incorrect with non ACSII characters
-  // since it use UpCase function
-  FFileMask:= UTF8UpperCase(AValue);
 end;
 
 procedure TFindThread.AddFile;
@@ -341,128 +274,54 @@ begin
   end;
 end;
 
-function TFindThread.CheckFileDate(DT : TFileTime) : Boolean;
-var
-  DateTime: TDateTime;
-begin
-   Result := True;
-   DateTime := FileTimeToDateTime(DT);
-
-   (* Check date from *)
-   if FIsDateFrom then
-      Result := (Int(DateTime) >= Int(FDateTimeFrom));
-
-   (* Check time to *)
-   if (FIsDateTo and Result) then
-      Result := (Int(DateTime) <= Int(FDateTimeTo));
-
-   (* Check time from *)
-   if (FIsTimeFrom and Result) then
-      Result := (CompareTime(DateTime, FDateTimeFrom) >= 0);
-      
-   //DebugLn('Time From = ', FloatToStr(FDateTimeFrom), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
-
-   (* Check time to *)
-   if (FIsTimeTo and Result) then
-      Result := (CompareTime(DateTime, FDateTimeTo) <= 0);
-
-   //DebugLn('Time To = ', FloatToStr(FDateTimeTo), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
-end;
-
-function TFindThread.CheckFileSize(FileSize: Int64): Boolean;
-begin
-   Result := True;
-   if FIsFileSizeFrom then
-      Result := (FileSize >= FFileSizeFrom);
-   //DebugLn('After From', FileSize, '-',  FFileSizeFrom, BoolToStr(Result));
-      
-   if (FIsFileSizeTo and Result) then
-      Result := (FileSize <= FFileSizeTo);
-   //DebugLn('After To',  FileSize, '-',  FFileSizeTo, BoolToStr(Result));
-end;
-
 function TFindThread.CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
 begin
   Result := True;
 
-  // check regular expression
-  if FRegExp and not ExecRegExpr(FFileMask, sr.Name) then
-    Exit(False);
-
-  //DebugLn('File = ', sr.Name);
-  if (not FRegExp) and (not MatchesMaskList(UTF8UpperCase(sr.Name), FFileMask)) then
-    Exit(False);
-
-  if (FIsDateFrom or FIsDateTo or FIsTimeFrom or FIsTimeTo) then
-      Result := CheckFileDate(sr.Time);
-
-  if (FIsFileSizeFrom or FIsFileSizeTo) and Result then
-      Result := CheckFileSize(sr.Size);
-      
- // if Length(FAttribStr) <> 0 then
-    begin
-      Result := CheckAttrMask(FAttributes, FAttribStr, sr.Attr);
-    end;
-
-  if (FFindInFiles and Result) then
-     begin
-       if FPS_ISDIR(sr.Attr) then
-         begin
-           Result := False;
-           Exit;
-         end;
-
-       try
-         Result := FindInFile(Folder + PathDelim + sr.Name, FFindData, FCaseSens);
-
-         if (FReplaceInFiles and Result) then
-           FileReplaceString(Folder + PathDelim + sr.Name, FFindData, FReplaceData, FCaseSens);
-
-         if FIsNoThisText then
-           Result := not Result;
-
-       except
-         on e : EFOpenError do
-           begin
-             if (log_errors in gLogOptions) then
-               logWrite(Self, rsMsgLogError + rsMsgErrEOpen + ' ' +
-                              Folder + PathDelim + sr.Name, lmtError);
-             Result := False;
-           end;
-       end;
-     end;
-end;
-
-procedure TFindThread.FillSearchRecord(var Srec:TSearchAttrRecord);
-
-begin
-  with Srec do
+  with FSearchTemplate do
   begin
-    rFileMask:= StrNew(PChar(FFileMask));
-    rAttributes:=FAttributes;
-    rAttribStr:= StrNew(PChar(FAttribStr));
-    rCaseSens:=FCaseSens;
-    {Date search}
-    rIsDateFrom:=FIsDateFrom;
-    rIsDateTo:=FIsDateTo;
-    rDateTimeFrom:=FDateTimeFrom;
-    rDateTimeTo:=FDateTimeTo;
-    {Time search}
-    rIsTimeFrom:=FIsTimeFrom;
-    rIsTimeTo:=FIsTimeTo;
-    (* File size search *)
-    rIsFileSizeFrom:=FIsFileSizeFrom;
-    rIsFileSizeTo:=FIsFileSizeTo;
-    rFileSizeFrom:=FFileSizeFrom;
-    rFileSizeTo:=FFileSizeTo;
-    (* Find text *)
-    rIsNoThisText:=FIsNoThisText;
-    rFindInFiles:=FFindInFiles;
-    rFindData:= StrNew(PChar(FFindData));
-    (* Replace text *)
-    rReplaceInFiles:=FReplaceInFiles;
-    rReplaceData:= StrNew(PChar(FReplaceData));
-  end;
+    // check regular expression
+    if RegExp and not ExecRegExpr(FilesMasks, sr.Name) then
+      Exit(False);
+
+    //DebugLn('File = ', sr.Name);
+    if (not RegExp) and (not MatchesMaskList(UTF8UpperCase(sr.Name), FilesMasks)) then
+      Exit(False);
+
+    if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo) then
+        Result := CheckFileTime(FFileChecks, sr.Time);
+
+    if (IsFileSizeFrom or IsFileSizeTo) and Result then
+        Result := CheckFileSize(FFileChecks, sr.Size);
+
+    if Result then
+      Result := CheckFileAttributes(FFileChecks, sr.Attr);
+
+    if (Result and IsFindText) then
+       begin
+         if FPS_ISDIR(sr.Attr) then
+           Exit(False);
+
+         try
+           Result := FindInFile(Folder + PathDelim + sr.Name, FindText, CaseSensitive);
+
+           if (Result and IsReplaceText) then
+             FileReplaceString(Folder + PathDelim + sr.Name, FindText, ReplaceText, CaseSensitive);
+
+           if NotContainingText then
+             Result := not Result;
+
+         except
+           on e : EFOpenError do
+             begin
+               if (log_errors in gLogOptions) then
+                 logWrite(Self, rsMsgLogError + rsMsgErrEOpen + ' ' +
+                                Folder + PathDelim + sr.Name, lmtError);
+               Result := False;
+             end;
+         end;
+       end;
+   end;
 end;
 
 procedure TFindThread.WalkAdr(const sNewDir:String);
@@ -470,22 +329,17 @@ var
   sr: TSearchRecEx;
   Path : String;
 begin
-  DebugLn(sNewDir);
-
   if not mbSetCurrentDir(sNewDir) then Exit;
 
   Inc(FCurrentDepth);
 
   // if regular expression then search all files
-  if FRegExp or (Pos(';', FFileMask) <> 0) then
+  if FSearchTemplate.RegExp or (Pos(';', FSearchTemplate.FilesMasks) <> 0) then
     Path := sNewDir + PathDelim + '*'
   else
-    Path := sNewDir + PathDelim + FFileMask;
-  //DebugLn('Path = ', Path);
+    Path := sNewDir + PathDelim + FSearchTemplate.FilesMasks;
 
-  DebugLn('FAttributes == ' + IntToStr(FAttributes));
-
-  if FindFirstEx(Path, FAttributes, sr) = 0 then
+  if FindFirstEx(Path, faAnyFile, sr) = 0 then
   repeat
     if (sr.Name='.') or (sr.Name='..') then Continue;
 
@@ -506,7 +360,7 @@ begin
   Synchronize(@UpDateProgress);
 
   { Search in sub folders }
-  if (not Terminated) and (FCurrentDepth < FSearchDepth) then
+  if (not Terminated) and (FCurrentDepth < FSearchTemplate.SearchDepth) then
   begin
     Path := sNewDir + PathDelim + '*';
     DebugLn('Search in sub folders = ', Path);

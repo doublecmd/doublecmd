@@ -27,7 +27,7 @@ unit uSearchTemplate;
 interface
 
 uses
-  Classes, SysUtils, DsxPlugin, uClassesEx, uFile, uXmlConfig;
+  Classes, SysUtils, uClassesEx, uFile, uXmlConfig, uFindFiles;
 
 type
 
@@ -35,22 +35,14 @@ type
 
   TSearchTemplate = class
   private
-    FTemplateName,
-    FStartPath: UTF8String;
-    FIsNotOlderThan: Boolean;
-    FNotOlderThan: Double;
-    function CheckFileDate(DateTime: TDateTime): Boolean;
-    function CheckFileSize(FileSize: Int64): Boolean;
+    FTemplateName: UTF8String;
   public
-    SearchRecord: TSearchAttrRecord;
+    SearchRecord: TSearchTemplateRec;
 
     constructor Create;
     destructor Destroy; override;
     function CheckFile(const AFile: TFile): Boolean;
     property TemplateName: UTF8String read FTemplateName write FTemplateName;
-    property StartPath: UTF8String read FStartPath write FStartPath;
-    property IsNotOlderThan: Boolean read FIsNotOlderThan write FIsNotOlderThan;
-    property NotOlderThan: Double read FNotOlderThan write FNotOlderThan;
   end;
 
   { TSearchTemplateList }
@@ -80,7 +72,7 @@ function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
 implementation
 
 uses
-  DateUtils, Masks, uFileProperty;
+  Masks, uFileProperty;
 
 function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
 begin
@@ -88,93 +80,6 @@ begin
 end;
 
 { TSearchTemplate }
-
-function TSearchTemplate.CheckFileDate(DateTime: TDateTime): Boolean;
-var
-  dtNow: TDateTime;
-  iCount: Integer;
-  bIsDateFrom,
-  bIsTimeFrom: Boolean;
-begin
-  Result:= True;
-  with SearchRecord do
-  begin
-    if FIsNotOlderThan then
-      begin
-        dtNow:= Now;
-        iCount:= -Trunc(FNotOlderThan);
-        case Round(Frac(FNotOlderThan)*10) of
-        0:  //Minute(s)
-          begin
-            bIsDateFrom:= True;
-            bIsTimeFrom:= True;
-            rDateTimeFrom:= IncMinute(dtNow, iCount);
-          end;
-        1:  //Hour(s)
-          begin
-            bIsDateFrom:= True;
-            bIsTimeFrom:= True;
-            rDateTimeFrom:= IncHour(dtNow, iCount);
-          end;
-        2:  //Day(s)
-          begin
-            bIsDateFrom:= True;
-            rDateTimeFrom:= IncDay(dtNow, iCount);
-          end;
-        3:  //Week(s)
-          begin
-            bIsDateFrom:= True;
-            rDateTimeFrom:= IncWeek(dtNow, iCount);
-          end;
-        4:  //Month(s)
-          begin
-            bIsDateFrom:= True;
-            rDateTimeFrom:= IncMonth(dtNow, iCount);
-          end;
-        5:  //Year(s)
-          begin
-            bIsDateFrom:= True;
-            rDateTimeFrom:= IncYear(dtNow, iCount);
-          end;
-        end;
-      end;
-
-    (* Check date from *)
-    if rIsDateFrom or bIsDateFrom then
-      Result:= (Int(DateTime) >= Int(rDateTimeFrom));
-
-    (* Check time to *)
-    if (rIsDateTo and Result) then
-      Result:= (Int(DateTime) <= Int(rDateTimeTo));
-
-    (* Check time from *)
-    if ((rIsTimeFrom or bIsTimeFrom) and Result) then
-      Result:= (CompareTime(DateTime, rDateTimeFrom) >= 0);
-
-    //DebugLn('Time From = ', FloatToStr(rDateTimeFrom), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
-
-    (* Check time to *)
-    if (rIsTimeTo and Result) then
-      Result:= (CompareTime(DateTime, rDateTimeTo) <= 0);
-
-    //DebugLn('Time To = ', FloatToStr(rDateTimeTo), ' File time = ', FloatToStr(DateTime), ' Result = ', BoolToStr(Result));
-  end;
-end;
-
-function TSearchTemplate.CheckFileSize(FileSize: Int64): Boolean;
-begin
-   Result:= True;
-   with SearchRecord do
-   begin
-     if rIsFileSizeFrom then
-       Result:= (FileSize >= rFileSizeFrom);
-     //DebugLn('After From', FileSize, '-',  rFileSizeFrom, BoolToStr(Result));
-
-     if (rIsFileSizeTo and Result) then
-       Result:= (FileSize <= rFileSizeTo);
-     //DebugLn('After To',  FileSize, '-',  rFileSizeTo, BoolToStr(Result));
-  end;
-end;
 
 constructor TSearchTemplate.Create;
 begin
@@ -184,31 +89,30 @@ end;
 
 destructor TSearchTemplate.Destroy;
 begin
-  with SearchRecord do
-  begin
-    StrDispose(rFileMask);
-    StrDispose(rAttribStr);
-    StrDispose(rFindData);
-    StrDispose(rReplaceData);
-  end;
   inherited Destroy;
 end;
 
 function TSearchTemplate.CheckFile(const AFile: TFile): Boolean;
+var
+  FileChecks: TFindFileChecks;
 begin
   Result:= True;
+  SearchTemplateToFindFileChecks(SearchRecord, FileChecks);
   with SearchRecord do
   begin
     if (fpName in AFile.GetSupportedProperties) then
-      Result:= MatchesMaskList(AFile.Name, SearchRecord.rFileMask);
+      Result:= MatchesMaskList(AFile.Name, FilesMasks);
 
-    if (fpModificationTime in AFile.GetSupportedProperties) then
-      if (rIsDateFrom or rIsDateTo or rIsTimeFrom or rIsTimeTo or FIsNotOlderThan) then
-        Result:= CheckFileDate((AFile.Properties[fpModificationTime] as TFileDateTimeProperty).Value);
+    if Result and (fpModificationTime in AFile.GetSupportedProperties) then
+      if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
+        Result:= CheckFileDateTime(FileChecks, (AFile.Properties[fpModificationTime] as TFileDateTimeProperty).Value);
 
-    if (fpSize in AFile.GetSupportedProperties) then
-      if (rIsFileSizeFrom or rIsFileSizeTo) and Result then
-        Result:= CheckFileSize((AFile.Properties[fpSize] as TFileSizeProperty).Value);
+    if Result and (fpSize in AFile.GetSupportedProperties) then
+      if (IsFileSizeFrom or IsFileSizeTo) then
+        Result:= CheckFileSize(FileChecks, (AFile.Properties[fpSize] as TFileSizeProperty).Value);
+
+    if Result and (fpAttributes in AFile.GetSupportedProperties) then
+      Result:= CheckFileAttributes(FileChecks, (AFile.Properties[fpAttributes] as TFileAttributesProperty).Value);
   end;
 end;
 
@@ -276,6 +180,7 @@ var
   I, iCount: Integer;
   sTemplate: String;
   SearchTemplate: TSearchTemplate;
+  FloatNotOlderThan: Double;
 begin
   Clear;
 
@@ -287,50 +192,53 @@ begin
       begin
         sTemplate:= 'Template' + IntToStr(I+1);
         SearchTemplate.TemplateName:= IniFile.ReadString(cSection, sTemplate+'Name', '');
-        SearchTemplate.StartPath:= IniFile.ReadString(cSection, sTemplate+'StartPath', '');
-        rFileMask:= StrNew(PChar(IniFile.ReadString(cSection, sTemplate+'FileMask', '*')));
-        rAttributes:= IniFile.ReadInteger(cSection, sTemplate+'Attributes', faAnyFile);
-        rAttribStr:= StrNew(PChar(IniFile.ReadString(cSection, sTemplate+'AttribStr', '*')));
+        StartPath:= IniFile.ReadString(cSection, sTemplate+'StartPath', '');
+        FilesMasks:= IniFile.ReadString(cSection, sTemplate+'FileMask', '*');
+        //Attributes:= IniFile.ReadInteger(cSection, sTemplate+'Attributes', faAnyFile);
+        //AttributesPattern:= IniFile.ReadString(cSection, sTemplate+'AttribStr', '');
         // date/time
-        rCaseSens:= IniFile.ReadBool(cSection, sTemplate+'CaseSens', False);
-        rIsDateFrom:= IniFile.ReadBool(cSection, sTemplate+'IsDateFrom', False);
-        rIsDateTo:= IniFile.ReadBool(cSection, sTemplate+'IsDateTo', False);
-        rIsTimeFrom:= IniFile.ReadBool(cSection, sTemplate+'IsTimeFrom', False);
-        rIsTimeTo:= IniFile.ReadBool(cSection, sTemplate+'IsTimeTo', False);
-        if rIsDateFrom or rIsTimeFrom then
-          rDateTimeFrom:= IniFile.ReadDateTime(cSection, sTemplate+'DateTimeFrom', 0);
-        if rIsDateTo or rIsTimeTo then
-          rDateTimeTo:= IniFile.ReadDateTime(cSection, sTemplate+'DateTimeTo', Now);
+        CaseSensitive:= IniFile.ReadBool(cSection, sTemplate+'CaseSens', False);
+        IsDateFrom:= IniFile.ReadBool(cSection, sTemplate+'IsDateFrom', False);
+        IsDateTo:= IniFile.ReadBool(cSection, sTemplate+'IsDateTo', False);
+        IsTimeFrom:= IniFile.ReadBool(cSection, sTemplate+'IsTimeFrom', False);
+        IsTimeTo:= IniFile.ReadBool(cSection, sTemplate+'IsTimeTo', False);
+        if IsDateFrom or IsTimeFrom then
+          DateTimeFrom:= IniFile.ReadDateTime(cSection, sTemplate+'DateTimeFrom', 0);
+        if IsDateTo or IsTimeTo then
+          DateTimeTo:= IniFile.ReadDateTime(cSection, sTemplate+'DateTimeTo', Now);
         // not older than
-        SearchTemplate.IsNotOlderThan:= IniFile.ReadBool(cSection, sTemplate+'IsNotOlderThan', False);
-        if SearchTemplate.IsNotOlderThan then
-          SearchTemplate.NotOlderThan:= IniFile.ReadFloat(cSection, sTemplate+'NotOlderThan', 0);
+        IsNotOlderThan:= IniFile.ReadBool(cSection, sTemplate+'IsNotOlderThan', False);
+        if IsNotOlderThan then
+        begin
+          FloatNotOlderThan:= IniFile.ReadFloat(cSection, sTemplate+'NotOlderThan', 0);
+          NotOlderThan:= Trunc(FloatNotOlderThan);
+          NotOlderThanUnit:= TTimeUnit(Round(Frac(FloatNotOlderThan)*10) + 1);
+        end;
         // file size
-        rIsFileSizeFrom:= IniFile.ReadBool(cSection, sTemplate+'IsFileSizeFrom', False);
-        rIsFileSizeTo:= IniFile.ReadBool(cSection, sTemplate+'IsFileSizeTo', False);
-        if rIsFileSizeFrom then
-          rFileSizeFrom:= IniFile.ReadInteger(cSection, sTemplate+'FileSizeFrom', 0);
-        if rIsFileSizeTo then
-          rFileSizeTo:= IniFile.ReadInteger(cSection, sTemplate+'FileSizeTo', MaxInt);
+        IsFileSizeFrom:= IniFile.ReadBool(cSection, sTemplate+'IsFileSizeFrom', False);
+        IsFileSizeTo:= IniFile.ReadBool(cSection, sTemplate+'IsFileSizeTo', False);
+        if IsFileSizeFrom then
+          FileSizeFrom:= IniFile.ReadInteger(cSection, sTemplate+'FileSizeFrom', 0);
+        if IsFileSizeTo then
+          FileSizeTo:= IniFile.ReadInteger(cSection, sTemplate+'FileSizeTo', MaxInt);
         // find text
-        rIsNoThisText:= IniFile.ReadBool(cSection, sTemplate+'IsNoThisText', False);
-        rFindInFiles:= IniFile.ReadBool(cSection, sTemplate+'FindInFiles', False);
-        if rFindInFiles then
-          rFindData:= StrNew(PChar(IniFile.ReadString(cSection, sTemplate+'FindData', '')));
+        NotContainingText:= IniFile.ReadBool(cSection, sTemplate+'IsNoThisText', False);
+        IsFindText:= IniFile.ReadBool(cSection, sTemplate+'FindInFiles', False);
+        if IsFindText then
+          FindText:= IniFile.ReadString(cSection, sTemplate+'FindData', '');
         // replace text
-        rReplaceInFiles:= IniFile.ReadBool(cSection, sTemplate+'ReplaceInFiles', False);
-        if rReplaceInFiles then
-          rReplaceData:= StrNew(PChar(IniFile.ReadString(cSection, sTemplate+'ReplaceData', '')));
+        IsReplaceText:= IniFile.ReadBool(cSection, sTemplate+'ReplaceInFiles', False);
+        if IsReplaceText then
+          ReplaceText:= IniFile.ReadString(cSection, sTemplate+'ReplaceData', '');
       end;
-      Add(SearchTemplate)
+      Add(SearchTemplate);
     end;
 end;
 
 procedure TSearchTemplateList.LoadFromXml(AConfig: TXmlConfig; ANode: TXmlNode);
 var
-  I: Integer;
-  sTemplate: String;
   SearchTemplate: TSearchTemplate;
+  FloatNotOlderThan: Double;
 begin
   Clear;
 
@@ -346,42 +254,51 @@ begin
         with SearchTemplate.SearchRecord do
         begin
           SearchTemplate.TemplateName:= AConfig.GetValue(ANode, 'Name', '');
-          SearchTemplate.StartPath:= AConfig.GetValue(ANode, 'StartPath', '');
-          rFileMask:= StrNew(PChar(AConfig.GetValue(ANode, 'FileMask', '*')));
-          rAttributes:= AConfig.GetValue(ANode, 'Attributes', faAnyFile);
-          rAttribStr:= StrNew(PChar(AConfig.GetValue(ANode, 'AttribStr', '*')));
+          StartPath:= AConfig.GetValue(ANode, 'StartPath', '');
+          FilesMasks:= AConfig.GetValue(ANode, 'FilesMasks', '*');
+          SearchDepth:= AConfig.GetValue(ANode, 'SearchDepth', -1);
+          RegExp:= AConfig.GetValue(ANode, 'RegExp', False);
+          AttributesPattern:= AConfig.GetValue(ANode, 'AttributesPattern', '');
           // date/time
-          rCaseSens:= AConfig.GetValue(ANode, 'CaseSens', False);
-          rIsDateFrom:= AConfig.GetValue(ANode, 'IsDateFrom', False);
-          rIsDateTo:= AConfig.GetValue(ANode, 'IsDateTo', False);
-          rIsTimeFrom:= AConfig.GetValue(ANode, 'IsTimeFrom', False);
-          rIsTimeTo:= AConfig.GetValue(ANode, 'IsTimeTo', False);
-          if rIsDateFrom or rIsTimeFrom then
-            rDateTimeFrom:= AConfig.GetValue(ANode, 'DateTimeFrom', 0);
-          if rIsDateTo or rIsTimeTo then
-            rDateTimeTo:= AConfig.GetValue(ANode, 'DateTimeTo', Now);
+          IsDateFrom:= AConfig.GetValue(ANode, 'IsDateFrom', False);
+          IsDateTo:= AConfig.GetValue(ANode, 'IsDateTo', False);
+          IsTimeFrom:= AConfig.GetValue(ANode, 'IsTimeFrom', False);
+          IsTimeTo:= AConfig.GetValue(ANode, 'IsTimeTo', False);
+          if IsDateFrom or IsTimeFrom then
+            DateTimeFrom:= AConfig.GetValue(ANode, 'DateTimeFrom', TDateTime(0));
+          if IsDateTo or IsTimeTo then
+            DateTimeTo:= AConfig.GetValue(ANode, 'DateTimeTo', Now);
           // not older than
-          SearchTemplate.IsNotOlderThan:= AConfig.GetValue(ANode, 'IsNotOlderThan', False);
-          if SearchTemplate.IsNotOlderThan then
-            SearchTemplate.NotOlderThan:= AConfig.GetValue(ANode, 'NotOlderThan', 0);
+          IsNotOlderThan:= AConfig.GetValue(ANode, 'IsNotOlderThan', False);
+          if IsNotOlderThan then
+          begin
+            // Workaround because old value was floating point.
+            FloatNotOlderThan:= AConfig.GetValue(ANode, 'NotOlderThan', Double(0));
+            NotOlderThan:= Trunc(FloatNotOlderThan);
+            NotOlderThanUnit:= TTimeUnit(AConfig.GetValue(ANode, 'NotOlderThanUnit', 0));
+          end;
           // file size
-          rIsFileSizeFrom:= AConfig.GetValue(ANode, 'IsFileSizeFrom', False);
-          rIsFileSizeTo:= AConfig.GetValue(ANode, 'IsFileSizeTo', False);
-          if rIsFileSizeFrom then
-            rFileSizeFrom:= AConfig.GetValue(ANode, 'FileSizeFrom', 0);
-          if rIsFileSizeTo then
-            rFileSizeTo:= AConfig.GetValue(ANode, 'FileSizeTo', MaxInt);
+          IsFileSizeFrom:= AConfig.GetValue(ANode, 'IsFileSizeFrom', False);
+          IsFileSizeTo:= AConfig.GetValue(ANode, 'IsFileSizeTo', False);
+          if IsFileSizeFrom then
+            FileSizeFrom:= AConfig.GetValue(ANode, 'FileSizeFrom', Int64(0));
+          if IsFileSizeTo then
+            FileSizeTo:= AConfig.GetValue(ANode, 'FileSizeTo', High(Int64));
+          FileSizeUnit:= TFileSizeUnit(AConfig.GetValue(ANode, 'FileSizeUnit', 0));
           // find text
-          rIsNoThisText:= AConfig.GetValue(ANode, 'IsNoThisText', False);
-          rFindInFiles:= AConfig.GetValue(ANode, 'FindInFiles', False);
-          if rFindInFiles then
-            rFindData:= StrNew(PChar(AConfig.GetValue(ANode, 'FindData', '')));
+          IsFindText:= AConfig.GetValue(ANode, 'IsFindText', False);
+          if IsFindText then
+            FindText:= AConfig.GetValue(ANode, 'FindText', '');
           // replace text
-          rReplaceInFiles:= AConfig.GetValue(ANode, 'ReplaceInFiles', False);
-          if rReplaceInFiles then
-            rReplaceData:= StrNew(PChar(AConfig.GetValue(ANode, 'ReplaceData', '')));
+          IsReplaceText:= AConfig.GetValue(ANode, 'IsReplaceText', False);
+          if IsReplaceText then
+            ReplaceText:= AConfig.GetValue(ANode, 'ReplaceText', '');
+          CaseSensitive:= AConfig.GetValue(ANode, 'CaseSensitive', False);
+          NotContainingText:= AConfig.GetValue(ANode, 'NotContainingText', False);
+          TextEncoding:= AConfig.GetValue(ANode, 'TextEncoding', '');
+          SearchPlugin:= AConfig.GetValue(ANode, 'SearchPlugin', '');
         end;
-        Add(SearchTemplate)
+        Add(SearchTemplate);
       end;
       ANode := ANode.NextSibling;
     end;
@@ -392,6 +309,7 @@ procedure TSearchTemplateList.SaveToIni(IniFile: TIniFileEx);
 var
   I: Integer;
   sTemplate: String;
+  FloatNotOlderThan: Double;
 begin
   IniFile.EraseSection(cSection);
   IniFile.WriteInteger(cSection, 'TemplateCount', Count);
@@ -400,47 +318,49 @@ begin
     begin
       sTemplate:= 'Template' + IntToStr(I+1);
       IniFile.WriteString(cSection, sTemplate+'Name', Templates[I].TemplateName);
-      IniFile.WriteString(cSection, sTemplate+'StartPath', Templates[I].StartPath);
-      IniFile.WriteString(cSection, sTemplate+'FileMask', StrPas(rFileMask));
-      IniFile.WriteInteger(cSection, sTemplate+'Attributes', rAttributes);
-      IniFile.WriteString(cSection, sTemplate+'AttribStr', StrPas(rAttribStr));
+      IniFile.WriteString(cSection, sTemplate+'StartPath', StartPath);
+      IniFile.WriteString(cSection, sTemplate+'FileMask', FilesMasks);
+      //IniFile.WriteInteger(cSection, sTemplate+'Attributes', Attributes);
+      //IniFile.WriteString(cSection, sTemplate+'AttribStr', AttributesPattern);
       // date/time
-      IniFile.WriteBool(cSection, sTemplate+'CaseSens', rCaseSens);
-      IniFile.WriteBool(cSection, sTemplate+'IsDateFrom', rIsDateFrom);
-      IniFile.WriteBool(cSection, sTemplate+'IsDateTo', rIsDateTo);
-      IniFile.WriteBool(cSection, sTemplate+'IsTimeFrom', rIsTimeFrom);
-      IniFile.WriteBool(cSection, sTemplate+'IsTimeTo', rIsTimeTo);
-      if rIsDateFrom or rIsTimeFrom then
-        IniFile.WriteDateTime(cSection, sTemplate+'DateTimeFrom', rDateTimeFrom);
-      if rIsDateTo or rIsTimeTo then
-        IniFile.WriteDateTime(cSection, sTemplate+'DateTimeTo', rDateTimeTo);
+      IniFile.WriteBool(cSection, sTemplate+'CaseSens', CaseSensitive);
+      IniFile.WriteBool(cSection, sTemplate+'IsDateFrom', IsDateFrom);
+      IniFile.WriteBool(cSection, sTemplate+'IsDateTo', IsDateTo);
+      IniFile.WriteBool(cSection, sTemplate+'IsTimeFrom', IsTimeFrom);
+      IniFile.WriteBool(cSection, sTemplate+'IsTimeTo', IsTimeTo);
+      if IsDateFrom or IsTimeFrom then
+        IniFile.WriteDateTime(cSection, sTemplate+'DateTimeFrom', DateTimeFrom);
+      if IsDateTo or IsTimeTo then
+        IniFile.WriteDateTime(cSection, sTemplate+'DateTimeTo', DateTimeTo);
       // not older than
-      IniFile.WriteBool(cSection, sTemplate+'IsNotOlderThan', Templates[I].IsNotOlderThan);
-      if Templates[I].IsNotOlderThan then
-        IniFile.WriteFloat(cSection, sTemplate+'NotOlderThan', Templates[I].NotOlderThan);
+      IniFile.WriteBool(cSection, sTemplate+'IsNotOlderThan', IsNotOlderThan);
+      if IsNotOlderThan then
+      begin
+        FloatNotOlderThan := Double(NotOlderThan) + Double(Integer(NotOlderThanUnit) - 1) / 10;
+        IniFile.WriteFloat(cSection, sTemplate+'NotOlderThan', FloatNotOlderThan);
+      end;
       // file size
-      IniFile.WriteBool(cSection, sTemplate+'IsFileSizeFrom', rIsFileSizeFrom);
-      IniFile.WriteBool(cSection, sTemplate+'IsFileSizeTo', rIsFileSizeTo);
-      if rIsFileSizeFrom then
-        IniFile.WriteInteger(cSection, sTemplate+'FileSizeFrom', rFileSizeFrom);
-      if rIsFileSizeTo then
-        IniFile.WriteInteger(cSection, sTemplate+'FileSizeTo', rFileSizeTo);
+      IniFile.WriteBool(cSection, sTemplate+'IsFileSizeFrom', IsFileSizeFrom);
+      IniFile.WriteBool(cSection, sTemplate+'IsFileSizeTo', IsFileSizeTo);
+      if IsFileSizeFrom then
+        IniFile.WriteInteger(cSection, sTemplate+'FileSizeFrom', FileSizeFrom);
+      if IsFileSizeTo then
+        IniFile.WriteInteger(cSection, sTemplate+'FileSizeTo', FileSizeTo);
       // find text
-      IniFile.WriteBool(cSection, sTemplate+'IsNoThisText', rIsNoThisText);
-      IniFile.WriteBool(cSection, sTemplate+'FindInFiles', rFindInFiles);
-      if rFindInFiles then
-        IniFile.WriteString(cSection, sTemplate+'FindData', StrPas(rFindData));
+      IniFile.WriteBool(cSection, sTemplate+'IsNoThisText', NotContainingText);
+      IniFile.WriteBool(cSection, sTemplate+'FindInFiles', IsFindText);
+      if IsFindText then
+        IniFile.WriteString(cSection, sTemplate+'FindData', FindText);
       // replace text
-      IniFile.WriteBool(cSection, sTemplate+'ReplaceInFiles', rReplaceInFiles);
-      if rReplaceInFiles then
-        IniFile.WriteString(cSection, sTemplate+'ReplaceData', StrPas(rReplaceData));
+      IniFile.WriteBool(cSection, sTemplate+'ReplaceInFiles', IsReplaceText);
+      if IsReplaceText then
+        IniFile.WriteString(cSection, sTemplate+'ReplaceData', ReplaceText);
     end;
 end;
 
 procedure TSearchTemplateList.SaveToXml(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   I: Integer;
-  sTemplate: String;
   SubNode: TXmlNode;
 begin
   ANode := AConfig.FindNode(ANode, cSection, True);
@@ -450,40 +370,47 @@ begin
     begin
       SubNode := AConfig.AddNode(ANode, 'Template');
       AConfig.AddValue(SubNode, 'Name', Templates[I].TemplateName);
-      AConfig.AddValue(SubNode, 'StartPath', Templates[I].StartPath);
-      AConfig.AddValue(SubNode, 'FileMask', StrPas(rFileMask));
-      AConfig.AddValue(SubNode, 'Attributes', rAttributes);
-      AConfig.AddValue(SubNode, 'AttribStr', StrPas(rAttribStr));
+      AConfig.AddValue(SubNode, 'StartPath', StartPath);
+      AConfig.AddValue(SubNode, 'FilesMasks', FilesMasks);
+      AConfig.AddValue(SubNode, 'SearchDepth', SearchDepth);
+      AConfig.AddValue(SubNode, 'RegExp', RegExp);
+      AConfig.AddValue(SubNode, 'AttributesPattern', AttributesPattern);
       // date/time
-      AConfig.AddValue(SubNode, 'CaseSens', rCaseSens);
-      AConfig.AddValue(SubNode, 'IsDateFrom', rIsDateFrom);
-      AConfig.AddValue(SubNode, 'IsDateTo', rIsDateTo);
-      AConfig.AddValue(SubNode, 'IsTimeFrom', rIsTimeFrom);
-      AConfig.AddValue(SubNode, 'IsTimeTo', rIsTimeTo);
-      if rIsDateFrom or rIsTimeFrom then
-        AConfig.AddValue(SubNode, 'DateTimeFrom', rDateTimeFrom);
-      if rIsDateTo or rIsTimeTo then
-        AConfig.AddValue(SubNode, 'DateTimeTo', rDateTimeTo);
+      AConfig.AddValue(SubNode, 'IsDateFrom', IsDateFrom);
+      AConfig.AddValue(SubNode, 'IsDateTo', IsDateTo);
+      AConfig.AddValue(SubNode, 'IsTimeFrom', IsTimeFrom);
+      AConfig.AddValue(SubNode, 'IsTimeTo', IsTimeTo);
+      if IsDateFrom or IsTimeFrom then
+        AConfig.AddValue(SubNode, 'DateTimeFrom', DateTimeFrom);
+      if IsDateTo or IsTimeTo then
+        AConfig.AddValue(SubNode, 'DateTimeTo', DateTimeTo);
       // not older than
-      AConfig.AddValue(SubNode, 'IsNotOlderThan', Templates[I].IsNotOlderThan);
-      if Templates[I].IsNotOlderThan then
-        AConfig.AddValue(SubNode, 'NotOlderThan', Templates[I].NotOlderThan);
+      AConfig.AddValue(SubNode, 'IsNotOlderThan', IsNotOlderThan);
+      if IsNotOlderThan then
+      begin
+        AConfig.AddValue(SubNode, 'NotOlderThan', NotOlderThan);
+        AConfig.AddValue(SubNode, 'NotOlderThanUnit', Integer(NotOlderThanUnit));
+      end;
       // file size
-      AConfig.AddValue(SubNode, 'IsFileSizeFrom', rIsFileSizeFrom);
-      AConfig.AddValue(SubNode, 'IsFileSizeTo', rIsFileSizeTo);
-      if rIsFileSizeFrom then
-        AConfig.AddValue(SubNode, 'FileSizeFrom', rFileSizeFrom);
-      if rIsFileSizeTo then
-        AConfig.AddValue(SubNode, 'FileSizeTo', rFileSizeTo);
+      AConfig.AddValue(SubNode, 'IsFileSizeFrom', IsFileSizeFrom);
+      AConfig.AddValue(SubNode, 'IsFileSizeTo', IsFileSizeTo);
+      if IsFileSizeFrom then
+        AConfig.AddValue(SubNode, 'FileSizeFrom', FileSizeFrom);
+      if IsFileSizeTo then
+        AConfig.AddValue(SubNode, 'FileSizeTo', FileSizeTo);
+      AConfig.AddValue(SubNode, 'FileSizeUnit', Integer(FileSizeUnit));
       // find text
-      AConfig.AddValue(SubNode, 'IsNoThisText', rIsNoThisText);
-      AConfig.AddValue(SubNode, 'FindInFiles', rFindInFiles);
-      if rFindInFiles then
-        AConfig.AddValue(SubNode, 'FindData', StrPas(rFindData));
+      AConfig.AddValue(SubNode, 'IsFindText', IsFindText);
+      if IsFindText then
+        AConfig.AddValue(SubNode, 'FindText', FindText);
       // replace text
-      AConfig.AddValue(SubNode, 'ReplaceInFiles', rReplaceInFiles);
-      if rReplaceInFiles then
-        AConfig.AddValue(SubNode, 'ReplaceData', StrPas(rReplaceData));
+      AConfig.AddValue(SubNode, 'IsReplaceText', IsReplaceText);
+      if IsReplaceText then
+        AConfig.AddValue(SubNode, 'ReplaceText', ReplaceText);
+      AConfig.AddValue(SubNode, 'CaseSensitive', CaseSensitive);
+      AConfig.AddValue(SubNode, 'NotContainingText', NotContainingText);
+      AConfig.AddValue(SubNode, 'TextEncoding', TextEncoding);
+      AConfig.AddValue(SubNode, 'SearchPlugin', SearchPlugin);
     end;
 end;
 
