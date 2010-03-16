@@ -3,9 +3,9 @@
    -------------------------------------------------------------------------
    (DSX) Search plugin API implementation.
    DSX - Double commander Search eXtentions.
-   
+
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
-   
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
@@ -22,10 +22,10 @@
 
 }
 
-
-unit udsxmodule; 
+unit uDsxModule;
 
 {$mode objfpc}{$H+}
+
 interface
 
 uses
@@ -34,84 +34,84 @@ uses
 
 type
 
+  {Prototypes}
+  {Mandatory (must be implemented)}
+  TSInit = function(dps: pDSXDefaultParamStruct; pAddFileProc: TSAddFileProc;
+    pUpdateStatus: TSUpdateStatusProc): integer; stdcall;
+  TSStartSearch = procedure(PluginNr: integer; StartPath: PChar;
+    SearchRec: TDsxSearchRecord); stdcall;
+  TSStopSearch = procedure(PluginNr: integer); stdcall;
+  TSFinalize = procedure(PluginNr: integer); stdcall;
 
-{Prototypes}
-{Mandatory (must be implemented)}
-TSInit=function (dps:pDSXDefaultParamStruct; pAddFileProc:TSAddFileProc; pUpdateStatus:TSUpdateStatusProc):integer; stdcall;
-TSStartSearch= procedure(PluginNr:integer; StartPath:pchar; SearchAttrRec:TSearchAttrRecord); stdcall;
-TSStopSearch=procedure (PluginNr:integer); stdcall;
-TSFinalize=procedure (PluginNr:integer); stdcall;
 
+  { TDsxModule }
 
-{ TDsxModule }
+  TDsxModule = class
+  protected
+    SStartSearch: TSStartSearch;
+    SStopSearch: TSStopSearch;
+    SAddFileProc: TSAddFileProc;
+    SUpdateStatusProc: TSUpdateStatusProc;
+    SInit: TSInit;
+    SFinalize: TSFinalize;
+  private
+    FPluginNr: integer;
+    FModuleHandle: TLibHandle;  // Handle to .DLL or .so
+    function GIsLoaded: boolean;
+  public
+    Name: string;
+    FileName: string;
+    Descr: string;
+    //---------------------
+    constructor Create;
+    destructor Destroy; override;
+    //---------------------
+    function LoadModule: boolean;
+    procedure UnloadModule;
+    //---------------------
+    function CallInit(pAddFileProc: TSAddFileProc; pUpdateStatus: TSUpdateStatusProc): integer;
+    procedure CallStartSearch(StartPath: PChar; SearchRec: TDsxSearchRecord);
+    procedure CallStopSearch;
+    procedure CallFinalize;
+    //---------------------
+    property IsLoaded: boolean read GIsLoaded;
+    property ModuleHandle: TLibHandle read FModuleHandle write FModuleHandle;
+  end;
 
-TDsxModule=class
-      protected
-        SStartSearch:TSStartSearch;
-        SStopSearch:TSStopSearch;
-        SAddFileProc:TSAddFileProc;
-        SUpdateStatusProc:TSUpdateStatusProc;
-        SInit:TSInit;
-        SFinalize:TSFinalize;
-      private
-        FPluginNr:integer;
-        FModuleHandle:TLibHandle;  // Handle to .DLL or .so
-        function GIsLoaded:boolean;
-      public
-        Name:string;
-        FileName:string;
-        Descr:string;
-        //---------------------
-        constructor Create;
-        destructor Destroy; override;
-        //---------------------
-        function LoadModule:Boolean;
-        procedure UnloadModule;
-        //---------------------
-        function CallInit(pAddFileProc:TSAddFileProc; pUpdateStatus:TSUpdateStatusProc):integer;
-        procedure CallStartSearch(StartPath:pchar; SearchAttrRec:TSearchAttrRecord);
-        procedure CallStopSearch;
-        procedure CallFinalize;
-        //---------------------
-        property IsLoaded:boolean read GIsLoaded;
-        property ModuleHandle:TLibHandle read FModuleHandle write FModuleHandle;
-      end;
-      
-     { TDSXModuleList }
+  { TDSXModuleList }
 
-     TDSXModuleList = class
-      private
-        Flist:TStringList;
-        function GetCount:integer;
-      public
-        //---------------------
-        constructor Create;
-        destructor Destroy; override;
-        //---------------------
-        procedure Clear;
-        procedure Load(Ini:TIniFileEx); overload;
-        procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
-        procedure Save(Ini:TIniFileEx); overload;
-        procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
-        procedure DeleteItem(Index: integer);
-        //---------------------
-        function Add(Item:TDSXModule):integer;overload;
-        function Add(FileName:string):integer;overload;
-        function Add(AName,FileName,Descr:string):integer;overload;
-        //---------------------
-        procedure Assign(OtherList: TDSXModuleList);
-        //---------------------
-        function IsLoaded(AName:String):Boolean;overload;
-        function IsLoaded(Index: integer):Boolean;overload;
-        function LoadModule(AName:String):Boolean; overload;
-        function LoadModule(Index: integer): Boolean; overload;
-        //---------------------
-        function GetDSXModule(Index:integer):TDSXModule;overload;
-        function GetDSXModule(AName:string):TDSXModule;overload;
-        //---------------------
-        property Count:integer read GetCount;
-      end;
-
+  TDSXModuleList = class
+  private
+    Flist: TStringList;
+    function GetCount: integer;
+  public
+    //---------------------
+    constructor Create;
+    destructor Destroy; override;
+    //---------------------
+    procedure Clear;
+    procedure Load(Ini: TIniFileEx); overload;
+    procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
+    procedure Save(Ini: TIniFileEx); overload;
+    procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
+    procedure DeleteItem(Index: integer);
+    //---------------------
+    function Add(Item: TDSXModule): integer; overload;
+    function Add(FileName: string): integer; overload;
+    function Add(AName, FileName, Descr: string): integer; overload;
+    //---------------------
+    procedure Assign(OtherList: TDSXModuleList);
+    //---------------------
+    function IsLoaded(AName: string): boolean; overload;
+    function IsLoaded(Index: integer): boolean; overload;
+    function LoadModule(AName: string): boolean; overload;
+    function LoadModule(Index: integer): boolean; overload;
+    //---------------------
+    function GetDSXModule(Index: integer): TDSXModule; overload;
+    function GetDSXModule(AName: string): TDSXModule; overload;
+    //---------------------
+    property Count: integer read GetCount;
+  end;
 
 
 implementation
@@ -126,83 +126,85 @@ const
 
 function TDsxModule.GIsLoaded: boolean;
 begin
-  Result:=FModuleHandle<>0;
+  Result := FModuleHandle <> 0;
 end;
 
 constructor TDsxModule.Create;
 begin
-
+  FModuleHandle := 0;
+  inherited Create;
 end;
 
 destructor TDsxModule.Destroy;
 begin
-  if GIsLoaded then UnloadModule;
+  if GIsLoaded then
+    UnloadModule;
   inherited Destroy;
 end;
 
-function TDsxModule.LoadModule: Boolean;
+function TDsxModule.LoadModule: boolean;
 begin
   FModuleHandle := mbLoadLibrary(Self.FileName);
   Result := (FModuleHandle <> 0);
-  if  FModuleHandle = 0 then exit;
+  if FModuleHandle = 0 then
+    exit;
 
-  SStopSearch:=TSStopSearch(GetProcAddress(FModuleHandle,'StopSearch'));
-  SStartSearch:=TSStartSearch(GetProcAddress(FModuleHandle,'StartSearch'));
-  SInit:=TSInit(GetProcAddress(FModuleHandle,'Init'));
-  SFinalize:=TSFinalize(GetProcAddress(FModuleHandle,'Finalize'));
-  
+  SStopSearch := TSStopSearch(GetProcAddress(FModuleHandle, 'StopSearch'));
+  SStartSearch := TSStartSearch(GetProcAddress(FModuleHandle, 'StartSearch'));
+  SInit := TSInit(GetProcAddress(FModuleHandle, 'Init'));
+  SFinalize := TSFinalize(GetProcAddress(FModuleHandle, 'Finalize'));
 end;
 
 procedure TDsxModule.UnloadModule;
 begin
-  if Assigned(SFinalize) then  SFinalize(FPluginNr);
-     
-  if FModuleHandle <> 0 then
-      FreeLibrary(FModuleHandle);
-    FModuleHandle := 0;
+  if Assigned(SFinalize) then
+    SFinalize(FPluginNr);
 
-    SStartSearch:=nil;
-    SStopSearch:=nil;
-    SInit:=nil;
-    SFinalize:=nil;
+  if FModuleHandle <> 0 then
+    FreeLibrary(FModuleHandle);
+  FModuleHandle := 0;
+
+  SStartSearch := nil;
+  SStopSearch := nil;
+  SInit := nil;
+  SFinalize := nil;
 end;
 
-function TDsxModule.CallInit(pAddFileProc: TSAddFileProc;
-  pUpdateStatus: TSUpdateStatusProc):integer;
-var dps:pDSXDefaultParamStruct;
+function TDsxModule.CallInit(pAddFileProc: TSAddFileProc; pUpdateStatus: TSUpdateStatusProc): integer;
+var
+  dps: pDSXDefaultParamStruct;
 begin
   if Assigned(SInit) then
-    begin
-      GetMem(dps,SizeOf(tDSXDefaultParamStruct));
-      dps^.DefaultIniName:=gpCfgDir + DsxIniFileName;
-      dps^.PluginInterfaceVersionHi:=0;
-      dps^.PluginInterfaceVersionLow:=10;
-      dps^.size:=SizeOf(tDSXDefaultParamStruct);
-      FPluginNr:=Sinit(dps,pAddFileProc,pUpdateStatus);
-      Result:=FPluginNr;
-      FreeMem(dps,SizeOf(tDSXDefaultParamStruct));
-    end;
+  begin
+    GetMem(dps, SizeOf(tDSXDefaultParamStruct));
+    dps^.DefaultIniName := gpCfgDir + DsxIniFileName;
+    dps^.PluginInterfaceVersionHi := 0;
+    dps^.PluginInterfaceVersionLow := 10;
+    dps^.size := SizeOf(tDSXDefaultParamStruct);
+    FPluginNr := Sinit(dps, pAddFileProc, pUpdateStatus);
+    Result := FPluginNr;
+    FreeMem(dps, SizeOf(tDSXDefaultParamStruct));
+  end;
 end;
 
-procedure TDsxModule.CallStartSearch(StartPath: pchar;
-  SearchAttrRec: TSearchAttrRecord);
+procedure TDsxModule.CallStartSearch(StartPath: PChar; SearchRec: TDsxSearchRecord);
 begin
   if Assigned(SStartSearch) then
-    begin
-      SStartSearch(FPluginNr,StartPath,SearchAttrRec);
-    end;
+  begin
+    SStartSearch(FPluginNr, StartPath, SearchRec);
+  end;
 end;
 
 procedure TDsxModule.CallStopSearch;
 begin
   if Assigned(SStopSearch) then
-     SStopSearch(FPluginNr);
+    SStopSearch(FPluginNr);
 end;
 
 procedure TDsxModule.CallFinalize;
 begin
   if Assigned(SFinalize) then
-     SFinalize(FPluginNr);
+    SFinalize(FPluginNr);
 end;
 
 { TDSXModuleList }
@@ -210,13 +212,14 @@ end;
 function TDSXModuleList.GetCount: integer;
 begin
   if Assigned(Flist) then
-  Result:=Flist.Count
- else Result:=0;
+    Result := Flist.Count
+  else
+    Result := 0;
 end;
 
 constructor TDSXModuleList.Create;
 begin
-Flist:=TStringList.Create;
+  Flist := TStringList.Create;
 end;
 
 destructor TDSXModuleList.Destroy;
@@ -229,30 +232,33 @@ end;
 
 procedure TDSXModuleList.Clear;
 begin
-  while Flist.Count>0 do
-   begin
-     TDSXModule(Flist.Objects[0]).Free;
-     Flist.Delete(0);
-   end;
-
+  while Flist.Count > 0 do
+  begin
+    TDSXModule(Flist.Objects[0]).Free;
+    Flist.Delete(0);
+  end;
 end;
 
 procedure TDSXModuleList.Load(Ini: TIniFileEx);
-var xCount,I:integer;
-    tmp:string;
+var
+  xCount, I: integer;
+  tmp: string;
 begin
   Self.Clear;
-  xCount:=Ini.ReadInteger('Search Plugins','PluginCount',0);
-  if xCount=0 then Exit;
+  xCount := Ini.ReadInteger('Search Plugins', 'PluginCount', 0);
+  if xCount = 0 then
+    Exit;
 
-  For i:=0 to xCount-1 do
-    begin
-      tmp:=Ini.ReadString('Search Plugins','Plugin'+IntToStr(I+1)+'Name','');
-      Flist.AddObject(UpCase(tmp),TDSXModule.Create);
-      TDSXModule(Flist.Objects[I]).Name:=tmp;
-      TDSXModule(Flist.Objects[I]).Descr:=Ini.ReadString('Search Plugins','Plugin'+IntToStr(I+1)+'Description','');
-      TDSXModule(Flist.Objects[I]).FileName:=GetCmdDirFromEnvVar(Ini.ReadString('Search Plugins','Plugin'+IntToStr(I+1)+'Path',''));
-    end;
+  for i := 0 to xCount - 1 do
+  begin
+    tmp := Ini.ReadString('Search Plugins', 'Plugin' + IntToStr(I + 1) + 'Name', '');
+    Flist.AddObject(UpCase(tmp), TDSXModule.Create);
+    TDSXModule(Flist.Objects[I]).Name := tmp;
+    TDSXModule(Flist.Objects[I]).Descr :=
+      Ini.ReadString('Search Plugins', 'Plugin' + IntToStr(I + 1) + 'Description', '');
+    TDSXModule(Flist.Objects[I]).FileName :=
+      GetCmdDirFromEnvVar(Ini.ReadString('Search Plugins', 'Plugin' + IntToStr(I + 1) + 'Path', ''));
+  end;
 end;
 
 procedure TDSXModuleList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -288,17 +294,21 @@ begin
 end;
 
 procedure TDSXModuleList.Save(Ini: TIniFileEx);
-var i:integer;
+var
+  i: integer;
 begin
- Ini.EraseSection('Search Plugins');
- Ini.WriteInteger('Search Plugins','PluginCount',Flist.Count);
-  For i:=0 to Flist.Count-1 do
-    begin
-      Ini.WriteString('Search Plugins','Plugin'+IntToStr(I+1)+'Name',TDSXModule(Flist.Objects[I]).Name);
-      Ini.WriteString('Search Plugins','Plugin'+IntToStr(I+1)+'Description',TDSXModule(Flist.Objects[I]).Descr);
-      Ini.WriteString('Search Plugins','Plugin'+IntToStr(I+1)+'Path',SetCmdDirAsEnvVar(TDSXModule(Flist.Objects[I]).FileName));
-    end;
- end;
+  Ini.EraseSection('Search Plugins');
+  Ini.WriteInteger('Search Plugins', 'PluginCount', Flist.Count);
+  for i := 0 to Flist.Count - 1 do
+  begin
+    Ini.WriteString('Search Plugins', 'Plugin' + IntToStr(I + 1) + 'Name',
+      TDSXModule(Flist.Objects[I]).Name);
+    Ini.WriteString('Search Plugins', 'Plugin' + IntToStr(I + 1) +
+      'Description', TDSXModule(Flist.Objects[I]).Descr);
+    Ini.WriteString('Search Plugins', 'Plugin' + IntToStr(I + 1) + 'Path',
+      SetCmdDirAsEnvVar(TDSXModule(Flist.Objects[I]).FileName));
+  end;
+end;
 
 procedure TDSXModuleList.Save(AConfig: TXmlConfig; ANode: TXmlNode);
 var
@@ -309,45 +319,46 @@ begin
   AConfig.ClearNode(ANode);
 
   for i := 0 to Flist.Count - 1 do
-    begin
-      SubNode := AConfig.AddNode(ANode, 'DsxPlugin');
-      AConfig.AddValue(SubNode, 'Name', TDSXModule(Flist.Objects[I]).Name);
-      AConfig.AddValue(SubNode, 'Path', SetCmdDirAsEnvVar(TDSXModule(Flist.Objects[I]).FileName));
-      AConfig.AddValue(SubNode, 'Description', TDSXModule(Flist.Objects[I]).Descr);
-    end;
+  begin
+    SubNode := AConfig.AddNode(ANode, 'DsxPlugin');
+    AConfig.AddValue(SubNode, 'Name', TDSXModule(Flist.Objects[I]).Name);
+    AConfig.AddValue(SubNode, 'Path', SetCmdDirAsEnvVar(TDSXModule(Flist.Objects[I]).FileName));
+    AConfig.AddValue(SubNode, 'Description', TDSXModule(Flist.Objects[I]).Descr);
+  end;
 end;
 
 procedure TDSXModuleList.DeleteItem(Index: integer);
 begin
-  if (Index>-1) and (Index<Flist.Count) then
-   begin
+  if (Index > -1) and (Index < Flist.Count) then
+  begin
     TDSXModule(Flist.Objects[Index]).Free;
     Flist.Delete(Index);
-   end;
+  end;
 end;
 
 function TDSXModuleList.Add(Item: TDSXModule): integer;
 begin
-  Result:=Flist.AddObject(UpCase(item.Name),Item);
+  Result := Flist.AddObject(UpCase(item.Name), Item);
 end;
 
 function TDSXModuleList.Add(FileName: string): integer;
-var s:string;
+var
+  s: string;
 begin
-    s:=ExtractFileName(FileName);
-    if pos('.',s)>0 then
-      delete(s,pos('.',s),length(s));
-    Result:=Flist.AddObject(UpCase(s),TDSXModule.Create);
-    TDSXModule(Flist.Objects[Result]).Name:=s;
-    TDSXModule(Flist.Objects[Result]).FileName:=FileName;
+  s := ExtractFileName(FileName);
+  if pos('.', s) > 0 then
+    Delete(s, pos('.', s), length(s));
+  Result := Flist.AddObject(UpCase(s), TDSXModule.Create);
+  TDSXModule(Flist.Objects[Result]).Name := s;
+  TDSXModule(Flist.Objects[Result]).FileName := FileName;
 end;
 
 function TDSXModuleList.Add(AName, FileName, Descr: string): integer;
 begin
-      Result:=Flist.AddObject(UpCase(AName),TDSXModule.Create);
-      TDSXModule(Flist.Objects[Result]).Name:=AName;
-      TDSXModule(Flist.Objects[Result]).Descr:=Descr;
-      TDSXModule(Flist.Objects[Result]).FileName:=FileName;
+  Result := Flist.AddObject(UpCase(AName), TDSXModule.Create);
+  TDSXModule(Flist.Objects[Result]).Name := AName;
+  TDSXModule(Flist.Objects[Result]).Descr := Descr;
+  TDSXModule(Flist.Objects[Result]).FileName := FileName;
 end;
 
 procedure TDSXModuleList.Assign(OtherList: TDSXModuleList);
@@ -362,49 +373,55 @@ begin
   end;
 end;
 
-function TDSXModuleList.IsLoaded(AName: String): Boolean;
-var x:integer;
+function TDSXModuleList.IsLoaded(AName: string): boolean;
+var
+  x: integer;
 begin
-  x:=Flist.IndexOf(AName);
-  if x=-1 then Result:=false
+  x := Flist.IndexOf(AName);
+  if x = -1 then
+    Result := False
   else
-    begin
-      Result:=GetDSXModule(x).IsLoaded;
-    end;
+  begin
+    Result := GetDSXModule(x).IsLoaded;
+  end;
 end;
 
-function TDSXModuleList.IsLoaded(Index: integer): Boolean;
+function TDSXModuleList.IsLoaded(Index: integer): boolean;
 begin
-  Result:=GetDSXModule(Index).IsLoaded;
+  Result := GetDSXModule(Index).IsLoaded;
 end;
 
-function TDSXModuleList.LoadModule(AName: String): Boolean;
-var x:integer;
+function TDSXModuleList.LoadModule(AName: string): boolean;
+var
+  x: integer;
 begin
-  x:=Flist.IndexOf(UpCase(AName));
-  if x=-1 then Result:=false
+  x := Flist.IndexOf(UpCase(AName));
+  if x = -1 then
+    Result := False
   else
-    begin
-      Result:=GetDSXModule(x).LoadModule;
-    end;
+  begin
+    Result := GetDSXModule(x).LoadModule;
+  end;
 end;
 
-function TDSXModuleList.LoadModule(Index: integer): Boolean;
+function TDSXModuleList.LoadModule(Index: integer): boolean;
 begin
-   Result:=GetDSXModule(Index).LoadModule;
+  Result := GetDSXModule(Index).LoadModule;
 end;
 
 function TDSXModuleList.GetDSXModule(Index: integer): TDSXModule;
 begin
-  Result:=TDSXModule(Flist.Objects[Index]);
+  Result := TDSXModule(Flist.Objects[Index]);
 end;
 
 function TDSXModuleList.GetDSXModule(AName: string): TDSXModule;
-var tmp:integer;
+var
+  tmp: integer;
 begin
-  tmp:=Flist.IndexOf(upcase(AName));
-  if tmp>-1 then
-  Result:=TDSXModule(Flist.Objects[tmp]);
+  tmp := Flist.IndexOf(upcase(AName));
+  if tmp > -1 then
+    Result := TDSXModule(Flist.Objects[tmp]);
 end;
 
 end.
+

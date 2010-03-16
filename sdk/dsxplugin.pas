@@ -2,60 +2,62 @@ unit DsxPlugin;
 
 interface
 
-uses Sysutils;
+uses
+  SysUtils;
 
 type
 
-TSearchAttrRecord=record
-    rFileMask : Pchar;
-    rAttributes: Cardinal;
-    rAttribStr : Pchar;
-    rCaseSens:Boolean;
-    {Date search}
-    rIsDateFrom,
-    rIsDateTo : Boolean;
-    rDateTimeFrom,
-    rDateTimeTo : TDateTime;
-    {Time search}
-    rIsTimeFrom,
-    rIsTimeTo : Boolean;
-    (* File size search *)
-    rIsFileSizeFrom,
-    rIsFileSizeTo : Boolean;
-    rFileSizeFrom,
-    rFileSizeTo : Int64;
-    (* Find text *)
-    rIsNoThisText,
-    rFindInFiles:Boolean;
-    rFindData:Pchar;
-    (* Replace text *)
-    rReplaceInFiles : Boolean;
-    rReplaceData : Pchar;
-end;
+  TDsxSearchRecord = record
+    FileMask: array[0..1024] of AnsiChar;
+    Attributes: Cardinal;
+    AttribStr: array[0..32] of AnsiChar;
+    CaseSensitive: Boolean;
+    { Date/time search }
+    IsDateFrom,
+    IsDateTo,
+    IsTimeFrom,
+    IsTimeTo: Boolean;
+    DateTimeFrom,
+    DateTimeTo: TDateTime;
+    { File size search }
+    IsFileSizeFrom,
+    IsFileSizeTo: Boolean;
+    FileSizeFrom,
+    FileSizeTo: Int64;
+    { Find/replace text }
+    IsFindText: Boolean;
+    FindText: array[0..1024] of AnsiChar;
+    IsReplaceText: Boolean;
+    ReplaceText: array[0..1024] of AnsiChar;
+    NotContainingText: Boolean;
+  end;
 
 
-  tDSXDefaultParamStruct=record
+  tDSXDefaultParamStruct = record
     size,
     PluginInterfaceVersionLow,
-    PluginInterfaceVersionHi:longint;
-    DefaultIniName:array[0..MAX_PATH-1] of char;
+    PluginInterfaceVersionHi: Longint;
+    DefaultIniName: array[0..MAX_PATH - 1] of Char;
   end;
-  pDSXDefaultParamStruct=^tDSXDefaultParamStruct;
+  pDSXDefaultParamStruct = ^tDSXDefaultParamStruct;
 
-{Prototypes}
-{Callbacks procs}
-TSAddFileProc=procedure (PlugNr:integer; FoundFile:pchar); stdcall; //if FoundFile='' then searching is finished
+  {Prototypes}
+  {Callbacks procs}
+  TSAddFileProc = procedure(PlugNr: Integer; FoundFile: PChar); Stdcall;
+  //if FoundFile='' then searching is finished
 
-TSUpdateStatusProc=procedure (PlugNr:integer; CurrentFile:pchar; FilesScaned:integer); stdcall;
+  TSUpdateStatusProc = procedure(PlugNr: Integer; CurrentFile: PChar;
+    FilesScaned: Integer); Stdcall;
 
-{Mandatory (must be implemented)}
-{
-function Init(dps:pDSXDefaultParamStruct; pAddFileProc:TSAddFileProc; pUpdateStatus:TSUpdateStatusProc):integer; stdcall;
-procedure StartSearch(FPluginNr:integer; StartPath:pchar; SearchAttrRec:TSearchAttrRecord); stdcall;
-procedure StopSearch(FPluginNr:integer); stdcall;
-procedure Finalize(FPluginNr:integer); stdcall;
-}
+  {Mandatory (must be implemented)}
+  {
+  function Init(dps:pDSXDefaultParamStruct; pAddFileProc:TSAddFileProc; pUpdateStatus:TSUpdateStatusProc):integer; stdcall;
+  procedure StartSearch(FPluginNr:integer; StartPath:pchar; SearchAttrRec:TSearchAttrRecord); stdcall;
+  procedure StopSearch(FPluginNr:integer); stdcall;
+  procedure Finalize(FPluginNr:integer); stdcall;
+  }
 
 implementation
 
 end.
+
