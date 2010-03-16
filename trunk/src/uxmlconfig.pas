@@ -62,20 +62,24 @@ type
     function GetAttr(const RootNode: TDOMNode; const Path: DOMString; const ADefault: UTF8String): UTF8String;
     function GetAttr(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Boolean): Boolean;
     function GetAttr(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Integer): Integer;
+    function GetAttr(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Int64): Int64;
     function GetAttr(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Double): Double;
     function GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: UTF8String): UTF8String;
     function GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Boolean): Boolean;
     function GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Integer): Integer;
+    function GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Int64): Int64;
     function GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Double): Double;
 
     // The Try... functions return True if the attribute/node was found and only then set AValue.
     function TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: UTF8String): Boolean;
     function TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: Boolean): Boolean;
     function TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: Integer): Boolean;
+    function TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: Int64): Boolean;
     function TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: Double): Boolean;
     function TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: UTF8String): Boolean;
     function TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: Boolean): Boolean;
     function TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: Integer): Boolean;
+    function TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: Int64): Boolean;
     function TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: Double): Boolean;
 
     // ------------------------------------------------------------------------
@@ -84,16 +88,19 @@ type
     procedure AddValue(const RootNode: TDOMNode; const ValueName: DOMString; const AValue: String);
     procedure AddValue(const RootNode: TDOMNode; const ValueName: DOMString; const AValue: Boolean);
     procedure AddValue(const RootNode: TDOMNode; const ValueName: DOMString; const AValue: Integer);
+    procedure AddValue(const RootNode: TDOMNode; const ValueName: DOMString; const AValue: Int64);
     procedure AddValue(const RootNode: TDOMNode; const ValueName: DOMString; const AValue: Double);
 
     // SetValue functions can only set values for unique paths.
     procedure SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: UTF8String);
     procedure SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: Boolean);
     procedure SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: Integer);
+    procedure SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: Int64);
     procedure SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: Double);
     procedure SetValue(const RootNode: TDOMNode; const Path: DOMString; const AValue: String);
     procedure SetValue(const RootNode: TDOMNode; const Path: DOMString; const AValue: Boolean);
     procedure SetValue(const RootNode: TDOMNode; const Path: DOMString; const AValue: Integer);
+    procedure SetValue(const RootNode: TDOMNode; const Path: DOMString; const AValue: Int64);
     procedure SetValue(const RootNode: TDOMNode; const Path: DOMString; const AValue: Double);
 
     // ------------------------------------------------------------------------
@@ -193,6 +200,12 @@ begin
     Result := ADefault;
 end;
 
+function TXmlConfig.GetAttr(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Int64): Int64;
+begin
+  if not TryGetAttr(RootNode, Path, Result) then
+    Result := ADefault;
+end;
+
 function TXmlConfig.GetAttr(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Double): Double;
 begin
   if not TryGetAttr(RootNode, Path, Result) then
@@ -244,6 +257,13 @@ begin
   Result := TryGetAttr(RootNode, Path, sValue) and TryStrToInt(sValue, AValue);
 end;
 
+function TXmlConfig.TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: Int64): Boolean;
+var
+  sValue: UTF8String;
+begin
+  Result := TryGetAttr(RootNode, Path, sValue) and TryStrToInt64(sValue, AValue);
+end;
+
 function TXmlConfig.TryGetAttr(const RootNode: TDOMNode; const Path: DOMString; out AValue: Double): Boolean;
 var
   sValue: UTF8String;
@@ -278,6 +298,11 @@ end;
 function TXmlConfig.GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Integer): Integer;
 begin
   Result := StrToIntDef(GetValue(RootNode, Path, ''), ADefault);
+end;
+
+function TXmlConfig.GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Int64): Int64;
+begin
+  Result := StrToInt64Def(GetValue(RootNode, Path, ''), ADefault);
 end;
 
 function TXmlConfig.GetValue(const RootNode: TDOMNode; const Path: DOMString; const ADefault: Double): Double;
@@ -318,6 +343,13 @@ begin
   Result := TryGetValue(RootNode, Path, sValue) and TryStrToInt(sValue, AValue);
 end;
 
+function TXmlConfig.TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: Int64): Boolean;
+var
+  sValue: UTF8String;
+begin
+  Result := TryGetValue(RootNode, Path, sValue) and TryStrToInt64(sValue, AValue);
+end;
+
 function TXmlConfig.TryGetValue(const RootNode: TDOMNode; const Path: DOMString; out AValue: Double): Boolean;
 var
   sValue: UTF8String;
@@ -341,6 +373,11 @@ begin
 end;
 
 procedure TXmlConfig.AddValue(const RootNode: TDOMNode; const ValueName: DOMString; const AValue: Integer);
+begin
+  AddValue(RootNode, ValueName, IntToStr(AValue));
+end;
+
+procedure TXmlConfig.AddValue(const RootNode: TDOMNode; const ValueName: DOMString; const AValue: Int64);
 begin
   AddValue(RootNode, ValueName, IntToStr(AValue));
 end;
@@ -375,6 +412,11 @@ begin
   SetAttr(RootNode, Path, IntToStr(AValue));
 end;
 
+procedure TXmlConfig.SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: Int64);
+begin
+  SetAttr(RootNode, Path, IntToStr(AValue));
+end;
+
 procedure TXmlConfig.SetAttr(const RootNode: TDOMNode; const Path: DOMString; const AValue: Double);
 begin
   SetAttr(RootNode, Path, FloatToStr(AValue));
@@ -394,6 +436,11 @@ begin
 end;
 
 procedure TXmlConfig.SetValue(const RootNode: TDOMNode; const Path: DOMString; const AValue: Integer);
+begin
+  SetValue(RootNode, Path, IntToStr(AValue));
+end;
+
+procedure TXmlConfig.SetValue(const RootNode: TDOMNode; const Path: DOMString; const AValue: Int64);
 begin
   SetValue(RootNode, Path, IntToStr(AValue));
 end;
