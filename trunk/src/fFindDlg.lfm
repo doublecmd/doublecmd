@@ -550,9 +550,10 @@ object frmFindDlg: TfrmFindDlg
             AnchorSideLeft.Control = gbAttributes
             Left = 6
             Height = 25
-            Hint = 'Use ''-'' to off attribute and ''?'' to any'
             Top = 6
             Width = 176
+            HelpType = htKeyword
+            HelpKeyword = '/findfiles.html#attributes'
             ParentShowHint = False
             ShowHint = True
             TabOrder = 0
@@ -565,10 +566,10 @@ object frmFindDlg: TfrmFindDlg
             Left = 187
             Height = 31
             Top = 3
-            Width = 55
+            Width = 69
             AutoSize = True
             BorderSpacing.Left = 5
-            BorderSpacing.InnerBorder = 2
+            BorderSpacing.InnerBorder = 1
             Caption = '&Help'
             OnClick = btnAttrsHelpClick
             TabOrder = 1
