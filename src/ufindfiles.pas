@@ -203,7 +203,7 @@ begin
   while CurIndex <= Length(AttrPattern) do
   begin
     case AttrPattern[CurIndex] of
-      '+', ' ':
+      '+':
         begin
           Result.HaveAttrs := Result.HaveAttrs or
             SingleStrToFileAttr(Copy(AttrPattern, StartIndex, CurIndex - StartIndex));
@@ -219,6 +219,10 @@ begin
         begin
           if CurIndex = 1 then
             Result.Negated := True;
+          StartIndex := CurIndex + 1;
+        end;
+      ' ': // omit spaces
+        begin
           StartIndex := CurIndex + 1;
         end;
     end;
@@ -301,4 +305,4 @@ begin
   end;
 end;
 
-end.
+end.
