@@ -194,7 +194,7 @@ end;
 var
   Info: BaseUnix.Stat;
 begin
-  Result:= faInvalidAttributes;
+  Result:= Cardinal(-1);
   if fpLStat(FileName, @Info) >= 0 then
     Result:= Info.st_mode;
 end;
@@ -257,4 +257,4 @@ begin
 end;
 {$ENDIF}
 
-end.
+end.
