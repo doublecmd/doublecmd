@@ -431,7 +431,7 @@ end;
 function AbCopyFile(const Source, Destination: string; FailIfExists: Boolean): Boolean;
 {$IFDEF LINUX}
 var
-  DesStream, SrcStream: TFileStream;
+  DesStream, SrcStream: TFileStreamEx;
 {$ENDIF}
 begin
 {$IFDEF LINUX}
@@ -1856,4 +1856,4 @@ begin
 end;
 {$ENDIF}
 
-end.
+end.
