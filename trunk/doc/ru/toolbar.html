@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+  <title>3.2 Панель инструментов</title>
+  <link rel="STYLESHEET" type="text/css" href="doublecmd.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+
+<body>
+	<div class="SECT2">
+	  <h3>3.2 Панель инструментов</h3>
+	  <p class="FIGURE"><img title="Панель инструментов" alt="Панель инструментов" src="images/imgDC/ris3.png" width="240" height="30"/></p>
+	  <p>С ее помощью вы можете вызывать внутренние команды Double Commander, внешние программы и
+	  выполнять некоторые станартные операции. Если задержать курсор мыши над кнопкой&nbsp;&mdash;
+	  появится всплывающая подзказка.</p>
+	  
+	  <p>Получить доступ к настройкам панели можно, щелкнув правой клавишей мыши по панели и выбирав
+	  в меню пункт <span class="bold">Редактировать</span>.</p>
+	  <p class="FIGURE"><img title="Редактировать панель инструментов" alt="Редактировать панель инструментов"
+	  src="images/imgDC/ris3-1.png" width="222" height="62"/></p>
+	  
+	  <p>Откроется диалоговое окно "Настройка панели инструментов"</p>
+	  <p class="FIGURE"><img title="Настройка панели инструментов" alt="Настройка панели инструментов"
+	  src="images/imgDC/ris10.png" width="509" height="265"/></p>
+	  
+	  <p>Первая строчка указывает из какого файла Double Commander будет брать настройки для панели
+	  инструментов (структура файла аналогична таковому у TC), под ней находятся значки добавленных
+	  на панель кнопок.</p>
+	  
+	  <p><span class="italic">Добавить</span>&nbsp;&mdash; добавляет новую кнопку на панель, с пустыми
+	  параметрами.</p>
+	  <p><span class="italic">Удалить</span>&nbsp;&mdash; удаляет выбранную кнопку.</p>
+	  <p><span class="italic">Размер</span>&nbsp;&mdash; поле, в котором указывают, какого размера
+	  будут значки на панели. Лучше указывать 16 или 22 или 32, так как это размеры остальных иконок
+	  в Double Commander. Но допускаются любые цифры, размер задается в пикселях.</p>
+	  <p><span class="italic">Плоские</span>&nbsp;&mdash; делает кнопочки на панели визуально в виде
+	  кнопок или только в виде значков.</p>
+	  <p><span class="italic">Команда</span>&nbsp;&mdash; строка, в которой можно выбрать любую
+	  <a href="cmds.html">внутреннюю команду</a>, или указать свою, например для запуска приложения
+	  (команды для приложений можно брать из главного меню системы).</p>
+	  <p><span class="italic">Параметры</span>&nbsp;&mdash; в строке указывается параметр, который
+	  будет использован при выполнении команды (для каждой команды свои).</p>
+	  	  	<blockquote>
+	  		<p>Functions (without parameters they give output for all selected files):</p>
+	  		<p>&nbsp;<span class="bold">%f</span> - only filename</p>
+	  		<p>&nbsp;<span class="bold">%d</span> - only path, without trailing delimiter</p>
+	  		<p>&nbsp;<span class="bold">%p</span> - path+filename</p>
+	  		<p>&nbsp;<span class="bold">%D</span> - current path in active or chosen panel</p>
+	  		<p>Choosing panel (if not given, active panel is used):</p>
+	  		<p>&nbsp; <span class="bold">%X</span><span class="italic">[l|r|s|t]</span> - where X is function (l - left, r - right, s - source, t - target)</p>
+	  		<p>Choosing selected files (only for %f, %d, %p):</p>
+	  		<p>&nbsp; <span class="bold">%X</span><span class="italic">[
+  			  <nr>] </span>- where X is function</p>
+	  		<blockquote>
+	  			<p>             <nr> is 1..n, where n is number of selected files.</p>
+	  			<p>             If there are no selected files, currently active file is nr 1.</p>
+	  			<p>             If 
+	  				<nr> is invalid or there is no selected file by that number</p>
+	  			<p>             the result for the whole function will be empty string.</p>
+  			</blockquote>
+	  		<p>Adding prefix, postfix before or after the result string:</p>
+	  		<p>&nbsp;  <span class="bold">%X</span><span class="italic">[{
+  			  <prefix>}][{<postfix>}]</span></p>
+	  		<blockquote>
+	  			<p>If applied to multiple files, each name is prefixed/postfixed.</p>
+	  			<p>Above parameters can be combined together.</p>
+  			</blockquote>
+	  		<p>Order of params:</p>
+	  		<ul>
+	  			<li> %function</li>
+	  			<li> left or right or source or target panel (optional)</li>
+	  			<li> nr of file (optional)</li>
+	  			<li> prefix, postfix (optional)</li>
+  			</ul>
+	  		<p>Examples:
+	  			
+  			</p>
+	  		<ul>
+	  			<li>  %f1       - first selected file in active panel
+  				</li>
+	  			<li>  %pr2      - full path of second selected file in right panel
+  				</li>
+	  			<li>  %fl       - only filenames from left panel
+  				</li>
+	  			<li>  %pr       - full filenames from right panel
+  				</li>
+	  			<li>  %Dl       - current path in left panel
+  				</li>
+	  			<li>  %f{-f }   - prepend each name with "-f "
+	  				<ul>
+	  					<li>(ex.: -f
+	  						<file_1> -f <file_2>)
+  						</li>
+  					</ul>
+  				</li>
+	  			<li>  %f{"}{"}  - enclose each name in quotes
+	  				<ul>
+	  					<li>(ex.: "<file_1>" "<file_2>")
+  						</li>
+  					</ul>
+  				</li>
+	  			<li>  %f1{-first }%f2{ -second }
+	  				<ul>
+	  					<li>        if only 1 file selected      : -first 
+	  						<file_1>
+  						</li>
+	  					<li> if 2 (or more) files selected: -first
+	  						<file_1> -second <file_2>
+  						</li>
+  					</ul>
+  				</li>
+  			</ul>
+  		</blockquote>
+	  <p><span class="italic">Путь запуска</span>&nbsp;&mdash; используется для указания полного пути
+	  к файлу программы (при необходимости).</p>
+	  <p><span class="italic">Файл значка</span>&nbsp;&mdash; в этой строке указывается путь к файлу
+	  значка, который будет использован для отображения кнопки.</p>
+	  <p><span class="italic">Значок</span>&nbsp;&mdash; показывает как будет выглядеть кнопка на
+	  панели.</p>
+	  <p><span class="italic">Подсказка</span>&nbsp;&mdash; текст, введенный в эту строку, будет
+	  отображаться при задержке указателя над значком запуска на панели.</p>
+	  <p class="FIGURE"><img title="Всплывающая подсказка" alt="Всплывающая подсказка"
+	  src="images/imgDC/ris10-3.png" width="226" height="132"/></p>
+	  
+	  <p>Чтобы вставить разделитель между значками, нужно создать новую кнопку, а в строке <span class="italic">Подсказка</span> вписать
+	   "-" (минус).</p>
+	  
+	  <p>Так же существует возможность создать выпадающее меню:</p>
+	  <p class="FIGURE"><img title="Выпадающее меню" alt="Выпадающее меню" src="images/imgDC/ris10-4.png" width="470" height="254"/></p>
+	  <p>Для этого в строке <span class="italic">Команда</span> надо выбрать <tt><a name="cm_ShowButtonMenu">
+	  cm_ShowButtonMenu</a></tt>,
+	  а в строке <span class="italic">Параметры</span> указать расположение файла, с настройками для
+	  выпадающего меню (или просто его название, если он расположен в той же папке). Структура файла
+	  выпадающего меню аналогична главному.</p>
+	</div>
+	
+	<p class="NAVBACK"><a href="help.html">Содержание</a></p>
+	
+</body>
+
+</html>

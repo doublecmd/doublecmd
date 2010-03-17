@@ -74,6 +74,7 @@ type
     lblStartPath: TLabel;
     lblToolTip: TLabel;
     procedure btnChangeButtonClick(Sender: TObject);
+    procedure btnHelpClick(Sender: TObject);
     procedure btnInsertButtonClick(Sender: TObject);
     procedure btnOpenBarFileClick(Sender: TObject);
     procedure cbCommandSelect(Sender: TObject);
@@ -114,7 +115,7 @@ type
 implementation
 
 uses
-  ActnList, LCLProc, uClassesEx, uOSForms, uPixMapManager,
+  ActnList, LCLProc, HelpIntfs, uClassesEx, uOSForms, uPixMapManager,
   uGlobsPaths, uGlobs, uDCUtils, uOSUtils;
 
 function ShowConfigToolbar(const aBarFileName: UTF8String; iButtonIndex : Integer = -1): Boolean;
@@ -251,6 +252,11 @@ begin
   Point:= Classes.Point(Left, Top + Height);
   Point:= ClientToScreen(Point);
   pmChangeButton.PopUp(Point.X, Point.Y);
+end;
+
+procedure TfrmConfigToolBar.btnHelpClick(Sender: TObject);
+begin
+  ShowHelpOrErrorForKeyword('', '/toolbar.html');
 end;
 
 procedure TfrmConfigToolBar.cbCommandSelect(Sender: TObject);

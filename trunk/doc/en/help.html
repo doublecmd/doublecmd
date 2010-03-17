@@ -30,7 +30,7 @@
 				<dt>3.1.7. <a href="#mnu_help">"Help"</a></dt>
 			  </dl>
 			</dd>
-			<dt>3.2. <a href="#iface_tools">Button toolbar</a></dt>
+			<dt>3.2. <a href="toolbar.html">Button toolbar</a></dt>
 			<dt>3.3. <a href="#iface_drive_pane">Drives button bar</a></dt>
 			<dt>3.4. <a href="#iface_drive_btn">Drives list</a></dt>
 			<dt>3.5. <a href="#iface_tabs">Tabs bar</a></dt>
@@ -692,55 +692,6 @@
 		<li><p><span class="bold">Visit Double Commander Web page</span>&nbsp;&mdash; go to project homepage if you are online</p></li>
 		<li><p><span class="bold">About</span>&nbsp;&mdash; shows information about the program version and the developers</p></li>
 	  </ul>
-	</div>
-	
-	<p class="NAVBACK"><a href="#TOC">top</a></p>
-	
-	<div class="SECT2">
-	  <h3><a name="iface_tools">3.2 Button toolbar</a></h3>
-	  <p class="FIGURE"><img title="Button toolbar" alt="Button toolbar" src="images/imgDC/pic3.png" width="240" height="30"/></p>
-
-	  <p>This provides an alternative way to call internal commands and external programs by using buttons (with popup hints).</p>
-	  
-	  <p>To edit the Button Toolbar panel just click right mouse button on it and choose item <span class="bold">Edit</span>.</p>
-	  <p class="FIGURE"><img title="Button toolbar edit" alt="Button toolbar edit"
-	  src="images/imgDC/pic3-1.png" width="222" height="62"/></p>
-
-	  <p>"Change button bar" window</p>
-	  <p class="FIGURE"><img title="Change button bar" alt="Change button bar"
-	  src="images/imgDC/pic10.png" width="509" height="295"/></p>
-
-	  <p>The first line shows where Double Commander keeps its settings for the button bar (as in TC). Below this you can see the added buttons.</p>
-	  
-	  <p><span class="italic">Append</span>&nbsp;&mdash; adds a new empty button to the bar.</p>
-	  <p><span class="italic">Delete</span>&nbsp;&mdash; deletes the button.</p>
-	  <p><span class="italic">Size</span>&nbsp;&mdash; sets the size of the buttons. Better sizes are 16, 22 or 32, but you can set any size (in pixels).</p>
-	  <p><span class="italic">Flat icons</span>&nbsp;&mdash; makes the buttons look like icons.</p>
-	  <p><span class="italic">Command</span>&nbsp;&mdash; here you can set any
-	  <a href="cmds.html">internal command</a> or specify any other command.</p>
-	  <p><span class="italic">Parameters</span>&nbsp;&mdash; sets parameter(s) for the command.</p>
-	  <p><span class="italic">Start path</span>&nbsp;&mdash; the full path to the command (if necessary).</p>
-	  <p><span class="italic">Icon file</span>&nbsp;&mdash; sets the path to the button icon.</p>
-	  <p><span class="italic">Icon</span>&nbsp;&mdash; previews the button icon.</p>
-	  <p><span class="italic">Tooltip</span>&nbsp;&mdash; hint description (tooltip) for the button on the bar.</p>
-	  <p class="FIGURE"><img title="Tooltip" alt="Tooltip"
-	  src="images/imgDC/pic10-3.png" width="236" height="112"/></p>
-
-	  <p>To create a splitter between the buttons, set a new button with <span class="italic">Tooltip</span> =
-	   "-" (minus). Just leave the other options blank.</p>
-	  
-	  <p>Also there is an ability to create a drop-down menu:</p>
-	  <p class="FIGURE"><img title="drop-down menu" alt="drop-down menu" src="images/imgDC/pic10-4.png" width="470" height="254"/></p>
-
-<!-- Sash0k: I expanded the explanation here and added another pic because I had trouble figuring out how to add
-             another menu myself using the original instructions. Hopefully I've clarified things a bit more.</p>
-
--->
-	  <p>Set <span class="italic">Command</span> to <tt><a name="cm_ShowButtonMenu">
-	  cm_ShowButtonMenu</a></tt>, and specify another .bar file with a suitable menu as <span class="italic">Parameters</span>.
-          See the 'default.bar' file located in: &nbsp;&nbsp;~/.config/doublecmd/ (Linux) &nbsp;&nbsp;C:\Documents and Settings\[user name]\Application Data\doublecmd\ (Windows) &nbsp;&nbsp;for details of the menu structure.
-          Here you can see the 'my.bar' file specified as the drop-down menu file:</p>
-	  <p class="FIGURE"><img title="button bar drop-down menu entry" alt="button bar drop-down menu entry" src="images/imgDC/pic10-4a.png" width="470" height="254"/></p>
 	</div>
 	
 	<p class="NAVBACK"><a href="#TOC">top</a></p>

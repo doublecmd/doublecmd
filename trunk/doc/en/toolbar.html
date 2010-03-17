@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+  <title>3.2 Button toolbar</title>
+  <link rel="STYLESHEET" type="text/css" href="doublecmd.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+
+<body>
+	<div class="SECT2">
+	  <h3>3.2 Button toolbar</h3>
+	  <p class="FIGURE"><img title="Button toolbar" alt="Button toolbar" src="images/imgDC/pic3.png" width="240" height="30"/></p>
+
+	  <p>This provides an alternative way to call internal commands and external programs by using buttons (with popup hints).</p>
+	  
+	  <p>To edit the Button Toolbar panel just click right mouse button on it and choose item <span class="bold">Edit</span>.</p>
+	  <p class="FIGURE"><img title="Button toolbar edit" alt="Button toolbar edit"
+	  src="images/imgDC/pic3-1.png" width="222" height="62"/></p>
+
+	  <p>"Change button bar" window</p>
+	  <p class="FIGURE"><img title="Change button bar" alt="Change button bar"
+	  src="images/imgDC/pic10.png" width="509" height="295"/></p>
+
+	  <p>The first line shows where Double Commander keeps its settings for the button bar (as in TC). Below this you can see the added buttons.</p>
+	  
+	  <p><span class="italic">Append</span>&nbsp;&mdash; adds a new empty button to the bar.</p>
+	  <p><span class="italic">Delete</span>&nbsp;&mdash; deletes the button.</p>
+	  <p><span class="italic">Size</span>&nbsp;&mdash; sets the size of the buttons. Better sizes are 16, 22 or 32, but you can set any size (in pixels).</p>
+	  <p><span class="italic">Flat icons</span>&nbsp;&mdash; makes the buttons look like icons.</p>
+	  <p><span class="italic">Command</span>&nbsp;&mdash; here you can set any
+	  <a href="cmds.html">internal command</a> or specify any other command.</p>
+	  <p><span class="italic">Parameters</span>&nbsp;&mdash; sets parameter(s) for the command:</p>
+	  	<blockquote>
+	  		<p>Functions (without parameters they give output for all selected files):</p>
+	  		<p>&nbsp;<span class="bold">%f</span> - only filename</p>
+	  		<p>&nbsp;<span class="bold">%d</span> - only path, without trailing delimiter</p>
+	  		<p>&nbsp;<span class="bold">%p</span> - path+filename</p>
+	  		<p>&nbsp;<span class="bold">%D</span> - current path in active or chosen panel</p>
+	  		<p>Choosing panel (if not given, active panel is used):</p>
+	  		<p>&nbsp; <span class="bold">%X</span><span class="italic">[l|r|s|t]</span> - where X is function (l - left, r - right, s - source, t - target)</p>
+	  		<p>Choosing selected files (only for %f, %d, %p):</p>
+	  		<p>&nbsp; <span class="bold">%X</span><span class="italic">[
+  			  <nr>] </span>- where X is function</p>
+	  		<blockquote>
+	  			<p>             <nr> is 1..n, where n is number of selected files.</p>
+	  			<p>             If there are no selected files, currently active file is nr 1.</p>
+	  			<p>             If 
+	  				<nr> is invalid or there is no selected file by that number</p>
+	  			<p>             the result for the whole function will be empty string.</p>
+  			</blockquote>
+	  		<p>Adding prefix, postfix before or after the result string:</p>
+	  		<p>&nbsp;  <span class="bold">%X</span><span class="italic">[{
+  			  <prefix>}][{<postfix>}]</span></p>
+	  		<blockquote>
+	  			<p>If applied to multiple files, each name is prefixed/postfixed.</p>
+	  			<p>Above parameters can be combined together.</p>
+  			</blockquote>
+	  		<p>Order of params:</p>
+	  		<ul>
+	  			<li> %function</li>
+	  			<li> left or right or source or target panel (optional)</li>
+	  			<li> nr of file (optional)</li>
+	  			<li> prefix, postfix (optional)</li>
+  			</ul>
+	  		<p>Examples:
+	  			
+  			</p>
+	  		<ul>
+	  			<li>  %f1       - first selected file in active panel
+  				</li>
+	  			<li>  %pr2      - full path of second selected file in right panel
+  				</li>
+	  			<li>  %fl       - only filenames from left panel
+  				</li>
+	  			<li>  %pr       - full filenames from right panel
+  				</li>
+	  			<li>  %Dl       - current path in left panel
+  				</li>
+	  			<li>  %f{-f }   - prepend each name with "-f "
+	  				<ul>
+	  					<li>(ex.: -f
+	  						<file_1> -f <file_2>)
+  						</li>
+  					</ul>
+  				</li>
+	  			<li>  %f{"}{"}  - enclose each name in quotes
+	  				<ul>
+	  					<li>(ex.: "<file_1>" "<file_2>")
+  						</li>
+  					</ul>
+  				</li>
+	  			<li>  %f1{-first }%f2{ -second }
+	  				<ul>
+	  					<li>        if only 1 file selected      : -first 
+	  						<file_1>
+  						</li>
+	  					<li> if 2 (or more) files selected: -first
+	  						<file_1> -second <file_2>
+  						</li>
+  					</ul>
+  				</li>
+  			</ul>
+  		</blockquote>
+	  	<p><span class="italic">Start path</span>&nbsp;&mdash; the full path to the command (if necessary).</p>
+	  <p><span class="italic">Icon file</span>&nbsp;&mdash; sets the path to the button icon.</p>
+	  <p><span class="italic">Icon</span>&nbsp;&mdash; previews the button icon.</p>
+	  <p><span class="italic">Tooltip</span>&nbsp;&mdash; hint description (tooltip) for the button on the bar.</p>
+	  <p class="FIGURE"><img title="Tooltip" alt="Tooltip"
+	  src="images/imgDC/pic10-3.png" width="236" height="112"/></p>
+
+	  <p>To create a splitter between the buttons, set a new button with <span class="italic">Tooltip</span> =
+	   "-" (minus). Just leave the other options blank.</p>
+	  
+	  <p>Also there is an ability to create a drop-down menu:</p>
+	  <p class="FIGURE"><img title="drop-down menu" alt="drop-down menu" src="images/imgDC/pic10-4.png" width="470" height="254"/></p>
+
+<!-- Sash0k: I expanded the explanation here and added another pic because I had trouble figuring out how to add
+             another menu myself using the original instructions. Hopefully I've clarified things a bit more.</p>
+
+-->
+	  <p>Set <span class="italic">Command</span> to <tt><a name="cm_ShowButtonMenu">
+	  cm_ShowButtonMenu</a></tt>, and specify another .bar file with a suitable menu as <span class="italic">Parameters</span>.
+          See the 'default.bar' file located in: &nbsp;&nbsp;~/.config/doublecmd/ (Linux) &nbsp;&nbsp;C:\Documents and Settings\[user name]\Application Data\doublecmd\ (Windows) &nbsp;&nbsp;for details of the menu structure.
+          Here you can see the 'my.bar' file specified as the drop-down menu file:</p>
+	  <p class="FIGURE"><img title="button bar drop-down menu entry" alt="button bar drop-down menu entry" src="images/imgDC/pic10-4a.png" width="470" height="254"/></p>
+	</div>
+	
+	<p class="NAVBACK"><a href="help.html">Content</a></p>
+	
+</body>
+
+</html>

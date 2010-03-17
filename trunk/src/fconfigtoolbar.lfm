@@ -3,7 +3,8 @@ object frmConfigToolBar: TfrmConfigToolBar
   Height = 329
   Top = 139
   Width = 631
-  HelpContext = 270
+  HelpType = htKeyword
+  HelpKeyword = '/toolbar.html'
   ActiveControl = pnlToolBarFileName
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
@@ -310,6 +311,7 @@ object frmConfigToolBar: TfrmConfigToolBar
     BorderSpacing.Top = 4
     BorderSpacing.InnerBorder = 4
     Caption = '&Help'
+    OnClick = btnHelpClick
     TabOrder = 13
   end
   object gbGroupBox: TGroupBox
