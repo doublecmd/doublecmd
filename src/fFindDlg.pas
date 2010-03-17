@@ -167,7 +167,7 @@ procedure ShowFindDlg(const sActPath:String);
 implementation
 
 uses
-  LCLProc, LCLType, LConvEncoding, StrUtils, fCalendar, fViewer, fMain,
+  LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fCalendar, fViewer, fMain,
   uLng, uGlobs, uShowForm, uOSUtils, uSearchTemplate, uDCUtils;
 
 const
@@ -358,6 +358,7 @@ end;
 
 procedure TfrmFindDlg.btnAttrsHelpClick(Sender: TObject);
 begin
+  ShowHelpOrErrorForKeyword('', edtAttrib.HelpKeyword);
 end;
 
 procedure TfrmFindDlg.btnSearchSaveClick(Sender: TObject);
@@ -916,4 +917,4 @@ initialization
 finalization
   if Assigned(frmFindDlg) then
     FreeAndNil(frmFindDlg);
-end.
+end.
