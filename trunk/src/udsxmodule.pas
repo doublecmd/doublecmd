@@ -34,16 +34,6 @@ uses
 
 type
 
-  {Prototypes}
-  {Mandatory (must be implemented)}
-  TSInit = function(dps: pDSXDefaultParamStruct; pAddFileProc: TSAddFileProc;
-    pUpdateStatus: TSUpdateStatusProc): integer; stdcall;
-  TSStartSearch = procedure(PluginNr: integer; StartPath: PChar;
-    SearchRec: TDsxSearchRecord); stdcall;
-  TSStopSearch = procedure(PluginNr: integer); stdcall;
-  TSFinalize = procedure(PluginNr: integer); stdcall;
-
-
   { TDsxModule }
 
   TDsxModule = class
@@ -70,7 +60,7 @@ type
     procedure UnloadModule;
     //---------------------
     function CallInit(pAddFileProc: TSAddFileProc; pUpdateStatus: TSUpdateStatusProc): integer;
-    procedure CallStartSearch(StartPath: PChar; SearchRec: TDsxSearchRecord);
+    procedure CallStartSearch(SearchRec: TDsxSearchRecord);
     procedure CallStopSearch;
     procedure CallFinalize;
     //---------------------
@@ -172,27 +162,23 @@ end;
 
 function TDsxModule.CallInit(pAddFileProc: TSAddFileProc; pUpdateStatus: TSUpdateStatusProc): integer;
 var
-  dps: pDSXDefaultParamStruct;
+  dps: TDsxDefaultParamStruct;
 begin
   if Assigned(SInit) then
   begin
-    GetMem(dps, SizeOf(tDSXDefaultParamStruct));
-    dps^.DefaultIniName := gpCfgDir + DsxIniFileName;
-    dps^.PluginInterfaceVersionHi := 0;
-    dps^.PluginInterfaceVersionLow := 10;
-    dps^.size := SizeOf(tDSXDefaultParamStruct);
-    FPluginNr := Sinit(dps, pAddFileProc, pUpdateStatus);
-    Result := FPluginNr;
-    FreeMem(dps, SizeOf(tDSXDefaultParamStruct));
+    dps.DefaultIniName := gpCfgDir + DsxIniFileName;
+    dps.PluginInterfaceVersionHi := 0;
+    dps.PluginInterfaceVersionLow := 10;
+    dps.size  := SizeOf(TDsxDefaultParamStruct);
+    FPluginNr := Sinit(@dps, pAddFileProc, pUpdateStatus);
+    Result    := FPluginNr;
   end;
 end;
 
-procedure TDsxModule.CallStartSearch(StartPath: PChar; SearchRec: TDsxSearchRecord);
+procedure TDsxModule.CallStartSearch(SearchRec: TDsxSearchRecord);
 begin
   if Assigned(SStartSearch) then
-  begin
-    SStartSearch(FPluginNr, StartPath, SearchRec);
-  end;
+    SStartSearch(FPluginNr, @SearchRec);
 end;
 
 procedure TDsxModule.CallStopSearch;
@@ -424,4 +410,4 @@ begin
 end;
 
 end.
-
+

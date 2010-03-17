@@ -501,6 +501,7 @@ begin
   begin
     FillByte(SRec, SizeOf(TDsxSearchRecord), 0);
 
+    SRec.StartPath:= Copy(StartPath, 1, SizeOf(SRec.StartPath));
     SRec.FileMask:= Copy(FilesMasks, 1, SizeOf(SRec.FileMask));
     SRec.Attributes:= faAnyFile;  // AttrStrToFileAttr?
     SRec.AttribStr:= Copy(AttributesPattern, 1, SizeOf(SRec.AttribStr));
@@ -607,7 +608,7 @@ begin
           FindOptionsToDSXSearchRec(FindOptions, sr);
           FSearchingActive := True;
           DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallInit(@SAddFileProc,@SUpdateStatusProc);
-          DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallStartSearch(PChar(edtFindPathStart.Text),sr);
+          DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallStartSearch(sr);
         end
         else
           StopSearch;

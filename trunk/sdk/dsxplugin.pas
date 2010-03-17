@@ -7,10 +7,12 @@ uses
 
 type
 
+  PDsxSearchRecord = ^TDsxSearchRecord;
   TDsxSearchRecord = record
+    StartPath: array[0..1024] of AnsiChar;
     FileMask: array[0..1024] of AnsiChar;
     Attributes: Cardinal;
-    AttribStr: array[0..32] of AnsiChar;
+    AttribStr: array[0..128] of AnsiChar;
     CaseSensitive: Boolean;
     { Date/time search }
     IsDateFrom,
@@ -33,29 +35,28 @@ type
   end;
 
 
-  tDSXDefaultParamStruct = record
-    size,
+  TDsxDefaultParamStruct = record
+    Size,
     PluginInterfaceVersionLow,
     PluginInterfaceVersionHi: Longint;
     DefaultIniName: array[0..MAX_PATH - 1] of Char;
   end;
-  pDSXDefaultParamStruct = ^tDSXDefaultParamStruct;
+  PDsxDefaultParamStruct = ^TDsxDefaultParamStruct;
 
   {Prototypes}
   {Callbacks procs}
-  TSAddFileProc = procedure(PlugNr: Integer; FoundFile: PChar); Stdcall;
+  TSAddFileProc = procedure(PluginNr: Integer; FoundFile: PChar); stdcall;
   //if FoundFile='' then searching is finished
 
-  TSUpdateStatusProc = procedure(PlugNr: Integer; CurrentFile: PChar;
-    FilesScaned: Integer); Stdcall;
+  TSUpdateStatusProc = procedure(PluginNr: Integer; CurrentFile: PChar;
+    FilesScaned: Integer); stdcall;
 
   {Mandatory (must be implemented)}
-  {
-  function Init(dps:pDSXDefaultParamStruct; pAddFileProc:TSAddFileProc; pUpdateStatus:TSUpdateStatusProc):integer; stdcall;
-  procedure StartSearch(FPluginNr:integer; StartPath:pchar; SearchAttrRec:TSearchAttrRecord); stdcall;
-  procedure StopSearch(FPluginNr:integer); stdcall;
-  procedure Finalize(FPluginNr:integer); stdcall;
-  }
+  TSInit = function(dps: PDsxDefaultParamStruct; pAddFileProc: TSAddFileProc;
+    pUpdateStatus: TSUpdateStatusProc): Integer; stdcall;
+  TSStartSearch = procedure(PluginNr: Integer; pSearchRec: PDsxSearchRecord); stdcall;
+  TSStopSearch = procedure(PluginNr: Integer); stdcall;
+  TSFinalize = procedure(PluginNr: Integer); stdcall;
 
 implementation
 
