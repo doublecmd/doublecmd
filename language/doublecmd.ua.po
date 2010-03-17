@@ -427,11 +427,11 @@ msgstr "Відміна"
 
 #: TFRMCOPYDLG.BTNOPTIONS.CAPTION
 msgid "O&ptions"
-msgstr ""
+msgstr "&Налаштування"
 
 #: TFRMCOPYDLG.BTNSAVEOPTIONS.CAPTION
 msgid "Save these options as default"
-msgstr ""
+msgstr "Зберегти ці налаштування за замовчуванням"
 
 #: TFRMCOPYDLG.CAPTION
 msgctxt "TFRMCOPYDLG.CAPTION"
@@ -440,11 +440,11 @@ msgstr "Копіювати файл(и)"
 
 #: TFRMCOPYDLG.CBCHECKFREESPACE.CAPTION
 msgid "Check free space"
-msgstr ""
+msgstr "Перевірити вільне місце"
 
 #: TFRMCOPYDLG.CBCORRECTLINKS.CAPTION
 msgid "Correct links"
-msgstr ""
+msgstr "Виправляти посилання"
 
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
 msgctxt "TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION"
@@ -453,7 +453,7 @@ msgstr "Скинути позначку \"Тільки для читання\""
 
 #: TFRMCOPYDLG.CBFOLLOWLINKS.CAPTION
 msgid "Follow links"
-msgstr ""
+msgstr "Слідувати за посиланнями"
 
 #: TFRMCOPYDLG.LBLCOPYSRC.CAPTION
 msgid "Copy %s:"
@@ -461,11 +461,11 @@ msgstr "Копіювати %s:"
 
 #: TFRMCOPYDLG.LBLDIRECTORYEXISTS.CAPTION
 msgid "When directory exists"
-msgstr ""
+msgstr "Якщо каталог існує"
 
 #: TFRMCOPYDLG.LBLFILEEXISTS.CAPTION
 msgid "When file exists"
-msgstr ""
+msgstr "Якщо файл існує"
 
 #: TFRMCOPYDLG.LBLFILETYPE.CAPTION
 msgctxt "TFRMCOPYDLG.LBLFILETYPE.CAPTION"
@@ -702,7 +702,7 @@ msgstr "Лише слова &повністю"
 #: TFRMEDITSEARCHREPLACE.GBSEARCHOPTIONS.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.GBSEARCHOPTIONS.CAPTION"
 msgid "Option"
-msgstr "Параметри"
+msgstr "Опції"
 
 #: TFRMEDITSEARCHREPLACE.LBLREPLACEWITH.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.LBLREPLACEWITH.CAPTION"
@@ -1619,7 +1619,7 @@ msgstr "Відкрити список VFS"
 #, fuzzy
 #| msgid "Options..."
 msgid "&Options..."
-msgstr "&Параметри"
+msgstr "&Налаштування"
 
 #: TFRMMAIN.ACTPACKFILES.CAPTION
 msgid "Pack files..."
@@ -2095,7 +2095,7 @@ msgstr "Створити символьне пос&илання..."
 
 #: TFRMMAIN.MITABOPTIONS.CAPTION
 msgid "Tab options"
-msgstr "Опції вкладки"
+msgstr "Налаштування вкладки"
 
 #: TFRMMAIN.MITRAYICONEXIT.CAPTION
 #, fuzzy
@@ -3948,7 +3948,6 @@ msgstr "Налаштувати колонки:"
 
 #: ulng.rsdlgbuttons
 #, fuzzy
-#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
 msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
 msgstr "&ОК;&Ні;&Так;&Відміна;&Жодного;&Додати;&Копіювати в;&Перезаписати;Пере&записати усе;Пр&опустити;Проп&устити усе;У&се;Повтор&ити;П&ерервати;"
 
