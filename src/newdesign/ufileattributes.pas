@@ -102,7 +102,7 @@ const
       (Str: 'ox'; Attr: S_IXOTH),
       (Str: 'us'; Attr: S_ISUID),
       (Str: 'gs'; Attr: S_ISGID),
-      (Str: 'vs'; Attr: S_ISVTX),
+      (Str: 'sb'; Attr: S_ISVTX),
       // File types
       (Str: 'f'; Attr: S_IFIFO),
       (Str: 'c'; Attr: S_IFCHR),
