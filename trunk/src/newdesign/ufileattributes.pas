@@ -143,7 +143,7 @@ begin
     begin
       // Octal representation.
       {$PUSH}{$R-,Q-}
-      Result := OctToDec(sAttr);
+      Exit(OctToDec(sAttr));
       {$POP}
     end
     else
@@ -159,4 +159,4 @@ begin
 end;
 
 end.
-
+
