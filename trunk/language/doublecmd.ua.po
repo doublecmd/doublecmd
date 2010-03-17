@@ -427,7 +427,7 @@ msgstr "Відміна"
 
 #: TFRMCOPYDLG.BTNOPTIONS.CAPTION
 msgid "O&ptions"
-msgstr "&Налаштування"
+msgstr "Налаштувати"
 
 #: TFRMCOPYDLG.BTNSAVEOPTIONS.CAPTION
 msgid "Save these options as default"
@@ -1619,7 +1619,7 @@ msgstr "Відкрити список VFS"
 #, fuzzy
 #| msgid "Options..."
 msgid "&Options..."
-msgstr "&Налаштування"
+msgstr "&Налаштування..."
 
 #: TFRMMAIN.ACTPACKFILES.CAPTION
 msgid "Pack files..."
