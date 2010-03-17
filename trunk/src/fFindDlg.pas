@@ -592,6 +592,8 @@ begin
     lsFoundedFiles.SetFocus;
 
   lsFoundedFiles.Items.Clear;
+
+  FSearchingActive := True;
   btnStop.Enabled:=True;
 {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
   btnStop.Default:=True;
@@ -606,7 +608,6 @@ begin
         if DSXPlugins.LoadModule(cmbPlugin.ItemIndex) then
         begin
           FindOptionsToDSXSearchRec(FindOptions, sr);
-          FSearchingActive := True;
           DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallInit(@SAddFileProc,@SUpdateStatusProc);
           DSXPlugins.GetDSXModule(cmbPlugin.ItemIndex).CallStartSearch(sr);
         end
