@@ -41,18 +41,20 @@
 	  <p><span class="italic">Параметры</span>&nbsp;&mdash; в строке указывается параметр, который
 	  будет использован при выполнении команды (для каждой команды свои).</p>
 	  	  	<blockquote>
-	  		<p>Functions (without parameters they give output for all selected files):</p>
-	  		<p>&nbsp;<span class="bold">%f</span> - only filename</p>
-	  		<p>&nbsp;<span class="bold">%d</span> - only path, without trailing delimiter</p>
-	  		<p>&nbsp;<span class="bold">%p</span> - path+filename</p>
-	  		<p>&nbsp;<span class="bold">%D</span> - current path in active or chosen panel</p>
-	  		<p>Choosing panel (if not given, active panel is used):</p>
-	  		<p>&nbsp; <span class="bold">%X</span><span class="italic">[l|r|s|t]</span> - where X is function (l - left, r - right, s - source, t - target)</p>
+	  		<p>Функции (без параметров подставляет все выделенные файлы):</p>
+	  		<p>&nbsp;<span class="bold">%f</span> - только имя файла</p>
+	  		<p>&nbsp;<span class="bold">%d</span> - только путь, без разделителя в конце</p>
+	  		<p>&nbsp;<span class="bold">%p</span> - полный путь к файлу</p>
+	  		<p>&nbsp;<span class="bold">%D</span> - текущий каталог в активной или выбранной панели</p>
+	  		<p>Выбор панели (если не задано, используется активная панель):</p>
+	  		<p>&nbsp; <span class="bold">%X</span><span class="italic">[l|r|s|t]</span> - где X функция (l - левая, r - правая, s - источник, t - получатель)</p>
 	  		<p>Choosing selected files (only for %f, %d, %p):</p>
 	  		<p>&nbsp; <span class="bold">%X</span><span class="italic">[
-  			  <nr>] </span>- where X is function</p>
+		    <nr>
+  			  ] </span>- где X функция</p>
 	  		<blockquote>
-	  			<p>             <nr> is 1..n, where n is number of selected files.</p>
+	  			<p>             <nr> 
+	  			is 1..n, где n количество выделенных файлов.</p>
 	  			<p>             If there are no selected files, currently active file is nr 1.</p>
 	  			<p>             If 
 	  				<nr> is invalid or there is no selected file by that number</p>
@@ -65,27 +67,24 @@
 	  			<p>If applied to multiple files, each name is prefixed/postfixed.</p>
 	  			<p>Above parameters can be combined together.</p>
   			</blockquote>
-	  		<p>Order of params:</p>
+	  		<p>Порядок передачи параметров::</p>
 	  		<ul>
-	  			<li> %function</li>
-	  			<li> left or right or source or target panel (optional)</li>
-	  			<li> nr of file (optional)</li>
-	  			<li> prefix, postfix (optional)</li>
+	  			<li> %функция</li>
+	  			<li> левая или правая или источник или получатель панель (необязательный)</li>
+	  			<li> число файлов (необязательный)</li>
+	  			<li> prefix, postfix (необязательный)</li>
   			</ul>
-	  		<p>Examples:
+	  		<p>Примеры:
 	  			
   			</p>
 	  		<ul>
-	  			<li>  %f1       - first selected file in active panel
+	  			<li>  %f1       - первый выделенный файл в активной панели
   				</li>
-	  			<li>  %pr2      - full path of second selected file in right panel
+	  			<li>  %pr2      - полный путь второго выделенного файла в правой панели
   				</li>
-	  			<li>  %fl       - only filenames from left panel
-  				</li>
-	  			<li>  %pr       - full filenames from right panel
-  				</li>
-	  			<li>  %Dl       - current path in left panel
-  				</li>
+	  			<li>  %fl       - только имена файлов с левой панели</li>
+	  			<li>  %pr       - полный пути для файлов с правой панели</li>
+	  			<li>  %Dl       - текущий каталог в левой панели</li>
 	  			<li>  %f{-f }   - prepend each name with "-f "
 	  				<ul>
 	  					<li>(ex.: -f
@@ -93,7 +92,7 @@
   						</li>
   					</ul>
   				</li>
-	  			<li>  %f{"}{"}  - enclose each name in quotes
+	  			<li>  %f{"}{"}  - заключить каждое имя в кавычки
 	  				<ul>
 	  					<li>(ex.: "<file_1>" "<file_2>")
   						</li>
