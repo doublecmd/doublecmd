@@ -30,141 +30,179 @@ library DSXLocate;
 uses
   Classes, SysUtils, DsxPlugin, un_process;
 
-var List:TStringList;
-    LocatePath:String;
+var
+  List: TStringList;
+  LocatePath: String;
 
 type
 
-       { TPlugInfo }
+  { TPlugInfo }
 
-       TPlugInfo = class
-         private
-          FProcess:TExProcess;
-          FAddProc:TSAddFileProc;
-          FUpdateProc:TSUpdateStatusProc;
-          FSearchAttr:TSearchAttrRecord;
-          FStartPath:String;
-          FilesScaned:integer;
-         public
-          PluginNr:integer;
-         //---------------------
-         constructor Create(Nr:integer);
-         procedure SetProcs(AddProc:TSAddFileProc; UpdateProc:TSUpdateStatusProc);
-         procedure SetDefs(SearchAttr:TSearchAttrRecord; StartPath:String);
-         destructor Destroy; override;
-         //---------------------
-         procedure Start;
-         procedure Stop;
-         procedure OnReadLn(str: string);
-       end;
+  TPlugInfo = class
+  private
+    FProcess: TExProcess;
+    FAddProc: TSAddFileProc;
+    FUpdateProc: TSUpdateStatusProc;
+    FSearchRec: TDsxSearchRecord;
+    FilesScanned: Integer;
+  public
+    PluginNr: Integer;
+    //---------------------
+    constructor Create(Nr: Integer);
+    procedure SetProcs(AddProc: TSAddFileProc; UpdateProc: TSUpdateStatusProc);
+    procedure SetDefs(pSearchRec: PDsxSearchRecord);
+    destructor Destroy; override;
+    //---------------------
+    procedure Start;
+    procedure Stop;
+    procedure OnReadLn(str: String);
+  end;
 
-constructor TPlugInfo.Create(Nr:integer);
+constructor TPlugInfo.Create(Nr: Integer);
 begin
-  PluginNr:=Nr;
+  PluginNr := Nr;
+  FProcess := nil;
 end;
 
 procedure TPlugInfo.SetProcs(AddProc: TSAddFileProc; UpdateProc: TSUpdateStatusProc);
 begin
-FAddProc:=AddProc;
-FUpdateProc:=UpdateProc;
+  FAddProc    := AddProc;
+  FUpdateProc := UpdateProc;
 end;
 
-procedure TPlugInfo.SetDefs(SearchAttr: TSearchAttrRecord; StartPath: String);
+procedure TPlugInfo.SetDefs(pSearchRec: PDsxSearchRecord);
 begin
-FSearchAttr:=SearchAttr;
-FStartPath:=StartPath;
+  FSearchRec := pSearchRec^;
 end;
-
 
 destructor TPlugInfo.Destroy;
 begin
-if Assigned(FProcess) then FreeAndNil(FProcess);
+  if Assigned(FProcess) then
+    FreeAndNil(FProcess);
   inherited Destroy;
 end;
 
 procedure TPlugInfo.Start;
+var
+  sSearch: String;
 begin
-  FilesScaned:=0;
-  FProcess:=TExProcess.Create();
-  FProcess.OnReadLn:=@OnReadLn;
-  FProcess.SetCmdLine(LocatePath+' '+string(FSearchAttr.rFileMask));
+  FilesScanned := 0;
+  if Assigned(FProcess) then
+    FreeAndNil(FProcess);
+  FProcess := TExProcess.Create;
+  FProcess.OnReadLn := @OnReadLn;
+
+  with FSearchRec do
+  begin
+    // TProcess doesn't support passing parameters other than quoted in "".
+    // Adapt this code when this changes.
+    sSearch := String(StartPath);
+    if sSearch <> '' then
+    begin
+      // Search in given start path and in subdirectories.
+      sSearch := '"' + IncludeTrailingPathDelimiter(sSearch) + String(FileMask) + '" ' +
+                 '"' + IncludeTrailingPathDelimiter(sSearch) + '*' + PathDelim + String(FileMask) + '"';
+    end
+    else
+      sSearch := '"' + String(FileMask) + '"';
+  end;
+
+  if LocatePath <> '' then
+    FProcess.SetCmdLine(LocatePath + ' ' + sSearch);
   FProcess.Execute;
 end;
 
 procedure TPlugInfo.Stop;
 begin
-  FProcess.Stop;
-  FreeAndNil(FProcess);
+  if Assigned(FProcess) then
+  begin
+    FProcess.Stop;
+    FreeAndNil(FProcess);
+  end;
 end;
 
-procedure TPlugInfo.OnReadLn(str: string);
+procedure TPlugInfo.OnReadLn(str: String);
 begin
-  FilesScaned:=FilesScaned+1;
-  FAddProc(PluginNr,PChar(str));
-  FUpdateProc(PluginNr,PChar(str),FilesScaned);
+  if str <> '' then
+    Inc(FilesScanned);
+  FAddProc(PluginNr, PChar(str));
+  FUpdateProc(PluginNr, PChar(str), FilesScanned);
 end;
 
 
 {Main --------------------------------------------------------------------------------}
 
-function Init(dps:pDSXDefaultParamStruct; pAddFileProc:TSAddFileProc; pUpdateStatus:TSUpdateStatusProc):integer; stdcall;
-var i:integer;
+function Init(dps: PDsxDefaultParamStruct; pAddFileProc: TSAddFileProc;
+  pUpdateStatus: TSUpdateStatusProc): Integer; stdcall;
+var
+  i: Integer;
 begin
-  if not assigned(List) then List:=TStringList.Create;
-  I:=List.Count;
-  List.AddObject(IntToStr(I),TPlugInfo.Create(I));
-  TPlugInfo(List.Objects[I]).SetProcs(pAddFileProc,pUpdateStatus);
+  if not assigned(List) then
+    List := TStringList.Create;
+  I := List.Count;
+  List.AddObject(IntToStr(I), TPlugInfo.Create(I));
+  TPlugInfo(List.Objects[I]).SetProcs(pAddFileProc, pUpdateStatus);
+  Result := I;
 end;
 
-procedure StartSearch(FPluginNr:integer; StartPath:pchar; SearchAttrRec:TSearchAttrRecord); stdcall;
+procedure StartSearch(FPluginNr: Integer; pSearchRecRec: PDsxSearchRecord); stdcall;
 begin
-  TPlugInfo(List.Objects[FPluginNr]).SetDefs(SearchAttrRec,string(StartPath));
+  TPlugInfo(List.Objects[FPluginNr]).SetDefs(pSearchRecRec);
   TPlugInfo(List.Objects[FPluginNr]).Start;
 end;
 
-procedure StopSearch(FPluginNr:integer); stdcall;
+procedure StopSearch(FPluginNr: Integer); stdcall;
 begin
-TPlugInfo(List.Objects[FPluginNr]).Stop;
+  TPlugInfo(List.Objects[FPluginNr]).Stop;
 end;
 
-procedure Finalize(FPluginNr:integer); stdcall;
+procedure Finalize(FPluginNr: Integer); stdcall;
 begin
-if not Assigned(List) then exit;
-if (FPluginNr>List.Count) or (FPluginNr<0) or (List.Count=0) then exit;
+  if not Assigned(List) then
+    exit;
+  if (FPluginNr > List.Count) or (FPluginNr < 0) or (List.Count = 0) then
+    exit;
 
-//Destroy PlugInfo Item №
+  //Destroy PlugInfo Item №
   TPlugInfo(List.Objects[FPluginNr]).Free;
   List.Delete(FPluginNr);
-  if List.Count=0 then
+  if List.Count = 0 then
     FreeAndNil(List);
 end;
 
-
 exports
-       Init,
-       StartSearch,
-       StopSearch,
-       Finalize;
-       
-type Tx=class
-        procedure OnReadLnWhich(str: string);
-       end;
+  Init,
+  StartSearch,
+  StopSearch,
+  Finalize;
 
-procedure Tx.OnReadLnWhich(str: string);
+type
+  Tx = class
+    procedure OnReadLnWhich(str: String);
+  end;
+
+procedure Tx.OnReadLnWhich(str: String);
 begin
-  if str<>'' then
-   begin
-     LocatePath:=str;
-     //WriteLn('PLUGIN: locate found in '+str);
-   end;
+  if str <> '' then
+  begin
+    LocatePath := str;
+    //WriteLn('PLUGIN: locate found in '+str);
+  end;
 end;
 
-var Pr:TExProcess; x:TX;
+var
+  Pr: TExProcess;
+  x:  TX;
 begin
-pr:=TExProcess.Create('which locate');
-x:=Tx.Create;
-pr.OnReadLn:=@(x.OnReadLnWhich);
-pr.Execute;
-x.free;
+  pr := TExProcess.Create('which locate');
+  x  := Tx.Create;
+  pr.OnReadLn := @x.OnReadLnWhich;
+  pr.Execute;
+  pr.Free;
+  x.Free;
+  {$IFDEF UNIX}
+  if LocatePath = '' then
+    Writeln('DSXLocate: Locate utility not found.');
+  {$ENDIF}
 end.
 
