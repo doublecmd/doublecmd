@@ -71,6 +71,7 @@ type
     miView: TMenuItem;
     miOpen: TMenuItem;
     OpenPictureDialog: TOpenPictureDialog;
+    pnlSettings: TPanel;
     pnlButtonPanel: TPanel;
     pmActions: TPopupMenu;
     pmCommands: TPopupMenu;

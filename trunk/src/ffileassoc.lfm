@@ -1,446 +1,33 @@
 object frmFileAssoc: TfrmFileAssoc
-  Left = 298
-  Height = 345
-  Top = 189
-  Width = 554
-  ActiveControl = btnAddExt
+  Left = 284
+  Height = 578
+  Top = 118
+  Width = 588
+  AutoSize = True
   Caption = 'File associations'
-  ClientHeight = 345
-  ClientWidth = 554
+  ClientHeight = 578
+  ClientWidth = 588
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   LCLVersion = '0.9.29'
-  object gbFileTypes: TGroupBox
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = Owner
-    AnchorSideRight.Control = gbExts
-    Left = 6
-    Height = 528
-    Top = 0
-    Width = 259
-    Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Left = 6
-    BorderSpacing.Right = 6
-    Caption = 'File types'
-    ClientHeight = 509
-    ClientWidth = 255
-    TabOrder = 0
-    object lbFileTypes: TListBox
-      AnchorSideLeft.Control = gbFileTypes
-      AnchorSideTop.Control = gbFileTypes
-      AnchorSideRight.Control = gbFileTypes
-      AnchorSideRight.Side = asrBottom
-      Left = 6
-      Height = 418
-      Top = 6
-      Width = 243
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Left = 6
-      BorderSpacing.Top = 6
-      BorderSpacing.Right = 6
-      ItemHeight = 20
-      OnDrawItem = lbFileTypesDrawItem
-      OnSelectionChange = lbFileTypesSelectionChange
-      Style = lbOwnerDrawFixed
-      TabOrder = 0
-      TopIndex = -1
-    end
-    object btnAddNewType: TButton
-      AnchorSideLeft.Control = lbFileTypes
-      AnchorSideLeft.Side = asrCenter
-      AnchorSideTop.Control = lbFileTypes
-      AnchorSideTop.Side = asrBottom
-      Left = 5
-      Height = 32
-      Top = 430
-      Width = 244
-      BorderSpacing.Top = 6
-      Caption = 'Add'
-      OnClick = btnAddNewTypeClick
-      TabOrder = 1
-    end
-    object btnRemoveType: TButton
-      AnchorSideLeft.Control = btnAddNewType
-      AnchorSideTop.Control = btnAddNewType
-      AnchorSideTop.Side = asrBottom
-      Left = 5
-      Height = 32
-      Top = 468
-      Width = 118
-      BorderSpacing.Top = 6
-      Caption = 'Remove'
-      OnClick = btnRemoveTypeClick
-      TabOrder = 3
-    end
-    object btnRenameType: TButton
-      AnchorSideTop.Control = btnAddNewType
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = btnAddNewType
-      AnchorSideRight.Side = asrBottom
-      Left = 131
-      Height = 32
-      Top = 468
-      Width = 118
-      Anchors = [akTop, akRight]
-      BorderSpacing.Top = 6
-      Caption = 'Rename'
-      OnClick = btnRenameTypeClick
-      TabOrder = 2
-    end
-  end
-  object gbExts: TGroupBox
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = Owner
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 271
-    Height = 135
-    Top = 0
-    Width = 273
-    Anchors = [akTop, akRight]
-    BorderSpacing.Right = 10
-    Caption = 'Extensions'
-    ClientHeight = 116
-    ClientWidth = 269
-    TabOrder = 1
-    object lbExts: TListBox
-      Left = 10
-      Height = 102
-      Top = 6
-      Width = 145
-      ItemHeight = 0
-      OnSelectionChange = lbExtsSelectionChange
-      TabOrder = 0
-      TabStop = False
-      TopIndex = -1
-    end
-    object btnAddExt: TButton
-      AnchorSideLeft.Control = lbExts
-      AnchorSideLeft.Side = asrBottom
-      Left = 161
-      Height = 32
-      Top = 6
-      Width = 100
-      BorderSpacing.Left = 6
-      Caption = 'Add'
-      OnClick = btnAddExtClick
-      TabOrder = 1
-    end
-    object btnRemoveExt: TButton
-      AnchorSideLeft.Control = lbExts
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = btnAddExt
-      AnchorSideTop.Side = asrBottom
-      Left = 161
-      Height = 32
-      Top = 44
-      Width = 100
-      BorderSpacing.Left = 6
-      BorderSpacing.Top = 6
-      Caption = 'Remove'
-      OnClick = btnRemoveExtClick
-      TabOrder = 2
-    end
-  end
-  object gbActions: TGroupBox
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = gbExts
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 271
-    Height = 305
-    Top = 141
-    Width = 273
-    Anchors = [akTop, akRight]
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 10
-    Caption = 'Actions'
-    ClientHeight = 286
-    ClientWidth = 269
-    TabOrder = 2
-    object lblCommand: TLabel
-      AnchorSideTop.Control = edbAction
-      AnchorSideTop.Side = asrBottom
-      Left = 10
-      Height = 18
-      Top = 228
-      Width = 82
-      BorderSpacing.Top = 6
-      Caption = '&Command:'
-      ParentColor = False
-    end
-    object btnCommands: TSpeedButton
-      AnchorSideTop.Control = fneCommand
-      AnchorSideBottom.Control = fneCommand
-      AnchorSideBottom.Side = asrBottom
-      Left = 240
-      Height = 25
-      Top = 252
-      Width = 23
-      Anchors = [akTop, akRight, akBottom]
-      Color = clBtnFace
-      Glyph.Data = {
-        36040000424D3604000000000000360000002800000010000000100000000100
-        2000000000000004000064000000640000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000
-        000000000000000000000000000000000000A46534CCA46534FFA46534FFA465
-        34CC000000000000000000000000000000000000000000000000000000000000
-        000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
-        34FF000000000000000000000000000000000000000000000000000000000000
-        000000000000000000000000000000000000A46534FFE6CEB7FFD9AD86FFA465
-        34FF000000000000000000000000000000000000000000000000000000000000
-        000000000000000000000000000000000000A46534FFE6CEB7FFD9AD86FFA465
-        34FF000000000000000000000000000000000000000000000000000000000000
-        0000A46534CCA46534FFA46534FFA46534FFA46534FFD9AD86FFD9AD86FFA465
-        34FFA46534FFA46534FFA46534FFA46534CC0000000000000000000000000000
-        0000A46534FFE5CCB4FFDBB795FFDBB694FFDAB492FFDAB390FFD9AD86FFD8AA
-        83FFD7A87FFFD7A67DFFE0BE9FFFA46534FF0000000000000000000000000000
-        0000A46534FFE8D3C0FFE7D1BBFFE7D1BCFFE6CEB7FFE6CEB7FFE6CEB7FFE6CE
-        B7FFE6CDB6FFE6CCB5FFE6CCB6FFA46534FF0000000000000000000000000000
-        0000A46534CCA46534FFA46534FFA46534FFA46534FFE6CEB7FFE6CEB7FFA465
-        34FFA46534FFA46534FFA46534FFA46534CC0000000000000000000000000000
-        000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
-        34FF000000000000000000000000000000000000000000000000000000000000
-        000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
-        34FF000000000000000000000000000000000000000000000000000000000000
-        000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
-        34FF000000000000000000000000000000000000000000000000000000000000
-        000000000000000000000000000000000000A46534CCA46534FFA46534FFA465
-        34CC000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000
-      }
-      NumGlyphs = 0
-      OnClick = btnCommandsClick
-    end
-    object lblAction: TLabel
-      AnchorSideLeft.Control = lbActions
-      AnchorSideTop.Control = lbActions
-      AnchorSideTop.Side = asrBottom
-      Left = 10
-      Height = 18
-      Top = 175
-      Width = 46
-      BorderSpacing.Top = 6
-      Caption = 'Action:'
-      ParentColor = False
-    end
-    object lbActions: TListBox
-      Left = 10
-      Height = 163
-      Top = 6
-      Width = 145
-      ItemHeight = 0
-      OnSelectionChange = lbActionsSelectionChange
-      TabOrder = 0
-      TopIndex = -1
-    end
-    object btnUpAct: TButton
-      AnchorSideLeft.Control = lbActions
-      AnchorSideLeft.Side = asrBottom
-      Left = 161
-      Height = 32
-      Top = 6
-      Width = 100
-      BorderSpacing.Left = 6
-      Caption = 'Up'
-      OnClick = btnUpActClick
-      TabOrder = 1
-    end
-    object btnDownAct: TButton
-      AnchorSideLeft.Control = lbActions
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = btnUpAct
-      AnchorSideTop.Side = asrBottom
-      Left = 161
-      Height = 32
-      Top = 44
-      Width = 100
-      BorderSpacing.Left = 6
-      BorderSpacing.Top = 6
-      Caption = 'Down'
-      OnClick = btnDownActClick
-      TabOrder = 2
-    end
-    object btnAddAct: TButton
-      AnchorSideLeft.Control = lbActions
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = btnDownAct
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Side = asrBottom
-      Left = 161
-      Height = 32
-      Top = 82
-      Width = 100
-      BorderSpacing.Left = 6
-      BorderSpacing.Top = 6
-      Caption = 'Add'
-      OnClick = btnAddActClick
-      TabOrder = 3
-    end
-    object btnRemoveAct: TButton
-      AnchorSideLeft.Control = lbActions
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = btnAddAct
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Side = asrBottom
-      Left = 161
-      Height = 32
-      Top = 120
-      Width = 100
-      BorderSpacing.Left = 6
-      BorderSpacing.Top = 6
-      Caption = 'Remove'
-      OnClick = btnRemoveActClick
-      TabOrder = 4
-    end
-    object fneCommand: TFileNameEdit
-      AnchorSideTop.Control = lblCommand
-      AnchorSideTop.Side = asrBottom
-      Left = 12
-      Height = 25
-      Top = 252
-      Width = 205
-      DialogOptions = []
-      FilterIndex = 0
-      HideDirectories = False
-      ButtonWidth = 23
-      NumGlyphs = 1
-      BorderSpacing.Top = 6
-      MaxLength = 0
-      TabOrder = 5
-      OnChange = fneCommandChange
-    end
-    object edbAction: TEditButton
-      Left = 10
-      Height = 25
-      Top = 197
-      Width = 230
-      Anchors = [akTop, akLeft, akRight]
-      ButtonWidth = 23
-      CharCase = ecNormal
-      Glyph.Data = {
-        36040000424D3604000000000000360000002800000010000000100000000100
-        2000000000000004000064000000640000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000
-        000000000000000000000000000000000000A46534CCA46534FFA46534FFA465
-        34CC000000000000000000000000000000000000000000000000000000000000
-        000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
-        34FF000000000000000000000000000000000000000000000000000000000000
-        000000000000000000000000000000000000A46534FFE6CEB7FFD9AD86FFA465
-        34FF000000000000000000000000000000000000000000000000000000000000
-        000000000000000000000000000000000000A46534FFE6CEB7FFD9AD86FFA465
-        34FF000000000000000000000000000000000000000000000000000000000000
-        0000A46534CCA46534FFA46534FFA46534FFA46534FFD9AD86FFD9AD86FFA465
-        34FFA46534FFA46534FFA46534FFA46534CC0000000000000000000000000000
-        0000A46534FFE5CCB4FFDBB795FFDBB694FFDAB492FFDAB390FFD9AD86FFD8AA
-        83FFD7A87FFFD7A67DFFE0BE9FFFA46534FF0000000000000000000000000000
-        0000A46534FFE8D3C0FFE7D1BBFFE7D1BCFFE6CEB7FFE6CEB7FFE6CEB7FFE6CE
-        B7FFE6CDB6FFE6CCB5FFE6CCB6FFA46534FF0000000000000000000000000000
-        0000A46534CCA46534FFA46534FFA46534FFA46534FFE6CEB7FFE6CEB7FFA465
-        34FFA46534FFA46534FFA46534FFA46534CC0000000000000000000000000000
-        000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
-        34FF000000000000000000000000000000000000000000000000000000000000
-        000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
-        34FF000000000000000000000000000000000000000000000000000000000000
-        000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
-        34FF000000000000000000000000000000000000000000000000000000000000
-        000000000000000000000000000000000000A46534CCA46534FFA46534FFA465
-        34CC000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000
-      }
-      MaxLength = 0
-      NumGlyphs = 1
-      OnButtonClick = btnActionsClick
-      OnChange = edtActionChange
-      TabOrder = 6
-    end
-  end
-  object gbIcon: TGroupBox
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = gbActions
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 271
-    Height = 74
-    Top = 452
-    Width = 273
-    Anchors = [akTop, akRight]
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 10
-    Caption = 'Icon'
-    ClientHeight = 55
-    ClientWidth = 269
-    TabOrder = 3
-    object sbtnIcon: TSpeedButton
-      Left = 10
-      Height = 38
-      Top = 6
-      Width = 38
-      Color = clBtnFace
-      NumGlyphs = 0
-      OnClick = sbtnIconClick
-    end
-    object btnRemoveIcon: TSpeedButton
-      AnchorSideLeft.Control = edtIconFileName
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = edtIconFileName
-      AnchorSideBottom.Control = edtIconFileName
-      AnchorSideBottom.Side = asrBottom
-      Left = 239
-      Height = 25
-      Top = 13
-      Width = 23
-      Anchors = [akTop, akLeft, akBottom]
-      Caption = 'X'
-      Color = clBtnFace
-      Font.Style = [fsBold]
-      NumGlyphs = 0
-      OnClick = btnRemoveIconClick
-      ParentFont = False
-    end
-    object edtIconFileName: TEdit
-      AnchorSideTop.Control = sbtnIcon
-      AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Side = asrBottom
-      Left = 55
-      Height = 25
-      Top = 13
-      Width = 184
-      Anchors = [akTop, akLeft, akRight]
-      TabOrder = 0
-    end
-  end
   object pnlButtonPanel: TPanel
     Left = 0
-    Height = 50
-    Top = 295
-    Width = 554
+    Height = 44
+    Top = 534
+    Width = 588
     Align = alBottom
+    AutoSize = True
     BevelInner = bvLowered
-    ClientHeight = 50
-    ClientWidth = 554
-    TabOrder = 4
+    ClientHeight = 44
+    ClientWidth = 588
+    TabOrder = 1
     object btnOK: TBitBtn
       AnchorSideTop.Control = btnCancel
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = btnCancel
-      Left = 336
+      Left = 370
       Height = 32
       Top = 8
       Width = 100
@@ -457,7 +44,7 @@ object frmFileAssoc: TfrmFileAssoc
       AnchorSideTop.Control = pnlButtonPanel
       AnchorSideRight.Control = pnlButtonPanel
       AnchorSideRight.Side = asrBottom
-      Left = 442
+      Left = 476
       Height = 32
       Top = 8
       Width = 100
@@ -473,9 +60,435 @@ object frmFileAssoc: TfrmFileAssoc
       TabOrder = 1
     end
   end
+  object pnlSettings: TPanel
+    Left = 0
+    Height = 529
+    Top = 0
+    Width = 588
+    Align = alClient
+    AutoSize = True
+    BorderSpacing.Bottom = 5
+    BevelOuter = bvNone
+    ClientHeight = 529
+    ClientWidth = 588
+    TabOrder = 0
+    object gbFileTypes: TGroupBox
+      AnchorSideLeft.Control = pnlSettings
+      AnchorSideTop.Control = pnlSettings
+      AnchorSideRight.Control = gbExts
+      Left = 6
+      Height = 528
+      Top = 0
+      Width = 293
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 6
+      BorderSpacing.Right = 6
+      Caption = 'File types'
+      ClientHeight = 510
+      ClientWidth = 289
+      TabOrder = 0
+      object lbFileTypes: TListBox
+        AnchorSideLeft.Control = gbFileTypes
+        AnchorSideTop.Control = gbFileTypes
+        AnchorSideRight.Control = gbFileTypes
+        AnchorSideRight.Side = asrBottom
+        Left = 6
+        Height = 418
+        Top = 6
+        Width = 277
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 6
+        BorderSpacing.Top = 6
+        BorderSpacing.Right = 6
+        ItemHeight = 20
+        OnDrawItem = lbFileTypesDrawItem
+        OnSelectionChange = lbFileTypesSelectionChange
+        Style = lbOwnerDrawFixed
+        TabOrder = 0
+      end
+      object btnAddNewType: TButton
+        AnchorSideLeft.Control = lbFileTypes
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = lbFileTypes
+        AnchorSideTop.Side = asrBottom
+        Left = 22
+        Height = 32
+        Top = 430
+        Width = 244
+        BorderSpacing.Top = 6
+        Caption = 'Add'
+        OnClick = btnAddNewTypeClick
+        TabOrder = 1
+      end
+      object btnRemoveType: TButton
+        AnchorSideLeft.Control = btnAddNewType
+        AnchorSideTop.Control = btnAddNewType
+        AnchorSideTop.Side = asrBottom
+        Left = 22
+        Height = 32
+        Top = 468
+        Width = 118
+        BorderSpacing.Top = 6
+        Caption = 'Remove'
+        OnClick = btnRemoveTypeClick
+        TabOrder = 2
+      end
+      object btnRenameType: TButton
+        AnchorSideTop.Control = btnAddNewType
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = btnAddNewType
+        AnchorSideRight.Side = asrBottom
+        Left = 148
+        Height = 32
+        Top = 468
+        Width = 118
+        Anchors = [akTop, akRight]
+        BorderSpacing.Top = 6
+        Caption = 'Rename'
+        OnClick = btnRenameTypeClick
+        TabOrder = 3
+      end
+    end
+    object gbExts: TGroupBox
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = pnlSettings
+      AnchorSideRight.Control = pnlSettings
+      AnchorSideRight.Side = asrBottom
+      Left = 305
+      Height = 135
+      Top = 0
+      Width = 273
+      Anchors = [akTop, akRight]
+      BorderSpacing.Right = 10
+      Caption = 'Extensions'
+      ClientHeight = 117
+      ClientWidth = 269
+      TabOrder = 1
+      object lbExts: TListBox
+        Left = 10
+        Height = 102
+        Top = 6
+        Width = 145
+        ItemHeight = 0
+        OnSelectionChange = lbExtsSelectionChange
+        TabOrder = 0
+        TabStop = False
+      end
+      object btnAddExt: TButton
+        AnchorSideLeft.Control = lbExts
+        AnchorSideLeft.Side = asrBottom
+        Left = 161
+        Height = 32
+        Top = 6
+        Width = 100
+        BorderSpacing.Left = 6
+        Caption = 'Add'
+        OnClick = btnAddExtClick
+        TabOrder = 1
+      end
+      object btnRemoveExt: TButton
+        AnchorSideLeft.Control = lbExts
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnAddExt
+        AnchorSideTop.Side = asrBottom
+        Left = 161
+        Height = 32
+        Top = 44
+        Width = 100
+        BorderSpacing.Left = 6
+        BorderSpacing.Top = 6
+        Caption = 'Remove'
+        OnClick = btnRemoveExtClick
+        TabOrder = 2
+      end
+    end
+    object gbActions: TGroupBox
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = gbExts
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlSettings
+      AnchorSideRight.Side = asrBottom
+      Left = 305
+      Height = 305
+      Top = 141
+      Width = 273
+      Anchors = [akTop, akRight]
+      BorderSpacing.Top = 6
+      BorderSpacing.Right = 10
+      Caption = 'Actions'
+      ClientHeight = 287
+      ClientWidth = 269
+      TabOrder = 2
+      object lblCommand: TLabel
+        AnchorSideTop.Control = edbAction
+        AnchorSideTop.Side = asrBottom
+        Left = 10
+        Height = 18
+        Top = 228
+        Width = 62
+        BorderSpacing.Top = 6
+        Caption = '&Command:'
+        ParentColor = False
+      end
+      object btnCommands: TSpeedButton
+        AnchorSideTop.Control = fneCommand
+        AnchorSideBottom.Control = fneCommand
+        AnchorSideBottom.Side = asrBottom
+        Left = 240
+        Height = 25
+        Top = 252
+        Width = 23
+        Anchors = [akTop, akRight, akBottom]
+        Color = clBtnFace
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          2000000000000004000064000000640000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000A46534CCA46534FFA46534FFA465
+          34CC000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
+          34FF000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000A46534FFE6CEB7FFD9AD86FFA465
+          34FF000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000A46534FFE6CEB7FFD9AD86FFA465
+          34FF000000000000000000000000000000000000000000000000000000000000
+          0000A46534CCA46534FFA46534FFA46534FFA46534FFD9AD86FFD9AD86FFA465
+          34FFA46534FFA46534FFA46534FFA46534CC0000000000000000000000000000
+          0000A46534FFE5CCB4FFDBB795FFDBB694FFDAB492FFDAB390FFD9AD86FFD8AA
+          83FFD7A87FFFD7A67DFFE0BE9FFFA46534FF0000000000000000000000000000
+          0000A46534FFE8D3C0FFE7D1BBFFE7D1BCFFE6CEB7FFE6CEB7FFE6CEB7FFE6CE
+          B7FFE6CDB6FFE6CCB5FFE6CCB6FFA46534FF0000000000000000000000000000
+          0000A46534CCA46534FFA46534FFA46534FFA46534FFE6CEB7FFE6CEB7FFA465
+          34FFA46534FFA46534FFA46534FFA46534CC0000000000000000000000000000
+          000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
+          34FF000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
+          34FF000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
+          34FF000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000A46534CCA46534FFA46534FFA465
+          34CC000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000
+        }
+        NumGlyphs = 0
+        OnClick = btnCommandsClick
+      end
+      object lblAction: TLabel
+        AnchorSideLeft.Control = lbActions
+        AnchorSideTop.Control = lbActions
+        AnchorSideTop.Side = asrBottom
+        Left = 10
+        Height = 18
+        Top = 175
+        Width = 38
+        BorderSpacing.Top = 6
+        Caption = 'Action:'
+        ParentColor = False
+      end
+      object lbActions: TListBox
+        Left = 10
+        Height = 163
+        Top = 6
+        Width = 145
+        ItemHeight = 0
+        OnSelectionChange = lbActionsSelectionChange
+        TabOrder = 0
+      end
+      object btnUpAct: TButton
+        AnchorSideLeft.Control = lbActions
+        AnchorSideLeft.Side = asrBottom
+        Left = 161
+        Height = 32
+        Top = 6
+        Width = 100
+        BorderSpacing.Left = 6
+        Caption = 'Up'
+        OnClick = btnUpActClick
+        TabOrder = 1
+      end
+      object btnDownAct: TButton
+        AnchorSideLeft.Control = lbActions
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnUpAct
+        AnchorSideTop.Side = asrBottom
+        Left = 161
+        Height = 32
+        Top = 44
+        Width = 100
+        BorderSpacing.Left = 6
+        BorderSpacing.Top = 6
+        Caption = 'Down'
+        OnClick = btnDownActClick
+        TabOrder = 2
+      end
+      object btnAddAct: TButton
+        AnchorSideLeft.Control = lbActions
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnDownAct
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Side = asrBottom
+        Left = 161
+        Height = 32
+        Top = 82
+        Width = 100
+        BorderSpacing.Left = 6
+        BorderSpacing.Top = 6
+        Caption = 'Add'
+        OnClick = btnAddActClick
+        TabOrder = 3
+      end
+      object btnRemoveAct: TButton
+        AnchorSideLeft.Control = lbActions
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = btnAddAct
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Side = asrBottom
+        Left = 161
+        Height = 32
+        Top = 120
+        Width = 100
+        BorderSpacing.Left = 6
+        BorderSpacing.Top = 6
+        Caption = 'Remove'
+        OnClick = btnRemoveActClick
+        TabOrder = 4
+      end
+      object fneCommand: TFileNameEdit
+        AnchorSideTop.Control = lblCommand
+        AnchorSideTop.Side = asrBottom
+        Left = 12
+        Height = 25
+        Top = 252
+        Width = 205
+        DialogOptions = []
+        FilterIndex = 0
+        HideDirectories = False
+        ButtonWidth = 23
+        NumGlyphs = 1
+        BorderSpacing.Top = 6
+        MaxLength = 0
+        TabOrder = 6
+        OnChange = fneCommandChange
+      end
+      object edbAction: TEditButton
+        Left = 10
+        Height = 25
+        Top = 197
+        Width = 230
+        Anchors = [akTop, akLeft, akRight]
+        ButtonWidth = 23
+        CharCase = ecNormal
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          2000000000000004000064000000640000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000A46534CCA46534FFA46534FFA465
+          34CC000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
+          34FF000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000A46534FFE6CEB7FFD9AD86FFA465
+          34FF000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000A46534FFE6CEB7FFD9AD86FFA465
+          34FF000000000000000000000000000000000000000000000000000000000000
+          0000A46534CCA46534FFA46534FFA46534FFA46534FFD9AD86FFD9AD86FFA465
+          34FFA46534FFA46534FFA46534FFA46534CC0000000000000000000000000000
+          0000A46534FFE5CCB4FFDBB795FFDBB694FFDAB492FFDAB390FFD9AD86FFD8AA
+          83FFD7A87FFFD7A67DFFE0BE9FFFA46534FF0000000000000000000000000000
+          0000A46534FFE8D3C0FFE7D1BBFFE7D1BCFFE6CEB7FFE6CEB7FFE6CEB7FFE6CE
+          B7FFE6CDB6FFE6CCB5FFE6CCB6FFA46534FF0000000000000000000000000000
+          0000A46534CCA46534FFA46534FFA46534FFA46534FFE6CEB7FFE6CEB7FFA465
+          34FFA46534FFA46534FFA46534FFA46534CC0000000000000000000000000000
+          000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
+          34FF000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
+          34FF000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000A46534FFE6CEB7FFE6CEB7FFA465
+          34FF000000000000000000000000000000000000000000000000000000000000
+          000000000000000000000000000000000000A46534CCA46534FFA46534FFA465
+          34CC000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000000000000000
+          0000000000000000000000000000000000000000000000000000
+        }
+        MaxLength = 0
+        NumGlyphs = 1
+        OnButtonClick = btnActionsClick
+        OnChange = edtActionChange
+        TabOrder = 5
+      end
+    end
+    object gbIcon: TGroupBox
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = gbActions
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlSettings
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = gbFileTypes
+      AnchorSideBottom.Side = asrBottom
+      Left = 305
+      Height = 76
+      Top = 452
+      Width = 273
+      Anchors = [akTop, akRight, akBottom]
+      BorderSpacing.Top = 6
+      BorderSpacing.Right = 10
+      Caption = 'Icon'
+      ClientHeight = 58
+      ClientWidth = 269
+      TabOrder = 3
+      object sbtnIcon: TSpeedButton
+        Left = 10
+        Height = 38
+        Top = 6
+        Width = 38
+        Color = clBtnFace
+        NumGlyphs = 0
+        OnClick = sbtnIconClick
+      end
+      object btnRemoveIcon: TSpeedButton
+        AnchorSideLeft.Control = edtIconFileName
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = edtIconFileName
+        AnchorSideBottom.Control = edtIconFileName
+        AnchorSideBottom.Side = asrBottom
+        Left = 239
+        Height = 25
+        Top = 13
+        Width = 23
+        Anchors = [akTop, akLeft, akBottom]
+        Caption = 'X'
+        Color = clBtnFace
+        Font.Style = [fsBold]
+        NumGlyphs = 0
+        OnClick = btnRemoveIconClick
+        ParentFont = False
+      end
+      object edtIconFileName: TEdit
+        AnchorSideTop.Control = sbtnIcon
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Side = asrBottom
+        Left = 55
+        Height = 25
+        Top = 13
+        Width = 184
+        Anchors = [akTop, akLeft, akRight]
+        TabOrder = 0
+      end
+    end
+  end
   object OpenPictureDialog: TOpenPictureDialog
-    left = 16
-    top = 544
+    left = 24
+    top = 536
   end
   object pmActions: TPopupMenu
     left = 440
