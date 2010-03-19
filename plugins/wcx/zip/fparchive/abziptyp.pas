@@ -1730,8 +1730,10 @@ begin
   begin
     SystemCode := TAbZipHostOs(Byte(VersionMadeBy shr 8));
     {$IF DEFINED(MSWINDOWS)}
-    if (GetACP <> GetOEMCP) and (SystemCode = hosMSDOS) or IsOEM(FItemInfo.FileName) then
-      inherited SetFileName(AbStrOemToAnsi(FItemInfo.FileName))
+    if (GetACP <> GetOEMCP) and ((SystemCode = hosMSDOS) or IsOEM(FItemInfo.FileName)) then
+      inherited SetFileName(AnsiToUtf8(AbStrOemToAnsi(FItemInfo.FileName)))
+    else if (SystemCode = hosNTFS) then
+      inherited SetFileName(AnsiToUtf8(FItemInfo.FileName))
     else
     {$ELSEIF DEFINED(LINUX)}
     if (SystemCode = hosMSDOS) then
@@ -1843,23 +1845,25 @@ begin
   {$IFDEF MSWINDOWS}
   FItemInfo.IsUTF8 := False;
   VersionMadeBy := Low(VersionMadeBy);
-  if TryEncode(Value, CP_OEMCP, False, AnsiName) then
+  if TryEncode(UTF8Decode(Value), CP_OEMCP, False, AnsiName) then
     {no-op}
-  else if (GetACP <> GetOEMCP) and TryEncode(Value, CP_ACP, False, AnsiName) then
+  else if (GetACP <> GetOEMCP) and TryEncode(UTF8Decode(Value), CP_ACP, False, AnsiName) then
     VersionMadeBy := VersionMadeBy or $0B00
-  else if TryEncode(Value, CP_OEMCP, True, AnsiName) then
+(*
+  else if TryEncode(UTF8Decode(Value), CP_OEMCP, True, AnsiName) then
     {no-op}
-  else if (GetACP <> GetOEMCP) and TryEncode(Value, CP_ACP, True, AnsiName) then
+  else if (GetACP <> GetOEMCP) and TryEncode(UTF8Decode(Value), CP_ACP, True, AnsiName) then
     VersionMadeBy := VersionMadeBy or $0B00
+*)
   else
     FItemInfo.IsUTF8 := True;
   if FItemInfo.IsUTF8 then
-    FItemInfo.FileName := Utf8Encode(Value)
+    FItemInfo.FileName := Value
   else
     FItemInfo.FileName := AnsiName;
   {$ENDIF}
   {$IFDEF LINUX}
-  FItemInfo.FileName := AnsiString(Value);
+  FItemInfo.FileName := Value;
   FItemInfo.IsUTF8 := AbSysCharSetIsUTF8;
   {$ENDIF}
 
@@ -1873,7 +1877,7 @@ begin
     end;
 
   if UseExtraField then begin
-    UTF8Name := AnsiToUTF8(Value);
+    UTF8Name := Value;
     FieldSize := SizeOf(TInfoZipUnicodePathRec) + Length(UTF8Name) - 1;
     GetMem(InfoZipField, FieldSize);
     try
