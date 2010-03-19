@@ -289,7 +289,7 @@ function GZOsToStr(OS: Byte) : string;
 implementation
 
 uses
-  AbResString, uClassesEx;
+  AbResString, uClassesEx, osConvEncoding;
 
 const
   { Header Signature Values}
@@ -776,7 +776,7 @@ begin
     AStream.Seek(StartPos, soFromBeginning);
     SetLength(AnsiName, Len);
     AStream.Read(AnsiName[1], Len + 1);
-    inherited SetFileName(string(AnsiName));
+    inherited SetFileName(SysToUtf8(AnsiName));
   end
   else
     inherited SetFileName('unknown');
@@ -833,7 +833,7 @@ begin
 
   { add filename if any (and include final #0 from string) }
   if HasFileName then begin
-    AnsiName := AnsiString(FileName);
+    AnsiName := Utf8ToSys(FileName);
     AStream.Write(AnsiName[1], Length(AnsiName) + 1);
   end;
 

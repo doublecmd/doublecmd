@@ -323,19 +323,11 @@ procedure AbZip( ZipArchive : TAbZipArchive; Item : TAbZipItem;
                  OutStream : TStream );
 var
   UncompressedStream : TStream = nil;
-  Name : string;
   Attrs: LongInt;
   FileTime : LongInt;
 begin
-{$IFDEF MSWINDOWS}
-//  if TAbZipHostOS((Item.VersionMadeBy shr 8) and $FF) = hosMSDOS then
-//    Name := AbStrOemToAnsi(Item.DiskFileName)
-//  else
-{$ENDIF}
-  Name := Item.DiskFileName;
-
   {Now get the file's attributes}
-  Attrs := AbFileGetAttr(Name);
+  Attrs := AbFileGetAttr(Item.DiskFileName);
 
   if Attrs = -1 then
     Raise EAbFileNotFound.Create;
@@ -343,7 +335,7 @@ begin
   Item.SystemSpecificAttributes := Attrs;
 
   // Date and time
-  FileTime := AbGetFileTime(Name);
+  FileTime := AbGetFileTime(Item.DiskFileName);
 
   if FileTime < 0 then
     FileTime := DateTimeToFileDate(SysUtils.Now);
@@ -355,16 +347,15 @@ begin
     {Directory. Only set fields.}
     Item.UncompressedSize := 0;
     Item.CompressedSize := 0;
-    Item.GeneralPurposeBitFlag := 0;
-    Item.VersionMadeBy := MakeVersionMadeBy;
+    Item.GeneralPurposeBitFlag := Item.GeneralPurposeBitFlag and AbLanguageEncodingFlag;
+    //Item.VersionMadeBy := MakeVersionMadeBy;  // set on creation, modified on set name
     Item.VersionNeededToExtract := 20;
-    Item.CRC32 := 0;
     Item.InternalFileAttributes := 0;
     Item.CompressionMethod := cmStored;
 
   end else begin
     { File. Open stream for compression. }
-    UncompressedStream := TFileStreamEx.Create(Name,
+    UncompressedStream := TFileStreamEx.Create(Item.DiskFileName,
       fmOpenRead or fmShareDenyWrite );
 
     Item.UncompressedSize := UncompressedStream.Size;

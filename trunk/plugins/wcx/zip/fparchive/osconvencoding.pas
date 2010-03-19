@@ -19,6 +19,12 @@ function SysToOEM(Source: String): String;
 function AnsiToSys(Source: String): String;
 function SysToAnsi(Source: String): String;
 
+{en
+  Convert from Utf8 to System encoding, if needed
+}
+function Utf8ToSys(Source: String): String;
+function SysToUtf8(Source: String): String;
+
 {$IFDEF UNIX}
 function GetSystemEncoding(out Language, Encoding: String): Boolean;
 {$ENDIF}
@@ -162,6 +168,24 @@ begin
    end;
 end;
 {$ENDIF}
+
+function Utf8ToSys(Source: String): String;
+begin
+{$IFDEF MSWINDOWS}
+  Result := Utf8ToAnsi(Source);
+{$ELSE}
+  Result := Source;
+{$ENDIF}
+end;
+
+function SysToUtf8(Source: String): String;
+begin
+{$IFDEF MSWINDOWS}
+  Result := AnsiToUtf8(Source);
+{$ELSE}
+  Result := Source;
+{$ENDIF}
+end;
 
 {$IFDEF UNIX}
 var
