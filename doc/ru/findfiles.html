@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+  <title>Find files</title>
+  <link rel="STYLESHEET" type="text/css" href="doublecmd.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+
+<body>
+  <div class="CHAPTER">
+	<h1>Find files</h1>
+	<hr/>
+	  <h2><a name="attributes">Searching for files with specific attributes.</a></h2>
+
+	<p>
+	To search for specific attributes you must enter a string pattern, which specifies which attributes are searched for, and if they should be enabled or disabled. Single attribute is represented with the following format:</p>
+	
+	<code>&lt;attribute&gt;+</code> or <code>&lt;attribute&gt;-</code>
+	
+	<p>
+	The plus sign means that the file must have that attribute set, minus sign means that the file must not have that attribute set.</p>
+	
+	<p>The various <tt>&lt;attribute&gt;</tt> identifiers are as follows:</p>
+	
+	<p>Windows:<p>
+	  <table border="0" frame="void" width="50%" class="CALSTABLE">
+		<tbody>
+		  <thead style="font-size: 80%; border-width=2"><td>File attributes:</td></thead>
+		  <tr valign="top" title="wer">
+			<td>
+			<code>
+			r - read only<br>
+			a - archive<br>
+			h - hidden<br>
+			s - system<br>
+			d - directory<br>
+			l - symlink<br>
+			t - temporary<br>
+			p - sparse<br>
+			c - compressed<br>
+			e - encrypted<br>
+			</code>
+			</td>
+		  </tr>
+		</tbody>
+	  </table></p>
+	</p>
+	<p>Unix:<p>
+	  <table border="0" frame="void" width="50%" class="CALSTABLE">
+		<tbody>
+		  <thead style="font-size: 80%; border-width=2"><td>Permissions:</td><td>File types:</td></thead>
+		  <tr valign="top" title="wer">
+			<td>
+			<code>
+			ur - user read<br>
+			uw - user write<br>
+			ux - user execute<br>
+			gr - group read<br>
+			gw - group write<br>
+			gx - group execute<br>
+			or - others read<br>
+			ow - others write<br>
+			ox - others execute<br>
+			us - set user ID<br>
+			gs - set group ID<br>
+			sb - sticky bit<br>
+			</code>
+			</td>
+			<td><code>
+			b - block<br>
+			c - character<br>
+			d - directory<br>
+			f - fifo<br>
+			l - symlink<br>
+			r - regular<br>
+			s - socket<br>
+			</code>
+			</td>
+		  </tr>
+		</tbody>
+	  </table></p>
+	  On Unix you may also use octal representation of permissions. For example 0750 is the same as ur, uw, ux, gr and gx combined.
+	</p>
+	
+	<h4>Advanced patterns.</h4>
+	  
+	<p>
+	Several attributes may be combined together with an AND relationship. Just specify one pattern after another. For example: <tt>r+s+h+</tt> matches files that have all three: read-only, hidden and system attributes set.
+	</p>
+
+	<p>
+	Furthermore, such groups of AND attributes may be combined together with an OR relationship. This is done by using the "|" character (vertical bar). For example: <tt>r+|s+h+</tt> matches files that have either:
+	<list>
+	<li>read-only attribute set</li>
+	or
+	<li>both hidden and system attributes set.</li>
+	</list>
+	</p>
+	
+	<p>
+	It is possible to negate AND sequences using "!" character specified at the start of the sequence. For example: <tt>!r+s+h+</tt> matches files that don't have all three: read-only, hidden and system attributes set. The matched file may have none, one or more of those attributes set, but not all of them. Negation only applies to AND sequences, thus pattern <tt>!r+|!s+h+</tt> matches files that either:
+	<list>
+	<li>don't have read-only attribute set (the same as r-)</li>
+	or
+	<li>don't have both hidden and system attributes set.</li>
+	</list>
+	</p>
+	
+	<p>You cannot use parenthesis to separate sequences.</p>
+	
+
+	<h4>Examples.</h4>
+
+	<br>Windows:<br>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE" cellspacing="20">
+		<tbody>
+		  <tr>
+			<td><tt>a+s-h-</tt></td>
+			<td>matches files that have archive attribute set and don't have neither system nor hidden attributes set</td>
+		  </tr>
+		  <tr>
+			<td><tt>e+|c+</tt></td>
+			<td>matches files that are either compressed or encrypted (these are NTFS attributes)</td>
+		  </tr>
+		  <tr>
+			<td><tt>d-</tt></td>
+			<td>matches files but not directories</td>
+		  </tr>
+		</tbody>
+	  </table>
+
+	<br>Unix:<br>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE" cellspacing="20">
+		<tbody>
+		  <tr>
+			<td><tt>uw+|gw+|ow+</tt></td>
+			<td>matches files that are writeable either by user, group or anybody else</td>
+		  </tr>
+		  <tr>
+			<td><tt>222+</tt></td>
+			<td>matches files that are writeable by user, and by group, and by anybody else</td>
+		  </tr>
+		  <tr>
+			<td><tt>d+ox+</tt></td>
+			<td>matches directories that are accessible by anybody</td>
+		  </tr>
+		  <tr>
+			<td><tt>!700+</tt></td>
+			<td>matches files that are not fully accessible to the user</td>
+		  </tr>
+		</tbody>
+	  </table>
+
+	<div class="SECT1">
+	  <p class="NAVBACK"><a href="index.html">Home</a></p>
+	</div>
+  </div>
+  
+</body>
+
+</html>
