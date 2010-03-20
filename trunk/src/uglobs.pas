@@ -101,7 +101,10 @@ var
   gLogWindow,
   gTermWindow,
   gKeyButtons,
-  gInterfaceFlat : Boolean;
+  gInterfaceFlat,
+  gDriveInd,
+  gProgInMenuBar,
+  gPanelOfOp: Boolean;
 
   { Toolbar }
   gToolBarButtonSize,
@@ -564,6 +567,9 @@ begin
   gTermWindow := False;
   gKeyButtons := True;
   gInterfaceFlat := True;
+  gDriveInd := True;
+  gProgInMenuBar := False;
+  gPanelOfOp := True;
 
   { File operations page }
   gCopyBlockSize := 65536;
@@ -1325,6 +1331,9 @@ begin
       gTermWindow := GetValue(Node, 'TermWindow', gTermWindow);
       gKeyButtons := GetValue(Node, 'KeyButtons', gKeyButtons);
       gInterfaceFlat := GetValue(Node, 'InterfaceFlat', gInterfaceFlat);
+      gDriveInd := GetValue(Node, 'DriveIndicator', gDriveInd);
+      gProgInMenuBar := GetValue(Node, 'ProgressInMenuBar', gProgInMenuBar);
+      gPanelOfOp := GetValue(Node, 'PanelOfOperationsInBackground', gPanelOfOp);
     end;
 
     { File operations page }
@@ -1553,7 +1562,9 @@ begin
     SetValue(Node, 'TermWindow', gTermWindow);
     SetValue(Node, 'KeyButtons', gKeyButtons);
     SetValue(Node, 'InterfaceFlat', gInterfaceFlat);
-
+    SetValue(Node, 'DriveIndicator', gDriveInd);
+    SetValue(Node, 'ProgressInMenuBar', gProgInMenuBar);
+    SetValue(Node, 'PanelOfOperationsInBackground', gPanelOfOp);
     { File operations page }
     Node := FindNode(Root, 'FileOperations', True);
     SetValue(Node, 'BufferSize', gCopyBlockSize);

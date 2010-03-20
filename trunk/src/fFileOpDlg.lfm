@@ -1,13 +1,13 @@
 object frmFileOp: TfrmFileOp
-  Left = 278
-  Height = 166
-  Top = 234
-  Width = 522
+  Left = 523
+  Height = 180
+  Top = 259
+  Width = 539
   ActiveControl = btnCancel
   Caption = 'Process file(s)'
   ChildSizing.TopBottomSpacing = 4
-  ClientHeight = 166
-  ClientWidth = 522
+  ClientHeight = 180
+  ClientWidth = 539
   Constraints.MaxHeight = 180
   Constraints.MinWidth = 500
   OnClose = FormClose
@@ -21,10 +21,10 @@ object frmFileOp: TfrmFileOp
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 56
-    Height = 20
+    Left = 45
+    Height = 14
     Top = 8
-    Width = 454
+    Width = 482
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 8
@@ -39,9 +39,9 @@ object frmFileOp: TfrmFileOp
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 22
-    Top = 112
-    Width = 510
+    Height = 14
+    Top = 100
+    Width = 527
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
@@ -52,9 +52,9 @@ object frmFileOp: TfrmFileOp
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     Left = 10
-    Height = 20
+    Height = 14
     Top = 8
-    Width = 40
+    Width = 29
     BorderSpacing.Left = 10
     BorderSpacing.Top = 8
     Caption = 'From:'
@@ -65,9 +65,9 @@ object frmFileOp: TfrmFileOp
     AnchorSideTop.Control = lblFrom
     AnchorSideTop.Side = asrBottom
     Left = 10
-    Height = 20
-    Top = 30
-    Width = 24
+    Height = 14
+    Top = 24
+    Width = 17
     BorderSpacing.Left = 10
     BorderSpacing.Top = 2
     Caption = 'To:'
@@ -79,10 +79,10 @@ object frmFileOp: TfrmFileOp
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 56
-    Height = 20
-    Top = 30
-    Width = 456
+    Left = 45
+    Height = 14
+    Top = 24
+    Width = 484
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 2
     BorderSpacing.Right = 10
@@ -97,8 +97,8 @@ object frmFileOp: TfrmFileOp
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 22
-    Top = 84
-    Width = 510
+    Top = 72
+    Width = 527
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
@@ -115,8 +115,8 @@ object frmFileOp: TfrmFileOp
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 22
-    Top = 56
-    Width = 510
+    Top = 44
+    Width = 527
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6
@@ -129,9 +129,9 @@ object frmFileOp: TfrmFileOp
     AnchorSideTop.Control = lblEstimated
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnPauseStart
-    Left = 346
+    Left = 363
     Height = 32
-    Top = 140
+    Top = 120
     Width = 89
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 6
@@ -151,9 +151,9 @@ object frmFileOp: TfrmFileOp
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = btnCancel
     AnchorSideBottom.Side = asrBottom
-    Left = 441
+    Left = 458
     Height = 32
-    Top = 140
+    Top = 120
     Width = 75
     Anchors = [akTop, akRight, akBottom]
     Layout = blGlyphTop
@@ -167,11 +167,61 @@ object frmFileOp: TfrmFileOp
     AnchorSideTop.Control = btnCancel
     Left = 6
     Height = 32
-    Top = 140
+    Top = 120
     Width = 149
     BorderSpacing.Left = 6
     Caption = 'Work in &background'
     OnClick = btnWorkInBackgroundClick
     TabOrder = 4
+  end
+  object btnToQueue: TSpeedButton
+    AnchorSideLeft.Control = btnWorkInBackground
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = btnWorkInBackground
+    AnchorSideBottom.Control = btnWorkInBackground
+    AnchorSideBottom.Side = asrBottom
+    Left = 160
+    Height = 32
+    Top = 120
+    Width = 58
+    Anchors = [akTop, akLeft, akBottom]
+    BorderSpacing.Left = 5
+    Caption = 'To Queue'
+    Color = clBtnFace
+    NumGlyphs = 0
+    OnClick = btnToQueueClick
+  end
+  object btnOpHome: TSpeedButton
+    AnchorSideLeft.Control = btnToQueue
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = btnToQueue
+    AnchorSideBottom.Control = btnToQueue
+    AnchorSideBottom.Side = asrBottom
+    Left = 221
+    Height = 32
+    Top = 120
+    Width = 41
+    Anchors = [akTop, akLeft, akBottom]
+    BorderSpacing.Left = 3
+    Caption = 'Home'
+    Color = clBtnFace
+    NumGlyphs = 0
+    OnClick = btnOpHomeClick
+  end
+  object bthOpEnd: TSpeedButton
+    AnchorSideLeft.Control = btnOpHome
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = btnOpHome
+    AnchorSideBottom.Control = btnOpHome
+    AnchorSideBottom.Side = asrBottom
+    Left = 262
+    Height = 32
+    Top = 120
+    Width = 42
+    Anchors = [akTop, akLeft, akBottom]
+    Caption = 'End'
+    Color = clBtnFace
+    NumGlyphs = 0
+    OnClick = bthOpEndClick
   end
 end

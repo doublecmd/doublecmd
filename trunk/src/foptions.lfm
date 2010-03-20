@@ -1,7 +1,7 @@
 object frmOptions: TfrmOptions
-  Left = 172
+  Left = 393
   Height = 557
-  Top = -15
+  Top = 164
   Width = 803
   ActiveControl = tvTreeView
   Caption = 'Options'
@@ -130,7 +130,7 @@ object frmOptions: TfrmOptions
       Width = 626
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 1
+      PageIndex = 5
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -734,8 +734,8 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = fneToolsPath
           AnchorSideRight.Side = asrBottom
           Left = 150
-          Height = 27
-          Top = 137
+          Height = 21
+          Top = 113
           Width = 428
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 4
@@ -747,8 +747,8 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = lblToolsPath
           AnchorSideTop.Side = asrBottom
           Left = 150
-          Height = 27
-          Top = 76
+          Height = 21
+          Top = 64
           Width = 428
           DialogOptions = []
           FilterIndex = 0
@@ -766,9 +766,9 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbToolsUseExternalProgram
           AnchorSideTop.Side = asrBottom
           Left = 150
-          Height = 20
-          Top = 52
-          Width = 181
+          Height = 14
+          Top = 46
+          Width = 134
           BorderSpacing.Top = 15
           Caption = 'Path to program to execute'
           ParentColor = False
@@ -778,9 +778,9 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = fneToolsPath
           AnchorSideTop.Side = asrBottom
           Left = 150
-          Height = 20
-          Top = 113
-          Width = 150
+          Height = 14
+          Top = 95
+          Width = 106
           BorderSpacing.Top = 10
           Caption = 'Additional parameters'
           ParentColor = False
@@ -790,9 +790,9 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbToolsRunInTerminal
           AnchorSideTop.Side = asrBottom
           Left = 165
-          Height = 23
-          Top = 201
-          Width = 376
+          Height = 17
+          Top = 165
+          Width = 269
           BorderSpacing.Left = 15
           BorderSpacing.Top = 2
           Caption = 'Keep terminal window open after executing program'
@@ -804,9 +804,9 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = edtToolsParameters
           AnchorSideTop.Side = asrBottom
           Left = 150
-          Height = 23
-          Top = 176
-          Width = 149
+          Height = 17
+          Top = 146
+          Width = 109
           BorderSpacing.Top = 12
           Caption = 'Execute in terminal'
           OnChange = cbToolsRunInTerminalChange
@@ -814,9 +814,9 @@ object frmOptions: TfrmOptions
         end
         object cbToolsUseExternalProgram: TCheckBox
           Left = 150
-          Height = 23
+          Height = 17
           Top = 14
-          Width = 168
+          Width = 122
           Caption = 'Use external program'
           OnChange = cbToolsUseExternalProgramChange
           TabOrder = 1
@@ -838,7 +838,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 14
-          Top = 83
+          Top = 80
           Width = 52
           BorderSpacing.Top = 6
           Caption = 'Editor font'
@@ -849,7 +849,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 14
-          Top = 160
+          Top = 154
           Width = 56
           BorderSpacing.Top = 6
           Caption = 'Viewer font'
@@ -883,8 +883,8 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = edtTest1
           AnchorSideTop.Side = asrCenter
           Left = 540
-          Height = 23
-          Top = 54
+          Height = 21
+          Top = 53
           Width = 55
           Anchors = [akTop, akRight]
           MaxValue = 25
@@ -897,7 +897,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbMainFont
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 24
+          Height = 21
           Top = 53
           Width = 525
           Anchors = [akTop, akLeft, akRight]
@@ -909,7 +909,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 21
-          Top = 103
+          Top = 100
           Width = 525
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
@@ -923,7 +923,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 540
           Height = 21
-          Top = 103
+          Top = 100
           Width = 23
           Anchors = [akTop, akRight, akBottom]
           BorderSpacing.InnerBorder = 4
@@ -935,8 +935,8 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbEditorFont
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 24
-          Top = 130
+          Height = 21
+          Top = 127
           Width = 525
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
@@ -946,8 +946,8 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = edtTest2
           AnchorSideTop.Side = asrCenter
           Left = 540
-          Height = 23
-          Top = 131
+          Height = 21
+          Top = 127
           Width = 55
           Anchors = [akTop, akRight]
           MaxValue = 25
@@ -961,7 +961,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 21
-          Top = 180
+          Top = 174
           Width = 525
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
@@ -975,7 +975,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 540
           Height = 21
-          Top = 180
+          Top = 174
           Width = 23
           Anchors = [akTop, akRight, akBottom]
           BorderSpacing.InnerBorder = 4
@@ -987,8 +987,8 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = cbViewerFont
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 24
-          Top = 207
+          Height = 21
+          Top = 201
           Width = 525
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 6
@@ -998,8 +998,8 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = edtTest3
           AnchorSideTop.Side = asrCenter
           Left = 540
-          Height = 23
-          Top = 208
+          Height = 21
+          Top = 201
           Width = 56
           Anchors = [akTop, akRight]
           MaxValue = 25
@@ -1354,9 +1354,9 @@ object frmOptions: TfrmOptions
           AnchorSideLeft.Side = asrBottom
           AnchorSideBottom.Control = edHotKey
           Left = 281
-          Height = 18
-          Top = 390
-          Width = 46
+          Height = 14
+          Top = 406
+          Width = 43
           Anchors = [akLeft, akBottom]
           BorderSpacing.Left = 8
           Caption = 'Hot Key:'
@@ -1364,9 +1364,9 @@ object frmOptions: TfrmOptions
         end
         object lbtypes: TLabel
           Left = 8
-          Height = 18
+          Height = 14
           Top = 0
-          Width = 63
+          Width = 57
           Caption = 'Categories:'
           ParentColor = False
         end
@@ -1375,9 +1375,9 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = lbxCategories
           AnchorSideTop.Side = asrBottom
           Left = 8
-          Height = 18
+          Height = 14
           Top = 72
-          Width = 68
+          Width = 57
           BorderSpacing.Top = 4
           Caption = 'Commands:'
           ParentColor = False
@@ -1386,9 +1386,9 @@ object frmOptions: TfrmOptions
           AnchorSideLeft.Control = lblHotKey
           AnchorSideBottom.Control = edtParam
           Left = 281
-          Height = 18
-          Top = 435
-          Width = 40
+          Height = 14
+          Top = 443
+          Width = 35
           Anchors = [akLeft, akBottom]
           Caption = 'Param:'
           ParentColor = False
@@ -1397,10 +1397,10 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = edtFilter
           AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = edtFilter
-          Left = 461
-          Height = 18
+          Left = 465
+          Height = 14
           Top = 327
-          Width = 29
+          Width = 25
           Anchors = [akTop, akRight]
           BorderSpacing.Top = 4
           BorderSpacing.Right = 4
@@ -1411,8 +1411,8 @@ object frmOptions: TfrmOptions
           AnchorSideLeft.Control = lblHotKey
           AnchorSideBottom.Control = lblHotKey
           Left = 281
-          Height = 18
-          Top = 368
+          Height = 14
+          Top = 388
           Width = 1
           Anchors = [akLeft, akBottom]
           BorderSpacing.Bottom = 4
@@ -1426,8 +1426,8 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = btSetHotKey
           AnchorSideBottom.Control = lblParam
           Left = 281
-          Height = 25
-          Top = 408
+          Height = 21
+          Top = 420
           Width = 197
           Anchors = [akLeft, akRight, akBottom]
           BorderSpacing.Right = 8
@@ -1442,7 +1442,7 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Side = asrBottom
           Left = 486
           Height = 24
-          Top = 408
+          Top = 420
           Width = 111
           Anchors = [akTop, akRight]
           BorderSpacing.InnerBorder = 4
@@ -1459,7 +1459,7 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Side = asrBottom
           Left = 486
           Height = 24
-          Top = 438
+          Top = 450
           Width = 111
           Anchors = [akTop, akRight]
           BorderSpacing.Left = 8
@@ -1491,8 +1491,8 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Control = stgHotkeys
           AnchorSideBottom.Side = asrBottom
           Left = 281
-          Height = 25
-          Top = 453
+          Height = 21
+          Top = 457
           Width = 197
           Anchors = [akLeft, akRight, akBottom]
           BorderSpacing.Bottom = 4
@@ -1504,7 +1504,7 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = stgCommands
           AnchorSideRight.Side = asrBottom
           Left = 494
-          Height = 25
+          Height = 21
           Top = 324
           Width = 103
           Anchors = [akTop, akRight]
@@ -2196,137 +2196,161 @@ object frmOptions: TfrmOptions
         ClientHeight = 481
         object gbScreenLayout: TGroupBox
           Left = 10
-          Height = 358
+          Height = 438
           Top = 6
           Width = 594
           Anchors = [akTop, akLeft, akRight]
           Caption = ' Screen layout '
-          ClientHeight = 340
+          ClientHeight = 420
           ClientWidth = 590
           TabOrder = 0
           object cbShowMainToolBar: TCheckBox
             Left = 10
-            Height = 19
+            Height = 17
             Top = 8
-            Width = 106
+            Width = 98
             Caption = 'Show &button bar'
             TabOrder = 0
           end
           object cbShowDiskPanel: TCheckBox
             Left = 10
-            Height = 19
+            Height = 17
             Top = 50
-            Width = 119
+            Width = 111
             Caption = 'Show &drive buttons'
             OnChange = cbShowDiskPanelChange
             TabOrder = 1
           end
           object cbShowDriveMenuButton: TCheckBox
             Left = 10
-            Height = 19
-            Top = 113
-            Width = 143
+            Height = 17
+            Top = 110
+            Width = 135
             Caption = 'Show d&rive menu button'
             TabOrder = 4
           end
           object cbShowCurDir: TCheckBox
             Left = 10
-            Height = 19
-            Top = 155
-            Width = 136
+            Height = 17
+            Top = 182
+            Width = 128
             Caption = 'Show &current directory'
             TabOrder = 6
           end
           object cbShowTabHeader: TCheckBox
             Left = 10
-            Height = 19
-            Top = 176
-            Width = 129
+            Height = 17
+            Top = 206
+            Width = 121
             Caption = 'Show &tabstop header'
             TabOrder = 7
           end
           object cbShowStatusBar: TCheckBox
             Left = 10
-            Height = 19
-            Top = 197
-            Width = 104
+            Height = 17
+            Top = 230
+            Width = 96
             Caption = 'Show &status bar'
             TabOrder = 8
           end
           object cbShowCmdLine: TCheckBox
             Left = 10
-            Height = 19
-            Top = 218
-            Width = 119
+            Height = 17
+            Top = 254
+            Width = 111
             Caption = 'Show command &line'
             TabOrder = 9
           end
           object cbShowKeysPanel: TCheckBox
             Left = 10
-            Height = 19
-            Top = 239
-            Width = 154
+            Height = 17
+            Top = 278
+            Width = 146
             Caption = 'Show &function key buttons'
             TabOrder = 10
           end
           object cbFlatDiskPanel: TCheckBox
             Left = 26
-            Height = 19
+            Height = 17
             Top = 92
-            Width = 84
+            Width = 76
             Caption = 'Flat buttons'
             Enabled = False
             TabOrder = 3
           end
           object cbTwoDiskPanels: TCheckBox
             Left = 26
-            Height = 19
+            Height = 17
             Top = 71
-            Width = 321
+            Width = 313
             Caption = 'Show two drive button bars (fixed width, above file windows)'
             Enabled = False
             TabOrder = 2
           end
           object cbShowTabs: TCheckBox
             Left = 10
-            Height = 19
-            Top = 134
-            Width = 107
+            Height = 17
+            Top = 158
+            Width = 99
             Caption = 'Sho&w folder tabs'
             TabOrder = 5
           end
           object cbFlatInterface: TCheckBox
             Left = 10
-            Height = 19
-            Top = 260
-            Width = 90
+            Height = 17
+            Top = 302
+            Width = 82
             Caption = 'Flat interface'
             TabOrder = 11
           end
           object cbFlatToolBar: TCheckBox
             Left = 26
-            Height = 19
+            Height = 17
             Top = 29
-            Width = 84
+            Width = 76
             Caption = 'Flat buttons'
             TabOrder = 12
           end
           object cbLogWindow: TCheckBox
             Left = 10
-            Height = 19
-            Top = 280
-            Width = 108
+            Height = 17
+            Top = 326
+            Width = 100
             Caption = 'Show log window'
             TabOrder = 13
           end
           object cbTermWindow: TCheckBox
             Left = 10
-            Height = 19
-            Top = 302
-            Width = 132
+            Height = 17
+            Top = 350
+            Width = 124
             Caption = 'Show terminal window'
             OnChange = cbTermWindowChange
+            TabOrder = 15
+          end
+          object cbFreespaceInd: TCheckBox
+            Left = 10
+            Height = 17
+            Top = 132
+            Width = 206
+            Caption = 'Show freespace indicator on drive label'
             TabOrder = 14
+          end
+          object cbProgInMenuBar: TCheckBox
+            Left = 10
+            Height = 17
+            Top = 371
+            Width = 190
+            Caption = 'Show common progress in menu bar'
+            TabOrder = 16
+          end
+          object cbPanelOfOperations: TCheckBox
+            Left = 10
+            Height = 17
+            Top = 391
+            Width = 205
+            Caption = 'Show panel of operation in background'
+            TabOrder = 17
           end
         end
       end

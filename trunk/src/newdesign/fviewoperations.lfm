@@ -1,36 +1,20 @@
 object frmViewOperations: TfrmViewOperations
-  Left = 192
-  Height = 221
-  Top = 192
-  Width = 656
+  Left = 476
+  Height = 333
+  Top = 272
+  Width = 559
   Caption = 'File operations'
-  ClientHeight = 221
-  ClientWidth = 656
+  ClientHeight = 333
+  ClientWidth = 559
   FormStyle = fsStayOnTop
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   LCLVersion = '0.9.29'
-  object lblOperationsCount: TLabel
-    Left = 24
-    Height = 18
-    Top = 16
-    Width = 99
-    Caption = 'Active operations:'
-    ParentColor = False
-  end
-  object lblCount: TLabel
-    Left = 224
-    Height = 18
-    Top = 16
-    Width = 47
-    Caption = 'lblCount'
-    ParentColor = False
-  end
   object sboxOperations: TScrollBox
     Left = 0
-    Height = 174
-    Top = 47
-    Width = 656
+    Height = 245
+    Top = 88
+    Width = 559
     Align = alBottom
     Anchors = [akTop, akLeft, akRight]
     TabOrder = 0
@@ -38,10 +22,359 @@ object frmViewOperations: TfrmViewOperations
     OnMouseDown = sboxOperationsMouseDown
     OnPaint = sboxOperationsPaint
   end
+  object VOMainPanel: TPanel
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 0
+    Height = 88
+    Top = 0
+    Width = 559
+    Anchors = [akTop, akLeft, akRight]
+    ClientHeight = 88
+    ClientWidth = 559
+    TabOrder = 1
+    object lblCount: TLabel
+      Left = 128
+      Height = 14
+      Top = 24
+      Width = 40
+      Caption = 'lblCount'
+      ParentColor = False
+    end
+    object lblOperationsCount: TLabel
+      Left = 24
+      Height = 14
+      Top = 24
+      Width = 89
+      Caption = 'Active operations:'
+      ParentColor = False
+    end
+    object CurrentOperationPanel: TPanel
+      AnchorSideLeft.Control = lblCount
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = VOMainPanel
+      AnchorSideRight.Control = VOMainPanel
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = VOMainPanel
+      AnchorSideBottom.Side = asrBottom
+      Left = 178
+      Height = 88
+      Top = 0
+      Width = 381
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      BorderSpacing.Left = 10
+      ClientHeight = 88
+      ClientWidth = 381
+      TabOrder = 0
+      object CancelCurOp: TSpeedButton
+        AnchorSideRight.Control = CurrentOperationPanel
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = CurrentOperationPanel
+        AnchorSideBottom.Side = asrBottom
+        Left = 327
+        Height = 21
+        Top = 64
+        Width = 54
+        Anchors = [akRight, akBottom]
+        BorderSpacing.Bottom = 3
+        Caption = 'Cancel'
+        Color = clBtnFace
+        NumGlyphs = 0
+        OnClick = CancelCurOpClick
+      end
+      object StartPauseCurOp: TSpeedButton
+        AnchorSideLeft.Control = CurrentOperationPanel
+        AnchorSideBottom.Control = CurrentOperationPanel
+        AnchorSideBottom.Side = asrBottom
+        Left = 3
+        Height = 21
+        Top = 64
+        Width = 45
+        Anchors = [akLeft, akBottom]
+        BorderSpacing.Left = 3
+        BorderSpacing.Bottom = 3
+        Caption = 'Start'
+        Color = clBtnFace
+        NumGlyphs = 0
+        OnClick = StartPauseCurOpClick
+      end
+      object DnCurOp: TSpeedButton
+        AnchorSideLeft.Control = UpCurOp
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideRight.Control = CancelCurOp
+        AnchorSideBottom.Control = CurrentOperationPanel
+        AnchorSideBottom.Side = asrBottom
+        Left = 287
+        Height = 21
+        Top = 64
+        Width = 38
+        Anchors = [akRight, akBottom]
+        BorderSpacing.Left = 2
+        BorderSpacing.Right = 2
+        BorderSpacing.Bottom = 3
+        Caption = 'Down'
+        Color = clBtnFace
+        NumGlyphs = 0
+        OnClick = DnCurOpClick
+      end
+      object UpCurOp: TSpeedButton
+        AnchorSideLeft.Control = CurrentOperationPanel
+        AnchorSideRight.Control = DnCurOp
+        AnchorSideBottom.Control = CurrentOperationPanel
+        AnchorSideBottom.Side = asrBottom
+        Left = 245
+        Height = 21
+        Top = 64
+        Width = 40
+        Anchors = [akRight, akBottom]
+        BorderSpacing.Right = 2
+        BorderSpacing.Bottom = 3
+        Caption = 'Up'
+        Color = clBtnFace
+        NumGlyphs = 0
+        OnClick = UpCurOpClick
+      end
+      object CurrentOperationLabel: TLabel
+        AnchorSideLeft.Control = StartPauseCurOp
+        Left = 5
+        Height = 14
+        Top = 8
+        Width = 111
+        BorderSpacing.Left = 2
+        Caption = 'CurrentOperationLabel'
+        ParentColor = False
+      end
+      object CurOpQueueInOut: TSpeedButton
+        AnchorSideLeft.Control = Queue
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideBottom.Control = CurrentOperationPanel
+        AnchorSideBottom.Side = asrBottom
+        Left = 97
+        Height = 21
+        Top = 64
+        Width = 34
+        Anchors = [akLeft, akBottom]
+        BorderSpacing.Left = 2
+        BorderSpacing.Bottom = 3
+        Caption = 'In'
+        Color = clBtnFace
+        NumGlyphs = 0
+        OnClick = CurOpQueueInOutClick
+      end
+      object Queue: TLabel
+        AnchorSideLeft.Control = StartPauseCurOp
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideBottom.Control = CurrentOperationPanel
+        AnchorSideBottom.Side = asrBottom
+        Left = 58
+        Height = 14
+        Top = 67
+        Width = 37
+        Anchors = [akLeft, akBottom]
+        BorderSpacing.Left = 10
+        BorderSpacing.Bottom = 7
+        Caption = 'Queue:'
+        ParentColor = False
+      end
+    end
+  end
+  object AllOperationPanel: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = VOMainPanel
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 0
+    Height = 90
+    Top = 243
+    Width = 559
+    Anchors = [akLeft, akRight, akBottom]
+    BorderSpacing.Top = 220
+    ClientHeight = 90
+    ClientWidth = 559
+    TabOrder = 2
+    object AllProgressLabel: TLabel
+      AnchorSideLeft.Control = AllProgressBar
+      AnchorSideRight.Control = AllOperationPanel
+      AnchorSideRight.Side = asrBottom
+      Left = 241
+      Height = 14
+      Top = 16
+      Width = 79
+      Caption = 'AllProgressLabel'
+      ParentColor = False
+    end
+    object AllProgressBar: TProgressBar
+      AnchorSideLeft.Control = AllCancel
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideRight.Control = AllOperationPanel
+      AnchorSideRight.Side = asrBottom
+      Left = 241
+      Height = 18
+      Top = 40
+      Width = 309
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 30
+      BorderSpacing.Right = 9
+      Smooth = True
+      TabOrder = 0
+    end
+    object AllCancel: TSpeedButton
+      AnchorSideLeft.Control = AllPause
+      AnchorSideLeft.Side = asrBottom
+      Left = 155
+      Height = 20
+      Top = 40
+      Width = 56
+      BorderSpacing.Left = 2
+      Caption = 'Cancel All'
+      Color = clBtnFace
+      NumGlyphs = 0
+      OnClick = AllCancelClick
+    end
+    object AllButtonsLable: TLabel
+      AnchorSideLeft.Control = AllOperationPanel
+      Left = 27
+      Height = 14
+      Top = 0
+      Width = 90
+      BorderSpacing.Left = 27
+      Caption = 'Operations control'
+      ParentColor = False
+    end
+    object Label2: TLabel
+      AnchorSideLeft.Control = AllPause
+      AnchorSideLeft.Side = asrCenter
+      Left = 128
+      Height = 14
+      Top = 16
+      Width = 28
+      Caption = 'for all'
+      ParentColor = False
+    end
+    object Cntr_running: TPanel
+      AnchorSideLeft.Control = AllOperationPanel
+      AnchorSideTop.Control = AllButtonsLable
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = AllStart
+      AnchorSideBottom.Control = AllOperationPanel
+      AnchorSideBottom.Side = asrBottom
+      Left = 0
+      Height = 74
+      Top = 16
+      Width = 77
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      BorderSpacing.Top = 2
+      ClientHeight = 74
+      ClientWidth = 77
+      TabOrder = 1
+      object Label1: TLabel
+        AnchorSideLeft.Control = Cntr_running
+        Left = 13
+        Height = 14
+        Top = 0
+        Width = 54
+        BorderSpacing.Left = 13
+        Caption = 'for running'
+        ParentColor = False
+      end
+      object RunAllStart: TBitBtn
+        AnchorSideLeft.Control = Cntr_running
+        Left = 7
+        Height = 20
+        Top = 21
+        Width = 60
+        BorderSpacing.Left = 7
+        Caption = 'Start'
+        OnClick = RunAllStartClick
+        TabOrder = 0
+      end
+      object RunAllPauseStart: TSpeedButton
+        AnchorSideLeft.Control = RunAllStart
+        Left = 7
+        Height = 20
+        Top = 45
+        Width = 60
+        Anchors = [akTop]
+        Caption = '||'
+        Color = clBtnFace
+        NumGlyphs = 0
+        OnClick = RunAllPauseStartClick
+      end
+    end
+    object AllPause: TSpeedButton
+      AnchorSideLeft.Control = AllStart
+      AnchorSideLeft.Side = asrBottom
+      Left = 131
+      Height = 20
+      Top = 40
+      Width = 22
+      BorderSpacing.Left = 2
+      Caption = '||'
+      Color = clBtnFace
+      NumGlyphs = 0
+      OnClick = AllPauseClick
+    end
+    object AllStart: TSpeedButton
+      AnchorSideLeft.Control = Cntr_running
+      AnchorSideLeft.Side = asrBottom
+      Left = 82
+      Height = 20
+      Top = 40
+      Width = 47
+      BorderSpacing.Left = 5
+      Caption = 'Start All'
+      Color = clBtnFace
+      NumGlyphs = 0
+      OnClick = AllStartClick
+    end
+    object CheckQueueBox: TCheckBox
+      AnchorSideLeft.Control = AllProgressBar
+      AnchorSideRight.Control = AllProgressBar
+      AnchorSideRight.Side = asrBottom
+      Left = 241
+      Height = 17
+      Top = 65
+      Width = 83
+      Caption = 'Enable queue'
+      Checked = True
+      State = cbChecked
+      TabOrder = 2
+    end
+    object AllInQueue: TSpeedButton
+      AnchorSideLeft.Control = AllStart
+      Left = 82
+      Height = 18
+      Top = 64
+      Width = 46
+      Caption = 'All In'
+      Color = clBtnFace
+      NumGlyphs = 0
+      OnClick = AllInQueueClick
+    end
+    object StartQueue: TSpeedButton
+      AnchorSideLeft.Control = AllInQueue
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideRight.Control = AllCancel
+      AnchorSideRight.Side = asrBottom
+      Left = 130
+      Height = 18
+      Top = 64
+      Width = 81
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 2
+      Caption = 'Start queue'
+      Color = clBtnFace
+      NumGlyphs = 0
+      OnClick = StartQueueClick
+    end
+  end
   object UpdateTimer: TTimer
     Interval = 100
     OnTimer = OnUpdateTimer
-    left = 19
-    top = 212
+    left = 8
+    top = 176
   end
 end

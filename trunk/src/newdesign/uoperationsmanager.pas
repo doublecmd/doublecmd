@@ -29,13 +29,14 @@ type
                         //<en unless there are no other operations working.
                         //<en Will be started when there are no operation running.
                         //<en This option will put the operation to the head of the queue.
-     ossQueueLast       //<en Same as ossQueueFirst, but this option will put the
+     ossQueueLast,      //<en Same as ossQueueFirst, but this option will put the
                         //<en operation to the back of the queue.
+     ossQueueIn         //<en insert operation to queue.
     );
 
 const
   OperationStartingStateText: array[TOperationStartingState] of string =
-    ('', rsOperManualStart, rsOperAutoStart, rsOperQueue, rsOperQueue);
+    ('', rsOperManualStart, rsOperAutoStart, rsOperQueue, rsOperQueue, rsOperQueue);
 
 type
 
@@ -45,6 +46,9 @@ type
     Operation    : TFileSourceOperation;
     Handle       : TOperationHandle;
     StartingState: TOperationStartingState;
+    Form         : Boolean;
+    PauseRunning : Boolean;
+
   end;
 
   TOperationManagerEvent =
@@ -63,6 +67,9 @@ type
      Executes them, stores threads, allows querying active operations
      (meaning operations being executed).
   }
+
+  { TOperationsManager }
+
   TOperationsManager = class
   private
     FOperations: TFPList;         //<en List of TOperationsManagerEntry
@@ -78,11 +85,7 @@ type
     function GetEntryByHandle(Handle: TOperationHandle): POperationsManagerEntry;
     function GetEntryByOperation(Operation: TFileSourceOperation): POperationsManagerEntry;
 
-    {en
-       Checks if there is any queued operation and if all other operations
-       are stopped, then the next queued operations is started.
-    }
-    procedure CheckQueuedOperations;
+
 
     {en
        Returns @true if there is at least one operation currently running.
@@ -106,6 +109,23 @@ type
     constructor Create;
     destructor Destroy; override;
 
+    {en
+       Checks if there is any queued operation and if all other operations
+       are stopped, then the next queued operations is started.
+    }
+    procedure CheckQueuedOperations;
+
+
+
+    {ru
+       Добавляет операцию в очередь по ее Handle
+    }
+
+    procedure SetToQueue (Handle: TOperationHandle);
+
+    procedure SetFormCreate (Handle: TOperationHandle; setForm: boolean);
+    procedure SetPauseRunning (Handle: TOperationHandle; setForm: boolean);
+
     function AddOperation(Operation: TFileSourceOperation;
                           StartingState: TOperationStartingState): TOperationHandle;
 
@@ -123,7 +143,8 @@ type
     function GetOperationByHandle(Handle: TOperationHandle): TFileSourceOperation;
     function GetHandleById(Index: Integer): TOperationHandle;
     function GetStartingState(Handle: TOperationHandle): TOperationStartingState;
-
+    function GetFormCreate (Handle: TOperationHandle): boolean;
+    function GetPauseRunning (Handle: TOperationHandle): boolean;
     {en
        Changes the entry's (and thus operation's) position in the list.
        It is used to change the order of execution of queued operations.
@@ -131,6 +152,13 @@ type
        @param(ToIndex is an index in the operations list where the entry should be moved to.)
     }
     procedure MoveOperation(FromIndex: Integer; ToIndex: Integer);
+
+    procedure CancelAll;
+    procedure StartAll;
+    procedure PauseAll;
+    procedure PauseRunning;
+    procedure StartRunning;
+    function  AllProgressPoint: Integer;
 
     {en
        This function is used to check if the pointer to an operation is still
@@ -229,6 +257,8 @@ begin
         Entry^.Thread := Thread;
         Entry^.Handle := GetNextUnusedHandle;
         Entry^.StartingState := StartingState;
+        Entry^.Form := True;
+        Entry^.PauseRunning := False;
 
         if StartingState = ossQueueFirst then
           FOperations.Insert(0, Entry)  // Insert at the top of the queue.
@@ -252,7 +282,7 @@ begin
               StartOperation(Entry);
             end;
 
-          ossQueueFirst, ossQueueLast:
+          ossQueueFirst, ossQueueLast, ossQueueIn:
             begin
               if not AreOperationsRunning then
                 StartOperation(Entry)
@@ -373,6 +403,53 @@ begin
     Result := ossInvalid;
 end;
 
+function TOperationsManager.GetFormCreate (Handle: TOperationHandle): boolean;
+var
+  Entry: POperationsManagerEntry = nil;
+begin
+  Entry := GetEntryByHandle(Handle);
+  if Assigned(Entry) then
+    Result := Entry^.Form;
+end;
+
+function TOperationsManager.GetPauseRunning (Handle: TOperationHandle): boolean;
+var
+  Entry: POperationsManagerEntry = nil;
+begin
+  Entry := GetEntryByHandle(Handle);
+  if Assigned(Entry) then
+    Result := Entry^.PauseRunning;
+end;
+
+procedure TOperationsManager.SetPauseRunning (Handle: TOperationHandle; setForm: boolean);
+var
+  Entry: POperationsManagerEntry = nil;
+begin
+  Entry := GetEntryByHandle(Handle);
+  if Assigned(Entry) then
+    Entry^.PauseRunning := setForm;
+end;
+
+procedure TOperationsManager.SetFormCreate (Handle: TOperationHandle; setForm: boolean);
+var
+  Entry: POperationsManagerEntry = nil;
+begin
+  Entry := GetEntryByHandle(Handle);
+  if Assigned(Entry) then
+    Entry^.Form := setForm;
+end;
+
+procedure  TOperationsManager.SetToQueue (Handle: TOperationHandle);
+var
+  Entry: POperationsManagerEntry = nil;
+begin
+  Entry := GetEntryByHandle(Handle);
+  if Assigned(Entry) then
+    Entry^.StartingState := ossQueueIn;
+end;
+
+
+
 function TOperationsManager.GetNextUnusedHandle: TOperationHandle;
 begin
   // Handles are consecutively incremented.
@@ -437,8 +514,9 @@ begin
     begin
       Entry := POperationsManagerEntry(FOperations.Items[i]);
 
-      if (Entry^.StartingState in [ossQueueFirst, ossQueueLast]) and
-         (Entry^.Operation.State = fsosNotStarted) then
+      if (Entry^.StartingState in [ossQueueFirst, ossQueueLast, ossQueueIn]) then
+
+      //  and  (Entry^.Operation.State = fsosNotStarted)
       begin
         StartOperation(Entry);
         Exit;
@@ -456,8 +534,8 @@ begin
   for Index := 0 to FOperations.Count - 1 do
   begin
     Entry := POperationsManagerEntry(FOperations.Items[Index]);
-
-    if not (Entry^.Operation.State in [fsosNotStarted, fsosStopped]) then
+           // (Entry^.Operation.State in [fsosNotStarted, fsosStopped])
+    if  Entry^.Operation.State = fsosRunning then
       Exit(True);  // There is an operation running.
   end;
   Result := False;
@@ -484,6 +562,116 @@ begin
     FOperations.Delete(FromIndex);
     FOperations.Insert(ToIndex, Entry);
   end;
+end;
+
+procedure TOperationsManager.CancelAll;
+var
+  Operation: TFileSourceOperation;
+  i: Integer;
+begin
+  // Cancell all operations
+  for i := 0 to OperationsCount - 1 do
+  begin
+    Operation := OperationsManager.GetOperationByIndex(i);
+    if Assigned(Operation) then
+    begin
+      Operation.Stop;
+    end;
+  end;
+end;
+
+procedure TOperationsManager.StartAll;
+var
+  Operation: TFileSourceOperation;
+  i: Integer;
+begin
+  // Start all operations
+  for i := 0 to OperationsCount - 1 do
+  begin
+    Operation := OperationsManager.GetOperationByIndex(i);
+    if Assigned(Operation) then
+    begin
+      Operation.Start;
+    end;
+  end;
+end;
+
+procedure TOperationsManager.PauseAll;
+var
+  Operation: TFileSourceOperation;
+  i: Integer;
+begin
+  // Pause all operations
+  for i := 0 to OperationsCount do
+  begin
+    Operation := OperationsManager.GetOperationByIndex(i);
+    if Assigned(Operation) then
+    begin
+      Operation.Pause;
+    end;
+  end;
+end;
+
+procedure TOperationsManager.PauseRunning;
+var
+  Operation: TFileSourceOperation;
+  i: Integer;
+       //true - operation was runnig
+begin
+  for i := 0 to OperationsCount - 1 do
+  begin
+    Operation := OperationsManager.GetOperationByIndex(i);
+    if Assigned(Operation) then
+      begin
+        if Operation.State = fsosRunning then
+          begin
+            SetPauseRunning(OperationsManager.GetHandleById(i), True); //Запоминаем строку которую приостановили
+            Operation.Pause;
+          end;
+      end;
+  end;
+end;
+
+procedure TOperationsManager.StartRunning;
+var
+  Operation: TFileSourceOperation;
+  I: Integer;
+  StartOp: Boolean = False;
+begin
+  for I := 0 to OperationsCount - 1 do
+  begin
+    Operation := GetOperationByIndex(I);
+    if Assigned(Operation) then
+      begin
+        if GetPauseRunning (OperationsManager.GetHandleById(I)) = True  then //Вспоминаем остановленную строку и запускаем
+          begin
+            Operation.Start;
+            StartOp:= True; //Пометка, что есть запущенная операция
+          end;
+      end;
+  end;
+  if not StartOp then OperationsManager.GetOperationByIndex(0).Start;  //если нет до этого запущенных, то запускаем первую
+end;
+
+function TOperationsManager.AllProgressPoint: Integer;
+var
+  Operation: TFileSourceOperation;
+  i, n, AllProgressCur: Integer;
+begin
+  n:= 0;
+  for i := 0 to OperationsCount - 1 do
+  begin
+    Operation := OperationsManager.GetOperationByIndex(i);
+    if Assigned(Operation) then
+      n:= n + Operation.Progress  // calculate allProgressBar
+    else
+      AllProgressCur:= 0 ;   // если фоновых операций нет, то прогресса тоже нет
+  end;
+
+  if OperationsManager.OperationsCount<>0 then
+    AllProgressCur:= Round(n / OperationsManager.OperationsCount);  // Показываем средний прогресс
+
+  Result := AllProgressCur;
 end;
 
 function TOperationsManager.OperationExists(Operation: TFileSourceOperation): Boolean;
