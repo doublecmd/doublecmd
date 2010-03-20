@@ -469,11 +469,11 @@ object frmMain: TfrmMain
       end
     end
     object Splitter1: TSplitter
-      AnchorSideBottom.Control = PanelAllProgress
+      AnchorSideBottom.Control = pnlCommand
       Cursor = crVSplit
       Left = 1
       Height = 8
-      Top = 150
+      Top = 191
       Width = 950
       Align = alBottom
       ResizeAnchor = akBottom
@@ -500,8 +500,8 @@ object frmMain: TfrmMain
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = pnlCommand
       Left = 4
-      Height = 40
-      Top = 158
+      Height = 42
+      Top = 148
       Width = 944
       Align = alBottom
       AutoSize = True
@@ -511,7 +511,7 @@ object frmMain: TfrmMain
       BorderSpacing.CellAlignHorizontal = ccaRightBottom
       BorderSpacing.CellAlignVertical = ccaCenter
       BidiMode = bdRightToLeft
-      ClientHeight = 40
+      ClientHeight = 42
       ClientWidth = 944
       ParentBidiMode = False
       TabOrder = 5
@@ -520,7 +520,7 @@ object frmMain: TfrmMain
         AnchorSideBottom.Control = PanelAllProgress
         AnchorSideBottom.Side = asrBottom
         Left = 1
-        Height = 40
+        Height = 42
         Top = 0
         Width = 945
         Anchors = [akTop, akLeft, akRight, akBottom]
