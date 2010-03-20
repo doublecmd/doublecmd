@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.45 alpha\n"
+"Project-Id-Version: Double Commander 0.46 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: \n"
+"PO-Revision-Date: 2010-03-18 19:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -115,7 +115,7 @@ msgstr "Hintergrund:"
 
 #: TFCOLUMNSSETCONF.CBCURSORBORDER.CAPTION
 msgid "Cursor border"
-msgstr ""
+msgstr "Cursor Begrenzung"
 
 #: TFCOLUMNSSETCONF.CBOVERCOLOR.CAPTION
 msgid "Allow Overcolor"
@@ -123,7 +123,7 @@ msgstr "Erlaube Farb-Überschneidung"
 
 #: TFCOLUMNSSETCONF.CHKUSECUSTOMVIEW.CAPTION
 msgid "Use custom font and color"
-msgstr ""
+msgstr "Nutze selbstdefinierte Schriftart und -farbe"
 
 #: TFCOLUMNSSETCONF.CTEXTLABEL.CAPTION
 msgctxt "TFCOLUMNSSETCONF.CTEXTLABEL.CAPTION"
@@ -429,11 +429,11 @@ msgstr "Abbruch"
 
 #: TFRMCOPYDLG.BTNOPTIONS.CAPTION
 msgid "O&ptions"
-msgstr ""
+msgstr "Optionen"
 
 #: TFRMCOPYDLG.BTNSAVEOPTIONS.CAPTION
 msgid "Save these options as default"
-msgstr ""
+msgstr "Dies Optionen als Standard speichern"
 
 #: TFRMCOPYDLG.CAPTION
 msgctxt "TFRMCOPYDLG.CAPTION"
@@ -442,11 +442,11 @@ msgstr "Datei(en) kopieren"
 
 #: TFRMCOPYDLG.CBCHECKFREESPACE.CAPTION
 msgid "Check free space"
-msgstr ""
+msgstr "Freien Speicherplatz prüfen"
 
 #: TFRMCOPYDLG.CBCORRECTLINKS.CAPTION
 msgid "Correct links"
-msgstr ""
+msgstr "Korrigiere Verknüpfungen"
 
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
 msgctxt "TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION"
@@ -455,7 +455,7 @@ msgstr "Schreibschutz-Attribut entfernen"
 
 #: TFRMCOPYDLG.CBFOLLOWLINKS.CAPTION
 msgid "Follow links"
-msgstr ""
+msgstr "Verknüpfungen folgen"
 
 #: TFRMCOPYDLG.LBLCOPYSRC.CAPTION
 msgid "Copy %s:"
@@ -463,11 +463,11 @@ msgstr "Kopiere %s"
 
 #: TFRMCOPYDLG.LBLDIRECTORYEXISTS.CAPTION
 msgid "When directory exists"
-msgstr ""
+msgstr "Wenn das Verzeichnis existiert"
 
 #: TFRMCOPYDLG.LBLFILEEXISTS.CAPTION
 msgid "When file exists"
-msgstr ""
+msgstr "Wenn die Datei existiert"
 
 #: TFRMCOPYDLG.LBLFILETYPE.CAPTION
 msgctxt "TFRMCOPYDLG.LBLFILETYPE.CAPTION"
@@ -598,11 +598,11 @@ msgstr "&Kodiere"
 
 #: TFRMEDITOR.MIENCODINGIN.CAPTION
 msgid "Open as"
-msgstr ""
+msgstr "Öffnen als..."
 
 #: TFRMEDITOR.MIENCODINGOUT.CAPTION
 msgid "Save as"
-msgstr ""
+msgstr "Speichern unter..."
 
 #: TFRMEDITOR.MIFILE.CAPTION
 msgctxt "TFRMEDITOR.MIFILE.CAPTION"
@@ -3029,7 +3029,7 @@ msgstr "Liste auf:"
 
 #: TFRMOPTIONS.LBLARCHIVELISTEND.CAPTION
 msgid "Listing finish (optional):"
-msgstr ""
+msgstr "Auflistungsende (optional):"
 
 #: TFRMOPTIONS.LBLARCHIVELISTFORMAT.CAPTION
 msgid "Listing format:"
@@ -3037,11 +3037,11 @@ msgstr "Auflistungsformat"
 
 #: TFRMOPTIONS.LBLARCHIVELISTSTART.CAPTION
 msgid "Listing start (optional):"
-msgstr ""
+msgstr "Auflistungsbeginn (optional):"
 
 #: TFRMOPTIONS.LBLARCHIVEMULTIVOLUME.CAPTION
 msgid "Create multivolume archive:"
-msgstr ""
+msgstr "Multivolume-Archiv erstellen:"
 
 #: TFRMOPTIONS.LBLARCHIVER.CAPTION
 msgid "Archiver:"
@@ -3049,7 +3049,7 @@ msgstr "Archivierer:"
 
 #: TFRMOPTIONS.LBLARCHIVESELFEXTRACT.CAPTION
 msgid "Create self extracting archive:"
-msgstr ""
+msgstr "Selbstentpackendes Archiv (Sfx) erstellen:"
 
 #: TFRMOPTIONS.LBLARCHIVETEST.CAPTION
 msgid "Test:"
@@ -4185,7 +4185,7 @@ msgstr "Markierte \"%s\" in den Papierkorb löschen?"
 
 #: ulng.rsmsgdeltotrashforce
 msgid "Can not delete \"%s\" to trash! Delete directly?"
-msgstr ""
+msgstr "Kann \"%s\" nicht in den Papierkorb löschen! Endgültig löschen?"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
@@ -4209,7 +4209,7 @@ msgstr "Datenfehler"
 
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
-msgstr ""
+msgstr "Kann die Datei %s nicht zu %s kopieren"
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
@@ -4437,7 +4437,7 @@ msgstr "Passwort"
 
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
-msgstr ""
+msgstr "Bitte Passwort eingeben:"
 
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
@@ -4514,7 +4514,7 @@ msgstr "Laufwerksbezeichnung:"
 
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
-msgstr ""
+msgstr "Bitte Volume-Grösse eingeben:"
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
@@ -4739,7 +4739,7 @@ msgstr "Linke Taste;Rechte Taste;"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
-msgstr ""
+msgstr "Plugin %s ist bereits den folgenden Dateiendungen zugewiesen:"
 
 #: ulng.rsoptplugins
 msgctxt "ulng.rsoptplugins"
@@ -4763,11 +4763,11 @@ msgstr "Tools"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
-msgstr ""
+msgstr "Kann die Zugriffsrechte für die Datei \ "%s\" nicht ändern"
 
 #: ulng.rspropserrchown
 msgid "Can not change owner for \"%s\""
-msgstr ""
+msgstr "Kann den Besitzer für \"%s\" nicht ändern"
 
 #: ulng.rspropsfile
 msgid "File"
