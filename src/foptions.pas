@@ -135,6 +135,9 @@ type
     cbToolsRunInTerminal: TCheckBox;
     cbToolsKeepTerminalOpen: TCheckBox;
     cbToolsUseExternalProgram: TCheckBox;
+    cbFreespaceInd: TCheckBox;
+    cbProgInMenuBar: TCheckBox;
+    cbPanelOfOperations: TCheckBox;
     chkMultiArcEnabled: TCheckBox;
     chkAutoFillColumns: TCheckBox;
     chkIgnoreEnable: TCheckBox;
@@ -2403,6 +2406,9 @@ begin
   cbFlatInterface.Checked := gInterfaceFlat;
   cbLogWindow.Checked := gLogWindow;
   cbTermWindow.Checked := gTermWindow;
+  cbFreespaceInd.Checked := gDriveInd;
+  cbProgInMenuBar.Checked := gProgInMenuBar;
+  cbPanelOfOperations.Checked := gPanelOfOp;
 
   { Behaviours page }
   edtRunInTerm.Text:= gRunInTerm;
@@ -2608,6 +2614,9 @@ begin
   gInterfaceFlat := cbFlatInterface.Checked;
   gLogWindow := cbLogWindow.Checked;
   gTermWindow := cbTermWindow.Checked;
+  gDriveInd := cbFreespaceInd.Checked;
+  gProgInMenuBar := cbProgInMenuBar.Checked;
+  gPanelOfOp := cbPanelOfOperations.Checked;
 
   { Behaviour page }
   gRunInTerm:=edtRunInTerm.Text;

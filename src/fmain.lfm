@@ -1,12 +1,12 @@
 object frmMain: TfrmMain
-  Left = 182
-  Height = 659
-  Top = 54
-  Width = 659
+  Left = 110
+  Height = 520
+  Top = 12
+  Width = 952
   ActiveControl = pnlSyncSize
   Caption = 'Double Commander'
-  ClientHeight = 639
-  ClientWidth = 659
+  ClientHeight = 500
+  ClientWidth = 952
   KeyPreview = True
   Menu = mnuMain
   OnClose = frmMainClose
@@ -30,7 +30,7 @@ object frmMain: TfrmMain
     Left = 0
     Height = 20
     Top = 0
-    Width = 659
+    Width = 952
     AutoSize = True
     Constraints.MinHeight = 20
     Flat = True
@@ -48,16 +48,16 @@ object frmMain: TfrmMain
     AnchorSideTop.Side = asrBottom
     Left = 0
     Height = 26
-    Top = 24
-    Width = 659
+    Top = 20
+    Width = 952
     Align = alTop
     BevelOuter = bvNone
     ClientHeight = 26
-    ClientWidth = 659
+    ClientWidth = 952
     FullRepaint = False
     TabOrder = 0
     object pnlDisk: TPanel
-      Left = 134
+      Left = 427
       Height = 26
       Top = 0
       Width = 525
@@ -70,7 +70,7 @@ object frmMain: TfrmMain
       object dskLeft: TKASToolBar
         AnchorSideLeft.Control = pnlDisk
         Left = 1
-        Height = 20
+        Height = 24
         Top = 1
         Width = 142
         Align = alLeft
@@ -93,7 +93,7 @@ object frmMain: TfrmMain
         Left = 143
         Height = 20
         Top = 1
-        Width = 381
+        Width = 382
         Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         AutoSize = True
@@ -111,24 +111,25 @@ object frmMain: TfrmMain
   end
   object pnlNotebooks: TPanel
     Left = 0
-    Height = 499
-    Top = 50
-    Width = 659
+    Height = 369
+    Top = 46
+    Width = 952
     Align = alClient
-    ClientHeight = 499
-    ClientWidth = 659
+    ClientHeight = 369
+    ClientWidth = 952
     FullRepaint = False
     TabOrder = 1
     object pnlLeft: TPanel
+      AnchorSideBottom.Control = PanelAllProgress
       Left = 1
-      Height = 323
+      Height = 149
       Top = 1
-      Width = 170
+      Width = 511
       Align = alLeft
       BorderSpacing.Right = 3
       BevelOuter = bvNone
-      ClientHeight = 323
-      ClientWidth = 170
+      ClientHeight = 149
+      ClientWidth = 511
       TabOrder = 0
       OnDblClick = pnlLeftRightDblClick
       OnResize = pnlLeftResize
@@ -136,11 +137,11 @@ object frmMain: TfrmMain
         Left = 0
         Height = 24
         Top = 0
-        Width = 170
+        Width = 511
         Align = alTop
         BevelOuter = bvNone
         ClientHeight = 24
-        ClientWidth = 170
+        ClientWidth = 511
         TabOrder = 0
         object btnLeftDrive: TSpeedButton
           Left = 0
@@ -154,7 +155,7 @@ object frmMain: TfrmMain
           OnMouseUp = dskToolBarMouseUp
         end
         object btnLeftHome: TSpeedButton
-          Left = 124
+          Left = 465
           Height = 24
           Hint = 'Go to home directory'
           Top = 0
@@ -166,7 +167,7 @@ object frmMain: TfrmMain
           OnClick = btnLeftClick
         end
         object btnLeftUp: TSpeedButton
-          Left = 101
+          Left = 442
           Height = 24
           Hint = 'Go to parent directory'
           Top = 0
@@ -178,7 +179,7 @@ object frmMain: TfrmMain
           OnClick = btnLeftClick
         end
         object btnLeftRoot: TSpeedButton
-          Left = 78
+          Left = 419
           Height = 24
           Hint = 'Go to root directory'
           Top = 0
@@ -189,18 +190,8 @@ object frmMain: TfrmMain
           NumGlyphs = 0
           OnClick = btnLeftClick
         end
-        object lblLeftDriveInfo: TLabel
-          Left = 48
-          Height = 24
-          Top = 0
-          Width = 7
-          Align = alClient
-          Alignment = taCenter
-          ParentColor = False
-          OnDblClick = lblDriveInfoDblClick
-        end
         object btnLeftDirectoryHotlist: TSpeedButton
-          Left = 55
+          Left = 396
           Height = 24
           Hint = 'Directory hotlist'
           Top = 0
@@ -212,7 +203,7 @@ object frmMain: TfrmMain
           OnClick = btnLeftDirectoryHotlistClick
         end
         object btnRightEqualLeft: TSpeedButton
-          Left = 147
+          Left = 488
           Height = 24
           Hint = 'Show current directory of the left panel in the right panel'
           Top = 0
@@ -223,29 +214,63 @@ object frmMain: TfrmMain
           Color = clBtnFace
           NumGlyphs = 0
         end
+        object sboxLeftDrive: TScrollBox
+          AnchorSideLeft.Control = btnLeftDrive
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = lblLeftDriveInfo
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = btnLeftDirectoryHotlist
+          AnchorSideBottom.Control = pnlLeftTools
+          AnchorSideBottom.Side = asrBottom
+          Left = 48
+          Height = 10
+          Top = 14
+          Width = 348
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          AutoSize = True
+          BorderStyle = bsNone
+          Color = clBtnFace
+          ParentColor = False
+          TabOrder = 0
+          OnPaint = sboxDrivePaint
+        end
+        object lblLeftDriveInfo: TLabel
+          AnchorSideLeft.Control = btnLeftDrive
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideRight.Control = btnLeftDirectoryHotlist
+          Left = 48
+          Height = 14
+          Top = 0
+          Width = 348
+          Alignment = taCenter
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          Caption = 'lblLeftDriveInfo'
+          ParentColor = False
+          OnDblClick = lblDriveInfoDblClick
+        end
       end
     end
     object pnlRight: TPanel
-      Left = 174
-      Height = 323
+      Left = 515
+      Height = 149
       Top = 1
-      Width = 484
+      Width = 436
       Align = alClient
       BorderSpacing.Left = 3
       BevelOuter = bvNone
-      ClientHeight = 323
-      ClientWidth = 484
+      ClientHeight = 149
+      ClientWidth = 436
       TabOrder = 1
       OnDblClick = pnlLeftRightDblClick
       object pnlRightTools: TPanel
         Left = 0
         Height = 24
         Top = 0
-        Width = 484
+        Width = 436
         Align = alTop
         BevelOuter = bvNone
         ClientHeight = 24
-        ClientWidth = 484
+        ClientWidth = 436
         TabOrder = 0
         object btnRightDrive: TSpeedButton
           Left = 0
@@ -259,7 +284,7 @@ object frmMain: TfrmMain
           OnMouseUp = dskToolBarMouseUp
         end
         object btnRightHome: TSpeedButton
-          Left = 438
+          Left = 390
           Height = 24
           Top = 0
           Width = 23
@@ -270,7 +295,7 @@ object frmMain: TfrmMain
           OnClick = btnRightClick
         end
         object btnRightUp: TSpeedButton
-          Left = 415
+          Left = 367
           Height = 24
           Top = 0
           Width = 23
@@ -281,7 +306,7 @@ object frmMain: TfrmMain
           OnClick = btnRightClick
         end
         object btnRightRoot: TSpeedButton
-          Left = 392
+          Left = 344
           Height = 24
           Top = 0
           Width = 23
@@ -291,18 +316,8 @@ object frmMain: TfrmMain
           NumGlyphs = 0
           OnClick = btnRightClick
         end
-        object lblRightDriveInfo: TLabel
-          Left = 48
-          Height = 24
-          Top = 0
-          Width = 321
-          Align = alClient
-          Alignment = taCenter
-          ParentColor = False
-          OnDblClick = lblDriveInfoDblClick
-        end
         object btnRightDirectoryHotlist: TSpeedButton
-          Left = 369
+          Left = 321
           Height = 24
           Top = 0
           Width = 23
@@ -313,7 +328,7 @@ object frmMain: TfrmMain
           OnClick = btnRightDirectoryHotlistClick
         end
         object btnLeftEqualRight: TSpeedButton
-          Left = 461
+          Left = 413
           Height = 24
           Hint = 'Show current directory of the right panel in the left panel'
           Top = 0
@@ -324,40 +339,72 @@ object frmMain: TfrmMain
           Color = clBtnFace
           NumGlyphs = 0
         end
+        object sboxRightDrive: TScrollBox
+          AnchorSideLeft.Control = btnRightDrive
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = lblRightDriveInfo
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = btnRightDirectoryHotlist
+          AnchorSideBottom.Control = pnlRightTools
+          AnchorSideBottom.Side = asrBottom
+          Left = 48
+          Height = 10
+          Top = 14
+          Width = 273
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          AutoSize = True
+          BorderStyle = bsNone
+          TabOrder = 0
+          OnPaint = sboxDrivePaint
+        end
+        object lblRightDriveInfo: TLabel
+          AnchorSideLeft.Control = btnRightDrive
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideRight.Control = btnRightDirectoryHotlist
+          Left = 48
+          Height = 14
+          Top = 0
+          Width = 273
+          Alignment = taCenter
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          Caption = 'lblRightDriveInfo'
+          ParentColor = False
+          OnDblClick = lblDriveInfoDblClick
+        end
       end
     end
     object pnlCommand: TPanel
       Left = 1
       Height = 169
-      Top = 329
-      Width = 657
+      Top = 199
+      Width = 950
       Align = alBottom
       Anchors = [akLeft, akRight]
       BevelOuter = bvLowered
       ClientHeight = 169
-      ClientWidth = 657
+      ClientWidth = 950
       FullRepaint = False
       ParentColor = False
       TabOrder = 2
       object Panel1: TPanel
         Left = 1
-        Height = 28
-        Top = 140
-        Width = 655
+        Height = 25
+        Top = 143
+        Width = 948
         Align = alBottom
         AutoSize = True
         BevelOuter = bvNone
         ChildSizing.TopBottomSpacing = 2
-        ClientHeight = 28
-        ClientWidth = 655
+        ClientHeight = 25
+        ClientWidth = 948
         TabOrder = 0
         object lblCommandPath: TLabel
           AnchorSideTop.Control = edtCommand
           AnchorSideTop.Side = asrCenter
           Left = 0
-          Height = 20
-          Top = 6
-          Width = 33
+          Height = 14
+          Top = 5
+          Width = 23
           Caption = 'Path'
           ParentColor = False
           ShowAccelChar = False
@@ -371,7 +418,7 @@ object frmMain: TfrmMain
           Left = 27
           Height = 21
           Top = 2
-          Width = 729
+          Width = 921
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 4
           ItemHeight = 13
@@ -384,22 +431,22 @@ object frmMain: TfrmMain
       end
       object nbConsole: TNotebook
         Left = 1
-        Height = 139
+        Height = 142
         Top = 1
-        Width = 655
+        Width = 948
         TabStop = False
         Align = alClient
         PageIndex = 0
         ShowTabs = False
         TabOrder = 1
         object Page1: TPage
-          ClientWidth = 647
-          ClientHeight = 131
+          ClientWidth = 940
+          ClientHeight = 134
           object CmdBox1: TCmdBox
             Left = 0
-            Height = 131
+            Height = 134
             Top = 0
-            Width = 647
+            Width = 940
             Align = alClient
             CaretColor = clWhite
             CaretType = cartUser
@@ -422,11 +469,12 @@ object frmMain: TfrmMain
       end
     end
     object Splitter1: TSplitter
+      AnchorSideBottom.Control = PanelAllProgress
       Cursor = crVSplit
       Left = 1
-      Height = 5
-      Top = 324
-      Width = 657
+      Height = 8
+      Top = 150
+      Width = 950
       Align = alBottom
       ResizeAnchor = akBottom
     end
@@ -444,12 +492,50 @@ object frmMain: TfrmMain
       OnMouseMove = MainSplitterMouseMove
       OnMouseUp = MainSplitterMouseUp
     end
+    object PanelAllProgress: TPanel
+      AnchorSideLeft.Control = pnlNotebooks
+      AnchorSideTop.Control = Splitter1
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlNotebooks
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = pnlCommand
+      Left = 4
+      Height = 40
+      Top = 158
+      Width = 944
+      Align = alBottom
+      AutoSize = True
+      BorderSpacing.Left = 3
+      BorderSpacing.Right = 3
+      BorderSpacing.Bottom = 1
+      BorderSpacing.CellAlignHorizontal = ccaRightBottom
+      BorderSpacing.CellAlignVertical = ccaCenter
+      BidiMode = bdRightToLeft
+      ClientHeight = 40
+      ClientWidth = 944
+      ParentBidiMode = False
+      TabOrder = 5
+      object sboxOperations: TScrollBox
+        AnchorSideTop.Control = PanelAllProgress
+        AnchorSideBottom.Control = PanelAllProgress
+        AnchorSideBottom.Side = asrBottom
+        Left = 1
+        Height = 40
+        Top = 0
+        Width = 945
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        AutoSize = True
+        TabOrder = 0
+        OnMouseDown = sboxOperationsMouseDown
+        OnPaint = sboxOperationsPaint
+      end
+    end
   end
   object pnlKeys: TPanel
     Left = 0
-    Height = 25
-    Top = 614
-    Width = 659
+    Height = 20
+    Top = 480
+    Width = 952
     Align = alBottom
     Anchors = [akLeft, akRight]
     BevelOuter = bvLowered
@@ -458,75 +544,75 @@ object frmMain: TfrmMain
     ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
     ChildSizing.ShrinkVertical = crsHomogenousChildResize
     ChildSizing.Layout = cclTopToBottomThenLeftToRight
-    ClientHeight = 25
-    ClientWidth = 659
+    ClientHeight = 20
+    ClientWidth = 952
     FullRepaint = False
     TabOrder = 3
     object btnF3: TSpeedButton
       Left = 0
-      Height = 25
+      Height = 20
       Top = 0
-      Width = 83
+      Width = 119
       Action = actView
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF4: TSpeedButton
-      Left = 83
-      Height = 25
+      Left = 119
+      Height = 20
       Top = 0
-      Width = 83
+      Width = 119
       Action = actEdit
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF5: TSpeedButton
-      Left = 166
-      Height = 25
+      Left = 238
+      Height = 20
       Top = 0
-      Width = 83
+      Width = 119
       Action = actCopy
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF6: TSpeedButton
-      Left = 249
-      Height = 25
+      Left = 357
+      Height = 20
       Top = 0
-      Width = 83
+      Width = 119
       Action = actRename
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF7: TSpeedButton
-      Left = 332
-      Height = 25
+      Left = 476
+      Height = 20
       Top = 0
-      Width = 83
+      Width = 119
       Action = actMakeDir
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF8: TSpeedButton
-      Left = 415
-      Height = 25
+      Left = 595
+      Height = 20
       Top = 0
-      Width = 83
+      Width = 119
       Action = actDelete
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF9: TSpeedButton
-      Left = 581
-      Height = 25
+      Left = 714
+      Height = 20
       Top = 0
-      Width = 78
+      Width = 119
       Action = actRunTerm
       Caption = 'Terminal F9'
       Color = clBtnFace
@@ -534,367 +620,628 @@ object frmMain: TfrmMain
       NumGlyphs = 0
     end
     object btnF10: TSpeedButton
-      Left = 498
-      Height = 25
+      Left = 833
+      Height = 20
       Top = 0
-      Width = 83
+      Width = 119
       Action = actExit
+      Caption = 'Exit F10'
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
   end
-  object seLogWindow: TSynEdit
+  inline seLogWindow: TSynEdit
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = PanelAllProgress
+    AnchorSideBottom.Side = asrBottom
     Left = 0
     Height = 61
-    Top = 553
-    Width = 659
+    Top = 419
+    Width = 952
     Align = alBottom
     Font.Height = -16
     Font.Name = 'courier'
     Font.Pitch = fpFixed
+    Font.Quality = fqNonAntialiased
     ParentColor = False
     ParentFont = False
     PopupMenu = pmLogMenu
     TabOrder = 4
     TabStop = False
+    Gutter.Width = 59
+    Gutter.MouseActions = <    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbLeft
+        ClickCount = ccAny
+        ClickDir = cdDown
+        Command = 13
+        MoveCaret = False
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbRight
+        ClickCount = ccSingle
+        ClickDir = cdUp
+        Command = 12
+        MoveCaret = False
+        Option = 0
+        Priority = 0
+      end>
     Keystrokes = <    
       item
-        Command = 3
+        Command = ecUp
         ShortCut = 38
       end    
       item
-        Command = 103
+        Command = ecSelUp
         ShortCut = 8230
       end    
       item
-        Command = 211
+        Command = ecScrollUp
         ShortCut = 16422
       end    
       item
-        Command = 4
+        Command = ecDown
         ShortCut = 40
       end    
       item
-        Command = 104
+        Command = ecSelDown
         ShortCut = 8232
       end    
       item
-        Command = 212
+        Command = ecScrollDown
         ShortCut = 16424
       end    
       item
-        Command = 1
+        Command = ecLeft
         ShortCut = 37
       end    
       item
-        Command = 101
+        Command = ecSelLeft
         ShortCut = 8229
       end    
       item
-        Command = 5
+        Command = ecWordLeft
         ShortCut = 16421
       end    
       item
-        Command = 105
+        Command = ecSelWordLeft
         ShortCut = 24613
       end    
       item
-        Command = 2
+        Command = ecRight
         ShortCut = 39
       end    
       item
-        Command = 102
+        Command = ecSelRight
         ShortCut = 8231
       end    
       item
-        Command = 6
+        Command = ecWordRight
         ShortCut = 16423
       end    
       item
-        Command = 106
+        Command = ecSelWordRight
         ShortCut = 24615
       end    
       item
-        Command = 10
+        Command = ecPageDown
         ShortCut = 34
       end    
       item
-        Command = 110
+        Command = ecSelPageDown
         ShortCut = 8226
       end    
       item
-        Command = 14
+        Command = ecPageBottom
         ShortCut = 16418
       end    
       item
-        Command = 114
+        Command = ecSelPageBottom
         ShortCut = 24610
       end    
       item
-        Command = 9
+        Command = ecPageUp
         ShortCut = 33
       end    
       item
-        Command = 109
+        Command = ecSelPageUp
         ShortCut = 8225
       end    
       item
-        Command = 13
+        Command = ecPageTop
         ShortCut = 16417
       end    
       item
-        Command = 113
+        Command = ecSelPageTop
         ShortCut = 24609
       end    
       item
-        Command = 7
+        Command = ecLineStart
         ShortCut = 36
       end    
       item
-        Command = 107
+        Command = ecSelLineStart
         ShortCut = 8228
       end    
       item
-        Command = 15
+        Command = ecEditorTop
         ShortCut = 16420
       end    
       item
-        Command = 115
+        Command = ecSelEditorTop
         ShortCut = 24612
       end    
       item
-        Command = 8
+        Command = ecLineEnd
         ShortCut = 35
       end    
       item
-        Command = 108
+        Command = ecSelLineEnd
         ShortCut = 8227
       end    
       item
-        Command = 16
+        Command = ecEditorBottom
         ShortCut = 16419
       end    
       item
-        Command = 116
+        Command = ecSelEditorBottom
         ShortCut = 24611
       end    
       item
-        Command = 223
+        Command = ecToggleMode
         ShortCut = 45
       end    
       item
-        Command = 201
+        Command = ecCopy
         ShortCut = 16429
       end    
       item
-        Command = 604
+        Command = ecPaste
         ShortCut = 8237
       end    
       item
-        Command = 502
+        Command = ecDeleteChar
         ShortCut = 46
       end    
       item
-        Command = 603
+        Command = ecCut
         ShortCut = 8238
       end    
       item
-        Command = 501
+        Command = ecDeleteLastChar
         ShortCut = 8
       end    
       item
-        Command = 501
+        Command = ecDeleteLastChar
         ShortCut = 8200
       end    
       item
-        Command = 504
+        Command = ecDeleteLastWord
         ShortCut = 16392
       end    
       item
-        Command = 601
+        Command = ecUndo
         ShortCut = 32776
       end    
       item
-        Command = 602
+        Command = ecRedo
         ShortCut = 40968
       end    
       item
-        Command = 509
+        Command = ecLineBreak
         ShortCut = 13
       end    
       item
-        Command = 199
+        Command = ecSelectAll
         ShortCut = 16449
       end    
       item
-        Command = 201
+        Command = ecCopy
         ShortCut = 16451
       end    
       item
-        Command = 610
+        Command = ecBlockIndent
         ShortCut = 24649
       end    
       item
-        Command = 509
+        Command = ecLineBreak
         ShortCut = 16461
       end    
       item
-        Command = 510
+        Command = ecInsertLine
         ShortCut = 16462
       end    
       item
-        Command = 503
+        Command = ecDeleteWord
         ShortCut = 16468
       end    
       item
-        Command = 611
+        Command = ecBlockUnindent
         ShortCut = 24661
       end    
       item
-        Command = 604
+        Command = ecPaste
         ShortCut = 16470
       end    
       item
-        Command = 603
+        Command = ecCut
         ShortCut = 16472
       end    
       item
-        Command = 507
+        Command = ecDeleteLine
         ShortCut = 16473
       end    
       item
-        Command = 506
+        Command = ecDeleteEOL
         ShortCut = 24665
       end    
       item
-        Command = 601
+        Command = ecUndo
         ShortCut = 16474
       end    
       item
-        Command = 602
+        Command = ecRedo
         ShortCut = 24666
       end    
       item
-        Command = 301
+        Command = ecGotoMarker0
         ShortCut = 16432
       end    
       item
-        Command = 302
+        Command = ecGotoMarker1
         ShortCut = 16433
       end    
       item
-        Command = 303
+        Command = ecGotoMarker2
         ShortCut = 16434
       end    
       item
-        Command = 304
+        Command = ecGotoMarker3
         ShortCut = 16435
       end    
       item
-        Command = 305
+        Command = ecGotoMarker4
         ShortCut = 16436
       end    
       item
-        Command = 306
+        Command = ecGotoMarker5
         ShortCut = 16437
       end    
       item
-        Command = 307
+        Command = ecGotoMarker6
         ShortCut = 16438
       end    
       item
-        Command = 308
+        Command = ecGotoMarker7
         ShortCut = 16439
       end    
       item
-        Command = 309
+        Command = ecGotoMarker8
         ShortCut = 16440
       end    
       item
-        Command = 310
+        Command = ecGotoMarker9
         ShortCut = 16441
       end    
       item
-        Command = 351
+        Command = ecSetMarker0
         ShortCut = 24624
       end    
       item
-        Command = 352
+        Command = ecSetMarker1
         ShortCut = 24625
       end    
       item
-        Command = 353
+        Command = ecSetMarker2
         ShortCut = 24626
       end    
       item
-        Command = 354
+        Command = ecSetMarker3
         ShortCut = 24627
       end    
       item
-        Command = 355
+        Command = ecSetMarker4
         ShortCut = 24628
       end    
       item
-        Command = 356
+        Command = ecSetMarker5
         ShortCut = 24629
       end    
       item
-        Command = 357
+        Command = ecSetMarker6
         ShortCut = 24630
       end    
       item
-        Command = 358
+        Command = ecSetMarker7
         ShortCut = 24631
       end    
       item
-        Command = 359
+        Command = ecSetMarker8
         ShortCut = 24632
       end    
       item
-        Command = 360
+        Command = ecSetMarker9
         ShortCut = 24633
       end    
       item
-        Command = 231
+        Command = ecNormalSelect
         ShortCut = 24654
       end    
       item
-        Command = 232
+        Command = ecColumnSelect
         ShortCut = 24643
       end    
       item
-        Command = 233
+        Command = ecLineSelect
         ShortCut = 24652
       end    
       item
-        Command = 612
+        Command = ecTab
         ShortCut = 9
       end    
       item
-        Command = 613
+        Command = ecShiftTab
         ShortCut = 8201
       end    
       item
-        Command = 250
+        Command = ecMatchBracket
         ShortCut = 24642
+      end>
+    MouseActions = <    
+      item
+        Shift = []
+        ShiftMask = [ssShift, ssAlt]
+        Button = mbLeft
+        ClickCount = ccSingle
+        ClickDir = cdDown
+        Command = 1
+        MoveCaret = True
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = [ssShift]
+        ShiftMask = [ssShift, ssAlt]
+        Button = mbLeft
+        ClickCount = ccSingle
+        ClickDir = cdDown
+        Command = 1
+        MoveCaret = True
+        Option = 1
+        Priority = 0
+      end    
+      item
+        Shift = [ssAlt]
+        ShiftMask = [ssShift, ssAlt]
+        Button = mbLeft
+        ClickCount = ccSingle
+        ClickDir = cdDown
+        Command = 3
+        MoveCaret = True
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = [ssShift, ssAlt]
+        ShiftMask = [ssShift, ssAlt]
+        Button = mbLeft
+        ClickCount = ccSingle
+        ClickDir = cdDown
+        Command = 3
+        MoveCaret = True
+        Option = 1
+        Priority = 0
+      end    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbRight
+        ClickCount = ccSingle
+        ClickDir = cdUp
+        Command = 12
+        MoveCaret = False
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbLeft
+        ClickCount = ccDouble
+        ClickDir = cdDown
+        Command = 6
+        MoveCaret = True
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbLeft
+        ClickCount = ccTriple
+        ClickDir = cdDown
+        Command = 7
+        MoveCaret = True
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbLeft
+        ClickCount = ccQuad
+        ClickDir = cdDown
+        Command = 8
+        MoveCaret = True
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbMiddle
+        ClickCount = ccSingle
+        ClickDir = cdDown
+        Command = 10
+        MoveCaret = True
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = [ssCtrl]
+        ShiftMask = [ssShift, ssAlt, ssCtrl]
+        Button = mbLeft
+        ClickCount = ccSingle
+        ClickDir = cdUp
+        Command = 11
+        MoveCaret = False
+        Option = 0
+        Priority = 0
+      end>
+    MouseSelActions = <    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbLeft
+        ClickCount = ccSingle
+        ClickDir = cdDown
+        Command = 9
+        MoveCaret = False
+        Option = 0
+        Priority = 0
       end>
     ReadOnly = True
     RightEdge = 0
     ScrollBars = ssVertical
+    BracketHighlightStyle = sbhsBoth
     OnSpecialLineColors = seLogWindowSpecialLineColors
+    inline SynGutterPartList1: TSynGutterPartList
+      object SynGutterMarks1: TSynGutterMarks
+        Width = 23
+      end
+      object SynGutterLineNumber1: TSynGutterLineNumber
+        Width = 19
+        MouseActions = <>
+        MarkupInfo.Background = clBtnFace
+        MarkupInfo.Foreground = clNone
+        DigitCount = 2
+        ShowOnlyLineNumbersMultiplesOf = 1
+        ZeroStart = False
+        LeadingZeros = False
+      end
+      object SynGutterChanges1: TSynGutterChanges
+        Width = 4
+        ModifiedColor = 59900
+        SavedColor = clGreen
+      end
+      object SynGutterSeparator1: TSynGutterSeparator
+        Width = 2
+      end
+      object SynGutterCodeFolding1: TSynGutterCodeFolding
+        MouseActions = <        
+          item
+            Shift = []
+            ShiftMask = []
+            Button = mbRight
+            ClickCount = ccSingle
+            ClickDir = cdUp
+            Command = 16
+            MoveCaret = False
+            Option = 0
+            Priority = 0
+          end        
+          item
+            Shift = []
+            ShiftMask = [ssShift]
+            Button = mbMiddle
+            ClickCount = ccAny
+            ClickDir = cdDown
+            Command = 14
+            MoveCaret = False
+            Option = 0
+            Priority = 0
+          end        
+          item
+            Shift = [ssShift]
+            ShiftMask = [ssShift]
+            Button = mbMiddle
+            ClickCount = ccAny
+            ClickDir = cdDown
+            Command = 14
+            MoveCaret = False
+            Option = 1
+            Priority = 0
+          end        
+          item
+            Shift = []
+            ShiftMask = []
+            Button = mbLeft
+            ClickCount = ccAny
+            ClickDir = cdDown
+            Command = 0
+            MoveCaret = False
+            Option = 0
+            Priority = 0
+          end>
+        MarkupInfo.Background = clNone
+        MarkupInfo.Foreground = clGray
+        MouseActionsExpanded = <        
+          item
+            Shift = []
+            ShiftMask = []
+            Button = mbLeft
+            ClickCount = ccAny
+            ClickDir = cdDown
+            Command = 14
+            MoveCaret = False
+            Option = 0
+            Priority = 0
+          end>
+        MouseActionsCollapsed = <        
+          item
+            Shift = [ssCtrl]
+            ShiftMask = [ssCtrl]
+            Button = mbLeft
+            ClickCount = ccAny
+            ClickDir = cdDown
+            Command = 15
+            MoveCaret = False
+            Option = 0
+            Priority = 0
+          end        
+          item
+            Shift = []
+            ShiftMask = [ssCtrl]
+            Button = mbLeft
+            ClickCount = ccAny
+            ClickDir = cdDown
+            Command = 15
+            MoveCaret = False
+            Option = 1
+            Priority = 0
+          end>
+      end
+    end
   end
   object LogSplitter: TSplitter
     Cursor = crVSplit
     Left = 0
     Height = 4
-    Top = 549
-    Width = 659
+    Top = 415
+    Width = 952
     Align = alBottom
     ResizeAnchor = akBottom
     ResizeStyle = rsLine
   end
   object mnuMain: TMainMenu
+    ParentBidiMode = False
     left = 283
     top = 8
     object mnuFiles: TMenuItem
@@ -1230,10 +1577,39 @@ object frmMain: TfrmMain
         OnClick = actExecute
       end
     end
+    object AllOpPct: TMenuItem
+      Caption = '%'
+      RightJustify = True
+      Visible = False
+      OnClick = AllOpPctClick
+    end
+    object AllOpProgressInd: TMenuItem
+      Caption = '||||||||||||||||||||'
+      RightJustify = True
+      Visible = False
+    end
+    object AllOpStart: TMenuItem
+      Caption = 'Start'
+      RightJustify = True
+      Visible = False
+      OnClick = AllOpStartClick
+    end
+    object AllOpPause: TMenuItem
+      Caption = '||'
+      RightJustify = True
+      Visible = False
+      OnClick = AllOpPauseClick
+    end
+    object AllOpCancel: TMenuItem
+      Caption = 'Cancel'
+      RightJustify = True
+      Visible = False
+      OnClick = AllOpCancelClick
+    end
   end
   object actionLst: TActionList
-    left = 312
-    top = 8
+    left = 336
+    top = 24
     object actExit: TAction
       Category = 'File'
       Caption = 'E&xit'
@@ -1813,19 +2189,19 @@ object frmMain: TfrmMain
     end
   end
   object pmHotList: TPopupMenu
-    left = 152
-    top = 136
+    left = 120
+    top = 72
   end
   object pmDirHistory: TPopupMenu
     AutoPopup = False
     left = 184
-    top = 136
+    top = 104
   end
   object pmToolBar: TPopupMenu
     Tag = -1
     OnPopup = pmToolBarPopup
-    left = 120
-    top = 136
+    left = 48
+    top = 152
     object tbEdit: TMenuItem
       Caption = 'Edit'
       OnClick = tbEditClick
@@ -1855,25 +2231,25 @@ object frmMain: TfrmMain
     end
   end
   object pmDrivesMenu: TPopupMenu
-    left = 80
-    top = 136
+    left = 56
+    top = 96
   end
   object pmButtonMenu: TKASBarMenu
     OnLoadButtonGlyph = pmButtonMenuLoadButtonGlyph
     OnMenuButtonClick = pmButtonMenuMenuButtonClick
-    left = 220
-    top = 136
+    left = 248
+    top = 96
   end
   object pmColumnsMenu: TPopupMenu
-    left = 256
-    top = 136
+    left = 344
+    top = 144
     object MenuItem2: TMenuItem
       Caption = '-'
     end
   end
   object pmSplitterPercent: TPopupMenu
-    left = 296
-    top = 136
+    left = 312
+    top = 96
     object mi2080: TMenuItem
       Tag = 20
       Caption = '&20/80'
@@ -1911,8 +2287,8 @@ object frmMain: TfrmMain
     end
   end
   object pmDropMenu: TPopupMenu
-    left = 331
-    top = 136
+    left = 384
+    top = 72
     object miCopy: TMenuItem
       Caption = 'Copy...'
       OnClick = mnuDropClick
@@ -3047,5 +3423,11 @@ object frmMain: TfrmMain
       Caption = 'Hide'
       OnClick = miLogMenuClick
     end
+  end
+  object Timer: TTimer
+    Interval = 100
+    OnTimer = AllProgressOnUpdateTimer
+    left = 11
+    top = 13
   end
 end

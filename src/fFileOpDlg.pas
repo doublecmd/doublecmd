@@ -20,7 +20,7 @@ interface
 uses
   LResources,
   SysUtils, Classes, Controls, Forms, StdCtrls, ComCtrls, Buttons, ExtCtrls,
-  uOperationsManager, uFileSourceOperation, uFileSourceOperationUI;
+  uOperationsManager, uFileSourceOperation, uFileSourceOperationUI, fViewOperations;
 
 type
 
@@ -40,8 +40,14 @@ type
     lblFileNameFrom: TLabel;
     lblEstimated: TLabel;
     btnCancel: TBitBtn;
+    btnToQueue: TSpeedButton;
+    btnOpHome: TSpeedButton;
+    bthOpEnd: TSpeedButton;
+    procedure bthOpEndClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
+    procedure btnOpHomeClick(Sender: TObject);
     procedure btnPauseStartClick(Sender: TObject);
+    procedure btnToQueueClick(Sender: TObject);
     procedure btnWorkInBackgroundClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -77,6 +83,8 @@ type
     procedure UpdateTestArchiveOperation(Operation: TFileSourceOperation);
 
   public
+
+
     // Change to override later.
     constructor Create(OperationHandle: TOperationHandle); overload;
     destructor Destroy; override;
@@ -84,6 +92,7 @@ type
     function CloseQuery: Boolean; override;
 
     procedure ToggleProgressBarStyle;
+
   end;
 
 implementation
@@ -115,8 +124,19 @@ begin
   begin
     Operation.Stop;
   end;
-
   ModalResult:= mrCancel;
+end;
+
+procedure TfrmFileOp.bthOpEndClick(Sender: TObject);
+begin
+  OperationsManager.MoveOperation(indexFocus, OperationsManager.OperationsCount-1);
+  indexFocus:= OperationsManager.OperationsCount-1;
+end;
+
+procedure TfrmFileOp.btnOpHomeClick(Sender: TObject);
+begin
+  OperationsManager.MoveOperation(indexFocus, 0);
+  indexFocus:= 0;
 end;
 
 procedure TfrmFileOp.btnPauseStartClick(Sender: TObject);
@@ -135,14 +155,36 @@ begin
     begin
       Operation.Pause;
       SetPlayGlyph;
+      OperationsManager.CheckQueuedOperations;
     end;
   end;
 end;
 
-procedure TfrmFileOp.btnWorkInBackgroundClick(Sender: TObject);
+procedure TfrmFileOp.btnToQueueClick(Sender: TObject);
+var
+Operation: TFileSourceOperation;
 begin
+
+  Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
+  if Assigned(Operation) then
+  begin
+    OperationsManager.SetFormCreate (FOperationHandle, false);
+    OperationsManager.SetToQueue(FOperationHandle);
+  end;
   FStopOperationOnClose := False;
   Close;
+  OperationsManager.CheckQueuedOperations;
+end;
+
+procedure TfrmFileOp.btnWorkInBackgroundClick(Sender: TObject);
+var
+Operation: TFileSourceOperation;
+begin
+  Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
+  if Assigned(Operation) then   OperationsManager.SetFormCreate (FOperationHandle, false);
+  FStopOperationOnClose := False;
+  Close;
+  OperationsManager.CheckQueuedOperations;
 end;
 
 procedure TfrmFileOp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -168,6 +210,7 @@ begin
   Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
   if Assigned(Operation) then
   begin
+
     case Operation.ID of
 
       fsoCopy, fsoCopyIn, fsoCopyOut:
@@ -201,13 +244,21 @@ begin
   FUpdateTimer.Interval := 100;
   FUpdateTimer.OnTimer := @OnUpdateTimer;
   FUpdateTimer.Enabled := True;
+
+  OperationsManager.SetFormCreate (FOperationHandle, true);
 end;
+
 
 constructor TfrmFileOp.Create(OperationHandle: TOperationHandle);
 var
   Operation: TFileSourceOperation;
 begin
   FOperationHandle := OperationHandle;
+
+//  if not Assigned(frmFileOp(FOperationHandle)) then
+//  begin
+
+
   inherited Create(Application);
 
   AutoSize := True;
@@ -222,6 +273,7 @@ begin
   end
   else
     FUserInterface := nil;
+
 end;
 
 destructor TfrmFileOp.Destroy;

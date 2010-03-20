@@ -42,11 +42,11 @@ interface
 uses
   LResources,
   Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
-  Buttons, SysUtils, Classes, SynEdit, LCLType,
+  Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls,
   KASToolBar, KASBarMenu, KASBarFiles,
   uCmdBox, uFileSystemWatcher, uFilePanelSelect,
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
-  uOperationsManager, uDrivesList, uTerminal, uClassesEx, uXmlConfig
+  uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, uClassesEx, uXmlConfig
   ;
 
 const
@@ -139,7 +139,19 @@ type
     dskLeft: TKAStoolBar;
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
+    lblRightDriveInfo: TLabel;
+    lblLeftDriveInfo: TLabel;
     lblCommandPath: TLabel;
+    AllOpPause: TMenuItem;
+    AllOpProgressInd: TMenuItem;
+    AllOpCancel: TMenuItem;
+    AllOpStart: TMenuItem;
+    AllOpPct: TMenuItem;
+    Timer: TTimer;
+    PanelAllProgress: TPanel;
+    sboxRightDrive: TScrollBox;
+    sboxOperations: TScrollBox;
+    sboxLeftDrive: TScrollBox;
     tbPaste: TMenuItem;
     tbCopy: TMenuItem;
     tbCut: TMenuItem;
@@ -224,8 +236,6 @@ type
     Panel1: TPanel;
     MainSplitter: TPanel;
     pmButtonMenu: TKASBarMenu;
-    lblRightDriveInfo: TLabel;
-    lblLeftDriveInfo: TLabel;
     MainToolBar: TKASToolBar;
     mnuOpenVFSList: TMenuItem;
     mnuExtractFiles: TMenuItem;
@@ -354,11 +364,18 @@ type
     tmHAL: TTimer;
 
     procedure actExecute(Sender: TObject);
+    procedure AllOpCancelClick(Sender: TObject);
+    procedure AllOpPauseClick(Sender: TObject);
+    procedure AllOpPctClick(Sender: TObject);
+    procedure AllOpStartClick(Sender: TObject);
     procedure btnLeftClick(Sender: TObject);
     procedure btnLeftDirectoryHotlistClick(Sender: TObject);
     procedure btnRightClick(Sender: TObject);
     procedure btnRightDirectoryHotlistClick(Sender: TObject);
     procedure dskRightResize(Sender: TObject);
+    procedure lblAllProgressPctClick(Sender: TObject);
+
+
     procedure miLogMenuClick(Sender: TObject);
     procedure miTrayIconExitClick(Sender: TObject);
     procedure miTrayIconRestoreClick(Sender: TObject);
@@ -421,6 +438,10 @@ type
 
     procedure pnlLeftResize(Sender: TObject);
     procedure pnlLeftRightDblClick(Sender: TObject);
+    procedure sboxDrivePaint(Sender: TObject);
+    procedure sboxOperationsMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure sboxOperationsPaint(Sender: TObject);
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
 
@@ -439,6 +460,7 @@ type
     procedure OnUniqueInstanceMessage(Sender: TObject; Params: array of UTF8String; ParamCount: Integer);
     procedure tbPasteClick(Sender: TObject);
     procedure tmHALTimer(Sender: TObject);
+    procedure AllProgressOnUpdateTimer(Sender: TObject);
   private
     { Private declarations }
     PanelSelected: TFilePanelSelect;
@@ -701,6 +723,29 @@ begin
   Actions.Execute(cmd);
 end;
 
+procedure TfrmMain.AllOpCancelClick(Sender: TObject);
+begin
+  OperationsManager.CancelAll;
+end;
+
+procedure TfrmMain.AllOpPauseClick(Sender: TObject);
+begin
+  OperationsManager.PauseRunning;
+end;
+
+procedure TfrmMain.AllOpPctClick(Sender: TObject);
+begin
+  if not Assigned(frmViewOperations) then
+    Application.CreateForm(TfrmViewOperations, frmViewOperations);
+
+  frmViewOperations.ShowOnTop;
+end;
+
+procedure TfrmMain.AllOpStartClick(Sender: TObject);
+begin
+   OperationsManager.StartRunning;
+end;
+
 procedure TfrmMain.btnLeftDirectoryHotlistClick(Sender: TObject);
 Var P:TPoint;
 begin
@@ -729,6 +774,14 @@ end;
 procedure TfrmMain.dskRightResize(Sender: TObject);
 begin
   pnlSyncSize.Height:= dskRight.Height + pnlDisk.BevelWidth * 2;
+end;
+
+procedure TfrmMain.lblAllProgressPctClick(Sender: TObject);
+begin
+     if not Assigned(frmViewOperations) then
+    Application.CreateForm(TfrmViewOperations, frmViewOperations);
+
+  frmViewOperations.ShowOnTop;
 end;
 
 procedure TfrmMain.miLogMenuClick(Sender: TObject);
@@ -2242,6 +2295,161 @@ begin
   {$ENDIF}
 end;
 
+procedure TfrmMain.sboxDrivePaint(Sender: TObject);
+var
+  sboxDrive: TScrollBox absolute Sender;
+  indexColor: Int64;
+  lightOfBusy: Integer;
+  col: TColor;
+begin
+  if gDriveInd = True then
+    begin
+      indexColor:= sboxDrive.Tag;
+      lightOfBusy:= (sboxDrive.Width - 10) * indexColor div 100;
+
+      if IndexColor < 50 then col := clBlue;
+      if IndexColor in [50..75] then col:= clGreen;
+      if IndexColor in [76..85] then col := clYellow;
+      if IndexColor > 85 then col := clRed;
+
+      sboxDrive.Canvas.Brush.Color :=col;
+      sboxDrive.Canvas.FillRect (
+                                 2,
+                                 0,
+                                 sboxDrive.Width-2,
+                                 sboxDrive.Height-1);
+
+      sboxDrive.Canvas.Brush.Color := clBtnFace;
+
+      sboxDrive.Canvas.FillRect(
+                                3,
+                                1,
+                                sboxDrive.Width-3,
+                                sboxDrive.Height-2);
+
+
+      sboxDrive.Canvas.Brush.Color :=col;
+
+      sboxDrive.Canvas.FillRect(
+                                4,
+                                2,
+                                lightOfBusy,
+                                sboxDrive.Height-3);
+    end;
+end;
+
+
+
+procedure TfrmMain.sboxOperationsMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  OperationDialog: TfrmFileOp;
+  OperationNumber, widthOfItem: Integer;
+  CursorPos: TPoint;
+begin
+  if (sboxOperations.Width / OperationsManager.OperationsCount) < 100 then
+    widthOfItem := Round(sboxOperations.Width/OperationsManager.OperationsCount)
+  else
+    widthOfItem := 100;
+
+  CursorPos := Mouse.CursorPos;
+  CursorPos := sboxOperations.ScreenToClient(CursorPos);
+  OperationNumber := CursorPos.X div widthOfItem;
+  if (OperationNumber < 0) or (OperationNumber > OperationsManager.OperationsCount) then Exit;
+  case Button of
+    mbMiddle:
+      begin
+        OperationsManager.MoveOperation(OperationNumber, OperationNumber - 1);
+      end;
+    mbRight:
+      begin
+        OperationsManager.MoveOperation(OperationNumber, OperationNumber + 1);
+      end;
+    mbLeft:
+      begin
+        if OperationsManager.GetFormCreate (OperationsManager.GetHandleById(OperationNumber)) = false then //проверяем наличие формы у указанной операции
+          begin
+            OperationDialog := TfrmFileOp.Create(OperationsManager.GetHandleById(OperationNumber)); // если нет то создаем
+            OperationDialog.Show;
+            OperationsManager.SetFormCreate (OperationsManager.GetHandleById(OperationNumber), True); // показываем что форма есть
+          end;
+        indexFocus:= OperationNumber;
+      end;
+  end;
+end;
+
+procedure TfrmMain.sboxOperationsPaint(Sender: TObject);
+var
+  Operation: TFileSourceOperation;
+  OperationHandle: TOperationHandle;
+  StartingState: TOperationStartingState;
+  i, widthOfItem: Integer;
+  OutString: String;
+begin
+  if OperationsManager.OperationsCount>0 then
+    begin
+      if (sboxOperations.Width / OperationsManager.OperationsCount) < 100 then
+        widthOfItem := Round(sboxOperations.Width / OperationsManager.OperationsCount)
+      else
+        widthOfItem := 100;
+
+    for i := 0 to OperationsManager.OperationsCount - 1 do
+    begin
+      Operation := OperationsManager.GetOperationByIndex(i);
+      if Assigned(Operation) then
+      begin
+      OperationHandle := OperationsManager.GetHandleById(i);
+
+      case Operation.ID of
+        fsoCopy, fsoCopyIn, fsoCopyOut:
+          OutString := 'Copying';
+        fsoMove:
+          OutString := 'Moving';
+        fsoDelete:
+          OutString := 'Delete';
+        fsoWipe:
+          OutString := 'Erasing';
+        fsoCalcChecksum:
+          OutString := 'Counting';
+        else
+          OutString := 'Unknown';
+      end;
+
+      OutString := IntToStr(OperationHandle) + ': '
+                 + OutString + ' - '
+                 + IntToStr(Operation.Progress) + ' %';
+
+
+
+     StartingState := OperationsManager.GetStartingState(OperationHandle);
+ //     if not (StartingState in [ossInvalid, ossManualStart]) then
+ //       OutString := OutString + ' [' + OperationStartingStateText[StartingState] + ']';
+      if OperationsManager.GetFormCreate (OperationHandle)=true  then
+         sboxOperations.Canvas.Brush.Color := clBtnShadow
+         else
+         sboxOperations.Canvas.Brush.Color := Canvas.Brush.Color;
+      sboxOperations.Canvas.Rectangle(0 + (widthOfItem * i), 0,  widthOfItem + (widthOfItem * i),  sboxOperations.Height-1);
+      sboxOperations.Canvas.TextOut(3 + (widthOfItem * i), 2, OutString);
+      sboxOperations.Caption := OutString;
+
+       // изменение цвета полоски в зависи мости от состояния операции
+
+
+      sboxOperations.Canvas.Brush.Color := clRed;               // если стоит по каким то причинам значит красная
+
+      if (StartingState in [ossQueueIn, ossQueueFirst, ossQueueLast]) then     // если в очереди то желтая
+      sboxOperations.Canvas.Brush.Color := clYellow;
+      if Operation.State =fsosRunning then sboxOperations.Canvas.Brush.Color := clHighlight; //Если идет значит синяя
+      sboxOperations.Canvas.FillRect(
+        3 + (widthOfItem * i),
+        2 + sboxOperations.Canvas.TextHeight('Pg'),
+        5 + (widthOfItem * i) + (widthOfItem - 10) * Operation.Progress div 100,
+        10 + sboxOperations.Canvas.TextHeight('Pg'));
+       end;
+   end;
+end;
+end;
+
 procedure TfrmMain.seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
   var Special: boolean; var FG, BG: TColor);
 var
@@ -3706,24 +3914,34 @@ end;
 procedure TfrmMain.UpdateFreeSpace(Panel: TFilePanelSelect);
 var
   FreeSize, TotalSize: Int64;
-  lblDriveInfo: TLabel;
   aFileView: TFileView;
+  sboxDrive: TScrollBox;
+  lblDriveInfo: TLabel;
 begin
   case Panel of
     fpLeft :
       begin
-        lblDriveInfo := lblLeftDriveInfo;
+        sboxDrive := sboxLeftDrive;
         aFileView := FrameLeft;
+        lblDriveInfo:=lblLeftDriveInfo;
       end;
     fpRight:
       begin
-        lblDriveInfo := lblRightDriveInfo;
+        sboxDrive := sboxRightDrive;
         aFileView := FrameRight;
+        lblDriveInfo:=lblRightDriveInfo;
       end;
   end;
 
   if aFileView.FileSource.GetFreeSpace(aFileView.CurrentPath, FreeSize, TotalSize) then
-    lblDriveInfo.Caption := Format(rsFreeMsg, [cnvFormatFileSize(FreeSize), cnvFormatFileSize(TotalSize)])
+    begin
+      if gDriveInd = True then
+        begin
+          sboxDrive.Tag:= 100 - Round((FreeSize / TotalSize) * 100); // Save busy percent
+          sboxDrive.Invalidate;
+        end;
+      lblDriveInfo.Caption := Format(rsFreeMsg, [cnvFormatFileSize(FreeSize), cnvFormatFileSize(TotalSize)]);
+    end
   else
     lblDriveInfo.Caption := '';
 end;
@@ -3752,6 +3970,69 @@ procedure TfrmMain.DriveListClose(Sender: TObject);
 begin
   if Sender is TDrivesListPopup then
     SetActiveFrame(TDrivesListPopup(Sender).Panel);
+end;
+
+procedure TfrmMain.AllProgressOnUpdateTimer(Sender: TObject);
+var
+  Pct: string;
+  i, AllProgressPoint: integer;
+  Operation: TFileSourceOperation;
+  visiblePanel: boolean;
+begin
+  // Скрываем прогрессбар если нет операций в фоне
+  if OperationsManager.OperationsCount=0 then
+    begin
+      PanelAllProgress.Visible:=false;
+      AllOpPct.Visible:= false;
+      AllOpProgressInd.Visible:= false;
+      AllOpStart.Visible:= false;
+      AllOpPause.Visible:= false;
+      AllOpCancel.Visible:= false;
+    end
+  else
+    begin
+      if gPanelOfOp = True then
+        begin
+          for i := 0 to OperationsManager.OperationsCount - 1 do
+          begin
+            Operation := OperationsManager.GetOperationByIndex(i);
+            if Assigned(Operation) then
+              begin
+                sboxOperations.Invalidate; // force redraw
+              end;
+          end;
+          // Делаем все видимым  если у хотя бы одной операции нет формы
+          visiblePanel:= False;
+           for i := 0 to  OperationsManager.OperationsCount - 1 do
+           begin
+             if OperationsManager.GetFormCreate(OperationsManager.GetHandleById(i)) = False then
+               visiblePanel:= True;
+           end;
+           if visiblePanel = True then
+             PanelAllProgress.Visible:= True
+           else
+             PanelAllProgress.Visible:= False ;
+        end;
+
+      if gProgInMenuBar = true then
+        begin
+          AllProgressPoint:= OperationsManager.AllProgressPoint;
+          AllOpPct.Caption:=IntToStr(AllProgressPoint)+' %'; // Показываем в строке меню
+          Pct:='';
+          for i:=0 to 25 do
+          begin
+            if i <=  AllProgressPoint/4 then
+              Pct:=Pct+'|' else Pct:= Pct+'.';
+          end;
+          AllOpProgressInd.Caption:='['+Pct+']';
+
+          AllOpPct.Visible:= true;
+          AllOpProgressInd.Visible:= true;
+          AllOpStart.Visible:= true;
+          AllOpPause.Visible:= true;
+          AllOpCancel.Visible:= true;
+        end;
+    end;
 end;
 
 procedure TfrmMain.SetPanelDrive(aPanel: TFilePanelSelect; aPath: UTF8String);
