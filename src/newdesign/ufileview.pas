@@ -36,13 +36,18 @@ type
        The file sources hierarchy associated with this view.
        Last element is the file source that is currently being viewed,
        parent file source is (index-1) and so on up to zero (first file source).
-
-       For now they all live as long as TFileView lives,
-       don't know if this should be changed or not.
     }
     FFileSources: TFileSources;
     FCurrentPaths: TStringList;   // always include trailing path delimiter
     FSortings: TFileSortings;
+    FLastActiveFile: String;      //<en Last active file (cursor)
+    {en
+       File name which should be selected. Sometimes the file might not yet
+       exist in the filelist (for example after rename or create), but will be
+       in the list on next reload.
+    }
+    FRequestedActiveFile: String;
+
 
     FMethods: TMethodsList;
 
@@ -83,6 +88,9 @@ type
     function GetDisplayedFiles: TFiles; virtual abstract;
     function GetSelectedFiles: TFiles; virtual abstract;
     procedure SetSorting(NewSortings: TFileSortings); virtual;
+
+    property LastActiveFile: String read FLastActiveFile write FLastActiveFile;
+    property RequestedActiveFile: String read FRequestedActiveFile write FRequestedActiveFile;
 
   public
     constructor Create(AOwner: TWinControl;
@@ -291,6 +299,8 @@ begin
   FCurrentPaths := TStringList.Create;
   FSortings := nil;
   FMethods := TMethodsList.Create(Self);
+  FLastActiveFile := '';
+  FRequestedActiveFile := '';
 
   inherited Create(AOwner);
   Parent := AOwner;
@@ -332,6 +342,8 @@ begin
     AFileView.FFileSources.Assign(Self.FFileSources);
     AFileView.FCurrentPaths.Assign(Self.FCurrentPaths);
     AFileView.FSortings := CloneSortings(Self.FSortings);
+    AFileView.FLastActiveFile := Self.FLastActiveFile;
+    AFileView.FRequestedActiveFile := Self.FRequestedActiveFile;
   end;
 end;
 
