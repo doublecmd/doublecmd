@@ -175,7 +175,6 @@ type
     FSelection: TStringListEx;
 
     FActive: Boolean;           //<en Is this view active
-    FLastActive: String;        //<en Last active file
     FLastActiveRow: Integer;    //<en Last active row
     FUpdatingGrid: Boolean;
 
@@ -229,9 +228,14 @@ type
     procedure SetActive(bActive: Boolean);
 
     {en
-       Set last active by row nr in the grid.
+       Sets last active file by row nr in the grid.
     }
-    procedure SetLastActive(RowNr: Integer);
+    procedure SetLastActiveFile(RowNr: Integer);
+    {en
+       Sets a file as active if the file currently exists in the grid.
+       @returns(@true if the file was found and selected.)
+    }
+    function SetActiveFileNow(aFilePath: String): Boolean;
 
     function StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
     procedure ChooseFile(AFile: TColumnsViewFile; FolderMode: Boolean = False);
@@ -367,8 +371,6 @@ type
     function GetDisplayedFiles: TFiles; override;
     function GetSelectedFiles: TFiles; override;
     procedure SetSorting(NewSortings: TFileSortings); override;
-
-    property LastActive: String read FLastActive write FLastActive;
 
   public
     ActiveColm: String;
@@ -1195,7 +1197,7 @@ procedure TColumnsFileView.dgPanelSelection(Sender: TObject; aCol, aRow: Integer
 begin
   if (FLastActiveRow <> aRow) and (not FUpdatingGrid) then
     begin
-      SetLastActive(aRow);
+      SetLastActiveFile(aRow);
       FLastActiveRow:= aRow;
 
       if Assigned(OnChangeActiveFile) then
@@ -1315,7 +1317,8 @@ begin
 }
     inherited SetCurrentPath(NewPath);
 
-    LastActive := '';
+    LastActiveFile := '';
+    RequestedActiveFile := '';
     FUpdatingGrid := True;
     dgPanel.Row := 0;
     FUpdatingGrid := False;
@@ -2044,58 +2047,65 @@ begin
     MakeVisible(dgPanel.Row);
 end;
 
-procedure TColumnsFileView.SetLastActive(RowNr: Integer);
+procedure TColumnsFileView.SetLastActiveFile(RowNr: Integer);
 begin
   if (RowNr >= dgPanel.FixedRows) and (RowNr < dgPanel.RowCount) and
      (RowNr - dgPanel.FixedRows < FFiles.Count) then
   begin
-    LastActive := FFiles[RowNr - dgPanel.FixedRows].TheFile.FullPath;
+    LastActiveFile := FFiles[RowNr - dgPanel.FixedRows].TheFile.FullPath;
   end;
 end;
 
-procedure TColumnsFileView.SetActiveFile(aFilePath: String);
+function TColumnsFileView.SetActiveFileNow(aFilePath: String): Boolean;
 var
   i: Integer;
+begin
+  if aFilePath <> '' then // find correct cursor position in Panel (drawgrid)
+  begin
+    if FileSource.GetPathType(aFilePath) = ptAbsolute then
+    begin
+      for i := 0 to FFiles.Count - 1 do
+        if FFiles[i].TheFile.FullPath = aFilePath then
+        begin
+          FUpdatingGrid := True;
+          dgPanel.Row := i + dgPanel.FixedRows;
+          FUpdatingGrid := False;
+          SetLastActiveFile(dgPanel.Row);
+          Exit(True);
+        end;
+    end
+    else
+    begin
+      for i := 0 to FFiles.Count - 1 do
+        if FFiles[i].TheFile.Name = aFilePath then
+        begin
+          FUpdatingGrid := True;
+          dgPanel.Row := i + dgPanel.FixedRows;
+          FUpdatingGrid := False;
+          SetLastActiveFile(dgPanel.Row);
+          Exit(True);
+        end;
+    end;
+  end;
+  Result := False;
+end;
+
+procedure TColumnsFileView.SetActiveFile(aFilePath: String);
 begin
   if Assigned(FCurrentFileListBuilder) and
      (FCurrentFileListBuilder.State = rfsLoadingFiles) then
   begin
-    // File list is currently loading - just remember active file.
-    LastActive := aFilePath;
+    // File list is currently loading - remember requested file for later.
+    RequestedActiveFile := aFilePath;
   end
   else
   begin
-    if aFilePath <> '' then // find correct cursor position in Panel (drawgrid)
-    begin
-      if FileSource.GetPathType(aFilePath) = ptAbsolute then
-      begin
-        for i := 0 to FFiles.Count - 1 do
-          if FFiles[i].TheFile.FullPath = aFilePath then
-          begin
-            FUpdatingGrid := True;
-            dgPanel.Row := i + dgPanel.FixedRows;
-            FUpdatingGrid := False;
-            SetLastActive(dgPanel.Row);
-            Exit;
-          end;
-      end
-      else
-      begin
-        for i := 0 to FFiles.Count - 1 do
-          if FFiles[i].TheFile.Name = aFilePath then
-          begin
-            FUpdatingGrid := True;
-            dgPanel.Row := i + dgPanel.FixedRows;
-            FUpdatingGrid := False;
-            SetLastActive(dgPanel.Row);
-            Exit;
-          end;
-      end;
-    end;
-
-    // File not found in the list, so set current row as last active.
-    LastActive := '';  // Clear first in case row is invalid.
-    SetLastActive(dgPanel.Row);
+    // First try to select the file in the current file list.
+    // If not found save it for later selection (possibly after reload).
+    if SetActiveFileNow(aFilePath) then
+      RequestedActiveFile := ''
+    else
+      RequestedActiveFile := aFilePath;
   end;
 end;
 
@@ -2603,7 +2613,6 @@ begin
   isSlave := False;
   FLastSelectionStartRow := -1;
   FLastMark := '*';
-  FLastActive := '';
   FActive := False;
   FFileFilter := '';
   FUpdatingGrid := False;
@@ -2807,7 +2816,6 @@ begin
         FFileSourceFiles := Self.FFileSourceFiles.Clone;
       FFiles := Self.FFiles.Clone(Self.FFileSourceFiles, FFileSourceFiles);
 
-      FLastActive := Self.FLastActive;
       FLastMark := Self.FLastMark;
       FLastSelectionStartRow := Self.FLastSelectionStartRow;
 
@@ -2835,7 +2843,8 @@ end;
 
 procedure TColumnsFileView.AddFileSource(aFileSource: IFileSource; aPath: String);
 begin
-  LastActive := '';
+  LastActiveFile := '';
+  RequestedActiveFile := '';
 
   inherited AddFileSource(aFileSource, aPath);
 
@@ -2962,7 +2971,12 @@ begin
 
   RedrawGrid;
 
-  SetActiveFile(LastActive);
+  if SetActiveFileNow(RequestedActiveFile) then
+    RequestedActiveFile := ''
+  else
+    // Requested file was not found, restore position to last active file.
+    SetActiveFileNow(LastActiveFile);
+
   UpdateInfoPanel;
 end;
 
@@ -4586,6 +4600,11 @@ begin
 
     // Display new file list.
     FColumnsView.AfterMakeFileList;
+
+    // We have just reloaded file list, so the requested file should be there.
+    // Regardless if it is there or not it should be cleared so that it doesn't
+    // get selected on further reloads.
+    FColumnsView.RequestedActiveFile := '';
   end;
 end;
 
