@@ -2305,7 +2305,7 @@ begin
   if gDriveInd = True then
     begin
       indexColor:= sboxDrive.Tag;
-      lightOfBusy:= (sboxDrive.Width - 10) * indexColor div 100;
+      lightOfBusy:= (sboxDrive.Width - 4) * indexColor div 100;
 
       if IndexColor < 50 then col := clBlue;
       if IndexColor in [50..75] then col:= clGreen;
