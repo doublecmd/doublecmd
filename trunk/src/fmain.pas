@@ -2302,9 +2302,9 @@ var
   lightOfBusy: Integer;
   col: TColor;
 begin
-  if gDriveInd = True then
+  indexColor:= sboxDrive.Tag;
+  if indexColor <> -1 then
     begin
-      indexColor:= sboxDrive.Tag;
       lightOfBusy:= (sboxDrive.Width - 4) * indexColor div 100;
 
       if IndexColor < 50 then col := clBlue;
@@ -3205,6 +3205,7 @@ begin
   btnLeftDirectoryHotlist.Flat := gInterfaceFlat;
   btnRightEqualLeft.Visible := gDriveMenuButton;
   btnRightEqualLeft.Flat:= gInterfaceFlat;
+  sboxLeftDrive.Visible := gDriveInd;
 
   btnRightDrive.Visible := gDriveMenuButton;
   btnRightDrive.Flat := gInterfaceFlat;
@@ -3218,6 +3219,7 @@ begin
   btnRightDirectoryHotlist.Flat := gInterfaceFlat;
   btnLeftEqualRight.Visible := gDriveMenuButton;
   btnLeftEqualRight.Flat:= gInterfaceFlat;
+  sboxRightDrive.Visible := gDriveInd;
 
   // Tabs
   UpdateNoteBook(nbLeft);
@@ -3937,13 +3939,20 @@ begin
     begin
       if gDriveInd = True then
         begin
-          sboxDrive.Tag:= 100 - Round((FreeSize / TotalSize) * 100); // Save busy percent
+          if TotalSize > 0 then
+            sboxDrive.Tag:= 100 - Round((FreeSize / TotalSize) * 100) // Save busy percent
+          else
+            sboxDrive.Tag := -1;
           sboxDrive.Invalidate;
         end;
       lblDriveInfo.Caption := Format(rsFreeMsg, [cnvFormatFileSize(FreeSize), cnvFormatFileSize(TotalSize)]);
     end
   else
-    lblDriveInfo.Caption := '';
+    begin
+      lblDriveInfo.Caption := '';
+      sboxDrive.Tag := -1;
+      sboxDrive.Invalidate;
+    end;
 end;
 
 procedure TfrmMain.CloseNotebook(ANotebook: TFileViewNotebook);
