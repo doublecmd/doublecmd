@@ -1,7 +1,7 @@
 object frmCopyDlg: TfrmCopyDlg
-  Left = 373
+  Left = 330
   Height = 308
-  Top = 249
+  Top = 153
   Width = 602
   HorzScrollBar.Page = 349
   HorzScrollBar.Range = 337
@@ -40,7 +40,7 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Side = asrBottom
     Left = 506
     Height = 34
-    Top = 109
+    Top = 105
     Width = 88
     Anchors = [akTop, akRight]
     BorderSpacing.InnerBorder = 2
@@ -57,7 +57,7 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Control = btnStartMode
     Left = 389
     Height = 34
-    Top = 109
+    Top = 105
     Width = 88
     Anchors = [akTop, akRight]
     AutoSize = True
@@ -114,7 +114,7 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 25
+    Height = 21
     Top = 34
     Width = 586
     Anchors = [akTop, akLeft, akRight]
@@ -129,7 +129,7 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 34
-    Top = 109
+    Top = 105
     Width = 88
     BorderSpacing.Top = 4
     Caption = 'O&ptions'
@@ -145,13 +145,13 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 8
-    Height = 155
-    Top = 149
+    Height = 159
+    Top = 145
     Width = 586
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Top = 6
     BorderSpacing.Bottom = 4
-    ClientHeight = 137
+    ClientHeight = 141
     ClientWidth = 582
     Color = clBtnFace
     ParentColor = False
@@ -160,9 +160,9 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideLeft.Control = grpOptions
       AnchorSideTop.Control = grpOptions
       Left = 8
-      Height = 18
+      Height = 14
       Top = 8
-      Width = 53
+      Width = 52
       BorderSpacing.Left = 8
       BorderSpacing.Top = 8
       Caption = 'Only type:'
@@ -174,9 +174,9 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideTop.Control = cmbFileType
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 18
-      Top = 38
-      Width = 88
+      Height = 14
+      Top = 34
+      Width = 77
       BorderSpacing.Top = 8
       Caption = 'When file exists'
       FocusControl = cmbFileExists
@@ -187,9 +187,9 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideTop.Control = cmbFileExists
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 18
-      Top = 68
-      Width = 118
+      Height = 14
+      Top = 60
+      Width = 106
       BorderSpacing.Top = 8
       Caption = 'When directory exists'
       FocusControl = cmbDirectoryExists
@@ -199,23 +199,23 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideTop.Control = lblFileType
       AnchorSideTop.Side = asrCenter
       Left = 193
-      Height = 25
+      Height = 21
       Top = 5
       Width = 109
       Anchors = [akTop]
       Enabled = False
-      ItemHeight = 17
+      ItemHeight = 13
       TabOrder = 0
     end
     object cmbFileExists: TComboBox
       AnchorSideTop.Control = lblFileExists
       AnchorSideTop.Side = asrCenter
       Left = 193
-      Height = 25
-      Top = 35
+      Height = 21
+      Top = 31
       Width = 109
       Anchors = [akTop]
-      ItemHeight = 17
+      ItemHeight = 13
       Items.Strings = (
         'Ask'
         'Overwrite'
@@ -228,11 +228,11 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideTop.Control = lblDirectoryExists
       AnchorSideTop.Side = asrCenter
       Left = 193
-      Height = 25
-      Top = 65
+      Height = 21
+      Top = 57
       Width = 109
       Anchors = [akTop]
-      ItemHeight = 17
+      ItemHeight = 13
       Items.Strings = (
         'Ask'
         'Overwrite'
@@ -248,11 +248,10 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideTop.Control = cmbDirectoryExists
       AnchorSideTop.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
-      Left = 197
-      Height = 27
-      Top = 104
-      Width = 189
-      Anchors = [akLeft, akBottom]
+      Left = 207
+      Height = 23
+      Top = 98
+      Width = 169
       AutoSize = True
       BorderSpacing.Top = 20
       BorderSpacing.Bottom = 4
@@ -265,10 +264,10 @@ object frmCopyDlg: TfrmCopyDlg
       AnchorSideTop.Control = grpOptions
       AnchorSideRight.Control = grpOptions
       AnchorSideRight.Side = asrBottom
-      Left = 451
-      Height = 84
+      Left = 467
+      Height = 68
       Top = 4
-      Width = 123
+      Width = 107
       Anchors = [akTop, akRight]
       AutoSize = True
       BorderSpacing.Top = 4
@@ -276,39 +275,39 @@ object frmCopyDlg: TfrmCopyDlg
       BevelOuter = bvNone
       BevelWidth = 8
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
-      ClientHeight = 84
-      ClientWidth = 123
+      ClientHeight = 68
+      ClientWidth = 107
       TabOrder = 3
       object cbCheckFreeSpace: TCheckBox
         Left = 0
-        Height = 21
+        Height = 17
         Top = 0
-        Width = 123
+        Width = 107
         Caption = 'Check free space'
         TabOrder = 0
       end
       object cbDropReadOnlyFlag: TCheckBox
         Left = 0
-        Height = 21
-        Top = 21
-        Width = 123
+        Height = 17
+        Top = 17
+        Width = 107
         Caption = 'Drop readonly flag'
         TabOrder = 1
       end
       object cbFollowLinks: TCheckBox
         Left = 0
-        Height = 21
-        Top = 42
-        Width = 123
+        Height = 17
+        Top = 34
+        Width = 107
         AllowGrayed = True
         Caption = 'Follow links'
         TabOrder = 2
       end
       object cbCorrectLinks: TCheckBox
         Left = 0
-        Height = 21
-        Top = 63
-        Width = 123
+        Height = 17
+        Top = 51
+        Width = 107
         Caption = 'Correct links'
         TabOrder = 3
       end
@@ -322,7 +321,7 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 38
-    Top = 67
+    Top = 63
     Width = 586
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 8
@@ -336,7 +335,7 @@ object frmCopyDlg: TfrmCopyDlg
     AnchorSideBottom.Side = asrBottom
     Left = 477
     Height = 34
-    Top = 109
+    Top = 105
     Width = 23
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.Right = 6
