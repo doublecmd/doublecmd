@@ -4763,7 +4763,7 @@ msgstr "Tools"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
-msgstr "Kann die Zugriffsrechte für die Datei \ "%s\" nicht ändern"
+msgstr "Kann die Zugriffsrechte für die Datei  \"%s\" nicht ändern"
 
 #: ulng.rspropserrchown
 msgid "Can not change owner for \"%s\""
