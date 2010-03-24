@@ -2391,7 +2391,7 @@ begin
       if (sboxOperations.Width / OperationsManager.OperationsCount) < 100 then
         widthOfItem := Round(sboxOperations.Width / OperationsManager.OperationsCount)
       else
-        widthOfItem := 100;
+        widthOfItem := 120;
 
     for i := 0 to OperationsManager.OperationsCount - 1 do
     begin
