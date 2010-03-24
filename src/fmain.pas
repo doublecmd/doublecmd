@@ -2347,7 +2347,7 @@ var
   OperationNumber, widthOfItem: Integer;
   CursorPos: TPoint;
 begin
-  if (sboxOperations.Width / OperationsManager.OperationsCount) < 100 then
+  if (sboxOperations.Width / OperationsManager.OperationsCount) < 120 then
     widthOfItem := Round(sboxOperations.Width/OperationsManager.OperationsCount)
   else
     widthOfItem := 120;
@@ -2388,7 +2388,7 @@ var
 begin
   if OperationsManager.OperationsCount>0 then
     begin
-      if (sboxOperations.Width / OperationsManager.OperationsCount) < 100 then
+      if (sboxOperations.Width / OperationsManager.OperationsCount) < 120 then
         widthOfItem := Round(sboxOperations.Width / OperationsManager.OperationsCount)
       else
         widthOfItem := 120;
