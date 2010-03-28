@@ -723,10 +723,23 @@ begin
     // Check global directory for INI config.
     if not Assigned(gIni) and mbFileAccess(gpGlobalCfgDir + 'doublecmd.ini', fmOpenRead) then
     begin
-      gIni := TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini');
+      gIni := TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini', fmOpenRead);
       gUseConfigInProgramDir := gIni.ReadBool('Configuration', 'UseIniInProgramDir', False);
       if not gUseConfigInProgramDir then
-        FreeAndNil(gIni);
+        FreeAndNil(gIni)
+      else
+        begin
+	  if mbFileAccess(gpGlobalCfgDir + 'doublecmd.ini', fmOpenWrite) then
+	    begin
+	      FreeAndNil(gIni);
+              gIni := TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini');
+	    end
+	  else
+	    begin
+              DebugLn('Warning: Config file ' + gpGlobalCfgDir + 'doublecmd.ini' +
+                      ' is not accessible for writing. Configuration will not be saved.');
+	    end;
+	end;
     end;
 
     // Check user directory for INI config.
@@ -849,7 +862,7 @@ end;
 procedure SaveGlobs;
 var
   TmpConfig: TXmlConfig;
-  Ini: TIniFileEx;
+  Ini: TIniFileEx = nil;
 begin
   if gUseConfigInProgramDirNew <> gUseConfigInProgramDir then
     begin
@@ -863,11 +876,11 @@ begin
       begin
         // Still using INI config.
         FreeThenNil(gIni);
-        Ini:= TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini');
         try
+          Ini:= TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini');
           Ini.WriteBool('Configuration', 'UseIniInProgramDir', gUseConfigInProgramDirNew);
         finally
-          Ini.Free;
+          FreeThenNil(Ini);
         end;
         gIni := TIniFileEx.Create(gpCfgDir + 'doublecmd.ini');
       end;
