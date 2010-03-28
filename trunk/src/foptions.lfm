@@ -4404,6 +4404,7 @@ object frmOptions: TfrmOptions
               BorderSpacing.Left = 10
               BorderSpacing.Right = 6
               Caption = 'Enabled'
+              OnChange = chkMultiArcEnabledChange
               TabOrder = 4
             end
           end

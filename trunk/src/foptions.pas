@@ -398,6 +398,7 @@ type
     procedure cbToolsUseExternalProgramChange(Sender: TObject);
     procedure cbWatchExcludeDirsChange(Sender: TObject);
     procedure chkIgnoreEnableChange(Sender: TObject);
+    procedure chkMultiArcEnabledChange(Sender: TObject);
     procedure edtToolsParametersChange(Sender: TObject);
     procedure fneToolsPathChange(Sender: TObject);
     procedure lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
@@ -1249,7 +1250,6 @@ begin
     FAddSelfExtract:= edtArchiveSelfExtract.Text;
     FOutput:= chkMultiArcOutput.Checked;
     FDebug:= chkMultiArcDebug.Checked;
-    FEnabled:= chkMultiArcEnabled.Checked;
   end;
 end;
 
@@ -2027,6 +2027,13 @@ begin
   fneSaveIn.Enabled:= chkIgnoreEnable.Checked;
   btnAddSelWithPath.Enabled:= chkIgnoreEnable.Checked;
   btnAddSel.Enabled:= chkIgnoreEnable.Checked;
+end;
+
+procedure TfrmOptions.chkMultiArcEnabledChange(Sender: TObject);
+begin
+  if lbxMultiArc.ItemIndex < 0 then Exit;
+  with TMultiArcItem(lbxMultiArc.Items.Objects[lbxMultiArc.ItemIndex]) do
+  FEnabled:= chkMultiArcEnabled.Checked;
 end;
 
 procedure TfrmOptions.edtToolsParametersChange(Sender: TObject);
