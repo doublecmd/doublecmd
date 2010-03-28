@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-03-22 21:18+0300\n"
+"PO-Revision-Date: 2010-03-28 20:36+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2646,6 +2646,10 @@ msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
 msgstr "Плоские"
 
+#: TFRMOPTIONS.CBFREESPACEIND.CAPTION
+msgid "Show freespace indicator on drive label"
+msgstr "Индикатор свободного места на диске"
+
 #: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
 msgid "Horizontal lines"
 msgstr "Горизонтальные линии"
@@ -2723,9 +2727,17 @@ msgstr "Сворачивать в системный трей"
 msgid "Allow only one copy of DC at a time"
 msgstr "Не запускать более одной копии DC"
 
+#: TFRMOPTIONS.CBPANELOFOPERATIONS.CAPTION
+msgid "Show panel of operation in background"
+msgstr "Панель фоновых операций"
+
 #: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
 msgid "Process comments with files/folders"
 msgstr "Обрабатывать комментарии с файлами/папками"
+
+#: TFRMOPTIONS.CBPROGINMENUBAR.CAPTION
+msgid "Show common progress in menu bar"
+msgstr ""
 
 #: TFRMOPTIONS.CBRENAMESELONLYNAME.CAPTION
 msgid "Select only the file name then renaming (not the extension)"
@@ -2897,7 +2909,7 @@ msgstr "Включен"
 #: TFRMOPTIONS.CHKMULTIARCOUTPUT.CAPTION
 msgctxt "TFRMOPTIONS.CHKMULTIARCOUTPUT.CAPTION"
 msgid "Show console output"
-msgstr ""
+msgstr "Показывать консольный вывод"
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
@@ -3031,7 +3043,7 @@ msgstr "Список:"
 
 #: TFRMOPTIONS.LBLARCHIVELISTEND.CAPTION
 msgid "Listing finish (optional):"
-msgstr ""
+msgstr "Конец списка (необязательный):"
 
 #: TFRMOPTIONS.LBLARCHIVELISTFORMAT.CAPTION
 msgid "Listing format:"
@@ -3039,7 +3051,7 @@ msgstr "Формат списка:"
 
 #: TFRMOPTIONS.LBLARCHIVELISTSTART.CAPTION
 msgid "Listing start (optional):"
-msgstr ""
+msgstr "Начало списка (необязательный):"
 
 #: TFRMOPTIONS.LBLARCHIVEMULTIVOLUME.CAPTION
 msgid "Create multivolume archive:"

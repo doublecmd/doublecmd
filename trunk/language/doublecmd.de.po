@@ -2644,6 +2644,10 @@ msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
 msgstr "Flache Schalter"
 
+#: TFRMOPTIONS.CBFREESPACEIND.CAPTION
+msgid "Show freespace indicator on drive label"
+msgstr ""
+
 #: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
 msgid "Horizontal lines"
 msgstr "Horizontale Linien"
@@ -2721,9 +2725,17 @@ msgstr "In den Sys-Tray minimieren (neben der Uhr)"
 msgid "Allow only one copy of DC at a time"
 msgstr "Nur eine Instanz von DoubleCommander gleichzeitig erlauben"
 
+#: TFRMOPTIONS.CBPANELOFOPERATIONS.CAPTION
+msgid "Show panel of operation in background"
+msgstr ""
+
 #: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
 msgid "Process comments with files/folders"
 msgstr "Kommentare von Dateien / Verzeichnissen mitbearbeiten"
+
+#: TFRMOPTIONS.CBPROGINMENUBAR.CAPTION
+msgid "Show common progress in menu bar"
+msgstr ""
 
 #: TFRMOPTIONS.CBRENAMESELONLYNAME.CAPTION
 msgid "Select only the file name then renaming (not the extension)"
