@@ -21,10 +21,10 @@ object frmFileOp: TfrmFileOp
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 45
+    Left = 51
     Height = 14
     Top = 8
-    Width = 482
+    Width = 476
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 8
@@ -54,7 +54,7 @@ object frmFileOp: TfrmFileOp
     Left = 10
     Height = 14
     Top = 8
-    Width = 29
+    Width = 35
     BorderSpacing.Left = 10
     BorderSpacing.Top = 8
     Caption = 'From:'
@@ -67,7 +67,7 @@ object frmFileOp: TfrmFileOp
     Left = 10
     Height = 14
     Top = 24
-    Width = 17
+    Width = 20
     BorderSpacing.Left = 10
     BorderSpacing.Top = 2
     Caption = 'To:'
@@ -79,10 +79,10 @@ object frmFileOp: TfrmFileOp
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 45
+    Left = 51
     Height = 14
     Top = 24
-    Width = 484
+    Width = 478
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 2
     BorderSpacing.Right = 10

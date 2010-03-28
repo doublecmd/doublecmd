@@ -19,7 +19,6 @@ type
     CurrentOperationPanel: TPanel;
     CurrentOperationLabel: TLabel;
     Queue: TLabel;
-    RunAllStart: TBitBtn;
     AllButtonsLable: TLabel;
     Label1: TLabel;
     Label2: TLabel;
@@ -32,6 +31,7 @@ type
     AllStart: TSpeedButton;
     CurOpQueueInOut: TSpeedButton;
     AllInQueue: TSpeedButton;
+    RunAllStart: TSpeedButton;
     StartQueue: TSpeedButton;
     UpCurOp: TSpeedButton;
     DnCurOp: TSpeedButton;
@@ -39,7 +39,7 @@ type
     CancelCurOp: TSpeedButton;
     VOMainPanel: TPanel;
     sboxOperations: TScrollBox;
-    RunAllPauseStart: TSpeedButton;
+    RunAllPause: TSpeedButton;
     AllCancel: TSpeedButton;
     UpdateTimer: TTimer;
 
@@ -48,7 +48,7 @@ type
     procedure AllStartClick(Sender: TObject);
     procedure CancelCurOpClick(Sender: TObject);
     procedure DnCurOpClick(Sender: TObject);
-    procedure RunAllPauseStartClick(Sender: TObject);
+    procedure RunAllPauseClick(Sender: TObject);
     procedure AllCancelClick(Sender: TObject);
     procedure RunAllStartClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -88,7 +88,7 @@ procedure TfrmViewOperations.FormCreate(Sender: TObject);
 begin
 
   lblCount.Caption := '0';
-  indexFocus := 0;
+  indexFocus := 1;
   sboxOperations.AutoScroll := True;
   sboxOperations.VertScrollBar.Visible := True;
 
@@ -98,7 +98,7 @@ begin
   sboxOperations.Invalidate;     // force redraw
 end;
 
-procedure TfrmViewOperations.RunAllPauseStartClick(Sender: TObject);
+procedure TfrmViewOperations.RunAllPauseClick(Sender: TObject);
 begin
   OperationsManager.PauseRunning;
 end;
@@ -113,7 +113,7 @@ var
 i: integer;
 begin
   for i:=0 to OperationsManager.OperationsCount-1 do
-   OperationsManager.SetToQueue (OperationsManager.GetHandleById(i));
+   OperationsManager.InQueue (OperationsManager.GetHandleById(i), true);
 end;
 
 procedure TfrmViewOperations.AllStartClick(Sender: TObject);
@@ -156,7 +156,7 @@ var
   i: Integer;
 begin
   if indexFocus > OperationsManager.OperationsCount-1 then
-    indexFocus := OperationsManager.OperationsCount-1; //Если фокус ушел за пределы, то делаем его последним
+    indexFocus := OperationsManager.OperationsCount-1;           //Если фокус ушел за пределы, то делаем его последним
 
   if OperationsManager.OperationsCount=0 then
     begin
@@ -198,10 +198,11 @@ begin
   CursorPos := sboxOperations.ScreenToClient(CursorPos);
 
   OperationNumber := CursorPos.Y div aRowHeight;
-
+  if OperationsManager.GetFormCreate(OperationsManager.GetHandleById(OperationNumber))= false then
+  begin
   OperationDialog := TfrmFileOp.Create(OperationsManager.GetHandleById(OperationNumber));
   OperationDialog.Show;
-
+  end;
 end;
 
 procedure TfrmViewOperations.sboxOperationsMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -230,7 +231,7 @@ begin
       end;
     mbRight:
       begin
-        if OperationNumber<OperationsManager.OperationsCount-1 then    //если операция последняя, то ничего уже не сделаешь(((
+        if OperationNumber<OperationsManager.OperationsCount then    //если операция последняя, то ничего уже не сделаешь(((
         begin
           if  (OperationNumber = indexFocus) or (OperationNumber+1 = indexFocus) then     // изменяем фокус, если на одной из функций был фокус
           begin
@@ -243,7 +244,7 @@ begin
       begin
         if OperationNumber< OperationsManager.OperationsCount then indexFocus:=OperationNumber;
       end;
-  end; // case
+  end;
   end;
 end;
 
@@ -255,6 +256,7 @@ var
   StartingState: TOperationStartingState;
   i: Integer;
   OutString: String;
+  CopyStatistics: TFileSourceCopyOperationStatistics;
 begin
   for i := 0 to OperationsManager.OperationsCount - 1 do
   begin
@@ -325,11 +327,12 @@ var
 begin
   if (OperationsManager.GetStartingState(OperationsManager.GetHandleById(indexFocus)) in [ossQueueFirst, ossQueueLast, ossQueueIn])  then
     begin
+      OperationsManager.InQueue(OperationsManager.GetHandleById(indexFocus), false);
       CurOpQueueInOut.Caption:= 'In';
     end
   else
     begin
-      OperationsManager.SetToQueue(OperationsManager.GetHandleById(indexFocus));
+      OperationsManager.InQueue(OperationsManager.GetHandleById(indexFocus), true);
       CurOpQueueInOut.Caption:= 'Out';
     end;
 end;
@@ -345,6 +348,7 @@ begin
   else
     begin
       OperationsManager.GetOperationByIndex(indexFocus).Start;
+      OperationsManager.SetPauseRunning(OperationsManager.GetHandleById(indexFocus), False);
       StartPauseCurOp.Caption:= '||';
     end;
 end;

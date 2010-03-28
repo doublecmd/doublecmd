@@ -2299,20 +2299,23 @@ procedure TfrmMain.sboxDrivePaint(Sender: TObject);
 var
   sboxDrive: TScrollBox absolute Sender;
   indexColor: Int64;
-  lightOfBusy: Integer;
-  col: TColor;
+  lightOfBusy, i: Integer;
+//  col: TColor;
 begin
   indexColor:= sboxDrive.Tag;
   if indexColor <> -1 then
     begin
       lightOfBusy:= (sboxDrive.Width - 4) * indexColor div 100;
 
-      if IndexColor < 50 then col := clBlue;
-      if IndexColor in [50..75] then col:= clGreen;
-      if IndexColor in [76..85] then col := clYellow;
-      if IndexColor > 85 then col := clRed;
+//      if IndexColor < 50 then col := clBlue;
+//      if IndexColor in [50..75] then col:= clGreen;
+//      if IndexColor in [76..85] then col := clYellow;
+//      if IndexColor > 85 then col := clRed;
 
-      sboxDrive.Canvas.Brush.Color :=col;
+      if IndexColor<=50 then sboxDrive.Canvas.Brush.Color := RGB (0+5*(IndexColor),255,0)
+                        else sboxDrive.Canvas.Brush.Color := RGB (255,255-5*(IndexColor-50),0);
+
+//      sboxDrive.Canvas.Brush.Color :=col;
       sboxDrive.Canvas.FillRect (
                                  2,
                                  0,
@@ -2327,14 +2330,27 @@ begin
                                 sboxDrive.Width-3,
                                 sboxDrive.Height-2);
 
+      for i:=0 to  IndexColor-2 do
+        begin
+          if i<=50 then sboxDrive.Canvas.Brush.Color := RGB (0+5*i,255,0)
+                   else sboxDrive.Canvas.Brush.Color := RGB (255,255-5*(i-50),0);
 
-      sboxDrive.Canvas.Brush.Color :=col;
+          sboxDrive.Canvas.FillRect(
+                                    4+i*(sboxDrive.Width-4) div 100,
+                                    2,
+                                    4+(i+1)*(sboxDrive.Width-4) div 100,
+                                    sboxDrive.Height-3);
+        end;
 
-      sboxDrive.Canvas.FillRect(
-                                4,
-                                2,
-                                lightOfBusy,
-                                sboxDrive.Height-3);
+
+
+//      sboxDrive.Canvas.Brush.Color :=col;
+//
+//      sboxDrive.Canvas.FillRect(
+//                                4,
+//                                2,
+//                                lightOfBusy,
+//                                sboxDrive.Height-3);
     end;
 end;
 
@@ -2422,8 +2438,6 @@ begin
 
 
      StartingState := OperationsManager.GetStartingState(OperationHandle);
- //     if not (StartingState in [ossInvalid, ossManualStart]) then
- //       OutString := OutString + ' [' + OperationStartingStateText[StartingState] + ']';
       if OperationsManager.GetFormCreate (OperationHandle)=true  then
          sboxOperations.Canvas.Brush.Color := clBtnShadow
          else
@@ -3220,6 +3234,18 @@ begin
   btnLeftEqualRight.Visible := gDriveMenuButton;
   btnLeftEqualRight.Flat:= gInterfaceFlat;
   sboxRightDrive.Visible := gDriveInd;
+
+  //Indicator of free spase position
+  if gDriveMenuButton=false then
+    begin
+      lblRightDriveInfo.Align:=alTop;
+      lblLeftDriveInfo.Align:=alTop;
+    end
+  else
+    begin
+      lblRightDriveInfo.Align:=alNone;
+      lblLeftDriveInfo.Align:=alNone;
+    end;
 
   // Tabs
   UpdateNoteBook(nbLeft);

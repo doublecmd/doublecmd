@@ -117,11 +117,11 @@ type
 
 
 
-    {ru
-       Добавляет операцию в очередь по ее Handle
+    {en
+       Add or remove operation from queue by Handle
     }
 
-    procedure SetToQueue (Handle: TOperationHandle);
+    procedure InQueue (Handle: TOperationHandle; setQueue: boolean);
 
     procedure SetFormCreate (Handle: TOperationHandle; setForm: boolean);
     procedure SetPauseRunning (Handle: TOperationHandle; setForm: boolean);
@@ -439,13 +439,16 @@ begin
     Entry^.Form := setForm;
 end;
 
-procedure  TOperationsManager.SetToQueue (Handle: TOperationHandle);
+procedure  TOperationsManager.InQueue (Handle: TOperationHandle; setQueue: boolean);
 var
   Entry: POperationsManagerEntry = nil;
 begin
   Entry := GetEntryByHandle(Handle);
   if Assigned(Entry) then
-    Entry^.StartingState := ossQueueIn;
+  begin
+    if setQueue = true then
+    Entry^.StartingState := ossQueueIn else Entry^.StartingState := ossManualStart;
+  end;
 end;
 
 
@@ -643,14 +646,15 @@ begin
     Operation := GetOperationByIndex(I);
     if Assigned(Operation) then
       begin
-        if GetPauseRunning (OperationsManager.GetHandleById(I)) = True  then //Вспоминаем остановленную строку и запускаем
+        if GetPauseRunning (OperationsManager.GetHandleById(I)) = True  then //Вспоминаем остановленную операцию и запускаем
           begin
             Operation.Start;
-            StartOp:= True; //Пометка, что есть запущенная операция
+            SetPauseRunning(OperationsManager.GetHandleById(I), False);      // Сбрасываем память
+            StartOp:= True;                                                  //Пометка, что есть запущенная операция
           end;
       end;
   end;
-  if not StartOp then OperationsManager.GetOperationByIndex(0).Start;  //если нет до этого запущенных, то запускаем первую
+  if not StartOp then OperationsManager.GetOperationByIndex(0).Start;        //если нет до этого запущенных, то запускаем первую
 end;
 
 function TOperationsManager.AllProgressPoint: Integer;
