@@ -169,7 +169,7 @@ begin
   if Assigned(Operation) then
   begin
     OperationsManager.SetFormCreate (FOperationHandle, false);
-    OperationsManager.SetToQueue(FOperationHandle);
+    OperationsManager.InQueue(FOperationHandle, true);
   end;
   FStopOperationOnClose := False;
   Close;
