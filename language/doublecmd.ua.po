@@ -2642,6 +2642,10 @@ msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
 msgid "Flat buttons"
 msgstr "Плоскі кнопки"
 
+#: TFRMOPTIONS.CBFREESPACEIND.CAPTION
+msgid "Show freespace indicator on drive label"
+msgstr ""
+
 #: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
 msgid "Horizontal lines"
 msgstr "Горизонтальні лінії"
@@ -2719,9 +2723,17 @@ msgstr "Перемістити іконку в системний трей пр�
 msgid "Allow only one copy of DC at a time"
 msgstr "Не запускати більше однієї копії DC"
 
+#: TFRMOPTIONS.CBPANELOFOPERATIONS.CAPTION
+msgid "Show panel of operation in background"
+msgstr ""
+
 #: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
 msgid "Process comments with files/folders"
 msgstr "Опрацьовувати коментарі разом з файлами/каталогами"
+
+#: TFRMOPTIONS.CBPROGINMENUBAR.CAPTION
+msgid "Show common progress in menu bar"
+msgstr ""
 
 #: TFRMOPTIONS.CBRENAMESELONLYNAME.CAPTION
 msgid "Select only the file name then renaming (not the extension)"
