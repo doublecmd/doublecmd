@@ -4466,6 +4466,8 @@ var
   AFile: TColumnsViewFile;
   i: Integer;
   invalidFilter: Boolean = False;
+  sFilterNameNoExt,
+  sFilterExt,
   localFilter: String;
   bLoadIcons: Boolean;
 begin
@@ -4477,10 +4479,22 @@ begin
     if aFileFilter <> EmptyStr then
     begin
       localFilter := aFileFilter;
-      if not gQuickSearchMatchBeginning then
-        localFilter := '*' + localFilter;
-      if not gQuickSearchMatchEnding then
-        localFilter := localFilter + '*';
+      if Pos('.', aFileFilter) <> 0 then
+        begin
+          sFilterNameNoExt := ExtractOnlyFileName(localFilter);
+          sFilterExt := ExtractFileExt(localFilter);
+          if not gQuickSearchMatchBeginning then
+            sFilterNameNoExt := '*' + sFilterNameNoExt;
+          if not gQuickSearchMatchEnding then
+            sFilterNameNoExt := sFilterNameNoExt + '*';
+          localFilter := sFilterNameNoExt + sFilterExt + '*';
+        end
+      else
+        begin
+          if not gQuickSearchMatchBeginning then
+            localFilter := '*' + localFilter;
+          localFilter := localFilter + '*';
+        end;
     end;
 
     bLoadIcons := (not (gListFilesInThread and (GetCurrentThreadId <> MainThreadID))) or
