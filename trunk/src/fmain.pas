@@ -1094,9 +1094,9 @@ begin
         begin
           // Let the panel receive this message.
         end
-      else if gCmdLine then  // If command line is enabled
+      else
         begin
-          edtCommand.SetFocus;
+          Actions.cm_FocusCmdLine();
           edtCommand.Text := edtCommand.Text + UTF8Key;
           edtCommand.SelStart := UTF8Length(edtCommand.Text) + 1;
           UTF8Key := '';
