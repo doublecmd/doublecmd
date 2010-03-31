@@ -2644,7 +2644,7 @@ msgstr "Плоскі кнопки"
 
 #: TFRMOPTIONS.CBFREESPACEIND.CAPTION
 msgid "Show freespace indicator on drive label"
-msgstr ""
+msgstr "Показувати індикатор вільного місця на панелі дисків"
 
 #: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
 msgid "Horizontal lines"
@@ -2725,7 +2725,7 @@ msgstr "Не запускати більше однієї копії DC"
 
 #: TFRMOPTIONS.CBPANELOFOPERATIONS.CAPTION
 msgid "Show panel of operation in background"
-msgstr ""
+msgstr "Показувати панель роботи у фоні"
 
 #: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
 msgid "Process comments with files/folders"
@@ -2733,7 +2733,7 @@ msgstr "Опрацьовувати коментарі разом з файлам
 
 #: TFRMOPTIONS.CBPROGINMENUBAR.CAPTION
 msgid "Show common progress in menu bar"
-msgstr ""
+msgstr "Показувати загальний прогрес в рядку меню"
 
 #: TFRMOPTIONS.CBRENAMESELONLYNAME.CAPTION
 msgid "Select only the file name then renaming (not the extension)"
