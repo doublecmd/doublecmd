@@ -260,7 +260,7 @@ type
 implementation
 
 uses
-  uLng, uGlobs, uDefaultFilePropertyFormatter;
+  uLng, uGlobs, uDefaultFilePropertyFormatter, uFileSystemFile;
 
 function StrToAlign(str:string):TAlignment;
 begin
@@ -992,23 +992,23 @@ begin
             Exit;
           end;
         //------------------------------------------------------
-{
+
 
         //Plugin function
         //------------------------------------------------------
         if AType=Plugin then
+          if AFile is TFileSystemFile then // Temporary fix
           begin
             if not gWdxPlugins.IsLoaded(AName) then
               if not gWdxPlugins.LoadModule(AName) then Exit;
-//            DebugLn('ptrFileName: '+ptr^.sPath+ptr^.sName);
-            if gWdxPlugins.GetWdxModule(AName).FileParamVSDetectStr(ptr) then
+//            DebugLn('ptrFileName: ' + AFile.FullPath);
+            if gWdxPlugins.GetWdxModule(AName).FileParamVSDetectStr(AFile) then
             begin
-              Result:=gWdxPlugins.GetWdxModule(AName).CallContentGetValue(ptr^.sPath+ptr^.sName,AFunc,0,0);
+              Result:=gWdxPlugins.GetWdxModule(AName).CallContentGetValue(AFile.FullPath, AFunc, 0, 0);
             end;
             Exit;
           end;
         //------------------------------------------------------
-}
 end;
 
 function TPanelColumn.GetColumnFunctions: TFileFunctions;
