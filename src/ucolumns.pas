@@ -886,11 +886,11 @@ begin
     Result:=Copy(s,1,pos(')',s)-1);
 end;
 
-//Return function name (ScriptFunction,PluginFunction etc)
+//Return function name (DCFunction,PluginFunction etc)
 function TPanelColumn.GetModFunctionName(str:string):string;
 var s:string;
 begin
-s:=str;
+  s:=str;
   if pos('.',S)>0 then
     delete(s,1,pos('.',S))
   else Exit;
@@ -899,16 +899,20 @@ s:=str;
     Result:=Copy(s,1,pos('{',S)-1);
 end;
 
-//Return function parameters (хз как буду работать с параметрами и нах они нужны, но пусть будет)
-function TPanelColumn.GetModFunctionParams(str:string):string;
-var s:string;
+// Return function parameters
+function TPanelColumn.GetModFunctionParams(str: String): String;
+var
+  I: Integer;
+  S: String;
 begin
-s:=str;
-   if pos('{',S)>0 then
-    delete(s,1,pos('{',S))
-  else Exit;
-  if pos(s,'}')>0 then
-    Result:=Copy(s,1,pos(s,'}')-1);
+  Result:= EmptyStr;
+  S:= str;
+  I:= pos('{', S);
+  if I < 0 then Exit;
+  Delete(S, 1, I);
+  I:= pos('}', S);
+  if I < 0 then Exit;
+  Result:= Copy(S, 1, I - 1);
 end;
 
 function TPanelColumn.ActGetInfo(FuncS:string; AFile: TFile):string;
@@ -1004,7 +1008,7 @@ begin
 //            DebugLn('ptrFileName: ' + AFile.FullPath);
             if gWdxPlugins.GetWdxModule(AName).FileParamVSDetectStr(AFile) then
             begin
-              Result:=gWdxPlugins.GetWdxModule(AName).CallContentGetValue(AFile.FullPath, AFunc, 0, 0);
+              Result:=gWdxPlugins.GetWdxModule(AName).CallContentGetValue(AFile.FullPath, AFunc, AParam, 0);
             end;
             Exit;
           end;
