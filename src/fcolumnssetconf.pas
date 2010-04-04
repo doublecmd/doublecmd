@@ -215,7 +215,7 @@ type
 implementation
 
 uses
-  StrUtils, uLng, uWdxModule, uFileSystemFileSource, uOSUtils;
+  StrUtils, WdxPlugin, uLng, uWdxModule, uFileSystemFileSource, uOSUtils;
 
 const
   pnlCustHeight: Integer = 154;
@@ -1128,15 +1128,19 @@ begin
                    MI.Caption:=FieldList[j];
                    MI.OnClick:=@MenuFieldsClick;
                    pmFields.Items.Items[1].Items[i].Add(MI);
-                   sUnits:= TWdxField(FieldList.Objects[j]).FUnits;
-                   while sUnits <> EmptyStr do
-                   begin
-                     MI2:=TMenuItem.Create(pmFields);
-                     MI2.Tag:= 2;
-                     MI2.Caption:= Copy2SymbDel(sUnits, '|');
-                     MI2.OnClick:= @MenuFieldsClick;
-                     MI.Add(MI2);
-                   end;
+                   with TWdxField(FieldList.Objects[j]) do
+                   if FType <> ft_multiplechoice then
+                     begin
+                       sUnits:= FUnits;
+                       while sUnits <> EmptyStr do
+                       begin
+                         MI2:=TMenuItem.Create(pmFields);
+                         MI2.Tag:= 2;
+                         MI2.Caption:= Copy2SymbDel(sUnits, '|');
+                         MI2.OnClick:= @MenuFieldsClick;
+                         MI.Add(MI2);
+                       end;
+                     end;
                  end;
              end;
          end;
