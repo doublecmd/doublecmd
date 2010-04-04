@@ -46,9 +46,10 @@ type
       { TWdxField }
 
       TWdxField = class
-       FName:string;
-       FUnits:string;
-       FType:integer;
+        FName: String;
+        FUnits: String;
+        FType: Integer;
+        function GetUnitIndex(UnitName: String): Integer;
       end;
       
      { TWDXModule }
@@ -78,7 +79,7 @@ type
         //---------------------
         function CallContentGetDefaultSortOrder(FieldIndex:integer):boolean;  virtual;abstract;
         function CallContentGetDetectString:string; virtual;abstract;
-        function CallContentGetValue(FileName: string; FieldName:String; UnitIndex: integer; flags: integer):string; overload; virtual;abstract;
+        function CallContentGetValue(FileName: string; FieldName:String; UnitName: String; flags: integer):string; overload; virtual;abstract;
         function CallContentGetValue(FileName: string; FieldIndex, UnitIndex: integer; flags: integer):string;overload; virtual;abstract;
         function CallContentGetSupportedFieldFlags(FieldIndex:integer):integer; virtual;abstract;
         {ContentSetValue
@@ -149,7 +150,7 @@ type
         //---------------------
         function CallContentGetDefaultSortOrder(FieldIndex:integer):boolean;override;
         function CallContentGetDetectString:string;override;
-        function CallContentGetValue(FileName: string; FieldName:String; UnitIndex: integer; flags: integer):string; overload;override;
+        function CallContentGetValue(FileName: string; FieldName:String; UnitName: String; flags: integer):string; overload;override;
         function CallContentGetValue(FileName: string; FieldIndex, UnitIndex: integer; flags: integer):string;overload;override;
         function CallContentGetSupportedFieldFlags(FieldIndex:integer):integer;override;
         {ContentSetValue
@@ -206,7 +207,7 @@ type
         //---------------------
         function CallContentGetDefaultSortOrder(FieldIndex:integer):boolean;override;
         function CallContentGetDetectString:string;override;
-        function CallContentGetValue(FileName: string; FieldName:String; UnitIndex: integer; flags: integer):string; overload;override;
+        function CallContentGetValue(FileName: string; FieldName:String; UnitName: String; flags: integer):string; overload;override;
         function CallContentGetValue(FileName: string; FieldIndex, UnitIndex: integer; flags: integer):string;overload;override;
         function CallContentGetSupportedFieldFlags(FieldIndex:integer):integer;override;
         //---------------------
@@ -257,7 +258,7 @@ type
 implementation
 
 uses
-  uGlobs, uGlobsPaths, FileUtil;
+  StrUtils, uGlobs, uGlobsPaths, FileUtil;
 
 const
   WdxIniFileName = 'wdx.ini';
@@ -723,9 +724,14 @@ begin
 end;
 
 function TPluginWDX.CallContentGetValue(FileName: string; FieldName: String;
-  UnitIndex: integer; flags: integer): string;
+  UnitName: String; flags: integer): string;
+var
+  FieldIndex,
+  UnitIndex : Integer;
 begin
-  result:=CallContentGetValue(FileName, GetFieldIndex(FieldName), UnitIndex,flags);
+  FieldIndex:= GetFieldIndex(FieldName);
+  UnitIndex:= TWdxField(FieldList.Objects[FieldIndex]).GetUnitIndex(UnitName);
+  result:=CallContentGetValue(FileName, FieldIndex, UnitIndex, flags);
 end;
 
 function TPluginWDX.CallContentGetValue(FileName: string; FieldIndex, UnitIndex: integer; flags: integer): string;
@@ -1015,9 +1021,14 @@ begin
 end;
 
 function TLuaWdx.CallContentGetValue(FileName: string; FieldName: String;
-  UnitIndex: integer; flags: integer): string;
+  UnitName: String; flags: integer): string;
+var
+  FieldIndex,
+  UnitIndex : Integer;
 begin
-  result:=CallContentGetValue(FileName, GetFieldIndex(FieldName), UnitIndex,flags);
+  FieldIndex:= GetFieldIndex(FieldName);
+  UnitIndex:= TWdxField(FieldList.Objects[FieldIndex]).GetUnitIndex(UnitName);
+  result:=CallContentGetValue(FileName, FieldIndex, UnitIndex, flags);
 end;
 
 function TLuaWdx.CallContentGetValue(FileName: string; FieldIndex,
@@ -1077,6 +1088,23 @@ function TWDXModule.WdxFieldType(n: integer): string;
      FT_DELAYED:                 Result:= 'FT_DELAYED';
      else Result:= '?';
    end;
+end;
+
+{ TWdxField }
+
+function TWdxField.GetUnitIndex(UnitName: String): Integer;
+var
+  sUnits: String;
+begin
+ Result:= -1;
+ sUnits:= FUnits;
+ while sUnits <> EmptyStr do
+ begin
+   Inc(Result);
+   if SameText(UnitName, Copy2SymbDel(sUnits, '|')) then
+     Exit;
+ end;
+ Result:= 0;
 end;
 
 end.

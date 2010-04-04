@@ -215,7 +215,7 @@ type
 implementation
 
 uses
-  uLng, uFileSystemFileSource, uOSUtils;
+  StrUtils, uLng, uWdxModule, uFileSystemFileSource, uOSUtils;
 
 const
   pnlCustHeight: Integer = 154;
@@ -1022,6 +1022,9 @@ begin
     1: begin
           stgColumns.Cells[4,btnAdd.Tag]:=stgColumns.Cells[4,btnAdd.Tag]+'[Plugin('+(Sender as TMenuItem).Parent.Caption+').'+(Sender as TMenuItem).Caption+'{}] ';
        end;
+    2: begin
+          stgColumns.Cells[4,btnAdd.Tag]:=stgColumns.Cells[4,btnAdd.Tag]+'[Plugin('+(Sender as TMenuItem).Parent.Parent.Caption+').'+(Sender as TMenuItem).Parent.Caption+'{' + (Sender as TMenuItem).Caption + '}] ';
+       end;
   end;
  EditorSaveResult(Sender);
 end;
@@ -1081,7 +1084,11 @@ end;
 
 
 procedure TfColumnsSetConf.ButtonAddClick(Sender: TObject);
-var Mi:TMenuItem; i,j:integer; point:TPoint;
+var
+  Mi, mi2:TMenuItem;
+  i,j:integer;
+  point:TPoint;
+  sUnits: String;
 begin
 // show column fields menu
 
@@ -1121,6 +1128,15 @@ begin
                    MI.Caption:=FieldList[j];
                    MI.OnClick:=@MenuFieldsClick;
                    pmFields.Items.Items[1].Items[i].Add(MI);
+                   sUnits:= TWdxField(FieldList.Objects[j]).FUnits;
+                   while sUnits <> EmptyStr do
+                   begin
+                     MI2:=TMenuItem.Create(pmFields);
+                     MI2.Tag:= 2;
+                     MI2.Caption:= Copy2SymbDel(sUnits, '|');
+                     MI2.OnClick:= @MenuFieldsClick;
+                     MI.Add(MI2);
+                   end;
                  end;
              end;
          end;
