@@ -50,7 +50,7 @@ uses
 
 function RunExtTool(const ExtTool: TExternalToolOptions; sFileName: String): String;
 begin
-  Result := QuoteStr(ExtTool.Path);
+  Result := QuoteStr(ReplaceEnvVars(ExtTool.Path));
   if ExtTool.Parameters <> EmptyStr then
     Result := Result + ' ' + ExtTool.Parameters;
   Result := Result + ' ' + QuoteStr(sFileName);
@@ -178,4 +178,4 @@ begin
   end;
 end;
 
-end.
+end.

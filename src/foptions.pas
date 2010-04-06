@@ -400,6 +400,7 @@ type
     procedure chkIgnoreEnableChange(Sender: TObject);
     procedure chkMultiArcEnabledChange(Sender: TObject);
     procedure edtToolsParametersChange(Sender: TObject);
+    procedure fneToolsPathAcceptFileName(Sender: TObject; var Value: String);
     procedure fneToolsPathChange(Sender: TObject);
     procedure lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
     procedure OnAutoRefreshOptionChanged(Sender: TObject);
@@ -2046,6 +2047,12 @@ begin
     if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
       tmpExternalTools[ExtToolFromRow[aRow]].Parameters := edtToolsParameters.Text;
   end;
+end;
+
+procedure TfrmOptions.fneToolsPathAcceptFileName(Sender: TObject;
+  var Value: String);
+begin
+  Value:= SetCmdDirAsEnvVar(Value);
 end;
 
 procedure TfrmOptions.fneToolsPathChange(Sender: TObject);
