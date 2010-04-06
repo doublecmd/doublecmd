@@ -750,6 +750,7 @@ object frmOptions: TfrmOptions
           Height = 21
           Top = 64
           Width = 428
+          OnAcceptFileName = fneToolsPathAcceptFileName
           DialogOptions = []
           FilterIndex = 0
           HideDirectories = False
