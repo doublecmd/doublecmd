@@ -41,6 +41,11 @@ type
 
   TfrmViewer = class(TForm)
     Image: TImage;
+    miRotate: TMenuItem;
+    miMirror: TMenuItem;
+    mi270: TMenuItem;
+    mi180: TMenuItem;
+    mi90: TMenuItem;
     miSearchPrev: TMenuItem;
     miPrint: TMenuItem;
     miSearchNext: TMenuItem;
@@ -109,6 +114,7 @@ type
     procedure miSelectAllClick(Sender: TObject);
     procedure miChangeEncodingClick(Sender:TObject);
     procedure ViewerPositionChanged(Sender:TObject);
+    procedure miRotateClick(Sender: TObject);
   private
     FileList: TStringList;
     iActiveFile:Integer;
@@ -147,7 +153,7 @@ procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSour
 implementation
 
 uses
-  uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx, uFindMmap, uDCUtils;
+  IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx, uFindMmap, uDCUtils;
 
 const
   // Status bar panels indexes.
@@ -641,23 +647,103 @@ var
   iScale: Integer;
 begin
   if Image.Stretch then
-    begin
-      Image.Width:= sboxImage.ClientWidth;
-      Image.Height:= sboxImage.ClientHeight;
-      // show image resolution and scale
-      sResolution:= IntToStr(Image.ClientWidth) + 'x' + IntToStr(Image.ClientHeight);
-      iScale:= (Image.ClientWidth * 100) div Image.Picture.Width;
-      Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, IntToStr(iScale)]);
-      sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Picture.Height);
-      Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [sResolution, '100']);
-    end
+     begin
+       Image.AutoSize := true;
+       if (Image.Picture.Width > sboxImage.ClientWidth) or  (Image.Picture.Height > sboxImage.ClientHeight) then
+         begin
+           Image.Left:= 0;
+           Image.Top:= 0;
+           Image.AutoSize := false;
+           Image.Width:= sboxImage.ClientWidth;
+           Image.Height:= sboxImage.ClientHeight;
+           // show image resolution and scale
+           sResolution:= IntToStr(Image.ClientWidth) + 'x' + IntToStr(Image.ClientHeight);
+           iScale:= ((Image.ClientWidth * 100) div Image.Picture.Width+(Image.ClientHeight * 100) div Image.Picture.Height) div 2;
+           Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, IntToStr(iScale)]);
+           sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Picture.Height);
+           Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [sResolution, '100']);
+         end
+       else
+         begin
+           Image.Left:= (sboxImage.ClientWidth-Image.Picture.Width) div 2;        //move image to center
+           Image.Top:=  (sboxImage.ClientHeight-Image.Picture.Height) div 2;
+           sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Picture.Height);
+           Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, '100']);
+           Status.Panels[sbpFullResolution].Text:= Status.Panels[2].Text;
+         end;
+     end
   else
     begin
       // show image resolution and scale
+      Image.Left:= 0;
+      Image.Top:= 0;
       sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Picture.Height);
       Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, '100']);
       Status.Panels[sbpFullResolution].Text:= Status.Panels[2].Text;
     end;
+end;
+
+// Try to rotate image
+procedure TfrmViewer.miRotateClick(Sender: TObject);
+var
+  x, y: Integer;
+  xWidth,
+  yHeight: Integer;
+  SourceImg: TLazIntfImage = nil;
+  TargetImg: TLazIntfImage = nil;
+begin
+  TargetImg:= TLazIntfImage.Create(0, 0);
+  SourceImg:= Image.Picture.Bitmap.CreateIntfImage;
+  TargetImg.DataDescription:= SourceImg.DataDescription; // use the same image format
+  xWidth:= Image.Picture.Bitmap.Width - 1;
+  yHeight:= Image.Picture.Bitmap.Height - 1;
+  if Sender = mi180 then
+      begin
+        TargetImg.SetSize(xWidth + 1, yHeight + 1);
+        for y:= 0 to yHeight do
+        begin
+          for x:= 0 to xWidth do
+          begin
+            TargetImg.Colors[x, y]:= SourceImg.Colors[xWidth - x, yHeight - y];
+          end;
+        end;
+      end;
+    if Sender = mi270 then
+      begin
+        TargetImg.SetSize(yHeight + 1, xWidth + 1);
+        for y:= 0 to xWidth do
+        begin
+          for x:= 0 to yHeight do
+          begin
+            TargetImg.Colors[x, y]:= SourceImg.Colors[xWidth - y, x];
+          end;
+        end;
+      end;
+    if Sender = mi90 then
+      begin
+        TargetImg.SetSize(yHeight + 1, xWidth + 1);
+        for y:= 0 to xWidth do
+        begin
+          for x:= 0 to yHeight do
+          begin
+            TargetImg.Colors[x, y]:= SourceImg.Colors[y, yHeight - x];
+          end;
+        end;
+      end;
+    if Sender = miMirror then
+      begin
+        TargetImg.SetSize(xWidth + 1, yHeight + 1);
+        for y:= 0 to yHeight do
+        begin
+          for x:= 0 to xWidth do
+          begin
+            TargetImg.Colors[x, y]:= SourceImg.Colors[xWidth - x, y];
+          end;
+        end;
+      end;
+  Image.Picture.Bitmap.LoadFromIntfImage(TargetImg);
+  FreeThenNil(SourceImg);
+  FreeThenNil(TargetImg);
 end;
 
 procedure TfrmViewer.LoadGraphics(const sFileName:String);
@@ -852,4 +938,4 @@ end;
 initialization
  {$I fviewer.lrs}
 
-end.
+end.

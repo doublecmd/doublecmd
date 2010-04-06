@@ -1,13 +1,13 @@
 object frmViewer: TfrmViewer
-  Left = 120
-  Height = 600
-  Top = 120
+  Left = 404
+  Height = 583
+  Top = 119
   Width = 856
   HorzScrollBar.Page = 951
   VertScrollBar.Page = 491
   ActiveControl = pnlLister
   Caption = 'Viewer'
-  ClientHeight = 570
+  ClientHeight = 563
   ClientWidth = 856
   Constraints.MinHeight = 100
   Constraints.MinWidth = 200
@@ -63,7 +63,7 @@ object frmViewer: TfrmViewer
   LCLVersion = '0.9.29'
   object pnlLister: TPanel
     Left = 0
-    Height = 548
+    Height = 540
     Top = 0
     Width = 856
     Align = alClient
@@ -73,8 +73,8 @@ object frmViewer: TfrmViewer
   end
   object Status: TStatusBar
     Left = 0
-    Height = 22
-    Top = 548
+    Height = 23
+    Top = 540
     Width = 856
     Panels = <    
       item
@@ -96,17 +96,17 @@ object frmViewer: TfrmViewer
   end
   object pnlText: TPanel
     Left = 0
-    Height = 548
+    Height = 540
     Top = 0
     Width = 856
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 548
+    ClientHeight = 540
     ClientWidth = 856
     TabOrder = 2
     object ViewerControl: TViewerControl
       Left = 0
-      Height = 548
+      Height = 540
       Top = 0
       Width = 856
       OnPositionChanged = ViewerPositionChanged
@@ -116,30 +116,32 @@ object frmViewer: TfrmViewer
   end
   object pnlImage: TPanel
     Left = 0
-    Height = 548
+    Height = 540
     Top = 0
     Width = 856
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 548
+    ClientHeight = 540
     ClientWidth = 856
     TabOrder = 3
     object sboxImage: TScrollBox
       Left = 0
-      Height = 548
+      Height = 540
       Top = 0
       Width = 856
       Align = alClient
-      ClientHeight = 526
-      ClientWidth = 852
+      ClientHeight = 519
+      ClientWidth = 835
+      Color = clBlack
+      ParentColor = False
       TabOrder = 0
       TabStop = True
       OnResize = sboxImageResize
       object Image: TImage
         Left = 0
-        Height = 464
+        Height = 553
         Top = 0
-        Width = 946
+        Width = 852
         AutoSize = True
         Center = True
         Proportional = True
@@ -271,6 +273,25 @@ object frmViewer: TfrmViewer
         Caption = 'Stretch'
         OnClick = miStretchClick
       end
+      object miRotate: TMenuItem
+        Caption = 'Rotate'
+        object mi90: TMenuItem
+          Caption = '+ 90'
+          OnClick = miRotateClick
+        end
+        object mi180: TMenuItem
+          Caption = '+ 180'
+          OnClick = miRotateClick
+        end
+        object mi270: TMenuItem
+          Caption = '- 90'
+          OnClick = miRotateClick
+        end
+        object miMirror: TMenuItem
+          Caption = 'Mirror'
+          OnClick = miRotateClick
+        end
+      end
     end
     object miAbout: TMenuItem
       Caption = 'About'
@@ -281,7 +302,7 @@ object frmViewer: TfrmViewer
     end
   end
   object pmEditMenu: TPopupMenu
-    left = 126
+    left = 160
     top = 8
     object pmiCopy: TMenuItem
       Caption = 'Copy To Clipboard'
