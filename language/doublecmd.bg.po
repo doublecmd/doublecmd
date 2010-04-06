@@ -3756,6 +3756,18 @@ msgctxt "TFRMVIEWER.CAPTION"
 msgid "Viewer"
 msgstr "Преглед"
 
+#: TFRMVIEWER.MI180.CAPTION
+msgid "+ 180"
+msgstr ""
+
+#: TFRMVIEWER.MI270.CAPTION
+msgid "- 90"
+msgstr ""
+
+#: TFRMVIEWER.MI90.CAPTION
+msgid "+ 90"
+msgstr ""
+
 #: TFRMVIEWER.MIABOUT.CAPTION
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
@@ -3826,6 +3838,10 @@ msgstr "&Шестнадесетично изобразяване"
 msgid "&Image"
 msgstr "Из&ображение"
 
+#: TFRMVIEWER.MIMIRROR.CAPTION
+msgid "Mirror"
+msgstr ""
+
 #: TFRMVIEWER.MINEXT.CAPTION
 msgid "&Next"
 msgstr "На&пред"
@@ -3843,9 +3859,9 @@ msgstr "На&зад"
 msgid "Print..."
 msgstr ""
 
-#: TFRMVIEWER.MISAVEPOS.CAPTION
-msgid "&Save Position"
-msgstr "&Запис на положението"
+#: TFRMVIEWER.MIROTATE.CAPTION
+msgid "Rotate"
+msgstr ""
 
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
@@ -3886,11 +3902,6 @@ msgstr "&Преглед"
 #: TFRMVIEWER.MIWRAPTEXT.CAPTION
 msgid "Show as &Wrap text"
 msgstr "Иобразяване като &редоделен текст"
-
-#: TFRMVIEWER.N1.CAPTION
-msgctxt "TFRMVIEWER.N1.CAPTION"
-msgid "-"
-msgstr ""
 
 #: TFRMVIEWER.PMICOPY.CAPTION
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"

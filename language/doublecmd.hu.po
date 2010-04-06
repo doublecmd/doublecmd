@@ -3764,6 +3764,18 @@ msgctxt "TFRMVIEWER.CAPTION"
 msgid "Viewer"
 msgstr "Nézőke"
 
+#: TFRMVIEWER.MI180.CAPTION
+msgid "+ 180"
+msgstr ""
+
+#: TFRMVIEWER.MI270.CAPTION
+msgid "- 90"
+msgstr ""
+
+#: TFRMVIEWER.MI90.CAPTION
+msgid "+ 90"
+msgstr ""
+
 #: TFRMVIEWER.MIABOUT.CAPTION
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
@@ -3834,6 +3846,10 @@ msgstr "Megjelenítés &hexában"
 msgid "&Image"
 msgstr "&Kép"
 
+#: TFRMVIEWER.MIMIRROR.CAPTION
+msgid "Mirror"
+msgstr ""
+
 #: TFRMVIEWER.MINEXT.CAPTION
 msgid "&Next"
 msgstr "Kö&vetkező"
@@ -3851,9 +3867,9 @@ msgstr "&Előző"
 msgid "Print..."
 msgstr ""
 
-#: TFRMVIEWER.MISAVEPOS.CAPTION
-msgid "&Save Position"
-msgstr "Pozíció menté&se"
+#: TFRMVIEWER.MIROTATE.CAPTION
+msgid "Rotate"
+msgstr ""
 
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
@@ -3894,11 +3910,6 @@ msgstr "&Nézőke"
 #: TFRMVIEWER.MIWRAPTEXT.CAPTION
 msgid "Show as &Wrap text"
 msgstr "Megjelenítés &tördelt szövegként"
-
-#: TFRMVIEWER.N1.CAPTION
-msgctxt "TFRMVIEWER.N1.CAPTION"
-msgid "-"
-msgstr ""
 
 #: TFRMVIEWER.PMICOPY.CAPTION
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"

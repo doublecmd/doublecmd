@@ -3762,6 +3762,18 @@ msgctxt "TFRMVIEWER.CAPTION"
 msgid "Viewer"
 msgstr "Betrachter"
 
+#: TFRMVIEWER.MI180.CAPTION
+msgid "+ 180"
+msgstr ""
+
+#: TFRMVIEWER.MI270.CAPTION
+msgid "- 90"
+msgstr ""
+
+#: TFRMVIEWER.MI90.CAPTION
+msgid "+ 90"
+msgstr ""
+
 #: TFRMVIEWER.MIABOUT.CAPTION
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
@@ -3832,6 +3844,10 @@ msgstr "Als He&x anzeigen"
 msgid "&Image"
 msgstr "B&ild"
 
+#: TFRMVIEWER.MIMIRROR.CAPTION
+msgid "Mirror"
+msgstr ""
+
 #: TFRMVIEWER.MINEXT.CAPTION
 msgid "&Next"
 msgstr "&Nächste"
@@ -3849,9 +3865,9 @@ msgstr "&Vorherige"
 msgid "Print..."
 msgstr "Drucken..."
 
-#: TFRMVIEWER.MISAVEPOS.CAPTION
-msgid "&Save Position"
-msgstr "Position speiche&rn"
+#: TFRMVIEWER.MIROTATE.CAPTION
+msgid "Rotate"
+msgstr ""
 
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
@@ -3892,11 +3908,6 @@ msgstr "&Betrachten"
 #: TFRMVIEWER.MIWRAPTEXT.CAPTION
 msgid "Show as &Wrap text"
 msgstr "&Zeilenumbruch"
-
-#: TFRMVIEWER.N1.CAPTION
-msgctxt "TFRMVIEWER.N1.CAPTION"
-msgid "-"
-msgstr "-"
 
 #: TFRMVIEWER.PMICOPY.CAPTION
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
