@@ -168,7 +168,9 @@ implementation
 
 uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fCalendar, fViewer, fMain,
-  uLng, uGlobs, uShowForm, uOSUtils, uSearchTemplate, uDCUtils;
+  uLng, uGlobs, uShowForm, uOSUtils, uSearchTemplate, uDCUtils, uSearchResultFileSource,
+  uFile, uFileSystemFile, uFileSystemFileSource, uFileViewNotebook,
+  uFileView, uColumnsFileView, uFileSource;
 
 const
   TimeUnitToComboIndex: array[TTimeUnit] of Integer = (0, 1, 2, 3, 4, 5, 6);
@@ -639,35 +641,43 @@ begin
     ShowViewerByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
 end;
 
-(* Not working full now *)
-
 procedure TfrmFindDlg.btnWorkWithFoundClick(Sender: TObject);
 var
-  I, Count: Integer;
+  I: Integer;
   sFileName: String;
+  SearchResultFS: ISearchResultFileSource;
+  FileList: TFileTree;
+  aFile: TFileSystemFile;
+  Notebook: TFileViewNotebook;
+  NewPage: TFileViewPage;
+  FileView: TFileView;
 begin
-  // This should create a new file source (virtual).
-(*
-  frmMain.ActiveFrame.CurrentPath := '';
+  FileList := TFileTree.Create;
+  for i := 0 to lsFoundedFiles.Items.Count - 1 do
+  begin
+    sFileName:= lsFoundedFiles.Items[I];
+    aFile := TFileSystemFile.CreateFromFile(sFileName);
+    FileList.AddSubNode(aFile);
+  end;
 
-  Count:= lsFoundedFiles.Items.Count - 1;
-//  frmMain.ActiveFrame.pnlFile.FileList.Clear;
-  with FileRecItem do
-  for I:= 0 to Count do
-    begin
-      sFileName:= lsFoundedFiles.Items[I];
-      FileRecItem:= LoadFilebyName(sFileName);
-      sNameNoExt:= sFileName;
-      sName:= sFileName;
-{
-      frmMain.ActiveFrame.pnlFile.FileList.AddItem(@FileRecItem);
-}
-    end;
-{
-  frmMain.ActiveFrame.pnlFile.FileList.UpdateFileInformation(pmDirectory);
-  frmMain.ActiveFrame.pnlFile.Sort;
-}
-*)
+  // Create search result file source.
+  // Currently only searching FileSystem is supported.
+  SearchResultFS := TSearchResultFileSource.Create;
+  SearchResultFS.AddList(FileList, TFileSystemFileSource.GetFileSource);
+
+  // Add new tab for search results.
+  Notebook := frmMain.ActiveNotebook;
+  if tb_open_new_near_current in gDirTabOptions then
+    NewPage := Notebook.InsertPage(Notebook.PageIndex + 1)
+  else
+    NewPage := Notebook.AddPage;
+
+  // Hard-coded Columns file view for now (later user will be able to change default view).
+  FileView := TColumnsFileView.Create(NewPage, SearchResultFS, SearchResultFS.GetRootDir);
+  frmMain.AssignEvents(FileView);
+  NewPage.UpdateCaption(rsSearchResult);
+  NewPage.MakeActive;
+
   Close;
 end;
 
@@ -919,4 +929,4 @@ initialization
 finalization
   if Assigned(frmFindDlg) then
     FreeAndNil(frmFindDlg);
-end.
+end.
