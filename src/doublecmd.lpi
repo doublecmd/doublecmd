@@ -60,7 +60,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="100">
+    <Units Count="101">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -667,6 +667,13 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uArchiveFileSourceUtil"/>
       </Unit99>
+      <Unit100>
+        <Filename Value="fattributesedit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmAttributesEdit"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fAttributesEdit"/>
+      </Unit100>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

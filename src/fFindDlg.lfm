@@ -534,45 +534,76 @@ object frmFindDlg: TfrmFindDlg
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 284
-          Height = 58
+          Height = 89
           Top = 18
-          Width = 252
+          Width = 200
           AutoSize = True
           BorderSpacing.Top = 6
           BorderSpacing.Right = 6
           Caption = '&Attributes'
           ChildSizing.LeftRightSpacing = 6
           ChildSizing.TopBottomSpacing = 6
-          ClientHeight = 40
-          ClientWidth = 248
+          ClientHeight = 71
+          ClientWidth = 196
+          Constraints.MinWidth = 200
           TabOrder = 16
           object edtAttrib: TEdit
             AnchorSideLeft.Control = gbAttributes
+            AnchorSideRight.Control = gbAttributes
+            AnchorSideRight.Side = asrBottom
             Left = 6
             Height = 25
             Top = 6
-            Width = 176
+            Width = 184
             HelpType = htKeyword
             HelpKeyword = '/findfiles.html#attributes'
+            Anchors = [akTop, akLeft, akRight]
             ParentShowHint = False
             ShowHint = True
             TabOrder = 0
           end
-          object btnAttrsHelp: TButton
+          object pnlAttributesButtons: TPanel
             AnchorSideLeft.Control = edtAttrib
-            AnchorSideLeft.Side = asrBottom
             AnchorSideTop.Control = edtAttrib
-            AnchorSideTop.Side = asrCenter
-            Left = 187
-            Height = 31
-            Top = 3
-            Width = 69
+            AnchorSideTop.Side = asrBottom
+            AnchorSideRight.Control = edtAttrib
+            AnchorSideRight.Side = asrBottom
+            Left = 6
+            Height = 29
+            Top = 36
+            Width = 184
+            Anchors = [akTop, akLeft, akRight]
             AutoSize = True
-            BorderSpacing.Left = 5
-            BorderSpacing.InnerBorder = 1
-            Caption = '&Help'
-            OnClick = btnAttrsHelpClick
+            BorderSpacing.Top = 5
+            BevelOuter = bvNone
+            ChildSizing.HorizontalSpacing = 10
+            ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+            ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
+            ChildSizing.Layout = cclTopToBottomThenLeftToRight
+            ClientHeight = 29
+            ClientWidth = 184
             TabOrder = 1
+            object btnAddAttribute: TButton
+              Left = 0
+              Height = 29
+              Top = 0
+              Width = 84
+              AutoSize = True
+              Caption = '&Add'
+              OnClick = btnAddAttributeClick
+              TabOrder = 0
+            end
+            object btnAttrsHelp: TButton
+              Left = 94
+              Height = 29
+              Top = 0
+              Width = 90
+              AutoSize = True
+              BorderSpacing.InnerBorder = 1
+              Caption = '&Help'
+              OnClick = btnAttrsHelpClick
+              TabOrder = 1
+            end
           end
         end
         object deDateFrom: TEditButton
