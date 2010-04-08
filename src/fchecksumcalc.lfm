@@ -14,7 +14,7 @@ object frmCheckSumCalc: TfrmCheckSumCalc
   OnCreate = FormCreate
   Position = poScreenCenter
   SessionProperties = 'cbSeparateFile.Checked;rbHashMD5.Checked;rbHashSHA1.Checked'
-  LCLVersion = '0.9.27'
+  LCLVersion = '0.9.29'
   object lblSaveTo: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -52,7 +52,7 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     Top = 57
     Width = 198
     BorderSpacing.Top = 6
-    Caption = 'Create separate MD5 files for each file'
+    Caption = 'Create separate checksum file for each file'
     OnChange = cbSeparateFileChange
     TabOrder = 1
   end
