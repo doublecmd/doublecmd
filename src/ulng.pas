@@ -277,11 +277,20 @@ resourcestring
   rsOptExampleCursor = 'Cursor';
   rsOptExampleMarkCursor = 'Mark + Cursor';
   // Hotkeys
+  rsOptHotkeysCommands = 'Commands';
+  rsOptHotkeysComments = 'Comments';
+  rsOptHotkeysHotkeys = 'Hotkeys';
+  rsOptHotkeysHotkey = 'Hotkey';
+  rsOptHotkeysParameters = 'Parameters';
   rsOptHotkeysShortCutUsed = 'Shortcut in use';
   rsOptHotkeysShortCutUsedText1 = 'Shortcut %s is already used for %s.';
   rsOptHotkeysShortCutUsedText2 = 'Change it to %s?';
   rsOptHotkeysUsedBy = 'used by';
   // Plugins
+  rsOptPluginsActive = 'Active';
+  rsOptPluginsName = 'Name';
+  rsOptPluginsRegisteredFor = 'Registered for';
+  rsOptPluginsFileName = 'File name';
   rsOptPluginAlreadyAssigned = 'Plugin %s is already assigned for the following extensions:';
 
   //Columns Menu

@@ -588,6 +588,17 @@ begin
   cbToolsUseExternalProgramChange(nil);
   FUpdatingTools := False;
 
+  // Localize Hotkeys.
+  // stgCommands is localized in FillCommandList.
+  stgHotkeys.Columns.Items[0].Title.Caption := rsOptHotkeysHotkey;
+  stgHotkeys.Columns.Items[1].Title.Caption := rsOptHotkeysParameters;
+
+  // Localize plugins.
+  stgPlugins.Columns.Items[0].Title.Caption := rsOptPluginsActive;
+  stgPlugins.Columns.Items[1].Title.Caption := rsOptPluginsName;
+  stgPlugins.Columns.Items[2].Title.Caption := rsOptPluginsRegisteredFor;
+  stgPlugins.Columns.Items[3].Title.Caption := rsOptPluginsFileName;
+
   // create plugins lists
   tmpDSXPlugins:= TDSXModuleList.Create;
   tmpWCXPlugins:= TWCXModuleList.Create;
@@ -1822,9 +1833,9 @@ begin
      slHotKey.add(StListToStr(';',slTmp)); //add to hotkey list created string
     end;
     // add to list NAMES of columns
-    slFiltered.Insert(0,'Commands');
-    slComments.Insert(0,'Comments');
-    slHotKey.Insert(0,'Hotkeys');
+    slFiltered.Insert(0, rsOptHotkeysCommands);
+    slComments.Insert(0, rsOptHotkeysComments);
+    slHotKey.Insert(0, rsOptHotkeysHotkeys);
     //set stringgrid rows count
     stgCommands.RowCount:=slFiltered.Count;
     // copy to string grid created lists
