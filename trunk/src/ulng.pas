@@ -213,6 +213,20 @@ resourcestring
   rsFindDepth = '%s level(s)';
   rsFindSaveTemplateCaption = 'Save search template';
   rsFindSaveTemplateTitle = 'Template name:';
+
+  rsTimeUnitSecond = 'Second(s)';
+  rsTimeUnitMinute = 'Minute(s)';
+  rsTimeUnitHour = 'Hour(s)';
+  rsTimeUnitDay = 'Day(s)';
+  rsTimeUnitWeek = 'Week(s)';
+  rsTimeUnitMonth = 'Month(s)';
+  rsTimeUnitYear = 'Year(s)';
+  rsSizeUnitBytes = 'Bytes';
+  rsSizeUnitKBytes = 'Kilobytes';
+  rsSizeUnitMBytes = 'Megabytes';
+  rsSizeUnitGBytes = 'Gigabytes';
+  rsSizeUnitTBytes = 'Terabytes';
+
   // Symlink dialog
   rsSymErrCreate = 'Error creating symlink.';
   // Hardlink dialog

@@ -380,15 +380,6 @@ object frmFindDlg: TfrmFindDlg
           BorderSpacing.Top = 6
           Enabled = False
           ItemHeight = 17
-          Items.Strings = (
-            'Second(s)'
-            'Minute(s)'
-            'Hour(s)'
-            'Day(s)'
-            'Week(s)'
-            'Month(s)'
-            'Year(s)'
-          )
           Style = csDropDownList
           TabOrder = 10
         end
@@ -467,20 +458,11 @@ object frmFindDlg: TfrmFindDlg
           Left = 284
           Height = 25
           Top = 234
-          Width = 72
+          Width = 96
           Enabled = False
           ItemHeight = 17
-          ItemIndex = 1
-          Items.Strings = (
-            'Byte'
-            'Kbyte'
-            'Mbyte'
-            'Gbyte'
-            'Tbyte'
-          )
           Style = csDropDownList
           TabOrder = 15
-          Text = 'Kbyte'
         end
         object cbTimeFrom: TCheckBox
           AnchorSideLeft.Control = tsAdvanced
