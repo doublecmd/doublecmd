@@ -264,6 +264,134 @@ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 msgid "OK"
 msgstr "Oké"
 
+#: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
+msgid "&Cancel"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.BTNOK.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Oké"
+
+#: TFRMATTRIBUTESEDIT.BTNRESET.CAPTION
+msgid "&Reset"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CAPTION
+msgid "Choose attributes"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION"
+msgid "Archive"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBCOMPRESSED.CAPTION
+msgid "Compressed"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION"
+msgid "Directory"
+msgstr "Könyvtár"
+
+#: TFRMATTRIBUTESEDIT.CBENCRYPTED.CAPTION
+msgid "Encrypted"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION"
+msgid "Hidden"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBREADONLY.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBREADONLY.CAPTION"
+msgid "Read only"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBSGID.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBSGID.CAPTION"
+msgid "SGID"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBSPARSE.CAPTION
+msgid "Sparse"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBSTICKY.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBSTICKY.CAPTION"
+msgid "Sticky"
+msgstr "Ragadós"
+
+#: TFRMATTRIBUTESEDIT.CBSUID.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBSUID.CAPTION"
+msgid "SUID"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBSYMLINK.CAPTION
+msgid "Symlink"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION"
+msgid "System"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBTEMPORARY.CAPTION
+msgid "Temporary"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.GBNTFSATTRIBUTES.CAPTION
+msgid "NTFS attributes"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.GBWINGENERAL.CAPTION
+msgid "General attributes"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION"
+msgid "Bits:"
+msgstr "Bitek:"
+
+#: TFRMATTRIBUTESEDIT.LBLATTRGROUPSTR.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.LBLATTRGROUPSTR.CAPTION"
+msgid "Group"
+msgstr "Csoport"
+
+#: TFRMATTRIBUTESEDIT.LBLATTROTHERSTR.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.LBLATTROTHERSTR.CAPTION"
+msgid "Other"
+msgstr "Egyéb"
+
+#: TFRMATTRIBUTESEDIT.LBLATTROWNERSTR.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.LBLATTROWNERSTR.CAPTION"
+msgid "Owner"
+msgstr "Tulajdonos"
+
+#: TFRMATTRIBUTESEDIT.LBLEXEC.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.LBLEXEC.CAPTION"
+msgid "Execute"
+msgstr "Végrehajtás"
+
+#: TFRMATTRIBUTESEDIT.LBLREAD.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.LBLREAD.CAPTION"
+msgid "Read"
+msgstr "Olvasás"
+
+#: TFRMATTRIBUTESEDIT.LBLTEXTATTRS.CAPTION
+msgid "As text:"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
+msgid "Write"
+msgstr "Írás"
+
+#: TFRMCALENDAR.CAPTION
+msgid "Calendar"
+msgstr ""
+
 #: TFRMCHECKSUMCALC.BTNCANCEL.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -280,16 +408,44 @@ msgid "Calculate check sum..."
 msgstr ""
 
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
-msgid "Create separate MD5/SHA1 files for each file"
+msgid "Create separate checksum file for each file"
 msgstr ""
 
 #: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
 msgid "Save check sum file(s) to:"
 msgstr ""
 
+#: TFRMCHECKSUMCALC.RBHASHMD5.CAPTION
+msgid "MD5"
+msgstr ""
+
+#: TFRMCHECKSUMCALC.RBHASHSHA1.CAPTION
+msgid "SHA1"
+msgstr ""
+
+#: TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION
+msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
+msgid "&Close"
+msgstr "&Bezárás"
+
+#: TFRMCHECKSUMVERIFY.CAPTION
+msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
+msgid "Verify check sum..."
+msgstr ""
+
 #: TFRMCOLUMSPROPS.BITBTN1.CAPTION
 msgid "&ОК"
 msgstr ""
+
+#: TFRMCOMPAREFILES.BTNCLOSE.CAPTION
+msgctxt "TFRMCOMPAREFILES.BTNCLOSE.CAPTION"
+msgid "Close"
+msgstr "Bezárás"
+
+#: TFRMCOMPAREFILES.BTNCOMPARE.CAPTION
+msgctxt "TFRMCOMPAREFILES.BTNCOMPARE.CAPTION"
+msgid "Compare files"
+msgstr "Fájlok összehasonlítása"
 
 #: TFRMCOMPAREFILES.BTNNEXTDIFF.CAPTION
 msgid "Next difference"
@@ -300,6 +456,7 @@ msgid "Previous difference"
 msgstr "Előző eltérés"
 
 #: TFRMCOMPAREFILES.CAPTION
+msgctxt "TFRMCOMPAREFILES.CAPTION"
 msgid "Compare files"
 msgstr "Fájlok összehasonlítása"
 
@@ -472,6 +629,16 @@ msgctxt "TFRMCOPYDLG.LBLFILETYPE.CAPTION"
 msgid "Only type:"
 msgstr "Csak ez a típus:"
 
+#: TFRMDESCREDIT.BTNCANCEL.CAPTION
+msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: TFRMDESCREDIT.BTNOK.CAPTION
+msgctxt "TFRMDESCREDIT.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Oké"
+
 #: TFRMDESCREDIT.CAPTION
 msgid "File/folder comment"
 msgstr "Fájl/könyvtár megjegyzés"
@@ -484,6 +651,11 @@ msgstr "Megjegyzés szerkesztése:"
 msgctxt "TFRMDESCREDIT.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "Kódolás:"
+
+#: TFRMDESCREDIT.LBLFILENAME.CAPTION
+msgctxt "TFRMDESCREDIT.LBLFILENAME.CAPTION"
+msgid "???"
+msgstr ""
 
 #: TFRMEDITOR.ACTABOUT.CAPTION
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -558,6 +730,7 @@ msgid "&Open"
 msgstr "&Megnyitás"
 
 #: TFRMEDITOR.ACTFILESAVE.CAPTION
+msgctxt "TFRMEDITOR.ACTFILESAVE.CAPTION"
 msgid "&Save"
 msgstr "Menté&s"
 
@@ -636,6 +809,16 @@ msgctxt "TFRMEDITOR.N4.CAPTION"
 msgid "-"
 msgstr ""
 
+#: TFRMEDITORCONF.BTNCANCEL.CAPTION
+msgctxt "TFRMEDITORCONF.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: TFRMEDITORCONF.BTNOK.CAPTION
+msgctxt "TFRMEDITORCONF.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Oké"
+
 #: TFRMEDITORCONF.CAPTION
 msgid "Editor configuration"
 msgstr "Szerkesztő beállítása"
@@ -673,6 +856,10 @@ msgstr "Mégsem"
 msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Oké"
+
+#: TFRMEDITSEARCHREPLACE.CAPTION
+msgid "frmEditSearchReplace"
+msgstr ""
 
 #: TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
@@ -802,6 +989,10 @@ msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
 msgid "Remove"
 msgstr "Eltávolítás"
 
+#: TFRMFILEASSOC.BTNREMOVEICON.CAPTION
+msgid "X"
+msgstr ""
+
 #: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
 msgid "Remove"
@@ -896,10 +1087,22 @@ msgstr "Nézőke"
 msgid "Open in Viewer"
 msgstr "Megnyitás nézőkében"
 
+#: TFRMFILEOP.BTHOPEND.CAPTION
+msgid "End"
+msgstr ""
+
 #: TFRMFILEOP.BTNCANCEL.CAPTION
 msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Mégsem"
+
+#: TFRMFILEOP.BTNOPHOME.CAPTION
+msgid "Home"
+msgstr ""
+
+#: TFRMFILEOP.BTNTOQUEUE.CAPTION
+msgid "To Queue"
+msgstr ""
 
 #: TFRMFILEOP.BTNWORKINBACKGROUND.CAPTION
 msgid "Work in &background"
@@ -908,10 +1111,6 @@ msgstr ""
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
 msgstr "Fájl(ok) feldolgozása"
-
-#: TFRMFILEOP.LBLESTIMATED.CAPTION
-msgid "Estimated"
-msgstr "Körülbelül"
 
 #: TFRMFILEOP.LBLFILENAMEFROM.CAPTION
 msgid "File name from"
@@ -935,6 +1134,7 @@ msgid "&All"
 msgstr "&Mind"
 
 #: TFRMFILEPROPERTIES.BTNCLOSE.CAPTION
+msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
 msgid "Close"
 msgstr "Bezárás"
 
@@ -948,6 +1148,7 @@ msgid "Skip"
 msgstr "Kihagy"
 
 #: TFRMFILEPROPERTIES.CAPTION
+msgctxt "TFRMFILEPROPERTIES.CAPTION"
 msgid "Properties"
 msgstr "Tulajdonságok"
 
@@ -965,6 +1166,11 @@ msgstr "Ragadós"
 msgctxt "TFRMFILEPROPERTIES.CBSUID.CAPTION"
 msgid "SUID"
 msgstr ""
+
+#: TFRMFILEPROPERTIES.GBOWNER.CAPTION
+msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
+msgid "Owner"
+msgstr "Tulajdonos"
 
 #: TFRMFILEPROPERTIES.LBLATTRBITSSTR.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLATTRBITSSTR.CAPTION"
@@ -1009,6 +1215,7 @@ msgid "File name"
 msgstr "Fájlnév"
 
 #: TFRMFILEPROPERTIES.LBLFILENAME.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLFILENAME.CAPTION"
 msgid "???"
 msgstr ""
 
@@ -1017,17 +1224,47 @@ msgctxt "TFRMFILEPROPERTIES.LBLFILENAMESTR.CAPTION"
 msgid "Name:"
 msgstr "Név:"
 
+#: TFRMFILEPROPERTIES.LBLFILESTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLFILESTR.CAPTION"
+msgid "File name"
+msgstr "Fájlnév"
+
+#: TFRMFILEPROPERTIES.LBLFOLDER.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLFOLDER.CAPTION"
+msgid "???"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLFOLDERSTR.CAPTION
 msgid "Path:"
 msgstr "Útvonal:"
+
+#: TFRMFILEPROPERTIES.LBLGROUPSTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLGROUPSTR.CAPTION"
+msgid "Group"
+msgstr "Csoport"
+
+#: TFRMFILEPROPERTIES.LBLLASTACCESS.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLLASTACCESS.CAPTION"
+msgid "???"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLLASTACCESSSTR.CAPTION
 msgid "Last access:"
 msgstr "Utolsó hozzáférés:"
 
+#: TFRMFILEPROPERTIES.LBLLASTMODIF.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLLASTMODIF.CAPTION"
+msgid "???"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLLASTMODIFSTR.CAPTION
 msgid "Last modification:"
 msgstr "Utolsó módosítás:"
+
+#: TFRMFILEPROPERTIES.LBLLASTSTCHANGE.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLLASTSTCHANGE.CAPTION"
+msgid "???"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLLASTSTCHANGESTR.CAPTION
 msgid "Last status change:"
@@ -1038,19 +1275,41 @@ msgctxt "TFRMFILEPROPERTIES.LBLOCTAL.CAPTION"
 msgid "Octal:"
 msgstr ""
 
+#: TFRMFILEPROPERTIES.LBLOWNERSTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLOWNERSTR.CAPTION"
+msgid "Owner"
+msgstr "Tulajdonos"
+
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLREAD.CAPTION"
 msgid "Read"
 msgstr "Olvasás"
+
+#: TFRMFILEPROPERTIES.LBLSIZE.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLSIZE.CAPTION"
+msgid "???"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION"
 msgid "Size:"
 msgstr "Méret:"
 
+#: TFRMFILEPROPERTIES.LBLSYMLINK.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLSYMLINK.CAPTION"
+msgid "???"
+msgstr ""
+
 #: TFRMFILEPROPERTIES.LBLSYMLINKSTR.CAPTION
-msgid "Symlink:"
+#, fuzzy
+#| msgid "Symlink:"
+msgid "Symlink to:"
 msgstr "Szimbolikus hivatkozás:"
+
+#: TFRMFILEPROPERTIES.LBLTYPE.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLTYPE.CAPTION"
+msgid "???"
+msgstr ""
 
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
 msgid "Type:"
@@ -1065,6 +1324,20 @@ msgstr "Írás"
 msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
 msgid "Attributes"
 msgstr "Attribútumok"
+
+#: TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION
+msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
+msgid "Properties"
+msgstr "Tulajdonságok"
+
+#: TFRMFINDDLG.BTNADDATTRIBUTE.CAPTION
+msgid "&Add"
+msgstr ""
+
+#: TFRMFINDDLG.BTNATTRSHELP.CAPTION
+msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
+msgid "&Help"
+msgstr "&Súgó"
 
 #: TFRMFINDDLG.BTNCLOSE.CAPTION
 msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
@@ -1114,11 +1387,6 @@ msgstr "&Ablakba"
 msgid "Find files"
 msgstr "Fájlok keresése"
 
-#: TFRMFINDDLG.CBATTRIB.CAPTION
-msgctxt "TFRMFINDDLG.CBATTRIB.CAPTION"
-msgid "Attributes"
-msgstr "Attribútumok"
-
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 #, fuzzy
 #| msgid "Case sensitive"
@@ -1133,15 +1401,6 @@ msgstr "Dtáumtól:"
 msgid "Date To:"
 msgstr "Dátumig:"
 
-#: TFRMFINDDLG.CBDELAYUNIT.TEXT
-msgid "Day(s)"
-msgstr "Nap(ok)"
-
-#: TFRMFINDDLG.CBDIRECTORY.CAPTION
-msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
-msgid "Directory"
-msgstr "Könyvtár"
-
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 msgid "File Size From:"
 msgstr "Fájlmérettől:"
@@ -1150,19 +1409,17 @@ msgstr "Fájlmérettől:"
 msgid "File Size To:"
 msgstr "Fájlméretig:"
 
-#: TFRMFINDDLG.CBFINDINFILE.CAPTION
+#: TFRMFINDDLG.CBFINDTEXT.CAPTION
 #, fuzzy
 #| msgid "Find in file"
+msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"
 msgstr "Keresés fájlban"
 
-#: TFRMFINDDLG.CBMORE.CAPTION
-msgid "More"
-msgstr "Tovább"
-
-#: TFRMFINDDLG.CBNOTHISTEXT.CAPTION
+#: TFRMFINDDLG.CBNOTCONTAININGTEXT.CAPTION
 #, fuzzy
 #| msgid "Find files NOT containing the text"
+msgctxt "TFRMFINDDLG.CBNOTCONTAININGTEXT.CAPTION"
 msgid "Find files N&OT containing the text"
 msgstr "A szöveget NEM tartalmazó fájlok keresése"
 
@@ -1181,10 +1438,6 @@ msgstr "&Reguláris kifejezések"
 msgid "Re&place text"
 msgstr "Szöveg helyettesítése"
 
-#: TFRMFINDDLG.CBSYMLINK.CAPTION
-msgid "SymLink"
-msgstr ""
-
 #: TFRMFINDDLG.CBTIMEFROM.CAPTION
 msgid "Time from:"
 msgstr "Időtől:"
@@ -1192,10 +1445,6 @@ msgstr "Időtől:"
 #: TFRMFINDDLG.CBTIMETO.CAPTION
 msgid "Time to:"
 msgstr "Időig"
-
-#: TFRMFINDDLG.CBUNITOFMEASURE.TEXT
-msgid "Kbyte"
-msgstr ""
 
 #: TFRMFINDDLG.CBUSEPLUGIN.CAPTION
 #, fuzzy
@@ -1208,28 +1457,8 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr ""
 
-#: TFRMFINDDLG.DEDATEFROM.CANCELCAPTION
-msgctxt "TFRMFINDDLG.DEDATEFROM.CANCELCAPTION"
-msgid "Cancel"
-msgstr "Mégsem"
-
-#: TFRMFINDDLG.DEDATEFROM.OKCAPTION
-msgctxt "TFRMFINDDLG.DEDATEFROM.OKCAPTION"
-msgid "OK"
-msgstr "Oké"
-
-#: TFRMFINDDLG.DEDATETO.CANCELCAPTION
-msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
-msgid "Cancel"
-msgstr "Mégsem"
-
-#: TFRMFINDDLG.DEDATETO.OKCAPTION
-msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
-msgid "OK"
-msgstr "Oké"
-
-#: TFRMFINDDLG.EDTATTRIB.HINT
-msgid "Use '-' to off attribute and '?' to any"
+#: TFRMFINDDLG.GBATTRIBUTES.CAPTION
+msgid "&Attributes"
 msgstr ""
 
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
@@ -1259,10 +1488,6 @@ msgstr "FájlKönyvtár"
 
 #: TFRMFINDDLG.LBLFOUND.CAPTION
 msgid "Found"
-msgstr ""
-
-#: TFRMFINDDLG.LBLINFO.CAPTION
-msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
 msgstr ""
 
 #: TFRMFINDDLG.LBLSEARCHDEPTH.CAPTION
@@ -1297,21 +1522,48 @@ msgstr ""
 msgid "Standard"
 msgstr "Alap"
 
-#: TFRMFINDVIEW.CAPTION
+#: TFRMFINDVIEW.BTNCLOSE.CAPTION
+msgctxt "TFRMFINDVIEW.BTNCLOSE.CAPTION"
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: TFRMFINDVIEW.BTNFIND.CAPTION
+msgctxt "TFRMFINDVIEW.BTNFIND.CAPTION"
 msgid "Find"
 msgstr "Keresés"
+
+#: TFRMFINDVIEW.CAPTION
+msgctxt "TFRMFINDVIEW.CAPTION"
+msgid "Find"
+msgstr "Keresés"
+
+#: TFRMFINDVIEW.CBCASESENS.CAPTION
+msgid "Case sensitive"
+msgstr ""
+
+#: TFRMHARDLINK.BTNCANCEL.CAPTION
+msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: TFRMHARDLINK.BTNOK.CAPTION
+msgctxt "TFRMHARDLINK.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Oké"
 
 #: TFRMHARDLINK.CAPTION
 msgid "Create hardlink"
 msgstr "Hardlink készítése"
 
-#: TFRMHARDLINK.LBLDST.CAPTION
-msgid "Link name"
-msgstr "Hivatkozás neve"
-
-#: TFRMHARDLINK.LBLNEW.CAPTION
+#: TFRMHARDLINK.LBLEXISTINGFILE.CAPTION
+msgctxt "TFRMHARDLINK.LBLEXISTINGFILE.CAPTION"
 msgid "Existing destination (where will link point)"
 msgstr "Létező cél (erre fog mutatni a hivatkozás)"
+
+#: TFRMHARDLINK.LBLLINKTOCREATE.CAPTION
+msgctxt "TFRMHARDLINK.LBLLINKTOCREATE.CAPTION"
+msgid "Link name"
+msgstr "Hivatkozás neve"
 
 #: TFRMHOTDIR.BTNADD.CAPTION
 msgctxt "TFRMHOTDIR.BTNADD.CAPTION"
@@ -1322,9 +1574,44 @@ msgstr "Hozzáadás"
 msgid "Add manually"
 msgstr "Hozzáadás kézileg"
 
+#: TFRMHOTDIR.BTNCANCEL.CAPTION
+msgctxt "TFRMHOTDIR.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: TFRMHOTDIR.BTNDELETE.CAPTION
+msgctxt "TFRMHOTDIR.BTNDELETE.CAPTION"
+msgid "Delete"
+msgstr "Törlés"
+
+#: TFRMHOTDIR.BTNEDIT.CAPTION
+msgctxt "TFRMHOTDIR.BTNEDIT.CAPTION"
+msgid "Edit"
+msgstr "Szerkesztés"
+
+#: TFRMHOTDIR.BTNOK.CAPTION
+msgctxt "TFRMHOTDIR.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Oké"
+
 #: TFRMHOTDIR.CAPTION
 msgid "Directory Hotlist"
 msgstr "Kedvenc könyvtárak"
+
+#: TFRMLINKER.BTNEXIT.CAPTION
+msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
+msgid "Exit"
+msgstr "Kilépés"
+
+#: TFRMLINKER.BTNOK.CAPTION
+msgctxt "TFRMLINKER.BTNOK.CAPTION"
+msgid "OK"
+msgstr "Oké"
+
+#: TFRMLINKER.BTNSAVE.CAPTION
+msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
+msgid "..."
+msgstr ""
 
 #: TFRMLINKER.CAPTION
 msgid "Linker"
@@ -1338,15 +1625,35 @@ msgstr "Mentés másként..."
 msgid "Item"
 msgstr "Tétel"
 
+#: TFRMLINKER.LBLFILENAME.CAPTION
+msgctxt "TFRMLINKER.LBLFILENAME.CAPTION"
+msgid "File name"
+msgstr "Fájlnév"
+
+#: TFRMLINKER.SPBTNDEL.CAPTION
+msgctxt "TFRMLINKER.SPBTNDEL.CAPTION"
+msgid "Delete"
+msgstr "Törlés"
+
 #: TFRMLINKER.SPBTNDEL.HINT
 msgctxt "TFRMLINKER.SPBTNDEL.HINT"
 msgid "Delete"
 msgstr "Törlés"
 
+#: TFRMLINKER.SPBTNDOWN.CAPTION
+msgctxt "TFRMLINKER.SPBTNDOWN.CAPTION"
+msgid "Down"
+msgstr "Le"
+
 #: TFRMLINKER.SPBTNDOWN.HINT
 msgctxt "TFRMLINKER.SPBTNDOWN.HINT"
 msgid "Down"
 msgstr "Le"
+
+#: TFRMLINKER.SPBTNUP.CAPTION
+msgctxt "TFRMLINKER.SPBTNUP.CAPTION"
+msgid "Up"
+msgstr "Fel"
 
 #: TFRMLINKER.SPBTNUP.HINT
 msgctxt "TFRMLINKER.SPBTNUP.HINT"
@@ -1766,10 +2073,6 @@ msgstr "Rejtett/rendszer fájlok megjelenítése"
 msgid "Sort by attrib"
 msgstr "Rendezés attribútumok szerint"
 
-#: TFRMMAIN.ACTSORTBYCOLUMN.CAPTION
-msgid "Sort by column"
-msgstr ""
-
 #: TFRMMAIN.ACTSORTBYDATE.CAPTION
 msgid "Sort by date"
 msgstr "Rendezés dátum szerint"
@@ -1828,6 +2131,32 @@ msgstr "Látogassa meg a Double Commander honlapját"
 #: TFRMMAIN.ACTWIPE.CAPTION
 msgid "Wipe"
 msgstr "Eltöröl"
+
+#: TFRMMAIN.ALLOPCANCEL.CAPTION
+msgctxt "TFRMMAIN.ALLOPCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: TFRMMAIN.ALLOPPAUSE.CAPTION
+msgid "||"
+msgstr ""
+
+#: TFRMMAIN.ALLOPPCT.CAPTION
+msgid "%"
+msgstr ""
+
+#: TFRMMAIN.ALLOPPROGRESSIND.CAPTION
+msgid "||||||||||||||||||||"
+msgstr ""
+
+#: TFRMMAIN.ALLOPSTART.CAPTION
+msgctxt "TFRMMAIN.ALLOPSTART.CAPTION"
+msgid "Start"
+msgstr ""
+
+#: TFRMMAIN.BTNF10.CAPTION
+msgid "Exit F10"
+msgstr ""
 
 #: TFRMMAIN.BTNF9.CAPTION
 msgid "Terminal F9"
@@ -2212,6 +2541,16 @@ msgstr "&Oké"
 msgid "Or select predefined selection type:"
 msgstr ""
 
+#: TFRMMKDIR.BTNCANCEL.CAPTION
+msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: TFRMMKDIR.BTNOK.CAPTION
+msgctxt "TFRMMKDIR.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Oké"
+
 #: TFRMMKDIR.CAPTION
 msgid "Create new directory"
 msgstr "Új könyvtár létrehozása"
@@ -2229,19 +2568,44 @@ msgstr "Csak típus:"
 msgid "Move %s:"
 msgstr "%s áthelyezése:"
 
-#: TFRMMULTIRENAME.BTNCANCEL.CAPTION
-msgctxt "TFRMMULTIRENAME.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Mégsem"
+#: TFRMMULTIRENAME.BTNCLOSE.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
+msgid "&Close"
+msgstr "&Bezárás"
 
-#: TFRMMULTIRENAME.BTNOK.CAPTION
-msgctxt "TFRMMULTIRENAME.BTNOK.CAPTION"
-msgid "OK"
-msgstr "Oké"
+#: TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
+msgid "&Delete"
+msgstr "&Törlés"
+
+#: TFRMMULTIRENAME.BTNEXTMENU.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
+msgid "..."
+msgstr ""
+
+#: TFRMMULTIRENAME.BTNLOADPRESET.CAPTION
+msgid "&Load"
+msgstr ""
+
+#: TFRMMULTIRENAME.BTNNAMEMENU.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNNAMEMENU.CAPTION"
+msgid "..."
+msgstr ""
+
+#: TFRMMULTIRENAME.BTNRENAME.CAPTION
+msgid "&Rename"
+msgstr ""
 
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
-msgid "Restore All"
+#, fuzzy
+#| msgid "Restore All"
+msgid "Reset all"
 msgstr "Mind visszaállítása"
+
+#: TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
+msgid "&Save"
+msgstr "Menté&s"
 
 #: TFRMMULTIRENAME.CAPTION
 msgid "MultiRename"
@@ -2253,19 +2617,29 @@ msgid "Log"
 msgstr "Napló"
 
 #: TFRMMULTIRENAME.CBREGEXP.CAPTION
+#, fuzzy
+#| msgid "&Regular expressions"
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
-msgid "&Regular expressions"
+msgid "Regular e&xpressions"
 msgstr "&Reguláris kifejezések"
 
 #: TFRMMULTIRENAME.CBUSESUBS.CAPTION
-msgid "Use substitution"
+#, fuzzy
+#| msgid "Use substitution"
+msgid "&Use substitution"
 msgstr "Helyettesítések használata"
 
 #: TFRMMULTIRENAME.CMBXWIDTH.TEXT
 msgid "01"
 msgstr ""
 
+#: TFRMMULTIRENAME.EDINTERVAL.TEXT
+msgctxt "TFRMMULTIRENAME.EDINTERVAL.TEXT"
+msgid "1"
+msgstr ""
+
 #: TFRMMULTIRENAME.EDPOC.TEXT
+msgctxt "TFRMMULTIRENAME.EDPOC.TEXT"
 msgid "1"
 msgstr ""
 
@@ -2281,10 +2655,6 @@ msgstr "Számláló"
 msgid "Find && Replace"
 msgstr "Keresés é&s csere"
 
-#: TFRMMULTIRENAME.GBFONTSTYLE.CAPTION
-msgid "File Name Style"
-msgstr "Fájlnév stílus"
-
 #: TFRMMULTIRENAME.GBLOG.CAPTION
 msgid "Log Result"
 msgstr "Eredmény naplózása"
@@ -2293,12 +2663,20 @@ msgstr "Eredmény naplózása"
 msgid "Mask"
 msgstr "Maszk"
 
+#: TFRMMULTIRENAME.GBPRESETS.CAPTION
+msgid "Presets"
+msgstr ""
+
 #: TFRMMULTIRENAME.LBEXT.CAPTION
-msgid "Extension"
+#, fuzzy
+#| msgid "Extension"
+msgid "&Extension"
 msgstr "Kiterjesztés"
 
 #: TFRMMULTIRENAME.LBFIND.CAPTION
-msgid "Find..."
+#, fuzzy
+#| msgid "Find..."
+msgid "&Find..."
 msgstr "Keresés..."
 
 #: TFRMMULTIRENAME.LBINTERVAL.CAPTION
@@ -2306,11 +2684,15 @@ msgid "Interval"
 msgstr "Intervallum"
 
 #: TFRMMULTIRENAME.LBNAME.CAPTION
-msgid "File Name"
+#, fuzzy
+#| msgid "File Name"
+msgid "File &Name"
 msgstr "Fájlnév"
 
 #: TFRMMULTIRENAME.LBREPLACE.CAPTION
-msgid "Replace..."
+#, fuzzy
+#| msgid "Replace..."
+msgid "Re&place..."
 msgstr "Csere..."
 
 #: TFRMMULTIRENAME.LBSTNB.CAPTION
@@ -2322,15 +2704,8 @@ msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
 msgid "Width"
 msgstr "Szélesség"
 
-#: TFRMMULTIRENAME.LSVWFILE.COLUMN1TITLE.CAPTION
-msgid "Old File Name"
-msgstr "Régi fájlnév"
-
-#: TFRMMULTIRENAME.LSVWFILE.COLUMN2TITLE.CAPTION
-msgid "New File Name"
-msgstr "Új fájlnév"
-
-#: TFRMMULTIRENAME.LSVWFILE.COLUMN3TITLE.CAPTION
+#: TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION
+msgctxt "TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION"
 msgid "File Path"
 msgstr "Fájl útvonal"
 
@@ -2396,6 +2771,21 @@ msgstr ""
 
 #: TFRMMULTIRENAME.N1.CAPTION
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMULTIRENAME.N2.CAPTION
+msgctxt "TFRMMULTIRENAME.N2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMULTIRENAME.N3.CAPTION
+msgctxt "TFRMMULTIRENAME.N3.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMULTIRENAME.N4.CAPTION
+msgctxt "TFRMMULTIRENAME.N4.CAPTION"
 msgid "-"
 msgstr ""
 
@@ -3310,6 +3700,16 @@ msgstr "Felhasználó saját könyvtára"
 msgid "Use stream for search text in files"
 msgstr "Memóriafolyam használata fájlokban történő kereséskor"
 
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS.TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS.TITLE.CAPTION"
+msgid "Parameters"
+msgstr ""
+
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+msgid "File name"
+msgstr "Fájlnév"
+
 #: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
 msgid "Tool"
 msgstr ""
@@ -3322,23 +3722,6 @@ msgstr ""
 msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
 msgid "General"
 msgstr "Általános"
-
-#: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
-msgid "Active"
-msgstr "Aktív"
-
-#: TFRMOPTIONS.TGRIDCOLUMN2TITLE.CAPTION
-msgid "Plugin"
-msgstr "Beépülő"
-
-#: TFRMOPTIONS.TGRIDCOLUMN3TITLE.CAPTION
-msgid "Registered for"
-msgstr "Regisztrálva"
-
-#: TFRMOPTIONS.TGRIDCOLUMN4TITLE.CAPTION
-msgctxt "TFRMOPTIONS.TGRIDCOLUMN4TITLE.CAPTION"
-msgid "File name"
-msgstr "Fájlnév"
 
 #: TFRMOPTIONS.TSDSX.CAPTION
 msgid "Search plugins (.DSX)"
@@ -3424,6 +3807,11 @@ msgstr "Fájl(ok) becsomagolása a fájlba:"
 msgid "Packer"
 msgstr "Tömörítő"
 
+#: TFRMPACKINFODLG.BTNCLOSE.CAPTION
+msgctxt "TFRMPACKINFODLG.BTNCLOSE.CAPTION"
+msgid "Close"
+msgstr "Bezárás"
+
 #: TFRMPACKINFODLG.BTNUNPACKALLANDEXEC.CAPTION
 msgid "Unpack &all and execute"
 msgstr "Mind kicsomagolása és végreh&ajtás"
@@ -3435,6 +3823,11 @@ msgstr "Kicsomagolás és &végrehajtás"
 #: TFRMPACKINFODLG.CAPTION
 msgid "Properties of packed file"
 msgstr "A tömörített fájl tulajdonságai"
+
+#: TFRMPACKINFODLG.EDTPACKEDFILE.TEXT
+msgctxt "TFRMPACKINFODLG.EDTPACKEDFILE.TEXT"
+msgid "?"
+msgstr ""
 
 #: TFRMPACKINFODLG.LBLATTRIBUTES.CAPTION
 msgid "Attributes:"
@@ -3456,13 +3849,53 @@ msgstr "Módszer:"
 msgid "Original size:"
 msgstr "Eredeti méret:"
 
+#: TFRMPACKINFODLG.LBLPACKEDATTR.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDATTR.CAPTION"
+msgid "?"
+msgstr ""
+
+#: TFRMPACKINFODLG.LBLPACKEDCOMPRESSION.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDCOMPRESSION.CAPTION"
+msgid "?"
+msgstr ""
+
+#: TFRMPACKINFODLG.LBLPACKEDDATE.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDDATE.CAPTION"
+msgid "?"
+msgstr ""
+
 #: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
 msgid "File:"
 msgstr "Fájl:"
 
+#: TFRMPACKINFODLG.LBLPACKEDMETHOD.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDMETHOD.CAPTION"
+msgid "?"
+msgstr ""
+
+#: TFRMPACKINFODLG.LBLPACKEDORGSIZE.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDORGSIZE.CAPTION"
+msgid "?"
+msgstr ""
+
+#: TFRMPACKINFODLG.LBLPACKEDPACKEDSIZE.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDPACKEDSIZE.CAPTION"
+msgid "?"
+msgstr ""
+
+#: TFRMPACKINFODLG.LBLPACKEDPACKER.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDPACKER.CAPTION"
+msgid "?"
+msgstr ""
+
 #: TFRMPACKINFODLG.LBLPACKEDSIZE.CAPTION
 msgid "Packed size:"
 msgstr "Tömörített méret:"
+
+#: TFRMPACKINFODLG.LBLPACKEDTIME.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDTIME.CAPTION"
+msgid "?"
+msgstr ""
 
 #: TFRMPACKINFODLG.LBLPACKER.CAPTION
 msgid "Packer:"
@@ -3471,6 +3904,11 @@ msgstr "Tömörítő:"
 #: TFRMPACKINFODLG.LBLTIME.CAPTION
 msgid "Time:"
 msgstr "Idő:"
+
+#: TFRMPACKINFODLG.PGGENERAL.CAPTION
+msgctxt "TFRMPACKINFODLG.PGGENERAL.CAPTION"
+msgid "General"
+msgstr "Általános"
 
 #: TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
@@ -3503,6 +3941,7 @@ msgid "SUID"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.CHKARCHIVE.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CHKARCHIVE.CAPTION"
 msgid "Archive"
 msgstr ""
 
@@ -3512,6 +3951,7 @@ msgid "Created:"
 msgstr "Elkészült:"
 
 #: TFRMSETFILEPROPERTIES.CHKHIDDEN.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CHKHIDDEN.CAPTION"
 msgid "Hidden"
 msgstr ""
 
@@ -3524,6 +3964,7 @@ msgid "Modified:"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.CHKREADONLY.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CHKREADONLY.CAPTION"
 msgid "Read only"
 msgstr ""
 
@@ -3532,6 +3973,7 @@ msgid "Recursive"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION"
 msgid "System"
 msgstr ""
 
@@ -3647,9 +4089,29 @@ msgstr "Célkönyvtár"
 msgid "File source"
 msgstr "Fájlforrás"
 
+#: TFRMSYMLINK.BTNCANCEL.CAPTION
+msgctxt "TFRMSYMLINK.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: TFRMSYMLINK.BTNOK.CAPTION
+msgctxt "TFRMSYMLINK.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Oké"
+
 #: TFRMSYMLINK.CAPTION
 msgid "Create symlink"
 msgstr "Symlink létrehozása"
+
+#: TFRMSYMLINK.LBLEXISTINGFILE.CAPTION
+msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
+msgid "Existing destination (where will link point)"
+msgstr "Létező cél (erre fog mutatni a hivatkozás)"
+
+#: TFRMSYMLINK.LBLLINKTOCREATE.CAPTION
+msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
+msgid "Link name"
+msgstr "Hivatkozás neve"
 
 #: TFRMTWEAKPLUGIN.BTNADD.CAPTION
 msgid "Add new"
@@ -3754,8 +4216,8 @@ msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION"
 msgid "Plugin:"
 msgstr "Beépülő:"
 
-#: TFRMTWEAKPLUGIN.LEDPLUGIN.EDITLABEL.CAPTION
-msgctxt "TFRMTWEAKPLUGIN.LEDPLUGIN.EDITLABEL.CAPTION"
+#: TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION
+msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "Plugin:"
 msgstr "Beépülő:"
 
@@ -3934,6 +4396,7 @@ msgid "Ext"
 msgstr "Kit"
 
 #: ulng.rscolname
+msgctxt "ulng.rscolname"
 msgid "Name"
 msgstr "Név"
 
@@ -4599,6 +5062,7 @@ msgid "Starting"
 msgstr ""
 
 #: ulng.rsoperstartstateautostart
+msgctxt "ulng.rsoperstartstateautostart"
 msgid "Start"
 msgstr ""
 
@@ -4720,6 +5184,27 @@ msgstr "Betűtípusok"
 msgid "Hot keys"
 msgstr "Gyorsbillentyűk"
 
+#: ulng.rsopthotkeyscommands
+msgid "Commands"
+msgstr ""
+
+#: ulng.rsopthotkeyscomments
+msgid "Comments"
+msgstr ""
+
+#: ulng.rsopthotkeyshotkey
+msgid "Hotkey"
+msgstr ""
+
+#: ulng.rsopthotkeyshotkeys
+msgid "Hotkeys"
+msgstr ""
+
+#: ulng.rsopthotkeysparameters
+msgctxt "ulng.rsopthotkeysparameters"
+msgid "Parameters"
+msgstr ""
+
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
 msgstr ""
@@ -4773,6 +5258,26 @@ msgstr ""
 msgctxt "ulng.rsoptplugins"
 msgid "Plugins"
 msgstr "Beépülők"
+
+#: ulng.rsoptpluginsactive
+msgctxt "ulng.rsoptpluginsactive"
+msgid "Active"
+msgstr "Aktív"
+
+#: ulng.rsoptpluginsfilename
+msgctxt "ulng.rsoptpluginsfilename"
+msgid "File name"
+msgstr "Fájlnév"
+
+#: ulng.rsoptpluginsname
+msgctxt "ulng.rsoptpluginsname"
+msgid "Name"
+msgstr "Név"
+
+#: ulng.rsoptpluginsregisteredfor
+msgctxt "ulng.rsoptpluginsregisteredfor"
+msgid "Registered for"
+msgstr "Regisztrálva"
 
 #: ulng.rsoptquicksearch
 #, fuzzy
@@ -4846,9 +5351,33 @@ msgstr ""
 msgid "Find:"
 msgstr "Keresés:"
 
+#: ulng.rssearchresult
+msgid "Search result"
+msgstr ""
+
 #: ulng.rsselectdir
 msgid "Select a directory"
 msgstr "Válasszon ki egy könyvtárat"
+
+#: ulng.rssizeunitbytes
+msgid "Bytes"
+msgstr ""
+
+#: ulng.rssizeunitgbytes
+msgid "Gigabytes"
+msgstr ""
+
+#: ulng.rssizeunitkbytes
+msgid "Kilobytes"
+msgstr ""
+
+#: ulng.rssizeunitmbytes
+msgid "Megabytes"
+msgstr ""
+
+#: ulng.rssizeunittbytes
+msgid "Terabytes"
+msgstr ""
 
 #: ulng.rsspacemsg
 #, fuzzy
@@ -4892,6 +5421,35 @@ msgstr "Könyvtár kiválasztása:"
 #: ulng.rssymerrcreate
 msgid "Error creating symlink."
 msgstr "Hiba a symlink létrehozásakor."
+
+#: ulng.rstimeunitday
+msgctxt "ulng.rstimeunitday"
+msgid "Day(s)"
+msgstr "Nap(ok)"
+
+#: ulng.rstimeunithour
+msgid "Hour(s)"
+msgstr ""
+
+#: ulng.rstimeunitminute
+msgid "Minute(s)"
+msgstr ""
+
+#: ulng.rstimeunitmonth
+msgid "Month(s)"
+msgstr ""
+
+#: ulng.rstimeunitsecond
+msgid "Second(s)"
+msgstr ""
+
+#: ulng.rstimeunitweek
+msgid "Week(s)"
+msgstr ""
+
+#: ulng.rstimeunityear
+msgid "Year(s)"
+msgstr ""
 
 #: ulng.rstooldiffer
 msgid "Differ"

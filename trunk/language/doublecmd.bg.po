@@ -264,6 +264,134 @@ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 msgid "OK"
 msgstr "Добре"
 
+#: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
+msgid "&Cancel"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.BTNOK.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Добре"
+
+#: TFRMATTRIBUTESEDIT.BTNRESET.CAPTION
+msgid "&Reset"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CAPTION
+msgid "Choose attributes"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION"
+msgid "Archive"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBCOMPRESSED.CAPTION
+msgid "Compressed"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION"
+msgid "Directory"
+msgstr "Папка"
+
+#: TFRMATTRIBUTESEDIT.CBENCRYPTED.CAPTION
+msgid "Encrypted"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION"
+msgid "Hidden"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBREADONLY.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBREADONLY.CAPTION"
+msgid "Read only"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBSGID.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBSGID.CAPTION"
+msgid "SGID"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBSPARSE.CAPTION
+msgid "Sparse"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBSTICKY.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBSTICKY.CAPTION"
+msgid "Sticky"
+msgstr "Лешкав"
+
+#: TFRMATTRIBUTESEDIT.CBSUID.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBSUID.CAPTION"
+msgid "SUID"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBSYMLINK.CAPTION
+msgid "Symlink"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION"
+msgid "System"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.CBTEMPORARY.CAPTION
+msgid "Temporary"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.GBNTFSATTRIBUTES.CAPTION
+msgid "NTFS attributes"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.GBWINGENERAL.CAPTION
+msgid "General attributes"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION"
+msgid "Bits:"
+msgstr "Разряда:"
+
+#: TFRMATTRIBUTESEDIT.LBLATTRGROUPSTR.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.LBLATTRGROUPSTR.CAPTION"
+msgid "Group"
+msgstr "Група"
+
+#: TFRMATTRIBUTESEDIT.LBLATTROTHERSTR.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.LBLATTROTHERSTR.CAPTION"
+msgid "Other"
+msgstr "Друго:"
+
+#: TFRMATTRIBUTESEDIT.LBLATTROWNERSTR.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.LBLATTROWNERSTR.CAPTION"
+msgid "Owner"
+msgstr "Собственик"
+
+#: TFRMATTRIBUTESEDIT.LBLEXEC.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.LBLEXEC.CAPTION"
+msgid "Execute"
+msgstr "Изпълнение"
+
+#: TFRMATTRIBUTESEDIT.LBLREAD.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.LBLREAD.CAPTION"
+msgid "Read"
+msgstr "Запис"
+
+#: TFRMATTRIBUTESEDIT.LBLTEXTATTRS.CAPTION
+msgid "As text:"
+msgstr ""
+
+#: TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
+msgid "Write"
+msgstr "Четене"
+
+#: TFRMCALENDAR.CAPTION
+msgid "Calendar"
+msgstr ""
+
 #: TFRMCHECKSUMCALC.BTNCANCEL.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -280,16 +408,44 @@ msgid "Calculate check sum..."
 msgstr ""
 
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
-msgid "Create separate MD5/SHA1 files for each file"
+msgid "Create separate checksum file for each file"
 msgstr ""
 
 #: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
 msgid "Save check sum file(s) to:"
 msgstr ""
 
+#: TFRMCHECKSUMCALC.RBHASHMD5.CAPTION
+msgid "MD5"
+msgstr ""
+
+#: TFRMCHECKSUMCALC.RBHASHSHA1.CAPTION
+msgid "SHA1"
+msgstr ""
+
+#: TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION
+msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
+msgid "&Close"
+msgstr "&Затваряне"
+
+#: TFRMCHECKSUMVERIFY.CAPTION
+msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
+msgid "Verify check sum..."
+msgstr ""
+
 #: TFRMCOLUMSPROPS.BITBTN1.CAPTION
 msgid "&ОК"
 msgstr "&Добре"
+
+#: TFRMCOMPAREFILES.BTNCLOSE.CAPTION
+msgctxt "TFRMCOMPAREFILES.BTNCLOSE.CAPTION"
+msgid "Close"
+msgstr "Затваряне"
+
+#: TFRMCOMPAREFILES.BTNCOMPARE.CAPTION
+msgctxt "TFRMCOMPAREFILES.BTNCOMPARE.CAPTION"
+msgid "Compare files"
+msgstr "Сравняване на файлове"
 
 #: TFRMCOMPAREFILES.BTNNEXTDIFF.CAPTION
 msgid "Next difference"
@@ -300,6 +456,7 @@ msgid "Previous difference"
 msgstr "Предишна разлика"
 
 #: TFRMCOMPAREFILES.CAPTION
+msgctxt "TFRMCOMPAREFILES.CAPTION"
 msgid "Compare files"
 msgstr "Сравняване на файлове"
 
@@ -472,6 +629,16 @@ msgctxt "TFRMCOPYDLG.LBLFILETYPE.CAPTION"
 msgid "Only type:"
 msgstr "Само от вид:"
 
+#: TFRMDESCREDIT.BTNCANCEL.CAPTION
+msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Отказ"
+
+#: TFRMDESCREDIT.BTNOK.CAPTION
+msgctxt "TFRMDESCREDIT.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Добре"
+
 #: TFRMDESCREDIT.CAPTION
 msgid "File/folder comment"
 msgstr "Бележки за файл/папка"
@@ -484,6 +651,11 @@ msgstr "Промяна на бележката за:"
 msgctxt "TFRMDESCREDIT.LBLENCODING.CAPTION"
 msgid "Encoding:"
 msgstr "Знаков набор:"
+
+#: TFRMDESCREDIT.LBLFILENAME.CAPTION
+msgctxt "TFRMDESCREDIT.LBLFILENAME.CAPTION"
+msgid "???"
+msgstr "???"
 
 #: TFRMEDITOR.ACTABOUT.CAPTION
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -558,6 +730,7 @@ msgid "&Open"
 msgstr "&Отваряне"
 
 #: TFRMEDITOR.ACTFILESAVE.CAPTION
+msgctxt "TFRMEDITOR.ACTFILESAVE.CAPTION"
 msgid "&Save"
 msgstr "&Съхраняване"
 
@@ -636,6 +809,16 @@ msgctxt "TFRMEDITOR.N4.CAPTION"
 msgid "-"
 msgstr ""
 
+#: TFRMEDITORCONF.BTNCANCEL.CAPTION
+msgctxt "TFRMEDITORCONF.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Отказ"
+
+#: TFRMEDITORCONF.BTNOK.CAPTION
+msgctxt "TFRMEDITORCONF.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Добре"
+
 #: TFRMEDITORCONF.CAPTION
 msgid "Editor configuration"
 msgstr "Настройка на обработчика"
@@ -673,6 +856,10 @@ msgstr "Отказ"
 msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Добре"
+
+#: TFRMEDITSEARCHREPLACE.CAPTION
+msgid "frmEditSearchReplace"
+msgstr ""
 
 #: TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
@@ -802,6 +989,10 @@ msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
 msgid "Remove"
 msgstr "Премахване"
 
+#: TFRMFILEASSOC.BTNREMOVEICON.CAPTION
+msgid "X"
+msgstr ""
+
 #: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
 msgid "Remove"
@@ -896,10 +1087,22 @@ msgstr "Преглед"
 msgid "Open in Viewer"
 msgstr "Отваряне в прегледа"
 
+#: TFRMFILEOP.BTHOPEND.CAPTION
+msgid "End"
+msgstr ""
+
 #: TFRMFILEOP.BTNCANCEL.CAPTION
 msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Отказ"
+
+#: TFRMFILEOP.BTNOPHOME.CAPTION
+msgid "Home"
+msgstr ""
+
+#: TFRMFILEOP.BTNTOQUEUE.CAPTION
+msgid "To Queue"
+msgstr ""
 
 #: TFRMFILEOP.BTNWORKINBACKGROUND.CAPTION
 msgid "Work in &background"
@@ -908,10 +1111,6 @@ msgstr ""
 #: TFRMFILEOP.CAPTION
 msgid "Process file(s)"
 msgstr "Обработка на файл(ове)"
-
-#: TFRMFILEOP.LBLESTIMATED.CAPTION
-msgid "Estimated"
-msgstr "Изчислено"
 
 #: TFRMFILEOP.LBLFILENAMEFROM.CAPTION
 #, fuzzy
@@ -938,6 +1137,7 @@ msgid "&All"
 msgstr "&Всички"
 
 #: TFRMFILEPROPERTIES.BTNCLOSE.CAPTION
+msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
 msgid "Close"
 msgstr "Затваряне"
 
@@ -951,6 +1151,7 @@ msgid "Skip"
 msgstr "Пропускане"
 
 #: TFRMFILEPROPERTIES.CAPTION
+msgctxt "TFRMFILEPROPERTIES.CAPTION"
 msgid "Properties"
 msgstr "Свойства"
 
@@ -968,6 +1169,11 @@ msgstr "Лешкав"
 msgctxt "TFRMFILEPROPERTIES.CBSUID.CAPTION"
 msgid "SUID"
 msgstr ""
+
+#: TFRMFILEPROPERTIES.GBOWNER.CAPTION
+msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
+msgid "Owner"
+msgstr "Собственик"
 
 #: TFRMFILEPROPERTIES.LBLATTRBITSSTR.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLATTRBITSSTR.CAPTION"
@@ -1012,6 +1218,7 @@ msgid "File name"
 msgstr "Файлово име"
 
 #: TFRMFILEPROPERTIES.LBLFILENAME.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLFILENAME.CAPTION"
 msgid "???"
 msgstr "???"
 
@@ -1020,17 +1227,47 @@ msgctxt "TFRMFILEPROPERTIES.LBLFILENAMESTR.CAPTION"
 msgid "Name:"
 msgstr "Име"
 
+#: TFRMFILEPROPERTIES.LBLFILESTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLFILESTR.CAPTION"
+msgid "File name"
+msgstr "Файлово име"
+
+#: TFRMFILEPROPERTIES.LBLFOLDER.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLFOLDER.CAPTION"
+msgid "???"
+msgstr "???"
+
 #: TFRMFILEPROPERTIES.LBLFOLDERSTR.CAPTION
 msgid "Path:"
 msgstr "Път:"
+
+#: TFRMFILEPROPERTIES.LBLGROUPSTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLGROUPSTR.CAPTION"
+msgid "Group"
+msgstr "Група"
+
+#: TFRMFILEPROPERTIES.LBLLASTACCESS.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLLASTACCESS.CAPTION"
+msgid "???"
+msgstr "???"
 
 #: TFRMFILEPROPERTIES.LBLLASTACCESSSTR.CAPTION
 msgid "Last access:"
 msgstr "Последно използване:"
 
+#: TFRMFILEPROPERTIES.LBLLASTMODIF.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLLASTMODIF.CAPTION"
+msgid "???"
+msgstr "???"
+
 #: TFRMFILEPROPERTIES.LBLLASTMODIFSTR.CAPTION
 msgid "Last modification:"
 msgstr "Последна промяна:"
+
+#: TFRMFILEPROPERTIES.LBLLASTSTCHANGE.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLLASTSTCHANGE.CAPTION"
+msgid "???"
+msgstr "???"
 
 #: TFRMFILEPROPERTIES.LBLLASTSTCHANGESTR.CAPTION
 msgid "Last status change:"
@@ -1041,19 +1278,41 @@ msgctxt "TFRMFILEPROPERTIES.LBLOCTAL.CAPTION"
 msgid "Octal:"
 msgstr ""
 
+#: TFRMFILEPROPERTIES.LBLOWNERSTR.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLOWNERSTR.CAPTION"
+msgid "Owner"
+msgstr "Собственик"
+
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLREAD.CAPTION"
 msgid "Read"
 msgstr "Запис"
+
+#: TFRMFILEPROPERTIES.LBLSIZE.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLSIZE.CAPTION"
+msgid "???"
+msgstr "???"
 
 #: TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLSIZESTR.CAPTION"
 msgid "Size:"
 msgstr "Размер:"
 
+#: TFRMFILEPROPERTIES.LBLSYMLINK.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLSYMLINK.CAPTION"
+msgid "???"
+msgstr "???"
+
 #: TFRMFILEPROPERTIES.LBLSYMLINKSTR.CAPTION
-msgid "Symlink:"
+#, fuzzy
+#| msgid "Symlink:"
+msgid "Symlink to:"
 msgstr "Мека връзка:"
+
+#: TFRMFILEPROPERTIES.LBLTYPE.CAPTION
+msgctxt "TFRMFILEPROPERTIES.LBLTYPE.CAPTION"
+msgid "???"
+msgstr "???"
 
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
 #, fuzzy
@@ -1069,6 +1328,20 @@ msgstr "Четене"
 msgctxt "TFRMFILEPROPERTIES.TSATTRIBUTES.CAPTION"
 msgid "Attributes"
 msgstr "Принадлежности"
+
+#: TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION
+msgctxt "TFRMFILEPROPERTIES.TSPROPERTIES.CAPTION"
+msgid "Properties"
+msgstr "Свойства"
+
+#: TFRMFINDDLG.BTNADDATTRIBUTE.CAPTION
+msgid "&Add"
+msgstr ""
+
+#: TFRMFINDDLG.BTNATTRSHELP.CAPTION
+msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
+msgid "&Help"
+msgstr "Помо&щ"
 
 #: TFRMFINDDLG.BTNCLOSE.CAPTION
 msgctxt "TFRMFINDDLG.BTNCLOSE.CAPTION"
@@ -1118,11 +1391,6 @@ msgstr "Вкарване във файловия &списък"
 msgid "Find files"
 msgstr "Търсене на файлове"
 
-#: TFRMFINDDLG.CBATTRIB.CAPTION
-msgctxt "TFRMFINDDLG.CBATTRIB.CAPTION"
-msgid "Attributes"
-msgstr "Принадлежности"
-
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sens&itive"
 msgstr "Отчитане на глАВноСТта"
@@ -1135,15 +1403,6 @@ msgstr "Дата от:"
 msgid "Date To:"
 msgstr "Дата до:"
 
-#: TFRMFINDDLG.CBDELAYUNIT.TEXT
-msgid "Day(s)"
-msgstr "Ден/ дни"
-
-#: TFRMFINDDLG.CBDIRECTORY.CAPTION
-msgctxt "TFRMFINDDLG.CBDIRECTORY.CAPTION"
-msgid "Directory"
-msgstr ""
-
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 #, fuzzy
 msgid "File Size From:"
@@ -1154,15 +1413,13 @@ msgstr "Размер от:"
 msgid "File Size To:"
 msgstr "Размер до:"
 
-#: TFRMFINDDLG.CBFINDINFILE.CAPTION
+#: TFRMFINDDLG.CBFINDTEXT.CAPTION
+msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"
 msgstr "Търсене във файл"
 
-#: TFRMFINDDLG.CBMORE.CAPTION
-msgid "More"
-msgstr "Още"
-
-#: TFRMFINDDLG.CBNOTHISTEXT.CAPTION
+#: TFRMFINDDLG.CBNOTCONTAININGTEXT.CAPTION
+msgctxt "TFRMFINDDLG.CBNOTCONTAININGTEXT.CAPTION"
 msgid "Find files N&OT containing the text"
 msgstr "Намиране на файлове НЕсъдържащи текста"
 
@@ -1179,10 +1436,6 @@ msgstr "&Обичайни изрази"
 msgid "Re&place text"
 msgstr "Замяна на текст"
 
-#: TFRMFINDDLG.CBSYMLINK.CAPTION
-msgid "SymLink"
-msgstr "Мека връзка"
-
 #: TFRMFINDDLG.CBTIMEFROM.CAPTION
 msgid "Time from:"
 msgstr "Време от:"
@@ -1190,10 +1443,6 @@ msgstr "Време от:"
 #: TFRMFINDDLG.CBTIMETO.CAPTION
 msgid "Time to:"
 msgstr "Време до:"
-
-#: TFRMFINDDLG.CBUNITOFMEASURE.TEXT
-msgid "Kbyte"
-msgstr "КБайта"
 
 #: TFRMFINDDLG.CBUSEPLUGIN.CAPTION
 msgid "&Use search plugin:"
@@ -1204,28 +1453,8 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr "*"
 
-#: TFRMFINDDLG.DEDATEFROM.CANCELCAPTION
-msgctxt "TFRMFINDDLG.DEDATEFROM.CANCELCAPTION"
-msgid "Cancel"
-msgstr "Отказ"
-
-#: TFRMFINDDLG.DEDATEFROM.OKCAPTION
-msgctxt "TFRMFINDDLG.DEDATEFROM.OKCAPTION"
-msgid "OK"
-msgstr "Добре"
-
-#: TFRMFINDDLG.DEDATETO.CANCELCAPTION
-msgctxt "TFRMFINDDLG.DEDATETO.CANCELCAPTION"
-msgid "Cancel"
-msgstr "Отказ"
-
-#: TFRMFINDDLG.DEDATETO.OKCAPTION
-msgctxt "TFRMFINDDLG.DEDATETO.OKCAPTION"
-msgid "OK"
-msgstr "Добре"
-
-#: TFRMFINDDLG.EDTATTRIB.HINT
-msgid "Use '-' to off attribute and '?' to any"
+#: TFRMFINDDLG.GBATTRIBUTES.CAPTION
+msgid "&Attributes"
 msgstr ""
 
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
@@ -1252,10 +1481,6 @@ msgstr "Папка"
 #: TFRMFINDDLG.LBLFOUND.CAPTION
 msgid "Found"
 msgstr ""
-
-#: TFRMFINDDLG.LBLINFO.CAPTION
-msgid "Windows: 'rahs' Unix: 'rwxrwxrwx'"
-msgstr "Windows: 'rahs' Unix: 'rwxrwxrwx'"
 
 #: TFRMFINDDLG.LBLSEARCHDEPTH.CAPTION
 msgid "Search su&bdirectories:"
@@ -1289,21 +1514,48 @@ msgstr ""
 msgid "Standard"
 msgstr "Обичайно"
 
-#: TFRMFINDVIEW.CAPTION
+#: TFRMFINDVIEW.BTNCLOSE.CAPTION
+msgctxt "TFRMFINDVIEW.BTNCLOSE.CAPTION"
+msgid "Cancel"
+msgstr "Отказ"
+
+#: TFRMFINDVIEW.BTNFIND.CAPTION
+msgctxt "TFRMFINDVIEW.BTNFIND.CAPTION"
 msgid "Find"
 msgstr "Търсене"
+
+#: TFRMFINDVIEW.CAPTION
+msgctxt "TFRMFINDVIEW.CAPTION"
+msgid "Find"
+msgstr "Търсене"
+
+#: TFRMFINDVIEW.CBCASESENS.CAPTION
+msgid "Case sensitive"
+msgstr ""
+
+#: TFRMHARDLINK.BTNCANCEL.CAPTION
+msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Отказ"
+
+#: TFRMHARDLINK.BTNOK.CAPTION
+msgctxt "TFRMHARDLINK.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Добре"
 
 #: TFRMHARDLINK.CAPTION
 msgid "Create hardlink"
 msgstr "Създаване на твърда връзка"
 
-#: TFRMHARDLINK.LBLDST.CAPTION
-msgid "Link name"
-msgstr "Име на връзката"
-
-#: TFRMHARDLINK.LBLNEW.CAPTION
+#: TFRMHARDLINK.LBLEXISTINGFILE.CAPTION
+msgctxt "TFRMHARDLINK.LBLEXISTINGFILE.CAPTION"
 msgid "Existing destination (where will link point)"
 msgstr "Съществуваща цел, към която да сочи връзката"
+
+#: TFRMHARDLINK.LBLLINKTOCREATE.CAPTION
+msgctxt "TFRMHARDLINK.LBLLINKTOCREATE.CAPTION"
+msgid "Link name"
+msgstr "Име на връзката"
 
 #: TFRMHOTDIR.BTNADD.CAPTION
 msgctxt "TFRMHOTDIR.BTNADD.CAPTION"
@@ -1314,9 +1566,44 @@ msgstr "Добавяне"
 msgid "Add manually"
 msgstr "Ръчно добавяне"
 
+#: TFRMHOTDIR.BTNCANCEL.CAPTION
+msgctxt "TFRMHOTDIR.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Отказ"
+
+#: TFRMHOTDIR.BTNDELETE.CAPTION
+msgctxt "TFRMHOTDIR.BTNDELETE.CAPTION"
+msgid "Delete"
+msgstr "Изтриване"
+
+#: TFRMHOTDIR.BTNEDIT.CAPTION
+msgctxt "TFRMHOTDIR.BTNEDIT.CAPTION"
+msgid "Edit"
+msgstr "Обработка"
+
+#: TFRMHOTDIR.BTNOK.CAPTION
+msgctxt "TFRMHOTDIR.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Добре"
+
 #: TFRMHOTDIR.CAPTION
 msgid "Directory Hotlist"
 msgstr "Бързодостъпни папки"
+
+#: TFRMLINKER.BTNEXIT.CAPTION
+msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
+msgid "Exit"
+msgstr "Изход"
+
+#: TFRMLINKER.BTNOK.CAPTION
+msgctxt "TFRMLINKER.BTNOK.CAPTION"
+msgid "OK"
+msgstr "Добре"
+
+#: TFRMLINKER.BTNSAVE.CAPTION
+msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
+msgid "..."
+msgstr ""
 
 #: TFRMLINKER.CAPTION
 msgid "Linker"
@@ -1330,15 +1617,35 @@ msgstr "Съхраняване в..."
 msgid "Item"
 msgstr "Предмет"
 
+#: TFRMLINKER.LBLFILENAME.CAPTION
+msgctxt "TFRMLINKER.LBLFILENAME.CAPTION"
+msgid "File name"
+msgstr "Файлово име"
+
+#: TFRMLINKER.SPBTNDEL.CAPTION
+msgctxt "TFRMLINKER.SPBTNDEL.CAPTION"
+msgid "Delete"
+msgstr "Изтриване"
+
 #: TFRMLINKER.SPBTNDEL.HINT
 msgctxt "TFRMLINKER.SPBTNDEL.HINT"
 msgid "Delete"
 msgstr "Изтриване"
 
+#: TFRMLINKER.SPBTNDOWN.CAPTION
+msgctxt "TFRMLINKER.SPBTNDOWN.CAPTION"
+msgid "Down"
+msgstr "Надолу"
+
 #: TFRMLINKER.SPBTNDOWN.HINT
 msgctxt "TFRMLINKER.SPBTNDOWN.HINT"
 msgid "Down"
 msgstr "Надолу"
+
+#: TFRMLINKER.SPBTNUP.CAPTION
+msgctxt "TFRMLINKER.SPBTNUP.CAPTION"
+msgid "Up"
+msgstr "Нагоре"
 
 #: TFRMLINKER.SPBTNUP.HINT
 msgctxt "TFRMLINKER.SPBTNUP.HINT"
@@ -1758,10 +2065,6 @@ msgstr "Показване на скрити/ системни файлове"
 msgid "Sort by attrib"
 msgstr "Подреждане по принадлежности"
 
-#: TFRMMAIN.ACTSORTBYCOLUMN.CAPTION
-msgid "Sort by column"
-msgstr ""
-
 #: TFRMMAIN.ACTSORTBYDATE.CAPTION
 msgid "Sort by date"
 msgstr "Подреждане по дата"
@@ -1820,6 +2123,32 @@ msgstr "Посещаване на мрежовото място на  Double Com
 #: TFRMMAIN.ACTWIPE.CAPTION
 msgid "Wipe"
 msgstr "Унищожаване"
+
+#: TFRMMAIN.ALLOPCANCEL.CAPTION
+msgctxt "TFRMMAIN.ALLOPCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Отказ"
+
+#: TFRMMAIN.ALLOPPAUSE.CAPTION
+msgid "||"
+msgstr ""
+
+#: TFRMMAIN.ALLOPPCT.CAPTION
+msgid "%"
+msgstr ""
+
+#: TFRMMAIN.ALLOPPROGRESSIND.CAPTION
+msgid "||||||||||||||||||||"
+msgstr ""
+
+#: TFRMMAIN.ALLOPSTART.CAPTION
+msgctxt "TFRMMAIN.ALLOPSTART.CAPTION"
+msgid "Start"
+msgstr ""
+
+#: TFRMMAIN.BTNF10.CAPTION
+msgid "Exit F10"
+msgstr ""
 
 #: TFRMMAIN.BTNF9.CAPTION
 msgid "Terminal F9"
@@ -2204,6 +2533,16 @@ msgstr "&Добре"
 msgid "Or select predefined selection type:"
 msgstr ""
 
+#: TFRMMKDIR.BTNCANCEL.CAPTION
+msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Отказ"
+
+#: TFRMMKDIR.BTNOK.CAPTION
+msgctxt "TFRMMKDIR.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Добре"
+
 #: TFRMMKDIR.CAPTION
 msgid "Create new directory"
 msgstr "Създаване на нова папка"
@@ -2221,19 +2560,44 @@ msgstr "Само на файлове от вид:"
 msgid "Move %s:"
 msgstr "Преместване на %s:"
 
-#: TFRMMULTIRENAME.BTNCANCEL.CAPTION
-msgctxt "TFRMMULTIRENAME.BTNCANCEL.CAPTION"
-msgid "Cancel"
-msgstr "Отказ"
+#: TFRMMULTIRENAME.BTNCLOSE.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
+msgid "&Close"
+msgstr "&Затваряне"
 
-#: TFRMMULTIRENAME.BTNOK.CAPTION
-msgctxt "TFRMMULTIRENAME.BTNOK.CAPTION"
-msgid "OK"
-msgstr "Добре"
+#: TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
+msgid "&Delete"
+msgstr "Из&триване"
+
+#: TFRMMULTIRENAME.BTNEXTMENU.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
+msgid "..."
+msgstr ""
+
+#: TFRMMULTIRENAME.BTNLOADPRESET.CAPTION
+msgid "&Load"
+msgstr ""
+
+#: TFRMMULTIRENAME.BTNNAMEMENU.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNNAMEMENU.CAPTION"
+msgid "..."
+msgstr ""
+
+#: TFRMMULTIRENAME.BTNRENAME.CAPTION
+msgid "&Rename"
+msgstr ""
 
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
-msgid "Restore All"
+#, fuzzy
+#| msgid "Restore All"
+msgid "Reset all"
 msgstr "Връщане на всички"
+
+#: TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION
+msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
+msgid "&Save"
+msgstr "&Съхраняване"
 
 #: TFRMMULTIRENAME.CAPTION
 msgid "MultiRename"
@@ -2245,19 +2609,29 @@ msgid "Log"
 msgstr "Дневник"
 
 #: TFRMMULTIRENAME.CBREGEXP.CAPTION
+#, fuzzy
+#| msgid "&Regular expressions"
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
-msgid "&Regular expressions"
+msgid "Regular e&xpressions"
 msgstr "&Обичайни изрази"
 
 #: TFRMMULTIRENAME.CBUSESUBS.CAPTION
-msgid "Use substitution"
+#, fuzzy
+#| msgid "Use substitution"
+msgid "&Use substitution"
 msgstr "Използване на заместване"
 
 #: TFRMMULTIRENAME.CMBXWIDTH.TEXT
 msgid "01"
 msgstr "01"
 
+#: TFRMMULTIRENAME.EDINTERVAL.TEXT
+msgctxt "TFRMMULTIRENAME.EDINTERVAL.TEXT"
+msgid "1"
+msgstr "1"
+
 #: TFRMMULTIRENAME.EDPOC.TEXT
+msgctxt "TFRMMULTIRENAME.EDPOC.TEXT"
 msgid "1"
 msgstr "1"
 
@@ -2273,10 +2647,6 @@ msgstr "Брояч"
 msgid "Find && Replace"
 msgstr "Търсене  &и замяна"
 
-#: TFRMMULTIRENAME.GBFONTSTYLE.CAPTION
-msgid "File Name Style"
-msgstr "ГлАВноСт на имената"
-
 #: TFRMMULTIRENAME.GBLOG.CAPTION
 msgid "Log Result"
 msgstr "Име на дневника"
@@ -2285,12 +2655,20 @@ msgstr "Име на дневника"
 msgid "Mask"
 msgstr "Имена"
 
+#: TFRMMULTIRENAME.GBPRESETS.CAPTION
+msgid "Presets"
+msgstr ""
+
 #: TFRMMULTIRENAME.LBEXT.CAPTION
-msgid "Extension"
+#, fuzzy
+#| msgid "Extension"
+msgid "&Extension"
 msgstr "Разширение"
 
 #: TFRMMULTIRENAME.LBFIND.CAPTION
-msgid "Find..."
+#, fuzzy
+#| msgid "Find..."
+msgid "&Find..."
 msgstr "Търсене..."
 
 #: TFRMMULTIRENAME.LBINTERVAL.CAPTION
@@ -2298,11 +2676,15 @@ msgid "Interval"
 msgstr "Промеждутък"
 
 #: TFRMMULTIRENAME.LBNAME.CAPTION
-msgid "File Name"
+#, fuzzy
+#| msgid "File Name"
+msgid "File &Name"
 msgstr "Файлово име"
 
 #: TFRMMULTIRENAME.LBREPLACE.CAPTION
-msgid "Replace..."
+#, fuzzy
+#| msgid "Replace..."
+msgid "Re&place..."
 msgstr "Замяна..."
 
 #: TFRMMULTIRENAME.LBSTNB.CAPTION
@@ -2314,15 +2696,8 @@ msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
 msgid "Width"
 msgstr "Ширина"
 
-#: TFRMMULTIRENAME.LSVWFILE.COLUMN1TITLE.CAPTION
-msgid "Old File Name"
-msgstr "Старо име на файла"
-
-#: TFRMMULTIRENAME.LSVWFILE.COLUMN2TITLE.CAPTION
-msgid "New File Name"
-msgstr "Ново име на файла"
-
-#: TFRMMULTIRENAME.LSVWFILE.COLUMN3TITLE.CAPTION
+#: TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION
+msgctxt "TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION"
 msgid "File Path"
 msgstr "Път"
 
@@ -2390,6 +2765,21 @@ msgstr "[Y] Година"
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
 msgid "-"
 msgstr "-"
+
+#: TFRMMULTIRENAME.N2.CAPTION
+msgctxt "TFRMMULTIRENAME.N2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMULTIRENAME.N3.CAPTION
+msgctxt "TFRMMULTIRENAME.N3.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMULTIRENAME.N4.CAPTION
+msgctxt "TFRMMULTIRENAME.N4.CAPTION"
+msgid "-"
+msgstr ""
 
 #: TFRMOPTIONS.BBTNADDCATEGORY.CAPTION
 msgctxt "TFRMOPTIONS.BBTNADDCATEGORY.CAPTION"
@@ -3302,6 +3692,16 @@ msgstr "Домашна папка на потребителя"
 msgid "Use stream for search text in files"
 msgstr "Поточно търсене на текст във файловете"
 
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS.TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS.TITLE.CAPTION"
+msgid "Parameters"
+msgstr ""
+
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+msgid "File name"
+msgstr "Файлово име"
+
 #: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
 msgid "Tool"
 msgstr ""
@@ -3314,23 +3714,6 @@ msgstr ""
 msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
 msgid "General"
 msgstr "Общи"
-
-#: TFRMOPTIONS.TGRIDCOLUMN1TITLE.CAPTION
-msgid "Active"
-msgstr "Деен"
-
-#: TFRMOPTIONS.TGRIDCOLUMN2TITLE.CAPTION
-msgid "Plugin"
-msgstr "Приставка"
-
-#: TFRMOPTIONS.TGRIDCOLUMN3TITLE.CAPTION
-msgid "Registered for"
-msgstr "Записано на"
-
-#: TFRMOPTIONS.TGRIDCOLUMN4TITLE.CAPTION
-msgctxt "TFRMOPTIONS.TGRIDCOLUMN4TITLE.CAPTION"
-msgid "File name"
-msgstr "Файлово име"
 
 #: TFRMOPTIONS.TSDSX.CAPTION
 msgid "Search plugins (.DSX)"
@@ -3416,6 +3799,11 @@ msgstr "Сбиване на фал(овете) във файл:"
 msgid "Packer"
 msgstr "Сбивачка"
 
+#: TFRMPACKINFODLG.BTNCLOSE.CAPTION
+msgctxt "TFRMPACKINFODLG.BTNCLOSE.CAPTION"
+msgid "Close"
+msgstr "Затваряне"
+
 #: TFRMPACKINFODLG.BTNUNPACKALLANDEXEC.CAPTION
 msgid "Unpack &all and execute"
 msgstr "Разгъване на вси&чки и изпълняване"
@@ -3427,6 +3815,11 @@ msgstr "&Разгъване и изпълняване"
 #: TFRMPACKINFODLG.CAPTION
 msgid "Properties of packed file"
 msgstr "Свойства на сбития файл"
+
+#: TFRMPACKINFODLG.EDTPACKEDFILE.TEXT
+msgctxt "TFRMPACKINFODLG.EDTPACKEDFILE.TEXT"
+msgid "?"
+msgstr ""
 
 #: TFRMPACKINFODLG.LBLATTRIBUTES.CAPTION
 msgid "Attributes:"
@@ -3448,13 +3841,53 @@ msgstr "Способ:"
 msgid "Original size:"
 msgstr "Първоначален размер:"
 
+#: TFRMPACKINFODLG.LBLPACKEDATTR.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDATTR.CAPTION"
+msgid "?"
+msgstr ""
+
+#: TFRMPACKINFODLG.LBLPACKEDCOMPRESSION.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDCOMPRESSION.CAPTION"
+msgid "?"
+msgstr ""
+
+#: TFRMPACKINFODLG.LBLPACKEDDATE.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDDATE.CAPTION"
+msgid "?"
+msgstr ""
+
 #: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
 msgid "File:"
 msgstr "Файл:"
 
+#: TFRMPACKINFODLG.LBLPACKEDMETHOD.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDMETHOD.CAPTION"
+msgid "?"
+msgstr ""
+
+#: TFRMPACKINFODLG.LBLPACKEDORGSIZE.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDORGSIZE.CAPTION"
+msgid "?"
+msgstr ""
+
+#: TFRMPACKINFODLG.LBLPACKEDPACKEDSIZE.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDPACKEDSIZE.CAPTION"
+msgid "?"
+msgstr ""
+
+#: TFRMPACKINFODLG.LBLPACKEDPACKER.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDPACKER.CAPTION"
+msgid "?"
+msgstr ""
+
 #: TFRMPACKINFODLG.LBLPACKEDSIZE.CAPTION
 msgid "Packed size:"
 msgstr "Размер след сбиване:"
+
+#: TFRMPACKINFODLG.LBLPACKEDTIME.CAPTION
+msgctxt "TFRMPACKINFODLG.LBLPACKEDTIME.CAPTION"
+msgid "?"
+msgstr ""
 
 #: TFRMPACKINFODLG.LBLPACKER.CAPTION
 msgid "Packer:"
@@ -3463,6 +3896,11 @@ msgstr "Сбивачка:"
 #: TFRMPACKINFODLG.LBLTIME.CAPTION
 msgid "Time:"
 msgstr "Време:"
+
+#: TFRMPACKINFODLG.PGGENERAL.CAPTION
+msgctxt "TFRMPACKINFODLG.PGGENERAL.CAPTION"
+msgid "General"
+msgstr "Общи"
 
 #: TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
@@ -3495,6 +3933,7 @@ msgid "SUID"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.CHKARCHIVE.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CHKARCHIVE.CAPTION"
 msgid "Archive"
 msgstr ""
 
@@ -3504,6 +3943,7 @@ msgid "Created:"
 msgstr "Саздаден:"
 
 #: TFRMSETFILEPROPERTIES.CHKHIDDEN.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CHKHIDDEN.CAPTION"
 msgid "Hidden"
 msgstr ""
 
@@ -3516,6 +3956,7 @@ msgid "Modified:"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.CHKREADONLY.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CHKREADONLY.CAPTION"
 msgid "Read only"
 msgstr ""
 
@@ -3524,6 +3965,7 @@ msgid "Recursive"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION"
 msgid "System"
 msgstr ""
 
@@ -3639,9 +4081,29 @@ msgstr "Целева папка"
 msgid "File source"
 msgstr "Файлов източник"
 
+#: TFRMSYMLINK.BTNCANCEL.CAPTION
+msgctxt "TFRMSYMLINK.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Отказ"
+
+#: TFRMSYMLINK.BTNOK.CAPTION
+msgctxt "TFRMSYMLINK.BTNOK.CAPTION"
+msgid "&OK"
+msgstr "&Добре"
+
 #: TFRMSYMLINK.CAPTION
 msgid "Create symlink"
 msgstr "Създаване на мека връзка"
+
+#: TFRMSYMLINK.LBLEXISTINGFILE.CAPTION
+msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
+msgid "Existing destination (where will link point)"
+msgstr "Съществуваща цел, към която да сочи връзката"
+
+#: TFRMSYMLINK.LBLLINKTOCREATE.CAPTION
+msgctxt "TFRMSYMLINK.LBLLINKTOCREATE.CAPTION"
+msgid "Link name"
+msgstr "Име на връзката"
 
 #: TFRMTWEAKPLUGIN.BTNADD.CAPTION
 msgid "Add new"
@@ -3746,8 +4208,8 @@ msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION"
 msgid "Plugin:"
 msgstr "Приставка:"
 
-#: TFRMTWEAKPLUGIN.LEDPLUGIN.EDITLABEL.CAPTION
-msgctxt "TFRMTWEAKPLUGIN.LEDPLUGIN.EDITLABEL.CAPTION"
+#: TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION
+msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "Plugin:"
 msgstr "Приставка:"
 
@@ -3926,6 +4388,7 @@ msgid "Ext"
 msgstr "Разш"
 
 #: ulng.rscolname
+msgctxt "ulng.rscolname"
 msgid "Name"
 msgstr "Име"
 
@@ -4588,6 +5051,7 @@ msgid "Starting"
 msgstr ""
 
 #: ulng.rsoperstartstateautostart
+msgctxt "ulng.rsoperstartstateautostart"
 msgid "Start"
 msgstr ""
 
@@ -4709,6 +5173,27 @@ msgstr "Шрифтове"
 msgid "Hot keys"
 msgstr "Клавишни съчетания"
 
+#: ulng.rsopthotkeyscommands
+msgid "Commands"
+msgstr ""
+
+#: ulng.rsopthotkeyscomments
+msgid "Comments"
+msgstr ""
+
+#: ulng.rsopthotkeyshotkey
+msgid "Hotkey"
+msgstr ""
+
+#: ulng.rsopthotkeyshotkeys
+msgid "Hotkeys"
+msgstr ""
+
+#: ulng.rsopthotkeysparameters
+msgctxt "ulng.rsopthotkeysparameters"
+msgid "Parameters"
+msgstr ""
+
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
 msgstr ""
@@ -4762,6 +5247,26 @@ msgstr ""
 msgctxt "ulng.rsoptplugins"
 msgid "Plugins"
 msgstr "Приставки"
+
+#: ulng.rsoptpluginsactive
+msgctxt "ulng.rsoptpluginsactive"
+msgid "Active"
+msgstr "Деен"
+
+#: ulng.rsoptpluginsfilename
+msgctxt "ulng.rsoptpluginsfilename"
+msgid "File name"
+msgstr "Файлово име"
+
+#: ulng.rsoptpluginsname
+msgctxt "ulng.rsoptpluginsname"
+msgid "Name"
+msgstr "Име"
+
+#: ulng.rsoptpluginsregisteredfor
+msgctxt "ulng.rsoptpluginsregisteredfor"
+msgid "Registered for"
+msgstr "Записано на"
 
 #: ulng.rsoptquicksearch
 #, fuzzy
@@ -4835,9 +5340,33 @@ msgstr ""
 msgid "Find:"
 msgstr "Намиране:"
 
+#: ulng.rssearchresult
+msgid "Search result"
+msgstr ""
+
 #: ulng.rsselectdir
 msgid "Select a directory"
 msgstr "Избор на папка"
+
+#: ulng.rssizeunitbytes
+msgid "Bytes"
+msgstr ""
+
+#: ulng.rssizeunitgbytes
+msgid "Gigabytes"
+msgstr ""
+
+#: ulng.rssizeunitkbytes
+msgid "Kilobytes"
+msgstr ""
+
+#: ulng.rssizeunitmbytes
+msgid "Megabytes"
+msgstr ""
+
+#: ulng.rssizeunittbytes
+msgid "Terabytes"
+msgstr ""
 
 #: ulng.rsspacemsg
 msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
@@ -4879,6 +5408,35 @@ msgstr "Изберете папка:"
 #: ulng.rssymerrcreate
 msgid "Error creating symlink."
 msgstr "Грешка при създаване на мека връзка."
+
+#: ulng.rstimeunitday
+msgctxt "ulng.rstimeunitday"
+msgid "Day(s)"
+msgstr "Ден/ дни"
+
+#: ulng.rstimeunithour
+msgid "Hour(s)"
+msgstr ""
+
+#: ulng.rstimeunitminute
+msgid "Minute(s)"
+msgstr ""
+
+#: ulng.rstimeunitmonth
+msgid "Month(s)"
+msgstr ""
+
+#: ulng.rstimeunitsecond
+msgid "Second(s)"
+msgstr ""
+
+#: ulng.rstimeunitweek
+msgid "Week(s)"
+msgstr ""
+
+#: ulng.rstimeunityear
+msgid "Year(s)"
+msgstr ""
 
 #: ulng.rstooldiffer
 msgid "Differ"
