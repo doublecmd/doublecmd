@@ -31,7 +31,7 @@ interface
 uses
   LResources,
   SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls, ExtCtrls, Menus, EditBtn, Spin, MaskEdit,
-  uDsxModule, DsxPlugin, uFindThread, uFindFiles;
+  fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles;
 
 type
 
@@ -48,6 +48,7 @@ type
     btnView: TButton;
     btnWorkWithFound: TButton;
     btnAttrsHelp: TButton;
+    btnAddAttribute: TButton;
     cbFindText: TCheckBox;
     cbNotContainingText: TCheckBox;
     cbDateFrom: TCheckBox;
@@ -86,6 +87,7 @@ type
     lblSearchDepth: TLabel;
     lblEncoding: TLabel;
     lsFoundedFiles: TListBox;
+    pnlAttributesButtons: TPanel;
     pnlResults: TPanel;
     pnlStatus: TPanel;
     pnlResultsButtons: TPanel;
@@ -105,6 +107,7 @@ type
     tsAdvanced: TTabSheet;
     PopupMenuFind: TPopupMenu;
     miShowInViewer: TMenuItem;
+    procedure btnAddAttributeClick(Sender: TObject);
     procedure btnAttrsHelpClick(Sender: TObject);
     procedure btnSearchDeleteClick(Sender: TObject);
     procedure btnSearchLoadClick(Sender: TObject);
@@ -149,11 +152,13 @@ type
     FFindThread:TFindThread;
     DsxPlugins: TDSXModuleList;
     FSearchingActive: Boolean;
+    FFrmAttributesEdit: TfrmAttributesEdit;
     procedure StopSearch;
     procedure AfterSearchStopped;
     procedure FillFindOptions(var FindOptions: TSearchTemplateRec);
     procedure FindOptionsToDSXSearchRec(const AFindOptions: TSearchTemplateRec;
                                         var SRec: TDsxSearchRecord);
+    procedure OnAddAttribute(Sender: TObject);
   public
     { Public declarations }
     procedure ThreadTerminate(Sender:TObject);
@@ -168,9 +173,9 @@ implementation
 
 uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fCalendar, fViewer, fMain,
-  uLng, uGlobs, uShowForm, uOSUtils, uSearchTemplate, uDCUtils, uSearchResultFileSource,
-  uFile, uFileSystemFile, uFileSystemFileSource, uFileViewNotebook,
-  uFileView, uColumnsFileView, uFileSource;
+  uLng, uGlobs, uShowForm, uOSUtils, uSearchTemplate, uDCUtils,
+  uSearchResultFileSource, uFile, uFileSystemFile, uFileSystemFileSource,
+  uFileViewNotebook, uFileView, uColumnsFileView;
 
 const
   TimeUnitToComboIndex: array[TTimeUnit] of Integer = (0, 1, 2, 3, 4, 5, 6);
@@ -233,6 +238,7 @@ begin
   edtFindPathStart.DialogTitle:= rsFindWhereBeg;
   FFindThread:= nil;
   FSearchingActive := False;
+  FFrmAttributesEdit := nil;
   edtFindPathStart.Text:= mbGetCurrentDir;
   lblCurrent.Caption:= '';
   lblStatus.Caption:= '';
@@ -361,6 +367,17 @@ end;
 procedure TfrmFindDlg.btnAttrsHelpClick(Sender: TObject);
 begin
   ShowHelpOrErrorForKeyword('', edtAttrib.HelpKeyword);
+end;
+
+procedure TfrmFindDlg.btnAddAttributeClick(Sender: TObject);
+begin
+  if not Assigned(FFrmAttributesEdit) then
+  begin
+    FFrmAttributesEdit := TfrmAttributesEdit.Create(Self);
+    FFrmAttributesEdit.OnOk := @OnAddAttribute;
+  end;
+  FFrmAttributesEdit.Reset;
+  FFrmAttributesEdit.Show;
 end;
 
 procedure TfrmFindDlg.btnSearchSaveClick(Sender: TObject);
@@ -820,6 +837,12 @@ procedure TfrmFindDlg.frmFindDlgClose(Sender: TObject;
   var CloseAction: TCloseAction);
 begin
   glsMaskHistory.Assign(cmbFindFileMask.Items);
+
+  if Assigned(FFrmAttributesEdit) then
+  begin
+    FFrmAttributesEdit.Close;
+    FreeAndNil(FFrmAttributesEdit);
+  end;
 end;
 
 procedure TfrmFindDlg.frmFindDlgShow(Sender: TObject);
@@ -924,8 +947,22 @@ begin
   lblSearchContents.Caption:= '';
 end;
 
+procedure TfrmFindDlg.OnAddAttribute(Sender: TObject);
+var
+  sAttr: String;
+begin
+  sAttr := edtAttrib.Text;
+  if edtAttrib.SelStart > 0 then
+    // Insert at caret position.
+    Insert((Sender as TfrmAttributesEdit).AttrsAsText, sAttr, edtAttrib.SelStart + 1)
+  else
+    sAttr := sAttr + (Sender as TfrmAttributesEdit).AttrsAsText;
+  edtAttrib.Text := sAttr;
+end;
+
 initialization
  {$I fFindDlg.lrs}
+
 finalization
   if Assigned(frmFindDlg) then
     FreeAndNil(frmFindDlg);
