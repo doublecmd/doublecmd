@@ -31,6 +31,8 @@
 
 unit uNTFSLinks;
 
+{$mode delphi}
+
 interface
 
 uses

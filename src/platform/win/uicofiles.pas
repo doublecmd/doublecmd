@@ -16,6 +16,8 @@
 
 unit uIcoFiles;
 
+{$mode delphi}
+
 interface
 
 uses 
