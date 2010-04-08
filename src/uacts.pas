@@ -1804,7 +1804,7 @@ var
   begin
     with gExternalTools[etDiffer] do
     begin
-      sCommand := QuoteStr(Path);
+      sCommand := QuoteStr(ReplaceEnvVars(Path));
       if Parameters <> EmptyStr then
         sCommand := sCommand + ' ' + Parameters;
       for i := 0 to CompareList.Count - 1 do
