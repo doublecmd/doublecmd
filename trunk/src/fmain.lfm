@@ -246,7 +246,6 @@ object frmMain: TfrmMain
           Width = 348
           Alignment = taCenter
           Anchors = [akTop, akLeft, akRight, akBottom]
-          Caption = 'lblLeftDriveInfo'
           ParentColor = False
           OnDblClick = lblDriveInfoDblClick
         end
@@ -372,7 +371,6 @@ object frmMain: TfrmMain
           Width = 273
           Alignment = taCenter
           Anchors = [akTop, akLeft, akRight, akBottom]
-          Caption = 'lblRightDriveInfo'
           ParentColor = False
           OnDblClick = lblDriveInfoDblClick
         end
