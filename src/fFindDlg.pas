@@ -234,8 +234,6 @@ procedure TfrmFindDlg.FormCreate(Sender: TObject);
 var
   I: Integer;
 begin
-  // load language
-  edtFindPathStart.DialogTitle:= rsFindWhereBeg;
   FFindThread:= nil;
   FSearchingActive := False;
   FFrmAttributesEdit := nil;
@@ -246,6 +244,22 @@ begin
   Height:= pnlFindFile.Height + 22;
   DsxPlugins := TDSXModuleList.Create;
   DsxPlugins.Assign(gDSXPlugins);
+
+  // load language
+  edtFindPathStart.DialogTitle:= rsFindWhereBeg;
+  cmbNotOlderThanUnit.Items.Add(rsTimeUnitSecond);
+  cmbNotOlderThanUnit.Items.Add(rsTimeUnitMinute);
+  cmbNotOlderThanUnit.Items.Add(rsTimeUnitHour);
+  cmbNotOlderThanUnit.Items.Add(rsTimeUnitDay);
+  cmbNotOlderThanUnit.Items.Add(rsTimeUnitWeek);
+  cmbNotOlderThanUnit.Items.Add(rsTimeUnitMonth);
+  cmbNotOlderThanUnit.Items.Add(rsTimeUnitYear);
+  cmbFileSizeUnit.Items.Add(rsSizeUnitBytes);
+  cmbFileSizeUnit.Items.Add(rsSizeUnitKBytes);
+  cmbFileSizeUnit.Items.Add(rsSizeUnitMBytes);
+  cmbFileSizeUnit.Items.Add(rsSizeUnitGBytes);
+  cmbFileSizeUnit.Items.Add(rsSizeUnitTBytes);
+
   // fill search depth combobox
   cbSearchDepth.Items.Add(rsFindDepthAll);
   cbSearchDepth.Items.Add(rsFindDepthCurDir);
@@ -261,7 +275,8 @@ begin
   btnStart.Default := True;
 {$ENDIF}
 
-  cmbNotOlderThanUnit.ItemIndex:= 3;
+  cmbNotOlderThanUnit.ItemIndex := 3; // Days
+  cmbFileSizeUnit.ItemIndex := 1; // Kilobytes
   edtFindPathStart.ShowHidden := gShowSystemFiles;
 end;
 
