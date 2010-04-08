@@ -1241,6 +1241,9 @@ begin
       Exit;
     end;
 
+    // Default to using the file source directly.
+    aFileSource := ActiveFrame.FileSource;
+
     // If files are links to local files
     if (fspLinksToLocalFiles in ActiveFrame.FileSource.Properties) then
       begin
@@ -1281,11 +1284,6 @@ begin
         msgWarning(rsMsgErrNotSupported);
         Exit;
       end;
-    end
-    else
-    begin
-      // We can use the file source directly.
-      aFileSource := ActiveFrame.FileSource;
     end;
 
     sl := TStringList.Create;
