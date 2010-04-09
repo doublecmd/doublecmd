@@ -334,6 +334,7 @@ begin
     try
       // save to file
       slStringList.SaveToFile(sFileName);
+      Editor.MarkTextAsSaved;
     except
       on e: EFCreateError do
         begin
