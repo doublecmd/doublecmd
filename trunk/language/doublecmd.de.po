@@ -411,7 +411,7 @@ msgstr "Prüfsumme berechnen"
 
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
 #, fuzzy
-#| msgid "Create separate MD5 files for each file"
+#| msgid "Create separate MD5/SHA1 files for each file"
 msgid "Create separate checksum file for each file"
 msgstr "Für jede Datei eigene MD5/SHA1-Prüfdatei erstellen"
 
@@ -641,7 +641,7 @@ msgstr "Abbruch"
 #: TFRMDESCREDIT.BTNOK.CAPTION
 msgctxt "TFRMDESCREDIT.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Ok"
+msgstr "&OK"
 
 #: TFRMDESCREDIT.CAPTION
 msgid "File/folder comment"
@@ -821,7 +821,7 @@ msgstr "Abbruch"
 #: TFRMEDITORCONF.BTNOK.CAPTION
 msgctxt "TFRMEDITORCONF.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Ok"
+msgstr "&OK"
 
 #: TFRMEDITORCONF.CAPTION
 msgid "Editor configuration"
@@ -1575,7 +1575,7 @@ msgstr "&Löschen"
 #: TFRMHOTDIR.BTNEDIT.CAPTION
 msgctxt "TFRMHOTDIR.BTNEDIT.CAPTION"
 msgid "Edit"
-msgstr "Bearbeiten"
+msgstr "Bea&rbeiten"
 
 #: TFRMHOTDIR.BTNOK.CAPTION
 msgctxt "TFRMHOTDIR.BTNOK.CAPTION"
@@ -2541,7 +2541,7 @@ msgstr "Abbruch"
 #: TFRMMKDIR.BTNOK.CAPTION
 msgctxt "TFRMMKDIR.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Ok"
+msgstr "&OK"
 
 #: TFRMMKDIR.CAPTION
 msgid "Create new directory"
@@ -2573,7 +2573,7 @@ msgstr "L&öschen"
 #: TFRMMULTIRENAME.BTNEXTMENU.CAPTION
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: TFRMMULTIRENAME.BTNLOADPRESET.CAPTION
 msgid "&Load"
@@ -3038,7 +3038,7 @@ msgstr "Flache Schalter"
 
 #: TFRMOPTIONS.CBFREESPACEIND.CAPTION
 msgid "Show freespace indicator on drive label"
-msgstr ""
+msgstr "Zeige den freien Speicher-Indikator in der Laufwerksbezeichnung"
 
 #: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
 msgid "Horizontal lines"
@@ -3119,7 +3119,7 @@ msgstr "Nur eine Instanz von DoubleCommander gleichzeitig erlauben"
 
 #: TFRMOPTIONS.CBPANELOFOPERATIONS.CAPTION
 msgid "Show panel of operation in background"
-msgstr ""
+msgstr "Zeige den ausführenden Fensterteil im Hintergrund"
 
 #: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
 msgid "Process comments with files/folders"
@@ -3127,7 +3127,7 @@ msgstr "Kommentare von Dateien / Verzeichnissen mitbearbeiten"
 
 #: TFRMOPTIONS.CBPROGINMENUBAR.CAPTION
 msgid "Show common progress in menu bar"
-msgstr ""
+msgstr "Zeige allgemeinen Fortschritt in der Menü-Zeile"
 
 #: TFRMOPTIONS.CBRENAMESELONLYNAME.CAPTION
 msgid "Select only the file name then renaming (not the extension)"
