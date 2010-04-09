@@ -334,6 +334,7 @@ begin
     try
       // save to file
       slStringList.SaveToFile(sFileName);
+      Editor.Modified:= False; // needed for the undo stack
       Editor.MarkTextAsSaved;
     except
       on e: EFCreateError do
