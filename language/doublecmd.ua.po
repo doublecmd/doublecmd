@@ -265,7 +265,7 @@ msgstr "Так"
 
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
 msgid "&Cancel"
-msgstr ""
+msgstr "&Відміна"
 
 #: TFRMATTRIBUTESEDIT.BTNOK.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.BTNOK.CAPTION"
@@ -274,11 +274,11 @@ msgstr "&Так"
 
 #: TFRMATTRIBUTESEDIT.BTNRESET.CAPTION
 msgid "&Reset"
-msgstr ""
+msgstr "&Скинути"
 
 #: TFRMATTRIBUTESEDIT.CAPTION
 msgid "Choose attributes"
-msgstr ""
+msgstr "Вибрати атрибути"
 
 #: TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION"
@@ -287,7 +287,7 @@ msgstr "Архівний"
 
 #: TFRMATTRIBUTESEDIT.CBCOMPRESSED.CAPTION
 msgid "Compressed"
-msgstr ""
+msgstr "Стиснути"
 
 #: TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION"
@@ -296,7 +296,7 @@ msgstr "Каталог"
 
 #: TFRMATTRIBUTESEDIT.CBENCRYPTED.CAPTION
 msgid "Encrypted"
-msgstr ""
+msgstr "Зашифрувати"
 
 #: TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION"
@@ -338,15 +338,15 @@ msgstr "Системний"
 
 #: TFRMATTRIBUTESEDIT.CBTEMPORARY.CAPTION
 msgid "Temporary"
-msgstr ""
+msgstr "Тимчасовий"
 
 #: TFRMATTRIBUTESEDIT.GBNTFSATTRIBUTES.CAPTION
 msgid "NTFS attributes"
-msgstr ""
+msgstr "Атрибути NTFS"
 
 #: TFRMATTRIBUTESEDIT.GBWINGENERAL.CAPTION
 msgid "General attributes"
-msgstr ""
+msgstr "Основні атрибути"
 
 #: TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION"
@@ -380,7 +380,7 @@ msgstr "Читання"
 
 #: TFRMATTRIBUTESEDIT.LBLTEXTATTRS.CAPTION
 msgid "As text:"
-msgstr ""
+msgstr "Як текст:"
 
 #: TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
@@ -389,7 +389,7 @@ msgstr "Запис"
 
 #: TFRMCALENDAR.CAPTION
 msgid "Calendar"
-msgstr ""
+msgstr "Календар"
 
 #: TFRMCHECKSUMCALC.BTNCANCEL.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
@@ -418,7 +418,7 @@ msgstr "Зберегти файл(и) контрольних сум як:"
 
 #: TFRMCHECKSUMCALC.RBHASHMD5.CAPTION
 msgid "MD5"
-msgstr ""
+msgstr "MD5"
 
 #: TFRMCHECKSUMCALC.RBHASHSHA1.CAPTION
 msgid "SHA1"
@@ -1091,7 +1091,7 @@ msgstr "Відкрити у переглядачі"
 
 #: TFRMFILEOP.BTHOPEND.CAPTION
 msgid "End"
-msgstr ""
+msgstr "Кінець"
 
 #: TFRMFILEOP.BTNCANCEL.CAPTION
 msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
@@ -1100,11 +1100,11 @@ msgstr "Відміна"
 
 #: TFRMFILEOP.BTNOPHOME.CAPTION
 msgid "Home"
-msgstr ""
+msgstr "Початок"
 
 #: TFRMFILEOP.BTNTOQUEUE.CAPTION
 msgid "To Queue"
-msgstr ""
+msgstr "До черги"
 
 #: TFRMFILEOP.BTNWORKINBACKGROUND.CAPTION
 msgid "Work in &background"
@@ -1338,7 +1338,7 @@ msgstr "Властивості"
 
 #: TFRMFINDDLG.BTNADDATTRIBUTE.CAPTION
 msgid "&Add"
-msgstr ""
+msgstr "&Додати"
 
 #: TFRMFINDDLG.BTNATTRSHELP.CAPTION
 msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
@@ -1457,7 +1457,7 @@ msgstr "*"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
-msgstr ""
+msgstr "&Атрибути"
 
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
@@ -1533,7 +1533,7 @@ msgstr "Знайти"
 
 #: TFRMFINDVIEW.CBCASESENS.CAPTION
 msgid "Case sensitive"
-msgstr ""
+msgstr "З урахуванням регістру"
 
 #: TFRMHARDLINK.BTNCANCEL.CAPTION
 msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
@@ -2129,15 +2129,15 @@ msgstr "Відміна"
 
 #: TFRMMAIN.ALLOPPAUSE.CAPTION
 msgid "||"
-msgstr ""
+msgstr "||"
 
 #: TFRMMAIN.ALLOPPCT.CAPTION
 msgid "%"
-msgstr ""
+msgstr "%"
 
 #: TFRMMAIN.ALLOPPROGRESSIND.CAPTION
 msgid "||||||||||||||||||||"
-msgstr ""
+msgstr "||||||||||||||||||||"
 
 #: TFRMMAIN.ALLOPSTART.CAPTION
 msgctxt "TFRMMAIN.ALLOPSTART.CAPTION"
@@ -2146,7 +2146,7 @@ msgstr "Старт"
 
 #: TFRMMAIN.BTNF10.CAPTION
 msgid "Exit F10"
-msgstr ""
+msgstr "Вихід F10"
 
 #: TFRMMAIN.BTNF9.CAPTION
 msgid "Terminal F9"
@@ -2575,7 +2575,7 @@ msgstr "..."
 
 #: TFRMMULTIRENAME.BTNLOADPRESET.CAPTION
 msgid "&Load"
-msgstr ""
+msgstr "&Завантажити"
 
 #: TFRMMULTIRENAME.BTNNAMEMENU.CAPTION
 msgctxt "TFRMMULTIRENAME.BTNNAMEMENU.CAPTION"
@@ -2584,7 +2584,7 @@ msgstr "..."
 
 #: TFRMMULTIRENAME.BTNRENAME.CAPTION
 msgid "&Rename"
-msgstr ""
+msgstr "&Перейменувати"
 
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
 #, fuzzy
@@ -2655,7 +2655,7 @@ msgstr "Маска"
 
 #: TFRMMULTIRENAME.GBPRESETS.CAPTION
 msgid "Presets"
-msgstr ""
+msgstr "Шаблони"
 
 #: TFRMMULTIRENAME.LBEXT.CAPTION
 #, fuzzy
@@ -3693,7 +3693,7 @@ msgstr "Використати поток, при пошуку тексту в �
 #: TFRMOPTIONS.STGHOTKEYS.COLUMNS.TITLE.CAPTION
 msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS.TITLE.CAPTION"
 msgid "Parameters"
-msgstr ""
+msgstr "Параметри"
 
 #: TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION
 msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
@@ -3817,7 +3817,7 @@ msgstr "Властивості стисненого файлу"
 #: TFRMPACKINFODLG.EDTPACKEDFILE.TEXT
 msgctxt "TFRMPACKINFODLG.EDTPACKEDFILE.TEXT"
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: TFRMPACKINFODLG.LBLATTRIBUTES.CAPTION
 msgid "Attributes:"
@@ -3842,17 +3842,17 @@ msgstr "Оригінальний розмір:"
 #: TFRMPACKINFODLG.LBLPACKEDATTR.CAPTION
 msgctxt "TFRMPACKINFODLG.LBLPACKEDATTR.CAPTION"
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: TFRMPACKINFODLG.LBLPACKEDCOMPRESSION.CAPTION
 msgctxt "TFRMPACKINFODLG.LBLPACKEDCOMPRESSION.CAPTION"
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: TFRMPACKINFODLG.LBLPACKEDDATE.CAPTION
 msgctxt "TFRMPACKINFODLG.LBLPACKEDDATE.CAPTION"
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
 msgid "File:"
@@ -4218,15 +4218,15 @@ msgstr "Переглядач"
 
 #: TFRMVIEWER.MI180.CAPTION
 msgid "+ 180"
-msgstr ""
+msgstr "на 180° праворуч"
 
 #: TFRMVIEWER.MI270.CAPTION
 msgid "- 90"
-msgstr ""
+msgstr "на 90° ліворуч"
 
 #: TFRMVIEWER.MI90.CAPTION
 msgid "+ 90"
-msgstr ""
+msgstr "на 90° праворуч"
 
 #: TFRMVIEWER.MIABOUT.CAPTION
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
@@ -4300,7 +4300,7 @@ msgstr "Малюнок"
 
 #: TFRMVIEWER.MIMIRROR.CAPTION
 msgid "Mirror"
-msgstr ""
+msgstr "Дзеркально"
 
 #: TFRMVIEWER.MINEXT.CAPTION
 msgid "&Next"
@@ -4321,7 +4321,7 @@ msgstr "Друк"
 
 #: TFRMVIEWER.MIROTATE.CAPTION
 msgid "Rotate"
-msgstr ""
+msgstr "Обертати"
 
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
@@ -5175,24 +5175,24 @@ msgstr "Гарячі клавіші"
 
 #: ulng.rsopthotkeyscommands
 msgid "Commands"
-msgstr ""
+msgstr "Команди"
 
 #: ulng.rsopthotkeyscomments
 msgid "Comments"
-msgstr ""
+msgstr "Коментарі"
 
 #: ulng.rsopthotkeyshotkey
 msgid "Hotkey"
-msgstr ""
+msgstr "Гаряча клавіша"
 
 #: ulng.rsopthotkeyshotkeys
 msgid "Hotkeys"
-msgstr ""
+msgstr "Гарячі клавіши"
 
 #: ulng.rsopthotkeysparameters
 msgctxt "ulng.rsopthotkeysparameters"
 msgid "Parameters"
-msgstr ""
+msgstr "Параметри"
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -5342,7 +5342,7 @@ msgstr "Знайти:"
 
 #: ulng.rssearchresult
 msgid "Search result"
-msgstr ""
+msgstr "Результати пошуку"
 
 #: ulng.rsselectdir
 msgid "Select a directory"
@@ -5350,23 +5350,23 @@ msgstr "Виберіть каталог"
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
-msgstr ""
+msgstr "Байти"
 
 #: ulng.rssizeunitgbytes
 msgid "Gigabytes"
-msgstr ""
+msgstr "Гігабайти"
 
 #: ulng.rssizeunitkbytes
 msgid "Kilobytes"
-msgstr ""
+msgstr "Кілобайти"
 
 #: ulng.rssizeunitmbytes
 msgid "Megabytes"
-msgstr ""
+msgstr "Мегабайти"
 
 #: ulng.rssizeunittbytes
 msgid "Terabytes"
-msgstr ""
+msgstr "терабайти"
 
 #: ulng.rsspacemsg
 msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
@@ -5416,27 +5416,27 @@ msgstr "День"
 
 #: ulng.rstimeunithour
 msgid "Hour(s)"
-msgstr ""
+msgstr "Годин(а)"
 
 #: ulng.rstimeunitminute
 msgid "Minute(s)"
-msgstr ""
+msgstr "Хвилин(а)"
 
 #: ulng.rstimeunitmonth
 msgid "Month(s)"
-msgstr ""
+msgstr "Місяців"
 
 #: ulng.rstimeunitsecond
 msgid "Second(s)"
-msgstr ""
+msgstr "Секунд(а)"
 
 #: ulng.rstimeunitweek
 msgid "Week(s)"
-msgstr ""
+msgstr "Тижнів"
 
 #: ulng.rstimeunityear
 msgid "Year(s)"
-msgstr ""
+msgstr "Років"
 
 #: ulng.rstooldiffer
 #, fuzzy
