@@ -167,6 +167,7 @@ begin
          end;
          Result:= True;
        end;
+      FreeAndNil(Doc);
     end;
   finally
     FreeAndNil(MemoryStream);
