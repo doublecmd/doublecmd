@@ -41,6 +41,8 @@ type
 
   TfrmViewer = class(TForm)
     Image: TImage;
+    miZoomOut: TMenuItem;
+    miZoomIn: TMenuItem;
     miRotate: TMenuItem;
     miMirror: TMenuItem;
     mi270: TMenuItem;
@@ -86,10 +88,17 @@ type
     ViewerControl: TViewerControl;
     procedure FormCreate(Sender : TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure ImageMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure ImageMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
+      );
+    procedure ImageMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure miPluginsClick(Sender: TObject);
     procedure miPrintClick(Sender: TObject);
     procedure miSearchNextClick(Sender: TObject);
     procedure miSearchPrevClick(Sender: TObject);
+    procedure miZoomClick(Sender: TObject);
     procedure pnlListerResize(Sender: TObject);
     procedure sboxImageResize(Sender: TObject);
     procedure ViewerControlMouseUp(Sender: TObject; Button: TMouseButton;
@@ -117,10 +126,12 @@ type
     procedure miRotateClick(Sender: TObject);
   private
     FileList: TStringList;
-    iActiveFile:Integer;
+    iActiveFile,
+    tmpX, tmpY:Integer;
     bImage,
     bPlugin,
-    bQuickView: Boolean;
+    bQuickView,
+    MDFlag: Boolean;
     FFindDialog:TfrmFindView;
     FFileSource: IFileSource;
     FLastSearchPos: PtrInt;
@@ -291,6 +302,39 @@ begin
     end;
 end;
 
+procedure TfrmViewer.ImageMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  MDFlag := true;
+  //sboxImage.AutoScroll:=false;
+  //sboxImage.HorzScrollBar.Range:=Image.Width;
+  //sboxImage.VertScrollBar.Range:=Image.Height;
+  sboxImage.VertScrollBar.Position:=tmpY;
+  sboxImage.HorzScrollBar.Position:=tmpX;
+  tmpX:=x;
+  tmpY:=y{-sboxImage.VertScrollBar.Position};
+  Image.Cursor:=crHandPoint;
+end;
+
+procedure TfrmViewer.ImageMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  if MDFlag then
+    begin
+      sboxImage.VertScrollBar.Position:=sboxImage.VertScrollBar.Position+tmpY-y;
+      sboxImage.HorzScrollBar.Position:=sboxImage.HorzScrollBar.Position+tmpX-x;
+    end;
+end;
+
+procedure TfrmViewer.ImageMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  MDFlag:=false;
+  tmpY:=sboxImage.VertScrollBar.Position;
+  tmpX:=sboxImage.HorzScrollBar.Position;
+  Image.Cursor:=crDefault;
+end;
+
 function TfrmViewer.CheckPlugins(const sFileName: UTF8String; Force:boolean=false):boolean;
 var
   I: Integer;
@@ -366,6 +410,28 @@ end;
 procedure TfrmViewer.miSearchPrevClick(Sender: TObject);
 begin
   DoSearch(True, True);
+end;
+
+procedure TfrmViewer.miZoomClick(Sender: TObject);
+begin
+  miStretch.Checked := false;
+  Image.Stretch:=true;
+  Image.Proportional:=true;
+  Image.AutoSize := false;
+  if sender=miZoomIn
+  then
+    begin
+      Image.Width:= Image.Width + round(0.118*Image.Picture.Width);  {Image.Width+Round(0.1*Image.Width)}
+      Image.Height:= Image.Height + round(0.118*Image.Picture.Height);  {Image.Height+Round(Image.Height*0.1)}
+    end
+  else
+    begin
+     Image.Width:= Image.Width-Round(0.1333*Image.Width);
+     Image.Height:= Image.Height-Round(0.133*Image.Height);
+    end;
+  //sboxImage.VertScrollBar.Position:= sboxImage.VertScrollBar.Position+Image.Height div 16;
+  //sboxImage.HorzScrollBar.Position:= sboxImage.HorzScrollBar.Position+Image.Width div 16;
+  AdjustImageSize
 end;
 
 procedure TfrmViewer.pnlListerResize(Sender: TObject);
@@ -646,8 +712,9 @@ var
   sResolution: String;
   iScale: Integer;
 begin
-  if Image.Stretch then
+  if miStretch.Checked then
      begin
+       Image.Stretch:=true;
        Image.AutoSize := true;
        if (Image.Picture.Width > sboxImage.ClientWidth) or  (Image.Picture.Height > sboxImage.ClientHeight) then
          begin
@@ -656,9 +723,24 @@ begin
            Image.AutoSize := false;
            Image.Width:= sboxImage.ClientWidth;
            Image.Height:= sboxImage.ClientHeight;
+           sboxImage.HorzScrollBar.Visible:=false;
+           sboxImage.VertScrollBar.Visible:=false;
            // show image resolution and scale
-           sResolution:= IntToStr(Image.ClientWidth) + 'x' + IntToStr(Image.ClientHeight);
-           iScale:= ((Image.ClientWidth * 100) div Image.Picture.Width+(Image.ClientHeight * 100) div Image.Picture.Height) div 2;
+           if Image.Picture.Width < Image.Width then
+             begin
+             iScale:= 100*(Image.Picture.Width * Image.ClientHeight) div (Image.Picture.Width* Image.Picture.Height);
+             sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Height);
+             end;
+           if Image.Picture.Height < Image.Height then
+             begin
+              iScale:= 100*(Image.ClientWidth * Image.Picture.Height) div (Image.Picture.Width* Image.Picture.Height);
+              sResolution:= IntToStr(Image.Width) + 'x' + IntToStr(Image.Picture.Height);
+             end;
+           if (Image.Picture.Width >= Image.Width) and  (Image.Picture.Height >= Image.Height) then
+             begin
+              iScale:= 100*(Image.Width * Image.Height) div (Image.Picture.Width* Image.Picture.Height);
+              sResolution:= IntToStr(Image.Width) + 'x' + IntToStr(Image.Height);
+             end;
            Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, IntToStr(iScale)]);
            sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Picture.Height);
            Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [sResolution, '100']);
@@ -677,9 +759,13 @@ begin
       // show image resolution and scale
       Image.Left:= 0;
       Image.Top:= 0;
+      iScale:= 100*(Image.Width * Image.Height) div (Image.Picture.Width* Image.Picture.Height);
+      sResolution:= IntToStr(Image.Width) + 'x' + IntToStr(Image.Height);
+      Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, IntToStr(iScale)]);
       sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Picture.Height);
-      Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, '100']);
-      Status.Panels[sbpFullResolution].Text:= Status.Panels[2].Text;
+      //Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, '100']);
+      Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [sResolution, '100']);
+      //Status.Panels[sbpFullResolution].Text:= Status.Panels[2].Text;
     end;
 end;
 
