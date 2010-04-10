@@ -75,6 +75,39 @@ begin
     Result:= TargetStr + ', ' + SourceStr;
 end;
 
+procedure AddApplication(const InstallManifest: TInstallManifest; Node: TDOMNode);
+var
+  I: LongWord;
+  Application: AnsiString;
+  ID,
+  MinVersion,
+  MaxVersion: AnsiString;
+begin
+  Node:= Node.FindNode('Description');
+  if Assigned(Node) then
+    begin
+      for I:= 0 to Node.ChildNodes.Count - 1 do
+      with Node.ChildNodes.Item[I] do
+      begin
+        if nodeName = 'em:id' then
+          ID:= FirstChild.NodeValue
+        else if nodeName = 'em:minVersion' then
+          MinVersion:= FirstChild.NodeValue
+        else if nodeName = 'em:maxVersion' then
+          MaxVersion:= FirstChild.NodeValue
+      end;
+      if InstallManifest.TargetApplication.IndexOfName(ID) < 0 then
+        begin
+          InstallManifest.TargetApplication.Add(ID + '=' + MinVersion + '-' + MaxVersion);
+          Application:= ApplicationList.Values[ID];
+          if Length(Application) <> 0 then
+            begin
+              InstallManifest.Compatibility:= AddString(InstallManifest.Compatibility, Application);
+            end;
+        end;
+    end;
+end;
+
 function ParseInsatallManifest(FileName: PAnsiChar; out InstallManifest: TInstallManifest): Boolean;
 var
   I: LongWord;
@@ -99,6 +132,7 @@ begin
        }
        if Assigned(mainNode) then
        begin
+         InstallManifest.Clear;
          for I:= 0 to mainNode.ChildNodes.Count - 1 do
          begin
            childNode := mainNode.ChildNodes.Item[I];
@@ -127,6 +161,8 @@ begin
                InstallManifest.UpdateURL:= FirstChild.NodeValue
              else if nodeName = 'em:targetPlatform' then
                InstallManifest.TargetPlatform:= AddString(InstallManifest.TargetPlatform, FirstChild.NodeValue)
+             else if nodeName = 'em:targetApplication' then
+               AddApplication(InstallManifest, childNode)
            end;
          end;
          Result:= True;

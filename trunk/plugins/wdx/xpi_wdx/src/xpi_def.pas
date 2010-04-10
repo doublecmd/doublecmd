@@ -30,28 +30,78 @@ uses
   Classes, SysUtils; 
 
 type
-  TTargetApplication = record
-    ID,
-    MinVersion,
-    MaxVersion: AnsiString;
-  end;
 
-  TInstallManifest = record
-    ID: AnsiString;
-    Name: AnsiString;
-    Version: AnsiString;
-    Description: AnsiString;
-    Creator: AnsiString;
-    Developer: AnsiString;
+  { TInstallManifest }
+
+  TInstallManifest = class
+  public
+    ID,
+    Name,
+    Version,
+    Description,
+    Creator,
+    Developer,
     Contributor,
     Translator,
     HomePageURL,
     UpdateURL,
-    TargetPlatform: AnsiString;
+    TargetPlatform,
+    Compatibility: AnsiString;
+    TargetApplication: TStringList;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure Clear;
   end;
-  PInstallManifest = ^TInstallManifest;
+
+var
+  ApplicationList: TStringList;
 
 implementation
+
+{ TInstallManifest }
+
+procedure TInstallManifest.Clear;
+begin
+  ID              := EmptyStr;
+  Name            := EmptyStr;
+  Version         := EmptyStr;
+  Description     := EmptyStr;
+  Creator         := EmptyStr;
+  Developer       := EmptyStr;
+  Contributor     := EmptyStr;
+  Translator      := EmptyStr;
+  HomePageURL     := EmptyStr;
+  UpdateURL       := EmptyStr;
+  TargetPlatform  := EmptyStr;
+  Compatibility   := EmptyStr;
+  TargetApplication.Clear;
+end;
+
+constructor TInstallManifest.Create;
+begin
+  TargetApplication:= TStringList.Create;
+end;
+
+destructor TInstallManifest.Destroy;
+begin
+  FreeAndNil(TargetApplication);
+  inherited Destroy;
+end;
+
+initialization
+  ApplicationList:= TStringList.Create;
+  ApplicationList.Add('{ec8030f7-c20a-464f-9b0e-13a3a9e97384}=fx'); // Firefox
+  ApplicationList.Add('{86c18b42-e466-45a9-ae7a-9b95ba6f5640}=mz'); // Mozilla Suite
+  ApplicationList.Add('{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}=sm'); // SeaMonkey
+  ApplicationList.Add('{3550f703-e582-4d05-9a08-453d09bdfdc6}=mt'); // Mozilla Thunderbird
+  ApplicationList.Add('{a463f10c-3994-11da-9945-000d60ca027b}=fl'); // Flock
+  ApplicationList.Add('{718e30fb-e89b-41dd-9da7-e25a45638b28}=sb'); // Sunbird
+  ApplicationList.Add('{a23983c0-fd0e-11dc-95ff-0800200c9a66}=fc'); // Fennec
+  //ApplicationList.Add('');
+
+finalization
+  FreeAndNil(ApplicationList);
 
 end.
 
