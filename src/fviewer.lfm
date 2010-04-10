@@ -1,14 +1,14 @@
 object frmViewer: TfrmViewer
-  Left = 404
-  Height = 583
-  Top = 119
-  Width = 856
+  Left = 312
+  Height = 565
+  Top = 19
+  Width = 857
   HorzScrollBar.Page = 951
   VertScrollBar.Page = 491
   ActiveControl = pnlLister
   Caption = 'Viewer'
-  ClientHeight = 563
-  ClientWidth = 856
+  ClientHeight = 545
+  ClientWidth = 857
   Constraints.MinHeight = 100
   Constraints.MinWidth = 200
   Icon.Data = {
@@ -63,9 +63,9 @@ object frmViewer: TfrmViewer
   LCLVersion = '0.9.29'
   object pnlLister: TPanel
     Left = 0
-    Height = 540
+    Height = 522
     Top = 0
-    Width = 856
+    Width = 857
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
@@ -74,8 +74,8 @@ object frmViewer: TfrmViewer
   object Status: TStatusBar
     Left = 0
     Height = 23
-    Top = 540
-    Width = 856
+    Top = 522
+    Width = 857
     Panels = <    
       item
         Width = 200
@@ -96,19 +96,19 @@ object frmViewer: TfrmViewer
   end
   object pnlText: TPanel
     Left = 0
-    Height = 540
+    Height = 522
     Top = 0
-    Width = 856
+    Width = 857
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 540
-    ClientWidth = 856
+    ClientHeight = 522
+    ClientWidth = 857
     TabOrder = 2
     object ViewerControl: TViewerControl
       Left = 0
-      Height = 540
+      Height = 522
       Top = 0
-      Width = 856
+      Width = 857
       OnPositionChanged = ViewerPositionChanged
       OnMouseUp = ViewerControlMouseUp
       Align = alClient
@@ -116,34 +116,37 @@ object frmViewer: TfrmViewer
   end
   object pnlImage: TPanel
     Left = 0
-    Height = 540
+    Height = 522
     Top = 0
-    Width = 856
+    Width = 857
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 540
-    ClientWidth = 856
+    ClientHeight = 522
+    ClientWidth = 857
     TabOrder = 3
     object sboxImage: TScrollBox
       Left = 0
-      Height = 540
+      Height = 522
       Top = 0
-      Width = 856
+      Width = 857
       Align = alClient
-      ClientHeight = 519
-      ClientWidth = 835
-      Color = clBlack
+      ClientHeight = 501
+      ClientWidth = 836
+      Color = clWhite
       ParentColor = False
       TabOrder = 0
       TabStop = True
       OnResize = sboxImageResize
       object Image: TImage
         Left = 0
-        Height = 553
+        Height = 518
         Top = 0
         Width = 852
         AutoSize = True
         Center = True
+        OnMouseDown = ImageMouseDown
+        OnMouseMove = ImageMouseMove
+        OnMouseUp = ImageMouseUp
         Proportional = True
       end
     end
@@ -291,6 +294,14 @@ object frmViewer: TfrmViewer
           Caption = 'Mirror'
           OnClick = miRotateClick
         end
+      end
+      object miZoomIn: TMenuItem
+        Caption = 'Zoom In'
+        OnClick = miZoomClick
+      end
+      object miZoomOut: TMenuItem
+        Caption = 'Zoom Out'
+        OnClick = miZoomClick
       end
     end
     object miAbout: TMenuItem
