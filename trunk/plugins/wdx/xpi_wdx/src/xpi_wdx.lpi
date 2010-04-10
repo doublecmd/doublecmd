@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <PathDelim Value="\"/>
+    <Version Value="7"/>
+    <General>
+      <Flags>
+        <SaveOnlyProjectUnits Value="True"/>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+        <UseDefaultCompilerOptions Value="True"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
+      <TargetFileExt Value=".exe"/>
+      <UseAppBundle Value="False"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
+    </General>
+    <VersionInfo>
+      <Language Value=""/>
+      <CharSet Value=""/>
+      <StringTable Comments="" CompanyName="" FileDescription="" FileVersion="" InternalName="" LegalCopyright="" LegalTrademarks="" OriginalFilename="" ProductName="" ProductVersion=""/>
+    </VersionInfo>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <HostApplicationFilename Value="D:\totalcmd\totalcmd.exe"/>
+        <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+      </local>
+    </RunParams>
+    <Units Count="4">
+      <Unit0>
+        <Filename Value="xpi_wdx.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="xpi_wdx"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="xpi_wdx_intf.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="xpi_wdx_intf"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="xpi_def.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="xpi_def"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="xpi_io.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="xpi_io"/>
+      </Unit3>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="8"/>
+    <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="..\lib\xpi_wdx"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)\"/>
+      <OtherUnitFiles Value="..\..\..\..\sdk\"/>
+      <UnitOutputDirectory Value="..\lib"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <UseAnsiStrings Value="True"/>
+      </SyntaxOptions>
+    </Parsing>
+    <Linking>
+      <Options>
+        <ExecutableType Value="Library"/>
+      </Options>
+    </Linking>
+    <Other>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>
