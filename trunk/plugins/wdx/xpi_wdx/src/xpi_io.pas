@@ -83,6 +83,7 @@ var
   mainNode: TDOMNode = nil;
   childNode: TDOMNode = nil;
 begin
+  Result:= False;
   MemoryStream:= TMemoryStream.Create;
   try
     if ExtractInstallManifest(FileName, MemoryStream) then;
@@ -126,6 +127,7 @@ begin
                InstallManifest.TargetPlatform:= AddString(InstallManifest.TargetPlatform, FirstChild.NodeValue)
            end;
          end;
+         Result:= True;
        end;
     end;
   finally
