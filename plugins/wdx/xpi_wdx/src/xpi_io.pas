@@ -93,8 +93,10 @@ begin
       ReadXMLFile(Doc, MemoryStream);
        if Assigned(Doc.documentElement) then
          mainNode:= Doc.documentElement.FindNode('Description');
+       {
        if not Assigned(mainNode) then
          mainNode:= Doc.documentElement.FindNode('RDF:Description');
+       }
        if Assigned(mainNode) then
        begin
          for I:= 0 to mainNode.ChildNodes.Count - 1 do
