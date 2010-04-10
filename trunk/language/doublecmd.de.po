@@ -2945,7 +2945,7 @@ msgstr ""
 #: TFRMOPTIONS.BTNSELVIEWFNT.CAPTION
 msgctxt "TFRMOPTIONS.BTNSELVIEWFNT.CAPTION"
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: TFRMOPTIONS.BTNTWEAKPLUGIN.CAPTION
 msgid "Tweak"
@@ -4372,6 +4372,14 @@ msgstr "&Betrachten"
 #: TFRMVIEWER.MIWRAPTEXT.CAPTION
 msgid "Show as &Wrap text"
 msgstr "&Zeilenumbruch"
+
+#: TFRMVIEWER.MIZOOMIN.CAPTION
+msgid "Zoom In"
+msgstr ""
+
+#: TFRMVIEWER.MIZOOMOUT.CAPTION
+msgid "Zoom Out"
+msgstr ""
 
 #: TFRMVIEWER.PMICOPY.CAPTION
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"

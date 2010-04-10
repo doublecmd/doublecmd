@@ -4401,6 +4401,14 @@ msgstr "&Zobrazit"
 msgid "Show as &Wrap text"
 msgstr "Zobrazit &jako zalamovaný text"
 
+#: TFRMVIEWER.MIZOOMIN.CAPTION
+msgid "Zoom In"
+msgstr ""
+
+#: TFRMVIEWER.MIZOOMOUT.CAPTION
+msgid "Zoom Out"
+msgstr ""
+
 #: TFRMVIEWER.PMICOPY.CAPTION
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
 msgid "Copy To Clipboard"

@@ -4375,6 +4375,14 @@ msgstr "视图(&V)"
 msgid "Show as &Wrap text"
 msgstr "显示为换行文本"
 
+#: TFRMVIEWER.MIZOOMIN.CAPTION
+msgid "Zoom In"
+msgstr ""
+
+#: TFRMVIEWER.MIZOOMOUT.CAPTION
+msgid "Zoom Out"
+msgstr ""
+
 #: TFRMVIEWER.PMICOPY.CAPTION
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
 msgid "Copy To Clipboard"
