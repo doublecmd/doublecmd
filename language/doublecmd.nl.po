@@ -4365,6 +4365,14 @@ msgstr "Bekijk"
 msgid "Show as &Wrap text"
 msgstr "Toon als &Wrap tekst"
 
+#: TFRMVIEWER.MIZOOMIN.CAPTION
+msgid "Zoom In"
+msgstr ""
+
+#: TFRMVIEWER.MIZOOMOUT.CAPTION
+msgid "Zoom Out"
+msgstr ""
+
 #: TFRMVIEWER.PMICOPY.CAPTION
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
 msgid "Copy To Clipboard"

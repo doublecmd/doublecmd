@@ -4375,6 +4375,14 @@ msgstr "&Просмотр"
 msgid "Show as &Wrap text"
 msgstr "В виде текста с &разрывами строк"
 
+#: TFRMVIEWER.MIZOOMIN.CAPTION
+msgid "Zoom In"
+msgstr ""
+
+#: TFRMVIEWER.MIZOOMOUT.CAPTION
+msgid "Zoom Out"
+msgstr ""
+
 #: TFRMVIEWER.PMICOPY.CAPTION
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
 msgid "Copy To Clipboard"
