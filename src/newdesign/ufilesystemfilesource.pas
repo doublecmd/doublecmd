@@ -162,7 +162,14 @@ begin
                               WinFileTimeToDateTime(SearchRecord.FindData.ftCreationTime));
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
                                 WinFileTimeToDateTime(SearchRecord.FindData.ftLastAccessTime));
-    LinkProperty := TFileLinkProperty.Create(AttributesProperty.IsLink and AttributesProperty.IsDirectory);
+
+    LinkProperty := TFileLinkProperty.Create(False);
+
+    if AttributesProperty.IsLink then
+    begin
+      LinkProperty.IsLinkToDirectory := AttributesProperty.IsDirectory;
+      LinkProperty.LinkTo := ReadSymLink(Path + SearchRecord.Name);
+    end;
 
 {$ELSEIF DEFINED(UNIX)}
 
@@ -185,7 +192,7 @@ begin
                                 FileTimeToDateTime(StatInfo.st_atime));
 {$POP}
 
-    LinkProperty := TFileLinkProperty.Create(AttributesProperty.IsLink and AttributesProperty.IsDirectory);
+    LinkProperty := TFileLinkProperty.Create(False);
 
     if AttributesProperty.IsLink then
     begin
@@ -196,16 +203,14 @@ begin
       fpStat(PChar(UTF8ToSys(sFullPath)), StatInfo);
 
       LinkProperty.IsLinkToDirectory := FPS_ISDIR(StatInfo.st_mode);
-    end
-    else
-      LinkProperty.IsLinkToDirectory := False;
+      LinkProperty.LinkTo := ReadSymLink(sFullPath);
+    end;
 
-  {
-      iOwner:=sb.st_uid;
-      iGroup:=sb.st_gid;
-      sOwner:=UIDToStr(iOwner);
-      sGroup:=GIDToStr(iGroup);
-  }
+    OwnerProperty := TFileOwnerProperty.Create;
+    OwnerProperty.Owner := StatInfo.st_uid;
+    OwnerProperty.Group := StatInfo.st_gid;
+    OwnerProperty.OwnerStr := UIDToStr(StatInfo.st_uid);
+    OwnerProperty.GroupStr := GIDToStr(StatInfo.st_gid);
 
 {$ELSE}
 
@@ -217,21 +222,6 @@ begin
     LinkProperty := TFileLinkProperty.Create(False);
 
 {$ENDIF}
-
-  {
-    if IsLink then
-    begin
-      sLinkTo := ReadSymLink(PUnixFindData(SearchRecord.FindHandle)^.sPath + SearchRecord.Name);
-      if sLinkTo <> '' then
-      begin
-        case uDCUtils.GetPathType(sLinkTo) of
-          ptNone, ptRelative:
-            sLinkTo := PUnixFindData(SearchRecord.FindHandle)^.sPath + sLinkTo;
-        end;
-    end
-    else
-      sLinkTo := '';
-  }
 
     // Set name after assigning Attributes property, because it is used to get extension.
     Name := SearchRecord.Name;
@@ -357,8 +347,16 @@ end;
 function TFileSystemFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
   Result := inherited GetSupportedFileProperties
-          + [fpSize, fpAttributes, fpModificationTime, fpCreationTime,
-             fpLastAccessTime, uFileProperty.fpLink];
+          + [fpSize,
+             fpAttributes,
+             fpModificationTime,
+             fpCreationTime,
+             fpLastAccessTime,
+             uFileProperty.fpLink
+{$IFDEF UNIX}
+             , fpOwner
+{$ENDIF}
+            ];
 end;
 
 function TFileSystemFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;

@@ -17,7 +17,8 @@ type
     fpModificationTime,
     fpCreationTime,
     fpLastAccessTime,
-    fpLink
+    fpLink,
+    fpOwner
   );
 
   TFilePropertiesTypes = set of TFilePropertyType;
@@ -257,10 +258,13 @@ type
     function Format(Formatter: IFilePropertyFormatter): String; override;
   end;
 
+  { TFileLinkProperty }
+
   TFileLinkProperty = class(TFileProperty)
 
   private
     FIsLinkToDirectory: Boolean;
+    FLinkTo: String;
 
   public
     constructor Create; override;
@@ -275,6 +279,35 @@ type
     function Format(Formatter: IFilePropertyFormatter): String; override;
 
     property IsLinkToDirectory: Boolean read FIsLinkToDirectory write FIsLinkToDirectory;
+    property LinkTo: String read FLinkTo write FLinkTo;
+  end;
+
+  { TFileOwnerProperty }
+
+  {en
+     Owner of the file.
+  }
+  TFileOwnerProperty = class(TFileProperty)
+
+  private
+    FOwner: Cardinal;
+    FGroup: Cardinal;
+    FOwnerStr: String;
+    FGroupStr: String;
+
+  public
+    constructor Create; override;
+
+    function Clone: TFileOwnerProperty; override;
+    procedure CloneTo(FileProperty: TFileProperty); override;
+
+    class function GetID: TFilePropertyType; override;
+
+    property Owner: Cardinal read FOwner write FOwner;
+    property Group: Cardinal read FGroup write FGroup;
+    property OwnerStr: String read FOwnerStr write FOwnerStr;
+    property GroupStr: String read FGroupStr write FGroupStr;
+
   end;
 
   // -- Property formatter interface ------------------------------------------
@@ -720,6 +753,8 @@ begin
   Result := Formatter.FormatUnixAttributes(Self);
 end;
 
+// ----------------------------------------------------------------------------
+
 constructor TFileLinkProperty.Create;
 begin
   Create(False);
@@ -763,6 +798,40 @@ end;
 function TFileLinkProperty.Format(Formatter: IFilePropertyFormatter): String;
 begin
   Result := '';
+end;
+
+// ----------------------------------------------------------------------------
+
+constructor TFileOwnerProperty.Create;
+begin
+  inherited Create;
+end;
+
+function TFileOwnerProperty.Clone: TFileOwnerProperty;
+begin
+  Result := TFileOwnerProperty.Create;
+  CloneTo(Result);
+end;
+
+procedure TFileOwnerProperty.CloneTo(FileProperty: TFileProperty);
+begin
+  if Assigned(FileProperty) then
+  begin
+    inherited CloneTo(FileProperty);
+
+    with FileProperty as TFileOwnerProperty do
+    begin
+      FOwner := Self.FOwner;
+      FGroup := Self.FGroup;
+      FOwnerStr := Self.FOwnerStr;
+      FGroupStr := Self.FGroupStr;
+    end;
+  end;
+end;
+
+class function TFileOwnerProperty.GetID: TFilePropertyType;
+begin
+  Result := fpOwner;
 end;
 
 end.
