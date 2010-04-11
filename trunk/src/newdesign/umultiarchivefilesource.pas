@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, contnrs, StringHashList, uOSUtils,
   uMultiArc, uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation,
-  uMultiArchiveUtil, uMultiArchiveFile;
+  uMultiArchiveUtil;
 
 type
 
@@ -20,9 +20,9 @@ type
     function GetArcFileList: TObjectList;
     function GetMultiArcItem: TMultiArcItem;
 
-    procedure FillAndCount(const FileMask: UTF8String; Files: TMultiArchiveFiles;
+    procedure FillAndCount(const FileMask: UTF8String; Files: TFiles;
                            CountDirs: Boolean;
-                           out NewFiles: TMultiArchiveFiles;
+                           out NewFiles: TFiles;
                            out FilesCount: Int64; out FilesSize: Int64);
 
     property ArchiveFileList: TObjectList read GetArcFileList;
@@ -54,13 +54,15 @@ type
     procedure DoReload(const PathsToReload: TPathsArray); override;
 
   public
-    procedure FillAndCount(const FileMask: UTF8String; Files: TMultiArchiveFiles;
+    procedure FillAndCount(const FileMask: UTF8String; Files: TFiles;
                            CountDirs: Boolean;
-                           out NewFiles: TMultiArchiveFiles;
+                           out NewFiles: TFiles;
                            out FilesCount: Int64; out FilesSize: Int64);
   public
     constructor Create(anArchiveFileName: String; aMultiArcItem: TMultiArcItem); reintroduce;
     destructor Destroy; override;
+
+    class function CreateFile(const APath: String; ArchiveItem: TArchiveItem): TFile; overload;
 
     // Retrieve operations permitted on the source.  = capabilities?
     function GetOperationsTypes: TFileSourceOperationTypes; override;
@@ -168,6 +170,34 @@ begin
     FreeAndNil(FArcFileList);
 end;
 
+class function TMultiArchiveFileSource.CreateFile(const APath: String; ArchiveItem: TArchiveItem): TFile;
+begin
+  Result := TFile.Create(APath);
+
+  with Result do
+  begin
+  {
+      Comment,
+  }
+    SizeProperty := TFileSizeProperty.Create(ArchiveItem.UnpSize);
+    CompressedSizeProperty := TFileCompressedSizeProperty.Create(ArchiveItem.PackSize);
+    AttributesProperty := {TNtfsFileAttributesProperty or Unix?}
+                          TFileAttributesProperty.CreateOSAttributes(ArchiveItem.Attributes);
+    ModificationTimeProperty := TFileModificationDateTimeProperty.Create(0);
+    try
+      with ArchiveItem do
+        ModificationTime := EncodeDate(Year, Month, Day) + EncodeTime(Hour, Minute, Second, 0);
+    except
+      on EConvertError do;
+    end;
+
+    // Set name after assigning Attributes property, because it is used to get extension.
+    Name := ExtractFileName(ArchiveItem.FileName);
+    if ArchiveItem.FileExt <> EmptyStr then
+      Name:= Name + '.' + ArchiveItem.FileExt;
+  end;
+end;
+
 function TMultiArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   Result := [fsoExecute];
@@ -195,7 +225,7 @@ end;
 
 function TMultiArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
-  Result := TMultiArchiveFile.GetSupportedProperties;
+  Result := inherited GetSupportedFileProperties;
 end;
 
 function TMultiArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;
@@ -406,16 +436,16 @@ begin
   ReadArchive;
 end;
 
-procedure TMultiArchiveFileSource.FillAndCount(const FileMask: UTF8String; Files: TMultiArchiveFiles;
-  CountDirs: Boolean; out NewFiles: TMultiArchiveFiles; out FilesCount: Int64;
+procedure TMultiArchiveFileSource.FillAndCount(const FileMask: UTF8String; Files: TFiles;
+  CountDirs: Boolean; out NewFiles: TFiles; out FilesCount: Int64;
   out FilesSize: Int64);
 var
   I, J: Integer;
   ArchiveItem: TArchiveItem;
   sFileName: UTF8String;
-  aFile: TMultiArchiveFile;
+  aFile: TFile;
 begin
-  NewFiles:= TMultiArchiveFiles.Create(Files.Path);
+  NewFiles:= TFiles.Create(Files.Path);
   FilesCount:= 0;
   FilesSize:= 0;
   for I := 0 to ArchiveFileList.Count - 1 do
@@ -427,10 +457,10 @@ begin
         MatchesMaskList(ExtractFileName(ArchiveItem.FileName), FileMask)) then
       for J := 0 to Files.Count - 1 do
       begin
-        aFile := Files[J] as TMultiArchiveFile;
+        aFile := Files[J];
 
         if  (aFile.FullPath = sFileName) or // Item in the list is a file, only compare names.
-            (aFile.IsDirectory and IsInPath(aFile.FullPath, sFileName, True)) then // Check if 'FileName' is in this directory or any of its subdirectories.
+            (aFile.AttributesProperty.IsDirectory and IsInPath(aFile.FullPath, sFileName, True)) then // Check if 'FileName' is in this directory or any of its subdirectories.
           begin
             if FPS_ISDIR(ArchiveItem.Attributes) then
               begin
@@ -441,7 +471,7 @@ begin
                 Inc(FilesCount);
                 Inc(FilesSize, aFile.Size);
               end;
-            aFile:= TMultiArchiveFile.Create(ExtractFilePath(ArchiveItem.FileName), ArchiveItem);
+            aFile:= TMultiArchiveFileSource.CreateFile(ExtractFilePath(ArchiveItem.FileName), ArchiveItem);
             aFile.FullPath:= ExcludeFrontPathDelimiter(aFile.FullPath);
             NewFiles.Add(aFile);
           end;

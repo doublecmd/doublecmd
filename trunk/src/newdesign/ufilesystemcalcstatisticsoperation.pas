@@ -10,7 +10,6 @@ uses
   uFileSource,
   uFileSourceOperationUI,
   uFile,
-  uFileSystemFile,
   uGlobs, uLog;
 
 type
@@ -20,8 +19,8 @@ type
   private
     FStatistics: TFileSourceCalcStatisticsOperationStatistics; // local copy of statistics
 
-    procedure ProcessFile(aFile: TFileSystemFile);
-    procedure ProcessLink(aFile: TFileSystemFile);
+    procedure ProcessFile(aFile: TFile);
+    procedure ProcessLink(aFile: TFile);
     procedure ProcessSubDirs(const srcPath: String);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
@@ -38,7 +37,8 @@ type
 implementation
 
 uses
-  uFileSourceOperationOptions, uOSUtils, uLng, uFindEx, uTypes;
+  uFileSourceOperationOptions, uOSUtils, uLng, uFindEx, uTypes,
+  uFileSystemFileSource;
 
 constructor TFileSystemCalcStatisticsOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -60,20 +60,16 @@ end;
 
 procedure TFileSystemCalcStatisticsOperation.MainExecute;
 var
-  aFile: TFileSystemFile;
   CurrentFileIndex: Integer;
 begin
   for CurrentFileIndex := 0 to Files.Count - 1 do
   begin
-    aFile := Files[CurrentFileIndex] as TFileSystemFile;
-
-    ProcessFile(aFile);
-
+    ProcessFile(Files[CurrentFileIndex]);
     CheckOperationState;
   end;
 end;
 
-procedure TFileSystemCalcStatisticsOperation.ProcessFile(aFile: TFileSystemFile);
+procedure TFileSystemCalcStatisticsOperation.ProcessFile(aFile: TFile);
 begin
   FStatistics.CurrentFile := aFile.Path + aFile.Name;
   UpdateStatistics(FStatistics);
@@ -127,16 +123,16 @@ begin
   UpdateStatistics(FStatistics);
 end;
 
-procedure TFileSystemCalcStatisticsOperation.ProcessLink(aFile: TFileSystemFile);
+procedure TFileSystemCalcStatisticsOperation.ProcessLink(aFile: TFile);
 var
   PathToFile: String;
-  aLinkFile: TFileSystemFile = nil;
+  aLinkFile: TFile = nil;
 begin
   PathToFile := mbReadAllLinks(aFile.FullPath);
   if PathToFile <> '' then
   begin
     try
-      aLinkFile := TFileSystemFile.CreateFromFile(PathToFile);
+      aLinkFile := TFileSystemFileSource.CreateFileFromFile(PathToFile);
       try
         ProcessFile(aLinkFile);
       finally
@@ -159,7 +155,7 @@ end;
 procedure TFileSystemCalcStatisticsOperation.ProcessSubDirs(const srcPath: String);
 var
   sr: TSearchRecEx;
-  aFile: TFileSystemFile;
+  aFile: TFile;
   FindResult: Longint;
 begin
   FindResult := FindFirstEx(srcPath + '*', faAnyFile, sr);
@@ -168,7 +164,7 @@ begin
     repeat
       if (sr.Name='.') or (sr.Name='..') then Continue;
 
-      aFile := TFileSystemFile.Create(srcPath, sr);
+      aFile := TFileSystemFileSource.CreateFile(srcPath, sr);
       try
         ProcessFile(aFile);
       finally
@@ -201,4 +197,4 @@ begin
 end;
 
 end.
-
+

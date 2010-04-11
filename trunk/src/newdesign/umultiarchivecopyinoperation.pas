@@ -10,7 +10,6 @@ uses
   uFileSource,
   uFileSourceOperation,
   uFile,
-  uFileSystemFile,
   uMultiArchiveFileSource;
 
 type
@@ -22,7 +21,7 @@ type
   private
     FMultiArchiveFileSource: IMultiArchiveFileSource;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
-    FFullFilesTree: TFileSystemFiles;
+    FFullFilesTree: TFiles;
     FPackingFlags: Integer;
     FPassword: UTF8String;
     FVolumeSize: Int64;
@@ -93,7 +92,7 @@ begin
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
-  FillAndCount(SourceFiles as TFileSystemFiles, False,
+  FillAndCount(SourceFiles, False,
                FFullFilesTree,
                FStatistics.TotalFiles,
                FStatistics.TotalBytes);     // gets full list of files (recursive)
@@ -106,7 +105,7 @@ var
   sCurrPath,
   sDestPath: String;
   MultiArcItem: TMultiArcItem;
-  aFile: TFileSystemFile;
+  aFile: TFile;
   sReadyCommand,
   sCommandLine: UTF8String;
 begin

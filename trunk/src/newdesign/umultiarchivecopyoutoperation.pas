@@ -10,7 +10,6 @@ uses
   uFileSource,
   uFileSourceOperation,
   uFile,
-  uMultiArchiveFile,
   uMultiArchiveFileSource;
 
 type
@@ -22,7 +21,7 @@ type
   private
     FMultiArchiveFileSource: IMultiArchiveFileSource;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
-    FFullFilesTreeToExtract: TMultiArchiveFiles;  // source files including all files/dirs in subdirectories
+    FFullFilesTreeToExtract: TFiles;  // source files including all files/dirs in subdirectories
 
     {en
       Creates neccessary paths before extracting files from archive.
@@ -109,7 +108,7 @@ begin
   if FFileMask = '' then FFileMask := '*';  // extract all selected files/folders
 
   with FMultiArchiveFileSource do
-  FillAndCount(FFileMask, SourceFiles as TMultiArchiveFiles,
+  FillAndCount(FFileMask, SourceFiles,
                True,
                FFullFilesTreeToExtract,
                FStatistics.TotalFiles,
@@ -124,7 +123,7 @@ var
   sTempDir: UTF8String;
   CreatedPaths: TStringHashList;
   I: Integer;
-  aFile: TMultiArchiveFile;
+  aFile: TFile;
   MultiArcItem: TMultiArcItem;
   sReadyCommand,
   sCommandLine: UTF8String;
@@ -145,9 +144,9 @@ begin
       for I:= 0 to FFullFilesTreeToExtract.Count - 1 do
       begin
         CheckOperationState;
-        aFile:= FFullFilesTreeToExtract[I] as TMultiArchiveFile;
+        aFile:= FFullFilesTreeToExtract[I];
         // Now check if the file is to be extracted.
-        if (not aFile.IsDirectory) then  // Omit directories (we handle them ourselves).
+        if (not aFile.AttributesProperty.IsDirectory) then  // Omit directories (we handle them ourselves).
           begin
             TargetFileName := TargetPath + ExtractDirLevel(SourcePath, aFile.FullPath);
             // go to target directory
@@ -207,8 +206,8 @@ begin
         // move files to real target directory
         for I:= 0 to FFullFilesTreeToExtract.Count - 1 do
         begin
-          aFile:= FFullFilesTreeToExtract[I] as TMultiArchiveFile;
-          if not aFile.IsDirectory then
+          aFile:= FFullFilesTreeToExtract[I];
+          if not aFile.AttributesProperty.IsDirectory then
             begin
               TargetFileName := TargetPath + ExtractDirLevel(SourcePath, aFile.FullPath);
               UpdateProgress(aFile.FullPath, TargetFileName, 0);
@@ -252,7 +251,7 @@ var
 
   i: Integer;
   CurrentFileName: String;
-  aFile: TMultiArchiveFile;
+  aFile: TFile;
   Directories: TStringList;
   PathIndex: Integer;
   ListIndex: Integer;
@@ -265,9 +264,9 @@ begin
 
   for I := 0 to theFiles.Count - 1 do
   begin
-    aFile := theFiles[I] as TMultiArchiveFile;
+    aFile := theFiles[I];
 
-    if aFile.IsDirectory then
+    if aFile.AttributesProperty.IsDirectory then
       begin
         CurrentFileName := ExtractDirLevel(CurrentArchiveDir, aFile.FullPath);
 
@@ -330,7 +329,7 @@ begin
                // Retrieve attributes for this directory, if they are stored.
                ListIndex := DirsAttributes.Find(Directories.Strings[i]);
                if ListIndex <> -1 then
-                 aFile := TMultiArchiveFile(DirsAttributes.List[ListIndex]^.Data)
+                 aFile := TFile(DirsAttributes.List[ListIndex]^.Data)
                else
                  aFile := nil;
 
@@ -353,7 +352,7 @@ function TMultiArchiveCopyOutOperation.SetDirsAttributes(const Paths: TStringHas
 var
   PathIndex: Integer;
   TargetDir: String;
-  aFile: TMultiArchiveFile;
+  aFile: TFile;
   Time: TFileTime;
 begin
   Result := True;
@@ -361,7 +360,7 @@ begin
   for PathIndex := 0 to Paths.Count - 1 do
   begin
     // Get attributes.
-    aFile := TMultiArchiveFile(Paths.List[PathIndex]^.Data);
+    aFile := TFile(Paths.List[PathIndex]^.Data);
 
     if Assigned(aFile) then
     begin

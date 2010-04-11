@@ -29,8 +29,8 @@ unit uColumns;
 interface
 
 uses
-  Classes, SysUtils, uClassesEx, LCLProc, Graphics, uFile, uFileProperty,
-  uXmlConfig;
+  Classes, SysUtils, uClassesEx, LCLProc, Graphics, uFile, uFileSource,
+  uFileProperty, uXmlConfig;
 
   type
 
@@ -90,7 +90,7 @@ type
  { TPanelColumnsType }
   TPanelColumn=class
   private
-    function ActGetInfo(FuncS: string; AFile: TFile): string;
+    function ActGetInfo(FuncS: string; AFile: TFile; const AFileSource: IFileSource): string;
     function GetFunctionByName(FuncS: string): TFileFunction;
   //------------------------------------------------------
   public
@@ -124,7 +124,7 @@ type
     function GetModName(str: string): string;
     function GetModType(str: string): string;
     //---------------------
-    function GetColumnResultString(AFile: TFile):string;
+    function GetColumnResultString(AFile: TFile; const AFileSource: IFileSource):string;
 
     {en
        Converts string functions in the column into their integer values,
@@ -177,7 +177,7 @@ type
 
     //---------------------
     function GetColumnItem(const Index:Integer):TPanelColumn;
-    function GetColumnItemResultString(const Index:Integer;const AFile: TFile):string;
+    function GetColumnItemResultString(const Index:Integer;const AFile: TFile; const AFileSource: IFileSource):string;
     function GetCount:Integer;
     function Add(Item:TPanelColumn):integer;
     function Add(const Title, FuncString:string;const  Width:integer;const Align: TAlignment=taLeftJustify):integer; overload;
@@ -260,7 +260,7 @@ type
 implementation
 
 uses
-  uLng, uGlobs, uDefaultFilePropertyFormatter, uFileSystemFile;
+  uLng, uGlobs, uDefaultFilePropertyFormatter, uFileSourceProperty;
 
 function StrToAlign(str:string):TAlignment;
 begin
@@ -423,11 +423,11 @@ begin
 end;
 
 function TPanelColumnsClass.GetColumnItemResultString(const Index: integer;
-  const AFile: TFile): string;
+  const AFile: TFile; const AFileSource: IFileSource): string;
 begin
   Result:='';
   if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).GetColumnResultString(AFile);
+  Result:=TPanelColumn(Flist[Index]).GetColumnResultString(AFile, AFileSource);
 end;
 
 constructor TPanelColumnsClass.Create;
@@ -915,7 +915,7 @@ begin
   Result:= Copy(S, 1, I - 1);
 end;
 
-function TPanelColumn.ActGetInfo(FuncS:string; AFile: TFile):string;
+function TPanelColumn.ActGetInfo(FuncS:string; AFile: TFile; const AFileSource: IFileSource):string;
  //---------------------
   const
      //---------------------
@@ -959,12 +959,12 @@ begin
               fsfSize:
                 begin
                   if (AFile.IsDirectory or AFile.IsLinkToDirectory) and
-                     ((AFile.Properties[fpSize] as TFileSizeProperty).Value = 0)
+                     (AFile.Size = 0)
                   then
                     Result := '<DIR>'
                   else
                     Result := AFile.Properties[fpSize].Format(DefaultFilePropertyFormatter);
-                 end;
+                end;
               fsfAttr:
                 Result := AFile.Properties[fpAttributes].Format(DefaultFilePropertyFormatter);
               fsfPath:
@@ -1001,7 +1001,7 @@ begin
         //Plugin function
         //------------------------------------------------------
         if AType=Plugin then
-          if AFile is TFileSystemFile then // Temporary fix
+          if fspDirectAccess in AFileSource.Properties then
           begin
             if not gWdxPlugins.IsLoaded(AName) then
               if not gWdxPlugins.LoadModule(AName) then Exit;
@@ -1066,7 +1066,7 @@ begin
       Result := fsfInvalid;
 end;
 
-function TPanelColumn.GetColumnResultString(AFile: TFile): string;
+function TPanelColumn.GetColumnResultString(AFile: TFile; const AFileSource: IFileSource): string;
 var i:integer; s:String;
 begin
 
@@ -1082,7 +1082,7 @@ begin
      else
      //Item is function
        begin
-         s:=s+ActGetInfo(FuncList[I], AFile);
+         s:=s+ActGetInfo(FuncList[I], AFile, AFileSource);
        end;
    end;
    Result:=s;

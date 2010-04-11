@@ -23,11 +23,11 @@ type
 implementation
 
 uses
-  LCLProc, uVfsFile;
+  LCLProc, uFile;
 
 constructor TVfsListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
-  FFiles := TVfsFiles.Create(aPath);
+  FFiles := TFiles.Create(aPath);
   FVfsFileSource := aFileSource as IVfsFileSource;
   inherited Create(aFileSource, aPath);
 end;
@@ -35,14 +35,14 @@ end;
 procedure TVfsListOperation.MainExecute;
 var
   I : Integer;
-  aFile: TVfsFile;
+  aFile: TFile;
 begin
   FFiles.Clear;
 
   with FVfsFileSource do
   for I := 0 to VfsFileList.Count - 1 do
     begin
-      aFile := TVfsFile.Create(Path);
+      aFile := TVfsFileSource.CreateFile(Path);
       aFile.Name:= VfsFileList.Name[I];
       //aFile.ModificationTime:= FileDateToDateTime(mbFileAge(VfsFileList.FileName[I]));
       FFiles.Add(aFile);

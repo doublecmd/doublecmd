@@ -16,7 +16,8 @@ type
     fpAttributes,
     fpModificationTime,
     fpCreationTime,
-    fpLastAccessTime
+    fpLastAccessTime,
+    fpLink
   );
 
   TFilePropertiesTypes = set of TFilePropertyType;
@@ -254,6 +255,26 @@ type
     class function GetDescription: String; override;
 
     function Format(Formatter: IFilePropertyFormatter): String; override;
+  end;
+
+  TFileLinkProperty = class(TFileProperty)
+
+  private
+    FIsLinkToDirectory: Boolean;
+
+  public
+    constructor Create; override;
+    constructor Create(ALinkToDir: Boolean); virtual; overload;
+
+    function Clone: TFileLinkProperty; override;
+    procedure CloneTo(FileProperty: TFileProperty); override;
+
+    class function GetDescription: String; override;
+    class function GetID: TFilePropertyType; override;
+
+    function Format(Formatter: IFilePropertyFormatter): String; override;
+
+    property IsLinkToDirectory: Boolean read FIsLinkToDirectory write FIsLinkToDirectory;
   end;
 
   // -- Property formatter interface ------------------------------------------
@@ -697,6 +718,51 @@ end;
 function TUnixFileAttributesProperty.Format(Formatter: IFilePropertyFormatter): String;
 begin
   Result := Formatter.FormatUnixAttributes(Self);
+end;
+
+constructor TFileLinkProperty.Create;
+begin
+  Create(False);
+end;
+
+constructor TFileLinkProperty.Create(ALinkToDir: Boolean);
+begin
+  inherited Create;
+  FIsLinkToDirectory := ALinkToDir;
+end;
+
+function TFileLinkProperty.Clone: TFileLinkProperty;
+begin
+  Result := TFileLinkProperty.Create;
+  CloneTo(Result);
+end;
+
+procedure TFileLinkProperty.CloneTo(FileProperty: TFileProperty);
+begin
+  if Assigned(FileProperty) then
+  begin
+    inherited CloneTo(FileProperty);
+
+    with FileProperty as TFileLinkProperty do
+    begin
+      FIsLinkToDirectory := Self.FIsLinkToDirectory;
+    end;
+  end;
+end;
+
+class function TFileLinkProperty.GetDescription: String;
+begin
+  Result := '';
+end;
+
+class function TFileLinkProperty.GetID: TFilePropertyType;
+begin
+  Result := fpLink;
+end;
+
+function TFileLinkProperty.Format(Formatter: IFilePropertyFormatter): String;
+begin
+  Result := '';
 end;
 
 end.

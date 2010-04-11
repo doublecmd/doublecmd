@@ -521,7 +521,7 @@ uses
   uFileSourceOperationTypes,
   uFileSourceOperationOptions,
   uFileSourceCalcStatisticsOperation,
-  uFileSystemFile,
+  uFileSystemFileSource,
   fColumnsSetConf,
   uKeyboard,
   uFileSourceUtil
@@ -563,7 +563,7 @@ function TColumnsFileView.GetDisplayedFiles: TFiles;
 var
   i: Integer;
 begin
-  Result := FFileSourceFiles.CreateObjectOfSameType(CurrentPath);
+  Result := TFiles.Create(CurrentPath);
 
   for i := 0 to FFiles.Count - 1 do
   begin
@@ -576,7 +576,7 @@ var
   i: Integer;
   aFile: TColumnsViewFile;
 begin
-  Result := FFileSourceFiles.CreateObjectOfSameType(CurrentPath);
+  Result := TFiles.Create(CurrentPath);
 
   for i := 0 to FFiles.Count - 1 do
   begin
@@ -3127,7 +3127,7 @@ begin
      (fpSize in theFile.TheFile.SupportedProperties) and
      theFile.TheFile.IsDirectory then
   begin
-    TargetFiles := FileSource.CreateFiles(CurrentPath);
+    TargetFiles := TFiles.Create(CurrentPath);
     try
       TargetFiles.Add(theFile.TheFile.Clone);
 
@@ -3610,7 +3610,7 @@ var
                                aRect.Top + (RowHeights[ARow] - gIconsSize) div 2);
     end;
 
-    s := ColumnsSet.GetColumnItemResultString(ACol, AFile.TheFile);
+    s := ColumnsSet.GetColumnItemResultString(ACol, AFile.TheFile, ColumnsView.FileSource);
 
     if gCutTextToColWidth then
     begin
@@ -3630,7 +3630,7 @@ var
   var
     tw, cw: Integer;
   begin
-    s := ColumnsSet.GetColumnItemResultString(ACol, AFile.TheFile);
+    s := ColumnsSet.GetColumnItemResultString(ACol, AFile.TheFile, ColumnsView.FileSource);
 
     if gCutTextToColWidth then
     begin
@@ -4037,7 +4037,7 @@ var
 begin
   if FileNamesList.Count > 0 then
   begin
-    Files := TFileSystemFiles.CreateFromFiles(
+    Files := TFileSystemFileSource.CreateFilesFromFileList(
         ExtractFilePath(FileNamesList[0]), FileNamesList);
     try
       TargetFileView := Self.Parent as TFileView;
@@ -4426,10 +4426,10 @@ begin
       // Add '..' to go to higher level file source, if there is more than one.
       if (FFileSourcesCount > 1) and (FFileSource.IsPathAtRoot(FCurrentPath)) then
       begin
-        AFile := FTmpFileSourceFiles.CreateFileObject(FCurrentPath);
+        AFile := FFileSource.CreateFileObject(FCurrentPath);
         AFile.Name := '..';
         if fpAttributes in AFile.SupportedProperties then
-          (AFile.Properties[fpAttributes] as TFileAttributesProperty).Value := faFolder;
+          AFile.Attributes := faFolder;
         FTmpFileSourceFiles.Insert(AFile, 0);
       end;
     end;

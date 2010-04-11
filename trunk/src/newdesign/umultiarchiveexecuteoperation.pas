@@ -9,8 +9,7 @@ uses
   uFile,
   uFileSource,
   uFileSourceExecuteOperation,
-  uMultiArchiveFileSource,
-  uMultiArchiveFile;
+  uMultiArchiveFileSource;
 
 type
 
@@ -19,7 +18,7 @@ type
   TMultiArchiveExecuteOperation = class(TFileSourceExecuteOperation)
   private
     FMultiArchiveFileSource: IMultiArchiveFileSource;
-    FMultiArchiveFile: TMultiArchiveFile;
+    FMultiArchiveFile: TFile;
   public
     {en
        @param(aTargetFileSource
@@ -51,7 +50,7 @@ constructor TMultiArchiveExecuteOperation.Create(
                 aVerb: UTF8String);
 begin
   FMultiArchiveFileSource := aTargetFileSource as IMultiArchiveFileSource;
-  FMultiArchiveFile:= aExecutableFile as TMultiArchiveFile;
+  FMultiArchiveFile:= aExecutableFile;
   inherited Create(aTargetFileSource, aExecutableFile, aCurrentPath, aVerb);
 end;
 

@@ -11,7 +11,6 @@ uses
   uFileSourceOperation,
   uFileSourceOperationUI,
   uFile,
-  uMultiArchiveFile,
   uMultiArchiveFileSource,
   uGlobs, uLog, un_process;
 
@@ -24,7 +23,7 @@ type
   private
     FMultiArchiveFileSource: IMultiArchiveFileSource;
     FStatistics: TFileSourceTestArchiveOperationStatistics; // local copy of statistics
-    FFullFilesTreeToTest: TMultiArchiveFiles;  // source files including all files/dirs in subdirectories
+    FFullFilesTreeToTest: TFiles;  // source files including all files/dirs in subdirectories
 
     procedure ShowError(sMessage: String; logOptions: TLogOptions);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
@@ -82,7 +81,7 @@ begin
   FStatistics.ArchiveFile:= FMultiArchiveFileSource.ArchiveFileName;
 
   with FMultiArchiveFileSource do
-  FillAndCount('*.*', SourceFiles as TMultiArchiveFiles,
+  FillAndCount('*.*', SourceFiles,
                True,
                FFullFilesTreeToTest,
                FStatistics.TotalFiles,
@@ -93,7 +92,7 @@ procedure TMultiArchiveTestArchiveOperation.MainExecute;
 var
   I: Integer;
   MultiArcItem: TMultiArcItem;
-  aFile: TMultiArchiveFile;
+  aFile: TFile;
   sReadyCommand,
   sCommandLine: UTF8String;
 begin
@@ -104,7 +103,7 @@ begin
   if Pos('%F', sCommandLine) <> 0 then // test file by file
     for I:=0 to FFullFilesTreeToTest.Count - 1 do
     begin
-      aFile:= FFullFilesTreeToTest[I] as TMultiArchiveFile;
+      aFile:= FFullFilesTreeToTest[I];
       UpdateProgress(aFile.FullPath, 0);
 
       sReadyCommand:= FormatArchiverCommand(

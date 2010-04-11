@@ -58,8 +58,8 @@ implementation
 
 uses
   LCLProc, Dialogs, SysUtils, uLng, uGlobs, uClassesEx, uDCUtils,
-  uOSUtils, uFileSystemFileSource, uFileSystemFile,
-  uFile, uFileSystemDeleteOperation, uFileSourceOperationOptions;
+  uOSUtils, uFileSystemFileSource, uFile, uFileSystemDeleteOperation,
+  uFileSourceOperationOptions;
 
 const
   cBlockSize=16384; // size of block if copyfile
@@ -129,9 +129,9 @@ var
   DeleteOperation: TFileSystemDeleteOperation = nil;
   aFiles: TFiles = nil;
 begin
-  aFiles := TFileSystemFiles.Create(sFolderName);
+  aFiles := TFiles.Create(sFolderName);
   try
-    aFiles.Add(TFileSystemFile.CreateFromFile(sFolderName));
+    aFiles.Add(TFileSystemFileSource.CreateFileFromFile(sFolderName));
 
     DeleteOperation := TFileSystemDeleteOperation.Create(
       TFileSystemFileSource.GetFileSource, aFiles);

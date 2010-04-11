@@ -75,6 +75,8 @@ type
                        aWcxPluginCapabilities: PtrInt); reintroduce;
     destructor Destroy; override;
 
+    class function CreateFile(const APath: String; WcxHeader: TWCXHeader): TFile; overload;
+
     // Retrieve operations permitted on the source.  = capabilities?
     function GetOperationsTypes: TFileSourceOperationTypes; override;
 
@@ -127,7 +129,7 @@ implementation
 uses
   uGlobs, LCLProc, uDCUtils,
   uDateTimeUtils,
-  FileUtil, uWcxArchiveFile,
+  FileUtil,
   uWcxArchiveListOperation,
   uWcxArchiveCopyInOperation,
   uWcxArchiveCopyOutOperation,
@@ -230,6 +232,33 @@ begin
     FreeAndNil(FWcxModule);
 end;
 
+class function TWcxArchiveFileSource.CreateFile(const APath: String; WcxHeader: TWCXHeader): TFile;
+begin
+  Result := TFile.Create(APath);
+
+  with Result do
+  begin
+  {
+      FileCRC,
+      CompressionMethod,
+      Comment,
+  }
+    SizeProperty := TFileSizeProperty.Create(WcxHeader.UnpSize);
+    CompressedSizeProperty := TFileCompressedSizeProperty.Create(WcxHeader.PackSize);
+    AttributesProperty := {TNtfsFileAttributesProperty or Unix?}
+                          TFileAttributesProperty.CreateOSAttributes(WcxHeader.FileAttr);
+    ModificationTimeProperty := TFileModificationDateTimeProperty.Create(0);
+    try
+      ModificationTime := WcxFileTimeToDateTime(WcxHeader);
+    except
+      on EConvertError do;
+    end;
+
+    // Set name after assigning Attributes property, because it is used to get extension.
+    Name := ExtractFileName(WcxHeader.FileName);
+  end;
+end;
+
 function TWcxArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   Result := [fsoList, fsoCopyOut, fsoTestArchive, fsoExecute]; // by default
@@ -256,7 +285,7 @@ end;
 
 function TWcxArchiveFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
-  Result := TWcxArchiveFile.GetSupportedProperties;
+  Result := inherited GetSupportedFileProperties;
 end;
 
 function TWcxArchiveFileSource.SetCurrentWorkingDirectory(NewDir: String): Boolean;

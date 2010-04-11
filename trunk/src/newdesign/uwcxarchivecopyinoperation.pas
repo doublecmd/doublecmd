@@ -10,7 +10,6 @@ uses
   uFileSource,
   uFileSourceOperation,
   uFile,
-  uFileSystemFile,
   uWcxArchiveFileSource;
 
 type
@@ -19,7 +18,7 @@ type
   private
     FWcxArchiveFileSource: IWcxArchiveFileSource;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
-    FFullFilesTree: TFileSystemFiles;
+    FFullFilesTree: TFiles;
     FPackingFlags: Integer; // Packing flags passed to plugin
 
     {en
@@ -188,7 +187,7 @@ begin
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
-  FillAndCount(SourceFiles as TFileSystemFiles, False,
+  FillAndCount(SourceFiles, False,
                FFullFilesTree,
                FStatistics.TotalFiles,
                FStatistics.TotalBytes);     // gets full list of files (recursive)

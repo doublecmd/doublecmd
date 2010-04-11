@@ -79,8 +79,6 @@ type
     function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
     function GetProperties: TFileSourceProperties; override;
 
-    function CreateFiles(const APath: String): TFiles; override;
-
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
     function CreateCopyOutOperation(TargetFileSource: IFileSource;
                                     var SourceFiles: TFiles;
@@ -177,11 +175,6 @@ end;
 function TMultiListFileSource.GetFileSource: IFileSource;
 begin
   Result := FFileSource;
-end;
-
-function TMultiListFileSource.CreateFiles(const APath: String): TFiles;
-begin
-  Result := FFileSource.CreateFiles(APath);
 end;
 
 function TMultiListFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;

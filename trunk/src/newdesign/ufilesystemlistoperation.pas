@@ -21,17 +21,17 @@ type
 implementation
 
 uses
-  uFileSystemFile, uFindEx, uOSUtils, uTypes;
+  uFile, uFindEx, uOSUtils, uTypes, uFileSystemFileSource;
 
 constructor TFileSystemListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
-  FFiles := TFileSystemFiles.Create(aPath);
+  FFiles := TFiles.Create(aPath);
   inherited Create(aFileSource, aPath);
 end;
 
 procedure TFileSystemListOperation.MainExecute;
 var
-  AFile: TFileSystemFile;
+  AFile: TFile;
   sr: TSearchRecEx;
   IsRootPath: Boolean;
 begin
@@ -46,7 +46,7 @@ begin
 
     if not IsRootPath then
     begin
-      AFile := TFileSystemFile.Create(Path);
+      AFile := TFileSystemFileSource.CreateFile(Path);
       AFile.Name := '..';
       AFile.Attributes := faFolder;
       FFiles.Add(AFile);
@@ -62,7 +62,7 @@ begin
     if (sr.Name='..') and IsRootPath then
       Continue;
 
-    AFile := TFileSystemFile.Create(Path, sr);
+    AFile := TFileSystemFileSource.CreateFile(Path, sr);
     FFiles.Add(AFile);
 
   until FindNextEx(sr)<>0;
@@ -70,4 +70,4 @@ begin
 end;
 
 end.
-
+

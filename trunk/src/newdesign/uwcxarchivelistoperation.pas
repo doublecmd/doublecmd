@@ -23,11 +23,11 @@ type
 implementation
 
 uses
-  LCLProc, uOSUtils, uDCUtils, uWcxArchiveFile, uWCXmodule;
+  LCLProc, uOSUtils, uDCUtils, uWCXmodule, uFile;
 
 constructor TWcxArchiveListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
-  FFiles := TWcxArchiveFiles.Create(aPath);
+  FFiles := TFiles.Create(aPath);
   FWcxArchiveFileSource := aFileSource as IWcxArchiveFileSource;
   inherited Create(aFileSource, aPath);
 end;
@@ -37,13 +37,13 @@ var
   I : Integer;
   CurrFileName : String;  // Current file name
   ArcFileList: TList;
-  aFile: TWcxArchiveFile;
+  aFile: TFile;
 begin
   FFiles.Clear;
 
   if not FileSource.IsPathAtRoot(Path) then
   begin
-    aFile := TWcxArchiveFile.Create(Path);
+    aFile := TWcxArchiveFileSource.CreateFile(Path);
     aFile.Name := '..';
     aFile.Attributes := faFolder;
     FFiles.Add(AFile);
@@ -57,8 +57,8 @@ begin
       if not IsInPath(Path, CurrFileName, False) then
         Continue;
 
-      aFile := TWcxArchiveFile.Create(Path, TWCXHeader(ArcFileList.Items[I]));
-      FFiles.Add(AFile);
+      aFile := TWcxArchiveFileSource.CreateFile(Path, TWCXHeader(ArcFileList.Items[I]));
+      FFiles.Add(aFile);
     end;
 end;
 

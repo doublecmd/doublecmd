@@ -48,7 +48,6 @@ uses
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFile,
-  uFileSystemFile,
   uDescr, uGlobs, uLog;
 
 type
@@ -67,7 +66,7 @@ type
     procedure WipeDir(dir: string);
     procedure WipeFile(filename: String);
   private
-    FFullFilesTreeToDelete: TFileSystemFiles;  // source files including all files/dirs in subdirectories
+    FFullFilesTreeToDelete: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceWipeOperationStatistics; // local copy of statistics
     FDescription: TDescription;
 
@@ -77,7 +76,7 @@ type
     FDeleteReadOnly: TFileSourceOperationOptionGeneral;
 
   protected
-    procedure Wipe(aFile: TFileSystemFile);
+    procedure Wipe(aFile: TFile);
     function ShowError(sMessage: String): TFileSourceOperationUIResponse;
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
@@ -132,7 +131,7 @@ begin
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
-  FillAndCount(FilesToWipe as TFileSystemFiles, True,
+  FillAndCount(FilesToWipe, True,
                FFullFilesTreeToDelete,
                FStatistics.TotalFiles,
                FStatistics.TotalBytes);     // gets full list of files (recursive)
@@ -143,13 +142,13 @@ end;
 
 procedure TFileSystemWipeOperation.MainExecute;
 var
-  aFile: TFileSystemFile;
+  aFile: TFile;
   CurrentFileIndex: Integer;
   OldDoneBytes: Int64; // for if there was an error
 begin
   for CurrentFileIndex := FFullFilesTreeToDelete.Count - 1 downto 0 do
   begin
-    aFile := FFullFilesTreeToDelete[CurrentFileIndex] as TFileSystemFile;
+    aFile := FFullFilesTreeToDelete[CurrentFileIndex];
 
     FStatistics.CurrentFile := aFile.Path + aFile.Name;
     UpdateStatistics(FStatistics);
@@ -390,13 +389,13 @@ begin
     FindCloseEx(SRec);
 end;
 
-procedure TFileSystemWipeOperation.Wipe(aFile: TFileSystemFile);
+procedure TFileSystemWipeOperation.Wipe(aFile: TFile);
 var
   FileName: String;
 begin
   try
     FileName:= aFile.Path + aFile.Name;
-    if aFile.IsDirectory then // directory
+    if aFile.AttributesProperty.IsDirectory then // directory
       WipeDir(FileName)
     else // files
       WipeFile(FileName);
@@ -444,4 +443,4 @@ begin
 end;
 
 end.
-
+

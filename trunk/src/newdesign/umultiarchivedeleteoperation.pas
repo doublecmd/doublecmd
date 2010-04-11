@@ -11,7 +11,6 @@ uses
   uFileSourceOperation,
   uFileSourceOperationUI,
   uFile,
-  uMultiArchiveFile,
   uMultiArchiveFileSource,
   uGlobs, uLog, un_process;
 
@@ -24,7 +23,7 @@ type
   private
     FMultiArchiveFileSource: IMultiArchiveFileSource;
     FStatistics: TFileSourceDeleteOperationStatistics; // local copy of statistics
-    FFullFilesTreeToDelete: TMultiArchiveFiles;  // source files including all files/dirs in subdirectories
+    FFullFilesTreeToDelete: TFiles;  // source files including all files/dirs in subdirectories
 
     procedure ShowError(sMessage: String; logOptions: TLogOptions);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
@@ -81,7 +80,7 @@ begin
   FStatistics := RetrieveStatistics;
 
   with FMultiArchiveFileSource do
-  FillAndCount('*.*', FilesToDelete as TMultiArchiveFiles,
+  FillAndCount('*.*', FilesToDelete,
                True,
                FFullFilesTreeToDelete,
                FStatistics.TotalFiles,
@@ -92,7 +91,7 @@ procedure TMultiArchiveDeleteOperation.MainExecute;
 var
   I: Integer;
   MultiArcItem: TMultiArcItem;
-  aFile: TMultiArchiveFile;
+  aFile: TFile;
   sReadyCommand,
   sCommandLine: UTF8String;
 begin
@@ -103,7 +102,7 @@ begin
   if Pos('%F', sCommandLine) <> 0 then // delete file by file
     for I:=0 to FFullFilesTreeToDelete.Count - 1 do
     begin
-      aFile:= FFullFilesTreeToDelete[I] as TMultiArchiveFile;
+      aFile:= FFullFilesTreeToDelete[I];
       UpdateProgress(aFile.FullPath, 0);
 
       sReadyCommand:= FormatArchiverCommand(

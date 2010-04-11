@@ -594,7 +594,7 @@ uses
   uDragDropEx, StrUtils, uKeyboard, uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSystemCopyOperation, uFileSystemMoveOperation, uFileSourceProperty,
-  uFileSourceExecuteOperation, uArchiveFileSource, uShellExecute, uActs, uFileSystemFile,
+  uFileSourceExecuteOperation, uArchiveFileSource, uShellExecute, uActs,
   fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd
   {$IFDEF LCLQT}
     , qtwidgets
@@ -935,7 +935,7 @@ begin
     for I := Low(FileNames) to High(FileNames) do
       FileNamesList.Add(FileNames[I]);
 
-    Files := TFileSystemFiles.CreateFromFiles(
+    Files := TFileSystemFileSource.CreateFilesFromFileList(
         ExtractFilePath(FileNames[Low(FileNames)]), FileNamesList);
 
     GetCursorPos(Point);

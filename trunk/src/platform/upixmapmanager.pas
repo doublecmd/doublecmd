@@ -182,7 +182,7 @@ implementation
 
 uses
   GraphType, LCLIntf, LCLType, LCLProc, Forms, FileUtil, uGlobsPaths, WcxPlugin,
-  uGlobs, uDCUtils, uFileSystemFile, uReSample
+  uGlobs, uDCUtils, uFileSystemFileSource, uReSample
   {$IFDEF LCLGTK2}
     , uPixMapGtk, gtkdef, gdk2pixbuf, gdk2, glib2
   {$ENDIF}
@@ -237,7 +237,7 @@ var
   phIconSmall : HICON;
   Icon : TIcon = nil;
 {$ENDIF}
-  AFile: TFileSystemFile;
+  AFile: TFile;
   iIndex : PtrInt;
   sExtFilter,
   sGraphicFilter : String;
@@ -321,7 +321,7 @@ begin
         begin
           if mbFileExists(sFileName) or mbDirectoryExists(sFileName) then
             begin
-              AFile := TFileSystemFile.CreateFromFile(sFileName);
+              AFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
               iIndex := PixMapManager.GetIconByFile(AFile, True);
               bmStandartBitmap := PixMapManager.GetBitmap(iIndex, clBackColor);
               FreeAndNil(AFile);
