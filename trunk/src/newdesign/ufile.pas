@@ -71,6 +71,8 @@ type
     procedure SetLastAccessTimeProperty(NewValue: TFileLastAccessDateTimeProperty);
     function GetLinkProperty: TFileLinkProperty;
     procedure SetLinkProperty(NewValue: TFileLinkProperty);
+    function GetOwnerProperty: TFileOwnerProperty;
+    procedure SetOwnerProperty(NewValue: TFileOwnerProperty);
 
   public
     constructor Create(const APath: String);
@@ -130,6 +132,7 @@ type
     property CreationTimeProperty: TFileCreationDateTimeProperty read GetCreationTimeProperty write SetCreationTimeProperty;
     property LastAccessTimeProperty: TFileLastAccessDateTimeProperty read GetLastAccessTimeProperty write SetLastAccessTimeProperty;
     property LinkProperty: TFileLinkProperty read GetLinkProperty write SetLinkProperty;
+    property OwnerProperty: TFileOwnerProperty read GetOwnerProperty write SetOwnerProperty;
 
     { Accessors to each property's value. }
 
@@ -561,6 +564,20 @@ begin
     Include(FSupportedProperties, fpLink)
   else
     Exclude(FSupportedProperties, fpLink);
+end;
+
+function TFile.GetOwnerProperty: TFileOwnerProperty;
+begin
+  Result := TFileOwnerProperty(FProperties[fpOwner]);
+end;
+
+procedure TFile.SetOwnerProperty(NewValue: TFileOwnerProperty);
+begin
+  FProperties[fpOwner] := NewValue;
+  if Assigned(NewValue) then
+    Include(FSupportedProperties, fpOwner)
+  else
+    Exclude(FSupportedProperties, fpOwner);
 end;
 
 function TFile.IsNameValid: Boolean;

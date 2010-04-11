@@ -51,9 +51,19 @@ uses
      constructor Create;
    end;
 
-  TFileFunction = (fsfName, fsfExtension, fsfSize, fsfAttr, fsfPath,
-                   fsfGroup, fsfOwner, fsfModificationTime, fsfLinkTo,
-                   fsfNameNoExtension, fsfInvalid);
+  TFileFunction = (fsfName,
+                   fsfExtension,
+                   fsfSize,
+                   fsfAttr,
+                   fsfPath,
+                   fsfGroup,
+                   fsfOwner,
+                   fsfModificationTime,
+                   fsfCreationTime,
+                   fsfLastAccessTime,
+                   fsfLinkTo,
+                   fsfNameNoExtension,
+                   fsfInvalid);
 
   TFileFunctions = array of TFileFunction;
 
@@ -66,6 +76,8 @@ uses
                'GETFILEGROUP',
                'GETFILEOWNER',
                'GETFILETIME',
+               'GETFILECREATIONTIME',
+               'GETFILELASTACCESSTIME',
                'GETFILELINKTO',
                'GETFILENAMENOEXT',
                ''                 // fsfInvalid
@@ -78,10 +90,12 @@ uses
                [fpSize],
                [fpAttributes],
                [] { path },
-               [] {fpGroup},
-               [] {fpOwner},
+               [fpOwner],
+               [fpOwner],
                [fpModificationTime],
-               [] {fpLinkTo},
+               [fpCreationTime],
+               [fpLastAccessTime],
+               [fpLink],
                [fpName],
                [] { invalid });
 
@@ -965,22 +979,40 @@ begin
                   else
                     Result := AFile.Properties[fpSize].Format(DefaultFilePropertyFormatter);
                 end;
+
               fsfAttr:
                 Result := AFile.Properties[fpAttributes].Format(DefaultFilePropertyFormatter);
+
               fsfPath:
                 Result := AFile.Path;
-{
+
               fsfGroup:
-                Result:=ptr^.sGroup;
+                if fpOwner in AFile.SupportedProperties then
+                  Result := AFile.OwnerProperty.GroupStr
+                else
+                  Result := '';
+
               fsfOwner:
-                Result:=ptr^.sOwner;
-}
+                if fpOwner in AFile.SupportedProperties then
+                  Result := AFile.OwnerProperty.OwnerStr
+                else
+                  Result := '';
+
               fsfModificationTime:
                 Result := AFile.Properties[fpModificationTime].Format(DefaultFilePropertyFormatter);
-{
+
+              fsfCreationTime:
+                Result := AFile.Properties[fpCreationTime].Format(DefaultFilePropertyFormatter);
+
+              fsfLastAccessTime:
+                Result := AFile.Properties[fpLastAccessTime].Format(DefaultFilePropertyFormatter);
+
               fsfLinkTo:
-                Result:=ptr^.sLinkTo;
-}
+                if fpLink in AFile.SupportedProperties then
+                  Result := AFile.LinkProperty.LinkTo
+                else
+                  Result := '';
+
               fsfNameNoExtension:
                 begin
                    // Show square brackets around directories
@@ -991,7 +1023,6 @@ begin
                    else
                      Result:= AFile.NameNoExt;
                  end;
-        //     10: Result:=ptr^.
             end;
             Exit;
           end;
