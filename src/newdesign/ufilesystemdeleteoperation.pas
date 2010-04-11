@@ -11,7 +11,6 @@ uses
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFile,
-  uFileSystemFile,
   uDescr, uGlobs, uLog;
 
 type
@@ -19,7 +18,7 @@ type
   TFileSystemDeleteOperation = class(TFileSourceDeleteOperation)
 
   private
-    FFullFilesTreeToDelete: TFileSystemFiles;  // source files including all files/dirs in subdirectories
+    FFullFilesTreeToDelete: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceDeleteOperationStatistics; // local copy of statistics
     FDescription: TDescription;
 
@@ -31,7 +30,7 @@ type
     FDeleteDirectly: TFileSourceOperationOptionGeneral;
 
   protected
-    function ProcessFile(aFile: TFileSystemFile): Boolean;
+    function ProcessFile(aFile: TFile): Boolean;
     function ShowError(sMessage: String): TFileSourceOperationUIResponse;
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
@@ -99,12 +98,12 @@ begin
 
   if FRecycle then
     begin
-      FFullFilesTreeToDelete:= FilesToDelete as TFileSystemFiles;
+      FFullFilesTreeToDelete:= FilesToDelete;
       FStatistics.TotalFiles:= FFullFilesTreeToDelete.Count;
     end
   else
     begin
-      FillAndCount(FilesToDelete as TFileSystemFiles, True,
+      FillAndCount(FilesToDelete, True,
                    FFullFilesTreeToDelete,
                    FStatistics.TotalFiles,
                    FStatistics.TotalBytes);     // gets full list of files (recursive)
@@ -116,12 +115,12 @@ end;
 
 procedure TFileSystemDeleteOperation.MainExecute;
 var
-  aFile: TFileSystemFile;
+  aFile: TFile;
   CurrentFileIndex: Integer;
 begin
   for CurrentFileIndex := FFullFilesTreeToDelete.Count - 1 downto 0 do
   begin
-    aFile := FFullFilesTreeToDelete[CurrentFileIndex] as TFileSystemFile;
+    aFile := FFullFilesTreeToDelete[CurrentFileIndex];
 
     FStatistics.CurrentFile := aFile.Path + aFile.Name;
     UpdateStatistics(FStatistics);
@@ -144,7 +143,7 @@ procedure TFileSystemDeleteOperation.Finalize;
 begin
 end;
 
-function TFileSystemDeleteOperation.ProcessFile(aFile: TFileSystemFile): Boolean;
+function TFileSystemDeleteOperation.ProcessFile(aFile: TFile): Boolean;
 var
   FileName: String;
   bRetry: Boolean;

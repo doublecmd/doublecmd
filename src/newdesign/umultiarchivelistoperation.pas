@@ -23,11 +23,11 @@ type
 implementation
 
 uses
-  LCLProc, uOSUtils, uDCUtils, uMultiArchiveFile, uMultiArc;
+  LCLProc, uOSUtils, uDCUtils, uMultiArc, uFile;
 
 constructor TMultiArchiveListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
-  FFiles := TMultiArchiveFiles.Create(aPath);
+  FFiles := TFiles.Create(aPath);
   FMultiArchiveFileSource := aFileSource as IMultiArchiveFileSource;
   inherited Create(aFileSource, aPath);
 end;
@@ -37,13 +37,13 @@ var
   I : Integer;
   CurrFileName : String;  // Current file name
   ArcFileList: TList;
-  aFile: TMultiArchiveFile;
+  aFile: TFile;
 begin
   FFiles.Clear;
 
   if not FileSource.IsPathAtRoot(Path) then
   begin
-    aFile := TMultiArchiveFile.Create(Path);
+    aFile := TMultiArchiveFileSource.CreateFile(Path);
     aFile.Name := '..';
     aFile.Attributes := faFolder;
     FFiles.Add(AFile);
@@ -57,7 +57,7 @@ begin
       if not IsInPath(Path, CurrFileName, False) then
         Continue;
 
-      aFile := TMultiArchiveFile.Create(Path, TArchiveItem(ArcFileList.Items[I]));
+      aFile := TMultiArchiveFileSource.CreateFile(Path, TArchiveItem(ArcFileList.Items[I]));
       FFiles.Add(AFile);
     end;
 end;

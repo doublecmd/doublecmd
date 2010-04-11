@@ -268,8 +268,8 @@ uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      uOperationsManager, uFileSourceOperationTypes,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
-     uFileSourceCalcStatisticsOperation, uFileSystemFile,
-     uFileSource, uFileSourceProperty, uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil,
+     uFileSourceCalcStatisticsOperation, uFileSource, uFileSourceProperty,
+     uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
      uFileSorting;
 
@@ -2604,7 +2604,7 @@ begin
     if PasteFromClipboard(ClipboardOp, filenamesList) = True then
     try
       // fill file list with files
-      Files := TFileSystemFiles.CreateFromFiles(
+      Files := TFileSystemFileSource.CreateFilesFromFileList(
           ExtractFilePath(filenamesList[0]), fileNamesList);
 
       case ClipboardOp of

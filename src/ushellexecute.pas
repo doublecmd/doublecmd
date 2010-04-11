@@ -42,7 +42,7 @@ implementation
 
 uses
   Process, UTF8Process, StrUtils, uDCUtils, uShowForm, uGlobs, uOSUtils,
-  uFileSystemFile, uClassesEx;
+  uFileSystemFileSource, uClassesEx;
 
 {
   Functions (without parameters they give output for all selected files):
@@ -483,15 +483,14 @@ end;
 
 function ShellExecuteEx(sCmd, sFileName, sActiveDir: String): Boolean;
 var
-  aFile: TFileSystemFile;
+  aFile: TFile;
   sCommand: String;
 begin
   Result:= False;
 
   // Executing files directly only works for FileSystem.
 
-  aFile := TFileSystemFile.Create(ExtractFilePath(sFileName));
-  aFile.Name := ExtractFileName(sFileName);
+  aFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
 
   sCommand:= gExts.GetExtActionCmd(aFile, sCmd);
   if sCommand <> '' then

@@ -29,7 +29,7 @@ interface
 
 uses
   SysUtils, Classes, LResources, Forms, StdCtrls, ExtCtrls, Controls,
-  uArchiveFile, uArchiveFileSource, uFileSourceExecuteOperation;
+  uFile, uArchiveFileSource, uFileSourceExecuteOperation;
 
 type
 
@@ -64,17 +64,17 @@ type
   private
     { private declarations }
   public
-    constructor Create(TheOwner: TComponent; aFileSource: IArchiveFileSource; aFile: TArchiveFile); reintroduce;
+    constructor Create(TheOwner: TComponent; aFileSource: IArchiveFileSource; aFile: TFile); reintroduce;
   end; 
 
-function ShowPackInfoDlg(aFileSource: IArchiveFileSource; aFile: TArchiveFile): TFileSourceExecuteOperationResult;
+function ShowPackInfoDlg(aFileSource: IArchiveFileSource; aFile: TFile): TFileSourceExecuteOperationResult;
 
 implementation
 
 uses
   LCLType, uTypes, uFileProperty;
 
-function ShowPackInfoDlg(aFileSource: IArchiveFileSource; aFile: TArchiveFile): TFileSourceExecuteOperationResult;
+function ShowPackInfoDlg(aFileSource: IArchiveFileSource; aFile: TFile): TFileSourceExecuteOperationResult;
 begin
   Result:= fseorSuccess;
   with TfrmPackInfoDlg.Create(Application, aFileSource, aFile) do
@@ -94,7 +94,7 @@ end;
 { TfrmPackInfoDlg }
 
 constructor TfrmPackInfoDlg.Create(TheOwner: TComponent;
-                                   aFileSource: IArchiveFileSource; aFile: TArchiveFile);
+                                   aFileSource: IArchiveFileSource; aFile: TFile);
 var
   sArcType: String;
 begin

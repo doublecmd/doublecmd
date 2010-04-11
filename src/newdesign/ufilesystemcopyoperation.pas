@@ -11,7 +11,6 @@ uses
   uFileSourceOperationTypes,
   uFileSourceOperationOptions,
   uFile,
-  uFileSystemFile,
   uFileSystemUtil;
 
 type
@@ -131,7 +130,7 @@ begin
   try
     TreeBuilder.SymLinkOption := Self.SymLinkOption;
 
-    TreeBuilder.BuildFromFiles(SourceFiles as TFileSystemFiles);
+    TreeBuilder.BuildFromFiles(SourceFiles);
     FSourceFilesTree := TreeBuilder.ReleaseTree;
     FStatistics.TotalFiles := TreeBuilder.FilesCount;
     FStatistics.TotalBytes := TreeBuilder.FilesSize;

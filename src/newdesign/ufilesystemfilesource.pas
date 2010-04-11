@@ -12,7 +12,8 @@ uses
   uFileSource,
   uFileSourceProperty,
   uFileProperty,
-  uFile
+  uFile,
+  uTypes
   ;
 
 type
@@ -36,14 +37,27 @@ type
   public
     constructor Create; override;
 
+    class function CreateFile(const APath: String): TFile; override;
+    class function CreateFile(const APath: String; SearchRecord: TSearchRecEx): TFile; overload;
+    {en
+       Creates a file object using an existing file/directory as a template.
+       All the properties will reflect the existing file.
+       @param(FilePath denotes absolute path to a file to use as a template.)
+    }
+    class function CreateFileFromFile(const aFilePath: String): TFile;
+    {en
+       Creates file list from a list of template files.
+       @param(FileNamesList
+              A list of absolute paths to files.)
+    }
+    class function CreateFilesFromFileList(const APath: String; const FileNamesList: TStringList): TFiles;
+
     class function GetFileSource: IFileSystemFileSource;
 
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetOperationsTypes: TFileSourceOperationTypes; override;
     function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
     function GetProperties: TFileSourceProperties; override;
-
-    function CreateFiles(const APath: String): TFiles; override;
 
     function IsPathAtRoot(Path: String): Boolean; override;
 
@@ -86,12 +100,16 @@ type
     procedure SetCurrentPath(NewPath: String); override;
   end;
 
+  EFileSystemFileNotExists = class(Exception);
+
 implementation
 
 uses
-  uOSUtils,
+  uOSUtils, uFindEx, uDateTimeUtils,
+{$IFDEF UNIX}
+  BaseUnix, uUsersGroups, FileUtil,
+{$ENDIF}
   uFileSystemWatcher,
-  uFileSystemFile,
   uFileSystemListOperation,
   uFileSystemCopyOperation,
   uFileSystemMoveOperation,
@@ -106,6 +124,147 @@ uses
 constructor TFileSystemFileSource.Create;
 begin
   inherited Create;
+end;
+
+class function TFileSystemFileSource.CreateFile(const APath: String): TFile;
+begin
+  Result := TFile.Create(APath);
+
+  with Result do
+  begin
+    AttributesProperty := TFileAttributesProperty.CreateOSAttributes;
+    SizeProperty := TFileSizeProperty.Create;
+    ModificationTimeProperty := TFileModificationDateTimeProperty.Create;
+    CreationTimeProperty := TFileCreationDateTimeProperty.Create;
+    LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create;
+    LinkProperty := TFileLinkProperty.Create(False);
+  end;
+end;
+
+class function TFileSystemFileSource.CreateFile(const APath: String; SearchRecord: TSearchRecEx): TFile;
+{$IF DEFINED(UNIX)}
+var
+  StatInfo: BaseUnix.Stat; //buffer for stat info
+  sFullPath: String;
+{$ENDIF}
+begin
+  Result := TFile.Create(APath);
+
+  with Result do
+  begin
+{$IF DEFINED(MSWINDOWS)}
+
+    AttributesProperty := TNtfsFileAttributesProperty.Create(SearchRecord.Attr);
+    SizeProperty := TFileSizeProperty.Create(SearchRecord.Size);
+    ModificationTimeProperty := TFileModificationDateTimeProperty.Create(
+                                  WinFileTimeToDateTime(SearchRecord.FindData.ftLastWriteTime));
+    CreationTimeProperty := TFileCreationDateTimeProperty.Create(
+                              WinFileTimeToDateTime(SearchRecord.FindData.ftCreationTime));
+    LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
+                                WinFileTimeToDateTime(SearchRecord.FindData.ftLastAccessTime));
+    LinkProperty := TFileLinkProperty.Create(AttributesProperty.IsLink and AttributesProperty.IsDirectory);
+
+{$ELSEIF DEFINED(UNIX)}
+
+    StatInfo := PUnixFindData(SearchRecord.FindHandle)^.StatRec;
+
+    AttributesProperty := TUnixFileAttributesProperty.Create(StatInfo.st_mode);
+    if AttributesProperty.IsDirectory then
+      // On Unix a size for directory entry on filesystem is returned in StatInfo.
+      // We don't want to use it.
+      SizeProperty := TFileSizeProperty.Create(0)
+    else
+{$PUSH}{$R-}
+      SizeProperty := TFileSizeProperty.Create(StatInfo.st_size);
+
+    ModificationTimeProperty := TFileModificationDateTimeProperty.Create(
+                                  FileTimeToDateTime(StatInfo.st_mtime));
+    CreationTimeProperty := TFileCreationDateTimeProperty.Create(
+                              FileTimeToDateTime(StatInfo.st_ctime));
+    LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
+                                FileTimeToDateTime(StatInfo.st_atime));
+{$POP}
+
+    if AttributesProperty.IsLink then
+    begin
+      sFullPath := PUnixFindData(SearchRecord.FindHandle)^.sPath
+                 + SearchRecord.Name;
+
+      // Stat (as opposed to Lstat) will take info of the file that the link points to (recursively).
+      fpStat(PChar(UTF8ToSys(sFullPath)), StatInfo);
+
+      LinkProperty.IsLinkToDirectory := FPS_ISDIR(StatInfo.st_mode);
+    end
+    else
+      LinkProperty.IsLinkToDirectory := False;
+
+  {
+      iOwner:=sb.st_uid;
+      iGroup:=sb.st_gid;
+      sOwner:=UIDToStr(iOwner);
+      sGroup:=GIDToStr(iGroup);
+  }
+
+{$ELSE}
+
+    AttributesProperty := TFileAttributesProperty.Create(SearchRecord.Attributes);
+    SizeProperty := TFileSizeProperty.Create(SearchRecord.Size);
+    ModificationTimeProperty := TFileModificationDateTimeProperty.Create(SearchRecord.Time);
+    CreationTimeProperty := TFileCreationDateTimeProperty.Create(SearchRecord.Time);
+    LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(SearchRecord.Time);
+    LinkProperty := TFileLinkProperty.Create(False);
+
+{$ENDIF}
+
+  {
+    if IsLink then
+    begin
+      sLinkTo := ReadSymLink(PUnixFindData(SearchRecord.FindHandle)^.sPath + SearchRecord.Name);
+      if sLinkTo <> '' then
+      begin
+        case uDCUtils.GetPathType(sLinkTo) of
+          ptNone, ptRelative:
+            sLinkTo := PUnixFindData(SearchRecord.FindHandle)^.sPath + sLinkTo;
+        end;
+    end
+    else
+      sLinkTo := '';
+  }
+
+    // Set name after assigning Attributes property, because it is used to get extension.
+    Name := SearchRecord.Name;
+  end;
+end;
+
+class function TFileSystemFileSource.CreateFileFromFile(const aFilePath: String): TFile;
+var
+  SearchRecord: TSearchRecEx;
+  FindResult: Longint;
+begin
+  Result := nil;
+
+  FindResult := FindFirstEx(aFilePath, faAnyFile, SearchRecord);
+  try
+    if FindResult <> 0 then
+      raise EFileSystemFileNotExists.Create('File ' + aFilePath + ' does not exist.');
+
+    Result := CreateFile(ExtractFilePath(aFilePath), SearchRecord);
+
+  finally
+    FindCloseEx(SearchRecord);
+  end;
+end;
+
+class function TFileSystemFileSource.CreateFilesFromFileList(const APath: String; const FileNamesList: TStringList): TFiles;
+var
+  i: Integer;
+begin
+  Result := TFiles.Create(APath);
+  if Assigned(FileNamesList) and (FileNamesList.Count > 0) then
+  begin
+    for i := 0 to FileNamesList.Count - 1 do
+      Result.Add(CreateFileFromFile(FileNamesList[i]));
+  end;
 end;
 
 class function TFileSystemFileSource.GetFileSource: IFileSystemFileSource;
@@ -153,11 +312,6 @@ begin
   ];
 end;
 
-function TFileSystemFileSource.CreateFiles(const APath: String): TFiles;
-begin
-  Result := TFileSystemFiles.Create(APath);
-end;
-
 function TFileSystemFileSource.GetCurrentWorkingDirectory: String;
 begin
   Result := mbGetCurrentDir();
@@ -200,7 +354,9 @@ end;
 
 function TFileSystemFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
-  Result := TFileSystemFile.GetSupportedProperties;
+  Result := inherited GetSupportedFileProperties
+          + [fpSize, fpAttributes, fpModificationTime, fpCreationTime,
+             fpLastAccessTime, fpLink];
 end;
 
 function TFileSystemFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;

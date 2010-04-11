@@ -248,9 +248,6 @@ var
   bRetry: Boolean;
   sMessage, sQuestion: String;
   SetResult: TSetFilePropertyResult;
-  {$IFNDEF AssignFileNameProperty}
-  TargetName: UTF8String;  // for reporting errors when setting fpName property
-  {$ENDIF}
   ErrorString: String;
 begin
   // Iterate over all properties supported by this operation.
@@ -260,24 +257,6 @@ begin
       bRetry := False;
       SetResult := sfprSuccess;
 
-      {$IFNDEF AssignFileNameProperty}
-      if prop = fpName then
-      begin
-        if Assigned(aTemplateFile) then
-        begin
-          templateProperty := TFileNameProperty.Create(aTemplateFile.Name);
-          TargetName := aTemplateFile.Name;
-          SetResult := SetNewProperty(aFile, templateProperty);
-          FreeAndNil(templateProperty);
-        end
-        else if Assigned(NewProperties[fpName]) then
-        begin
-          TargetName := (NewProperties[fpName] as TFileNameProperty).Value;
-          SetResult := SetNewProperty(aFile, NewProperties[fpName]);
-        end;
-      end
-      else
-      {$ENDIF}
       // Double-check that the property really is supported by the file.
       if prop in aFile.SupportedProperties then
       begin
@@ -294,15 +273,6 @@ begin
 
       if SetResult = sfprError then
         begin
-          {$IFNDEF AssignFileNameProperty}
-          if prop = fpName then
-          begin
-            templateProperty := TFileNameProperty.Create(TargetName);
-            ErrorString := GetErrorString(aFile, templateProperty);
-            FreeAndNil(templateProperty);
-          end
-          else
-          {$ENDIF}
           ErrorString := GetErrorString(aFile, templateProperty);
 
           sMessage := rsMsgLogError + ErrorString;

@@ -539,8 +539,8 @@ begin
   sNew:=sReplaceXX(sNew,'[E',sOrigExt);
 //type [h][n][s][Y][M][D]
   with FFiles.Items[count] do
-  if (fpModificationTime in GetSupportedProperties) then
-    sNew:= sReplaceDateTime(sNew, (Properties[fpModificationTime] as TFileDateTimeProperty).Value);
+    if fpModificationTime in SupportedProperties then
+      sNew:= sReplaceDateTime(sNew, ModificationTime);
   Result:= sNew;
 end;
 

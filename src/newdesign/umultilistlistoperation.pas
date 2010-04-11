@@ -27,7 +27,7 @@ uses
 
 constructor TMultiListListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
-  FFiles := FFileSource.FileSource.CreateFiles(aPath);
+  FFiles := TFiles.Create(aPath);
   FFileSource := aFileSource as IMultiListFileSource;
   inherited Create(aFileSource, aPath);
 end;
@@ -68,10 +68,10 @@ begin
 
   if not IsRootPath then
   begin
-    AFile := FFiles.CreateFileObject(Path);
+    AFile := FileSource.CreateFileObject(Path);
     AFile.Name := '..';
     if fpAttributes in AFile.SupportedProperties then
-      (AFile.Properties[fpAttributes] as TFileAttributesProperty).Value := faFolder;
+      AFile.Attributes := faFolder;
     FFiles.Add(AFile);
   end;
 

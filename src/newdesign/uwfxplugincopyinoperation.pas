@@ -11,7 +11,6 @@ uses
   uFileSourceOperation,
   uFileSourceOperationOptions,
   uFile,
-  uFileSystemFile,
   uWfxPluginFileSource,
   uWfxPluginUtil;
 
@@ -25,7 +24,7 @@ type
     FWfxPluginFileSource: IWfxPluginFileSource;
     FOperationHelper: TWfxPluginOperationHelper;
     FCallbackDataClass: TCallbackDataClass;
-    FFullFilesTreeToCopy: TFileSystemFiles;  // source files including all files/dirs in subdirectories
+    FFullFilesTreeToCopy: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     // Options
     FInfoOperation: LongInt;
@@ -111,7 +110,7 @@ begin
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
-  FillAndCount(SourceFiles as TFileSystemFiles, False,
+  FillAndCount(SourceFiles, False,
                FFullFilesTreeToCopy,
                FStatistics.TotalFiles,
                FStatistics.TotalBytes);     // gets full list of files (recursive)

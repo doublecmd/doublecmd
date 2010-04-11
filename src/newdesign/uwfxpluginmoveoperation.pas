@@ -11,8 +11,6 @@ uses
   uFileSourceOperation,
   uFileSourceOperationOptions,
   uFile,
-  uFileSystemFile,
-  uWfxPluginFile,
   uWfxPluginFileSource,
   uWfxPluginUtil;
 
@@ -150,4 +148,4 @@ begin
 end;
 
 end.
-
+

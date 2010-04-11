@@ -94,7 +94,7 @@ implementation
 uses
   fMain, uOSUtils, uGlobs, uLng, uShellExecute
   {$IF DEFINED(MSWINDOWS)}
-  , Dialogs, Graphics, comobj, uFileSystemFile, uTotalCommander
+  , Dialogs, Graphics, comobj, uFileSystemFileSource, uTotalCommander
   {$ENDIF}
   {$IF DEFINED(LINUX)}
   , uFileSystemWatcher, inotify, uMimeActions
@@ -690,11 +690,11 @@ end;
 procedure ShowDriveContextMenu(Owner: TWinControl; sPath: String; X, Y : Integer);
 {$IFDEF MSWINDOWS}
 var
-  aFile: TFileSystemFile;
+  aFile: TFile;
   Files: TFiles;
   OldErrorMode: Word;
 begin
-  aFile := TFileSystemFile.Create(EmptyStr);
+  aFile := TFileSystemFileSource.CreateFile(EmptyStr);
   aFile.Name := sPath;
   Files:= TFiles.Create(EmptyStr); // free in ShowContextMenu
   Files.Add(aFile);

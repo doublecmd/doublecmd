@@ -12,7 +12,6 @@ uses
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFile,
-  uWfxPluginFile,
   uGlobs, uLog;
 
 type
@@ -30,7 +29,7 @@ type
     FDeleteReadOnly: TFileSourceOperationOptionGeneral;
 
   protected
-    function ProcessFile(aFile: TWfxPluginFile): Boolean;
+    function ProcessFile(aFile: TFile): Boolean;
     function ShowError(sMessage: String): TFileSourceOperationUIResponse;
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
@@ -83,12 +82,12 @@ end;
 
 procedure TWfxPluginDeleteOperation.MainExecute;
 var
-  aFile: TWfxPluginFile;
+  aFile: TFile;
   CurrentFileIndex: Integer;
 begin
   for CurrentFileIndex := FFullFilesTreeToDelete.Count - 1 downto 0 do
   begin
-    aFile := FFullFilesTreeToDelete[CurrentFileIndex] as TWfxPluginFile;
+    aFile := FFullFilesTreeToDelete[CurrentFileIndex];
 
     FStatistics.CurrentFile := aFile.Path + aFile.Name;
     UpdateStatistics(FStatistics);
@@ -113,7 +112,7 @@ begin
   WfxModule.WfxStatusInfo(FilesToDelete.Path, FS_STATUS_END, FS_STATUS_OP_DELETE);
 end;
 
-function TWfxPluginDeleteOperation.ProcessFile(aFile: TWfxPluginFile): Boolean;
+function TWfxPluginDeleteOperation.ProcessFile(aFile: TFile): Boolean;
 var
   FileName: String;
   bRetry: Boolean;

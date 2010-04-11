@@ -44,7 +44,7 @@ type
 implementation
 
 uses
-  uTypes, uDCUtils, WfxPlugin, uWfxPluginFile, uWfxPluginUtil, uDateTimeUtils;
+  uTypes, uDCUtils, WfxPlugin, uWfxPluginUtil, uDateTimeUtils;
 
 constructor TWfxPluginSetFilePropertyOperation.Create(aTargetFileSource: IFileSource;
                                                       var theTargetFiles: TFiles;
@@ -101,13 +101,13 @@ end;
 
 procedure TWfxPluginSetFilePropertyOperation.MainExecute;
 var
-  aFile: TWfxPluginFile;
+  aFile: TFile;
   aTemplateFile: TFile;
   CurrentFileIndex: Integer;
 begin
   for CurrentFileIndex := 0 to FFullFilesTree.Count - 1 do
   begin
-    aFile := FFullFilesTree[CurrentFileIndex] as TWfxPluginFile;
+    aFile := FFullFilesTree[CurrentFileIndex];
 
     FStatistics.CurrentFile := aFile.FullPath;
     UpdateStatistics(FStatistics);

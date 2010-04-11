@@ -29,8 +29,7 @@ interface
 
 uses
   SysUtils, Classes, LCLProc, Masks,
-  uFile,
-  uFileSystemFile;
+  uFile;
 
 type
   TMathtype=(mtnil,mtoperator,mtlbracket,mtrbracket,mtoperand);
@@ -88,7 +87,7 @@ type
 implementation
 
 uses
-  uFileProperty;
+  uFileProperty, uFileSystemFileSource;
   
 function TParserControl.calculate(operand1,operand2,Aoperator:Tmathchar):string;
 var tmp:string;
@@ -126,9 +125,9 @@ begin
      end;
 
    //SIZE > < = !=
-   if (operand1.data='SIZE') and (fpSize in FFile.GetSupportedProperties) then
+   if (operand1.data='SIZE') and (fpSize in FFile.SupportedProperties) then
      begin
-       tmp:= IntToStr((FFile.Properties[fpSize] as TFileSizeProperty).Value);
+       tmp:= IntToStr(FFile.Size);
         case Aoperator.op of
            moequ: Result:= BooleanToStr(strtoint(tmp)=strtoint(operand2.data));
            moneq: Result:= BooleanToStr(strtoint(tmp)<>strtoint(operand2.data));
@@ -159,7 +158,7 @@ end;
 
 function TParserControl.TestFileResult(const aFileName: UTF8String): boolean;
 begin
-  FFile:= TFileSystemFile.CreateFromFile(aFileName);
+  FFile:= TFileSystemFileSource.CreateFileFromFile(aFileName);
   DebugLn('FFile.Extension = ' + FFile.Extension);
   Result:= getresult;
 end;
@@ -415,4 +414,4 @@ end;
    end;
  end;
 
- end.
+ end.

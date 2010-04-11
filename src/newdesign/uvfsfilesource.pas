@@ -35,6 +35,8 @@ type
     constructor Create(aWFXModuleList: TWFXModuleList); reintroduce;
     destructor Destroy; override;
 
+    class function CreateFile(const APath: String): TFile; override;
+
     // Retrieve operations permitted on the source.  = capabilities?
     function GetOperationsTypes: TFileSourceOperationTypes; override;
 
@@ -51,7 +53,6 @@ type
     property VfsFileList: TWFXModuleList read FWFXModuleList;
 
   end;
-
 
 implementation
 
@@ -72,6 +73,18 @@ begin
   inherited Destroy;
 end;
 
+class function TVfsFileSource.CreateFile(const APath: String): TFile;
+begin
+  Result := TFile.Create(APath);
+
+  with Result do
+  begin
+    SizeProperty := TFileSizeProperty.Create;
+    AttributesProperty := TNtfsFileAttributesProperty.Create;
+    ModificationTimeProperty := TFileModificationDateTimeProperty.Create;
+  end;
+end;
+
 function TVfsFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   Result := [fsoList, fsoExecute];
@@ -89,7 +102,8 @@ end;
 
 function TVfsFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
-  Result := [];
+  Result := inherited GetSupportedFileProperties +
+            [fpSize, fpAttributes, fpModificationTime];
 end;
 
 function TVfsFileSource.GetWfxModuleList: TWFXModuleList;

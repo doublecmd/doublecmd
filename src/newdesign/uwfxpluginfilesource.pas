@@ -63,6 +63,9 @@ type
     constructor Create(aModuleFileName, aPluginRootName: UTF8String); reintroduce;
     destructor Destroy; override;
 
+    class function CreateFile(const APath: String): TFile; override;
+    class function CreateFile(const APath: String; FindData: TWfxFindData): TFile; overload;
+
     // Retrieve operations permitted on the source.  = capabilities?
     function GetOperationsTypes: TFileSourceOperationTypes; override;
 
@@ -107,10 +110,11 @@ var
 implementation
 
 uses
-  LCLProc, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, uDCUtils, uLog, uLng, uCryptProc,
+  LCLProc, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, uDCUtils, uLog,
+  uLng, uCryptProc, uFileAttributes,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
-  uWfxPluginDeleteOperation, uWfxPluginFile, uWfxPluginUtil, uWfxPluginSetFilePropertyOperation,
+  uWfxPluginDeleteOperation, uWfxPluginUtil, uWfxPluginSetFilePropertyOperation,
   uWfxPluginCopyOperation;
 
 { CallBack functions }
@@ -427,6 +431,59 @@ begin
   inherited Destroy;
 end;
 
+class function TWfxPluginFileSource.CreateFile(const APath: String): TFile;
+begin
+  Result := TFile.Create(APath);
+
+  with Result do
+  begin
+    AttributesProperty := TFileAttributesProperty.CreateOSAttributes;
+    SizeProperty := TFileSizeProperty.Create;
+    ModificationTimeProperty := TFileModificationDateTimeProperty.Create;
+    LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create;
+    CreationTimeProperty := TFileCreationDateTimeProperty.Create;
+    LinkProperty := TFileLinkProperty.Create(False);
+  end;
+end;
+
+class function TWfxPluginFileSource.CreateFile(const APath: String; FindData: TWfxFindData): TFile;
+begin
+  Result := TFile.Create(APath);
+
+  with Result do
+  begin
+    // Check that attributes is used
+    if (FindData.FileAttributes and FILE_ATTRIBUTE_UNIX_MODE) = 0 then // Windows attributes
+      begin
+        LinkProperty := TFileLinkProperty.Create;
+        LinkProperty.IsLinkToDirectory :=
+            ((FindData.FileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0) and
+            ((FindData.FileAttributes and FILE_ATTRIBUTE_REPARSE_POINT) <> 0);
+        AttributesProperty := TNtfsFileAttributesProperty.Create(FindData.FileAttributes);
+      end
+    else  // Unix attributes
+      begin
+        LinkProperty := TFileLinkProperty.Create;
+        LinkProperty.IsLinkToDirectory :=
+            (((FindData.FileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0) or
+             ((FindData.FileAttributes and FILE_ATTRIBUTE_REPARSE_POINT) <> 0)) and
+            ((FindData.Reserved0 and S_IFMT) = S_IFLNK);
+        if ((FindData.FileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0) and
+           ((FindData.Reserved0 and S_IFMT) <> S_IFDIR) then
+          FindData.Reserved0:= FindData.Reserved0 or S_IFDIR;
+        AttributesProperty := TUnixFileAttributesProperty.Create(FindData.Reserved0);
+      end;
+
+    SizeProperty := TFileSizeProperty.Create(FindData.FileSize);
+    ModificationTimeProperty := TFileModificationDateTimeProperty.Create(FindData.LastWriteTime);
+    LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(FindData.LastAccessTime);
+    CreationTimeProperty := TFileCreationDateTimeProperty.Create(FindData.CreationTime);
+
+    // Set name after assigning Attributes property, because it is used to get extension.
+    Name := FindData.FileName;
+  end;
+end;
+
 function TWfxPluginFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   with WfxModule do
@@ -466,7 +523,9 @@ end;
 
 function TWfxPluginFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
-  Result := TWfxPluginFile.GetSupportedProperties;
+  Result := inherited GetSupportedFileProperties
+          + [fpSize, fpAttributes, fpModificationTime, fpCreationTime,
+             fpLastAccessTime, fpLink];
 end;
 
 function TWfxPluginFileSource.GetCurrentAddress: String;
@@ -491,7 +550,7 @@ procedure TWfxPluginFileSource.FillAndCount(Files: TFiles; CountDirs: Boolean;
   var
     FindData: TWfxFindData;
     Handle: THandle;
-    aFile: TWfxPluginFile;
+    aFile: TFile;
   begin
     with FWfxModule do
     begin
@@ -500,7 +559,7 @@ procedure TWfxPluginFileSource.FillAndCount(Files: TFiles; CountDirs: Boolean;
 
       repeat
         if (FindData.FileName = '.') or (FindData.FileName = '..') then Continue;
-        aFile:= TWfxPluginFile.Create(srcPath, FindData);
+        aFile:= TWfxPluginFileSource.CreateFile(srcPath, FindData);
         NewFiles.Add(aFile);
 
         if aFile.IsDirectory then
@@ -522,18 +581,18 @@ procedure TWfxPluginFileSource.FillAndCount(Files: TFiles; CountDirs: Boolean;
 
 var
   I: Integer;
-  aFile: TWfxPluginFile;
+  aFile: TFile;
 begin
   NewFiles := TFiles.Create(Files.Path);
   FilesCount:= 0;
   FilesSize:= 0;
   for I := 0 to Files.Count - 1 do
   begin
-    aFile := Files[I] as TWfxPluginFile;
+    aFile := Files[I];
 
     NewFiles.Add(aFile.Clone);
 
-    if aFile.IsDirectory and (not aFile.IsLinkToDirectory) then
+    if aFile.AttributesProperty.IsDirectory and (not aFile.LinkProperty.IsLinkToDirectory) then
       begin
         if CountDirs then
           Inc(FilesCount);

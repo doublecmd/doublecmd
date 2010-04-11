@@ -11,7 +11,6 @@ uses
   uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFile,
-  uFileSystemFile,
   uGlobs, uLog, uHash, uClassesEx;
 
 type
@@ -19,7 +18,7 @@ type
   TFileSystemCalcChecksumOperation = class(TFileSourceCalcChecksumOperation)
 
   private
-    FFullFilesTree: TFileSystemFiles;  // source files including all files/dirs in subdirectories
+    FFullFilesTree: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceCalcChecksumOperationStatistics; // local copy of statistics
     FCheckSumFile: TStringListEx;
     FBuffer: Pointer;
@@ -35,8 +34,8 @@ type
     procedure InitializeVerifyMode;
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
-    function CalcChecksumProcessFile(aFile: TFileSystemFile): Boolean;
-    function VerifyChecksumProcessFile(aFile: TFileSystemFile; ExpectedChecksum: String): Boolean;
+    function CalcChecksumProcessFile(aFile: TFile): Boolean;
+    function VerifyChecksumProcessFile(aFile: TFile; ExpectedChecksum: String): Boolean;
 
   public
     constructor Create(aTargetFileSource: IFileSource;
@@ -56,7 +55,8 @@ implementation
 uses
   uDCUtils, uOSUtils, uLng,
   uFileSystemUtil, LCLProc,
-  FileUtil, StrUtils, fCheckSumVerify;
+  FileUtil, StrUtils, fCheckSumVerify,
+  uFileSystemFileSource;
 
 type
   TChecksumEntry = class
@@ -107,7 +107,7 @@ begin
 
   case Mode of
     checksum_calc:
-      FillAndCount(Files as TFileSystemFiles, False,
+      FillAndCount(Files, False,
                    FFullFilesTree,
                    FStatistics.TotalFiles,
                    FStatistics.TotalBytes);     // gets full list of files (recursive)
@@ -124,14 +124,14 @@ end;
 
 procedure TFileSystemCalcChecksumOperation.MainExecute;
 var
-  aFile: TFileSystemFile;
+  aFile: TFile;
   CurrentFileIndex: Integer;
   OldDoneBytes: Int64; // for if there was an error
   Entry: TChecksumEntry;
 begin
   for CurrentFileIndex := 0 to FFullFilesTree.Count - 1 do
   begin
-    aFile := FFullFilesTree[CurrentFileIndex] as TFileSystemFile;
+    aFile := FFullFilesTree[CurrentFileIndex];
 
     with FStatistics do
     begin
@@ -200,16 +200,16 @@ end;
 procedure TFileSystemCalcChecksumOperation.InitializeVerifyMode;
 var
   CurrentFileIndex, I: Integer;
-  aFile, aFileToVerify: TFileSystemFile;
+  aFile, aFileToVerify: TFile;
   anAlgorithm: THashAlgorithm;
   FileName: String;
   Entry: TChecksumEntry;
 begin
-  FFullFilesTree := TFileSystemFiles.Create(Files.Path);
+  FFullFilesTree := TFiles.Create(Files.Path);
   FChecksumsList.Clear;
   for CurrentFileIndex := 0 to Files.Count - 1 do
   begin
-    aFile := Files[CurrentFileIndex] as TFileSystemFile;
+    aFile := Files[CurrentFileIndex];
     FCheckSumFile.Clear;
     FCheckSumFile.NameValueSeparator:= #32;
     FCheckSumFile.LoadFromFile(aFile.FullPath);
@@ -219,7 +219,7 @@ begin
     for I := 0 to FCheckSumFile.Count - 1 do
     begin
       FileName := aFile.Path + Copy(FCheckSumFile.ValueFromIndex[I], 2, MaxInt);
-      aFileToVerify := TFileSystemFile.CreateFromFile(FileName);
+      aFileToVerify := TFileSystemFileSource.CreateFileFromFile(FileName);
       try
         if not (aFileToVerify.IsDirectory or aFileToVerify.IsLinkToDirectory) then
         begin
@@ -255,7 +255,7 @@ begin
   end;
 end;
 
-function TFileSystemCalcChecksumOperation.CalcChecksumProcessFile(aFile: TFileSystemFile): Boolean;
+function TFileSystemCalcChecksumOperation.CalcChecksumProcessFile(aFile: TFile): Boolean;
 var
   FileName: String;
   sCheckSum: String;
@@ -285,7 +285,7 @@ begin
 end;
 
 function TFileSystemCalcChecksumOperation.VerifyChecksumProcessFile(
-           aFile: TFileSystemFile; ExpectedChecksum: String): Boolean;
+           aFile: TFile; ExpectedChecksum: String): Boolean;
 var
   sCheckSum: String;
   bResult: Boolean;

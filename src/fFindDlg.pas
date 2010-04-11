@@ -174,7 +174,7 @@ implementation
 uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fCalendar, fViewer, fMain,
   uLng, uGlobs, uShowForm, uOSUtils, uSearchTemplate, uDCUtils,
-  uSearchResultFileSource, uFile, uFileSystemFile, uFileSystemFileSource,
+  uSearchResultFileSource, uFile, uFileSystemFileSource,
   uFileViewNotebook, uFileView, uColumnsFileView;
 
 const
@@ -679,7 +679,7 @@ var
   sFileName: String;
   SearchResultFS: ISearchResultFileSource;
   FileList: TFileTree;
-  aFile: TFileSystemFile;
+  aFile: TFile;
   Notebook: TFileViewNotebook;
   NewPage: TFileViewPage;
   FileView: TFileView;
@@ -688,7 +688,7 @@ begin
   for i := 0 to lsFoundedFiles.Items.Count - 1 do
   begin
     sFileName:= lsFoundedFiles.Items[I];
-    aFile := TFileSystemFile.CreateFromFile(sFileName);
+    aFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
     FileList.AddSubNode(aFile);
   end;
 

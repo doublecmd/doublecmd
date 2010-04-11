@@ -41,7 +41,7 @@ type
     function GetProperties: TFileSourceProperties;
     function GetFiles(TargetPath: String): TFiles;
 
-    function CreateFiles(const APath: String): TFiles;
+    function CreateFileObject(const APath: String): TFile;
 
     function CreateListOperation(TargetPath: String): TFileSourceOperation;
     function CreateCopyOperation(var SourceFiles: TFiles;
@@ -128,7 +128,7 @@ type
     {en
        Returns all the properties supported by the file type of the given file source.
     }
-    function GetSupportedFileProperties: TFilePropertiesTypes; virtual abstract;
+    function GetSupportedFileProperties: TFilePropertiesTypes; virtual;
 //    class function ClassGetSupportedFileProperties: TFilePropertiesTypes;
 
     {en
@@ -149,6 +149,8 @@ type
               dependent on the specific file source implementation.)
     }
     procedure DoReload(const PathsToReload: TPathsArray); virtual;
+
+    function CreateFileObject(const APath: String): TFile;
 
   public
     constructor Create; virtual;
@@ -175,8 +177,8 @@ type
     // Caller is responsible for freeing the result list.
     function GetFiles(TargetPath: String): TFiles; virtual;
 
-    // Create an empty TFiles object of appropriate type for the file source.
-    function CreateFiles(const APath: String): TFiles; virtual;
+    // Create an empty TFile object with appropriate properties for the file.
+    class function CreateFile(const APath: String): TFile; virtual;
 
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; virtual;
@@ -403,6 +405,11 @@ begin
   Result := True;
 end;
 
+function TFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
+begin
+  Result := [fpName];
+end;
+
 function TFileSource.IsPathAtRoot(Path: String): Boolean;
 begin
   Result := (Path = GetRootDir(Path));
@@ -471,9 +478,14 @@ begin
   end;
 end;
 
-function TFileSource.CreateFiles(const APath: String): TFiles;
+class function TFileSource.CreateFile(const APath: String): TFile;
 begin
-  Result := TFiles.Create(APath);
+  Result := TFile.Create(APath);
+end;
+
+function TFileSource.CreateFileObject(const APath: String): TFile;
+begin
+  Result := CreateFile(APath);
 end;
 
 function TFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;

@@ -34,8 +34,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uOSUtils, uDCUtils, uWfxPluginFile,
-  WfxPlugin, uWfxModule, uLog, uLng;
+  LCLProc, FileUtil, uOSUtils, uDCUtils, uFile, WfxPlugin, uWfxModule, uLog, uLng;
 
 function TWfxPluginListOperation.UpdateProgress(SourceName, TargetName: UTF8String;
                                                 PercentDone: Integer): Integer;
@@ -45,7 +44,7 @@ end;
 
 constructor TWfxPluginListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
-  FFiles := TWfxPluginFiles.Create(aPath);
+  FFiles := TFiles.Create(aPath);
   FWfxPluginFileSource := aFileSource as IWfxPluginFileSource;
   with FWfxPluginFileSource do
   FCallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNumber]);
@@ -71,7 +70,7 @@ procedure TWfxPluginListOperation.MainExecute;
 var
   FindData : TWfxFindData;
   Handle: THandle;
-  aFile: TWfxPluginFile;
+  aFile: TFile;
 begin
   with FWfxPluginFileSource.WFXModule do
   begin
@@ -79,7 +78,7 @@ begin
 
     if not FileSource.IsPathAtRoot(Path) then
     begin
-      aFile := TWfxPluginFile.Create(Path);
+      aFile := TWfxPluginFileSource.CreateFile(Path);
       aFile.Name := '..';
       aFile.Attributes := faFolder;
       FFiles.Add(aFile);
@@ -90,7 +89,7 @@ begin
     repeat
       if (FindData.FileName = '.') or (FindData.FileName = '..') then Continue;
 
-      aFile := TWfxPluginFile.Create(Path, FindData);
+      aFile := TWfxPluginFileSource.CreateFile(Path, FindData);
       FFiles.Add(aFile);
     until (not WfxFindNext(Handle, FindData));
 

@@ -23,11 +23,11 @@ type
 implementation
 
 uses
-  uFileSystemFile, uFile;
+  uFile;
 
 constructor TSearchResultListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin
-  FFiles := TFileSystemFiles.Create(aPath);
+  FFiles := TFiles.Create(aPath);
   FFileSource := aFileSource as ISearchResultFileSource;
   inherited Create(aFileSource, aPath);
 end;

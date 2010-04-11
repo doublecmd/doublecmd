@@ -10,15 +10,14 @@ uses
   uFileSource,
   uFileSourceOperationOptions,
   uFile,
-  uFileProperty,
-  uFileSystemFile;
+  uFileProperty;
 
 type
 
   TFileSystemSetFilePropertyOperation = class(TFileSourceSetFilePropertyOperation)
 
   private
-    FFullFilesTree: TFileSystemFiles;  // source files including all files/dirs in subdirectories
+    FFullFilesTree: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceSetFilePropertyOperationStatistics; // local copy of statistics
 
     // Options.
@@ -91,12 +90,12 @@ begin
 
   if not Recursive then
     begin
-      FFullFilesTree := TargetFiles as TFileSystemFiles;
+      FFullFilesTree := TargetFiles;
       FStatistics.TotalFiles := FFullFilesTree.Count;
     end
   else
     begin
-      FillAndCount(TargetFiles as TFileSystemFiles, True,
+      FillAndCount(TargetFiles, True,
                    FFullFilesTree,
                    FStatistics.TotalFiles,
                    TotalBytes);     // gets full list of files (recursive)
@@ -105,13 +104,13 @@ end;
 
 procedure TFileSystemSetFilePropertyOperation.MainExecute;
 var
-  aFile: TFileSystemFile;
+  aFile: TFile;
   aTemplateFile: TFile;
   CurrentFileIndex: Integer;
 begin
   for CurrentFileIndex := 0 to FFullFilesTree.Count - 1 do
   begin
-    aFile := FFullFilesTree[CurrentFileIndex] as TFileSystemFile;
+    aFile := FFullFilesTree[CurrentFileIndex];
 
     FStatistics.CurrentFile := aFile.FullPath;
     UpdateStatistics(FStatistics);

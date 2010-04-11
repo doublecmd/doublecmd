@@ -100,19 +100,19 @@ begin
   SearchTemplateToFindFileChecks(SearchRecord, FileChecks);
   with SearchRecord do
   begin
-    if (fpName in AFile.GetSupportedProperties) then
+    if (fpName in AFile.SupportedProperties) then
       Result:= MatchesMaskList(AFile.Name, FilesMasks);
 
-    if Result and (fpModificationTime in AFile.GetSupportedProperties) then
+    if Result and (fpModificationTime in AFile.SupportedProperties) then
       if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
-        Result:= CheckFileDateTime(FileChecks, (AFile.Properties[fpModificationTime] as TFileDateTimeProperty).Value);
+        Result:= CheckFileDateTime(FileChecks, AFile.ModificationTime);
 
-    if Result and (fpSize in AFile.GetSupportedProperties) then
+    if Result and (fpSize in AFile.SupportedProperties) then
       if (IsFileSizeFrom or IsFileSizeTo) then
-        Result:= CheckFileSize(FileChecks, (AFile.Properties[fpSize] as TFileSizeProperty).Value);
+        Result:= CheckFileSize(FileChecks, AFile.Size);
 
-    if Result and (fpAttributes in AFile.GetSupportedProperties) then
-      Result:= CheckFileAttributes(FileChecks, (AFile.Properties[fpAttributes] as TFileAttributesProperty).Value);
+    if Result and (fpAttributes in AFile.SupportedProperties) then
+      Result:= CheckFileAttributes(FileChecks, AFile.Attributes);
   end;
 end;
 

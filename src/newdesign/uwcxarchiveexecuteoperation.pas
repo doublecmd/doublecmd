@@ -9,8 +9,7 @@ uses
   uFile,
   uFileSource,
   uFileSourceExecuteOperation,
-  uWcxArchiveFileSource,
-  uWcxArchiveFile;
+  uWcxArchiveFileSource;
 
 type
 
@@ -19,7 +18,7 @@ type
   TWcxArchiveExecuteOperation = class(TFileSourceExecuteOperation)
   private
     FWcxArchiveFileSource: IWcxArchiveFileSource;
-    FWcxArchiveFile: TWcxArchiveFile;
+    FWcxArchiveFile: TFile;
   public
     {en
        @param(aTargetFileSource
@@ -51,7 +50,7 @@ constructor TWcxArchiveExecuteOperation.Create(
                 aVerb: UTF8String);
 begin
   FWcxArchiveFileSource := aTargetFileSource as IWcxArchiveFileSource;
-  FWcxArchiveFile:= aExecutableFile as TWcxArchiveFile;
+  FWcxArchiveFile:= aExecutableFile;
   inherited Create(aTargetFileSource, aExecutableFile, aCurrentPath, aVerb);
 end;
 

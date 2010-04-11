@@ -6,58 +6,88 @@ interface
 
 uses
   Classes, SysUtils,
-  uFileProperty;
+  uFileProperty,
+  uTypes;
 
 type
 
   TFile = class
 
   private
-    FName: String;
-    FPath: String;  // Always includes trailing path delimiter.
-
     // Cached values for extension and name.
     // Automatically set when name changes.
     FExtension: String;     //<en Extension.
     FNameNoExt: String;     //<en Name without extension.
+    FPath: String;          //<en Path to the file. Always includes trailing path delimiter.
+    FProperties: TFileProperties;
+    FSupportedProperties: TFilePropertiesTypes;
 
     procedure SplitIntoNameAndExtension(const FileName: string;
                                         var aFileNameOnly: string;
                                         var aExtension: string);
 
   protected
-    FProperties: TFileProperties;
-
-    function GetProperties: TFileProperties; virtual;
-
     function GetFullPath: String;
     procedure SetFullPath(const NewFullPath: String);
     procedure SetPath(const NewPath: String);
     function GetName: String;
-    procedure SetName(Name: String);
+    procedure SetName(NewName: String);
     function GetExtension: String;
     {en
        Retrieves name without extension.
     }
     function GetNameNoExt: String;
 
+    // Values.
+    function GetAttributes: TFileAttrs;
+    procedure SetAttributes(NewAttributes: TFileAttrs);
+    function GetSize: Int64;
+    procedure SetSize(NewSize: Int64);
+    function GetCompressedSize: Int64;
+    procedure SetCompressedSize(NewCompressedSize: Int64);
+    function GetModificationTime: TDateTime;
+    procedure SetModificationTime(NewTime: TDateTime);
+    function GetCreationTime: TDateTime;
+    procedure SetCreationTime(NewTime: TDateTime);
+    function GetLastAccessTime: TDateTime;
+    procedure SetLastAccessTime(NewTime: TDateTime);
+    function GetIsLinkToDirectory: Boolean;
+    procedure SetIsLinkToDirectory(NewValue: Boolean);
+
+    // Properties.
+    function GetNameProperty: TFileNameProperty;
+    procedure SetNameProperty(NewValue: TFileNameProperty);
+    function GetSizeProperty: TFileSizeProperty;
+    procedure SetSizeProperty(NewValue: TFileSizeProperty);
+    function GetCompressedSizeProperty: TFileCompressedSizeProperty;
+    procedure SetCompressedSizeProperty(NewValue: TFileCompressedSizeProperty);
+    function GetAttributesProperty: TFileAttributesProperty;
+    procedure SetAttributesProperty(NewValue: TFileAttributesProperty);
+    function GetModificationTimeProperty: TFileModificationDateTimeProperty;
+    procedure SetModificationTimeProperty(NewValue: TFileModificationDateTimeProperty);
+    function GetCreationTimeProperty: TFileCreationDateTimeProperty;
+    procedure SetCreationTimeProperty(NewValue: TFileCreationDateTimeProperty);
+    function GetLastAccessTimeProperty: TFileLastAccessDateTimeProperty;
+    procedure SetLastAccessTimeProperty(NewValue: TFileLastAccessDateTimeProperty);
+    function GetLinkProperty: TFileLinkProperty;
+    procedure SetLinkProperty(NewValue: TFileLinkProperty);
+
   public
-    constructor Create(const APath: String); virtual;
+    constructor Create(const APath: String);
+    constructor CreateForCloning;
     destructor Destroy; override;
 
     {en
        Creates an identical copy of the object (as far as object data is concerned).
     }
-    function Clone: TFile; virtual;
-    procedure CloneTo(AFile: TFile); virtual;
-
-    class function GetSupportedProperties: TFilePropertiesTypes; virtual;
+    function Clone: TFile;
+    procedure CloneTo(AFile: TFile);
 
     {en
        Returns True if name is not '..'.
        May be extended to include other conditions.
     }
-    function IsNameValid: Boolean; virtual;
+    function IsNameValid: Boolean;
 
     {en
        This list only contains pointers to TFileProperty objects.
@@ -83,12 +113,25 @@ type
     //property Properties[Index: Integer];
     //property Properties[Name: String];
     //property Properties[Type: TFilePropertiesType]
-    property Properties: TFileProperties read GetProperties;
+    property Properties: TFileProperties read FProperties;
 
     {en
        All supported properties should have an assigned Properties[propertyType].
     }
-    property SupportedProperties: TFilePropertiesTypes read GetSupportedProperties;
+    property SupportedProperties: TFilePropertiesTypes read FSupportedProperties;
+
+    { Accessors to each property. }
+
+    property NameProperty: TFileNameProperty read GetNameProperty write SetNameProperty;
+    property SizeProperty: TFileSizeProperty read GetSizeProperty write SetSizeProperty;
+    property CompressedSizeProperty: TFileCompressedSizeProperty read GetCompressedSizeProperty write SetCompressedSizeProperty;
+    property AttributesProperty: TFileAttributesProperty read GetAttributesProperty write SetAttributesProperty;
+    property ModificationTimeProperty: TFileModificationDateTimeProperty read GetModificationTimeProperty write SetModificationTimeProperty;
+    property CreationTimeProperty: TFileCreationDateTimeProperty read GetCreationTimeProperty write SetCreationTimeProperty;
+    property LastAccessTimeProperty: TFileLastAccessDateTimeProperty read GetLastAccessTimeProperty write SetLastAccessTimeProperty;
+    property LinkProperty: TFileLinkProperty read GetLinkProperty write SetLinkProperty;
+
+    { Accessors to each property's value. }
 
     {en
        Sets/gets absolute path to file.
@@ -100,6 +143,12 @@ type
     property Name: String read GetName write SetName;
     property NameNoExt: String read GetNameNoExt;
     property Extension: String read GetExtension;
+    property Size: Int64 read GetSize write SetSize;
+    property CompressedSize: Int64 read GetCompressedSize write SetCompressedSize;
+    property Attributes: TFileAttrs read GetAttributes write SetAttributes;
+    property ModificationTime: TDateTime read GetModificationTime write SetModificationTime;
+    property CreationTime: TDateTime read GetCreationTime write SetCreationTime;
+    property LastAccessTime: TDateTime read GetLastAccessTime write SetLastAccessTime;
 
     // Convenience functions.
     // We assume here that when the file has no attributes
@@ -108,7 +157,7 @@ type
     function IsDirectory: Boolean;
     function IsSysFile: Boolean;
     function IsLink: Boolean;
-    function IsLinkToDirectory: Boolean; virtual;
+    property IsLinkToDirectory: Boolean read GetIsLinkToDirectory write SetIsLinkToDirectory;
     function IsExecutable: Boolean;   // for ShellExecute
   end;
 
@@ -130,23 +179,14 @@ type
     procedure SetPath(const NewPath: String);
 
   public
-    constructor Create(const APath: String); virtual;
+    constructor Create(const APath: String);
     destructor Destroy; override;
-
-    {en
-       Creates a new object of the same type.
-    }
-    function CreateObjectOfSameType(const APath: String): TFiles; virtual;
-    {en
-       Creates a file object of appropriate type.
-    }
-    function CreateFileObject(const APath: String): TFile; virtual;
 
     {en
        Create a list with cloned files.
     }
-    function Clone: TFiles; virtual;
-    procedure CloneTo(Files: TFiles); virtual;
+    function Clone: TFiles;
+    procedure CloneTo(Files: TFiles);
 
     function Add(AFile: TFile): Integer;
     procedure Insert(AFile: TFile; AtIndex: Integer);
@@ -188,9 +228,9 @@ type
     procedure SetData(NewData: TObject);
 
   public
-    constructor Create; overload; virtual;
-    constructor Create(aFile: TFile); overload; virtual;
-    constructor Create(aFile: TFile; DataClass: TClass); overload; virtual;
+    constructor Create; overload;
+    constructor Create(aFile: TFile); overload;
+    constructor Create(aFile: TFile; DataClass: TClass); overload;
     destructor Destroy; override;
 
     function AddSubNode(aFile: TFile): Integer;
@@ -212,32 +252,40 @@ uses
 {$ENDIF}
 
 constructor TFile.Create(const APath: String);
+var
+  PropertyType: TFilePropertyType;
 begin
   inherited Create;
 
-  // For now don't assign fpName property (for speed) - use FName instead.
-  // To be consistent maybe it should be assigned in the future,
-  // but for now it doesn't break anything yet.
-  {$IFDEF AssignFileNameProperty}
-  FProperties[fpName] := TFileNameProperty.Create;
-  {$ENDIF}
+  FSupportedProperties := [];
+  for PropertyType := Low(TFilePropertyType) to High(TFilePropertyType) do
+    FProperties[PropertyType] := nil;
+
+  // Name property always present.
+  NameProperty := TFileNameProperty.Create;
 
   Path := APath;
 end;
 
+constructor TFile.CreateForCloning;
+begin
+  // Create empty object.
+  inherited Create;
+end;
+
 destructor TFile.Destroy;
+var
+  PropertyType: TFilePropertyType;
 begin
   inherited Destroy;
 
-  {$IFDEF AssignFileNameProperty}
-  if Assigned(FProperties[fpName]) then
-    FreeAndNil(FProperties[fpName]);
-  {$ENDIF}
+  for PropertyType := Low(TFilePropertyType) to High(TFilePropertyType) do
+    Properties[PropertyType].Free;
 end;
 
 function TFile.Clone: TFile;
 begin
-  Result := TFile.Create(Path);
+  Result := TFile.CreateForCloning;
   CloneTo(Result);
 end;
 
@@ -247,31 +295,19 @@ var
 begin
   if Assigned(AFile) then
   begin
-    AFile.FName := FName;
     AFile.FExtension := FExtension;
     AFile.FNameNoExt := FNameNoExt;
-
-    // Properties were already created and assigned in the constructor
-    // of the appropriate class, so we already have objects to clone them to.
+    AFile.FPath      := FPath;
+    AFile.FSupportedProperties := FSupportedProperties;
 
     for PropertyType := Low(TFilePropertyType) to High(TFilePropertyType) do
     begin
       if Assigned(Self.Properties[PropertyType]) then
       begin
-        Self.Properties[PropertyType].CloneTo(AFile.Properties[PropertyType]);
+        AFile.FProperties[PropertyType] := Self.FProperties[PropertyType].Clone;
       end;
     end;
   end;
-end;
-
-class function TFile.GetSupportedProperties: TFilePropertiesTypes;
-begin
-  Result := [fpName];
-end;
-
-function TFile.GetProperties: TFileProperties;
-begin
-  Result := FProperties;
 end;
 
 function TFile.GetExtension: String;
@@ -286,36 +322,31 @@ end;
 
 function TFile.GetName: String;
 begin
-  Result := FName;
+  Result := TFileNameProperty(FProperties[fpName]).Value;
 end;
 
-procedure TFile.SetName(Name: String);
+procedure TFile.SetName(NewName: String);
 begin
-  FName := Name;
-  {$IFDEF AssignFileNameProperty}
-  (FProperties[fpName] as TFileNameProperty).Value := Name;
-  {$ENDIF}
+  TFileNameProperty(FProperties[fpName]).Value := NewName;
 
   // Cache Extension and NameNoExt.
 
-  if (FName = '') or
-     ((fpAttributes in SupportedProperties) and (IsDirectory or IsLinkToDirectory)) or
-     (FName[1] = '.')
+  if (NewName = '') or IsDirectory or IsLinkToDirectory or (NewName[1] = '.')
   then
   begin
     // For directories and files beginning with '.' there is no extension.
     FExtension := '';
-    FNameNoExt := FName;
+    FNameNoExt := NewName;
   end
   else
   begin
-    SplitIntoNameAndExtension(FName, FNameNoExt, FExtension);
+    SplitIntoNameAndExtension(NewName, FNameNoExt, FExtension);
   end;
 end;
 
 function TFile.GetFullPath: String;
 begin
-  Result := Path + Name;
+  Result := Path + TFileNameProperty(FProperties[fpName]).Value;
 end;
 
 procedure TFile.SetFullPath(const NewFullPath: String);
@@ -347,6 +378,191 @@ begin
     FPath := IncludeTrailingPathDelimiter(NewPath);
 end;
 
+function TFile.GetAttributes: TFileAttrs;
+begin
+  Result := TFileAttributesProperty(FProperties[fpAttributes]).Value;
+end;
+
+procedure TFile.SetAttributes(NewAttributes: TFileAttrs);
+begin
+  TFileAttributesProperty(FProperties[fpAttributes]).Value := NewAttributes;
+end;
+
+function TFile.GetSize: Int64;
+begin
+  Result := TFileSizeProperty(FProperties[fpSize]).Value;
+end;
+
+procedure TFile.SetSize(NewSize: Int64);
+begin
+  TFileSizeProperty(FProperties[fpSize]).Value := NewSize;
+end;
+
+function TFile.GetCompressedSize: Int64;
+begin
+  Result := TFileCompressedSizeProperty(FProperties[fpCompressedSize]).Value;
+end;
+
+procedure TFile.SetCompressedSize(NewCompressedSize: Int64);
+begin
+  TFileCompressedSizeProperty(FProperties[fpCompressedSize]).Value := NewCompressedSize;
+end;
+
+function TFile.GetModificationTime: TDateTime;
+begin
+  Result := TFileModificationDateTimeProperty(FProperties[fpModificationTime]).Value;
+end;
+
+procedure TFile.SetModificationTime(NewTime: TDateTime);
+begin
+  TFileModificationDateTimeProperty(FProperties[fpModificationTime]).Value := NewTime;
+end;
+
+function TFile.GetCreationTime: TDateTime;
+begin
+  Result := TFileCreationDateTimeProperty(FProperties[fpCreationTime]).Value;
+end;
+
+procedure TFile.SetCreationTime(NewTime: TDateTime);
+begin
+  TFileCreationDateTimeProperty(FProperties[fpCreationTime]).Value := NewTime;
+end;
+
+function TFile.GetLastAccessTime: TDateTime;
+begin
+  Result := TFileLastAccessDateTimeProperty(FProperties[fpLastAccessTime]).Value;
+end;
+
+procedure TFile.SetLastAccessTime(NewTime: TDateTime);
+begin
+  TFileLastAccessDateTimeProperty(FProperties[fpLastAccessTime]).Value := NewTime;
+end;
+
+function TFile.GetIsLinkToDirectory: Boolean;
+begin
+  if fpLink in SupportedProperties then
+    Result := TFileLinkProperty(FProperties[fpLink]).IsLinkToDirectory
+  else
+    Result := False;
+end;
+
+procedure TFile.SetIsLinkToDirectory(NewValue: Boolean);
+begin
+  TFileLinkProperty(FProperties[fpLink]).IsLinkToDirectory := NewValue;
+end;
+
+function TFile.GetNameProperty: TFileNameProperty;
+begin
+  Result := TFileNameProperty(FProperties[fpName]);
+end;
+
+procedure TFile.SetNameProperty(NewValue: TFileNameProperty);
+begin
+  FProperties[fpName] := NewValue;
+  if Assigned(NewValue) then
+    Include(FSupportedProperties, fpName)
+  else
+    Exclude(FSupportedProperties, fpName);
+end;
+
+function TFile.GetAttributesProperty: TFileAttributesProperty;
+begin
+  Result := TFileAttributesProperty(FProperties[fpAttributes]);
+end;
+
+procedure TFile.SetAttributesProperty(NewValue: TFileAttributesProperty);
+begin
+  FProperties[fpAttributes] := NewValue;
+  if Assigned(NewValue) then
+    Include(FSupportedProperties, fpAttributes)
+  else
+    Exclude(FSupportedProperties, fpAttributes);
+end;
+
+function TFile.GetSizeProperty: TFileSizeProperty;
+begin
+  Result := TFileSizeProperty(FProperties[fpSize]);
+end;
+
+procedure TFile.SetSizeProperty(NewValue: TFileSizeProperty);
+begin
+  FProperties[fpSize] := NewValue;
+  if Assigned(NewValue) then
+    Include(FSupportedProperties, fpSize)
+  else
+    Exclude(FSupportedProperties, fpSize);
+end;
+
+function TFile.GetCompressedSizeProperty: TFileCompressedSizeProperty;
+begin
+  Result := TFileCompressedSizeProperty(FProperties[fpCompressedSize]);
+end;
+
+procedure TFile.SetCompressedSizeProperty(NewValue: TFileCompressedSizeProperty);
+begin
+  FProperties[fpCompressedSize] := NewValue;
+  if Assigned(NewValue) then
+    Include(FSupportedProperties, fpCompressedSize)
+  else
+    Exclude(FSupportedProperties, fpCompressedSize);
+end;
+
+function TFile.GetModificationTimeProperty: TFileModificationDateTimeProperty;
+begin
+  Result := TFileModificationDateTimeProperty(FProperties[fpModificationTime]);
+end;
+
+procedure TFile.SetModificationTimeProperty(NewValue: TFileModificationDateTimeProperty);
+begin
+  FProperties[fpModificationTime] := NewValue;
+  if Assigned(NewValue) then
+    Include(FSupportedProperties, fpModificationTime)
+  else
+    Exclude(FSupportedProperties, fpModificationTime);
+end;
+
+function TFile.GetCreationTimeProperty: TFileCreationDateTimeProperty;
+begin
+  Result := TFileCreationDateTimeProperty(FProperties[fpCreationTime]);
+end;
+
+procedure TFile.SetCreationTimeProperty(NewValue: TFileCreationDateTimeProperty);
+begin
+  FProperties[fpCreationTime] := NewValue;
+  if Assigned(NewValue) then
+    Include(FSupportedProperties, fpCreationTime)
+  else
+    Exclude(FSupportedProperties, fpCreationTime);
+end;
+
+function TFile.GetLastAccessTimeProperty: TFileLastAccessDateTimeProperty;
+begin
+  Result := TFileLastAccessDateTimeProperty(FProperties[fpLastAccessTime]);
+end;
+
+procedure TFile.SetLastAccessTimeProperty(NewValue: TFileLastAccessDateTimeProperty);
+begin
+  FProperties[fpLastAccessTime] := NewValue;
+  if Assigned(NewValue) then
+    Include(FSupportedProperties, fpLastAccessTime)
+  else
+    Exclude(FSupportedProperties, fpLastAccessTime);
+end;
+
+function TFile.GetLinkProperty: TFileLinkProperty;
+begin
+  Result := TFileLinkProperty(FProperties[fpLink]);
+end;
+
+procedure TFile.SetLinkProperty(NewValue: TFileLinkProperty);
+begin
+  FProperties[fpLink] := NewValue;
+  if Assigned(NewValue) then
+    Include(FSupportedProperties, fpLink)
+  else
+    Exclude(FSupportedProperties, fpLink);
+end;
+
 function TFile.IsNameValid: Boolean;
 begin
   if Name <> '..' then
@@ -356,35 +572,19 @@ begin
 end;
 
 function TFile.IsDirectory: Boolean;
-var
-  FileAttributes: TFileAttributesProperty;
 begin
   if fpAttributes in SupportedProperties then
-  begin
-    FileAttributes := Properties[fpAttributes] as TFileAttributesProperty;
-    Result := FileAttributes.IsDirectory;
-  end
+    Result := TFileAttributesProperty(FProperties[fpAttributes]).IsDirectory
   else
     Result := False;
 end;
 
 function TFile.IsLink: Boolean;
-var
-  FileAttributes: TFileAttributesProperty;
 begin
   if fpAttributes in SupportedProperties then
-  begin
-    FileAttributes := Properties[fpAttributes] as TFileAttributesProperty;
-    Result := FileAttributes.IsLink;
-  end
+    Result := TFileAttributesProperty(FProperties[fpAttributes]).IsLink
   else
     Result := False;
-end;
-
-function TFile.IsLinkToDirectory: Boolean;
-begin
-  // Override in descendant classes.
-  Result := False;
 end;
 
 function TFile.IsExecutable: Boolean;
@@ -393,7 +593,7 @@ var
 begin
   if fpAttributes in SupportedProperties then
   begin
-    FileAttributes := Properties[fpAttributes] as TFileAttributesProperty;
+    FileAttributes := TFileAttributesProperty(FProperties[fpAttributes]);
 {$IF DEFINED(MSWINDOWS)}
     Result := not FileAttributes.IsDirectory;
 {$ELSEIF DEFINED(UNIX)}
@@ -408,17 +608,10 @@ begin
 end;
 
 function TFile.IsSysFile: Boolean;
-{$IFDEF MSWINDOWS}
-var
-  FileAttributes: TFileAttributesProperty;
-{$ENDIF}
 begin
 {$IFDEF MSWINDOWS}
   if fpAttributes in SupportedProperties then
-  begin
-    FileAttributes := Properties[fpAttributes] as TFileAttributesProperty;
-    Result := FileAttributes.IsSysFile;
-  end
+    Result := TFileAttributesProperty(Properties[fpAttributes]).IsSysFile
   else
     Result := False;
 {$ELSE}
@@ -464,16 +657,6 @@ begin
   Clear;
   FreeAndNil(FList);
   inherited;
-end;
-
-function TFiles.CreateObjectOfSameType(const APath: String): TFiles;
-begin
-  Result := TFiles.Create(APath);
-end;
-
-function TFiles.CreateFileObject(const APath: String): TFile;
-begin
-  Result := TFile.Create(APath);
 end;
 
 function TFiles.Clone: TFiles;

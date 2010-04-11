@@ -201,7 +201,7 @@ begin
     FillByte(NewProperties, SizeOf(NewProperties), 0);
     NewProperties[fpName] := TFileNameProperty.Create(NewFileName);
     try
-      aFiles := aFileSource.CreateFiles(aFile.Path);
+      aFiles := TFiles.Create(aFile.Path);
       aFiles.Add(aFile.Clone);
 
       Operation := aFileSource.CreateSetFilePropertyOperation(
