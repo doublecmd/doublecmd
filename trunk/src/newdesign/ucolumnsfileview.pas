@@ -2709,6 +2709,12 @@ begin
   tmContextMenu.Enabled:= False;
   tmContextMenu.Interval:= 500;
 
+  {$IFDEF LCLCARBON}
+  // Under Carbon AutoSize don't work without it
+  pnlHeader.ClientHeight:= 0;
+  pnlFooter.ClientHeight:= 0;
+  {$ENDIF}
+
   // ---
   dgPanel.OnUTF8KeyPress := @UTF8KeyPressEvent;
   dgPanel.OnMouseLeave:= @dgPanelMouseLeave;
