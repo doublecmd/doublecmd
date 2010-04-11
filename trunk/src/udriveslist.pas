@@ -179,7 +179,6 @@ var
   I, RowNr : Integer;
   Drive : PDrive;
   FreeSize, TotalSize: Int64;
-  Key:Word;
 begin
   FDrivesList := ADrivesList;
 
@@ -557,4 +556,4 @@ begin
 end;
 
 end.
-
+

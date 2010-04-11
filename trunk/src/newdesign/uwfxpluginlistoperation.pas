@@ -8,7 +8,6 @@ uses
   Classes, SysUtils,
   uFileSourceListOperation,
   uWfxPluginFileSource,
-  uWfxPluginUtil,
   uFileSource;
 
 type
@@ -34,12 +33,13 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uOSUtils, uDCUtils, uFile, WfxPlugin, uWfxModule, uLog, uLng;
+  uOSUtils, uDCUtils, uFile, WfxPlugin, uWfxModule, uLog, uLng;
 
 function TWfxPluginListOperation.UpdateProgress(SourceName, TargetName: UTF8String;
                                                 PercentDone: Integer): Integer;
 begin
   logWrite(rsMsgLoadingFileList + IntToStr(PercentDone) + '%', lmtInfo, False, False);
+  Result := 0;
 end;
 
 constructor TWfxPluginListOperation.Create(aFileSource: IFileSource; aPath: String);

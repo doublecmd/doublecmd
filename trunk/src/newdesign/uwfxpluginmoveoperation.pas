@@ -26,7 +26,6 @@ type
     FCallbackDataClass: TCallbackDataClass;
     FFullFilesTreeToCopy: TFiles;  // source files including all files/dirs in subdirectories
     FStatistics: TFileSourceMoveOperationStatistics; // local copy of statistics
-    FCurrentFileSize: Int64;
     // Options
     FInfoOperation: LongInt;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
@@ -51,7 +50,7 @@ type
 implementation
 
 uses
-  uOSUtils, FileUtil, LCLProc, uGlobs, WfxPlugin, uFileSystemUtil;
+  WfxPlugin;
 
 // -- TWfxPluginMoveOperation ---------------------------------------------
 

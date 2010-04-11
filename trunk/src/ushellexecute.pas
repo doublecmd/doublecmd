@@ -41,8 +41,8 @@ function ShellExecuteEx(sCmd, sFileName, sActiveDir: String): Boolean;
 implementation
 
 uses
-  Process, UTF8Process, StrUtils, uDCUtils, uShowForm, uGlobs, uOSUtils,
-  uFileSystemFileSource, uClassesEx;
+  Process, UTF8Process, uDCUtils, uShowForm, uGlobs, uOSUtils,
+  uFileSystemFileSource;
 
 {
   Functions (without parameters they give output for all selected files):

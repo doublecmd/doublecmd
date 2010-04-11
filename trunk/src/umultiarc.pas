@@ -77,7 +77,7 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, uClassesEx, uDCUtils, uOSUtils;
+  LCLProc, uClassesEx, uDCUtils, uOSUtils;
 
 { TMultiArcList }
 
@@ -228,7 +228,7 @@ end;
 
 function TMultiArcList.Add(const S: UTF8String; aMultiArcItem: TMultiArcItem): Integer;
 begin
-  FList.AddObject(S, aMultiArcItem);
+  Result := FList.AddObject(S, aMultiArcItem);
 end;
 
 procedure TMultiArcList.Delete(Index: Integer);

@@ -12,7 +12,7 @@ uses
 
 function GetArchiveFileSource(anArchiveFileName: String; anArchiveType: String = ''): IArchiveFileSource;
 
-function TestArchive(aFileView: TFileView; aFiles: TFiles): Boolean;
+procedure TestArchive(aFileView: TFileView; aFiles: TFiles);
 
 implementation
 
@@ -25,7 +25,6 @@ uses
   uMultiArchiveFileSource,
   uFileSystemFileSource,
   uFileSourceOperation,
-  uFileSourceTestArchiveOperation,
   uFileSourceOperationTypes,
   uOperationsManager;
 
@@ -54,7 +53,7 @@ begin
     end;
 end;
 
-function TestArchive(aFileView: TFileView; aFiles: TFiles): Boolean;
+procedure TestArchive(aFileView: TFileView; aFiles: TFiles);
 var
   I: Integer;
   FilesToTest: TFiles = nil;

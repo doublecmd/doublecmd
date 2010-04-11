@@ -56,7 +56,7 @@ implementation
 uses
   LCLProc
   {$IFDEF UNIX}
-  , Masks, UnixUtil, uMyUnix, Unix
+  , Masks, uMyUnix, Unix
   {$ELSE}
   , Windows
   {$ENDIF};

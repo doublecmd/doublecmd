@@ -5,7 +5,7 @@ unit uWcxArchiveTestArchiveOperation;
 interface
 
 uses
-  Classes, SysUtils, StringHashList, uLog, uGlobs,
+  Classes, SysUtils, uLog, uGlobs,
   uFileSourceTestArchiveOperation,
   uFileSource,
   uFileSourceOperation,
@@ -41,8 +41,8 @@ type
 implementation
 
 uses
-  LCLProc, Masks, FileUtil, contnrs, uOSUtils, uDCUtils, uShowMsg, WcxPlugin,
-  uFileSourceOperationUI, uWCXmodule, uFileProcs, uLng, uDateTimeUtils, uTypes;
+  FileUtil, uOSUtils, uDCUtils, uShowMsg, WcxPlugin, uFileSourceOperationUI,
+  uWCXmodule, uLng;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks

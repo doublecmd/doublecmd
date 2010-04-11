@@ -349,7 +349,6 @@ procedure TMultiArchiveFileSource.OnGetArchiveItem(ArchiveItem: TArchiveItem);
   end;
 
 var
-  I : Integer;
   NameLength: Integer;
 begin
   // Some archivers end directories with path delimiter. Delete it if present.

@@ -114,8 +114,7 @@ uses
   uLng, uCryptProc, uFileAttributes,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
-  uWfxPluginDeleteOperation, uWfxPluginUtil, uWfxPluginSetFilePropertyOperation,
-  uWfxPluginCopyOperation;
+  uWfxPluginDeleteOperation, uWfxPluginSetFilePropertyOperation, uWfxPluginCopyOperation;
 
 { CallBack functions }
 

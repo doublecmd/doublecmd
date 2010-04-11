@@ -13,9 +13,9 @@ function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): UTF8S
 implementation
 
 uses
-  StrUtils, uLng, uFileSourceProperty, uFileProperty
+  StrUtils, uFileProperty
 {$IF DEFINED(MSWINDOWS)}
-  , uShlObjAdditional
+  , uShlObjAdditional, uFileSourceProperty
 {$ENDIF}
   ;
 
@@ -41,4 +41,4 @@ begin
 end;
 
 end.
-
+

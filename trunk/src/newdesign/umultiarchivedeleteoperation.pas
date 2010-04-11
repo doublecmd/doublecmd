@@ -8,7 +8,6 @@ uses
   Classes, SysUtils,
   uFileSourceDeleteOperation,
   uFileSource,
-  uFileSourceOperation,
   uFileSourceOperationUI,
   uFile,
   uMultiArchiveFileSource,
@@ -52,8 +51,7 @@ type
 implementation
 
 uses
-  uOSUtils, uDCUtils, uLng, uShowMsg, uMultiArc, uMultiArchiveUtil,
-  Masks, FileUtil, LCLProc, Process;
+  uOSUtils, uDCUtils, uLng, uMultiArc, uMultiArchiveUtil, LCLProc;
 
 constructor TMultiArchiveDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);

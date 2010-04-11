@@ -25,7 +25,7 @@ type
     procedure Execute;
     procedure Stop;
     procedure SetCmdLine(commandline:string);
-    destructor Destroy;
+    destructor Destroy; override;
 
     property Process: TProcess read p;
     property ExitStatus: integer read _GetExitStatus;
@@ -57,7 +57,7 @@ end;
 procedure TExProcess.Execute;
 var
   buf: string;
-  i, j, c, n: integer;
+  i, j: integer;
 begin
   try
     p.Execute;

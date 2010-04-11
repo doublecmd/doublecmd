@@ -527,7 +527,7 @@ function ExecCmdFork(sCmdLine:String; bTerm : Boolean; sTerm : String; bKeepTerm
 {$IFDEF UNIX}
 var
   Command : String;
-  x, pid : LongInt;
+  pid : LongInt;
   Args : TOpenStringArray;
   WaitForPidThread: TWaitForPidThread;
 begin

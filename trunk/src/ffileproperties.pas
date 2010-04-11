@@ -135,8 +135,8 @@ implementation
 
 uses
   LCLType, StrUtils, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
-  uDefaultFilePropertyFormatter, uFileSystemFile, uMyUnix, uDateTimeUtils,
-  uFileAttributes, uFileSourceOperationTypes, uOperationsManager;
+  uDefaultFilePropertyFormatter, uMyUnix, uFileAttributes,
+  uFileSourceOperationTypes, uFileSystemFileSource, uOperationsManager;
 
 procedure ShowFileProperties(aFileSource: IFileSource; const aFiles: TFiles);
 begin
@@ -271,14 +271,13 @@ end;
 procedure TfrmFileProperties.ShowFile(iIndex:Integer);
 var
   sb: BaseUnix.Stat;
-  dtFileDates: TDateTime;
   iMyUID: Cardinal;
   Attrs: TFileAttrs;
   isFileSystem: Boolean;
   hasSize: Boolean;
 begin
   StopCalcFolderSize; // Stop previous calculate folder size operation
-  isFileSystem := fFiles[iIndex] is TFileSystemFile;
+  isFileSystem := FFileSource.IsClass(TFileSystemFileSource);
 
   with fFiles[iIndex] do
   begin
@@ -299,26 +298,26 @@ begin
     lblSizeStr.Visible := hasSize;
 
     // Times
-    if isFileSystem then
-    begin
-      fpLStat(PChar(FullPath), sb);
-      dtFileDates := FileTimeToDateTime(sb.st_atime);
-      lblLastAccess.Caption := DateTimeToStr(dtFileDates);
-      dtFileDates := FileTimeToDateTime(sb.st_ctime);
-      lblLastStChange.Caption := DateTimeToStr(dtFileDates);
-    end
+    lblLastAccess.Visible := fpLastAccessTime in SupportedProperties;
+    lblLastAccessStr.Visible := fpLastAccessTime in SupportedProperties;
+    if fpLastAccessTime in SupportedProperties then
+      lblLastAccess.Caption := Properties[fpLastAccessTime].Format(FPropertyFormatter)
     else
-    begin
       lblLastAccess.Caption:='';
-      lblLastStChange.Caption:='';
-    end;
 
-    // Modification time
+    lblLastStChange.Visible := fpCreationTime in SupportedProperties;
+    lblLastStChangeStr.Visible := fpCreationTime in SupportedProperties;
+    if fpCreationTime in SupportedProperties then
+      lblLastStChange.Caption := Properties[fpCreationTime].Format(FPropertyFormatter)
+    else
+      lblLastStChange.Caption:='';
+
     lblLastModif.Visible := fpModificationTime in SupportedProperties;
     lblLastModifStr.Visible := fpModificationTime in SupportedProperties;
     if fpModificationTime in SupportedProperties then
-      lblLastModif.Caption := DateTimeToStr((Properties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
-                             //Properties[fpModificationTime].Format(FPropertyFormatter);
+      lblLastModif.Caption := Properties[fpModificationTime].Format(FPropertyFormatter)
+    else
+      lblLastModif.Caption:='';
 
     // Chown
     if isFileSystem then
@@ -338,7 +337,7 @@ begin
     // Attributes
     if fpAttributes in SupportedProperties then
     begin
-      Attrs := (Properties[fpAttributes] as TFileAttributesProperty).Value;
+      Attrs := AttributesProperty.Value;
       //if Attrs is TUnixFileAttributesProperty
       //if Attrs is TNtfsFileAttributesProperty
 
@@ -441,7 +440,7 @@ procedure TfrmFileProperties.StartCalcFolderSize;
 var
   aFiles: TFiles;
 begin
-  aFiles:= FFileSource.CreateFiles(FFiles.Path);
+  aFiles:= TFiles.Create(FFiles.Path);
   aFiles.Add(FFiles.Items[iCurrent].Clone);
   FFileSourceCalcStatisticsOperation:= FFileSource.CreateCalcStatisticsOperation(aFiles) as TFileSourceCalcStatisticsOperation;
   if Assigned(FFileSourceCalcStatisticsOperation) then

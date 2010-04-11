@@ -2299,23 +2299,14 @@ procedure TfrmMain.sboxDrivePaint(Sender: TObject);
 var
   sboxDrive: TScrollBox absolute Sender;
   indexColor: Int64;
-  lightOfBusy, i: Integer;
-//  col: TColor;
+  i: Integer;
 begin
   indexColor:= sboxDrive.Tag;
   if indexColor <> -1 then
     begin
-      lightOfBusy:= (sboxDrive.Width - 4) * indexColor div 100;
-
-//      if IndexColor < 50 then col := clBlue;
-//      if IndexColor in [50..75] then col:= clGreen;
-//      if IndexColor in [76..85] then col := clYellow;
-//      if IndexColor > 85 then col := clRed;
-
       if IndexColor<=50 then sboxDrive.Canvas.Brush.Color := RGB (0+5*(IndexColor),255,0)
                         else sboxDrive.Canvas.Brush.Color := RGB (255,255-5*(IndexColor-50),0);
 
-//      sboxDrive.Canvas.Brush.Color :=col;
       sboxDrive.Canvas.FillRect (
                                  2,
                                  0,
@@ -2341,16 +2332,6 @@ begin
                                     4+(i+1)*(sboxDrive.Width-4) div 100,
                                     sboxDrive.Height-3);
         end;
-
-
-
-//      sboxDrive.Canvas.Brush.Color :=col;
-//
-//      sboxDrive.Canvas.FillRect(
-//                                4,
-//                                2,
-//                                lightOfBusy,
-//                                sboxDrive.Height-3);
     end;
 end;
 

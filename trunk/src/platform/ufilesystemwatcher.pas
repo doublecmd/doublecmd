@@ -44,7 +44,9 @@ type
     FOwner: TObject;
     FOnWatcherThreadError: TNotifyEvent;
     FOnWatcherNotifyEvent: TOnWatcherNotifyEvent;
+    {$IFDEF UNIX}
     FFileHandle,
+    {$ENDIF}
     FNotifyHandle: THandle;
     FWatchPath: UTF8String;
     FWatchFilter: TWatchFilter;

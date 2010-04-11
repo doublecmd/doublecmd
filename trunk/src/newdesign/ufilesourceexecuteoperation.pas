@@ -63,9 +63,6 @@ type
 
 implementation
 
-uses
-  uDCUtils;
-
 constructor TFileSourceExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
                 aExecutableFile: TFile;

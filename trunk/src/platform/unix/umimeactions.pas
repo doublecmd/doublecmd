@@ -59,7 +59,6 @@ uses
   uDCUtils, uIconTheme, uClipboard;
 
 type
-  PCDesktopFileEntry = ^TCDesktopFileEntry;
   TCDesktopFileEntry = record
     DisplayName: PChar;
     Comment: PChar;

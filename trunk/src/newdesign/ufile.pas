@@ -248,7 +248,7 @@ implementation
 
 {$IFDEF UNIX}
 uses
-  BaseUnix;
+  uFileAttributes;
 {$ENDIF}
 
 constructor TFile.Create(const APath: String);

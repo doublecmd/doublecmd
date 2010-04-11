@@ -185,6 +185,8 @@ begin
                                 FileTimeToDateTime(StatInfo.st_atime));
 {$POP}
 
+    LinkProperty := TFileLinkProperty.Create(AttributesProperty.IsLink and AttributesProperty.IsDirectory);
+
     if AttributesProperty.IsLink then
     begin
       sFullPath := PUnixFindData(SearchRecord.FindHandle)^.sPath
@@ -356,7 +358,7 @@ function TFileSystemFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
   Result := inherited GetSupportedFileProperties
           + [fpSize, fpAttributes, fpModificationTime, fpCreationTime,
-             fpLastAccessTime, fpLink];
+             fpLastAccessTime, uFileProperty.fpLink];
 end;
 
 function TFileSystemFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
@@ -495,4 +497,4 @@ begin
 end;
 
 end.
-
+

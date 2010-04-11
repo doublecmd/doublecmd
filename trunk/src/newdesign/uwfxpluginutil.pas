@@ -328,7 +328,6 @@ procedure TWfxPluginOperationHelper.ProcessFiles(aFiles: TFiles);
 var
   I: Integer;
   iResult: LongInt;
-  sSourceFile,
   sTargetFile : UTF8String;
   aFile: TFile;
 begin
@@ -336,12 +335,12 @@ begin
     with FWfxPluginFileSource do
     begin
       aFile:= aFiles.Items[I];
-      sSourceFile := aFile.Path + aFile.Name;
+
       // Filenames must be relative to the current directory.
       sTargetFile := FRootTargetPath + ExtractDirLevel(aFiles.Path, aFile.Path);
       sTargetFile := sTargetFile + ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask);
 
-      //DebugLn('Source name == ' + sSourceFile);
+      //DebugLn('Source name == ' + aFile.FullPath);
       //DebugLn('Target name == ' + sTargetFile);
 
       with FStatistics do
