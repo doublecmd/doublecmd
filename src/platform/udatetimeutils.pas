@@ -105,8 +105,10 @@ function TwelveToTwentyFour(Hour: Word; Modifier: AnsiString): Word;
 
 implementation
 
+{$IFDEF UNIX}
 uses
-  DateUtils, uLng;
+  uLng;
+{$ENDIF}
 
 const  { Short names of months. }
   ShortMonthNames: TMonthNameArray = ('Jan','Feb','Mar','Apr','May','Jun',
@@ -368,4 +370,4 @@ begin
 end;
 
 end.
-
+

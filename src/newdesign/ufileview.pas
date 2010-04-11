@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Controls, ExtCtrls,
   uFile, uFileSource, uMethodsList, uDragDropEx, uXmlConfig, uClassesEx,
-  uColumns, uFileSorting;
+  uFileSorting;
 
 type
 
@@ -258,7 +258,7 @@ type
 implementation
 
 uses
-  uActs, LCLProc;
+  uActs;
 
 constructor TFileView.Create(AOwner: TWinControl; FileSource: IFileSource; Path: String);
 begin

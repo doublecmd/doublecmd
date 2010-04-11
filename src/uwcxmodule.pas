@@ -67,9 +67,6 @@ Type
 
   TWCXModule = class
   private
-    FPackerCaps : Integer;
-
-  protected
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
     FArchiveName: String;
 

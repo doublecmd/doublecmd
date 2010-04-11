@@ -57,8 +57,7 @@ type
 implementation
 
 uses
-  LCLProc, uGlobs,
-  uVfsListOperation, uVfsExecuteOperation;
+  LCLProc, uVfsListOperation, uVfsExecuteOperation;
 
 constructor TVfsFileSource.Create(aWFXModuleList: TWFXModuleList);
 begin

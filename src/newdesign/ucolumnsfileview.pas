@@ -1490,7 +1490,6 @@ var
 
 var
   i, j: Integer;
-  Added: Boolean;
 begin
   FColumnsSorting.Clear;
   Columns := GetColumnsClass;

@@ -8,7 +8,6 @@ uses
   Classes, SysUtils, StringHashList, uLog, uGlobs, un_process,
   uFileSourceCopyOperation,
   uFileSource,
-  uFileSourceOperation,
   uFile,
   uMultiArchiveFileSource;
 
@@ -75,8 +74,8 @@ type
 implementation
 
 uses
-  LCLProc, Masks, FileUtil, uOSUtils, uDCUtils, uShowMsg, uMultiArc, Process,
-  uFileSourceOperationUI, uMultiArchiveUtil, uFileProcs, uLng, uDateTimeUtils, uTypes;
+  LCLProc, FileUtil, uOSUtils, uDCUtils, uMultiArc, uFileSourceOperationUI,
+  uMultiArchiveUtil, uFileProcs, uLng, uDateTimeUtils, uTypes;
 
 constructor TMultiArchiveCopyOutOperation.Create(aSourceFileSource: IFileSource;
                                                aTargetFileSource: IFileSource;

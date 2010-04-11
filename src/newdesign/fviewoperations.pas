@@ -5,9 +5,8 @@ unit fViewOperations;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, ExtCtrls, ComCtrls, Buttons,
-  uFileSourceOperation, uOperationsManager, uFileSourceCopyOperation;
+  Classes, SysUtils, LResources, Forms, Controls, Graphics, StdCtrls, ExtCtrls,
+  ComCtrls, Buttons, uFileSourceOperation, uOperationsManager;
 
 type
 
@@ -77,7 +76,7 @@ implementation
 
 uses
   uFileSourceOperationTypes,
-  uLng, LCLProc, fFileOpDlg;
+  uLng, fFileOpDlg;
 
 const
   aRowHeight = 50;
@@ -256,7 +255,6 @@ var
   StartingState: TOperationStartingState;
   i: Integer;
   OutString: String;
-  CopyStatistics: TFileSourceCopyOperationStatistics;
 begin
   for i := 0 to OperationsManager.OperationsCount - 1 do
   begin
@@ -322,8 +320,6 @@ begin
 end;
 
 procedure TfrmViewOperations.CurOpQueueInOutClick(Sender: TObject);
-var
-  Operation: TFileSourceOperation;
 begin
   if (OperationsManager.GetStartingState(OperationsManager.GetHandleById(indexFocus)) in [ossQueueFirst, ossQueueLast, ossQueueIn])  then
     begin

@@ -30,10 +30,8 @@ interface
 
 uses
   LResources,
-  SysUtils, Classes, Graphics, Controls, Forms,
-  ExtCtrls, ComCtrls, LCLProc, Menus, Dialogs, ExtDlgs, EditBtn,
-  viewercontrol, fFindView, WLXPlugin, uWLXModule,
-  uFileSource;
+  SysUtils, Classes, Controls, Forms, ExtCtrls, ComCtrls, LCLProc, Menus,
+  viewercontrol, fFindView, WLXPlugin, uWLXModule, uFileSource;
 
 type
 
@@ -164,7 +162,8 @@ procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSour
 implementation
 
 uses
-  IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx, uFindMmap, uDCUtils;
+  IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx,
+  uFindMmap, uDCUtils;
 
 const
   // Status bar panels indexes.

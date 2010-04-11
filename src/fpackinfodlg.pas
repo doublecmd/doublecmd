@@ -72,7 +72,7 @@ function ShowPackInfoDlg(aFileSource: IArchiveFileSource; aFile: TFile): TFileSo
 implementation
 
 uses
-  LCLType, uTypes, uFileProperty;
+  uFileProperty;
 
 function ShowPackInfoDlg(aFileSource: IArchiveFileSource; aFile: TFile): TFileSourceExecuteOperationResult;
 begin

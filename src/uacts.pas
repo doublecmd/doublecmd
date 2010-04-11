@@ -1349,9 +1349,7 @@ end;
 procedure TActs.cm_Edit(param:string);
 var
   i: Integer;
-  sEditCmd,
-  sFileName,
-  sFilePath : String;
+  sEditCmd: String;
   aFile: TFile;
   SelectedFiles: TFiles = nil;
 begin

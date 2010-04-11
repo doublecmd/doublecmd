@@ -226,7 +226,9 @@ begin
     CloseHandle(PipeStdOutWrite);
     CloseHandle(FProcessInformation.hThread);
     CloseHandle(FProcessInformation.hProcess);
+    Result := 0;
   except
+    Result := -1;
   end;
 end;
 

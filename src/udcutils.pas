@@ -35,7 +35,11 @@ unit uDCUtils;
 interface
 
 uses
-  Classes, SysUtils, Graphics, StdCtrls, uFile, uTypes;
+  Classes, SysUtils, Graphics, StdCtrls, uFile
+  {$IF DEFINED(UNIX)}
+  , uTypes
+  {$ENDIF}
+  ;
 
 const
 {$IF DEFINED(UNIX)}
@@ -359,7 +363,7 @@ function ModColor(AColor: TColor; APercent: Byte) : TColor;
 implementation
 
 uses
-   FileUtil, Masks, StrUtils, uOSUtils, uGlobs, uGlobsPaths, DateUtils;
+   FileUtil, Masks, StrUtils, uOSUtils, uGlobs, uGlobsPaths;
 
 function GetCmdDirFromEnvVar(sPath: String): String;
 begin

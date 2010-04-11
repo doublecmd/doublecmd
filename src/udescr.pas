@@ -278,9 +278,9 @@ function TDescription.AddDescription(FileName, Descr: String): Integer;
 begin
   FileName:= ExtractFileName(FileName);
   if Pos(#32, FileName) <> 0 then
-    Add(#34+FileName+#34#32+Descr)
+    Result := Add(#34+FileName+#34#32+Descr)
   else
-    Add(FileName+#32+Descr)
+    Result := Add(FileName+#32+Descr);
 end;
 
 function TDescription.ReadDescription(FileName: String): String;

@@ -726,7 +726,6 @@ procedure TWFXModuleList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
 var
   I: Integer;
   AName, APath: String;
-  AFlags: Integer;
 begin
   Clear;
 

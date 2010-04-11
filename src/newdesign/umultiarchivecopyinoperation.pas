@@ -5,10 +5,9 @@ unit uMultiArchiveCopyInOperation;
 interface
 
 uses
-  Classes, SysUtils, StringHashList, uLog, uGlobs, un_process,
+  Classes, SysUtils, uLog, uGlobs, un_process,
   uFileSourceCopyOperation,
   uFileSource,
-  uFileSourceOperation,
   uFile,
   uMultiArchiveFileSource;
 
@@ -58,8 +57,8 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uDCUtils, uMultiArc, uLng, uShowMsg, Process, WcxPlugin,
-  uFileSourceOperationUI, uFileSystemUtil, uMultiArchiveUtil, uOSUtils;
+  LCLProc, uDCUtils, uMultiArc, uLng, WcxPlugin, uFileSourceOperationUI,
+  uFileSystemUtil, uMultiArchiveUtil, uOSUtils;
 
 constructor TMultiArchiveCopyInOperation.Create(aSourceFileSource: IFileSource;
                                               aTargetFileSource: IFileSource;
