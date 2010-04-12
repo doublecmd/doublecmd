@@ -44,24 +44,25 @@ const
   IDX_ID             = 0;
   IDX_NAME           = 1;
   IDX_VERSION        = 2;
-  IDX_DESCRIPTION    = 3;
-  IDX_CREATOR        = 4;
-  IDX_DEVELOPER      = 5;
-  IDX_CONTRIBUTOR    = 6;
-  IDX_TRANSLATOR     = 7;
-  IDX_HOMEPAGEURL    = 8;
-  IDX_UPDATEURL      = 9;
-  IDX_PLATFORM       = 10;
-  IDX_COMPATIBILITY  = 11;
-  IDX_FIREFOX        = 12;
-  IDX_MOZILLA        = 13;
-  IDX_SEAMONKEY      = 14;
-  IDX_THUNDERBIRD    = 15;
-  IDX_FLOCK          = 16;
-  IDX_SUNBIRD        = 17;
-  IDX_FENNEC         = 18;
+  IDX_TYPE           = 3;
+  IDX_DESCRIPTION    = 4;
+  IDX_CREATOR        = 5;
+  IDX_DEVELOPER      = 6;
+  IDX_CONTRIBUTOR    = 7;
+  IDX_TRANSLATOR     = 8;
+  IDX_HOMEPAGEURL    = 9;
+  IDX_UPDATEURL      = 10;
+  IDX_PLATFORM       = 11;
+  IDX_COMPATIBILITY  = 12;
+  IDX_FIREFOX        = 13;
+  IDX_MOZILLA        = 14;
+  IDX_SEAMONKEY      = 15;
+  IDX_THUNDERBIRD    = 16;
+  IDX_FLOCK          = 17;
+  IDX_SUNBIRD        = 18;
+  IDX_FENNEC         = 19;
 
-  FIELD_COUNT        = 19;
+  FIELD_COUNT        = 20;
 
 var
   CurrentFileName: AnsiString;       // Current *.xpi file
@@ -100,6 +101,7 @@ begin
       IDX_ID:                   Field := 'ID';
       IDX_NAME:                 Field := 'Name';
       IDX_VERSION:              Field := 'Version';
+      IDX_TYPE:                 Field := 'Type';
       IDX_DESCRIPTION:          Field := 'Description';
       IDX_CREATOR:              Field := 'Creator';
       IDX_DEVELOPER:            Field := 'Developer(s)';
@@ -146,6 +148,7 @@ begin
         IDX_ID:                Value := InstallManifest.ID;
         IDX_NAME:              Value := InstallManifest.Name;
         IDX_VERSION:           Value := InstallManifest.Version;
+        IDX_TYPE:              Value := InstallManifest.AddonType;
         IDX_DESCRIPTION:       Value := InstallManifest.Description;
         IDX_CREATOR:           Value := InstallManifest.Creator;
         IDX_DEVELOPER:         Value := InstallManifest.Developer;

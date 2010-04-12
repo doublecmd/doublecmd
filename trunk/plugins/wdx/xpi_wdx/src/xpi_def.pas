@@ -46,7 +46,8 @@ type
     HomePageURL,
     UpdateURL,
     TargetPlatform,
-    Compatibility: AnsiString;
+    Compatibility,
+    AddonType: AnsiString;
     TargetApplication: TStringList;
   public
     constructor Create;

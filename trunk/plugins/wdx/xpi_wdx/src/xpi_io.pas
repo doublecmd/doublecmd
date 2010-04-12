@@ -67,7 +67,23 @@ begin
   end;
 end;
 
-function AddString(TargetStr, SourceStr: AnsiString): AnsiString;
+function AddonType(const sType: AnsiString): AnsiString;
+var
+  iType: Integer;
+begin
+  iType:= StrToIntDef(sType, 0);
+  case iType of
+    2:   Result:= 'Extension';
+    4:   Result:= 'Theme';
+    8:   Result:= 'Locale';
+    16:  Result:= 'Plugin';
+    32:  Result:= 'Multiple Item Package';
+  else
+    Result:= 'Unknown';
+  end;
+end;
+
+function AddString(const TargetStr, SourceStr: AnsiString): AnsiString;
 begin
   if Length(TargetStr) = 0 then
     Result:= SourceStr
@@ -145,6 +161,8 @@ begin
                InstallManifest.Name:= FirstChild.NodeValue
              else if nodeName = 'em:version' then
                InstallManifest.Version:= FirstChild.NodeValue
+             else if nodeName = 'em:type' then
+               InstallManifest.AddonType:= AddonType(FirstChild.NodeValue)
              else if nodeName = 'em:description' then
                InstallManifest.Description:= FirstChild.NodeValue
              else if nodeName = 'em:creator' then
