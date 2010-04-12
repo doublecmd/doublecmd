@@ -291,12 +291,17 @@ begin
 end;
 
 procedure TWDXModuleList.Assign(Source: TWDXModuleList);
+var
+  I: Integer;
 begin
   if Assigned(Source) then
   begin
     Clear;
-    FList.Assign(Source.FList);
-    Source.FList.Clear;
+    for I := 0 to Source.Flist.Count - 1 do
+    begin
+      with TWdxModule(Source.Flist.Objects[I]) do
+      Add(Name, FileName, DetectStr);
+    end;
   end;
 end;
 
