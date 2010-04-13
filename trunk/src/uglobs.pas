@@ -563,7 +563,7 @@ begin
   gTabHeader := True;
   gStatusBar := True;
   gCmdLine := True;
-  gLogWindow := True;
+  gLogWindow := False;
   gTermWindow := False;
   gKeyButtons := True;
   gInterfaceFlat := True;
@@ -598,7 +598,7 @@ begin
   gDirTabPosition := tbpos_top;
 
   { Log page }
-  gLogFile := True;
+  gLogFile := False;
   gLogFileName := gpCfgDir + 'doublecmd.log';
   gLogOptions := [log_cp_mv_ln, log_delete, log_dir_op, log_arc_op,
                   log_vfs_op, log_success, log_errors, log_info];
@@ -1704,4 +1704,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.
