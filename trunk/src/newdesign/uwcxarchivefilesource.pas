@@ -80,9 +80,6 @@ type
     // Retrieve operations permitted on the source.  = capabilities?
     function GetOperationsTypes: TFileSourceOperationTypes; override;
 
-    // Returns a list of property types supported by this source for each file.
-    function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
-
     // Retrieve some properties of the file source.
     function GetProperties: TFileSourceProperties; override;
 
@@ -271,11 +268,6 @@ begin
        (Assigned(DeleteFiles) or Assigned(DeleteFilesW)) then
       Result:= Result + [fsoDelete];
   end;
-end;
-
-function TWcxArchiveFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
-begin
-  Result := nil;
 end;
 
 function TWcxArchiveFileSource.GetProperties: TFileSourceProperties;
@@ -732,4 +724,4 @@ finalization
   FreeThenNil(WcxOperationsQueueLock);
 
 end.
-
+

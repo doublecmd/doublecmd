@@ -69,9 +69,6 @@ type
     // Retrieve operations permitted on the source.  = capabilities?
     function GetOperationsTypes: TFileSourceOperationTypes; override;
 
-    // Returns a list of property types supported by this source for each file.
-    function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
-
     // Retrieve some properties of the file source.
     function GetProperties: TFileSourceProperties; override;
 
@@ -507,11 +504,6 @@ begin
   end;
 end;
 
-function TWfxPluginFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
-begin
-  Result := nil;
-end;
-
 function TWfxPluginFileSource.GetProperties: TFileSourceProperties;
 begin
   Result := [];
@@ -768,4 +760,4 @@ finalization
   if Assigned(WfxConnectionList) then
     FreeAndNil(WfxConnectionList);
 
-end.
+end.

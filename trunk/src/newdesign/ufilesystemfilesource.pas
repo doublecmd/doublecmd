@@ -56,7 +56,6 @@ type
 
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetOperationsTypes: TFileSourceOperationTypes; override;
-    function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
     function GetProperties: TFileSourceProperties; override;
 
     function IsPathAtRoot(Path: String): Boolean; override;
@@ -288,14 +287,6 @@ begin
              fsoExecute];
 end;
 
-function TFileSystemFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
-begin
-  SetLength(Result, 2);
-
-  Result[0] := TFileSizeProperty.GetDescription;
-  Result[1] := TFileModificationDateTimeProperty.GetDescription;
-end;
-
 function TFileSystemFileSource.GetProperties: TFileSourceProperties;
 begin
   Result := [
@@ -497,4 +488,4 @@ begin
 end;
 
 end.
-
+
