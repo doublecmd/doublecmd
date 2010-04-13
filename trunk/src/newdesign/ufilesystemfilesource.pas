@@ -137,7 +137,7 @@ begin
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create;
     CreationTimeProperty := TFileCreationDateTimeProperty.Create;
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create;
-    LinkProperty := TFileLinkProperty.Create(False);
+    LinkProperty := TFileLinkProperty.Create;
   end;
 end;
 
@@ -163,12 +163,13 @@ begin
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
                                 WinFileTimeToDateTime(SearchRecord.FindData.ftLastAccessTime));
 
-    LinkProperty := TFileLinkProperty.Create(False);
+    LinkProperty := TFileLinkProperty.Create;
 
     if AttributesProperty.IsLink then
     begin
       LinkProperty.IsLinkToDirectory := AttributesProperty.IsDirectory;
       LinkProperty.LinkTo := ReadSymLink(Path + SearchRecord.Name);
+      LinkProperty.IsValid := mbFileSystemEntryExists(LinkProperty.LinkTo);
     end;
 
 {$ELSEIF DEFINED(UNIX)}
@@ -192,7 +193,7 @@ begin
                                 FileTimeToDateTime(StatInfo.st_atime));
 {$POP}
 
-    LinkProperty := TFileLinkProperty.Create(False);
+    LinkProperty := TFileLinkProperty.Create;
 
     if AttributesProperty.IsLink then
     begin
@@ -204,6 +205,7 @@ begin
 
       LinkProperty.IsLinkToDirectory := FPS_ISDIR(StatInfo.st_mode);
       LinkProperty.LinkTo := ReadSymLink(sFullPath);
+      LinkProperty.IsValid := mbFileSystemEntryExists(LinkProperty.LinkTo);
     end;
 
     OwnerProperty := TFileOwnerProperty.Create;
@@ -219,7 +221,7 @@ begin
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create(SearchRecord.Time);
     CreationTimeProperty := TFileCreationDateTimeProperty.Create(SearchRecord.Time);
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(SearchRecord.Time);
-    LinkProperty := TFileLinkProperty.Create(False);
+    LinkProperty := TFileLinkProperty.Create;
 
 {$ENDIF}
 
@@ -495,4 +497,4 @@ begin
 end;
 
 end.
-
+

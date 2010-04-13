@@ -91,7 +91,9 @@ type
     FDriveIconList : TStringList;
     FiDirIconID : PtrInt;
     FiDirLinkIconID : PtrInt;
+    FiDirLinkBrokenIconID : PtrInt;
     FiLinkIconID : PtrInt;
+    FiLinkBrokenIconID : PtrInt;
     FiEmblemLinkID: PtrInt;
     FiUpDirIconID : PtrInt;
     FiDefaultIconID : PtrInt;
@@ -890,7 +892,9 @@ begin
   FiDefaultIconID:=CheckAddPixmap('mimetypes' + PathDelim + 'unknown.png');
   FiDirIconID:=CheckAddPixmap('filesystems' + PathDelim + 'folder.png');
   FiDirLinkIconID:=CheckAddPixmap('filesystems' + PathDelim + 'folder-link.png');
+  FiDirLinkBrokenIconID:=CheckAddPixmap('filesystems' + PathDelim + 'folder-link-broken.png');
   FiLinkIconID:=CheckAddPixmap('filesystems' + PathDelim + 'link.png');
+  FiLinkBrokenIconID:=CheckAddPixmap('filesystems' + PathDelim + 'link-broken.png');
   FiUpDirIconID:=CheckAddPixmap('actions' + PathDelim + 'go-up.png');
   FiArcIconID := CheckAddPixmap('mimetypes' + PathDelim + 'package-x-generic.png');
   FiExeIconID:= CheckAddPixmap('mimetypes' + PathDelim + 'application-x-executable.png');
@@ -1198,7 +1202,12 @@ begin
         Result:= FiDirIconID
       else
     {$ENDIF}
-      Result := FiDirLinkIconID;
+      begin
+        if LinkProperty.IsValid then
+          Result := FiDirLinkIconID
+        else
+          Result := FiDirLinkBrokenIconID;
+      end;
       Exit;
     end;
 
@@ -1224,7 +1233,12 @@ begin
     else // not directory
     begin
       if IsLink and not gIconOverlays then
-        Exit(FiLinkIconID);
+      begin
+        if LinkProperty.IsValid then
+          Exit(FiLinkIconID)
+        else
+          Exit(FiLinkBrokenIconID);
+      end;
 
       if (Extension = '') then
         Exit(FiDefaultIconID);
