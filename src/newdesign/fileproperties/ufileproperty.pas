@@ -264,11 +264,11 @@ type
 
   private
     FIsLinkToDirectory: Boolean;
+    FIsValid: Boolean;
     FLinkTo: String;
 
   public
     constructor Create; override;
-    constructor Create(ALinkToDir: Boolean); virtual; overload;
 
     function Clone: TFileLinkProperty; override;
     procedure CloneTo(FileProperty: TFileProperty); override;
@@ -279,6 +279,7 @@ type
     function Format(Formatter: IFilePropertyFormatter): String; override;
 
     property IsLinkToDirectory: Boolean read FIsLinkToDirectory write FIsLinkToDirectory;
+    property IsValid: Boolean read FIsValid write FIsValid;
     property LinkTo: String read FLinkTo write FLinkTo;
   end;
 
@@ -757,13 +758,9 @@ end;
 
 constructor TFileLinkProperty.Create;
 begin
-  Create(False);
-end;
-
-constructor TFileLinkProperty.Create(ALinkToDir: Boolean);
-begin
   inherited Create;
-  FIsLinkToDirectory := ALinkToDir;
+  FIsLinkToDirectory := False;
+  FIsValid := True;
 end;
 
 function TFileLinkProperty.Clone: TFileLinkProperty;
@@ -781,6 +778,8 @@ begin
     with FileProperty as TFileLinkProperty do
     begin
       FIsLinkToDirectory := Self.FIsLinkToDirectory;
+      FIsValid := Self.FIsValid;
+      FLinkTo := Self.FLinkTo;
     end;
   end;
 end;

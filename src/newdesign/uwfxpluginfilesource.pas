@@ -441,7 +441,7 @@ begin
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create;
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create;
     CreationTimeProperty := TFileCreationDateTimeProperty.Create;
-    LinkProperty := TFileLinkProperty.Create(False);
+    LinkProperty := TFileLinkProperty.Create;
   end;
 end;
 
