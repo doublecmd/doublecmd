@@ -40,9 +40,6 @@ type
     // Retrieve operations permitted on the source.  = capabilities?
     function GetOperationsTypes: TFileSourceOperationTypes; override;
 
-    // Returns a list of property types supported by this source for each file.
-    function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
-
     // Retrieve some properties of the file source.
     function GetProperties: TFileSourceProperties; override;
 
@@ -89,11 +86,6 @@ begin
   Result := [fsoList, fsoExecute];
 end;
 
-function TVfsFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
-begin
-  Result := nil;
-end;
-
 function TVfsFileSource.GetProperties: TFileSourceProperties;
 begin
   Result := [fspVirtual];
@@ -127,4 +119,4 @@ begin
 end;
 
 end.
-
+

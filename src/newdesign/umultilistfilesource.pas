@@ -76,7 +76,6 @@ type
 
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetOperationsTypes: TFileSourceOperationTypes; override;
-    function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; override;
     function GetProperties: TFileSourceProperties; override;
 
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
@@ -153,14 +152,6 @@ begin
          fsoTestArchive];
 end;
 
-function TMultiListFileSource.GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
-begin
-  SetLength(Result, 2);
-
-  Result[0] := '';
-  Result[1] := '';
-end;
-
 function TMultiListFileSource.GetProperties: TFileSourceProperties;
 begin
   // Flags depend on the underlying file source.
@@ -234,4 +225,4 @@ begin
 end;
 
 end.
-
+

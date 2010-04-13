@@ -37,7 +37,6 @@ type
 
     function GetSupportedFileProperties: TFilePropertiesTypes;
     function GetOperationsTypes: TFileSourceOperationTypes;
-    function GetFilePropertiesDescriptions: TFilePropertiesDescriptions;
     function GetProperties: TFileSourceProperties;
     function GetFiles(TargetPath: String): TFiles;
 
@@ -129,7 +128,6 @@ type
        Returns all the properties supported by the file type of the given file source.
     }
     function GetSupportedFileProperties: TFilePropertiesTypes; virtual;
-//    class function ClassGetSupportedFileProperties: TFilePropertiesTypes;
 
     {en
        Checks if the connection is available and, if it is, assigns it to the operation.
@@ -160,16 +158,10 @@ type
     function IsClass(aClassType: TClass): Boolean;
 
     // Retrieve operations permitted on the source.  = capabilities?
-    function GetOperationsTypes: TFileSourceOperationTypes; virtual abstract;
-//    class function ClassGetOperationsTypes: TFileSourceOperationTypes;
-
-    // Returns a list of property types supported by this source for each file.
-    function GetFilePropertiesDescriptions: TFilePropertiesDescriptions; virtual abstract;
-//    class function ClassGetFilePropertiesDescriptions: TFilePropertiesDescriptions;
+    function GetOperationsTypes: TFileSourceOperationTypes; virtual;
 
     // Retrieve some properties of the file source.
-    function GetProperties: TFileSourceProperties; virtual abstract;
-//    class function ClassGetProperties: TFileSourceProperties;
+    function GetProperties: TFileSourceProperties; virtual;
 
     // Retrieves a list of files.
     // This is the same as GetOperation(fsoList), executing it
@@ -214,12 +206,6 @@ type
     function GetRootDir(sPath : String): String; virtual; overload;
     function GetRootDir: String; virtual; overload;
     function GetPathType(sPath : String): TPathType; virtual;
-
-{
-    class function ClassGetParentDir(sPath : String): String;
-    class function ClassGetRootDir(sPath : String): String;
-    class function ClassGetPathType(sPath : String): TPathType;
-}
 
     function GetFreeSpace(Path: String; out FreeSize, TotalSize : Int64) : Boolean; virtual;
     function GetLocalName(var aFile: TFile): Boolean; virtual;
@@ -387,6 +373,16 @@ end;
 function TFileSource.IsClass(aClassType: TClass): Boolean;
 begin
   Result := Self is aClassType;
+end;
+
+function TFileSource.GetOperationsTypes: TFileSourceOperationTypes;
+begin
+  Result := [];
+end;
+
+function TFileSource.GetProperties: TFileSourceProperties;
+begin
+  Result := [];
 end;
 
 function TFileSource.GetCurrentAddress: String;
@@ -800,4 +796,4 @@ finalization
   FreeAndNil(FileSourceManager);
 
 end.
-
+
