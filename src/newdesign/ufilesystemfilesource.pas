@@ -196,15 +196,15 @@ begin
 
     if AttributesProperty.IsLink then
     begin
-      sFullPath := PUnixFindData(SearchRecord.FindHandle)^.sPath
-                 + SearchRecord.Name;
+      sFullPath := PUnixFindData(SearchRecord.FindHandle)^.sPath + SearchRecord.Name;
 
-      // Stat (as opposed to Lstat) will take info of the file that the link points to (recursively).
-      fpStat(PChar(UTF8ToSys(sFullPath)), StatInfo);
-
-      LinkProperty.IsLinkToDirectory := FPS_ISDIR(StatInfo.st_mode);
       LinkProperty.LinkTo := ReadSymLink(sFullPath);
-      LinkProperty.IsValid := mbFileSystemEntryExists(LinkProperty.LinkTo);
+      // Stat (as opposed to Lstat) will take info of the file that the link points to (recursively).
+      LinkProperty.IsValid := fpStat(PChar(UTF8ToSys(sFullPath)), StatInfo) = 0;
+      if LinkProperty.IsValid then
+      begin
+        LinkProperty.IsLinkToDirectory := FPS_ISDIR(StatInfo.st_mode);
+      end;
     end;
 
     OwnerProperty := TFileOwnerProperty.Create;
