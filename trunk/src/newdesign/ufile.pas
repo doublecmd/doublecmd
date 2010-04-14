@@ -53,6 +53,8 @@ type
     procedure SetLastAccessTime(NewTime: TDateTime);
     function GetIsLinkToDirectory: Boolean;
     procedure SetIsLinkToDirectory(NewValue: Boolean);
+    function GetType: String;
+    procedure SetType(NewValue: String);
 
     // Properties.
     function GetNameProperty: TFileNameProperty;
@@ -73,6 +75,8 @@ type
     procedure SetLinkProperty(NewValue: TFileLinkProperty);
     function GetOwnerProperty: TFileOwnerProperty;
     procedure SetOwnerProperty(NewValue: TFileOwnerProperty);
+    function GetTypeProperty: TFileTypeProperty;
+    procedure SetTypeProperty(NewValue: TFileTypeProperty);
 
   public
     constructor Create(const APath: String);
@@ -133,6 +137,7 @@ type
     property LastAccessTimeProperty: TFileLastAccessDateTimeProperty read GetLastAccessTimeProperty write SetLastAccessTimeProperty;
     property LinkProperty: TFileLinkProperty read GetLinkProperty write SetLinkProperty;
     property OwnerProperty: TFileOwnerProperty read GetOwnerProperty write SetOwnerProperty;
+    property TypeProperty: TFileTypeProperty read GetTypeProperty write SetTypeProperty;
 
     { Accessors to each property's value. }
 
@@ -152,6 +157,7 @@ type
     property ModificationTime: TDateTime read GetModificationTime write SetModificationTime;
     property CreationTime: TDateTime read GetCreationTime write SetCreationTime;
     property LastAccessTime: TDateTime read GetLastAccessTime write SetLastAccessTime;
+    property FileType: String read GetType write SetType;
 
     // Convenience functions.
     // We assume here that when the file has no attributes
@@ -454,6 +460,16 @@ begin
   TFileLinkProperty(FProperties[fpLink]).IsLinkToDirectory := NewValue;
 end;
 
+function TFile.GetType: String;
+begin
+  Result := TFileTypeProperty(FProperties[fpType]).Value;
+end;
+
+procedure TFile.SetType(NewValue: String);
+begin
+  TFileTypeProperty(FProperties[fpType]).Value := NewValue;
+end;
+
 function TFile.GetNameProperty: TFileNameProperty;
 begin
   Result := TFileNameProperty(FProperties[fpName]);
@@ -578,6 +594,20 @@ begin
     Include(FSupportedProperties, fpOwner)
   else
     Exclude(FSupportedProperties, fpOwner);
+end;
+
+function TFile.GetTypeProperty: TFileTypeProperty;
+begin
+  Result := TFileTypeProperty(FProperties[fpType]);
+end;
+
+procedure TFile.SetTypeProperty(NewValue: TFileTypeProperty);
+begin
+  FProperties[fpType] := NewValue;
+  if Assigned(NewValue) then
+    Include(FSupportedProperties, fpType)
+  else
+    Exclude(FSupportedProperties, fpType);
 end;
 
 function TFile.IsNameValid: Boolean;

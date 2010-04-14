@@ -63,6 +63,7 @@ uses
                    fsfLastAccessTime,
                    fsfLinkTo,
                    fsfNameNoExtension,
+                   fsfType,
                    fsfInvalid);
 
   TFileFunctions = array of TFileFunction;
@@ -80,6 +81,7 @@ uses
                'GETFILELASTACCESSTIME',
                'GETFILELINKTO',
                'GETFILENAMENOEXT',
+               'GETFILETYPE',
                ''                 // fsfInvalid
                );
 
@@ -97,6 +99,7 @@ uses
                [fpLastAccessTime],
                [fpLink],
                [fpName],
+               [fpType],
                [] { invalid });
 
 type
@@ -1023,6 +1026,14 @@ begin
                    else
                      Result:= AFile.NameNoExt;
                  end;
+
+              fsfType:
+                begin
+                  if fpType in AFile.SupportedProperties then
+                    Result := AFile.TypeProperty.Format(DefaultFilePropertyFormatter)
+                  else
+                    Result := '';
+                end;
             end;
             Exit;
           end;

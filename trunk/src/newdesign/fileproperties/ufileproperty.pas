@@ -18,7 +18,8 @@ type
     fpCreationTime,
     fpLastAccessTime,
     fpLink,
-    fpOwner
+    fpOwner,
+    fpType
   );
 
   TFilePropertiesTypes = set of TFilePropertyType;
@@ -302,12 +303,40 @@ type
     function Clone: TFileOwnerProperty; override;
     procedure CloneTo(FileProperty: TFileProperty); override;
 
+    class function GetDescription: String; override;
     class function GetID: TFilePropertyType; override;
+
+    function Format(Formatter: IFilePropertyFormatter): String; override;
 
     property Owner: Cardinal read FOwner write FOwner;
     property Group: Cardinal read FGroup write FGroup;
     property OwnerStr: String read FOwnerStr write FOwnerStr;
     property GroupStr: String read FGroupStr write FGroupStr;
+
+  end;
+
+  { TFileTypeProperty }
+
+  {en
+     File type description.
+  }
+  TFileTypeProperty = class(TFileProperty)
+
+  private
+    FType: String;
+
+  public
+    constructor Create; override;
+
+    function Clone: TFileTypeProperty; override;
+    procedure CloneTo(FileProperty: TFileProperty); override;
+
+    class function GetDescription: String; override;
+    class function GetID: TFilePropertyType; override;
+
+    function Format(Formatter: IFilePropertyFormatter): String; override;
+
+    property Value: String read FType write FType;
 
   end;
 
@@ -828,9 +857,60 @@ begin
   end;
 end;
 
+class function TFileOwnerProperty.GetDescription: String;
+begin
+  Result := '';
+end;
+
 class function TFileOwnerProperty.GetID: TFilePropertyType;
 begin
   Result := fpOwner;
+end;
+
+function TFileOwnerProperty.Format(Formatter: IFilePropertyFormatter): String;
+begin
+  Result := '';
+end;
+
+{ TFileTypeProperty }
+
+constructor TFileTypeProperty.Create;
+begin
+  inherited Create;
+end;
+
+function TFileTypeProperty.Clone: TFileTypeProperty;
+begin
+  Result := TFileTypeProperty.Create;
+  CloneTo(Result);
+end;
+
+procedure TFileTypeProperty.CloneTo(FileProperty: TFileProperty);
+begin
+  if Assigned(FileProperty) then
+  begin
+    inherited CloneTo(FileProperty);
+
+    with FileProperty as TFileTypeProperty do
+    begin
+      FType := Self.FType;
+    end;
+  end;
+end;
+
+class function TFileTypeProperty.GetDescription: String;
+begin
+  Result := '';
+end;
+
+class function TFileTypeProperty.GetID: TFilePropertyType;
+begin
+  Result := fpType;
+end;
+
+function TFileTypeProperty.Format(Formatter: IFilePropertyFormatter): String;
+begin
+  Result := FType;
 end;
 
 end.
