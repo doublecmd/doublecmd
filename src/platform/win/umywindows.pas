@@ -106,6 +106,11 @@ function mbGetShortPathName(const sLongPath: UTF8String; out sShortPath: AnsiStr
    @param(sGroup Returns primary group of the file.)
 }
 function GetFileOwner(const sPath: String; out sUser, sGroup: String): Boolean;
+{en
+   Retrieves a description of file's type.
+   @param(sPath Absolute path to the file.)
+}
+function GetFileDescription(const sPath: String): String;
 
 implementation
 
@@ -394,6 +399,17 @@ begin
     if Assigned(pSecurityDescriptor) then
       Freemem(pSecurityDescriptor);
   end;
+end;
+
+function GetFileDescription(const sPath: String): String;
+var
+  SFI: TSHFileInfoW;
+begin
+  FillChar(SFI, SizeOf(SFI), 0);
+  if SHGetFileInfoW(PWideChar(UTF8Decode(sPath)), 0, SFI, SizeOf(SFI), SHGFI_TYPENAME) <> 0 then
+    Result := UTF8Encode(WideString(SFI.szTypeName))
+  else
+    Result := EmptyStr;
 end;
 
 end.

@@ -187,6 +187,9 @@ begin
       OwnerProperty.GroupStr := sGroup;
     end;
 
+    TypeProperty := TFileTypeProperty.Create;
+    TypeProperty.Value := GetFileDescription(Path + SearchRecord.Name);
+
 {$ELSEIF DEFINED(UNIX)}
 
     StatInfo := PUnixFindData(SearchRecord.FindHandle)^.StatRec;
@@ -229,6 +232,8 @@ begin
     OwnerProperty.OwnerStr := UIDToStr(StatInfo.st_uid);
     OwnerProperty.GroupStr := GIDToStr(StatInfo.st_gid);
 
+    TypeProperty := TFileTypeProperty.Create;
+
 {$ELSE}
 
     AttributesProperty := TFileAttributesProperty.Create(SearchRecord.Attributes);
@@ -237,6 +242,7 @@ begin
     CreationTimeProperty := TFileCreationDateTimeProperty.Create(SearchRecord.Time);
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(SearchRecord.Time);
     LinkProperty := TFileLinkProperty.Create;
+    TypeProperty := TFileTypeProperty.Create;
 
 {$ENDIF}
 
@@ -362,7 +368,8 @@ begin
              fpCreationTime,
              fpLastAccessTime,
              uFileProperty.fpLink,
-             fpOwner
+             fpOwner,
+             fpType
             ];
 end;
 
@@ -502,4 +509,4 @@ begin
 end;
 
 end.
-
+
