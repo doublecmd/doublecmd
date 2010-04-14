@@ -105,6 +105,9 @@ implementation
 
 uses
   uOSUtils, uFindEx, uDateTimeUtils,
+{$IFDEF MSWINDOWS}
+  uMyWindows,
+{$ENDIF}
 {$IFDEF UNIX}
   BaseUnix, uUsersGroups, FileUtil,
 {$ENDIF}
@@ -146,6 +149,10 @@ var
   StatInfo: BaseUnix.Stat; //buffer for stat info
   sFullPath: String;
 {$ENDIF}
+{$IF DEFINED(MSWINDOWS)}
+var
+  sUser, sGroup: String;
+{$ENDIF}
 begin
   Result := TFile.Create(APath);
 
@@ -169,6 +176,15 @@ begin
       LinkProperty.IsLinkToDirectory := AttributesProperty.IsDirectory;
       LinkProperty.LinkTo := ReadSymLink(Path + SearchRecord.Name);
       LinkProperty.IsValid := mbFileSystemEntryExists(LinkProperty.LinkTo);
+    end;
+
+    OwnerProperty := TFileOwnerProperty.Create;
+    OwnerProperty.Owner := 0;
+    OwnerProperty.Group := 0;
+    if GetFileOwner(Path + SearchRecord.Name, sUser, sGroup) then
+    begin
+      OwnerProperty.OwnerStr := sUser;
+      OwnerProperty.GroupStr := sGroup;
     end;
 
 {$ELSEIF DEFINED(UNIX)}
@@ -345,10 +361,8 @@ begin
              fpModificationTime,
              fpCreationTime,
              fpLastAccessTime,
-             uFileProperty.fpLink
-{$IFDEF UNIX}
-             , fpOwner
-{$ENDIF}
+             uFileProperty.fpLink,
+             fpOwner
             ];
 end;
 
