@@ -98,11 +98,19 @@ function mbGetRemoteFileName(const sLocalName: UTF8String): UTF8String;
    @returns(The function returns @true if successful, @false otherwise)
 }
 function mbGetShortPathName(const sLongPath: UTF8String; out sShortPath: AnsiString): Boolean;
+{en
+   Retrieves owner of the file (user and group).
+   Both user and group contain computer name.
+   @param(sPath Absolute path to the file. May be UNC path.)
+   @param(sUser Returns user name of the file.)
+   @param(sGroup Returns primary group of the file.)
+}
+function GetFileOwner(const sPath: String; out sUser, sGroup: String): Boolean;
 
 implementation
 
 uses
-  LCLProc, ShellAPI, MMSystem, JwaWinNetWk;
+  LCLProc, ShellAPI, MMSystem, JwaWinNetWk, uShlObjAdditional;
 
 function mciSendCommand(IDDevice: MCIDEVICEID; uMsg: UINT; fdwCommand: DWORD; dwParam: DWORD_PTR): MCIERROR; stdcall; external 'winmm.dll' name 'mciSendCommandA';
 
@@ -242,6 +250,150 @@ begin
       sShortPath:= wsShortPath;
       Result:= True;
     end;
+end;
+
+function GetFileOwner(const sPath: String; out sUser, sGroup: String): Boolean;
+var
+  wsMachineName: WideString;
+
+  function SidToDisplayString(sid: PSID; sidType: SID_NAME_USE): String;
+  var
+    pName: PWideChar = nil;
+    pDomain: PWideChar = nil;
+    NameLen: DWORD = 0;
+    DomainLen: DWORD = 0;
+  begin
+    // We're expecting insufficient buffer error here.
+    if (LookupAccountSidW(PWideChar(wsMachineName), sid,
+                          nil, @NameLen,
+                          nil, @DomainLen,
+                          @SidType) = False) and
+       (GetLastError = ERROR_INSUFFICIENT_BUFFER) then
+    begin
+      pName := Getmem(NameLen * SizeOf(WideChar));
+      pDomain := Getmem(DomainLen * SizeOf(WideChar));
+
+      if Assigned(pName) and Assigned(pDomain) and
+         LookupAccountSidW(PWideChar(wsMachineName), sid,
+                           pName, @NameLen,
+                           pDomain, @DomainLen,
+                           @SidType) then
+      begin
+        if pDomain[0] <> #0 then
+          Result := UTF8Encode(WideString(pDomain) + PathDelim + WideString(pName))
+        else
+          Result := UTF8Encode(WideString(pName));
+      end
+      else
+        Result := EmptyStr;
+
+      Freemem(pName);
+      Freemem(pDomain);
+    end
+    else
+      Result := EmptyStr;
+  end;
+
+  // From UNC name extracts computer name.
+  function GetMachineName(wPathName: LPCWSTR): WideString;
+  var
+    lpMachineName,
+    lpMachineNameNext: PWideChar;
+  begin
+    lpMachineName := PathFindNextComponentW(wPathName);
+
+    if Assigned(lpMachineName) then
+    begin
+      lpMachineNameNext := PathFindNextComponentW(lpMachineName);
+
+      if Assigned(lpMachineNameNext) then
+        SetString(Result, lpMachineName, lpMachineNameNext - lpMachineName - 1)
+      else
+        Result := lpMachineName;
+    end
+    else
+      Result := EmptyWideStr;
+  end;
+
+var
+  wszUNCPathName: array[0..32767] of WideChar;
+  wsPathName: WideString;
+  pSecurityDescriptor: PSECURITY_DESCRIPTOR = nil;
+  pOwnerSid: PSID = nil;
+  pUNI: UNIVERSAL_NAME_INFOW;
+  bDefault: Boolean;
+  dwPathSize: DWORD = 32767;
+  dwSizeNeeded: DWORD = 0;
+begin
+  Result := False;
+
+  if Length(sPath) = 0 then
+    Exit;
+
+  try
+    wsPathName := UTF8Decode(sPath);
+
+    // Check if the path is to remote share and get remote machine name.
+
+    if PathIsUNCW(PWideChar(wsPathName)) then
+    begin
+      // Path is in full UNC format.
+      wsMachineName := GetMachineName(PWideChar(wsPathName));
+    end
+    else
+    begin
+      // Check if local path is mapped to network share.
+      pUNI.lpUniversalName := PWideChar(@wszUNCPathName[0]);
+      if WNetGetUniversalNameW(PWideChar(wsPathName),
+           UNIVERSAL_NAME_INFO_LEVEL, @pUNI, dwPathSize) = NO_ERROR then
+      begin
+        wsMachineName := GetMachineName(PWideChar(@wszUNCPathName[0]));
+      end;
+      // else not a network share, no network connection, etc.
+    end;
+
+    { Get security descriptor. }
+
+    // We're expecting insufficient buffer error here.
+    if (GetFileSecurityW(PWideChar(wsPathName),
+                         OWNER_SECURITY_INFORMATION or GROUP_SECURITY_INFORMATION,
+                         nil, 0, @dwSizeNeeded) <> False) or
+       (GetLastError <> ERROR_INSUFFICIENT_BUFFER) or
+       (dwSizeNeeded = 0) then
+    begin
+      Exit;
+    end;
+
+    pSecurityDescriptor := GetMem(dwSizeNeeded);
+    if not Assigned(pSecurityDescriptor) then
+      Exit;
+
+    if not GetFileSecurityW(PWideChar(wsPathName),
+                            OWNER_SECURITY_INFORMATION or GROUP_SECURITY_INFORMATION,
+                            pSecurityDescriptor,
+                            dwSizeNeeded, @dwSizeNeeded) then
+    begin
+      Exit;
+    end;
+
+    { Get Owner and Group. }
+
+    if GetSecurityDescriptorOwner(pSecurityDescriptor, pOwnerSid, @bDefault) then
+      sUser := SidToDisplayString(pOwnerSid, SidTypeUser)
+    else
+      sUser := EmptyStr;
+
+    if GetSecurityDescriptorGroup(pSecurityDescriptor, pOwnerSid, @bDefault) then
+      sGroup := SidToDisplayString(pOwnerSid, SidTypeGroup)
+    else
+      sGroup := EmptyStr;
+
+    Result := True;
+
+  finally
+    if Assigned(pSecurityDescriptor) then
+      Freemem(pSecurityDescriptor);
+  end;
 end;
 
 end.

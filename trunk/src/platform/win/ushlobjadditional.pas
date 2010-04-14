@@ -1803,6 +1803,12 @@ function SHChangeIconDialog(hOwner: THandle; var FileName: UTF8String; var IconI
 function SHGetOverlayIconIndex(const sFilePath, sFileName: UTF8String): Integer;
 function SHGetInfoTip(const sFilePath, sFileName: UTF8String): UTF8String;
 
+function PathIsUNCA(pszPath: LPCSTR): WINBOOL; stdcall; external 'shlwapi' name 'PathIsUNCA';
+function PathIsUNCW(pwszPath: LPCWSTR): WINBOOL; stdcall; external 'shlwapi' name 'PathIsUNCW';
+
+function PathFindNextComponentA(pszPath: LPCSTR): LPSTR; stdcall; external 'shlwapi' name 'PathFindNextComponentA';
+function PathFindNextComponentW(pwszPath: LPCWSTR): LPWSTR; stdcall; external 'shlwapi' name 'PathFindNextComponentW';
+
 procedure OleErrorUTF8(ErrorCode: HResult);
 procedure OleCheckUTF8(Result: HResult);
 
