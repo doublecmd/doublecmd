@@ -42,6 +42,7 @@ const
   sCmdVerbCut = 'cut';
   sCmdVerbCopy = 'copy';
   sCmdVerbPaste = 'paste';
+  sCmdVerbLink = 'link';
 
 type
   EContextMenuException = class(Exception);
@@ -446,6 +447,10 @@ begin
                 nShow := SW_NORMAL;
               end;
               OleCheckUTF8(contMenu.InvokeCommand(cmici));
+
+              // Reload after possible changes on the filesystem.
+              if SameText(sVerb, sCmdVerbLink) then
+                frmMain.ActiveFrame.FileSource.Reload(frmMain.ActiveFrame.CurrentPath);
             end;
 
         end // if cmd > 0
