@@ -1307,11 +1307,6 @@ begin
         sFileName := Name;
       end;
 
-    if gIconsSize = 16 then
-      uFlags := uFlags or SHGFI_SMALLICON
-    else
-      uFlags := uFlags or SHGFI_LARGEICON;
-
     if (SHGetFileInfoW(PWideChar(UTF8Decode(sFileName)),
                        dwFileAttributes,
                        FileInfo,
