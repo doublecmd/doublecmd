@@ -1141,20 +1141,22 @@ begin
 
   if gIconOverlays then
     begin
+      if AFile.IsLink then
+        begin
+          I:= gIconsSize div 2;
+          Result:= DrawBitmap(FiEmblemLinkID, Canvas, X, Y + I, I, I);
+        end
     {$IFDEF MSWINDOWS}
+      else
+      // Windows XP doesn't draw link overlay icon for soft links (don't know about Vista or 7).
       if DirectAccess then
       begin
         I:= SHGetOverlayIconIndex(AFile.Path, AFile.Name);
         if I >= 0 then
           Result:= DrawBitmap(I + $1000, Canvas, X, Y);
       end;
-    {$ELSE}
-      if AFile.IsLink then
-        begin
-          I:= gIconsSize div 2;
-          Result:= DrawBitmap(FiEmblemLinkID, Canvas, X, Y + I, I, I);
-        end;
     {$ENDIF}
+      ;
     end;
 end;
 
@@ -1197,25 +1199,21 @@ begin
 
     if IsLinkToDirectory then
     begin
-    {$IFDEF UNIX}
-      if gIconOverlays then
-        Result:= FiDirIconID
-      else
-    {$ENDIF}
+      if not gIconOverlays then
       begin
         if LinkProperty.IsValid then
           Result := FiDirLinkIconID
         else
           Result := FiDirLinkBrokenIconID;
+        Exit;
       end;
-      Exit;
     end;
 
-    if IsDirectory then
+    if IsDirectory or IsLinkToDirectory then
     begin
       {$IF DEFINED(MSWINDOWS)}
       if (gShowIcons = sim_standart) or
-         (not (DirectAccess and mbFileExists(Path + Name + '\desktop.ini'))) or
+         (not DirectAccess) or
          (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 16) then
       {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
       if (gShowIcons = sim_all_and_exe) and
