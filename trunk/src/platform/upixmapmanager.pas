@@ -95,6 +95,7 @@ type
     FiLinkIconID : PtrInt;
     FiLinkBrokenIconID : PtrInt;
     FiEmblemLinkID: PtrInt;
+    FiEmblemUnreadableID: PtrInt;
     FiUpDirIconID : PtrInt;
     FiDefaultIconID : PtrInt;
     FiExeIconID : PtrInt;
@@ -886,6 +887,7 @@ begin
     I:= gIconsSize div 2;
   FPixmapSize := IntToStr(I) + 'x' + IntToStr(I) + PathDelim;
   FiEmblemLinkID:= CheckAddPixmap('emblems' + PathDelim + 'emblem-symbolic-link.png', gIconsSize div 2);
+  FiEmblemUnreadableID:= CheckAddPixmap('emblems' + PathDelim + 'emblem-unreadable.png', gIconsSize div 2);
   FPixmapSize := sPixMapSize;  // restore icon size path
 
   // add some standard icons
@@ -1145,6 +1147,8 @@ begin
         begin
           I:= gIconsSize div 2;
           Result:= DrawBitmap(FiEmblemLinkID, Canvas, X, Y + I, I, I);
+          if not AFile.LinkProperty.IsValid then
+            Result:= DrawBitmap(FiEmblemUnreadableID, Canvas, X + I, Y + I, I, I);
         end
     {$IFDEF MSWINDOWS}
       else
