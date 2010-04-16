@@ -28,7 +28,7 @@ unit uIconTheme;
 interface
 
 uses
-  SysUtils, Classes, IniFiles, StringHashList;
+  SysUtils, Classes, StringHashList, uClassesEx;
 
 type
   TIconType = (itFixed, itScalable, itThreshold);
@@ -67,7 +67,7 @@ type
     FDirectories: TIconDirList;
     FBaseDirList: array of String;         //en> List of directories that have this theme's icons.
     FBaseDirListAtCreate: array of String; //en> Base dir list passed to Create
-    function LoadIconDirInfo(const IniFile: TIniFile; const sIconDirName: String): PIconDirInfo;
+    function LoadIconDirInfo(const IniFile: TIniFileEx; const sIconDirName: String): PIconDirInfo;
     function FindIconHelper(aIconName: String; AIconSize: Integer): UTF8String;
     function LoadThemeWithInherited(AInherits: TStringList): Boolean;
     procedure LoadParentTheme(AThemeName: String);
@@ -89,7 +89,7 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, uDCUtils, uFindEx, uTypes
+  LCLProc, StrUtils, uDCUtils, uFindEx, uTypes, uOSUtils
   {$IF DEFINED(LINUX)}
   , uUnixIconTheme
   {$ENDIF}
@@ -174,7 +174,7 @@ begin
     begin
       sElement:= BaseDirList[I];
       // use only directories that has this theme
-      if DirectoryExists(sElement + PathDelim + FTheme) then
+      if mbDirectoryExists(sElement + PathDelim + FTheme) then
         begin
           FBaseDirList[J]:= sElement;
           Inc(J);
@@ -221,21 +221,26 @@ var
  sValue: String;
  sElement: String;
  sThemeName: String;
- IniFile: TIniFile = nil;
+ IniFile: TIniFileEx = nil;
 begin
    Result:= False;
    for I:= Low(FBaseDirList) to  High(FBaseDirList) do
      begin
        sElement:= FBaseDirList[I] + PathDelim + FTheme + PathDelim + 'index.theme';
-       if FileExists(sElement) then
+       if mbFileExists(sElement) then
          begin
            sThemeName:= sElement;
            Result:= True;
            Break;
          end;
      end;
+
    // theme not found
-   if Result = False then Exit;
+   if Result = False then
+     begin
+       DebugLn('Theme ', FTheme, ' not found.');
+       Exit;
+     end;
 
    FDirectories:= TIconDirList.Create;
    // list of parent themes
@@ -248,7 +253,7 @@ begin
      end;
 
    // load theme from file
-   IniFile:= TIniFile.Create(sThemeName);
+   IniFile:= TIniFileEx.Create(sThemeName, fmOpenRead);
    try
      FThemeName:= IniFile.ReadString('Icon Theme', 'Name', EmptyStr);
      FComment:= IniFile.ReadString('Icon Theme', 'Comment', EmptyStr);
@@ -316,10 +321,14 @@ var
   end;
 
 begin
+  Result:= EmptyStr;
+
+  if not Assigned(FDirectories) then
+    Exit;
+
   { This is a slightly more optimized version of
     the original algorithm from freedesktop.org. }
 
-  Result:= EmptyStr;
   MinimalSize:= MaxInt;
   for J:= Low(FBaseDirList) to High(FBaseDirList) do
   begin
@@ -347,7 +356,7 @@ begin
   end;
 end;
 
-function TIconTheme.LoadIconDirInfo(const IniFile: TIniFile; const sIconDirName: String): PIconDirInfo;
+function TIconTheme.LoadIconDirInfo(const IniFile: TIniFileEx; const sIconDirName: String): PIconDirInfo;
 var
   IconTypeStr: String;
   I: Integer;
@@ -388,13 +397,18 @@ begin
   Result:= LookupIcon(AIconName, AIconSize);
   if Result <> EmptyStr then
     Exit;
-  // find in parent themes
-  for I:= 0 to FInherits.Count - 1 do
+
+  if Assigned(FInherits) then
     begin
-      Result:= TIconTheme(FInherits.Objects[I]).LookupIcon(aIconName, AIconSize);
-      if Result <> EmptyStr then
-        Exit;
+      // find in parent themes
+      for I:= 0 to FInherits.Count - 1 do
+        begin
+          Result:= TIconTheme(FInherits.Objects[I]).LookupIcon(aIconName, AIconSize);
+          if Result <> EmptyStr then
+            Exit;
+        end;
     end;
+
   Result:= EmptyStr;
 end;
 
