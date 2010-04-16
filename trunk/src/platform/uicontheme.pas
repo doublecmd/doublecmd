@@ -65,15 +65,17 @@ type
     FInherits: TStringList;
     FOwnsInheritsObject: Boolean;
     FDirectories: TIconDirList;
-    FBaseNameList: array of String;
+    FBaseDirList: array of String;         //en> List of directories that have this theme's icons.
+    FBaseDirListAtCreate: array of String; //en> Base dir list passed to Create
     function LoadIconDirInfo(const IniFile: TIniFile; const sIconDirName: String): PIconDirInfo;
     function FindIconHelper(aIconName: String; AIconSize: Integer): UTF8String;
     function LoadThemeWithInherited(AInherits: TStringList): Boolean;
+    procedure LoadParentTheme(AThemeName: String);
     procedure CacheDirectoryFiles(SubDirIndex: Integer; BaseDirIndex: Integer);
   protected
     function LookupIcon(AIconName: String; AIconSize: Integer): UTF8String;
   public
-    constructor Create(sThemeName: String);
+    constructor Create(sThemeName: String; BaseDirList: array of String);
     destructor Destroy; override;
     function Load: Boolean;
     function FindIcon(AIconName: String; AIconSize: Integer): UTF8String;
@@ -84,22 +86,17 @@ type
     property Directories: TIconDirList read FDirectories;
   end;
 
-const
-  DEFAULT_THEME_NAME: String = 'hicolor';
-
-var
-  BaseNameList: array[0..4] of String = ('~/.icons',
-                                         '/usr/local/share/icons',
-                                         '/usr/local/share/pixmaps',
-                                         '/usr/share/icons',
-                                         '/usr/share/pixmaps'
-                                        );
-  IconExtensionList: array[0..1] of String = ('png', 'xpm');
-
 implementation
 
 uses
-  LCLProc, StrUtils, BaseUnix, uDCUtils;
+  LCLProc, StrUtils, uDCUtils, uFindEx, uTypes
+  {$IF DEFINED(LINUX)}
+  , uUnixIconTheme
+  {$ENDIF}
+  ;
+
+const
+  IconExtensionList: array[0..1] of String = ('png', 'xpm');
 
 { TIconTheme }
 
@@ -112,8 +109,8 @@ begin
         return directory/iconname.extension
     }
   }
-  return none
 }
+  Result := EmptyStr;
 end;
 
 
@@ -161,7 +158,7 @@ begin
 end;
 
 
-constructor TIconTheme.Create(sThemeName: String);
+constructor TIconTheme.Create(sThemeName: String; BaseDirList: array of String);
 var
  I, J: Integer;
  sElement: String;
@@ -171,18 +168,20 @@ begin
   FOwnsInheritsObject:= False;
   FDirectories:= nil;
   J:= 0;
-  SetLength(FBaseNameList, Length(BaseNameList));
-  for I:= Low(BaseNameList) to  High(BaseNameList) do
+  SetLength(FBaseDirList, Length(BaseDirList));
+  SetLength(FBaseDirListAtCreate, Length(BaseDirList));
+  for I:= Low(BaseDirList) to High(BaseDirList) do
     begin
-      sElement:= BaseNameList[I];
+      sElement:= BaseDirList[I];
       // use only directories that has this theme
       if DirectoryExists(sElement + PathDelim + FTheme) then
         begin
-          FBaseNameList[J]:= sElement;
+          FBaseDirList[J]:= sElement;
           Inc(J);
         end;
+      FBaseDirListAtCreate[I] := sElement; // Remember full base dir list.
     end;
-  SetLength(FBaseNameList, J);
+  SetLength(FBaseDirList, J);
 end;
 
 destructor TIconTheme.Destroy;
@@ -206,23 +205,14 @@ begin
 end;
 
 function TIconTheme.Load: Boolean;
-var
-  I: Integer;
-  ParentTheme: TIconTheme;
 begin
    Result := LoadThemeWithInherited(FInherits);
 
+   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
    // add default theme if needed
-   if FInherits.IndexOf(DEFAULT_THEME_NAME) < 0 then
-     begin
-       ParentTheme:= TIconTheme.Create(DEFAULT_THEME_NAME);
-       I:= FInherits.AddObject(DEFAULT_THEME_NAME, ParentTheme);
-       if not ParentTheme.LoadThemeWithInherited(FInherits) then
-         begin
-           ParentTheme.Free;
-           FInherits.Delete(I);
-         end;
-     end;
+   if Result and Assigned(FInherits) then
+     LoadParentTheme(DEFAULT_THEME_NAME);
+   {$ENDIF}
 end;
 
 function TIconTheme.LoadThemeWithInherited(AInherits: TStringList): Boolean;
@@ -231,13 +221,12 @@ var
  sValue: String;
  sElement: String;
  sThemeName: String;
- ParentTheme: TIconTheme;
  IniFile: TIniFile = nil;
 begin
    Result:= False;
-   for I:= Low(FBaseNameList) to  High(FBaseNameList) do
+   for I:= Low(FBaseDirList) to  High(FBaseDirList) do
      begin
-       sElement:= FBaseNameList[I] + PathDelim + FTheme + PathDelim + 'index.theme';
+       sElement:= FBaseDirList[I] + PathDelim + FTheme + PathDelim + 'index.theme';
        if FileExists(sElement) then
          begin
            sThemeName:= sElement;
@@ -278,21 +267,29 @@ begin
      if sValue <> EmptyStr then
        repeat
          sElement:= Copy2SymbDel(sValue, ',');
-         // skip if already loaded
-         if FInherits.IndexOf(sElement) >= 0 then Continue;
-         // load parent theme
-         ParentTheme:= TIconTheme.Create(sElement);
-         I:= FInherits.AddObject(sElement, ParentTheme);
-         if not ParentTheme.LoadThemeWithInherited(FInherits) then
-           begin
-             ParentTheme.Free;
-             FInherits.Delete(I);
-           end;
+         LoadParentTheme(sElement);
        until sValue = EmptyStr;
 
    finally
      FreeAndNil(IniFile);
    end;
+end;
+
+procedure TIconTheme.LoadParentTheme(AThemeName: String);
+var
+  I: Integer;
+  ATheme: TIconTheme;
+begin
+  if FInherits.IndexOf(AThemeName) < 0 then
+    begin
+      ATheme:= TIconTheme.Create(AThemeName, FBaseDirListAtCreate);
+      I:= FInherits.AddObject(AThemeName, ATheme);
+      if not ATheme.LoadThemeWithInherited(FInherits) then
+        begin
+          ATheme.Free;
+          FInherits.Delete(I);
+        end;
+    end;
 end;
 
 function TIconTheme.FindIcon(AIconName: String; AIconSize: Integer): UTF8String;
@@ -312,7 +309,7 @@ var
 
   procedure MakeResult; inline;
   begin
-    Result:= FBaseNameList[J] + PathDelim + FTheme + PathDelim +
+    Result:= FBaseDirList[J] + PathDelim + FTheme + PathDelim +
              FDirectories.Strings[I] + PathDelim +
              AIconName + '.' +
              IconExtensionList[Integer(FDirectories.Items[I]^.FileListCache[J].List[FoundIndex]^.Data)];
@@ -324,7 +321,7 @@ begin
 
   Result:= EmptyStr;
   MinimalSize:= MaxInt;
-  for J:= Low(FBaseNameList) to  High(FBaseNameList) do
+  for J:= Low(FBaseDirList) to High(FBaseDirList) do
   begin
     for I:= 0 to FDirectories.Count - 1 do
       begin
@@ -377,9 +374,9 @@ begin
         raise Exception.Create('Unsupported icon type');
       end;
 
-    SetLength(FileListCache, Length(FBaseNameList));
+    SetLength(FileListCache, Length(FBaseDirList));
 
-    for I:= 0 to Length(FBaseNameList) - 1 do
+    for I:= 0 to Length(FBaseDirList) - 1 do
       FileListCache[I]:= nil;
   end;
 end;
@@ -404,46 +401,39 @@ end;
 procedure TIconTheme.CacheDirectoryFiles(SubDirIndex: Integer; BaseDirIndex: Integer);
 var
   SearchDir, FoundName, FoundExt: String;
-  DirPtr: PDir;
-  PtrDirEnt: pDirent;
+  SearchRec: TSearchRecEx;
   DirList: TStringHashList;
   I: Integer;
 begin
   DirList:= TStringHashList.Create(True);
   FDirectories.Items[SubDirIndex]^.FileListCache[BaseDirIndex]:= DirList;
 
-  SearchDir := FBaseNameList[BaseDirIndex] + PathDelim +
+  SearchDir := FBaseDirList[BaseDirIndex] + PathDelim +
                FTheme + PathDelim +
                FDirectories.Strings[SubDirIndex];
 
-  DirPtr:= BaseUnix.fpOpenDir(PChar(SearchDir));
-  if Assigned(DirPtr) then
-    begin
-      PtrDirEnt:= BaseUnix.fpReadDir(DirPtr^);
-      while PtrDirEnt <> nil do
+  if FindFirstEx(SearchDir + PathDelim + '*', 0, SearchRec) = 0 then
+    repeat
+      if (SearchRec.Name <> '.') and (SearchRec.Name <> '..') then
+      begin
+        FoundExt := ExtractFileExt(SearchRec.Name);
+        if Length(FoundExt) > 0 then
         begin
-          FoundName := string(PtrDirEnt^.d_name);
-          if (FoundName <> '.') and (FoundName <> '..') then
-          begin
-            FoundExt := ExtractFileExt(FoundName);
-            if Length(FoundExt) > 0 then
-            begin
-              FoundName := Copy(FoundName, 1, Length(FoundName) - Length(FoundExt));
-              Delete(FoundExt, 1, 1); // remove the dot
+          FoundName := Copy(SearchRec.Name, 1, Length(SearchRec.Name) - Length(FoundExt));
+          Delete(FoundExt, 1, 1); // remove the dot
 
-              // Add only files with supported extensions.
-              for I:= Low(IconExtensionList) to High(IconExtensionList) do
-                if IconExtensionList[I] = FoundExt then
-                begin
-                  DirList.Add(FoundName, Pointer(PtrInt(I)));
-                  break;
-                end;
+          // Add only files with supported extensions.
+          for I:= Low(IconExtensionList) to High(IconExtensionList) do
+            if IconExtensionList[I] = FoundExt then
+            begin
+              DirList.Add(FoundName, Pointer(PtrInt(I)));
+              break;
             end;
-          end;
-          PtrDirEnt:= BaseUnix.fpReadDir(DirPtr^);
         end;
-      BaseUnix.fpCloseDir(DirPtr^);
-    end;
+      end;
+    until FindNextEx(SearchRec) <> 0;
+
+  FindCloseEx(SearchRec);
 end;
 
 class function TIconTheme.CutTrailingExtension(const AIconName: String): String;
