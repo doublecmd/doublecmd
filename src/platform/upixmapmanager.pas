@@ -41,12 +41,12 @@ interface
 }
 
 uses
-  Classes, SysUtils, Graphics, syncobjs,
-  uOSUtils, uFileSorting, StringHashList, uFile
+  Classes, SysUtils, Graphics, syncobjs, uOSUtils, uFileSorting, StringHashList,
+  uFile, uIconTheme
   {$IF DEFINED(UNIX)}
   , uClassesEx
     {$IF NOT DEFINED(DARWIN)}
-    , contnrs, uIconTheme
+    , contnrs
       {$IFDEF LCLGTK2}
       , gtk2
       {$ELSE}
@@ -110,17 +110,17 @@ type
        Maps file extension to MIME icon name(s).
     }
     FExtToMimeIconName: TFPDataHashTable;
-    {en
-       Maps mime icon name to index of bitmap (in FPixmapList) for this icon.
-    }
-    FThemePixmapsFileNames: TStringHashList;
     {$IFDEF LCLGTK2}
     FIconTheme: PGtkIconTheme;
     {$ELSE}
     FIconTheme: TIconTheme;
     {$ENDIF}
-    FDCIconTheme: TIconTheme;
     {$ENDIF}
+    {en
+       Maps theme icon name to index of bitmap (in FPixmapList) for this icon.
+    }
+    FThemePixmapsFileNames: TStringHashList;
+    FDCIconTheme: TIconTheme;
 
     procedure CreateIconTheme;
     procedure DestroyIconTheme;
@@ -204,14 +204,14 @@ implementation
 
 uses
   LCLIntf, LCLType, LCLProc, Forms, uGlobsPaths, WcxPlugin,
-  uGlobs, uDCUtils, uFileSystemFileSource, uReSample, uTypes
+  uGlobs, uDCUtils, uFileSystemFileSource, uReSample
   {$IFDEF LCLGTK2}
     , uPixMapGtk, gdk2pixbuf, gdk2, glib2
   {$ENDIF}
   {$IFDEF MSWINDOWS}
     , CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus, IntfGraphics, uShlObjAdditional
   {$ELSE}
-    , StrUtils
+    , StrUtils, uTypes
   {$ENDIF}
   ;
 
@@ -495,8 +495,6 @@ begin
     end;
 end;
 
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-
 procedure TPixMapManager.CreateIconTheme;
 var
   DirList: array of string;
@@ -532,6 +530,8 @@ begin
 {$ENDIF}
   FreeThenNil(FDCIconTheme);
 end;
+
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 
 procedure TPixMapManager.LoadMimeIconNames;
 const
@@ -706,6 +706,36 @@ begin
     end;
 end;
 
+function TPixMapManager.GetIconByDesktopFile(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
+var
+  I: PtrInt;
+  iniDesktop: TIniFileEx;
+  sIconName: UTF8String;
+begin
+  iniDesktop:= TIniFileEx.Create(sFileName, fmOpenRead);
+  try
+    sIconName:= iniDesktop.ReadString('Desktop Entry', 'Icon', EmptyStr);
+  finally
+    FreeThenNil(iniDesktop);
+  end;
+
+  {
+    Some icon names in .desktop files are specified with an extension,
+    even though it is not allowed by the standard unless an absolute path
+    to the icon is supplied. We delete this extension here.
+  }
+  if GetPathType(sIconName) = ptNone then
+    sIconName := TIconTheme.CutTrailingExtension(sIconName);
+
+  I:= GetIconByName(sIconName);
+  if I < 0 then
+    Result:= iDefaultIcon
+  else
+    Result:= I;
+end;
+
+{$ENDIF} // Unix
+
 function TPixMapManager.CheckAddThemePixmapLocked(AIconName: String; AIconSize: Integer): PtrInt;
 var
   fileIndex: PtrInt;
@@ -788,36 +818,6 @@ begin
     end;
 end;
 
-function TPixMapManager.GetIconByDesktopFile(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
-var
-  I: PtrInt;
-  iniDesktop: TIniFileEx;
-  sIconName: UTF8String;
-begin
-  iniDesktop:= TIniFileEx.Create(sFileName, fmOpenRead);
-  try
-    sIconName:= iniDesktop.ReadString('Desktop Entry', 'Icon', EmptyStr);
-  finally
-    FreeThenNil(iniDesktop);
-  end;
-
-  {
-    Some icon names in .desktop files are specified with an extension,
-    even though it is not allowed by the standard unless an absolute path
-    to the icon is supplied. We delete this extension here.
-  }
-  if GetPathType(sIconName) = ptNone then
-    sIconName := TIconTheme.CutTrailingExtension(sIconName);
-
-  I:= GetIconByName(sIconName);
-  if I < 0 then
-    Result:= iDefaultIcon
-  else
-    Result:= I;
-end;
-
-{$ENDIF} // Unix
-
 constructor TPixMapManager.Create;
 {$IFDEF MSWINDOWS}
 var
@@ -831,9 +831,10 @@ begin
 
   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   FExtToMimeIconName := TFPDataHashTable.Create;
+  {$ENDIF}
+
   FThemePixmapsFileNames := TStringHashList.Create(True);
   CreateIconTheme;
-  {$ENDIF}
 
   {$IFDEF MSWINDOWS}
   if gIconsSize = 16 then
@@ -889,8 +890,6 @@ begin
   {$IF DEFINED(MSWINDOWS)}
   ImageList_Destroy(FSysImgList);
   {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-  DestroyIconTheme;
-
   for I := 0 to FExtToMimeIconName.HashTable.Count - 1 do
     begin
       nodeList := TFPObjectList(FExtToMimeIconName.HashTable.Items[I]);
@@ -900,9 +899,10 @@ begin
     end;
 
   FreeThenNil(FExtToMimeIconName);
-  FreeThenNil(FThemePixmapsFileNames);
   {$ENDIF}
 
+  DestroyIconTheme;
+  FreeThenNil(FThemePixmapsFileNames);
   FreeThenNil(FPixmapsLock);
 
   inherited Destroy;
