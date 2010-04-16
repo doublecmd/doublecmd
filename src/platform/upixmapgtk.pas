@@ -21,12 +21,25 @@ var
   gdkDrawable : PGdkDrawable;
   gdkGC : PGdkGC;
   gtkDC : TGtkDeviceContext;
+  iPixbufWidth, iPixbufHeight: Integer;
+  StretchedPixbuf: PGdkPixbuf;
 begin
   gtkDC := TGtkDeviceContext(Canvas.Handle);
   gdkDrawable := gtkDC.Drawable;
   gdkGC := gdk_gc_new(gdkDrawable);
-  gdk_draw_pixbuf(gdkDrawable, gdkGC, Pixbuf, SrcX, SrcY, DstX, DstY, Width, Height, GDK_RGB_DITHER_NONE, 0, 0);
-  g_object_unref(gdkGC)
+
+  iPixbufWidth := gdk_pixbuf_get_width(Pixbuf);
+  iPixbufHeight := gdk_pixbuf_get_height(Pixbuf);
+
+  if (Width <> iPixbufWidth) or (Height <> iPixbufHeight) then
+  begin
+    StretchedPixbuf := gdk_pixbuf_scale_simple(Pixbuf, Width, Height, GDK_INTERP_BILINEAR);
+    gdk_draw_pixbuf(gdkDrawable, gdkGC, StretchedPixbuf, SrcX, SrcY, DstX, DstY, -1, -1, GDK_RGB_DITHER_NONE, 0, 0);
+    gdk_pixbuf_unref(StretchedPixbuf);
+  end
+  else
+    gdk_draw_pixbuf(gdkDrawable, gdkGC, Pixbuf, SrcX, SrcY, DstX, DstY, -1, -1, GDK_RGB_DITHER_NONE, 0, 0);
+  g_object_unref(gdkGC);
 end;
 
 function PixBufToBitmap(Pixbuf: PGdkPixbuf): TBitmap;
