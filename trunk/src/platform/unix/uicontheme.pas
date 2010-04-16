@@ -328,22 +328,22 @@ begin
   begin
     for I:= 0 to FDirectories.Count - 1 do
       begin
-        if not Assigned(FDirectories.Items[I]^.FileListCache[J]) then
-          CacheDirectoryFiles(I, J);
+        NewSize:= DirectorySizeDistance(I, AIconSize);
 
-        FoundIndex:= FDirectories.Items[I]^.FileListCache[J].Find(AIconName);
-        if FoundIndex >= 0 then
+        if NewSize < MinimalSize then
           begin
-            NewSize:= DirectorySizeDistance(I, AIconSize);
-            if NewSize = 0 then  // exact match
+            if not Assigned(FDirectories.Items[I]^.FileListCache[J]) then
+              CacheDirectoryFiles(I, J);
+
+            FoundIndex:= FDirectories.Items[I]^.FileListCache[J].Find(AIconName);
+            if FoundIndex >= 0 then
               begin
                 MakeResult;
-                Exit;
-              end
-            else if NewSize < MinimalSize then
-              begin
-                MakeResult;
-                MinimalSize:= NewSize;
+
+                if NewSize = 0 then  // exact match
+                  Exit
+                else
+                  MinimalSize:= NewSize;
               end;
           end;
       end;
