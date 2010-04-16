@@ -20,7 +20,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
 
-unit uMyIconTheme;
+unit uUnixIconTheme;
 
 {$mode objfpc}{$H+}
 
@@ -29,12 +29,18 @@ interface
 uses
   Classes, SysUtils; 
 
+const
+  DEFAULT_THEME_NAME: String = 'hicolor';
+
+var
+  UnixIconThemesBaseDirList: array of String;
+
 function GetCurrentIconTheme: String;
 
 implementation
 
 uses
-  DOM, XMLRead, IniFiles, uIconTheme, uMyUnix, uOSUtils;
+  DOM, XMLRead, IniFiles, uMyUnix, uOSUtils;
 
 function GetKdeIconTheme: String;
 const
@@ -143,6 +149,19 @@ begin
   if Result = EmptyStr then
     Result:= DEFAULT_THEME_NAME;
 end;
+
+procedure InitIconThemesBaseDirList;
+begin
+  SetLength(UnixIconThemesBaseDirList, 5);
+  UnixIconThemesBaseDirList[0] := '~/.icons';
+  UnixIconThemesBaseDirList[1] := '/usr/local/share/icons';
+  UnixIconThemesBaseDirList[2] := '/usr/local/share/pixmaps';
+  UnixIconThemesBaseDirList[3] := '/usr/share/icons';
+  UnixIconThemesBaseDirList[4] := '/usr/share/pixmaps';
+end;
+
+initialization
+  InitIconThemesBaseDirList;
 
 end.
 
