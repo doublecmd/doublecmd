@@ -29,7 +29,7 @@ interface
 uses
    SysUtils, uTypes
    {$IFDEF UNIX}
-   , BaseUnix
+   , BaseUnix, Masks
    {$ENDIF};
 
 const
@@ -40,7 +40,7 @@ type
   TUnixFindData = record
     DirPtr: PDir;   //en> directory pointer for reading directory
     sPath: String;  //en> file name path
-    sMask: String;  //en> file name mask
+    Mask: TMask;    //en> object that will check mask
     StatRec: Stat;
   end;
   PUnixFindData = ^TUnixFindData;
@@ -56,7 +56,7 @@ implementation
 uses
   LCLProc
   {$IFDEF UNIX}
-  , Masks, uMyUnix, Unix
+  , uMyUnix, Unix
   {$ELSE}
   , Windows
   {$ENDIF};
@@ -84,7 +84,8 @@ begin
   Result:= -1;
   UnixFindData:= PUnixFindData(SearchRec.FindHandle);
   if UnixFindData = nil then Exit;
-  if MatchesMask(UTF8UpperCase(SearchRec.Name), UnixFindData^.sMask) then
+  if not Assigned(UnixFindData^.Mask) or
+     UnixFindData^.Mask.Matches(UTF8UpperCase(SearchRec.Name)) then
     begin
       if fpLStat(UnixFindData^.sPath + SearchRec.Name, @UnixFindData^.StatRec) >= 0 then
       begin
@@ -131,22 +132,28 @@ begin
   with UnixFindData^ do
   begin
     sPath:= ExtractFileDir(Path);
+    if sPath = '' then
+      GetDir(0, sPath);
+    sPath:= IncludeTrailingBackSlash(sPath);
+
     // Assignment of SearchRec.Name also needed if the path points to a specific
     // file and only a single mbFindMatchingFile() check needs to be done below.
     SearchRec.Name:= ExtractFileName(Path);
-    sMask:= UTF8UpperCase(SearchRec.Name);
-    if sPath = '' then
-      GetDir(0, sPath);
-    if sMask = '' then
-      sMask:= '*';
-    sPath:= IncludeTrailingBackSlash(sPath);
 
-    if (Pos('?', sMask) = 0) and (Pos('*', sMask) = 0) then
+    // Check if searching for all files. If yes don't need to use Mask.
+    if (SearchRec.Name <> '*') and (SearchRec.Name <> '') then
+    // '*.*' searches for files with a dot in name so mask needs to be checked.
       begin
-        if FileExists(Path) and (mbFindMatchingFile(SearchRec) = 0) then
-          Exit(0)
-        else
-          Exit(-1);
+        Mask := TMask.Create(UTF8UpperCase(SearchRec.Name));
+
+        // If searching for single specific file, just check if it exists and exit.
+        if (Pos('?', SearchRec.Name) = 0) and (Pos('*', SearchRec.Name) = 0) then
+          begin
+            if FileExists(Path) and (mbFindMatchingFile(SearchRec) = 0) then
+              Exit(0)
+            else
+              Exit(-1);
+          end;
       end;
 
     DirPtr:= fpOpenDir(PChar(sPath));
@@ -199,6 +206,8 @@ begin
   if UnixFindData = nil then Exit;
   if UnixFindData^.DirPtr <> nil then
     fpCloseDir(UnixFindData^.DirPtr);
+  if Assigned(UnixFindData^.Mask) then
+    UnixFindData^.Mask.Free;
   Dispose(UnixFindData);
   SearchRec.FindHandle:= nil;
 end;
