@@ -487,62 +487,52 @@ end;
 function AbDetermineArcType(const FN : string; AssertType : TAbArchiveType) : TAbArchiveType;
 var
   Ext : string;
-  FS : TStream;
+  FS : TStream = nil;
 begin
   Result := AssertType;
-  if Result = atUnknown then begin
+  { Guess archive type based on it's content }
+  if (Result = atUnknown) and mbFileExists(FN) and (AbFileGetSize(FN) > 0) then
+    try
+      FS := TFileStreamEx.Create(FN, fmOpenRead or fmShareDenyNone);
+      Result := VerifyZip(FS);
+      if Result = atUnknown then
+        Result := VerifySelfExtracting(FS);
+      if Result = atUnknown then
+        Result := VerifyTar(FS);
+      if Result = atUnknown then
+        Result := VerifyGzip(FS);
+      {$IFDEF MSWINDOWS}
+      if Result = atUnknown then
+        Result := VerifyCab(FS);
+      {$ENDIF}
+      if Result = atUnknown then
+        Result := VerifyBzip2(FS);
+    finally
+      if Assigned(FS) then
+        FreeAndNil(FS);
+    end
+  else if Result = atUnknown then begin
     { Guess archive type based on it's extension }
     Ext := UpperCase(ExtractFileExt(FN));
     if (Ext = '.ZIP') or (Ext = '.JAR') then
-      Result := atZip;
-    if (Ext = '.TAR') then
-      Result := atTar;
-    if (Ext = '.GZ') then
-      Result := atGzip;
-    if (Ext = '.TGZ') then
-      Result := atGzippedTar;
-    if (Ext = '.CAB') then
-      Result := atCab;
-    if (Ext = '.BZ2') then
-      Result := atBzip2;
-    if (Ext = '.TBZ') then
+      Result := atZip
+    else if (Ext = '.TAR') then
+      Result := atTar
+    else if (Ext = '.GZ') then
+      Result := atGzip
+    else if (Ext = '.TGZ') then
+      Result := atGzippedTar
+    else if (Ext = '.CAB') then
+      Result := atCab
+    else if (Ext = '.BZ2') then
+      Result := atBzip2
+    else if (Ext = '.TBZ') then
       Result := atBzippedTar;
   end;
 {$IFNDEF MSWINDOWS}
   if Result = atCab then
     Result := atUnknown;
 {$ENDIF}
-  if (Result <> atUnknown) and mbFileExists(FN) and (AbFileGetSize(FN) > 0) then begin
-    { If the file doesn't exist (or is empty) presume to make one, otherwise
-      verify the contents }
-    FS := TFileStreamEx.Create(FN, fmOpenRead or fmShareDenyNone);
-    try
-      case Result of
-        atZip : begin
-          Result := VerifyZip(FS);
-        end;
-        atSelfExtZip : begin
-          Result := VerifySelfExtracting(FS);
-        end;
-        atTar : begin
-          Result := VerifyTar(FS);
-        end;
-        atGzip, atGzippedTar: begin
-          Result := VerifyGzip(FS);
-        end;
-{$IFDEF MSWINDOWS}
-        atCab : begin
-          Result := VerifyCab(FS);
-        end;
-{$ENDIF}
-        atBzip2, atBzippedTar: begin
-          Result := VerifyBzip2(FS);
-        end;
-      end;
-    finally
-      FS.Free;
-    end;
-  end;
 end;
 { -------------------------------------------------------------------------- }
 
