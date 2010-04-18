@@ -912,7 +912,7 @@ begin
       if aFile.IsDirectory or aFile.IsLinkToDirectory then
         ChangePathToChild(aFile)
       else
-        ChooseArchive(frmMain.ActiveFrame, aFile); // TryOpenArchive(aFile);
+        ChooseArchive(frmMain.ActiveFrame, aFile, True);
     end;
   end;
 end;

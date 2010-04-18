@@ -10,7 +10,7 @@ uses
  uFile,
  uArchiveFileSource;
 
-function GetArchiveFileSource(anArchiveFileName: String; anArchiveType: String = ''): IArchiveFileSource;
+function GetArchiveFileSource(ArchiveFileName: String; ArchiveType: String = ''; ArchiveSign: Boolean = False): IArchiveFileSource;
 
 procedure TestArchive(aFileView: TFileView; aFiles: TFiles);
 
@@ -28,28 +28,37 @@ uses
   uFileSourceOperationTypes,
   uOperationsManager;
 
-function GetArchiveFileSource(anArchiveFileName: String; anArchiveType: String): IArchiveFileSource;
+function GetArchiveFileSource(ArchiveFileName: String; ArchiveType: String; ArchiveSign: Boolean = False): IArchiveFileSource;
 begin
   Result:= nil;
 
-  if (anArchiveType = EmptyStr) then
+  if (ArchiveType = EmptyStr) and (ArchiveSign = False) then
   begin
-    anArchiveType := ExtractFileExt(anArchiveFileName);
-    if anArchiveType <> '' then   // delete '.' at the front
-      Delete(anArchiveType, 1, 1);
+    ArchiveType := ExtractFileExt(ArchiveFileName);
+    if ArchiveType <> '' then   // delete '.' at the front
+      Delete(ArchiveType, 1, 1);
   end;
 
   // Check if there is a registered WCX plugin for possible archive.
-  Result := FileSourceManager.Find(TWcxArchiveFileSource, anArchiveFileName) as IArchiveFileSource;
+  Result := FileSourceManager.Find(TWcxArchiveFileSource, ArchiveFileName) as IArchiveFileSource;
   if not Assigned(Result) then
-    Result := TWcxArchiveFileSource.CreateByArchiveType(anArchiveFileName, anArchiveType);
-
+  begin
+    if ArchiveSign then
+      Result := TWcxArchiveFileSource.CreateByArchiveSign(ArchiveFileName)
+    else
+      Result := TWcxArchiveFileSource.CreateByArchiveType(ArchiveFileName, ArchiveType);
+  end;
   // Check if there is a registered MultiArc addon for possible archive.
   if not Assigned(Result) then
     begin
-      Result := FileSourceManager.Find(TMultiArchiveFileSource, anArchiveFileName) as IArchiveFileSource;
+      Result := FileSourceManager.Find(TMultiArchiveFileSource, ArchiveFileName) as IArchiveFileSource;
       if not Assigned(Result) then
-        Result := TMultiArchiveFileSource.CreateByArchiveType(anArchiveFileName, anArchiveType);
+      begin
+        if ArchiveSign then
+
+        else
+          Result := TMultiArchiveFileSource.CreateByArchiveType(ArchiveFileName, ArchiveType);
+      end;
     end;
 end;
 
