@@ -28,6 +28,8 @@ exports
   DeleteFilesW,
   GetPackerCaps,
   ConfigurePacker,
+  CanYouHandleThisFile,
+  CanYouHandleThisFileW,
   { DialogAPI }
   SetDlgProc;
 

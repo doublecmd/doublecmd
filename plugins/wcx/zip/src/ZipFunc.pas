@@ -70,6 +70,8 @@ function DeleteFiles(PackedFile, DeleteList : PChar) : Integer;stdcall;
 function DeleteFilesW(PackedFile, DeleteList : PWideChar) : Integer;stdcall;
 function GetPackerCaps : Integer;stdcall;
 procedure ConfigurePacker (Parent: THandle;  DllInstance: THandle);stdcall;
+function CanYouHandleThisFile(FileName: PAnsiChar): Boolean; stdcall;
+function CanYouHandleThisFileW(FileName: PWideChar): Boolean; stdcall;
 {Dialog API function}
 procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
 
@@ -88,7 +90,7 @@ var
 implementation
 
 uses
-  SysUtils, ZipConfDlg, IniFiles;
+  SysUtils, ZipConfDlg, IniFiles, AbBrowse, osConvEncoding;
 
 {$IFNDEF FPC} // for compiling under Delphi
 Const
@@ -787,6 +789,16 @@ end;
 procedure ConfigurePacker(Parent: THandle; DllInstance: THandle);stdcall;
 begin
   CreateZipConfDlg;
+end;
+
+function CanYouHandleThisFile(FileName: PAnsiChar): Boolean; stdcall;
+begin
+  Result:= (AbDetermineArcType(SysToUtf8(StrPas(FileName)), atUnknown) <> atUnknown);
+end;
+
+function CanYouHandleThisFileW(FileName: PWideChar): Boolean; stdcall;
+begin
+  Result:= (AbDetermineArcType(UTF8Encode(WideString(FileName)), atUnknown) <> atUnknown);
 end;
 
 procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
