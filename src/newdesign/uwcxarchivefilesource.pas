@@ -39,13 +39,14 @@ type
     function LoadModule: Boolean;
     procedure UnloadModule;
 
-    function ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
+    function ReadArchive: Boolean;
 
     function GetArcFileList: TObjectList;
     function GetPluginCapabilities: PtrInt;
     function GetWcxModule: TWcxModule;
 
     function CreateConnection: TFileSourceConnection;
+    procedure CreateConnections;
 
     procedure AddToConnectionQueue(Operation: TFileSourceOperation);
     procedure RemoveFromConnectionQueue(Operation: TFileSourceOperation);
@@ -73,6 +74,9 @@ type
     constructor Create(anArchiveFileName: String;
                        aWcxPluginFileName: String;
                        aWcxPluginCapabilities: PtrInt); reintroduce;
+    constructor Create(anArchiveFileName: String;
+                       aWcxPluginModule: TWcxModule;
+                       aWcxPluginCapabilities: PtrInt); reintroduce;
     destructor Destroy; override;
 
     class function CreateFile(const APath: String; WcxHeader: TWCXHeader): TFile; overload;
@@ -96,6 +100,7 @@ type
                                     BasePath, Verb: String): TFileSourceOperation; override;
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation; override;
 
+    class function CreateByArchiveSign(anArchiveFileName: String): IWcxArchiveFileSource;
     class function CreateByArchiveType(anArchiveFileName, anArchiveType: String): IWcxArchiveFileSource;
     class function CreateByArchiveName(anArchiveFileName: String): IWcxArchiveFileSource;
 
@@ -146,6 +151,57 @@ var
   WcxOperationsQueue: TObjectList; // store queued operations, use only under FOperationsQueueLock
   WcxConnectionsLock: TCriticalSection; // used to synchronize access to connections
   WcxOperationsQueueLock: TCriticalSection; // used to synchronize access to operations queue
+
+class function TWcxArchiveFileSource.CreateByArchiveSign(anArchiveFileName: String): IWcxArchiveFileSource;
+var
+  I: Integer;
+  ModuleFileName: String;
+  WcxPlugin: TWcxModule;
+  bFound: Boolean = False;
+  hArchive: TArcHandle;
+  lOpenResult: LongInt;
+begin
+  Result := nil;
+
+  WcxPlugin:= TWcxModule.Create;
+
+  // Check if there is a registered plugin for the extension of the archive file name.
+  for I := 0 to gWCXPlugins.Count - 1 do
+  begin
+    if (gWCXPlugins.Enabled[I]) then
+    begin
+      ModuleFileName := GetCmdDirFromEnvVar(gWCXPlugins.FileName[I]);
+
+      if WcxPlugin.LoadModule(ModuleFileName) then
+        begin
+          if Assigned(WcxPlugin.CanYouHandleThisFileW) or Assigned(WcxPlugin.CanYouHandleThisFile) then
+            begin
+              bFound:= WcxPlugin.WcxCanYouHandleThisFile(anArchiveFileName);
+              if bFound then Break;
+            end
+          else
+            begin
+              hArchive:= WcxPlugin.OpenArchiveHandle(anArchiveFileName, PK_OM_LIST, lOpenResult);
+              if lOpenResult = E_SUCCESS then
+                begin
+                  WcxPlugin.CloseArchive(hArchive);
+                  bFound:= True;
+                  Break;
+                end;
+            end;
+          WcxPlugin.UnloadModule;
+        end;
+    end;
+  end;
+  if bFound then
+    begin
+      Result := TWcxArchiveFileSource.Create(anArchiveFileName,
+                                             WcxPlugin,
+                                             gWCXPlugins.Flags[I]);
+
+      DebugLn('Found registered plugin ' + ModuleFileName + ' for archive ' + anArchiveFileName);
+    end;
+end;
 
 class function TWcxArchiveFileSource.CreateByArchiveType(anArchiveFileName, anArchiveType: String): IWcxArchiveFileSource;
 var
@@ -202,19 +258,22 @@ begin
 
   ReadArchive;
 
-  WcxConnectionsLock.Acquire;
-  try
-    if WcxConnections.Count = 0 then
-    begin
-      // Reserve some connections (only once).
-      WcxConnections.Add(CreateConnection); // connCopyIn
-      WcxConnections.Add(CreateConnection); // connCopyOut
-      WcxConnections.Add(CreateConnection); // connDelete
-      WcxConnections.Add(CreateConnection); // connTestArchive
-    end;
-  finally
-    WcxConnectionsLock.Release;
-  end;
+  CreateConnections;
+end;
+
+constructor TWcxArchiveFileSource.Create(anArchiveFileName: String;
+                                         aWcxPluginModule: TWcxModule;
+                                         aWcxPluginCapabilities: PtrInt);
+begin
+  inherited Create(anArchiveFileName);
+
+  FPluginCapabilities := aWcxPluginCapabilities;
+  FArcFileList := TObjectList.Create(True);
+  FWcxModule := aWcxPluginModule;
+
+  ReadArchive;
+
+  CreateConnections;
 end;
 
 destructor TWcxArchiveFileSource.Destroy;
@@ -391,7 +450,7 @@ begin
   Result:=  TWcxArchiveTestArchiveOperation.Create(SourceFileSource, theSourceFiles);
 end;
 
-function TWcxArchiveFileSource.ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
+function TWcxArchiveFileSource.ReadArchive: Boolean;
 
   procedure CollectDirs(Path: PAnsiChar; var DirsList: TStringHashList);
   var
@@ -428,12 +487,6 @@ begin
     begin
       Result := False;
       Exit;
-    end;
-
-  if bCanYouHandleThisFile and (Assigned(WcxModule.CanYouHandleThisFile) or Assigned(WcxModule.CanYouHandleThisFileW)) then
-    begin
-      Result := WcxModule.WcxCanYouHandleThisFile(ArchiveFileName);
-      if not Result then Exit;
     end;
 
   DebugLN('Open Archive');
@@ -610,6 +663,23 @@ begin
   Result := TWcxArchiveFileSourceConnection.Create(FWcxModule);
 end;
 
+procedure TWcxArchiveFileSource.CreateConnections;
+begin
+  WcxConnectionsLock.Acquire;
+  try
+    if WcxConnections.Count = 0 then
+    begin
+      // Reserve some connections (only once).
+      WcxConnections.Add(CreateConnection); // connCopyIn
+      WcxConnections.Add(CreateConnection); // connCopyOut
+      WcxConnections.Add(CreateConnection); // connDelete
+      WcxConnections.Add(CreateConnection); // connTestArchive
+    end;
+  finally
+    WcxConnectionsLock.Release;
+  end;
+end;
+
 function TWcxArchiveFileSource.FindConnectionByOperation(operation: TFileSourceOperation): TFileSourceConnection;
 var
   i: Integer;
@@ -724,4 +794,4 @@ finalization
   FreeThenNil(WcxOperationsQueueLock);
 
 end.
-
+

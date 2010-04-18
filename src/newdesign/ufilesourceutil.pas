@@ -23,7 +23,7 @@ procedure ChooseFile(aFileView: TFileView; aFile: TFile);
 }
 function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean;
 
-function ChooseArchive(aFileView: TFileView; aFile: TFile): Boolean;
+function ChooseArchive(aFileView: TFileView; aFile: TFile; bForce: Boolean = False): Boolean;
 
 procedure ChooseSymbolicLink(aFileView: TFileView; aFile: TFile);
 
@@ -135,7 +135,7 @@ begin
   end;
 end;
 
-function ChooseArchive(aFileView: TFileView; aFile: TFile): Boolean;
+function ChooseArchive(aFileView: TFileView; aFile: TFile; bForce: Boolean): Boolean;
 var
   FileSource: IFileSource;
 begin
@@ -145,7 +145,7 @@ begin
   if aFileView.FileSource.IsClass(TFileSystemFileSource) then
   begin
     // Check if there is a ArchiveFileSource for possible archive.
-    FileSource := GetArchiveFileSource(aFile.Path + aFile.Name);
+    FileSource := GetArchiveFileSource(aFile.FullPath, EmptyStr, bForce);
 
     if Assigned(FileSource) then
     begin
