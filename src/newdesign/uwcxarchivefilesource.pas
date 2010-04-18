@@ -165,7 +165,7 @@ begin
 
   WcxPlugin:= TWcxModule.Create;
 
-  // Check if there is a registered plugin for the extension of the archive file name.
+  // Check if there is a registered plugin for the archive file by content.
   for I := 0 to gWCXPlugins.Count - 1 do
   begin
     if (gWCXPlugins.Enabled[I]) then
@@ -193,7 +193,9 @@ begin
         end;
     end;
   end;
-  if bFound then
+  if not bFound then
+    WcxPlugin.Free
+  else
     begin
       Result := TWcxArchiveFileSource.Create(anArchiveFileName,
                                              WcxPlugin,
