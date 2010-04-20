@@ -179,10 +179,10 @@ begin
               bFound:= WcxPlugin.WcxCanYouHandleThisFile(anArchiveFileName);
               if bFound then Break;
             end
-          else
+          else if ((gWCXPlugins.Flags[I] and PK_CAPS_BY_CONTENT) = PK_CAPS_BY_CONTENT) then
             begin
               hArchive:= WcxPlugin.OpenArchiveHandle(anArchiveFileName, PK_OM_LIST, lOpenResult);
-              if lOpenResult = E_SUCCESS then
+              if (hArchive <> 0) and (lOpenResult = E_SUCCESS) then
                 begin
                   WcxPlugin.CloseArchive(hArchive);
                   bFound:= True;
