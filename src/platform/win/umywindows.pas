@@ -327,7 +327,7 @@ var
   pOwnerSid: PSID = nil;
   pUNI: UNIVERSAL_NAME_INFOW;
   bDefault: Boolean;
-  dwPathSize: DWORD = 32767;
+  dwBufferSize: DWORD = 0;
   dwSizeNeeded: DWORD = 0;
 begin
   Result := False;
@@ -348,9 +348,10 @@ begin
     else
     begin
       // Check if local path is mapped to network share.
+      dwBufferSize:= SizeOf(UNIVERSAL_NAME_INFOW);
       pUNI.lpUniversalName := PWideChar(@wszUNCPathName[0]);
       if WNetGetUniversalNameW(PWideChar(wsPathName),
-           UNIVERSAL_NAME_INFO_LEVEL, @pUNI, dwPathSize) = NO_ERROR then
+           UNIVERSAL_NAME_INFO_LEVEL, @pUNI, dwBufferSize) = NO_ERROR then
       begin
         wsMachineName := GetMachineName(PWideChar(@wszUNCPathName[0]));
       end;
