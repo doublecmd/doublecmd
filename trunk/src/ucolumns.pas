@@ -976,15 +976,20 @@ begin
               fsfSize:
                 begin
                   if (AFile.IsDirectory or AFile.IsLinkToDirectory) and
-                     (AFile.Size = 0)
+                     ((not (fpSize in AFile.SupportedProperties)) or (AFile.Size = 0))
                   then
                     Result := '<DIR>'
+                  else if fpSize in AFile.SupportedProperties then
+                    Result := AFile.Properties[fpSize].Format(DefaultFilePropertyFormatter)
                   else
-                    Result := AFile.Properties[fpSize].Format(DefaultFilePropertyFormatter);
+                    Result := '';
                 end;
 
               fsfAttr:
-                Result := AFile.Properties[fpAttributes].Format(DefaultFilePropertyFormatter);
+                if fpAttributes in AFile.SupportedProperties then
+                  Result := AFile.Properties[fpAttributes].Format(DefaultFilePropertyFormatter)
+                else
+                  Result := '';
 
               fsfPath:
                 Result := AFile.Path;
@@ -1002,13 +1007,22 @@ begin
                   Result := '';
 
               fsfModificationTime:
-                Result := AFile.Properties[fpModificationTime].Format(DefaultFilePropertyFormatter);
+                if fpModificationTime in AFile.SupportedProperties then
+                  Result := AFile.Properties[fpModificationTime].Format(DefaultFilePropertyFormatter)
+                else
+                  Result := '';
 
               fsfCreationTime:
-                Result := AFile.Properties[fpCreationTime].Format(DefaultFilePropertyFormatter);
+                if fpCreationTime in AFile.SupportedProperties then
+                  Result := AFile.Properties[fpCreationTime].Format(DefaultFilePropertyFormatter)
+                else
+                  Result := '';
 
               fsfLastAccessTime:
-                Result := AFile.Properties[fpLastAccessTime].Format(DefaultFilePropertyFormatter);
+                if fpLastAccessTime in AFile.SupportedProperties then
+                  Result := AFile.Properties[fpLastAccessTime].Format(DefaultFilePropertyFormatter)
+                else
+                  Result := '';
 
               fsfLinkTo:
                 if fpLink in AFile.SupportedProperties then
