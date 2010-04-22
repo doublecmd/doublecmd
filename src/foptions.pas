@@ -2836,7 +2836,7 @@ begin
     begin
       gIconsSizeNew:= StrToInt(Copy(cbIconsSize.Text, 1, 2)); // new file panel icons size
       if lngList.ItemIndex > -1 then
-        gPOFileName:= lngList.Items.Names[lngList.ItemIndex]; // new language file
+        gPOFileName:= Trim(lngList.Items.Names[lngList.ItemIndex]); // new language file
       msgOk(rsMsgRestartForApplyChanges);
     end;
 //-------------------------------------------------
@@ -2909,4 +2909,4 @@ end;
 initialization
  {$I fOptions.lrs}
 
-end.
+end.
