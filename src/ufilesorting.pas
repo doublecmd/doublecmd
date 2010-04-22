@@ -526,39 +526,48 @@ begin
           Result := ICompareByAttr(File1, File2, bNegative);
         fsfPath:
           begin
-             Result := mbCompareText(File1.Path, File2.Path);
-             if bNegative then
-               Result := -Result;
-           end;
-{
+            Result := mbCompareText(File1.Path, File2.Path);
+            if bNegative then
+              Result := -Result;
+          end;
         fsfGroup:
           begin
-             Result := mbCompareText(ptr1^.sGroup, ptr2^.sGroup);
-             if bNegative then
-               Result := -Result;
-           end;
+            Result := mbCompareText(File1.OwnerProperty.GroupStr,
+                                    File2.OwnerProperty.GroupStr);
+            if bNegative then
+              Result := -Result;
+          end;
         fsfOwner:
           begin
-             Result := mbCompareText(ptr1^.sOwner, ptr2^.sOwner);
-             if bNegative then
-               Result := -Result;
-           end;
-}
+            Result := mbCompareText(File1.OwnerProperty.OwnerStr,
+                                    File2.OwnerProperty.OwnerStr);
+            if bNegative then
+              Result := -Result;
+          end;
         fsfModificationTime:
-          Result := ICompareByDate(
-                     (File1.Properties[fpModificationTime] as TFileDateTimeProperty).Value,
-                     (File2.Properties[fpModificationTime] as TFileDateTimeProperty).Value,
-                     bNegative);
-{
+          Result := ICompareByDate(File1.ModificationTime,
+                                   File2.ModificationTime,
+                                   bNegative);
+        fsfCreationTime:
+          Result := ICompareByDate(File1.CreationTime,
+                                   File2.CreationTime,
+                                   bNegative);
+        fsfLastAccessTime:
+          Result := ICompareByDate(File1.LastAccessTime,
+                                   File2.LastAccessTime,
+                                   bNegative);
         fsfLinkTo:
           begin
-             Result := mbCompareText(ptr1^.sLinkTo, ptr2^.sLinkTo);
-             if bNegative then
-               Result := -Result;
-           end;
-}
+            Result := mbCompareText(File1.LinkProperty.LinkTo,
+                                    File2.LinkProperty.LinkTo);
+            if bNegative then
+              Result := -Result;
+          end;
         fsfNameNoExtension:
           Result := ICompareByNameNoExt(File1, File2, bNegative);
+        fsfType:
+          Result := mbCompareText(File1.TypeProperty.Value,
+                                  File2.TypeProperty.Value);
       end;
 
       if Result <> 0 then
