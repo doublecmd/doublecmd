@@ -5,7 +5,7 @@ unit uFileSorting;
 interface
 
 uses
-  Classes, SysUtils, uColumns, uFile, uFileProperty;
+  Classes, SysUtils, uFileFunctions, uFile, uFileProperty;
 
 type
 
