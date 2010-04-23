@@ -2492,18 +2492,18 @@ begin
           begin
             frmColumnsSetConf := TfColumnsSetConf.Create(nil);
             try
-              {EDIT Set}
-              frmColumnsSetConf.edtNameofColumnsSet.Text:=ColSet.GetColumnSet(ActiveColm).CurrentColumnsSetName;
-              Index:=ColSet.Items.IndexOf(ActiveColm);
-              frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1 + Index);
-              frmColumnsSetConf.Tag:=Index;
-              frmColumnsSetConf.SetColumnsClass(GetColumnsClass);
-              {EDIT Set}
-              if frmColumnsSetConf.ShowModal = mrOK then
-              begin
-                // Force saving changes to config file.
-                SaveGlobs;
-              end;
+            {EDIT Set}
+            frmColumnsSetConf.edtNameofColumnsSet.Text:=ColSet.GetColumnSet(ActiveColm).CurrentColumnsSetName;
+            Index:=ColSet.Items.IndexOf(ActiveColm);
+            frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1 + Index);
+            frmColumnsSetConf.Tag:=Index;
+            frmColumnsSetConf.SetColumnsClass(GetColumnsClass);
+            {EDIT Set}
+            if frmColumnsSetConf.ShowModal = mrOK then
+            begin
+              // Force saving changes to config file.
+              SaveGlobs;
+            end;
             finally
               FreeAndNil(frmColumnsSetConf);
             end;
@@ -2964,7 +2964,24 @@ begin
 end;
 
 procedure TColumnsFileView.AfterMakeFileList;
+var
+  i, ACol: Integer;
+  ColumnsClass: TPanelColumnsClass;
+  AFile: TColumnsViewFile;
 begin
+  ColumnsClass := GetColumnsClass;
+
+  // Format and cache all columns strings.
+  for i := 0 to FFiles.Count - 1 do
+  begin
+    AFile := FFiles[i];
+    for ACol := 0 to ColumnsClass.Count - 1 do
+    begin
+      AFile.DisplayStrings.Add(ColumnsClass.GetColumnItemResultString(
+        ACol, AFile.TheFile, FileSource));
+    end;
+  end;
+
   DisplayFileListHasChanged;
   DoOnReload;
   dgPanel.Cursor := crDefault;
@@ -3612,7 +3629,7 @@ var
                                aRect.Top + (RowHeights[ARow] - gIconsSize) div 2);
     end;
 
-    s := ColumnsSet.GetColumnItemResultString(ACol, AFile.TheFile, ColumnsView.FileSource);
+    s := AFile.DisplayStrings.Strings[ACol];
 
     if gCutTextToColWidth then
     begin
@@ -3632,7 +3649,7 @@ var
   var
     tw, cw: Integer;
   begin
-    s := ColumnsSet.GetColumnItemResultString(ACol, AFile.TheFile, ColumnsView.FileSource);
+    s := AFile.DisplayStrings.Strings[ACol];
 
     if gCutTextToColWidth then
     begin

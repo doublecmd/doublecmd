@@ -22,6 +22,9 @@ type
     FSelected: Boolean;      //<en If is selected
     FIconID: Integer;        //<en Icon ID for PixmapManager
 
+    // Cache of strings displayed in each column.
+    FDisplayStrings: TStringList;
+
   public
     {en
        A reference TFile must be passed as a parameter.
@@ -31,6 +34,8 @@ type
        (should it be a copy?).
     }
     constructor Create(ReferenceFile: TFile); virtual reintroduce;
+
+    destructor Destroy; override;
 
     {en
        Creates an identical copy of the object (as far as object data is concerned).
@@ -43,6 +48,7 @@ type
     property TheFile: TFile read FFile write FFile;
     property Selected: Boolean read FSelected write FSelected;
     property IconID: Integer read FIconID write FIconID;
+    property DisplayStrings: TStringList read FDisplayStrings;
 
   end;
 
@@ -95,6 +101,14 @@ begin
   FSelected := False;
   FIconID := -1;
   TheFile := ReferenceFile;
+  FDisplayStrings := TStringList.Create;
+end;
+
+destructor TColumnsViewFile.Destroy;
+begin
+  inherited Destroy;
+  if Assigned(FDisplayStrings) then
+    FreeAndNil(FDisplayStrings);
 end;
 
 function TColumnsViewFile.Clone(ReferenceFiles: TFiles;
@@ -117,12 +131,8 @@ begin
   if not Assigned(ClonedFile) then
     raise Exception.Create('Invalid reference file');
 
-  try
-    Result := TColumnsViewFile.Create(ClonedFile);
-    CloneTo(Result);
-  except
-    FreeAndNil(ClonedFile);
-  end;
+  Result := TColumnsViewFile.Create(ClonedFile);
+  CloneTo(Result);
 end;
 
 procedure TColumnsViewFile.CloneTo(AFile: TColumnsViewFile);
@@ -131,6 +141,7 @@ begin
   begin
     AFile.FSelected := FSelected;
     AFile.FIconID := FIconID;
+    AFile.FDisplayStrings.AddStrings(FDisplayStrings);
   end;
 end;
 
@@ -209,4 +220,4 @@ begin
 end;
 
 end.
-
+
