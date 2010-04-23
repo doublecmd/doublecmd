@@ -29,11 +29,11 @@ interface
 
 uses
    Classes, SysUtils, BaseUnix,
-   {libc,}ExtCtrls, LCLProc, cwstring,
+   ExtCtrls, LCLProc, cwstring,
    LCLType, Graphics, TermInfo, termio, uTerminal, uOSUtils;
 
 {$IF DEFINED(LINUX)}
-{$L libutil.a} // under Linux forkpty is situated in libutil.a library
+{$LINKLIB util} // under Linux forkpty is situated in libutil.a library
 {$ENDIF}
 
 const clib = 'c';
