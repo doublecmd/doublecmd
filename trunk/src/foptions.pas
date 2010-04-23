@@ -2262,16 +2262,19 @@ begin
   //TODO: may be it would be better to show error message?
   if lstColumnsSets.ItemIndex=-1 then exit;
   
-  Application.CreateForm(TfColumnsSetConf, frmColumnsSetConf);
-  {EDIT Set}
-  frmColumnsSetConf.edtNameofColumnsSet.Text:=lstColumnsSets.Items[lstColumnsSets.ItemIndex];
-  frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(lstColumnsSets.ItemIndex+1);
-  frmColumnsSetConf.Tag:=lstColumnsSets.ItemIndex;
-  frmColumnsSetConf.SetColumnsClass(ColSet.GetColumnSet(lstColumnsSets.Items[lstColumnsSets.ItemIndex]));
-  {EDIT Set}
-  frmColumnsSetConf.ShowModal;
-  FreeAndNil(frmColumnsSetConf);
-  FillColumnsList;
+  frmColumnsSetConf := TfColumnsSetConf.Create(nil);
+  try
+    {EDIT Set}
+    frmColumnsSetConf.edtNameofColumnsSet.Text:=lstColumnsSets.Items[lstColumnsSets.ItemIndex];
+    frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(lstColumnsSets.ItemIndex+1);
+    frmColumnsSetConf.Tag:=lstColumnsSets.ItemIndex;
+    frmColumnsSetConf.SetColumnsClass(ColSet.GetColumnSet(lstColumnsSets.Items[lstColumnsSets.ItemIndex]));
+    {EDIT Set}
+    frmColumnsSetConf.ShowModal;
+    FillColumnsList;
+  finally
+    FreeAndNil(frmColumnsSetConf);
+  end;
 end;
 
 {/ File lbtypes category color }
@@ -2386,15 +2389,18 @@ procedure TfrmOptions.btnNewColumnsSetClick(Sender: TObject);
 var
   frmColumnsSetConf: TfColumnsSetConf;
 begin
-  Application.CreateForm(TfColumnsSetConf, frmColumnsSetConf);
-   // Create new Set
-  frmColumnsSetConf.edtNameofColumnsSet.Text:='New Columns'+inttostr(ColSet.count);
-  frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(lstColumnsSets.Count+1);
-  frmColumnsSetConf.Tag:=-1;
-  frmColumnsSetConf.SetColumnsClass(nil);
-  frmColumnsSetConf.ShowModal;
-  FreeAndNil(frmColumnsSetConf);
-  FillColumnsList;
+  frmColumnsSetConf := TfColumnsSetConf.Create(nil);
+  try
+    // Create new Set
+    frmColumnsSetConf.edtNameofColumnsSet.Text:='New Columns'+inttostr(ColSet.count);
+    frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(lstColumnsSets.Count+1);
+    frmColumnsSetConf.Tag:=-1;
+    frmColumnsSetConf.SetColumnsClass(nil);
+    frmColumnsSetConf.ShowModal;
+    FillColumnsList;
+  finally
+    FreeAndNil(frmColumnsSetConf);
+  end;
 end;
 
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
