@@ -54,10 +54,14 @@ type
   { TPanelColumnsType }
 
   TPanelColumn = class
+  private
+    FFuncString: String;
+
+    procedure SetFuncString(NewValue: String);
+
   public
     //---------------------
     Title: String;
-    FuncString: String;
 
     {String is function or simpletext;
     TObject(integer)=indicator of function: 0 is simpletext; 1 is function;}
@@ -89,6 +93,7 @@ type
     }
     function GetColumnFunctions: TFileFunctions;
     //------------------------------------------------------
+    property FuncString: String read FFuncString write SetFuncString;
   end;
 
   { TPanelColumnsClass }
@@ -222,31 +227,6 @@ begin
   else
   if str = '=' then
     Result := taCenter;
-end;
-
-procedure FillListFromString(List: TStrings; FuncString: String);
-var
-  s, st: String;
-begin
-  s := FuncString;
-  if Length(s) = 0 then
-    Exit;
-
-  while pos('[', s) > 0 do
-  begin
-    st := Copy(s, 1, pos('[', s) - 1);
-    if st <> '' then
-      List.AddObject(st, TObject(0));
-    Delete(s, 1, pos('[', s));
-    st := Copy(s, 1, pos(']', s) - 1);
-    if st <> '' then
-      List.AddObject(st, TObject(1));
-    Delete(s, 1, pos(']', s));
-  end;
-
-  st := Copy(s, 1, length(s));
-  if st <> '' then
-    List.AddObject(st, TObject(0));
 end;
 
 { TPanelColumnsType }
@@ -458,7 +438,6 @@ begin
 
     NewColumn.Title       := OldColumn.Title;
     NewColumn.FuncString  := OldColumn.FuncString;
-    FillListFromString(NewColumn.FuncList, NewColumn.FuncString);
     NewColumn.Width       := OldColumn.Width;
     NewColumn.Align       := OldColumn.Align;
     NewColumn.FontName    := OldColumn.FontName;
@@ -494,7 +473,6 @@ begin
 
   AColumn.Title       := Title;
   AColumn.FuncString  := FuncString;
-  FillListFromString(AColumn.FuncList, FuncString);
   AColumn.Width       := Width;
   AColumn.Align       := Align;
   AColumn.FontName    := gFontName;
@@ -670,7 +648,6 @@ begin
         TPanelColumn(FList[I]).Title:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'Title','');
         //---------------------
         TPanelColumn(FList[I]).FuncString:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FuncsString','');
-        FillListFromString(TPanelColumn(FList[I]).FuncList,Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FuncsString',''));
         TPanelColumn(FList[I]).Width:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Width',50);
         TPanelColumn(FList[I]).Align:=TAlignment(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Align',0));
         //---------------------
@@ -716,7 +693,6 @@ begin
 
         AColumn.Title := AConfig.GetValue(SubNode, 'Title', '');
         AColumn.FuncString := AConfig.GetValue(SubNode, 'FuncString', '');
-        FillListFromString(AColumn.FuncList, AColumn.FuncString);
         AColumn.Width := AConfig.GetValue(SubNode, 'Width', 50);
         AColumn.Align := TAlignment(AConfig.GetValue(SubNode, 'Align', Integer(0)));
         AConfig.GetFont(SubNode, 'Font', AColumn.FontName, AColumn.FontSize, Integer(AColumn.FontStyle),
@@ -891,6 +867,37 @@ begin
         end;
     end;
   Result := s;
+end;
+
+procedure TPanelColumn.SetFuncString(NewValue: String);
+  procedure FillListFromString(List: TStrings; FuncS: String);
+  var
+    p: Integer;
+  begin
+    while True do
+    begin
+      p := pos('[', FuncS);
+      if p = 0 then
+        Break
+      else if p > 1 then
+        List.AddObject(Copy(FuncS, 1, p - 1), TObject(0));
+      Delete(FuncS, 1, p);
+
+      p := pos(']', FuncS);
+      if p = 0 then
+        Break
+      else if p > 1 then
+        List.AddObject(Copy(FuncS, 1, p - 1), TObject(1));
+      Delete(FuncS, 1, p);
+    end;
+
+    if FuncS <> '' then
+      List.AddObject(FuncS, TObject(0));
+  end;
+
+begin
+  FFuncString := NewValue;
+  FillListFromString(FuncList, NewValue);
 end;
 
 { TPanelColumnsList }
