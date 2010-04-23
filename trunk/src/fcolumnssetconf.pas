@@ -33,7 +33,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Buttons, Grids,  ComCtrls, Menus, LCLType, uColumns,uGlobs, Spin,
+  ExtCtrls, Buttons, Grids,  ComCtrls, Menus, LCLType, uColumns, uGlobs, Spin,
   uColumnsFileView,
   ColorBox;
 
@@ -215,7 +215,8 @@ type
 implementation
 
 uses
-  StrUtils, WdxPlugin, uLng, uWdxModule, uFileSystemFileSource, uOSUtils;
+  StrUtils, WdxPlugin, uLng, uWdxModule, uFileSystemFileSource, uOSUtils,
+  uFileFunctions;
 
 const
   pnlCustHeight: Integer = 154;
@@ -1099,11 +1100,11 @@ begin
        MI:=TMenuItem.Create(pmFields);
        MI.Caption:='DC';
        pmFields.Items.Add(MI);
-       for i:= 0 to IntList.Count-1 do
+       for i:= 0 to FileFunctionsStr.Count-1 do
          begin
            MI:=TMenuItem.Create(pmFields);
            MI.Tag:=0;
-           MI.Caption:=IntList[i];
+           MI.Caption:=FileFunctionsStr[i];
            MI.OnClick:=@MenuFieldsClick;
            pmFields.Items.Items[0].Add(MI);
          end;

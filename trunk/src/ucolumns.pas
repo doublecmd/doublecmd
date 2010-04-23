@@ -30,397 +30,363 @@ interface
 
 uses
   Classes, SysUtils, uClassesEx, LCLProc, Graphics, uFile, uFileSource,
-  uFileProperty, uXmlConfig;
-
-  type
-
-    { TColPrm }
-
-    TColPrm = class
-      FontName:string;
-      FontSize:integer;
-      FontStyle:TFontStyles;
-      Overcolor:boolean;
-      TextColor,
-      Background,
-      Background2,
-      MarkColor,
-      CursorColor,
-      CursorText:TColor;
-     public
-     constructor Create;
-   end;
-
-  TFileFunction = (fsfName,
-                   fsfExtension,
-                   fsfSize,
-                   fsfAttr,
-                   fsfPath,
-                   fsfGroup,
-                   fsfOwner,
-                   fsfModificationTime,
-                   fsfCreationTime,
-                   fsfLastAccessTime,
-                   fsfLinkTo,
-                   fsfNameNoExtension,
-                   fsfType,
-                   fsfInvalid);
-
-  TFileFunctions = array of TFileFunction;
-
-  const TFileFunctionStrings: array [TFileFunction] of string
-            = ('GETFILENAME',
-               'GETFILEEXT',
-               'GETFILESIZE',
-               'GETFILEATTR',
-               'GETFILEPATH',
-               'GETFILEGROUP',
-               'GETFILEOWNER',
-               'GETFILETIME',
-               'GETFILECREATIONTIME',
-               'GETFILELASTACCESSTIME',
-               'GETFILELINKTO',
-               'GETFILENAMENOEXT',
-               'GETFILETYPE',
-               ''                 // fsfInvalid
-               );
-
-  // Which file properties must be supported for each file function to work.
-  const TFileFunctionToProperty: array [TFileFunction] of TFilePropertiesTypes
-            = ([fpName],
-               [fpName],
-               [fpSize],
-               [fpAttributes],
-               [] { path },
-               [fpOwner],
-               [fpOwner],
-               [fpModificationTime],
-               [fpCreationTime],
-               [fpLastAccessTime],
-               [fpLink],
-               [fpName],
-               [fpType],
-               [] { invalid });
+  uXmlConfig, uFileFunctions;
 
 type
 
- { TPanelColumnsType }
-  TPanelColumn=class
-  private
-    function ActGetInfo(FuncS: string; AFile: TFile; const AFileSource: IFileSource): string;
-    function GetFunctionByName(FuncS: string): TFileFunction;
-  //------------------------------------------------------
-  public
-    //---------------------
-    Title:string;
-    FuncString:string;
+  { TColPrm }
 
-    {String is function or simpletext;
-    TObject(integer)=indicator of function: 0 is simpletext; 1 is function;}
-    FuncList:TStringList;
-    Width:integer;
-    Align : TAlignment;
-    //---------------------
-    FontName:string;
-    FontSize:integer;
-    FontStyle:TFontStyles;
-    Overcolor:boolean;
+  TColPrm = class
+    FontName: String;
+    FontSize: Integer;
+    FontStyle: TFontStyles;
+    Overcolor: Boolean;
     TextColor,
     Background,
     Background2,
     MarkColor,
     CursorColor,
-    CursorText:TColor;
+    CursorText: TColor;
+  public
+    constructor Create;
+  end;
+
+  { TPanelColumnsType }
+
+  TPanelColumn = class
+  public
+    //---------------------
+    Title: String;
+    FuncString: String;
+
+    {String is function or simpletext;
+    TObject(integer)=indicator of function: 0 is simpletext; 1 is function;}
+    FuncList: TStringList;
+    Width: Integer;
+    Align: TAlignment;
+    //---------------------
+    FontName: String;
+    FontSize: Integer;
+    FontStyle: TFontStyles;
+    Overcolor: Boolean;
+    TextColor,
+    Background,
+    Background2,
+    MarkColor,
+    CursorColor,
+    CursorText: TColor;
     //---------------------
 
     constructor Create;
     destructor Destroy; override;
-    //---------------------
-    function GetModFunctionName(str: string): string;
-    function GetModFunctionParams(str: string): string;
-    function GetModName(str: string): string;
-    function GetModType(str: string): string;
-    //---------------------
-    function GetColumnResultString(AFile: TFile; const AFileSource: IFileSource):string;
 
+    //---------------------
+    function GetColumnResultString(AFile: TFile; const AFileSource: IFileSource): String;
     {en
        Converts string functions in the column into their integer values,
        so that they don't have to be compared by string during sorting.
        Call this before sorting then pass result to Compare in the sorting loop.
     }
     function GetColumnFunctions: TFileFunctions;
-  //------------------------------------------------------
+    //------------------------------------------------------
   end;
 
   { TPanelColumnsClass }
 
-  TPanelColumnsClass =class
-  //------------------------------------------------------
+  TPanelColumnsClass = class
+    //------------------------------------------------------
   private
-   FList:TList;
-   fSetName:string;
+    FList: TList;
+    fSetName: String;
 
-   // Global settings for columns view.
-   FCustomView: Boolean;
-   FCursorBorder: Boolean;
-   FCursorBorderColor: TColor;
-  //------------------------------------------------------
+    // Global settings for columns view.
+    FCustomView: Boolean;
+    FCursorBorder: Boolean;
+    FCursorBorderColor: TColor;
+    //------------------------------------------------------
   public
     constructor Create;
     destructor Destroy; override;
     procedure Assign(const OtherColumnsClass: TPanelColumnsClass);
     //---------------------
-    function GetColumnTitle(const Index:Integer):string;
-    function GetColumnFuncString(const Index:Integer):string;
-    function GetColumnWidth(const Index:Integer):Integer;
-    function GetColumnAlign(const Index:Integer):TAlignment;
-    function GetColumnAlignString(const Index:Integer):string;
+    function GetColumnTitle(const Index: Integer): String;
+    function GetColumnFuncString(const Index: Integer): String;
+    function GetColumnWidth(const Index: Integer): Integer;
+    function GetColumnAlign(const Index: Integer): TAlignment;
+    function GetColumnAlignString(const Index: Integer): String;
     //---------------------
-    function GetColumnFontName(const Index:Integer):string;
-    function GetColumnFontSize(const Index:Integer):integer;
-    function GetColumnFontStyle(const Index:Integer):TFontStyles;
-    function GetColumnOvercolor(const Index:Integer):boolean;
-    function GetColumnTextColor(const Index:Integer):TColor;
-    function GetColumnBackground(const Index:Integer):TColor;
-    function GetColumnBackground2(const Index:Integer):TColor;
-    function GetColumnMarkColor(const Index:Integer):TColor;
-    function GetColumnCursorColor(const Index:Integer):TColor;
-    function GetColumnCursorText(const Index:Integer):TColor;
+    function GetColumnFontName(const Index: Integer): String;
+    function GetColumnFontSize(const Index: Integer): Integer;
+    function GetColumnFontStyle(const Index: Integer): TFontStyles;
+    function GetColumnOvercolor(const Index: Integer): Boolean;
+    function GetColumnTextColor(const Index: Integer): TColor;
+    function GetColumnBackground(const Index: Integer): TColor;
+    function GetColumnBackground2(const Index: Integer): TColor;
+    function GetColumnMarkColor(const Index: Integer): TColor;
+    function GetColumnCursorColor(const Index: Integer): TColor;
+    function GetColumnCursorText(const Index: Integer): TColor;
     //---------------------
-    function GetColumnPrm(const Index:Integer):TColPrm;
+    function GetColumnPrm(const Index: Integer): TColPrm;
     //---------------------
     function GetCursorBorder: Boolean;
     function GetCursorBorderColor: TColor;
-
     //---------------------
-    function GetColumnItem(const Index:Integer):TPanelColumn;
-    function GetColumnItemResultString(const Index:Integer;const AFile: TFile; const AFileSource: IFileSource):string;
-    function GetCount:Integer;
-    function Add(Item:TPanelColumn):integer;
-    function Add(const Title, FuncString:string;const  Width:integer;const Align: TAlignment=taLeftJustify):integer; overload;
+    function GetColumnItem(const Index: Integer): TPanelColumn;
+    function GetColumnItemResultString(const Index: Integer;
+      const AFile: TFile; const AFileSource: IFileSource): String;
+    function GetCount: Integer;
+    function Add(Item: TPanelColumn): Integer;
+    function Add(const Title, FuncString: String; const Width: Integer;
+      const Align: TAlignment = taLeftJustify): Integer; overload;
     //---------------------
-    procedure SetColumnTitle(const Index:Integer; Title:string);
-    procedure SetColumnFuncString(const Index:Integer; FuncString:string);
-    procedure SetColumnWidth(Index,Width:integer);
-    procedure SetColumnAlign(const Index:Integer; Align: TAlignment);
+    procedure SetColumnTitle(const Index: Integer; Title: String);
+    procedure SetColumnFuncString(const Index: Integer; FuncString: String);
+    procedure SetColumnWidth(Index, Width: Integer);
+    procedure SetColumnAlign(const Index: Integer; Align: TAlignment);
     //---------------------
-    procedure SetColumnFontName(const Index:Integer; Value:string);
-    procedure SetColumnFontSize(const Index:Integer; Value:integer);
-    procedure SetColumnFontStyle(const Index:Integer; Value:TFontStyles);
-    procedure SetColumnTextColor(const Index:Integer; Value:TColor);
-    procedure SetColumnBackground(const Index:Integer; Value:TColor);
-    procedure SetColumnBackground2(const Index:Integer; Value:TColor);
-    procedure SetColumnMarkColor(const Index:Integer; Value:TColor);
-    procedure SetColumnCursorColor(const Index:Integer; Value:TColor);
-    procedure SetColumnCursorText(const Index:Integer; Value:TColor);
-    procedure SetColumnOvercolor(const Index:Integer; Value:boolean);
-    Procedure SetColumnPrm(const Index:Integer; Value:TColPrm);
+    procedure SetColumnFontName(const Index: Integer; Value: String);
+    procedure SetColumnFontSize(const Index: Integer; Value: Integer);
+    procedure SetColumnFontStyle(const Index: Integer; Value: TFontStyles);
+    procedure SetColumnTextColor(const Index: Integer; Value: TColor);
+    procedure SetColumnBackground(const Index: Integer; Value: TColor);
+    procedure SetColumnBackground2(const Index: Integer; Value: TColor);
+    procedure SetColumnMarkColor(const Index: Integer; Value: TColor);
+    procedure SetColumnCursorColor(const Index: Integer; Value: TColor);
+    procedure SetColumnCursorText(const Index: Integer; Value: TColor);
+    procedure SetColumnOvercolor(const Index: Integer; Value: Boolean);
+    procedure SetColumnPrm(const Index: Integer; Value: TColPrm);
     //---------------------
     procedure SetCursorBorder(ShowBorder: Boolean);
     procedure SetCursorBorderColor(Color: TColor);
     //---------------------
-    procedure Delete(const Index:Integer);
+    procedure Delete(const Index: Integer);
     procedure Clear;
     procedure AddDefaultColumns;
-
     //---------------------
-    procedure Load(Ini:TIniFileEx; SetName:string);overload;
-    procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);overload;
+    procedure Load(Ini: TIniFileEx; SetName: String); overload;
+    procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     //---------------------
-    procedure Save(Ini:TIniFileEx;ASetName:string); overload;
-    procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);overload;
+    procedure Save(Ini: TIniFileEx; ASetName: String); overload;
+    procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     //---------------------
-    property ColumnsCount:Integer read GetCount;
-    property Count:Integer read GetCount;
+    property ColumnsCount: Integer read GetCount;
+    property Count: Integer read GetCount;
     property CustomView: Boolean read FCustomView write FCustomView;
-    property CurrentColumnsSetName:string read fSetName write fSetName;
-    property SetName:string read fSetName write fSetName;
-    property Name:string read fSetName write fSetName;
-  //------------------------------------------------------
+    property CurrentColumnsSetName: String read fSetName write fSetName;
+    property SetName: String read fSetName write fSetName;
+    property Name: String read fSetName write fSetName;
+    //------------------------------------------------------
   end;
 
   { TPanelColumnsList }
 
-  TPanelColumnsList= class
+  TPanelColumnsList = class
   private
-    fSet:TStringList;
-    function GetCount:integer;
+    fSet: TStringList;
+    function GetCount: Integer;
   public
     constructor Create;
     destructor Destroy; override;
     //---------------------
     procedure Clear;
-    procedure Load(Ini:TIniFileEx);overload;
-    procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);overload;
-    procedure Save(Ini:TIniFileEx); overload;
-    procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);overload;
-    function Add(AName:string;Item:TPanelColumnsClass):integer;
-    procedure Insert(AIndex: integer; AName: string; Item: TPanelColumnsClass);
-    procedure DeleteColumnSet(SetName:string);
-    procedure DeleteColumnSet(SetIndex:Integer); overload;
+    procedure Load(Ini: TIniFileEx); overload;
+    procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
+    procedure Save(Ini: TIniFileEx); overload;
+    procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
+    function Add(AName: String; Item: TPanelColumnsClass): Integer;
+    procedure Insert(AIndex: Integer; AName: String; Item: TPanelColumnsClass);
+    procedure DeleteColumnSet(SetName: String);
+    procedure DeleteColumnSet(SetIndex: Integer); overload;
     procedure CopyColumnSet(SetName, NewSetName: String);
-    function GetColumnSet(const Index:Integer):TPanelColumnsClass;
-    function GetColumnSet(Setname:string):TPanelColumnsClass;
-
+    function GetColumnSet(const Index: Integer): TPanelColumnsClass;
+    function GetColumnSet(Setname: String): TPanelColumnsClass;
     //---------------------
-  published
-    property Items:TStringList read fSet;
-    property Count:integer read GetCount;
+    property Items: TStringList read fSet;
+    property Count: Integer read GetCount;
   end;
 
-
-  procedure FillListFromString(List: TStrings; FuncString: string);
-  function StrToAlign(str:string):TAlignment;
-
-  var IntList:TStringList;
+  function StrToAlign(str: String): TAlignment;
 
 implementation
 
 uses
-  uLng, uGlobs, uDefaultFilePropertyFormatter, uFileSourceProperty;
+  uLng, uGlobs;
 
-function StrToAlign(str:string):TAlignment;
+function StrToAlign(str: String): TAlignment;
 begin
-if str='<-' then
-  Result:=taLeftJustify
-else
-if str='->' then
-  Result:=taRightJustify
-else
-if str='=' then
-  Result:=taCenter;
+  if str = '<-' then
+    Result := taLeftJustify
+  else
+  if str = '->' then
+    Result := taRightJustify
+  else
+  if str = '=' then
+    Result := taCenter;
+end;
+
+procedure FillListFromString(List: TStrings; FuncString: String);
+var
+  s, st: String;
+begin
+  s := FuncString;
+  if Length(s) = 0 then
+    Exit;
+
+  while pos('[', s) > 0 do
+  begin
+    st := Copy(s, 1, pos('[', s) - 1);
+    if st <> '' then
+      List.AddObject(st, TObject(0));
+    Delete(s, 1, pos('[', s));
+    st := Copy(s, 1, pos(']', s) - 1);
+    if st <> '' then
+      List.AddObject(st, TObject(1));
+    Delete(s, 1, pos(']', s));
+  end;
+
+  st := Copy(s, 1, length(s));
+  if st <> '' then
+    List.AddObject(st, TObject(0));
 end;
 
 { TPanelColumnsType }
 
-function TPanelColumnsClass.GetColumnTitle(const Index: integer): string;
+function TPanelColumnsClass.GetColumnTitle(const Index: Integer): String;
 begin
-  if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).Title;
+  if Index >= Flist.Count then
+    Exit(EmptyStr);
+  Result := TPanelColumn(Flist[Index]).Title;
 end;
 
-function TPanelColumnsClass.GetColumnFuncString(const Index: integer): string;
+function TPanelColumnsClass.GetColumnFuncString(const Index: Integer): String;
 begin
-  if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).FuncString;
+  if Index >= Flist.Count then
+    Exit(EmptyStr);
+  Result := TPanelColumn(Flist[Index]).FuncString;
 end;
 
-function TPanelColumnsClass.GetColumnWidth(const Index: integer): Integer;
+function TPanelColumnsClass.GetColumnWidth(const Index: Integer): Integer;
 begin
-  if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).Width;
+  if Index >= Flist.Count then
+    Exit(0);
+  Result := TPanelColumn(Flist[Index]).Width;
 end;
 
-function TPanelColumnsClass.GetColumnAlign(const Index: integer): TAlignment;
+function TPanelColumnsClass.GetColumnAlign(const Index: Integer): TAlignment;
 begin
-  if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).Align;
+  if Index >= Flist.Count then
+    Exit(taLeftJustify);
+  Result := TPanelColumn(Flist[Index]).Align;
 end;
 
-function TPanelColumnsClass.GetColumnAlignString(const Index: integer): string;
+function TPanelColumnsClass.GetColumnAlignString(const Index: Integer): String;
 begin
-  if Index>=Flist.Count then exit;
+  if Index >= Flist.Count then
+    Exit(EmptyStr);
+
   case TPanelColumn(Flist[Index]).Align of
-    taLeftJustify: Result:='<-';
-    taRightJustify: Result:='->';
-    taCenter :Result:='='
+    taLeftJustify:  Result := '<-';
+    taRightJustify: Result := '->';
+    taCenter:       Result := '=';
   end;
 end;
 
-function TPanelColumnsClass.GetColumnFontName(const Index: integer): string;
+function TPanelColumnsClass.GetColumnFontName(const Index: Integer): String;
 begin
   if FCustomView and (Index < Flist.Count) then
-    Result:= TPanelColumn(Flist[Index]).FontName
+    Result := TPanelColumn(Flist[Index]).FontName
   else
-    Result:= gFontName;
+    Result := gFontName;
 end;
 
-function TPanelColumnsClass.GetColumnFontSize(const Index: integer): integer;
+function TPanelColumnsClass.GetColumnFontSize(const Index: Integer): Integer;
 begin
   if FCustomView and (Index < Flist.Count) then
-    Result:= TPanelColumn(Flist[Index]).FontSize
+    Result := TPanelColumn(Flist[Index]).FontSize
   else
-    Result:= gFontSize;
+    Result := gFontSize;
 end;
 
 function TPanelColumnsClass.GetColumnFontStyle(const Index: Integer): TFontStyles;
 begin
   if FCustomView and (Index < Flist.Count) then
-    Result:= TPanelColumn(Flist[Index]).FontStyle
+    Result := TPanelColumn(Flist[Index]).FontStyle
   else
-    Result:= gFontStyle;
+    Result := gFontStyle;
 end;
 
-function TPanelColumnsClass.GetColumnOvercolor(const Index: integer): boolean;
+function TPanelColumnsClass.GetColumnOvercolor(const Index: Integer): Boolean;
 begin
   if FCustomView and (Index < Flist.Count) then
-    Result:= TPanelColumn(Flist[Index]).Overcolor
+    Result := TPanelColumn(Flist[Index]).Overcolor
   else
-    Result:= True;
+    Result := True;
 end;
 
-function TPanelColumnsClass.GetColumnTextColor(const Index: integer): TColor;
+function TPanelColumnsClass.GetColumnTextColor(const Index: Integer): TColor;
 begin
   if FCustomView and (Index < Flist.Count) then
-    Result:= TPanelColumn(Flist[Index]).TextColor
+    Result := TPanelColumn(Flist[Index]).TextColor
   else
-    Result:= gForeColor;
+    Result := gForeColor;
 end;
 
-function TPanelColumnsClass.GetColumnBackground(const Index: integer): TColor;
+function TPanelColumnsClass.GetColumnBackground(const Index: Integer): TColor;
 begin
   if FCustomView and (Index < Flist.Count) then
-    Result:= TPanelColumn(Flist[Index]).Background
+    Result := TPanelColumn(Flist[Index]).Background
   else
-    Result:= gBackColor;
+    Result := gBackColor;
 end;
 
-function TPanelColumnsClass.GetColumnBackground2(const Index: integer): TColor;
+function TPanelColumnsClass.GetColumnBackground2(const Index: Integer): TColor;
 begin
   if FCustomView and (Index < Flist.Count) then
-    Result:= TPanelColumn(Flist[Index]).Background2
+    Result := TPanelColumn(Flist[Index]).Background2
   else
-    Result:= gBackColor2;
+    Result := gBackColor2;
 end;
 
-function TPanelColumnsClass.GetColumnMarkColor(const Index: integer): TColor;
+function TPanelColumnsClass.GetColumnMarkColor(const Index: Integer): TColor;
 begin
   if FCustomView and (Index < Flist.Count) then
-    Result:= TPanelColumn(Flist[Index]).MarkColor
+    Result := TPanelColumn(Flist[Index]).MarkColor
   else
-    Result:= gMarkColor;
+    Result := gMarkColor;
 end;
 
-function TPanelColumnsClass.GetColumnCursorColor(const Index: integer): TColor;
+function TPanelColumnsClass.GetColumnCursorColor(const Index: Integer): TColor;
 begin
   if FCustomView and (Index < Flist.Count) then
-    Result:= TPanelColumn(Flist[Index]).CursorColor
+    Result := TPanelColumn(Flist[Index]).CursorColor
   else
-    Result:= gCursorColor;
+    Result := gCursorColor;
 end;
 
-function TPanelColumnsClass.GetColumnCursorText(const Index: integer): TColor;
+function TPanelColumnsClass.GetColumnCursorText(const Index: Integer): TColor;
 begin
   if FCustomView and (Index < Flist.Count) then
-    Result:= TPanelColumn(Flist[Index]).CursorText
+    Result := TPanelColumn(Flist[Index]).CursorText
   else
-    Result:= gCursorText;
+    Result := gCursorText;
 end;
 
-function TPanelColumnsClass.GetColumnPrm(const Index: integer): TColPrm;
+function TPanelColumnsClass.GetColumnPrm(const Index: Integer): TColPrm;
 begin
-  if Index >= Flist.Count then Exit;
-  Result:=TColPrm.Create;
-  Result.Overcolor:=GetColumnOvercolor(Index);
-  Result.Background:=GetColumnBackground(Index);
-  Result.Background2:=GetColumnBackground2(Index);
-  Result.CursorColor:=GetColumnCursorColor(Index);
-  Result.CursorText:=GetColumnCursorText(Index);
-  Result.FontName:=GetColumnFontName(Index);
-  Result.FontSize:=GetColumnFontSize(Index);
-  Result.FontStyle:=GetColumnFontStyle(Index);
-  Result.MarkColor:=GetColumnMarkColor(Index);
-  Result.TextColor:=GetColumnTextColor(Index);
+  if Index >= Flist.Count then
+    Exit(nil);
+
+  Result := TColPrm.Create;
+  Result.Overcolor := GetColumnOvercolor(Index);
+  Result.Background := GetColumnBackground(Index);
+  Result.Background2 := GetColumnBackground2(Index);
+  Result.CursorColor := GetColumnCursorColor(Index);
+  Result.CursorText := GetColumnCursorText(Index);
+  Result.FontName := GetColumnFontName(Index);
+  Result.FontSize := GetColumnFontSize(Index);
+  Result.FontStyle := GetColumnFontStyle(Index);
+  Result.MarkColor := GetColumnMarkColor(Index);
+  Result.TextColor := GetColumnTextColor(Index);
 end;
 
 function TPanelColumnsClass.GetCursorBorder: Boolean;
@@ -433,32 +399,33 @@ begin
   Result := FCursorBorderColor;
 end;
 
-function TPanelColumnsClass.GetColumnItem(const Index: integer): TPanelColumn;
+function TPanelColumnsClass.GetColumnItem(const Index: Integer): TPanelColumn;
 begin
-  if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]);
+  if Index >= Flist.Count then
+    Exit(nil);
+  Result := TPanelColumn(Flist[Index]);
 end;
 
-function TPanelColumnsClass.GetColumnItemResultString(const Index: integer;
-  const AFile: TFile; const AFileSource: IFileSource): string;
+function TPanelColumnsClass.GetColumnItemResultString(const Index: Integer;
+  const AFile: TFile; const AFileSource: IFileSource): String;
 begin
-  Result:='';
-  if Index>=Flist.Count then exit;
-  Result:=TPanelColumn(Flist[Index]).GetColumnResultString(AFile, AFileSource);
+  if Index >= Flist.Count then
+    Exit(EmptyStr);
+  Result := TPanelColumn(Flist[Index]).GetColumnResultString(AFile, AFileSource);
 end;
 
 constructor TPanelColumnsClass.Create;
 begin
-FList:=TList.Create;
+  FList := TList.Create;
 end;
 
 procedure TPanelColumnsClass.Clear;
 begin
-    while Flist.Count>0 do
-    begin
-      TPanelColumn(Flist[0]).Free;
-      FList.Delete(0);
-    end;
+  while Flist.Count > 0 do
+  begin
+    TPanelColumn(Flist[0]).Free;
+    FList.Delete(0);
+  end;
 end;
 
 destructor TPanelColumnsClass.Destroy;
@@ -484,152 +451,166 @@ begin
   FCursorBorderColor := OtherColumnsClass.FCursorBorderColor;
 
   for i := 0 to OtherColumnsClass.ColumnsCount - 1 do
-    begin
-      OldColumn := OtherColumnsClass.GetColumnItem(i);
-      NewColumn := TPanelColumn.Create;
-      Add(NewColumn);
+  begin
+    OldColumn := OtherColumnsClass.GetColumnItem(i);
+    NewColumn := TPanelColumn.Create;
+    Add(NewColumn);
 
-      NewColumn.Title := OldColumn.Title;
-      NewColumn.FuncString := OldColumn.FuncString;
-      FillListFromString(NewColumn.FuncList, NewColumn.FuncString);
-      NewColumn.Width := OldColumn.Width;
-      NewColumn.Align := OldColumn.Align;
-      NewColumn.FontName := OldColumn.FontName;
-      NewColumn.FontSize := OldColumn.FontSize;
-      NewColumn.FontStyle := OldColumn.FontStyle;
-      NewColumn.Overcolor := OldColumn.Overcolor;
-      NewColumn.TextColor := OldColumn.TextColor;
-      NewColumn.Background := OldColumn.Background;
-      NewColumn.Background2 := OldColumn.Background2;
-      NewColumn.MarkColor := OldColumn.MarkColor;
-      NewColumn.CursorColor := OldColumn.CursorColor;
-      NewColumn.CursorText := OldColumn.CursorText;
-    end;
+    NewColumn.Title       := OldColumn.Title;
+    NewColumn.FuncString  := OldColumn.FuncString;
+    FillListFromString(NewColumn.FuncList, NewColumn.FuncString);
+    NewColumn.Width       := OldColumn.Width;
+    NewColumn.Align       := OldColumn.Align;
+    NewColumn.FontName    := OldColumn.FontName;
+    NewColumn.FontSize    := OldColumn.FontSize;
+    NewColumn.FontStyle   := OldColumn.FontStyle;
+    NewColumn.Overcolor   := OldColumn.Overcolor;
+    NewColumn.TextColor   := OldColumn.TextColor;
+    NewColumn.Background  := OldColumn.Background;
+    NewColumn.Background2 := OldColumn.Background2;
+    NewColumn.MarkColor   := OldColumn.MarkColor;
+    NewColumn.CursorColor := OldColumn.CursorColor;
+    NewColumn.CursorText  := OldColumn.CursorText;
+  end;
 end;
 
 function TPanelColumnsClass.GetCount: Integer;
 begin
-  Result:=FList.Count;
+  Result := FList.Count;
 end;
 
-function TPanelColumnsClass.Add(Item: TPanelColumn): integer;
+function TPanelColumnsClass.Add(Item: TPanelColumn): Integer;
 begin
-  Result:=FList.Add(Item);
+  Result := FList.Add(Item);
 end;
 
-function TPanelColumnsClass.Add(const Title, FuncString: string; const Width:integer;const Align: TAlignment): integer;
+function TPanelColumnsClass.Add(const Title, FuncString: String;
+  const Width: Integer; const Align: TAlignment): Integer;
+var
+  AColumn: TPanelColumn;
 begin
- Result:=Flist.Add(TPanelColumn.Create);
- TPanelColumn(FList[Result]).Title:=Title;
- TPanelColumn(FList[Result]).FuncString:=FuncString;
- FillListFromString(TPanelColumn(FList[Result]).FuncList,FuncString);
- TPanelColumn(FList[Result]).Width:=Width;
- TPanelColumn(FList[Result]).Align:=Align;
- 
-  TPanelColumn(Flist[Result]).FontName:=gFontName;
-  TPanelColumn(Flist[Result]).FontSize:=gFontSize;
-  TPanelColumn(Flist[Result]).FontStyle:=gFontStyle;
-  TPanelColumn(Flist[Result]).Overcolor:=True;
-  TPanelColumn(Flist[Result]).TextColor:=gForeColor;
-  TPanelColumn(Flist[Result]).Background:=gBackColor;
-  TPanelColumn(Flist[Result]).Background2:=gBackColor2;
-  TPanelColumn(Flist[Result]).MarkColor:=gMarkColor;
-  TPanelColumn(Flist[Result]).CursorColor:=gCursorColor;
-  TPanelColumn(Flist[Result]).CursorText:=gCursorText;
+  AColumn := TPanelColumn.Create;
+  Result := FList.Add(AColumn);
+
+  AColumn.Title       := Title;
+  AColumn.FuncString  := FuncString;
+  FillListFromString(AColumn.FuncList, FuncString);
+  AColumn.Width       := Width;
+  AColumn.Align       := Align;
+  AColumn.FontName    := gFontName;
+  AColumn.FontSize    := gFontSize;
+  AColumn.FontStyle   := gFontStyle;
+  AColumn.Overcolor   := True;
+  AColumn.TextColor   := gForeColor;
+  AColumn.Background  := gBackColor;
+  AColumn.Background2 := gBackColor2;
+  AColumn.MarkColor   := gMarkColor;
+  AColumn.CursorColor := gCursorColor;
+  AColumn.CursorText  := gCursorText;
 end;
 
-procedure TPanelColumnsClass.SetColumnTitle(const Index: integer; Title: string);
+procedure TPanelColumnsClass.SetColumnTitle(const Index: Integer; Title: String);
 begin
-  if Index>Flist.Count then exit;
-  TPanelColumn(Flist[Index]).Title:=Title;
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).Title := Title;
 end;
 
-procedure TPanelColumnsClass.SetColumnFuncString(const Index: integer;
-  FuncString: string);
+procedure TPanelColumnsClass.SetColumnFuncString(const Index: Integer; FuncString: String);
 begin
-  if Index>Flist.Count then exit;
-  TPanelColumn(Flist[Index]).FuncString:=FuncString;
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).FuncString := FuncString;
 end;
 
-procedure TPanelColumnsClass.SetColumnWidth(Index, Width: integer);
+procedure TPanelColumnsClass.SetColumnWidth(Index, Width: Integer);
 begin
-  if Index>Flist.Count then exit;
-  TPanelColumn(Flist[Index]).Width:=Width;
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).Width := Width;
 end;
 
 procedure TPanelColumnsClass.SetColumnAlign(const Index: Integer; Align: TAlignment);
 begin
-  if Index>Flist.Count then exit;
-  TPanelColumn(Flist[Index]).Align:=Align;
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).Align := Align;
 end;
 
-procedure TPanelColumnsClass.SetColumnFontName(const Index: integer; Value: string);
+procedure TPanelColumnsClass.SetColumnFontName(const Index: Integer; Value: String);
 begin
-if Index>Flist.Count then exit;
-  TPanelColumn(Flist[Index]).FontName:=Value;
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).FontName := Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnFontSize(const Index: integer; Value: integer);
+procedure TPanelColumnsClass.SetColumnFontSize(const Index: Integer; Value: Integer);
 begin
-if Index>Flist.Count then exit;
-  TPanelColumn(Flist[Index]).FontSize:=Value;
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).FontSize := Value;
 end;
 
 procedure TPanelColumnsClass.SetColumnFontStyle(const Index: Integer; Value: TFontStyles);
 begin
-if Index>Flist.Count then exit;
-  TPanelColumn(Flist[Index]).FontStyle:=Value;
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).FontStyle := Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnTextColor(const Index: integer; Value: TColor);
+procedure TPanelColumnsClass.SetColumnTextColor(const Index: Integer; Value: TColor);
 begin
-if Index>Flist.Count then exit;
-  TPanelColumn(Flist[Index]).TextColor:=Value;
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).TextColor := Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnBackground(const Index: integer; Value: TColor
-  );
+procedure TPanelColumnsClass.SetColumnBackground(const Index: Integer; Value: TColor);
 begin
-if Index>Flist.Count then exit;
-  TPanelColumn(Flist[Index]).Background:=Value;
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).Background := Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnBackground2(const Index: integer; Value: TColor
-  );
+procedure TPanelColumnsClass.SetColumnBackground2(const Index: Integer; Value: TColor);
 begin
-if Index>Flist.Count then exit;
-  TPanelColumn(Flist[Index]).Background2:=Value;
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).Background2 := Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnMarkColor(const Index: integer; Value: TColor);
+procedure TPanelColumnsClass.SetColumnMarkColor(const Index: Integer; Value: TColor);
 begin
-if Index>Flist.Count then exit;
-  TPanelColumn(Flist[Index]).MarkColor:=Value;
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).MarkColor := Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnCursorColor(const Index: integer; Value: TColor
-  );
+procedure TPanelColumnsClass.SetColumnCursorColor(const Index: Integer; Value: TColor);
 begin
-if Index>Flist.Count then exit;
-  TPanelColumn(Flist[Index]).CursorColor:=Value;
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).CursorColor := Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnCursorText(const Index: integer; Value: TColor
-  );
+procedure TPanelColumnsClass.SetColumnCursorText(const Index: Integer; Value: TColor);
 begin
-if Index>Flist.Count then exit;
-  TPanelColumn(Flist[Index]).CursorText:=Value;
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).CursorText := Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnOvercolor(const Index: integer; Value: boolean);
+procedure TPanelColumnsClass.SetColumnOvercolor(const Index: Integer; Value: Boolean);
 begin
-if Index>Flist.Count then exit;
-  TPanelColumn(Flist[Index]).Overcolor:=Value;
+  if Index > Flist.Count then
+    Exit;
+  TPanelColumn(Flist[Index]).Overcolor := Value;
 end;
 
-procedure TPanelColumnsClass.SetColumnPrm(const Index: integer; Value: TColPrm);
+procedure TPanelColumnsClass.SetColumnPrm(const Index: Integer; Value: TColPrm);
 begin
-  if Index >= Flist.Count then Exit;
+  if Index >= Flist.Count then
+    Exit;
   SetColumnBackground(Index, Value.Background);
   SetColumnBackground2(Index, Value.Background2);
   SetColumnCursorColor(Index, Value.CursorColor);
@@ -639,7 +620,7 @@ begin
   SetColumnFontStyle(Index, Value.FontStyle);
   SetColumnMarkColor(Index, Value.MarkColor);
   SetColumnTextColor(Index, Value.TextColor);
-  SetColumnOvercolor(Index,Value.Overcolor);
+  SetColumnOvercolor(Index, Value.Overcolor);
 end;
 
 procedure TPanelColumnsClass.SetCursorBorder(ShowBorder: Boolean);
@@ -652,87 +633,63 @@ begin
   FCursorBorderColor := Color;
 end;
 
-
- //------------------------------------------------------
- procedure FillListFromString(List:TStrings; FuncString:string);
-   var s,st:string;
-   begin
-
-     s:=FuncString;
-     if length(s)=0 then Exit;
-
-     while pos('[',s)>0 do
-      begin
-        st:=Copy(s,1,pos('[',s)-1);
-        if st<>'' then  List.AddObject(st,TObject(0));
-        
-        delete(s,1,pos('[',s));
-        st:=Copy(s,1,pos(']',s)-1);
-        if st<>'' then  List.AddObject(st,TObject(1));
-        delete(s,1,pos(']',s));
-      end;
-        st:=Copy(s,1,length(s));
-        if st<>'' then  List.AddObject(st,TObject(0));
-
-   end;
- //------------------------------------------------------
-
 procedure TPanelColumnsClass.AddDefaultColumns;
+var
+  DCFunc: String;
 begin
-  SetName:='Default';
+  SetName := 'Default';
+  DCFunc := '[' + sFuncTypeDC + '().%s{}]';
   // file name
-  Add(rsColName, '[DC().GETFILENAMENOEXT{}]', 250, taLeftJustify);
+  Add(rsColName, Format(DCFunc, [TFileFunctionStrings[fsfNameNoExtension]]), 250, taLeftJustify);
   // file ext
-  Add(rsColExt, '[DC().GETFILEEXT{}]', 50, taLeftJustify);
+  Add(rsColExt, Format(DCFunc, [TFileFunctionStrings[fsfExtension]]), 50, taLeftJustify);
   // file size
-  Add(rsColSize, '[DC().GETFILESIZE{}]', 70, taRightJustify);
+  Add(rsColSize, Format(DCFunc, [TFileFunctionStrings[fsfSize]]), 70, taRightJustify);
   // file date/time
-  Add(rsColDate, '[DC().GETFILETIME{}]', 70, taRightJustify);
+  Add(rsColDate, Format(DCFunc, [TFileFunctionStrings[fsfModificationTime]]), 70, taRightJustify);
   // file attributes
-  Add(rsColAttr, '[DC().GETFILEATTR{}]', 175, taLeftJustify);
+  Add(rsColAttr, Format(DCFunc, [TFileFunctionStrings[fsfAttr]]), 175, taLeftJustify);
 end;
 
-procedure TPanelColumnsClass.Load(Ini: TIniFileEx; SetName: string);
-var aCount,I:Integer;
+procedure TPanelColumnsClass.Load(Ini: TIniFileEx; SetName: String);
+var
+  aCount, I: Integer;
 begin
-    fSetName:=SetName;
-    Self.Clear;
-    aCount:=Ini.ReadInteger(fSetName,'ColumnCount',0);
-    //---------------------
-    if aCount=0 then
+  fSetName := SetName;
+  Self.Clear;
+  aCount := Ini.ReadInteger(fSetName, 'ColumnCount', 0);
+  //---------------------
+  if aCount = 0 then
+    begin
+      AddDefaultColumns;
+    end
+  else
+    for I := 0 to aCount - 1 do
       begin
-        AddDefaultColumns;
-      end
-    else
-      For I:=0 to aCount-1 do
-        begin
-          Flist.Add(TPanelColumn.Create);
-          TPanelColumn(FList[I]).Title:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'Title','');
-           //---------------------
-            TPanelColumn(FList[I]).FuncString:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FuncsString','');
-            FillListFromString(TPanelColumn(FList[I]).FuncList,Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FuncsString',''));
-            TPanelColumn(FList[I]).Width:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Width',50);
-            TPanelColumn(FList[I]).Align:=TAlignment(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Align',0));
-           //---------------------
-
-            TPanelColumn(FList[I]).FontName:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FontName',gFontName);
-            TPanelColumn(FList[I]).FontSize:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontSize',gFontSize);
-            TPanelColumn(FList[I]).FontStyle:=TFontStyles(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontStyle',Integer(gFontStyle)));
-            TPanelColumn(FList[I]).Overcolor:=Ini.ReadBool(fSetName,'Column'+IntToStr(I+1)+'Overcolor',true );
-
-            TPanelColumn(FList[I]).TextColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'TextColor',gForeColor));
-            TPanelColumn(FList[I]).Background:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Background',gBackColor ));
-            TPanelColumn(FList[I]).Background2:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Background2',gBackColor2 ));
-            TPanelColumn(FList[I]).MarkColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'MarkColor',gMarkColor ));
-            TPanelColumn(FList[I]).CursorColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'CursorColor',gCursorColor ));
-            TPanelColumn(FList[I]).CursorText:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'CursorText',gCursorText ));
-
-           //---------------------
-        end;
-    //---------------------
-    FCustomView:= Ini.ReadBool(fSetName, 'CustomView', False);
-    SetCursorBorder(Ini.ReadBool(fSetName, 'CursorBorder', False));
-    SetCursorBorderColor(TColor(Ini.ReadInteger(fSetName, 'CursorBorderColor', gCursorColor)));
+        Flist.Add(TPanelColumn.Create);
+        TPanelColumn(FList[I]).Title:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'Title','');
+        //---------------------
+        TPanelColumn(FList[I]).FuncString:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FuncsString','');
+        FillListFromString(TPanelColumn(FList[I]).FuncList,Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FuncsString',''));
+        TPanelColumn(FList[I]).Width:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Width',50);
+        TPanelColumn(FList[I]).Align:=TAlignment(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Align',0));
+        //---------------------
+        TPanelColumn(FList[I]).FontName:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FontName',gFontName);
+        TPanelColumn(FList[I]).FontSize:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontSize',gFontSize);
+        TPanelColumn(FList[I]).FontStyle:=TFontStyles(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontStyle',Integer(gFontStyle)));
+        TPanelColumn(FList[I]).Overcolor:=Ini.ReadBool(fSetName,'Column'+IntToStr(I+1)+'Overcolor',true );
+        TPanelColumn(FList[I]).TextColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'TextColor',gForeColor));
+        TPanelColumn(FList[I]).Background:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Background',gBackColor ));
+        TPanelColumn(FList[I]).Background2:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Background2',gBackColor2 ));
+        TPanelColumn(FList[I]).MarkColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'MarkColor',gMarkColor ));
+        TPanelColumn(FList[I]).CursorColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'CursorColor',gCursorColor ));
+        TPanelColumn(FList[I]).CursorText:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'CursorText',gCursorText ));
+        //---------------------
+      end;
+  //---------------------
+  FCustomView := Ini.ReadBool(fSetName, 'CustomView', False);
+  SetCursorBorder(Ini.ReadBool(fSetName, 'CursorBorder', False));
+  SetCursorBorderColor(TColor(Ini.ReadInteger(fSetName, 'CursorBorderColor', gCursorColor)));
 end;
 
 procedure TPanelColumnsClass.Load(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -780,44 +737,45 @@ begin
     AddDefaultColumns;
 end;
 
-procedure TPanelColumnsClass.Save(Ini: TIniFileEx; ASetName: string);
- var I:Integer;
+procedure TPanelColumnsClass.Save(Ini: TIniFileEx; ASetName: String);
+var
+  I: Integer;
 begin
-    fSetName:=ASetName;
-    if fSetName='' then Exit;
-    Ini.EraseSection(fSetName);
-    Ini.WriteInteger(fSetName,'ColumnCount',FList.Count);
-    For I:=0 to FList.Count-1 do
-      begin
-        Ini.WriteString(fSetName,'Column'+IntToStr(I+1)+'Title',TPanelColumn(FList[I]).Title);
-        Ini.WriteString(fSetName,'Column'+IntToStr(I+1)+'FuncsString',TPanelColumn(FList[I]).FuncString);
-        Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'Width', TPanelColumn(FList[I]).Width);
-        Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'Align', Integer(TPanelColumn(FList[I]).Align));
-        //---------------------
-        Ini.WriteString(fSetName,'Column'+IntToStr(I+1)+'FontName',TPanelColumn(FList[I]).FontName);
-        Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'FontSize', TPanelColumn(FList[I]).FontSize);
-        Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'FontStyle', Integer(TPanelColumn(FList[I]).FontStyle));
-        Ini.WriteBool(fSetName,'Column'+IntToStr(I+1)+'Overcolor', TPanelColumn(FList[I]).Overcolor);
+  fSetName := ASetName;
+  if fSetName = '' then
+    Exit;
+  Ini.EraseSection(fSetName);
+  Ini.WriteInteger(fSetName, 'ColumnCount', FList.Count);
+  for I := 0 to FList.Count - 1 do
+    begin
+      Ini.WriteString(fSetName,'Column'+IntToStr(I+1)+'Title',TPanelColumn(FList[I]).Title);
+      Ini.WriteString(fSetName,'Column'+IntToStr(I+1)+'FuncsString',TPanelColumn(FList[I]).FuncString);
+      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'Width', TPanelColumn(FList[I]).Width);
+      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'Align', Integer(TPanelColumn(FList[I]).Align));
+      //---------------------
+      Ini.WriteString(fSetName,'Column'+IntToStr(I+1)+'FontName',TPanelColumn(FList[I]).FontName);
+      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'FontSize', TPanelColumn(FList[I]).FontSize);
+      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'FontStyle', Integer(TPanelColumn(FList[I]).FontStyle));
+      Ini.WriteBool(fSetName,'Column'+IntToStr(I+1)+'Overcolor', TPanelColumn(FList[I]).Overcolor);
 
-        if TPanelColumn(FList[I]).TextColor <>clNone then
-        Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'TextColor', TPanelColumn(FList[I]).TextColor);
-        if TPanelColumn(FList[I]).Background <>clNone then
-        Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'Background', TPanelColumn(FList[I]).Background);
-        if TPanelColumn(FList[I]).Background2 <>clNone then
-        Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'Background2', TPanelColumn(FList[I]).Background2);
-        if TPanelColumn(FList[I]).MarkColor <>clNone then
-        Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'MarkColor', TPanelColumn(FList[I]).MarkColor);
-        if TPanelColumn(FList[I]).CursorColor <>clNone then
-        Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'CursorColor', TPanelColumn(FList[I]).CursorColor);
-        if TPanelColumn(FList[I]).CursorText <>clNone then
-        Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'CursorText', TPanelColumn(FList[I]).CursorText);
+      if TPanelColumn(FList[I]).TextColor <>clNone then
+      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'TextColor', TPanelColumn(FList[I]).TextColor);
+      if TPanelColumn(FList[I]).Background <>clNone then
+      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'Background', TPanelColumn(FList[I]).Background);
+      if TPanelColumn(FList[I]).Background2 <>clNone then
+      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'Background2', TPanelColumn(FList[I]).Background2);
+      if TPanelColumn(FList[I]).MarkColor <>clNone then
+      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'MarkColor', TPanelColumn(FList[I]).MarkColor);
+      if TPanelColumn(FList[I]).CursorColor <>clNone then
+      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'CursorColor', TPanelColumn(FList[I]).CursorColor);
+      if TPanelColumn(FList[I]).CursorText <>clNone then
+      Ini.WriteInteger(fSetName,'Column'+IntToStr(I+1)+'CursorText', TPanelColumn(FList[I]).CursorText);
+    end;
 
-      end;
-
-    Ini.WriteBool(fSetName, 'CustomView', FCustomView);
-    Ini.WriteBool(fSetName, 'CursorBorder', GetCursorBorder);
-    if GetCursorBorderColor <> clNone then
-      Ini.WriteInteger(fSetName, 'CursorBorderColor', GetCursorBorderColor);
+  Ini.WriteBool(fSetName, 'CustomView', FCustomView);
+  Ini.WriteBool(fSetName, 'CursorBorder', GetCursorBorder);
+  if GetCursorBorderColor <> clNone then
+    Ini.WriteInteger(fSetName, 'CursorBorderColor', GetCursorBorderColor);
 end;
 
 procedure TPanelColumnsClass.Save(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -864,7 +822,8 @@ end;
 
 procedure TPanelColumnsClass.Delete(const Index: Integer);
 begin
-  if Index>Flist.Count then exit;
+  if Index > Flist.Count then
+    Exit;
   TPanelColumn(Flist[Index]).Free;
   FList.Delete(Index);
 end;
@@ -873,202 +832,13 @@ end;
 
 constructor TPanelColumn.Create;
 begin
-  FuncList:=TStringList.Create;
+  FuncList := TStringList.Create;
 end;
 
 destructor TPanelColumn.Destroy;
 begin
   FreeAndNil(FuncList);
   inherited Destroy;
-end;
-
-//Return type (Script or DC or Plugin etc)
-function TPanelColumn.GetModType(str:string):string;
-begin
-  if pos('(',Str)>0 then
-    Result:=Copy(Str,1,pos('(',Str)-1)
-  else Result:='';
-end;
-
-//Return name in (). (SriptName or PluginName etc)
-function TPanelColumn.GetModName(str:string):string;
-var s:string;
-begin
-  s:=str;
-  if pos('(',S)>0 then
-    delete(s,1,pos('(',S))
-  else Exit;
-
-  if pos(')',s)>0 then
-    Result:=Copy(s,1,pos(')',s)-1);
-end;
-
-//Return function name (DCFunction,PluginFunction etc)
-function TPanelColumn.GetModFunctionName(str:string):string;
-var s:string;
-begin
-  s:=str;
-  if pos('.',S)>0 then
-    delete(s,1,pos('.',S))
-  else Exit;
-
-  if pos('{',S)>0 then
-    Result:=Copy(s,1,pos('{',S)-1);
-end;
-
-// Return function parameters
-function TPanelColumn.GetModFunctionParams(str: String): String;
-var
-  I: Integer;
-  S: String;
-begin
-  Result:= EmptyStr;
-  S:= str;
-  I:= pos('{', S);
-  if I < 0 then Exit;
-  Delete(S, 1, I);
-  I:= pos('}', S);
-  if I < 0 then Exit;
-  Result:= Copy(S, 1, I - 1);
-end;
-
-function TPanelColumn.ActGetInfo(FuncS:string; AFile: TFile; const AFileSource: IFileSource):string;
- //---------------------
-  const
-     //---------------------
-     DC ='DC';
-     Plugin='PLUGIN';
-     //---------------------
- //---------------------
- var AType,AName,AFunc,AParam:string;
-begin
-       //---------------------
-       AType:=upcase(GetModType(FuncS));
-       AName:=upcase(GetModName(FuncS));
-       AFunc:=upcase(GetModFunctionName(FuncS));
-       AParam:=upcase(GetModFunctionParams(FuncS));
-       //---------------------
- // DebugLn('AType='+AType+#13+#10+'AName='+AName+#13+#10+'AFunc='+AFunc+#13+#10+'AParam='+AParam);
-        //Internal doublecmd function
-        //------------------------------------------------------
-        if AType=DC then
-          begin
-            case TFileFunction(IntList.IndexOf(AFunc)) of
-              fsfName:
-                 begin
-                   // Show square brackets around directories
-                   if gDirBrackets and
-                      (AFile.IsDirectory or AFile.IsLinkToDirectory)
-                   then
-                     Result:= '[' + AFile.Name + ']'
-                   else
-                     Result:= AFile.Name;
-                 end;
-
-              fsfExtension:
-                begin
-                  if AFile.Extension <> '' then
-                    Result := '.' + AFile.Extension
-                  else
-                    Result := '';
-                end;
-
-              fsfSize:
-                begin
-                  if (AFile.IsDirectory or AFile.IsLinkToDirectory) and
-                     ((not (fpSize in AFile.SupportedProperties)) or (AFile.Size = 0))
-                  then
-                    Result := '<DIR>'
-                  else if fpSize in AFile.SupportedProperties then
-                    Result := AFile.Properties[fpSize].Format(DefaultFilePropertyFormatter)
-                  else
-                    Result := '';
-                end;
-
-              fsfAttr:
-                if fpAttributes in AFile.SupportedProperties then
-                  Result := AFile.Properties[fpAttributes].Format(DefaultFilePropertyFormatter)
-                else
-                  Result := '';
-
-              fsfPath:
-                Result := AFile.Path;
-
-              fsfGroup:
-                if fpOwner in AFile.SupportedProperties then
-                  Result := AFile.OwnerProperty.GroupStr
-                else
-                  Result := '';
-
-              fsfOwner:
-                if fpOwner in AFile.SupportedProperties then
-                  Result := AFile.OwnerProperty.OwnerStr
-                else
-                  Result := '';
-
-              fsfModificationTime:
-                if fpModificationTime in AFile.SupportedProperties then
-                  Result := AFile.Properties[fpModificationTime].Format(DefaultFilePropertyFormatter)
-                else
-                  Result := '';
-
-              fsfCreationTime:
-                if fpCreationTime in AFile.SupportedProperties then
-                  Result := AFile.Properties[fpCreationTime].Format(DefaultFilePropertyFormatter)
-                else
-                  Result := '';
-
-              fsfLastAccessTime:
-                if fpLastAccessTime in AFile.SupportedProperties then
-                  Result := AFile.Properties[fpLastAccessTime].Format(DefaultFilePropertyFormatter)
-                else
-                  Result := '';
-
-              fsfLinkTo:
-                if fpLink in AFile.SupportedProperties then
-                  Result := AFile.LinkProperty.LinkTo
-                else
-                  Result := '';
-
-              fsfNameNoExtension:
-                begin
-                   // Show square brackets around directories
-                   if gDirBrackets and
-                      (AFile.IsDirectory or AFile.IsLinkToDirectory)
-                   then
-                     Result:= '[' + AFile.NameNoExt + ']'
-                   else
-                     Result:= AFile.NameNoExt;
-                 end;
-
-              fsfType:
-                begin
-                  if fpType in AFile.SupportedProperties then
-                    Result := AFile.TypeProperty.Format(DefaultFilePropertyFormatter)
-                  else
-                    Result := '';
-                end;
-            end;
-            Exit;
-          end;
-        //------------------------------------------------------
-
-
-        //Plugin function
-        //------------------------------------------------------
-        if AType=Plugin then
-          if fspDirectAccess in AFileSource.Properties then
-          begin
-            if not gWdxPlugins.IsLoaded(AName) then
-              if not gWdxPlugins.LoadModule(AName) then Exit;
-//            DebugLn('ptrFileName: ' + AFile.FullPath);
-            if gWdxPlugins.GetWdxModule(AName).FileParamVSDetectStr(AFile) then
-            begin
-              Result:=gWdxPlugins.GetWdxModule(AName).CallContentGetValue(AFile.FullPath, AFunc, AParam, 0);
-            end;
-            Exit;
-          end;
-        //------------------------------------------------------
 end;
 
 function TPanelColumn.GetColumnFunctions: TFileFunctions;
@@ -1080,12 +850,12 @@ begin
   begin
     SetLength(Result, FuncList.Count); // Start with all strings.
 
-    for i:=0 to FuncList.Count-1 do
+    for i := 0 to FuncList.Count - 1 do
     begin
       // Don't need to compare simple text, only functions.
-      if PtrInt(FuncList.Objects[i])=1 then
+      if PtrInt(FuncList.Objects[i]) = 1 then
         begin
-          Result[FuncCount] := GetFunctionByName(FuncList.Strings[i]);
+          Result[FuncCount] := GetFileFunctionByName(FuncList.Strings[i]);
 
           // If the function was found, save it's number.
           if Result[FuncCount] <> fsfInvalid then
@@ -1099,97 +869,79 @@ begin
     SetLength(Result, 0);
 end;
 
-function TPanelColumn.GetFunctionByName(FuncS: string): TFileFunction;
-  const
-     //---------------------
-     DC ='DC';
-     //---------------------
- //---------------------
- var AType,AName,AFunc,AParam:string;
+function TPanelColumn.GetColumnResultString(AFile: TFile;
+  const AFileSource: IFileSource): String;
+var
+  i: Integer;
+  s: String;
 begin
-   //---------------------
-   AType:=upcase(GetModType(FuncS));
-   AName:=upcase(GetModName(FuncS));
-   AFunc:=upcase(GetModFunctionName(FuncS));
-   AParam:=upcase(GetModFunctionParams(FuncS));
-   //---------------------
-    //Internal doublecmd function
-    //------------------------------------------------------
-    // Only DC internal supported.
-    if AType=DC then
-      Result := TFileFunction(IntList.IndexOf(AFunc))
-    else
-      Result := fsfInvalid;
-end;
-
-function TPanelColumn.GetColumnResultString(AFile: TFile; const AFileSource: IFileSource): string;
-var i:integer; s:String;
-begin
-
- s:='';
- Result:='';
- if not assigned(FuncList) then exit;
- if FuncList.Count=0 then exit;
- For i:=0 to FuncList.Count-1 do
-   begin
-     //Item is simpletext
-     if PtrInt(FuncList.Objects[i])=0 then
-       s:=s+FuncList[I]
-     else
-     //Item is function
-       begin
-         s:=s+ActGetInfo(FuncList[I], AFile, AFileSource);
-       end;
-   end;
-   Result:=s;
+  s      := '';
+  Result := '';
+  if (not Assigned(FuncList)) or (FuncList.Count = 0) then
+    Exit;
+  for i := 0 to FuncList.Count - 1 do
+    begin
+      //Item is simpletext
+      if PtrInt(FuncList.Objects[i]) = 0 then
+        s := s + FuncList[I]
+      else
+      //Item is function
+        begin
+          s := s + FormatFileFunction(FuncList[I], AFile, AFileSource);
+        end;
+    end;
+  Result := s;
 end;
 
 { TPanelColumnsList }
 
-function TPanelColumnsList.GetCount: integer;
+function TPanelColumnsList.GetCount: Integer;
 begin
-  Result:=fSet.Count;
+  Result := fSet.Count;
 end;
 
 constructor TPanelColumnsList.Create;
 begin
-  FSet:=TStringList.Create;
+  FSet := TStringList.Create;
 end;
 
 destructor TPanelColumnsList.Destroy;
-var i:integer;
+var
+  i: Integer;
 begin
-
-  if assigned(FSet) then
-    begin
-     for i:=0 to Fset.Count-1 do
+  if Assigned(FSet) then
+  begin
+    for i := 0 to Fset.Count - 1 do
       TPanelColumnsClass(Fset.Objects[i]).Free;
-      FreeAndNil(FSet);
-    end;
+    FreeAndNil(FSet);
+  end;
 
   inherited Destroy;
 end;
 
 procedure TPanelColumnsList.Clear;
-var i:integer;
+var
+  i: Integer;
 begin
-  for i:=0 to Fset.Count-1 do
+  for i := 0 to Fset.Count - 1 do
     TPanelColumnsClass(Fset.Objects[i]).Free;
   Fset.Clear;
 end;
 
 procedure TPanelColumnsList.Load(Ini: TIniFileEx);
-var aCount,I:Integer;
+var
+  aCount, I: Integer;
 begin
-    Self.Clear;
-    aCount:=Ini.ReadInteger('ColumnsSet','ColumnsSetCount',0);
-    For I:=0 to aCount-1 do
-      begin
-        fSet.AddObject(Ini.ReadString('ColumnsSet','ColumnsSet'+IntToStr(I+1)+'Name',''),TPanelColumnsClass.Create);
-        TPanelColumnsClass(fSet.Objects[I]).Load(ini,fset[i]);
-        DebugLn('FsetName='+Fset[i]);
-      end;
-      DebugLn('FsetCount='+inttostr(fset.Count));
+  Self.Clear;
+  aCount := Ini.ReadInteger('ColumnsSet', 'ColumnsSetCount', 0);
+  for I := 0 to aCount - 1 do
+    begin
+      fSet.AddObject(Ini.ReadString('ColumnsSet', 'ColumnsSet' +
+        IntToStr(I + 1) + 'Name', ''), TPanelColumnsClass.Create);
+      TPanelColumnsClass(fSet.Objects[I]).Load(ini, fset[i]);
+      DebugLn('FsetName=' + Fset[i]);
+    end;
+  DebugLn('FsetCount=' + IntToStr(fset.Count));
 end;
 
 procedure TPanelColumnsList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -1223,20 +975,21 @@ begin
 end;
 
 procedure TPanelColumnsList.Save(Ini: TIniFileEx);
-var I:integer;
+var
+  I: Integer;
 begin
-    Ini.EraseSection('ColumnsSet');
-    Ini.WriteInteger('ColumnsSet','ColumnsSetCount',FSet.Count);
-    For I:=0 to FSet.Count-1 do
-      begin
-        Ini.WriteString('ColumnsSet','ColumnsSet'+IntToStr(I+1)+'Name',FSet[i]);
-        TPanelColumnsClass(Fset.Objects[i]).Save(ini,FSet[i]);
-      end;
+  Ini.EraseSection('ColumnsSet');
+  Ini.WriteInteger('ColumnsSet', 'ColumnsSetCount', FSet.Count);
+  for I := 0 to FSet.Count - 1 do
+    begin
+      Ini.WriteString('ColumnsSet', 'ColumnsSet' + IntToStr(I + 1) + 'Name', FSet[i]);
+      TPanelColumnsClass(Fset.Objects[i]).Save(ini, FSet[i]);
+    end;
 end;
 
 procedure TPanelColumnsList.Save(AConfig: TXmlConfig; ANode: TXmlNode);
 var
-  I: Integer;
+  I:       Integer;
   SubNode: TXmlNode;
 begin
   ANode := AConfig.FindNode(ANode, 'ColumnsSets', True);
@@ -1250,26 +1003,26 @@ begin
     end;
 end;
 
-function TPanelColumnsList.Add(AName:string;Item: TPanelColumnsClass): integer;
+function TPanelColumnsList.Add(AName: String; Item: TPanelColumnsClass): Integer;
 begin
-  Result:=Fset.AddObject(AName,Item);
+  Result := Fset.AddObject(AName, Item);
 end;
 
-procedure TPanelColumnsList.Insert(AIndex: integer; AName: string;
+procedure TPanelColumnsList.Insert(AIndex: Integer; AName: String;
   Item: TPanelColumnsClass);
 begin
-  Fset.InsertObject(AIndex,AName,Item);
+  Fset.InsertObject(AIndex, AName, Item);
 end;
 
-
-procedure TPanelColumnsList.DeleteColumnSet(SetName: string);
+procedure TPanelColumnsList.DeleteColumnSet(SetName: String);
 begin
   DeleteColumnSet(fSet.IndexOf(SetName));
 end;
 
 procedure TPanelColumnsList.DeleteColumnSet(SetIndex: Integer);
 begin
-  if (SetIndex>=Fset.Count) or (SetIndex<0) then exit;
+  if (SetIndex >= Fset.Count) or (SetIndex < 0) then
+    Exit;
   TPanelColumnsClass(fSet.Objects[SetIndex]).Free;
   fSet.Delete(SetIndex);
 end;
@@ -1300,34 +1053,34 @@ end;
 
 function TPanelColumnsList.GetColumnSet(const Index: Integer): TPanelColumnsClass;
 begin
-//DebugLn('FsetCount='+inttostr(fset.Count));
- if (Index>-1) and (Index<Fset.Count) then
-  Result:=TPanelColumnsClass(Fset.Objects[Index])
- else
- begin
-  if fset.Count=0 then
-   begin
-    Fset.AddObject('Default',TPanelColumnsClass.Create);
-    TPanelColumnsClass(Fset.Objects[0]).AddDefaultColumns;
-   end;
-   Result:=TPanelColumnsClass(Fset.Objects[0]);
- end;
+  //DebugLn('FsetCount='+inttostr(fset.Count));
+  if (Index > -1) and (Index < Fset.Count) then
+    Result := TPanelColumnsClass(Fset.Objects[Index])
+  else
+  begin
+    if fset.Count = 0 then
+    begin
+      Fset.AddObject('Default', TPanelColumnsClass.Create);
+      TPanelColumnsClass(Fset.Objects[0]).AddDefaultColumns;
+    end;
+    Result := TPanelColumnsClass(Fset.Objects[0]);
+  end;
 end;
 
-function TPanelColumnsList.GetColumnSet(Setname: string): TPanelColumnsClass;
+function TPanelColumnsList.GetColumnSet(Setname: String): TPanelColumnsClass;
 begin
-//DebugLn('FsetCount='+inttostr(fset.Count));
-if fset.IndexOf(Setname)>-1 then
-  Result:=TPanelColumnsClass(Fset.Objects[fset.IndexOf(Setname)])
-   else
- begin
-  if fset.Count=0 then
-   begin
-    Fset.AddObject('Default',TPanelColumnsClass.Create);
-    TPanelColumnsClass(Fset.Objects[0]).AddDefaultColumns;
-   end;
-   Result:=TPanelColumnsClass(Fset.Objects[0]);
- end;
+  //DebugLn('FsetCount='+inttostr(fset.Count));
+  if fset.IndexOf(Setname) > -1 then
+    Result := TPanelColumnsClass(Fset.Objects[fset.IndexOf(Setname)])
+  else
+  begin
+    if fset.Count = 0 then
+    begin
+      Fset.AddObject('Default', TPanelColumnsClass.Create);
+      TPanelColumnsClass(Fset.Objects[0]).AddDefaultColumns;
+    end;
+    Result := TPanelColumnsClass(Fset.Objects[0]);
+  end;
 end;
 
 
@@ -1335,27 +1088,16 @@ end;
 
 constructor TColPrm.Create;
 begin
-Self.Overcolor:=true;
-Self.FontName:=gFontName;
-Self.FontSize:=gFontSize;
-Self.TextColor:=gForeColor;
-Self.Background:=gBackColor;
-Self.Background2:=gBackColor2;
-Self.MarkColor:=gMarkColor;
-Self.CursorColor:=gCursorColor;
-Self.CursorText:=gCursorText;
+  Self.Overcolor   := True;
+  Self.FontName    := gFontName;
+  Self.FontSize    := gFontSize;
+  Self.TextColor   := gForeColor;
+  Self.Background  := gBackColor;
+  Self.Background2 := gBackColor2;
+  Self.MarkColor   := gMarkColor;
+  Self.CursorColor := gCursorColor;
+  Self.CursorText  := gCursorText;
 end;
 
-var
-  i: TFileFunction;
-
-initialization
- IntList:=TStringlist.Create;
- for i := Low(TFileFunction) to Pred(fsfInvalid) do
-   IntList.Add(TFileFunctionStrings[i]);
-
-Finalization
- FreeAndNil(IntList);
 end.
-
 

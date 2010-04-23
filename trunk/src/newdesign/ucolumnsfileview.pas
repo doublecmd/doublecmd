@@ -524,7 +524,8 @@ uses
   uFileSystemFileSource,
   fColumnsSetConf,
   uKeyboard,
-  uFileSourceUtil
+  uFileSourceUtil,
+  uFileFunctions
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   , GtkProc  // for ReleaseMouseCapture
   , GTKGlobals  // for DblClickTime

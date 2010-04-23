@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, Dialogs, StringHashList, ActnList,
-  uFileView, uFileViewNotebook, uFileSourceOperation, uColumns;
+  uFileView, uFileViewNotebook, uFileSourceOperation, uFileFunctions;
   
   
 const cf_Null=0;
@@ -2718,4 +2718,4 @@ begin
 end;
 
 end.
-
+
