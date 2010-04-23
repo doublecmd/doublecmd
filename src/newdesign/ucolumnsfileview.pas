@@ -2490,21 +2490,23 @@ begin
   Case (Sender as TMenuItem).Tag of
     1000: //This
           begin
-            Application.CreateForm(TfColumnsSetConf, frmColumnsSetConf);
-            {EDIT Set}
-            frmColumnsSetConf.edtNameofColumnsSet.Text:=ColSet.GetColumnSet(ActiveColm).CurrentColumnsSetName;
-            Index:=ColSet.Items.IndexOf(ActiveColm);
-            frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1 + Index);
-            frmColumnsSetConf.Tag:=Index;
-            frmColumnsSetConf.SetColumnsClass(GetColumnsClass);
-            {EDIT Set}
-            if frmColumnsSetConf.ShowModal = mrOK then
-            begin
-              // Force saving changes to config file.
-              SaveGlobs;
+            frmColumnsSetConf := TfColumnsSetConf.Create(nil);
+            try
+              {EDIT Set}
+              frmColumnsSetConf.edtNameofColumnsSet.Text:=ColSet.GetColumnSet(ActiveColm).CurrentColumnsSetName;
+              Index:=ColSet.Items.IndexOf(ActiveColm);
+              frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1 + Index);
+              frmColumnsSetConf.Tag:=Index;
+              frmColumnsSetConf.SetColumnsClass(GetColumnsClass);
+              {EDIT Set}
+              if frmColumnsSetConf.ShowModal = mrOK then
+              begin
+                // Force saving changes to config file.
+                SaveGlobs;
+              end;
+            finally
+              FreeAndNil(frmColumnsSetConf);
             end;
-
-            FreeAndNil(frmColumnsSetConf);
 
             frmMain.ReLoadTabs(frmMain.LeftTabs);
             frmMain.ReLoadTabs(frmMain.RightTabs);
