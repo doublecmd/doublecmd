@@ -3575,10 +3575,8 @@ var
   begin
     // Draw background.
     Canvas.Brush.Color := GetColumnColor(ACol, True);
-    Canvas.Brush.Style := bsSolid;
     Canvas.FillRect(aRect);
 
-    Canvas.Brush.Style := bsClear;
     SetCanvasFont(GetColumnFont(aCol, True));
 
     iTextTop := aRect.Top + (RowHeights[aRow] - Canvas.TextHeight('Wg')) div 2;
@@ -3616,8 +3614,6 @@ var
   procedure DrawIconCell;
   //------------------------------------------------------
   begin
-    Canvas.Brush.Style := bsClear;
-
     if (AFile.IconID >= 0) and (gShowIcons <> sim_none) then
     begin
       PixMapManager.DrawBitmap(AFile.IconID,
@@ -3656,8 +3652,6 @@ var
       while Canvas.TextWidth(s) - (aRect.Right - aRect.Left) - 4 > 0 do
         Delete(s, Length(s), 1);
     end;
-
-    Canvas.Brush.Style := bsClear;
 
     case ColumnsSet.GetColumnAlign(ACol) of
 
@@ -3755,7 +3749,6 @@ var
 
     // Draw background.
     Canvas.Brush.Color := ColumnsView.DimColor(BackgroundColor);
-    Canvas.Brush.Style := bsSolid;
     Canvas.FillRect(aRect);
 
     // Draw drop selection.
@@ -3799,7 +3792,6 @@ begin
       DrawOtherCell;
   end;
 
-  Canvas.Brush.Style := bsSolid;
   DrawCellGrid(aCol,aRow,aRect,aState);
 end;
 
