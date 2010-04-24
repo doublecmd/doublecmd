@@ -145,7 +145,7 @@ begin
               try
                 // Check if there is an ArchiveFileSource for possible archive.
                 aFile := SourceFileSource.CreateFileObject(ExtractFilePath(edtPackCmd.Text));
-                aFile.Name := edtPackCmd.Text;
+                aFile.Name := ExtractFileName(edtPackCmd.Text);
                 NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType);
               except
                 on e: EModuleNotLoadedException do
