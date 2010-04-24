@@ -115,6 +115,10 @@ function GetPathType(const sPath : String): TPathType;
 }
 function ExtractOnlyFileName(const FileName: string): string;
 {en
+   Get file extension without the '.' at the front.
+}
+function ExtractOnlyFileExt(const FileName: string): string;
+{en
    Convert file size to string representation in floating format (Kb, Mb, Gb)
    @param(iSize File size)
    @param(ShortFormat If @true than short format is used,
@@ -550,6 +554,21 @@ begin
   I := Length(FileName);
   while (I > 0) and not (FileName[I] in ['/', '\', ':']) do Dec(I);
   Result := Copy(FileName, I + 1, iDotIndex - I - 1);
+end;
+
+function ExtractOnlyFileExt(const FileName: string): string;
+var
+  i : longint;
+  EndSep : Set of Char;
+begin
+  I := Length(FileName);
+  EndSep:=AllowDirectorySeparators+AllowDriveSeparators+[ExtensionSeparator];
+  while (I > 0) and not (FileName[I] in EndSep) do
+    Dec(I);
+  if (I > 0) and (FileName[I] = ExtensionSeparator) then
+    Result := Copy(FileName, I + 1, MaxInt)
+  else
+    Result := '';
 end;
 
 function cnvFormatFileSize(iSize: Int64; ShortFormat: Boolean): String;

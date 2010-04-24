@@ -7,6 +7,7 @@ interface
 uses
   Classes, SysUtils,
   uLocalFileSource,
+  uFileSource,
   uFile,
   uFileProperty;
 
@@ -15,17 +16,32 @@ type
   IArchiveFileSource = interface(ILocalFileSource)
     ['{13A8637C-FFDF-46B0-B5B4-E7C6851C157A}']
 
+    function GetArchiveFileSource: IFileSource;
+
+    {en
+       Full path to the archive on the ArchiveFileSource.
+    }
     property ArchiveFileName: String read GetCurrentAddress;
+    {en
+       File source that has the archive on it.
+       It should be direct-access file source (usually filesystem).
+    }
+    property ArchiveFileSource: IFileSource read GetArchiveFileSource;
   end;
 
   TArchiveFileSource = class(TLocalFileSource, IArchiveFileSource)
 
+  private
+    FArchiveFileSource: IFileSource; //en> File source that has the archive.
+
   protected
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
 
+    function GetArchiveFileSource: IFileSource;
+
   public
-    constructor Create(anArchiveFileName: String); virtual reintroduce overload;
-    constructor Create(anArchiveFileName: String; aPath: String); virtual reintroduce overload;
+    constructor Create(anArchiveFileSource: IFileSource;
+                       anArchiveFileName: String); virtual reintroduce overload;
 
     class function CreateFile(const APath: String): TFile; override;
 
@@ -34,14 +50,11 @@ type
 
 implementation
 
-constructor TArchiveFileSource.Create(anArchiveFileName: String);
-begin
-  Create(anArchiveFileName, PathDelim);
-end;
-
-constructor TArchiveFileSource.Create(anArchiveFileName: String; aPath: String);
+constructor TArchiveFileSource.Create(anArchiveFileSource: IFileSource;
+                                      anArchiveFileName: String);
 begin
   FCurrentAddress := anArchiveFileName;
+  FArchiveFileSource := anArchiveFileSource;
   inherited Create;
 end;
 
@@ -64,5 +77,10 @@ begin
           + [fpSize, fpCompressedSize, fpAttributes, fpModificationTime];
 end;
 
-end.
+function TArchiveFileSource.GetArchiveFileSource: IFileSource;
+begin
+  Result := FArchiveFileSource;
+end;
 
+end.
+

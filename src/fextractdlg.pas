@@ -142,7 +142,7 @@ begin
               for I := 0 to SourceFiles.Count - 1 do // extract all selected archives
               begin
                 // Check if there is a ArchiveFileSource for possible archive.
-                ArchiveFileSource := GetArchiveFileSource(SourceFiles[i].FullPath);
+                ArchiveFileSource := GetArchiveFileSource(SourceFileSource, SourceFiles[i]);
 
                 if Assigned(ArchiveFileSource) then
                 begin
@@ -213,4 +213,4 @@ initialization
   {$I fextractdlg.lrs}
 
 end.
-
+

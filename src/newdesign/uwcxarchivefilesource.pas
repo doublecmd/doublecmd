@@ -71,10 +71,12 @@ type
     procedure DoReload(const PathsToReload: TPathsArray); override;
 
   public
-    constructor Create(anArchiveFileName: String;
+    constructor Create(anArchiveFileSource: IFileSource;
+                       anArchiveFileName: String;
                        aWcxPluginFileName: String;
                        aWcxPluginCapabilities: PtrInt); reintroduce;
-    constructor Create(anArchiveFileName: String;
+    constructor Create(anArchiveFileSource: IFileSource;
+                       anArchiveFileName: String;
                        aWcxPluginModule: TWcxModule;
                        aWcxPluginCapabilities: PtrInt); reintroduce;
     destructor Destroy; override;
@@ -100,9 +102,18 @@ type
                                     BasePath, Verb: String): TFileSourceOperation; override;
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation; override;
 
-    class function CreateByArchiveSign(anArchiveFileName: String): IWcxArchiveFileSource;
-    class function CreateByArchiveType(anArchiveFileName, anArchiveType: String): IWcxArchiveFileSource;
-    class function CreateByArchiveName(anArchiveFileName: String): IWcxArchiveFileSource;
+    class function CreateByArchiveSign(anArchiveFileSource: IFileSource;
+                                       anArchiveFileName: String): IWcxArchiveFileSource;
+    class function CreateByArchiveType(anArchiveFileSource: IFileSource;
+                                       anArchiveFileName: String;
+                                       anArchiveType: String): IWcxArchiveFileSource;
+    class function CreateByArchiveName(anArchiveFileSource: IFileSource;
+                                       anArchiveFileName: String): IWcxArchiveFileSource;
+    {en
+       Returns @true if there is a plugin registered for the archive type
+       (only extension is checked).
+    }
+    class function CheckPluginByExt(anArchiveType: String): Boolean;
 
     function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; override;
     procedure RemoveOperationFromQueue(Operation: TFileSourceOperation); override;
@@ -152,7 +163,9 @@ var
   WcxConnectionsLock: TCriticalSection; // used to synchronize access to connections
   WcxOperationsQueueLock: TCriticalSection; // used to synchronize access to operations queue
 
-class function TWcxArchiveFileSource.CreateByArchiveSign(anArchiveFileName: String): IWcxArchiveFileSource;
+class function TWcxArchiveFileSource.CreateByArchiveSign(
+    anArchiveFileSource: IFileSource;
+    anArchiveFileName: String): IWcxArchiveFileSource;
 var
   I: Integer;
   ModuleFileName: String;
@@ -197,7 +210,8 @@ begin
     WcxPlugin.Free
   else
     begin
-      Result := TWcxArchiveFileSource.Create(anArchiveFileName,
+      Result := TWcxArchiveFileSource.Create(anArchiveFileSource,
+                                             anArchiveFileName,
                                              WcxPlugin,
                                              gWCXPlugins.Flags[I]);
 
@@ -205,7 +219,10 @@ begin
     end;
 end;
 
-class function TWcxArchiveFileSource.CreateByArchiveType(anArchiveFileName, anArchiveType: String): IWcxArchiveFileSource;
+class function TWcxArchiveFileSource.CreateByArchiveType(
+    anArchiveFileSource: IFileSource;
+    anArchiveFileName: String;
+    anArchiveType: String): IWcxArchiveFileSource;
 var
   i: Integer;
   ModuleFileName: String;
@@ -219,7 +236,8 @@ begin
     begin
       ModuleFileName := GetCmdDirFromEnvVar(gWCXPlugins.FileName[I]);
 
-      Result := TWcxArchiveFileSource.Create(anArchiveFileName,
+      Result := TWcxArchiveFileSource.Create(anArchiveFileSource,
+                                             anArchiveFileName,
                                              ModuleFileName,
                                              gWCXPlugins.Flags[I]);
 
@@ -229,26 +247,34 @@ begin
   end;
 end;
 
-class function TWcxArchiveFileSource.CreateByArchiveName(anArchiveFileName: String): IWcxArchiveFileSource;
-var
-  sExtension: String;
+class function TWcxArchiveFileSource.CreateByArchiveName(
+    anArchiveFileSource: IFileSource;
+    anArchiveFileName: String): IWcxArchiveFileSource;
 begin
-  Result := nil;
+  Result:= CreateByArchiveType(anArchiveFileSource, anArchiveFileName,
+                               ExtractOnlyFileExt(anArchiveFileName));
+end;
 
-  sExtension := ExtractFileExt(anArchiveFileName);
-  if sExtension <> '' then   // delete '.' at the front
-    Delete(sExtension, 1, 1);
-
-  Result:= CreateByArchiveType(anArchiveFileName, sExtension);
+class function TWcxArchiveFileSource.CheckPluginByExt(anArchiveType: String): Boolean;
+var
+  i: Integer;
+begin
+  for i := 0 to gWCXPlugins.Count - 1 do
+  begin
+    if SameText(anArchiveType, gWCXPlugins.Ext[i]) and (gWCXPlugins.Enabled[i]) then
+      Exit(True);
+  end;
+  Result := False;
 end;
 
 // ----------------------------------------------------------------------------
 
-constructor TWcxArchiveFileSource.Create(anArchiveFileName: String;
+constructor TWcxArchiveFileSource.Create(anArchiveFileSource: IFileSource;
+                                         anArchiveFileName: String;
                                          aWcxPluginFileName: String;
                                          aWcxPluginCapabilities: PtrInt);
 begin
-  inherited Create(anArchiveFileName);
+  inherited Create(anArchiveFileSource, anArchiveFileName);
 
   FModuleFileName := aWcxPluginFileName;
   FPluginCapabilities := aWcxPluginCapabilities;
@@ -263,11 +289,12 @@ begin
   CreateConnections;
 end;
 
-constructor TWcxArchiveFileSource.Create(anArchiveFileName: String;
+constructor TWcxArchiveFileSource.Create(anArchiveFileSource: IFileSource;
+                                         anArchiveFileName: String;
                                          aWcxPluginModule: TWcxModule;
                                          aWcxPluginCapabilities: PtrInt);
 begin
-  inherited Create(anArchiveFileName);
+  inherited Create(anArchiveFileSource, anArchiveFileName);
 
   FPluginCapabilities := aWcxPluginCapabilities;
   FArcFileList := TObjectList.Create(True);
@@ -796,4 +823,4 @@ finalization
   FreeThenNil(WcxOperationsQueueLock);
 
 end.
-
+

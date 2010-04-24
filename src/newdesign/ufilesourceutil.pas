@@ -139,20 +139,16 @@ function ChooseArchive(aFileView: TFileView; aFile: TFile; bForce: Boolean): Boo
 var
   FileSource: IFileSource;
 begin
-  Result := False;
+  // Check if there is a ArchiveFileSource for possible archive.
+  FileSource := GetArchiveFileSource(aFileView.FileSource, aFile, EmptyStr, bForce);
 
-  // Opening archives directly only from FileSystem.
-  if aFileView.FileSource.IsClass(TFileSystemFileSource) then
+  if Assigned(FileSource) then
   begin
-    // Check if there is a ArchiveFileSource for possible archive.
-    FileSource := GetArchiveFileSource(aFile.FullPath, EmptyStr, bForce);
-
-    if Assigned(FileSource) then
-    begin
-      aFileView.AddFileSource(FileSource, FileSource.GetRootDir);
-      Exit(True);
-    end;
+    aFileView.AddFileSource(FileSource, FileSource.GetRootDir);
+    Exit(True);
   end;
+
+  Result := False;
 end;
 
 procedure ChooseSymbolicLink(aFileView: TFileView; aFile: TFile);
@@ -236,4 +232,4 @@ begin
 end;
 
 end.
-
+
