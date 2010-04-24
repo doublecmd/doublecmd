@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-04-24 21:42+0300\n"
+"PO-Revision-Date: 2010-04-25 00:16+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -265,7 +265,7 @@ msgstr ""
 
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
 msgid "&Cancel"
-msgstr ""
+msgstr "Отмена"
 
 #: TFRMATTRIBUTESEDIT.BTNOK.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.BTNOK.CAPTION"
@@ -274,11 +274,11 @@ msgstr "&ОК"
 
 #: TFRMATTRIBUTESEDIT.BTNRESET.CAPTION
 msgid "&Reset"
-msgstr ""
+msgstr "Сбросить"
 
 #: TFRMATTRIBUTESEDIT.CAPTION
 msgid "Choose attributes"
-msgstr ""
+msgstr "Выбрать атрибуты"
 
 #: TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION"
@@ -287,7 +287,7 @@ msgstr "Архивный"
 
 #: TFRMATTRIBUTESEDIT.CBCOMPRESSED.CAPTION
 msgid "Compressed"
-msgstr ""
+msgstr "Сжатый"
 
 #: TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION"
@@ -296,7 +296,7 @@ msgstr "Каталог"
 
 #: TFRMATTRIBUTESEDIT.CBENCRYPTED.CAPTION
 msgid "Encrypted"
-msgstr ""
+msgstr "Зашифрованный"
 
 #: TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION"
@@ -315,7 +315,7 @@ msgstr ""
 
 #: TFRMATTRIBUTESEDIT.CBSPARSE.CAPTION
 msgid "Sparse"
-msgstr ""
+msgstr "Разрежённый"
 
 #: TFRMATTRIBUTESEDIT.CBSTICKY.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBSTICKY.CAPTION"
@@ -338,15 +338,15 @@ msgstr "Системный"
 
 #: TFRMATTRIBUTESEDIT.CBTEMPORARY.CAPTION
 msgid "Temporary"
-msgstr ""
+msgstr "Временный"
 
 #: TFRMATTRIBUTESEDIT.GBNTFSATTRIBUTES.CAPTION
 msgid "NTFS attributes"
-msgstr ""
+msgstr "Атрибуты NTFS"
 
 #: TFRMATTRIBUTESEDIT.GBWINGENERAL.CAPTION
 msgid "General attributes"
-msgstr ""
+msgstr "Основные атрибуты"
 
 #: TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION"
@@ -380,7 +380,7 @@ msgstr "Чтение"
 
 #: TFRMATTRIBUTESEDIT.LBLTEXTATTRS.CAPTION
 msgid "As text:"
-msgstr ""
+msgstr "Как текст:"
 
 #: TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
@@ -1449,6 +1449,11 @@ msgstr "Использовать поисковый плагин:"
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr ""
+
+#: TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION
+msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
+msgid "Follow symlinks"
+msgstr "Следовать ссылкам"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
@@ -4514,12 +4519,12 @@ msgstr "В виде текста с &разрывами строк"
 #: TFRMVIEWER.MIZOOMIN.CAPTION
 msgctxt "TFRMVIEWER.MIZOOMIN.CAPTION"
 msgid "Zoom In"
-msgstr ""
+msgstr "Увеличить"
 
 #: TFRMVIEWER.MIZOOMOUT.CAPTION
 msgctxt "TFRMVIEWER.MIZOOMOUT.CAPTION"
 msgid "Zoom Out"
-msgstr ""
+msgstr "Уменьшить"
 
 #: TFRMVIEWER.PMICOPY.CAPTION
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
@@ -5347,7 +5352,7 @@ msgstr ""
 #: ulng.rsopthotkeysparameters
 msgctxt "ulng.rsopthotkeysparameters"
 msgid "Parameters"
-msgstr ""
+msgstr "Параметры"
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -5497,7 +5502,7 @@ msgstr "Найти:"
 
 #: ulng.rssearchresult
 msgid "Search result"
-msgstr ""
+msgstr "Результаты поиска"
 
 #: ulng.rsselectdir
 msgid "Select a directory"
