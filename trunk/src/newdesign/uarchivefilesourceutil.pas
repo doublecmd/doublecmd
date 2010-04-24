@@ -83,16 +83,28 @@ begin
   if fspDirectAccess in SourceFileSource.Properties then
   begin
     Result := GetArchiveFileSourceDirect(SourceFileSource, ArchiveFile.FullPath, ArchiveType, ArchiveSign);
-  end
-  else if fspLinksToLocalFiles in SourceFileSource.Properties then
-  begin
-    SourceFileSource.GetLocalName(ArchiveFile);
-    Result := GetArchiveFileSourceDirect(SourceFileSource, ArchiveFile.FullPath, ArchiveType, ArchiveSign);
-  end
-  else if fsoCopyOut in SourceFileSource.GetOperationsTypes then
-  begin
-    Result := nil;
+    Exit;
+  end;
 
+  Result := nil;
+
+  if fspLinksToLocalFiles in SourceFileSource.Properties then
+  begin
+    if SourceFileSource.GetLocalName(ArchiveFile) then
+    begin
+      TempFS := TTempFileSystemFileSource.Create(ArchiveFile.Path);
+      // Source FileSource manages the files, not the TempFileSource.
+      TempFS.DeleteOnDestroy := False;
+      // The files on temp file source are valid as long as source FileSource is valid.
+      TempFS.ParentFileSource := SourceFileSource;
+      Result := GetArchiveFileSourceDirect(TempFS, ArchiveFile.FullPath, ArchiveType, ArchiveSign);
+      // If not successful will try to get files through CopyOut below.
+    end;
+  end;
+
+  if (not Assigned(Result)) and
+     (fsoCopyOut in SourceFileSource.GetOperationsTypes) then
+  begin
     if (ArchiveType = EmptyStr) and (ArchiveSign = False) then
     begin
       ArchiveType := ArchiveFile.Extension;
@@ -139,10 +151,6 @@ begin
       if Assigned(Operation) then
         FreeAndNil(Operation);
     end;
-  end
-  else
-  begin
-    Result := nil;
   end;
 end;
 

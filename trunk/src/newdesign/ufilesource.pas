@@ -39,6 +39,8 @@ type
     function GetOperationsTypes: TFileSourceOperationTypes;
     function GetProperties: TFileSourceProperties;
     function GetFiles(TargetPath: String): TFiles;
+    function GetParentFileSource: IFileSource;
+    procedure SetParentFileSource(NewValue: IFileSource);
 
     function CreateFileObject(const APath: String): TFile;
 
@@ -82,6 +84,7 @@ type
     procedure RemoveReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
 
     property CurrentAddress: String read GetCurrentAddress;
+    property ParentFileSource: IFileSource read GetParentFileSource write SetParentFileSource;
     property Properties: TFileSourceProperties read GetProperties;
     property SupportedFileProperties: TFilePropertiesTypes read GetSupportedFileProperties;
   end;
@@ -92,6 +95,11 @@ type
 
   private
     FReloadEventListeners: TMethodList;
+    {en
+       File source on which this file source is dependent on
+       (files that it accesses are on the parent file source).
+    }
+    FParentFileSource: IFileSource;
 
     {en
        Callback called when an operation assigned to a connection finishes.
@@ -128,6 +136,9 @@ type
        Returns all the properties supported by the file type of the given file source.
     }
     function GetSupportedFileProperties: TFilePropertiesTypes; virtual;
+
+    function GetParentFileSource: IFileSource;
+    procedure SetParentFileSource(NewValue: IFileSource);
 
     {en
        Checks if the connection is available and, if it is, assigns it to the operation.
@@ -230,6 +241,7 @@ type
     procedure RemoveReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
 
     property CurrentAddress: String read GetCurrentAddress;
+    property ParentFileSource: IFileSource read GetParentFileSource write SetParentFileSource;
     property Properties: TFileSourceProperties read GetProperties;
     property SupportedFileProperties: TFilePropertiesTypes read GetSupportedFileProperties;
 
@@ -404,6 +416,16 @@ end;
 function TFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
   Result := [fpName];
+end;
+
+function TFileSource.GetParentFileSource: IFileSource;
+begin
+  Result := FParentFileSource;
+end;
+
+procedure TFileSource.SetParentFileSource(NewValue: IFileSource);
+begin
+  FParentFileSource := NewValue;
 end;
 
 function TFileSource.IsPathAtRoot(Path: String): Boolean;
