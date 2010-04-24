@@ -36,7 +36,7 @@ object frmFindDlg: TfrmFindDlg
       Width = 667
       ActivePage = tsStandard
       Anchors = [akTop, akLeft, akRight, akBottom]
-      TabIndex = 1
+      TabIndex = 0
       TabOrder = 0
       object tsStandard: TTabSheet
         Caption = 'Standard'
@@ -319,6 +319,20 @@ object frmFindDlg: TfrmFindDlg
           BorderSpacing.Right = 6
           Shape = bsTopLine
           Style = bsRaised
+        end
+        object cmbFollowSymLinks: TCheckBox
+          AnchorSideTop.Control = cmbFindFileMask
+          AnchorSideTop.Side = asrBottom
+          AnchorSideRight.Control = cmbFindFileMask
+          AnchorSideRight.Side = asrBottom
+          Left = 563
+          Height = 17
+          Top = 47
+          Width = 90
+          Anchors = [akTop, akRight]
+          BorderSpacing.Top = 4
+          Caption = 'Follow symlinks'
+          TabOrder = 8
         end
       end
       object tsAdvanced: TTabSheet

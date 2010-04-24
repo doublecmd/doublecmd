@@ -366,6 +366,8 @@ begin
     DebugLn('Search in sub folders = ', Path);
     if not Terminated and (FindFirstEx(Path, faDirectory, sr) = 0) then
       repeat
+        if (FSearchTemplate.FollowSymLinks = False) and FPS_ISLNK(sr.Attr) then
+          Continue;
         if ((sr.Name <> '.') and (sr.Name <> '..')) then
           WalkAdr(sNewDir + PathDelim + sr.Name);
       until Terminated or (FindNextEx(sr) <> 0);

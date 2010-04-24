@@ -40,6 +40,7 @@ type
     FilesMasks: String;
     SearchDepth: Integer; // -1 = unlimited
     RegExp: Boolean;
+    FollowSymLinks: Boolean;
     AttributesPattern: String;
     { Date/time }
     IsDateFrom,
@@ -305,4 +306,4 @@ begin
   end;
 end;
 
-end.
+end.
