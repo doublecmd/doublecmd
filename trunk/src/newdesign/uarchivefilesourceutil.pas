@@ -1,6 +1,6 @@
 unit uArchiveFileSourceUtil;
 
-{$mode delphi}{$H+}
+{$mode objfpc}{$H+}
 
 interface
 
@@ -8,9 +8,13 @@ uses
  Classes, SysUtils,
  uFileView,
  uFile,
- uArchiveFileSource;
+ uArchiveFileSource,
+ uFileSource;
 
-function GetArchiveFileSource(ArchiveFileName: String; ArchiveType: String = ''; ArchiveSign: Boolean = False): IArchiveFileSource;
+function GetArchiveFileSource(SourceFileSource: IFileSource;
+                              ArchiveFile: TFile;
+                              ArchiveType: String = '';
+                              ArchiveSign: Boolean = False): IArchiveFileSource;
 
 procedure TestArchive(aFileView: TFileView; aFiles: TFiles);
 
@@ -20,23 +24,28 @@ uses
   fFileOpDlg,
   uShowMsg,
   uLng,
-  uFileSource,
+  uDCUtils,
+  uFileSourceProperty,
   uWcxArchiveFileSource,
   uMultiArchiveFileSource,
   uFileSystemFileSource,
+  uTempFileSystemFileSource,
   uFileSourceOperation,
   uFileSourceOperationTypes,
   uOperationsManager;
 
-function GetArchiveFileSource(ArchiveFileName: String; ArchiveType: String; ArchiveSign: Boolean = False): IArchiveFileSource;
+// Only for direct access file sources.
+function GetArchiveFileSourceDirect(SourceFileSource: IFileSource;
+                                    ArchiveFileName: String;
+                                    ArchiveType: String;
+                                    ArchiveSign: Boolean = False): IArchiveFileSource;
 begin
-  Result:= nil;
+  if not (fspDirectAccess in SourceFileSource.Properties) then
+    Exit(nil);
 
   if (ArchiveType = EmptyStr) and (ArchiveSign = False) then
   begin
-    ArchiveType := ExtractFileExt(ArchiveFileName);
-    if ArchiveType <> '' then   // delete '.' at the front
-      Delete(ArchiveType, 1, 1);
+    ArchiveType := ExtractOnlyFileExt(ArchiveFileName);
   end;
 
   // Check if there is a registered WCX plugin for possible archive.
@@ -44,9 +53,9 @@ begin
   if not Assigned(Result) then
   begin
     if ArchiveSign then
-      Result := TWcxArchiveFileSource.CreateByArchiveSign(ArchiveFileName)
+      Result := TWcxArchiveFileSource.CreateByArchiveSign(SourceFileSource, ArchiveFileName)
     else
-      Result := TWcxArchiveFileSource.CreateByArchiveType(ArchiveFileName, ArchiveType);
+      Result := TWcxArchiveFileSource.CreateByArchiveType(SourceFileSource, ArchiveFileName, ArchiveType);
   end;
   // Check if there is a registered MultiArc addon for possible archive.
   if not Assigned(Result) then
@@ -57,9 +66,84 @@ begin
         if ArchiveSign then
 
         else
-          Result := TMultiArchiveFileSource.CreateByArchiveType(ArchiveFileName, ArchiveType);
+          Result := TMultiArchiveFileSource.CreateByArchiveType(SourceFileSource, ArchiveFileName, ArchiveType);
       end;
     end;
+end;
+
+function GetArchiveFileSource(SourceFileSource: IFileSource;
+                              ArchiveFile: TFile;
+                              ArchiveType: String = '';
+                              ArchiveSign: Boolean = False): IArchiveFileSource;
+var
+  TempFS: ITempFileSystemFileSource = nil;
+  Operation: TFileSourceOperation = nil;
+  Files: TFiles = nil;
+begin
+  if fspDirectAccess in SourceFileSource.Properties then
+  begin
+    Result := GetArchiveFileSourceDirect(SourceFileSource, ArchiveFile.FullPath, ArchiveType, ArchiveSign);
+  end
+  else if fspLinksToLocalFiles in SourceFileSource.Properties then
+  begin
+    SourceFileSource.GetLocalName(ArchiveFile);
+    Result := GetArchiveFileSourceDirect(SourceFileSource, ArchiveFile.FullPath, ArchiveType, ArchiveSign);
+  end
+  else if fsoCopyOut in SourceFileSource.GetOperationsTypes then
+  begin
+    Result := nil;
+
+    if (ArchiveType = EmptyStr) and (ArchiveSign = False) then
+    begin
+      ArchiveType := ArchiveFile.Extension;
+    end;
+
+    // If checking by extension we don't have to unpack files yet.
+    // First check if there is a registered plugin for the archive extension.
+    if (not ArchiveSign) and
+       (not (TWcxArchiveFileSource.CheckPluginByExt(ArchiveType) or
+             TMultiArchiveFileSource.CheckAddonByExt(ArchiveType))) then
+    begin
+      // No registered handlers for the archive extension.
+      Exit;
+    end;
+    // else either there is a handler for the archive extension
+    //      or we have to unpack files first to check
+    //      (if creating file source by archive signature).
+
+    try
+      TempFS := TTempFileSystemFileSource.Create;
+      Files := TFiles.Create(ArchiveFile.Path);
+      Files.Add(ArchiveFile.Clone);
+
+      Operation := SourceFileSource.CreateCopyOutOperation(TempFS, Files, TempFS.FilesystemRoot);
+
+      if Assigned(Operation) then
+      begin
+        Operation.Execute;
+
+        if Operation.Result = fsorFinished then
+        begin
+          Result := GetArchiveFileSourceDirect(
+                      TempFS,
+                      IncludeTrailingPathDelimiter(TempFS.FilesystemRoot) + ArchiveFile.Name,
+                      ArchiveType,
+                      ArchiveSign);
+        end;
+      end;
+
+    finally
+      TempFS := nil;
+      if Assigned(Files) then
+        FreeAndNil(Files);
+      if Assigned(Operation) then
+        FreeAndNil(Operation);
+    end;
+  end
+  else
+  begin
+    Result := nil;
+  end;
 end;
 
 procedure TestArchive(aFileView: TFileView; aFiles: TFiles);
@@ -101,7 +185,7 @@ begin
           for I := 0 to aFiles.Count - 1 do // test all selected archives
             begin
               // Check if there is a ArchiveFileSource for possible archive.
-              ArchiveFileSource := GetArchiveFileSource(aFiles[i].FullPath);
+              ArchiveFileSource := GetArchiveFileSource(aFileView.FileSource, aFiles[i]);
 
               if Assigned(ArchiveFileSource) then
                 begin
@@ -147,4 +231,4 @@ begin
 end;
 
 end.
-
+

@@ -59,7 +59,9 @@ type
                            out NewFiles: TFiles;
                            out FilesCount: Int64; out FilesSize: Int64);
   public
-    constructor Create(anArchiveFileName: String; aMultiArcItem: TMultiArcItem); reintroduce;
+    constructor Create(anArchiveFileSource: IFileSource;
+                       anArchiveFileName: String;
+                       aMultiArcItem: TMultiArcItem); reintroduce;
     destructor Destroy; override;
 
     class function CreateFile(const APath: String; ArchiveItem: TArchiveItem): TFile; overload;
@@ -88,8 +90,15 @@ type
 
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation; override;
 
-    class function CreateByArchiveType(anArchiveFileName, anArchiveType: String): IMultiArchiveFileSource;
-    class function CreateByArchiveName(anArchiveFileName: String): IMultiArchiveFileSource;
+    class function CreateByArchiveType(anArchiveFileSource: IFileSource;
+                                       anArchiveFileName, anArchiveType: String): IMultiArchiveFileSource;
+    class function CreateByArchiveName(anArchiveFileSource: IFileSource;
+                                       anArchiveFileName: String): IMultiArchiveFileSource;
+    {en
+       Returns @true if there is an addon registered for the archive type
+       (only extension is checked).
+    }
+    class function CheckAddonByExt(anArchiveType: String): Boolean;
 
     property ArchiveFileList: TObjectList read GetArcFileList;
     property MultiArcItem: TMultiArcItem read GetMultiArcItem;
@@ -108,8 +117,9 @@ uses
   uMultiArchiveTestArchiveOperation
   ;
 
-class function TMultiArchiveFileSource.CreateByArchiveType(anArchiveFileName,
-  anArchiveType: String): IMultiArchiveFileSource;
+class function TMultiArchiveFileSource.CreateByArchiveType(
+    anArchiveFileSource: IFileSource;
+    anArchiveFileName, anArchiveType: String): IMultiArchiveFileSource;
 var
   I: Integer;
   aMultiArcItem: TMultiArcItem;
@@ -123,7 +133,8 @@ begin
 
     if SameText(anArchiveType, aMultiArcItem.FExtension) and (aMultiArcItem.FEnabled) then
     begin
-      Result := TMultiArchiveFileSource.Create(anArchiveFileName,
+      Result := TMultiArchiveFileSource.Create(anArchiveFileSource,
+                                               anArchiveFileName,
                                                aMultiArcItem);
 
       DebugLn('Found registered addon "' + aMultiArcItem.FDescription + '" for archive ' + anArchiveFileName);
@@ -132,24 +143,35 @@ begin
   end;
 end;
 
-class function TMultiArchiveFileSource.CreateByArchiveName(anArchiveFileName: String): IMultiArchiveFileSource;
-var
-  sExtension: String;
+class function TMultiArchiveFileSource.CreateByArchiveName(
+    anArchiveFileSource: IFileSource;
+    anArchiveFileName: String): IMultiArchiveFileSource;
 begin
-  Result := nil;
+  Result:= CreateByArchiveType(anArchiveFileSource, anArchiveFileName,
+                               ExtractOnlyFileExt(anArchiveFileName));
+end;
 
-  sExtension := ExtractFileExt(anArchiveFileName);
-  if sExtension <> '' then   // delete '.' at the front
-    Delete(sExtension, 1, 1);
-
-  Result:= CreateByArchiveType(anArchiveFileName, sExtension);
+class function TMultiArchiveFileSource.CheckAddonByExt(anArchiveType: String): Boolean;
+var
+  I: Integer;
+  aMultiArcItem: TMultiArcItem;
+begin
+  for I := 0 to gMultiArcList.Count - 1 do
+  begin
+    aMultiArcItem:= gMultiArcList.Items[I];
+    if SameText(anArchiveType, aMultiArcItem.FExtension) and (aMultiArcItem.FEnabled) then
+      Exit(True);
+  end;
+  Result := False;
 end;
 
 // ----------------------------------------------------------------------------
 
-constructor TMultiArchiveFileSource.Create(anArchiveFileName: String; aMultiArcItem: TMultiArcItem);
+constructor TMultiArchiveFileSource.Create(anArchiveFileSource: IFileSource;
+                                           anArchiveFileName: String;
+                                           aMultiArcItem: TMultiArcItem);
 begin
-  inherited Create(anArchiveFileName);
+  inherited Create(anArchiveFileSource, anArchiveFileName);
 
   FMultiArcItem := aMultiArcItem;
   FArcFileList := TObjectList.Create(True);

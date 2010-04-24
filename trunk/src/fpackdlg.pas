@@ -65,6 +65,7 @@ type
     FArchiveType: String;
     FArchiveTypeCount: Integer;
     FExistsArchive : Boolean;
+    FSourceFileSource: IFileSource;
     procedure AddArchiveType(const FileExt, ArcType: UTF8String);
   public
     { public declarations }
@@ -98,12 +99,14 @@ var
   OperationHandle: TOperationHandle;
   ProgressDialog: TfrmFileOp;
   PackDialog: TfrmPackDlg;
+  aFile: TFile = nil;
 begin
   PackDialog := TfrmPackDlg.Create(nil);
   try
     with PackDialog do
       begin
         FArchiveType:= 'none';
+        FSourceFileSource:= SourceFileSource;
         if bNewArchive then  // create new archive
           (* if one file selected *)
           if Files.Count = 1 then
@@ -141,7 +144,9 @@ begin
 
               try
                 // Check if there is an ArchiveFileSource for possible archive.
-                NewTargetFileSource := GetArchiveFileSource(edtPackCmd.Text, FArchiveType);
+                aFile := SourceFileSource.CreateFileObject(ExtractFilePath(edtPackCmd.Text));
+                aFile.Name := edtPackCmd.Text;
+                NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType);
               except
                 on e: EModuleNotLoadedException do
                   begin
@@ -201,6 +206,8 @@ begin
     FreeAndNil(PackDialog);
     if Assigned(Files) then
       FreeAndNil(Files);
+    if Assigned(aFile) then
+      FreeAndNil(aFile);
   end;
 end;
 
@@ -253,7 +260,7 @@ procedure TfrmPackDlg.btnConfigClick(Sender: TObject);
 var
   WcxFileSource: IWcxArchiveFileSource;
 begin
-  WcxFileSource := TWcxArchiveFileSource.CreateByArchiveName(edtPackCmd.Text);
+  WcxFileSource := TWcxArchiveFileSource.CreateByArchiveName(FSourceFileSource, edtPackCmd.Text);
   if Assigned(WcxFileSource) then
   try
     WcxFileSource.WcxModule.VFSConfigure(Handle);
