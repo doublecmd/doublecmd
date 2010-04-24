@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-04-06 22:07+0300\n"
+"PO-Revision-Date: 2010-04-24 21:42+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -708,6 +708,7 @@ msgid "Select&All"
 msgstr "Выделить &всё"
 
 #: TFRMEDITOR.ACTEDITUNDO.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr "Отменить"
 
@@ -3705,7 +3706,7 @@ msgstr "Использовать поток, при поиске текста в
 #: TFRMOPTIONS.STGHOTKEYS.COLUMNS.TITLE.CAPTION
 msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS.TITLE.CAPTION"
 msgid "Parameters"
-msgstr ""
+msgstr "Параметры"
 
 #: TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION
 msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
@@ -4223,20 +4224,121 @@ msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "Plugin:"
 msgstr "Плагин:"
 
+#: TFRMVIEWER.BTN270.HINT
+msgctxt "TFRMVIEWER.BTN270.HINT"
+msgid "- 90"
+msgstr ""
+
+#: TFRMVIEWER.BTN90.HINT
+msgctxt "TFRMVIEWER.BTN90.HINT"
+msgid "+ 90"
+msgstr ""
+
+#: TFRMVIEWER.BTNCUTTUIMAGE.CAPTION
+msgid "Crop"
+msgstr "Обрезать"
+
+#: TFRMVIEWER.BTNFULLSCREEN.HINT
+msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
+msgid "Full Screen"
+msgstr "Развернуть на весь экран"
+
+#: TFRMVIEWER.BTNHIGHTLIGHT.HINT
+msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
+msgid "Highlight"
+msgstr "Выделение"
+
+#: TFRMVIEWER.BTNMIRROR.HINT
+msgctxt "TFRMVIEWER.BTNMIRROR.HINT"
+msgid "Mirror"
+msgstr "Зеркально"
+
+#: TFRMVIEWER.BTNPAINT.HINT
+msgctxt "TFRMVIEWER.BTNPAINT.HINT"
+msgid "Paint"
+msgstr "Рисование"
+
+#: TFRMVIEWER.BTNRELOAD.HINT
+msgid "Reload"
+msgstr ""
+
+#: TFRMVIEWER.BTNRESIZE.CAPTION
+msgid "Resize"
+msgstr ""
+
+#: TFRMVIEWER.BTNSCREENSHOT.CAPTION
+msgid "Screenshot"
+msgstr ""
+
+#: TFRMVIEWER.BTNUNDO.HINT
+msgctxt "TFRMVIEWER.BTNUNDO.HINT"
+msgid "Undo"
+msgstr "Отменить"
+
+#: TFRMVIEWER.BTNZOOMIN.HINT
+msgctxt "TFRMVIEWER.BTNZOOMIN.HINT"
+msgid "Zoom In"
+msgstr "Увеличить"
+
+#: TFRMVIEWER.BTNZOOMOUT.HINT
+msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
+msgid "Zoom Out"
+msgstr "Уменьшить"
+
 #: TFRMVIEWER.CAPTION
 msgctxt "TFRMVIEWER.CAPTION"
 msgid "Viewer"
 msgstr "Внутренняя программа просмотра"
+
+#: TFRMVIEWER.CBSLIDESHOW.CAPTION
+msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
+msgid "Slide Show"
+msgstr ""
+
+#: TFRMVIEWER.COMBOBOXPAINT.TEXT
+msgid "Pen"
+msgstr ""
+
+#: TFRMVIEWER.COMBOBOXWIDTH.TEXT
+msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
+msgid "1"
+msgstr ""
+
+#: TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION
+msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
+msgid "Highlight"
+msgstr "Выделение"
+
+#: TFRMVIEWER.GBOXPAINT.CAPTION
+msgctxt "TFRMVIEWER.GBOXPAINT.CAPTION"
+msgid "Paint"
+msgstr "Рисование"
+
+#: TFRMVIEWER.GBOXSLIDESHOW.CAPTION
+msgctxt "TFRMVIEWER.GBOXSLIDESHOW.CAPTION"
+msgid "Slide Show"
+msgstr "Слайд шоу"
+
+#: TFRMVIEWER.GBOXVIEW.CAPTION
+msgctxt "TFRMVIEWER.GBOXVIEW.CAPTION"
+msgid "View"
+msgstr "Просмотреть"
+
+#: TFRMVIEWER.LBLHIGHTLIGHT.CAPTION
+msgid "0x0"
+msgstr ""
 
 #: TFRMVIEWER.MI180.CAPTION
 msgid "+ 180"
 msgstr ""
 
 #: TFRMVIEWER.MI270.CAPTION
+msgctxt "TFRMVIEWER.MI270.CAPTION"
 msgid "- 90"
 msgstr ""
 
 #: TFRMVIEWER.MI90.CAPTION
+msgctxt "TFRMVIEWER.MI90.CAPTION"
 msgid "+ 90"
 msgstr ""
 
@@ -4298,6 +4400,11 @@ msgctxt "TFRMVIEWER.MIFILE.CAPTION"
 msgid "&File"
 msgstr "&Файл"
 
+#: TFRMVIEWER.MIFULLSCREEN.CAPTION
+msgctxt "TFRMVIEWER.MIFULLSCREEN.CAPTION"
+msgid "Full Screen"
+msgstr "На весь экран"
+
 #: TFRMVIEWER.MIGRAPHICS.CAPTION
 msgid "Graphics"
 msgstr "&Графика"
@@ -4311,6 +4418,7 @@ msgid "&Image"
 msgstr "&Рисунок"
 
 #: TFRMVIEWER.MIMIRROR.CAPTION
+msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
 msgid "Mirror"
 msgstr "Зеркально"
 
@@ -4334,6 +4442,34 @@ msgstr "Печать..."
 #: TFRMVIEWER.MIROTATE.CAPTION
 msgid "Rotate"
 msgstr "Повернуть"
+
+#: TFRMVIEWER.MISAVE.CAPTION
+msgid "Save"
+msgstr "Сохранить"
+
+#: TFRMVIEWER.MISAVEAS.CAPTION
+msgid "Save As..."
+msgstr "Сохранить как..."
+
+#: TFRMVIEWER.MISAVEASBMP.CAPTION
+msgid "Bmp"
+msgstr ""
+
+#: TFRMVIEWER.MISAVEASJPG.CAPTION
+msgid "Jpg"
+msgstr ""
+
+#: TFRMVIEWER.MISAVEASPNG.CAPTION
+msgid "Png"
+msgstr ""
+
+#: TFRMVIEWER.MISAVETOICO.CAPTION
+msgid "Ico"
+msgstr ""
+
+#: TFRMVIEWER.MISAVETOPNM.CAPTION
+msgid "Pnm"
+msgstr ""
 
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
@@ -4376,10 +4512,12 @@ msgid "Show as &Wrap text"
 msgstr "В виде текста с &разрывами строк"
 
 #: TFRMVIEWER.MIZOOMIN.CAPTION
+msgctxt "TFRMVIEWER.MIZOOMIN.CAPTION"
 msgid "Zoom In"
 msgstr ""
 
 #: TFRMVIEWER.MIZOOMOUT.CAPTION
+msgctxt "TFRMVIEWER.MIZOOMOUT.CAPTION"
 msgid "Zoom Out"
 msgstr ""
 
