@@ -56,7 +56,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="96">
+    <Units Count="97">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -645,6 +645,14 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fAttributesEdit"/>
       </Unit95>
+      <Unit96>
+        <Filename Value="fmodview.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmModView"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fModView"/>
+      </Unit96>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

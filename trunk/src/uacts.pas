@@ -1214,7 +1214,7 @@ end;
 procedure TActs.cm_View(param:string);
 var
   sl: TStringList = nil;
-  i: Integer;
+  i, n: Integer;
   sViewCmd: String;
   SelectedFiles: TFiles = nil;
   TempFiles: TFiles = nil;
@@ -1313,7 +1313,27 @@ begin
           end;
       end; // if selected
     end; // for
+    // if selected only one file, then sl assign to the all files in panel
+    if sl.Count=1 then
+      begin
+        n:=0;
+        for i := 0 to ActiveFrame.Files.Count - 1 do
+          begin
+            aFile := ActiveFrame.Files[i];
+            if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+              begin
+                if n>0 then sl.Add(aFile.FullPath);
+                if aFile.Name = ActiveFrame.ActiveFile.Name then n:=i;
+              end;
+          end;
 
+        for i:=0 to n-1 do
+          begin
+            aFile := ActiveFrame.Files[i];
+            if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+              sl.Add(aFile.FullPath);
+          end;
+      end;
     // if sl has files then view it
     if sl.Count > 0 then
       ShowViewerByGlobList(sl, aFileSource);

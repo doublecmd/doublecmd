@@ -29,16 +29,34 @@ unit fViewer;
 interface
 
 uses
-  LResources,
-  SysUtils, Classes, Controls, Forms, ExtCtrls, ComCtrls, LCLProc, Menus,
-  viewercontrol, fFindView, WLXPlugin, uWLXModule, uFileSource;
+  LResources, SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls,
+  LCLProc, Menus, Dialogs, ExtDlgs, EditBtn, StdCtrls, Buttons, ColorBox, Spin,
+  viewercontrol, fFindView, WLXPlugin, uWLXModule, uFileSource, fModView;
+
 
 type
 
   { TfrmViewer }
 
   TfrmViewer = class(TForm)
+    cbSlideShow: TCheckBox;
+    ColorBoxPaint: TColorBox;
+    ComboBoxWidth: TComboBox;
+    ComboBoxPaint: TComboBox;
+    gboxPaint: TGroupBox;
+    gboxView: TGroupBox;
+    gboxSlideShow: TGroupBox;
+    miFullScreen: TMenuItem;
+    miSaveToPnm: TMenuItem;
+    miSaveToIco: TMenuItem;
+    miSaveAsJpg: TMenuItem;
+    miSaveAsPng: TMenuItem;
+    miSaveAsBmp: TMenuItem;
+    miSave: TMenuItem;
+    miSaveAs: TMenuItem;
+    gboxHightlight: TGroupBox;
     Image: TImage;
+    lblHightlight: TLabel;
     miZoomOut: TMenuItem;
     miZoomIn: TMenuItem;
     miRotate: TMenuItem;
@@ -49,6 +67,7 @@ type
     miSearchPrev: TMenuItem;
     miPrint: TMenuItem;
     miSearchNext: TMenuItem;
+    PanelEditImage: TPanel;
     pmiSelectAll: TMenuItem;
     miDiv5: TMenuItem;
     pmiCopy: TMenuItem;
@@ -60,7 +79,22 @@ type
     miSeparator: TMenuItem;
     pnlLister: TPanel;
     pmEditMenu: TPopupMenu;
+    SavePictureDialog: TSavePictureDialog;
     sboxImage: TScrollBox;
+    btnCutTuImage: TSpeedButton;
+    btnResize: TSpeedButton;
+    btnUndo: TSpeedButton;
+    btnHightlight: TSpeedButton;
+    btn270: TSpeedButton;
+    btn90: TSpeedButton;
+    btnMirror: TSpeedButton;
+    btnZoomIn: TSpeedButton;
+    btnZoomOut: TSpeedButton;
+    btnReload: TSpeedButton;
+    btnScreenshot: TSpeedButton;
+    btnPaint: TSpeedButton;
+    btnFullScreen: TSpeedButton;
+    seTimeShow: TSpinEdit;
     Status: TStatusBar;
     MainMenu: TMainMenu;
     miFile: TMenuItem;
@@ -83,22 +117,44 @@ type
     miEdit: TMenuItem;
     miSelectAll: TMenuItem;
     miCopyToClipboard: TMenuItem;
+    TimerViewer: TTimer;
     ViewerControl: TViewerControl;
+    procedure btnCutTuImageClick(Sender: TObject);
+    procedure btnFullScreenClick(Sender: TObject);
+    procedure btnPaintHightlight(Sender: TObject);
+    procedure btnRedEyesClick(Sender: TObject);
+    procedure btnReloadClick(Sender: TObject);
+    procedure btnResizeClick(Sender: TObject);
+    procedure btnScreenshotClick(Sender: TObject);
+    procedure btnUndoClick(Sender: TObject);
     procedure FormCreate(Sender : TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure ImageMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure ImageMouseEnter(Sender: TObject);
+    procedure ImageMouseLeave(Sender: TObject);
     procedure ImageMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
     procedure ImageMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure miFullScreenClick(Sender: TObject);
     procedure miPluginsClick(Sender: TObject);
     procedure miPrintClick(Sender: TObject);
+    procedure miSaveAsBmpClick(Sender: TObject);
+    procedure miSaveAsJpgClick(Sender: TObject);
+    procedure miSaveAsPngClick(Sender: TObject);
+    procedure miSaveClick(Sender: TObject);
+    procedure miSaveToIcoClick(Sender: TObject);
+    procedure miSaveToPnmClick(Sender: TObject);
     procedure miSearchNextClick(Sender: TObject);
     procedure miSearchPrevClick(Sender: TObject);
     procedure miZoomClick(Sender: TObject);
+    procedure PanelEditImageMouseEnter(Sender: TObject);
     procedure pnlListerResize(Sender: TObject);
+    procedure sboxImageMouseEnter(Sender: TObject);
+    procedure sboxImageMouseLeave(Sender: TObject);
     procedure sboxImageResize(Sender: TObject);
+    procedure TimerViewerTimer(Sender: TObject);
     procedure ViewerControlMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure frmViewerClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -125,14 +181,22 @@ type
   private
     FileList: TStringList;
     iActiveFile,
-    tmpX, tmpY:Integer;
+    tmpX, tmpY,
+    startX, startY, endX, endY,
+    UndoSX, UndoSY, UndoEX, UndoEY,
+    cas, i_timer:Integer;
     bImage,
     bPlugin,
     bQuickView,
-    MDFlag: Boolean;
+    MDFlag,
+    ImgEdit: Boolean;
     FFindDialog:TfrmFindView;
     FFileSource: IFileSource;
     FLastSearchPos: PtrInt;
+    tmp_all: TCustomBitmap;
+    FModSizeDialog: TfrmModView;
+
+
     //---------------------
     WlxPlugins:TWLXModuleList;
     ActivePlugin:Integer;
@@ -146,6 +210,16 @@ type
     procedure MakeTextEncodingsMenu;
     procedure ActivatePanel(Panel: TPanel);
     procedure ReopenAsTextIfNeeded;
+    procedure CheckXY;
+    procedure UndoTmp;
+    procedure CreateTmp;
+    procedure CutToImage;
+    procedure Res(W, H: integer);
+    procedure RedEyes;
+    procedure SaveToPnm(SavePictureDialog1:TSavePictureDialog; Image1:TImage);
+    procedure SaveToIco(SavePictureDialog1:TSavePictureDialog; Image1:TImage);
+    procedure SaveToPng(SavePictureDialog1:TSavePictureDialog; Image1:TImage);
+    procedure SaveToJpg(SavePictureDialog1:TSavePictureDialog; Image1:TImage; Quality:Integer);
 
   public
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource); reintroduce;
@@ -163,7 +237,7 @@ implementation
 
 uses
   IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx,
-  uFindMmap, uDCUtils;
+  uFindMmap, uDCUtils, LCLIntf;
 
 const
   // Status bar panels indexes.
@@ -203,6 +277,7 @@ begin
   FreeThenNil(FileList);
   inherited Destroy;
   FFileSource := nil; // If this is temp file source, the files will be deleted.
+  tmp_all.Free;
 end;
 
 procedure TfrmViewer.LoadFile(const aFileName: UTF8String);
@@ -298,6 +373,11 @@ begin
           miWrapTextClick(Sender);
           Key := #0;
         end;
+      '9':
+        begin
+          miFullScreenClick(Sender);
+          Key := #0;
+        end;
     end;
 end;
 
@@ -305,33 +385,344 @@ procedure TfrmViewer.ImageMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   MDFlag := true;
-  //sboxImage.AutoScroll:=false;
-  //sboxImage.HorzScrollBar.Range:=Image.Width;
-  //sboxImage.VertScrollBar.Range:=Image.Height;
-  sboxImage.VertScrollBar.Position:=tmpY;
-  sboxImage.HorzScrollBar.Position:=tmpX;
-  tmpX:=x;
-  tmpY:=y{-sboxImage.VertScrollBar.Position};
-  Image.Cursor:=crHandPoint;
+  X:=round(X*Image.Picture.Width/Image.Width);                  // for correct paint after zoom
+  Y:=round(Y*Image.Picture.Height/Image.Height);
+  cas:=0;
+    if (button = mbLeft) and gboxHightlight.Visible then
+       begin
+         if (X>StartX) and (X<=StartX+10) then
+            begin
+              if (Y>StartY) and (Y<=StartY+10) then begin
+                                                 cas:=1;
+                                                 tmpX:=X-StartX;
+                                                 tmpY:=Y-StartY;
+                                                 end;
+              if (Y>StartY+10) and (Y<=EndY-10) then begin
+                                                  cas:=2;
+                                                  tmpX:=X-StartX;
+                                                  end;
+              if (Y>EndY-9) and (Y<=EndY) then begin
+                                            cas:=3;
+                                            tmpX:=X-StartX;
+                                            tmpY:=EndY-Y;
+                                            end;
+              if (Y<StartY) or (Y>EndY) then cas:=0;
+            end;
+         if (X>StartX+10) and (X<=EndX-10) then
+            begin
+              if (Y>StartY) and (Y<=StartY+10) then begin
+                                                    cas:=4;
+                                                    tmpY:=Y-StartY;
+                                                    end;
+              if (Y>StartY+10) and (Y<=EndY-10)then begin
+                                                    cas:=5;
+                                                    tmpX:=X-StartX;
+                                                    tmpY:=Y-StartY;
+                                                    end;
+              if (Y>EndY-9) and (Y<=EndY) then begin
+                                               cas:=6;
+                                               tmpY:=EndY-Y;
+                                               end;
+              If (Y<StartY) or (Y>EndY) then cas:=0;
+            end;
+         if (X>EndX-10) and (X<=EndX) then
+            begin
+              if (Y>StartY) and (Y<=StartY+10) then begin
+                                                    cas:=7;
+                                                    tmpX := EndX-X;
+                                                    tmpY:=StartY-Y;
+                                                    end;
+              if (Y>StartY+10) and (Y<=EndY-10) then begin
+                                                     cas:=8;
+                                                     tmpX := EndX-X;
+                                                     end;
+              if (Y>EndY-9) and (Y<=EndY) then begin
+                                               cas:=9;
+                                               tmpX := EndX-X;
+                                               tmpY:=EndY-Y;
+                                               end;
+              If (Y<StartY) or (Y>EndY) then cas:=0;
+            end;
+         if (X<StartX) or (X>EndX) then cas:=0;
+        end;
+    if cas=0 then
+         begin
+           StartX := X;
+           StartY := Y;
+         end;
+
+    if gboxPaint.Visible then
+      begin
+        CreateTmp;
+        Image.Picture.Bitmap.Canvas.MoveTo (x,y);
+    end;
+  if not (gboxHightlight.Visible) and not (gboxPaint.Visible) then
+    begin
+    tmpX:=x;
+    tmpY:=y;
+    Image.Cursor:=crHandPoint;
+    end;
+end;
+
+procedure TfrmViewer.ImageMouseEnter(Sender: TObject);
+begin
+  if miFullScreen.Checked then TimerViewer.Enabled:=true;
+end;
+
+procedure TfrmViewer.ImageMouseLeave(Sender: TObject);
+begin
+  if miFullScreen.Checked then TimerViewer.Enabled:=false;
 end;
 
 procedure TfrmViewer.ImageMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
+var
+  tmp: integer;
 begin
+  X:=round(X*Image.Picture.Width/Image.Width);                      // for correct paint after zoom
+  Y:=round(Y*Image.Picture.Height/Image.Height);
   if MDFlag then
+        begin
+      if gboxHightlight.Visible then
+        begin
+          Image.Cursor:=crCross;
+            if cas=0 then
+            begin
+              EndX:=X;
+              EndY:=Y;
+            end;
+            if cas=1 then
+            begin
+              StartX:= X-tmpX;
+              StartY:=Y-tmpY;
+            end;
+            if cas=2 then StartX:= X-tmpX;
+            if cas=3then
+            begin
+              StartX:= X-tmpX;
+              EndY:=Y+tmpY;
+            end;
+            if cas=4 then StartY:=Y-tmpY;
+            if cas=5 then
+            begin
+              tmp:=EndX-StartX;
+              StartX:= X-tmpX;
+              EndX:=StartX+tmp;
+              tmp:=EndY-StartY;
+              StartY:= Y-tmpY;
+              EndY:=StartY+tmp;
+            end;
+            if cas=6 then EndY:=Y+tmpY;
+            if cas=7 then
+            begin
+              EndX:=X+tmpX;
+              StartY:=Y-tmpY;
+            end;
+            if cas=8 then endX:=X+tmpX;
+            if cas=9 then
+            begin
+              EndX:=X+tmpX;
+              EndY:=Y+tmpY;
+            end;
+            with Image.Picture.Bitmap.Canvas do
+              begin
+                DrawFocusRect(Rect(UndoSX,UndoSY,UndoEX,UndoEY));
+                DrawFocusRect(Rect(StartX,StartY,EndX,EndY));                   //Pen.Mode := pmNotXor;
+                lblHightlight.Caption := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
+                UndoSX:=StartX;
+                UndoSY:=StartY;
+                UndoEX:=EndX;
+                UndoEY:=EndY;
+              end;
+          end;
+      if gboxPaint.Visible then
+      begin
+        with Image.Picture.Bitmap.Canvas do
+        begin
+          Brush.Style:= bsClear;
+          Pen.Width := StrToInt(ComboBoxWidth.Text);
+          Pen.Color := ColorBoxPaint.Selected;
+          Pen.Style := psSolid;
+          if ComboBoxPaint.text='Pen' then LineTo (x,y);
+          if ComboBoxPaint.text='Rect' then
+          begin
+            UndoTmp;
+            Rectangle(Rect(StartX,StartY,X,Y));
+          end;
+          if ComboBoxPaint.text='Ellipse' then
+          begin
+            UndoTmp;
+            Ellipse(StartX,StartY,X,Y);
+          end;
+        end;
+      end;
+
+      if not (gboxHightlight.Visible) and not (gboxPaint.Visible) then
     begin
       sboxImage.VertScrollBar.Position:=sboxImage.VertScrollBar.Position+tmpY-y;
       sboxImage.HorzScrollBar.Position:=sboxImage.HorzScrollBar.Position+tmpX-x;
     end;
+         end;
 end;
 
 procedure TfrmViewer.ImageMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
+  X:=round(X*Image.Picture.Width/Image.Width);             // for correct paint after zoom
+  Y:=round(Y*Image.Picture.Height/Image.Height);
   MDFlag:=false;
-  tmpY:=sboxImage.VertScrollBar.Position;
-  tmpX:=sboxImage.HorzScrollBar.Position;
+  if PanelEditImage.Visible then
+    begin
+      if (button = mbLeft) and gboxHightlight.Visible then
+    begin
+      UndoTmp;
+      CheckXY;
+      with Image.Picture.Bitmap.Canvas do
+      begin
+        Brush.Style := bsClear;
+        Pen.Style := psDot;
+        Pen.Color := clHighlight;
+        Rectangle(Rect(StartX,StartY,EndX,EndY));
+        line (StartX,StartY+10,EndX,StartY+10);
+        line (StartX,EndY-10,EndX,EndY-10);
+        line (StartX+10,StartY,StartX+10,EndY);
+        line (EndX-10,StartY,EndX-10,EndY);
+        lblHightlight.Caption := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
+      end;
+    end;
+    end;
   Image.Cursor:=crDefault;
+end;
+
+procedure TfrmViewer.miFullScreenClick(Sender: TObject);
+begin
+  miFullScreen.Checked:=not(miFullScreen.Checked);
+  if miFullScreen.Checked then
+    begin
+      WindowState:= wsMaximized;
+      BorderStyle:= bsNone;
+      MainMenu.Items.Visible:=false;
+      gboxPaint.Visible:= false;
+      gboxHightlight.Visible:=false;
+      miStretch.Checked:= miFullScreen.Checked;
+    end
+  else
+    begin
+      WindowState:= wsNormal;
+      BorderStyle:= bsSizeable;
+      //Viewer.MainMenu.Items.Visible:=true;            // why it work ???
+      PanelEditImage.Height:= 50;
+      Height:= Height div 2;
+      Width:= Width div 2;
+    end;
+  btnHightlight.Visible:=not(miFullScreen.Checked);
+  btnPaint.Visible:=not(miFullScreen.Checked);
+  btnResize.Visible:=not(miFullScreen.Checked);
+  TimerViewer.Enabled:=miFullScreen.Checked;
+  btnReload.Visible:=not(miFullScreen.Checked);
+  btnScreenshot.Visible:=not(miFullScreen.Checked);
+  Status.Visible:=not(miFullScreen.Checked);
+  gboxSlideShow.Visible:=miFullScreen.Checked;
+
+  Image.Stretch:= miFullScreen.Checked;
+  Image.AutoSize:= not Image.Stretch;
+  Image.Proportional:= Image.Stretch;
+  AdjustImageSize;
+  ShowOnTop;
+end;
+
+procedure TfrmViewer.RedEyes;
+var
+  tmp:TBitMap;
+  x,y,r,g,b: integer;
+  col: TColor;
+begin
+  UndoTmp;
+  tmp:=TBitMap.Create;
+  tmp.Width:= EndX-StartX;
+  tmp.Height:=EndY-StartY;
+  for y:=StartY to EndY do
+     begin
+       for x:=StartX to EndX do
+          begin
+            col:=Image.Picture.Bitmap.Canvas.Pixels[x,y];
+            r:=GetRValue(col);
+            g:=GetGValue(col);
+            b:=GetBValue(col);
+            if (r>100) and (g<100) and (b<100) then r:=b;
+            tmp.Canvas.Pixels[x-StartX,y-StartY]:= rgb(r,g,b);
+          end;
+     end;
+  Image.Picture.Bitmap.Canvas.Draw (StartX,StartY,tmp);
+  CreateTmp;
+  tmp.Free;
+end;
+
+procedure TfrmViewer.CutToImage;
+begin
+  CheckXY;
+  UndoTmp;
+  Image.Picture.Bitmap.Canvas.CopyRect(rect(0,0,EndX-StartX,EndY-StartY), Image.Picture.Bitmap.Canvas, rect(startX,StartY,EndX,EndY));
+  Image.Picture.Bitmap.SetSize (EndX-StartX,EndY-StartY);
+  CreateTmp;
+  StartX:=0;StartY:=0;EndX:=0;EndY:=0;
+end;
+
+procedure TfrmViewer.UndoTmp;
+begin
+  Image.Picture.Bitmap.Canvas.Clear;
+  Image.Picture.Bitmap.Canvas.Draw(0,0,tmp_all);
+end;
+
+procedure TfrmViewer.CreateTmp;
+begin
+  tmp_all.Free;
+  tmp_all:= TBitmap.Create;
+  tmp_all.Assign(Image.Picture.Graphic);
+end;
+
+procedure TfrmViewer.CheckXY;                       //Устанавливает правильные координаты выделения
+var
+  tmp, RealWidth, RealHeight: integer;
+begin
+  RealWidth:=Image.Picture.Width*Round(Image.Picture.Width/Image.Width);                      // for correct paint after zoom
+  RealHeight:=Image.Picture.Height*Round(Image.Picture.Height/Image.Height);
+  if EndX<StartX then
+    begin
+      tmp:=StartX;
+      StartX:=EndX;
+      EndX:=tmp
+    end;
+  if EndY<StartY then
+    begin
+      tmp:=StartY;
+      StartY:=EndY;
+      EndY:=tmp
+    end;
+  if EndX> RealWidth then EndX := RealWidth;
+  if EndY> RealHeight then EndY := RealHeight;
+  if StartX<0 then StartX:=0;
+  If StartY<0 then StartY:=0;
+end;
+
+procedure TfrmViewer.Res (W, H: integer);
+var
+  tmp: TCustomBitmap;
+  r: TRect;
+begin
+  if gboxHightlight.Visible then UndoTmp;
+  tmp:= TBitmap.Create;
+  tmp.Assign(Image.Picture.Graphic);
+  r := Rect(0, 0, W, H);
+  Image.Picture.Bitmap.SetSize(W,H);
+  Image.Picture.Bitmap.Canvas.Clear;
+  Image.Picture.Bitmap.Canvas.StretchDraw(r, tmp);
+  tmp.free;
+  CreateTmp;
+  StartX:=0;
+  StartY:=0;
+  EndX:=0;
+  EndY:=0;
 end;
 
 function TfrmViewer.CheckPlugins(const sFileName: UTF8String; Force:boolean=false):boolean;
@@ -401,6 +792,162 @@ begin
     end;
 end;
 
+procedure TfrmViewer.miSaveAsBmpClick(Sender: TObject);
+begin
+  SavePictureDialog.DefaultExt:= '.bmp';
+  if SavePictureDialog.Execute then
+  Image.Picture.SaveToFile(SavePictureDialog.Filename);
+end;
+
+procedure TfrmViewer.miSaveAsJpgClick(Sender: TObject);
+begin
+  if not Assigned(FModSizeDialog) then
+     FModSizeDialog:= TfrmModView.Create(Application);
+  FModSizeDialog.pnlSize.Visible:=false;
+  FModSizeDialog.pnlQuality.Visible:=true;
+  FModSizeDialog.Caption:='Quality of Jpg';
+  FModSizeDialog.ShowModal;
+  if FModSizeDialog.ModalResult=mrOk then
+    if StrToInt(FModSizeDialog.teQuality.Text)<=100 then
+      SaveToJpg(SavePictureDialog, Image, StrToInt(FModSizeDialog.teQuality.Text))
+    else
+      begin
+        ShowMessage ('Bad Quality');
+        Exit;
+      end
+  else Exit;
+end;
+
+procedure TfrmViewer.miSaveAsPngClick(Sender: TObject);
+begin
+  SaveToPng(SavePictureDialog, Image);
+end;
+
+procedure TfrmViewer.miSaveClick(Sender: TObject);
+var
+  sExt: string;
+  png: TPortableNetworkGraphic=nil;
+  ico : TIcon=nil;
+  jpg : TJpegImage=nil;
+  pnm : TPortableAnyMapGraphic=nil;
+begin
+  sExt:= ExtractFileExt(FileList.Strings[iActiveFile]);
+  if sExt= '.bmp' then Image.Picture.SaveToFile(FileList.Strings[iActiveFile]);
+  if sExt= '.png' then
+         begin
+           png := TPortableNetworkGraphic.Create;
+              try
+               png.Assign(Image.Picture.Graphic);
+               png.SaveToFile(FileList.Strings[iActiveFile]);
+              finally
+               png.Free;
+              end;
+         end;
+  if (sExt='.jpg') or (sExt='.jpeg') then
+    begin
+      jpg := TJpegImage.Create;
+          try
+           jpg.Assign(Image.Picture.Graphic);
+           jpg.CompressionQuality := 100;
+           jpg.SaveToFile(FileList.Strings[iActiveFile]);
+          finally
+           jpg.Free;
+          end;
+    end;
+  if sExt='.ico' then
+    begin
+      ico := TIcon.Create;
+         try
+          ico.Assign(Image.Picture.Graphic);
+          ico.SaveToFile(FileList.Strings[iActiveFile]);
+         finally
+          ico.Free;
+         end;
+    end;
+  if sExt='.pnm' then
+    begin
+      pnm := TPortableAnyMapGraphic.Create;
+       try
+        pnm.Assign(Image.Picture.Graphic);
+        pnm.SaveToFile(FileList.Strings[iActiveFile]);
+       finally
+        pnm.Free;
+       end;
+    end;
+end;
+
+procedure TfrmViewer.miSaveToIcoClick(Sender: TObject);
+begin
+  SaveToIco(SavePictureDialog, Image);
+end;
+
+procedure TfrmViewer.miSaveToPnmClick(Sender: TObject);
+begin
+  SaveToPnm(SavePictureDialog, Image);
+end;
+
+procedure TfrmViewer.SaveToPng(SavePictureDialog1:TSavePictureDialog; Image1:TImage);
+var
+  png : TPortableNetworkGraphic;
+begin
+  png := TPortableNetworkGraphic.Create;
+  try
+    png.Assign(Image1.Picture.Graphic);
+    SavePictureDialog1.DefaultExt:= '.png';
+    if SavePictureDialog1.Execute then
+    png.SaveToFile(SavePictureDialog1.FileName);
+  finally
+    png.Free;
+  end;
+end;
+
+procedure TfrmViewer.SaveToIco(SavePictureDialog1:TSavePictureDialog; Image1:TImage);
+var
+  ico : TIcon;
+begin
+  ico := TIcon.Create;
+  try
+    ico.Assign(Image1.Picture.Graphic);
+    SavePictureDialog1.DefaultExt:= '.ico';
+    if SavePictureDialog1.Execute then
+    ico.SaveToFile(SavePictureDialog1.FileName);
+  finally
+    ico.Free;
+  end;
+end;
+
+procedure TfrmViewer.SaveToJpg(SavePictureDialog1:TSavePictureDialog; Image1:TImage; Quality:Integer);
+var
+  jpg : TJpegImage;
+begin
+  jpg := TJpegImage.Create;
+  try
+    jpg.Assign(Image1.Picture.Graphic);
+    if Quality in [1 .. 100] then
+    jpg.CompressionQuality := Quality;
+    SavePictureDialog1.DefaultExt:= '.jpg';
+    if SavePictureDialog1.Execute then
+    jpg.SaveToFile(SavePictureDialog1.FileName);
+  finally
+    jpg.Free;
+  end;
+end;
+
+procedure TfrmViewer.SaveToPnm(SavePictureDialog1:TSavePictureDialog; Image1:TImage);
+var
+  pnm : TPortableAnyMapGraphic;
+begin
+  pnm := TPortableAnyMapGraphic.Create;
+  try
+    pnm.Assign(Image1.Picture.Graphic);
+    SavePictureDialog1.DefaultExt:= '.pnm';
+    if SavePictureDialog1.Execute then
+    pnm.SaveToFile(SavePictureDialog1.FileName);
+  finally
+    pnm.Free;
+  end;
+end;
+
 procedure TfrmViewer.miSearchNextClick(Sender: TObject);
 begin
   DoSearch(True, False);
@@ -417,20 +964,23 @@ begin
   Image.Stretch:=true;
   Image.Proportional:=true;
   Image.AutoSize := false;
-  if sender=miZoomIn
+  if (sender=miZoomIn) or (sender=btnZoomIn)
   then
     begin
-      Image.Width:= Image.Width + round(0.118*Image.Picture.Width);  {Image.Width+Round(0.1*Image.Width)}
-      Image.Height:= Image.Height + round(0.118*Image.Picture.Height);  {Image.Height+Round(Image.Height*0.1)}
+      Image.Width:= Image.Width + round(0.118*Image.Picture.Width);
+      Image.Height:= Image.Height + round(0.118*Image.Picture.Height);
     end
   else
     begin
      Image.Width:= Image.Width-Round(0.1333*Image.Width);
      Image.Height:= Image.Height-Round(0.133*Image.Height);
     end;
-  //sboxImage.VertScrollBar.Position:= sboxImage.VertScrollBar.Position+Image.Height div 16;
-  //sboxImage.HorzScrollBar.Position:= sboxImage.HorzScrollBar.Position+Image.Width div 16;
-  AdjustImageSize
+  AdjustImageSize;
+end;
+
+procedure TfrmViewer.PanelEditImageMouseEnter(Sender: TObject);
+begin
+  if miFullScreen.Checked then PanelEditImage.Height:= 50;
 end;
 
 procedure TfrmViewer.pnlListerResize(Sender: TObject);
@@ -439,9 +989,31 @@ begin
     WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(pnlLister.ClientRect);
 end;
 
+procedure TfrmViewer.sboxImageMouseEnter(Sender: TObject);
+begin
+  if miFullScreen.Checked then TimerViewer.Enabled:=true;
+end;
+
+procedure TfrmViewer.sboxImageMouseLeave(Sender: TObject);
+begin
+  if miFullScreen.Checked then TimerViewer.Enabled:=false;
+end;
+
 procedure TfrmViewer.sboxImageResize(Sender: TObject);
 begin
   if bImage then AdjustImageSize;
+end;
+
+procedure TfrmViewer.TimerViewerTimer(Sender: TObject);
+begin
+  if (miFullScreen.Checked) and (PanelEditImage.Height>3) then
+  PanelEditImage.Height:=PanelEditImage.Height-1;
+  if cbSlideShow.Checked then i_timer:=i_timer+1;
+  if i_timer=60*seTimeShow.Value then
+    begin
+     miNextClick(Sender);
+     i_timer:=0;
+    end;
 end;
 
 procedure TfrmViewer.ViewerControlMouseUp(Sender: TObject;
@@ -512,6 +1084,8 @@ begin
     end;
 
   LoadFile(I);
+  gboxPaint.Visible:=false;
+  gboxHightlight.Visible:=false;
 end;
 
 procedure TfrmViewer.miPrevClick(Sender: TObject);
@@ -529,6 +1103,8 @@ begin
     end;
 
   LoadFile(I);
+  gboxPaint.Visible:=false;
+  gboxHightlight.Visible:=false;
 end;
 
 procedure TfrmViewer.miStretchClick(Sender: TObject);
@@ -537,6 +1113,13 @@ begin
   Image.Stretch:= miStretch.Checked;
   Image.AutoSize:= not Image.Stretch;
   Image.Proportional:= Image.Stretch;
+  if gboxHightlight.Visible then UndoTmp;
+  if miStretch.Checked then
+    begin
+      gboxPaint.Visible:=false;
+      gboxHightlight.Visible:=false;
+      gboxView.Visible:=true;
+    end;
   AdjustImageSize;
 end;
 
@@ -610,12 +1193,104 @@ begin
   ViewerPositionChanged(Self);
 end;
 
+procedure TfrmViewer.btnCutTuImageClick(Sender: TObject);
+begin
+  CutToImage;
+end;
+
+procedure TfrmViewer.btnFullScreenClick(Sender: TObject);
+begin
+  miFullScreenClick(Sender);
+end;
+
+procedure TfrmViewer.btnPaintHightlight(Sender: TObject);
+var
+  bmp: TCustomBitmap = nil;
+  GraphicClass: TGraphicClass;
+  sExt: String;
+  fsFileStream: TFileStreamEx = nil;
+begin
+  if not ImgEdit then
+    try
+      sExt:= ExtractFileExt(FileList.Strings[iActiveFile]);
+      fsFileStream:= TFileStreamEx.Create(FileList.Strings[iActiveFile], fmOpenRead or fmShareDenyNone);
+      GraphicClass := GetGraphicClassForFileExtension(sExt);
+      if (GraphicClass <> nil) and (GraphicClass.InheritsFrom(TCustomBitmap)) then
+        begin
+          Image.DisableAutoSizing;
+          bmp := TCustomBitmap(GraphicClass.Create);
+          bmp.LoadFromStream(fsFileStream);
+          Image.Picture.Bitmap := TBitmap.Create;
+          Image.Picture.Bitmap.Height:= bmp.Height;
+          Image.Picture.Bitmap.Width:= bmp.Width;
+          Image.Picture.Bitmap.Canvas.Draw(0, 0, bmp);
+          Image.EnableAutoSizing;
+        end;
+    finally
+      FreeThenNil(bmp);
+      FreeThenNil(fsFileStream);
+    end;
+
+  miStretch.Checked:= False;
+  Image.Stretch:= miStretch.Checked;
+  Image.Proportional:= Image.Stretch;
+  Image.Autosize:= not(miStretch.Checked);
+  AdjustImageSize;
+  if gboxHightlight.Visible then UndoTmp;
+  if Sender = btnHightlight then
+    begin
+      gboxHightlight.Visible := not (gboxHightlight.Visible);
+      gboxPaint.Visible:= False;
+    end
+  else
+    begin
+      gboxPaint.Visible:= not (gboxPaint.Visible);
+      gboxHightlight.Visible:= False;
+    end;
+  ImgEdit:= True;
+  CreateTmp;
+end;
+
+procedure TfrmViewer.btnRedEyesClick(Sender: TObject);
+begin
+  RedEyes;
+end;
+
+procedure TfrmViewer.btnReloadClick(Sender: TObject);
+begin
+   LoadFile (iActiveFile);
+end;
+
+procedure TfrmViewer.btnResizeClick(Sender: TObject);
+begin
+  if not Assigned(FModSizeDialog) then
+     FModSizeDialog:= TfrmModView.Create(Application);
+  FModSizeDialog.pnlQuality.Visible:=false;
+  FModSizeDialog.pnlSize.Visible:=true;
+  FModSizeDialog.teHeight.Text:= IntToStr(Image.Picture.Bitmap.Height);
+  FModSizeDialog.teWidth.Text := IntToStr(Image.Picture.Bitmap.Width);
+  FModSizeDialog.Caption:='New Size';
+  FModSizeDialog.ShowModal;
+  if FModSizeDialog.ModalResult = mrOk then
+    Res(StrToInt(FModSizeDialog.teWidth.Text), StrToInt(FModSizeDialog.teHeight.Text))
+  else
+    Exit;
+  AdjustImageSize;
+end;
+
+procedure TfrmViewer.btnUndoClick(Sender: TObject);
+begin
+  UndoTmp;
+end;
+
 procedure TfrmViewer.FormDestroy(Sender: TObject);
 begin
   if Assigned(WlxPlugins) then
      FreeAndNil(WlxPlugins);
   if Assigned(FFindDialog) then
      FreeAndNil(FFindDialog);
+  if Assigned(FModSizeDialog) then
+     FreeAndNil(FModSizeDialog);
 end;
 
 procedure TfrmViewer.miProcessClick(Sender: TObject);
@@ -762,9 +1437,7 @@ begin
       sResolution:= IntToStr(Image.Width) + 'x' + IntToStr(Image.Height);
       Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, IntToStr(iScale)]);
       sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Picture.Height);
-      //Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, '100']);
       Status.Panels[sbpFullResolution].Text:= Format(fmtImageInfo, [sResolution, '100']);
-      //Status.Panels[sbpFullResolution].Text:= Status.Panels[2].Text;
     end;
 end;
 
@@ -793,7 +1466,7 @@ begin
           end;
         end;
       end;
-    if Sender = mi270 then
+    if (Sender = mi270) or (Sender =btn270)then
       begin
         TargetImg.SetSize(yHeight + 1, xWidth + 1);
         for y:= 0 to xWidth do
@@ -803,8 +1476,11 @@ begin
             TargetImg.Colors[x, y]:= SourceImg.Colors[xWidth - y, x];
           end;
         end;
+        x:= Image.Width;
+        Image.Width:= Image.Height;
+        Image.Height:= x;
       end;
-    if Sender = mi90 then
+    if (Sender = mi90) or (Sender=btn90) then
       begin
         TargetImg.SetSize(yHeight + 1, xWidth + 1);
         for y:= 0 to xWidth do
@@ -814,8 +1490,11 @@ begin
             TargetImg.Colors[x, y]:= SourceImg.Colors[y, yHeight - x];
           end;
         end;
+        x:= Image.Width;
+        Image.Width:= Image.Height;
+        Image.Height:= x;
       end;
-    if Sender = miMirror then
+    if (Sender = miMirror) or (Sender = btnMirror)then
       begin
         TargetImg.SetSize(xWidth + 1, yHeight + 1);
         for y:= 0 to yHeight do
@@ -829,6 +1508,27 @@ begin
   Image.Picture.Bitmap.LoadFromIntfImage(TargetImg);
   FreeThenNil(SourceImg);
   FreeThenNil(TargetImg);
+  AdjustImageSize;
+  CreateTmp;
+end;
+
+procedure TfrmViewer.btnScreenshotClick(Sender: TObject);
+var
+  ScreenDC: HDC;
+  bmp: TCustomBitmap;
+begin
+  Visible:= False;
+  Application.ProcessMessages; // Hide viewer window
+  bmp := TBitmap.Create;
+  ScreenDC := GetDC(0);
+  bmp.LoadFromDevice(ScreenDC);
+  ReleaseDC(0, ScreenDC);
+  Image.Picture.Bitmap.Height:= bmp.Height;
+  Image.Picture.Bitmap.Width:= bmp.Width;
+  Image.Picture.Bitmap.Canvas.Draw(0, 0, bmp);
+  CreateTmp;
+  bmp.Free;
+  Visible:= True;
 end;
 
 procedure TfrmViewer.LoadGraphics(const sFileName:String);
@@ -837,8 +1537,7 @@ var
   fsFileStream: TFileStreamEx = nil;
 begin
   bImage:= True;
-  sExt:= ExtractFileExt(sFilename);
-  System.Delete(sExt, 1, 1); // delete a dot
+  sExt:= ExtractOnlyFileExt(sFilename);
   try
     fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
     try
@@ -856,6 +1555,7 @@ begin
   miStretch.Checked:= not miStretch.Checked;
   miStretchClick(nil);
   ActivatePanel(pnlImage);
+  ImgEdit:=false;
 end;
 
 procedure TfrmViewer.DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
@@ -996,6 +1696,8 @@ begin
   miImage.Visible    := (Panel = pnlImage);
   miEncoding.Visible := (Panel = pnlText);
   miEdit.Visible     := (Panel = pnlText) or (Panel = pnlLister);
+  miSave.Visible     := (Panel = pnlImage);
+  miSaveAs.Visible   := (Panel = pnlImage);
 
   if Panel = pnlLister then
   begin
