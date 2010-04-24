@@ -180,6 +180,7 @@ object frmViewer: TfrmViewer
         Top = 1
         Width = 90
         Align = alLeft
+        AutoSize = True
         BorderSpacing.Left = 5
         BorderSpacing.Bottom = 1
         Caption = 'Highlight'
@@ -348,6 +349,7 @@ object frmViewer: TfrmViewer
             'Rect'
             'Ellipse'
           )
+          Style = csDropDownList
           TabOrder = 1
           Text = 'Pen'
         end
@@ -1023,6 +1025,7 @@ object frmViewer: TfrmViewer
         Top = 1
         Width = 124
         Align = alRight
+        AutoSize = True
         BorderSpacing.Right = 6
         Caption = 'Slide Show'
         ClientHeight = 30
