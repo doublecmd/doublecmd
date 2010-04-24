@@ -707,6 +707,7 @@ msgid "Select&All"
 msgstr "Összes kiválasztás&a"
 
 #: TFRMEDITOR.ACTEDITUNDO.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITUNDO.CAPTION"
 msgid "Undo"
 msgstr "Visszavonás"
 
@@ -4221,20 +4222,121 @@ msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "Plugin:"
 msgstr "Beépülő:"
 
+#: TFRMVIEWER.BTN270.HINT
+msgctxt "TFRMVIEWER.BTN270.HINT"
+msgid "- 90"
+msgstr ""
+
+#: TFRMVIEWER.BTN90.HINT
+msgctxt "TFRMVIEWER.BTN90.HINT"
+msgid "+ 90"
+msgstr ""
+
+#: TFRMVIEWER.BTNCUTTUIMAGE.CAPTION
+msgid "Crop"
+msgstr ""
+
+#: TFRMVIEWER.BTNFULLSCREEN.HINT
+msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
+msgid "Full Screen"
+msgstr ""
+
+#: TFRMVIEWER.BTNHIGHTLIGHT.HINT
+msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
+msgid "Highlight"
+msgstr ""
+
+#: TFRMVIEWER.BTNMIRROR.HINT
+msgctxt "TFRMVIEWER.BTNMIRROR.HINT"
+msgid "Mirror"
+msgstr ""
+
+#: TFRMVIEWER.BTNPAINT.HINT
+msgctxt "TFRMVIEWER.BTNPAINT.HINT"
+msgid "Paint"
+msgstr ""
+
+#: TFRMVIEWER.BTNRELOAD.HINT
+msgid "Reload"
+msgstr ""
+
+#: TFRMVIEWER.BTNRESIZE.CAPTION
+msgid "Resize"
+msgstr ""
+
+#: TFRMVIEWER.BTNSCREENSHOT.CAPTION
+msgid "Screenshot"
+msgstr ""
+
+#: TFRMVIEWER.BTNUNDO.HINT
+msgctxt "TFRMVIEWER.BTNUNDO.HINT"
+msgid "Undo"
+msgstr "Visszavonás"
+
+#: TFRMVIEWER.BTNZOOMIN.HINT
+msgctxt "TFRMVIEWER.BTNZOOMIN.HINT"
+msgid "Zoom In"
+msgstr ""
+
+#: TFRMVIEWER.BTNZOOMOUT.HINT
+msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
+msgid "Zoom Out"
+msgstr ""
+
 #: TFRMVIEWER.CAPTION
 msgctxt "TFRMVIEWER.CAPTION"
 msgid "Viewer"
 msgstr "Nézőke"
+
+#: TFRMVIEWER.CBSLIDESHOW.CAPTION
+msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
+msgid "Slide Show"
+msgstr ""
+
+#: TFRMVIEWER.COMBOBOXPAINT.TEXT
+msgid "Pen"
+msgstr ""
+
+#: TFRMVIEWER.COMBOBOXWIDTH.TEXT
+msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
+msgid "1"
+msgstr ""
+
+#: TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION
+msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
+msgid "Highlight"
+msgstr ""
+
+#: TFRMVIEWER.GBOXPAINT.CAPTION
+msgctxt "TFRMVIEWER.GBOXPAINT.CAPTION"
+msgid "Paint"
+msgstr ""
+
+#: TFRMVIEWER.GBOXSLIDESHOW.CAPTION
+msgctxt "TFRMVIEWER.GBOXSLIDESHOW.CAPTION"
+msgid "Slide Show"
+msgstr ""
+
+#: TFRMVIEWER.GBOXVIEW.CAPTION
+msgctxt "TFRMVIEWER.GBOXVIEW.CAPTION"
+msgid "View"
+msgstr "Nézőke"
+
+#: TFRMVIEWER.LBLHIGHTLIGHT.CAPTION
+msgid "0x0"
+msgstr ""
 
 #: TFRMVIEWER.MI180.CAPTION
 msgid "+ 180"
 msgstr ""
 
 #: TFRMVIEWER.MI270.CAPTION
+msgctxt "TFRMVIEWER.MI270.CAPTION"
 msgid "- 90"
 msgstr ""
 
 #: TFRMVIEWER.MI90.CAPTION
+msgctxt "TFRMVIEWER.MI90.CAPTION"
 msgid "+ 90"
 msgstr ""
 
@@ -4296,6 +4398,11 @@ msgctxt "TFRMVIEWER.MIFILE.CAPTION"
 msgid "&File"
 msgstr "&Fájl"
 
+#: TFRMVIEWER.MIFULLSCREEN.CAPTION
+msgctxt "TFRMVIEWER.MIFULLSCREEN.CAPTION"
+msgid "Full Screen"
+msgstr ""
+
 #: TFRMVIEWER.MIGRAPHICS.CAPTION
 msgid "Graphics"
 msgstr "Grafika"
@@ -4309,6 +4416,7 @@ msgid "&Image"
 msgstr "&Kép"
 
 #: TFRMVIEWER.MIMIRROR.CAPTION
+msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
 msgid "Mirror"
 msgstr ""
 
@@ -4331,6 +4439,34 @@ msgstr ""
 
 #: TFRMVIEWER.MIROTATE.CAPTION
 msgid "Rotate"
+msgstr ""
+
+#: TFRMVIEWER.MISAVE.CAPTION
+msgid "Save"
+msgstr ""
+
+#: TFRMVIEWER.MISAVEAS.CAPTION
+msgid "Save As..."
+msgstr ""
+
+#: TFRMVIEWER.MISAVEASBMP.CAPTION
+msgid "Bmp"
+msgstr ""
+
+#: TFRMVIEWER.MISAVEASJPG.CAPTION
+msgid "Jpg"
+msgstr ""
+
+#: TFRMVIEWER.MISAVEASPNG.CAPTION
+msgid "Png"
+msgstr ""
+
+#: TFRMVIEWER.MISAVETOICO.CAPTION
+msgid "Ico"
+msgstr ""
+
+#: TFRMVIEWER.MISAVETOPNM.CAPTION
+msgid "Pnm"
 msgstr ""
 
 #: TFRMVIEWER.MISEARCH.CAPTION
@@ -4374,10 +4510,12 @@ msgid "Show as &Wrap text"
 msgstr "Megjelenítés &tördelt szövegként"
 
 #: TFRMVIEWER.MIZOOMIN.CAPTION
+msgctxt "TFRMVIEWER.MIZOOMIN.CAPTION"
 msgid "Zoom In"
 msgstr ""
 
 #: TFRMVIEWER.MIZOOMOUT.CAPTION
+msgctxt "TFRMVIEWER.MIZOOMOUT.CAPTION"
 msgid "Zoom Out"
 msgstr ""
 
