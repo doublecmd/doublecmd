@@ -44,10 +44,12 @@ type
     FOwner: TObject;
     FOnWatcherThreadError: TNotifyEvent;
     FOnWatcherNotifyEvent: TOnWatcherNotifyEvent;
-    {$IFDEF UNIX}
-    FFileHandle,
-    {$ENDIF}
+    {$IF DEFINED(UNIX)}
+    FFileHandle: Longint;
+    FNotifyHandle: Longint;
+    {$ELSEIF DEFINED(MSWINDOWS)}
     FNotifyHandle: THandle;
+    {$ENDIF}
     FWatchPath: UTF8String;
     FWatchFilter: TWatchFilter;
     FNotifyData: PtrInt;
@@ -130,7 +132,7 @@ begin
       if not FindNextChangeNotification(FNotifyHandle) then
         begin
           WatcherThreadError('FindNextChangeNotification - failed');
-          RaiseLastOSError;
+          Exit;
         end;
     until Terminated;
 end;
@@ -153,7 +155,7 @@ begin
  if (FFileHandle < 0) then
  begin
   WatcherThreadError('inotify_init(): failed');
-  RaiseLastOSError;
+  Exit;
  end;
 // WriteLn('After inotify_init()');
 
@@ -162,7 +164,7 @@ begin
  if (FNotifyHandle < 0) then
  begin
   WatcherThreadError('inotify_add_watch(): failed');
-  RaiseLastOSError;
+  Exit;
  end;
 // WriteLn('After inotify_add_watch()');
 
@@ -173,7 +175,7 @@ begin
    if (fpioctl(FFileHandle, $541B, @bytes_to_parse) = -1) then
    begin
     WatcherThreadError('ioctl(): failed');
-    RaiseLastOSError;
+    Exit;
    end;
    Sleep(1);
    if Terminated then Exit;
@@ -185,7 +187,8 @@ begin
   if (fpread(FFileHandle, buf, bytes_to_parse) = -1) then
   begin
    WatcherThreadError('read(): failed');
-   RaiseLastOSError;
+   FreeMem(buf);
+   Exit;
   end;
 //  WriteLn('After fpread()');
 
@@ -224,7 +227,7 @@ begin
   if (FFileHandle < 0) then
   begin
    WatcherThreadError('fpOpen(): failed');
-   RaiseLastOSError;
+   Exit;
   end;
 
   // start queue
@@ -232,7 +235,7 @@ begin
   if (FNotifyHandle < 0) then
   begin
     WatcherThreadError('kqueue(): failed');
-    RaiseLastOSError;
+    Exit;
   end;
 
   FillByte(ke, SizeOf(ke), 0);
@@ -241,7 +244,7 @@ begin
   if (kevent(FNotifyHandle, @ke, 1, nil, 0, nil) = -1) then
   begin
     WatcherThreadError('kevent(): failed');
-    RaiseLastOSError;
+    Exit;
   end;
 
   // set up wait time out
@@ -286,18 +289,28 @@ begin
 end;
 {$ELSEIF DEFINED(LINUX)}
 begin
-  // remove watch
-  inotify_rm_watch(FFileHandle, FNotifyHandle);
-  // close inotify instance
-  fpClose(FFileHandle);
+  if FFileHandle <> -1 then
+  begin
+    // remove watch
+    if FNotifyHandle <> -1 then
+      {$PUSH}{$R-,Q-}
+      // inotify_add_watch returns signed value.
+      // inotify_rm_watch wants unsigned value.
+      inotify_rm_watch(FFileHandle, FNotifyHandle);
+      {$POP}
+    // close inotify instance
+    fpClose(FFileHandle);
+  end;
   inherited Destroy;
 end;
 {$ELSEIF DEFINED(BSD)}
 begin
   // close queue handle
-  fpClose(FNotifyHandle);
+  if FNotifyHandle <> -1 then
+    fpClose(FNotifyHandle);
   // close file handle
-  fpClose(FFileHandle);
+  if FFileHandle <> -1 then
+    fpClose(FFileHandle);
   inherited Destroy;
 end;
 {$ELSE}
@@ -314,6 +327,13 @@ begin
   FWatchPath:= sPath;
   FWatchFilter:= aWatchFilter;
   FreeOnTerminate:= True;
+
+  {$IF DEFINED(UNIX)}
+  FFileHandle := -1;
+  FNotifyHandle := -1;
+  {$ELSEIF DEFINED(MSWINDOWS)}
+  FNotifyHandle := NULL;
+  {$ENDIF}
 end;
 
 { TFileSystemWatcher }
