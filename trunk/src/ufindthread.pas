@@ -4,7 +4,7 @@
    Thread for search files (called from frmSearchDlg)
 
    Copyright (C) 2003-2004 Radek Cervinka (radek.cervinka@centrum.cz)
-   Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -48,6 +48,7 @@ type
     FCurrentDepth: Integer;
     FSearchTemplate: TSearchTemplateRec;
     FFileChecks: TFindFileChecks;
+    FLinkTargets: TStringList;  // A list of encountered directories (for detecting cycles)
 
     function CheckFile(const Folder : String; const sr : TSearchRecEx) : Boolean;
     function FindInFile(const sFileName:UTF8String;
@@ -83,6 +84,7 @@ begin
   FFilesScanned:=0;
   FFilesFound := 0;
   FItems := nil;
+  FLinkTargets := TStringList.Create;
 
   FSearchTemplate := AFindOptions;
 
@@ -105,7 +107,8 @@ end;
 
 destructor TFindThread.Destroy;
 begin
-  inherited;
+  FreeThenNil(FLinkTargets);
+  inherited Destroy;
 end;
 
 procedure TFindThread.Execute;
@@ -327,7 +330,9 @@ end;
 procedure TFindThread.WalkAdr(const sNewDir:String);
 var
   sr: TSearchRecEx;
-  Path : String;
+  Path,
+  LinkTarget: UTF8String;
+  IsLink: Boolean = False;
 begin
   if not mbSetCurrentDir(sNewDir) then Exit;
 
@@ -363,11 +368,22 @@ begin
   if (not Terminated) and (FCurrentDepth < FSearchTemplate.SearchDepth) then
   begin
     Path := sNewDir + PathDelim + '*';
-    DebugLn('Search in sub folders = ', Path);
+    //DebugLn('Search in sub folders = ', Path);
     if not Terminated and (FindFirstEx(Path, faDirectory, sr) = 0) then
       repeat
-        if (FSearchTemplate.FollowSymLinks = False) and FPS_ISLNK(sr.Attr) then
-          Continue;
+        IsLink:= FPS_ISLNK(sr.Attr);
+        if FSearchTemplate.FollowSymLinks and (IsLink = False) then
+          FLinkTargets.Add(sNewDir + PathDelim + sr.Name) // Add directory where we already searched
+        else if (FSearchTemplate.FollowSymLinks = False) and IsLink then
+          Continue
+        else if FSearchTemplate.FollowSymLinks and IsLink then
+          begin
+            LinkTarget:= ReadSymLink(sNewDir + PathDelim + sr.Name);
+            if FLinkTargets.IndexOf(LinkTarget) >= 0 then
+              Continue // Link already encountered - links form a cycle.
+            else
+              FLinkTargets.Add(LinkTarget); // Add link target where we already searched
+          end;
         if ((sr.Name <> '.') and (sr.Name <> '..')) then
           WalkAdr(sNewDir + PathDelim + sr.Name);
       until Terminated or (FindNextEx(sr) <> 0);
