@@ -78,12 +78,14 @@ begin
   if (aPath <> EmptyStr) and mbDirectoryExists(aPath) then
     FTempRootDir := aPath
   else
+  begin
     FTempRootDir := GetTempName(GetTempDir + '_dc');
 
-  if (FTempRootDir = EmptyStr) or (mbForceDirectory(FTempRootDir) = False) then
-  begin
-    FDeleteOnDestroy := False;
-    raise ECannotCreateTempFileSourceException.Create('Cannot create temp file source');
+    if (FTempRootDir = EmptyStr) or (mbForceDirectory(FTempRootDir) = False) then
+    begin
+      FDeleteOnDestroy := False;
+      raise ECannotCreateTempFileSourceException.Create('Cannot create temp file source');
+    end;
   end;
 
   FCurrentAddress := FTempRootDir;
