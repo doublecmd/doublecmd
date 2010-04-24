@@ -1445,6 +1445,11 @@ msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
 msgid "*"
 msgstr ""
 
+#: TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION
+msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
+msgid "Follow symlinks"
+msgstr ""
+
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
 msgstr ""
