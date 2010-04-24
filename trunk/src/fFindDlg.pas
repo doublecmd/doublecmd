@@ -59,6 +59,7 @@ type
     cbReplaceText: TCheckBox;
     cbTimeFrom: TCheckBox;
     cbTimeTo: TCheckBox;
+    cmbFollowSymLinks: TCheckBox;
     cmbNotOlderThanUnit: TComboBox;
     cmbFileSizeUnit: TComboBox;
     cbUsePlugin: TCheckBox;
@@ -455,10 +456,11 @@ var
 begin
   with FindOptions do
   begin
-    StartPath   := edtFindPathStart.Text;
-    FilesMasks  := cmbFindFileMask.Text;
-    SearchDepth := cbSearchDepth.ItemIndex - 1;
-    RegExp      := cbRegExp.Checked;
+    StartPath      := edtFindPathStart.Text;
+    FilesMasks     := cmbFindFileMask.Text;
+    SearchDepth    := cbSearchDepth.ItemIndex - 1;
+    RegExp         := cbRegExp.Checked;
+    FollowSymLinks := cmbFollowSymLinks.Checked;
 
     { File attributes }
     AttributesPattern := edtAttrib.Text;

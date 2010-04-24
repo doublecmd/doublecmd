@@ -258,6 +258,7 @@ begin
           FilesMasks:= AConfig.GetValue(ANode, 'FilesMasks', '*');
           SearchDepth:= AConfig.GetValue(ANode, 'SearchDepth', -1);
           RegExp:= AConfig.GetValue(ANode, 'RegExp', False);
+          FollowSymLinks:= AConfig.GetValue(ANode, 'FollowSymLinks', False);
           AttributesPattern:= AConfig.GetValue(ANode, 'AttributesPattern', '');
           // date/time
           IsDateFrom:= AConfig.GetValue(ANode, 'IsDateFrom', False);
@@ -374,6 +375,7 @@ begin
       AConfig.AddValue(SubNode, 'FilesMasks', FilesMasks);
       AConfig.AddValue(SubNode, 'SearchDepth', SearchDepth);
       AConfig.AddValue(SubNode, 'RegExp', RegExp);
+      AConfig.AddValue(SubNode, 'FollowSymLinks', FollowSymLinks);
       AConfig.AddValue(SubNode, 'AttributesPattern', AttributesPattern);
       // date/time
       AConfig.AddValue(SubNode, 'IsDateFrom', IsDateFrom);
