@@ -283,7 +283,7 @@ end;
 destructor TWatcherThread.Destroy;
 {$IF DEFINED(MSWINDOWS)}
 begin
-  if FNotifyHandle <> NULL then
+  if FNotifyHandle <> INVALID_HANDLE_VALUE then
     FindCloseChangeNotification(FNotifyHandle);
   inherited Destroy;
 end;
@@ -332,7 +332,7 @@ begin
   FFileHandle := -1;
   FNotifyHandle := -1;
   {$ELSEIF DEFINED(MSWINDOWS)}
-  FNotifyHandle := NULL;
+  FNotifyHandle := INVALID_HANDLE_VALUE;
   {$ENDIF}
 end;
 
