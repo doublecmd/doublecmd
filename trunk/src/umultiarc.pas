@@ -105,12 +105,14 @@ type
     FAdd,
     FAddMultiVolume,
     FAddSelfExtract: UTF8String;
+    FIDSeekRange: LongInt;
   public
     FEnabled: Boolean;
     FOutput: Boolean;
     FDebug: Boolean;
     constructor Create;
     destructor Destroy; override;
+    function CanYouHandleThisFile(const FileName: UTF8String): Boolean;
     property FID: AnsiString read FSignature write SetSignature;
     property FIDPos: AnsiString read FSignaturePosition write SetSignaturePosition;
   end;
@@ -212,6 +214,7 @@ begin
         FDescription:= TrimQuotes(IniFile.ReadString(Section, 'Description', EmptyStr));
         FID:= TrimQuotes(IniFile.ReadString(Section, 'ID', EmptyStr));
         FIDPos:= TrimQuotes(IniFile.ReadString(Section, 'IDPos', EmptyStr));
+        FIDSeekRange:= IniFile.ReadInteger(Section, 'IDSeekRange', 0);
         FExtension:= TrimQuotes(IniFile.ReadString(Section, 'Extension', EmptyStr));
         FStart:= TrimQuotes(IniFile.ReadString(Section, 'Start', EmptyStr));
         FEnd:= TrimQuotes(IniFile.ReadString(Section, 'End', EmptyStr));
@@ -264,6 +267,7 @@ begin
         IniFile.WriteString(Section, 'Description', FDescription);
         IniFile.WriteString(Section, 'ID', FID);
         IniFile.WriteString(Section, 'IDPos', FIDPos);
+        IniFile.WriteInteger(Section, 'IDSeekRange', FIDSeekRange);
         IniFile.WriteString(Section, 'Extension', FExtension);
         IniFile.WriteString(Section, 'Start', FStart);
         IniFile.WriteString(Section, 'End', FEnd);
@@ -370,6 +374,11 @@ begin
   FreeThenNil(FSignaturePositionList);
   FreeThenNil(FFormat);
   inherited Destroy;
+end;
+
+function TMultiArcItem.CanYouHandleThisFile(const FileName: UTF8String): Boolean;
+begin
+
 end;
 
 { TSignatureList }

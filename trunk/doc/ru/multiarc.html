@@ -283,6 +283,7 @@ p,ul,ol /* Paragraph Style */
 <p class=rvps4><span class=rvts21>IDPos = 0х3039</span></p>
 <p class=rvps4><span class=rvts21>Отрицательные значения в шестнадцатеричном виде описываются как 0xFFFFFFFF (-1 в десятичном)</span></p>
 <p class=rvps4><span class=rvts20>IDSeekRange</span><span class=rvts21> (необязательный) число байт, в котором MultiArc будет пытаться найти ID.Если параметр отсутствует, будет использовано меньшее из значений Размер_файла или 1Мбайт. Поиск всегда происходит от начала файла, SkipSfxHeader игнорируется. Это может замедлить открытие архивов или поиск в архиве. Если отсутствует IDPOS, тогда используется поиск ID в диаппазонеот начала файла до меньшего из значений -- (размер файла, IDSeekRange).</span></p>
+<!--
 <p class=rvps4><span class=rvts20>ExcludeIDs</span><span class=rvts21> (необязательный)&nbsp; Сигнатура при нахождении которой файл определяется как "Обработать не возможно". </span></p>
 <p class=rvps4><span class=rvts21>Данная возможность введена для корректной обработки файлов генерируемых программами InnoSetup, NSIS (NullSoft Instalation System) и возможно другими.</span></p>
 <p class=rvps4><span class=rvts21>Алгоритм работы данного параметра:</span></p>
@@ -319,6 +320,7 @@ p,ul,ol /* Paragraph Style */
 <p class=rvps4><span class=rvts21>0&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; 8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EOF </span></p>
 <p class=rvps4><span class=rvts21>xx xx xx xx xx 01 02 03 04 .............. 08&nbsp;&nbsp; правило (08,-1, 1)</span></p>
 <p class=rvps4><span class=rvts21>xx xx xx xx xx 01 03 02 xx .............. 08</span></p>
+-->
 <p class=rvps4><span class=rvts20>Extension</span><span class=rvts21> расширения, которые используются архивами (без точки).</span></p>
 <p class=rvps4><span class=rvts20>Description</span><span class=rvts21> Описание архиватора. Строка содержащая версию, автора и т.п. </span></p>
 <p class=rvps4><span class=rvts22>Пример:</span></p>
