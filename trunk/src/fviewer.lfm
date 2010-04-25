@@ -1,7 +1,7 @@
 object frmViewer: TfrmViewer
-  Left = 91
+  Left = 360
   Height = 530
-  Top = 51
+  Top = 297
   Width = 990
   HorzScrollBar.Page = 951
   VertScrollBar.Page = 491
@@ -178,7 +178,7 @@ object frmViewer: TfrmViewer
         Left = 280
         Height = 47
         Top = 1
-        Width = 90
+        Width = 135
         Align = alLeft
         AutoSize = True
         BorderSpacing.Left = 5
@@ -186,7 +186,7 @@ object frmViewer: TfrmViewer
         Caption = 'Highlight'
         ChildSizing.LeftRightSpacing = 4
         ClientHeight = 29
-        ClientWidth = 86
+        ClientWidth = 131
         TabOrder = 0
         Visible = False
         object lblHightlight: TLabel
@@ -252,11 +252,25 @@ object frmViewer: TfrmViewer
           NumGlyphs = 0
           OnClick = btnCutTuImageClick
         end
+        object btnRedEye: TSpeedButton
+          AnchorSideLeft.Control = btnCutTuImage
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = gboxHightlight
+          Left = 87
+          Height = 24
+          Top = 0
+          Width = 40
+          BorderSpacing.Left = 5
+          Caption = 'Red Eyes'
+          Color = clBtnFace
+          NumGlyphs = 0
+          OnClick = btnRedEyeClick
+        end
       end
       object gboxPaint: TGroupBox
         AnchorSideLeft.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 412
+        Left = 457
         Height = 47
         Top = 1
         Width = 203
@@ -860,7 +874,7 @@ object frmViewer: TfrmViewer
       end
       object btnPaint: TSpeedButton
         AnchorSideBottom.Side = asrBottom
-        Left = 375
+        Left = 420
         Height = 46
         Hint = 'Paint'
         Top = 1
