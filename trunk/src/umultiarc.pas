@@ -1,3 +1,25 @@
+{
+   Double Commander
+   -------------------------------------------------------------------------
+   Implementation of multi archiver support
+
+   Copyright (C) 2010  Koblov Alexander (Alexx2000@mail.ru)
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+}
+
 unit uMultiArc;
 
 {$mode objfpc}{$H+}
@@ -7,7 +29,41 @@ interface
 uses
   Classes, SysUtils, uTypes;
 
+const
+  MaxSignSize = 1024;
+
 type
+
+  TSignature = array[0..Pred(MaxSignSize)] of Byte;
+  PSignature = ^TSignature;
+
+  { TSignatureList }
+
+  TSignatureList = class(TFPList)
+  private
+    function GetSignature(Index: Integer): PSignature;
+  public
+    destructor Destroy; override;
+    procedure Clean;
+    property Items[Index: Integer]: PSignature read GetSignature; default;
+  end;
+
+  TSignaturePosition = record
+    Value: LongInt;
+    Sign: Boolean;
+  end;
+  PSignaturePosition = ^TSignaturePosition;
+
+  { TSignaturePositionList }
+
+  TSignaturePositionList = class(TFPList)
+  private
+    function GetSignaturePosition(Index: Integer): PSignaturePosition;
+  public
+    destructor Destroy; override;
+    procedure Clean;
+    property Items[Index: Integer]: PSignaturePosition read GetSignaturePosition; default;
+  end;
 
   { TArchiveItem }
 
@@ -28,11 +84,16 @@ type
   { TMultiArcItem }
 
   TMultiArcItem = class
+  private
+    FSignature,
+    FSignaturePosition: AnsiString;
+    FSignatureList: TSignatureList;
+    FSignaturePositionList: TSignaturePositionList;
+    procedure SetSignature(const AValue: AnsiString);
+    procedure SetSignaturePosition(const AValue: AnsiString);
   public
     FArchiver,
     FDescription,
-    FID,
-    FIDPos,
     FExtension,
     FStart,
     FEnd: UTF8String;
@@ -50,6 +111,8 @@ type
     FDebug: Boolean;
     constructor Create;
     destructor Destroy; override;
+    property FID: AnsiString read FSignature write SetSignature;
+    property FIDPos: AnsiString read FSignaturePosition write SetSignaturePosition;
   end;
 
   { TMultiArcList }
@@ -77,7 +140,7 @@ type
 implementation
 
 uses
-  LCLProc, uClassesEx, uDCUtils, uOSUtils;
+  LCLProc, StrUtils, uClassesEx, uDCUtils, uOSUtils;
 
 { TMultiArcList }
 
@@ -239,16 +302,122 @@ end;
 
 { TMultiArcItem }
 
+procedure TMultiArcItem.SetSignature(const AValue: AnsiString);
+var
+  I, J: Integer;
+  Sign: AnsiString;
+  Value: AnsiString;
+  Signature: PSignature;
+begin
+  FSignature:= AValue;
+  FSignatureList.Clean;
+  if AValue = EmptyStr then Exit;
+  I:= 0;
+  Value:= AValue;
+  repeat
+    New(Signature);
+    Sign:= Copy2SymbDel(Value, ',');
+    try
+      while (Sign <> EmptyStr) and (I < MaxSignSize) do
+      begin
+       Signature^[I]:= StrToInt('$' + Copy2SymbDel(Sign, #32));
+       Inc(I);
+      end;
+      FSignatureList.Add(Signature);
+    except
+      Dispose(Signature);
+    end;
+  until Value = EmptyStr;
+end;
+
+procedure TMultiArcItem.SetSignaturePosition(const AValue: AnsiString);
+var
+  SignPos,
+  Value: AnsiString;
+  SignaturePosition: PSignaturePosition;
+begin
+  FSignaturePosition:= AValue;
+  FSignaturePositionList.Clean;
+  if AValue = EmptyStr then Exit;
+  Value:= StringReplace(AValue, '0x', '$', [rfReplaceAll]);
+  repeat
+    New(SignaturePosition);
+    SignPos:= Copy2SymbDel(Value, ',');
+    try
+      while (SignPos <> EmptyStr) do
+      begin
+       SignaturePosition^.Value:= StrToInt(Copy2SymbDel(SignPos, ','));
+       SignaturePosition^.Sign:= not (SignaturePosition^.Value < 0);
+       SignaturePosition^.Value:= abs(SignaturePosition^.Value);
+      end;
+      FSignaturePositionList.Add(SignaturePosition);
+    except
+      Dispose(SignaturePosition);
+    end;
+  until Value = EmptyStr;
+end;
+
 constructor TMultiArcItem.Create;
 begin
+  FSignatureList:= TSignatureList.Create;
+  FSignaturePositionList:= TSignaturePositionList.Create;
   FFormat:= TStringList.Create;
 end;
 
 destructor TMultiArcItem.Destroy;
 begin
-  if Assigned(FFormat) then
-    FreeAndNil(FFormat);
+  FreeThenNil(FSignatureList);
+  FreeThenNil(FSignaturePositionList);
+  FreeThenNil(FFormat);
   inherited Destroy;
+end;
+
+{ TSignatureList }
+
+function TSignatureList.GetSignature(Index: Integer): PSignature;
+begin
+  Result:= PSignature(Get(Index));
+end;
+
+destructor TSignatureList.Destroy;
+begin
+  Clean;
+  inherited Destroy;
+end;
+
+procedure TSignatureList.Clean;
+var
+  I: Integer;
+begin
+  for I:= Count - 1 downto 0 do
+  begin
+    Dispose(Items[I]);
+    Delete(I);
+  end;
+end;
+
+{ TSignaturePositionList }
+
+function TSignaturePositionList.GetSignaturePosition(Index: Integer): PSignaturePosition;
+begin
+  Result:= PSignaturePosition(Get(Index));
+end;
+
+destructor TSignaturePositionList.Destroy;
+begin
+  Clean;
+  inherited Destroy;
+end;
+
+procedure TSignaturePositionList.Clean;
+var
+  I: Integer;
+begin
+  for I:= Count - 1 downto 0 do
+  begin
+    Dispose(Items[I]);
+    Delete(I);
+  end;
 end;
 
 end.
