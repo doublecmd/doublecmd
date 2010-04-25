@@ -90,6 +90,8 @@ type
 
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation; override;
 
+    class function CreateByArchiveSign(anArchiveFileSource: IFileSource;
+                                       anArchiveFileName: String): IMultiArchiveFileSource;
     class function CreateByArchiveType(anArchiveFileSource: IFileSource;
                                        anArchiveFileName, anArchiveType: String): IMultiArchiveFileSource;
     class function CreateByArchiveName(anArchiveFileSource: IFileSource;
@@ -116,6 +118,34 @@ uses
   uMultiArchiveExecuteOperation,
   uMultiArchiveTestArchiveOperation
   ;
+
+class function TMultiArchiveFileSource.CreateByArchiveSign(anArchiveFileSource: IFileSource;
+                                                           anArchiveFileName: String): IMultiArchiveFileSource;
+var
+  I: Integer;
+  aMultiArcItem: TMultiArcItem;
+begin
+  Result := nil;
+
+  // Check if there is a registered addon for the archive file by content.
+  for I := 0 to gMultiArcList.Count - 1 do
+  begin
+    aMultiArcItem:= gMultiArcList.Items[I];
+
+    if (aMultiArcItem.FEnabled) and (aMultiArcItem.FID <> EmptyStr) then
+    begin
+      if aMultiArcItem.CanYouHandleThisFile(anArchiveFileName) then
+      begin
+        Result := TMultiArchiveFileSource.Create(anArchiveFileSource,
+                                                 anArchiveFileName,
+                                                 aMultiArcItem);
+
+        DebugLn('Found registered addon "' + aMultiArcItem.FDescription + '" for archive ' + anArchiveFileName);
+        Break;
+      end;
+    end;
+  end;
+end;
 
 class function TMultiArchiveFileSource.CreateByArchiveType(
     anArchiveFileSource: IFileSource;
@@ -493,4 +523,4 @@ begin
 end;
 
 end.
-
+

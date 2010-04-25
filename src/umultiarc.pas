@@ -88,6 +88,7 @@ type
 
   TMultiArcItem = class
   private
+    FSeekAfterSignPos: Boolean;
     FSignature,
     FSignaturePosition: AnsiString;
     FSignatureList: TSignatureList;
@@ -217,7 +218,7 @@ begin
         FDescription:= TrimQuotes(IniFile.ReadString(Section, 'Description', EmptyStr));
         FID:= TrimQuotes(IniFile.ReadString(Section, 'ID', EmptyStr));
         FIDPos:= TrimQuotes(IniFile.ReadString(Section, 'IDPos', EmptyStr));
-        FIDSeekRange:= IniFile.ReadInteger(Section, 'IDSeekRange', 0);
+        FIDSeekRange:= IniFile.ReadInteger(Section, 'IDSeekRange', 1024 * 1024);
         FExtension:= TrimQuotes(IniFile.ReadString(Section, 'Extension', EmptyStr));
         FStart:= TrimQuotes(IniFile.ReadString(Section, 'Start', EmptyStr));
         FEnd:= TrimQuotes(IniFile.ReadString(Section, 'End', EmptyStr));
@@ -349,19 +350,19 @@ begin
   if AValue = EmptyStr then Exit;
   Value:= StringReplace(AValue, '0x', '$', [rfReplaceAll]);
   repeat
-    New(SignaturePosition);
-    SignPos:= Copy2SymbDel(Value, ',');
-    try
-      while (SignPos <> EmptyStr) do
-      begin
-       SignaturePosition^.Value:= StrToInt(Copy2SymbDel(SignPos, ','));
-       SignaturePosition^.Sign:= not (SignaturePosition^.Value < 0);
-       SignaturePosition^.Value:= abs(SignaturePosition^.Value);
+    SignPos:= Trim(Copy2SymbDel(Value, ','));
+    if SignPos = '<SeekID>' then
+      FSeekAfterSignPos:= True
+    else
+      try
+        New(SignaturePosition);
+        SignaturePosition^.Value:= StrToInt(SignPos);
+        SignaturePosition^.Sign:= not (SignaturePosition^.Value < 0);
+        SignaturePosition^.Value:= abs(SignaturePosition^.Value);
+        FSignaturePositionList.Add(SignaturePosition);
+      except
+        Dispose(SignaturePosition);
       end;
-      FSignaturePositionList.Add(SignaturePosition);
-    except
-      Dispose(SignaturePosition);
-    end;
   until Value = EmptyStr;
 end;
 
@@ -399,8 +400,8 @@ begin
     for J:= 0 to FSignatureList.Count - 1 do
       dwMaxSignSize := Max(FSignatureList[J]^.Size, dwMaxSignSize);
     {
-    if (SkipSfxPart) then
-      dwOffset := SfxOffset
+    if (FSkipSfxPart) then
+      dwOffset := FSfxOffset
     }
     lpBuffer:= GetMem(dwMaxSignSize);
     if Assigned(lpBuffer) then
@@ -427,12 +428,12 @@ begin
       end;
     finally
       FreeMem(lpBuffer);
+      FileClose(hFile);
     end; // if Assigned(lpBuffer)
-    FileClose(hFile);
   end;
 
   // Try raw seek id
-  if (Result = False) then // and SeekAfterIDPos then
+  if (Result = False) and FSeekAfterSignPos then
   begin
     FillByte(FileMapRec, SizeOf(FileMapRec), 0);
     if MapFile(FileName, FileMapRec) then
