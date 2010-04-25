@@ -34,7 +34,10 @@ const
 
 type
 
-  TSignature = array[0..Pred(MaxSignSize)] of Byte;
+  TSignature = record
+    Value: array[0..Pred(MaxSignSize)] of Byte;
+    Size: LongInt;
+  end;
   PSignature = ^TSignature;
 
   { TSignatureList }
@@ -142,7 +145,7 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, uClassesEx, uDCUtils, uOSUtils;
+  LCLProc, StrUtils, Math, uClassesEx, uDCUtils, uOSUtils;
 
 { TMultiArcList }
 
@@ -324,9 +327,10 @@ begin
     try
       while (Sign <> EmptyStr) and (I < MaxSignSize) do
       begin
-       Signature^[I]:= StrToInt('$' + Copy2SymbDel(Sign, #32));
+       Signature^.Value[I]:= StrToInt('$' + Copy2SymbDel(Sign, #32));
        Inc(I);
       end;
+      Signature^.Size:= I;
       FSignatureList.Add(Signature);
     except
       Dispose(Signature);
@@ -377,8 +381,75 @@ begin
 end;
 
 function TMultiArcItem.CanYouHandleThisFile(const FileName: UTF8String): Boolean;
+var
+  FileMapRec : TFileMapRec;
+  hFile: THandle;
+  I, J: LongInt;
+  lpBuffer: PByte = nil;
+  Origin: LongInt;
+  dwMaxSignSize: LongWord = 0;
+  dwReaded: LongWord;
+  dwOffset: LongWord = 0;
 begin
+  Result:= False;
+  hFile:= mbFileOpen(FileName,  fmOpenRead or fmShareDenyNone);
+  if hFile <> feInvalidHandle then
+  begin
+    // Determine maximum signature size
+    for J:= 0 to FSignatureList.Count - 1 do
+      dwMaxSignSize := Max(FSignatureList[J]^.Size, dwMaxSignSize);
+    {
+    if (SkipSfxPart) then
+      dwOffset := SfxOffset
+    }
+    lpBuffer:= GetMem(dwMaxSignSize);
+    if Assigned(lpBuffer) then
+    try
+      // Try to determine by IDPOS
+      for I:= 0 to FSignaturePositionList.Count - 1 do
+      begin
+        case FSignaturePositionList[I]^.Sign of
+          True: Origin:= fsFromBeginning;
+          False: Origin:= fsFromEnd;
+        end;
+        if (FileSeek(hFile, dwOffset + FSignaturePositionList[I]^.Value, Origin) <> -1) then
+        begin
+          dwReaded:= FileRead(hFile, lpBuffer^, dwMaxSignSize);
+          if (dwReaded = dwMaxSignSize) then
+          begin
+            for J := 0 to FSignatureList.Count - 1 do
+            begin
+              if(CompareByte(lpBuffer^, FSignatureList[J]^.Value, FSignatureList[J]^.Size) = 0) then
+                Exit(True);
+            end;
+          end;
+        end;
+      end;
+    finally
+      FreeMem(lpBuffer);
+    end; // if Assigned(lpBuffer)
+    FileClose(hFile);
+  end;
 
+  // Try raw seek id
+  if (Result = False) then // and SeekAfterIDPos then
+  begin
+    FillByte(FileMapRec, SizeOf(FileMapRec), 0);
+    if MapFile(FileName, FileMapRec) then
+    try
+      dwOffset:= Min(FIDSeekRange, FileMapRec.FileSize);
+      for I:= 0 to dwOffset do
+      begin
+        for J:= 0 to FSignatureList.Count - 1 do
+        begin
+          if(CompareByte((FileMapRec.MappedFile + I)^, FSignatureList[J]^.Value, FSignatureList[J]^.Size) = 0) then
+            Exit(True);
+        end;
+      end;
+    finally
+      UnMapFile(FileMapRec);
+    end;
+  end;
 end;
 
 { TSignatureList }
