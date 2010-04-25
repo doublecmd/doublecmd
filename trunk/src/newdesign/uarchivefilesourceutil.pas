@@ -64,7 +64,7 @@ begin
       if not Assigned(Result) then
       begin
         if ArchiveSign then
-
+          Result := TMultiArchiveFileSource.CreateByArchiveSign(SourceFileSource, ArchiveFileName)
         else
           Result := TMultiArchiveFileSource.CreateByArchiveType(SourceFileSource, ArchiveFileName, ArchiveType);
       end;
@@ -239,4 +239,4 @@ begin
 end;
 
 end.
-
+
