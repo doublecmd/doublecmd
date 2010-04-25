@@ -95,6 +95,7 @@ type
     btnPaint: TSpeedButton;
     btnFullScreen: TSpeedButton;
     seTimeShow: TSpinEdit;
+    btnRedEye: TSpeedButton;
     Status: TStatusBar;
     MainMenu: TMainMenu;
     miFile: TMenuItem;
@@ -122,7 +123,7 @@ type
     procedure btnCutTuImageClick(Sender: TObject);
     procedure btnFullScreenClick(Sender: TObject);
     procedure btnPaintHightlight(Sender: TObject);
-    procedure btnRedEyesClick(Sender: TObject);
+    procedure btnRedEyeClick(Sender: TObject);
     procedure btnReloadClick(Sender: TObject);
     procedure btnResizeClick(Sender: TObject);
     procedure btnScreenshotClick(Sender: TObject);
@@ -373,7 +374,7 @@ begin
           miWrapTextClick(Sender);
           Key := #0;
         end;
-      '9':
+      'F', 'f':
         begin
           miFullScreenClick(Sender);
           Key := #0;
@@ -524,6 +525,10 @@ begin
               EndX:=X+tmpX;
               EndY:=Y+tmpY;
             end;
+            if StartX<0 then StartX:=0;
+            if StartY<0 then StartY:=0;
+            if endX> Image.Picture.Width then endX:=Image.Picture.Width;
+            if endY> Image.Picture.Height then endY:=Image.Picture.Height;
             with Image.Picture.Bitmap.Canvas do
               begin
                 DrawFocusRect(Rect(UndoSX,UndoSY,UndoEX,UndoEY));
@@ -640,17 +645,55 @@ begin
   UndoTmp;
   tmp:=TBitMap.Create;
   tmp.Width:= EndX-StartX;
-  tmp.Height:=EndY-StartY;
-  for y:=StartY to EndY do
+  tmp.Height:= EndY-StartY;
+  for x:=0 to (EndX-StartX) div 2 do
      begin
-       for x:=StartX to EndX do
+       for y:=0 to (EndY-StartY) div 2  do
           begin
-            col:=Image.Picture.Bitmap.Canvas.Pixels[x,y];
+          if y<round(sqrt((1-(sqr(x)/sqr((EndX-StartX)/2)))*sqr((EndY-StartY)/2))) then
+            begin
+            col:=Image.Picture.Bitmap.Canvas.Pixels[x+StartX+(EndX-StartX) div 2,y+StartY+(EndY-StartY) div 2];
             r:=GetRValue(col);
             g:=GetGValue(col);
             b:=GetBValue(col);
             if (r>100) and (g<100) and (b<100) then r:=b;
-            tmp.Canvas.Pixels[x-StartX,y-StartY]:= rgb(r,g,b);
+            tmp.Canvas.Pixels[x+(EndX-StartX) div 2,y+(EndY-StartY) div 2]:= rgb(r,g,b);
+
+            col:=Image.Picture.Bitmap.Canvas.Pixels[StartX-x+(EndX-StartX) div 2,y+StartY+(EndY-StartY) div 2];
+            r:=GetRValue(col);
+            g:=GetGValue(col);
+            b:=GetBValue(col);
+            if (r>100) and (g<100) and (b<100) then r:=b;
+            tmp.Canvas.Pixels[(EndX-StartX) div 2-x,y+(EndY-StartY) div 2]:= rgb(r,g,b);
+
+            col:=Image.Picture.Bitmap.Canvas.Pixels[StartX+x+(EndX-StartX) div 2,StartY-y+(EndY-StartY) div 2];
+            r:=GetRValue(col);
+            g:=GetGValue(col);
+            b:=GetBValue(col);
+            if (r>100) and (g<100) and (b<100) then r:=b;
+            tmp.Canvas.Pixels[(EndX-StartX) div 2+x,(EndY-StartY) div 2-y]:= rgb(r,g,b);
+
+            col:=Image.Picture.Bitmap.Canvas.Pixels[StartX-x+(EndX-StartX) div 2,StartY-y+(EndY-StartY) div 2];
+            r:=GetRValue(col);
+            g:=GetGValue(col);
+            b:=GetBValue(col);
+            if (r>100) and (g<100) and (b<100) then r:=b;
+            tmp.Canvas.Pixels[(EndX-StartX) div 2-x,(EndY-StartY) div 2-y]:= rgb(r,g,b);
+          end
+       else
+          begin
+            col:=Image.Picture.Bitmap.Canvas.Pixels[x+StartX+(EndX-StartX) div 2,y+StartY+(EndY-StartY) div 2];
+            tmp.Canvas.Pixels[x+(EndX-StartX) div 2,y+(EndY-StartY) div 2]:= col;
+
+            col:=Image.Picture.Bitmap.Canvas.Pixels[StartX-x+(EndX-StartX) div 2,y+StartY+(EndY-StartY) div 2];
+            tmp.Canvas.Pixels[(EndX-StartX) div 2-x,y+(EndY-StartY) div 2]:= col;
+
+            col:=Image.Picture.Bitmap.Canvas.Pixels[StartX+x+(EndX-StartX) div 2,StartY-y+(EndY-StartY) div 2];
+            tmp.Canvas.Pixels[(EndX-StartX) div 2+x,(EndY-StartY) div 2-y]:= col;
+
+            col:=Image.Picture.Bitmap.Canvas.Pixels[StartX-x+(EndX-StartX) div 2,StartY-y+(EndY-StartY) div 2];
+            tmp.Canvas.Pixels[(EndX-StartX) div 2-x,(EndY-StartY) div 2-y]:= col;
+          end;
           end;
      end;
   Image.Picture.Bitmap.Canvas.Draw (StartX,StartY,tmp);
@@ -660,7 +703,6 @@ end;
 
 procedure TfrmViewer.CutToImage;
 begin
-  CheckXY;
   UndoTmp;
   Image.Picture.Bitmap.Canvas.CopyRect(rect(0,0,EndX-StartX,EndY-StartY), Image.Picture.Bitmap.Canvas, rect(startX,StartY,EndX,EndY));
   Image.Picture.Bitmap.SetSize (EndX-StartX,EndY-StartY);
@@ -685,8 +727,6 @@ procedure TfrmViewer.CheckXY;                       //Устанавливает правильные к
 var
   tmp, RealWidth, RealHeight: integer;
 begin
-  RealWidth:=Image.Picture.Width*Round(Image.Picture.Width/Image.Width);                      // for correct paint after zoom
-  RealHeight:=Image.Picture.Height*Round(Image.Picture.Height/Image.Height);
   if EndX<StartX then
     begin
       tmp:=StartX;
@@ -699,10 +739,6 @@ begin
       StartY:=EndY;
       EndY:=tmp
     end;
-  if EndX> RealWidth then EndX := RealWidth;
-  if EndY> RealHeight then EndY := RealHeight;
-  if StartX<0 then StartX:=0;
-  If StartY<0 then StartY:=0;
 end;
 
 procedure TfrmViewer.Res (W, H: integer);
@@ -1251,7 +1287,7 @@ begin
   CreateTmp;
 end;
 
-procedure TfrmViewer.btnRedEyesClick(Sender: TObject);
+procedure TfrmViewer.btnRedEyeClick(Sender: TObject);
 begin
   RedEyes;
 end;
