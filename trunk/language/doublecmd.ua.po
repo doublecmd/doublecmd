@@ -1459,7 +1459,7 @@ msgstr "*"
 #: TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION
 msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
 msgid "Follow symlinks"
-msgstr ""
+msgstr "Слідувати за посиланнями"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
@@ -4229,17 +4229,17 @@ msgstr "на 90° праворуч"
 
 #: TFRMVIEWER.BTNCUTTUIMAGE.CAPTION
 msgid "Crop"
-msgstr ""
+msgstr "Обрізати"
 
 #: TFRMVIEWER.BTNFULLSCREEN.HINT
 msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
 msgid "Full Screen"
-msgstr ""
+msgstr "На весь екран"
 
 #: TFRMVIEWER.BTNHIGHTLIGHT.HINT
 msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
-msgstr ""
+msgstr "Виділити"
 
 #: TFRMVIEWER.BTNMIRROR.HINT
 msgctxt "TFRMVIEWER.BTNMIRROR.HINT"
@@ -4249,19 +4249,19 @@ msgstr "Дзеркально"
 #: TFRMVIEWER.BTNPAINT.HINT
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
-msgstr ""
+msgstr "Малювати"
 
 #: TFRMVIEWER.BTNRELOAD.HINT
 msgid "Reload"
-msgstr ""
+msgstr "Перезавантажити"
 
 #: TFRMVIEWER.BTNRESIZE.CAPTION
 msgid "Resize"
-msgstr ""
+msgstr "Змінити розмір"
 
 #: TFRMVIEWER.BTNSCREENSHOT.CAPTION
 msgid "Screenshot"
-msgstr ""
+msgstr "Скріншот"
 
 #: TFRMVIEWER.BTNUNDO.HINT
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
@@ -4286,11 +4286,11 @@ msgstr "Переглядач"
 #: TFRMVIEWER.CBSLIDESHOW.CAPTION
 msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
 msgid "Slide Show"
-msgstr ""
+msgstr "Слайд-шоу"
 
 #: TFRMVIEWER.COMBOBOXPAINT.TEXT
 msgid "Pen"
-msgstr ""
+msgstr "Ручка"
 
 #: TFRMVIEWER.COMBOBOXWIDTH.TEXT
 msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
@@ -4300,17 +4300,17 @@ msgstr "1"
 #: TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION
 msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
 msgid "Highlight"
-msgstr ""
+msgstr "Виділити"
 
 #: TFRMVIEWER.GBOXPAINT.CAPTION
 msgctxt "TFRMVIEWER.GBOXPAINT.CAPTION"
 msgid "Paint"
-msgstr ""
+msgstr "Малювати"
 
 #: TFRMVIEWER.GBOXSLIDESHOW.CAPTION
 msgctxt "TFRMVIEWER.GBOXSLIDESHOW.CAPTION"
 msgid "Slide Show"
-msgstr ""
+msgstr "Слайд-шоу"
 
 #: TFRMVIEWER.GBOXVIEW.CAPTION
 msgctxt "TFRMVIEWER.GBOXVIEW.CAPTION"
@@ -4319,7 +4319,7 @@ msgstr "Перегляд"
 
 #: TFRMVIEWER.LBLHIGHTLIGHT.CAPTION
 msgid "0x0"
-msgstr ""
+msgstr "0x0"
 
 #: TFRMVIEWER.MI180.CAPTION
 msgid "+ 180"
@@ -4396,7 +4396,7 @@ msgstr "&Файл"
 #: TFRMVIEWER.MIFULLSCREEN.CAPTION
 msgctxt "TFRMVIEWER.MIFULLSCREEN.CAPTION"
 msgid "Full Screen"
-msgstr ""
+msgstr "На весь екран"
 
 #: TFRMVIEWER.MIGRAPHICS.CAPTION
 msgid "Graphics"
@@ -4438,31 +4438,31 @@ msgstr "Обертати"
 
 #: TFRMVIEWER.MISAVE.CAPTION
 msgid "Save"
-msgstr ""
+msgstr "Зберегти"
 
 #: TFRMVIEWER.MISAVEAS.CAPTION
 msgid "Save As..."
-msgstr ""
+msgstr "Зберегти як..."
 
 #: TFRMVIEWER.MISAVEASBMP.CAPTION
 msgid "Bmp"
-msgstr ""
+msgstr "Bmp"
 
 #: TFRMVIEWER.MISAVEASJPG.CAPTION
 msgid "Jpg"
-msgstr ""
+msgstr "Jpg"
 
 #: TFRMVIEWER.MISAVEASPNG.CAPTION
 msgid "Png"
-msgstr ""
+msgstr "Png"
 
 #: TFRMVIEWER.MISAVETOICO.CAPTION
 msgid "Ico"
-msgstr ""
+msgstr "Ico"
 
 #: TFRMVIEWER.MISAVETOPNM.CAPTION
 msgid "Pnm"
-msgstr ""
+msgstr "Pnm"
 
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
