@@ -366,11 +366,12 @@ type
   protected
     procedure CreateDefault(AOwner: TWinControl); override;
 
-    procedure SetCurrentPath(NewPath: String); override;
     function GetActiveFile: TFile; override;
     function GetDisplayedFiles: TFiles; override;
     function GetSelectedFiles: TFiles; override;
     procedure SetSorting(NewSortings: TFileSortings); override;
+
+    procedure AfterChangePath(NewPath: String); override;
 
   public
     ActiveColm: String;
@@ -412,7 +413,6 @@ type
     procedure DoDragDropOperation(Operation: TDragDropOperation;
                                   var DropParams: TDropParams); override;
 
-    property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property GridVertLine: Boolean read GetGridVertLine write SetGridVertLine;
     property GridHorzLine: Boolean read GetGridHorzLine write SetGridHorzLine;
 
@@ -1299,54 +1299,17 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.SetCurrentPath(NewPath: String);
+procedure TColumnsFileView.AfterChangePath(NewPath: String);
 begin
-  if NewPath <> '' then
-  begin
-    if Assigned(OnBeforeChangeDirectory) then
-      if not OnBeforeChangeDirectory(Self, NewPath) then
-        Exit;
+  inherited AfterChangePath(NewPath);
 
-    if not FileSource.SetCurrentWorkingDirectory(NewPath) then
-    begin
-      msgError(Format(rsMsgChDirFailed, [NewPath]));
-      Exit;   // chdir failed
-    end;
+  FUpdatingGrid := True;
+  dgPanel.Row := 0;
+  FUpdatingGrid := False;
 
-{
-    AddDirToHistory(fActiveDir);
-}
-    inherited SetCurrentPath(NewPath);
-
-    LastActiveFile := '';
-    RequestedActiveFile := '';
-    FUpdatingGrid := True;
-    dgPanel.Row := 0;
-    FUpdatingGrid := False;
-
-    if (fspDirectAccess in FileSource.GetProperties) then
-      begin
-        if gTermWindow and Assigned(Cons) then
-          Cons.Terminal.SetCurrentDir(NewPath);
-      end;
-
-    MakeFileSourceFileList;
-
-    UpdatePathLabel;
-
-    if Assigned(OnAfterChangeDirectory) then
-      OnAfterChangeDirectory(Self, CurrentPath);
-  end;
+  MakeFileSourceFileList;
+  UpdatePathLabel;
 end;
-
-{
-History should include FileSource type as well as address and path.
-procedure TColumnsFileView.AddDirToHistory(const Directory: String);
-begin
-  if glsDirHistory.IndexOf(fActiveDir)=-1 then
-    glsDirHistory.Insert(0,fActiveDir);
-end;
-}
 
 procedure TColumnsFileView.ChooseFile(AFile: TColumnsViewFile; FolderMode: Boolean = False);
 begin

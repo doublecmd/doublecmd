@@ -59,7 +59,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion: String = '0.4.6.r2345';
+  hkVersion: String = '0.4.6.r2754';
   ConfigVersion = '1';
 
 var
@@ -347,6 +347,8 @@ begin
       AddHotKeyEx('Ctrl+Down','cm_ShowCmdLineHistory','','FrmMain','FrmMain');
       AddHotKeyEx('Ctrl+Enter','cm_AddFilenameToCmdLine','','FrmMain','FrmMain');
       AddHotKeyEx('Shift+Ctrl+Enter','cm_AddPathAndFilenameToCmdLine','','FrmMain','FrmMain');
+      AddHotKeyEx('Alt+Left','cm_ViewHistoryPrev','','FrmMain','FrmMain');
+      AddHotKeyEx('Alt+Right','cm_ViewHistoryNext','','FrmMain','FrmMain');
 //      AddHotKeyEx('','cm_','','FrmMain','FrmMain');
     end;
 end;
@@ -1704,4 +1706,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.
