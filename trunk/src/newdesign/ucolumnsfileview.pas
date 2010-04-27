@@ -2428,7 +2428,7 @@ begin
     CurrentPath := lblPath.SelectedDir;
   end
   else
-    Actions.cm_DirHistory('');
+    Actions.cm_ViewHistory('');
 end;
 
 procedure TColumnsFileView.lblPathMouseUp(Sender: TObject; Button: TMouseButton;

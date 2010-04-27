@@ -68,8 +68,12 @@ type
     function GetNotebookPage: TCustomPage;
 
     function GetCurrentFileSource: IFileSource;
+    function GetCurrentFileSourceIndex: Integer;
+    function GetCurrentPathIndex: Integer;
     function GetFileSource(Index: Integer): IFileSource;
     function GetFileSourcesCount: Integer;
+    function GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
+    function GetPathsCount(FileSourceIndex: Integer): Integer;
 
     procedure ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
 
@@ -192,11 +196,15 @@ type
     procedure GoToPrevHistory;
     procedure GoToNextHistory;
 
-    property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentAddress: String read GetCurrentAddress;
+    property CurrentFileSourceIndex: Integer read GetCurrentFileSourceIndex;
+    property CurrentPath: String read GetCurrentPath write SetCurrentPath;
+    property CurrentPathIndex: Integer read GetCurrentPathIndex;
     property FileSource: IFileSource read GetCurrentFileSource;
     property FileSources[Index: Integer]: IFileSource read GetFileSource;
     property FileSourcesCount: Integer read GetFileSourcesCount;
+    property Path[FileSourceIndex, PathIndex: Integer]: UTF8String read GetPath;
+    property PathsCount[FileSourceIndex: Integer]: Integer read GetPathsCount;
 
     {en
        Currently active file.
@@ -546,6 +554,16 @@ begin
   Result := FHistory.CurrentFileSource;
 end;
 
+function TFileView.GetCurrentFileSourceIndex: Integer;
+begin
+  Result := FHistory.CurrentFileSourceIndex;
+end;
+
+function TFileView.GetCurrentPathIndex: Integer;
+begin
+  Result := FHistory.CurrentPathIndex;
+end;
+
 function TFileView.GetFileSource(Index: Integer): IFileSource;
 begin
   Result := FHistory.FileSource[Index];
@@ -554,6 +572,28 @@ end;
 function TFileView.GetFileSourcesCount: Integer;
 begin
   Result := FHistory.Count;
+end;
+
+function TFileView.GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
+begin
+  with FHistory do
+  begin
+    if (Count > 0) and (PathIndex >= 0) and (PathIndex < PathsCount[FileSourceIndex]) then
+      Result := Path[FileSourceIndex, PathIndex]
+    else
+      Result := EmptyStr;
+  end;
+end;
+
+function TFileView.GetPathsCount(FileSourceIndex: Integer): Integer;
+begin
+  with FHistory do
+  begin
+    if Count > 0 then
+      Result := PathsCount[FileSourceIndex]
+    else
+      Result := 0;
+  end;
 end;
 
 procedure TFileView.ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
