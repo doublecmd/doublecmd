@@ -514,8 +514,14 @@ type
     //check selected count and generate correct msg, parameters is lng indexs
     Function GetFileDlgStr(sLngOne, sLngMulti : String; Files: TFiles):String;
     procedure HotDirSelected(Sender:TObject);
+    procedure ViewHistorySelected(Sender:TObject);
+    procedure ViewHistoryPrevSelected(Sender:TObject);
+    procedure ViewHistoryNextSelected(Sender:TObject);
     procedure CreatePopUpHotDir;
     procedure CreatePopUpDirHistory;
+    procedure ShowFileViewHistory;
+    procedure ShowFileViewHistory(FromFileSourceIndex, FromPathIndex,
+                                  ToFileSourceIndex, ToPathIndex: Integer);
     procedure miHotAddClick(Sender: TObject);
     procedure miHotDeleteClick(Sender: TObject);
     procedure miHotConfClick(Sender: TObject);
@@ -609,6 +615,17 @@ uses
 var
   LastActiveWindow: TCustomForm = nil;
 {$ENDIF}
+
+function HistoryIndexesToTag(aFileSourceIndex, aPathIndex: Integer): Longint;
+begin
+  Result := (aFileSourceIndex << 16) or aPathIndex;
+end;
+
+procedure HistoryIndexesFromTag(aTag: Longint; out aFileSourceIndex, aPathIndex: Integer);
+begin
+  aFileSourceIndex := aTag >> 16;
+  aPathIndex := aTag and ((1<<16) - 1);
+end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 
@@ -1805,9 +1822,194 @@ begin
     mi.OnClick:= @HotDirSelected;
     pmDirHistory.Items.Add(mi);
   end;
-
 end;
 
+procedure TfrmMain.ShowFileViewHistory;
+begin
+  ShowFileViewHistory(-1, -1, -1, -1);
+end;
+
+procedure TfrmMain.ShowFileViewHistory(FromFileSourceIndex, FromPathIndex,
+                                       ToFileSourceIndex, ToPathIndex: Integer);
+const
+  MaxItemsShown = 20;
+var
+  ItemsBackward: Integer = 0;
+  ItemsForward: Integer = 0;
+
+  function GoBack(var FileSourceIndex, PathIndex: Integer): Boolean;
+  begin
+    if PathIndex = 0 then
+    begin
+      if FileSourceIndex = 0 then
+        Result := False
+      else
+      begin
+        Dec(FileSourceIndex);
+        PathIndex := ActiveFrame.PathsCount[FileSourceIndex] - 1;
+        Result := True;
+      end;
+    end
+    else
+    begin
+      Dec(PathIndex);
+      Result := True;
+    end;
+  end;
+
+  function GoForward(var FileSourceIndex, PathIndex: Integer): Boolean;
+  begin
+    if PathIndex = ActiveFrame.PathsCount[FileSourceIndex] - 1 then
+    begin
+      if FileSourceIndex = ActiveFrame.FileSourcesCount - 1 then
+        Result := False
+      else
+      begin
+        Inc(FileSourceIndex);
+        PathIndex := 0;
+        Result := True;
+      end;
+    end
+    else
+    begin
+      Inc(PathIndex);
+      Result := True;
+    end;
+  end;
+
+  procedure AddCaptionItem(s: String);
+  var
+    mi: TMenuItem;
+  begin
+    mi := TMenuItem.Create(pmDirHistory);
+    mi.Caption := s;
+    mi.Enabled := False;
+    pmDirHistory.Items.Add(mi);
+  end;
+
+  procedure FindBoundsBackward;
+  var
+    I: Integer;
+  begin
+    GoBack(ToFileSourceIndex, ToPathIndex);
+
+    FromFileSourceIndex := ToFileSourceIndex;
+    FromPathIndex := ToPathIndex;
+
+    for i := 0 to MaxItemsShown - 1 do
+    begin
+      if GoBack(FromFileSourceIndex, FromPathIndex) then
+        Inc(ItemsBackward);
+    end;
+  end;
+
+  procedure FindBoundsFromCenter;
+  var
+    I: Integer;
+  begin
+    FromFileSourceIndex := ActiveFrame.CurrentFileSourceIndex;
+    FromPathIndex := ActiveFrame.CurrentPathIndex;
+    ToFileSourceIndex := FromFileSourceIndex;
+    ToPathIndex := FromPathIndex;
+
+    for i := 0 to (MaxItemsShown div 2) - 1 do
+    begin
+      if GoBack(FromFileSourceIndex, FromPathIndex) then
+        Inc(ItemsBackward);
+      if GoForward(ToFileSourceIndex, ToPathIndex) then
+        Inc(ItemsForward);
+    end;
+
+    for i := ItemsForward to (MaxItemsShown div 2) - 1 do
+    begin
+      if GoBack(FromFileSourceIndex, FromPathIndex) then
+        Inc(ItemsBackward);
+    end;
+
+    for i := ItemsBackward to (MaxItemsShown div 2) - 1 do
+    begin
+      if GoForward(ToFileSourceIndex, ToPathIndex) then
+        Inc(ItemsForward);
+    end;
+  end;
+
+  procedure FindBoundsForward;
+  var
+    I: Integer;
+  begin
+    GoForward(FromFileSourceIndex, FromPathIndex);
+
+    ToFileSourceIndex := FromFileSourceIndex;
+    ToPathIndex := FromPathIndex;
+
+    for i := 0 to MaxItemsShown - 1 do
+    begin
+      if GoForward(ToFileSourceIndex, ToPathIndex) then
+        Inc(ItemsForward);
+    end;
+  end;
+
+var
+  I: Integer;
+  mi: TMenuItem;
+  p: TPoint;
+begin
+  pmDirHistory.Items.Clear;
+
+  if FromFileSourceIndex <> -1 then
+    FindBoundsForward
+  else if ToFileSourceIndex <> - 1 then
+    FindBoundsBackward
+  else
+    FindBoundsFromCenter;
+
+  if (FromFileSourceIndex > 0) or (FromPathIndex > 0) then
+  begin
+    mi := TMenuItem.Create(pmDirHistory);
+    mi.Caption := '...';
+    mi.OnClick := @ViewHistoryPrevSelected;
+    mi.Tag := HistoryIndexesToTag(FromFileSourceIndex, FromPathIndex);
+    pmDirHistory.Items.Add(mi);
+  end;
+
+  for i := 0 to ItemsForward + ItemsBackward do
+  begin
+    mi := TMenuItem.Create(pmDirHistory);
+    pmDirHistory.Items.Add(mi);
+
+    mi.Caption := ActiveFrame.Path[FromFileSourceIndex, FromPathIndex];
+    mi.OnClick := @ViewHistorySelected;
+    // Remember indexes into history.
+    mi.Tag := HistoryIndexesToTag(FromFileSourceIndex, FromPathIndex);
+    // Mark current history position.
+    if (FromFileSourceIndex = ActiveFrame.CurrentFileSourceIndex) and
+       (FromPathIndex = ActiveFrame.CurrentPathIndex) then
+      mi.Checked := True;
+
+    if not GoForward(FromFileSourceIndex, FromPathIndex) then
+      Break;
+
+    // Add separator and address of a file source as a caption.
+    if FromPathIndex = 0 then
+    begin
+      AddCaptionItem('-');
+      AddCaptionItem('- ' + ActiveFrame.FileSources[FromFileSourceIndex].CurrentAddress + ' -');
+    end;
+  end;
+
+  if (ToFileSourceIndex < ActiveFrame.FileSourcesCount - 1) or
+     (ToPathIndex < ActiveFrame.PathsCount[ToFileSourceIndex] - 1) then
+  begin
+    mi := TMenuItem.Create(pmDirHistory);
+    mi.Caption := '...';
+    mi.OnClick := @ViewHistoryNextSelected;
+    mi.Tag := HistoryIndexesToTag(ToFileSourceIndex, ToPathIndex);
+    pmDirHistory.Items.Add(mi);
+  end;
+
+  p := ActiveFrame.ClientToScreen(Classes.Point(0,0));
+  pmDirHistory.Popup(p.X, p.Y);
+end;
 
 procedure TfrmMain.CreatePopUpHotDir;
 var
@@ -1857,19 +2059,43 @@ procedure TfrmMain.HotDirSelected(Sender: TObject);
 var
   aPath: String;
 begin
-  // this handler is used by HotDir and DirHistory
+  // This handler is used by HotDir and DirHistory.
+  // Hot dirs are only supported by filesystem.
   aPath := (Sender as TMenuItem).Hint;
   aPath := mbExpandFileName(aPath);
+  SetFileSystemPath(ActiveFrame, aPath);
+end;
 
-  // Hot dirs only supported for filesystem.
-  if not ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
+procedure TfrmMain.ViewHistorySelected(Sender: TObject);
+var
+  FileSourceIndex, PathIndex: Integer;
+begin
+  if Sender is TMenuItem then
   begin
-    ActiveFrame.RemoveAllFileSources;
-    ActiveFrame.AddFileSource(TFileSystemFileSource.GetFileSource, aPath);
-  end
-  else
+    HistoryIndexesFromTag((Sender as TMenuItem).Tag, FileSourceIndex, PathIndex);
+    ActiveFrame.GoToHistoryIndex(FileSourceIndex, PathIndex);
+  end;
+end;
+
+procedure TfrmMain.ViewHistoryPrevSelected(Sender:TObject);
+var
+  FileSourceIndex, PathIndex: Integer;
+begin
+  if Sender is TMenuItem then
   begin
-    ActiveFrame.CurrentPath := aPath;
+    HistoryIndexesFromTag((Sender as TMenuItem).Tag, FileSourceIndex, PathIndex);
+    ShowFileViewHistory(-1, -1, FileSourceIndex, PathIndex);
+  end;
+end;
+
+procedure TfrmMain.ViewHistoryNextSelected(Sender:TObject);
+var
+  FileSourceIndex, PathIndex: Integer;
+begin
+  if Sender is TMenuItem then
+  begin
+    HistoryIndexesFromTag((Sender as TMenuItem).Tag, FileSourceIndex, PathIndex);
+    ShowFileViewHistory(FileSourceIndex, PathIndex, -1, -1);
   end;
 end;
 

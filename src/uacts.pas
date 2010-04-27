@@ -2286,18 +2286,20 @@ begin
     msgWarning(rsMsgNotImplemented);
 end;
 
+// Shows recently visited directories (global).
 procedure TActs.cm_DirHistory(param:string);
 var
   p:TPoint;
 begin
-  inherited;
   frmMain.CreatePopUpDirHistory;
   p:=frmMain.ActiveFrame.ClientToScreen(Classes.Point(0,0));
   frmMain.pmDirHistory.Popup(p.X,p.Y);
 end;
 
+// Shows browser-like history for active file view.
 procedure TActs.cm_ViewHistory(param:string);
 begin
+  frmMain.ShowFileViewHistory;
 end;
 
 procedure TActs.cm_ViewHistoryPrev(param: string='');
