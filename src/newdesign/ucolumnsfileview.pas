@@ -283,6 +283,11 @@ type
        Makes a new display file list and redisplays the changed list.
     }
     procedure ReDisplayFileList;
+    {en
+       Format and cache all columns strings.
+    }
+    procedure MakeColumnsStrings;
+    procedure MakeColumnsStrings(AFile: TColumnsViewFile);
 
     {en
        Prepares sortings for later use in Sort function.
@@ -2184,6 +2189,7 @@ var
   ModifierKeys: TShiftState;
   ScreenPoint: TPoint;
   UTF8Char: TUTF8Char;
+  aFile: TColumnsViewFile;
 begin
   ModifierKeys := GetKeyShiftStateEx;
 
@@ -2307,17 +2313,19 @@ begin
       begin
         if not IsEmpty then
         begin
-          if IsActiveItemValid then
+          aFile := GetActiveItem;
+          if IsItemValid(aFile) then
           begin
-            if GetActiveItem.TheFile.IsDirectory or
-               GetActiveItem.TheFile.IsLinkToDirectory then
+            if aFile.TheFile.IsDirectory or
+               aFile.TheFile.IsLinkToDirectory then
             begin
               Screen.Cursor := crHourGlass;
-              CalculateSpace(GetActiveItem);
+              CalculateSpace(aFile);
+              MakeColumnsStrings(aFile);
               Screen.Cursor := crDefault;
             end;
 
-            SelectFile(GetActiveItem);
+            SelectFile(aFile);
           end;
 
           if gSpaceMovesDown then
@@ -2927,24 +2935,8 @@ begin
 end;
 
 procedure TColumnsFileView.AfterMakeFileList;
-var
-  i, ACol: Integer;
-  ColumnsClass: TPanelColumnsClass;
-  AFile: TColumnsViewFile;
 begin
-  ColumnsClass := GetColumnsClass;
-
-  // Format and cache all columns strings.
-  for i := 0 to FFiles.Count - 1 do
-  begin
-    AFile := FFiles[i];
-    for ACol := 0 to ColumnsClass.Count - 1 do
-    begin
-      AFile.DisplayStrings.Add(ColumnsClass.GetColumnItemResultString(
-        ACol, AFile.TheFile, FileSource));
-    end;
-  end;
-
+  MakeColumnsStrings;
   DisplayFileListHasChanged;
   DoOnReload;
   dgPanel.Cursor := crDefault;
@@ -2989,6 +2981,41 @@ begin
   TColumnsFileListBuilder.MakeDisplayFileList(
     FileSource, FFileSourceFiles, FFiles, FileFilter);
   AfterMakeFileList;
+end;
+
+procedure TColumnsFileView.MakeColumnsStrings;
+var
+  i, ACol: Integer;
+  ColumnsClass: TPanelColumnsClass;
+  AFile: TColumnsViewFile;
+begin
+  ColumnsClass := GetColumnsClass;
+
+  for i := 0 to FFiles.Count - 1 do
+  begin
+    AFile := FFiles[i];
+    AFile.DisplayStrings.Clear;
+    for ACol := 0 to ColumnsClass.Count - 1 do
+    begin
+      AFile.DisplayStrings.Add(ColumnsClass.GetColumnItemResultString(
+        ACol, AFile.TheFile, FileSource));
+    end;
+  end;
+end;
+
+procedure TColumnsFileView.MakeColumnsStrings(AFile: TColumnsViewFile);
+var
+  ACol: Integer;
+  ColumnsClass: TPanelColumnsClass;
+begin
+  ColumnsClass := GetColumnsClass;
+
+  AFile.DisplayStrings.Clear;
+  for ACol := 0 to ColumnsClass.Count - 1 do
+  begin
+    AFile.DisplayStrings.Add(ColumnsClass.GetColumnItemResultString(
+      ACol, AFile.TheFile, FileSource));
+  end;
 end;
 
 procedure TColumnsFileView.Reload(const PathsToReload: TPathsArray);
@@ -3096,6 +3123,9 @@ begin
   finally
     Screen.Cursor := crDefault;
   end;
+
+  MakeColumnsStrings;
+  RedrawGrid;
 end;
 
 procedure TColumnsFileView.CalculateSpace(theFile: TColumnsViewFile);
