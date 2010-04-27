@@ -79,6 +79,9 @@ type
     actCopyNoAsk: TAction;
     actChangeDirToParent: TAction;
     actEditPath: TAction;
+    actViewHistory: TAction;
+    actViewHistoryPrev: TAction;
+    actViewHistoryNext: TAction;
     actLoadSelectionFromClip: TAction;
     actLoadSelectionFromFile: TAction;
     actSaveSelectionToFile: TAction;

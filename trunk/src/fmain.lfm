@@ -2191,6 +2191,18 @@ object frmMain: TfrmMain
       Caption = 'Edit path field above file list'
       OnExecute = actExecute
     end
+    object actViewHistory: TAction
+      Category = 'Commands'
+      Caption = 'Show history of visited paths for active view'
+    end
+    object actViewHistoryPrev: TAction
+      Category = 'Commands'
+      Caption = 'Go to previous entry in history'
+    end
+    object actViewHistoryNext: TAction
+      Category = 'Commands'
+      Caption = 'Go to next entry in history'
+    end
   end
   object pmHotList: TPopupMenu
     left = 120
