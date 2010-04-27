@@ -633,6 +633,7 @@ begin
       FColumnsSorting.AddSorting(SortColumn, SortDirection);
     end;
   end;
+  inherited SetSorting(PrepareSortings);
 end;
 
 procedure TColumnsFileView.SaveConfiguration(Section: String; TabIndex: Integer);
@@ -688,6 +689,7 @@ begin
       end;
       ANode := ANode.NextSibling;
     end;
+    inherited SetSorting(PrepareSortings);
   end;
 end;
 
@@ -2131,7 +2133,6 @@ begin
     ActiveColm := ColumnsClass.Name;
 
     SetColumnsWidths;
-    inherited SetSorting(PrepareSortings);
 
     dgPanel.FocusRectVisible := ColumnsClass.GetCursorBorder;
     dgPanel.FocusColor := ColumnsClass.GetCursorBorderColor;
