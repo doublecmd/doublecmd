@@ -498,6 +498,7 @@ type
     procedure DriveListDriveSelected(Sender: TObject; ADriveIndex: Integer;
       APanel: TFilePanelSelect);
     procedure DriveListClose(Sender: TObject);
+    procedure SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);
     procedure SetPanelDrive(aPanel: TFilePanelSelect; aPath: UTF8String);
 
   public
@@ -819,8 +820,6 @@ end;
 
 procedure TfrmMain.PanelButtonClick(Button: TSpeedButton; SourceFrame: TFileView;
                                     PanelSelect: TFilePanelSelect);
-var
-  i: Integer;
 begin
   with SourceFrame do
   begin
@@ -829,25 +828,7 @@ begin
     else if Button.Caption = '..' then
       CurrentPath := FileSource.GetParentDir(CurrentPath)
     else if Button.Caption = '~' then
-    begin
-      // Search for filesystem file source in this view, and remove others.
-      for i := FileSourcesCount - 1 downto 0 do
-      begin
-        if FileSources[i].IsClass(TFileSystemFileSource) then
-        begin
-          CurrentPath := GetHomeDir;
-          Break;
-        end
-        else
-          RemoveLastFileSource;
-      end;
-
-      if FileSourcesCount = 0 then
-      begin
-        // If not found, get a new filesystem file source.
-        AddFileSource(TFileSystemFileSource.GetFileSource, GetHomeDir);
-      end;
-    end;
+      SetFileSystemPath(SourceFrame, GetHomeDir);
   end;
 
   SetActiveFrame(PanelSelect);
@@ -2518,11 +2499,20 @@ begin
           LeftFrameWatcher.WatchPath:= NewDir
         else if (ANoteBook = nbRight) and Assigned(RightFrameWatcher) then
             RightFrameWatcher.WatchPath:= NewDir;
+
+        if glsDirHistory.IndexOf(NewDir) = -1 then
+          glsDirHistory.Insert(0, NewDir);
       end;
 
       UpdateSelectedDrive(ANoteBook);
       UpdateFreeSpace(ANoteBook.Side);
       UpdatePrompt;
+
+      {if (fspDirectAccess in Page.FileView.FileSource.GetProperties) then
+        begin
+          if gTermWindow and Assigned(Cons) then
+            Cons.Terminal.SetCurrentDir(NewDir);
+        end;}
     end;
 end;
 
@@ -4051,21 +4041,47 @@ begin
     end;
 end;
 
+procedure TfrmMain.SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);
+var
+  i: Integer;
+begin
+  // Search for filesystem file source in this view, and remove others.
+  with aFileView do
+  begin
+    for i := FileSourcesCount - 1 downto 0 do
+    begin
+      if FileSources[i].IsClass(TFileSystemFileSource) then
+      begin
+        CurrentPath := aPath;
+        Break;
+      end
+      else
+        RemoveLastFileSource;
+    end;
+
+    if FileSourcesCount = 0 then
+    begin
+      // If not found, get a new filesystem file source.
+      AddFileSource(TFileSystemFileSource.GetFileSource, aPath);
+    end;
+  end;
+end;
+
 procedure TfrmMain.SetPanelDrive(aPanel: TFilePanelSelect; aPath: UTF8String);
 var
-  FileView, OtherFileView: TFileView;
+  aFileView, OtherFileView: TFileView;
 begin
   if IsAvailable(aPath) then
   begin
     case aPanel of
       fpLeft:
         begin
-          FileView := FrameLeft;
+          aFileView := FrameLeft;
           OtherFileView := FrameRight;
         end;
       fpRight:
         begin
-          FileView := FrameRight;
+          aFileView := FrameRight;
           OtherFileView := FrameLeft;
         end;
     end;
@@ -4077,15 +4093,7 @@ begin
       aPath := OtherFileView.CurrentPath;
     end;
 
-    if not FileView.FileSource.IsClass(TFileSystemFileSource) then
-    begin
-      FileView.RemoveAllFileSources;
-      FileView.AddFileSource(TFileSystemFileSource.GetFileSource, aPath);
-    end
-    else
-    begin
-      FileView.CurrentPath := aPath;
-    end;
+    SetFileSystemPath(aFileView, aPath);
   end
   else
   begin

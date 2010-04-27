@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Controls, ExtCtrls,
   uFile, uFileSource, uMethodsList, uDragDropEx, uXmlConfig, uClassesEx,
-  uFileSorting;
+  uFileSorting, uFileViewHistory;
 
 type
 
@@ -33,12 +33,18 @@ type
   TFileView = class(TWinControl)
   private
     {en
-       The file sources hierarchy associated with this view.
-       Last element is the file source that is currently being viewed,
-       parent file source is (index-1) and so on up to zero (first file source).
+       History of viewed paths and file sources.
+
+       Contains:
+
+       - File sources hierarchy associated with this view.
+         Last element is the file source that is currently being viewed,
+         parent file source is (index-1) and so on up to zero (first file source).
+
+       - Visited paths history for each file source.
+         Last path is the currently viewed path.
     }
-    FFileSources: TFileSources;
-    FCurrentPaths: TStringList;   // always include trailing path delimiter
+    FHistory: TFileViewHistory;
     FSortings: TFileSortings;
     FLastActiveFile: String;      //<en Last active file (cursor)
     {en
@@ -47,7 +53,6 @@ type
        in the list on next reload.
     }
     FRequestedActiveFile: String;
-
 
     FMethods: TMethodsList;
 
@@ -62,7 +67,7 @@ type
 
     function GetNotebookPage: TCustomPage;
 
-    function GetLastFileSource: IFileSource;
+    function GetCurrentFileSource: IFileSource;
     function GetFileSource(Index: Integer): IFileSource;
     function GetFileSourcesCount: Integer;
 
@@ -89,13 +94,22 @@ type
     function GetSelectedFiles: TFiles; virtual abstract;
     procedure SetSorting(NewSortings: TFileSortings); virtual;
 
+    {en
+       Called before changing path. If returns @false the path is not changed.
+    }
+    function BeforeChangePath(NewPath: String): Boolean; virtual;
+    {en
+       Called after path is changed.
+    }
+    procedure AfterChangePath(NewPath: String); virtual;
+
     property LastActiveFile: String read FLastActiveFile write FLastActiveFile;
     property RequestedActiveFile: String read FRequestedActiveFile write FRequestedActiveFile;
 
   public
     constructor Create(AOwner: TWinControl;
-                       FileSource: IFileSource;
-                       Path: String); virtual reintroduce;
+                       AFileSource: IFileSource;
+                       APath: String); virtual reintroduce;
     constructor Create(AOwner: TWinControl;
                        AFileView: TFileView); virtual reintroduce;
     constructor Create(AOwner: TWinControl;
@@ -174,11 +188,14 @@ type
     procedure DoDragDropOperation(Operation: TDragDropOperation;
                                   var DropParams: TDropParams); virtual abstract;
 
+    procedure GoToHistoryIndex(aFileSourceIndex, aPathIndex: Integer);
+    procedure GoToPrevHistory;
+    procedure GoToNextHistory;
+
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentAddress: String read GetCurrentAddress;
-    property FileSource: IFileSource read GetLastFileSource;
+    property FileSource: IFileSource read GetCurrentFileSource;
     property FileSources[Index: Integer]: IFileSource read GetFileSource;
-//    property FileSourcesList: TFileSources read FFileSources;
     property FileSourcesCount: Integer read GetFileSourcesCount;
 
     {en
@@ -258,14 +275,13 @@ type
 implementation
 
 uses
-  uActs;
+  uActs, uLng, uShowMsg;
 
-constructor TFileView.Create(AOwner: TWinControl; FileSource: IFileSource; Path: String);
+constructor TFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String);
 begin
   CreateDefault(AOwner);
 
-  FFileSources.Add(FileSource);
-  FCurrentPaths.Add(IncludeTrailingPathDelimiter(Path));
+  FHistory.Add(AFileSource, aPath);
   FileSource.AddReloadEventListener(@ReloadEvent);
 end;
 
@@ -295,10 +311,9 @@ begin
   FOnChangeFileSource := nil;
   FOnActivate := nil;
   FOnReload := nil;
-  FFileSources := TFileSources.Create;
-  FCurrentPaths := TStringList.Create;
   FSortings := nil;
   FMethods := TMethodsList.Create(Self);
+  FHistory := TFileViewHistory.Create;
   FLastActiveFile := '';
   FRequestedActiveFile := '';
 
@@ -310,21 +325,21 @@ destructor TFileView.Destroy;
 var
   i: Integer;
 begin
-  for i := 0 to FFileSources.Count - 1 do
-    FFileSources.Items[i].RemoveReloadEventListener(@ReloadEvent);
+  for i := 0 to FileSourcesCount - 1 do
+    FHistory.FileSource[i].RemoveReloadEventListener(@ReloadEvent);
 
   RemoveAllFileSources;
 
   inherited;
 
   FreeAndNil(FMethods);
-  FreeAndNil(FFileSources);
-  FreeAndNil(FCurrentPaths);
+  FreeAndNil(FHistory);
 end;
 
 function TFileView.Clone(NewParent: TWinControl): TFileView;
 begin
   raise Exception.Create('Cannot create object of abstract class');
+  Result := nil; // For compiler warning.
 end;
 
 procedure TFileView.CloneTo(AFileView: TFileView);
@@ -339,8 +354,7 @@ begin
     AFileView.OnActivate := Self.OnActivate;
     AFileView.OnReload := Self.OnReload;
 
-    AFileView.FFileSources.Assign(Self.FFileSources);
-    AFileView.FCurrentPaths.Assign(Self.FCurrentPaths);
+    AFileView.FHistory.Assign(Self.FHistory);
     AFileView.FSortings := CloneSortings(Self.FSortings);
     AFileView.FLastActiveFile := Self.FLastActiveFile;
     AFileView.FRequestedActiveFile := Self.FRequestedActiveFile;
@@ -365,18 +379,19 @@ end;
 
 function TFileView.GetCurrentPath: String;
 begin
-  if FCurrentPaths.Count > 0 then
-    Result := FCurrentPaths.Strings[FCurrentPaths.Count - 1]
-  else
-    Result := '';
+  Result := FHistory.CurrentPath;
 end;
 
 procedure TFileView.SetCurrentPath(NewPath: String);
 begin
-  if NewPath <> '' then
-    NewPath := IncludeTrailingPathDelimiter(NewPath);
-
-  FCurrentPaths.Strings[FCurrentPaths.Count - 1] := NewPath;
+  if BeforeChangePath(NewPath) then
+  begin
+    FHistory.AddPath(NewPath); // Sets CurrentPath.
+    AfterChangePath(NewPath);
+    {$IFDEF DEBUG_HISTORY}
+    FHistory.DebugShow;
+    {$ENDIF}
+  end;
 end;
 
 function TFileView.GetActiveFile: TFile;
@@ -399,6 +414,35 @@ end;
 
 procedure TFileView.StopBackgroundWork;
 begin
+end;
+
+function TFileView.BeforeChangePath(NewPath: String): Boolean;
+begin
+  if NewPath <> '' then
+  begin
+    if Assigned(OnBeforeChangeDirectory) then
+      if not OnBeforeChangeDirectory(Self, NewPath) then
+        Exit(False);
+
+    if not FileSource.SetCurrentWorkingDirectory(NewPath) then
+    begin
+      msgError(Format(rsMsgChDirFailed, [NewPath]));
+      Exit(False);
+    end;
+
+    Result := True;
+  end
+  else
+    Result := False;
+end;
+
+procedure TFileView.AfterChangePath(NewPath: String);
+begin
+  LastActiveFile := '';
+  RequestedActiveFile := '';
+
+  if Assigned(OnAfterChangeDirectory) then
+    OnAfterChangeDirectory(Self, NewPath);
 end;
 
 procedure TFileView.ChangePathToParent(AllowChangingFileSource: Boolean);
@@ -451,16 +495,17 @@ begin
   end;
 end;
 
-procedure TFileView.AddFileSource(aFileSource: IFileSource;
-                                  aPath: String);
+procedure TFileView.AddFileSource(aFileSource: IFileSource; aPath: String);
 begin
   if Assigned(FileSource) then
     FileSource.RemoveReloadEventListener(@ReloadEvent);
-  FFileSources.Add(aFileSource);
-  FCurrentPaths.Add(IncludeTrailingPathDelimiter(aPath));
+  FHistory.Add(aFileSource, aPath);
   Reload;
   UpdateView;
   FileSource.AddReloadEventListener(@ReloadEvent);
+  {$IFDEF DEBUG_HISTORY}
+  FHistory.DebugShow;
+  {$ENDIF}
 end;
 
 procedure TFileView.RemoveLastFileSource;
@@ -468,11 +513,13 @@ begin
   if FileSourcesCount > 0 then
   begin
     FileSource.RemoveReloadEventListener(@ReloadEvent);
-    FFileSources.Delete(FFileSources.Count - 1);
-    FCurrentPaths.Delete(FCurrentPaths.Count - 1);
+    FHistory.DeleteFromCurrentFileSource;
     Reload;
     UpdateView;
     FileSource.AddReloadEventListener(@ReloadEvent);
+    {$IFDEF DEBUG_HISTORY}
+    FHistory.DebugShow;
+    {$ENDIF}
   end;
 end;
 
@@ -481,37 +528,32 @@ begin
   if FileSourcesCount > 0 then
   begin
     FileSource.RemoveReloadEventListener(@ReloadEvent);
-    FFileSources.Clear;
-    FCurrentPaths.Clear;
+    FHistory.Clear;
   end;
 end;
 
 procedure TFileView.AssignFileSources(const otherFileView: TFileView);
 begin
   FileSource.RemoveReloadEventListener(@ReloadEvent);
-  FFileSources.Assign(otherFileView.FFileSources);
-  FCurrentPaths.Assign(otherFileView.FCurrentPaths);
+  FHistory.Assign(otherFileView.FHistory);
   Reload;
   UpdateView;
   FileSource.AddReloadEventListener(@ReloadEvent);
 end;
 
-function TFileView.GetLastFileSource: IFileSource;
+function TFileView.GetCurrentFileSource: IFileSource;
 begin
-  if FFileSources.Count > 0 then
-    Result := FFileSources.Last as IFileSource
-  else
-    Result := nil;
+  Result := FHistory.CurrentFileSource;
 end;
 
 function TFileView.GetFileSource(Index: Integer): IFileSource;
 begin
-  Result := FFileSources.Items[Index] as IFileSource;
+  Result := FHistory.FileSource[Index];
 end;
 
 function TFileView.GetFileSourcesCount: Integer;
 begin
-  Result := FFileSources.Count;
+  Result := FHistory.Count;
 end;
 
 procedure TFileView.ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
@@ -536,6 +578,83 @@ begin
     FileListSorter.Sort;
   finally
     FreeAndNil(FileListSorter);
+  end;
+end;
+
+procedure TFileView.GoToHistoryIndex(aFileSourceIndex, aPathIndex: Integer);
+var
+  OldFileSourceIndex, OldPathIndex: Integer;
+begin
+  if aFileSourceIndex <> FHistory.CurrentFileSourceIndex then
+  begin
+    OldFileSourceIndex := FHistory.CurrentFileSourceIndex;
+    OldPathIndex := FHistory.CurrentPathIndex;
+
+    FileSource.RemoveReloadEventListener(@ReloadEvent);
+    FHistory.SetIndexes(aFileSourceIndex, aPathIndex);
+    if BeforeChangePath(FHistory.CurrentPath) then
+    begin
+      Reload;
+      UpdateView;
+    end
+    else
+      FHistory.SetIndexes(OldFileSourceIndex, OldPathIndex);
+    FileSource.AddReloadEventListener(@ReloadEvent);
+  end
+  else if aPathIndex <> FHistory.CurrentPathIndex then
+  begin
+    if BeforeChangePath(FHistory.Path[aFileSourceIndex, aPathIndex]) then
+    begin
+      FHistory.SetIndexes(aFileSourceIndex, aPathIndex);
+      AfterChangePath(FHistory.Path[aFileSourceIndex, aPathIndex]);
+    end;
+  end;
+
+  {$IFDEF DEBUG_HISTORY}
+  FHistory.DebugShow;
+  {$ENDIF}
+end;
+
+procedure TFileView.GoToPrevHistory;
+var
+  aFileSourceIndex, aPathIndex: Integer;
+begin
+  if FHistory.CurrentPathIndex > 0 then
+  begin
+    aFileSourceIndex := FHistory.CurrentFileSourceIndex;
+    aPathIndex := FHistory.CurrentPathIndex - 1;
+  end
+  else if FHistory.CurrentFileSourceIndex > 0 then
+  begin
+    aFileSourceIndex := FHistory.CurrentFileSourceIndex - 1;
+    aPathIndex := FHistory.PathsCount[aFileSourceIndex] - 1;
+  end
+  else
+    Exit;
+
+  GoToHistoryIndex(aFileSourceIndex, aPathIndex);
+end;
+
+procedure TFileView.GoToNextHistory;
+var
+  aFileSourceIndex, aPathIndex: Integer;
+begin
+  if FHistory.CurrentFileSourceIndex >= 0 then
+  begin
+    if FHistory.CurrentPathIndex < FHistory.PathsCount[FHistory.CurrentFileSourceIndex] - 1 then
+    begin
+      aFileSourceIndex := FHistory.CurrentFileSourceIndex;
+      aPathIndex := FHistory.CurrentPathIndex + 1;
+    end
+    else if FHistory.CurrentFileSourceIndex < FHistory.Count - 1 then
+    begin
+      aFileSourceIndex := FHistory.CurrentFileSourceIndex + 1;
+      aPathIndex := 0;
+    end
+    else
+      Exit;
+
+    GoToHistoryIndex(aFileSourceIndex, aPathIndex);
   end;
 end;
 

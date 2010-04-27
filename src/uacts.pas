@@ -227,6 +227,9 @@ const cf_Null=0;
    procedure cm_SymLink(param: string='');
    procedure cm_CopySamePanel(param: string='');
    procedure cm_DirHistory(param: string='');
+   procedure cm_ViewHistory(param: string='');
+   procedure cm_ViewHistoryPrev(param: string='');
+   procedure cm_ViewHistoryNext(param: string='');
    procedure cm_EditNew(param: string='');
    procedure cm_RenameOnly(param: string='');
    procedure cm_RunTerm(param: string='');
@@ -2293,6 +2296,26 @@ begin
   frmMain.pmDirHistory.Popup(p.X,p.Y);
 end;
 
+procedure TActs.cm_ViewHistory(param:string);
+begin
+end;
+
+procedure TActs.cm_ViewHistoryPrev(param: string='');
+begin
+  with frmMain do
+  begin
+    ActiveFrame.GoToPrevHistory;
+  end;
+end;
+
+procedure TActs.cm_ViewHistoryNext(param: string='');
+begin
+  with frmMain do
+  begin
+    ActiveFrame.GoToNextHistory;
+  end;
+end;
+
 procedure TActs.cm_ShowCmdLineHistory(param:string);
 begin
   with frmMain do
@@ -2756,4 +2779,4 @@ begin
 end;
 
 end.
-
+

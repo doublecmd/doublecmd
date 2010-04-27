@@ -30,6 +30,7 @@ type
 
     function IsInterface(InterfaceGuid: TGuid): Boolean;
     function IsClass(ClassType: TClass): Boolean;
+    function GetClassName: String;
 
     function GetCurrentAddress: String;
     function GetCurrentWorkingDirectory: String;
@@ -83,6 +84,7 @@ type
     procedure AddReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
     procedure RemoveReloadEventListener(FunctionToCall: TFileSourceReloadEventNotify);
 
+    property ClassName: String read GetClassName;
     property CurrentAddress: String read GetCurrentAddress;
     property ParentFileSource: IFileSource read GetParentFileSource write SetParentFileSource;
     property Properties: TFileSourceProperties read GetProperties;
@@ -167,6 +169,7 @@ type
 
     function IsInterface(InterfaceGuid: TGuid): Boolean;
     function IsClass(aClassType: TClass): Boolean;
+    function GetClassName: String; // For debugging purposes.
 
     // Retrieve operations permitted on the source.  = capabilities?
     function GetOperationsTypes: TFileSourceOperationTypes; virtual;
@@ -385,6 +388,11 @@ end;
 function TFileSource.IsClass(aClassType: TClass): Boolean;
 begin
   Result := Self is aClassType;
+end;
+
+function TFileSource.GetClassName: String;
+begin
+  Result := ClassName;
 end;
 
 function TFileSource.GetOperationsTypes: TFileSourceOperationTypes;
@@ -818,4 +826,4 @@ finalization
   FreeAndNil(FileSourceManager);
 
 end.
-
+
