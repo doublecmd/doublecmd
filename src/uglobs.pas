@@ -63,9 +63,6 @@ const
   ConfigVersion = '1';
 
 var
-  { Double Commander Version }
-  dcVersion: String;
-
   { For localization }
   gPOFileName,
   gHelpLang: String;
@@ -251,8 +248,8 @@ var
   {Error file}
   gErrorFile: String;
 
-function InitGlobs(Version: String = ''): Boolean;
-function LoadGlobs(Version: String = '') : Boolean;
+function InitGlobs: Boolean;
+function LoadGlobs: Boolean;
 procedure SaveGlobs;
 procedure LoadIniConfig;
 procedure SaveIniConfig;
@@ -277,7 +274,7 @@ implementation
 
 uses
    LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils,
-   uDCUtils, fMultiRename, uFile;
+   uDCUtils, fMultiRename, uFile, uDCVersion;
 
 procedure LoadDefaultHotkeyBindings;
 begin
@@ -808,13 +805,12 @@ begin
     end;
 end;
 
-function LoadGlobs(Version: String) : Boolean;
+function LoadGlobs: Boolean;
 begin
   Result := False;
   if not OpenConfig then
     Exit;
 
-  dcVersion:= Version;
   DebugLn('Loading configuration...');
   SetDefaultConfigGlobs;
   if Assigned(gIni) then
@@ -1683,13 +1679,13 @@ begin
   gWLXPlugins.Save(gConfig, Node);
 end;
 
-function InitGlobs(Version: String): Boolean;
+function InitGlobs: Boolean;
 begin
   CreateGlobs;
   if not OpenConfig then
     Exit(False);
   SetDefaultNonConfigGlobs;
-  if not LoadGlobs(Version) then
+  if not LoadGlobs then
     Exit(False);
 
   // If a new config was created and the file doesn't yet exist then save it.

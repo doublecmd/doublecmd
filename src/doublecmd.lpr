@@ -11,7 +11,6 @@ uses
   clocale,
   {$ENDIF}
   Interfaces,
-  InterfaceBase,
   LCLProc,
   LResources,
   SysUtils,
@@ -29,18 +28,8 @@ uses
   uCryptProc,
   uPixMapManager,
   uKeyboard,
-  uUniqueInstance;
-
-const
-  dcBuildDate = {$I %DATE%};
-  dcVersion = '0.4.6 alpha';
-  lazVersion = {$I version.inc};
-  fpcVersion = {$I %FPCVERSION%};
-  TargetCPU = {$I %FPCTARGETCPU%};
-  TargetOS = {$I %FPCTARGETOS%};
-
-{$I revision.inc} // Lazarus revision number
-{$I dcrevision.inc} // Double Commander revision number
+  uUniqueInstance,
+  uDCVersion;
 
 {$IFDEF WINDOWS}{$R doublecmd.rc}{$ENDIF}
 
@@ -53,30 +42,27 @@ begin
 
   Application.Title:= 'Double Commander';
   Application.Initialize;
+  uDCVersion.InitializeVersionInfo;
 
   ThousandSeparator:= ' ';
+
   DebugLn('Double Commander ' + dcVersion);
   DebugLn('Revision: ' + dcRevision);
   DebugLn('Build: ' + dcBuildDate);
-  DebugLn('Lazarus: ' + lazVersion + '-' + RevisionStr);
+  DebugLn('Lazarus: ' + lazVersion + '-' + lazRevision);
   DebugLn('Free Pascal: ' + fpcVersion);
-  DebugLn('Platform: ' + TargetCPU + '-' + TargetOS + '-' + LCLPlatform[WidgetSet.LCLPlatform]);
+  DebugLn('Platform: ' + TargetCPU + '-' + TargetOS + '-' + TargetWS);
+  DebugLn('System: ' + OSVersion);
+  if WSVersion <> EmptyStr then
+    DebugLn('Widgetset library: ' + WSVersion);
   DebugLn('This program is free software released under terms of GNU GPL 2');
   DebugLn('(C)opyright 2006-2009 Koblov Alexander (Alexx2000@mail.ru)');
   DebugLn('   and contributors (see about dialog)');
 
-  fAbout.dcBuildDate := dcBuildDate;
-  fAbout.dcVersion:= dcVersion;
-  fAbout.dcRevision:= dcRevision;
-  fAbout.lazRevision:= RevisionStr;
-  fAbout.fpcVersion:= fpcVersion;
-  fAbout.TargetCPU:= TargetCPU;
-  fAbout.TargetOS:= TargetOS;
-
   LoadPaths; // must be first
   Application.ShowMainForm:= False;
   Application.CreateForm(TfrmHackForm, frmHackForm);
-  if InitGlobs(dcVersion) and IsInstanceAllowed then
+  if InitGlobs and IsInstanceAllowed then
      begin
        InitPasswordStore;
        LoadPixMapManager;

@@ -2233,7 +2233,7 @@ end;
 procedure TfrmOptions.btnConfigApplyClick(Sender: TObject);
 begin
   gConfig.Load; // force reloading config from file
-  LoadGlobs(dcVersion);
+  LoadGlobs;
   LoadConfig;
   btnConfigApply.Enabled:= False;
 end;
