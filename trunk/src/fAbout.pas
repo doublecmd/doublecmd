@@ -20,8 +20,8 @@ interface
 
 uses
   LResources,
-  Graphics, Forms, Controls,  StdCtrls, ExtCtrls, ActnList,Buttons,
-  SysUtils, Classes, LCLType, InterfaceBase;
+  Graphics, Forms, Controls,  StdCtrls, ExtCtrls,
+  SysUtils, Classes, LCLType;
 
 type
 
@@ -29,7 +29,9 @@ type
 
   TfrmAbout = class(TForm)
     imgLogo: TImage;
+    lblWidgetsetVer: TLabel;
     lblPlatform: TLabel;
+    lblOperatingSystem: TLabel;
     lblRevision: TLabel;
     lblHomePageAddress: TLabel;
     lblHomePage: TLabel;
@@ -58,32 +60,10 @@ type
 
 procedure ShowAboutBox;
 
-const
-  LCLPlatform: array[TLCLPlatform] of string = (
-      'gtk1',
-      'gtk2',
-      'win32/win64',
-      'wince',
-      'carbon',
-      'qt4',
-      'fpGUI',
-      'NoGUI',
-      'cocoa'
-    );
-
-var
-  dcBuildDate,
-  dcVersion,
-  dcRevision,
-  lazRevision,
-  fpcVersion,
-  TargetCPU,
-  TargetOS: String;
-  
 implementation
 
 uses
-  LCLVersion, dmHelpManager;
+  dmHelpManager, uDCVersion;
 
 const
   cIndention = LineEnding + #32#32;
@@ -165,14 +145,16 @@ end;
 
 procedure TfrmAbout.frmAboutShow(Sender: TObject);
 begin
-  memInfo.Lines.Text:= cAboutMsg;
-  memInfo.CaretPos:= Classes.Point(0, 0);
-  lblVersion.Caption:= Format(lblVersion.Caption, [dcVersion]);
-  lblRevision.Caption:= lblRevision.Caption+#32+dcRevision;
-  lblBuild.Caption:= lblBuild.Caption+#32+dcBuildDate;
-  lblLazarusVer.Caption:= lblLazarusVer.Caption+#32+lcl_version+'-'+lazRevision;
-  lblFreePascalVer.Caption:= lblFreePascalVer.Caption+#32+fpcVersion;
-  lblPlatform.Caption:= TargetCPU+'-'+TargetOS+'-'+LCLPlatform[WidgetSet.LCLPlatform];
+  memInfo.Lines.Text         := cAboutMsg;
+  memInfo.CaretPos           := Classes.Point(0, 0);
+  lblVersion.Caption         := Format(lblVersion.Caption, [dcVersion]);
+  lblRevision.Caption        := lblRevision.Caption + #32 + dcRevision;
+  lblBuild.Caption           := lblBuild.Caption + #32 + dcBuildDate;
+  lblLazarusVer.Caption      := lblLazarusVer.Caption + #32 + lazVersion + '-' + lazRevision;
+  lblFreePascalVer.Caption   := lblFreePascalVer.Caption + #32 + fpcVersion;
+  lblPlatform.Caption        := TargetCPU + '-' + TargetOS + '-' + TargetWS;
+  lblOperatingSystem.Caption := OSVersion;
+  lblWidgetsetVer.Caption    := WSVersion;
 end;
 
 initialization

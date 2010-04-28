@@ -15,8 +15,8 @@ procedure ShowExceptionDialog(const ExceptionText: String = '');
 implementation
 
 uses
-  Forms, Controls, Dialogs, LCLProc, LCLStrConsts, InterfaceBase,
-  uLng, uGlobs, fAbout;
+  Forms, Controls, Dialogs, LCLProc, LCLStrConsts,
+  uLng, uGlobs, uDCVersion;
 
 function ExceptionToString: String;
 var
@@ -57,11 +57,15 @@ begin
 
     if TextRec(f).mode <> fmClosed then
     begin
-      WriteLn(f, '----- ',
+      WriteLn(f, '--------------- ',
                  FormatDateTime('dd-mm-yyyy, hh:nn:ss', SysUtils.Now),
-                 ' -- DC v', dcVersion, ' Rev. ', dcRevision,
-                 ' -- ', TargetCPU + '-' + TargetOS + '-' + LCLPlatform[WidgetSet.LCLPlatform],
-                 ' -----');
+                 ' ---------------');
+      WriteLn(f, '| DC v', dcVersion, ' Rev. ', dcRevision,
+                 ' -- ', TargetCPU + '-' + TargetOS + '-' + TargetWS);
+      if WSVersion <> EmptyStr then
+        WriteLn(f, '| ', OSVersion, ' -- ', WSVersion)
+      else
+        WriteLn(f, '| ', OSVersion);
 
       if ExceptionText = EmptyStr then
       begin
