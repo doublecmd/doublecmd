@@ -1318,9 +1318,10 @@ begin
       end; // if selected
     end; // for
 
-    // If selected only one file, then sl assign to the all files in panel.
-    // Works only for directly accessible files.
+    // If only one file was selected then add all files in panel to the list.
+    // Works only for directly accessible files and only when using internal viewer.
     if (sl.Count=1) and
+       (not gExternalTools[etViewer].Enabled) and
        ([fspDirectAccess, fspLinksToLocalFiles] * ActiveFrame.FileSource.Properties <> []) then
       begin
         AllFiles := ActiveFrame.Files;
