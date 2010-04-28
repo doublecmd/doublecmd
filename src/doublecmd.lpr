@@ -62,7 +62,8 @@ begin
   LoadPaths; // must be first
   Application.ShowMainForm:= False;
   Application.CreateForm(TfrmHackForm, frmHackForm);
-  if InitGlobs and IsInstanceAllowed then
+  if InitGlobs then
+    if IsInstanceAllowed then
      begin
        InitPasswordStore;
        LoadPixMapManager;
@@ -80,5 +81,9 @@ begin
        Application.Run;
 
        uKeyboard.CleanupKeyboard;
+     end
+    else
+     begin
+       DebugLn('Another instance of DC is already running. Exiting.');
      end;
 end.
