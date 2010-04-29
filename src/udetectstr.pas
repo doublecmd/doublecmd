@@ -64,10 +64,9 @@ type
    private
     input,output,stack:array of tmathchar;
     fmathstring:string;
-    fFile: TFile;
     fforce:boolean;
-    function getresult:boolean;
-    function calculate(operand1,operand2,Aoperator:Tmathchar):string;
+    function getresult(const aFile: TFile):boolean;
+    function calculate(aFile: TFile; operand1,operand2,Aoperator:Tmathchar):string;
     function getoperator(c:char):TMathOperatortype;
     function getoperand(mid:integer;var len:integer):string;
     procedure processstring;
@@ -89,7 +88,7 @@ implementation
 uses
   uFileProperty, uFileSystemFileSource;
   
-function TParserControl.calculate(operand1,operand2,Aoperator:Tmathchar):string;
+function TParserControl.calculate(aFile: TFile; operand1,operand2,Aoperator:Tmathchar):string;
 var tmp:string;
 begin
  result:='false';
@@ -114,7 +113,7 @@ begin
    if (operand1.data='EXT') then
      begin
        //---------------------
-       tmp:= FFile.Extension;
+       tmp:= aFile.Extension;
        tmp:= UpperCase(tmp);
        tmp:= '"'+tmp+'"';
        //---------------------
@@ -125,9 +124,9 @@ begin
      end;
 
    //SIZE > < = !=
-   if (operand1.data='SIZE') and (fpSize in FFile.SupportedProperties) then
+   if (operand1.data='SIZE') and (fpSize in aFile.SupportedProperties) then
      begin
-       tmp:= IntToStr(FFile.Size);
+       tmp:= IntToStr(aFile.Size);
         case Aoperator.op of
            moequ: Result:= BooleanToStr(strtoint(tmp)=strtoint(operand2.data));
            moneq: Result:= BooleanToStr(strtoint(tmp)<>strtoint(operand2.data));
@@ -151,19 +150,24 @@ end;
 
 function TParserControl.TestFileResult(const aFile: TFile):boolean;
 begin
-  FFile:= aFile.Clone;
-  Result:= getresult;
+  Result:= getresult(aFile);
 end;
 
 
 function TParserControl.TestFileResult(const aFileName: UTF8String): boolean;
+var
+  aFile: TFile;
 begin
-  FFile:= TFileSystemFileSource.CreateFileFromFile(aFileName);
-  DebugLn('FFile.Extension = ' + FFile.Extension);
-  Result:= getresult;
+  aFile:= TFileSystemFileSource.CreateFileFromFile(aFileName);
+  try
+    DebugLn('aFile.Extension = ' + aFile.Extension);
+    Result:= getresult(aFile);
+  finally
+    aFile.Free;
+  end;
 end;
 
-function TParserControl.getresult:boolean;
+function TParserControl.getresult(const aFile: TFile):boolean;
 var
  i:integer;
  tmp1,tmp2,tmp3:tmathchar;
@@ -188,7 +192,7 @@ begin
        tmp2:=stack[length(stack)-2];
        setlength(stack,length(stack)-2);
        tmp3.mathtype:=mtoperand;
-       tmp3.data:=calculate(tmp2,tmp1,output[i]);
+       tmp3.data:=calculate(aFile, tmp2,tmp1,output[i]);
        setlength(stack,length(stack)+1);
        stack[length(stack)-1]:=tmp3;
      end;
@@ -221,22 +225,21 @@ else if c='!' then
  function TParserControl.getoperand(mid:integer;var len:integer):string;
  var
  i,j:integer;
- tmpnum:string;
  begin
+ Result := '';
  j:=1;
  for i:=mid to length(fmathstring)-1 do
    begin
     if isdigit(fmathstring[i]) then
      begin
       if j<=20 then
-       tmpnum:=tmpnum+fmathstring[i];
+       Result:=Result+fmathstring[i];
       j:=j+1;
      end
     else
      break;
    end;
- result:=tmpnum;
- len:=length(tmpnum);
+ len:=length(Result);
  end;
 
 procedure TParserControl.processstring;
@@ -357,7 +360,6 @@ function TParserControl.StrToBoolean(s: string): boolean;
 
 destructor TParserControl.Destroy;
 begin
-  FreeThenNil(FFile);
   inherited Destroy;
 end;
 
@@ -414,4 +416,4 @@ end;
    end;
  end;
 
- end.
+ end.
