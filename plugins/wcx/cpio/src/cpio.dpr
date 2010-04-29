@@ -21,8 +21,6 @@ uses
   cpio_def in 'cpio_def.pas',
   cpio_archive in 'cpio_archive.pas';
 
-{$E wcx}
-
 exports
   CloseArchive       name 'CloseArchive',
   GetPackerCaps      name 'GetPackerCaps',
@@ -30,7 +28,8 @@ exports
   ProcessFile        name 'ProcessFile',
   ReadHeader         name 'ReadHeader',
   SetChangeVolProc   name 'SetChangeVolProc',
-  SetProcessDataProc name 'SetProcessDataProc';
-  
+  SetProcessDataProc name 'SetProcessDataProc',
+  CanYouHandleThisFile;
+
 begin
 end.

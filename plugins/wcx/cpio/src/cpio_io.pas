@@ -22,12 +22,13 @@ unit cpio_io;
 interface
 
 uses
-  cpio_def;
+  cpio_def, Classes;
 
 type
   TStrBuf = array[1..260] of Char;
 
 function  CPIO_ReadHeader(var f : file; var header : CPIO_Header) : Boolean;
+function  IsCPIOArchive(FileName: UTF8String): Boolean;
 
 function  AlignFilePointer(var f : file; align : Integer) : Boolean;
 procedure copy_str2buf(var buf : TStrBuf; s : AnsiString);
@@ -111,87 +112,179 @@ begin
   end;
 end;
 
-function swapbytes(w:word):word;
+function OctalToDec(Octal: String): Longword;
+var
+  i: Integer;
 begin
-  result:=256*lo(w)+hi(w);
+  Result := 0;
+
+  for i := 1 to Length(Octal) do
+  begin
+    Result := Result shl 3;
+    case Octal[i] of
+      '0'..'7':
+        Result := Result + Longword(Ord(Octal[i]) - Ord('0'));
+    end;
+  end;
 end;
 
-function CPIO_ReadHeader;
+function HexToDec(Hex: String): Longword;
 var
-  tmp_buf    : array [0..259] of Char;
-  oldhdr     : toldhdr absolute tmp_buf;
-  code, i    : Integer;
-  loadlen,ofs: Integer;
-  value      : LongWord;
+  i: Integer;
+begin
+  Result := 0;
+  for i := 1 to Length(Hex) do
+  begin
+    Result := Result shl 4;
+    case Hex[i] of
+      '0'..'9':
+        Result := Result + LongWord(Ord(Hex[i]) - Ord('0'));
+      'A'..'F':
+        Result := Result + LongWord(Ord(Hex[i]) - Ord('A')) + 10;
+      'a'..'f':
+        Result := Result + LongWord(Ord(Hex[i]) - Ord('a')) + 10;
+    end;
+  end;
+end;
+
+function CPIO_ReadHeader(var f : file; var header : CPIO_Header): Boolean;
+var
+  Buffer     : array [0..259] of AnsiChar;
+  OldHdr     : TOldBinaryHeader absolute Buffer;
+  OdcHdr     : TOldCharHeader absolute Buffer;
+  NewHdr     : TNewCharHeader absolute Buffer;
+  ofs        : Integer;
 begin
   Result := False;
-  {First, check the type of header (old or new)}
-  tmp_buf[0]:='$';
-  BlockRead(f, tmp_buf[1], 6);
+
+  {First, check the type of header}
+  BlockRead(f, Buffer[0], 6);
   if IOResult <> 0 then Exit;
-  header.oldhdrtype:=false;
-  if (tmp_buf[1]=#$71) and (tmp_buf[2]=#$C7) then begin  {Old format!}
-    header.oldhdrtype:=true;
-    move(tmp_buf[1],tmp_buf[0],6);
-    BlockRead(f, tmp_buf[6], sizeof(tOldHdr)-6);
+  header.IsOldHeader := False;
+
+  // Old binary format.
+  if PWord(@Buffer[0])^ = $71C7 then
+  begin
+    header.IsOldHeader := True;
+    BlockRead(f, Buffer[6], SizeOf(TOldBinaryHeader) - 6);
     if IOResult <> 0 then Exit;
-    with header,oldhdr do begin
-      records[1]:=swapbytes(c_magic);
-      records[2]:=swapbytes(c_ino);
-      records[3]:=swapbytes(c_mode);
-      records[4]:=swapbytes(c_uid);
-      records[5]:=swapbytes(c_gid);
-      records[6]:=swapbytes(c_nlink);
-      records[7]:=65536*swapbytes(c_mtime1)+swapbytes(c_mtime2);
-      records[8]:=65536*swapbytes(c_filesize1)+swapbytes(c_filesize2);
-      records[9]:=0;
-      records[10]:=0;
-      records[11]:=0;
-      records[12]:=0;
-      records[13]:=swapbytes(c_namesize);
-      records[14]:=0;
+    with header, OldHdr do
+    begin
+      magic     := c_magic;
+      dev_major := c_dev;
+      dev_minor := 0;
+      inode     := c_ino;
+      mode      := c_mode;
+      uid       := c_uid;
+      gid       := c_gid;
+      nlink     := c_nlink;
+      mtime     := 65536 * c_mtime1 + c_mtime2;
+      filesize  := 65536 * c_filesize1 + c_filesize2;
+      namesize  := c_namesize;
     end;
-  end else if strlcomp(tmp_buf,'$0707',5)=0 then begin
-    tmp_buf[7]:=#0;
-    Val(tmp_buf, value, code);
-    header.records[1] := value;
-    for i := 2 to 14 do begin
-      loadlen := 8;
-      tmp_buf[0]:='$';
-      BlockRead(f, tmp_buf[1], loadlen);
-      if IOResult <> 0 then Exit;
-      tmp_buf[loadlen+1]:=#0;
-      Val(tmp_buf, value, code);
-      header.records[i] := value;
-    end;
-  end else
-    exit;
+  end
 
-  if header.records[13]<0 then exit;   {Error!}
-  {Read name}
-  ofs:=0;
-  if header.records[13]>259 then begin
-    ofs:=header.records[13]-259;
-    header.records[13]:=259;
+  // Old Ascii format.
+  else if strlcomp(Buffer, '070707', 6) = 0 then
+  begin
+    BlockRead(f, Buffer[6], SizeOf(TOldCharHeader) - 6);
+    if IOResult <> 0 then Exit;
+    with header, OdcHdr do
+    begin
+      magic     := OctalToDec(c_magic);
+      dev_major := OctalToDec(c_dev);
+      dev_minor := 0;
+      inode     := OctalToDec(c_ino);
+      mode      := OctalToDec(c_mode);
+      uid       := OctalToDec(c_uid);
+      gid       := OctalToDec(c_gid);
+      nlink     := OctalToDec(c_nlink);
+      mtime     := OctalToDec(c_mtime);
+      filesize  := OctalToDec(c_filesize);
+      namesize  := OctalToDec(c_namesize);
+    end;
+  end
+
+  // New Ascii format.
+  else if (strlcomp(Buffer, '070701', 6) = 0) or
+          (strlcomp(Buffer, '070702', 6) = 0) then
+  begin
+    BlockRead(f, Buffer[6], SizeOf(TNewCharHeader) - 6);
+    if IOResult <> 0 then Exit;
+    with header, NewHdr do
+    begin
+      magic     := HexToDec(c_magic);
+      dev_major := HexToDec(c_devmajor);
+      dev_minor := HexToDec(c_devminor);
+      inode     := HexToDec(c_ino);
+      mode      := HexToDec(c_mode);
+      uid       := HexToDec(c_uid);
+      gid       := HexToDec(c_gid);
+      nlink     := HexToDec(c_nlink);
+      mtime     := HexToDec(c_mtime);
+      filesize  := HexToDec(c_filesize);
+      namesize  := HexToDec(c_namesize);
+    end;
+  end
+  else
+    Exit;
+
+  with header do
+  begin
+    if namesize = 0 then exit;   {Error!}
+    {Read name}
+    ofs:=0;
+    if namesize > 259 then
+    begin
+      ofs := namesize - 259;
+      namesize := 259;
+    end;
+    FillChar(Buffer, SizeOf(Buffer), #0);
+    BlockRead(f, Buffer, namesize);
+    if IOResult <> 0 then Exit;
+    SetString(filename, Buffer, namesize);
+    if ofs <> 0 then
+      Seek(f, FilePos(f) + ofs);
+    origname := filename;
+    DoDirSeparators(filename);
+    if IsOldHeader then begin
+      if not AlignFilePointer(f, 2) then Exit;
+    end else
+      if not AlignFilePointer(f, 4) then Exit;
+
+    //Correct file name started with "./" or "/"
+    filename := correct_filename(filename);
   end;
-  fillchar(tmp_buf,sizeof(tmp_buf),#0);
-  BlockRead(f, tmp_buf, header.records[13]);
-  if IOResult <> 0 then Exit;
-  tmp_buf[header.records[13]]:=#0;
-  header.filename:=strpas(tmp_buf);
-  if ofs<>0 then
-    Seek(f,filepos(f)+ofs);
-  header.origname := header.filename;
-  DoDirSeparators(header.filename);
-  if header.oldhdrtype then begin
-    if not AlignFilePointer(f, 2) then Exit;
-  end else
-    if not AlignFilePointer(f, 4) then Exit;
-
-  //Correct file name started with "./" or "/"
-  header.filename := correct_filename(header.filename);
 
   Result := True;
+end;
+
+function IsCPIOArchive(FileName: UTF8String): Boolean;
+type
+  TAsciiHeader = array[0..5] of AnsiChar;
+const
+  sOld: TAsciiHeader = ('0', '7', '0', '7', '0', '7');
+  sNew: TAsciiHeader = ('0', '7', '0', '7', '0', '1');
+  sCrc: TAsciiHeader = ('0', '7', '0', '7', '0', '2');
+var
+  Buf: TAsciiHeader;
+  Stream: TFileStream;
+begin
+  Result := False;
+  Stream := TFileStream.Create(FileName, fmOpenRead or fmShareDenyNone);
+  try
+    if (Stream.Size >= 6) and (Stream.Read(Buf[0], 6) = 6) then
+    begin
+      Result := // Binary format
+                (PWord(@Buf[0])^ = $71C7) or
+                // Ascii formats
+                CompareMem(@Buf[0], @sOld[0], 6) or
+                CompareMem(@Buf[0], @sNew[0], 6) or
+                CompareMem(@Buf[0], @sCrc[0], 6);
+    end;
+  finally
+    Stream.Free;
+  end;
 end;
 
 function correct_filename(oldname : AnsiString) : AnsiString;
