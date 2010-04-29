@@ -58,6 +58,7 @@ function  ReadHeader(hArcData : TArcHandle; var HeaderData : THeaderData) : Inte
 function  ProcessFile(hArcData : TArcHandle; Operation : Integer; DestPath : PChar; DestName : PChar) : Integer; stdcall;
 procedure SetProcessDataProc(hArcData : TArcHandle; ProcessDataProc : TProcessDataProc); stdcall;
 procedure SetChangeVolProc(hArcData : TArcHandle; ChangeVolProc : TChangeVolProc); stdcall;
+function  CanYouHandleThisFile(FileName: PAnsiChar): Boolean; stdcall;
 
 implementation
 
@@ -156,7 +157,7 @@ begin
   Result := E_SUCCESS;
 end;
 
-function ReadHeader;
+function ReadHeader(hArcData : TArcHandle; var HeaderData : THeaderData): Integer;
 var
   i_rec   : Integer;
   arec    : PArchiveRec;
@@ -175,14 +176,14 @@ begin
             Break
           end
           else begin
-            if header.records[08] <> 0 then begin
+            if header.filesize <> 0 then begin
               with HeaderData do begin
                 copy_str2buf(TStrBuf(ArcName), arec^.fname);
                 copy_str2buf(TStrBuf(FileName), header.filename);
-                PackSize := header.records[08];
-                UnpSize  := header.records[08];
-                FileAttr := $20;
-                FileTime := UnixTimeToDosTime(header.records[07], True);
+                PackSize := header.filesize;
+                UnpSize  := header.filesize;
+                FileAttr := header.mode;
+                FileTime := UnixTimeToDosTime(header.mtime, True);
               end;{with}
               Result := 0;
               Break;
@@ -222,7 +223,7 @@ begin
   case Operation of
     PK_TEST : begin
       faborted:=false;
-      fsize := head.records[08];
+      fsize := head.filesize;
       buf_size := 65536;
       GetMem(buf, buf_size);
       fgReadError := False;
@@ -250,7 +251,7 @@ begin
       else if fgReadError then Result := E_EREAD
       else begin
         Result := 0;
-        if arec^.last_header.oldhdrtype then begin
+        if arec^.last_header.IsOldHeader then begin
           if not AlignFilePointer(arec^.handle_file, 2) then Result := E_EREAD;
         end else
           if not AlignFilePointer(arec^.handle_file, 4) then Result := E_EREAD;
@@ -258,10 +259,10 @@ begin
       FreeMem(buf, 65536);
     end;{PK_TEST}
     PK_SKIP : begin
-      Seek(arec^.handle_file, FilePos(arec^.handle_file) + LongInt(head.records[08]));
+      Seek(arec^.handle_file, FilePos(arec^.handle_file) + LongInt(head.filesize));
       if IOResult = 0 then begin
         Result := 0;
-        if arec^.last_header.oldhdrtype then begin
+        if arec^.last_header.IsOldHeader then begin
           if not AlignFilePointer(arec^.handle_file, 2) then Result := E_EREAD;
         end else
           if not AlignFilePointer(arec^.handle_file, 4) then Result := E_EREAD;
@@ -275,7 +276,7 @@ begin
         Rewrite(cpio_file, 1);
         if IOResult <> 0 then Result := E_ECREATE
         else begin
-          fsize := head.records[08];
+          fsize := head.filesize;
           buf_size := 65536;
           GetMem(buf, buf_size);
           fgReadError := False;
@@ -315,12 +316,12 @@ begin
           else if fgReadError then Result := E_EREAD
           else begin
             Result := 0;
-            if arec^.last_header.oldhdrtype then begin
+            if arec^.last_header.IsOldHeader then begin
               if not AlignFilePointer(arec^.handle_file, 2) then Result := E_EREAD;
             end else
               if not AlignFilePointer(arec^.handle_file, 4) then Result := E_EREAD;
           end;
-          FileSetDate(tfilerec(cpio_file).handle,UnixTimeToDosTime(head.records[07], True));
+          FileSetDate(tfilerec(cpio_file).handle,UnixTimeToDosTime(head.mtime, True));
           CloseFile(cpio_file);
           if result<>0 then
             Erase(cpio_file);
@@ -355,6 +356,15 @@ begin
   if i_rec <> -1 then begin
     arec := aList.Items[i_rec];
     arec^.changevol_proc := ChangeVolProc;
+  end;
+end;
+
+function CanYouHandleThisFile(FileName: PAnsiChar): Boolean; stdcall;
+begin
+  try
+    Result:= IsCPIOArchive(StrPas(FileName));
+  except
+    Result := False;
   end;
 end;
 

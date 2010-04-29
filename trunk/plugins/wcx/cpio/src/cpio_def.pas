@@ -13,40 +13,25 @@ unit cpio_def;
 
 interface
 
-{$ifdef ver90}
-type longword=longint;
-{$endif}
-{$ifdef ver100}
-type longword=longint;
-{$endif}
-
 type
   CPIO_Header = record
-    records  : array [1..14] of LongWord;
-    filename : String;
-    origname : String;
-    oldhdrtype:boolean;
-(* records array contains fields :
-  {01}c_magic    : LongWord; //"070701" for "new" portable format "070702" for CRC format
-  {02}c_ino      : LongWord;
-  {03}c_mode     : LongWord;
-  {04}c_uid      : LongWord;
-  {05}c_gid      : LongWord;
-  {06}c_nlink    : LongWord;
-  {07}c_mtime    : LongWord;
-  {08}c_filesize : LongWord; //must be 0 for FIFOs and directories
-  {09}c_maj      : LongWord;
-  {10}c_min      : LongWord;
-  {11}c_rmaj     : LongWord; //only valid for chr and blk special files
-  {12}c_rmin     : LongWord; //only valid for chr and blk special files
-  {13}c_namesize : LongWord; //count includes terminating NUL in pathname
-  {14}c_chksum   : LongWord; //0 for "new" portable format; for CRC format the sum of all the bytes in the file
-*)
+    magic,
+    dev_major,
+    dev_minor,
+    inode,
+    mode,
+    uid,
+    gid,
+    nlink,
+    mtime,
+    filesize,
+    namesize: Longword;
+    filename : UTF8String;
+    origname : UTF8String;
+    IsOldHeader: Boolean;
   end;{CPIO_Header}
 
-(* Old CPIO header structure:*)
-
-type tOldHdr=packed record
+  TOldBinaryHeader=packed record
                     c_magic,
                     c_dev,
                     c_ino,
@@ -59,8 +44,39 @@ type tOldHdr=packed record
                     c_namesize:word;
                     c_filesize1,c_filesize2:word;
                (*   char c_name[c_namesize rounded to word];*)
-              end;
+                 end;
+
+  TOldCharHeader=packed record
+                   c_magic   : array[0..5] of AnsiChar; {070707}
+                   c_dev     : array[0..5] of AnsiChar;
+                   c_ino     : array[0..5] of AnsiChar;
+                   c_mode    : array[0..5] of AnsiChar;
+                   c_uid     : array[0..5] of AnsiChar;
+                   c_gid     : array[0..5] of AnsiChar;
+                   c_nlink   : array[0..5] of AnsiChar;
+                   c_rdev    : array[0..5] of AnsiChar;
+                   c_mtime   : array[0..10] of AnsiChar;
+                   c_namesize: array[0..5] of AnsiChar;
+                   c_filesize: array[0..10] of AnsiChar;
+                 end;
+
+  TNewCharHeader=packed record
+                   c_magic    : array[0..5] of AnsiChar; {070701} {070702 - CRC format}
+                   c_ino      : array[0..7] of AnsiChar;
+                   c_mode     : array[0..7] of AnsiChar;
+                   c_uid      : array[0..7] of AnsiChar;
+                   c_gid      : array[0..7] of AnsiChar;
+                   c_nlink    : array[0..7] of AnsiChar;
+                   c_mtime    : array[0..7] of AnsiChar;
+                   c_filesize : array[0..7] of AnsiChar; //must be 0 for FIFOs and directories
+                   c_devmajor : array[0..7] of AnsiChar;
+                   c_devminor : array[0..7] of AnsiChar;
+                   c_rdevmajor: array[0..7] of AnsiChar; //only valid for chr and blk special files
+                   c_rdevminor: array[0..7] of AnsiChar; //only valid for chr and blk special files
+                   c_namesize : array[0..7] of AnsiChar; //count includes terminating NUL in pathname
+                   c_check    : array[0..7] of AnsiChar; //0 for "new" portable format; for CRC format the sum of all the bytes in the file
+                 end;
 
 implementation
 
-end.
+end.
