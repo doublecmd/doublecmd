@@ -289,7 +289,7 @@ var i,indx:integer;
   ColumnClass.SetCursorBorderColor(cbCursorBorderColor.Color);
 
   PreviewPan.UpdateColumnsView;
-  PreviewPan.Repaint;
+  PreviewPan.Reload;
 end;
 
 

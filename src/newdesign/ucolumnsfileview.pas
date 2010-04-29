@@ -1482,11 +1482,19 @@ begin
 end;
 
 procedure TColumnsFileView.UpdateColCount(NewColCount: Integer);
+var
+  i: Integer;
 begin
-  while dgPanel.Columns.Count < NewColCount do
-    dgPanel.Columns.Add;
-  while dgPanel.Columns.Count > NewColCount do
-    dgPanel.Columns.Delete(0);
+  if dgPanel.Columns.Count <> NewColCount then
+  begin
+    while dgPanel.Columns.Count < NewColCount do
+      dgPanel.Columns.Add;
+    while dgPanel.Columns.Count > NewColCount do
+      dgPanel.Columns.Delete(0);
+    for i := 0 to FFiles.Count - 1 do
+      while FFiles[i].DisplayStrings.Count < NewColCount do
+        FFiles[i].DisplayStrings.Add(EmptyStr);
+  end;
 end;
 
 procedure TColumnsFileView.SetColumnsWidths;
