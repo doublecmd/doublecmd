@@ -138,7 +138,6 @@ begin
     if ExtractInstallManifest(FileName, MemoryStream) then;
     begin
       MemoryStream.Position:= 0;
-      Doc := TXMLDocument.Create;
       ReadXMLFile(Doc, MemoryStream);
        if Assigned(Doc.documentElement) then
          mainNode:= Doc.documentElement.FindNode('Description');
@@ -193,4 +192,4 @@ begin
 end;
 
 end.
-
+

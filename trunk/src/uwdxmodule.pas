@@ -280,11 +280,7 @@ end;
 
 destructor TWDXModuleList.Destroy;
 begin
-  while Flist.Count > 0 do
-  begin
-    TWDXModule(Flist.Objects[0]).Free;
-    Flist.Delete(0);
-  end;
+  Clear;
   FreeAndNil(Flist);
 
   inherited Destroy;
@@ -306,12 +302,12 @@ begin
 end;
 
 procedure TWDXModuleList.Clear;
+var
+  i: Integer;
 begin
-  while Flist.Count > 0 do
-  begin
-    TWDXModule(Flist.Objects[0]).Free;
-    Flist.Delete(0);
-  end;
+  for i := 0 to Flist.Count - 1 do
+    TWDXModule(Flist.Objects[i]).Free;
+  Flist.Clear;
 end;
 
 procedure TWDXModuleList.Load(Ini: TIniFileEx);
@@ -433,26 +429,28 @@ function TWDXModuleList.Add(FileName: String): Integer;
 var
   s: String;
 begin
+  Result := -1;
+
   s := ExtractFileName(FileName);
   if pos('.', s) > 0 then
     Delete(s, pos('.', s), length(s));
 
   if upcase(ExtractFileExt(FileName)) = '.WDX' then
-    Flist.AddObject(UpCase(s), TPluginWDX.Create)
+    Result := Flist.AddObject(UpCase(s), TPluginWDX.Create)
   else {иначе проверка на скрипт}
     if upcase(ExtractFileExt(FileName)) = '.LUA' then
-      Flist.AddObject(UpCase(s), TLuaWdx.Create);
+      Result := Flist.AddObject(UpCase(s), TLuaWdx.Create);
 
-  //Result:=Flist.AddObject(UpCase(s),TWDXModule.Create);
-
-  TWDXModule(Flist.Objects[Result]).Name := s;
-  TWDXModule(Flist.Objects[Result]).FileName := FileName;
-  if TWDXModule(Flist.Objects[Result]).LoadModule then
+  if Result <> -1 then
   begin
-    TWDXModule(Flist.Objects[Result]).DetectStr := TWDXModule(Flist.Objects[Result]).CallContentGetDetectString;
-    TWDXModule(Flist.Objects[Result]).UnloadModule;
+    TWDXModule(Flist.Objects[Result]).Name := s;
+    TWDXModule(Flist.Objects[Result]).FileName := FileName;
+    if TWDXModule(Flist.Objects[Result]).LoadModule then
+    begin
+      TWDXModule(Flist.Objects[Result]).DetectStr := TWDXModule(Flist.Objects[Result]).CallContentGetDetectString;
+      TWDXModule(Flist.Objects[Result]).UnloadModule;
+    end;
   end;
-
 end;
 
 function TWDXModuleList.Add(AName, FileName, DetectStr: String): Integer;
@@ -580,16 +578,19 @@ begin
 end;
 
 destructor TPluginWDX.Destroy;
+var
+  i: Integer;
 begin
   if assigned(FParser) then
     FParser.Free;
 
   if assigned(FFieldsList) then
-    while FFieldsList.Count > 0 do
-    begin
-      TWdxField(FFieldsList.Objects[0]).Free;
-      FFieldsList.Delete(0);
-    end;
+  begin
+    for i := 0 to FFieldsList.Count - 1 do
+      TWdxField(FFieldsList.Objects[i]).Free;
+    FFieldsList.Free;
+  end;
+
   Self.UnloadModule;
   inherited Destroy;
 end;
@@ -628,17 +629,15 @@ end;
 
 procedure TPluginWDX.CallContentSetDefaultParams;
 var
-  dps: pContentDefaultParamStruct;
+  dps: tContentDefaultParamStruct;
 begin
   if assigned(ContentSetDefaultParams) then
   begin
-    GetMem(dps, SizeOf(tContentDefaultParamStruct));
     dps.DefaultIniName := gpCfgDir + WdxIniFileName;
     dps.PluginInterfaceVersionHi := 1;
     dps.PluginInterfaceVersionLow := 50;
     dps.size := SizeOf(tContentDefaultParamStruct);
-    ContentSetDefaultParams(dps);
-    FreeMem(dps, SizeOf(tContentDefaultParamStruct));
+    ContentSetDefaultParams(@dps);
   end;
 end;
 
@@ -751,8 +750,13 @@ var
   UnitIndex: Integer;
 begin
   FieldIndex := GetFieldIndex(FieldName);
-  UnitIndex := TWdxField(FieldList.Objects[FieldIndex]).GetUnitIndex(UnitName);
-  Result := CallContentGetValue(FileName, FieldIndex, UnitIndex, flags);
+  if FieldIndex <> -1 then
+  begin
+    UnitIndex := TWdxField(FieldList.Objects[FieldIndex]).GetUnitIndex(UnitName);
+    Result := CallContentGetValue(FileName, FieldIndex, UnitIndex, flags);
+  end
+  else
+    Result := EmptyStr;
 end;
 
 function TPluginWDX.CallContentGetValue(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): String;
@@ -1065,8 +1069,13 @@ var
   UnitIndex: Integer;
 begin
   FieldIndex := GetFieldIndex(FieldName);
-  UnitIndex := TWdxField(FieldList.Objects[FieldIndex]).GetUnitIndex(UnitName);
-  Result := CallContentGetValue(FileName, FieldIndex, UnitIndex, flags);
+  if FieldIndex <> -1 then
+  begin
+    UnitIndex := TWdxField(FieldList.Objects[FieldIndex]).GetUnitIndex(UnitName);
+    Result := CallContentGetValue(FileName, FieldIndex, UnitIndex, flags);
+  end
+  else
+    Result := EmptyStr;
 end;
 
 function TLuaWdx.CallContentGetValue(FileName: String; FieldIndex, UnitIndex: Integer; flags: Integer): String;
@@ -1149,4 +1158,4 @@ begin
 end;
 
 end.
-
+
