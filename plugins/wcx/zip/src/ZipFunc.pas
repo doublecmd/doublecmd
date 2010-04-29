@@ -793,12 +793,20 @@ end;
 
 function CanYouHandleThisFile(FileName: PAnsiChar): Boolean; stdcall;
 begin
-  Result:= (AbDetermineArcType(SysToUtf8(StrPas(FileName)), atUnknown) <> atUnknown);
+  try
+    Result:= (AbDetermineArcType(SysToUtf8(StrPas(FileName)), atUnknown) <> atUnknown);
+  except
+    Result := False;
+  end;
 end;
 
 function CanYouHandleThisFileW(FileName: PWideChar): Boolean; stdcall;
 begin
-  Result:= (AbDetermineArcType(UTF8Encode(WideString(FileName)), atUnknown) <> atUnknown);
+  try
+    Result:= (AbDetermineArcType(UTF8Encode(WideString(FileName)), atUnknown) <> atUnknown);
+  except
+    Result := False;
+  end;
 end;
 
 procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
@@ -900,4 +908,4 @@ begin
 end;
 
 end.
-
+
