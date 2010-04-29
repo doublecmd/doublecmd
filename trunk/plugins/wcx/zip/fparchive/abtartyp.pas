@@ -548,23 +548,31 @@ end;
 function VerifyTar(Strm : TStream) : TAbArchiveType;
 { assumes Tar positioned correctly for test of item }
 var
-  TarItem : TAbTarItem;
+  TarItem  : TAbTarItem;
+  StartPos : Int64;
 begin
-  { Verifies that the header checksum is valid, and Item type is understood.
-    This does not mean that extraction is supported. }
-  TarItem := TAbTarItem.Create;
+  StartPos := Strm.Position;
   try
-    { get current Tar Header }
-    TarItem.LoadTarHeaderFromStream(Strm);
-    if TarItem.CheckSumGood //or (TarItem.ItemType in [UNKNOWN_ITEM])
-    or TarItem.TestEmpty // Empty Tar file
-    then
-      Result := atTar
-    else
-      result := atUnknown;
-  finally
-    TarItem.Free;
+    { Verifies that the header checksum is valid, and Item type is understood.
+      This does not mean that extraction is supported. }
+    TarItem := TAbTarItem.Create;
+    try
+      { get current Tar Header }
+      TarItem.LoadTarHeaderFromStream(Strm);
+      if TarItem.CheckSumGood //or (TarItem.ItemType in [UNKNOWN_ITEM])
+      or TarItem.TestEmpty // Empty Tar file
+      then
+        Result := atTar
+      else
+        Result := atUnknown;
+    finally
+      TarItem.Free;
+    end;
+  except
+    on EFilerError do
+      Result := atUnknown;
   end;
+  Strm.Position := StartPos;
 end;
 
 function PadString(const S : AnsiString; Places : Integer) : AnsiString;

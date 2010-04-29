@@ -369,50 +369,55 @@ end;
 
 function VerifyGZip(Strm : TStream) : TAbArchiveType;
 var
-  GHlp : TAbGzipStreamHelper;
+  GHlp : TAbGzipStreamHelper = nil;
   Hlpr : TAbDeflateHelper;
   PartialTarData : TMemoryStream;
-  CurPos : LongInt;
+  CurPos : Int64;
 begin
   Result := atUnknown;
-
   CurPos := Strm.Position;
-  Strm.Seek(0, soFromBeginning);
 
-  {prepare for the try..finally}
-  Hlpr := nil;
-  PartialTarData := nil;
-
-  GHlp := TAbGzipStreamHelper.Create(Strm);
   try
-    {create the stream helper and read the item header}
-    GHlp.ReadHeader;
+    {prepare for the try..finally}
+    Hlpr := nil;
+    PartialTarData := nil;
 
-    { check id fields and if deflated (only handle deflate anyway)}
-    if VerifyHeader(GHlp.FItem.FGZHeader) then begin
-      Result := atGZip; { provisional }
+    try
+      Strm.Seek(0, soFromBeginning);
+      GHlp := TAbGzipStreamHelper.Create(Strm);
 
-      { check if is actually a Gzipped Tar }
-      { partial extract contents, verify vs. Tar }
-      PartialTarData := TMemoryStream.Create;
-      GHlp.SeekToItemData;
-      Hlpr := TAbDeflateHelper.Create;
-      Hlpr.PartialSize := 512;
-      PartialTarData.SetSize(512 * 2);
-      Inflate(Strm, PartialTarData, Hlpr);
+      {create the stream helper and read the item header}
+      GHlp.ReadHeader;
 
-      {set to beginning of extracted data}
-      PartialTarData.Position := 0;
+      { check id fields and if deflated (only handle deflate anyway)}
+      if VerifyHeader(GHlp.FItem.FGZHeader) then begin
+        Result := atGZip; { provisional }
 
-      if (VerifyTar(PartialTarData) = atTar) then
-        Result := atGZippedTar;
+        { check if is actually a Gzipped Tar }
+        { partial extract contents, verify vs. Tar }
+        PartialTarData := TMemoryStream.Create;
+        GHlp.SeekToItemData;
+        Hlpr := TAbDeflateHelper.Create;
+        Hlpr.PartialSize := 512;
+        PartialTarData.SetSize(512 * 2);
+        Inflate(Strm, PartialTarData, Hlpr);
+
+        {set to beginning of extracted data}
+        PartialTarData.Position := 0;
+
+        if (VerifyTar(PartialTarData) = atTar) then
+          Result := atGZippedTar;
+      end;
+    finally
+      GHlp.Free;
+      Hlpr.Free;
+      PartialTarData.Free;
+
+      Strm.Position := CurPos;
     end;
-  finally
-    GHlp.Free;
-    Hlpr.Free;
-    PartialTarData.Free;
-
-    Strm.Position := CurPos;
+  except
+    on EFilerError do
+      Result := atUnknown;
   end;
 end;
 

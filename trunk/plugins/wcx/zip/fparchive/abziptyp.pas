@@ -653,36 +653,40 @@ var
 begin
   StartPos := Strm.Position;
   Result := atUnknown;
+  try
+    Strm.Position := 0;                                                {!!.02}
+    Strm.Read(Sig, SizeOf(LongInt));                                   {!!.02}
+    if (Sig = Ab_ZipSpannedSetSignature) then                          {!!.02}
+      Result := atSpannedZip                                           {!!.02}
+    else begin                                                         {!!.02}
 
-  Strm.Position := 0;                                                {!!.02}
-  Strm.Read(Sig, SizeOf(LongInt));                                   {!!.02}
-  if (Sig = Ab_ZipSpannedSetSignature) then                          {!!.02}
-    Result := atSpannedZip                                           {!!.02}
-  else begin                                                         {!!.02}
-
-    { attempt to find Central Directory Tail }
-    TailPosition := FindCentralDirectoryTail( Strm );
-    if TailPosition <> -1 then begin
-      { check Central Directory Signature }
-      Footer := TAbZipDirectoryFileFooter.Create;
-      try
-        Footer.LoadFromStream(Strm);
-        if Footer.FSignature = AB_ZipCentralDirectoryTailSignature then
-          Result := atZip;
-      finally
-        Footer.Free;
-      end;
-    end
-(* {!!.02}
-  else begin  { may be a span }                                          {!!.01}
-    Strm.Seek(0, soBeginning);                                           {!!.01}
-    Strm.Read(Sig, SizeOf(LongInt));                                     {!!.01}
-    if (Sig = Ab_ZipSpannedSetSignature)                                 {!!.01}
-      or (Sig = Ab_ZipPossiblySpannedSignature)                          {!!.01}
-    then                                                                 {!!.01}
-      Result := atSpannedZip;                                            {!!.01}
-*) {!!.02}
-  end;                                                                   {!!.01}
+      { attempt to find Central Directory Tail }
+      TailPosition := FindCentralDirectoryTail( Strm );
+      if TailPosition <> -1 then begin
+        { check Central Directory Signature }
+        Footer := TAbZipDirectoryFileFooter.Create;
+        try
+          Footer.LoadFromStream(Strm);
+          if Footer.FSignature = AB_ZipCentralDirectoryTailSignature then
+            Result := atZip;
+        finally
+          Footer.Free;
+        end;
+      end
+  (* {!!.02}
+    else begin  { may be a span }                                          {!!.01}
+      Strm.Seek(0, soBeginning);                                           {!!.01}
+      Strm.Read(Sig, SizeOf(LongInt));                                     {!!.01}
+      if (Sig = Ab_ZipSpannedSetSignature)                                 {!!.01}
+        or (Sig = Ab_ZipPossiblySpannedSignature)                          {!!.01}
+      then                                                                 {!!.01}
+        Result := atSpannedZip;                                            {!!.01}
+  *) {!!.02}
+    end;                                                                   {!!.01}
+  except
+    on EFilerError do
+      Result := atUnknown;
+  end;
   Strm.Position := StartPos;
 end;
 
@@ -694,32 +698,36 @@ var
   IsWinExe, IsLinuxExe : Boolean;                                        {!!.01}
 begin
   StartPos := Strm.Position;
-  { verify presence of executable stub }
-  {check file type of stub stream}
-  Strm.Position := 0;
-  Strm.Read( FileSignature, sizeof( FileSignature ) );
+  try
+    { verify presence of executable stub }
+    {check file type of stub stream}
+    Strm.Position := 0;
+    Strm.Read( FileSignature, sizeof( FileSignature ) );
 
-  Result := atSelfExtZip;
+    Result := atSelfExtZip;
 
-{!!.01 -- re-written Executable Type Detection to allow use of non-native stubs }
-  IsLinuxExe := False;
-  IsWinExe := LongRec(FileSignature).Lo = Ab_WindowsExeSignature;        {!!.02}
-  if not IsWinExe then begin
-    IsLinuxExe := FileSignature = Ab_LinuxExeSigWord1; { check 1st sig }
-    if IsLinuxExe then begin
-      Strm.Read(FileSignature, SizeOf(FileSignature)); { check 2nd sig }
-      IsLinuxExe := FileSignature = Ab_LinuxExeSigWord2;
+  {!!.01 -- re-written Executable Type Detection to allow use of non-native stubs }
+    IsLinuxExe := False;
+    IsWinExe := LongRec(FileSignature).Lo = Ab_WindowsExeSignature;        {!!.02}
+    if not IsWinExe then begin
+      IsLinuxExe := FileSignature = Ab_LinuxExeSigWord1; { check 1st sig }
+      if IsLinuxExe then begin
+        Strm.Read(FileSignature, SizeOf(FileSignature)); { check 2nd sig }
+        IsLinuxExe := FileSignature = Ab_LinuxExeSigWord2;
+      end;
     end;
+
+    if not (IsWinExe or IsLinuxExe) then
+      Result := atUnknown;
+
+  {!!.01 -- end re-written }
+    { Check for central directory tail }
+    if VerifyZip(Strm) <> atZip then
+      Result := atUnknown;
+  except
+    on EFilerError do
+      Result := atUnknown;
   end;
-
-  if not (IsWinExe or IsLinuxExe) then
-    Result := atUnknown;
-
-{!!.01 -- end re-written }
-  { Check for central directory tail }
-  if VerifyZip(Strm) <> atZip then
-    Result := atUnknown;
-
   Strm.Position := StartPos;
 end;
 

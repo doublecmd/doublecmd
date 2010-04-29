@@ -139,24 +139,29 @@ begin
   CurPos := Strm.Position;
   Strm.Seek(0, soFromBeginning);
 
-  if (Strm.Read(Hdr, SizeOf(Hdr)) = SizeOf(Hdr)) and VerifyHeader(Hdr) then begin
-    Result := atBzip2;
-    { Check for embedded TAR }
-    Strm.Seek(0, soFromBeginning);
-    DecompStream := TBZDecompressionStream.Create(Strm);
-    try
-      TarStream := TMemoryStream.Create;
+  try
+    if (Strm.Read(Hdr, SizeOf(Hdr)) = SizeOf(Hdr)) and VerifyHeader(Hdr) then begin
+      Result := atBzip2;
+      { Check for embedded TAR }
+      Strm.Seek(0, soFromBeginning);
+      DecompStream := TBZDecompressionStream.Create(Strm);
       try
-        TarStream.CopyFrom(DecompStream, 512 * 2);
-        TarStream.Seek(0, soFromBeginning);
-        if VerifyTar(TarStream) = atTar then
-          Result := atBzippedTar;
+        TarStream := TMemoryStream.Create;
+        try
+          TarStream.CopyFrom(DecompStream, 512 * 2);
+          TarStream.Seek(0, soFromBeginning);
+          if VerifyTar(TarStream) = atTar then
+            Result := atBzippedTar;
+        finally
+          TarStream.Free;
+        end;
       finally
-        TarStream.Free;
+        DecompStream.Free;
       end;
-    finally
-      DecompStream.Free;
     end;
+  except
+    on EFilerError do
+      Result := atUnknown;
   end;
   Strm.Position := CurPos; { Return to original position. }
 end;
