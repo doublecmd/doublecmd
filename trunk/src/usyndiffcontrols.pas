@@ -82,8 +82,8 @@ type
                                      var Special: boolean; AMarkup: TSynSelectedColor);
   public
     constructor Create(AOwner: TComponent); override;
-    procedure BeginCompare(ADiff: TDiff; ADiffCount: Integer);
-    procedure EndCompare;
+    procedure BeginCompare(ADiff: TDiff);
+    procedure EndCompare(ADiffCount: Integer);
     property Diff: TDiff read FDiff write FDiff;
     property DiffKind[Index: Integer]: TChangeKind read GetDiffKind;
     property DiffCount: Integer read GetDiffCount;
@@ -135,15 +135,15 @@ begin
     end;
 end;
 
-procedure TSynDiffEdit.BeginCompare(ADiff: TDiff; ADiffCount: Integer);
+procedure TSynDiffEdit.BeginCompare(ADiff: TDiff);
 begin
   FDiff:= ADiff;
-  FDiffCount:= ADiffCount;
   BeginUpdate;
 end;
 
-procedure TSynDiffEdit.EndCompare;
+procedure TSynDiffEdit.EndCompare(ADiffCount: Integer);
 begin
+  FDiffCount:= ADiffCount;
   EndUpdate;
 end;
 
@@ -370,7 +370,7 @@ begin
       iLine := FFoldView.DisplayNumber[I];
       // next line rect
       rcLine.Top := rcLine.Bottom;
-      if SynDiffEdit.DiffCount <> 0 then
+      if Assigned(SynDiffEdit.FDiff) and (SynDiffEdit.DiffCount <> 0) then
         begin
           iLine:= PtrInt(SynDiffEdit.Lines.Objects[iLine - 1]);
         end;
