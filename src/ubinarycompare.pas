@@ -1,21 +1,22 @@
+unit uBinaryCompare;
+
 {$mode objfpc}{$H+}
-unit uCompareFiles;
 
 interface
+
 uses
   Classes;
-Type
-  TCompareMethod=(cmInternalText, cmInternalBin);
-const
-  cColumnSize=10;
-  cLineDiverg=50;
 
-function CompareFiles(const sLeftFileName, sRightFileName:UTF8String; {Var}
-  lsLeft, lsRight:TStrings; CompareMethod:TCompareMethod):Integer;
+const
+  cColumnSize = 8;
+  cLineDiverg = 50;
+
+function BinaryCompare(const sLeftFileName, sRightFileName: UTF8String; lsLeft, lsRight: TStrings): Integer;
 
 implementation
+
 uses
-  SysUtils, uClassesEx, uTextCompare;
+  SysUtils, uClassesEx;
 
 function ConvertByte(b:Byte):Char;
 begin
@@ -31,36 +32,12 @@ begin
   end;}
 end;
 
-function Byte2Hex(b:Byte):String;
+function Byte2Hex(b: Byte): String;
 begin
-  Result:=IntToHex(b,2)+' ';
+  Result:= IntToHex(b, 2) + ' ';
 end;
 
-function CompareFilesText(const sLeftFileName, sRightFileName:UTF8String; {Var}
-  lsLeft, lsRight:TStrings):Integer;
-
-  procedure ReadFromFile(const FileName: UTF8String; Strings: TStrings);
-  var
-    FileStream : TFileStreamEx;
-  begin
-    FileStream := TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyWrite);
-    try
-      Strings.LoadFromStream(FileStream);
-    finally
-      FreeAndNil(FileStream);
-    end;
-  end;
-
-begin
-  ReadFromFile(sLeftFileName, lsLeft);
-  ReadFromFile(sRightFileName, lsRight);
-
-  Result := TextCompare(lsLeft, lsRight);
-end;
-
-function CompareFilesBin(const sLeftFileName, sRightFileName:UTF8String; {Var}
-  lsLeft, lsRight:TStrings):Integer;
-
+function BinaryCompare(const sLeftFileName, sRightFileName: UTF8String; lsLeft, lsRight: TStrings): Integer;
 var
   fLeft, fRight:TFileStreamEx;
   bLeft:Byte;
@@ -80,15 +57,14 @@ begin
   sRightHexLine:='';
 end;
 
-Function LineFormat(const sHex, sAscii:String; iLine:Integer):String;
+function LineFormat(const sHex, sAscii: String): String;
 var
-  sDummy:String;
+  sDummy: String;
 begin
-  sDummy:='';
-  if length(sHex)<(cColumnSize*3) then
-    sDummy:=StringOfChar('*',cColumnSize*3-length(sHex));
-//  Result:=Format('%4d: %s%s  %s',[iLine,sHex,sDummy,sAscii]);;
-  Result:=Format('%6d: %s%s  %s',[iLine,sHex,sDummy,sAscii]);;
+  sDummy:= EmptyStr;
+  if Length(sHex) < (cColumnSize * 3) then
+    sDummy:= StringOfChar('*', cColumnSize*3 - Length(sHex));
+  Result:= Format('%s%s  %s',[sHex, sDummy, sAscii]);
 end;
 
 begin
@@ -116,8 +92,8 @@ begin
       inc(iColumnCount);
       if iColumnCount>=cColumnSize then
       begin
-        lsLeft.AddObject(LineFormat(sLeftHexLine,sLeftLine, iLineCount), TObject(iDiffed));
-        lsRight.AddObject(LineFormat(sRightHexLine,sRightLine, iLineCount),TObject(iDiffed));
+        lsLeft.AddObject(LineFormat(sLeftHexLine,sLeftLine), TObject(iDiffed));
+        lsRight.AddObject(LineFormat(sRightHexLine,sRightLine),TObject(iDiffed));
         iDiffed:=0;
         ClearLines;
         iColumnCount:=0;
@@ -137,7 +113,7 @@ begin
         inc(iColumnCount);
         if iColumnCount>=cColumnSize then
         begin
-          lsLeft.AddObject(LineFormat(sLeftHexLine,sLeftLine, iLineCount),TObject(iDiffed));
+          lsLeft.AddObject(LineFormat(sLeftHexLine,sLeftLine),TObject(iDiffed));
           iDiffed:=0;
           sLeftLine:='';
           sLeftHexLine:='';
@@ -159,7 +135,7 @@ begin
         inc(iColumnCount);
         if iColumnCount>=cColumnSize then
         begin
-          lsRight.AddObject(LineFormat(sRightHexLine,sRightLine, iLineCount),TObject(iDiffed));
+          lsRight.AddObject(LineFormat(sRightHexLine,sRightLine),TObject(iDiffed));
           iDiffed:=0;
           sRightLine:='';
           sRightHexLine:='';
@@ -170,35 +146,13 @@ begin
     end;
 
     if sRightLine<>'' then
-      lsRight.AddObject(LineFormat(sRightHexLine,sRightLine, iLineCount),TObject(iDiffed));
+      lsRight.AddObject(LineFormat(sRightHexLine,sRightLine),TObject(iDiffed));
     if sLeftLine<>'' then
-      lsLeft.AddObject(LineFormat(sLeftHexLine,sLeftLine, iLineCount),TObject(iDiffed));
+      lsLeft.AddObject(LineFormat(sLeftHexLine,sLeftLine),TObject(iDiffed));
   Result:=iDif;
   finally
     FreeAndNil(fLeft);
     FreeAndNil(fRight);
-  end;
-end;
-
-function CompareFiles(const sLeftFileName, sRightFileName:UTF8String; {Var}
-  lsLeft, lsRight:TStrings; CompareMethod:TCompareMethod):Integer;
-begin
-  assert(lsLeft<>nil,'CompareFiles: lsLeft=nil');
-  assert(lsRight<>nil,'CompareFiles: lsRight=nil');
-  try
-    lsLeft.BeginUpdate;
-    lsRight.BeginUpdate;
-
-    lsLeft.Clear;
-    lsRight.Clear;
-
-    case CompareMethod of
-      cmInternalText:Result:=CompareFilesText(sLeftFileName,sRightFileName, lsLeft, lsRight);
-      cmInternalBin:Result:=CompareFilesBin(sLeftFileName,sRightFileName, lsLeft, lsRight);
-    end;
-  finally
-    lsLeft.EndUpdate;
-    lsRight.EndUpdate;
   end;
 end;
 

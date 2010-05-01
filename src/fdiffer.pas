@@ -101,7 +101,7 @@ procedure ShowDiffer(const FileNameLeft, FileNameRight: UTF8String);
 implementation
 
 uses
-  LCLProc, uHash, uLng, uGlobs, uShowMsg, uCompareFiles, uClassesEx, uOSUtils;
+  LCLProc, uHash, uLng, uGlobs, uShowMsg, uBinaryCompare, uClassesEx, uOSUtils;
 
 {$R *.lfm}
 
@@ -133,11 +133,10 @@ begin
     Screen.Cursor := crHourGlass;
     if actBinaryCompare.Checked then
       begin
-        DiffCount := CompareFiles(edtFileNameLeft.Text, edtFileNameRight.Text,
-                 SynDiffEditLeft.Lines, SynDiffEditRight.Lines, cmInternalBin);
-        SynDiffEditLeft.BeginCompare(nil, DiffCount);
-        SynDiffEditRight.BeginCompare(nil, DiffCount);
-
+        SynDiffEditLeft.BeginCompare(nil);
+        SynDiffEditRight.BeginCompare(nil);
+        DiffCount := BinaryCompare(edtFileNameLeft.Text, edtFileNameRight.Text,
+                                   SynDiffEditLeft.Lines, SynDiffEditRight.Lines);
       end
     else
       begin
@@ -154,8 +153,8 @@ begin
 
         if Diff.Cancelled then Exit;
 
-        SynDiffEditLeft.BeginCompare(Diff, Diff.Count);
-        SynDiffEditRight.BeginCompare(Diff, Diff.Count);
+        SynDiffEditLeft.BeginCompare(Diff);
+        SynDiffEditRight.BeginCompare(Diff);
 
         for I := 0 to Diff.Count - 1 do
         with Diff.Compares[I] do
@@ -180,7 +179,7 @@ begin
             end;
           end;
         end;
-
+        DiffCount:= Diff.Count;
         with Diff.DiffStats do
         begin
           StatusBar.Panels[0].Text := ' Matches: ' + IntToStr(matches);
@@ -190,8 +189,8 @@ begin
         end;
     end;
   finally
-    SynDiffEditLeft.EndCompare;
-    SynDiffEditRight.EndCompare;
+    SynDiffEditLeft.EndCompare(DiffCount);
+    SynDiffEditRight.EndCompare(DiffCount);
     SynDiffEditLeft.Invalidate;
     SynDiffEditRight.Invalidate;
     Screen.Cursor := crDefault;
@@ -223,8 +222,16 @@ end;
 
 procedure TfrmDiffer.actBinaryCompareExecute(Sender: TObject);
 begin
-  OpenFileLeft(edtFileNameLeft.Text);
-  OpenFileRight(edtFileNameRight.Text);
+  if actBinaryCompare.Checked then
+    begin
+      SynDiffEditLeft.Lines.Clear;
+      SynDiffEditRight.Lines.Clear;
+    end
+  else
+    begin
+      OpenFileLeft(edtFileNameLeft.Text);
+      OpenFileRight(edtFileNameRight.Text);
+    end;
 end;
 
 procedure TfrmDiffer.actPrevDiffExecute(Sender: TObject);

@@ -1,11 +1,11 @@
 object frmDiffer: TfrmDiffer
-  Left = 284
-  Height = 416
-  Top = 87
-  Width = 697
+  Left = 110
+  Height = 379
+  Top = 120
+  Width = 760
   Caption = 'Compare files'
-  ClientHeight = 396
-  ClientWidth = 697
+  ClientHeight = 359
+  ClientWidth = 760
   Menu = MainMenu
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -16,7 +16,7 @@ object frmDiffer: TfrmDiffer
     Left = 0
     Height = 26
     Top = 0
-    Width = 697
+    Width = 760
     ButtonHeight = 24
     ButtonWidth = 24
     Images = ImageList
@@ -88,12 +88,12 @@ object frmDiffer: TfrmDiffer
   end
   object pnlLeft: TPanel
     Left = 0
-    Height = 347
+    Height = 310
     Top = 26
     Width = 379
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 347
+    ClientHeight = 310
     ClientWidth = 379
     TabOrder = 1
     object pnlLeftBox: TPanel
@@ -178,30 +178,30 @@ object frmDiffer: TfrmDiffer
   end
   object Splitter: TSplitter
     Left = 379
-    Height = 347
+    Height = 310
     Top = 26
     Width = 5
   end
   object pnlRight: TPanel
     Left = 384
-    Height = 347
+    Height = 310
     Top = 26
-    Width = 313
+    Width = 376
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 347
-    ClientWidth = 313
+    ClientHeight = 310
+    ClientWidth = 376
     TabOrder = 3
     object pnlRightBox: TPanel
       Left = 0
       Height = 21
       Top = 0
-      Width = 313
+      Width = 376
       Align = alTop
       AutoSize = True
       BevelOuter = bvNone
       ClientHeight = 21
-      ClientWidth = 313
+      ClientWidth = 376
       FullRepaint = False
       TabOrder = 0
       object edtFileNameRight: TFileNameEdit
@@ -210,7 +210,7 @@ object frmDiffer: TfrmDiffer
         Left = 23
         Height = 21
         Top = 0
-        Width = 265
+        Width = 328
         OnAcceptFileName = edtFileNameRightAcceptFileName
         DialogOptions = []
         FilterIndex = 0
@@ -275,8 +275,8 @@ object frmDiffer: TfrmDiffer
   object StatusBar: TStatusBar
     Left = 0
     Height = 23
-    Top = 373
-    Width = 697
+    Top = 336
+    Width = 760
     Panels = <    
       item
         Width = 100
@@ -320,6 +320,7 @@ object frmDiffer: TfrmDiffer
       object miBinaryCompare: TMenuItem
         Action = actBinaryCompare
         AutoCheck = True
+        OnClick = actBinaryCompareExecute
       end
       object miKeepScrolling: TMenuItem
         Action = actKeepScrolling
