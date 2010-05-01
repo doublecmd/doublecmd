@@ -1,20 +1,22 @@
 object frmDiffer: TfrmDiffer
-  Left = 286
-  Height = 240
-  Top = 186
-  Width = 320
+  Left = 284
+  Height = 416
+  Top = 87
+  Width = 697
   Caption = 'Compare files'
-  ClientHeight = 220
-  ClientWidth = 320
+  ClientHeight = 396
+  ClientWidth = 697
   Menu = MainMenu
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnResize = FormResize
+  Position = poDefault
   LCLVersion = '0.9.29'
   object ToolBar: TToolBar
     Left = 0
     Height = 26
     Top = 0
-    Width = 320
+    Width = 697
     ButtonHeight = 24
     ButtonWidth = 24
     Images = ImageList
@@ -86,24 +88,24 @@ object frmDiffer: TfrmDiffer
   end
   object pnlLeft: TPanel
     Left = 0
-    Height = 171
+    Height = 347
     Top = 26
-    Width = 170
+    Width = 379
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 171
-    ClientWidth = 170
+    ClientHeight = 347
+    ClientWidth = 379
     TabOrder = 1
     object pnlLeftBox: TPanel
       Left = 0
       Height = 21
       Top = 0
-      Width = 170
+      Width = 379
       Align = alTop
       AutoSize = True
       BevelOuter = bvNone
       ClientHeight = 21
-      ClientWidth = 170
+      ClientWidth = 379
       FullRepaint = False
       TabOrder = 0
       object edtFileNameLeft: TFileNameEdit
@@ -112,7 +114,7 @@ object frmDiffer: TfrmDiffer
         Left = 23
         Height = 21
         Top = 0
-        Width = 122
+        Width = 331
         OnAcceptFileName = edtFileNameLeftAcceptFileName
         DialogOptions = []
         FilterIndex = 0
@@ -175,31 +177,31 @@ object frmDiffer: TfrmDiffer
     end
   end
   object Splitter: TSplitter
-    Left = 170
-    Height = 171
+    Left = 379
+    Height = 347
     Top = 26
     Width = 5
   end
   object pnlRight: TPanel
-    Left = 175
-    Height = 171
+    Left = 384
+    Height = 347
     Top = 26
-    Width = 145
+    Width = 313
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 171
-    ClientWidth = 145
+    ClientHeight = 347
+    ClientWidth = 313
     TabOrder = 3
     object pnlRightBox: TPanel
       Left = 0
       Height = 21
       Top = 0
-      Width = 145
+      Width = 313
       Align = alTop
       AutoSize = True
       BevelOuter = bvNone
       ClientHeight = 21
-      ClientWidth = 145
+      ClientWidth = 313
       FullRepaint = False
       TabOrder = 0
       object edtFileNameRight: TFileNameEdit
@@ -208,7 +210,7 @@ object frmDiffer: TfrmDiffer
         Left = 23
         Height = 21
         Top = 0
-        Width = 97
+        Width = 265
         OnAcceptFileName = edtFileNameRightAcceptFileName
         DialogOptions = []
         FilterIndex = 0
@@ -273,8 +275,8 @@ object frmDiffer: TfrmDiffer
   object StatusBar: TStatusBar
     Left = 0
     Height = 23
-    Top = 197
-    Width = 320
+    Top = 373
+    Width = 697
     Panels = <    
       item
         Width = 100
@@ -411,7 +413,9 @@ object frmDiffer: TfrmDiffer
       ImageIndex = 7
     end
     object actBinaryCompare: TAction
+      AutoCheck = True
       Caption = 'Binary'
+      OnExecute = actBinaryCompareExecute
     end
   end
   object ImageList: TImageList
