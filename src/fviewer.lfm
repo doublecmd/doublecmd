@@ -1,7 +1,7 @@
 object frmViewer: TfrmViewer
-  Left = 360
+  Left = 275
   Height = 530
-  Top = 297
+  Top = 147
   Width = 990
   HorzScrollBar.Page = 951
   VertScrollBar.Page = 491
@@ -175,7 +175,7 @@ object frmViewer: TfrmViewer
       object gboxHightlight: TGroupBox
         AnchorSideLeft.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 280
+        Left = 312
         Height = 47
         Top = 1
         Width = 135
@@ -270,7 +270,7 @@ object frmViewer: TfrmViewer
       object gboxPaint: TGroupBox
         AnchorSideLeft.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 457
+        Left = 489
         Height = 47
         Top = 1
         Width = 203
@@ -412,7 +412,7 @@ object frmViewer: TfrmViewer
       object btnHightlight: TSpeedButton
         AnchorSideLeft.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 243
+        Left = 275
         Height = 46
         Hint = 'Highlight'
         Top = 1
@@ -492,7 +492,7 @@ object frmViewer: TfrmViewer
       object gboxView: TGroupBox
         AnchorSideLeft.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 53
+        Left = 85
         Height = 47
         Top = 1
         Width = 184
@@ -765,9 +765,8 @@ object frmViewer: TfrmViewer
       end
       object btnResize: TSpeedButton
         AnchorSideLeft.Side = asrBottom
-        AnchorSideRight.Control = btnScreenshot
         AnchorSideBottom.Side = asrBottom
-        Left = 853
+        Left = 925
         Height = 46
         Top = 1
         Width = 61
@@ -859,22 +858,9 @@ object frmViewer: TfrmViewer
         NumGlyphs = 0
         OnClick = btnReloadClick
       end
-      object btnScreenshot: TSpeedButton
-        Left = 917
-        Height = 46
-        Top = 1
-        Width = 72
-        Align = alRight
-        AutoSize = True
-        BorderSpacing.Bottom = 2
-        Caption = 'Screenshot'
-        Color = clBtnFace
-        NumGlyphs = 0
-        OnClick = btnScreenshotClick
-      end
       object btnPaint: TSpeedButton
         AnchorSideBottom.Side = asrBottom
-        Left = 420
+        Left = 452
         Height = 46
         Hint = 'Paint'
         Top = 1
@@ -954,7 +940,7 @@ object frmViewer: TfrmViewer
       object btnFullScreen: TSpeedButton
         AnchorSideRight.Control = btnResize
         AnchorSideBottom.Side = asrBottom
-        Left = 800
+        Left = 872
         Height = 45
         Hint = 'Full Screen'
         Top = 1
@@ -1034,7 +1020,7 @@ object frmViewer: TfrmViewer
       end
       object gboxSlideShow: TGroupBox
         AnchorSideRight.Control = btnFullScreen
-        Left = 670
+        Left = 742
         Height = 48
         Top = 1
         Width = 124
@@ -1078,6 +1064,28 @@ object frmViewer: TfrmViewer
           Caption = 'Slide Show'
           TabOrder = 1
         end
+      end
+      object btnPrev: TSpeedButton
+        Left = 48
+        Height = 48
+        Top = 1
+        Width = 16
+        Align = alLeft
+        Caption = '<'
+        Color = clBtnFace
+        NumGlyphs = 0
+        OnClick = btnPrevClick
+      end
+      object btnNext: TSpeedButton
+        Left = 64
+        Height = 48
+        Top = 1
+        Width = 16
+        Align = alLeft
+        Caption = '>'
+        Color = clBtnFace
+        NumGlyphs = 0
+        OnClick = btnNextClick
       end
     end
   end
@@ -1265,6 +1273,10 @@ object frmViewer: TfrmViewer
         Caption = 'Full Screen'
         OnClick = miFullScreenClick
       end
+      object miScreenshot: TMenuItem
+        Caption = 'Screenshot'
+        OnClick = miScreenshotClick
+      end
     end
     object miAbout: TMenuItem
       Caption = 'About'
@@ -1290,6 +1302,7 @@ object frmViewer: TfrmViewer
     end
   end
   object SavePictureDialog: TSavePictureDialog
+    Title = 'Сохранить файл как'
     left = 304
     top = 64
   end

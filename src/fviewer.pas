@@ -20,6 +20,14 @@
    changes:
      - Added WLX api support (TC WLX api v 1.8)
 
+   Rustem Rakhimov
+   25.04.10
+   changes:
+     - fullscreen
+     - function for edit image
+     - slide show
+     - some Viwer function
+
 }
 
 unit fViewer;
@@ -46,6 +54,7 @@ type
     gboxPaint: TGroupBox;
     gboxView: TGroupBox;
     gboxSlideShow: TGroupBox;
+    miScreenshot: TMenuItem;
     miFullScreen: TMenuItem;
     miSaveToPnm: TMenuItem;
     miSaveToIco: TMenuItem;
@@ -91,11 +100,12 @@ type
     btnZoomIn: TSpeedButton;
     btnZoomOut: TSpeedButton;
     btnReload: TSpeedButton;
-    btnScreenshot: TSpeedButton;
     btnPaint: TSpeedButton;
     btnFullScreen: TSpeedButton;
     seTimeShow: TSpinEdit;
     btnRedEye: TSpeedButton;
+    btnNext: TSpeedButton;
+    btnPrev: TSpeedButton;
     Status: TStatusBar;
     MainMenu: TMainMenu;
     miFile: TMenuItem;
@@ -122,7 +132,9 @@ type
     ViewerControl: TViewerControl;
     procedure btnCutTuImageClick(Sender: TObject);
     procedure btnFullScreenClick(Sender: TObject);
+    procedure btnNextClick(Sender: TObject);
     procedure btnPaintHightlight(Sender: TObject);
+    procedure btnPrevClick(Sender: TObject);
     procedure btnRedEyeClick(Sender: TObject);
     procedure btnReloadClick(Sender: TObject);
     procedure btnResizeClick(Sender: TObject);
@@ -138,6 +150,7 @@ type
       );
     procedure ImageMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure miScreenShotClick(Sender: TObject);
     procedure miFullScreenClick(Sender: TObject);
     procedure miPluginsClick(Sender: TObject);
     procedure miPrintClick(Sender: TObject);
@@ -154,6 +167,8 @@ type
     procedure pnlListerResize(Sender: TObject);
     procedure sboxImageMouseEnter(Sender: TObject);
     procedure sboxImageMouseLeave(Sender: TObject);
+    procedure sboxImageMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
     procedure sboxImageResize(Sender: TObject);
     procedure TimerViewerTimer(Sender: TObject);
     procedure ViewerControlMouseUp(Sender: TObject; Button: TMouseButton;
@@ -480,6 +495,12 @@ procedure TfrmViewer.ImageMouseMove(Sender: TObject; Shift: TShiftState; X,
 var
   tmp: integer;
 begin
+  if miFullScreen.Checked then
+    begin
+      sboxImage.Cursor:=crDefault;
+      Image.Cursor:=crDefault;
+      i_timer:=0;
+    end;
   X:=round(X*Image.Picture.Width/Image.Width);                      // for correct paint after zoom
   Y:=round(Y*Image.Picture.Height/Image.Height);
   if MDFlag then
@@ -625,7 +646,6 @@ begin
   btnResize.Visible:=not(miFullScreen.Checked);
   TimerViewer.Enabled:=miFullScreen.Checked;
   btnReload.Visible:=not(miFullScreen.Checked);
-  btnScreenshot.Visible:=not(miFullScreen.Checked);
   Status.Visible:=not(miFullScreen.Checked);
   gboxSlideShow.Visible:=miFullScreen.Checked;
 
@@ -1016,7 +1036,7 @@ end;
 
 procedure TfrmViewer.PanelEditImageMouseEnter(Sender: TObject);
 begin
-  if miFullScreen.Checked then PanelEditImage.Height:= 50;
+  if miFullScreen.Checked then  PanelEditImage.Height:= 50;
 end;
 
 procedure TfrmViewer.pnlListerResize(Sender: TObject);
@@ -1035,6 +1055,17 @@ begin
   if miFullScreen.Checked then TimerViewer.Enabled:=false;
 end;
 
+procedure TfrmViewer.sboxImageMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  if miFullScreen.Checked then
+  begin
+    sboxImage.Cursor:=crDefault;
+    Image.Cursor:=crDefault;
+    i_timer:=0;
+  end;
+end;
+
 procedure TfrmViewer.sboxImageResize(Sender: TObject);
 begin
   if bImage then AdjustImageSize;
@@ -1044,11 +1075,16 @@ procedure TfrmViewer.TimerViewerTimer(Sender: TObject);
 begin
   if (miFullScreen.Checked) and (PanelEditImage.Height>3) then
   PanelEditImage.Height:=PanelEditImage.Height-1;
-  if cbSlideShow.Checked then i_timer:=i_timer+1;
-  if i_timer=60*seTimeShow.Value then
+  i_timer:=i_timer+1;
+  if (cbSlideShow.Checked) and (i_timer=60*seTimeShow.Value) then
     begin
      miNextClick(Sender);
      i_timer:=0;
+    end;
+  if i_timer=180 then
+    begin
+     sboxImage.Cursor:=crNone;
+     Image.Cursor:=crNone;
     end;
 end;
 
@@ -1239,6 +1275,11 @@ begin
   miFullScreenClick(Sender);
 end;
 
+procedure TfrmViewer.btnNextClick(Sender: TObject);
+begin
+  miNextClick (Sender);
+end;
+
 procedure TfrmViewer.btnPaintHightlight(Sender: TObject);
 var
   bmp: TCustomBitmap = nil;
@@ -1287,6 +1328,11 @@ begin
   CreateTmp;
 end;
 
+procedure TfrmViewer.btnPrevClick(Sender: TObject);
+begin
+  miPrevClick (Sender);
+end;
+
 procedure TfrmViewer.btnRedEyeClick(Sender: TObject);
 begin
   RedEyes;
@@ -1312,6 +1358,11 @@ begin
   else
     Exit;
   AdjustImageSize;
+end;
+
+procedure TfrmViewer.btnScreenshotClick(Sender: TObject);
+begin
+
 end;
 
 procedure TfrmViewer.btnUndoClick(Sender: TObject);
@@ -1548,7 +1599,7 @@ begin
   CreateTmp;
 end;
 
-procedure TfrmViewer.btnScreenshotClick(Sender: TObject);
+procedure TfrmViewer.miScreenShotClick(Sender: TObject);
 var
   ScreenDC: HDC;
   bmp: TCustomBitmap;
