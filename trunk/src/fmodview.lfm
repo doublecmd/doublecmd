@@ -109,7 +109,7 @@ object frmModView: TfrmModView
       Max = 100
       Min = 1
       Position = 80
-      OnMouseUp = tbQualityMouseUp
+      OnMouseMove = tbQualityMouseMove
       TabOrder = 0
     end
     object Label1: TLabel

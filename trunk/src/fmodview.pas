@@ -30,8 +30,8 @@ type
     procedure btnOkClick(Sender: TObject);
     procedure btnProportionClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure tbQualityMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+    procedure tbQualityMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
     procedure teHeightKeyPress(Sender: TObject; var Key: char);
     procedure teHeightKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure teQualityKeyPress(Sender: TObject; var Key: char);
@@ -65,8 +65,8 @@ begin
     end;
 end;
 
-procedure TfrmModView.tbQualityMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
+procedure TfrmModView.tbQualityMouseMove(Sender: TObject; Shift: TShiftState;
+  X, Y: Integer);
 begin
   teQuality.Text:= intToStr(tbQuality.Position);
 end;
