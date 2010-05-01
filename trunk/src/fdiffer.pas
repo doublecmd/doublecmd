@@ -70,6 +70,7 @@ type
     Divider3: TToolButton;
     btnCancelCompare: TToolButton;
     Divider4: TToolButton;
+    procedure actBinaryCompareExecute(Sender: TObject);
     procedure actNextDiffExecute(Sender: TObject);
     procedure actPrevDiffExecute(Sender: TObject);
     procedure actStartCompareExecute(Sender: TObject);
@@ -77,6 +78,7 @@ type
     procedure edtFileNameLeftAcceptFileName(Sender: TObject; var Value: String);
     procedure edtFileNameRightAcceptFileName(Sender: TObject; var Value: String);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
   private
     Diff: TDiff;
@@ -99,7 +101,7 @@ procedure ShowDiffer(const FileNameLeft, FileNameRight: UTF8String);
 implementation
 
 uses
-  uHash, uLng, uGlobs, uShowMsg, uClassesEx, uOSUtils;
+  LCLProc, uHash, uLng, uGlobs, uShowMsg, uCompareFiles, uClassesEx, uOSUtils;
 
 {$R *.lfm}
 
@@ -123,76 +125,78 @@ end;
 
 procedure TfrmDiffer.actStartCompareExecute(Sender: TObject);
 var
-  I: Integer;
+  I, DiffCount: Integer;
   LineNumberLeft,
   LineNumberRight: PtrInt;
 begin
-  if actBinaryCompare.Checked then
-    begin
-
-    end
-  else
-    begin
-  if (HashListLeft.Count = 0) or (HashListRight.Count = 0) then Exit;
-  actCancelCompare.Enabled := True;
-  Screen.Cursor := crHourGlass;
   try
-    //this is where it all happens  ...
+    Screen.Cursor := crHourGlass;
+    if actBinaryCompare.Checked then
+      begin
+        DiffCount := CompareFiles(edtFileNameLeft.Text, edtFileNameRight.Text,
+                 SynDiffEditLeft.Lines, SynDiffEditRight.Lines, cmInternalBin);
+        SynDiffEditLeft.BeginCompare(nil, DiffCount);
+        SynDiffEditRight.BeginCompare(nil, DiffCount);
 
-    //nb: TList.list is a pointer to the bottom of the list's integer array
-    Diff.Execute(
-                 PInteger(HashListLeft.List),
-                 PInteger(HashListRight.List),
-                 HashListLeft.Count,
-                 HashListRight.Count
-                 );
+      end
+    else
+      begin
+        if (HashListLeft.Count = 0) or (HashListRight.Count = 0) then Exit;
+        actCancelCompare.Enabled := True;
 
-    if Diff.Cancelled then Exit;
-    try
-    SynDiffEditLeft.BeginCompare(Diff, Diff.Count);
-    SynDiffEditRight.BeginCompare(Diff, Diff.Count);
+        //nb: TList.list is a pointer to the bottom of the list's integer array
+        Diff.Execute(
+                     PInteger(HashListLeft.List),
+                     PInteger(HashListRight.List),
+                     HashListLeft.Count,
+                     HashListRight.Count
+                    );
 
-    for I := 0 to Diff.Count - 1 do
-    with Diff.Compares[I] do
-    begin
-      LineNumberLeft:= oldIndex1 + 1;
-      LineNumberRight:= oldIndex2 + 1;
-      case Kind of
-      ckAdd:
+        if Diff.Cancelled then Exit;
+
+        SynDiffEditLeft.BeginCompare(Diff, Diff.Count);
+        SynDiffEditRight.BeginCompare(Diff, Diff.Count);
+
+        for I := 0 to Diff.Count - 1 do
+        with Diff.Compares[I] do
         begin
-          SynDiffEditLeft.Lines.InsertObject(I, EmptyStr, nil);
-          SynDiffEditRight.Lines.Objects[I]:= TObject(LineNumberRight)
+          LineNumberLeft:= oldIndex1 + 1;
+          LineNumberRight:= oldIndex2 + 1;
+          case Kind of
+          ckAdd:
+            begin
+              SynDiffEditLeft.Lines.InsertObject(I, EmptyStr, nil);
+              SynDiffEditRight.Lines.Objects[I]:= TObject(LineNumberRight)
+            end;
+          ckDelete:
+            begin
+              SynDiffEditLeft.Lines.Objects[I]:= TObject(LineNumberLeft);
+              SynDiffEditRight.Lines.InsertObject(I, EmptyStr, nil);
+            end;
+          else
+            begin
+              SynDiffEditLeft.Lines.Objects[I]:= TObject(LineNumberLeft);
+              SynDiffEditRight.Lines.Objects[I]:= TObject(LineNumberRight)
+            end;
+          end;
         end;
-      ckDelete:
+
+        with Diff.DiffStats do
         begin
-          SynDiffEditLeft.Lines.Objects[I]:= TObject(LineNumberLeft);
-          SynDiffEditRight.Lines.InsertObject(I, EmptyStr, nil);
+          StatusBar.Panels[0].Text := ' Matches: ' + IntToStr(matches);
+          StatusBar.Panels[1].Text := ' Modifies: ' + IntToStr(modifies);
+          StatusBar.Panels[2].Text := ' Adds: ' + IntToStr(adds);
+          StatusBar.Panels[3].Text := ' Deletes: ' + IntToStr(deletes);
         end;
-      else
-        begin
-          SynDiffEditLeft.Lines.Objects[I]:= TObject(LineNumberLeft);
-          SynDiffEditRight.Lines.Objects[I]:= TObject(LineNumberRight)
-        end;
-      end;
-    end;
-    finally
-      SynDiffEditLeft.EndCompare;
-      SynDiffEditRight.EndCompare;
-    end;
-    with Diff.DiffStats do
-    begin
-      StatusBar.Panels[0].Text := ' Matches: ' + IntToStr(matches);
-      StatusBar.Panels[1].Text := ' Modifies: ' + IntToStr(modifies);
-      StatusBar.Panels[2].Text := ' Adds: ' + IntToStr(adds);
-      StatusBar.Panels[3].Text := ' Deletes: ' + IntToStr(deletes);
     end;
   finally
+    SynDiffEditLeft.EndCompare;
+    SynDiffEditRight.EndCompare;
     SynDiffEditLeft.Invalidate;
     SynDiffEditRight.Invalidate;
     Screen.Cursor := crDefault;
     actCancelCompare.Enabled := False;
   end;
-    end;
   //mnuEdit.Enabled := true;
 end;
 
@@ -215,6 +219,12 @@ begin
   SynDiffEditLeft.CaretY := Line;
   SynDiffEditRight.CaretY := Line;
   SynDiffEditLeft.TopLine := Line + 1;
+end;
+
+procedure TfrmDiffer.actBinaryCompareExecute(Sender: TObject);
+begin
+  OpenFileLeft(edtFileNameLeft.Text);
+  OpenFileRight(edtFileNameRight.Text);
 end;
 
 procedure TfrmDiffer.actPrevDiffExecute(Sender: TObject);
@@ -278,6 +288,13 @@ begin
   InitPropStorage(Self);
 end;
 
+procedure TfrmDiffer.FormDestroy(Sender: TObject);
+begin
+  FreeThenNil(Diff);
+  FreeThenNil(HashListLeft);
+  FreeThenNil(HashListRight);
+end;
+
 procedure TfrmDiffer.FormResize(Sender: TObject);
 begin
   pnlLeft.Width:= (ClientWidth div 2) - (Splitter.Width div 2);
@@ -300,7 +317,7 @@ begin
   StatusBar.Panels[1].Text := EmptyStr;
   StatusBar.Panels[2].Text := EmptyStr;
   StatusBar.Panels[3].Text := EmptyStr;
-  actStartCompare.Enabled := False;
+  actStartCompare.Enabled := True;
 end;
 
 procedure TfrmDiffer.BuildHashList(bLeft, bRight: Boolean);
