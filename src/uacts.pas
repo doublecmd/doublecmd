@@ -263,7 +263,7 @@ implementation
 
 uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      fMain, fPackDlg, fFileOpDlg, fMkDir, fFileAssoc, fExtractDlg, fAbout,
-     fOptions, fCompareFiles, fFindDlg, fSymLink, fHardLink, fMultiRename,
+     fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uGlobsPaths,
      uClassesEx, uShowForm, uShellExecute, uClipboard, uHash,
@@ -1940,7 +1940,7 @@ begin
         if gExternalTools[etDiffer].Enabled then
           RunExtDiffer(FilesToCompare)
         else if FilesToCompare.Count = 2 then
-          ShowCmpFiles(FilesToCompare.Strings[0], FilesToCompare.Strings[1])
+          ShowDiffer(FilesToCompare.Strings[0], FilesToCompare.Strings[1])
         else
           MsgWarning(rsMsgTooManyFilesSelected);
       end

@@ -60,7 +60,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="97">
+    <Units Count="98">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -657,6 +657,14 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fModView"/>
       </Unit96>
+      <Unit97>
+        <Filename Value="fdiffer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmDiffer"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fDiffer"/>
+      </Unit97>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
