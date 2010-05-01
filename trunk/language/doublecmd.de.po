@@ -268,7 +268,7 @@ msgstr "OK"
 
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
 msgid "&Cancel"
-msgstr ""
+msgstr "&Abbruch"
 
 #: TFRMATTRIBUTESEDIT.BTNOK.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.BTNOK.CAPTION"
@@ -277,11 +277,11 @@ msgstr "&Ok"
 
 #: TFRMATTRIBUTESEDIT.BTNRESET.CAPTION
 msgid "&Reset"
-msgstr ""
+msgstr "&Zurücksetzen"
 
 #: TFRMATTRIBUTESEDIT.CAPTION
 msgid "Choose attributes"
-msgstr ""
+msgstr "Attribute wählen"
 
 #: TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION"
@@ -290,7 +290,7 @@ msgstr "Archiv"
 
 #: TFRMATTRIBUTESEDIT.CBCOMPRESSED.CAPTION
 msgid "Compressed"
-msgstr ""
+msgstr "Komprimiert"
 
 #: TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION"
@@ -299,7 +299,7 @@ msgstr "Verzeichnis"
 
 #: TFRMATTRIBUTESEDIT.CBENCRYPTED.CAPTION
 msgid "Encrypted"
-msgstr ""
+msgstr "Verschlüsselt"
 
 #: TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION"
@@ -318,7 +318,7 @@ msgstr "SGID"
 
 #: TFRMATTRIBUTESEDIT.CBSPARSE.CAPTION
 msgid "Sparse"
-msgstr ""
+msgstr "Kaum"
 
 #: TFRMATTRIBUTESEDIT.CBSTICKY.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBSTICKY.CAPTION"
@@ -341,7 +341,7 @@ msgstr ""
 
 #: TFRMATTRIBUTESEDIT.CBTEMPORARY.CAPTION
 msgid "Temporary"
-msgstr ""
+msgstr "Temporär"
 
 #: TFRMATTRIBUTESEDIT.GBNTFSATTRIBUTES.CAPTION
 msgid "NTFS attributes"
@@ -349,7 +349,7 @@ msgstr ""
 
 #: TFRMATTRIBUTESEDIT.GBWINGENERAL.CAPTION
 msgid "General attributes"
-msgstr ""
+msgstr "Allgemeine Attribute"
 
 #: TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION"
@@ -383,7 +383,7 @@ msgstr "Lesen"
 
 #: TFRMATTRIBUTESEDIT.LBLTEXTATTRS.CAPTION
 msgid "As text:"
-msgstr ""
+msgstr "Als Text:"
 
 #: TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
@@ -392,7 +392,7 @@ msgstr "Schreiben"
 
 #: TFRMCALENDAR.CAPTION
 msgid "Calendar"
-msgstr ""
+msgstr "Kalender"
 
 #: TFRMCHECKSUMCALC.BTNCANCEL.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
@@ -1086,7 +1086,7 @@ msgstr "In Betrachter öffnen"
 
 #: TFRMFILEOP.BTHOPEND.CAPTION
 msgid "End"
-msgstr ""
+msgstr "Ende"
 
 #: TFRMFILEOP.BTNCANCEL.CAPTION
 msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
@@ -1095,11 +1095,11 @@ msgstr "Abbruch"
 
 #: TFRMFILEOP.BTNOPHOME.CAPTION
 msgid "Home"
-msgstr ""
+msgstr "Nutzer-Verzeichnis (Home)"
 
 #: TFRMFILEOP.BTNTOQUEUE.CAPTION
 msgid "To Queue"
-msgstr ""
+msgstr "In die Warteschlange"
 
 #: TFRMFILEOP.BTNWORKINBACKGROUND.CAPTION
 msgid "Work in &background"
@@ -1333,7 +1333,7 @@ msgstr "Eigenschaften"
 
 #: TFRMFINDDLG.BTNADDATTRIBUTE.CAPTION
 msgid "&Add"
-msgstr ""
+msgstr "&Hinzufügen"
 
 #: TFRMFINDDLG.BTNATTRSHELP.CAPTION
 msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
@@ -1453,11 +1453,11 @@ msgstr "*"
 #: TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION
 msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
 msgid "Follow symlinks"
-msgstr ""
+msgstr "Symlinks folgen"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
-msgstr ""
+msgstr "&Attribute"
 
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
@@ -1533,7 +1533,7 @@ msgstr "Suchen"
 
 #: TFRMFINDVIEW.CBCASESENS.CAPTION
 msgid "Case sensitive"
-msgstr ""
+msgstr "Schreibweise beachten"
 
 #: TFRMHARDLINK.BTNCANCEL.CAPTION
 msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
@@ -2154,7 +2154,7 @@ msgstr ""
 
 #: TFRMMAIN.BTNF10.CAPTION
 msgid "Exit F10"
-msgstr ""
+msgstr "Beenden F10"
 
 #: TFRMMAIN.BTNF9.CAPTION
 msgid "Terminal F9"
@@ -2583,7 +2583,7 @@ msgstr "..."
 
 #: TFRMMULTIRENAME.BTNLOADPRESET.CAPTION
 msgid "&Load"
-msgstr ""
+msgstr "&Laden"
 
 #: TFRMMULTIRENAME.BTNNAMEMENU.CAPTION
 msgctxt "TFRMMULTIRENAME.BTNNAMEMENU.CAPTION"
@@ -2592,7 +2592,7 @@ msgstr ""
 
 #: TFRMMULTIRENAME.BTNRENAME.CAPTION
 msgid "&Rename"
-msgstr ""
+msgstr "&Umbenennen"
 
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
 #, fuzzy
@@ -2663,7 +2663,7 @@ msgstr "Maske"
 
 #: TFRMMULTIRENAME.GBPRESETS.CAPTION
 msgid "Presets"
-msgstr ""
+msgstr "Vorgaben"
 
 #: TFRMMULTIRENAME.LBEXT.CAPTION
 #, fuzzy
@@ -3709,7 +3709,7 @@ msgstr "Nutze Stream zur Textsuche in Dateien"
 #: TFRMOPTIONS.STGHOTKEYS.COLUMNS.TITLE.CAPTION
 msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS.TITLE.CAPTION"
 msgid "Parameters"
-msgstr ""
+msgstr "Parameter"
 
 #: TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION
 msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
@@ -4239,39 +4239,39 @@ msgstr ""
 
 #: TFRMVIEWER.BTNCUTTUIMAGE.CAPTION
 msgid "Crop"
-msgstr ""
+msgstr "Beschneiden"
 
 #: TFRMVIEWER.BTNFULLSCREEN.HINT
 msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
 msgid "Full Screen"
-msgstr ""
+msgstr "Ganzer Bildschirm"
 
 #: TFRMVIEWER.BTNHIGHTLIGHT.HINT
 msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
-msgstr ""
+msgstr "Markieren"
 
 #: TFRMVIEWER.BTNMIRROR.HINT
 msgctxt "TFRMVIEWER.BTNMIRROR.HINT"
 msgid "Mirror"
-msgstr ""
+msgstr "Spiegeln"
 
 #: TFRMVIEWER.BTNPAINT.HINT
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
-msgstr ""
+msgstr "Malen"
 
 #: TFRMVIEWER.BTNRELOAD.HINT
 msgid "Reload"
-msgstr ""
+msgstr "Neu laden"
 
 #: TFRMVIEWER.BTNRESIZE.CAPTION
 msgid "Resize"
-msgstr ""
+msgstr "Grösse\nändern"
 
 #: TFRMVIEWER.BTNSCREENSHOT.CAPTION
 msgid "Screenshot"
-msgstr ""
+msgstr "Anzeige als\nBild kopieren"
 
 #: TFRMVIEWER.BTNUNDO.HINT
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
@@ -4281,12 +4281,12 @@ msgstr "Rückgängig machen"
 #: TFRMVIEWER.BTNZOOMIN.HINT
 msgctxt "TFRMVIEWER.BTNZOOMIN.HINT"
 msgid "Zoom In"
-msgstr ""
+msgstr "Grösser darstellen"
 
 #: TFRMVIEWER.BTNZOOMOUT.HINT
 msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
 msgid "Zoom Out"
-msgstr ""
+msgstr "Kleiner darstellen"
 
 #: TFRMVIEWER.CAPTION
 msgctxt "TFRMVIEWER.CAPTION"
@@ -4296,11 +4296,11 @@ msgstr "Betrachter"
 #: TFRMVIEWER.CBSLIDESHOW.CAPTION
 msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
 msgid "Slide Show"
-msgstr ""
+msgstr "Bilder automatisch nacheinander anzeigen (Slideshow)"
 
 #: TFRMVIEWER.COMBOBOXPAINT.TEXT
 msgid "Pen"
-msgstr ""
+msgstr "Stift"
 
 #: TFRMVIEWER.COMBOBOXWIDTH.TEXT
 msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
@@ -4310,17 +4310,17 @@ msgstr "1"
 #: TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION
 msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
 msgid "Highlight"
-msgstr ""
+msgstr "Markieren"
 
 #: TFRMVIEWER.GBOXPAINT.CAPTION
 msgctxt "TFRMVIEWER.GBOXPAINT.CAPTION"
 msgid "Paint"
-msgstr ""
+msgstr "Malen"
 
 #: TFRMVIEWER.GBOXSLIDESHOW.CAPTION
 msgctxt "TFRMVIEWER.GBOXSLIDESHOW.CAPTION"
 msgid "Slide Show"
-msgstr ""
+msgstr "Bilder automatisch nacheinander anzeigen (Slideshow)"
 
 #: TFRMVIEWER.GBOXVIEW.CAPTION
 msgctxt "TFRMVIEWER.GBOXVIEW.CAPTION"
@@ -4406,7 +4406,7 @@ msgstr "&Datei"
 #: TFRMVIEWER.MIFULLSCREEN.CAPTION
 msgctxt "TFRMVIEWER.MIFULLSCREEN.CAPTION"
 msgid "Full Screen"
-msgstr ""
+msgstr "Ganzer Bildschirm"
 
 #: TFRMVIEWER.MIGRAPHICS.CAPTION
 msgid "Graphics"
@@ -4423,7 +4423,7 @@ msgstr "B&ild"
 #: TFRMVIEWER.MIMIRROR.CAPTION
 msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
 msgid "Mirror"
-msgstr ""
+msgstr "Spiegeln"
 
 #: TFRMVIEWER.MINEXT.CAPTION
 msgid "&Next"
@@ -4444,15 +4444,15 @@ msgstr "Drucken..."
 
 #: TFRMVIEWER.MIROTATE.CAPTION
 msgid "Rotate"
-msgstr ""
+msgstr "Drehen"
 
 #: TFRMVIEWER.MISAVE.CAPTION
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: TFRMVIEWER.MISAVEAS.CAPTION
 msgid "Save As..."
-msgstr ""
+msgstr "Speichern als ..."
 
 #: TFRMVIEWER.MISAVEASBMP.CAPTION
 msgid "Bmp"
@@ -4522,7 +4522,7 @@ msgstr ""
 #: TFRMVIEWER.MIZOOMOUT.CAPTION
 msgctxt "TFRMVIEWER.MIZOOMOUT.CAPTION"
 msgid "Zoom Out"
-msgstr ""
+msgstr "Kleiner darstellen"
 
 #: TFRMVIEWER.PMICOPY.CAPTION
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
@@ -5334,24 +5334,24 @@ msgstr "Tastaurkürzel"
 
 #: ulng.rsopthotkeyscommands
 msgid "Commands"
-msgstr ""
+msgstr "Befehle"
 
 #: ulng.rsopthotkeyscomments
 msgid "Comments"
-msgstr ""
+msgstr "Kommentare"
 
 #: ulng.rsopthotkeyshotkey
 msgid "Hotkey"
-msgstr ""
+msgstr "Tastaturkürzel"
 
 #: ulng.rsopthotkeyshotkeys
 msgid "Hotkeys"
-msgstr ""
+msgstr "Tastaturkürzel"
 
 #: ulng.rsopthotkeysparameters
 msgctxt "ulng.rsopthotkeysparameters"
 msgid "Parameters"
-msgstr ""
+msgstr "Parameter"
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
@@ -5359,7 +5359,7 @@ msgstr "Verknüpfung in Gebrauch"
 
 #: ulng.rsopthotkeysshortcutusedtext1
 msgid "Shortcut %s is already used for %s."
-msgstr "Verknüpfunf %s wird bereits für %s benutzt"
+msgstr "Verknüpfung %s wird bereits für %s benutzt"
 
 #: ulng.rsopthotkeysshortcutusedtext2
 msgid "Change it to %s?"
@@ -5501,7 +5501,7 @@ msgstr "Finde:"
 
 #: ulng.rssearchresult
 msgid "Search result"
-msgstr ""
+msgstr "Suchergebnis"
 
 #: ulng.rsselectdir
 msgid "Select a directory"
@@ -5575,27 +5575,27 @@ msgstr "Tag(e)"
 
 #: ulng.rstimeunithour
 msgid "Hour(s)"
-msgstr ""
+msgstr "Stunde(n)"
 
 #: ulng.rstimeunitminute
 msgid "Minute(s)"
-msgstr ""
+msgstr "Minute(n)"
 
 #: ulng.rstimeunitmonth
 msgid "Month(s)"
-msgstr ""
+msgstr "Monat(e)"
 
 #: ulng.rstimeunitsecond
 msgid "Second(s)"
-msgstr ""
+msgstr "Sekunde(n)"
 
 #: ulng.rstimeunitweek
 msgid "Week(s)"
-msgstr ""
+msgstr "Woche(n)"
 
 #: ulng.rstimeunityear
 msgid "Year(s)"
-msgstr ""
+msgstr "Jahr(e)"
 
 #: ulng.rstooldiffer
 msgid "Differ"
