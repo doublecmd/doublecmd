@@ -4,7 +4,7 @@
     General Hash Unit: This unit defines the common types, functions,
     and procedures
 
-    Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2009-2010  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ unit uHash;
 interface
 
 uses
-  Classes, SysUtils, md5, sha1;
+  Classes, SysUtils, md5, sha1, crc;
 
 type
   THashAlgorithm = (HASH_MD5, HASH_SHA1);
@@ -45,6 +45,7 @@ procedure HashInit(out Context: THashContext; const Algorithm: THashAlgorithm);
 procedure HashUpdate(var Context: THashContext; var Buf; const BufLen: PtrUInt);
 procedure HashFinal(var Context: THashContext; out Digest: THashDigest);
 function HashPrint(const Digest: THashDigest): String;
+function HashString(const Line: String; IgnoreCase, IgnoreWhiteSpace: Boolean): Pointer;
 
 implementation
 
@@ -115,6 +116,35 @@ begin
   for I:= Low(Digest) to High(Digest) do
     Result:= Result + HexStr(Digest[I], 2);
   Result:= LowerCase(Result);
+end;
+
+function HashString(const Line: String; IgnoreCase, IgnoreWhiteSpace: Boolean): Pointer;
+var
+  CRC: LongWord;
+  I, J, L: Integer;
+  S: String;
+begin
+  S := Line;
+  if IgnoreWhiteSpace then
+  begin
+    J := 1;
+    L := Length(Line);
+    for I:= 1 to L do
+    begin
+      // Skip white spaces
+      if not (Line[I] in [#9, #32]) then
+      begin
+        S[J] := Line[I];
+        Inc(J);
+      end;
+    end;
+    SetLength(S, J - 1);
+  end;
+  if IgnoreCase then S := AnsiLowerCase(S);
+
+  CRC := crc32(0, nil, 0);
+  // Return result as a pointer to save typecasting later...
+  Result := Pointer(PtrUInt(crc32(CRC, PByte(S), Length(S))));
 end;
 
 end.
