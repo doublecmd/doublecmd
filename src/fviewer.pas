@@ -1290,7 +1290,8 @@ end;
 
 procedure TfrmViewer.btnDeleteFileClick(Sender: TObject);
 begin
-  mbDeleteFile(FileList.Strings[iActiveFile]);
+  if msgYesNo(Format(rsMsgDelSel, [FileList.Strings[iActiveFile]])) then
+    mbDeleteFile(FileList.Strings[iActiveFile]);
 end;
 
 procedure TfrmViewer.btnCopyMoveFileClick(Sender: TObject);
