@@ -71,6 +71,8 @@ type
     btnCancelCompare: TToolButton;
     Divider4: TToolButton;
     procedure actBinaryCompareExecute(Sender: TObject);
+    procedure actFirstDiffExecute(Sender: TObject);
+    procedure actLastDiffExecute(Sender: TObject);
     procedure actNextDiffExecute(Sender: TObject);
     procedure actPrevDiffExecute(Sender: TObject);
     procedure actStartCompareExecute(Sender: TObject);
@@ -268,6 +270,51 @@ begin
       OpenFileLeft(edtFileNameLeft.Text);
       OpenFileRight(edtFileNameRight.Text);
     end;
+end;
+
+procedure TfrmDiffer.actFirstDiffExecute(Sender: TObject);
+var
+  Line: Integer;
+  Kind: TChangeKind;
+begin
+  // Start at first line
+  Line := 0;
+  if Line = SynDiffEditLeft.Lines.Count then Exit;
+  // Skip unmodified lines
+  Kind := ckNone;
+  while (Line < SynDiffEditLeft.Lines.Count - 1) and
+    (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
+  Inc(Line);
+  SynDiffEditLeft.CaretY := Line;
+  SynDiffEditLeft.TopLine := Line;
+  if not actKeepScrolling.Checked then
+  begin
+    SynDiffEditRight.CaretY := Line;
+    SynDiffEditRight.TopLine := Line;
+  end;
+end;
+
+procedure TfrmDiffer.actLastDiffExecute(Sender: TObject);
+var
+  Line: Integer;
+  Kind: TChangeKind;
+begin
+  Line := SynDiffEditLeft.Lines.Count - 1;
+  if Line = 0 then Exit;
+  // Skip unmodified lines
+  Kind := ckNone;
+  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  // Find top line of previous difference
+  Kind:= SynDiffEditLeft.DiffKind[Line];
+  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  if (Line <> 0) then Inc(Line, 2);
+  SynDiffEditLeft.CaretY := Line;
+  SynDiffEditLeft.TopLine := Line;
+  if not actKeepScrolling.Checked then
+  begin
+    SynDiffEditRight.CaretY := Line;
+    SynDiffEditRight.TopLine := Line;
+  end;
 end;
 
 procedure TfrmDiffer.actKeepScrollingExecute(Sender: TObject);
