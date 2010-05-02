@@ -157,6 +157,7 @@ type
     FOnPositionChanged:  TNotifyEvent;
     FUpdateScrollBarPos: Boolean; // used to block updating of scrollbar
     FScrollBarPosition:  Integer;  // for updating vertical scrollbar based on Position
+    cTextWidth: integer; // max char in window
 
     function GetPercent: Integer;
     procedure SetPercent(const AValue: Integer);
@@ -399,8 +400,8 @@ uses
   {$ENDIF}  ;
 
 const
-  cTextWidth      = 80;  // wrap on 80 chars
-  cBinWidth       = cTextWidth;
+  //cTextWidth      = 80;  // wrap on 80 chars
+  cBinWidth       = 80;//cTextWidth;
   cMaxTextWidth   = 300; // maximum of chars on one line unwrapped text
   cHexWidth       = 16;
   cTabSpaces      = 8;   // tab stop - allow to set in settings
@@ -482,6 +483,7 @@ begin
   Canvas.Brush.Color := Self.Color;
   Canvas.Brush.Style := bsClear;
   FTextHeight := Canvas.TextHeight('Wg') + 2;
+  cTextWidth := Self.Width  div Canvas.TextWidth ('W')-2 ;
 
   FLineList.Clear;
 
