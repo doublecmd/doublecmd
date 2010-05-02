@@ -1,7 +1,7 @@
 object frmDiffer: TfrmDiffer
-  Left = 110
+  Left = 282
   Height = 379
-  Top = 120
+  Top = 83
   Width = 760
   Caption = 'Compare files'
   ClientHeight = 359
@@ -380,6 +380,7 @@ object frmDiffer: TfrmDiffer
     object actLastDiff: TAction
       Caption = 'Last Difference'
       ImageIndex = 3
+      OnExecute = actLastDiffExecute
     end
     object actNextDiff: TAction
       Caption = 'Next Difference'
@@ -394,6 +395,7 @@ object frmDiffer: TfrmDiffer
     object actFirstDiff: TAction
       Caption = 'First Difference'
       ImageIndex = 6
+      OnExecute = actFirstDiffExecute
     end
     object actIgnoreCase: TAction
       AutoCheck = True
