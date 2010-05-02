@@ -15,6 +15,7 @@ type
 
   TfrmDiffer = class(TForm)
     actBinaryCompare: TAction;
+    actPaintBackground: TAction;
     actStartCompare: TAction;
     actFirstDiff: TAction;
     actIgnoreCase: TAction;
@@ -31,6 +32,8 @@ type
     edtFileNameRight: TFileNameEdit;
     ImageList: TImageList;
     MainMenu: TMainMenu;
+    miPaintBackground: TMenuItem;
+    miDivider4: TMenuItem;
     miBinaryCompare: TMenuItem;
     miKeepScrolling: TMenuItem;
     miDivider3: TMenuItem;
@@ -74,6 +77,7 @@ type
     procedure actFirstDiffExecute(Sender: TObject);
     procedure actLastDiffExecute(Sender: TObject);
     procedure actNextDiffExecute(Sender: TObject);
+    procedure actPaintBackgroundExecute(Sender: TObject);
     procedure actPrevDiffExecute(Sender: TObject);
     procedure actStartCompareExecute(Sender: TObject);
     procedure actKeepScrollingExecute(Sender: TObject);
@@ -227,6 +231,20 @@ begin
     SynDiffEditRight.CaretY := Line;
     SynDiffEditRight.TopLine := Line;
   end;
+end;
+
+procedure TfrmDiffer.actPaintBackgroundExecute(Sender: TObject);
+begin
+  if actPaintBackground.Checked then
+    begin
+      SynDiffEditLeft.PaintStyle:= psBackground;
+      SynDiffEditRight.PaintStyle:= psBackground;
+    end
+  else
+    begin
+      SynDiffEditLeft.PaintStyle:= psForeground;
+      SynDiffEditRight.PaintStyle:= psForeground;
+    end
 end;
 
 procedure TfrmDiffer.actPrevDiffExecute(Sender: TObject);

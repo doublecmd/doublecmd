@@ -15,6 +15,9 @@ const
   clPaleBlue : TColor = $FFAAAA;
 
 type
+  TPaintStyle = (psForeground, psBackground);
+
+type
 
   { TSynDiffGutterLineNumber }
 
@@ -71,12 +74,14 @@ type
 
   TSynDiffEdit = class(TCustomSynEdit)
   private
+    FPaintStyle: TPaintStyle;
     FDiff: TDiff;
     FSpecialLineMarkupEvent: TSpecialLineMarkupEvent;
     FDiffCount: Integer;
   private
     function GetDiffCount: Integer;
     function GetDiffKind(Index: Integer): TChangeKind;
+    procedure SetPaintStyle(const AValue: TPaintStyle);
   protected
     procedure SpecialLineMarkupEvent(Sender: TObject; Line: Integer;
                                      var Special: boolean; AMarkup: TSynSelectedColor);
@@ -84,6 +89,7 @@ type
     constructor Create(AOwner: TComponent); override;
     procedure BeginCompare(ADiff: TDiff);
     procedure EndCompare(ADiffCount: Integer);
+    property PaintStyle: TPaintStyle read FPaintStyle write SetPaintStyle;
     property Diff: TDiff read FDiff write FDiff;
     property DiffKind[Index: Integer]: TChangeKind read GetDiffKind;
     property DiffCount: Integer read GetDiffCount;
@@ -119,20 +125,45 @@ begin
     end;
 end;
 
+procedure TSynDiffEdit.SetPaintStyle(const AValue: TPaintStyle);
+begin
+  if FPaintStyle <> AValue then
+  begin
+    FPaintStyle := AValue;
+    Invalidate;
+  end;
+end;
+
 procedure TSynDiffEdit.SpecialLineMarkupEvent(Sender: TObject; Line: Integer;
   var Special: boolean; AMarkup: TSynSelectedColor);
+var
+  Kind: TChangeKind;
+  LineColor: TColor;
 begin
-  AMarkup.Foreground:= clWindowText;
-  Special:= (DiffCount <> 0);
+  if Line >= DiffCount then Exit;
 
-  if Special and (Line < DiffCount) then
-    with AMarkup do
-    case DiffKind[Line-1] of
-      ckNone:   Background := clWhite;
-      ckModify: Background := clPaleBlue;
-      ckDelete: Background := clPaleRed;
-      ckAdd:    Background := clPaleGreen;
+  Kind:= DiffKind[Line - 1];
+  Special:= (Kind <> ckNone);
+
+  if Special then
+  with AMarkup do
+  begin
+    case Kind of
+      ckModify: LineColor := clPaleBlue;
+      ckDelete: LineColor := clPaleRed;
+      ckAdd:    LineColor := clPaleGreen;
     end;
+    if FPaintStyle = psForeground then
+      begin
+        Foreground := LineColor;
+        Background := clWindow;
+      end
+    else
+      begin
+        Foreground:= clWindowText;
+        Background := LineColor;
+      end;
+  end;
 end;
 
 procedure TSynDiffEdit.BeginCompare(ADiff: TDiff);
