@@ -190,6 +190,7 @@ begin
       with TSynDiffGutterChanges.Create(Gutter.Parts) do
       Name:= 'SynDiffGutterChanges';
     end;
+  FPaintStyle:= psBackground;
   OnSpecialLineMarkup:= @SpecialLineMarkupEvent;
 end;
 
