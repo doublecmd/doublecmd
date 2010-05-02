@@ -39,7 +39,7 @@ interface
 uses
   LResources, SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls,
   LCLProc, Menus, Dialogs, ExtDlgs, EditBtn, StdCtrls, Buttons, ColorBox, Spin,
-  viewercontrol, fFindView, WLXPlugin, uWLXModule, uFileSource, fModView;
+  viewercontrol, fFindView, WLXPlugin, uWLXModule, uFileSource, fModView, uOSUtils;
 
 
 type
@@ -106,6 +106,9 @@ type
     btnRedEye: TSpeedButton;
     btnNext: TSpeedButton;
     btnPrev: TSpeedButton;
+    btnMoveFile: TSpeedButton;
+    btnDeleteFile: TSpeedButton;
+    btnCopyFile: TSpeedButton;
     Status: TStatusBar;
     MainMenu: TMainMenu;
     miFile: TMenuItem;
@@ -130,7 +133,9 @@ type
     miCopyToClipboard: TMenuItem;
     TimerViewer: TTimer;
     ViewerControl: TViewerControl;
+    procedure btnCopyMoveFileClick(Sender: TObject);
     procedure btnCutTuImageClick(Sender: TObject);
+    procedure btnDeleteFileClick(Sender: TObject);
     procedure btnFullScreenClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure btnPaintHightlight(Sender: TObject);
@@ -150,6 +155,7 @@ type
       );
     procedure ImageMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure miSaveClick(Sender: TObject);
     procedure miScreenShotClick(Sender: TObject);
     procedure miFullScreenClick(Sender: TObject);
     procedure miPluginsClick(Sender: TObject);
@@ -157,7 +163,7 @@ type
     procedure miSaveAsBmpClick(Sender: TObject);
     procedure miSaveAsJpgClick(Sender: TObject);
     procedure miSaveAsPngClick(Sender: TObject);
-    procedure miSaveClick(Sender: TObject);
+    procedure SaveImage(var sTarget: String; senderSave: boolean);
     procedure miSaveToIcoClick(Sender: TObject);
     procedure miSaveToPnmClick(Sender: TObject);
     procedure miSearchNextClick(Sender: TObject);
@@ -389,11 +395,6 @@ begin
           miWrapTextClick(Sender);
           Key := #0;
         end;
-      'F', 'f':
-        begin
-          miFullScreenClick(Sender);
-          Key := #0;
-        end;
     end;
 end;
 
@@ -618,6 +619,14 @@ begin
     end;
     end;
   Image.Cursor:=crDefault;
+end;
+
+procedure TfrmViewer.miSaveClick(Sender: TObject);
+var
+  str: String;
+begin
+  str:=FileList.Strings[iActiveFile];
+  SaveImage(str, true);
 end;
 
 procedure TfrmViewer.miFullScreenClick(Sender: TObject);
@@ -860,8 +869,11 @@ begin
   if not Assigned(FModSizeDialog) then
      FModSizeDialog:= TfrmModView.Create(Application);
   FModSizeDialog.pnlSize.Visible:=false;
+  FModSizeDialog.pnlCopyMoveFile.Visible :=false;
   FModSizeDialog.pnlQuality.Visible:=true;
   FModSizeDialog.Caption:='Quality of Jpg';
+  FModSizeDialog.Width:=190;
+  FModSizeDialog.Height:=100;
   FModSizeDialog.ShowModal;
   if FModSizeDialog.ModalResult=mrOk then
     if StrToInt(FModSizeDialog.teQuality.Text)<=100 then
@@ -879,22 +891,28 @@ begin
   SaveToPng(SavePictureDialog, Image);
 end;
 
-procedure TfrmViewer.miSaveClick(Sender: TObject);
+procedure TfrmViewer.SaveImage(Var sTarget: String; senderSave: boolean);
 var
-  sExt: string;
+  sExt, sName, sFileName: string;
   png: TPortableNetworkGraphic=nil;
   ico : TIcon=nil;
   jpg : TJpegImage=nil;
   pnm : TPortableAnyMapGraphic=nil;
 begin
   sExt:= ExtractFileExt(FileList.Strings[iActiveFile]);
-  if sExt= '.bmp' then Image.Picture.SaveToFile(FileList.Strings[iActiveFile]);
+  if senderSave then sFileName:= sTarget
+  else
+    begin
+      sName:= ExtractFileName(FileList.Strings[iActiveFile]);
+      sFileName:= sTarget + PathDelim + sName;
+    end;
+  if sExt= '.bmp' then Image.Picture.SaveToFile(sFileName);
   if sExt= '.png' then
          begin
            png := TPortableNetworkGraphic.Create;
               try
                png.Assign(Image.Picture.Graphic);
-               png.SaveToFile(FileList.Strings[iActiveFile]);
+               png.SaveToFile(sFileName);
               finally
                png.Free;
               end;
@@ -904,8 +922,8 @@ begin
       jpg := TJpegImage.Create;
           try
            jpg.Assign(Image.Picture.Graphic);
-           jpg.CompressionQuality := 100;
-           jpg.SaveToFile(FileList.Strings[iActiveFile]);
+           jpg.CompressionQuality := 80;
+           jpg.SaveToFile(sFileName);
           finally
            jpg.Free;
           end;
@@ -915,7 +933,7 @@ begin
       ico := TIcon.Create;
          try
           ico.Assign(Image.Picture.Graphic);
-          ico.SaveToFile(FileList.Strings[iActiveFile]);
+          ico.SaveToFile(sFileName);
          finally
           ico.Free;
          end;
@@ -925,7 +943,7 @@ begin
       pnm := TPortableAnyMapGraphic.Create;
        try
         pnm.Assign(Image.Picture.Graphic);
-        pnm.SaveToFile(FileList.Strings[iActiveFile]);
+        pnm.SaveToFile(sFileName);
        finally
         pnm.Free;
        end;
@@ -1270,6 +1288,36 @@ begin
   CutToImage;
 end;
 
+procedure TfrmViewer.btnDeleteFileClick(Sender: TObject);
+begin
+  mbDeleteFile(FileList.Strings[iActiveFile]);
+end;
+
+procedure TfrmViewer.btnCopyMoveFileClick(Sender: TObject);
+begin
+  if not Assigned(FModSizeDialog) then
+     FModSizeDialog:= TfrmModView.Create(Application);
+  FModSizeDialog.pnlQuality.Visible:=false;
+  FModSizeDialog.pnlSize.Visible:=false;
+  FModSizeDialog.pnlCopyMoveFile.Visible := true;
+  if sender=btnMoveFile then FModSizeDialog.Caption:='Move File'
+                        else FModSizeDialog.Caption:='Copy File' ;
+  FModSizeDialog.Width:=400;
+  FModSizeDialog.Height:=200;
+  FModSizeDialog.ShowModal;
+  if FModSizeDialog.ModalResult = mrOk then
+    if FModSizeDialog.Path='' then
+      begin
+        ShowMessage ('Bad parth :(');
+        Exit;
+      end
+    else
+     SaveImage(FModSizeDialog.Path, false)
+  else
+     Exit;
+  if sender=btnMoveFile then  btnDeleteFileClick(Sender);
+end;
+
 procedure TfrmViewer.btnFullScreenClick(Sender: TObject);
 begin
   miFullScreenClick(Sender);
@@ -1348,10 +1396,13 @@ begin
   if not Assigned(FModSizeDialog) then
      FModSizeDialog:= TfrmModView.Create(Application);
   FModSizeDialog.pnlQuality.Visible:=false;
+  FModSizeDialog.pnlCopyMoveFile.Visible :=false;
   FModSizeDialog.pnlSize.Visible:=true;
   FModSizeDialog.teHeight.Text:= IntToStr(Image.Picture.Bitmap.Height);
   FModSizeDialog.teWidth.Text := IntToStr(Image.Picture.Bitmap.Width);
   FModSizeDialog.Caption:='New Size';
+  FModSizeDialog.Width:=190;
+  FModSizeDialog.Height:=100;
   FModSizeDialog.ShowModal;
   if FModSizeDialog.ModalResult = mrOk then
     Res(StrToInt(FModSizeDialog.teWidth.Text), StrToInt(FModSizeDialog.teHeight.Text))
