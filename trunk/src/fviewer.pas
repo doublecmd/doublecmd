@@ -1806,6 +1806,7 @@ begin
   end
   else if Panel = pnlImage then
   begin
+    PanelEditImage.Visible:= not bQuickView;
   end;
 end;
 
