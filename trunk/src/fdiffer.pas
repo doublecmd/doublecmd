@@ -204,20 +204,56 @@ var
   Line: Integer;
   Kind: TChangeKind;
 begin
-  Line := SynDiffEditLeft.TopLine;
+  Line := SynDiffEditLeft.TopLine - 1;
   if Line = SynDiffEditLeft.Lines.Count - 1 then Exit;
+  // Skip lines with current difference type
   Kind := SynDiffEditLeft.DiffKind[Line];
   while (Line < SynDiffEditLeft.Lines.Count - 1) and
     (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
   if SynDiffEditLeft.DiffKind[Line] = ckNone then
   begin
+    // Skip unmodified lines
     Kind := ckNone;
     while (Line < SynDiffEditLeft.Lines.Count - 1) and
       (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
   end;
+  Inc(Line);
   SynDiffEditLeft.CaretY := Line;
-  SynDiffEditRight.CaretY := Line;
-  SynDiffEditLeft.TopLine := Line + 1;
+  SynDiffEditLeft.TopLine := Line;
+  if not actKeepScrolling.Checked then
+  begin
+    SynDiffEditRight.CaretY := Line;
+    SynDiffEditRight.TopLine := Line;
+  end;
+end;
+
+procedure TfrmDiffer.actPrevDiffExecute(Sender: TObject);
+var
+  Line: Integer;
+  Kind: TChangeKind;
+begin
+  Line := SynDiffEditLeft.TopLine - 1;
+  if Line = 0 then Exit;
+  // Skip lines with current difference type
+  Kind := SynDiffEditLeft.DiffKind[Line];
+  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  if SynDiffEditLeft.DiffKind[Line] = ckNone then
+  begin
+    // Skip unmodified lines
+    Kind := ckNone;
+    while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  end;
+  // Find top line of previous difference
+  Kind:= SynDiffEditLeft.DiffKind[Line];
+  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  if (Line <> 0) then Inc(Line, 2);
+  SynDiffEditLeft.CaretY := Line;
+  SynDiffEditLeft.TopLine := Line;
+  if not actKeepScrolling.Checked then
+  begin
+    SynDiffEditRight.CaretY := Line;
+    SynDiffEditRight.TopLine := Line;
+  end;
 end;
 
 procedure TfrmDiffer.actBinaryCompareExecute(Sender: TObject);
@@ -232,31 +268,6 @@ begin
       OpenFileLeft(edtFileNameLeft.Text);
       OpenFileRight(edtFileNameRight.Text);
     end;
-end;
-
-procedure TfrmDiffer.actPrevDiffExecute(Sender: TObject);
-var
-  Line: Integer;
-  Kind: TChangeKind;
-begin
-  Line := SynDiffEditLeft.TopLine;
-  if Line = 0 then Exit;
-  Kind := SynDiffEditLeft.DiffKind[Line];
-  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
-  if SynDiffEditLeft.DiffKind[Line] = ckNone then
-  begin
-    Kind := ckNone;
-    while (Line > 0) and
-      (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
-  end;
-  Kind:= SynDiffEditLeft.DiffKind[Line];
-  repeat
-    Dec(Line);
-  until (SynDiffEditLeft.DiffKind[Line] = Kind);
-  Inc(Line);
-  SynDiffEditLeft.CaretY := Line;
-  SynDiffEditRight.CaretY := Line;
-  SynDiffEditLeft.TopLine := Line - 1;
 end;
 
 procedure TfrmDiffer.actKeepScrollingExecute(Sender: TObject);
