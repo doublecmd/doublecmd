@@ -1,7 +1,7 @@
 object frmDiffer: TfrmDiffer
-  Left = 282
+  Left = 402
   Height = 379
-  Top = 83
+  Top = 82
   Width = 760
   Caption = 'Compare files'
   ClientHeight = 359
@@ -314,6 +314,14 @@ object frmDiffer: TfrmDiffer
         Action = actIgnoreCase
         AutoCheck = True
       end
+      object miDivider4: TMenuItem
+        Caption = '-'
+      end
+      object miPaintBackground: TMenuItem
+        Action = actPaintBackground
+        AutoCheck = True
+        OnClick = actPaintBackgroundExecute
+      end
       object miDivider3: TMenuItem
         Caption = '-'
       end
@@ -354,9 +362,11 @@ object frmDiffer: TfrmDiffer
       end
       object miFirstDiff: TMenuItem
         Action = actFirstDiff
+        OnClick = actFirstDiffExecute
       end
       object miLastDiff: TMenuItem
         Action = actLastDiff
+        OnClick = actLastDiffExecute
       end
     end
   end
@@ -419,6 +429,12 @@ object frmDiffer: TfrmDiffer
       AutoCheck = True
       Caption = 'Binary'
       OnExecute = actBinaryCompareExecute
+    end
+    object actPaintBackground: TAction
+      AutoCheck = True
+      Caption = 'Paint Background'
+      Checked = True
+      OnExecute = actPaintBackgroundExecute
     end
   end
   object ImageList: TImageList
