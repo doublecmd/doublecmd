@@ -11,6 +11,7 @@ object frmEditSearchReplace: TfrmEditSearchReplace
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 222
   ClientWidth = 409
+  Color = clForm
   OnCloseQuery = FormCloseQuery
   OnShow = FormShow
   Position = poOwnerFormCenter

@@ -11,6 +11,7 @@ object frmHardLink: TfrmHardLink
   ChildSizing.TopBottomSpacing = 8
   ClientHeight = 160
   ClientWidth = 400
+  Color = clForm
   Constraints.MaxHeight = 160
   Constraints.MaxWidth = 400
   KeyPreview = True

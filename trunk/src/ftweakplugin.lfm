@@ -8,6 +8,7 @@ object frmTweakPlugin: TfrmTweakPlugin
   Caption = 'Tweak plugin'
   ClientHeight = 443
   ClientWidth = 478
+  Color = clForm
   Position = poScreenCenter
   LCLVersion = '0.9.27'
   object btnOK: TButton

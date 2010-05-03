@@ -7,6 +7,7 @@ object frmHotDir: TfrmHotDir
   Caption = 'Directory Hotlist'
   ClientHeight = 423
   ClientWidth = 437
+  Color = clForm
   OnCreate = FormCreate
   Position = poScreenCenter
   LCLVersion = '0.9.27'

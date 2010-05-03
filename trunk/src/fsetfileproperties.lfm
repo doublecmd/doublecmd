@@ -8,6 +8,7 @@ object frmSetFileProperties: TfrmSetFileProperties
   Caption = 'Change file properties'
   ClientHeight = 315
   ClientWidth = 375
+  Color = clForm
   LCLVersion = '0.9.29'
   object nbAttributes: TNotebook
     AnchorSideLeft.Control = Owner

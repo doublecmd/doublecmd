@@ -10,6 +10,7 @@ object frmMaskInputDlg: TfrmMaskInputDlg
   ChildSizing.TopBottomSpacing = 10
   ClientHeight = 231
   ClientWidth = 339
+  Color = clForm
   OnCreate = FormCreate
   Position = poScreenCenter
   LCLVersion = '0.9.29'

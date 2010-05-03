@@ -6,6 +6,7 @@ object frmDiffer: TfrmDiffer
   Caption = 'Compare files'
   ClientHeight = 359
   ClientWidth = 760
+  Color = clForm
   Menu = MainMenu
   OnCreate = FormCreate
   OnDestroy = FormDestroy

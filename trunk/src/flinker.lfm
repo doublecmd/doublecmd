@@ -11,6 +11,7 @@ object frmLinker: TfrmLinker
   Caption = 'Linker'
   ClientHeight = 364
   ClientWidth = 360
+  Color = clForm
   Position = poScreenCenter
   object prbrWork: TProgressBar
     AnchorSideLeft.Control = Owner
