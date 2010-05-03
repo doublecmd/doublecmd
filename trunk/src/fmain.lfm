@@ -244,7 +244,6 @@ object frmMain: TfrmMain
           Width = 348
           Alignment = taCenter
           Anchors = [akTop, akLeft, akRight, akBottom]
-          ParentColor = False
           OnDblClick = lblDriveInfoDblClick
         end
       end
@@ -369,7 +368,6 @@ object frmMain: TfrmMain
           Width = 273
           Alignment = taCenter
           Anchors = [akTop, akLeft, akRight, akBottom]
-          ParentColor = False
           OnDblClick = lblDriveInfoDblClick
         end
       end
@@ -417,7 +415,6 @@ object frmMain: TfrmMain
           Top = 7
           Width = 29
           Caption = 'Path'
-          ParentColor = False
           ShowAccelChar = False
         end
         object edtCommand: TComboBox
@@ -3342,18 +3339,18 @@ object frmMain: TfrmMain
     top = 136
     object miNewTab: TMenuItem
       Action = actNewTab
-      OnClick = actExecute
+      OnClick = mnuTabMenuClick
     end
     object miLine14: TMenuItem
       Caption = '-'
     end
     object miRemoveTab: TMenuItem
       Action = actRemoveTab
-      OnClick = actExecute
+      OnClick = mnuTabMenuClick
     end
     object miRemoveAllTabs: TMenuItem
       Action = actRemoveAllTabs
-      OnClick = actExecute
+      OnClick = mnuTabMenuClick
     end
     object miLine19: TMenuItem
       Caption = '-'
@@ -3364,25 +3361,25 @@ object frmMain: TfrmMain
         Action = actSetTabOptionNormal
         GroupIndex = 1
         RadioItem = True
-        OnClick = actExecute
+        OnClick = mnuTabMenuClick
       end
       object miTabOptionPathLocked: TMenuItem
         Action = actSetTabOptionPathLocked
         GroupIndex = 1
         RadioItem = True
-        OnClick = actExecute
+        OnClick = mnuTabMenuClick
       end
       object miTabOptionPathResets: TMenuItem
         Action = actSetTabOptionPathResets
         GroupIndex = 1
         RadioItem = True
-        OnClick = actExecute
+        OnClick = mnuTabMenuClick
       end
       object miTabOptionDirsInNewTab: TMenuItem
         Action = actSetTabOptionDirsInNewTab
         GroupIndex = 1
         RadioItem = True
-        OnClick = actExecute
+        OnClick = mnuTabMenuClick
       end
     end
   end
@@ -3442,4 +3439,4 @@ object frmMain: TfrmMain
     left = 96
     top = 13
   end
-end
+end

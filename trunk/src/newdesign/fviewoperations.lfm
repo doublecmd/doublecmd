@@ -6,6 +6,7 @@ object frmViewOperations: TfrmViewOperations
   Caption = 'File operations'
   ClientHeight = 333
   ClientWidth = 559
+  Color = clForm
   FormStyle = fsStayOnTop
   OnCreate = FormCreate
   OnDestroy = FormDestroy
