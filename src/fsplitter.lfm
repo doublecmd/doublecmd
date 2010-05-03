@@ -11,6 +11,7 @@ object frmSplitter: TfrmSplitter
   Caption = 'Splitter'
   ClientHeight = 302
   ClientWidth = 465
+  Color = clForm
   Position = poScreenCenter
   object prgbrDoIt: TProgressBar
     AnchorSideLeft.Control = Owner

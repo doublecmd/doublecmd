@@ -8,6 +8,7 @@ object frmFileOp: TfrmFileOp
   ChildSizing.TopBottomSpacing = 4
   ClientHeight = 180
   ClientWidth = 539
+  Color = clForm
   Constraints.MaxHeight = 180
   Constraints.MinWidth = 500
   OnClose = FormClose

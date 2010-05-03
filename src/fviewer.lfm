@@ -8,6 +8,7 @@ object frmViewer: TfrmViewer
   Caption = 'Viewer'
   ClientHeight = 510
   ClientWidth = 1028
+  Color = clForm
   Constraints.MinHeight = 100
   Constraints.MinWidth = 200
   Icon.Data = {

@@ -13,6 +13,7 @@ object frmPackDlg: TfrmPackDlg
   ChildSizing.TopBottomSpacing = 5
   ClientHeight = 236
   ClientWidth = 598
+  Color = clForm
   Constraints.MinHeight = 236
   Constraints.MinWidth = 482
   OnShow = FormShow

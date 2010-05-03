@@ -8,6 +8,7 @@ object frmPackInfoDlg: TfrmPackInfoDlg
   Caption = 'Properties of packed file'
   ClientHeight = 350
   ClientWidth = 335
+  Color = clForm
   Position = poScreenCenter
   LCLVersion = '0.9.29'
   object btnClose: TButton

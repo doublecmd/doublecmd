@@ -11,6 +11,7 @@ object frmEditorConf: TfrmEditorConf
   Caption = 'Editor configuration'
   ClientHeight = 353
   ClientWidth = 473
+  Color = clForm
   OnCreate = FormCreate
   Position = poScreenCenter
   ShowInTaskBar = stAlways

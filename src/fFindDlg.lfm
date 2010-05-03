@@ -6,6 +6,7 @@ object frmFindDlg: TfrmFindDlg
   Caption = 'Find files'
   ClientHeight = 422
   ClientWidth = 768
+  Color = clForm
   KeyPreview = True
   OnClose = frmFindDlgClose
   OnCloseQuery = FormCloseQuery
