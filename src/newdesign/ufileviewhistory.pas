@@ -39,7 +39,6 @@ type
     FCurrentPath: Integer;
     FHistory: TFPList; // of PFileViewHistoryEntry
 
-    procedure AddFileSource(aFileSource: IFileSource);
     procedure Delete(Index: Integer);
     {en
        Delete history after current indexes.
@@ -60,12 +59,11 @@ type
     procedure DebugShow;
     {$ENDIF}
     procedure Add(aFileSource: IFileSource; aPath: UTF8String);
+    procedure AddFileSource(aFileSource: IFileSource);
     procedure AddPath(aPath: UTF8String);
     procedure Assign(otherHistory: TFileViewHistory);
     procedure DeleteFromCurrentFileSource;
     procedure SetIndexes(aFileSourceIndex: Integer; aCurrentPathIndex: Integer);
-    procedure SetPrevIndex(out FileSourceChanged: Boolean; out PathChanged: Boolean);
-    procedure SetNextIndex(out FileSourceChanged: Boolean; out PathChanged: Boolean);
 
     property Count: Integer read GetCount;
     property CurrentFileSource: IFileSource read GetCurrentFileSource;
@@ -290,50 +288,6 @@ procedure TFileViewHistory.SetIndexes(aFileSourceIndex: Integer; aCurrentPathInd
 begin
   FCurrentFileSource := aFileSourceIndex;
   FCurrentPath := aCurrentPathIndex;
-end;
-
-procedure TFileViewHistory.SetPrevIndex(out FileSourceChanged: Boolean; out PathChanged: Boolean);
-begin
-  if FCurrentPath > 0 then
-  begin
-    Dec(FCurrentPath);
-    FileSourceChanged := False;
-    PathChanged := True;
-  end
-  else if FCurrentFileSource > 0 then
-  begin
-    Dec(FCurrentFileSource);
-    FCurrentPath := PFileViewHistoryEntry(FHistory.Items[FCurrentFileSource])^.PathsList.Count - 1;
-    FileSourceChanged := True;
-    PathChanged := True;
-  end
-  else
-  begin
-    FileSourceChanged := False;
-    PathChanged := False;
-  end;
-end;
-
-procedure TFileViewHistory.SetNextIndex(out FileSourceChanged: Boolean; out PathChanged: Boolean);
-begin
-  FileSourceChanged := False;
-  PathChanged := False;
-
-  if FCurrentFileSource >= 0 then
-  begin
-    if FCurrentPath < PFileViewHistoryEntry(FHistory.Items[FCurrentFileSource])^.PathsList.Count - 1 then
-    begin
-      Inc(FCurrentPath);
-      PathChanged := True;
-    end
-    else if FCurrentFileSource < FHistory.Count - 1 then
-    begin
-      Inc(FCurrentFileSource);
-      FCurrentPath := 0;
-      FileSourceChanged := True;
-      PathChanged := True;
-    end;
-  end;
 end;
 
 end.

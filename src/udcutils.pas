@@ -84,6 +84,11 @@ function GetRootDir(sPath : String) : String;
 }
 function GetParentDir(sPath : String) : String;
 
+{en
+   Gets the deepest (longest) path that exist.
+}
+function GetDeepestExistingPath(const sPath : UTF8String) : UTF8String;
+
 function GetSplitFileName(var sFileName, sPath : String) : String;
 function MakeFileName(const sPath, sFileNameDef : String) : String;
 {en
@@ -457,6 +462,18 @@ begin
       Result := Copy(sPath, 1, i);
       Break;
     end;
+end;
+
+function GetDeepestExistingPath(const sPath : UTF8String) : UTF8String;
+begin
+  Result := sPath;
+  while Result <> EmptyStr do
+  begin
+    if not mbDirectoryExists(Result) then
+      Result := GetParentDir(Result)
+    else
+      Break;
+  end;
 end;
 
 function GetSplitFileName(var sFileName, sPath : String) : String;

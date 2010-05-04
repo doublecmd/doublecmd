@@ -3036,13 +3036,12 @@ end;
 
 procedure TfrmMain.LoadTabsXml(ANoteBook: TFileViewNotebook);
 var
-  sCurrentDir,
-  sPath, sCaption: String;
+  sPath, sCaption, sViewType: String;
   iActiveTab: Integer;
   Page: TFileViewPage;
   AFileView: TFileView;
   aFileSource: IFileSource;
-  RootNode, ANode: TXmlNode;
+  RootNode, TabNode, ViewNode: TXmlNode;
 begin
   if ANoteBook = nbLeft then
     RootNode := gConfig.FindNode(gConfig.RootNode, 'Tabs/OpenedTabs/Left')
@@ -3051,56 +3050,63 @@ begin
 
   if Assigned(RootNode) then
   begin
-    sCurrentDir := mbGetCurrentDir; // default path
-    ANode := RootNode.FirstChild;
-    while Assigned(ANode) do
+    TabNode := RootNode.FirstChild;
+    while Assigned(TabNode) do
     begin
-      if ANode.CompareName('Tab') = 0 then
+      if TabNode.CompareName('Tab') = 0 then
       begin
-        if gConfig.TryGetValue(ANode, 'Path', sPath) then
+        Page := nil;
+        AFileView := nil;
+
+        ViewNode := gConfig.FindNode(TabNode, 'FileView', False);
+        if Assigned(ViewNode) then
         begin
-          if mbDirectoryExists(sPath) then
-            begin
-              if not gConfig.TryGetValue(ANode, 'Caption', sCaption) then
-                sCaption := GetLastDir(sPath);
-            end
-          else
-            begin // find exists directory
-              repeat
-                sPath:= GetParentDir(sPath);
-                if sPath = EmptyStr then
-                  sPath:= sCurrentDir;
-              until mbDirectoryExists(sPath);
-              sCaption:= GetLastDir(sPath);
-            end;
-
-          if sCaption <> '' then
-            if (tb_text_length_limit in gDirTabOptions) and (Length(sCaption) > gDirTabLimit) then
-              sCaption := Copy(sCaption, 1, gDirTabLimit) + '...';
-
-          Page := ANoteBook.AddPage(sCaption);
-
-          aFileSource := TFileSystemFileSource.GetFileSource;
-
-          AFileView := CreateFileView('columns', Page, gConfig, ANode);
-          if not Assigned(AFileView) then
+          // File view has its own configuration.
+          if gConfig.TryGetAttr(ViewNode, 'Type', sViewType) then
           begin
-            ANoteBook.RemovePage(Page);
-            continue;
+            Page := ANoteBook.AddPage(EmptyStr);
+            AFileView := CreateFileView(sViewType, Page, gConfig, ViewNode);
+          end
+          else
+            DebugLn('File view type not specified in configuration: ' + gConfig.GetPathFromNode(ViewNode) + '.');
+        end
+        // Else try old configuration.
+        else if gConfig.TryGetValue(TabNode, 'Path', sPath) then
+        begin
+          sPath := GetDeepestExistingPath(sPath);
+          if sPath <> EmptyStr then
+          begin
+            Page := ANoteBook.AddPage(EmptyStr);
+            AFileView := CreateFileView('columns', Page, gConfig, TabNode);
+            AFileView.AddFileSource(TFileSystemFileSource.GetFileSource, sPath);
           end;
-
-          Page.LockState := TTabLockState(gConfig.GetValue(ANode, 'Options', Integer(tlsNormal)));
-          if Page.LockState = tlsPathResets then // if locked tab with directory change
-            Page.LockPath := sPath;
-
-          AFileView.AddFileSource(aFileSource, sPath);
-          // Assign events after loading file source.
-          AssignEvents(AFileView);
         end
         else
-          DebugLn('Invalid entry in configuration: ' + gConfig.GetPathFromNode(ANode) + '.');
+          DebugLn('Invalid entry in configuration: ' + gConfig.GetPathFromNode(TabNode) + '.');
+
+        if Assigned(Page) then
+        begin
+          if (not Assigned(AFileView)) or (AFileView.FileSourcesCount = 0) then
+          begin
+            ANoteBook.RemovePage(Page);
+          end
+          else
+          begin
+            Page.LockState := TTabLockState(gConfig.GetValue(TabNode, 'Options', Integer(tlsNormal)));
+            if Page.LockState = tlsPathResets then // if locked tab with directory change
+              Page.LockPath := gConfig.GetValue(TabNode, 'LockPath', AFileView.CurrentPath);
+
+            sCaption := gConfig.GetValue(TabNode, 'Caption', EmptyStr);
+            if sCaption = EmptyStr then
+              sCaption := GetLastDir(AFileView.CurrentPath);
+            Page.UpdateCaption(sCaption);
+
+            // Assign events after loading file source.
+            AssignEvents(AFileView);
+          end;
+        end;
       end;
-      ANode := ANode.NextSibling;
+      TabNode := TabNode.NextSibling;
     end;
   end;
 
@@ -3108,11 +3114,8 @@ begin
   if ANoteBook.PageCount = 0 then
   begin
     sPath := mbGetCurrentDir;
-    sCaption := GetLastDir(sPath);
-    if (tb_text_length_limit in gDirTabOptions) and (Length(sCaption) > gDirTabLimit) then
-      sCaption := Copy(sCaption, 1, gDirTabLimit) + '...';
-
-    Page := ANoteBook.AddPage(sCaption);
+    Page := ANoteBook.AddPage(EmptyStr);
+    Page.UpdateCaption(GetLastDir(sPath));
     aFileSource := TFileSystemFileSource.GetFileSource;
     AFileView := TColumnsFileView.Create(Page, aFileSource, sPath);
     AssignEvents(AFileView);
@@ -3170,35 +3173,32 @@ procedure TfrmMain.SaveTabsXml(ANoteBook: TFileViewNotebook);
 var
   I: Integer;
   TabsSection: String;
-  sPath : String;
   Page: TFileViewPage;
-  ANode, SubNode: TXmlNode;
+  RootNode, TabNode, ViewNode: TXmlNode;
 begin
-  ANode := gConfig.FindNode(gConfig.RootNode, 'Tabs/OpenedTabs', True);
+  RootNode := gConfig.FindNode(gConfig.RootNode, 'Tabs/OpenedTabs', True);
   if ANoteBook = nbLeft then
     TabsSection := 'Left'
   else
     TabsSection := 'Right';
-  ANode := gConfig.FindNode(ANode, TabsSection, True);
+  RootNode := gConfig.FindNode(RootNode, TabsSection, True);
 
-  gConfig.ClearNode(ANode);
-  gConfig.SetValue(ANode, 'ActiveTab', ANoteBook.PageIndex);
+  gConfig.ClearNode(RootNode);
+  gConfig.SetValue(RootNode, 'ActiveTab', ANoteBook.PageIndex);
 
   for I:= 0 to ANoteBook.PageCount - 1 do
     begin
-      SubNode := gConfig.AddNode(ANode, 'Tab');
+      TabNode := gConfig.AddNode(RootNode, 'Tab');
+      ViewNode := gConfig.AddNode(TabNode, 'FileView');
+
       Page := ANoteBook.Page[I];
 
+      gConfig.AddValue(TabNode, 'Caption', Page.Caption);
+      gConfig.AddValue(TabNode, 'Options', Integer(Page.LockState));
       if Page.LockState = tlsPathResets then // if locked tab with directory change
-        sPath := Page.LockPath
-      else
-        sPath := Page.FileView.CurrentPath;
+        gConfig.AddValue(TabNode, 'LockPath', Page.LockPath);
 
-      gConfig.AddValue(SubNode, 'Path', sPath);
-      gConfig.AddValue(SubNode, 'Caption', Page.Caption);
-      gConfig.AddValue(SubNode, 'Options', Integer(Page.LockState));
-
-      Page.FileView.SaveConfiguration(gConfig, SubNode);
+      Page.FileView.SaveConfiguration(gConfig, ViewNode);
     end;
 end;
 
