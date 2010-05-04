@@ -56,6 +56,8 @@ type
     procedure DeleteNode(const Node: TDOMNode);
     procedure ClearNode(const Node: TDOMNode);
     function FindNode(const RootNode: TDOMNode; const Path: DOMString; bCreate: Boolean = False): TDOMNode;
+    function GetContent(const Node: TDOMNode): UTF8String;
+    procedure SetContent(const Node: TDOMNode; const AValue: UTF8String);
 
     // ------------------------------------------------------------------------
 
@@ -639,6 +641,16 @@ begin
     if StartPos > PathLen then
       Break;
   end;
+end;
+
+function TXmlConfig.GetContent(const Node: TDOMNode): UTF8String;
+begin
+  Result := UTF16ToUTF8(Node.TextContent);
+end;
+
+procedure TXmlConfig.SetContent(const Node: TDOMNode; const AValue: UTF8String);
+begin
+  Node.TextContent := UTF8ToUTF16(AValue);
 end;
 
 function TXmlConfig.GetPathFromNode(aNode: TDOMNode): String;

@@ -665,7 +665,15 @@ var
   ColumnsClass: TPanelColumnsClass;
   SortColumn: Integer;
   SortDirection: TSortDirection;
+  ColumnsViewNode: TXmlNode;
 begin
+  inherited LoadConfiguration(AConfig, ANode);
+
+  // Try to read new view-specific node.
+  ColumnsViewNode := AConfig.FindNode(ANode, 'ColumnsView');
+  if Assigned(ColumnsViewNode) then
+    ANode := ColumnsViewNode;
+
   ActiveColm := AConfig.GetValue(ANode, 'ColumnsSet', 'Default');
 
   // Load sorting options.
@@ -700,9 +708,14 @@ var
   i: Integer;
   SubNode: TXmlNode;
 begin
+  inherited SaveConfiguration(AConfig, ANode);
+
+  AConfig.SetAttr(ANode, 'Type', 'columns');
+  ANode := AConfig.FindNode(ANode, 'ColumnsView', True);
+  AConfig.ClearNode(ANode);
+
   AConfig.SetValue(ANode, 'ColumnsSet', ActiveColm);
   ANode := AConfig.FindNode(ANode, 'Sorting', True);
-  AConfig.ClearNode(ANode);
 
   // Save sorting options.
   for i := 0 to FColumnsSorting.Count - 1 do
@@ -2571,6 +2584,14 @@ begin
   FColumnsSorting := TColumnsSortings.Create;
 
   LoadConfiguration(AConfig, ANode);
+
+  if FileSourcesCount > 0 then
+  begin
+    // Update view before making file source file list,
+    // so that file list isn't unnecessarily displayed twice.
+    UpdateView;
+    MakeFileSourceFileList;
+  end;
 end;
 
 procedure TColumnsFileView.CreateDefault(AOwner: TWinControl);

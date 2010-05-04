@@ -144,10 +144,10 @@ type
 
     // For now we use here the knowledge that there are tabs.
     // Config should be independent of that in the future.
-    procedure LoadConfiguration(Section: String; TabIndex: Integer); virtual abstract;
-    procedure SaveConfiguration(Section: String; TabIndex: Integer); virtual abstract;
-    procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); virtual abstract;
-    procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); virtual abstract;
+    procedure LoadConfiguration(Section: String; TabIndex: Integer); virtual;
+    procedure SaveConfiguration(Section: String; TabIndex: Integer); virtual;
+    procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); virtual;
+    procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); virtual;
 
     procedure UpdateView; virtual abstract;
 
@@ -283,7 +283,7 @@ type
 implementation
 
 uses
-  uActs, uLng, uShowMsg;
+  uActs, uLng, uShowMsg, uFileSystemFileSource, uDCUtils, uGlobs;
 
 constructor TFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String);
 begin
@@ -422,6 +422,165 @@ end;
 
 procedure TFileView.StopBackgroundWork;
 begin
+end;
+
+procedure TFileView.LoadConfiguration(Section: String; TabIndex: Integer);
+begin
+  // Empty. For backward compatibility with loading from INI.
+end;
+
+procedure TFileView.SaveConfiguration(Section: String; TabIndex: Integer);
+begin
+  // Empty. For backward compatibility with saving to INI.
+end;
+
+procedure TFileView.LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  HistoryNode, EntryNode, FSNode, PathsNode: TXmlNode;
+  sFSType, sPath: String;
+  aFileSource: IFileSource = nil;
+  ActiveFSIndex: Integer = -1;
+  ActivePathIndex: Integer = -1;
+begin
+  RemoveAllFileSources;
+
+  HistoryNode := AConfig.FindNode(ANode, 'History');
+  if Assigned(HistoryNode) then
+  begin
+    EntryNode := HistoryNode.FirstChild;
+    while Assigned(EntryNode) do
+    begin
+      if EntryNode.CompareName('Entry') = 0 then
+      begin
+        FSNode := EntryNode.FindNode('FileSource');
+        if Assigned(FSNode) then
+        begin
+          if AConfig.TryGetAttr(FSNode, 'Type', sFSType) then
+          begin
+            // Create file source based on saved configuration or create empty and
+            // allow it to read its configuration from FSNode.
+            if sFSType = 'FileSystem' then
+              aFileSource := TFileSystemFileSource.GetFileSource;
+
+            if Assigned(aFileSource) then
+            begin
+              FHistory.AddFileSource(aFileSource);
+
+              // Load paths history.
+              PathsNode := AConfig.FindNode(EntryNode, 'Paths');
+              if Assigned(PathsNode) then
+              begin
+                PathsNode := PathsNode.FirstChild;
+                while Assigned(PathsNode) do
+                begin
+                  if PathsNode.CompareName('Path') = 0 then
+                  begin
+                    sPath := AConfig.GetContent(PathsNode);
+
+                    // Go to upper directory if it doesn't exist (filesystem only for now).
+                    if aFileSource.IsInterface(IFileSystemFileSource) then
+                    begin
+                      sPath := GetDeepestExistingPath(sPath);
+                    end;
+
+                    if sPath <> EmptyStr then
+                    begin
+                      FHistory.AddPath(sPath);
+
+                      if AConfig.GetAttr(PathsNode, 'Active', False) then
+                        ActivePathIndex := FHistory.PathsCount[FHistory.Count - 1] - 1;
+                    end;
+                  end;
+                  PathsNode := PathsNode.NextSibling;
+                end;
+              end;
+
+              // Delete the file source if no paths loaded.
+              if FHistory.PathsCount[FHistory.Count - 1] = 0 then
+                FHistory.DeleteFromCurrentFileSource
+              else
+              begin
+                // Check if the current history entry is active.
+                if AConfig.GetAttr(EntryNode, 'Active', False) then
+                  ActiveFSIndex := FHistory.Count - 1;
+              end;
+            end;
+          end;
+        end;
+      end;
+      EntryNode := EntryNode.NextSibling;
+    end;
+  end;
+
+  // Set current history position.
+  if (ActiveFSIndex < 0) or (ActiveFSIndex > FHistory.Count - 1) then
+    ActiveFSIndex := FHistory.Count - 1;
+  if ActiveFSIndex <> -1 then
+  begin
+    if (ActivePathIndex < 0) or (ActivePathIndex > FHistory.PathsCount[ActiveFSIndex] - 1) then
+      ActivePathIndex := FHistory.PathsCount[ActiveFSIndex] - 1;
+  end
+  else
+    ActivePathIndex := -1;
+  FHistory.SetIndexes(ActiveFSIndex, ActivePathIndex);
+
+  if Assigned(FileSource) then
+    FileSource.AddReloadEventListener(@ReloadEvent);
+  // No automatic reload here.
+end;
+
+procedure TFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
+var
+  HistoryNode, EntryNode, FSNode, PathsNode, PathNode: TXmlNode;
+  i, j: Integer;
+  PathIndex: Integer;
+begin
+  HistoryNode := AConfig.FindNode(ANode, 'History', True);
+  AConfig.ClearNode(HistoryNode);
+
+  for i := 0 to FileSourcesCount - 1 do
+  begin
+    // Currently saves only FileSystem.
+
+    if FHistory.FileSource[i].IsInterface(IFileSystemFileSource) then
+    begin
+      EntryNode := AConfig.AddNode(HistoryNode, 'Entry');
+      if FHistory.CurrentFileSourceIndex = i then
+        AConfig.SetAttr(EntryNode, 'Active', True);
+
+      FSNode := AConfig.AddNode(EntryNode, 'FileSource');
+      AConfig.SetAttr(FSNode, 'Type', 'FileSystem');
+
+      // Save paths history.
+      PathsNode := AConfig.AddNode(EntryNode, 'Paths');
+      if gSaveDirHistory then
+      begin
+        for j := 0 to FHistory.PathsCount[i] - 1 do
+        begin
+          PathNode := AConfig.AddNode(PathsNode, 'Path');
+
+          // Mark path as active (don't need to if it is the last one).
+          if (FHistory.CurrentFileSourceIndex = i) and
+             (FHistory.CurrentPathIndex = j) and
+             (j < FHistory.PathsCount[i] - 1) then
+          begin
+            AConfig.SetAttr(PathNode, 'Active', True);
+          end;
+
+          AConfig.SetContent(PathNode, FHistory.Path[i, j]);
+        end;
+      end
+      else
+      begin
+        if FHistory.CurrentFileSourceIndex = i then
+          PathIndex := FHistory.CurrentPathIndex
+        else
+          PathIndex := FHistory.PathsCount[i] - 1;
+
+        AConfig.AddValue(PathsNode, 'Path', FHistory.Path[i, PathIndex]);
+      end;
+    end;
+  end;
 end;
 
 function TFileView.BeforeChangePath(NewPath: String): Boolean;
