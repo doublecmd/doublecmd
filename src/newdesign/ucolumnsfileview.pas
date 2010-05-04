@@ -549,7 +549,8 @@ end;
 
 procedure TColumnsFileView.SetFocus;
 begin
-  if CanFocus and dgPanel.CanFocus then
+  // CanFocus checks parent controls, but not parent form.
+  if GetParentForm(Self).CanFocus and dgPanel.CanFocus then
     dgPanel.SetFocus;
 end;
 
