@@ -307,7 +307,7 @@ begin
 {$IFDEF LCLGTK2}
   // If removing currently active page, switch to another page first.
   // Otherwise there can be no page selected.
-  if PageIndex = Index then
+  if (PageIndex = Index) and (PageCount > 1) then
   begin
     if Index = PageCount - 1 then
       Page[Index - 1].MakeActive
@@ -331,7 +331,8 @@ begin
 
 {$IFNDEF LCLGTK2}
   // Force-activate current page.
-  Page[PageIndex].MakeActive;
+  if PageIndex <> -1 then
+    Page[PageIndex].MakeActive;
 {$ENDIF}
 end;
 
