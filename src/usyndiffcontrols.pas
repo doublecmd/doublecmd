@@ -32,7 +32,7 @@ type
 
       procedure SetDigitCount(AValue : integer);
       procedure SetLeadingZeros(const AValue : boolean);
-      function FormatLineNumber(Line: integer; IsDot: boolean): string;
+      function FormatLineNumber(Line: integer; IsFakeLine: boolean): string;
     protected
       procedure DoChange(Sender: TObject); override;
     public
@@ -297,15 +297,18 @@ begin
   end;
 end;
 
-function TSynDiffGutterLineNumber.FormatLineNumber(Line: Integer; IsDot: Boolean): String;
+function TSynDiffGutterLineNumber.FormatLineNumber(Line: Integer; IsFakeLine: Boolean): String;
 var
   I: Integer;
 begin
   Result := EmptyStr;
   // if a dot must be showed
-  if IsDot then
+  if IsFakeLine then
     begin
-      Result := StringOfChar(' ', FAutoSizeDigitCount-1) + '.';
+      if Line = 0 then
+        Result := StringOfChar(' ', FAutoSizeDigitCount-1) + '+'
+      else
+        Result := StringOfChar(' ', FAutoSizeDigitCount-1) + '-';
     end
   // else format the line number
   else
@@ -365,7 +368,7 @@ var
   rcLine: TRect;
   S: String;
   DC: HDC;
-  ShowDot: Boolean;
+  FakeLine: Boolean;
   LineHeight: Integer;
   SynDiffEdit: TSynDiffEdit;
 begin
@@ -406,9 +409,9 @@ begin
         begin
           iLine:= PtrInt(SynDiffEdit.Lines.Objects[iLine - 1]);
         end;
-      ShowDot := (iLine = 0);
+      FakeLine := (iLine <= 0);
       // Get the formatted line number or dot
-      S := FormatLineNumber(iLine, ShowDot);
+      S := FormatLineNumber(iLine, FakeLine);
       Inc(rcLine.Bottom, LineHeight);
       // erase the background and draw the line number string in one go
       fTextDrawer.ExtTextOut(rcLine.Left, rcLine.Top, ETO_OPAQUE or ETO_CLIPPED, rcLine,
