@@ -170,13 +170,13 @@ begin
           case Kind of
           ckAdd:
             begin
-              SynDiffEditLeft.Lines.InsertObject(I, EmptyStr, nil);
+              SynDiffEditLeft.Lines.InsertObject(I, EmptyStr, TObject(0));
               SynDiffEditRight.Lines.Objects[I]:= TObject(LineNumberRight)
             end;
           ckDelete:
             begin
               SynDiffEditLeft.Lines.Objects[I]:= TObject(LineNumberLeft);
-              SynDiffEditRight.Lines.InsertObject(I, EmptyStr, nil);
+              SynDiffEditRight.Lines.InsertObject(I, EmptyStr, TObject(-1));
             end;
           else
             begin
