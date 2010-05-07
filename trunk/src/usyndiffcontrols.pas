@@ -89,6 +89,8 @@ type
     constructor Create(AOwner: TComponent); override;
     procedure BeginCompare(ADiff: TDiff);
     procedure EndCompare(ADiffCount: Integer);
+    function DiffBegin(ALine: Integer): Integer;
+    function DiffEnd(ALine: Integer): Integer;
     property PaintStyle: TPaintStyle read FPaintStyle write SetPaintStyle;
     property Diff: TDiff read FDiff write FDiff;
     property DiffKind[Index: Integer]: TChangeKind read GetDiffKind;
@@ -176,6 +178,30 @@ procedure TSynDiffEdit.EndCompare(ADiffCount: Integer);
 begin
   FDiffCount:= ADiffCount;
   EndUpdate;
+end;
+
+function TSynDiffEdit.DiffBegin(ALine: Integer): Integer;
+var
+  Kind: TChangeKind;
+begin
+  Result:= ALine;
+  if ALine = 0 then Exit;
+  // Skip lines with current difference type
+  Kind := DiffKind[ALine];
+  while (ALine > 0) and (DiffKind[ALine] = Kind) do Dec(ALine);
+  Result:= ALine + 1;
+end;
+
+function TSynDiffEdit.DiffEnd(ALine: Integer): Integer;
+var
+  Kind: TChangeKind;
+begin
+  Result:= ALine;
+  if ALine = Lines.Count - 1 then Exit;
+  // Skip lines with current difference type
+  Kind := DiffKind[ALine];
+  while (ALine < Lines.Count - 1) and (DiffKind[ALine] = Kind) do Inc(ALine);
+  Result:= ALine - 1;
 end;
 
 constructor TSynDiffEdit.Create(AOwner: TComponent);
