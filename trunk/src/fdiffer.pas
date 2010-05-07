@@ -63,6 +63,10 @@ type
     pnlRightBox: TPanel;
     btnLeftEncoding: TSpeedButton;
     btnRightEncoding: TSpeedButton;
+    btnLeftSave: TSpeedButton;
+    btnLeftSaveAs: TSpeedButton;
+    btnRightSave: TSpeedButton;
+    btnRightSaveAs: TSpeedButton;
     Splitter: TSplitter;
     StatusBar: TStatusBar;
     ToolBar: TToolBar;
