@@ -15,6 +15,8 @@ type
 
   TfrmDiffer = class(TForm)
     actBinaryCompare: TAction;
+    actCopyLeftToRight: TAction;
+    actCopyRightToLeft: TAction;
     actPaintBackground: TAction;
     actStartCompare: TAction;
     actFirstDiff: TAction;
@@ -32,6 +34,9 @@ type
     edtFileNameRight: TFileNameEdit;
     ImageList: TImageList;
     MainMenu: TMainMenu;
+    miCopyRightToLeft: TMenuItem;
+    miCopyLeftToRight: TMenuItem;
+    miDivider5: TMenuItem;
     miPaintBackground: TMenuItem;
     miDivider4: TMenuItem;
     miBinaryCompare: TMenuItem;
@@ -74,6 +79,8 @@ type
     btnCancelCompare: TToolButton;
     Divider4: TToolButton;
     procedure actBinaryCompareExecute(Sender: TObject);
+    procedure actCopyLeftToRightExecute(Sender: TObject);
+    procedure actCopyRightToLeftExecute(Sender: TObject);
     procedure actFirstDiffExecute(Sender: TObject);
     procedure actLastDiffExecute(Sender: TObject);
     procedure actNextDiffExecute(Sender: TObject);
@@ -288,6 +295,30 @@ begin
       OpenFileLeft(edtFileNameLeft.Text);
       OpenFileRight(edtFileNameRight.Text);
     end;
+end;
+
+procedure TfrmDiffer.actCopyLeftToRightExecute(Sender: TObject);
+var
+  I, iStart,
+  iFinish: Integer;
+begin
+  I := SynDiffEditLeft.TopLine - 1;
+  iStart:= SynDiffEditLeft.DiffBegin(I);
+  iFinish:= SynDiffEditLeft.DiffEnd(I);
+  for I:= iStart to iFinish do
+    SynDiffEditRight.Lines[I]:= SynDiffEditLeft.Lines[I];
+end;
+
+procedure TfrmDiffer.actCopyRightToLeftExecute(Sender: TObject);
+var
+  I, iStart,
+  iFinish: Integer;
+begin
+  I := SynDiffEditRight.TopLine - 1;
+  iStart:= SynDiffEditRight.DiffBegin(I);
+  iFinish:= SynDiffEditRight.DiffEnd(I);
+  for I:= iStart to iFinish do
+    SynDiffEditLeft.Lines[I]:= SynDiffEditRight.Lines[I];
 end;
 
 procedure TfrmDiffer.actFirstDiffExecute(Sender: TObject);

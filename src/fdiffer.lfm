@@ -1,10 +1,10 @@
 object frmDiffer: TfrmDiffer
-  Left = 402
-  Height = 379
-  Top = 82
+  Left = 342
+  Height = 370
+  Top = 78
   Width = 760
   Caption = 'Compare files'
-  ClientHeight = 359
+  ClientHeight = 350
   ClientWidth = 760
   Color = clForm
   Menu = MainMenu
@@ -89,12 +89,12 @@ object frmDiffer: TfrmDiffer
   end
   object pnlLeft: TPanel
     Left = 0
-    Height = 310
+    Height = 301
     Top = 26
     Width = 379
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 310
+    ClientHeight = 301
     ClientWidth = 379
     TabOrder = 1
     object pnlLeftBox: TPanel
@@ -179,18 +179,18 @@ object frmDiffer: TfrmDiffer
   end
   object Splitter: TSplitter
     Left = 379
-    Height = 310
+    Height = 301
     Top = 26
     Width = 5
   end
   object pnlRight: TPanel
     Left = 384
-    Height = 310
+    Height = 301
     Top = 26
     Width = 376
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 310
+    ClientHeight = 301
     ClientWidth = 376
     TabOrder = 3
     object pnlRightBox: TPanel
@@ -276,7 +276,7 @@ object frmDiffer: TfrmDiffer
   object StatusBar: TStatusBar
     Left = 0
     Height = 23
-    Top = 336
+    Top = 327
     Width = 760
     Panels = <    
       item
@@ -369,6 +369,17 @@ object frmDiffer: TfrmDiffer
         Action = actLastDiff
         OnClick = actLastDiffExecute
       end
+      object miDivider5: TMenuItem
+        Caption = '-'
+      end
+      object miCopyLeftToRight: TMenuItem
+        Action = actCopyLeftToRight
+        OnClick = actCopyLeftToRightExecute
+      end
+      object miCopyRightToLeft: TMenuItem
+        Action = actCopyRightToLeft
+        OnClick = actCopyRightToLeftExecute
+      end
     end
   end
   object ActionList: TActionList
@@ -436,6 +447,14 @@ object frmDiffer: TfrmDiffer
       Caption = 'Paint Background'
       Checked = True
       OnExecute = actPaintBackgroundExecute
+    end
+    object actCopyLeftToRight: TAction
+      Caption = 'Copy Block Right'
+      OnExecute = actCopyLeftToRightExecute
+    end
+    object actCopyRightToLeft: TAction
+      Caption = 'Copy Block Left'
+      OnExecute = actCopyRightToLeftExecute
     end
   end
   object ImageList: TImageList
