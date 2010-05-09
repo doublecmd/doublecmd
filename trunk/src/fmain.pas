@@ -792,11 +792,6 @@ begin
   pmHotList.PopUp(P.x,P.y);
 end;
 
-procedure TfrmMain.dskRightResize(Sender: TObject);
-begin
-  pnlSyncSize.Height:= dskRight.Height + pnlDisk.BevelWidth * 2;
-end;
-
 procedure TfrmMain.lblAllProgressPctClick(Sender: TObject);
 begin
      if not Assigned(frmViewOperations) then
@@ -1642,9 +1637,9 @@ begin
 
   { Synchronize width of left and right disk panels }
 
-  pnlDisk.Width := pnlSyncSize.Width - (pnlSyncSize.Width mod 2);
+  pnlDisk.Width := pnlSyncSize.ClientWidth - (pnlSyncSize.ClientWidth mod 2);
 
-  dskLeft.Width := (pnlDisk.Width div 2) - pnlDisk.BevelWidth;
+  dskLeft.Width := (pnlDisk.ClientWidth div 2);
 
   //DebugLN('dskLeft.Width == ' + IntToStr(dskLeft.Width));
   //DebugLN('dskRight.Width == ' + IntToStr(dskRight.Width));
@@ -1653,6 +1648,12 @@ begin
   dskRight.Repaint;
 End;
 
+procedure TfrmMain.dskRightResize(Sender: TObject);
+begin
+  dskLeft.Height:= dskRight.Height;
+  pnlDisk.ClientHeight:= dskRight.Height;
+  pnlSyncSize.ClientHeight:= dskRight.Height + pnlDisk.BevelWidth * 2;
+end;
 
 procedure TfrmMain.HandleActionHotKeys(var Key: Word; Shift: TShiftState);
 begin

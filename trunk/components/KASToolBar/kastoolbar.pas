@@ -72,6 +72,8 @@ type
     function CreateButton: TSpeedButton;
     function CreateDivider: TSpeedDivider;
     procedure InsertButton(InsertAt: Integer; ToolButton: TSpeedButton);
+    procedure CalculatePreferredSize(var PreferredWidth,
+                    PreferredHeight: Integer; WithThemeSpace: Boolean); override;
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -166,6 +168,12 @@ begin
       ToolButton.Top:= BorderWidth;
     end;
   ButtonList.Insert(InsertAt, ToolButton);
+end;
+
+procedure TKASToolBar.CalculatePreferredSize(var PreferredWidth,
+  PreferredHeight: Integer; WithThemeSpace: Boolean);
+begin
+  WrapButtons(Width, PreferredWidth, PreferredHeight, True);
 end;
 
 function TKASToolBar.GetButtonX(Index: Integer; What: TInfor): String;
