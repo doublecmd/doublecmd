@@ -3,9 +3,8 @@ object frmMain: TfrmMain
   Height = 520
   Top = 24
   Width = 952
-  ActiveControl = pnlSyncSize
   Caption = 'Double Commander'
-  ClientHeight = 493
+  ClientHeight = 500
   ClientWidth = 952
   Color = clForm
   KeyPreview = True
@@ -69,11 +68,11 @@ object frmMain: TfrmMain
       TabOrder = 0
       object dskLeft: TKASToolBar
         AnchorSideLeft.Control = pnlDisk
-        Left = 1
+        Left = 0
         Height = 24
         Top = 1
-        Width = 142
-        Align = alLeft
+        Width = 143
+        Align = alCustom
         Anchors = [akTop, akLeft, akRight]
         AutoSize = True
         Constraints.MinHeight = 20
@@ -111,24 +110,24 @@ object frmMain: TfrmMain
   end
   object pnlNotebooks: TPanel
     Left = 0
-    Height = 362
+    Height = 369
     Top = 46
     Width = 952
     Align = alClient
-    ClientHeight = 362
+    ClientHeight = 369
     ClientWidth = 952
     FullRepaint = False
     TabOrder = 1
     object pnlLeft: TPanel
       AnchorSideBottom.Control = PanelAllProgress
       Left = 1
-      Height = 150
+      Height = 151
       Top = 1
       Width = 511
       Align = alLeft
       BorderSpacing.Right = 3
       BevelOuter = bvNone
-      ClientHeight = 150
+      ClientHeight = 151
       ClientWidth = 511
       TabOrder = 0
       OnDblClick = pnlLeftRightDblClick
@@ -250,13 +249,13 @@ object frmMain: TfrmMain
     end
     object pnlRight: TPanel
       Left = 515
-      Height = 150
+      Height = 151
       Top = 1
       Width = 436
       Align = alClient
       BorderSpacing.Left = 3
       BevelOuter = bvNone
-      ClientHeight = 150
+      ClientHeight = 151
       ClientWidth = 436
       TabOrder = 1
       OnDblClick = pnlLeftRightDblClick
@@ -377,7 +376,7 @@ object frmMain: TfrmMain
       Cursor = crVSplit
       Left = 1
       Height = 4
-      Top = 188
+      Top = 195
       Width = 950
       Align = alBottom
       ResizeAnchor = akBottom
@@ -386,7 +385,7 @@ object frmMain: TfrmMain
     object pnlCommand: TPanel
       Left = 1
       Height = 169
-      Top = 192
+      Top = 199
       Width = 950
       Align = alBottom
       Anchors = [akLeft, akRight]
@@ -397,23 +396,23 @@ object frmMain: TfrmMain
       TabOrder = 2
       object Panel1: TPanel
         Left = 1
-        Height = 33
-        Top = 135
+        Height = 25
+        Top = 143
         Width = 948
         Align = alBottom
         AutoSize = True
         BevelOuter = bvNone
         ChildSizing.TopBottomSpacing = 2
-        ClientHeight = 33
+        ClientHeight = 25
         ClientWidth = 948
         TabOrder = 0
         object lblCommandPath: TLabel
           AnchorSideTop.Control = edtCommand
           AnchorSideTop.Side = asrCenter
           Left = 0
-          Height = 18
-          Top = 7
-          Width = 29
+          Height = 14
+          Top = 5
+          Width = 23
           Caption = 'Path'
           ShowAccelChar = False
         end
@@ -423,13 +422,13 @@ object frmMain: TfrmMain
           AnchorSideTop.Control = Panel1
           AnchorSideRight.Control = Panel1
           AnchorSideRight.Side = asrBottom
-          Left = 33
-          Height = 29
+          Left = 27
+          Height = 21
           Top = 2
-          Width = 915
+          Width = 921
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 4
-          ItemHeight = 0
+          ItemHeight = 13
           OnEnter = edtCommandEnter
           OnExit = edtCommandExit
           OnKeyDown = edtCommandKeyDown
@@ -439,7 +438,7 @@ object frmMain: TfrmMain
       end
       object nbConsole: TNotebook
         Left = 1
-        Height = 134
+        Height = 142
         Top = 1
         Width = 948
         TabStop = False
@@ -448,13 +447,13 @@ object frmMain: TfrmMain
         ShowTabs = False
         TabOrder = 1
         object Page1: TPage
-          ClientWidth = 942
-          ClientHeight = 128
+          ClientWidth = 940
+          ClientHeight = 134
           object CmdBox1: TCmdBox
             Left = 0
-            Height = 128
+            Height = 134
             Top = 0
-            Width = 942
+            Width = 940
             Align = alClient
             CaretColor = clWhite
             CaretType = cartUser
@@ -498,8 +497,8 @@ object frmMain: TfrmMain
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = Splitter1
       Left = 4
-      Height = 36
-      Top = 151
+      Height = 42
+      Top = 152
       Width = 944
       Align = alBottom
       AutoSize = True
@@ -509,7 +508,7 @@ object frmMain: TfrmMain
       BorderSpacing.CellAlignHorizontal = ccaRightBottom
       BorderSpacing.CellAlignVertical = ccaCenter
       BidiMode = bdRightToLeft
-      ClientHeight = 36
+      ClientHeight = 42
       ClientWidth = 944
       ParentBidiMode = False
       TabOrder = 5
@@ -518,7 +517,7 @@ object frmMain: TfrmMain
         AnchorSideBottom.Control = PanelAllProgress
         AnchorSideBottom.Side = asrBottom
         Left = 1
-        Height = 36
+        Height = 42
         Top = 0
         Width = 945
         Anchors = [akTop, akLeft, akRight, akBottom]
@@ -532,7 +531,7 @@ object frmMain: TfrmMain
   object pnlKeys: TPanel
     Left = 0
     Height = 20
-    Top = 473
+    Top = 480
     Width = 952
     Align = alBottom
     Anchors = [akLeft, akRight]
@@ -635,7 +634,7 @@ object frmMain: TfrmMain
     AnchorSideBottom.Side = asrBottom
     Left = 0
     Height = 61
-    Top = 412
+    Top = 419
     Width = 952
     Align = alBottom
     Font.Height = -16
@@ -646,7 +645,7 @@ object frmMain: TfrmMain
     PopupMenu = pmLogMenu
     TabOrder = 4
     TabStop = False
-    Gutter.Width = 61
+    Gutter.Width = 59
     Gutter.MouseActions = <    
       item
         Shift = []
@@ -1124,7 +1123,7 @@ object frmMain: TfrmMain
         Width = 23
       end
       object SynGutterLineNumber1: TSynGutterLineNumber
-        Width = 21
+        Width = 19
         MouseActions = <>
         MarkupInfo.Background = clBtnFace
         MarkupInfo.Foreground = clNone
@@ -1231,7 +1230,7 @@ object frmMain: TfrmMain
     Cursor = crVSplit
     Left = 0
     Height = 4
-    Top = 408
+    Top = 415
     Width = 952
     Align = alBottom
     ResizeAnchor = akBottom
