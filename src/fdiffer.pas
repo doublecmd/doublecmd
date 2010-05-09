@@ -1,3 +1,26 @@
+{
+   Double Commander
+   -------------------------------------------------------------------------
+   Internal diff and merge tool
+
+   Copyright (C) 2010  Koblov Alexander (Alexx2000@mail.ru)
+
+   This program is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public License as
+   published by the Free Software Foundation; either version 2 of the
+   License, or (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful, but
+   WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   in a file called COPYING along with this program; if not, write to
+   the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA
+   02139, USA.
+}
+
 unit fDiffer;
 
 {$mode objfpc}{$H+}
@@ -181,18 +204,18 @@ begin
           case Kind of
           ckAdd:
             begin
-              SynDiffEditLeft.Lines.InsertObject(I, EmptyStr, TObject(0));
-              SynDiffEditRight.Lines.Objects[I]:= TObject(LineNumberRight)
+              SynDiffEditLeft.InsertFakeLine(I, lkFakeAdd);
+              SynDiffEditRight.LineNumber[I]:= LineNumberRight;
             end;
           ckDelete:
             begin
-              SynDiffEditLeft.Lines.Objects[I]:= TObject(LineNumberLeft);
-              SynDiffEditRight.Lines.InsertObject(I, EmptyStr, TObject(-1));
+              SynDiffEditLeft.LineNumber[I]:= LineNumberLeft;
+              SynDiffEditRight.InsertFakeLine(I, lkFakeDelete);
             end;
           else
             begin
-              SynDiffEditLeft.Lines.Objects[I]:= TObject(LineNumberLeft);
-              SynDiffEditRight.Lines.Objects[I]:= TObject(LineNumberRight)
+              SynDiffEditLeft.LineNumber[I]:= LineNumberLeft;
+              SynDiffEditRight.LineNumber[I]:= LineNumberRight;
             end;
           end;
         end;

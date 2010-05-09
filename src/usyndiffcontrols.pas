@@ -10,6 +10,10 @@ uses
   SynTextDrawer, uDiff;
 
 const
+  { Fake line kinds }
+  lkFakeAdd = -1;
+  lkFakeDelete = -2;
+  { Default differ colors }
   clPaleGreen: TColor = $AAFFAA;
   clPaleRed  : TColor = $AAAAFF;
   clPaleBlue : TColor = $FFAAAA;
@@ -81,12 +85,16 @@ type
   private
     function GetDiffCount: Integer;
     function GetDiffKind(Index: Integer): TChangeKind;
+    function GetLineNumber(Index: Integer): PtrInt;
+    procedure SetLineNumber(Index: Integer; const AValue: PtrInt);
     procedure SetPaintStyle(const AValue: TPaintStyle);
   protected
     procedure SpecialLineMarkupEvent(Sender: TObject; Line: Integer;
                                      var Special: boolean; AMarkup: TSynSelectedColor);
   public
     constructor Create(AOwner: TComponent); override;
+    procedure InsertFakeLine(AIndex: Integer; ADiffKind: PtrInt);
+    procedure RemoveFakeLines;
     procedure BeginCompare(ADiff: TDiff);
     procedure EndCompare(ADiffCount: Integer);
     function DiffBegin(ALine: Integer): Integer;
@@ -95,6 +103,7 @@ type
     property Diff: TDiff read FDiff write FDiff;
     property DiffKind[Index: Integer]: TChangeKind read GetDiffKind;
     property DiffCount: Integer read GetDiffCount;
+    property LineNumber[Index: Integer]: PtrInt read GetLineNumber write SetLineNumber;
   published
     property OnStatusChange;
   end;
@@ -125,6 +134,16 @@ begin
       else
         Result:= ckModify;
     end;
+end;
+
+function TSynDiffEdit.GetLineNumber(Index: Integer): PtrInt;
+begin
+  Result:= PtrInt(Lines.Objects[Index]);
+end;
+
+procedure TSynDiffEdit.SetLineNumber(Index: Integer; const AValue: PtrInt);
+begin
+  Lines.Objects[Index]:= TObject(AValue);
 end;
 
 procedure TSynDiffEdit.SetPaintStyle(const AValue: TPaintStyle);
@@ -218,6 +237,22 @@ begin
     end;
   FPaintStyle:= psBackground;
   OnSpecialLineMarkup:= @SpecialLineMarkupEvent;
+end;
+
+procedure TSynDiffEdit.InsertFakeLine(AIndex: Integer; ADiffKind: PtrInt);
+begin
+  Lines.InsertObject(AIndex, EmptyStr, TObject(ADiffKind));
+end;
+
+procedure TSynDiffEdit.RemoveFakeLines;
+var
+  I: Integer;
+begin
+  for I:= Lines.Count - 1 downto 0 do
+  begin
+    if (LineNumber[I] < 0) and (Lines[I] = EmptyStr) then
+      Lines.Delete(I);
+  end;
 end;
 
 { TSynDiffGutterChanges }
@@ -328,13 +363,17 @@ var
   I: Integer;
 begin
   Result := EmptyStr;
-  // if a dot must be showed
+  // if a symbol must be showed
   if IsFakeLine then
     begin
-      if Line = 0 then
-        Result := StringOfChar(' ', FAutoSizeDigitCount-1) + '+'
-      else
+      case Line of
+      lkFakeAdd:
+        Result := StringOfChar(' ', FAutoSizeDigitCount-1) + '+';
+      lkFakeDelete:
         Result := StringOfChar(' ', FAutoSizeDigitCount-1) + '-';
+      else
+        Result := StringOfChar(' ', FAutoSizeDigitCount-1) + '.';
+      end;
     end
   // else format the line number
   else
@@ -433,7 +472,7 @@ begin
       rcLine.Top := rcLine.Bottom;
       if Assigned(SynDiffEdit.FDiff) and (SynDiffEdit.DiffCount <> 0) then
         begin
-          iLine:= PtrInt(SynDiffEdit.Lines.Objects[iLine - 1]);
+          iLine:= SynDiffEdit.LineNumber[iLine - 1];
         end;
       FakeLine := (iLine <= 0);
       // Get the formatted line number or dot
