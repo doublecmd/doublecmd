@@ -38,7 +38,7 @@ type
 
     function LoadModule: Boolean;
     procedure UnloadModule;
-
+    procedure SetCryptCallback;
     function ReadArchive: Boolean;
 
     function GetArcFileList: TObjectList;
@@ -142,7 +142,7 @@ implementation
 uses
   uGlobs, LCLProc, uDCUtils,
   uDateTimeUtils,
-  FileUtil,
+  FileUtil, uCryptProc,
   uWcxArchiveListOperation,
   uWcxArchiveCopyInOperation,
   uWcxArchiveCopyOutOperation,
@@ -162,6 +162,88 @@ var
   WcxOperationsQueue: TObjectList; // store queued operations, use only under FOperationsQueueLock
   WcxConnectionsLock: TCriticalSection; // used to synchronize access to connections
   WcxOperationsQueueLock: TCriticalSection; // used to synchronize access to operations queue
+
+function CryptProc(CryptoNumber: Integer; Mode: Integer; ArchiveName: UTF8String; var Password: UTF8String): Integer;
+const
+  cPrefix = 'wcx';
+var
+  sGroup,
+  sPassword: AnsiString;
+begin
+  try
+    sGroup:= ExtractOnlyFileExt(ArchiveName);
+    case Mode of
+    PK_CRYPT_SAVE_PASSWORD:
+      begin
+        if PasswordStore.WritePassword(cPrefix, sGroup, ArchiveName, Password) then
+          Result:= E_SUCCESS
+        else
+          Result:= E_EWRITE;
+      end;
+    PK_CRYPT_LOAD_PASSWORD,
+    PK_CRYPT_LOAD_PASSWORD_NO_UI:
+      begin
+        Result:= E_EREAD;
+        if (Mode = PK_CRYPT_LOAD_PASSWORD_NO_UI) and (PasswordStore.HasMasterKey = False) then
+          Exit(E_NO_FILES);
+        if PasswordStore.ReadPassword(cPrefix, sGroup, ArchiveName, Password) then
+          Result:= E_SUCCESS;
+      end;
+    PK_CRYPT_COPY_PASSWORD,
+    PK_CRYPT_MOVE_PASSWORD:
+      begin
+        Result:= E_EREAD;
+        if PasswordStore.ReadPassword(cPrefix, sGroup, ArchiveName, sPassword) then
+          begin
+            if not PasswordStore.WritePassword(cPrefix, sGroup, Password, sPassword) then
+              Exit(E_EWRITE);
+            if Mode = PK_CRYPT_MOVE_PASSWORD then
+              PasswordStore.DeletePassword(cPrefix, sGroup, ArchiveName);
+            Result:= E_SUCCESS;
+          end;
+      end;
+    PK_CRYPT_DELETE_PASSWORD:
+      begin
+        PasswordStore.DeletePassword(cPrefix, sGroup, ArchiveName);
+        Result:= E_SUCCESS;
+      end;
+    end;
+  except
+    Result:= E_ECREATE;
+  end;
+end;
+
+function CryptProcA(CryptoNumber: Integer; Mode: Integer; ArchiveName, Password: PAnsiChar; MaxLen: Integer): Integer; stdcall;
+var
+  sArchiveName,
+  sPassword: UTF8String;
+begin
+  sArchiveName:= SysToUTF8(StrPas(ArchiveName));
+  sPassword:= SysToUTF8(StrPas(Password));
+  Result:= CryptProc(CryptoNumber, Mode, sArchiveName, sPassword);
+  if Result = E_SUCCESS then
+    begin
+      if Password <> nil then
+        StrPLCopy(Password, UTF8ToSys(sPassword), MaxLen);
+    end;
+end;
+
+function CryptProcW(CryptoNumber: Integer; Mode: Integer; ArchiveName, Password: PWideChar; MaxLen: Integer): Integer; stdcall;
+var
+  sArchiveName,
+  sPassword: UTF8String;
+begin
+  sArchiveName:= UTF8Encode(WideString(ArchiveName));
+  sPassword:= UTF8Encode(WideString(Password));
+  Result:= CryptProc(CryptoNumber, Mode, sArchiveName, sPassword);
+  if Result = E_SUCCESS then
+    begin
+      if Password <> nil then
+        StrPLCopyW(Password, UTF8Decode(sPassword), MaxLen);
+    end;
+end;
+
+//--------------------------------------------------------------------------------------------------
 
 class function TWcxArchiveFileSource.CreateByArchiveSign(
     anArchiveFileSource: IFileSource;
@@ -284,6 +366,8 @@ begin
   if LoadModule = False then
     raise EModuleNotLoadedException.Create('Cannot load WCX module ' + FModuleFileName);
 
+  SetCryptCallback;
+
   ReadArchive;
 
   CreateConnections;
@@ -299,6 +383,8 @@ begin
   FPluginCapabilities := aWcxPluginCapabilities;
   FArcFileList := TObjectList.Create(True);
   FWcxModule := aWcxPluginModule;
+
+  SetCryptCallback;
 
   ReadArchive;
 
@@ -402,6 +488,18 @@ end;
 procedure TWcxArchiveFileSource.UnloadModule;
 begin
   WcxModule.UnloadModule;
+end;
+
+procedure TWcxArchiveFileSource.SetCryptCallback;
+var
+  iFlags: Integer;
+begin
+  if not PasswordStore.HasMasterKey then
+    iFlags:= 0
+  else
+    iFlags:= PK_CRYPTOPT_MASTERPASS_SET;
+
+  FWcxModule.WcxSetCryptCallback(0, iFlags, @CryptProcA, @CryptProcW);
 end;
 
 function TWcxArchiveFileSource.GetArcFileList: TObjectList;
@@ -823,4 +921,4 @@ finalization
   FreeThenNil(WcxOperationsQueueLock);
 
 end.
-
+
