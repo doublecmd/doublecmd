@@ -95,12 +95,12 @@ type
   TProcessDataProc=function(FileName:pchar;Size:longint):longint; stdcall;
   PProcessDataProcW=^TProcessDataProcW;
   TProcessDataProcW=function(FileName:pwidechar;Size:longint):longint; stdcall;
-  PPkPluginCryptProc=^TPkPluginCryptProc;
-  TPkPluginCryptProc=function(CryptoNr:integer;mode:integer;ArchiveName,
-    Password:pchar;maxlen:integer):integer; stdcall;
-  PPkPluginCryptProcW=^TPkPluginCryptProcW;
-  TPkPluginCryptProcW=function(CryptoNr:integer;mode:integer;ArchiveName,
-    Password:pwidechar;maxlen:integer):integer; stdcall;
+  PPkCryptProc = ^TPkCryptProc;
+  TPkCryptProc = function(CryptoNr: Integer; Mode: Integer; ArchiveName,
+                          Password: PAnsiChar; MaxLen: Integer): Integer; stdcall;
+  PPkCryptProcW = ^TPkCryptProcW;
+  TPkCryptProcW = function(CryptoNr: Integer; Mode: Integer; ArchiveName,
+                           Password: PWideChar; MaxLen: Integer): Integer; stdcall;
 
 type
   PHeaderData = ^THeaderData;

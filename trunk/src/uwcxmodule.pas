@@ -90,6 +90,7 @@ Type
     DoneMemPack : TDoneMemPack;
     CanYouHandleThisFile : TCanYouHandleThisFile;
     PackSetDefaultParams : TPackSetDefaultParams;
+    PkSetCryptCallback : TPkSetCryptCallback;
     { Unicode }
     OpenArchiveW: TOpenArchiveW;
     ReadHeaderExW: TReadHeaderExW;
@@ -100,6 +101,7 @@ Type
     DeleteFilesW: TDeleteFilesW;
     StartMemPackW: TStartMemPackW;
     CanYouHandleThisFileW: TCanYouHandleThisFileW;
+    PkSetCryptCallbackW : TPkSetCryptCallbackW;
     { Dialog API }
     SetDlgProc: TSetDlgProc;
 
@@ -117,6 +119,7 @@ Type
     function WcxCanYouHandleThisFile(FileName: UTF8String): Boolean;
     procedure WcxSetChangeVolProc(hArcData: TArcHandle; ChangeVolProcA: TChangeVolProc; ChangeVolProcW: TChangeVolProcW);
     procedure WcxSetProcessDataProc(hArcData: TArcHandle; ProcessDataProcA: TProcessDataProc; ProcessDataProcW: TProcessDataProcW);
+    procedure WcxSetCryptCallback(CryptoNr, Flags: Integer; PkCryptProcA: TPkCryptProc; PkCryptProcW: TPkCryptProcW);
 
     function LoadModule(const sName:String):Boolean; {Load WCX plugin}
     procedure UnloadModule;                          {UnLoad WCX plugin}
@@ -298,6 +301,15 @@ begin
     SetProcessDataProc(hArcData, ProcessDataProcA);
 end;
 
+procedure TWCXModule.WcxSetCryptCallback(CryptoNr, Flags: Integer;
+  PkCryptProcA: TPkCryptProc; PkCryptProcW: TPkCryptProcW);
+begin
+  if Assigned(PkSetCryptCallbackW) then
+    PkSetCryptCallbackW(PkCryptProcW, CryptoNr, Flags)
+  else if Assigned(PkSetCryptCallback) then
+    PkSetCryptCallback(PkCryptProcA, CryptoNr, Flags);
+end;
+
 function TWCXModule.LoadModule(const sName:String):Boolean;
 var
   PackDefaultParamStruct : TPackDefaultParamStruct;
@@ -341,6 +353,7 @@ begin
   DoneMemPack:= TDoneMemPack(GetProcAddress(FModuleHandle,'DoneMemPack'));
   CanYouHandleThisFile:= TCanYouHandleThisFile(GetProcAddress(FModuleHandle,'CanYouHandleThisFile'));
   PackSetDefaultParams:= TPackSetDefaultParams(GetProcAddress(FModuleHandle,'PackSetDefaultParams'));
+  PkSetCryptCallback:= TPkSetCryptCallback(GetProcAddress(FModuleHandle,'PkSetCryptCallback'));
   // Unicode
   OpenArchiveW:= TOpenArchiveW(GetProcAddress(FModuleHandle,'OpenArchiveW'));
   ReadHeaderExW:= TReadHeaderExW(GetProcAddress(FModuleHandle,'ReadHeaderExW'));
@@ -351,6 +364,7 @@ begin
   DeleteFilesW:= TDeleteFilesW(GetProcAddress(FModuleHandle,'DeleteFilesW'));
   StartMemPackW:= TStartMemPackW(GetProcAddress(FModuleHandle,'StartMemPackW'));
   CanYouHandleThisFileW:= TCanYouHandleThisFileW(GetProcAddress(FModuleHandle,'CanYouHandleThisFileW'));
+  PkSetCryptCallbackW:= TPkSetCryptCallbackW(GetProcAddress(FModuleHandle,'PkSetCryptCallbackW'));
   // Dialog API function
   SetDlgProc:= TSetDlgProc(GetProcAddress(FModuleHandle,'SetDlgProc'));
 
@@ -415,6 +429,7 @@ begin
   DoneMemPack:= nil;
   CanYouHandleThisFile:= nil;
   PackSetDefaultParams:= nil;
+  PkSetCryptCallback:= nil;
   // Unicode
   OpenArchiveW:= nil;
   ReadHeaderExW:= nil;
@@ -425,6 +440,7 @@ begin
   DeleteFilesW:= nil;
   StartMemPackW:= nil;
   CanYouHandleThisFileW:= nil;
+  PkSetCryptCallbackW:= nil;
   // DialogAPI
   SetDlgProc:= nil;
 end;

@@ -25,6 +25,7 @@ type
   TCanYouHandleThisFile = function (FileName: pchar): boolean;stdcall;
   TPackSetDefaultParams = procedure (dps: pPackDefaultParamStruct);stdcall;
   TReadHeaderEx = function (hArcData: TArcHandle; var HeaderDataEx : THeaderDataEx): integer;stdcall;
+  TPkSetCryptCallback = procedure (PkCryptProc: TPkCryptProc; CryptoNr, Flags: Integer); stdcall;
 { Unicode }
   TOpenArchiveW = function (var ArchiveData : tOpenArchiveDataW): TArcHandle;stdcall;
   TReadHeaderExW = function (hArcData: TArcHandle; var HeaderDataExW : THeaderDataExW): integer;stdcall;
@@ -35,6 +36,7 @@ type
   TDeleteFilesW = function (PackedFile, DeleteList: PWideChar): integer;stdcall;
   TStartMemPackW = function (Options: integer;  FileName: PWideChar): integer;stdcall;
   TCanYouHandleThisFileW = function (FileName: PWideChar): boolean;stdcall;
+  TPkSetCryptCallbackW = procedure (PkCryptProc: TPkCryptProcW; CryptoNr, Flags: Integer); stdcall;
 
 implementation
 
