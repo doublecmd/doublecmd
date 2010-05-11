@@ -740,7 +740,7 @@ function TPixMapManager.CheckAddThemePixmapLocked(AIconName: String; AIconSize: 
 var
   fileIndex: PtrInt;
 {$IFDEF LCLGTK2}
-  pbPicture: PGdkPixbuf;
+  pbPicture: PGdkPixbuf = nil;
   sIconFileName: String;
 {$ELSE}
   bmpBitmap: Graphics.TBitmap;
@@ -752,10 +752,12 @@ begin
   if fileIndex < 0 then
     begin
     {$IF DEFINED(LCLGTK2) AND DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-      pbPicture:= gtk_icon_theme_load_icon(FIconTheme, Pgchar(AIconName),
-        AIconSize, GTK_ICON_LOOKUP_NO_SVG, nil);
-
-      // If not found in system theme look in DC theme.
+      if gShowIcons > sim_standart then
+        begin
+          pbPicture:= gtk_icon_theme_load_icon(FIconTheme, Pgchar(AIconName),
+                                               AIconSize, GTK_ICON_LOOKUP_USE_BUILTIN, nil);
+        end;
+      // If not found in system theme or using of system theme is disabled look in DC theme.
       if not Assigned(pbPicture) then
         begin
           sIconFileName := FDCIconTheme.FindIcon(AIconName, AIconSize);
@@ -790,7 +792,7 @@ function TPixMapManager.LoadIconThemeBitmap(AIconName: String; AIconSize: Intege
 var
   sIconFileName: UTF8String;
 {$IFDEF LCLGTK2}
-  pbPicture: PGdkPixbuf;
+  pbPicture: PGdkPixbuf = nil;
 {$ENDIF}
 begin
   // This function must be called under FPixmapsLock.
@@ -798,10 +800,13 @@ begin
 {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   Result := nil;
   {$IFDEF LCLGTK2}
-  pbPicture:= gtk_icon_theme_load_icon(FIconTheme, Pgchar(PChar(AIconName)),
-    AIconSize, GTK_ICON_LOOKUP_NO_SVG, nil);
-  if pbPicture <> nil then
-    Result := PixBufToBitmap(pbPicture);
+  if gShowIcons > sim_standart then
+    begin
+      pbPicture:= gtk_icon_theme_load_icon(FIconTheme, Pgchar(PChar(AIconName)),
+                                           AIconSize, GTK_ICON_LOOKUP_USE_BUILTIN, nil);
+      if pbPicture <> nil then
+        Result := PixBufToBitmap(pbPicture);
+    end;
   {$ELSE}
   sIconFileName:= FIconTheme.FindIcon(AIconName, AIconSize);
   if sIconFileName <> EmptyStr then
@@ -924,13 +929,13 @@ begin
 
   // Load icon themes.
   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-  if gShowIcons >= sim_all then
+  if gShowIcons > sim_standart then
     begin
       LoadMimeIconNames; // For use with GetMimeIcon
-    end;
   {$IFNDEF LCLGTK2}
-  FIconTheme.Load; // Load system icon theme.
+      FIconTheme.Load; // Load system icon theme.
   {$ENDIF}
+    end;
   {$ENDIF}
   FDCIconTheme.Load; // Load DC theme.
 
