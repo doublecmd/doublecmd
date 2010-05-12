@@ -4,6 +4,7 @@
 /* It contains definitions of error codes, flags and callbacks */
 
 /* Error codes returned to calling application */
+#define E_SUCCESS          0            /* Success */
 #define E_END_ARCHIVE     10            /* No more files in archive */
 #define E_NO_MEMORY       11            /* Not enough memory */
 #define E_BAD_DATA        12            /* Data is bad */
