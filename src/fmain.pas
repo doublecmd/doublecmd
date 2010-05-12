@@ -2,7 +2,7 @@
    Double Commander
    -------------------------------------------------------------------------
    Licence  : GNU GPL v 2.0
-   Copyright (C) 2006-2009 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2010 Alexander Koblov (Alexx2000@mail.ru)
 
    Main Dialog window
 
@@ -1296,7 +1296,7 @@ var
 begin
   dskPanel := (Sender as TKASToolBar);
 
-  if (dskPanel.Align = alLeft) or (not gDriveBar2 and (PanelSelected = fpLeft))  then
+  if (dskPanel = dskLeft) or (not gDriveBar2 and (PanelSelected = fpLeft))  then
     begin
       FileView := FrameLeft;
       PanelSelected := fpLeft;
@@ -4138,6 +4138,11 @@ begin
     lblCommandPath.Visible := False;
     edtCommand.Visible := False;
   end;
+  // Change program current path
+  if (fspDirectAccess in ActiveFrame.FileSource.GetProperties) then
+    begin
+      mbSetCurrentDir(ActiveFrame.CurrentPath);
+    end;
 end;
 
 procedure TfrmMain.UpdateFreeSpace(Panel: TFilePanelSelect);
