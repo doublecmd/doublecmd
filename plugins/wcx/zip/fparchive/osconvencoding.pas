@@ -89,7 +89,7 @@ begin
   Result:= Source;
   if GetSystemEncoding(Language, Encoding) then
     begin
-      if SameText(Language, 'ru') or SameText(Language, 'uk') then
+      if (Language = 'ru') or (Language = 'uk') then
         if IsInitIconv then
           begin
             Iconvert(Source, Result, 'CP866', Encoding);
@@ -116,7 +116,7 @@ begin
   Result:= Source;
   if GetSystemEncoding(Language, Encoding) then
     begin
-      if SameText(Language, 'ru') or SameText(Language, 'uk') then
+      if (Language = 'ru') or (Language = 'uk') then
         if IsInitIconv then
           begin
             Iconvert(Source, Result, Encoding, 'CP866');
@@ -139,7 +139,7 @@ begin
   Result:= Source;
   if GetSystemEncoding(Language, Encoding) then
     begin
-      if SameText(Language, 'ru') then
+      if (Language = 'be') or (Language = 'bg') or (Language = 'ru') or (Language = 'uk') then
         if IsInitIconv then
           begin
             Iconvert(Source, Result, 'CP1251', Encoding);
@@ -160,7 +160,7 @@ begin
   Result:= Source;
   if GetSystemEncoding(Language, Encoding) then
     begin
-      if SameText(Language, 'ru') then
+      if (Language = 'be') or (Language = 'bg') or (Language = 'ru') or (Language = 'uk') then
         if IsInitIconv then
           begin
             Iconvert(Source, Result, Encoding, 'CP1251');
