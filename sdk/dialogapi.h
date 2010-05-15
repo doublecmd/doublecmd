@@ -56,12 +56,11 @@
 /* Dialog window callback function */
 typedef intptr_t (__stdcall *tDlgProc)(uintptr_t pDlg, char* DlgItemName, intptr_t Msg, intptr_t wParam, intptr_t lParam);
 /* Definition of callback functions called by the DLL */
-typedef char (__stdcall *tInputBoxProc)(WCHAR* Caption, WCHAR* Prompt, char MaskInput, WCHAR* Value, int ValueMaxLen);
+typedef BOOL (__stdcall *tInputBoxProc)(WCHAR* Caption, WCHAR* Prompt, BOOL MaskInput, WCHAR* Value, int ValueMaxLen);
 typedef int (__stdcall *tMessageBoxProc)(WCHAR* Text, WCHAR* Caption, long Flags);
-typedef char (__stdcall *tDialogBoxLFMProc)(intptr_t LFMData, unsigned long DataSize, tDlgProc DlgProc);
-typedef char (__stdcall *tDialogBoxLRSProc)(intptr_t LRSData, unsigned long DataSize, tDlgProc DlgProc);
-typedef char (__stdcall *tDialogBoxLFMFileProc)(WCHAR* LFMFileName, tDlgProc DlgProc);
-/* char is the proper substitution for pascal boolean, 0xff is true, 0x00 is false */
+typedef BOOL (__stdcall *tDialogBoxLFMProc)(intptr_t LFMData, unsigned long DataSize, tDlgProc DlgProc);
+typedef BOOL (__stdcall *tDialogBoxLRSProc)(intptr_t LRSData, unsigned long DataSize, tDlgProc DlgProc);
+typedef BOOL (__stdcall *tDialogBoxLFMFileProc)(WCHAR* LFMFileName, tDlgProc DlgProc);
 
 
 #pragma pack(push)
