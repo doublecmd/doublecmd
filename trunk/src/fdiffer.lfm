@@ -35,55 +35,55 @@ object frmDiffer: TfrmDiffer
     object Divider1: TToolButton
       Left = 53
       Top = 2
-      Width = 3
+      Width = 4
       Style = tbsDivider
     end
     object btnCompare: TToolButton
-      Left = 56
+      Left = 57
       Top = 2
       Action = actStartCompare
     end
     object btnLast: TToolButton
-      Left = 166
+      Left = 169
       Top = 2
       Action = actLastDiff
     end
     object btnNext: TToolButton
-      Left = 111
+      Left = 113
       Top = 2
       Action = actNextDiff
     end
     object btnPrev: TToolButton
-      Left = 137
+      Left = 139
       Top = 2
       Action = actPrevDiff
     end
     object btnFirst: TToolButton
-      Left = 192
+      Left = 195
       Top = 2
       Action = actFirstDiff
     end
     object Divider2: TToolButton
-      Left = 108
+      Left = 109
       Top = 2
-      Width = 3
+      Width = 4
       Style = tbsDivider
     end
     object Divider3: TToolButton
-      Left = 163
+      Left = 165
       Top = 2
-      Width = 3
+      Width = 4
       Style = tbsDivider
     end
     object btnCancelCompare: TToolButton
-      Left = 82
+      Left = 83
       Top = 2
       Action = actCancelCompare
     end
     object Divider4: TToolButton
-      Left = 218
+      Left = 221
       Top = 2
-      Width = 3
+      Width = 4
       Style = tbsDivider
     end
   end
@@ -183,6 +183,7 @@ object frmDiffer: TfrmDiffer
         Height = 22
         Top = 0
         Width = 23
+        Action = actSaveLeft
         Color = clBtnFace
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
@@ -221,6 +222,7 @@ object frmDiffer: TfrmDiffer
           FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
         }
         NumGlyphs = 0
+        ShowCaption = False
       end
       object btnLeftSaveAs: TSpeedButton
         AnchorSideLeft.Control = btnLeftSave
@@ -373,6 +375,7 @@ object frmDiffer: TfrmDiffer
         Height = 22
         Top = 0
         Width = 23
+        Action = actSaveRight
         Color = clBtnFace
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
@@ -411,6 +414,7 @@ object frmDiffer: TfrmDiffer
           FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
         }
         NumGlyphs = 0
+        ShowCaption = False
       end
       object btnRightSaveAs: TSpeedButton
         AnchorSideLeft.Control = btnRightSave
@@ -643,6 +647,14 @@ object frmDiffer: TfrmDiffer
     object actCopyRightToLeft: TAction
       Caption = 'Copy Block Left'
       OnExecute = actCopyRightToLeftExecute
+    end
+    object actSaveLeft: TAction
+      Caption = 'Save Left'
+      OnExecute = actSaveLeftExecute
+    end
+    object actSaveRight: TAction
+      Caption = 'Save Right'
+      OnExecute = actSaveRightExecute
     end
   end
   object ImageList: TImageList

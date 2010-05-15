@@ -94,7 +94,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     procedure InsertFakeLine(AIndex: Integer; ADiffKind: PtrInt);
-    procedure RemoveFakeLines;
+    procedure RemoveFakeLines(Strings: TStringList);
     procedure BeginCompare(ADiff: TDiff);
     procedure EndCompare(ADiffCount: Integer);
     function DiffBegin(ALine: Integer): Integer;
@@ -244,14 +244,14 @@ begin
   Lines.InsertObject(AIndex, EmptyStr, TObject(ADiffKind));
 end;
 
-procedure TSynDiffEdit.RemoveFakeLines;
+procedure TSynDiffEdit.RemoveFakeLines(Strings: TStringList);
 var
   I: Integer;
 begin
-  for I:= Lines.Count - 1 downto 0 do
+  for I:= Strings.Count - 1 downto 0 do
   begin
-    if (LineNumber[I] < 0) and (Lines[I] = EmptyStr) then
-      Lines.Delete(I);
+    if (PtrInt(Strings.Objects[I]) < 0) and (Strings[I] = EmptyStr) then
+      Strings.Delete(I);
   end;
 end;
 
