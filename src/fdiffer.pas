@@ -40,6 +40,8 @@ type
     actBinaryCompare: TAction;
     actCopyLeftToRight: TAction;
     actCopyRightToLeft: TAction;
+    actSaveRight: TAction;
+    actSaveLeft: TAction;
     actPaintBackground: TAction;
     actStartCompare: TAction;
     actFirstDiff: TAction;
@@ -113,6 +115,8 @@ type
     procedure actNextDiffExecute(Sender: TObject);
     procedure actPaintBackgroundExecute(Sender: TObject);
     procedure actPrevDiffExecute(Sender: TObject);
+    procedure actSaveLeftExecute(Sender: TObject);
+    procedure actSaveRightExecute(Sender: TObject);
     procedure actStartCompareExecute(Sender: TObject);
     procedure actKeepScrollingExecute(Sender: TObject);
     procedure edtFileNameLeftAcceptFileName(Sender: TObject; var Value: String);
@@ -128,6 +132,8 @@ type
     HashListRight: TList;
     procedure Clear(bLeft, bRight: Boolean);
     procedure BuildHashList(bLeft, bRight: Boolean);
+    procedure LoadFromFile(SynDiffEdit: TSynDiffEdit; const FileName: UTF8String);
+    procedure SaveToFile(SynDiffEdit: TSynDiffEdit; const FileName: UTF8String);
     procedure OpenFileLeft(const FileName: UTF8String);
     procedure OpenFileRight(const FileName: UTF8String);
     procedure SynDiffEditLeftStatusChange(Sender: TObject; Changes: TSynStatusChanges);
@@ -141,7 +147,7 @@ procedure ShowDiffer(const FileNameLeft, FileNameRight: UTF8String);
 implementation
 
 uses
-  LCLProc, uHash, uLng, uGlobs, uShowMsg, uBinaryCompare, uClassesEx, uOSUtils;
+  LCLProc, LConvEncoding, uHash, uLng, uGlobs, uShowMsg, uBinaryCompare, uClassesEx, uOSUtils;
 
 {$R *.lfm}
 
@@ -308,6 +314,16 @@ begin
     SynDiffEditRight.CaretY := Line;
     SynDiffEditRight.TopLine := Line;
   end;
+end;
+
+procedure TfrmDiffer.actSaveLeftExecute(Sender: TObject);
+begin
+  SaveToFile(SynDiffEditLeft, edtFileNameLeft.FileName);
+end;
+
+procedure TfrmDiffer.actSaveRightExecute(Sender: TObject);
+begin
+  SaveToFile(SynDiffEditRight, edtFileNameRight.FileName);
 end;
 
 procedure TfrmDiffer.actBinaryCompareExecute(Sender: TObject);
@@ -483,6 +499,43 @@ begin
   actStartCompare.Enabled := (HashListLeft.Count > 0) and (HashListRight.Count > 0);
 end;
 
+procedure TfrmDiffer.LoadFromFile(SynDiffEdit: TSynDiffEdit; const FileName: UTF8String);
+var
+  Encoding: AnsiString;
+  fsFileStream: TFileStreamEx = nil;
+begin
+  fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
+  try
+    SynDiffEdit.Lines.LoadFromStream(fsFileStream);
+    if Encoding = EmptyStr then
+      Encoding:= GuessEncoding(SynDiffEdit.Lines.Text);
+    SynDiffEdit.Lines.Text:= ConvertEncoding(SynDiffEdit.Lines.Text, Encoding, EncodingUTF8);
+  finally
+    fsFileStream.Free;
+  end;
+end;
+
+procedure TfrmDiffer.SaveToFile(SynDiffEdit: TSynDiffEdit;
+  const FileName: UTF8String);
+var
+  Encoding: AnsiString;
+  slStringList: TStringListEx;
+begin
+  slStringList:= TStringListEx.Create;
+  try
+    slStringList.Assign(SynDiffEdit.Lines);
+    // remove fake lines
+    SynDiffEdit.RemoveFakeLines(slStringList);
+    // restore encoding
+    slStringList.Text:= ConvertEncoding(slStringList.Text, EncodingUTF8, Encoding);
+    // save to file
+    slStringList.SaveToFile(FileName);
+    SynDiffEdit.Modified:= False; // needed for the undo stack
+  finally
+    slStringList.Free;
+  end;
+end;
+
 procedure TfrmDiffer.OpenFileLeft(const FileName: UTF8String);
 var
   fsFileStream: TFileStreamEx = nil;
@@ -490,12 +543,7 @@ begin
   if not mbFileExists(FileName) then Exit;
   try
     Clear(True, False);
-    fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
-    try
-      SynDiffEditLeft.Lines.LoadFromStream(fsFileStream);
-    finally
-      fsFileStream.Free;
-    end;
+    LoadFromFile(SynDiffEditLeft, FileName);
     HashListLeft.Capacity := SynDiffEditLeft.Lines.Count;
     BuildHashList(True, False);
   except
@@ -511,12 +559,7 @@ begin
   if not mbFileExists(FileName) then Exit;
   try
     Clear(False, True);
-    fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
-    try
-      SynDiffEditRight.Lines.LoadFromStream(fsFileStream);
-    finally
-      fsFileStream.Free;
-    end;
+    LoadFromFile(SynDiffEditRight, FileName);
     HashListRight.Capacity := SynDiffEditRight.Lines.Count;
     BuildHashList(False, True);
   except
