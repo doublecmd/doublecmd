@@ -89,7 +89,7 @@ begin
   Result:= Source;
   if GetSystemEncoding(Language, Encoding) then
     begin
-      if (Language = 'ru') or (Language = 'uk') then
+      if (Language = 'be') or (Language = 'ru') or (Language = 'uk') then
         if IsInitIconv then
           begin
             Iconvert(Source, Result, 'CP866', Encoding);
@@ -116,7 +116,7 @@ begin
   Result:= Source;
   if GetSystemEncoding(Language, Encoding) then
     begin
-      if (Language = 'ru') or (Language = 'uk') then
+      if (Language = 'be') or (Language = 'ru') or (Language = 'uk') then
         if IsInitIconv then
           begin
             Iconvert(Source, Result, Encoding, 'CP866');
