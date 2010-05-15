@@ -82,11 +82,11 @@ type
     { public declarations }
   end; 
 
-function InputBox(Caption, Prompt: PWideChar; MaskInput: Boolean; Value: PWideChar; ValueMaxLen: Integer): Boolean; stdcall;
+function InputBox(Caption, Prompt: PWideChar; MaskInput: LongBool; Value: PWideChar; ValueMaxLen: Integer): LongBool; stdcall;
 function MessageBox(Text, Caption: PWideChar; Flags: Longint): Integer; stdcall;
-function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): Boolean; stdcall;
-function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): Boolean; stdcall;
-function DialogBoxLFMFile(lfmFileName: PWideChar; DlgProc: TDlgProc): Boolean; stdcall;
+function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; stdcall;
+function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; stdcall;
+function DialogBoxLFMFile(lfmFileName: PWideChar; DlgProc: TDlgProc): LongBool; stdcall;
 function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
 
 implementation
@@ -94,7 +94,7 @@ implementation
 uses
   uShowMsg, uClassesEx, uDCUtils;
 
-function InputBox(Caption, Prompt: PWideChar; MaskInput: Boolean; Value: PWideChar; ValueMaxLen: Integer): Boolean; stdcall;
+function InputBox(Caption, Prompt: PWideChar; MaskInput: LongBool; Value: PWideChar; ValueMaxLen: Integer): LongBool; stdcall;
 var
   sCaption,
   sPrompt,
@@ -150,7 +150,7 @@ begin
   end;
 end;
 
-function DialogBox(DlgProc: TDlgProc): Boolean;
+function DialogBox(DlgProc: TDlgProc): LongBool;
 var
   Dialog: TDialogBox = nil;
 begin
@@ -167,7 +167,7 @@ begin
   end;
 end;
 
-function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): Boolean;stdcall;
+function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool;stdcall;
 var
   DataString: UTF8String;
 begin
@@ -181,7 +181,7 @@ begin
     Result := False;
 end;
 
-function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): Boolean; stdcall;
+function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; stdcall;
 var
   DataString: UTF8String;
 begin
@@ -195,7 +195,7 @@ begin
     Result := False;
 end;
 
-function DialogBoxLFMFile(lfmFileName: PWideChar; DlgProc: TDlgProc): Boolean;stdcall;
+function DialogBoxLFMFile(lfmFileName: PWideChar; DlgProc: TDlgProc): LongBool;stdcall;
 var
   lfmStringList: TStringListEx;
 begin
@@ -691,4 +691,4 @@ initialization
   {.$I fdialogbox.lrs}
 
 end.
-
+

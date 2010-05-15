@@ -61,11 +61,11 @@ type
   { Dialog window callback function }
   TDlgProc = function(pDlg: PtrUInt; DlgItemName: PChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
   { Definition of callback functions called by the DLL }
-  TInputBoxProc = function(Caption, Prompt: PWideChar; MaskInput: Boolean; Value: PWideChar; ValueMaxLen: Integer): Boolean; stdcall;
+  TInputBoxProc = function(Caption, Prompt: PWideChar; MaskInput: LongBool; Value: PWideChar; ValueMaxLen: Integer): LongBool; stdcall;
   TMessageBoxProc = function(Text, Caption: PWideChar; Flags: Longint): Integer; stdcall;
-  TDialogBoxLFMProc = function(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): Boolean; stdcall;
-  TDialogBoxLRSProc = function(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): Boolean; stdcall;
-  TDialogBoxLFMFileProc = function(lfmFileName: PWideChar; DlgProc: TDlgProc): Boolean; stdcall;
+  TDialogBoxLFMProc = function(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; stdcall;
+  TDialogBoxLRSProc = function(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; stdcall;
+  TDialogBoxLFMFileProc = function(lfmFileName: PWideChar; DlgProc: TDlgProc): LongBool; stdcall;
 
 type
   TSetDlgProcInfo = packed record
@@ -91,4 +91,4 @@ procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
 }
 
 end.
-
+
