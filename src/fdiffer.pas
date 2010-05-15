@@ -29,8 +29,8 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  Menus, ComCtrls, ActnList, ExtCtrls, EditBtn, StdCtrls, Buttons, SynEdit,
-  uSynDiffControls, uDiff;
+  Menus, ComCtrls, ActnList, ExtCtrls, EditBtn, StdCtrls, Buttons, StdActns,
+  SynEdit, uSynDiffControls, uDiff;
 
 type
 
@@ -40,6 +40,10 @@ type
     actBinaryCompare: TAction;
     actCopyLeftToRight: TAction;
     actCopyRightToLeft: TAction;
+    actClose: TAction;
+    actOpenRight: TAction;
+    actOpenLeft: TAction;
+    actReload: TAction;
     actSaveRight: TAction;
     actSaveLeft: TAction;
     actPaintBackground: TAction;
@@ -59,6 +63,13 @@ type
     edtFileNameRight: TFileNameEdit;
     ImageList: TImageList;
     MainMenu: TMainMenu;
+    miDivider7: TMenuItem;
+    miReload: TMenuItem;
+    miDivider6: TMenuItem;
+    miClose: TMenuItem;
+    miSaveRight: TMenuItem;
+    miOpenRight: TMenuItem;
+    miOpenLeft: TMenuItem;
     miCopyRightToLeft: TMenuItem;
     miCopyLeftToRight: TMenuItem;
     miDivider5: TMenuItem;
@@ -80,7 +91,7 @@ type
     miIgnoreWhiteSpace: TMenuItem;
     mnuOptions: TMenuItem;
     mnuEdit: TMenuItem;
-    miSave: TMenuItem;
+    miSaveLeft: TMenuItem;
     mnuFile: TMenuItem;
     pnlLeftBox: TPanel;
     pnlRight: TPanel;
@@ -107,14 +118,19 @@ type
     Divider3: TToolButton;
     btnCancelCompare: TToolButton;
     Divider4: TToolButton;
+    btnReload: TToolButton;
     procedure actBinaryCompareExecute(Sender: TObject);
+    procedure actCloseExecute(Sender: TObject);
     procedure actCopyLeftToRightExecute(Sender: TObject);
     procedure actCopyRightToLeftExecute(Sender: TObject);
     procedure actFirstDiffExecute(Sender: TObject);
     procedure actLastDiffExecute(Sender: TObject);
     procedure actNextDiffExecute(Sender: TObject);
+    procedure actOpenLeftExecute(Sender: TObject);
+    procedure actOpenRightExecute(Sender: TObject);
     procedure actPaintBackgroundExecute(Sender: TObject);
     procedure actPrevDiffExecute(Sender: TObject);
+    procedure actReloadExecute(Sender: TObject);
     procedure actSaveLeftExecute(Sender: TObject);
     procedure actSaveRightExecute(Sender: TObject);
     procedure actStartCompareExecute(Sender: TObject);
@@ -147,7 +163,8 @@ procedure ShowDiffer(const FileNameLeft, FileNameRight: UTF8String);
 implementation
 
 uses
-  LCLProc, LConvEncoding, uHash, uLng, uGlobs, uShowMsg, uBinaryCompare, uClassesEx, uOSUtils;
+  LCLProc, LConvEncoding, uHash, uLng, uGlobs, uShowMsg, uBinaryCompare, uClassesEx,
+  dmCommonData, uOSUtils;
 
 {$R *.lfm}
 
@@ -273,6 +290,28 @@ begin
   end;
 end;
 
+procedure TfrmDiffer.actOpenLeftExecute(Sender: TObject);
+begin
+  dmComData.OpenDialog.FileName:= edtFileNameLeft.Text;
+  dmComData.OpenDialog.Filter:= AllFilesMask;
+  if dmComData.OpenDialog.Execute then
+  begin
+    edtFileNameLeft.Text:= dmComData.OpenDialog.FileName;
+    actReload.Execute;
+  end;
+end;
+
+procedure TfrmDiffer.actOpenRightExecute(Sender: TObject);
+begin
+  dmComData.OpenDialog.FileName:= edtFileNameRight.Text;
+  dmComData.OpenDialog.Filter:= AllFilesMask;
+  if dmComData.OpenDialog.Execute then
+  begin
+    edtFileNameRight.Text:= dmComData.OpenDialog.FileName;
+    actReload.Execute;
+  end;
+end;
+
 procedure TfrmDiffer.actPaintBackgroundExecute(Sender: TObject);
 begin
   if actPaintBackground.Checked then
@@ -316,6 +355,12 @@ begin
   end;
 end;
 
+procedure TfrmDiffer.actReloadExecute(Sender: TObject);
+begin
+  OpenFileLeft(edtFileNameLeft.FileName);
+  OpenFileRight(edtFileNameRight.FileName);
+end;
+
 procedure TfrmDiffer.actSaveLeftExecute(Sender: TObject);
 begin
   SaveToFile(SynDiffEditLeft, edtFileNameLeft.FileName);
@@ -338,6 +383,11 @@ begin
       OpenFileLeft(edtFileNameLeft.Text);
       OpenFileRight(edtFileNameRight.Text);
     end;
+end;
+
+procedure TfrmDiffer.actCloseExecute(Sender: TObject);
+begin
+  Close;
 end;
 
 procedure TfrmDiffer.actCopyLeftToRightExecute(Sender: TObject);
@@ -546,6 +596,7 @@ begin
     LoadFromFile(SynDiffEditLeft, FileName);
     HashListLeft.Capacity := SynDiffEditLeft.Lines.Count;
     BuildHashList(True, False);
+    SynDiffEditLeft.Repaint;
   except
     on EFOpenError do
       msgWarning(rsMsgErrEOpen + ' ' + FileName);
@@ -562,6 +613,7 @@ begin
     LoadFromFile(SynDiffEditRight, FileName);
     HashListRight.Capacity := SynDiffEditRight.Lines.Count;
     BuildHashList(False, True);
+    SynDiffEditRight.Repaint;
   except
     on EFOpenError do
       msgWarning(rsMsgErrEOpen + ' ' + FileName);
