@@ -11,8 +11,9 @@ object DialogBox: TDialogBox
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 187
   ClientWidth = 334
-  Position = poScreenCenter
   OnShow = DialogBoxShow
+  Position = poScreenCenter
+  LCLVersion = '0.9.29'
   object lblAbout: TLabel
     AnchorSideLeft.Control = gbCompression
     AnchorSideTop.Control = Owner
@@ -25,13 +26,16 @@ object DialogBox: TDialogBox
     Anchors = [akTop, akLeft, akRight]
     AutoSize = False
     BorderSpacing.Top = 6
-    Caption = 'Zip plugin supports  PKZIP-compatible, TAR and GZip data compression and archiving.'#13#10'Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)'
+    Caption = 'Zip plugin supports  PKZIP-compatible, TAR and GZip data compression and archiving.'#13#10'Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)'
     ParentColor = False
     WordWrap = True
   end
   object gbCompression: TGroupBox
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = lblAbout
     AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideBottom.Control = Owner
     Left = 6
     Height = 129
     Top = 52
@@ -68,13 +72,19 @@ object DialogBox: TDialogBox
       ParentColor = False
     end
     object cbCompressionMethodToUse: TComboBox
+      AnchorSideLeft.Control = lblCompressionMethodToUse
+      AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = lblCompressionMethodToUse
       AnchorSideTop.Side = asrCenter
-      Left = 176
+      AnchorSideRight.Control = gbCompression
+      AnchorSideRight.Side = asrBottom
+      Left = 156
       Height = 21
       Top = 3
-      Width = 136
-      AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+      Width = 156
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 12
+      BorderSpacing.Right = 6
       ItemHeight = 13
       ItemIndex = 2
       Items.Strings = (
@@ -93,12 +103,11 @@ object DialogBox: TDialogBox
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = cbCompressionMethodToUse
       AnchorSideRight.Side = asrBottom
-      Left = 176
+      Left = 156
       Height = 21
       Top = 35
-      Width = 136
+      Width = 156
       Anchors = [akTop, akLeft, akRight]
-      AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
       ItemHeight = 13
       ItemIndex = 0
       Items.Strings = (
