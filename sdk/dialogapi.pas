@@ -57,6 +57,39 @@ const
 
   DM_USER                 = $4000; // Starting value for user defined messages
 
+const
+  // MessageBox: To indicate the buttons displayed in the message box,
+  // specify one of the following values.
+  MB_OK = $00000000;
+  MB_OKCANCEL = $00000001;
+  MB_ABORTRETRYIGNORE = $00000002;
+  MB_YESNOCANCEL = $00000003;
+  MB_YESNO = $00000004;
+  MB_RETRYCANCEL = $00000005;
+  MB_ICONHAND = $00000010;
+  MB_ICONQUESTION = $00000020;
+  MB_ICONEXCLAMATION = $00000030;
+  MB_ICONASTERICK = $00000040;
+  MB_ICONWARNING = MB_ICONEXCLAMATION;
+  MB_ICONERROR = MB_ICONHAND;
+  MB_ICONSTOP = MB_ICONHAND;
+  MB_ICONINFORMATION = MB_ICONASTERICK;
+  // MessageBox: To indicate the default button, specify one of the following values.
+  MB_DEFBUTTON1 = $00000000;
+  MB_DEFBUTTON2 = $00000100;
+  MB_DEFBUTTON3 = $00000200;
+  MB_DEFBUTTON4 = $00000300;
+  // MessageBox: Return values
+  IDOK = 1;     ID_OK = IDOK;
+  IDCANCEL = 2; ID_CANCEL = IDCANCEL;
+  IDABORT = 3;  ID_ABORT = IDABORT;
+  IDRETRY = 4;  ID_RETRY = IDRETRY;
+  IDIGNORE = 5; ID_IGNORE = IDIGNORE;
+  IDYES = 6;    ID_YES = IDYES;
+  IDNO = 7;     ID_NO = IDNO;
+  IDCLOSE = 8;  ID_CLOSE = IDCLOSE;
+  IDHELP = 9;   ID_HELP = IDHELP;
+
 type
   { Dialog window callback function }
   TDlgProc = function(pDlg: PtrUInt; DlgItemName: PChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
