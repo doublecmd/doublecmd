@@ -60,25 +60,25 @@ const
 const
   // MessageBox: To indicate the buttons displayed in the message box,
   // specify one of the following values.
-  MB_OK = $00000000;
-  MB_OKCANCEL = $00000001;
-  MB_ABORTRETRYIGNORE = $00000002;
-  MB_YESNOCANCEL = $00000003;
-  MB_YESNO = $00000004;
-  MB_RETRYCANCEL = $00000005;
-  MB_ICONHAND = $00000010;
-  MB_ICONQUESTION = $00000020;
-  MB_ICONEXCLAMATION = $00000030;
-  MB_ICONASTERICK = $00000040;
-  MB_ICONWARNING = MB_ICONEXCLAMATION;
-  MB_ICONERROR = MB_ICONHAND;
-  MB_ICONSTOP = MB_ICONHAND;
-  MB_ICONINFORMATION = MB_ICONASTERICK;
+  MB_OK                   = $00000000;
+  MB_OKCANCEL             = $00000001;
+  MB_ABORTRETRYIGNORE     = $00000002;
+  MB_YESNOCANCEL          = $00000003;
+  MB_YESNO                = $00000004;
+  MB_RETRYCANCEL          = $00000005;
+  MB_ICONHAND             = $00000010;
+  MB_ICONQUESTION         = $00000020;
+  MB_ICONEXCLAMATION      = $00000030;
+  MB_ICONASTERICK         = $00000040;
+  MB_ICONWARNING          = MB_ICONEXCLAMATION;
+  MB_ICONERROR            = MB_ICONHAND;
+  MB_ICONSTOP             = MB_ICONHAND;
+  MB_ICONINFORMATION      = MB_ICONASTERICK;
   // MessageBox: To indicate the default button, specify one of the following values.
-  MB_DEFBUTTON1 = $00000000;
-  MB_DEFBUTTON2 = $00000100;
-  MB_DEFBUTTON3 = $00000200;
-  MB_DEFBUTTON4 = $00000300;
+  MB_DEFBUTTON1           = $00000000;
+  MB_DEFBUTTON2           = $00000100;
+  MB_DEFBUTTON3           = $00000200;
+  MB_DEFBUTTON4           = $00000300;
   // MessageBox: Return values
   ID_OK         = 1;
   ID_CANCEL     = 2;
@@ -92,7 +92,7 @@ const
 
 type
   { Dialog window callback function }
-  TDlgProc = function(pDlg: PtrUInt; DlgItemName: PChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
+  TDlgProc = function(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
   { Definition of callback functions called by the DLL }
   TInputBoxProc = function(Caption, Prompt: PWideChar; MaskInput: LongBool; Value: PWideChar; ValueMaxLen: Integer): LongBool; stdcall;
   TMessageBoxProc = function(Text, Caption: PWideChar; Flags: Longint): Integer; stdcall;
