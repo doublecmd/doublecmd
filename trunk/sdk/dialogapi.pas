@@ -80,15 +80,15 @@ const
   MB_DEFBUTTON3 = $00000200;
   MB_DEFBUTTON4 = $00000300;
   // MessageBox: Return values
-  IDOK = 1;     ID_OK = IDOK;
-  IDCANCEL = 2; ID_CANCEL = IDCANCEL;
-  IDABORT = 3;  ID_ABORT = IDABORT;
-  IDRETRY = 4;  ID_RETRY = IDRETRY;
-  IDIGNORE = 5; ID_IGNORE = IDIGNORE;
-  IDYES = 6;    ID_YES = IDYES;
-  IDNO = 7;     ID_NO = IDNO;
-  IDCLOSE = 8;  ID_CLOSE = IDCLOSE;
-  IDHELP = 9;   ID_HELP = IDHELP;
+  ID_OK         = 1;
+  ID_CANCEL     = 2;
+  ID_ABORT      = 3;
+  ID_RETRY      = 4;
+  ID_IGNORE     = 5;
+  ID_YES        = 6;
+  ID_NO         = 7;
+  ID_CLOSE      = 8;
+  ID_HELP       = 9;
 
 type
   { Dialog window callback function }
