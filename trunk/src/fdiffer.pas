@@ -41,6 +41,13 @@ type
     actCopyLeftToRight: TAction;
     actCopyRightToLeft: TAction;
     actClose: TAction;
+    actEditCut: TAction;
+    actEditCopy: TAction;
+    actEditDelete: TAction;
+    actEditUndo: TAction;
+    actEditRedo: TAction;
+    actEditSelectAll: TAction;
+    actEditPaste: TAction;
     actOpenRight: TAction;
     actOpenLeft: TAction;
     actReload: TAction;
@@ -63,7 +70,20 @@ type
     edtFileNameRight: TFileNameEdit;
     ImageList: TImageList;
     MainMenu: TMainMenu;
+    miCopyContext: TMenuItem;
+    miCutContext: TMenuItem;
+    miDeleteContext: TMenuItem;
+    miEditSelectAll: TMenuItem;
+    miDivider9: TMenuItem;
+    miEditDelete: TMenuItem;
+    miEditPaste: TMenuItem;
+    miEditCopy: TMenuItem;
+    miEditCut: TMenuItem;
+    miDivider8: TMenuItem;
+    miEditRedo: TMenuItem;
+    miEditUndo: TMenuItem;
     miDivider7: TMenuItem;
+    miPasteContext: TMenuItem;
     miReload: TMenuItem;
     miDivider6: TMenuItem;
     miClose: TMenuItem;
@@ -85,7 +105,11 @@ type
     miNextDiff: TMenuItem;
     miDivider1: TMenuItem;
     miCancelCompare: TMenuItem;
+    miSelectAllContext: TMenuItem;
+    miSeparator1: TMenuItem;
+    miSeparator2: TMenuItem;
     miStartCompare: TMenuItem;
+    miUndoContext: TMenuItem;
     mnuActions: TMenuItem;
     miIgnoreCase: TMenuItem;
     miIgnoreWhiteSpace: TMenuItem;
@@ -93,6 +117,7 @@ type
     mnuEdit: TMenuItem;
     miSaveLeft: TMenuItem;
     mnuFile: TMenuItem;
+    ContextMenu: TPopupMenu;
     pnlLeftBox: TPanel;
     pnlRight: TPanel;
     pnlLeft: TPanel;
@@ -123,6 +148,13 @@ type
     procedure actCloseExecute(Sender: TObject);
     procedure actCopyLeftToRightExecute(Sender: TObject);
     procedure actCopyRightToLeftExecute(Sender: TObject);
+    procedure actEditCopyExecute(Sender: TObject);
+    procedure actEditCutExecute(Sender: TObject);
+    procedure actEditDeleteExecute(Sender: TObject);
+    procedure actEditPasteExecute(Sender: TObject);
+    procedure actEditRedoExecute(Sender: TObject);
+    procedure actEditSelectAllExecute(Sender: TObject);
+    procedure actEditUndoExecute(Sender: TObject);
     procedure actFirstDiffExecute(Sender: TObject);
     procedure actLastDiffExecute(Sender: TObject);
     procedure actNextDiffExecute(Sender: TObject);
@@ -142,6 +174,7 @@ type
     procedure FormResize(Sender: TObject);
   private
     Diff: TDiff;
+    SynDiffEditActive: TSynDiffEdit;
     SynDiffEditLeft: TSynDiffEdit;
     SynDiffEditRight: TSynDiffEdit;
     HashListLeft,
@@ -152,6 +185,7 @@ type
     procedure SaveToFile(SynDiffEdit: TSynDiffEdit; const FileName: UTF8String);
     procedure OpenFileLeft(const FileName: UTF8String);
     procedure OpenFileRight(const FileName: UTF8String);
+    procedure SynDiffEditEnter(Sender: TObject);
     procedure SynDiffEditLeftStatusChange(Sender: TObject; Changes: TSynStatusChanges);
     procedure SynDiffEditRightStatusChange(Sender: TObject; Changes: TSynStatusChanges);
   public
@@ -414,6 +448,41 @@ begin
     SynDiffEditLeft.Lines[I]:= SynDiffEditRight.Lines[I];
 end;
 
+procedure TfrmDiffer.actEditCopyExecute(Sender: TObject);
+begin
+  SynDiffEditActive.CopyToClipboard;
+end;
+
+procedure TfrmDiffer.actEditCutExecute(Sender: TObject);
+begin
+  SynDiffEditActive.CutToClipboard;
+end;
+
+procedure TfrmDiffer.actEditDeleteExecute(Sender: TObject);
+begin
+  SynDiffEditActive.ClearSelection;
+end;
+
+procedure TfrmDiffer.actEditPasteExecute(Sender: TObject);
+begin
+  SynDiffEditActive.PasteFromClipboard;
+end;
+
+procedure TfrmDiffer.actEditRedoExecute(Sender: TObject);
+begin
+  SynDiffEditActive.Redo;
+end;
+
+procedure TfrmDiffer.actEditSelectAllExecute(Sender: TObject);
+begin
+  SynDiffEditActive.SelectAll;
+end;
+
+procedure TfrmDiffer.actEditUndoExecute(Sender: TObject);
+begin
+  SynDiffEditActive.Undo;
+end;
+
 procedure TfrmDiffer.actFirstDiffExecute(Sender: TObject);
 var
   Line: Integer;
@@ -488,9 +557,15 @@ begin
   SynDiffEditRight.Parent:= pnlRight;
   SynDiffEditLeft.Align:= alClient;
   SynDiffEditRight.Align:= alClient;
+  SynDiffEditLeft.PopupMenu:= ContextMenu;
+  SynDiffEditRight.PopupMenu:= ContextMenu;
 
+  SynDiffEditLeft.OnEnter:= @SynDiffEditEnter;
+  SynDiffEditRight.OnEnter:= @SynDiffEditEnter;
   SynDiffEditLeft.OnStatusChange:= @SynDiffEditLeftStatusChange;
   SynDiffEditRight.OnStatusChange:= @SynDiffEditRightStatusChange;
+  // Set active editor
+  SynDiffEditActive:= SynDiffEditLeft;
   // Initialize property storage
   InitPropStorage(Self);
 end;
@@ -618,6 +693,11 @@ begin
     on EFOpenError do
       msgWarning(rsMsgErrEOpen + ' ' + FileName);
   end;
+end;
+
+procedure TfrmDiffer.SynDiffEditEnter(Sender: TObject);
+begin
+  SynDiffEditActive:= (Sender as TSynDiffEdit);
 end;
 
 procedure TfrmDiffer.SynDiffEditLeftStatusChange(Sender: TObject;
