@@ -106,13 +106,12 @@ type
 var
   // Used in callback functions
   WfxOperationList: TStringList = nil;
-  WfxConnectionList: TStringList = nil;
 
 implementation
 
 uses
   LCLProc, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, uDCUtils, uLog,
-  uLng, uCryptProc, uFileAttributes,
+  uLng, uCryptProc, uFileAttributes, uConnectionManager,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
   uWfxPluginDeleteOperation, uWfxPluginSetFilePropertyOperation, uWfxPluginCopyOperation;
@@ -174,7 +173,7 @@ Begin
           begin
             I:= Pos(#32, LogString);
             sName:= WfxOperationList[PluginNr] + ':' + Copy(LogString, I, MaxInt);
-            WfxConnectionList.AddObject(sName, TObject(CallbackDataClass.FileSource));
+            AddNetworkConnection(sName, CallbackDataClass);
           end;
         sMsg:= sMsg + '[' + IntToStr(MsgType) + ']';
         ShowLogWindow(True, @bLock);
@@ -185,8 +184,7 @@ Begin
           begin
             I:= Pos(#32, LogString);
             sName:= WfxOperationList[PluginNr] + Copy(LogString, I, MaxInt);
-            I:= WfxConnectionList.IndexOf(sName);
-            WfxConnectionList.Delete(I);
+            RemoveNetworkConnection(sName);
           end;
       end;
     msgtype_details,
@@ -778,11 +776,8 @@ end;
 
 initialization
   WfxOperationList:= TStringList.Create;
-  WfxConnectionList:= TStringList.Create;
 finalization
   if Assigned(WfxOperationList) then
     FreeAndNil(WfxOperationList);
-  if Assigned(WfxConnectionList) then
-    FreeAndNil(WfxConnectionList);
 
 end.

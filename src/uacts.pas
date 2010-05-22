@@ -251,6 +251,7 @@ const cf_Null=0;
    procedure cm_ClearLogWindow(param: string='');
    procedure cm_ClearLogFile(param: string='');
    procedure cm_NetworkConnect(param: string='');
+   procedure cm_NetworkDisconnect(param: string='');
 
    //---------------------
    {   procedure SomeFunction (param:string; var Result:integer);
@@ -269,7 +270,7 @@ uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uGlobsPaths,
      uClassesEx, uShowForm, uShellExecute, uClipboard, uHash,
      uFilePanelSelect, uFile, uFileSystemFileSource, uQuickViewPanel,
-     uOperationsManager, uFileSourceOperationTypes,
+     uOperationsManager, uFileSourceOperationTypes, uWfxPluginFileSource,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation,
      uFileSourceOperationMessageBoxesUI, uFileSourceCalcChecksumOperation,
      uFileSourceCalcStatisticsOperation, uFileSource, uFileSourceProperty,
@@ -2785,6 +2786,16 @@ end;
 procedure TActs.cm_NetworkConnect(param: string);
 begin
   ShowConnectionManager(frmMain.ActiveFrame);
+end;
+
+procedure TActs.cm_NetworkDisconnect(param: string);
+begin
+  if frmMain.ActiveFrame.FileSource.IsClass(TWfxPluginFileSource) then
+  with frmMain.ActiveFrame.FileSource as IWfxPluginFileSource do
+  begin
+    if param <> EmptyStr then
+      WfxModule.WfxNetworkCloseConnection(param);
+  end;
 end;
 
 end.
