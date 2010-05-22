@@ -1934,6 +1934,18 @@ msgctxt "TFRMMAIN.ACTMULTIRENAME.CAPTION"
 msgid "Multi Rename Tool"
 msgstr "파일명 일괄 변경 도구"
 
+#: TFRMMAIN.ACTNETWORKCONNECT.CAPTION
+msgid "Network Connect..."
+msgstr ""
+
+#: TFRMMAIN.ACTNETWORKDISCONNECT.CAPTION
+msgid "Network Disconnect"
+msgstr ""
+
+#: TFRMMAIN.ACTNETWORKQUICKCONNECT.CAPTION
+msgid "Network Quick Connect..."
+msgstr ""
+
 #: TFRMMAIN.ACTNEWTAB.CAPTION
 #, fuzzy
 #| msgid "New tab"
@@ -2158,6 +2170,18 @@ msgstr "같은 확장자 전부 선택 해제"
 #: TFRMMAIN.ACTVIEW.CAPTION
 msgid "View F3"
 msgstr "보기 F3"
+
+#: TFRMMAIN.ACTVIEWHISTORY.CAPTION
+msgid "Show history of visited paths for active view"
+msgstr ""
+
+#: TFRMMAIN.ACTVIEWHISTORYNEXT.CAPTION
+msgid "Go to next entry in history"
+msgstr ""
+
+#: TFRMMAIN.ACTVIEWHISTORYPREV.CAPTION
+msgid "Go to previous entry in history"
+msgstr ""
 
 #: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
 #, fuzzy
@@ -2519,6 +2543,10 @@ msgstr "선택 표시 (&M)"
 #: TFRMMAIN.MNUMARKCMPDIR.CAPTION
 msgid "&Compare Directories"
 msgstr "디렉터리 비교 (&C)"
+
+#: TFRMMAIN.MNUNETWORK.CAPTION
+msgid "Network"
+msgstr ""
 
 #: TFRMMAIN.MNUSHOW.CAPTION
 msgid "&Show"
