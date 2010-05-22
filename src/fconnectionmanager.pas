@@ -60,22 +60,32 @@ procedure TfrmConnectionManager.tvConnectionsSelectionChanged(Sender: TObject);
 var
   bEnabled: Boolean;
 begin
-  bEnabled:= Assigned(tvConnections.Selected) and Assigned(tvConnections.Selected.Data);
-  btnConnect.Enabled:= not bEnabled;
-  btnAdd.Enabled:= bEnabled;
-  btnEdit.Enabled:= not bEnabled;
-  btnDelete.Enabled:= not bEnabled;
+  if not Assigned(tvConnections.Selected) then
+    begin
+      btnConnect.Enabled:= False;
+      btnAdd.Enabled:= False;
+      btnEdit.Enabled:= False;
+      btnDelete.Enabled:= False;
+    end
+  else
+    begin
+      bEnabled:= Assigned(tvConnections.Selected.Data);
+      btnConnect.Enabled:= not bEnabled;
+      btnAdd.Enabled:= bEnabled;
+      btnEdit.Enabled:= not bEnabled;
+      btnDelete.Enabled:= not bEnabled;
+    end;
 end;
 
 procedure TfrmConnectionManager.btnAddClick(Sender: TObject);
 var
-  WfxModule: TWfxModule;
+  WfxPluginFileSource: TWfxPluginFileSource;
   Connection: UTF8String;
 begin
-  WfxModule:= TWfxModule(tvConnections.Selected.Data);
-  if Assigned(WfxModule) then
+  WfxPluginFileSource:= TWfxPluginFileSource(tvConnections.Selected.Data);
+  if Assigned(WfxPluginFileSource) then
   begin
-    if WfxModule.WfxNetworkManageConnection(Connection, FS_NM_ACTION_ADD) then
+    if WfxPluginFileSource.WfxModule.WfxNetworkManageConnection(Connection, FS_NM_ACTION_ADD) then
     begin
       with tvConnections.Items.AddChild(tvConnections.Selected, Connection) do
       StateIndex:= 1;
