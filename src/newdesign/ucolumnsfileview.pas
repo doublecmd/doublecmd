@@ -1414,6 +1414,7 @@ begin
   end
   else
   begin
+    lblAddress.Top:= 0;
     lblAddress.Visible := True;
     lblAddress.Caption := CurrentAddress;
   end;
