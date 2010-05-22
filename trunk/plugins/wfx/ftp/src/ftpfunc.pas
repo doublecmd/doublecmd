@@ -866,8 +866,17 @@ begin
   Result:= False;
   if Connection = #0 then
     begin
-    if QuickConnection then
-      Result:= True;
+      if QuickConnection then
+      begin
+        I:= ActiveConnectionList.IndexOf(cQuickConnection);
+        if I >= 0 then
+          begin
+            Con:= TConnection(ActiveConnectionList.Objects[I]);
+            StrPLCopy(Connection, Con.Host, MaxLen);
+            StrPLCopy(RemotePath, Con.Path, MaxLen);
+            Result:= True;
+          end;
+      end;
     end
   else if FtpConnect(Connection, FtpSend) then
     begin

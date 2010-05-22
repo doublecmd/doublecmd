@@ -156,6 +156,7 @@ type
     function WfxNetworkGetConnection(Index: LongInt; var Connection: UTF8String): Boolean;
     function WfxNetworkManageConnection(var Connection: UTF8String; Action: LongInt): Boolean;
     function WfxNetworkOpenConnection(var Connection, RemotePath: UTF8String): Boolean;
+    procedure WfxNetworkCloseConnection(const Connection: UTF8String);
   public
     constructor Create;
     destructor Destroy; override;
@@ -547,6 +548,14 @@ begin
       FreeMem(pacConnection);
       FreeMem(pacRemotePath);
     end;
+end;
+
+procedure TWFXModule.WfxNetworkCloseConnection(const Connection: UTF8String);
+begin
+  if Assigned(FsDisconnectW) then
+    FsDisconnectW(PWideChar(UTF8Decode(Connection)))
+  else if Assigned(FsDisconnect) then
+    FsDisconnect(PAnsiChar(UTF8ToSys(Connection)));
 end;
 
 constructor TWFXModule.Create;
