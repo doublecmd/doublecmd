@@ -56,7 +56,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="97">
+    <Units Count="98">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -654,6 +654,14 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fDiffer"/>
       </Unit96>
+      <Unit97>
+        <Filename Value="fconnectionmanager.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmConnectionManager"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fConnectionManager"/>
+      </Unit97>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

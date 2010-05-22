@@ -79,6 +79,7 @@ type
     actCopyNoAsk: TAction;
     actChangeDirToParent: TAction;
     actEditPath: TAction;
+    actNetworkConnect: TAction;
     actViewHistory: TAction;
     actViewHistoryPrev: TAction;
     actViewHistoryNext: TAction;
