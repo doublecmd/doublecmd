@@ -1924,6 +1924,18 @@ msgstr "最小化窗口"
 msgid "Multi Rename Tool"
 msgstr "多文件改名工具"
 
+#: TFRMMAIN.ACTNETWORKCONNECT.CAPTION
+msgid "Network Connect..."
+msgstr ""
+
+#: TFRMMAIN.ACTNETWORKDISCONNECT.CAPTION
+msgid "Network Disconnect"
+msgstr ""
+
+#: TFRMMAIN.ACTNETWORKQUICKCONNECT.CAPTION
+msgid "Network Quick Connect..."
+msgstr ""
+
 #: TFRMMAIN.ACTNEWTAB.CAPTION
 #, fuzzy
 #| msgid "New tab"
@@ -2153,6 +2165,18 @@ msgstr "取消选择所有相同扩展"
 #: TFRMMAIN.ACTVIEW.CAPTION
 msgid "View F3"
 msgstr "查看 F3"
+
+#: TFRMMAIN.ACTVIEWHISTORY.CAPTION
+msgid "Show history of visited paths for active view"
+msgstr ""
+
+#: TFRMMAIN.ACTVIEWHISTORYNEXT.CAPTION
+msgid "Go to next entry in history"
+msgstr ""
+
+#: TFRMMAIN.ACTVIEWHISTORYPREV.CAPTION
+msgid "Go to previous entry in history"
+msgstr ""
 
 #: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
 #, fuzzy
@@ -2509,6 +2533,10 @@ msgstr "标记(&M)"
 #: TFRMMAIN.MNUMARKCMPDIR.CAPTION
 msgid "&Compare Directories"
 msgstr "编辑目录(&C)"
+
+#: TFRMMAIN.MNUNETWORK.CAPTION
+msgid "Network"
+msgstr ""
 
 #: TFRMMAIN.MNUSHOW.CAPTION
 msgid "&Show"

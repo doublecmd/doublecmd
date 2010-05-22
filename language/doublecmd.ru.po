@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-04-25 00:16+0300\n"
+"PO-Revision-Date: 2010-05-22 19:02+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1918,6 +1918,18 @@ msgstr "Свернуть"
 msgid "Multi Rename Tool"
 msgstr "Множественное &переименование"
 
+#: TFRMMAIN.ACTNETWORKCONNECT.CAPTION
+msgid "Network Connect..."
+msgstr "Соединиться с сервером..."
+
+#: TFRMMAIN.ACTNETWORKDISCONNECT.CAPTION
+msgid "Network Disconnect"
+msgstr "Разорвать соединение"
+
+#: TFRMMAIN.ACTNETWORKQUICKCONNECT.CAPTION
+msgid "Network Quick Connect..."
+msgstr "Новое соединение..."
+
 #: TFRMMAIN.ACTNEWTAB.CAPTION
 #, fuzzy
 #| msgid "New tab"
@@ -2153,6 +2165,18 @@ msgstr "Снять выделение по расширению"
 #: TFRMMAIN.ACTVIEW.CAPTION
 msgid "View F3"
 msgstr "Просмотр F3"
+
+#: TFRMMAIN.ACTVIEWHISTORY.CAPTION
+msgid "Show history of visited paths for active view"
+msgstr ""
+
+#: TFRMMAIN.ACTVIEWHISTORYNEXT.CAPTION
+msgid "Go to next entry in history"
+msgstr ""
+
+#: TFRMMAIN.ACTVIEWHISTORYPREV.CAPTION
+msgid "Go to previous entry in history"
+msgstr ""
 
 #: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
 #, fuzzy
@@ -2509,6 +2533,10 @@ msgstr "&Выделение"
 #: TFRMMAIN.MNUMARKCMPDIR.CAPTION
 msgid "&Compare Directories"
 msgstr "&Сравнить каталоги"
+
+#: TFRMMAIN.MNUNETWORK.CAPTION
+msgid "Network"
+msgstr "Сеть"
 
 #: TFRMMAIN.MNUSHOW.CAPTION
 msgid "&Show"
