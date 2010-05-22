@@ -840,7 +840,17 @@ begin
       end;
     end;
   FS_NM_ACTION_EDIT:
-    Result:= EditConnection(Connection);
+    begin
+      I:= ConnectionList.IndexOf(Connection);
+      if I >= 0 then
+      begin
+        if EditConnection(Connection) then
+          begin
+            StrPLCopy(Connection, ConnectionList[I], MaxLen);
+            Result:= True;
+          end;
+      end;
+    end;
   FS_NM_ACTION_DELETE:
     Result:= DeleteConnection(Connection);
   end;
@@ -848,8 +858,28 @@ end;
 
 function FsNetworkOpenConnection(Connection: PAnsiChar; RemotePath: PAnsiChar;
   MaxLen: LongInt): LongBool; stdcall;
+var
+  I: Integer;
+  FtpSend: TFTPSendEx;
+  Con: TConnection;
 begin
-
+  Result:= False;
+  if Connection = #0 then
+    begin
+    if QuickConnection then
+      Result:= True;
+    end
+  else if FtpConnect(Connection, FtpSend) then
+    begin
+      I:= ConnectionList.IndexOf(Connection);
+      if I >= 0 then
+        begin
+          Con:= TConnection(ConnectionList.Objects[I]);
+          StrPLCopy(Connection, Con.Host, MaxLen);
+          StrPLCopy(RemotePath, Con.Path, MaxLen);
+          Result:= True;
+        end;
+    end;
 end;
 
 procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);
