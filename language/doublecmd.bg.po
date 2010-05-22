@@ -577,6 +577,38 @@ msgstr ""
 msgid "Insert separator"
 msgstr ""
 
+#: TFRMCONNECTIONMANAGER.BTNADD.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
+msgid "Add"
+msgstr "Добавяне"
+
+#: TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Отказ"
+
+#: TFRMCONNECTIONMANAGER.BTNCONNECT.CAPTION
+msgid "Connect"
+msgstr ""
+
+#: TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION"
+msgid "Delete"
+msgstr "Изтриване"
+
+#: TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION"
+msgid "Edit"
+msgstr "Обработка"
+
+#: TFRMCONNECTIONMANAGER.CAPTION
+msgid "Connection manager"
+msgstr ""
+
+#: TFRMCONNECTIONMANAGER.GBCONNECTTO.CAPTION
+msgid "Connect to:"
+msgstr ""
+
 #: TFRMCOPYDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -4837,6 +4869,10 @@ msgstr "Грешка CRC в данните на сбивката"
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
 msgstr "Данните са лоши"
+
+#: ulng.rsmsgerrcannotconnect
+msgid "Can not connect to server: \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"

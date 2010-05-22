@@ -581,6 +581,38 @@ msgstr "Untermenü hinzufügen"
 msgid "Insert separator"
 msgstr "Trennlinie einfügen"
 
+#: TFRMCONNECTIONMANAGER.BTNADD.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Abbruch"
+
+#: TFRMCONNECTIONMANAGER.BTNCONNECT.CAPTION
+msgid "Connect"
+msgstr ""
+
+#: TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION"
+msgid "Delete"
+msgstr "&Löschen"
+
+#: TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION"
+msgid "Edit"
+msgstr "Bea&rbeiten"
+
+#: TFRMCONNECTIONMANAGER.CAPTION
+msgid "Connection manager"
+msgstr ""
+
+#: TFRMCONNECTIONMANAGER.GBCONNECTTO.CAPTION
+msgid "Connect to:"
+msgstr ""
+
 #: TFRMCOPYDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -4267,11 +4299,15 @@ msgstr "Neu laden"
 
 #: TFRMVIEWER.BTNRESIZE.CAPTION
 msgid "Resize"
-msgstr "Grösse\nändern"
+msgstr ""
+"Grösse\n"
+"ändern\n"
 
 #: TFRMVIEWER.BTNSCREENSHOT.CAPTION
 msgid "Screenshot"
-msgstr "Anzeige als\nBild kopieren"
+msgstr ""
+"Anzeige als\n"
+"Bild kopieren\n"
 
 #: TFRMVIEWER.BTNUNDO.HINT
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
@@ -4845,6 +4881,10 @@ msgstr "CRC-Fehler in der Archivdatei"
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
 msgstr "Datenfehler"
+
+#: ulng.rsmsgerrcannotconnect
+msgid "Can not connect to server: \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"

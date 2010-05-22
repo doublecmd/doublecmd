@@ -579,6 +579,38 @@ msgstr ""
 msgid "Insert separator"
 msgstr ""
 
+#: TFRMCONNECTIONMANAGER.BTNADD.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
+msgid "Add"
+msgstr "添加"
+
+#: TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "取消"
+
+#: TFRMCONNECTIONMANAGER.BTNCONNECT.CAPTION
+msgid "Connect"
+msgstr ""
+
+#: TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION"
+msgid "Delete"
+msgstr "删除"
+
+#: TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION"
+msgid "Edit"
+msgstr "编辑"
+
+#: TFRMCONNECTIONMANAGER.CAPTION
+msgid "Connection manager"
+msgstr ""
+
+#: TFRMCONNECTIONMANAGER.GBCONNECTTO.CAPTION
+msgid "Connect to:"
+msgstr ""
+
 #: TFRMCOPYDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -4847,6 +4879,10 @@ msgstr "压缩文件CRC错误"
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
 msgstr "数据损坏"
+
+#: ulng.rsmsgerrcannotconnect
+msgid "Can not connect to server: \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"

@@ -578,6 +578,38 @@ msgstr "Добавить подменю..."
 msgid "Insert separator"
 msgstr "Вставить разделитель"
 
+#: TFRMCONNECTIONMANAGER.BTNADD.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
+msgid "Add"
+msgstr "Добавить"
+
+#: TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Отмена"
+
+#: TFRMCONNECTIONMANAGER.BTNCONNECT.CAPTION
+msgid "Connect"
+msgstr "Соединиться"
+
+#: TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION"
+msgid "Delete"
+msgstr "Удалить"
+
+#: TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION"
+msgid "Edit"
+msgstr "Редактировать"
+
+#: TFRMCONNECTIONMANAGER.CAPTION
+msgid "Connection manager"
+msgstr "Сетевые соединения"
+
+#: TFRMCONNECTIONMANAGER.GBCONNECTTO.CAPTION
+msgid "Connect to:"
+msgstr "Соединиться с:"
+
 #: TFRMCOPYDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -4847,6 +4879,10 @@ msgstr "Контрольная сумма не совпадает, архив п
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
 msgstr "Данные повреждены"
+
+#: ulng.rsmsgerrcannotconnect
+msgid "Can not connect to server: \"%s\""
+msgstr "Не могу соединиться с сервером: \"%s\""
 
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"

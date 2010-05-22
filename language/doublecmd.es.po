@@ -577,6 +577,38 @@ msgstr ""
 msgid "Insert separator"
 msgstr ""
 
+#: TFRMCONNECTIONMANAGER.BTNADD.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
+msgid "Add"
+msgstr ""
+
+#: TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: TFRMCONNECTIONMANAGER.BTNCONNECT.CAPTION
+msgid "Connect"
+msgstr ""
+
+#: TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION"
+msgid "Delete"
+msgstr "Borrar"
+
+#: TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION
+msgctxt "TFRMCONNECTIONMANAGER.BTNEDIT.CAPTION"
+msgid "Edit"
+msgstr "Editar"
+
+#: TFRMCONNECTIONMANAGER.CAPTION
+msgid "Connection manager"
+msgstr ""
+
+#: TFRMCONNECTIONMANAGER.GBCONNECTTO.CAPTION
+msgid "Connect to:"
+msgstr ""
+
 #: TFRMCOPYDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -4811,6 +4843,10 @@ msgstr "Error de CRC en los datos"
 #: ulng.rsmsgerrbaddata
 msgid "Data is bad"
 msgstr "Datos corrompidos"
+
+#: ulng.rsmsgerrcannotconnect
+msgid "Can not connect to server: \"%s\""
+msgstr ""
 
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
