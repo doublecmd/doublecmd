@@ -102,6 +102,7 @@ resourcestring
   rsMsgErrSetDateTime = 'Can not set date/time for "%s"';
   rsMsgErrDateNotSupported = 'Date %s is not supported';
   rsMsgErrSaveFile = 'Cannot save file';
+  rsMsgErrCanNotConnect = 'Can not connect to server: "%s"';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuView = 'View';

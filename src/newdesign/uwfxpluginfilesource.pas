@@ -59,6 +59,7 @@ type
                            out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
+    procedure SetCurrentAddress(AValue: UTF8String);
   public
     constructor Create(aModuleFileName, aPluginRootName: UTF8String); reintroduce;
     destructor Destroy; override;
@@ -521,7 +522,10 @@ end;
 
 function TWfxPluginFileSource.GetCurrentAddress: String;
 begin
-  Result:= 'wfx://' + FPluginRootName;
+  if FCurrentAddress <> EmptyStr then
+    Result:= FCurrentAddress
+  else
+    Result:= 'wfx://' + FPluginRootName;
 end;
 
 function TWfxPluginFileSource.GetPluginNumber: LongInt;
@@ -620,6 +624,11 @@ begin
           Result:= WfxGetFile(sSourceFile, sTargetFile, Flags, RemoteInfo);
       end;
   end;
+end;
+
+procedure TWfxPluginFileSource.SetCurrentAddress(AValue: UTF8String);
+begin
+  FCurrentAddress:= AValue;
 end;
 
 function TWfxPluginFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
@@ -760,4 +769,4 @@ finalization
   if Assigned(WfxConnectionList) then
     FreeAndNil(WfxConnectionList);
 
-end.
+end.

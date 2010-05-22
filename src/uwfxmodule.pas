@@ -797,9 +797,8 @@ end;
 
 function TWFXModule.VFSNetworkSupport: Boolean;
 begin
-  Result:= True;
-  //(Assigned(FsNetworkGetConnection) and Assigned(FsNetworkManageConnection) and Assigned(FsNetworkOpenConnection))
-  //      or (Assigned(FsNetworkGetConnectionW) and Assigned(FsNetworkManageConnectionW) and Assigned(FsNetworkOpenConnectionW));
+  Result:= (Assigned(FsNetworkGetConnection) and Assigned(FsNetworkManageConnection) and Assigned(FsNetworkOpenConnection))
+        or (Assigned(FsNetworkGetConnectionW) and Assigned(FsNetworkManageConnectionW) and Assigned(FsNetworkOpenConnectionW));
 end;
 
 function TWFXModule.IsLoaded: Boolean;
