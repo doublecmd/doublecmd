@@ -250,6 +250,7 @@ const cf_Null=0;
    procedure cm_ChangeDir(param: string='');
    procedure cm_ClearLogWindow(param: string='');
    procedure cm_ClearLogFile(param: string='');
+   procedure cm_NetworkConnect(param: string='');
 
    //---------------------
    {   procedure SomeFunction (param:string; var Result:integer);
@@ -263,7 +264,7 @@ implementation
 
 uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      fMain, fPackDlg, fFileOpDlg, fMkDir, fFileAssoc, fExtractDlg, fAbout,
-     fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
+     fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename, fConnectionManager,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uGlobsPaths,
      uClassesEx, uShowForm, uShellExecute, uClipboard, uHash,
@@ -2779,6 +2780,11 @@ end;
 procedure TActs.cm_ClearLogFile(param: string);
 begin
   mbDeleteFile(gLogFileName);
+end;
+
+procedure TActs.cm_NetworkConnect(param: string);
+begin
+  ShowConnectionManager(frmMain.ActiveFrame);
 end;
 
 end.

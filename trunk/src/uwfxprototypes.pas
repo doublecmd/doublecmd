@@ -8,15 +8,15 @@ uses
   WfxPlugin;
 
 type
-{File system plugins API (version 2.0) for TC}
-{R}//Realized
-{U}//Unrealized
-{Mandatory}
+{ File system plugins API (version 2.0) for TC }
+{R}  //Realized
+{U}  //Unrealized
+{ Mandatory }
 {R}  TFsInit=function(PluginNr:Integer; pProgressProc:tProgressProc; pLogProc:tlogProc; pRequestProc:tRequestProc):integer;stdcall;
 {R}  TFsFindFirst=function(path :pchar;var FindData:tWIN32FINDDATA):thandle;stdcall;
 {R}  TFsFindNext=function(Hdl:thandle;var FindData:tWIN32FINDDATA):boolean;stdcall;
 {R}  TFsFindClose=function(Hdl:thandle):integer;stdcall;
-{Optional}
+{ Optional }
 {R}  TFsSetCryptCallback = procedure(pCryptProc:TCryptProc;CryptoNr,Flags:integer); stdcall;
 {R}  TFsMkDir = function(RemoteDir:pchar):boolean; stdcall;
 {R}  TFsGetFile = function(RemoteName,LocalName:pchar;CopyFlags:integer; RemoteInfo:pRemoteInfo):integer; stdcall;
@@ -28,14 +28,14 @@ type
 {R}  TFsExecuteFile=Function(MainWin:thandle;RemoteName,Verb:pchar):integer; stdcall;
 {R}  TFsGetDefRootName=procedure (DefRootName:pchar;maxlen:integer); stdcall;
 //------------------------------------------------------
-{U}  TFsSetAttr=function (RemoteName:pchar;NewAttr:integer):boolean; stdcall;
-{U}  TFsSetTime=Function(RemoteName:pchar;CreationTime,LastAccessTime,LastWriteTime:PWfxFileTime):boolean; stdcall;
+{R}  TFsSetAttr=function (RemoteName:pchar;NewAttr:integer):boolean; stdcall;
+{R}  TFsSetTime=Function(RemoteName:pchar;CreationTime,LastAccessTime,LastWriteTime:PWfxFileTime):boolean; stdcall;
 {U}  TFsExtractCustomIcon=function(RemoteName:pchar;ExtractFlags:integer;var TheIcon:hicon):integer; stdcall;
-{U}  TFsRenMovFile= function(OldName,NewName:pchar;  Move, OverWrite:boolean; ri:pRemoteInfo):Integer; stdcall;
+{R}  TFsRenMovFile= function(OldName,NewName:pchar;  Move, OverWrite:boolean; ri:pRemoteInfo):Integer; stdcall;
 {U}  TFsDisconnect = function (DisconnectRoot:pchar):boolean; stdcall;
 {U}  TFsGetPreviewBitmap = function ( RemoteName:pchar; width,height:integer; ReturnedBitmap:HBITMAP):integer; stdcall;
-{U}  TFsLinksToLocalFiles = function:boolean; stdcall;
-{U}  TFsGetLocalName = function (RemoteName:pchar;maxlen:integer):boolean; stdcall;
+{R}  TFsLinksToLocalFiles = function:boolean; stdcall;
+{R}  TFsGetLocalName = function (RemoteName:pchar;maxlen:integer):boolean; stdcall;
 //------------------------------------------------------
 {R}  TFsContentPluginUnloading = procedure; stdcall;
 {U}  TFsContentGetDetectString = procedure (DetectString:pchar;maxlen:integer); stdcall;
@@ -47,6 +47,11 @@ type
 {U}  TFsContentGetSupportedFieldFlags = function (FieldIndex:integer):integer; stdcall;
 {U}  TFsContentSetValue = function (FileName:pchar;FieldIndex,UnitIndex,FieldType:integer; FieldValue:pbyte;flags:integer):integer; stdcall;
 {U}  TFsContentGetDefaultView = function (ViewContents,ViewHeaders,ViewWidths, ViewOptions:pchar;maxlen:integer):boolean; stdcall;
+//------------------------------------------------------
+     TFsNetworkGetSupportedProtocols = procedure (Protocols: PAnsiChar; MaxLen: LongInt); stdcall;
+     TFsNetworkGetConnection = function (Index: LongInt; Connection: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
+     TFsNetworkManageConnection = function (Connection: PAnsiChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
+     TFsNetworkOpenConnection = function (Connection: PAnsiChar; RemotePath: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
 { Unicode }
      TFsInitW = function(PluginNr:integer;pProgressProcW:tProgressProcW;pLogProcW:tLogProcW; pRequestProcW:tRequestProcW):integer; stdcall;
      TFsFindFirstW = function(path :pwidechar;var FindData:tWIN32FINDDATAW):thandle; stdcall;
@@ -72,6 +77,11 @@ type
      TFsContentStopGetValueW = procedure(FileName:pwidechar); stdcall;
      TFsContentSetValueW = function(FileName:pwidechar;FieldIndex,UnitIndex,FieldType:integer; FieldValue:pbyte;flags:integer):integer; stdcall;
      TFsContentGetDefaultViewW = function(ViewContents,ViewHeaders,ViewWidths, ViewOptions:pwidechar;maxlen:integer):bool; stdcall;
+//------------------------------------------------------
+     TFsNetworkGetSupportedProtocolsW = procedure (Protocols: PWideChar; MaxLen: LongInt); stdcall;
+     TFsNetworkGetConnectionW = function (Index: LongInt; Connection: PWideChar; MaxLen: LongInt): LongBool; stdcall;
+     TFsNetworkManageConnectionW = function (Connection: PWideChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
+     TFsNetworkOpenConnectionW = function (Connection: PWideChar; RemotePath: PWideChar; MaxLen: LongInt): LongBool; stdcall;
 //------------------------------------------------------
 
 implementation

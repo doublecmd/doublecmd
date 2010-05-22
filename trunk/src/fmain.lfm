@@ -2195,6 +2195,11 @@ object frmMain: TfrmMain
       Category = 'Commands'
       Caption = 'Go to next entry in history'
     end
+    object actNetworkConnect: TAction
+      Category = 'Network'
+      Caption = 'Network connect...'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 120

@@ -13,7 +13,6 @@
       <TargetFileExt Value=""/>
       <Title Value="Double Commander"/>
       <UseXPManifest Value="True"/>
-      <Icon Value="0"/>
     </General>
     <i18n>
       <EnableI18N Value="True"/>
@@ -21,13 +20,9 @@
     </i18n>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <CurrentMajorRevNr Value="4"/>
-      <CurrentMinorRevNr Value="6"/>
-      <ProjectVersion Value="0.4.6.0"/>
-      <FileDescription Value="Double Commander is a cross platform open source file manager with two panels side by side"/>
-      <InternalName Value="DOUBLECMD"/>
-      <LegalCopyright Value="Copyright (C) 2006-2009  Koblov Alexander"/>
-      <ProductName Value="Double Commander"/>
+      <MinorVersionNr Value="4"/>
+      <RevisionNr Value="6"/>
+      <StringTable Comments="" CompanyName="" FileDescription="Double Commander is a cross platform open source file manager with two panels side by side" FileVersion="0.4.6.0" InternalName="DOUBLECMD" LegalCopyright="Copyright (C) 2006-2009  Koblov Alexander" LegalTrademarks="" OriginalFilename="" ProductName="Double Commander" ProductVersion="0.4.6.0"/>
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
@@ -60,7 +55,7 @@
         <PackageName Value="viewerpackage"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="97">
+    <Units Count="98">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -658,6 +653,14 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fDiffer"/>
       </Unit96>
+      <Unit97>
+        <Filename Value="fconnectionmanager.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmConnectionManager"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fConnectionManager"/>
+      </Unit97>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
