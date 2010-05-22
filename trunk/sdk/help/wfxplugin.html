@@ -1,0 +1,325 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html lang="en-us">
+<head>
+  <meta name="GENERATOR" content="PasDoc 0.11.0">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Writing file system plugins for Double Commander</title>
+  <link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);"
+ alink="#ff0000" link="#0000ff" vlink="#800080">
+<h1 class="unit">Writing
+file system plugins for Double Commander</h1>
+<table class="sections wide_list">
+  <tbody>
+    <tr>
+      <td><a class="section" href="#%40Description">Description</a></td>
+      <td><span class="section">Structures</span></td>
+      <td><a class="section" href="#%40FuncsProcs">Functions
+and Procedures</a></td>
+      <td><span class="section">Types</span></td>
+      <td><a class="section" href="#%40Constants">Constants</a></td>
+    </tr>
+  </tbody>
+</table>
+<a name="@Description"></a>
+<h2 class="description">Description</h2>
+<p>Double Commander uses <a href="http://www.ghisler.com/">Total
+Commander</a>
+WFX plugin API, so you can use <a
+ href="http://ghisler.fileburst.com/fsplugins/fspluginhelp2.0.zip">documentation</a>
+from Total Commander for writing file system plugins. This document
+contains Double Commander extensions to WFX plugin API.</p>
+<a name="@FuncsProcs"></a>
+<h3 class="summary">Functions
+and Procedures</h3>
+<table class="summary wide_list">
+  <tbody>
+    <tr class="list">
+      <td class="itemcode"><code>void
+__stdcall&nbsp;<a href="#FsNetworkGetSupportedProtocols">FsNetworkGetSupportedProtocols</a>(char*
+Protocols, int MaxLen);<br>
+      </code><code>void
+__stdcall <a href="#FsNetworkGetSupportedProtocolsW">FsNetworkGetSupportedProtocolsW</a>(WCHAR*
+Protocols, int MaxLen);</code></td>
+    </tr>
+    <tr class="list2">
+      <td class="itemcode"><code>BOOL
+__stdcall&nbsp;<a href="#FsNetworkGetConnection">FsNetworkGetConnection</a>(</code><code>int
+Index, </code><code>char*
+      </code><code>Connection,
+int MaxLen);<br>
+      </code><code>BOOL
+__stdcall&nbsp;<a href="#FsNetworkGetConnectionW">FsNetworkGetConnectionW</a>(</code><code>int
+Index, </code><code>WCHAR</code><code>*
+      </code><code>Connection,
+int MaxLen);</code></td>
+    </tr>
+    <tr class="list">
+      <td class="itemcode"><code>BOOL
+__stdcall</code><code>&nbsp;<a href="#FsNetworkManageConnection">FsNetworkManageConnection</a>(</code><code>char*
+      </code><code>Connection,
+int Action, int MaxLen);<br>
+      </code><code>BOOL
+__stdcall</code><code>&nbsp;<a href="#FsNetworkManageConnectionW">FsNetworkManageConnectionW</a>(</code><code>WCHAR</code><code></code><code>*
+      </code><code>Connection,
+int Action, int MaxLen);</code></td>
+    </tr>
+    <tr class="list2">
+      <td class="itemcode"><code>BOOL
+__stdcall</code><code>&nbsp;<a href="#FsNetworkOpenConnection">FsNetworkOpenConnection</a>(</code><code>char*
+      </code><code>Connection,&nbsp;</code><code>char*</code><code>
+RemotePath, int
+MaxLen);<br>
+      </code><code>BOOL
+__stdcall</code><code>&nbsp;<a
+ href="wfxplugin.html#FsNetworkOpenConnectionW">FsNetworkOpenConnectionW</a>(</code><code></code><code>WCHAR</code><code>*
+      </code><code>Connection,&nbsp;</code><code></code><code>WCHAR</code><code>*</code><code>
+RemotePath, int
+MaxLen);</code></td>
+    </tr>
+  </tbody>
+</table>
+<a name="@Constants"></a>
+<h3 class="summary">Constants</h3>
+<table class="summary wide_list">
+  <tbody>
+    <tr class="list">
+      <td class="itemcode"><code><b><span
+ style="font-family: monospace;"><a href="#FS_NM_ACTION_ADD">FS_NM_ACTION_ADD</a>&nbsp;&nbsp;&nbsp;&nbsp;
+= 0;</span></b></code></td>
+    </tr>
+    <tr class="list2">
+      <td class="itemcode"><code><b><span
+ style="font-family: monospace;"><a href="#FS_NM_ACTION_EDIT">FS_NM_ACTION_EDIT</a>&nbsp;&nbsp;&nbsp;
+= 1;</span></b></code></td>
+    </tr>
+    <tr class="list">
+      <td class="itemcode"><code><b><span
+ style="font-family: monospace;"><a href="#FS_NM_ACTION_DELETE">FS_NM_ACTION_DELETE</a>&nbsp;
+= 2;</span></b></code></td>
+    </tr>
+  </tbody>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Functions
+and Procedures</h3>
+<table class="detail wide_list">
+  <tbody>
+    <tr class="list">
+      <td class="itemcode"><code><a
+ name="FsNetworkGetSupportedProtocols"></a>void
+__stdcall FsNetworkGetSupportedProtocols(char* Protocols, int MaxLen);<br>
+      <a name="FsNetworkGetSupportedProtocolsW"></a>void
+__stdcall FsNetworkGetSupportedProtocolsW(WCHAR* Protocols, int MaxLen);</code><code></code></td>
+    </tr>
+    <tr>
+      <td colspan="1">
+      <p>FsNetworkGetSupportedProtocols
+is called to retrieve&nbsp;protocols that supported by plugin.</p>
+      <h6 class="description_section">Parameters</h6>
+      <dl class="parameters">
+        <dt>Protocols</dt>
+        <dd>Pointer to a buffer
+(allocated by the calling program) which can receive the&nbsp;<span
+ id="result_box" class="short_text"><span style="" title="">semicolon</span></span>
+separated protocol list, e.g. "http://;ftp://"<br>
+        </dd>
+        <dt>MaxLen</dt>
+        <dd>Maximum number of
+characters (including the final 0) which fit in the buffer.</dd>
+      </dl>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table class="detail wide_list">
+  <tbody>
+    <tr class="list">
+      <td class="itemcode"><code><a name="FsNetworkGetConnection"></a></code><code>BOOL
+__stdcall&nbsp;FsNetworkGetConnection(</code><code>int
+Index, char*
+      </code><code>Connection,
+int MaxLen);<br>
+      </code><code><a name="FsNetworkGetConnectionW"></a>BOOL
+__stdcall&nbsp;FsNetworkGetConnectionW(</code><code>int
+Index, </code><code>WCHAR</code><code>*
+      </code><code>Connection,
+int MaxLen);</code><code></code></td>
+    </tr>
+    <tr>
+      <td colspan="1">
+      <p>FsNetworkGetConnection
+is
+called to enumerate all connections that plugin has.&nbsp;Index is
+increased by 1
+starting from 0 until the plugin returns <code>False</code>.</p>
+      <h6 class="description_section">Parameters</h6>
+      <dl class="parameters">
+        <dt>Index</dt>
+        <dd>The index of the
+connection for which DC requests information. Starting with 0,
+the&nbsp;Index is increased until the plugin returns <code>False</code>.<br>
+        </dd>
+        <dt>Connection</dt>
+        <dd>Here the plugin has to
+return the name of the connection with
+index&nbsp;Index.&nbsp;You may return a maximum of maxlen
+characters, including the trailing 0. </dd>
+        <dt>MaxLen</dt>
+        <dd>The maximum number of
+characters, including the trailing 0, which may be returned in each of
+the connections.</dd>
+      </dl>
+      <h6 class="description_section">Returns</h6>
+      <p class="return">The
+function returns <code>True</code>
+if
+successful, <code>False</code>
+otherwise</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table class="detail wide_list">
+  <tbody>
+    <tr class="list">
+      <td class="itemcode"><code><a name="FsNetworkManageConnection"></a></code><code>BOOL
+__stdcall</code><code>&nbsp;FsNetworkManageConnection(</code><code>char*
+      </code><code>Connection,
+int Action, int MaxLen);<br>
+      </code><code><a name="FsNetworkManageConnectionW"></a>BOOL
+__stdcall</code><code>&nbsp;FsNetworkManageConnectionW(</code><code>WCHAR</code><code></code><code>*
+      </code><code>Connection,
+int Action, int MaxLen);</code><code></code><code></code></td>
+    </tr>
+    <tr>
+      <td colspan="1">
+      <p>FsNetworkManageConnection
+is called from "Network manager" dialog
+when user wants to add/edit/delete connection.</p>
+      <h6 class="description_section">Parameters</h6>
+      <dl class="parameters">
+        <dt>Connection</dt>
+        <dd>In: Connection name
+for edit/delete action</dd>
+        <dd>Out: Connection name
+of new connection for add action</dd>
+        <dt>Action</dt>
+        <dd>Action type:&nbsp;<code><b><span
+ style="font-family: monospace;"><a
+ href="wfxplugin.html#FS_NM_ACTION_ADD">FS_NM_ACTION_ADD</a></span></b></code>
+or <code><b><span style="font-family: monospace;"><a
+ href="wfxplugin.html#FS_NM_ACTION_EDIT">FS_NM_ACTION_EDIT</a>&nbsp;</span></b></code>or
+          <code><b><span style="font-family: monospace;"><a
+ href="wfxplugin.html#FS_NM_ACTION_DELETE">FS_NM_ACTION_DELETE</a></span></b></code>
+        </dd>
+        <dt>MaxLen</dt>
+        <dd>Maximum number of
+characters that you can return in Connection, including the final 0.</dd>
+      </dl>
+      <h6 class="description_section">Returns</h6>
+      <p class="return">The
+function returns <code>True</code>
+if
+successful, <code>False</code>
+otherwise</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table class="detail wide_list">
+  <tbody>
+    <tr class="list">
+      <td class="itemcode"><code><a name="FsNetworkOpenConnection"></a></code><code>BOOL
+__stdcall</code><code>&nbsp;FsNetworkOpenConnection(</code><code>char*
+      </code><code>Connection,&nbsp;</code><code>char*</code><code>
+RemotePath, int
+MaxLen);<br>
+      </code><code><a name="FsNetworkOpenConnectionW"></a>BOOL
+__stdcall</code><code>&nbsp;FsNetworkOpenConnectionW(</code><code></code><code>WCHAR</code><code>*
+      </code><code>Connection,&nbsp;</code><code></code><code>WCHAR</code><code>*</code><code>
+RemotePath, int
+MaxLen);</code><code></code></td>
+    </tr>
+    <tr>
+      <td colspan="1">
+      <p><span id="result_box" class="short_text"><span style=""
+ title="">FsNetworkOpenConnection is
+called when the user wants to open a connection to the
+network</span></span>.</p>
+      <h6 class="description_section">Parameters</h6>
+      <dl class="parameters">
+        <dt>Connection</dt>
+        <dd>In: Connection name</dd>
+        <dd>Out: Server
+address, e.g. "ftp://ftp.chg.ru"<br>
+        </dd>
+        <dt>RemotePath</dt>
+        <dd>Here the plugin has to
+return the remote path of the opening connection, e.g. "/pub/Linux"</dd>
+        <dt>MaxLen</dt>
+        <dd>Maximum number of
+characters that you can return in Connection and RemotePath, including
+the
+final 0.
+        </dd>
+      </dl>
+      <h6 class="description_section">Returns</h6>
+      <p class="return">The
+function returns <code>True</code>
+if
+successful, <code>False</code>
+otherwise</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3 class="detail">Constants</h3>
+<table class="detail wide_list">
+  <tbody>
+    <tr class="list">
+      <td class="itemcode"><a name="FS_NM_ACTION_ADD"></a><code></code><b><span
+ style="font-family: monospace;">FS_NM_ACTION_ADD&nbsp;&nbsp;&nbsp;&nbsp;
+= 0;</span></b><code></code></td>
+    </tr>
+    <tr>
+      <td colspan="1">
+      <p>Add connection action.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table class="detail wide_list">
+  <tbody>
+    <tr class="list">
+      <td class="itemcode"><a name="FS_NM_ACTION_EDIT"></a><code></code><b><span
+ style="font-family: monospace;">FS_NM_ACTION_EDIT&nbsp;&nbsp;&nbsp;
+= 1;</span></b><code></code></td>
+    </tr>
+    <tr>
+      <td colspan="1">
+      <p>Edit connection action.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table class="detail wide_list">
+  <tbody>
+    <tr class="list">
+      <td class="itemcode"><a name="FS_NM_ACTION_DELETE"></a><code></code><b><span
+ style="font-family: monospace;">FS_NM_ACTION_DELETE&nbsp;
+= 2;</span></b><code></code></td>
+    </tr>
+    <tr>
+      <td colspan="1">
+      <p>Delete connection action.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<hr noshade="noshade" size="1"><span class="appinfo"><em>Double
+Commander WFX plugin API</em>
+</span>
+</body>
+</html>

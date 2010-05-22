@@ -543,6 +543,37 @@ function FsContentGetDefaultViewW(ViewContents,ViewHeaders,ViewWidths,
 
 }
 
+{ Network API }
+
+const
+  FS_NM_ACTION_ADD     = 0;
+
+  FS_NM_ACTION_EDIT    = 1;
+
+  FS_NM_ACTION_DELETE  = 2;
+
+{ Function prototypes: }
+
+{
+
+procedure FsNetworkGetSupportedProtocols(Protocols: PAnsiChar; MaxLen: LongInt); stdcall;
+
+procedure FsNetworkGetSupportedProtocolsW(Protocols: PWideChar; MaxLen: LongInt); stdcall;
+
+function FsNetworkGetConnection(Index: LongInt; Connection: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
+
+function FsNetworkGetConnectionW(Index: LongInt; Connection: PWideChar; MaxLen: LongInt): LongBool; stdcall;
+
+function FsNetworkManageConnection(Connection: PAnsiChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
+
+function FsNetworkManageConnectionW(Connection: PWideChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
+
+function FsNetworkOpenConnection(Connection: PAnsiChar; RemotePath: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
+
+function FsNetworkOpenConnectionW(Connection: PWideChar; RemotePath: PWideChar; MaxLen: LongInt): LongBool; stdcall;
+
+}
+
 implementation
 
 end.
