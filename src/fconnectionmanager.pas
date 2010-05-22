@@ -40,7 +40,8 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uDCUtils, uShowMsg, uWfxModule, WfxPlugin, uWfxPluginFileSource, uLng;
+  uGlobs, uDCUtils, uShowMsg, uWfxModule, WfxPlugin, uWfxPluginFileSource, uLng,
+  uConnectionManager;
 
 function ShowConnectionManager(FileView: TFileView): Boolean;
 begin
@@ -79,10 +80,10 @@ end;
 
 procedure TfrmConnectionManager.btnAddClick(Sender: TObject);
 var
-  WfxPluginFileSource: TWfxPluginFileSource;
+  WfxPluginFileSource: IWfxPluginFileSource;
   Connection: UTF8String;
 begin
-  WfxPluginFileSource:= TWfxPluginFileSource(tvConnections.Selected.Data);
+  WfxPluginFileSource:= PFileSourceRecord(tvConnections.Selected.Data)^.FileSource as IWfxPluginFileSource;
   if Assigned(WfxPluginFileSource) then
   begin
     if WfxPluginFileSource.WfxModule.WfxNetworkManageConnection(Connection, FS_NM_ACTION_ADD) then
@@ -95,12 +96,12 @@ end;
 
 procedure TfrmConnectionManager.btnConnectClick(Sender: TObject);
 var
-  WfxPluginFileSource: TWfxPluginFileSource;
+  WfxPluginFileSource: IWfxPluginFileSource;
   Connection,
   RemotePath,
   RootPath: UTF8String;
 begin
-  WfxPluginFileSource:= TWfxPluginFileSource(tvConnections.Selected.Parent.Data);
+  WfxPluginFileSource:= PFileSourceRecord(tvConnections.Selected.Parent.Data)^.FileSource as IWfxPluginFileSource;
   if Assigned(WfxPluginFileSource) then
   begin
     Connection:= tvConnections.Selected.Text;
@@ -123,10 +124,10 @@ end;
 
 procedure TfrmConnectionManager.btnDeleteClick(Sender: TObject);
 var
-  WfxPluginFileSource: TWfxPluginFileSource;
+  WfxPluginFileSource: IWfxPluginFileSource;
   Connection: UTF8String;
 begin
-  WfxPluginFileSource:= TWfxPluginFileSource(tvConnections.Selected.Parent.Data);
+  WfxPluginFileSource:= PFileSourceRecord(tvConnections.Selected.Parent.Data)^.FileSource as IWfxPluginFileSource;
   if Assigned(WfxPluginFileSource) then
   begin
     Connection:= tvConnections.Selected.Text;
@@ -141,10 +142,10 @@ end;
 
 procedure TfrmConnectionManager.btnEditClick(Sender: TObject);
 var
-  WfxPluginFileSource: TWfxPluginFileSource;
+  WfxPluginFileSource: IWfxPluginFileSource;
   Connection: UTF8String;
 begin
-  WfxPluginFileSource:= TWfxPluginFileSource(tvConnections.Selected.Parent.Data);
+  WfxPluginFileSource:= PFileSourceRecord(tvConnections.Selected.Parent.Data)^.FileSource as IWfxPluginFileSource;
   if Assigned(WfxPluginFileSource) then
   begin
     Connection:= tvConnections.Selected.Text;
@@ -156,24 +157,18 @@ end;
 procedure TfrmConnectionManager.FormDestroy(Sender: TObject);
 var
   I: Integer;
-  WfxPluginFileSource: TWfxPluginFileSource;
 begin
-  {
-  for I:= 1 to tvConnections.Items.Count - 1 do
+  for I:= 0 to tvConnections.Items.Count - 1 do
   begin
-    WfxPluginFileSource:= TWfxPluginFileSource(tvConnections.Items.Item[I].Data);
-    if Assigned(WfxPluginFileSource) then
-    begin
-      WfxPluginFileSource.Free;
-    end;
+    if Assigned(tvConnections.Items.Item[I].Data) then
+      DisposeFileSourceRecord(tvConnections.Items.Item[I].Data);
   end;
-  }
 end;
 
 constructor TfrmConnectionManager.Create(TheOwner: TComponent; FileView: TFileView);
 var
   I, J: Integer;
-  WfxPluginFileSource: TWfxPluginFileSource = nil;
+  WfxPluginFileSource: IWfxPluginFileSource = nil;
   sModuleFileName,
   Connection: UTF8String;
   Node, SubNode: TTreeNode;
@@ -193,7 +188,7 @@ begin
            if WFXmodule.VFSNetworkSupport then
             begin
               Node:= tvConnections.Items.Add(nil, gWfxPlugins.Name[I]);
-              Node.Data:= WfxPluginFileSource;
+              Node.Data:= NewFileSourceRecord(WfxPluginFileSource);
               Node.StateIndex:= 0;
               J:= 0;
               while WfxModule.WfxNetworkGetConnection(J, Connection) do
@@ -205,11 +200,11 @@ begin
             end
            else
              begin
-               WfxPluginFileSource.Free;
+               WfxPluginFileSource:= nil;
              end;
          end;
       except
-        WfxPluginFileSource.Free;
+        WfxPluginFileSource:= nil;
       end;
   end;
 end;

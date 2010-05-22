@@ -23,6 +23,9 @@ type
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
 
+    procedure SetCurrentAddress(AValue: UTF8String);
+    procedure SetRootDir(AValue: UTF8String);
+
     function GetPluginNumber: LongInt;
     function GetWfxModule: TWfxModule;
 
@@ -173,7 +176,7 @@ Begin
           begin
             I:= Pos(#32, LogString);
             sName:= WfxOperationList[PluginNr] + ':' + Copy(LogString, I, MaxInt);
-            AddNetworkConnection(sName, CallbackDataClass);
+            AddNetworkConnection(sName, CallbackDataClass.FileSource);
           end;
         sMsg:= sMsg + '[' + IntToStr(MsgType) + ']';
         ShowLogWindow(True, @bLock);

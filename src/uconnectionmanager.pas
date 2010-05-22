@@ -5,9 +5,18 @@ unit uConnectionManager;
 interface
 
 uses
-  Classes, SysUtils; 
+  Classes, SysUtils, uFileSource;
 
-procedure AddNetworkConnection(const ConnectionName: UTF8String; Connection: TObject);
+type
+  TFileSourceRecord = record
+    FileSource: IFileSource;
+  end;
+  PFileSourceRecord = ^TFileSourceRecord;
+
+function NewFileSourceRecord(FileSource: IFileSource): PFileSourceRecord;
+procedure DisposeFileSourceRecord(FileSourceRecord: PFileSourceRecord);
+
+procedure AddNetworkConnection(const ConnectionName: UTF8String; FileSource: IFileSource);
 procedure RemoveNetworkConnection(const ConnectionName: UTF8String);
 
 var
@@ -18,13 +27,24 @@ implementation
 uses
   Menus, fMain, uWfxPluginFileSource;
 
-procedure AddNetworkConnection(const ConnectionName: UTF8String; Connection: TObject);
+function NewFileSourceRecord(FileSource: IFileSource): PFileSourceRecord;
+begin
+  New(Result);
+  Result^.FileSource:= FileSource;
+end;
+
+procedure DisposeFileSourceRecord(FileSourceRecord: PFileSourceRecord);
+begin
+  FileSourceRecord^.FileSource:= nil;
+  Dispose(FileSourceRecord);
+end;
+
+procedure AddNetworkConnection(const ConnectionName: UTF8String; FileSource: IFileSource);
 var
   I: Integer;
   miTemp: TMenuItem;
-  CallbackDataClass: TCallbackDataClass absolute Connection;
 begin
-  WfxConnectionList.AddObject(ConnectionName, Connection);
+  WfxConnectionList.AddObject(ConnectionName, TObject(NewFileSourceRecord(FileSource)));
   with frmMain do
   begin
     miTemp:= TMenuItem.Create(miNetworkDisconnect);
