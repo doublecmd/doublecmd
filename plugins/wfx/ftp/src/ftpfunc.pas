@@ -94,7 +94,10 @@ function FsDisconnect(DisconnectRoot: PAnsiChar): BOOL; stdcall;
 procedure FsSetCryptCallback(pCryptProc: TCryptProc; CryptoNr, Flags: Integer); stdcall;
 procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
 procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); stdcall;
-
+{ Network API }
+function FsNetworkGetConnection(Index: LongInt; Connection: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
+function FsNetworkManageConnection(Connection: PAnsiChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
+function FsNetworkOpenConnection(Connection: PAnsiChar; RemotePath: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
 { Dialog API function }
 procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo); stdcall;
 
@@ -328,11 +331,12 @@ begin
 end;
 
 
-procedure AddConnection;
+function AddConnection: Integer;
 var
   pcTemp: PAnsiChar;
   bCancel: Boolean;
 begin
+  Result:= -1;
   bCancel := True;
   gConnection := TConnection.Create;
 
@@ -346,7 +350,7 @@ begin
             if CryptFunc(FS_CRYPT_SAVE_PASSWORD, ConnectionName, Password) = FS_FILE_OK then
               Password:= EmptyStr;
           end;
-          ConnectionList.AddObject(ConnectionName, gConnection);
+          Result:= ConnectionList.AddObject(ConnectionName, gConnection);
           bCancel := False;
         end;
     end
@@ -358,7 +362,7 @@ begin
         gConnection.ConnectionName := pcTemp;
         if AddQuickConnection(gConnection) then
         begin
-          ConnectionList.AddObject(gConnection.ConnectionName, gConnection);
+          Result:= ConnectionList.AddObject(gConnection.ConnectionName, gConnection);
           bCancel := False;
         end;
       end;
@@ -371,10 +375,11 @@ begin
     WriteConnectionList;
 end;
 
-procedure EditConnection(ConnectionName: AnsiString);
+function EditConnection(ConnectionName: AnsiString): Boolean;
 var
   I: Integer;
 begin
+  Result:= False;
   if HasDialogAPI then
     begin
       I := ConnectionList.IndexOf(ConnectionName);
@@ -390,10 +395,28 @@ begin
                     Password:= EmptyStr;
                 end;
               WriteConnectionList;
+              Result:= True;
             end;
           gConnection:= nil;
         end;
     end;
+end;
+
+function DeleteConnection(ConnectionName: AnsiString): Boolean;
+var
+  I: Integer;
+  Connection: TConnection;
+begin
+  Result:= False;
+  I:= ConnectionList.IndexOf(ConnectionName);
+  if I >= 0 then
+  begin
+    Connection:= TConnection(ConnectionList.Objects[I]);
+    Connection.Free;
+    ConnectionList.Delete(I);
+    WriteConnectionList;
+    Result:= True;
+  end;
 end;
 
 function ExtractConnectionName(const sPath: AnsiString): AnsiString;
@@ -730,23 +753,11 @@ function FsDeleteFile(RemoteName: PAnsiChar): BOOL; stdcall;
 var
   sFileName: AnsiString;
   FtpSend: TFTPSendEx;
-  I: Integer;
-  Connection: TConnection;
 begin
   Result := False;
   // if root path then delete connection
   if (ExtractFileDir(RemoteName) = PathDelim) and (AnsiChar(RemoteName[1]) <> '<') then
-    begin
-      I:= ConnectionList.IndexOf(ExtractConnectionName(RemoteName));
-      if I >= 0 then
-        begin
-          Connection:= TConnection(ConnectionList.Objects[I]);
-          Connection.Free;
-          ConnectionList.Delete(I);
-          WriteConnectionList;
-          Result:= True;
-        end;
-    end
+    Result:= DeleteConnection(ExtractConnectionName(RemoteName))
   else if GetConnectionByPath(RemoteName, FtpSend, sFileName) then
     Result := FtpSend.DeleteFile(sFileName);
 end;
@@ -802,6 +813,43 @@ begin
   IniFile := TIniFile.Create(dps.DefaultIniName);
   IniFile.WriteDateTime('FTP', 'Test', Now);
   ReadConnectionList;
+end;
+ function FsNetworkGetConnection(Index: LongInt; Connection: PAnsiChar;
+  MaxLen: LongInt): LongBool; stdcall;
+begin
+  Result:= False;
+  if Index >= ConnectionList.Count then Exit;
+  StrPLCopy(Connection, TConnection(ConnectionList.Objects[Index]).ConnectionName, MaxLen);
+  Result:= True;
+end;
+
+function FsNetworkManageConnection(Connection: PAnsiChar; Action: LongInt;
+  MaxLen: LongInt): LongBool; stdcall;
+var
+  I: Integer;
+begin
+  Result:= False;
+  case Action of
+  FS_NM_ACTION_ADD:
+    begin
+      I:= AddConnection;
+      if I >= 0 then
+      begin
+        StrPLCopy(Connection, ConnectionList[I], MaxLen);
+        Result:= True;
+      end;
+    end;
+  FS_NM_ACTION_EDIT:
+    Result:= EditConnection(Connection);
+  FS_NM_ACTION_DELETE:
+    Result:= DeleteConnection(Connection);
+  end;
+end;
+
+function FsNetworkOpenConnection(Connection: PAnsiChar; RemotePath: PAnsiChar;
+  MaxLen: LongInt): LongBool; stdcall;
+begin
+
 end;
 
 procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);
