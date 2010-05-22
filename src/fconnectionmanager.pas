@@ -97,7 +97,8 @@ procedure TfrmConnectionManager.btnConnectClick(Sender: TObject);
 var
   WfxPluginFileSource: TWfxPluginFileSource;
   Connection,
-  RemotePath: UTF8String;
+  RemotePath,
+  RootPath: UTF8String;
 begin
   WfxPluginFileSource:= TWfxPluginFileSource(tvConnections.Selected.Parent.Data);
   if Assigned(WfxPluginFileSource) then
@@ -105,8 +106,11 @@ begin
     Connection:= tvConnections.Selected.Text;
     if WfxPluginFileSource.WfxModule.WfxNetworkOpenConnection(Connection, RemotePath) then
       begin
+        RootPath:= PathDelim + tvConnections.Selected.Text;
         WfxPluginFileSource.SetCurrentAddress(Connection);
-        FFileView.AddFileSource(WfxPluginFileSource, PathDelim + tvConnections.Selected.Text + RemotePath);
+        WfxPluginFileSource.SetRootDir(RootPath + PathDelim);
+        DoDirSeparators(RemotePath);
+        FFileView.AddFileSource(WfxPluginFileSource, RootPath + RemotePath);
         tvConnections.Selected.Parent.Data:= nil;
         Close;
       end
@@ -188,8 +192,7 @@ begin
         begin
            if WFXmodule.VFSNetworkSupport then
             begin
-              Node:= TTreeNode.Create(tvConnections.Items);
-              Node:= tvConnections.Items.Add(Node, gWfxPlugins.Name[I]);
+              Node:= tvConnections.Items.Add(nil, gWfxPlugins.Name[I]);
               Node.Data:= WfxPluginFileSource;
               Node.StateIndex:= 0;
               J:= 0;

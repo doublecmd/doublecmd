@@ -44,6 +44,7 @@ type
   TWfxPluginFileSource = class(TFileSource, IWfxPluginFileSource)
   private
     FModuleFileName,
+    FRootPath,
     FPluginRootName: UTF8String;
     FWFXModule: TWFXModule;
     FPluginNumber: LongInt;
@@ -60,6 +61,7 @@ type
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
     procedure SetCurrentAddress(AValue: UTF8String);
+    procedure SetRootDir(AValue: UTF8String);
   public
     constructor Create(aModuleFileName, aPluginRootName: UTF8String); reintroduce;
     destructor Destroy; override;
@@ -91,6 +93,7 @@ type
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
                                             var theNewProperties: TFileProperties): TFileSourceOperation; override;
 
+    function GetRootDir(sPath : String): String; override;
     function GetLocalName(var aFile: TFile): Boolean; override;
 
     class function CreateByRootName(aRootName: String): IWfxPluginFileSource;
@@ -631,6 +634,11 @@ begin
   FCurrentAddress:= AValue;
 end;
 
+procedure TWfxPluginFileSource.SetRootDir(AValue: UTF8String);
+begin
+  FRootPath:= AValue;
+end;
+
 function TWfxPluginFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
 var
   TargetFileSource: IFileSource;
@@ -718,6 +726,14 @@ begin
                 TargetFileSource,
                 theTargetFiles,
                 theNewProperties);
+end;
+
+function TWfxPluginFileSource.GetRootDir(sPath: String): String;
+begin
+  if FRootPath <> EmptyStr then
+     Result:= FRootPath
+  else
+    Result:= inherited GetRootDir(sPath);
 end;
 
 function TWfxPluginFileSource.GetLocalName(var aFile: TFile): Boolean;
