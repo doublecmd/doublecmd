@@ -1430,6 +1430,21 @@ object frmMain: TfrmMain
         OnClick = actExecute
       end
     end
+    object mnuNetwork: TMenuItem
+      Caption = 'Network'
+      object miNetworkConnect: TMenuItem
+        Action = actNetworkConnect
+        OnClick = actExecute
+      end
+      object miNetworkQuickConnect: TMenuItem
+        Action = actNetworkQuickConnect
+        OnClick = actExecute
+      end
+      object miNetworkDisconnect: TMenuItem
+        Action = actNetworkDisconnect
+        OnClick = actExecute
+      end
+    end
     object mnuTabs: TMenuItem
       Caption = '&Tabs'
       object mnuNewTab: TMenuItem
@@ -2197,7 +2212,17 @@ object frmMain: TfrmMain
     end
     object actNetworkConnect: TAction
       Category = 'Network'
-      Caption = 'Network connect...'
+      Caption = 'Network Connect...'
+      OnExecute = actExecute
+    end
+    object actNetworkQuickConnect: TAction
+      Category = 'Network'
+      Caption = 'Network Quick Connect...'
+      OnExecute = actExecute
+    end
+    object actNetworkDisconnect: TAction
+      Category = 'Network'
+      Caption = 'Network Disconnect'
       OnExecute = actExecute
     end
   end

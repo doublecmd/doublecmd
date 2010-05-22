@@ -79,6 +79,8 @@ type
     actCopyNoAsk: TAction;
     actChangeDirToParent: TAction;
     actEditPath: TAction;
+    actNetworkDisconnect: TAction;
+    actNetworkQuickConnect: TAction;
     actNetworkConnect: TAction;
     actViewHistory: TAction;
     actViewHistoryPrev: TAction;
@@ -151,6 +153,10 @@ type
     AllOpCancel: TMenuItem;
     AllOpStart: TMenuItem;
     AllOpPct: TMenuItem;
+    miNetworkDisconnect: TMenuItem;
+    miNetworkQuickConnect: TMenuItem;
+    miNetworkConnect: TMenuItem;
+    mnuNetwork: TMenuItem;
     Timer: TTimer;
     PanelAllProgress: TPanel;
     sboxRightDrive: TScrollBox;
