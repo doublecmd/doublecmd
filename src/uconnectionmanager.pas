@@ -61,6 +61,7 @@ begin
   if I >= 0 then
     with frmMain do
     begin
+      DisposeFileSourceRecord(PFileSourceRecord(WfxConnectionList.Objects[I]));
       WfxConnectionList.Delete(I);
       miNetworkDisconnect.Remove(miNetworkDisconnect.Find(ConnectionName));
     end;
