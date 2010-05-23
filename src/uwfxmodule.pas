@@ -154,8 +154,8 @@ type
     function WfxDeleteFile(const sFileName: UTF8String): Boolean;
     function WfxGetLocalName(var sFileName: UTF8String): Boolean;
     function WfxNetworkGetConnection(Index: LongInt; var Connection: UTF8String): Boolean;
-    function WfxNetworkManageConnection(var Connection: UTF8String; Action: LongInt): Boolean;
-    function WfxNetworkOpenConnection(var Connection, RemotePath: UTF8String): Boolean;
+    function WfxNetworkManageConnection(MainWin: HWND; var Connection: UTF8String; Action: LongInt): Boolean;
+    function WfxNetworkOpenConnection(var Connection, RootDir, RemotePath: UTF8String): Boolean;
     procedure WfxNetworkCloseConnection(const Connection: UTF8String);
   public
     constructor Create;
@@ -477,7 +477,7 @@ begin
     end;
 end;
 
-function TWFXModule.WfxNetworkManageConnection(var Connection: UTF8String;
+function TWFXModule.WfxNetworkManageConnection(MainWin: HWND; var Connection: UTF8String;
   Action: LongInt): Boolean;
 var
   pacConnection: PAnsiChar;
@@ -489,7 +489,7 @@ begin
       pwcConnection:= GetMem(MAX_PATH * SizeOf(WideChar));
       if Action <> FS_NM_ACTION_ADD then
         StrPCopyW(pwcConnection, UTF8Decode(Connection));
-      Result:= FsNetworkManageConnectionW(pwcConnection, Action, MAX_PATH);
+      Result:= FsNetworkManageConnectionW(MainWin, pwcConnection, Action, MAX_PATH);
       if (Result = True) and (Action = FS_NM_ACTION_ADD) then
         Connection:= UTF8Encode(WideString(pwcConnection));
       FreeMem(pwcConnection);
@@ -499,17 +499,19 @@ begin
       pacConnection:= GetMem(MAX_PATH);
       if Action <> FS_NM_ACTION_ADD then
         StrPCopy(pacConnection, UTF8ToSys(Connection));
-      Result:= FsNetworkManageConnection(pacConnection, Action, MAX_PATH);
+      Result:= FsNetworkManageConnection(MainWin, pacConnection, Action, MAX_PATH);
       if (Result = True) and (Action = FS_NM_ACTION_ADD) then
         Connection:= SysToUTF8(StrPas(pacConnection));
       FreeMem(pacConnection);
     end;
 end;
 
-function TWFXModule.WfxNetworkOpenConnection(var Connection, RemotePath: UTF8String): Boolean;
+function TWFXModule.WfxNetworkOpenConnection(var Connection, RootDir, RemotePath: UTF8String): Boolean;
 var
   pacConnection: PAnsiChar;
   pwcConnection: PWideChar;
+  pacRootDir: PAnsiChar;
+  pwcRootDir: PWideChar;
   pacRemotePath: PAnsiChar;
   pwcRemotePath: PWideChar;
 begin
@@ -517,35 +519,41 @@ begin
   if Assigned(FsNetworkOpenConnectionW) then
     begin
       pwcConnection:= GetMem(MAX_PATH * SizeOf(WideChar));
+      pwcRootDir:= GetMem(MAX_PATH * SizeOf(WideChar));
       pwcRemotePath:= GetMem(MAX_PATH * SizeOf(WideChar));
       if Connection = EmptyStr then
         pwcConnection:= #0
       else
         StrPCopyW(pwcConnection, UTF8Decode(Connection));
-      Result:= FsNetworkOpenConnectionW(pwcConnection, pwcRemotePath, MAX_PATH);
+      Result:= FsNetworkOpenConnectionW(pwcConnection, pwcRootDir, pwcRemotePath, MAX_PATH);
       if Result = True then
         begin
           Connection:= UTF8Encode(WideString(pwcConnection));
+          RootDir:= UTF8Encode(WideString(pwcRootDir));
           RemotePath:= UTF8Encode(WideString(pwcRemotePath));
         end;
       FreeMem(pwcConnection);
+      FreeMem(pwcRootDir);
       FreeMem(pwcRemotePath);
     end
   else if Assigned(FsNetworkOpenConnection) then
     begin
       pacConnection:= GetMem(MAX_PATH);
+      pacRootDir:= GetMem(MAX_PATH);
       pacRemotePath:= GetMem(MAX_PATH);
       if Connection = EmptyStr then
         pacConnection:= #0
       else
         StrPCopy(pacConnection, UTF8ToSys(Connection));
-      Result:= FsNetworkOpenConnection(pacConnection, pacRemotePath, MAX_PATH);
+      Result:= FsNetworkOpenConnection(pacConnection, pacRootDir, pacRemotePath, MAX_PATH);
       if Result = True then
         begin
           Connection:= SysToUTF8(StrPas(pacConnection));
+          RootDir:= SysToUTF8(StrPas(pacRootDir));
           RemotePath:= SysToUTF8(StrPas(pacRemotePath));
         end;
       FreeMem(pacConnection);
+      FreeMem(pacRootDir);
       FreeMem(pacRemotePath);
     end;
 end;

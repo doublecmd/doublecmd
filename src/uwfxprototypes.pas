@@ -25,7 +25,7 @@ type
 {R}  TFsRemoveDir=function(RemoteName:pchar):boolean; stdcall;
 {R}  TFsStatusInfo = procedure(RemoteDir:pchar;InfoStartEnd,InfoOperation:integer); stdcall;
 {R}  TFsSetDefaultParams = procedure (dps:pFsDefaultParamStruct); stdcall;
-{R}  TFsExecuteFile=Function(MainWin:thandle;RemoteName,Verb:pchar):integer; stdcall;
+{R}  TFsExecuteFile=Function(MainWin:HWND;RemoteName,Verb:pchar):integer; stdcall;
 {R}  TFsGetDefRootName=procedure (DefRootName:pchar;maxlen:integer); stdcall;
 //------------------------------------------------------
 {R}  TFsSetAttr=function (RemoteName:pchar;NewAttr:integer):boolean; stdcall;
@@ -50,8 +50,8 @@ type
 //------------------------------------------------------
      TFsNetworkGetSupportedProtocols = procedure (Protocols: PAnsiChar; MaxLen: LongInt); stdcall;
      TFsNetworkGetConnection = function (Index: LongInt; Connection: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
-     TFsNetworkManageConnection = function (Connection: PAnsiChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
-     TFsNetworkOpenConnection = function (Connection: PAnsiChar; RemotePath: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
+     TFsNetworkManageConnection = function (MainWin: HWND; Connection: PAnsiChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
+     TFsNetworkOpenConnection = function (Connection: PAnsiChar; RootDir, RemotePath: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
 { Unicode }
      TFsInitW = function(PluginNr:integer;pProgressProcW:tProgressProcW;pLogProcW:tLogProcW; pRequestProcW:tRequestProcW):integer; stdcall;
      TFsFindFirstW = function(path :pwidechar;var FindData:tWIN32FINDDATAW):thandle; stdcall;
@@ -59,7 +59,7 @@ type
 //------------------------------------------------------
      TFsSetCryptCallbackW = procedure(CryptProcW:TCryptProcW;CryptoNr,Flags:integer); stdcall;
      TFsMkDirW = function(RemoteDir:pwidechar):bool; stdcall;
-     TFsExecuteFileW = function(MainWin:thandle;RemoteName,Verb:pwidechar):integer; stdcall;
+     TFsExecuteFileW = function(MainWin:HWND;RemoteName,Verb:pwidechar):integer; stdcall;
      TFsRenMovFileW = function(OldName,NewName:pwidechar;Move,OverWrite:bool; RemoteInfo:pRemoteInfo):integer; stdcall;
      TFsGetFileW = function(RemoteName,LocalName:pwidechar;CopyFlags:integer; RemoteInfo:pRemoteInfo):integer; stdcall;
      TFsPutFileW = function(LocalName,RemoteName:pwidechar;CopyFlags:integer):integer; stdcall;
@@ -80,8 +80,8 @@ type
 //------------------------------------------------------
      TFsNetworkGetSupportedProtocolsW = procedure (Protocols: PWideChar; MaxLen: LongInt); stdcall;
      TFsNetworkGetConnectionW = function (Index: LongInt; Connection: PWideChar; MaxLen: LongInt): LongBool; stdcall;
-     TFsNetworkManageConnectionW = function (Connection: PWideChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
-     TFsNetworkOpenConnectionW = function (Connection: PWideChar; RemotePath: PWideChar; MaxLen: LongInt): LongBool; stdcall;
+     TFsNetworkManageConnectionW = function (MainWin: HWND; Connection: PWideChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
+     TFsNetworkOpenConnectionW = function (Connection: PWideChar; RootDir, RemotePath: PWideChar; MaxLen: LongInt): LongBool; stdcall;
 //------------------------------------------------------
 
 implementation

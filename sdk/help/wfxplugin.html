@@ -58,11 +58,13 @@ int MaxLen);</code></td>
     </tr>
     <tr class="list">
       <td class="itemcode"><code>BOOL
-__stdcall</code><code>&nbsp;<a href="#FsNetworkManageConnection">FsNetworkManageConnection</a>(</code><code>char*
+__stdcall</code><code>&nbsp;<a href="#FsNetworkManageConnection">FsNetworkManageConnection</a>(HWND
+MainWin, </code><code>char*
       </code><code>Connection,
 int Action, int MaxLen);<br>
       </code><code>BOOL
-__stdcall</code><code>&nbsp;<a href="#FsNetworkManageConnectionW">FsNetworkManageConnectionW</a>(</code><code>WCHAR</code><code></code><code>*
+__stdcall</code><code>&nbsp;<a href="#FsNetworkManageConnectionW">FsNetworkManageConnectionW</a>(</code><code>HWND
+MainWin, WCHAR</code><code></code><code>*
       </code><code>Connection,
 int Action, int MaxLen);</code></td>
     </tr>
@@ -189,21 +191,27 @@ otherwise</p>
   <tbody>
     <tr class="list">
       <td class="itemcode"><code><a name="FsNetworkManageConnection"></a></code><code>BOOL
-__stdcall</code><code>&nbsp;FsNetworkManageConnection(</code><code>char*
-      </code><code>Connection,
+__stdcall</code><code>&nbsp;FsNetworkManageConnection(</code><code>HWND
+MainWin, char* </code><code>Connection,
 int Action, int MaxLen);<br>
       </code><code><a name="FsNetworkManageConnectionW"></a>BOOL
-__stdcall</code><code>&nbsp;FsNetworkManageConnectionW(</code><code>WCHAR</code><code></code><code>*
+__stdcall</code><code>&nbsp;FsNetworkManageConnectionW(</code><code>HWND
+MainWin,
+WCHAR</code><code></code><code>*
       </code><code>Connection,
 int Action, int MaxLen);</code><code></code><code></code></td>
     </tr>
     <tr>
       <td colspan="1">
       <p>FsNetworkManageConnection
-is called from "Network manager" dialog
+is called from "Connection manager" dialog
 when user wants to add/edit/delete connection.</p>
       <h6 class="description_section">Parameters</h6>
       <dl class="parameters">
+        <dt>MainWin</dt>
+        <dd>Parent window which can be used for showing a connection
+configuration dialog.<br>
+        </dd>
         <dt>Connection</dt>
         <dd>In: Connection name
 for edit/delete action</dd>
