@@ -7,6 +7,7 @@ object frmConnectionManager: TfrmConnectionManager
   ClientHeight = 366
   ClientWidth = 431
   OnDestroy = FormDestroy
+  Position = poScreenCenter
   LCLVersion = '0.9.29'
   object gbConnectTo: TGroupBox
     AnchorSideLeft.Control = Owner
@@ -23,14 +24,16 @@ object frmConnectionManager: TfrmConnectionManager
     BorderSpacing.Right = 12
     BorderSpacing.Bottom = 6
     Caption = 'Connect to:'
+    ChildSizing.LeftRightSpacing = 4
+    ChildSizing.TopBottomSpacing = 4
     ClientHeight = 342
     ClientWidth = 277
     TabOrder = 0
     object tvConnections: TTreeView
-      Left = 0
-      Height = 342
-      Top = 0
-      Width = 277
+      Left = 4
+      Height = 334
+      Top = 4
+      Width = 269
       Align = alClient
       DefaultItemHeight = 22
       ReadOnly = True
