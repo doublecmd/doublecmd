@@ -74,7 +74,7 @@ type
     function GetFileViewOnPage(Index: Integer): TFileView;
     function GetPage(Index: Integer): TFileViewPage;
 
-    procedure SetMultilineTabs(Multiline: Boolean);
+    procedure SetMultilineTabs(aMultiline: Boolean);
 
     procedure DragOverEvent(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
     procedure DragDropEvent(Sender, Source: TObject; X, Y: Integer);
@@ -260,13 +260,13 @@ begin
   Result := TFileViewPage(CustomPage(Index));
 end;
 
-procedure TFileViewNotebook.SetMultilineTabs(Multiline: Boolean);
+procedure TFileViewNotebook.SetMultilineTabs(aMultiline: Boolean);
 begin
   if (nbcMultiline in GetCapabilities) and
       // If different then current setting
-     (Multiline <> (nboMultiline in Options)) then
+     (aMultiline <> (nboMultiline in Options)) then
   begin
-    if Multiline then
+    if aMultiline then
       Options := Options + [nboMultiLine]
     else
       Options := Options - [nboMultiLine];
