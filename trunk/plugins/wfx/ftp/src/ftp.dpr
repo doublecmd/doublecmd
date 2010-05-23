@@ -23,6 +23,7 @@ exports
   FsSetCryptCallback,
   FsGetDefRootName,
   FsSetDefaultParams,
+  FsNetworkGetSupportedProtocols,
   FsNetworkGetConnection,
   FsNetworkManageConnection,
   FsNetworkOpenConnection,

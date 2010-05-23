@@ -69,6 +69,9 @@ const
   S_ISGID  = $0400;
   S_ISVTX  = $0200;
 
+const
+  ftpProtocol = 'ftp://';
+
 function ModeStr2Mode(const sMode: String): Integer;
 
 function EncodeBase64(Data: AnsiString): AnsiString;
@@ -180,7 +183,7 @@ function ExtractConnectionHost(Connection: AnsiString): AnsiString;
 var
   I: Integer;
 begin
-  if Pos('ftp://', LowerCase(Connection)) <> 0 then
+  if Pos(ftpProtocol, LowerCase(Connection)) <> 0 then
     Delete(Connection, 1, 6);
   I:= Pos(':', Connection);
   if I > 0 then
@@ -194,7 +197,7 @@ var
   I, J: Integer;
 begin
   Result:= EmptyStr;
-  if Pos('ftp://', LowerCase(Connection)) <> 0 then
+  if Pos(ftpProtocol, LowerCase(Connection)) <> 0 then
     Delete(Connection, 1, 6);
   I:= Pos(':', Connection);
   if I > 0 then

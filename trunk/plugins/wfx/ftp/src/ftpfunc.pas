@@ -95,9 +95,10 @@ procedure FsSetCryptCallback(pCryptProc: TCryptProc; CryptoNr, Flags: Integer); 
 procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
 procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); stdcall;
 { Network API }
+procedure FsNetworkGetSupportedProtocols(Protocols: PAnsiChar; MaxLen: LongInt); stdcall;
 function FsNetworkGetConnection(Index: LongInt; Connection: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
-function FsNetworkManageConnection(Connection: PAnsiChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
-function FsNetworkOpenConnection(Connection: PAnsiChar; RemotePath: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
+function FsNetworkManageConnection(MainWin: HWND; Connection: PAnsiChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
+function FsNetworkOpenConnection(Connection: PAnsiChar; RootDir, RemotePath: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
 { Dialog API function }
 procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo); stdcall;
 
@@ -814,7 +815,13 @@ begin
   IniFile.WriteDateTime('FTP', 'Test', Now);
   ReadConnectionList;
 end;
- function FsNetworkGetConnection(Index: LongInt; Connection: PAnsiChar;
+
+procedure FsNetworkGetSupportedProtocols(Protocols: PAnsiChar; MaxLen: LongInt); stdcall;
+begin
+  StrPLCopy(Protocols, ftpProtocol, MaxLen);
+end;
+
+function FsNetworkGetConnection(Index: LongInt; Connection: PAnsiChar;
   MaxLen: LongInt): LongBool; stdcall;
 begin
   Result:= False;
@@ -823,7 +830,7 @@ begin
   Result:= True;
 end;
 
-function FsNetworkManageConnection(Connection: PAnsiChar; Action: LongInt;
+function FsNetworkManageConnection(MainWin: HWND; Connection: PAnsiChar; Action: LongInt;
   MaxLen: LongInt): LongBool; stdcall;
 var
   I: Integer;
@@ -856,7 +863,7 @@ begin
   end;
 end;
 
-function FsNetworkOpenConnection(Connection: PAnsiChar; RemotePath: PAnsiChar;
+function FsNetworkOpenConnection(Connection: PAnsiChar; RootDir, RemotePath: PAnsiChar;
   MaxLen: LongInt): LongBool; stdcall;
 var
   I: Integer;
@@ -872,7 +879,8 @@ begin
         if I >= 0 then
           begin
             Con:= TConnection(ActiveConnectionList.Objects[I]);
-            StrPLCopy(Connection, Con.Host, MaxLen);
+            StrPLCopy(Connection, ftpProtocol + Con.Host, MaxLen);
+            StrPLCopy(RootDir, PathDelim + Con.ConnectionName, MaxLen);
             StrPLCopy(RemotePath, Con.Path, MaxLen);
             Result:= True;
           end;
@@ -884,7 +892,8 @@ begin
       if I >= 0 then
         begin
           Con:= TConnection(ConnectionList.Objects[I]);
-          StrPLCopy(Connection, Con.Host, MaxLen);
+          StrPLCopy(Connection, ftpProtocol + Con.Host, MaxLen);
+          StrPLCopy(RootDir, PathDelim + Con.ConnectionName, MaxLen);
           StrPLCopy(RemotePath, Con.Path, MaxLen);
           Result:= True;
         end;
