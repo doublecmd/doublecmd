@@ -591,7 +591,7 @@ msgstr "Відміна"
 
 #: TFRMCONNECTIONMANAGER.BTNCONNECT.CAPTION
 msgid "Connect"
-msgstr ""
+msgstr "З'єднання"
 
 #: TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION
 msgctxt "TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION"
@@ -605,11 +605,11 @@ msgstr "Редагувати"
 
 #: TFRMCONNECTIONMANAGER.CAPTION
 msgid "Connection manager"
-msgstr ""
+msgstr "Диспетчер з'єднань"
 
 #: TFRMCONNECTIONMANAGER.GBCONNECTTO.CAPTION
 msgid "Connect to:"
-msgstr ""
+msgstr "З'єднатися з:"
 
 #: TFRMCOPYDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
@@ -639,6 +639,7 @@ msgstr "Виправляти посилання"
 
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
 msgctxt "TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION"
+
 msgid "Drop readonly flag"
 msgstr "Скинути позначку \"Тільки для читання\""
 
@@ -1924,15 +1925,15 @@ msgstr "Мульти&переіменування"
 
 #: TFRMMAIN.ACTNETWORKCONNECT.CAPTION
 msgid "Network Connect..."
-msgstr ""
+msgstr "З'єднання з мережею..."
 
 #: TFRMMAIN.ACTNETWORKDISCONNECT.CAPTION
 msgid "Network Disconnect"
-msgstr ""
+msgstr "Розірвати з'єднання"
 
 #: TFRMMAIN.ACTNETWORKQUICKCONNECT.CAPTION
 msgid "Network Quick Connect..."
-msgstr ""
+msgstr "Нове з'єднання..."
 
 #: TFRMMAIN.ACTNEWTAB.CAPTION
 #, fuzzy
@@ -2163,16 +2164,17 @@ msgid "View F3"
 msgstr "Перегляд F3"
 
 #: TFRMMAIN.ACTVIEWHISTORY.CAPTION
+#, fuzzy
 msgid "Show history of visited paths for active view"
-msgstr ""
+msgstr "Показати історію відвіданих шляхів для перегляду"
 
 #: TFRMMAIN.ACTVIEWHISTORYNEXT.CAPTION
 msgid "Go to next entry in history"
-msgstr ""
+msgstr "Перейти до наступного запису в історії"
 
 #: TFRMMAIN.ACTVIEWHISTORYPREV.CAPTION
 msgid "Go to previous entry in history"
-msgstr ""
+msgstr "Перейти до попереднього запису в історії"
 
 #: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
 #, fuzzy
@@ -2532,7 +2534,7 @@ msgstr "Порівняти каталоги"
 
 #: TFRMMAIN.MNUNETWORK.CAPTION
 msgid "Network"
-msgstr ""
+msgstr "Мережа"
 
 #: TFRMMAIN.MNUSHOW.CAPTION
 msgid "&Show"
@@ -2945,6 +2947,7 @@ msgstr "Редагувати"
 msgctxt "TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION"
 msgid "Enable"
 msgstr "Увімкнути"
+
 
 #: TFRMOPTIONS.BTNFORECOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNFORECOLOR.CAPTION"
@@ -4900,7 +4903,7 @@ msgstr "Данні пошкоджено"
 
 #: ulng.rsmsgerrcannotconnect
 msgid "Can not connect to server: \"%s\""
-msgstr ""
+msgstr "Не можливо з'єднатися з серевером: \"%s\""
 
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
