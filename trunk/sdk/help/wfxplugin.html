@@ -3,7 +3,8 @@
 <head>
   <meta name="GENERATOR" content="PasDoc 0.11.0">
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Writing file system plugins for Double Commander</title>
+  <title>Writing file system
+plugins for Double Commander</title>
   <link rel="StyleSheet" type="text/css" href="pasdoc.css">
 </head>
 <body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);"
@@ -69,12 +70,16 @@ int Action, int MaxLen);</code></td>
       <td class="itemcode"><code>BOOL
 __stdcall</code><code>&nbsp;<a href="#FsNetworkOpenConnection">FsNetworkOpenConnection</a>(</code><code>char*
       </code><code>Connection,&nbsp;</code><code>char*</code><code>
+RootDir,</code><code>
+      </code><code>char*</code><code>
 RemotePath, int
 MaxLen);<br>
       </code><code>BOOL
 __stdcall</code><code>&nbsp;<a
  href="wfxplugin.html#FsNetworkOpenConnectionW">FsNetworkOpenConnectionW</a>(</code><code></code><code>WCHAR</code><code>*
       </code><code>Connection,&nbsp;</code><code></code><code>WCHAR</code><code>*</code><code>
+      </code><code>RootDir</code><code>,
+WCHAR</code><code>*</code><code>
 RemotePath, int
 MaxLen);</code></td>
     </tr>
@@ -138,8 +143,7 @@ characters (including the final 0) which fit in the buffer.</dd>
     <tr class="list">
       <td class="itemcode"><code><a name="FsNetworkGetConnection"></a></code><code>BOOL
 __stdcall&nbsp;FsNetworkGetConnection(</code><code>int
-Index, char*
-      </code><code>Connection,
+Index, char* </code><code>Connection,
 int MaxLen);<br>
       </code><code><a name="FsNetworkGetConnectionW"></a>BOOL
 __stdcall&nbsp;FsNetworkGetConnectionW(</code><code>int
@@ -234,11 +238,15 @@ otherwise</p>
       <td class="itemcode"><code><a name="FsNetworkOpenConnection"></a></code><code>BOOL
 __stdcall</code><code>&nbsp;FsNetworkOpenConnection(</code><code>char*
       </code><code>Connection,&nbsp;</code><code>char*</code><code>
+RootDir,</code><code>
+      </code><code>char*</code><code>
 RemotePath, int
 MaxLen);<br>
       </code><code><a name="FsNetworkOpenConnectionW"></a>BOOL
 __stdcall</code><code>&nbsp;FsNetworkOpenConnectionW(</code><code></code><code>WCHAR</code><code>*
-      </code><code>Connection,&nbsp;</code><code></code><code>WCHAR</code><code>*</code><code>
+      </code><code>Connection,&nbsp;</code><code>WCHAR</code><code>*</code><code>
+RootDir,</code><code>
+      </code><code></code><code>WCHAR</code><code>*</code><code>
 RemotePath, int
 MaxLen);</code><code></code></td>
     </tr>
@@ -255,15 +263,18 @@ network</span></span>.</p>
         <dd>Out: Server
 address, e.g. "ftp://ftp.chg.ru"<br>
         </dd>
+        <dt>RootDir</dt>
+        <dd>Here the plugin has to
+return the root directory of the opening connection, e.g. "/"</dd>
         <dt>RemotePath</dt>
         <dd>Here the plugin has to
 return the remote path of the opening connection, e.g. "/pub/Linux"</dd>
         <dt>MaxLen</dt>
         <dd>Maximum number of
-characters that you can return in Connection and RemotePath, including
+characters that you can return in Connection, RootDir and RemotePath,
+including
 the
-final 0.
-        </dd>
+final 0. </dd>
       </dl>
       <h6 class="description_section">Returns</h6>
       <p class="return">The
