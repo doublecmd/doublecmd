@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="3">
+    <PathDelim Value="\"/>
+    <Name Value="pkg_gifanim"/>
+    <Author Value="Laurent Jacques"/>
+    <CompilerOptions>
+      <Version Value="8"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="$(LazarusDir)\ide\"/>
+      </SearchPaths>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="Show Gif Animation
+"/>
+    <License Value="GPL
+"/>
+    <Version Major="1" Minor="4"/>
+    <Files Count="2">
+      <Item1>
+        <Filename Value="gifanim.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="GifAnim"/>
+      </Item1>
+      <Item2>
+        <Filename Value="gifanim.lrs"/>
+        <Type Value="LRS"/>
+      </Item2>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="IDEIntf"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)\"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
