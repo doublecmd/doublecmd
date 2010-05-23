@@ -1608,6 +1608,7 @@ var
   I, J: Integer;
   WfxModule : TWFXmodule;
   sPluginName,
+  sProtocols,
   sRootName: UTF8String;
 begin
   odOpenDialog.Filter := 'File system plugins (*.wfx)|*.wfx';
@@ -1636,13 +1637,14 @@ begin
       sPluginName := ExtractFileName(odOpenDialog.FileName) +'=' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
     end;
 
+  sProtocols:= WfxModule.WfxNetworkGetSupportedProtocols;
   DebugLn('WFX sPluginName='+sPluginName);
   I:= tmpWFXPlugins.AddObject(sPluginName, TObject(True));
   stgPlugins.RowCount:= tmpWFXPlugins.Count + 1;
   J:= stgPlugins.RowCount-1;
   stgPlugins.Cells[0, J]:= '+';
   stgPlugins.Cells[1, J]:= tmpWFXPlugins.Name[I];
-  stgPlugins.Cells[2, J]:= '';
+  stgPlugins.Cells[2, J]:= sProtocols;
   stgPlugins.Cells[3, J]:= tmpWFXPlugins.FileName[I];
   DebugLn('WFX Item Added');
   WFXModule.UnloadModule;
@@ -2915,4 +2917,4 @@ end;
 initialization
  {$I fOptions.lrs}
 
-end.
+end.

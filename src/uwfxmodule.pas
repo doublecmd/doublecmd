@@ -153,6 +153,7 @@ type
     function WfxRemoveDir(const sDirName: UTF8String): Boolean;
     function WfxDeleteFile(const sFileName: UTF8String): Boolean;
     function WfxGetLocalName(var sFileName: UTF8String): Boolean;
+    function WfxNetworkGetSupportedProtocols: UTF8String;
     function WfxNetworkGetConnection(Index: LongInt; var Connection: UTF8String): Boolean;
     function WfxNetworkManageConnection(MainWin: HWND; var Connection: UTF8String; Action: LongInt): Boolean;
     function WfxNetworkOpenConnection(var Connection, RootDir, RemotePath: UTF8String): Boolean;
@@ -450,6 +451,28 @@ begin
       if Result = True then
         sFileName:= SysToUTF8(StrPas(pacRemoteName));
       FreeMem(pacRemoteName);
+    end;
+end;
+
+function TWFXModule.WfxNetworkGetSupportedProtocols: UTF8String;
+var
+  pacProtocols: PAnsiChar;
+  pwcProtocols: PWideChar;
+begin
+  Result:= EmptyStr;
+  if Assigned(FsNetworkGetSupportedProtocolsW) then
+    begin
+      pwcProtocols:= GetMem(MAX_PATH * SizeOf(WideChar));
+      FsNetworkGetSupportedProtocolsW(pwcProtocols, MAX_PATH);
+      Result:= UTF8Encode(WideString(pwcProtocols));
+      FreeMem(pwcProtocols);
+    end
+  else if Assigned(FsNetworkGetSupportedProtocols) then
+    begin
+      pacProtocols:= GetMem(MAX_PATH);
+      FsNetworkGetSupportedProtocols(pacProtocols, MAX_PATH);
+      Result:= SysToUTF8(StrPas(pacProtocols));
+      FreeMem(pacProtocols);
     end;
 end;
 
