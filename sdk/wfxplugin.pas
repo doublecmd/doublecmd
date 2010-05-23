@@ -337,9 +337,9 @@ function FsMkDir(RemoteDir:pchar):bool; stdcall;
 
 function FsMkDirW(RemoteDir:pwidechar):bool; stdcall;
 
-function FsExecuteFile(MainWin:thandle;RemoteName,Verb:pchar):integer; stdcall;
+function FsExecuteFile(MainWin:HWND;RemoteName,Verb:pchar):integer; stdcall;
 
-function FsExecuteFileW(MainWin:thandle;RemoteName,Verb:pwidechar):integer; stdcall;
+function FsExecuteFileW(MainWin:HWND;RemoteName,Verb:pwidechar):integer; stdcall;
 
 function FsRenMovFile(OldName,NewName:pchar;Move,OverWrite:bool;
 
@@ -543,7 +543,7 @@ function FsContentGetDefaultViewW(ViewContents,ViewHeaders,ViewWidths,
 
 }
 
-{ Network API }
+{ Network API extension }
 
 const
   FS_NM_ACTION_ADD     = 0;
@@ -564,13 +564,13 @@ function FsNetworkGetConnection(Index: LongInt; Connection: PAnsiChar; MaxLen: L
 
 function FsNetworkGetConnectionW(Index: LongInt; Connection: PWideChar; MaxLen: LongInt): LongBool; stdcall;
 
-function FsNetworkManageConnection(Connection: PAnsiChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
+function FsNetworkManageConnection(MainWin: HWND; Connection: PAnsiChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
 
-function FsNetworkManageConnectionW(Connection: PWideChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
+function FsNetworkManageConnectionW(MainWin: HWND; Connection: PWideChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
 
-function FsNetworkOpenConnection(Connection: PAnsiChar; RemotePath: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
+function FsNetworkOpenConnection(Connection: PAnsiChar; RootDir, RemotePath: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
 
-function FsNetworkOpenConnectionW(Connection: PWideChar; RemotePath: PWideChar; MaxLen: LongInt): LongBool; stdcall;
+function FsNetworkOpenConnectionW(Connection: PWideChar; RootDir, RemotePath: PWideChar; MaxLen: LongInt): LongBool; stdcall;
 
 }
 

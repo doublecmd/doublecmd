@@ -336,3 +336,20 @@ int __stdcall FsContentSetValueW(WCHAR* FileName,int FieldIndex,int UnitIndex,in
 
 BOOL __stdcall FsContentGetDefaultView(char* ViewContents,char* ViewHeaders,char* ViewWidths,char* ViewOptions,int maxlen);
 BOOL __stdcall FsContentGetDefaultViewW(WCHAR* ViewContents,WCHAR* ViewHeaders,WCHAR* ViewWidths,WCHAR* ViewOptions,int maxlen);
+
+// ******* Network API extension *******
+
+#define FS_NM_ACTION_ADD      0
+
+#define FS_NM_ACTION_EDIT     1
+
+#define FS_NM_ACTION_DELETE   2
+
+void __stdcall FsNetworkGetSupportedProtocols(char* Protocols, int MaxLen);
+void __stdcall FsNetworkGetSupportedProtocolsW(WCHAR* Protocols, int MaxLen);
+BOOL __stdcall FsNetworkGetConnection(int Index, char* Connection, int MaxLen);
+BOOL __stdcall FsNetworkGetConnectionW(int Index, WCHAR* Connection, int MaxLen);
+BOOL __stdcall FsNetworkManageConnection(HWND MainWin, char* Connection, int Action, int MaxLen);
+BOOL __stdcall FsNetworkManageConnectionW(HWND MainWin, WCHAR* Connection, int Action, int MaxLen);
+BOOL __stdcall FsNetworkOpenConnection(char* Connection, char* RootDir,  char* RemotePath, int MaxLen);
+BOOL __stdcall FsNetworkOpenConnectionW(WCHAR* Connection, WCHAR* RootDir, WCHAR* RemotePath, int MaxLen);
