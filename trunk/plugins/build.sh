@@ -20,6 +20,9 @@ $lazpath/lazbuild wcx/zip/src/Zip.lpi $DC_ARCH
 $lazpath/lazbuild wdx/rpm_wdx/src/rpm_wdx.lpi $DC_ARCH
 $lazpath/lazbuild wdx/deb_wdx/src/deb_wdx.lpi $DC_ARCH
 
+# WFX plugins
+$lazpath/lazbuild wfx/ftp/src/ftp.lpi $DC_ARCH
+
 # WLX plugins
 $lazpath/lazbuild wlx/WlxMplayer/src/wlxMplayer.lpi $DC_ARCH
 
@@ -71,6 +74,12 @@ popd
 pushd wdx/deb_wdx/lib/
 strip --strip-all deb_wdx.so
 mv deb_wdx.so deb_wdx.wdx
+popd
+
+# Strip and rename WFX
+pushd wfx/ftp/lib/
+strip --strip-all ftp.so
+mv ftp.so ftp.wfx
 popd
 
 # Strip and rename WLX
