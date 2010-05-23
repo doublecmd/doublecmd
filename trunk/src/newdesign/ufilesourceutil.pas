@@ -123,7 +123,7 @@ begin
   if aFileView.FileSource.IsClass(TVfsFileSource) then
   begin
     // Check if there is a registered WFX plugin by file system root name.
-    FileSource := FileSourceManager.Find(TWfxPluginFileSource, aFile.Path + aFile.Name);
+    FileSource := FileSourceManager.Find(TWfxPluginFileSource, 'wfx://' + aFile.Name);
     if not Assigned(FileSource) then
       FileSource := TWfxPluginFileSource.CreateByRootName(aFile.Name);
 
@@ -232,4 +232,4 @@ begin
 end;
 
 end.
-
+

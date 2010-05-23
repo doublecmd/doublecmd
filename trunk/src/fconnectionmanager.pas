@@ -86,7 +86,7 @@ begin
   WfxPluginFileSource:= PFileSourceRecord(tvConnections.Selected.Data)^.FileSource as IWfxPluginFileSource;
   if Assigned(WfxPluginFileSource) then
   begin
-    if WfxPluginFileSource.WfxModule.WfxNetworkManageConnection(Connection, FS_NM_ACTION_ADD) then
+    if WfxPluginFileSource.WfxModule.WfxNetworkManageConnection(Handle, Connection, FS_NM_ACTION_ADD) then
     begin
       with tvConnections.Items.AddChild(tvConnections.Selected, Connection) do
       StateIndex:= 1;
@@ -105,13 +105,13 @@ begin
   if Assigned(WfxPluginFileSource) then
   begin
     Connection:= tvConnections.Selected.Text;
-    if WfxPluginFileSource.WfxModule.WfxNetworkOpenConnection(Connection, RemotePath) then
+    if WfxPluginFileSource.WfxModule.WfxNetworkOpenConnection(Connection, RootPath, RemotePath) then
       begin
-        RootPath:= PathDelim + tvConnections.Selected.Text;
-        WfxPluginFileSource.SetCurrentAddress(Connection);
-        WfxPluginFileSource.SetRootDir(RootPath + PathDelim);
+        DoDirSeparators(RootPath);
         DoDirSeparators(RemotePath);
-        FFileView.AddFileSource(WfxPluginFileSource, RootPath + RemotePath);
+        WfxPluginFileSource.SetCurrentAddress(Connection);
+        WfxPluginFileSource.SetRootDir(IncludeTrailingPathDelimiter(RootPath));
+        FFileView.AddFileSource(WfxPluginFileSource, ExcludeTrailingPathDelimiter(RootPath) + RemotePath);
         tvConnections.Selected.Parent.Data:= nil;
         Close;
       end
@@ -131,7 +131,7 @@ begin
   if Assigned(WfxPluginFileSource) then
   begin
     Connection:= tvConnections.Selected.Text;
-    if WfxPluginFileSource.WfxModule.WfxNetworkManageConnection(Connection, FS_NM_ACTION_DELETE) then
+    if WfxPluginFileSource.WfxModule.WfxNetworkManageConnection(Handle, Connection, FS_NM_ACTION_DELETE) then
     begin
       tvConnections.Items.BeginUpdate;
       tvConnections.Items.Delete(tvConnections.Selected);
@@ -149,7 +149,7 @@ begin
   if Assigned(WfxPluginFileSource) then
   begin
     Connection:= tvConnections.Selected.Text;
-    if WfxPluginFileSource.WfxModule.WfxNetworkManageConnection(Connection, FS_NM_ACTION_EDIT) then
+    if WfxPluginFileSource.WfxModule.WfxNetworkManageConnection(Handle, Connection, FS_NM_ACTION_EDIT) then
       tvConnections.Selected.Text:= Connection;
   end;
 end;
