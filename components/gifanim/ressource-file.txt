@@ -1,0 +1,28 @@
+
+1) Gif in ressource file
+-------------------------
+
+- Create ressource file with lazres ex : lazres mygif.lrs gif1.gif gif2.gif
+- Put TGifAnim on your form 
+- In the FormCreate add (see down)
+
+[code]
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  GifAnim1.LoadFromLazarusResource('gif1');
+  GifAnim2.LoadFromLazarusResource('gif2');
+end;
+
+[/code]
+
+- And insert ressouce file in initialization section (see down)
+
+[code]
+
+initialization
+  {$I unit1.lrs}
+  {$I mesgif.lrs}
+
+[/code]
+
