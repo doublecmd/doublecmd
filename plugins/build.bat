@@ -19,6 +19,10 @@ rem WDX plugins
 %lazpath%\lazbuild.exe wdx\rpm_wdx\src\rpm_wdx.lpi %DC_ARCH%
 %lazpath%\lazbuild.exe wdx\deb_wdx\src\deb_wdx.lpi %DC_ARCH%
 
+rem WFX plugins
+%lazpath%\lazbuild.exe wfx\ftp\src\ftp.lpi %DC_ARCH%
+%lazpath%\lazbuild.exe wfx\network\src\network.lpi %DC_ARCH%
+
 rem Strip and rename WCX
 pushd wcx\cpio\lib\
 strip --strip-all cpio.dll
@@ -64,6 +68,17 @@ popd
 pushd wdx\deb_wdx\lib\
 strip --strip-all deb_wdx.dll
 rename deb_wdx.dll deb_wdx.wdx
+popd
+
+rem Strip and rename WFX
+pushd wfx\ftp\lib\
+strip --strip-all ftp.dll
+rename ftp.dll ftp.wfx
+popd
+
+pushd wfx\network\lib\
+strip --strip-all network.dll
+rename network.dll network.wfx
 popd
 
 rem Return from plugins directory
