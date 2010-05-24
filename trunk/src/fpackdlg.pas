@@ -112,7 +112,10 @@ begin
           if Files.Count = 1 then
             begin
               edtPackCmd.Text := TargetArchivePath + Files[0].Name;
-              edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, ExtensionSeparator + FArchiveType);
+              if Files[0].IsDirectory then
+                edtPackCmd.Text := edtPackCmd.Text + ExtensionSeparator + FArchiveType
+              else
+                edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, ExtensionSeparator + FArchiveType);
             end
           else
           (* if some files selected *)
