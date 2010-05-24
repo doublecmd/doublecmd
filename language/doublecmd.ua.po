@@ -2166,7 +2166,7 @@ msgstr "Перегляд F3"
 #: TFRMMAIN.ACTVIEWHISTORY.CAPTION
 #, fuzzy
 msgid "Show history of visited paths for active view"
-msgstr "Показати історію відвіданих шляхів для перегляду"
+msgstr "Показати історію відвіданих шляхів для активної панелі"
 
 #: TFRMMAIN.ACTVIEWHISTORYNEXT.CAPTION
 msgid "Go to next entry in history"
