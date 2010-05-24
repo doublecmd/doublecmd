@@ -40,7 +40,7 @@ object frmConnectionManager: TfrmConnectionManager
       StateImages = ImageList
       TabOrder = 0
       OnSelectionChanged = tvConnectionsSelectionChanged
-      Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
+      Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips]
     end
   end
   object btnConnect: TBitBtn
