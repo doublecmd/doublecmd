@@ -33,13 +33,17 @@ type
     property WfxModule: TWfxModule read GetWfxModule;
   end;
 
+  { TWfxPluginFileSource }
+
+  TWfxPluginFileSource = class;
+
   { TCallbackDataClass }
 
   TCallbackDataClass = class
   public
-    FileSource: IWfxPluginFileSource;
+    FileSource: TWfxPluginFileSource;
     UpdateProgressFunction: TUpdateProgress;
-    constructor Create(aFileSource: IWfxPluginFileSource);
+    constructor Create(aFileSource: TWfxPluginFileSource);
   end;
 
   { TWfxPluginFileSource }
@@ -428,6 +432,7 @@ end;
 
 destructor TWfxPluginFileSource.Destroy;
 begin
+  WfxOperationList.Objects[FPluginNumber]:= nil;
   FreeThenNil(FCallbackDataClass);
   inherited Destroy;
 end;
@@ -770,7 +775,7 @@ end;
 
 { TCallbackDataClass }
 
-constructor TCallbackDataClass.Create(aFileSource: IWfxPluginFileSource);
+constructor TCallbackDataClass.Create(aFileSource: TWfxPluginFileSource);
 begin
   inherited Create;
   FileSource:= aFileSource;
