@@ -138,7 +138,7 @@ type
 
   TAbZipHostOS =
     (hosMSDOS, hosAmiga, hosVAX, hosUnix, hosVMCMS, hosAtari,
-     hosOS2, hosMacintosh, hosZSystem, hosCPM, hosNTFS);
+     hosOS2, hosMacintosh, hosZSystem, hosCPM, hosNTFS, hosMVS);
      // above list is from APPNOTE.TXT Zip specification.
      // 7-Zip defines NTFS as value 11
      // also, see AB_BZIP_OS_ID_ constants in AbBZipTyp
@@ -1651,7 +1651,7 @@ begin
   end;
 {$ENDIF}
 {$IFDEF UNIX}
-  if (SystemCode = hosMSDOS) or (SystemCode = hosNTFS) then
+  if (SystemCode = hosMSDOS) or (SystemCode = hosNTFS) or (SystemCode = hosMVS) then
     Result := AbDOS2UnixFileAttributes(Result)
   else
     // Zip stores Unix attributes in high 16 bits.
@@ -1740,13 +1740,13 @@ begin
     {$IF DEFINED(MSWINDOWS)}
     if (GetACP <> GetOEMCP) and ((SystemCode = hosMSDOS) or IsOEM(FItemInfo.FileName)) then
       inherited SetFileName(AnsiToUtf8(AbStrOemToAnsi(FItemInfo.FileName)))
-    else if (SystemCode = hosNTFS) then
+    else if (SystemCode = hosNTFS) or (SystemCode = hosMVS) then
       inherited SetFileName(AnsiToUtf8(FItemInfo.FileName))
     else
     {$ELSEIF DEFINED(LINUX)}
     if (SystemCode = hosMSDOS) then
       inherited SetFileName(OEMToSys(FItemInfo.FileName))
-    else if (SystemCode = hosNTFS) then
+    else if (SystemCode = hosNTFS) or (SystemCode = hosMVS) then
       inherited SetFileName(AnsiToSys(FItemInfo.FileName))
     else
     {$ENDIF}
