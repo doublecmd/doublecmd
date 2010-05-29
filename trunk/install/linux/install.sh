@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ -z $1 ]
-  then DC_INSTALL_DIR=/opt/doublecmd
+  then DC_INSTALL_DIR=$DC_INSTALL_PREFIX/opt/doublecmd
   else DC_INSTALL_DIR=$1/doublecmd
 fi
 
@@ -70,16 +70,16 @@ if [ -z $1 ]
     if [ "$CPU_TARGET" = "x86_64" ]
       then
         # for cross compiling try to create library directory
-        mkdir /usr/lib64
-        install -m 644 *.so           /usr/lib64/
+        mkdir $DC_INSTALL_PREFIX/usr/lib64
+        install -m 644 *.so           $DC_INSTALL_PREFIX/usr/lib64/
       else
-        mkdir /usr/lib
-        install -m 644 *.so           /usr/lib/
+        mkdir $DC_INSTALL_PREFIX/usr/lib
+        install -m 644 *.so           $DC_INSTALL_PREFIX/usr/lib/
     fi
     # Create symlink and desktop files
-    ln -sf $DC_INSTALL_DIR/doublecmd /usr/bin/doublecmd
-    install -m 644 doublecmd.png /usr/share/pixmaps/doublecmd.png
-    install -m 644 install/linux/doublecmd.desktop /usr/share/applications/doublecmd.desktop
+    ln -sf $DC_INSTALL_DIR/doublecmd $DC_INSTALL_PREFIX/usr/bin/doublecmd
+    install -m 644 doublecmd.png $DC_INSTALL_PREFIX/usr/share/pixmaps/doublecmd.png
+    install -m 644 install/linux/doublecmd.desktop $DC_INSTALL_PREFIX/usr/share/applications/doublecmd.desktop
   else
     cp -a doublecmd.sh $DC_INSTALL_DIR/
     # Copy libraries
