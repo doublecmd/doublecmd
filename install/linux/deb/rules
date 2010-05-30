@@ -24,7 +24,7 @@ build: build-stamp
 build-stamp: configure-stamp 
 	dh_testdir
 
-	./_make.sh all
+	./build.sh all
 
 	touch $@
 
@@ -33,7 +33,7 @@ clean:
 	dh_testroot
 	rm -f build-stamp configure-stamp
 
-	./_clean.sh
+	./clean.sh
 
 	cd language ;\
 		if [ -f doublecmd.pt_BR.po ] ; then mv doublecmd.pt_BR.po doublecmd.pb.po; fi ;\

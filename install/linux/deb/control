@@ -9,7 +9,7 @@ Standards-Version: 3.8.4
 Homepage: http://doublecmd.sourceforge.net/
 
 Package: doublecmd
-Architecture: any
+Architecture: i386 amd64
 Depends: ${shlibs:Depends},
          ${misc:Depends}
 Suggests: www-browser
