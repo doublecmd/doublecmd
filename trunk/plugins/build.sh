@@ -1,33 +1,33 @@
 #!/bin/bash
 # Build all plugins
 
-# This script run from _make.sh
-# If you run it direct, set up $lazpath first
+# This script run from main build.sh script
+# If you run it direct, set up $lazbuild first
 
 # CD to plugins directory
 pushd plugins
 
 # WCX plugins
-$lazpath/lazbuild wcx/cpio/src/cpio.lpi $DC_ARCH
-$lazpath/lazbuild wcx/deb/src/deb.lpi $DC_ARCH
-$lazpath/lazbuild wcx/lzma/src/lzma.lpi $DC_ARCH
-$lazpath/lazbuild wcx/rpm/src/rpm.lpi $DC_ARCH
-$lazpath/lazbuild wcx/unbz2/src/unbz2.lpi $DC_ARCH
-$lazpath/lazbuild wcx/unrar/src/unrar.lpi $DC_ARCH
-$lazpath/lazbuild wcx/zip/src/Zip.lpi $DC_ARCH
+$lazbuild wcx/cpio/src/cpio.lpi $DC_ARCH
+$lazbuild wcx/deb/src/deb.lpi $DC_ARCH
+$lazbuild wcx/lzma/src/lzma.lpi $DC_ARCH
+$lazbuild wcx/rpm/src/rpm.lpi $DC_ARCH
+$lazbuild wcx/unbz2/src/unbz2.lpi $DC_ARCH
+$lazbuild wcx/unrar/src/unrar.lpi $DC_ARCH
+$lazbuild wcx/zip/src/Zip.lpi $DC_ARCH
 
 # WDX plugins
-$lazpath/lazbuild wdx/rpm_wdx/src/rpm_wdx.lpi $DC_ARCH
-$lazpath/lazbuild wdx/deb_wdx/src/deb_wdx.lpi $DC_ARCH
+$lazbuild wdx/rpm_wdx/src/rpm_wdx.lpi $DC_ARCH
+$lazbuild wdx/deb_wdx/src/deb_wdx.lpi $DC_ARCH
 
 # WFX plugins
-$lazpath/lazbuild wfx/ftp/src/ftp.lpi $DC_ARCH
+$lazbuild wfx/ftp/src/ftp.lpi $DC_ARCH
 
 # WLX plugins
-$lazpath/lazbuild wlx/WlxMplayer/src/wlxMplayer.lpi $DC_ARCH
+$lazbuild wlx/WlxMplayer/src/wlxMplayer.lpi $DC_ARCH
 
 # DSX plugins
-$lazpath/lazbuild dsx/DSXLocate/src/DSXLocate.lpi $DC_ARCH
+$lazbuild dsx/DSXLocate/src/DSXLocate.lpi $DC_ARCH
 
 # Strip and rename WCX
 pushd wcx/cpio/lib/

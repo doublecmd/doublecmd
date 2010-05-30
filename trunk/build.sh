@@ -12,8 +12,8 @@
 # all - compiling components, plugins and DC
 # default - compiling DC only (using by default)
 
-# path to lazarus
-export lazpath=/home/alexx/bin/lazarus
+# path to lazbuild
+export lazbuild=$(which lazbuild)
 
 # Set up widgetset: gtk or gtk2 or qt
 if [ $lcl ]
@@ -27,7 +27,7 @@ fi
 
 build_default()
 {
-  $lazpath/lazbuild src/doublecmd.lpi $DC_ARCH
+  $lazbuild src/doublecmd.lpi $DC_ARCH
   
   strip --strip-all doublecmd
 }

@@ -1,11 +1,11 @@
 #!/bin/bash
 # Compiling components
 
-# This script run from _make.bat
-# If you run it direct, set up $lazpath first
+# This script run from main build.sh script
+# If you run it direct, set up $lazbuild first
 
 pushd components
-$lazpath/lazbuild CmdLine/cmdbox.lpk $DC_ARCH
-$lazpath/lazbuild KASToolBar/kascomp.lpk $DC_ARCH
-$lazpath/lazbuild viewer/viewerpackage.lpk $DC_ARCH
+$lazbuild CmdLine/cmdbox.lpk $DC_ARCH
+$lazbuild KASToolBar/kascomp.lpk $DC_ARCH
+$lazbuild viewer/viewerpackage.lpk $DC_ARCH
 popd
