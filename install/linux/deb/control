@@ -2,9 +2,18 @@ Source: doublecmd
 Section: contrib/misc
 Priority: extra
 Maintainer: Alexander Koblov <Alexx2000@mail.ru>
-Build-Depends: debhelper (>= 5),
+Build-Depends: libdbus-1-dev,
+               libglib2.0-dev,
+               libgtk2.0-dev,
+               libhal-dev,
+               libncurses5-dev,
+               libncursesw5-dev,
+               debhelper (>= 5),
                fpc (>= 2.4.0),
-               lazarus (>= 0.9.29)
+               lcl (>= 0.9.29),
+               lcl-gtk2 (>= 0.9.29),
+               lcl-units (>= 0.9.29),
+               lcl-utils (>= 0.9.29)
 Standards-Version: 3.8.4
 Homepage: http://doublecmd.sourceforge.net/
 
