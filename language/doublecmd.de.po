@@ -593,7 +593,7 @@ msgstr "Abbruch"
 
 #: TFRMCONNECTIONMANAGER.BTNCONNECT.CAPTION
 msgid "Connect"
-msgstr ""
+msgstr "Verbinden"
 
 #: TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION
 msgctxt "TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION"
@@ -607,11 +607,11 @@ msgstr "Bea&rbeiten"
 
 #: TFRMCONNECTIONMANAGER.CAPTION
 msgid "Connection manager"
-msgstr ""
+msgstr "Verbindungsmanager"
 
 #: TFRMCONNECTIONMANAGER.GBCONNECTTO.CAPTION
 msgid "Connect to:"
-msgstr ""
+msgstr "Verbinde mit:"
 
 #: TFRMCOPYDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
@@ -1584,12 +1584,12 @@ msgstr "Hardlink erstellen"
 #: TFRMHARDLINK.LBLEXISTINGFILE.CAPTION
 msgctxt "TFRMHARDLINK.LBLEXISTINGFILE.CAPTION"
 msgid "Existing destination (where will link point)"
-msgstr "Bestehendes Ziel (auf das die Verknüpfung zeigt)"
+msgstr "Bestehendes Ziel (auf das der Hardlink zeigt)"
 
 #: TFRMHARDLINK.LBLLINKTOCREATE.CAPTION
 msgctxt "TFRMHARDLINK.LBLLINKTOCREATE.CAPTION"
 msgid "Link name"
-msgstr "Verknüpfungsname"
+msgstr "Hardlink-Name"
 
 #: TFRMHOTDIR.BTNADD.CAPTION
 msgctxt "TFRMHOTDIR.BTNADD.CAPTION"
@@ -1852,7 +1852,7 @@ msgstr "Fokus auf die Kommandoze&ile"
 #: TFRMMAIN.ACTHARDLINK.CAPTION
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create link..."
-msgstr "Verknüpfung erstellen"
+msgstr "Hardlink erstellen"
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
 #, fuzzy
@@ -1920,15 +1920,15 @@ msgstr "Mehrfaches umbenennen"
 
 #: TFRMMAIN.ACTNETWORKCONNECT.CAPTION
 msgid "Network Connect..."
-msgstr ""
+msgstr "Netzwerk verbinden..."
 
 #: TFRMMAIN.ACTNETWORKDISCONNECT.CAPTION
 msgid "Network Disconnect"
-msgstr ""
+msgstr "Netzwerktrennung"
 
 #: TFRMMAIN.ACTNETWORKQUICKCONNECT.CAPTION
 msgid "Network Quick Connect..."
-msgstr ""
+msgstr "Netzwerk schnell verbinden..."
 
 #: TFRMMAIN.ACTNEWTAB.CAPTION
 #, fuzzy
@@ -2166,15 +2166,15 @@ msgstr "Betrachten F3"
 
 #: TFRMMAIN.ACTVIEWHISTORY.CAPTION
 msgid "Show history of visited paths for active view"
-msgstr ""
+msgstr "Zeige den Verlauf der geöffneten Verzeichnisse des aktiven Panels"
 
 #: TFRMMAIN.ACTVIEWHISTORYNEXT.CAPTION
 msgid "Go to next entry in history"
-msgstr ""
+msgstr "Gehe zum nächsten Eintrag in der Verlaufsliste"
 
 #: TFRMMAIN.ACTVIEWHISTORYPREV.CAPTION
 msgid "Go to previous entry in history"
-msgstr ""
+msgstr "Gehe zum vorherigen Eintrag in der Verlaufsliste"
 
 #: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
 #, fuzzy
@@ -2342,7 +2342,7 @@ msgstr "Kopiere..."
 #: TFRMMAIN.MIHARDLINK.CAPTION
 msgctxt "TFRMMAIN.MIHARDLINK.CAPTION"
 msgid "Create link..."
-msgstr "Verknüpfung erstellen"
+msgstr "Hardlink erstellen"
 
 #: TFRMMAIN.MILINE1.CAPTION
 msgctxt "TFRMMAIN.MILINE1.CAPTION"
@@ -2534,7 +2534,7 @@ msgstr "Verzeichnisse &vergleichen"
 
 #: TFRMMAIN.MNUNETWORK.CAPTION
 msgid "Network"
-msgstr ""
+msgstr "Netzwerk"
 
 #: TFRMMAIN.MNUSHOW.CAPTION
 msgid "&Show"
@@ -4335,7 +4335,7 @@ msgstr ""
 msgid "Screenshot"
 msgstr ""
 "Anzeige als\n"
-"Bild kopieren\n"
+"Bild kopieren"
 
 #: TFRMVIEWER.BTNUNDO.HINT
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
@@ -4912,7 +4912,7 @@ msgstr "Datenfehler"
 
 #: ulng.rsmsgerrcannotconnect
 msgid "Can not connect to server: \"%s\""
-msgstr ""
+msgstr "Kann nicht mit dem Server \"%s\" verbinden"
 
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
@@ -5423,11 +5423,11 @@ msgstr "Parameter"
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
-msgstr "Verknüpfung in Gebrauch"
+msgstr "Tastaturkürzel in Gebrauch"
 
 #: ulng.rsopthotkeysshortcutusedtext1
 msgid "Shortcut %s is already used for %s."
-msgstr "Verknüpfung %s wird bereits für %s benutzt"
+msgstr "Tastaturkürzel %s wird bereits für %s benutzt"
 
 #: ulng.rsopthotkeysshortcutusedtext2
 msgid "Change it to %s?"
