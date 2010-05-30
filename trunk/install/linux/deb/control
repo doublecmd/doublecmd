@@ -1,0 +1,19 @@
+Source: doublecmd
+Section: contrib/misc
+Priority: extra
+Maintainer: Alexander Koblov <Alexx2000@mail.ru>
+Build-Depends: debhelper (>= 5),
+               fpc (>= 2.4.0),
+               lazarus (>= 0.9.29)
+Standards-Version: 3.8.4
+Homepage: http://doublecmd.sourceforge.net/
+
+Package: doublecmd
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Suggests: www-browser
+Description: Double Commander is a cross platform open source file
+ manager with two panels side by side. It is inspired by Total
+ Commander and features some new ideas.
+
