@@ -1,9 +1,41 @@
-#!/bin/sh
+#!/bin/bash
 
-if [ -z $1 ]
-  then DC_INSTALL_DIR=$DC_INSTALL_PREFIX/opt/doublecmd
-  else DC_INSTALL_DIR=$1/doublecmd
-fi
+function help()
+{
+         echo
+         echo 'Usage: install.sh [options]'
+         echo
+         echo 'Options:'
+         echo '-P, --portable-prefix       Path prefix for portable package'
+         echo '-I, --install-prefix        Path prefix for installable package'
+         echo
+         exit 1
+}
+
+# Parse input parameters
+CKNAME=$(basename "$0")
+args=$(getopt -n $CKNAME -o P:,I: -l portable-prefix:,install-prefix:,default -- "$@")
+eval set -- $args
+for A
+do
+  case "$A" in
+       --)
+          help
+          ;;
+        -P|--portable-prefix)
+            shift
+            DC_INSTALL_DIR=$(eval echo $1/doublecmd)
+            break
+            ;;
+        -I|--install-prefix)
+            shift
+            DC_INSTALL_PREFIX=$(eval echo $1)
+            DC_INSTALL_DIR=$DC_INSTALL_PREFIX/opt/doublecmd
+            break
+            ;;
+  esac
+  shift
+done
 
 mkdir -p $DC_INSTALL_DIR
 
