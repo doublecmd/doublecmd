@@ -1,4 +1,4 @@
-doublecmd (0.4.5.1-1) unstable; urgency=low
+doublecmd (0.4.6-0) lucid; urgency=low
 
   * Initial release (Closes: #2931241)
 
