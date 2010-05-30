@@ -11,6 +11,45 @@ BUILD_PACK_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
 
 # Create temp dir for building
 BUILD_DC_TMP_DIR=/var/tmp/doublecmd-$DC_VER
+
+# Parse input parameters
+args=$(getopt -o ADRSPH -l cpu:,ws:,default -- "$@")
+if test $? != 0
+     then
+         echo 'Usage: create_packages.sh -A -D -R -S -P --cpu=<cpu> --ws=<widgetset>'
+         echo '-A: All packages'
+         echo '-D: Debian package'
+         echo '-R: RPM package'
+         echo '-S: Slackware package'
+         echo '-P: Portable package'
+         echo '-H: Help package'
+         echo '--cpu: Target CPU'
+         echo '--ws: Target widgetset'
+         exit 1
+fi
+eval set -- $args
+while [ "$1" != "--" ]; do
+  case "$1" in
+        -A) shift;CK_DEBIAN=1;CK_REDHAT=1;CK_SLACKWARE=1;CK_PORTABLE=1;CK_HELP=1;;
+        -D) shift;CK_DEBIAN=1;;
+        -R) shift;CK_REDHAT=1;;
+        -S) shift;CK_SLACKWARE=1;;
+        -P) shift;CK_PORTABLE=1;;
+        -H) shift;CK_HELP=1;;
+        --cpu) shift;CPU_TARGET=$(eval echo $1);shift;;
+        --ws) shift;lcl=$(eval echo $1);shift;;
+  esac
+done
+
+if [ -z "$CK_DEBIAN" ] && [ -z "$CK_REDHAT" ] && [ -z "$CK_SLACKWARE" ] && [ -z "$CK_PORTABLE" ] && [ -z "$CK_HELP" ]; then
+   CK_DEBIAN=1
+   CK_REDHAT=1
+   CK_SLACKWARE=1
+   CK_PORTABLE=1
+   CK_HELP=1
+fi
+
+# Export from SVN
 rm -rf $BUILD_DC_TMP_DIR
 svn export ../ $BUILD_DC_TMP_DIR
 
@@ -22,14 +61,13 @@ cp -a ../.svn/entries $BUILD_DC_TMP_DIR/.svn/
 cp linux/description-pak $BUILD_DC_TMP_DIR/
 
 # Set widgetset
-if [ -z $1 ]
-  then export lcl=gtk2
-  else export lcl=$1
+if [ -z $lcl ]; then
+   export lcl=gtk2
 fi
 
 # Set processor architecture
-if [ -z $CPU_TARGET ] 
-  then export CPU_TARGET=$(fpc -iTP)
+if [ -z $CPU_TARGET ]; then
+   export CPU_TARGET=$(fpc -iTP)
 fi
 
 # Debian package architecture
@@ -50,40 +88,45 @@ cd $BUILD_DC_TMP_DIR
 ./_make.sh all
 
 # Export variables for checkinstall
-export MAINTAINER="Alexander Koblov <Alexx2000@mail>"
+export MAINTAINER="Alexander Koblov <Alexx2000@mail.ru>"
 
-# Create *.rpm package
+if [ "$CK_REDHAT" ]; then
+  # Create *.rpm package
+  checkinstall -R --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$CPU_TARGET --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
+fi
 
-checkinstall -R --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$CPU_TARGET --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
+if [ "$CK_DEBIAN" ]; then
+  # Create *.deb package
+  checkinstall -D --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$DEB_ARCH --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=contrib/misc --requires=libx11-6 --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
+fi
 
-# Create *.deb package
+if [ "$CK_SLACKWARE" ]; then
+  # Create *.tgz package
+  checkinstall -S --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$CPU_TARGET --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
+fi
 
-checkinstall -D --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$DEB_ARCH --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=contrib/misc --requires=libx11-6 --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
+if [ "$CK_PORTABLE" ]; then
+  # Create *.tar.bz2 package
+  mkdir -p $BUILD_PACK_DIR
+  install/linux/install.sh $BUILD_PACK_DIR
+  cd $BUILD_PACK_DIR
+  sed -i -e 's/UseIniInProgramDir=0/UseIniInProgramDir=1/' doublecmd/doublecmd.ini
+  tar -cvjf $PACK_DIR/doublecmd-$DC_VER-1.$lcl.$CPU_TARGET.tar.bz2 doublecmd
+fi
 
-# Create *.tgz package
-
-checkinstall -S --default --pkgname=doublecmd --pkgversion=$DC_VER --pkgarch=$CPU_TARGET --pkgrelease=1.$lcl --pkglicense=GPL --pkggroup=Applications/File --nodoc --pakdir=$PACK_DIR $BUILD_DC_TMP_DIR/install/linux/install.sh
-
-# Create *.tar.bz2 package
-
-mkdir -p $BUILD_PACK_DIR
-install/linux/install.sh $BUILD_PACK_DIR
-cd $BUILD_PACK_DIR
-sed -i -e 's/UseIniInProgramDir=0/UseIniInProgramDir=1/' doublecmd/doublecmd.ini
-tar -cvjf $PACK_DIR/doublecmd-$DC_VER-1.$lcl.$CPU_TARGET.tar.bz2 doublecmd
-
-# Create help packages ------------------------------------------------------------
-cd $BUILD_DC_TMP_DIR
-# Copy help files
-install/linux/install-help.sh $BUILD_PACK_DIR
-# Create help package for each language
-cd $BUILD_PACK_DIR/doublecmd/doc
-for HELP_LANG in `ls`
-  do
-    cd $BUILD_PACK_DIR/doublecmd
-    tar -cvjf $PACK_DIR/doublecmd-help.$HELP_LANG-$DC_VER.noarch.tar.bz2 doc/$HELP_LANG
-  done
-# ---------------------------------------------------------------------------------
+if [ "$CK_HELP" ]; then
+  # Create help packages
+  cd $BUILD_DC_TMP_DIR
+  # Copy help files
+  install/linux/install-help.sh $BUILD_PACK_DIR
+  # Create help package for each language
+  cd $BUILD_PACK_DIR/doublecmd/doc
+  for HELP_LANG in `ls`
+    do
+      cd $BUILD_PACK_DIR/doublecmd
+      tar -cvjf $PACK_DIR/doublecmd-help.$HELP_LANG-$DC_VER.noarch.tar.bz2 doc/$HELP_LANG
+    done
+fi
 
 # Clean DC build dir
 rm -rf $BUILD_DC_TMP_DIR
