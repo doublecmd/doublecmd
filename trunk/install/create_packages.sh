@@ -124,7 +124,7 @@ if [ "$CK_HELP" ]; then
   # Create help packages
   cd $BUILD_DC_TMP_DIR
   # Copy help files
-  install/linux/install-help.sh $BUILD_PACK_DIR
+  install/linux/install-help.sh --portable-prefix=$BUILD_PACK_DIR
   # Create help package for each language
   cd $BUILD_PACK_DIR/doublecmd/doc
   for HELP_LANG in `ls`
