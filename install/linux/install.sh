@@ -12,6 +12,7 @@ do
             ;;
         -P|--portable-prefix)
             shift
+            CK_PORTABLE=1
             DC_INSTALL_DIR=$(eval echo $1/doublecmd)
             break
             ;;
@@ -67,36 +68,39 @@ cp -a default.bar                  $DC_INSTALL_DIR/
 
 # copy plugins
 # WCX
-cp -a plugins/wcx/cpio/lib/cpio.wcx        $DC_INSTALL_DIR/plugins/wcx/cpio/
-cp -a plugins/wcx/deb/lib/deb.wcx          $DC_INSTALL_DIR/plugins/wcx/deb/
-cp -a plugins/wcx/lzma/lib/lzma.wcx        $DC_INSTALL_DIR/plugins/wcx/lzma/
-cp -a plugins/wcx/rpm/lib/rpm.wcx          $DC_INSTALL_DIR/plugins/wcx/rpm/
-cp -a plugins/wcx/unrar/lib/unrar.wcx      $DC_INSTALL_DIR/plugins/wcx/unrar/
-cp -a plugins/wcx/unbz2/lib/unbz2.wcx      $DC_INSTALL_DIR/plugins/wcx/unbz2/
-cp -a plugins/wcx/zip/lib/zip.wcx          $DC_INSTALL_DIR/plugins/wcx/zip/
-cp -a plugins/wcx/zip/src/ZipConfDlg.lfm   $DC_INSTALL_DIR/plugins/wcx/zip/
+install -m 644 plugins/wcx/cpio/lib/cpio.wcx        $DC_INSTALL_DIR/plugins/wcx/cpio/
+install -m 644 plugins/wcx/deb/lib/deb.wcx          $DC_INSTALL_DIR/plugins/wcx/deb/
+install -m 644 plugins/wcx/lzma/lib/lzma.wcx        $DC_INSTALL_DIR/plugins/wcx/lzma/
+install -m 644 plugins/wcx/rpm/lib/rpm.wcx          $DC_INSTALL_DIR/plugins/wcx/rpm/
+install -m 644 plugins/wcx/unrar/lib/unrar.wcx      $DC_INSTALL_DIR/plugins/wcx/unrar/
+install -m 644 plugins/wcx/unbz2/lib/unbz2.wcx      $DC_INSTALL_DIR/plugins/wcx/unbz2/
+install -m 644 plugins/wcx/zip/lib/zip.wcx          $DC_INSTALL_DIR/plugins/wcx/zip/
+install -m 644 plugins/wcx/zip/src/ZipConfDlg.lfm   $DC_INSTALL_DIR/plugins/wcx/zip/
 # WDX
-cp -a plugins/wdx/rpm_wdx/lib/rpm_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/rpm_wdx/
-cp -a plugins/wdx/deb_wdx/lib/deb_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/deb_wdx/
-install -m 644 plugins/wdx/scripts/*       $DC_INSTALL_DIR/plugins/wdx/scripts/
+install -m 644 plugins/wdx/rpm_wdx/lib/rpm_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/rpm_wdx/
+install -m 644 plugins/wdx/deb_wdx/lib/deb_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/deb_wdx/
+install -m 755 plugins/wdx/scripts/*                $DC_INSTALL_DIR/plugins/wdx/scripts/
 # WLX
-cp -a plugins/wlx/WlxMplayer/lib/wlxMplayer.wlx  $DC_INSTALL_DIR/plugins/wlx/WlxMplayer/
+install -m 644 plugins/wlx/WlxMplayer/lib/wlxMplayer.wlx  $DC_INSTALL_DIR/plugins/wlx/WlxMplayer/
 # DSX
-cp -a plugins/dsx/DSXLocate/lib/DSXLocate.dsx  $DC_INSTALL_DIR/plugins/dsx/DSXLocate/
+install -m 644 plugins/dsx/DSXLocate/lib/DSXLocate.dsx  $DC_INSTALL_DIR/plugins/dsx/DSXLocate/
 
-if [ -z $1 ]
+if [ -z $CK_PORTABLE ]
   then
     # Copy libraries
     if [ "$CPU_TARGET" = "x86_64" ]
       then
         # for cross compiling try to create library directory
-        mkdir $DC_INSTALL_PREFIX/usr/lib64
+        install -d $DC_INSTALL_PREFIX/usr/lib64
         install -m 644 *.so           $DC_INSTALL_PREFIX/usr/lib64/
       else
-        mkdir $DC_INSTALL_PREFIX/usr/lib
+        install -d $DC_INSTALL_PREFIX/usr/lib
         install -m 644 *.so           $DC_INSTALL_PREFIX/usr/lib/
     fi
     # Create symlink and desktop files
+    install -d $DC_INSTALL_PREFIX/usr/bin
+    install -d $DC_INSTALL_PREFIX/usr/share/pixmaps
+    install -d $DC_INSTALL_PREFIX/usr/share/applications
     ln -sf $DC_INSTALL_DIR/doublecmd $DC_INSTALL_PREFIX/usr/bin/doublecmd
     install -m 644 doublecmd.png $DC_INSTALL_PREFIX/usr/share/pixmaps/doublecmd.png
     install -m 644 install/linux/doublecmd.desktop $DC_INSTALL_PREFIX/usr/share/applications/doublecmd.desktop

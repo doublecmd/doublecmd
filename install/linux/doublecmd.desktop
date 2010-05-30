@@ -5,4 +5,4 @@ Exec=/opt/doublecmd/doublecmd
 Terminal=false
 Type=Application
 Icon=/usr/share/pixmaps/doublecmd.png
-Categories=Application;File Management;Utility;
+Categories=Application;Utility;FileManager;
