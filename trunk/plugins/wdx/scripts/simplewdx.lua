@@ -1,4 +1,4 @@
-#!/usr/local/bin/lua 
+#!/usr/bin/lua
 
 
 function ContentSetDefaultParams(IniFileName,PlugApiVerHi,PlugApiVerLow)

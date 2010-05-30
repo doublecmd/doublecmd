@@ -1,4 +1,4 @@
-#!/usr/local/bin/lua 
+#!/usr/bin/lua
 
 first=true;
 function ContentGetSupportedField(Index)
