@@ -12,24 +12,30 @@ BUILD_PACK_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
 # Create temp dir for building
 BUILD_DC_TMP_DIR=/var/tmp/doublecmd-$DC_VER
 
-# Parse input parameters
-args=$(getopt -o ADRSPH -l cpu:,ws:,default -- "$@")
-if test $? != 0
-     then
-         echo 'Usage: create_packages.sh -A -D -R -S -P --cpu=<cpu> --ws=<widgetset>'
-         echo '-A: All packages'
-         echo '-D: Debian package'
-         echo '-R: RPM package'
-         echo '-S: Slackware package'
-         echo '-P: Portable package'
-         echo '-H: Help package'
-         echo '--cpu: Target CPU'
-         echo '--ws: Target widgetset'
+help()
+{
+         echo 'Usage: create_packages.sh [options]'
+         echo
+         echo "Options:"
+         echo '-A:               All packages (by default)'
+         echo '-D:               Debian package'
+         echo '-R:               RPM package'
+         echo '-S:               Slackware package'
+         echo '-P:               Portable package'
+         echo '-H:               Help package'
+         echo '--cpu=<cpu>:      Target CPU'
+         echo '--ws=<widgetset>: Target widgetset'
+         echo
          exit 1
-fi
+}
+
+# Parse input parameters
+CKNAME=$(basename "$0")
+args=$(getopt -n $CKNAME -o ADRSPHh -l cpu:,ws:,help,default -- "$@")
 eval set -- $args
 while [ "$1" != "--" ]; do
   case "$1" in
+        -h|--help) help;;
         -A) shift;CK_DEBIAN=1;CK_REDHAT=1;CK_SLACKWARE=1;CK_PORTABLE=1;CK_HELP=1;;
         -D) shift;CK_DEBIAN=1;;
         -R) shift;CK_REDHAT=1;;
@@ -108,7 +114,7 @@ fi
 if [ "$CK_PORTABLE" ]; then
   # Create *.tar.bz2 package
   mkdir -p $BUILD_PACK_DIR
-  install/linux/install.sh $BUILD_PACK_DIR
+  install/linux/install.sh --portable-prefix=$BUILD_PACK_DIR
   cd $BUILD_PACK_DIR
   sed -i -e 's/UseIniInProgramDir=0/UseIniInProgramDir=1/' doublecmd/doublecmd.ini
   tar -cvjf $PACK_DIR/doublecmd-$DC_VER-1.$lcl.$CPU_TARGET.tar.bz2 doublecmd
