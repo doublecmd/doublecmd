@@ -1,17 +1,5 @@
 #!/bin/bash
 
-function help()
-{
-         echo
-         echo 'Usage: install.sh [options]'
-         echo
-         echo 'Options:'
-         echo '-P, --portable-prefix       Path prefix for portable package'
-         echo '-I, --install-prefix        Path prefix for installable package'
-         echo
-         exit 1
-}
-
 # Parse input parameters
 CKNAME=$(basename "$0")
 args=$(getopt -n $CKNAME -o P:,I: -l portable-prefix:,install-prefix:,default -- "$@")
@@ -20,8 +8,8 @@ for A
 do
   case "$A" in
        --)
-          help
-          ;;
+            DC_INSTALL_DIR=/opt/doublecmd
+            ;;
         -P|--portable-prefix)
             shift
             DC_INSTALL_DIR=$(eval echo $1/doublecmd)
