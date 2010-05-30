@@ -1,0 +1,6 @@
+doublecmd: dir-or-file-in-opt
+doublecmd: binary-without-manpage
+doublecmd: shlib-with-non-pic-code
+doublecmd: shared-lib-without-dependency-information
+doublecmd: extra-license-file
+doublecmd: missing-dep-for-interpreter

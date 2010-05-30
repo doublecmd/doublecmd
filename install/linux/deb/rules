@@ -1,0 +1,83 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+
+	cd language ;\
+		if [ -f doublecmd.pb.po ] ; then mv doublecmd.pb.po doublecmd.pt_BR.po; fi ;\
+		if [ -f doublecmd.po ] ; then mv doublecmd.po doublecmd.en.po; fi ;\
+		if [ -f doublecmd.zh.po ] ; then mv doublecmd.zh.po doublecmd.zh_TW.po; fi
+
+	touch configure-stamp
+
+
+build: build-stamp
+
+build-stamp: configure-stamp 
+	dh_testdir
+
+	./_make.sh all
+
+	touch $@
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+
+	./_clean.sh
+
+	cd language ;\
+		if [ -f doublecmd.pt_BR.po ] ; then mv doublecmd.pt_BR.po doublecmd.pb.po; fi ;\
+		if [ -f doublecmd.en.po ] ; then mv doublecmd.en.po doublecmd.po; fi ;\
+		if [ -f doublecmd.zh_TW.po ] ; then mv doublecmd.zh_TW.po doublecmd.zh.po; fi
+	dh_clean 
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k 
+
+# Build architecture-independent files here.
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs -i
+	dh_installdocs -i
+	dh_install -i
+	dh_compress -i --exclude=.pdf
+	dh_installdeb -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs -a -pdoublecmd
+	dh_installdocs -a -pdoublecmd
+
+	install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd
+
+	dh_install -a
+	dh_strip
+	dh_compress -a --exclude=.pdf
+	dh_fixperms -a
+	find $(CURDIR)/debian/doublecmd/usr/share/ -type f | xargs chmod a-x
+	dh_installdeb -a
+	dh_shlibdeps -a
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure
