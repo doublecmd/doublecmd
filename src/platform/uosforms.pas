@@ -261,7 +261,10 @@ begin
 
     for I := 0 to Files.Count - 1 do
       begin
-        S := UTF8Decode(Files[I].Path);
+        if Files[I].Name = EmptyStr then
+          S := EmptyStr
+        else
+          S := UTF8Decode(Files[I].Path);
 
         OleCheckUTF8(DeskTopFolder.ParseDisplayName(Handle, nil, PWideChar(S), pchEaten, PathPIDL, dwAttributes));
         try
@@ -270,7 +273,11 @@ begin
           CoTaskMemFree(PathPIDL);
         end;
 
-        S := UTF8Decode(Files[I].Name);
+        if Files[I].Name = EmptyStr then
+          S := UTF8Decode(Files[I].Path)
+        else
+          S := UTF8Decode(Files[I].Name);
+
         OleCheckUTF8(Folder.ParseDisplayName(Handle, nil, PWideChar(S), pchEaten, tmpPIDL, dwAttributes));
         (List + i)^ := tmpPIDL;
       end;
@@ -700,7 +707,7 @@ var
   OldErrorMode: Word;
 begin
   aFile := TFileSystemFileSource.CreateFile(EmptyStr);
-  aFile.Name := sPath;
+  aFile.FullPath := sPath;
   Files:= TFiles.Create(EmptyStr); // free in ShowContextMenu
   Files.Add(aFile);
   OldErrorMode:= SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOOPENFILEERRORBOX);
