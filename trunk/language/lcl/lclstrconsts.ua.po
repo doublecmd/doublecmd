@@ -184,7 +184,7 @@ msgstr "Права клавіша миші"
 
 #: lclstrconsts.ifsvk_return
 msgid "Return"
-msgstr "Назад"
+msgstr "Enter"
 
 #: lclstrconsts.ifsvk_right
 msgid "Right"
