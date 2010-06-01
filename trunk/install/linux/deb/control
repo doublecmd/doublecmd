@@ -13,7 +13,8 @@ Build-Depends: libdbus-1-dev,
                lcl (>= 0.9.29),
                lcl-gtk2 (>= 0.9.29),
                lcl-units (>= 0.9.29),
-               lcl-utils (>= 0.9.29)
+               lcl-utils (>= 0.9.29),
+               lazarus-src (>= 0.9.29)
 Standards-Version: 3.8.4
 Homepage: http://doublecmd.sourceforge.net/
 
