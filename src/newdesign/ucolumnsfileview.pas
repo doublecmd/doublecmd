@@ -61,6 +61,7 @@ type
     DropRowIndex,
     HintRowIndex: Integer;
     LastMouseButton: TMouseButton; // Mouse button that initiated dragging
+    SelectionStartIndex: Cardinal;
     FMouseDown: Boolean; // Used to check if button-up was received after button-down
                          // or after dropping something after dragging with right mouse button
 
@@ -864,6 +865,7 @@ begin
 
         if Assigned(AFile) then
         begin
+          dgPanel.SelectionStartIndex:=iRow;
           tmContextMenu.Enabled:= True; // start context menu timer
           FLastSelectionState:= not AFile.Selected;
           MarkFile(AFile, FLastSelectionState);
@@ -932,6 +934,7 @@ procedure TColumnsFileView.dgPanelMouseMove(Sender: TObject;
 var
   AFile: TColumnsViewFile;
   iCol, iRow: Integer;
+  i, SelStartIndex, SelEndIndex: Cardinal;
 begin
   // if right mouse button selection enabled
   if dgPanel.FMouseDown and (dgPanel.LastMouseButton = mbRight) and
@@ -942,14 +945,23 @@ begin
       if dgPanel.Row <> iRow then // if new row index
         begin
           tmContextMenu.Enabled:= False; // stop context menu timer
+          if dgPanel.SelectionStartIndex < iRow then begin
+            SelStartIndex := dgPanel.SelectionStartIndex;
+            SelEndIndex := iRow;
+          end else begin
+            SelStartIndex := iRow;
+            SelEndIndex := dgPanel.SelectionStartIndex;
+          end;
           dgPanel.Row:= iRow;
-          AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
-          if Assigned(AFile) then
-            begin
-              MarkFile(AFile, FLastSelectionState);
-              UpdateInfoPanel;
-              dgPanel.InvalidateRow(iRow);
-            end;
+          for i := SelStartIndex to SelEndIndex do begin
+            AFile := FFiles[i - dgPanel.FixedRows]; // substract fixed rows (header)
+            if Assigned(AFile) then
+              begin
+                MarkFile(AFile, FLastSelectionState);
+                dgPanel.InvalidateRow(i);
+              end;
+          end;
+          UpdateInfoPanel;
         end;
     end;
 end;
