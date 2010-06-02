@@ -1705,6 +1705,23 @@ begin
         inherited KeyDown(Key, Shift);
     end;
   end
+  else if Shift = [ssCtrl] then
+  begin
+    case Key of
+      VK_HOME:
+        begin
+          Key := 0;
+          GoHome;
+        end;
+      VK_END:
+        begin
+          Key := 0;
+          GoEnd;
+        end;
+      else
+        inherited KeyDown(Key, Shift);
+    end;
+  end
   else
     inherited KeyDown(Key, Shift);
 end;
