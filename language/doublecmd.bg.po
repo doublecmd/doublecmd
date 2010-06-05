@@ -3359,6 +3359,14 @@ msgctxt "TFRMOPTIONS.CHKMULTIARCOUTPUT.CAPTION"
 msgid "Show console output"
 msgstr ""
 
+#: TFRMOPTIONS.CHKSAVECONFIGURATION.CAPTION
+msgid "Save configuration"
+msgstr ""
+
+#: TFRMOPTIONS.CHKSEARCHREPLACEHISTORY.CAPTION
+msgid "Search/Replace history"
+msgstr ""
+
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
 msgid "Text Color:"

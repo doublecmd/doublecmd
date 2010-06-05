@@ -639,7 +639,6 @@ msgstr "Виправляти посилання"
 
 #: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
 msgctxt "TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION"
-
 msgid "Drop readonly flag"
 msgstr "Скинути позначку \"Тільки для читання\""
 
@@ -2948,7 +2947,6 @@ msgctxt "TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION"
 msgid "Enable"
 msgstr "Увімкнути"
 
-
 #: TFRMOPTIONS.BTNFORECOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNFORECOLOR.CAPTION"
 msgid ">>"
@@ -3359,6 +3357,14 @@ msgstr "Ввімкнено"
 msgctxt "TFRMOPTIONS.CHKMULTIARCOUTPUT.CAPTION"
 msgid "Show console output"
 msgstr "Показати вивід на консоль"
+
+#: TFRMOPTIONS.CHKSAVECONFIGURATION.CAPTION
+msgid "Save configuration"
+msgstr ""
+
+#: TFRMOPTIONS.CHKSEARCHREPLACEHISTORY.CAPTION
+msgid "Search/Replace history"
+msgstr ""
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
