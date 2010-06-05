@@ -205,6 +205,8 @@ var
   { Configuration page }
   gUseConfigInProgramDir,
   gUseConfigInProgramDirNew,
+  gSaveConfiguration,
+  gSaveSearchReplaceHistory,
   gSaveDirHistory,
   gSaveCmdLineHistory,
   gSaveFileMaskHistory : Boolean;
@@ -603,6 +605,8 @@ begin
                   log_vfs_op, log_success, log_errors, log_info];
 
   { Configuration page }
+  gSaveConfiguration := True;
+  gSaveSearchReplaceHistory := True;
   gSaveDirHistory := True;
   gSaveCmdLineHistory := True;
   gSaveFileMaskHistory := True;
@@ -899,9 +903,11 @@ begin
     glsDirHistory.SaveToFile(gpCfgDir + 'dirhistory.txt');
   if gSaveFileMaskHistory then
     glsMaskHistory.SaveToFile(gpCfgDir + 'maskhistory.txt');
-
-  glsSearchHistory.SaveToFile(gpCfgDir + 'searchhistory.txt');
-  glsReplaceHistory.SaveToFile(gpCfgDir + 'replacehistory.txt');
+  if gSaveSearchReplaceHistory then
+  begin
+    glsSearchHistory.SaveToFile(gpCfgDir + 'searchhistory.txt');
+    glsReplaceHistory.SaveToFile(gpCfgDir + 'replacehistory.txt');
+  end;
   if gIgnoreListFileEnabled then
     glsIgnoreList.SaveToFile(gIgnoreListFile);
   gMultiArcList.SaveToFile(gpCfgDir + 'multiarc.ini');
@@ -1393,6 +1399,8 @@ begin
     end;
 
     { Configuration page }
+    gSaveConfiguration := GetAttr(Root, 'Configuration/Save', gSaveConfiguration);
+    gSaveSearchReplaceHistory:= GetAttr(Root, 'History/SearchReplaceHistory/Save', gSaveSearchReplaceHistory);
     gSaveDirHistory := GetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
     gSaveCmdLineHistory := GetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     gSaveFileMaskHistory := GetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);
@@ -1610,6 +1618,8 @@ begin
     SetValue(Node, 'Options', Integer(gLogOptions));
 
     { Configuration page }
+    SetAttr(Root, 'Configuration/Save', gSaveConfiguration);
+    SetAttr(Root, 'History/SearchReplaceHistory/Save', gSaveSearchReplaceHistory);
     SetAttr(Root, 'History/DirHistory/Save', gSaveDirHistory);
     SetAttr(Root, 'History/CmdLineHistory/Save', gSaveCmdLineHistory);
     SetAttr(Root, 'History/FileMaskHistory/Save', gSaveFileMaskHistory);

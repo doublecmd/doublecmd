@@ -1,7 +1,7 @@
 object frmOptions: TfrmOptions
-  Left = 393
+  Left = 242
   Height = 557
-  Top = 164
+  Top = 145
   Width = 803
   ActiveControl = tvTreeView
   Caption = 'Options'
@@ -131,7 +131,7 @@ object frmOptions: TfrmOptions
       Width = 626
       Align = alClient
       OnPageChanged = nbNotebookPageChanged
-      PageIndex = 5
+      PageIndex = 12
       ShowTabs = False
       TabOrder = 0
       object pgLng: TPage
@@ -2907,7 +2907,7 @@ object frmOptions: TfrmOptions
             Left = 10
             Height = 17
             Top = 6
-            Width = 184
+            Width = 193
             Caption = 'Program directory (portable version)'
             Checked = True
             State = cbChecked
@@ -2919,7 +2919,7 @@ object frmOptions: TfrmOptions
             Left = 10
             Height = 17
             Top = 29
-            Width = 112
+            Width = 115
             BorderSpacing.Top = 6
             Caption = 'User home directory'
             TabOrder = 1
@@ -2930,38 +2930,76 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = btnConfigEdit
           AnchorSideTop.Side = asrBottom
           Left = 10
-          Height = 103
+          Height = 127
           Top = 129
           Width = 594
           Anchors = [akTop, akLeft, akRight]
+          AutoSize = True
           BorderSpacing.Top = 6
           Caption = 'Save on exit'
-          ClientHeight = 85
+          ChildSizing.TopBottomSpacing = 8
+          ClientHeight = 109
           ClientWidth = 590
           TabOrder = 1
           object cbDirHistory: TCheckBox
+            AnchorSideLeft.Control = chkSaveConfiguration
+            AnchorSideTop.Control = chkSearchReplaceHistory
+            AnchorSideTop.Side = asrBottom
             Left = 10
             Height = 17
-            Top = 6
-            Width = 93
+            Top = 46
+            Width = 98
+            BorderSpacing.Top = 2
             Caption = 'Directory history'
             TabOrder = 0
           end
           object cbCmdLineHistory: TCheckBox
+            AnchorSideLeft.Control = chkSaveConfiguration
+            AnchorSideTop.Control = cbDirHistory
+            AnchorSideTop.Side = asrBottom
             Left = 10
             Height = 17
-            Top = 31
-            Width = 117
+            Top = 65
+            Width = 120
+            BorderSpacing.Top = 2
             Caption = 'Command line history'
             TabOrder = 1
           end
           object cbFileMaskHistory: TCheckBox
+            AnchorSideLeft.Control = chkSaveConfiguration
+            AnchorSideTop.Control = cbCmdLineHistory
+            AnchorSideTop.Side = asrBottom
             Left = 10
             Height = 17
-            Top = 56
-            Width = 95
+            Top = 84
+            Width = 97
+            BorderSpacing.Top = 2
             Caption = 'File mask history'
             TabOrder = 2
+          end
+          object chkSaveConfiguration: TCheckBox
+            AnchorSideLeft.Control = gbSaveOnExit
+            AnchorSideTop.Control = gbSaveOnExit
+            Left = 10
+            Height = 17
+            Top = 8
+            Width = 108
+            BorderSpacing.Left = 10
+            Caption = 'Save configuration'
+            OnChange = chkSaveConfigurationChange
+            TabOrder = 3
+          end
+          object chkSearchReplaceHistory: TCheckBox
+            AnchorSideLeft.Control = chkSaveConfiguration
+            AnchorSideTop.Control = chkSaveConfiguration
+            AnchorSideTop.Side = asrBottom
+            Left = 10
+            Height = 17
+            Top = 27
+            Width = 129
+            BorderSpacing.Top = 2
+            Caption = 'Search/Replace history'
+            TabOrder = 4
           end
         end
         object btnConfigEdit: TBitBtn

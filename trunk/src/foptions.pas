@@ -138,6 +138,8 @@ type
     cbFreespaceInd: TCheckBox;
     cbProgInMenuBar: TCheckBox;
     cbPanelOfOperations: TCheckBox;
+    chkSearchReplaceHistory: TCheckBox;
+    chkSaveConfiguration: TCheckBox;
     chkMultiArcEnabled: TCheckBox;
     chkAutoFillColumns: TCheckBox;
     chkIgnoreEnable: TCheckBox;
@@ -399,6 +401,7 @@ type
     procedure cbWatchExcludeDirsChange(Sender: TObject);
     procedure chkIgnoreEnableChange(Sender: TObject);
     procedure chkMultiArcEnabledChange(Sender: TObject);
+    procedure chkSaveConfigurationChange(Sender: TObject);
     procedure edtToolsParametersChange(Sender: TObject);
     procedure fneToolsPathAcceptFileName(Sender: TObject; var Value: String);
     procedure fneToolsPathChange(Sender: TObject);
@@ -2050,6 +2053,14 @@ begin
   FEnabled:= chkMultiArcEnabled.Checked;
 end;
 
+procedure TfrmOptions.chkSaveConfigurationChange(Sender: TObject);
+begin
+  cbDirHistory.Enabled:= chkSaveConfiguration.Checked;
+  cbCmdLineHistory.Enabled:= chkSaveConfiguration.Checked;
+  cbFileMaskHistory.Enabled:= chkSaveConfiguration.Checked;
+  chkSearchReplaceHistory.Enabled:= chkSaveConfiguration.Checked;
+end;
+
 procedure TfrmOptions.edtToolsParametersChange(Sender: TObject);
 var
   aRow: Integer;
@@ -2544,6 +2555,8 @@ begin
     rbProgramDir.Checked := True
   else
     rbUserHomeDir.Checked := True;
+  chkSaveConfiguration.Checked:= gSaveConfiguration;
+  chkSearchReplaceHistory.Checked:= gSaveSearchReplaceHistory;
   cbDirHistory.Checked := gSaveDirHistory;
   cbCmdLineHistory.Checked := gSaveCmdLineHistory;
   cbFileMaskHistory.Checked := gSaveFileMaskHistory;
@@ -2771,6 +2784,8 @@ begin
 
   { Configuration storage }
   gUseConfigInProgramDirNew := rbProgramDir.Checked;
+  gSaveConfiguration := chkSaveConfiguration.Checked;
+  gSaveSearchReplaceHistory := chkSearchReplaceHistory.Checked;
   gSaveDirHistory := cbDirHistory.Checked;
   gSaveCmdLineHistory := cbCmdLineHistory.Checked;
   gSaveFileMaskHistory := cbFileMaskHistory.Checked;

@@ -1362,6 +1362,7 @@ begin
   // (frmMainAfterShow, nbPageAfterMouseDown, etc.).
   Application.ProcessMessages;
 
+  if gSaveConfiguration then
   try
     if Assigned(gIni) then
       uGlobs.ConvertIniToXml;
