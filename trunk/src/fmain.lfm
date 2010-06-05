@@ -440,32 +440,7 @@ object frmMain: TfrmMain
         PageIndex = 0
         ShowTabs = False
         TabOrder = 1
-        object Page1: TPage
-          ClientWidth = 748
-          ClientHeight = 134
-          object CmdBox1: TCmdBox
-            Left = 0
-            Height = 134
-            Top = 0
-            Width = 748
-            Align = alClient
-            CaretColor = clWhite
-            CaretType = cartUser
-            CaretWidth = 1
-            CaretHeight = 13
-            CaretYShift = 3
-            LineCount = 256
-            Font.Color = clSilver
-            BackGroundColor = clBlack
-            TabWidth = 60
-            HistoryMax = 10
-            InputSelColor = clBlue
-            InputSelBackGround = clWhite
-            CaretInterval = 500
-            EscapeCodeType = esctCmdBox
-            GraphicalCharacterWidth = 10
-            AutoFollow = True
-          end
+        object pgConsole: TPage
         end
       end
     end
@@ -639,6 +614,7 @@ object frmMain: TfrmMain
     PopupMenu = pmLogMenu
     TabOrder = 4
     TabStop = False
+    Visible = False
     Gutter.Width = 59
     Gutter.MouseActions = <    
       item
@@ -1229,6 +1205,7 @@ object frmMain: TfrmMain
     Align = alBottom
     ResizeAnchor = akBottom
     ResizeStyle = rsLine
+    Visible = False
   end
   object mnuMain: TMainMenu
     ParentBidiMode = False

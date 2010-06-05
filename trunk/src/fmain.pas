@@ -141,7 +141,6 @@ type
     btnF9: TSpeedButton;
     btnLeftDirectoryHotlist: TSpeedButton;
     btnRightDirectoryHotlist: TSpeedButton;
-    CmdBox1: TCmdBox;
     dskLeft: TKAStoolBar;
     dskRight: TKAStoolBar;
     edtCommand: TComboBox;
@@ -242,7 +241,7 @@ type
     miLine10: TMenuItem;
     mnuFileAssoc: TMenuItem;
     nbConsole: TNotebook;
-    Page1: TPage;
+    pgConsole: TPage;
     Panel1: TPanel;
     MainSplitter: TPanel;
     pmButtonMenu: TKASBarMenu;
@@ -481,6 +480,7 @@ type
     HiddenToTray: Boolean;
     HidingTrayIcon: Boolean; // @true if the icon is in the process of hiding
     nbLeft, nbRight: TFileViewNotebook;
+    cmdConsole: TCmdBox;
     {en
        Used to pass drag&drop parameters to pmDropMenu. Single variable
        can be used, because the user can do only one menu popup at a time. }
@@ -662,6 +662,7 @@ begin
   LeftFrameWatcher:= nil;
   RightFrameWatcher:= nil;
   FDropParams := nil;
+  cmdConsole:= nil;
 
   PanelSelected:=fpLeft;
   HiddenToTray := False;
@@ -3263,12 +3264,20 @@ var
 begin
   if gTermWindow then
     begin
+      if not Assigned(cmdConsole) then
+      begin
+        cmdConsole:= TCmdBox.Create(pgConsole);
+        cmdConsole.Parent:= pgConsole;
+        cmdConsole.Align:= alClient;
+        cmdConsole.AutoFollow:= True;
+        cmdConsole.LineCount:= 256;
+      end;
       if not Assigned(Cons) then
         begin
           Cons:= CreateConsoleThread;
           Cons.ColsCount:= 80;
-          Cons.RowsCount:= CmdBox1.LineCount;
-          Cons.CmdBox:= CmdBox1;
+          Cons.RowsCount:= cmdConsole.LineCount;
+          Cons.CmdBox:= cmdConsole;
           Cons.Resume;
         end;
 
@@ -3276,6 +3285,11 @@ begin
     end
   else
     begin
+      if Assigned(cmdConsole) then
+      begin
+        cmdConsole.Hide;
+        FreeAndNil(cmdConsole);
+      end;
       if Assigned(Cons) then
         FreeAndNil(Cons);
 
@@ -3471,8 +3485,8 @@ begin
   pnlKeys.Visible := gKeyButtons;
   pnlKeys.Height := Canvas.TextHeight('Wg') + 4;
 
-  LogSplitter.Visible := gLogWindow or (not miLogHide.Enabled);
   seLogWindow.Visible := gLogWindow or (not miLogHide.Enabled);
+  LogSplitter.Visible := gLogWindow or (not miLogHide.Enabled);
   seLogWindow.Font.Name := gEditorFontName;
   ToggleConsole;
   ToggleFileSystemWatcher;
