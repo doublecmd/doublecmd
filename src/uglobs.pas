@@ -902,7 +902,8 @@ begin
 
   glsSearchHistory.SaveToFile(gpCfgDir + 'searchhistory.txt');
   glsReplaceHistory.SaveToFile(gpCfgDir + 'replacehistory.txt');
-  glsIgnoreList.SaveToFile(gIgnoreListFile);
+  if gIgnoreListFileEnabled then
+    glsIgnoreList.SaveToFile(gIgnoreListFile);
   gMultiArcList.SaveToFile(gpCfgDir + 'multiarc.ini');
   //TODO: Save hotkeys
   //HotMan.Save();
