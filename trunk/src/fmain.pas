@@ -159,9 +159,9 @@ type
     mnuNetwork: TMenuItem;
     Timer: TTimer;
     PanelAllProgress: TPanel;
-    sboxRightDrive: TScrollBox;
+    pbxRightDrive: TPaintBox;
     sboxOperations: TScrollBox;
-    sboxLeftDrive: TScrollBox;
+    pbxLeftDrive: TPaintBox;
     tbPaste: TMenuItem;
     tbCopy: TMenuItem;
     tbCut: TMenuItem;
@@ -2516,40 +2516,40 @@ end;
 
 procedure TfrmMain.sboxDrivePaint(Sender: TObject);
 var
-  sboxDrive: TScrollBox absolute Sender;
+  pbxDrive: TPaintBox absolute Sender;
   indexColor: Int64;
   i: Integer;
 begin
-  indexColor:= sboxDrive.Tag;
+  indexColor:= pbxDrive.Tag;
   if indexColor <> -1 then
     begin
-      if IndexColor<=50 then sboxDrive.Canvas.Brush.Color := RGB (0+5*(IndexColor),255,0)
-                        else sboxDrive.Canvas.Brush.Color := RGB (255,255-5*(IndexColor-50),0);
+      if IndexColor<=50 then pbxDrive.Canvas.Brush.Color := RGB (0+5*(IndexColor),255,0)
+                        else pbxDrive.Canvas.Brush.Color := RGB (255,255-5*(IndexColor-50),0);
 
-      sboxDrive.Canvas.FillRect (
+      pbxDrive.Canvas.FillRect (
                                  2,
                                  0,
-                                 sboxDrive.Width-2,
-                                 sboxDrive.Height-1);
+                                 pbxDrive.Width-2,
+                                 pbxDrive.Height-1);
 
-      sboxDrive.Canvas.Brush.Color := clBtnFace;
+      pbxDrive.Canvas.Brush.Color := clBtnFace;
 
-      sboxDrive.Canvas.FillRect(
+      pbxDrive.Canvas.FillRect(
                                 3,
                                 1,
-                                sboxDrive.Width-3,
-                                sboxDrive.Height-2);
+                                pbxDrive.Width-3,
+                                pbxDrive.Height-2);
 
       for i:=0 to  IndexColor-2 do
         begin
-          if i<=50 then sboxDrive.Canvas.Brush.Color := RGB (0+5*i,255,0)
-                   else sboxDrive.Canvas.Brush.Color := RGB (255,255-5*(i-50),0);
+          if i<=50 then pbxDrive.Canvas.Brush.Color := RGB (0+5*i,255,0)
+                   else pbxDrive.Canvas.Brush.Color := RGB (255,255-5*(i-50),0);
 
-          sboxDrive.Canvas.FillRect(
-                                    4+i*(sboxDrive.Width-4) div 100,
+          pbxDrive.Canvas.FillRect(
+                                    4+i*(pbxDrive.Width-4) div 100,
                                     2,
-                                    4+(i+1)*(sboxDrive.Width-4) div 100,
-                                    sboxDrive.Height-3);
+                                    4+(i+1)*(pbxDrive.Width-4) div 100,
+                                    pbxDrive.Height-3);
         end;
     end;
 end;
@@ -3428,7 +3428,7 @@ begin
   btnLeftDirectoryHotlist.Flat := gInterfaceFlat;
   btnRightEqualLeft.Visible := gDriveMenuButton;
   btnRightEqualLeft.Flat:= gInterfaceFlat;
-  sboxLeftDrive.Visible := gDriveInd;
+  pbxLeftDrive.Visible := gDriveInd;
 
   btnRightDrive.Visible := gDriveMenuButton;
   btnRightDrive.Flat := gInterfaceFlat;
@@ -3442,7 +3442,7 @@ begin
   btnRightDirectoryHotlist.Flat := gInterfaceFlat;
   btnLeftEqualRight.Visible := gDriveMenuButton;
   btnLeftEqualRight.Flat:= gInterfaceFlat;
-  sboxRightDrive.Visible := gDriveInd;
+  pbxRightDrive.Visible := gDriveInd;
 
   //Indicator of free spase position
   if gDriveMenuButton=false then
@@ -4157,19 +4157,19 @@ procedure TfrmMain.UpdateFreeSpace(Panel: TFilePanelSelect);
 var
   FreeSize, TotalSize: Int64;
   aFileView: TFileView;
-  sboxDrive: TScrollBox;
+  sboxDrive: TPaintBox;
   lblDriveInfo: TLabel;
 begin
   case Panel of
     fpLeft :
       begin
-        sboxDrive := sboxLeftDrive;
+        sboxDrive := pbxLeftDrive;
         aFileView := FrameLeft;
         lblDriveInfo:=lblLeftDriveInfo;
       end;
     fpRight:
       begin
-        sboxDrive := sboxRightDrive;
+        sboxDrive := pbxRightDrive;
         aFileView := FrameRight;
         lblDriveInfo:=lblRightDriveInfo;
       end;
