@@ -1,11 +1,11 @@
 object frmMain: TfrmMain
-  Left = 70
-  Height = 520
-  Top = 24
-  Width = 952
+  Left = 88
+  Height = 370
+  Top = 116
+  Width = 760
   Caption = 'Double Commander'
-  ClientHeight = 500
-  ClientWidth = 952
+  ClientHeight = 350
+  ClientWidth = 760
   Color = clForm
   KeyPreview = True
   Menu = mnuMain
@@ -30,7 +30,7 @@ object frmMain: TfrmMain
     Left = 0
     Height = 20
     Top = 0
-    Width = 952
+    Width = 760
     AutoSize = True
     Constraints.MinHeight = 20
     Flat = True
@@ -49,15 +49,15 @@ object frmMain: TfrmMain
     Left = 0
     Height = 26
     Top = 20
-    Width = 952
+    Width = 760
     Align = alTop
     BevelOuter = bvNone
     ClientHeight = 26
-    ClientWidth = 952
+    ClientWidth = 760
     FullRepaint = False
     TabOrder = 0
     object pnlDisk: TPanel
-      Left = 427
+      Left = 235
       Height = 26
       Top = 0
       Width = 525
@@ -69,7 +69,7 @@ object frmMain: TfrmMain
       object dskLeft: TKASToolBar
         AnchorSideLeft.Control = pnlDisk
         Left = 0
-        Height = 24
+        Height = 20
         Top = 1
         Width = 143
         Align = alCustom
@@ -110,24 +110,24 @@ object frmMain: TfrmMain
   end
   object pnlNotebooks: TPanel
     Left = 0
-    Height = 369
+    Height = 219
     Top = 46
-    Width = 952
+    Width = 760
     Align = alClient
-    ClientHeight = 369
-    ClientWidth = 952
+    ClientHeight = 219
+    ClientWidth = 760
     FullRepaint = False
     TabOrder = 1
     object pnlLeft: TPanel
       AnchorSideBottom.Control = PanelAllProgress
       Left = 1
-      Height = 151
+      Height = 1
       Top = 1
       Width = 511
       Align = alLeft
       BorderSpacing.Right = 3
       BevelOuter = bvNone
-      ClientHeight = 151
+      ClientHeight = 1
       ClientWidth = 511
       TabOrder = 0
       OnDblClick = pnlLeftRightDblClick
@@ -213,7 +213,7 @@ object frmMain: TfrmMain
           Color = clBtnFace
           NumGlyphs = 0
         end
-        object sboxLeftDrive: TScrollBox
+        object pbxLeftDrive: TPaintBox
           AnchorSideLeft.Control = lblLeftDriveInfo
           AnchorSideTop.Control = lblLeftDriveInfo
           AnchorSideTop.Side = asrBottom
@@ -226,11 +226,8 @@ object frmMain: TfrmMain
           Top = 14
           Width = 344
           Anchors = [akTop, akLeft, akRight, akBottom]
-          AutoSize = True
           BorderSpacing.Left = 2
           BorderSpacing.Right = 2
-          BorderStyle = bsNone
-          TabOrder = 0
           OnPaint = sboxDrivePaint
         end
         object lblLeftDriveInfo: TLabel
@@ -249,25 +246,25 @@ object frmMain: TfrmMain
     end
     object pnlRight: TPanel
       Left = 515
-      Height = 151
+      Height = 1
       Top = 1
-      Width = 436
+      Width = 244
       Align = alClient
       BorderSpacing.Left = 3
       BevelOuter = bvNone
-      ClientHeight = 151
-      ClientWidth = 436
+      ClientHeight = 1
+      ClientWidth = 244
       TabOrder = 1
       OnDblClick = pnlLeftRightDblClick
       object pnlRightTools: TPanel
         Left = 0
         Height = 24
         Top = 0
-        Width = 436
+        Width = 244
         Align = alTop
         BevelOuter = bvNone
         ClientHeight = 24
-        ClientWidth = 436
+        ClientWidth = 244
         TabOrder = 0
         object btnRightDrive: TSpeedButton
           Left = 0
@@ -281,7 +278,7 @@ object frmMain: TfrmMain
           OnMouseUp = dskToolBarMouseUp
         end
         object btnRightHome: TSpeedButton
-          Left = 390
+          Left = 198
           Height = 24
           Top = 0
           Width = 23
@@ -292,7 +289,7 @@ object frmMain: TfrmMain
           OnClick = btnRightClick
         end
         object btnRightUp: TSpeedButton
-          Left = 367
+          Left = 175
           Height = 24
           Top = 0
           Width = 23
@@ -303,7 +300,7 @@ object frmMain: TfrmMain
           OnClick = btnRightClick
         end
         object btnRightRoot: TSpeedButton
-          Left = 344
+          Left = 152
           Height = 24
           Top = 0
           Width = 23
@@ -314,7 +311,7 @@ object frmMain: TfrmMain
           OnClick = btnRightClick
         end
         object btnRightDirectoryHotlist: TSpeedButton
-          Left = 321
+          Left = 129
           Height = 24
           Top = 0
           Width = 23
@@ -326,7 +323,7 @@ object frmMain: TfrmMain
         end
         object btnLeftEqualRight: TSpeedButton
           AnchorSideRight.Side = asrBottom
-          Left = 413
+          Left = 221
           Height = 24
           Hint = 'Show current directory of the right panel in the left panel'
           Top = 0
@@ -337,7 +334,7 @@ object frmMain: TfrmMain
           Color = clBtnFace
           NumGlyphs = 0
         end
-        object sboxRightDrive: TScrollBox
+        object pbxRightDrive: TPaintBox
           AnchorSideLeft.Control = lblRightDriveInfo
           AnchorSideTop.Control = lblRightDriveInfo
           AnchorSideTop.Side = asrBottom
@@ -348,13 +345,10 @@ object frmMain: TfrmMain
           Left = 50
           Height = 10
           Top = 14
-          Width = 269
+          Width = 77
           Anchors = [akTop, akLeft, akRight, akBottom]
-          AutoSize = True
           BorderSpacing.Left = 2
           BorderSpacing.Right = 2
-          BorderStyle = bsNone
-          TabOrder = 0
           OnPaint = sboxDrivePaint
         end
         object lblRightDriveInfo: TLabel
@@ -364,7 +358,7 @@ object frmMain: TfrmMain
           Left = 48
           Height = 14
           Top = 0
-          Width = 273
+          Width = 81
           Alignment = taCenter
           Anchors = [akTop, akLeft, akRight, akBottom]
           OnDblClick = lblDriveInfoDblClick
@@ -376,8 +370,8 @@ object frmMain: TfrmMain
       Cursor = crVSplit
       Left = 1
       Height = 4
-      Top = 195
-      Width = 950
+      Top = 45
+      Width = 758
       Align = alBottom
       ResizeAnchor = akBottom
       Visible = False
@@ -385,26 +379,26 @@ object frmMain: TfrmMain
     object pnlCommand: TPanel
       Left = 1
       Height = 169
-      Top = 199
-      Width = 950
+      Top = 49
+      Width = 758
       Align = alBottom
       Anchors = [akLeft, akRight]
       BevelOuter = bvLowered
       ClientHeight = 169
-      ClientWidth = 950
+      ClientWidth = 758
       FullRepaint = False
       TabOrder = 2
       object Panel1: TPanel
         Left = 1
         Height = 25
         Top = 143
-        Width = 948
+        Width = 756
         Align = alBottom
         AutoSize = True
         BevelOuter = bvNone
         ChildSizing.TopBottomSpacing = 2
         ClientHeight = 25
-        ClientWidth = 948
+        ClientWidth = 756
         TabOrder = 0
         object lblCommandPath: TLabel
           AnchorSideTop.Control = edtCommand
@@ -425,7 +419,7 @@ object frmMain: TfrmMain
           Left = 27
           Height = 21
           Top = 2
-          Width = 921
+          Width = 729
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 4
           ItemHeight = 13
@@ -440,20 +434,20 @@ object frmMain: TfrmMain
         Left = 1
         Height = 142
         Top = 1
-        Width = 948
+        Width = 756
         TabStop = False
         Align = alClient
         PageIndex = 0
         ShowTabs = False
         TabOrder = 1
         object Page1: TPage
-          ClientWidth = 940
+          ClientWidth = 748
           ClientHeight = 134
           object CmdBox1: TCmdBox
             Left = 0
             Height = 134
             Top = 0
-            Width = 940
+            Width = 748
             Align = alClient
             CaretColor = clWhite
             CaretType = cartUser
@@ -498,8 +492,8 @@ object frmMain: TfrmMain
       AnchorSideBottom.Control = Splitter1
       Left = 4
       Height = 42
-      Top = 152
-      Width = 944
+      Top = 2
+      Width = 752
       Align = alBottom
       AutoSize = True
       BorderSpacing.Left = 3
@@ -509,7 +503,7 @@ object frmMain: TfrmMain
       BorderSpacing.CellAlignVertical = ccaCenter
       BidiMode = bdRightToLeft
       ClientHeight = 42
-      ClientWidth = 944
+      ClientWidth = 752
       ParentBidiMode = False
       TabOrder = 5
       object sboxOperations: TScrollBox
@@ -519,7 +513,7 @@ object frmMain: TfrmMain
         Left = 1
         Height = 42
         Top = 0
-        Width = 945
+        Width = 753
         Anchors = [akTop, akLeft, akRight, akBottom]
         AutoSize = True
         TabOrder = 0
@@ -531,8 +525,8 @@ object frmMain: TfrmMain
   object pnlKeys: TPanel
     Left = 0
     Height = 20
-    Top = 480
-    Width = 952
+    Top = 330
+    Width = 760
     Align = alBottom
     Anchors = [akLeft, akRight]
     BevelOuter = bvLowered
@@ -542,74 +536,74 @@ object frmMain: TfrmMain
     ChildSizing.ShrinkVertical = crsHomogenousChildResize
     ChildSizing.Layout = cclTopToBottomThenLeftToRight
     ClientHeight = 20
-    ClientWidth = 952
+    ClientWidth = 760
     FullRepaint = False
     TabOrder = 3
     object btnF3: TSpeedButton
       Left = 0
       Height = 20
       Top = 0
-      Width = 119
+      Width = 95
       Action = actView
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF4: TSpeedButton
-      Left = 119
+      Left = 95
       Height = 20
       Top = 0
-      Width = 119
+      Width = 95
       Action = actEdit
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF5: TSpeedButton
-      Left = 238
+      Left = 190
       Height = 20
       Top = 0
-      Width = 119
+      Width = 95
       Action = actCopy
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF6: TSpeedButton
-      Left = 357
+      Left = 285
       Height = 20
       Top = 0
-      Width = 119
+      Width = 95
       Action = actRename
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF7: TSpeedButton
-      Left = 476
+      Left = 380
       Height = 20
       Top = 0
-      Width = 119
+      Width = 95
       Action = actMakeDir
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF8: TSpeedButton
-      Left = 595
+      Left = 475
       Height = 20
       Top = 0
-      Width = 119
+      Width = 95
       Action = actDelete
       Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
     object btnF9: TSpeedButton
-      Left = 714
+      Left = 570
       Height = 20
       Top = 0
-      Width = 119
+      Width = 95
       Action = actRunTerm
       Caption = 'Terminal F9'
       Color = clBtnFace
@@ -617,10 +611,10 @@ object frmMain: TfrmMain
       NumGlyphs = 0
     end
     object btnF10: TSpeedButton
-      Left = 833
+      Left = 665
       Height = 20
       Top = 0
-      Width = 119
+      Width = 95
       Action = actExit
       Caption = 'Exit F10'
       Color = clBtnFace
@@ -634,8 +628,8 @@ object frmMain: TfrmMain
     AnchorSideBottom.Side = asrBottom
     Left = 0
     Height = 61
-    Top = 419
-    Width = 952
+    Top = 269
+    Width = 760
     Align = alBottom
     Font.Height = -16
     Font.Name = 'courier'
@@ -1230,8 +1224,8 @@ object frmMain: TfrmMain
     Cursor = crVSplit
     Left = 0
     Height = 4
-    Top = 415
-    Width = 952
+    Top = 265
+    Width = 760
     Align = alBottom
     ResizeAnchor = akBottom
     ResizeStyle = rsLine
