@@ -3360,11 +3360,11 @@ msgstr "Показати вивід на консоль"
 
 #: TFRMOPTIONS.CHKSAVECONFIGURATION.CAPTION
 msgid "Save configuration"
-msgstr ""
+msgstr "Зберегти налаштування"
 
 #: TFRMOPTIONS.CHKSEARCHREPLACEHISTORY.CAPTION
 msgid "Search/Replace history"
-msgstr ""
+msgstr "Історія пошуку/заміни"
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
