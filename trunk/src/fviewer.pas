@@ -39,7 +39,8 @@ interface
 uses
   LResources, SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls,
   LCLProc, Menus, Dialogs, ExtDlgs, EditBtn, StdCtrls, Buttons, ColorBox, Spin,
-  viewercontrol, fFindView, WLXPlugin, uWLXModule, uFileSource, fModView, uOSUtils;
+  viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule, uFileSource,
+  fModView, uOSUtils;
 
 
 type
@@ -54,6 +55,7 @@ type
     gboxPaint: TGroupBox;
     gboxView: TGroupBox;
     gboxSlideShow: TGroupBox;
+    GifAnim: TGifAnim;
     miScreenshot: TMenuItem;
     miFullScreen: TMenuItem;
     miSaveToPnm: TMenuItem;
@@ -207,6 +209,7 @@ type
     startX, startY, endX, endY,
     UndoSX, UndoSY, UndoEX, UndoEY,
     cas, i_timer:Integer;
+    bAnimation,
     bImage,
     bPlugin,
     bQuickView,
@@ -258,7 +261,7 @@ procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSour
 implementation
 
 uses
-  IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx,
+  FileUtil, IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx,
   uFindMmap, uDCUtils, LCLIntf;
 
 const
@@ -496,6 +499,7 @@ procedure TfrmViewer.ImageMouseMove(Sender: TObject; Shift: TShiftState; X,
 var
   tmp: integer;
 begin
+  if gboxHightlight.Visible then Image.Cursor:=crCross;
   if miFullScreen.Checked then
     begin
       sboxImage.Cursor:=crDefault;
@@ -650,6 +654,8 @@ begin
       Height:= Height div 2;
       Width:= Width div 2;
     end;
+  sboxImage.HorzScrollBar.Visible:= not(miFullScreen.Checked);
+  sboxImage.VertScrollBar.Visible:= not(miFullScreen.Checked);
   btnHightlight.Visible:=not(miFullScreen.Checked);
   btnPaint.Visible:=not(miFullScreen.Checked);
   btnResize.Visible:=not(miFullScreen.Checked);
@@ -671,6 +677,7 @@ var
   x,y,r,g,b: integer;
   col: TColor;
 begin
+  if (EndX=StartX) or (EndY=StartY) then Exit;
   UndoTmp;
   tmp:=TBitMap.Create;
   tmp.Width:= EndX-StartX;
@@ -1134,7 +1141,7 @@ begin
     Exit;
   end;
 
-  if (not bImage) then
+  if (not (bImage or bAnimation)) then
     case Key of
       VK_F:
         if Shift = [ssCtrl] then
@@ -1337,6 +1344,7 @@ var
   fsFileStream: TFileStreamEx = nil;
 begin
   if not ImgEdit then
+    begin
     try
       sExt:= ExtractFileExt(FileList.Strings[iActiveFile]);
       fsFileStream:= TFileStreamEx.Create(FileList.Strings[iActiveFile], fmOpenRead or fmShareDenyNone);
@@ -1356,12 +1364,12 @@ begin
       FreeThenNil(bmp);
       FreeThenNil(fsFileStream);
     end;
-
-  miStretch.Checked:= False;
-  Image.Stretch:= miStretch.Checked;
-  Image.Proportional:= Image.Stretch;
-  Image.Autosize:= not(miStretch.Checked);
-  AdjustImageSize;
+    miStretch.Checked:= False;
+    Image.Stretch:= miStretch.Checked;
+    Image.Proportional:= Image.Stretch;
+    Image.Autosize:= not(miStretch.Checked);
+    AdjustImageSize;
+    end;
   if gboxHightlight.Visible then UndoTmp;
   if Sender = btnHightlight then
     begin
@@ -1468,7 +1476,7 @@ end;
 
 procedure TfrmViewer.ReopenAsTextIfNeeded;
 begin
-  if bImage or bPlugin then
+  if bImage or bAnimation or bPlugin then
   begin
     Image.Picture := nil;
     ViewerControl.FileName := FileList.Strings[iActiveFile];
@@ -1482,6 +1490,7 @@ begin
     begin
       ViewerControl.FileName := ''; // unload current file if any is loaded
       LoadGraphics(FileList.Strings[iActiveFile]);
+      ActivatePanel(pnlImage);
     end;
 end;
 
@@ -1509,12 +1518,12 @@ end;
 
 function TfrmViewer.CheckGraphics(const sFileName:String):Boolean;
 var
-  sExt:String;
+  sExt: String;
 begin
-  sExt:=Lowercase(ExtractFileExt(sFileName));
+  sExt:= Lowercase(ExtractFileExt(sFileName));
   Result:=(sExt='.bmp') or (sExt='.xpm') or (sExt='.png') or
        (sExt='.jpg') or (sExt='.jpeg') or (sExt='.ico') or
-       (sExt='.ddw') or (sExt='.tga');
+       (sExt='.ddw') or (sExt='.tga') or (sExt='.gif');
 end;
 
 // Adjust Image size (width and height) to sboxImage size
@@ -1529,6 +1538,7 @@ begin
      begin
        Image.Stretch:=true;
        Image.AutoSize := true;
+       if gboxHightlight.Visible or gboxPaint.Visible then Image.Center:=false else Image.Center:=true;
        if (Image.Picture.Width > sboxImage.ClientWidth) or  (Image.Picture.Height > sboxImage.ClientHeight) then
          begin
            Image.Left:= 0;
@@ -1675,26 +1685,39 @@ var
   sExt: String;
   fsFileStream: TFileStreamEx = nil;
 begin
-  bImage:= True;
   sExt:= ExtractOnlyFileExt(sFilename);
-  try
-    fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
-    try
-      Image.Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
-    except
-      FreeAndNil(fsFileStream);
-      ReopenAsTextIfNeeded; // open as text
-      Exit;
+  if sExt <> 'gif' then
+    begin
+      Image.Visible:= True;
+      GifAnim.Visible:= False;
+      try
+        fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
+        try
+          Image.Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
+        except
+          FreeAndNil(fsFileStream);
+          ReopenAsTextIfNeeded; // open as text
+          Exit;
+        end;
+        miStretch.Checked:= not miStretch.Checked;
+        miStretchClick(nil);
+      finally
+        if Assigned(fsFileStream) then
+          FreeAndNil(fsFileStream);
+      end;
+    end
+  else
+    begin
+      GifAnim.Visible:= True;
+      Image.Visible:= False;
+      try
+        GifAnim.FileName:= UTF8ToSys(sFileName);
+      except
+        ReopenAsTextIfNeeded; // open as text
+        Exit;
+      end;
     end;
-  finally
-    if Assigned(fsFileStream) then
-      FreeAndNil(fsFileStream);
-  end;
-
-  miStretch.Checked:= not miStretch.Checked;
-  miStretchClick(nil);
-  ActivatePanel(pnlImage);
-  ImgEdit:=false;
+  ImgEdit:= False;
 end;
 
 procedure TfrmViewer.DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
@@ -1828,15 +1851,16 @@ begin
 
   Panel.Visible := True;
 
-  bImage             := (Panel = pnlImage);
+  bAnimation         := (GifAnim.Visible);
+  bImage             := (Panel = pnlImage) and (bAnimation = False);
   bPlugin            := (Panel = pnlLister);
   miPlugins.Checked  := (Panel = pnlLister);
   miGraphics.Checked := (Panel = pnlImage);
-  miImage.Visible    := (Panel = pnlImage);
   miEncoding.Visible := (Panel = pnlText);
   miEdit.Visible     := (Panel = pnlText) or (Panel = pnlLister);
-  miSave.Visible     := (Panel = pnlImage);
-  miSaveAs.Visible   := (Panel = pnlImage);
+  miImage.Visible    := bImage;
+  miSave.Visible     := bImage;
+  miSaveAs.Visible   := bImage;
 
   if Panel = pnlLister then
   begin
@@ -1858,7 +1882,7 @@ begin
   end
   else if Panel = pnlImage then
   begin
-    PanelEditImage.Visible:= not bQuickView;
+    PanelEditImage.Visible:= not (bQuickView or bAnimation);
   end;
 end;
 

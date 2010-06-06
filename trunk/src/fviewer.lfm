@@ -155,6 +155,12 @@ object frmViewer: TfrmViewer
         OnMouseUp = ImageMouseUp
         Proportional = True
       end
+      object GifAnim: TGifAnim
+        Left = 0
+        Height = 90
+        Top = 0
+        Width = 90
+      end
     end
     object PanelEditImage: TPanel
       AnchorSideLeft.Control = pnlImage
