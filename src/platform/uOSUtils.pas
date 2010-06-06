@@ -847,7 +847,7 @@ begin
 end;
 
 function GetAppConfigDir: String;
-{$IFDEF MSWINDOWS}
+{$IF DEFINED(MSWINDOWS)}
 var
   iSize: Integer;
   wDir: WideString;
@@ -861,6 +861,10 @@ begin
   Delete(wDir, iSize, 1);
   Result:= UTF8Encode(wDir) + DirectorySeparator + ApplicationName;
 end;
+{$ELSEIF DEFINED(DARWIN)}
+begin
+  Result:= GetHomeDir + '/Library/Preferences/' + ApplicationName;
+end;
 {$ELSE}
 var
   uinfo: PPasswordRecord;
@@ -869,7 +873,7 @@ begin
   if (uinfo <> nil) and (uinfo^.pw_dir <> '') then
     Result:= uinfo^.pw_dir + '/.config/' + ApplicationName
   else
-    Result:= SysUtils.GetAppConfigDir(False);
+    Result:= ExcludeTrailingPathDelimiter(SysUtils.GetAppConfigDir(False));
 end;
 {$ENDIF}
 
