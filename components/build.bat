@@ -7,4 +7,5 @@ pushd components
 %lazpath%\lazbuild.exe CmdLine\cmdbox.lpk %DC_ARCH%
 %lazpath%\lazbuild.exe KASToolBar\kascomp.lpk %DC_ARCH%
 %lazpath%\lazbuild.exe viewer\viewerpackage.lpk %DC_ARCH%
+%lazpath%\lazbuild.exe gifanim\pkg_gifanim.lpk %DC_ARCH%
 popd
