@@ -558,7 +558,7 @@ function TViewerControl.CalcTextLineLength(var iStartPos: PtrInt; const aLimit: 
 var
   MaxLineLength: Integer;
   CharLenInBytes: Integer;
-  OldPos: PtrInt;
+  OldPos, TmpPos: PtrInt;
 begin
   Result := 0;
   DataLength := 0;
@@ -601,7 +601,23 @@ begin
 
     iStartPos := iStartPos + CharLenInBytes;
   end;
-
+  if (GetPrevCharAsAscii(iStartPos, CharLenInBytes)<> 9) and
+     (GetPrevCharAsAscii(iStartPos, CharLenInBytes)<> 10) and
+     (GetPrevCharAsAscii(iStartPos, CharLenInBytes)<> 13) then
+     begin
+       TmpPos:= iStartPos;
+       while GetPrevCharAsAscii(iStartPos, CharLenInBytes)<> 32 do
+       begin
+         if iStartPos>OldPos then
+         dec (iStartPos, CharLenInBytes)
+         else
+           begin
+             iStartPos:=TmpPos;
+             DataLength := iStartPos - OldPos;
+             Exit;
+           end;
+       end;
+     end;
   DataLength := iStartPos - OldPos;
 end;
 
