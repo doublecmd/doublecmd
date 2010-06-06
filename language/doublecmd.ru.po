@@ -4307,9 +4307,20 @@ msgctxt "TFRMVIEWER.BTN90.HINT"
 msgid "+ 90"
 msgstr ""
 
-#: TFRMVIEWER.BTNCUTTUIMAGE.CAPTION
+#: TFRMVIEWER.BTNCOPYFILE.HINT
+msgctxt "TFRMVIEWER.BTNCOPYFILE.HINT"
+msgid "Copy"
+msgstr "&Копировать"
+
+#: TFRMVIEWER.BTNCUTTUIMAGE.HINT
+msgctxt "TFRMVIEWER.BTNCUTTUIMAGE.HINT"
 msgid "Crop"
 msgstr "Обрезать"
+
+#: TFRMVIEWER.BTNDELETEFILE.HINT
+msgctxt "TFRMVIEWER.BTNDELETEFILE.HINT"
+msgid "Delete"
+msgstr "Удалить"
 
 #: TFRMVIEWER.BTNFULLSCREEN.HINT
 msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
@@ -4326,21 +4337,35 @@ msgctxt "TFRMVIEWER.BTNMIRROR.HINT"
 msgid "Mirror"
 msgstr "Зеркально"
 
+#: TFRMVIEWER.BTNMOVEFILE.HINT
+msgctxt "TFRMVIEWER.BTNMOVEFILE.HINT"
+msgid "Move"
+msgstr "Переместить"
+
+#: TFRMVIEWER.BTNNEXT.HINT
+msgid "Next"
+msgstr ""
+
 #: TFRMVIEWER.BTNPAINT.HINT
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
 msgstr "Рисование"
 
+#: TFRMVIEWER.BTNPREV.HINT
+msgid "Previous"
+msgstr ""
+
+#: TFRMVIEWER.BTNREDEYE.HINT
+msgid "Red Eyes"
+msgstr ""
+
 #: TFRMVIEWER.BTNRELOAD.HINT
 msgid "Reload"
 msgstr ""
 
-#: TFRMVIEWER.BTNRESIZE.CAPTION
+#: TFRMVIEWER.BTNRESIZE.HINT
+msgctxt "TFRMVIEWER.BTNRESIZE.HINT"
 msgid "Resize"
-msgstr ""
-
-#: TFRMVIEWER.BTNSCREENSHOT.CAPTION
-msgid "Screenshot"
 msgstr ""
 
 #: TFRMVIEWER.BTNUNDO.HINT
@@ -4544,6 +4569,11 @@ msgstr ""
 msgid "Pnm"
 msgstr ""
 
+#: TFRMVIEWER.MISCREENSHOT.CAPTION
+msgctxt "TFRMVIEWER.MISCREENSHOT.CAPTION"
+msgid "Screenshot"
+msgstr ""
+
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
 msgid "Search"
@@ -4651,6 +4681,7 @@ msgid "Field contents"
 msgstr "Содержимое поля данных"
 
 #: ulng.rsconfcolmove
+msgctxt "ulng.rsconfcolmove"
 msgid "Move"
 msgstr "Переместить"
 
