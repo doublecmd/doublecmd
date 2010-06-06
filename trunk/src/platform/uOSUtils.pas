@@ -863,7 +863,7 @@ begin
 end;
 {$ELSEIF DEFINED(DARWIN)}
 begin
-  Result:= GetHomeDir + '/Library/Preferences/' + ApplicationName;
+  Result:= GetHomeDir + 'Library/Preferences/' + ApplicationName;
 end;
 {$ELSE}
 var
