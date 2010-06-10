@@ -8,12 +8,12 @@
 1) Из среды разработки Lazarus. В первую очередь необходимо установить компоненты из подкаталога components,
 для этого откройте Lazarus и выберите пункт меню "Компоненты -> Открыть файл пакета *.lpk ...", далее выберите файл
 components\KASToolBar\kascomp.lpk и в появившемся окне нажмите кнопку "Установить".
-Повторите тоже самое для файла пакета components\viewer\viewerpackage.lpk и components\CmdLine\cmdbox.lpk.
+Повторите тоже самое для файла пакета components\viewer\viewerpackage.lpk, components\CmdLine\cmdbox.lpk и components\gifanim\pkg_gifanim.lpk.
 После этого выберите пункт меню "Проект -> Открыть проект" и выберите файл doublecmd.lpi,
 далее выполните пункт меню "Запуск -> Собрать все"
 
 2) С помощью командного файла _make.bat. Откройте данный файл в текстовом редакторе и пропишите в
 переменную lazpath, путь к каталогу Lazarus. Далее откройте командную строку,
 перейдите в каталог с исходниками DC и дайте команду:
-Windows: _make.bat all
-Linux:   ./_make.sh all
+Windows: build.bat all
+Linux:   ./build.sh all
