@@ -100,7 +100,7 @@ if [ -z $CK_PORTABLE ]
     install -d $DC_INSTALL_PREFIX/usr/bin
     install -d $DC_INSTALL_PREFIX/usr/share/pixmaps
     install -d $DC_INSTALL_PREFIX/usr/share/applications
-    ln -sf $DC_INSTALL_DIR/doublecmd $DC_INSTALL_PREFIX/usr/bin/doublecmd
+    ln -sf /opt/doublecmd $DC_INSTALL_PREFIX/usr/bin/doublecmd
     install -m 644 doublecmd.png $DC_INSTALL_PREFIX/usr/share/pixmaps/doublecmd.png
     install -m 644 install/linux/doublecmd.desktop $DC_INSTALL_PREFIX/usr/share/applications/doublecmd.desktop
   else
