@@ -41,6 +41,10 @@ if [ ! -d "$DC_OBS_DIR" ]
     mkdir -p $DC_OBS_DIR
     cd $DC_OBS_DIR
     osc checkout $DC_OBS_WEB_DIR
+  else
+    pushd $DC_OBS_PRJ_DIR
+    osc up
+    popd
 fi
 
 # Upload archive to OBS
@@ -48,7 +52,7 @@ rm -f $DC_OBS_PRJ_DIR/doublecmd-$DC_VER.tar.gz
 mv doublecmd.spec $DC_OBS_PRJ_DIR/
 mv doublecmd-$DC_VER.tar.gz $DC_OBS_PRJ_DIR/
 cd $DC_OBS_PRJ_DIR
-osc commit doublecmd.spec doublecmd-$DC_VER.tar.gz -m "Update to $DC_REVISION revision"
+osc commit doublecmd.spec doublecmd-$DC_VER.tar.gz -m "Update to revision $DC_REVISION"
 
 # Clean
 rm -rf $DC_TEMP_DIR
