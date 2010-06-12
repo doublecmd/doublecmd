@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script updates Double Commander Personal Package Archive (PPA) repository
+
 # Set Double Commander version
 DC_VER=0.4.6
 

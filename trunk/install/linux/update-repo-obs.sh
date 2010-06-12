@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script updates Double Commander openSUSE Build Service (OBS) repository
+
 # Set Double Commander version
 DC_VER=0.4.6
 
