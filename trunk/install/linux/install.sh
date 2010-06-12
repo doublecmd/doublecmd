@@ -54,7 +54,6 @@ mkdir -p $DC_INSTALL_DIR/plugins/dsx/DSXLocate
 
 # Copy directories
 cp -r language $DC_INSTALL_DIR/
-cp -r doc/en   $DC_INSTALL_DIR/doc/
 cp -r pixmaps  $DC_INSTALL_DIR/
 # Copy files
 cp -a doc/*.txt                    $DC_INSTALL_DIR/doc/   
