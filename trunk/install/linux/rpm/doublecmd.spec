@@ -9,7 +9,12 @@ Source0:	%{name}-%{version}.tar.gz
 License:	GPL
 Group:		Applications/File
 Requires:	glib2
-BuildRequires:	fpc >= 2.4.0 fpc-src gdk-pixbuf-devel glib2-devel gtk2-devel lazarus >= 0.9.29 xorg-x11-devel hal-devel
+BuildRequires:	fpc >= 2.4.0 fpc-src glib2-devel gtk2-devel lazarus >= 0.9.29
+%if 0%{?mandriva_version}
+BuildRequires:  libhal-devel libncurses-devel
+%else
+BuildRequires:  xorg-x11-devel gdk-pixbuf-devel hal-devel ncurses-devel
+%endif
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
 %description
