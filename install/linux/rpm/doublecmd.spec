@@ -23,10 +23,10 @@ It is inspired by Total Commander and features some new ideas.
 ./build.sh all
 
 %install
-install/linux/install.sh --install-prefix=$RPM_BUILD_ROOT
+install/linux/install.sh --install-prefix=%{buildroot}
 
 %clean
-[ $RPM_BUILD_ROOT != "/" ] && ( rm -rf $RPM_BUILD_ROOT )
+[ %{buildroot} != "/" ] && ( rm -rf %{buildroot} )
 
 %files
 %defattr(-,root,root)
