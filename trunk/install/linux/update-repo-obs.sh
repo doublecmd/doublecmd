@@ -50,6 +50,7 @@ if [ ! -d "$DC_OBS_DIR" ]
 fi
 
 # Upload archive to OBS
+rm -f $DC_OBS_PRJ_DIR/doublecmd.spec
 rm -f $DC_OBS_PRJ_DIR/doublecmd-$DC_VER.tar.gz
 mv doublecmd.spec $DC_OBS_PRJ_DIR/
 mv doublecmd-$DC_VER.tar.gz $DC_OBS_PRJ_DIR/
