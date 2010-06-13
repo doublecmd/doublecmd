@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Determine library directory
+if [ "$CPU_TARGET" = "x86_64" ]
+   then
+       OS_LIB_DIR=usr/lib64
+   else
+       OS_LIB_DIR=usr/lib
+fi
+
 # Parse input parameters
 CKNAME=$(basename "$0")
 args=$(getopt -n $CKNAME -o P:,I: -l portable-prefix:,install-prefix:,default -- "$@")
@@ -8,7 +16,7 @@ for A
 do
   case "$A" in
        --)
-            DC_INSTALL_DIR=/opt/doublecmd
+            DC_INSTALL_DIR=/$OS_LIB_DIR/doublecmd
             ;;
         -P|--portable-prefix)
             shift
@@ -19,7 +27,7 @@ do
         -I|--install-prefix)
             shift
             DC_INSTALL_PREFIX=$(eval echo $1)
-            DC_INSTALL_DIR=$DC_INSTALL_PREFIX/opt/doublecmd
+            DC_INSTALL_DIR=$DC_INSTALL_PREFIX/$OS_LIB_DIR/doublecmd
             break
             ;;
   esac
@@ -87,20 +95,13 @@ install -m 644 plugins/dsx/DSXLocate/lib/DSXLocate.dsx  $DC_INSTALL_DIR/plugins/
 if [ -z $CK_PORTABLE ]
   then
     # Copy libraries
-    if [ "$CPU_TARGET" = "x86_64" ]
-      then
-        # for cross compiling try to create library directory
-        install -d $DC_INSTALL_PREFIX/usr/lib64
-        install -m 644 *.so           $DC_INSTALL_PREFIX/usr/lib64/
-      else
-        install -d $DC_INSTALL_PREFIX/usr/lib
-        install -m 644 *.so           $DC_INSTALL_PREFIX/usr/lib/
-    fi
+    install -d             $DC_INSTALL_PREFIX/$OS_LIB_DIR
+    install -m 644 *.so    $DC_INSTALL_PREFIX/$OS_LIB_DIR
     # Create symlink and desktop files
     install -d $DC_INSTALL_PREFIX/usr/bin
     install -d $DC_INSTALL_PREFIX/usr/share/pixmaps
     install -d $DC_INSTALL_PREFIX/usr/share/applications
-    ln -sf /opt/doublecmd $DC_INSTALL_PREFIX/usr/bin/doublecmd
+    ln -sf  /$OS_LIB_DIR/doublecmd/doublecmd $DC_INSTALL_PREFIX/usr/bin/doublecmd
     install -m 644 doublecmd.png $DC_INSTALL_PREFIX/usr/share/pixmaps/doublecmd.png
     install -m 644 install/linux/doublecmd.desktop $DC_INSTALL_PREFIX/usr/share/applications/doublecmd.desktop
   else
