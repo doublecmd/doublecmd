@@ -1,14 +1,13 @@
 # norootforbuild
 
 Name:		doublecmd
-Summary:	twin-panel (commander-style) file manager
+Summary:	Twin-panel (commander-style) file manager
 Version:	0.4.6
 Release:	1
 URL:		http://doublecmd.sourceforge.net
 Source0:	%{name}-%{version}.tar.gz
 License:	GPL
 Group:		Applications/File
-Requires:	glib2
 BuildRequires:	fpc >= 2.4.0 fpc-src glib2-devel gtk2-devel lazarus >= 0.9.29
 %if 0%{?mandriva_version}
 BuildRequires:  libhal-devel libncurses-devel
