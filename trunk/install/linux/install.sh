@@ -1,7 +1,12 @@
 #!/bin/bash
 
+# Set processor architecture
+if [ -z $CPU_TARGET ]; then
+   export CPU_TARGET=$(fpc -iTP)
+fi
+
 # Determine library directory
-if [ "$CPU_TARGET" = "x86_64" ]
+if [ "$CPU_TARGET" = "x86_64" ] && [ ! -f "/etc/debian_version" ]
    then
        OS_LIB_DIR=usr/lib64
    else
