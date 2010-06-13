@@ -36,8 +36,6 @@ done
 
 mkdir -p $DC_INSTALL_DIR
 
-mkdir -p $DC_INSTALL_DIR/doc
-
 mkdir -p $DC_INSTALL_DIR/plugins
 # WCX plugins directories
 mkdir -p $DC_INSTALL_DIR/plugins/wcx
@@ -60,11 +58,7 @@ mkdir -p $DC_INSTALL_DIR/plugins/wlx/WlxMplayer
 mkdir -p $DC_INSTALL_DIR/plugins/dsx
 mkdir -p $DC_INSTALL_DIR/plugins/dsx/DSXLocate
 
-# Copy directories
-cp -r language $DC_INSTALL_DIR/
-cp -r pixmaps  $DC_INSTALL_DIR/
 # Copy files
-cp -a doc/*.txt                    $DC_INSTALL_DIR/doc/   
 cp -a doublecmd                    $DC_INSTALL_DIR/
 cp -a install/linux/doublecmd.ini  $DC_INSTALL_DIR/
 cp -a doublecmd.ext.example        $DC_INSTALL_DIR/
@@ -95,8 +89,20 @@ install -m 644 plugins/dsx/DSXLocate/lib/DSXLocate.dsx  $DC_INSTALL_DIR/plugins/
 if [ -z $CK_PORTABLE ]
   then
     # Copy libraries
-    install -d             $DC_INSTALL_PREFIX/$OS_LIB_DIR
-    install -m 644 *.so    $DC_INSTALL_PREFIX/$OS_LIB_DIR
+    install -d                $DC_INSTALL_PREFIX/$OS_LIB_DIR
+    install -m 644 *.so       $DC_INSTALL_PREFIX/$OS_LIB_DIR
+    # Create directory for platform independed files
+    install -d                $DC_INSTALL_PREFIX/usr/share/doublecmd
+    # Copy documentation
+    install -d                $DC_INSTALL_PREFIX/usr/share/doublecmd/doc
+    install -m 644 doc/*.txt  $DC_INSTALL_PREFIX/usr/share/doublecmd/doc
+    ln -sf /usr/share/doublecmd/doc $DC_INSTALL_DIR/doc
+    # Copy languages
+    cp -r language $DC_INSTALL_PREFIX/usr/share/doublecmd
+    ln -sf /usr/share/doublecmd/language $DC_INSTALL_DIR/language
+    # Copy pixmaps
+    cp -r pixmaps $DC_INSTALL_PREFIX/usr/share/doublecmd
+    ln -sf /usr/share/doublecmd/pixmaps $DC_INSTALL_DIR/pixmaps
     # Create symlink and desktop files
     install -d $DC_INSTALL_PREFIX/usr/bin
     install -d $DC_INSTALL_PREFIX/usr/share/pixmaps
@@ -105,7 +111,14 @@ if [ -z $CK_PORTABLE ]
     install -m 644 doublecmd.png $DC_INSTALL_PREFIX/usr/share/pixmaps/doublecmd.png
     install -m 644 install/linux/doublecmd.desktop $DC_INSTALL_PREFIX/usr/share/applications/doublecmd.desktop
   else
+    # Copy documentation
+    mkdir -p $DC_INSTALL_DIR/doc
+    cp -a doc/*.txt $DC_INSTALL_DIR/doc/
+    # Copy script for execute portable version
     cp -a doublecmd.sh $DC_INSTALL_DIR/
+    # Copy directories
+    cp -r language $DC_INSTALL_DIR/
+    cp -r pixmaps  $DC_INSTALL_DIR/
     # Copy libraries
     cp -a *.so     $DC_INSTALL_DIR/
     # Copy DC icon
