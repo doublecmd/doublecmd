@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Double Commander
 Comment=Double Commander is a cross platform open source file manager with two panels side by side.
-Exec=/opt/doublecmd/doublecmd
+Exec=/usr/bin/doublecmd
 Terminal=false
 Type=Application
 Icon=/usr/share/pixmaps/doublecmd.png
