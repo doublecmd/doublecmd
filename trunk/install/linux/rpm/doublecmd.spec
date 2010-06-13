@@ -1,7 +1,7 @@
 # norootforbuild
 
 Name:		doublecmd
-Summary:	Double Commander is a cross platform open source file manager with two panels side by side.
+Summary:	twin-panel (commander-style) file manager
 Version:	0.4.6
 Release:	1
 URL:		http://doublecmd.sourceforge.net
@@ -35,7 +35,11 @@ install/linux/install.sh --install-prefix=%{buildroot}
 
 %files
 %defattr(-,root,root)
-/
+%{_libdir}/%{name}
+%{_bindir}/%{name}
+%{_datadir}/%{name}
+%{_datadir}/pixmaps/%{name}.png
+%{_datadir}/applications/%{name}.desktop
 
 %changelog
 * Fri Jun 11 2010 - Alexander Koblov <Alexx2000@mail.ru>
