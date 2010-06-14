@@ -1,7 +1,7 @@
 object frmDiffer: TfrmDiffer
-  Left = 240
+  Left = 157
   Height = 370
-  Top = 116
+  Top = 60
   Width = 760
   Caption = 'Compare files'
   ClientHeight = 350
@@ -237,6 +237,7 @@ object frmDiffer: TfrmDiffer
         Height = 22
         Top = 0
         Width = 23
+        Action = actSaveLeftAs
         Color = clBtnFace
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
@@ -275,6 +276,7 @@ object frmDiffer: TfrmDiffer
           FF00186FAB174345D3D63A3ACFB25353D418FFFFFF00FFFFFF00
         }
         NumGlyphs = 0
+        ShowCaption = False
       end
     end
   end
@@ -429,6 +431,7 @@ object frmDiffer: TfrmDiffer
         Height = 22
         Top = 0
         Width = 23
+        Action = actSaveRightAs
         Color = clBtnFace
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
@@ -467,6 +470,7 @@ object frmDiffer: TfrmDiffer
           FF00186FAB174345D3D63A3ACFB25353D418FFFFFF00FFFFFF00
         }
         NumGlyphs = 0
+        ShowCaption = False
       end
     end
   end
@@ -844,6 +848,14 @@ object frmDiffer: TfrmDiffer
         }
         OnClick = actSaveRightExecute
       end
+      object miSaveLeftAs: TMenuItem
+        Action = actSaveLeftAs
+        OnClick = actSaveLeftAsExecute
+      end
+      object miSaveRightAs: TMenuItem
+        Action = actSaveRightAs
+        OnClick = actSaveRightAsExecute
+      end
       object miDivider6: TMenuItem
         Caption = '-'
       end
@@ -921,9 +933,11 @@ object frmDiffer: TfrmDiffer
       Caption = 'Edit'
       object miEditUndo: TMenuItem
         Action = actEditUndo
+        OnClick = actEditUndoExecute
       end
       object miEditRedo: TMenuItem
         Action = actEditRedo
+        OnClick = actEditRedoExecute
       end
       object miDivider8: TMenuItem
         Caption = '-'
@@ -934,18 +948,22 @@ object frmDiffer: TfrmDiffer
       end
       object miEditCopy: TMenuItem
         Action = actEditCopy
+        OnClick = actEditCopyExecute
       end
       object miEditPaste: TMenuItem
         Action = actEditPaste
+        OnClick = actEditPasteExecute
       end
       object miEditDelete: TMenuItem
         Action = actEditDelete
+        OnClick = actEditDeleteExecute
       end
       object miDivider9: TMenuItem
         Caption = '-'
       end
       object miEditSelectAll: TMenuItem
         Action = actEditSelectAll
+        OnClick = actEditSelectAllExecute
       end
     end
     object mnuOptions: TMenuItem
@@ -1553,6 +1571,16 @@ object frmDiffer: TfrmDiffer
       Category = 'Edit'
       Caption = 'Undo'
       OnExecute = actEditUndoExecute
+    end
+    object actSaveLeftAs: TAction
+      Caption = 'Save Left As...'
+      ImageIndex = 10
+      OnExecute = actSaveLeftAsExecute
+    end
+    object actSaveRightAs: TAction
+      Caption = 'Save Right As...'
+      ImageIndex = 10
+      OnExecute = actSaveRightAsExecute
     end
   end
   object ImageList: TImageList
