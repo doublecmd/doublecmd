@@ -48,6 +48,8 @@ type
     actEditRedo: TAction;
     actEditSelectAll: TAction;
     actEditPaste: TAction;
+    actSaveRightAs: TAction;
+    actSaveLeftAs: TAction;
     actOpenRight: TAction;
     actOpenLeft: TAction;
     actReload: TAction;
@@ -70,6 +72,8 @@ type
     edtFileNameRight: TFileNameEdit;
     ImageList: TImageList;
     MainMenu: TMainMenu;
+    miSaveRightAs: TMenuItem;
+    miSaveLeftAs: TMenuItem;
     miCopyContext: TMenuItem;
     miCutContext: TMenuItem;
     miDeleteContext: TMenuItem;
@@ -163,7 +167,9 @@ type
     procedure actPaintBackgroundExecute(Sender: TObject);
     procedure actPrevDiffExecute(Sender: TObject);
     procedure actReloadExecute(Sender: TObject);
+    procedure actSaveLeftAsExecute(Sender: TObject);
     procedure actSaveLeftExecute(Sender: TObject);
+    procedure actSaveRightAsExecute(Sender: TObject);
     procedure actSaveRightExecute(Sender: TObject);
     procedure actStartCompareExecute(Sender: TObject);
     procedure actKeepScrollingExecute(Sender: TObject);
@@ -395,9 +401,29 @@ begin
   OpenFileRight(edtFileNameRight.FileName);
 end;
 
+procedure TfrmDiffer.actSaveLeftAsExecute(Sender: TObject);
+begin
+  dmComData.SaveDialog.FileName:= edtFileNameLeft.FileName;
+  if dmComData.SaveDialog.Execute then
+  begin
+    SaveToFile(SynDiffEditLeft, dmComData.SaveDialog.FileName);
+    edtFileNameLeft.FileName:= dmComData.SaveDialog.FileName;
+  end;
+end;
+
 procedure TfrmDiffer.actSaveLeftExecute(Sender: TObject);
 begin
   SaveToFile(SynDiffEditLeft, edtFileNameLeft.FileName);
+end;
+
+procedure TfrmDiffer.actSaveRightAsExecute(Sender: TObject);
+begin
+  dmComData.SaveDialog.FileName:= edtFileNameRight.FileName;
+  if dmComData.SaveDialog.Execute then
+  begin
+    SaveToFile(SynDiffEditLeft, dmComData.SaveDialog.FileName);
+    edtFileNameRight.FileName:= dmComData.SaveDialog.FileName;
+  end;
 end;
 
 procedure TfrmDiffer.actSaveRightExecute(Sender: TObject);
