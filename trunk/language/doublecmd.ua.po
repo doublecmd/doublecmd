@@ -4229,6 +4229,7 @@ msgstr "Показувати як нормальні файли (сховати 
 msgid "Supports packing in memory"
 msgstr "Підтримує стиснення в пам'яті"
 
+
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_MODIFY.CAPTION
 msgid "Can modify exisiting archives"
 msgstr "Може змінювати існуючі архіви"
@@ -4333,7 +4334,7 @@ msgstr "Перемістити"
 
 #: TFRMVIEWER.BTNNEXT.HINT
 msgid "Next"
-msgstr ""
+msgstr "Наступний"
 
 #: TFRMVIEWER.BTNPAINT.HINT
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
@@ -4342,11 +4343,11 @@ msgstr "Малювати"
 
 #: TFRMVIEWER.BTNPREV.HINT
 msgid "Previous"
-msgstr ""
+msgstr "Попередній"
 
 #: TFRMVIEWER.BTNREDEYE.HINT
 msgid "Red Eyes"
-msgstr ""
+msgstr "Червоні очі"
 
 #: TFRMVIEWER.BTNRELOAD.HINT
 msgid "Reload"
