@@ -1924,7 +1924,7 @@ msgstr "Netzwerk verbinden..."
 
 #: TFRMMAIN.ACTNETWORKDISCONNECT.CAPTION
 msgid "Network Disconnect"
-msgstr "Netzwerktrennung"
+msgstr "Netzwerk trennen"
 
 #: TFRMMAIN.ACTNETWORKQUICKCONNECT.CAPTION
 msgid "Network Quick Connect..."
@@ -2231,7 +2231,7 @@ msgstr ""
 
 #: TFRMMAIN.BTNLEFTEQUALRIGHT.HINT
 msgid "Show current directory of the right panel in the left panel"
-msgstr "Aktuelles Verzeichnis auf der rechten Seite in der linken Seite anzeigen"
+msgstr "Aktuelles Verzeichnis der rechten Seite auch auf der linken Seite anzeigen"
 
 #: TFRMMAIN.BTNLEFTHOME.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTHOME.CAPTION"
@@ -2271,7 +2271,7 @@ msgstr ""
 
 #: TFRMMAIN.BTNRIGHTEQUALLEFT.HINT
 msgid "Show current directory of the left panel in the right panel"
-msgstr "Aktuelles Verzeichnis auf der linken Seite in der rechten Seite anzeigen"
+msgstr "Aktuelles Verzeichnis der linken Seite auch auf der rechten Seite anzeigen"
 
 #: TFRMMAIN.BTNRIGHTHOME.CAPTION
 msgctxt "TFRMMAIN.BTNRIGHTHOME.CAPTION"
@@ -3369,11 +3369,11 @@ msgstr "Zeige die Ausgabe des Konsolenfensters"
 
 #: TFRMOPTIONS.CHKSAVECONFIGURATION.CAPTION
 msgid "Save configuration"
-msgstr ""
+msgstr "Konfiguration speichern"
 
 #: TFRMOPTIONS.CHKSEARCHREPLACEHISTORY.CAPTION
 msgid "Search/Replace history"
-msgstr ""
+msgstr "Suche / Ersetze Verlauf "
 
 #: TFRMOPTIONS.CTEXTLABEL.CAPTION
 msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
@@ -3664,7 +3664,7 @@ msgstr "Packer-PlugIns werden benutzt um mit Archiven zu arbeiten."
 
 #: TFRMOPTIONS.LBLWDXDESCRIPTION.CAPTION
 msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgstr "Inhalt-PlugIns erlauben es, weitere Deatils (wie z.B. MP3-Tags) in Dateilisten anzuzeigen, oder sie zur Suche oder Umbenennung zu nutzen"
+msgstr "Inhalt-PlugIns erlauben es, weitere Details (wie z.B. MP3-Tags) in Dateilisten anzuzeigen, oder sie zur Suche oder Umbenennung zu nutzen"
 
 #: TFRMOPTIONS.LBLWFXDESCRIPTION.CAPTION
 msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
@@ -4342,7 +4342,7 @@ msgstr "Verschieben"
 
 #: TFRMVIEWER.BTNNEXT.HINT
 msgid "Next"
-msgstr ""
+msgstr "Nächste"
 
 #: TFRMVIEWER.BTNPAINT.HINT
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
@@ -4351,11 +4351,11 @@ msgstr "Malen"
 
 #: TFRMVIEWER.BTNPREV.HINT
 msgid "Previous"
-msgstr ""
+msgstr "Vorherige"
 
 #: TFRMVIEWER.BTNREDEYE.HINT
 msgid "Red Eyes"
-msgstr ""
+msgstr "Rote Augen"
 
 #: TFRMVIEWER.BTNRELOAD.HINT
 msgid "Reload"
@@ -4574,7 +4574,7 @@ msgctxt "TFRMVIEWER.MISCREENSHOT.CAPTION"
 msgid "Screenshot"
 msgstr ""
 "Anzeige als\n"
-"Bild kopieren\n"
+"Bild kopieren (Screenshot)"
 
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
