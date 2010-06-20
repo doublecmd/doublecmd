@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WCX plugin for extract *.lzma archives
 
-   Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2010  Koblov Alexander (Alexx2000@mail.ru)
 
    Based on:
      LZMAAlone from Pascal LZMA SDK
@@ -66,6 +66,55 @@ implementation
 uses
   Classes, SysUtils, ULZMADecoder, ULZMAEncoder, UBufferedFS;
 
+const
+  PropertiesSize = 5;
+
+type
+
+  { TLzmaHandle }
+
+  TLzmaHandle = class
+    inStream: TBufferedFS;
+    outSize: Int64;
+    Properties: array[0..Pred(PropertiesSize)] of Byte;
+    function Open(const FileName: String): LongInt;
+    destructor Destroy; override;
+  end;
+
+{ TLzmaHandle }
+
+function TLzmaHandle.Open(const FileName: String): LongInt;
+var
+  I: Integer;
+  v: Byte;
+begin
+  Result:= E_SUCCESS;
+  try
+    inStream:= nil;
+    inStream:= TBufferedFS.Create(FileName, fmOpenRead or fmShareDenyNone);
+  except
+    on EFOpenError do
+      Result:= E_EOPEN;
+  end;
+  if Result <> E_SUCCESS then Exit;
+  if inStream.Read(Properties, PropertiesSize) <> PropertiesSize then
+    Exit(E_BAD_DATA);
+  outSize:= 0;
+  for I:= 0 to 7 do begin
+    v:= {shortint}(ReadByte(inStream));
+    if v < 0 then
+      Exit(E_EREAD);
+    outSize := outSize or v shl (8 * I);
+  end;
+end;
+
+destructor TLzmaHandle.Destroy;
+begin
+  if Assigned(inStream) then
+    FreeAndNil(inStream);
+  inherited Destroy;
+end;
+
 var
   sArcName: String;
   Count: Integer = 0;
@@ -107,19 +156,24 @@ begin
 end;
 
 function OpenArchive (var ArchiveData: TOpenArchiveData): TArcHandle;
+var
+  lzmaHandle: TLzmaHandle;
 begin
+  Result:= 0;
   if FileExists(ArchiveData.ArcName) then
     begin
       sArcName:= ArchiveData.ArcName;
+      lzmaHandle:= TLzmaHandle.Create;
+      ArchiveData.OpenResult:= lzmaHandle.Open(sArcName);
+      if ArchiveData.OpenResult <> E_SUCCESS then Exit;
       Count:= 0;
-      Result:= 1985;
-    end
-  else
-    Result:= E_EOPEN;
+      Result:= TArcHandle(lzmaHandle);
+    end;
 end;
 
 function ReadHeader (hArcData: TArcHandle; var HeaderData: THeaderData): Integer;
 var
+  lzmaHandle: TLzmaHandle absolute hArcData;
   sr: TSearchRec;
 begin
   if Count > 0 then
@@ -133,7 +187,7 @@ begin
       FindFirst(sArcName, faAnyFile, sr);
       FileName := ExtractOnlyFileName(sArcName);
       PackSize := sr.Size;
-      UnpSize  := sr.Size; // we don't know real file size
+      UnpSize  := Lo(lzmaHandle.outSize);
       FileTime := sr.Time;
       FileAttr := sr.Attr;
       FindClose(sr);
@@ -142,17 +196,11 @@ begin
 end;
 
 function ProcessFile (hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PChar): Integer;
-const
-  PropertiesSize = 5;
 var
-  inStream: TBufferedFS = nil;
+  lzmaHandle: TLzmaHandle absolute hArcData;
   outStream: TBufferedFS = nil;
   decoder: TLZMADecoder = nil;
-  outSize: Int64;
   sOutputFileName: String;
-  Properties: array[0..4] of Byte;
-  I: Integer;
-  v: Byte;
 begin
   Result:= E_SUCCESS;
   ProgressPos:= 0;
@@ -172,38 +220,23 @@ begin
         sOutputFileName:= DestName;
       try
         try
-          inStream:= TBufferedFS.Create(sArcName, fmOpenRead or fmShareDenyNone);
           outStream:= TBufferedFS.Create(sOutputFileName, fmCreate);
         except
-          on EFOpenError do
-            Result:= E_EOPEN;
           on EFCreateError do
             Result:= E_ECREATE;
         end;
         if Result <> E_SUCCESS then Exit;
-
-        if inStream.Read(Properties, PropertiesSize) <> PropertiesSize then
-          Exit(E_BAD_DATA);
         decoder:= TLZMADecoder.Create;
         decoder.OnProgress:= TProgressProc.LZMAProgress;
-        if not decoder.SetDecoderProperties(properties) then
+        if not decoder.SetDecoderProperties(lzmaHandle.Properties) then
           Exit(E_BAD_DATA);
-        outSize:= 0;
-        for I:= 0 to 7 do begin
-          v:= {shortint}(ReadByte(inStream));
-          if v < 0 then
-            Exit(E_EREAD);
-          outSize := outSize or v shl (8 * I);
-        end;
-        if not decoder.Code(inStream, outStream, outSize) then
+        if not decoder.Code(lzmaHandle.inStream, outStream, lzmaHandle.outSize) then
           Exit(E_BAD_DATA);
       finally
         if Assigned(decoder) then
           FreeAndNil(decoder);
         if Assigned(outStream) then
           FreeAndNil(outStream);
-        if Assigned(inStream) then
-          FreeAndNil(inStream);
       end;
     end;
 
@@ -217,7 +250,11 @@ begin
 end;
 
 function CloseArchive (hArcData: TArcHandle): Integer;
+var
+  lzmaHandle: TLzmaHandle absolute hArcData;
 begin
+  if Assigned(lzmaHandle) then
+    FreeAndNil(lzmaHandle);
   Result:= E_SUCCESS;
 end;
 
