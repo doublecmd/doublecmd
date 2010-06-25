@@ -204,7 +204,7 @@ end;
 procedure TFileViewPage.SetLockState(NewLockState: TTabLockState);
 begin
   FLockState := NewLockState;
-  if NewLockState = tlsPathResets then
+  if NewLockState <> tlsNormal then
     LockPath := FileView.CurrentPath;
   UpdateTabLockState;
 end;
