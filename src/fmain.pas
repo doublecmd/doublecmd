@@ -3376,7 +3376,7 @@ procedure TfrmMain.UpdateWindowView;
 
     for I := 0 to NoteBook.PageCount - 1 do  //  change on all tabs
     begin
-      if NoteBook.Page[I].LockState = tlsNormal then
+      if NoteBook.Page[I].LockState <> tlsPathResets then
         NoteBook.Page[I].UpdateCaption(GetLastDir(NoteBook.View[I].CurrentPath))
       else
         NoteBook.Page[I].UpdateCaption(GetLastDir(NoteBook.Page[I].LockPath));
