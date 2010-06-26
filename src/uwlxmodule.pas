@@ -282,7 +282,7 @@ begin
   else if Assigned(ListLoad) then
     FPluginWindow:= ListLoad(ParentWin, PAnsiChar(UTF8ToSys(FileToLoad)), ShowFlags)
   else
-    Exit(feInvalidHandle);
+    Exit(wlxInvalidHandle);
 
   Result:= FPluginWindow;
 end;
