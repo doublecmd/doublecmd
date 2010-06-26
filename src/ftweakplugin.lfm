@@ -24,7 +24,6 @@ object frmTweakPlugin: TfrmTweakPlugin
     Caption = 'OK'
     Default = True
     ModalResult = 1
-    OnClick = cbExtChange
     TabOrder = 0
   end
   object btnCancel: TButton
