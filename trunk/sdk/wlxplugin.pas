@@ -45,6 +45,9 @@ type
   { Unsigned integer with pointer size }
   THandle = {$IFDEF CPU64}QWord{$ELSE}LongWord{$ENDIF};
 
+const
+  wlxInvalidHandle: THandle = THandle(-1);
+
 type
   tListDefaultParamStruct=record
     size,
@@ -93,4 +96,4 @@ function ListGetPreviewBitmapW(FileToLoad:pwidechar;width,height:integer; conten
 
 implementation
 
-end.
+end.
