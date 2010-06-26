@@ -132,7 +132,7 @@ TMPlayer=class(TThread)
           pr:TProcess;            //mplayer's process
           pmplayer:string;        //path to mplayer
           //---------------------
-          constructor Create(AFilename:String);
+          constructor Create(APlayerPath, AFilename: String);
            destructor destroy; override;
           procedure SetParentWidget(AWidget:thandle);
         protected
@@ -143,16 +143,12 @@ TMPlayer=class(TThread)
 
 { TMPlayer }
 
-constructor TMPlayer.Create(AFilename:String);
-var pf:TExProcess;
+constructor TMPlayer.Create(APlayerPath, AFilename: String);
 begin
-  inherited Create(true);
-  filename:='"'+AFilename+'"';
-  pf:=TExProcess.Create('which mplayer');
-  pf.Execute;
-  pmplayer:=pf.RezList[0]+' ';
-  pf.Free;
-  writeln('PLUGIN : found mplayer in :' + pmplayer);
+  inherited Create(True);
+  filename:= '"' + AFilename + '"';
+  pmplayer:= APlayerPath + ' ';
+  WriteLn('wlxMPlayer: found mplayer in - ' + pmplayer);
 end;
 
 destructor TMPlayer.destroy;
@@ -253,29 +249,44 @@ end;
 
  var List:TStringList;
 
-function ListLoad(ParentWin:thandle;FileToLoad:pchar;ShowFlags:integer):thandle; stdcall;
-var p:TMPlayer;
+function ListLoad(ParentWin: THandle; FileToLoad: PChar; ShowFlags: Integer): THandle; stdcall;
+var
+  pf: TExProcess;
+  sPlayerPath: String;
+  p: TMPlayer;
 begin
-   p:=TMPlayer.Create(string(FileToLoad));
-   p.SetParentWidget(ParentWin);
+  pf:= TExProcess.Create('which mplayer');
+  try
+    pf.Execute;
+    if (pf.RezList.Count <> 0) then
+      sPlayerPath:= pf.RezList[0]
+    else
+      WriteLn('wlxMPlayer: mplayer not found!');
+  finally
+    pf.Free;
+  end;
+
+  if sPlayerPath = EmptyStr then Exit(wlxInvalidHandle);
+
+  p:= TMPlayer.Create(sPlayerPath, string(FileToLoad));
+  p.SetParentWidget(ParentWin);
    
-   //Create list if none
-   if not assigned(List) then
-       List:=TStringList.Create;
+  // Create list if none
+  if not Assigned(List) then
+    List:= TStringList.Create;
 
-   //add to list new plugin window and it's info
-   List.AddObject(IntToStr(integer(p.hWidget)),TPlugInfo.Create);
-   with TPlugInfo(List.Objects[List.Count-1]) do
-     begin
-       fFileToLoad:=FileToLoad;
-       fShowFlags:=ShowFlags;
-       AddControl(p);
-     end;
+  // Add to list new plugin window and it's info
+  List.AddObject(IntToStr(PtrInt(p.hWidget)), TPlugInfo.Create);
+  with TPlugInfo(List.Objects[List.Count-1]) do
+    begin
+      fFileToLoad:= FileToLoad;
+      fShowFlags:= ShowFlags;
+      AddControl(p);
+    end;
      
-Result:=integer(p.hWidget);
+  Result:= p.hWidget;
 
-p.Resume;
-
+  p.Resume;
 end;
 
 procedure ListCloseWindow(ListWin:thandle); stdcall;
