@@ -64,6 +64,7 @@ end;
 
 destructor TQuickViewPanel.Destroy;
 begin
+  FViewer.ExitPluginMode;
   FFileViewPage.FileView.Visible:= True;
   FreeThenNil(FViewer);
   FFileSource:= nil;
