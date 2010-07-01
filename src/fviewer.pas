@@ -227,7 +227,6 @@ type
     ActivePlugin:Integer;
     //---------------------
     function CheckPlugins(const sFileName: UTF8String; Force: boolean=false):boolean;
-    procedure ExitPluginMode;
     Function CheckGraphics(const sFileName:String):Boolean;
     procedure AdjustImageSize;
     procedure LoadGraphics(const sFileName:String);
@@ -252,6 +251,7 @@ type
     procedure LoadFile(const aFileName: UTF8String);
     procedure LoadNextFile(const aFileName: UTF8String);
     procedure LoadFile(iIndex:Integer);
+    procedure ExitPluginMode;
     property QuickView: Boolean read bQuickView write bQuickView;
   end;
 
@@ -350,7 +350,7 @@ begin
       if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, aFileName, 0) <> LISTPLUGIN_ERROR then
         Exit;
     end;
-
+  ExitPluginMode;
   LoadFile(aFileName);
 end;
 
@@ -1889,4 +1889,4 @@ end;
 initialization
  {$I fviewer.lrs}
 
-end.
+end.
