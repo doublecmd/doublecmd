@@ -553,7 +553,7 @@ end;
 
 function TUnixTerm.SetCurrentDir(const NewDir: UTF8String): Boolean;
 begin
-  Result:= Write_pty(' cd "' + NewDir + '"' + #13#10);
+  Result:= Write_pty(' cd "' + NewDir + '"' + #13);
 end;
 
 function TUnixTerm.KillShell: LongInt;

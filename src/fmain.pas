@@ -3716,7 +3716,7 @@ begin
             edtCommand.Items.Insert(0,sCmd);
 
           if gTermWindow and Assigned(Cons) then
-            Cons.Terminal.Write_pty(sCmd + #13#10)
+            Cons.Terminal.Write_pty(sCmd + #13)
           else if bRunInTerm then
             ExecCmdFork(sCmd, True, gRunInTerm)
           else
