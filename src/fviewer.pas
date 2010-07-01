@@ -1179,7 +1179,7 @@ begin
       if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
         Exit;
     end;
-
+  ExitPluginMode;
   LoadFile(I);
   gboxPaint.Visible:=false;
   gboxHightlight.Visible:=false;
