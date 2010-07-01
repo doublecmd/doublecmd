@@ -67,12 +67,12 @@ type
     fforce:boolean;
     function getresult(const aFile: TFile):boolean;
     function calculate(aFile: TFile; operand1,operand2,Aoperator:Tmathchar):string;
-    function getoperator(c:char):TMathOperatortype;
+    function getoperator(c:UTF8String):TMathOperatortype;
     function getoperand(mid:integer;var len:integer):string;
     procedure processstring;
     procedure convertinfixtopostfix;
-    function isdigit(c:char):boolean;
-    function isoperator(c:char):boolean;
+    function isdigit(c:UTF8String):boolean;
+    function isoperator(c:UTF8String):boolean;
     function getprecedence(mop:TMathOperatortype):integer;
     function BooleanToStr(x:boolean):string;
     function StrToBoolean(s:string):boolean;
@@ -203,7 +203,7 @@ begin
  setlength(output,0);
  end;
 
- function TParserControl.getoperator(c:char):TMathOperatortype;
+ function TParserControl.getoperator(c:UTF8String):TMathOperatortype;
  begin
  result:=monone;
       if c='<' then
@@ -309,7 +309,7 @@ procedure TParserControl.processstring;
  end;
 
 
- function TParserControl.isoperator(c:char):boolean;
+ function TParserControl.isoperator(c:UTF8String):boolean;
  begin
  result:=false;
  if (c='=')
@@ -322,11 +322,10 @@ procedure TParserControl.processstring;
    result:=true;
  end;
 
-function TParserControl.isdigit(c:char):boolean;
+function TParserControl.isdigit(c:UTF8String):boolean;
  begin
  result:=false;
- if (integer(c)>64) or
- (c in ['1','2','3','4','5','6','7','8','9','0','"','*']) then
+ if pos(c,'=#!&<>|')<=0 then
    result:=true;
  end;
 

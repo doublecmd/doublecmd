@@ -311,9 +311,15 @@ begin
 
 end;
 
+procedure ListGetDetectString(DetectString:pchar;maxlen:integer); stdcall;
+begin
+ StrLCopy (DetectString, 'EXT="AVI"|EXT="MKV"|EXT="FLV"|EXT="MPG"|EXT="MPEG"|EXT="MP4"|EXT=VOB', maxlen);
+end;
+
 exports
        ListLoad,
-       ListCloseWindow;
+       ListCloseWindow,
+       ListGetDetectString;
 
 begin
 end.
