@@ -3690,12 +3690,17 @@ begin
   if (fspDirectAccess in ActiveFrame.FileSource.GetProperties) then
     begin
       iIndex:= Pos('cd ', sCmd);
-      if iIndex = 1 then
+      if (iIndex = 1) or (sCmd = 'cd') then
         begin
-          sDir:= Trim(RemoveQuotation(Copy(sCmd, iIndex + 3, Length(sCmd))));
-          sDir:= IncludeTrailingBackslash(sDir);
-          if Pos('~' + PathDelim, sDir) = 1 then
-            sDir:= StringReplace(sDir, '~' + PathDelim, GetHomeDir, []);
+          if (iIndex <> 1) then
+            sDir:= GetHomeDir
+          else
+            begin
+              sDir:= Trim(RemoveQuotation(Copy(sCmd, iIndex + 3, Length(sCmd))));
+              sDir:= IncludeTrailingBackslash(sDir);
+              if Pos('~' + PathDelim, sDir) = 1 then
+                sDir:= StringReplace(sDir, '~' + PathDelim, GetHomeDir, []);
+            end;
           logWrite('Chdir to: ' + sDir);
           if not mbSetCurrentDir(sDir) then
             begin
