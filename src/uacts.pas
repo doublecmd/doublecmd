@@ -2495,7 +2495,9 @@ begin
           end;
 
         if sl.Count > 1 then
-          Result:= ShowLinkerFilesForm(sl);
+          Result := ShowLinkerFilesForm(sl)
+        else
+          msgWarning(rsMsgInvalidSelection); 
       finally
         FreeThenNil(sl);
         FreeThenNil(aSelectedFiles);
