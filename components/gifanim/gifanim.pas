@@ -205,6 +205,8 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    procedure NextFrame;
+    procedure PriorFrame;
     property Empty: boolean Read FEmpty;
     property GifBitmaps: TGifList Read FGifBitmaps;
     property GifIndex: integer Read FCurrentImage;
@@ -295,6 +297,32 @@ begin
     FreeAndNil(FGifBitmaps);
   BufferImg.Free;
   CurrentView.Free;
+end;
+
+procedure TGifAnim.NextFrame;
+begin
+  if (not FEmpty) and Visible and (not FAnimate) then
+  begin
+    Dec(FCurrentImage);
+    if FCurrentImage < 0 then
+      FCurrentImage := GifBitmaps.Count - 1;
+    if Assigned(FOnFrameChanged) then
+      FOnFrameChanged(Self);
+    Repaint;
+  end;
+end;
+
+procedure TGifAnim.PriorFrame;
+begin
+  if (not FEmpty) and Visible and (not FAnimate) then
+  begin
+    Inc(FCurrentImage);
+    if FCurrentImage > GifBitmaps.Count - 1 then
+      FCurrentImage := 0;
+    if Assigned(FOnFrameChanged) then
+      FOnFrameChanged(self);
+    Repaint;
+  end;
 end;
 
 function TGifAnim.LoadFromLazarusResource(const ResName: String): boolean;
