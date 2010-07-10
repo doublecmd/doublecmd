@@ -56,6 +56,7 @@ type
     gboxView: TGroupBox;
     gboxSlideShow: TGroupBox;
     GifAnim: TGifAnim;
+    MenuItem1: TMenuItem;
     miScreenshot: TMenuItem;
     miFullScreen: TMenuItem;
     miSaveToPnm: TMenuItem;
@@ -111,6 +112,10 @@ type
     btnMoveFile: TSpeedButton;
     btnDeleteFile: TSpeedButton;
     btnCopyFile: TSpeedButton;
+    btnGifMove: TSpeedButton;
+    btnGifToBmp: TSpeedButton;
+    btnNextGifFrame: TSpeedButton;
+    btnPrevGifFrame: TSpeedButton;
     Status: TStatusBar;
     MainMenu: TMainMenu;
     miFile: TMenuItem;
@@ -139,9 +144,12 @@ type
     procedure btnCutTuImageClick(Sender: TObject);
     procedure btnDeleteFileClick(Sender: TObject);
     procedure btnFullScreenClick(Sender: TObject);
+    procedure btnGifMoveClick(Sender: TObject);
+    procedure btnGifToBmpClick(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure btnPaintHightlight(Sender: TObject);
     procedure btnPrevClick(Sender: TObject);
+    procedure btnPrevGifFrameClick(Sender: TObject);
     procedure btnRedEyeClick(Sender: TObject);
     procedure btnReloadClick(Sender: TObject);
     procedure btnResizeClick(Sender: TObject);
@@ -157,6 +165,7 @@ type
       );
     procedure ImageMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure MenuItem1Click(Sender: TObject);
     procedure miSaveClick(Sender: TObject);
     procedure miScreenShotClick(Sender: TObject);
     procedure miFullScreenClick(Sender: TObject);
@@ -178,6 +187,7 @@ type
     procedure sboxImageMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure sboxImageResize(Sender: TObject);
+    procedure btnNextGifFrameClick(Sender: TObject);
     procedure TimerViewerTimer(Sender: TObject);
     procedure ViewerControlMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -625,6 +635,11 @@ begin
   Image.Cursor:=crDefault;
 end;
 
+procedure TfrmViewer.MenuItem1Click(Sender: TObject);
+begin
+  GifAnim.Animate:=not GifAnim.Animate;
+end;
+
 procedure TfrmViewer.miSaveClick(Sender: TObject);
 var
   str: String;
@@ -654,11 +669,14 @@ begin
       Height:= Height div 2;
       Width:= Width div 2;
     end;
+  if ExtractOnlyFileExt(FileList.Strings[iActiveFile]) <> 'gif' then
+    begin
+      btnHightlight.Visible:=not(miFullScreen.Checked);
+      btnPaint.Visible:=not(miFullScreen.Checked);
+      btnResize.Visible:=not(miFullScreen.Checked);
+    end;
   sboxImage.HorzScrollBar.Visible:= not(miFullScreen.Checked);
   sboxImage.VertScrollBar.Visible:= not(miFullScreen.Checked);
-  btnHightlight.Visible:=not(miFullScreen.Checked);
-  btnPaint.Visible:=not(miFullScreen.Checked);
-  btnResize.Visible:=not(miFullScreen.Checked);
   TimerViewer.Enabled:=miFullScreen.Checked;
   btnReload.Visible:=not(miFullScreen.Checked);
   Status.Visible:=not(miFullScreen.Checked);
@@ -1061,7 +1079,7 @@ end;
 
 procedure TfrmViewer.PanelEditImageMouseEnter(Sender: TObject);
 begin
-  if miFullScreen.Checked then  PanelEditImage.Height:= 50;
+  if miFullScreen.Checked then PanelEditImage.Height:= 50;
 end;
 
 procedure TfrmViewer.pnlListerResize(Sender: TObject);
@@ -1096,10 +1114,16 @@ begin
   if bImage then AdjustImageSize;
 end;
 
+procedure TfrmViewer.btnNextGifFrameClick(Sender: TObject);
+begin
+  GifAnim.Animate:=false;
+  GifAnim.NextFrame;
+end;
+
 procedure TfrmViewer.TimerViewerTimer(Sender: TObject);
 begin
   if (miFullScreen.Checked) and (PanelEditImage.Height>3) then
-  PanelEditImage.Height:=PanelEditImage.Height-1;
+  PanelEditImage.Height := PanelEditImage.Height-1;
   i_timer:=i_timer+1;
   if (cbSlideShow.Checked) and (i_timer=60*seTimeShow.Value) then
     begin
@@ -1298,7 +1322,10 @@ end;
 procedure TfrmViewer.btnDeleteFileClick(Sender: TObject);
 begin
   if msgYesNo(Format(rsMsgDelSel, [FileList.Strings[iActiveFile]])) then
-    mbDeleteFile(FileList.Strings[iActiveFile]);
+    begin
+      mbDeleteFile(FileList.Strings[iActiveFile]);
+      FileList.Delete(iActiveFile);
+    end;
 end;
 
 procedure TfrmViewer.btnCopyMoveFileClick(Sender: TObject);
@@ -1314,21 +1341,51 @@ begin
   FModSizeDialog.Height:=200;
   FModSizeDialog.ShowModal;
   if FModSizeDialog.ModalResult = mrOk then
+    begin
     if FModSizeDialog.Path='' then
       begin
         ShowMessage ('Bad parth :(');
         Exit;
       end
     else
-     SaveImage(FModSizeDialog.Path, false)
-  else
+      begin
+        CopyFile(FileList.Strings[iActiveFile],FModSizeDialog.Path+PathDelim+ExtractFileName(FileList.Strings[iActiveFile]));
+        if sender=btnMoveFile then
+          begin
+            mbDeleteFile(FileList.Strings[iActiveFile]);
+            FileList.Delete(iActiveFile);
+          end;
+      end;
+    end
+    else
      Exit;
-  if sender=btnMoveFile then  btnDeleteFileClick(Sender);
 end;
 
 procedure TfrmViewer.btnFullScreenClick(Sender: TObject);
 begin
   miFullScreenClick(Sender);
+end;
+
+procedure TfrmViewer.btnGifMoveClick(Sender: TObject);
+begin
+  GifAnim.Animate:=not GifAnim.Animate;
+  btnNextGifFrame.Enabled:= not GifAnim.Animate;
+  btnPrevGifFrame.Enabled:= not GifAnim.Animate;
+  if GifAnim.Animate then btnGifMove.Caption:='||' else btnGifMove.Caption:='|>';
+end;
+
+procedure TfrmViewer.btnGifToBmpClick(Sender: TObject);
+var
+  bmp:TBitMap;
+begin
+  bmp := TBitMap.Create;
+  bmp.Width := GifAnim.Width;
+  bmp.Height:=GifAnim.Height;
+  bmp.Canvas.CopyRect(rect(0,0,bmp.Width,bmp.Height), GifAnim.Canvas , rect(0,0,bmp.Width,bmp.Height));
+  SavePictureDialog.DefaultExt:= '.bmp';
+  if SavePictureDialog.Execute then
+  bmp.SaveToFile(SavePictureDialog.FileName);
+  bmp.Free;
 end;
 
 procedure TfrmViewer.btnNextClick(Sender: TObject);
@@ -1388,6 +1445,12 @@ end;
 procedure TfrmViewer.btnPrevClick(Sender: TObject);
 begin
   miPrevClick (Sender);
+end;
+
+procedure TfrmViewer.btnPrevGifFrameClick(Sender: TObject);
+begin
+  GifAnim.Animate:=False;
+  GifAnim.PriorFrame;
 end;
 
 procedure TfrmViewer.btnRedEyeClick(Sender: TObject);
@@ -1678,6 +1741,7 @@ begin
   CreateTmp;
   bmp.Free;
   Visible:= True;
+  ImgEdit:= True;
 end;
 
 procedure TfrmViewer.LoadGraphics(const sFileName:String);
@@ -1694,6 +1758,19 @@ begin
         fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
         try
           Image.Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
+          btnHightlight.Visible:=True;
+          btnPaint.Visible:=True;
+          btnResize.Visible:=True;
+          miImage.Visible:=True;
+          btnZoomIn.Visible:=true;
+          btnZoomOut.Visible:=true;
+          btn270.Visible:=true;
+          btn90.Visible:=true;
+          btnMirror.Visible:=true;
+          btnGifMove.Visible:=false;
+          btnGifToBmp.Visible:=false;
+          btnNextGifFrame.Visible:=false;
+          btnPrevGifFrame.Visible:=false;
         except
           FreeAndNil(fsFileStream);
           ReopenAsTextIfNeeded; // open as text
@@ -1712,6 +1789,19 @@ begin
       Image.Visible:= False;
       try
         GifAnim.FileName:= UTF8ToSys(sFileName);
+        btnHightlight.Visible:=False;
+        btnPaint.Visible:=False;
+        btnResize.Visible:=False;
+        miImage.Visible:=False;
+        btnZoomIn.Visible:=false;
+        btnZoomOut.Visible:=false;
+        btn270.Visible:=false;
+        btn90.Visible:=false;
+        btnMirror.Visible:=false;
+        btnGifMove.Visible:=true;
+        btnGifToBmp.Visible:=true;
+        btnNextGifFrame.Visible:=true;
+        btnPrevGifFrame.Visible:=true;
       except
         ReopenAsTextIfNeeded; // open as text
         Exit;
@@ -1882,11 +1972,12 @@ begin
   end
   else if Panel = pnlImage then
   begin
-    PanelEditImage.Visible:= not (bQuickView or bAnimation);
+    PanelEditImage.Visible:= not (bQuickView);
   end;
 end;
 
 initialization
  {$I fviewer.lrs}
 
-end.
+end.
+

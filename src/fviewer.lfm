@@ -1,7 +1,7 @@
 object frmViewer: TfrmViewer
-  Left = 248
+  Left = 181
   Height = 530
-  Top = 124
+  Top = 145
   Width = 1028
   HorzScrollBar.Page = 951
   VertScrollBar.Page = 491
@@ -181,7 +181,7 @@ object frmViewer: TfrmViewer
       object gboxHightlight: TGroupBox
         AnchorSideLeft.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 441
+        Left = 435
         Height = 47
         Top = 1
         Width = 91
@@ -312,7 +312,7 @@ object frmViewer: TfrmViewer
       object gboxPaint: TGroupBox
         AnchorSideLeft.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 574
+        Left = 568
         Height = 47
         Top = 1
         Width = 203
@@ -454,7 +454,7 @@ object frmViewer: TfrmViewer
       object btnHightlight: TSpeedButton
         AnchorSideLeft.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 404
+        Left = 398
         Height = 46
         Hint = 'Highlight'
         Top = 1
@@ -537,7 +537,7 @@ object frmViewer: TfrmViewer
         Left = 214
         Height = 47
         Top = 1
-        Width = 184
+        Width = 178
         Align = alLeft
         BorderSpacing.Left = 5
         BorderSpacing.Right = 6
@@ -547,18 +547,17 @@ object frmViewer: TfrmViewer
         ChildSizing.TopBottomSpacing = 2
         ChildSizing.ControlsPerLine = 1
         ClientHeight = 29
-        ClientWidth = 180
+        ClientWidth = 174
         TabOrder = 2
         object btn270: TSpeedButton
-          AnchorSideTop.Control = gboxView
-          AnchorSideRight.Control = btn90
-          Left = 91
+          AnchorSideLeft.Side = asrBottom
+          Left = 72
           Height = 22
           Hint = '- 90'
-          Top = 2
-          Width = 24
-          Anchors = [akTop, akRight]
-          AutoSize = True
+          Top = -1
+          Width = 32
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          BorderSpacing.Left = 6
           BorderSpacing.Right = 6
           Color = clBtnFace
           Glyph.Data = {
@@ -601,15 +600,14 @@ object frmViewer: TfrmViewer
           OnClick = miRotateClick
         end
         object btn90: TSpeedButton
-          AnchorSideTop.Control = gboxView
-          AnchorSideRight.Control = btnMirror
-          Left = 121
+          AnchorSideLeft.Side = asrBottom
+          Left = 104
           Height = 22
           Hint = '+ 90'
-          Top = 2
-          Width = 24
-          Anchors = [akTop, akRight]
-          AutoSize = True
+          Top = -1
+          Width = 32
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          BorderSpacing.Left = 6
           BorderSpacing.Right = 6
           Color = clBtnFace
           Glyph.Data = {
@@ -652,16 +650,15 @@ object frmViewer: TfrmViewer
           OnClick = miRotateClick
         end
         object btnMirror: TSpeedButton
-          AnchorSideTop.Control = gboxView
-          AnchorSideRight.Control = gboxView
+          AnchorSideLeft.Side = asrBottom
           AnchorSideRight.Side = asrBottom
-          Left = 151
+          Left = 136
           Height = 22
           Hint = 'Mirror'
-          Top = 2
-          Width = 25
-          Anchors = [akTop, akRight]
-          AutoSize = True
+          Top = -1
+          Width = 35
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          BorderSpacing.Left = 6
           BorderSpacing.Right = 4
           Color = clBtnFace
           Glyph.Data = {
@@ -704,15 +701,14 @@ object frmViewer: TfrmViewer
           OnClick = miRotateClick
         end
         object btnZoomIn: TSpeedButton
-          AnchorSideLeft.Control = gboxView
-          AnchorSideTop.Control = gboxView
           Left = 4
           Height = 22
           Hint = 'Zoom In'
-          Top = 2
-          Width = 24
-          AutoSize = True
+          Top = -1
+          Width = 28
+          Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Left = 4
+          BorderSpacing.Right = 6
           Color = clBtnFace
           Glyph.Data = {
             36040000424D3604000000000000360000002800000010000000100000000100
@@ -754,16 +750,15 @@ object frmViewer: TfrmViewer
           OnClick = miZoomClick
         end
         object btnZoomOut: TSpeedButton
-          AnchorSideLeft.Control = btnZoomIn
           AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = gboxView
           Left = 34
           Height = 22
           Hint = 'Zoom Out'
-          Top = 2
-          Width = 24
-          AutoSize = True
+          Top = -1
+          Width = 28
+          Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Left = 6
+          BorderSpacing.Right = 6
           Color = clBtnFace
           Glyph.Data = {
             36040000424D3604000000000000360000002800000010000000100000000100
@@ -803,6 +798,50 @@ object frmViewer: TfrmViewer
           }
           NumGlyphs = 0
           OnClick = miZoomClick
+        end
+        object btnGifMove: TSpeedButton
+          AnchorSideLeft.Side = asrBottom
+          Left = 4
+          Height = 22
+          Top = -1
+          Width = 32
+          Anchors = [akTop, akLeft, akRight, akBottom]
+          BorderSpacing.Left = 6
+          BorderSpacing.Right = 6
+          Caption = '||'
+          Color = clBtnFace
+          NumGlyphs = 0
+          OnClick = btnGifMoveClick
+        end
+        object btnGifToBmp: TSpeedButton
+          Left = 139
+          Height = 21
+          Top = 0
+          Width = 32
+          Caption = 'S'
+          Color = clBtnFace
+          NumGlyphs = 0
+          OnClick = btnGifToBmpClick
+        end
+        object btnNextGifFrame: TSpeedButton
+          Left = 96
+          Height = 22
+          Top = -1
+          Width = 31
+          Caption = '||>'
+          Color = clBtnFace
+          NumGlyphs = 0
+          OnClick = btnNextGifFrameClick
+        end
+        object btnPrevGifFrame: TSpeedButton
+          Left = 48
+          Height = 22
+          Top = -1
+          Width = 28
+          Caption = '<||'
+          Color = clBtnFace
+          NumGlyphs = 0
+          OnClick = btnPrevGifFrameClick
         end
       end
       object btnResize: TSpeedButton
@@ -967,7 +1006,7 @@ object frmViewer: TfrmViewer
       end
       object btnPaint: TSpeedButton
         AnchorSideBottom.Side = asrBottom
-        Left = 537
+        Left = 531
         Height = 46
         Hint = 'Paint'
         Top = 1
@@ -1685,6 +1724,10 @@ object frmViewer: TfrmViewer
         RadioItem = True
         ShortCut = 54
         OnClick = miGraphicsClick
+      end
+      object MenuItem1: TMenuItem
+        Caption = 'New Item44'
+        OnClick = MenuItem1Click
       end
       object miDiv1: TMenuItem
         Caption = '-'
