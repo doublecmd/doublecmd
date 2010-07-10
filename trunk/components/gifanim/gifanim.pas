@@ -303,25 +303,52 @@ procedure TGifAnim.NextFrame;
 begin
   if (not FEmpty) and Visible and (not FAnimate) then
   begin
-    Dec(FCurrentImage);
-    if FCurrentImage < 0 then
-      FCurrentImage := GifBitmaps.Count - 1;
+    if FCurrentImage >= GifBitmaps.Count - 1 then
+      FCurrentImage := 0
+    else
+      Inc(FCurrentImage);
     if Assigned(FOnFrameChanged) then
       FOnFrameChanged(Self);
-    Repaint;
+    Paint;
   end;
 end;
 
 procedure TGifAnim.PriorFrame;
+var
+  DesiredImage: Integer;
 begin
   if (not FEmpty) and Visible and (not FAnimate) then
   begin
-    Inc(FCurrentImage);
-    if FCurrentImage > GifBitmaps.Count - 1 then
-      FCurrentImage := 0;
+    if FCurrentImage = 0 then
+      DesiredImage:= GifBitmaps.Count - 1
+    else
+      DesiredImage:= FCurrentImage - 1;
+    // For proper display repaint image from first frame to desired frame
+    FCurrentImage:= 0;
+    while FCurrentImage < DesiredImage do
+    begin
+      with GifBitmaps.Items[FCurrentImage] do
+        begin
+          BufferImg.Canvas.Brush.Color := (Self.Color);
+          if FCurrentImage = 0 then
+            BufferImg.Canvas.FillRect(Rect(0, 0, Width, Height));
+          if Delay <> 0 then
+            FWait.Interval := Delay * 10;
+          BufferImg.Canvas.Draw(PosX, PosY, Bitmap);
+          case Method of
+            //0 : Not specified...
+            //1 : No change Background
+            2: BufferImg.Canvas.FillRect(
+                Rect(PosX, PosY, Bitmap.Width + PosX, Bitmap.Height + PosY));
+
+            3: BufferImg.Canvas.FillRect(Rect(0, 0, Width, Height));
+          end;
+        end;
+      Inc(FCurrentImage);
+    end;
     if Assigned(FOnFrameChanged) then
-      FOnFrameChanged(self);
-    Repaint;
+      FOnFrameChanged(Self);
+    Paint;
   end;
 end;
 
@@ -370,12 +397,13 @@ procedure TGifAnim.OnTime(Sender: TObject);
 begin
   if (not Empty) and Visible then
   begin
-    if FCurrentImage > GifBitmaps.Count - 1 then
-      FCurrentImage := 0;
-    if assigned(FOnFrameChanged) then
-      FOnFrameChanged(self);
+    if FCurrentImage >= GifBitmaps.Count - 1 then
+      FCurrentImage := 0
+    else
+      Inc(FCurrentImage);
+    if Assigned(FOnFrameChanged) then
+      FOnFrameChanged(Self);
     Paint;
-    Inc(FCurrentImage);
   end;
 end;
 
@@ -398,7 +426,6 @@ procedure TGifAnim.SetFileName(const AValue: string);
 var
   fn: string;
 begin
-
   if (FFileName = AValue) then
     exit;
   FFileName := AValue;
