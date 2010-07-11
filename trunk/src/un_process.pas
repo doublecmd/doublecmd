@@ -10,25 +10,29 @@ uses
 type
 
   TOnReadLn = procedure (str: String) of object;
+  TOnCheckOperationState = procedure of object;
   
   { TExProcess }
 
   TExProcess = class
   protected
-    p: TProcess;
-    s: string;
-    FStop:boolean;
+    FProcess: TProcess;
+    FOutputLine: string;
+    FStop: Boolean;
+    FOnReadLn: TOnReadLn;
+    FOnCheckOperationState: TOnCheckOperationState;
     function _GetExitStatus(): integer;
   public
-    OnReadLn:TOnReadLn;
-    constructor Create(commandline: string='');
+    constructor Create(CommandLine: String = '');
     procedure Execute;
     procedure Stop;
-    procedure SetCmdLine(commandline:string);
+    procedure SetCmdLine(CommandLine: String);
     destructor Destroy; override;
 
-    property Process: TProcess read p;
-    property ExitStatus: integer read _GetExitStatus;
+    property Process: TProcess read FProcess;
+    property ExitStatus: Integer read _GetExitStatus;
+    property OnReadLn: TOnReadLn read FOnReadLn write FOnReadLn;
+    property OnCheckOperationState: TOnCheckOperationState read FOnCheckOperationState write FOnCheckOperationState;
   end;
 
 implementation
@@ -36,74 +40,90 @@ implementation
 uses
   LCLProc;
 
-const buf_len = 3000;
-
+const
+  BufferSize = 3000;
 
 { TExProcess }
 
-function TExProcess._GetExitStatus(): integer;
+function TExProcess._GetExitStatus(): Integer;
 begin
-  Result:= p.ExitStatus;
+  Result:= FProcess.ExitStatus;
 end;
 
-constructor TExProcess.Create(commandline: string='');
+constructor TExProcess.Create(CommandLine: String = '');
 begin
-  s:= '';
-  p:= TProcess.Create(nil);
-  p.CommandLine:=commandline;
-  p.Options:=[poUsePipes,poNoConsole];
+  FOutputLine:= EmptyStr;
+  FProcess:= TProcess.Create(nil);
+  FProcess.CommandLine:= CommandLine;
+  FProcess.Options:= [poUsePipes, poNoConsole];
 end;
 
 procedure TExProcess.Execute;
 var
-  buf: string;
-  i, j: integer;
+  I, J: Integer;
+  OutputBuffer: String;
 begin
   try
-    p.Execute;
+    FProcess.Execute;
     repeat
-      if FStop then exit;
-      SetLength(buf, buf_len);
-      SetLength(buf, p.output.Read(buf[1], length(buf))); //waits for the process output
-      // cut the incoming stream to lines:
-      s:=s + buf; //add to the accumulator
+      if Assigned(FOnCheckOperationState) then
+        FOnCheckOperationState();
+      if FStop then Exit;
+      // If no output yet
+      if FProcess.Output.NumBytesAvailable = 0 then
+        begin
+          if FProcess.Running then
+            Continue
+          else
+            Break;
+        end;
+      SetLength(OutputBuffer, BufferSize);
+      // Waits for the process output
+      SetLength(OutputBuffer, FProcess.output.Read(OutputBuffer[1], Length(OutputBuffer)));
+      // Cut the incoming stream to lines:
+      FOutputLine:= FOutputLine + OutputBuffer; // Add to the accumulator
 
-      repeat //detect the line breaks and cut.
-        if FStop then exit;
-        i:=Pos(#13, s);
-        j:=Pos(#10, s);
-        if i=0 then i:=j;
-        if j=0 then j:=i;
-        if j = 0 then Break; //there are no complete lines yet.
-        if Assigned(OnReadLn) then
-        OnReadLn(Copy(s, 1, min(i, j) - 1)); //return the line without the CR/LF characters
-        s:=Copy(s, max(i, j) + 1, length(s) - max(i, j)); //remove the line from accumulator
-      until false;
-    until buf = '';
-    if FStop then exit;
-    if s <> '' then
-      if Assigned(OnReadLn) then
-       OnReadLn(s);
-    buf:='';
-    if Assigned(OnReadLn) then
-      OnReadLn(buf); //Empty line to notify DC about search process finish
+      // Detect the line breaks and cut.
+      repeat
+        if Assigned(FOnCheckOperationState) then
+          FOnCheckOperationState();
+        if FStop then Exit;
+        I:= Pos(#13, FOutputLine);
+        J:= Pos(#10, FOutputLine);
+        if I = 0 then I:= J;
+        if J = 0 then J:= I;
+        if J = 0 then Break; // There are no complete lines yet.
+        if Assigned(FOnReadLn) then
+          FOnReadLn(Copy(FOutputLine, 1, Min(I, J) - 1)); // Return the line without the CR/LF characters
+        // Remove the line from accumulator
+        FOutputLine:= Copy(FOutputLine, Max(I, J) + 1, Length(FOutputLine) - Max(I, J));
+      until False;
+      if (OutputBuffer = EmptyStr) then Break;
+    until False;
+    if FStop then Exit;
+    if (FOutputLine <> EmptyStr) and Assigned(FOnReadLn) then
+      FOnReadLn(FOutputLine);
+    OutputBuffer:= EmptyStr;
+    if Assigned(FOnReadLn) then
+      FOnReadLn(OutputBuffer); // Empty line to notify DC about process finish
   finally
   end;
 end;
 
 procedure TExProcess.Stop;
 begin
-  FStop:=true;
+  FStop:= True;
+  FProcess.Terminate(-1);
 end;
 
-procedure TExProcess.SetCmdLine(commandline:string);
+procedure TExProcess.SetCmdLine(CommandLine: String);
 begin
-  p.CommandLine:=commandline;
+  FProcess.CommandLine:= CommandLine;
 end;
 
 destructor TExProcess.Destroy;
 begin
-  FreeAndNil(p);
+  FreeAndNil(FProcess);
 end;
 
 end.
