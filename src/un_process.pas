@@ -10,7 +10,7 @@ uses
 type
 
   TOnReadLn = procedure (str: String) of object;
-  TOnCheckOperationState = procedure of object;
+  TOnOperationProgress = procedure of object;
   
   { TExProcess }
 
@@ -20,7 +20,7 @@ type
     FOutputLine: String;
     FStop: Boolean;
     FOnReadLn: TOnReadLn;
-    FOnCheckOperationState: TOnCheckOperationState;
+    FOnOperationProgress: TOnOperationProgress;
     function _GetExitStatus(): Integer;
   public
     constructor Create(CommandLine: String = '');
@@ -32,7 +32,7 @@ type
     property Process: TProcess read FProcess;
     property ExitStatus: Integer read _GetExitStatus;
     property OnReadLn: TOnReadLn read FOnReadLn write FOnReadLn;
-    property OnCheckOperationState: TOnCheckOperationState read FOnCheckOperationState write FOnCheckOperationState;
+    property OnOperationProgress: TOnOperationProgress read FOnOperationProgress write FOnOperationProgress;
   end;
 
 implementation
@@ -66,8 +66,8 @@ begin
   try
     FProcess.Execute;
     repeat
-      if Assigned(FOnCheckOperationState) then
-        FOnCheckOperationState();
+      if Assigned(FOnOperationProgress) then
+        FOnOperationProgress();
       if FStop then Exit;
       // If no output yet
       if FProcess.Output.NumBytesAvailable = 0 then
@@ -88,8 +88,8 @@ begin
 
       // Detect the line breaks and cut.
       repeat
-        if Assigned(FOnCheckOperationState) then
-          FOnCheckOperationState();
+        if Assigned(FOnOperationProgress) then
+          FOnOperationProgress();
         if FStop then Exit;
         I:= Pos(#13, FOutputLine);
         J:= Pos(#10, FOutputLine);

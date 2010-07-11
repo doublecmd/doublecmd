@@ -74,7 +74,7 @@ procedure TMultiArchiveDeleteOperation.Initialize;
 begin
   FExProcess:= TExProcess.Create(EmptyStr);
   FExProcess.OnReadLn:= @OnReadLn;
-  FExProcess.OnCheckOperationState:= @CheckOperationState;
+  FExProcess.OnOperationProgress:= @CheckOperationState;
   FTempFile:= GetTempName(GetTempFolder);
 
   AddStateChangedListener([fsosStarting, fsosPausing, fsosStopping], @FileSourceOperationStateChangedNotify);
