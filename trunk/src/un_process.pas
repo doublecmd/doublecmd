@@ -17,11 +17,11 @@ type
   TExProcess = class
   protected
     FProcess: TProcess;
-    FOutputLine: string;
+    FOutputLine: String;
     FStop: Boolean;
     FOnReadLn: TOnReadLn;
     FOnCheckOperationState: TOnCheckOperationState;
-    function _GetExitStatus(): integer;
+    function _GetExitStatus(): Integer;
   public
     constructor Create(CommandLine: String = '');
     procedure Execute;
@@ -72,10 +72,13 @@ begin
       // If no output yet
       if FProcess.Output.NumBytesAvailable = 0 then
         begin
-          if FProcess.Running then
-            Continue
+          if not FProcess.Running then
+            Break
           else
-            Break;
+            begin
+              Sleep(1);
+              Continue;
+            end
         end;
       SetLength(OutputBuffer, BufferSize);
       // Waits for the process output
