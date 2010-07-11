@@ -222,6 +222,7 @@ var
   Sections: TStringList = nil;
   Section,
   Format: UTF8String;
+  FirstTime: Boolean = True;
   MultiArcItem: TMultiArcItem;
 begin
   try
@@ -231,6 +232,11 @@ begin
     for I:= 0 to Sections.Count - 1 do
     begin
       Section:= Sections[I];
+      if SameText(Section, 'Configuration') then
+      begin
+        FirstTime:= IniFile.ReadBool(Section, 'FirstTime', True);
+        Continue;
+      end;
       MultiArcItem:= TMultiArcItem.Create;
       with MultiArcItem do
       begin
@@ -264,6 +270,7 @@ begin
       end;
       FList.AddObject(Section, MultiArcItem);
     end;
+    if FirstTime then AutoConfigure;
   finally
     FreeThenNil(IniFile);
     FreeThenNil(Sections);
@@ -312,6 +319,7 @@ begin
         IniFile.WriteBool(Section, 'Debug', FDebug);
       end;
     end;
+    IniFile.WriteBool('Configuration', 'FirstTime', False);
   finally
     FreeThenNil(IniFile);
   end;
