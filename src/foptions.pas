@@ -45,6 +45,7 @@ type
     bbtnAddCategory: TBitBtn;
     bbtnApplyCategory: TBitBtn;
     bbtnDeleteCategory: TBitBtn;
+    btnAutoConfig: TBitBtn;
     btnMultiArcAdd: TBitBtn;
     btnMultiArcDelete: TBitBtn;
     btnMultiArcRename: TBitBtn;
@@ -382,6 +383,7 @@ type
     procedure bbtnDeleteCategoryClick(Sender: TObject);
     procedure btnAddSelClick(Sender: TObject);
     procedure btnAddSelWithPathClick(Sender: TObject);
+    procedure btnAutoConfigClick(Sender: TObject);
     procedure btnConfigApplyClick(Sender: TObject);
     procedure btnConfigEditClick(Sender: TObject);
     procedure btnConfigPluginClick(Sender: TObject);
@@ -2232,6 +2234,12 @@ end;
 procedure TfrmOptions.btnAddSelWithPathClick(Sender: TObject);
 begin
   FillIgnoreList(True);
+end;
+
+procedure TfrmOptions.btnAutoConfigClick(Sender: TObject);
+begin
+  gMultiArcList.AutoConfigure;
+  lbxMultiArcSelectionChange(lbxMultiArc, True);
 end;
 
 procedure TfrmOptions.btnCategoryColorClick(Sender: TObject);
