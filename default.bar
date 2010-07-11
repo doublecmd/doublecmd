@@ -1,5 +1,5 @@
 [Buttonbar]
-Buttoncount=9
+Buttoncount=12
 button1=%commander_path%\pixmaps\dctheme\16x16\actions\view-refresh.png
 cmd1=cm_Refresh
 menu1=Refresh
@@ -24,3 +24,10 @@ menu8=-
 button9=%commander_path%\pixmaps\dctheme\16x16\actions\system-search.png
 cmd9=cm_Search
 menu9=Search
+menu10=-
+button11=%commander_path%\pixmaps\dctheme\16x16\actions\go-previous.png
+cmd11=cm_ViewHistoryPrev
+menu11=Go to previous entry in history
+button12=%commander_path%\pixmaps\dctheme\16x16\actions\go-next.png
+cmd12=cm_ViewHistoryNext
+menu12=Go to next entry in history
