@@ -97,6 +97,14 @@ begin
 
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
+  with FStatistics do
+  begin
+    if SourceFiles.Count = 1 then
+      CurrentFileFrom:= SourceFiles[0].FullPath
+    else
+      CurrentFileFrom:= SourceFiles.Path + AllFilesMask;
+    CurrentFileTo:= FMultiArchiveFileSource.ArchiveFileName;
+  end;
 
   FillAndCount(SourceFiles, False,
                FFullFilesTree,
