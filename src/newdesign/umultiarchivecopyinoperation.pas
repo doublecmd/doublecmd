@@ -6,6 +6,7 @@ interface
 
 uses
   Classes, SysUtils, uLog, uGlobs, un_process,
+  uFileSourceOperation,
   uFileSourceCopyOperation,
   uFileSource,
   uFile,
@@ -36,6 +37,8 @@ type
     FErrorLevel: LongInt;
     procedure OnReadLn(str: string);
     procedure UpdateProgress(SourceName, TargetName: UTF8String; IncSize: Int64);
+    procedure FileSourceOperationStateChangedNotify(Operation: TFileSourceOperation;
+                                                    AState: TFileSourceOperationState);
 
   public
     constructor Create(aSourceFileSource: IFileSource;
@@ -86,7 +89,10 @@ procedure TMultiArchiveCopyInOperation.Initialize;
 begin
   FExProcess:= TExProcess.Create(EmptyStr);
   FExProcess.OnReadLn:= @OnReadLn;
+  FExProcess.OnCheckOperationState:= @CheckOperationState;
   FTempFile:= GetTempName(GetTempFolder);
+
+  AddStateChangedListener([fsosStarting, fsosPausing, fsosStopping], @FileSourceOperationStateChangedNotify);
 
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
@@ -274,6 +280,19 @@ begin
     DoneBytes := DoneBytes + CurrentFileDoneBytes;
 
     UpdateStatistics(FStatistics);
+  end;
+end;
+
+procedure TMultiArchiveCopyInOperation.FileSourceOperationStateChangedNotify(
+  Operation: TFileSourceOperation; AState: TFileSourceOperationState);
+begin
+  case AState of
+    fsosStarting:
+      FExProcess.Process.Resume;
+    fsosPausing:
+      FExProcess.Process.Suspend;
+    fsosStopping:
+      FExProcess.Stop;
   end;
 end;
 
