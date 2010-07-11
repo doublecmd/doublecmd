@@ -133,6 +133,7 @@ type
   public
     constructor Create; virtual;
     destructor Destroy; override;
+    procedure AutoConfigure;
     procedure Clear;
     procedure LoadFromFile(const FileName: UTF8String);
     procedure SaveToFile(const FileName: UTF8String);
@@ -146,7 +147,7 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, Math, uClassesEx, uDCUtils, uOSUtils;
+  LCLProc, StrUtils, Math, FileUtil, uClassesEx, uDCUtils, uOSUtils;
 
 { TMultiArcList }
 
@@ -180,6 +181,25 @@ begin
   Clear;
   FreeThenNil(FList);
   inherited Destroy;
+end;
+
+procedure TMultiArcList.AutoConfigure;
+var
+  I: Integer;
+  ExePath: UTF8String;
+begin
+  for I:= 0 to Count - 1 do
+  begin
+    ExePath:= ExtractOnlyFileName(Items[I].FArchiver);
+    ExePath:= FindDefaultExecutablePath(ExePath);
+    if ExePath = EmptyStr then
+      Items[I].FEnabled:= False
+    else
+      begin
+        Items[I].FArchiver:= ExePath;
+        Items[I].FEnabled:= True;
+      end;
+  end;
 end;
 
 procedure TMultiArcList.Clear;
