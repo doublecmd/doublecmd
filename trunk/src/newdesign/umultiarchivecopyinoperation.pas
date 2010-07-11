@@ -36,6 +36,7 @@ type
     FTempFile: UTF8String;
     FErrorLevel: LongInt;
     procedure OnReadLn(str: string);
+    procedure OperationProgressHandler;
     procedure UpdateProgress(SourceName, TargetName: UTF8String; IncSize: Int64);
     procedure FileSourceOperationStateChangedNotify(Operation: TFileSourceOperation;
                                                     AState: TFileSourceOperationState);
@@ -89,7 +90,7 @@ procedure TMultiArchiveCopyInOperation.Initialize;
 begin
   FExProcess:= TExProcess.Create(EmptyStr);
   FExProcess.OnReadLn:= @OnReadLn;
-  FExProcess.OnCheckOperationState:= @CheckOperationState;
+  FExProcess.OnOperationProgress:= @OperationProgressHandler;
   FTempFile:= GetTempName(GetTempFolder);
 
   AddStateChangedListener([fsosStarting, fsosPausing, fsosStopping], @FileSourceOperationStateChangedNotify);
@@ -266,6 +267,21 @@ begin
   with FMultiArchiveFileSource.MultiArcItem do
   if FOutput or FDebug then
     logWrite(Thread, str, lmtInfo, True, False);
+end;
+
+procedure TMultiArchiveCopyInOperation.OperationProgressHandler;
+var
+  ArchiveSize: Int64;
+begin
+  Self.CheckOperationState;
+  with FStatistics do
+  begin
+    ArchiveSize := mbFileSize(FMultiArchiveFileSource.ArchiveFileName);
+    if ArchiveSize > DoneBytes then
+      DoneBytes := ArchiveSize;
+
+    UpdateStatistics(FStatistics);
+  end;
 end;
 
 procedure TMultiArchiveCopyInOperation.UpdateProgress(SourceName,
