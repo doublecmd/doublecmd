@@ -47,11 +47,6 @@ type
 {U}  TFsContentGetSupportedFieldFlags = function (FieldIndex:integer):integer; stdcall;
 {U}  TFsContentSetValue = function (FileName:pchar;FieldIndex,UnitIndex,FieldType:integer; FieldValue:pbyte;flags:integer):integer; stdcall;
 {U}  TFsContentGetDefaultView = function (ViewContents,ViewHeaders,ViewWidths, ViewOptions:pchar;maxlen:integer):boolean; stdcall;
-//------------------------------------------------------
-     TFsNetworkGetSupportedProtocols = procedure (Protocols: PAnsiChar; MaxLen: LongInt); stdcall;
-     TFsNetworkGetConnection = function (Index: LongInt; Connection: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
-     TFsNetworkManageConnection = function (MainWin: HWND; Connection: PAnsiChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
-     TFsNetworkOpenConnection = function (Connection: PAnsiChar; RootDir, RemotePath: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
 { Unicode }
      TFsInitW = function(PluginNr:integer;pProgressProcW:tProgressProcW;pLogProcW:tLogProcW; pRequestProcW:tRequestProcW):integer; stdcall;
      TFsFindFirstW = function(path :pwidechar;var FindData:tWIN32FINDDATAW):thandle; stdcall;
@@ -77,11 +72,6 @@ type
      TFsContentStopGetValueW = procedure(FileName:pwidechar); stdcall;
      TFsContentSetValueW = function(FileName:pwidechar;FieldIndex,UnitIndex,FieldType:integer; FieldValue:pbyte;flags:integer):integer; stdcall;
      TFsContentGetDefaultViewW = function(ViewContents,ViewHeaders,ViewWidths, ViewOptions:pwidechar;maxlen:integer):bool; stdcall;
-//------------------------------------------------------
-     TFsNetworkGetSupportedProtocolsW = procedure (Protocols: PWideChar; MaxLen: LongInt); stdcall;
-     TFsNetworkGetConnectionW = function (Index: LongInt; Connection: PWideChar; MaxLen: LongInt): LongBool; stdcall;
-     TFsNetworkManageConnectionW = function (MainWin: HWND; Connection: PWideChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
-     TFsNetworkOpenConnectionW = function (Connection: PWideChar; RootDir, RemotePath: PWideChar; MaxLen: LongInt): LongBool; stdcall;
 //------------------------------------------------------
 
 implementation

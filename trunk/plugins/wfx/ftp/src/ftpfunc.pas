@@ -95,10 +95,12 @@ procedure FsSetCryptCallback(pCryptProc: TCryptProc; CryptoNr, Flags: Integer); 
 procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
 procedure FsSetDefaultParams(dps: pFsDefaultParamStruct); stdcall;
 { Network API }
+{
 procedure FsNetworkGetSupportedProtocols(Protocols: PAnsiChar; MaxLen: LongInt); stdcall;
 function FsNetworkGetConnection(Index: LongInt; Connection: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
 function FsNetworkManageConnection(MainWin: HWND; Connection: PAnsiChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
 function FsNetworkOpenConnection(Connection: PAnsiChar; RootDir, RemotePath: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
+}
 { Dialog API function }
 procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo); stdcall;
 
@@ -816,6 +818,7 @@ begin
   ReadConnectionList;
 end;
 
+{
 procedure FsNetworkGetSupportedProtocols(Protocols: PAnsiChar; MaxLen: LongInt); stdcall;
 begin
   StrPLCopy(Protocols, ftpProtocol, MaxLen);
@@ -899,6 +902,7 @@ begin
         end;
     end;
 end;
+}
 
 procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);
 var

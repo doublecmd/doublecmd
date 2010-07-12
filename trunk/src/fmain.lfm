@@ -1403,6 +1403,7 @@ object frmMain: TfrmMain
     end
     object mnuNetwork: TMenuItem
       Caption = 'Network'
+      Visible = False
       object miNetworkConnect: TMenuItem
         Action = actNetworkConnect
         OnClick = actExecute

@@ -99,11 +99,6 @@ type
     FsContentGetSupportedFieldFlags:TFsContentGetSupportedFieldFlags;
     FsContentSetValue:TFsContentSetValue;
     FsContentGetDefaultView:TFsContentGetDefaultView;
-    //---------------------
-    FsNetworkGetSupportedProtocols: TFsNetworkGetSupportedProtocols;
-    FsNetworkGetConnection: TFsNetworkGetConnection;
-    FsNetworkManageConnection: TFsNetworkManageConnection;
-    FsNetworkOpenConnection: TFsNetworkOpenConnection;
     { Unicode }
     FsInitW: TFsInitW;
     FsFindFirstW: TFsFindFirstW;
@@ -129,11 +124,6 @@ type
     FsContentStopGetValueW: TFsContentStopGetValueW;
     FsContentSetValueW: TFsContentSetValueW;
     FsContentGetDefaultViewW: TFsContentGetDefaultViewW;
-    //---------------------
-    FsNetworkGetSupportedProtocolsW: TFsNetworkGetSupportedProtocolsW;
-    FsNetworkGetConnectionW: TFsNetworkGetConnectionW;
-    FsNetworkManageConnectionW: TFsNetworkManageConnectionW;
-    FsNetworkOpenConnectionW: TFsNetworkOpenConnectionW;
     { Dialog API }
     SetDlgProc: TSetDlgProc;
   public
@@ -153,11 +143,6 @@ type
     function WfxRemoveDir(const sDirName: UTF8String): Boolean;
     function WfxDeleteFile(const sFileName: UTF8String): Boolean;
     function WfxGetLocalName(var sFileName: UTF8String): Boolean;
-    function WfxNetworkGetSupportedProtocols: UTF8String;
-    function WfxNetworkGetConnection(Index: LongInt; var Connection: UTF8String): Boolean;
-    function WfxNetworkManageConnection(MainWin: HWND; var Connection: UTF8String; Action: LongInt): Boolean;
-    function WfxNetworkOpenConnection(var Connection, RootDir, RemotePath: UTF8String): Boolean;
-    procedure WfxNetworkCloseConnection(const Connection: UTF8String);
   public
     constructor Create;
     destructor Destroy; override;
@@ -168,8 +153,6 @@ type
 
     function VFSConfigure(Parent: THandle):Boolean;
     function VFSRootName: UTF8String;
-
-    function VFSNetworkSupport: Boolean;
 
     function IsLoaded: Boolean;
   end;
@@ -454,141 +437,6 @@ begin
     end;
 end;
 
-function TWFXModule.WfxNetworkGetSupportedProtocols: UTF8String;
-var
-  pacProtocols: PAnsiChar;
-  pwcProtocols: PWideChar;
-begin
-  Result:= EmptyStr;
-  if Assigned(FsNetworkGetSupportedProtocolsW) then
-    begin
-      pwcProtocols:= GetMem(MAX_PATH * SizeOf(WideChar));
-      FsNetworkGetSupportedProtocolsW(pwcProtocols, MAX_PATH);
-      Result:= UTF8Encode(WideString(pwcProtocols));
-      FreeMem(pwcProtocols);
-    end
-  else if Assigned(FsNetworkGetSupportedProtocols) then
-    begin
-      pacProtocols:= GetMem(MAX_PATH);
-      FsNetworkGetSupportedProtocols(pacProtocols, MAX_PATH);
-      Result:= SysToUTF8(StrPas(pacProtocols));
-      FreeMem(pacProtocols);
-    end;
-end;
-
-function TWFXModule.WfxNetworkGetConnection(Index: LongInt; var Connection: UTF8String): Boolean;
-var
-  pacConnection: PAnsiChar;
-  pwcConnection: PWideChar;
-begin
-  Result:= False;
-  if Assigned(FsNetworkGetConnectionW) then
-    begin
-      pwcConnection:= GetMem(MAX_PATH * SizeOf(WideChar));
-      Result:= FsNetworkGetConnectionW(Index, pwcConnection, MAX_PATH);
-      if Result = True then
-        Connection:= UTF8Encode(WideString(pwcConnection));
-      FreeMem(pwcConnection);
-    end
-  else if Assigned(FsNetworkGetConnection) then
-    begin
-      pacConnection:= GetMem(MAX_PATH);
-      Result:= FsNetworkGetConnection(Index, pacConnection, MAX_PATH);
-      if Result = True then
-        Connection:= SysToUTF8(StrPas(pacConnection));
-      FreeMem(pacConnection);
-    end;
-end;
-
-function TWFXModule.WfxNetworkManageConnection(MainWin: HWND; var Connection: UTF8String;
-  Action: LongInt): Boolean;
-var
-  pacConnection: PAnsiChar;
-  pwcConnection: PWideChar;
-begin
-  Result:= False;
-  if Assigned(FsNetworkManageConnectionW) then
-    begin
-      pwcConnection:= GetMem(MAX_PATH * SizeOf(WideChar));
-      if Action <> FS_NM_ACTION_ADD then
-        StrPCopyW(pwcConnection, UTF8Decode(Connection));
-      Result:= FsNetworkManageConnectionW(MainWin, pwcConnection, Action, MAX_PATH);
-      if (Result = True) and (Action = FS_NM_ACTION_ADD) then
-        Connection:= UTF8Encode(WideString(pwcConnection));
-      FreeMem(pwcConnection);
-    end
-  else if Assigned(FsNetworkManageConnection) then
-    begin
-      pacConnection:= GetMem(MAX_PATH);
-      if Action <> FS_NM_ACTION_ADD then
-        StrPCopy(pacConnection, UTF8ToSys(Connection));
-      Result:= FsNetworkManageConnection(MainWin, pacConnection, Action, MAX_PATH);
-      if (Result = True) and (Action = FS_NM_ACTION_ADD) then
-        Connection:= SysToUTF8(StrPas(pacConnection));
-      FreeMem(pacConnection);
-    end;
-end;
-
-function TWFXModule.WfxNetworkOpenConnection(var Connection, RootDir, RemotePath: UTF8String): Boolean;
-var
-  pacConnection: PAnsiChar;
-  pwcConnection: PWideChar;
-  pacRootDir: PAnsiChar;
-  pwcRootDir: PWideChar;
-  pacRemotePath: PAnsiChar;
-  pwcRemotePath: PWideChar;
-begin
-  Result:= False;
-  if Assigned(FsNetworkOpenConnectionW) then
-    begin
-      pwcConnection:= GetMem(MAX_PATH * SizeOf(WideChar));
-      pwcRootDir:= GetMem(MAX_PATH * SizeOf(WideChar));
-      pwcRemotePath:= GetMem(MAX_PATH * SizeOf(WideChar));
-      if Connection = EmptyStr then
-        pwcConnection:= #0
-      else
-        StrPCopyW(pwcConnection, UTF8Decode(Connection));
-      Result:= FsNetworkOpenConnectionW(pwcConnection, pwcRootDir, pwcRemotePath, MAX_PATH);
-      if Result = True then
-        begin
-          Connection:= UTF8Encode(WideString(pwcConnection));
-          RootDir:= UTF8Encode(WideString(pwcRootDir));
-          RemotePath:= UTF8Encode(WideString(pwcRemotePath));
-        end;
-      FreeMem(pwcConnection);
-      FreeMem(pwcRootDir);
-      FreeMem(pwcRemotePath);
-    end
-  else if Assigned(FsNetworkOpenConnection) then
-    begin
-      pacConnection:= GetMem(MAX_PATH);
-      pacRootDir:= GetMem(MAX_PATH);
-      pacRemotePath:= GetMem(MAX_PATH);
-      if Connection = EmptyStr then
-        pacConnection:= #0
-      else
-        StrPCopy(pacConnection, UTF8ToSys(Connection));
-      Result:= FsNetworkOpenConnection(pacConnection, pacRootDir, pacRemotePath, MAX_PATH);
-      if Result = True then
-        begin
-          Connection:= SysToUTF8(StrPas(pacConnection));
-          RootDir:= SysToUTF8(StrPas(pacRootDir));
-          RemotePath:= SysToUTF8(StrPas(pacRemotePath));
-        end;
-      FreeMem(pacConnection);
-      FreeMem(pacRootDir);
-      FreeMem(pacRemotePath);
-    end;
-end;
-
-procedure TWFXModule.WfxNetworkCloseConnection(const Connection: UTF8String);
-begin
-  if Assigned(FsDisconnectW) then
-    FsDisconnectW(PWideChar(UTF8Decode(Connection)))
-  else if Assigned(FsDisconnect) then
-    FsDisconnect(PAnsiChar(UTF8ToSys(Connection)));
-end;
-
 constructor TWFXModule.Create;
 begin
 
@@ -652,11 +500,6 @@ begin
   FsContentGetSupportedFieldFlags := TFsContentGetSupportedFieldFlags (GetProcAddress(FModuleHandle,'FsContentGetSupportedFieldFlags'));
   FsContentSetValue := TFsContentSetValue (GetProcAddress(FModuleHandle,'FsContentSetValue'));
   FsContentGetDefaultView := TFsContentGetDefaultView (GetProcAddress(FModuleHandle,'FsContentGetDefaultView'));
-  //---------------------
-  FsNetworkGetSupportedProtocols:= TFsNetworkGetSupportedProtocols(GetProcAddress(FModuleHandle,'FsNetworkGetSupportedProtocols'));
-  FsNetworkGetConnection:= TFsNetworkGetConnection(GetProcAddress(FModuleHandle,'FsNetworkGetConnection'));
-  FsNetworkManageConnection:= TFsNetworkManageConnection(GetProcAddress(FModuleHandle,'FsNetworkManageConnection'));
-  FsNetworkOpenConnection:= TFsNetworkOpenConnection(GetProcAddress(FModuleHandle,'FsNetworkOpenConnection'));
 { Unicode }
   FsInitW := TFsInitW(GetProcAddress(FModuleHandle,'FsInitW'));
   FsFindFirstW := TFsFindFirstW(GetProcAddress(FModuleHandle,'FsFindFirstW'));
@@ -676,11 +519,6 @@ begin
   FsStatusInfoW := TFsStatusInfoW(GetProcAddress(FModuleHandle,'FsStatusInfoW'));
   FsExtractCustomIconW := TFsExtractCustomIconW(GetProcAddress(FModuleHandle,'FsExtractCustomIconW'));
   FsGetLocalNameW := TFsGetLocalNameW(GetProcAddress(FModuleHandle,'FsGetLocalNameW'));
-  //--------------------
-  FsNetworkGetSupportedProtocolsW:= TFsNetworkGetSupportedProtocolsW(GetProcAddress(FModuleHandle,'FsNetworkGetSupportedProtocolsW'));
-  FsNetworkGetConnectionW:= TFsNetworkGetConnectionW(GetProcAddress(FModuleHandle,'FsNetworkGetConnectionW'));
-  FsNetworkManageConnectionW:= TFsNetworkManageConnectionW(GetProcAddress(FModuleHandle,'FsNetworkManageConnectionW'));
-  FsNetworkOpenConnectionW:= TFsNetworkOpenConnectionW(GetProcAddress(FModuleHandle,'FsNetworkOpenConnectionW'));
 { Dialog API }
   SetDlgProc:= TSetDlgProc(GetProcAddress(FModuleHandle,'SetDlgProc'));
 end;
@@ -726,11 +564,6 @@ begin
   FsContentSetValue := nil;
   FsContentGetDefaultView := nil;
   FsContentPluginUnloading := nil;
-  //----------------------
-  FsNetworkGetSupportedProtocols:= nil;
-  FsNetworkGetConnection:= nil;
-  FsNetworkManageConnection:= nil;
-  FsNetworkOpenConnection:= nil;
 { Unicode }
   FsInitW := nil;
   FsFindFirstW := nil;
@@ -750,11 +583,6 @@ begin
   FsStatusInfoW := nil;
   FsExtractCustomIconW := nil;
   FsGetLocalNameW := nil;
-  //----------------------
-  FsNetworkGetSupportedProtocolsW:= nil;
-  FsNetworkGetConnectionW:= nil;
-  FsNetworkManageConnectionW:= nil;
-  FsNetworkOpenConnectionW:= nil;
 { Dialog API }
   SetDlgProc:= nil;
 end;
@@ -833,12 +661,6 @@ begin
     finally
       FreeMem(pcRootName);
     end;
-end;
-
-function TWFXModule.VFSNetworkSupport: Boolean;
-begin
-  Result:= (Assigned(FsNetworkGetConnection) and Assigned(FsNetworkManageConnection) and Assigned(FsNetworkOpenConnection))
-        or (Assigned(FsNetworkGetConnectionW) and Assigned(FsNetworkManageConnectionW) and Assigned(FsNetworkOpenConnectionW));
 end;
 
 function TWFXModule.IsLoaded: Boolean;
