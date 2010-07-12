@@ -58,7 +58,7 @@
         <PackageName Value="viewerpackage"/>
       </Item6>
     </RequiredPackages>
-    <Units Count="98">
+    <Units Count="99">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -664,6 +664,14 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fConnectionManager"/>
       </Unit97>
+      <Unit98>
+        <Filename Value="ffileexecuteyourself.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmFileExecuteYourSelf"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fFileExecuteYourSelf"/>
+      </Unit98>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
