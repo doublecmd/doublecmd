@@ -33,7 +33,7 @@ function RenameFile(aFileSource: IFileSource; const aFile: TFile;
 implementation
 
 uses
-  LCLProc, uGlobs, uShellExecute, uFindEx,
+  LCLProc, fFileExecuteYourSelf, uGlobs, uShellExecute, uFindEx,
   uOSUtils, uShowMsg, uTypes, uLng, uDCUtils,
   uFileSourceOperation,
   uFileSourceSetFilePropertyOperation,
@@ -95,6 +95,8 @@ begin
           fseorYourSelf:
             begin
               // CopyOut file to temp file system and execute
+              if not ShowFileExecuteYourSelf(aFileView, aFile) then
+                DebugLn('Execution error!');
             end;
           fseorSymLink:
             begin

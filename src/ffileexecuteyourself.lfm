@@ -1,0 +1,99 @@
+object frmFileExecuteYourSelf: TfrmFileExecuteYourSelf
+  Left = 366
+  Height = 102
+  Top = 182
+  Width = 320
+  AutoSize = True
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Wait...'
+  ChildSizing.LeftRightSpacing = 8
+  ChildSizing.TopBottomSpacing = 8
+  ClientHeight = 102
+  ClientWidth = 320
+  OnClose = FormClose
+  LCLVersion = '0.9.29'
+  object lblPrompt: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 14
+    Top = 8
+    Width = 304
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'Click on Close when the temporary file can be deleted!'
+    ParentColor = False
+  end
+  object btnClose: TBitBtn
+    AnchorSideLeft.Control = Owner
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = lblFromPathValue
+    AnchorSideTop.Side = asrBottom
+    Left = 123
+    Height = 30
+    Top = 70
+    Width = 75
+    BorderSpacing.Top = 8
+    Caption = '&Close'
+    Kind = bkClose
+    TabOrder = 0
+  end
+  object lblFileNameValue: TLabel
+    AnchorSideLeft.Control = lblFileName
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = lblPrompt
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 64
+    Height = 14
+    Top = 28
+    Width = 248
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    ParentColor = False
+  end
+  object lblFromPathValue: TLabel
+    AnchorSideLeft.Control = lblFromPath
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = lblFileNameValue
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 43
+    Height = 14
+    Top = 48
+    Width = 269
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    ParentColor = False
+  end
+  object lblFileName: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblPrompt
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 14
+    Top = 28
+    Width = 50
+    BorderSpacing.Top = 6
+    Caption = 'File name:'
+    ParentColor = False
+  end
+  object lblFromPath: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = lblFileName
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 14
+    Top = 48
+    Width = 29
+    BorderSpacing.Top = 6
+    Caption = 'From:'
+    ParentColor = False
+  end
+end
