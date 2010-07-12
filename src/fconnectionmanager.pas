@@ -83,6 +83,7 @@ var
   WfxPluginFileSource: IWfxPluginFileSource;
   Connection: UTF8String;
 begin
+  {
   WfxPluginFileSource:= PFileSourceRecord(tvConnections.Selected.Data)^.FileSource as IWfxPluginFileSource;
   if Assigned(WfxPluginFileSource) then
   begin
@@ -92,6 +93,7 @@ begin
       StateIndex:= 1;
     end;
   end;
+  }
 end;
 
 procedure TfrmConnectionManager.btnConnectClick(Sender: TObject);
@@ -101,6 +103,7 @@ var
   RemotePath,
   RootPath: UTF8String;
 begin
+  {
   WfxPluginFileSource:= PFileSourceRecord(tvConnections.Selected.Parent.Data)^.FileSource as IWfxPluginFileSource;
   if Assigned(WfxPluginFileSource) then
   begin
@@ -120,6 +123,7 @@ begin
         msgError(Format(rsMsgErrCanNotConnect, [Connection]));
       end;
   end;
+  }
 end;
 
 procedure TfrmConnectionManager.btnDeleteClick(Sender: TObject);
@@ -127,6 +131,7 @@ var
   WfxPluginFileSource: IWfxPluginFileSource;
   Connection: UTF8String;
 begin
+  {
   WfxPluginFileSource:= PFileSourceRecord(tvConnections.Selected.Parent.Data)^.FileSource as IWfxPluginFileSource;
   if Assigned(WfxPluginFileSource) then
   begin
@@ -138,6 +143,7 @@ begin
       tvConnections.Items.EndUpdate;
     end;
   end;
+  }
 end;
 
 procedure TfrmConnectionManager.btnEditClick(Sender: TObject);
@@ -145,6 +151,7 @@ var
   WfxPluginFileSource: IWfxPluginFileSource;
   Connection: UTF8String;
 begin
+  {
   WfxPluginFileSource:= PFileSourceRecord(tvConnections.Selected.Parent.Data)^.FileSource as IWfxPluginFileSource;
   if Assigned(WfxPluginFileSource) then
   begin
@@ -152,17 +159,20 @@ begin
     if WfxPluginFileSource.WfxModule.WfxNetworkManageConnection(Handle, Connection, FS_NM_ACTION_EDIT) then
       tvConnections.Selected.Text:= Connection;
   end;
+  }
 end;
 
 procedure TfrmConnectionManager.FormDestroy(Sender: TObject);
 var
   I: Integer;
 begin
+  {
   for I:= 0 to tvConnections.Items.Count - 1 do
   begin
     if Assigned(tvConnections.Items.Item[I].Data) then
       DisposeFileSourceRecord(tvConnections.Items.Item[I].Data);
   end;
+  }
 end;
 
 constructor TfrmConnectionManager.Create(TheOwner: TComponent; FileView: TFileView);
@@ -173,6 +183,7 @@ var
   Connection: UTF8String;
   Node, SubNode: TTreeNode;
 begin
+  {
   FFileView:= FileView;
   inherited Create(TheOwner);
   for I:= 0 to gWfxPlugins.Count - 1 do
@@ -206,9 +217,9 @@ begin
       except
         WfxPluginFileSource:= nil;
       end;
+    end;
   end;
-end;
-
+  }
 end;
 
 end.

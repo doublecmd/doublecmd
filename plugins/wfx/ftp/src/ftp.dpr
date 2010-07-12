@@ -23,10 +23,12 @@ exports
   FsSetCryptCallback,
   FsGetDefRootName,
   FsSetDefaultParams,
+  {
   FsNetworkGetSupportedProtocols,
   FsNetworkGetConnection,
   FsNetworkManageConnection,
   FsNetworkOpenConnection,
+  }
   SetDlgProc;
 
 {$IFDEF WINDOWS}{$R ftp.rc}{$ENDIF}
