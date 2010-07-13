@@ -50,7 +50,7 @@ type
     destructor Destroy; override;
   end; 
 
-function ShowFileExecuteYourSelf(aFileView: TFileView; aFile: TFile): Boolean;
+function ShowFileExecuteYourSelf(aFileView: TFileView; aFile: TFile; bWithAll: Boolean): Boolean;
 
 implementation
 
@@ -59,20 +59,30 @@ implementation
 uses
   LCLProc, uTempFileSystemFileSource, uFileSourceOperation, uShellExecute, uOSUtils;
 
-function ShowFileExecuteYourSelf(aFileView: TFileView; aFile: TFile): Boolean;
+function ShowFileExecuteYourSelf(aFileView: TFileView; aFile: TFile; bWithAll: Boolean): Boolean;
 var
   ActiveFile: TFile = nil;
   TempFiles: TFiles = nil;
   TempFileSource: ITempFileSystemFileSource = nil;
   Operation: TFileSourceOperation = nil;
-  CurrentDir: UTF8String;
+  CurrentDir,
+  FileName: UTF8String;
 begin
   Result:= False;
   try
     ActiveFile:= aFile.Clone;
-    TempFiles:= TFiles.Create(aFileView.CurrentPath);
-    TempFiles.Add(aFile.Clone);
     TempFileSource:= TTempFileSystemFileSource.GetFileSource;
+    if bWithAll then
+      begin
+        FileName:= TempFileSource.FileSystemRoot + aFile.FullPath;
+        TempFiles:= aFileView.FileSource.GetFiles(aFileView.FileSource.GetRootDir);
+      end
+    else
+      begin
+        FileName:= TempFileSource.FileSystemRoot + aFile.Name;
+        TempFiles:= TFiles.Create(aFileView.CurrentPath);
+        TempFiles.Add(aFile.Clone);
+      end;
     Operation := aFileView.FileSource.CreateCopyOutOperation(
                             TempFileSource,
                             TempFiles,
@@ -84,7 +94,7 @@ begin
     FreeAndNil(Operation);
 
     CurrentDir:= mbGetCurrentDir;
-    Result:= ShellExecuteEx('open', TempFileSource.FileSystemRoot + aFile.Name, TempFileSource.FileSystemRoot + aFile.Path);
+    Result:= ShellExecuteEx('open', FileName, TempFileSource.FileSystemRoot + aFile.Path);
     mbSetCurrentDir(CurrentDir);
     if Result then
     begin
