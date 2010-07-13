@@ -94,8 +94,14 @@ begin
             DebugLn('Execution error!');
           fseorYourSelf:
             begin
-              // CopyOut file to temp file system and execute
-              if not ShowFileExecuteYourSelf(aFileView, aFile) then
+              // Copy out file to temp file system and execute
+              if not ShowFileExecuteYourSelf(aFileView, aFile, False) then
+                DebugLn('Execution error!');
+            end;
+          fseorWithAll:
+            begin
+              // Copy out all files to temp file system and execute chosen
+              if not ShowFileExecuteYourSelf(aFileView, aFile, True) then
                 DebugLn('Execution error!');
             end;
           fseorSymLink:

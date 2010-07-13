@@ -85,7 +85,7 @@ begin
     mrOK:
       Result:= fseorYourSelf;
     mrAll:
-      Result:= fseorYourSelf;
+      Result:= fseorWithAll;
     end;
     Free;
   end;
