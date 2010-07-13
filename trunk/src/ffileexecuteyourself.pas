@@ -89,12 +89,12 @@ begin
                             TempFileSource.FileSystemRoot);
 
     if not Assigned(Operation) then Exit;
-
+    // Execute operation
     Operation.Execute;
-    FreeAndNil(Operation);
-
+    // Save current directory
     CurrentDir:= mbGetCurrentDir;
     Result:= ShellExecuteEx('open', FileName, TempFileSource.FileSystemRoot + aFile.Path);
+    // Restore current directory
     mbSetCurrentDir(CurrentDir);
     if Result then
     begin
@@ -102,6 +102,7 @@ begin
       Show;
     end;
   finally
+    FreeThenNil(Operation);
     FreeThenNil(ActiveFile);
     FreeThenNil(TempFiles);
   end;
