@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Packed file information window
 
-   Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2010  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -72,7 +72,7 @@ function ShowPackInfoDlg(aFileSource: IArchiveFileSource; aFile: TFile): TFileSo
 implementation
 
 uses
-  uFileProperty;
+  uFileProperty, uFileSourceOperationTypes;
 
 function ShowPackInfoDlg(aFileSource: IArchiveFileSource; aFile: TFile): TFileSourceExecuteOperationResult;
 begin
@@ -100,6 +100,8 @@ var
 begin
   inherited Create(TheOwner);
 
+  btnUnpackAndExec.Enabled:= (fsoCopyOut in aFileSource.GetOperationsTypes);
+  btnUnpackAllAndExec.Enabled:= ([fsoList, fsoCopyOut] * aFileSource.GetOperationsTypes = [fsoList, fsoCopyOut]);
   edtPackedFile.Text:= aFile.FullPath;
   sArcType:= ExtractFileExt(aFileSource.ArchiveFileName);
   Delete(sArcType, 1, 1);
