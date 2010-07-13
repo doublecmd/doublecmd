@@ -1,9 +1,8 @@
 object frmModView: TfrmModView
-  Left = 476
+  Left = 395
   Height = 185
-  Top = 103
+  Top = 104
   Width = 488
-  AutoSize = True
   Caption = 'New Size'
   ClientHeight = 185
   ClientWidth = 488
@@ -21,10 +20,10 @@ object frmModView: TfrmModView
     Left = 0
     Height = 139
     Top = 0
-    Width = 190
-    Anchors = [akTop, akLeft, akBottom]
+    Width = 488
+    Anchors = [akTop, akLeft, akRight, akBottom]
     ClientHeight = 139
-    ClientWidth = 190
+    ClientWidth = 488
     TabOrder = 0
     object lblHeight: TLabel
       Left = 1
@@ -82,15 +81,15 @@ object frmModView: TfrmModView
     Left = 0
     Height = 139
     Top = 0
-    Width = 190
-    Anchors = [akTop, akLeft, akBottom]
+    Width = 488
+    Anchors = [akTop, akLeft, akRight, akBottom]
     ClientHeight = 139
-    ClientWidth = 190
+    ClientWidth = 488
     TabOrder = 1
     object tbQuality: TTrackBar
       Left = 0
       Height = 22
-      Top = 17
+      Top = 80
       Width = 140
       Max = 100
       Min = 1
@@ -98,23 +97,75 @@ object frmModView: TfrmModView
       OnMouseMove = tbQualityMouseMove
       TabOrder = 0
     end
-    object Label1: TLabel
+    object lblQuality: TLabel
       Left = 32
       Height = 14
-      Top = 1
+      Top = 56
       Width = 129
       Caption = 'Quality of compress to Jpg'
+      Enabled = False
       ParentColor = False
     end
     object teQuality: TEdit
       Left = 144
       Height = 21
-      Top = 18
+      Top = 80
       Width = 43
       OnKeyPress = teQualityKeyPress
       OnKeyUp = teQualityKeyUp
       TabOrder = 1
       Text = '80'
+    end
+    object rbJpg: TRadioButton
+      Left = 8
+      Height = 17
+      Top = 9
+      Width = 36
+      Caption = 'JPG'
+      Checked = True
+      OnChange = rbJpgChange
+      State = cbChecked
+      TabOrder = 2
+    end
+    object rbBmp: TRadioButton
+      Left = 59
+      Height = 17
+      Top = 9
+      Width = 38
+      Caption = 'BMP'
+      OnChange = rbBmpChange
+      TabOrder = 3
+      TabStop = False
+    end
+    object rbPng: TRadioButton
+      Left = 112
+      Height = 17
+      Top = 9
+      Width = 38
+      Caption = 'PNG'
+      OnChange = rbPngChange
+      TabOrder = 4
+      TabStop = False
+    end
+    object rbIco: TRadioButton
+      Left = 29
+      Height = 17
+      Top = 31
+      Width = 37
+      Caption = 'ICO'
+      OnChange = rbIcoChange
+      TabOrder = 5
+      TabStop = False
+    end
+    object rbPnm: TRadioButton
+      Left = 88
+      Height = 17
+      Top = 30
+      Width = 39
+      Caption = 'PNM'
+      OnChange = rbPnmChange
+      TabOrder = 6
+      TabStop = False
     end
   end
   object pnlCopyMoveFile: TPanel

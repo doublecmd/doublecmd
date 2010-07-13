@@ -23,6 +23,11 @@ type
     lblPath4: TLabel;
     lblPath5: TLabel;
     pnlButtons: TPanel;
+    rbPnm: TRadioButton;
+    rbIco: TRadioButton;
+    rbPng: TRadioButton;
+    rbBmp: TRadioButton;
+    rbJpg: TRadioButton;
     rbPath5: TRadioButton;
     rbPath4: TRadioButton;
     rbPath3: TRadioButton;
@@ -40,7 +45,7 @@ type
     tePath1: TEdit;
     pnlCopyMoveFile: TPanel;
     teQuality: TEdit;
-    Label1: TLabel;
+    lblQuality: TLabel;
     pnlQuality: TPanel;
     teWidth: TEdit;
     teHeight: TEdit;
@@ -55,7 +60,12 @@ type
     procedure btnProportionClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: char);
     procedure FormShow(Sender: TObject);
+    procedure rbBmpChange(Sender: TObject);
+    procedure rbIcoChange(Sender: TObject);
+    procedure rbJpgChange(Sender: TObject);
     procedure rbPath1KeyPress(Sender: TObject; var Key: char);
+    procedure rbPngChange(Sender: TObject);
+    procedure rbPnmChange(Sender: TObject);
     procedure tbQualityMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure teHeightKeyPress(Sender: TObject; var Key: char);
@@ -69,7 +79,7 @@ type
     { private declarations }
     prX, prY: integer;
   public
-    Path : string;
+    Path, sExt : string;
     { public declarations }
   end; 
 
@@ -136,6 +146,36 @@ begin
       // need load parths to target directories !!!
       rbPath1.SetFocus;
     end;
+  if pnlQuality.Visible then
+    begin
+      sExt:= '.jpg';
+      tbQuality.Enabled:=true;
+      lblQuality.Enabled:=True;
+    end;
+end;
+
+procedure TfrmModView.rbBmpChange(Sender: TObject);
+begin
+  sExt:='.bmp';
+  tbQuality.Enabled:=False;
+  teQuality.Enabled:=False;
+  lblQuality.Enabled:=False;
+end;
+
+procedure TfrmModView.rbIcoChange(Sender: TObject);
+begin
+  sExt:='.ico';
+  tbQuality.Enabled:=False;
+  teQuality.Enabled:=False;
+  lblQuality.Enabled:=False;
+end;
+
+procedure TfrmModView.rbJpgChange(Sender: TObject);
+begin
+  sExt:='.jpg';
+  tbQuality.Enabled:=True;
+  teQuality.Enabled:=True;
+  lblQuality.Enabled:=True;
 end;
 
 procedure TfrmModView.rbPath1KeyPress(Sender: TObject; var Key: char);
@@ -177,6 +217,22 @@ begin
           btnOkClick(Sender);
         end;
       end;
+end;
+
+procedure TfrmModView.rbPngChange(Sender: TObject);
+begin
+  sExt:='.png';
+  tbQuality.Enabled:=False;
+  teQuality.Enabled:=False;
+  lblQuality.Enabled:=False;
+end;
+
+procedure TfrmModView.rbPnmChange(Sender: TObject);
+begin
+  sExt:='.pnm';
+  tbQuality.Enabled:=False;
+  teQuality.Enabled:=False;
+  lblQuality.Enabled:=False;
 end;
 
 procedure TfrmModView.tbQualityMouseMove(Sender: TObject; Shift: TShiftState;
