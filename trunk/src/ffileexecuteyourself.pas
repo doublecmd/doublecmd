@@ -91,15 +91,18 @@ begin
     if not Assigned(Operation) then Exit;
     // Execute operation
     Operation.Execute;
-    // Save current directory
-    CurrentDir:= mbGetCurrentDir;
-    Result:= ShellExecuteEx('open', FileName, TempFileSource.FileSystemRoot + aFile.Path);
-    // Restore current directory
-    mbSetCurrentDir(CurrentDir);
-    if Result then
+    // Create wait window
+    with TfrmFileExecuteYourSelf.Create(Application, TempFileSource, aFile.Name, aFileView.CurrentAddress + aFileView.CurrentPath) do
     begin
-      with TfrmFileExecuteYourSelf.Create(Application, TempFileSource, aFile.Name, aFileView.CurrentAddress + aFileView.CurrentPath) do
+      // Show wait window
       Show;
+      // Save current directory
+      CurrentDir:= mbGetCurrentDir;
+      Result:= ShellExecuteEx('open', FileName, TempFileSource.FileSystemRoot + aFile.Path);
+      // Restore current directory
+      mbSetCurrentDir(CurrentDir);
+      // If file can not be opened then close wait window
+      if not Result then Close;
     end;
   finally
     FreeThenNil(Operation);
