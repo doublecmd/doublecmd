@@ -1,7 +1,7 @@
 object frmViewer: TfrmViewer
-  Left = 181
+  Left = 182
   Height = 530
-  Top = 145
+  Top = 177
   Width = 1028
   HorzScrollBar.Page = 951
   VertScrollBar.Page = 491
@@ -160,6 +160,7 @@ object frmViewer: TfrmViewer
         Height = 90
         Top = 0
         Width = 90
+        OnMouseEnter = GifAnimMouseEnter
       end
     end
     object PanelEditImage: TPanel
@@ -1615,26 +1616,7 @@ object frmViewer: TfrmViewer
       end
       object miSaveAs: TMenuItem
         Caption = 'Save As...'
-        object miSaveAsJpg: TMenuItem
-          Caption = 'Jpg'
-          OnClick = miSaveAsJpgClick
-        end
-        object miSaveAsPng: TMenuItem
-          Caption = 'Png'
-          OnClick = miSaveAsPngClick
-        end
-        object miSaveAsBmp: TMenuItem
-          Caption = 'Bmp'
-          OnClick = miSaveAsBmpClick
-        end
-        object miSaveToIco: TMenuItem
-          Caption = 'Ico'
-          OnClick = miSaveToIcoClick
-        end
-        object miSaveToPnm: TMenuItem
-          Caption = 'Pnm'
-          OnClick = miSaveToPnmClick
-        end
+        OnClick = miSaveAsClick
       end
       object miPrint: TMenuItem
         Caption = 'Print...'
@@ -1724,10 +1706,6 @@ object frmViewer: TfrmViewer
         RadioItem = True
         ShortCut = 54
         OnClick = miGraphicsClick
-      end
-      object MenuItem1: TMenuItem
-        Caption = 'New Item44'
-        OnClick = MenuItem1Click
       end
       object miDiv1: TMenuItem
         Caption = '-'

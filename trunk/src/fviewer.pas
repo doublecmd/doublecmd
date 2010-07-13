@@ -56,14 +56,8 @@ type
     gboxView: TGroupBox;
     gboxSlideShow: TGroupBox;
     GifAnim: TGifAnim;
-    MenuItem1: TMenuItem;
     miScreenshot: TMenuItem;
     miFullScreen: TMenuItem;
-    miSaveToPnm: TMenuItem;
-    miSaveToIco: TMenuItem;
-    miSaveAsJpg: TMenuItem;
-    miSaveAsPng: TMenuItem;
-    miSaveAsBmp: TMenuItem;
     miSave: TMenuItem;
     miSaveAs: TMenuItem;
     gboxHightlight: TGroupBox;
@@ -157,6 +151,7 @@ type
     procedure btnUndoClick(Sender: TObject);
     procedure FormCreate(Sender : TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure GifAnimMouseEnter(Sender: TObject);
     procedure ImageMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure ImageMouseEnter(Sender: TObject);
@@ -166,17 +161,12 @@ type
     procedure ImageMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure MenuItem1Click(Sender: TObject);
+    procedure miSaveAsClick(Sender: TObject);
     procedure miSaveClick(Sender: TObject);
     procedure miScreenShotClick(Sender: TObject);
     procedure miFullScreenClick(Sender: TObject);
     procedure miPluginsClick(Sender: TObject);
     procedure miPrintClick(Sender: TObject);
-    procedure miSaveAsBmpClick(Sender: TObject);
-    procedure miSaveAsJpgClick(Sender: TObject);
-    procedure miSaveAsPngClick(Sender: TObject);
-    procedure SaveImage(var sTarget: String; senderSave: boolean);
-    procedure miSaveToIcoClick(Sender: TObject);
-    procedure miSaveToPnmClick(Sender: TObject);
     procedure miSearchNextClick(Sender: TObject);
     procedure miSearchPrevClick(Sender: TObject);
     procedure miZoomClick(Sender: TObject);
@@ -212,6 +202,7 @@ type
     procedure miChangeEncodingClick(Sender:TObject);
     procedure ViewerPositionChanged(Sender:TObject);
     procedure miRotateClick(Sender: TObject);
+
   private
     FileList: TStringList;
     iActiveFile,
@@ -250,10 +241,7 @@ type
     procedure CutToImage;
     procedure Res(W, H: integer);
     procedure RedEyes;
-    procedure SaveToPnm(SavePictureDialog1:TSavePictureDialog; Image1:TImage);
-    procedure SaveToIco(SavePictureDialog1:TSavePictureDialog; Image1:TImage);
-    procedure SaveToPng(SavePictureDialog1:TSavePictureDialog; Image1:TImage);
-    procedure SaveToJpg(SavePictureDialog1:TSavePictureDialog; Image1:TImage; Quality:Integer);
+    procedure SaveImageAs (Var sExt: String; senderSave: boolean; Quality: integer);
 
   public
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource); reintroduce;
@@ -368,6 +356,8 @@ procedure TfrmViewer.LoadFile(iIndex: Integer);
 begin
   iActiveFile := iIndex;
   LoadFile(FileList.Strings[iIndex]);
+  gboxPaint.Visible:=false;
+  gboxHightlight.Visible:=false;
   Status.Panels[sbpFileNr].Text:=Format('%d/%d',[iIndex+1,FileList.Count]);
 end;
 
@@ -409,6 +399,11 @@ begin
           Key := #0;
         end;
     end;
+end;
+
+procedure TfrmViewer.GifAnimMouseEnter(Sender: TObject);
+begin
+  if miFullScreen.Checked then TimerViewer.Enabled:=true;
 end;
 
 procedure TfrmViewer.ImageMouseDown(Sender: TObject; Button: TMouseButton;
@@ -522,7 +517,6 @@ begin
         begin
       if gboxHightlight.Visible then
         begin
-          Image.Cursor:=crCross;
             if cas=0 then
             begin
               EndX:=X;
@@ -561,14 +555,24 @@ begin
               EndX:=X+tmpX;
               EndY:=Y+tmpY;
             end;
-            if StartX<0 then StartX:=0;
-            if StartY<0 then StartY:=0;
+            if StartX<0 then
+              begin
+                StartX:=0;
+                EndX:= UndoEX;
+              end;
+            if StartY<0 then
+              begin
+                StartY:=0;
+                EndY:= UndoEY;
+              end;
             if endX> Image.Picture.Width then endX:=Image.Picture.Width;
             if endY> Image.Picture.Height then endY:=Image.Picture.Height;
             with Image.Picture.Bitmap.Canvas do
               begin
                 DrawFocusRect(Rect(UndoSX,UndoSY,UndoEX,UndoEY));
-                DrawFocusRect(Rect(StartX,StartY,EndX,EndY));                   //Pen.Mode := pmNotXor;
+                DrawFocusRect(Rect(UndoSX+10,UndoSY+10,UndoEX-10,UndoEY-10));
+                DrawFocusRect(Rect(StartX,StartY,EndX,EndY));
+                DrawFocusRect(Rect(StartX+10,StartY+10,EndX-10,EndY-10));//Pen.Mode := pmNotXor;
                 lblHightlight.Caption := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
                 UndoSX:=StartX;
                 UndoSY:=StartY;
@@ -576,28 +580,34 @@ begin
                 UndoEY:=EndY;
               end;
           end;
-      if gboxPaint.Visible then
-      begin
-        with Image.Picture.Bitmap.Canvas do
+        if gboxPaint.Visible then
         begin
-          Brush.Style:= bsClear;
-          Pen.Width := StrToInt(ComboBoxWidth.Text);
-          Pen.Color := ColorBoxPaint.Selected;
-          Pen.Style := psSolid;
-          if ComboBoxPaint.text='Pen' then LineTo (x,y);
-          if ComboBoxPaint.text='Rect' then
+          with Image.Picture.Bitmap.Canvas do
           begin
-            UndoTmp;
-            Rectangle(Rect(StartX,StartY,X,Y));
-          end;
-          if ComboBoxPaint.text='Ellipse' then
-          begin
-            UndoTmp;
-            Ellipse(StartX,StartY,X,Y);
+            Brush.Style:= bsClear;
+            Pen.Width := StrToInt(ComboBoxWidth.Text);
+            Pen.Color := ColorBoxPaint.Selected;
+            Pen.Style := psSolid;
+            tmp:= Pen.Width+10;
+            if ComboBoxPaint.text='Pen' then LineTo (x,y)
+            else
+              begin
+                if (startX>x) and (startY<y) then
+                CopyRect (Rect(UndoSX+tmp,UndoSY-tmp,UndoEX-tmp,UndoEY+tmp), tmp_all.canvas,Rect(UndoSX+tmp,UndoSY-tmp,UndoEX-tmp,UndoEY+tmp));
+                if (startX<x) and (startY>y) then
+                CopyRect (Rect(UndoSX-tmp,UndoSY+tmp,UndoEX+tmp,UndoEY-tmp), tmp_all.canvas,Rect(UndoSX-tmp,UndoSY+tmp,UndoEX+tmp,UndoEY-tmp));
+                if (startX>x) and (startY>y) then
+                CopyRect (Rect(UndoSX+tmp,UndoSY+tmp,UndoEX-tmp,UndoEY-tmp), tmp_all.canvas,Rect(UndoSX+tmp,UndoSY+tmp,UndoEX-tmp,UndoEY-tmp))
+                else
+                CopyRect (Rect(UndoSX-tmp,UndoSY-tmp,UndoEX+tmp,UndoEY+tmp), tmp_all.canvas,Rect(UndoSX-tmp,UndoSY-tmp,UndoEX+tmp,UndoEY+tmp));//UndoTmp;
+                if ComboBoxPaint.text='Rect' then Rectangle(Rect(StartX,StartY,X,Y))else Ellipse(StartX,StartY,X,Y);
+              end;
+            UndoSX:=StartX;
+            UndoSY:=StartY;
+            UndoEX:=X;
+            UndoEY:=Y;
           end;
         end;
-      end;
-
       if not (gboxHightlight.Visible) and not (gboxPaint.Visible) then
     begin
       sboxImage.VertScrollBar.Position:=sboxImage.VertScrollBar.Position+tmpY-y;
@@ -623,11 +633,8 @@ begin
         Brush.Style := bsClear;
         Pen.Style := psDot;
         Pen.Color := clHighlight;
-        Rectangle(Rect(StartX,StartY,EndX,EndY));
-        line (StartX,StartY+10,EndX,StartY+10);
-        line (StartX,EndY-10,EndX,EndY-10);
-        line (StartX+10,StartY,StartX+10,EndY);
-        line (EndX-10,StartY,EndX-10,EndY);
+        DrawFocusRect(Rect(StartX,StartY,EndX,EndY));
+        DrawFocusRect(Rect(StartX+10,StartY+10,EndX-10,EndY-10));
         lblHightlight.Caption := IntToStr(EndX-StartX)+'x'+IntToStr(EndY-StartY);
       end;
     end;
@@ -640,12 +647,38 @@ begin
   GifAnim.Animate:=not GifAnim.Animate;
 end;
 
+procedure TfrmViewer.miSaveAsClick(Sender: TObject);
+var
+  sFile: string;
+begin
+  if not Assigned(FModSizeDialog) then
+     FModSizeDialog:= TfrmModView.Create(Application);
+  FModSizeDialog.pnlSize.Visible:=false;
+  FModSizeDialog.pnlCopyMoveFile.Visible :=false;
+  FModSizeDialog.pnlQuality.Visible:=true;
+  FModSizeDialog.Caption:='Type of Image';
+  FModSizeDialog.Width:=190;
+  FModSizeDialog.Height:=170;
+  FModSizeDialog.ShowModal;
+  if FModSizeDialog.ModalResult=mrOk then
+    begin
+    if StrToInt(FModSizeDialog.teQuality.Text)<=100 then
+      SaveImageAs(FModSizeDialog.sExt,false,StrToInt(FModSizeDialog.teQuality.Text))
+    else
+      begin
+        ShowMessage ('Bad Quality');
+        Exit;
+      end;
+    end
+  else Exit;
+end;
+
 procedure TfrmViewer.miSaveClick(Sender: TObject);
 var
-  str: String;
+  sExt: String;
 begin
-  str:=FileList.Strings[iActiveFile];
-  SaveImage(str, true);
+  sExt:= ExtractFileExt(FileList.Strings[iActiveFile]);
+  SaveImageAs(sExt, true, 80);
 end;
 
 procedure TfrmViewer.miFullScreenClick(Sender: TObject);
@@ -882,55 +915,20 @@ begin
     end;
 end;
 
-procedure TfrmViewer.miSaveAsBmpClick(Sender: TObject);
-begin
-  SavePictureDialog.DefaultExt:= '.bmp';
-  if SavePictureDialog.Execute then
-  Image.Picture.SaveToFile(SavePictureDialog.Filename);
-end;
-
-procedure TfrmViewer.miSaveAsJpgClick(Sender: TObject);
-begin
-  if not Assigned(FModSizeDialog) then
-     FModSizeDialog:= TfrmModView.Create(Application);
-  FModSizeDialog.pnlSize.Visible:=false;
-  FModSizeDialog.pnlCopyMoveFile.Visible :=false;
-  FModSizeDialog.pnlQuality.Visible:=true;
-  FModSizeDialog.Caption:='Quality of Jpg';
-  FModSizeDialog.Width:=190;
-  FModSizeDialog.Height:=100;
-  FModSizeDialog.ShowModal;
-  if FModSizeDialog.ModalResult=mrOk then
-    if StrToInt(FModSizeDialog.teQuality.Text)<=100 then
-      SaveToJpg(SavePictureDialog, Image, StrToInt(FModSizeDialog.teQuality.Text))
-    else
-      begin
-        ShowMessage ('Bad Quality');
-        Exit;
-      end
-  else Exit;
-end;
-
-procedure TfrmViewer.miSaveAsPngClick(Sender: TObject);
-begin
-  SaveToPng(SavePictureDialog, Image);
-end;
-
-procedure TfrmViewer.SaveImage(Var sTarget: String; senderSave: boolean);
+procedure TfrmViewer.SaveImageAs (Var sExt: String; senderSave: boolean; Quality: integer);
 var
-  sExt, sName, sFileName: string;
+  sFileName: string;
   png: TPortableNetworkGraphic=nil;
   ico : TIcon=nil;
   jpg : TJpegImage=nil;
   pnm : TPortableAnyMapGraphic=nil;
 begin
-  sExt:= ExtractFileExt(FileList.Strings[iActiveFile]);
-  if senderSave then sFileName:= sTarget
-  else
-    begin
-      sName:= ExtractFileName(FileList.Strings[iActiveFile]);
-      sFileName:= sTarget + PathDelim + sName;
-    end;
+   if not senderSave then
+     begin
+       if SavePictureDialog.Execute then sFileName:= SavePictureDialog.FileName+sExt;
+     end
+     else
+     sFileName:= FileList.Strings[iActiveFile];
   if sExt= '.bmp' then Image.Picture.SaveToFile(sFileName);
   if sExt= '.png' then
          begin
@@ -947,7 +945,7 @@ begin
       jpg := TJpegImage.Create;
           try
            jpg.Assign(Image.Picture.Graphic);
-           jpg.CompressionQuality := 80;
+           jpg.CompressionQuality := Quality;
            jpg.SaveToFile(sFileName);
           finally
            jpg.Free;
@@ -973,78 +971,6 @@ begin
         pnm.Free;
        end;
     end;
-end;
-
-procedure TfrmViewer.miSaveToIcoClick(Sender: TObject);
-begin
-  SaveToIco(SavePictureDialog, Image);
-end;
-
-procedure TfrmViewer.miSaveToPnmClick(Sender: TObject);
-begin
-  SaveToPnm(SavePictureDialog, Image);
-end;
-
-procedure TfrmViewer.SaveToPng(SavePictureDialog1:TSavePictureDialog; Image1:TImage);
-var
-  png : TPortableNetworkGraphic;
-begin
-  png := TPortableNetworkGraphic.Create;
-  try
-    png.Assign(Image1.Picture.Graphic);
-    SavePictureDialog1.DefaultExt:= '.png';
-    if SavePictureDialog1.Execute then
-    png.SaveToFile(SavePictureDialog1.FileName);
-  finally
-    png.Free;
-  end;
-end;
-
-procedure TfrmViewer.SaveToIco(SavePictureDialog1:TSavePictureDialog; Image1:TImage);
-var
-  ico : TIcon;
-begin
-  ico := TIcon.Create;
-  try
-    ico.Assign(Image1.Picture.Graphic);
-    SavePictureDialog1.DefaultExt:= '.ico';
-    if SavePictureDialog1.Execute then
-    ico.SaveToFile(SavePictureDialog1.FileName);
-  finally
-    ico.Free;
-  end;
-end;
-
-procedure TfrmViewer.SaveToJpg(SavePictureDialog1:TSavePictureDialog; Image1:TImage; Quality:Integer);
-var
-  jpg : TJpegImage;
-begin
-  jpg := TJpegImage.Create;
-  try
-    jpg.Assign(Image1.Picture.Graphic);
-    if Quality in [1 .. 100] then
-    jpg.CompressionQuality := Quality;
-    SavePictureDialog1.DefaultExt:= '.jpg';
-    if SavePictureDialog1.Execute then
-    jpg.SaveToFile(SavePictureDialog1.FileName);
-  finally
-    jpg.Free;
-  end;
-end;
-
-procedure TfrmViewer.SaveToPnm(SavePictureDialog1:TSavePictureDialog; Image1:TImage);
-var
-  pnm : TPortableAnyMapGraphic;
-begin
-  pnm := TPortableAnyMapGraphic.Create;
-  try
-    pnm.Assign(Image1.Picture.Graphic);
-    SavePictureDialog1.DefaultExt:= '.pnm';
-    if SavePictureDialog1.Execute then
-    pnm.SaveToFile(SavePictureDialog1.FileName);
-  finally
-    pnm.Free;
-  end;
 end;
 
 procedure TfrmViewer.miSearchNextClick(Sender: TObject);
@@ -1205,8 +1131,6 @@ begin
     end;
   ExitPluginMode;
   LoadFile(I);
-  gboxPaint.Visible:=false;
-  gboxHightlight.Visible:=false;
 end;
 
 procedure TfrmViewer.miPrevClick(Sender: TObject);
@@ -1222,10 +1146,7 @@ begin
       if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
         Exit;
     end;
-
   LoadFile(I);
-  gboxPaint.Visible:=false;
-  gboxHightlight.Visible:=false;
 end;
 
 procedure TfrmViewer.miStretchClick(Sender: TObject);
@@ -1375,17 +1296,13 @@ begin
 end;
 
 procedure TfrmViewer.btnGifToBmpClick(Sender: TObject);
-var
-  bmp:TBitMap;
 begin
-  bmp := TBitMap.Create;
-  bmp.Width := GifAnim.Width;
-  bmp.Height:=GifAnim.Height;
-  bmp.Canvas.CopyRect(rect(0,0,bmp.Width,bmp.Height), GifAnim.Canvas , rect(0,0,bmp.Width,bmp.Height));
-  SavePictureDialog.DefaultExt:= '.bmp';
-  if SavePictureDialog.Execute then
-  bmp.SaveToFile(SavePictureDialog.FileName);
-  bmp.Free;
+  GifAnim.Animate:=False;
+  Image.Picture.Bitmap.Create;
+  Image.Picture.Bitmap.Width := GifAnim.Width;
+  Image.Picture.Bitmap.Height := GifAnim.Height;
+  Image.Picture.Bitmap.Canvas.CopyRect(Rect(0,0,GifAnim.Width,GifAnim.Height),GifAnim.Canvas,Rect(0,0,GifAnim.Width,GifAnim.Height));
+  miSaveAsClick(sender);
 end;
 
 procedure TfrmViewer.btnNextClick(Sender: TObject);
@@ -1421,11 +1338,11 @@ begin
       FreeThenNil(bmp);
       FreeThenNil(fsFileStream);
     end;
-    miStretch.Checked:= False;
+    {miStretch.Checked:= False;
     Image.Stretch:= miStretch.Checked;
     Image.Proportional:= Image.Stretch;
     Image.Autosize:= not(miStretch.Checked);
-    AdjustImageSize;
+    AdjustImageSize; }
     end;
   if gboxHightlight.Visible then UndoTmp;
   if Sender = btnHightlight then
