@@ -84,7 +84,7 @@ begin
     FreeAndNil(Operation);
 
     CurrentDir:= mbGetCurrentDir;
-    Result:= ShellExecuteEx('open', TempFileSource.FileSystemRoot + aFile.FullPath, TempFileSource.FileSystemRoot + aFile.Path);
+    Result:= ShellExecuteEx('open', TempFileSource.FileSystemRoot + aFile.Name, TempFileSource.FileSystemRoot + aFile.Path);
     mbSetCurrentDir(CurrentDir);
     if Result then
     begin
