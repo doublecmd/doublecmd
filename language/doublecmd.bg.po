@@ -2884,6 +2884,10 @@ msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
 msgid "Apply"
 msgstr "Прилагане"
 
+#: TFRMOPTIONS.BTNAUTOCONFIG.CAPTION
+msgid "Auto Configure"
+msgstr ""
+
 #: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
 msgid ">>"
@@ -3043,10 +3047,6 @@ msgstr "Общи"
 #: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
 msgstr "Използване на обърнато избиране"
-
-#: TFRMOPTIONS.CBCASESENSITIVESORT.CAPTION
-msgid "Case sensitive sorting"
-msgstr "Отчитане на глАВноСТта при подреждане"
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
@@ -3262,6 +3262,11 @@ msgstr "Показване на предупреждения (само с коп
 msgid "Skip file operations errors and write them to log window"
 msgstr ""
 
+#: TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION
+msgctxt "TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION"
+msgid "Case sensitive sorting"
+msgstr "Отчитане на глАВноСТта при подреждане"
+
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr ""
@@ -3460,6 +3465,10 @@ msgstr ""
 msgid "Show tool tip"
 msgstr ""
 
+#: TFRMOPTIONS.GBSORTING.CAPTION
+msgid "Sorting"
+msgstr ""
+
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
 msgstr "Заглавки на подстраниците на папките"
@@ -3632,6 +3641,10 @@ msgstr "Изпълняване в терминал:"
 
 #: TFRMOPTIONS.LBLSAVEIN.CAPTION
 msgid "&Save in:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
+msgid "Sort &method:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
@@ -5528,6 +5541,10 @@ msgstr "Записано на"
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
 msgstr "Бързо търсене"
+
+#: ulng.rsoptsortmethod
+msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+msgstr ""
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"

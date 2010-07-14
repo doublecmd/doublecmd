@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-06-05 11:38+0300\n"
+"PO-Revision-Date: 2010-07-14 21:23+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2886,6 +2886,10 @@ msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
 msgid "Apply"
 msgstr "Применить"
 
+#: TFRMOPTIONS.BTNAUTOCONFIG.CAPTION
+msgid "Auto Configure"
+msgstr ""
+
 #: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
 msgid ">>"
@@ -3045,10 +3049,6 @@ msgstr "Основные"
 #: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
 msgstr "Инверсное выделение"
-
-#: TFRMOPTIONS.CBCASESENSITIVESORT.CAPTION
-msgid "Case sensitive sorting"
-msgstr "Сортировка с учётом регистра"
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
@@ -3266,6 +3266,11 @@ msgstr "Показывать не критические сообщения об
 msgid "Skip file operations errors and write them to log window"
 msgstr "Пропускать ошибки при файловых операциях и выводить их в окно лога"
 
+#: TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION
+msgctxt "TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION"
+msgid "Case sensitive sorting"
+msgstr "Сортировка с учётом регистра"
+
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "При выделении файлов Пробелом перемещать курсор на следующий файл"
@@ -3470,6 +3475,10 @@ msgstr " Показ значков, связанных с типом файло�
 msgid "Show tool tip"
 msgstr "Показывать всплывающие подсказки"
 
+#: TFRMOPTIONS.GBSORTING.CAPTION
+msgid "Sorting"
+msgstr "Сортировка"
+
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
 msgstr "Заголовки вкладок"
@@ -3643,6 +3652,10 @@ msgstr "Пуск терминала:"
 #: TFRMOPTIONS.LBLSAVEIN.CAPTION
 msgid "&Save in:"
 msgstr "&Сохранить в:"
+
+#: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
+msgid "Sort &method:"
+msgstr "Метод &сортировки:"
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
 msgid "Tabs position:"
@@ -5537,6 +5550,10 @@ msgstr "Ассоциация"
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
 msgstr "Быстрый поиск"
+
+#: ulng.rsoptsortmethod
+msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+msgstr "Алфавитная, с учётом особенностей языка;Естественная сортировка: алфавитно-числовая"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"

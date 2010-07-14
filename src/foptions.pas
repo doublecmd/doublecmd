@@ -549,6 +549,7 @@ begin
   ParseLineToList(rsOptMouseSelectionButton, cbMouseMode.Items);
   ParseLineToList(rsOptAutoSizeColumn, cmbAutoSizeColumn.Items);
   ParseLineToList(rsOptTabsPosition, cmbTabsPosition.Items);
+  ParseLineToList(rsOptSortMethod, cbSortMethod.Items);
   // Show configuration directory
   rbProgramDir.Caption:= rbProgramDir.Caption + ' - [' + gpGlobalCfgDir + ']';
   rbUserHomeDir.Caption:= rbUserHomeDir.Caption + ' - [' + GetAppConfigDir + PathDelim + ']';

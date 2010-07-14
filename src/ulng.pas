@@ -307,6 +307,8 @@ resourcestring
   rsOptPluginsRegisteredFor = 'Registered for';
   rsOptPluginsFileName = 'File name';
   rsOptPluginAlreadyAssigned = 'Plugin %s is already assigned for the following extensions:';
+  //-------------------------------
+  rsOptSortMethod = 'Alphabetical, considering accents;Natural sorting: alphabetical and numbers';
 
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';

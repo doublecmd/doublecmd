@@ -2884,6 +2884,10 @@ msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
 msgid "Apply"
 msgstr "Übernehmen"
 
+#: TFRMOPTIONS.BTNAUTOCONFIG.CAPTION
+msgid "Auto Configure"
+msgstr ""
+
 #: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
 msgid ">>"
@@ -3043,10 +3047,6 @@ msgstr "Allgemein"
 #: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
 msgstr "Umgekehrte Auswahl nutzen"
-
-#: TFRMOPTIONS.CBCASESENSITIVESORT.CAPTION
-msgid "Case sensitive sorting"
-msgstr "Sortieren nach Gross- / Kleinschreibung"
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
@@ -3264,6 +3264,11 @@ msgstr "Warnungen anzeigen (nur mit \"OK\" Schalter)"
 msgid "Skip file operations errors and write them to log window"
 msgstr "Fehler bei Datei-Operationen ignorieren und sie im Log-Fenster anzeigen"
 
+#: TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION
+msgctxt "TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION"
+msgid "Case sensitive sorting"
+msgstr "Sortieren nach Gross- / Kleinschreibung"
+
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "Wenn Dateien mit der <Leertaste> ausgewählt werden, zur nächsten Datei wechseln (wie mit <Einfügen>)"
@@ -3468,6 +3473,10 @@ msgstr "Icons links vom Dateinamen anzeigen"
 msgid "Show tool tip"
 msgstr "Zeige Tooltips (Hinweistexte)"
 
+#: TFRMOPTIONS.GBSORTING.CAPTION
+msgid "Sorting"
+msgstr ""
+
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
 msgstr "Verzeichnisreiter-Titel"
@@ -3641,6 +3650,10 @@ msgstr "Befehlszeile:"
 #: TFRMOPTIONS.LBLSAVEIN.CAPTION
 msgid "&Save in:"
 msgstr "&Speichern in:"
+
+#: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
+msgid "Sort &method:"
+msgstr ""
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
 msgid "Tabs position:"
@@ -4574,7 +4587,7 @@ msgctxt "TFRMVIEWER.MISCREENSHOT.CAPTION"
 msgid "Screenshot"
 msgstr ""
 "Anzeige als\n"
-"Bild kopieren (Screenshot)"
+"Bild kopieren (Screenshot)\n"
 
 #: TFRMVIEWER.MISEARCH.CAPTION
 msgctxt "TFRMVIEWER.MISEARCH.CAPTION"
@@ -5540,6 +5553,10 @@ msgstr "Registriert für"
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
 msgstr "Schnelle Suche"
+
+#: ulng.rsoptsortmethod
+msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+msgstr ""
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"

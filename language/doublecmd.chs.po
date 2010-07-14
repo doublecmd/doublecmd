@@ -2886,6 +2886,10 @@ msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
 msgid "Apply"
 msgstr "应用"
 
+#: TFRMOPTIONS.BTNAUTOCONFIG.CAPTION
+msgid "Auto Configure"
+msgstr ""
+
 #: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
 msgid ">>"
@@ -3045,10 +3049,6 @@ msgstr "一般"
 #: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
 msgstr "使用反选"
-
-#: TFRMOPTIONS.CBCASESENSITIVESORT.CAPTION
-msgid "Case sensitive sorting"
-msgstr "大小写敏感排序"
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
@@ -3266,6 +3266,11 @@ msgstr "显示所有警告信息(仅有“确定”按钮)"
 msgid "Skip file operations errors and write them to log window"
 msgstr "忽略文件操作错误，并记录到日志窗口"
 
+#: TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION
+msgctxt "TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION"
+msgid "Case sensitive sorting"
+msgstr "大小写敏感排序"
+
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "当用空格键 <SPACEBAR>选文件时, 自动移动到下一文件 (相当于执行插入键<INSERT>)"
@@ -3470,6 +3475,10 @@ msgstr "在文件名左侧显示图标"
 msgid "Show tool tip"
 msgstr ""
 
+#: TFRMOPTIONS.GBSORTING.CAPTION
+msgid "Sorting"
+msgstr ""
+
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
 msgstr "文件夹标签页头"
@@ -3642,6 +3651,10 @@ msgstr "开启终端:"
 
 #: TFRMOPTIONS.LBLSAVEIN.CAPTION
 msgid "&Save in:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
+msgid "Sort &method:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
@@ -5538,6 +5551,10 @@ msgstr "注册给"
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
 msgstr "快速搜索"
+
+#: ulng.rsoptsortmethod
+msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+msgstr ""
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"

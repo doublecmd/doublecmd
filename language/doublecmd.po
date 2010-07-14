@@ -2830,6 +2830,10 @@ msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
 msgid "Apply"
 msgstr ""
 
+#: TFRMOPTIONS.BTNAUTOCONFIG.CAPTION
+msgid "Auto Configure"
+msgstr ""
+
 #: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
 msgid ">>"
@@ -2988,10 +2992,6 @@ msgstr ""
 
 #: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
-msgstr ""
-
-#: TFRMOPTIONS.CBCASESENSITIVESORT.CAPTION
-msgid "Case sensitive sorting"
 msgstr ""
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
@@ -3209,6 +3209,11 @@ msgstr ""
 msgid "Skip file operations errors and write them to log window"
 msgstr ""
 
+#: TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION
+msgctxt "TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION"
+msgid "Case sensitive sorting"
+msgstr ""
+
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr ""
@@ -3406,6 +3411,10 @@ msgstr ""
 msgid "Show tool tip"
 msgstr ""
 
+#: TFRMOPTIONS.GBSORTING.CAPTION
+msgid "Sorting"
+msgstr ""
+
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
 msgstr ""
@@ -3578,6 +3587,10 @@ msgstr ""
 
 #: TFRMOPTIONS.LBLSAVEIN.CAPTION
 msgid "&Save in:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
+msgid "Sort &method:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
@@ -5463,6 +5476,10 @@ msgstr ""
 #: ulng.rsoptquicksearch
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
+msgstr ""
+
+#: ulng.rsoptsortmethod
+msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
 msgstr ""
 
 #: ulng.rsopttabsposition
