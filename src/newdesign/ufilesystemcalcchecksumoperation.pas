@@ -392,9 +392,9 @@ var
   sExt: UTF8String;
 begin
   sExt:= ExtractFileExt(sFileName);
-  if mbCompareText(sExt, '.md5') = 0 then
+  if SameText(sExt, '.md5') then
     Result:= HASH_MD5
-  else if mbCompareText(sExt, '.sha') = 0 then
+  else if SameText(sExt, '.sha') then
     Result:= HASH_SHA1;
 end;
 

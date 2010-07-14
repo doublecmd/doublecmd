@@ -107,7 +107,7 @@ type
 implementation
 
 uses
-  uTypes, uOSUtils, uGlobs;
+  uTypes, uOSUtils, uGlobs, uDCUtils;
 
 
 function HasSortFunction(FileFunctions: TFileFunctions;
@@ -267,10 +267,7 @@ function ICompareByName(item1, item2: TFile; bSortNegative: Boolean):Integer;
 begin
   Result := 0;
 
-  if gCaseSensitiveSort then
-    Result := StrComp(PChar(item1.Name), PChar(item2.Name))
-  else
-    Result := mbCompareText(item1.Name, item2.Name);
+  Result := CompareStrings(item1.Name, item2.Name, gSortNatural, gSortCaseSensitive);
 
   if bSortNegative then
     Result := -Result;
@@ -294,10 +291,7 @@ begin
     name1 := item1.NameNoExt;
     name2 := item2.NameNoExt;
 
-    if gCaseSensitiveSort then
-      Result := StrComp(PChar(name1), PChar(name2))
-    else
-      Result := mbCompareText(name1, name2);
+    Result := CompareStrings(name1, name2, gSortNatural, gSortCaseSensitive);
 
     if bSortNegative then
       Result := -Result;
@@ -311,10 +305,7 @@ begin
   if item1.Extension = item2.Extension then
     Exit;
 
-  if gCaseSensitiveSort then
-    Result := StrComp(PChar(item1.Extension), PChar(item2.Extension))
-  else
-    Result := mbCompareText(item1.Extension, item2.Extension);
+  Result := CompareStrings(item1.Extension, item2.Extension, gSortNatural, gSortCaseSensitive);
 
   if bSortNegative then
     Result := -Result;
