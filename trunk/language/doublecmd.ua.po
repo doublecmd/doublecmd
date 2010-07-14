@@ -2883,6 +2883,10 @@ msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
 msgid "Apply"
 msgstr "Застосувати"
 
+#: TFRMOPTIONS.BTNAUTOCONFIG.CAPTION
+msgid "Auto Configure"
+msgstr ""
+
 #: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
 msgid ">>"
@@ -3042,10 +3046,6 @@ msgstr "Основні"
 #: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
 msgstr "Використовувати інверсне виділення"
-
-#: TFRMOPTIONS.CBCASESENSITIVESORT.CAPTION
-msgid "Case sensitive sorting"
-msgstr "Сортувати з врахуванням регістру"
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
@@ -3261,6 +3261,11 @@ msgstr "Показувати попередження (тільки кнопка
 msgid "Skip file operations errors and write them to log window"
 msgstr "Пропускати помилки при файлових операціях і заносити у звіт"
 
+#: TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION
+msgctxt "TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION"
+msgid "Case sensitive sorting"
+msgstr "Сортувати з врахуванням регістру"
+
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "При виділенні файлів пробілом переміщувати курсор на слідучий файл"
@@ -3459,6 +3464,10 @@ msgstr " Показ іконок звязаних з типом файлу "
 msgid "Show tool tip"
 msgstr "Показати спливаючі підказки"
 
+#: TFRMOPTIONS.GBSORTING.CAPTION
+msgid "Sorting"
+msgstr ""
+
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
 msgstr "Заголовки вкладок"
@@ -3632,6 +3641,10 @@ msgstr "Запуск терміналу:"
 #: TFRMOPTIONS.LBLSAVEIN.CAPTION
 msgid "&Save in:"
 msgstr "&Зберегти в:"
+
+#: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
+msgid "Sort &method:"
+msgstr ""
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
 msgid "Tabs position:"
@@ -4228,7 +4241,6 @@ msgstr "Показувати як нормальні файли (сховати 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_MEMPACK.CAPTION
 msgid "Supports packing in memory"
 msgstr "Підтримує стиснення в пам'яті"
-
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_MODIFY.CAPTION
 msgid "Can modify exisiting archives"
@@ -5530,6 +5542,10 @@ msgstr "Асоціації з"
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
 msgstr "Швидкий пошук"
+
+#: ulng.rsoptsortmethod
+msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+msgstr ""
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"

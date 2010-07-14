@@ -2907,6 +2907,10 @@ msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
 msgid "Apply"
 msgstr "Použít"
 
+#: TFRMOPTIONS.BTNAUTOCONFIG.CAPTION
+msgid "Auto Configure"
+msgstr ""
+
 #: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
 msgid ">>"
@@ -3066,10 +3070,6 @@ msgstr "Hlavní"
 #: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
 msgstr "Použít obrácený výběr"
-
-#: TFRMOPTIONS.CBCASESENSITIVESORT.CAPTION
-msgid "Case sensitive sorting"
-msgstr "Třídění rozlišuje velká/malá"
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
@@ -3287,6 +3287,11 @@ msgstr "Zobrazit varovné zprávy (pouze tlačítko \"OK\")"
 msgid "Skip file operations errors and write them to log window"
 msgstr "Přeskočit chyby a zapsat je do okna logů"
 
+#: TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION
+msgctxt "TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION"
+msgid "Case sensitive sorting"
+msgstr "Třídění rozlišuje velká/malá"
+
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "Při výběru mezerníkem posunout kursor dolů, jako při výběru klávesou Insert"
@@ -3491,6 +3496,10 @@ msgstr "Zobrazit ikony nalevo od názvu souboru"
 msgid "Show tool tip"
 msgstr ""
 
+#: TFRMOPTIONS.GBSORTING.CAPTION
+msgid "Sorting"
+msgstr ""
+
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
 msgstr "Záhlaví záložek"
@@ -3665,6 +3674,10 @@ msgstr "Spustit terminál:"
 
 #: TFRMOPTIONS.LBLSAVEIN.CAPTION
 msgid "&Save in:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
+msgid "Sort &method:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
@@ -5572,6 +5585,10 @@ msgstr "Registrováno pro"
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
 msgstr "Rychlé hledání"
+
+#: ulng.rsoptsortmethod
+msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+msgstr ""
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"

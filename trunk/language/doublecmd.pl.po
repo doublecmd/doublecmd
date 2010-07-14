@@ -2873,6 +2873,10 @@ msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
 msgid "Apply"
 msgstr "Zastosuj"
 
+#: TFRMOPTIONS.BTNAUTOCONFIG.CAPTION
+msgid "Auto Configure"
+msgstr ""
+
 #: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
 msgid ">>"
@@ -3032,10 +3036,6 @@ msgstr "Ogólne"
 #: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
 msgstr "Odwrotna selekcja"
-
-#: TFRMOPTIONS.CBCASESENSITIVESORT.CAPTION
-msgid "Case sensitive sorting"
-msgstr "Сортировка с учётом регистра"
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
@@ -3253,6 +3253,11 @@ msgstr "Pokaż komunikaty o błędach (z przyciskim \"ОК\")"
 msgid "Skip file operations errors and write them to log window"
 msgstr "Komunikaty o błędach przy operacja na plikach pokazuj w oknie logów"
 
+#: TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION
+msgctxt "TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION"
+msgid "Case sensitive sorting"
+msgstr "Сортировка с учётом регистра"
+
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
 msgstr "Klawisz <spacja> przenosi do następnego pliku (tak jak <INSERT>)"
@@ -3457,6 +3462,10 @@ msgstr ""
 msgid "Show tool tip"
 msgstr ""
 
+#: TFRMOPTIONS.GBSORTING.CAPTION
+msgid "Sorting"
+msgstr ""
+
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
 msgstr "Nagłówki zakładek"
@@ -3629,6 +3638,10 @@ msgstr "Terminal:"
 
 #: TFRMOPTIONS.LBLSAVEIN.CAPTION
 msgid "&Save in:"
+msgstr ""
+
+#: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
+msgid "Sort &method:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
@@ -5526,6 +5539,10 @@ msgstr "Skojarzenia"
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
 msgstr "Szybkie wyszukiwanie"
+
+#: ulng.rsoptsortmethod
+msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
+msgstr ""
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
