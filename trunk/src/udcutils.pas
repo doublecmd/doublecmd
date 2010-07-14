@@ -321,6 +321,8 @@ procedure SplitCmdLine(sCmdLine : String; var sCmd, sParams : String);
    @param(TextLineBreakStyle Text line break style)
 }
 function TrimRightLineEnding(const sText: UTF8String; TextLineBreakStyle: TTextLineBreakStyle): UTF8String;
+function mbCompareText(const s1, s2: UTF8String): PtrInt;
+function CompareStrings(const s1, s2: UTF8String; Natural, CaseSensitive: Boolean): PtrInt;
 
 procedure ParseLineToList(sLine: String; ssItems: TStrings);
 procedure InsertFirstItem(sLine: String; comboBox: TCustomComboBox);
@@ -330,6 +332,7 @@ procedure StrDisposeW(var pStr : PWideChar);
 function StrLCopyW(Dest, Source: PWideChar; MaxLen: SizeInt): PWideChar;
 function StrPCopyW(Dest: PWideChar; const Source: WideString): PWideChar;
 function StrPLCopyW(Dest: PWideChar; const Source: WideString; MaxLen: Cardinal): PWideChar;
+function StrFloatCmpW(str1, str2: PWideChar; CaseSensitive: Boolean): PtrInt;
 
 {en
    Checks if a string begins with another string.
@@ -908,7 +911,6 @@ begin
   n:=sFileName;
 end;
 
-
 function CharPos(C: Char; const S: string; StartPos: Integer = 1): Integer;
 var
  sNewStr : String;
@@ -1186,6 +1188,24 @@ begin
   Result:= Copy(sText, 1, L - I); // Copy without last line ending
 end;
 
+function mbCompareText(const s1, s2: UTF8String): PtrInt; inline;
+begin
+  Result:= WideCompareText(UTF8Decode(s1), UTF8Decode(s2));
+end;
+
+function CompareStrings(const s1, s2: UTF8String; Natural, CaseSensitive: Boolean): PtrInt; inline;
+begin
+  if Natural then
+    Result:= StrFloatCmpW(PWideChar(UTF8Decode(s1)), PWideChar(UTF8Decode(s2)), CaseSensitive)
+  else
+    begin
+      if CaseSensitive then
+        Result:= WideCompareStr(UTF8Decode(s1), UTF8Decode(s2))
+      else
+        Result:= WideCompareText(UTF8Decode(s1), UTF8Decode(s2));
+    end;
+end;
+
 procedure ParseLineToList(sLine: String; ssItems: TStrings);
 var
   xPos: Integer;
@@ -1270,6 +1290,153 @@ end;
 function StrPLCopyW(Dest: PWideChar; const Source: WideString; MaxLen: Cardinal): PWideChar;
 begin
   Result := StrLCopyW(Dest, PWideChar(Source), MaxLen);
+end;
+
+function StrFloatCmpW(str1, str2: PWideChar; CaseSensitive: Boolean): PtrInt;
+var
+  is_digit1, is_digit2: boolean;
+  string_result: ptrint = 0;
+  number_result: ptrint = 0;
+  number1_size: ptrint = 0;
+  number2_size: ptrint = 0;
+
+  function is_digit(c: widechar): boolean; inline;
+  begin
+    result:= (c in ['0'..'9']);
+  end;
+
+  function is_point(c: widechar): boolean; inline;
+  begin
+    result:= (c in [',', '.']);
+  end;
+
+begin
+  while (true) do
+  begin
+    // compare string part
+    while (true) do
+    begin
+      is_digit1 := is_digit(str1^);
+      is_digit2 := is_digit(str2^);
+
+      if (is_digit1 and is_digit2) then break;
+
+      if (is_digit1 and not is_digit2) then
+        exit(-1);
+
+      if (is_digit2 and not is_digit1) then
+        exit(+1);
+
+      if ((str1^ = #0) and (str2^ <> #0)) then
+        exit(-1);
+
+      if ((str2^ = #0) and (str1^ <> #0)) then
+        exit(+1);
+
+      if CaseSensitive then
+        string_result:= WideCompareStr(str1^, str2^)
+      else
+        string_result:= WideCompareText(str1^, str2^);
+
+      if (string_result <> 0) then exit(string_result);
+
+      inc(str1);
+      inc(str2);
+    end;
+
+    // skip leading zeroes for number
+    while (str1^ = '0') do
+      inc(str1);
+    while (str2^ = '0') do
+      inc(str2);
+
+    // compare number before decimal point
+    while (true) do
+    begin
+      is_digit1 := is_digit(str1^);
+      is_digit2 := is_digit(str2^);
+
+      if (not is_digit1 and not is_digit2) then
+        break;
+
+      if ((number_result = 0) and is_digit1 and is_digit2) then
+      begin
+        if (str1^ > str2^) then
+          number_result := +1
+        else if (str1^ < str2^) then
+          number_result := -1
+        else
+          number_result := 0;
+      end;
+
+      if (is_digit1) then
+      begin
+        inc(str1);
+        inc(number1_size);
+      end;
+
+      if (is_digit2) then
+      begin
+        inc(str2);
+        inc(number2_size);
+      end;
+    end;
+
+    if (number1_size <> number2_size) then
+      exit(number1_size - number2_size);
+
+    if (number_result <> 0) then
+      exit(number_result);
+
+    // if there is a decimal point, compare number after one
+    if (is_point(str1^) or is_point(str2^)) then
+    begin
+      if (is_point(str1^)) then
+        inc(str1);
+
+      if (is_point(str2^)) then
+        inc(str2);
+
+      while (true) do
+      begin
+        is_digit1 := is_digit(str1^);
+        is_digit2 := is_digit(str2^);
+
+        if (not is_digit1 and not is_digit2) then
+          break;
+
+        if (is_digit1 and not is_digit2) then
+        begin
+          while (str1^ = '0') do
+            inc(str1);
+
+          if (is_digit(str1^)) then
+            exit(+1)
+          else
+            break;
+        end;
+
+        if (is_digit2 and not is_digit1) then
+        begin
+          while (str2^ = '0') do
+            inc(str2);
+
+          if (is_digit(str2^)) then
+            exit(-1)
+          else
+            break;
+        end;
+
+        if (str1^ > str2^) then
+          exit(+1)
+        else if (str1^ < str2^) then
+          exit(-1);
+
+        inc(str1);
+        inc(str2);
+      end;
+    end;
+  end;
 end;
 
 function StrBegins(const StringToCheck, StringToMatch: String): Boolean;

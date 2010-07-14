@@ -78,7 +78,7 @@ type
     btnCopyColumnsSet: TButton;
     cbBackColor: TColorBox;
     cBackGrndLabel: TLabel;
-    cbCaseSensitiveSort: TCheckBox;
+    cbSortCaseSensitive: TCheckBox;
     cbCategoryColor: TColorBox;
     cbOnlyOnce: TCheckBox;
     cbDropReadOnlyFlag: TCheckBox;
@@ -148,6 +148,7 @@ type
     chkMultiArcDebug: TCheckBox;
     cmbTabsPosition: TComboBox;
     cmbAutoSizeColumn: TComboBox;
+    cbSortMethod: TComboBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
@@ -219,7 +220,9 @@ type
     gbAutoRefreshEnable: TGroupBox;
     gbAutoRefreshDisable: TGroupBox;
     gbShowToolTip: TGroupBox;
+    gbSorting: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
+    lblSortMethod: TLabel;
     lblArchiveListEnd: TLabel;
     lblArchiveListStart: TLabel;
     lblArchiveDelete: TLabel;
@@ -2464,7 +2467,6 @@ begin
   edtRunInTerm.Text:= gRunInTerm;
   edtRunTerm.Text:=gRunTerm;
   cbOnlyOnce.Checked:= gOnlyOneAppInstance;
-  cbCaseSensitiveSort.Checked:=gCaseSensitiveSort;
   cbLynxLike.Checked:=gLynxLike;
   cbShortFileSizeFormat.Checked:=gShortFileSizeFormat;
 
@@ -2602,6 +2604,8 @@ begin
   cbDirBrackets.Checked:= gDirBrackets;
   rbToolTipAllFiles.Checked:= (stm_show_for_all in gShowToolTipMode);
   rbToolTipOnlyLarge.Checked:= (stm_only_large_name in gShowToolTipMode);
+  cbSortCaseSensitive.Checked:= gSortCaseSensitive;
+  if gSortNatural then cbSortMethod.ItemIndex:= 1;
 
   { Auto refresh }
   cbWatchFileNameChange.Checked := (watch_file_name_change in gWatchDirs);
@@ -2674,7 +2678,6 @@ begin
   gRunInTerm:=edtRunInTerm.Text;
   gRunTerm:= edtRunTerm.Text;
   gOnlyOneAppInstance:=cbOnlyOnce.Checked;
-  gCaseSensitiveSort:=cbCaseSensitiveSort.Checked;
   gLynxLike:=cbLynxLike.Checked;
   gShortFileSizeFormat:=cbShortFileSizeFormat.Checked;
 
@@ -2829,6 +2832,8 @@ begin
     Include(gShowToolTipMode, stm_show_for_all);
   if rbToolTipOnlyLarge.Checked then
     Include(gShowToolTipMode, stm_only_large_name);
+  gSortCaseSensitive:= cbSortCaseSensitive.Checked;
+  gSortNatural:= (cbSortMethod.ItemIndex = 1);
 
   { Auto refresh }
   gWatchDirs := []; // Reset watch options
