@@ -2685,6 +2685,7 @@ begin
   edtRename.Parent:=dgPanel;
   edtRename.Visible:=False;
   edtRename.TabStop:=False;
+  edtRename.AutoSize:=False;
 
   // now create search panel
   pnAltSearch:=TPanel.Create(Self);
