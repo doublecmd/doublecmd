@@ -1316,6 +1316,12 @@ begin
     // compare string part
     while (true) do
     begin
+      if ((str1^ = #0) and (str2^ <> #0)) then
+        exit(-1);
+
+      if ((str2^ = #0) and (str1^ <> #0)) then
+        exit(+1);
+
       is_digit1 := is_digit(str1^);
       is_digit2 := is_digit(str2^);
 
@@ -1325,12 +1331,6 @@ begin
         exit(-1);
 
       if (is_digit2 and not is_digit1) then
-        exit(+1);
-
-      if ((str1^ = #0) and (str2^ <> #0)) then
-        exit(-1);
-
-      if ((str2^ = #0) and (str1^ <> #0)) then
         exit(+1);
 
       if CaseSensitive then
