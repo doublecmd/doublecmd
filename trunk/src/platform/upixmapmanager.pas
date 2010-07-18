@@ -166,6 +166,8 @@ type
        It is synchronized in GetIconByName->CheckAddPixmap.
     }
     function GetIconByDesktopFile(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
+  {$ELSEIF DEFINED(DARWIN)}
+    function GetApplicationBundleIcon(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
   {$ENDIF}
     function GetBuiltInDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
   public
@@ -709,11 +711,11 @@ end;
 function TPixMapManager.GetIconByDesktopFile(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
 var
   I: PtrInt;
-  iniDesktop: TIniFileEx;
+  iniDesktop: TIniFileEx = nil;
   sIconName: UTF8String;
 begin
-  iniDesktop:= TIniFileEx.Create(sFileName, fmOpenRead);
   try
+    iniDesktop:= TIniFileEx.Create(sFileName, fmOpenRead);
     sIconName:= iniDesktop.ReadString('Desktop Entry', 'Icon', EmptyStr);
   finally
     FreeThenNil(iniDesktop);
@@ -726,6 +728,43 @@ begin
   }
   if GetPathType(sIconName) = ptNone then
     sIconName := TIconTheme.CutTrailingExtension(sIconName);
+
+  I:= GetIconByName(sIconName);
+  if I < 0 then
+    Result:= iDefaultIcon
+  else
+    Result:= I;
+end;
+
+{$ELSEIF DEFINED(DARWIN)}
+
+function TPixMapManager.GetApplicationBundleIcon(sFileName: UTF8String;
+  iDefaultIcon: PtrInt): PtrInt;
+var
+  I, J: PtrInt;
+  slInfoFile: TStringListEx = nil;
+  sTemp,
+  sIconName: UTF8String;
+begin
+  slInfoFile:= TStringListEx.Create;
+  try
+    slInfoFile.LoadFromFile(sFileName + '/Contents/Info.plist');
+    sTemp:= slInfoFile.Text;
+    I:= Pos('CFBundleIconFile', sTemp);
+    if I <= 0 then
+      Exit(iDefaultIcon)
+    else
+      begin
+        I:= PosEx('<string>', sTemp, I) + 8;
+        J:= PosEx('</string>', sTemp, I);
+        sIconName:= Copy(sTemp, I, J - I);
+        if not StrEnds(sIconName, '.icns') then
+          sIconName:= sIconName + '.icns';
+        sIconName:= sFileName + '/Contents/Resources/' + sIconName;
+      end;
+  finally
+    FreeThenNil(slInfoFile);
+  end;
 
   I:= GetIconByName(sIconName);
   if I < 0 then
@@ -1287,6 +1326,14 @@ begin
          (DirectAccess and mbFileExists(Path + Name + '/.directory')) then
         begin
           Result:= GetIconByDesktopFile(Path + Name + '/.directory', FiDirIconID);
+          Exit;
+        end
+      else
+      {$ELSEIF DEFINED(DARWIN)}
+      if (gShowIcons = sim_all_and_exe) and
+         (DirectAccess and (ExtractFileExt(FullPath) = '.app')) then
+        begin
+          Result:= GetApplicationBundleIcon(FullPath, FiDirIconID);
           Exit;
         end
       else
