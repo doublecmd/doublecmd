@@ -2885,7 +2885,7 @@ msgstr "Застосувати"
 
 #: TFRMOPTIONS.BTNAUTOCONFIG.CAPTION
 msgid "Auto Configure"
-msgstr ""
+msgstr "Автоматичні налаштування"
 
 #: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
@@ -3466,7 +3466,7 @@ msgstr "Показати спливаючі підказки"
 
 #: TFRMOPTIONS.GBSORTING.CAPTION
 msgid "Sorting"
-msgstr ""
+msgstr "Сортування"
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -3644,7 +3644,7 @@ msgstr "&Зберегти в:"
 
 #: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
 msgid "Sort &method:"
-msgstr ""
+msgstr "&Метод сортування:"
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
 msgid "Tabs position:"
@@ -5200,6 +5200,7 @@ msgctxt "ulng.rsmsgpopuphotcnf"
 msgid "&Configure"
 msgstr "&Налаштувати"
 
+
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"
 msgstr "Видалити %s"
@@ -5545,7 +5546,7 @@ msgstr "Швидкий пошук"
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
-msgstr ""
+msgstr "За абеткою, з урахуванням акцентів; Природне сортування: по алфавіту і цифрах"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
