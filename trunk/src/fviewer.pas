@@ -1502,7 +1502,7 @@ var
 begin
   sExt:= Lowercase(ExtractFileExt(sFileName));
   Result:=(sExt='.bmp') or (sExt='.xpm') or (sExt='.png') or
-       (sExt='.jpg') or (sExt='.jpeg') or (sExt='.ico') or
+       (sExt='.jpg') or (sExt='.jpeg') or (sExt='.ico') or (sExt='.icns') or
        (sExt='.ddw') or (sExt='.tga') or (sExt='.gif');
 end;
 
