@@ -9,6 +9,7 @@ object frmFileOp: TfrmFileOp
   ClientHeight = 180
   ClientWidth = 539
   Color = clForm
+  Constraints.MinWidth = 500
   OnClose = FormClose
   OnCreate = FormCreate
   Position = poScreenCenter
