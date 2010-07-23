@@ -439,7 +439,7 @@ var
 begin
   for i := 1 to Length(NewName) do
     if NewName[i] in AllowDirectorySeparators then
-      raise EInvalidFileProperty.Create('Name cannot have directory separators');
+      raise EInvalidFileProperty.CreateFmt('Name cannot have directory separators: "%s"', [NewName]);
 
   FName := NewName;
 end;
