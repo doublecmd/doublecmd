@@ -884,15 +884,18 @@ end;
 
 destructor TLuaWdx.Destroy;
 begin
-  if assigned(FParser) then
+  if Assigned(FParser) then
     FParser.Free;
 
-  if assigned(FFieldsList) then
+  if Assigned(FFieldsList) then
+  begin
     while FFieldsList.Count > 0 do
     begin
       TWdxField(FFieldsList.Objects[0]).Free;
       FFieldsList.Delete(0);
     end;
+    FreeAndNil(FFieldsList);
+  end;
 
   Self.UnloadModule;
 
