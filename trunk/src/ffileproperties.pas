@@ -320,18 +320,18 @@ begin
       lblLastModif.Caption:='';
 
     // Chown
-    if isFileSystem then
+    if isFileSystem and (fpLStat(PChar(FullPath), sb) = 0) then
     begin
-      iMyUID:=fpGetUID; //get user's UID
-      bPerm:=(iMyUID=sb.st_uid);
-      cbxUsers.Text:=UIDToStr(sb.st_uid);
-      if(imyUID=0) then
+      iMyUID:= fpGetUID; //get user's UID
+      bPerm:= (iMyUID = sb.st_uid);
+      cbxUsers.Text:= UIDToStr(sb.st_uid);
+      if(imyUID = 0) then
         GetUsers(cbxUsers.Items); //huh, a ROOT :))
-      cbxUsers.Enabled:=(imyUID=0);
-      cbxGroups.Text:=GIDToStr(sb.st_gid);
-      if(bPerm or (iMyUID=0)) then
+      cbxUsers.Enabled:= (imyUID = 0);
+      cbxGroups.Text:= GIDToStr(sb.st_gid);
+      if(bPerm or (iMyUID = 0)) then
         GetUsrGroups(iMyUID, cbxGroups.Items);
-      cbxGroups.Enabled:=(bPerm or (iMyUID=0));
+      cbxGroups.Enabled:= (bPerm or (iMyUID = 0));
     end;
 
     // Attributes
