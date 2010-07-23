@@ -136,7 +136,8 @@ implementation
 uses
   LCLType, StrUtils, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
   uDefaultFilePropertyFormatter, uMyUnix, uFileAttributes,
-  uFileSourceOperationTypes, uFileSystemFileSource, uOperationsManager;
+  uFileSourceOperationTypes, uFileSystemFileSource, uOperationsManager,
+  uFileSourceOperationOptions;
 
 procedure ShowFileProperties(aFileSource: IFileSource; const aFiles: TFiles);
 begin
@@ -422,7 +423,7 @@ end;
 procedure TfrmFileProperties.FileSourceOperationStateChangedNotify(
   Operation: TFileSourceOperation; State: TFileSourceOperationState);
 begin
-  if State = fsosStopped then
+  if Assigned(FFileSourceCalcStatisticsOperation) and (State = fsosStopped) then
     begin
       tmUpdateFolderSize.Enabled:= False;
       tmUpdateFolderSizeTimer(tmUpdateFolderSize);
@@ -445,6 +446,8 @@ begin
   FFileSourceCalcStatisticsOperation:= FFileSource.CreateCalcStatisticsOperation(aFiles) as TFileSourceCalcStatisticsOperation;
   if Assigned(FFileSourceCalcStatisticsOperation) then
     begin
+      FFileSourceCalcStatisticsOperation.SkipErrors:= True;
+      FFileSourceCalcStatisticsOperation.SymLinkOption:= fsooslDontFollow;
       FFileSourceCalcStatisticsOperation.AddStateChangedListener([fsosStopped], @FileSourceOperationStateChangedNotify);
       OperationsManager.AddOperation(FFileSourceCalcStatisticsOperation, ossAutoStart);
       tmUpdateFolderSize.Enabled:= True;
