@@ -15,6 +15,7 @@ type
 
   TUniqueInstance = class
   private
+    FHandle: THandle;
     FInstanceName: UTF8String;
     FServerIPC: TSimpleIPCServer;
     FClientIPC: TSimpleIPCClient;
@@ -24,6 +25,9 @@ type
 
     procedure CreateServer;
     procedure CreateClient;
+
+    function IsRunning: Boolean;
+    procedure DisposeMutex;
   public
     constructor Create(aInstanceName: String);
     destructor Destroy; override;
@@ -52,6 +56,11 @@ var
 implementation
 
 uses
+  {$IF DEFINED(MSWINDOWS)}
+  Windows,
+  {$ELSEIF DEFINED(UNIX)}
+  ipc,
+  {$ENDIF}
   StrUtils, FileUtil, uGlobs;
 
 const
@@ -95,11 +104,78 @@ begin
     FClientIPC:= TSimpleIPCClient.Create(nil);
 end;
 
+function TUniqueInstance.IsRunning: Boolean;
+{$IF DEFINED(MSWINDOWS)}
+var
+  MutexName: AnsiString;
+begin
+  Result:= False;
+  MutexName:= ExtractFileName(ParamStr(0));
+  FHandle:= OpenMutex(MUTEX_MODIFY_STATE, False, PAnsiChar(MutexName));
+  if FHandle = 0 then
+    FHandle:= CreateMutex(nil, True, PAnsiChar(MutexName))
+  else
+    begin
+      if WaitForSingleObject(FHandle, 0) <> WAIT_ABANDONED then
+        Result:= True;
+    end;
+end;
+{$ELSEIF DEFINED(UNIX)}
+var
+  semkey: TKey;
+  status: longint = 0;
+  arg: tsemun;
+
+  function semlock(semid: longint): boolean;
+  var
+    p_buf: tsembuf;
+  begin
+    p_buf.sem_num := 0;
+    p_buf.sem_op := 1;
+    p_buf.sem_flg := SEM_UNDO;
+    Result:= semop(semid, @p_buf, 1) = 0;
+  end;
+
+begin
+  Result := False;
+  semkey := ftok(PAnsiChar(ParamStr(0)), 0);
+  FHandle := semget(semkey, 1, IPC_CREAT or IPC_EXCL);
+  if FHandle = -1 then
+    begin
+      FHandle := semget(semkey, 1, 0);
+      status := semctl(FHandle, 0, SEM_GETVAL, arg);
+      if status = 1 then
+        Result := True
+      else
+        semlock(FHandle);
+    end
+  else
+    begin
+      arg.val := 0;
+      status := semctl(FHandle, 0, SEM_SETVAL, arg);
+      semlock(FHandle);
+    end;
+end;
+{$ENDIF}
+
+procedure TUniqueInstance.DisposeMutex;
+{$IF DEFINED(MSWINDOWS)}
+begin
+  ReleaseMutex(FHandle);
+end;
+{$ELSEIF DEFINED(UNIX)}
+var
+  arg: tsemun;
+begin
+  semctl(FHandle, 0, IPC_RMID, arg);
+end;
+{$ENDIF}
+
 function TUniqueInstance.IsRunInstance: Boolean;
 begin
   CreateClient;
   FClientIPC.ServerID:= FInstanceName;
-  Result:= FClientIPC.ServerRunning;
+  Result:= IsRunning and FClientIPC.ServerRunning;
 end;
 
 procedure TUniqueInstance.SendParams;
@@ -144,6 +220,7 @@ end;
 
 procedure TUniqueInstance.StopListen;
 begin
+  DisposeMutex;
   if FServerIPC = nil then Exit;
   FServerIPC.StopServer;
 end;
@@ -187,4 +264,4 @@ finalization
       FreeAndNil(UniqueInstance);
     end;
 end.
-
+
