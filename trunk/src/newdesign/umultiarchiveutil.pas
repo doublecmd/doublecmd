@@ -448,6 +448,7 @@ begin
   try
     index := 1;
     parseStartIndex := index;
+    FillByte(state, SizeOf(state), 0);
 
     ResetState(state);
 
@@ -585,4 +586,4 @@ begin
 end;
 
 end.
-
+
