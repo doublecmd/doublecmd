@@ -121,6 +121,8 @@ begin
     end;
 end;
 {$ELSEIF DEFINED(UNIX)}
+const
+  SEM_PERM = 6 shl 6 { 0600 };
 var
   semkey: TKey;
   status: longint = 0;
@@ -139,7 +141,7 @@ var
 begin
   Result := False;
   semkey := ftok(PAnsiChar(ParamStr(0)), 0);
-  FHandle := semget(semkey, 1, IPC_CREAT or IPC_EXCL);
+  FHandle := semget(semkey, 1, SEM_PERM or IPC_CREAT or IPC_EXCL);
   if FHandle = -1 then
     begin
       FHandle := semget(semkey, 1, 0);
