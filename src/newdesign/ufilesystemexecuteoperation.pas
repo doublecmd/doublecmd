@@ -59,9 +59,20 @@ end;
 
 procedure TFileSystemExecuteOperation.MainExecute;
 begin
+  // if file is link to folder then return fseorSymLink
+  if FileIsLinkToFolder(AbsolutePath, FSymLinkPath) then
+  begin
+    FExecuteOperationResult:= fseorSymLink;
+    Exit;
+  end;
   // try to open by system
   mbSetCurrentDir(CurrentPath);
-  ShellExecute(RelativePath);
+  case ShellExecute(RelativePath) of
+  True:
+    FExecuteOperationResult:= fseorSuccess;
+  False:
+    FExecuteOperationResult:= fseorError;
+  end;
 end;
 
 procedure TFileSystemExecuteOperation.Finalize;

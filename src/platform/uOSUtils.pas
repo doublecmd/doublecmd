@@ -29,7 +29,7 @@ interface
 uses
     SysUtils, Classes, LCLProc, uClassesEx, uTypes
     {$IF DEFINED(MSWINDOWS)}
-    , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk
+    , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk, uShlObjAdditional
     {$ELSEIF DEFINED(UNIX)}
     , BaseUnix, Unix, UnixType, dl, uFileAttributes
       {$IFDEF DARWIN}
@@ -115,6 +115,7 @@ function FileIsExeLib(const sFileName : String) : Boolean;
    @returns(The function returns @true if successful, @false otherwise)
 }
 function FileIsReadOnly(iAttr: TFileAttrs): Boolean;
+function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
 function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
 function ExecCmdFork(sCmdLine:String; bTerm : Boolean = False; sTerm : String = ''; bKeepTerminalOpen: Boolean = True):Boolean;
 {en
@@ -449,6 +450,22 @@ end;
 {$ELSE}
 begin
   Result:= (((iAttr AND S_IRUSR) = S_IRUSR) and ((iAttr AND S_IWUSR) <> S_IWUSR));
+end;
+{$ENDIF}
+
+function FileIsLinkToFolder(const FileName: UTF8String; out
+  LinkTarget: UTF8String): Boolean;
+{$IF DEFINED(MSWINDOWS)}
+begin
+  Result:= False;
+  if LowerCase(ExtractOnlyFileExt(FileName)) = 'lnk' then
+    Result:= SHFileIsLinkToFolder(FileName, LinkTarget);
+end;
+{$ELSEIF DEFINED(UNIX)}
+begin
+  Result:= False;
+  if LowerCase(ExtractOnlyFileExt(FileName)) = 'desktop' then
+    Result:= uMyUnix.FileIsLinkToFolder(FileName, LinkTarget);
 end;
 {$ENDIF}
 

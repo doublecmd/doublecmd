@@ -1802,6 +1802,7 @@ function SHGetDesktopFolder(var ppshf: IShellFolder): HResult; stdcall;
 function SHChangeIconDialog(hOwner: THandle; var FileName: UTF8String; var IconIndex: Integer): Boolean;
 function SHGetOverlayIconIndex(const sFilePath, sFileName: UTF8String): Integer;
 function SHGetInfoTip(const sFilePath, sFileName: UTF8String): UTF8String;
+function SHFileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
 
 function PathIsUNCA(pszPath: LPCSTR): WINBOOL; stdcall; external 'shlwapi' name 'PathIsUNCA';
 function PathIsUNCW(pwszPath: LPCWSTR): WINBOOL; stdcall; external 'shlwapi' name 'PathIsUNCW';
@@ -1989,6 +1990,36 @@ begin
       if Assigned(pidlFolder) then
         CoTaskMemFree(pidlFolder);
     end;
+end;
+
+function SHFileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
+var
+  Unknown: IUnknown;
+  ShellLink: IShellLinkW;
+  PersistFile: IPersistFile;
+  FindData: TWin32FindDataW;
+  pszFile:LPWSTR;
+begin
+  Result := False;
+  try
+    Unknown := CreateComObject(CLSID_ShellLink);
+    ShellLink := Unknown as IShellLinkW;
+    PersistFile := Unknown as IPersistFile;
+    if Failed(PersistFile.Load(PWideChar(UTF8Decode(FileName)), OF_READ)) then Exit;
+    pszFile:= GetMem(MAX_PATH * 2);
+    try
+      if Failed(ShellLink.GetPath(pszFile, MAX_PATH, @FindData, 0)) then Exit;
+      if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0 then
+      begin
+        LinkTarget := UTF8Encode(WideString(pszFile));
+        Result := (LinkTarget <> EmptyStr);
+      end;
+    finally
+      FreeMem(pszFile);
+    end;
+  except
+    LinkTarget := EmptyStr;
+  end;
 end;
 
 procedure OleErrorUTF8(ErrorCode: HResult);

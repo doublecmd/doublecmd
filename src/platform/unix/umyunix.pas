@@ -163,13 +163,16 @@ function fpCloseDir(__dirp: pDir): cInt; cdecl; external libc name 'closedir';
 
 function LinuxToWinAttr(pFileName: PChar; const srInfo: BaseUnix.Stat): Longint;
 function GetDesktopEnvironment: Cardinal;
+function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
 
 implementation
 
-{$IFNDEF FPC_USE_LIBC}
 uses
-  SysCall;
+  uClassesEx, uClipboard
+{$IFNDEF FPC_USE_LIBC}
+  , SysCall
 {$ENDIF}
+  ;
 
 {$IFNDEF FPC_USE_LIBC}
 
@@ -210,6 +213,27 @@ begin
     Exit(DE_GNOME);
   if Pos('xfce', DesktopSession) <> 0 then
     Exit(DE_XFCE);
+end;
+
+function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
+var
+  iniDesktop: TIniFileEx = nil;
+  StatInfo: BaseUnix.Stat;
+begin
+  Result:= False;
+  try
+    iniDesktop:= TIniFileEx.Create(FileName, fmOpenRead);
+    if iniDesktop.ReadString('Desktop Entry', 'Type', EmptyStr) = 'Link' then
+    begin
+      LinkTarget:= iniDesktop.ReadString('Desktop Entry', 'URL', EmptyStr);
+      LinkTarget:= URIDecode(LinkTarget);
+      if fpLStat(PAnsiChar(LinkTarget), StatInfo) <> 0 then Exit;
+      Result:= FPS_ISDIR(StatInfo.st_mode);
+    end;
+  finally
+    if Assigned(iniDesktop) then
+      FreeAndNil(iniDesktop);
+  end;
 end;
 
 end.
