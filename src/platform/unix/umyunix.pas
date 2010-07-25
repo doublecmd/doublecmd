@@ -168,7 +168,7 @@ function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8Stri
 implementation
 
 uses
-  uClassesEx, uClipboard
+  URIParser, uClassesEx
 {$IFNDEF FPC_USE_LIBC}
   , SysCall
 {$ENDIF}
@@ -226,7 +226,7 @@ begin
     if iniDesktop.ReadString('Desktop Entry', 'Type', EmptyStr) = 'Link' then
     begin
       LinkTarget:= iniDesktop.ReadString('Desktop Entry', 'URL', EmptyStr);
-      LinkTarget:= URIDecode(LinkTarget);
+      if not URIToFilename(LinkTarget, LinkTarget) then Exit;
       if fpLStat(PAnsiChar(LinkTarget), StatInfo) <> 0 then Exit;
       Result:= FPS_ISDIR(StatInfo.st_mode);
     end;
