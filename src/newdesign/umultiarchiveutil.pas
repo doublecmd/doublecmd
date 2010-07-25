@@ -295,7 +295,7 @@ type
     ftFileListLongName, ftFileListShortName, ftFileName, ftTargetArchiveDir,
     ftVolumeSize, ftPassword);
   TStatePos = (spNone, spPercent, spFunction, spComplete);
-  TFuncModifiers = set of (fmQuoteWithSpaces, fmQuoteAny, fmNameOnly,
+  TFuncModifiers = set of (fmOnlyFiles, fmQuoteWithSpaces, fmQuoteAny, fmNameOnly,
     fmPathOnly, fmUTF8, fmAnsi);
 
   TState = record
@@ -342,6 +342,8 @@ var
     FileList := TStringListEx.Create;
     for I := 0 to aFiles.Count - 1 do
     begin
+      if aFiles[I].IsDirectory and (fmOnlyFiles in state.FuncModifiers) then
+        Continue;
       if bShort then
         FileList.Add(BuildName(mbFileNameToSysEnc(aFiles[I].FullPath)))
       else
@@ -526,6 +528,11 @@ begin
 
         spFunction:
           case sCmd[index] of
+            'F':
+            begin
+              state.FuncModifiers := state.FuncModifiers + [fmOnlyFiles];
+              state.pos := spFunction;
+            end;
             'Q':
             begin
               state.FuncModifiers := state.FuncModifiers + [fmQuoteWithSpaces];
