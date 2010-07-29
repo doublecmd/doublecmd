@@ -2886,7 +2886,7 @@ msgstr "Übernehmen"
 
 #: TFRMOPTIONS.BTNAUTOCONFIG.CAPTION
 msgid "Auto Configure"
-msgstr ""
+msgstr "Auto-Konfiguration"
 
 #: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
@@ -3475,7 +3475,7 @@ msgstr "Zeige Tooltips (Hinweistexte)"
 
 #: TFRMOPTIONS.GBSORTING.CAPTION
 msgid "Sorting"
-msgstr ""
+msgstr "Sortierung"
 
 #: TFRMOPTIONS.GBTABS.CAPTION
 msgid "Folder tabs headers"
@@ -3653,7 +3653,7 @@ msgstr "&Speichern in:"
 
 #: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
 msgid "Sort &method:"
-msgstr ""
+msgstr "Sortierungs&methode"
 
 #: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
 msgid "Tabs position:"
@@ -5556,7 +5556,7 @@ msgstr "Schnelle Suche"
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
-msgstr ""
+msgstr "Alphabetisch;Natürliche Sortierung: alphabetisch und numerisch"
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
