@@ -2473,6 +2473,7 @@ begin
   case Button of
     mbMiddle:
       begin
+        SetFocus;
         Actions.cm_DirHotList('');
       end;
 
