@@ -16,7 +16,7 @@ Compile.
 
 3) Building DC from command line.
 
-There are two scripts that you can use to build DC from command line: _make.bat for Windows and _make.sh for Linux. First you need to edit the chosen script file and correct the path to your Lazarus installation (variable lazpath).
+There are two scripts that you can use to build DC from command line: build.bat for Windows and build.sh for Linux. First you need to edit the chosen script file and correct the path to your Lazarus installation (variable lazpath).
 
 To build DC without using the IDE you need a working lazbuild and lazres utilities (both are a part of Lazarus). Lazbuild should be in Lazarus directory set by <lazpath> and lazres should be in <lazpath>/tools. On Linux you may choose the target widgetset (GTK2 or QT4) by setting $LCL environment variable before executing the script to either gtk2 or qt, for example:
 
