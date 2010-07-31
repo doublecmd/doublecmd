@@ -56,6 +56,7 @@ object frmMain: TfrmMain
     ClientWidth = 760
     FullRepaint = False
     TabOrder = 0
+    OnResize = pnlSyncSizeResize
     object pnlDisk: TPanel
       Left = 235
       Height = 26
@@ -68,12 +69,13 @@ object frmMain: TfrmMain
       TabOrder = 0
       object dskLeft: TKASToolBar
         AnchorSideLeft.Control = pnlDisk
+        AnchorSideTop.Control = pnlDisk
         Left = 0
         Height = 20
         Top = 1
         Width = 143
-        Align = alCustom
-        Anchors = [akTop, akLeft, akRight]
+        Align = alNone
+        Anchors = [akTop]
         AutoSize = True
         Constraints.MinHeight = 20
         Flat = True
@@ -85,16 +87,15 @@ object frmMain: TfrmMain
         GlyphSize = 16
       end
       object dskRight: TKASToolBar
-        AnchorSideLeft.Control = dskLeft
-        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = pnlDisk
         AnchorSideRight.Control = pnlDisk
         AnchorSideRight.Side = asrBottom
-        Left = 143
+        Left = 229
         Height = 20
         Top = 1
-        Width = 382
-        Align = alCustom
-        Anchors = [akTop, akLeft, akRight]
+        Width = 295
+        Align = alNone
+        Anchors = [akTop]
         AutoSize = True
         Constraints.MinHeight = 20
         Flat = True
