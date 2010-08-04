@@ -447,7 +447,6 @@ type
 
     procedure pnlLeftResize(Sender: TObject);
     procedure pnlLeftRightDblClick(Sender: TObject);
-    procedure pnlSyncSizeResize(Sender: TObject);
     procedure sboxDrivePaint(Sender: TObject);
     procedure sboxOperationsMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -1641,31 +1640,22 @@ end;
 
 procedure TfrmMain.FormResize(Sender: TObject);
 begin
-  { Synchronize width of left and right file panels }
   pnlLeft.Width:= (frmMain.Width div 2) - (MainSplitter.Width div 2);
-end;
 
-procedure TfrmMain.pnlSyncSizeResize(Sender: TObject);
-var
-  NewWidth: Integer;
-begin
+  //DebugLN('pnlDisk.Width == ' + IntToStr(pnlDisk.Width));
+
   { Synchronize width of left and right disk panels }
 
   pnlDisk.Width := pnlSyncSize.ClientWidth - (pnlSyncSize.ClientWidth mod 2);
 
-  NewWidth:= (pnlDisk.ClientWidth div 2);
+  dskLeft.Width := (pnlDisk.ClientWidth div 2);
 
-  dskLeft.Left:= 0;
-  dskRight.Left:= NewWidth;
-  dskLeft.Constraints.MinWidth:= NewWidth;
-  dskLeft.Constraints.MaxWidth:= NewWidth;
-  dskRight.Constraints.MinWidth:= NewWidth;
-  dskRight.Constraints.MaxWidth:= NewWidth;
+  //DebugLN('dskLeft.Width == ' + IntToStr(dskLeft.Width));
+  //DebugLN('dskRight.Width == ' + IntToStr(dskRight.Width));
 
-  //DebugLn('pnlDisk.Width == ' + IntToStr(pnlDisk.Width));
-  //DebugLn('dskLeft.Width == ' + IntToStr(dskLeft.Width));
-  //DebugLn('dskRight.Width == ' + IntToStr(dskRight.Width));
-end;
+  dskLeft.Repaint;
+  dskRight.Repaint;
+End;
 
 procedure TfrmMain.dskRightResize(Sender: TObject);
 begin
