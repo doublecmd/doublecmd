@@ -293,7 +293,7 @@ begin
   Result := False;
 
   sCheckSum:= CheckSumCalc(aFile);
-  bResult:= (StrComp(PChar(sCheckSum), PChar(ExpectedChecksum)) = 0);
+  bResult:= (CompareText(sCheckSum, ExpectedChecksum) = 0);
   FResult.Add(ExtractDirLevel(FFullFilesTree.Path, aFile.Path) +
               aFile.Name + ': ' +
               IfThen(bResult, 'True', 'False'));
