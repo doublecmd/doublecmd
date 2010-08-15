@@ -4612,7 +4612,8 @@ begin
     begin
       if gShowSystemFiles = False then
       begin
-        if aFileSourceFiles[i].IsSysFile then Continue;
+        if aFileSourceFiles[i].IsSysFile and (aFileSourceFiles[i].Name <> '..') then
+          Continue;
       end;
 
       // Ignore list
