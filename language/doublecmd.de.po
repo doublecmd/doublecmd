@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.46 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2010-05-17 19:34+0100\n"
+"PO-Revision-Date: 2010-08-01 15:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1092,7 +1092,7 @@ msgstr "Vollständiger Pfad"
 
 #: TFRMFILEASSOC.MIGETOUTPUTFROMCOMMAND.CAPTION
 msgid "Get output from command"
-msgstr "Ausgabe aus Befehlszeile entnehmen"
+msgstr "Ausgabe aus Konsolen-Fenster entnehmen"
 
 #: TFRMFILEASSOC.MIOPEN.CAPTION
 msgctxt "TFRMFILEASSOC.MIOPEN.CAPTION"
@@ -1101,7 +1101,7 @@ msgstr "Öffnen"
 
 #: TFRMFILEASSOC.MISHELL.CAPTION
 msgid "Run in terminal"
-msgstr "In Befehlszeile ausführen"
+msgstr "In Konsolen-Fenster ausführen"
 
 #: TFRMFILEASSOC.MIVFS.CAPTION
 msgid "Open in VFS"
@@ -1695,15 +1695,15 @@ msgstr "&Über"
 
 #: TFRMMAIN.ACTADDFILENAMETOCMDLINE.CAPTION
 msgid "Add file name to command line"
-msgstr "Dateiname in die Kommando-Zeile kopieren"
+msgstr "Dateiname in die Befehlszeile kopieren"
 
 #: TFRMMAIN.ACTADDPATHANDFILENAMETOCMDLINE.CAPTION
 msgid "Add path and file name to command line"
-msgstr "Pfad und Dateiname in die Kommando-Zeile kopieren"
+msgstr "Pfad und Dateiname in die Befehlszeile kopieren"
 
 #: TFRMMAIN.ACTADDPATHTOCMDLINE.CAPTION
 msgid "Copy path to command line"
-msgstr "&Pfad in die Kommandozeile eintragen"
+msgstr "&Pfad in die Befehlszeile eintragen"
 
 #: TFRMMAIN.ACTCALCULATESPACE.CAPTION
 msgid "Calculate &Occupied Space..."
@@ -1847,7 +1847,7 @@ msgstr "Tei&le Datei"
 
 #: TFRMMAIN.ACTFOCUSCMDLINE.CAPTION
 msgid "Focus command line"
-msgstr "Fokus auf die Kommandoze&ile"
+msgstr "Fokus auf die Befehlsze&ile"
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
@@ -2023,7 +2023,7 @@ msgstr "&Entferne Reiter"
 
 #: TFRMMAIN.ACTRENAME.CAPTION
 msgid "Move F6"
-msgstr "Umbenennen F6"
+msgstr "Verschieben F6"
 
 #: TFRMMAIN.ACTRENAMENOASK.CAPTION
 msgid "Move/Rename files without asking for confirmation"
@@ -2052,7 +2052,7 @@ msgstr "Öffne rechte Laufwerksliste"
 
 #: TFRMMAIN.ACTRUNTERM.CAPTION
 msgid "Run Term"
-msgstr "Befehl ausführen"
+msgstr "Konsolen-Fenster öffnen"
 
 #: TFRMMAIN.ACTSAVESELECTION.CAPTION
 msgid "Save Selection"
@@ -2100,7 +2100,7 @@ msgstr "Button-Leiste anzeigen"
 
 #: TFRMMAIN.ACTSHOWCMDLINEHISTORY.CAPTION
 msgid "Show command line history"
-msgstr "Kommandozeilenverlauf anzeigen"
+msgstr "Befehlszeilenverlauf anzeigen"
 
 #: TFRMMAIN.ACTSHOWMENU.CAPTION
 msgid "Menu F9"
@@ -2214,7 +2214,7 @@ msgstr "Beenden F10"
 
 #: TFRMMAIN.BTNF9.CAPTION
 msgid "Terminal F9"
-msgstr "Konsole-Fenster F9"
+msgstr "Konsolen-Fenster F9"
 
 #: TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION"
@@ -3050,7 +3050,7 @@ msgstr "Umgekehrte Auswahl nutzen"
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
-msgstr "Verlauf der Kommandozeile"
+msgstr "Verlauf der Befehlszeile"
 
 #: TFRMOPTIONS.CBCUTTEXTTOCOLWIDTH.CAPTION
 msgid "Cut text to column width"
@@ -3173,7 +3173,7 @@ msgstr "Log-Datei anzeigen"
 
 #: TFRMOPTIONS.CBLYNXLIKE.CAPTION
 msgid "Lynx like movement"
-msgstr "Lynx-artiges Verschieben"
+msgstr "Lynx-artiges navigieren"
 
 #: TFRMOPTIONS.CBMINIMIZETOTRAY.CAPTION
 msgid "Mo&ve icon to system tray when minimized"
@@ -3209,7 +3209,7 @@ msgstr "Kurzes Dateigrössenformat"
 
 #: TFRMOPTIONS.CBSHOWCMDLINE.CAPTION
 msgid "Show command &line"
-msgstr "Kommandozeile anzeigen"
+msgstr "Befehlszeile anzeigen"
 
 #: TFRMOPTIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION
 msgid "Show tab select panel in copy/move dialog"
@@ -3641,11 +3641,11 @@ msgstr "Schnelle &Suche:"
 
 #: TFRMOPTIONS.LBLRUNINTERM.CAPTION
 msgid "Run in terminal:"
-msgstr "In Befehlszeile ausführen"
+msgstr "In Konsolen-Fenster ausführen"
 
 #: TFRMOPTIONS.LBLRUNTERM.CAPTION
 msgid "Run terminal:"
-msgstr "Befehlszeile:"
+msgstr "Konsolen-Fenster:"
 
 #: TFRMOPTIONS.LBLSAVEIN.CAPTION
 msgid "&Save in:"
@@ -3756,7 +3756,7 @@ msgstr "Zeile für Zeile"
 #: TFRMOPTIONS.RBSCROLLLINEBYLINECURSOR.CAPTION
 msgctxt "TFRMOPTIONS.RBSCROLLLINEBYLINECURSOR.CAPTION"
 msgid "Line by line with cursor movement"
-msgstr "Zeile für Zeile beim Navigieren mit Cursor-Taste"
+msgstr "Zeile für Zeile (Fokus bewegt sich mit)"
 
 #: TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION
 msgctxt "TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION"
@@ -3888,7 +3888,7 @@ msgstr "Pfadnamen &mitspeichern (nur abwärts)"
 
 #: TFRMPACKDLG.LBLPROMPT.CAPTION
 msgid "Pack file(s) to the file:"
-msgstr "Packe &Datei(en) in Archiv"
+msgstr "Packe Datei(en) in Archiv"
 
 #: TFRMPACKDLG.RGPACKER.CAPTION
 msgid "Packer"
@@ -4711,7 +4711,7 @@ msgstr "Spalten anpassen"
 
 #: ulng.rsdlgbuttons
 msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
-msgstr "&OK;&Nein;&Ja;&Abbruch;&Keine;&Anhängen;Copy &Into;&Überschreiben;Überschreibe &alle;&Überspringen;Übers&pringe alle;Alle;"
+msgstr "&OK;&Nein;&Ja;&Abbruch;&Keine;&Anhängen;H&inein kopieren;&Überschreiben;Bisherigen Inh&alt KOMPLETT entfernen;&Überspringen;Übers&pringe alle;Alle;"
 
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
