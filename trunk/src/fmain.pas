@@ -2391,7 +2391,7 @@ begin
       AbsolutePath := PathDelim{TargetFileSource.GetRoot} + EnteredPath;
   end;
 
-  DoDirSeparators(AbsolutePath);  // normalize path delimiters
+  AbsolutePath := NormalizePathDelimiters(AbsolutePath);  // normalize path delimiters
   AbsolutePath := ExpandAbsolutePath(AbsolutePath);
 
   if (TargetFileSource.IsClass(TFileSystemFileSource)) and
