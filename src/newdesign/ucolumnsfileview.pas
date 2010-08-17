@@ -2408,8 +2408,9 @@ begin
           aFile := GetActiveItem;
           if IsItemValid(aFile) then
           begin
-            if aFile.TheFile.IsDirectory or
-               aFile.TheFile.IsLinkToDirectory then
+            if (aFile.TheFile.IsDirectory or
+               aFile.TheFile.IsLinkToDirectory) and
+               not aFile.Selected then
             begin
               Screen.Cursor := crHourGlass;
               CalculateSpace(aFile);
@@ -4799,4 +4800,4 @@ begin
 end;
 
 end.
-
+
