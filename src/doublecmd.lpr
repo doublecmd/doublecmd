@@ -44,6 +44,10 @@ begin
   Application.Initialize;
   uDCVersion.InitializeVersionInfo;
 
+  {$IFDEF UNIX}
+  // File name under Unix can contain '\' symbol, so we can not use it as directory separator
+  AllowDirectorySeparators:= [DirectorySeparator];
+  {$ENDIF}
   ThousandSeparator:= ' ';
 
   DebugLn('Double Commander ' + dcVersion);

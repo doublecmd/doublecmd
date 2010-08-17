@@ -54,6 +54,10 @@ type
 function GetCmdDirFromEnvVar(sPath : String) : String;
 function SetCmdDirAsEnvVar(sPath : String) : String;
 {en
+   Convert known directory separators to the current directory separator.
+}
+function NormalizePathDelimiters(const Path: String): String;
+{en
    Replaces environment variables of form %<NAME>% with their values.
    Also replaces the internal "%commander_path%".
 }
@@ -379,7 +383,7 @@ uses
 
 function GetCmdDirFromEnvVar(sPath: String): String;
 begin
-  DoDirSeparators(sPath);
+  sPath:= NormalizePathDelimiters(sPath);
   if Pos(EnvVarCommanderPath, sPath) <> 0 then
     Result := StringReplace(sPath, EnvVarCommanderPath, ExcludeTrailingPathDelimiter(gpExePath), [rfIgnoreCase])
   else
@@ -388,12 +392,31 @@ end;
 
 function SetCmdDirAsEnvVar(sPath: String): String;
 begin
-  DoDirSeparators(sPath);
+  sPath:= NormalizePathDelimiters(sPath);
   if Pos(gpExePath, sPath) <> 0 then
     Result := StringReplace(sPath, ExcludeTrailingPathDelimiter(gpExePath), EnvVarCommanderPath, [rfIgnoreCase])
   else
     Result := sPath;
 end;
+
+function NormalizePathDelimiters(const Path: String): String;
+{$IFDEF UNIX}
+const
+  AllowPathDelimiters : set of char = ['\','/'];
+var
+  I : LongInt;
+begin
+  Result:= Path;
+  for I:= 1 to Length(Path) do
+    if Path[I] in AllowPathDelimiters then
+      Result[I]:= DirectorySeparator;
+end;
+{$ELSE}
+begin
+  Result:= Path;
+  DoDirSeparators(Result);
+end;
+{$ENDIF}
 
 function ReplaceEnvVars(const sText: String): String;
 var
