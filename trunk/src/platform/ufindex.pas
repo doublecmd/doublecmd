@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains UTF8 versions of Find(First, Next) functions and other stuff
     
-    Copyright (C) 2006-2008  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -144,8 +144,6 @@ begin
     if (SearchRec.Name <> '*') and (SearchRec.Name <> '') then
     // '*.*' searches for files with a dot in name so mask needs to be checked.
       begin
-        Mask := TMask.Create(UTF8UpperCase(SearchRec.Name));
-
         // If searching for single specific file, just check if it exists and exit.
         if (Pos('?', SearchRec.Name) = 0) and (Pos('*', SearchRec.Name) = 0) then
           begin
@@ -154,6 +152,7 @@ begin
             else
               Exit(-1);
           end;
+        Mask := TMask.Create(UTF8UpperCase(SearchRec.Name));
       end;
 
     DirPtr:= fpOpenDir(PChar(sPath));
