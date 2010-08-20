@@ -2065,6 +2065,8 @@ begin
 end;
 
 procedure TColumnsFileView.edtFilterKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  iRow: LongInt;
 begin
   case Key of
     VK_TAB, VK_RETURN, VK_SELECT:
@@ -2076,6 +2078,26 @@ begin
     VK_ESCAPE:  // Close panel and remove filter with Escape.
       begin
         CloseFilterPanel;
+        Key := 0;
+      end;
+
+    VK_UP:
+      begin
+        iRow:= dgPanel.Row - 1;
+        if iRow < dgPanel.FixedRows then
+          dgPanel.Row:= dgPanel.RowCount - 1
+        else
+          dgPanel.Row:= iRow;
+        Key := 0;
+      end;
+
+    VK_DOWN:
+      begin
+        iRow:= dgPanel.Row + 1;
+        if iRow < dgPanel.RowCount then
+          dgPanel.Row:= iRow
+        else
+          dgPanel.Row:= dgPanel.FixedRows;
         Key := 0;
       end;
   end;
