@@ -874,9 +874,10 @@ begin
           // Create target directory.
           if mbForceDirectory(AbsoluteTargetFileName) then
           begin
-            FileCopyAttr(aNode.TheFile.FullPath, AbsoluteTargetFileName, False);
             // Copy/Move all files inside.
             Result := ProcessNode(aNode, IncludeTrailingPathDelimiter(AbsoluteTargetFileName));
+            // Copy attributes after copy/move directory contents, because this operation can change date/time
+            FileCopyAttr(aNode.TheFile.FullPath, AbsoluteTargetFileName, False);
           end
           else
           begin
