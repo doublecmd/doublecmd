@@ -1378,14 +1378,11 @@ begin
   begin
     if Assigned(QuickViewPanel) then
       begin
-        ActiveFrame.OnChangeActiveFile:= nil;
         QuickViewClose;
       end
     else if (param <> 'Close') then
       begin
-        QuickViewShow(NotActiveNotebook.ActivePage, ActiveFrame.FileSource);
-        QuickViewPanel.FileViewChangeActiveFile(ActiveFrame, ActiveFrame.ActiveFile);
-        ActiveFrame.OnChangeActiveFile:= @QuickViewPanel.FileViewChangeActiveFile;
+        QuickViewShow(NotActiveNotebook.ActivePage, ActiveFrame);
       end;
   end;
 end;

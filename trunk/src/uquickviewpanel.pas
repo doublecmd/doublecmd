@@ -16,18 +16,19 @@ type
   private
     FFirstFile: Boolean;
     FFileViewPage: TFileViewPage;
+    FFileView: TFileView;
     FFileSource: IFileSource;
     FViewer: TfrmViewer;
     FFileName: UTF8String;
   public
     constructor Create(TheOwner: TComponent; aParent: TFileViewPage); reintroduce;
     destructor Destroy; override;
-    procedure CreateViewer(aFileSource: IFileSource);
+    procedure CreateViewer(aFileView: TFileView);
     procedure LoadFile(const aFileName: UTF8String);
     procedure FileViewChangeActiveFile(Sender: TFileView; const aFile : TFile);
   end;
 
-procedure QuickViewShow(aFileViewPage: TFileViewPage; const aFileSource: IFileSource);
+procedure QuickViewShow(aFileViewPage: TFileViewPage; aFileView: TFileView);
 procedure QuickViewClose;
 
 var
@@ -39,10 +40,12 @@ uses
   LCLProc, Forms, Controls, uTempFileSystemFileSource,
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes;
 
-procedure QuickViewShow(aFileViewPage: TFileViewPage; const aFileSource: IFileSource);
+procedure QuickViewShow(aFileViewPage: TFileViewPage; aFileView: TFileView);
 begin
   QuickViewPanel:= TQuickViewPanel.Create(Application, aFileViewPage);
-  QuickViewPanel.CreateViewer(aFileSource);
+  QuickViewPanel.CreateViewer(aFileView);
+  QuickViewPanel.FileViewChangeActiveFile(aFileView, aFileView.ActiveFile);
+  aFileView.OnChangeActiveFile:= @QuickViewPanel.FileViewChangeActiveFile;
 end;
 
 procedure QuickViewClose;
@@ -64,14 +67,16 @@ end;
 
 destructor TQuickViewPanel.Destroy;
 begin
+  FFileView.OnChangeActiveFile:= nil;
   FViewer.ExitPluginMode;
   FFileViewPage.FileView.Visible:= True;
   FreeThenNil(FViewer);
   FFileSource:= nil;
+  FFileView.SetFocus;
   inherited Destroy;
 end;
 
-procedure TQuickViewPanel.CreateViewer(aFileSource: IFileSource);
+procedure TQuickViewPanel.CreateViewer(aFileView: TFileView);
 begin
   FViewer:= TfrmViewer.Create(Self, nil);
   FViewer.Parent:= Self;
@@ -80,7 +85,8 @@ begin
   FViewer.Align:= alClient;
   FViewer.QuickView:= True;
   FFirstFile:= True;
-  FFileSource:= aFileSource;
+  FFileView:= aFileView;
+  FFileSource:= aFileView.FileSource;
   FFileViewPage.FileView.Visible:= False;
 end;
 
