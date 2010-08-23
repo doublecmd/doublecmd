@@ -1332,6 +1332,19 @@ object frmOptions: TfrmOptions
           Caption = 'Brightness level of inactive panel'
           ParentColor = False
         end
+        object cbbUseFrameCursor: TCheckBox
+          AnchorSideLeft.Control = cbbUseInvertedSelection
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideBottom.Control = lblInactivePanelBrightness
+          Left = 170
+          Height = 21
+          Top = 222
+          Width = 119
+          BorderSpacing.Left = 10
+          Caption = 'Use Frame Cursor'
+          OnChange = cbbUseFrameCursorChange
+          TabOrder = 15
+        end
       end
       object pgHotKey: TPage
         ClientWidth = 757
