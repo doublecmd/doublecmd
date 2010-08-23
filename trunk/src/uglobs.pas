@@ -171,7 +171,8 @@ var
   gCursorText : TColor; //text color under cursor
   gUseInvertedSelection: Boolean;
   gInactivePanelBrightness: Integer; // 0 .. 100 (black .. full color)
-  
+  gUseFrameCursor: Boolean;
+
   gShowIcons: TShowIconsMode;
   gShowIconsNew: TShowIconsMode;
   gIconOverlays : Boolean;
@@ -1009,6 +1010,7 @@ begin
   gCursorText := gIni.ReadInteger('Colors', 'CursorText', clHighlightText);
   gUseInvertedSelection:= gIni.ReadBool('Colors', 'UseInvertedSelection', False);
   gInactivePanelBrightness:= gIni.ReadInteger('Colors', 'InactivePanelBrightness', gInactivePanelBrightness);
+  gUseFrameCursor:= gIni.ReadBool('Colors', 'UseFrameCursor', gUseFrameCursor);
 
   { File operations }
   gCopyBlockSize := gIni.ReadInteger('Configuration', 'CopyBlockSize', 65536);
@@ -1176,6 +1178,7 @@ begin
   gIni.WriteInteger('Colors', 'CursorText', gCursorText);
   gIni.WriteBool('Colors', 'UseInvertedSelection', gUseInvertedSelection);
   gIni.WriteInteger('Colors', 'InactivePanelBrightness', gInactivePanelBrightness);
+  gIni.WriteBool('Colors', 'UseFrameCursor', gUseFrameCursor);
 
   { File operations }
   gIni.WriteInteger('Configuration', 'CopyBlockSize', gCopyBlockSize);
@@ -1322,6 +1325,7 @@ begin
       gCursorText := GetValue(Node, 'CursorText', gCursorText);
       gUseInvertedSelection := GetValue(Node, 'UseInvertedSelection', gUseInvertedSelection);
       gInactivePanelBrightness := GetValue(Node, 'InactivePanelBrightness', gInactivePanelBrightness);
+      gUseFrameCursor:= GetValue(Node,'UseFrameCursor', gUseFrameCursor);
 
       gColorExt.Load(gConfig, Node);
     end;
@@ -1563,6 +1567,7 @@ begin
     SetValue(Node, 'CursorText', gCursorText);
     SetValue(Node, 'UseInvertedSelection', gUseInvertedSelection);
     SetValue(Node, 'InactivePanelBrightness', gInactivePanelBrightness);
+    SetValue(Node, 'UseFrameCursor', gUseFrameCursor);
     gColorExt.Save(gConfig, Node);
 
     { Layout page }

@@ -3842,7 +3842,11 @@ var
           if (gdSelected in aState) and ColumnsView.FActive then
             begin
               BackgroundColor := ColumnsSet.GetColumnCursorColor(ACol);
-              Canvas.Font.Color := InvertColor(ColumnsSet.GetColumnCursorText(ACol));
+
+              if gUseFrameCursor then
+                  Canvas.Font.Color := ColumnsSet.GetColumnMarkColor(ACol)
+              else
+                  Canvas.Font.Color := InvertColor(ColumnsSet.GetColumnCursorText(ACol));
             end
           else
             begin
@@ -3866,8 +3870,27 @@ var
       end;
 
     // Draw background.
-    Canvas.Brush.Color := ColumnsView.DimColor(BackgroundColor);
-    Canvas.FillRect(aRect);
+    if ((gdSelected in aState) and ColumnsView.FActive) and gUseFrameCursor then
+      begin
+         Canvas.Pen.Color := ColumnsSet.GetColumnCursorColor(ACol);
+
+           if odd(ARow) then
+          BackgroundColor := ColumnsSet.GetColumnBackground(ACol)
+        else
+          BackgroundColor := ColumnsSet.GetColumnBackground2(ACol);
+
+         Canvas.Brush.Color := BackgroundColor;
+         Canvas.FillRect(aRect);
+
+         Canvas.Line(aRect.Left, aRect.Top, aRect.Right, aRect.Top);
+         Canvas.Line(aRect.Left, aRect.Bottom - 1, aRect.Right, aRect.Bottom - 1);
+      end
+    else
+      begin
+        Canvas.Brush.Color := ColumnsView.DimColor(BackgroundColor);
+        Canvas.FillRect(aRect);
+      end;
+
 
     // Draw drop selection.
     if ARow = DropRowIndex then

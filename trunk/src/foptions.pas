@@ -139,6 +139,7 @@ type
     cbFreespaceInd: TCheckBox;
     cbProgInMenuBar: TCheckBox;
     cbPanelOfOperations: TCheckBox;
+    cbbUseFrameCursor: TCheckBox;
     chkSearchReplaceHistory: TCheckBox;
     chkSaveConfiguration: TCheckBox;
     chkMultiArcEnabled: TCheckBox;
@@ -398,6 +399,7 @@ type
     procedure btnMultiArcRenameClick(Sender: TObject);
     procedure btnSearchTemplateClick(Sender: TObject);
     procedure cbAlwaysShowTrayIconChange(Sender: TObject);
+    procedure cbbUseFrameCursorChange(Sender: TObject);
     procedure cbIconsSizeChange(Sender: TObject);
     procedure cbListFilesInThreadChange(Sender: TObject);
     procedure cbToolsKeepTerminalOpenChange(Sender: TObject);
@@ -1067,7 +1069,13 @@ begin
       end;
     5:
       begin
-        Brush.Color := cbCursorColor.Color;
+        if cbbUseFrameCursor.Checked then
+         begin
+          Pen.Color := cbCursorColor.Color;
+          Brush.Color := cbBackColor.Color;
+         end
+          else  Brush.Color := cbCursorColor.Color;
+
         Font.Color := cbCursorText.Color;
         sText := rsOptExampleCursor;
       end;
@@ -1075,14 +1083,32 @@ begin
       begin
        if  cbbUseInvertedSelection.Checked then
          begin
-            Brush.Color := cbCursorColor.Color;
-            Font.Color :=InvertColor(cbCursorText.Color);
+           if cbbUseFrameCursor.Checked then
+              begin
+                Pen.Color := cbCursorColor.Color;
+                Brush.Color := cbBackColor.Color;
+                Font.Color := cbMarkColor.Color;
+              end
+           else
+             begin
+               Brush.Color := cbCursorColor.Color;
+               Font.Color :=InvertColor(cbCursorText.Color);
+             end;
             sText := rsOptExampleMarkCursor;
          end
        else
          begin
-            Brush.Color := cbCursorColor.Color;
-            Font.Color := cbMarkColor.Color;
+           if cbbUseFrameCursor.Checked then
+              begin
+                Pen.Color := cbCursorColor.Color;
+                Brush.Color := cbBackColor.Color;
+                Font.Color := cbMarkColor.Color;
+              end
+           else
+             begin
+               Brush.Color := cbCursorColor.Color;
+               Font.Color := cbMarkColor.Color;
+             end;
             sText := rsOptExampleMarkCursor;
          end;
       end;
@@ -1095,6 +1121,12 @@ begin
     iTextTop := Rect.Top + (h div 2) - (TextHeight(sText) div 2);
     iTextLeft := Rect.Left + (pbExample.Width div 2) - (TextWidth(sText) div 2);
     FillRect(Rect);
+    if (cbbUseFrameCursor.Checked) and ((i=5) or (i=6)) then
+      begin
+         Pen.Color:=cbCursorColor.Color;
+         Line(Rect.Left, Rect.Top, Rect.Right, Rect.Top);
+         Line(Rect.Left, Rect.Bottom - 1, Rect.Right, Rect.Bottom - 1);
+      end;
     TextOut(iTextLeft, iTextTop, sText);
     Rect.Top := Rect.Bottom;
     Rect.Bottom := h * (I + 1);
@@ -1972,6 +2004,11 @@ begin
   cbMinimizeToTray.Enabled:= not cbAlwaysShowTrayIcon.Checked;
 end;
 
+procedure TfrmOptions.cbbUseFrameCursorChange(Sender: TObject);
+begin
+  pbExample.Repaint;
+end;
+
 procedure TfrmOptions.cbIconsSizeChange(Sender: TObject);
 var
   bmpTemp: TBitmap;
@@ -2513,6 +2550,7 @@ begin
   SetColorInColorBox(cbCursorColor,gCursorColor);
   SetColorInColorBox(cbCursorText,gCursorText);
   cbbUseInvertedSelection.Checked:=gUseInvertedSelection;
+  cbbUseFrameCursor.Checked:=gUseFrameCursor;
   tbInactivePanelBrightness.Position:=gInactivePanelBrightness;
 
   { File operations }
@@ -2731,6 +2769,7 @@ begin
   gCursorText := cbCursorText.Color;
   gUseInvertedSelection:=cbbUseInvertedSelection.Checked;
   gInactivePanelBrightness:=tbInactivePanelBrightness.Position;
+  gUseFrameCursor:=cbbUseFrameCursor.Checked;
 
   { File operations }
   gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
