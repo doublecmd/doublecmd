@@ -3833,6 +3833,7 @@ var
       end;
 
     newColor := gColorExt.GetColorBy(AFile.TheFile);
+    if newColor=-1 then newcolor:=ColumnsSet.GetColumnTextColor(ACol);
 
     if AFile.Selected then
     begin
@@ -3862,6 +3863,9 @@ var
     end
     else if (gdSelected in aState) and ColumnsView.FActive then
       begin
+          if gUseFrameCursor then
+             Canvas.Font.Color := newColor
+          else
         Canvas.Font.Color := ColumnsSet.GetColumnCursorText(ACol);
       end
     else
