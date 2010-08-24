@@ -27,7 +27,7 @@ unit uMyWindows;
 interface
 
 uses
-  Classes, SysUtils, Windows;
+  Classes, SysUtils, JwaWinBase, Windows;
 
 type
   tagMENUITEMINFOW = record
@@ -54,6 +54,17 @@ type
 function InsertMenuItemW(hMenu: HMENU; uItem: UINT; fByPosition: BOOL;
                          const lpmii: MENUITEMINFOW): BOOL; stdcall; external 'user32' name 'InsertMenuItemW';
 
+{en
+   Extracts volume GUID from a volume GUID path
+}
+function ExtractVolumeGUID(const VolumeName: WideString): WideString;
+{en
+   Retrieves a volume GUID path for the volume that is associated with the specified
+   volume mount point (drive letter, volume GUID path, or mounted folder)
+   @param(Path The string that contains the path of a mounted folder or a drive letter)
+   @returns(Volume GUID path)
+}
+function GetMountPointVolumeName(const Path: WideString): WideString;
 {en
    Checks readiness of a drive
    @param(sDrv  String specifying the root directory of a file system volume)
@@ -129,6 +140,31 @@ begin
 
   if Pos('(', Result) <> 0 then
     SetLength(Result, Pos('(', Result) - 2);
+end;
+
+function ExtractVolumeGUID(const VolumeName: WideString): WideString;
+var
+  I, J: LongInt;
+begin
+  I:= Pos('{', VolumeName);
+  J:= Pos('}', VolumeName);
+  if (I = 0) or (J = 0) then Exit(EmptyStr);
+  Result:= Copy(VolumeName, I, J - I + 1);
+end;
+
+function GetMountPointVolumeName(const Path: WideString): WideString;
+const
+  MAX_VOLUME_NAME = 50;
+var
+  wsPath: WideString;
+  wsVolumeName: array[0..Pred(MAX_VOLUME_NAME)] of WideChar;
+begin
+  FillByte(wsVolumeName, MAX_VOLUME_NAME, 0);
+  wsPath:= IncludeTrailingPathDelimiter(Path);
+  if not GetVolumeNameForVolumeMountPointW(PWideChar(wsPath), wsVolumeName, MAX_VOLUME_NAME) then
+    Result:= EmptyStr
+  else
+    Result:= WideString(wsVolumeName);
 end;
 
 (* Drive ready *)

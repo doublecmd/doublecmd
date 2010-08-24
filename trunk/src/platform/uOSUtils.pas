@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -1699,11 +1699,26 @@ var
   Key: HKEY;
   Value: DWORD;
   ValueSize: LongInt;
+  VolumeName: WideString;
 begin
   Result:= False;
   if not mbDirectoryExists(sPath) then Exit;
   ValueSize:= SizeOf(DWORD);
-  if RegOpenKeyExW(HKEY_LOCAL_MACHINE, PWideChar(wsRoot), 0, KEY_READ, Key) = ERROR_SUCCESS then
+  // Windows Vista/Seven
+  if (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6) then
+    begin
+      VolumeName:= GetMountPointVolumeName(UTF8Decode(ExtractFileDrive(sPath)));
+      VolumeName:= 'Volume' + PathDelim + ExtractVolumeGUID(VolumeName);
+      if RegOpenKeyExW(HKEY_CURRENT_USER, PWideChar(wsRoot + VolumeName), 0, KEY_READ, Key) = ERROR_SUCCESS then
+        begin
+          if RegQueryValueExW(Key, 'NukeOnDelete', nil, nil, @Value, @ValueSize) <> ERROR_SUCCESS then
+            Value:= 0; // delete to trash by default
+          Result:= (Value = 0);
+          RegCloseKey(Key);
+        end;
+    end
+  // Windows 2000/XP
+  else if RegOpenKeyExW(HKEY_LOCAL_MACHINE, PWideChar(wsRoot), 0, KEY_READ, Key) = ERROR_SUCCESS then
     begin
       if RegQueryValueExW(Key, 'UseGlobalSettings', nil, nil, @Value, @ValueSize) <> ERROR_SUCCESS then
         Value:= 1; // use global settings by default
