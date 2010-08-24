@@ -59,7 +59,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion: String = '0.4.6.r2754';
+  hkVersion: String = '0.4.6.r2975';
   ConfigVersion = '1';
 
 var
@@ -350,6 +350,7 @@ begin
       AddHotKeyEx('Shift+Ctrl+Enter','cm_AddPathAndFilenameToCmdLine','','FrmMain','FrmMain');
       AddHotKeyEx('Alt+Left','cm_ViewHistoryPrev','','FrmMain','FrmMain');
       AddHotKeyEx('Alt+Right','cm_ViewHistoryNext','','FrmMain','FrmMain');
+      AddHotKeyEx('Alt+Down','cm_DirHistory','','FrmMain','FrmMain');
 //      AddHotKeyEx('','cm_','','FrmMain','FrmMain');
     end;
 end;
