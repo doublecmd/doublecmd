@@ -100,6 +100,7 @@ var
   gKeyButtons,
   gInterfaceFlat,
   gDriveInd,
+  gDriveFreeSpace,
   gProgInMenuBar,
   gPanelOfOp: Boolean;
 
@@ -572,7 +573,8 @@ begin
   gTermWindow := False;
   gKeyButtons := True;
   gInterfaceFlat := True;
-  gDriveInd := True;
+  gDriveInd := False;
+  gDriveFreeSpace := True;
   gProgInMenuBar := False;
   gPanelOfOp := True;
 
@@ -1357,6 +1359,7 @@ begin
       gTermWindow := GetValue(Node, 'TermWindow', gTermWindow);
       gKeyButtons := GetValue(Node, 'KeyButtons', gKeyButtons);
       gInterfaceFlat := GetValue(Node, 'InterfaceFlat', gInterfaceFlat);
+      gDriveFreeSpace := GetValue(Node, 'DriveFreeSpace', gDriveFreeSpace);
       gDriveInd := GetValue(Node, 'DriveIndicator', gDriveInd);
       gProgInMenuBar := GetValue(Node, 'ProgressInMenuBar', gProgInMenuBar);
       gPanelOfOp := GetValue(Node, 'PanelOfOperationsInBackground', gPanelOfOp);
@@ -1592,6 +1595,7 @@ begin
     SetValue(Node, 'TermWindow', gTermWindow);
     SetValue(Node, 'KeyButtons', gKeyButtons);
     SetValue(Node, 'InterfaceFlat', gInterfaceFlat);
+    SetValue(Node, 'DriveFreeSpace', gDriveFreeSpace);
     SetValue(Node, 'DriveIndicator', gDriveInd);
     SetValue(Node, 'ProgressInMenuBar', gProgInMenuBar);
     SetValue(Node, 'PanelOfOperationsInBackground', gPanelOfOp);

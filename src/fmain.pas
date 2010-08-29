@@ -3440,9 +3440,11 @@ begin
   btnLeftHome.Flat := gInterfaceFlat;
   btnLeftDirectoryHotlist.Visible := gDriveMenuButton;
   btnLeftDirectoryHotlist.Flat := gInterfaceFlat;
-  btnRightEqualLeft.Visible := gDriveMenuButton;
-  btnRightEqualLeft.Flat:= gInterfaceFlat;
+  btnLeftEqualRight.Visible := gDriveMenuButton;
+  btnLeftEqualRight.Flat:= gInterfaceFlat;
+  lblLeftDriveInfo.Visible:= gDriveFreeSpace;
   pbxLeftDrive.Visible := gDriveInd;
+  pnlLeftTools.Visible:= gDriveMenuButton or gDriveFreeSpace or gDriveInd;
 
   btnRightDrive.Visible := gDriveMenuButton;
   btnRightDrive.Flat := gInterfaceFlat;
@@ -3454,9 +3456,11 @@ begin
   btnRightHome.Flat := gInterfaceFlat;
   btnRightDirectoryHotlist.Visible := gDriveMenuButton;
   btnRightDirectoryHotlist.Flat := gInterfaceFlat;
-  btnLeftEqualRight.Visible := gDriveMenuButton;
-  btnLeftEqualRight.Flat:= gInterfaceFlat;
+  btnRightEqualLeft.Visible := gDriveMenuButton;
+  btnRightEqualLeft.Flat:= gInterfaceFlat;
+  lblRightDriveInfo.Visible:= gDriveFreeSpace;
   pbxRightDrive.Visible := gDriveInd;
+  pnlRightTools.Visible:= gDriveMenuButton or gDriveFreeSpace or gDriveInd;
 
   //Indicator of free spase position
   if gDriveMenuButton=false then
