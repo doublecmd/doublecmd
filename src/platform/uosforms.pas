@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,8 +31,7 @@ uses
   {$IFDEF UNIX}
   Graphics, BaseUnix, Unix, fFileProperties, uPixMapManager;
   {$ELSE}
-  FileUtil, Windows, ShlObj, ActiveX, uShlObjAdditional,
-  JwaShlGuid, JwaDbt, uMyWindows;
+  FileUtil, Windows, ShlObj, uShlObjAdditional, JwaDbt, uMyWindows;
   {$ENDIF}
 
 const
@@ -95,7 +94,7 @@ implementation
 uses
   fMain, uOSUtils, uGlobs, uLng, uShellExecute
   {$IF DEFINED(MSWINDOWS)}
-  , Dialogs, Graphics, comobj, uFileSystemFileSource, uTotalCommander
+  , Dialogs, Graphics, comobj, uShellContextMenu, uFileSystemFileSource, uTotalCommander
   {$ENDIF}
   {$IF DEFINED(LINUX)}
   , uFileSystemWatcher, inotify, uMimeActions
@@ -105,7 +104,7 @@ uses
 var
 {$IFDEF MSWINDOWS}
   OldWProc: WNDPROC;
-  ICM2: IContextMenu2 = nil;
+  ShellContextMenu: IContextMenu2 = nil;
 {$ELSE}
   CM : TContextMenu = nil;
 {$ENDIF}
@@ -123,9 +122,9 @@ begin
     WM_DRAWITEM,
     WM_MENUCHAR,
     WM_MEASUREITEM:
-      if Assigned(ICM2) then
+      if Assigned(ShellContextMenu) then
         begin
-          ICM2.HandleMenuMsg(uiMsg, wParam, lParam);
+          ShellContextMenu.HandleMenuMsg(uiMsg, wParam, lParam);
           Result := 0;
         end
       else
@@ -215,97 +214,15 @@ begin
 end;
 {$ENDIF}
 
-{$IFDEF MSWINDOWS}
-function InsertMenuItemEx(hMenu, SubMenu: HMENU; Caption: PWChar;
-                         Position, ItemID,  ItemType : UINT): boolean;
-var
-  mi: TMenuItemInfoW;
-begin
-   FillChar(mi, SizeOf(mi), 0);
-   with mi do
-   begin
-      cbSize := SizeOf(mi);
-      fMask := MIIM_STATE or MIIM_TYPE or MIIM_SUBMENU or MIIM_ID;
-      fType := ItemType;
-      fState := MFS_ENABLED;
-      wID := ItemID;
-      hSubMenu := SubMenu;
-      dwItemData := 0;
-      dwTypeData := Caption;
-      cch := SizeOf(Caption);
-   end;
-   Result := InsertMenuItemW(hMenu, Position, false, mi);
-end;
-
-function GetIContextMenu(Handle : THandle; Files : TFiles): IContextMenu;
-type
-  PPIDLArray = ^PItemIDList;
-
-var
-  Folder,
-  DesktopFolder: IShellFolder;
-  PathPIDL: PItemIDList = nil;
-  tmpPIDL: PItemIDList = nil;
-  S: WideString;
-  List: PPIDLArray = nil;
-  I : Integer;
-  pchEaten: ULONG;
-  dwAttributes: ULONG = 0;
-begin
-  Result := nil;
-
-  OleCheckUTF8(SHGetDesktopFolder(DeskTopFolder));
-  try
-    List := CoTaskMemAlloc(SizeOf(PItemIDList)*Files.Count);
-    ZeroMemory(List, SizeOf(PItemIDList)*Files.Count);
-
-    for I := 0 to Files.Count - 1 do
-      begin
-        if Files[I].Name = EmptyStr then
-          S := EmptyStr
-        else
-          S := UTF8Decode(Files[I].Path);
-
-        OleCheckUTF8(DeskTopFolder.ParseDisplayName(Handle, nil, PWideChar(S), pchEaten, PathPIDL, dwAttributes));
-        try
-          OleCheckUTF8(DeskTopFolder.BindToObject(PathPIDL, nil, IID_IShellFolder, Folder));
-        finally
-          CoTaskMemFree(PathPIDL);
-        end;
-
-        if Files[I].Name = EmptyStr then
-          S := UTF8Decode(Files[I].Path)
-        else
-          S := UTF8Decode(Files[I].Name);
-
-        OleCheckUTF8(Folder.ParseDisplayName(Handle, nil, PWideChar(S), pchEaten, tmpPIDL, dwAttributes));
-        (List + i)^ := tmpPIDL;
-      end;
-
-    Folder.GetUIObjectOf(Handle, Files.Count, PItemIDList(List^), IID_IContextMenu, nil, Result);
-
-  finally
-    if Assigned(List) then
-    begin
-      for I := 0 to Files.Count - 1 do
-        if Assigned((List + i)^) then
-          CoTaskMemFree((List + i)^);
-      CoTaskMemFree(List);
-    end;
-
-    DesktopFolder:= nil;
-  end;
-end;
-{$ENDIF}
-
 procedure ShowContextMenu(Owner: TWinControl; var Files : TFiles; X, Y : Integer);
 {$IFDEF MSWINDOWS}
+const
+  USER_CMD_ID = $1000;
 var
   aFile: TFile;
   sl: TStringList = nil;
   i:Integer;
   sAct, sCmd: UTF8String;
-  contMenu: IContextMenu;
   menu: HMENU = 0;
   hActionsSubMenu: HMENU = 0;
   cmd: UINT = 0;
@@ -320,12 +237,11 @@ begin
     try
       if Files.Count = 0 then Exit;
 
-      contMenu := GetIContextMenu(Owner.Handle, Files);
-      if Assigned(contMenu) then
+      ShellContextMenu := TShellContextMenu.Create(Owner.Handle, Files, True);
+      if Assigned(ShellContextMenu) then
       try
         menu := CreatePopupMenu;
-        OleCheckUTF8(contMenu.QueryContextMenu(menu, 0, 1, $7FFF, CMF_EXPLORE or CMF_CANRENAME));
-        contMenu.QueryInterface(IID_IContextMenu2, ICM2); // to handle submenus.
+        OleCheckUTF8(ShellContextMenu.QueryContextMenu(menu, 0, 1, USER_CMD_ID - 1, CMF_EXPLORE or CMF_CANRENAME));
         //------------------------------------------------------------------------------
         { Actions submenu }
         aFile := Files[0];
@@ -342,7 +258,7 @@ begin
                   begin
                     sAct:= sl.Names[I];
                     if (CompareText('OPEN', sAct) = 0) or (CompareText('VIEW', sAct) = 0) or (CompareText('EDIT', sAct) = 0) then Continue;
-                    InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sAct)), 0, I + $1000, MFT_STRING);
+                    InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
                   end;
               end;
 
@@ -355,12 +271,12 @@ begin
                 // now add VIEW item
                 sCmd:= '{!VIEWER} ' + aFile.Path + aFile.Name;
                 I := sl.Add(sCmd);
-                InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(rsMnuView)), 1, I + $1000, MFT_STRING);
+                InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(rsMnuView)), 1, I + USER_CMD_ID, MFT_STRING);
 
                 // now add EDIT item
                 sCmd:= '{!EDITOR} ' + aFile.Path + aFile.Name;
                 I := sl.Add(sCmd);
-                InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(rsMnuEdit)), 1, I + $1000, MFT_STRING);
+                InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(rsMnuEdit)), 1, I + USER_CMD_ID, MFT_STRING);
               end;
 
             // Add Actions submenu if not empty.
@@ -375,13 +291,12 @@ begin
           DestroyMenu(hActionsSubMenu);
         if menu <> 0 then
           DestroyMenu(menu);
-        ICM2 := nil;
       end;
 
-      if (cmd > 0) and (cmd < $1000) then
+      if (cmd > 0) and (cmd < USER_CMD_ID) then
         begin
           iCmd := LongInt(Cmd) - 1;
-          if Succeeded(contMenu.GetCommandString(iCmd, GCS_VERBA, nil, ZVerb, SizeOf(ZVerb))) then
+          if Succeeded(ShellContextMenu.GetCommandString(iCmd, GCS_VERBA, nil, ZVerb, SizeOf(ZVerb))) then
             begin
               sVerb := StrPas(ZVerb);
 
@@ -453,7 +368,7 @@ begin
                 lpVerb := PChar(cmd - 1);
                 nShow := SW_NORMAL;
               end;
-              OleCheckUTF8(contMenu.InvokeCommand(cmici));
+              OleCheckUTF8(ShellContextMenu.InvokeCommand(cmici));
 
               // Reload after possible changes on the filesystem.
               if SameText(sVerb, sCmdVerbLink) then
@@ -461,9 +376,9 @@ begin
             end;
 
         end // if cmd > 0
-      else if (cmd >= $1000) then // actions sub menu
+      else if (cmd >= USER_CMD_ID) then // actions sub menu
         begin
-          sCmd:= sl.Strings[cmd - $1000];
+          sCmd:= sl.Strings[cmd - USER_CMD_ID];
           sCmd:= Copy(sCmd, Pos('=', sCmd) + 1, Length(sCmd));
           ReplaceExtCommand(sCmd, aFile, aFile.Path);
           try
@@ -486,6 +401,7 @@ begin
           end;
         end;
     finally
+      ShellContextMenu := nil;
       FreeAndNil(Files);
       if Assigned(sl) then
         FreeAndNil(sl);
@@ -769,12 +685,12 @@ end;
 {$ELSE}
 var
   cmici: TCMINVOKECOMMANDINFO;
-  contMenu: IContextMenu;
+  contMenu: IContextMenu2;
 begin
   if Files.Count = 0 then Exit;
 
   try
-    contMenu := GetIContextMenu(frmMain.Handle, Files);
+    contMenu := TShellContextMenu.Create(frmMain.Handle, Files, False);
     if Assigned(contMenu) then
     begin
       FillChar(cmici, sizeof(cmici), #0);
