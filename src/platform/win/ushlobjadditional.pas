@@ -36,6 +36,8 @@ uses
 const
   TPM_RETURNCMD = $100;
   CSIDL_DRIVES                        = $0011;
+  { NewMenu Object (Creates a "New" context menu for a Shell item) }
+  CLSID_NewMenu: TGUID = '{D969A300-E7FF-11d0-A93B-00A0C90F2719}';
   { GetCommandString uFlags }
   GCS_VERBA            = $00000000;
 const
@@ -99,7 +101,7 @@ type
 
   IContextMenu2 = interface(IContextMenu)
     [SID_IContextMenu2]
-    function HandleMenuMsg(uMsg: UINT; WParam, LParam: Integer): HResult; stdcall;
+    function HandleMenuMsg(uMsg: UINT; wParam : WPARAM; lParam : LPARAM): HResult; stdcall;
   end;
 
 { IContextMenu3 Interface }
