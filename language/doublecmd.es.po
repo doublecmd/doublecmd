@@ -3020,6 +3020,10 @@ msgctxt "TFRMOPTIONS.CBBFILESYSTEM.TEXT"
 msgid "General"
 msgstr "General"
 
+#: TFRMOPTIONS.CBBUSEFRAMECURSOR.CAPTION
+msgid "Use Frame Cursor"
+msgstr ""
+
 #: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
 msgstr ""
@@ -3077,7 +3081,7 @@ msgid "Flat buttons"
 msgstr "Botones planos"
 
 #: TFRMOPTIONS.CBFREESPACEIND.CAPTION
-msgid "Show freespace indicator on drive label"
+msgid "Show free space indicator on drive label"
 msgstr ""
 
 #: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
@@ -3200,6 +3204,10 @@ msgstr ""
 #: TFRMOPTIONS.CBSHOWDISKPANEL.CAPTION
 msgid "Show &drive buttons"
 msgstr "Mostrar barra de &discos"
+
+#: TFRMOPTIONS.CBSHOWDRIVEFREESPACE.CAPTION
+msgid "Show free space label"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWDRIVEMENUBUTTON.CAPTION
 msgid "Show d&rive menu button"

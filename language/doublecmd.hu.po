@@ -3051,6 +3051,10 @@ msgctxt "TFRMOPTIONS.CBBFILESYSTEM.TEXT"
 msgid "General"
 msgstr "Általános"
 
+#: TFRMOPTIONS.CBBUSEFRAMECURSOR.CAPTION
+msgid "Use Frame Cursor"
+msgstr ""
+
 #: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
 msgstr "Fordított kijelölés használata"
@@ -3108,7 +3112,7 @@ msgid "Flat buttons"
 msgstr "Lapos gombok"
 
 #: TFRMOPTIONS.CBFREESPACEIND.CAPTION
-msgid "Show freespace indicator on drive label"
+msgid "Show free space indicator on drive label"
 msgstr ""
 
 #: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
@@ -3231,6 +3235,10 @@ msgstr ""
 #: TFRMOPTIONS.CBSHOWDISKPANEL.CAPTION
 msgid "Show &drive buttons"
 msgstr "&Meghajtógombok megjelenítése"
+
+#: TFRMOPTIONS.CBSHOWDRIVEFREESPACE.CAPTION
+msgid "Show free space label"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWDRIVEMENUBUTTON.CAPTION
 msgid "Show d&rive menu button"
