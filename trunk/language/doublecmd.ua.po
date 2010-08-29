@@ -3043,6 +3043,10 @@ msgctxt "TFRMOPTIONS.CBBFILESYSTEM.TEXT"
 msgid "General"
 msgstr "Основні"
 
+#: TFRMOPTIONS.CBBUSEFRAMECURSOR.CAPTION
+msgid "Use Frame Cursor"
+msgstr ""
+
 #: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
 msgstr "Використовувати інверсне виділення"
@@ -3100,7 +3104,9 @@ msgid "Flat buttons"
 msgstr "Плоскі кнопки"
 
 #: TFRMOPTIONS.CBFREESPACEIND.CAPTION
-msgid "Show freespace indicator on drive label"
+#, fuzzy
+#| msgid "Show freespace indicator on drive label"
+msgid "Show free space indicator on drive label"
 msgstr "Показувати індикатор вільного місця на панелі дисків"
 
 #: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
@@ -3223,6 +3229,10 @@ msgstr "Показувати діалог підтвердження при drag
 #: TFRMOPTIONS.CBSHOWDISKPANEL.CAPTION
 msgid "Show &drive buttons"
 msgstr "Кнопки &дисків"
+
+#: TFRMOPTIONS.CBSHOWDRIVEFREESPACE.CAPTION
+msgid "Show free space label"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWDRIVEMENUBUTTON.CAPTION
 msgid "Show d&rive menu button"
@@ -5199,7 +5209,6 @@ msgstr "&Додати %s"
 msgctxt "ulng.rsmsgpopuphotcnf"
 msgid "&Configure"
 msgstr "&Налаштувати"
-
 
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"

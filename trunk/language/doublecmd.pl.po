@@ -3033,6 +3033,10 @@ msgctxt "TFRMOPTIONS.CBBFILESYSTEM.TEXT"
 msgid "General"
 msgstr "Ogólne"
 
+#: TFRMOPTIONS.CBBUSEFRAMECURSOR.CAPTION
+msgid "Use Frame Cursor"
+msgstr ""
+
 #: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
 msgstr "Odwrotna selekcja"
@@ -3092,7 +3096,7 @@ msgid "Flat buttons"
 msgstr "Płaskie przyciski"
 
 #: TFRMOPTIONS.CBFREESPACEIND.CAPTION
-msgid "Show freespace indicator on drive label"
+msgid "Show free space indicator on drive label"
 msgstr ""
 
 #: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
@@ -3215,6 +3219,10 @@ msgstr "Pokaż okno dialogowe podczas kopiowania/przenoszenia myszą"
 #: TFRMOPTIONS.CBSHOWDISKPANEL.CAPTION
 msgid "Show &drive buttons"
 msgstr "Pokaż przyciski dysków"
+
+#: TFRMOPTIONS.CBSHOWDRIVEFREESPACE.CAPTION
+msgid "Show free space label"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWDRIVEMENUBUTTON.CAPTION
 msgid "Show d&rive menu button"

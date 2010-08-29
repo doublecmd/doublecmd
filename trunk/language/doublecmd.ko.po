@@ -3039,6 +3039,10 @@ msgctxt "TFRMOPTIONS.CBBFILESYSTEM.TEXT"
 msgid "General"
 msgstr "일반"
 
+#: TFRMOPTIONS.CBBUSEFRAMECURSOR.CAPTION
+msgid "Use Frame Cursor"
+msgstr ""
+
 #: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
 msgstr "선택 반전 사용"
@@ -3098,7 +3102,7 @@ msgid "Flat buttons"
 msgstr "평평한 버튼"
 
 #: TFRMOPTIONS.CBFREESPACEIND.CAPTION
-msgid "Show freespace indicator on drive label"
+msgid "Show free space indicator on drive label"
 msgstr ""
 
 #: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
@@ -3222,6 +3226,10 @@ msgstr "드래그&&드롭 작업 시 확인 대화상자 보이기"
 #: TFRMOPTIONS.CBSHOWDISKPANEL.CAPTION
 msgid "Show &drive buttons"
 msgstr "드라이브 버튼 보이기 (&D)"
+
+#: TFRMOPTIONS.CBSHOWDRIVEFREESPACE.CAPTION
+msgid "Show free space label"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWDRIVEMENUBUTTON.CAPTION
 msgid "Show d&rive menu button"
