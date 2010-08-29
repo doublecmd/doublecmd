@@ -2376,9 +2376,9 @@ object frmOptions: TfrmOptions
             Left = 10
             Height = 17
             Top = 141
-            Width = 206
+            Width = 209
             BorderSpacing.Top = 2
-            Caption = 'Show freespace indicator on drive label'
+            Caption = 'Show free space indicator on drive label'
             TabOrder = 14
           end
           object cbProgInMenuBar: TCheckBox
@@ -2409,9 +2409,9 @@ object frmOptions: TfrmOptions
             Left = 10
             Height = 17
             Top = 122
-            Width = 120
+            Width = 123
             BorderSpacing.Top = 2
-            Caption = 'Show freespace label'
+            Caption = 'Show free space label'
             TabOrder = 18
           end
         end
