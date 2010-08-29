@@ -140,6 +140,7 @@ type
     cbProgInMenuBar: TCheckBox;
     cbPanelOfOperations: TCheckBox;
     cbbUseFrameCursor: TCheckBox;
+    cbShowDriveFreeSpace: TCheckBox;
     chkSearchReplaceHistory: TCheckBox;
     chkSaveConfiguration: TCheckBox;
     chkMultiArcEnabled: TCheckBox;
@@ -2497,6 +2498,7 @@ begin
   cbFlatInterface.Checked := gInterfaceFlat;
   cbLogWindow.Checked := gLogWindow;
   cbTermWindow.Checked := gTermWindow;
+  cbShowDriveFreeSpace.Checked := gDriveFreeSpace;
   cbFreespaceInd.Checked := gDriveInd;
   cbProgInMenuBar.Checked := gProgInMenuBar;
   cbPanelOfOperations.Checked := gPanelOfOp;
@@ -2709,6 +2711,7 @@ begin
   gInterfaceFlat := cbFlatInterface.Checked;
   gLogWindow := cbLogWindow.Checked;
   gTermWindow := cbTermWindow.Checked;
+  gDriveFreeSpace := cbShowDriveFreeSpace.Checked;
   gDriveInd := cbFreespaceInd.Checked;
   gProgInMenuBar := cbProgInMenuBar.Checked;
   gPanelOfOp := cbPanelOfOperations.Checked;
