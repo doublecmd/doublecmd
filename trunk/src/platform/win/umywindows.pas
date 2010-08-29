@@ -54,6 +54,8 @@ type
 function InsertMenuItemW(hMenu: HMENU; uItem: UINT; fByPosition: BOOL;
                          const lpmii: MENUITEMINFOW): BOOL; stdcall; external 'user32' name 'InsertMenuItemW';
 
+function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): WideString;
+function InsertMenuItemEx(hMenu, SubMenu: HMENU; Caption: PWideChar; Position, ItemID,  ItemType : UINT): boolean;
 {en
    Extracts volume GUID from a volume GUID path
 }
@@ -129,6 +131,47 @@ uses
   LCLProc, ShellAPI, MMSystem, JwaWinNetWk, uShlObjAdditional;
 
 function mciSendCommand(IDDevice: MCIDEVICEID; uMsg: UINT; fdwCommand: DWORD; dwParam: DWORD_PTR): MCIERROR; stdcall; external 'winmm.dll' name 'mciSendCommandA';
+
+function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): WideString;
+var
+  miiw: TMenuItemInfoW;
+  wca: array[0..Pred(MAX_PATH)] of WideChar;
+begin
+  Result:= EmptyStr;
+  FillChar(miiw, SizeOf(TMenuItemInfoW), 0);
+  with miiw do
+  begin
+    cbSize:= SizeOf(TMenuItemInfoW);
+    fMask:= MIIM_FTYPE or MIIM_STRING;
+    dwTypeData:= wca;
+    cch:= MAX_PATH;
+  end;
+  if GetMenuItemInfoW(hMenu, uItem, fByPosition, @miiw) then
+  begin
+    Result:= miiw.dwTypeData;
+  end;
+end;
+
+function InsertMenuItemEx(hMenu, SubMenu: HMENU; Caption: PWideChar;
+                         Position, ItemID,  ItemType : UINT): boolean;
+var
+  mi: TMenuItemInfoW;
+begin
+   FillChar(mi, SizeOf(mi), 0);
+   with mi do
+   begin
+      cbSize := SizeOf(mi);
+      fMask := MIIM_STATE or MIIM_TYPE or MIIM_SUBMENU or MIIM_ID;
+      fType := ItemType;
+      fState := MFS_ENABLED;
+      wID := ItemID;
+      hSubMenu := SubMenu;
+      dwItemData := 0;
+      dwTypeData := Caption;
+      cch := SizeOf(Caption);
+   end;
+   Result := InsertMenuItemW(hMenu, Position, True, mi);
+end;
 
 function DisplayName(const wsDrv: WideString): WideString;
 var
