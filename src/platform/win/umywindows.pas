@@ -55,6 +55,7 @@ function InsertMenuItemW(hMenu: HMENU; uItem: UINT; fByPosition: BOOL;
                          const lpmii: MENUITEMINFOW): BOOL; stdcall; external 'user32' name 'InsertMenuItemW';
 
 function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): WideString;
+function GetMenuItemType(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): UINT;
 function InsertMenuItemEx(hMenu, SubMenu: HMENU; Caption: PWideChar; Position, ItemID,  ItemType : UINT): boolean;
 {en
    Extracts volume GUID from a volume GUID path
@@ -149,6 +150,23 @@ begin
   if GetMenuItemInfoW(hMenu, uItem, fByPosition, @miiw) then
   begin
     Result:= miiw.dwTypeData;
+  end;
+end;
+
+function GetMenuItemType(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): UINT;
+var
+  miiw: TMenuItemInfoW;
+begin
+  Result:= 0;
+  FillChar(miiw, SizeOf(TMenuItemInfoW), 0);
+  with miiw do
+  begin
+    cbSize:= SizeOf(TMenuItemInfoW);
+    fMask:= MIIM_FTYPE;
+  end;
+  if GetMenuItemInfoW(hMenu, uItem, fByPosition, @miiw) then
+  begin
+    Result:= miiw.fType;
   end;
 end;
 

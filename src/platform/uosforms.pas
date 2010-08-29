@@ -281,7 +281,16 @@ begin
 
             // Add Actions submenu if not empty.
             if GetMenuItemCount(hActionsSubMenu) > 0 then
-              InsertMenuItemEx(menu, hActionsSubMenu, PWChar(UTF8Decode(rsMnuActions)), 0, 333, MFT_STRING)
+            begin
+              // Insert Actions submenu before first separator
+              iCmd:= GetMenuItemCount(menu) - 1;
+              for I:= 0 to iCmd do
+              begin
+                if GetMenuItemType(menu, I, True) = MFT_SEPARATOR then
+                  Break;
+              end;
+              InsertMenuItemEx(menu, hActionsSubMenu, PWideChar(UTF8Decode(rsMnuActions)), I, 333, MFT_STRING);
+            end;
           end;
         { /Actions submenu }
         //------------------------------------------------------------------------------
