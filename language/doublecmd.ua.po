@@ -3045,7 +3045,7 @@ msgstr "Основні"
 
 #: TFRMOPTIONS.CBBUSEFRAMECURSOR.CAPTION
 msgid "Use Frame Cursor"
-msgstr ""
+msgstr "Використовувати курсор-рамку"
 
 #: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
@@ -3232,7 +3232,7 @@ msgstr "Кнопки &дисків"
 
 #: TFRMOPTIONS.CBSHOWDRIVEFREESPACE.CAPTION
 msgid "Show free space label"
-msgstr ""
+msgstr "Показати мітки вільного простору"
 
 #: TFRMOPTIONS.CBSHOWDRIVEMENUBUTTON.CAPTION
 msgid "Show d&rive menu button"
@@ -4235,6 +4235,7 @@ msgstr "Параметри плагіну"
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_BY_CONTENT.CAPTION
 msgid "Detect archive type by content"
 msgstr "Визначати тип архіву за вмістом"
+
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_DELETE.CAPTION
 msgid "Can delete files"
