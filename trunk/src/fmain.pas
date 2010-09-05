@@ -3394,8 +3394,8 @@ begin
   (* Disk Panels *)
   UpdateDiskCount; // Update list of showed drives
 
-  dskLeft.Visible := (gDriveBar1 and gDriveBar2);
-  dskRight.Visible := gDriveBar1;
+  pnlLeftSyncSize.Visible := (gDriveBar1 and gDriveBar2);
+  pnlRightSyncSize.Visible := gDriveBar1;
 
   UpdateDriveToolbarSelection(dskLeft, FrameLeft);
   UpdateDriveToolbarSelection(dskRight, FrameRight);
