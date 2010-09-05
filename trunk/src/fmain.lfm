@@ -66,45 +66,58 @@ object frmMain: TfrmMain
       ClientWidth = 525
       FullRepaint = False
       TabOrder = 0
-      object dskLeft: TKASToolBar
-        AnchorSideLeft.Control = pnlDisk
-        Left = 0
-        Height = 20
+      object pnlLeftSyncSize: TPanel
+        Left = 1
+        Height = 24
         Top = 1
-        Width = 143
-        Align = alCustom
-        Anchors = [akTop, akLeft, akRight]
-        AutoSize = True
-        Constraints.MinHeight = 20
-        Flat = True
-        ShowCaptions = True
+        Width = 170
+        Align = alLeft
+        BevelOuter = bvNone
+        ClientHeight = 24
+        ClientWidth = 170
         TabOrder = 0
-        OnMouseUp = dskToolBarMouseUp
-        OnToolButtonClick = dskToolButtonClick
-        RadioToolBar = True
-        GlyphSize = 16
+        object dskLeft: TKASToolBar
+          Left = 0
+          Height = 20
+          Top = 0
+          Width = 170
+          AutoSize = True
+          Constraints.MinHeight = 20
+          Flat = True
+          ShowCaptions = True
+          TabOrder = 0
+          OnMouseUp = dskToolBarMouseUp
+          OnToolButtonClick = dskToolButtonClick
+          RadioToolBar = True
+          GlyphSize = 16
+        end
       end
-      object dskRight: TKASToolBar
-        AnchorSideLeft.Control = dskLeft
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideRight.Control = pnlDisk
-        AnchorSideRight.Side = asrBottom
-        Left = 143
-        Height = 20
+      object pnlRightSyncSize: TPanel
+        Left = 171
+        Height = 24
         Top = 1
-        Width = 382
-        Align = alCustom
-        Anchors = [akTop, akLeft, akRight]
-        AutoSize = True
-        Constraints.MinHeight = 20
-        Flat = True
-        ShowCaptions = True
+        Width = 353
+        Align = alClient
+        BevelOuter = bvNone
+        ClientHeight = 24
+        ClientWidth = 353
         TabOrder = 1
-        OnMouseUp = dskToolBarMouseUp
-        OnResize = dskRightResize
-        OnToolButtonClick = dskToolButtonClick
-        RadioToolBar = True
-        GlyphSize = 16
+        object dskRight: TKASToolBar
+          Left = 0
+          Height = 20
+          Top = 0
+          Width = 353
+          AutoSize = True
+          Constraints.MinHeight = 20
+          Flat = True
+          ShowCaptions = True
+          TabOrder = 0
+          OnMouseUp = dskToolBarMouseUp
+          OnResize = dskRightResize
+          OnToolButtonClick = dskToolButtonClick
+          RadioToolBar = True
+          GlyphSize = 16
+        end
       end
     end
   end
