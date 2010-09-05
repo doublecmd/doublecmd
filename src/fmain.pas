@@ -141,8 +141,8 @@ type
     btnF9: TSpeedButton;
     btnLeftDirectoryHotlist: TSpeedButton;
     btnRightDirectoryHotlist: TSpeedButton;
-    dskLeft: TKAStoolBar;
-    dskRight: TKAStoolBar;
+    dskLeft: TKASToolBar;
+    dskRight: TKASToolBar;
     edtCommand: TComboBox;
     lblRightDriveInfo: TLabel;
     lblLeftDriveInfo: TLabel;
@@ -156,6 +156,8 @@ type
     miNetworkQuickConnect: TMenuItem;
     miNetworkConnect: TMenuItem;
     mnuNetwork: TMenuItem;
+    pnlLeftSyncSize: TPanel;
+    pnlRightSyncSize: TPanel;
     Timer: TTimer;
     PanelAllProgress: TPanel;
     pbxRightDrive: TPaintBox;
@@ -1648,7 +1650,7 @@ begin
 
   pnlDisk.Width := pnlSyncSize.ClientWidth - (pnlSyncSize.ClientWidth mod 2);
 
-  dskLeft.Width := (pnlDisk.ClientWidth div 2);
+  pnlLeftSyncSize.Width := (pnlDisk.ClientWidth div 2) - pnlDisk.BevelWidth;
 
   //DebugLN('dskLeft.Width == ' + IntToStr(dskLeft.Width));
   //DebugLN('dskRight.Width == ' + IntToStr(dskRight.Width));
