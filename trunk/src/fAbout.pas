@@ -77,6 +77,7 @@ const
     'Radek Cervinka (radek.cervinka@centrum.cz) - author of Seksi Commander' + LineEnding +
     'Contributors:' + cIndention +
     'Tolstov Igor (attid@yandex.ru)' + cIndention +
+    'Rustem Rakhimov (dok_rust@bk.ru)' + cIndention +
     'Moroz Serhiy (frost.asm@gmail.com)' + cIndention +
     'Vitaly Zotov (vitalyzotov@mail.ru)' + cIndention +
     'Zolotov Alex (zolotov-alex@shamangrad.net)' + cIndention +
