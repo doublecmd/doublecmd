@@ -94,11 +94,14 @@ begin
 
 end;
 
-procedure CreateBlokDevArr;
-var  halDevices : PPChar;
-     numDevices,i : Integer;
-     udi : PChar;
+function CreateBlokDevArr: Boolean;
+var
+  halDevices : PPChar = nil;
+  numDevices,i : Integer;
+  udi : PChar;
 begin
+  Result:= False;
+
   // nil DeviceList;
   DeviceList.Clear;
 
@@ -107,6 +110,7 @@ begin
   if halDevices = nil then
   begin
     DebugLn('Cannot get device list');
+    Exit;
   end;
 //  DebugLn('Number of devices: ' + IntToStr(numDevices));
 
@@ -119,6 +123,8 @@ begin
 
   // free mem
   libhal_free_string_array(halDevices);
+
+  Result:= True;
 end;
 
 function CreateHal: Boolean;
@@ -179,7 +185,11 @@ begin
     DebugLn('Cannot register LibHalDeviceRemoved');
 
   DeviceList := TStringList.Create;
-  CreateBlokDevArr;
+  if not CreateBlokDevArr then
+  begin
+    FreeHal;
+    Exit;
+  end;
 
   Result := True;
 end;
