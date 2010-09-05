@@ -214,15 +214,15 @@ object frmMain: TfrmMain
           NumGlyphs = 0
           OnClick = btnLeftDirectoryHotlistClick
         end
-        object btnRightEqualLeft: TSpeedButton
+        object btnLeftEqualRight: TSpeedButton
           Left = 488
           Height = 24
-          Hint = 'Show current directory of the left panel in the right panel'
+          Hint = 'Show current directory of the right panel in the left panel'
           Top = 0
           Width = 23
-          Action = actRightEqualLeft
+          Action = actLeftEqualRight
           Align = alRight
-          Caption = '>'
+          Caption = '<'
           Color = clBtnFace
           NumGlyphs = 0
         end
@@ -334,16 +334,16 @@ object frmMain: TfrmMain
           NumGlyphs = 0
           OnClick = btnRightDirectoryHotlistClick
         end
-        object btnLeftEqualRight: TSpeedButton
+        object btnRightEqualLeft: TSpeedButton
           AnchorSideRight.Side = asrBottom
           Left = 221
           Height = 24
-          Hint = 'Show current directory of the right panel in the left panel'
+          Hint = 'Show current directory of the left panel in the right panel'
           Top = 0
           Width = 23
-          Action = actLeftEqualRight
+          Action = actRightEqualLeft
           Align = alRight
-          Caption = '<'
+          Caption = '>'
           Color = clBtnFace
           NumGlyphs = 0
         end
