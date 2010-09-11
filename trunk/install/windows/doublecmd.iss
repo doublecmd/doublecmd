@@ -50,7 +50,7 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 Source: "doublecmd\doublecmd.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doublecmd\twilight.col"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doublecmd\default.bar"; DestDir: "{app}"; Flags: ignoreversion
-Source: "doublecmd\doublecmd.ini"; DestDir: "{app}"; Flags: ignoreversion
+Source: "doublecmd\doublecmd.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doublecmd\editor.col"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doublecmd\pixmaps.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doublecmd\doc\*"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs

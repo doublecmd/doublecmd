@@ -29,7 +29,7 @@ xcopy /E pixmaps  %DC_INSTALL_DIR%\pixmaps\
 rem Copy files
 copy doc\*.txt              %DC_INSTALL_DIR%\doc\
 copy doublecmd.exe          %DC_INSTALL_DIR%\
-copy doublecmd.ini          %DC_INSTALL_DIR%\
+copy doublecmd.xml          %DC_INSTALL_DIR%\
 copy doublecmd.ext.example  %DC_INSTALL_DIR%\
 copy editor.col             %DC_INSTALL_DIR%\
 copy twilight.col           %DC_INSTALL_DIR%\
@@ -47,7 +47,6 @@ copy  plugins\wcx\rpm\lib\rpm.wcx          %DC_INSTALL_DIR%\plugins\wcx\rpm\
 copy  plugins\wcx\unrar\lib\unrar.wcx      %DC_INSTALL_DIR%\plugins\wcx\unrar\
 copy  plugins\wcx\unbz2\lib\unbz2.wcx      %DC_INSTALL_DIR%\plugins\wcx\unbz2\
 copy  plugins\wcx\zip\lib\zip.wcx          %DC_INSTALL_DIR%\plugins\wcx\zip\
-copy  plugins\wcx\zip\src\ZipConfDlg.lfm   %DC_INSTALL_DIR%\plugins\wcx\zip\
 rem WDX
 copy  plugins\wdx\rpm_wdx\lib\rpm_wdx.wdx  %DC_INSTALL_DIR%\plugins\wdx\rpm_wdx\
 copy  plugins\wdx\deb_wdx\lib\deb_wdx.wdx  %DC_INSTALL_DIR%\plugins\wdx\deb_wdx\
