@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doublecmd DCVersion="0.4.6 alpha" ConfigVersion="1">
   <Configuration Save="True">
-    <UseConfigInProgramDir>True</UseConfigInProgramDir>
+    <UseConfigInProgramDir>False</UseConfigInProgramDir>
   </Configuration>
   <Colors>
     <FileFilters>
