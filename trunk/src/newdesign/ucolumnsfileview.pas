@@ -110,6 +110,8 @@ type
 
     procedure UpdateView;
 
+    function MouseOnGrid(X, Y: LongInt): Boolean;
+
     // Returns height of all the header rows.
     function GetHeaderHeight: Integer;
   end;
@@ -1021,7 +1023,7 @@ begin
       { If right click on file/directory }
       else if ((gMouseSelectionButton<>1) or not gMouseSelectionEnabled) then
         begin
-          Background:= (X > (Sender as TDrawGridEx).GridWidth) or (Y > (Sender as TDrawGridEx).GridHeight);
+          Background:= not (Sender as TDrawGridEx).MouseOnGrid(X, Y);
           Actions.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y, Background);
         end
       else if (gMouseSelectionEnabled and (gMouseSelectionButton = 1)) then
@@ -1276,7 +1278,7 @@ begin
   dgPanel.FMouseDown:= False;
   tmContextMenu.Enabled:= False; // stop context menu timer
   // show context menu
-  Background:= (Mouse.CursorPos.x > dgPanel.GridWidth) or (Mouse.CursorPos.y > dgPanel.GridHeight);
+  Background:= not dgPanel.MouseOnGrid(Mouse.CursorPos.x, Mouse.CursorPos.y);
   Actions.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y, Background);
   // get current row
   dgPanel.MouseToCell(Mouse.CursorPos.x, Mouse.CursorPos.y, iRow, iCol);
@@ -4083,6 +4085,18 @@ begin
   FMouseDown := True;
 
   inherited;
+end;
+
+function TDrawGridEx.MouseOnGrid(X, Y: LongInt): Boolean;
+var
+  bTemp: Boolean;
+  iRow, iCol: LongInt;
+begin
+  bTemp:= AllowOutboundEvents;
+  AllowOutboundEvents:= False;
+  MouseToCell(X, Y, iCol, iRow);
+  AllowOutboundEvents:= bTemp;
+  Result:= not ((iCol < 0) and (iRow < 0));
 end;
 
 function TDrawGridEx.GetHeaderHeight: Integer;
