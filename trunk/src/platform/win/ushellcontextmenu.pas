@@ -92,13 +92,38 @@ begin
       CoTaskMemFree(List);
     end;
 
+    Folder:= nil;
     DesktopFolder:= nil;
   end;
 end;
 
 function GetBackgroundContextMenu(Handle : THandle; Files : TFiles): IContextMenu;
+var
+  DesktopFolder, Folder: IShellFolder;
+  wsFileName: WideString;
+  PathPIDL: PItemIDList = nil;
+  pchEaten: ULONG;
+  dwAttributes: ULONG;
 begin
+  Result:= nil;
 
+  if Files.Count > 0 then
+  begin
+    wsFileName:= UTF8Decode(Files[0].FullPath);
+    OleCheckUTF8(SHGetDesktopFolder(DesktopFolder));
+    try
+      OleCheckUTF8(DesktopFolder.ParseDisplayName(Handle, nil, PWideChar(wsFileName), pchEaten, PathPIDL, dwAttributes));
+      try
+        OleCheckUTF8(DesktopFolder.BindToObject(PathPIDL, nil, IID_IShellFolder, Folder));
+      finally
+        CoTaskMemFree(PathPIDL);
+      end;
+      OleCheckUTF8(Folder.CreateViewObject(Handle, IID_IContextMenu, Result));
+    finally
+      Folder:= nil;
+      DesktopFolder:= nil;
+    end;
+  end;
 end;
 
 function GetShellContextMenu(Handle: THandle; Files: TFiles; Background: Boolean): IContextMenu; inline;
