@@ -31,7 +31,8 @@ uses
   {$IFDEF UNIX}
   Graphics, BaseUnix, Unix, fFileProperties, uPixMapManager;
   {$ELSE}
-  FileUtil, Windows, ShlObj, uShlObjAdditional, JwaDbt, uMyWindows;
+  FileUtil, Windows, ShlObj, ActiveX, uShlObjAdditional,
+  JwaShlGuid, JwaDbt, uMyWindows;
   {$ENDIF}
 
 const
@@ -72,7 +73,7 @@ procedure ShowFilePropertiesDialog(aFileSource: IFileSource; const Files: TFiles
    @param(X X coordinate)
    @param(Y Y coordinate)
 }
-procedure ShowContextMenu(Owner: TWinControl; var Files : TFiles; X, Y : Integer);
+procedure ShowContextMenu(Owner: TWinControl; var Files : TFiles; X, Y : Integer; Background: Boolean);
 {en
    Show drive context menu
    @param(Owner Parent window)
@@ -104,7 +105,7 @@ uses
 var
 {$IFDEF MSWINDOWS}
   OldWProc: WNDPROC;
-  ShellContextMenu: IContextMenu2 = nil;
+  ICM2: IContextMenu2 = nil;
 {$ELSE}
   CM : TContextMenu = nil;
 {$ENDIF}
@@ -122,9 +123,9 @@ begin
     WM_DRAWITEM,
     WM_MENUCHAR,
     WM_MEASUREITEM:
-      if Assigned(ShellContextMenu) then
+      if Assigned(ICM2) then
         begin
-          ShellContextMenu.HandleMenuMsg(uiMsg, wParam, lParam);
+          ICM2.HandleMenuMsg(uiMsg, wParam, lParam);
           Result := 0;
         end
       else
@@ -214,7 +215,7 @@ begin
 end;
 {$ENDIF}
 
-procedure ShowContextMenu(Owner: TWinControl; var Files : TFiles; X, Y : Integer);
+procedure ShowContextMenu(Owner: TWinControl; var Files : TFiles; X, Y : Integer; Background: Boolean);
 {$IFDEF MSWINDOWS}
 const
   USER_CMD_ID = $1000;
@@ -223,6 +224,7 @@ var
   sl: TStringList = nil;
   i:Integer;
   sAct, sCmd: UTF8String;
+  contMenu: IContextMenu;
   menu: HMENU = 0;
   hActionsSubMenu: HMENU = 0;
   cmd: UINT = 0;
@@ -237,11 +239,12 @@ begin
     try
       if Files.Count = 0 then Exit;
 
-      ShellContextMenu := TShellContextMenu.Create(Owner.Handle, Files, True);
-      if Assigned(ShellContextMenu) then
+      contMenu := GetShellContextMenu(Owner.Handle, Files, Background);
+      if Assigned(contMenu) then
       try
         menu := CreatePopupMenu;
-        OleCheckUTF8(ShellContextMenu.QueryContextMenu(menu, 0, 1, USER_CMD_ID - 1, CMF_EXPLORE or CMF_CANRENAME));
+        OleCheckUTF8(contMenu.QueryContextMenu(menu, 0, 1, USER_CMD_ID - 1, CMF_EXPLORE or CMF_CANRENAME));
+        contMenu.QueryInterface(IID_IContextMenu2, ICM2); // to handle submenus.
         //------------------------------------------------------------------------------
         { Actions submenu }
         aFile := Files[0];
@@ -300,12 +303,13 @@ begin
           DestroyMenu(hActionsSubMenu);
         if menu <> 0 then
           DestroyMenu(menu);
+        ICM2 := nil;
       end;
 
       if (cmd > 0) and (cmd < USER_CMD_ID) then
         begin
           iCmd := LongInt(Cmd) - 1;
-          if Succeeded(ShellContextMenu.GetCommandString(iCmd, GCS_VERBA, nil, ZVerb, SizeOf(ZVerb))) then
+          if Succeeded(contMenu.GetCommandString(iCmd, GCS_VERBA, nil, ZVerb, SizeOf(ZVerb))) then
             begin
               sVerb := StrPas(ZVerb);
 
@@ -377,7 +381,7 @@ begin
                 lpVerb := PChar(cmd - 1);
                 nShow := SW_NORMAL;
               end;
-              OleCheckUTF8(ShellContextMenu.InvokeCommand(cmici));
+              OleCheckUTF8(contMenu.InvokeCommand(cmici));
 
               // Reload after possible changes on the filesystem.
               if SameText(sVerb, sCmdVerbLink) then
@@ -410,7 +414,6 @@ begin
           end;
         end;
     finally
-      ShellContextMenu := nil;
       FreeAndNil(Files);
       if Assigned(sl) then
         FreeAndNil(sl);
@@ -636,7 +639,7 @@ begin
   Files:= TFiles.Create(EmptyStr); // free in ShowContextMenu
   Files.Add(aFile);
   OldErrorMode:= SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOOPENFILEERRORBOX);
-  ShowContextMenu(Owner, Files, X, Y);
+  ShowContextMenu(Owner, Files, X, Y, False);
   SetErrorMode(OldErrorMode);
 end;
 {$ELSE}
@@ -694,12 +697,12 @@ end;
 {$ELSE}
 var
   cmici: TCMINVOKECOMMANDINFO;
-  contMenu: IContextMenu2;
+  contMenu: IContextMenu;
 begin
   if Files.Count = 0 then Exit;
 
   try
-    contMenu := TShellContextMenu.Create(frmMain.Handle, Files, False);
+    contMenu := GetShellContextMenu(frmMain.Handle, Files, False);
     if Assigned(contMenu) then
     begin
       FillChar(cmici, sizeof(cmici), #0);
