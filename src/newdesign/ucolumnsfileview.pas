@@ -970,7 +970,11 @@ end;
 { Is called manually from TDrawGridEx.MouseUp }
 procedure TColumnsFileView.dgPanelMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
-var  I : Integer; Point:TPoint; MI:TMenuItem;
+var
+  I : Integer;
+  Point:TPoint;
+  MI:TMenuItem;
+  Background: Boolean;
 begin
   if Button = mbRight then
     begin
@@ -1015,10 +1019,10 @@ begin
         end
 
       { If right click on file/directory }
-      else if (Y < (Sender as TDrawGridEx).GridHeight)
-           and ((gMouseSelectionButton<>1) or not gMouseSelectionEnabled) then
+      else if ((gMouseSelectionButton<>1) or not gMouseSelectionEnabled) then
         begin
-          Actions.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y);
+          Background:= (X > (Sender as TDrawGridEx).GridWidth) or (Y > (Sender as TDrawGridEx).GridHeight);
+          Actions.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y, Background);
         end
       else if (gMouseSelectionEnabled and (gMouseSelectionButton = 1)) then
         begin
@@ -1267,11 +1271,13 @@ procedure TColumnsFileView.tmContextMenuTimer(Sender: TObject);
 var
   AFile: TColumnsViewFile;
   iRow, iCol: Integer;
+  Background: Boolean;
 begin
   dgPanel.FMouseDown:= False;
   tmContextMenu.Enabled:= False; // stop context menu timer
   // show context menu
-  Actions.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y);
+  Background:= (Mouse.CursorPos.x > dgPanel.GridWidth) or (Mouse.CursorPos.y > dgPanel.GridHeight);
+  Actions.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y, Background);
   // get current row
   dgPanel.MouseToCell(Mouse.CursorPos.x, Mouse.CursorPos.y, iRow, iCol);
   if iRow < dgPanel.FixedRows then Exit;
@@ -3517,7 +3523,7 @@ begin
   Point.X := Rect.Left + ((Rect.Right - Rect.Left) div 2);
   Point.Y := Rect.Top + ((Rect.Bottom - Rect.Top) div 2);
   Point := dgPanel.ClientToScreen(Point);
-  Actions.DoContextMenu(Self, Point.X, Point.Y);
+  Actions.DoContextMenu(Self, Point.X, Point.Y, False);
 end;
 
 procedure TColumnsFileView.cm_EditPath(param: string);

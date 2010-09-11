@@ -107,7 +107,7 @@ const cf_Null=0;
    procedure DoRemoveTab(Notebook: TFileViewNotebook; PageIndex: Integer);
    procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
    procedure DoNewTab(Notebook: TFileViewNotebook);
-   procedure DoContextMenu(Panel: TFileView; X, Y: Integer);
+   procedure DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean);
    procedure DoTransferFileSources(SourcePage: TFileViewPage; TargetPage: TFileViewPage);
    procedure DoSortByFunctions(View: TFileView; FileFunctions: TFileFunctions);
    //---------------------
@@ -650,9 +650,11 @@ begin
   NewPage.UpdateCaption(GetLastDir(ExcludeTrailingPathDelimiter(NewPage.FileView.CurrentPath)));
 end;
 
-procedure TActs.DoContextMenu(Panel: TFileView; X, Y: Integer);
+procedure TActs.DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean);
 var
-  SelectedFiles: TFiles;
+  aFile: TFile = nil;
+  aFiles: TFiles = nil;
+  sPath, sName: UTF8String;
 begin
   // Temporarily work for Filesystem only.
   with frmMain do
@@ -663,20 +665,33 @@ begin
       Exit;
     end;
 
-    SelectedFiles := Panel.SelectedFiles;
-    if Assigned(SelectedFiles) then
+    if Background then
+      begin
+        sName:= ExcludeTrailingPathDelimiter(Panel.CurrentPath);
+        sPath:= ExtractFilePath(sName);
+        aFiles:= TFiles.Create(sPath);
+        aFile:= Panel.FileSource.CreateFileObject(sPath);
+        aFile.Name:= ExtractFileName(sName);
+        aFiles.Add(aFile);
+      end
+    else
+      begin
+        aFiles:= Panel.SelectedFiles;
+      end;
+
+    if Assigned(aFiles) then
     try
-      if SelectedFiles.Count > 0 then
+      if aFiles.Count > 0 then
       try
-        ShowContextMenu(frmMain, SelectedFiles, X, Y);
+        ShowContextMenu(frmMain, aFiles, X, Y);
       except
         on e: EContextMenuException do
           ShowException(e);
       end;
 
     finally
-      if Assigned(SelectedFiles) then
-        FreeAndNil(SelectedFiles);
+      if Assigned(aFiles) then
+        FreeAndNil(aFiles);
     end;
   end;
 end;
