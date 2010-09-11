@@ -248,7 +248,7 @@ begin
         //------------------------------------------------------------------------------
         { Actions submenu }
         aFile := Files[0];
-        if (Files.Count = 1) then
+        if (Files.Count = 1) and not Background then
           begin
             hActionsSubMenu := CreatePopupMenu;
 
