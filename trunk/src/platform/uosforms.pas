@@ -246,19 +246,53 @@ begin
         OleCheckUTF8(contMenu.QueryContextMenu(menu, 0, 1, USER_CMD_ID - 1, CMF_EXPLORE or CMF_CANRENAME));
         contMenu.QueryInterface(IID_IContextMenu2, ICM2); // to handle submenus.
         //------------------------------------------------------------------------------
-        { Actions submenu }
+
         aFile := Files[0];
-        if Background then
+        if Background then // Add "Background" context menu specific items
           begin
             sl:= TStringList.Create;
+
+            // Add commands to root of context menu
             sCmd:= 'cm_Refresh';
             I:= sl.Add(sCmd);
             sAct:= Actions.GetCommandCaption(sCmd);
             InsertMenuItemEx(menu, 0, PWideChar(UTF8Decode(sAct)), I, I + USER_CMD_ID, MFT_STRING);
             // Add menu separator
             InsertMenuItemEx(menu, 0, nil, I + 1, 0, MFT_SEPARATOR);
+
+            // Add "Sort by" submenu
+            hActionsSubMenu := CreatePopupMenu;
+            sCmd:= 'cm_ReverseOrder';
+            I:= sl.Add(sCmd);
+            sAct:= Actions.GetCommandCaption(sCmd);
+            InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
+            // Add separator
+            InsertMenuItemEx(hActionsSubMenu, 0, nil, 0, 0, MFT_SEPARATOR);
+            sCmd:= 'cm_SortByAttr';
+            I:= sl.Add(sCmd);
+            sAct:= Actions.GetCommandCaption(sCmd);
+            InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
+            sCmd:= 'cm_SortByDate';
+            I:= sl.Add(sCmd);
+            sAct:= Actions.GetCommandCaption(sCmd);
+            InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
+            sCmd:= 'cm_SortBySize';
+            I:= sl.Add(sCmd);
+            sAct:= Actions.GetCommandCaption(sCmd);
+            InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
+            sCmd:= 'cm_SortByExt';
+            I:= sl.Add(sCmd);
+            sAct:= Actions.GetCommandCaption(sCmd);
+            InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
+            sCmd:= 'cm_SortByName';
+            I:= sl.Add(sCmd);
+            sAct:= Actions.GetCommandCaption(sCmd);
+            InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
+
+            // Add submenu to context menu
+            InsertMenuItemEx(menu, hActionsSubMenu, PWideChar(UTF8Decode(rsMnuSortBy)), 1, 333, MFT_STRING);
           end
-        else if (Files.Count = 1) then
+        else if (Files.Count = 1) then  // Add "Actions" submenu
           begin
             hActionsSubMenu := CreatePopupMenu;
 
