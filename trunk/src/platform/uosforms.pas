@@ -43,6 +43,7 @@ const
   sCmdVerbCopy = 'copy';
   sCmdVerbPaste = 'paste';
   sCmdVerbLink = 'link';
+  sCmdVerbNewFolder = 'NewFolder';
 
 type
   EContextMenuException = class(Exception);
@@ -384,7 +385,7 @@ begin
               OleCheckUTF8(contMenu.InvokeCommand(cmici));
 
               // Reload after possible changes on the filesystem.
-              if SameText(sVerb, sCmdVerbLink) then
+              if SameText(sVerb, sCmdVerbLink) or SameText(sVerb, sCmdVerbNewFolder) then
                 frmMain.ActiveFrame.FileSource.Reload(frmMain.ActiveFrame.CurrentPath);
             end;
 

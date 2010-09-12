@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.46 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2010-08-01 15:34+0100\n"
+"PO-Revision-Date: 2010-09-11 11:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -925,7 +925,7 @@ msgstr "Optionen"
 
 #: TFRMEDITSEARCHREPLACE.LBLREPLACEWITH.CAPTION
 msgid "&Replace with:"
-msgstr "&Erstezen mit:"
+msgstr "&Ersetzen mit:"
 
 #: TFRMEDITSEARCHREPLACE.LBLSEARCHFOR.CAPTION
 msgid "&Search for:"
@@ -3046,7 +3046,7 @@ msgstr "Allgemein"
 
 #: TFRMOPTIONS.CBBUSEFRAMECURSOR.CAPTION
 msgid "Use Frame Cursor"
-msgstr ""
+msgstr "Einfügemarke nur als Rahmen darstellen"
 
 #: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
@@ -3110,7 +3110,7 @@ msgstr "Flache Schalter"
 #, fuzzy
 #| msgid "Show freespace indicator on drive label"
 msgid "Show free space indicator on drive label"
-msgstr "Zeige den freien Speicher-Indikator in der Laufwerksbezeichnung"
+msgstr "Zeige den 'Freien Speicher'-Indikator über den Panels"
 
 #: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
 msgid "Horizontal lines"
@@ -3235,7 +3235,7 @@ msgstr "Zeige Schalter für Laufwerke"
 
 #: TFRMOPTIONS.CBSHOWDRIVEFREESPACE.CAPTION
 msgid "Show free space label"
-msgstr ""
+msgstr "Zeige 'freien Speicher' von 'Gesamt-Speicherplatz' über den Panels"
 
 #: TFRMOPTIONS.CBSHOWDRIVEMENUBUTTON.CAPTION
 msgid "Show d&rive menu button"
@@ -3809,7 +3809,7 @@ msgstr "Dateiname"
 
 #: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
 msgid "Tool"
-msgstr "Werkzeug"
+msgstr "Tools"
 
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
 msgid "Additional"
@@ -4774,7 +4774,7 @@ msgstr "Datei(en) durch überschreiben löschen (nicht wiederherstellbar)"
 
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
-msgstr "Interner Editor von Double Commander"
+msgstr "Interner Text-Editor von Double Commander"
 
 #: ulng.rseditnewfile
 msgid "new.txt"
@@ -5733,17 +5733,17 @@ msgstr "Jahr(e)"
 
 #: ulng.rstooldiffer
 msgid "Differ"
-msgstr "Unterscheider"
+msgstr "Vergleichsprogramm"
 
 #: ulng.rstooleditor
 msgctxt "ulng.rstooleditor"
 msgid "Editor"
-msgstr "Editor"
+msgstr "Text-Editor"
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
 msgid "Viewer"
-msgstr "Betrachter"
+msgstr "Schnellansicht"
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
