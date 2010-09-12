@@ -369,6 +369,11 @@ begin
                 begin
                   frmMain.actPasteFromClipboard.Execute;
                   bHandled := True;
+                end
+              else if SameText(sVerb, sCmdVerbNewFolder) then
+                begin
+                  frmMain.actMakeDir.Execute;
+                  bHandled := True;
                 end;
             end;
 
@@ -385,7 +390,7 @@ begin
               OleCheckUTF8(contMenu.InvokeCommand(cmici));
 
               // Reload after possible changes on the filesystem.
-              if SameText(sVerb, sCmdVerbLink) or SameText(sVerb, sCmdVerbNewFolder) then
+              if SameText(sVerb, sCmdVerbLink) then
                 frmMain.ActiveFrame.FileSource.Reload(frmMain.ActiveFrame.CurrentPath);
             end;
 
