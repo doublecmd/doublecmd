@@ -235,7 +235,6 @@ var
   ZVerb: array[0..255] of char;
   sVerb : String;
 begin
-
   try
     try
       if Files.Count = 0 then Exit;
@@ -249,7 +248,17 @@ begin
         //------------------------------------------------------------------------------
         { Actions submenu }
         aFile := Files[0];
-        if (Files.Count = 1) and not Background then
+        if Background then
+          begin
+            sl:= TStringList.Create;
+            sCmd:= 'cm_Refresh';
+            I:= sl.Add(sCmd);
+            sAct:= Actions.GetCommandCaption(sCmd);
+            InsertMenuItemEx(menu, 0, PWideChar(UTF8Decode(sAct)), I, I + USER_CMD_ID, MFT_STRING);
+            // Add menu separator
+            InsertMenuItemEx(menu, 0, nil, I + 1, 0, MFT_SEPARATOR);
+          end
+        else if (Files.Count = 1) then
           begin
             hActionsSubMenu := CreatePopupMenu;
 
@@ -398,26 +407,34 @@ begin
       else if (cmd >= USER_CMD_ID) then // actions sub menu
         begin
           sCmd:= sl.Strings[cmd - USER_CMD_ID];
-          sCmd:= Copy(sCmd, Pos('=', sCmd) + 1, Length(sCmd));
-          ReplaceExtCommand(sCmd, aFile, aFile.Path);
-          try
-            with frmMain.ActiveFrame do
+          if Background then
             begin
-  (*
-    VFS via another file source
-
-              if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(CurrentPath + fri.sName) then
+              Actions.Execute(sCmd);
+              bHandled:= True;
+            end
+          else
+            begin
+              sCmd:= Copy(sCmd, Pos('=', sCmd) + 1, Length(sCmd));
+              ReplaceExtCommand(sCmd, aFile, aFile.Path);
+              try
+                with frmMain.ActiveFrame do
                 begin
-                  pnlFile.LoadPanelVFS(@fri);
-                  Exit;
+                  (*
+                  VFS via another file source
+
+                  if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(CurrentPath + fri.sName) then
+                  begin
+                       pnlFile.LoadPanelVFS(@fri);
+                       Exit;
+                  end;
+                  *)
+                  if not ProcessExtCommand(sCmd, CurrentPath) then
+                    frmMain.ExecCmd(sCmd);
                 end;
-  *)
-              if not ProcessExtCommand(sCmd, CurrentPath) then
-                frmMain.ExecCmd(sCmd);
+              finally
+                bHandled:= True;
+              end;
             end;
-          finally
-            bHandled:= True;
-          end;
         end;
     finally
       FreeAndNil(Files);
