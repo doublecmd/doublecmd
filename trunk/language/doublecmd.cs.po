@@ -4922,6 +4922,10 @@ msgstr "Připojit"
 msgid "Open with ..."
 msgstr "otevřít v ..."
 
+#: ulng.rsmnusortby
+msgid "Sort by"
+msgstr ""
+
 #: ulng.rsmnuumount
 msgid "Umount"
 msgstr "Odpojit"

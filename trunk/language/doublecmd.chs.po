@@ -4895,6 +4895,10 @@ msgstr "解挂"
 msgid "Open with ..."
 msgstr "打开..."
 
+#: ulng.rsmnusortby
+msgid "Sort by"
+msgstr ""
+
 #: ulng.rsmnuumount
 msgid "Umount"
 msgstr "挂载"

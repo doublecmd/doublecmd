@@ -4896,6 +4896,10 @@ msgstr "Csatolás"
 msgid "Open with ..."
 msgstr ""
 
+#: ulng.rsmnusortby
+msgid "Sort by"
+msgstr ""
+
 #: ulng.rsmnuumount
 msgid "Umount"
 msgstr "Lecsatolás"

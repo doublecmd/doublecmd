@@ -4899,6 +4899,10 @@ msgstr "Einbinden"
 msgid "Open with ..."
 msgstr "Öffnen mit..."
 
+#: ulng.rsmnusortby
+msgid "Sort by"
+msgstr ""
+
 #: ulng.rsmnuumount
 msgid "Umount"
 msgstr "Einbindung lösen"
