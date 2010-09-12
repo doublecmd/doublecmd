@@ -4236,7 +4236,6 @@ msgstr "Параметри плагіну"
 msgid "Detect archive type by content"
 msgstr "Визначати тип архіву за вмістом"
 
-
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_DELETE.CAPTION
 msgid "Can delete files"
 msgstr "Може видаляти файли"
@@ -4888,6 +4887,10 @@ msgstr "Монтувати"
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr "Відкрити з допомогою..."
+
+#: ulng.rsmnusortby
+msgid "Sort by"
+msgstr ""
 
 #: ulng.rsmnuumount
 msgid "Umount"

@@ -4896,6 +4896,10 @@ msgstr "마운트"
 msgid "Open with ..."
 msgstr ""
 
+#: ulng.rsmnusortby
+msgid "Sort by"
+msgstr ""
+
 #: ulng.rsmnuumount
 msgid "Umount"
 msgstr "언마운트"

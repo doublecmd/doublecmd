@@ -1238,6 +1238,7 @@ msgstr "-----------"
 #: TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
 #, fuzzy
 #| msgid "Representation in text:"
+msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
 msgstr "文字中再現:"
 
@@ -4091,8 +4092,9 @@ msgid "-----------"
 msgstr "-----------"
 
 #: TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
-msgstr ""
+msgstr "文字中再現:"
 
 #: TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -4878,6 +4880,10 @@ msgstr "解掛"
 
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
+msgstr ""
+
+#: ulng.rsmnusortby
+msgid "Sort by"
 msgstr ""
 
 #: ulng.rsmnuumount
