@@ -850,76 +850,84 @@ begin
 
   if IsEmpty then Exit;
 
-  dgPanel.MouseToCell(X, Y, iCol, iRow);
+  if dgPanel.MouseOnGrid(X, Y) then
+  begin
+    dgPanel.MouseToCell(X, Y, iCol, iRow);
 
-  if iRow < dgPanel.FixedRows then  // clicked on header
-    Exit;
+    if iRow < dgPanel.FixedRows then  // clicked on header
+      Exit;
 
-  dgPanel.LastMouseButton:= Button;
+    dgPanel.LastMouseButton:= Button;
 
-  case Button of
-    mbRight: begin
-      dgPanel.Row := iRow;
+    case Button of
+      mbRight: begin
+        dgPanel.Row := iRow;
 
-      if (gMouseSelectionEnabled) and (gMouseSelectionButton = 1) then
-      begin
-        AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
-
-        if Assigned(AFile) then
+        if (gMouseSelectionEnabled) and (gMouseSelectionButton = 1) then
         begin
-          dgPanel.SelectionStartIndex:=iRow;
-          tmContextMenu.Enabled:= True; // start context menu timer
-          FLastSelectionState:= not AFile.Selected;
-          MarkFile(AFile, FLastSelectionState);
-          UpdateInfoPanel;
-          dgPanel.Invalidate;
-          Exit;
+          AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
+
+          if Assigned(AFile) then
+          begin
+            dgPanel.SelectionStartIndex:=iRow;
+            tmContextMenu.Enabled:= True; // start context menu timer
+            FLastSelectionState:= not AFile.Selected;
+            MarkFile(AFile, FLastSelectionState);
+            UpdateInfoPanel;
+            dgPanel.Invalidate;
+            Exit;
+          end;
         end;
       end;
-    end;
 
-    mbLeft: begin
-      if (dgPanel.Row < 0) or (dgPanel.Row >= dgPanel.RowCount) then
+      mbLeft: begin
+        if (dgPanel.Row < 0) or (dgPanel.Row >= dgPanel.RowCount) then
+          begin
+            dgPanel.Row := iRow;
+          end
+        else if gMouseSelectionEnabled then
         begin
-          dgPanel.Row := iRow;
-        end
-      else if gMouseSelectionEnabled then
-      begin
-        if ssCtrl in Shift then
-          begin
-            AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
-            if Assigned(AFile) then
-              begin
-                InvertFileSelection(AFile);
-                UpdateInfoPanel;
-                dgPanel.Invalidate;
-              end;
-          end
-        else if ssShift in Shift then
-          begin
-            SelectRange(iRow);
-          end
-        else if (gMouseSelectionButton = 0) then
-          begin
-            AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
-            if Assigned(AFile) and not AFile.Selected then
-              begin
-                MarkAllFiles(False);
-                UpdateInfoPanel;
-                dgPanel.Invalidate;
-              end;
-          end;
-      end;//of mouse selection handler
+          if ssCtrl in Shift then
+            begin
+              AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
+              if Assigned(AFile) then
+                begin
+                  InvertFileSelection(AFile);
+                  UpdateInfoPanel;
+                  dgPanel.Invalidate;
+                end;
+            end
+          else if ssShift in Shift then
+            begin
+              SelectRange(iRow);
+            end
+          else if (gMouseSelectionButton = 0) then
+            begin
+              AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
+              if Assigned(AFile) and not AFile.Selected then
+                begin
+                  MarkAllFiles(False);
+                  UpdateInfoPanel;
+                  dgPanel.Invalidate;
+                end;
+            end;
+        end;//of mouse selection handler
+      end;
+    else
+      dgPanel.Row := iRow;
+      Exit;
     end;
-  else
-    dgPanel.Row := iRow;
-    Exit;
-  end;
+  end
+  else // if mouse on empty space
+    begin
+      if (Button = mbRight) and (gMouseSelectionEnabled) and (gMouseSelectionButton = 1) then
+        tmContextMenu.Enabled:= True; // start context menu timer
+    end;
 
   { Dragging }
 
   if (not dgPanel.Dragging)   and  // we could be in dragging mode already (started by a different button)
-     (Y < dgPanel.GridHeight) then // check if there is an item under the mouse cursor
+     (dgPanel.MouseOnGrid(X, Y)) then // check if there is an item under the mouse cursor
   begin
     // indicate that drag start at next mouse move event
     dgPanel.StartDrag:= True;
@@ -1079,7 +1087,7 @@ begin
 
   if Assigned(AFile) and
      (AFile.TheFile.IsDirectory or AFile.TheFile.IsLinkToDirectory) and
-     (Y < dgPanel.GridHeight)
+     (dgPanel.MouseOnGrid(X, Y))
   then
     begin
       if State = dsDragLeave then
@@ -1273,19 +1281,24 @@ procedure TColumnsFileView.tmContextMenuTimer(Sender: TObject);
 var
   AFile: TColumnsViewFile;
   iRow, iCol: Integer;
+  MousePoint: TPoint;
   Background: Boolean;
 begin
   dgPanel.FMouseDown:= False;
   tmContextMenu.Enabled:= False; // stop context menu timer
   // show context menu
-  Background:= not dgPanel.MouseOnGrid(Mouse.CursorPos.x, Mouse.CursorPos.y);
+  MousePoint:= dgPanel.ScreenToClient(Mouse.CursorPos);
+  Background:= not dgPanel.MouseOnGrid(MousePoint.x, MousePoint.y);
   Actions.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y, Background);
-  // get current row
-  dgPanel.MouseToCell(Mouse.CursorPos.x, Mouse.CursorPos.y, iRow, iCol);
-  if iRow < dgPanel.FixedRows then Exit;
-  AFile := FFiles[iRow - dgPanel.FixedRows]; // get current file
-  MarkFile(AFile, False); // unselect file
-  dgPanel.InvalidateRow(iRow); // invalidate current row
+  if not Background then
+  begin
+    // get current row
+    dgPanel.MouseToCell(MousePoint.x, MousePoint.y, iCol, iRow);
+    if iRow < dgPanel.FixedRows then Exit;
+    AFile := FFiles[iRow - dgPanel.FixedRows]; // get current file
+    MarkFile(AFile, False); // unselect file
+    dgPanel.InvalidateRow(iRow); // invalidate current row
+  end;
 end;
 
 procedure TColumnsFileView.edtSearchKeyDown(Sender: TObject; var Key: Word;
@@ -3367,7 +3380,7 @@ begin
 
         if (DropIntoDirectories = True) and
            (iRow >= dgPanel.FixedRows) and
-           (ClientDropPoint.Y < dgPanel.GridHeight) then
+           (dgPanel.MouseOnGrid(ClientDropPoint.X, ClientDropPoint.Y)) then
         begin
           AFile := FFiles[iRow - dgPanel.FixedRows];
 
@@ -4017,7 +4030,7 @@ begin
   // Show file info tooltip
   if ShowHint then
     begin
-      if Y < GridHeight then
+      if MouseOnGrid(X, Y) then
         begin
           MouseToCell(X, Y, iCol, iRow);
           if (iRow <> HintRowIndex) and (iRow >= FixedRows) then
@@ -4084,7 +4097,13 @@ begin
 
   FMouseDown := True;
 
-  inherited;
+  if MouseOnGrid(X, Y) then
+    inherited MouseDown(Button, Shift, X, Y)
+  else
+    begin
+      if Assigned(OnMouseDown) then
+        OnMouseDown(Self, Button, Shift, X, Y);
+    end;
 end;
 
 function TDrawGridEx.MouseOnGrid(X, Y: LongInt): Boolean;
@@ -4191,7 +4210,7 @@ begin
 
   if Assigned(AFile) and
      (AFile.TheFile.IsDirectory or AFile.TheFile.IsLinkToDirectory) and
-     (ClientPoint.Y < GridHeight) then
+     (MouseOnGrid(ClientPoint.X, ClientPoint.Y)) then
     // It is a directory or link.
     begin
       ChangeDropRowIndex(iRow);
