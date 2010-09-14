@@ -4890,7 +4890,7 @@ msgstr "Відкрити з допомогою..."
 
 #: ulng.rsmnusortby
 msgid "Sort by"
-msgstr ""
+msgstr "Сортувати за"
 
 #: ulng.rsmnuumount
 msgid "Umount"
