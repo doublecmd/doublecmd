@@ -446,8 +446,11 @@ begin
       DraggedPage.FileView.Clone(NewPage);
       NewPage.MakeActive;
 
-      // Remove page from source panel.
-      SourceNotebook.RemovePage(DraggedPage);
+      if (ssShift in GetKeyShiftState) and (SourceNotebook.PageCount > 1) then
+      begin
+        // Remove page from source panel.
+        SourceNotebook.RemovePage(DraggedPage);
+      end;
     end;
   end;
 end;
