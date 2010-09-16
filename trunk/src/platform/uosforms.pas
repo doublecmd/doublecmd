@@ -345,8 +345,6 @@ begin
       finally
         if hActionsSubMenu <> 0 then
           DestroyMenu(hActionsSubMenu);
-        if menu <> 0 then
-          DestroyMenu(menu);
         ICM2 := nil;
       end;
 
@@ -471,6 +469,8 @@ begin
             end;
         end;
     finally
+      if menu <> 0 then
+        DestroyMenu(menu);
       FreeAndNil(Files);
       if Assigned(sl) then
         FreeAndNil(sl);
