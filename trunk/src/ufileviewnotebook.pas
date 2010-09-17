@@ -112,6 +112,7 @@ implementation
 
 uses
   WSExtCtrls,
+  LCLProc,
   uGlobs
   {$IF DEFINED(LCLGTK2)}
   , GTKGlobals // for DblClickTime
@@ -146,8 +147,8 @@ procedure TFileViewPage.UpdateCaption(NewCaption: String);
 begin
   if NewCaption <> '' then
   begin
-    if (tb_text_length_limit in gDirTabOptions) and (Length(NewCaption) > gDirTabLimit) then
-      Caption := Copy(NewCaption, 1, gDirTabLimit) + '...'
+    if (tb_text_length_limit in gDirTabOptions) and (UTF8Length(NewCaption) > gDirTabLimit) then
+      Caption := UTF8Copy(NewCaption, 1, gDirTabLimit) + '...'
     else
       Caption := NewCaption;
 
