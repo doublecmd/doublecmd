@@ -44,17 +44,18 @@ object frmPackInfoDlg: TfrmPackInfoDlg
     ModalResult = 1
     TabOrder = 1
   end
-  object nbProperties: TNotebook
+  object nbProperties: TPageControl
     Left = 4
     Height = 289
     Top = 4
     Width = 329
-    PageIndex = 0
+    ActivePage = pgGeneral
+    TabIndex = 0
     TabOrder = 3
-    object pgGeneral: TPage
+    object pgGeneral: TTabSheet
       Caption = 'General'
-      ClientWidth = 321
       ClientHeight = 263
+      ClientWidth = 321
       object lblPackedFile: TLabel
         Left = 10
         Height = 16

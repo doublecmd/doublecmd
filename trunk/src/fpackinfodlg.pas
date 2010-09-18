@@ -28,7 +28,7 @@ unit fPackInfoDlg;
 interface
 
 uses
-  SysUtils, Classes, LResources, Forms, StdCtrls, ExtCtrls, Controls,
+  SysUtils, Classes, LResources, Forms, StdCtrls, ExtCtrls, Controls, ComCtrls,
   uFile, uArchiveFileSource, uFileSourceExecuteOperation;
 
 type
@@ -50,7 +50,7 @@ type
     lblPackedSize: TLabel;
     lblPacker: TLabel;
     lblTime: TLabel;
-    nbProperties: TNotebook;
+    nbProperties: TPageControl;
     lblPackedAttr: TLabel;
     lblPackedCompression: TLabel;
     lblPackedDate: TLabel;
@@ -60,7 +60,7 @@ type
     lblPackedPackedSize: TLabel;
     lblPackedPacker: TLabel;
     lblPackedTime: TLabel;
-    pgGeneral: TPage;
+    pgGeneral: TTabSheet;
   private
     { private declarations }
   public
