@@ -81,14 +81,13 @@ type
     lblOctal: TLabel;
     lblRead: TLabel;
     lblWrite: TLabel;
-    nbAttributes: TNotebook;
+    nbAttributes: TPageControl;
     pnlLastAccessTime: TPanel;
     pnlCreationTime: TPanel;
     pnlLastWriteTime: TPanel;
-    pgWinAttr: TPage;
-    pgDateTime: TPage;
-    pgDateTime1: TPage;
-    pgUnixMode: TPage;
+    pgWinAttr: TTabSheet;
+    pgDateTime: TTabSheet;
+    pgUnixMode: TTabSheet;
     procedure btnCreationTimeClick(Sender: TObject);
     procedure btnLastAccessTimeClick(Sender: TObject);
     procedure btnLastWriteTimeClick(Sender: TObject);
@@ -261,12 +260,12 @@ begin
         if NewProperties[fpAttributes] is TNtfsFileAttributesProperty then
           begin
             ShowAttr((NewProperties[fpAttributes] as TNtfsFileAttributesProperty).Value);
-            nbAttributes.Pages.Delete(0);
+            pgUnixMode.Free;
           end;
         if NewProperties[fpAttributes] is TUnixFileAttributesProperty then
           begin
             ShowMode((NewProperties[fpAttributes] as TUnixFileAttributesProperty).Value);
-            nbAttributes.Pages.Delete(1);
+            pgWinAttr.Free;
           end;
       end;
     if (fpModificationTime in SupportedProperties) and Assigned(NewProperties[fpModificationTime]) then

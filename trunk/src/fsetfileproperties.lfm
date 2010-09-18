@@ -10,7 +10,7 @@ object frmSetFileProperties: TfrmSetFileProperties
   ClientWidth = 375
   Color = clForm
   LCLVersion = '0.9.29'
-  object nbAttributes: TNotebook
+  object nbAttributes: TPageControl
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
@@ -20,12 +20,12 @@ object frmSetFileProperties: TfrmSetFileProperties
     Top = 0
     Width = 375
     Anchors = [akTop, akLeft, akRight]
-    PageIndex = 0
+    TabIndex = 0
     TabOrder = 0
-    object pgUnixMode: TPage
+    object pgUnixMode: TTabSheet
       Caption = 'Attributes'
-      ClientWidth = 367
       ClientHeight = 214
+      ClientWidth = 367
       object lblAttrTextStr: TLabel
         AnchorSideTop.Control = edtOctal
         AnchorSideTop.Side = asrBottom
@@ -316,10 +316,10 @@ object frmSetFileProperties: TfrmSetFileProperties
         Style = bsRaised
       end
     end
-    object pgWinAttr: TPage
+    object pgWinAttr: TTabSheet
       Caption = 'Attributes'
-      ClientWidth = 367
       ClientHeight = 214
+      ClientWidth = 367
       object chkArchive: TCheckBox
         AnchorSideLeft.Control = pgWinAttr
         AnchorSideTop.Control = pgWinAttr
@@ -389,10 +389,10 @@ object frmSetFileProperties: TfrmSetFileProperties
         ParentColor = False
       end
     end
-    object pgDateTime: TPage
+    object pgDateTime: TTabSheet
       Caption = 'Date/Time'
-      ClientWidth = 367
       ClientHeight = 214
+      ClientWidth = 367
       object pnlLastWriteTime: TPanel
         AnchorSideLeft.Control = pgDateTime
         AnchorSideTop.Control = pgDateTime
