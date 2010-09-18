@@ -440,7 +440,8 @@ end;
 
 function mbExpandFileName(const sFileName: UTF8String): UTF8String;
 begin
-  Result := ReplaceEnvVars(sFileName);
+  Result:= NormalizePathDelimiters(sFileName);
+  Result:= ReplaceEnvVars(Result);
   if Pos(PathDelim, Result) <> 0 then
     Result:= ExpandFileName(Result);
 end;
