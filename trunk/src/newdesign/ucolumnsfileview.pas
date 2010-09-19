@@ -889,6 +889,17 @@ begin
         begin
           if ssCtrl in Shift then
             begin
+              // if there is no selected files then select also previous file
+              if not HasSelectedFiles then
+              begin
+                AFile := FFiles[dgPanel.Row - dgPanel.FixedRows]; // substract fixed rows (header)
+                if Assigned(AFile) then
+                  begin
+                    MarkFile(AFile, True);
+                    UpdateInfoPanel;
+                    dgPanel.Invalidate;
+                  end;
+              end;
               AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
               if Assigned(AFile) then
                 begin
