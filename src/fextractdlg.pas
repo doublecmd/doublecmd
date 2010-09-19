@@ -109,13 +109,19 @@ begin
             if glsMaskHistory.IndexOf(cbFileMask.Text) < 0 then
               glsMaskHistory.Add(cbFileMask.Text);
 
-            sDestPath := IncludeTrailingPathDelimiter(edtExtractTo.Text);
+            sDestPath := edtExtractTo.Text;
 
             // if in archive
             if SourceFileSource.IsClass(TArchiveFileSource) then
               begin
                 if fsoCopyOut in SourceFileSource.GetOperationsTypes then
                 begin
+                  // if destination path is null then extract to path there archive is located
+                  if Length(sDestPath) = 0 then
+                     sDestPath:= ExtractFilePath((SourceFileSource as IArchiveFileSource).ArchiveFileName)
+                  else
+                     sDestPath:= IncludeTrailingPathDelimiter(sDestPath);
+
                   Operation := SourceFileSource.CreateCopyOutOperation(
                                  TargetFileSource,
                                  SourceFiles,
@@ -154,7 +160,11 @@ begin
 
                     if Assigned(FilesToExtract) then
                     try
-                      sTmpPath := sDestPath;
+                      // if destination path is null then extract to path there archive is located
+                      if Length(sDestPath) = 0 then
+                        sTmpPath:= ExtractFilePath(ArchiveFileSource.ArchiveFileName)
+                      else
+                        sTmpPath:= IncludeTrailingPathDelimiter(sDestPath);
 
                       // if each archive in separate folder
                       if cbInSeparateFolder.Checked then
@@ -213,4 +223,4 @@ initialization
   {$I fextractdlg.lrs}
 
 end.
-
+
