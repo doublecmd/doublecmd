@@ -3138,7 +3138,12 @@ begin
     iActiveTab := gConfig.GetValue(RootNode, 'ActiveTab', 0);
     // set active tab
     if (iActiveTab >= 0) and (iActiveTab < ANoteBook.PageCount) then
-      ANoteBook.PageIndex := iActiveTab;
+    begin
+      if ANoteBook.PageIndex = iActiveTab then
+        nbPageChanged(ANoteBook)
+      else
+        ANoteBook.PageIndex := iActiveTab;
+    end;
   end;
 end;
 
