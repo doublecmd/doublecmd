@@ -409,15 +409,23 @@ begin
 
   with Result do
   begin
-  {
+    {
       FileCRC,
       CompressionMethod,
       Comment,
-  }
-    SizeProperty := TFileSizeProperty.Create(WcxHeader.UnpSize);
-    CompressedSizeProperty := TFileCompressedSizeProperty.Create(WcxHeader.PackSize);
+    }
     AttributesProperty := {TNtfsFileAttributesProperty or Unix?}
                           TFileAttributesProperty.CreateOSAttributes(WcxHeader.FileAttr);
+    if AttributesProperty.IsDirectory then
+      begin
+        SizeProperty := TFileSizeProperty.Create(0);
+        CompressedSizeProperty := TFileCompressedSizeProperty.Create(0);
+      end
+    else
+      begin
+        SizeProperty := TFileSizeProperty.Create(WcxHeader.UnpSize);
+        CompressedSizeProperty := TFileCompressedSizeProperty.Create(WcxHeader.PackSize);
+      end;
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create(0);
     try
       ModificationTime := WcxFileTimeToDateTime(WcxHeader);
