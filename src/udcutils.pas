@@ -431,7 +431,11 @@ begin
   for I:= 1 to X do
     begin
       EnvVarList.Add(mbGetEnvironmentString(I));
+      {$IFDEF UNIX}
+      Result:= StringReplace(Result, '$'+EnvVarList.Names[I-1], EnvVarList.ValueFromIndex[I-1], [rfReplaceAll, rfIgnoreCase]);
+      {$ELSE}
       Result:= StringReplace(Result, '%'+EnvVarList.Names[I-1]+'%', EnvVarList.ValueFromIndex[I-1], [rfReplaceAll, rfIgnoreCase]);
+      {$ENDIF}
     end;
   FreeAndNil(EnvVarList);
 
