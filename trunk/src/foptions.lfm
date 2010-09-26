@@ -2533,7 +2533,7 @@ object frmOptions: TfrmOptions
             Width = 303
             BorderSpacing.Left = 14
             BorderSpacing.Top = 6
-            Caption = 'Select only the file name then renaming (not the extension)'
+            Caption = 'Select only the file name when renaming (not the extension)'
             TabOrder = 3
           end
           object cbShowCopyTabSelectPanel: TCheckBox

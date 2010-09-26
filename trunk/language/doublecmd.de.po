@@ -3202,7 +3202,9 @@ msgid "Show common progress in menu bar"
 msgstr "Zeige allgemeinen Fortschritt in der Menü-Zeile"
 
 #: TFRMOPTIONS.CBRENAMESELONLYNAME.CAPTION
-msgid "Select only the file name then renaming (not the extension)"
+#, fuzzy
+#| msgid "Select only the file name then renaming (not the extension)"
+msgid "Select only the file name when renaming (not the extension)"
 msgstr "Nur den Dateinamen bearbeiten (nicht die Endung)"
 
 #: TFRMOPTIONS.CBSELECTIONBYMOUSE.CAPTION
