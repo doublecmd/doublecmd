@@ -25,43 +25,46 @@ and Procedures</a></td>
 </table>
 <a name="@Description"></a>
 <h2 class="description">Description</h2>
-<p></p>
+<p>This help file is about writing file system plugins for Double
+Commander.</p>
 <a name="@FuncsProcs"></a>
 <h3 class="summary">Functions
 and Procedures</h3>
 <table class="summary wide_list">
   <tbody>
     <tr class="list">
+      <td class="itemcode"><code>HANDLE
+__stdcall&nbsp;<a href="#FsOpen">FsOpen</a>(char*
+Path);</code><code><br>
+      </code></td>
+    </tr>
+    <tr class="list2">
+      <td class="itemcode"><code>void
+__stdcall&nbsp;<a href="#FsClose">FsClose</a>(HANDLE</code><code>
+Handle</code><code>);</code><code><br>
+      </code><code></code></td>
+    </tr>
+    <tr class="list">
       <td class="itemcode"><code>void
 __stdcall&nbsp;<a href="#FsNetworkGetSupportedProtocols">FsNetworkGetSupportedProtocols</a>(char*
-Protocols, int MaxLen);<br>
-      </code><code>void
-__stdcall <a href="#FsNetworkGetSupportedProtocolsW">FsNetworkGetSupportedProtocolsW</a>(WCHAR*
-Protocols, int MaxLen);</code></td>
+Protocols, int MaxLen);</code><code><br>
+      </code></td>
     </tr>
     <tr class="list2">
       <td class="itemcode"><code>BOOL
 __stdcall&nbsp;<a href="#FsNetworkGetConnection">FsNetworkGetConnection</a>(</code><code>int
 Index, </code><code>char*
       </code><code>Connection,
-int MaxLen);<br>
-      </code><code>BOOL
-__stdcall&nbsp;<a href="#FsNetworkGetConnectionW">FsNetworkGetConnectionW</a>(</code><code>int
-Index, </code><code>WCHAR</code><code>*
-      </code><code>Connection,
-int MaxLen);</code></td>
+int MaxLen);</code><code><br>
+      </code><code></code></td>
     </tr>
     <tr class="list">
       <td class="itemcode"><code>BOOL
 __stdcall</code><code>&nbsp;<a href="#FsNetworkManageConnection">FsNetworkManageConnection</a>(HWND
 MainWin, </code><code>char*
       </code><code>Connection,
-int Action, int MaxLen);<br>
-      </code><code>BOOL
-__stdcall</code><code>&nbsp;<a href="#FsNetworkManageConnectionW">FsNetworkManageConnectionW</a>(</code><code>HWND
-MainWin, WCHAR</code><code></code><code>*
-      </code><code>Connection,
-int Action, int MaxLen);</code></td>
+int Action, int MaxLen);</code><code><br>
+      </code><code></code></td>
     </tr>
     <tr class="list2">
       <td class="itemcode"><code>BOOL
@@ -70,15 +73,8 @@ __stdcall</code><code>&nbsp;<a href="#FsNetworkOpenConnection">FsNetworkOpenConn
 RootDir,</code><code>
       </code><code>char*</code><code>
 RemotePath, int
-MaxLen);<br>
-      </code><code>BOOL
-__stdcall</code><code>&nbsp;<a
- href="wfxplugin.html#FsNetworkOpenConnectionW">FsNetworkOpenConnectionW</a>(</code><code></code><code>WCHAR</code><code>*
-      </code><code>Connection,&nbsp;</code><code></code><code>WCHAR</code><code>*</code><code>
-      </code><code>RootDir</code><code>,
-WCHAR</code><code>*</code><code>
-RemotePath, int
-MaxLen);</code></td>
+MaxLen);</code><code><br>
+      </code><code></code></td>
     </tr>
   </tbody>
 </table>
@@ -109,16 +105,65 @@ and Procedures</h3>
 <table class="detail wide_list">
   <tbody>
     <tr class="list">
+      <td class="itemcode"><code><a name="FsOpen"></a>HANDLE
+__stdcall FsOpen(char* Path);<br>
+      </code><code></code></td>
+    </tr>
+    <tr>
+      <td colspan="1">
+      <p>Initialize and open
+plugin file system.</p>
+      <h6 class="description_section">Parameters</h6>
+      <dl class="parameters">
+        <dt>Path</dt>
+        <dd>Path that must be
+opened by plugin<br>
+        </dd>
+      </dl>
+      <h6 class="description_section">Returns</h6>
+      <p class="return">The
+function returns plugin handle if
+successful, <code>NULL</code>
+otherwise</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table class="detail wide_list">
+  <tbody>
+    <tr class="list">
+      <td class="itemcode"><code><a name="FsClose"></a>void
+__stdcall FsClose(HANDLE Handle);<br>
+      </code><code></code></td>
+    </tr>
+    <tr>
+      <td colspan="1">
+      <p>Finalize and close plugin
+file system.</p>
+      <h6 class="description_section">Parameters</h6>
+      <dl class="parameters">
+        <dt>Handle</dt>
+        <dd>Plugin file system
+handle that have been returned by FsOpen<br>
+        </dd>
+      </dl>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table class="detail wide_list">
+  <tbody>
+    <tr class="list">
       <td class="itemcode"><code><a
  name="FsNetworkGetSupportedProtocols"></a>void
 __stdcall FsNetworkGetSupportedProtocols(char* Protocols, int MaxLen);<br>
-      <a name="FsNetworkGetSupportedProtocolsW"></a>void
-__stdcall FsNetworkGetSupportedProtocolsW(WCHAR* Protocols, int MaxLen);</code><code></code></td>
+      </code><code></code></td>
     </tr>
     <tr>
       <td colspan="1">
       <p>FsNetworkGetSupportedProtocols
-is called to retrieve&nbsp;protocols that supported by plugin.</p>
+is called to retrieve&nbsp;protocols
+that supported by plugin.</p>
       <h6 class="description_section">Parameters</h6>
       <dl class="parameters">
         <dt>Protocols</dt>
@@ -142,11 +187,7 @@ characters (including the final 0) which fit in the buffer.</dd>
 __stdcall&nbsp;FsNetworkGetConnection(</code><code>int
 Index, char* </code><code>Connection,
 int MaxLen);<br>
-      </code><code><a name="FsNetworkGetConnectionW"></a>BOOL
-__stdcall&nbsp;FsNetworkGetConnectionW(</code><code>int
-Index, </code><code>WCHAR</code><code>*
-      </code><code>Connection,
-int MaxLen);</code><code></code></td>
+      </code><code></code><code></code><code></code></td>
     </tr>
     <tr>
       <td colspan="1">
@@ -189,12 +230,7 @@ otherwise</p>
 __stdcall</code><code>&nbsp;FsNetworkManageConnection(</code><code>HWND
 MainWin, char* </code><code>Connection,
 int Action, int MaxLen);<br>
-      </code><code><a name="FsNetworkManageConnectionW"></a>BOOL
-__stdcall</code><code>&nbsp;FsNetworkManageConnectionW(</code><code>HWND
-MainWin,
-WCHAR</code><code></code><code>*
-      </code><code>Connection,
-int Action, int MaxLen);</code><code></code><code></code></td>
+      </code><code></code><code></code><code></code><code></code></td>
     </tr>
     <tr>
       <td colspan="1">
@@ -204,7 +240,8 @@ when user wants to add/edit/delete connection.</p>
       <h6 class="description_section">Parameters</h6>
       <dl class="parameters">
         <dt>MainWin</dt>
-        <dd>Parent window which can be used for showing a connection
+        <dd>Parent window which
+can be used for showing a connection
 configuration dialog.<br>
         </dd>
         <dt>Connection</dt>
@@ -245,13 +282,7 @@ RootDir,</code><code>
       </code><code>char*</code><code>
 RemotePath, int
 MaxLen);<br>
-      </code><code><a name="FsNetworkOpenConnectionW"></a>BOOL
-__stdcall</code><code>&nbsp;FsNetworkOpenConnectionW(</code><code></code><code>WCHAR</code><code>*
-      </code><code>Connection,&nbsp;</code><code>WCHAR</code><code>*</code><code>
-RootDir,</code><code>
-      </code><code></code><code>WCHAR</code><code>*</code><code>
-RemotePath, int
-MaxLen);</code><code></code></td>
+      </code><code></code><code></code><code></code></td>
     </tr>
     <tr>
       <td colspan="1">
