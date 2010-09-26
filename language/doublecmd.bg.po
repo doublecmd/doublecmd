@@ -3169,7 +3169,9 @@ msgid "Show common progress in menu bar"
 msgstr "Показване на общия ход в лентата на изборника"
 
 #: TFRMOPTIONS.CBRENAMESELONLYNAME.CAPTION
-msgid "Select only the file name then renaming (not the extension)"
+#, fuzzy
+#| msgid "Select only the file name then renaming (not the extension)"
+msgid "Select only the file name when renaming (not the extension)"
 msgstr "Избор само на файловото име при преименуване (без разширението)"
 
 #: TFRMOPTIONS.CBSELECTIONBYMOUSE.CAPTION

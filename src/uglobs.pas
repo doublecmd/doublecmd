@@ -20,7 +20,10 @@
 
 unit uGlobs;
 
+{$mode objfpc}{$H+}
+
 interface
+
 uses
   Classes, Controls, Forms, uExts, uColorExt, Graphics, uClassesEx, uMultiArc,
   uColumns, uhotkeymanger, uActs, uSearchTemplate, uFileSourceOperationOptions,
