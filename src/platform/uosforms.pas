@@ -29,7 +29,7 @@ interface
 uses
   Classes, SysUtils, Menus, Controls, ExtDlgs, uFile, uFileSource,
   {$IFDEF UNIX}
-  Graphics, BaseUnix, Unix, fFileProperties, uPixMapManager;
+  Graphics, BaseUnix, Unix, fFileProperties;
   {$ELSE}
   FileUtil, Windows, ShlObj, ActiveX, uShlObjAdditional,
   JwaShlGuid, JwaDbt, uMyWindows;
@@ -43,20 +43,11 @@ const
   sCmdVerbCopy = 'copy';
   sCmdVerbPaste = 'paste';
   sCmdVerbLink = 'link';
+  sCmdVerbProperties = 'properties';
   sCmdVerbNewFolder = 'NewFolder';
 
 type
   EContextMenuException = class(Exception);
-
-{$IFDEF UNIX}
-type
-  TContextMenu = class(TPopupMenu)
-    procedure ContextMenuSelect(Sender:TObject);
-    procedure TemplateContextMenuSelect(Sender: TObject);
-    procedure DriveContextMenuSelect(Sender:TObject);
-    procedure OpenWithMenuItemSelect(Sender:TObject);
-  end;
-{$ENDIF}
 
 {en
    Replace window procedure
@@ -98,10 +89,10 @@ uses
   LCLProc, Dialogs, fMain, uOSUtils, uGlobs, uLng, uShellExecute,
   uShellContextMenu, uFileSystemFileSource
   {$IF DEFINED(MSWINDOWS)}
-  , Graphics, comobj, uTotalCommander
+  , Graphics, ComObj, uTotalCommander
   {$ENDIF}
   {$IF DEFINED(LINUX)}
-  , uFileSystemWatcher, inotify, uMimeActions, uFileProcs
+  , uFileSystemWatcher, inotify
   {$ENDIF}
   ;
 
@@ -110,7 +101,7 @@ var
   OldWProc: WNDPROC;
   ICM2: IContextMenu2 = nil;
 {$ELSE}
-  CM : TContextMenu = nil;
+  ShellContextMenu : TShellContextMenu = nil;
 {$ENDIF}
 
 {$IFDEF WIN64}
@@ -153,89 +144,6 @@ end;
 begin
   if fpGetUID = 0 then // if run under root
     frmMain.Caption:= frmMain.Caption + ' - ROOT PRIVILEGES';
-end;
-{$ENDIF}
-
-{$IFDEF UNIX}
-(* handling user commands from context menu *)
-procedure TContextMenu.ContextMenuSelect(Sender: TObject);
-var
-  sCmd: String;
-begin
-  // ShowMessage((Sender as TMenuItem).Hint);
-
-  sCmd:= (Sender as TMenuItem).Hint;
-  with frmMain.ActiveFrame do
-  begin
-    (*
-    if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(ActiveDir + FileRecItem.sName) then
-     begin
-        pnlFile.LoadPanelVFS(@FileRecItem);
-        Exit;
-      end;
-    *)
-    if not ProcessExtCommand(sCmd, CurrentPath) then
-      frmMain.ExecCmd(sCmd);
-  end;
-end;
-
-(* handling user commands from template context menu *)
-procedure TContextMenu.TemplateContextMenuSelect(Sender: TObject);
-var
-  SelectedItem: TMenuItem;
-  FileName: UTF8String;
-begin
-  // ShowMessage((Sender as TMenuItem).Hint);
-
-  SelectedItem:= (Sender as TMenuItem);
-  FileName:= SelectedItem.Caption;
-  if InputQuery(rsMsgNewFile, rsMsgEnterName, FileName) then
-    begin
-      FileName:= FileName + ExtractFileExt(SelectedItem.Hint);
-      if CopyFile(SelectedItem.Hint, frmMain.ActiveFrame.CurrentPath + FileName) then
-        begin
-          frmMain.ActiveFrame.Reload;
-          frmMain.ActiveFrame.SetActiveFile(FileName);
-        end;
-    end;
-end;
-
-(* handling user commands from drive context menu *)
-procedure TContextMenu.DriveContextMenuSelect(Sender:TObject);
-var
-  sExecCmd,
-  sCmd, sPath: String;
-  iPos: Integer;
-begin
-  // ShowMessage((Sender as TMenuItem).Hint);
-  sCmd:= (Sender as TMenuItem).Hint;
-  // mount drive
-  iPos:= Pos('{!MOUNT}', sCmd);
-  if iPos > 0 then
-    sExecCmd:= 'mount ';
-  // umount drive
-  iPos:= Pos('{!UMOUNT}', sCmd);
-  if iPos > 0 then
-    sExecCmd:= 'umount ';
-  // eject drive
-  iPos:= Pos('{!EJECT}', sCmd);
-  if iPos > 0 then
-    sExecCmd:= 'eject ';
-  // exit if command not found
-  if sExecCmd = '' then Exit;
-  // get path
-  iPos:= Pos('}', sCmd);
-  sPath:= Copy(sCmd, iPos + 1, Length(sCmd)-iPos);
-  // execute command
-  fpSystem(sExecCmd + sPath);
-end;
-
-procedure TContextMenu.OpenWithMenuItemSelect(Sender:TObject);
-var
-  ExecCmd: String;
-begin
-  ExecCmd := (Sender as TMenuItem).Hint;
-  ExecCmdFork(ExecCmd);
 end;
 {$ENDIF}
 
@@ -505,19 +413,6 @@ begin
   end;
 end;
 {$ELSE}
-var
-  aFile: TFile = nil;
-  sl: TStringList = nil;
-  I: Integer;
-  bmpTemp: TBitmap;
-  ImageIndex: PtrInt;
-  sAct, sCmd: UTF8String;
-  mi, miActions,
-  miOpenWith, miSortBy: TMenuItem;
-  FileNames: TStringList;
-  DesktopEntries: TList = nil;
-  AddActionsMenu: Boolean = False;
-  AddOpenWithMenu: Boolean = False;
 begin
   if Files.Count = 0 then
   begin
@@ -525,255 +420,12 @@ begin
     Exit;
   end;
 
-  try
-    if not Assigned(CM) then
-      CM:= TContextMenu.Create(Owner)
-    else
-      CM.Items.Clear;
-
-    if not Background then
-    begin
-
-    mi:=TMenuItem.Create(CM);
-    mi.Action := frmMain.actOpen;
-    CM.Items.Add(mi);
-
-    mi:=TMenuItem.Create(CM);
-    mi.Caption:='-';
-    CM.Items.Add(mi);
-
-    aFile := Files[0];
-    if (Files.Count = 1) then
-      begin
-        miActions:=TMenuItem.Create(CM);
-        miActions.Caption:= rsMnuActions;
-
-        { Actions submenu }
-        // Read actions from doublecmd.ext
-        sl:=TStringList.Create;
-        try
-          if gExts.GetExtActions(aFile, sl) then
-            begin
-              AddActionsMenu := True;
-
-              for I:= 0 to sl.Count - 1 do
-                begin
-                  sAct:= sl.Names[I];
-                  if (CompareText('OPEN', sAct) = 0) or (CompareText('VIEW', sAct) = 0) or (CompareText('EDIT', sAct) = 0) then Continue;
-                  sCmd:= sl.ValueFromIndex[I];
-                  ReplaceExtCommand(sCmd, aFile, aFile.Path);
-                  mi:= TMenuItem.Create(miActions);
-                  mi.Caption:= sAct;
-                  mi.Hint:= sCmd;
-                  mi.OnClick:= CM.ContextMenuSelect; // handler
-                  miActions.Add(mi);
-                end;
-            end;
-
-          if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
-            begin
-              if sl.Count = 0 then
-                AddActionsMenu := True
-              else
-                begin
-                  // now add delimiter
-                  mi:=TMenuItem.Create(miActions);
-                  mi.Caption:='-';
-                  miActions.Add(mi);
-                end;
-
-              // now add VIEW item
-              mi:=TMenuItem.Create(miActions);
-              mi.Caption:= rsMnuView;
-              mi.Hint:= '{!VIEWER} ' + aFile.Path + aFile.Name;
-              mi.OnClick:=CM.ContextMenuSelect; // handler
-              miActions.Add(mi);
-
-              // now add EDITconfigure item
-              mi:=TMenuItem.Create(miActions);
-              mi.Caption:= rsMnuEdit;
-              mi.Hint:= '{!EDITOR} ' + aFile.Path + aFile.Name;
-              mi.OnClick:=CM.ContextMenuSelect; // handler
-              miActions.Add(mi);
-            end;
-        finally
-          FreeAndNil(sl);
-        end;
-
-        if AddActionsMenu then
-        begin
-          //founded any commands
-          CM.Items.Add(miActions);
-       end;
-       { /Actions submenu }
-      end; // if count = 1
-
-    {$IFDEF LINUX}
-    //  Open with ...
-    FileNames := TStringList.Create;
-    try
-      for i := 0 to Files.Count - 1 do
-        FileNames.Add(Files[i].Path + Files[i].Name);
-
-      DesktopEntries := GetDesktopEntries(FileNames);
-
-      if Assigned(DesktopEntries) and (DesktopEntries.Count > 0) then
-      begin
-        miOpenWith := TMenuItem.Create(CM);
-        miOpenWith.Caption := rsMnuOpenWith;
-        CM.Items.Add(miOpenWith);
-        AddOpenWithMenu := True;
-
-        for i := 0 to DesktopEntries.Count - 1 do
-        begin
-          mi := TMenuItem.Create(miOpenWith);
-          mi.Caption := PDesktopFileEntry(DesktopEntries[i])^.DisplayName;
-          mi.Hint := PDesktopFileEntry(DesktopEntries[i])^.Exec;
-          ImageIndex:= PixMapManager.GetIconByName(PDesktopFileEntry(DesktopEntries[i])^.IconName);
-          if ImageIndex >= 0 then
-            begin
-              bmpTemp:= PixMapManager.GetBitmap(ImageIndex, clMenu);
-              if Assigned(bmpTemp) then
-                begin
-                  mi.Bitmap.Assign(bmpTemp);
-                  FreeAndNil(bmpTemp);
-                end;
-            end;
-          mi.OnClick := CM.OpenWithMenuItemSelect;
-          miOpenWith.Add(mi);
-        end;
-      end;
-
-    finally
-      FreeAndNil(FileNames);
-      if Assigned(DesktopEntries) then
-      begin
-        for i := 0 to DesktopEntries.Count - 1 do
-          Dispose(PDesktopFileEntry(DesktopEntries[i]));
-        FreeAndNil(DesktopEntries);
-      end;
-    end;
-    {$ENDIF}
-
-    // Add separator after actions and openwith menu.
-    if AddActionsMenu or AddOpenWithMenu then
-    begin
-      mi:=TMenuItem.Create(CM);
-      mi.Caption:='-';
-      CM.Items.Add(mi);
-    end;
-
-    mi:=TMenuItem.Create(CM);
-    mi.Action := frmMain.actRename;
-    CM.Items.Add(mi);
-
-    mi:=TMenuItem.Create(CM);
-    mi.Action := frmMain.actCopy;
-    CM.Items.Add(mi);
-
-    mi:=TMenuItem.Create(CM);
-    mi.Action := frmMain.actDelete;
-    CM.Items.Add(mi);
-
-    mi:=TMenuItem.Create(CM);
-    mi.Action := frmMain.actRenameOnly;
-    CM.Items.Add(mi);
-
-    mi:=TMenuItem.Create(CM);
-    mi.Caption:='-';
-    CM.Items.Add(mi);
-
-    mi:=TMenuItem.Create(CM);
-    mi.Action := frmMain.actCutToClipboard;
-    CM.Items.Add(mi);
-
-    mi:=TMenuItem.Create(CM);
-    mi.Action := frmMain.actCopyToClipboard;
-    CM.Items.Add(mi);
-
-    mi:=TMenuItem.Create(CM);
-    mi.Action := frmMain.actPasteFromClipboard;
-    CM.Items.Add(mi);
-    end
-    else
-      begin
-        mi:=TMenuItem.Create(CM);
-        mi.Action := frmMain.actRefresh;
-        CM.Items.Add(mi);
-
-        // Add "Sort by" submenu
-        miSortBy := TMenuItem.Create(CM);
-        miSortBy.Caption := rsMnuSortBy;
-        CM.Items.Add(miSortBy);
-
-        mi:=TMenuItem.Create(miSortBy);
-        mi.Action := frmMain.actSortByName;
-        miSortBy.Add(mi);
-
-        mi:=TMenuItem.Create(miSortBy);
-        mi.Action := frmMain.actSortByExt;
-        miSortBy.Add(mi);
-
-        mi:=TMenuItem.Create(miSortBy);
-        mi.Action := frmMain.actSortBySize;
-        miSortBy.Add(mi);
-
-        mi:=TMenuItem.Create(miSortBy);
-        mi.Action := frmMain.actSortByDate;
-        miSortBy.Add(mi);
-
-        mi:=TMenuItem.Create(miSortBy);
-        mi.Action := frmMain.actSortByAttr;
-        miSortBy.Add(mi);
-
-        mi:=TMenuItem.Create(miSortBy);
-        mi.Caption := '-';
-        miSortBy.Add(mi);
-
-        mi:=TMenuItem.Create(miSortBy);
-        mi.Action := frmMain.actReverseOrder;
-        miSortBy.Add(mi);
-
-        mi:=TMenuItem.Create(CM);
-        mi.Action := frmMain.actPasteFromClipboard;
-        CM.Items.Add(mi);
-
-        if GetGnomeTemplateMenu(sl) then
-        begin
-          mi:=TMenuItem.Create(CM);
-          mi.Caption:='-';
-          CM.Items.Add(mi);
-
-          // Add "New" submenu
-          miSortBy := TMenuItem.Create(CM);
-          miSortBy.Caption := rsMnuNew;
-          CM.Items.Add(miSortBy);
-
-          for I:= 0 to sl.Count - 1 do
-          begin
-            mi:=TMenuItem.Create(miSortBy);
-            mi.Caption:= sl.Names[I];
-            mi.Hint:= sl.ValueFromIndex[I];
-            mi.OnClick:= CM.TemplateContextMenuSelect;
-            miSortBy.Add(mi);
-          end;
-          FreeThenNil(sl);
-        end;
-      end;
-
-    mi:=TMenuItem.Create(CM);
-    mi.Caption:='-';
-    CM.Items.Add(mi);
-
-    mi:=TMenuItem.Create(CM);
-    mi.Action := frmMain.actFileProperties;
-    CM.Items.Add(mi);
-
-    CM.PopUp(X, Y);
-
-  finally
-    FreeAndNil(Files);
-  end;
+  // Free previous created menu
+  FreeThenNil(ShellContextMenu);
+  // Create new context menu
+  ShellContextMenu:= TShellContextMenu.Create(Owner, Files, Background);
+  // Show context menu
+  ShellContextMenu.PopUp(X, Y);
 end;
 {$ENDIF}
 
@@ -793,48 +445,13 @@ begin
   SetErrorMode(OldErrorMode);
 end;
 {$ELSE}
-var
-  mi: TMenuItem;
 begin
-  if not Assigned(CM) then
-    CM:= TContextMenu.Create(Owner)
-  else
-    CM.Items.Clear;
-
-  mi:= TMenuItem.Create(CM);
-  mi.Caption := rsMnuMount;
-  if IsAvailable(sPath) then
-    begin
-      mi.Enabled:= False;
-    end
-  else
-    begin
-      mi.Hint:= '{!MOUNT}' + sPath;
-      mi.OnClick:= CM.DriveContextMenuSelect;
-    end;
-  CM.Items.Add(mi);
-
-  mi:=TMenuItem.Create(CM);
-  mi.Caption:= rsMnuUmount;
-  if not IsAvailable(sPath) then
-    begin
-      mi.Enabled:= False;
-    end
-  else
-    begin
-      mi.Hint:= '{!UMOUNT}' + sPath;
-      mi.OnClick:= CM.DriveContextMenuSelect;
-    end;
-  CM.Items.Add(mi);
-  
-  mi:=TMenuItem.Create(CM);
-  mi.Caption:= rsMnuEject;
-  mi.Hint:= '{!EJECT}' + sPath;
-  mi.OnClick:= CM.DriveContextMenuSelect;
-  CM.Items.Add(mi);
-
+  // Free previous created menu
+  FreeThenNil(ShellContextMenu);
+  // Create new context menu
+  ShellContextMenu:= TShellContextMenu.Create(Owner, sPath);
   // show context menu
-  CM.PopUp(X, Y);
+  ShellContextMenu.PopUp(X, Y);
 end;
 {$ENDIF}
 
@@ -860,7 +477,7 @@ begin
         begin
           cbSize := sizeof(cmici);
           hwnd := frmMain.Handle;
-          lpVerb := 'properties';
+          lpVerb := sCmdVerbProperties;
           nShow := SW_SHOWNORMAL;
         end;
 
