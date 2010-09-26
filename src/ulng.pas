@@ -112,6 +112,7 @@ resourcestring
   rsMnuUmount = 'Umount';
   rsMnuEject = 'Eject';
   rsMnuSortBy = 'Sort by';
+  rsMnuNew = 'New';
   // wcx module messages
   rsMsgSelLocNextVol = 'Please select location of next volume';
   rsMsgNextVolUnpack = 'Next volume will be unpacked';

@@ -52,6 +52,7 @@ type
 type
   TContextMenu = class(TPopupMenu)
     procedure ContextMenuSelect(Sender:TObject);
+    procedure TemplateContextMenuSelect(Sender: TObject);
     procedure DriveContextMenuSelect(Sender:TObject);
     procedure OpenWithMenuItemSelect(Sender:TObject);
   end;
@@ -94,12 +95,13 @@ function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boo
 implementation
 
 uses
-  fMain, uOSUtils, uGlobs, uLng, uShellExecute
+  LCLProc, Dialogs, fMain, uOSUtils, uGlobs, uLng, uShellExecute,
+  uShellContextMenu, uFileSystemFileSource
   {$IF DEFINED(MSWINDOWS)}
-  , Dialogs, Graphics, comobj, uShellContextMenu, uFileSystemFileSource, uTotalCommander
+  , Graphics, comobj, uTotalCommander
   {$ENDIF}
   {$IF DEFINED(LINUX)}
-  , uFileSystemWatcher, inotify, uMimeActions
+  , uFileSystemWatcher, inotify, uMimeActions, uFileProcs
   {$ENDIF}
   ;
 
@@ -175,6 +177,27 @@ begin
     if not ProcessExtCommand(sCmd, CurrentPath) then
       frmMain.ExecCmd(sCmd);
   end;
+end;
+
+(* handling user commands from template context menu *)
+procedure TContextMenu.TemplateContextMenuSelect(Sender: TObject);
+var
+  SelectedItem: TMenuItem;
+  FileName: UTF8String;
+begin
+  // ShowMessage((Sender as TMenuItem).Hint);
+
+  SelectedItem:= (Sender as TMenuItem);
+  FileName:= SelectedItem.Caption;
+  if InputQuery(rsMsgNewFile, rsMsgEnterName, FileName) then
+    begin
+      FileName:= FileName + ExtractFileExt(SelectedItem.Hint);
+      if CopyFile(SelectedItem.Hint, frmMain.ActiveFrame.CurrentPath + FileName) then
+        begin
+          frmMain.ActiveFrame.Reload;
+          frmMain.ActiveFrame.SetActiveFile(FileName);
+        end;
+    end;
 end;
 
 (* handling user commands from drive context menu *)
@@ -483,13 +506,14 @@ begin
 end;
 {$ELSE}
 var
-  aFile: TFile;
-  sl: TStringList;
+  aFile: TFile = nil;
+  sl: TStringList = nil;
   I: Integer;
   bmpTemp: TBitmap;
   ImageIndex: PtrInt;
   sAct, sCmd: UTF8String;
-  mi, miActions, miOpenWith: TMenuItem;
+  mi, miActions,
+  miOpenWith, miSortBy: TMenuItem;
   FileNames: TStringList;
   DesktopEntries: TList = nil;
   AddActionsMenu: Boolean = False;
@@ -506,6 +530,9 @@ begin
       CM:= TContextMenu.Create(Owner)
     else
       CM.Items.Clear;
+
+    if not Background then
+    begin
 
     mi:=TMenuItem.Create(CM);
     mi.Action := frmMain.actOpen;
@@ -667,6 +694,72 @@ begin
     mi:=TMenuItem.Create(CM);
     mi.Action := frmMain.actPasteFromClipboard;
     CM.Items.Add(mi);
+    end
+    else
+      begin
+        mi:=TMenuItem.Create(CM);
+        mi.Action := frmMain.actRefresh;
+        CM.Items.Add(mi);
+
+        // Add "Sort by" submenu
+        miSortBy := TMenuItem.Create(CM);
+        miSortBy.Caption := rsMnuSortBy;
+        CM.Items.Add(miSortBy);
+
+        mi:=TMenuItem.Create(miSortBy);
+        mi.Action := frmMain.actSortByName;
+        miSortBy.Add(mi);
+
+        mi:=TMenuItem.Create(miSortBy);
+        mi.Action := frmMain.actSortByExt;
+        miSortBy.Add(mi);
+
+        mi:=TMenuItem.Create(miSortBy);
+        mi.Action := frmMain.actSortBySize;
+        miSortBy.Add(mi);
+
+        mi:=TMenuItem.Create(miSortBy);
+        mi.Action := frmMain.actSortByDate;
+        miSortBy.Add(mi);
+
+        mi:=TMenuItem.Create(miSortBy);
+        mi.Action := frmMain.actSortByAttr;
+        miSortBy.Add(mi);
+
+        mi:=TMenuItem.Create(miSortBy);
+        mi.Caption := '-';
+        miSortBy.Add(mi);
+
+        mi:=TMenuItem.Create(miSortBy);
+        mi.Action := frmMain.actReverseOrder;
+        miSortBy.Add(mi);
+
+        mi:=TMenuItem.Create(CM);
+        mi.Action := frmMain.actPasteFromClipboard;
+        CM.Items.Add(mi);
+
+        if GetGnomeTemplateMenu(sl) then
+        begin
+          mi:=TMenuItem.Create(CM);
+          mi.Caption:='-';
+          CM.Items.Add(mi);
+
+          // Add "New" submenu
+          miSortBy := TMenuItem.Create(CM);
+          miSortBy.Caption := rsMnuNew;
+          CM.Items.Add(miSortBy);
+
+          for I:= 0 to sl.Count - 1 do
+          begin
+            mi:=TMenuItem.Create(miSortBy);
+            mi.Caption:= sl.Names[I];
+            mi.Hint:= sl.ValueFromIndex[I];
+            mi.OnClick:= CM.TemplateContextMenuSelect;
+            miSortBy.Add(mi);
+          end;
+          FreeThenNil(sl);
+        end;
+      end;
 
     mi:=TMenuItem.Create(CM);
     mi.Caption:='-';
@@ -860,4 +953,4 @@ finalization
 {$ENDIF}
 
 end.
-
+
