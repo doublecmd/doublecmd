@@ -4880,6 +4880,10 @@ msgstr "退出"
 msgid "Mount"
 msgstr "解掛"
 
+#: ulng.rsmnunew
+msgid "New"
+msgstr ""
+
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr ""

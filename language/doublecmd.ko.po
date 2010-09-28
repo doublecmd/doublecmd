@@ -4894,6 +4894,10 @@ msgstr "꺼내기"
 msgid "Mount"
 msgstr "마운트"
 
+#: ulng.rsmnunew
+msgid "New"
+msgstr ""
+
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr ""

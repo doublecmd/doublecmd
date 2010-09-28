@@ -4855,6 +4855,10 @@ msgstr ""
 msgid "Mount"
 msgstr ""
 
+#: ulng.rsmnunew
+msgid "New"
+msgstr ""
+
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr ""

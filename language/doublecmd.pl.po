@@ -4882,6 +4882,10 @@ msgstr "Wysuń"
 msgid "Mount"
 msgstr "Zamontuj"
 
+#: ulng.rsmnunew
+msgid "New"
+msgstr ""
+
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr ""
