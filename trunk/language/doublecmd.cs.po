@@ -4920,6 +4920,10 @@ msgstr "Vysunout"
 msgid "Mount"
 msgstr "Připojit"
 
+#: ulng.rsmnunew
+msgid "New"
+msgstr ""
+
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr "otevřít v ..."

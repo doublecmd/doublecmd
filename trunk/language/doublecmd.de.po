@@ -4897,6 +4897,10 @@ msgstr "Auswerfen"
 msgid "Mount"
 msgstr "Einbinden"
 
+#: ulng.rsmnunew
+msgid "New"
+msgstr ""
+
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr "Öffnen mit..."

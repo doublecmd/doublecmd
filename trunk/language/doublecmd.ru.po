@@ -4895,6 +4895,10 @@ msgstr "Извлечь"
 msgid "Mount"
 msgstr "Смонтировать"
 
+#: ulng.rsmnunew
+msgid "New"
+msgstr ""
+
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr "Открыть с помощью..."

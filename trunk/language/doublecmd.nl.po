@@ -4883,6 +4883,10 @@ msgstr "Uitwerpen"
 msgid "Mount"
 msgstr "Mount"
 
+#: ulng.rsmnunew
+msgid "New"
+msgstr ""
+
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr ""

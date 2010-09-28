@@ -4893,6 +4893,10 @@ msgstr "弹出"
 msgid "Mount"
 msgstr "解挂"
 
+#: ulng.rsmnunew
+msgid "New"
+msgstr ""
+
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr "打开..."
