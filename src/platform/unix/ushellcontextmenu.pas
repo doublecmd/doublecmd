@@ -32,6 +32,10 @@ uses
 
 type
 
+  { EContextMenuException }
+
+  EContextMenuException = class(Exception);
+
   { TShellContextMenu }
 
   TShellContextMenu = class(TPopupMenu)
