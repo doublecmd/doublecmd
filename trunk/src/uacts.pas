@@ -276,7 +276,7 @@ uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      uFileSourceCalcStatisticsOperation, uFileSource, uFileSourceProperty,
      uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
-     uFileSorting;
+     uFileSorting, uShellContextMenu;
 
 { TActs }
 
@@ -671,6 +671,7 @@ begin
         sPath:= ExtractFilePath(sName);
         aFiles:= TFiles.Create(sPath);
         aFile:= Panel.FileSource.CreateFileObject(sPath);
+        aFile.Attributes:= faFolder;
         aFile.Name:= ExtractFileName(sName);
         aFiles.Add(aFile);
       end

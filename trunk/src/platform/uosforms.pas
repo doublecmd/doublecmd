@@ -35,20 +35,6 @@ uses
   JwaShlGuid, JwaDbt, uMyWindows;
   {$ENDIF}
 
-const
-  sCmdVerbOpen = 'open';
-  sCmdVerbRename = 'rename';
-  sCmdVerbDelete = 'delete';
-  sCmdVerbCut = 'cut';
-  sCmdVerbCopy = 'copy';
-  sCmdVerbPaste = 'paste';
-  sCmdVerbLink = 'link';
-  sCmdVerbProperties = 'properties';
-  sCmdVerbNewFolder = 'NewFolder';
-
-type
-  EContextMenuException = class(Exception);
-
 {en
    Replace window procedure
    @param(Handle Window handle)
@@ -99,10 +85,8 @@ uses
 var
 {$IFDEF MSWINDOWS}
   OldWProc: WNDPROC;
-  ICM2: IContextMenu2 = nil;
-{$ELSE}
-  ShellContextMenu : TShellContextMenu = nil;
 {$ENDIF}
+  ShellContextMenu : TShellContextMenu = nil;
 
 {$IFDEF WIN64}
 function SetWindowLong(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): LONG_PTR; stdcall; external 'user32' name 'SetWindowLongPtrW';
@@ -117,9 +101,9 @@ begin
     WM_DRAWITEM,
     WM_MENUCHAR,
     WM_MEASUREITEM:
-      if Assigned(ICM2) then
+      if Assigned(ShellContextMenu) and Assigned(ShellContextMenu.Menu) then
         begin
-          ICM2.HandleMenuMsg(uiMsg, wParam, lParam);
+          ShellContextMenu.Menu.HandleMenuMsg(uiMsg, wParam, lParam);
           Result := 0;
         end
       else
@@ -149,267 +133,21 @@ end;
 
 procedure ShowContextMenu(Owner: TWinControl; var Files : TFiles; X, Y : Integer; Background: Boolean);
 {$IFDEF MSWINDOWS}
-const
-  USER_CMD_ID = $1000;
-var
-  aFile: TFile;
-  sl: TStringList = nil;
-  i:Integer;
-  sAct, sCmd: UTF8String;
-  contMenu: IContextMenu;
-  menu: HMENU = 0;
-  hActionsSubMenu: HMENU = 0;
-  cmd: UINT = 0;
-  iCmd: Integer;
-  cmici: TCMINVOKECOMMANDINFO;
-  bHandled : Boolean = False;
-  ZVerb: array[0..255] of char;
-  sVerb : String;
 begin
+  if Files.Count = 0 then
+  begin
+    FreeAndNil(Files);
+    Exit;
+  end;
+
   try
-    try
-      if Files.Count = 0 then Exit;
-
-      contMenu := GetShellContextMenu(Owner.Handle, Files, Background);
-      if Assigned(contMenu) then
-      try
-        menu := CreatePopupMenu;
-        OleCheckUTF8(contMenu.QueryContextMenu(menu, 0, 1, USER_CMD_ID - 1, CMF_EXPLORE or CMF_CANRENAME));
-        contMenu.QueryInterface(IID_IContextMenu2, ICM2); // to handle submenus.
-        //------------------------------------------------------------------------------
-
-        aFile := Files[0];
-        if Background then // Add "Background" context menu specific items
-          begin
-            sl:= TStringList.Create;
-
-            // Add commands to root of context menu
-            sCmd:= 'cm_Refresh';
-            I:= sl.Add(sCmd);
-            sAct:= Actions.GetCommandCaption(sCmd);
-            InsertMenuItemEx(menu, 0, PWideChar(UTF8Decode(sAct)), I, I + USER_CMD_ID, MFT_STRING);
-            // Add menu separator
-            InsertMenuItemEx(menu, 0, nil, I + 1, 0, MFT_SEPARATOR);
-
-            // Add "Sort by" submenu
-            hActionsSubMenu := CreatePopupMenu;
-            sCmd:= 'cm_ReverseOrder';
-            I:= sl.Add(sCmd);
-            sAct:= Actions.GetCommandCaption(sCmd);
-            InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
-            // Add separator
-            InsertMenuItemEx(hActionsSubMenu, 0, nil, 0, 0, MFT_SEPARATOR);
-            sCmd:= 'cm_SortByAttr';
-            I:= sl.Add(sCmd);
-            sAct:= Actions.GetCommandCaption(sCmd);
-            InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
-            sCmd:= 'cm_SortByDate';
-            I:= sl.Add(sCmd);
-            sAct:= Actions.GetCommandCaption(sCmd);
-            InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
-            sCmd:= 'cm_SortBySize';
-            I:= sl.Add(sCmd);
-            sAct:= Actions.GetCommandCaption(sCmd);
-            InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
-            sCmd:= 'cm_SortByExt';
-            I:= sl.Add(sCmd);
-            sAct:= Actions.GetCommandCaption(sCmd);
-            InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
-            sCmd:= 'cm_SortByName';
-            I:= sl.Add(sCmd);
-            sAct:= Actions.GetCommandCaption(sCmd);
-            InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
-
-            // Add submenu to context menu
-            InsertMenuItemEx(menu, hActionsSubMenu, PWideChar(UTF8Decode(rsMnuSortBy)), 1, 333, MFT_STRING);
-          end
-        else if (Files.Count = 1) then  // Add "Actions" submenu
-          begin
-            hActionsSubMenu := CreatePopupMenu;
-
-            // Read actions from doublecmd.ext
-            sl:=TStringList.Create;
-
-            if gExts.GetExtActions(aFile, sl) then
-              begin
-                for I:= 0 to sl.Count - 1 do
-                  begin
-                    sAct:= sl.Names[I];
-                    if (CompareText('OPEN', sAct) = 0) or (CompareText('VIEW', sAct) = 0) or (CompareText('EDIT', sAct) = 0) then Continue;
-                    InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
-                  end;
-              end;
-
-            if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
-              begin
-                // Add separator if needed.
-                if GetMenuItemCount(hActionsSubMenu) > 0 then
-                  InsertMenuItemEx(hActionsSubMenu,0, nil, 0, 0, MFT_SEPARATOR);
-
-                // now add VIEW item
-                sCmd:= '{!VIEWER} ' + aFile.Path + aFile.Name;
-                I := sl.Add(sCmd);
-                InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(rsMnuView)), 1, I + USER_CMD_ID, MFT_STRING);
-
-                // now add EDIT item
-                sCmd:= '{!EDITOR} ' + aFile.Path + aFile.Name;
-                I := sl.Add(sCmd);
-                InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(rsMnuEdit)), 1, I + USER_CMD_ID, MFT_STRING);
-              end;
-
-            // Add Actions submenu if not empty.
-            if GetMenuItemCount(hActionsSubMenu) > 0 then
-            begin
-              // Insert Actions submenu before first separator
-              iCmd:= GetMenuItemCount(menu) - 1;
-              for I:= 0 to iCmd do
-              begin
-                if GetMenuItemType(menu, I, True) = MFT_SEPARATOR then
-                  Break;
-              end;
-              InsertMenuItemEx(menu, hActionsSubMenu, PWideChar(UTF8Decode(rsMnuActions)), I, 333, MFT_STRING);
-            end;
-          end;
-        { /Actions submenu }
-        //------------------------------------------------------------------------------
-        cmd := UINT(TrackPopupMenu(menu, TPM_LEFTALIGN or TPM_LEFTBUTTON or TPM_RIGHTBUTTON or TPM_RETURNCMD, X, Y, 0, Owner.Handle, nil));
-      finally
-        if hActionsSubMenu <> 0 then
-          DestroyMenu(hActionsSubMenu);
-        ICM2 := nil;
-      end;
-
-      if (cmd > 0) and (cmd < USER_CMD_ID) then
-        begin
-          iCmd := LongInt(Cmd) - 1;
-          if Succeeded(contMenu.GetCommandString(iCmd, GCS_VERBA, nil, ZVerb, SizeOf(ZVerb))) then
-            begin
-              sVerb := StrPas(ZVerb);
-
-              if SameText(sVerb, sCmdVerbDelete) then
-                begin
-                  if ssShift in GetKeyShiftState then
-                    Actions.cm_Delete('recyclesettingrev')
-                  else
-                    Actions.cm_Delete('recyclesetting');
-                  bHandled := True;
-                end
-              else if SameText(sVerb, sCmdVerbRename) then
-                begin
-                  if Files.Count = 1 then
-                    with Files[0] do
-                    begin
-                      if Name <> (ExtractFileDrive(Name)+PathDelim) then
-                        frmMain.actRenameOnly.Execute
-                      else  // change drive label
-                        begin
-                          sCmd:= mbGetVolumeLabel(Name, True);
-                          if InputQuery(rsMsgSetVolumeLabel, rsMsgVolumeLabel, sCmd) then
-                            mbSetVolumeLabel(Name, sCmd);
-                        end;
-                    end
-                  else
-                    frmMain.actRename.Execute;
-                  bHandled := True;
-                end
-              else if SameText(sVerb, sCmdVerbOpen) then
-                begin
-                  if Files.Count = 1 then
-                    with Files[0] do
-                    begin
-                      if IsDirectory or IsLinkToDirectory then
-                        begin
-                          if Name = '..' then
-                            frmMain.ActiveFrame.ChangePathToParent(True)
-                          else
-                            frmMain.ActiveFrame.ChangePathToChild(Files[0]);
-                          bHandled := True;
-                        end; // is dir
-                    end; // with
-                end
-              else if SameText(sVerb, sCmdVerbCut) then
-                begin
-                  frmMain.actCutToClipboard.Execute;
-                  bHandled := True;
-                end
-              else if SameText(sVerb, sCmdVerbCopy) then
-                begin
-                  frmMain.actCopyToClipboard.Execute;
-                  bHandled := True;
-                end
-              else if SameText(sVerb, sCmdVerbPaste) then
-                begin
-                  frmMain.actPasteFromClipboard.Execute;
-                  bHandled := True;
-                end
-              else if SameText(sVerb, sCmdVerbNewFolder) then
-                begin
-                  frmMain.actMakeDir.Execute;
-                  bHandled := True;
-                end;
-            end;
-
-          if not bHandled then
-            begin
-              FillChar(cmici, SizeOf(cmici), #0);
-              with cmici do
-              begin
-                cbSize := sizeof(cmici);
-                hwnd := Owner.Handle;
-                lpVerb := PChar(cmd - 1);
-                nShow := SW_NORMAL;
-              end;
-              OleCheckUTF8(contMenu.InvokeCommand(cmici));
-
-              // Reload after possible changes on the filesystem.
-              if SameText(sVerb, sCmdVerbLink) then
-                frmMain.ActiveFrame.FileSource.Reload(frmMain.ActiveFrame.CurrentPath);
-            end;
-
-        end // if cmd > 0
-      else if (cmd >= USER_CMD_ID) then // actions sub menu
-        begin
-          sCmd:= sl.Strings[cmd - USER_CMD_ID];
-          if Background then
-            begin
-              Actions.Execute(sCmd);
-              bHandled:= True;
-            end
-          else
-            begin
-              sCmd:= Copy(sCmd, Pos('=', sCmd) + 1, Length(sCmd));
-              ReplaceExtCommand(sCmd, aFile, aFile.Path);
-              try
-                with frmMain.ActiveFrame do
-                begin
-                  (*
-                  VFS via another file source
-
-                  if (Pos('{!VFS}',sCmd)>0) and pnlFile.VFS.FindModule(CurrentPath + fri.sName) then
-                  begin
-                       pnlFile.LoadPanelVFS(@fri);
-                       Exit;
-                  end;
-                  *)
-                  if not ProcessExtCommand(sCmd, CurrentPath) then
-                    frmMain.ExecCmd(sCmd);
-                end;
-              finally
-                bHandled:= True;
-              end;
-            end;
-        end;
-    finally
-      if menu <> 0 then
-        DestroyMenu(menu);
-      FreeAndNil(Files);
-      if Assigned(sl) then
-        FreeAndNil(sl);
-    end;
-
-  except
-    on e: EOleError do
-      raise EContextMenuException.Create(e.Message);
+    // Create new context menu
+    ShellContextMenu:= TShellContextMenu.Create(Owner, Files, Background);
+    // Show context menu
+    ShellContextMenu.PopUp(X, Y);
+  finally
+    // Free created menu
+    FreeThenNil(ShellContextMenu);
   end;
 end;
 {$ELSE}
@@ -570,4 +308,4 @@ finalization
 {$ENDIF}
 
 end.
-
+
