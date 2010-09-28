@@ -481,17 +481,17 @@ begin
             miSortBy.Add(mi);
           end;
           FreeThenNil(sl);
-
-          mi:=TMenuItem.Create(Self);
-          mi.Caption:='-';
-          Self.Items.Add(mi);
-
-          mi:=TMenuItem.Create(Self);
-          mi.Caption:= frmMain.actFileProperties.Caption;
-          mi.Hint:= sCmdVerbProperties;
-          mi.OnClick:= Self.ContextMenuSelect;
-          Self.Items.Add(mi);
         end;
+
+        mi:=TMenuItem.Create(Self);
+        mi.Caption:='-';
+        Self.Items.Add(mi);
+
+        mi:=TMenuItem.Create(Self);
+        mi.Caption:= frmMain.actFileProperties.Caption;
+        mi.Hint:= sCmdVerbProperties;
+        mi.OnClick:= Self.ContextMenuSelect;
+        Self.Items.Add(mi);
       end;
   finally
     Files:= nil;
