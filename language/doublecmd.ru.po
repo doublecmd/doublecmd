@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-09-12 14:11+0300\n"
+"PO-Revision-Date: 2010-09-28 21:49+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4897,7 +4897,7 @@ msgstr "Смонтировать"
 
 #: ulng.rsmnunew
 msgid "New"
-msgstr ""
+msgstr "Создать"
 
 #: ulng.rsmnuopenwith
 msgid "Open with ..."

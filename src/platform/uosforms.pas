@@ -31,8 +31,7 @@ uses
   {$IFDEF UNIX}
   Graphics, BaseUnix, Unix, fFileProperties;
   {$ELSE}
-  FileUtil, Windows, ShlObj, ActiveX, uShlObjAdditional,
-  JwaShlGuid, JwaDbt, uMyWindows;
+  FileUtil, Windows, ShlObj, uShlObjAdditional, JwaDbt;
   {$ENDIF}
 
 {en
@@ -121,7 +120,9 @@ end;
 procedure SetMyWndProc(Handle : THandle);
 {$IFDEF MSWINDOWS}
 begin
+  {$PUSH}{$HINTS OFF}
   OldWProc := WNDPROC(SetWindowLong(Handle, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
+  {$POP}
   CreateTotalCommanderWindow(Handle);
 end;
 {$ELSE}
