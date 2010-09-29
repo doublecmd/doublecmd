@@ -4888,7 +4888,7 @@ msgstr "Монтувати"
 
 #: ulng.rsmnunew
 msgid "New"
-msgstr ""
+msgstr "Створити"
 
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
