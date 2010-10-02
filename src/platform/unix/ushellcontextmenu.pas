@@ -54,8 +54,8 @@ type
 implementation
 
 uses
-  LCLProc, Dialogs, IniFiles, Graphics, BaseUnix, Unix, uTypes, uFindEx, uDCUtils,
-  uOSUtils, uFileProcs, uShellExecute, uLng, uGlobs, uPixMapManager,
+  LCLProc, Dialogs, IniFiles, Graphics, Unix, uTypes, uFindEx, uDCUtils,
+  uOSUtils, uFileProcs, uShellExecute, uLng, uGlobs, uPixMapManager, uMyUnix,
   fMain, fFileProperties
   {$IFDEF LINUX}
   , uMimeActions
@@ -97,6 +97,60 @@ begin
     if Items.Count = 0 then
       FreeThenNil(Items);
     FreeThenNil(userDirs);
+  end;
+end;
+
+function GetKdeTemplateMenu(out Items: TStringList): Boolean;
+var
+  I: Integer;
+  desktopFile: TIniFile = nil;
+  templateDir: array [0..1] of UTF8String;
+  searchRec: TSearchRecEx;
+  templateName,
+  templatePath: UTF8String;
+begin
+  Result:= False;
+  try
+    templateDir[0]:= '/usr/share/templates';
+    templateDir[1]:= GetHomeDir + '.kde/share/templates';
+    for I:= Low(templateDir) to High(templateDir) do
+    if mbDirectoryExists(templateDir[I]) then
+    begin
+      if FindFirstEx(templateDir[I] + PathDelim + '*.desktop', faAnyFile, searchRec) = 0 then
+      begin
+        Items:= TStringList.Create;
+        repeat
+          // Skip directories
+          if FPS_ISDIR(searchRec.Attr) then Continue;
+
+          try
+            desktopFile:= TIniFile.Create(templateDir[I] + PathDelim + searchRec.Name);
+            templateName:= desktopFile.ReadString('Desktop Entry', 'Name', EmptyStr);
+            templatePath:= desktopFile.ReadString('Desktop Entry', 'URL', EmptyStr);
+            templatePath:= GetAbsoluteFileName(templateDir[I] + PathDelim, templatePath);
+
+            Items.Add(templateName + '=' + templatePath);
+          finally
+            FreeThenNil(desktopFile);
+          end;
+        until FindNextEx(searchRec) <> 0;
+        Result:= Items.Count > 0;
+      end;
+      FindCloseEx(searchRec);
+    end;
+  finally
+    if Items.Count = 0 then
+      FreeThenNil(Items);
+  end;
+end;
+
+function GetTemplateMenu(out Items: TStringList): Boolean;
+begin
+  case GetDesktopEnvironment of
+  DE_KDE:
+    Result:= GetKdeTemplateMenu(Items);
+  else
+    Result:= GetGnomeTemplateMenu(Items);
   end;
 end;
 
@@ -465,7 +519,7 @@ begin
         mi.Action := frmMain.actPasteFromClipboard;
         Self.Items.Add(mi);
 
-        if GetGnomeTemplateMenu(sl) then
+        if GetTemplateMenu(sl) then
         begin
           mi:=TMenuItem.Create(Self);
           mi.Caption:='-';
