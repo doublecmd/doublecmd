@@ -1128,6 +1128,8 @@ end;
          (mnt_type = 'proc') or
          (mnt_type = 'swap') or
          (mnt_type = 'sysfs') or
+         (mnt_type = 'debugfs') or
+         (mnt_type = 'devtmpfs') or
          (mnt_type = 'devpts') or
          (mnt_type = 'fusectl') or
          (mnt_type = 'securityfs') or
@@ -2059,4 +2061,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.
