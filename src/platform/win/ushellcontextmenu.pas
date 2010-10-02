@@ -236,9 +236,7 @@ begin
             sCmd:= 'cm_Refresh';
             I:= sl.Add(sCmd);
             sAct:= Actions.GetCommandCaption(sCmd);
-            InsertMenuItemEx(FShellMenu, 0, PWideChar(UTF8Decode(sAct)), I, I + USER_CMD_ID, MFT_STRING);
-            // Add menu separator
-            InsertMenuItemEx(FShellMenu, 0, nil, I + 1, 0, MFT_SEPARATOR);
+            InsertMenuItemEx(FShellMenu, 0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
 
             // Add "Sort by" submenu
             hActionsSubMenu := CreatePopupMenu;
@@ -268,9 +266,18 @@ begin
             I:= sl.Add(sCmd);
             sAct:= Actions.GetCommandCaption(sCmd);
             InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
-
             // Add submenu to context menu
             InsertMenuItemEx(FShellMenu, hActionsSubMenu, PWideChar(UTF8Decode(rsMnuSortBy)), 1, 333, MFT_STRING);
+
+            // Add menu separator
+            InsertMenuItemEx(FShellMenu, 0, nil, 2, 0, MFT_SEPARATOR);
+            // Add commands to root of context menu
+            sCmd:= 'cm_PasteFromClipboard';
+            I:= sl.Add(sCmd);
+            sAct:= Actions.GetCommandCaption(sCmd);
+            InsertMenuItemEx(FShellMenu, 0, PWideChar(UTF8Decode(sAct)), 3, I + USER_CMD_ID, MFT_STRING);
+            // Add menu separator
+            InsertMenuItemEx(FShellMenu, 0, nil, 4, 0, MFT_SEPARATOR);
           end
         else if (FFiles.Count = 1) then  // Add "Actions" submenu
           begin

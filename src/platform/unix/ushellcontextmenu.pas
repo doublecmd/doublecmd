@@ -458,6 +458,10 @@ begin
         miSortBy.Add(mi);
 
         mi:=TMenuItem.Create(Self);
+        mi.Caption:='-';
+        Self.Items.Add(mi);
+
+        mi:=TMenuItem.Create(Self);
         mi.Action := frmMain.actPasteFromClipboard;
         Self.Items.Add(mi);
 
