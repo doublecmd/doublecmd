@@ -338,7 +338,7 @@ begin
 
 {$ELSEIF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
 
-  KeyInfo := GtkProc.GetVKeyInfo(Key);
+  KeyInfo := GetVKeyInfo(Key);
 
   // KeyInfo.KeyChar contains characters according to modifiers:
   // [0] - unshifted            [2] - unshifted + AltGr
@@ -524,7 +524,7 @@ begin
   // Search all virtual keys for a scancode of AltGraph.
   for VKNr := Low(Byte) to High(Byte) do
   begin
-    KeyInfo := GtkProc.GetVKeyInfo(VKNr);
+    KeyInfo := GetVKeyInfo(VKNr);
 
     if (KeyInfo.KeyCode[True] = 0) and // not extended
        (KeyInfo.KeyCode[False] <> 0) then

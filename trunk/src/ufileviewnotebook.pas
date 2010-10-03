@@ -115,7 +115,7 @@ uses
   LCLProc,
   uGlobs
   {$IF DEFINED(LCLGTK2)}
-  , GTKGlobals // for DblClickTime
+  , GTK2Globals // for DblClickTime
   {$ENDIF}
   ;
 

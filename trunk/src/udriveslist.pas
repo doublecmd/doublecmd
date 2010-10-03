@@ -119,7 +119,7 @@ uses
   StdCtrls, Graphics, LCLProc,
   uPixMapManager, uOSUtils, uDCUtils
   {$IFDEF LCLGTK2}
-  , GtkProc  // for ReleaseMouseCapture
+  , Gtk2Proc  // for ReleaseMouseCapture
   {$ENDIF}
   ;
 
@@ -556,4 +556,4 @@ begin
 end;
 
 end.
-
+

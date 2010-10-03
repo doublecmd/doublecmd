@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, IntfGraphics,
-  gtkdef, gdk2pixbuf, gdk2, glib2;
+  gtk2def, gdk2pixbuf, gdk2, glib2;
 
 procedure DrawPixbufAtCanvas(Canvas: TCanvas; Pixbuf : PGdkPixbuf; SrcX, SrcY, DstX, DstY, Width, Height: Integer);
 function PixBufToBitmap(Pixbuf: PGdkPixbuf): TBitmap;

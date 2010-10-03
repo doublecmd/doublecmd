@@ -534,9 +534,13 @@ uses
   uKeyboard,
   uFileSourceUtil,
   uFileFunctions
-{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+{$IF DEFINED(LCLGTK)}
   , GtkProc  // for ReleaseMouseCapture
   , GTKGlobals  // for DblClickTime
+{$ENDIF}
+{$IF DEFINED(LCLGTK2)}
+  , Gtk2Proc  // for ReleaseMouseCapture
+  , GTK2Globals  // for DblClickTime
 {$ENDIF}
   ;
 
@@ -4899,4 +4903,4 @@ begin
 end;
 
 end.
-
+
