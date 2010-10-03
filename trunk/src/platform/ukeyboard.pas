@@ -115,8 +115,8 @@ uses
   , XLib, X
 {$ENDIF}
 {$IF DEFINED(LCLGTK2)}
-  , Gdk2, GLib2, GtkExtra
-  , GtkProc
+  , Gdk2, GLib2, Gtk2Extra
+  , Gtk2Proc
 {$ENDIF}
 {$IF DEFINED(UNIX) and DEFINED(LCLQT)}
   , qt4, qtwidgets
