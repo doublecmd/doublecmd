@@ -29,7 +29,7 @@ interface
 uses
    SysUtils, uTypes
    {$IFDEF UNIX}
-   , BaseUnix, Masks
+   , BaseUnix, uMasks
    {$ENDIF};
 
 const

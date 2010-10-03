@@ -70,7 +70,7 @@ type
 implementation
 
 uses
-  LCLProc, Masks, FileUtil, contnrs, uOSUtils, uDCUtils, uShowMsg, WcxPlugin,
+  LCLProc, uMasks, FileUtil, contnrs, uOSUtils, uDCUtils, uShowMsg, WcxPlugin,
   uFileSourceOperationUI, uWCXmodule, uFileProcs, uLng, uDateTimeUtils, uTypes;
 
 // ----------------------------------------------------------------------------

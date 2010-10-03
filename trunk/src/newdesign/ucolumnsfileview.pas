@@ -520,7 +520,7 @@ type
 implementation
 
 uses
-  LCLProc, Masks, Dialogs, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager,
+  LCLProc, uMasks, Dialogs, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager,
   uDCUtils, uOSUtils, math, fMain, fMaskInputDlg, uSearchTemplate,
   uInfoToolTip, dmCommonData,
   uFileProperty,

@@ -379,7 +379,7 @@ function ModColor(AColor: TColor; APercent: Byte) : TColor;
 implementation
 
 uses
-   FileUtil, Masks, StrUtils, uOSUtils, uGlobs, uGlobsPaths;
+   FileUtil, uMasks, StrUtils, uOSUtils, uGlobs, uGlobsPaths;
 
 function GetCmdDirFromEnvVar(sPath: String): String;
 begin

@@ -110,7 +110,7 @@ implementation
 
 uses
   uGlobs, LCLProc,
-  FileUtil, Masks, uDCUtils,
+  FileUtil, uMasks, uDCUtils,
   uMultiArchiveListOperation,
   uMultiArchiveCopyInOperation,
   uMultiArchiveCopyOutOperation,

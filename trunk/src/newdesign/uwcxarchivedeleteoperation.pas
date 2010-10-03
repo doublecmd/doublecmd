@@ -49,7 +49,7 @@ type
 implementation
 
 uses
-  uOSUtils, uDCUtils, uLng, uShowMsg, uWCXmodule, WcxPlugin, Masks,
+  uOSUtils, uDCUtils, uLng, uShowMsg, uWCXmodule, WcxPlugin, uMasks,
   FileUtil, LCLProc;
 
 // ----------------------------------------------------------------------------

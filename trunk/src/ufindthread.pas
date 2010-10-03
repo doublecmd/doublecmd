@@ -72,7 +72,7 @@ type
 implementation
 
 uses
-  LCLProc, Masks, SynRegExpr, StrUtils, LConvEncoding,
+  LCLProc, uMasks, SynRegExpr, StrUtils, LConvEncoding,
   uLng, uClassesEx, uFindMmap, uFindEx, uGlobs, uShowMsg, uOSUtils, uLog;
 
 { TFindThread }

@@ -72,7 +72,7 @@ function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
 implementation
 
 uses
-  Masks, uFileProperty;
+  uMasks, uFileProperty;
 
 function IsMaskSearchTemplate(const sMask: UTF8String): Boolean; inline;
 begin
