@@ -6,8 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, SynEdit, SynEditMarkupSpecialLine,
-  SynEditMiscClasses, SynGutterBase, SynEditFoldedView,
-  SynTextDrawer, uDiff;
+  SynEditMiscClasses, SynGutterBase, SynTextDrawer, uDiff;
 
 const
   { Fake line kinds }
@@ -27,7 +26,6 @@ type
 
     TSynDiffGutterLineNumber = class(TSynGutterPartBase)
     private
-      FFoldView: TSynEditFoldedView;
       FTextDrawer: TheTextDrawer;
 
       FDigitCount: integer;
@@ -38,15 +36,13 @@ type
       procedure SetLeadingZeros(const AValue : boolean);
       function FormatLineNumber(Line: integer; IsFakeLine: boolean): string;
     protected
-      procedure DoChange(Sender: TObject); override;
+      procedure Init; override;
+      function  PreferedWidth: Integer; override;
     public
       constructor Create(AOwner: TComponent); override;
       destructor Destroy; override;
       procedure Assign(Source: TPersistent); override;
-
       procedure Paint(Canvas: TCanvas; AClip: TRect; FirstLine, LastLine: Integer); override;
-      procedure AutoSizeDigitCount(LinesCount: integer);
-      function RealGutterWidth(CharWidth: integer): integer;  override;
     published
       property MarkupInfo;
       property DigitCount: integer read FDigitCount write SetDigitCount;
@@ -57,17 +53,14 @@ type
 
     TSynDiffGutterChanges = class(TSynGutterPartBase)
     private
-      FFoldView: TSynEditFoldedView;
       FAddedColor: TColor;
       FModifiedColor: TColor;
       FDeletedColor: TColor;
     protected
-      procedure DoChange(Sender: TObject); override;
+      function  PreferedWidth: Integer; override;
     public
       constructor Create(AOwner: TComponent); override;
-
       procedure Paint(Canvas: TCanvas; AClip: TRect; FirstLine, LastLine: Integer); override;
-      function RealGutterWidth(CharWidth: integer): Integer;  override;
     published
       property AddedColor: TColor read FAddedColor write FAddedColor;
       property ModifiedColor: TColor read FModifiedColor write FModifiedColor;
@@ -257,24 +250,19 @@ end;
 
 { TSynDiffGutterChanges }
 
-procedure TSynDiffGutterChanges.DoChange(Sender: TObject);
+function TSynDiffGutterChanges.PreferedWidth: Integer;
 begin
-  if AutoSize then
-    FWidth := 4;
-  inherited DoChange(Sender);
+  Result := 4;
 end;
 
 constructor TSynDiffGutterChanges.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FFoldView := Gutter.FoldView;
 
   FAddedColor := clPaleGreen;
   FModifiedColor := clPaleBlue;
   FDeletedColor := clPaleRed;
   MarkupInfo.Background := clNone;
-
-  FWidth := 4;
 end;
 
 procedure TSynDiffGutterChanges.Paint(Canvas: TCanvas; AClip: TRect; FirstLine,
@@ -304,7 +292,7 @@ begin
   rcLine.Bottom := FirstLine * LineHeight;
   for I := FirstLine to LastLine do
   begin
-    iLine := FFoldView.TextIndex[I];
+    iLine := FoldView.TextIndex[I];
     // next line rect
     rcLine.Top := rcLine.Bottom;
     Inc(rcLine.Bottom, LineHeight);
@@ -323,19 +311,6 @@ begin
   end;
 end;
 
-function TSynDiffGutterChanges.RealGutterWidth(CharWidth: integer): Integer;
-begin
-  if not Visible then
-  begin
-    Result := 0;
-    Exit;
-  end;
-
-  if AutoSize then
-    RealWidth := 4;
-  Result := Width;
-end;
-
 { TSynDiffGutterLineNumber }
 
 procedure TSynDiffGutterLineNumber.SetDigitCount(AValue: integer);
@@ -344,7 +319,11 @@ begin
   if FDigitCount <> AValue then
   begin
     FDigitCount := AValue;
-    FAutoSizeDigitCount := FDigitCount;
+    if AutoSize then begin
+      FAutoSizeDigitCount := Max(FDigitCount, FAutoSizeDigitCount);
+      DoAutoSize;
+    end else
+      FAutoSizeDigitCount := FDigitCount;
     DoChange(Self);
   end;
 end;
@@ -388,23 +367,23 @@ begin
   end;
 end;
 
-procedure TSynDiffGutterLineNumber.DoChange(Sender: TObject);
+function TSynDiffGutterLineNumber.PreferedWidth: Integer;
 begin
-  if AutoSize then
-    FWidth := RealGutterWidth(FTextDrawer.CharWidth);
-  inherited DoChange(Sender);
+  Result := FAutoSizeDigitCount * FTextDrawer.CharWidth + 1;
+end;
+
+procedure TSynDiffGutterLineNumber.Init;
+begin
+  inherited Init;
+  FTextDrawer := Gutter.TextDrawer;
 end;
 
 constructor TSynDiffGutterLineNumber.Create(AOwner: TComponent);
 begin
-  inherited Create(AOwner);
-  FFoldView := Gutter.FoldView;
-  FTextDrawer := Gutter.TextDrawer;
-
   FDigitCount := 4;
   FAutoSizeDigitCount := FDigitCount;
   FLeadingZeros := False;
-  FWidth := 25;
+  inherited Create(AOwner);
 end;
 
 destructor TSynDiffGutterLineNumber.Destroy;
@@ -467,7 +446,7 @@ begin
     rcLine.Bottom := FirstLine * LineHeight;
     for I := FirstLine to LastLine do
     begin
-      iLine := FFoldView.DisplayNumber[I];
+      iLine := FoldView.DisplayNumber[I];
       // next line rect
       rcLine.Top := rcLine.Bottom;
       if Assigned(SynDiffEdit.FDiff) and (SynDiffEdit.DiffCount <> 0) then
@@ -494,39 +473,6 @@ begin
   finally
     fTextDrawer.EndDrawing;
   end;
-end;
-
-procedure TSynDiffGutterLineNumber.AutoSizeDigitCount(LinesCount: integer);
-var
-  nDigits: integer;
-begin
-  if Visible and AutoSize then
-  begin
-    nDigits := Max(Length(IntToStr(LinesCount)), FDigitCount);
-    if FAutoSizeDigitCount <> nDigits then
-    begin
-      FAutoSizeDigitCount := nDigits;
-      DoChange(Self);
-    end;
-  end
-  else
-  if FAutoSizeDigitCount <> FDigitCount then begin
-    FAutoSizeDigitCount := FDigitCount;
-    DoChange(Self);
-  end;
-end;
-
-function TSynDiffGutterLineNumber.RealGutterWidth(CharWidth: integer): integer;
-begin
-  if not Visible then
-  begin
-    Result := 0;
-    Exit;
-  end;
-
-  if AutoSize then
-    RealWidth := FAutoSizeDigitCount * CharWidth + 1;
-  Result := Width;
 end;
 
 end.
