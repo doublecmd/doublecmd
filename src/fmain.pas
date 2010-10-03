@@ -608,7 +608,7 @@ var
 implementation
 
 uses
-  LCLIntf, uGlobs, uLng, fConfigToolBar, Masks, fCopyMoveDlg, uQuickViewPanel,
+  LCLIntf, uGlobs, uLng, fConfigToolBar, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, fHotDir, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   uDragDropEx, StrUtils, uKeyboard, uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,

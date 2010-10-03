@@ -28,7 +28,7 @@ unit uDetectStr;
 interface
 
 uses
-  SysUtils, Classes, LCLProc, Masks,
+  SysUtils, Classes, LCLProc, uMasks,
   uFile;
 
 type
@@ -415,4 +415,5 @@ end;
    end;
  end;
 
- end.
+ end.
+

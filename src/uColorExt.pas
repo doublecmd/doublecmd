@@ -65,7 +65,7 @@ type
 implementation
 
 uses
-  SysUtils, LCLProc, uGlobs, Masks, uFileProperty;
+  SysUtils, LCLProc, uGlobs, uMasks, uFileProperty;
 
 constructor TColorExt.Create;
 begin
