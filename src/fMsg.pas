@@ -45,8 +45,13 @@ end;
 procedure TfrmMsg.MouseUpEvent(Sender: TObject; Button: TMouseButton;
                                  Shift: TShiftState; X, Y: Integer);
 begin
-  iSelected:=(Sender as TButton).Tag;
-  Close;
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+  if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
+  begin
+    iSelected:=(Sender as TButton).Tag;
+    Close;
+  end;
+{$ENDIF}
 end;
 
 procedure TfrmMsg.FormKeyPress(Sender: TObject; var Key: Char);
