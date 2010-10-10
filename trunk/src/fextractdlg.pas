@@ -169,7 +169,7 @@ begin
                       // if each archive in separate folder
                       if cbInSeparateFolder.Checked then
                         begin
-                          sTmpPath := sDestPath +
+                          sTmpPath := sTmpPath +
                                       ExtractOnlyFileName(ArchiveFileSource.ArchiveFileName) +
                                       PathDelim;
                         end;
