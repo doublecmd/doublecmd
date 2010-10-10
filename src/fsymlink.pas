@@ -17,10 +17,10 @@ type
     edtLinkToCreate: TEdit;
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
-    procedure btnCancelMouseDown(Sender: TObject; Button: TMouseButton;
+    procedure btnCancelMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure btnOKClick(Sender: TObject);
-    procedure btnOKMouseDown(Sender: TObject; Button: TMouseButton;
+    procedure btnOKMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormShow(Sender: TObject);
 
@@ -91,18 +91,24 @@ begin
     end;
 end;
 
-procedure TfrmSymLink.btnCancelMouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  ModalResult := btnCancel.ModalResult;
-end;
-
-procedure TfrmSymLink.btnOKMouseDown(Sender: TObject; Button: TMouseButton;
+procedure TfrmSymLink.btnCancelMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
-  ModalResult := btnOK.ModalResult;
-  btnOKClick(Sender);
+  if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
+    ModalResult := btnCancel.ModalResult;
+{$ENDIF}
+end;
+
+procedure TfrmSymLink.btnOKMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+  if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
+  begin
+    ModalResult := btnOK.ModalResult;
+    btnOKClick(Sender);
+  end;
 {$ENDIF}
 end;
 
@@ -114,4 +120,4 @@ end;
 initialization
  {$I fsymlink.lrs}
 
-end.
+end.
