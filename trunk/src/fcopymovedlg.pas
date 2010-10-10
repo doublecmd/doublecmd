@@ -42,11 +42,13 @@ type
     pnlSelector: TPanel;
     btnStartMode: TSpeedButton;
     pmOperationStartMode: TPopupMenu;
-    procedure btnCancelMouseDown(Sender: TObject; Button: TMouseButton;
+    procedure btnCancelMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure btnOKMouseDown(Sender: TObject; Button: TMouseButton;
+    procedure btnOKMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure btnOptionsClick(Sender: TObject);
+    procedure btnOptionsMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure btnSaveOptionsClick(Sender: TObject);
     procedure btnStartModeClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -256,23 +258,36 @@ begin
     end;
 end;
 
-procedure TfrmCopyDlg.btnCancelMouseDown(Sender: TObject; Button: TMouseButton;
+procedure TfrmCopyDlg.btnCancelMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  if Button = mbLeft then
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+  if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
     ModalResult := btnCancel.ModalResult;
+{$ENDIF}
 end;
 
-procedure TfrmCopyDlg.btnOKMouseDown(Sender: TObject; Button: TMouseButton;
+procedure TfrmCopyDlg.btnOKMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  if Button = mbLeft then
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+  if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
     ModalResult := btnOk.ModalResult;
+{$ENDIF}
 end;
 
 procedure TfrmCopyDlg.btnOptionsClick(Sender: TObject);
 begin
   ShowOptions(not grpOptions.Visible);
+end;
+
+procedure TfrmCopyDlg.btnOptionsMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+    if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
+      ShowOptions(not grpOptions.Visible);
+  {$ENDIF}
 end;
 
 procedure TfrmCopyDlg.btnSaveOptionsClick(Sender: TObject);

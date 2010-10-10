@@ -17,14 +17,14 @@ object frmHardLink: TfrmHardLink
   KeyPreview = True
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '0.9.27'
+  LCLVersion = '0.9.29'
   object lblExistingFile: TLabel
     AnchorSideTop.Control = edtLinkToCreate
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 18
     Top = 65
-    Width = 259
+    Width = 276
     BorderSpacing.Top = 6
     Caption = 'Existing destination (where will link point)'
     FocusControl = edtExistingFile
@@ -34,7 +34,7 @@ object frmHardLink: TfrmHardLink
     Left = 8
     Height = 18
     Top = 8
-    Width = 62
+    Width = 69
     Caption = 'Link name'
     FocusControl = edtLinkToCreate
     ParentColor = False
@@ -77,7 +77,7 @@ object frmHardLink: TfrmHardLink
     ModalResult = 1
     NumGlyphs = 0
     OnClick = btnOKClick
-    OnMouseDown = btnOKMouseDown
+    OnMouseUp = btnOKMouseUp
     TabOrder = 2
   end
   object btnCancel: TBitBtn
@@ -97,7 +97,7 @@ object frmHardLink: TfrmHardLink
     Kind = bkCancel
     ModalResult = 2
     NumGlyphs = 0
-    OnMouseDown = btnCancelMouseDown
+    OnMouseUp = btnCancelMouseUp
     TabOrder = 3
   end
 end

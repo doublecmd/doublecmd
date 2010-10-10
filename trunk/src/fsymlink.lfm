@@ -27,8 +27,8 @@ object frmSymLink: TfrmSymLink
     AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 18
-    Top = 63
-    Width = 228
+    Top = 65
+    Width = 276
     BorderSpacing.Top = 6
     Caption = 'Existing destination (where will link point)'
     FocusControl = edtExistingFile
@@ -38,7 +38,7 @@ object frmSymLink: TfrmSymLink
     Left = 8
     Height = 18
     Top = 8
-    Width = 59
+    Width = 69
     Caption = 'Link name'
     FocusControl = edtLinkToCreate
     ParentColor = False
@@ -47,8 +47,8 @@ object frmSymLink: TfrmSymLink
     AnchorSideTop.Control = lblExistingFile
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 25
-    Top = 87
+    Height = 27
+    Top = 89
     Width = 384
     BorderSpacing.Top = 6
     TabOrder = 1
@@ -57,7 +57,7 @@ object frmSymLink: TfrmSymLink
     AnchorSideTop.Control = lblLinkToCreate
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 25
+    Height = 27
     Top = 32
     Width = 384
     BorderSpacing.Top = 6
@@ -69,7 +69,7 @@ object frmSymLink: TfrmSymLink
     AnchorSideRight.Control = btnCancel
     Left = 206
     Height = 32
-    Top = 124
+    Top = 128
     Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 12
@@ -81,7 +81,7 @@ object frmSymLink: TfrmSymLink
     ModalResult = 1
     NumGlyphs = 0
     OnClick = btnOKClick
-    OnMouseDown = btnOKMouseDown
+    OnMouseUp = btnOKMouseUp
     TabOrder = 2
   end
   object btnCancel: TBitBtn
@@ -91,7 +91,7 @@ object frmSymLink: TfrmSymLink
     AnchorSideRight.Side = asrBottom
     Left = 302
     Height = 32
-    Top = 124
+    Top = 128
     Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 12
@@ -101,7 +101,7 @@ object frmSymLink: TfrmSymLink
     Kind = bkCancel
     ModalResult = 2
     NumGlyphs = 0
-    OnMouseDown = btnCancelMouseDown
+    OnMouseUp = btnCancelMouseUp
     TabOrder = 3
   end
 end
