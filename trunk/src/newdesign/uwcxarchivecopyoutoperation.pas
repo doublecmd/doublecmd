@@ -510,7 +510,7 @@ procedure TWcxArchiveCopyOutOperation.ShowError(sMessage: String; logOptions: TL
 begin
   if not gSkipFileOpError then
   begin
-    if AskQuestion(sMessage, '', [fsourSkip, fsourCancel],
+    if AskQuestion(sMessage, '', [fsourSkip, fsourAbort],
                    fsourSkip, fsourAbort) = fsourAbort then
     begin
       RaiseAbortOperation;
