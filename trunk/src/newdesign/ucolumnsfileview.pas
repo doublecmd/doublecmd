@@ -1629,10 +1629,9 @@ procedure TColumnsFileView.edtRenameExit(Sender: TObject);
 begin
   edtRename.Visible := False;
   UnMarkAll;
-  {$IFDEF LCLGTK2}
-  // dgPanelEnter don't called under GTK2 automatically
+
+  // dgPanelEnter don't called automatically (bug?)
   dgPanelEnter(dgPanel);
-  {$ENDIF}
 end;
 
 procedure TColumnsFileView.edtFilterEnter(Sender: TObject);
