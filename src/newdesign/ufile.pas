@@ -27,6 +27,8 @@ type
                                         var aExtension: string);
 
   protected
+    function GetProperty(PropType: TFilePropertyType): TFileProperty;
+    procedure SetProperty(PropType: TFilePropertyType; NewValue: TFileProperty);
     function GetFullPath: String;
     procedure SetFullPath(const NewFullPath: String);
     procedure SetPath(const NewPath: String);
@@ -89,6 +91,8 @@ type
     function Clone: TFile;
     procedure CloneTo(AFile: TFile);
 
+    function ReleaseProperty(PropType: TFilePropertyType): TFileProperty;
+
     {en
        Returns True if name is not '..'.
        May be extended to include other conditions.
@@ -119,12 +123,13 @@ type
     //property Properties[Index: Integer];
     //property Properties[Name: String];
     //property Properties[Type: TFilePropertiesType]
-    property Properties: TFileProperties read FProperties;
+    property Properties[PropType: TFilePropertyType]: TFileProperty read GetProperty write SetProperty;
 
     {en
        All supported properties should have an assigned Properties[propertyType].
     }
     property SupportedProperties: TFilePropertiesTypes read FSupportedProperties;
+    property AssignedProperties: TFilePropertiesTypes read FSupportedProperties;
 
     { Accessors to each property. }
 
@@ -319,6 +324,13 @@ begin
   end;
 end;
 
+function TFile.ReleaseProperty(PropType: TFilePropertyType): TFileProperty;
+begin
+  Result := FProperties[PropType];
+  FProperties[PropType] := nil;
+  Exclude(FSupportedProperties, PropType);
+end;
+
 function TFile.GetExtension: String;
 begin
   Result := FExtension;
@@ -351,6 +363,20 @@ begin
   begin
     SplitIntoNameAndExtension(NewName, FNameNoExt, FExtension);
   end;
+end;
+
+function TFile.GetProperty(PropType: TFilePropertyType): TFileProperty;
+begin
+  Result := FProperties[PropType];
+end;
+
+procedure TFile.SetProperty(PropType: TFilePropertyType; NewValue: TFileProperty);
+begin
+  FProperties[PropType] := NewValue;
+  if Assigned(NewValue) then
+    Include(FSupportedProperties, PropType)
+  else
+    Exclude(FSupportedProperties, PropType);
 end;
 
 function TFile.GetFullPath: String;

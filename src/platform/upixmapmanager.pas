@@ -186,11 +186,28 @@ type
     function DrawBitmap(iIndex: PtrInt; Canvas : TCanvas; X, Y, Width, Height: Integer) : Boolean;
     function DrawBitmap(iIndex: PtrInt; AFile: TFile; DirectAccess: Boolean; Canvas : TCanvas; X, Y: Integer) : Boolean;
     function GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
-    function GetIconByFile(AFile: TFile; DirectAccess: Boolean): PtrInt;
+    {en
+       Retrieves icon index in FPixmapList table for a file.
+
+       @param(AFile
+              File for which to retrieve the icon.)
+       @param(DirectAccess
+              Whether the file is on a directly accessible file source.)
+       @param(LoadIcon
+              Only used when an icon for a file does not yet exist in FPixmapsList.
+              If @true then it loads the icon into FPixmapsList table and returns
+              the index of the loaded icon.
+              If @false then it returns -1 to notify that an icon for the file
+              does not exist in FPixmapsList.
+              If the icon already exists for the file the function returns
+              its index regardless of LoadIcon parameter.)
+    }
+    function GetIconByFile(AFile: TFile; DirectAccess: Boolean; LoadIcon: Boolean): PtrInt;
     function GetIconByName(const AIconName: UTF8String): PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
+    property DefaultIconID: PtrInt read FiDefaultIconID;
   end;
 
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
@@ -346,7 +363,7 @@ begin
           if mbFileExists(sFileName) or mbDirectoryExists(sFileName) then
             begin
               AFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
-              iIndex := PixMapManager.GetIconByFile(AFile, True);
+              iIndex := PixMapManager.GetIconByFile(AFile, True, True);
               bmStandartBitmap := PixMapManager.GetBitmap(iIndex, clBackColor);
               FreeAndNil(AFile);
             end
@@ -1282,7 +1299,7 @@ begin
   end;
 end;
 
-function TPixMapManager.GetIconByFile(AFile: TFile; DirectAccess: Boolean): PtrInt;
+function TPixMapManager.GetIconByFile(AFile: TFile; DirectAccess: Boolean; LoadIcon: Boolean): PtrInt;
 var
   Ext: String;
 {$IFDEF MSWINDOWS}
@@ -1325,7 +1342,10 @@ begin
       if (gShowIcons = sim_all_and_exe) and
          (DirectAccess and mbFileExists(Path + Name + '/.directory')) then
         begin
-          Result:= GetIconByDesktopFile(Path + Name + '/.directory', FiDirIconID);
+          if LoadIcon then
+            Result := GetIconByDesktopFile(Path + Name + '/.directory', FiDirIconID)
+          else
+            Result := -1;
           Exit;
         end
       else
@@ -1333,7 +1353,10 @@ begin
       if (gShowIcons = sim_all_and_exe) and
          (DirectAccess and (ExtractFileExt(FullPath) = '.app')) then
         begin
-          Result:= GetApplicationBundleIcon(FullPath, FiDirIconID);
+          if LoadIcon then
+            Result := GetApplicationBundleIcon(FullPath, FiDirIconID)
+          else
+            Result := -1;
           Exit;
         end
       else
@@ -1372,7 +1395,10 @@ begin
         begin
           if DirectAccess and (Ext = 'desktop') then
             begin
-              Result:= GetIconByDesktopFile(Path + Name, FiDefaultIconID);
+              if LoadIcon then
+                Result := GetIconByDesktopFile(Path + Name, FiDefaultIconID)
+              else
+                Result := -1;
               Exit;
             end;
         end;
@@ -1388,6 +1414,9 @@ begin
           Exit(FiDefaultIconID);
 
         {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+
+        if LoadIcon = False then
+          Exit(-1);
 
         Result := GetMimeIcon(Ext, gIconsSize);
         if Result < 0 then
@@ -1408,12 +1437,16 @@ begin
 
     if DirectAccess then
       begin
+        if LoadIcon = False then
+          Exit(-1);
+
         dwFileAttributes := 0;
         uFlags := SHGFI_SYSICONINDEX;
         sFileName := Path + Name;
       end
     else
       begin
+        // This is fast, so do it even if LoadIcon is false.
         dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
         uFlags := SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES;
         sFileName := Name;

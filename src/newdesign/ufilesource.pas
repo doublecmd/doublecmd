@@ -37,6 +37,7 @@ type
     function SetCurrentWorkingDirectory(NewDir: String): Boolean;
 
     function GetSupportedFileProperties: TFilePropertiesTypes;
+    function GetRetrievableFileProperties: TFilePropertiesTypes;
     function GetOperationsTypes: TFileSourceOperationTypes;
     function GetProperties: TFileSourceProperties;
     function GetFiles(TargetPath: String): TFiles;
@@ -44,6 +45,9 @@ type
     procedure SetParentFileSource(NewValue: IFileSource);
 
     function CreateFileObject(const APath: String): TFile;
+
+    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes);
+    function CanRetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes): Boolean;
 
     function CreateListOperation(TargetPath: String): TFileSourceOperation;
     function CreateCopyOperation(var SourceFiles: TFiles;
@@ -89,6 +93,7 @@ type
     property ParentFileSource: IFileSource read GetParentFileSource write SetParentFileSource;
     property Properties: TFileSourceProperties read GetProperties;
     property SupportedFileProperties: TFilePropertiesTypes read GetSupportedFileProperties;
+    property RetrievableFileProperties: TFilePropertiesTypes read GetRetrievableFileProperties;
   end;
 
   { TFileSource }
@@ -138,6 +143,10 @@ type
        Returns all the properties supported by the file type of the given file source.
     }
     function GetSupportedFileProperties: TFilePropertiesTypes; virtual;
+    {en
+       Returns all the file properties that can be retrieved by the file source.
+    }
+    function GetRetrievableFileProperties: TFilePropertiesTypes; virtual;
 
     function GetParentFileSource: IFileSource;
     procedure SetParentFileSource(NewValue: IFileSource);
@@ -185,6 +194,9 @@ type
 
     // Create an empty TFile object with appropriate properties for the file.
     class function CreateFile(const APath: String): TFile; virtual;
+
+    procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes); virtual;
+    function CanRetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes): Boolean; virtual;
 
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; virtual;
@@ -247,6 +259,7 @@ type
     property ParentFileSource: IFileSource read GetParentFileSource write SetParentFileSource;
     property Properties: TFileSourceProperties read GetProperties;
     property SupportedFileProperties: TFilePropertiesTypes read GetSupportedFileProperties;
+    property RetrievableFileProperties: TFilePropertiesTypes read GetRetrievableFileProperties;
 
   end;
 
@@ -426,6 +439,11 @@ begin
   Result := [fpName];
 end;
 
+function TFileSource.GetRetrievableFileProperties: TFilePropertiesTypes;
+begin
+  Result := [];
+end;
+
 function TFileSource.GetParentFileSource: IFileSource;
 begin
   Result := FParentFileSource;
@@ -512,6 +530,16 @@ end;
 function TFileSource.CreateFileObject(const APath: String): TFile;
 begin
   Result := CreateFile(APath);
+end;
+
+procedure TFileSource.RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes);
+begin
+  // Does not set any properties by default.
+end;
+
+function TFileSource.CanRetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes): Boolean;
+begin
+  Result := ((PropertiesToSet - AFile.AssignedProperties) * RetrievableFileProperties) <> [];
 end;
 
 function TFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;

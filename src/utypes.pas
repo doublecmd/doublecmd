@@ -113,6 +113,11 @@ type
 
   PFileRecItem=^TFileRecItem;
 
+  TRange = record
+    First: Integer;
+    Last: Integer;
+  end;
+
 implementation
 
 end.

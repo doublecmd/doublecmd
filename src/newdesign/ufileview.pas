@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Controls, ExtCtrls,
   uFile, uFileSource, uMethodsList, uDragDropEx, uXmlConfig, uClassesEx,
-  uFileSorting, uFileViewHistory;
+  uFileSorting, uFileViewHistory, uFileProperty;
 
 type
 
@@ -46,6 +46,11 @@ type
     }
     FHistory: TFileViewHistory;
     FSortings: TFileSortings;
+    {en
+       Which file properties are needed to be displayed for each file.
+    }
+    FFilePropertiesNeeded: TFilePropertiesTypes;
+
     FLastActiveFile: String;      //<en Last active file (cursor)
     {en
        File name which should be selected. Sometimes the file might not yet
@@ -107,6 +112,7 @@ type
     }
     procedure AfterChangePath(NewPath: String); virtual;
 
+    property FilePropertiesNeeded: TFilePropertiesTypes read FFilePropertiesNeeded write FFilePropertiesNeeded;
     property LastActiveFile: String read FLastActiveFile write FLastActiveFile;
     property RequestedActiveFile: String read FRequestedActiveFile write FRequestedActiveFile;
 
@@ -320,6 +326,7 @@ begin
   FOnActivate := nil;
   FOnReload := nil;
   FSortings := nil;
+  FFilePropertiesNeeded := [];
   FMethods := TMethodsList.Create(Self);
   FHistory := TFileViewHistory.Create;
   FLastActiveFile := '';
