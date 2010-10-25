@@ -6,9 +6,10 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Controls, Forms, StdCtrls, ExtCtrls, Grids,
-  LMessages, LCLIntf, LCLType, Menus, syncobjs,
+  LMessages, LCLIntf, LCLType, Menus,
   uDragDropEx,
   uFile,
+  uFileProperty,
   uFileView,
   uFileSource,
   uFileSourceListOperation,
@@ -17,7 +18,8 @@ uses
   uFileSorting,
   uFunctionThread,
   uXmlConfig,
-  uClassesEx
+  uClassesEx,
+  uTypes
   ;
 
 //{$DEFINE timeFileView}
@@ -42,10 +44,17 @@ type
     function GetSortingDirection(iColumn : Integer) : TSortDirection;
   end;
 
-  TFileListBuilderState = (rfsNone, rfsLoadingFiles, rfsLoadingIcons);
+  TFileListBuilderState = (rfsNone, rfsLoadingFiles, rfsRetrievingProperties);
 
   TColumnsFileView = class;
   TColumnsFileListBuilder = class;
+
+  PRetrieveInfo = ^TRetrieveInfo;
+  TRetrieveInfo = record
+    FileIndex: Integer;
+    RefFile: TFile;
+    IconID: PtrInt;
+  end;
 
   { TDrawGridEx }
 
@@ -106,7 +115,6 @@ type
     function TooManyDoubleClicks: Boolean;
 {$ENDIF}
     constructor Create(AOwner: TComponent; AParent: TWinControl); reintroduce;
-    destructor Destroy; override;
 
     procedure UpdateView;
 
@@ -114,6 +122,9 @@ type
 
     // Returns height of all the header rows.
     function GetHeaderHeight: Integer;
+
+    // Adapted from TCustomGrid.GetVisibleGrid only for visible rows.
+    function GetVisibleRows: TRange;
   end;
 
   { TPathLabel }
@@ -170,7 +181,6 @@ type
     FReloading: Boolean;        //<en If currently reloading file list
 
     FFileListBuilders: TFPList; // of TColumnsFileListBuilder
-    FFileListBuilderLock: TCriticalSection;
     {en
        Points to currently used builder while the file list is being loaded.
     }
@@ -291,6 +301,8 @@ type
     }
     procedure MakeColumnsStrings;
     procedure MakeColumnsStrings(AFile: TColumnsViewFile);
+    procedure EnsureDisplayProperties;
+    function GetBuilder: TColumnsFileListBuilder;
 
     {en
        Prepares sortings for later use in Sort function.
@@ -301,6 +313,11 @@ type
        Translates file sorting by functions to sorting by columns.
     }
     procedure SetColumnsSorting(ASortings: TFileSortings);
+
+    {en
+       Checks which file properties are needed for displaying.
+    }
+    function GetFilePropertiesNeeded: TFilePropertiesTypes;
 
     procedure ShowRenameFileEdit(const sFileName:String);
     procedure ShowPathEdit;
@@ -360,6 +377,8 @@ type
                                   MousePos: TPoint; var Handled: Boolean);
     procedure dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
     procedure dgPanelShowHint(Sender: TObject; HintInfo: PHintInfo);
+    procedure dgPanelTopLeftChanged(Sender: TObject);
+    procedure dgPanelResize(Sender: TObject);
     procedure tmContextMenuTimer(Sender: TObject);
     procedure lblPathClick(Sender: TObject);
     procedure lblPathMouseUp(Sender: TObject; Button: TMouseButton;
@@ -453,9 +472,9 @@ type
     FTmpFileSourceFiles: TFiles;
     FTmpDisplayFiles: TColumnsViewFiles;
     FAborted: Boolean;
-    FFileIndexToUpdate: Integer;
+    FUpdateInfo: TRetrieveInfo;
     FState: TFileListBuilderState;
-    FIconsToLoad: Integer;
+    FRetrieveList: TFPList;
 
     // Data captured from the columns view before start.
     FColumnsView: TColumnsFileView;
@@ -465,6 +484,7 @@ type
     FCurrentPath: String;
     FThread: TThread;
     FSortings: TFileSortings;
+    FFilePropertiesNeeded: TFilePropertiesTypes;
 
     {en
        Fills aFiles with files from aFileSourceFiles.
@@ -475,8 +495,6 @@ type
                                         aFiles: TColumnsViewFiles;
                                         aFileFilter: String);
 
-    procedure AfterMakeDisplayFileList;
-
     {en
        Assigns the built lists to the columns view and displays new the file list.
        Must be run from GUI thread.
@@ -484,20 +502,20 @@ type
     procedure SetColumnsFilelist;
 
     {en
-       Load icon of each file from display file list.
+       Updates file in the file view with new data from FUpdateInfo.
+       Then redraws the row showing the file.
+       Must be run from GUI thread.
     }
-    procedure LoadFilesIcons;
-    {en
-       Redraws a column with a new icon. Must be run from GUI thread.
-    }
-    procedure UpdateIcon;
+    procedure UpdateFile;
 
     procedure ClearBuilder;
 
     function IsWorking: Boolean; inline;
+    procedure DestroyRetrieveList;
 
   public
     constructor Create;
+    destructor Destroy; override;
     procedure Abort;
 
     {en
@@ -506,12 +524,14 @@ type
        the builder is scheduled to work.
     }
     procedure InitializeBeforeWork(AColumnsView: TColumnsFileView);
+    procedure InitializeBeforeUpdate(AColumnsView: TColumnsFileView; var RetrieveList: TFPList);
 
     {en
        Retrieves file list from file source, sorts and creates a display file list.
        It may be run from a worker thread so it cannot access GUI directly.
     }
     procedure MakeFileSourceFileList(Params: Pointer);
+    procedure RetrieveProperties(Params: Pointer);
 
     property Working: Boolean read IsWorking;
     property State: TFileListBuilderState read FState;
@@ -523,7 +543,6 @@ uses
   LCLProc, uMasks, Dialogs, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager,
   uDCUtils, uOSUtils, math, fMain, fMaskInputDlg, uSearchTemplate,
   uInfoToolTip, dmCommonData,
-  uFileProperty,
   uFileSourceProperty,
   uFileSourceOperation,
   uFileSourceOperationTypes,
@@ -1292,6 +1311,16 @@ begin
     end;
 end;
 
+procedure TColumnsFileView.dgPanelTopLeftChanged(Sender: TObject);
+begin
+  EnsureDisplayProperties;
+end;
+
+procedure TColumnsFileView.dgPanelResize(Sender: TObject);
+begin
+  EnsureDisplayProperties;
+end;
+
 procedure TColumnsFileView.tmContextMenuTimer(Sender: TObject);
 var
   AFile: TColumnsViewFile;
@@ -1539,6 +1568,40 @@ begin
       begin
         if AddColumnsSorting(fsfNameNoExtension, ASortings[i].SortDirection) then
           AddColumnsSorting(fsfExtension, ASortings[i].SortDirection);
+      end;
+    end;
+  end;
+end;
+
+function TColumnsFileView.GetFilePropertiesNeeded: TFilePropertiesTypes;
+var
+  i, j: Integer;
+  ColumnsClass: TPanelColumnsClass;
+  Column: TPanelColumn;
+  FileFunctionsUsed: TFileFunctions;
+begin
+  // By default always use some properties.
+  Result := [fpName,
+             fpSize,              // For info panel (total size, selected size)
+             fpAttributes,        // For distinguishing directories
+             fpLink,              // For distinguishing directories (link to dir) and link icons
+             fpModificationTime   // For selecting/coloring files (by SearchTemplate)
+            ];
+
+  ColumnsClass := GetColumnsClass;
+
+  // Scan through all columns.
+  for i := 0 to ColumnsClass.Count - 1 do
+  begin
+    Column := ColumnsClass.GetColumnItem(i);
+    FileFunctionsUsed := Column.GetColumnFunctions;
+    if Length(FileFunctionsUsed) > 0 then
+    begin
+      // Scan through all functions in the column.
+      for j := Low(FileFunctionsUsed) to High(FileFunctionsUsed) do
+      begin
+        // Add file properties needed to display the function.
+        Result := Result + TFileFunctionToProperty[FileFunctionsUsed[j]];
       end;
     end;
   end;
@@ -2271,8 +2334,9 @@ end;
 procedure TColumnsFileView.UpdateColumnsView;
 var
   ColumnsClass: TPanelColumnsClass;
+  OldFilePropertiesNeeded: TFilePropertiesTypes;
 begin
-  if ActiveColm <> '' then
+  if (ActiveColm <> '') or (isSlave and Assigned(ActiveColmSlave)) then
   begin
     // If the ActiveColm set doesn't exist this will retrieve either
     // the first set or the default set.
@@ -2284,6 +2348,13 @@ begin
 
     dgPanel.FocusRectVisible := ColumnsClass.GetCursorBorder;
     dgPanel.FocusColor := ColumnsClass.GetCursorBorderColor;
+
+    OldFilePropertiesNeeded := FilePropertiesNeeded;
+    FilePropertiesNeeded := GetFilePropertiesNeeded;
+    if FilePropertiesNeeded >= OldFilePropertiesNeeded then
+    begin
+      EnsureDisplayProperties;
+    end;
   end;
   // else No columns set yet.
 end;
@@ -2736,7 +2807,6 @@ begin
   FFileSourceFiles := nil;
   FListFilesThread := nil;
   FReloading := False;
-  FFileListBuilderLock := TCriticalSection.Create;
   FFileListBuilders := TFPList.Create;
   FSelection:= TStringListEx.Create;
 
@@ -2867,6 +2937,8 @@ begin
   dgPanel.OnMouseWheelDown := @dgPanelMouseWheelDown;
   dgPanel.OnSelection:= @dgPanelSelection;
   dgPanel.OnShowHint:= @dgPanelShowHint;
+  dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
+  dgpanel.OnResize:= @dgPanelResize;
 
   edtSearch.OnChange := @edtSearchChange;
   edtSearch.OnKeyDown := @edtSearchKeyDown;
@@ -2925,7 +2997,6 @@ begin
     FreeAndNil(FFileListBuilders);
   end;
 
-  FreeThenNil(FFileListBuilderLock);
   FreeThenNil(FSelection);
 
   if Assigned(FFiles) then
@@ -3015,45 +3086,6 @@ begin
 end;
 
 procedure TColumnsFileView.MakeFileSourceFileList;
-
-  function GetBuilder: TColumnsFileListBuilder;
-  var
-    i: Integer;
-  begin
-    Result := nil;
-
-    // Search for an existing builder that has finished working.
-    // Free all other unused builders.
-    i := 0;
-    while i < FFileListBuilders.Count do
-    begin
-      if not TColumnsFileListBuilder(FFileListBuilders[i]).Working then
-      begin
-        // Found unused builder.
-        if not Assigned(Result) then
-        begin
-          Result := TColumnsFileListBuilder(FFileListBuilders[i]);
-          Inc(i);
-        end
-        else
-        begin
-          // Delete unneeded builders that finished working.
-          TColumnsFileListBuilder(FFileListBuilders[i]).Free;
-          FFileListBuilders.Delete(i);
-        end;
-      end
-      else
-        Inc(i);
-    end;
-
-    // A free builder was not found (they may still be finishing), so create a new one.
-    if not Assigned(Result) then
-    begin
-      Result := TColumnsFileListBuilder.Create;
-      FFileListBuilders.Add(Result);
-    end;
-  end;
-
 begin
   if csDestroying in ComponentState then
     Exit;
@@ -3098,6 +3130,7 @@ procedure TColumnsFileView.AfterMakeFileList;
 begin
   MakeColumnsStrings;
   DisplayFileListHasChanged;
+  EnsureDisplayProperties; // After displaying.
   DoOnReload;
   dgPanel.Cursor := crDefault;
 end;
@@ -3126,8 +3159,7 @@ begin
   begin
     case FCurrentFileListBuilder.State of
       rfsNone: ; // already finished working so it's ok to continue
-      rfsLoadingIcons:
-        // Stop loading icons because they will be retrieved again below.
+      rfsRetrievingProperties:
         StopBackgroundWork;
       else
         // File list is being loaded from file source - cannot display yet.
@@ -3178,6 +3210,122 @@ begin
   end;
 end;
 
+procedure TColumnsFileView.EnsureDisplayProperties;
+var
+  VisibleRows: TRange;
+  i: Integer;
+  RetrieveList: TFPList;
+  RetrieveInfo: PRetrieveInfo;
+  aFile: TFile;
+begin
+  if (Assigned(FCurrentFileListBuilder) and (FCurrentFileListBuilder.State in [rfsLoadingFiles])) or
+     (not Assigned(FFiles)) or
+     (csDestroying in ComponentState) then
+    Exit;
+
+  VisibleRows := dgPanel.GetVisibleRows;
+  Dec(VisibleRows.First, dgPanel.FixedRows);
+  Dec(VisibleRows.Last, dgPanel.FixedRows);
+
+  if VisibleRows.First < 0 then
+    VisibleRows.First := 0;
+  if VisibleRows.Last >= FFiles.Count then
+    VisibleRows.Last := FFiles.Count - 1;
+
+  if not gListFilesInThread then
+  begin
+    for i := VisibleRows.First to VisibleRows.Last do
+    begin
+      with FFiles[i] do
+      begin
+        if (TheFile.Name <> '..') then
+        begin
+          if IconID = -1 then
+            IconID := PixMapManager.GetIconByFile(TheFile, fspDirectAccess in FileSource.Properties, True);
+          FileSource.RetrieveProperties(TheFile, FilePropertiesNeeded);
+        end;
+      end;
+    end;
+  end
+  else
+  begin
+    RetrieveList := TFPList.Create;
+    try
+      for i := VisibleRows.First to VisibleRows.Last do
+      begin
+        with FFiles[i] do
+        begin
+          if (TheFile.Name <> '..') and
+             (FileSource.CanRetrieveProperties(TheFile, FilePropertiesNeeded) or (IconID = -1)) then
+          begin
+            RetrieveInfo := New(PRetrieveInfo);
+            RetrieveInfo^.FileIndex := i;
+            RetrieveInfo^.RefFile   := TheFile.Clone;
+            RetrieveInfo^.IconID    := IconID;
+            RetrieveList.Add(RetrieveInfo);
+          end;
+        end;
+      end;
+
+      if RetrieveList.Count > 0 then
+      begin
+        StopBackgroundWork;
+
+        // Pass parameters to the builder
+        // (it is unsafe to access them directly from the worker thread).
+        FCurrentFileListBuilder := GetBuilder;
+        FCurrentFileListBuilder.InitializeBeforeUpdate(Self, RetrieveList);
+
+        if not Assigned(FListFilesThread) then
+          FListFilesThread := TFunctionThread.Create(False);
+        FListFilesThread.QueueFunction(@FCurrentFileListBuilder.RetrieveProperties);
+      end;
+
+    finally
+      if Assigned(RetrieveList) then
+        FreeAndNil(RetrieveList);
+    end;
+  end;
+end;
+
+function TColumnsFileView.GetBuilder: TColumnsFileListBuilder;
+var
+  i: Integer;
+begin
+  Result := nil;
+
+  // Search for an existing builder that has finished working.
+  // Free all other unused builders.
+  i := 0;
+  while i < FFileListBuilders.Count do
+  begin
+    if not TColumnsFileListBuilder(FFileListBuilders[i]).Working then
+    begin
+      // Found unused builder.
+      if not Assigned(Result) then
+      begin
+        Result := TColumnsFileListBuilder(FFileListBuilders[i]);
+        Inc(i);
+      end
+      else
+      begin
+        // Delete unneeded builders that finished working.
+        TColumnsFileListBuilder(FFileListBuilders[i]).Free;
+        FFileListBuilders.Delete(i);
+      end;
+    end
+    else
+      Inc(i);
+  end;
+
+  // A free builder was not found (they may still be finishing), so create a new one.
+  if not Assigned(Result) then
+  begin
+    Result := TColumnsFileListBuilder.Create;
+    FFileListBuilders.Add(Result);
+  end;
+end;
+
 procedure TColumnsFileView.Reload(const PathsToReload: TPathsArray);
 var
   i: Integer;
@@ -3206,15 +3354,7 @@ procedure TColumnsFileView.StopBackgroundWork;
 begin
   if Assigned(FCurrentFileListBuilder) then
   begin
-    // This lock may block temporarily until all access
-    // to Files by the builder thread is finished.
-    FFileListBuilderLock.Acquire;
-    try
-      FCurrentFileListBuilder.Abort;
-    finally
-      FFileListBuilderLock.Release;
-    end;
-
+    FCurrentFileListBuilder.Abort;
     FCurrentFileListBuilder := nil;
   end;
 end;
@@ -3577,6 +3717,10 @@ begin
 
   inherited Create(AOwner);
 
+  // Override default values to start with no columns and no rows.
+  RowCount := 0;
+  ColCount := 0;
+
   Self.Parent := AParent;
   ColumnsView := AParent as TColumnsFileView;
 
@@ -3593,11 +3737,6 @@ begin
   TabStop := False;
 
   UpdateView;
-end;
-
-destructor TDrawGridEx.Destroy;
-begin
-  inherited;
 end;
 
 procedure TDrawGridEx.UpdateView;
@@ -3766,10 +3905,17 @@ var
 
   procedure DrawIconCell;
   //------------------------------------------------------
+  var
+    IconID: PtrInt;
   begin
-    if (AFile.IconID >= 0) and (gShowIcons <> sim_none) then
+    if (gShowIcons <> sim_none) then
     begin
-      PixMapManager.DrawBitmap(AFile.IconID,
+      IconID := AFile.IconID;
+      // Draw default icon if there is no icon for the file.
+      if IconID = -1 then
+        IconID := PixMapManager.DefaultIconID;
+
+      PixMapManager.DrawBitmap(IconID,
                                AFile.TheFile,
                                FileSourceDirectAccess,
                                Canvas,
@@ -4335,6 +4481,33 @@ begin
 end;
 {$ENDIF}
 
+function TDrawGridEx.GetVisibleRows: TRange;
+var
+  w: Integer;
+  rc: Integer;
+begin
+  if (TopRow<0)or(csLoading in ComponentState) then begin
+    Result.First := 0;
+    Result.Last := -1;
+    Exit;
+  end;
+  // visible TopLeft Cell
+  Result.First:=TopRow;
+  Result.Last:=Result.First;
+  rc := RowCount;
+
+  // Top Margin of next visible Row and Bottom most visible cell
+  if rc>FixedRows then begin
+    w:=RowHeights[Result.First] + GCache.FixedHeight - GCache.TLRowOff;
+    while (Result.Last<rc-1)and(W<GCache.ClientHeight) do begin
+      Inc(Result.Last);
+      W:=W+RowHeights[Result.Last];
+    end;
+  end else begin
+    Result.Last := Result.First - 1; // no visible cells here
+  end;
+end;
+
 { TPathLabel }
 
 constructor TPathLabel.Create(AOwner: TComponent; AllowHighlight: Boolean);
@@ -4576,6 +4749,14 @@ begin
   FTmpDisplayFiles := nil;
   FAborted := False;
   FState := rfsNone;
+  FRetrieveList := nil;
+  FThread := nil;
+end;
+
+destructor TColumnsFileListBuilder.Destroy;
+begin
+  DestroyRetrieveList;
+  inherited Destroy;
 end;
 
 procedure TColumnsFileListBuilder.Abort;
@@ -4587,16 +4768,35 @@ procedure TColumnsFileListBuilder.InitializeBeforeWork(AColumnsView: TColumnsFil
 begin
   FAborted := False;
   FState := rfsLoadingFiles;
-  FIconsToLoad := 0;
 
   // Copy these parameters while it's still safe to access them from the main thread.
-  FColumnsView      := AColumnsView;
-  FFileSource       := AColumnsView.FileSource;
-  FFileSourcesCount := AColumnsView.FileSourcesCount;
-  FFileFilter       := AColumnsView.FileFilter;
-  FCurrentPath      := AColumnsView.CurrentPath;
-  FThread           := AColumnsView.FListFilesThread;
-  FSortings         := CloneSortings(AColumnsView.Sorting);
+  FColumnsView          := AColumnsView;
+  FFileSource           := AColumnsView.FileSource;
+  FFileSourcesCount     := AColumnsView.FileSourcesCount;
+  FFileFilter           := AColumnsView.FileFilter;
+  FCurrentPath          := AColumnsView.CurrentPath;
+  FThread               := AColumnsView.FListFilesThread;
+  FSortings             := CloneSortings(AColumnsView.Sorting);
+  FFilePropertiesNeeded := AColumnsView.FilePropertiesNeeded;
+end;
+
+procedure TColumnsFileListBuilder.InitializeBeforeUpdate(AColumnsView: TColumnsFileView;
+                                                         var RetrieveList: TFPList);
+begin
+  FAborted := False;
+  FState := rfsRetrievingProperties;
+  FRetrieveList := RetrieveList;
+  RetrieveList := nil;
+
+  // Copy these parameters while it's still safe to access them from the main thread.
+  FColumnsView          := AColumnsView;
+  FFileSource           := AColumnsView.FileSource;
+  FFileSourcesCount     := AColumnsView.FileSourcesCount;
+  FFileFilter           := AColumnsView.FileFilter;
+  FCurrentPath          := AColumnsView.CurrentPath;
+  FThread               := AColumnsView.FListFilesThread;
+  FSortings             := CloneSortings(AColumnsView.Sorting);
+  FFilePropertiesNeeded := AColumnsView.FilePropertiesNeeded;
 end;
 
 procedure TColumnsFileListBuilder.MakeFileSourceFileList(Params: Pointer);
@@ -4658,7 +4858,15 @@ begin
     DebugLn('Made disp. list: ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
     {$ENDIF}
 
-    AfterMakeDisplayFileList;
+    if FAborted then
+      Exit;
+
+    // Loading file list is complete. Update grid with the new file list.
+    TThread.Synchronize(FThread, @SetColumnsFilelist);
+
+    {$IFDEF timeFileView}
+    DebugLn('Grid updated   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+    {$ENDIF}
 
   finally
     {$IFDEF timeFileView}
@@ -4684,7 +4892,6 @@ var
   sFilterNameNoExt,
   sFilterExt,
   localFilter: String;
-  bLoadIcons: Boolean;
 begin
   aFiles.Clear;
 
@@ -4711,9 +4918,6 @@ begin
           localFilter := localFilter + '*';
         end;
     end;
-
-    bLoadIcons := (not (gListFilesInThread and (GetCurrentThreadId <> MainThreadID))) or
-                  ((not gLoadIconsSeparately) and (gShowIcons <> sim_none));
 
     for i := 0 to aFileSourceFiles.Count - 1 do
     begin
@@ -4752,53 +4956,16 @@ begin
       end;
 
       AFile := TColumnsViewFile.Create(aFileSourceFiles[i]);
-      if bLoadIcons then
+
+      if gShowIcons <> sim_none then
+      begin
         AFile.IconID := PixMapManager.GetIconByFile(AFile.TheFile,
-                                                    fspDirectAccess in aFileSource.Properties);
+                                                    fspDirectAccess in aFileSource.Properties,
+                                                    not gLoadIconsSeparately);
+      end;
+
       aFiles.Add(AFile);
     end;
-  end;
-end;
-
-procedure TColumnsFileListBuilder.AfterMakeDisplayFileList;
-begin
-  if gListFilesInThread and (GetCurrentThreadId <> MainThreadID) then
-  begin
-    if FAborted then
-      Exit;
-
-    if gLoadIconsSeparately and (gShowIcons <> sim_none) then
-      FIconsToLoad := FTmpDisplayFiles.Count;
-
-    // Loading file list is complete. Update grid with the new file list.
-    TThread.Synchronize(FThread, @SetColumnsFilelist);
-
-    {$IFDEF timeFileView}
-    DebugLn('Grid updated   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
-    {$ENDIF}
-
-    // Now will load icons if not yet loaded.
-    if FIconsToLoad > 0 then
-    begin
-      if FAborted then
-        Exit;
-
-      LoadFilesIcons;
-
-      {$IFDEF timeFileView}
-      DebugLn('Loaded icons   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
-      {$ENDIF}
-
-      if FAborted then
-        Exit;
-
-      // Loading file list is complete.
-      TThread.Synchronize(FThread, @ClearBuilder);
-    end;
-  end
-  else
-  begin
-    SetColumnsFilelist;
   end;
 end;
 
@@ -4821,12 +4988,8 @@ begin
       FTmpFileSourceFiles := nil;
     end;
 
-    // Now that files are assigned change state before displaying file list.
-    if FIconsToLoad > 0 then
-      FState := rfsLoadingIcons
-    else
-      // Loading file list is complete.
-      ClearBuilder;
+    // Loading file list is complete.
+    ClearBuilder;
 
     // Display new file list.
     FColumnsView.AfterMakeFileList;
@@ -4838,55 +5001,65 @@ begin
   end;
 end;
 
-procedure TColumnsFileListBuilder.LoadFilesIcons;
+procedure TColumnsFileListBuilder.RetrieveProperties(Params: Pointer);
 var
   i: Integer;
-  bRedrawIcon: Boolean;
 begin
-  // This is the only place where we must access ColumnsView.FFiles from the worker thread.
-  // We can only update basic datatypes here (variables which are not allocated on heap),
-  // so that concurrent access from GUI thread is safe. Otherwise access to FFiles
-  // would need to be fully synchronized.
-  // It has to be done under FFileListBuilderLock lock (the same as in
-  // StopBackgroundWork) and only after checking FAborted under the same lock.
-  // That way it is synchronized with StopBackgroundWork which blocks
-  // until any access to FFiles below is complete.
-
-  for i := 0 to FIconsToLoad - 1 do
-  begin
-    FColumnsView.FFileListBuilderLock.Acquire;
-    try
+  try
+    for i := 0 to FRetrieveList.Count - 1 do
+    begin
       if FAborted then
         Exit;
 
-      with FColumnsView.FFiles[i] do
-        IconID := PixMapManager.GetIconByFile(TheFile, fspDirectAccess in FFileSource.Properties);
+      FUpdateInfo := PRetrieveInfo(FRetrieveList[i])^;
+      if FFileSource.CanRetrieveProperties(FUpdateInfo.RefFile, FFilePropertiesNeeded) then
+        FFileSource.RetrieveProperties(FUpdateInfo.RefFile, FFilePropertiesNeeded);
 
-      // This access to dgPanel should be safe from worker thread.
-      with FColumnsView.dgPanel do
-        bRedrawIcon := IscellVisible(0, i + FixedRows);
+      if FUpdateInfo.IconID = -1 then
+        FUpdateInfo.IconID := PixMapManager.GetIconByFile(
+            FUpdateInfo.RefFile,
+            fspDirectAccess in FFileSource.Properties,
+            True);
 
-    finally
-      FColumnsView.FFileListBuilderLock.Release;
+      // Update the file with new data and redraw the row showing the file.
+      // This must be done from the GUI thread.
+      TThread.Synchronize(FThread, @UpdateFile);
     end;
 
-    // Redraw column with the icon. This must be done from the GUI thread.
-    if bRedrawIcon then
-    begin
-      FFileIndexToUpdate := i;
-      TThread.Synchronize(FThread, @UpdateIcon);
-    end;
+  finally
+    DestroyRetrieveList;
+    FState := rfsNone;
   end;
 end;
 
-procedure TColumnsFileListBuilder.UpdateIcon;
+procedure TColumnsFileListBuilder.UpdateFile;
+var
+  propType: TFilePropertyType;
+  aFile: TFile;
 begin
   if not FAborted then
   begin
-    with FColumnsView.dgPanel do
+    with FColumnsView do
     begin
-      if IscellVisible(0, FFileIndexToUpdate + FixedRows) then
-        InvalidateCell(0, FFileIndexToUpdate + FixedRows);
+      aFile := FFiles[FUpdateInfo.FileIndex].TheFile;
+
+{$IF (fpc_version>2) or ((fpc_version=2) and (fpc_release>4))}
+      // This is a bit faster.
+      for propType in FUpdateInfo.RefFile.AssignedProperties - aFile.AssignedProperties do
+{$ELSE}
+      for propType := Low(TFilePropertyType) to High(TFilePropertyType) do
+        if (propType in FUpdateInfo.RefFile.AssignedProperties) and
+           (not (propType in aFile.AssignedProperties)) then
+{$ENDIF}
+        begin
+          aFile.Properties[propType] := FUpdateInfo.RefFile.ReleaseProperty(propType);
+        end;
+
+      if FUpdateInfo.IconID <> -1 then
+        FFiles[FUpdateInfo.FileIndex].IconID := FUpdateInfo.IconID;
+
+      MakeColumnsStrings(FFiles[FUpdateInfo.FileIndex]);
+      dgPanel.InvalidateRow(FUpdateInfo.FileIndex + dgPanel.FixedRows);
     end;
   end;
 end;
@@ -4899,6 +5072,21 @@ end;
 function TColumnsFileListBuilder.IsWorking: Boolean;
 begin
   Result := (State <> rfsNone);
+end;
+
+procedure TColumnsFileListBuilder.DestroyRetrieveList;
+var
+  i: Integer;
+begin
+  if Assigned(FRetrieveList) then
+  begin
+    for i := 0 to FRetrieveList.Count - 1 do
+    begin
+      PRetrieveInfo(FRetrieveList[i])^.RefFile.Free;
+      Dispose(PRetrieveInfo(FRetrieveList[i]));
+    end;
+    FreeAndNil(FRetrieveList);
+  end;
 end;
 
 end.

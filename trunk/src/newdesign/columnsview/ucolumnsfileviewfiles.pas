@@ -30,8 +30,7 @@ type
        A reference TFile must be passed as a parameter.
        TColumnsViewFile object is invalid without a reference file.
 
-       The reference file is not a copy but a pointer
-       (should it be a copy?).
+       The reference file is not a copy but a pointer.
     }
     constructor Create(ReferenceFile: TFile); virtual reintroduce;
 
@@ -47,7 +46,7 @@ type
 
     property TheFile: TFile read FFile write FFile;
     property Selected: Boolean read FSelected write FSelected;
-    property IconID: Integer read FIconID write FIconID;
+    property IconID: PtrInt read FIconID write FIconID;
     property DisplayStrings: TStringList read FDisplayStrings;
 
   end;
@@ -220,4 +219,4 @@ begin
 end;
 
 end.
-
+

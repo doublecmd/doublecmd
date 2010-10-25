@@ -22,6 +22,11 @@ type
     fpType
   );
 
+const
+  fpAll = [Low(TFilePropertyType) .. High(TFilePropertyType)];
+
+type
+
   TFilePropertiesTypes = set of TFilePropertyType;
 
   TFilePropertiesDescriptions = array of String;//TFileProperty;
