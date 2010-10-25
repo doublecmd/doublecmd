@@ -27,7 +27,8 @@ unit uOSForms;
 interface
 
 uses
-  Classes, SysUtils, Menus, Controls, ExtDlgs, uFile, uFileSource,
+  Classes, SysUtils, Menus, Controls, ExtDlgs, LCLType,
+  uFile, uFileSource,
   {$IFDEF UNIX}
   Graphics, BaseUnix, Unix, fFileProperties;
   {$ELSE}
@@ -38,7 +39,7 @@ uses
    Replace window procedure
    @param(Handle Window handle)
 }
-procedure SetMyWndProc(Handle : THandle);
+procedure SetMyWndProc(Handle : HWND);
 {en
    Show file/folder properties dialog
    @param(Files List of files to show properties for)
@@ -117,7 +118,7 @@ begin
 end;
 {$ENDIF}
 
-procedure SetMyWndProc(Handle : THandle);
+procedure SetMyWndProc(Handle : HWND);
 {$IFDEF MSWINDOWS}
 begin
   {$PUSH}{$HINTS OFF}
