@@ -20,7 +20,7 @@ type
 
     // Other properties.
     FSelected: Boolean;      //<en If is selected
-    FIconID: Integer;        //<en Icon ID for PixmapManager
+    FIconID: PtrInt;         //<en Icon ID for PixmapManager
 
     // Cache of strings displayed in each column.
     FDisplayStrings: TStringList;
