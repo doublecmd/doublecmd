@@ -124,7 +124,8 @@ type
                  : TFileSystemOperationTargetExistsResult;
     function DirExists(aFile: TFile;
                        AbsoluteTargetFileName: String;
-                       AllowCopyInto: Boolean): TFileSourceOperationOptionDirectoryExists;
+                       AllowCopyInto: Boolean;
+                       AllowDelete: Boolean): TFileSourceOperationOptionDirectoryExists;
     function FileExists(aFile: TFile;
                         AbsoluteTargetFileName: String;
                         AllowAppend: Boolean): TFileSourceOperationOptionFileExists;
@@ -1041,11 +1042,11 @@ function TFileSystemOperationHelper.TargetExists(
              AbsoluteTargetFileName: String): TFileSystemOperationTargetExistsResult;
 var
   Attrs, LinkTargetAttrs: TFileAttrs;
-  aFile: TFile;
+  SourceFile: TFile;
 
-  function DoDirectoryExists(AllowCopyInto: Boolean): TFileSystemOperationTargetExistsResult;
+  function DoDirectoryExists(AllowCopyInto: Boolean; AllowDeleteDirectory: Boolean): TFileSystemOperationTargetExistsResult;
   begin
-    case DirExists(aFile, AbsoluteTargetFileName, AllowCopyInto) of
+    case DirExists(SourceFile, AbsoluteTargetFileName, AllowCopyInto, AllowDeleteDirectory) of
       fsoodeSkip:
         Exit(fsoterSkip);
       fsoodeDelete:
@@ -1067,7 +1068,7 @@ var
 
   function DoFileExists(AllowAppend: Boolean): TFileSystemOperationTargetExistsResult;
   begin
-    case FileExists(aFile, AbsoluteTargetFileName, AllowAppend) of
+    case FileExists(SourceFile, AbsoluteTargetFileName, AllowAppend) of
       fsoofeSkip:
         Exit(fsoterSkip);
       fsoofeOverwrite:
@@ -1087,32 +1088,38 @@ var
   function IsLinkFollowed: Boolean;
   begin
     // If link was followed then it's target is stored in a subnode.
-    Result := aFile.AttributesProperty.IsLink and (aNode.SubNodesCount > 0);
+    Result := SourceFile.AttributesProperty.IsLink and (aNode.SubNodesCount > 0);
   end;
 
   function AllowAppendFile: Boolean;
   begin
-    Result := (not aFile.AttributesProperty.IsDirectory) and
-              ((not aFile.AttributesProperty.IsLink) or
+    Result := (not SourceFile.AttributesProperty.IsDirectory) and
+              ((not SourceFile.AttributesProperty.IsLink) or
                (IsLinkFollowed and (not aNode.SubNodes[0].TheFile.AttributesProperty.IsDirectory)));
   end;
 
   function AllowCopyInto: Boolean;
   begin
-    Result := aFile.AttributesProperty.IsDirectory or
+    Result := SourceFile.AttributesProperty.IsDirectory or
               (IsLinkFollowed and aNode.SubNodes[0].TheFile.IsDirectory);
+  end;
+
+  function AllowDeleteDirectory: Boolean;
+  begin
+    Result := not (SourceFile.AttributesProperty.IsDirectory or
+                   (IsLinkFollowed and aNode.SubNodes[0].TheFile.IsDirectory));
   end;
 
 begin
   Attrs := mbFileGetAttr(AbsoluteTargetFileName);
   if Attrs <> faInvalidAttributes then
   begin
-    aFile := aNode.TheFile;
+    SourceFile := aNode.TheFile;
 
     // Target exists - ask user what to do.
     if FPS_ISDIR(Attrs) then
     begin
-      Result := DoDirectoryExists(AllowCopyInto)
+      Result := DoDirectoryExists(AllowCopyInto, AllowDeleteDirectory)
     end
     else if FPS_ISLNK(Attrs) then
     begin
@@ -1121,7 +1128,7 @@ begin
       if (LinkTargetAttrs <> faInvalidAttributes) then
       begin
         if FPS_ISDIR(LinkTargetAttrs) then
-          Result := DoDirectoryExists(AllowCopyInto)
+          Result := DoDirectoryExists(AllowCopyInto, AllowDeleteDirectory)
         else
           Result := DoFileExists(AllowAppendFile);
       end
@@ -1140,31 +1147,37 @@ end;
 function TFileSystemOperationHelper.DirExists(
              aFile: TFile;
              AbsoluteTargetFileName: String;
-             AllowCopyInto: Boolean): TFileSourceOperationOptionDirectoryExists;
-const
-  Responses: array[0..4] of TFileSourceOperationUIResponse
-    = (fsourRewrite, fsourCopyInto, fsourSkip, fsourRewriteAll, fsourSkipAll);
-  ResponsesNoCopyInto: array[0..3] of TFileSourceOperationUIResponse
-    = (fsourRewrite, fsourSkip, fsourRewriteAll, fsourSkipAll);
+             AllowCopyInto: Boolean;
+             AllowDelete: Boolean): TFileSourceOperationOptionDirectoryExists;
 var
-  PossibleResponses: array of TFileSourceOperationUIResponse;
+  PossibleResponses: array of TFileSourceOperationUIResponse = nil;
   DefaultOkResponse: TFileSourceOperationUIResponse;
+
+  procedure AddResponse(Response: TFileSourceOperationUIResponse);
+  begin
+    SetLength(PossibleResponses, Length(PossibleResponses) + 1);
+    PossibleResponses[Length(PossibleResponses) - 1] := Response;
+  end;
+
 begin
   case FDirExistsOption of
     fsoodeNone:
       begin
-        case AllowCopyInto of
-          True :
-            begin
-              PossibleResponses := Responses;
-              DefaultOkResponse := fsourCopyInto;
-            end;
-          False:
-            begin
-              PossibleResponses := ResponsesNoCopyInto;
-              DefaultOkResponse := fsourRewrite;
-            end;
-        end;
+        if AllowDelete then
+          AddResponse(fsourRewrite);
+        if AllowCopyInto then
+          AddResponse(fsourCopyInto);
+        AddResponse(fsourSkip);
+        if AllowDelete then
+          AddResponse(fsourRewriteAll);
+        AddResponse(fsourSkipAll);
+
+        if AllowCopyInto then
+          DefaultOkResponse := fsourCopyInto
+        else if AllowDelete then
+          DefaultOkResponse := fsourRewrite
+        else
+          DefaultOkResponse := fsourSkip;
 
         case AskQuestion(Format(rsMsgFolderExistsRwrt, [AbsoluteTargetFileName]), '',
                          PossibleResponses, DefaultOkResponse, fsourSkip) of
