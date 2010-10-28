@@ -178,6 +178,7 @@ var
 begin
   aFile := TFileSystemFileSource.CreateFile(EmptyStr);
   aFile.FullPath := sPath;
+  aFile.Attributes := faFolder;
   Files:= TFiles.Create(EmptyStr); // free in ShowContextMenu
   Files.Add(aFile);
   OldErrorMode:= SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOOPENFILEERRORBOX);
