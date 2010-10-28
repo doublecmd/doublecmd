@@ -644,6 +644,7 @@ procedure TfrmMain.FormCreate(Sender: TObject);
   function CreateNotebook(aParent: TWinControl; aSide: TFilePanelSelect): TFileViewNotebook;
   begin
     Result := TFileViewNotebook.Create(aParent, aSide);
+    Result.Options := [nboHidePageListPopup];
 
     Result.OnCloseTabClicked := @NotebookCloseTabClicked;
     Result.OnMouseDown := @nbPageMouseDown;
@@ -701,10 +702,6 @@ begin
   // frost_asm begin
     lastWindowState:=WindowState;
   // frost_asm end
-
-  // Tabs
-  nbLeft.Options:=[nboHidePageListPopup];
-  nbRight.Options:=[nboHidePageListPopup];
 
   actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
 
@@ -3373,7 +3370,8 @@ procedure TfrmMain.UpdateWindowView;
         NoteBook.Options := NoteBook.Options - [nboShowCloseButtons];
       end;
 
-    NoteBook.MultilineTabs := tb_multiple_lines in gDirTabOptions;
+    if nbcMultiline in NoteBook.GetCapabilities then
+      NoteBook.MultiLine := tb_multiple_lines in gDirTabOptions;
 
     case gDirTabPosition of
       tbpos_top:    NoteBook.TabPosition := tpTop;

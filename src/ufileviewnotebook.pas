@@ -74,8 +74,6 @@ type
     function GetFileViewOnPage(Index: Integer): TFileView;
     function GetPage(Index: Integer): TFileViewPage;
 
-    procedure SetMultilineTabs(aMultiline: Boolean);
-
     procedure DragOverEvent(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
     procedure DragDropEvent(Sender, Source: TObject; X, Y: Integer);
 
@@ -105,7 +103,6 @@ type
     property OnDblClick;
     property OnMouseDown;
     property OnMouseUp;
-    property MultilineTabs: Boolean write SetMultilineTabs;
   end;
 
 implementation
@@ -261,32 +258,6 @@ begin
   Result := TFileViewPage(CustomPage(Index));
 end;
 
-procedure TFileViewNotebook.SetMultilineTabs(aMultiline: Boolean);
-begin
-  if (nbcMultiline in GetCapabilities) and
-      // If different then current setting
-     (aMultiline <> (nboMultiline in Options)) then
-  begin
-    if aMultiline then
-      Options := Options + [nboMultiLine]
-    else
-      Options := Options - [nboMultiLine];
-
-    // Workaround: nboMultiline property is currently not updated by LCL.
-    // Force update and realign all pages.
-
-    TWSCustomNotebookClass(Self.WidgetSetClass).UpdateProperties(Self);
-
-    if ClientRectNeedsInterfaceUpdate then
-    begin
-      // Change sizes of pages, because multiline tabs may
-      // take up different amount of space than single line.
-      InvalidateClientRectCache(True);
-      ReAlign;
-    end;
-  end;
-end;
-
 function TFileViewNotebook.AddPage(aCaption: String): TFileViewPage;
 begin
   Result := InsertPage(PageCount, aCaption);
@@ -318,15 +289,6 @@ begin
 {$ENDIF}
 
   Pages.Delete(Index);
-
-  if (nboMultiLine in Options) and
-     ClientRectNeedsInterfaceUpdate then
-  begin
-    // The height of the tabs (nr of lines) has changed.
-    // Recalculate size of each page.
-    InvalidateClientRectCache(False);
-    ReAlign;
-  end;
 
   ShowTabs:= ((PageCount > 1) or (tb_always_visible in gDirTabOptions)) and gDirectoryTabs;
 
