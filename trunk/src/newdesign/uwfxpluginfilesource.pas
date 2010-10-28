@@ -38,6 +38,11 @@ type
 
   TCallbackDataClass = class
   public
+    // Must use class here instead of interface because of circular reference
+    // between TWfxPluginFileSource and TCallbackDataClass, which would cause
+    // the file source never to be destroyed.
+    // TWfxPluginFileSource controls the lifetime of TCallbackDataClass though,
+    // so it should be fine.
     FileSource: TWfxPluginFileSource;
     UpdateProgressFunction: TUpdateProgress;
     constructor Create(aFileSource: TWfxPluginFileSource);
