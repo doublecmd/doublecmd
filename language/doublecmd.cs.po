@@ -276,6 +276,7 @@ msgid "OK"
 msgstr "OK"
 
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr ""
 
@@ -4743,9 +4744,63 @@ msgstr "Šířka"
 msgid "Customize column"
 msgstr "Nastavení sloupců:"
 
-#: ulng.rsdlgbuttons
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
-msgstr "&OK;&Ne;&Ano;&Zrušit;&Není;&Připojit;Copy &Into;&Přepsat;Přepsat &Vše;Pře&skočit;Přes&kočit vše;Vše;"
+#: ulng.rsdlgbuttonabort
+msgid "Ab&ort"
+msgstr ""
+
+#: ulng.rsdlgbuttonall
+msgid "A&ll"
+msgstr "Vše"
+
+#: ulng.rsdlgbuttonappend
+msgid "A&ppend"
+msgstr "&Připojit"
+
+#: ulng.rsdlgbuttoncancel
+msgctxt "ulng.rsdlgbuttoncancel"
+msgid "&Cancel"
+msgstr "&Zrušit"
+
+#: ulng.rsdlgbuttoncopyinto
+msgid "Copy &Into"
+msgstr ""
+
+#: ulng.rsdlgbuttonno
+msgid "&No"
+msgstr "&Ne"
+
+#: ulng.rsdlgbuttonnone
+msgid "Non&e"
+msgstr "&Není"
+
+#: ulng.rsdlgbuttonok
+msgctxt "ulng.rsdlgbuttonok"
+msgid "&OK"
+msgstr "&OK"
+
+#: ulng.rsdlgbuttonoverwrite
+msgid "&Overwrite"
+msgstr "&Přepsat"
+
+#: ulng.rsdlgbuttonoverwriteall
+msgid "Overwrite &All"
+msgstr "Přepsat &Vše"
+
+#: ulng.rsdlgbuttonretry
+msgid "Re&try"
+msgstr ""
+
+#: ulng.rsdlgbuttonskip
+msgid "&Skip"
+msgstr "Pře&skočit"
+
+#: ulng.rsdlgbuttonskipall
+msgid "S&kip All"
+msgstr "Přes&kočit vše"
+
+#: ulng.rsdlgbuttonyes
+msgid "&Yes"
+msgstr "&Ano"
 
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"

@@ -265,6 +265,7 @@ msgid "OK"
 msgstr "Oké"
 
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr ""
 
@@ -1235,6 +1236,7 @@ msgstr ""
 #: TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
 #, fuzzy
 #| msgid "Representation in text:"
+msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
 msgstr "Szöveges megfelelő:"
 
@@ -4707,11 +4709,63 @@ msgstr "Szélesség"
 msgid "Customize column"
 msgstr "Oszlop személyreszabása:"
 
-#: ulng.rsdlgbuttons
-#, fuzzy
-#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Copy &Into;Re&try;Ab&ort;"
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
-msgstr "&Oké;&Nem;&Igen;&Mégsem;&Egyik sem;&Hozzáfűz;&Felülír;Min&det felülír;&Kihagy;Minde&t kihagy;Mind;"
+#: ulng.rsdlgbuttonabort
+msgid "Ab&ort"
+msgstr ""
+
+#: ulng.rsdlgbuttonall
+msgid "A&ll"
+msgstr "Mind"
+
+#: ulng.rsdlgbuttonappend
+msgid "A&ppend"
+msgstr "&Hozzáfűz"
+
+#: ulng.rsdlgbuttoncancel
+msgctxt "ulng.rsdlgbuttoncancel"
+msgid "&Cancel"
+msgstr "&Mégsem"
+
+#: ulng.rsdlgbuttoncopyinto
+msgid "Copy &Into"
+msgstr ""
+
+#: ulng.rsdlgbuttonno
+msgid "&No"
+msgstr "&Nem"
+
+#: ulng.rsdlgbuttonnone
+msgid "Non&e"
+msgstr "&Egyik sem"
+
+#: ulng.rsdlgbuttonok
+msgctxt "ulng.rsdlgbuttonok"
+msgid "&OK"
+msgstr "&Oké"
+
+#: ulng.rsdlgbuttonoverwrite
+msgid "&Overwrite"
+msgstr "&Felülír"
+
+#: ulng.rsdlgbuttonoverwriteall
+msgid "Overwrite &All"
+msgstr "Min&det felülír"
+
+#: ulng.rsdlgbuttonretry
+msgid "Re&try"
+msgstr ""
+
+#: ulng.rsdlgbuttonskip
+msgid "&Skip"
+msgstr "&Kihagy"
+
+#: ulng.rsdlgbuttonskipall
+msgid "S&kip All"
+msgstr "Minde&t kihagy"
+
+#: ulng.rsdlgbuttonyes
+msgid "&Yes"
+msgstr "&Igen"
 
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"

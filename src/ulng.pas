@@ -55,7 +55,6 @@ resourcestring
   rsMsgPopUpHotAdd = '&Add %s';
   rsMsgPopUpHotCnf = '&Configure';
   rsMsgCloseLockedTab = 'This tab (%s) is locked! Close anyway?';
-  rsDlgButtons = '&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;';
   rsSpaceMsg = 'Files: %d, Dirs: %d, Size: %s (%s bytes)';
   rsSelectDir = 'Select a directory';
   rsMarkPlus = 'Select mask';
@@ -133,6 +132,23 @@ resourcestring
   rsMsgErrTooManyFiles = 'Too many files to pack';
   rsMsgErrNotSupported = 'Function not supported!';
   rsMsgErrInvalidLink = 'Invalid link';
+
+  // Buttons.
+  rsDlgButtonOK = '&OK';
+  rsDlgButtonNo = '&No';
+  rsDlgButtonYes = '&Yes';
+  rsDlgButtonCancel = '&Cancel';
+  rsDlgButtonNone = 'Non&e';
+  rsDlgButtonAppend = 'A&ppend';
+  rsDlgButtonCopyInto = 'Copy &Into';
+  rsDlgButtonOverwrite = '&Overwrite';
+  rsDlgButtonOverwriteAll = 'Overwrite &All';
+  rsDlgButtonSkip = '&Skip';
+  rsDlgButtonSkipAll = 'S&kip All';
+  rsDlgButtonAll = 'A&ll';
+  rsDlgButtonRetry = 'Re&try';
+  rsDlgButtonAbort = 'Ab&ort';
+
   // Log file
   rsMsgLogSuccess = 'Done: ';
   rsMsgLogError = 'Error: ';

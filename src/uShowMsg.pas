@@ -22,12 +22,12 @@ uses
 
 type
   TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
-                mmrAppend, mmrCopyInto, mmrRewrite, mmrRewriteAll, mmrSkip, mmrSkipAll,
-                mmrAll, mmrRetry, mmrAbort);
+                mmrAppend, mmrCopyInto, mmrOverwrite, mmrOverwriteAll,
+                mmrSkip, mmrSkipAll, mmrAll, mmrRetry, mmrAbort);
 
   TMyMsgButton=(msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone,
-                msmbAppend, msmbCopyInto, msmbRewrite, msmbRewriteAll, msmbSkip, msmbSkipAll,
-                msmbAll, msmbRetry, msmbAbort);
+                msmbAppend, msmbCopyInto, msmbOverwrite, msmbOverwriteAll,
+                msmbSkip, msmbSkipAll, msmbAll, msmbRetry, msmbAbort);
 
 
   { TDialogMainThread }
@@ -95,7 +95,8 @@ procedure msgLoadLng;
 implementation
 
 uses
-  LCLIntf, SysUtils, StdCtrls, Graphics, Math, fMsg, uLng, Buttons, Controls, uLog, uGlobs;
+  LCLIntf, SysUtils, StdCtrls, Graphics, Math, LCLProc, typinfo,
+  fMsg, uLng, Buttons, Controls, uLog, uGlobs;
 
 const
   cMsgName = 'Double Commander';
@@ -281,7 +282,7 @@ end;
 Function MsgTest:TMyMsgResult;
 begin
   Result:= MsgBox('test language of msg subsystem'#10'Second line',[msmbOK, msmbNO, msmbYes, msmbCancel, msmbNone,
-                       msmbAppend, msmbRewrite, msmbRewriteAll],msmbOK, msmbNO);
+                       msmbAppend, msmbOverwrite, msmbOverwriteAll],msmbOK, msmbNO);
 end;
 
 function msgYesNo(const sMsg: UTF8String):Boolean;
@@ -478,19 +479,32 @@ end;
 procedure msgLoadLng;
 var
   I: TMyMsgButton;
-  s: UTF8String;
-  xPos: Integer;
 begin
-  s:= rsDlgButtons;
+  cLngButton[msmbOK]           := rsDlgButtonOK;
+  cLngButton[msmbNo]           := rsDlgButtonNo;
+  cLngButton[msmbYes]          := rsDlgButtonYes;
+  cLngButton[msmbCancel]       := rsDlgButtonCancel;
+  cLngButton[msmbNone]         := rsDlgButtonNone;
+  cLngButton[msmbAppend]       := rsDlgButtonAppend;
+  cLngButton[msmbCopyInto]     := rsDlgButtonCopyInto;
+  cLngButton[msmbOverwrite]    := rsDlgButtonOverwrite;
+  cLngButton[msmbOverwriteAll] := rsDlgButtonOverwriteAll;
+  cLngButton[msmbSkip]         := rsDlgButtonSkip;
+  cLngButton[msmbSkipAll]      := rsDlgButtonSkipAll;
+  cLngButton[msmbAll]          := rsDlgButtonAll;
+  cLngButton[msmbRetry]        := rsDlgButtonRetry;
+  cLngButton[msmbAbort]        := rsDlgButtonAbort;
+
   for I:= Low(TMyMsgButton) to High(TMyMsgButton) do
   begin
-    xPos:=Pos(';',s);
-    cLngButton[I]:=Copy(s,1,xPos-1);
+    // A reminder in case someone forgots to assign text.
+    if cLngButton[I] = EmptyStr then
+      DebugLn('Warning: MsgBox button ' + GetEnumName(TypeInfo(TMyMsgButton), Integer(I)) + ' caption not set.');
+
     with Application.MainForm.Canvas do
     if TextWidth(cLngButton[I]) >= (cButtonWidth - 8) then
       cButtonWidth:= TextWidth(cLngButton[I]) + 8;
-    Delete(s,1,xPos);
   end;
 end;
 
-end.
+end.

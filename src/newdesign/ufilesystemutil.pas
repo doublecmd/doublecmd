@@ -1164,30 +1164,30 @@ begin
     fsoodeNone:
       begin
         if AllowDelete then
-          AddResponse(fsourRewrite);
+          AddResponse(fsourOverwrite);
         if AllowCopyInto then
           AddResponse(fsourCopyInto);
         AddResponse(fsourSkip);
         if AllowDelete then
-          AddResponse(fsourRewriteAll);
+          AddResponse(fsourOverwriteAll);
         AddResponse(fsourSkipAll);
 
         if AllowCopyInto then
           DefaultOkResponse := fsourCopyInto
         else if AllowDelete then
-          DefaultOkResponse := fsourRewrite
+          DefaultOkResponse := fsourOverwrite
         else
           DefaultOkResponse := fsourSkip;
 
         case AskQuestion(Format(rsMsgFolderExistsRwrt, [AbsoluteTargetFileName]), '',
                          PossibleResponses, DefaultOkResponse, fsourSkip) of
-          fsourRewrite:
+          fsourOverwrite:
             Result := fsoodeDelete;
           fsourCopyInto:
             Result := fsoodeCopyInto;
           fsourSkip:
             Result := fsoodeSkip;
-          fsourRewriteAll:
+          fsourOverwriteAll:
             begin
               FDirExistsOption := fsoodeDelete;
               Result := fsoodeDelete;
@@ -1211,9 +1211,9 @@ function TFileSystemOperationHelper.FileExists(
              AllowAppend: Boolean): TFileSourceOperationOptionFileExists;
 const
   Responses: array[0..4] of TFileSourceOperationUIResponse
-    = (fsourRewrite, fsourSkip, fsourAppend, fsourRewriteAll, fsourSkipAll);
+    = (fsourOverwrite, fsourSkip, fsourAppend, fsourOverwriteAll, fsourSkipAll);
   ResponsesNoAppend: array[0..3] of TFileSourceOperationUIResponse
-    = (fsourRewrite, fsourSkip, fsourRewriteAll, fsourSkipAll);
+    = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll);
 var
   PossibleResponses: array of TFileSourceOperationUIResponse;
 begin
@@ -1226,8 +1226,8 @@ begin
         end;
 
         case AskQuestion(Format(rsMsgFileExistsRwrt, [AbsoluteTargetFileName]), '',
-                         PossibleResponses, fsourRewrite, fsourSkip) of
-          fsourRewrite:
+                         PossibleResponses, fsourOverwrite, fsourSkip) of
+          fsourOverwrite:
             Result := fsoofeOverwrite;
           fsourSkip:
             Result := fsoofeSkip;
@@ -1236,7 +1236,7 @@ begin
               //FFileExistsOption := fsoofeAppend; - for AppendAll
               Result := fsoofeAppend;
             end;
-          fsourRewriteAll:
+          fsourOverwriteAll:
             begin
               FFileExistsOption := fsoofeOverwrite;
               Result := fsoofeOverwrite;

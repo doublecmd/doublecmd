@@ -268,6 +268,7 @@ msgid "OK"
 msgstr "확인"
 
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr ""
 
@@ -4714,11 +4715,63 @@ msgstr "너비"
 msgid "Customize column"
 msgstr "사용자 정의 열"
 
-#: ulng.rsdlgbuttons
-#, fuzzy
-#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Copy &Into;Re&try;Ab&ort;"
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
-msgstr "확인 (&O);아니오 (&N);예 (&Y);취소 (&C);전부 아니오 (&E);추가 (&P);덮어쓰기 (&R);전부 덮어쓰기 (&A);건너뛰기 (&S);전부 건너뛰기 (&K);전부 (&L);Copy &Into;다시 시도 (&T);중지 (&o);"
+#: ulng.rsdlgbuttonabort
+msgid "Ab&ort"
+msgstr "중지 (&o)"
+
+#: ulng.rsdlgbuttonall
+msgid "A&ll"
+msgstr ""
+
+#: ulng.rsdlgbuttonappend
+msgid "A&ppend"
+msgstr "추가 (&P)"
+
+#: ulng.rsdlgbuttoncancel
+msgctxt "ulng.rsdlgbuttoncancel"
+msgid "&Cancel"
+msgstr "취소 (&C)"
+
+#: ulng.rsdlgbuttoncopyinto
+msgid "Copy &Into"
+msgstr ""
+
+#: ulng.rsdlgbuttonno
+msgid "&No"
+msgstr "아니오 (&N)"
+
+#: ulng.rsdlgbuttonnone
+msgid "Non&e"
+msgstr "전부 아니오 (&E)"
+
+#: ulng.rsdlgbuttonok
+msgctxt "ulng.rsdlgbuttonok"
+msgid "&OK"
+msgstr "확인 (&O)"
+
+#: ulng.rsdlgbuttonoverwrite
+msgid "&Overwrite"
+msgstr "덮어쓰기 (&R)"
+
+#: ulng.rsdlgbuttonoverwriteall
+msgid "Overwrite &All"
+msgstr "전부 덮어쓰기 (&A)"
+
+#: ulng.rsdlgbuttonretry
+msgid "Re&try"
+msgstr "다시 시도 (&T)"
+
+#: ulng.rsdlgbuttonskip
+msgid "&Skip"
+msgstr "건너뛰기 (&S)"
+
+#: ulng.rsdlgbuttonskipall
+msgid "S&kip All"
+msgstr "전부 건너뛰기 (&K)"
+
+#: ulng.rsdlgbuttonyes
+msgid "&Yes"
+msgstr "예 (&Y)"
 
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
