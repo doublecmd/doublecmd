@@ -149,6 +149,11 @@ type
        This function should only be called under FPixmapLock.
     }
     function LoadIconThemeBitmap(AIconName: String; AIconSize: Integer): TBitmap;
+
+  {$IF DEFINED(WINDOWS)}
+    function GetSystemFolderIcon: PtrInt;
+    function GetSystemExecutableIcon: PtrInt;
+  {$ENDIF}
   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
     {en
        Loads MIME icons names and creates a mapping: file extension -> MIME icon name.
@@ -207,7 +212,11 @@ type
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
-    property DefaultIconID: PtrInt read FiDefaultIconID;
+    {en
+       Returns default icon for a file.
+       For example default folder icon for folder, default executable icon for *.exe, etc.
+    }
+    function GetDefaultIcon(AFile: TFile): PtrInt;
   end;
 
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
@@ -233,6 +242,11 @@ uses
     , StrUtils, uTypes
   {$ENDIF}
   ;
+
+{$IFDEF MSWINDOWS}
+const
+  SystemIconIndexStart: PtrInt = High(PtrInt) div 2;
+{$ENDIF}
 
 function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
                        clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
@@ -879,6 +893,36 @@ begin
     end;
 end;
 
+{$IFDEF WINDOWS}
+function TPixMapManager.GetSystemFolderIcon: PtrInt;
+var
+  FileInfo: TSHFileInfo;
+begin
+  if (SHGetFileInfo(nil,
+                    FILE_ATTRIBUTE_DIRECTORY,
+                    FileInfo,
+                    SizeOf(FileInfo),
+                    SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES) = 0) then
+    Result := -1
+  else
+    Result := FileInfo.iIcon + SystemIconIndexStart;
+end;
+
+function TPixMapManager.GetSystemExecutableIcon: PtrInt;
+var
+  FileInfo: TSHFileInfo;
+begin
+  if (SHGetFileInfo(PAnsiChar('a.exe'),    // Ansi version is enough.
+                    FILE_ATTRIBUTE_NORMAL,
+                    FileInfo,
+                    SizeOf(FileInfo),
+                    SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES) = 0) then
+    Result := -1
+  else
+    Result := FileInfo.iIcon + SystemIconIndexStart;
+end;
+{$ENDIF}
+
 constructor TPixMapManager.Create;
 {$IFDEF MSWINDOWS}
 var
@@ -1021,6 +1065,12 @@ begin
 
   // add some standard icons
   FiDefaultIconID:=CheckAddThemePixmap('unknown');
+  {$IFDEF MSWINDOWS}
+  FiDirIconID := -1;
+  if gShowIcons > sim_standart then
+    FiDirIconID := GetSystemFolderIcon;
+  if FiDirIconID = -1 then
+  {$ENDIF}
   FiDirIconID:=CheckAddThemePixmap('folder');
   FiDirLinkIconID:=CheckAddThemePixmap('folder-link');
   FiDirLinkBrokenIconID:=CheckAddThemePixmap('folder-link-broken');
@@ -1028,6 +1078,12 @@ begin
   FiLinkBrokenIconID:=CheckAddThemePixmap('link-broken');
   FiUpDirIconID:=CheckAddThemePixmap('go-up');
   FiArcIconID := CheckAddThemePixmap('package-x-generic');
+  {$IFDEF MSWINDOWS}
+  FiExeIconID := -1;
+  if gShowIcons > sim_standart then
+    FiExeIconID := GetSystemExecutableIcon;
+  if FiExeIconID = -1 then
+  {$ENDIF}
   FiExeIconID:= CheckAddThemePixmap('application-x-executable');
   FiSortAscID := CheckAddThemePixmap('view-sort-ascending');
   FiSortDescID := CheckAddThemePixmap('view-sort-descending');
@@ -1143,10 +1199,10 @@ begin
   end
   else
 {$IFDEF MSWINDOWS}
-  if iIndex >= $1000 then
+  if iIndex >= SystemIconIndexStart then
     begin
       Result:= nil;
-      hicn:= ImageList_GetIcon(FSysImgList, iIndex - $1000, ILD_NORMAL);
+      hicn:= ImageList_GetIcon(FSysImgList, iIndex - SystemIconIndexStart, ILD_NORMAL);
       if hicn <> 0 then
         try
           Icon := CreateIconFromHandle(hicn);
@@ -1223,7 +1279,7 @@ begin
   end
   else
   {$IFDEF MSWINDOWS}
-  if iIndex >= $1000 then
+  if iIndex >= SystemIconIndexStart then
     try
       if ImageList_GetIconSize(FSysImgList, @cx, @cy) then
         TrySetSize(cx, cy)
@@ -1232,10 +1288,10 @@ begin
 
       if (Height in [16, 32]) and (cx = Width) and (cy = Height) then
         // for transparent
-        ImageList_Draw(FSysImgList, iIndex - $1000, Canvas.Handle, X, Y, ILD_TRANSPARENT)
+        ImageList_Draw(FSysImgList, iIndex - SystemIconIndexStart, Canvas.Handle, X, Y, ILD_TRANSPARENT)
       else
       begin
-        hicn:= ImageList_GetIcon(FSysImgList, iIndex - $1000, ILD_NORMAL);
+        hicn:= ImageList_GetIcon(FSysImgList, iIndex - SystemIconIndexStart, ILD_NORMAL);
         try
           if IsGdiPlusLoaded then
             Result:= GdiPlusStretchDraw(hicn, Canvas.Handle, X, Y, Width, Height)
@@ -1276,7 +1332,7 @@ begin
       begin
         I:= SHGetOverlayIconIndex(AFile.Path, AFile.Name);
         if I >= 0 then
-          Result:= DrawBitmap(I + $1000, Canvas, X, Y);
+          Result:= DrawBitmap(I + SystemIconIndexStart, Canvas, X, Y);
       end;
     {$ENDIF}
       ;
@@ -1336,7 +1392,7 @@ begin
     begin
       {$IF DEFINED(MSWINDOWS)}
       if (gShowIcons = sim_standart) or
-         (not DirectAccess) or
+         (not (DirectAccess and mbFileExists(FullPath + '\desktop.ini'))) or
          (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 16) then
       {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
       if (gShowIcons = sim_all_and_exe) and
@@ -1442,7 +1498,7 @@ begin
 
         dwFileAttributes := 0;
         uFlags := SHGFI_SYSICONINDEX;
-        sFileName := Path + Name;
+        sFileName := FullPath;
       end
     else
       begin
@@ -1466,7 +1522,7 @@ begin
     end
     else
     begin
-      Result := FileInfo.iIcon + $1000;
+      Result := FileInfo.iIcon + SystemIconIndexStart;
 
       if (not IsDirectory) and
          (Ext <> 'exe') and
@@ -1614,6 +1670,16 @@ begin
         Result := StretchBitmap(Result, IconSize, clBackColor, True);
       end;
   end;
+end;
+
+function TPixMapManager.GetDefaultIcon(AFile: TFile): PtrInt;
+begin
+  if AFile.IsDirectory then
+    Result := FiDirIconID
+  else if UTF8LowerCase(AFile.Extension) = 'exe' then
+    Result := FiExeIconID
+  else
+    Result := FiDefaultIconID;
 end;
 
 procedure LoadPixMapManager;
