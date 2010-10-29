@@ -265,6 +265,7 @@ msgid "OK"
 msgstr "确定"
 
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr ""
 
@@ -4717,9 +4718,63 @@ msgstr "宽度"
 msgid "Customize column"
 msgstr "自定义列"
 
-#: ulng.rsdlgbuttons
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
-msgstr "确定(&O);否(&N);是(&Y);取消(&C);无(&N);添加(&A);Copy &Into;覆盖(&R);覆盖全部(&A);略过(&S);略过全部(&K);全部;"
+#: ulng.rsdlgbuttonabort
+msgid "Ab&ort"
+msgstr ""
+
+#: ulng.rsdlgbuttonall
+msgid "A&ll"
+msgstr "全部"
+
+#: ulng.rsdlgbuttonappend
+msgid "A&ppend"
+msgstr "添加(&A)"
+
+#: ulng.rsdlgbuttoncancel
+msgctxt "ulng.rsdlgbuttoncancel"
+msgid "&Cancel"
+msgstr "取消(&C)"
+
+#: ulng.rsdlgbuttoncopyinto
+msgid "Copy &Into"
+msgstr ""
+
+#: ulng.rsdlgbuttonno
+msgid "&No"
+msgstr "否(&N)"
+
+#: ulng.rsdlgbuttonnone
+msgid "Non&e"
+msgstr "无(&N)"
+
+#: ulng.rsdlgbuttonok
+msgctxt "ulng.rsdlgbuttonok"
+msgid "&OK"
+msgstr "确定(&O)"
+
+#: ulng.rsdlgbuttonoverwrite
+msgid "&Overwrite"
+msgstr "覆盖(&R)"
+
+#: ulng.rsdlgbuttonoverwriteall
+msgid "Overwrite &All"
+msgstr "覆盖全部(&A)"
+
+#: ulng.rsdlgbuttonretry
+msgid "Re&try"
+msgstr ""
+
+#: ulng.rsdlgbuttonskip
+msgid "&Skip"
+msgstr "略过(&S)"
+
+#: ulng.rsdlgbuttonskipall
+msgid "S&kip All"
+msgstr "略过全部(&K)"
+
+#: ulng.rsdlgbuttonyes
+msgid "&Yes"
+msgstr "是(&Y)"
 
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"

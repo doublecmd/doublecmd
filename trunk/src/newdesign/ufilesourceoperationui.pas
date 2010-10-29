@@ -18,8 +18,8 @@ type
      fsourNone,
      fsourAppend,      // for files
      fsourCopyInto,    // for directories
-     fsourRewrite,
-     fsourRewriteAll,
+     fsourOverwrite,
+     fsourOverwriteAll,
      fsourSkip,
      fsourSkipAll,
      fsourAll,

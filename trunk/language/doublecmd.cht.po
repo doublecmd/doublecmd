@@ -265,6 +265,7 @@ msgid "OK"
 msgstr "確定"
 
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr ""
 
@@ -729,6 +730,7 @@ msgid "Paste"
 msgstr "貼上"
 
 #: TFRMEDITOR.ACTEDITREDO.CAPTION
+msgctxt "TFRMEDITOR.ACTEDITREDO.CAPTION"
 msgid "Redo"
 msgstr "重做"
 
@@ -1159,6 +1161,7 @@ msgid "File name to"
 msgstr "檔案命名為"
 
 #: TFRMFILEOP.LBLFROM.CAPTION
+msgctxt "TFRMFILEOP.LBLFROM.CAPTION"
 msgid "From:"
 msgstr "從:"
 
@@ -2187,6 +2190,7 @@ msgid "Cancel"
 msgstr "取消"
 
 #: TFRMMAIN.ALLOPPAUSE.CAPTION
+msgctxt "TFRMMAIN.ALLOPPAUSE.CAPTION"
 msgid "||"
 msgstr ""
 
@@ -2540,6 +2544,7 @@ msgid "Operations viewer"
 msgstr ""
 
 #: TFRMMAIN.MNUTABOPTIONS.CAPTION
+msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
 msgid "&Options"
 msgstr ""
 
@@ -3696,6 +3701,7 @@ msgid "Categories:"
 msgstr "類別"
 
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
+msgctxt "TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION"
 msgid "Drive black list:"
 msgstr "驅動器黑名單"
 
@@ -3798,6 +3804,7 @@ msgid "File name"
 msgstr "檔案名"
 
 #: TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS.TITLE.CAPTION"
 msgid "Tool"
 msgstr ""
 
@@ -4702,11 +4709,63 @@ msgstr "寬度"
 msgid "Customize column"
 msgstr "自定義列"
 
-#: ulng.rsdlgbuttons
-#, fuzzy
-#| msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Copy &Into;Re&try;Ab&ort;"
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
-msgstr "確定(&O);否(&N);是(&Y);取消(&C);無(&N);增加(&A);覆蓋(&R);覆蓋全部(&A);略過(&S);略過全部(&K);全部;"
+#: ulng.rsdlgbuttonabort
+msgid "Ab&ort"
+msgstr ""
+
+#: ulng.rsdlgbuttonall
+msgid "A&ll"
+msgstr "全部"
+
+#: ulng.rsdlgbuttonappend
+msgid "A&ppend"
+msgstr "增加(&A)"
+
+#: ulng.rsdlgbuttoncancel
+msgctxt "ulng.rsdlgbuttoncancel"
+msgid "&Cancel"
+msgstr "取消(&C)"
+
+#: ulng.rsdlgbuttoncopyinto
+msgid "Copy &Into"
+msgstr ""
+
+#: ulng.rsdlgbuttonno
+msgid "&No"
+msgstr "否(&N)"
+
+#: ulng.rsdlgbuttonnone
+msgid "Non&e"
+msgstr "無(&N)"
+
+#: ulng.rsdlgbuttonok
+msgctxt "ulng.rsdlgbuttonok"
+msgid "&OK"
+msgstr "確定(&O)"
+
+#: ulng.rsdlgbuttonoverwrite
+msgid "&Overwrite"
+msgstr "覆蓋(&R)"
+
+#: ulng.rsdlgbuttonoverwriteall
+msgid "Overwrite &All"
+msgstr "覆蓋全部(&A)"
+
+#: ulng.rsdlgbuttonretry
+msgid "Re&try"
+msgstr ""
+
+#: ulng.rsdlgbuttonskip
+msgid "&Skip"
+msgstr "略過(&S)"
+
+#: ulng.rsdlgbuttonskipall
+msgid "S&kip All"
+msgstr "略過全部(&K)"
+
+#: ulng.rsdlgbuttonyes
+msgid "&Yes"
+msgstr "是(&Y)"
 
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
@@ -5431,6 +5490,7 @@ msgid "Text"
 msgstr "文字"
 
 #: ulng.rsoptfileop
+msgctxt "ulng.rsoptfileop"
 msgid "File operations"
 msgstr "檔案操作"
 
@@ -5464,6 +5524,7 @@ msgid "Comments"
 msgstr ""
 
 #: ulng.rsopthotkeyshotkey
+msgctxt "ulng.rsopthotkeyshotkey"
 msgid "Hotkey"
 msgstr ""
 
@@ -5578,6 +5639,7 @@ msgid "Can not change owner for \"%s\""
 msgstr ""
 
 #: ulng.rspropsfile
+msgctxt "ulng.rspropsfile"
 msgid "File"
 msgstr "檔案"
 

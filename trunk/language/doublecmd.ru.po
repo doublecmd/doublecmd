@@ -264,6 +264,7 @@ msgid "OK"
 msgstr ""
 
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
+msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
 msgid "&Cancel"
 msgstr "Отмена"
 
@@ -4719,9 +4720,63 @@ msgstr "Ширина"
 msgid "Customize column"
 msgstr "Настроить колонку: "
 
-#: ulng.rsdlgbuttons
-msgid "&OK;&No;&Yes;&Cancel;Non&e;A&ppend;Copy &Into;&Rewrite;Rewrite &All;&Skip;S&kip All;A&ll;Re&try;Ab&ort;"
-msgstr "&OK;&Нет;&Да;&Отмена;&Ни одного;&Добавить;Копировать в;&Переписать;Переписать &все;&Пропустить;Проп&устить Все;Все;Повторить;Прервать;"
+#: ulng.rsdlgbuttonabort
+msgid "Ab&ort"
+msgstr "Прервать"
+
+#: ulng.rsdlgbuttonall
+msgid "A&ll"
+msgstr "Все"
+
+#: ulng.rsdlgbuttonappend
+msgid "A&ppend"
+msgstr "&Добавить"
+
+#: ulng.rsdlgbuttoncancel
+msgctxt "ulng.rsdlgbuttoncancel"
+msgid "&Cancel"
+msgstr "&Отмена"
+
+#: ulng.rsdlgbuttoncopyinto
+msgid "Copy &Into"
+msgstr "Копировать в"
+
+#: ulng.rsdlgbuttonno
+msgid "&No"
+msgstr "&Нет"
+
+#: ulng.rsdlgbuttonnone
+msgid "Non&e"
+msgstr "&Ни одного"
+
+#: ulng.rsdlgbuttonok
+msgctxt "ulng.rsdlgbuttonok"
+msgid "&OK"
+msgstr "&OK"
+
+#: ulng.rsdlgbuttonoverwrite
+msgid "&Overwrite"
+msgstr "&Переписать"
+
+#: ulng.rsdlgbuttonoverwriteall
+msgid "Overwrite &All"
+msgstr "Переписать &все"
+
+#: ulng.rsdlgbuttonretry
+msgid "Re&try"
+msgstr "Повторить"
+
+#: ulng.rsdlgbuttonskip
+msgid "&Skip"
+msgstr "&Пропустить"
+
+#: ulng.rsdlgbuttonskipall
+msgid "S&kip All"
+msgstr "Проп&устить Все"
+
+#: ulng.rsdlgbuttonyes
+msgid "&Yes"
+msgstr "&Да"
 
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
