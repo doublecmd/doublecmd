@@ -3913,7 +3913,7 @@ var
       IconID := AFile.IconID;
       // Draw default icon if there is no icon for the file.
       if IconID = -1 then
-        IconID := PixMapManager.DefaultIconID;
+        IconID := PixMapManager.GetDefaultIcon(AFile.TheFile);
 
       PixMapManager.DrawBitmap(IconID,
                                AFile.TheFile,
@@ -5090,4 +5090,4 @@ begin
 end;
 
 end.
-
+
