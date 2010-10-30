@@ -299,7 +299,7 @@ end;
 function TfrmConfigToolBar.ktbBarLoadButtonGlyph(sIconFileName: String;
   iIconSize: Integer; clBackColor: TColor): TBitmap;
 begin
-  Result := LoadBitmapFromFile(sIconFileName, iIconSize, clBackColor);
+  Result := PixMapManager.LoadBitmapEnhanced(sIconFileName, iIconSize, clBackColor);
 end;
 
 (*Select button on panel*)
@@ -385,7 +385,7 @@ begin
       kedtIconFileName.Text:= OpenDialog.FileName;
       edtToolTip.Text:= ExtractOnlyFileName(OpenDialog.FileName);
 
-      Bitmap := LoadBitmapFromFile(kedtIconFileName.Text, 32, Color);
+      Bitmap := PixMapManager.LoadBitmapEnhanced(kedtIconFileName.Text, 32, Color);
       sbIconExample.Glyph.Assign(Bitmap);
       FreeThenNil(Bitmap);
 
@@ -399,12 +399,12 @@ var
   sFileName: String;
   Bitmap: TBitmap;
 begin
-  sFileName := kedtIconFileName.Text;
+  sFileName := GetCmdDirFromEnvVar(kedtIconFileName.Text);
   if ShowOpenIconDialog(Self, sFileName) then
     begin
       kedtIconFileName.Text := sFileName;
 
-      Bitmap := LoadBitmapFromFile(kedtIconFileName.Text, 32, Color);
+      Bitmap := PixMapManager.LoadBitmapEnhanced(kedtIconFileName.Text, 32, Color);
       sbIconExample.Glyph := Bitmap;
       FreeThenNil(Bitmap);
 
@@ -483,7 +483,6 @@ end;
 function TfrmConfigToolBar.AddSpecialButton(const sCommand: AnsiString; out aFileName: UTF8String): Boolean;
 var
   IniBarFile: TIniFileEx;
-  sIconFileName: UTF8String;
 begin
   Result:= False;
   OpenDialog.DefaultExt:= '.bar';
@@ -496,12 +495,11 @@ begin
           IniBarFile:= TIniFileEx.Create(aFileName);
           if SameText(sCommand, cOpenBar) then
             begin
-              sIconFileName:= gpPixmapPath + IntToStr(gIconsSize) + 'x' + IntToStr(gIconsSize) + PathDelim + 'actions' + PathDelim + 'go-up.png';
               IniBarFile.WriteInteger('ButtonBar', 'ButtonCount', 1);
               IniBarFile.WriteString('ButtonBar', 'cmd1', cOpenBar);
               IniBarFile.WriteString('ButtonBar', 'param1', SetCmdDirAsEnvVar(FBarFileName));
               IniBarFile.WriteString('ButtonBar', 'menu1', Actions.GetCommandCaption(cOpenBar));
-              IniBarFile.WriteString('ButtonBar', 'button1', SetCmdDirAsEnvVar(sIconFileName));
+              IniBarFile.WriteString('ButtonBar', 'button1', 'go-up');
             end;
         finally
           FreeThenNil(IniBarFile);
@@ -514,4 +512,4 @@ initialization
   {$I fconfigtoolbar.lrs}
 
 end.
-
+

@@ -169,7 +169,7 @@ begin
       if Exts.Items[I].IconIndex < 0 then
       begin
         // load icon for use in OnDrawItem procedure
-        Bitmap := LoadBitmapFromFile(Exts.Items[I].Icon, gIconsSize, lbFileTypes.Color);
+        Bitmap := PixMapManager.LoadBitmapEnhanced(Exts.Items[I].Icon, gIconsSize, lbFileTypes.Color);
       end
       else
         Bitmap := nil;
@@ -376,7 +376,7 @@ begin
       lbActions.ItemIndex := iCount;
     end;
 
-  bmpTemp := LoadBitmapFromFile(ExtCommand.Icon, 32, sbtnIcon.Color);
+  bmpTemp := PixMapManager.LoadBitmapEnhanced(ExtCommand.Icon, 32, sbtnIcon.Color);
   try
     sbtnIcon.Glyph := bmpTemp;
   finally
@@ -461,7 +461,7 @@ begin
   if OpenPictureDialog.Execute then
     begin
       edtIconFileName.Text := OpenPictureDialog.FileName;
-      bmpTemp:= LoadBitmapFromFile(edtIconFileName.Text, 32, sbtnIcon.Color);
+      bmpTemp:= PixMapManager.LoadBitmapEnhanced(edtIconFileName.Text, 32, sbtnIcon.Color);
       if Assigned(bmpTemp) then
         begin
           sbtnIcon.Glyph.Assign(bmpTemp);
@@ -471,7 +471,7 @@ begin
           begin
             // save icon for use in OnDrawItem procedure
             FreeIcon(ItemIndex);
-            Items.Objects[ItemIndex]:= LoadBitmapFromFile(edtIconFileName.Text, gIconsSize, Color);
+            Items.Objects[ItemIndex]:= PixMapManager.LoadBitmapEnhanced(edtIconFileName.Text, gIconsSize, Color);
             if Assigned(Items.Objects[ItemIndex]) then
             begin
               Exts.Items[ItemIndex].Icon:= edtIconFileName.Text;

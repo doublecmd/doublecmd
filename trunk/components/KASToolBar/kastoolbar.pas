@@ -200,26 +200,18 @@ end;
 
 function TKASToolBar.LoadBtnIcon(IconPath: String): TBitMap;
 var
-  pngBitmap: TPortableNetworkGraphic;
+  picture: TPicture;
 begin
-  Result:= nil;
-  if (IconPath = '') or (not FileExists(IconPath)) then Exit;
-  if CompareFileExt(IconPath, 'png', false) = 0 then
-    begin
-      pngBitmap:= TPortableNetworkGraphic.Create;
-      try
-        pngBitmap.LoadFromFile(IconPath);
-        Result:= Graphics.TBitmap.Create;
-        Result.Assign(pngBitmap);
-      finally
-        FreeAndNil(pngBitmap);
-      end;
-    end
-  else
-    begin
-      Result:= TBitMap.Create;
-      Result.LoadFromFile(IconPath);
-    end;
+  if (IconPath = '') or (not FileExists(IconPath)) then Exit(nil);
+
+  Picture := TPicture.Create;
+  try
+    Picture.LoadFromFile(IconPath);
+    Result := TBitmap.Create;
+    Result.Assign(Picture.Bitmap);
+  finally
+    FreeAndNil(Picture);
+  end;
 end;
 
 function TKASToolBar.GetChangePath: String;
@@ -534,4 +526,4 @@ begin
   ThemeServices.DrawElement(Canvas.GetUpdatedHandle([csBrushValid, csPenValid]), Details, DividerRect);
 end;
 
-end.
+end.

@@ -1264,7 +1264,7 @@ end;
 function TfrmMain.MainToolBarLoadButtonGlyph(sIconFileName: String;
   iIconSize: Integer; clBackColor: TColor): TBitmap;
 begin
-  Result := LoadBitmapFromFile(sIconFileName, iIconSize, clBackColor);
+  Result := PixMapManager.LoadBitmapEnhanced(sIconFileName, iIconSize, clBackColor);
 end;
 
 procedure TfrmMain.DeleteClick(Sender: TObject);
@@ -1628,7 +1628,7 @@ end;
 function TfrmMain.pmButtonMenuLoadButtonGlyph(sIconFileName: String;
   iIconSize: Integer; clBackColor: TColor): TBitmap;
 begin
-  Result := LoadBitmapFromFile(sIconFileName, iIconSize, clBackColor);
+  Result := PixMapManager.LoadBitmapEnhanced(sIconFileName, iIconSize, clBackColor);
 end;
 
 procedure TfrmMain.pmButtonMenuMenuButtonClick(Sender: TObject;

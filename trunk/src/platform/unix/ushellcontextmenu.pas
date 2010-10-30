@@ -401,7 +401,7 @@ begin
           ImageIndex:= PixMapManager.GetIconByName(PDesktopFileEntry(DesktopEntries[i])^.IconName);
           if ImageIndex >= 0 then
             begin
-              bmpTemp:= PixMapManager.GetBitmap(ImageIndex, clMenu);
+              bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
               if Assigned(bmpTemp) then
                 begin
                   mi.Bitmap.Assign(bmpTemp);

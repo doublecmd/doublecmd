@@ -157,7 +157,7 @@ begin
   for I := 1 to BtnCount do
     begin
        XButtons.Add(TKButton.Create);
-           TKButton(XButtons[I-1]).ButtonX :=GetCmdDirFromEnvVar(IniFile.ReadString('Buttonbar', 'button' + IntToStr(I), ''));
+           TKButton(XButtons[I-1]).ButtonX :=IniFile.ReadString('Buttonbar', 'button' + IntToStr(I), '');
            TKButton(XButtons[I-1]).CmdX := IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(I), '');
            TKButton(XButtons[I-1]).ParamX := IniFile.ReadString('Buttonbar', 'param' + IntToStr(I), '');
            TKButton(XButtons[I-1]).PathX := IniFile.ReadString('Buttonbar', 'path' + IntToStr(I), '');
@@ -255,7 +255,7 @@ begin
   for I := 1 to BtnCount do
     begin
        XButtons.Add(TKButton.Create);
-           TKButton(XButtons[I-1]).ButtonX :=GetCmdDirFromEnvVar(ItemOfList('button' + IntToStr(I)));
+           TKButton(XButtons[I-1]).ButtonX :=ItemOfList('button' + IntToStr(I));
            TKButton(XButtons[I-1]).CmdX := ItemOfList('cmd' + IntToStr(I));
            TKButton(XButtons[I-1]).ParamX :=ItemOfList('param' + IntToStr(I));
            TKButton(XButtons[I-1]).PathX := ItemOfList('path' + IntToStr(I));
@@ -325,4 +325,4 @@ begin
 end;
 
 end.
-
+
