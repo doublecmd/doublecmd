@@ -69,6 +69,7 @@ object frmViewer: TfrmViewer
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
+    Visible = False
     OnResize = pnlListerResize
   end
   object Status: TStatusBar
@@ -104,6 +105,7 @@ object frmViewer: TfrmViewer
     ClientHeight = 487
     ClientWidth = 1028
     TabOrder = 2
+    Visible = False
     object ViewerControl: TViewerControl
       Left = 0
       Height = 487
@@ -124,6 +126,7 @@ object frmViewer: TfrmViewer
     ClientHeight = 487
     ClientWidth = 1028
     TabOrder = 3
+    Visible = False
     object sboxImage: TScrollBox
       AnchorSideTop.Control = PanelEditImage
       AnchorSideTop.Side = asrBottom
