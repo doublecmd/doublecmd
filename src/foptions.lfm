@@ -3811,16 +3811,11 @@ object frmOptions: TfrmOptions
             ClientWidth = 48
             TabOrder = 1
             object imgIconExample: TImage
-              AnchorSideTop.Control = gbIconsSize
-              AnchorSideTop.Side = asrCenter
-              AnchorSideRight.Control = gbIconsSize
-              AnchorSideRight.Side = asrBottom
-              Left = 2
-              Height = 44
-              Top = 2
-              Width = 44
-              Anchors = [akTop, akRight]
-              BorderSpacing.Right = 10
+              Left = 1
+              Height = 46
+              Top = 1
+              Width = 46
+              Align = alClient
               Center = True
             end
           end
