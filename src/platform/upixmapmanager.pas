@@ -124,7 +124,6 @@ type
 
     procedure CreateIconTheme;
     procedure DestroyIconTheme;
-    function LoadBitmap(AIconFileName: String; out ABitmap: TBitmap): Boolean;
     {en
        Same as LoadBitmap but displays a warning if pixmap file doesn't exist.
     }
@@ -148,7 +147,7 @@ type
        Loads a theme icon. Returns TBitmap (on GTK2 convert GdkPixbuf to TBitmap).
        This function should only be called under FPixmapLock.
     }
-    function LoadIconThemeBitmap(AIconName: String; AIconSize: Integer): TBitmap;
+    function LoadIconThemeBitmapLocked(AIconName: String; AIconSize: Integer): TBitmap;
 
   {$IF DEFINED(WINDOWS)}
     function GetSystemFolderIcon: PtrInt;
@@ -175,11 +174,39 @@ type
     function GetApplicationBundleIcon(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
   {$ENDIF}
     function GetBuiltInDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
+
   public
     constructor Create;
     destructor Destroy; override;
     procedure Load(const sFileName : String);
-    function GetBitmap(iIndex : PtrInt; BkColor : TColor) : TBitmap; // Always returns new copy.
+    {en
+       Loads a graphical file (if supported) to a bitmap.
+       @param(AIconFileName must be a full path to the graphical file.)
+       @param(ABitmap receives a new bitmap object.)
+       @returns(@true if bitmap has been loaded, @false otherwise.)
+    }
+    function LoadBitmap(AIconFileName: String; out ABitmap: TBitmap): Boolean;
+    {en
+       Loads a graphical file as a bitmap if filename is full path.
+       Environment variables in the filename are supported.
+       If filename is not graphic file it tries to load some bitmap associated
+       with the file (by extension, attributes, etc.).
+       Loads an icon from a file's resources if filename ends with ",Nr" (on Windows).
+       Loads a theme icon if filename is not a full path.
+       Performs resize of the bitmap to <iIconSize>x<iIconSize> if neccessary.
+    }
+    function LoadBitmapEnhanced(sFileName : String; iIconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
+    {en
+       Loads a theme icon as bitmap.
+       @param(AIconName is a MIME type name.)
+    }
+    function LoadIconThemeBitmap(AIconName: String; AIconSize: Integer): TBitmap;
+    {en
+       Retrieves a bitmap stored in PixmapManager by index (always returns a new copy).
+       On Windows if iIndex points to system icon list it creates a new bitmap
+       by loading system icon and drawing onto the bitmap.
+    }
+    function GetBitmap(iIndex : PtrInt) : TBitmap;
     function DrawBitmap(iIndex: PtrInt; Canvas : TCanvas; X, Y: Integer) : Boolean;
     {en
        Draws bitmap stretching it if needed to Width x Height.
@@ -219,12 +246,8 @@ type
     function GetDefaultIcon(AFile: TFile): PtrInt;
   end;
 
-function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
-                       clBackColor : TColor; bFreeAtEnd : Boolean = False) : Graphics.TBitmap;
-function LoadBitmapFromFile(sFileName : String; iIconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
-
 var
-  PixMapManager:TPixMapManager = nil;
+  PixMapManager: TPixMapManager = nil;
 
 procedure LoadPixMapManager;
 
@@ -253,34 +276,85 @@ function StretchBitmap(var bmBitmap : Graphics.TBitmap; iIconSize : Integer;
 var
   memstream: TMemoryStream;
 begin
-  Result := Graphics.TBitMap.Create;
-  Result.SetSize(iIconSize, iIconSize);
-  if bmBitmap.RawImage.Description.AlphaPrec <> 0 then // if bitmap has alpha channel
-    Stretch(bmBitmap, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width)
-  else
-    with Result do
+  if (iIconSize <> bmBitmap.Height) or (iIconSize <> bmBitmap.Width) then
+  begin
+    Result := Graphics.TBitMap.Create;
+    Result.SetSize(iIconSize, iIconSize);
+    if bmBitmap.RawImage.Description.AlphaPrec <> 0 then // if bitmap has alpha channel
+      Stretch(bmBitmap, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width)
+    else
+      with Result do
+      begin
+        Canvas.Brush.Color := clBackColor;
+        Canvas.FillRect(Canvas.ClipRect);
+        Canvas.StretchDraw(Canvas.ClipRect, bmBitmap);
+        { For drawing color transparent bitmaps }
+        memstream := TMemoryStream.Create;
+        try
+          SaveToStream(memstream);
+          memstream.position := 0;
+          LoadFromStream(memstream);
+        finally
+          memstream.free;
+        end;
+        Transparent := True;
+        if bmBitmap.RawImage.Description.MaskBitsPerPixel = 0 then
+          TransparentColor := clBackColor;
+      end; //  with
+    if bFreeAtEnd then
+      FreeAndNil(bmBitmap);
+  end
+  else // Don't need to stretch.
+  begin
+    if bFreeAtEnd then
     begin
-      Canvas.Brush.Color := clBackColor;
-      Canvas.FillRect(Canvas.ClipRect);
-      Canvas.StretchDraw(Canvas.ClipRect, bmBitmap);
-      { For drawing color transparent bitmaps }
-      memstream := TMemoryStream.Create;
-      try
-        SaveToStream(memstream);
-        memstream.position := 0;
-        LoadFromStream(memstream);
-      finally
-        memstream.free;
-      end;
-      Transparent := True;
-      if bmBitmap.RawImage.Description.MaskBitsPerPixel = 0 then
-        TransparentColor := clBackColor;
-    end; //  with
-  if bFreeAtEnd then
-    FreeAndNil(bmBitmap);
+      Result := bmBitmap;
+      bmBitmap := nil;
+    end
+    else
+    begin
+      Result := Graphics.TBitMap.Create;
+      Result.Assign(bmBitmap);
+    end;
+  end;
 end;
 
-function LoadBitmapFromFile(sFileName : String; iIconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
+{ TPixMapManager }
+
+function TPixMapManager.LoadBitmap(AIconFileName: String; out ABitmap: Graphics.TBitmap): Boolean;
+var
+  Picture: TPicture;
+begin
+  Result:= False;
+  ABitmap:= nil;
+  try
+    Picture := TPicture.Create;
+    try
+      Picture.LoadFromFile(AIconFileName);
+      //Picture.Graphic.Transparent := True;
+
+      ABitmap := Graphics.TBitmap.Create;
+      ABitmap.Assign(Picture.Bitmap);
+
+      // if unsupported BitsPerPixel then exit
+      if ABitmap.RawImage.Description.BitsPerPixel > 32 then
+        raise EInvalidGraphic.Create('Unsupported bits per pixel');
+
+      Result:= True;
+    finally
+      FreeAndNil(Picture);
+    end;
+  except
+    on e: Exception do
+      begin
+        if Assigned(ABitmap) then
+          FreeAndNil(ABitmap);
+        DebugLn(Format('Error: Cannot load pixmap [%s] : %s',[AIconFileName, e.Message]));
+      end;
+  end;
+end;
+
+function TPixMapManager.LoadBitmapEnhanced(sFileName : String; iIconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 var
 {$IFDEF MSWINDOWS}
   iPos,
@@ -296,7 +370,6 @@ var
   iIndex : PtrInt;
   sExtFilter,
   sGraphicFilter : String;
-  bFreeAtEnd : Boolean;
   bmStandartBitmap : Graphics.TBitMap = nil;
   {$IFDEF LCLGTK2}
   pbPicture : PGdkPixbuf;
@@ -304,7 +377,17 @@ var
 begin
   Result := nil;
 
-  sFileName:= mbExpandFileName(sFileName);
+  sFileName:= ReplaceEnvVars(sFileName);
+
+  // If the name is not full path then treat it as MIME type.
+  if GetPathType(sFileName) = ptNone then
+  begin
+    bmStandartBitmap := LoadIconThemeBitmap(sFileName, iIconSize);
+    if Assigned(bmStandartBitmap) then
+      Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True);
+    Exit;
+  end;
+
 {$IFDEF MSWINDOWS}
   iIconIndex := -1;
   iPos :=Pos(',', sFileName);
@@ -343,9 +426,9 @@ begin
             phicon := phIconSmall; // Use small icon
           Icon:= CreateIconFromHandle(phIcon);
           bmStandartBitmap.Assign(Icon);
-          Result:= StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True);
+          Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True);
         finally
-          FreeThenNil(Icon)
+          FreeThenNil(Icon);
         end;  // non standart size
       DestroyIcon(phIconLarge);
       DestroyIcon(phIconSmall);
@@ -353,7 +436,6 @@ begin
   else
 {$ENDIF}
     begin
-      bFreeAtEnd := True;
       sExtFilter := UTF8LowerCase(ExtractFileExt(sFileName)) + ';';
       sGraphicFilter := GraphicFilter(TGraphic);
       // if file is graphic
@@ -368,17 +450,17 @@ begin
         end
         else // Try loading the standard way.
         {$ELSE}
-        if not PixMapManager.LoadBitmap(sFileName, bmStandartBitmap) then
+        if not LoadBitmap(sFileName, bmStandartBitmap) then
           Exit;
         {$ENDIF}
       end
       else // get file icon by ext
         begin
-          if mbFileExists(sFileName) or mbDirectoryExists(sFileName) then
+          if mbFileSystemEntryExists(sFileName) then
             begin
               AFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
-              iIndex := PixMapManager.GetIconByFile(AFile, True, True);
-              bmStandartBitmap := PixMapManager.GetBitmap(iIndex, clBackColor);
+              iIndex := GetIconByFile(AFile, True, True);
+              bmStandartBitmap := GetBitmap(iIndex);
               FreeAndNil(AFile);
             end
           else  // file not found
@@ -386,47 +468,17 @@ begin
               Exit(nil);
             end;
         end;
-
-      // if need stretch icon
-      if  (iIconSize <> bmStandartBitmap.Height) or (iIconSize <> bmStandartBitmap.Width) then
-        Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, bFreeAtEnd)
-      else
-        Result := bmStandartBitmap;
+      Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True);
     end;  // IsExecutable else
 end;
 
-{ TPixMapManager }
-
-function TPixMapManager.LoadBitmap(AIconFileName: String; out ABitmap: Graphics.TBitmap): Boolean;
-var
-  Picture: TPicture;
+function TPixMapManager.LoadIconThemeBitmap(AIconName: String; AIconSize: Integer): TBitmap;
 begin
-  Result:= False;
-  ABitmap:= nil;
+  FPixmapsLock.Acquire;
   try
-    Picture := TPicture.Create;
-    try
-      Picture.LoadFromFile(AIconFileName);
-      //Picture.Graphic.Transparent := True;
-
-      ABitmap := Graphics.TBitmap.Create;
-      ABitmap.Assign(Picture.Bitmap);
-
-      // if unsupported BitsPerPixel then exit
-      if ABitmap.RawImage.Description.BitsPerPixel > 32 then
-        raise EInvalidGraphic.Create('Unsupported bits per pixel');
-
-      Result:= True;
-    finally
-      FreeAndNil(Picture);
-    end;
-  except
-    on e: Exception do
-      begin
-        if Assigned(ABitmap) then
-          FreeAndNil(ABitmap);
-        DebugLn(Format('Error: Cannot load pixmap [%s] : %s',[AIconFileName, e.Message]));
-      end;
+    Result := LoadIconThemeBitmapLocked(AIconName, AIconSize);
+  finally
+    FPixmapsLock.Release;
   end;
 end;
 
@@ -844,7 +896,7 @@ begin
       else
         Result := -1;
     {$ELSE}
-      bmpBitmap := LoadIconThemeBitmap(AIconName, AIconSize);
+      bmpBitmap := LoadIconThemeBitmapLocked(AIconName, AIconSize);
       if Assigned(bmpBitmap) then
         begin
           Result := FPixmapList.Add(bmpBitmap); // add to list
@@ -858,7 +910,7 @@ begin
     Result := PtrInt(FThemePixmapsFileNames.List[fileIndex]^.Data);
 end;
 
-function TPixMapManager.LoadIconThemeBitmap(AIconName: String; AIconSize: Integer): Graphics.TBitmap;
+function TPixMapManager.LoadIconThemeBitmapLocked(AIconName: String; AIconSize: Integer): Graphics.TBitmap;
 var
   sIconFileName: UTF8String;
 {$IFDEF LCLGTK2}
@@ -1048,11 +1100,11 @@ begin
     with FDriveIconList[I] do
     begin
       iPixmapSize := FDriveIconList[I].Size;
-      bmMediaFloppy := LoadIconThemeBitmap('media-floppy', iPixmapSize);
-      bmDriveHardDisk := LoadIconThemeBitmap('drive-harddisk', iPixmapSize);
-      bmMediaFlash := LoadIconThemeBitmap('media-flash', iPixmapSize);
-      bmMediaOptical := LoadIconThemeBitmap('media-optical', iPixmapSize);
-      bmDriveNetwork:= LoadIconThemeBitmap('network-wired', iPixmapSize);
+      bmMediaFloppy := LoadIconThemeBitmapLocked('media-floppy', iPixmapSize);
+      bmDriveHardDisk := LoadIconThemeBitmapLocked('drive-harddisk', iPixmapSize);
+      bmMediaFlash := LoadIconThemeBitmapLocked('media-flash', iPixmapSize);
+      bmMediaOptical := LoadIconThemeBitmapLocked('media-optical', iPixmapSize);
+      bmDriveNetwork:= LoadIconThemeBitmapLocked('network-wired', iPixmapSize);
     end;
 
   // load emblems
@@ -1167,7 +1219,7 @@ begin
   (* /Set archive icons *)
 end;
 
-function TPixMapManager.GetBitmap(iIndex: PtrInt; BkColor : TColor): Graphics.TBitmap;
+function TPixMapManager.GetBitmap(iIndex: PtrInt): Graphics.TBitmap;
 var
   PPixmap: Pointer;
   PixmapFromList: Boolean = False;
@@ -1661,7 +1713,7 @@ end;
 
 function TPixMapManager.GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
 begin
-  Result := GetBitmap(FiArcIconID, clBackColor);
+  Result := GetBitmap(FiArcIconID);
   if Assigned(Result) then
   begin
     //  if need stretch icon
