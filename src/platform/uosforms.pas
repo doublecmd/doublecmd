@@ -256,7 +256,8 @@ begin
   else
     begin
       opdDialog := TOpenPictureDialog.Create(Owner);
-      opdDialog.Filter:= sFilter;;
+      opdDialog.Filter:= sFilter;
+      opdDialog.FileName := sFileName;
       Result:= opdDialog.Execute;
       sFileName := opdDialog.FileName;
       bAlreadyOpen := True;
@@ -275,6 +276,7 @@ begin
 {$IFDEF MSWINDOWS}
       opdDialog.Filter:= sFilter;
 {$ENDIF}
+      opdDialog.FileName := sFileName;
       Result:= opdDialog.Execute;
       sFileName := opdDialog.FileName;
 {$IFDEF MSWINDOWS}
@@ -311,4 +313,4 @@ finalization
 {$ENDIF}
 
 end.
-
+
