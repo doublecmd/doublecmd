@@ -443,17 +443,19 @@ object frmMain: TfrmMain
           TabStop = False
         end
       end
-      object nbConsole: TNotebook
+      object nbConsole: TPageControl
         Left = 1
         Height = 142
         Top = 1
         Width = 756
         TabStop = False
+        ActivePage = pgConsole
         Align = alClient
-        PageIndex = 0
         ShowTabs = False
+        TabIndex = 0
         TabOrder = 1
-        object pgConsole: TPage
+        Visible = False
+        object pgConsole: TTabSheet
         end
       end
     end
@@ -3453,4 +3455,4 @@ object frmMain: TfrmMain
     left = 96
     top = 13
   end
-end
+end

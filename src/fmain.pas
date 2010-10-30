@@ -242,8 +242,8 @@ type
     miCopyNamesToClip: TMenuItem;
     miLine10: TMenuItem;
     mnuFileAssoc: TMenuItem;
-    nbConsole: TNotebook;
-    pgConsole: TPage;
+    nbConsole: TPageControl;
+    pgConsole: TTabSheet;
     Panel1: TPanel;
     MainSplitter: TPanel;
     pmButtonMenu: TKASBarMenu;
