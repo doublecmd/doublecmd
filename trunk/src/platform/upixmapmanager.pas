@@ -472,7 +472,7 @@ begin
     end;  // IsExecutable else
 end;
 
-function TPixMapManager.LoadIconThemeBitmap(AIconName: String; AIconSize: Integer): TBitmap;
+function TPixMapManager.LoadIconThemeBitmap(AIconName: String; AIconSize: Integer): Graphics.TBitmap;
 begin
   FPixmapsLock.Acquire;
   try
