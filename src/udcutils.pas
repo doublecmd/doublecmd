@@ -439,7 +439,7 @@ begin
     end;
   FreeAndNil(EnvVarList);
 
-  StringReplace(Result, EnvVarCommanderPath, ExcludeTrailingPathDelimiter(gpExePath), [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, EnvVarCommanderPath, ExcludeTrailingPathDelimiter(gpExePath), [rfReplaceAll, rfIgnoreCase]);
 end;
 
 function mbExpandFileName(const sFileName: UTF8String): UTF8String;
