@@ -1106,8 +1106,9 @@ var
 
   function AllowDeleteDirectory: Boolean;
   begin
-    Result := not (SourceFile.AttributesProperty.IsDirectory or
-                   (IsLinkFollowed and aNode.SubNodes[0].TheFile.IsDirectory));
+    Result := (not (SourceFile.AttributesProperty.IsDirectory or
+                   (IsLinkFollowed and aNode.SubNodes[0].TheFile.IsDirectory))) or
+              gOverwriteFolder;
   end;
 
 begin

@@ -196,6 +196,7 @@ var
   gUseTrash : Boolean; // if using delete to trash by default
   gRenameSelOnlyName:boolean;
   gShowDialogOnDragDrop: Boolean;
+  gOverwriteFolder: Boolean;
 
   { Folder tabs page }
 
@@ -582,7 +583,7 @@ begin
   gPanelOfOp := True;
 
   { File operations page }
-  gCopyBlockSize := 65536;
+  gCopyBlockSize := 524288;
   gUseMmapInSearch := False;
   gWipePassNumber := 1;
   gDropReadOnlyFlag := True;
@@ -592,6 +593,7 @@ begin
   gUseTrash := True;
   gSkipFileOpError := False;
   gShowDialogOnDragDrop := False;
+  gOverwriteFolder := False;
   // Operations options
   gOperationOptionSymLinks := fsooslNone;
   gOperationOptionCorrectLinks := False;
@@ -1382,6 +1384,7 @@ begin
       gUseTrash := GetValue(Node, 'UseTrash', gUseTrash);
       gSkipFileOpError := GetValue(Node, 'SkipFileOpError', gSkipFileOpError);
       gShowDialogOnDragDrop := GetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
+      gOverwriteFolder := GetValue(Node, 'OverwriteFolder', gOverwriteFolder);
       // Operations options
       SubNode := Node.FindNode('Options');
       if Assigned(SubNode) then
@@ -1614,6 +1617,7 @@ begin
     SetValue(Node, 'UseTrash', gUseTrash);
     SetValue(Node, 'SkipFileOpError', gSkipFileOpError);
     SetValue(Node, 'ShowDialogOnDragDrop', gShowDialogOnDragDrop);
+    SetValue(Node, 'OverwriteFolder', gOverwriteFolder);
     // Operations options
     SubNode := FindNode(Node, 'Options', True);
     SetValue(SubNode, 'Symlink', Integer(gOperationOptionSymLinks));

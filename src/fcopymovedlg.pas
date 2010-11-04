@@ -297,12 +297,19 @@ begin
     1: gOperationOptionFileExists := fsoofeOverwrite;
     2: gOperationOptionFileExists := fsoofeSkip;
   end;
-  case cmbDirectoryExists.ItemIndex of
-    0: gOperationOptionDirectoryExists := fsoodeNone;
-    1: gOperationOptionDirectoryExists := fsoodeDelete;
-    2: gOperationOptionDirectoryExists := fsoodeCopyInto;
-    3: gOperationOptionDirectoryExists := fsoodeSkip;
-  end;
+  if gOverwriteFolder then
+    case cmbDirectoryExists.ItemIndex of
+      0: gOperationOptionDirectoryExists := fsoodeNone;
+      1: gOperationOptionDirectoryExists := fsoodeDelete;
+      2: gOperationOptionDirectoryExists := fsoodeCopyInto;
+      3: gOperationOptionDirectoryExists := fsoodeSkip;
+    end
+  else
+    case cmbDirectoryExists.ItemIndex of
+      0: gOperationOptionDirectoryExists := fsoodeNone;
+      1: gOperationOptionDirectoryExists := fsoodeCopyInto;
+      2: gOperationOptionDirectoryExists := fsoodeSkip;
+    end;
   gDropReadOnlyFlag := (cbDropReadOnlyFlag.State = cbChecked);
   case cbFollowLinks.State of
     cbChecked   : gOperationOptionSymLinks := fsooslFollow;
@@ -331,18 +338,27 @@ begin
 
   ShowOptions(False);
 
+  if not gOverwriteFolder then cmbDirectoryExists.Items.Delete(1);
+
   // Load default options.
   case gOperationOptionFileExists of
     fsoofeNone     : cmbFileExists.ItemIndex := 0;
     fsoofeOverwrite: cmbFileExists.ItemIndex := 1;
     fsoofeSkip     : cmbFileExists.ItemIndex := 2;
   end;
-  case gOperationOptionDirectoryExists of
-    fsoodeNone     : cmbDirectoryExists.ItemIndex := 0;
-    fsoodeDelete   : cmbDirectoryExists.ItemIndex := 1;
-    fsoodeCopyInto : cmbDirectoryExists.ItemIndex := 2;
-    fsoodeSkip     : cmbDirectoryExists.ItemIndex := 3;
-  end;
+  if gOverwriteFolder then
+    case gOperationOptionDirectoryExists of
+      fsoodeNone     : cmbDirectoryExists.ItemIndex := 0;
+      fsoodeDelete   : cmbDirectoryExists.ItemIndex := 1;
+      fsoodeCopyInto : cmbDirectoryExists.ItemIndex := 2;
+      fsoodeSkip     : cmbDirectoryExists.ItemIndex := 3;
+    end
+  else
+    case gOperationOptionDirectoryExists of
+      fsoodeNone     : cmbDirectoryExists.ItemIndex := 0;
+      fsoodeCopyInto : cmbDirectoryExists.ItemIndex := 1;
+      fsoodeSkip     : cmbDirectoryExists.ItemIndex := 2;
+    end;
   cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
   case gOperationOptionSymLinks of
     fsooslFollow     : cbFollowLinks.State := cbChecked;
@@ -396,12 +412,19 @@ begin
       1: FileExistsOption := fsoofeOverwrite;
       2: FileExistsOption := fsoofeSkip;
     end;
-    case cmbDirectoryExists.ItemIndex of
-      0: DirExistsOption := fsoodeNone;
-      1: DirExistsOption := fsoodeDelete;
-      2: DirExistsOption := fsoodeCopyInto;
-      3: DirExistsOption := fsoodeSkip;
-    end;
+    if gOverwriteFolder then
+      case cmbDirectoryExists.ItemIndex of
+        0: DirExistsOption := fsoodeNone;
+        1: DirExistsOption := fsoodeDelete;
+        2: DirExistsOption := fsoodeCopyInto;
+        3: DirExistsOption := fsoodeSkip;
+      end
+    else
+      case cmbDirectoryExists.ItemIndex of
+        0: DirExistsOption := fsoodeNone;
+        1: DirExistsOption := fsoodeCopyInto;
+        2: DirExistsOption := fsoodeSkip;
+      end;
     case cbFollowLinks.State of
       cbChecked  : SymLinkOption := fsooslFollow;
       cbUnchecked: SymLinkOption := fsooslDontFollow;
@@ -422,12 +445,19 @@ begin
       1: FileExistsOption := fsoofeOverwrite;
       2: FileExistsOption := fsoofeSkip;
     end;
-    case cmbDirectoryExists.ItemIndex of
-      0: DirExistsOption := fsoodeNone;
-      1: DirExistsOption := fsoodeDelete;
-      2: DirExistsOption := fsoodeCopyInto;
-      3: DirExistsOption := fsoodeSkip;
-    end;
+    if gOverwriteFolder then
+      case cmbDirectoryExists.ItemIndex of
+        0: DirExistsOption := fsoodeNone;
+        1: DirExistsOption := fsoodeDelete;
+        2: DirExistsOption := fsoodeCopyInto;
+        3: DirExistsOption := fsoodeSkip;
+      end
+    else
+      case cmbDirectoryExists.ItemIndex of
+        0: DirExistsOption := fsoodeNone;
+        1: DirExistsOption := fsoodeCopyInto;
+        2: DirExistsOption := fsoodeSkip;
+      end;
     //DropReadOnlyAttribute := (cbDropReadOnlyFlag.State = cbChecked);
     CorrectSymLinks := cbCorrectLinks.Checked;
     CheckFreeSpace := cbCheckFreeSpace.Checked;
