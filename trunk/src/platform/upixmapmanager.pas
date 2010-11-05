@@ -950,7 +950,7 @@ function TPixMapManager.GetSystemFolderIcon: PtrInt;
 var
   FileInfo: TSHFileInfo;
 begin
-  if (SHGetFileInfo(nil,
+  if (SHGetFileInfo('nil',
                     FILE_ATTRIBUTE_DIRECTORY,
                     FileInfo,
                     SizeOf(FileInfo),
