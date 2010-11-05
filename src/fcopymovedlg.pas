@@ -278,16 +278,18 @@ end;
 
 procedure TfrmCopyDlg.btnOptionsClick(Sender: TObject);
 begin
+{$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
   ShowOptions(not grpOptions.Visible);
+{$ENDIF}
 end;
 
 procedure TfrmCopyDlg.btnOptionsMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
-    if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
-      ShowOptions(not grpOptions.Visible);
-  {$ENDIF}
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+  if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
+    ShowOptions(not grpOptions.Visible);
+{$ENDIF}
 end;
 
 procedure TfrmCopyDlg.btnSaveOptionsClick(Sender: TObject);
