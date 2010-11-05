@@ -194,7 +194,9 @@ end;
 
 constructor TIniFileEx.Create(const AFileName: string; AEscapeLineFeeds: Boolean);
 begin
+{$PUSH}{$HINTS OFF}
   Create(AFileName, fmOpenReadWrite);
+{$POP}
 end;
 
 procedure TIniFileEx.UpdateFile;

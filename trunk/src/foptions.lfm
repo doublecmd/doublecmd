@@ -1335,6 +1335,7 @@ object frmOptions: TfrmOptions
         object cbbUseFrameCursor: TCheckBox
           AnchorSideLeft.Control = cbbUseInvertedSelection
           AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = cbbUseInvertedSelection
           AnchorSideBottom.Control = lblInactivePanelBrightness
           Left = 147
           Height = 21
