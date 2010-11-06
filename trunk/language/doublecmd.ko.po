@@ -1394,6 +1394,11 @@ msgstr "파일로 가기 (&G)"
 msgid "&New search"
 msgstr "새 찾기 (&N)"
 
+#: TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION
+msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
+msgid "Save"
+msgstr ""
+
 #: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
 msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
 msgid "&Delete"
@@ -1424,10 +1429,6 @@ msgstr "보기 (&V)"
 #: TFRMFINDDLG.BTNWORKWITHFOUND.CAPTION
 msgid "Feed to &listbox"
 msgstr "목록상자에 입력 (&L)"
-
-#: TFRMFINDDLG.CAPTION
-msgid "Find files"
-msgstr "파일 찾기"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sens&itive"
@@ -1498,6 +1499,11 @@ msgstr "*"
 msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
 msgid "Follow symlinks"
 msgstr ""
+
+#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "파일 찾기"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
@@ -2599,6 +2605,10 @@ msgstr "-"
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "취소"
+
+#: TFRMMASKINPUTDLG.BTNDEFINETEMPLATE.CAPTION
+msgid "Define..."
+msgstr ""
 
 #: TFRMMASKINPUTDLG.BTNOK.CAPTION
 msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
@@ -4561,6 +4571,7 @@ msgid "Rotate"
 msgstr ""
 
 #: TFRMVIEWER.MISAVE.CAPTION
+msgctxt "TFRMVIEWER.MISAVE.CAPTION"
 msgid "Save"
 msgstr ""
 
@@ -4855,6 +4866,10 @@ msgstr "앞으로 (&F)"
 msgid "Replace"
 msgstr "바꾸기"
 
+#: ulng.rsfinddefinetemplate
+msgid "Define template"
+msgstr ""
+
 #: ulng.rsfinddepth
 msgid "%s level(s)"
 msgstr "%s 단계"
@@ -4892,6 +4907,11 @@ msgstr "검색: %d"
 #: ulng.rsfindscanning
 msgid "Scanning"
 msgstr "검색 중"
+
+#: ulng.rsfindsearchfiles
+msgctxt "ulng.rsfindsearchfiles"
+msgid "Find files"
+msgstr "파일 찾기"
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
