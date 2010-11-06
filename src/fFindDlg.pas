@@ -29,9 +29,9 @@ unit fFindDlg;
 interface
 
 uses
-  LResources,
-  SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls, ExtCtrls, Menus, EditBtn, Spin, MaskEdit,
-  fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles;
+  LResources, SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls,
+  ExtCtrls, Menus, EditBtn, Spin, MaskEdit, Buttons, fAttributesEdit,
+  uDsxModule, DsxPlugin, uFindThread, uFindFiles;
 
 type
 
@@ -40,6 +40,7 @@ type
   TfrmFindDlg = class(TForm)
     Bevel2: TBevel;
     Bevel3: TBevel;
+    btnSaveTemplate: TBitBtn;
     btnClose: TButton;
     btnGoToPath: TButton;
     btnNewSearch: TButton;
@@ -168,7 +169,8 @@ type
 var
   frmFindDlg: TfrmFindDlg =nil;
 
-procedure ShowFindDlg(const sActPath:String);
+procedure ShowFindDlg(const sActPath: UTF8String);
+function ShowDefineTemplateDlg(out TemplateName: UTF8String): Boolean;
 
 implementation
 
@@ -213,21 +215,44 @@ begin
   Application.ProcessMessages;
 end;
 
-procedure ShowFindDlg(const sActPath:String);
+procedure ShowFindDlg(const sActPath: UTF8String);
 begin
-  if not assigned (frmFindDlg) then
-    frmFindDlg:=TfrmFindDlg.Create(nil);
+  if not Assigned(frmFindDlg) then
+    frmFindDlg:= TfrmFindDlg.Create(nil);
 
   if Assigned(frmFindDlg) then
     with frmFindDlg do
     begin
+      // Prepare window for search files
+      Caption := rsFindSearchFiles;
+      edtFindPathStart.Enabled:= True;
       edtFindPathStart.Text := sActPath;
+      btnSaveTemplate.Visible:= False;
+      btnStart.Visible:= True;
       Show;
       BringToFront;
+    end;
+end;
 
-      if pgcSearch.ActivePage = tsStandard then
-        if cmbFindFileMask.CanFocus then
-          cmbFindFileMask.SetFocus;
+function ShowDefineTemplateDlg(out TemplateName: UTF8String): Boolean;
+begin
+  if not Assigned(frmFindDlg) then
+    frmFindDlg:= TfrmFindDlg.Create(nil);
+
+  if Assigned(frmFindDlg) then
+    with frmFindDlg do
+    begin
+      // Prepare window for define search template
+      Caption := rsFindDefineTemplate;
+      edtFindPathStart.Enabled:= False;
+      edtFindPathStart.Text:= EmptyStr;
+      btnSaveTemplate.Visible:= True;
+      btnStart.Visible:= False;
+      Result:= (ShowModal = mrOK);
+      if Result and (lbSearchTemplates.Count > 0) then
+      begin
+        TemplateName:= lbSearchTemplates.Items[lbSearchTemplates.Count - 1];
+      end;
     end;
 end;
 
@@ -887,6 +912,10 @@ begin
       cmbPlugin.AddItem(DSXPlugins.GetDSXModule(i).Name+' (' + DSXPlugins.GetDSXModule(I).Descr+' )',nil);
     end;
   if (cmbPlugin.Items.Count>0) then cmbPlugin.ItemIndex:=0;
+
+  if pgcSearch.ActivePage = tsStandard then
+    if cmbFindFileMask.CanFocus then
+      cmbFindFileMask.SetFocus;
 end;
 
 procedure TfrmFindDlg.lbSearchTemplatesSelectionChange(Sender: TObject; User: boolean);

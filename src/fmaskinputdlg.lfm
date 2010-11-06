@@ -120,4 +120,19 @@ object frmMaskInputDlg: TfrmMaskInputDlg
     Sorted = True
     TabOrder = 1
   end
+  object btnDefineTemplate: TBitBtn
+    AnchorSideTop.Control = btnOK
+    AnchorSideRight.Control = btnOK
+    AnchorSideBottom.Control = btnOK
+    AnchorSideBottom.Side = asrBottom
+    Left = 47
+    Height = 32
+    Top = 194
+    Width = 90
+    Anchors = [akTop, akRight, akBottom]
+    BorderSpacing.Right = 6
+    Caption = 'Define...'
+    OnClick = btnDefineTemplateClick
+    TabOrder = 4
+  end
 end

@@ -29,6 +29,22 @@ object frmFindDlg: TfrmFindDlg
     ClientWidth = 768
     FullRepaint = False
     TabOrder = 0
+    object btnSaveTemplate: TBitBtn
+      AnchorSideTop.Control = btnStart
+      AnchorSideRight.Control = btnStart
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Side = asrBottom
+      Left = 681
+      Height = 32
+      Top = 39
+      Width = 75
+      Anchors = [akTop, akRight]
+      Caption = 'Save'
+      Default = True
+      ModalResult = 1
+      OnClick = btnSearchSaveClick
+      TabOrder = 4
+    end
     object pgcSearch: TPageControl
       AnchorSideBottom.Side = asrBottom
       Left = 0
