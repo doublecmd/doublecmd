@@ -1386,6 +1386,11 @@ msgstr "&Отиване до файл"
 msgid "&New search"
 msgstr "&Ново търсене"
 
+#: TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION
+msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
+msgid "Save"
+msgstr ""
+
 #: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
 msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
 msgid "&Delete"
@@ -1416,10 +1421,6 @@ msgstr "&Преглед"
 #: TFRMFINDDLG.BTNWORKWITHFOUND.CAPTION
 msgid "Feed to &listbox"
 msgstr "Вкарване във файловия &списък"
-
-#: TFRMFINDDLG.CAPTION
-msgid "Find files"
-msgstr "Търсене на файлове"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sens&itive"
@@ -1485,6 +1486,11 @@ msgstr "*"
 msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
 msgid "Follow symlinks"
 msgstr "Следване на меките връзки"
+
+#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "Търсене на файлове"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
@@ -2566,6 +2572,10 @@ msgstr "-"
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Отказ"
+
+#: TFRMMASKINPUTDLG.BTNDEFINETEMPLATE.CAPTION
+msgid "Define..."
+msgstr ""
 
 #: TFRMMASKINPUTDLG.BTNOK.CAPTION
 msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
@@ -4522,6 +4532,7 @@ msgid "Rotate"
 msgstr ""
 
 #: TFRMVIEWER.MISAVE.CAPTION
+msgctxt "TFRMVIEWER.MISAVE.CAPTION"
 msgid "Save"
 msgstr ""
 
@@ -4813,6 +4824,10 @@ msgstr "На&пред"
 msgid "Replace"
 msgstr "Замяна"
 
+#: ulng.rsfinddefinetemplate
+msgid "Define template"
+msgstr ""
+
 #: ulng.rsfinddepth
 msgid "%s level(s)"
 msgstr "%s равнище/а"
@@ -4848,6 +4863,11 @@ msgstr "Обходени: %d"
 #: ulng.rsfindscanning
 msgid "Scanning"
 msgstr ""
+
+#: ulng.rsfindsearchfiles
+msgctxt "ulng.rsfindsearchfiles"
+msgid "Find files"
+msgstr "Търсене на файлове"
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"

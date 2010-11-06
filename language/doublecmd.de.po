@@ -1386,6 +1386,11 @@ msgstr "&Gehe zu Datei"
 msgid "&New search"
 msgstr "&Neue Suche"
 
+#: TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION
+msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
+msgid "Save"
+msgstr "Speichern"
+
 #: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
 msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
 msgid "&Delete"
@@ -1416,10 +1421,6 @@ msgstr "&Betrachten"
 #: TFRMFINDDLG.BTNWORKWITHFOUND.CAPTION
 msgid "Feed to &listbox"
 msgstr "Füge in &Listbox ein"
-
-#: TFRMFINDDLG.CAPTION
-msgid "Find files"
-msgstr "Suche Datei(en)"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sens&itive"
@@ -1487,6 +1488,11 @@ msgstr "*"
 msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
 msgid "Follow symlinks"
 msgstr "Symlinks folgen"
+
+#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "Suche Datei(en)"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
@@ -2590,6 +2596,10 @@ msgstr "-"
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Abbruch"
+
+#: TFRMMASKINPUTDLG.BTNDEFINETEMPLATE.CAPTION
+msgid "Define..."
+msgstr ""
 
 #: TFRMMASKINPUTDLG.BTNOK.CAPTION
 msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
@@ -4568,6 +4578,7 @@ msgid "Rotate"
 msgstr "Drehen"
 
 #: TFRMVIEWER.MISAVE.CAPTION
+msgctxt "TFRMVIEWER.MISAVE.CAPTION"
 msgid "Save"
 msgstr "Speichern"
 
@@ -4862,6 +4873,10 @@ msgstr "&Vorwärts"
 msgid "Replace"
 msgstr "Ersetzen"
 
+#: ulng.rsfinddefinetemplate
+msgid "Define template"
+msgstr ""
+
 #: ulng.rsfinddepth
 msgid "%s level(s)"
 msgstr "%s Level"
@@ -4897,6 +4912,11 @@ msgstr "Gelesen: %d"
 #: ulng.rsfindscanning
 msgid "Scanning"
 msgstr "Suche"
+
+#: ulng.rsfindsearchfiles
+msgctxt "ulng.rsfindsearchfiles"
+msgid "Find files"
+msgstr "Suche Datei(en)"
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"

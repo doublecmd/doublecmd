@@ -1407,6 +1407,11 @@ msgstr "&Jdi k souboru"
 msgid "&New search"
 msgstr "&Nové hledání"
 
+#: TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION
+msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
+msgid "Save"
+msgstr ""
+
 #: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
 msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
 msgid "&Delete"
@@ -1437,10 +1442,6 @@ msgstr "&Zobrazit"
 #: TFRMFINDDLG.BTNWORKWITHFOUND.CAPTION
 msgid "Feed to &listbox"
 msgstr "Výsledek do &okna"
-
-#: TFRMFINDDLG.CAPTION
-msgid "Find files"
-msgstr "Hledat soubory"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sens&itive"
@@ -1508,6 +1509,11 @@ msgstr "*"
 msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
 msgid "Follow symlinks"
 msgstr ""
+
+#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "Hledat soubory"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
@@ -2612,6 +2618,10 @@ msgstr "-"
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Zrušit"
+
+#: TFRMMASKINPUTDLG.BTNDEFINETEMPLATE.CAPTION
+msgid "Define..."
+msgstr ""
 
 #: TFRMMASKINPUTDLG.BTNOK.CAPTION
 msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
@@ -4592,6 +4602,7 @@ msgid "Rotate"
 msgstr ""
 
 #: TFRMVIEWER.MISAVE.CAPTION
+msgctxt "TFRMVIEWER.MISAVE.CAPTION"
 msgid "Save"
 msgstr ""
 
@@ -4885,6 +4896,10 @@ msgstr "V&před"
 msgid "Replace"
 msgstr "Nahradit"
 
+#: ulng.rsfinddefinetemplate
+msgid "Define template"
+msgstr ""
+
 #: ulng.rsfinddepth
 msgid "%s level(s)"
 msgstr "%s úrovní"
@@ -4920,6 +4935,11 @@ msgstr "Prohledáno: %d"
 #: ulng.rsfindscanning
 msgid "Scanning"
 msgstr "Prohledávám"
+
+#: ulng.rsfindsearchfiles
+msgctxt "ulng.rsfindsearchfiles"
+msgid "Find files"
+msgstr "Hledat soubory"
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"

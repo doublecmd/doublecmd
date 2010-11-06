@@ -1388,6 +1388,11 @@ msgstr "&Ugrás fájlhoz"
 msgid "&New search"
 msgstr "Ú&j keresés"
 
+#: TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION
+msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
+msgid "Save"
+msgstr ""
+
 #: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
 msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
 msgid "&Delete"
@@ -1418,10 +1423,6 @@ msgstr "&Nézőke"
 #: TFRMFINDDLG.BTNWORKWITHFOUND.CAPTION
 msgid "Feed to &listbox"
 msgstr "&Ablakba"
-
-#: TFRMFINDDLG.CAPTION
-msgid "Find files"
-msgstr "Fájlok keresése"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 #, fuzzy
@@ -1496,6 +1497,11 @@ msgstr ""
 #: TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION
 msgid "Follow symlinks"
 msgstr ""
+
+#: TFRMFINDDLG.FRMFINDDLG.CAPTION
+msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "Fájlok keresése"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
@@ -1743,7 +1749,7 @@ msgstr "Ellenőrző összeg számítása"
 #: TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION
 msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
 msgid "Verify check sum..."
-msgstr ""
+msgstr "Ellenőrző összeg vizsgálata..."
 
 #: TFRMMAIN.ACTCLEARLOGFILE.CAPTION
 msgid "Clear log file"
@@ -2591,6 +2597,10 @@ msgstr ""
 msgctxt "TFRMMASKINPUTDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Mégsem"
+
+#: TFRMMASKINPUTDLG.BTNDEFINETEMPLATE.CAPTION
+msgid "Define..."
+msgstr ""
 
 #: TFRMMASKINPUTDLG.BTNOK.CAPTION
 msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
@@ -4103,8 +4113,9 @@ msgid "-----------"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
-msgstr ""
+msgstr "Szöveges megfelelő:"
 
 #: TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -4345,15 +4356,6 @@ msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
 msgid "Full Screen"
 msgstr ""
 
-#: TFRMVIEWER.BTNGIFMOVE.CAPTION
-msgctxt "TFRMVIEWER.BTNGIFMOVE.CAPTION"
-msgid "||"
-msgstr ""
-
-#: TFRMVIEWER.BTNGIFTOBMP.CAPTION
-msgid "S"
-msgstr ""
-
 #: TFRMVIEWER.BTNHIGHTLIGHT.HINT
 msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
@@ -4373,10 +4375,6 @@ msgstr "Mozgat"
 msgid "Next"
 msgstr ""
 
-#: TFRMVIEWER.BTNNEXTGIFFRAME.CAPTION
-msgid "||>"
-msgstr ""
-
 #: TFRMVIEWER.BTNPAINT.HINT
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
@@ -4384,10 +4382,6 @@ msgstr ""
 
 #: TFRMVIEWER.BTNPREV.HINT
 msgid "Previous"
-msgstr ""
-
-#: TFRMVIEWER.BTNPREVGIFFRAME.CAPTION
-msgid "<||"
 msgstr ""
 
 #: TFRMVIEWER.BTNREDEYE.HINT
@@ -4576,11 +4570,32 @@ msgid "Rotate"
 msgstr ""
 
 #: TFRMVIEWER.MISAVE.CAPTION
+msgctxt "TFRMVIEWER.MISAVE.CAPTION"
 msgid "Save"
 msgstr ""
 
 #: TFRMVIEWER.MISAVEAS.CAPTION
 msgid "Save As..."
+msgstr ""
+
+#: TFRMVIEWER.MISAVEASBMP.CAPTION
+msgid "Bmp"
+msgstr ""
+
+#: TFRMVIEWER.MISAVEASJPG.CAPTION
+msgid "Jpg"
+msgstr ""
+
+#: TFRMVIEWER.MISAVEASPNG.CAPTION
+msgid "Png"
+msgstr ""
+
+#: TFRMVIEWER.MISAVETOICO.CAPTION
+msgid "Ico"
+msgstr ""
+
+#: TFRMVIEWER.MISAVETOPNM.CAPTION
+msgid "Pnm"
 msgstr ""
 
 #: TFRMVIEWER.MISCREENSHOT.CAPTION
@@ -4849,6 +4864,10 @@ msgstr "&Előre"
 msgid "Replace"
 msgstr "Csere"
 
+#: ulng.rsfinddefinetemplate
+msgid "Define template"
+msgstr ""
+
 #: ulng.rsfinddepth
 msgid "%s level(s)"
 msgstr "%s szint mélységben"
@@ -4885,6 +4904,11 @@ msgstr "Végignézve: %d"
 #: ulng.rsfindscanning
 msgid "Scanning"
 msgstr "Keresés"
+
+#: ulng.rsfindsearchfiles
+msgctxt "ulng.rsfindsearchfiles"
+msgid "Find files"
+msgstr "Fájlok keresése"
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
