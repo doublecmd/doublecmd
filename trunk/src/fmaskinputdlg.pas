@@ -35,12 +35,14 @@ type
   { TfrmMaskInputDlg }
 
   TfrmMaskInputDlg = class(TForm)
+    btnDefineTemplate: TBitBtn;
     lblPrompt: TLabel;
     lblSearchTemplate: TLabel;
     cmbMask: TComboBox;
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
     lbxSearchTemplate: TListBox;
+    procedure btnDefineTemplateClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure lbxSearchTemplateClick(Sender: TObject);
     procedure lbxSearchTemplateDblClick(Sender: TObject);
@@ -55,7 +57,7 @@ function ShowMaskInputDlg(const sCaption, sPrompt: UTF8String; slValueList: TStr
 implementation
 
 uses
-  uGlobs, uSearchTemplate;
+  fFindDlg, uGlobs, uSearchTemplate;
 
 function ShowMaskInputDlg(const sCaption, sPrompt: UTF8String;
                                 slValueList: TStringList; var sValue: UTF8String): Boolean;
@@ -102,6 +104,17 @@ var
 begin
   for I:= 0 to gSearchTemplateList.Count - 1 do
     lbxSearchTemplate.Items.Add(gSearchTemplateList.Templates[I].TemplateName);
+end;
+
+procedure TfrmMaskInputDlg.btnDefineTemplateClick(Sender: TObject);
+var
+  sTemplateName: UTF8String;
+begin
+  if ShowDefineTemplateDlg(sTemplateName) then
+  begin
+    lbxSearchTemplate.ItemIndex:= lbxSearchTemplate.Items.Add(sTemplateName);
+    cmbMask.Text:= cTemplateSign + sTemplateName;
+  end;
 end;
 
 initialization

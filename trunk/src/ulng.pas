@@ -222,6 +222,8 @@ resourcestring
   //Compare by content Dialog
   rsCompareDiffs = 'Number of changes:';
   // Find files dialog
+  rsFindSearchFiles = 'Find files';
+  rsFindDefineTemplate = 'Define template';
   rsFindScanning = 'Scanning';
   rsFindScanned = 'Scanned: %d';
   rsFindFound = 'Found: %d';
