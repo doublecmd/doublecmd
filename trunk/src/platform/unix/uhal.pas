@@ -133,12 +133,14 @@ var
 begin
   Result := False;
 
+  DebugLn('Initializing HAL');
+
   // create new HAL
   DcHalCtx := libhal_ctx_new;
 
   if DcHalCtx = nil then
   begin
-    DebugLn('Cannot initialize HAL context');
+    DebugLn('Cannot create HAL context');
     Exit;
   end;
 
@@ -161,6 +163,7 @@ begin
   // Set dbus connection for the HAL context.
   if libhal_ctx_set_dbus_connection(DcHalCtx, DcDbus) = 0 then
   begin
+    DebugLn('Cannot set DBUS connection for HAL context');
     FreeHal;
     Exit;
   end;
@@ -191,12 +194,13 @@ begin
     Exit;
   end;
 
+  DebugLn('HAL initialized OK');
   Result := True;
 end;
 
 procedure LibHalDeviceAdded(ctx: PLibHalContext; const udi: PChar); cdecl;
 begin
-//  DebugLn('add dev  ',udi);
+  DebugLn('HAL: new device added: ',udi);
 //  sleep(1500); // if we dont do it we don`t see new dev
   CheckBlockDev(ctx,udi,nil); // it return value 2 time on one flash like /dev/sda /dev/sda1
 end;
@@ -217,6 +221,7 @@ begin
     DeviceList.Delete(DeviceList.IndexOf(udi));
     //CreateBlokDevArr; or we can re create DeviceList
   end;
+  DebugLn('HAL: Device was removed: ', udi);
 end;
 
 function CheckHalMsg: Boolean;
@@ -244,6 +249,7 @@ begin
   begin
     if HalConnectionOpen then
     begin
+      DebugLn('Shutting down HAL');
       libhal_ctx_shutdown(DcHalCtx, nil);
       HalConnectionOpen := False;
     end;
@@ -254,6 +260,7 @@ begin
   begin
     if DBusConnectionOpen then
     begin
+      DebugLn('Closing DBUS connection');
       dbus_connection_close(DcDbus);
       DBusConnectionOpen := False;
     end;

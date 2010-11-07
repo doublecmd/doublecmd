@@ -36,6 +36,8 @@ uses
 begin
   {$I doublecmd.lrs}
 
+  DebugLn('Starting Double Commander');
+
   {$IFDEF NIGHTLY_BUILD}
   InitLineInfo;
   {$ENDIF}
@@ -90,4 +92,6 @@ begin
      begin
        DebugLn('Another instance of DC is already running. Exiting.');
      end;
-end.
+
+  DebugLn('Finished Double Commander');
+end.
