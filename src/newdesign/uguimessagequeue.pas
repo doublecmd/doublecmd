@@ -214,12 +214,14 @@ end;
 
 procedure InitializeGuiMessageQueue;
 begin
+  DebugLn('Starting GuiMessageQueue');
   GuiMessageQueue := TGuiMessageQueueThread.Create(False);
 end;
 
 procedure FinalizeGuiMessageQueue;
 begin
   GuiMessageQueue.Terminate;
+  DebugLn('Finishing GuiMessageQueue');
   WaitForThreadTerminate(GuiMessageQueue.ThreadID, 10000); // wait max 10 seconds
 end;
 

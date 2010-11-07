@@ -2978,6 +2978,7 @@ begin
 
     // Wait until all the builders finish.
     FListFilesThread.Finish;
+    DebugLn('Waiting for FileListBuilder thread ', hexStr(FListFilesThread));
     TFunctionThread.WaitForWithSynchronize(FListFilesThread);
     FListFilesThread := nil;
   end;
@@ -5090,4 +5091,4 @@ begin
 end;
 
 end.
-
+

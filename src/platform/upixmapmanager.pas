@@ -1736,6 +1736,7 @@ end;
 
 procedure LoadPixMapManager;
 begin
+  DebugLn('Creating PixmapManager');
   PixMapManager:=TPixMapManager.Create;
   PixMapManager.Load(gpCfgDir + 'pixmaps.txt');
 end;
@@ -1745,7 +1746,10 @@ initialization
 finalization
 
   if Assigned(PixMapManager) then
+  begin
+    DebugLn('Shutting down PixmapManager');
     FreeAndNil(PixMapManager);
+  end;
 
 end.
 

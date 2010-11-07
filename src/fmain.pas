@@ -860,13 +860,14 @@ procedure TfrmMain.FormDestroy(Sender: TObject);
 var
   slCommandHistory: TStringListEx;
 begin
-  DebugLn('frmMain.Destroy');
+  DebugLn('Destroying main form');
 
   // Disable file watcher.
   if Assigned(LeftFrameWatcher) then
     FreeAndNil(LeftFrameWatcher);
   if Assigned(RightFrameWatcher) then
     FreeAndNil(RightFrameWatcher);
+  DebugLn('File watchers finished');
 
   // Close all tabs.
   CloseNotebook(LeftTabs);
@@ -887,6 +888,8 @@ begin
   SaveMainToolBar;
 
   DestroyDrivesList(DrivesList);
+
+  DebugLn('Main form destroyed');
 end;
 
 procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: boolean);
