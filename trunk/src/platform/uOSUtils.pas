@@ -307,6 +307,12 @@ type
     Instead of the wait-thread we could just ignore or handle SIGCHLD signal
     for the process, but this way we don't interfere with the signal handling.
     The downside is that there's a thread for every child process running.
+
+    Another method is to periodically do a cleanup, for example from OnIdle
+    or OnTimer event. Remember PIDs of spawned child processes and when
+    cleaning call FpWaitpid(PID, nil, WNOHANG) on each PID. Downside is they
+    are not released immediately after the child process finish (may be relevant
+    if we want to display exit status to the user).
   }
   TWaitForPidThread = class(TThread)
   private
@@ -326,7 +332,7 @@ type
 
   procedure TWaitForPidThread.Execute;
   begin
-    FpWaitPid(FPID, nil, 0);
+    while (FpWaitPid(FPID, nil, 0) = -1) and (fpgeterrno() = ESysEINTR) do;
   end;
 
 
