@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
+    <Version Value="9"/>
     <PathDelim Value="\"/>
-    <Version Value="7"/>
     <General>
       <Flags>
         <SaveClosedFiles Value="False"/>
@@ -10,7 +10,6 @@
       </Flags>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <TargetFileExt Value=""/>
       <Title Value="Double Commander"/>
       <UseXPManifest Value="True"/>
       <Icon Value="0"/>
@@ -23,8 +22,147 @@
       <UseVersionInfo Value="True"/>
       <MinorVersionNr Value="4"/>
       <RevisionNr Value="6"/>
-      <StringTable Comments="" CompanyName="" FileDescription="Double Commander is a cross platform open source file manager with two panels side by side" FileVersion="0.4.6.0" InternalName="DOUBLECMD" LegalCopyright="Copyright (C) 2006-2009  Koblov Alexander" LegalTrademarks="" OriginalFilename="" ProductName="Double Commander" ProductVersion="0.4.6.0"/>
+      <StringTable FileDescription="Double Commander is a cross platform open source file manager with two panels side by side" InternalName="DOUBLECMD" LegalCopyright="Copyright (C) 2006-2009  Koblov Alexander" ProductName="Double Commander" ProductVersion=""/>
     </VersionInfo>
+    <BuildModes Count="4">
+      <Item1 Name="Debug" Default="True"/>
+      <Item2 Name="Debug + HeapTrc">
+        <CompilerOptions>
+          <Version Value="9"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="..\doublecmd"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir)"/>
+            <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
+            <OtherUnitFiles Value="$(ProjPath)\platform;$(ProjPath)\platform\$(SrcOS);..\sdk;$(ProjPath)\newdesign;$(ProjPath)\newdesign\fileproperties;newdesign\columnsview"/>
+            <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
+            <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <IOChecks Value="True"/>
+              <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+            </Checks>
+            <Optimizations>
+              <OptimizationLevel Value="0"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="True"/>
+              <UseHeaptrc Value="True"/>
+            </Debugging>
+          </Linking>
+          <Other>
+            <ConfigFile>
+              <CustomConfigFile Value="True"/>
+              <ConfigFilePath Value="fpc-extra.cfg"/>
+            </ConfigFile>
+            <CustomOptions Value="-dHEAPTRC -dHEAPTRC_EXTRA"/>
+            <CompilerPath Value="$(CompPath)"/>
+            <ExecuteBefore>
+              <Command Value="_getsvnrev.cmd $(LazarusDir)"/>
+              <CompileReasons Run="False"/>
+            </ExecuteBefore>
+          </Other>
+        </CompilerOptions>
+      </Item2>
+      <Item3 Name="NoDebug Full Optimizations">
+        <CompilerOptions>
+          <Version Value="9"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="..\doublecmd"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir)"/>
+            <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
+            <OtherUnitFiles Value="$(ProjPath)\platform;$(ProjPath)\platform\$(SrcOS);..\sdk;$(ProjPath)\newdesign;$(ProjPath)\newdesign\fileproperties;newdesign\columnsview"/>
+            <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
+            <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Optimizations>
+              <VariablesInRegisters Value="True"/>
+              <UncertainOptimizations Value="True"/>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <UseLineInfoUnit Value="False"/>
+            </Debugging>
+          </Linking>
+          <Other>
+            <ConfigFile>
+              <CustomConfigFile Value="True"/>
+              <ConfigFilePath Value="fpc-extra.cfg"/>
+            </ConfigFile>
+            <CompilerPath Value="$(CompPath)"/>
+            <ExecuteBefore>
+              <Command Value="_getsvnrev.cmd $(LazarusDir)"/>
+              <CompileReasons Run="False"/>
+            </ExecuteBefore>
+          </Other>
+        </CompilerOptions>
+      </Item3>
+      <Item4 Name="Nightly">
+        <CompilerOptions>
+          <Version Value="9"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="..\doublecmd"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir)"/>
+            <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
+            <OtherUnitFiles Value="$(ProjPath)\platform;$(ProjPath)\platform\$(SrcOS);..\sdk;$(ProjPath)\newdesign;$(ProjPath)\newdesign\fileproperties;newdesign\columnsview"/>
+            <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
+            <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <IOChecks Value="True"/>
+            </Checks>
+            <Optimizations>
+              <OptimizationLevel Value="0"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <UseLineInfoUnit Value="False"/>
+              <GenerateDwarf Value="True"/>
+            </Debugging>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dNIGHTLY_BUILD"/>
+            <CompilerPath Value="$(CompPath)"/>
+            <ExecuteBefore>
+              <Command Value="_getsvnrev.cmd $(LazarusDir)"/>
+              <CompileReasons Run="False"/>
+            </ExecuteBefore>
+          </Other>
+        </CompilerOptions>
+      </Item4>
+    </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
       <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
@@ -138,6 +276,7 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmFindView"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="fFindView"/>
       </Unit10>
       <Unit11>
@@ -677,22 +816,21 @@
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="8"/>
+    <Version Value="9"/>
     <PathDelim Value="\"/>
     <Target>
       <Filename Value="..\doublecmd"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(LazarusDir)\ide\;$(ProjOutDir)\"/>
-      <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)\"/>
-      <OtherUnitFiles Value="$(ProjPath)\platform\;$(ProjPath)\platform\$(SrcOS)\;..\sdk\;$(ProjPath)\newdesign\;$(ProjPath)\newdesign\fileproperties\;newdesign\columnsview\"/>
+      <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir)"/>
+      <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
+      <OtherUnitFiles Value="$(ProjPath)\platform;$(ProjPath)\platform\$(SrcOS);..\sdk;$(ProjPath)\newdesign;$(ProjPath)\newdesign\fileproperties;newdesign\columnsview"/>
       <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
-      <SrcPath Value="$(LazarusDir)\lcl\;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType)\;$(fpcsrcdir)\packages\fcl-base\src\"/>
+      <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
         <IncludeAssertionCode Value="True"/>
-        <UseAnsiStrings Value="True"/>
       </SyntaxOptions>
     </Parsing>
     <CodeGeneration>
@@ -711,6 +849,9 @@
       </Debugging>
     </Linking>
     <Other>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
       <ConfigFile>
         <CustomConfigFile Value="True"/>
         <ConfigFilePath Value="fpc-extra.cfg"/>
@@ -722,4 +863,4 @@
       </ExecuteBefore>
     </Other>
   </CompilerOptions>
-</CONFIG>
+</CONFIG>
