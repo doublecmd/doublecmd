@@ -1,6 +1,5 @@
 { $threading on}
 program doublecmd;
-// uGlobs must be first in uses, uLng must be before any form;
 {%File 'doc/changelog.txt'}
 
 {.$APPTYPE GUI}
@@ -33,6 +32,11 @@ uses
 
 {$IFDEF WINDOWS}{$R doublecmd.rc}{$ENDIF}
 
+{$IFDEF HEAPTRC}
+var
+  LogPath: String;
+{$ENDIF}
+
 begin
   {$I doublecmd.lrs}
 
@@ -40,6 +44,12 @@ begin
 
   {$IFDEF NIGHTLY_BUILD}
   InitLineInfo;
+  {$ENDIF}
+
+  {$IFDEF HEAPTRC}
+  LogPath := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'logs';
+  CreateDir(LogPath);
+  SetHeapTraceOutput(LogPath + '/heaptrc-' + FormatDateTime('yyyy-mm-dd hh.mm.ss', Now) + '.log');
   {$ENDIF}
 
   Application.Title:= 'Double Commander';
