@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.4.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-02-15 23:55-0000\n"
-"Last-Translator: Максим aka Ma$terok\n"
+"PO-Revision-Date: 2010-11-06 15:22+0300\n"
+"Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -2598,7 +2598,7 @@ msgstr "Відміна"
 
 #: TFRMMASKINPUTDLG.BTNDEFINETEMPLATE.CAPTION
 msgid "Define..."
-msgstr ""
+msgstr "Визначити..."
 
 #: TFRMMASKINPUTDLG.BTNOK.CAPTION
 msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
@@ -2742,7 +2742,6 @@ msgid "&Extension"
 msgstr "Розширення"
 
 #: TFRMMULTIRENAME.LBFIND.CAPTION
-#, fuzzy
 #| msgid "Find..."
 msgid "&Find..."
 msgstr "Знайти..."
@@ -3718,13 +3717,11 @@ msgid "Here you can enter one or more drives, separated by \";\"."
 msgstr "Тут ви можете ввести один або декілька дисків, розділених \";\"."
 
 #: TFRMOPTIONS.RBALTLETTERQS.CAPTION
-#, fuzzy
 #| msgid "Al&t+Letters"
 msgid "Alt+Letters"
 msgstr "Al&t+Буква"
 
 #: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
-#, fuzzy
 #| msgid "&Ctrl+Alt+Letters"
 msgid "Ctrl+Alt+Letters"
 msgstr "Ctrl+Alt+Буква"
@@ -3747,7 +3744,6 @@ msgid "&Only standard icons"
 msgstr "Тільки &стандартні іконки"
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
-#, fuzzy
 #| msgid "L&etter only"
 msgid "Letter only"
 msgstr "Тільки буква"
@@ -4863,7 +4859,7 @@ msgstr "Замінити"
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
-msgstr ""
+msgstr "Визначення шаблону"
 
 #: ulng.rsfinddepth
 msgid "%s level(s)"
