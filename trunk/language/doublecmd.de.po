@@ -2599,7 +2599,7 @@ msgstr "Abbruch"
 
 #: TFRMMASKINPUTDLG.BTNDEFINETEMPLATE.CAPTION
 msgid "Define..."
-msgstr ""
+msgstr "Definieren..."
 
 #: TFRMMASKINPUTDLG.BTNOK.CAPTION
 msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
@@ -4735,7 +4735,7 @@ msgstr "Spalten anpassen"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
-msgstr ""
+msgstr "Unterbrechen"
 
 #: ulng.rsdlgbuttonall
 msgid "A&ll"
@@ -4777,7 +4777,7 @@ msgstr "Bisherigen Inh&alt KOMPLETT entfernen"
 
 #: ulng.rsdlgbuttonretry
 msgid "Re&try"
-msgstr ""
+msgstr "&Wiederholen"
 
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
@@ -4875,7 +4875,7 @@ msgstr "Ersetzen"
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
-msgstr ""
+msgstr "Vorlage definieren"
 
 #: ulng.rsfinddepth
 msgid "%s level(s)"
@@ -4974,7 +4974,7 @@ msgstr "Einbinden"
 
 #: ulng.rsmnunew
 msgid "New"
-msgstr ""
+msgstr "Neu"
 
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
@@ -4982,7 +4982,7 @@ msgstr "Öffnen mit..."
 
 #: ulng.rsmnusortby
 msgid "Sort by"
-msgstr ""
+msgstr "Sortieren"
 
 #: ulng.rsmnuumount
 msgid "Umount"
