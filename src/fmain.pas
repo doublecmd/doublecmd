@@ -2566,6 +2566,7 @@ var
   OperationNumber, widthOfItem: Integer;
   CursorPos: TPoint;
 begin
+  // Calculate item width
   if (sboxOperations.Width / OperationsManager.OperationsCount) < 120 then
     widthOfItem := Round(sboxOperations.Width/OperationsManager.OperationsCount)
   else
@@ -2586,7 +2587,7 @@ begin
       end;
     mbLeft:
       begin
-        if OperationsManager.GetFormCreate (OperationsManager.GetHandleById(OperationNumber)) = false then //проверяем наличие формы у указанной операции
+        if OperationsManager.GetFormCreate (OperationsManager.GetHandleById(OperationNumber)) = False then //проверяем наличие формы у указанной операции
           begin
             OperationDialog := TfrmFileOp.Create(OperationsManager.GetHandleById(OperationNumber)); // если нет то создаем
             OperationDialog.Show;
@@ -2602,11 +2603,14 @@ var
   Operation: TFileSourceOperation;
   OperationHandle: TOperationHandle;
   StartingState: TOperationStartingState;
-  i, widthOfItem: Integer;
+  i, widthOfItem, textHeight: Integer;
   OutString: String;
 begin
-  if OperationsManager.OperationsCount>0 then
+  if OperationsManager.OperationsCount > 0 then
     begin
+      // Calculate text height
+      textHeight:= sboxOperations.Canvas.TextHeight('Pg');
+      // Calculate item width
       if (sboxOperations.Width / OperationsManager.OperationsCount) < 120 then
         widthOfItem := Round(sboxOperations.Width / OperationsManager.OperationsCount)
       else
@@ -2638,33 +2642,34 @@ begin
                  + OutString + ' - '
                  + IntToStr(Operation.Progress) + ' %';
 
-
-
-     StartingState := OperationsManager.GetStartingState(OperationHandle);
-      if OperationsManager.GetFormCreate (OperationHandle)=true  then
+      StartingState := OperationsManager.GetStartingState(OperationHandle);
+      if OperationsManager.GetFormCreate (OperationHandle) = True  then
          sboxOperations.Canvas.Brush.Color := clBtnShadow
-         else
+      else
          sboxOperations.Canvas.Brush.Color := Canvas.Brush.Color;
-      sboxOperations.Canvas.Rectangle(0 + (widthOfItem * i), 0,  widthOfItem + (widthOfItem * i),  sboxOperations.Height-1);
+      // Draw border
+      sboxOperations.Canvas.Rectangle(0 + (widthOfItem * i), 0,  widthOfItem + (widthOfItem * i),  sboxOperations.Height - 4);
+      // Draw output string
       sboxOperations.Canvas.TextOut(3 + (widthOfItem * i), 2, OutString);
       sboxOperations.Caption := OutString;
 
-       // изменение цвета полоски в зависи мости от состояния операции
+      // set progress bar color by operation state
 
-
-      sboxOperations.Canvas.Brush.Color := clRed;               // если стоит по каким то причинам значит красная
+      sboxOperations.Canvas.Brush.Color := clRed; // если стоит по каким то причинам значит красная
 
       if (StartingState in [ossQueueIn, ossQueueFirst, ossQueueLast]) then     // если в очереди то желтая
-      sboxOperations.Canvas.Brush.Color := clYellow;
-      if Operation.State =fsosRunning then sboxOperations.Canvas.Brush.Color := clHighlight; //Если идет значит синяя
+        sboxOperations.Canvas.Brush.Color := clYellow;
+      if Operation.State = fsosRunning then             //Если идет значит синяя
+        sboxOperations.Canvas.Brush.Color := clHighlight;
+      // Draw progress bar
       sboxOperations.Canvas.FillRect(
         3 + (widthOfItem * i),
-        2 + sboxOperations.Canvas.TextHeight('Pg'),
+        2 + textHeight,
         5 + (widthOfItem * i) + (widthOfItem - 10) * Operation.Progress div 100,
-        10 + sboxOperations.Canvas.TextHeight('Pg'));
-       end;
-   end;
-end;
+        10 + textHeight);
+      end;
+    end; // for
+  end;
 end;
 
 procedure TfrmMain.seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
@@ -4260,7 +4265,7 @@ var
   visiblePanel: boolean;
 begin
   // Скрываем прогрессбар если нет операций в фоне
-  if OperationsManager.OperationsCount=0 then
+  if OperationsManager.OperationsCount = 0 then
     begin
       PanelAllProgress.Visible:=false;
       AllOpPct.Visible:= false;
@@ -4273,6 +4278,7 @@ begin
     begin
       if gPanelOfOp = True then
         begin
+          PanelAllProgress.Height := sboxOperations.Canvas.TextHeight('Pg') * 2 + 8;
           for i := 0 to OperationsManager.OperationsCount - 1 do
           begin
             Operation := OperationsManager.GetOperationByIndex(i);
