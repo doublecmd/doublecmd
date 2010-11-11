@@ -205,7 +205,7 @@ begin
         end
         else
         begin // NO
-          Exit(False);
+          Break;
         end;
       end;
       Inc(iPosOfDivider);
