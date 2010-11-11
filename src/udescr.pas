@@ -158,19 +158,58 @@ end;
 
 function TDescription.Find(const S: string; var Index: Integer): Boolean;
 var
-  I: Integer;
-  sFileName: String;
+  iIndex, iPosOfDivider, iLength, iFirstStringPos: Integer;
+  sFileName, sIndexString: String;
+  cSearchChar : Char;
 begin
   Result:= False;
   sFileName:= ExtractFileName(S);
-  for I:= Count-1 downto 0 do
+  //DebugLn('#########################');
+  //DebugLn('sFileName:               '+ sFileName);
+  for iIndex:= Count - 1 downto 0 do
   begin
-    DebugLn(Self[I]);
-    if Pos(sFileName, Self[I]) <> 0 then
-      begin
-        Index:= I;
-        Exit(True);
+    sIndexString := Self[iIndex];
+    //DebugLn('Self[I]:                 '+ sIndexString);
+    //DebugLn('iIndex:                  '+ IntToStr(iIndex));
+    //DebugLn('Count:                   '+ IntToStr(Count));
+    //DebugLn('Pos(sFileName, Self[I]): '+ IntToStr(Pos(sFileName, sIndexString)));
+
+    // File comment length
+    iLength := Length(sIndexString);
+    if iLength = 0 then Continue;
+
+    //at the first, look if first char a "
+    if(sIndexString[1]='"')then
+    begin // YES
+      cSearchChar := '"';
+      iFirstStringPos := 2;
+    end
+    else
+    begin //NO
+     cSearchChar := ' ';
+     iFirstStringPos := 1;
+    end;
+
+    // find position of next cSearchChar in sIndexString
+    iPosOfDivider:= 2;
+    while (iPosOfDivider < iLength) do // don't look above the strings length
+    begin
+      // is at this position the cSearchChar?
+      if (sIndexString[iPosOfDivider] = cSearchChar) then
+      begin // YES
+        // found the sFileName in the sIndexString (no more, no less)
+        if mbCompareFileNames(sFileName, Copy(sIndexString, iFirstStringPos, iPosOfDivider-1)) then
+        begin // YES
+          Index := iIndex;
+          Exit(True);
+        end
+        else
+        begin // NO
+          Exit(False);
+        end;
       end;
+      Inc(iPosOfDivider);
+    end;
   end;
 end;
 
