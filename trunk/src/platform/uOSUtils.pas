@@ -280,6 +280,7 @@ function mbFileSystemEntryExists(const Path: UTF8String): Boolean;
    current locale then use short file name under Windows.
 }
 function mbFileNameToSysEnc(const LongPath: UTF8String): String;
+function mbCompareFileNames(const FileName1, FileName2: UTF8String): Boolean;
 { Other functions }
 function mbGetEnvironmentString(Index : Integer) : UTF8String;
 function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
@@ -2001,6 +2002,17 @@ begin
 end;
 {$ENDIF}
 
+function mbCompareFileNames(const FileName1, FileName2: UTF8String): Boolean; inline;
+{$IF DEFINED(WINDOWS) OR DEFINED(DARWIN)}
+begin
+  Result:= (WideCompareText(UTF8Decode(FileName1), UTF8Decode(FileName2)) = 0);
+end;
+{$ELSE}
+begin
+  Result:= (WideCompareStr(UTF8Decode(FileName1), UTF8Decode(FileName2)) = 0);
+end;
+{$ENDIF}
+
 function mbGetEnvironmentString(Index: Integer): UTF8String;
 {$IFDEF MSWINDOWS}
 var
@@ -2067,4 +2079,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.
