@@ -3978,32 +3978,19 @@ var
   end; //of DrawOtherCell
   //------------------------------------------------------
 
-  procedure NewPrepareColors;
+  procedure PrepareColors;
   //------------------------------------------------------
   var
-    newColor, BackgroundColor: TColor;
-
-    procedure TextSelect;
-    //---------------------
-    var
-      tmp: TColor;
-    begin
-      tmp := ColumnsSet.GetColumnTextColor(ACol);
-      if (tmp <> newColor) and (newColor <> -1) and
-         (ColumnsSet.GetColumnOvercolor(ACol))
-      then
-        Canvas.Font.Color := newColor
-      else
-        Canvas.Font.Color := tmp;
-    end;
-    //---------------------
+    TextColor: TColor = -1;
+    BackgroundColor: TColor;
+  //---------------------
   begin
     Canvas.Font.Name   := ColumnsSet.GetColumnFontName(ACol);
     Canvas.Font.Size   := ColumnsSet.GetColumnFontSize(ACol);
     Canvas.Font.Style  := ColumnsSet.GetColumnFontStyle(ACol);
 
-    // Set up default brush color first
-    if (gdSelected in aState) and ColumnsView.FActive then
+    // Set up default background color first.
+    if (gdSelected in aState) and ColumnsView.FActive and (not gUseFrameCursor) then
       BackgroundColor := ColumnsSet.GetColumnCursorColor(ACol)
     else
       begin
@@ -4014,27 +4001,25 @@ var
           BackgroundColor := ColumnsSet.GetColumnBackground2(ACol);
       end;
 
-    newColor := gColorExt.GetColorBy(AFile.TheFile);
-    if newColor=-1 then newcolor:=ColumnsSet.GetColumnTextColor(ACol);
+    // Set text color.
+    if ColumnsSet.GetColumnOvercolor(ACol) then
+      TextColor := gColorExt.GetColorBy(AFile.TheFile);
+    if TextColor = -1 then
+      TextColor := ColumnsSet.GetColumnTextColor(ACol);
 
     if AFile.Selected then
     begin
       if gUseInvertedSelection then
         begin
           //------------------------------------------------------
-          if (gdSelected in aState) and ColumnsView.FActive then
+          if (gdSelected in aState) and ColumnsView.FActive and (not gUseFrameCursor) then
             begin
-              BackgroundColor := ColumnsSet.GetColumnCursorColor(ACol);
-
-              if gUseFrameCursor then
-                  Canvas.Font.Color := ColumnsSet.GetColumnMarkColor(ACol)
-              else
-                  Canvas.Font.Color := InvertColor(ColumnsSet.GetColumnCursorText(ACol));
+              Canvas.Font.Color := InvertColor(ColumnsSet.GetColumnCursorText(ACol));
             end
           else
             begin
               BackgroundColor := ColumnsSet.GetColumnMarkColor(ACol);
-              TextSelect;
+              Canvas.Font.Color := TextColor;
             end;
           //------------------------------------------------------
         end
@@ -4043,40 +4028,29 @@ var
           Canvas.Font.Color := ColumnsSet.GetColumnMarkColor(ACol);
         end;
     end
-    else if (gdSelected in aState) and ColumnsView.FActive then
+    else if (gdSelected in aState) and ColumnsView.FActive and (not gUseFrameCursor) then
       begin
-          if gUseFrameCursor then
-             Canvas.Font.Color := newColor
-          else
         Canvas.Font.Color := ColumnsSet.GetColumnCursorText(ACol);
       end
     else
       begin
-        TextSelect;
+        Canvas.Font.Color := TextColor;
       end;
 
     // Draw background.
-    if ((gdSelected in aState) and ColumnsView.FActive) and gUseFrameCursor then
-      begin
-         Canvas.Pen.Color := ColumnsSet.GetColumnCursorColor(ACol);
+    Canvas.Brush.Color := ColumnsView.DimColor(BackgroundColor);
+    Canvas.FillRect(aRect);
+  end;// of PrepareColors;
 
-           if odd(ARow) then
-          BackgroundColor := ColumnsSet.GetColumnBackground(ACol)
-        else
-          BackgroundColor := ColumnsSet.GetColumnBackground2(ACol);
-
-         Canvas.Brush.Color := BackgroundColor;
-         Canvas.FillRect(aRect);
-
-         Canvas.Line(aRect.Left, aRect.Top, aRect.Right, aRect.Top);
-         Canvas.Line(aRect.Left, aRect.Bottom - 1, aRect.Right, aRect.Bottom - 1);
-      end
-    else
-      begin
-        Canvas.Brush.Color := ColumnsView.DimColor(BackgroundColor);
-        Canvas.FillRect(aRect);
-      end;
-
+  procedure DrawLines;
+  begin
+    // Draw frame cursor.
+    if gUseFrameCursor and (gdSelected in aState) and ColumnsView.FActive then
+    begin
+      Canvas.Pen.Color := ColumnsSet.GetColumnCursorColor(ACol);
+      Canvas.Line(aRect.Left, aRect.Top, aRect.Right, aRect.Top);
+      Canvas.Line(aRect.Left, aRect.Bottom - 1, aRect.Right, aRect.Bottom - 1);
+    end;
 
     // Draw drop selection.
     if ARow = DropRowIndex then
@@ -4085,20 +4059,13 @@ var
       Canvas.Line(aRect.Left, aRect.Top, aRect.Right, aRect.Top);
       Canvas.Line(aRect.Left, aRect.Bottom - 1, aRect.Right, aRect.Bottom - 1);
     end;
-  end;// of NewPrepareColors;
-
+  end;
   //------------------------------------------------------
   //end of subprocedures
   //------------------------------------------------------
 
 begin
-  with ColumnsView do
-  begin
-    if not isSlave then
-      ColumnsSet := ColSet.GetColumnSet(ActiveColm)
-    else
-      ColumnsSet := ActiveColmSlave;
-  end;
+  ColumnsSet := ColumnsView.GetColumnsClass;
 
   if gdFixed in aState then
   begin
@@ -4109,7 +4076,7 @@ begin
     AFile := ColumnsView.FFiles[ARow - FixedRows]; // substract fixed rows (header)
     FileSourceDirectAccess := fspDirectAccess in ColumnsView.FileSource.Properties;
 
-    NewPrepareColors;
+    PrepareColors;
 
     iTextTop := aRect.Top + (RowHeights[aRow] - Canvas.TextHeight('Wg')) div 2;
 
@@ -4120,6 +4087,7 @@ begin
   end;
 
   DrawCellGrid(aCol,aRow,aRect,aState);
+  DrawLines;
 end;
 
 procedure TDrawGridEx.MouseMove(Shift: TShiftState; X, Y: Integer);
@@ -5091,4 +5059,4 @@ begin
 end;
 
 end.
-
+
