@@ -1512,7 +1512,7 @@ const
   fmtImageInfo = '%s (%s %%)';
 var
   sResolution: String;
-  iScale: Integer;
+  iScale: Integer = 0;
 begin
   if miStretch.Checked then
      begin
@@ -1562,7 +1562,8 @@ begin
       // show image resolution and scale
       Image.Left:= 0;
       Image.Top:= 0;
-      iScale:= 100*(Image.Width * Image.Height) div (Image.Picture.Width* Image.Picture.Height);
+      if (Image.Picture.Width <> 0) and (Image.Picture.Height <> 0) then
+        iScale:= 100 * (Image.Width * Image.Height) div (Image.Picture.Width * Image.Picture.Height);
       sResolution:= IntToStr(Image.Width) + 'x' + IntToStr(Image.Height);
       Status.Panels[sbpCurrentResolution].Text:= Format(fmtImageInfo, [sResolution, IntToStr(iScale)]);
       sResolution:= IntToStr(Image.Picture.Width) + 'x' + IntToStr(Image.Picture.Height);
