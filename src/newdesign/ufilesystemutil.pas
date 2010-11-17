@@ -1172,6 +1172,7 @@ begin
         if AllowDelete then
           AddResponse(fsourOverwriteAll);
         AddResponse(fsourSkipAll);
+        AddResponse(fsourCancel);
 
         if AllowCopyInto then
           DefaultOkResponse := fsourCopyInto
@@ -1198,6 +1199,9 @@ begin
               FDirExistsOption := fsoodeSkip;
               Result := fsoodeSkip;
             end;
+          fsourNone,
+          fsourCancel:
+            AbortOperation;
         end;
       end;
 
@@ -1211,10 +1215,10 @@ function TFileSystemOperationHelper.FileExists(
              AbsoluteTargetFileName: String;
              AllowAppend: Boolean): TFileSourceOperationOptionFileExists;
 const
-  Responses: array[0..4] of TFileSourceOperationUIResponse
-    = (fsourOverwrite, fsourSkip, fsourAppend, fsourOverwriteAll, fsourSkipAll);
-  ResponsesNoAppend: array[0..3] of TFileSourceOperationUIResponse
-    = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll);
+  Responses: array[0..5] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourAppend, fsourOverwriteAll, fsourSkipAll, fsourCancel);
+  ResponsesNoAppend: array[0..4] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll, fsourCancel);
 var
   PossibleResponses: array of TFileSourceOperationUIResponse;
 begin
@@ -1247,6 +1251,9 @@ begin
               FFileExistsOption := fsoofeSkip;
               Result := fsoofeSkip;
             end;
+          fsourNone,
+          fsourCancel:
+            AbortOperation;
         end;
       end;
 
