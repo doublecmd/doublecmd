@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.4.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-11-06 15:22+0300\n"
+"PO-Revision-Date: 2010-11-17 00:22+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -408,7 +408,6 @@ msgid "Calculate check sum..."
 msgstr "Вирахувати контрольну суму..."
 
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
-#, fuzzy
 #| msgid "Create separate MD5 files for each file"
 msgid "Create separate checksum file for each file"
 msgstr "Для кожного файлу створити свій MD5/SHA1-файл"
@@ -1237,7 +1236,6 @@ msgid "-----------"
 msgstr "-----------"
 
 #: TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
-#, fuzzy
 #| msgid "Representation in text:"
 msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
@@ -1340,10 +1338,9 @@ msgid "???"
 msgstr "???"
 
 #: TFRMFILEPROPERTIES.LBLSYMLINKSTR.CAPTION
-#, fuzzy
 #| msgid "Symlink:"
 msgid "Symlink to:"
-msgstr "Симв.посилання"
+msgstr "Симв. посилання:"
 
 #: TFRMFILEPROPERTIES.LBLTYPE.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLTYPE.CAPTION"
@@ -1351,7 +1348,6 @@ msgid "???"
 msgstr "???"
 
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
-#, fuzzy
 msgid "Type:"
 msgstr "Тип:"
 
@@ -1700,11 +1696,10 @@ msgid "Up"
 msgstr "Вгору"
 
 #: TFRMMAIN.ACTABOUT.CAPTION
-#, fuzzy
 #| msgid "About"
 msgctxt "TFRMMAIN.ACTABOUT.CAPTION"
 msgid "&About"
-msgstr "Про програму"
+msgstr "Пр&о програму"
 
 #: TFRMMAIN.ACTADDFILENAMETOCMDLINE.CAPTION
 msgid "Add file name to command line"
@@ -1720,7 +1715,7 @@ msgstr "Копіювати шлях в командну строку"
 
 #: TFRMMAIN.ACTCALCULATESPACE.CAPTION
 msgid "Calculate &Occupied Space..."
-msgstr "Розрахувати &зайнятий об'єм..."
+msgstr "Розрахувати зайнятий об'&єм..."
 
 #: TFRMMAIN.ACTCHANGEDIR.CAPTION
 msgid "Change directory"
@@ -1737,12 +1732,12 @@ msgstr "Перейти в корневий каталог"
 #: TFRMMAIN.ACTCHECKSUMCALC.CAPTION
 msgctxt "TFRMMAIN.ACTCHECKSUMCALC.CAPTION"
 msgid "Calculate check sum..."
-msgstr "Розрахувати контрольну суму..."
+msgstr "&Розрахувати контрольну суму..."
 
 #: TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION
 msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
 msgid "Verify check sum..."
-msgstr "Перевірити контрольну суму"
+msgstr "&Перевірити контрольну суму"
 
 #: TFRMMAIN.ACTCLEARLOGFILE.CAPTION
 msgid "Clear log file"
@@ -1839,10 +1834,9 @@ msgid "Extract files..."
 msgstr "Розпакувати..."
 
 #: TFRMMAIN.ACTFILEASSOC.CAPTION
-#, fuzzy
 #| msgid "File associations..."
 msgid "File &associations..."
-msgstr "Асоціації з файлами..."
+msgstr "Асоціаці&ї з файлами..."
 
 #: TFRMMAIN.ACTFILELINKER.CAPTION
 msgid "Link files"
@@ -1850,11 +1844,11 @@ msgstr "&Склеїти файли..."
 
 #: TFRMMAIN.ACTFILEPROPERTIES.CAPTION
 msgid "Show file properties"
-msgstr "Вла&стивості..."
+msgstr "Властивості..."
 
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
 msgid "Split file"
-msgstr "&Розрізати файл..."
+msgstr "Ро&зрізати файл..."
 
 #: TFRMMAIN.ACTFOCUSCMDLINE.CAPTION
 msgid "Focus command line"
@@ -1866,16 +1860,14 @@ msgid "Create link..."
 msgstr "Створити по&силання..."
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
-#, fuzzy
 #| msgid "Contents"
 msgid "&Contents"
 msgstr "Зміст"
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
-#, fuzzy
 #| msgid "Keyboard"
 msgid "&Keyboard"
-msgstr "Клавіатура"
+msgstr "К&омбінації клавіш"
 
 #: TFRMMAIN.ACTLEFTEQUALRIGHT.CAPTION
 msgid "Left &= Right"
@@ -1927,7 +1919,7 @@ msgstr "Згорнути"
 
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
 msgid "Multi Rename Tool"
-msgstr "Мульти&переіменування"
+msgstr "&Мультипереіменування"
 
 #: TFRMMAIN.ACTNETWORKCONNECT.CAPTION
 msgid "Network Connect..."
@@ -1942,16 +1934,14 @@ msgid "Network Quick Connect..."
 msgstr "Нове з'єднання..."
 
 #: TFRMMAIN.ACTNEWTAB.CAPTION
-#, fuzzy
 #| msgid "New tab"
 msgid "&New tab"
-msgstr "Нова вкладка"
+msgstr "&Нова вкладка"
 
 #: TFRMMAIN.ACTNEXTTAB.CAPTION
-#, fuzzy
 #| msgid "Switch to next tab"
 msgid "Switch to nex&t tab"
-msgstr "Перейти до наступної вкладки"
+msgstr "Перейти до нас&тупної вкладки"
 
 #: TFRMMAIN.ACTOPEN.CAPTION
 msgctxt "TFRMMAIN.ACTOPEN.CAPTION"
@@ -1967,20 +1957,17 @@ msgid "Open bar file"
 msgstr "Відкрити bar файл"
 
 #: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
-#, fuzzy
 #| msgid "Open folder in new tab"
 msgid "Open &folder in new tab"
-msgstr "Відкрити каталог у новій вкладці"
+msgstr "Відкрити каталог у новій вклад&ці"
 
 #: TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION
-#, fuzzy
 #| msgid "Open VFS List"
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
 msgid "Open &VFS List"
-msgstr "Відкрити список VFS"
+msgstr "Відкрити список &VFS"
 
 #: TFRMMAIN.ACTOPTIONS.CAPTION
-#, fuzzy
 #| msgid "Options..."
 msgid "&Options..."
 msgstr "&Налаштування..."
@@ -1998,10 +1985,9 @@ msgid "&Paste"
 msgstr "Вставити"
 
 #: TFRMMAIN.ACTPREVTAB.CAPTION
-#, fuzzy
 #| msgid "Switch to previous tab"
 msgid "Switch to &previous tab"
-msgstr "Перейти до попередньої вкладки"
+msgstr "Перейти до &попередньої вкладки"
 
 #: TFRMMAIN.ACTQUICKFILTER.CAPTION
 msgid "Quick filter"
@@ -2021,13 +2007,11 @@ msgid "&Refresh"
 msgstr "Оновити"
 
 #: TFRMMAIN.ACTREMOVEALLTABS.CAPTION
-#, fuzzy
 #| msgid "Remove all tabs"
 msgid "Remove &all tabs"
 msgstr "Вид&алити всі вкладки"
 
 #: TFRMMAIN.ACTREMOVETAB.CAPTION
-#, fuzzy
 #| msgid "Remove tab"
 msgid "&Remove tab"
 msgstr "&Видалити вкладку"
@@ -2075,12 +2059,12 @@ msgstr "Зберегти виділення у файл"
 
 #: TFRMMAIN.ACTSEARCH.CAPTION
 msgid "&Search"
-msgstr "&Пошук..."
+msgstr "По&шук..."
 
 #: TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change file properties"
-msgstr "Змінити властивості файлу"
+msgstr "Змінити &властивості файлу"
 
 #: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
 msgid "Directories are opened in new &tabs"
@@ -2170,7 +2154,6 @@ msgid "View F3"
 msgstr "Перегляд F3"
 
 #: TFRMMAIN.ACTVIEWHISTORY.CAPTION
-#, fuzzy
 msgid "Show history of visited paths for active view"
 msgstr "Показати історію відвіданих шляхів для активної панелі"
 
@@ -2183,10 +2166,9 @@ msgid "Go to previous entry in history"
 msgstr "Перейти до попереднього запису в історії"
 
 #: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
-#, fuzzy
 #| msgid "Visit Double Commander Web Site"
 msgid "&Visit Double Commander Web Site"
-msgstr "Відвідати домашню сторінку Double Commander"
+msgstr "Відвідати домашн&ю сторінку Double Commander"
 
 #: TFRMMAIN.ACTWIPE.CAPTION
 msgid "Wipe"
@@ -2497,11 +2479,10 @@ msgid "Tab options"
 msgstr "Налаштування вкладки"
 
 #: TFRMMAIN.MITRAYICONEXIT.CAPTION
-#, fuzzy
 #| msgid "Exit"
 msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
 msgid "E&xit"
-msgstr "Вихід"
+msgstr "Ви&хід"
 
 #: TFRMMAIN.MITRAYICONRESTORE.CAPTION
 msgid "Restore"
@@ -2516,7 +2497,6 @@ msgid "C&onfiguration"
 msgstr "&Налаштування"
 
 #: TFRMMAIN.MNUFILES.CAPTION
-#, fuzzy
 #| msgid "Files"
 msgid "&Files"
 msgstr "&Файли"
@@ -2528,7 +2508,7 @@ msgstr "Зібрати файли"
 #: TFRMMAIN.MNUHELP.CAPTION
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
-msgstr "Допомога"
+msgstr "&Допомога"
 
 #: TFRMMAIN.MNUMARK.CAPTION
 msgid "&Mark"
@@ -2551,7 +2531,6 @@ msgid "Operations viewer"
 msgstr "Файлові операції"
 
 #: TFRMMAIN.MNUTABOPTIONS.CAPTION
-#, fuzzy
 #| msgid "Options"
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
 msgid "&Options"
@@ -2665,7 +2644,6 @@ msgid "&Rename"
 msgstr "&Перейменувати"
 
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
-#, fuzzy
 #| msgid "Restore All"
 msgid "Reset all"
 msgstr "Відновити все"
@@ -2685,17 +2663,15 @@ msgid "Log"
 msgstr "Звіт"
 
 #: TFRMMULTIRENAME.CBREGEXP.CAPTION
-#, fuzzy
 #| msgid "&Regular expressions"
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
 msgid "Regular e&xpressions"
-msgstr "Регулярні вирази"
+msgstr "Регулярні вира&зи"
 
 #: TFRMMULTIRENAME.CBUSESUBS.CAPTION
-#, fuzzy
 #| msgid "Use substitution"
 msgid "&Use substitution"
-msgstr "Використовувати заміну"
+msgstr "Використов&увати заміну"
 
 #: TFRMMULTIRENAME.CMBXWIDTH.TEXT
 msgid "01"
@@ -2736,10 +2712,9 @@ msgid "Presets"
 msgstr "Шаблони"
 
 #: TFRMMULTIRENAME.LBEXT.CAPTION
-#, fuzzy
 #| msgid "Extension"
 msgid "&Extension"
-msgstr "Розширення"
+msgstr "Розшир&ення"
 
 #: TFRMMULTIRENAME.LBFIND.CAPTION
 #| msgid "Find..."
@@ -2751,16 +2726,14 @@ msgid "Interval"
 msgstr "Інтервал"
 
 #: TFRMMULTIRENAME.LBNAME.CAPTION
-#, fuzzy
 #| msgid "File Name"
 msgid "File &Name"
 msgstr "Ім'я файлу"
 
 #: TFRMMULTIRENAME.LBREPLACE.CAPTION
-#, fuzzy
 #| msgid "Replace..."
 msgid "Re&place..."
-msgstr "Замінити..."
+msgstr "Заміни&ти..."
 
 #: TFRMMULTIRENAME.LBSTNB.CAPTION
 msgid "Start Number"
@@ -3114,7 +3087,6 @@ msgid "Flat buttons"
 msgstr "Плоскі кнопки"
 
 #: TFRMOPTIONS.CBFREESPACEIND.CAPTION
-#, fuzzy
 #| msgid "Show freespace indicator on drive label"
 msgid "Show free space indicator on drive label"
 msgstr "Показувати індикатор вільного місця на панелі дисків"
@@ -3209,10 +3181,9 @@ msgid "Show common progress in menu bar"
 msgstr "Показувати загальний прогрес в рядку меню"
 
 #: TFRMOPTIONS.CBRENAMESELONLYNAME.CAPTION
-#, fuzzy
 #| msgid "Select only the file name then renaming (not the extension)"
 msgid "Select only the file name when renaming (not the extension)"
-msgstr "При перейменуванні виділяти тільки ім'я файлу(без розширення)"
+msgstr "При перейменуванні виділяти тільки ім'я файлу (без розширення)"
 
 #: TFRMOPTIONS.CBSELECTIONBYMOUSE.CAPTION
 msgid "Selection by mouse"
@@ -3420,7 +3391,6 @@ msgid "Date and time"
 msgstr "Дата і час"
 
 #: TFRMOPTIONS.GBEXACTNAMEMATCH.CAPTION
-#, fuzzy
 #| msgid "Exact &name match:"
 msgid "Exact name match:"
 msgstr "Точне співпадіння імені:"
@@ -3749,7 +3719,6 @@ msgid "Letter only"
 msgstr "Тільки буква"
 
 #: TFRMOPTIONS.RBNONEQS.CAPTION
-#, fuzzy
 #| msgid "Di&sabled"
 msgid "Disabled"
 msgstr "Відключено"
@@ -4811,7 +4780,6 @@ msgid "Packing..."
 msgstr "Упакування..."
 
 #: ulng.rsdlgspeedtime
-#, fuzzy
 #| msgid "Speed %s/s, remained time %s"
 msgid "Speed %s/s, remaining time %s"
 msgstr "Швидкість %s/с, залишилось часу %s"
@@ -5363,7 +5331,6 @@ msgid "Wipe selected \"%s\"?"
 msgstr "Стерти обраний \"%s\"?"
 
 #: ulng.rsmulrenfilenamestylelist
-#, fuzzy
 #| msgid "No change;UPPERCASE;lowercase;First Char Big;"
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
 msgstr "Без змін;ПРОПИСНІ;строчні;З Прописної;"
@@ -5627,7 +5594,6 @@ msgid "Registered for"
 msgstr "Асоціації з"
 
 #: ulng.rsoptquicksearch
-#, fuzzy
 #| msgid "Quick search"
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
@@ -5801,7 +5767,6 @@ msgid "Year(s)"
 msgstr "Років"
 
 #: ulng.rstooldiffer
-#, fuzzy
 #| msgid " "
 msgid "Differ"
 msgstr "Порівнювач"
