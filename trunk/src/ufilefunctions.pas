@@ -43,6 +43,7 @@ type
                    fsfLinkTo,
                    fsfNameNoExtension,
                    fsfType,
+                   fsfComment,
                    fsfInvalid);
 
   TFileFunctions = array of TFileFunction;
@@ -61,6 +62,7 @@ type
                'GETFILELINKTO',
                'GETFILENAMENOEXT',
                'GETFILETYPE',
+               'GETFILECOMMENT',
                ''                 // fsfInvalid
                );
 
@@ -79,6 +81,7 @@ type
                [fpLink],
                [fpName],
                [fpType],
+               [fpComment],
                [] { invalid });
 
   function FormatFileFunction(FuncS: string; AFile: TFile; const AFileSource: IFileSource): string;
@@ -241,6 +244,10 @@ begin
       fsfType:
         if fpType in AFile.SupportedProperties then
           Result := AFile.TypeProperty.Format(DefaultFilePropertyFormatter);
+
+      fsfComment:
+        if fpComment in AFile.SupportedProperties then
+          Result := AFile.CommentProperty.Format(DefaultFilePropertyFormatter);
     end;
   end
   //------------------------------------------------------

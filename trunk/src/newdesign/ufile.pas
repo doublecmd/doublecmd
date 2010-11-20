@@ -11,6 +11,8 @@ uses
 
 type
 
+  { TFile }
+
   TFile = class
 
   private
@@ -79,6 +81,8 @@ type
     procedure SetOwnerProperty(NewValue: TFileOwnerProperty);
     function GetTypeProperty: TFileTypeProperty;
     procedure SetTypeProperty(NewValue: TFileTypeProperty);
+    function GetCommentProperty: TFileCommentProperty;
+    procedure SetCommentProperty(NewValue: TFileCommentProperty);
 
   public
     constructor Create(const APath: String);
@@ -143,6 +147,7 @@ type
     property LinkProperty: TFileLinkProperty read GetLinkProperty write SetLinkProperty;
     property OwnerProperty: TFileOwnerProperty read GetOwnerProperty write SetOwnerProperty;
     property TypeProperty: TFileTypeProperty read GetTypeProperty write SetTypeProperty;
+    property CommentProperty: TFileCommentProperty read GetCommentProperty write SetCommentProperty;
 
     { Accessors to each property's value. }
 
@@ -634,6 +639,20 @@ begin
     Include(FSupportedProperties, fpType)
   else
     Exclude(FSupportedProperties, fpType);
+end;
+
+function TFile.GetCommentProperty: TFileCommentProperty;
+begin
+  Result := TFileCommentProperty(FProperties[fpComment]);
+end;
+
+procedure TFile.SetCommentProperty(NewValue: TFileCommentProperty);
+begin
+  FProperties[fpComment] := NewValue;
+  if Assigned(NewValue) then
+    Include(FSupportedProperties, fpComment)
+  else
+    Exclude(FSupportedProperties, fpComment);
 end;
 
 function TFile.IsNameValid: Boolean;
