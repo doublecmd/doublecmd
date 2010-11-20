@@ -452,6 +452,10 @@ type
     procedure sboxDrivePaint(Sender: TObject);
     procedure sboxOperationsMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure sboxOperationsMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure sboxOperationsMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure sboxOperationsPaint(Sender: TObject);
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
@@ -496,6 +500,8 @@ type
     // lastWindowState
     lastWindowState:TWindowState;
     // frost_asm end
+    PressLMB: boolean;
+    widthOfItem, ItemEnd: integer;
 
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
@@ -2557,21 +2563,13 @@ begin
     end;
 end;
 
-
-
 procedure TfrmMain.sboxOperationsMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
-  OperationDialog: TfrmFileOp;
-  OperationNumber, widthOfItem: Integer;
+  OperationNumber: Integer;
   CursorPos: TPoint;
+  Operation: TFileSourceOperation;
 begin
-  // Calculate item width
-  if (sboxOperations.Width / OperationsManager.OperationsCount) < 120 then
-    widthOfItem := Round(sboxOperations.Width/OperationsManager.OperationsCount)
-  else
-    widthOfItem := 120;
-
   CursorPos := Mouse.CursorPos;
   CursorPos := sboxOperations.ScreenToClient(CursorPos);
   OperationNumber := CursorPos.X div widthOfItem;
@@ -2583,19 +2581,57 @@ begin
       end;
     mbRight:
       begin
-        OperationsManager.MoveOperation(OperationNumber, OperationNumber + 1);
+        Operation:=OperationsManager.GetOperationByIndex(OperationNumber);
+         if Assigned(Operation) then
+           begin
+             if Operation.State = fsosRunning then
+               begin
+                 OperationsManager.SetPauseRunning(OperationsManager.GetHandleById(OperationNumber), True);
+                 Operation.Pause;
+               end
+             else
+               begin
+                 OperationsManager.InQueue(OperationsManager.GetHandleById(OperationNumber), true);
+               end;
+           end;
       end;
     mbLeft:
       begin
-        if OperationsManager.GetFormCreate (OperationsManager.GetHandleById(OperationNumber)) = False then //проверяем наличие формы у указанной операции
-          begin
-            OperationDialog := TfrmFileOp.Create(OperationsManager.GetHandleById(OperationNumber)); // если нет то создаем
-            OperationDialog.Show;
-            OperationsManager.SetFormCreate (OperationsManager.GetHandleById(OperationNumber), True); // показываем что форма есть
-          end;
         indexFocus:= OperationNumber;
+        PressLMB:=true;
+        ItemEnd:= OperationNumber;
       end;
   end;
+end;
+
+procedure TfrmMain.sboxOperationsMouseMove(Sender: TObject; Shift: TShiftState;
+  X, Y: Integer);
+begin
+  if PressLMB then ItemEnd:= X div widthOfItem;
+end;
+
+procedure TfrmMain.sboxOperationsMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var
+  OperationDialog: TfrmFileOp;
+begin
+  if Button=mbLeft then
+    begin
+      PressLMB:=false;
+      if (ItemEnd < 0) then OperationsManager.MoveOperation(IndexFocus, 0);
+      if (ItemEnd > OperationsManager.OperationsCount) then OperationsManager.MoveOperation(IndexFocus, OperationsManager.OperationsCount);
+      if IndexFocus=ItemEnd then
+        begin
+          if OperationsManager.GetFormCreate (OperationsManager.GetHandleById(IndexFocus)) = False then //проверяем наличие формы у указанной операции
+            begin
+              OperationDialog := TfrmFileOp.Create(OperationsManager.GetHandleById(IndexFocus)); // если нет то создаем
+              OperationDialog.Show;
+              OperationsManager.SetFormCreate (OperationsManager.GetHandleById(IndexFocus), True); // показываем что форма есть
+            end;
+         end
+      else OperationsManager.MoveOperation(IndexFocus, ItemEnd);
+    end;
+  IndexFocus:=ItemEnd;
 end;
 
 procedure TfrmMain.sboxOperationsPaint(Sender: TObject);
@@ -2603,7 +2639,7 @@ var
   Operation: TFileSourceOperation;
   OperationHandle: TOperationHandle;
   StartingState: TOperationStartingState;
-  i, widthOfItem, textHeight: Integer;
+  i, textHeight: Integer;
   OutString: String;
 begin
   if OperationsManager.OperationsCount > 0 then
@@ -2618,11 +2654,20 @@ begin
 
     for i := 0 to OperationsManager.OperationsCount - 1 do
     begin
+      if (i=ItemEnd) and (PressLMB) or (i=IndexFocus) and (PressLMB) then
+        begin
+          sboxOperations.Canvas.Brush.Color := clMenuHighlight;
+          sboxOperations.Canvas.Rectangle(10 + (widthOfItem * i), 5,  widthOfItem-10 + (widthOfItem * i),  sboxOperations.Height - 8);
+          if IndexFocus<>ItemEnd then  OutString:= 'Move here' else  OutString:= 'Move from';
+          if i= IndexFocus then OutString:= 'Move from';
+          sboxOperations.Canvas.TextOut(18 + (widthOfItem * i), 7, OutString);
+        end
+      else
+      begin
       Operation := OperationsManager.GetOperationByIndex(i);
       if Assigned(Operation) then
       begin
       OperationHandle := OperationsManager.GetHandleById(i);
-
       case Operation.ID of
         fsoCopy, fsoCopyIn, fsoCopyOut:
           OutString := 'Copying';
@@ -2651,7 +2696,6 @@ begin
       sboxOperations.Canvas.Rectangle(0 + (widthOfItem * i), 0,  widthOfItem + (widthOfItem * i),  sboxOperations.Height - 4);
       // Draw output string
       sboxOperations.Canvas.TextOut(3 + (widthOfItem * i), 2, OutString);
-      sboxOperations.Caption := OutString;
 
       // set progress bar color by operation state
 
@@ -2669,6 +2713,7 @@ begin
         10 + textHeight);
       end;
     end; // for
+      end;
   end;
 end;
 
@@ -4311,7 +4356,6 @@ begin
               Pct:=Pct+'|' else Pct:= Pct+'.';
           end;
           AllOpProgressInd.Caption:='['+Pct+']';
-
           AllOpPct.Visible:= true;
           AllOpProgressInd.Visible:= true;
           AllOpStart.Visible:= true;
@@ -4319,6 +4363,7 @@ begin
           AllOpCancel.Visible:= true;
         end;
     end;
+    if not(PanelAllProgress.Visible) then PressLMB:= PanelAllProgress.Visible;
 end;
 
 procedure TfrmMain.SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);
