@@ -13,6 +13,7 @@ uses
   uFileSourceProperty,
   uFileProperty,
   uFile,
+  uDescr,
   uTypes
   ;
 
@@ -29,6 +30,8 @@ type
   { TFileSystemFileSource }
 
   TFileSystemFileSource = class(TLocalFileSource, IFileSystemFileSource)
+  private
+    FDescr: TDescription;
 
   protected
     function GetCurrentWorkingDirectory: String; override;
@@ -36,6 +39,7 @@ type
 
   public
     constructor Create; override;
+    destructor Destroy; override;
 
     class function CreateFile(const APath: String): TFile; override;
     class function CreateFile(const APath: String; SearchRecord: TSearchRecEx): TFile; overload;
@@ -129,6 +133,14 @@ uses
 constructor TFileSystemFileSource.Create;
 begin
   inherited Create;
+  FDescr:= nil;
+end;
+
+destructor TFileSystemFileSource.Destroy;
+begin
+  if Assigned(FDescr) then
+    FreeAndNil(FDescr);
+  inherited Destroy;
 end;
 
 class function TFileSystemFileSource.CreateFile(const APath: String): TFile;
@@ -492,6 +504,12 @@ begin
       TypeProperty := TFileTypeProperty.Create;
 
 {$ENDIF}
+    if fpComment in PropertiesToSet then
+    begin
+      CommentProperty := TFileCommentProperty.Create;
+      if not Assigned(FDescr) then FDescr:= TDescription.Create(False);
+      CommentProperty.Value := FDescr.ReadDescription(AFile.FullPath);
+    end;
   end;
 end;
 
@@ -588,7 +606,8 @@ function TFileSystemFileSource.GetRetrievableFileProperties: TFilePropertiesType
 begin
   Result := inherited GetRetrievableFileProperties
           + [fpOwner,
-             fpType];
+             fpType,
+             fpComment];
 end;
 
 function TFileSystemFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
@@ -727,4 +746,4 @@ begin
 end;
 
 end.
-
+

@@ -19,7 +19,8 @@ type
     fpLastAccessTime,
     fpLink,
     fpOwner,
-    fpType
+    fpType,
+    fpComment
   );
 
 const
@@ -342,6 +343,28 @@ type
     function Format(Formatter: IFilePropertyFormatter): String; override;
 
     property Value: String read FType write FType;
+
+  end;
+
+  { TFileCommentProperty }
+
+  TFileCommentProperty = class(TFileProperty)
+
+  private
+    FComment: String;
+
+  public
+    constructor Create; override;
+
+    function Clone: TFileCommentProperty; override;
+    procedure CloneTo(FileProperty: TFileProperty); override;
+
+    class function GetDescription: String; override;
+    class function GetID: TFilePropertyType; override;
+
+    function Format(Formatter: IFilePropertyFormatter): String; override;
+
+    property Value: String read FComment write FComment;
 
   end;
 
@@ -916,6 +939,47 @@ end;
 function TFileTypeProperty.Format(Formatter: IFilePropertyFormatter): String;
 begin
   Result := FType;
+end;
+
+{ TFileCommentProperty }
+
+constructor TFileCommentProperty.Create;
+begin
+  inherited Create;
+end;
+
+function TFileCommentProperty.Clone: TFileCommentProperty;
+begin
+  Result := TFileCommentProperty.Create;
+  CloneTo(Result);
+end;
+
+procedure TFileCommentProperty.CloneTo(FileProperty: TFileProperty);
+begin
+  if Assigned(FileProperty) then
+  begin
+    inherited CloneTo(FileProperty);
+
+    with FileProperty as TFileCommentProperty do
+    begin
+      FComment := Self.FComment;
+    end;
+  end;
+end;
+
+class function TFileCommentProperty.GetDescription: String;
+begin
+  Result:= '';
+end;
+
+class function TFileCommentProperty.GetID: TFilePropertyType;
+begin
+  Result := fpComment;
+end;
+
+function TFileCommentProperty.Format(Formatter: IFilePropertyFormatter): String;
+begin
+  Result:= FComment;
 end;
 
 end.
