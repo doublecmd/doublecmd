@@ -3244,6 +3244,7 @@ begin
           if IconID = -1 then
             IconID := PixMapManager.GetIconByFile(TheFile, fspDirectAccess in FileSource.Properties, True);
           FileSource.RetrieveProperties(TheFile, FilePropertiesNeeded);
+          MakeColumnsStrings(FFiles[i]);
         end;
       end;
     end;
