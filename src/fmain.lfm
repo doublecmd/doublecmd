@@ -45,7 +45,6 @@ object frmMain: TfrmMain
   end
   object pnlSyncSize: TPanel
     AnchorSideTop.Control = MainToolBar
-    AnchorSideTop.Side = asrBottom
     Left = 0
     Height = 26
     Top = 20
@@ -134,13 +133,13 @@ object frmMain: TfrmMain
     object pnlLeft: TPanel
       AnchorSideBottom.Control = PanelAllProgress
       Left = 1
-      Height = 1
+      Height = 11
       Top = 1
       Width = 511
       Align = alLeft
       BorderSpacing.Right = 3
       BevelOuter = bvNone
-      ClientHeight = 1
+      ClientHeight = 11
       ClientWidth = 511
       TabOrder = 0
       OnDblClick = pnlLeftRightDblClick
@@ -162,7 +161,6 @@ object frmMain: TfrmMain
           Width = 48
           Action = actLeftOpenDrives
           Align = alLeft
-          Color = clBtnFace
           NumGlyphs = 0
           OnMouseUp = dskToolBarMouseUp
         end
@@ -174,7 +172,6 @@ object frmMain: TfrmMain
           Width = 23
           Align = alRight
           Caption = '~'
-          Color = clBtnFace
           NumGlyphs = 0
           OnClick = btnLeftClick
         end
@@ -186,7 +183,6 @@ object frmMain: TfrmMain
           Width = 23
           Align = alRight
           Caption = '..'
-          Color = clBtnFace
           NumGlyphs = 0
           OnClick = btnLeftClick
         end
@@ -198,7 +194,6 @@ object frmMain: TfrmMain
           Width = 23
           Align = alRight
           Caption = '/'
-          Color = clBtnFace
           NumGlyphs = 0
           OnClick = btnLeftClick
         end
@@ -210,7 +205,6 @@ object frmMain: TfrmMain
           Width = 23
           Align = alRight
           Caption = '*'
-          Color = clBtnFace
           NumGlyphs = 0
           OnClick = btnLeftDirectoryHotlistClick
         end
@@ -223,7 +217,6 @@ object frmMain: TfrmMain
           Action = actLeftEqualRight
           Align = alRight
           Caption = '<'
-          Color = clBtnFace
           NumGlyphs = 0
         end
         object pbxLeftDrive: TPaintBox
@@ -253,19 +246,20 @@ object frmMain: TfrmMain
           Width = 348
           Alignment = taCenter
           Anchors = [akTop, akLeft, akRight, akBottom]
+          ParentColor = False
           OnDblClick = lblDriveInfoDblClick
         end
       end
     end
     object pnlRight: TPanel
       Left = 515
-      Height = 1
+      Height = 11
       Top = 1
       Width = 244
       Align = alClient
       BorderSpacing.Left = 3
       BevelOuter = bvNone
-      ClientHeight = 1
+      ClientHeight = 11
       ClientWidth = 244
       TabOrder = 1
       OnDblClick = pnlLeftRightDblClick
@@ -286,7 +280,6 @@ object frmMain: TfrmMain
           Width = 48
           Action = actRightOpenDrives
           Align = alLeft
-          Color = clBtnFace
           NumGlyphs = 0
           OnMouseUp = dskToolBarMouseUp
         end
@@ -297,7 +290,6 @@ object frmMain: TfrmMain
           Width = 23
           Align = alRight
           Caption = '~'
-          Color = clBtnFace
           NumGlyphs = 0
           OnClick = btnRightClick
         end
@@ -308,7 +300,6 @@ object frmMain: TfrmMain
           Width = 23
           Align = alRight
           Caption = '..'
-          Color = clBtnFace
           NumGlyphs = 0
           OnClick = btnRightClick
         end
@@ -319,7 +310,6 @@ object frmMain: TfrmMain
           Width = 23
           Align = alRight
           Caption = '/'
-          Color = clBtnFace
           NumGlyphs = 0
           OnClick = btnRightClick
         end
@@ -330,12 +320,10 @@ object frmMain: TfrmMain
           Width = 23
           Align = alRight
           Caption = '*'
-          Color = clBtnFace
           NumGlyphs = 0
           OnClick = btnRightDirectoryHotlistClick
         end
         object btnRightEqualLeft: TSpeedButton
-          AnchorSideRight.Side = asrBottom
           Left = 221
           Height = 24
           Hint = 'Show current directory of the left panel in the right panel'
@@ -344,7 +332,6 @@ object frmMain: TfrmMain
           Action = actRightEqualLeft
           Align = alRight
           Caption = '>'
-          Color = clBtnFace
           NumGlyphs = 0
         end
         object pbxRightDrive: TPaintBox
@@ -374,6 +361,7 @@ object frmMain: TfrmMain
           Width = 81
           Alignment = taCenter
           Anchors = [akTop, akLeft, akRight, akBottom]
+          ParentColor = False
           OnDblClick = lblDriveInfoDblClick
         end
       end
@@ -421,6 +409,7 @@ object frmMain: TfrmMain
           Top = 5
           Width = 23
           Caption = 'Path'
+          ParentColor = False
           ShowAccelChar = False
         end
         object edtCommand: TComboBox
@@ -481,7 +470,7 @@ object frmMain: TfrmMain
       AnchorSideBottom.Control = Splitter1
       Left = 4
       Height = 32
-      Top = 13
+      Top = 12
       Width = 752
       Align = alBottom
       BorderSpacing.Left = 3
@@ -506,6 +495,8 @@ object frmMain: TfrmMain
         AutoSize = True
         TabOrder = 0
         OnMouseDown = sboxOperationsMouseDown
+        OnMouseMove = sboxOperationsMouseMove
+        OnMouseUp = sboxOperationsMouseUp
         OnPaint = sboxOperationsPaint
       end
     end
@@ -533,7 +524,6 @@ object frmMain: TfrmMain
       Top = 0
       Width = 95
       Action = actView
-      Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
@@ -543,7 +533,6 @@ object frmMain: TfrmMain
       Top = 0
       Width = 95
       Action = actEdit
-      Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
@@ -553,7 +542,6 @@ object frmMain: TfrmMain
       Top = 0
       Width = 95
       Action = actCopy
-      Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
@@ -563,7 +551,6 @@ object frmMain: TfrmMain
       Top = 0
       Width = 95
       Action = actRename
-      Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
@@ -573,7 +560,6 @@ object frmMain: TfrmMain
       Top = 0
       Width = 95
       Action = actMakeDir
-      Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
@@ -583,7 +569,6 @@ object frmMain: TfrmMain
       Top = 0
       Width = 95
       Action = actDelete
-      Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
@@ -594,7 +579,6 @@ object frmMain: TfrmMain
       Width = 95
       Action = actRunTerm
       Caption = 'Terminal F9'
-      Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
@@ -605,15 +589,12 @@ object frmMain: TfrmMain
       Width = 95
       Action = actExit
       Caption = 'Exit F10'
-      Color = clBtnFace
       Flat = True
       NumGlyphs = 0
     end
   end
   inline seLogWindow: TSynEdit
-    AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = PanelAllProgress
-    AnchorSideBottom.Side = asrBottom
     Left = 0
     Height = 61
     Top = 269
@@ -623,6 +604,7 @@ object frmMain: TfrmMain
     Font.Name = 'courier'
     Font.Pitch = fpFixed
     Font.Quality = fqNonAntialiased
+    ParentColor = False
     ParentFont = False
     PopupMenu = pmLogMenu
     TabOrder = 4
@@ -630,6 +612,30 @@ object frmMain: TfrmMain
     Visible = False
     Gutter.Width = 59
     Gutter.MouseActions = <    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbLeft
+        ClickCount = ccAny
+        ClickDir = cdDown
+        Command = 13
+        MoveCaret = False
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbRight
+        ClickCount = ccSingle
+        ClickDir = cdUp
+        Command = 12
+        MoveCaret = False
+        Option = 0
+        Priority = 0
+      end>
+    RightGutter.Width = 0
+    RightGutter.MouseActions = <    
       item
         Shift = []
         ShiftMask = []
@@ -1103,7 +1109,7 @@ object frmMain: TfrmMain
     OnSpecialLineColors = seLogWindowSpecialLineColors
     inline SynGutterPartList1: TSynGutterPartList
       object SynGutterMarks1: TSynGutterMarks
-        Width = 23
+        Width = 24
       end
       object SynGutterLineNumber1: TSynGutterLineNumber
         Width = 19
@@ -3453,4 +3459,4 @@ object frmMain: TfrmMain
     left = 96
     top = 13
   end
-end
+end
