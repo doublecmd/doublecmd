@@ -37,6 +37,7 @@ type
   private
     FLastDescrFile,
     FEncoding: String;
+    FModified: Boolean;
     FDestDescr: TDescription;
     procedure PrepareDescrFile(FileName: String);
     function GetDescription(Index: Integer): String;
@@ -137,7 +138,7 @@ begin
   if sDescrFile <> FLastDescrFile then
     try
       // save previous decription file if need
-      if (FLastDescrFile <> EmptyStr) and (Count > 0) then
+      if FModified and (FLastDescrFile <> EmptyStr) and (Count > 0) then
         SaveToFile(FLastDescrFile);
       // load description file if exists
       FLastDescrFile:= sDescrFile;
@@ -246,6 +247,7 @@ var
   sFileName: String;
   iDescrStart: Integer;
 begin
+  FModified:= True;
   sLine:= Self[Index];
   if Pos('"', sLine) <> 1 then
     begin
@@ -284,6 +286,7 @@ end;
 
 constructor TDescription.Create(UseSubDescr: Boolean);
 begin
+  FModified:= False;
   FEncoding:= EncodingUTF8; // by default
   if UseSubDescr then
     FDestDescr:= TDescription.Create(False)
@@ -301,6 +304,7 @@ end;
 
 procedure TDescription.LoadFromFile(const FileName: String);
 begin
+  FModified:= False;
   inherited LoadFromFile(FileName);
   if FEncoding <> EncodingUTF8 then
     Text:= ConvertEncoding(Text, FEncoding, EncodingUTF8);
@@ -308,6 +312,7 @@ end;
 
 procedure TDescription.SaveToFile(const FileName: String);
 begin
+  FModified:= False;
   if FEncoding <> EncodingUTF8 then
     Text:= ConvertEncoding(Text, EncodingUTF8, FEncoding);
   inherited SaveToFile(FileName);
@@ -315,6 +320,7 @@ end;
 
 function TDescription.AddDescription(FileName, Descr: String): Integer;
 begin
+  FModified:= True;
   FileName:= ExtractFileName(FileName);
   if Pos(#32, FileName) <> 0 then
     Result := Add(#34+FileName+#34#32+Descr)
@@ -343,6 +349,7 @@ begin
   if Find(FileName, I) then
     begin
       Delete(I);
+      FModified:= True;
       Result:= True;
     end;
 end;
@@ -372,6 +379,7 @@ begin
       DebugLn(FileNameFrom, '=', DescrByIndex[I]);
       FDestDescr.WriteDescription(FileNameTo, DescrByIndex[I]);
       Delete(I);
+      FModified:= True;
       Result:= True;
     end;
 end;
