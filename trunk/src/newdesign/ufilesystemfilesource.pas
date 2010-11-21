@@ -116,7 +116,7 @@ uses
   uMyWindows, Windows,
 {$ENDIF}
 {$IFDEF UNIX}
-  BaseUnix, uUsersGroups, FileUtil,
+  BaseUnix, uUsersGroups, FileUtil, uMyUnix,
 {$ENDIF}
   uFileSystemWatcher,
   uFileSystemListOperation,
@@ -475,7 +475,7 @@ begin
     if fpType in PropertiesToSet then
     begin
       TypeProperty := TFileTypeProperty.Create;
-      // Use MIME type.
+      TypeProperty.Value:= GetFileMimeType(sFullPath);
     end;
 
 {$ELSE}
@@ -508,7 +508,7 @@ begin
     begin
       CommentProperty := TFileCommentProperty.Create;
       if not Assigned(FDescr) then FDescr:= TDescription.Create(False);
-      CommentProperty.Value := FDescr.ReadDescription(AFile.FullPath);
+      CommentProperty.Value := FDescr.ReadDescription(sFullPath);
     end;
   end;
 end;
@@ -746,4 +746,4 @@ begin
 end;
 
 end.
-
+

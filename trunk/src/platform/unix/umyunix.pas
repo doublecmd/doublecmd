@@ -164,6 +164,7 @@ function fpCloseDir(__dirp: pDir): cInt; cdecl; external libc name 'closedir';
 function LinuxToWinAttr(pFileName: PChar; const srInfo: BaseUnix.Stat): Longint;
 function GetDesktopEnvironment: Cardinal;
 function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
+function GetFileMimeType(const FileName: UTF8String): UTF8String;
 
 implementation
 
@@ -171,6 +172,9 @@ uses
   URIParser, uClassesEx
 {$IFNDEF FPC_USE_LIBC}
   , SysCall
+{$ENDIF}
+{$IFDEF LINUX}
+  , uMimeActions
 {$ENDIF}
   ;
 
@@ -235,6 +239,17 @@ begin
       FreeAndNil(iniDesktop);
   end;
 end;
+
+function GetFileMimeType(const FileName: UTF8String): UTF8String;
+{$IFDEF LINUX}
+begin
+  Result:= uMimeActions.GetFileMimeType(FileName);
+end;
+{$ELSE}
+begin
+  Result:= EmptyStr;
+end;
+{$ENDIF}
 
 end.
 
