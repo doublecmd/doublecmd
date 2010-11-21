@@ -426,22 +426,22 @@ function FileIsExeLib(const sFileName : String) : Boolean;
 var
   fsExeLib : TFileStreamEx;
 {$IFDEF MSWINDOWS}
-  wSign : Word;
+  Sign : Word;
 {$ELSE}
-  dwSign : DWord;
+  Sign : DWord;
 {$ENDIF}
 begin
   Result := False;
-  if mbFileExists(sFileName) and (mbFileSize(sFileName) > 0) then
+  if mbFileExists(sFileName) and (mbFileSize(sFileName) >= SizeOf(Sign)) then
     begin
       fsExeLib := TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
       try
         {$IFDEF MSWINDOWS}
-        wSign := fsExeLib.ReadWord;
-        Result := (wSign = $5A4D);
+        Sign := fsExeLib.ReadWord;
+        Result := (Sign = $5A4D);
         {$ELSE}
-        dwSign := fsExeLib.ReadDWord;
-        Result := (dwSign = $464C457F);
+        Sign := fsExeLib.ReadDWord;
+        Result := (Sign = $464C457F);
         {$ENDIF}
       finally
         fsExeLib.Free;
@@ -651,7 +651,16 @@ begin
   DE_KDE:
     sCmdLine:= 'kfmclient exec ' + QuoteStr(URL);
   DE_GNOME:
-    sCmdLine:= 'gnome-open ' + QuoteStr(URL);
+    begin
+      if FileIsExecutable(URL) and FileIsExeLib(URL) then
+      begin
+        if GetPathType(URL) <> ptAbsolute then
+          sCmdLine := './';
+        sCmdLine:= sCmdLine + QuoteStr(URL);
+      end
+      else
+        sCmdLine:= 'gnome-open ' + QuoteStr(URL);
+    end;
   DE_XFCE:
     sCmdLine:= 'exo-open ' + QuoteStr(URL);
   end;
@@ -2065,7 +2074,9 @@ begin
 end;
 {$ELSE}
 begin
+  {$PUSH}{$HINTS OFF}
   Result:= TLibHandle(dlopen(PChar(Name), RTLD_LAZY));
+  {$POP}
 end;
 {$ENDIF}
 
@@ -2079,4 +2090,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.
