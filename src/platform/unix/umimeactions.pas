@@ -52,6 +52,11 @@ type
    Returns a list of PDesktopFileEntry.
 }
 function GetDesktopEntries(FileNames: TStringList): TList;
+{en
+   Get file MIME type.
+   Returns a file MIME type.
+}
+function GetFileMimeType(const FileName: UTF8String): UTF8String;
 
 implementation
 
@@ -74,6 +79,7 @@ const
 procedure mime_type_init; cdecl; external libmime;
 procedure mime_type_finalize; cdecl; external libmime;
 function mime_type_get_by_filename(filename: PChar; stat: Pointer) : PChar; cdecl; external libmime;
+function mime_type_get_default_action(mimeType: PChar) : PChar; cdecl; external libmime;
 function mime_type_get_actions(mimeType: PChar): PPChar; cdecl; external libmime;
 function mime_type_locate_desktop_file(DirectoryToCheck: PChar; DesktopFileId: PChar): PChar; cdecl; external libmime;
 function mime_get_desktop_entry(DesktopFileName: PChar): TCDesktopFileEntry; cdecl; external libmime;
@@ -252,6 +258,15 @@ begin
   end;
 
   g_strfreev(actions);
+end;
+
+function GetFileMimeType(const FileName: UTF8String): UTF8String;
+var
+  mimeType: PChar;
+begin
+  // This string should not be freed.
+  mimeType := mime_type_get_by_filename(PChar(FileName), nil);
+  Result:= StrPas(mimeType);
 end;
 
 initialization
