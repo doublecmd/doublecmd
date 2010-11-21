@@ -21,7 +21,6 @@ object frmMain: TfrmMain
   OnUTF8KeyPress = FormUTF8KeyPress
   OnWindowStateChange = FormWindowStateChange
   ShowHint = True
-  ShowInTaskBar = stAlways
   LCLVersion = '0.9.29'
   Visible = True
   object MainToolBar: TKASToolBar
