@@ -32,7 +32,7 @@ uses
   {$IFDEF UNIX}
   Graphics, BaseUnix, Unix, fFileProperties;
   {$ELSE}
-  FileUtil, Windows, ShlObj, uShlObjAdditional, JwaDbt;
+  FileUtil, Windows, ShlObj, uShlObjAdditional;
   {$ENDIF}
 
 {en
@@ -72,13 +72,9 @@ function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boo
 implementation
 
 uses
-  LCLProc, Dialogs, fMain, uOSUtils, uGlobs, uLng, uShellExecute,
-  uShellContextMenu, uFileSystemFileSource
+  LCLProc, Dialogs, fMain, uOSUtils, uShellContextMenu, uFileSystemFileSource
   {$IF DEFINED(MSWINDOWS)}
   , Graphics, ComObj, uTotalCommander
-  {$ENDIF}
-  {$IF DEFINED(LINUX)}
-  , uFileSystemWatcher, inotify
   {$ENDIF}
   ;
 
@@ -87,10 +83,6 @@ var
   OldWProc: WNDPROC;
 {$ENDIF}
   ShellContextMenu : TShellContextMenu = nil;
-
-{$IFDEF WIN64}
-function SetWindowLong(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): LONG_PTR; stdcall; external 'user32' name 'SetWindowLongPtrW';
-{$ENDIF}
 
 {$IFDEF MSWINDOWS}
 function MyWndProc(hWnd: HWND; uiMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
@@ -108,10 +100,6 @@ begin
         end
       else
         Result := CallWindowProc(OldWProc, hWnd, uiMsg, wParam, lParam);
-        
-    WM_DEVICECHANGE:
-      if (wParam = DBT_DEVICEARRIVAL) or (wParam = DBT_DEVICEREMOVECOMPLETE) then
-        frmMain.UpdateDiskCount;
   else
     Result := CallWindowProc(OldWProc, hWnd, uiMsg, wParam, lParam);
   end; // case
@@ -287,30 +275,5 @@ begin
     FreeAndNil(opdDialog);
 end;
 
-{$IFDEF LINUX}
-var
-  FileSystemWatcher: TFileSystemWatcher = nil;
-type
-  TFakeClass = class
-    procedure OnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
-  end;
-
-procedure TFakeClass.OnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
-var
-  ev: pinotify_event absolute NotifyData;
-begin
-  if (ev^.mask = IN_DELETE) and (Pos('mtab', PChar(@ev^.name)) = 1) then
-    frmMain.UpdateDiskCount;
-end;
-
-initialization
-  FileSystemWatcher:= TFileSystemWatcher.Create(nil, '/etc', [wfFileNameChange]);
-  FileSystemWatcher.OnWatcherNotifyEvent:= TFakeClass.OnWatcherNotifyEvent;
-  FileSystemWatcher.Active:= True;
-finalization
-  if Assigned(FileSystemWatcher) then
-    FreeAndNil(FileSystemWatcher);
-{$ENDIF}
-
 end.
-
+

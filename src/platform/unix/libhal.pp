@@ -80,6 +80,13 @@ LibHalDeviceAdded = procedure(ctx: PLibHalContext; const udi: PChar);cdecl;
  * Type for callback when a device is removed.
  }
 LibHalDeviceRemoved = procedure(ctx: PLibHalContext; const udi: PChar);cdecl;
+LibHalDeviceNewCapability = procedure(ctx: PLibHalContext; const udi: PChar; const capability: PChar);cdecl;
+LibHalDeviceLostCapability = procedure(ctx: PLibHalContext; const udi: PChar; const capability: PChar);cdecl;
+LibHalDevicePropertyModified = procedure(ctx: PLibHalContext; const udi: PChar; const key: PChar;
+                                         is_removed, is_added: dbus_bool_t);cdecl;
+LibHalDeviceCondition = procedure(ctx: PLibHalContext; const udi: PChar;
+                                  const condition_name: PChar;
+                                  const condition_delta: PChar); cdecl;
 
 //* Create a new context for a connection with hald */
 function libhal_ctx_new:PLibHalContext; cdecl; external 'libhal';
@@ -132,7 +139,16 @@ function libhal_ctx_set_device_added(ctx: PLibHalContext;
 //* Set the callback for when a device is removed */
 function libhal_ctx_set_device_removed(ctx: PLibHalContext;
                                   callback: LibHalDeviceRemoved):dbus_bool_t; cdecl; external 'libhal';
-
+function libhal_ctx_set_device_new_capability(ctx: PLibHalContext;
+                                  callback: LibHalDeviceNewCapability):dbus_bool_t; cdecl; external 'libhal';
+function libhal_ctx_set_device_lost_capability(ctx: PLibHalContext;
+                                  callback: LibHalDeviceLostCapability):dbus_bool_t; cdecl; external 'libhal';
+function libhal_ctx_set_device_property_modified(ctx: PLibHalContext;
+                                  callback: LibHalDevicePropertyModified):dbus_bool_t; cdecl; external 'libhal';
+function libhal_ctx_set_device_condition(ctx: PLibHalContext;
+                                  callback: LibHalDeviceCondition):dbus_bool_t; cdecl; external 'libhal';
+function libhal_device_property_watch_all(ctx: PLibHalContext;
+                                          error: PDBusError):dbus_bool_t; cdecl; external 'libhal';
 implementation
 
 end.

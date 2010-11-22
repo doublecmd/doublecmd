@@ -126,6 +126,10 @@ function GetFileOwner(const sPath: String; out sUser, sGroup: String): Boolean;
 }
 function GetFileDescription(const sPath: String): String;
 
+{$IFDEF WIN64}
+function SetWindowLong(hWnd: HWND; nIndex: Integer; dwNewLong: LONG_PTR): LONG_PTR; stdcall; external 'user32' name 'SetWindowLongPtrW';
+{$ENDIF}
+
 implementation
 
 uses
@@ -511,4 +515,4 @@ begin
 end;
 
 end.
-
+

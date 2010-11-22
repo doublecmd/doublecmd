@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, Grids, Controls, LCLType,
-  uFilePanelSelect;
+  uFilePanelSelect, uDrive;
 
 type
   TDriveSelected = procedure (Sender: TObject; ADriveIndex: Integer;
@@ -36,7 +36,7 @@ type
 
   TDrivesListPopup = class(TStringGrid)
   private
-    FDrivesList: TList;
+    FDrivesList: TDrivesList;
     FPanel: TFilePanelSelect;
     FShortCuts: array of TUTF8Char;
     FAllowSelectDummyRow: Boolean;
@@ -90,7 +90,7 @@ type
   public
     constructor Create(AOwner: TComponent; AParent: TWinControl); reintroduce;
 
-    procedure UpdateDrivesList(ADrivesList: TList);
+    procedure UpdateDrivesList(ADrivesList: TDrivesList);
 
     {en
        Shows the drive list.
@@ -174,10 +174,9 @@ begin
   OnUTF8KeyPress  := @UTF8KeyPressEvent;
 end;
 
-procedure TDrivesListPopup.UpdateDrivesList(ADrivesList: TList);
+procedure TDrivesListPopup.UpdateDrivesList(ADrivesList: TDrivesList);
 var
   I, RowNr : Integer;
-  Drive : PDrive;
   FreeSize, TotalSize: Int64;
 begin
   FDrivesList := ADrivesList;
@@ -189,8 +188,7 @@ begin
 
   for I := 0 to ADrivesList.Count - 1 do
     begin
-      Drive := PDrive(ADrivesList.Items[I]);
-      with Drive^ do
+      with ADrivesList[I]^ do
       begin
         RowNr := LowestRow + I;
 
@@ -328,7 +326,7 @@ begin
 
     // Draw drive icon in the first column.
 
-    Drive := PDrive(FDrivesList.Items[GetDriveIndexByRow(aRow)]);
+    Drive := FDrivesList.Items[GetDriveIndexByRow(aRow)];
 
     // get disk icon
     BitmapTmp := PixMapManager.GetDriveIcon(Drive, DriveIconSize, Self.Color);

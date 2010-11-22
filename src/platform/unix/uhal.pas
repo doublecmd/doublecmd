@@ -12,6 +12,14 @@ function CreateHal: Boolean;
 // procedure where we get message add or remove
 procedure LibHalDeviceAdded(ctx: PLibHalContext; const udi: PChar);cdecl;
 procedure LibHalDeviceRemoved(ctx: PLibHalContext; const udi: PChar);cdecl;
+procedure LibHalDeviceNewCapability(ctx: PLibHalContext; const udi: PChar; const capability: PChar);cdecl;
+procedure LibHalDeviceLostCapability(ctx: PLibHalContext; const udi: PChar; const capability: PChar);cdecl;
+procedure LibHalDevicePropertyModified(ctx: PLibHalContext; const udi: PChar; const key: PChar;
+                                       is_removed, is_added: dbus_bool_t);cdecl;
+procedure LibHalDeviceCondition(ctx: PLibHalContext; const udi: PChar;
+                                const condition_name: PChar;
+                                const condition_delta: PChar); cdecl;
+
 // dispach message and
 function CheckHalMsg: Boolean;
 // create all Hal object
@@ -40,9 +48,12 @@ begin
     DebugLn(sMessage);
 end;
 
-procedure CheckBlockDev(ctx: PLibHalContext; const udi: PChar; error: PDBusError; const CreateArray: boolean = False);
-var cap : PChar;
-var s : string;
+procedure CheckBlockDev(ctx: PLibHalContext; const udi: PChar; const CreateArray: boolean = False);
+var
+  cap : PChar;
+  s : string;
+  DcDbusError : DBusError;
+  IsBlockDevice, HasMountPoint: Boolean;
 begin
 {  possible value what we can get (you can see that volume.label it will be mount point)
                for more key see "hal-device | less"
@@ -64,34 +75,50 @@ begin
   if udi = nil then exit;
 
   // exit if not block dev
-  if(libhal_device_property_exists(ctx, udi, PChar('block.device'), nil) = 0) then
-    exit;
+  dbus_error_init(@DcDbusError);
+  IsBlockDevice := libhal_device_property_exists(ctx, udi, PChar('block.device'), @DcDbusError) <> 0;
+  if dbus_error_is_set(@DcDbusError) <> 0 then
+  begin
+    PrintError('Cannot get block.device property for ' + udi, @DcDbusError);
+    dbus_error_free(@DcDbusError);
+    Exit;
+  end;
+  if not IsBlockDevice then
+    Exit;
 
   // it is our dev
   if not CreateArray then
   begin
     DeviceWasChanged := True;
   end;
-//  DebugLn(udi);
+
+  s := StringReplace(StrPas(udi), '/org/freedesktop/Hal/devices/', '', [rfIgnoreCase]);
+
   // add to array
   DeviceList.Add(udi);
 
   // get dev name
   cap := libhal_device_get_property_string(ctx, udi, Pchar('block.device'), nil);
-  s := 'Dev '+cap;
+  s := s + ' is ' + cap;
   libhal_free_string(cap);
 
   // get mount point
-  if(libhal_device_property_exists(ctx, udi, PChar('volume.mount_point'), nil) <> 0) then
+  dbus_error_init(@DcDbusError);
+  HasMountPoint := libhal_device_property_exists(ctx, udi, PChar('volume.mount_point'), @DcDbusError) <> 0;
+  if dbus_error_is_set(@DcDbusError) <> 0 then
+  begin
+    PrintError('Cannot get volume.mount_point property for ' + udi, @DcDbusError);
+    dbus_error_free(@DcDbusError);
+    Exit;
+  end;
+  if HasMountPoint then
   begin
     cap := libhal_device_get_property_string(ctx, udi, Pchar('volume.mount_point'), nil);
-    s := s+' with mount point  '+cap;
+    s := s + ' with mount point ' + cap;
     libhal_free_string(cap);
   end;
 
-//  if not CreateArray then
-//    DebugLn('udi = ',udi,s);
-
+  //DebugLn(s);
 end;
 
 function CreateBlokDevArr: Boolean;
@@ -99,6 +126,7 @@ var
   halDevices : PPChar = nil;
   numDevices,i : Integer;
   udi : PChar;
+  DcDbusError : DBusError;
 begin
   Result:= False;
 
@@ -106,19 +134,21 @@ begin
   DeviceList.Clear;
 
   // Get List of all dev
-  halDevices := libhal_get_all_devices(DcHalCtx, @numDevices, nil);
-  if halDevices = nil then
+  dbus_error_init(@DcDbusError);
+  halDevices := libhal_get_all_devices(DcHalCtx, @numDevices, @DcDbusError);
+  if (not Assigned(halDevices)) or (dbus_error_is_set(@DcDbusError) <> 0) then
   begin
-    DebugLn('Cannot get device list');
+    PrintError('Cannot get device list', @DcDbusError);
+    dbus_error_free(@DcDbusError);
     Exit;
   end;
-//  DebugLn('Number of devices: ' + IntToStr(numDevices));
+  //DebugLn('Number of devices: ' + IntToStr(numDevices));
 
   // show info for all dev
-  for i := 0 to numDevices do
+  for i := 0 to numDevices - 1 do
   begin
     udi := (halDevices + i)^;
-    CheckBlockDev(DcHalCtx, udi, nil, True);
+    CheckBlockDev(DcHalCtx, udi, True);
   end;
 
   // free mem
@@ -187,6 +217,29 @@ begin
   if libhal_ctx_set_device_removed(DcHalCtx, @LibHalDeviceRemoved) = 0 then
     DebugLn('Cannot register LibHalDeviceRemoved');
 
+  if libhal_ctx_set_device_new_capability(DcHalCtx, @LibHalDeviceNewCapability) = 0 then
+    DebugLn('Cannot register LibHalDeviceNewCapability');
+
+  if libhal_ctx_set_device_lost_capability(DcHalCtx, @LibHalDeviceLostCapability) = 0 then
+    DebugLn('Cannot register LibHalDeviceLostCapability');
+
+  if libhal_ctx_set_device_property_modified(DcHalCtx, @LibHalDevicePropertyModified) = 0 then
+    DebugLn('Cannot register LibHalDevicePropertyModified');
+
+  if libhal_ctx_set_device_condition(DcHalCtx, @LibHalDeviceCondition) = 0 then
+    DebugLn('Cannot register LibHalDeviceCondition');
+
+  // Watch all properties.
+  dbus_error_init(@DcDbusError);
+  if (libhal_device_property_watch_all(DcHalCtx, @DcDbusError) = 0) or
+     (dbus_error_is_set(@DcDbusError) <> 0) then
+  begin
+    PrintError('Cannot watch all properties', @DcDbusError);
+    FreeHal;
+    dbus_error_free(@DcDbusError);
+    Exit;
+  end;
+
   DeviceList := TStringList.Create;
   if not CreateBlokDevArr then
   begin
@@ -202,7 +255,7 @@ procedure LibHalDeviceAdded(ctx: PLibHalContext; const udi: PChar); cdecl;
 begin
   DebugLn('HAL: new device added: ',udi);
 //  sleep(1500); // if we dont do it we don`t see new dev
-  CheckBlockDev(ctx,udi,nil); // it return value 2 time on one flash like /dev/sda /dev/sda1
+  CheckBlockDev(ctx,udi); // it return value 2 time on one flash like /dev/sda /dev/sda1
 end;
 
 procedure LibHalDeviceRemoved(ctx: PLibHalContext; const udi: PChar); cdecl;
@@ -222,6 +275,33 @@ begin
     //CreateBlokDevArr; or we can re create DeviceList
   end;
   DebugLn('HAL: Device was removed: ', udi);
+end;
+
+procedure LibHalDeviceNewCapability(ctx: PLibHalContext; const udi: PChar; const capability: PChar);cdecl;
+begin
+  WriteLn('LibHalDeviceNewCapability');
+  DeviceWasChanged := True;
+end;
+
+procedure LibHalDeviceLostCapability(ctx: PLibHalContext; const udi: PChar; const capability: PChar);cdecl;
+begin
+  WriteLn('LibHalDeviceLostCapability');
+  DeviceWasChanged := True;
+end;
+
+procedure LibHalDevicePropertyModified(ctx: PLibHalContext; const udi: PChar; const key: PChar;
+                                       is_removed, is_added: dbus_bool_t);cdecl;
+begin
+  WriteLn('LibHalDevicePropertyModified');
+  DeviceWasChanged := True;
+end;
+
+procedure LibHalDeviceCondition(ctx: PLibHalContext; const udi: PChar;
+                                const condition_name: PChar;
+                                const condition_delta: PChar); cdecl;
+begin
+  WriteLn('LibHalDeviceCondition');
+  DeviceWasChanged := True;
 end;
 
 function CheckHalMsg: Boolean;

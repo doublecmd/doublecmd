@@ -3401,12 +3401,6 @@ object frmMain: TfrmMain
       end
     end
   end
-  object tmHAL: TTimer
-    Enabled = False
-    OnTimer = tmHALTimer
-    left = 53
-    top = 24
-  end
   object pmTrayIconMenu: TPopupMenu
     left = 294
     top = 193
@@ -3457,4 +3451,4 @@ object frmMain: TfrmMain
     left = 96
     top = 13
   end
-end
+end
