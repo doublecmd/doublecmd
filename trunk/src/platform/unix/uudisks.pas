@@ -58,6 +58,20 @@ implementation
 uses
   dbus, fgl, ExtCtrls;
 
+{$IF (FPC_VERSION <= 2) and (FPC_RELEASE <= 4) and (FPC_PATCH <= 2)}
+type
+  DBusHandleMessageFunction = function(connection: PDBusConnection;
+   message_: PDBusMessage; user_data: Pointer): DBusHandlerResult; cdecl;
+
+{ Filters }
+
+function dbus_connection_add_filter(connection: PDBusConnection;
+ function_: DBusHandleMessageFunction;
+ user_data: Pointer; free_data_function: DBusFreeFunction): dbus_bool_t; cdecl; external LibDBus;
+procedure dbus_connection_remove_filter (connection: PDBusConnection;
+ function_: DBusHandleMessageFunction; user_data: Pointer); cdecl; external LibDBus;
+{$ENDIF}
+
 type
   TUDisksObserverList = specialize TFPGList<TUDisksDeviceNotify>;
 
