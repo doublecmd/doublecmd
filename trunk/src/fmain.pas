@@ -46,8 +46,8 @@ uses
   KASToolBar, KASBarMenu, KASBarFiles,
   uCmdBox, uFileSystemWatcher, uFilePanelSelect,
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
-  uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, uClassesEx, uXmlConfig
-  ;
+  uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, uClassesEx,
+  uXmlConfig, uDrive, uDriveWatcher;
 
 const
   cHistoryFile='cmdhistory.txt';
@@ -372,7 +372,6 @@ type
     actFileSpliter: TAction;
     pmToolBar: TPopupMenu;
     MainTrayIcon: TTrayIcon;
-    tmHAL: TTimer;
 
     procedure actExecute(Sender: TObject);
     procedure AllOpCancelClick(Sender: TObject);
@@ -474,14 +473,13 @@ type
     procedure FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
     procedure OnUniqueInstanceMessage(Sender: TObject; Params: array of UTF8String; ParamCount: Integer);
     procedure tbPasteClick(Sender: TObject);
-    procedure tmHALTimer(Sender: TObject);
     procedure AllProgressOnUpdateTimer(Sender: TObject);
   private
     { Private declarations }
     PanelSelected: TFilePanelSelect;
     LeftFrameWatcher,
     RightFrameWatcher: TFileSystemWatcher;
-    DrivesList : TList;
+    DrivesList : TDrivesList;
     MainSplitterHintWnd: THintWindow;
     HiddenToTray: Boolean;
     HidingTrayIcon: Boolean; // @true if the icon is in the process of hiding
@@ -518,6 +516,7 @@ type
     procedure DriveListClose(Sender: TObject);
     procedure SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);
     procedure SetPanelDrive(aPanel: TFilePanelSelect; aPath: UTF8String);
+    procedure OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
 
   public
     procedure HandleActionHotKeys(var Key: Word; Shift: TShiftState);
@@ -624,9 +623,6 @@ uses
   {$IFDEF LCLQT}
     , qtwidgets
   {$ENDIF}
-  {$IFDEF LINUX}
-    , uHal
-  {$ENDIF}
   ;
 
 {$IF DEFINED(LCLGTK2) or DEFINED(LCLQT)}
@@ -684,8 +680,12 @@ begin
   FDrivesListPopup.OnDriveSelected := @DriveListDriveSelected;
   FDrivesListPopup.OnClose := @DriveListClose;
 
+  TDriveWatcher.Initialize(Handle);
+  TDriveWatcher.AddObserver(@OnDriveWatcherEvent);
+
   if gOnlyOneAppInstance and Assigned(UniqueInstance) then
     UniqueInstance.OnMessage:= @OnUniqueInstanceMessage;
+
   // frost_asm begin
   MainSplitterLeftMouseBtnDown:=false;
   // frost_asm end
@@ -875,6 +875,10 @@ begin
     FreeAndNil(RightFrameWatcher);
   DebugLn('File watchers finished');
 
+  TDriveWatcher.RemoveObserver(@OnDriveWatcherEvent);
+  TDriveWatcher.Finalize;
+  DebugLn('Drive watcher finished');
+
   // Close all tabs.
   CloseNotebook(LeftTabs);
   CloseNotebook(RightTabs);
@@ -893,7 +897,7 @@ begin
   // Save main toolbar
   SaveMainToolBar;
 
-  DestroyDrivesList(DrivesList);
+  FreeAndNil(DrivesList);
 
   DebugLn('Main form destroyed');
 end;
@@ -1299,7 +1303,7 @@ begin
     begin
       if Tag < DrivesList.Count then
         begin
-          sPath:= PDrive(DrivesList.Items[Tag])^.Path;
+          sPath:= DrivesList[Tag]^.Path;
           Actions.cm_DriveContextMenu(sPath);
         end;
     end;
@@ -1397,12 +1401,6 @@ procedure TfrmMain.frmMainShow(Sender: TObject);
 begin
   DebugLn('frmMain.frmMainShow');
   Application.QueueAsyncCall(@frmMainAfterShow, 0);
-
-  {$IFDEF LINUX}
-  tmHAL.Enabled := IsHal;
-  if not IsHal then
-    DebugLn('HAL is not enabled. Device changes will not be detected.');
-  {$ENDIF}
 end;
 
 procedure TfrmMain.mnuDropClick(Sender: TObject);
@@ -2875,22 +2873,25 @@ begin
     end;
 end;
 
+function CompareDrives(Item1, Item2: Pointer): Integer;
+begin
+  Result := CompareText(PDrive(Item1)^.Name, PDrive(Item2)^.Name);
+end;
+
 procedure TfrmMain.UpdateDiskCount;
 var
   I: Integer;
 begin
-  DestroyDrivesList(DrivesList);
-  DrivesList := GetAllDrives;
+  DrivesList.Free;
+  DrivesList := TDriveWatcher.GetDrivesList;
+  DrivesList.Sort(@CompareDrives);
+
   { Delete drives that in drives black list }
   for I:= DrivesList.Count - 1 downto 0 do
     begin
-      if MatchesMaskList(PDrive(DrivesList.Items[I])^.Name, gDriveBlackList) then
-      begin
-        if Assigned(DrivesList.Items[i]) then
-          Dispose(PDrive(DrivesList.Items[i]));
-        DrivesList.Delete(I);
-      end;
-    end;  
+      if MatchesMaskList(DrivesList[I]^.Name, gDriveBlackList) then
+        DrivesList.Remove(I);
+    end;
 
   // create drives drop down menu
   FDrivesListPopup.UpdateDrivesList(DrivesList);
@@ -2929,8 +2930,8 @@ begin
 
   for I := 0 to Count do
   begin
-  Drive := PDrive(DrivesList.Items[I]);
-  with Drive^ do
+    Drive := DrivesList.Items[I];
+    with Drive^ do
     begin
       // get drive icon
       BitmapTmp := PixMapManager.GetDriveIcon(Drive, dskPanel.GlyphSize, clBtnFace);
@@ -3733,14 +3734,6 @@ begin
   end;
 end;
 
-procedure TfrmMain.tmHALTimer(Sender: TObject);
-begin
-{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
-  if CheckHalMsg then
-    UpdateDiskCount;
-{$ENDIF}
-end;
-
 function TfrmMain.ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
 var
   iIndex: Integer;
@@ -3965,7 +3958,7 @@ begin
 
   for i := 0 to FDrivesListPopup.DrivesCount - 1 do
   begin
-    Drive := PDrive(DrivesList.Items[i]);
+    Drive := DrivesList.Items[i];
 
     if IsInPath(UTF8UpperCase(Drive^.Path), UTF8UpperCase(Path), True) then
     begin
@@ -4289,11 +4282,8 @@ end;
 
 procedure TfrmMain.DriveListDriveSelected(Sender: TObject; ADriveIndex: Integer;
   APanel: TFilePanelSelect);
-var
-  Drive: PDrive;
 begin
-  Drive := PDrive(DrivesList.Items[ADriveIndex]);
-  SetPanelDrive(APanel, Drive^.Path);
+  SetPanelDrive(APanel, DrivesList.Items[ADriveIndex]^.Path);
 end;
 
 procedure TfrmMain.DriveListClose(Sender: TObject);
@@ -4424,6 +4414,11 @@ begin
   begin
     msgWarning(rsMsgDiskNotAvail);
   end;
+end;
+
+procedure TfrmMain.OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
+begin
+  UpdateDiskCount;
 end;
 
 initialization

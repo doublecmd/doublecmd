@@ -42,7 +42,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, syncobjs, uOSUtils, uFileSorting, StringHashList,
-  uFile, uIconTheme
+  uFile, uIconTheme, uDrive
   {$IF DEFINED(UNIX)}
   , uClassesEx
     {$IF NOT DEFINED(DARWIN)}
