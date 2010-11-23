@@ -1,27 +1,30 @@
+@echo off
+
 rem Build all plugins
 
-rem This script run from _make.bat
-rem If you run it direct, set up %lazpath% first
+rem This script is run from build.bat.
+rem If you run it directly set %lazpath% first
+rem or have lazbuild in your PATH.
 
 rem CD to plugins directory
 pushd plugins
 
 rem WCX plugins
-%lazpath%\lazbuild.exe wcx\cpio\src\cpio.lpi %DC_ARCH%
-%lazpath%\lazbuild.exe wcx\deb\src\deb.lpi %DC_ARCH%
-%lazpath%\lazbuild.exe wcx\lzma\src\lzma.lpi %DC_ARCH%
-%lazpath%\lazbuild.exe wcx\rpm\src\rpm.lpi %DC_ARCH%
-%lazpath%\lazbuild.exe wcx\unbz2\src\unbz2.lpi %DC_ARCH%
-%lazpath%\lazbuild.exe wcx\unrar\src\unrar.lpi %DC_ARCH%
-%lazpath%\lazbuild.exe wcx\zip\src\zip.lpi %DC_ARCH%
+lazbuild wcx\cpio\src\cpio.lpi %DC_ARCH%
+lazbuild wcx\deb\src\deb.lpi %DC_ARCH%
+lazbuild wcx\lzma\src\lzma.lpi %DC_ARCH%
+lazbuild wcx\rpm\src\rpm.lpi %DC_ARCH%
+lazbuild wcx\unbz2\src\unbz2.lpi %DC_ARCH%
+lazbuild wcx\unrar\src\unrar.lpi %DC_ARCH%
+lazbuild wcx\zip\src\zip.lpi %DC_ARCH%
 
 rem WDX plugins
-%lazpath%\lazbuild.exe wdx\rpm_wdx\src\rpm_wdx.lpi %DC_ARCH%
-%lazpath%\lazbuild.exe wdx\deb_wdx\src\deb_wdx.lpi %DC_ARCH%
+lazbuild wdx\rpm_wdx\src\rpm_wdx.lpi %DC_ARCH%
+lazbuild wdx\deb_wdx\src\deb_wdx.lpi %DC_ARCH%
 
 rem WFX plugins
-%lazpath%\lazbuild.exe wfx\ftp\src\ftp.lpi %DC_ARCH%
-%lazpath%\lazbuild.exe wfx\network\src\network.lpi %DC_ARCH%
+lazbuild wfx\ftp\src\ftp.lpi %DC_ARCH%
+lazbuild wfx\network\src\network.lpi %DC_ARCH%
 
 rem Strip and rename WCX
 pushd wcx\cpio\lib\

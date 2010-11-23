@@ -1,5 +1,9 @@
+@echo off
+
 rem the next line must be changed before run on your computer 
 set lazpath=D:\Alexx\Prog\FreePascal\Lazarus
+
+set PATH=%PATH%;%lazpath%
 
 rem You can execute this script with different parameters:
 rem components - compiling components needed for DC
@@ -24,6 +28,6 @@ call components\build.bat
 call plugins\build.bat
 
 :default
-%lazpath%\lazbuild src\doublecmd.lpi %DC_ARCH%
+lazbuild src\doublecmd.lpi %DC_ARCH%
 
 strip --strip-all doublecmd.exe
