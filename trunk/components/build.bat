@@ -1,11 +1,14 @@
+@echo off
+
 rem Compiling components
 
-rem This script run from _make.bat
-rem If you run it direct, set up %lazpath% first
+rem This script is run from build.bat.
+rem If you run it directly set %lazpath% first
+rem or have lazbuild in your PATH.
 
 pushd components
-%lazpath%\lazbuild.exe CmdLine\cmdbox.lpk %DC_ARCH%
-%lazpath%\lazbuild.exe KASToolBar\kascomp.lpk %DC_ARCH%
-%lazpath%\lazbuild.exe viewer\viewerpackage.lpk %DC_ARCH%
-%lazpath%\lazbuild.exe gifanim\pkg_gifanim.lpk %DC_ARCH%
+lazbuild CmdLine\cmdbox.lpk %DC_ARCH%
+lazbuild KASToolBar\kascomp.lpk %DC_ARCH%
+lazbuild viewer\viewerpackage.lpk %DC_ARCH%
+lazbuild gifanim\pkg_gifanim.lpk %DC_ARCH%
 popd
