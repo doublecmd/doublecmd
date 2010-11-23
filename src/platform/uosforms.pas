@@ -110,7 +110,7 @@ procedure SetMyWndProc(Handle : HWND);
 {$IFDEF MSWINDOWS}
 begin
   {$PUSH}{$HINTS OFF}
-  OldWProc := WNDPROC(SetWindowLong(Handle, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
+  OldWProc := WNDPROC(SetWindowLongPtr(Handle, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
   {$POP}
   CreateTotalCommanderWindow(Handle);
 end;
