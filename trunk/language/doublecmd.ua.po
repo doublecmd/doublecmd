@@ -1968,7 +1968,7 @@ msgstr "Відкрити список &VFS"
 #: TFRMMAIN.ACTOPTIONS.CAPTION
 #| msgid "Options..."
 msgid "&Options..."
-msgstr "&Налаштування..."
+msgstr "&Основні..."
 
 #: TFRMMAIN.ACTPACKFILES.CAPTION
 msgid "Pack files..."
