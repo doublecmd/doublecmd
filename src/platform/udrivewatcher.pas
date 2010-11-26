@@ -54,7 +54,7 @@ uses
   {$IFDEF UNIX}
   Unix, uMyUnix, LCLProc
    {$IFDEF LINUX}
-   , inotify, uUDisks, uFileSystemWatcher
+   , inotify, uUDisks, uFileSystemWatcher, uDCUtils
    {$ENDIF}
    {$IFDEF DARWIN}
    , MacOSAll
@@ -67,8 +67,6 @@ uses
 
 {$IFDEF LINUX}
 type
-  TDriveWatchMethod = (dwmNone, dwmUDisks, dwmTabFiles);
-
   TFakeClass = class
   public
     procedure OnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
@@ -82,7 +80,7 @@ var
   {$IFDEF LINUX}
   EtcDirWatcher: TFileSystemWatcher = nil;
   FakeClass: TFakeClass = nil;
-  WatchMethod: TDriveWatchMethod = dwmNone;
+  IsUDisksAvailable: Boolean = False;
   {$ENDIF}
   {$IFDEF MSWINDOWS}
   OldWProc: WNDPROC;
@@ -151,13 +149,12 @@ begin
 
   if uUDisks.Initialize then
   begin
-    WatchMethod := dwmUDisks;
+    IsUDisksAvailable := True;
     uUDisks.AddObserver(@FakeClass.OnUDisksNotify);
   end
   else
   begin
     Writeln('Detecting devices through /etc/mtab.');
-    WatchMethod := dwmTabFiles;
     EtcDirWatcher:= TFileSystemWatcher.Create(nil, '/etc', [wfFileNameChange]);
     EtcDirWatcher.OnWatcherNotifyEvent:= @FakeClass.OnWatcherNotifyEvent;
     EtcDirWatcher.Active:= True;
@@ -177,16 +174,16 @@ begin
     Exit;
 
   {$IFDEF LINUX}
-  if WatchMethod = dwmUDisks then
+  if IsUDisksAvailable then
   begin
     uUDisks.RemoveObserver(@FakeClass.OnUDisksNotify);
     uUDisks.Finalize;
+    IsUDisksAvailable := False;
   end;
   if Assigned(EtcDirWatcher) then
     FreeAndNil(EtcDirWatcher);
   if Assigned(FakeClass) then
     FreeAndNil(FakeClass);
-  WatchMethod := dwmNone;
   {$ENDIF}
 
   if Assigned(FObservers) then
@@ -205,15 +202,37 @@ begin
 end;
 
 {$IFDEF LINUX}
-function ContainsString(const search: array of string; strings: array of string): Boolean;
+function BeginsWithString(const patterns: array of string; const strings: array of string): Boolean;
 var
   i, j: Integer;
 begin
   for i := Low(strings) to High(strings) do
   begin
-    for j := Low(search) to High(search) do
-      if strings[i] = search[j] then
+    for j := Low(patterns) to High(patterns) do
+      if StrBegins(strings[i], patterns[j]) then
         Exit(True);
+  end;
+  Result := False;
+end;
+
+function IsPartOfString(const patterns: array of string; const str: string): Boolean;
+var
+  I: Integer;
+begin
+  for I := Low(patterns) to High(patterns) do
+    if Pos(patterns[I], str) > 0 then
+      Exit(True);
+  Result := False;
+end;
+
+function IsStringInArray(const search: string; strings: array of string): Boolean;
+var
+  i: Integer;
+begin
+  for i := Low(strings) to High(strings) do
+  begin
+    if strings[i] = search then
+      Exit(True);
   end;
   Result := False;
 end;
@@ -275,36 +294,37 @@ begin
     New(Drive);
     with Drive^ do
     begin
-      Name := ExtractFileName(DeviceFile);
+      DeviceId := DeviceFile;
       if DeviceIsMounted and (Length(DeviceMountPaths) > 0) then
-        Path := DeviceMountPaths[0]
+      begin
+        Path := DeviceMountPaths[0];
+        DisplayName := ExtractFileName(Path);
+      end
       else
+      begin
         Path := EmptyStr;
+        DisplayName := ExtractFileName(DeviceFile);
+      end;
       DriveLabel := IdLabel;
 
       if DeviceIsPartition then
-        DriveType := dtFixed
-      else if DeviceIsDrive and ContainsString(
-          ['flash',
-           'flash_cf',
-           'flash_ms',
-           'flash_sm',
-           'flash_sd',
-           'flash_sdhc',
-           'flash_mmc'], DriveMediaCompatibility) then
-          DriveType := dtFlash
-      else if DeviceIsDrive and ContainsString(
-          ['floppy',
-           'floppy_zip',
-           'floppy_jaz'], DriveMediaCompatibility) then
-          DriveType := dtFloppy
-      else if DeviceIsDrive and ContainsString(
-          ['optical'], DriveMediaCompatibility) then
-          DriveType := dtCDROM
-      else if DeviceIsRemovable then
-        DriveType := dtRemovable
+        DriveType := dtHardDisk
+      else if DeviceIsDrive then
+        begin
+          if BeginsWithString(['flash'], DriveMediaCompatibility) then
+            DriveType := dtFlash
+          else if BeginsWithString(['floppy'], DriveMediaCompatibility) then
+            DriveType := dtFloppy
+          else if BeginsWithString(['optical'], DriveMediaCompatibility) then
+            DriveType := dtOptical
+          else
+            DriveType := dtUnknown;
+        end
       else
         DriveType := dtUnknown;
+
+      IsMediaAvailable := DeviceIsMediaAvailable;
+      IsMediaEjectable := DeviceIsDrive and DriveIsMediaEjectable;
     end;
   end;
 end;
@@ -328,114 +348,6 @@ begin
   else
     Result := nil;
 end;
-
-function GetDrivesList_TabFiles: TDrivesList;
-  function CheckMountEntry(DriveList: TDrivesList; MountEntry: PMountEntry): Boolean;
-  var
-    J: Integer;
-    MountPoint: String;
-  begin
-    Result:= False;
-    with MountEntry^ do
-    begin
-      // check filesystem
-      if (mnt_fsname = 'proc') then Exit;
-
-      // check mount dir
-      if (mnt_dir = '') or
-         (mnt_dir = '/') or
-         (mnt_dir = 'none') or
-         (mnt_dir = '/proc') or
-         (mnt_dir = '/dev/pts') then Exit;
-
-      // check file system type
-      if (mnt_type = 'ignore') or
-         (mnt_type = 'tmpfs') or
-         (mnt_type = 'proc') or
-         (mnt_type = 'swap') or
-         (mnt_type = 'sysfs') or
-         (mnt_type = 'debugfs') or
-         (mnt_type = 'devtmpfs') or
-         (mnt_type = 'devpts') or
-         (mnt_type = 'fusectl') or
-         (mnt_type = 'securityfs') or
-         (mnt_type = 'binfmt_misc') or
-         (mnt_type = 'fuse.gvfs-fuse-daemon') or
-         (mnt_type = 'fuse.truecrypt') or
-         (mnt_type = 'nfsd') or
-         (mnt_type = 'usbfs') or
-         (mnt_type = 'rpc_pipefs') then Exit;
-
-      MountPoint := ExcludeTrailingPathDelimiter(mnt_dir);
-
-      // if already added
-      for J:= 0 to DriveList.Count - 1 do
-        if DriveList[J]^.Path = MountPoint then
-          Exit;
-    end;
-    Result:= True;
-  end;
-  function IsInString(const patterns: array of string; const str: string): Boolean;
-  var
-    I: Integer;
-  begin
-    for I := Low(patterns) to High(patterns) do
-      if Pos(patterns[I], str) > 0 then
-        Exit(True);
-    Result := False;
-  end;
-var
-  Drive : PDrive;
-  fstab: PIOFile;
-  pme: PMountEntry;
-  MntEntFileList: array[1..2] of PChar = (_PATH_FSTAB, _PATH_MOUNTED);
-  I: Integer;
-begin
-  Result := TDrivesList.Create;
-  for I:= Low(MntEntFileList) to High(MntEntFileList) do
-  try
-  fstab:= setmntent(MntEntFileList[I],'r');
-  if not Assigned(fstab) then exit;
-  pme:= getmntent(fstab);
-  while (pme <> nil) do
-  begin
-    if CheckMountEntry(Result, pme) then
-       begin
-         New(Drive);
-         with Drive^ do
-         begin
-           Path := StrPas(pme^.mnt_dir);
-           Path := ExcludeTrailingPathDelimiter(Path);
-           DriveLabel := Path;
-           Name := ExtractFileName(Path);
-           if Name = '' then
-             Name := Path;
-
-           {$IFDEF DEBUG}
-           DebugLn('Adding drive "' + Name + '" with mount point "' + Path + '"');
-           {$ENDIF}
-
-           // TODO more correct detect icons by drive type on Linux
-           if IsInString(['ISO9660', 'CDROM', 'CDRW', 'DVD'], UpperCase(pme^.mnt_type)) then
-             DriveType := dtCDROM else
-           if IsInString(['FLOPPY'], UpperCase(pme^.mnt_type)) then
-             DriveType := dtFloppy else
-           if IsInString(['ZIP', 'USB', 'CAMERA'], UpperCase(pme^.mnt_type)) then
-             DriveType := dtFlash else
-           if IsInString(['NFS', 'SMB', 'NETW'], UpperCase(pme^.mnt_type)) then
-             DriveType := dtNetwork
-           else
-             DriveType := dtFixed;
-         end;
-         Result.Add(Drive);
-       end;
-    pme:= getmntent(fstab);
-  end;
-  endmntent(fstab);
-  except
-    DebugLn('Error with ', MntEntFileList[I]);
-  end;
-end;
 {$ENDIF}
 
 class function TDriveWatcher.GetDrivesList: TDrivesList;
@@ -444,35 +356,65 @@ var
   Drive : PDrive;
   DriveNum: Integer;
   DriveBits: set of 0..25;
+  WinDriveType: UINT;
+  DrivePath: String;
 begin
   Result := TDrivesList.Create;
   { fill list }
-  Integer(DriveBits) := GetLogicalDrives;
+  DWORD(DriveBits) := GetLogicalDrives;
   for DriveNum := 0 to 25 do
   begin
     if not (DriveNum in DriveBits) then Continue;
+    DrivePath := Char(DriveNum + Ord('a')) + ':\';
+    WinDriveType := GetDriveType(PChar(DrivePath));
+    if WinDriveType = DRIVE_NO_ROOT_DIR then Continue;
     New(Drive);
     Result.Add(Drive);
     with Drive^ do
     begin
-     Name := Char(DriveNum + Ord('a')) + ':\';
-     Path := Name;
-     DriveType := TDriveType(GetDriveType(PChar(Name)));
-     if DriveType = dtRemovable then
-       begin
-         if (Path[1] in ['a'..'b']) or (Path[1] in ['A'..'B']) then
-           DriveType := dtFloppy
-         else
-           DriveType := dtFlash;
-       end;
-     case DriveType of
-     dtFloppy:
-       DriveLabel:= Path;
-     dtNetwork:
-       DriveLabel:= mbGetRemoteFileName(Path);
-     else
-       DriveLabel:= mbGetVolumeLabel(Name, True);
-     end;
+      DeviceId := EmptyStr;
+      Path := DrivePath;
+      DisplayName := Path;
+      IsMediaAvailable := True;
+      IsMediaEjectable := False;
+
+      case WinDriveType of
+        DRIVE_REMOVABLE:
+          begin
+            if Path[1] in ['a'..'b'] then
+              DriveType := dtFloppy
+            else
+              DriveType := dtFlash;
+            IsMediaEjectable := True;
+          end;
+        DRIVE_FIXED:
+          DriveType := dtHardDisk;
+        DRIVE_REMOTE:
+          DriveType := dtNetwork;
+        DRIVE_CDROM:
+          begin
+            DriveType := dtOptical;
+            IsMediaEjectable := True;
+          end;
+        DRIVE_RAMDISK:
+          DriveType := dtRamDisk;
+        else
+          DriveType := dtUnknown;
+      end;
+
+      if IsMediaAvailable then
+      begin
+        case DriveType of
+          dtFloppy:
+            DriveLabel := EmptyStr;
+          dtNetwork:
+            DriveLabel := mbGetRemoteFileName(Path);
+          else
+            DriveLabel := mbGetVolumeLabel(Path, True);
+        end;
+      end
+      else
+        DriveLabel := EmptyStr;
     end;
   end;
 end;
@@ -553,7 +495,7 @@ begin
                 // The volume is local if vMServerAdr is 0. Network volumes won't have a BSD node name.
                 if (volumeParms.vMServerAdr = 0) then
                   begin
-                    DriveType:= dtFixed;
+                    DriveType:= dtHardDisk;
                     WriteLn(Format('Volume "%s" (vRefNum %d), BSD node /dev/%s',
                         [volNameAsCString, actualVolume, PChar(volumeParms.vMDeviceID)]));
                   end
@@ -562,9 +504,12 @@ begin
                     DriveType:= dtNetwork;
                     WriteLn(Format('Volume "%s" (vRefNum %d)', [volNameAsCString, actualVolume]));
                   end;
-                Name:= volNameAsCString;
+                DeviceId:= EmptyStr;
+                DisplayName:= volNameAsCString;
                 Path:= '/Volumes/' + volNameAsCString;
                 DriveLabel:= volNameAsCString;
+                IsMediaAvailable:= True;
+                IsMediaEjectable:= False;
               end;
               Result.Add(Drive);
               //---------------------------------------------------------------
@@ -574,11 +519,136 @@ begin
     end; // while
 end;
 {$ELSE}
+  function CheckMountEntry(MountEntry: PMountEntry): Boolean;
+  begin
+    Result:= False;
+    with MountEntry^ do
+    begin
+      // check filesystem
+      if (mnt_fsname = 'proc') then Exit;
+
+      // check mount dir
+      if (mnt_dir = '') or
+         (mnt_dir = '/') or
+         (mnt_dir = 'none') or
+         (mnt_dir = '/proc') or
+         (mnt_dir = '/dev/pts') then Exit;
+
+      // check file system type
+      if (mnt_type = 'ignore') or
+         (mnt_type = 'tmpfs') or
+         (mnt_type = 'proc') or
+         (mnt_type = 'swap') or
+         (mnt_type = 'sysfs') or
+         (mnt_type = 'debugfs') or
+         (mnt_type = 'devtmpfs') or
+         (mnt_type = 'devpts') or
+         (mnt_type = 'fusectl') or
+         (mnt_type = 'securityfs') or
+         (mnt_type = 'binfmt_misc') or
+         (mnt_type = 'fuse.gvfs-fuse-daemon') or
+         (mnt_type = 'fuse.truecrypt') or
+         (mnt_type = 'nfsd') or
+         (mnt_type = 'usbfs') or
+         (mnt_type = 'rpc_pipefs') then Exit;
+    end;
+    Result:= True;
+  end;
+var
+  Drive : PDrive = nil;
+  fstab: PIOFile;
+  pme: PMountEntry;
+  MntEntFileList: array[1..2] of PChar = (_PATH_FSTAB, _PATH_MOUNTED);
+  I, Idx: Integer;
+  AddedDevices: TStringList = nil;
+  AddedMountPoints: TStringList = nil;
+  UDisksDevicesList: TStringArray;
+  HaveUDisksDevices: Boolean;
+  UDisksDeviceObject: UTF8String;
 begin
-  Result := nil;
-  case WatchMethod of
-    dwmUDisks:   Result := GetDrivesList_UDisks;
-    dwmTabFiles: Result := GetDrivesList_TabFiles;
+  Result := TDrivesList.Create;
+  try
+    AddedDevices := TStringList.Create;
+    AddedMountPoints := TStringList.Create;
+
+    if IsUDisksAvailable then
+      HaveUDisksDevices := uUDisks.EnumerateDevices(UDisksDevicesList);
+
+    // Storage devices have to be in fstab or mtab and reported by UDisks.
+    for I:= Low(MntEntFileList) to High(MntEntFileList) do
+    begin
+      fstab:= setmntent(MntEntFileList[I],'r');
+      if not Assigned(fstab) then Continue;
+      pme:= getmntent(fstab);
+      while (pme <> nil) do
+      begin
+        // Check if this device on this mount point hasn't been added yet.
+        Idx := AddedDevices.IndexOf(pme^.mnt_fsname);
+        if ((Idx < 0) or (AddedMountPoints[Idx] <> pme^.mnt_dir)) and
+           CheckMountEntry(pme) then
+        begin
+          // Handle /dev/ through UDisks if available.
+          if IsUDisksAvailable and HaveUDisksDevices and
+             StrBegins(pme^.mnt_fsname, '/dev/') then
+          begin
+            UDisksDeviceObject := UDisksDevicePathPrefix + Copy(pme^.mnt_fsname, 6, MaxInt);
+
+            // Don't add the device if it's not listed by UDisks.
+            if IsStringInArray(UDisksDeviceObject, UDisksDevicesList) and
+               UDisksDeviceToDrive(UDisksDeviceObject, Drive) then
+            begin
+              // Drive object has been created.
+              Drive^.Path := ExcludeTrailingPathDelimiter(StrPas(pme^.mnt_dir));
+              Drive^.DisplayName := ExtractFileName(Drive^.Path);
+            end;
+          end
+          else
+          begin
+            New(Drive);
+            with Drive^ do
+            begin
+              DeviceId := StrPas(pme^.mnt_fsname);
+              Path := ExcludeTrailingPathDelimiter(StrPas(pme^.mnt_dir));
+              DisplayName := ExtractFileName(Path);
+              DriveLabel := '';
+
+              if IsPartOfString(['ISO9660', 'CDROM', 'CDRW', 'DVD'], UpperCase(pme^.mnt_type)) then
+                DriveType := dtOptical else
+              if IsPartOfString(['FLOPPY'], UpperCase(pme^.mnt_type)) then
+                DriveType := dtFloppy else
+              if IsPartOfString(['ZIP', 'USB', 'CAMERA'], UpperCase(pme^.mnt_type)) then
+                DriveType := dtFlash else
+              if IsPartOfString(['NFS', 'SMB', 'NETW', 'CIFS'], UpperCase(pme^.mnt_type)) then
+                DriveType := dtNetwork
+              else
+                DriveType := dtHardDisk;
+            end;
+          end;
+
+          // If drive object was created add it to the list.
+          if Assigned(Drive) then
+          begin
+            Result.Add(Drive);
+            Drive := nil;
+            AddedDevices.Add(pme^.mnt_fsname);
+            AddedMountPoints.Add(pme^.mnt_dir);
+
+            {$IFDEF DEBUG}
+            DebugLn('Adding drive "' + pme^.mnt_fsname + '" with mount point "' + pme^.mnt_dir + '"');
+            {$ENDIF}
+          end;
+        end;
+        pme:= getmntent(fstab);
+      end;
+      endmntent(fstab);
+    end;
+  finally
+    if Assigned(AddedDevices) then
+      AddedDevices.Free;
+    if Assigned(AddedMountPoints) then
+      AddedMountPoints.Free;
+    if Assigned(Drive) then
+      Dispose(Drive);
   end;
 end;
 {$ENDIF}

@@ -1680,11 +1680,11 @@ begin
   case Drive^.DriveType of
   dtFloppy:
     Bitmap := bmMediaFloppy;
-  dtFixed:
+  dtHardDisk:
     Bitmap := bmDriveHardDisk;
   dtFlash:
     Bitmap := bmMediaFlash;
-  dtCDROM:
+  dtOptical:
     Bitmap := bmMediaOptical;
   dtNetwork:
     Bitmap := bmDriveNetwork;
@@ -1706,7 +1706,8 @@ end;
 
 function TPixMapManager.GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 var
-  Drive: TDrive = (Name: ''; Path: ''; DriveLabel: ''; DriveType: dtFixed);
+  Drive: TDrive = (DisplayName: ''; Path: ''; DriveLabel: ''; DeviceId: ''; DriveType: dtHardDisk;
+                   IsMediaAvailable: True; IsMediaEjectable: False);
 begin
   Result := GetBuiltInDriveIcon(@Drive, IconSize, clBackColor);
 end;

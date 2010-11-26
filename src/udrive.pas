@@ -32,22 +32,25 @@ uses
 
 type
   TDriveType = (dtUnknown,
-                dtNoDrive,
-                dtRemovable,
-                dtFixed,
-                dtNetwork,
-                dtCDROM,
-                dtRAM,
-                dtFloppy,
-                dtFlash);
+                dtFlash,    // Flash drive
+                dtFloppy,   // 3.5'', ZIP drive, etc.
+                dtHardDisk, // Hard disk drive
+                dtNetwork,  // Network share
+                dtOptical,  // CD, DVD, Blu-Ray, etc.
+                dtRamDisk); // Ram-disk
 
   { TDrive }
 
+  // On Linux we also put here mount points other than drives.
+
   TDrive = record
-    Name,
-    Path,
-    DriveLabel: String;
+    DisplayName,            //<en Name displayed to the user.
+    Path,                   //<en Where this drive is mounted.
+    DriveLabel,             //<en Drive label if filesystem on the drive supports it.
+    DeviceId: String;       //<en Device ID that can be used for mounting, ejecting, etc.
     DriveType : TDriveType;
+    IsMediaAvailable: Boolean; //<en Is media available in a drive with removable media.
+    IsMediaEjectable: Boolean; //<en Can eject media by a command.
   end;
   PDrive = ^TDrive;
 

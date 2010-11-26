@@ -2875,7 +2875,7 @@ end;
 
 function CompareDrives(Item1, Item2: Pointer): Integer;
 begin
-  Result := CompareText(PDrive(Item1)^.Name, PDrive(Item2)^.Name);
+  Result := CompareText(PDrive(Item1)^.DisplayName, PDrive(Item2)^.DisplayName);
 end;
 
 procedure TfrmMain.UpdateDiskCount;
@@ -2889,7 +2889,7 @@ begin
   { Delete drives that in drives black list }
   for I:= DrivesList.Count - 1 downto 0 do
     begin
-      if MatchesMaskList(DrivesList[I]^.Name, gDriveBlackList) then
+      if MatchesMaskList(DrivesList[I]^.Path, gDriveBlackList) then
         DrivesList.Remove(I);
     end;
 
@@ -2931,21 +2931,19 @@ begin
   for I := 0 to Count do
   begin
     Drive := DrivesList.Items[I];
-    with Drive^ do
-    begin
-      // get drive icon
-      BitmapTmp := PixMapManager.GetDriveIcon(Drive, dskPanel.GlyphSize, clBtnFace);
 
-      dskPanel.AddButtonX(Name, Path, '', '', DriveLabel, '', BitmapTmp);
+    // get drive icon
+    BitmapTmp := PixMapManager.GetDriveIcon(Drive, dskPanel.GlyphSize, clBtnFace);
 
-      if Assigned(BitmapTmp) then
-        FreeAndNil(BitmapTmp);
-      {Set Buttons Transparent. Is need? }
-      dskPanel.Buttons[I].Glyph.Transparent := True;
-      dskPanel.Buttons[I].Transparent := True;
-      {/Set Buttons Transparent}
-      dskPanel.Buttons[I].Layout := blGlyphLeft;
-    end; // with
+    dskPanel.AddButtonX(Drive^.DisplayName, Drive^.Path, '', '', Drive^.DriveLabel, '', BitmapTmp);
+
+    if Assigned(BitmapTmp) then
+      FreeAndNil(BitmapTmp);
+    {Set Buttons Transparent. Is need? }
+    dskPanel.Buttons[I].Glyph.Transparent := True;
+    dskPanel.Buttons[I].Transparent := True;
+    {/Set Buttons Transparent}
+    dskPanel.Buttons[I].Layout := blGlyphLeft;
   end; // for
 
   if not gDriveMenuButton then  {Add special buttons}
@@ -3962,7 +3960,7 @@ begin
 
     if IsInPath(UTF8UpperCase(Drive^.Path), UTF8UpperCase(Path), True) then
     begin
-      DriveButton.Caption := Drive^.Name;
+      DriveButton.Caption := Drive^.DisplayName;
       DriveButton.Tag := i;
 
       BitmapTmp := PixMapManager.GetDriveIcon(Drive,
