@@ -192,10 +192,10 @@ begin
       begin
         RowNr := LowestRow + I;
 
-        if Length(Name) > 0 then
+        if Length(DisplayName) > 0 then
         begin
-          Cells[1, RowNr] := Name;
-          FShortCuts[I] := UTF8Copy(Name, 1, 1);
+          Cells[1, RowNr] := DisplayName;
+          FShortCuts[I] := UTF8Copy(DisplayName, 1, 1);
         end
         else
         begin
@@ -207,7 +207,7 @@ begin
 
         // Display free space only for some drives
         // (removable, network, etc. may be slow).
-        if (DriveType in [dtFixed, dtCDROM, dtRAM]) and
+        if (DriveType in [dtHardDisk, dtOptical, dtRamDisk]) and
            IsAvailable(Path, False) and
            GetDiskFreeSpace(Path, FreeSize, TotalSize) then
         begin

@@ -37,6 +37,9 @@ type
 
   TUDisksDeviceNotify = procedure(Reason: TUDisksMethod; const ObjectPath: UTF8String) of object;
 
+const
+  UDisksDevicePathPrefix  = '/org/freedesktop/UDisks/devices/';
+
 function GetObjectProperty(const ObjectPath: UTF8String;
                            const PropertyName: UTF8String;
                            out Value: UTF8String): Boolean;
