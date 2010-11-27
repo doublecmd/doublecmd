@@ -484,14 +484,15 @@ object frmFindDlg: TfrmFindDlg
           TabOrder = 14
         end
         object cmbFileSizeUnit: TComboBox
-          AnchorSideTop.Control = seFileSizeTo
-          AnchorSideTop.Side = asrCenter
+          AnchorSideTop.Control = cbFileSizeTo
+          AnchorSideTop.Side = asrBottom
           Left = 284
-          Height = 25
-          Top = 234
+          Height = 21
+          Top = 213
           Width = 96
+          BorderSpacing.Top = 6
           Enabled = False
-          ItemHeight = 17
+          ItemHeight = 13
           Style = csDropDownList
           TabOrder = 15
         end
