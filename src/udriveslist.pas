@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Control that shows drives list and allows selecting a drive.
 
-   Copyright (C) 2009  Przemyslaw Nagay (cobines@gmail.com)
+   Copyright (C) 2009-2010  Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -73,6 +73,8 @@ type
     function CheckShortcut(AShortcut: TUTF8Char): Boolean;
 
     procedure Close;
+    procedure UpdateGridCells;
+    procedure UpdateColumnsWidths;
 
     property LowestRow: Integer read GetLowestRow;
     property HighestRow: Integer read GetHighestRow;
@@ -171,9 +173,6 @@ begin
 end;
 
 procedure TDrivesListPopup.UpdateDrivesList(ADrivesList: TDrivesList);
-var
-  I, RowNr : Integer;
-  FreeSize, TotalSize: Int64;
 begin
   FDrivesList := ADrivesList;
 
@@ -181,47 +180,6 @@ begin
   RowCount := LowestRow + ADrivesList.Count;
   Clean;
   SetLength(FShortCuts, ADrivesList.Count);
-
-  for I := 0 to ADrivesList.Count - 1 do
-    begin
-      with ADrivesList[I]^ do
-      begin
-        RowNr := LowestRow + I;
-
-        if Length(DisplayName) > 0 then
-        begin
-          Cells[1, RowNr] := DisplayName;
-          FShortCuts[I] := UTF8Copy(DisplayName, 1, 1);
-        end
-        else
-        begin
-          Cells[1, RowNr] := Path;
-          FShortCuts[I] := '';
-        end;
-
-        Cells[2, RowNr] := DriveLabel;
-
-        // Display free space only for some drives
-        // (removable, network, etc. may be slow).
-        if (DriveType in [dtHardDisk, dtOptical, dtRamDisk]) and
-           IsAvailable(Path, False) and
-           GetDiskFreeSpace(Path, FreeSize, TotalSize) then
-        begin
-          Cells[3, RowNr] :=
-            Format('%s/%s', [cnvFormatFileSize(FreeSize, True),
-                             cnvFormatFileSize(TotalSize, True)])
-        end;
-      end;  // with
-    end; // for
-
-  AutoSizeColumns;
-
-  // Add some space to the icon column.
-  ColWidths[0] := DriveIconSize + 8;
-
-  // Add some space to other columns.
-  for I := 1 to ColCount - 1 do
-    ColWidths[I] := ColWidths[I] + 4;
 end;
 
 procedure TDrivesListPopup.Show(AtPoint: TPoint; APanel: TFilePanelSelect;
@@ -229,6 +187,9 @@ procedure TDrivesListPopup.Show(AtPoint: TPoint; APanel: TFilePanelSelect;
 var
   w, h: Integer;
 begin
+  UpdateGridCells;
+  UpdateColumnsWidths;
+
   FPanel := APanel;
 
   Left := AtPoint.X;
@@ -533,6 +494,58 @@ begin
 
   if Assigned(FOnClose) then
     FOnClose(Self);
+end;
+
+procedure TDrivesListPopup.UpdateGridCells;
+var
+  I, RowNr : Integer;
+  FreeSize, TotalSize: Int64;
+begin
+  for I := 0 to FDrivesList.Count - 1 do
+    begin
+      with FDrivesList[I]^ do
+      begin
+        RowNr := LowestRow + I;
+
+        if Length(DisplayName) > 0 then
+        begin
+          Cells[1, RowNr] := DisplayName;
+          FShortCuts[I] := UTF8Copy(DisplayName, 1, 1);
+        end
+        else
+        begin
+          Cells[1, RowNr] := Path;
+          FShortCuts[I] := '';
+        end;
+
+        Cells[2, RowNr] := DriveLabel;
+
+        // Display free space only for some drives
+        // (removable, network, etc. may be slow).
+        if (DriveType in [dtHardDisk, dtOptical, dtRamDisk]) and
+           IsAvailable(Path, False) and
+           GetDiskFreeSpace(Path, FreeSize, TotalSize) then
+        begin
+          Cells[3, LowestRow + I] :=
+            Format('%s/%s', [cnvFormatFileSize(FreeSize, True),
+                             cnvFormatFileSize(TotalSize, True)])
+        end;
+      end;  // with
+    end; // for
+end;
+
+procedure TDrivesListPopup.UpdateColumnsWidths;
+var
+  I : Integer;
+begin
+  AutoSizeColumns;
+
+  // Add some space to the icon column.
+  ColWidths[0] := DriveIconSize + 8;
+
+  // Add some space to other columns.
+  for I := 1 to ColCount - 1 do
+    ColWidths[I] := ColWidths[I] + 4;
 end;
 
 end.
