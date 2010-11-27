@@ -65,6 +65,7 @@ type
     procedure SetCommand(Index: Integer; const AValue: String);
     procedure SetEnvVar(const AValue: String);
     procedure SetFlat(const AValue: Boolean);
+    procedure SetGlyphSize(const AValue: Integer);
     procedure ToolButtonClick(Sender: TObject);
     procedure UpdateButtonsTags;
   protected
@@ -110,7 +111,7 @@ type
     property OnLoadButtonGlyph : TOnLoadButtonGlyph read FOnLoadButtonGlyph write FOnLoadButtonGlyph;
     property RadioToolBar: Boolean read FRadioToolBar write FRadioToolBar default False;
     property Flat: Boolean read FFlat write SetFlat default False;
-    property GlyphSize: Integer read FGlyphSize write FGlyphSize;
+    property GlyphSize: Integer read FGlyphSize write SetGlyphSize;
     property ShowDividerAsButton: Boolean read FShowDividerAsButton write FShowDividerAsButton default False;
 
     property ChangePath: String read GetChangePath write SetChangePath;
@@ -251,6 +252,23 @@ begin
   FFlat:= AValue;
   for I:= 0 to ButtonList.Count - 1 do
     TSpeedButton(ButtonList.Items[I]).Flat:= FFlat;
+end;
+
+procedure TKASToolBar.SetGlyphSize(const AValue: Integer);
+var
+  I: Integer;
+begin
+  if FGlyphSize = AValue then Exit;
+  FGlyphSize:= AValue;
+
+  BeginUpdate;
+
+  for I:= 0 to ButtonList.Count - 1 do
+  begin
+    SetButtonX(I, ButtonX, GetButtonX(I, ButtonX));
+  end;
+
+  EndUpdate;
 end;
 
 procedure TKASToolBar.ToolButtonClick(Sender: TObject);
@@ -526,4 +544,4 @@ begin
   ThemeServices.DrawElement(Canvas.GetUpdatedHandle([csBrushValid, csPenValid]), Details, DividerRect);
 end;
 
-end.
+end.
