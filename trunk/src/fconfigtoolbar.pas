@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Menus,
-  StdCtrls, Buttons, KASToolBar, ExtCtrls, KASBarFiles;
+  StdCtrls, Buttons, KASToolBar, ExtCtrls, ComCtrls, KASBarFiles;
 
 type
 
@@ -36,7 +36,11 @@ type
 
   TfrmConfigToolBar = class(TForm)
     btnInsertButton: TButton;
-    edtSmallIconSize: TEdit;
+    lblIconSize: TLabel;
+    lblIconSizeValue: TLabel;
+    lblBarSizeValue: TLabel;
+    trbBarSize: TTrackBar;
+    trbIconSize: TTrackBar;
     lblButtonBar: TLabel;
     lblCommand: TLabel;
     btnCancel: TButton;
@@ -46,7 +50,6 @@ type
     btnAddButton: TButton;
     ktbBar: TKASToolBar;
     btnOpenBarFile: TButton;
-    edtBarSize: TEdit;
     cbCommand: TComboBox;
     btnDeleteButton: TButton;
     btnOpenFile: TButton;
@@ -56,9 +59,8 @@ type
     edtParams: TEdit;
     edtStartPath: TEdit;
     edtToolTip: TEdit;
-    cbFlatIcons: TCheckBox;
+    cbFlatButtons: TCheckBox;
     btnHelp: TButton;
-    cbSmallIcons: TCheckBox;
     lblLabel: TLabel;
     btnOK: TButton;
     miAddSubMenu: TMenuItem;
@@ -70,7 +72,7 @@ type
     sbIconExample: TSpeedButton;
     pnlToolBarFileName: TPanel;
     tbScrollBox: TScrollBox;
-    lblSize: TLabel;
+    lblBarSize: TLabel;
     lblStartPath: TLabel;
     lblToolTip: TLabel;
     procedure btnChangeButtonClick(Sender: TObject);
@@ -78,8 +80,7 @@ type
     procedure btnInsertButtonClick(Sender: TObject);
     procedure btnOpenBarFileClick(Sender: TObject);
     procedure cbCommandSelect(Sender: TObject);
-    procedure cbFlatIconsChange(Sender: TObject);
-    procedure cbSmallIconsChange(Sender: TObject);
+    procedure cbFlatButtonsChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnAddButtonClick(Sender: TObject);
@@ -93,6 +94,8 @@ type
     procedure miAddSubMenuClick(Sender: TObject);
     procedure miInsertSeparatorClick(Sender: TObject);
     procedure sbIconExampleClick(Sender: TObject);
+    procedure trbBarSizeChange(Sender: TObject);
+    procedure trbIconSizeChange(Sender: TObject);
 
   private
     FBarFileName: UTF8String;
@@ -153,12 +156,10 @@ var
   IniBarFile: TIniFileEx;
 begin
   FillActionLists;
-  edtBarSize.Text := IntToStr(gToolBarButtonSize);
-  edtSmallIconSize.Text:= IntToStr(gToolBarIconSize);
-  edtSmallIconSize.Enabled:= gToolBarSmallIcons;
-  cbSmallIcons.Checked:= gToolBarSmallIcons;
-  cbFlatIcons.Checked:= gToolBarFlat;
-  sbIconExample.Flat:= gToolBarFlat;
+  trbBarSize.Position := gToolBarButtonSize div 2;
+  trbIconSize.Position:= gToolBarIconSize div 2;
+  cbFlatButtons.Checked:= gToolBarFlat;
+//  sbIconExample.Flat:= gToolBarFlat;
   ktbBar.Flat:= gToolBarFlat;
   ktbBar.ChangePath:= gpExePath;
   ktbBar.EnvVar:= '%commander_path%';
@@ -191,15 +192,9 @@ begin
   Height:= edtToolTip.Top + edtToolTip.Height + 18;
 end;
 
-procedure TfrmConfigToolBar.cbFlatIconsChange(Sender: TObject);
+procedure TfrmConfigToolBar.cbFlatButtonsChange(Sender: TObject);
 begin
-  ktbBar.Flat := cbFlatIcons.Checked;
-  sbIconExample.Flat := cbFlatIcons.Checked;
-end;
-
-procedure TfrmConfigToolBar.cbSmallIconsChange(Sender: TObject);
-begin
-  edtSmallIconSize.Enabled:= cbSmallIcons.Checked;
+  ktbBar.Flat := cbFlatButtons.Checked;
 end;
 
 procedure TfrmConfigToolBar.btnOpenBarFileClick(Sender: TObject);
@@ -270,11 +265,11 @@ var
 begin
   Save;
 
-  gToolBarFlat:= cbFlatIcons.Checked;
-  gToolBarButtonSize:= StrToIntDef(edtBarSize.Text, 16);
-  gToolBarSmallIcons:= cbSmallIcons.Checked;
-  if gToolBarSmallIcons then
-    gToolBarIconSize:= StrToIntDef(edtSmallIconSize.Text, 16);
+  gToolBarFlat:= cbFlatButtons.Checked;
+  gToolBarButtonSize:= trbBarSize.Position*2;
+  gToolBarIconSize:= trbIconSize.Position*2;
+  { TODO : Maybe we should get rid of gToolBarSmallIcons, it's useless now. }
+  gToolBarSmallIcons:= (gToolBarButtonSize<>gToolBarIconSize);
 
   IniBarFile:= TIniFileEx.Create(FBarFileName);
   try
@@ -449,6 +444,17 @@ end;
 procedure TfrmConfigToolBar.sbIconExampleClick(Sender: TObject);
 begin
   btnOpenIconFileClick(Sender);
+end;
+
+procedure TfrmConfigToolBar.trbBarSizeChange(Sender: TObject);
+begin
+  lblBarSizeValue.Caption:=IntToStr(trbBarSize.Position*2);
+  trbIconSize.Position:= trbBarSize.Position - (trbBarSize.Position div 5);
+end;
+
+procedure TfrmConfigToolBar.trbIconSizeChange(Sender: TObject);
+begin
+  lblIconSizeValue.Caption:=IntToStr(trbIconSize.Position*2);
 end;
 
 function TfrmConfigToolBar.GetSelectedButton: Integer;
