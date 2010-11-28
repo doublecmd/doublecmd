@@ -154,7 +154,7 @@ begin
   end
   else
   begin
-    Writeln('Detecting devices through /etc/mtab.');
+    DebugLn('Detecting devices through /etc/mtab.');
     EtcDirWatcher:= TFileSystemWatcher.Create(nil, '/etc', [wfFileNameChange]);
     EtcDirWatcher.OnWatcherNotifyEvent:= @FakeClass.OnWatcherNotifyEvent;
     EtcDirWatcher.Active:= True;
@@ -235,6 +235,22 @@ begin
       Exit(True);
   end;
   Result := False;
+end;
+
+function UDisksGetDevices(out Devices, UUIDs: TStringArray): Boolean;
+var
+  i: Integer;
+begin
+  Result := uUDisks.EnumerateDevices(Devices);
+  if Result then
+  begin
+    SetLength(UUIDs, Length(Devices));
+    for i := 0 to Length(Devices) - 1 do
+    begin
+      if not GetObjectProperty(Devices[i], 'IdUuid', UUIDs[i]) then
+        Exit(False);
+    end;
+  end;
 end;
 
 function UDisksDeviceToDrive(const ObjectPath: UTF8String; out Drive: PDrive): Boolean;
@@ -327,26 +343,6 @@ begin
       IsMediaEjectable := DeviceIsDrive and DriveIsMediaEjectable;
     end;
   end;
-end;
-
-function GetDrivesList_UDisks: TDrivesList;
-var
-  DevicesList: TStringArray;
-  i: Integer;
-  Drive: PDrive;
-begin
-  if uUDisks.EnumerateDevices(DevicesList) then
-  begin
-    Result := TDrivesList.Create;
-
-    for i := Low(DevicesList) to High(DevicesList) do
-    begin
-      if UDisksDeviceToDrive(DevicesList[i], Drive) then
-        Result.Add(Drive);
-    end;
-  end
-  else
-    Result := nil;
 end;
 {$ENDIF}
 
@@ -554,17 +550,38 @@ end;
     end;
     Result:= True;
   end;
+  function UDisksGetDeviceObjectByUUID(const UUID: String; const Devices, UUIDs: TStringArray): String;
+  var
+    i: Integer;
+  begin
+    for i := Low(UUIDs) to High(UUIDs) do
+      if UUIDs[i] = UUID then
+        Exit(Devices[i]);
+    Result := EmptyStr;
+  end;
+  // Checks if device on some mount point hasn't been added yet.
+  function CanAddDevice(const Devices, MountPoints: TStringList;
+                        const Device, MountPoint: String): Boolean;
+  var
+    Idx: Integer;
+  begin
+    Idx := Devices.IndexOf(Device);
+    Result := (Idx < 0) or (MountPoints[Idx] <> MountPoint);
+  end;
 var
   Drive : PDrive = nil;
   fstab: PIOFile;
   pme: PMountEntry;
   MntEntFileList: array[1..2] of PChar = (_PATH_FSTAB, _PATH_MOUNTED);
-  I, Idx: Integer;
+  I: Integer;
   AddedDevices: TStringList = nil;
   AddedMountPoints: TStringList = nil;
   UDisksDevicesList: TStringArray;
-  HaveUDisksDevices: Boolean;
+  UDisksUUIDsList: TStringArray;
+  HaveUDisksDevices: Boolean = False;
   UDisksDeviceObject: UTF8String;
+  DeviceFile: String;
+  HandledByUDisks: Boolean = False;
 begin
   Result := TDrivesList.Create;
   try
@@ -572,7 +589,7 @@ begin
     AddedMountPoints := TStringList.Create;
 
     if IsUDisksAvailable then
-      HaveUDisksDevices := uUDisks.EnumerateDevices(UDisksDevicesList);
+      HaveUDisksDevices := UDisksGetDevices(UDisksDevicesList, UDisksUUIDsList);
 
     // Storage devices have to be in fstab or mtab and reported by UDisks.
     for I:= Low(MntEntFileList) to High(MntEntFileList) do
@@ -582,32 +599,49 @@ begin
       pme:= getmntent(fstab);
       while (pme <> nil) do
       begin
-        // Check if this device on this mount point hasn't been added yet.
-        Idx := AddedDevices.IndexOf(pme^.mnt_fsname);
-        if ((Idx < 0) or (AddedMountPoints[Idx] <> pme^.mnt_dir)) and
-           CheckMountEntry(pme) then
+        if CheckMountEntry(pme) then
         begin
-          // Handle /dev/ through UDisks if available.
-          if IsUDisksAvailable and HaveUDisksDevices and
-             StrBegins(pme^.mnt_fsname, '/dev/') then
+          DeviceFile := StrPas(pme^.mnt_fsname);
+
+          if HaveUDisksDevices then
           begin
-            UDisksDeviceObject := UDisksDevicePathPrefix + Copy(pme^.mnt_fsname, 6, MaxInt);
+            // Handle "/dev/" and "UUID=" through UDisks if available.
+            if StrBegins(UpperCase(DeviceFile), 'UUID=') then
+            begin
+              UDisksDeviceObject := UDisksGetDeviceObjectByUUID(
+                  Copy(DeviceFile, 6, MaxInt), UDisksDevicesList, UDisksUUIDsList);
+              if UDisksDeviceObject <> EmptyStr then
+                DeviceFile := '/dev/' + ExtractFileName(UDisksDeviceObject);
+              HandledByUDisks := True;
+            end
+            else if StrBegins(DeviceFile, '/dev/') then
+            begin
+              UDisksDeviceObject := UDisksDevicePathPrefix + Copy(pme^.mnt_fsname, 6, MaxInt);
+              HandledByUDisks := True;
+            end
+            else
+              HandledByUDisks := False;
 
             // Don't add the device if it's not listed by UDisks.
-            if IsStringInArray(UDisksDeviceObject, UDisksDevicesList) and
+            if HandledByUDisks and
+               IsStringInArray(UDisksDeviceObject, UDisksDevicesList) and
+               CanAddDevice(AddedDevices, AddedMountPoints, DeviceFile, pme^.mnt_dir) and
                UDisksDeviceToDrive(UDisksDeviceObject, Drive) then
             begin
               // Drive object has been created.
               Drive^.Path := ExcludeTrailingPathDelimiter(StrPas(pme^.mnt_dir));
               Drive^.DisplayName := ExtractFileName(Drive^.Path);
             end;
-          end
-          else
+          end;
+
+          // Add by entry in fstab/mtab.
+          if (not HandledByUDisks) and
+             CanAddDevice(AddedDevices, AddedMountPoints, DeviceFile, pme^.mnt_dir) then
           begin
             New(Drive);
             with Drive^ do
             begin
-              DeviceId := StrPas(pme^.mnt_fsname);
+              DeviceId := DeviceFile;
               Path := ExcludeTrailingPathDelimiter(StrPas(pme^.mnt_dir));
               DisplayName := ExtractFileName(Path);
               DriveLabel := '';
@@ -625,12 +659,12 @@ begin
             end;
           end;
 
-          // If drive object was created add it to the list.
+          // If drive object has been created add it to the list.
           if Assigned(Drive) then
           begin
             Result.Add(Drive);
             Drive := nil;
-            AddedDevices.Add(pme^.mnt_fsname);
+            AddedDevices.Add(DeviceFile);
             AddedMountPoints.Add(pme^.mnt_dir);
 
             {$IFDEF DEBUG}
