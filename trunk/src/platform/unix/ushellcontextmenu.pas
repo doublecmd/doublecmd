@@ -73,6 +73,7 @@ var
 begin
   Result:= False;
   try
+    Items:= nil;
     userDirs:= TStringList.Create;
     userDirs.LoadFromFile(GetHomeDir + '.config/user-dirs.dirs');
     templateDir:= userDirs.Values['XDG_TEMPLATES_DIR'];
@@ -94,8 +95,8 @@ begin
       FindCloseEx(searchRec);
     end;
   finally
-    if Items.Count = 0 then
-      FreeThenNil(Items);
+    if Assigned(Items) and (Items.Count = 0) then
+      FreeAndNil(Items);
     FreeThenNil(userDirs);
   end;
 end;
@@ -111,6 +112,7 @@ var
 begin
   Result:= False;
   try
+    Items:= nil;
     templateDir[0]:= '/usr/share/templates';
     templateDir[1]:= GetHomeDir + '.kde/share/templates';
     for I:= Low(templateDir) to High(templateDir) do
@@ -139,8 +141,8 @@ begin
       FindCloseEx(searchRec);
     end;
   finally
-    if Items.Count = 0 then
-      FreeThenNil(Items);
+    if Assigned(Items) and (Items.Count = 0) then
+      FreeAndNil(Items);
   end;
 end;
 
