@@ -73,8 +73,8 @@ type
     function CheckShortcut(AShortcut: TUTF8Char): Boolean;
 
     procedure Close;
-    procedure UpdateGridCells;
-    procedure UpdateColumnsWidths;
+    procedure UpdateCells;
+    procedure UpdateSize;
 
     property LowestRow: Integer read GetLowestRow;
     property HighestRow: Integer read GetHighestRow;
@@ -180,30 +180,26 @@ begin
   RowCount := LowestRow + ADrivesList.Count;
   Clean;
   SetLength(FShortCuts, ADrivesList.Count);
+
+  // If currently visible update the grid.
+  if IsVisible then
+  begin
+    UpdateCells;
+    UpdateSize;
+  end;
 end;
 
 procedure TDrivesListPopup.Show(AtPoint: TPoint; APanel: TFilePanelSelect;
                                 ASelectedDriveIndex: Integer = -1);
-var
-  w, h: Integer;
 begin
-  UpdateGridCells;
-  UpdateColumnsWidths;
+  UpdateCells;
+  UpdateSize;
 
   FPanel := APanel;
 
   Left := AtPoint.X;
   Top := AtPoint.Y;
   Visible := True;
-
-  w := GridWidth;
-  h := GridHeight;
-
-  if DummyRows > 0 then
-    Inc(h, RowHeights[FixedRows] + GridLineWidth);
-
-  Width := w;
-  Height := h;
 
   ASelectedDriveIndex := LowestRow + ASelectedDriveIndex;
   if (ASelectedDriveIndex >= LowestRow) and (ASelectedDriveIndex <= HighestRow) then
@@ -496,7 +492,7 @@ begin
     FOnClose(Self);
 end;
 
-procedure TDrivesListPopup.UpdateGridCells;
+procedure TDrivesListPopup.UpdateCells;
 var
   I, RowNr : Integer;
   FreeSize, TotalSize: Int64;
@@ -534,10 +530,14 @@ begin
     end; // for
 end;
 
-procedure TDrivesListPopup.UpdateColumnsWidths;
+procedure TDrivesListPopup.UpdateSize;
 var
   I : Integer;
+  w, h: Integer;
 begin
+  // Needed for autosizing to work before the control is visible.
+  HandleNeeded;
+
   AutoSizeColumns;
 
   // Add some space to the icon column.
@@ -546,6 +546,15 @@ begin
   // Add some space to other columns.
   for I := 1 to ColCount - 1 do
     ColWidths[I] := ColWidths[I] + 4;
+
+  w := GridWidth;
+  h := GridHeight;
+
+  if DummyRows > 0 then
+    Inc(h, RowHeights[FixedRows] + GridLineWidth);
+
+  Width := w;
+  Height := h;
 end;
 
 end.
