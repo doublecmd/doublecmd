@@ -64,6 +64,8 @@ type
 
     procedure SelectDrive(ADriveIndex: Integer);
     procedure DoDriveSelected(ADriveIndex: Integer);
+    procedure ShowContextMenu(ADriveIndex: Integer; X, Y: Integer);
+    procedure ContextMenuClosed(Sender: TObject);
 
     {en
        Checks if the given shortcut is assigned to a drive.
@@ -119,7 +121,7 @@ implementation
 
 uses
   StdCtrls, Graphics, LCLProc,
-  uPixMapManager, uOSUtils, uDCUtils;
+  uPixMapManager, uOSUtils, uDCUtils, uOSForms;
 
 const
   DriveIconSize = 16;
@@ -323,7 +325,14 @@ begin
     if (ACol < 0) or (ARow < 0) then
       Close
     else
-      SelectDrive(GetDriveIndexByRow(ARow));
+    begin
+      case Button of
+        mbLeft:
+          SelectDrive(GetDriveIndexByRow(ARow));
+        mbRight:
+          ShowContextMenu(GetDriveIndexByRow(ARow), X, Y);
+      end;
+    end;
   end;
 end;
 
@@ -397,6 +406,8 @@ end;
 
 procedure TDrivesListPopup.KeyDownEvent(Sender: TObject; var Key: Word;
   Shift: TShiftState);
+var
+  Rect: TRect;
 begin
   case Key of
     VK_HOME:
@@ -437,6 +448,12 @@ begin
         Close;
         Key := 0;
       end;
+    VK_APPS:
+      begin
+        Rect := CellRect(2, Row);
+        ShowContextMenu(GetDriveIndexByRow(Row), Rect.Left, Rect.Top);
+        Key := 0;
+      end;
   end;
 end;
 
@@ -466,6 +483,27 @@ procedure TDrivesListPopup.DoDriveSelected(ADriveIndex: Integer);
 begin
   if Assigned(FOnDriveSelected) then
     FOnDriveSelected(Self, ADriveIndex, FPanel);
+end;
+
+procedure TDrivesListPopup.ShowContextMenu(ADriveIndex: Integer; X, Y: Integer);
+var
+  pt: TPoint;
+begin
+  if (ADriveIndex >= 0) and (ADriveIndex < FDrivesList.Count) then
+  begin
+    pt.X := X;
+    pt.Y := Y;
+    pt := ClientToScreen(pt);
+
+    // Context menu usually captures mouse so we have to disable ours.
+    MouseCapture := False;
+    ShowDriveContextMenu(Self, FDrivesList[ADriveIndex], pt.X, pt.Y, @ContextMenuClosed);
+  end;
+end;
+
+procedure TDrivesListPopup.ContextMenuClosed(Sender: TObject);
+begin
+  MouseCapture := True;
 end;
 
 function TDrivesListPopup.CheckShortcut(AShortcut: TUTF8Char): Boolean;
@@ -558,4 +596,4 @@ begin
 end;
 
 end.
-
+

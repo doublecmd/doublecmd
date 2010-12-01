@@ -1305,7 +1305,7 @@ begin
           pt.X := X;
           pt.Y := Y;
           pt := ClientToScreen(pt);
-          ShowDriveContextMenu(Parent, DrivesList[Tag], pt.X, pt.Y);
+          ShowDriveContextMenu(Parent, DrivesList[Tag], pt.X, pt.Y, nil);
         end;
     end;
 end;
