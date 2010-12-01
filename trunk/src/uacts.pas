@@ -683,7 +683,7 @@ begin
     try
       if aFiles.Count > 0 then
       try
-        ShowContextMenu(frmMain, aFiles, X, Y, Background);
+        ShowContextMenu(frmMain, aFiles, X, Y, Background, nil);
       except
         on e: EContextMenuException do
           ShowException(e);

@@ -51,6 +51,7 @@ type
 
   TShellContextMenu = class
   private
+    FOnClose: TNotifyEvent;
     FOwner: TWinControl;
     FFiles: TFiles;
     FBackground: Boolean;
@@ -61,6 +62,7 @@ type
     constructor Create(Owner: TWinControl; var Files : TFiles; Background: Boolean); reintroduce;
     destructor Destroy; override;
     procedure PopUp(X, Y: Integer);
+    property OnClose: TNotifyEvent read FOnClose write FOnClose;
     property Menu: IContextMenu2 read FShellMenu2 write FShellMenu2;
   end;
 
@@ -463,6 +465,9 @@ begin
     on e: EOleError do
       raise EContextMenuException.Create(e.Message);
   end;
+
+  if Assigned(FOnClose) then
+    FOnClose(Self);
 end;
 
 end.
