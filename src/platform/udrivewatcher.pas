@@ -535,6 +535,9 @@ end;
 
       // check file system type
       if (mnt_type = 'ignore') or
+         (mnt_type = 'none') or
+         (mnt_type = 'cgroup') or
+         (mnt_type = 'cpuset') or
          (mnt_type = 'tmpfs') or
          (mnt_type = 'proc') or
          (mnt_type = 'swap') or
@@ -562,28 +565,62 @@ end;
         Exit(Devices[i]);
     Result := EmptyStr;
   end;
+
+var
+  AddedDevices: TStringList = nil;
+  AddedMountPoints: TStringList = nil;
+  HaveUDisksDevices: Boolean = False;
+
+  function CheckDevice(const Device: String): Boolean;
+  begin
+    // If UDisks is available name=value pair should have been handled,
+    // so we are free to check the device name. Otherwise don't check it
+    // if it is a known name=value pair.
+    Result := HaveUDisksDevices or not StrBegins(Device, 'UUID=');
+  end;
+
   // Checks if device on some mount point hasn't been added yet.
-  function CanAddDevice(const Devices, MountPoints: TStringList;
-                        const Device, MountPoint: String): Boolean;
+  function CanAddDevice(const Device, MountPoint: String): Boolean;
   var
     Idx: Integer;
   begin
-    Idx := Devices.IndexOf(Device);
-    Result := (Idx < 0) or (MountPoints[Idx] <> MountPoint);
+    Idx := AddedMountPoints.IndexOf(MountPoint);
+    Result := (Idx < 0) or
+              (CheckDevice(Device) and
+               CheckDevice(AddedDevices[Idx]) and
+               (AddedDevices[Idx] <> Device));
   end;
+
+  function GetDrive(const DrivesList: TDrivesList;
+                    const Device, MountPoint: String): PDrive;
+  var
+    i: Integer;
+  begin
+    for i := 0 to DrivesList.Count - 1 do
+    begin
+      // If UDisks not available only check mount points.
+      if (DrivesList[i]^.Path = MountPoint) and
+         (not CheckDevice(Device) or
+          not CheckDevice(DrivesList[i]^.DeviceId) or
+          (DrivesList[i]^.DeviceId = Device)) then
+        Exit(DrivesList[i]);
+    end;
+    Result := nil;
+  end;
+
+const
+  MntEntFileList: array[1..2] of PChar = (_PATH_FSTAB, _PATH_MOUNTED);
 var
   Drive : PDrive = nil;
+  ExistingDrive : PDrive;
   fstab: PIOFile;
   pme: PMountEntry;
-  MntEntFileList: array[1..2] of PChar = (_PATH_FSTAB, _PATH_MOUNTED);
   I: Integer;
-  AddedDevices: TStringList = nil;
-  AddedMountPoints: TStringList = nil;
   UDisksDevicesList: TStringArray;
   UDisksUUIDsList: TStringArray;
-  HaveUDisksDevices: Boolean = False;
   UDisksDeviceObject: UTF8String;
   DeviceFile: String;
+  MountPoint: String;
   HandledByUDisks: Boolean = False;
 begin
   Result := TDrivesList.Create;
@@ -605,11 +642,12 @@ begin
         if CheckMountEntry(pme) then
         begin
           DeviceFile := StrPas(pme^.mnt_fsname);
+          MountPoint := ExcludeTrailingPathDelimiter(StrPas(pme^.mnt_dir));
 
           if HaveUDisksDevices then
           begin
             // Handle "/dev/" and "UUID=" through UDisks if available.
-            if StrBegins(UpperCase(DeviceFile), 'UUID=') then
+            if StrBegins(DeviceFile, 'UUID=') then
             begin
               UDisksDeviceObject := UDisksGetDeviceObjectByUUID(
                   Copy(DeviceFile, 6, MaxInt), UDisksDevicesList, UDisksUUIDsList);
@@ -619,7 +657,7 @@ begin
             end
             else if StrBegins(DeviceFile, '/dev/') then
             begin
-              UDisksDeviceObject := UDisksDevicePathPrefix + Copy(pme^.mnt_fsname, 6, MaxInt);
+              UDisksDeviceObject := UDisksDevicePathPrefix + Copy(DeviceFile, 6, MaxInt);
               HandledByUDisks := True;
             end
             else
@@ -628,37 +666,50 @@ begin
             // Don't add the device if it's not listed by UDisks.
             if HandledByUDisks and
                IsStringInArray(UDisksDeviceObject, UDisksDevicesList) and
-               CanAddDevice(AddedDevices, AddedMountPoints, DeviceFile, pme^.mnt_dir) and
+               CanAddDevice(DeviceFile, MountPoint) and
                UDisksDeviceToDrive(UDisksDeviceObject, Drive) then
             begin
               // Drive object has been created.
-              Drive^.Path := ExcludeTrailingPathDelimiter(StrPas(pme^.mnt_dir));
+              Drive^.Path := MountPoint;
               Drive^.DisplayName := ExtractFileName(Drive^.Path);
             end;
           end;
 
           // Add by entry in fstab/mtab.
-          if (not HandledByUDisks) and
-             CanAddDevice(AddedDevices, AddedMountPoints, DeviceFile, pme^.mnt_dir) then
+          if not HandledByUDisks then
           begin
-            New(Drive);
-            with Drive^ do
+            if CanAddDevice(DeviceFile, MountPoint) then
             begin
-              DeviceId := DeviceFile;
-              Path := ExcludeTrailingPathDelimiter(StrPas(pme^.mnt_dir));
-              DisplayName := ExtractFileName(Path);
-              DriveLabel := '';
+              New(Drive);
+              with Drive^ do
+              begin
+                DeviceId := DeviceFile;
+                Path := MountPoint;
+                DisplayName := ExtractFileName(Path);
+                DriveLabel := Path;
 
-              if IsPartOfString(['ISO9660', 'CDROM', 'CDRW', 'DVD'], UpperCase(pme^.mnt_type)) then
-                DriveType := dtOptical else
-              if IsPartOfString(['FLOPPY'], UpperCase(pme^.mnt_type)) then
-                DriveType := dtFloppy else
-              if IsPartOfString(['ZIP', 'USB', 'CAMERA'], UpperCase(pme^.mnt_type)) then
-                DriveType := dtFlash else
-              if IsPartOfString(['NFS', 'SMB', 'NETW', 'CIFS'], UpperCase(pme^.mnt_type)) then
-                DriveType := dtNetwork
-              else
-                DriveType := dtHardDisk;
+                if IsPartOfString(['ISO9660', 'CDROM', 'CDRW', 'DVD'], UpperCase(pme^.mnt_type)) then
+                  DriveType := dtOptical else
+                if IsPartOfString(['FLOPPY'], UpperCase(pme^.mnt_type)) then
+                  DriveType := dtFloppy else
+                if IsPartOfString(['ZIP', 'USB', 'CAMERA'], UpperCase(pme^.mnt_type)) then
+                  DriveType := dtFlash else
+                if IsPartOfString(['NFS', 'SMB', 'NETW', 'CIFS'], UpperCase(pme^.mnt_type)) then
+                  DriveType := dtNetwork
+                else
+                  DriveType := dtHardDisk;
+
+                IsMediaAvailable:= True;
+                IsMediaEjectable:= (DriveType = dtOptical);
+                IsMounted:= False; // Checked via mtab below.
+              end;
+            end
+            // Mark drive as mounted if found in mtab.
+            else if MntEntFileList[I] = _PATH_MOUNTED then
+            begin
+              ExistingDrive := GetDrive(Result, DeviceFile, MountPoint);
+              if Assigned(ExistingDrive) then
+                ExistingDrive^.IsMounted := True;
             end;
           end;
 
@@ -668,10 +719,10 @@ begin
             Result.Add(Drive);
             Drive := nil;
             AddedDevices.Add(DeviceFile);
-            AddedMountPoints.Add(pme^.mnt_dir);
+            AddedMountPoints.Add(MountPoint);
 
             {$IFDEF DEBUG}
-            DebugLn('Adding drive "' + pme^.mnt_fsname + '" with mount point "' + pme^.mnt_dir + '"');
+            DebugLn('Adding drive "' + DeviceFile + '" with mount point "' + MountPoint + '"');
             {$ENDIF}
           end;
         end;
