@@ -45,12 +45,13 @@ type
 
   TDrive = record
     DisplayName,            //<en Name displayed to the user.
-    Path,                   //<en Where this drive is mounted.
+    Path,                   //<en Where this drive is or should be mounted (by /etc/fstab).
     DriveLabel,             //<en Drive label if filesystem on the drive supports it.
     DeviceId: String;       //<en Device ID that can be used for mounting, ejecting, etc.
     DriveType : TDriveType;
     IsMediaAvailable: Boolean; //<en Is media available in a drive with removable media.
     IsMediaEjectable: Boolean; //<en Can eject media by a command.
+    IsMounted: Boolean;        //<en Is the drive mounted.
   end;
   PDrive = ^TDrive;
 

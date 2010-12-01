@@ -341,6 +341,7 @@ begin
 
       IsMediaAvailable := DeviceIsMediaAvailable;
       IsMediaEjectable := DeviceIsDrive and DriveIsMediaEjectable;
+      IsMounted := DeviceIsMounted;
     end;
   end;
 end;
@@ -373,6 +374,7 @@ begin
       DisplayName := Path;
       IsMediaAvailable := True;
       IsMediaEjectable := False;
+      IsMounted := True;
 
       case WinDriveType of
         DRIVE_REMOVABLE:
@@ -506,6 +508,7 @@ begin
                 DriveLabel:= volNameAsCString;
                 IsMediaAvailable:= True;
                 IsMediaEjectable:= False;
+                IsMounted:= True;
               end;
               Result.Add(Drive);
               //---------------------------------------------------------------

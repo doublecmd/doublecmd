@@ -144,7 +144,6 @@ const cf_Null=0;
    procedure cm_AddFilenameToCmdLine(param: string='');
    procedure cm_AddPathAndFilenameToCmdLine(param: string='');
    procedure cm_ContextMenu(param: string='');
-   procedure cm_DriveContextMenu(param: string='');
    procedure cm_CopyFullNamesToClip(param: string='');
    procedure cm_Exchange(param:string='');
    procedure cm_OpenArchive(param:string='');
@@ -830,14 +829,6 @@ procedure TActs.cm_ContextMenu(param:string);
 begin
   // Let file view handle displaying context menu at appropriate position.
   frmMain.ActiveFrame.ExecuteCommand('cm_ContextMenu', '');
-end;
-
-procedure TActs.cm_DriveContextMenu(param: string);
-begin
-  if param <> '' then
-    begin
-      ShowDriveContextMenu(frmMain, param, Mouse.CursorPos.x, Mouse.CursorPos.y);
-    end;
 end;
 
 procedure TActs.cm_CopyFullNamesToClip(param:string);
@@ -2818,4 +2809,4 @@ begin
 end;
 
 end.
-
+
