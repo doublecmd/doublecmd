@@ -1295,16 +1295,17 @@ end;
 procedure TfrmMain.dskToolBarMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
-  sPath: String;
+  pt: TPoint;
 begin
-  if Button <> mbRight then Exit;
-  if Sender is TSpeedButton then
+  if (Button = mbRight) and (Sender is TSpeedButton) then
     with Sender as TSpeedButton do
     begin
-      if Tag < DrivesList.Count then
+      if (Tag >= 0) and (Tag < DrivesList.Count) then
         begin
-          sPath:= DrivesList[Tag]^.Path;
-          Actions.cm_DriveContextMenu(sPath);
+          pt.X := X;
+          pt.Y := Y;
+          pt := ClientToScreen(pt);
+          ShowDriveContextMenu(Parent, DrivesList[Tag], pt.X, pt.Y);
         end;
     end;
 end;

@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, Menus, Controls, ExtDlgs, LCLType,
-  uFile, uFileSource,
+  uFile, uFileSource, uDrive,
   {$IFDEF UNIX}
   Graphics, BaseUnix, Unix, fFileProperties;
   {$ELSE}
@@ -49,18 +49,18 @@ procedure ShowFilePropertiesDialog(aFileSource: IFileSource; const Files: TFiles
    Show file/folder context menu
    @param(Owner Parent window)
    @param(Files List of files to show context menu for. It is freed by this function.)
-   @param(X X coordinate)
-   @param(Y Y coordinate)
+   @param(X Screen X coordinate)
+   @param(Y Screen Y coordinate)
 }
 procedure ShowContextMenu(Owner: TWinControl; var Files : TFiles; X, Y : Integer; Background: Boolean);
 {en
    Show drive context menu
    @param(Owner Parent window)
    @param(sPath Path to drive)
-   @param(X X coordinate)
-   @param(Y Y coordinate)
+   @param(X Screen X coordinate)
+   @param(Y Screen Y coordinate)
 }
-procedure ShowDriveContextMenu(Owner: TWinControl; sPath: String; X, Y : Integer);
+procedure ShowDriveContextMenu(Owner: TWinControl; ADrive: PDrive; X, Y : Integer);
 {en
    Show open icon dialog
    @param(Owner Owner)
@@ -157,7 +157,7 @@ begin
 end;
 {$ENDIF}
 
-procedure ShowDriveContextMenu(Owner: TWinControl; sPath: String; X, Y : Integer);
+procedure ShowDriveContextMenu(Owner: TWinControl; ADrive: PDrive; X, Y : Integer);
 {$IFDEF MSWINDOWS}
 var
   aFile: TFile;
@@ -165,7 +165,7 @@ var
   OldErrorMode: Word;
 begin
   aFile := TFileSystemFileSource.CreateFile(EmptyStr);
-  aFile.FullPath := sPath;
+  aFile.FullPath := ADrive^.Path;
   aFile.Attributes := faFolder;
   Files:= TFiles.Create(EmptyStr); // free in ShowContextMenu
   Files.Add(aFile);
@@ -178,7 +178,7 @@ begin
   // Free previous created menu
   FreeThenNil(ShellContextMenu);
   // Create new context menu
-  ShellContextMenu:= TShellContextMenu.Create(Owner, sPath);
+  ShellContextMenu:= TShellContextMenu.Create(Owner, ADrive);
   // show context menu
   ShellContextMenu.PopUp(X, Y);
 end;
@@ -276,4 +276,4 @@ begin
 end;
 
 end.
-
+

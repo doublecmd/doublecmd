@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, Menus,
-  uFile;
+  uFile, uDrive;
 
 type
 
@@ -41,12 +41,15 @@ type
   TShellContextMenu = class(TPopupMenu)
   private
     FFiles: TFiles;
-    procedure ContextMenuSelect(Sender:TObject);
+    FDrive: TDrive;
+    procedure ContextMenuSelect(Sender: TObject);
     procedure TemplateContextMenuSelect(Sender: TObject);
-    procedure DriveContextMenuSelect(Sender:TObject);
-    procedure OpenWithMenuItemSelect(Sender:TObject);
+    procedure DriveMountSelect(Sender: TObject);
+    procedure DriveUnmountSelect(Sender: TObject);
+    procedure DriveEjectSelect(Sender: TObject);
+    procedure OpenWithMenuItemSelect(Sender: TObject);
   public
-    constructor Create(Owner: TWinControl; Path: UTF8String); reintroduce; overload;
+    constructor Create(Owner: TWinControl; ADrive: PDrive); reintroduce; overload;
     constructor Create(Owner: TWinControl; var Files : TFiles; Background: Boolean); reintroduce; overload;
     destructor Destroy; override;
   end;
@@ -203,37 +206,22 @@ begin
     end;
 end;
 
-(* handling user commands from drive context menu *)
-procedure TShellContextMenu.DriveContextMenuSelect(Sender:TObject);
-var
-  sExecCmd,
-  sCmd, sPath: String;
-  iPos: Integer;
+procedure TShellContextMenu.DriveMountSelect(Sender: TObject);
 begin
-  // ShowMessage((Sender as TMenuItem).Hint);
-  sCmd:= (Sender as TMenuItem).Hint;
-  // mount drive
-  iPos:= Pos('{!MOUNT}', sCmd);
-  if iPos > 0 then
-    sExecCmd:= 'mount ';
-  // umount drive
-  iPos:= Pos('{!UMOUNT}', sCmd);
-  if iPos > 0 then
-    sExecCmd:= 'umount ';
-  // eject drive
-  iPos:= Pos('{!EJECT}', sCmd);
-  if iPos > 0 then
-    sExecCmd:= 'eject ';
-  // exit if command not found
-  if sExecCmd = '' then Exit;
-  // get path
-  iPos:= Pos('}', sCmd);
-  sPath:= Copy(sCmd, iPos + 1, Length(sCmd)-iPos);
-  // execute command
-  fpSystem(sExecCmd + sPath);
+  fpSystem('mount ' + FDrive.DeviceId);
 end;
 
-procedure TShellContextMenu.OpenWithMenuItemSelect(Sender:TObject);
+procedure TShellContextMenu.DriveUnmountSelect(Sender: TObject);
+begin
+  fpSystem('umount ' + FDrive.Path);
+end;
+
+procedure TShellContextMenu.DriveEjectSelect(Sender: TObject);
+begin
+  fpSystem('eject ' + FDrive.DeviceId);
+end;
+
+procedure TShellContextMenu.OpenWithMenuItemSelect(Sender: TObject);
 var
   ExecCmd: String;
 begin
@@ -241,43 +229,41 @@ begin
   ExecCmdFork(ExecCmd);
 end;
 
-constructor TShellContextMenu.Create(Owner: TWinControl; Path: UTF8String);
+constructor TShellContextMenu.Create(Owner: TWinControl; ADrive: PDrive);
 var
   mi: TMenuItem;
 begin
   inherited Create(Owner);
+  FDrive := ADrive^;
 
-  mi:= TMenuItem.Create(Self);
-  mi.Caption := rsMnuMount;
-  if IsAvailable(Path) then
+  mi := TMenuItem.Create(Self);
+  if not ADrive^.IsMounted then
     begin
-      mi.Enabled:= False;
+      if ADrive^.IsMediaAvailable then
+        begin
+          mi.Caption := rsMnuMount;
+          mi.OnClick := Self.DriveMountSelect;
+        end
+      else
+        begin
+          mi.Caption := 'No media';
+          mi.Enabled := False;
+        end;
     end
   else
     begin
-      mi.Hint:= '{!MOUNT}' + Path;
-      mi.OnClick:= Self.DriveContextMenuSelect;
+      mi.Caption := rsMnuUmount;
+      mi.OnClick := Self.DriveUnmountSelect;
     end;
   Self.Items.Add(mi);
 
-  mi:=TMenuItem.Create(Self);
-  mi.Caption:= rsMnuUmount;
-  if not IsAvailable(Path) then
+  if ADrive^.IsMediaEjectable then
     begin
-      mi.Enabled:= False;
-    end
-  else
-    begin
-      mi.Hint:= '{!UMOUNT}' + Path;
-      mi.OnClick:= Self.DriveContextMenuSelect;
+      mi :=TMenuItem.Create(Self);
+      mi.Caption := rsMnuEject;
+      mi.OnClick := Self.DriveEjectSelect;
+      Self.Items.Add(mi);
     end;
-  Self.Items.Add(mi);
-
-  mi:=TMenuItem.Create(Self);
-  mi.Caption:= rsMnuEject;
-  mi.Hint:= '{!EJECT}' + Path;
-  mi.OnClick:= Self.DriveContextMenuSelect;
-  Self.Items.Add(mi);
 end;
 
 constructor TShellContextMenu.Create(Owner: TWinControl; var Files: TFiles;
