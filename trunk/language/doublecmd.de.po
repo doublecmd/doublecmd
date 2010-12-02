@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.46 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2010-09-11 11:34+0100\n"
+"PO-Revision-Date: 2010-12-01 11:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4743,7 +4743,7 @@ msgstr "Alle"
 
 #: ulng.rsdlgbuttonappend
 msgid "A&ppend"
-msgstr "&Anhängen"
+msgstr "An&hängen"
 
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"
@@ -4773,7 +4773,7 @@ msgstr "&Überschreiben"
 
 #: ulng.rsdlgbuttonoverwriteall
 msgid "Overwrite &All"
-msgstr "Bisherigen Inh&alt KOMPLETT entfernen"
+msgstr "Alle &vorhandenen Dateien überschreiben"
 
 #: ulng.rsdlgbuttonretry
 msgid "Re&try"
@@ -4781,7 +4781,7 @@ msgstr "&Wiederholen"
 
 #: ulng.rsdlgbuttonskip
 msgid "&Skip"
-msgstr "&Überspringen"
+msgstr "Übe&rspringen"
 
 #: ulng.rsdlgbuttonskipall
 msgid "S&kip All"
