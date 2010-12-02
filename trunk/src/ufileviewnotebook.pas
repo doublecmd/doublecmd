@@ -24,6 +24,9 @@ type
   private
     FLockState: TTabLockState;
     FLockPath: String;          //<en Path on which tab is locked
+    {$IFDEF LCLQT}
+    FSettingCaption: Boolean;
+    {$ENDIF}
 
     {en
        Shows or removes the '*' indicator of a locked tab.
@@ -44,9 +47,17 @@ type
 
     procedure SetLockState(NewLockState: TTabLockState);
 
+  {$IFDEF LCLQT}
+  protected
+    procedure RealSetText(const AValue: TCaption); override;
+  {$ENDIF}
+
   public
     constructor Create(TheOwner: TComponent); override;
 
+    {$IFDEF LCLQT}
+    function HandleObjectShouldBeVisible: boolean; override;
+    {$ENDIF}
     function IsActive: Boolean;
     procedure MakeActive;
     procedure UpdateCaption(NewCaption: String);
@@ -114,6 +125,9 @@ uses
   {$IF DEFINED(LCLGTK2)}
   , GTK2Globals // for DblClickTime
   {$ENDIF}
+  {$IFDEF LCLQT}
+  , qt4, qtwidgets
+  {$ENDIF}
   ;
 
 // -- TFileViewPage -----------------------------------------------------------
@@ -121,8 +135,40 @@ uses
 constructor TFileViewPage.Create(TheOwner: TComponent);
 begin
   FLockState := tlsNormal;
+  {$IFDEF LCLQT}
+  FSettingCaption := False;
+  {$ENDIF}
   inherited Create(TheOwner);
 end;
+
+{$IFDEF LCLQT}
+// On QT after handle is created but before the widget is visible
+// setting caption fails unless the notebook and all its parents are
+// set as Visible and the current page is the one of which we set caption.
+// Overriding HandleObjectShouldBeVisible is a indirect workaround for that
+// (see TQtPage.getIndex.CanReturnIndex).
+// QT 4.6 or higher needed for this workaround.
+function TFileViewPage.HandleObjectShouldBeVisible: boolean;
+var
+  AParent: QTabWidgetH;
+begin
+  if not HandleAllocated then
+    Result := inherited
+  else
+  begin
+    AParent := TQtPage(Handle).getTabWidget;
+    Result := (FSettingCaption and ((AParent = nil) or not QWidget_isVisible(AParent))) or
+              inherited;
+  end;
+end;
+
+procedure TFileViewPage.RealSetText(const AValue: TCaption);
+begin
+  FSettingCaption := True;
+  inherited;
+  FSettingCaption := False;
+end;
+{$ENDIF}
 
 function TFileViewPage.IsActive: Boolean;
 begin
