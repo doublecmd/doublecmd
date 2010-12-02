@@ -52,21 +52,21 @@ type
   TShellContextMenu = class
   private
     FOnClose: TNotifyEvent;
-    FOwner: TWinControl;
+    FParent: TWinControl;
     FFiles: TFiles;
     FBackground: Boolean;
     FShellMenu1: IContextMenu;
     FShellMenu2: IContextMenu2;
     FShellMenu: HMENU;
   public
-    constructor Create(Owner: TWinControl; var Files : TFiles; Background: Boolean); reintroduce;
+    constructor Create(Parent: TWinControl; var Files : TFiles; Background: Boolean); reintroduce;
     destructor Destroy; override;
     procedure PopUp(X, Y: Integer);
     property OnClose: TNotifyEvent read FOnClose write FOnClose;
     property Menu: IContextMenu2 read FShellMenu2 write FShellMenu2;
   end;
 
-function GetShellContextMenu(Handle: THandle; Files: TFiles; Background: Boolean): IContextMenu;
+function GetShellContextMenu(Handle: HWND; Files: TFiles; Background: Boolean): IContextMenu;
 
 implementation
 
@@ -77,7 +77,7 @@ uses
 const
   USER_CMD_ID = $1000;
 
-function GetForegroundContextMenu(Handle : THandle; Files : TFiles): IContextMenu;
+function GetForegroundContextMenu(Handle : HWND; Files : TFiles): IContextMenu;
 type
   PPIDLArray = ^PItemIDList;
 
@@ -138,7 +138,7 @@ begin
   end;
 end;
 
-function GetBackgroundContextMenu(Handle : THandle; Files : TFiles): IContextMenu;
+function GetBackgroundContextMenu(Handle : HWND; Files : TFiles): IContextMenu;
 var
   DesktopFolder, Folder: IShellFolder;
   wsFileName: WideString;
@@ -167,7 +167,7 @@ begin
   end;
 end;
 
-function GetShellContextMenu(Handle: THandle; Files: TFiles; Background: Boolean): IContextMenu; inline;
+function GetShellContextMenu(Handle: HWND; Files: TFiles; Background: Boolean): IContextMenu; inline;
 begin
   if Background then
     Result:= GetBackgroundContextMenu(Handle, Files)
@@ -177,15 +177,15 @@ end;
 
 { TShellContextMenu }
 
-constructor TShellContextMenu.Create(Owner: TWinControl; var Files : TFiles; Background: Boolean);
+constructor TShellContextMenu.Create(Parent: TWinControl; var Files : TFiles; Background: Boolean);
 begin
-  FOwner:= Owner;
+  FParent:= Parent;
   FFiles:= Files;
   FBackground:= Background;
   FShellMenu:= 0;
   try
     try
-      FShellMenu1 := GetShellContextMenu(Owner.Handle, Files, Background);
+      FShellMenu1 := GetShellContextMenu(Parent.Handle, Files, Background);
       if Assigned(FShellMenu1) then
       begin
         FShellMenu := CreatePopupMenu;
@@ -330,7 +330,7 @@ begin
           end;
         { /Actions submenu }
         //------------------------------------------------------------------------------
-        cmd := UINT(TrackPopupMenu(FShellMenu, TPM_LEFTALIGN or TPM_LEFTBUTTON or TPM_RIGHTBUTTON or TPM_RETURNCMD, X, Y, 0, FOwner.Handle, nil));
+        cmd := UINT(TrackPopupMenu(FShellMenu, TPM_LEFTALIGN or TPM_LEFTBUTTON or TPM_RIGHTBUTTON or TPM_RETURNCMD, X, Y, 0, FParent.Handle, nil));
       finally
         if hActionsSubMenu <> 0 then
           DestroyMenu(hActionsSubMenu);
@@ -412,7 +412,7 @@ begin
               with cmici do
               begin
                 cbSize := sizeof(cmici);
-                hwnd := FOwner.Handle;
+                hwnd := FParent.Handle;
                 lpVerb := PChar(cmd - 1);
                 nShow := SW_NORMAL;
               end;
