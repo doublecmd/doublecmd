@@ -47,23 +47,23 @@ procedure SetMyWndProc(Handle : HWND);
 procedure ShowFilePropertiesDialog(aFileSource: IFileSource; const Files: TFiles);
 {en
    Show file/folder context menu
-   @param(Owner Parent window)
+   @param(Parent Parent window)
    @param(Files List of files to show context menu for. It is freed by this function.)
    @param(X Screen X coordinate)
    @param(Y Screen Y coordinate)
    @param(CloseEvent Method called when popup menu is closed (optional))
 }
-procedure ShowContextMenu(Owner: TWinControl; var Files : TFiles; X, Y : Integer;
+procedure ShowContextMenu(Parent: TWinControl; var Files : TFiles; X, Y : Integer;
                           Background: Boolean; CloseEvent: TNotifyEvent);
 {en
    Show drive context menu
-   @param(Owner Parent window)
+   @param(Parent Parent window)
    @param(sPath Path to drive)
    @param(X Screen X coordinate)
    @param(Y Screen Y coordinate)
    @param(CloseEvent Method called when popup menu is closed (optional))
 }
-procedure ShowDriveContextMenu(Owner: TWinControl; ADrive: PDrive; X, Y : Integer;
+procedure ShowDriveContextMenu(Parent: TWinControl; ADrive: PDrive; X, Y : Integer;
                                CloseEvent: TNotifyEvent);
 {en
    Show open icon dialog
@@ -125,7 +125,7 @@ begin
 end;
 {$ENDIF}
 
-procedure ShowContextMenu(Owner: TWinControl; var Files : TFiles; X, Y : Integer;
+procedure ShowContextMenu(Parent: TWinControl; var Files : TFiles; X, Y : Integer;
                           Background: Boolean; CloseEvent: TNotifyEvent);
 {$IFDEF MSWINDOWS}
 begin
@@ -137,7 +137,7 @@ begin
 
   try
     // Create new context menu
-    ShellContextMenu:= TShellContextMenu.Create(Owner, Files, Background);
+    ShellContextMenu:= TShellContextMenu.Create(Parent, Files, Background);
     ShellContextMenu.OnClose := CloseEvent;
     // Show context menu
     ShellContextMenu.PopUp(X, Y);
@@ -157,14 +157,14 @@ begin
   // Free previous created menu
   FreeThenNil(ShellContextMenu);
   // Create new context menu
-  ShellContextMenu:= TShellContextMenu.Create(Owner, Files, Background);
+  ShellContextMenu:= TShellContextMenu.Create(nil, Files, Background);
   ShellContextMenu.OnClose := CloseEvent;
   // Show context menu
   ShellContextMenu.PopUp(X, Y);
 end;
 {$ENDIF}
 
-procedure ShowDriveContextMenu(Owner: TWinControl; ADrive: PDrive; X, Y : Integer;
+procedure ShowDriveContextMenu(Parent: TWinControl; ADrive: PDrive; X, Y : Integer;
                                CloseEvent: TNotifyEvent);
 {$IFDEF MSWINDOWS}
 var
@@ -178,7 +178,7 @@ begin
   Files:= TFiles.Create(EmptyStr); // free in ShowContextMenu
   Files.Add(aFile);
   OldErrorMode:= SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOOPENFILEERRORBOX);
-  ShowContextMenu(Owner, Files, X, Y, False, CloseEvent);
+  ShowContextMenu(Parent, Files, X, Y, False, CloseEvent);
   SetErrorMode(OldErrorMode);
 end;
 {$ELSE}
@@ -186,7 +186,7 @@ begin
   // Free previous created menu
   FreeThenNil(ShellContextMenu);
   // Create new context menu
-  ShellContextMenu:= TShellContextMenu.Create(Owner, ADrive);
+  ShellContextMenu:= TShellContextMenu.Create(nil, ADrive);
   ShellContextMenu.OnClose := CloseEvent;
   // show context menu
   ShellContextMenu.PopUp(X, Y);
@@ -283,6 +283,9 @@ begin
   if Assigned(opdDialog) then
     FreeAndNil(opdDialog);
 end;
+
+finalization
+  FreeThenNil(ShellContextMenu);
 
 end.
 
