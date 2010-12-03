@@ -77,8 +77,10 @@ begin
   Result:= False;
   try
     Items:= nil;
+    templateDir:= GetHomeDir + '.config/user-dirs.dirs';
+    if not mbFileExists(templateDir) then Exit;
     userDirs:= TStringList.Create;
-    userDirs.LoadFromFile(GetHomeDir + '.config/user-dirs.dirs');
+    userDirs.LoadFromFile(templateDir);
     templateDir:= userDirs.Values['XDG_TEMPLATES_DIR'];
     if Length(templateDir) = 0 then Exit;
     templateDir:= IncludeTrailingPathDelimiter(mbExpandFileName(TrimQuotes(templateDir)));
