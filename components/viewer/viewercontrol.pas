@@ -1127,8 +1127,7 @@ begin
   if Assigned(FMappedFile) then
     UnMapFile; // if needed
   FFileHandle:=fpOpen(PChar(sFileName), O_RDONLY);
-  //writeln('Trying map:'+sFileName);
-  if FFileHandle = -1 then
+  if FFileHandle = THandle(-1) then
   begin
     FFileHandle := 0;
     Exit;
@@ -1142,14 +1141,13 @@ begin
 
   FFileSize := StatBuf.st_size;
   FMappedFile := fpmmap(nil, FFileSize, PROT_READ, MAP_PRIVATE{SHARED}, FFileHandle, 0);
-  if PtrInt(FMappedFile)=-1 then
+  if FMappedFile = MAP_FAILED then
   begin
     FMappedFile:=nil;
     fpClose(FFileHandle);
     FFileHandle := 0;
     Exit;
   end;
-  //writeln('Mmaped succesfully');
 
   Result:=True;
 end;
@@ -1157,15 +1155,6 @@ end;
 
 procedure TViewerControl.UnMapFile;
 begin
-  FFileName  := '';
-  FFileSize  := 0;
-  Position   := 0;
-  FLowLimit  := 0;
-  FHighLimit := 0;
-  FBOMLength := 0;
-  FBlockBeg  := 0;
-  FBlockEnd  := 0;
-
 {$IFDEF MSWINDOWS}
   if Assigned(FMappedFile) then
   begin
@@ -1187,13 +1176,29 @@ begin
 
 {$ELSE}
 
-  if not Assigned(FMappedFile) then Exit;
-  fpClose(FFileHandle);
-  FFileHandle := 0;
-  fpmunmap(FMappedFile,FFileSize);
-  FMappedFile:=nil;
-  //writeln('Unmap file done');
+  if Assigned(FMappedFile) then
+  begin
+    if fpmunmap(FMappedFile, FFileSize) = -1 then
+      DebugLn('Error unmapping file: ', SysErrorMessage(fpgeterrno));
+    FMappedFile := nil;
+  end;
+
+  if FFileHandle <> 0 then
+  begin
+    fpClose(FFileHandle);
+    FFileHandle := 0;
+  end;
+
 {$ENDIF}
+
+  FFileName  := '';
+  FFileSize  := 0;
+  Position   := 0;
+  FLowLimit  := 0;
+  FHighLimit := 0;
+  FBOMLength := 0;
+  FBlockBeg  := 0;
+  FBlockEnd  := 0;
 end;
 
 procedure TViewerControl.WriteText;
@@ -1434,7 +1439,6 @@ var
   iBegDrawIndex, iEndDrawIndex: PtrInt;
   xOffset: Integer;
   sText: string;
-  ts:ttextstyle;
 begin
   pBegLine := StartPos;
   pEndLine := pBegLine + DataLength;
