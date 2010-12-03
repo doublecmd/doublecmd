@@ -35,7 +35,9 @@ type
   { TfrmConfigToolBar }
 
   TfrmConfigToolBar = class(TForm)
-    btnInsertButton: TButton;
+    btnAppendButton: TButton;
+    btnCloneButton: TButton;
+    cbIsSeparator: TCheckBox;
     lblIconSize: TLabel;
     lblIconSizeValue: TLabel;
     lblBarSizeValue: TLabel;
@@ -47,14 +49,12 @@ type
     gbGroupBox: TGroupBox;
     lblIcon: TLabel;
     lblIconFile: TLabel;
-    btnAddButton: TButton;
     ktbBar: TKASToolBar;
     btnOpenBarFile: TButton;
     cbCommand: TComboBox;
     btnDeleteButton: TButton;
     btnOpenFile: TButton;
-    btnChangeButton: TButton;
-    btnOpenIconFile: TButton;
+    btnAppendMore: TButton;
     kedtIconFileName: TEdit;
     edtParams: TEdit;
     edtStartPath: TEdit;
@@ -64,7 +64,6 @@ type
     lblLabel: TLabel;
     btnOK: TButton;
     miAddSubMenu: TMenuItem;
-    miInsertSeparator: TMenuItem;
     miAddSubBar: TMenuItem;
     OpenDialog: TOpenDialog;
     lblParameters: TLabel;
@@ -75,25 +74,26 @@ type
     lblBarSize: TLabel;
     lblStartPath: TLabel;
     lblToolTip: TLabel;
-    procedure btnChangeButtonClick(Sender: TObject);
+    procedure btnAppendMoreClick(Sender: TObject);
+    procedure btnCloneButtonClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);
-    procedure btnInsertButtonClick(Sender: TObject);
+    procedure btnAppendButtonClick(Sender: TObject);
     procedure btnOpenBarFileClick(Sender: TObject);
     procedure cbCommandSelect(Sender: TObject);
     procedure cbFlatButtonsChange(Sender: TObject);
+    procedure cbIsSeparatorChange(Sender: TObject);
+    procedure edtToolTipChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
-    procedure btnAddButtonClick(Sender: TObject);
     function ktbBarLoadButtonGlyph(sIconFileName: String; iIconSize: Integer;
       clBackColor: TColor): TBitmap;
     procedure ktbBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
     procedure btnDeleteButtonClick(Sender: TObject);
     procedure btnOpenFileClick(Sender: TObject);
-    procedure btnOpenIconFileClick(Sender: TObject);
     procedure miAddSubBarClick(Sender: TObject);
     procedure miAddSubMenuClick(Sender: TObject);
-    procedure miInsertSeparatorClick(Sender: TObject);
     procedure sbIconExampleClick(Sender: TObject);
+    procedure tbScrollBoxClick(Sender: TObject);
     procedure trbBarSizeChange(Sender: TObject);
     procedure trbIconSizeChange(Sender: TObject);
 
@@ -102,6 +102,7 @@ type
     LastToolButton : Integer;
 
     procedure FillActionLists;
+    procedure WakeSleepControls();
     procedure ClearControls;
     procedure LoadButton(NumberOfButton: Integer);
     procedure Save;
@@ -159,8 +160,10 @@ begin
   trbBarSize.Position := gToolBarButtonSize div 2;
   trbIconSize.Position:= gToolBarIconSize div 2;
   cbFlatButtons.Checked:= gToolBarFlat;
+  // Flat buttons in this dialog don't have any sense. They decrease button
+  // readability without giving any actual advantages.
 //  sbIconExample.Flat:= gToolBarFlat;
-  ktbBar.Flat:= gToolBarFlat;
+//  ktbBar.Flat:= gToolBarFlat;
   ktbBar.ChangePath:= gpExePath;
   ktbBar.EnvVar:= '%commander_path%';
   try
@@ -178,23 +181,47 @@ begin
     begin
       ktbBar.Buttons[ktbBar.Tag].Click;
       ktbBar.Buttons[ktbBar.Tag].Down := True;
-    end
-  else
-    begin
-      if ktbBar.ButtonCount > 0 then
-        begin
-          ktbBar.Buttons[ktbBar.ButtonCount-1].Down := True;
-          LoadButton(ktbBar.ButtonCount-1);
-          LastToolButton := ktbBar.ButtonCount-1;
-        end;
     end;
+
+  // Next section is commented and should be deleted.
+  // The reason is this: user does not need to have
+  // any buttons selected if he has just opened the dialog.
+  // If user wants to have have some button selected,
+  // he just edits that button.
+  // This text should also be deleted.
+  //
+  //else
+  //  begin
+  //    if ktbBar.ButtonCount > 0 then
+  //      begin
+  //        ktbBar.Buttons[ktbBar.ButtonCount-1].Down := True;
+  //        LoadButton(ktbBar.ButtonCount-1);
+  //        LastToolButton := ktbBar.ButtonCount-1;
+  //      end;
+  //  end;
+
+  WakeSleepControls;
   Update;
-  Height:= edtToolTip.Top + edtToolTip.Height + 18;
+  Height:= sbIconExample.Top + sbIconExample.Height + 18;
 end;
 
 procedure TfrmConfigToolBar.cbFlatButtonsChange(Sender: TObject);
 begin
-  ktbBar.Flat := cbFlatButtons.Checked;
+//  ktbBar.Flat := cbFlatButtons.Checked;
+end;
+
+procedure TfrmConfigToolBar.cbIsSeparatorChange(Sender: TObject);
+begin
+  if cbIsSeparator.Checked then
+    edtToolTip.Text:= '-'
+  else if edtToolTip.Text= '-' then
+    edtToolTip.Text:= EmptyStr;
+end;
+
+procedure TfrmConfigToolBar.edtToolTipChange(Sender: TObject);
+begin
+  cbIsSeparator.Checked:=(edtToolTip.Text='-');
+  WakeSleepControls;
 end;
 
 procedure TfrmConfigToolBar.btnOpenBarFileClick(Sender: TObject);
@@ -226,27 +253,49 @@ begin
           LastToolButton := ktbBar.ButtonCount-1;
         end;
     end;
+  WakeSleepControls;
 end;
 
-procedure TfrmConfigToolBar.btnInsertButtonClick(Sender: TObject);
+(*Add new button on tool bar*)
+procedure TfrmConfigToolBar.btnAppendButtonClick(Sender: TObject);
 var
   SelectedIndex: Integer = 0;
 begin
   SelectedIndex := GetSelectedButton;
   if SelectedIndex = -1 then
-    InsertButton(ktbBar.ButtonCount)
+    begin
+      InsertButton(ktbBar.ButtonCount);
+      WakeSleepControls;
+    end
   else
     InsertButton(SelectedIndex);
 end;
 
-procedure TfrmConfigToolBar.btnChangeButtonClick(Sender: TObject);
+procedure TfrmConfigToolBar.btnAppendMoreClick(Sender: TObject);
 var
   Point: TPoint;
 begin
-  with btnChangeButton do
+  with btnAppendMore do
   Point:= Classes.Point(Left, Top + Height);
   Point:= ClientToScreen(Point);
   pmChangeButton.PopUp(Point.X, Point.Y);
+end;
+
+(*Clone selected button on tool bar*)
+procedure TfrmConfigToolBar.btnCloneButtonClick(Sender: TObject);
+var
+SelectedIndex: Integer = 0;
+begin
+  SelectedIndex := GetSelectedButton;
+  if SelectedIndex > -1 then
+    begin
+      Save;  // Save currently selected button
+      LastToolButton := ktbBar.InsertButtonX(SelectedIndex, '', '', '', '', '', '', '');
+      ktbBar.SetButtonX(LastToolButton, ButtonX, kedtIconFileName.Text);
+      Save;  // Save newly created button
+      LastToolButton := LastToolButton + 1;
+      ktbBar.Buttons[LastToolButton].Down := True;
+    end;
 end;
 
 procedure TfrmConfigToolBar.btnHelpClick(Sender: TObject);
@@ -285,12 +334,6 @@ begin
   ModalResult:= mrOK;
 end;
 
-(*Add new button on tool bar*)
-procedure TfrmConfigToolBar.btnAddButtonClick(Sender: TObject);
-begin
-  InsertButton(ktbBar.ButtonCount);
-end;
-
 function TfrmConfigToolBar.ktbBarLoadButtonGlyph(sIconFileName: String;
   iIconSize: Integer; clBackColor: TColor): TBitmap;
 begin
@@ -301,8 +344,42 @@ end;
 procedure TfrmConfigToolBar.ktbBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
 begin
   Save;
-  LoadButton(NumberOfButton);
-  LastToolButton := NumberOfButton;
+  if GetSelectedButton > -1 then
+    begin
+      LoadButton(NumberOfButton);
+      LastToolButton := NumberOfButton;
+    end
+  else
+    begin
+      ClearControls;
+      LastToolButton := -1;
+    end;
+  WakeSleepControls;
+end;
+
+(*Disables button controls if LastToolButton = -1 or if False is passed
+as a parameter. Otherwise enables button controls.*)
+procedure TfrmConfigToolBar.WakeSleepControls();
+var MakeEnabled: Boolean = True;
+begin
+  If (LastToolButton = -1) or (edtToolTip.Text='-') then MakeEnabled := False;
+  lblCommand.Enabled := MakeEnabled;
+  lblParameters.Enabled := MakeEnabled;
+  lblStartPath.Enabled := MakeEnabled;
+  lblIconFile.Enabled := MakeEnabled;
+  btnOpenFile.Enabled := MakeEnabled;
+  cbCommand.Enabled := MakeEnabled;
+  edtParams.Enabled := MakeEnabled;
+  edtStartPath.Enabled := MakeEnabled;
+  kedtIconFileName.Enabled := MakeEnabled;
+  sbIconExample.Enabled := MakeEnabled;
+if edtToolTip.Text= '-' then MakeEnabled := True;
+  lblToolTip.Enabled := MakeEnabled;
+  edtToolTip.Enabled := MakeEnabled;
+  cbIsSeparator.Enabled := MakeEnabled;
+  btnCloneButton.Enabled := MakeEnabled;
+  btnDeleteButton.Enabled := MakeEnabled;
+
 end;
 
 procedure TfrmConfigToolBar.ClearControls;
@@ -365,6 +442,7 @@ begin
         else
           LastToolButton := -1;
       end;
+  WakeSleepControls;
 end;
 
 procedure TfrmConfigToolBar.btnOpenFileClick(Sender: TObject);
@@ -382,25 +460,6 @@ begin
 
       Bitmap := PixMapManager.LoadBitmapEnhanced(kedtIconFileName.Text, 32, Color);
       sbIconExample.Glyph.Assign(Bitmap);
-      FreeThenNil(Bitmap);
-
-      // Refresh icon on the toolbar.
-      ktbBar.SetButtonX(LastToolButton, ButtonX, kedtIconFileName.Text);
-    end;
-end;
-
-procedure TfrmConfigToolBar.btnOpenIconFileClick(Sender: TObject);
-var
-  sFileName: String;
-  Bitmap: TBitmap;
-begin
-  sFileName := GetCmdDirFromEnvVar(kedtIconFileName.Text);
-  if ShowOpenIconDialog(Self, sFileName) then
-    begin
-      kedtIconFileName.Text := sFileName;
-
-      Bitmap := PixMapManager.LoadBitmapEnhanced(kedtIconFileName.Text, 32, Color);
-      sbIconExample.Glyph := Bitmap;
       FreeThenNil(Bitmap);
 
       // Refresh icon on the toolbar.
@@ -432,18 +491,35 @@ begin
     end;
 end;
 
-procedure TfrmConfigToolBar.miInsertSeparatorClick(Sender: TObject);
+procedure TfrmConfigToolBar.sbIconExampleClick(Sender: TObject);
+var
+  sFileName: String;
+  Bitmap: TBitmap;
 begin
-  cbCommand.Text:= EmptyStr;
-  edtParams.Text:= EmptyStr;
-  edtStartPath.Text:= EmptyStr;
-  kedtIconFileName.Text:= EmptyStr;
-  edtToolTip.Text:= '-';
+  sFileName := GetCmdDirFromEnvVar(kedtIconFileName.Text);
+  if ShowOpenIconDialog(Self, sFileName) then
+    begin
+      kedtIconFileName.Text := sFileName;
+
+      Bitmap := PixMapManager.LoadBitmapEnhanced(kedtIconFileName.Text, 32, Color);
+      sbIconExample.Glyph := Bitmap;
+      FreeThenNil(Bitmap);
+
+      // Refresh icon on the toolbar.
+      ktbBar.SetButtonX(LastToolButton, ButtonX, kedtIconFileName.Text);
+    end;
 end;
 
-procedure TfrmConfigToolBar.sbIconExampleClick(Sender: TObject);
+procedure TfrmConfigToolBar.tbScrollBoxClick(Sender: TObject);
 begin
-  btnOpenIconFileClick(Sender);
+  ClearControls;
+  LastToolButton := GetSelectedButton;
+  if LastToolButton > -1 then
+    begin
+      ktbBar.Buttons[LastToolButton].Down:=False;
+      LastToolButton := -1;
+    end;
+  WakeSleepControls;
 end;
 
 procedure TfrmConfigToolBar.trbBarSizeChange(Sender: TObject);
@@ -512,10 +588,11 @@ begin
         end;
       Result:= ShowConfigToolbar(aFileName);
     end;
+  WakeSleepControls;
 end;
 
 initialization
   {$I fconfigtoolbar.lrs}
 
 end.
-
+
