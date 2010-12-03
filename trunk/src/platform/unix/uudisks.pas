@@ -31,6 +31,31 @@ uses
 
 type
   TStringArray = array of string;
+
+  TUDisksDeviceInfo = record
+    DeviceObjectPath: UTF8String;
+    DeviceFile: UTF8String;
+    DeviceIsDrive,
+    DeviceIsSystemInternal,
+    DeviceIsPartition,
+    DeviceIsMounted,
+    DeviceIsRemovable,   // If contains removable media.
+    DeviceIsOpticalDisc, // If is an optical drive and optical disk is inserted.
+    DeviceIsMediaAvailable,
+    DriveIsMediaEjectable: Boolean;
+    DeviceMountPaths: TStringArray;
+    DriveConnectionInterface,
+    DriveMedia: UTF8String; // Type of media currently in the drive.
+    DriveMediaCompatibility: TStringArray; // Possible media types.
+    IdUsage,
+    IdType,
+    IdVersion,
+    IdUuid,
+    IdLabel: UTF8String;
+  end;
+
+  TUDisksDevicesInfos = array of TUDisksDeviceInfo;
+
   TUDisksMethod = (UDisks_DeviceAdded,
                    UDisks_DeviceRemoved,
                    UDisks_DeviceChanged);
@@ -49,7 +74,9 @@ function GetObjectProperty(const ObjectPath: UTF8String;
 function GetObjectProperty(const ObjectPath: UTF8String;
                            const PropertyName: UTF8String;
                            out Value: TStringArray): Boolean;
+function GetDeviceInfo(const ObjectPath: UTF8String; out Info: TUDisksDeviceInfo): Boolean;
 function EnumerateDevices(out DevicesList: TStringArray): Boolean;
+function EnumerateDevices(out DevicesInfos: TUDisksDevicesInfos): Boolean;
 function Initialize: Boolean;
 procedure Finalize;
 procedure DispatchMessages;
@@ -165,18 +192,18 @@ begin
 end;
 
 function GetArrayOfString(pIter: PDBusMessageIter;
-                          dbus_string_type: Integer): TStringArray;
+                          dbus_string_type: Integer;
+                          out Arr: TStringArray): Boolean;
 var
   arrayIter: DBusMessageIter;
   counter: Integer;
   StringPtr: PChar;
 begin
-  Result := nil;
-
   if (dbus_message_iter_get_arg_type(pIter) <> DBUS_TYPE_ARRAY) or
      (dbus_message_iter_get_element_type(pIter) <> dbus_string_type) then
   begin
     Print('Not a valid type');
+    Result := False;
   end
   else
   begin
@@ -190,25 +217,28 @@ begin
         if GetBasicVal(@arrayIter, dbus_string_type, @StringPtr) and
            Assigned(StringPtr) then
         begin
-          SetLength(Result, counter + 1);
-          Result[counter] := StrPas(StringPtr);
+          SetLength(Arr, counter + 1);
+          Arr[counter] := StrPas(StringPtr);
           Inc(counter);
-        end;
+        end
+        else
+          Exit(False);
       until (dbus_message_iter_next(@arrayIter) = 0);
     end;
   end;
+  Result := True;
 end;
 
-function GetArrayOfString(pIter: PDBusMessageIter): TStringArray;
+function GetArrayOfString(pIter: PDBusMessageIter; out Arr: TStringArray): Boolean;
 begin
-  Result := GetArrayOfString(pIter, DBUS_TYPE_STRING);
+  Result := GetArrayOfString(pIter, DBUS_TYPE_STRING, Arr);
 end;
 
-function GetArrayOfObjectPath(pIter: PDBusMessageIter): TStringArray;
+function GetArrayOfObjectPath(pIter: PDBusMessageIter; out Arr: TStringArray): Boolean;
 begin
   // Object path is an utf-8 string in DBUS, but marked with a different type
   // than normal DBUS_TYPE_STRING.
-  Result := GetArrayOfString(pIter, DBUS_TYPE_OBJECT_PATH);
+  Result := GetArrayOfString(pIter, DBUS_TYPE_OBJECT_PATH, Arr);
 end;
 
 // reply needs to be freed by the caller.
@@ -352,9 +382,49 @@ begin
   Result := Invoke_GetProperty(ObjectPath, PropertyName, reply, @itVariant);
   if Result then
   begin
-    Value := GetArrayOfString(@itVariant);
-    Result := Assigned(Value);
+    Result := GetArrayOfString(@itVariant, Value);
     dbus_message_unref(reply);
+  end;
+end;
+
+function GetDeviceInfo(const ObjectPath: UTF8String; out Info: TUDisksDeviceInfo): Boolean;
+begin
+  // Description of properties:
+  // http://hal.freedesktop.org/docs/udisks/Device.html
+
+  with Info do
+  begin
+    DeviceObjectPath := ObjectPath;
+
+    Result :=
+      GetObjectProperty(ObjectPath, 'DeviceFile', DeviceFile) and
+      GetObjectProperty(ObjectPath, 'DeviceIsDrive', DeviceIsDrive) and
+      GetObjectProperty(ObjectPath, 'DeviceIsSystemInternal', DeviceIsSystemInternal) and
+      GetObjectProperty(ObjectPath, 'DeviceIsPartition', DeviceIsPartition) and
+      GetObjectProperty(ObjectPath, 'DeviceIsMounted', DeviceIsMounted) and
+      GetObjectProperty(ObjectPath, 'DeviceIsRemovable', DeviceIsRemovable) and
+      GetObjectProperty(ObjectPath, 'DeviceIsOpticalDisc', DeviceIsOpticalDisc) and
+      GetObjectProperty(ObjectPath, 'DeviceIsMediaAvailable', DeviceIsMediaAvailable);
+
+    if Result and DeviceIsMounted then
+      Result := GetObjectProperty(ObjectPath, 'DeviceMountPaths', DeviceMountPaths);
+
+    if Result and DeviceIsDrive then
+    begin
+      Result := GetObjectProperty(ObjectPath, 'DriveIsMediaEjectable', DriveIsMediaEjectable) and
+                GetObjectProperty(ObjectPath, 'DriveConnectionInterface', DriveConnectionInterface) and
+                GetObjectProperty(ObjectPath, 'DriveMedia', DriveMedia) and
+                GetObjectProperty(ObjectPath, 'DriveMediaCompatibility', DriveMediaCompatibility);
+    end;
+
+    if Result then
+    begin
+      Result := GetObjectProperty(ObjectPath, 'IdUsage', IdUsage) and
+                GetObjectProperty(ObjectPath, 'IdType', IdType) and
+                GetObjectProperty(ObjectPath, 'IdVersion', IdVersion) and
+                GetObjectProperty(ObjectPath, 'IdUuid', IdUuid) and
+                GetObjectProperty(ObjectPath, 'IdLabel', IdLabel);
+    end;
   end;
 end;
 
@@ -366,9 +436,25 @@ begin
   Result := Invoke_EnumerateDevices(reply, @replyIter);
   if Result then
   begin
-    DevicesList := GetArrayOfObjectPath(@replyIter);
+    Result := GetArrayOfObjectPath(@replyIter, DevicesList);
     dbus_message_unref(reply);
-    Result := Assigned(DevicesList);
+  end;
+end;
+
+function EnumerateDevices(out DevicesInfos: TUDisksDevicesInfos): Boolean;
+var
+  DevicesList: TStringArray;
+  i: Integer;
+begin
+  Result := EnumerateDevices(DevicesList);
+  if Result then
+  begin
+    SetLength(DevicesInfos, Length(DevicesList));
+    for i := 0 to Length(DevicesList) - 1 do
+    begin
+      if not GetDeviceInfo(DevicesList[i], DevicesInfos[i]) then
+        Exit(False);
+    end;
   end;
 end;
 

@@ -225,124 +225,60 @@ begin
   Result := False;
 end;
 
-function IsStringInArray(const search: string; strings: array of string): Boolean;
+function UDisksGetDeviceInfo(const DeviceObjectPath: UTF8String;
+                             const Devices: TUDisksDevicesInfos;
+                             out DeviceInfo: TUDisksDeviceInfo): Boolean;
 var
   i: Integer;
 begin
-  for i := Low(strings) to High(strings) do
+  for i := Low(Devices) to High(Devices) do
   begin
-    if strings[i] = search then
+    if Devices[i].DeviceObjectPath = DeviceObjectPath then
+    begin
+      DeviceInfo := Devices[i];
       Exit(True);
+    end;
   end;
   Result := False;
 end;
 
-function UDisksGetDevices(out Devices, UUIDs: TStringArray): Boolean;
-var
-  i: Integer;
+procedure UDisksDeviceToDrive(const DeviceInfo: TUDisksDeviceInfo; out Drive: PDrive);
 begin
-  Result := uUDisks.EnumerateDevices(Devices);
-  if Result then
+  New(Drive);
+  with DeviceInfo do
   begin
-    SetLength(UUIDs, Length(Devices));
-    for i := 0 to Length(Devices) - 1 do
+    Drive^.DeviceId := DeviceFile;
+    if DeviceIsMounted and (Length(DeviceMountPaths) > 0) then
     begin
-      if not GetObjectProperty(Devices[i], 'IdUuid', UUIDs[i]) then
-        Exit(False);
+      Drive^.Path := DeviceMountPaths[0];
+      Drive^.DisplayName := ExtractFileName(Drive^.Path);
+    end
+    else
+    begin
+      Drive^.Path := EmptyStr;
+      Drive^.DisplayName := ExtractFileName(DeviceFile);
     end;
-  end;
-end;
+    Drive^.DriveLabel := IdLabel;
 
-function UDisksDeviceToDrive(const ObjectPath: UTF8String; out Drive: PDrive): Boolean;
-var
-  DeviceFile: UTF8String;
-  DeviceIsDrive,
-  DeviceIsSystemInternal,
-  DeviceIsPartition,
-  DeviceIsMounted,
-  DeviceIsRemovable,   // If contains removable media.
-  DeviceIsOpticalDisc, // If is an optical drive and optical disk is inserted.
-  DeviceIsMediaAvailable,
-  DriveIsMediaEjectable: Boolean;
-  DeviceMountPaths: TStringArray;
-  DriveConnectionInterface,
-  DriveMedia: UTF8String; // Type of media currently in the drive.
-  DriveMediaCompatibility: TStringArray; // Possible media types.
-  IdUsage,
-  IdType,
-  IdVersion,
-  IdLabel: UTF8String;
-begin
-  // Description of properties:
-  // http://hal.freedesktop.org/docs/udisks/Device.html
-
-  Result :=
-    GetObjectProperty(ObjectPath, 'DeviceIsDrive', DeviceIsDrive) and
-    GetObjectProperty(ObjectPath, 'DeviceIsSystemInternal', DeviceIsSystemInternal) and
-    GetObjectProperty(ObjectPath, 'DeviceIsPartition', DeviceIsPartition) and
-    GetObjectProperty(ObjectPath, 'DeviceIsMounted', DeviceIsMounted) and
-    GetObjectProperty(ObjectPath, 'DeviceIsRemovable', DeviceIsRemovable) and
-    GetObjectProperty(ObjectPath, 'DeviceIsOpticalDisc', DeviceIsOpticalDisc) and
-    GetObjectProperty(ObjectPath, 'DeviceIsMediaAvailable', DeviceIsMediaAvailable) and
-    GetObjectProperty(ObjectPath, 'DeviceFile', DeviceFile);
-
-  if Result and DeviceIsMounted then
-    Result := GetObjectProperty(ObjectPath, 'DeviceMountPaths', DeviceMountPaths);
-
-  if Result and DeviceIsDrive then
-  begin
-    Result := GetObjectProperty(ObjectPath, 'DriveIsMediaEjectable', DriveIsMediaEjectable) and
-              GetObjectProperty(ObjectPath, 'DriveConnectionInterface', DriveConnectionInterface) and
-              GetObjectProperty(ObjectPath, 'DriveMedia', DriveMedia) and
-              GetObjectProperty(ObjectPath, 'DriveMediaCompatibility', DriveMediaCompatibility);
-  end;
-
-  if Result then
-  begin
-    Result := GetObjectProperty(ObjectPath, 'IdUsage', IdUsage) and
-              GetObjectProperty(ObjectPath, 'IdType', IdType) and
-              GetObjectProperty(ObjectPath, 'IdVersion', IdVersion) and
-              GetObjectProperty(ObjectPath, 'IdLabel', IdLabel);
-  end;
-
-  if Result then
-  begin
-    New(Drive);
-    with Drive^ do
-    begin
-      DeviceId := DeviceFile;
-      if DeviceIsMounted and (Length(DeviceMountPaths) > 0) then
+    if DeviceIsPartition then
+      Drive^.DriveType := dtHardDisk
+    else if DeviceIsDrive then
       begin
-        Path := DeviceMountPaths[0];
-        DisplayName := ExtractFileName(Path);
+        if BeginsWithString(['flash'], DriveMediaCompatibility) then
+          Drive^.DriveType := dtFlash
+        else if BeginsWithString(['floppy'], DriveMediaCompatibility) then
+          Drive^.DriveType := dtFloppy
+        else if BeginsWithString(['optical'], DriveMediaCompatibility) then
+          Drive^.DriveType := dtOptical
+        else
+          Drive^.DriveType := dtUnknown;
       end
-      else
-      begin
-        Path := EmptyStr;
-        DisplayName := ExtractFileName(DeviceFile);
-      end;
-      DriveLabel := IdLabel;
+    else
+      Drive^.DriveType := dtUnknown;
 
-      if DeviceIsPartition then
-        DriveType := dtHardDisk
-      else if DeviceIsDrive then
-        begin
-          if BeginsWithString(['flash'], DriveMediaCompatibility) then
-            DriveType := dtFlash
-          else if BeginsWithString(['floppy'], DriveMediaCompatibility) then
-            DriveType := dtFloppy
-          else if BeginsWithString(['optical'], DriveMediaCompatibility) then
-            DriveType := dtOptical
-          else
-            DriveType := dtUnknown;
-        end
-      else
-        DriveType := dtUnknown;
-
-      IsMediaAvailable := DeviceIsMediaAvailable;
-      IsMediaEjectable := DeviceIsDrive and DriveIsMediaEjectable;
-      IsMounted := DeviceIsMounted;
-    end;
+    Drive^.IsMediaAvailable := DeviceIsMediaAvailable;
+    Drive^.IsMediaEjectable := DeviceIsDrive and DriveIsMediaEjectable;
+    Drive^.IsMounted := DeviceIsMounted;
   end;
 end;
 {$ENDIF}
@@ -556,13 +492,22 @@ end;
     end;
     Result:= True;
   end;
-  function UDisksGetDeviceObjectByUUID(const UUID: String; const Devices, UUIDs: TStringArray): String;
+  function UDisksGetDeviceObjectByUUID(const UUID: String; const Devices: TUDisksDevicesInfos): String;
   var
     i: Integer;
   begin
-    for i := Low(UUIDs) to High(UUIDs) do
-      if UUIDs[i] = UUID then
-        Exit(Devices[i]);
+    for i := Low(Devices) to High(Devices) do
+      if Devices[i].IdUuid = UUID then
+        Exit(Devices[i].DeviceObjectPath);
+    Result := EmptyStr;
+  end;
+  function UDisksGetDeviceObjectByLabel(const DriveLabel: String; const Devices: TUDisksDevicesInfos): String;
+  var
+    i: Integer;
+  begin
+    for i := Low(Devices) to High(Devices) do
+      if Devices[i].IdLabel = DriveLabel then
+        Exit(Devices[i].DeviceObjectPath);
     Result := EmptyStr;
   end;
 
@@ -576,7 +521,9 @@ var
     // If UDisks is available name=value pair should have been handled,
     // so we are free to check the device name. Otherwise don't check it
     // if it is a known name=value pair.
-    Result := HaveUDisksDevices or not StrBegins(Device, 'UUID=');
+    Result := HaveUDisksDevices or
+              not StrBegins(Device, 'UUID=') or
+              not StrBegins(Device, 'LABEL=');
   end;
 
   // Checks if device on some mount point hasn't been added yet.
@@ -608,6 +555,27 @@ var
     Result := nil;
   end;
 
+  function GetStrMaybeQuoted(const s: string): string;
+  var
+    i: Integer;
+  begin
+    Result := '';
+    if Length(s) > 0 then
+    begin
+      if s[1] in ['"', ''''] then
+      begin
+        for i := Length(s) downto 2 do
+        begin
+          if s[i] = s[1] then
+            Exit(Copy(s, 2, i-2));
+        end;
+      end
+      else
+        Result := s;
+    end;
+  end;
+
+
 const
   MntEntFileList: array[1..2] of PChar = (_PATH_FSTAB, _PATH_MOUNTED);
 var
@@ -616,8 +584,8 @@ var
   fstab: PIOFile;
   pme: PMountEntry;
   I: Integer;
-  UDisksDevicesList: TStringArray;
-  UDisksUUIDsList: TStringArray;
+  UDisksDevices: TUDisksDevicesInfos;
+  UDisksDevice: TUDisksDeviceInfo;
   UDisksDeviceObject: UTF8String;
   DeviceFile: String;
   MountPoint: String;
@@ -629,7 +597,7 @@ begin
     AddedMountPoints := TStringList.Create;
 
     if IsUDisksAvailable then
-      HaveUDisksDevices := UDisksGetDevices(UDisksDevicesList, UDisksUUIDsList);
+      HaveUDisksDevices := uUDisks.EnumerateDevices(UDisksDevices);
 
     // Storage devices have to be in fstab or mtab and reported by UDisks.
     for I:= Low(MntEntFileList) to High(MntEntFileList) do
@@ -646,11 +614,19 @@ begin
 
           if HaveUDisksDevices then
           begin
-            // Handle "/dev/" and "UUID=" through UDisks if available.
+            // Handle "/dev/", "UUID=" and "LABEL=" through UDisks if available.
             if StrBegins(DeviceFile, 'UUID=') then
             begin
               UDisksDeviceObject := UDisksGetDeviceObjectByUUID(
-                  Copy(DeviceFile, 6, MaxInt), UDisksDevicesList, UDisksUUIDsList);
+                  GetStrMaybeQuoted(Copy(DeviceFile, 6, MaxInt)), UDisksDevices);
+              if UDisksDeviceObject <> EmptyStr then
+                DeviceFile := '/dev/' + ExtractFileName(UDisksDeviceObject);
+              HandledByUDisks := True;
+            end
+            else if StrBegins(DeviceFile, 'LABEL=') then
+            begin
+              UDisksDeviceObject := UDisksGetDeviceObjectByLabel(
+                  GetStrMaybeQuoted(Copy(DeviceFile, 7, MaxInt)), UDisksDevices);
               if UDisksDeviceObject <> EmptyStr then
                 DeviceFile := '/dev/' + ExtractFileName(UDisksDeviceObject);
               HandledByUDisks := True;
@@ -665,11 +641,10 @@ begin
 
             // Don't add the device if it's not listed by UDisks.
             if HandledByUDisks and
-               IsStringInArray(UDisksDeviceObject, UDisksDevicesList) and
                CanAddDevice(DeviceFile, MountPoint) and
-               UDisksDeviceToDrive(UDisksDeviceObject, Drive) then
+               UDisksGetDeviceInfo(UDisksDeviceObject, UDisksDevices, UDisksDevice) then
             begin
-              // Drive object has been created.
+              UDisksDeviceToDrive(UDisksDevice, Drive);
               Drive^.Path := MountPoint;
               Drive^.DisplayName := ExtractFileName(Drive^.Path);
             end;
@@ -754,8 +729,10 @@ end;
 procedure TFakeClass.OnUDisksNotify(Reason: TUDisksMethod; const ObjectPath: UTF8String);
 var
   ADrive: PDrive = nil;
+  DeviceInfo: TUDisksDeviceInfo;
 begin
-  UDisksDeviceToDrive(ObjectPath, ADrive);
+  if uUDisks.GetDeviceInfo(ObjectPath, DeviceInfo) then
+    UDisksDeviceToDrive(DeviceInfo, ADrive);
   try
     case Reason of
       UDisks_DeviceAdded:
