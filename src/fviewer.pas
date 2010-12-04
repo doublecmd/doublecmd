@@ -186,12 +186,12 @@ type
     procedure miSearchPrevClick(Sender: TObject);
     procedure miZoomClick(Sender: TObject);
     procedure PanelEditImageMouseEnter(Sender: TObject);
+    procedure pnlImageResize(Sender: TObject);
     procedure pnlListerResize(Sender: TObject);
     procedure sboxImageMouseEnter(Sender: TObject);
     procedure sboxImageMouseLeave(Sender: TObject);
     procedure sboxImageMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
-    procedure sboxImageResize(Sender: TObject);
     procedure btnNextGifFrameClick(Sender: TObject);
     procedure SplitterChangeBounds(Sender: TObject);
     procedure TimerViewerTimer(Sender: TObject);
@@ -1150,6 +1150,11 @@ begin
   if miFullScreen.Checked then PanelEditImage.Height:= 50;
 end;
 
+procedure TfrmViewer.pnlImageResize(Sender: TObject);
+begin
+  if bImage then AdjustImageSize;
+end;
+
 procedure TfrmViewer.pnlListerResize(Sender: TObject);
 begin
   if bPlugin then
@@ -1175,11 +1180,6 @@ begin
     Image.Cursor:=crDefault;
     i_timer:=0;
   end;
-end;
-
-procedure TfrmViewer.sboxImageResize(Sender: TObject);
-begin
-  if bImage then AdjustImageSize;
 end;
 
 procedure TfrmViewer.btnNextGifFrameClick(Sender: TObject);

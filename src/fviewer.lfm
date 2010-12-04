@@ -139,6 +139,7 @@ object frmViewer: TfrmViewer
     ClientWidth = 971
     TabOrder = 3
     Visible = False
+    OnResize = pnlImageResize
     object sboxImage: TScrollBox
       Left = 0
       Height = 440
@@ -152,7 +153,6 @@ object frmViewer: TfrmViewer
       TabOrder = 0
       OnMouseEnter = sboxImageMouseEnter
       OnMouseLeave = sboxImageMouseLeave
-      OnResize = sboxImageResize
       object Image: TImage
         Left = 85
         Height = 434
