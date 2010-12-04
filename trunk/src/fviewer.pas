@@ -1211,6 +1211,7 @@ begin
     begin
       sName:= ExtractOnlyFileName(FileList.Strings[i]);
       sExt:= ExtractFileExt(FileList.Strings[i]);
+      DrawPreview.Canvas.FillRect(aRect); // Clear cell
       lstPreviewImg.Draw(DrawPreview.Canvas, aRect.Left+z+4, aRect.Top+5, i, True);
       if DrawPreview.Canvas.GetTextWidth(sName+sExt) < DrawPreview.DefaultColWidth then
         begin
