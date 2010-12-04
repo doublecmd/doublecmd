@@ -1201,40 +1201,32 @@ end;
 procedure TfrmViewer.DrawPreviewDrawCell(Sender: TObject; aCol, aRow: Integer;
   aRect: TRect; aState: TGridDrawState);
 var
-  i,x,y,z,t:integer;
-  sExt, sName, shortName: string;
+  i,z,t: Integer;
+  sExt, sName, shortName: UTF8String;
   c: AnsiChar;
 begin
-  i:=0;
-  z:= (DrawPreview.Width- DrawPreview.ColCount* DrawPreview.DefaultColWidth)div DrawPreview.ColCount div 2 ;
-  DrawPreview.Canvas.Clear;
-  for y:=0 to DrawPreview.RowCount-1 do
+  i:= (aCol + 1) * (aRow + 1) - 1; // Calculate FileList index
+  z:= (DrawPreview.Width - DrawPreview.ColCount * DrawPreview.DefaultColWidth) div DrawPreview.ColCount div 2;
+  if (i >= 0) and (i < FileList.Count) then
     begin
-      for x:=0 to DrawPreview.ColCount-1 do
+      sName:= ExtractOnlyFileName(FileList.Strings[i]);
+      sExt:= ExtractFileExt(FileList.Strings[i]);
+      lstPreviewImg.Draw(DrawPreview.Canvas, aRect.Left+z+4, aRect.Top+5, i, True);
+      if DrawPreview.Canvas.GetTextWidth(sName+sExt) < DrawPreview.DefaultColWidth then
         begin
-          if i < FileList.Count then
+          t:= (DrawPreview.DefaultColWidth-DrawPreview.Canvas.GetTextWidth(sName+sExt)) div 2;
+          DrawPreview.Canvas.TextOut(aRect.Left+z+t, aRect.Top+120, sName+sExt);
+        end
+      else
+        begin
+          shortName:= '';
+          t:= 1;
+          while DrawPreview.Canvas.GetTextWidth(shortName+'...'+sExt) < (DrawPreview.DefaultColWidth-15) do
             begin
-              sName:= ExtractOnlyFileName(FileList.Strings[i]);
-              sExt:= ExtractFileExt(FileList.Strings[i]);
-              lstPreviewImg.Draw(DrawPreview.Canvas, DrawPreview.CellRect(x,y).Left+z+4, DrawPreview.CellRect(x,y).Top+5, i, true);
-              if DrawPreview.Canvas.GetTextWidth(sName+sExt)< DrawPreview.DefaultColWidth then
-                begin
-                  t:=  (DrawPreview.DefaultColWidth-DrawPreview.Canvas.GetTextWidth(sName+sExt)) div 2;
-                  DrawPreview.Canvas.TextOut(DrawPreview.CellRect(x,y).Left+z+t, DrawPreview.CellRect(x,y).Top+120, sName+sExt);
-                end
-              else
-                begin
-                  shortName:='';
-                  t:=1;
-                  while DrawPreview.Canvas.GetTextWidth(shortName+'...'+sExt)<(DrawPreview.DefaultColWidth-15) do
-                    begin
-                      shortName:= shortName+ sName[t];
-                      inc(t);
-                    end;
-                  DrawPreview.Canvas.TextOut(DrawPreview.CellRect(x,y).Left+z, DrawPreview.CellRect(x,y).Top+120, shortName+'...'+sExt);
-                end;
-              inc (i);
+              shortName:= shortName + sName[t];
+              Inc(t);
             end;
+          DrawPreview.Canvas.TextOut(aRect.Left+z, aRect.Top+120, shortName+'...'+sExt);
         end;
     end;
 end;
