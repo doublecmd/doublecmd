@@ -154,6 +154,11 @@ function GetHomeDir : String;
    @returns(The directory for the application's configuration files)
 }
 function GetAppConfigDir: String;
+{en
+   Get the appropriate directory for the application's cache files
+   @returns(The directory for the application's cache files)
+}
+function GetAppCacheDir: UTF8String;
 
 {en
    Returns path to a temporary name. It ensures that returned path doesn't exist,
@@ -889,6 +894,32 @@ begin
     Result:= uinfo^.pw_dir + '/.config/' + ApplicationName
   else
     Result:= ExcludeTrailingPathDelimiter(SysUtils.GetAppConfigDir(False));
+end;
+{$ENDIF}
+
+function GetAppCacheDir: UTF8String;
+{$IF DEFINED(MSWINDOWS)}
+var
+  APath: array[0..MAX_PATH] of WideChar;
+begin
+  if SHGetSpecialFolderPathW(0, APath, CSIDL_LOCAL_APPDATA, True) then
+    Result:= UTF8Encode(WideString(APath)) + DirectorySeparator + ApplicationName
+  else
+    Result:= GetAppConfigDir;
+end;
+{$ELSEIF DEFINED(DARWIN)}
+begin
+  Result:= GetHomeDir + 'Library/Caches/' + ApplicationName;
+end;
+{$ELSE}
+var
+  uinfo: PPasswordRecord;
+begin
+  uinfo:= getpwuid(fpGetUID);
+  if (uinfo <> nil) and (uinfo^.pw_dir <> '') then
+    Result:= uinfo^.pw_dir + '/.cache/' + ApplicationName
+  else
+    Result:= GetHomeDir + '.cache/' + ApplicationName;
 end;
 {$ENDIF}
 
@@ -1824,4 +1855,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.
