@@ -2125,7 +2125,7 @@ msgstr "Включити/виключити чорний список файлі
 #: TFRMMAIN.ACTSYMLINK.CAPTION
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
 msgid "Create symlink..."
-msgstr "Створити символьне пос&илання..."
+msgstr "Створити символічне пос&илання..."
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
 msgid "Target &= Source"
@@ -2470,7 +2470,7 @@ msgstr "Перемістити..."
 #: TFRMMAIN.MISYMLINK.CAPTION
 msgctxt "TFRMMAIN.MISYMLINK.CAPTION"
 msgid "Create symlink..."
-msgstr "Створити символьне пос&илання..."
+msgstr "Створити символічне пос&илання..."
 
 #: TFRMMAIN.MITABOPTIONS.CAPTION
 msgid "Tab options"
@@ -3889,6 +3889,7 @@ msgid "Properties of packed file"
 msgstr "Властивості стисненого файлу"
 
 #: TFRMPACKINFODLG.EDTPACKEDFILE.TEXT
+
 msgctxt "TFRMPACKINFODLG.EDTPACKEDFILE.TEXT"
 msgid "?"
 msgstr "?"
