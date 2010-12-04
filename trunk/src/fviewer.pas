@@ -39,8 +39,8 @@ interface
 uses
   LResources, SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls,
   LCLProc, Menus, Dialogs, ExtDlgs, EditBtn, StdCtrls, Buttons, ColorBox, Spin,
-  viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule, uFileSource,
-  fModView, uOSUtils;
+  Grids, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
+  uFileSource, fModView, uOSUtils;
 
 
 type
@@ -48,14 +48,24 @@ type
   { TfrmViewer }
 
   TfrmViewer = class(TForm)
+    btnCopyFile1: TSpeedButton;
+    btnDeleteFile1: TSpeedButton;
+    btnMoveFile1: TSpeedButton;
+    btnNext1: TSpeedButton;
+    btnPrev1: TSpeedButton;
+    btnReload1: TSpeedButton;
     cbSlideShow: TCheckBox;
     ColorBoxPaint: TColorBox;
     ComboBoxWidth: TComboBox;
     ComboBoxPaint: TComboBox;
+    DrawPreview: TDrawGrid;
     gboxPaint: TGroupBox;
     gboxView: TGroupBox;
     gboxSlideShow: TGroupBox;
     GifAnim: TGifAnim;
+    lstPreviewImg: TImageList;
+    miDiv4: TMenuItem;
+    miPreview: TMenuItem;
     miScreenshot: TMenuItem;
     miFullScreen: TMenuItem;
     miSave: TMenuItem;
@@ -73,6 +83,7 @@ type
     miSearchPrev: TMenuItem;
     miPrint: TMenuItem;
     miSearchNext: TMenuItem;
+    pnlEditFile: TPanel;
     PanelEditImage: TPanel;
     pmiSelectAll: TMenuItem;
     miDiv5: TMenuItem;
@@ -110,6 +121,7 @@ type
     btnGifToBmp: TSpeedButton;
     btnNextGifFrame: TSpeedButton;
     btnPrevGifFrame: TSpeedButton;
+    Splitter: TSplitter;
     Status: TStatusBar;
     MainMenu: TMainMenu;
     miFile: TMenuItem;
@@ -147,8 +159,11 @@ type
     procedure btnRedEyeClick(Sender: TObject);
     procedure btnReloadClick(Sender: TObject);
     procedure btnResizeClick(Sender: TObject);
-    procedure btnScreenshotClick(Sender: TObject);
     procedure btnUndoClick(Sender: TObject);
+    procedure DrawPreviewDrawCell(Sender: TObject; aCol, aRow: Integer;
+      aRect: TRect; aState: TGridDrawState);
+    procedure DrawPreviewSelection(Sender: TObject; aCol, aRow: Integer);
+    procedure DrawPreviewTopleftChanged(Sender: TObject);
     procedure FormCreate(Sender : TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure GifAnimMouseEnter(Sender: TObject);
@@ -160,7 +175,7 @@ type
       );
     procedure ImageMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure MenuItem1Click(Sender: TObject);
+    procedure miPreviewClick(Sender: TObject);
     procedure miSaveAsClick(Sender: TObject);
     procedure miSaveClick(Sender: TObject);
     procedure miScreenShotClick(Sender: TObject);
@@ -178,6 +193,7 @@ type
       Y: Integer);
     procedure sboxImageResize(Sender: TObject);
     procedure btnNextGifFrameClick(Sender: TObject);
+    procedure SplitterChangeBounds(Sender: TObject);
     procedure TimerViewerTimer(Sender: TObject);
     procedure ViewerControlMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -242,6 +258,7 @@ type
     procedure Res(W, H: integer);
     procedure RedEyes;
     procedure SaveImageAs (Var sExt: String; senderSave: boolean; Quality: integer);
+    procedure CreatePreview(FullPathToFile:string; index:integer; delete: boolean = false);
 
   public
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource); reintroduce;
@@ -260,7 +277,7 @@ implementation
 
 uses
   FileUtil, IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx,
-  uFindMmap, uDCUtils, LCLIntf;
+  uFindMmap, uDCUtils, LCLIntf, uReSample;
 
 const
   // Status bar panels indexes.
@@ -283,7 +300,10 @@ begin
   //DebugLn('ShowViewer - Using Internal');
   Viewer := TfrmViewer.Create(Application, aFileSource);
   Viewer.QuickView:= False;
-  Viewer.FileList.Assign(FilesToView); // Make a copy of the list
+  Viewer.FileList.Assign(FilesToView);// Make a copy of the list
+  Viewer.DrawPreview.RowCount:= Viewer.FileList.Count-1;
+  Viewer.DrawPreview.Visible:=false;
+  Viewer.Splitter.Align:=alLeft;
   Viewer.LoadFile(0);
   Viewer.Show;
 end;
@@ -642,9 +662,127 @@ begin
   Image.Cursor:=crDefault;
 end;
 
-procedure TfrmViewer.MenuItem1Click(Sender: TObject);
+procedure TfrmViewer.CreatePreview(FullPathToFile:string; index:integer; delete: boolean = false);
+var
+  bmps, bmpt : TBitmap;
+  Picture: TPicture;
+  sExt, sOnlyFileName:string;
+  fsFileStream: TFileStreamEx = nil;
+  x,y,z: integer;
+  rec: TRect;
+  begin
+    sExt:= ExtractOnlyFileExt(FullPathToFile);
+    sOnlyFileName:=ExtractOnlyFileName(FullPathToFile);
+    if not (mbDirectoryExists('.DCImg')) then mbCreateDir('.DCImg');        // if not directory create it
+    Picture:= TPicture.Create;
+    sOnlyFileName:= inttostr( mbFileSize(sOnlyFileName+'.'+sExt))+'_'+sOnlyFileName;
+    if (sExt='jpg') or (sExt='jpeg') or (sExt='bmp') then sExt:='jpg' else sExt:='png';
+    if mbFileExists('.DCImg'+PathDelim+sOnlyFileName+'.'+sExt) then
+      begin
+        if delete then
+          begin
+            mbDeleteFile ('.DCImg'+PathDelim+sOnlyFileName+'.'+sExt);           // delete thumb if need
+            for x:=index to FileList.Count-2 do
+            lstPreviewImg.Move(x+1,x);
+            Exit;
+          end
+        else
+          Picture.LoadFromFile('.DCImg'+PathDelim+sOnlyFileName+'.'+sExt);      // load from thumb if exist
+      end
+    else
+     // create thumb if not exist
+      begin
+        sExt:= ExtractOnlyFileExt(FullPathToFile);
+        if CheckGraphics(FullPathToFile) then
+          begin
+            try
+              fsFileStream:= TFileStreamEx.Create(FullPathToFile, fmOpenRead or fmShareDenyNone);
+                try
+                  Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
+                 if  Picture.Bitmap.Width> Picture.Bitmap.Height then
+                   begin
+                     x:=DrawPreview.DefaultColWidth;
+                     y:= x*Picture.Bitmap.Height div Picture.Bitmap.Width;
+                     if y>DrawPreview.DefaultRowHeight-30 then
+                       begin
+                         y:=DrawPreview.DefaultRowHeight-30;
+                         x:=y*Picture.Bitmap.Width div Picture.Bitmap.Height;
+                       end;
+                   end
+                 else
+                   begin
+                     y:=DrawPreview.DefaultRowHeight-30;
+                     x:=y*Picture.Bitmap.Width div Picture.Bitmap.Height;
+                   end;
+                  bmps:= TBitMap.Create;
+                  bmpt:= TBitMap.Create;
+                  bmps.Assign(Picture.Graphic);
+                  bmpt.SetSize(x,y);
+                  Stretch(bmps, bmpt, ResampleFilters[2].Filter, ResampleFilters[2].Width);
+                  Picture.Bitmap:=bmpt;
+              except
+                FreeAndNil(fsFileStream);
+                bmps.free;
+                bmpt.free;
+                Exit;
+                end;
+              finally
+                if Assigned(fsFileStream) then
+                  FreeAndNil(fsFileStream);
+                bmps.free;
+                bmpt.free;
+              end;
+            if (sExt='jpg') or (sExt='jpeg') or (sExt='bmp') then sExt:='jpg' else sExt:='png';
+            Picture.SaveToFile('.DCImg'+PathDelim+sOnlyFilename+'.'+sExt);
+          end
+        else
+        // load Unnown file image
+          //begin
+          //  if sExt='txt' then
+          //    begin
+          //      ViewerControl.FileName := FileList.Strings[index];
+          //      Application.ProcessMessages;
+          //      Picture.Bitmap.SetSize(DrawPreview.DefaultColWidth*2, DrawPreview.DefaultRowHeight*2);
+          //      Picture.Bitmap.Canvas.CopyRect(Rect(0,0,DrawPreview.DefaultColWidth*2, DrawPreview.DefaultRowHeight*2 ),
+          //                                ViewerControl.Canvas, Rect(0,0,DrawPreview.DefaultColWidth*2, DrawPreview.DefaultRowHeight*2 ));
+          //      Picture.Bitmap.Canvas.StretchDraw(Rect(0,0,DrawPreview.DefaultColWidth*2, DrawPreview.DefaultRowHeight*2 ), Picture.Graphic);
+          //      ViewerControl.Free;
+          //    end
+          //  else
+             //begin
+               Picture.LoadFromFile(ProgramDirectory+PathDelim+'pixmaps'+PathDelim+'dctheme'+PathDelim+'32x32'+PathDelim+'mimetypes'+PathDelim+'unknown.png');
+             //end;
+          //end;
+      end;
+    // insert to the imglist and draw
+    lstPreviewImg.Insert(index,Picture.Bitmap,nil);
+    y:= index div DrawPreview.ColCount ;
+    x:= index-y * DrawPreview.ColCount ;
+    z:= (DrawPreview.Width- DrawPreview.ColCount* DrawPreview.DefaultColWidth)div DrawPreview.ColCount div 2 ;
+    lstPreviewImg.Draw(DrawPreview.Canvas, DrawPreview.CellRect(x,y).Left+4+z, DrawPreview.CellRect(x,y).Top+5, index, true);
+    Picture.Free;
+  end;
+
+procedure TfrmViewer.miPreviewClick(Sender: TObject);
+var
+  i: integer;
 begin
-  GifAnim.Animate:=not GifAnim.Animate;
+  miPreview.Checked:= not (miPreview.Checked);
+  DrawPreview.Visible := miPreview.Checked;
+  if DrawPreview.Visible then Splitter.Align:=alCustom
+  else
+    begin
+      Splitter.Align:=alLeft;
+      lstPreviewImg.Clear;
+    end;
+  Application.ProcessMessages;
+  if miPreview.Checked then
+     begin
+       for i:=0 to FileList.Count-1 do
+       CreatePreview(FileList.Strings[i], i);
+       DrawPreview.FixedRows:= 0;
+       DrawPreview.FixedCols:= 0;
+     end;
 end;
 
 procedure TfrmViewer.miSaveAsClick(Sender: TObject);
@@ -677,8 +815,10 @@ procedure TfrmViewer.miSaveClick(Sender: TObject);
 var
   sExt: String;
 begin
+  CreatePreview(FileList.Strings[iActiveFile], iActiveFile, true);
   sExt:= ExtractFileExt(FileList.Strings[iActiveFile]);
   SaveImageAs(sExt, true, 80);
+  CreatePreview(FileList.Strings[iActiveFile], iActiveFile);
 end;
 
 procedure TfrmViewer.miFullScreenClick(Sender: TObject);
@@ -692,6 +832,8 @@ begin
       gboxPaint.Visible:= false;
       gboxHightlight.Visible:=false;
       miStretch.Checked:= miFullScreen.Checked;
+      if miPreview.Checked then
+        miPreviewClick(Sender);
     end
   else
     begin
@@ -810,7 +952,7 @@ begin
   tmp_all.Assign(Image.Picture.Graphic);
 end;
 
-procedure TfrmViewer.CheckXY;                       //Устанавливает правильные координаты выделения
+procedure TfrmViewer.CheckXY;
 var
   tmp, RealWidth, RealHeight: integer;
 begin
@@ -1046,6 +1188,76 @@ begin
   GifAnim.NextFrame;
 end;
 
+procedure TfrmViewer.SplitterChangeBounds(Sender: TObject);
+begin
+  if DrawPreview.Width div (DrawPreview.DefaultColWidth+6)>0 then
+     DrawPreview.ColCount:=DrawPreview.Width div (DrawPreview.DefaultColWidth+6);
+  if FileList.Count mod DrawPreview.ColCount >0 then
+     DrawPreview.RowCount:=FileList.Count div DrawPreview.ColCount +1
+  else DrawPreview.RowCount:=FileList.Count div DrawPreview.ColCount;
+end;
+
+
+procedure TfrmViewer.DrawPreviewDrawCell(Sender: TObject; aCol, aRow: Integer;
+  aRect: TRect; aState: TGridDrawState);
+var
+  i,x,y,z,t:integer;
+  sExt, sName, shortName: string;
+  c: AnsiChar;
+begin
+  i:=0;
+  z:= (DrawPreview.Width- DrawPreview.ColCount* DrawPreview.DefaultColWidth)div DrawPreview.ColCount div 2 ;
+  DrawPreview.Canvas.Clear;
+  for y:=0 to DrawPreview.RowCount-1 do
+    begin
+      for x:=0 to DrawPreview.ColCount-1 do
+        begin
+          if i < FileList.Count then
+            begin
+              sName:= ExtractOnlyFileName(FileList.Strings[i]);
+              sExt:= ExtractFileExt(FileList.Strings[i]);
+              lstPreviewImg.Draw(DrawPreview.Canvas, DrawPreview.CellRect(x,y).Left+z+4, DrawPreview.CellRect(x,y).Top+5, i, true);
+              if DrawPreview.Canvas.GetTextWidth(sName+sExt)< DrawPreview.DefaultColWidth then
+                begin
+                  t:=  (DrawPreview.DefaultColWidth-DrawPreview.Canvas.GetTextWidth(sName+sExt)) div 2;
+                  DrawPreview.Canvas.TextOut(DrawPreview.CellRect(x,y).Left+z+t, DrawPreview.CellRect(x,y).Top+120, sName+sExt);
+                end
+              else
+                begin
+                  shortName:='';
+                  t:=1;
+                  while DrawPreview.Canvas.GetTextWidth(shortName+'...'+sExt)<(DrawPreview.DefaultColWidth-15) do
+                    begin
+                      shortName:= shortName+ sName[t];
+                      inc(t);
+                    end;
+                  DrawPreview.Canvas.TextOut(DrawPreview.CellRect(x,y).Left+z, DrawPreview.CellRect(x,y).Top+120, shortName+'...'+sExt);
+                end;
+              inc (i);
+            end;
+        end;
+    end;
+end;
+
+procedure TfrmViewer.DrawPreviewSelection(Sender: TObject; aCol, aRow: Integer);
+var
+  i : integer;
+begin
+  gboxHightlight.Visible:=false;
+  gboxPaint.Visible:=false;
+  i:= DrawPreview.Row*DrawPreview.ColCount+DrawPreview.Col;
+  if i<Filelist.Count then
+    begin
+      iActiveFile:= i;
+      LoadFile(FileList.Strings[i]);
+    end;
+end;
+
+procedure TfrmViewer.DrawPreviewTopleftChanged(Sender: TObject);
+begin
+  DrawPreview.LeftCol:=0;
+end;
+
 procedure TfrmViewer.TimerViewerTimer(Sender: TObject);
 begin
   if (miFullScreen.Checked) and (PanelEditImage.Height>3) then
@@ -1244,8 +1456,10 @@ procedure TfrmViewer.btnDeleteFileClick(Sender: TObject);
 begin
   if msgYesNo(Format(rsMsgDelSel, [FileList.Strings[iActiveFile]])) then
     begin
+      CreatePreview(FileList.Strings[iActiveFile], iActiveFile, true);
       mbDeleteFile(FileList.Strings[iActiveFile]);
       FileList.Delete(iActiveFile);
+      LoadFile(iActiveFile);
     end;
 end;
 
@@ -1273,8 +1487,11 @@ begin
         CopyFile(FileList.Strings[iActiveFile],FModSizeDialog.Path+PathDelim+ExtractFileName(FileList.Strings[iActiveFile]));
         if sender=btnMoveFile then
           begin
+            CreatePreview(FileList.Strings[iActiveFile], iActiveFile, true);
             mbDeleteFile(FileList.Strings[iActiveFile]);
             FileList.Delete(iActiveFile);
+            LoadFile(iActiveFile);
+            CreatePreview(FileList.Strings[iActiveFile], iActiveFile);
           end;
       end;
     end
@@ -1400,11 +1617,6 @@ begin
   AdjustImageSize;
 end;
 
-procedure TfrmViewer.btnScreenshotClick(Sender: TObject);
-begin
-
-end;
-
 procedure TfrmViewer.btnUndoClick(Sender: TObject);
 begin
   UndoTmp;
@@ -1418,6 +1630,8 @@ begin
      FreeAndNil(FFindDialog);
   if Assigned(FModSizeDialog) then
      FreeAndNil(FModSizeDialog);
+  if Assigned(lstPreviewImg) then
+     FreeAndNil(lstPreviewImg);
 end;
 
 procedure TfrmViewer.miProcessClick(Sender: TObject);
@@ -1518,7 +1732,8 @@ begin
      begin
        Image.Stretch:=true;
        Image.AutoSize := true;
-       if gboxHightlight.Visible or gboxPaint.Visible then Image.Center:=false else Image.Center:=true;
+       //if gboxHightlight.Visible or gboxPaint.Visible then Image.Center:=false else Image.Center:=true;
+       Image.Center:=true;
        if (Image.Picture.Width > sboxImage.ClientWidth) or  (Image.Picture.Height > sboxImage.ClientHeight) then
          begin
            Image.Left:= 0;
