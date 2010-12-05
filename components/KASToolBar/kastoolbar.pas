@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Toolbar panel class
 
-   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
    
    contributors:
    
@@ -49,6 +49,7 @@ type
 
   TKASToolBar = class(TToolBar)
   private
+    FUpdateCount: Integer;
     FGlyphSize: Integer;
     FRadioToolBar: Boolean;
     FShowDividerAsButton: Boolean;
@@ -101,6 +102,10 @@ type
     procedure SaveToIniFile(IniFile: TIniFile);
     procedure LoadFromFile(FileName: String);
     procedure SaveToFile(FileName: String);
+
+    procedure BeginUpdate; override;
+    procedure EndUpdate; override;
+    procedure SetButtonSize(NewButtonWidth, NewButtonHeight: Integer);
 
     property Buttons[Index: Integer]: TSpeedButton read GetButton;
     property Commands[Index: Integer]: String read GetCommand write SetCommand;
@@ -320,6 +325,7 @@ begin
   inherited Create(TheOwner);
   FBarFile:= TBarClass.Create;
   FGlyphSize:= 16; // by default
+  FUpdateCount:= 0;
 end;
 
 destructor TKASToolBar.Destroy;
@@ -377,6 +383,68 @@ begin
   finally
     if Assigned(IniFile) then
       FreeAndNil(IniFile);
+  end;
+end;
+
+procedure TKASToolBar.BeginUpdate;
+begin
+  Inc(FUpdateCount);
+  inherited BeginUpdate;
+end;
+
+procedure TKASToolBar.EndUpdate;
+begin
+  Dec(FUpdateCount);
+  inherited EndUpdate;
+end;
+
+procedure TKASToolBar.SetButtonSize(NewButtonWidth, NewButtonHeight: Integer);
+var
+  CurControl: TControl;
+  NewWidth: Integer;
+  NewHeight: Integer;
+  I: Integer;
+  ChangeW, ChangeH: Boolean;
+begin
+  ChangeW := ButtonWidth <> NewButtonWidth;
+  ChangeH := ButtonHeight <> NewButtonHeight;
+  if not (ChangeW or ChangeH) then Exit;
+
+  if FUpdateCount > 0 then Exit;
+  if [csLoading, csDestroying] * ComponentState <> [] then Exit;
+
+  // set all childs to ButtonWidth ButtonHeight
+  BeginUpdate;
+  try
+    // Change FButtonWidth and FButtonHeight, we called this procedure after
+    // BeginUpdate, so only FButtonWidth and FButtonHeight will be changed
+    // without real button size update
+    inherited SetButtonSize(NewButtonWidth, NewButtonHeight);
+
+    for I:= ControlCount - 1 downto 0 do
+    begin
+      CurControl := Controls[I];
+      NewWidth := CurControl.Width;
+      NewHeight := CurControl.Height;
+
+      // width
+      if ChangeW
+      and (ButtonWidth > 0)
+      and not CurControl.AutoSize
+      and (CurControl.Align in [alNone, alLeft, alRight])
+      then NewWidth := ButtonWidth;
+
+      // height
+      // in horizontal toolbars the height is set by the toolbar independent of autosize
+      if ChangeH
+      and (ButtonHeight > 0)
+      and ((Align in [alTop, alBottom]) or not CurControl.AutoSize)
+      then NewHeight := ButtonHeight;
+
+      CurControl.SetBounds(CurControl.Left, CurControl.Top, NewWidth, NewHeight);
+    end;
+  finally
+    EndUpdate;
   end;
 end;
 
