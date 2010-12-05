@@ -470,18 +470,22 @@ msgstr "Двійковий"
 msgid "Keep scrolling"
 msgstr "Одночасна прокрутка"
 
-#: TFRMCONFIGTOOLBAR.BTNADDBUTTON.CAPTION
-msgid "&Append"
-msgstr "Дод&ати"
+#: TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION
+msgid "&Insert new button"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.BTNAPPENDMORE.CAPTION
+msgid "A&ppend >>"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Відміна"
 
-#: TFRMCONFIGTOOLBAR.BTNCHANGEBUTTON.CAPTION
-msgid "Change >>"
-msgstr "Змінити >>"
+#: TFRMCONFIGTOOLBAR.BTNCLONEBUTTON.CAPTION
+msgid "Clo&ne button"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
@@ -492,10 +496,6 @@ msgstr "Ви&далити"
 msgctxt "TFRMCONFIGTOOLBAR.BTNHELP.CAPTION"
 msgid "&Help"
 msgstr "&Допомога"
-
-#: TFRMCONFIGTOOLBAR.BTNINSERTBUTTON.CAPTION
-msgid "Insert"
-msgstr "Вставити"
 
 #: TFRMCONFIGTOOLBAR.BTNOK.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNOK.CAPTION"
@@ -512,26 +512,30 @@ msgctxt "TFRMCONFIGTOOLBAR.BTNOPENFILE.CAPTION"
 msgid ">>"
 msgstr ">>"
 
-#: TFRMCONFIGTOOLBAR.BTNOPENICONFILE.CAPTION
-msgctxt "TFRMCONFIGTOOLBAR.BTNOPENICONFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
+#: TFRMCONFIGTOOLBAR.CBFLATBUTTONS.CAPTION
+msgid "Flat b&uttons"
+msgstr ""
 
-#: TFRMCONFIGTOOLBAR.CAPTION
+#: TFRMCONFIGTOOLBAR.CBISSEPARATOR.CAPTION
+msgid "S&eparator"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION"
 msgid "Change button bar"
 msgstr "Налаштування панелі інструментів"
-
-#: TFRMCONFIGTOOLBAR.CBFLATICONS.CAPTION
-msgid "F&lat icons"
-msgstr "П&лоскі іконки"
-
-#: TFRMCONFIGTOOLBAR.CBSMALLICONS.CAPTION
-msgid "S&mall icons"
-msgstr "&Маленькі іконки"
 
 #: TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION
 msgid "Appearance"
 msgstr "Вид кнопок"
+
+#: TFRMCONFIGTOOLBAR.LBLBARSIZE.CAPTION
+msgid "Ba&r size:"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.LBLBARSIZEVALUE.CAPTION
+msgid "36"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.LBLBUTTONBAR.CAPTION
 msgid "&Button bar:"
@@ -550,13 +554,17 @@ msgstr "Іко&нка:"
 msgid "Icon &file:"
 msgstr "&Файл іконки:"
 
+#: TFRMCONFIGTOOLBAR.LBLICONSIZE.CAPTION
+msgid "Ic&on size:"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.LBLICONSIZEVALUE.CAPTION
+msgid "32"
+msgstr ""
+
 #: TFRMCONFIGTOOLBAR.LBLPARAMETERS.CAPTION
 msgid "&Parameters:"
 msgstr "Па&раметри:"
-
-#: TFRMCONFIGTOOLBAR.LBLSIZE.CAPTION
-msgid "S&ize:"
-msgstr "&Розмір:"
 
 #: TFRMCONFIGTOOLBAR.LBLSTARTPATH.CAPTION
 msgid "&Start path:"
@@ -567,17 +575,17 @@ msgid "&Tooltip:"
 msgstr "Пі&дказка:"
 
 #: TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION
+#, fuzzy
+#| msgid "Add S&ubbar >>"
 msgctxt "TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION"
-msgid "Add S&ubbar >>"
+msgid "S&ubbar >>"
 msgstr "Додати пан&ель..."
 
 #: TFRMCONFIGTOOLBAR.MIADDSUBMENU.CAPTION
-msgid "Add Sub&menu >>"
+#, fuzzy
+#| msgid "Add Sub&menu >>"
+msgid "Sub&menu >>"
 msgstr "Додати підмен&ю"
-
-#: TFRMCONFIGTOOLBAR.MIINSERTSEPARATOR.CAPTION
-msgid "Insert separator"
-msgstr "Вставити роздільник"
 
 #: TFRMCONNECTIONMANAGER.BTNADD.CAPTION
 msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
@@ -2274,8 +2282,8 @@ msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
 msgid ".."
 msgstr ".."
 
-#: TFRMMAIN.CAPTION
-msgctxt "TFRMMAIN.CAPTION"
+#: TFRMMAIN.FRMMAIN.CAPTION
+msgctxt "TFRMMAIN.FRMMAIN.CAPTION"
 msgid "Double Commander"
 msgstr "Double Commander"
 
@@ -3889,7 +3897,6 @@ msgid "Properties of packed file"
 msgstr "Властивості стисненого файлу"
 
 #: TFRMPACKINFODLG.EDTPACKEDFILE.TEXT
-
 msgctxt "TFRMPACKINFODLG.EDTPACKEDFILE.TEXT"
 msgid "?"
 msgstr "?"
@@ -4927,6 +4934,10 @@ msgstr "Монтувати"
 msgid "New"
 msgstr "Створити"
 
+#: ulng.rsmnunomedia
+msgid "No media available"
+msgstr ""
+
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr "Відкрити з допомогою..."
@@ -4936,7 +4947,9 @@ msgid "Sort by"
 msgstr "Сортувати за"
 
 #: ulng.rsmnuumount
-msgid "Umount"
+#, fuzzy
+#| msgid "Umount"
+msgid "Unmount"
 msgstr "Розмонтувати"
 
 #: ulng.rsmnuview

@@ -248,7 +248,7 @@ begin
         end
       else
         begin
-          mi.Caption := 'No media';
+          mi.Caption := rsMnuNoMedia;
           mi.Enabled := False;
         end;
     end
