@@ -467,7 +467,7 @@ begin
             // Create file source based on saved configuration or create empty and
             // allow it to read its configuration from FSNode.
             if sFSType = 'FileSystem' then
-              aFileSource := TFileSystemFileSource.Create;
+              aFileSource := TFileSystemFileSource.GetFileSource;
 
             if Assigned(aFileSource) then
             begin
@@ -900,4 +900,4 @@ begin
 end;
 
 end.
-
+
