@@ -2189,15 +2189,15 @@ begin
 
     // If same file source and address
     if (fsoCopy in SourceFileSource.GetOperationsTypes) and
-      (fsoCopy  in TargetFileSource.GetOperationsTypes) and
-      SourceFileSource.IsInterface(TargetFileSource) and
-      SameText(SourceFileSource.GetCurrentAddress, TargetFileSource.GetCurrentAddress) then
-      begin
-        // Copy to between same file source
-        Operation := SourceFileSource.CreateCopyOperation(
-                       SourceFiles,
-                       TargetPath) as TFileSourceCopyOperation;
-      end
+       (fsoCopy in TargetFileSource.GetOperationsTypes) and
+       (SourceFileSource = TargetFileSource) and
+       SameText(SourceFileSource.GetCurrentAddress, TargetFileSource.GetCurrentAddress) then
+       begin
+         // Copy to between same file source
+         Operation := SourceFileSource.CreateCopyOperation(
+                        SourceFiles,
+                        TargetPath) as TFileSourceCopyOperation;
+       end
     else if TargetFileSource.IsClass(TFileSystemFileSource) then
     begin
       // CopyOut to filesystem.
