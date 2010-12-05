@@ -1205,7 +1205,7 @@ var
   sExt, sName, shortName: UTF8String;
   c: AnsiChar;
 begin
-  i:= (aCol + 1) * (aRow + 1) - 1; // Calculate FileList index
+  i:= (aRow * DrawPreview.ColCount) + aCol; // Calculate FileList index
   z:= (DrawPreview.Width - DrawPreview.ColCount * DrawPreview.DefaultColWidth) div DrawPreview.ColCount div 2;
   if (i >= 0) and (i < FileList.Count) then
     begin
