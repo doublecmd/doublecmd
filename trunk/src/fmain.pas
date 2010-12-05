@@ -1361,7 +1361,13 @@ if (Button = mbRight) then
         end;
 
     pmToolBar.PopUp(Point.X, Point.Y);
-   end;
+   end
+else
+   if (Button = mbMiddle) then
+      begin
+         tbEditClick(Sender)
+      end;
+
 end;
 
 procedure TfrmMain.MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
@@ -3445,7 +3451,6 @@ procedure TfrmMain.UpdateWindowView;
 var
   I: Integer;
   IniBarFile: TIniFileEx;
-  iDelta: Integer;
 begin
   (* Disk Panels *)
   UpdateDiskCount; // Update list of showed drives
@@ -3466,18 +3471,9 @@ begin
   if gButtonBar then
     begin
       MainToolBar.Flat:= gToolBarFlat;
-      if gToolBarSmallIcons then
-        begin
-          MainToolBar.GlyphSize:= gToolBarIconSize;
-          iDelta:= 0;
-        end
-      else
-        begin
-          MainToolBar.GlyphSize:= gToolBarButtonSize;
-          iDelta:= 4;
-        end;
-      MainToolBar.ButtonHeight:= gToolBarButtonSize + iDelta;
-      MainToolBar.ButtonWidth:= gToolBarButtonSize + iDelta;
+      MainToolBar.GlyphSize:= gToolBarIconSize;
+      MainToolBar.SetButtonSize(gToolBarButtonSize, gToolBarButtonSize);
+
       MainToolBar.ChangePath:= gpExePath;
       MainToolBar.EnvVar:= '%commander_path%';
       try
@@ -3650,24 +3646,13 @@ end;
 
 procedure TfrmMain.tbEditClick(Sender: TObject);
 var
-  iDelta: Integer;
   IniFile: TIniFileEx;
 begin
   if ShowConfigToolbar(MainToolBar.BarFile.CurrentBar, pmToolBar.Tag) then
     begin
       // apply new parameters to main toolbar
-      if gToolBarSmallIcons then
-        begin
-          MainToolBar.GlyphSize:= gToolBarIconSize;
-          iDelta:= 0;
-        end
-      else
-        begin
-          MainToolBar.GlyphSize:= gToolBarButtonSize;
-          iDelta:= 4;
-        end;
-      MainToolBar.ButtonHeight:= gToolBarButtonSize + iDelta;
-      MainToolBar.ButtonWidth:= gToolBarButtonSize + iDelta;
+      MainToolBar.GlyphSize:= gToolBarIconSize;
+      MainToolBar.SetButtonSize(gToolBarButtonSize, gToolBarButtonSize);
       MainToolBar.Flat:= gToolBarFlat;
       try
         IniFile:= TIniFileEx.Create(MainToolBar.BarFile.CurrentBar, fmOpenRead);
