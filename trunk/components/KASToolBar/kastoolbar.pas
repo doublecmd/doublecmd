@@ -57,11 +57,15 @@ type
     FBarFile: TBarClass;
     FOnToolButtonClick: TOnToolButtonClick;
     FOnLoadButtonGlyph: TOnLoadButtonGlyph;
+    function GetButtonHeight: Integer;
+    function GetButtonWidth: Integer;
     function GetChangePath: String;
     function GetEnvVar: String;
     function LoadBtnIcon(IconPath: String): TBitMap;
     function GetButton(Index: Integer): TSpeedButton;
     function GetCommand(Index: Integer): String;
+    procedure SetButtonHeight(const AValue: Integer);
+    procedure SetButtonWidth(const AValue: Integer);
     procedure SetChangePath(const AValue: String);
     procedure SetCommand(Index: Integer; const AValue: String);
     procedure SetEnvVar(const AValue: String);
@@ -117,6 +121,8 @@ type
     property RadioToolBar: Boolean read FRadioToolBar write FRadioToolBar default False;
     property Flat: Boolean read FFlat write SetFlat default False;
     property GlyphSize: Integer read FGlyphSize write SetGlyphSize;
+    property ButtonHeight: Integer read GetButtonHeight write SetButtonHeight default 22;
+    property ButtonWidth: Integer read GetButtonWidth write SetButtonWidth default 23;
     property ShowDividerAsButton: Boolean read FShowDividerAsButton write FShowDividerAsButton default False;
 
     property ChangePath: String read GetChangePath write SetChangePath;
@@ -225,6 +231,16 @@ begin
   Result:= FBarFile.ChangePath;
 end;
 
+function TKASToolBar.GetButtonHeight: Integer;
+begin
+  Result:= inherited ButtonHeight;
+end;
+
+function TKASToolBar.GetButtonWidth: Integer;
+begin
+  Result:= inherited ButtonWidth;
+end;
+
 function TKASToolBar.GetEnvVar: String;
 begin
   Result:= FBarFile.EnvVar;
@@ -310,6 +326,16 @@ end;
 function TKASToolBar.GetCommand(Index: Integer): String;
 begin
  Result:= GetButtonX(Index, CmdX);
+end;
+
+procedure TKASToolBar.SetButtonHeight(const AValue: Integer);
+begin
+  SetButtonSize(AValue, ButtonHeight);
+end;
+
+procedure TKASToolBar.SetButtonWidth(const AValue: Integer);
+begin
+  SetButtonSize(ButtonWidth, AValue);
 end;
 
 {
