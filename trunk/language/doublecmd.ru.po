@@ -470,18 +470,22 @@ msgstr "Двоичный"
 msgid "Keep scrolling"
 msgstr "Одновременная прокрутка"
 
-#: TFRMCONFIGTOOLBAR.BTNADDBUTTON.CAPTION
-msgid "&Append"
-msgstr "Добавить"
+#: TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION
+msgid "&Insert new button"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.BTNAPPENDMORE.CAPTION
+msgid "A&ppend >>"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Отмена"
 
-#: TFRMCONFIGTOOLBAR.BTNCHANGEBUTTON.CAPTION
-msgid "Change >>"
-msgstr "Изменить >>"
+#: TFRMCONFIGTOOLBAR.BTNCLONEBUTTON.CAPTION
+msgid "Clo&ne button"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
@@ -492,10 +496,6 @@ msgstr "Удалить"
 msgctxt "TFRMCONFIGTOOLBAR.BTNHELP.CAPTION"
 msgid "&Help"
 msgstr "Помощь"
-
-#: TFRMCONFIGTOOLBAR.BTNINSERTBUTTON.CAPTION
-msgid "Insert"
-msgstr "Вставить"
 
 #: TFRMCONFIGTOOLBAR.BTNOK.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNOK.CAPTION"
@@ -512,26 +512,30 @@ msgctxt "TFRMCONFIGTOOLBAR.BTNOPENFILE.CAPTION"
 msgid ">>"
 msgstr ""
 
-#: TFRMCONFIGTOOLBAR.BTNOPENICONFILE.CAPTION
-msgctxt "TFRMCONFIGTOOLBAR.BTNOPENICONFILE.CAPTION"
-msgid ">>"
+#: TFRMCONFIGTOOLBAR.CBFLATBUTTONS.CAPTION
+msgid "Flat b&uttons"
 msgstr ""
 
-#: TFRMCONFIGTOOLBAR.CAPTION
+#: TFRMCONFIGTOOLBAR.CBISSEPARATOR.CAPTION
+msgid "S&eparator"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION"
 msgid "Change button bar"
 msgstr "Настройка панели инструментов"
-
-#: TFRMCONFIGTOOLBAR.CBFLATICONS.CAPTION
-msgid "F&lat icons"
-msgstr "Плоские"
-
-#: TFRMCONFIGTOOLBAR.CBSMALLICONS.CAPTION
-msgid "S&mall icons"
-msgstr "Маленькие"
 
 #: TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION
 msgid "Appearance"
 msgstr "Вид кнопок"
+
+#: TFRMCONFIGTOOLBAR.LBLBARSIZE.CAPTION
+msgid "Ba&r size:"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.LBLBARSIZEVALUE.CAPTION
+msgid "36"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.LBLBUTTONBAR.CAPTION
 msgid "&Button bar:"
@@ -550,13 +554,17 @@ msgstr "Зна&чок:"
 msgid "Icon &file:"
 msgstr "&Файл значка:"
 
+#: TFRMCONFIGTOOLBAR.LBLICONSIZE.CAPTION
+msgid "Ic&on size:"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.LBLICONSIZEVALUE.CAPTION
+msgid "32"
+msgstr ""
+
 #: TFRMCONFIGTOOLBAR.LBLPARAMETERS.CAPTION
 msgid "&Parameters:"
 msgstr "Параметры:"
-
-#: TFRMCONFIGTOOLBAR.LBLSIZE.CAPTION
-msgid "S&ize:"
-msgstr "&Размер:"
 
 #: TFRMCONFIGTOOLBAR.LBLSTARTPATH.CAPTION
 msgid "&Start path:"
@@ -567,17 +575,17 @@ msgid "&Tooltip:"
 msgstr "Подсказка:"
 
 #: TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION
+#, fuzzy
+#| msgid "Add S&ubbar >>"
 msgctxt "TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION"
-msgid "Add S&ubbar >>"
+msgid "S&ubbar >>"
 msgstr "Добавить панель..."
 
 #: TFRMCONFIGTOOLBAR.MIADDSUBMENU.CAPTION
-msgid "Add Sub&menu >>"
+#, fuzzy
+#| msgid "Add Sub&menu >>"
+msgid "Sub&menu >>"
 msgstr "Добавить подменю..."
-
-#: TFRMCONFIGTOOLBAR.MIINSERTSEPARATOR.CAPTION
-msgid "Insert separator"
-msgstr "Вставить разделитель"
 
 #: TFRMCONNECTIONMANAGER.BTNADD.CAPTION
 msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
@@ -2297,8 +2305,8 @@ msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
 msgid ".."
 msgstr ""
 
-#: TFRMMAIN.CAPTION
-msgctxt "TFRMMAIN.CAPTION"
+#: TFRMMAIN.FRMMAIN.CAPTION
+msgctxt "TFRMMAIN.FRMMAIN.CAPTION"
 msgid "Double Commander"
 msgstr ""
 
@@ -4974,6 +4982,10 @@ msgstr "Смонтировать"
 msgid "New"
 msgstr "Создать"
 
+#: ulng.rsmnunomedia
+msgid "No media available"
+msgstr ""
+
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr "Открыть с помощью..."
@@ -4983,7 +4995,9 @@ msgid "Sort by"
 msgstr "Упор&ядочить по"
 
 #: ulng.rsmnuumount
-msgid "Umount"
+#, fuzzy
+#| msgid "Umount"
+msgid "Unmount"
 msgstr "Отмонтировать"
 
 #: ulng.rsmnuview

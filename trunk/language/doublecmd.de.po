@@ -473,18 +473,22 @@ msgstr "Binär-Modus"
 msgid "Keep scrolling"
 msgstr "Scrollen fortsetzen"
 
-#: TFRMCONFIGTOOLBAR.BTNADDBUTTON.CAPTION
-msgid "&Append"
-msgstr "An&fügen"
+#: TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION
+msgid "&Insert new button"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.BTNAPPENDMORE.CAPTION
+msgid "A&ppend >>"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Abbruch"
 
-#: TFRMCONFIGTOOLBAR.BTNCHANGEBUTTON.CAPTION
-msgid "Change >>"
-msgstr "Ändern >>"
+#: TFRMCONFIGTOOLBAR.BTNCLONEBUTTON.CAPTION
+msgid "Clo&ne button"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
@@ -495,10 +499,6 @@ msgstr "L&öschen"
 msgctxt "TFRMCONFIGTOOLBAR.BTNHELP.CAPTION"
 msgid "&Help"
 msgstr "&Hilfe"
-
-#: TFRMCONFIGTOOLBAR.BTNINSERTBUTTON.CAPTION
-msgid "Insert"
-msgstr "Einfügen"
 
 #: TFRMCONFIGTOOLBAR.BTNOK.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNOK.CAPTION"
@@ -515,26 +515,30 @@ msgctxt "TFRMCONFIGTOOLBAR.BTNOPENFILE.CAPTION"
 msgid ">>"
 msgstr ">>"
 
-#: TFRMCONFIGTOOLBAR.BTNOPENICONFILE.CAPTION
-msgctxt "TFRMCONFIGTOOLBAR.BTNOPENICONFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
+#: TFRMCONFIGTOOLBAR.CBFLATBUTTONS.CAPTION
+msgid "Flat b&uttons"
+msgstr ""
 
-#: TFRMCONFIGTOOLBAR.CAPTION
+#: TFRMCONFIGTOOLBAR.CBISSEPARATOR.CAPTION
+msgid "S&eparator"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION"
 msgid "Change button bar"
 msgstr "Schalterleiste &ändern"
-
-#: TFRMCONFIGTOOLBAR.CBFLATICONS.CAPTION
-msgid "F&lat icons"
-msgstr "&Flache Schalter"
-
-#: TFRMCONFIGTOOLBAR.CBSMALLICONS.CAPTION
-msgid "S&mall icons"
-msgstr "&Kleine Icons"
 
 #: TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION
 msgid "Appearance"
 msgstr "A&ussehen"
+
+#: TFRMCONFIGTOOLBAR.LBLBARSIZE.CAPTION
+msgid "Ba&r size:"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.LBLBARSIZEVALUE.CAPTION
+msgid "36"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.LBLBUTTONBAR.CAPTION
 msgid "&Button bar:"
@@ -553,13 +557,17 @@ msgstr "I&con"
 msgid "Icon &file:"
 msgstr "Icon&datei"
 
+#: TFRMCONFIGTOOLBAR.LBLICONSIZE.CAPTION
+msgid "Ic&on size:"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.LBLICONSIZEVALUE.CAPTION
+msgid "32"
+msgstr ""
+
 #: TFRMCONFIGTOOLBAR.LBLPARAMETERS.CAPTION
 msgid "&Parameters:"
 msgstr "&Parameter"
-
-#: TFRMCONFIGTOOLBAR.LBLSIZE.CAPTION
-msgid "S&ize:"
-msgstr "&Grösse"
 
 #: TFRMCONFIGTOOLBAR.LBLSTARTPATH.CAPTION
 msgid "&Start path:"
@@ -570,17 +578,17 @@ msgid "&Tooltip:"
 msgstr "&Tooltip"
 
 #: TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION
+#, fuzzy
+#| msgid "Add S&ubbar >>"
 msgctxt "TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION"
-msgid "Add S&ubbar >>"
+msgid "S&ubbar >>"
 msgstr "Unter&leiste einfügen"
 
 #: TFRMCONFIGTOOLBAR.MIADDSUBMENU.CAPTION
-msgid "Add Sub&menu >>"
+#, fuzzy
+#| msgid "Add Sub&menu >>"
+msgid "Sub&menu >>"
 msgstr "Untermenü hinzufügen"
-
-#: TFRMCONFIGTOOLBAR.MIINSERTSEPARATOR.CAPTION
-msgid "Insert separator"
-msgstr "Trennlinie einfügen"
 
 #: TFRMCONNECTIONMANAGER.BTNADD.CAPTION
 msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
@@ -2295,8 +2303,8 @@ msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
 msgid ".."
 msgstr ".."
 
-#: TFRMMAIN.CAPTION
-msgctxt "TFRMMAIN.CAPTION"
+#: TFRMMAIN.FRMMAIN.CAPTION
+msgctxt "TFRMMAIN.FRMMAIN.CAPTION"
 msgid "Double Commander"
 msgstr "Double Commander"
 
@@ -4976,6 +4984,10 @@ msgstr "Einbinden"
 msgid "New"
 msgstr "Neu"
 
+#: ulng.rsmnunomedia
+msgid "No media available"
+msgstr ""
+
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr "Öffnen mit..."
@@ -4985,7 +4997,9 @@ msgid "Sort by"
 msgstr "Sortieren"
 
 #: ulng.rsmnuumount
-msgid "Umount"
+#, fuzzy
+#| msgid "Umount"
+msgid "Unmount"
 msgstr "Einbindung lösen"
 
 #: ulng.rsmnuview

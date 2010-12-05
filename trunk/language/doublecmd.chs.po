@@ -471,17 +471,21 @@ msgstr "二进制模式"
 msgid "Keep scrolling"
 msgstr "保持滚动"
 
-#: TFRMCONFIGTOOLBAR.BTNADDBUTTON.CAPTION
-msgid "&Append"
-msgstr "添加(&A)"
+#: TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION
+msgid "&Insert new button"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.BTNAPPENDMORE.CAPTION
+msgid "A&ppend >>"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "取消"
 
-#: TFRMCONFIGTOOLBAR.BTNCHANGEBUTTON.CAPTION
-msgid "Change >>"
+#: TFRMCONFIGTOOLBAR.BTNCLONEBUTTON.CAPTION
+msgid "Clo&ne button"
 msgstr ""
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
@@ -493,10 +497,6 @@ msgstr "删除(&D)"
 msgctxt "TFRMCONFIGTOOLBAR.BTNHELP.CAPTION"
 msgid "&Help"
 msgstr "帮助(&H)"
-
-#: TFRMCONFIGTOOLBAR.BTNINSERTBUTTON.CAPTION
-msgid "Insert"
-msgstr ""
 
 #: TFRMCONFIGTOOLBAR.BTNOK.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNOK.CAPTION"
@@ -513,26 +513,30 @@ msgctxt "TFRMCONFIGTOOLBAR.BTNOPENFILE.CAPTION"
 msgid ">>"
 msgstr ">>"
 
-#: TFRMCONFIGTOOLBAR.BTNOPENICONFILE.CAPTION
-msgctxt "TFRMCONFIGTOOLBAR.BTNOPENICONFILE.CAPTION"
-msgid ">>"
-msgstr ">>"
+#: TFRMCONFIGTOOLBAR.CBFLATBUTTONS.CAPTION
+msgid "Flat b&uttons"
+msgstr ""
 
-#: TFRMCONFIGTOOLBAR.CAPTION
+#: TFRMCONFIGTOOLBAR.CBISSEPARATOR.CAPTION
+msgid "S&eparator"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION"
 msgid "Change button bar"
 msgstr "修改工具栏"
-
-#: TFRMCONFIGTOOLBAR.CBFLATICONS.CAPTION
-msgid "F&lat icons"
-msgstr "扁平图标(&L)"
-
-#: TFRMCONFIGTOOLBAR.CBSMALLICONS.CAPTION
-msgid "S&mall icons"
-msgstr "小图标(&M)"
 
 #: TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION
 msgid "Appearance"
 msgstr "外观"
+
+#: TFRMCONFIGTOOLBAR.LBLBARSIZE.CAPTION
+msgid "Ba&r size:"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.LBLBARSIZEVALUE.CAPTION
+msgid "36"
+msgstr ""
 
 #: TFRMCONFIGTOOLBAR.LBLBUTTONBAR.CAPTION
 msgid "&Button bar:"
@@ -551,13 +555,17 @@ msgstr "图标(&O)"
 msgid "Icon &file:"
 msgstr "图标文件(&F)"
 
+#: TFRMCONFIGTOOLBAR.LBLICONSIZE.CAPTION
+msgid "Ic&on size:"
+msgstr ""
+
+#: TFRMCONFIGTOOLBAR.LBLICONSIZEVALUE.CAPTION
+msgid "32"
+msgstr ""
+
 #: TFRMCONFIGTOOLBAR.LBLPARAMETERS.CAPTION
 msgid "&Parameters:"
 msgstr "参数(&P)"
-
-#: TFRMCONFIGTOOLBAR.LBLSIZE.CAPTION
-msgid "S&ize:"
-msgstr "大小(I)"
 
 #: TFRMCONFIGTOOLBAR.LBLSTARTPATH.CAPTION
 msgid "&Start path:"
@@ -568,16 +576,14 @@ msgid "&Tooltip:"
 msgstr "工具提示(&T)"
 
 #: TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION
+#, fuzzy
+#| msgid "Add S&ubbar >>"
 msgctxt "TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION"
-msgid "Add S&ubbar >>"
+msgid "S&ubbar >>"
 msgstr "添加子栏"
 
 #: TFRMCONFIGTOOLBAR.MIADDSUBMENU.CAPTION
-msgid "Add Sub&menu >>"
-msgstr ""
-
-#: TFRMCONFIGTOOLBAR.MIINSERTSEPARATOR.CAPTION
-msgid "Insert separator"
+msgid "Sub&menu >>"
 msgstr ""
 
 #: TFRMCONNECTIONMANAGER.BTNADD.CAPTION
@@ -2297,8 +2303,8 @@ msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
 msgid ".."
 msgstr ".."
 
-#: TFRMMAIN.CAPTION
-msgctxt "TFRMMAIN.CAPTION"
+#: TFRMMAIN.FRMMAIN.CAPTION
+msgctxt "TFRMMAIN.FRMMAIN.CAPTION"
 msgid "Double Commander"
 msgstr "Double Commander"
 
@@ -4972,6 +4978,10 @@ msgstr "解挂"
 msgid "New"
 msgstr ""
 
+#: ulng.rsmnunomedia
+msgid "No media available"
+msgstr ""
+
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr "打开..."
@@ -4981,7 +4991,9 @@ msgid "Sort by"
 msgstr ""
 
 #: ulng.rsmnuumount
-msgid "Umount"
+#, fuzzy
+#| msgid "Umount"
+msgid "Unmount"
 msgstr "挂载"
 
 #: ulng.rsmnuview

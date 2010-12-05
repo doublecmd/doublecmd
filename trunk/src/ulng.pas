@@ -108,7 +108,8 @@ resourcestring
   rsMnuEdit = 'Edit';
   rsMnuOpenWith = 'Open with ...';
   rsMnuMount = 'Mount';
-  rsMnuUmount = 'Umount';
+  rsMnuUmount = 'Unmount';
+  rsMnuNoMedia = 'No media available';
   rsMnuEject = 'Eject';
   rsMnuSortBy = 'Sort by';
   rsMnuNew = 'New';
