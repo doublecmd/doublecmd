@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.4.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-11-23 00:10+0300\n"
+"PO-Revision-Date: 2010-12-05 23:57+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -472,11 +472,11 @@ msgstr "Одночасна прокрутка"
 
 #: TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION
 msgid "&Insert new button"
-msgstr ""
+msgstr "В&ставити нову кнопку"
 
 #: TFRMCONFIGTOOLBAR.BTNAPPENDMORE.CAPTION
 msgid "A&ppend >>"
-msgstr ""
+msgstr "До&дати >>"
 
 #: TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION"
@@ -485,12 +485,12 @@ msgstr "Відміна"
 
 #: TFRMCONFIGTOOLBAR.BTNCLONEBUTTON.CAPTION
 msgid "Clo&ne button"
-msgstr ""
+msgstr "&Клонувати кнопку"
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
 msgid "&Delete"
-msgstr "Ви&далити"
+msgstr "Ви&далити кнопку"
 
 #: TFRMCONFIGTOOLBAR.BTNHELP.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNHELP.CAPTION"
@@ -514,11 +514,11 @@ msgstr ">>"
 
 #: TFRMCONFIGTOOLBAR.CBFLATBUTTONS.CAPTION
 msgid "Flat b&uttons"
-msgstr ""
+msgstr "П&лоскі кнопки"
 
 #: TFRMCONFIGTOOLBAR.CBISSEPARATOR.CAPTION
 msgid "S&eparator"
-msgstr ""
+msgstr "Ро&здільник"
 
 #: TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION"
@@ -531,11 +531,11 @@ msgstr "Вид кнопок"
 
 #: TFRMCONFIGTOOLBAR.LBLBARSIZE.CAPTION
 msgid "Ba&r size:"
-msgstr ""
+msgstr "Розмір п&анелі:"
 
 #: TFRMCONFIGTOOLBAR.LBLBARSIZEVALUE.CAPTION
 msgid "36"
-msgstr ""
+msgstr "36"
 
 #: TFRMCONFIGTOOLBAR.LBLBUTTONBAR.CAPTION
 msgid "&Button bar:"
@@ -556,11 +556,11 @@ msgstr "&Файл іконки:"
 
 #: TFRMCONFIGTOOLBAR.LBLICONSIZE.CAPTION
 msgid "Ic&on size:"
-msgstr ""
+msgstr "Р&озмір іконки:"
 
 #: TFRMCONFIGTOOLBAR.LBLICONSIZEVALUE.CAPTION
 msgid "32"
-msgstr ""
+msgstr "32"
 
 #: TFRMCONFIGTOOLBAR.LBLPARAMETERS.CAPTION
 msgid "&Parameters:"
@@ -575,14 +575,12 @@ msgid "&Tooltip:"
 msgstr "Пі&дказка:"
 
 #: TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION
-#, fuzzy
 #| msgid "Add S&ubbar >>"
 msgctxt "TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION"
 msgid "S&ubbar >>"
 msgstr "Додати пан&ель..."
 
 #: TFRMCONFIGTOOLBAR.MIADDSUBMENU.CAPTION
-#, fuzzy
 #| msgid "Add Sub&menu >>"
 msgid "Sub&menu >>"
 msgstr "Додати підмен&ю"
@@ -4936,7 +4934,7 @@ msgstr "Створити"
 
 #: ulng.rsmnunomedia
 msgid "No media available"
-msgstr ""
+msgstr "Немає доступних носіїв"
 
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
@@ -4947,7 +4945,6 @@ msgid "Sort by"
 msgstr "Сортувати за"
 
 #: ulng.rsmnuumount
-#, fuzzy
 #| msgid "Umount"
 msgid "Unmount"
 msgstr "Розмонтувати"
