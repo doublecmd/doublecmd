@@ -244,7 +244,7 @@ type
     mnuFileAssoc: TMenuItem;
     nbConsole: TPageControl;
     pgConsole: TTabSheet;
-    Panel1: TPanel;
+    pnlCmdLine: TPanel;
     MainSplitter: TPanel;
     pmButtonMenu: TKASBarMenu;
     MainToolBar: TKASToolBar;
@@ -276,7 +276,7 @@ type
     seLogWindow: TSynEdit;
     btnRightEqualLeft: TSpeedButton;
     btnLeftEqualRight: TSpeedButton;
-    Splitter1: TSplitter;
+    ConsoleSplitter: TSplitter;
     tbDelete: TMenuItem;
     tbEdit: TMenuItem;
     mnuMain: TMainMenu;
@@ -468,6 +468,7 @@ type
       Shift: TShiftState);
     procedure edtCommandEnter(Sender: TObject);
     procedure edtCommandExit(Sender: TObject);
+    procedure ConsoleSplitterChangeBounds(Sender: TObject);
     procedure tbCopyClick(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
     procedure FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
@@ -3322,8 +3323,6 @@ begin
 end;
 
 procedure TfrmMain.ToggleConsole;
-var
-  NewSize: Integer;
 begin
   if gTermWindow then
     begin
@@ -3343,8 +3342,6 @@ begin
           Cons.CmdBox:= cmdConsole;
           Cons.Resume;
         end;
-
-      NewSize := Panel1.Height + nbConsole.Height;
     end
   else
     begin
@@ -3355,20 +3352,10 @@ begin
       end;
       if Assigned(Cons) then
         FreeAndNil(Cons);
-
-      NewSize := Panel1.Height;
     end;
 
   nbConsole.Visible:= gTermWindow;
-  Splitter1.Visible:= gTermWindow;
-
-  // Bevel size is not taken into account when setting ClientHeight.
-  if pnlCommand.BevelInner <> bvNone then
-    NewSize := NewSize + pnlCommand.BevelWidth * 2;
-  if pnlCommand.BevelOuter <> bvNone then
-    NewSize := NewSize + pnlCommand.BevelWidth * 2;
-
-  pnlCommand.ClientHeight := NewSize;
+  ConsoleSplitter.Visible:= gTermWindow;
 end;
 
 procedure TfrmMain.ToggleFileSystemWatcher;
@@ -3622,6 +3609,13 @@ begin
   // Hide command line if it was temporarily shown.
   if (not gCmdLine) and IsCommandLineVisible then
     pnlCommand.Hide;
+end;
+
+procedure TfrmMain.ConsoleSplitterChangeBounds(Sender: TObject);
+begin
+  nbConsole.Height := nbConsole.Height +
+    // How much splitter was moved upwards.
+    (pnlCommand.Top - ConsoleSplitter.Top - ConsoleSplitter.Height);
 end;
 
 procedure TfrmMain.tbCopyClick(Sender: TObject);
