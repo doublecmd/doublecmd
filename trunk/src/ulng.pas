@@ -61,6 +61,7 @@ resourcestring
   rsMarkMinus = 'Unselect mask';
   rsMaskInput = 'Input mask:';
   rsFreeMsg = 'Free %s from %s bytes';
+  rsFreeMsgShort = '%s bytes free';
   rsMsgErrDirExists = 'Directory %s exists!';
   rsMsgPopUpHotDelete = '&Delete %s';
   rsMsgDiskNotAvail = 'Disk is not available';
