@@ -1316,6 +1316,7 @@ object frmOptions: TfrmOptions
           PageSize = 10
           Position = 0
           ScalePos = trRight
+          TickStyle = tsNone
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 8
           BorderSpacing.Top = 6
