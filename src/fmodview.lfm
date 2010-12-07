@@ -7,6 +7,7 @@ object frmModView: TfrmModView
   ClientHeight = 185
   ClientWidth = 488
   Color = clForm
+  OnClose = FormClose
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   Position = poOwnerFormCenter
@@ -18,11 +19,11 @@ object frmModView: TfrmModView
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = pnlButtons
     Left = 0
-    Height = 139
+    Height = 145
     Top = 0
     Width = 488
     Anchors = [akTop, akLeft, akRight, akBottom]
-    ClientHeight = 139
+    ClientHeight = 145
     ClientWidth = 488
     TabOrder = 0
     object lblHeight: TLabel
@@ -67,7 +68,6 @@ object frmModView: TfrmModView
       Top = 9
       Width = 26
       Caption = 'Pr'
-      Color = clBtnFace
       NumGlyphs = 0
       OnClick = btnProportionClick
     end
@@ -79,11 +79,11 @@ object frmModView: TfrmModView
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = pnlButtons
     Left = 0
-    Height = 139
+    Height = 145
     Top = 0
     Width = 488
     Anchors = [akTop, akLeft, akRight, akBottom]
-    ClientHeight = 139
+    ClientHeight = 145
     ClientWidth = 488
     TabOrder = 1
     object tbQuality: TTrackBar
@@ -124,8 +124,8 @@ object frmModView: TfrmModView
       Caption = 'JPG'
       Checked = True
       OnChange = rbJpgChange
-      State = cbChecked
       TabOrder = 2
+      TabStop = True
     end
     object rbBmp: TRadioButton
       Left = 59
@@ -135,7 +135,6 @@ object frmModView: TfrmModView
       Caption = 'BMP'
       OnChange = rbBmpChange
       TabOrder = 3
-      TabStop = False
     end
     object rbPng: TRadioButton
       Left = 112
@@ -145,7 +144,6 @@ object frmModView: TfrmModView
       Caption = 'PNG'
       OnChange = rbPngChange
       TabOrder = 4
-      TabStop = False
     end
     object rbIco: TRadioButton
       Left = 29
@@ -155,7 +153,6 @@ object frmModView: TfrmModView
       Caption = 'ICO'
       OnChange = rbIcoChange
       TabOrder = 5
-      TabStop = False
     end
     object rbPnm: TRadioButton
       Left = 88
@@ -165,7 +162,6 @@ object frmModView: TfrmModView
       Caption = 'PNM'
       OnChange = rbPnmChange
       TabOrder = 6
-      TabStop = False
     end
   end
   object pnlCopyMoveFile: TPanel
@@ -175,11 +171,11 @@ object frmModView: TfrmModView
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = pnlButtons
     Left = 0
-    Height = 139
+    Height = 145
     Top = 0
     Width = 488
     Anchors = [akTop, akLeft, akRight, akBottom]
-    ClientHeight = 139
+    ClientHeight = 145
     ClientWidth = 488
     TabOrder = 2
     object tePath1: TEdit
@@ -189,8 +185,8 @@ object frmModView: TfrmModView
       AnchorSideRight.Control = btnPath1
       Left = 32
       Height = 21
-      Top = 5
-      Width = 424
+      Top = 6
+      Width = 423
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 5
@@ -206,8 +202,8 @@ object frmModView: TfrmModView
       AnchorSideBottom.Side = asrBottom
       Left = 32
       Height = 21
-      Top = 32
-      Width = 424
+      Top = 33
+      Width = 423
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
@@ -221,8 +217,8 @@ object frmModView: TfrmModView
       AnchorSideRight.Side = asrBottom
       Left = 32
       Height = 21
-      Top = 59
-      Width = 424
+      Top = 60
+      Width = 423
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
@@ -234,14 +230,13 @@ object frmModView: TfrmModView
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = tePath1
       AnchorSideBottom.Side = asrBottom
-      Left = 462
+      Left = 461
       Height = 21
-      Top = 5
+      Top = 6
       Width = 21
       Anchors = [akTop, akRight, akBottom]
       BorderSpacing.Right = 5
       Caption = '...'
-      Color = clBtnFace
       NumGlyphs = 0
       OnClick = btnPathClick
     end
@@ -253,8 +248,8 @@ object frmModView: TfrmModView
       AnchorSideRight.Side = asrBottom
       Left = 32
       Height = 21
-      Top = 86
-      Width = 424
+      Top = 87
+      Width = 423
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
@@ -269,8 +264,8 @@ object frmModView: TfrmModView
       AnchorSideBottom.Side = asrBottom
       Left = 32
       Height = 21
-      Top = 113
-      Width = 424
+      Top = 114
+      Width = 423
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
@@ -283,14 +278,14 @@ object frmModView: TfrmModView
       AnchorSideBottom.Side = asrBottom
       Left = 14
       Height = 21
-      Top = 5
+      Top = 6
       Width = 18
       Anchors = [akTop, akLeft, akBottom]
       Checked = True
-      OnKeyPress = rbPath1KeyPress
+      OnKeyPress = FormKeyPress
       ParentBidiMode = False
-      State = cbChecked
       TabOrder = 5
+      TabStop = True
     end
     object rbPath2: TRadioButton
       AnchorSideTop.Control = tePath2
@@ -298,11 +293,11 @@ object frmModView: TfrmModView
       AnchorSideBottom.Side = asrBottom
       Left = 14
       Height = 21
-      Top = 32
+      Top = 33
       Width = 18
       Anchors = [akTop, akLeft, akBottom]
+      OnKeyPress = FormKeyPress
       TabOrder = 6
-      TabStop = False
     end
     object rbPath3: TRadioButton
       AnchorSideTop.Control = tePath3
@@ -310,11 +305,11 @@ object frmModView: TfrmModView
       AnchorSideBottom.Side = asrBottom
       Left = 14
       Height = 21
-      Top = 59
+      Top = 60
       Width = 18
       Anchors = [akTop, akLeft, akBottom]
+      OnKeyPress = FormKeyPress
       TabOrder = 7
-      TabStop = False
     end
     object rbPath4: TRadioButton
       AnchorSideTop.Control = tePath4
@@ -322,11 +317,11 @@ object frmModView: TfrmModView
       AnchorSideBottom.Side = asrBottom
       Left = 14
       Height = 21
-      Top = 86
+      Top = 87
       Width = 18
       Anchors = [akTop, akLeft, akBottom]
+      OnKeyPress = FormKeyPress
       TabOrder = 8
-      TabStop = False
     end
     object rbPath5: TRadioButton
       AnchorSideTop.Control = tePath5
@@ -334,11 +329,11 @@ object frmModView: TfrmModView
       AnchorSideBottom.Side = asrBottom
       Left = 14
       Height = 21
-      Top = 113
+      Top = 114
       Width = 18
       Anchors = [akTop, akLeft, akBottom]
+      OnKeyPress = FormKeyPress
       TabOrder = 9
-      TabStop = False
     end
     object btnPath2: TSpeedButton
       AnchorSideLeft.Control = btnPath1
@@ -347,13 +342,12 @@ object frmModView: TfrmModView
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = tePath2
       AnchorSideBottom.Side = asrBottom
-      Left = 462
+      Left = 461
       Height = 21
-      Top = 32
+      Top = 33
       Width = 21
       Anchors = [akTop, akLeft, akRight, akBottom]
       Caption = '...'
-      Color = clBtnFace
       NumGlyphs = 0
       OnClick = btnPathClick
     end
@@ -364,13 +358,12 @@ object frmModView: TfrmModView
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = tePath3
       AnchorSideBottom.Side = asrBottom
-      Left = 462
+      Left = 461
       Height = 21
-      Top = 59
+      Top = 60
       Width = 21
       Anchors = [akTop, akLeft, akRight, akBottom]
       Caption = '...'
-      Color = clBtnFace
       NumGlyphs = 0
       OnClick = btnPathClick
     end
@@ -381,13 +374,12 @@ object frmModView: TfrmModView
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = tePath4
       AnchorSideBottom.Side = asrBottom
-      Left = 462
+      Left = 461
       Height = 21
-      Top = 86
+      Top = 87
       Width = 21
       Anchors = [akTop, akLeft, akRight, akBottom]
       Caption = '...'
-      Color = clBtnFace
       NumGlyphs = 0
       OnClick = btnPathClick
     end
@@ -398,13 +390,12 @@ object frmModView: TfrmModView
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = tePath5
       AnchorSideBottom.Side = asrBottom
-      Left = 462
+      Left = 461
       Height = 21
-      Top = 113
+      Top = 114
       Width = 21
       Anchors = [akTop, akLeft, akRight, akBottom]
       Caption = '...'
-      Color = clBtnFace
       NumGlyphs = 0
       OnClick = btnPathClick
     end
@@ -414,7 +405,7 @@ object frmModView: TfrmModView
       AnchorSideBottom.Side = asrBottom
       Left = 1
       Height = 18
-      Top = 6
+      Top = 7
       Width = 7
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Left = 5
@@ -429,7 +420,7 @@ object frmModView: TfrmModView
       AnchorSideBottom.Side = asrBottom
       Left = 1
       Height = 18
-      Top = 33
+      Top = 34
       Width = 7
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Top = 1
@@ -443,7 +434,7 @@ object frmModView: TfrmModView
       AnchorSideBottom.Side = asrBottom
       Left = 1
       Height = 18
-      Top = 60
+      Top = 61
       Width = 7
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Top = 1
@@ -457,7 +448,7 @@ object frmModView: TfrmModView
       AnchorSideBottom.Side = asrBottom
       Left = 1
       Height = 18
-      Top = 87
+      Top = 88
       Width = 7
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Top = 1
@@ -471,7 +462,7 @@ object frmModView: TfrmModView
       AnchorSideBottom.Side = asrBottom
       Left = 1
       Height = 18
-      Top = 114
+      Top = 115
       Width = 7
       Alignment = taCenter
       Anchors = [akTop, akLeft, akBottom]
@@ -488,12 +479,12 @@ object frmModView: TfrmModView
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 0
-    Height = 46
-    Top = 139
+    Height = 40
+    Top = 145
     Width = 488
     Anchors = [akLeft, akRight, akBottom]
     AutoSize = True
-    ClientHeight = 46
+    ClientHeight = 40
     ClientWidth = 488
     TabOrder = 3
     object btnCancel: TSpeedButton
@@ -501,14 +492,13 @@ object frmModView: TfrmModView
       AnchorSideRight.Control = btnOk
       AnchorSideBottom.Control = btnOk
       AnchorSideBottom.Side = asrBottom
-      Left = 365
-      Height = 30
-      Top = 8
+      Left = 364
+      Height = 22
+      Top = 9
       Width = 64
       Anchors = [akTop, akRight, akBottom]
       BorderSpacing.Right = 3
       Caption = 'Cancel'
-      Color = clBtnFace
       NumGlyphs = 0
       OnClick = btnCancelClick
     end
@@ -518,9 +508,9 @@ object frmModView: TfrmModView
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = pnlButtons
       AnchorSideBottom.Side = asrBottom
-      Left = 432
-      Height = 30
-      Top = 8
+      Left = 431
+      Height = 22
+      Top = 9
       Width = 50
       Anchors = [akTop, akRight, akBottom]
       BorderSpacing.Left = 3
@@ -528,7 +518,6 @@ object frmModView: TfrmModView
       BorderSpacing.Right = 6
       BorderSpacing.Bottom = 8
       Caption = 'Ok'
-      Color = clBtnFace
       NumGlyphs = 0
       OnClick = btnOkClick
     end
