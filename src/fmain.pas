@@ -520,8 +520,6 @@ type
     procedure OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
 
   public
-    procedure HandleActionHotKeys(var Key: Word; Shift: TShiftState);
-
     Function ActiveFrame: TFileView;  // get Active frame
     Function NotActiveFrame: TFileView; // get NotActive frame :)
     function ActiveNotebook: TFileViewNotebook;
@@ -1678,20 +1676,6 @@ begin
   pnlSyncSize.ClientHeight:= dskRight.Height + pnlDisk.BevelWidth * 2;
 end;
 
-procedure TfrmMain.HandleActionHotKeys(var Key: Word; Shift: TShiftState);
-begin
-  case Key of
-    VK_RETURN, VK_SELECT:
-      if IsCommandLineVisible and (edtCommand.Text <> '') and
-         (Shift - [ssCaps, ssShift] = []) then
-      begin
-        // execute command line (in terminal with Shift)
-        ExecuteCommandLine(Shift = [ssShift]);
-        Key:=0;
-      end;
-  end;
-end;
-
 procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   // Either left or right panel has to be focused.
@@ -2470,6 +2454,15 @@ begin
         Key := 0;
       end;
 
+    VK_RETURN, VK_SELECT:
+      if IsCommandLineVisible and (edtCommand.Text <> '') and
+         (Shift - [ssCaps, ssShift] = []) then
+      begin
+        // execute command line (in terminal with Shift)
+        ExecuteCommandLine(Shift = [ssShift]);
+        Key:=0;
+      end;
+
     VK_TAB:
       begin
         // Select opposite panel.
@@ -2479,9 +2472,6 @@ begin
         end;
         Key := 0;
       end;
-
-    else
-      HandleActionHotKeys(Key, Shift);
   end;
 end;
 
@@ -3437,7 +3427,7 @@ procedure TfrmMain.UpdateWindowView;
 
 var
   I: Integer;
-  IniBarFile: TIniFileEx;
+  IniBarFile: TIniFileEx = nil;
 begin
   (* Disk Panels *)
   UpdateDiskCount; // Update list of showed drives
@@ -3519,21 +3509,26 @@ begin
   UpdateNoteBook(nbLeft);
   UpdateNoteBook(nbRight);
 
-  for I := 0 to pnlKeys.ControlCount - 1 do  // function keys
-    if pnlKeys.Controls[I] is TSpeedButton then
-      (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
+  // Function keys
+  pnlKeys.Visible := gKeyButtons;
+  if gKeyButtons then
+  begin
+    pnlKeys.Height := Canvas.TextHeight('Wg') + 4;
+    for I := 0 to pnlKeys.ControlCount - 1 do
+      if pnlKeys.Controls[I] is TSpeedButton then
+        (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
+  end;
 
+  // Command line
   pnlCommand.Visible := gCmdLine;
   edtCommand.Tag := 0;
+  ToggleConsole;
 
-  // Function keys.
-  pnlKeys.Visible := gKeyButtons;
-  pnlKeys.Height := Canvas.TextHeight('Wg') + 4;
-
+  // Log windows
   seLogWindow.Visible := gLogWindow or (not miLogHide.Enabled);
   LogSplitter.Visible := gLogWindow or (not miLogHide.Enabled);
   seLogWindow.Font.Name := gEditorFontName;
-  ToggleConsole;
+
   ToggleFileSystemWatcher;
   ShowTrayIcon(gAlwaysShowTrayIcon);
 
@@ -3905,6 +3900,9 @@ var
   ToolButtonPath : String;
   Path: String;
 begin
+  if not gDriveBar1 and not gDriveBar2 then
+    Exit;
+
   Path := FileView.CurrentPath;
 
   for i := 0 to DriveToolbar.ButtonCount - 1 do
