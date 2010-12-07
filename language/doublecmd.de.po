@@ -475,20 +475,20 @@ msgstr "Scrollen fortsetzen"
 
 #: TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION
 msgid "&Insert new button"
-msgstr ""
+msgstr "Neuen Schalter e&infügen"
 
 #: TFRMCONFIGTOOLBAR.BTNAPPENDMORE.CAPTION
 msgid "A&ppend >>"
-msgstr ""
+msgstr "Leiste er&weitern >>"
 
 #: TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr "Abbruch"
+msgstr "A&bbruch"
 
 #: TFRMCONFIGTOOLBAR.BTNCLONEBUTTON.CAPTION
 msgid "Clo&ne button"
-msgstr ""
+msgstr "Schalter &klonen"
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
@@ -498,12 +498,12 @@ msgstr "L&öschen"
 #: TFRMCONFIGTOOLBAR.BTNHELP.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNHELP.CAPTION"
 msgid "&Help"
-msgstr "&Hilfe"
+msgstr "H&ilfe"
 
 #: TFRMCONFIGTOOLBAR.BTNOK.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNOK.CAPTION"
 msgid "OK"
-msgstr "OK"
+msgstr "&OK"
 
 #: TFRMCONFIGTOOLBAR.BTNOPENBARFILE.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNOPENBARFILE.CAPTION"
@@ -517,11 +517,11 @@ msgstr ">>"
 
 #: TFRMCONFIGTOOLBAR.CBFLATBUTTONS.CAPTION
 msgid "Flat b&uttons"
-msgstr ""
+msgstr "&Flache Schalter"
 
 #: TFRMCONFIGTOOLBAR.CBISSEPARATOR.CAPTION
 msgid "S&eparator"
-msgstr ""
+msgstr "T&rennendes Element"
 
 #: TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION"
@@ -534,7 +534,7 @@ msgstr "A&ussehen"
 
 #: TFRMCONFIGTOOLBAR.LBLBARSIZE.CAPTION
 msgid "Ba&r size:"
-msgstr ""
+msgstr "&Leisten-Grösse"
 
 #: TFRMCONFIGTOOLBAR.LBLBARSIZEVALUE.CAPTION
 msgid "36"
@@ -547,7 +547,7 @@ msgstr "&Schalterleiste"
 #: TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION"
 msgid "&Command:"
-msgstr "&Befehl"
+msgstr "Befe&hl"
 
 #: TFRMCONFIGTOOLBAR.LBLICON.CAPTION
 msgid "Ic&on:"
@@ -559,7 +559,7 @@ msgstr "Icon&datei"
 
 #: TFRMCONFIGTOOLBAR.LBLICONSIZE.CAPTION
 msgid "Ic&on size:"
-msgstr ""
+msgstr "Ico&n-Grösse"
 
 #: TFRMCONFIGTOOLBAR.LBLICONSIZEVALUE.CAPTION
 msgid "32"
@@ -582,13 +582,13 @@ msgstr "&Tooltip"
 #| msgid "Add S&ubbar >>"
 msgctxt "TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION"
 msgid "S&ubbar >>"
-msgstr "Unter&leiste einfügen"
+msgstr "Unter&leiste hinzufügen"
 
 #: TFRMCONFIGTOOLBAR.MIADDSUBMENU.CAPTION
 #, fuzzy
 #| msgid "Add Sub&menu >>"
 msgid "Sub&menu >>"
-msgstr "Untermenü hinzufügen"
+msgstr "&Untermenü hinzufügen"
 
 #: TFRMCONNECTIONMANAGER.BTNADD.CAPTION
 msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
@@ -3083,7 +3083,7 @@ msgstr "Text auf Spaltenbreite kürzen"
 #, fuzzy
 #| msgid "&F8/Del deletes to recycle bin (Shift=directly)"
 msgid "Delete to recycle bin (Shift key reverses this setting)"
-msgstr "&F8/Entf löscht in den Papierkorb (mit 'Umschalt'=endgültig)"
+msgstr "&F8/Entf löscht in den Papierkorb (mit 'Umschalt'- Taste = endgültiges Löschen)"
 
 #: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
 msgid "Show square brackets around directories"
@@ -4986,7 +4986,7 @@ msgstr "Neu"
 
 #: ulng.rsmnunomedia
 msgid "No media available"
-msgstr ""
+msgstr "Kein Datenträger verfügbar"
 
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
