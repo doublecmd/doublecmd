@@ -204,6 +204,8 @@ begin
   //  end;
 
   WakeSleepControls;
+  ktbBar.GlyphSize := trbIconSize.Position*2;
+  ktbBar.SetButtonSize(trbBarSize.Position*2,trbBarSize.Position*2);
   Update;
   Height:= sbIconExample.Top + sbIconExample.Height + 18;
 end;
@@ -548,13 +550,13 @@ procedure TfrmConfigToolBar.trbBarSizeChange(Sender: TObject);
 begin
   lblBarSizeValue.Caption:=IntToStr(trbBarSize.Position*2);
   trbIconSize.Position:= trbBarSize.Position - (trbBarSize.Position div 5);
+  ktbBar.SetButtonSize(trbBarSize.Position*2,trbBarSize.Position*2);
 end;
 
 procedure TfrmConfigToolBar.trbIconSizeChange(Sender: TObject);
 begin
   lblIconSizeValue.Caption := IntToStr(trbIconSize.Position*2);
   ktbBar.GlyphSize := trbIconSize.Position*2;
-  ktbBar.SetButtonSize(trbBarSize.Position*2,trbBarSize.Position*2);
 end;
 
 function TfrmConfigToolBar.GetSelectedButton: Integer;
