@@ -301,11 +301,19 @@ begin
   Viewer := TfrmViewer.Create(Application, aFileSource);
   Viewer.QuickView:= False;
   Viewer.FileList.Assign(FilesToView);// Make a copy of the list
-  Viewer.DrawPreview.RowCount:= Viewer.FileList.Count-1;
-  Viewer.DrawPreview.Visible:=false;
-  Viewer.Splitter.Align:=alLeft;
+  Viewer.DrawPreview.RowCount:= Viewer.FileList.Count;
   Viewer.LoadFile(0);
   Viewer.Show;
+  if Viewer.miPreview.Checked then
+    begin
+      Viewer.miPreview.Checked := not(Viewer.miPreview.Checked);
+      Viewer.miPreviewClick(Viewer);
+    end
+  else
+    begin
+      Viewer.DrawPreview.Visible:=false;
+      Viewer.Splitter.Align:=alLeft;
+    end;
 end;
 
 constructor TfrmViewer.Create(TheOwner: TComponent; aFileSource: IFileSource);
@@ -673,21 +681,31 @@ var
   begin
     sExt:= ExtractOnlyFileExt(FullPathToFile);
     sOnlyFileName:=ExtractOnlyFileName(FullPathToFile);
-    if not (mbDirectoryExists('.DCImg')) then mbCreateDir('.DCImg');        // if not directory create it
+    // if not directory create it
+    if mbDirectoryExists(GetAppCacheDir) then
+      begin
+        if not (mbDirectoryExists(GetAppCacheDir+pathDelim+'thumbnails')) then
+           mbCreateDir(GetAppCacheDir+pathDelim+'thumbnails');
+      end
+    else
+      begin
+        mbCreateDir(GetAppCacheDir);
+        mbCreateDir(GetAppCacheDir+pathDelim+'thumbnails');
+      end;
     Picture:= TPicture.Create;
     sOnlyFileName:= inttostr( mbFileSize(sOnlyFileName+'.'+sExt))+'_'+sOnlyFileName;
     if (sExt='jpg') or (sExt='jpeg') or (sExt='bmp') then sExt:='jpg' else sExt:='png';
-    if mbFileExists('.DCImg'+PathDelim+sOnlyFileName+'.'+sExt) then
+    if mbFileExists(GetAppCacheDir+pathDelim+'thumbnails'+PathDelim+sOnlyFileName+'.'+sExt) then
       begin
         if delete then
           begin
-            mbDeleteFile ('.DCImg'+PathDelim+sOnlyFileName+'.'+sExt);           // delete thumb if need
+            mbDeleteFile (GetAppCacheDir+pathDelim+'thumbnails'+PathDelim+sOnlyFileName+'.'+sExt);           // delete thumb if need
             for x:=index to FileList.Count-2 do
             lstPreviewImg.Move(x+1,x);
             Exit;
           end
         else
-          Picture.LoadFromFile('.DCImg'+PathDelim+sOnlyFileName+'.'+sExt);      // load from thumb if exist
+          Picture.LoadFromFile(GetAppCacheDir+pathDelim+'thumbnails'+PathDelim+sOnlyFileName+'.'+sExt);      // load from thumb if exist
       end
     else
      // create thumb if not exist
@@ -733,7 +751,7 @@ var
                 bmpt.free;
               end;
             if (sExt='jpg') or (sExt='jpeg') or (sExt='bmp') then sExt:='jpg' else sExt:='png';
-            Picture.SaveToFile('.DCImg'+PathDelim+sOnlyFilename+'.'+sExt);
+            Picture.SaveToFile(GetAppCacheDir+pathDelim+'thumbnails'+PathDelim+sOnlyFilename+'.'+sExt);
           end
         else
         // load Unnown file image
@@ -995,7 +1013,7 @@ var
   I: Integer;
 begin
   I:= 0;
-  DebugLn('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
+//  DebugLn('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
   while (I < WlxPlugins.Count) do
    if WlxPlugins.GetWLxModule(I).FileParamVSDetectStr(sFileName) then
      begin
@@ -1279,7 +1297,11 @@ procedure TfrmViewer.frmViewerClose(Sender: TObject;
                                     var CloseAction: TCloseAction);
 begin
   CloseAction:=caFree;
-  gViewerImageStretch:= miStretch.Checked;
+  gImageStretch:= miStretch.Checked;
+  gPreviewVisible := miPreview.Checked;
+  gImagePaintMode := ComboBoxPaint.text;
+  gImagePaintWidth := StrToInt(ComboBoxWidth.Text) ;
+  gImagePaintColor := ColorBoxPaint.Selected;
   if Assigned(WlxPlugins) then
      begin
        ExitPluginMode;
@@ -1429,7 +1451,11 @@ begin
 
   FFindDialog:=nil; // dialog is created in first use
   
-  miStretch.Checked:= gViewerImageStretch;
+  miStretch.Checked:= gImageStretch;
+  miPreview.Checked:= gPreviewVisible;
+  ComboBoxPaint.text := gImagePaintMode;
+  ComboBoxWidth.Text := IntToStr(gImagePaintWidth);
+  ColorBoxPaint.Selected := gImagePaintColor;
 
   MakeTextEncodingsMenu;
 
@@ -1453,6 +1479,8 @@ begin
       mbDeleteFile(FileList.Strings[iActiveFile]);
       FileList.Delete(iActiveFile);
       LoadFile(iActiveFile);
+      DrawPreview.Repaint;
+      SplitterChangeBounds(Sender);
     end;
 end;
 
@@ -1484,7 +1512,8 @@ begin
             mbDeleteFile(FileList.Strings[iActiveFile]);
             FileList.Delete(iActiveFile);
             LoadFile(iActiveFile);
-            CreatePreview(FileList.Strings[iActiveFile], iActiveFile);
+            DrawPreview.Repaint;
+            SplitterChangeBounds(Sender);
           end;
       end;
     end

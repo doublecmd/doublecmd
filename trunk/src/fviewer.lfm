@@ -1,7 +1,7 @@
 object frmViewer: TfrmViewer
-  Left = 313
+  Left = 327
   Height = 530
-  Top = 134
+  Top = 158
   Width = 1156
   HorzScrollBar.Page = 951
   VertScrollBar.Page = 491
@@ -101,22 +101,24 @@ object frmViewer: TfrmViewer
   end
   object pnlText: TPanel
     AnchorSideLeft.Control = Splitter
-    Left = 176
+    AnchorSideLeft.Side = asrBottom
+    Left = 195
     Height = 490
     Top = 0
-    Width = 980
+    Width = 961
     Align = alCustom
     Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 10
     BevelOuter = bvNone
     ClientHeight = 490
-    ClientWidth = 980
+    ClientWidth = 961
     TabOrder = 2
     Visible = False
     object ViewerControl: TViewerControl
       Left = 0
       Height = 490
       Top = 0
-      Width = 980
+      Width = 961
       ViewerMode = vmWrap
       OnPositionChanged = ViewerPositionChanged
       OnMouseUp = ViewerControlMouseUp

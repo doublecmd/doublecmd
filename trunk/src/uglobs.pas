@@ -163,7 +163,6 @@ var
   gViewerFontName: String;
   gViewerFontSize: Integer;
   gViewerFontStyle: TFontStyles;
-  gViewerImageStretch: Boolean;
   
   { File panels color page }
   
@@ -256,6 +255,18 @@ var
 
   {Error file}
   gErrorFile: String;
+
+  {Viewer}
+  gPreviewVisible,
+  gImageStretch: Boolean;
+  gCopyMovePath1,
+  gCopyMovePath2,
+  gCopyMovePath3,
+  gCopyMovePath4,
+  gCopyMovePath5,
+  gImagePaintMode: String;
+  gImagePaintWidth: Integer;
+  gImagePaintColor: TColor;
 
 function InitGlobs: Boolean;
 function LoadGlobs: Boolean;
@@ -654,9 +665,20 @@ begin
   gIgnoreListFileEnabled := False;
   gIgnoreListFile := gpCfgDir + 'ignorelist.txt';
 
+  {Viewer}
+  gImageStretch := False;
+  gPreviewVisible := False;
+  gCopyMovePath1 := '';
+  gCopyMovePath2 := '';
+  gCopyMovePath3 := '';
+  gCopyMovePath4 := '';
+  gCopyMovePath5 := '';
+  gImagePaintMode := 'Pen';
+  gImagePaintWidth := 5;
+  gImagePaintColor := clRed;
+
   { - Other - }
   gLuaLib := '/usr/lib/liblua5.1.so';
-  gViewerImageStretch := False;
 
   gExts.Clear;
   gColorExt.Clear;
@@ -1067,7 +1089,7 @@ begin
 
   gCutTextToColWidth := gIni.ReadBool('Configuration', 'CutTextToColWidth', True);
 
-  gViewerImageStretch:=  gIni.ReadBool('Viewer', 'Image.Stretch', False);
+  gImageStretch:=  gIni.ReadBool('Viewer', 'Image.Stretch', False);
 
   { Operations options }
   gOperationOptionSymLinks := TFileSourceOperationOptionSymLink(
@@ -1234,7 +1256,7 @@ begin
 
   gIni.WriteBool('Configuration', 'CutTextToColWidth', gCutTextToColWidth);
 
-  gIni.WriteBool('Viewer', 'Image.Stretch', gViewerImageStretch);
+  gIni.WriteBool('Viewer', 'Image.Stretch', gImageStretch);
 
   { Operations options }
   gIni.WriteInteger('Operations', 'Symlink', Integer(gOperationOptionSymLinks));
@@ -1479,9 +1501,24 @@ begin
     { Directories HotList }
     LoadDirHotList(gConfig, Root);
 
+    {Viewer}
+    Node := Root.FindNode('Viewer');
+    if Assigned(Node) then
+    begin
+      gImageStretch := GetValue(Node, 'ImageStretch', gImageStretch);
+      gPreviewVisible := GetValue(Node, 'PreviewVisible', gPreviewVisible);
+      gCopyMovePath1 := GetValue(Node, 'CopyMovePath1', gCopyMovePath1);
+      gCopyMovePath2 := GetValue(Node, 'CopyMovePath2', gCopyMovePath2);
+      gCopyMovePath3 := GetValue(Node, 'CopyMovePath3', gCopyMovePath3);
+      gCopyMovePath4 := GetValue(Node, 'CopyMovePath4', gCopyMovePath4);
+      gCopyMovePath5 := GetValue(Node, 'CopyMovePath5', gCopyMovePath5);
+      gImagePaintMode := GetValue(Node, 'PaintMode', gImagePaintMode);
+      gImagePaintWidth := GetValue(Node, 'PaintWidth', gImagePaintWidth);
+      gImagePaintColor := GetValue(Node, 'PaintColor', gImagePaintColor);
+    end;
     { - Other - }
     gLuaLib := GetValue(Root, 'Lua/PathToLibrary', gLuaLib);
-    gViewerImageStretch := GetValue(Root, 'Viewer/ImageStretch', gViewerImageStretch);
+
   end;
 
   { Search template list }
@@ -1691,9 +1728,21 @@ begin
       SetAttr(SubNode, 'Path', glsHotDir.ValueFromIndex[I]);
     end;
 
+    {Viewer}
+    Node := FindNode(Root, 'Viewer',True);
+    SetValue(Node, 'PreviewVisible',gPreviewVisible);
+    SetValue(Node, 'ImageStretch',gImageStretch);
+    SetValue(Node, 'CopyMovePath1', gCopyMovePath1);
+    SetValue(Node, 'CopyMovePath2', gCopyMovePath2);
+    SetValue(Node, 'CopyMovePath3', gCopyMovePath3);
+    SetValue(Node, 'CopyMovePath4', gCopyMovePath4);
+    SetValue(Node, 'CopyMovePath5', gCopyMovePath5);
+    SetValue(Node, 'PaintMode', gImagePaintMode);
+    SetValue(Node, 'PaintWidth', gImagePaintWidth);
+    SetValue(Node, 'PaintColor', gImagePaintColor);
+
     { - Other - }
     SetValue(Root, 'Lua/PathToLibrary', gLuaLib);
-    SetValue(Root, 'Viewer/ImageStretch', gViewerImageStretch);
   end;
 
   { Search template list }

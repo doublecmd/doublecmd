@@ -7,7 +7,8 @@ interface
 uses
   LResources, LClType,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, FileUtil, ExtCtrls, ComCtrls;
+  Dialogs, StdCtrls, Buttons, FileUtil, ExtCtrls, ComCtrls,
+  uGlobs;
 
 type
 
@@ -58,12 +59,12 @@ type
     procedure btnOkClick(Sender: TObject);
     procedure btnPathClick(Sender: TObject);
     procedure btnProportionClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: char);
     procedure FormShow(Sender: TObject);
     procedure rbBmpChange(Sender: TObject);
     procedure rbIcoChange(Sender: TObject);
     procedure rbJpgChange(Sender: TObject);
-    procedure rbPath1KeyPress(Sender: TObject; var Key: char);
     procedure rbPngChange(Sender: TObject);
     procedure rbPnmChange(Sender: TObject);
     procedure tbQualityMouseMove(Sender: TObject; Shift: TShiftState; X,
@@ -88,6 +89,15 @@ implementation
 procedure TfrmModView.btnProportionClick(Sender: TObject);
 begin
   btnProportion.ShowCaption:= not (btnProportion.ShowCaption);
+end;
+
+procedure TfrmModView.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+      gCopyMovePath1 := tePath1.Text;
+      gCopyMovePath2 := tePath2.Text;
+      gCopyMovePath3 := tePath3.Text;
+      gCopyMovePath4 := tePath4.Text;
+      gCopyMovePath5 := tePath5.Text;
 end;
 
 procedure TfrmModView.FormKeyPress(Sender: TObject; var Key: char);
@@ -143,8 +153,12 @@ begin
     end;
   if pnlCopyMoveFile.Visible then
     begin
-      // need load parths to target directories !!!
       rbPath1.SetFocus;
+      tePath1.Text := gCopyMovePath1;
+      tePath2.Text := gCopyMovePath2;
+      tePath3.Text := gCopyMovePath3;
+      tePath4.Text := gCopyMovePath4;
+      tePath5.Text := gCopyMovePath5;
     end;
   if pnlQuality.Visible then
     begin
@@ -176,47 +190,6 @@ begin
   tbQuality.Enabled:=True;
   teQuality.Enabled:=True;
   lblQuality.Enabled:=True;
-end;
-
-procedure TfrmModView.rbPath1KeyPress(Sender: TObject; var Key: char);
-begin
-      rbPath1.Checked:= false;
-      rbPath2.Checked:= false;
-      rbPath3.Checked:= false;
-      rbPath4.Checked:= false;
-      rbPath5.Checked:= false;
-      case Key of
-      '1':
-        begin
-          rbPath1.Checked:= true;
-          Key := #0;
-          btnOkClick(Sender);
-        end;
-      '2':
-        begin
-          rbPath2.Checked:= true;
-          Key := #0;
-          btnOkClick(Sender);
-        end;
-      '3':
-        begin
-          rbPath3.Checked:= true;
-          Key := #0;
-          btnOkClick(Sender);
-        end;
-      '4':
-        begin
-          rbPath4.Checked:= true;
-          Key := #0;
-          btnOkClick(Sender);
-        end;
-      '5':
-        begin
-          rbPath5.Checked:= true;
-          Key := #0;
-          btnOkClick(Sender);
-        end;
-      end;
 end;
 
 procedure TfrmModView.rbPngChange(Sender: TObject);
