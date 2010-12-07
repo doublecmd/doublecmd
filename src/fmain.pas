@@ -3923,9 +3923,10 @@ end;
 procedure TfrmMain.UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
 var
   i : Integer;
-  BitmapTmp: Graphics.TBitmap;
+  BitmapTmp: Graphics.TBitmap = nil;
   Drive: PDrive;
   Path: String;
+  Found: Boolean = False;
 begin
   if not gDriveMenuButton then
     Exit;
@@ -3941,33 +3942,28 @@ begin
       DriveButton.Caption := Drive^.DisplayName;
       DriveButton.Tag := i;
 
-      BitmapTmp := PixMapManager.GetDriveIcon(Drive,
-                                              DriveButton.Height - 2,
-                                              DriveButton.Color);
-      DriveButton.Glyph := BitmapTmp;
-
-      if Assigned(BitmapTmp) then
-        FreeAndNil(BitmapTmp);
-
-      DriveButton.Width := DriveButton.Glyph.Width
-                         + DriveButton.Canvas.TextWidth(DriveButton.Caption) + 16;
-      Exit;
+      BitmapTmp := PixMapManager.GetDriveIcon(Drive, 22, DriveButton.Color);
+      Found := True;
+      Break;
     end;
   end;
 
   // Path not found in menu.
+  if not Found then
+  begin
+    DriveButton.Caption := '';
+    DriveButton.Tag := -1;
 
-  DriveButton.Caption := '';
-  DriveButton.Tag := -1;
-
-  if FileView.FileSource.IsClass(TArchiveFileSource) then
-    BitmapTmp := PixMapManager.GetArchiveIcon(DriveButton.Height - 2,
-                                              DriveButton.Color)
-  else
-    BitmapTmp := PixMapManager.GetDefaultDriveIcon(DriveButton.Height - 2,
-                                                   DriveButton.Color);
+    if FileView.FileSource.IsClass(TArchiveFileSource) then
+      BitmapTmp := PixMapManager.GetArchiveIcon(22, DriveButton.Color)
+    else
+      BitmapTmp := PixMapManager.GetDefaultDriveIcon(22, DriveButton.Color);
+  end;
 
   DriveButton.Glyph := BitmapTmp;
+
+  DriveButton.Width := DriveButton.Glyph.Width
+                     + DriveButton.Canvas.TextWidth(DriveButton.Caption) + 16;
 
   if Assigned(BitmapTmp) then
     FreeAndNil(BitmapTmp);
@@ -4235,11 +4231,15 @@ begin
             sboxDrive.Tag := -1;
           sboxDrive.Invalidate;
         end;
-      lblDriveInfo.Caption := Format(rsFreeMsg, [cnvFormatFileSize(FreeSize), cnvFormatFileSize(TotalSize)]);
+      lblDriveInfo.Caption := Format(rsFreeMsgShort, [cnvFormatFileSize(FreeSize)]);
+      lblDriveInfo.Hint := Format(rsFreeMsg, [cnvFormatFileSize(FreeSize), cnvFormatFileSize(TotalSize)]);
+      sboxDrive.Hint := lblDriveInfo.Hint;
     end
   else
     begin
       lblDriveInfo.Caption := '';
+      lblDriveInfo.Hint := '';
+      sboxDrive.Hint := '';
       sboxDrive.Tag := -1;
       sboxDrive.Invalidate;
     end;

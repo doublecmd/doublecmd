@@ -4,7 +4,7 @@ object frmMain: TfrmMain
   Top = 100
   Width = 760
   Caption = 'Double Commander'
-  ClientHeight = 343
+  ClientHeight = 339
   ClientWidth = 760
   Color = clForm
   KeyPreview = True
@@ -121,24 +121,24 @@ object frmMain: TfrmMain
   end
   object pnlNotebooks: TPanel
     Left = 0
-    Height = 212
+    Height = 208
     Top = 46
     Width = 760
     Align = alClient
-    ClientHeight = 212
+    ClientHeight = 208
     ClientWidth = 760
     FullRepaint = False
     TabOrder = 1
     object pnlLeft: TPanel
       AnchorSideBottom.Control = PanelAllProgress
       Left = 1
-      Height = 86
+      Height = 78
       Top = 1
       Width = 511
       Align = alLeft
       BorderSpacing.Right = 3
       BevelOuter = bvNone
-      ClientHeight = 86
+      ClientHeight = 78
       ClientWidth = 511
       TabOrder = 0
       OnDblClick = pnlLeftRightDblClick
@@ -149,6 +149,7 @@ object frmMain: TfrmMain
         Top = 0
         Width = 511
         Align = alTop
+        AutoSize = True
         BevelOuter = bvNone
         ClientHeight = 24
         ClientWidth = 511
@@ -160,6 +161,7 @@ object frmMain: TfrmMain
           Width = 48
           Action = actLeftOpenDrives
           Align = alLeft
+          Constraints.MinHeight = 24
           NumGlyphs = 0
           OnMouseUp = dskToolBarMouseUp
         end
@@ -224,13 +226,11 @@ object frmMain: TfrmMain
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = lblLeftDriveInfo
           AnchorSideRight.Side = asrBottom
-          AnchorSideBottom.Control = pnlLeftTools
-          AnchorSideBottom.Side = asrBottom
           Left = 50
           Height = 10
           Top = 14
           Width = 344
-          Anchors = [akTop, akLeft, akRight, akBottom]
+          Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 2
           BorderSpacing.Right = 2
           OnPaint = sboxDrivePaint
@@ -252,13 +252,13 @@ object frmMain: TfrmMain
     end
     object pnlRight: TPanel
       Left = 515
-      Height = 86
+      Height = 78
       Top = 1
       Width = 244
       Align = alClient
       BorderSpacing.Left = 3
       BevelOuter = bvNone
-      ClientHeight = 86
+      ClientHeight = 78
       ClientWidth = 244
       TabOrder = 1
       OnDblClick = pnlLeftRightDblClick
@@ -268,6 +268,7 @@ object frmMain: TfrmMain
         Top = 0
         Width = 244
         Align = alTop
+        AutoSize = True
         BevelOuter = bvNone
         ClientHeight = 24
         ClientWidth = 244
@@ -279,6 +280,7 @@ object frmMain: TfrmMain
           Width = 48
           Action = actRightOpenDrives
           Align = alLeft
+          Constraints.MinHeight = 24
           NumGlyphs = 0
           OnMouseUp = dskToolBarMouseUp
         end
@@ -339,13 +341,11 @@ object frmMain: TfrmMain
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = lblRightDriveInfo
           AnchorSideRight.Side = asrBottom
-          AnchorSideBottom.Control = pnlRightTools
-          AnchorSideBottom.Side = asrBottom
           Left = 50
           Height = 10
           Top = 14
           Width = 77
-          Anchors = [akTop, akLeft, akRight, akBottom]
+          Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 2
           BorderSpacing.Right = 2
           OnPaint = sboxDrivePaint
@@ -373,7 +373,7 @@ object frmMain: TfrmMain
       Cursor = crVSplit
       Left = 1
       Height = 3
-      Top = 119
+      Top = 111
       Width = 758
       Align = alNone
       Anchors = [akLeft, akRight, akBottom]
@@ -383,36 +383,36 @@ object frmMain: TfrmMain
     end
     object pnlCommand: TPanel
       Left = 1
-      Height = 89
-      Top = 122
+      Height = 93
+      Top = 114
       Width = 758
       Align = alBottom
       Anchors = [akLeft, akRight]
       AutoSize = True
       BevelOuter = bvLowered
-      ClientHeight = 89
+      ClientHeight = 93
       ClientWidth = 758
       FullRepaint = False
       TabOrder = 2
       object pnlCmdLine: TPanel
         Left = 1
-        Height = 33
+        Height = 37
         Top = 55
         Width = 756
         Align = alClient
         AutoSize = True
         BevelOuter = bvNone
         ChildSizing.TopBottomSpacing = 2
-        ClientHeight = 33
+        ClientHeight = 37
         ClientWidth = 756
         TabOrder = 1
         object lblCommandPath: TLabel
           AnchorSideTop.Control = edtCommand
           AnchorSideTop.Side = asrCenter
           Left = 0
-          Height = 20
+          Height = 24
           Top = 6
-          Width = 30
+          Width = 36
           Caption = 'Path'
           ParentColor = False
           ShowAccelChar = False
@@ -423,10 +423,10 @@ object frmMain: TfrmMain
           AnchorSideTop.Control = pnlCmdLine
           AnchorSideRight.Control = pnlCmdLine
           AnchorSideRight.Side = asrBottom
-          Left = 34
-          Height = 29
+          Left = 40
+          Height = 33
           Top = 2
-          Width = 722
+          Width = 716
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 4
           ItemHeight = 0
@@ -471,7 +471,7 @@ object frmMain: TfrmMain
       AnchorSideBottom.Control = ConsoleSplitter
       Left = 4
       Height = 32
-      Top = 87
+      Top = 79
       Width = 752
       Align = alBottom
       BorderSpacing.Left = 3
@@ -504,7 +504,7 @@ object frmMain: TfrmMain
   object pnlKeys: TPanel
     Left = 0
     Height = 20
-    Top = 323
+    Top = 319
     Width = 760
     Align = alBottom
     Anchors = [akLeft, akRight]
@@ -598,7 +598,7 @@ object frmMain: TfrmMain
     AnchorSideBottom.Control = PanelAllProgress
     Left = 0
     Height = 61
-    Top = 262
+    Top = 258
     Width = 760
     Align = alBottom
     Font.Height = -16
@@ -1220,7 +1220,7 @@ object frmMain: TfrmMain
     Cursor = crVSplit
     Left = 0
     Height = 4
-    Top = 258
+    Top = 254
     Width = 760
     Align = alBottom
     ResizeAnchor = akBottom
