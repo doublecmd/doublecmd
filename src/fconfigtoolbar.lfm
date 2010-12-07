@@ -1,7 +1,7 @@
 object frmConfigToolBar: TfrmConfigToolBar
-  Left = 503
+  Left = 418
   Height = 323
-  Top = 127
+  Top = 128
   Width = 661
   HelpType = htKeyword
   HelpKeyword = '/toolbar.html'
@@ -202,13 +202,12 @@ object frmConfigToolBar: TfrmConfigToolBar
   object btnAppendMore: TButton
     AnchorSideLeft.Control = btnAppendButton
     AnchorSideTop.Control = btnOpenBarFile
-    AnchorSideBottom.Control = btnOpenBarFile
-    AnchorSideBottom.Side = asrBottom
+    AnchorSideBottom.Control = btnAppendButton
     Left = 546
-    Height = 21
+    Height = 32
     Top = 10
     Width = 109
-    Anchors = [akTop, akLeft, akBottom]
+    BorderSpacing.Bottom = 8
     BorderSpacing.InnerBorder = 4
     Caption = 'A&ppend >>'
     OnClick = btnAppendMoreClick
@@ -367,7 +366,7 @@ object frmConfigToolBar: TfrmConfigToolBar
       Left = 8
       Height = 17
       Top = 113
-      Width = 76
+      Width = 78
       BorderSpacing.Top = 8
       Caption = 'Flat b&uttons'
       Checked = True
@@ -526,10 +525,10 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = btnCloneButton
     Left = 546
-    Height = 48
-    Top = 37
+    Height = 32
+    Top = 49
     Width = 109
-    Anchors = [akTop, akRight, akBottom]
+    Anchors = [akRight, akBottom]
     BorderSpacing.Right = 6
     Caption = '&Insert new button'
     OnClick = btnAppendButtonClick
@@ -542,7 +541,7 @@ object frmConfigToolBar: TfrmConfigToolBar
     Left = 546
     Height = 17
     Top = 176
-    Width = 66
+    Width = 68
     Caption = 'S&eparator'
     OnChange = cbIsSeparatorChange
     TabOrder = 14
@@ -554,11 +553,11 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideBottom.Control = btnDeleteButton
     Left = 546
     Height = 32
-    Top = 91
+    Top = 89
     Width = 109
     Anchors = [akLeft, akBottom]
-    BorderSpacing.Top = 6
-    BorderSpacing.Bottom = 6
+    BorderSpacing.Top = 8
+    BorderSpacing.Bottom = 8
     Caption = 'Clo&ne button'
     OnClick = btnCloneButtonClick
     TabOrder = 2
