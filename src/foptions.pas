@@ -248,6 +248,7 @@ type
     lbxMultiArc: TListBox;
     memArchiveListFormat: TMemo;
     memIgnoreList: TMemo;
+    pnlHotkeyButtons: TPanel;
     pnlMultiArcButtons: TPanel;
     pcArchiverCommands: TPageControl;
     pgArchivers: TPage;
@@ -2986,4 +2987,4 @@ end;
 initialization
  {$I fOptions.lrs}
 
-end.
+end.
