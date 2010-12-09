@@ -1,18 +1,18 @@
 object frmSplitter: TfrmSplitter
-  Left = 297
+  Left = 660
   Height = 302
-  Top = 179
+  Top = 251
   Width = 465
   HorzScrollBar.Page = 464
   HorzScrollBar.Range = 369
   VertScrollBar.Page = 301
   VertScrollBar.Range = 227
-  ActiveControl = edFileSource
   Caption = 'Splitter'
   ClientHeight = 302
   ClientWidth = 465
   Color = clForm
   Position = poScreenCenter
+  LCLVersion = '0.9.29'
   object prgbrDoIt: TProgressBar
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = Owner
@@ -27,7 +27,6 @@ object frmSplitter: TfrmSplitter
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 6
-    Max = 100
     TabOrder = 5
   end
   object grbxFile: TGroupBox
@@ -35,20 +34,20 @@ object frmSplitter: TfrmSplitter
     AnchorSideTop.Control = Owner
     AnchorSideBottom.Control = grbxSize
     Left = 6
-    Height = 185
+    Height = 146
+    Top = 0
     Width = 280
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 6
     BorderSpacing.Bottom = 6
     Caption = 'File name'
-    ClientHeight = 167
+    ClientHeight = 128
     ClientWidth = 276
-    ParentCtl3D = False
     TabOrder = 0
     object lbFileSource: TLabel
       Left = 6
       Height = 14
-      Top = 9
+      Top = 0
       Width = 52
       Caption = 'File source'
       ParentColor = False
@@ -58,9 +57,9 @@ object frmSplitter: TfrmSplitter
       AnchorSideTop.Side = asrBottom
       Left = 6
       Height = 14
-      Top = 70
+      Top = 63
       Width = 78
-      BorderSpacing.Top = 18
+      BorderSpacing.Top = 22
       Caption = 'Directory target'
       ParentColor = False
     end
@@ -68,8 +67,8 @@ object frmSplitter: TfrmSplitter
       AnchorSideTop.Control = lbFileSource
       AnchorSideTop.Side = asrBottom
       Left = 6
-      Height = 23
-      Top = 29
+      Height = 21
+      Top = 20
       Width = 264
       BorderSpacing.Top = 6
       ReadOnly = True
@@ -80,8 +79,8 @@ object frmSplitter: TfrmSplitter
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnFTChoice
       Left = 6
-      Height = 23
-      Top = 90
+      Height = 21
+      Top = 83
       Width = 234
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
@@ -95,7 +94,7 @@ object frmSplitter: TfrmSplitter
       AnchorSideRight.Side = asrBottom
       Left = 246
       Height = 23
-      Top = 90
+      Top = 83
       Width = 24
       Anchors = [akTop, akRight]
       BorderSpacing.Left = 4
@@ -108,24 +107,22 @@ object frmSplitter: TfrmSplitter
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = grbxWatch
     Left = 6
-    Height = 73
-    Top = 191
+    Height = 112
+    Top = 152
     Width = 280
     Anchors = [akLeft, akRight, akBottom]
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
-    Caption = 'File size'
-    ClientHeight = 55
+    Caption = 'Size and number of parts'
+    ClientHeight = 94
     ClientWidth = 276
-    ParentCtl3D = False
     TabOrder = 1
     object cmbxSize: TComboBox
       Left = 6
       Height = 21
-      Top = 12
+      Top = 8
       Width = 252
       Anchors = [akTop, akLeft, akRight]
-      AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
       ItemHeight = 13
       ItemIndex = 0
       Items.Strings = (
@@ -133,11 +130,57 @@ object frmSplitter: TfrmSplitter
         '98078KB - ZIP 100MB'
         '650MB - CD 650MB'
         '700MB - CD 700MB'
+        '4482MB - DVD+R'
       )
-      MaxLength = 0
-      ParentCtl3D = False
+      OnCloseUp = cmbxSizeCloseUp
+      OnKeyPress = cmbxSizeKeyPress
+      OnKeyUp = cmbxSizeKeyUp
       TabOrder = 0
       Text = '1457664B - 3.5"'
+    end
+    object rbtnKiloB: TRadioButton
+      Left = 6
+      Height = 17
+      Top = 39
+      Width = 61
+      Caption = 'Kilobytes'
+      OnChange = rbtnKiloBChange
+      TabOrder = 1
+    end
+    object rbtnMegaB: TRadioButton
+      Left = 96
+      Height = 17
+      Top = 39
+      Width = 71
+      Caption = 'Megabytes'
+      OnChange = rbtnKiloBChange
+      TabOrder = 2
+    end
+    object rbtnGigaB: TRadioButton
+      Left = 192
+      Height = 17
+      Top = 39
+      Width = 66
+      Caption = 'Gigabytes'
+      OnChange = rbtnKiloBChange
+      TabOrder = 3
+    end
+    object teNumberParts: TEdit
+      Left = 96
+      Height = 21
+      Top = 64
+      Width = 72
+      OnKeyPress = teNumberPartsKeyPress
+      OnKeyUp = teNumberPartsKeyUp
+      TabOrder = 4
+    end
+    object lblNumberParts: TLabel
+      Left = 6
+      Height = 14
+      Top = 64
+      Width = 79
+      Caption = 'Number of parts'
+      ParentColor = False
     end
   end
   object grbxWatch: TGroupBox
@@ -148,6 +191,7 @@ object frmSplitter: TfrmSplitter
     AnchorSideRight.Side = asrBottom
     Left = 292
     Height = 224
+    Top = 0
     Width = 167
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 6
@@ -155,7 +199,6 @@ object frmSplitter: TfrmSplitter
     Caption = 'Watchtower'
     ClientHeight = 206
     ClientWidth = 163
-    ParentCtl3D = False
     TabOrder = 2
     object memWatch: TMemo
       AnchorSideLeft.Control = grbxWatch
@@ -178,6 +221,7 @@ object frmSplitter: TfrmSplitter
       Font.Height = 11
       Font.Name = 'MS Shell Dlg'
       Font.Pitch = fpVariable
+      ParentFont = False
       ReadOnly = True
       ScrollBars = ssAutoBoth
       TabOrder = 0
