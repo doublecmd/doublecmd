@@ -1923,7 +1923,7 @@ msgstr "Згорнути"
 
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
 msgid "Multi Rename Tool"
-msgstr "&Мультипереіменування"
+msgstr "&Мультиперейменування"
 
 #: TFRMMAIN.ACTNETWORKCONNECT.CAPTION
 msgid "Network Connect..."
@@ -2031,7 +2031,7 @@ msgstr "Перемістити файли без запиту підтвердж
 #: TFRMMAIN.ACTRENAMEONLY.CAPTION
 msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
 msgid "Rename"
-msgstr "Переіменувати"
+msgstr "Перейменувати"
 
 #: TFRMMAIN.ACTRESTORESELECTION.CAPTION
 msgid "Restore Selection"
@@ -3380,11 +3380,11 @@ msgstr "Налаштування"
 
 #: TFRMOPTIONS.GBAUTOREFRESHDISABLE.CAPTION
 msgid "Disable auto-refresh"
-msgstr "Відключити автооновлення"
+msgstr "Відключення автооновлення"
 
 #: TFRMOPTIONS.GBAUTOREFRESHENABLE.CAPTION
 msgid "Refresh file list"
-msgstr "Оновити список файлів"
+msgstr "Оновлення списку файлів"
 
 #: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
 msgid "&Buffer size for files:"
@@ -5088,7 +5088,7 @@ msgstr "Синтаксична помилка в регулярному вира
 
 #: ulng.rsmsgerrrename
 msgid "Cannot rename file %s to %s"
-msgstr "Неможливо перейменівати файл з %s в %s"
+msgstr "Неможливо перейменувати файл з %s в %s"
 
 #: ulng.rsmsgerrsavefile
 msgid "Cannot save file"
@@ -5277,11 +5277,11 @@ msgstr "Шаблон \"%s\" вже існує. Перезаписати?"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
-msgstr "Переіменувати/перемістити %d вибраних файлів/каталогів?"
+msgstr "Перейменувати/перемістити %d вибраних файлів/каталогів?"
 
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"%s\"?"
-msgstr "Переіменувати/перемістити вибраний \"%s\"?"
+msgstr "Перейменувати/перемістити вибраний \"%s\"?"
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
@@ -5546,7 +5546,7 @@ msgstr "використовується"
 
 #: ulng.rsopticons
 msgid "Icons"
-msgstr "Іконка"
+msgstr "Іконки"
 
 #: ulng.rsoptignorelist
 msgid "Ignore list"
