@@ -20,9 +20,14 @@ uses
   Dialogs, StdCtrls, ComCtrls, Buttons;
 
 type
+
+  { TfrmSplitter }
+
   TfrmSplitter = class(TForm)
+    teNumberParts: TEdit;
     grbxFile: TGroupBox;
     edFileSource: TEdit;
+    lblNumberParts: TLabel;
     lbFileSource: TLabel;
     edDirTarget: TEdit;
     lbDirTarget: TLabel;
@@ -34,8 +39,20 @@ type
     btnOK: TButton;
     btnCancel: TButton;
     prgbrDoIt: TProgressBar;
+    rbtnKiloB: TRadioButton;
+    rbtnMegaB: TRadioButton;
+    rbtnGigaB: TRadioButton;
     procedure btnFTChoiceClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
+    procedure cmbxSizeCloseUp(Sender: TObject);
+    procedure cmbxSizeKeyPress(Sender: TObject; var Key: char);
+    procedure cmbxSizeKeyUp(Sender: TObject; var Key: char; Shift: TShiftState);
+    procedure rbtnKiloBChange(Sender: TObject);
+    procedure SetNumberOfPart;
+    procedure SetSizeOfPart;
+    procedure teNumberPartsKeyPress(Sender: TObject; var Key: char);
+    procedure teNumberPartsKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     function StrConvert(str:string):int64;
@@ -60,11 +77,52 @@ begin
     try
       edFileSource.Text:= sFile[0];
       edDirTarget.Text:= ExtractFileDir(sTargetDir);
+      SetNumberOfPart;
+      rbtnKiloB.Enabled:=false;
+      rbtnMegaB.Enabled:=false;
+      rbtnGigaB.Enabled:=false;
       Result:= (ShowModal = mrOK);
     finally
       Free;
     end;
   end;
+end;
+
+procedure TfrmSplitter.SetNumberOfPart;
+begin
+  if  not (cmbxSize.Text='') then
+    begin
+      if  mbFileSize(edFileSource.Text) mod StrConvert(cmbxSize.Text)>0 then
+        teNumberParts.Text:= IntToStr(mbFileSize(edFileSource.Text)div StrConvert(cmbxSize.Text)+1)
+      else
+        teNumberParts.Text:= IntToStr(mbFileSize(edFileSource.Text)div StrConvert(cmbxSize.Text));
+    end;
+end;
+
+procedure TfrmSplitter.SetSizeOfPart;
+begin
+  if not (teNumberParts.Text='') then
+    begin
+      if mbFileSize(edFileSource.Text) mod StrToInt64Def(teNumberParts.Text,0)>0 then
+        cmbxSize.Text := IntToStr(mbFileSize(edFileSource.Text) div StrToInt64Def(teNumberParts.Text,0)+1)+'B'
+      else
+        cmbxSize.Text := IntToStr(mbFileSize(edFileSource.Text) div StrToInt64Def(teNumberParts.Text,0))+'B';
+    end;
+end;
+
+procedure TfrmSplitter.teNumberPartsKeyPress(Sender: TObject; var Key: char);
+begin
+  if not (Key in ['0'.. '9', #8, #46]) then
+    begin
+      Key := #0;
+      Exit;
+    end;
+end;
+
+procedure TfrmSplitter.teNumberPartsKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  SetSizeOfPart;
 end;
 
 procedure TfrmSplitter.btnFTChoiceClick(Sender: TObject);
@@ -88,10 +146,17 @@ begin
   iPos:=Pos('B',str);
   if iPos>1 then
   begin
+    rbtnKiloB.Enabled:=false;
+    rbtnMegaB.Enabled:=false;
+    rbtnGigaB.Enabled:=false;
+    rbtnKiloB.Checked:=false;
+    rbtnMegaB.Checked:=false;
+    rbtnGigaB.Checked:=false;
     dec(iPos);
     case str[iPos] of
       'K':iMult:=1024;       //Kilo
       'M':iMult:=1024*1024;    //Mega
+      'G':iMult:=1024*1024*1024;//Giga
     else
       iMult:=1;
       inc(iPos);
@@ -100,7 +165,17 @@ begin
     sStr:=Copy(str,1,iPos);
     iRet:=StrToInt64Def(sStr,0)*iMult;
   end
-  else iRet:=StrToInt64Def(str,0);
+  else
+  begin
+    rbtnKiloB.Enabled:=true;
+    rbtnMegaB.Enabled:=true;
+    rbtnGigaB.Enabled:=true;
+    iMult:=1;
+    if rbtnKiloB.Checked then iMult:=1024;          //Kilo
+    if rbtnMegaB.Checked then iMult:=1024*1024;     //Mega
+    if rbtnGigaB.Checked then iMult:=1024*1024*1024;//Giga
+    iRet:=StrToInt64Def(Str,0)*iMult;
+  end;
   Result:=iRet;
 end;
 
@@ -243,6 +318,43 @@ begin
     FreeThenNil(fSource);
   end;
 end;
+
+procedure TfrmSplitter.cmbxSizeCloseUp(Sender: TObject);
+begin
+  SetNumberOfPart;
+end;
+
+procedure TfrmSplitter.cmbxSizeKeyPress(Sender: TObject; var Key: char);
+begin
+  if not (Key in ['0'.. '9', #8, #46,'G','g','M','m','K','k','B','b']) then
+    begin
+      Key := #0;
+      Exit;
+    end;
+end;
+
+procedure TfrmSplitter.cmbxSizeKeyUp(Sender: TObject; var Key: char;
+  Shift: TShiftState);
+begin
+  if Key in ['0'.. '9','B','b'] then
+    begin
+      SetNumberOfPart;
+      Exit;
+    end;
+  if Key in [#8, #46] then
+    begin
+      if (Pos ('M',UpperCase(cmbxSize.Text))>0) or
+         (Pos ('K',UpperCase(cmbxSize.Text))>0) or
+         (Pos ('G',UpperCase(cmbxSize.Text))>0) then Exit
+      else SetNumberOfPart;
+    end;
+end;
+
+procedure TfrmSplitter.rbtnKiloBChange(Sender: TObject);
+begin
+  SetNumberOfPart;
+end;
+
 
 initialization
  {$I fsplitter.lrs}
