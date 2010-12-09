@@ -46,7 +46,7 @@ procedure DelTree(const sFolderName: String);
    @param(hFile Handle of file)
    @param(S Stores the result string)
 }
-procedure FileReadLn(hFile: Integer; var S: String);
+function FileReadLn(hFile: THandle; var S: String): Boolean;
 {en
    Write string to a text file and append newline
    @param(hFile Handle of file)
@@ -146,7 +146,7 @@ begin
   end;
 end;
 
-procedure FileReadLn(hFile: Integer; var S: String);
+function FileReadLn(hFile: THandle; var S: String): Boolean;
 const
   cBufSize = 4096;
 var
@@ -159,6 +159,7 @@ var
    iFileSize: Int64;
 begin
   S:='';
+  Result:= False;
   // get current position
   iFilePos:= FileSeek(hFile, 0, soFromCurrent);
   // get file size
@@ -182,7 +183,7 @@ begin
                 Buf[iCounter]:= #0;
                 S:= StrPas(@Buf);
                 FileSeek(hFile, iFilePos+iBufPos-1, soFromBeginning);
-                Break;
+                Exit(True);
               end;
           end; // for
 
