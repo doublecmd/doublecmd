@@ -719,6 +719,7 @@ begin
             fsFileStream:= TFileStreamEx.Create(FullPathToFile, fmOpenRead or fmShareDenyNone);
             try
               Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
+              // width and height of thumb
               if  Picture.Bitmap.Width> Picture.Bitmap.Height then
                 begin
                   x:=DrawPreview.DefaultColWidth;
@@ -734,12 +735,22 @@ begin
                   y:=DrawPreview.DefaultRowHeight-30;
                   x:=y*Picture.Bitmap.Width div Picture.Bitmap.Height;
                 end;
+                //Create thumb
               bmps:= TBitMap.Create;
               bmpt:= TBitMap.Create;
               bmps.Assign(Picture.Graphic);
               bmpt.SetSize(x,y);
               Stretch(bmps, bmpt, ResampleFilters[2].Filter, ResampleFilters[2].Width);
-              Picture.Bitmap:=bmpt;
+              // draw thumb on canwas of Picture
+              rec:= Rect(0,0,DrawPreview.DefaultColWidth, DrawPreview.DefaultRowHeight-30);
+              Picture.Bitmap.SetSize(DrawPreview.DefaultColWidth, DrawPreview.DefaultRowHeight-30);
+              Picture.Bitmap.Canvas.Brush.Color:=clWhite;
+              Picture.Bitmap.Canvas.FillRect(rec);
+              rec:= Rect((DrawPreview.DefaultColWidth-x) div 2,
+                         (DrawPreview.DefaultRowHeight-y-30) div 2,
+                         (DrawPreview.DefaultColWidth-x)div 2+x,
+                         (DrawPreview.DefaultRowHeight-y-30) div 2+y);
+              Picture.Bitmap.Canvas.CopyRect(rec,bmpt.Canvas,Rect(0,0,x,y));
             except
               FreeAndNil(fsFileStream);
               bmps.free;
@@ -752,10 +763,13 @@ begin
             bmps.free;
             bmpt.free;
           end;
+          // save created thumb to cashe
           if (sExt='jpg') or (sExt='jpeg') or (sExt='bmp') then sExt:='jpg' else sExt:='png';
           Picture.SaveToFile(GetAppCacheDir+pathDelim+'thumbnails'+PathDelim+sOnlyFilename+'.'+sExt);
         end
-      else if (FileIsText(FileList.Strings[index])) and (mbFileAccess(FileList.Strings[index],0)) then
+      else
+      // create thumb for text files
+      if (FileIsText(FileList.Strings[index])) and (mbFileAccess(FileList.Strings[index],0)) then
         begin
           rec:= Rect(0,0,DrawPreview.DefaultColWidth, DrawPreview.DefaultRowHeight-30); //Application.ProcessMessages;
           Picture.Bitmap.SetSize(DrawPreview.DefaultColWidth, DrawPreview.DefaultRowHeight-30);
@@ -773,6 +787,7 @@ begin
         end
       else
         begin
+          // load thumb for unknown file
           //Picture.Bitmap:= PixMapManager.LoadBitmapEnhanced(FileList.Strings[index], gIconsSize, DrawPreview.Canvas.Brush.Color);
           Picture.LoadFromFile(ProgramDirectory+PathDelim+'pixmaps'+PathDelim+'dctheme'+PathDelim+'32x32'+PathDelim+'mimetypes'+PathDelim+'unknown.png');
         end;
@@ -782,7 +797,7 @@ begin
   y:= index div DrawPreview.ColCount ;
   x:= index-y * DrawPreview.ColCount ;
   z:= (DrawPreview.Width- DrawPreview.ColCount* DrawPreview.DefaultColWidth)div DrawPreview.ColCount div 2 ;
-  lstPreviewImg.Draw(DrawPreview.Canvas, DrawPreview.CellRect(x,y).Left+4+z, DrawPreview.CellRect(x,y).Top+5, index, true);
+  lstPreviewImg.Draw(DrawPreview.Canvas, DrawPreview.CellRect(x,y).Left+z, DrawPreview.CellRect(x,y).Top+5, index, true);
   Picture.Free;
 end;
 
@@ -1235,7 +1250,7 @@ begin
       sName:= ExtractOnlyFileName(FileList.Strings[i]);
       sExt:= ExtractFileExt(FileList.Strings[i]);
       DrawPreview.Canvas.FillRect(aRect); // Clear cell
-      lstPreviewImg.Draw(DrawPreview.Canvas, aRect.Left+z+4, aRect.Top+5, i, True);
+      lstPreviewImg.Draw(DrawPreview.Canvas, aRect.Left+z, aRect.Top+5, i, True);
       if DrawPreview.Canvas.GetTextWidth(sName+sExt) < DrawPreview.DefaultColWidth then
         begin
           t:= (DrawPreview.DefaultColWidth-DrawPreview.Canvas.GetTextWidth(sName+sExt)) div 2;

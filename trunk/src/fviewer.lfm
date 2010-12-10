@@ -101,24 +101,23 @@ object frmViewer: TfrmViewer
   end
   object pnlText: TPanel
     AnchorSideLeft.Control = Splitter
-    AnchorSideLeft.Side = asrBottom
-    Left = 195
+    Left = 186
     Height = 490
     Top = 0
-    Width = 961
+    Width = 970
     Align = alCustom
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 10
     BevelOuter = bvNone
     ClientHeight = 490
-    ClientWidth = 961
+    ClientWidth = 970
     TabOrder = 2
     Visible = False
     object ViewerControl: TViewerControl
       Left = 0
       Height = 490
       Top = 0
-      Width = 961
+      Width = 970
       ViewerMode = vmWrap
       OnPositionChanged = ViewerPositionChanged
       OnMouseUp = ViewerControlMouseUp
@@ -1594,7 +1593,7 @@ object frmViewer: TfrmViewer
     BorderSpacing.CellAlignVertical = ccaCenter
     BorderStyle = bsNone
     ColCount = 0
-    DefaultColWidth = 160
+    DefaultColWidth = 150
     DefaultRowHeight = 140
     ExtendedSelect = False
     FixedColor = clAppWorkspace
@@ -2310,7 +2309,7 @@ object frmViewer: TfrmViewer
   object lstPreviewImg: TImageList
     BlendColor = clWindow
     BkColor = clWindow
-    Height = 140
+    Height = 110
     Masked = True
     Width = 150
     left = 88
