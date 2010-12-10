@@ -40,7 +40,7 @@ uses
   LResources, SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls,
   LCLProc, Menus, Dialogs, ExtDlgs, EditBtn, StdCtrls, Buttons, ColorBox, Spin,
   Grids, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
-  uFileSource, fModView, uOSUtils;
+  uFileSource, fModView, uOSUtils, types;
 
 
 type
@@ -704,6 +704,7 @@ begin
           mbDeleteFile (GetAppCacheDir+pathDelim+'thumbnails'+PathDelim+sOnlyFileName+'.'+sExt);           // delete thumb if need
           for x:=index to FileList.Count-2 do
           lstPreviewImg.Move(x+1,x);
+          Picture.Free;
           Exit;
         end
       else
@@ -755,6 +756,7 @@ begin
               FreeAndNil(fsFileStream);
               bmps.free;
               bmpt.free;
+              Picture.Free;
               Exit;
             end;
           finally
@@ -1279,10 +1281,10 @@ begin
   i:= DrawPreview.Row*DrawPreview.ColCount+DrawPreview.Col;
   if i<Filelist.Count then
     begin
-      iActiveFile:= i;
-      LoadFile(FileList.Strings[i]);
+      LoadFile(i);
     end;
 end;
+
 
 procedure TfrmViewer.DrawPreviewTopleftChanged(Sender: TObject);
 begin
@@ -1377,7 +1379,17 @@ begin
         Exit;
     end;
   ExitPluginMode;
-  LoadFile(I);
+  if DrawPreview.Visible then
+    begin
+      if DrawPreview.Col = DrawPreview.ColCount-1 then
+        begin
+          DrawPreview.Col:=0;
+          DrawPreview.Row:= DrawPreview.Row+1;
+        end
+      else
+        DrawPreview.Col:=DrawPreview.Col+1
+    end
+  else LoadFile(I);
 end;
 
 procedure TfrmViewer.miPrevClick(Sender: TObject);
@@ -1393,7 +1405,17 @@ begin
       if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
         Exit;
     end;
-  LoadFile(I);
+  if DrawPreview.Visible then
+    begin
+      if DrawPreview.Col = 0  then
+        begin
+          DrawPreview.Col:=DrawPreview.ColCount-1;
+          DrawPreview.Row:= DrawPreview.Row-1;
+        end
+      else
+        DrawPreview.Col:=DrawPreview.Col-1
+    end
+  else LoadFile(I);
 end;
 
 procedure TfrmViewer.miStretchClick(Sender: TObject);
@@ -2147,7 +2169,12 @@ begin
   end
   else if Panel = pnlImage then
   begin
-    PanelEditImage.Visible:= not (bQuickView);
+    if bQuickView then
+      begin
+        PanelEditImage.Visible:= not (bQuickView);
+        DrawPreview.Visible:=not (bQuickView);
+        Splitter.Align:=alLeft;
+      end;
   end;
 end;
 
