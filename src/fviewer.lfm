@@ -1,5 +1,5 @@
 object frmViewer: TfrmViewer
-  Left = 327
+  Left = 114
   Height = 530
   Top = 158
   Width = 1156
@@ -1600,6 +1600,7 @@ object frmViewer: TfrmViewer
     FixedCols = 0
     FixedRows = 0
     Font.Style = [fsItalic]
+    MouseWheelOption = mwGrid
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goSmoothScroll]
     ParentFont = False
     RowCount = 0
