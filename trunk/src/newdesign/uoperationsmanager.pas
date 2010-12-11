@@ -667,13 +667,13 @@ begin
   begin
     Operation := OperationsManager.GetOperationByIndex(i);
     if Assigned(Operation) then
-      n:= n + Operation.Progress  // calculate allProgressBar
-    else
-      AllProgressCur:= 0 ;   // если фоновых операций нет, то прогресса тоже нет
+      n:= n + Operation.Progress;  // calculate allProgressBar
   end;
 
   if OperationsManager.OperationsCount<>0 then
-    AllProgressCur:= Round(n / OperationsManager.OperationsCount);  // Показываем средний прогресс
+    AllProgressCur:= Round(n / OperationsManager.OperationsCount)  // Показываем средний прогресс
+  else
+    AllProgressCur:= 0 ;   // если фоновых операций нет, то прогресса тоже нет
 
   Result := AllProgressCur;
 end;
