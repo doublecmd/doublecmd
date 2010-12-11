@@ -198,7 +198,7 @@
         <PackageName Value="viewerpackage"/>
       </Item6>
     </RequiredPackages>
-    <Units Count="99">
+    <Units Count="100">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -813,6 +813,11 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fFileExecuteYourSelf"/>
       </Unit98>
+      <Unit99>
+        <Filename Value="uthumbnails.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uThumbnails"/>
+      </Unit99>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -863,4 +868,4 @@
       </ExecuteBefore>
     </Other>
   </CompilerOptions>
-</CONFIG>
+</CONFIG>

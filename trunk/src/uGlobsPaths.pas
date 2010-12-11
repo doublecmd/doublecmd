@@ -1,13 +1,14 @@
 unit uGlobsPaths;
 
 interface
-var
 
+var
   gpExePath : String = '';  // executable directory
   gpCfgDir : String = '';  // directory from which configuration files are used
   gpGlobalCfgDir : String = '';  // config dir global for all user
   gpLngDir : String = '';  // path to language *.po files
   gpPixmapPath : String = '';  // path to pixmaps
+  gpCacheDir : UTF8String = ''; // cache directory
   
 procedure LoadPaths;
 
@@ -40,9 +41,10 @@ begin
 
   gpLngDir := gpExePath + 'language' + DirectorySeparator;
   gpPixmapPath := gpExePath + 'pixmaps' + DirectorySeparator;
+  gpCacheDir := GetAppCacheDir;
 
   // set up environment variables
   mbSetEnvironmentVariable('commander_path', ExcludeTrailingBackslash(gpExePath));
 end;
 
-end.
+end.
