@@ -676,7 +676,7 @@ end;
 procedure TfrmViewer.CreatePreview(FullPathToFile: String; index: integer; delete: Boolean = false);
 var
   bmpThumb : TBitmap = nil;
-  x, y: Integer;
+  x, y, z: Integer;
   aRect: TRect;
 begin
   x:= DrawPreview.DefaultColWidth;
@@ -694,13 +694,12 @@ begin
       bmpThumb:= FThumbnailManager.CreatePreview(FullPathToFile);
       y:= index div DrawPreview.ColCount;
       x:= index - y * DrawPreview.ColCount;
-      // insert to the imglist and draw
+      aRect:= DrawPreview.CellRect(x, y);
+      z:= ((aRect.Right - aRect.Left) div 2) - (bmpThumb.Width div 2);
+      // Insert to the BitmapList
       FBitmapList.Insert(index, bmpThumb);
-      aRect:= Rect((DrawPreview.DefaultColWidth-x) div 2,
-                   (DrawPreview.DefaultRowHeight-y-30) div 2,
-                   (DrawPreview.DefaultColWidth-x)div 2+x,
-                   (DrawPreview.DefaultRowHeight-y-30) div 2+y);
-      DrawPreview.Canvas.CopyRect(aRect, bmpThumb.Canvas, bmpThumb.Canvas.ClipRect);
+      // Draw thumbnail at center
+      DrawPreview.Canvas.Draw(aRect.Left + z, aRect.Top + 5, bmpThumb);
     end;
 end;
 
@@ -1149,7 +1148,6 @@ var
   bmpThumb: TBitmap;
 begin
   i:= (aRow * DrawPreview.ColCount) + aCol; // Calculate FileList index
-  z:= (DrawPreview.Width - DrawPreview.ColCount * DrawPreview.DefaultColWidth) div DrawPreview.ColCount div 2;
   if (i >= 0) and (i < FileList.Count) then
     begin
       sName:= ExtractOnlyFileName(FileList.Strings[i]);
@@ -1158,8 +1156,11 @@ begin
       if (i >= 0) and (i < FBitmapList.Count) then
         begin
           bmpThumb:= FBitmapList[i];
-          DrawPreview.Canvas.Draw(aRect.Left+z, aRect.Top+5, bmpThumb);
+          z:= ((aRect.Right - aRect.Left) div 2) - (bmpThumb.Width div 2);
+          // Draw thumbnail at center
+          DrawPreview.Canvas.Draw(aRect.Left + z, aRect.Top + 5, bmpThumb);
         end;
+      z:= (DrawPreview.Width - DrawPreview.ColCount * DrawPreview.DefaultColWidth) div DrawPreview.ColCount div 2;
       if DrawPreview.Canvas.GetTextWidth(sName+sExt) < DrawPreview.DefaultColWidth then
         begin
           t:= (DrawPreview.DefaultColWidth-DrawPreview.Canvas.GetTextWidth(sName+sExt)) div 2;
