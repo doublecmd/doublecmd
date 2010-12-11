@@ -125,7 +125,7 @@ begin
     begin
       if FindFirstEx(templateDir[I] + PathDelim + '*.desktop', faAnyFile, searchRec) = 0 then
       begin
-        Items:= TStringList.Create;
+        if not Assigned(Items) then Items:= TStringList.Create;
         repeat
           // Skip directories
           if FPS_ISDIR(searchRec.Attr) then Continue;
