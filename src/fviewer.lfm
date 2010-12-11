@@ -1607,7 +1607,6 @@ object frmViewer: TfrmViewer
     ScrollBars = ssAutoVertical
     TabOrder = 4
     TitleFont.Style = [fsItalic]
-    TitleImageList = lstPreviewImg
     TitleStyle = tsNative
     Visible = False
     OnDrawCell = DrawPreviewDrawCell
@@ -2306,14 +2305,5 @@ object frmViewer: TfrmViewer
     OnTimer = TimerViewerTimer
     left = 224
     top = 64
-  end
-  object lstPreviewImg: TImageList
-    BlendColor = clWindow
-    BkColor = clWindow
-    Height = 110
-    Masked = True
-    Width = 150
-    left = 88
-    top = 136
   end
 end

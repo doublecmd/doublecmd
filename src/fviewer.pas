@@ -40,7 +40,7 @@ uses
   LResources, SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls,
   LCLProc, Menus, Dialogs, ExtDlgs, EditBtn, StdCtrls, Buttons, ColorBox, Spin,
   Grids, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
-  uFileSource, fModView, uOSUtils, types;
+  uFileSource, fModView, uOSUtils, Types, uThumbnails;
 
 
 type
@@ -63,7 +63,6 @@ type
     gboxView: TGroupBox;
     gboxSlideShow: TGroupBox;
     GifAnim: TGifAnim;
-    lstPreviewImg: TImageList;
     miDiv4: TMenuItem;
     miPreview: TMenuItem;
     miScreenshot: TMenuItem;
@@ -237,7 +236,8 @@ type
     FLastSearchPos: PtrInt;
     tmp_all: TCustomBitmap;
     FModSizeDialog: TfrmModView;
-
+    FThumbnailManager: TThumbnailManager;
+    FBitmapList: TBitmapList;
 
     //---------------------
     WlxPlugins:TWLXModuleList;
@@ -277,7 +277,7 @@ implementation
 
 uses
   FileUtil, IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx,
-  uFindMmap, uDCUtils, LCLIntf, uReSample, uFileProcs;
+  uFindMmap, uDCUtils, LCLIntf;
 
 const
   // Status bar panels indexes.
@@ -321,11 +321,14 @@ begin
   inherited Create(TheOwner);
   FFileSource := aFileSource;
   FLastSearchPos := -1;
+  FThumbnailManager:= nil;
+  FBitmapList:= TBitmapList.Create;
 end;
 
 destructor TfrmViewer.Destroy;
 begin
   FreeThenNil(FileList);
+  FreeThenNil(FThumbnailManager);
   inherited Destroy;
   FFileSource := nil; // If this is temp file source, the files will be deleted.
   tmp_all.Free;
@@ -641,7 +644,7 @@ begin
       sboxImage.VertScrollBar.Position:=sboxImage.VertScrollBar.Position+tmpY-y;
       sboxImage.HorzScrollBar.Position:=sboxImage.HorzScrollBar.Position+tmpX-x;
     end;
-         end;
+  end;
 end;
 
 procedure TfrmViewer.ImageMouseUp(Sender: TObject; Button: TMouseButton;
@@ -670,137 +673,35 @@ begin
   Image.Cursor:=crDefault;
 end;
 
-// TODO: Move create/load preview code to separate unit
-procedure TfrmViewer.CreatePreview(FullPathToFile:string; index:integer; delete: boolean = false);
+procedure TfrmViewer.CreatePreview(FullPathToFile: String; index: integer; delete: Boolean = false);
 var
-  bmps, bmpt : TBitmap;
-  Picture: TPicture;
-  sExt, sOnlyFileName, sStr: String;
-  fsFileStream: TFileStreamEx = nil;
-  x,y,z: Integer;
-  rec: TRect;
-  tFile: THandle;
+  bmpThumb : TBitmap = nil;
+  x, y: Integer;
+  aRect: TRect;
 begin
-  sExt:= ExtractOnlyFileExt(FullPathToFile);
-  sOnlyFileName:=ExtractOnlyFileName(FullPathToFile);
-  // if not directory create it
-  if mbDirectoryExists(GetAppCacheDir) then
+  x:= DrawPreview.DefaultColWidth;
+  y:= DrawPreview.DefaultRowHeight - 30;
+  if not Assigned(FThumbnailManager) then
+    FThumbnailManager:= TThumbnailManager.Create(x, y, DrawPreview.Canvas.Brush.Color);
+  if delete then
     begin
-      if not (mbDirectoryExists(GetAppCacheDir+pathDelim+'thumbnails')) then
-         mbCreateDir(GetAppCacheDir+pathDelim+'thumbnails');
+      FThumbnailManager.RemovePreview(FullPathToFile); // delete thumb if need
+      FBitmapList.Delete(index);
+      Exit;
     end
   else
     begin
-      mbCreateDir(GetAppCacheDir);
-      mbCreateDir(GetAppCacheDir+pathDelim+'thumbnails');
+      bmpThumb:= FThumbnailManager.CreatePreview(FullPathToFile);
+      y:= index div DrawPreview.ColCount;
+      x:= index - y * DrawPreview.ColCount;
+      // insert to the imglist and draw
+      FBitmapList.Insert(index, bmpThumb);
+      aRect:= Rect((DrawPreview.DefaultColWidth-x) div 2,
+                   (DrawPreview.DefaultRowHeight-y-30) div 2,
+                   (DrawPreview.DefaultColWidth-x)div 2+x,
+                   (DrawPreview.DefaultRowHeight-y-30) div 2+y);
+      DrawPreview.Canvas.CopyRect(aRect, bmpThumb.Canvas, bmpThumb.Canvas.ClipRect);
     end;
-  Picture:= TPicture.Create;
-  sOnlyFileName:= inttostr( mbFileSize(sOnlyFileName+'.'+sExt))+'_'+sOnlyFileName;
-  if (sExt='jpg') or (sExt='jpeg') or (sExt='bmp') then sExt:='jpg' else sExt:='png';
-  if mbFileExists(GetAppCacheDir+pathDelim+'thumbnails'+PathDelim+sOnlyFileName+'.'+sExt) then
-    begin
-      if delete then
-        begin
-          mbDeleteFile (GetAppCacheDir+pathDelim+'thumbnails'+PathDelim+sOnlyFileName+'.'+sExt);           // delete thumb if need
-          for x:=index to FileList.Count-2 do
-          lstPreviewImg.Move(x+1,x);
-          Picture.Free;
-          Exit;
-        end
-      else
-        Picture.LoadFromFile(GetAppCacheDir+pathDelim+'thumbnails'+PathDelim+sOnlyFileName+'.'+sExt);      // load from thumb if exist
-    end
-  else
-    // create thumb if not exist
-    begin
-      sExt:= ExtractOnlyFileExt(FullPathToFile);
-      if CheckGraphics(FullPathToFile) then
-        begin
-          try
-            fsFileStream:= TFileStreamEx.Create(FullPathToFile, fmOpenRead or fmShareDenyNone);
-            try
-              Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
-              // width and height of thumb
-              if  Picture.Bitmap.Width> Picture.Bitmap.Height then
-                begin
-                  x:=DrawPreview.DefaultColWidth;
-                  y:= x*Picture.Bitmap.Height div Picture.Bitmap.Width;
-                  if y>DrawPreview.DefaultRowHeight-30 then
-                    begin
-                      y:=DrawPreview.DefaultRowHeight-30;
-                      x:=y*Picture.Bitmap.Width div Picture.Bitmap.Height;
-                    end;
-                end
-              else
-                begin
-                  y:=DrawPreview.DefaultRowHeight-30;
-                  x:=y*Picture.Bitmap.Width div Picture.Bitmap.Height;
-                end;
-                //Create thumb
-              bmps:= TBitMap.Create;
-              bmpt:= TBitMap.Create;
-              bmps.Assign(Picture.Graphic);
-              bmpt.SetSize(x,y);
-              Stretch(bmps, bmpt, ResampleFilters[2].Filter, ResampleFilters[2].Width);
-              // draw thumb on canwas of Picture
-              rec:= Rect(0,0,DrawPreview.DefaultColWidth, DrawPreview.DefaultRowHeight-30);
-              Picture.Bitmap.SetSize(DrawPreview.DefaultColWidth, DrawPreview.DefaultRowHeight-30);
-              Picture.Bitmap.Canvas.Brush.Color:=clWhite;
-              Picture.Bitmap.Canvas.FillRect(rec);
-              rec:= Rect((DrawPreview.DefaultColWidth-x) div 2,
-                         (DrawPreview.DefaultRowHeight-y-30) div 2,
-                         (DrawPreview.DefaultColWidth-x)div 2+x,
-                         (DrawPreview.DefaultRowHeight-y-30) div 2+y);
-              Picture.Bitmap.Canvas.CopyRect(rec,bmpt.Canvas,Rect(0,0,x,y));
-            except
-              FreeAndNil(fsFileStream);
-              bmps.free;
-              bmpt.free;
-              Picture.Free;
-              Exit;
-            end;
-          finally
-            if Assigned(fsFileStream) then
-              FreeAndNil(fsFileStream);
-            bmps.free;
-            bmpt.free;
-          end;
-          // save created thumb to cashe
-          if (sExt='jpg') or (sExt='jpeg') or (sExt='bmp') then sExt:='jpg' else sExt:='png';
-          Picture.SaveToFile(GetAppCacheDir+pathDelim+'thumbnails'+PathDelim+sOnlyFilename+'.'+sExt);
-        end
-      else
-      // create thumb for text files
-      if (FileIsText(FileList.Strings[index])) and (mbFileAccess(FileList.Strings[index],0)) then
-        begin
-          rec:= Rect(0,0,DrawPreview.DefaultColWidth, DrawPreview.DefaultRowHeight-30); //Application.ProcessMessages;
-          Picture.Bitmap.SetSize(DrawPreview.DefaultColWidth, DrawPreview.DefaultRowHeight-30);
-          Picture.Bitmap.Canvas.Brush.Color:=clWhite;
-          Picture.Bitmap.Canvas.FillRect(rec);
-          Picture.Bitmap.Canvas.Font.Color:=clBlack;
-          Picture.Bitmap.Canvas.Font.Size := DrawPreview.DefaultRowHeight div 16;
-          tFile:= mbFileOpen(FileList.Strings[index], fmOpenRead or fmShareDenyNone);
-          for x:= 0 to 8 do
-          begin
-            if not FileReadLn(tFile, sStr)then Break;
-            Picture.Bitmap.Canvas.TextOut(0, x*Picture.Bitmap.Canvas.Font.Size*3 div 2,sStr);
-          end;
-          FileClose(tFile);
-        end
-      else
-        begin
-          // load thumb for unknown file
-          //Picture.Bitmap:= PixMapManager.LoadBitmapEnhanced(FileList.Strings[index], gIconsSize, DrawPreview.Canvas.Brush.Color);
-          Picture.LoadFromFile(ProgramDirectory+PathDelim+'pixmaps'+PathDelim+'dctheme'+PathDelim+'32x32'+PathDelim+'mimetypes'+PathDelim+'unknown.png');
-        end;
-    end;
-  // insert to the imglist and draw
-  lstPreviewImg.Insert(index,Picture.Bitmap,nil);
-  y:= index div DrawPreview.ColCount ;
-  x:= index-y * DrawPreview.ColCount ;
-  z:= (DrawPreview.Width- DrawPreview.ColCount* DrawPreview.DefaultColWidth)div DrawPreview.ColCount div 2 ;
-  lstPreviewImg.Draw(DrawPreview.Canvas, DrawPreview.CellRect(x,y).Left+z, DrawPreview.CellRect(x,y).Top+5, index, true);
-  Picture.Free;
 end;
 
 procedure TfrmViewer.miPreviewClick(Sender: TObject);
@@ -813,16 +714,17 @@ begin
   else
     begin
       Splitter.Align:=alLeft;
-      lstPreviewImg.Clear;
+      FBitmapList.Clear;
     end;
   Application.ProcessMessages;
   if miPreview.Checked then
-     begin
-       for i:=0 to FileList.Count-1 do
-       CreatePreview(FileList.Strings[i], i);
-       DrawPreview.FixedRows:= 0;
-       DrawPreview.FixedCols:= 0;
-     end;
+   begin
+     for i:=0 to FileList.Count-1 do
+     CreatePreview(FileList.Strings[i], i);
+     DrawPreview.FixedRows:= 0;
+     DrawPreview.FixedCols:= 0;
+     DrawPreview.Refresh;
+   end;
 end;
 
 procedure TfrmViewer.miSaveAsClick(Sender: TObject);
@@ -1244,6 +1146,7 @@ var
   i,z,t: Integer;
   sExt, sName, shortName: UTF8String;
   c: AnsiChar;
+  bmpThumb: TBitmap;
 begin
   i:= (aRow * DrawPreview.ColCount) + aCol; // Calculate FileList index
   z:= (DrawPreview.Width - DrawPreview.ColCount * DrawPreview.DefaultColWidth) div DrawPreview.ColCount div 2;
@@ -1252,7 +1155,11 @@ begin
       sName:= ExtractOnlyFileName(FileList.Strings[i]);
       sExt:= ExtractFileExt(FileList.Strings[i]);
       DrawPreview.Canvas.FillRect(aRect); // Clear cell
-      lstPreviewImg.Draw(DrawPreview.Canvas, aRect.Left+z, aRect.Top+5, i, True);
+      if (i >= 0) and (i < FBitmapList.Count) then
+        begin
+          bmpThumb:= FBitmapList[i];
+          DrawPreview.Canvas.Draw(aRect.Left+z, aRect.Top+5, bmpThumb);
+        end;
       if DrawPreview.Canvas.GetTextWidth(sName+sExt) < DrawPreview.DefaultColWidth then
         begin
           t:= (DrawPreview.DefaultColWidth-DrawPreview.Canvas.GetTextWidth(sName+sExt)) div 2;
@@ -1694,8 +1601,8 @@ begin
      FreeAndNil(FFindDialog);
   if Assigned(FModSizeDialog) then
      FreeAndNil(FModSizeDialog);
-  if Assigned(lstPreviewImg) then
-     FreeAndNil(lstPreviewImg);
+  if Assigned(FBitmapList) then
+     FreeAndNil(FBitmapList);
 end;
 
 procedure TfrmViewer.miProcessClick(Sender: TObject);
