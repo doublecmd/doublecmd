@@ -522,8 +522,8 @@ var
     // so we are free to check the device name. Otherwise don't check it
     // if it is a known name=value pair.
     Result := HaveUDisksDevices or
-              not StrBegins(Device, 'UUID=') or
-              not StrBegins(Device, 'LABEL=');
+              not (StrBegins(Device, 'UUID=') or
+                   StrBegins(Device, 'LABEL='));
   end;
 
   // Checks if device on some mount point hasn't been added yet.
