@@ -111,6 +111,7 @@ type
 
 var
   DBusConnectionOpen: Boolean = False;
+  DBusFilterInstalled: Boolean = False;
   conn: PDBusConnection;
   error: DBusError;
   Observers: TUDisksObserverList = nil;
@@ -272,6 +273,32 @@ begin
 
   if (not Result) and Assigned(reply) then
     dbus_message_unref(reply);
+end;
+
+function DBusListActivatableNames(out Names: TStringArray): Boolean;
+var
+  message, reply: PDBusMessage;
+  replyIter: DBusMessageIter;
+begin
+  message := dbus_message_new_method_call(DBUS_SERVICE_DBUS,
+                                          DBUS_PATH_DBUS,
+                                          DBUS_INTERFACE_DBUS,
+                                          'ListActivatableNames');
+  if not Assigned(message) then
+  begin
+    Print('Cannot create message "ListActivatableNames"');
+    Result := False;
+  end
+  else
+  begin
+    Result := SendWithReply(message, reply, DBUS_TYPE_ARRAY, @replyIter);
+    dbus_message_unref(message);
+    if Result then
+    begin
+      Result := GetArrayOfString(@replyIter, Names);
+      dbus_message_unref(reply);
+    end;
+  end;
 end;
 
 function Invoke_GetProperty(const ObjectPath: UTF8String;
@@ -511,12 +538,30 @@ begin
   Exit(DBUS_HANDLER_RESULT_NOT_YET_HANDLED);
 end;
 
+function IsUDisksActivatable: Boolean;
+var
+  ServicesNames: TStringArray;
+  i: Integer;
+begin
+  Result := False;
+
+  if DBusListActivatableNames(ServicesNames) then
+  begin
+    for i := Low(ServicesNames) to High(ServicesNames) do
+      if ServicesNames[i] = UDisksAddress then
+        Exit(True);
+  end
+  else
+    Print('Cannot list activatable services on DBUS');
+end;
+
 function CheckUDisksService: Boolean;
 var
   udisks_exists: dbus_bool_t;
   start_reply: dbus_uint32_t;
   daemon_version: UTF8String;
 begin
+  // Check if UDisks service is running.
   dbus_error_init(@error);
   udisks_exists := dbus_bus_name_has_owner(conn, UDisksAddress, @error);
   if CheckError('Cannot query UDisks on DBUS', @error) then
@@ -524,6 +569,10 @@ begin
 
   if udisks_exists = 0 then
   begin
+    // Check if UDisks service is installed and can be activated.
+    if not IsUDisksActivatable then
+      Exit(False);
+
     dbus_error_init(@error);
     dbus_bus_start_service_by_name(conn, UDisksAddress, 0, @start_reply, @error);
 
@@ -596,6 +645,7 @@ begin
       Print('Cannot add filter for DBUS connection')
     else
     begin
+      DBusFilterInstalled := True;
       Dummy := TDummy.Create;
       ConnTimer := TTimer.Create(nil);
       ConnTimer.Interval := 500;
@@ -623,19 +673,23 @@ begin
 
   if DBusConnectionOpen then
   begin
-    dbus_error_init(@error);
-
-    for i := Low(UDisksMethodStr) to High(UDisksMethodStr) do
+    if DBusFilterInstalled then
     begin
-      dbus_bus_remove_match(
-        conn,
-        PChar(UDisksFilterStr + ',member=''' + UDisksMethodStr[i] + ''''),
-        @error);
+      for i := Low(UDisksMethodStr) to High(UDisksMethodStr) do
+      begin
+        dbus_error_init(@error);
+        dbus_bus_remove_match(
+          conn,
+          PChar(UDisksFilterStr + ',member=''' + UDisksMethodStr[i] + ''''),
+          @error);
 
-      CheckError('Cannot remove matching rule', @error);
+        CheckError('Cannot remove matching rule', @error);
+      end;
+
+      dbus_connection_remove_filter(conn, @FilterFunc, nil);
+      DBusFilterInstalled := False;
     end;
 
-    dbus_connection_remove_filter(conn, @FilterFunc, nil);
     dbus_connection_unref(conn);
     DBusConnectionOpen := False;
   end;
