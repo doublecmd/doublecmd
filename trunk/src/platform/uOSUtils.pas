@@ -1434,7 +1434,7 @@ end;
 
 // 30.04.2009 ---------------------------------------------------------------------
 function mbDeleteToTrash(const FileName: UTF8String): Boolean;
-{$IFDEF MSWINDOWS}
+{$IF DEFINED(MSWINDOWS)}
 var
   wFileName: WideString;
   FileOp: TSHFileOpStructW;
@@ -1448,6 +1448,16 @@ begin
   // удаляем без подтвержения
   FileOp.fFlags := FOF_ALLOWUNDO or FOF_NOERRORUI or FOF_SILENT or FOF_NOCONFIRMATION;
   Result := (SHFileOperationW(@FileOp) = 0) and (not FileOp.fAnyOperationsAborted);
+end;
+{$ELSEIF DEFINED(DARWIN)}
+var
+  theFileNameFSRef: FSRef;
+begin
+  Result:= False;
+  if (FSPathMakeRefWithOptions(PAnsiChar(FileName), kFSPathMakeRefDoNotFollowLeafSymlink, theFileNameFSRef, nil) = noErr) then
+  begin
+    Result:= (FSMoveObjectToTrashSync(theFileNameFSRef, nil, kFSFileOperationDefaultOptions) = noErr);
+  end;
 end;
 {$ELSE}
 // 12.05.2009 - implementation via 'gvfs-trash' application
@@ -1470,12 +1480,7 @@ end;
 
 // 14.05.2009 ---------------------------------------------------------------------
 function mbCheckTrash(sPath: UTF8String): Boolean;
-{$IFDEF UNIX}
-begin
-  // Checking gvfs-trash.
-  Result := mbFileExists(_PATH_GVFS_TRASH);
-end;
-{$ELSE}
+{$IF DEFINED(MSWINDOWS)}
 const
   wsRoot: WideString = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\BitBucket\';
 var
@@ -1524,6 +1529,15 @@ begin
             end;
         end;
     end;
+end;
+{$ELSEIF DEFINED(DARWIN)}
+begin
+  Result:= True;
+end;
+{$ELSE}
+begin
+  // Checking gvfs-trash.
+  Result := mbFileExists(_PATH_GVFS_TRASH);
 end;
 {$ENDIF}
 
@@ -1855,4 +1869,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.
