@@ -1451,12 +1451,13 @@ begin
 end;
 {$ELSEIF DEFINED(DARWIN)}
 var
-  theFileNameFSRef: FSRef;
+  theSourceFSRef,
+  theTargetFSRef: FSRef;
 begin
   Result:= False;
-  if (FSPathMakeRefWithOptions(PAnsiChar(FileName), kFSPathMakeRefDoNotFollowLeafSymlink, theFileNameFSRef, nil) = noErr) then
+  if (FSPathMakeRefWithOptions(PAnsiChar(FileName), kFSPathMakeRefDoNotFollowLeafSymlink, theSourceFSRef, nil) = noErr) then
   begin
-    Result:= (FSMoveObjectToTrashSync(theFileNameFSRef, nil, kFSFileOperationDefaultOptions) = noErr);
+    Result:= (FSMoveObjectToTrashSync(theSourceFSRef, theTargetFSRef, kFSFileOperationDefaultOptions) = noErr);
   end;
 end;
 {$ELSE}
