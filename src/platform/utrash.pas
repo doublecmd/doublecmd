@@ -85,7 +85,7 @@ const
 var
   sUserID: AnsiString;
   sTopDir, sFileName,
-  sTemp, sNow,
+  sTemp, sNow, sHomeDir,
   sTrashInfoFile,
   sTrashDataFile: UTF8String;
   dtNow: TDateTime;
@@ -127,16 +127,19 @@ begin
   sNow:= IntToStr(DateTimeToFileDate(dtNow));
   sFileName:= ExtractOnlyFileName(FileName) + '_' + sNow + ExtractFileExt(FileName);
 
+  // Get user home directory
+  sHomeDir:= GetEnvironmentVariable('HOME');
+  // Get “top directory” for file
+  sTopDir:= FindMountPointPath(FileName);
   // Check if file in home directory
-  sTopDir:= GetEnvironmentVariable('HOME');
-  if (fpLStat(PChar(FileName), st1) >= 0)
+  if (fpLStat(PChar(sHomeDir), st1) >= 0)
      and (fpLStat(PChar(sTopDir), st2) >= 0)
      and (st1.st_dev = st2.st_dev) then
   begin
     // Get $XDG_DATA_HOME directory
     sTemp:= GetEnvironmentVariable('XDG_DATA_HOME');
     if (Length(sTemp) = 0) then
-      sTemp:= sTopDir + '/.local/share/Trash'
+      sTemp:= sHomeDir + '/.local/share/Trash'
     else
       sTemp:= IncludeTrailingPathDelimiter(sTemp) + 'Trash';
     // Create destination directories if needed
@@ -149,8 +152,6 @@ begin
     end;
   end;
   sUserID:= IntToStr(fpGetUID);
-  // Get “top directory” for file
-  sTopDir:= FindMountPointPath(FileName);
   // Try to use "$topdir/.Trash/$uid" directory
   sTemp:= sTopDir + trashFolder;
   if (fpLStat(PChar(sTemp), st1) >= 0)
