@@ -39,7 +39,7 @@ implementation
 uses
   uOSUtils, uDCUtils, uFileProcs
   {$IF DEFINED(MSWINDOWS)}
-  , Windows, Win32Int, InterfaceBase
+  , Windows, ShellApi, Win32Int, InterfaceBase, uMyWindows
   {$ELSEIF DEFINED(UNIX)}
   , BaseUnix, Unix, uMyUnix
     {$IFDEF DARWIN}
