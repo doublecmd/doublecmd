@@ -238,12 +238,6 @@ function mbFileGetAttrNoLinks(const FileName: UTF8String): TFileAttrs;
 function mbFileSetReadOnly(const FileName: UTF8String; ReadOnly: Boolean): Boolean;
 function mbDeleteFile(const FileName: UTF8String): Boolean;
 
-// 30.04.2009 - this function move files and folders to trash can (Windows implemented).
-// 12.05.2009 - added implementation for Linux via gvfs-trash.
-function mbDeleteToTrash(const FileName: UTF8String): Boolean;
-// 14.05.2009 - this funtion checks 'gvfs-trash' BEFORE deleting. Need for various linux disributives.
-function mbCheckTrash(sPath: UTF8String): Boolean;
-// ----------------
 function mbRenameFile(const OldName: UTF8String; NewName: UTF8String): Boolean;
 function mbFileSize(const FileName: UTF8String): Int64;
 function FileFlush(Handle: THandle): Boolean;
@@ -279,10 +273,7 @@ implementation
 
 uses
   FileUtil, uDCUtils, uGlobs
-  // 30.04.2009 - для удаления в корзину
-  {$IFDEF MSWINDOWS}
-  , Win32Int, InterfaceBase
-  {$ELSE}
+  {$IFDEF UNIX}
   , uMyUnix
   {$ENDIF}
   ;
@@ -1431,118 +1422,6 @@ begin
   Result:= fpUnLink(FileName) = 0;
 end;
 {$ENDIF}
-
-// 30.04.2009 ---------------------------------------------------------------------
-function mbDeleteToTrash(const FileName: UTF8String): Boolean;
-{$IF DEFINED(MSWINDOWS)}
-var
-  wFileName: WideString;
-  FileOp: TSHFileOpStructW;
-begin
-  wFileName:= UTF8Decode(FileName);
-  wFileName:= wFileName + #0;
-  FillChar(FileOp, SizeOf(FileOp), 0);
-  FileOp.Wnd := TWin32Widgetset(Widgetset).AppHandle;
-  FileOp.wFunc := FO_DELETE;
-  FileOp.pFrom := PWideChar(wFileName);
-  // удаляем без подтвержения
-  FileOp.fFlags := FOF_ALLOWUNDO or FOF_NOERRORUI or FOF_SILENT or FOF_NOCONFIRMATION;
-  Result := (SHFileOperationW(@FileOp) = 0) and (not FileOp.fAnyOperationsAborted);
-end;
-{$ELSEIF DEFINED(DARWIN)}
-var
-  theSourceFSRef,
-  theTargetFSRef: FSRef;
-begin
-  Result:= False;
-  if (FSPathMakeRefWithOptions(PAnsiChar(FileName), kFSPathMakeRefDoNotFollowLeafSymlink, theSourceFSRef, nil) = noErr) then
-  begin
-    Result:= (FSMoveObjectToTrashSync(theSourceFSRef, theTargetFSRef, kFSFileOperationDefaultOptions) = noErr);
-  end;
-end;
-{$ELSE}
-// 12.05.2009 - implementation via 'gvfs-trash' application
-var f: textfile;
-    s: string;
-begin
-  // Open pipe to gvfs-trash to read the output in case of error.
-  // The errors are written to stderr hence "2>&1" is needed because popen only catches stdout.
-  if popen(f, _PATH_GVFS_TRASH + #32 + QuoteStr(FileName) + ' 2>&1', 'r') = 0 then
-  begin
-    readln(f,s);
-    Result := not StrBegins(s, 'Error trashing');
-    pclose(f);
-  end
-  else
-   Result := False;
-end;
-{$ENDIF}
-// --------------------------------------------------------------------------------
-
-// 14.05.2009 ---------------------------------------------------------------------
-function mbCheckTrash(sPath: UTF8String): Boolean;
-{$IF DEFINED(MSWINDOWS)}
-const
-  wsRoot: WideString = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\BitBucket\';
-var
-  Key: HKEY;
-  Value: DWORD;
-  ValueSize: LongInt;
-  VolumeName: WideString;
-begin
-  Result:= False;
-  if not mbDirectoryExists(sPath) then Exit;
-  ValueSize:= SizeOf(DWORD);
-  // Windows Vista/Seven
-  if (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6) then
-    begin
-      VolumeName:= GetMountPointVolumeName(UTF8Decode(ExtractFileDrive(sPath)));
-      VolumeName:= 'Volume' + PathDelim + ExtractVolumeGUID(VolumeName);
-      if RegOpenKeyExW(HKEY_CURRENT_USER, PWideChar(wsRoot + VolumeName), 0, KEY_READ, Key) = ERROR_SUCCESS then
-        begin
-          if RegQueryValueExW(Key, 'NukeOnDelete', nil, nil, @Value, @ValueSize) <> ERROR_SUCCESS then
-            Value:= 0; // delete to trash by default
-          Result:= (Value = 0);
-          RegCloseKey(Key);
-        end;
-    end
-  // Windows 2000/XP
-  else if RegOpenKeyExW(HKEY_LOCAL_MACHINE, PWideChar(wsRoot), 0, KEY_READ, Key) = ERROR_SUCCESS then
-    begin
-      if RegQueryValueExW(Key, 'UseGlobalSettings', nil, nil, @Value, @ValueSize) <> ERROR_SUCCESS then
-        Value:= 1; // use global settings by default
-      if (Value = 1) then
-        begin
-          if RegQueryValueExW(Key, 'NukeOnDelete', nil, nil, @Value, @ValueSize) <> ERROR_SUCCESS then
-            Value:= 0; // delete to trash by default
-          Result:= (Value = 0);
-          RegCloseKey(Key);
-        end
-      else
-        begin
-          RegCloseKey(Key);
-          if RegOpenKeyExW(HKEY_LOCAL_MACHINE, PWideChar(wsRoot + sPath[1]), 0, KEY_READ, Key) = ERROR_SUCCESS then
-            begin
-              if RegQueryValueExW(Key, 'NukeOnDelete', nil, nil, @Value, @ValueSize) <> ERROR_SUCCESS then
-                Value:= 0; // delete to trash by default
-              Result:= (Value = 0);
-              RegCloseKey(Key);
-            end;
-        end;
-    end;
-end;
-{$ELSEIF DEFINED(DARWIN)}
-begin
-  Result:= True;
-end;
-{$ELSE}
-begin
-  // Checking gvfs-trash.
-  Result := mbFileExists(_PATH_GVFS_TRASH);
-end;
-{$ENDIF}
-
-// --------------------------------------------------------------------------------
 
 function mbRenameFile(const OldName: UTF8String; NewName: UTF8String): Boolean;
 {$IFDEF MSWINDOWS}

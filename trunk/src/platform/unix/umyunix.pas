@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains specific UNIX functions.
 
-    Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2008-2010  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,9 +37,6 @@ const
   libc = 'c';
   _PATH_FSTAB = '/etc/fstab';
   _PATH_MOUNTED = '/etc/mtab';
-
-  // 12.05.2009 - path to 'gvfs-trash'
-  _PATH_GVFS_TRASH = '/usr/bin/gvfs-trash';
 
 const
   DE_UNKNOWN = 0;
@@ -164,6 +161,12 @@ function fpCloseDir(__dirp: pDir): cInt; cdecl; external libc name 'closedir';
 function LinuxToWinAttr(pFileName: PChar; const srInfo: BaseUnix.Stat): Longint;
 function GetDesktopEnvironment: Cardinal;
 function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
+{en
+   Find mount point of file system where file is located
+   @param(FileName File name)
+   @returns(Mount point of file system)
+}
+function FindMountPointPath(const FileName: UTF8String): UTF8String;
 function GetFileMimeType(const FileName: UTF8String): UTF8String;
 
 implementation
@@ -237,6 +240,45 @@ begin
   finally
     if Assigned(iniDesktop) then
       FreeAndNil(iniDesktop);
+  end;
+end;
+
+function FindMountPointPath(const FileName: UTF8String): UTF8String;
+var
+  I, J: LongInt;
+  sTemp: UTF8String;
+  recStat: Stat;
+  st_dev: QWord;
+begin
+  // Set root directory as mount point by default
+  Result:= PathDelim;
+  // Get stat info for original file
+  if (fpLStat(PChar(FileName), recStat) < 0) then Exit;
+  // Save device ID of original file
+  st_dev:= recStat.st_dev;
+  J:= Length(FileName);
+  for I:= J downto 1 do
+  begin
+    if FileName[I] = PathDelim then
+    begin
+      sTemp:= Copy(FileName, 1, I - 1);
+      // Stat for current directory
+      if (fpLStat(PChar(sTemp), recStat) < 0) then Continue;
+      // If it is a link then checking link destination
+      if fpS_ISLNK(recStat.st_mode) then
+      begin
+        sTemp:= fpReadLink(sTemp);
+        Result:= FindMountPointPath(sTemp);
+        Exit;
+      end;
+      // Check device ID
+      if (recStat.st_dev <> st_dev) then
+      begin
+        Result:= Copy(FileName, 1, J);
+        Exit;
+      end;
+      J:= I;
+    end;
   end;
 end;
 

@@ -198,7 +198,7 @@
         <PackageName Value="viewerpackage"/>
       </Item6>
     </RequiredPackages>
-    <Units Count="100">
+    <Units Count="101">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -818,6 +818,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThumbnails"/>
       </Unit99>
+      <Unit100>
+        <Filename Value="platform\utrash.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uTrash"/>
+      </Unit100>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -868,4 +873,4 @@
       </ExecuteBefore>
     </Other>
   </CompilerOptions>
-</CONFIG>
+</CONFIG>
