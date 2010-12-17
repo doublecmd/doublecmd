@@ -168,15 +168,17 @@ begin
     end;
   // Try to use "$topdir/.Trash-$uid" directory
   sTemp:= sTopDir + trashFolder + '-' + sUserID;
-  if ((fpLStat(PChar(sTemp), st1) >= 0)
-     and fpS_ISDIR(st1.st_mode) and not fpS_ISLNK(st1.st_mode))
-     or (ForceDirectories(sTemp + PathDelim + trashFiles)
-     and ForceDirectories(sTemp + PathDelim + trashInfo)) then
+  if ((fpLStat(PChar(sTemp), st1) >= 0) and fpS_ISDIR(st1.st_mode)
+     and not fpS_ISLNK(st1.st_mode)) or CreateDir(sTemp) then
     begin
-      sTrashInfoFile:= sTemp + PathDelim + trashInfo + PathDelim + sFileName + trashExt;
-      sTrashDataFile:= sTemp + PathDelim + trashFiles + PathDelim + sFileName;
-      Result:= TrashFile;
-      Exit;
+      // Create destination directories if needed
+      if (ForceDirectories(sTemp + PathDelim + trashFiles) and ForceDirectories(sTemp + PathDelim + trashInfo)) then
+      begin
+        sTrashInfoFile:= sTemp + PathDelim + trashInfo + PathDelim + sFileName + trashExt;
+        sTrashDataFile:= sTemp + PathDelim + trashFiles + PathDelim + sFileName;
+        Result:= TrashFile;
+        Exit;
+      end;
     end;
 end;
 {$ELSE}
