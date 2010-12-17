@@ -124,9 +124,8 @@ var
 begin
   Result:= False;
   dtNow:= Now;
-  sNow:= IntToStr(DateTimeToFileDate(dtNow));
+  sNow:= IntToStr(Trunc(dtNow * 86400000)); // The time in milliseconds
   sFileName:= ExtractOnlyFileName(FileName) + '_' + sNow + ExtractFileExt(FileName);
-
   // Get user home directory
   sHomeDir:= GetEnvironmentVariable('HOME');
   // Get “top directory” for file
