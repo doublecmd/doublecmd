@@ -558,10 +558,12 @@ function TViewerControl.CalcTextLineLength(var iStartPos: PtrInt; const aLimit: 
 var
   MaxLineLength: Integer;
   CharLenInBytes: Integer;
-  OldPos, TmpPos: PtrInt;
+  OldPos, LastSpacePos: PtrInt;
+  LastSpaceResult: Integer;
 begin
   Result := 0;
   DataLength := 0;
+  LastSpacePos := -1;
 
   case FViewerMode of
     vmText:   MaxLineLength := cMaxTextWidth;
@@ -592,6 +594,12 @@ begin
             Inc(iStartPos, CharLenInBytes);
           Exit;
         end;
+      32:
+        begin
+          Inc(Result, 1);
+          LastSpacePos := iStartPos + CharLenInBytes;
+          LastSpaceResult := Result;
+        end;
       else
         Inc(Result, 1);
     end;
@@ -601,23 +609,13 @@ begin
 
     iStartPos := iStartPos + CharLenInBytes;
   end;
-  if (GetPrevCharAsAscii(iStartPos, CharLenInBytes)<> 9) and
-     (GetPrevCharAsAscii(iStartPos, CharLenInBytes)<> 10) and
-     (GetPrevCharAsAscii(iStartPos, CharLenInBytes)<> 13) then
-     begin
-       TmpPos:= iStartPos;
-       while GetPrevCharAsAscii(iStartPos, CharLenInBytes)<> 32 do
-       begin
-         if iStartPos>OldPos then
-         dec (iStartPos, CharLenInBytes)
-         else
-           begin
-             iStartPos:=TmpPos;
-             DataLength := iStartPos - OldPos;
-             Exit;
-           end;
-       end;
-     end;
+
+  if (Result >= MaxLineLength) and (LastSpacePos <> -1) then
+  begin
+    iStartPos := LastSpacePos;
+    Result := LastSpaceResult;
+  end;
+
   DataLength := iStartPos - OldPos;
 end;
 
