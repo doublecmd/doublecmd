@@ -47,12 +47,13 @@ const
   DoubleQuotesSpecialChars = ['$', '\', '`', '"', #10];
 {$ENDIF}
   EnvVarCommanderPath = '%commander_path%';
+  EnvVarConfigPath    = '%dc_config_path%';
 
 type
   TPathType = ( ptNone, ptRelative, ptAbsolute );
 
-function GetCmdDirFromEnvVar(sPath : String) : String;
-function SetCmdDirAsEnvVar(sPath : String) : String;
+function GetCmdDirFromEnvVar(const sPath : String) : String;
+function SetCmdDirAsEnvVar(const sPath : String) : String;
 {en
    Convert known directory separators to the current directory separator.
 }
@@ -381,22 +382,18 @@ implementation
 uses
    FileUtil, uMasks, StrUtils, uOSUtils, uGlobs, uGlobsPaths;
 
-function GetCmdDirFromEnvVar(sPath: String): String;
+function GetCmdDirFromEnvVar(const sPath: String): String;
 begin
-  sPath:= NormalizePathDelimiters(sPath);
-  if Pos(EnvVarCommanderPath, sPath) <> 0 then
-    Result := StringReplace(sPath, EnvVarCommanderPath, ExcludeTrailingPathDelimiter(gpExePath), [rfIgnoreCase])
-  else
-    Result := sPath;
+  Result := NormalizePathDelimiters(sPath);
+  Result := StringReplace(Result, EnvVarCommanderPath, ExcludeTrailingPathDelimiter(gpExePath), [rfIgnoreCase]);
+  Result := StringReplace(Result, EnvVarConfigPath, ExcludeTrailingPathDelimiter(gpCfgDir), [rfIgnoreCase]);
 end;
 
-function SetCmdDirAsEnvVar(sPath: String): String;
+function SetCmdDirAsEnvVar(const sPath: String): String;
 begin
-  sPath:= NormalizePathDelimiters(sPath);
-  if Pos(gpExePath, sPath) <> 0 then
-    Result := StringReplace(sPath, ExcludeTrailingPathDelimiter(gpExePath), EnvVarCommanderPath, [rfIgnoreCase])
-  else
-    Result := sPath;
+  Result := NormalizePathDelimiters(sPath);
+  Result := StringReplace(Result, ExcludeTrailingPathDelimiter(gpExePath), EnvVarCommanderPath, []);
+  Result := StringReplace(Result, ExcludeTrailingPathDelimiter(gpCfgDir), EnvVarConfigPath, []);
 end;
 
 function NormalizePathDelimiters(const Path: String): String;
@@ -440,6 +437,7 @@ begin
   FreeAndNil(EnvVarList);
 
   Result := StringReplace(Result, EnvVarCommanderPath, ExcludeTrailingPathDelimiter(gpExePath), [rfReplaceAll, rfIgnoreCase]);
+  Result := StringReplace(Result, EnvVarConfigPath, ExcludeTrailingPathDelimiter(gpCfgDir), [rfReplaceAll, rfIgnoreCase]);
 end;
 
 function mbExpandFileName(const sFileName: UTF8String): UTF8String;
