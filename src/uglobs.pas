@@ -277,8 +277,6 @@ procedure LoadXmlConfig;
 procedure SaveXmlConfig;
 procedure ConvertIniToXml;
 
-function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
-
 procedure LoadDefaultHotkeyBindings;
 
 function InitPropStorage(Owner: TComponent): TIniPropStorageEx;
@@ -386,21 +384,27 @@ begin
     end;
 end;
 
-function LoadStringsFromFile(var list:TStringListEx; const sFileName:String):boolean;
+function LoadStringsFromFile(var list: TStringListEx; const sFileName:String;
+                             MaxStrings: Integer = 0): Boolean;
 var
   i:Integer;
 begin
   Assert(list <> nil,'LoadStringsFromFile: list=nil');
   list.Clear;
   Result:=False;
-  if not mbFileExists(sFileName) then Exit;
-  list.LoadFromFile(sFileName);
-  for i:=list.Count-1 downto 0 do
-    if i>cMaxStringItems then
-      list.Delete(i)
-    else
-      Break;
-  Result:=True;
+  if mbFileExists(sFileName) then
+  begin
+    list.LoadFromFile(sFileName);
+    if MaxStrings > 0 then
+    begin
+      for i:=list.Count-1 downto 0 do
+        if i>MaxStrings then
+          list.Delete(i)
+        else
+          Break;
+    end;
+    Result:=True;
+  end;
 end;
 
 procedure LoadDirHotList(AConfig: TXmlConfig; Node: TXmlNode);
@@ -869,20 +873,11 @@ begin
   if mbFileExists(gpCfgDir + 'doublecmd.ext') then
     gExts.LoadFromFile(gpCfgDir + 'doublecmd.ext');
 
-  if mbFileExists(gpCfgDir + 'dirhistory.txt') then
-    LoadStringsFromFile(glsDirHistory, gpCfgDir + 'dirhistory.txt');
-
-  if mbFileExists(gpCfgDir + 'maskhistory.txt') then
-    LoadStringsFromFile(glsMaskHistory, gpCfgDir + 'maskhistory.txt');
-
-  if mbFileExists(gpCfgDir + 'searchhistory.txt') then
-    LoadStringsFromFile(glsSearchHistory, gpCfgDir + 'searchhistory.txt');
-
-  if mbFileExists(gpCfgDir + 'replacehistory.txt') then
-    LoadStringsFromFile(glsReplaceHistory, gpCfgDir + 'replacehistory.txt');
-
-  if mbFileExists(gIgnoreListFile) then
-    LoadStringsFromFile(glsIgnoreList, gIgnoreListFile);
+  LoadStringsFromFile(glsDirHistory, gpCfgDir + 'dirhistory.txt', cMaxStringItems);
+  LoadStringsFromFile(glsMaskHistory, gpCfgDir + 'maskhistory.txt', cMaxStringItems);
+  LoadStringsFromFile(glsSearchHistory, gpCfgDir + 'searchhistory.txt', cMaxStringItems);
+  LoadStringsFromFile(glsReplaceHistory, gpCfgDir + 'replacehistory.txt', cMaxStringItems);
+  LoadStringsFromFile(glsIgnoreList, ReplaceEnvVars(gIgnoreListFile));
 
   { MultiArc addons }
   if mbFileExists(gpCfgDir + 'multiarc.ini') then
@@ -942,7 +937,7 @@ begin
     glsReplaceHistory.SaveToFile(gpCfgDir + 'replacehistory.txt');
   end;
   if gIgnoreListFileEnabled then
-    glsIgnoreList.SaveToFile(gIgnoreListFile);
+    glsIgnoreList.SaveToFile(ReplaceEnvVars(gIgnoreListFile));
   gMultiArcList.SaveToFile(gpCfgDir + 'multiarc.ini');
   //TODO: Save hotkeys
   //HotMan.Save();
@@ -1783,4 +1778,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.
