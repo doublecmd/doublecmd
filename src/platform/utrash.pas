@@ -117,10 +117,7 @@ var
     if CreateTrashInfoFile then
     begin
       Result:= (fpRename(FileName, sTrashDataFile) >= 0);
-      if Result then
-        FileCopyAttr(FileName, sTrashDataFile, False)
-      else
-        DeleteFile(sTrashInfoFile);
+      if not Result then DeleteFile(sTrashInfoFile);
     end;
   end;
 
