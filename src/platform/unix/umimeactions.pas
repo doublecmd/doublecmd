@@ -53,6 +53,11 @@ type
 }
 function GetDesktopEntries(FileNames: TStringList): TList;
 {en
+   Needs absolute file names.
+   Returns a default application command line.
+}
+function GetDefaultAppCmd(FileNames: TStringList): UTF8String;
+{en
    Get file MIME type.
    Returns a file MIME type.
 }
@@ -258,6 +263,50 @@ begin
   end;
 
   g_strfreev(actions);
+end;
+
+function GetDefaultAppCmd(FileNames: TStringList): UTF8String;
+var
+  mimeType: PChar;
+  action: PChar;
+  desktopFile: PChar;
+  app: TCDesktopFileEntry;
+  Entry: TDesktopFileEntry;
+begin
+  Result:= EmptyStr;
+
+  if FileNames.Count = 0 then Exit;
+
+  // This string should not be freed.
+  mimeType := mime_type_get_by_filename(PChar(FileNames[0]), nil);
+
+  // Get default action for this mime type
+  action := mime_type_get_default_action(mimeType);
+
+  if (action <> nil) then
+  begin
+      desktopFile := mime_type_locate_desktop_file(nil, action);
+      if (desktopFile = nil) then Exit; // desktop file not found
+      app := mime_get_desktop_entry(desktopFile);
+
+      Entry.DesktopFilePath := StrPas(desktopFile);
+      Entry.MimeType := StrPas(mimeType);
+      Entry.DisplayName := StrPas(app.DisplayName);
+      Entry.Comment := StrPas(app.Comment);
+      Entry.ExecWithParams := StrPas(app.Exec);
+      Entry.IconName := StrPas(app.IconName);
+      Entry.Terminal := app.Terminal;
+      Entry.Hidden := app.Hidden;
+      // Set Exec as last because it uses other fields of Entry.
+      Result := TranslateAppExecToCmdLine(@Entry, Filenames);
+
+      g_free(desktopFile);
+      g_free(app.DisplayName);
+      g_free(app.Comment);
+      g_free(app.Exec);
+      g_free(app.IconName);
+      g_free(action);
+    end;
 end;
 
 function GetFileMimeType(const FileName: UTF8String): UTF8String;

@@ -625,7 +625,7 @@ begin
         sCmdLine:= sCmdLine + QuoteStr(URL);
       end
       else
-        sCmdLine:= 'xdg-open ' + QuoteStr(URL);
+        sCmdLine:= GetDefaultAppCmd(URL);
     end;
   DE_KDE:
     sCmdLine:= 'kfmclient exec ' + QuoteStr(URL);

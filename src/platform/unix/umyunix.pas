@@ -167,12 +167,13 @@ function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8Stri
    @returns(Mount point of file system)
 }
 function FindMountPointPath(const FileName: UTF8String): UTF8String;
+function GetDefaultAppCmd(const FileName: UTF8String): UTF8String;
 function GetFileMimeType(const FileName: UTF8String): UTF8String;
 
 implementation
 
 uses
-  URIParser, uClassesEx
+  URIParser, uClassesEx, uDCUtils
 {$IFNDEF FPC_USE_LIBC}
   , SysCall
 {$ENDIF}
@@ -281,6 +282,24 @@ begin
     end;
   end;
 end;
+
+function GetDefaultAppCmd(const FileName: UTF8String): UTF8String;
+{$IFDEF LINUX}
+var
+  Filenames: TStringList;
+begin
+  Filenames:= TStringList.Create;
+  Filenames.Add(FileName);
+  Result:= uMimeActions.GetDefaultAppCmd(Filenames);
+  if Length(Result) = 0 then
+  Result:= 'xdg-open ' + QuoteStr(FileName);
+  FreeAndNil(Filenames);
+end;
+{$ELSE}
+begin
+  Result:= 'xdg-open ' + QuoteStr(FileName);
+end;
+{$ENDIF}
 
 function GetFileMimeType(const FileName: UTF8String): UTF8String;
 {$IFDEF LINUX}
