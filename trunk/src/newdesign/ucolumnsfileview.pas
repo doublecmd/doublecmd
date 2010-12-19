@@ -398,7 +398,7 @@ type
     function GetSelectedFiles: TFiles; override;
     procedure SetSorting(NewSortings: TFileSortings); override;
 
-    procedure AfterChangePath(NewPath: String); override;
+    procedure AfterChangePath; override;
 
   public
     ActiveColm: String;
@@ -417,7 +417,7 @@ type
     procedure CloneTo(FileView: TFileView); override;
 
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
-    procedure RemoveLastFileSource; override;
+    procedure RemoveCurrentFileSource; override;
 
     procedure Reload(const PathsToReload: TPathsArray = nil); override;
     procedure StopBackgroundWork; override;
@@ -1397,9 +1397,9 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.AfterChangePath(NewPath: String);
+procedure TColumnsFileView.AfterChangePath;
 begin
-  inherited AfterChangePath(NewPath);
+  inherited;
 
   FUpdatingGrid := True;
   dgPanel.Row := 0;
@@ -3054,13 +3054,7 @@ end;
 
 procedure TColumnsFileView.AddFileSource(aFileSource: IFileSource; aPath: String);
 begin
-  LastActiveFile := '';
-  RequestedActiveFile := '';
-
   inherited AddFileSource(aFileSource, aPath);
-
-  if Assigned(OnChangeFileSource) then
-    OnChangeFileSource(Self);
 
   FUpdatingGrid := True;
   dgPanel.Row := 0;
@@ -3069,17 +3063,14 @@ begin
   UpdateAddressLabel;
 end;
 
-procedure TColumnsFileView.RemoveLastFileSource;
+procedure TColumnsFileView.RemoveCurrentFileSource;
 var
   FocusedFile: String;
 begin
   // Temporary. Do this by remembering the file name in a list?
   FocusedFile := ExtractFileName(FileSource.CurrentAddress);
 
-  inherited RemoveLastFileSource;
-
-  if Assigned(OnChangeFileSource) then
-    OnChangeFileSource(Self);
+  inherited;
 
   SetActiveFile(FocusedFile);
 
@@ -5060,4 +5051,4 @@ begin
 end;
 
 end.
-
+

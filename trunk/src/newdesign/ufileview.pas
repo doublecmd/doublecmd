@@ -13,10 +13,17 @@ type
 
   TFileView = class;
 
-  TOnBeforeChangeDirectory = function (FileView: TFileView; const NewDir : String): Boolean of object;
-  TOnAfterChangeDirectory = procedure (FileView: TFileView; const NewDir : String) of object;
+  {en
+     Called before path is changed. If it returns @true the paths is changed
+     (and if successful, OnAfterChangePath is called). If it returns @false,
+     the path is not changed.
+     NewFileSource is @nil the last file source is to be removed.
+  }
+  TOnBeforeChangePath = function (FileView: TFileView;
+                                  NewFileSource: IFileSource;
+                                  const NewPath : String): Boolean of object;
+  TOnAfterChangePath = procedure (FileView: TFileView) of object;
   TOnChangeActiveFile = procedure (FileView: TFileView; const aFile : TFile) of object;
-  TOnChangeFileSource = procedure (FileView: TFileView) of object;
   TOnActivate = procedure (aFileView: TFileView) of object;
   TOnReload = procedure (aFileView: TFileView) of object;
 
@@ -61,10 +68,9 @@ type
 
     FMethods: TMethodsList;
 
-    FOnBeforeChangeDirectory : TOnBeforeChangeDirectory;
-    FOnAfterChangeDirectory : TOnAfterChangeDirectory;
+    FOnBeforeChangePath : TOnBeforeChangePath;
+    FOnAfterChangePath : TOnAfterChangePath;
     FOnChangeActiveFile: TOnChangeActiveFile;
-    FOnChangeFileSource : TOnChangeFileSource;
     FOnActivate : TOnActivate;
     FOnReload : TOnReload;
 
@@ -105,12 +111,13 @@ type
 
     {en
        Called before changing path. If returns @false the path is not changed.
+       NewFileSource is @nil if the last file source is to be removed.
     }
-    function BeforeChangePath(NewPath: String): Boolean; virtual;
+    function BeforeChangePath(NewFileSource: IFileSource; NewPath: String): Boolean; virtual;
     {en
        Called after path is changed.
     }
-    procedure AfterChangePath(NewPath: String); virtual;
+    procedure AfterChangePath; virtual;
 
     property FilePropertiesNeeded: TFilePropertiesTypes read FFilePropertiesNeeded write FFilePropertiesNeeded;
     property LastActiveFile: String read FLastActiveFile write FLastActiveFile;
@@ -136,7 +143,7 @@ type
     procedure CloneTo(AFileView: TFileView); virtual;
 
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); virtual;
-    procedure RemoveLastFileSource; virtual;
+    procedure RemoveCurrentFileSource; virtual;
     procedure RemoveAllFileSources; virtual;
     {en
        Assigns the list of file sources and paths into those file sources
@@ -234,10 +241,9 @@ type
     property Sorting: TFileSortings read FSortings write SetSorting;
 
     property NotebookPage: TCustomPage read GetNotebookPage;
-    property OnBeforeChangeDirectory : TOnBeforeChangeDirectory read FOnBeforeChangeDirectory write FOnBeforeChangeDirectory;
-    property OnAfterChangeDirectory : TOnAfterChangeDirectory read FOnAfterChangeDirectory write FOnAfterChangeDirectory;
+    property OnBeforeChangePath : TOnBeforeChangePath read FOnBeforeChangePath write FOnBeforeChangePath;
+    property OnAfterChangePath : TOnAfterChangePath read FOnAfterChangePath write FOnAfterChangePath;
     property OnChangeActiveFile : TOnChangeActiveFile read FOnChangeActiveFile write FOnChangeActiveFile;
-    property OnChangeFileSource : TOnChangeFileSource read FOnChangeFileSource write FOnChangeFileSource;
     property OnActivate : TOnActivate read FOnActivate write FOnActivate;
     property OnReload : TOnReload read FOnReload write FOnReload;
   end;
@@ -319,10 +325,9 @@ end;
 
 procedure TFileView.CreateDefault(AOwner: TWinControl);
 begin
-  FOnBeforeChangeDirectory := nil;
-  FOnAfterChangeDirectory := nil;
+  FOnBeforeChangePath := nil;
+  FOnAfterChangePath := nil;
   FOnChangeActiveFile := nil;
-  FOnChangeFileSource := nil;
   FOnActivate := nil;
   FOnReload := nil;
   FSortings := nil;
@@ -363,9 +368,8 @@ begin
   begin
     // FFileSource should have been passed to FileView constructor already.
     // FMethods are created in FileView constructor.
-    AFileView.OnBeforeChangeDirectory := Self.OnBeforeChangeDirectory;
-    AFileView.OnAfterChangeDirectory := Self.OnAfterChangeDirectory;
-    AFileView.OnChangeFileSource := Self.OnChangeFileSource;
+    AFileView.OnBeforeChangePath := Self.OnBeforeChangePath;
+    AFileView.OnAfterChangePath := Self.OnAfterChangePath;
     AFileView.OnActivate := Self.OnActivate;
     AFileView.OnReload := Self.OnReload;
 
@@ -399,10 +403,10 @@ end;
 
 procedure TFileView.SetCurrentPath(NewPath: String);
 begin
-  if BeforeChangePath(NewPath) then
+  if BeforeChangePath(FileSource, NewPath) then
   begin
     FHistory.AddPath(NewPath); // Sets CurrentPath.
-    AfterChangePath(NewPath);
+    AfterChangePath;
     {$IFDEF DEBUG_HISTORY}
     FHistory.DebugShow;
     {$ENDIF}
@@ -590,15 +594,15 @@ begin
   end;
 end;
 
-function TFileView.BeforeChangePath(NewPath: String): Boolean;
+function TFileView.BeforeChangePath(NewFileSource: IFileSource; NewPath: String): Boolean;
 begin
   if NewPath <> '' then
   begin
-    if Assigned(OnBeforeChangeDirectory) then
-      if not OnBeforeChangeDirectory(Self, NewPath) then
+    if Assigned(OnBeforeChangePath) then
+      if not OnBeforeChangePath(Self, NewFileSource, NewPath) then
         Exit(False);
 
-    if not FileSource.SetCurrentWorkingDirectory(NewPath) then
+    if Assigned(NewFileSource) and not NewFileSource.SetCurrentWorkingDirectory(NewPath) then
     begin
       msgError(Format(rsMsgChDirFailed, [NewPath]));
       Exit(False);
@@ -610,13 +614,13 @@ begin
     Result := False;
 end;
 
-procedure TFileView.AfterChangePath(NewPath: String);
+procedure TFileView.AfterChangePath;
 begin
   LastActiveFile := '';
   RequestedActiveFile := '';
 
-  if Assigned(OnAfterChangeDirectory) then
-    OnAfterChangeDirectory(Self, NewPath);
+  if Assigned(OnAfterChangePath) then
+    OnAfterChangePath(Self);
 end;
 
 procedure TFileView.ChangePathToParent(AllowChangingFileSource: Boolean);
@@ -630,7 +634,7 @@ begin
     // If there is a higher level file source then change to it.
     if (FileSourcesCount > 1) and AllowChangingFileSource then
     begin
-      RemoveLastFileSource;
+      RemoveCurrentFileSource;
       Reload;
       UpdateView;
     end;
@@ -670,30 +674,70 @@ begin
 end;
 
 procedure TFileView.AddFileSource(aFileSource: IFileSource; aPath: String);
+var
+  IsNewFileSource: Boolean;
 begin
-  if Assigned(FileSource) then
-    FileSource.RemoveReloadEventListener(@ReloadEvent);
-  FHistory.Add(aFileSource, aPath);
-  Reload;
-  UpdateView;
-  FileSource.AddReloadEventListener(@ReloadEvent);
-  {$IFDEF DEBUG_HISTORY}
-  FHistory.DebugShow;
-  {$ENDIF}
-end;
+  IsNewFileSource := aFileSource <> FileSource;
 
-procedure TFileView.RemoveLastFileSource;
-begin
-  if FileSourcesCount > 0 then
+  if BeforeChangePath(aFileSource, aPath) then
   begin
-    FileSource.RemoveReloadEventListener(@ReloadEvent);
-    FHistory.DeleteFromCurrentFileSource;
-    Reload;
-    UpdateView;
-    FileSource.AddReloadEventListener(@ReloadEvent);
+    if Assigned(FileSource) and IsNewFileSource then
+      FileSource.RemoveReloadEventListener(@ReloadEvent);
+
+    FHistory.Add(aFileSource, aPath);
+
+    if Assigned(FileSource) and IsNewFileSource then
+    begin
+      Reload;
+      UpdateView;
+      FileSource.AddReloadEventListener(@ReloadEvent);
+    end;
+
+    AfterChangePath;
+
     {$IFDEF DEBUG_HISTORY}
     FHistory.DebugShow;
     {$ENDIF}
+  end;
+end;
+
+procedure TFileView.RemoveCurrentFileSource;
+var
+  NewFileSource: IFileSource = nil;
+  NewPath: String = '';
+  IsNewFileSource: Boolean;
+  PrevIndex: Integer;
+begin
+  if FileSourcesCount > 0 then
+  begin
+    PrevIndex := FHistory.CurrentFileSourceIndex - 1;
+    if PrevIndex >= 0 then
+    begin
+      NewFileSource := FHistory.FileSource[PrevIndex];
+      NewPath := FHistory.Path[PrevIndex, FHistory.PathsCount[PrevIndex] - 1];
+    end;
+    IsNewFileSource := NewFileSource <> FileSource;
+
+    if BeforeChangePath(NewFileSource, NewPath) then
+    begin
+      if IsNewFileSource then
+        FileSource.RemoveReloadEventListener(@ReloadEvent);
+
+      FHistory.DeleteFromCurrentFileSource;
+
+      if Assigned(FileSource) and IsNewFileSource then
+      begin
+        Reload;
+        UpdateView;
+        FileSource.AddReloadEventListener(@ReloadEvent);
+      end;
+
+      AfterChangePath;
+
+      {$IFDEF DEBUG_HISTORY}
+      FHistory.DebugShow;
+      {$ENDIF}
+    end;
   end;
 end;
 
@@ -701,8 +745,17 @@ procedure TFileView.RemoveAllFileSources;
 begin
   if FileSourcesCount > 0 then
   begin
-    FileSource.RemoveReloadEventListener(@ReloadEvent);
-    FHistory.Clear;
+    if BeforeChangePath(nil, '') then
+    begin
+      FileSource.RemoveReloadEventListener(@ReloadEvent);
+      FHistory.Clear;
+
+      AfterChangePath;
+
+      {$IFDEF DEBUG_HISTORY}
+      FHistory.DebugShow;
+      {$ENDIF}
+    end;
   end;
 end;
 
@@ -789,36 +842,31 @@ end;
 
 procedure TFileView.GoToHistoryIndex(aFileSourceIndex, aPathIndex: Integer);
 var
-  OldFileSourceIndex, OldPathIndex: Integer;
+  IsNewFileSource: Boolean;
 begin
-  if aFileSourceIndex <> FHistory.CurrentFileSourceIndex then
-  begin
-    OldFileSourceIndex := FHistory.CurrentFileSourceIndex;
-    OldPathIndex := FHistory.CurrentPathIndex;
+  IsNewFileSource := FHistory.FileSource[aFileSourceIndex] <> FHistory.CurrentFileSource;
 
-    FileSource.RemoveReloadEventListener(@ReloadEvent);
+  if BeforeChangePath(FHistory.FileSource[aFileSourceIndex],
+                      FHistory.Path[aFileSourceIndex, aPathIndex]) then
+  begin
+    if Assigned(FileSource) and IsNewFileSource then
+      FileSource.RemoveReloadEventListener(@ReloadEvent);
+
     FHistory.SetIndexes(aFileSourceIndex, aPathIndex);
-    if BeforeChangePath(FHistory.CurrentPath) then
+
+    if Assigned(FileSource) and IsNewFileSource then
     begin
       Reload;
       UpdateView;
-    end
-    else
-      FHistory.SetIndexes(OldFileSourceIndex, OldPathIndex);
-    FileSource.AddReloadEventListener(@ReloadEvent);
-  end
-  else if aPathIndex <> FHistory.CurrentPathIndex then
-  begin
-    if BeforeChangePath(FHistory.Path[aFileSourceIndex, aPathIndex]) then
-    begin
-      FHistory.SetIndexes(aFileSourceIndex, aPathIndex);
-      AfterChangePath(FHistory.Path[aFileSourceIndex, aPathIndex]);
+      FileSource.AddReloadEventListener(@ReloadEvent);
     end;
-  end;
 
-  {$IFDEF DEBUG_HISTORY}
-  FHistory.DebugShow;
-  {$ENDIF}
+    AfterChangePath;
+
+    {$IFDEF DEBUG_HISTORY}
+    FHistory.DebugShow;
+    {$ENDIF}
+  end;
 end;
 
 procedure TFileView.GoToPrevHistory;

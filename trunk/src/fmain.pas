@@ -459,11 +459,10 @@ type
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
 
-    function FileViewBeforeChangeDirectory(Sender: TFileView; const NewDir : String): Boolean;
-    procedure FileViewAfterChangeDirectory(Sender: TFileView; const NewDir : String);
-    procedure FileViewChangeFileSource(Sender: TFileView);
-    procedure FileViewActivate(Sender: TFileView);
-    procedure FileViewReload(Sender: TFileView);
+    function FileViewBeforeChangePath(FileView: TFileView; NewFileSource: IFileSource; const NewPath : String): Boolean;
+    procedure FileViewAfterChangePath(FileView: TFileView);
+    procedure FileViewActivate(FileView: TFileView);
+    procedure FileViewReload(FileView: TFileView);
     procedure edtCommandKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure edtCommandEnter(Sender: TObject);
@@ -2733,15 +2732,15 @@ begin
   end;
 end;
 
-function TfrmMain.FileViewBeforeChangeDirectory(Sender: TFileView; const NewDir: String): Boolean;
+function TfrmMain.FileViewBeforeChangePath(FileView: TFileView; NewFileSource: IFileSource; const NewPath: String): Boolean;
 var
   ANoteBook: TFileViewNotebook;
   Page, NewPage: TFileViewPage;
 begin
   Result:= True;
-  if Sender.NotebookPage is TFileViewPage then
+  if FileView.NotebookPage is TFileViewPage then
   begin
-    Page := Sender.NotebookPage as TFileViewPage;
+    Page := FileView.NotebookPage as TFileViewPage;
 
     case Page.LockState of
       tlsPathLocked:
@@ -2751,93 +2750,73 @@ begin
         begin
           Result := False;  // do not change directory in this tab
 
-          ANoteBook := Page.Notebook;
+          if Assigned(NewFileSource) then
+          begin
+            ANoteBook := Page.Notebook;
 
-          // Create same type
-          NewPage := ANoteBook.AddPage;
-          Page.FileView.Clone(NewPage);
-          NewPage.FileView.CurrentPath := NewDir;
-          NewPage.MakeActive;
+            // Create same type
+            NewPage := ANoteBook.AddPage;
+            Page.FileView.Clone(NewPage);
+            NewPage.FileView.AddFileSource(NewFileSource, NewPath);
+            NewPage.MakeActive;
+          end;
         end;
     end;
   end;
 end;
 
-procedure TfrmMain.FileViewAfterChangeDirectory(Sender: TFileView; const NewDir: String);
+procedure TfrmMain.FileViewAfterChangePath(FileView: TFileView);
 var
   ANoteBook : TFileViewNotebook;
   Page: TFileViewPage;
-  sCaption : String;
 begin
-  if Sender.NotebookPage is TFileViewPage then
+  if FileView.NotebookPage is TFileViewPage then
     begin
-      Page := Sender.NotebookPage as TFileViewPage;
-      ANoteBook := Page.Notebook;
-      if Page.LockState = tlsNormal then // if not locked tab
-        begin
-          sCaption := GetLastDir(NewDir);
-          Page.UpdateCaption(sCaption);
-        end;
-
-      // update file system watcher directory
-      if (Page.FileView.FileSource.IsClass(TFileSystemFileSource)) then
-      begin
-        if (ANoteBook = nbLeft) and Assigned(LeftFrameWatcher) then
-          LeftFrameWatcher.WatchPath:= NewDir
-        else if (ANoteBook = nbRight) and Assigned(RightFrameWatcher) then
-            RightFrameWatcher.WatchPath:= NewDir;
-
-        if glsDirHistory.IndexOf(NewDir) = -1 then
-          glsDirHistory.Insert(0, NewDir);
-      end;
-
-      UpdateSelectedDrive(ANoteBook);
-      UpdateFreeSpace(ANoteBook.Side);
-      UpdatePrompt;
-
-      {if (fspDirectAccess in Page.FileView.FileSource.GetProperties) then
-        begin
-          if gTermWindow and Assigned(Cons) then
-            Cons.Terminal.SetCurrentDir(NewDir);
-        end;}
-    end;
-end;
-
-procedure TfrmMain.FileViewChangeFileSource(Sender: TFileView);
-var
-  ANoteBook : TFileViewNotebook;
-  Page: TFileViewPage;
-  sCaption : String;
-begin
-  if Sender.NotebookPage is TFileViewPage then
-    begin
-      Page := Sender.NotebookPage as TFileViewPage;
+      Page := FileView.NotebookPage as TFileViewPage;
       ANoteBook := Page.Notebook;
 
       if Page.LockState = tlsNormal then // if not locked tab
-        begin
-          sCaption := GetLastDir(Page.FileView.CurrentPath);
-          Page.UpdateCaption(sCaption);
-        end;
+        Page.UpdateCaption(GetLastDir(FileView.CurrentPath));
 
       if Page.IsActive then
       begin
         ToggleFileSystemWatcher;
 
-        UpdateSelectedDrive(ANoteBook);
-        UpdateFreeSpace(ANoteBook.Side);
-        UpdatePrompt;
+        if Assigned(FileView.FileSource) then
+        begin
+          // update file system watcher directory
+          if FileView.FileSource.IsClass(TFileSystemFileSource) then
+          begin
+            if (ANoteBook = nbLeft) and Assigned(LeftFrameWatcher) then
+              LeftFrameWatcher.WatchPath:= FileView.CurrentPath
+            else if (ANoteBook = nbRight) and Assigned(RightFrameWatcher) then
+                RightFrameWatcher.WatchPath:= FileView.CurrentPath;
+
+            if glsDirHistory.IndexOf(FileView.CurrentPath) = -1 then
+              glsDirHistory.Insert(0, FileView.CurrentPath);
+          end;
+
+          UpdateSelectedDrive(ANoteBook);
+          UpdateFreeSpace(ANoteBook.Side);
+          UpdatePrompt;
+        end;
       end;
+
+      {if (fspDirectAccess in FileView.FileSource.GetProperties) then
+        begin
+          if gTermWindow and Assigned(Cons) then
+            Cons.Terminal.SetCurrentDir(FileView.CurrentPath);
+        end;}
     end;
 end;
 
-procedure TfrmMain.FileViewActivate(Sender: TFileView);
+procedure TfrmMain.FileViewActivate(FileView: TFileView);
 var
   Page: TFileViewPage;
 begin
-  if Sender.NotebookPage is TFileViewPage then
+  if FileView.NotebookPage is TFileViewPage then
     begin
-      Page := Sender.NotebookPage as TFileViewPage;
+      Page := FileView.NotebookPage as TFileViewPage;
       PanelSelected := Page.Notebook.Side;
       UpdateSelectedDrive(Page.Notebook);
       UpdatePrompt;
@@ -2845,13 +2824,13 @@ begin
     end;
 end;
 
-procedure TfrmMain.FileViewReload(Sender: TFileView);
+procedure TfrmMain.FileViewReload(FileView: TFileView);
 var
   Page: TFileViewPage;
 begin
-  if Sender.NotebookPage is TFileViewPage then
+  if FileView.NotebookPage is TFileViewPage then
     begin
-      Page := Sender.NotebookPage as TFileViewPage;
+      Page := FileView.NotebookPage as TFileViewPage;
 
       if Page.IsActive then
       begin
@@ -2972,9 +2951,8 @@ procedure TfrmMain.AssignEvents(AFileView: TFileView);
 begin
   with AFileView do
   begin
-    OnBeforeChangeDirectory := @FileViewBeforeChangeDirectory;
-    OnAfterChangeDirectory := @FileViewAfterChangeDirectory;
-    OnChangeFileSource := @FileViewChangeFileSource;
+    OnBeforeChangePath := @FileViewBeforeChangePath;
+    OnAfterChangePath := @FileViewAfterChangePath;
     OnActivate := @FileViewActivate;
     OnReload := @FileViewReload;
   end;
@@ -3351,6 +3329,26 @@ end;
 procedure TfrmMain.ToggleFileSystemWatcher;
 var
   WatchFilter: TWatchFilter;
+
+  procedure ToggleWatcher(FileView: TFileView; var Watcher: TFileSystemWatcher; AnOwner: TComponent);
+  begin
+    if (WatchFilter <> []) and Assigned(FileView.FileSource) and
+       (FileView.FileSource.IsClass(TFileSystemFileSource)) then
+      begin
+        if not Assigned(Watcher) then
+          begin
+            Watcher:= TFileSystemWatcher.Create(AnOwner, FileView.CurrentPath, WatchFilter);
+            Watcher.OnWatcherNotifyEvent:= @FramePanelOnWatcherNotifyEvent;
+            Watcher.Active:= True;
+          end;
+      end
+    else
+      begin
+        if Assigned(Watcher) then
+          FreeAndNil(Watcher);
+      end;
+  end;
+
 begin
   WatchFilter:= [];
   if (watch_file_name_change in gWatchDirs) then
@@ -3358,35 +3356,8 @@ begin
   if (watch_attributes_change in gWatchDirs) then
     Include(WatchFilter, wfAttributesChange);
 
-  if (WatchFilter <> []) and (FrameLeft.FileSource.IsClass(TFileSystemFileSource)) then
-    begin
-      if not Assigned(LeftFrameWatcher) then
-        begin
-          LeftFrameWatcher:= TFileSystemWatcher.Create(nbLeft, FrameLeft.CurrentPath, WatchFilter);
-          LeftFrameWatcher.OnWatcherNotifyEvent:= @FramePanelOnWatcherNotifyEvent;
-          LeftFrameWatcher.Active:= True;
-        end;
-    end
-  else
-    begin
-      if Assigned(LeftFrameWatcher) then
-        FreeAndNil(LeftFrameWatcher);
-    end;
-
-  if (WatchFilter <> []) and (FrameRight.FileSource.IsClass(TFileSystemFileSource)) then
-    begin
-      if not Assigned(RightFrameWatcher) then
-        begin
-          RightFrameWatcher:= TFileSystemWatcher.Create(nbRight, FrameRight.CurrentPath, WatchFilter);
-          RightFrameWatcher.OnWatcherNotifyEvent:= @FramePanelOnWatcherNotifyEvent;
-          RightFrameWatcher.Active:= True;
-        end;
-    end
-  else
-    begin
-      if Assigned(RightFrameWatcher) then
-        FreeAndNil(RightFrameWatcher);
-    end;
+  ToggleWatcher(FrameLeft, LeftFrameWatcher, nbLeft);
+  ToggleWatcher(FrameRight, RightFrameWatcher, nbRight);
 end;
 
 procedure TfrmMain.UpdateWindowView;
@@ -4347,7 +4318,7 @@ begin
         Break;
       end
       else
-        RemoveLastFileSource;
+        RemoveCurrentFileSource;
     end;
 
     if FileSourcesCount = 0 then
