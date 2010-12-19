@@ -625,7 +625,16 @@ begin
         sCmdLine:= sCmdLine + QuoteStr(URL);
       end
       else
-        sCmdLine:= GetDefaultAppCmd(URL);
+        begin
+          if GetPathType(URL) = ptAbsolute then
+            sCmdLine:= URL
+          else
+            begin
+              sCmdLine := IncludeTrailingPathDelimiter(mbGetCurrentDir);
+              sCmdLine:= GetAbsoluteFileName(sCmdLine, URL)
+            end;
+          sCmdLine:= GetDefaultAppCmd(sCmdLine);
+        end;
     end;
   DE_KDE:
     sCmdLine:= 'kfmclient exec ' + QuoteStr(URL);
