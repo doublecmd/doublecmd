@@ -128,11 +128,9 @@ begin
   sFileName:= ExtractOnlyFileName(FileName) + '_' + sNow + ExtractFileExt(FileName);
   // Get user home directory
   sHomeDir:= GetEnvironmentVariable('HOME');
-  // Get “top directory” for file
-  sTopDir:= FindMountPointPath(FileName);
   // Check if file in home directory
   if (fpLStat(PChar(sHomeDir), st1) >= 0)
-     and (fpLStat(PChar(sTopDir), st2) >= 0)
+     and (fpLStat(PChar(FileName), st2) >= 0)
      and (st1.st_dev = st2.st_dev) then
   begin
     // Get $XDG_DATA_HOME directory
@@ -151,6 +149,8 @@ begin
     end;
   end;
   sUserID:= IntToStr(fpGetUID);
+  // Get “top directory” for file
+  sTopDir:= FindMountPointPath(FileName);
   // Try to use "$topdir/.Trash/$uid" directory
   sTemp:= sTopDir + trashFolder;
   if (fpLStat(PChar(sTemp), st1) >= 0)

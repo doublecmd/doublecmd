@@ -262,7 +262,10 @@ begin
   begin
     if FileName[I] = PathDelim then
     begin
-      sTemp:= Copy(FileName, 1, I - 1);
+      if (I = 1) then
+        sTemp:= PathDelim
+      else
+        sTemp:= Copy(FileName, 1, I - 1);
       // Stat for current directory
       if (fpLStat(PChar(sTemp), recStat) < 0) then Continue;
       // If it is a link then checking link destination
