@@ -108,7 +108,7 @@ const cf_Null=0;
    procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
    procedure DoNewTab(Notebook: TFileViewNotebook);
    procedure DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean);
-   procedure DoTransferFileSources(SourcePage: TFileViewPage; TargetPage: TFileViewPage);
+   procedure DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage);
    procedure DoSortByFunctions(View: TFileView; FileFunctions: TFileFunctions);
    //---------------------
 
@@ -696,34 +696,38 @@ begin
   end;
 end;
 
-procedure TActs.DoTransferFileSources(SourcePage: TFileViewPage; TargetPage: TFileViewPage);
+procedure TActs.DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage);
 var
   aFile: TFile;
+  NewPath: String;
 begin
   aFile := SourcePage.FileView.ActiveFile;
   if Assigned(aFile) then
   begin
-    TargetPage.FileView.AssignFileSources(SourcePage.FileView);
-
     if aFile.IsDirectory then
     begin
       if aFile.Name = '..' then
       begin
-        TargetPage.FileView.CurrentPath := GetParentDir(SourcePage.FileView.CurrentPath)
+        NewPath := GetParentDir(SourcePage.FileView.CurrentPath)
       end
       else
       begin
         // Change to a subdirectory.
-        TargetPage.FileView.CurrentPath := aFile.FullPath;
+        NewPath := aFile.FullPath;
       end;
+
+      if NewPath <> EmptyStr then
+        TargetPage.FileView.AddFileSource(SourcePage.FileView.FileSource, NewPath);
     end
     else
     begin
       // Change file source, if the file under cursor can be opened as another file source.
       try
-      ChooseFileSource(TargetPage.FileView, aFile);
-  except
-    on e: EFileSourceException do
+        if not ChooseFileSource(TargetPage.FileView, aFile) then
+          TargetPage.FileView.AddFileSource(SourcePage.FileView.FileSource,
+                                            SourcePage.FileView.CurrentPath);
+      except
+        on e: EFileSourceException do
           MessageDlg('Error', e.Message, mtError, [mbOK], 0);
       end;
     end;
@@ -1078,15 +1082,15 @@ end;
 procedure TActs.cm_TransferLeft(param:string);
 begin
   if (frmMain.SelectedPanel = fpRight) then
-    DoTransferFileSources(frmMain.RightTabs.ActivePage,
-                          frmMain.LeftTabs.ActivePage);
+    DoTransferPath(frmMain.RightTabs.ActivePage,
+                   frmMain.LeftTabs.ActivePage);
 end;
 
 procedure TActs.cm_TransferRight(param:string);
 begin
   if (frmMain.SelectedPanel = fpLeft) then
-    DoTransferFileSources(frmMain.LeftTabs.ActivePage,
-    frmMain.RightTabs.ActivePage);
+    DoTransferPath(frmMain.LeftTabs.ActivePage,
+                   frmMain.RightTabs.ActivePage);
 end;
 
 procedure TActs.cm_Minimize(param:string);
