@@ -4764,6 +4764,8 @@ procedure TColumnsFileListBuilder.MakeFileSourceFileList(Params: Pointer);
 var
   AFile: TFile;
   ListOperation: TFileSourceListOperation;
+  i: Integer;
+  HaveUpDir: Boolean = False;
 begin
   try
     if FAborted then
@@ -4793,8 +4795,21 @@ begin
     begin
       TColumnsFileView.Sort(FTmpFileSourceFiles, FSortings);
 
-      // Add '..' to go to higher level file source, if there is more than one.
-      if (FFileSourcesCount > 1) and (FFileSource.IsPathAtRoot(FCurrentPath)) then
+      // Check if up-dir '..' is present.
+      // If it is present it will usually be the first file.
+      for i := 0 to FTmpFileSourceFiles.Count - 1 do
+      begin
+        if FTmpFileSourceFiles[i].Name = '..' then
+        begin
+          HaveUpDir := True;
+          Break;
+        end;
+      end;
+
+      if (not HaveUpDir) and
+         ((not FFileSource.IsPathAtRoot(FCurrentPath)) or
+          // Add '..' to go to higher level file source, if there is more than one.
+          (FFileSourcesCount > 1)) then
       begin
         AFile := FFileSource.CreateFileObject(FCurrentPath);
         AFile.Name := '..';
