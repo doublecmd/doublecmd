@@ -4739,6 +4739,10 @@ msgstr "Ширина"
 msgid "Customize column"
 msgstr "Настроить колонку: "
 
+#: ulng.rscopynametemplate
+msgid "Copy (%d) %s"
+msgstr "Копия (%d) %s"
+
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
 msgstr "Прервать"
@@ -4932,6 +4936,10 @@ msgstr "Начинать у"
 msgid "Free %s from %s bytes"
 msgstr "Свободно %s из %s байт"
 
+#: ulng.rsfreemsgshort
+msgid "%s bytes free"
+msgstr ""
+
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Ошибка создания жёсткой ссылки."
@@ -5009,6 +5017,10 @@ msgstr "Просмотреть"
 msgid "Account:"
 msgstr "Учетная запись:"
 
+#: ulng.rsmsgcannotcopymoveitself
+msgid "You can not copy/move a file \"%s\" to itself!"
+msgstr "Нельзя скопировать/переместить файл \"%s\" сам в себя!"
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Переход в каталог [%s] не удался!"
@@ -5020,6 +5032,10 @@ msgstr "Закрыть все неактивные вкладки?"
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Вкладка (%s) заблокирована! Закрыть?"
+
+#: ulng.rsmsgconfirmquit
+msgid "Are you sure you want to quit?"
+msgstr ""
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -5172,6 +5188,14 @@ msgstr "Файл %s изменён, сохранить?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Файл %s существует, переписать?"
+
+#: ulng.rsmsgfileoperationsactive
+msgid "File operations active"
+msgstr ""
+
+#: ulng.rsmsgfileoperationsactivelong
+msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
+msgstr ""
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"

@@ -895,7 +895,7 @@ msgstr "Cancelar"
 #: TFRMEDITSEARCHREPLACE.BTNOK.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
 msgid "&OK"
-msgstr ""
+msgstr "&Aceptar"
 
 #: TFRMEDITSEARCHREPLACE.CAPTION
 msgid "frmEditSearchReplace"
@@ -4699,6 +4699,10 @@ msgstr "Anchura"
 msgid "Customize column"
 msgstr ""
 
+#: ulng.rscopynametemplate
+msgid "Copy (%d) %s"
+msgstr ""
+
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
 msgstr ""
@@ -4890,6 +4894,10 @@ msgstr "Comenzar en"
 msgid "Free %s from %s bytes"
 msgstr " %s de %s bytes libres"
 
+#: ulng.rsfreemsgshort
+msgid "%s bytes free"
+msgstr ""
+
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Error creando el enlace hard"
@@ -4965,6 +4973,10 @@ msgstr ""
 msgid "Account:"
 msgstr ""
 
+#: ulng.rsmsgcannotcopymoveitself
+msgid "You can not copy/move a file \"%s\" to itself!"
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Imposible cambiar a [%s]!"
@@ -4975,6 +4987,10 @@ msgstr ""
 
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
+msgstr ""
+
+#: ulng.rsmsgconfirmquit
+msgid "Are you sure you want to quit?"
 msgstr ""
 
 #: ulng.rsmsgcpfldr
@@ -5128,6 +5144,14 @@ msgstr "%s ha cambiado, guardar?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "%s existe, sobreescribir?"
+
+#: ulng.rsmsgfileoperationsactive
+msgid "File operations active"
+msgstr ""
+
+#: ulng.rsmsgfileoperationsactivelong
+msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
+msgstr ""
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"

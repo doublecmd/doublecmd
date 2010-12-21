@@ -4741,6 +4741,10 @@ msgstr "Breite"
 msgid "Customize column"
 msgstr "Spalten anpassen"
 
+#: ulng.rscopynametemplate
+msgid "Copy (%d) %s"
+msgstr ""
+
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
 msgstr "Unterbrechen"
@@ -4934,6 +4938,10 @@ msgstr "Starte bei"
 msgid "Free %s from %s bytes"
 msgstr "%s Byte von %s frei"
 
+#: ulng.rsfreemsgshort
+msgid "%s bytes free"
+msgstr ""
+
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Fehler beim Erstellen des Hardlink."
@@ -5011,6 +5019,10 @@ msgstr "Betrachten"
 msgid "Account:"
 msgstr "Zugang:"
 
+#: ulng.rsmsgcannotcopymoveitself
+msgid "You can not copy/move a file \"%s\" to itself!"
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Verzeichniswechsel nach [%s] fehlgeschlagen"
@@ -5022,6 +5034,10 @@ msgstr "Alle in-aktiven Tabs entfernen?"
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Dieser Tab ist gesperrt! Trotzdem schliessen?"
+
+#: ulng.rsmsgconfirmquit
+msgid "Are you sure you want to quit?"
+msgstr ""
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -5174,6 +5190,14 @@ msgstr "Datei %s wurde geändert, speichern?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Datei %s existiert bereits. Überschreiben?"
+
+#: ulng.rsmsgfileoperationsactive
+msgid "File operations active"
+msgstr ""
+
+#: ulng.rsmsgfileoperationsactivelong
+msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
+msgstr ""
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"

@@ -4722,6 +4722,10 @@ msgstr "Szerokość"
 msgid "Customize column"
 msgstr "Ustawienia kolumny: "
 
+#: ulng.rscopynametemplate
+msgid "Copy (%d) %s"
+msgstr ""
+
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
 msgstr ""
@@ -4915,6 +4919,10 @@ msgstr "Zacznij w"
 msgid "Free %s from %s bytes"
 msgstr "Wolne %s z %s bajtów"
 
+#: ulng.rsfreemsgshort
+msgid "%s bytes free"
+msgstr ""
+
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Błąd podczas tworzenia twardego linku."
@@ -4992,6 +5000,10 @@ msgstr "Podgląd"
 msgid "Account:"
 msgstr ""
 
+#: ulng.rsmsgcannotcopymoveitself
+msgid "You can not copy/move a file \"%s\" to itself!"
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Nieudane przejście do katalogu [%s] !"
@@ -5003,6 +5015,10 @@ msgstr "Zamknąc nieaktywne zakładki?"
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "zakładka (%s) jest zablokowana! Zamknąć?"
+
+#: ulng.rsmsgconfirmquit
+msgid "Are you sure you want to quit?"
+msgstr ""
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -5155,6 +5171,14 @@ msgstr "Plik %s zmieniono, zapisać?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Plik o nazwie %s istnieje, zastąpić?"
+
+#: ulng.rsmsgfileoperationsactive
+msgid "File operations active"
+msgstr ""
+
+#: ulng.rsmsgfileoperationsactivelong
+msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
+msgstr ""
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
