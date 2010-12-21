@@ -771,11 +771,11 @@ end;
 
 procedure TfColumnsSetConf.ResFontClick(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontName:= gFontName;
-  TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontSize:= gFontSize;
-  TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontStyle:= gFontStyle;
-  edtFont.Text:= gFontName;
-  sneFontSize.Value:= gFontSize;
+  TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontName:= gFonts[dcfMain].Name;
+  TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontSize:= gFonts[dcfMain].Size;
+  TColPrm(stgColumns.Objects[6,IndexRaw+1]).FontStyle:= gFonts[dcfMain].Style;
+  edtFont.Text:= gFonts[dcfMain].Name;
+  sneFontSize.Value:= gFonts[dcfMain].Size;
   EditorSaveResult(nil);
 end;
     

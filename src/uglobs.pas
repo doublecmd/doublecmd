@@ -60,6 +60,14 @@ type
   end;
   TExternalToolsOptions = array[TExternalTool] of TExternalToolOptions;
 
+  TDCFont = (dcfMain, dcfViewer, dcfEditor, dcfLog);
+  TDCFontOptions = record
+    Name: String;
+    Size: Integer;
+    Style: TFontStyles;
+  end;
+  TDCFontsOptions = array[TDCFont] of TDCFontOptions;
+
 const
   { Default hotkey list version number }
   hkVersion: String = '0.4.6.r2975';
@@ -154,16 +162,9 @@ var
   gExts:TExts;
   gColorExt:TColorExt;
 
-  gFontName: String;
-  gFontSize: Integer;
-  gFontStyle: TFontStyles;
-  gEditorFontName: String;
-  gEditorFontSize: Integer;
-  gEditorFontStyle: TFontStyles;
-  gViewerFontName: String;
-  gViewerFontSize: Integer;
-  gViewerFontStyle: TFontStyles;
-  
+  { Fonts page }
+  gFonts: TDCFontsOptions;
+
   { File panels color page }
   
   gBackColor, //Background color
@@ -281,6 +282,9 @@ procedure LoadDefaultHotkeyBindings;
 
 function InitPropStorage(Owner: TComponent): TIniPropStorageEx;
 
+procedure FontToFontOptions(Font: TFont; out Options: TDCFontOptions);
+procedure FontOptionsToFont(Options: TDCFontOptions; Font: TFont);
+
 const
   cMaxStringItems=50;
   
@@ -382,6 +386,26 @@ begin
       sHeight:= IntToStr(Monitor.Height);
       Result.IniSection:= ClassName + '(' + sWidth + 'x' + sHeight + ')';
     end;
+end;
+
+procedure FontToFontOptions(Font: TFont; out Options: TDCFontOptions);
+begin
+  with Options do
+  begin
+    Name  := Font.Name;
+    Size  := Font.Size;
+    Style := Font.Style;
+  end;
+end;
+
+procedure FontOptionsToFont(Options: TDCFontOptions; Font: TFont);
+begin
+  with Options do
+  begin
+    Font.Name  := Name;
+    Font.Size  := Size;
+    Font.Style := Style;
+  end;
 end;
 
 function LoadStringsFromFile(var list: TStringListEx; const sFileName:String;
@@ -553,15 +577,18 @@ begin
   SetDefaultExternalTool(gExternalTools[etDiffer]);
 
   { Fonts page }
-  gFontName := 'default';
-  gFontSize := 10;
-  gFontStyle := [fsBold];
-  gEditorFontName := MonoSpaceFont;
-  gEditorFontSize := 14;
-  gEditorFontStyle := [];
-  gViewerFontName := MonoSpaceFont;
-  gViewerFontSize := 14;
-  gViewerFontStyle := [];
+  gFonts[dcfMain].Name := 'default';
+  gFonts[dcfMain].Size := 10;
+  gFonts[dcfMain].Style := [fsBold];
+  gFonts[dcfEditor].Name := MonoSpaceFont;
+  gFonts[dcfEditor].Size := 14;
+  gFonts[dcfEditor].Style := [];
+  gFonts[dcfViewer].Name := MonoSpaceFont;
+  gFonts[dcfViewer].Size := 14;
+  gFonts[dcfViewer].Style := [];
+  gFonts[dcfLog].Name := MonoSpaceFont;
+  gFonts[dcfLog].Size := 12;
+  gFonts[dcfLog].Style := [];
 
   { Colors page }
   gForeColor := clDefault;
@@ -1011,20 +1038,16 @@ begin
 
   gLuaLib:=gIni.ReadString('Configuration', 'LuaLib', gLuaLib);
 
-
   { Fonts }
-  gFontName:=gIni.ReadString('Configuration', 'Font.Name', 'default');
-  DebugLn('gFontName:',gFontName);
-  gEditorFontName:=gIni.ReadString('Editor', 'Font.Name', MonoSpaceFont);
-  DebugLn('gEditorFontName:',gEditorFontName);
-  gViewerFontName:=gIni.ReadString('Viewer', 'Font.Name', MonoSpaceFont);
-  DebugLn('gViewerEditorFontName:',gViewerFontName);
-  gFontSize:=gIni.ReadInteger('Configuration', 'Font.Size', 10);
-  gEditorFontSize:=gIni.ReadInteger('Editor', 'Font.Size', 14);
-  gViewerFontSize:=gIni.ReadInteger('Viewer', 'Font.Size', 14);
-  gFontStyle := TFontStyles(gIni.ReadInteger('Configuration', 'Font.Style', 1));
-  gEditorFontStyle:= TFontStyles(gIni.ReadInteger('Editor', 'Font.Style', 0));
-  gViewerFontStyle:= TFontStyles(gIni.ReadInteger('Viewer', 'Font.Style', 0));
+  gFonts[dcfMain].Name:=gIni.ReadString('Configuration', 'Font.Name', 'default');
+  gFonts[dcfEditor].Name:=gIni.ReadString('Editor', 'Font.Name', MonoSpaceFont);
+  gFonts[dcfViewer].Name:=gIni.ReadString('Viewer', 'Font.Name', MonoSpaceFont);
+  gFonts[dcfMain].Size:=gIni.ReadInteger('Configuration', 'Font.Size', 10);
+  gFonts[dcfEditor].Size:=gIni.ReadInteger('Editor', 'Font.Size', 14);
+  gFonts[dcfViewer].Size:=gIni.ReadInteger('Viewer', 'Font.Size', 14);
+  gFonts[dcfMain].Style := TFontStyles(gIni.ReadInteger('Configuration', 'Font.Style', 1));
+  gFonts[dcfEditor].Style := TFontStyles(gIni.ReadInteger('Editor', 'Font.Style', 0));
+  gFonts[dcfViewer].Style := TFontStyles(gIni.ReadInteger('Viewer', 'Font.Style', 0));
 
   { Colors }
   gForeColor  := gIni.ReadInteger('Colors', 'ForeColor', clDefault);
@@ -1183,17 +1206,17 @@ begin
   gIni.WriteString('Configuration', 'LuaLib', gLuaLib);
 
   { Fonts }
-  gIni.WriteString('Configuration', 'Font.Name', gFontName);
-  gIni.WriteString('Editor', 'Font.Name', gEditorFontName);
-  gIni.WriteString('Viewer', 'Font.Name', gViewerFontName);
+  gIni.WriteString('Configuration', 'Font.Name', gFonts[dcfMain].Name);
+  gIni.WriteString('Editor', 'Font.Name', gFonts[dcfEditor].Name);
+  gIni.WriteString('Viewer', 'Font.Name', gFonts[dcfViewer].Name);
 
-  gIni.WriteInteger('Configuration', 'Font.Size', gFontSize);
-  gIni.WriteInteger('Editor', 'Font.Size', gEditorFontSize);
-  gIni.WriteInteger('Viewer', 'Font.Size', gViewerFontSize);
+  gIni.WriteInteger('Configuration', 'Font.Size', gFonts[dcfMain].Size);
+  gIni.WriteInteger('Editor', 'Font.Size', gFonts[dcfEditor].Size);
+  gIni.WriteInteger('Viewer', 'Font.Size', gFonts[dcfViewer].Size);
 
-  gIni.WriteInteger('Configuration', 'Font.Style', Integer(gFontStyle));
-  gIni.WriteInteger('Editor', 'Font.Style', Integer(gEditorFontStyle));
-  gIni.WriteInteger('Viewer', 'Font.Style', Integer(gViewerFontStyle));
+  gIni.WriteInteger('Configuration', 'Font.Style', Integer(gFonts[dcfMain].Style));
+  gIni.WriteInteger('Editor', 'Font.Style', Integer(gFonts[dcfEditor].Style));
+  gIni.WriteInteger('Viewer', 'Font.Style', Integer(gFonts[dcfViewer].Style));
   { Colors }
   gIni.WriteInteger('Colors', 'ForeColor', gForeColor);
   gIni.WriteInteger('Colors', 'BackColor', gBackColor);
@@ -1275,7 +1298,7 @@ end;
 
 procedure LoadXmlConfig;
 
-  procedure GetExtTool(Node: TXmlNode; var ExternalToolOptions: TExternalToolOptions);
+  procedure GetExtTool(Node: TXmlNode; out ExternalToolOptions: TExternalToolOptions);
   begin
     if Assigned(Node) then
       with ExternalToolOptions do
@@ -1287,7 +1310,12 @@ procedure LoadXmlConfig;
         KeepTerminalOpen := gConfig.GetValue(Node, 'KeepTerminalOpen', KeepTerminalOpen);
       end;
   end;
-
+  procedure GetDCFont(Node: TXmlNode; out FontOptions: TDCFontOptions);
+  begin
+    if Assigned(Node) then
+      gConfig.GetFont(Node, '', FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style),
+                                FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style));
+  end;
 var
   Root, Node, SubNode: TXmlNode;
 begin
@@ -1331,12 +1359,10 @@ begin
     GetExtTool(gConfig.FindNode(Root, 'Tools/Differ'), gExternalTools[etDiffer]);
 
     { Fonts page }
-    gConfig.GetFont(Root, 'Fonts/Main', gFontName, gFontSize, Integer(gFontStyle),
-                                        gFontName, gFontSize, Integer(gFontStyle));
-    gConfig.GetFont(Root, 'Fonts/Editor', gEditorFontName, gEditorFontSize, Integer(gEditorFontStyle),
-                                          gEditorFontName, gEditorFontSize, Integer(gEditorFontStyle));
-    gConfig.GetFont(Root, 'Fonts/Viewer', gViewerFontName, gViewerFontSize, Integer(gViewerFontStyle),
-                                          gViewerFontName, gViewerFontSize, Integer(gViewerFontStyle));
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/Main'), gFonts[dcfMain]);
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/Editor'), gFonts[dcfEditor]);
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/Viewer'), gFonts[dcfViewer]);
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/Log'), gFonts[dcfLog]);
 
     { Colors page }
     Node := Root.FindNode('Colors');
@@ -1548,6 +1574,11 @@ procedure SaveXmlConfig;
         gConfig.SetValue(Node, 'KeepTerminalOpen', KeepTerminalOpen);
       end;
   end;
+  procedure SetDCFont(Node: TXmlNode; const FontOptions: TDCFontOptions);
+  begin
+    if Assigned(Node) then
+      gConfig.SetFont(Node, '', FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style));
+  end;
 var
   I: Integer;
   Root, Node, SubNode: TXmlNode;
@@ -1595,9 +1626,10 @@ begin
     SetExtTool(gConfig.FindNode(Root, 'Tools/Differ', True), gExternalTools[etDiffer]);
 
     { Fonts page }
-    gConfig.SetFont(Root, 'Fonts/Main', gFontName, gFontSize, Integer(gFontStyle));
-    gConfig.SetFont(Root, 'Fonts/Editor', gEditorFontName, gEditorFontSize, Integer(gEditorFontStyle));
-    gConfig.SetFont(Root, 'Fonts/Viewer', gViewerFontName, gViewerFontSize, Integer(gViewerFontStyle));
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/Main', True), gFonts[dcfMain]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/Editor', True), gFonts[dcfEditor]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/Viewer', True), gFonts[dcfViewer]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/Log', True), gFonts[dcfLog]);
 
     { Colors page }
     Node := FindNode(Root, 'Colors', True);

@@ -276,7 +276,7 @@ begin
   if FCustomView and (Index < Flist.Count) then
     Result := TPanelColumn(Flist[Index]).FontName
   else
-    Result := gFontName;
+    Result := gFonts[dcfMain].Name;
 end;
 
 function TPanelColumnsClass.GetColumnFontSize(const Index: Integer): Integer;
@@ -284,7 +284,7 @@ begin
   if FCustomView and (Index < Flist.Count) then
     Result := TPanelColumn(Flist[Index]).FontSize
   else
-    Result := gFontSize;
+    Result := gFonts[dcfMain].Size;
 end;
 
 function TPanelColumnsClass.GetColumnFontStyle(const Index: Integer): TFontStyles;
@@ -292,7 +292,7 @@ begin
   if FCustomView and (Index < Flist.Count) then
     Result := TPanelColumn(Flist[Index]).FontStyle
   else
-    Result := gFontStyle;
+    Result := gFonts[dcfMain].Style;
 end;
 
 function TPanelColumnsClass.GetColumnOvercolor(const Index: Integer): Boolean;
@@ -475,9 +475,9 @@ begin
   AColumn.FuncString  := FuncString;
   AColumn.Width       := Width;
   AColumn.Align       := Align;
-  AColumn.FontName    := gFontName;
-  AColumn.FontSize    := gFontSize;
-  AColumn.FontStyle   := gFontStyle;
+  AColumn.FontName    := gFonts[dcfMain].Name;
+  AColumn.FontSize    := gFonts[dcfMain].Size;
+  AColumn.FontStyle   := gFonts[dcfMain].Style;
   AColumn.Overcolor   := True;
   AColumn.TextColor   := gForeColor;
   AColumn.Background  := gBackColor;
@@ -651,9 +651,9 @@ begin
         TPanelColumn(FList[I]).Width:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Width',50);
         TPanelColumn(FList[I]).Align:=TAlignment(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Align',0));
         //---------------------
-        TPanelColumn(FList[I]).FontName:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FontName',gFontName);
-        TPanelColumn(FList[I]).FontSize:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontSize',gFontSize);
-        TPanelColumn(FList[I]).FontStyle:=TFontStyles(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontStyle',Integer(gFontStyle)));
+        TPanelColumn(FList[I]).FontName:=Ini.ReadString(fSetName,'Column'+IntToStr(I+1)+'FontName',gFonts[dcfMain].Name);
+        TPanelColumn(FList[I]).FontSize:=Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontSize',gFonts[dcfMain].Size);
+        TPanelColumn(FList[I]).FontStyle:=TFontStyles(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'FontStyle',Integer(gFonts[dcfMain].Style)));
         TPanelColumn(FList[I]).Overcolor:=Ini.ReadBool(fSetName,'Column'+IntToStr(I+1)+'Overcolor',true );
         TPanelColumn(FList[I]).TextColor:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'TextColor',gForeColor));
         TPanelColumn(FList[I]).Background:=Tcolor(Ini.ReadInteger(fSetName,'Column'+IntToStr(I+1)+'Background',gBackColor ));
@@ -696,7 +696,7 @@ begin
         AColumn.Width := AConfig.GetValue(SubNode, 'Width', 50);
         AColumn.Align := TAlignment(AConfig.GetValue(SubNode, 'Align', Integer(0)));
         AConfig.GetFont(SubNode, 'Font', AColumn.FontName, AColumn.FontSize, Integer(AColumn.FontStyle),
-                        gFontName, gFontSize, Integer(gFontStyle));
+                        gFonts[dcfMain].Name, gFonts[dcfMain].Size, Integer(gFonts[dcfMain].Style));
         AColumn.Overcolor := AConfig.GetValue(SubNode, 'Overcolor', True);
         AColumn.TextColor := TColor(AConfig.GetValue(SubNode, 'TextColor', gForeColor));
         AColumn.Background := TColor(AConfig.GetValue(SubNode, 'Background', gBackColor));
@@ -1096,8 +1096,9 @@ end;
 constructor TColPrm.Create;
 begin
   Self.Overcolor   := True;
-  Self.FontName    := gFontName;
-  Self.FontSize    := gFontSize;
+  Self.FontName    := gFonts[dcfMain].Name;
+  Self.FontSize    := gFonts[dcfMain].Size;
+  Self.FontStyle   := gFonts[dcfMain].Style;
   Self.TextColor   := gForeColor;
   Self.Background  := gBackColor;
   Self.Background2 := gBackColor2;

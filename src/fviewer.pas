@@ -1389,9 +1389,7 @@ procedure TfrmViewer.FormCreate(Sender: TObject);
 begin
   InitPropStorage(Self);
 
-  ViewerControl.Font.Name  := gViewerFontName;
-  ViewerControl.Font.Size  := gViewerFontSize;
-  ViewerControl.Font.Style := gViewerFontStyle;
+  FontOptionsToFont(gFonts[dcfViewer], ViewerControl.Font);
 
   FileList := TStringList.Create;
 
@@ -2090,4 +2088,4 @@ initialization
  {$I fviewer.lrs}
 
 end.
-
+
