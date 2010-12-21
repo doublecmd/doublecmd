@@ -274,121 +274,127 @@ var
   sLine,
   sNewName,
   sSectionName: String;
-  bExists : Boolean;
+  bExists: Boolean;
 begin
-  extFile:= TStringListEx.Create;
+  extFile := TStringListEx.Create;
 
   if FileExists(sName) then
-    begin
-      extFile.LoadFromFile(sName);
+  begin
+    extFile.LoadFromFile(sName);
 
-      // first rename sections if needed
-      iCount := Count - 1;
-      for I := 0 to iCount do
-        with GetItems(I) do
+    // first rename sections if needed
+    iCount := Count - 1;
+    for I := 0 to iCount do
+      with GetItems(I) do
+      begin
+        sNewName := GetNewSectionName(I);
+        if (SectionName <> sNewName) and
+           // SectionName might be empty for new items
+           (SectionName <> '') then
+        begin
+          iIndex := extFile.IndexOf(SectionName);
+          if iIndex >= 0 then
+          begin
+            extFile.Strings[iIndex] := sNewName;
+            // Update section name so it doesn't get deleted below.
+            SectionName := sNewName;
+          end;
+        end;
+      end;
+
+    // second delete old sections
+    I      := 0;
+    iCount := extFile.Count - 1;
+    while I <= iCount do
+    begin
+      sLine  := Trim(extFile.Strings[I]);
+      iBegin := Pos('[', sLine);
+      iEnd   := Pos(']', sLine);
+      if (iBegin = 1) and (iEnd <> 0) then
+      begin
+        sSectionName := LowerCase(Copy(extFile.Strings[I], iBegin, iEnd));
+        bExists      := False;
+        for J := 0 to Count - 1 do
+        begin
+          //DebugLn('sSectionName = ', sSectionName);
+          //DebugLn('GetItems(J).SectionName = ', GetItems(J).SectionName);
+
+          if sSectionName = GetItems(J).SectionName then
+          begin
+            bExists := True;
+            Break;
+          end;
+        end; // for
+        if not bExists then // delete section
+        begin
+          EraseSection(extFile, I);
+          iCount := extFile.Count - 1;
+        end;
+      end;
+      Inc(I);
+    end; // while
+
+    // third rewrite changed sections
+    iCount := Count - 1;
+    for I := 0 to iCount do
+      with GetItems(I) do
+      begin
+        if IsChanged then
         begin
           sNewName := GetNewSectionName(I);
-          if SectionName <> sNewName then
+          iIndex   := extFile.IndexOf(sNewName);
+          if iIndex >= 0 then // if section exists then insert actions
+          begin
+            Inc(iIndex); // skip section name
+            EraseSection(extFile, iIndex, True);
+            if Name <> '' then
             begin
-              iIndex:= extFile.IndexOf(SectionName);
-              if iIndex >= 0 then
-                extFile.Strings[iIndex] := sNewName;
+              extFile.Insert(iIndex, 'Name=' + Name);
+              Inc(iIndex);
             end;
+            if Icon <> '' then
+            begin
+              extFile.Insert(iIndex, 'Icon=' + Icon);
+              Inc(iIndex);
+            end;
+            for J := 0 to Actions.Count - 1 do
+            begin
+              extFile.Insert(iIndex, Actions.Strings[J]);
+              Inc(iIndex);
+            end;
+            extFile.Insert(iIndex, ''); // add empty line
+          end
+          else // else add new section
+          begin
+            extFile.Add(sNewName); // section
+            if Name <> '' then
+              extFile.Add('Name=' + Name); // file type name
+            if Icon <> '' then
+              extFile.Add('Icon=' + Icon); // icon path
+            for J := 0 to Actions.Count - 1 do
+              extFile.Add(Actions.Strings[J]);
+            extFile.Add(''); // add empty line
+          end;
         end;
+      end;
 
-      // second delete old sections
-      I := 0;
-      iCount := extFile.Count - 1;
-      while I <= iCount do
-        begin
-          sLine := Trim(extFile.Strings[I]);
-          iBegin:= Pos('[', sLine);
-          iEnd:=   Pos(']', sLine);
-          if (iBegin = 1) and (iEnd <> 0) then
-            begin
-              sSectionName := LowerCase(Copy(extFile.Strings[I],iBegin, iEnd));
-              bExists:= False;
-              for J:= 0 to Count - 1 do
-                begin
-                  //DebugLn('sSectionName = ', sSectionName);
-                  //DebugLn('GetItems(J).SectionName = ', GetItems(J).SectionName);
-
-                  if sSectionName = GetItems(J).SectionName then
-                    begin
-                      bExists := True;
-                      Break;
-                    end;
-                end; // for
-              if not bExists then // delete section
-	        begin
-                  EraseSection(extFile, I);
-		  iCount := extFile.Count - 1;
-		end;
-            end;
-        Inc(I);
-        end; // while
-
-        // third rewrite changed sections
-	iCount := Count - 1;
-        for I := 0 to iCount do
-        with GetItems(I) do
-        begin
-          if IsChanged then
-	    begin
-	      sNewName := GetNewSectionName(I);
-              iIndex:= extFile.IndexOf(sNewName);
-              if iIndex >= 0 then // if section exists then insert actions
-	        begin
-                  Inc(iIndex); // skip section name
-                  EraseSection(extFile, iIndex, True);
-                  if Name <> '' then
-                    begin
-		      extFile.Insert(iIndex, 'Name=' + Name);
-                      Inc(iIndex);
-                    end;
-		  if Icon <> '' then
-                    begin
-		      extFile.Insert(iIndex, 'Icon=' + Icon);
-                      Inc(iIndex);
-                    end;
-		  for J:= 0 to Actions.Count - 1 do
-                    begin
-                      extFile.Insert(iIndex, Actions.Strings[J]);
-                      Inc(iIndex);
-                    end;
-                  extFile.Insert(iIndex, ''); // add empty line
-                end
-              else // else add new section
-                begin
-                  extFile.Add(sNewName); // section
-                  if Name <> '' then
-		    extFile.Add('Name=' + Name); // file type name
-		  if Icon <> '' then
-		    extFile.Add('Icon=' + Icon); // icon path
-		  for J:= 0 to Actions.Count - 1 do
-                    extFile.Add(Actions.Strings[J]);
-                  extFile.Add(''); // add empty line
-                end;
-            end;
-	end;
-
-    end // FileExists
+  end // FileExists
   else
-    begin
-      iCount := Count - 1;
-      for I := 0 to iCount do
+  begin
+    iCount := Count - 1;
+    for I := 0 to iCount do
       with GetItems(I) do
-        begin
-          extFile.Add(GetNewSectionName(I));
-          if Name <> '' then
-	    extFile.Add('Name=' + Name); // file type name
-	  if Icon <> '' then
-	    extFile.Add('Icon=' + Icon); // icon path
-          for J:= 0 to Actions.Count - 1 do
-            extFile.Add(Actions.Strings[J]);
-	  extFile.Add(''); // add empty line
-	end;
-    end;
+      begin
+        extFile.Add(GetNewSectionName(I));
+        if Name <> '' then
+          extFile.Add('Name=' + Name); // file type name
+        if Icon <> '' then
+          extFile.Add('Icon=' + Icon); // icon path
+        for J := 0 to Actions.Count - 1 do
+          extFile.Add(Actions.Strings[J]);
+        extFile.Add(''); // add empty line
+      end;
+  end;
   extFile.SaveToFile(sName);
   extFile.Free;
 end;
