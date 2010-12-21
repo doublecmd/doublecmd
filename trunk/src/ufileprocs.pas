@@ -10,7 +10,7 @@
 
    Mattias Gaertner (from Lazarus code)
   
-   Copyright (C) 2007-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2010  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit uFileProcs;
@@ -53,6 +53,8 @@ function FileReadLn(hFile: THandle; var S: String): Boolean;
    @param(S String for writing)
 }
 procedure FileWriteLn(hFile: Integer; S: String);
+
+function GetNextCopyName(FileName: UTF8String): UTF8String;
 
 implementation
 
@@ -236,6 +238,20 @@ begin
     Inc(i);
   end;
   Result := True;
+end;
+
+function GetNextCopyName(FileName: UTF8String): UTF8String;
+var
+  CopyNumber: Int64 = 1;
+  sFilePath,
+  sFileName: UTF8String;
+begin
+  sFilePath:= ExtractFilePath(FileName);
+  sFileName:= ExtractFileName(FileName);
+  repeat
+    Result := sFilePath + Format(rsCopyNameTemplate, [CopyNumber, sFileName]);
+    Inc(CopyNumber);
+  until not mbFileSystemEntryExists(Result);
 end;
 
 end.

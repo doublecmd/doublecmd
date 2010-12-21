@@ -98,6 +98,7 @@ type
     FRenamingFiles: Boolean;
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
+    FAutoRenameItSelf: Boolean;
     FDropReadOnlyAttribute: Boolean;
     FCorrectSymLinks: Boolean;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
@@ -151,6 +152,7 @@ type
     property DirExistsOption: TFileSourceOperationOptionDirectoryExists read FDirExistsOption write FDirExistsOption;
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
+    property AutoRenameItSelf: Boolean read FAutoRenameItSelf write FAutoRenameItSelf;
     property DropReadOnlyAttribute: Boolean read FDropReadOnlyAttribute write FDropReadOnlyAttribute;
     property CorrectSymLinks: Boolean read FCorrectSymLinks write FCorrectSymLinks;
     property RenameMask: String read FRenameMask write FRenameMask;
@@ -813,7 +815,7 @@ begin
 
     with FStatistics do
     begin
-      CurrentFileFrom := aFile.Path + aFile.Name;
+      CurrentFileFrom := aFile.FullPath;
       CurrentFileTo := TargetName;
       CurrentFileTotalBytes := aFile.Size;
       CurrentFileDoneBytes := 0;
@@ -822,12 +824,25 @@ begin
     UpdateStatistics(FStatistics);
 
     // Check if moving to the same file.
-    if CompareFilenames(aFile.Path + aFile.Name, TargetName) = 0 then
+    if CompareFilenames(aFile.FullPath, TargetName) = 0 then
     begin
-      ProcessedOk := False;
-      CountStatistics(CurrentSubNode);
-    end
-    else if aFile.IsDirectory then
+      if (FMode = fsohmCopy) and FAutoRenameItSelf then
+        TargetName := GetNextCopyName(TargetName)
+      else
+        case AskQuestion(Format(rsMsgCanNotCopyMoveItSelf, [TargetName]), '',
+                         [fsourAbort, fsourSkip], fsourAbort, fsourSkip) of
+          fsourAbort:
+            AbortOperation();
+        else
+            begin
+              Result := False;
+              CountStatistics(CurrentSubNode);
+              CheckOperationState;
+              Continue;
+            end;
+        end;
+    end;
+    if aFile.IsDirectory then
       ProcessedOk := ProcessDirectory(CurrentSubNode, TargetName)
     else if aFile.IsLink then
       ProcessedOk := ProcessLink(CurrentSubNode, TargetName)

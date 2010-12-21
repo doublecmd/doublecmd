@@ -106,6 +106,7 @@ resourcestring
   rsMsgFileOperationsActive = 'File operations active';
   rsMsgFileOperationsActiveLong = 'Some file operations have not yet finished. Closing Double Commander may result in data loss.';
   rsMsgConfirmQuit = 'Are you sure you want to quit?';
+  rsMsgCanNotCopyMoveItSelf = 'You can not copy/move a file "%s" to itself!';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuView = 'View';
@@ -253,6 +254,8 @@ resourcestring
   rsSizeUnitGBytes = 'Gigabytes';
   rsSizeUnitTBytes = 'Terabytes';
 
+  // Other
+  rsCopyNameTemplate = 'Copy (%d) %s';
   // Symlink dialog
   rsSymErrCreate = 'Error creating symlink.';
   // Hardlink dialog

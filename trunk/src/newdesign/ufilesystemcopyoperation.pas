@@ -27,6 +27,7 @@ type
     // Options.
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
+    FAutoRenameItSelf: Boolean;
     FSymLinkOption: TFileSourceOperationOptionSymLink;
     FCorrectSymLinks: Boolean;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
@@ -50,6 +51,7 @@ type
 
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
+    property AutoRenameItSelf: Boolean read FAutoRenameItSelf write FAutoRenameItSelf;
     property SymLinkOption: TFileSourceOperationOptionSymLink read FSymLinkOption write FSymLinkOption;
     property CorrectSymLinks: Boolean read FCorrectSymLinks write FCorrectSymLinks;
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
@@ -101,6 +103,7 @@ begin
   FDirExistsOption := gOperationOptionDirectoryExists;
   FCheckFreeSpace := gOperationOptionCheckFreeSpace;
   FSkipAllBigFiles := False;
+  FAutoRenameItSelf := False;
   FCorrectSymLinks := gOperationOptionCorrectLinks;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
@@ -156,6 +159,7 @@ begin
   FOperationHelper.DropReadOnlyAttribute := DropReadOnlyAttribute;
   FOperationHelper.CheckFreeSpace := CheckFreeSpace;
   FOperationHelper.SkipAllBigFiles := SkipAllBigFiles;
+  FOperationHelper.AutoRenameItSelf := AutoRenameItSelf;
   FOperationHelper.CorrectSymLinks := CorrectSymLinks;
   FOperationHelper.FileExistsOption := FileExistsOption;
   FOperationHelper.DirExistsOption := DirExistsOption;

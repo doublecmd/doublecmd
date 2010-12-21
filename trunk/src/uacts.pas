@@ -275,7 +275,7 @@ uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      uFileSourceCalcStatisticsOperation, uFileSource, uFileSourceProperty,
      uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
-     uFileSorting, uShellContextMenu, uTrash;
+     uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation;
 
 { TActs }
 
@@ -2748,6 +2748,8 @@ begin
 
       if Assigned(Operation) then
       begin
+        if Operation is TFileSystemCopyOperation then
+          (Operation as TFileSystemCopyOperation).AutoRenameItSelf:= True;
         OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
         ProgressDialog := TfrmFileOp.Create(OperationHandle);
         ProgressDialog.Show;
@@ -2813,4 +2815,4 @@ begin
 end;
 
 end.
-
+
