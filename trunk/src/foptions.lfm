@@ -820,7 +820,7 @@ object frmOptions: TfrmOptions
           ParentColor = False
         end
         object lblEditorFont: TLabel
-          AnchorSideTop.Control = edtTest1
+          AnchorSideTop.Control = edtMainFontTest
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 20
@@ -831,7 +831,7 @@ object frmOptions: TfrmOptions
           ParentColor = False
         end
         object lblViewerFont: TLabel
-          AnchorSideTop.Control = edtTest2
+          AnchorSideTop.Control = edtEditorFontTest
           AnchorSideTop.Side = asrBottom
           Left = 6
           Height = 20
@@ -865,8 +865,8 @@ object frmOptions: TfrmOptions
           OnClick = btnSelMainFntClick
           TabOrder = 1
         end
-        object edtMainSize: TSpinEdit
-          AnchorSideTop.Control = edtTest1
+        object edtMainFontSize: TSpinEdit
+          AnchorSideTop.Control = edtMainFontTest
           AnchorSideTop.Side = asrCenter
           Left = 683
           Height = 29
@@ -875,11 +875,11 @@ object frmOptions: TfrmOptions
           Anchors = [akTop, akRight]
           MaxValue = 25
           MinValue = 6
-          OnChange = edtMainSizeChange
+          OnChange = edtMainFontSizeChange
           TabOrder = 2
           Value = 14
         end
-        object edtTest1: TEdit
+        object edtMainFontTest: TEdit
           AnchorSideTop.Control = cbMainFont
           AnchorSideTop.Side = asrBottom
           Left = 6
@@ -917,7 +917,7 @@ object frmOptions: TfrmOptions
           OnClick = btnSelEditFntClick
           TabOrder = 5
         end
-        object edtTest2: TEdit
+        object edtEditorFontTest: TEdit
           AnchorSideTop.Control = cbEditorFont
           AnchorSideTop.Side = asrBottom
           Left = 6
@@ -928,8 +928,8 @@ object frmOptions: TfrmOptions
           BorderSpacing.Top = 6
           TabOrder = 6
         end
-        object edtEditorSize: TSpinEdit
-          AnchorSideTop.Control = edtTest2
+        object edtEditorFontSize: TSpinEdit
+          AnchorSideTop.Control = edtEditorFontTest
           AnchorSideTop.Side = asrCenter
           Left = 683
           Height = 29
@@ -938,7 +938,7 @@ object frmOptions: TfrmOptions
           Anchors = [akTop, akRight]
           MaxValue = 25
           MinValue = 6
-          OnChange = edtEditorSizeChange
+          OnChange = edtEditorFontSizeChange
           TabOrder = 7
           Value = 14
         end
@@ -969,7 +969,7 @@ object frmOptions: TfrmOptions
           OnClick = btnSelViewFntClick
           TabOrder = 9
         end
-        object edtTest3: TEdit
+        object edtViewerFontTest: TEdit
           AnchorSideTop.Control = cbViewerFont
           AnchorSideTop.Side = asrBottom
           Left = 6
@@ -980,8 +980,8 @@ object frmOptions: TfrmOptions
           BorderSpacing.Top = 6
           TabOrder = 10
         end
-        object edtViewerSize: TSpinEdit
-          AnchorSideTop.Control = edtTest3
+        object edtViewerFontSize: TSpinEdit
+          AnchorSideTop.Control = edtViewerFontTest
           AnchorSideTop.Side = asrCenter
           Left = 683
           Height = 29
@@ -990,8 +990,71 @@ object frmOptions: TfrmOptions
           Anchors = [akTop, akRight]
           MaxValue = 25
           MinValue = 6
-          OnChange = edtViewerSizeChange
+          OnChange = edtViewerFontSizeChange
           TabOrder = 11
+          Value = 14
+        end
+        object lblLogFont: TLabel
+          AnchorSideTop.Control = edtViewerFontTest
+          AnchorSideTop.Side = asrBottom
+          Left = 6
+          Height = 20
+          Top = 288
+          Width = 61
+          BorderSpacing.Top = 6
+          Caption = 'Log font'
+          ParentColor = False
+        end
+        object cbLogFont: TComboBox
+          AnchorSideTop.Control = lblLogFont
+          AnchorSideTop.Side = asrBottom
+          Left = 6
+          Height = 29
+          Top = 314
+          Width = 668
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Top = 6
+          ItemHeight = 0
+          OnChange = cbViewerFontChange
+          TabOrder = 12
+        end
+        object edtLogFontTest: TEdit
+          AnchorSideTop.Control = cbLogFont
+          AnchorSideTop.Side = asrBottom
+          Left = 6
+          Height = 29
+          Top = 349
+          Width = 668
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Top = 6
+          TabOrder = 13
+        end
+        object btnSelLogFnt: TButton
+          AnchorSideTop.Control = cbLogFont
+          AnchorSideBottom.Control = cbLogFont
+          AnchorSideBottom.Side = asrBottom
+          Left = 683
+          Height = 29
+          Top = 314
+          Width = 23
+          Anchors = [akTop, akRight, akBottom]
+          BorderSpacing.InnerBorder = 4
+          Caption = '...'
+          OnClick = btnSelLogFntClick
+          TabOrder = 14
+        end
+        object edtLogFontSize: TSpinEdit
+          AnchorSideTop.Control = edtLogFontTest
+          AnchorSideTop.Side = asrCenter
+          Left = 683
+          Height = 29
+          Top = 349
+          Width = 56
+          Anchors = [akTop, akRight]
+          MaxValue = 25
+          MinValue = 6
+          OnChange = edtLogFontSizeChange
+          TabOrder = 15
           Value = 14
         end
       end

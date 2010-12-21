@@ -3495,10 +3495,10 @@ begin
   edtCommand.Tag := 0;
   ToggleConsole;
 
-  // Log windows
+  // Log window
   seLogWindow.Visible := gLogWindow or (not miLogHide.Enabled);
   LogSplitter.Visible := gLogWindow or (not miLogHide.Enabled);
-  seLogWindow.Font.Name := gEditorFontName;
+  FontOptionsToFont(gFonts[dcfLog], seLogWindow.Font);
 
   ToggleFileSystemWatcher;
   ShowTrayIcon(gAlwaysShowTrayIcon);

@@ -211,9 +211,7 @@ var
 begin
   InitPropStorage(Self);
 
-  Editor.Font.Name:=gEditorFontName;
-  Editor.Font.Size:=gEditorFontSize;
-  Editor.Font.Style:=gEditorFontStyle;
+  FontOptionsToFont(gFonts[dcfEditor], Editor.Font);
 
 // update menu highlighting
   miHighlight.Clear;
@@ -814,4 +812,4 @@ end;
 initialization
  {$I feditor.lrs}
 
-end.
+end.
