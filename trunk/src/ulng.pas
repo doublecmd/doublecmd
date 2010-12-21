@@ -103,6 +103,9 @@ resourcestring
   rsMsgErrDateNotSupported = 'Date %s is not supported';
   rsMsgErrSaveFile = 'Cannot save file';
   rsMsgErrCanNotConnect = 'Can not connect to server: "%s"';
+  rsMsgFileOperationsActive = 'File operations active';
+  rsMsgFileOperationsActiveLong = 'Some file operations have not yet finished. Closing Double Commander may result in data loss.';
+  rsMsgConfirmQuit = 'Are you sure you want to quit?';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuView = 'View';

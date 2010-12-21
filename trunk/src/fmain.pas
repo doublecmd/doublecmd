@@ -611,7 +611,7 @@ var
 implementation
 
 uses
-  LCLIntf, uGlobs, uLng, fConfigToolBar, uMasks, fCopyMoveDlg, uQuickViewPanel,
+  LCLIntf, Dialogs, uGlobs, uLng, fConfigToolBar, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, fHotDir, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   uDragDropEx, StrUtils, uKeyboard, uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
@@ -904,8 +904,9 @@ procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
   if OperationsManager.OperationsCount > 0 then
   begin
-    msgWarning('There are operations running!');
-    CanClose := False;
+    CanClose := MessageDlg(rsMsgFileOperationsActive,
+      rsMsgFileOperationsActiveLong + LineEnding + rsMsgConfirmQuit,
+      mtConfirmation, [mbYes, mbNo], 0, mbNo) = mrYes;
   end
   else
     CanClose := True;
