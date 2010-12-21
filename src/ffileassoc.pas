@@ -147,7 +147,7 @@ end;
 
 procedure TfrmFileAssoc.FormCreate(Sender: TObject);
 var
-  I, iCount : Integer;
+  I : Integer;
   sName : String;
   Bitmap : TBitmap;
 begin
@@ -157,8 +157,7 @@ begin
     Exts.LoadFromFile(gpCfgDir + 'doublecmd.ext');
   lbFileTypes.ItemHeight := gIconsSize + 4;
   // fill file types list box
-  iCount := Exts.Count - 1;
-  for I := 0 to iCount do
+  for I := 0 to Exts.Count - 1 do
     begin
       // update icon index
       Exts.Items[I].IconIndex := gExts.Items[I].IconIndex;
@@ -176,7 +175,7 @@ begin
 
       lbFileTypes.Items.AddObject(sName, Bitmap);
     end;
-  if iCount > 0 then
+  if Exts.Count > 0 then
     lbFileTypes.ItemIndex:= 0;
   UpdateEnabledButtons;
   // Initialize property storage
@@ -191,22 +190,22 @@ end;
 
 procedure TfrmFileAssoc.UpdateEnabledButtons;
 begin
-  if lbFileTypes.Items.Count = 0 then
-    btnAddExt.Enabled:= False
-  else
-    btnAddExt.Enabled:= True;
-
-  if lbExts.Items.Count = 0 then
+  if (lbFileTypes.Items.Count = 0) or (lbFileTypes.ItemIndex = -1) then
     begin
+      btnAddExt.Enabled:= False;
       btnAddAct.Enabled:= False;
       sbtnIcon.Enabled:= False;
       btnRemoveIcon.Enabled:= False;
     end
   else
     begin
-      btnAddAct.Enabled:= True;
-      sbtnIcon.Enabled:= True;
-      btnRemoveIcon.Enabled:= True;
+      btnAddExt.Enabled:= True;
+      if lbExts.Items.Count > 0 then
+        begin
+          btnAddAct.Enabled:= True;
+          sbtnIcon.Enabled:= True;
+          btnRemoveIcon.Enabled:= True;
+        end;
     end;
 
   if (lbExts.Items.Count = 0) or (lbExts.ItemIndex = -1) then
@@ -228,17 +227,12 @@ begin
   else
     begin
       btnRemoveAct.Enabled := True;
-      btnUpAct.Enabled := True;
-      btnDownAct.Enabled := True;
+      btnUpAct.Enabled := (lbActions.ItemIndex > 0);
+      btnDownAct.Enabled := (lbActions.ItemIndex = lbActions.Items.Count - 1);
       edbAction.Enabled:= True;
       fneCommand.Enabled:= True;
       btnCommands.Enabled:= True;
     end;
-
-  if lbActions.ItemIndex = 0 then
-    btnUpAct.Enabled:= False;
-  if lbActions.ItemIndex = lbActions.Items.Count - 1 then
-    btnDownAct.Enabled:= False;
 end;
 
 procedure TfrmFileAssoc.btnAddNewTypeClick(Sender: TObject);
@@ -259,6 +253,7 @@ begin
     Exts.AddItem(ExtAction);
     ItemIndex := Items.Count - 1;
   end;
+  UpdateEnabledButtons;
 end;
 
 procedure TfrmFileAssoc.btnRemoveTypeClick(Sender: TObject);
@@ -275,6 +270,7 @@ begin
   end;
   // remove file type from TExts object
   Exts.DeleteItem(iIndex);
+  UpdateEnabledButtons;
 end;
 
 procedure TfrmFileAssoc.btnRenameTypeClick(Sender: TObject);
@@ -290,6 +286,7 @@ begin
   // rename file type in TExts object
   Exts.Items[iIndex].Name := sName;
   Exts.Items[iIndex].IsChanged:= True;
+  UpdateEnabledButtons;
 end;
 
 procedure TfrmFileAssoc.lbActionsSelectionChange(Sender: TObject; User: boolean);
@@ -358,33 +355,39 @@ procedure TfrmFileAssoc.lbFileTypesSelectionChange(Sender: TObject;
   User: boolean);
 var
   ExtCommand : TExtAction;
-  I, iCount : Integer;
+  I : Integer;
   bmpTemp: TBitmap = nil;
 begin
-  with Sender as TListBox do
+  if (lbFileTypes.ItemIndex >= 0) and (lbFileTypes.ItemIndex < Exts.Count) then
     begin
-      if ItemIndex=-1 then ItemIndex:=0;
-      ExtCommand := Exts.Items[ItemIndex];
+      ExtCommand := Exts.Items[lbFileTypes.ItemIndex];
       lbExts.Items.Assign(ExtCommand.Extensions);
-      lbExts.ItemIndex := lbExts.Count - 1;
+      lbExts.ItemIndex := 0;
       lbActions.Items.Clear;
-      iCount := ExtCommand.Actions.Count - 1;
-      for I := 0 to iCount do
+      for I := 0 to ExtCommand.Actions.Count - 1 do
         begin
           lbActions.Items.AddObject(ExtCommand.Actions.Names[I], ExtCommand.Actions);
         end;
-      lbActions.ItemIndex := iCount;
+      lbActions.ItemIndex := 0;
+
+      bmpTemp := PixMapManager.LoadBitmapEnhanced(ExtCommand.Icon, 32, sbtnIcon.Color);
+      try
+        sbtnIcon.Glyph := bmpTemp;
+      finally
+        if Assigned(bmpTemp) then
+          FreeAndNil(bmpTemp);
+      end;
+
+      edtIconFileName.Text:= ExtCommand.Icon;
+    end
+  else
+    begin
+      lbExts.Items.Clear;
+      lbActions.Items.Clear;
+      sbtnIcon.Glyph := nil;
+      edtIconFileName.Text := '';
     end;
 
-  bmpTemp := PixMapManager.LoadBitmapEnhanced(ExtCommand.Icon, 32, sbtnIcon.Color);
-  try
-    sbtnIcon.Glyph := bmpTemp;
-  finally
-    if Assigned(bmpTemp) then
-      FreeAndNil(bmpTemp);
-  end;
-
-  edtIconFileName.Text:= ExtCommand.Icon;
   UpdateEnabledButtons;
 end;
 
@@ -514,11 +517,8 @@ begin
     begin
       lbExts.ItemIndex := lbExts.Items.Add(sExt);
       // add extension in TExts object
-      with lbFileTypes do
-      begin
-        Exts.Items[ItemIndex].Extensions.Add(sExt);
-        Exts.Items[ItemIndex].IsChanged:= True;
-      end;
+      Exts.Items[lbFileTypes.ItemIndex].Extensions.Add(sExt);
+      Exts.Items[lbFileTypes.ItemIndex].IsChanged:= True;
     end;
   UpdateEnabledButtons;
 end;
@@ -534,16 +534,13 @@ begin
     if I = - 1 then exit;
     Items.Delete(I);
     if I = 0 then
-      ItemIndex := I
+      ItemIndex := 0
     else
       ItemIndex := I - 1;
   end;
   // remove extension from TExts object
-  with lbFileTypes do
-  begin
-    Exts.Items[ItemIndex].Extensions.Delete(I);
-    Exts.Items[ItemIndex].IsChanged:= True;
-  end;
+  Exts.Items[lbFileTypes.ItemIndex].Extensions.Delete(I);
+  Exts.Items[lbFileTypes.ItemIndex].IsChanged:= True;
   UpdateEnabledButtons;
 end;
 
