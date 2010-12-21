@@ -83,16 +83,13 @@ type
     cbCategoryColor: TColorBox;
     cbOnlyOnce: TCheckBox;
     cbDropReadOnlyFlag: TCheckBox;
-    cbEditorFont: TComboBox;
     cbIconsShowOverlay: TCheckBox;
     cbIconsSize: TComboBox;
     cbLynxLike: TCheckBox;
-    cbMainFont: TComboBox;
     cbRenameSelOnlyName: TCheckBox;
     cbShowCopyTabSelectPanel: TCheckBox;
     cbShortFileSizeFormat: TCheckBox;
     cbTabsShowCloseButton: TCheckBox;
-    cbViewerFont: TComboBox;
     cbFlatInterface: TCheckBox;
     cbFlatToolBar: TCheckBox;
     cbTabsAlwaysVisible: TCheckBox;
@@ -132,7 +129,6 @@ type
     cbShowDialogOnDragDrop: TCheckBox;
     cbListFilesInThread: TCheckBox;
     cbLoadIconsSeparately: TCheckBox;
-    cbLogFont: TComboBox;
     cbWatchExcludeDirs: TCheckBox;
     cbTabsOpenNearCurrent: TCheckBox;
     cbToolsRunInTerminal: TCheckBox;
@@ -167,7 +163,7 @@ type
     edtArchiveList: TEdit;
     edtArchiveTest: TEdit;
     edtDescription: TEdit;
-    edtLogFontTest: TEdit;
+    edtLogFont: TEdit;
     edtToolsParameters: TEdit;
     edtCategoryAttr: TEdit;
     edtCategoryMask: TEdit;
@@ -180,9 +176,9 @@ type
     edtMainFontSize: TSpinEdit;
     edtRunTerm: TEdit;
     edtRunInTerm: TEdit;
-    edtMainFontTest: TEdit;
-    edtEditorFontTest: TEdit;
-    edtViewerFontTest: TEdit;
+    edtMainFont: TEdit;
+    edtEditorFont: TEdit;
+    edtViewerFont: TEdit;
     edtViewerFontSize: TSpinEdit;
     cbLogFile: TCheckBox;
     edtLogFontSize: TSpinEdit;
@@ -461,9 +457,6 @@ type
     procedure btnSelMainFntClick(Sender: TObject);
     procedure btnSelViewFntClick(Sender: TObject);
     procedure btnSelLogFntClick(Sender: TObject);
-    procedure cbMainFontChange(Sender: TObject);
-    procedure cbEditorFontChange(Sender: TObject);
-    procedure cbViewerFontChange(Sender: TObject);
     procedure edHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
       );
     procedure FormDestroy(Sender: TObject);
@@ -817,22 +810,22 @@ end;
 
 procedure TfrmOptions.edtEditorFontSizeChange(Sender: TObject);
 begin
-  edtEditorFontTest.Font.Size := edtEditorFontSize.Value;
+  edtEditorFont.Font.Size := edtEditorFontSize.Value;
 end;
 
 procedure TfrmOptions.edtMainFontSizeChange(Sender: TObject);
 begin
-  edtMainFontTest.Font.Size := edtMainFontSize.Value;
+  edtMainFont.Font.Size := edtMainFontSize.Value;
 end;
 
 procedure TfrmOptions.edtViewerFontSizeChange(Sender: TObject);
 begin
-  edtViewerFontTest.Font.Size := edtViewerFontSize.Value;
+  edtViewerFont.Font.Size := edtViewerFontSize.Value;
 end;
 
 procedure TfrmOptions.edtLogFontSizeChange(Sender: TObject);
 begin
-  edtLogFontTest.Font.Size := edtLogFontSize.Value;
+  edtLogFont.Font.Size := edtLogFontSize.Value;
 end;
 
 procedure TfrmOptions.FillLngListBox;
@@ -878,95 +871,72 @@ end;
 
 procedure TfrmOptions.btnSelEditFntClick(Sender: TObject);
 begin
-  dlgFnt.Font.Name  := cbEditorFont.Text;
+  dlgFnt.Font.Name  := edtEditorFont.Text;
   dlgFnt.Font.Size  := edtEditorFontSize.Value;
-  dlgFnt.Font.Style := [];
+  dlgFnt.Font.Style := edtEditorFont.Font.Style;
   if dlgFnt.Execute then
     begin
-      cbEditorFont.Text       := dlgFnt.Font.Name;
-      edtEditorFontSize.Value := dlgFnt.Font.Size;
-      edtEditorFontTest.Font  := dlgFnt.Font;
-      edtEditorFontTest.Text  := cbEditorFont.Text;
+      edtEditorFont.Text       := dlgFnt.Font.Name;
+      edtEditorFontSize.Value  := dlgFnt.Font.Size;
+      edtEditorFont.Font.Style := dlgFnt.Font.Style;
     end;
 end;
 
 procedure TfrmOptions.btnSelMainFntClick(Sender: TObject);
 begin
-  dlgFnt.Font.Name  := cbMainFont.Text;
+  dlgFnt.Font.Name  := edtMainFont.Text;
   dlgFnt.Font.Size  := edtMainFontSize.Value;
-  dlgFnt.Font.Style := [];
+  dlgFnt.Font.Style := edtMainFont.Font.Style;
   if dlgFnt.Execute then
     begin
-      cbMainFont.Text       := dlgFnt.Font.Name;
-      edtMainFontSize.Value := dlgFnt.Font.Size;
-      edtMainFontTest.Font  := dlgFnt.Font;
-      edtMainFontTest.Text  := cbMainFont.Text;
+      edtMainFont.Text       := dlgFnt.Font.Name;
+      edtMainFontSize.Value  := dlgFnt.Font.Size;
+      edtMainFont.Font.Style := dlgFnt.Font.Style;
     end;
 end;
 
 procedure TfrmOptions.btnSelViewFntClick(Sender: TObject);
 begin
-  dlgFnt.Font.Name  := cbViewerFont.Text;
+  dlgFnt.Font.Name  := edtViewerFont.Text;
   dlgFnt.Font.Size  := edtViewerFontSize.Value;
-  dlgFnt.Font.Style := [];
+  dlgFnt.Font.Style := edtViewerFont.Font.Style;
   if dlgFnt.Execute then
     begin
-      cbViewerFont.Text       := dlgFnt.Font.Name;
-      edtViewerFontSize.Value := dlgFnt.Font.Size;
-      edtViewerFontTest.Font  := dlgFnt.Font;
-      edtViewerFontTest.Text  := cbViewerFont.Text;
+      edtViewerFont.Text       := dlgFnt.Font.Name;
+      edtViewerFontSize.Value  := dlgFnt.Font.Size;
+      edtViewerFont.Font.Style := dlgFnt.Font.Style;
     end;
 end;
 
 procedure TfrmOptions.btnSelLogFntClick(Sender: TObject);
 begin
-  dlgFnt.Font.Name  := cbLogFont.Text;
+  dlgFnt.Font.Name  := edtLogFont.Text;
   dlgFnt.Font.Size  := edtLogFontSize.Value;
-  dlgFnt.Font.Style := [];
+  dlgFnt.Font.Style := edtLogFont.Font.Style;
   if dlgFnt.Execute then
     begin
-      cbLogFont.Text       := dlgFnt.Font.Name;
-      edtLogFontSize.Value := dlgFnt.Font.Size;
-      edtLogFontTest.Font  := dlgFnt.Font;
-      edtLogFontTest.Text  := cbLogFont.Text;
+      edtLogFont.Text       := dlgFnt.Font.Name;
+      edtLogFontSize.Value  := dlgFnt.Font.Size;
+      edtLogFont.Font.Style := dlgFnt.Font.Style;
     end;
 end;
 
 procedure TfrmOptions.FillFontLists;
 begin
-  cbMainFont.Text        := gFonts[dcfMain].Name;
-  cbEditorFont.Text      := gFonts[dcfEditor].Name;
-  cbViewerFont.Text      := gFonts[dcfViewer].Name;
-  cbLogFont.Text         := gFonts[dcfLog].Name;
-  edtMainFontTest.Text   := gFonts[dcfMain].Name;
-  edtEditorFontTest.Text := gFonts[dcfEditor].Name;
-  edtViewerFontTest.Text := gFonts[dcfViewer].Name;
-  edtLogFontTest.Text    := gFonts[dcfLog].Name;
+  edtMainFont.Text   := gFonts[dcfMain].Name;
+  edtEditorFont.Text := gFonts[dcfEditor].Name;
+  edtViewerFont.Text := gFonts[dcfViewer].Name;
+  edtLogFont.Text    := gFonts[dcfLog].Name;
 
   edtMainFontSize.Value   := gFonts[dcfMain].Size;
   edtEditorFontSize.Value := gFonts[dcfEditor].Size;
   edtViewerFontSize.Value := gFonts[dcfViewer].Size;
   edtLogFontSize.Value    := gFonts[dcfLog].Size;
 
-  FontOptionsToFont(gFonts[dcfMain], edtMainFontTest.Font);
-  FontOptionsToFont(gFonts[dcfEditor], edtEditorFontTest.Font);
-  FontOptionsToFont(gFonts[dcfViewer], edtViewerFontTest.Font);
-  FontOptionsToFont(gFonts[dcfLog], edtLogFontTest.Font);
-end;
-
-procedure TfrmOptions.cbMainFontChange(Sender: TObject);
-begin
-//  edtMainFontTest.Font.Name:=cbMainFont.Text;
-end;
-
-procedure TfrmOptions.cbEditorFontChange(Sender: TObject);
-begin
-//  edtEditorFontTest.Font.Name:=cbEditorFont.Text;
-end;
-
-procedure TfrmOptions.cbViewerFontChange(Sender: TObject);
-begin
-//  edtViewerFontTest.Font.Name:=cbViewerFont.Text;
+  FontOptionsToFont(gFonts[dcfMain], edtMainFont.Font);
+  FontOptionsToFont(gFonts[dcfEditor], edtEditorFont.Font);
+  FontOptionsToFont(gFonts[dcfViewer], edtViewerFont.Font);
+  FontOptionsToFont(gFonts[dcfLog], edtLogFont.Font);
 end;
 
 procedure TfrmOptions.edHotKeyKeyDown(Sender: TObject; var Key: Word;
@@ -1129,9 +1099,9 @@ begin
       end;
     end; // case
     
-    Font.Style := edtMainFontTest.Font.Style;
-    Font.Size := edtMainFontTest.Font.Size;
-    Font.Name := edtMainFontTest.Font.Name;
+    Font.Style := edtMainFont.Font.Style;
+    Font.Size := edtMainFont.Font.Size;
+    Font.Name := edtMainFont.Font.Name;
 
     iTextTop := Rect.Top + (h div 2) - (TextHeight(sText) div 2);
     iTextLeft := Rect.Left + (pbExample.Width div 2) - (TextWidth(sText) div 2);
@@ -2767,30 +2737,30 @@ begin
   { Fonts }
   with gFonts[dcfMain] do
   begin
-    Name  := cbMainFont.Text;
+    Name  := edtMainFont.Text;
     Size  := edtMainFontSize.Value;
-    Style := edtMainFontTest.Font.Style;
+    Style := edtMainFont.Font.Style;
   end;
 
   with gFonts[dcfEditor] do
   begin
-    Name  := cbEditorFont.Text;
+    Name  := edtEditorFont.Text;
     Size  := edtEditorFontSize.Value;
-    Style := edtEditorFontTest.Font.Style;
+    Style := edtEditorFont.Font.Style;
   end;
 
   with gFonts[dcfViewer] do
   begin
-    Name  := cbViewerFont.Text;
+    Name  := edtViewerFont.Text;
     Size  := edtViewerFontSize.Value;
-    Style := edtViewerFontTest.Font.Style;
+    Style := edtViewerFont.Font.Style;
   end;
 
   with gFonts[dcfLog] do
   begin
-    Name  := cbLogFont.Text;
+    Name  := edtLogFont.Text;
     Size  := edtLogFontSize.Value;
-    Style := edtLogFontTest.Font.Style;
+    Style := edtLogFont.Font.Style;
   end;
 
   { Colors }
