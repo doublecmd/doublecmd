@@ -4761,6 +4761,10 @@ msgstr "Šířka"
 msgid "Customize column"
 msgstr "Nastavení sloupců:"
 
+#: ulng.rscopynametemplate
+msgid "Copy (%d) %s"
+msgstr ""
+
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
 msgstr ""
@@ -4955,6 +4959,10 @@ msgstr "Začít v"
 msgid "Free %s from %s bytes"
 msgstr "Volno %s z %s bytů"
 
+#: ulng.rsfreemsgshort
+msgid "%s bytes free"
+msgstr ""
+
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Chyba při vytváření hardlinku."
@@ -5032,6 +5040,10 @@ msgstr "Zobrazit"
 msgid "Account:"
 msgstr ""
 
+#: ulng.rsmsgcannotcopymoveitself
+msgid "You can not copy/move a file \"%s\" to itself!"
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Změna adresáře na [%s] selhala!"
@@ -5043,6 +5055,10 @@ msgstr "Odstranit neaktivní záložky?"
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Záložka (%s) je uzamčena! Přesto zavřít?"
+
+#: ulng.rsmsgconfirmquit
+msgid "Are you sure you want to quit?"
+msgstr ""
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -5196,6 +5212,14 @@ msgstr "Soubor %s byl změněn, uložit?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Soubor %s existuje, přepsat?"
+
+#: ulng.rsmsgfileoperationsactive
+msgid "File operations active"
+msgstr ""
+
+#: ulng.rsmsgfileoperationsactivelong
+msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
+msgstr ""
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"

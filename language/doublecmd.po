@@ -4660,6 +4660,10 @@ msgstr ""
 msgid "Customize column"
 msgstr ""
 
+#: ulng.rscopynametemplate
+msgid "Copy (%d) %s"
+msgstr ""
+
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
 msgstr ""
@@ -4853,6 +4857,10 @@ msgstr ""
 msgid "Free %s from %s bytes"
 msgstr ""
 
+#: ulng.rsfreemsgshort
+msgid "%s bytes free"
+msgstr ""
+
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr ""
@@ -4928,6 +4936,10 @@ msgstr ""
 msgid "Account:"
 msgstr ""
 
+#: ulng.rsmsgcannotcopymoveitself
+msgid "You can not copy/move a file \"%s\" to itself!"
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr ""
@@ -4938,6 +4950,10 @@ msgstr ""
 
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
+msgstr ""
+
+#: ulng.rsmsgconfirmquit
+msgid "Are you sure you want to quit?"
 msgstr ""
 
 #: ulng.rsmsgcpfldr
@@ -5090,6 +5106,14 @@ msgstr ""
 
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
+msgstr ""
+
+#: ulng.rsmsgfileoperationsactive
+msgid "File operations active"
+msgstr ""
+
+#: ulng.rsmsgfileoperationsactivelong
+msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
 msgstr ""
 
 #: ulng.rsmsgfilereadonly

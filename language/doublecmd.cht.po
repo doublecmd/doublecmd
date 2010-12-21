@@ -4726,6 +4726,10 @@ msgstr "寬度"
 msgid "Customize column"
 msgstr "自定義列"
 
+#: ulng.rscopynametemplate
+msgid "Copy (%d) %s"
+msgstr ""
+
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
 msgstr ""
@@ -4919,6 +4923,10 @@ msgstr "開始"
 msgid "Free %s from %s bytes"
 msgstr "可用 %s 總容量 %s bytes"
 
+#: ulng.rsfreemsgshort
+msgid "%s bytes free"
+msgstr ""
+
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "建立硬捷徑出現錯誤."
@@ -4996,6 +5004,10 @@ msgstr "檢視"
 msgid "Account:"
 msgstr ""
 
+#: ulng.rsmsgcannotcopymoveitself
+msgid "You can not copy/move a file \"%s\" to itself!"
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "無法轉到目錄 [%s]!"
@@ -5007,6 +5019,10 @@ msgstr "移除所有非活動標籤嗎?"
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "這個標籤頁 (%s) 已鎖定! 仍要關閉嗎?"
+
+#: ulng.rsmsgconfirmquit
+msgid "Are you sure you want to quit?"
+msgstr ""
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -5159,6 +5175,14 @@ msgstr "檔案 %s 已修改, 是否保存?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "檔案 %s 已存在, 是否覆蓋?"
+
+#: ulng.rsmsgfileoperationsactive
+msgid "File operations active"
+msgstr ""
+
+#: ulng.rsmsgfileoperationsactivelong
+msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
+msgstr ""
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"

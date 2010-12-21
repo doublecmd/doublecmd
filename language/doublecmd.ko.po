@@ -4732,6 +4732,10 @@ msgstr "너비"
 msgid "Customize column"
 msgstr "사용자 정의 열"
 
+#: ulng.rscopynametemplate
+msgid "Copy (%d) %s"
+msgstr ""
+
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
 msgstr "중지 (&o)"
@@ -4927,6 +4931,10 @@ msgstr "Begin at"
 msgid "Free %s from %s bytes"
 msgstr "사용 가능 : %s, 총용량 : %sB"
 
+#: ulng.rsfreemsgshort
+msgid "%s bytes free"
+msgstr ""
+
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "하드 링크 생성 오류"
@@ -5004,6 +5012,10 @@ msgstr "보기"
 msgid "Account:"
 msgstr ""
 
+#: ulng.rsmsgcannotcopymoveitself
+msgid "You can not copy/move a file \"%s\" to itself!"
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "[%s]로 경로 이동 실패!"
@@ -5015,6 +5027,10 @@ msgstr "모든 비활성 탭을 제거할까요?"
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "이 탭(%s)은 잠겼습니다. 닫을까요?"
+
+#: ulng.rsmsgconfirmquit
+msgid "Are you sure you want to quit?"
+msgstr ""
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -5167,6 +5183,14 @@ msgstr "%s 파일이 변경되었습니다. 저장할까요?"
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "%s 파일이 존재합니다. 덮어쓸까요?"
+
+#: ulng.rsmsgfileoperationsactive
+msgid "File operations active"
+msgstr ""
+
+#: ulng.rsmsgfileoperationsactivelong
+msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
+msgstr ""
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"

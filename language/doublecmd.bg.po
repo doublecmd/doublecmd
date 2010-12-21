@@ -4693,6 +4693,10 @@ msgstr "Ширина"
 msgid "Customize column"
 msgstr "Нагласяване на стълбове:"
 
+#: ulng.rscopynametemplate
+msgid "Copy (%d) %s"
+msgstr ""
+
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
 msgstr ""
@@ -4885,6 +4889,10 @@ msgstr "Начало"
 msgid "Free %s from %s bytes"
 msgstr "Свободни %s от %s байта"
 
+#: ulng.rsfreemsgshort
+msgid "%s bytes free"
+msgstr ""
+
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Грешка при създаване на твърда връзка."
@@ -4962,6 +4970,10 @@ msgstr "Преглед"
 msgid "Account:"
 msgstr ""
 
+#: ulng.rsmsgcannotcopymoveitself
+msgid "You can not copy/move a file \"%s\" to itself!"
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Смяната на папката на [%s] бе неуспешно!"
@@ -4972,6 +4984,10 @@ msgstr "Премахване на бездейните подпрозорци?"
 
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
+msgstr ""
+
+#: ulng.rsmsgconfirmquit
+msgid "Are you sure you want to quit?"
 msgstr ""
 
 #: ulng.rsmsgcpfldr
@@ -5125,6 +5141,14 @@ msgstr "Фаълът %s е променен. Да бъде ли съхранен
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
 msgstr "Съществува файл %s. Да бъде ли заменен?"
+
+#: ulng.rsmsgfileoperationsactive
+msgid "File operations active"
+msgstr ""
+
+#: ulng.rsmsgfileoperationsactivelong
+msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
+msgstr ""
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
