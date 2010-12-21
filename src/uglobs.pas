@@ -1298,7 +1298,7 @@ end;
 
 procedure LoadXmlConfig;
 
-  procedure GetExtTool(Node: TXmlNode; out ExternalToolOptions: TExternalToolOptions);
+  procedure GetExtTool(Node: TXmlNode; var ExternalToolOptions: TExternalToolOptions);
   begin
     if Assigned(Node) then
       with ExternalToolOptions do
@@ -1310,7 +1310,7 @@ procedure LoadXmlConfig;
         KeepTerminalOpen := gConfig.GetValue(Node, 'KeepTerminalOpen', KeepTerminalOpen);
       end;
   end;
-  procedure GetDCFont(Node: TXmlNode; out FontOptions: TDCFontOptions);
+  procedure GetDCFont(Node: TXmlNode; var FontOptions: TDCFontOptions);
   begin
     if Assigned(Node) then
       gConfig.GetFont(Node, '', FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style),
