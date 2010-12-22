@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.46 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2010-12-01 11:34+0100\n"
+"PO-Revision-Date: 2010-12-21 11:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -253,7 +253,7 @@ msgstr "Revision"
 #: TFRMABOUT.LBLTITLE.CAPTION
 msgctxt "TFRMABOUT.LBLTITLE.CAPTION"
 msgid "Double Commander"
-msgstr "DoubleCommander"
+msgstr "Double Commander"
 
 #: TFRMABOUT.LBLVERSION.CAPTION
 msgid "Version %s"
@@ -264,7 +264,7 @@ msgstr ""
 #: TFRMABOUT.OKBUTTON.CAPTION
 msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 msgid "OK"
-msgstr "OK"
+msgstr "&OK"
 
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
@@ -274,7 +274,7 @@ msgstr "&Abbruch"
 #: TFRMATTRIBUTESEDIT.BTNOK.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Ok"
+msgstr "&OK"
 
 #: TFRMATTRIBUTESEDIT.BTNRESET.CAPTION
 msgid "&Reset"
@@ -403,7 +403,7 @@ msgstr "Abbruch"
 #: TFRMCHECKSUMCALC.BTNOK.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "&Ok"
+msgstr "&OK"
 
 #: TFRMCHECKSUMCALC.CAPTION
 msgctxt "TFRMCHECKSUMCALC.CAPTION"
@@ -488,7 +488,7 @@ msgstr "A&bbruch"
 
 #: TFRMCONFIGTOOLBAR.BTNCLONEBUTTON.CAPTION
 msgid "Clo&ne button"
-msgstr "Schalter &klonen"
+msgstr "&Schalter klonen"
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
@@ -521,20 +521,20 @@ msgstr "&Flache Schalter"
 
 #: TFRMCONFIGTOOLBAR.CBISSEPARATOR.CAPTION
 msgid "S&eparator"
-msgstr "T&rennendes Element"
+msgstr "Tre&nnendes Element"
 
 #: TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION"
 msgid "Change button bar"
-msgstr "Schalterleiste &ändern"
+msgstr "Schalterleiste ändern"
 
 #: TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION
 msgid "Appearance"
-msgstr "A&ussehen"
+msgstr "Aussehen"
 
 #: TFRMCONFIGTOOLBAR.LBLBARSIZE.CAPTION
 msgid "Ba&r size:"
-msgstr "&Leisten-Grösse"
+msgstr "Höhe de&r Leiste:"
 
 #: TFRMCONFIGTOOLBAR.LBLBARSIZEVALUE.CAPTION
 msgid "36"
@@ -542,7 +542,7 @@ msgstr ""
 
 #: TFRMCONFIGTOOLBAR.LBLBUTTONBAR.CAPTION
 msgid "&Button bar:"
-msgstr "&Schalterleiste"
+msgstr "Schalt&erleiste"
 
 #: TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION"
@@ -551,7 +551,7 @@ msgstr "Befe&hl"
 
 #: TFRMCONFIGTOOLBAR.LBLICON.CAPTION
 msgid "Ic&on:"
-msgstr "I&con"
+msgstr "Icon:"
 
 #: TFRMCONFIGTOOLBAR.LBLICONFILE.CAPTION
 msgid "Icon &file:"
@@ -559,7 +559,7 @@ msgstr "Icon&datei"
 
 #: TFRMCONFIGTOOLBAR.LBLICONSIZE.CAPTION
 msgid "Ic&on size:"
-msgstr "Ico&n-Grösse"
+msgstr "Höhe der I&cons:
 
 #: TFRMCONFIGTOOLBAR.LBLICONSIZEVALUE.CAPTION
 msgid "32"
@@ -567,11 +567,11 @@ msgstr ""
 
 #: TFRMCONFIGTOOLBAR.LBLPARAMETERS.CAPTION
 msgid "&Parameters:"
-msgstr "&Parameter"
+msgstr "Para&meter"
 
 #: TFRMCONFIGTOOLBAR.LBLSTARTPATH.CAPTION
 msgid "&Start path:"
-msgstr "&Startpfad"
+msgstr "Start&pfad"
 
 #: TFRMCONFIGTOOLBAR.LBLTOOLTIP.CAPTION
 msgid "&Tooltip:"
@@ -629,7 +629,7 @@ msgstr "Abbruch"
 
 #: TFRMCOPYDLG.BTNOPTIONS.CAPTION
 msgid "O&ptions"
-msgstr "Optionen"
+msgstr "O&ptionen"
 
 #: TFRMCOPYDLG.BTNSAVEOPTIONS.CAPTION
 msgid "Save these options as default"
@@ -4743,7 +4743,7 @@ msgstr "Spalten anpassen"
 
 #: ulng.rscopynametemplate
 msgid "Copy (%d) %s"
-msgstr ""
+msgstr "Kopiere (%d) %s"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -4940,7 +4940,7 @@ msgstr "%s Byte von %s frei"
 
 #: ulng.rsfreemsgshort
 msgid "%s bytes free"
-msgstr ""
+msgstr "%s Bytes frei"
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
@@ -5021,7 +5021,7 @@ msgstr "Zugang:"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
-msgstr ""
+msgstr "Die Datei \"%s\ kann nicht über sich selbst kopiert / verschoben werden!"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -5037,7 +5037,7 @@ msgstr "Dieser Tab ist gesperrt! Trotzdem schliessen?"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
-msgstr ""
+msgstr "Soll DoubleCommander wirklich beendet werden?"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -5045,7 +5045,7 @@ msgstr "%d markierte Datei(en) / Verzeichnis(se) kopieren?"
 
 #: ulng.rsmsgcpsel
 msgid "Copy selected \"%s\"?"
-msgstr "Markierte \"%s kopieren\"?"
+msgstr "Markierte \"%s\" kopieren?"
 
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
@@ -5057,7 +5057,7 @@ msgstr "%d markierte Dateien/Ordner in den Papierkorb löschen?"
 
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"%s\"?"
-msgstr "Markierte \"%s löschen\"?"
+msgstr "Markierte \"%s\" löschen?"
 
 #: ulng.rsmsgdelselt
 msgid "Delete selected \"%s\" into trash can?"
@@ -5193,11 +5193,11 @@ msgstr "Datei %s existiert bereits. Überschreiben?"
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"
-msgstr ""
+msgstr "Aktive Datei-Operationen"
 
 #: ulng.rsmsgfileoperationsactivelong
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
-msgstr ""
+msgstr "Es gibt Datei-Operationen, die noch nicht beendet sind. Das Schliessen von Double Commander kann deshalb zu Datenverlust führen!"
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
@@ -5209,7 +5209,7 @@ msgstr "Verzeichnis besteht bereits. Soll es überschrieben werden"
 
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
-msgstr "Sym-Link folgen"
+msgstr "Sym-Link \"%s\" folgen?"
 
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
@@ -5285,7 +5285,7 @@ msgstr "Favoriten-Pfad von Hand bearbeiten"
 
 #: ulng.rsmsgmanualhotdirquery
 msgid "Enter name and path (format name=path):"
-msgstr "NAme und Pfad eingeben (Format Name=Pfad)"
+msgstr "Name und Pfad eingeben (Format Name=Pfad)"
 
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
@@ -5358,7 +5358,7 @@ msgstr "%d markierte Dateien / Verzeichnisse umbenennen / verschieben?"
 
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"%s\"?"
-msgstr "Datei / Verzeichnis \"%s kopieren / verschieben\"?"
+msgstr "Datei / Verzeichnis \"%s\" kopieren / verschieben?"
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
