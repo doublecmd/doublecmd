@@ -58,7 +58,7 @@ end;
 
 function TThumbnailManager.GetPreviewFileName(const sFileName: UTF8String): UTF8String;
 begin
-  Result:= IntToStr(mbFileSize(sFileName)) + '_' + ExtractOnlyFileName(sFileName);
+  Result:= IntToStr(mbFileAge(sFileName)) + '_' + IntToStr(mbFileSize(sFileName)) + '_' + ExtractOnlyFileName(sFileName);
 end;
 
 function TThumbnailManager.CreatePreviewImage(const Graphic: TGraphic): TBitmap;
@@ -192,6 +192,7 @@ begin
         if (FileIsText(FullPathToFile)) and (mbFileAccess(FullPathToFile, fmOpenRead)) then
           begin
             Result:= CreatePreviewText(FullPathToFile);
+            Exit;
           end
         else
           begin
