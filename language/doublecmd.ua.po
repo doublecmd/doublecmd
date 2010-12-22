@@ -635,6 +635,7 @@ msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Копіювати файл(и)"
 
+
 #: TFRMCOPYDLG.CBCHECKFREESPACE.CAPTION
 msgid "Check free space"
 msgstr "Перевірити вільне місце"
@@ -4691,7 +4692,7 @@ msgstr "Налаштувати колонки:"
 
 #: ulng.rscopynametemplate
 msgid "Copy (%d) %s"
-msgstr ""
+msgstr "Копіювати (%d) %s"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -4888,7 +4889,7 @@ msgstr "Вільно %s з %s байт"
 
 #: ulng.rsfreemsgshort
 msgid "%s bytes free"
-msgstr ""
+msgstr "%s байт вільно"
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
@@ -4968,7 +4969,7 @@ msgstr "Обліковий запис:"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
-msgstr ""
+msgstr "Ви не можете скопіювати/перемістити файл \"%s\" в самого себе!"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -4984,7 +4985,7 @@ msgstr "Закладка (%s) заблокована. Закрити?"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
-msgstr ""
+msgstr "Ви впевнені, що хочете вийти?"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -5140,11 +5141,11 @@ msgstr "Файл %s існує, перезаписати?"
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"
-msgstr ""
+msgstr "Активні операції з файлами"
 
 #: ulng.rsmsgfileoperationsactivelong
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
-msgstr ""
+msgstr "Деякі операції з файлами, ще не завершені. Закриття Double Commander може призвести до втрати даних."
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
