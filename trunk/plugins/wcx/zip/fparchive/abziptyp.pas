@@ -313,6 +313,7 @@ type
       override;
     procedure LoadFromStream( Stream : TStream );
     procedure SaveToStream( Stream : TStream );
+    function Verify( Stream : TStream ): Boolean;
   public {properties}
     property Signature : Longint
       read FSignature write FSignature;
@@ -647,6 +648,7 @@ function VerifyZip(Strm : TStream) : TAbArchiveType;
 { determine if stream appears to be in PkZip format }
 var
   Footer       : TAbZipDirectoryFileFooter;
+  ZipSig       : Word;
   Sig          : LongInt;                                                {!!.01}
   TailPosition : int64;
   StartPos     : int64;
@@ -654,35 +656,39 @@ begin
   StartPos := Strm.Position;
   Result := atUnknown;
   try
-    Strm.Position := 0;                                                {!!.02}
-    Strm.Read(Sig, SizeOf(LongInt));                                   {!!.02}
-    if (Sig = Ab_ZipSpannedSetSignature) then                          {!!.02}
-      Result := atSpannedZip                                           {!!.02}
-    else begin                                                         {!!.02}
+    Strm.Position := 0;
+    if (Strm.Read(ZipSig, SizeOf(ZipSig)) = SizeOf(ZipSig)) and
+       (ZipSig = Ab_GeneralZipSignature) then
+    begin
+      Strm.Position := 0;                                                {!!.02}
+      Strm.Read(Sig, SizeOf(LongInt));                                   {!!.02}
+      if (Sig = Ab_ZipSpannedSetSignature) then                          {!!.02}
+        Result := atSpannedZip                                           {!!.02}
+      else begin                                                         {!!.02}
 
-      { attempt to find Central Directory Tail }
-      TailPosition := FindCentralDirectoryTail( Strm );
-      if TailPosition <> -1 then begin
-        { check Central Directory Signature }
-        Footer := TAbZipDirectoryFileFooter.Create;
-        try
-          Footer.LoadFromStream(Strm);
-          if Footer.FSignature = AB_ZipCentralDirectoryTailSignature then
-            Result := atZip;
-        finally
-          Footer.Free;
-        end;
-      end
-  (* {!!.02}
-    else begin  { may be a span }                                          {!!.01}
-      Strm.Seek(0, soBeginning);                                           {!!.01}
-      Strm.Read(Sig, SizeOf(LongInt));                                     {!!.01}
-      if (Sig = Ab_ZipSpannedSetSignature)                                 {!!.01}
-        or (Sig = Ab_ZipPossiblySpannedSignature)                          {!!.01}
-      then                                                                 {!!.01}
-        Result := atSpannedZip;                                            {!!.01}
-  *) {!!.02}
-    end;                                                                   {!!.01}
+        { attempt to find Central Directory Tail }
+        TailPosition := FindCentralDirectoryTail( Strm );
+        if TailPosition <> -1 then begin
+          { check Central Directory Signature }
+          Footer := TAbZipDirectoryFileFooter.Create;
+          try
+            if Footer.Verify(Strm) then
+              Result := atZip;
+          finally
+            Footer.Free;
+          end;
+        end
+    (* {!!.02}
+      else begin  { may be a span }                                          {!!.01}
+        Strm.Seek(0, soBeginning);                                           {!!.01}
+        Strm.Read(Sig, SizeOf(LongInt));                                     {!!.01}
+        if (Sig = Ab_ZipSpannedSetSignature)                                 {!!.01}
+          or (Sig = Ab_ZipPossiblySpannedSignature)                          {!!.01}
+        then                                                                 {!!.01}
+          Result := atSpannedZip;                                            {!!.01}
+    *) {!!.02}
+      end;                                                                   {!!.01}
+    end;
   except
     on EFilerError do
       Result := atUnknown;
@@ -1529,6 +1535,27 @@ begin
     Write( ZipfileCommentLength, sizeof( ZipfileCommentLength ) );
     if ZipfileCommentLength > 0 then
       Write( FZipfileComment[1], ZipfileCommentLength );
+  end;
+end;
+{ -------------------------------------------------------------------------- }
+function TAbZipDirectoryFileFooter.Verify( Stream : TStream ): Boolean;
+var
+  ZipfileCommentLength : Word;
+begin
+  with Stream do
+  begin
+    Result :=
+      ( Read( FSignature, sizeof( FSignature ) ) = sizeof( FSignature ) ) and
+      ( IsValid ) and
+      ( Read( FDiskNumber, sizeof( FDiskNumber ) ) = sizeof( FDiskNumber ) ) and
+      ( Read( FStartDiskNumber, sizeof( FStartDiskNumber ) ) = sizeof( FStartDiskNumber ) ) and
+      ( Read( FEntriesOnDisk, sizeof( FEntriesOnDisk ) ) = sizeof( FEntriesOnDisk ) ) and
+      ( Read( FTotalEntries, sizeof( FTotalEntries ) ) = sizeof( FTotalEntries ) ) and
+      ( Read( FDirectorySize, sizeof( FDirectorySize ) ) = sizeof( FDirectorySize ) ) and
+      ( Read( FDirectoryOffset, sizeof( FDirectoryOffset ) ) = sizeof( FDirectoryOffset ) ) and
+      ( Read( ZipfileCommentLength, sizeof( ZipfileCommentLength ) ) = sizeof( ZipfileCommentLength ) ) and
+      // Only comment left in the stream.
+      ( ZipfileCommentLength = Size - Position );
   end;
 end;
 { -------------------------------------------------------------------------- }
