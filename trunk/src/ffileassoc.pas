@@ -71,6 +71,11 @@ type
     miView: TMenuItem;
     miOpen: TMenuItem;
     OpenPictureDialog: TOpenPictureDialog;
+    pnlLeftSettings: TPanel;
+    pnlActsEdits: TPanel;
+    pnlActsButtons: TPanel;
+    pnlExtsButtons: TPanel;
+    pnlRightSettings: TPanel;
     pnlSettings: TPanel;
     pnlButtonPanel: TPanel;
     pmActions: TPopupMenu;
@@ -101,6 +106,8 @@ type
     procedure fneCommandChange(Sender: TObject);
     procedure miActionsClick(Sender: TObject);
     procedure miCommandsClick(Sender: TObject);
+    procedure pnlRightSettingsResize(Sender: TObject);
+    procedure pnlSettingsResize(Sender: TObject);
     procedure sbtnIconClick(Sender: TObject);
     procedure btnRemoveIconClick(Sender: TObject);
   private
@@ -228,7 +235,7 @@ begin
     begin
       btnRemoveAct.Enabled := True;
       btnUpAct.Enabled := (lbActions.ItemIndex > 0);
-      btnDownAct.Enabled := (lbActions.ItemIndex = lbActions.Items.Count - 1);
+      btnDownAct.Enabled := (lbActions.ItemIndex < lbActions.Items.Count - 1);
       edbAction.Enabled:= True;
       fneCommand.Enabled:= True;
       btnCommands.Enabled:= True;
@@ -454,6 +461,16 @@ begin
     fneCommand.Text:= fneCommand.Text + '%d'
   else if miMenuItem.Name = 'miFullPath' then
     fneCommand.Text:= fneCommand.Text + '%p';
+end;
+
+procedure TfrmFileAssoc.pnlRightSettingsResize(Sender: TObject);
+begin
+  gbExts.Height := pnlRightSettings.ClientHeight div 4;
+end;
+
+procedure TfrmFileAssoc.pnlSettingsResize(Sender: TObject);
+begin
+  pnlLeftSettings.Width := pnlSettings.ClientWidth div 3;
 end;
 
 procedure TfrmFileAssoc.sbtnIconClick(Sender: TObject);
