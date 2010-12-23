@@ -637,7 +637,7 @@ begin
         end;
     end;
   DE_KDE:
-    sCmdLine:= 'kfmclient exec ' + QuoteStr(URL);
+    sCmdLine:= 'kioclient exec ' + QuoteStr(URL);
   DE_GNOME:
     begin
       if FileIsExecutable(URL) and FileIsExeLib(URL) then
