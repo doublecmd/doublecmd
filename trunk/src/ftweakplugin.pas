@@ -248,16 +248,16 @@ begin
   iFlags:= PtrInt(cbExt.Items.Objects[cbExt.ItemIndex]);
   lblFlagsValue.Caption:= '('+IntToStr(iFlags)+')';
 
-  cbPK_CAPS_NEW.Checked:= Boolean(iFlags and PK_CAPS_NEW);
-  cbPK_CAPS_MODIFY.Checked:= Boolean(iFlags and PK_CAPS_MODIFY);
-  cbPK_CAPS_MULTIPLE.Checked:= Boolean(iFlags and PK_CAPS_MULTIPLE);
-  cbPK_CAPS_DELETE.Checked:= Boolean(iFlags and PK_CAPS_DELETE);
-  cbPK_CAPS_OPTIONS.Checked:= Boolean(iFlags and PK_CAPS_OPTIONS);
-  cbPK_CAPS_MEMPACK.Checked:= Boolean(iFlags and PK_CAPS_MEMPACK);
-  cbPK_CAPS_BY_CONTENT.Checked:= Boolean(iFlags and PK_CAPS_BY_CONTENT);
-  cbPK_CAPS_SEARCHTEXT.Checked:= Boolean(iFlags and PK_CAPS_SEARCHTEXT);
-  cbPK_CAPS_HIDE.Checked:= Boolean(iFlags and PK_CAPS_HIDE);
-  cbPK_CAPS_ENCRYPT.Checked:= Boolean(iFlags and PK_CAPS_ENCRYPT);
+  cbPK_CAPS_NEW.Checked        := (iFlags and PK_CAPS_NEW) <> 0;
+  cbPK_CAPS_MODIFY.Checked     := (iFlags and PK_CAPS_MODIFY) <> 0;
+  cbPK_CAPS_MULTIPLE.Checked   := (iFlags and PK_CAPS_MULTIPLE) <> 0;
+  cbPK_CAPS_DELETE.Checked     := (iFlags and PK_CAPS_DELETE) <> 0;
+  cbPK_CAPS_OPTIONS.Checked    := (iFlags and PK_CAPS_OPTIONS) <> 0;
+  cbPK_CAPS_MEMPACK.Checked    := (iFlags and PK_CAPS_MEMPACK) <> 0;
+  cbPK_CAPS_BY_CONTENT.Checked := (iFlags and PK_CAPS_BY_CONTENT) <> 0;
+  cbPK_CAPS_SEARCHTEXT.Checked := (iFlags and PK_CAPS_SEARCHTEXT) <> 0;
+  cbPK_CAPS_HIDE.Checked       := (iFlags and PK_CAPS_HIDE) <> 0;
+  cbPK_CAPS_ENCRYPT.Checked    := (iFlags and PK_CAPS_ENCRYPT) <> 0;
 end;
 
 procedure TfrmTweakPlugin.btnDefaultClick(Sender: TObject);
