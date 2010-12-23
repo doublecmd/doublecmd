@@ -79,6 +79,7 @@ type
     procedure cbExtChange(Sender: TObject);
   private
     FWCXPlugins: TWCXModuleList;
+    FPluginFileName: String;
     iPrevIndex: Integer;
     function GetDefaultFlags(PluginFileName: String): PtrInt;
   public
@@ -113,7 +114,8 @@ begin
         nbTweakAll.PageIndex:= 0;
         FWCXPlugins:= TWCXModuleList.Create;
         FWCXPlugins.Assign(tmpWCXPlugins);
-        edtPlugin.Text:= FWCXPlugins.FileName[PluginIndex];
+        FPluginFileName := FWCXPlugins.FileName[PluginIndex];
+        edtPlugin.Text:= FPluginFileName;
         for I:= 0 to FWCXPlugins.Count - 1 do
           if FWCXPlugins.FileName[I] = edtPlugin.Text then
             cbExt.Items.AddObject(FWCXPlugins.Ext[I], TObject(FWCXPlugins.Flags[I]));
@@ -164,7 +166,7 @@ begin
         begin
           for I:= 0 to cbExt.Items.Count - 1 do
             begin
-              iIndex:= FWCXPlugins.IndexOfName(cbExt.Items[I]);
+              iIndex:= FWCXPlugins.Find(FPluginFileName, cbExt.Items[I]);
               if iIndex >= 0 then
                 begin
                   FWCXPlugins.FileName[iIndex]:= edtPlugin.Text;
@@ -271,8 +273,9 @@ var
 begin
   iPrevIndex:= -1;  // Must be before cbExt.Items.Delete, because it may trigger cbExtChange.
   OldIndex := cbExt.ItemIndex;
-  I:= FWCXPlugins.IndexOfName(cbExt.Text);
-  FWCXPlugins.Delete(I);
+  I:= FWCXPlugins.Find(FPluginFileName, cbExt.Text);
+  if I >= 0 then
+    FWCXPlugins.Delete(I);
   cbExt.Items.Delete(cbExt.ItemIndex);
   if OldIndex >= cbExt.Items.Count then
     OldIndex := OldIndex - 1;
@@ -291,7 +294,7 @@ begin
     begin
       iFlags:= GetDefaultFlags(edtPlugin.Text);
       cbExt.ItemIndex:= cbExt.Items.AddObject(sExt, TObject(iFlags));
-      FWCXPlugins.Add(cbExt.Items[cbExt.ItemIndex], iFlags, edtPlugin.Text);
+      FWCXPlugins.Add(cbExt.Items[cbExt.ItemIndex], iFlags, FPluginFileName);
       iPrevIndex:= -1;
       cbExtChange(cbExt);
     end;
@@ -303,8 +306,9 @@ var
   sExt: String;
 begin
   sExt:= cbExt.Items[cbExt.ItemIndex];
-  I:= FWCXPlugins.IndexOfName(sExt);
-  if InputQuery(rsOptEnterExt,Format(rsOptAssocPluginWith, [GetCmdDirFromEnvVar(edtPlugin.Text)]), sExt) then
+  I:= FWCXPlugins.Find(FPluginFileName, sExt);
+  if (I >= 0) and
+     InputQuery(rsOptEnterExt,Format(rsOptAssocPluginWith, [GetCmdDirFromEnvVar(edtPlugin.Text)]), sExt) then
     begin
       FWCXPlugins.Ext[I]:= sExt;
       cbExt.Items[cbExt.ItemIndex]:= sExt;
@@ -329,4 +333,4 @@ initialization
   {$I ftweakplugin.lrs}
 
 end.
-
+
