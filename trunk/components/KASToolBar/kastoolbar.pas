@@ -330,12 +330,12 @@ end;
 
 procedure TKASToolBar.SetButtonHeight(const AValue: Integer);
 begin
-  SetButtonSize(AValue, ButtonHeight);
+  SetButtonSize(ButtonWidth, AValue);
 end;
 
 procedure TKASToolBar.SetButtonWidth(const AValue: Integer);
 begin
-  SetButtonSize(ButtonWidth, AValue);
+  SetButtonSize(AValue, ButtonHeight);
 end;
 
 {
@@ -436,9 +436,6 @@ begin
   ChangeH := ButtonHeight <> NewButtonHeight;
   if not (ChangeW or ChangeH) then Exit;
 
-  if FUpdateCount > 0 then Exit;
-  if [csLoading, csDestroying] * ComponentState <> [] then Exit;
-
   // set all childs to ButtonWidth ButtonHeight
   BeginUpdate;
   try
@@ -446,6 +443,12 @@ begin
     // BeginUpdate, so only FButtonWidth and FButtonHeight will be changed
     // without real button size update
     inherited SetButtonSize(NewButtonWidth, NewButtonHeight);
+
+    // After setting FButtonWidth and FButtonHeight we can exit
+    // if real resizing of controls is not needed.
+    // We're under influence of BeginUpdate, so it is at least 1.
+    if FUpdateCount > 1 then Exit;
+    if [csLoading, csDestroying] * ComponentState <> [] then Exit;
 
     for I:= ControlCount - 1 downto 0 do
     begin
@@ -638,4 +641,4 @@ begin
   ThemeServices.DrawElement(Canvas.GetUpdatedHandle([csBrushValid, csPenValid]), Details, DividerRect);
 end;
 
-end.
+end.
