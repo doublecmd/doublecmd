@@ -57,7 +57,7 @@ type
     edtDetectStr: TEdit;
     edtName: TEdit;
     edtPlugin: TEdit;
-    grpTweakOther: TGroupBox;
+    pnlTweakOther: TPanel;
     lblDescription: TLabel;
     lblDetectStr: TLabel;
     lblName: TLabel;
@@ -69,9 +69,12 @@ type
     lblPlugin: TLabel;
     edtPlugin1: TEdit;
     nbTweakAll: TNotebook;
+    pnlButtons: TPanel;
+    pnlFlags: TPanel;
+    pnlPackerExtsButtons: TPanel;
     pgTweakPacker: TPage;
     pgTweakOther: TPage;
-    grpTweak: TGroupBox;
+    pnlTweak: TPanel;
     procedure btnAddClick(Sender: TObject);
     procedure btnChangeClick(Sender: TObject);
     procedure btnDefaultClick(Sender: TObject);
@@ -287,7 +290,7 @@ end;
 
 procedure TfrmTweakPlugin.btnAddClick(Sender: TObject);
 var
-  sExt: String;
+  sExt: String = '';
   iFlags: PtrInt;
 begin
   if InputQuery(rsOptEnterExt,Format(rsOptAssocPluginWith, [GetCmdDirFromEnvVar(edtPlugin.Text)]), sExt) then
