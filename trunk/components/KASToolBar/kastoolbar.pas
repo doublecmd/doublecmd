@@ -313,20 +313,28 @@ begin
       FRowHeight := h;
   end;
 
+  FResizeButtonsNeeded := False;
+
   // Now resize buttons.
-  for i := 0 to ButtonList.Count - 1 do
-  begin
-    CurControl := TControl(ButtonList[i]);
-    w := ButtonWidth;
-    h := RowHeight;
-    CurControl.GetPreferredSize(w, h);
-    if (CurControl.Width <> w) or (CurControl.Height <> h) then
-      CurControl.SetBounds(CurControl.Left, CurControl.Top, w, h);
+  DisableAlign;
+  BeginUpdate;
+  try
+    for i := 0 to ButtonList.Count - 1 do
+    begin
+      CurControl := TControl(ButtonList[i]);
+      w := ButtonWidth;
+      h := RowHeight;
+      CurControl.GetPreferredSize(w, h);
+      if (CurControl.Width <> w) or (CurControl.Height <> h) then
+        CurControl.SetBounds(CurControl.Left, CurControl.Top, w, h);
+    end;
+    InvalidatePreferredSize;
+    AdjustSize;
+  finally
+    EndUpdate;
+    EnableAlign;
   end;
 
-  InvalidatePreferredSize;
-  AdjustSize;
-  FResizeButtonsNeeded := False;
 end;
 
 function TKASToolBar.GetButtonX(Index: Integer; What: TInfor): String;
@@ -738,4 +746,4 @@ begin
 end;
 
 end.
-
+
