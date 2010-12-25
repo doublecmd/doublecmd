@@ -151,7 +151,7 @@ begin
                 aFile.Name := ExtractFileName(edtPackCmd.Text);
                 NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType);
               except
-                on e: EModuleNotLoadedException do
+                on e: EFileSourceException do
                   begin
                     MessageDlg(e.Message, mtError, [mbOK], 0);
                     Exit;

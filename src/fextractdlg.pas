@@ -61,6 +61,7 @@ procedure ShowExtractDlg(SourceFileSource: IFileSource;
 implementation
 
 uses
+  Dialogs,
   uGlobs, uDCUtils, uShowMsg, uLng,
   uArchiveFileSource,
   uFileSourceOperation,
@@ -147,62 +148,69 @@ begin
             begin
               for I := 0 to SourceFiles.Count - 1 do // extract all selected archives
               begin
-                // Check if there is a ArchiveFileSource for possible archive.
-                ArchiveFileSource := GetArchiveFileSource(SourceFileSource, SourceFiles[i]);
+                try
+                  // Check if there is a ArchiveFileSource for possible archive.
+                  ArchiveFileSource := GetArchiveFileSource(SourceFileSource, SourceFiles[i]);
 
-                if Assigned(ArchiveFileSource) then
-                begin
-                  // Check if List and CopyOut are supported.
-                  if [fsoList, fsoCopyOut] * ArchiveFileSource.GetOperationsTypes = [fsoList, fsoCopyOut] then
+                  if Assigned(ArchiveFileSource) then
                   begin
-                    // Get files to extract.
-                    FilesToExtract := ArchiveFileSource.GetFiles(ArchiveFileSource.GetRootDir);
+                    // Check if List and CopyOut are supported.
+                    if [fsoList, fsoCopyOut] * ArchiveFileSource.GetOperationsTypes = [fsoList, fsoCopyOut] then
+                    begin
+                      // Get files to extract.
+                      FilesToExtract := ArchiveFileSource.GetFiles(ArchiveFileSource.GetRootDir);
 
-                    if Assigned(FilesToExtract) then
-                    try
-                      // if destination path is null then extract to path there archive is located
-                      if Length(sDestPath) = 0 then
-                        sTmpPath:= ExtractFilePath(ArchiveFileSource.ArchiveFileName)
-                      else
-                        sTmpPath:= IncludeTrailingPathDelimiter(sDestPath);
-
-                      // if each archive in separate folder
-                      if cbInSeparateFolder.Checked then
-                        begin
-                          sTmpPath := sTmpPath +
-                                      ExtractOnlyFileName(ArchiveFileSource.ArchiveFileName) +
-                                      PathDelim;
-                        end;
-
-                      // extract all files
-                      Operation := ArchiveFileSource.CreateCopyOutOperation(
-                                     TargetFileSource,
-                                     FilesToExtract,
-                                     sTmpPath);
-
-                      if Assigned(Operation) then
-                      begin
-                        // Start operation.
-                        OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
-
-                        ProgressDialog := TfrmFileOp.Create(OperationHandle);
-                        ProgressDialog.Show;
-                      end
-                      else
-                        msgWarning(rsMsgNotImplemented);
-
-                    finally
                       if Assigned(FilesToExtract) then
-                        FreeAndNil(FilesToExtract);
+                      try
+                        // if destination path is null then extract to path there archive is located
+                        if Length(sDestPath) = 0 then
+                          sTmpPath:= ExtractFilePath(ArchiveFileSource.ArchiveFileName)
+                        else
+                          sTmpPath:= IncludeTrailingPathDelimiter(sDestPath);
+
+                        // if each archive in separate folder
+                        if cbInSeparateFolder.Checked then
+                          begin
+                            sTmpPath := sTmpPath +
+                                        ExtractOnlyFileName(ArchiveFileSource.ArchiveFileName) +
+                                        PathDelim;
+                          end;
+
+                        // extract all files
+                        Operation := ArchiveFileSource.CreateCopyOutOperation(
+                                       TargetFileSource,
+                                       FilesToExtract,
+                                       sTmpPath);
+
+                        if Assigned(Operation) then
+                        begin
+                          // Start operation.
+                          OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+
+                          ProgressDialog := TfrmFileOp.Create(OperationHandle);
+                          ProgressDialog.Show;
+                        end
+                        else
+                          msgWarning(rsMsgNotImplemented);
+
+                      finally
+                        if Assigned(FilesToExtract) then
+                          FreeAndNil(FilesToExtract);
+                      end;
+                    end
+                    else
+                      msgWarning(rsMsgErrNotSupported);
+
+                  end;
+
+                  // Short pause, so that all operations are not spawned at once.
+                  Sleep(100);
+                except
+                  on e: EFileSourceException do
+                    begin
+                      MessageDlg(e.Message, mtError, [mbOK], 0);
                     end;
-                  end
-                  else
-                    msgWarning(rsMsgErrNotSupported);
-
                 end;
-
-                // Short pause, so that all operations are not spawned at once.
-                Sleep(100);
               end; // for
             end
             else
