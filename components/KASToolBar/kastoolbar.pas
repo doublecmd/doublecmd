@@ -38,10 +38,20 @@ type
   TOnToolButtonClick = procedure (Sender: TObject; NumberOfButton: Integer) of object;
   TOnLoadButtonGlyph = function (sIconFileName: String; iIconSize: Integer; clBackColor: TColor): TBitmap of object;
 
-  { TSpeedDivider }
+  { TKASToolButton }
 
-  TSpeedDivider = class(TSpeedButton)
+  TKASToolButton = class(TSpeedButton)
   protected
+    procedure CalculatePreferredSize(var PreferredWidth,
+      PreferredHeight: integer; WithThemeSpace: Boolean); override;
+  end;
+
+  { TKASToolDivider }
+
+  TKASToolDivider = class(TKASToolButton)
+  protected
+    procedure CalculatePreferredSize(var PreferredWidth,
+      PreferredHeight: integer; WithThemeSpace: Boolean); override;
     procedure Paint; override;
   end;
 
@@ -49,6 +59,9 @@ type
 
   TKASToolBar = class(TToolBar)
   private
+    FButtonHeight: Integer;
+    FButtonWidth: Integer;
+    FRowHeight: Integer;
     FUpdateCount: Integer;
     FGlyphSize: Integer;
     FRadioToolBar: Boolean;
@@ -57,8 +70,8 @@ type
     FBarFile: TBarClass;
     FOnToolButtonClick: TOnToolButtonClick;
     FOnLoadButtonGlyph: TOnLoadButtonGlyph;
-    function GetButtonHeight: Integer;
-    function GetButtonWidth: Integer;
+    FKASToolBarFlags: TToolBarFlags;
+    FResizeButtonsNeeded: Boolean;
     function GetChangePath: String;
     function GetEnvVar: String;
     function LoadBtnIcon(IconPath: String): TBitMap;
@@ -75,11 +88,14 @@ type
     procedure UpdateButtonsTags;
   protected
     { Protected declarations }
-    function CreateButton: TSpeedButton;
-    function CreateDivider: TSpeedDivider;
     procedure InsertButton(InsertAt: Integer; ToolButton: TSpeedButton);
     procedure CalculatePreferredSize(var PreferredWidth,
-                    PreferredHeight: Integer; WithThemeSpace: Boolean); override;
+        PreferredHeight: Integer; WithThemeSpace: Boolean); override;
+    procedure ControlsAligned; override;
+    procedure FontChanged(Sender: TObject); override;
+    function WrapButtons(UseWidth: integer;
+        out NewWidth, NewHeight: Integer; Simulate: boolean): Boolean;
+    procedure ResizeButtons;
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -114,6 +130,7 @@ type
     property Buttons[Index: Integer]: TSpeedButton read GetButton;
     property Commands[Index: Integer]: String read GetCommand write SetCommand;
     property BarFile: TBarClass read FBarFile;
+    property RowHeight: Integer read FRowHeight;
   published
     { Published declarations }
     property OnToolButtonClick: TOnToolButtonClick read FOnToolButtonClick write FOnToolButtonClick;
@@ -121,8 +138,8 @@ type
     property RadioToolBar: Boolean read FRadioToolBar write FRadioToolBar default False;
     property Flat: Boolean read FFlat write SetFlat default False;
     property GlyphSize: Integer read FGlyphSize write SetGlyphSize;
-    property ButtonHeight: Integer read GetButtonHeight write SetButtonHeight default 22;
-    property ButtonWidth: Integer read GetButtonWidth write SetButtonWidth default 23;
+    property ButtonHeight: Integer read FButtonHeight write SetButtonHeight default 22;
+    property ButtonWidth: Integer read FButtonWidth write SetButtonWidth default 23;
     property ShowDividerAsButton: Boolean read FShowDividerAsButton write FShowDividerAsButton default False;
 
     property ChangePath: String read GetChangePath write SetChangePath;
@@ -135,57 +152,181 @@ procedure Register;
 implementation
 
 uses
-  GraphType, Themes;
+  GraphType, Themes, types, math;
 
 procedure Register;
 begin
   RegisterComponents('KASComponents',[TKASToolBar]);
 end;
 
-function TKASToolBar.CreateButton: TSpeedButton;
-begin
-  Result:= TSpeedButton.Create(Self);
-  Result.Parent:= Self;
-
-  Result.Height:= ButtonHeight;
-  Result.ParentShowHint:= False;
-  Result.ShowHint:= True;
-end;
-
-function TKASToolBar.CreateDivider: TSpeedDivider;
-begin
-  Result:= TSpeedDivider.Create(Self);
-  Result.Parent:= Self;
-
-  Result.ParentShowHint:= False;
-  Result.Height:= ButtonHeight;
-  Result.Width:= 3;
-end;
+{ TKASToolBar }
 
 procedure TKASToolBar.InsertButton(InsertAt: Integer; ToolButton: TSpeedButton);
 begin
-  if (InsertAt > 0) and (InsertAt = ButtonList.Count) then
-    begin
-      ToolButton.Left:= Buttons[InsertAt-1].Left + Buttons[InsertAt-1].Width;
-      ToolButton.Top:= Buttons[InsertAt-1].Top + Buttons[InsertAt-1].Height;
-    end
-  else if (InsertAt > 0) and (InsertAt < ButtonList.Count) then
-    begin
-      ToolButton.Left:= Buttons[InsertAt-1].Left;
-      ToolButton.Top:= Buttons[InsertAt-1].Top;
-    end
-  else
-    begin
-      ToolButton.Left:= BorderWidth;
-      ToolButton.Top:= BorderWidth;
-    end;
+  if InsertAt < 0 then
+    InsertAt:= 0;
+  if InsertAt > ButtonList.Count then
+    InsertAt:= ButtonList.Count;
+
+  ToolButton.Parent:= Self;
   ButtonList.Insert(InsertAt, ToolButton);
+
+  UpdateButtonsTags;
+  ResizeButtons;
 end;
 
 procedure TKASToolBar.CalculatePreferredSize(var PreferredWidth,
   PreferredHeight: Integer; WithThemeSpace: Boolean);
 begin
   WrapButtons(Width, PreferredWidth, PreferredHeight, True);
+end;
+
+procedure TKASToolBar.ControlsAligned;
+var
+  NewWidth, NewHeight: integer;
+begin
+  if tbfPlacingControls in FKASToolBarFlags then exit;
+  Include(FKASToolBarFlags, tbfPlacingControls);
+  try
+    WrapButtons(Width, NewWidth, NewHeight, False);
+  finally
+    Exclude(FKASToolBarFlags, tbfPlacingControls);
+  end;
+end;
+
+procedure TKASToolBar.FontChanged(Sender: TObject);
+begin
+  inherited FontChanged(Sender);
+  ResizeButtons;
+end;
+
+function TKASToolBar.WrapButtons(UseWidth: integer;
+  out NewWidth, NewHeight: Integer; Simulate: boolean): Boolean;
+var
+  ARect: TRect;
+  x: Integer;
+  y: Integer;
+  CurControl: TControl;
+  StartX: Integer;
+
+  procedure CalculatePosition;
+  var
+    NewBounds: TRect;
+  begin
+    NewBounds := Bounds(x, y, CurControl.Width, RowHeight);
+    repeat
+      if (not Wrapable) or
+         (NewBounds.Right <= ARect.Right) or
+         (NewBounds.Left = StartX) then
+      begin
+        // control fits into the row
+        x := NewBounds.Left;
+        y := NewBounds.Top;
+        break;
+      end;
+
+      // try next row
+      NewBounds.Left := StartX;
+      NewBounds.Right := NewBounds.Left + CurControl.Width;
+      inc(NewBounds.Top, RowHeight);
+      inc(NewBounds.Bottom, RowHeight);
+    until false;
+  end;
+
+var
+  CurClientRect: TRect;
+  AdjustClientFrame: TRect;
+  i: Integer;
+  w, h: Longint;
+begin
+  Result := True;
+  NewWidth := 0;
+  NewHeight := 0;
+  DisableAlign;
+  BeginUpdate;
+  try
+    CurClientRect := ClientRect;
+    inc(CurClientRect.Right, UseWidth - Width);
+    ARect := CurClientRect;
+    AdjustClientRect(ARect);
+    AdjustClientFrame.Left := ARect.Left - CurClientRect.Left;
+    AdjustClientFrame.Top := ARect.Top - CurClientRect.Top;
+    AdjustClientFrame.Right := CurClientRect.Right - ARect.Right;
+    AdjustClientFrame.Bottom := CurClientRect.Bottom - ARect.Bottom;
+    //DebugLn(['TToolBar.WrapButtons ',DbgSName(Self),' ARect=',dbgs(ARect)]);
+    // important: top, left button must start in the AdjustClientRect top, left
+    // otherwise Toolbar.AutoSize=true will create an endless loop
+    StartX := ARect.Left;
+    x := StartX;
+    y := ARect.Top;
+    for i := 0 to ButtonList.Count - 1 do
+    begin
+      CurControl := TControl(ButtonList[i]);
+      if not CurControl.IsControlVisible then
+        Continue;
+      CalculatePosition;
+
+      w := CurControl.Width;
+      h := CurControl.Height;
+
+      if (not Simulate) and ((CurControl.Left <> x) or (CurControl.Top <> y)) then
+      begin
+        CurControl.SetBounds(x,y,w,h); // Note: do not use SetBoundsKeepBase
+      end;
+
+      // adjust NewWidth, NewHeight
+      NewWidth := Max(NewWidth, x + w + AdjustClientFrame.Right);
+      NewHeight := Max(NewHeight, y + h + AdjustClientFrame.Bottom);
+
+      // step to next position
+      inc(x,w);
+    end;
+  finally
+    EndUpdate;
+    EnableAlign;
+  end;
+end;
+
+procedure TKASToolBar.ResizeButtons;
+var
+  w, h: LongInt;
+  i: Integer;
+  CurControl: TControl;
+begin
+  if FUpdateCount > 0 then
+  begin
+    FResizeButtonsNeeded := True;
+    Exit;
+  end;
+
+  InvalidatePreferredChildSizes;
+  FRowHeight := ButtonHeight;  // Row height is at least initial button height
+
+  // First recalculate RowHeight.
+  for i := 0 to ButtonList.Count - 1 do
+  begin
+    CurControl := TControl(ButtonList[i]);
+    w := ButtonWidth;
+    h := ButtonHeight;
+    CurControl.GetPreferredSize(w, h);
+    if FRowHeight < h then
+      FRowHeight := h;
+  end;
+
+  // Now resize buttons.
+  for i := 0 to ButtonList.Count - 1 do
+  begin
+    CurControl := TControl(ButtonList[i]);
+    w := ButtonWidth;
+    h := RowHeight;
+    CurControl.GetPreferredSize(w, h);
+    if (CurControl.Width <> w) or (CurControl.Height <> h) then
+      CurControl.SetBounds(CurControl.Left, CurControl.Top, w, h);
+  end;
+
+  InvalidatePreferredSize;
+  AdjustSize;
+  FResizeButtonsNeeded := False;
 end;
 
 function TKASToolBar.GetButtonX(Index: Integer; What: TInfor): String;
@@ -229,16 +370,6 @@ end;
 function TKASToolBar.GetChangePath: String;
 begin
   Result:= FBarFile.ChangePath;
-end;
-
-function TKASToolBar.GetButtonHeight: Integer;
-begin
-  Result:= inherited ButtonHeight;
-end;
-
-function TKASToolBar.GetButtonWidth: Integer;
-begin
-  Result:= inherited ButtonWidth;
 end;
 
 function TKASToolBar.GetEnvVar: String;
@@ -352,6 +483,9 @@ begin
   FBarFile:= TBarClass.Create;
   FGlyphSize:= 16; // by default
   FUpdateCount:= 0;
+  FButtonWidth := 23;
+  FButtonHeight := 22;
+  FKASToolBarFlags := [];
 end;
 
 destructor TKASToolBar.Destroy;
@@ -369,16 +503,21 @@ var
   I: Integer;
   sMenu: String;
 begin
-  Clear;
-  FBarFile.LoadFromIniFile(IniFile);
-  for I:= 0 to FBarFile.ButtonCount - 1 do
-    begin
-      sMenu:= FBarFile.GetButtonX(I, MenuX);
-      if (sMenu = '-') and not FShowDividerAsButton then
-        AddDivider
-      else
-        AddButton('', FBarFile.GetButtonX(I, CmdX), sMenu, FBarFile.GetButtonX(I, ButtonX));
-    end;
+  BeginUpdate;
+  try
+    Clear;
+    FBarFile.LoadFromIniFile(IniFile);
+    for I:= 0 to FBarFile.ButtonCount - 1 do
+      begin
+        sMenu:= FBarFile.GetButtonX(I, MenuX);
+        if (sMenu = '-') and not FShowDividerAsButton then
+          AddDivider
+        else
+          AddButton('', FBarFile.GetButtonX(I, CmdX), sMenu, FBarFile.GetButtonX(I, ButtonX));
+      end;
+  finally
+    EndUpdate;
+  end;
 end;
 
 procedure TKASToolBar.SaveToIniFile(IniFile: TIniFile);
@@ -388,7 +527,7 @@ end;
 
 procedure TKASToolBar.LoadFromFile(FileName: String);
 var
-  IniFile: TIniFile;
+  IniFile: TIniFile = nil;
 begin
   try
     IniFile:= TIniFile.Create(FileName);
@@ -401,7 +540,7 @@ end;
 
 procedure TKASToolBar.SaveToFile(FileName: String);
 var
-  IniFile: TIniFile;
+  IniFile: TIniFile = nil;
 begin
   try
     IniFile:= TIniFile.Create(FileName);
@@ -421,78 +560,26 @@ end;
 procedure TKASToolBar.EndUpdate;
 begin
   Dec(FUpdateCount);
+  if (FUpdateCount = 0) and FResizeButtonsNeeded then
+    ResizeButtons;
   inherited EndUpdate;
 end;
 
 procedure TKASToolBar.SetButtonSize(NewButtonWidth, NewButtonHeight: Integer);
-var
-  CurControl: TControl;
-  NewWidth: Integer;
-  NewHeight: Integer;
-  I: Integer;
-  ChangeW, ChangeH: Boolean;
 begin
-  ChangeW := ButtonWidth <> NewButtonWidth;
-  ChangeH := ButtonHeight <> NewButtonHeight;
-  if not (ChangeW or ChangeH) then Exit;
-
-  // set all childs to ButtonWidth ButtonHeight
-  BeginUpdate;
-  try
-    // Change FButtonWidth and FButtonHeight, we called this procedure after
-    // BeginUpdate, so only FButtonWidth and FButtonHeight will be changed
-    // without real button size update
-    inherited SetButtonSize(NewButtonWidth, NewButtonHeight);
-
-    // After setting FButtonWidth and FButtonHeight we can exit
-    // if real resizing of controls is not needed.
-    // We're under influence of BeginUpdate, so it is at least 1.
-    if FUpdateCount > 1 then Exit;
-    if [csLoading, csDestroying] * ComponentState <> [] then Exit;
-
-    for I:= ControlCount - 1 downto 0 do
-    begin
-      CurControl := Controls[I];
-      NewWidth := CurControl.Width;
-      NewHeight := CurControl.Height;
-
-      // width
-      if ChangeW
-      and (ButtonWidth > 0)
-      and not CurControl.AutoSize
-      and (CurControl.Align in [alNone, alLeft, alRight])
-      then NewWidth := ButtonWidth;
-
-      // height
-      // in horizontal toolbars the height is set by the toolbar independent of autosize
-      if ChangeH
-      and (ButtonHeight > 0)
-      and ((Align in [alTop, alBottom]) or not CurControl.AutoSize)
-      then NewHeight := ButtonHeight;
-
-      CurControl.SetBounds(CurControl.Left, CurControl.Top, NewWidth, NewHeight);
-    end;
-  finally
-    EndUpdate;
-  end;
+  FButtonWidth  := NewButtonWidth;
+  FButtonHeight := NewButtonHeight;
+  ResizeButtons;
 end;
 
 function TKASToolBar.AddDivider: Integer;
 var
-  ToolDivider: TSpeedDivider;
+  ToolDivider: TKASToolDivider;
 begin
-  BeginUpdate;
-
-  ToolDivider:= CreateDivider;
+  ToolDivider:= TKASToolDivider.Create(Self);
+  ToolDivider.OnMouseUp:= OnMouseUp;
 
   InsertButton(ButtonList.Count, ToolDivider);
-
-  if Assigned(OnMouseUp) then
-    ToolDivider.OnMouseUp:= OnMouseUp;
-
-  EndUpdate;
-
-  UpdateButtonsTags;
 
   Result:= ToolDivider.Tag;
 end;
@@ -521,38 +608,16 @@ end;
 
 function TKASToolBar.InsertButton(InsertAt: Integer; sCaption, sCommand, sHint: String; Bitmap: TBitmap): Integer;
 var
-  ToolButton: TSpeedButton;
+  ToolButton: TKASToolButton;
 begin
-  if InsertAt < 0 then
-    InsertAt:= 0;
-  if InsertAt > ButtonList.Count then
-    InsertAt:= ButtonList.Count;
-
-  BeginUpdate;
-
-  ToolButton:= CreateButton;
-
+  ToolButton:= TKASToolButton.Create(Self);
   ToolButton.ShowHint:= True;
   ToolButton.Hint:= sHint;
-
-  if Assigned(Bitmap) then
-    ToolButton.Glyph.Assign(Bitmap);
-
-  if ShowCaptions then
-    begin
-      ToolButton.Caption:= sCaption;
-      ToolButton.Width:= ToolButton.Canvas.TextWidth(sCaption) + ToolButton.Glyph.Width + 16
-    end
-  else
-    begin
-      ToolButton.Caption:= EmptyStr;
-      ToolButton.Width:= ButtonWidth;
-    end;
-
-  InsertButton(InsertAt, ToolButton);
-
-  if Assigned(OnMouseUp) then
-    ToolButton.OnMouseUp:= OnMouseUp;
+  ToolButton.Flat:= FFlat;
+  ToolButton.Caption:= sCaption;
+  ToolButton.OnMouseUp:= OnMouseUp;
+  ToolButton.OnClick:= @ToolButtonClick;
+  ToolButton.Glyph.Assign(Bitmap);
 
   if FRadioToolBar then
     begin
@@ -560,19 +625,9 @@ begin
       ToolButton.AllowAllUp:= True;
     end;
 
-  ToolButton.Flat:= FFlat;
+  InsertButton(InsertAt, ToolButton);
 
-  ToolButton.OnClick:= TNotifyEvent(@ToolButtonClick);
-
-  EndUpdate;
-
-  UpdateButtonsTags;
-
-  // Recalculate positions of buttons if a new button was inserted in the middle.
-  if InsertAt < ButtonCount - 1 then
-    Resize;
-
-  Result:= InsertAt;
+  Result:= ToolButton.Tag;
 end;
 
 function TKASToolBar.InsertButton(InsertAt: Integer; sCaption, sCommand, sHint, sBitmap: String): Integer;
@@ -624,9 +679,50 @@ begin
     Buttons[I].Down:= False;
 end;
 
-{ TSpeedDivider }
+{ TKASToolButton }
 
-procedure TSpeedDivider.Paint;
+procedure TKASToolButton.CalculatePreferredSize(var PreferredWidth,
+  PreferredHeight: integer; WithThemeSpace: Boolean);
+var
+  TextSize: TSize;
+  ToolBar: TKASToolBar;
+begin
+  if Assigned(Parent) and (Parent is TKASToolBar) then
+  begin
+    ToolBar := TKASToolBar(Parent);
+    if ToolBar.ShowCaptions and ShowCaption and (Caption <> EmptyStr) then
+    begin
+      // Size to extent of the icon + caption.
+      // Minimum size is the ButtonWidth x RowHeight of the toolbar.
+      TextSize := Canvas.TextExtent(Caption);
+      PreferredWidth  := Max(TextSize.cx + Glyph.Width + 16, ToolBar.ButtonWidth);
+      PreferredHeight := Max(TextSize.cy + 4, ToolBar.RowHeight);
+    end
+    else
+    begin
+      PreferredWidth  := ToolBar.ButtonWidth;
+      PreferredHeight := ToolBar.RowHeight;
+    end;
+  end
+  else
+    inherited;
+end;
+
+{ TKASToolDivider }
+
+procedure TKASToolDivider.CalculatePreferredSize(var PreferredWidth,
+  PreferredHeight: integer; WithThemeSpace: Boolean);
+begin
+  if Assigned(Parent) and (Parent is TKASToolBar) then
+  begin
+    PreferredWidth  := 3;
+    PreferredHeight := TKASToolBar(Parent).RowHeight;
+  end
+  else
+    inherited;
+end;
+
+procedure TKASToolDivider.Paint;
 var
   DividerRect: TRect;
   Details: TThemedElementDetails;
@@ -641,4 +737,5 @@ begin
   ThemeServices.DrawElement(Canvas.GetUpdatedHandle([csBrushValid, csPenValid]), Details, DividerRect);
 end;
 
-end.
+end.
+
