@@ -79,6 +79,9 @@ const       {Error codes returned to calling application}
 type
   { Unsigned integer with pointer size }
   TArcHandle = {$IFDEF CPU64}QWord{$ELSE}LongWord{$ENDIF};
+  {$IFNDEF LCL}
+  HWND = type PtrUInt; // Defined as in LCL
+  {$ENDIF}
 
 const
   wcxInvalidHandle = TArcHandle(-1);
@@ -198,4 +201,4 @@ implementation
 
 end.
 
-
+

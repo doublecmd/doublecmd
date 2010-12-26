@@ -16,7 +16,7 @@ type
   TPackFiles = function (PackedFile: pchar;  SubPath: pchar;  SrcPath: pchar;  AddList: pchar;  Flags: integer): integer;stdcall;
   TDeleteFiles = function (PackedFile: pchar;  DeleteList: pchar): integer;stdcall;
   TGetPackerCaps = function () : integer;stdcall;
-  TConfigurePacker = procedure (Parent: THandle;  DllInstance: THandle);stdcall;
+  TConfigurePacker = procedure (Parent: HWND;  DllInstance: THandle);stdcall;
   TSetChangeVolProc = procedure (hArcData: TArcHandle;  ChangeVolProc: tChangeVolProc);stdcall;
   TSetProcessDataProc = procedure (hArcData: TArcHandle;  ProcessDataProc: TProcessDataProc);stdcall;
   TStartMemPack = function (Options: integer;  FileName: pchar): integer;stdcall;
@@ -41,4 +41,4 @@ type
 implementation
 
 end.
-
+

@@ -69,7 +69,7 @@ function PackFilesW(PackedFile: PWideChar;  SubPath: PWideChar;  SrcPath: PWideC
 function DeleteFiles(PackedFile, DeleteList : PChar) : Integer;stdcall;
 function DeleteFilesW(PackedFile, DeleteList : PWideChar) : Integer;stdcall;
 function GetPackerCaps : Integer;stdcall;
-procedure ConfigurePacker (Parent: THandle;  DllInstance: THandle);stdcall;
+procedure ConfigurePacker (Parent: HWND;  DllInstance: THandle);stdcall;
 function CanYouHandleThisFile(FileName: PAnsiChar): Boolean; stdcall;
 function CanYouHandleThisFileW(FileName: PWideChar): Boolean; stdcall;
 {Dialog API function}
@@ -786,7 +786,7 @@ begin
   //     or PK_CAPS_MEMPACK
 end;
 
-procedure ConfigurePacker(Parent: THandle; DllInstance: THandle);stdcall;
+procedure ConfigurePacker(Parent: HWND; DllInstance: THandle);stdcall;
 begin
   CreateZipConfDlg;
 end;

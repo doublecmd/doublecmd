@@ -28,8 +28,8 @@ unit uWCXmodule;
 interface
 
 uses
-  uWCXprototypes, WcxPlugin, dynlibs, Classes, Dialogs, DialogAPI, uClassesEx,
-  uTypes, uXmlConfig;
+  LCLType, Classes, Dialogs, dynlibs,
+  uWCXprototypes, WcxPlugin, DialogAPI, uClassesEx, uTypes, uXmlConfig;
 
 Type
   TWCXOperation = (OP_EXTRACT, OP_PACK, OP_DELETE);
@@ -124,7 +124,7 @@ Type
     function LoadModule(const sName:String):Boolean; {Load WCX plugin}
     procedure UnloadModule;                          {UnLoad WCX plugin}
 
-    procedure VFSConfigure(Parent: THandle);
+    procedure VFSConfigure(Parent: HWND);
     function GetPluginCapabilities: Integer;
 
     function IsLoaded: Boolean;
@@ -467,7 +467,7 @@ begin
   end;
 end;
 
-procedure TWCXModule.VFSConfigure(Parent: THandle);
+procedure TWCXModule.VFSConfigure(Parent: HWND);
 begin
   if Assigned(ConfigurePacker) then
     ConfigurePacker(Parent, FModuleHandle);
