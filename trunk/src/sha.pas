@@ -359,7 +359,7 @@ begin
   end;
 end;
 
-function SHA512Final(var md: TSHA512Context; sz: Word): String;
+function sha512_final(var md: TSHA512Context; sz: Word): String;
 var
   i: LongWord;
 begin
@@ -402,15 +402,15 @@ end;
 
 procedure SHA384Final(var md: TSHA384Context; out Hash: String); inline;
 begin
-  Hash:= SHA512Final(md, 384);
+  Hash:= sha512_final(md, 384);
 end;
 
 procedure SHA512Final(var md: TSHA512Context; out Hash: String); inline;
 begin
-  Hash:= SHA512Final(md, 512);
+  Hash:= sha512_final(md, 512);
 end;
 
-function SHA256Final(var md: TSHA256Context; sz: Word): String;
+function sha256_final(var md: TSHA256Context; sz: Word): String;
 var
   i: LongWord;
 begin
@@ -452,12 +452,12 @@ end;
 
 procedure SHA1Final(var md: TSHA1Context; out Hash: String); inline;
 begin
-  Hash:= SHA256Final(md, 1);
+  Hash:= sha256_final(md, 1);
 end;
 
 procedure SHA256Final(var md: TSHA256Context; out Hash: String); inline;
 begin
-  Hash:= SHA256Final(md, 256);
+  Hash:= sha256_final(md, 256);
 end;
 
 end.
