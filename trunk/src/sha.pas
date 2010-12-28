@@ -88,67 +88,67 @@ const
     $4CC5D4BECB3E42B6, $597F299CFC657E2A, $5FCB6FAB3AD6FAEC, $6C44198C4A475817
   );
 
-function RorInt64(x: Int64; y: Byte): Int64;
+function RorInt64(x: Int64; y: Byte): Int64; inline;
 begin
   Result := (x shr y) or (x shl (64 - y));
 end;
 
-function Ch(x, y, z: Int64): Int64;
+function Ch(x, y, z: Int64): Int64; inline;
 begin
   Result := (x and y) xor ((not x) and z);
 end;
 
-function Maj(x, y, z: Int64): Int64;
+function Maj(x, y, z: Int64): Int64; inline;
 begin
   Result := (x and y) xor (x and z) xor (y and z);
 end;
 
-function Sigma0(x: Int64): Int64;
+function Sigma0(x: Int64): Int64; inline;
 begin
   Result := (RorInt64(x, 28) xor RorInt64(x, 34) xor RorInt64(x, 39));
 end;
 
-function Sigma1(x: Int64): Int64;
+function Sigma1(x: Int64): Int64; inline;
 begin
   Result := (RorInt64(x, 14) xor RorInt64(x, 18) xor RorInt64(x, 41));
 end;
 
-function Gamma0(x: Int64): Int64;
+function Gamma0(x: Int64): Int64; inline;
 begin
   Result := (RorInt64(x, 1) xor RorInt64(x, 8) xor (x shr 7));
 end;
 
-function Gamma1(x: Int64): Int64;
+function Gamma1(x: Int64): Int64; inline;
 begin
   Result := (RorInt64(x, 19) xor RorInt64(x, 61) xor (x shr 6));
 end;
 
-function Ch256(x, y, z: LongWord): LongWord;
+function Ch256(x, y, z: LongWord): LongWord; inline;
 begin
   Result := (x and y) xor ((not x) and z);
 end;
 
-function Maj256(x, y, z: LongWord): LongWord;
+function Maj256(x, y, z: LongWord): LongWord; inline;
 begin
   Result := (x and y) xor (x and z) xor (y and z);
 end;
 
-function E0256(x: LongWord): LongWord;
+function E0256(x: LongWord): LongWord; inline;
 begin
   Result := RorDWord(x, 2) xor RorDWord(x, 13) xor RorDWord(x, 22);
 end;
 
-function E1256(x: LongWord): LongWord;
+function E1256(x: LongWord): LongWord; inline;
 begin
   Result := RorDWord(x, 6) xor RorDWord(x, 11) xor RorDWord(x, 25);
 end;
 
-function F0256(x: LongWord): LongWord;
+function F0256(x: LongWord): LongWord; inline;
 begin
   Result := RorDWord(x, 7) xor RorDWord(x, 18) xor (x shr 3);
 end;
 
-function F1256(x: LongWord): LongWord;
+function F1256(x: LongWord): LongWord; inline;
 begin
   Result := RorDWord(x, 17) xor RorDWord(x, 19) xor (x shr 10);
 end;
