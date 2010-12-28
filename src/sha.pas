@@ -183,7 +183,7 @@ var
 begin
   Move(md.state, S, SizeOf(S));
   for i := 0 to 15 do
-    W[i] := SwapEndian(PLongWord(LongWord(@md.buf) + i * 4)^);
+    W[i] := SwapEndian(PLongWord(PtrUInt(@md.buf) + i * 4)^);
   for i := 16 to 79 do
     W[i] := RolDWord(W[i - 3] xor W[i - 8] xor W[i - 14] xor W[i - 16], 1);
     for i := 0 to 79 do
@@ -208,7 +208,7 @@ var
 begin
   Move(md.state, S, SizeOf(S));
   for i := 0 to 15 do
-    W[i] := SwapEndian(PLongWord(LongWord(@md.buf) + i * 4)^);
+    W[i] := SwapEndian(PLongWord(PtrUInt(@md.buf) + i * 4)^);
   for i := 16 to 63 do
     W[i] := F1256(W[i - 2]) + W[i - 7] + F0256(W[i - 15]) + W[i - 16];
   for i := 0 to 63 do
@@ -237,7 +237,7 @@ var
 begin
   Move(md.state, S, 64);
   for i := 0 to 15 do
-    W[i] := SwapEndian(PInt64(LongWord(@md.buf) + i * 8)^);
+    W[i] := SwapEndian(PInt64(PtrUInt(@md.buf) + i * 8)^);
   for i := 16 to 79 do
     W[i] := Gamma1(W[i - 2]) + W[i - 7] + Gamma0(W [i - 15]) + W[i - 16];
   for i := 0 to 79 do
