@@ -82,6 +82,7 @@ type
 procedure MDInit(var Context: TMDContext; const Version: TMDVersion);
 procedure MDUpdate(var Context: TMDContext; var Buf; const BufLen: PtrUInt);
 procedure MDFinal(var Context: TMDContext; var Digest: TMDDigest);
+procedure MDFinal(var Context: TMDContext; out Hash: String);
 
 
 (******************************************************************************
@@ -108,14 +109,17 @@ function MDMatch(const Digest1, Digest2: TMDDigest): Boolean;
 procedure MD2Init(var Context: TMD2Context); inline;
 procedure MD2Update(var Context: TMD2Context; var Buf; const BufLen: PtrUInt); inline;
 procedure MD2Final(var Context: TMD2Context; var Digest: TMD2Digest); inline;
+procedure MD2Final(var Context: TMD2Context; out Hash: String); inline;
 
 procedure MD4Init(var Context: TMD4Context); inline;
 procedure MD4Update(var Context: TMD4Context; var Buf; const BufLen: PtrUInt); inline;
 procedure MD4Final(var Context: TMD4Context; var Digest: TMD4Digest); inline;
+procedure MD4Final(var Context: TMD4Context; out Hash: String); inline;
 
 procedure MD5Init(var Context: TMD5Context); inline;
 procedure MD5Update(var Context: TMD5Context; var Buf; const BufLen: PtrUInt); inline;
 procedure MD5Final(var Context: TMD5Context; var Digest: TMD5Digest); inline;
+procedure MD5Final(var Context: TMD5Context; out Hash: String); inline;
 
 
 (******************************************************************************
@@ -499,6 +503,14 @@ begin
   FillChar(Context, SizeOf(TMDContext), 0);
 end;
 
+procedure MDFinal(var Context: TMDContext; out Hash: String);
+var
+  Digest: TMDDigest;
+begin
+  MDFinal(Context, Digest);
+  Hash:= MDPrint(Digest);
+end;
+
 function MDString(const S: String; const Version: TMDVersion): TMDDigest;
 var
   Context: TMDContext;
@@ -583,6 +595,11 @@ begin
   MDFinal(Context, Digest);
 end;
 
+procedure MD2Final(var Context: TMD2Context; out Hash: String);
+begin
+  MDFinal(Context, Hash);
+end;
+
 procedure MD4Init(var Context: TMD4Context);
 begin
   MDInit(Context, MD_VERSION_4);
@@ -598,6 +615,11 @@ begin
   MDFinal(Context, Digest);
 end;
 
+procedure MD4Final(var Context: TMD4Context; out Hash: String);
+begin
+  MDFinal(Context, Hash);
+end;
+
 procedure MD5Init(var Context: TMD5Context);
 begin
   MDInit(Context, MD_VERSION_5);
@@ -611,6 +633,11 @@ end;
 procedure MD5Final(var Context: TMD5Context; var Digest: TMD5Digest);
 begin
   MDFinal(Context, Digest);
+end;
+
+procedure MD5Final(var Context: TMD5Context; out Hash: String);
+begin
+  MDFinal(Context, Hash);
 end;
 
 function MD2String(const S: String): TMD2Digest;

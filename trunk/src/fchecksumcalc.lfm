@@ -13,8 +13,9 @@ object frmCheckSumCalc: TfrmCheckSumCalc
   Constraints.MinHeight = 136
   Constraints.MinWidth = 400
   OnCreate = FormCreate
+  OnShow = FormShow
   Position = poScreenCenter
-  SessionProperties = 'cbSeparateFile.Checked;rbHashMD5.Checked;rbHashSHA1.Checked'
+  SessionProperties = 'cbSeparateFile.Checked;cmbHashAlgorithm.ItemIndex'
   LCLVersion = '0.9.29'
   object lblSaveTo: TLabel
     AnchorSideLeft.Control = Owner
@@ -35,9 +36,9 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 10
-    Height = 23
+    Height = 21
     Top = 28
-    Width = 380
+    Width = 440
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 10
     BorderSpacing.Top = 6
@@ -50,8 +51,8 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     AnchorSideTop.Side = asrBottom
     Left = 10
     Height = 17
-    Top = 57
-    Width = 198
+    Top = 55
+    Width = 223
     BorderSpacing.Top = 6
     Caption = 'Create separate checksum file for each file'
     OnChange = cbSeparateFileChange
@@ -61,7 +62,7 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     AnchorSideRight.Control = btnCancel
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 234
+    Left = 244
     Height = 32
     Top = 94
     Width = 100
@@ -79,7 +80,7 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 315
+    Left = 350
     Height = 32
     Top = 94
     Width = 100
@@ -91,31 +92,27 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     ModalResult = 2
     TabOrder = 3
   end
-  object rbHashMD5: TRadioButton
+  object cmbHashAlgorithm: TComboBox
     AnchorSideLeft.Control = cbSeparateFile
     AnchorSideTop.Control = cbSeparateFile
     AnchorSideTop.Side = asrBottom
     Left = 10
-    Height = 17
+    Height = 21
     Top = 78
-    Width = 41
-    BorderSpacing.Top = 4
-    Caption = 'MD5'
-    OnChange = rbHashMD5Change
-    TabOrder = 5
-    TabStop = False
-  end
-  object rbHashSHA1: TRadioButton
-    AnchorSideLeft.Control = cbSeparateFile
-    AnchorSideTop.Control = rbHashMD5
-    AnchorSideTop.Side = asrBottom
-    Left = 10
-    Height = 17
-    Top = 95
-    Width = 46
-    Caption = 'SHA1'
-    OnChange = rbHashSHA1Change
+    Width = 132
+    BorderSpacing.Top = 6
+    ItemHeight = 13
+    ItemIndex = 0
+    Items.Strings = (
+      'MD5'
+      'SHA1'
+      'SHA256'
+      'SHA384'
+      'SHA512'
+    )
+    OnChange = cmbHashAlgorithmChange
+    Style = csDropDownList
     TabOrder = 4
-    TabStop = False
+    Text = 'MD5'
   end
 end

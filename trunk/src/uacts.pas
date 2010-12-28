@@ -1720,8 +1720,7 @@ begin
       end;
 
       for I := 0 to SelectedFiles.Count - 1 do // find files in selection
-        if (AnsiCompareText(SelectedFiles[I].Extension, 'md5') <> 0) and
-           (AnsiCompareText(SelectedFiles[I].Extension, 'sha') <> 0) then
+        if not FileExtIsHash(SelectedFiles[I].Extension) then
         begin
           msgError(rsMsgSelectOnlyCheckSumFiles);
           Exit;
