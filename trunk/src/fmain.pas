@@ -156,8 +156,8 @@ type
     miNetworkQuickConnect: TMenuItem;
     miNetworkConnect: TMenuItem;
     mnuNetwork: TMenuItem;
-    pnlLeftSyncSize: TPanel;
-    pnlRightSyncSize: TPanel;
+    pnlDskLeft: TPanel;
+    pnlDskRight: TPanel;
     Timer: TTimer;
     PanelAllProgress: TPanel;
     pbxRightDrive: TPaintBox;
@@ -258,7 +258,6 @@ type
     pnlRightTools: TPanel;
     pnlRight: TPanel;
     pnlLeft: TPanel;
-    pnlDisk: TPanel;
     btnLeftDrive: TSpeedButton;
     btnLeftHome: TSpeedButton;
     btnLeftUp: TSpeedButton;
@@ -281,7 +280,7 @@ type
     tbEdit: TMenuItem;
     mnuMain: TMainMenu;
     pnlNotebooks: TPanel;
-    pnlSyncSize: TPanel;
+    pnlDisk: TPanel;
     mnuHelp: TMenuItem;
     mnuHelpAbout: TMenuItem;
     mnuShow: TMenuItem;
@@ -382,6 +381,7 @@ type
     procedure btnLeftDirectoryHotlistClick(Sender: TObject);
     procedure btnRightClick(Sender: TObject);
     procedure btnRightDirectoryHotlistClick(Sender: TObject);
+    procedure dskLeftResize(Sender: TObject);
     procedure dskRightResize(Sender: TObject);
     procedure lblAllProgressPctClick(Sender: TObject);
 
@@ -448,6 +448,7 @@ type
 
     procedure pnlLeftResize(Sender: TObject);
     procedure pnlLeftRightDblClick(Sender: TObject);
+    procedure pnlRightResize(Sender: TObject);
     procedure sboxDrivePaint(Sender: TObject);
     procedure sboxOperationsMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -801,6 +802,16 @@ begin
   p := Classes.Point(btnRightDirectoryHotlist.Left,btnRightDirectoryHotlist.Height);
   p := pnlRightTools.ClientToScreen(p);
   pmHotList.PopUp(P.x,P.y);
+end;
+
+procedure TfrmMain.dskLeftResize(Sender: TObject);
+begin
+  pnlDskLeft.ClientHeight := dskLeft.Height + pnlLeft.BevelWidth * 2;;
+end;
+
+procedure TfrmMain.dskRightResize(Sender: TObject);
+begin
+  pnlDskRight.ClientHeight := dskRight.Height + pnlRight.BevelWidth * 2;
 end;
 
 procedure TfrmMain.lblAllProgressPctClick(Sender: TObject);
@@ -1653,27 +1664,6 @@ end;
 procedure TfrmMain.FormResize(Sender: TObject);
 begin
   pnlLeft.Width:= (frmMain.Width div 2) - (MainSplitter.Width div 2);
-
-  //DebugLN('pnlDisk.Width == ' + IntToStr(pnlDisk.Width));
-
-  { Synchronize width of left and right disk panels }
-
-  pnlDisk.Width := pnlSyncSize.ClientWidth - (pnlSyncSize.ClientWidth mod 2);
-
-  pnlLeftSyncSize.Width := (pnlDisk.ClientWidth div 2) - pnlDisk.BevelWidth;
-
-  //DebugLN('dskLeft.Width == ' + IntToStr(dskLeft.Width));
-  //DebugLN('dskRight.Width == ' + IntToStr(dskRight.Width));
-
-  dskLeft.Repaint;
-  dskRight.Repaint;
-End;
-
-procedure TfrmMain.dskRightResize(Sender: TObject);
-begin
-  dskLeft.Height:= dskRight.Height;
-  pnlDisk.ClientHeight:= dskRight.Height;
-  pnlSyncSize.ClientHeight:= dskRight.Height + pnlDisk.BevelWidth * 2;
 end;
 
 procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
@@ -2495,10 +2485,11 @@ end;
 
 procedure TfrmMain.pnlLeftResize(Sender: TObject);
 begin
+  pnlDskLeft.Width := pnlLeft.Width + pnlNotebooks.BevelWidth +
+                      // Cover also the panels splitter.
+                      MainSplitter.Width;
   // ставим спліттер в нужную позицию при смене размера левой панели
-  MainSplitter.Left:=pnlLeft.Width;
-  MainSplitter.Height:=pnlLeft.Height;
-  MainSplitter.top:=pnlLeft.top;
+  MainSplitter.Left := pnlLeft.Width;
 end;
 
 procedure TfrmMain.pnlLeftRightDblClick(Sender: TObject);
@@ -2517,6 +2508,11 @@ begin
   if Sender is TFileViewNotebook then
     Actions.DoNewTab(Sender as TFileViewNotebook);
   {$ENDIF}
+end;
+
+procedure TfrmMain.pnlRightResize(Sender: TObject);
+begin
+  pnlDskRight.Width := pnlRight.Width + pnlNotebooks.BevelWidth;
 end;
 
 procedure TfrmMain.sboxDrivePaint(Sender: TObject);
@@ -3404,15 +3400,15 @@ begin
   (* Disk Panels *)
   UpdateDiskCount; // Update list of showed drives
 
-  pnlLeftSyncSize.Visible := (gDriveBar1 and gDriveBar2);
-  pnlRightSyncSize.Visible := gDriveBar1;
+  pnlDskLeft.Visible := (gDriveBar1 and gDriveBar2);
+  pnlDskRight.Visible := gDriveBar1;
 
   UpdateDriveToolbarSelection(dskLeft, FrameLeft);
   UpdateDriveToolbarSelection(dskRight, FrameRight);
   UpdateDriveButtonSelection(btnLeftDrive, FrameLeft);
   UpdateDriveButtonSelection(btnRightDrive, FrameRight);
 
-  pnlSyncSize.Visible := gDriveBar1;
+  pnlDisk.Visible := gDriveBar1;
   (*/ Disk Panels *)
 
   (*Tool Bar*)
