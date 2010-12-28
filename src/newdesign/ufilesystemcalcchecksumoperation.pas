@@ -30,7 +30,6 @@ type
     FSkipErrors: Boolean;
 
     function CheckSumCalc(aFile: TFile): String;
-    function GetHashAlgByFileName(const sFileName: UTF8String): THashAlgorithm;
     procedure InitializeVerifyMode;
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
@@ -214,7 +213,7 @@ begin
     FCheckSumFile.NameValueSeparator:= #32;
     FCheckSumFile.LoadFromFile(aFile.FullPath);
 
-    anAlgorithm := GetHashAlgByFileName(aFile.FullPath);
+    anAlgorithm := FileExtToHashAlg(aFile.Extension);
 
     for I := 0 to FCheckSumFile.Count - 1 do
     begin
@@ -303,7 +302,6 @@ function TFileSystemCalcChecksumOperation.CheckSumCalc(aFile: TFile): String;
 var
   hFile: THandle;
   Context: THashContext;
-  Digest: THashDigest;
   BytesRead, BytesToRead: Int64;
   bRetryRead: Boolean;
   TotalBytesToRead: Int64 = 0;
@@ -377,25 +375,13 @@ begin
       end;
 
   finally
-    HashFinal(Context, Digest);
-    Result:= HashPrint(Digest);
+    HashFinal(Context, Result);
     if hFile <> feInvalidHandle then
     begin
       FileClose(hFile);
       hFile := feInvalidHandle;
     end;
   end;
-end;
-
-function TFileSystemCalcChecksumOperation.GetHashAlgByFileName(const sFileName: UTF8String): THashAlgorithm;
-var
-  sExt: UTF8String;
-begin
-  sExt:= ExtractFileExt(sFileName);
-  if SameText(sExt, '.md5') then
-    Result:= HASH_MD5
-  else if SameText(sExt, '.sha') then
-    Result:= HASH_SHA1;
 end;
 
 procedure TFileSystemCalcChecksumOperation.LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);

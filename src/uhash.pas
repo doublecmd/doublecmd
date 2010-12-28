@@ -28,45 +28,61 @@ unit uHash;
 interface
 
 uses
-  Classes, SysUtils, md5, sha1, crc;
+  Classes, SysUtils, md5, sha, crc;
 
 type
-  THashAlgorithm = (HASH_MD5, HASH_SHA1);
-  THashDigest = array of Byte;
+  THashAlgorithm = (HASH_MD5, HASH_SHA1, HASH_SHA256, HASH_SHA384, HASH_SHA512);
   THashContext = record
     HashContext: Pointer;
     HashAlgorithm: THashAlgorithm;
   end;
 
 var
-  HashFileExt: array[THashAlgorithm] of String = ('md5', 'sha');
+  HashFileExt: array[THashAlgorithm] of String = ('md5', 'sha', 'sha256', 'sha384', 'sha512');
 
 procedure HashInit(out Context: THashContext; const Algorithm: THashAlgorithm);
 procedure HashUpdate(var Context: THashContext; var Buf; const BufLen: PtrUInt);
-procedure HashFinal(var Context: THashContext; out Digest: THashDigest);
-function HashPrint(const Digest: THashDigest): String;
+procedure HashFinal(var Context: THashContext; out Hash: String);
+
 function HashString(const Line: String; IgnoreCase, IgnoreWhiteSpace: Boolean): Pointer;
+
+{ Helper functions }
+function FileExtIsHash(const FileExt: String): Boolean;
+function FileExtToHashAlg(const FileExt: String): THashAlgorithm;
 
 implementation
 
 procedure HashInit(out Context: THashContext; const Algorithm: THashAlgorithm);
-var
-  MD5Context: PMDContext;
-  SHA1Context: PSHA1Context;
 begin
   case Algorithm of
     HASH_MD5:
       begin
-        New(MD5Context);
-        MD5Init(MD5Context^);
-        Context.HashContext:= MD5Context;
+        GetMem(Context.HashContext, SizeOf(TMD5Context));
+        MD5Init(PMD5Context(Context.HashContext)^);
         Context.HashAlgorithm:= Algorithm;
       end;
     HASH_SHA1:
       begin
-        New(SHA1Context);
-        SHA1Init(SHA1Context^);
-        Context.HashContext:= SHA1Context;
+        GetMem(Context.HashContext, SizeOf(TSHA1Context));
+        SHA1Init(PSHA1Context(Context.HashContext)^);
+        Context.HashAlgorithm:= Algorithm;
+      end;
+    HASH_SHA256:
+      begin
+        GetMem(Context.HashContext, SizeOf(TSHA256Context));
+        SHA256Init(PSHA256Context(Context.HashContext)^);
+        Context.HashAlgorithm:= Algorithm;
+      end;
+    HASH_SHA384:
+      begin
+        GetMem(Context.HashContext, SizeOf(TSHA384Context));
+        SHA384Init(PSHA384Context(Context.HashContext)^);
+        Context.HashAlgorithm:= Algorithm;
+      end;
+    HASH_SHA512:
+      begin
+        GetMem(Context.HashContext, SizeOf(TSHA512Context));
+        SHA512Init(PSHA512Context(Context.HashContext)^);
         Context.HashAlgorithm:= Algorithm;
       end;
   end;
@@ -79,43 +95,46 @@ begin
       MD5Update(PMD5Context(Context.HashContext)^, Buf, BufLen);
     HASH_SHA1:
       SHA1Update(PSHA1Context(Context.HashContext)^, Buf, BufLen);
+    HASH_SHA256:
+      SHA256Update(PSHA256Context(Context.HashContext)^, Buf, BufLen);
+    HASH_SHA384:
+      SHA384Update(PSHA384Context(Context.HashContext)^, Buf, BufLen);
+    HASH_SHA512:
+      SHA512Update(PSHA512Context(Context.HashContext)^, Buf, BufLen);
   end;
 end;
 
-procedure HashFinal(var Context: THashContext; out Digest: THashDigest);
+procedure HashFinal(var Context: THashContext; out Hash: String);
 var
-  MD5Digest: TMD5Digest;
-  SHA1Digest: TSHA1Digest;
   I: Integer;
 begin
   case Context.HashAlgorithm of
     HASH_MD5:
       begin
-        MD5Final(PMD5Context(Context.HashContext)^, MD5Digest);
-        SetLength(Digest, SizeOf(MD5Digest));
-        for I:= Low(MD5Digest) to High(MD5Digest) do
-          Digest[I]:= MD5Digest[I];
-        Dispose(PMD5Context(Context.HashContext));
+        MD5Final(PMD5Context(Context.HashContext)^, Hash);
+        FreeMem(Context.HashContext, SizeOf(TMD5Context));
       end;
     HASH_SHA1:
       begin
-        SHA1Final(PSHA1Context(Context.HashContext)^, SHA1Digest);
-        SetLength(Digest, SizeOf(SHA1Digest));
-        for I:= Low(SHA1Digest) to High(SHA1Digest) do
-          Digest[I]:= SHA1Digest[I];
-        Dispose(PSHA1Context(Context.HashContext));
+        SHA1Final(PSHA1Context(Context.HashContext)^, Hash);
+        FreeMem(Context.HashContext, SizeOf(TSHA1Context));
+      end;
+    HASH_SHA256:
+      begin
+        SHA256Final(PSHA256Context(Context.HashContext)^, Hash);
+        FreeMem(Context.HashContext, SizeOf(TSHA256Context));
+      end;
+    HASH_SHA384:
+      begin
+        SHA384Final(PSHA384Context(Context.HashContext)^, Hash);
+        FreeMem(Context.HashContext, SizeOf(TSHA384Context));
+      end;
+    HASH_SHA512:
+      begin
+        SHA512Final(PSHA512Context(Context.HashContext)^, Hash);
+        FreeMem(Context.HashContext, SizeOf(TSHA512Context));
       end;
   end;
-end;
-
-function HashPrint(const Digest: THashDigest): String;
-var
-  I: Byte;
-begin
-  Result:= '';
-  for I:= Low(Digest) to High(Digest) do
-    Result:= Result + HexStr(Digest[I], 2);
-  Result:= LowerCase(Result);
 end;
 
 function HashString(const Line: String; IgnoreCase, IgnoreWhiteSpace: Boolean): Pointer;
@@ -145,6 +164,27 @@ begin
   CRC := crc32(0, nil, 0);
   // Return result as a pointer to save typecasting later...
   Result := Pointer(PtrUInt(crc32(CRC, PByte(S), Length(S))));
+end;
+
+function FileExtIsHash(const FileExt: String): Boolean;
+var
+  I: THashAlgorithm;
+begin
+  Result:= False;
+  for I:= Low(HashFileExt) to High(HashFileExt) do
+  begin
+    if SameText(FileExt, HashFileExt[I]) then Exit(True);
+  end;
+end;
+
+function FileExtToHashAlg(const FileExt: String): THashAlgorithm;
+var
+  I: THashAlgorithm;
+begin
+  for I:= Low(HashFileExt) to High(HashFileExt) do
+  begin
+    if SameText(FileExt, HashFileExt[I]) then Exit(I);
+  end;
 end;
 
 end.

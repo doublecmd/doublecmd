@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Calculate check sum dialog
 
-   Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2010  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -39,14 +39,13 @@ type
     btnOK: TBitBtn;
     btnCancel: TBitBtn;
     cbSeparateFile: TCheckBox;
+    cmbHashAlgorithm: TComboBox;
     edtSaveTo: TEdit;
     lblSaveTo: TLabel;
-    rbHashMD5: TRadioButton;
-    rbHashSHA1: TRadioButton;
     procedure cbSeparateFileChange(Sender: TObject);
+    procedure cmbHashAlgorithmChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure rbHashMD5Change(Sender: TObject);
-    procedure rbHashSHA1Change(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     FFileName: UTF8String;
     FAlgorithm: THashAlgorithm;
@@ -68,12 +67,7 @@ begin
   with TfrmCheckSumCalc.Create(Application) do
   try
     FFileName:= sFileName;
-    edtSaveTo.Text:= FFileName + ExtensionSeparator;
-    // set up default hash algorithm if need
-    if (not (rbHashMD5.Checked or rbHashSHA1.Checked)) or rbHashMD5.Checked then
-      rbHashMD5Change(nil)
-    else
-      rbHashSHA1Change(nil);
+
     Result:= (ShowModal = mrOK);
     if Result then
       begin
@@ -96,21 +90,21 @@ begin
     edtSaveTo.Text:= ExtractFilePath(edtSaveTo.Text) + ExtractFileName(FFileName) + '.' + HashFileExt[FAlgorithm];
 end;
 
+procedure TfrmCheckSumCalc.cmbHashAlgorithmChange(Sender: TObject);
+begin
+  FAlgorithm:= THashAlgorithm(cmbHashAlgorithm.ItemIndex);
+  edtSaveTo.Text:= ChangeFileExt(edtSaveTo.Text, '.' + HashFileExt[FAlgorithm]);
+end;
+
 procedure TfrmCheckSumCalc.FormCreate(Sender: TObject);
 begin
   InitPropStorage(Self);
 end;
 
-procedure TfrmCheckSumCalc.rbHashMD5Change(Sender: TObject);
+procedure TfrmCheckSumCalc.FormShow(Sender: TObject);
 begin
-  FAlgorithm:= HASH_MD5;
-  edtSaveTo.Text:= ChangeFileExt(edtSaveTo.Text, '.md5');
-end;
-
-procedure TfrmCheckSumCalc.rbHashSHA1Change(Sender: TObject);
-begin
-  FAlgorithm:= HASH_SHA1;
-  edtSaveTo.Text:= ChangeFileExt(edtSaveTo.Text, '.sha');
+  edtSaveTo.Text:= FFileName + ExtensionSeparator;
+  cmbHashAlgorithmChange(cmbHashAlgorithm);
 end;
 
 initialization
