@@ -633,7 +633,7 @@ begin
             end
             else if StrBegins(DeviceFile, '/dev/') then
             begin
-              UDisksDeviceObject := UDisksDevicePathPrefix + Copy(DeviceFile, 6, MaxInt);
+              UDisksDeviceObject := DeviceFileToUDisksObjectPath(DeviceFile);
               HandledByUDisks := True;
             end
             else
