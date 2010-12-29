@@ -65,6 +65,9 @@ type
 const
   UDisksDevicePathPrefix  = '/org/freedesktop/UDisks/devices/';
 
+function UDisksObjectPathToDeviceFile(const ObjectPath: UTF8String): UTF8String;
+function DeviceFileToUDisksObjectPath(const DeviceFile: UTF8String): UTF8String;
+
 function GetObjectProperty(const ObjectPath: UTF8String;
                            const PropertyName: UTF8String;
                            out Value: UTF8String): Boolean;
@@ -77,6 +80,7 @@ function GetObjectProperty(const ObjectPath: UTF8String;
 function GetDeviceInfo(const ObjectPath: UTF8String; out Info: TUDisksDeviceInfo): Boolean;
 function EnumerateDevices(out DevicesList: TStringArray): Boolean;
 function EnumerateDevices(out DevicesInfos: TUDisksDevicesInfos): Boolean;
+function Unmount(const ObjectPath: UTF8String; const Options: UTF8String): Boolean;
 function Initialize: Boolean;
 procedure Finalize;
 procedure DispatchMessages;
@@ -151,6 +155,22 @@ begin
   end
   else
     Result := False;
+end;
+
+function UDisksObjectPathToDeviceFile(const ObjectPath: UTF8String): UTF8String;
+begin
+  if LeftStr(ObjectPath, Length(UDisksDevicePathPrefix)) = UDisksDevicePathPrefix then
+    Result := '/dev/' + Copy(ObjectPath, Length(UDisksDevicePathPrefix) + 1, MaxInt)
+  else
+    raise Exception.Create('Invalid object path: ' + ObjectPath);
+end;
+
+function DeviceFileToUDisksObjectPath(const DeviceFile: UTF8String): UTF8String;
+begin
+  if LeftStr(DeviceFile, 5) = '/dev/' then
+    Result := UDisksDevicePathPrefix + Copy(DeviceFile, 6, MaxInt)
+  else
+    raise Exception.Create('Invalid device file name: ' + DeviceFile);
 end;
 
 function GetObjectPath(message: PDBusMessage; out ObjectPath: UTF8String): Boolean;
@@ -482,6 +502,54 @@ begin
       if not GetDeviceInfo(DevicesList[i], DevicesInfos[i]) then
         Exit(False);
     end;
+  end;
+end;
+
+function Unmount(const ObjectPath: UTF8String; const Options: UTF8String): Boolean;
+var
+  message, reply: PDBusMessage;
+  argsIter, arrayIter: DBusMessageIter;
+  optsPChar: PChar;
+begin
+  message := dbus_message_new_method_call(UDisksAddress,
+                                          PChar(ObjectPath),
+                                          UDisksDeviceInterface,
+                                          'FilesystemUnmount');
+  if not Assigned(message) then
+  begin
+    Print('Cannot create message "FilesystemUnmount"');
+    Result := False;
+  end
+  else
+  begin
+    optsPChar := PChar(Options);
+    dbus_message_iter_init_append(message, @argsIter);
+    if (dbus_message_iter_open_container(@argsIter, DBUS_TYPE_ARRAY, PChar('s'), @arrayIter) = 0) or
+       (dbus_message_iter_append_basic(@arrayIter, DBUS_TYPE_STRING, @optsPChar) = 0) or
+       (dbus_message_iter_close_container(@argsIter, @arrayIter) = 0) then
+    begin
+      Print('Cannot append arguments');
+      Result := False;
+    end
+    else
+    begin
+      dbus_error_init(@error);
+      reply := dbus_connection_send_with_reply_and_block(conn, message, -1, @error);
+
+      if CheckError('Error sending message', @error) then
+        Result := False
+      else if not Assigned(reply) then
+      begin
+        Print('Reply not received');
+        Result := False;
+      end
+      else
+        Result := True;
+
+      if Assigned(reply) then
+        dbus_message_unref(reply);
+    end;
+    dbus_message_unref(message);
   end;
 end;
 

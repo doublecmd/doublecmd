@@ -61,7 +61,7 @@ uses
   uOSUtils, uFileProcs, uShellExecute, uLng, uGlobs, uPixMapManager, uMyUnix,
   fMain, fFileProperties
   {$IFDEF LINUX}
-  , uMimeActions
+  , uMimeActions, uUDisks
   {$ENDIF}
   ;
 
@@ -214,8 +214,17 @@ begin
 end;
 
 procedure TShellContextMenu.DriveUnmountSelect(Sender: TObject);
+var
+  Succeeded: Boolean = False;
 begin
-  fpSystem('umount ' + FDrive.Path);
+  if uUDisks.Initialize then
+  begin
+    Succeeded := uUDisks.Unmount(DeviceFileToUDisksObjectPath(FDrive.DeviceId), '');
+    uUDisks.Finalize;
+  end;
+
+  if not Succeeded then
+    fpSystem('umount ' + FDrive.Path);
 end;
 
 procedure TShellContextMenu.DriveEjectSelect(Sender: TObject);
