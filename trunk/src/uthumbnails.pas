@@ -5,7 +5,7 @@ unit uThumbnails;
 interface
 
 uses
-  Classes, SysUtils, Graphics, fgl;
+  Classes, SysUtils, Graphics, fgl, uClassesEx, uFile;
 
 type
 
@@ -26,8 +26,11 @@ type
     function GetPreviewFileName(const sFileName: UTF8String): UTF8String;
     function CreatePreviewImage(const Graphic: TGraphic): TBitmap;
     function CreatePreviewText(const sFileName: UTF8String): TBitmap;
+    function ReadMetaData(const aFile: TFile; FileStream: TFileStreamEx): Boolean;
+    function WriteMetaData(const aFile: TFile; FileStream: TFileStreamEx): Boolean;
   public
     constructor Create(aWidth, aHeight: LongInt; BackColor: TColor);
+    function CreatePreview(const aFile: TFile): TBitmap;
     function CreatePreview(const FullPathToFile: UTF8String): TBitmap;
     function RemovePreview(const FullPathToFile: UTF8String): Boolean;
   end;
@@ -35,8 +38,11 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uClassesEx, uOSUtils, uFileProcs, uDCUtils, uReSample, uGlobsPaths,
-  uGlobs, uPixmapManager;
+  LCLProc, FileUtil, uOSUtils, uFileProcs, uDCUtils, uReSample, uGlobsPaths,
+  uGlobs, uPixmapManager, URIParser, md5, uFileSystemFileSource;
+
+const
+  ThumbSign: QWord = $0000235448554D42; // '#0 #0 # T H U M B'
 
 function TThumbnailManager.CheckGraphics(const sFileExt: UTF8String): Boolean;
 var
@@ -58,7 +64,7 @@ end;
 
 function TThumbnailManager.GetPreviewFileName(const sFileName: UTF8String): UTF8String;
 begin
-  Result:= IntToStr(mbFileAge(sFileName)) + '_' + IntToStr(mbFileSize(sFileName)) + '_' + ExtractOnlyFileName(sFileName);
+  Result:= MD5Print(MD5String(sFileName));
 end;
 
 function TThumbnailManager.CreatePreviewImage(const Graphic: TGraphic): TBitmap;
@@ -119,6 +125,50 @@ begin
   end;
 end;
 
+function TThumbnailManager.ReadMetaData(const aFile: TFile; FileStream: TFileStreamEx): Boolean;
+var
+  sFileName: AnsiString;
+begin
+  Result:= True;
+  try
+    // Read metadata position from last 4 byte of file
+    FileStream.Seek(-4, soEnd);
+    FileStream.Seek(FileStream.ReadDWord, soBeginning);
+    // Check signature
+    if (FileStream.ReadQWord <> NtoBE(ThumbSign)) then
+      Exit(False);
+    // Read thumbnail metadata
+    Result:= (URIToFilename(FileStream.ReadAnsiString, sFileName) and SameText(sFileName, aFile.FullPath));
+    Result:= (aFile.Size = FileStream.ReadQWord) and (QWord(aFile.ModificationTime) = FileStream.ReadQWord);
+    Result:= (FWidth = FileStream.ReadWord) and (FHeight = FileStream.ReadWord);
+  except
+    Result:= False;
+  end;
+end;
+
+function TThumbnailManager.WriteMetaData(const aFile: TFile; FileStream: TFileStreamEx): Boolean;
+var
+  iEnd: Int64;
+begin
+  Result:= True;
+  try
+    // Get original file size
+    iEnd:= FileStream.Seek(0, soEnd);
+    // Write signature
+    FileStream.WriteQWord(NtoBE(ThumbSign));
+    // Write thumbnail meta data
+    FileStream.WriteAnsiString(FilenameToURI(aFile.FullPath));
+    FileStream.WriteQWord(aFile.Size);
+    FileStream.WriteQWord(QWord(aFile.ModificationTime));
+    FileStream.WriteWord(FWidth);
+    FileStream.WriteWord(FHeight);
+    // Write original file size
+    FileStream.WriteDWord(iEnd);
+  except
+    Result:= False;
+  end;
+end;
+
 constructor TThumbnailManager.Create(aWidth, aHeight: LongInt; BackColor: TColor);
 begin
   FWidth:= aWidth;
@@ -139,9 +189,9 @@ begin
   Result:= mbDeleteFile(FThumbPath + PathDelim + sName + '.' + sExt);
 end;
 
-function TThumbnailManager.CreatePreview(const FullPathToFile: UTF8String): TBitmap;
+function TThumbnailManager.CreatePreview(const aFile: TFile): TBitmap;
 var
-  sThumbFileName,
+  sFullPathToFile, sThumbFileName,
   sExt, sOnlyFileName: UTF8String;
   fsFileStream: TFileStreamEx = nil;
   Picture: TPicture = nil;
@@ -149,71 +199,80 @@ begin
   Result:= nil;
   try
     Picture:= TPicture.Create;
-    sExt:= GetPreviewFileExt(ExtractOnlyFileExt(FullPathToFile));
-    sThumbFileName:= FThumbPath + PathDelim + GetPreviewFileName(FullPathToFile) + '.' + sExt;
+    sFullPathToFile:= aFile.FullPath;
+    sExt:= GetPreviewFileExt(ExtractOnlyFileExt(sFullPathToFile));
+    sThumbFileName:= FThumbPath + PathDelim + GetPreviewFileName(sFullPathToFile) + '.' + sExt;
     // If thumbnail already exists in cache for this file then load it
     if mbFileExists(sThumbFileName) then
       try
         fsFileStream:= TFileStreamEx.Create(sThumbFileName, fmOpenRead or fmShareDenyNone);
         try
-          Picture.LoadFromStreamWithFileExt(fsFileStream, sExt); // load from thumb if exist
-          Result:= TBitmap.Create;
-          Result.Assign(Picture.Graphic);
+          if ReadMetaData(aFile, fsFileStream) then
+          begin
+            fsFileStream.Position:= 0;
+            Picture.LoadFromStreamWithFileExt(fsFileStream, sExt); // load from thumb if exist
+            Result:= TBitmap.Create;
+            Result.Assign(Picture.Graphic);
+            Exit;
+          end;
         except
           // if can not load thumbnail then return default icon
-          Result:= PixMapManager.LoadBitmapEnhanced(FullPathToFile, gIconsSize, FBackColor);
+          Result:= PixMapManager.LoadBitmapEnhanced(sFullPathToFile, gIconsSize, FBackColor);
           Exit;
         end;
       finally
         FreeThenNil(fsFileStream);
-      end
-    else
+      end;
       // create thumb if not exist
-      begin
-        sExt:= ExtractOnlyFileExt(FullPathToFile);
-        if CheckGraphics(sExt) then
-          begin
+      sExt:= ExtractOnlyFileExt(sFullPathToFile);
+      if CheckGraphics(sExt) then
+        begin
+          try
+            fsFileStream:= TFileStreamEx.Create(sFullPathToFile, fmOpenRead or fmShareDenyNone);
             try
-              fsFileStream:= TFileStreamEx.Create(FullPathToFile, fmOpenRead or fmShareDenyNone);
-              try
-                Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
-                Result:= CreatePreviewImage(Picture.Graphic);
-              except
-                // if can not load thumbnail then return default icon
-                Result:= PixMapManager.LoadBitmapEnhanced(FullPathToFile, gIconsSize, FBackColor);
-                Exit;
-              end;
-            finally
-              FreeThenNil(fsFileStream);
+              Picture.LoadFromStreamWithFileExt(fsFileStream, sExt);
+              Result:= CreatePreviewImage(Picture.Graphic);
+            except
+              // if can not load thumbnail then return default icon
+              Result:= PixMapManager.LoadBitmapEnhanced(sFullPathToFile, gIconsSize, FBackColor);
+              Exit;
             end;
-          end
-        else
-        // create thumb for text files
-        if (FileIsText(FullPathToFile)) and (mbFileAccess(FullPathToFile, fmOpenRead)) then
-          begin
-            Result:= CreatePreviewText(FullPathToFile);
-            Exit;
-          end
-        else
-          begin
-            // load thumb for unknown file
-            Result:= PixMapManager.LoadBitmapEnhanced(FullPathToFile, gIconsSize, FBackColor);
-            Exit;
+          finally
+            FreeThenNil(fsFileStream);
           end;
-        if not Assigned(Result) then Exit;
-        // save created thumb to cache
-        Picture.Bitmap.Assign(Result);
-        sExt:= GetPreviewFileExt(sExt);
-        try
-          fsFileStream:= TFileStreamEx.Create(sThumbFileName, fmCreate);
-          Picture.SaveToStreamWithFileExt(fsFileStream, sExt);
-        finally
-          FreeThenNil(fsFileStream);
+        end
+      else
+      // create thumb for text files
+      if (FileIsText(sFullPathToFile)) and (mbFileAccess(sFullPathToFile, fmOpenRead)) then
+        begin
+          Result:= CreatePreviewText(sFullPathToFile);
+          Exit;
+        end
+      else
+        begin
+          // load thumb for unknown file
+          Result:= PixMapManager.LoadBitmapEnhanced(sFullPathToFile, gIconsSize, FBackColor);
+          Exit;
         end;
+      if not Assigned(Result) then Exit;
+      // save created thumb to cache
+      Picture.Bitmap.Assign(Result);
+      sExt:= GetPreviewFileExt(sExt);
+      try
+        fsFileStream:= TFileStreamEx.Create(sThumbFileName, fmCreate);
+        Picture.SaveToStreamWithFileExt(fsFileStream, sExt);
+        WriteMetaData(aFile, fsFileStream);
+      finally
+        FreeThenNil(fsFileStream);
       end;
   finally
     FreeThenNil(Picture);
   end;
+end;
+
+function TThumbnailManager.CreatePreview(const FullPathToFile: UTF8String): TBitmap;
+begin
+  Result:= CreatePreview(TFileSystemFileSource.CreateFileFromFile(FullPathToFile));
 end;
 
 end.
