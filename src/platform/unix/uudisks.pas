@@ -80,7 +80,7 @@ function GetObjectProperty(const ObjectPath: UTF8String;
 function GetDeviceInfo(const ObjectPath: UTF8String; out Info: TUDisksDeviceInfo): Boolean;
 function EnumerateDevices(out DevicesList: TStringArray): Boolean;
 function EnumerateDevices(out DevicesInfos: TUDisksDevicesInfos): Boolean;
-function Unmount(const ObjectPath: UTF8String; const Options: UTF8String): Boolean;
+function Unmount(const ObjectPath: UTF8String; const Options: TStringArray): Boolean;
 function Initialize: Boolean;
 procedure Finalize;
 procedure DispatchMessages;
@@ -505,11 +505,12 @@ begin
   end;
 end;
 
-function Unmount(const ObjectPath: UTF8String; const Options: UTF8String): Boolean;
+function Unmount(const ObjectPath: UTF8String; const Options: TStringArray): Boolean;
 var
   message, reply: PDBusMessage;
   argsIter, arrayIter: DBusMessageIter;
   optsPChar: PChar;
+  i: Integer;
 begin
   message := dbus_message_new_method_call(UDisksAddress,
                                           PChar(ObjectPath),
@@ -522,14 +523,27 @@ begin
   end
   else
   begin
-    optsPChar := PChar(Options);
     dbus_message_iter_init_append(message, @argsIter);
-    if (dbus_message_iter_open_container(@argsIter, DBUS_TYPE_ARRAY, PChar('s'), @arrayIter) = 0) or
-       (dbus_message_iter_append_basic(@arrayIter, DBUS_TYPE_STRING, @optsPChar) = 0) or
-       (dbus_message_iter_close_container(@argsIter, @arrayIter) = 0) then
+    Result := dbus_message_iter_open_container(@argsIter, DBUS_TYPE_ARRAY, PChar(DBUS_TYPE_STRING_AS_STRING), @arrayIter) <> 0;
+    if Result then
+    begin
+      for i := Low(Options) to High(Options) do
+      begin
+        optsPChar := PChar(Options[i]);
+        if dbus_message_iter_append_basic(@arrayIter, DBUS_TYPE_STRING, @optsPChar) = 0 then
+        begin
+          Result := False;
+          Break;
+        end;
+      end;
+
+      if dbus_message_iter_close_container(@argsIter, @arrayIter) = 0 then
+        Result := False;
+    end;
+
+    if not Result then
     begin
       Print('Cannot append arguments');
-      Result := False;
     end
     else
     begin
