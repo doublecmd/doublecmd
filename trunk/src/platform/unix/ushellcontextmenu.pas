@@ -219,7 +219,7 @@ var
 begin
   if uUDisks.Initialize then
   begin
-    Succeeded := uUDisks.Unmount(DeviceFileToUDisksObjectPath(FDrive.DeviceId), '');
+    Succeeded := uUDisks.Unmount(DeviceFileToUDisksObjectPath(FDrive.DeviceId), nil);
     uUDisks.Finalize;
   end;
 
