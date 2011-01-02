@@ -267,8 +267,10 @@ end;
 
 function GetDefaultAppCmd(FileNames: TStringList): UTF8String;
 var
-  mimeType: PChar;
-  action: PChar;
+  i: Integer = 0;
+  mimeType: PChar = nil;
+  action: PChar = nil;
+  actions: PPChar = nil;
   desktopFile: PChar;
   app: TCDesktopFileEntry;
   Entry: TDesktopFileEntry;
@@ -283,30 +285,46 @@ begin
   // Get default action for this mime type
   action := mime_type_get_default_action(mimeType);
 
+  // If default action is not found then use first valid action
+  if (action = nil) then
+  begin
+    actions := mime_type_get_actions(mimeType); // retrieve *.desktop identificators
+
+    if actions = nil then Exit;  // cannot find any actions for this mime
+
+    repeat
+      action := actions[i];
+      inc(i);
+    until (action = nil) or (action = EmptyStr);
+  end;
+
   if (action <> nil) then
   begin
-      desktopFile := mime_type_locate_desktop_file(nil, action);
-      if (desktopFile = nil) then Exit; // desktop file not found
-      app := mime_get_desktop_entry(desktopFile);
+    desktopFile := mime_type_locate_desktop_file(nil, action);
+    app := mime_get_desktop_entry(desktopFile);
 
-      Entry.DesktopFilePath := StrPas(desktopFile);
-      Entry.MimeType := StrPas(mimeType);
-      Entry.DisplayName := StrPas(app.DisplayName);
-      Entry.Comment := StrPas(app.Comment);
-      Entry.ExecWithParams := StrPas(app.Exec);
-      Entry.IconName := StrPas(app.IconName);
-      Entry.Terminal := app.Terminal;
-      Entry.Hidden := app.Hidden;
-      // Set Exec as last because it uses other fields of Entry.
-      Result := TranslateAppExecToCmdLine(@Entry, Filenames);
+    Entry.DesktopFilePath := StrPas(desktopFile);
+    Entry.MimeType := StrPas(mimeType);
+    Entry.DisplayName := StrPas(app.DisplayName);
+    Entry.Comment := StrPas(app.Comment);
+    Entry.ExecWithParams := StrPas(app.Exec);
+    Entry.IconName := StrPas(app.IconName);
+    Entry.Terminal := app.Terminal;
+    Entry.Hidden := app.Hidden;
+    // Set Exec as last because it uses other fields of Entry.
+    Result := TranslateAppExecToCmdLine(@Entry, Filenames);
 
-      g_free(desktopFile);
-      g_free(app.DisplayName);
-      g_free(app.Comment);
-      g_free(app.Exec);
-      g_free(app.IconName);
-      g_free(action);
-    end;
+    g_free(desktopFile);
+    g_free(app.DisplayName);
+    g_free(app.Comment);
+    g_free(app.Exec);
+    g_free(app.IconName);
+  end;
+
+  if (actions <> nil) then
+    g_strfreev(actions)
+  else if (action <> nil) then
+    g_free(action);
 end;
 
 function GetFileMimeType(const FileName: UTF8String): UTF8String;
