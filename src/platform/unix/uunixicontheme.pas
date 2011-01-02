@@ -134,19 +134,24 @@ end;
 
 function GetLxdeIconTheme: String;
 const
-  lxdeConfig: String = '/.config/lxsession/%s/desktop.conf';
+  lxdeConfig1 = '/.config/lxsession/%s/desktop.conf';
+  lxdeConfig2 = '/etc/xdg/lxsession/%s/desktop.conf';
 var
+  I: Integer;
   DesktopSession: String;
   iniCfg: TIniFile = nil;
+  lxdeConfig: array[1..2] of String = (lxdeConfig1, lxdeConfig2);
 begin
   Result:= EmptyStr;
   DesktopSession:= GetEnvironmentVariable('DESKTOP_SESSION');
   if Length(DesktopSession) <> 0 then
   begin
-    DesktopSession:= GetHomeDir + Format(lxdeConfig, [DesktopSession]);
-    if FileExists(DesktopSession) then
+    lxdeConfig[1]:= GetHomeDir + Format(lxdeConfig[1], [DesktopSession]);
+    lxdeConfig[2]:= Format(lxdeConfig[2], [DesktopSession]);
+    for I:= Low(lxdeConfig) to High(lxdeConfig) do
+    if (Length(Result) = 0) and FileExists(lxdeConfig[I]) then
     try
-      iniCfg:= TIniFile.Create(DesktopSession);
+      iniCfg:= TIniFile.Create(lxdeConfig[I]);
       Result:= iniCfg.ReadString('GTK', 'sNet/IconThemeName', EmptyStr);
     finally
       if Assigned(iniCfg) then
