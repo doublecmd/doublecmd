@@ -163,6 +163,12 @@ function LinuxToWinAttr(pFileName: PChar; const srInfo: BaseUnix.Stat): Longint;
 function GetDesktopEnvironment: Cardinal;
 function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
 {en
+   Checks if file is executable or script
+   @param(FileName File name)
+   @returns(The function returns @true if successful, @false otherwise)
+}
+function FileIsUnixExecutable(const Filename: UTF8String): Boolean;
+{en
    Find mount point of file system where file is located
    @param(FileName File name)
    @returns(Mount point of file system)
@@ -246,6 +252,27 @@ begin
   finally
     if Assigned(iniDesktop) then
       FreeAndNil(iniDesktop);
+  end;
+end;
+
+function FileIsUnixExecutable(const FileName: UTF8String): Boolean;
+var
+  Info : Stat;
+  dwSign : LongWord;
+  fsExeScr : TFileStreamEx = nil;
+begin
+  // First check FileName is not a directory and then check if executable
+  Result:= (fpStat(FileName, Info) <> -1) and FPS_ISREG(Info.st_mode) and
+           (BaseUnix.fpAccess(FileName, BaseUnix.X_OK) = 0);
+  if Result and (Info.st_size >= SizeOf(dwSign)) then
+  try
+    fsExeScr := TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
+    dwSign := fsExeScr.ReadDWord;
+    // ELF or #!
+    Result := ((dwSign = NtoBE($7F454C46)) or (Lo(dwSign) = NtoBE($2321)));
+  finally
+    if Assigned(fsExeScr) then
+      fsExeScr.Free;
   end;
 end;
 
