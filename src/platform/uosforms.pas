@@ -27,7 +27,7 @@ unit uOSForms;
 interface
 
 uses
-  Classes, SysUtils, Menus, Controls, ExtDlgs, LCLType,
+  Forms, Classes, SysUtils, Menus, Controls, ExtDlgs, LCLType,
   uFile, uFileSource, uDrive,
   {$IFDEF UNIX}
   Graphics, BaseUnix, Unix, fFileProperties;
@@ -36,10 +36,10 @@ uses
   {$ENDIF}
 
 {en
-   Replace window procedure
-   @param(Handle Window handle)
+   Must be called on main form create
+   @param(MainForm Main form)
 }
-procedure SetMyWndProc(Handle : HWND);
+procedure MainFormCreate(MainForm : TCustomForm);
 {en
    Show file/folder properties dialog
    @param(Files List of files to show properties for)
@@ -83,45 +83,17 @@ uses
   ;
 
 var
-{$IFDEF MSWINDOWS}
-  OldWProc: WNDPROC;
-{$ENDIF}
   ShellContextMenu : TShellContextMenu = nil;
 
-{$IFDEF MSWINDOWS}
-function MyWndProc(hWnd: HWND; uiMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
-begin
-  case uiMsg of
-    (* For working with submenu of context menu *)
-    WM_INITMENUPOPUP,
-    WM_DRAWITEM,
-    WM_MENUCHAR,
-    WM_MEASUREITEM:
-      if Assigned(ShellContextMenu) and Assigned(ShellContextMenu.Menu) then
-        begin
-          ShellContextMenu.Menu.HandleMenuMsg(uiMsg, wParam, lParam);
-          Result := 0;
-        end
-      else
-        Result := CallWindowProc(OldWProc, hWnd, uiMsg, wParam, lParam);
-  else
-    Result := CallWindowProc(OldWProc, hWnd, uiMsg, wParam, lParam);
-  end; // case
-end;
-{$ENDIF}
-
-procedure SetMyWndProc(Handle : HWND);
+procedure MainFormCreate(MainForm : TCustomForm);
 {$IFDEF MSWINDOWS}
 begin
-  {$PUSH}{$HINTS OFF}
-  OldWProc := WNDPROC(SetWindowLongPtr(Handle, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
-  {$POP}
-  CreateTotalCommanderWindow(Handle);
+  CreateTotalCommanderWindow(MainForm.Handle);
 end;
 {$ELSE}
 begin
   if fpGetUID = 0 then // if run under root
-    frmMain.Caption:= frmMain.Caption + ' - ROOT PRIVILEGES';
+    MainForm.Caption:= MainForm.Caption + ' - ROOT PRIVILEGES';
 end;
 {$ENDIF}
 

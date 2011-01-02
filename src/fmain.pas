@@ -688,7 +688,7 @@ begin
   // frost_asm begin
   MainSplitterLeftMouseBtnDown:=false;
   // frost_asm end
-  SetMyWndProc(Handle);
+  MainFormCreate(Self);
 
   if mbFileExists(gpCfgDir + cHistoryFile) then
     begin
