@@ -43,6 +43,7 @@ const
   DE_KDE = 1;
   DE_GNOME = 2;
   DE_XFCE = 3;
+  DE_LXDE = 4;
 
 type
   PIOFILE = Pointer;
@@ -213,6 +214,8 @@ begin
     Exit(DE_KDE);
   if GetEnvironmentVariable('GNOME_DESKTOP_SESSION_ID') <> '' then
     Exit(DE_GNOME);
+  if GetEnvironmentVariable('_LXSESSION_PID') <> '' then
+    Exit(DE_LXDE);
   DesktopSession:= GetEnvironmentVariable('DESKTOP_SESSION');
   DesktopSession:= LowerCase(DesktopSession);
   if Pos('kde', DesktopSession) <> 0 then
@@ -221,6 +224,8 @@ begin
     Exit(DE_GNOME);
   if Pos('xfce', DesktopSession) <> 0 then
     Exit(DE_XFCE);
+  if Pos('lxde', DesktopSession) <> 0 then
+    Exit(DE_LXDE);
 end;
 
 function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;

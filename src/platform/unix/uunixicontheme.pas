@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Some useful functions for Icon Theme implementation
 
-    Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2009-2010  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -49,10 +49,9 @@ const
 var
   kdeConfig: array[1..2] of String = (kde4Config, kde3Config);
   I: Integer;
-  iniCfg: TIniFile;
+  iniCfg: TIniFile = nil;
 begin
   Result:= EmptyStr;
-  iniCfg:= nil;
   for I:= Low(kdeConfig) to High(kdeConfig) do
     if (Result = EmptyStr) and FileExists(GetHomeDir + kdeConfig[I]) then
       try
@@ -133,6 +132,29 @@ begin
     end;
 end;
 
+function GetLxdeIconTheme: String;
+const
+  lxdeConfig: String = '/.config/lxsession/%s/desktop.conf';
+var
+  DesktopSession: String;
+  iniCfg: TIniFile = nil;
+begin
+  Result:= EmptyStr;
+  DesktopSession:= GetEnvironmentVariable('DESKTOP_SESSION');
+  if Length(DesktopSession) <> 0 then
+  begin
+    DesktopSession:= GetHomeDir + Format(lxdeConfig, [DesktopSession]);
+    if FileExists(DesktopSession) then
+    try
+      iniCfg:= TIniFile.Create(DesktopSession);
+      Result:= iniCfg.ReadString('GTK', 'sNet/IconThemeName', EmptyStr);
+    finally
+      if Assigned(iniCfg) then
+        iniCfg.Free;
+    end;
+  end;
+end;
+
 function GetCurrentIconTheme: String;
 begin
   Result:= EmptyStr;
@@ -145,6 +167,8 @@ begin
       Result:= GetGnomeIconTheme;
     DE_XFCE:
       Result:= GetXfceIconTheme;
+    DE_LXDE:
+      Result:= GetLxdeIconTheme;
   end;
   if Result = EmptyStr then
     Result:= DEFAULT_THEME_NAME;
