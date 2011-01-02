@@ -295,7 +295,7 @@ begin
     repeat
       action := actions[i];
       inc(i);
-    until (action = nil) or (action = EmptyStr);
+    until (action <> nil) or (action <> EmptyStr);
   end;
 
   if (action <> nil) then
