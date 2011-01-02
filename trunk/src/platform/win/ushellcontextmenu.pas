@@ -56,14 +56,12 @@ type
     FFiles: TFiles;
     FBackground: Boolean;
     FShellMenu1: IContextMenu;
-    FShellMenu2: IContextMenu2;
     FShellMenu: HMENU;
   public
     constructor Create(Parent: TWinControl; var Files : TFiles; Background: Boolean); reintroduce;
     destructor Destroy; override;
     procedure PopUp(X, Y: Integer);
     property OnClose: TNotifyEvent read FOnClose write FOnClose;
-    property Menu: IContextMenu2 read FShellMenu2 write FShellMenu2;
   end;
 
 function GetShellContextMenu(Handle: HWND; Files: TFiles; Background: Boolean): IContextMenu;
@@ -76,6 +74,33 @@ uses
 
 const
   USER_CMD_ID = $1000;
+
+var
+  OldWProc: WNDPROC = nil;
+  ShellMenu2: IContextMenu2 = nil;
+  ShellMenu3: IContextMenu3 = nil;
+
+function MyWndProc(hWnd: HWND; uiMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
+begin
+  case uiMsg of
+    (* For working with submenu of context menu *)
+    WM_INITMENUPOPUP,
+    WM_DRAWITEM,
+    WM_MENUCHAR,
+    WM_MEASUREITEM:
+      if Assigned(ShellMenu3) then
+        ShellMenu3.HandleMenuMsg2(uiMsg, wParam, lParam, Result)
+      else if Assigned(ShellMenu2) then
+          begin
+            ShellMenu2.HandleMenuMsg(uiMsg, wParam, lParam);
+            Result := 0;
+          end
+      else
+        Result := CallWindowProc(OldWProc, hWnd, uiMsg, wParam, lParam);
+  else
+    Result := CallWindowProc(OldWProc, hWnd, uiMsg, wParam, lParam);
+  end; // case
+end;
 
 function GetForegroundContextMenu(Handle : HWND; Files : TFiles): IContextMenu;
 type
@@ -179,6 +204,10 @@ end;
 
 constructor TShellContextMenu.Create(Parent: TWinControl; var Files : TFiles; Background: Boolean);
 begin
+  // Replace window procedure
+  {$PUSH}{$HINTS OFF}
+  OldWProc := WNDPROC(SetWindowLongPtr(Parent.Handle, GWL_WNDPROC, LONG_PTR(@MyWndProc)));
+  {$POP}
   FParent:= Parent;
   FFiles:= Files;
   FBackground:= Background;
@@ -190,7 +219,8 @@ begin
       begin
         FShellMenu := CreatePopupMenu;
         OleCheckUTF8(FShellMenu1.QueryContextMenu(FShellMenu, 0, 1, USER_CMD_ID - 1, CMF_EXPLORE or CMF_CANRENAME));
-        FShellMenu1.QueryInterface(IID_IContextMenu2, FShellMenu2); // to handle submenus.
+        FShellMenu1.QueryInterface(IID_IContextMenu2, ShellMenu2); // to handle submenus.
+        FShellMenu1.QueryInterface(IID_IContextMenu3, ShellMenu3); // to handle submenus.
       end;
     except
       on e: EOleError do
@@ -203,8 +233,13 @@ end;
 
 destructor TShellContextMenu.Destroy;
 begin
+  // Restore window procedure
+  SetWindowLongPtr(FParent.Handle, GWL_WNDPROC, LONG_PTR(@OldWProc));
+  // Free global variables
+  ShellMenu2:= nil;
+  ShellMenu3:= nil;
+  // Free internal objects
   FShellMenu1:= nil;
-  FShellMenu2:= nil;
   FreeThenNil(FFiles);
   if FShellMenu <> 0 then
     DestroyMenu(FShellMenu);
@@ -356,13 +391,13 @@ begin
                   if FFiles.Count = 1 then
                     with FFiles[0] do
                     begin
-                      if Name <> (ExtractFileDrive(Name)+PathDelim) then
+                      if not SameText(FullPath, ExtractFileDrive(FullPath) + PathDelim) then
                         frmMain.actRenameOnly.Execute
                       else  // change drive label
                         begin
-                          sCmd:= mbGetVolumeLabel(Name, True);
+                          sCmd:= mbGetVolumeLabel(FullPath, True);
                           if InputQuery(rsMsgSetVolumeLabel, rsMsgVolumeLabel, sCmd) then
-                            mbSetVolumeLabel(Name, sCmd);
+                            mbSetVolumeLabel(FullPath, sCmd);
                         end;
                     end
                   else
