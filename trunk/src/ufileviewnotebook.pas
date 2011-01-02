@@ -262,7 +262,6 @@ begin
   inherited Create(ParentControl);
 
   Parent := ParentControl;
-  Align := alClient;
   TabStop := False;
 
   FNotebookSide := NotebookSide;
