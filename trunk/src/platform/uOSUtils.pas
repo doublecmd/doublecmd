@@ -616,7 +616,8 @@ begin
   sCmdLine:= '';
   DesktopEnv:= GetDesktopEnvironment;
   case DesktopEnv of
-  DE_UNKNOWN:
+  DE_UNKNOWN,
+  DE_LXDE:
     begin
       if FileIsExecutable(URL) then
       begin
