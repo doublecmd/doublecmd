@@ -79,6 +79,7 @@ type
     actCopyNoAsk: TAction;
     actChangeDirToParent: TAction;
     actEditPath: TAction;
+    actHorizontalFilePanels: TAction;
     actNetworkDisconnect: TAction;
     actNetworkQuickConnect: TAction;
     actNetworkConnect: TAction;
@@ -152,12 +153,16 @@ type
     AllOpCancel: TMenuItem;
     AllOpStart: TMenuItem;
     AllOpPct: TMenuItem;
+    mnuShowHorizontalFilePanels: TMenuItem;
+    miLine20: TMenuItem;
     miNetworkDisconnect: TMenuItem;
     miNetworkQuickConnect: TMenuItem;
     miNetworkConnect: TMenuItem;
     mnuNetwork: TMenuItem;
     pnlDskLeft: TPanel;
+    pnlDiskLeftInner: TPanel;
     pnlDskRight: TPanel;
+    pnlDiskRightInner: TPanel;
     Timer: TTimer;
     PanelAllProgress: TPanel;
     pbxRightDrive: TPaintBox;
@@ -381,6 +386,8 @@ type
     procedure btnLeftDirectoryHotlistClick(Sender: TObject);
     procedure btnRightClick(Sender: TObject);
     procedure btnRightDirectoryHotlistClick(Sender: TObject);
+    procedure ConsoleSplitterCanResize(Sender: TObject; var NewSize: Integer;
+      var Accept: Boolean);
     procedure dskLeftResize(Sender: TObject);
     procedure dskRightResize(Sender: TObject);
     procedure lblAllProgressPctClick(Sender: TObject);
@@ -437,7 +444,6 @@ type
     procedure pmButtonMenuMenuButtonClick(Sender: TObject;
       NumberOfButton: Integer);
     procedure pmDropMenuClose(Sender: TObject);
-    procedure FormResize(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure edtCommandKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -448,6 +454,7 @@ type
 
     procedure pnlLeftResize(Sender: TObject);
     procedure pnlLeftRightDblClick(Sender: TObject);
+    procedure pnlNotebooksResize(Sender: TObject);
     procedure pnlRightResize(Sender: TObject);
     procedure sboxDrivePaint(Sender: TObject);
     procedure sboxOperationsMouseDown(Sender: TObject; Button: TMouseButton;
@@ -468,7 +475,6 @@ type
       Shift: TShiftState);
     procedure edtCommandEnter(Sender: TObject);
     procedure edtCommandExit(Sender: TObject);
-    procedure ConsoleSplitterChangeBounds(Sender: TObject);
     procedure tbCopyClick(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
     procedure FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
@@ -494,8 +500,9 @@ type
 
     // frost_asm begin
     // mainsplitter
-    MainSplitterLeftMouseBtnDown:boolean;
-    MainSplitterMouseDownX:integer;
+    MainSplitterLeftMouseBtnDown: Boolean;
+    MainSplitterMouseDownX, MainSplitterMouseDownY: Integer;
+    FResizingFilePanels: Boolean;
     // lastWindowState
     lastWindowState:TWindowState;
     // frost_asm end
@@ -645,6 +652,7 @@ procedure TfrmMain.FormCreate(Sender: TObject);
   function CreateNotebook(aParent: TWinControl; aSide: TFilePanelSelect): TFileViewNotebook;
   begin
     Result := TFileViewNotebook.Create(aParent, aSide);
+    Result.Align := alClient;
     Result.Options := [nboHidePageListPopup];
 
     Result.OnCloseTabClicked := @NotebookCloseTabClicked;
@@ -671,6 +679,7 @@ begin
   PanelSelected:=fpLeft;
   HiddenToTray := False;
   HidingTrayIcon := False;
+  FResizingFilePanels := False;
 
   nbLeft := CreateNotebook(pnlLeft, fpLeft);
   nbRight := CreateNotebook(pnlRight, fpRight);
@@ -708,7 +717,9 @@ begin
     lastWindowState:=WindowState;
   // frost_asm end
 
-  actShowSysFiles.Checked:=uGlobs.gShowSystemFiles;
+  // Initialize actions.
+  actShowSysFiles.Checked := uGlobs.gShowSystemFiles;
+  actHorizontalFilePanels.Checked := gHorizontalFilePanels;
 
   AllowDropFiles := not uDragDropEx.IsExternalDraggingSupported;
 
@@ -804,14 +815,25 @@ begin
   pmHotList.PopUp(P.x,P.y);
 end;
 
+procedure TfrmMain.ConsoleSplitterCanResize(Sender: TObject;
+  var NewSize: Integer; var Accept: Boolean);
+begin
+  // ConsoleSplitter is trying to resize pnlCommand,
+  // so NewSize is the new size of pnlCommand.
+  // Instead, resize nbConsole by the same difference.
+  nbConsole.Height := nbConsole.Height + NewSize - pnlCommand.Height;
+end;
+
 procedure TfrmMain.dskLeftResize(Sender: TObject);
 begin
-  pnlDskLeft.ClientHeight := dskLeft.Height + pnlLeft.BevelWidth * 2;;
+  pnlDskLeft.ClientHeight := dskLeft.Height + pnlDskLeft.BevelWidth * 2;
+  pnlDiskLeftInner.ClientHeight := dskLeft.Height + pnlDiskLeftInner.BevelWidth * 2;
 end;
 
 procedure TfrmMain.dskRightResize(Sender: TObject);
 begin
-  pnlDskRight.ClientHeight := dskRight.Height + pnlRight.BevelWidth * 2;
+  pnlDskRight.ClientHeight := dskRight.Height + pnlDskRight.BevelWidth * 2;
+  pnlDiskRightInner.ClientHeight := dskRight.Height + pnlDiskRightInner.BevelWidth * 2;
 end;
 
 procedure TfrmMain.lblAllProgressPctClick(Sender: TObject);
@@ -1176,11 +1198,8 @@ begin
    MainSplitter.Color:=ColorToRGB(clBlack);
 
    MainSplitterMouseDownX:=X;
+   MainSplitterMouseDownY:=Y;
    MainSplitterLeftMouseBtnDown:=true;
-   // create hint
-   if not Assigned(MainSplitterHintWnd) then
-    MainSplitterHintWnd:= THintWindow.Create(nil);
-   MainSplitterHintWnd.Color:= Application.HintColor;
   end;
 end;
 
@@ -1190,45 +1209,81 @@ var
   APoint: TPoint;
   Rect: TRect;
   sHint: String;
+  Moved: Boolean = False;
 begin
-  if MainSplitterLeftMouseBtnDown and (MainSplitter.Left+X>3) and (MainSplitter.Left+X+3<pnlNotebooks.Width) then
+  if MainSplitterLeftMouseBtnDown then
   begin
-   MainSplitter.Left:=MainSplitter.Left+X-MainSplitterMouseDownX;
+    if not gHorizontalFilePanels and
+       (MainSplitter.Left + X > MainSplitter.Width) and
+       (MainSplitter.Left + X + MainSplitter.Width < pnlNotebooks.Width) then
+    begin
+      MainSplitter.Left := MainSplitter.Left + X - MainSplitterMouseDownX;
+      Moved := True;
+    end
+    else if gHorizontalFilePanels and
+       (MainSplitter.Top + Y > MainSplitter.Height) and
+       (MainSplitter.Top + Y + MainSplitter.Height < pnlNotebooks.Height) then
+    begin
+      MainSplitter.Top := MainSplitter.Top + Y - MainSplitterMouseDownY;
+      Moved := True;
+    end;
 
-   // hint
-   if not Assigned(MainSplitterHintWnd) then  Exit;
-   // calculate persent
-   sHint:= FloatToStrF(MainSplitter.Left*100 / (pnlNotebooks.Width-MainSplitter.Width), ffFixed, 15, 1) + '%';
-   //calculate hint position
-   Rect:= MainSplitterHintWnd.CalcHintRect(1000, sHint, nil);
-   APoint:= Mouse.CursorPos;
-   with Rect do
-   begin
-     Right:= APoint.X + 8 + Right;
-     Bottom:= APoint.Y + 12 + Bottom;
-     Left:= APoint.X + 8;
-     Top:= APoint.Y + 12;
-   end;
-   //show hint
-   MainSplitterHintWnd.ActivateHint(Rect, sHint);
+    if Moved then
+    begin
+      // create hint
+      if not Assigned(MainSplitterHintWnd) then
+      begin
+        MainSplitterHintWnd := THintWindow.Create(nil);
+        MainSplitterHintWnd.Color := Application.HintColor;
+      end;
+
+      // calculate persent
+      if not gHorizontalFilePanels then
+        sHint:= FloatToStrF(MainSplitter.Left*100 / (pnlNotebooks.Width-MainSplitter.Width), ffFixed, 15, 1) + '%'
+      else
+        sHint:= FloatToStrF(MainSplitter.Top*100 / (pnlNotebooks.Height-MainSplitter.Height), ffFixed, 15, 1) + '%';
+
+      //calculate hint position
+      Rect:= MainSplitterHintWnd.CalcHintRect(200, sHint, nil);
+      APoint:= Mouse.CursorPos;
+      with Rect do
+      begin
+        Right:= APoint.X + 8 + Right;
+        Bottom:= APoint.Y + 12 + Bottom;
+        Left:= APoint.X + 8;
+        Top:= APoint.Y + 12;
+      end;
+
+      //show hint
+      MainSplitterHintWnd.ActivateHint(Rect, sHint);
+    end;
   end;
 end;
 
 procedure TfrmMain.MainSplitterMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
+  // hide and destroy hint
+  if Assigned(MainSplitterHintWnd) then
+  begin
+    MainSplitterHintWnd.Hide;
+    FreeAndNil(MainSplitterHintWnd);
+  end;
+
   if (MainSplitterLeftMouseBtnDown) then
   begin
-    // hide and destroy hint
-    if Assigned(MainSplitterHintWnd) then
-    begin
-      MainSplitterHintWnd.Hide;
-      FreeAndNil(MainSplitterHintWnd);
-    end;
-
     MainSplitter.ParentColor:=true;
     MainSplitterLeftMouseBtnDown:=false;
-    pnlLeft.Width:=MainSplitter.Left;
+
+    if not FResizingFilePanels then
+    begin
+      FResizingFilePanels := True;
+      if not gHorizontalFilePanels then
+        pnlLeft.Width := MainSplitter.Left
+      else
+        pnlLeft.Height := MainSplitter.Top;
+      FResizingFilePanels := False;
+    end;
   end;
 end;
 
@@ -1659,11 +1714,6 @@ procedure TfrmMain.pmButtonMenuMenuButtonClick(Sender: TObject;
   NumberOfButton: Integer);
 begin
     ExecCmdEx(Sender, NumberOfButton);
-end;
-
-procedure TfrmMain.FormResize(Sender: TObject);
-begin
-  pnlLeft.Width:= (frmMain.Width div 2) - (MainSplitter.Width div 2);
 end;
 
 procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
@@ -2485,11 +2535,24 @@ end;
 
 procedure TfrmMain.pnlLeftResize(Sender: TObject);
 begin
-  pnlDskLeft.Width := pnlLeft.Width + pnlNotebooks.BevelWidth +
-                      // Cover also the panels splitter.
-                      MainSplitter.Width;
-  // ставим спліттер в нужную позицию при смене размера левой панели
-  MainSplitter.Left := pnlLeft.Width;
+  if gDriveBar1 and gDriveBar2 and not gHorizontalFilePanels then
+    pnlDskLeft.Width := pnlNotebooks.Width - pnlRight.Width;
+
+  // Put splitter after left panel.
+  if not gHorizontalFilePanels then
+  begin
+    MainSplitter.Left   := pnlLeft.Width;
+    MainSplitter.Top    := pnlLeft.Top;
+    MainSplitter.Height := pnlLeft.Height;
+    MainSplitter.Width  := 3;
+  end
+  else
+  begin
+    MainSplitter.Top    := pnlLeft.Height;
+    MainSplitter.Left   := pnlLeft.Left;
+    MainSplitter.Width  := pnlLeft.Width;
+    MainSplitter.Height := 3;
+  end;
 end;
 
 procedure TfrmMain.pnlLeftRightDblClick(Sender: TObject);
@@ -2510,9 +2573,28 @@ begin
   {$ENDIF}
 end;
 
+procedure TfrmMain.pnlNotebooksResize(Sender: TObject);
+begin
+  if not FResizingFilePanels then
+  begin
+    FResizingFilePanels := True;
+    if not gHorizontalFilePanels then
+      pnlLeft.Width := (pnlNotebooks.Width - MainSplitter.Width) div 2
+    else
+      pnlLeft.Height := (pnlNotebooks.Height - MainSplitter.Height) div 2;
+    FResizingFilePanels := False;
+  end;
+end;
+
 procedure TfrmMain.pnlRightResize(Sender: TObject);
 begin
-  pnlDskRight.Width := pnlRight.Width + pnlNotebooks.BevelWidth;
+  if gDriveBar1 and not gHorizontalFilePanels then
+  begin
+    if gDriveBar2 then
+      pnlDskRight.Width := pnlRight.Width + 1
+    else
+      pnlDskRight.Width := pnlNotebooks.Width - 2;
+  end;
 end;
 
 procedure TfrmMain.sboxDrivePaint(Sender: TObject);
@@ -2871,10 +2953,12 @@ begin
   FDrivesListPopup.UpdateDrivesList(DrivesList);
 
   // create drives left/right panels
-  if gDriveBar2 and gDriveBar1 then
-    CreateDiskPanel(dskLeft);
   if gDriveBar1 then
+  begin
     CreateDiskPanel(dskRight);
+    if gDriveBar2 then
+      CreateDiskPanel(dskLeft);
+  end;
 end;
 
 procedure TfrmMain.AddSpecialButtons(dskPanel: TKASToolBar);
@@ -3397,18 +3481,46 @@ var
   I: Integer;
   IniBarFile: TIniFileEx = nil;
 begin
-  (* Disk Panels *)
-  UpdateDiskCount; // Update list of showed drives
+  if gHorizontalFilePanels then
+  begin
+    pnlLeft.Align := alTop;
+    pnlLeft.BorderSpacing.Right  := 0;
+    pnlLeft.BorderSpacing.Bottom := 3;
+    MainSplitter.Cursor := crVSplit;
+  end
+  else
+  begin
+    pnlLeft.Align := alLeft;
+    pnlLeft.BorderSpacing.Right  := 3;
+    pnlLeft.BorderSpacing.Bottom := 0;
+    MainSplitter.Cursor := crHSplit;
+  end;
 
-  pnlDskLeft.Visible := (gDriveBar1 and gDriveBar2);
-  pnlDskRight.Visible := gDriveBar1;
+  (* Disk Panels *)
+  if gHorizontalFilePanels and gDriveBar1 and gDriveBar2 then
+  begin
+    dskLeft.Parent := pnlDiskLeftInner;
+    dskRight.Parent := pnlDiskRightInner;
+  end
+  else
+  begin
+    dskLeft.Parent := pnlDskLeft;
+    dskRight.Parent := pnlDskRight;
+  end;
+
+  pnlDiskLeftInner.Visible := gHorizontalFilePanels and gDriveBar1 and gDriveBar2;
+  pnlDiskRightInner.Visible := gHorizontalFilePanels and gDriveBar1 and gDriveBar2;
+  pnlDskLeft.Visible := not gHorizontalFilePanels and gDriveBar1 and gDriveBar2;
+  pnlDskRight.Visible := gDriveBar1 and (not gHorizontalFilePanels or not gDriveBar2);
+  pnlDisk.Visible := pnlDskLeft.Visible or pnlDskRight.Visible;
+
+  // Create disk panels after assigning parent.
+  UpdateDiskCount; // Update list of showed drives
 
   UpdateDriveToolbarSelection(dskLeft, FrameLeft);
   UpdateDriveToolbarSelection(dskRight, FrameRight);
   UpdateDriveButtonSelection(btnLeftDrive, FrameLeft);
   UpdateDriveButtonSelection(btnRightDrive, FrameRight);
-
-  pnlDisk.Visible := gDriveBar1;
   (*/ Disk Panels *)
 
   (*Tool Bar*)
@@ -3572,13 +3684,6 @@ begin
   // Hide command line if it was temporarily shown.
   if (not gCmdLine) and IsCommandLineVisible then
     pnlCommand.Hide;
-end;
-
-procedure TfrmMain.ConsoleSplitterChangeBounds(Sender: TObject);
-begin
-  nbConsole.Height := nbConsole.Height +
-    // How much splitter was moved upwards.
-    (pnlCommand.Top - ConsoleSplitter.Top - ConsoleSplitter.Height);
 end;
 
 procedure TfrmMain.tbCopyClick(Sender: TObject);

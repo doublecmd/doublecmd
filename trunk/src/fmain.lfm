@@ -16,7 +16,6 @@ object frmMain: TfrmMain
   OnDropFiles = FormDropFiles
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
-  OnResize = FormResize
   OnShow = frmMainShow
   OnUTF8KeyPress = FormUTF8KeyPress
   OnWindowStateChange = FormWindowStateChange
@@ -65,6 +64,7 @@ object frmMain: TfrmMain
       ClientHeight = 24
       ClientWidth = 170
       TabOrder = 0
+      Visible = False
       object dskLeft: TKASToolBar
         Left = 0
         Height = 20
@@ -95,6 +95,7 @@ object frmMain: TfrmMain
       ClientHeight = 24
       ClientWidth = 588
       TabOrder = 1
+      Visible = False
       object dskRight: TKASToolBar
         Left = 0
         Height = 20
@@ -115,32 +116,41 @@ object frmMain: TfrmMain
   end
   object pnlNotebooks: TPanel
     Left = 0
-    Height = 208
+    Height = 119
     Top = 46
     Width = 760
     Align = alClient
-    ClientHeight = 208
+    ClientHeight = 119
     ClientWidth = 760
     FullRepaint = False
     TabOrder = 1
+    OnResize = pnlNotebooksResize
     object pnlLeft: TPanel
-      AnchorSideBottom.Control = PanelAllProgress
       Left = 1
-      Height = 78
+      Height = 117
       Top = 1
       Width = 511
       Align = alLeft
-      BorderSpacing.Right = 3
       BevelOuter = bvNone
-      ClientHeight = 78
+      ClientHeight = 117
       ClientWidth = 511
       TabOrder = 0
       OnDblClick = pnlLeftRightDblClick
       OnResize = pnlLeftResize
+      object pnlDiskLeftInner: TPanel
+        Left = 0
+        Height = 10
+        Top = 0
+        Width = 511
+        Align = alTop
+        BevelOuter = bvNone
+        TabOrder = 1
+        Visible = False
+      end
       object pnlLeftTools: TPanel
         Left = 0
         Height = 24
-        Top = 0
+        Top = 10
         Width = 511
         Align = alTop
         AutoSize = True
@@ -245,28 +255,37 @@ object frmMain: TfrmMain
       end
     end
     object pnlRight: TPanel
-      Left = 515
-      Height = 78
+      Left = 512
+      Height = 117
       Top = 1
-      Width = 244
+      Width = 247
       Align = alClient
-      BorderSpacing.Left = 3
       BevelOuter = bvNone
-      ClientHeight = 78
-      ClientWidth = 244
+      ClientHeight = 117
+      ClientWidth = 247
       TabOrder = 1
       OnDblClick = pnlLeftRightDblClick
       OnResize = pnlRightResize
+      object pnlDiskRightInner: TPanel
+        Left = 0
+        Height = 10
+        Top = 0
+        Width = 247
+        Align = alTop
+        BevelOuter = bvNone
+        TabOrder = 1
+        Visible = False
+      end
       object pnlRightTools: TPanel
         Left = 0
         Height = 24
-        Top = 0
-        Width = 244
+        Top = 10
+        Width = 247
         Align = alTop
         AutoSize = True
         BevelOuter = bvNone
         ClientHeight = 24
-        ClientWidth = 244
+        ClientWidth = 247
         TabOrder = 0
         object btnRightDrive: TSpeedButton
           Left = 0
@@ -280,7 +299,7 @@ object frmMain: TfrmMain
           OnMouseUp = dskToolBarMouseUp
         end
         object btnRightHome: TSpeedButton
-          Left = 198
+          Left = 201
           Height = 24
           Top = 0
           Width = 23
@@ -290,7 +309,7 @@ object frmMain: TfrmMain
           OnClick = btnRightClick
         end
         object btnRightUp: TSpeedButton
-          Left = 175
+          Left = 178
           Height = 24
           Top = 0
           Width = 23
@@ -300,7 +319,7 @@ object frmMain: TfrmMain
           OnClick = btnRightClick
         end
         object btnRightRoot: TSpeedButton
-          Left = 152
+          Left = 155
           Height = 24
           Top = 0
           Width = 23
@@ -310,7 +329,7 @@ object frmMain: TfrmMain
           OnClick = btnRightClick
         end
         object btnRightDirectoryHotlist: TSpeedButton
-          Left = 129
+          Left = 132
           Height = 24
           Top = 0
           Width = 23
@@ -320,7 +339,7 @@ object frmMain: TfrmMain
           OnClick = btnRightDirectoryHotlistClick
         end
         object btnRightEqualLeft: TSpeedButton
-          Left = 221
+          Left = 224
           Height = 24
           Hint = 'Show current directory of the left panel in the right panel'
           Top = 0
@@ -339,7 +358,7 @@ object frmMain: TfrmMain
           Left = 50
           Height = 10
           Top = 14
-          Width = 77
+          Width = 80
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 2
           BorderSpacing.Right = 2
@@ -352,7 +371,7 @@ object frmMain: TfrmMain
           Left = 48
           Height = 14
           Top = 0
-          Width = 81
+          Width = 84
           Alignment = taCenter
           Anchors = [akTop, akLeft, akRight, akBottom]
           ParentColor = False
@@ -360,244 +379,152 @@ object frmMain: TfrmMain
         end
       end
     end
-    object ConsoleSplitter: TSplitter
-      AnchorSideLeft.Control = pnlNotebooks
-      AnchorSideRight.Control = pnlNotebooks
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = pnlCommand
-      Cursor = crVSplit
-      Left = 1
-      Height = 3
-      Top = 111
-      Width = 758
-      Align = alNone
-      Anchors = [akLeft, akRight, akBottom]
-      OnChangeBounds = ConsoleSplitterChangeBounds
-      ResizeAnchor = akBottom
-      Visible = False
-    end
-    object pnlCommand: TPanel
-      Left = 1
-      Height = 93
-      Top = 114
-      Width = 758
-      Align = alBottom
-      Anchors = [akLeft, akRight]
-      AutoSize = True
-      BevelOuter = bvLowered
-      ClientHeight = 93
-      ClientWidth = 758
-      FullRepaint = False
-      TabOrder = 2
-      object pnlCmdLine: TPanel
-        Left = 1
-        Height = 37
-        Top = 55
-        Width = 756
-        Align = alClient
-        AutoSize = True
-        BevelOuter = bvNone
-        ChildSizing.TopBottomSpacing = 2
-        ClientHeight = 37
-        ClientWidth = 756
-        TabOrder = 1
-        object lblCommandPath: TLabel
-          AnchorSideTop.Control = edtCommand
-          AnchorSideTop.Side = asrCenter
-          Left = 0
-          Height = 24
-          Top = 6
-          Width = 36
-          Caption = 'Path'
-          ParentColor = False
-          ShowAccelChar = False
-        end
-        object edtCommand: TComboBox
-          AnchorSideLeft.Control = lblCommandPath
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = pnlCmdLine
-          AnchorSideRight.Control = pnlCmdLine
-          AnchorSideRight.Side = asrBottom
-          Left = 40
-          Height = 33
-          Top = 2
-          Width = 716
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Left = 4
-          ItemHeight = 0
-          OnEnter = edtCommandEnter
-          OnExit = edtCommandExit
-          OnKeyDown = edtCommandKeyDown
-          TabOrder = 0
-          TabStop = False
-        end
-      end
-      object nbConsole: TPageControl
-        Left = 1
-        Height = 54
-        Top = 1
-        Width = 756
-        TabStop = False
-        ActivePage = pgConsole
-        Align = alTop
-        ShowTabs = False
-        TabIndex = 0
-        TabOrder = 0
-        Visible = False
-        object pgConsole: TTabSheet
-        end
-      end
-    end
     object MainSplitter: TPanel
-      AnchorSideTop.Control = pnlLeft
-      AnchorSideBottom.Control = pnlLeft
-      AnchorSideBottom.Side = asrBottom
       Cursor = crHSplit
-      Left = 184
+      Left = 515
       Height = 78
-      Top = 1
-      Width = 3
-      Anchors = [akTop, akBottom]
+      Top = -40
+      Width = 5
+      Anchors = []
       BevelOuter = bvNone
       PopupMenu = pmSplitterPercent
-      TabOrder = 4
+      TabOrder = 2
       OnDblClick = MainSplitterDblClick
       OnMouseDown = MainSplitterMouseDown
       OnMouseMove = MainSplitterMouseMove
       OnMouseUp = MainSplitterMouseUp
     end
-    object PanelAllProgress: TPanel
-      AnchorSideBottom.Control = ConsoleSplitter
-      Left = 4
-      Height = 32
-      Top = 79
-      Width = 752
-      Align = alBottom
-      BorderSpacing.Left = 3
-      BorderSpacing.Right = 3
-      BorderSpacing.Bottom = 3
-      BorderSpacing.CellAlignHorizontal = ccaRightBottom
-      BorderSpacing.CellAlignVertical = ccaCenter
-      ClientHeight = 32
-      ClientWidth = 752
-      ParentBidiMode = False
-      TabOrder = 5
-      object sboxOperations: TScrollBox
-        AnchorSideTop.Control = PanelAllProgress
-        AnchorSideBottom.Control = PanelAllProgress
-        AnchorSideBottom.Side = asrBottom
-        Left = 1
-        Height = 30
-        Top = 1
-        Width = 753
-        Anchors = [akTop, akLeft, akRight, akBottom]
-        AutoSize = True
+  end
+  object PanelAllProgress: TPanel
+    Left = 3
+    Height = 0
+    Top = 165
+    Width = 754
+    Align = alBottom
+    BorderSpacing.Left = 3
+    BorderSpacing.Right = 3
+    BorderSpacing.Bottom = 3
+    BorderSpacing.CellAlignHorizontal = ccaRightBottom
+    BorderSpacing.CellAlignVertical = ccaCenter
+    ClientHeight = 0
+    ClientWidth = 754
+    TabOrder = 6
+    object sboxOperations: TScrollBox
+      AnchorSideTop.Control = PanelAllProgress
+      AnchorSideBottom.Control = PanelAllProgress
+      AnchorSideBottom.Side = asrBottom
+      Left = 1
+      Height = 0
+      Top = 0
+      Width = 755
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      AutoSize = True
+      TabOrder = 0
+      OnMouseDown = sboxOperationsMouseDown
+      OnMouseMove = sboxOperationsMouseMove
+      OnMouseUp = sboxOperationsMouseUp
+      OnPaint = sboxOperationsPaint
+    end
+  end
+  object ConsoleSplitter: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 3
+    Top = 168
+    Width = 760
+    Align = alBottom
+    AutoSnap = False
+    OnCanResize = ConsoleSplitterCanResize
+    ResizeAnchor = akBottom
+    Visible = False
+  end
+  object pnlCommand: TPanel
+    Left = 0
+    Height = 93
+    Top = 171
+    Width = 760
+    Align = alBottom
+    AutoSize = True
+    BevelOuter = bvLowered
+    ClientHeight = 93
+    ClientWidth = 760
+    FullRepaint = False
+    TabOrder = 8
+    object pnlCmdLine: TPanel
+      Left = 1
+      Height = 37
+      Top = 55
+      Width = 758
+      Align = alClient
+      AutoSize = True
+      BevelOuter = bvNone
+      ChildSizing.TopBottomSpacing = 2
+      ClientHeight = 37
+      ClientWidth = 758
+      TabOrder = 1
+      object lblCommandPath: TLabel
+        AnchorSideTop.Control = edtCommand
+        AnchorSideTop.Side = asrCenter
+        Left = 0
+        Height = 24
+        Top = 6
+        Width = 36
+        Caption = 'Path'
+        ParentColor = False
+        ShowAccelChar = False
+      end
+      object edtCommand: TComboBox
+        AnchorSideLeft.Control = lblCommandPath
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = pnlCmdLine
+        AnchorSideRight.Control = pnlCmdLine
+        AnchorSideRight.Side = asrBottom
+        Left = 40
+        Height = 33
+        Top = 2
+        Width = 718
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 4
+        ItemHeight = 0
+        OnEnter = edtCommandEnter
+        OnExit = edtCommandExit
+        OnKeyDown = edtCommandKeyDown
         TabOrder = 0
-        OnMouseDown = sboxOperationsMouseDown
-        OnMouseMove = sboxOperationsMouseMove
-        OnMouseUp = sboxOperationsMouseUp
-        OnPaint = sboxOperationsPaint
+        TabStop = False
+      end
+    end
+    object nbConsole: TPageControl
+      Left = 1
+      Height = 54
+      Top = 1
+      Width = 758
+      TabStop = False
+      ActivePage = pgConsole
+      Align = alTop
+      ShowTabs = False
+      TabIndex = 0
+      TabOrder = 0
+      Visible = False
+      object pgConsole: TTabSheet
       end
     end
   end
-  object pnlKeys: TPanel
+  object LogSplitter: TSplitter
+    Cursor = crVSplit
     Left = 0
-    Height = 20
-    Top = 319
+    Height = 4
+    Top = 264
     Width = 760
     Align = alBottom
-    Anchors = [akLeft, akRight]
-    BevelOuter = bvLowered
-    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-    ChildSizing.EnlargeVertical = crsHomogenousChildResize
-    ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
-    ChildSizing.ShrinkVertical = crsHomogenousChildResize
-    ChildSizing.Layout = cclTopToBottomThenLeftToRight
-    ClientHeight = 20
-    ClientWidth = 760
-    FullRepaint = False
-    TabOrder = 3
+    AutoSnap = False
+    ResizeAnchor = akBottom
+    ResizeStyle = rsLine
     Visible = False
-    object btnF3: TSpeedButton
-      Left = 0
-      Height = 20
-      Top = 0
-      Width = 95
-      Action = actView
-      Flat = True
-      NumGlyphs = 0
-    end
-    object btnF4: TSpeedButton
-      Left = 95
-      Height = 20
-      Top = 0
-      Width = 95
-      Action = actEdit
-      Flat = True
-      NumGlyphs = 0
-    end
-    object btnF5: TSpeedButton
-      Left = 190
-      Height = 20
-      Top = 0
-      Width = 95
-      Action = actCopy
-      Flat = True
-      NumGlyphs = 0
-    end
-    object btnF6: TSpeedButton
-      Left = 285
-      Height = 20
-      Top = 0
-      Width = 95
-      Action = actRename
-      Flat = True
-      NumGlyphs = 0
-    end
-    object btnF7: TSpeedButton
-      Left = 380
-      Height = 20
-      Top = 0
-      Width = 95
-      Action = actMakeDir
-      Flat = True
-      NumGlyphs = 0
-    end
-    object btnF8: TSpeedButton
-      Left = 475
-      Height = 20
-      Top = 0
-      Width = 95
-      Action = actDelete
-      Flat = True
-      NumGlyphs = 0
-    end
-    object btnF9: TSpeedButton
-      Left = 570
-      Height = 20
-      Top = 0
-      Width = 95
-      Action = actRunTerm
-      Caption = 'Terminal F9'
-      Flat = True
-      NumGlyphs = 0
-    end
-    object btnF10: TSpeedButton
-      Left = 665
-      Height = 20
-      Top = 0
-      Width = 95
-      Action = actExit
-      Caption = 'Exit F10'
-      Flat = True
-      NumGlyphs = 0
-    end
   end
   inline seLogWindow: TSynEdit
-    AnchorSideBottom.Control = PanelAllProgress
     Left = 0
-    Height = 61
-    Top = 258
+    Height = 51
+    Top = 268
     Width = 760
     Align = alBottom
     Font.Height = -16
@@ -1215,16 +1142,97 @@ object frmMain: TfrmMain
       end
     end
   end
-  object LogSplitter: TSplitter
-    Cursor = crVSplit
+  object pnlKeys: TPanel
     Left = 0
-    Height = 4
-    Top = 254
+    Height = 20
+    Top = 319
     Width = 760
     Align = alBottom
-    ResizeAnchor = akBottom
-    ResizeStyle = rsLine
+    BevelOuter = bvLowered
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
+    ChildSizing.ShrinkVertical = crsHomogenousChildResize
+    ChildSizing.Layout = cclTopToBottomThenLeftToRight
+    ClientHeight = 20
+    ClientWidth = 760
+    FullRepaint = False
+    TabOrder = 3
     Visible = False
+    object btnF3: TSpeedButton
+      Left = 0
+      Height = 20
+      Top = 0
+      Width = 95
+      Action = actView
+      Flat = True
+      NumGlyphs = 0
+    end
+    object btnF4: TSpeedButton
+      Left = 95
+      Height = 20
+      Top = 0
+      Width = 95
+      Action = actEdit
+      Flat = True
+      NumGlyphs = 0
+    end
+    object btnF5: TSpeedButton
+      Left = 190
+      Height = 20
+      Top = 0
+      Width = 95
+      Action = actCopy
+      Flat = True
+      NumGlyphs = 0
+    end
+    object btnF6: TSpeedButton
+      Left = 285
+      Height = 20
+      Top = 0
+      Width = 95
+      Action = actRename
+      Flat = True
+      NumGlyphs = 0
+    end
+    object btnF7: TSpeedButton
+      Left = 380
+      Height = 20
+      Top = 0
+      Width = 95
+      Action = actMakeDir
+      Flat = True
+      NumGlyphs = 0
+    end
+    object btnF8: TSpeedButton
+      Left = 475
+      Height = 20
+      Top = 0
+      Width = 95
+      Action = actDelete
+      Flat = True
+      NumGlyphs = 0
+    end
+    object btnF9: TSpeedButton
+      Left = 570
+      Height = 20
+      Top = 0
+      Width = 95
+      Action = actRunTerm
+      Caption = 'Terminal F9'
+      Flat = True
+      NumGlyphs = 0
+    end
+    object btnF10: TSpeedButton
+      Left = 665
+      Height = 20
+      Top = 0
+      Width = 95
+      Action = actExit
+      Caption = 'Exit F10'
+      Flat = True
+      NumGlyphs = 0
+    end
   end
   object mnuMain: TMainMenu
     ParentBidiMode = False
@@ -1537,6 +1545,12 @@ object frmMain: TfrmMain
       object mnuFilesShwSysFiles: TMenuItem
         Action = actShowSysFiles
         OnClick = actExecute
+      end
+      object miLine20: TMenuItem
+        Caption = '-'
+      end
+      object mnuShowHorizontalFilePanels: TMenuItem
+        Action = actHorizontalFilePanels
       end
       object miLine13: TMenuItem
         Caption = '-'
@@ -2214,6 +2228,11 @@ object frmMain: TfrmMain
     object actNetworkDisconnect: TAction
       Category = 'Network'
       Caption = 'Network Disconnect'
+      OnExecute = actExecute
+    end
+    object actHorizontalFilePanels: TAction
+      Category = 'Show'
+      Caption = 'Horizontal file panels'
       OnExecute = actExecute
     end
   end

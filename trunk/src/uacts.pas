@@ -251,6 +251,7 @@ const cf_Null=0;
    procedure cm_ClearLogFile(param: string='');
    procedure cm_NetworkConnect(param: string='');
    procedure cm_NetworkDisconnect(param: string='');
+   procedure cm_HorizontalFilePanels(param: string='');
 
    //---------------------
    {   procedure SomeFunction (param:string; var Result:integer);
@@ -2567,7 +2568,10 @@ begin
   begin
    if TryStrToInt(param,i) then
      begin
-       pnlLeft.Width:= (pnlNoteBooks.Width-MainSplitter.Width) * i div 100;
+       if not gHorizontalFilePanels then
+         pnlLeft.Width:= (pnlNoteBooks.Width-MainSplitter.Width) * i div 100
+       else
+         pnlLeft.Height:= (pnlNoteBooks.Height-MainSplitter.Height) * i div 100;
      end;
   end;
 end;
@@ -2813,5 +2817,12 @@ begin
   }
 end;
 
-end.
+procedure TActs.cm_HorizontalFilePanels(param: string='');
+begin
+  gHorizontalFilePanels := not gHorizontalFilePanels;
+  frmMain.actHorizontalFilePanels.Checked := gHorizontalFilePanels;
+  frmMain.UpdateWindowView;
+end;
 
+end.
+
