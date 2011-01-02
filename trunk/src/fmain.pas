@@ -75,7 +75,6 @@ type
     actChangeDir: TAction;
     actAddFilenameToCmdLine: TAction;
     actAddPathAndFilenameToCmdLine: TAction;
-    actDriveContextMenu: TAction;
     actCopyNoAsk: TAction;
     actChangeDirToParent: TAction;
     actEditPath: TAction;

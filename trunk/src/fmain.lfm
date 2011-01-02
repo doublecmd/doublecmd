@@ -2077,11 +2077,6 @@ object frmMain: TfrmMain
       Caption = 'Set splitter position'
       OnExecute = actExecute
     end
-    object actDriveContextMenu: TAction
-      Category = 'Commands'
-      Caption = 'Drive context menu'
-      OnExecute = actExecute
-    end
     object actCopyNoAsk: TAction
       Category = 'Commands'
       Caption = 'Copy files without asking for confirmation'
