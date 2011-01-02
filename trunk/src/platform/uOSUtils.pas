@@ -619,7 +619,7 @@ begin
   DE_UNKNOWN,
   DE_LXDE:
     begin
-      if FileIsExecutable(URL) then
+      if FileIsUnixExecutable(URL) then
       begin
         if GetPathType(URL) <> ptAbsolute then
           sCmdLine := './';
@@ -641,7 +641,7 @@ begin
     sCmdLine:= 'kioclient exec ' + QuoteStr(URL);
   DE_GNOME:
     begin
-      if FileIsExecutable(URL) and FileIsExeLib(URL) then
+      if FileIsUnixExecutable(URL) then
       begin
         if GetPathType(URL) <> ptAbsolute then
           sCmdLine := './';
