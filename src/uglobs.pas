@@ -113,7 +113,8 @@ var
   gDriveInd,
   gDriveFreeSpace,
   gProgInMenuBar,
-  gPanelOfOp: Boolean;
+  gPanelOfOp,
+  gHorizontalFilePanels: Boolean;
 
   { Toolbar }
   gToolBarButtonSize,
@@ -623,6 +624,7 @@ begin
   gDriveFreeSpace := True;
   gProgInMenuBar := False;
   gPanelOfOp := True;
+  gHorizontalFilePanels := False;
 
   { File operations page }
   gCopyBlockSize := 524288;
@@ -1411,6 +1413,7 @@ begin
       gDriveInd := GetValue(Node, 'DriveIndicator', gDriveInd);
       gProgInMenuBar := GetValue(Node, 'ProgressInMenuBar', gProgInMenuBar);
       gPanelOfOp := GetValue(Node, 'PanelOfOperationsInBackground', gPanelOfOp);
+      gHorizontalFilePanels := GetValue(Node, 'HorizontalFilePanels', gHorizontalFilePanels);
     end;
 
     { File operations page }
@@ -1669,6 +1672,8 @@ begin
     SetValue(Node, 'DriveIndicator', gDriveInd);
     SetValue(Node, 'ProgressInMenuBar', gProgInMenuBar);
     SetValue(Node, 'PanelOfOperationsInBackground', gPanelOfOp);
+    SetValue(Node, 'HorizontalFilePanels', gHorizontalFilePanels);
+
     { File operations page }
     Node := FindNode(Root, 'FileOperations', True);
     SetValue(Node, 'BufferSize', gCopyBlockSize);
