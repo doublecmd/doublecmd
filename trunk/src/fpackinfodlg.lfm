@@ -1,307 +1,328 @@
 object frmPackInfoDlg: TfrmPackInfoDlg
-  Left = 263
-  Height = 350
-  Top = 135
-  Width = 335
+  Left = 525
+  Height = 400
+  Top = 83
+  Width = 284
+  AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Properties of packed file'
-  ClientHeight = 350
-  ClientWidth = 335
+  ClientHeight = 400
+  ClientWidth = 284
   Position = poScreenCenter
   LCLVersion = '0.9.31'
-  object btnClose: TButton
-    AnchorSideTop.Control = nbProperties
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = btnUnpackAndExec
-    Left = 102
-    Height = 23
-    Top = 297
-    Width = 85
-    Anchors = [akTop, akRight]
-    BorderSpacing.Top = 4
-    BorderSpacing.Right = 4
-    Cancel = True
-    Caption = 'Close'
-    Default = True
-    ModalResult = 2
+  object pnlInfo: TPanel
+    Left = 0
+    Height = 309
+    Top = 0
+    Width = 284
+    Align = alClient
+    AutoSize = True
+    BevelOuter = bvNone
+    ClientHeight = 309
+    ClientWidth = 284
     TabOrder = 0
-  end
-  object btnUnpackAndExec: TButton
-    AnchorSideTop.Control = nbProperties
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 191
-    Height = 23
-    Top = 297
-    Width = 140
-    Anchors = [akTop, akRight]
-    BorderSpacing.Top = 4
-    BorderSpacing.Right = 4
-    Caption = '&Unpack and execute'
-    ModalResult = 1
-    TabOrder = 1
-  end
-  object nbProperties: TPageControl
-    Left = 4
-    Height = 289
-    Top = 4
-    Width = 329
-    ActivePage = pgGeneral
-    TabIndex = 0
-    TabOrder = 3
-    object pgGeneral: TTabSheet
-      Caption = 'General'
-      ClientHeight = 263
-      ClientWidth = 321
+    object pnlInfoFile: TPanel
+      AnchorSideLeft.Control = pnlInfo
+      AnchorSideTop.Control = pnlInfo
+      AnchorSideRight.Control = pnlInfo
+      AnchorSideRight.Side = asrBottom
+      Left = 15
+      Height = 43
+      Top = 0
+      Width = 254
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
+      BorderSpacing.Left = 15
+      BorderSpacing.Right = 15
+      BevelOuter = bvNone
+      ClientHeight = 43
+      ClientWidth = 254
+      TabOrder = 1
       object lblPackedFile: TLabel
-        Left = 10
-        Height = 16
-        Top = 10
-        Width = 50
-        AutoSize = False
+        AnchorSideLeft.Control = pnlInfoFile
+        AnchorSideTop.Control = edtPackedFile
+        AnchorSideTop.Side = asrCenter
+        Left = 0
+        Height = 24
+        Top = 14
+        Width = 38
+        BorderSpacing.Top = 10
         Caption = 'File:'
         ParentColor = False
       end
-      object lblPacker: TLabel
-        Left = 10
-        Height = 16
-        Top = 49
-        Width = 130
-        AutoSize = False
-        Caption = 'Packer:'
-        ParentColor = False
-      end
-      object lblOriginalSize: TLabel
-        AnchorSideTop.Control = lblPacker
-        AnchorSideTop.Side = asrBottom
-        Left = 10
-        Height = 16
-        Top = 73
-        Width = 130
-        AutoSize = False
-        BorderSpacing.Top = 8
-        Caption = 'Original size:'
-        ParentColor = False
-      end
-      object lblPackedSize: TLabel
-        AnchorSideTop.Control = lblOriginalSize
-        AnchorSideTop.Side = asrBottom
-        Left = 10
-        Height = 16
-        Top = 97
-        Width = 130
-        AutoSize = False
-        BorderSpacing.Top = 8
-        Caption = 'Packed size:'
-        ParentColor = False
-      end
-      object lblCompressionRatio: TLabel
-        AnchorSideTop.Control = lblPackedSize
-        AnchorSideTop.Side = asrBottom
-        Left = 10
-        Height = 16
-        Top = 121
-        Width = 130
-        AutoSize = False
-        BorderSpacing.Top = 8
-        Caption = 'Compression ratio:'
-        ParentColor = False
-      end
-      object lblMethod: TLabel
-        AnchorSideTop.Control = lblCompressionRatio
-        AnchorSideTop.Side = asrBottom
-        Left = 10
-        Height = 16
-        Top = 145
-        Width = 130
-        AutoSize = False
-        BorderSpacing.Top = 8
-        Caption = 'Method:'
-        ParentColor = False
-      end
-      object lblDate: TLabel
-        AnchorSideTop.Control = Bevel2
-        AnchorSideTop.Side = asrBottom
-        Left = 10
-        Height = 16
-        Top = 182
-        Width = 130
-        AutoSize = False
-        BorderSpacing.Top = 4
-        Caption = 'Date:'
-        ParentColor = False
-      end
-      object lblTime: TLabel
-        AnchorSideTop.Control = lblDate
-        AnchorSideTop.Side = asrBottom
-        Left = 10
-        Height = 16
-        Top = 206
-        Width = 130
-        AutoSize = False
-        BorderSpacing.Top = 8
-        Caption = 'Time:'
-        ParentColor = False
-      end
-      object lblAttributes: TLabel
-        AnchorSideTop.Control = lblTime
-        AnchorSideTop.Side = asrBottom
-        Left = 10
-        Height = 16
-        Top = 230
-        Width = 130
-        AutoSize = False
-        BorderSpacing.Top = 8
-        Caption = 'Attributes:'
-        ParentColor = False
-      end
-      object Bevel1: TBevel
-        AnchorSideTop.Control = lblPackedFile
-        AnchorSideTop.Side = asrBottom
-        Left = 10
-        Height = 9
-        Top = 36
-        Width = 300
-        BorderSpacing.Top = 10
-        Shape = bsTopLine
-      end
-      object Bevel2: TBevel
-        AnchorSideTop.Control = lblMethod
-        AnchorSideTop.Side = asrBottom
-        Left = 10
-        Height = 9
-        Top = 169
-        Width = 300
-        BorderSpacing.Top = 8
-        Shape = bsTopLine
-      end
-      object lblPackedPacker: TLabel
-        AnchorSideTop.Control = lblPacker
-        AnchorSideTop.Side = asrCenter
-        Left = 141
-        Height = 16
-        Top = 49
-        Width = 175
-        AutoSize = False
-        Caption = '?'
-        ParentColor = False
-        ShowAccelChar = False
-      end
-      object lblPackedOrgSize: TLabel
-        AnchorSideTop.Control = lblOriginalSize
-        AnchorSideTop.Side = asrCenter
-        Left = 141
-        Height = 16
-        Top = 73
-        Width = 175
-        AutoSize = False
-        Caption = '?'
-        ParentColor = False
-        ShowAccelChar = False
-      end
-      object lblPackedPackedSize: TLabel
-        AnchorSideTop.Control = lblPackedSize
-        AnchorSideTop.Side = asrCenter
-        Left = 141
-        Height = 16
-        Top = 97
-        Width = 175
-        AutoSize = False
-        Caption = '?'
-        ParentColor = False
-        ShowAccelChar = False
-      end
-      object lblPackedCompression: TLabel
-        AnchorSideTop.Control = lblCompressionRatio
-        AnchorSideTop.Side = asrCenter
-        Left = 141
-        Height = 16
-        Top = 121
-        Width = 175
-        AutoSize = False
-        Caption = '?'
-        ParentColor = False
-        ShowAccelChar = False
-      end
-      object lblPackedMethod: TLabel
-        AnchorSideTop.Control = lblMethod
-        AnchorSideTop.Side = asrCenter
-        Left = 141
-        Height = 16
-        Top = 145
-        Width = 175
-        AutoSize = False
-        Caption = '?'
-        ParentColor = False
-        ShowAccelChar = False
-      end
-      object lblPackedDate: TLabel
-        AnchorSideTop.Control = lblDate
-        AnchorSideTop.Side = asrCenter
-        Left = 141
-        Height = 16
-        Top = 182
-        Width = 175
-        AutoSize = False
-        Caption = '?'
-        ParentColor = False
-        ShowAccelChar = False
-      end
-      object lblPackedTime: TLabel
-        AnchorSideTop.Control = lblTime
-        AnchorSideTop.Side = asrCenter
-        Left = 141
-        Height = 16
-        Top = 206
-        Width = 175
-        AutoSize = False
-        Caption = '?'
-        ParentColor = False
-        ShowAccelChar = False
-      end
-      object lblPackedAttr: TLabel
-        AnchorSideTop.Control = lblAttributes
-        AnchorSideTop.Side = asrCenter
-        Left = 141
-        Height = 16
-        Top = 230
-        Width = 175
-        AutoSize = False
-        Caption = '?'
-        ParentColor = False
-        ShowAccelChar = False
-      end
       object edtPackedFile: TEdit
-        AnchorSideTop.Control = lblPackedFile
-        AnchorSideTop.Side = asrCenter
-        Left = 60
-        Height = 21
-        Top = 8
-        Width = 259
-        Color = clBtnFace
+        AnchorSideLeft.Control = lblPackedFile
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = pnlInfoFile
+        AnchorSideRight.Control = pnlInfoFile
+        AnchorSideRight.Side = asrBottom
+        Left = 53
+        Height = 33
+        Top = 10
+        Width = 201
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 15
+        BorderSpacing.Top = 10
+        Color = clBackground
+        Constraints.MinWidth = 200
         ReadOnly = True
         TabStop = False
         TabOrder = 0
-        Text = '?'
+      end
+    end
+    object Bevel1: TBevel
+      AnchorSideLeft.Control = pnlInfo
+      AnchorSideTop.Control = pnlInfoFile
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlInfo
+      AnchorSideRight.Side = asrBottom
+      Left = 15
+      Height = 9
+      Top = 53
+      Width = 254
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 15
+      BorderSpacing.Top = 10
+      BorderSpacing.Right = 15
+      Shape = bsTopLine
+    end
+    object pnlInfoProperties: TPanel
+      AnchorSideLeft.Control = pnlInfo
+      AnchorSideTop.Control = Bevel1
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlInfo
+      AnchorSideRight.Side = asrBottom
+      Left = 15
+      Height = 227
+      Top = 62
+      Width = 254
+      Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
+      BorderSpacing.Left = 15
+      BorderSpacing.Right = 15
+      BevelOuter = bvNone
+      ChildSizing.HorizontalSpacing = 30
+      ChildSizing.VerticalSpacing = 5
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousChildResize
+      ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
+      ChildSizing.ShrinkVertical = crsHomogenousChildResize
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 2
+      ClientHeight = 227
+      ClientWidth = 254
+      TabOrder = 0
+      object lblPacker: TLabel
+        Left = 0
+        Height = 24
+        Top = 0
+        Width = 190
+        Caption = 'Packer:'
+        ParentColor = False
+      end
+      object lblPackedPacker: TLabel
+        Left = 220
+        Height = 24
+        Top = 0
+        Width = 34
+        ParentColor = False
+        ShowAccelChar = False
+      end
+      object lblOriginalSize: TLabel
+        Left = 0
+        Height = 24
+        Top = 29
+        Width = 190
+        Caption = 'Original size:'
+        ParentColor = False
+      end
+      object lblPackedOrgSize: TLabel
+        Left = 220
+        Height = 24
+        Top = 29
+        Width = 34
+        ParentColor = False
+        ShowAccelChar = False
+      end
+      object lblPackedSize: TLabel
+        Left = 0
+        Height = 24
+        Top = 58
+        Width = 190
+        Caption = 'Packed size:'
+        ParentColor = False
+      end
+      object lblPackedPackedSize: TLabel
+        Left = 220
+        Height = 24
+        Top = 58
+        Width = 34
+        ParentColor = False
+        ShowAccelChar = False
+      end
+      object lblCompressionRatio: TLabel
+        Left = 0
+        Height = 24
+        Top = 87
+        Width = 190
+        Caption = 'Compression ratio:'
+        ParentColor = False
+      end
+      object lblPackedCompression: TLabel
+        Left = 220
+        Height = 24
+        Top = 87
+        Width = 34
+        ParentColor = False
+        ShowAccelChar = False
+      end
+      object lblMethod: TLabel
+        Left = 0
+        Height = 24
+        Top = 116
+        Width = 190
+        Caption = 'Method:'
+        ParentColor = False
+      end
+      object lblPackedMethod: TLabel
+        Left = 220
+        Height = 24
+        Top = 116
+        Width = 34
+        ParentColor = False
+        ShowAccelChar = False
+      end
+      object lblDate: TLabel
+        Left = 0
+        Height = 24
+        Top = 145
+        Width = 190
+        Caption = 'Date:'
+        ParentColor = False
+      end
+      object lblPackedDate: TLabel
+        Left = 220
+        Height = 24
+        Top = 145
+        Width = 34
+        ParentColor = False
+        ShowAccelChar = False
+      end
+      object lblTime: TLabel
+        Left = 0
+        Height = 24
+        Top = 174
+        Width = 190
+        Caption = 'Time:'
+        ParentColor = False
+      end
+      object lblPackedTime: TLabel
+        Left = 220
+        Height = 24
+        Top = 174
+        Width = 34
+        ParentColor = False
+        ShowAccelChar = False
+      end
+      object lblAttributes: TLabel
+        Left = 0
+        Height = 24
+        Top = 203
+        Width = 190
+        Caption = 'Attributes:'
+        ParentColor = False
+      end
+      object lblPackedAttr: TLabel
+        Left = 220
+        Height = 24
+        Top = 203
+        Width = 34
+        ParentColor = False
+        ShowAccelChar = False
+      end
+      object Bevel2: TBevel
+        AnchorSideLeft.Control = pnlInfoProperties
+        AnchorSideRight.Control = pnlInfoProperties
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = lblDate
+        Left = 0
+        Height = 4
+        Top = 136
+        Width = 254
+        Anchors = [akLeft, akRight, akBottom]
+        BorderSpacing.Bottom = 4
+        Shape = bsBottomLine
       end
     end
   end
-  object btnUnpackAllAndExec: TButton
-    AnchorSideTop.Control = btnClose
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 102
-    Height = 23
+  object pnlButtons: TPanel
+    Left = 0
+    Height = 76
     Top = 324
-    Width = 229
-    Anchors = [akTop, akRight]
-    BorderSpacing.Top = 4
-    BorderSpacing.Right = 4
-    Caption = 'Unpack &all and execute'
-    ModalResult = 8
-    TabOrder = 2
+    Width = 284
+    Align = alBottom
+    AutoSize = True
+    BorderSpacing.Top = 15
+    BevelOuter = bvNone
+    ClientHeight = 76
+    ClientWidth = 284
+    TabOrder = 1
+    object btnClose: TButton
+      AnchorSideLeft.Control = pnlButtons
+      AnchorSideTop.Control = pnlButtons
+      AnchorSideBottom.Control = btnUnpackAndExec
+      AnchorSideBottom.Side = asrBottom
+      Left = 10
+      Height = 33
+      Top = 0
+      Width = 85
+      Anchors = [akTop, akLeft, akBottom]
+      AutoSize = True
+      BorderSpacing.Left = 10
+      Cancel = True
+      Caption = 'Close'
+      Default = True
+      ModalResult = 2
+      TabOrder = 0
+    end
+    object btnUnpackAndExec: TButton
+      AnchorSideLeft.Control = btnClose
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideRight.Control = pnlButtons
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = btnUnpackAllAndExec
+      Left = 99
+      Height = 33
+      Top = 0
+      Width = 175
+      Anchors = [akLeft, akRight, akBottom]
+      AutoSize = True
+      BorderSpacing.Left = 4
+      BorderSpacing.Right = 10
+      BorderSpacing.Bottom = 4
+      Caption = '&Unpack and execute'
+      ModalResult = 1
+      TabOrder = 1
+    end
+    object btnUnpackAllAndExec: TButton
+      AnchorSideLeft.Control = pnlButtons
+      AnchorSideRight.Control = pnlButtons
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = pnlButtons
+      AnchorSideBottom.Side = asrBottom
+      Left = 10
+      Height = 33
+      Top = 37
+      Width = 264
+      Anchors = [akLeft, akRight, akBottom]
+      AutoSize = True
+      BorderSpacing.Left = 10
+      BorderSpacing.Right = 10
+      BorderSpacing.Bottom = 6
+      Caption = 'Unpack &all and execute'
+      ModalResult = 8
+      TabOrder = 2
+    end
   end
 end
