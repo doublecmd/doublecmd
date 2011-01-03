@@ -28,7 +28,7 @@ unit fPackInfoDlg;
 interface
 
 uses
-  SysUtils, Classes, LResources, Forms, StdCtrls, ExtCtrls, Controls, ComCtrls,
+  SysUtils, Classes, LResources, Forms, StdCtrls, ExtCtrls, Controls,
   uFile, uArchiveFileSource, uFileSourceExecuteOperation;
 
 type
@@ -50,7 +50,6 @@ type
     lblPackedSize: TLabel;
     lblPacker: TLabel;
     lblTime: TLabel;
-    nbProperties: TPageControl;
     lblPackedAttr: TLabel;
     lblPackedCompression: TLabel;
     lblPackedDate: TLabel;
@@ -60,7 +59,10 @@ type
     lblPackedPackedSize: TLabel;
     lblPackedPacker: TLabel;
     lblPackedTime: TLabel;
-    pgGeneral: TTabSheet;
+    pnlInfoProperties: TPanel;
+    pnlInfoFile: TPanel;
+    pnlInfo: TPanel;
+    pnlButtons: TPanel;
   private
     { private declarations }
   public
@@ -72,7 +74,7 @@ function ShowPackInfoDlg(aFileSource: IArchiveFileSource; aFile: TFile): TFileSo
 implementation
 
 uses
-  uFileProperty, uFileSourceOperationTypes;
+  uFileSourceOperationTypes;
 
 function ShowPackInfoDlg(aFileSource: IArchiveFileSource; aFile: TFile): TFileSourceExecuteOperationResult;
 begin
@@ -97,6 +99,9 @@ constructor TfrmPackInfoDlg.Create(TheOwner: TComponent;
                                    aFileSource: IArchiveFileSource; aFile: TFile);
 var
   sArcType: String;
+  upperInfoControls: array[0..4] of TControl;
+  i: Integer;
+  foundDividingControl: Boolean = False;
 begin
   inherited Create(TheOwner);
 
@@ -107,23 +112,55 @@ begin
   Delete(sArcType, 1, 1);
   lblPackedPacker.Caption:= sArcType;
 
+  lblPackedOrgSize.Visible := not aFile.IsDirectory;
+  lblPackedPackedSize.Visible := not aFile.IsDirectory;
+  lblPackedCompression.Visible := False;
+  lblPackedMethod.Visible := False;
+
   if not aFile.IsDirectory then
   begin
-    lblPackedOrgSize.Caption:=  IntToStr(aFile.Size);
-    lblPackedPackedSize.Caption:= IntToStr(aFile.CompressedSize);
+    lblPackedOrgSize.Caption := IntToStr(aFile.Size);
+    lblPackedPackedSize.Caption := IntToStr(aFile.CompressedSize);
     if aFile.Size > 0 then
-      lblPackedCompression.Caption:= IntToStr(100 - (aFile.CompressedSize *100 div aFile.Size))+'%';
-//      lblPackedMethod.Caption:= IntToStr(HeaderData.Method);
+    begin
+      lblPackedCompression.Caption := IntToStr(100 - (aFile.CompressedSize * 100 div aFile.Size)) + '%';
+      lblPackedCompression.Visible := True;
+    end;
   end;
 
   // DateTime and Attributes
   lblPackedDate.Caption:= DateToStr(aFile.ModificationTime);
   lblPackedTime.Caption:= TimeToStr(aFile.ModificationTime);
-  lblPackedAttr.Caption:= aFile.Properties[fpAttributes].AsString;
+  lblPackedAttr.Caption:= aFile.AttributesProperty.AsString;
+
+  // Hide labels for not visible values.
+  lblOriginalSize.Visible     := lblPackedOrgSize.Visible;
+  lblPackedSize.Visible       := lblPackedPackedSize.Visible;
+  lblCompressionRatio.Visible := lblPackedCompression.Visible;
+  lblMethod.Visible           := lblPackedMethod.Visible;
+
+  // Controls from the dividing line to top.
+  upperInfoControls[0] := lblMethod;
+  upperInfoControls[1] := lblCompressionRatio;
+  upperInfoControls[2] := lblPackedSize;
+  upperInfoControls[3] := lblOriginalSize;
+  upperInfoControls[4] := lblPacker;
+
+  // Make space for the dividing line.
+  for i := Low(upperInfoControls) to High(upperInfoControls) do
+  begin
+    if foundDividingControl then
+      upperInfoControls[i].BorderSpacing.Bottom := 0
+    else if upperInfoControls[i].Visible then
+    begin
+      foundDividingControl := True;
+      upperInfoControls[i].BorderSpacing.Bottom := 12;
+    end;
+  end;
 end;
 
 initialization
   {$I fpackinfodlg.lrs}
 
 end.
-
+
