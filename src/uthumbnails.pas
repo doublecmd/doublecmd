@@ -139,7 +139,9 @@ begin
       Exit(False);
     // Read thumbnail metadata
     Result:= (URIToFilename(FileStream.ReadAnsiString, sFileName) and SameText(sFileName, aFile.FullPath));
+    if not Result then Exit;
     Result:= (aFile.Size = FileStream.ReadQWord) and (QWord(aFile.ModificationTime) = FileStream.ReadQWord);
+    if not Result then Exit;
     Result:= (FWidth = FileStream.ReadWord) and (FHeight = FileStream.ReadWord);
   except
     Result:= False;
@@ -256,15 +258,18 @@ begin
         end;
       if not Assigned(Result) then Exit;
       // save created thumb to cache
-      Picture.Bitmap.Assign(Result);
-      sExt:= GetPreviewFileExt(sExt);
-      try
-        fsFileStream:= TFileStreamEx.Create(sThumbFileName, fmCreate);
-        Picture.SaveToStreamWithFileExt(fsFileStream, sExt);
-        WriteMetaData(aFile, fsFileStream);
-      finally
-        FreeThenNil(fsFileStream);
-      end;
+      if gSaveThumb then
+        begin
+          Picture.Bitmap.Assign(Result);
+          sExt:= GetPreviewFileExt(sExt);
+          try
+            fsFileStream:= TFileStreamEx.Create(sThumbFileName, fmCreate);
+            Picture.SaveToStreamWithFileExt(fsFileStream, sExt);
+            WriteMetaData(aFile, fsFileStream);
+          finally
+            FreeThenNil(fsFileStream);
+          end;
+        end;
   finally
     FreeThenNil(Picture);
   end;

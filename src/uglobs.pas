@@ -60,7 +60,7 @@ type
   end;
   TExternalToolsOptions = array[TExternalTool] of TExternalToolOptions;
 
-  TDCFont = (dcfMain, dcfViewer, dcfEditor, dcfLog);
+  TDCFont = (dcfMain, dcfViewer, dcfEditor, dcfLog, dcfViewerBook);
   TDCFontOptions = record
     Name: String;
     Size: Integer;
@@ -260,15 +260,21 @@ var
 
   {Viewer}
   gPreviewVisible,
-  gImageStretch: Boolean;
+  gImageStretch,
+  gSaveThumb: Boolean;
   gCopyMovePath1,
   gCopyMovePath2,
   gCopyMovePath3,
   gCopyMovePath4,
   gCopyMovePath5,
   gImagePaintMode: String;
-  gImagePaintWidth: Integer;
-  gImagePaintColor: TColor;
+  gImagePaintWidth,
+  gColCount: Integer;
+  gImagePaintColor,
+  gBookBackgroundColor,
+  gBookFontColor: TColor;
+  gTextPosition:PtrInt;
+
 
 function InitGlobs: Boolean;
 function LoadGlobs: Boolean;
@@ -590,6 +596,9 @@ begin
   gFonts[dcfLog].Name := MonoSpaceFont;
   gFonts[dcfLog].Size := 12;
   gFonts[dcfLog].Style := [];
+  gFonts[dcfViewerBook].Name := 'default';
+  gFonts[dcfViewerBook].Size := 16;
+  gFonts[dcfViewerBook].Style := [fsBold];
 
   { Colors page }
   gForeColor := clDefault;
@@ -701,6 +710,7 @@ begin
   {Viewer}
   gImageStretch := False;
   gPreviewVisible := False;
+  gSaveThumb := True;
   gCopyMovePath1 := '';
   gCopyMovePath2 := '';
   gCopyMovePath3 := '';
@@ -708,7 +718,11 @@ begin
   gCopyMovePath5 := '';
   gImagePaintMode := 'Pen';
   gImagePaintWidth := 5;
+  gColCount := 1;
   gImagePaintColor := clRed;
+  gBookBackgroundColor := clBlack;
+  gBookFontColor := clWhite;
+  gTextPosition:= 0;
 
   { - Other - }
   gLuaLib := '/usr/lib/liblua5.1.so';
@@ -1365,6 +1379,7 @@ begin
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Editor'), gFonts[dcfEditor]);
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Viewer'), gFonts[dcfViewer]);
     GetDCFont(gConfig.FindNode(Root, 'Fonts/Log'), gFonts[dcfLog]);
+    GetDCFont(gConfig.FindNode(Root, 'Fonts/ViewerBook'), gFonts[dcfViewerBook]);
 
     { Colors page }
     Node := Root.FindNode('Colors');
@@ -1531,6 +1546,7 @@ begin
     begin
       gImageStretch := GetValue(Node, 'ImageStretch', gImageStretch);
       gPreviewVisible := GetValue(Node, 'PreviewVisible', gPreviewVisible);
+      gSaveThumb := GetValue(Node, 'SaveThumbnails', gSaveThumb);
       gCopyMovePath1 := GetValue(Node, 'CopyMovePath1', gCopyMovePath1);
       gCopyMovePath2 := GetValue(Node, 'CopyMovePath2', gCopyMovePath2);
       gCopyMovePath3 := GetValue(Node, 'CopyMovePath3', gCopyMovePath3);
@@ -1538,7 +1554,11 @@ begin
       gCopyMovePath5 := GetValue(Node, 'CopyMovePath5', gCopyMovePath5);
       gImagePaintMode := GetValue(Node, 'PaintMode', gImagePaintMode);
       gImagePaintWidth := GetValue(Node, 'PaintWidth', gImagePaintWidth);
+      gColCount := GetValue(Node, 'NumberOfColumns', gColCount);
       gImagePaintColor := GetValue(Node, 'PaintColor', gImagePaintColor);
+      gBookBackgroundColor := GetValue(Node, 'BackgroundColor', gBookBackgroundColor);
+      gBookFontColor := GetValue(Node, 'FontColor', gBookFontColor);
+      gTextPosition := GetValue(Node, 'TextPosition',  gTextPosition);
     end;
     { - Other - }
     gLuaLib := GetValue(Root, 'Lua/PathToLibrary', gLuaLib);
@@ -1633,6 +1653,7 @@ begin
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Editor', True), gFonts[dcfEditor]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Viewer', True), gFonts[dcfViewer]);
     SetDCFont(gConfig.FindNode(Root, 'Fonts/Log', True), gFonts[dcfLog]);
+    SetDCFont(gConfig.FindNode(Root, 'Fonts/ViewerBook', True), gFonts[dcfViewerBook]);
 
     { Colors page }
     Node := FindNode(Root, 'Colors', True);
@@ -1763,6 +1784,7 @@ begin
     {Viewer}
     Node := FindNode(Root, 'Viewer',True);
     SetValue(Node, 'PreviewVisible',gPreviewVisible);
+    SetValue(Node, 'SaveThumbnails', gSaveThumb);
     SetValue(Node, 'ImageStretch',gImageStretch);
     SetValue(Node, 'CopyMovePath1', gCopyMovePath1);
     SetValue(Node, 'CopyMovePath2', gCopyMovePath2);
@@ -1771,7 +1793,11 @@ begin
     SetValue(Node, 'CopyMovePath5', gCopyMovePath5);
     SetValue(Node, 'PaintMode', gImagePaintMode);
     SetValue(Node, 'PaintWidth', gImagePaintWidth);
+    SetValue(Node, 'NumberOfColumns', gColCount);
     SetValue(Node, 'PaintColor', gImagePaintColor);
+    SetValue(Node, 'BackgroundColor', gBookBackgroundColor);
+    SetValue(Node, 'FontColor', gBookFontColor);
+    SetValue(Node, 'TextPosition', gTextPosition);
 
     { - Other - }
     SetValue(Root, 'Lua/PathToLibrary', gLuaLib);
