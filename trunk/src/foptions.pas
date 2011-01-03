@@ -77,6 +77,9 @@ type
     btnEditColumnsSet: TButton;
     btnDelColumnsSet: TButton;
     btnCopyColumnsSet: TButton;
+    btnSelViewerBookFnt: TButton;
+    btnBackViewerColor: TButton;
+    btnFontViewerColor: TButton;
     cbBackColor: TColorBox;
     cBackGrndLabel: TLabel;
     cbSortCaseSensitive: TCheckBox;
@@ -139,6 +142,7 @@ type
     cbPanelOfOperations: TCheckBox;
     cbbUseFrameCursor: TCheckBox;
     cbShowDriveFreeSpace: TCheckBox;
+    cbSaveThubnails: TCheckBox;
     chkSearchReplaceHistory: TCheckBox;
     chkSaveConfiguration: TCheckBox;
     chkMultiArcEnabled: TCheckBox;
@@ -149,9 +153,12 @@ type
     cmbTabsPosition: TComboBox;
     cmbAutoSizeColumn: TComboBox;
     cbSortMethod: TComboBox;
+    cbBackgroundColorViewerBook: TColorBox;
+    cbFontColorViewerBook: TColorBox;
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
+    edtViewerBookFont: TEdit;
     edtArchiveListEnd: TEdit;
     edtArchiveListStart: TEdit;
     edtArchiveDelete: TEdit;
@@ -223,7 +230,13 @@ type
     gbAutoRefreshDisable: TGroupBox;
     gbShowToolTip: TGroupBox;
     gbSorting: TGroupBox;
+    gbViewerExample: TGroupBox;
+    gbViewerBookMode: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
+    lblNumberColumnsViewer: TLabel;
+    lblFontColorViewerBook: TLabel;
+    lblBackgroundColorViewerBook: TLabel;
+    lblViewerBookFont: TLabel;
     lblSortMethod: TLabel;
     lblArchiveListEnd: TLabel;
     lblArchiveListStart: TLabel;
@@ -249,6 +262,7 @@ type
     lbxMultiArc: TListBox;
     memArchiveListFormat: TMemo;
     memIgnoreList: TMemo;
+    pbViewerBook: TPaintBox;
     pnlHotkeyButtons: TPanel;
     pnlMultiArcButtons: TPanel;
     pcArchiverCommands: TPageControl;
@@ -365,6 +379,8 @@ type
     rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
     seWheelScrollLines: TSpinEdit;
+    edtViewerBookFontSize: TSpinEdit;
+    seNumberColumnsViewer: TSpinEdit;
     splMultiArc: TSplitter;
     splOptionsSplitter: TSplitter;
     stgPlugins: TStringGrid;
@@ -391,18 +407,22 @@ type
     procedure btnAddSelClick(Sender: TObject);
     procedure btnAddSelWithPathClick(Sender: TObject);
     procedure btnAutoConfigClick(Sender: TObject);
+    procedure btnBackViewerColorClick(Sender: TObject);
     procedure btnConfigApplyClick(Sender: TObject);
     procedure btnConfigEditClick(Sender: TObject);
     procedure btnConfigPluginClick(Sender: TObject);
     procedure btnDSXAddClick(Sender: TObject);
     procedure btnEnablePluginClick(Sender: TObject);
+    procedure btnFontViewerColorClick(Sender: TObject);
     procedure btnMultiArcAddClick(Sender: TObject);
     procedure btnMultiArcApplyClick(Sender: TObject);
     procedure btnMultiArcDeleteClick(Sender: TObject);
     procedure btnMultiArcRenameClick(Sender: TObject);
     procedure btnSearchTemplateClick(Sender: TObject);
+    procedure btnSelViewerBookFntClick(Sender: TObject);
     procedure cbAlwaysShowTrayIconChange(Sender: TObject);
     procedure cbbUseFrameCursorChange(Sender: TObject);
+    procedure cbFontColorViewerBookChange(Sender: TObject);
     procedure cbIconsSizeChange(Sender: TObject);
     procedure cbListFilesInThreadChange(Sender: TObject);
     procedure cbToolsKeepTerminalOpenChange(Sender: TObject);
@@ -413,6 +433,7 @@ type
     procedure chkMultiArcEnabledChange(Sender: TObject);
     procedure chkSaveConfigurationChange(Sender: TObject);
     procedure edtToolsParametersChange(Sender: TObject);
+    procedure edtViewerBookFontSizeChange(Sender: TObject);
     procedure fneToolsPathAcceptFileName(Sender: TObject; var Value: String);
     procedure fneToolsPathChange(Sender: TObject);
     procedure lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
@@ -466,11 +487,13 @@ type
       ARect: TRect; State: TOwnerDrawState);
     procedure lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
     procedure nbNotebookPageChanged(Sender: TObject);
+    procedure pbViewerBookPaint(Sender: TObject);
     procedure pbExamplePaint(Sender: TObject);
     procedure pcPluginsTypesChange(Sender: TObject);
     procedure pgBehavResize(Sender: TObject);
     procedure rbIconsShowNoneChange(Sender: TObject);
     procedure rbQuickSearchFilterKeyChange(Sender: TObject);
+    procedure seNumberColumnsViewerChange(Sender: TObject);
     procedure stgCommandsResize(Sender: TObject);
     procedure stgCommandsSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
@@ -625,6 +648,8 @@ begin
   InitPropStorage(Self);
   // Let not warning on which page save form
   nbNotebook.PageIndex := 0;
+
+  gbViewerBookMode.Enabled := not (cbToolsUseExternalProgram.Checked);
 end;
 
 procedure TfrmOptions.btSetHotKeyClick(Sender: TObject);
@@ -760,6 +785,7 @@ procedure TfrmOptions.cbColorBoxChange(Sender: TObject);
 begin
   (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
   pbExample.Repaint;
+  pbViewerBook.Repaint;
 end;
 
 procedure TfrmOptions.cbDateTimeFormatChange(Sender: TObject);
@@ -826,6 +852,11 @@ end;
 procedure TfrmOptions.edtLogFontSizeChange(Sender: TObject);
 begin
   edtLogFont.Font.Size := edtLogFontSize.Value;
+end;
+
+procedure TfrmOptions.edtViewerBookFontSizeChange(Sender: TObject);
+begin
+  edtViewerBookFont.Font.Size := edtViewerBookFontSize.Value;
 end;
 
 procedure TfrmOptions.FillLngListBox;
@@ -921,22 +952,38 @@ begin
     end;
 end;
 
+procedure TfrmOptions.btnSelViewerBookFntClick(Sender: TObject);
+begin
+  dlgFnt.Font.Name  := edtViewerBookFont.Text;
+  dlgFnt.Font.Size  := edtViewerBookFontSize.Value;
+  dlgFnt.Font.Style := edtViewerBookFont.Font.Style;
+  if dlgFnt.Execute then
+    begin
+      edtViewerBookFont.Text       := dlgFnt.Font.Name;
+      edtViewerBookFontSize.Value  := dlgFnt.Font.Size;
+      edtViewerBookFont.Font.Style := dlgFnt.Font.Style;
+    end;
+end;
+
 procedure TfrmOptions.FillFontLists;
 begin
   edtMainFont.Text   := gFonts[dcfMain].Name;
   edtEditorFont.Text := gFonts[dcfEditor].Name;
   edtViewerFont.Text := gFonts[dcfViewer].Name;
   edtLogFont.Text    := gFonts[dcfLog].Name;
+  edtViewerBookFont.Text := gFonts[dcfViewerBook].Name;
 
   edtMainFontSize.Value   := gFonts[dcfMain].Size;
   edtEditorFontSize.Value := gFonts[dcfEditor].Size;
   edtViewerFontSize.Value := gFonts[dcfViewer].Size;
   edtLogFontSize.Value    := gFonts[dcfLog].Size;
+  edtViewerBookFontSize.Value := gFonts[dcfViewerBook].Size;
 
   FontOptionsToFont(gFonts[dcfMain], edtMainFont.Font);
   FontOptionsToFont(gFonts[dcfEditor], edtEditorFont.Font);
   FontOptionsToFont(gFonts[dcfViewer], edtViewerFont.Font);
   FontOptionsToFont(gFonts[dcfLog], edtLogFont.Font);
+  FontOptionsToFont(gFonts[dcfViewerBook], edtViewerBookFont.Font);
 end;
 
 procedure TfrmOptions.edHotKeyKeyDown(Sender: TObject; var Key: Word;
@@ -1147,6 +1194,11 @@ begin
   rbLetterQS.Enabled        := not rbLetterQF.Checked;
 end;
 
+procedure TfrmOptions.seNumberColumnsViewerChange(Sender: TObject);
+begin
+  pbViewerBook.Repaint;
+end;
+
 procedure TfrmOptions.stgCommandsResize(Sender: TObject);
 begin
   stgCommands.ColWidths[stgCmdHotkeysIndex] := stgCommands.Width
@@ -1250,6 +1302,16 @@ begin
       tmpWFXPlugins.Enabled[stgPlugins.Row - stgPlugins.FixedRows]:= bEnabled;
       btnEnablePlugin.Caption:= IfThen(bEnabled, rsOptDisable, rsOptEnable);
     end;
+end;
+
+procedure TfrmOptions.btnFontViewerColorClick(Sender: TObject);
+begin
+  optColorDialog.Color:= cbFontColorViewerBook.Color;
+  if optColorDialog.Execute then
+  begin
+    SetColorInColorBox(cbFontColorViewerBook,optColorDialog.Color);
+    pbExample.Repaint;
+  end;
 end;
 
 procedure TfrmOptions.btnMultiArcAddClick(Sender: TObject);
@@ -1914,6 +1976,28 @@ begin
   nbNotebook.Page[nbNotebook.PageIndex].Height := nbNotebook.Height - 8;
 end;
 
+procedure TfrmOptions.pbViewerBookPaint(Sender: TObject);
+var
+  i, numb: integer;
+  sStr: String;
+begin
+  sStr:= 'Text';
+  pbViewerBook.Width := (pbViewerBook.Canvas.TextWidth(sStr)+10)*seNumberColumnsViewer.Value;
+  pbViewerBook.Canvas.Font.Name := edtViewerBookFont.Text;
+  with pbViewerBook.Canvas do
+  begin
+    Brush.Color := cbBackgroundColorViewerBook.Color;
+    Font.Color := cbFontColorViewerBook.Color;
+    Font.Height:= pbViewerBook.Height div 3 - 2;
+    FillRect(0,0,pbViewerBook.Width,pbViewerBook.Height);
+    for i:=0 to seNumberColumnsViewer.Value-1 do
+    begin
+      for numb:=0 to 2 do
+      TextOut(i*(pbViewerBook.Canvas.TextWidth(sStr)+5)+3,(Font.Height+2)*numb+2,sStr);
+    end;
+  end;
+end;
+
 { File type color }
 
 procedure TfrmOptions.cbCategoryColorChange(Sender: TObject);
@@ -1994,6 +2078,11 @@ begin
   pbExample.Repaint;
 end;
 
+procedure TfrmOptions.cbFontColorViewerBookChange(Sender: TObject);
+begin
+
+end;
+
 procedure TfrmOptions.cbIconsSizeChange(Sender: TObject);
 var
   bmpTemp: TBitmap;
@@ -2050,7 +2139,10 @@ begin
   edtToolsParameters.Enabled      := cbToolsUseExternalProgram.Checked;
   cbToolsRunInTerminal.Enabled    := cbToolsUseExternalProgram.Checked;
   cbToolsKeepTerminalOpen.Enabled := cbToolsUseExternalProgram.Checked;
-
+  gbViewerBookMode.Enabled        := not (cbToolsUseExternalProgram.Checked);
+  lblBackgroundColorViewerBook.Enabled := not (cbToolsUseExternalProgram.Checked);
+  lblNumberColumnsViewer.Enabled  := not (cbToolsUseExternalProgram.Checked);
+  lblFontColorViewerBook.Enabled  := not (cbToolsUseExternalProgram.Checked);
   if not FUpdatingTools then
   begin
     aRow := stgTools.Row - stgTools.FixedRows;
@@ -2264,6 +2356,16 @@ procedure TfrmOptions.btnAutoConfigClick(Sender: TObject);
 begin
   gMultiArcList.AutoConfigure;
   lbxMultiArcSelectionChange(lbxMultiArc, True);
+end;
+
+procedure TfrmOptions.btnBackViewerColorClick(Sender: TObject);
+begin
+  optColorDialog.Color:= cbBackgroundColorViewerBook.Color;
+  if optColorDialog.Execute then
+  begin
+    SetColorInColorBox(cbBackgroundColorViewerBook,optColorDialog.Color);
+    pbExample.Repaint;
+  end;
 end;
 
 procedure TfrmOptions.btnCategoryColorClick(Sender: TObject);
@@ -2527,6 +2629,7 @@ begin
 
   { Tools page }
   tmpExternalTools := gExternalTools;
+  seNumberColumnsViewer.Value := gColCount;
 
   { Colors }
   SetColorInColorBox(cbTextColor,gForeColor);
@@ -2535,6 +2638,8 @@ begin
   SetColorInColorBox(cbMarkColor,gMarkColor);
   SetColorInColorBox(cbCursorColor,gCursorColor);
   SetColorInColorBox(cbCursorText,gCursorText);
+  SetColorInColorBox(cbBackgroundColorViewerBook,gBookBackgroundColor);
+  SetColorInColorBox(cbFontColorViewerBook,gBookFontColor);
   cbbUseInvertedSelection.Checked:=gUseInvertedSelection;
   cbbUseFrameCursor.Checked:=gUseFrameCursor;
   tbInactivePanelBrightness.Position:=gInactivePanelBrightness;
@@ -2549,6 +2654,7 @@ begin
   cbShowCopyTabSelectPanel.Checked:=gShowCopyTabSelectPanel;
   cbDeleteToTrash.Checked:= gUseTrash;
   cbShowDialogOnDragDrop.Checked := gShowDialogOnDragDrop;
+  cbSaveThubnails.Checked := gSaveThumb;
 
   { Log file }
   cbLogFile.Checked := gLogFile;
@@ -2733,6 +2839,7 @@ begin
 
   { Tools page }
   gExternalTools := tmpExternalTools;
+  gColCount := seNumberColumnsViewer.Value;
 
   { Fonts }
   with gFonts[dcfMain] do
@@ -2763,6 +2870,13 @@ begin
     Style := edtLogFont.Font.Style;
   end;
 
+  with gFonts[dcfViewerBook] do
+  begin
+    Name  := edtViewerBookFont.Text;
+    Size  := edtViewerBookFontSize.Value;
+    Style := edtViewerBookFont.Font.Style;
+  end;
+
   { Colors }
   gForeColor := cbTextColor.Color;
   gBackColor := cbBackColor.Color; // background color
@@ -2770,6 +2884,8 @@ begin
   gMarkColor := cbMarkColor.Color;
   gCursorColor := cbCursorColor.Color;
   gCursorText := cbCursorText.Color;
+  gBookBackgroundColor := cbBackgroundColorViewerBook.Color;
+  gBookFontColor := cbFontColorViewerBook.Color;
   gUseInvertedSelection:=cbbUseInvertedSelection.Checked;
   gInactivePanelBrightness:=tbInactivePanelBrightness.Position;
   gUseFrameCursor:=cbbUseFrameCursor.Checked;
@@ -2784,6 +2900,7 @@ begin
   gShowCopyTabSelectPanel:=cbShowCopyTabSelectPanel.Checked;
   gUseTrash:= cbDeleteToTrash.Checked;
   gShowDialogOnDragDrop := cbShowDialogOnDragDrop.Checked;
+  gSaveThumb := cbSaveThubnails.Checked;
 
   { Log file }
   gLogFile := cbLogFile.Checked;
@@ -2981,9 +3098,10 @@ begin
     cbToolsRunInTerminal.Checked      := RunInTerminal;
     cbToolsKeepTerminalOpen.Checked   := KeepTerminalOpen;
   end;
+  gbViewerBookMode.Visible := (ExtTool = etViewer);
 end;
 
 initialization
  {$I fOptions.lrs}
 
-end.
+end.
