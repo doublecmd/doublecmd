@@ -186,7 +186,7 @@ resourcestring
   rsDlgDeleting = 'Deleting';
   rsDlgCheckSumCalc = 'Calculate check sum...';
   rsDlgCheckSumVerify = 'Verify check sum...';
-  rsDlgAllOpProgress = 'Progress of all operations %d %';
+  rsDlgAllOpProgress = 'Progress of all operations %d %%';
   rsDlgAllOpComplete = 'All operations is complete';
   rsDlgUnknownOperation = 'Unknown operation';
   rsDlgOpStart = 'Start';
