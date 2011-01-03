@@ -1,15 +1,15 @@
 object frmViewOperations: TfrmViewOperations
-  Left = 304
+  Left = 305
   Height = 366
   Top = 146
-  Width = 563
+  Width = 686
   Caption = 'File operations'
   ClientHeight = 366
-  ClientWidth = 563
+  ClientWidth = 686
   FormStyle = fsStayOnTop
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '0.9.29'
+  LCLVersion = '0.9.31'
   object pnlHeader: TPanel
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = Owner
@@ -17,20 +17,20 @@ object frmViewOperations: TfrmViewOperations
     Left = 0
     Height = 56
     Top = 0
-    Width = 563
+    Width = 686
     Anchors = [akTop, akLeft, akRight]
     ClientHeight = 56
-    ClientWidth = 563
+    ClientWidth = 686
     TabOrder = 1
     object lblCount: TLabel
       AnchorSideLeft.Control = lblOperationsCount
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = lblOperationsCount
       AnchorSideTop.Side = asrCenter
-      Left = 117
-      Height = 14
-      Top = 21
-      Width = 7
+      Left = 137
+      Height = 16
+      Top = 20
+      Width = 9
       BorderSpacing.Left = 4
       Caption = '0'
       ParentColor = False
@@ -39,9 +39,9 @@ object frmViewOperations: TfrmViewOperations
       AnchorSideTop.Control = pnlHeader
       AnchorSideTop.Side = asrCenter
       Left = 24
-      Height = 14
-      Top = 21
-      Width = 89
+      Height = 16
+      Top = 20
+      Width = 109
       Caption = 'Active operations:'
       ParentColor = False
     end
@@ -53,115 +53,128 @@ object frmViewOperations: TfrmViewOperations
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = pnlHeader
       AnchorSideBottom.Side = asrBottom
-      Left = 138
+      Left = 160
       Height = 54
       Top = 1
-      Width = 424
+      Width = 525
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Left = 6
       BevelOuter = bvNone
       ClientHeight = 54
-      ClientWidth = 424
+      ClientWidth = 525
       TabOrder = 0
-      object btnCancelCurOp: TSpeedButton
+      object btnCancelCurOp: TBitBtn
         AnchorSideRight.Control = pnlCurrentOperation
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = pnlCurrentOperation
         AnchorSideBottom.Side = asrBottom
-        Left = 370
-        Height = 22
-        Top = 29
-        Width = 54
+        Left = 450
+        Height = 25
+        Top = 26
+        Width = 75
         Anchors = [akRight, akBottom]
+        AutoSize = True
         BorderSpacing.Bottom = 3
         Caption = 'Cancel'
         NumGlyphs = 0
         OnClick = btnCancelCurOpClick
+        TabOrder = 0
       end
-      object btnStartPauseCurOp: TSpeedButton
+      object btnStartPauseCurOp: TBitBtn
         AnchorSideLeft.Control = pnlCurrentOperation
         AnchorSideBottom.Control = pnlCurrentOperation
         AnchorSideBottom.Side = asrBottom
         Left = 3
-        Height = 22
-        Top = 29
-        Width = 45
+        Height = 25
+        Top = 26
+        Width = 75
         Anchors = [akLeft, akBottom]
+        AutoSize = True
         BorderSpacing.Left = 3
         BorderSpacing.Bottom = 3
         Caption = 'Start'
         NumGlyphs = 0
         OnClick = btnStartPauseCurOpClick
+        TabOrder = 1
       end
-      object btnDnCurOp: TSpeedButton
+      object btnDnCurOp: TBitBtn
         AnchorSideLeft.Control = btnUpCurOp
         AnchorSideLeft.Side = asrBottom
         AnchorSideRight.Control = btnCancelCurOp
         AnchorSideBottom.Control = pnlCurrentOperation
         AnchorSideBottom.Side = asrBottom
-        Left = 330
-        Height = 22
-        Top = 29
-        Width = 38
+        Left = 373
+        Height = 25
+        Top = 26
+        Width = 75
         Anchors = [akRight, akBottom]
+        AutoSize = True
         BorderSpacing.Left = 2
         BorderSpacing.Right = 2
         BorderSpacing.Bottom = 3
         Caption = 'Down'
         NumGlyphs = 0
         OnClick = btnDnCurOpClick
+        TabOrder = 2
       end
-      object btnUpCurOp: TSpeedButton
+      object btnUpCurOp: TBitBtn
         AnchorSideLeft.Control = pnlCurrentOperation
         AnchorSideRight.Control = btnDnCurOp
         AnchorSideBottom.Control = pnlCurrentOperation
         AnchorSideBottom.Side = asrBottom
-        Left = 288
-        Height = 22
-        Top = 29
-        Width = 40
+        Left = 296
+        Height = 25
+        Top = 26
+        Width = 75
         Anchors = [akRight, akBottom]
+        AutoSize = True
         BorderSpacing.Right = 2
         BorderSpacing.Bottom = 3
         Caption = 'Up'
         NumGlyphs = 0
         OnClick = btnUpCurOpClick
+        TabOrder = 3
       end
       object lblCurrentOperation: TLabel
         AnchorSideLeft.Control = btnStartPauseCurOp
+        AnchorSideBottom.Control = btnStartPauseCurOp
         Left = 5
-        Height = 14
-        Top = 8
-        Width = 87
+        Height = 16
+        Top = 6
+        Width = 108
+        Anchors = [akLeft, akBottom]
         BorderSpacing.Left = 2
+        BorderSpacing.Bottom = 4
         Caption = 'Current operation'
         ParentColor = False
       end
-      object btnCurOpQueueInOut: TSpeedButton
+      object btnCurOpQueueInOut: TBitBtn
         AnchorSideLeft.Control = lblQueue
         AnchorSideLeft.Side = asrBottom
         AnchorSideBottom.Control = pnlCurrentOperation
         AnchorSideBottom.Side = asrBottom
-        Left = 97
-        Height = 22
-        Top = 29
-        Width = 34
+        Left = 134
+        Height = 25
+        Top = 26
+        Width = 75
         Anchors = [akLeft, akBottom]
+        AutoSize = True
         BorderSpacing.Left = 2
         BorderSpacing.Bottom = 3
         Caption = 'In'
         NumGlyphs = 0
         OnClick = btnCurOpQueueInOutClick
+        TabOrder = 4
       end
       object lblQueue: TLabel
         AnchorSideLeft.Control = btnStartPauseCurOp
         AnchorSideLeft.Side = asrBottom
         AnchorSideBottom.Control = pnlCurrentOperation
         AnchorSideBottom.Side = asrBottom
-        Left = 58
-        Height = 14
-        Top = 33
-        Width = 37
+        Left = 88
+        Height = 16
+        Top = 31
+        Width = 44
         Anchors = [akLeft, akBottom]
         BorderSpacing.Left = 10
         BorderSpacing.Bottom = 7
@@ -175,7 +188,7 @@ object frmViewOperations: TfrmViewOperations
       AnchorSideTop.Control = pnlHeader
       AnchorSideBottom.Control = pnlHeader
       AnchorSideBottom.Side = asrBottom
-      Left = 130
+      Left = 152
       Height = 50
       Top = 3
       Width = 2
@@ -194,7 +207,7 @@ object frmViewOperations: TfrmViewOperations
     Left = 0
     Height = 214
     Top = 56
-    Width = 563
+    Width = 686
     Anchors = [akTop, akLeft, akRight, akBottom]
     TabOrder = 0
     OnDblClick = sboxOperationsDblClick
@@ -208,27 +221,28 @@ object frmViewOperations: TfrmViewOperations
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 2
-    Height = 100
-    Top = 264
-    Width = 559
+    Height = 101
+    Top = 263
+    Width = 682
     Anchors = [akLeft, akRight, akBottom]
+    AutoSize = True
     BorderSpacing.Left = 2
     BorderSpacing.Top = 220
     BorderSpacing.Right = 2
     BorderSpacing.Bottom = 2
     Caption = 'Operations control'
     ClientHeight = 82
-    ClientWidth = 555
+    ClientWidth = 678
     TabOrder = 2
     object lblAllProgress: TLabel
       AnchorSideLeft.Control = pbrAllProgress
       AnchorSideTop.Control = grpAllOperation
       AnchorSideRight.Control = grpAllOperation
       AnchorSideRight.Side = asrBottom
-      Left = 300
-      Height = 14
+      Left = 366
+      Height = 16
       Top = 4
-      Width = 43
+      Width = 53
       BorderSpacing.Top = 4
       Caption = 'Progress'
       ParentColor = False
@@ -240,10 +254,10 @@ object frmViewOperations: TfrmViewOperations
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = grpAllOperation
       AnchorSideRight.Side = asrBottom
-      Left = 300
+      Left = 366
       Height = 18
-      Top = 24
-      Width = 246
+      Top = 26
+      Width = 303
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 30
       BorderSpacing.Top = 6
@@ -251,27 +265,29 @@ object frmViewOperations: TfrmViewOperations
       Smooth = True
       TabOrder = 0
     end
-    object btnAllCancel: TSpeedButton
+    object btnAllCancel: TBitBtn
       AnchorSideLeft.Control = btnAllPause
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnAllStart
-      Left = 214
-      Height = 22
-      Top = 26
-      Width = 56
+      Left = 261
+      Height = 25
+      Top = 28
+      Width = 75
+      AutoSize = True
       BorderSpacing.Left = 2
       Caption = 'Cancel'
       NumGlyphs = 0
       OnClick = btnAllCancelClick
+      TabOrder = 2
     end
     object lblAll: TLabel
       AnchorSideLeft.Control = btnAllPause
       AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = grpAllOperation
-      Left = 170
-      Height = 14
+      Left = 204
+      Height = 16
       Top = 4
-      Width = 28
+      Width = 35
       BorderSpacing.Top = 4
       Caption = 'for all'
       ParentColor = False
@@ -280,67 +296,77 @@ object frmViewOperations: TfrmViewOperations
       AnchorSideLeft.Control = grpAllOperation
       AnchorSideTop.Control = grpAllOperation
       Left = 12
-      Height = 14
+      Height = 16
       Top = 4
-      Width = 54
+      Width = 69
       BorderSpacing.Left = 12
       BorderSpacing.Top = 4
       Caption = 'for running'
       ParentColor = False
     end
-    object btnRunAllPause: TSpeedButton
+    object btnRunAllPause: TBitBtn
       AnchorSideLeft.Control = lblRunning
+      AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = btnRunAllStart
       AnchorSideTop.Side = asrBottom
-      Left = 12
-      Height = 22
-      Top = 52
-      Width = 60
+      Left = 9
+      Height = 25
+      Top = 57
+      Width = 75
+      AutoSize = True
       BorderSpacing.Top = 4
       Caption = 'Pause'
       NumGlyphs = 0
       OnClick = btnRunAllPauseClick
+      TabOrder = 3
     end
-    object btnRunAllStart: TSpeedButton
+    object btnRunAllStart: TBitBtn
       AnchorSideLeft.Control = lblRunning
+      AnchorSideLeft.Side = asrCenter
       AnchorSideTop.Control = lblRunning
       AnchorSideTop.Side = asrBottom
-      Left = 12
-      Height = 22
-      Top = 26
-      Width = 60
+      Left = 9
+      Height = 25
+      Top = 28
+      Width = 75
+      AutoSize = True
       BorderSpacing.Top = 8
       Caption = 'Start'
       NumGlyphs = 0
       OnClick = btnRunAllStartClick
+      TabOrder = 4
     end
-    object btnAllPause: TSpeedButton
+    object btnAllPause: TBitBtn
       AnchorSideLeft.Control = btnAllStart
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnAllStart
-      Left = 156
-      Height = 22
-      Top = 26
-      Width = 56
+      Left = 184
+      Height = 25
+      Top = 28
+      Width = 75
+      AutoSize = True
       BorderSpacing.Left = 2
       Caption = 'Pause'
       NumGlyphs = 0
       OnClick = btnAllPauseClick
+      TabOrder = 5
     end
-    object btnAllStart: TSpeedButton
+    object btnAllStart: TBitBtn
       AnchorSideLeft.Control = Bevel2
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = lblAll
       AnchorSideTop.Side = asrBottom
-      Left = 98
-      Height = 22
-      Top = 26
-      Width = 56
+      Left = 107
+      Height = 25
+      Top = 28
+      Width = 75
+      AutoSize = True
       BorderSpacing.Left = 12
       BorderSpacing.Top = 8
       Caption = 'Start'
       NumGlyphs = 0
       OnClick = btnAllStartClick
+      TabOrder = 6
     end
     object chkQueue: TCheckBox
       AnchorSideLeft.Control = pbrAllProgress
@@ -348,44 +374,48 @@ object frmViewOperations: TfrmViewOperations
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = pbrAllProgress
       AnchorSideRight.Side = asrBottom
-      Left = 300
-      Height = 17
-      Top = 50
-      Width = 83
+      Left = 366
+      Height = 20
+      Top = 52
+      Width = 108
       BorderSpacing.Top = 8
       Caption = 'Enable queue'
       Checked = True
       State = cbChecked
       TabOrder = 1
     end
-    object btnAllInQueue: TSpeedButton
+    object btnAllInQueue: TBitBtn
       AnchorSideLeft.Control = btnAllStart
       AnchorSideTop.Control = btnAllStart
       AnchorSideTop.Side = asrBottom
-      Left = 98
-      Height = 22
-      Top = 52
-      Width = 56
+      Left = 107
+      Height = 25
+      Top = 57
+      Width = 75
+      AutoSize = True
       BorderSpacing.Top = 4
       Caption = 'Queue In'
       NumGlyphs = 0
       OnClick = btnAllInQueueClick
+      TabOrder = 7
     end
-    object btnStartQueue: TSpeedButton
+    object btnStartQueue: TBitBtn
       AnchorSideLeft.Control = btnAllInQueue
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = btnAllInQueue
       AnchorSideRight.Control = btnAllCancel
       AnchorSideRight.Side = asrBottom
-      Left = 156
-      Height = 22
-      Top = 52
-      Width = 114
+      Left = 184
+      Height = 25
+      Top = 57
+      Width = 152
       Anchors = [akTop, akLeft, akRight]
+      AutoSize = True
       BorderSpacing.Left = 2
       Caption = 'Start queue'
       NumGlyphs = 0
       OnClick = btnStartQueueClick
+      TabOrder = 8
     end
     object Bevel1: TBevel
       AnchorSideLeft.Control = btnAllCancel
@@ -393,7 +423,7 @@ object frmViewOperations: TfrmViewOperations
       AnchorSideTop.Control = grpAllOperation
       AnchorSideBottom.Control = grpAllOperation
       AnchorSideBottom.Side = asrBottom
-      Left = 282
+      Left = 348
       Height = 80
       Top = 0
       Width = 2
@@ -402,12 +432,12 @@ object frmViewOperations: TfrmViewOperations
       BorderSpacing.Bottom = 2
     end
     object Bevel2: TBevel
-      AnchorSideLeft.Control = btnRunAllStart
+      AnchorSideLeft.Control = lblRunning
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = grpAllOperation
       AnchorSideBottom.Control = grpAllOperation
       AnchorSideBottom.Side = asrBottom
-      Left = 84
+      Left = 93
       Height = 80
       Top = 0
       Width = 2
@@ -422,4 +452,4 @@ object frmViewOperations: TfrmViewOperations
     left = 112
     top = 136
   end
-end
+end

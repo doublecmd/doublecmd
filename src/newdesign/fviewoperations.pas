@@ -28,20 +28,20 @@ type
     pbrAllProgress: TProgressBar;
     grpAllOperation: TGroupBox;
     Cntr_running: TPanel;
-    btnAllPause: TSpeedButton;
-    btnAllStart: TSpeedButton;
-    btnCurOpQueueInOut: TSpeedButton;
-    btnAllInQueue: TSpeedButton;
-    btnRunAllStart: TSpeedButton;
-    btnStartQueue: TSpeedButton;
-    btnUpCurOp: TSpeedButton;
-    btnDnCurOp: TSpeedButton;
-    btnStartPauseCurOp: TSpeedButton;
-    btnCancelCurOp: TSpeedButton;
+    btnAllPause: TBitBtn;
+    btnAllStart: TBitBtn;
+    btnCurOpQueueInOut: TBitBtn;
+    btnAllInQueue: TBitBtn;
+    btnRunAllStart: TBitBtn;
+    btnStartQueue: TBitBtn;
+    btnUpCurOp: TBitBtn;
+    btnDnCurOp: TBitBtn;
+    btnStartPauseCurOp: TBitBtn;
+    btnCancelCurOp: TBitBtn;
     pnlHeader: TPanel;
     sboxOperations: TScrollBox;
-    btnRunAllPause: TSpeedButton;
-    btnAllCancel: TSpeedButton;
+    btnRunAllPause: TBitBtn;
+    btnAllCancel: TBitBtn;
     UpdateTimer: TTimer;
 
     procedure btnAllInQueueClick(Sender: TObject);
@@ -386,4 +386,4 @@ initialization
   {$I fviewoperations.lrs}
 
 end.
-
+
