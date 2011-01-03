@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-01-03 18:54+0300\n"
+"PO-Revision-Date: 2011-01-03 22:02+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -409,10 +409,9 @@ msgid "Calculate check sum..."
 msgstr ""
 
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
-#, fuzzy
 #| msgid "Create separate MD5 files for each file"
 msgid "Create separate checksum file for each file"
-msgstr "Для каждого файла создать отдельный MD5/SHA1-файл"
+msgstr "Для каждого файла создать отдельный MD5/SHA-файл"
 
 #: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
 msgid "Save check sum file(s) to:"
@@ -515,11 +514,11 @@ msgstr ""
 
 #: TFRMCONFIGTOOLBAR.CBFLATBUTTONS.CAPTION
 msgid "Flat b&uttons"
-msgstr ""
+msgstr "Плоские кнопки"
 
 #: TFRMCONFIGTOOLBAR.CBISSEPARATOR.CAPTION
 msgid "S&eparator"
-msgstr ""
+msgstr "Разделитель"
 
 #: TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION"
@@ -532,7 +531,7 @@ msgstr "Вид кнопок"
 
 #: TFRMCONFIGTOOLBAR.LBLBARSIZE.CAPTION
 msgid "Ba&r size:"
-msgstr ""
+msgstr "Размер панели:"
 
 #: TFRMCONFIGTOOLBAR.LBLBARSIZEVALUE.CAPTION
 msgid "36"
@@ -557,7 +556,7 @@ msgstr "&Файл значка:"
 
 #: TFRMCONFIGTOOLBAR.LBLICONSIZE.CAPTION
 msgid "Ic&on size:"
-msgstr ""
+msgstr "Размер значков:"
 
 #: TFRMCONFIGTOOLBAR.LBLICONSIZEVALUE.CAPTION
 msgid "32"
@@ -1703,7 +1702,6 @@ msgid "Up"
 msgstr "Вверх"
 
 #: TFRMMAIN.ACTABOUT.CAPTION
-#, fuzzy
 #| msgid "About"
 msgctxt "TFRMMAIN.ACTABOUT.CAPTION"
 msgid "&About"
@@ -1833,7 +1831,6 @@ msgid "Swap &Panels"
 msgstr "П&оменять панели местами"
 
 #: TFRMMAIN.ACTEXIT.CAPTION
-#, fuzzy
 #| msgid "Exit"
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"
@@ -1844,7 +1841,6 @@ msgid "Extract files..."
 msgstr "Распаковать..."
 
 #: TFRMMAIN.ACTFILEASSOC.CAPTION
-#, fuzzy
 #| msgid "File associations..."
 msgid "File &associations..."
 msgstr "Файловые ассоциации..."
@@ -1871,13 +1867,11 @@ msgid "Create link..."
 msgstr "Создать &ссылку..."
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
-#, fuzzy
 #| msgid "Contents"
 msgid "&Contents"
 msgstr "Содержание"
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
-#, fuzzy
 #| msgid "Keyboard"
 msgid "&Keyboard"
 msgstr "Горячие клавиши"
@@ -1947,7 +1941,6 @@ msgid "Network Quick Connect..."
 msgstr "Новое соединение..."
 
 #: TFRMMAIN.ACTNEWTAB.CAPTION
-#, fuzzy
 #| msgid "New tab"
 msgid "&New tab"
 msgstr "Новая вкладка"
@@ -2509,7 +2502,6 @@ msgid "Tab options"
 msgstr "Опции вкладки"
 
 #: TFRMMAIN.MITRAYICONEXIT.CAPTION
-#, fuzzy
 #| msgid "Exit"
 msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
 msgid "E&xit"
@@ -2528,7 +2520,6 @@ msgid "C&onfiguration"
 msgstr "&Настройка"
 
 #: TFRMMAIN.MNUFILES.CAPTION
-#, fuzzy
 #| msgid "Files"
 msgid "&Files"
 msgstr "&Файлы"
@@ -2563,7 +2554,6 @@ msgid "Operations viewer"
 msgstr "Файловые операции"
 
 #: TFRMMAIN.MNUTABOPTIONS.CAPTION
-#, fuzzy
 #| msgid "Options"
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
 msgid "&Options"
@@ -2677,7 +2667,6 @@ msgid "&Rename"
 msgstr ""
 
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
-#, fuzzy
 #| msgid "Restore All"
 msgid "Reset all"
 msgstr "Восстановить всё"
@@ -2697,14 +2686,12 @@ msgid "Log"
 msgstr "Протокол"
 
 #: TFRMMULTIRENAME.CBREGEXP.CAPTION
-#, fuzzy
 #| msgid "&Regular expressions"
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
 msgid "Regular e&xpressions"
 msgstr "&Регулярные выражения"
 
 #: TFRMMULTIRENAME.CBUSESUBS.CAPTION
-#, fuzzy
 #| msgid "Use substitution"
 msgid "&Use substitution"
 msgstr "Подстановка"
@@ -2748,13 +2735,11 @@ msgid "Presets"
 msgstr ""
 
 #: TFRMMULTIRENAME.LBEXT.CAPTION
-#, fuzzy
 #| msgid "Extension"
 msgid "&Extension"
 msgstr "Расширение"
 
 #: TFRMMULTIRENAME.LBFIND.CAPTION
-#, fuzzy
 #| msgid "Find..."
 msgid "&Find..."
 msgstr "Найти..."
@@ -2764,13 +2749,11 @@ msgid "Interval"
 msgstr "Интервал"
 
 #: TFRMMULTIRENAME.LBNAME.CAPTION
-#, fuzzy
 #| msgid "File Name"
 msgid "File &Name"
 msgstr "Имя файла"
 
 #: TFRMMULTIRENAME.LBREPLACE.CAPTION
-#, fuzzy
 #| msgid "Replace..."
 msgid "Re&place..."
 msgstr "Заменить..."
@@ -3129,7 +3112,6 @@ msgid "Flat buttons"
 msgstr "Плоские"
 
 #: TFRMOPTIONS.CBFREESPACEIND.CAPTION
-#, fuzzy
 #| msgid "Show freespace indicator on drive label"
 msgid "Show free space indicator on drive label"
 msgstr "Индикатор свободного места на диске"
@@ -3224,7 +3206,6 @@ msgid "Show common progress in menu bar"
 msgstr ""
 
 #: TFRMOPTIONS.CBRENAMESELONLYNAME.CAPTION
-#, fuzzy
 #| msgid "Select only the file name then renaming (not the extension)"
 msgid "Select only the file name when renaming (not the extension)"
 msgstr "При переименовании выделять имя файла без расширения"
@@ -3259,7 +3240,7 @@ msgstr "Кнопки &дисков"
 
 #: TFRMOPTIONS.CBSHOWDRIVEFREESPACE.CAPTION
 msgid "Show free space label"
-msgstr ""
+msgstr "Строка свободного места на диске"
 
 #: TFRMOPTIONS.CBSHOWDRIVEMENUBUTTON.CAPTION
 msgid "Show d&rive menu button"
@@ -3349,7 +3330,7 @@ msgstr "Консоль"
 
 #: TFRMOPTIONS.CBTOOLSKEEPTERMINALOPEN.CAPTION
 msgid "Keep terminal window open after executing program"
-msgstr ""
+msgstr "Не закрывать окно терминала после запуска программы"
 
 #: TFRMOPTIONS.CBTOOLSRUNINTERMINAL.CAPTION
 msgid "Execute in terminal"
@@ -3380,7 +3361,6 @@ msgid "When files are &created, deleted or renamed"
 msgstr "Обновлять при &создании, удалении и переименовании файлов"
 
 #: TFRMOPTIONS.CBWATCHONLYFOREGROUND.CAPTION
-#, fuzzy
 #| msgid "Don't &react to updates while in the background"
 msgid "When application is in the &background"
 msgstr "Не реаг&ировать на изменения, если окно DC неактивно"
@@ -3441,7 +3421,6 @@ msgid "Date and time"
 msgstr "Дата и время"
 
 #: TFRMOPTIONS.GBEXACTNAMEMATCH.CAPTION
-#, fuzzy
 #| msgid "Exact &name match:"
 msgid "Exact name match:"
 msgstr "Точное соответствие имени:"
@@ -3738,13 +3717,11 @@ msgid "Here you can enter one or more drives, separated by \";\"."
 msgstr "Здесь вы можете ввести один или несколько дисков, разделенных \";\"."
 
 #: TFRMOPTIONS.RBALTLETTERQS.CAPTION
-#, fuzzy
 #| msgid "Al&t+Letters"
 msgid "Alt+Letters"
 msgstr "Al&t+Буква"
 
 #: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
-#, fuzzy
 #| msgid "&Ctrl+Alt+Letters"
 msgid "Ctrl+Alt+Letters"
 msgstr "&Ctrl+Alt+Буква"
@@ -3767,13 +3744,11 @@ msgid "&Only standard icons"
 msgstr "Только &стандартные"
 
 #: TFRMOPTIONS.RBLETTERQS.CAPTION
-#, fuzzy
 #| msgid "L&etter only"
 msgid "Letter only"
 msgstr "Только буква"
 
 #: TFRMOPTIONS.RBNONEQS.CAPTION
-#, fuzzy
 #| msgid "Di&sabled"
 msgid "Disabled"
 msgstr "Отключен"
@@ -4389,7 +4364,7 @@ msgstr "Переместить"
 
 #: TFRMVIEWER.BTNNEXT.HINT
 msgid "Next"
-msgstr ""
+msgstr "Следующий"
 
 #: TFRMVIEWER.BTNPAINT.HINT
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
@@ -4398,11 +4373,11 @@ msgstr "Рисование"
 
 #: TFRMVIEWER.BTNPREV.HINT
 msgid "Previous"
-msgstr ""
+msgstr "Предыдущий"
 
 #: TFRMVIEWER.BTNREDEYE.HINT
 msgid "Red Eyes"
-msgstr ""
+msgstr "Красные глаза"
 
 #: TFRMVIEWER.BTNRELOAD.HINT
 msgid "Reload"
@@ -4411,7 +4386,7 @@ msgstr ""
 #: TFRMVIEWER.BTNRESIZE.HINT
 msgctxt "TFRMVIEWER.BTNRESIZE.HINT"
 msgid "Resize"
-msgstr ""
+msgstr "Изменить размер"
 
 #: TFRMVIEWER.BTNUNDO.HINT
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
@@ -4731,7 +4706,7 @@ msgstr "Старт"
 
 #: TFRMVIEWOPERATIONS.BTNSTARTQUEUE.CAPTION
 msgid "Start queue"
-msgstr "Запустить очередь"
+msgstr "Запуск очереди"
 
 #: TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION"
@@ -4849,7 +4824,6 @@ msgid "All operations is complete"
 msgstr "Все операции завершены"
 
 #: ulng.rsdlgallopprogress
-#, fuzzy
 #| msgid "Progress of all operations %d %"
 msgid "Progress of all operations %d %%"
 msgstr "Прогресс выполнения %d %%"
@@ -4971,7 +4945,6 @@ msgid "Out"
 msgstr "-"
 
 #: ulng.rsdlgspeedtime
-#, fuzzy
 #| msgid "Speed %s/s, remained time %s"
 msgid "Speed %s/s, remaining time %s"
 msgstr "Скорость %s/с, осталось времени %s"
@@ -5076,7 +5049,7 @@ msgstr "Свободно %s из %s байт"
 
 #: ulng.rsfreemsgshort
 msgid "%s bytes free"
-msgstr ""
+msgstr "%s байт свободно"
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
@@ -5141,7 +5114,6 @@ msgid "Sort by"
 msgstr "Упор&ядочить по"
 
 #: ulng.rsmnuumount
-#, fuzzy
 #| msgid "Umount"
 msgid "Unmount"
 msgstr "Отмонтировать"
@@ -5333,7 +5305,7 @@ msgstr ""
 
 #: ulng.rsmsgfileoperationsactivelong
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
-msgstr ""
+msgstr "Некоторые операции еще не завершены. Закрытие Double Commander может привести к потере данных."
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
@@ -5559,7 +5531,7 @@ msgstr "Без изменений;ПРОПИСНЫЕ;строчные;С про�
 
 #: ulng.rsoperaborted
 msgid "Aborted"
-msgstr ""
+msgstr "Прервано"
 
 #: ulng.rsoperautostart
 msgid "Auto-started"
@@ -5723,19 +5695,19 @@ msgstr "Горячие клавиши"
 
 #: ulng.rsopthotkeyscommands
 msgid "Commands"
-msgstr ""
+msgstr "Команда"
 
 #: ulng.rsopthotkeyscomments
 msgid "Comments"
-msgstr ""
+msgstr "Описание"
 
 #: ulng.rsopthotkeyshotkey
 msgid "Hotkey"
-msgstr ""
+msgstr "Горячая клавиша"
 
 #: ulng.rsopthotkeyshotkeys
 msgid "Hotkeys"
-msgstr ""
+msgstr "Горячие клавиши"
 
 #: ulng.rsopthotkeysparameters
 msgctxt "ulng.rsopthotkeysparameters"
@@ -5789,7 +5761,7 @@ msgstr "Левая клавиша;Правая клавиша;"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
-msgstr ""
+msgstr "Плагин %s уже назначен для следующих расширений:"
 
 #: ulng.rsoptplugins
 msgctxt "ulng.rsoptplugins"
@@ -5817,11 +5789,10 @@ msgid "Registered for"
 msgstr "Ассоциация"
 
 #: ulng.rsoptquicksearch
-#, fuzzy
 #| msgid "Quick search"
 msgctxt "ulng.rsoptquicksearch"
 msgid "Quick search/filter"
-msgstr "Быстрый поиск"
+msgstr "Быстрый поиск/фильтр"
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
