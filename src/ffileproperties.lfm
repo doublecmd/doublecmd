@@ -7,7 +7,6 @@ object frmFileProperties: TfrmFileProperties
   Caption = 'Properties'
   ClientHeight = 432
   ClientWidth = 458
-  Color = clForm
   Constraints.MinHeight = 432
   Constraints.MinWidth = 458
   OnCreate = FormCreate

@@ -7,7 +7,6 @@ object frmMultiRename: TfrmMultiRename
   Caption = 'MultiRename'
   ClientHeight = 465
   ClientWidth = 744
-  Color = clForm
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow

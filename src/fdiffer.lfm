@@ -6,13 +6,12 @@ object frmDiffer: TfrmDiffer
   Caption = 'Compare files'
   ClientHeight = 350
   ClientWidth = 760
-  Color = clForm
   Menu = MainMenu
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnResize = FormResize
   Position = poDefault
-  LCLVersion = '0.9.29'
+  LCLVersion = '0.9.31'
   object ToolBar: TToolBar
     Left = 0
     Height = 26
@@ -142,7 +141,6 @@ object frmDiffer: TfrmDiffer
         Top = 0
         Width = 23
         Anchors = [akTop, akLeft, akBottom]
-        Color = clBtnFace
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
           2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
@@ -189,7 +187,6 @@ object frmDiffer: TfrmDiffer
         Top = 0
         Width = 23
         Action = actSaveLeft
-        Color = clBtnFace
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
           2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
@@ -238,7 +235,6 @@ object frmDiffer: TfrmDiffer
         Top = 0
         Width = 23
         Action = actSaveLeftAs
-        Color = clBtnFace
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
           20000000000000040000640000006400000000000000000000004864725A3654
@@ -336,7 +332,6 @@ object frmDiffer: TfrmDiffer
         Top = 0
         Width = 23
         Anchors = [akTop, akLeft, akBottom]
-        Color = clBtnFace
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
           2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
@@ -383,7 +378,6 @@ object frmDiffer: TfrmDiffer
         Top = 0
         Width = 23
         Action = actSaveRight
-        Color = clBtnFace
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
           2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
@@ -432,7 +426,6 @@ object frmDiffer: TfrmDiffer
         Top = 0
         Width = 23
         Action = actSaveRightAs
-        Color = clBtnFace
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
           20000000000000040000640000006400000000000000000000004864725A3654

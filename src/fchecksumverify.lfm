@@ -6,7 +6,6 @@ object frmCheckSumVerify: TfrmCheckSumVerify
   Caption = 'Verify check sum...'
   ClientHeight = 300
   ClientWidth = 400
-  Color = clForm
   Position = poScreenCenter
   LCLVersion = '0.9.27'
   object mmCheckSumVerify: TMemo

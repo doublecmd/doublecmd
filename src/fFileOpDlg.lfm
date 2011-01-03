@@ -8,13 +8,12 @@ object frmFileOp: TfrmFileOp
   ChildSizing.TopBottomSpacing = 4
   ClientHeight = 180
   ClientWidth = 539
-  Color = clForm
   Constraints.MinWidth = 500
   OnClose = FormClose
   OnCreate = FormCreate
   Position = poScreenCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.29'
+  LCLVersion = '0.9.31'
   object lblFileNameFrom: TLabel
     AnchorSideLeft.Control = lblFrom
     AnchorSideLeft.Side = asrBottom
@@ -187,7 +186,6 @@ object frmFileOp: TfrmFileOp
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 5
     Caption = 'To Queue'
-    Color = clBtnFace
     NumGlyphs = 0
     OnClick = btnToQueueClick
   end
@@ -204,7 +202,6 @@ object frmFileOp: TfrmFileOp
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 3
     Caption = 'Home'
-    Color = clBtnFace
     NumGlyphs = 0
     OnClick = btnOpHomeClick
   end
@@ -220,7 +217,6 @@ object frmFileOp: TfrmFileOp
     Width = 42
     Anchors = [akTop, akLeft, akBottom]
     Caption = 'End'
-    Color = clBtnFace
     NumGlyphs = 0
     OnClick = bthOpEndClick
   end

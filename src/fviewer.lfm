@@ -8,7 +8,6 @@ object frmViewer: TfrmViewer
   Caption = 'Viewer'
   ClientHeight = 510
   ClientWidth = 1156
-  Color = clForm
   Constraints.MinHeight = 100
   Constraints.MinWidth = 200
   Icon.Data = {
@@ -60,7 +59,7 @@ object frmViewer: TfrmViewer
   Position = poScreenCenter
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.29'
+  LCLVersion = '0.9.31'
   object pnlLister: TPanel
     AnchorSideLeft.Control = Splitter
     AnchorSideRight.Side = asrBottom

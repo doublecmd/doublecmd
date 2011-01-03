@@ -7,7 +7,6 @@ object frmCheckSumCalc: TfrmCheckSumCalc
   Caption = 'Calculate check sum...'
   ClientHeight = 136
   ClientWidth = 460
-  Color = clForm
   Constraints.MaxHeight = 200
   Constraints.MaxWidth = 800
   Constraints.MinHeight = 136

@@ -7,7 +7,6 @@ object fColumnsSetConf: TfColumnsSetConf
   Caption = 'Configure custom columns view'
   ClientHeight = 583
   ClientWidth = 900
-  Color = clForm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow

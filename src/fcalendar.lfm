@@ -15,7 +15,6 @@ object frmCalendar: TfrmCalendar
   Caption = 'Calendar'
   ClientHeight = 160
   ClientWidth = 162
-  Color = clForm
   KeyPreview = True
   OnKeyDown = FormKeyDown
   ShowInTaskBar = stNever
