@@ -23,12 +23,15 @@ object frmViewOperations: TfrmViewOperations
     ClientWidth = 563
     TabOrder = 1
     object lblCount: TLabel
+      AnchorSideLeft.Control = lblOperationsCount
+      AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = lblOperationsCount
       AnchorSideTop.Side = asrCenter
-      Left = 128
+      Left = 117
       Height = 14
       Top = 21
       Width = 7
+      BorderSpacing.Left = 4
       Caption = '0'
       ParentColor = False
     end
@@ -50,22 +53,22 @@ object frmViewOperations: TfrmViewOperations
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = pnlHeader
       AnchorSideBottom.Side = asrBottom
-      Left = 149
+      Left = 138
       Height = 54
       Top = 1
-      Width = 413
+      Width = 424
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Left = 6
       BevelOuter = bvNone
       ClientHeight = 54
-      ClientWidth = 413
+      ClientWidth = 424
       TabOrder = 0
       object btnCancelCurOp: TSpeedButton
         AnchorSideRight.Control = pnlCurrentOperation
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = pnlCurrentOperation
         AnchorSideBottom.Side = asrBottom
-        Left = 359
+        Left = 370
         Height = 22
         Top = 29
         Width = 54
@@ -96,7 +99,7 @@ object frmViewOperations: TfrmViewOperations
         AnchorSideRight.Control = btnCancelCurOp
         AnchorSideBottom.Control = pnlCurrentOperation
         AnchorSideBottom.Side = asrBottom
-        Left = 319
+        Left = 330
         Height = 22
         Top = 29
         Width = 38
@@ -113,7 +116,7 @@ object frmViewOperations: TfrmViewOperations
         AnchorSideRight.Control = btnDnCurOp
         AnchorSideBottom.Control = pnlCurrentOperation
         AnchorSideBottom.Side = asrBottom
-        Left = 277
+        Left = 288
         Height = 22
         Top = 29
         Width = 40
@@ -172,7 +175,7 @@ object frmViewOperations: TfrmViewOperations
       AnchorSideTop.Control = pnlHeader
       AnchorSideBottom.Control = pnlHeader
       AnchorSideBottom.Side = asrBottom
-      Left = 141
+      Left = 130
       Height = 50
       Top = 3
       Width = 2
