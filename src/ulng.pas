@@ -186,6 +186,14 @@ resourcestring
   rsDlgDeleting = 'Deleting';
   rsDlgCheckSumCalc = 'Calculate check sum...';
   rsDlgCheckSumVerify = 'Verify check sum...';
+  rsDlgAllOpProgress = 'Progress of all operations %d %';
+  rsDlgAllOpComplete = 'All operations is complete';
+  rsDlgUnknownOperation = 'Unknown operation';
+  rsDlgOpStart = 'Start';
+  rsDlgOpPause = 'Pause';
+  rsDlgQueueIn = 'In';
+  rsDlgQueueOut = 'Out';
+  rsDlgOpCaption = 'Caption of operation';
   // Viewer
   rsViewAboutText = 'Internal Viewer of Double Commander.';
   rsViewNotFound = '%s not found!';

@@ -13,53 +13,55 @@ type
   { TfrmViewOperations }
 
   TfrmViewOperations = class(TForm)
-    AllProgressLabel: TLabel;
-    CheckQueueBox: TCheckBox;
-    CurrentOperationPanel: TPanel;
-    CurrentOperationLabel: TLabel;
-    Queue: TLabel;
-    AllButtonsLable: TLabel;
-    Label1: TLabel;
-    Label2: TLabel;
+    Bevel3: TBevel;
+    lblAllProgress: TLabel;
+    Bevel1: TBevel;
+    Bevel2: TBevel;
+    chkQueue: TCheckBox;
+    pnlCurrentOperation: TPanel;
+    lblCurrentOperation: TLabel;
+    lblQueue: TLabel;
+    lblRunning: TLabel;
+    lblAll: TLabel;
     lblCount: TLabel;
     lblOperationsCount: TLabel;
-    AllProgressBar: TProgressBar;
-    AllOperationPanel: TPanel;
+    pbrAllProgress: TProgressBar;
+    grpAllOperation: TGroupBox;
     Cntr_running: TPanel;
-    AllPause: TSpeedButton;
-    AllStart: TSpeedButton;
-    CurOpQueueInOut: TSpeedButton;
-    AllInQueue: TSpeedButton;
-    RunAllStart: TSpeedButton;
-    StartQueue: TSpeedButton;
-    UpCurOp: TSpeedButton;
-    DnCurOp: TSpeedButton;
-    StartPauseCurOp: TSpeedButton;
-    CancelCurOp: TSpeedButton;
-    VOMainPanel: TPanel;
+    btnAllPause: TSpeedButton;
+    btnAllStart: TSpeedButton;
+    btnCurOpQueueInOut: TSpeedButton;
+    btnAllInQueue: TSpeedButton;
+    btnRunAllStart: TSpeedButton;
+    btnStartQueue: TSpeedButton;
+    btnUpCurOp: TSpeedButton;
+    btnDnCurOp: TSpeedButton;
+    btnStartPauseCurOp: TSpeedButton;
+    btnCancelCurOp: TSpeedButton;
+    pnlHeader: TPanel;
     sboxOperations: TScrollBox;
-    RunAllPause: TSpeedButton;
-    AllCancel: TSpeedButton;
+    btnRunAllPause: TSpeedButton;
+    btnAllCancel: TSpeedButton;
     UpdateTimer: TTimer;
 
-    procedure AllInQueueClick(Sender: TObject);
-    procedure AllPauseClick(Sender: TObject);
-    procedure AllStartClick(Sender: TObject);
-    procedure CancelCurOpClick(Sender: TObject);
-    procedure DnCurOpClick(Sender: TObject);
-    procedure RunAllPauseClick(Sender: TObject);
-    procedure AllCancelClick(Sender: TObject);
-    procedure RunAllStartClick(Sender: TObject);
+    procedure btnAllInQueueClick(Sender: TObject);
+    procedure btnAllPauseClick(Sender: TObject);
+    procedure btnAllStartClick(Sender: TObject);
+    procedure btnCancelCurOpClick(Sender: TObject);
+    procedure btnDnCurOpClick(Sender: TObject);
+    procedure btnRunAllPauseClick(Sender: TObject);
+    procedure btnAllCancelClick(Sender: TObject);
+    procedure btnRunAllStartClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure OnUpdateTimer(Sender: TObject);
     procedure sboxOperationsDblClick(Sender: TObject);
     procedure sboxOperationsMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure sboxOperationsPaint(Sender: TObject);
-    procedure CurOpQueueInOutClick(Sender: TObject);
-    procedure StartPauseCurOpClick(Sender: TObject);
-    procedure StartQueueClick(Sender: TObject);
-    procedure UpCurOpClick(Sender: TObject);
+    procedure btnCurOpQueueInOutClick(Sender: TObject);
+    procedure btnStartPauseCurOpClick(Sender: TObject);
+    procedure btnStartQueueClick(Sender: TObject);
+    procedure btnUpCurOpClick(Sender: TObject);
 
   private
     procedure UpdateView(Operation: TFileSourceOperation; Event: TOperationManagerEvent);
@@ -76,7 +78,7 @@ implementation
 
 uses
   uFileSourceOperationTypes,
-  uLng, fFileOpDlg;
+  uLng, fFileOpDlg, uGlobs;
 
 const
   aRowHeight = 50;
@@ -85,7 +87,7 @@ const
 
 procedure TfrmViewOperations.FormCreate(Sender: TObject);
 begin
-
+  InitPropStorage(Self);
   lblCount.Caption := '0';
   indexFocus := 1;
   sboxOperations.AutoScroll := True;
@@ -97,17 +99,17 @@ begin
   sboxOperations.Invalidate;     // force redraw
 end;
 
-procedure TfrmViewOperations.RunAllPauseClick(Sender: TObject);
+procedure TfrmViewOperations.btnRunAllPauseClick(Sender: TObject);
 begin
   OperationsManager.PauseRunning;
 end;
 
-procedure TfrmViewOperations.AllPauseClick(Sender: TObject);
+procedure TfrmViewOperations.btnAllPauseClick(Sender: TObject);
 begin
   OperationsManager.PauseAll;
 end;
 
-procedure TfrmViewOperations.AllInQueueClick(Sender: TObject);
+procedure TfrmViewOperations.btnAllInQueueClick(Sender: TObject);
 var
 i: integer;
 begin
@@ -115,17 +117,17 @@ begin
    OperationsManager.InQueue (OperationsManager.GetHandleById(i), true);
 end;
 
-procedure TfrmViewOperations.AllStartClick(Sender: TObject);
+procedure TfrmViewOperations.btnAllStartClick(Sender: TObject);
 begin
   OperationsManager.StartAll;
 end;
 
-procedure TfrmViewOperations.CancelCurOpClick(Sender: TObject);
+procedure TfrmViewOperations.btnCancelCurOpClick(Sender: TObject);
 begin
   OperationsManager.GetOperationByIndex(indexFocus).Stop;
 end;
 
-procedure TfrmViewOperations.DnCurOpClick(Sender: TObject);
+procedure TfrmViewOperations.btnDnCurOpClick(Sender: TObject);
 begin
   if indexFocus < OperationsManager.OperationsCount-1 then
   begin
@@ -134,12 +136,12 @@ begin
   end;
 end;
 
-procedure TfrmViewOperations.AllCancelClick(Sender: TObject);
+procedure TfrmViewOperations.btnAllCancelClick(Sender: TObject);
 begin
   OperationsManager.CancelAll;
 end;
 
-procedure TfrmViewOperations.RunAllStartClick(Sender: TObject);
+procedure TfrmViewOperations.btnRunAllStartClick(Sender: TObject);
 begin
   OperationsManager.StartRunning;
 end;
@@ -159,21 +161,21 @@ begin
 
   if OperationsManager.OperationsCount=0 then
     begin
-      CurrentOperationPanel.Enabled:=false;
-      AllOperationPanel.Enabled:=false;
+      pnlCurrentOperation.Enabled:=false;
+      grpAllOperation.Enabled:=false;
     end
   else
     begin
-      CurrentOperationPanel.Enabled:=true;
-      AllOperationPanel.Enabled:=true;
+      pnlCurrentOperation.Enabled:=true;
+      grpAllOperation.Enabled:=true;
     end;
 
-  AllProgressBar.Position:= OperationsManager.AllProgressPoint;
+  pbrAllProgress.Position:= OperationsManager.AllProgressPoint;
 
-  if AllProgressBar.Position <> 0 then
-    AllProgressLabel.Caption:= 'Progress all operation '+  IntToStr(AllProgressBar.Position)+' %'
+  if pbrAllProgress.Position <> 0 then
+    lblAllProgress.Caption:= Format(rsDlgAllOpProgress, [pbrAllProgress.Position])
   else
-    AllProgressLabel.Caption:= 'All operation complete';
+    lblAllProgress.Caption:= rsDlgAllOpComplete;
 
   for i := 0 to OperationsManager.OperationsCount - 1 do
   begin
@@ -278,7 +280,7 @@ begin
         fsoCalcChecksum:
           OutString := rsDlgCheckSumCalc;
         else
-          OutString := 'Unknown operation';
+          OutString := rsDlgUnknownOperation;
       end;
 
       OutString := IntToStr(OperationHandle) + ': '
@@ -298,13 +300,17 @@ begin
       if i<> indexFocus then sboxOperations.Canvas.Brush.Color := clMenu else
       begin
       sboxOperations.Canvas.Brush.Color := clHighlight;                    // изменение цвета полоски если на ней фокус
-      CurrentOperationLabel.Caption:=OutString;                              // загаловок для текущей операции в CurrentOperation panel определяется индексом
+      lblCurrentOperation.Caption:=OutString;                              // загаловок для текущей операции в CurrentOperation panel определяется индексом
 
       if (StartingState in [ossQueueFirst, ossQueueLast, ossQueueIn]) then
-      CurOpQueueInOut.Caption:='Out' else CurOpQueueInOut.Caption:='In';
-      if Operation.State=fsosRunning then
-      StartPauseCurOp.Caption:='||' else StartPauseCurOp.Caption:='Start';
+        btnCurOpQueueInOut.Caption:= rsDlgQueueOut
+      else
+        btnCurOpQueueInOut.Caption:= rsDlgQueueIn;
 
+      if Operation.State = fsosRunning then
+        btnStartPauseCurOp.Caption:= rsDlgOpPause
+      else
+        btnStartPauseCurOp.Caption:= rsDlgOpStart;
       end;
 
       sboxOperations.Canvas.FillRect(
@@ -319,47 +325,47 @@ begin
 
 end;
 
-procedure TfrmViewOperations.CurOpQueueInOutClick(Sender: TObject);
+procedure TfrmViewOperations.btnCurOpQueueInOutClick(Sender: TObject);
 begin
   if (OperationsManager.GetStartingState(OperationsManager.GetHandleById(indexFocus)) in [ossQueueFirst, ossQueueLast, ossQueueIn])  then
     begin
       OperationsManager.InQueue(OperationsManager.GetHandleById(indexFocus), false);
-      CurOpQueueInOut.Caption:= 'In';
+      btnCurOpQueueInOut.Caption:= rsDlgQueueIn;
     end
   else
     begin
       OperationsManager.InQueue(OperationsManager.GetHandleById(indexFocus), true);
-      CurOpQueueInOut.Caption:= 'Out';
+      btnCurOpQueueInOut.Caption:= rsDlgQueueOut;
     end;
 end;
 
-procedure TfrmViewOperations.StartPauseCurOpClick(Sender: TObject);
+procedure TfrmViewOperations.btnStartPauseCurOpClick(Sender: TObject);
 begin
   if OperationsManager.GetOperationByIndex(indexFocus).State=fsosRunning then
     begin
       OperationsManager.GetOperationByIndex(indexFocus).pause;
-      StartPauseCurOp.Caption:= 'Start';
+      btnStartPauseCurOp.Caption:= rsDlgOpStart;
       OperationsManager.CheckQueuedOperations;
     end
   else
     begin
       OperationsManager.GetOperationByIndex(indexFocus).Start;
       OperationsManager.SetPauseRunning(OperationsManager.GetHandleById(indexFocus), False);
-      StartPauseCurOp.Caption:= '||';
+      btnStartPauseCurOp.Caption:= rsDlgOpPause;
     end;
 end;
 
-procedure TfrmViewOperations.StartQueueClick(Sender: TObject);
+procedure TfrmViewOperations.btnStartQueueClick(Sender: TObject);
 begin
   OperationsManager.CheckQueuedOperations;
 end;
 
-procedure TfrmViewOperations.UpCurOpClick(Sender: TObject);
+procedure TfrmViewOperations.btnUpCurOpClick(Sender: TObject);
 begin
   if indexFocus>0 then
   begin
    OperationsManager.MoveOperation(indexFocus, indexFocus - 1);
-   indexFocus:= indexFocus-1;
+   indexFocus:= indexFocus - 1;
   end;
 end;
 
@@ -367,11 +373,10 @@ end;
 procedure TfrmViewOperations.UpdateView(Operation: TFileSourceOperation;
                                         Event: TOperationManagerEvent);
 begin
-
-  if OperationsManager.OperationsCount=0 then
+  if OperationsManager.OperationsCount = 0 then
   begin
-  indexFocus:=-1;                                                //сброс индекса и
-  CurrentOperationLabel.Caption:='Caption of operation';         // заголовка, если нет операций в фоне
+    indexFocus:= -1;                                 //сброс индекса и
+    lblCurrentOperation.Caption:= rsDlgOpCaption; // заголовка, если нет операций в фоне
   end;
   lblCount.Caption := IntToStr(OperationsManager.OperationsCount);
   sboxOperations.Invalidate;     // force redraw
