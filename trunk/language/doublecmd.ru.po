@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-11-06 11:56+0300\n"
+"PO-Revision-Date: 2011-01-03 18:54+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -168,6 +168,7 @@ msgid "Name:"
 msgstr "Имя:"
 
 #: TFCOLUMNSSETCONF.LBNROFCOLUMNSSET.CAPTION
+msgctxt "TFCOLUMNSSETCONF.LBNROFCOLUMNSSET.CAPTION"
 msgid "0"
 msgstr ""
 
@@ -1145,7 +1146,7 @@ msgstr ""
 
 #: TFRMFILEOP.BTNTOQUEUE.CAPTION
 msgid "To Queue"
-msgstr ""
+msgstr "В очередь"
 
 #: TFRMFILEOP.BTNWORKINBACKGROUND.CAPTION
 msgid "Work in &background"
@@ -2227,7 +2228,7 @@ msgstr "Старт"
 
 #: TFRMMAIN.BTNF10.CAPTION
 msgid "Exit F10"
-msgstr ""
+msgstr "Выход F10"
 
 #: TFRMMAIN.BTNF9.CAPTION
 msgid "Terminal F9"
@@ -4679,6 +4680,106 @@ msgctxt "TFRMVIEWER.PMISELECTALL.CAPTION"
 msgid "Select All"
 msgstr "Выделить &всё"
 
+#: TFRMVIEWOPERATIONS.BTNALLCANCEL.CAPTION
+msgctxt "TFRMVIEWOPERATIONS.BTNALLCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Отмена"
+
+#: TFRMVIEWOPERATIONS.BTNALLINQUEUE.CAPTION
+msgid "Queue In"
+msgstr "В очередь"
+
+#: TFRMVIEWOPERATIONS.BTNALLPAUSE.CAPTION
+msgctxt "TFRMVIEWOPERATIONS.BTNALLPAUSE.CAPTION"
+msgid "Pause"
+msgstr "Пауза"
+
+#: TFRMVIEWOPERATIONS.BTNALLSTART.CAPTION
+msgctxt "TFRMVIEWOPERATIONS.BTNALLSTART.CAPTION"
+msgid "Start"
+msgstr "Старт"
+
+#: TFRMVIEWOPERATIONS.BTNCANCELCUROP.CAPTION
+msgctxt "TFRMVIEWOPERATIONS.BTNCANCELCUROP.CAPTION"
+msgid "Cancel"
+msgstr "Отмена"
+
+#: TFRMVIEWOPERATIONS.BTNCUROPQUEUEINOUT.CAPTION
+msgctxt "TFRMVIEWOPERATIONS.BTNCUROPQUEUEINOUT.CAPTION"
+msgid "In"
+msgstr "+"
+
+#: TFRMVIEWOPERATIONS.BTNDNCUROP.CAPTION
+msgctxt "TFRMVIEWOPERATIONS.BTNDNCUROP.CAPTION"
+msgid "Down"
+msgstr "Вниз"
+
+#: TFRMVIEWOPERATIONS.BTNRUNALLPAUSE.CAPTION
+msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLPAUSE.CAPTION"
+msgid "Pause"
+msgstr "Пауза"
+
+#: TFRMVIEWOPERATIONS.BTNRUNALLSTART.CAPTION
+msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLSTART.CAPTION"
+msgid "Start"
+msgstr "Старт"
+
+#: TFRMVIEWOPERATIONS.BTNSTARTPAUSECUROP.CAPTION
+msgctxt "TFRMVIEWOPERATIONS.BTNSTARTPAUSECUROP.CAPTION"
+msgid "Start"
+msgstr "Старт"
+
+#: TFRMVIEWOPERATIONS.BTNSTARTQUEUE.CAPTION
+msgid "Start queue"
+msgstr "Запустить очередь"
+
+#: TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION
+msgctxt "TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION"
+msgid "Up"
+msgstr "Вверх"
+
+#: TFRMVIEWOPERATIONS.CHKQUEUE.CAPTION
+msgid "Enable queue"
+msgstr "Очередь"
+
+#: TFRMVIEWOPERATIONS.FRMVIEWOPERATIONS.CAPTION
+msgctxt "TFRMVIEWOPERATIONS.FRMVIEWOPERATIONS.CAPTION"
+msgid "File operations"
+msgstr "Файловые операции"
+
+#: TFRMVIEWOPERATIONS.GRPALLOPERATION.CAPTION
+msgid "Operations control"
+msgstr "Управление"
+
+#: TFRMVIEWOPERATIONS.LBLALL.CAPTION
+msgid "for all"
+msgstr "для всех"
+
+#: TFRMVIEWOPERATIONS.LBLALLPROGRESS.CAPTION
+msgid "Progress"
+msgstr "Прогресс"
+
+#: TFRMVIEWOPERATIONS.LBLCOUNT.CAPTION
+msgctxt "TFRMVIEWOPERATIONS.LBLCOUNT.CAPTION"
+msgid "0"
+msgstr ""
+
+#: TFRMVIEWOPERATIONS.LBLCURRENTOPERATION.CAPTION
+msgid "Current operation"
+msgstr "Текущая операция"
+
+#: TFRMVIEWOPERATIONS.LBLOPERATIONSCOUNT.CAPTION
+msgid "Active operations:"
+msgstr "Активные операции:"
+
+#: TFRMVIEWOPERATIONS.LBLQUEUE.CAPTION
+msgid "Queue:"
+msgstr "Очередь:"
+
+#: TFRMVIEWOPERATIONS.LBLRUNNING.CAPTION
+msgid "for running"
+msgstr "для запущенных"
+
 #: ulng.rscolattr
 msgid "Attr"
 msgstr "Атриб"
@@ -4742,6 +4843,16 @@ msgstr "Настроить колонку: "
 #: ulng.rscopynametemplate
 msgid "Copy (%d) %s"
 msgstr "Копия (%d) %s"
+
+#: ulng.rsdlgallopcomplete
+msgid "All operations is complete"
+msgstr "Все операции завершены"
+
+#: ulng.rsdlgallopprogress
+#, fuzzy
+#| msgid "Progress of all operations %d %"
+msgid "Progress of all operations %d %%"
+msgstr "Прогресс выполнения %d %%"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -4832,9 +4943,32 @@ msgstr "Распаковка..."
 msgid "Move file(s)"
 msgstr "Переместить файл(ы)"
 
+#: ulng.rsdlgopcaption
+msgid "Caption of operation"
+msgstr "Заголовок операции"
+
+#: ulng.rsdlgoppause
+msgctxt "ulng.rsdlgoppause"
+msgid "Pause"
+msgstr "Пауза"
+
+#: ulng.rsdlgopstart
+msgctxt "ulng.rsdlgopstart"
+msgid "Start"
+msgstr "Старт"
+
 #: ulng.rsdlgpack
 msgid "Packing..."
 msgstr "Упаковка..."
+
+#: ulng.rsdlgqueuein
+msgctxt "ulng.rsdlgqueuein"
+msgid "In"
+msgstr "+"
+
+#: ulng.rsdlgqueueout
+msgid "Out"
+msgstr "-"
 
 #: ulng.rsdlgspeedtime
 #, fuzzy
@@ -4845,6 +4979,10 @@ msgstr "Скорость %s/с, осталось времени %s"
 #: ulng.rsdlgtest
 msgid "Testing..."
 msgstr "Проверка..."
+
+#: ulng.rsdlgunknownoperation
+msgid "Unknown operation"
+msgstr "Неизвестная операция"
 
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
@@ -5063,7 +5201,7 @@ msgstr "Удалить выбранный \"%s\" в корзину?"
 
 #: ulng.rsmsgdeltotrashforce
 msgid "Can not delete \"%s\" to trash! Delete directly?"
-msgstr ""
+msgstr "Не могу удалить \"%s\" в корзину! Удалить совсем?"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
@@ -5558,6 +5696,7 @@ msgid "Text"
 msgstr "Текст"
 
 #: ulng.rsoptfileop
+msgctxt "ulng.rsoptfileop"
 msgid "File operations"
 msgstr "Файловые операции"
 
