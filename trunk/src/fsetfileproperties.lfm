@@ -8,8 +8,7 @@ object frmSetFileProperties: TfrmSetFileProperties
   Caption = 'Change file properties'
   ClientHeight = 315
   ClientWidth = 375
-  Color = clForm
-  LCLVersion = '0.9.29'
+  LCLVersion = '0.9.31'
   object nbAttributes: TPageControl
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -19,6 +18,7 @@ object frmSetFileProperties: TfrmSetFileProperties
     Height = 240
     Top = 0
     Width = 375
+    ActivePage = pgUnixMode
     Anchors = [akTop, akLeft, akRight]
     TabIndex = 0
     TabOrder = 0
@@ -423,7 +423,6 @@ object frmSetFileProperties: TfrmSetFileProperties
           Width = 23
           Anchors = [akTop, akRight, akBottom]
           BorderSpacing.Right = 10
-          Color = clBtnFace
           Glyph.Data = {
             36040000424D3604000000000000360000002800000010000000100000000100
             2000000000000004000064000000640000000000000000000000000000000000
@@ -638,7 +637,6 @@ object frmSetFileProperties: TfrmSetFileProperties
           Width = 23
           Anchors = [akTop, akRight, akBottom]
           BorderSpacing.Right = 10
-          Color = clBtnFace
           Glyph.Data = {
             36040000424D3604000000000000360000002800000010000000100000000100
             2000000000000004000064000000640000000000000000000000000000000000
@@ -780,7 +778,6 @@ object frmSetFileProperties: TfrmSetFileProperties
           Width = 23
           Anchors = [akTop, akRight, akBottom]
           BorderSpacing.Right = 10
-          Color = clBtnFace
           Glyph.Data = {
             36040000424D3604000000000000360000002800000010000000100000000100
             2000000000000004000064000000640000000000000000000000000000000000

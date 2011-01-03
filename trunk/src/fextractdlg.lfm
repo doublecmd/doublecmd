@@ -17,7 +17,6 @@ object frmExtractDlg: TfrmExtractDlg
   ChildSizing.TopBottomSpacing = 5
   ClientHeight = 203
   ClientWidth = 497
-  Color = clForm
   Position = poScreenCenter
   LCLVersion = '0.9.29'
   object lblExtractTo: TLabel

@@ -6,7 +6,6 @@ object frmModView: TfrmModView
   Caption = 'New Size'
   ClientHeight = 185
   ClientWidth = 488
-  Color = clForm
   OnClose = FormClose
   OnKeyPress = FormKeyPress
   OnShow = FormShow

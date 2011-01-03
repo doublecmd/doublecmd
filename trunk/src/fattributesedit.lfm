@@ -9,7 +9,6 @@ object frmAttributesEdit: TfrmAttributesEdit
   Caption = 'Choose attributes'
   ClientHeight = 284
   ClientWidth = 329
-  Color = clForm
   FormStyle = fsStayOnTop
   Position = poOwnerFormCenter
   ShowInTaskBar = stNever

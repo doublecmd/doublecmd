@@ -14,7 +14,6 @@ object frmFindView: TfrmFindView
   Caption = 'Find'
   ClientHeight = 104
   ClientWidth = 344
-  Color = clForm
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stAlways

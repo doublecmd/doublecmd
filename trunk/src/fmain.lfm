@@ -6,7 +6,6 @@ object frmMain: TfrmMain
   Caption = 'Double Commander'
   ClientHeight = 339
   ClientWidth = 760
-  Color = clForm
   KeyPreview = True
   Menu = mnuMain
   OnClose = frmMainClose

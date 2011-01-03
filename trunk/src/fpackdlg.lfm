@@ -13,12 +13,11 @@ object frmPackDlg: TfrmPackDlg
   ChildSizing.TopBottomSpacing = 5
   ClientHeight = 236
   ClientWidth = 598
-  Color = clForm
   Constraints.MinHeight = 236
   Constraints.MinWidth = 482
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '0.9.29'
+  LCLVersion = '0.9.31'
   object lblPrompt: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -117,12 +116,10 @@ object frmPackDlg: TfrmPackDlg
     ChildSizing.ShrinkVertical = crsHomogenousSpaceResize
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 3
-    Color = clBtnFace
     Columns = 3
     Constraints.MinHeight = 100
     Constraints.MinWidth = 100
     OnClick = arbChange
-    ParentColor = False
     TabOrder = 2
   end
   object cbPackerList: TComboBox

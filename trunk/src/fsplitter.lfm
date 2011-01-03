@@ -10,7 +10,6 @@ object frmSplitter: TfrmSplitter
   Caption = 'Splitter'
   ClientHeight = 302
   ClientWidth = 480
-  Color = clForm
   Position = poScreenCenter
   LCLVersion = '0.9.29'
   object prgbrDoIt: TProgressBar

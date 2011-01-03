@@ -7,7 +7,6 @@ object frmMsg: TfrmMsg
   VertScrollBar.Page = 253
   ClientHeight = 254
   ClientWidth = 426
-  Color = clForm
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress

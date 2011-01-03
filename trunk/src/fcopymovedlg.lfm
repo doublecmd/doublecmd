@@ -11,13 +11,12 @@ object frmCopyDlg: TfrmCopyDlg
   Caption = 'Copy file(s)'
   ClientHeight = 308
   ClientWidth = 602
-  Color = clForm
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnKeyPress = frmCopyDlgKeyPress
   OnShow = frmCopyDlgShow
   Position = poScreenCenter
-  LCLVersion = '0.9.29'
+  LCLVersion = '0.9.31'
   object lblCopySrc: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -155,8 +154,6 @@ object frmCopyDlg: TfrmCopyDlg
     BorderSpacing.Bottom = 4
     ClientHeight = 149
     ClientWidth = 582
-    Color = clBtnFace
-    ParentColor = False
     TabOrder = 5
     object lblFileType: TLabel
       AnchorSideLeft.Control = grpOptions
@@ -341,7 +338,6 @@ object frmCopyDlg: TfrmCopyDlg
     Width = 23
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.Right = 6
-    Color = clBtnFace
     Glyph.Data = {
       72000000424D7200000000000000360000002800000005000000030000000100
       2000000000003C00000064000000640000000000000000000000000000000000

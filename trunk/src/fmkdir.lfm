@@ -9,7 +9,6 @@ object frmMkDir: TfrmMkDir
   Caption = 'Create new directory'
   ClientHeight = 106
   ClientWidth = 495
-  Color = clForm
   Constraints.MaxHeight = 120
   KeyPreview = True
   OnKeyPress = FormKeyPress

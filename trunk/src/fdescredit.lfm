@@ -7,7 +7,6 @@ object frmDescrEdit: TfrmDescrEdit
   Caption = 'File/folder comment'
   ClientHeight = 300
   ClientWidth = 400
-  Color = clForm
   OnCreate = FormCreate
   Position = poScreenCenter
   LCLVersion = '0.9.27'

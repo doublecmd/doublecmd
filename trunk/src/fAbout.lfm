@@ -7,12 +7,11 @@ object frmAbout: TfrmAbout
   Caption = 'About'
   ClientHeight = 351
   ClientWidth = 672
-  Color = clForm
   KeyPreview = True
   OnKeyDown = FormKeyDown
   OnShow = frmAboutShow
   Position = poScreenCenter
-  LCLVersion = '0.9.29'
+  LCLVersion = '0.9.31'
   object lblVersion: TLabel
     AnchorSideLeft.Control = lblTitle
     AnchorSideTop.Control = lblTitle
@@ -207,7 +206,6 @@ object frmAbout: TfrmAbout
     BevelWidth = 2
     ClientHeight = 73
     ClientWidth = 73
-    ParentColor = False
     TabOrder = 2
     object imgLogo: TImage
       Left = 4

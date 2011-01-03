@@ -7,14 +7,13 @@ object frmOptions: TfrmOptions
   Caption = 'Options'
   ClientHeight = 557
   ClientWidth = 942
-  Color = clForm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stNever
-  LCLVersion = '0.9.29'
+  LCLVersion = '0.9.31'
   object Panel1: TPanel
     Left = 0
     Height = 43

@@ -6,11 +6,10 @@ object frmViewOperations: TfrmViewOperations
   Caption = 'File operations'
   ClientHeight = 333
   ClientWidth = 559
-  Color = clForm
   FormStyle = fsStayOnTop
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '0.9.29'
+  LCLVersion = '0.9.31'
   object sboxOperations: TScrollBox
     AnchorSideTop.Side = asrBottom
     Left = 0
@@ -80,7 +79,6 @@ object frmViewOperations: TfrmViewOperations
         Anchors = [akRight, akBottom]
         BorderSpacing.Bottom = 3
         Caption = 'Cancel'
-        Color = clBtnFace
         NumGlyphs = 0
         OnClick = CancelCurOpClick
       end
@@ -96,7 +94,6 @@ object frmViewOperations: TfrmViewOperations
         BorderSpacing.Left = 3
         BorderSpacing.Bottom = 3
         Caption = 'Start'
-        Color = clBtnFace
         NumGlyphs = 0
         OnClick = StartPauseCurOpClick
       end
@@ -115,7 +112,6 @@ object frmViewOperations: TfrmViewOperations
         BorderSpacing.Right = 2
         BorderSpacing.Bottom = 3
         Caption = 'Down'
-        Color = clBtnFace
         NumGlyphs = 0
         OnClick = DnCurOpClick
       end
@@ -132,7 +128,6 @@ object frmViewOperations: TfrmViewOperations
         BorderSpacing.Right = 2
         BorderSpacing.Bottom = 3
         Caption = 'Up'
-        Color = clBtnFace
         NumGlyphs = 0
         OnClick = UpCurOpClick
       end
@@ -159,7 +154,6 @@ object frmViewOperations: TfrmViewOperations
         BorderSpacing.Left = 2
         BorderSpacing.Bottom = 3
         Caption = 'In'
-        Color = clBtnFace
         NumGlyphs = 0
         OnClick = CurOpQueueInOutClick
       end
@@ -232,7 +226,6 @@ object frmViewOperations: TfrmViewOperations
       Width = 56
       BorderSpacing.Left = 2
       Caption = 'Cancel All'
-      Color = clBtnFace
       NumGlyphs = 0
       OnClick = AllCancelClick
     end
@@ -289,7 +282,6 @@ object frmViewOperations: TfrmViewOperations
         Width = 60
         Anchors = [akTop]
         Caption = '||'
-        Color = clBtnFace
         NumGlyphs = 0
         OnClick = RunAllPauseClick
       end
@@ -299,7 +291,6 @@ object frmViewOperations: TfrmViewOperations
         Top = 21
         Width = 60
         Caption = 'Start'
-        Color = clBtnFace
         NumGlyphs = 0
         OnClick = RunAllStartClick
       end
@@ -313,7 +304,6 @@ object frmViewOperations: TfrmViewOperations
       Width = 22
       BorderSpacing.Left = 2
       Caption = '||'
-      Color = clBtnFace
       NumGlyphs = 0
       OnClick = AllPauseClick
     end
@@ -326,7 +316,6 @@ object frmViewOperations: TfrmViewOperations
       Width = 47
       BorderSpacing.Left = 5
       Caption = 'Start All'
-      Color = clBtnFace
       NumGlyphs = 0
       OnClick = AllStartClick
     end
@@ -350,7 +339,6 @@ object frmViewOperations: TfrmViewOperations
       Top = 64
       Width = 46
       Caption = 'All In'
-      Color = clBtnFace
       NumGlyphs = 0
       OnClick = AllInQueueClick
     end
@@ -366,7 +354,6 @@ object frmViewOperations: TfrmViewOperations
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 2
       Caption = 'Start queue'
-      Color = clBtnFace
       NumGlyphs = 0
       OnClick = StartQueueClick
     end
@@ -377,4 +364,4 @@ object frmViewOperations: TfrmViewOperations
     left = 8
     top = 176
   end
-end
+end

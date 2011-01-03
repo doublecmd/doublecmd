@@ -7,7 +7,6 @@ object frmTweakPlugin: TfrmTweakPlugin
   Caption = 'Tweak plugin'
   ClientHeight = 482
   ClientWidth = 544
-  Color = clForm
   Position = poScreenCenter
   ShowInTaskBar = stNever
   LCLVersion = '0.9.31'

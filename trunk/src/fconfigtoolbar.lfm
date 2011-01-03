@@ -12,7 +12,6 @@ object frmConfigToolBar: TfrmConfigToolBar
   ChildSizing.TopBottomSpacing = 8
   ClientHeight = 323
   ClientWidth = 661
-  Color = clForm
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '0.9.29'

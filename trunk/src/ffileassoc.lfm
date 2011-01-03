@@ -6,7 +6,6 @@ object frmFileAssoc: TfrmFileAssoc
   Caption = 'File associations'
   ClientHeight = 585
   ClientWidth = 568
-  Color = clForm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
