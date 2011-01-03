@@ -439,7 +439,7 @@ begin
       sExtFilter := UTF8LowerCase(ExtractFileExt(sFileName)) + ';';
       sGraphicFilter := GraphicFilter(TGraphic);
       // if file is graphic
-      if (Pos(sExtFilter, sGraphicFilter) <> 0) and mbFileExists(sFileName) then
+      if (Length(sExtFilter) > 1) and (Pos(sExtFilter, sGraphicFilter) <> 0) and mbFileExists(sFileName) then
       begin
         {$IFDEF LCLGTK2}
         pbPicture := gdk_pixbuf_new_from_file(PChar(sFileName), nil);
