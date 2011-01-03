@@ -1,7 +1,7 @@
 object frmViewer: TfrmViewer
-  Left = 114
+  Left = 342
   Height = 530
-  Top = 158
+  Top = 123
   Width = 1156
   HorzScrollBar.Page = 951
   VertScrollBar.Page = 491
@@ -1591,7 +1591,7 @@ object frmViewer: TfrmViewer
     BorderSpacing.CellAlignHorizontal = ccaCenter
     BorderSpacing.CellAlignVertical = ccaCenter
     BorderStyle = bsNone
-    ColCount = 0
+    ColCount = 1
     DefaultColWidth = 150
     DefaultRowHeight = 140
     ExtendedSelect = False
@@ -1602,7 +1602,7 @@ object frmViewer: TfrmViewer
     MouseWheelOption = mwGrid
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goSmoothScroll]
     ParentFont = False
-    RowCount = 0
+    RowCount = 1
     ScrollBars = ssAutoVertical
     TabOrder = 4
     TitleFont.Style = [fsItalic]
@@ -1611,6 +1611,9 @@ object frmViewer: TfrmViewer
     OnDrawCell = DrawPreviewDrawCell
     OnSelection = DrawPreviewSelection
     OnTopleftChanged = DrawPreviewTopleftChanged
+    ColWidths = (
+      176
+    )
   end
   object Splitter: TSplitter
     AnchorSideLeft.Control = DrawPreview
@@ -2184,7 +2187,7 @@ object frmViewer: TfrmViewer
         GroupIndex = 1
         RadioItem = True
         ShortCut = 50
-        OnClick = miBinClick
+        OnClick = miTextClick
       end
       object miHex: TMenuItem
         AutoCheck = True
@@ -2192,7 +2195,7 @@ object frmViewer: TfrmViewer
         GroupIndex = 1
         RadioItem = True
         ShortCut = 51
-        OnClick = miHexClick
+        OnClick = miTextClick
       end
       object miWrapText: TMenuItem
         AutoCheck = True
@@ -2200,7 +2203,15 @@ object frmViewer: TfrmViewer
         GroupIndex = 1
         RadioItem = True
         ShortCut = 52
-        OnClick = miWrapTextClick
+        OnClick = miTextClick
+      end
+      object miLookBook: TMenuItem
+        AutoCheck = True
+        Caption = 'Show as B&ook'
+        GroupIndex = 1
+        RadioItem = True
+        ShortCut = 32781
+        OnClick = miTextClick
       end
       object miDiv2: TMenuItem
         Caption = '-'

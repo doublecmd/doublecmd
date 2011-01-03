@@ -65,7 +65,7 @@ uses
   SysUtils, Classes, Controls, StdCtrls, Menus, Graphics, LCLType;
 
 type
-  TViewerMode = (vmBin, vmHex, vmText, vmWrap);
+  TViewerMode = (vmBin, vmHex, vmText, vmWrap, vmBook);
   TDataAccess = (dtMmap, dtNothing);
   TCharSide = (csBefore, csLeft, csRight, csAfter);
 
@@ -151,13 +151,14 @@ type
     FMouseBlockBeg:      PtrInt;
     FMouseBlockSide:     TCharSide;
     FSelecting:          Boolean;
+    FTextWidth: 	 Integer; // max char count or width in window
     FTextHeight:         Integer; // measured values of font, rec calc at font changed
     FScrollBarVert:      TScrollBar;
     FScrollBarHorz:      TScrollBar;
     FOnPositionChanged:  TNotifyEvent;
     FUpdateScrollBarPos: Boolean; // used to block updating of scrollbar
     FScrollBarPosition:  Integer;  // for updating vertical scrollbar based on Position
-    cTextWidth: integer; // max char in window
+    FColCount:           Integer;
 
     function GetPercent: Integer;
     procedure SetPercent(const AValue: Integer);
@@ -169,6 +170,7 @@ type
     function GetEncodingName: string;
     procedure SetEncodingName(AEncodingName: string);
     procedure SetViewerMode(Value: TViewerMode);
+    procedure SetColCount(const AValue: Integer);
 
     {en
        Returns how many lines (given current FTextHeight) will fit into the window.
@@ -319,6 +321,8 @@ type
     procedure ScrollBarHorzScroll(Sender: TObject; ScrollCode: TScrollCode;
       var ScrollPos: Integer);
 
+    function GetText(const StartPos, Len: PtrInt; const Xoffset: Integer): string;
+
   protected
     procedure KeyDown(var Key: word; Shift: TShiftState); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
@@ -368,6 +372,7 @@ type
     property SelectionStart: PtrInt Read FBlockBeg Write SetBlockBegin;
     property SelectionEnd: PtrInt Read FBlockEnd Write SetBlockEnd;
     property EncodingName: string Read GetEncodingName Write SetEncodingName;
+    property ColCount: Integer Read FColCount Write SetColCount;
 
   published
     property ViewerMode: TViewerMode Read FViewerMode Write SetViewerMode default vmText;
@@ -436,6 +441,7 @@ begin
   FHighLimit := 0;
   FBOMLength := 0;
   FTextHeight := 14; // dummy value
+  FColCount := 1;
 
   FLineList := TList.Create;
 
@@ -483,7 +489,11 @@ begin
   Canvas.Brush.Color := Self.Color;
   Canvas.Brush.Style := bsClear;
   FTextHeight := Canvas.TextHeight('Wg') + 2;
-  cTextWidth := Self.Width  div Canvas.TextWidth ('W')-2 ;
+
+  if FViewerMode = vmBook then
+    FTextWidth := ((ClientWidth - (Canvas.TextWidth('W') * FColCount)) div FColCount)
+  else
+    FTextWidth := ClientWidth  div Canvas.TextWidth('W') - 2;
 
   FLineList.Clear;
 
@@ -492,6 +502,7 @@ begin
     vmHex : WriteHex;
     vmText: WriteText;
     vmWrap: WriteText;
+    vmBook: WriteText;
   end;
 end;
 
@@ -526,6 +537,12 @@ begin
     FViewerMode := Value;
 end;
 
+procedure TViewerControl.SetColCount(const AValue: Integer);
+begin
+  if AValue > 0 then FColCount := AValue
+    else FColCount := 1;
+end;
+
 function TViewerControl.ScrollPosition(var aPosition: PtrInt; iLines: Integer): Boolean;
 var
   i:      Integer;
@@ -554,9 +571,15 @@ begin
     SetPosition(aPosition);
 end;
 
+function TViewerControl.GetText(const StartPos, Len: PtrInt; const Xoffset: Integer): string;
+begin
+  SetString(Result, GetDataAdr + StartPos, Len);
+  Result := TransformText(ConvertToUTF8(Result), Xoffset);
+end;
+
 function TViewerControl.CalcTextLineLength(var iStartPos: PtrInt; const aLimit: Int64; out DataLength: PtrInt): Integer;
 var
-  MaxLineLength: Integer;
+  MaxLineLength: Boolean;
   CharLenInBytes: Integer;
   OldPos, LastSpacePos: PtrInt;
   LastSpaceResult: Integer;
@@ -564,28 +587,21 @@ begin
   Result := 0;
   DataLength := 0;
   LastSpacePos := -1;
-
-  case FViewerMode of
-    vmText:   MaxLineLength := cMaxTextWidth;
-    vmWrap:   MaxLineLength := cTextWidth;
-    else
-      Exit;
-  end;
-
+  MaxLineLength := True;
   OldPos := iStartPos;
 
-  while (Result < MaxLineLength) and (iStartPos < aLimit) do
+  while MaxLineLength and (iStartPos < aLimit) do
   begin
     case GetNextCharAsAscii(iStartPos, CharLenInBytes) of
-      9:
+      9:             // tab
         Inc(Result, cTabSpaces - Result mod cTabSpaces);
-      10:
+      10:            // stroka
         begin
           DataLength := iStartPos - OldPos;
           iStartPos := iStartPos + CharLenInBytes;
           Exit;
         end;
-      13:
+      13:             // karetka
         begin
           DataLength := iStartPos - OldPos;
           iStartPos := iStartPos + CharLenInBytes;
@@ -594,7 +610,7 @@ begin
             Inc(iStartPos, CharLenInBytes);
           Exit;
         end;
-      32:
+      32, 33, 40, 41, 44, 45, 46, 47, 92, 58, 59, 63, 91, 93:              //probel
         begin
           Inc(Result, 1);
           LastSpacePos := iStartPos + CharLenInBytes;
@@ -608,15 +624,22 @@ begin
       break;
 
     iStartPos := iStartPos + CharLenInBytes;
+    DataLength := iStartPos - OldPos;
+    case FViewerMode of
+    vmText:   MaxLineLength := Result < cMaxTextWidth;
+    vmWrap:   MaxLineLength := Result < FTextWidth;
+    vmBook:   MaxLineLength := Canvas.TextWidth(GetText(OldPos, DataLength, 0)) < FTextWidth;
+    else
+      Exit;
+    end;
   end;
 
-  if (Result >= MaxLineLength) and (LastSpacePos <> -1) then
+  if (not MaxLineLength) and (LastSpacePos <> -1) then
   begin
     iStartPos := LastSpacePos;
     Result := LastSpaceResult;
+    DataLength := iStartPos - OldPos;
   end;
-
-  DataLength := iStartPos - OldPos;
 end;
 
 function TViewerControl.TransformText(const sText: UTF8String; const Xoffset: Integer): UTF8String;
@@ -806,7 +829,7 @@ begin
       Result := GetStartOfLineFixed(cBinWidth);
     vmHex:
       Result := GetStartOfLineFixed(cHexWidth);
-    vmText, vmWrap:
+    vmText, vmWrap, vmBook:
       Result := GetStartOfLineText;
     else
       Result := aPosition;
@@ -839,7 +862,7 @@ begin
       Result := GetEndOfLineFixed(cBinWidth);
     vmHex:
       Result := GetEndOfLineFixed(cHexWidth);
-    vmText, vmWrap:
+    vmText, vmWrap, vmBook:
       Result := GetEndOfLineText;
     else
       Result := aPosition;
@@ -949,7 +972,7 @@ begin
       Result := GetPrevLineFixed(cBinWidth);
     vmHex:
       Result := GetPrevLineFixed(cHexWidth);
-    vmText, vmWrap:
+    vmText, vmWrap, vmBook:
       Result := GetPrevLineText;
     else
       Result := aPosition;
@@ -1020,7 +1043,7 @@ begin
       Result := GetNextLineFixed(cBinWidth);
     vmHex:
       Result := GetNextLineFixed(cHexWidth);
-    vmText, vmWrap:
+    vmText, vmWrap, vmBook:
       Result := GetNextLineText;
     else
       Result := aPosition;
@@ -1201,21 +1224,28 @@ end;
 
 procedure TViewerControl.WriteText;
 var
-  yIndex: Integer;
+  yIndex, xIndex, w: Integer;
   LineStart, iPos: PtrInt;
   DataLength: PtrInt;
 begin
   iPos := FPosition;
-  for yIndex := 0 to GetClientHeightInLines - 1 do
-  begin
-    if iPos >= FHighLimit then
-      Break;
-    AddLineOffset(iPos);
-    LineStart := iPos;
-    CalcTextLineLength(iPos, FHighLimit, DataLength);
-    if DataLength > 0 then
-      OutText(0, yIndex * FTextHeight, LineStart, DataLength);
-  end;
+  if ViewerMode = vmBook then
+     w := Width div FColCount
+  else
+     w := 0;
+  for xIndex := 0 to FColCount-1 do
+    begin
+      for yIndex := 0 to GetClientHeightInLines - 1 do
+      begin
+        if iPos >= FHighLimit then
+          Break;
+        AddLineOffset(iPos);
+        LineStart := iPos;
+        CalcTextLineLength(iPos, FHighLimit, DataLength);
+        if DataLength > 0 then
+          OutText(xIndex*w, yIndex * FTextHeight, LineStart, DataLength);
+      end;
+    end;
 end;
 
 procedure TViewerControl.WriteHex;
@@ -1259,7 +1289,7 @@ end;
 function TViewerControl.GetDataAdr: Pointer;
 begin
   case FViewerMode of
-    vmText, vmWrap:
+    vmText, vmWrap, vmBook:
       Result := FMappedFile + FBOMLength;
     else
       Result := FMappedFile;
@@ -1378,7 +1408,7 @@ begin
         iPos := iPos + cBinWidth;
       vmHex:
         iPos := iPos + cHexWidth;
-      vmText, vmWrap:
+      vmText, vmWrap, vmBook:
         CalcTextLineLength(iPos, FHighLimit, DataLength);
     end;
   end;
@@ -1425,13 +1455,6 @@ end;
 
 procedure TViewerControl.OutText(x, y: Integer;
   StartPos: PtrInt; DataLength: Integer);
-
-  function GetText(const StartPos, Len: PtrInt; const Xoffset: Integer): string;
-  begin
-    SetString(Result, GetDataAdr + StartPos, Len);
-    Result := TransformText(ConvertToUTF8(Result), Xoffset);
-  end;
-
 var
   pBegLine, pEndLine: PtrInt;
   iBegDrawIndex, iEndDrawIndex: PtrInt;
@@ -2220,7 +2243,7 @@ begin
       Result := XYPos2AdrBin;
     vmHex:
       Result := XYPos2AdrHex;
-    vmText, vmWrap:
+    vmText, vmWrap, vmBook:
       Result := XYPos2AdrText;
     else
       raise Exception.Create('Invalid viewer mode');
@@ -2800,7 +2823,7 @@ begin
   FBOMLength := GetBomLength;
 
   case FViewerMode of
-    vmText, vmWrap:
+    vmText, vmWrap, vmBook:
       begin
         FLowLimit  := 0;
         FHighLimit := FFileSize - FBOMLength;
@@ -2871,7 +2894,7 @@ begin
   else
   begin
     case FViewerMode of
-      vmText, vmWrap:
+      vmText, vmWrap, vmBook:
         begin
           Check(FBlockBeg, False);
           Check(FBlockEnd, True);

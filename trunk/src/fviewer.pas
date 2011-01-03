@@ -63,6 +63,7 @@ type
     gboxView: TGroupBox;
     gboxSlideShow: TGroupBox;
     GifAnim: TGifAnim;
+    miLookBook: TMenuItem;
     miDiv4: TMenuItem;
     miPreview: TMenuItem;
     miScreenshot: TMenuItem;
@@ -174,6 +175,7 @@ type
       );
     procedure ImageMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure miLookBookClick(Sender: TObject);
     procedure miPreviewClick(Sender: TObject);
     procedure miSaveAsClick(Sender: TObject);
     procedure miSaveClick(Sender: TObject);
@@ -204,9 +206,6 @@ type
     procedure miPrevClick(Sender: TObject);
     procedure miStretchClick(Sender: TObject);
     procedure miTextClick(Sender: TObject);
-    procedure miBinClick(Sender: TObject);
-    procedure miHexClick(Sender: TObject);
-    procedure miWrapTextClick(Sender: TObject);
     procedure miAbout2Click(Sender: TObject);
     procedure miSearchClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -416,17 +415,17 @@ begin
         end;
       '2':
         begin
-          miBinClick(Sender);
+          miTextClick(miBin);
           Key := #0;
         end;
       '3':
         begin
-          miHexClick(Sender);
+          miTextClick(miHex);
           Key := #0;
         end;
       '4':
         begin
-          miWrapTextClick(Sender);
+          miTextClick(miWrapText);
           Key := #0;
         end;
     end;
@@ -671,6 +670,14 @@ begin
     end;
     end;
   Image.Cursor:=crDefault;
+end;
+
+procedure TfrmViewer.miLookBookClick(Sender: TObject);
+begin
+  ExitPluginMode;
+  ReopenAsTextIfNeeded;
+  ViewerControl.ViewerMode := vmBook;
+  miLookBook.Checked := True;
 end;
 
 procedure TfrmViewer.CreatePreview(FullPathToFile: String; index: integer; delete: Boolean = false);
@@ -998,62 +1005,61 @@ begin
     end;
 end;
 
-procedure TfrmViewer.SaveImageAs (Var sExt: String; senderSave: boolean; Quality: integer);
+procedure TfrmViewer.SaveImageAs(var sExt: String; senderSave: boolean; Quality: integer);
 var
   sFileName: string;
-  png: TPortableNetworkGraphic=nil;
-  ico : TIcon=nil;
-  jpg : TJpegImage=nil;
-  pnm : TPortableAnyMapGraphic=nil;
+  ico : TIcon = nil;
+  jpg : TJpegImage = nil;
+  pnm : TPortableAnyMapGraphic = nil;
+  fsFileStream: TFileStreamEx = nil;
 begin
-   if not senderSave then
-     begin
-       if SavePictureDialog.Execute then sFileName:= SavePictureDialog.FileName+sExt;
-     end
-     else
+  if not senderSave then
+    begin
+      if SavePictureDialog.Execute then sFileName:= ChangeFileExt(SavePictureDialog.FileName, sExt);
+    end
+   else
      sFileName:= FileList.Strings[iActiveFile];
-  if sExt= '.bmp' then Image.Picture.SaveToFile(sFileName);
-  if sExt= '.png' then
-         begin
-           png := TPortableNetworkGraphic.Create;
-              try
-               png.Assign(Image.Picture.Graphic);
-               png.SaveToFile(sFileName);
-              finally
-               png.Free;
-              end;
-         end;
-  if (sExt='.jpg') or (sExt='.jpeg') then
-    begin
-      jpg := TJpegImage.Create;
-          try
-           jpg.Assign(Image.Picture.Graphic);
-           jpg.CompressionQuality := Quality;
-           jpg.SaveToFile(sFileName);
-          finally
-           jpg.Free;
-          end;
-    end;
-  if sExt='.ico' then
-    begin
-      ico := TIcon.Create;
-         try
+
+  try
+    fsFileStream:= TFileStreamEx.Create(sFileName, fmCreate);
+    if (sExt = '.jpg') or (sExt = '.jpeg') then
+      begin
+        jpg := TJpegImage.Create;
+        try
+          jpg.Assign(Image.Picture.Graphic);
+          jpg.CompressionQuality := Quality;
+          jpg.SaveToStream(fsFileStream);
+        finally
+          jpg.Free;
+        end;
+      end;
+    if sExt = '.ico' then
+      begin
+        ico := TIcon.Create;
+        try
           ico.Assign(Image.Picture.Graphic);
-          ico.SaveToFile(sFileName);
-         finally
+          ico.SaveToStream(fsFileStream);
+        finally
           ico.Free;
-         end;
-    end;
-  if sExt='.pnm' then
-    begin
-      pnm := TPortableAnyMapGraphic.Create;
-       try
-        pnm.Assign(Image.Picture.Graphic);
-        pnm.SaveToFile(sFileName);
-       finally
-        pnm.Free;
-       end;
-    end;
+        end;
+      end;
+    if sExt = '.pnm' then
+      begin
+        pnm := TPortableAnyMapGraphic.Create;
+        try
+          pnm.Assign(Image.Picture.Graphic);
+          pnm.SaveToStream(fsFileStream);
+        finally
+          pnm.Free;
+        end;
+      end;
+    if (sExt = '.png') or (sExt = '.bmp') then
+      begin
+        Image.Picture.SaveToStreamWithFileExt(fsFileStream, sExt);
+      end;
+  finally
+    FreeThenNil(fsFileStream);
+  end;
 end;
 
 procedure TfrmViewer.miSearchNextClick(Sender: TObject);
@@ -1232,6 +1238,7 @@ begin
   gImagePaintMode := ComboBoxPaint.text;
   gImagePaintWidth := StrToInt(ComboBoxWidth.Text) ;
   gImagePaintColor := ColorBoxPaint.Selected;
+  gTextPosition := ViewerControl.Position;
   if Assigned(WlxPlugins) then
      begin
        ExitPluginMode;
@@ -1346,32 +1353,35 @@ procedure TfrmViewer.miTextClick(Sender: TObject);
 begin
   ExitPluginMode;
   ReopenAsTextIfNeeded;
-  ViewerControl.ViewerMode := vmText;
-  miText.Checked := True;
-end;
-
-procedure TfrmViewer.miBinClick(Sender: TObject);
-begin
-  ExitPluginMode;
-  ReopenAsTextIfNeeded;
-  ViewerControl.ViewerMode := vmBin;
-  miBin.Checked := True;
-end;
-
-procedure TfrmViewer.miHexClick(Sender: TObject);
-begin
-  ExitPluginMode;
-  ReopenAsTextIfNeeded;
-  ViewerControl.ViewerMode := vmHex;
-  miHex.Checked := True;
-end;
-
-procedure TfrmViewer.miWrapTextClick(Sender: TObject);
-begin
-  ExitPluginMode;
-  ReopenAsTextIfNeeded;
-  ViewerControl.ViewerMode := vmWrap;
-  miWrapText.Checked := True;
+  (Sender as TMenuItem).Checked:= True;
+  if Sender = miText then ViewerControl.ViewerMode := vmText
+  else if Sender = miBin then ViewerControl.ViewerMode := vmBin
+  else if Sender = miHex then ViewerControl.ViewerMode := vmHex
+  else if Sender = miWrapText then ViewerControl.ViewerMode := vmWrap;
+  if Sender = miLookBook then
+    begin
+      with ViewerControl do
+        begin
+          ViewerMode := vmBook;
+          Color:= gBookBackgroundColor;
+          Font.Color:= gBookFontColor;
+          Font.Quality:= fqAntialiased;
+          ColCount:= gColCount;
+          Position:= gTextPosition;
+        end;
+      FontOptionsToFont(gFonts[dcfViewerBook], ViewerControl.Font);
+    end
+  else
+    begin
+      with ViewerControl do
+        begin
+          Color:= clWindow;
+          Font.Color:= clWindowText;
+          Font.Quality:= fqDefault;
+          ColCount:= 1;
+        end;
+      FontOptionsToFont(gFonts[dcfViewer], ViewerControl.Font);
+    end;
 end;
 
 procedure TfrmViewer.miAbout2Click(Sender: TObject);
@@ -1401,7 +1411,7 @@ begin
   
   miStretch.Checked:= gImageStretch;
   miPreview.Checked:= gPreviewVisible;
-  ComboBoxPaint.text := gImagePaintMode;
+  ComboBoxPaint.Text := gImagePaintMode;
   ComboBoxWidth.Text := IntToStr(gImagePaintWidth);
   ColorBoxPaint.Selected := gImagePaintColor;
 
@@ -1454,7 +1464,7 @@ begin
     else
       begin
         CopyFile(FileList.Strings[iActiveFile],FModSizeDialog.Path+PathDelim+ExtractFileName(FileList.Strings[iActiveFile]));
-        if sender=btnMoveFile then
+        if (sender=btnMoveFile) or (sender=btnMoveFile1) then
           begin
             CreatePreview(FileList.Strings[iActiveFile], iActiveFile, true);
             mbDeleteFile(FileList.Strings[iActiveFile]);
@@ -2068,6 +2078,7 @@ begin
       vmWrap: miWrapText.Checked := True;
       vmBin:  miBin.Checked := True;
       vmHex:  miHex.Checked := True;
+      vmBook: miLookBook.Checked := True;
     end;
 
     Status.Panels[sbpFileSize].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
@@ -2088,4 +2099,4 @@ initialization
  {$I fviewer.lrs}
 
 end.
-
+
