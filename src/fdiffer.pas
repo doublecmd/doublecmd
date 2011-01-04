@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Internal diff and merge tool
 
-   Copyright (C) 2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -72,6 +72,10 @@ type
     edtFileNameRight: TFileNameEdit;
     ImageList: TImageList;
     MainMenu: TMainMenu;
+    miEncodingRight: TMenuItem;
+    miEncodingLeft: TMenuItem;
+    miAbout: TMenuItem;
+    miEncoding: TMenuItem;
     miSaveRightAs: TMenuItem;
     miSaveLeftAs: TMenuItem;
     miCopyContext: TMenuItem;
@@ -132,6 +136,8 @@ type
     btnLeftSaveAs: TSpeedButton;
     btnRightSave: TSpeedButton;
     btnRightSaveAs: TSpeedButton;
+    pmEncodingLeft: TPopupMenu;
+    pmEncodingRight: TPopupMenu;
     Splitter: TSplitter;
     StatusBar: TStatusBar;
     ToolBar: TToolBar;
@@ -173,6 +179,8 @@ type
     procedure actSaveRightExecute(Sender: TObject);
     procedure actStartCompareExecute(Sender: TObject);
     procedure actKeepScrollingExecute(Sender: TObject);
+    procedure btnLeftEncodingClick(Sender: TObject);
+    procedure btnRightEncodingClick(Sender: TObject);
     procedure edtFileNameLeftAcceptFileName(Sender: TObject; var Value: String);
     procedure edtFileNameRightAcceptFileName(Sender: TObject; var Value: String);
     procedure FormCreate(Sender: TObject);
@@ -185,12 +193,18 @@ type
     SynDiffEditRight: TSynDiffEdit;
     HashListLeft,
     HashListRight: TList;
+    EncodingList: TStringList;
     procedure Clear(bLeft, bRight: Boolean);
     procedure BuildHashList(bLeft, bRight: Boolean);
+    procedure ChooseEncoding(SynDiffEdit: TSynDiffEdit);
+    procedure ChooseEncoding(MenuItem: TMenuItem; Encoding: String);
+    procedure FillEncodingMenu(TheOwner: TMenuItem; MenuHandler: TNotifyEvent; GroupIndex: LongInt);
     procedure LoadFromFile(SynDiffEdit: TSynDiffEdit; const FileName: UTF8String);
     procedure SaveToFile(SynDiffEdit: TSynDiffEdit; const FileName: UTF8String);
     procedure OpenFileLeft(const FileName: UTF8String);
     procedure OpenFileRight(const FileName: UTF8String);
+    procedure SetEncodingLeft(Sender: TObject);
+    procedure SetEncodingRight(Sender: TObject);
     procedure SynDiffEditEnter(Sender: TObject);
     procedure SynDiffEditLeftStatusChange(Sender: TObject; Changes: TSynStatusChanges);
     procedure SynDiffEditRightStatusChange(Sender: TObject; Changes: TSynStatusChanges);
@@ -433,6 +447,9 @@ end;
 
 procedure TfrmDiffer.actBinaryCompareExecute(Sender: TObject);
 begin
+  miEncoding.Enabled:= not actBinaryCompare.Checked;
+  btnLeftEncoding.Enabled:= not actBinaryCompare.Checked;
+  btnRightEncoding.Enabled:= not actBinaryCompare.Checked;
   if actBinaryCompare.Checked then
     begin
       SynDiffEditLeft.Lines.Clear;
@@ -559,6 +576,16 @@ begin
 
 end;
 
+procedure TfrmDiffer.btnLeftEncodingClick(Sender: TObject);
+begin
+  pmEncodingLeft.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+procedure TfrmDiffer.btnRightEncodingClick(Sender: TObject);
+begin
+  pmEncodingRight.PopUp(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
 procedure TfrmDiffer.edtFileNameLeftAcceptFileName(Sender: TObject;
   var Value: String);
 begin
@@ -594,6 +621,14 @@ begin
   SynDiffEditActive:= SynDiffEditLeft;
   // Initialize property storage
   InitPropStorage(Self);
+  // Fill encoding menu
+  EncodingList:= TStringList.Create;
+  GetSupportedEncodings(EncodingList);
+  FillEncodingMenu(miEncodingLeft, @SetEncodingLeft, 1);
+  FillEncodingMenu(miEncodingRight, @SetEncodingRight, 2);
+  FillEncodingMenu(pmEncodingLeft.Items, @SetEncodingLeft, 1);
+  FillEncodingMenu(pmEncodingRight.Items, @SetEncodingRight, 2);
+  EncodingList.Free;
 end;
 
 procedure TfrmDiffer.FormDestroy(Sender: TObject);
@@ -650,17 +685,60 @@ begin
   actStartCompare.Enabled := (HashListLeft.Count > 0) and (HashListRight.Count > 0);
 end;
 
+procedure TfrmDiffer.ChooseEncoding(SynDiffEdit: TSynDiffEdit);
+begin
+  if SynDiffEdit = SynDiffEditLeft then
+    begin
+      ChooseEncoding(miEncodingLeft, SynDiffEdit.Encoding);
+      ChooseEncoding(pmEncodingLeft.Items, SynDiffEdit.Encoding);
+    end
+  else
+    begin
+      ChooseEncoding(miEncodingRight, SynDiffEdit.Encoding);
+      ChooseEncoding(pmEncodingRight.Items, SynDiffEdit.Encoding);
+    end;
+end;
+
+procedure TfrmDiffer.ChooseEncoding(MenuItem: TMenuItem; Encoding: String);
+var
+  I: Integer;
+begin
+  Encoding:= NormalizeEncoding(Encoding);
+  for I:= 0 to MenuItem.Count - 1 do
+    if SameText(NormalizeEncoding(MenuItem.Items[I].Caption), Encoding) then
+      MenuItem.Items[I].Checked:= True;
+end;
+
+procedure TfrmDiffer.FillEncodingMenu(TheOwner: TMenuItem;
+  MenuHandler: TNotifyEvent; GroupIndex: LongInt);
+var
+  I: Integer;
+  mi: TMenuItem;
+begin
+  for I:= 0 to EncodingList.Count - 1 do
+    begin
+      mi:= TMenuItem.Create(TheOwner);
+      mi.Caption:= EncodingList[I];
+      mi.RadioItem:= True;
+      mi.GroupIndex:= GroupIndex;
+      mi.OnClick:= MenuHandler;
+      TheOwner.Add(mi);
+    end;
+end;
+
 procedure TfrmDiffer.LoadFromFile(SynDiffEdit: TSynDiffEdit; const FileName: UTF8String);
 var
-  Encoding: AnsiString;
   fsFileStream: TFileStreamEx = nil;
 begin
   fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
   try
     SynDiffEdit.Lines.LoadFromStream(fsFileStream);
-    if Encoding = EmptyStr then
-      Encoding:= GuessEncoding(SynDiffEdit.Lines.Text);
-    SynDiffEdit.Lines.Text:= ConvertEncoding(SynDiffEdit.Lines.Text, Encoding, EncodingUTF8);
+    if Length(SynDiffEdit.Encoding) = 0 then
+    begin
+      SynDiffEdit.Encoding:= GuessEncoding(SynDiffEdit.Lines.Text);
+      ChooseEncoding(SynDiffEdit);
+    end;
+    SynDiffEdit.Lines.Text:= ConvertEncoding(SynDiffEdit.Lines.Text, SynDiffEdit.Encoding, EncodingUTF8);
   finally
     fsFileStream.Free;
   end;
@@ -669,7 +747,6 @@ end;
 procedure TfrmDiffer.SaveToFile(SynDiffEdit: TSynDiffEdit;
   const FileName: UTF8String);
 var
-  Encoding: AnsiString;
   slStringList: TStringListEx;
 begin
   slStringList:= TStringListEx.Create;
@@ -678,7 +755,7 @@ begin
     // remove fake lines
     SynDiffEdit.RemoveFakeLines(slStringList);
     // restore encoding
-    slStringList.Text:= ConvertEncoding(slStringList.Text, EncodingUTF8, Encoding);
+    slStringList.Text:= ConvertEncoding(slStringList.Text, EncodingUTF8, SynDiffEdit.Encoding);
     // save to file
     slStringList.SaveToFile(FileName);
     SynDiffEdit.Modified:= False; // needed for the undo stack
@@ -719,6 +796,22 @@ begin
     on EFOpenError do
       msgWarning(rsMsgErrEOpen + ' ' + FileName);
   end;
+end;
+
+procedure TfrmDiffer.SetEncodingLeft(Sender: TObject);
+begin
+  SynDiffEditLeft.Encoding:= (Sender as TMenuItem).Caption;
+  ChooseEncoding(miEncodingLeft, SynDiffEditLeft.Encoding);
+  ChooseEncoding(pmEncodingLeft.Items, SynDiffEditLeft.Encoding);
+  actReload.Execute;
+end;
+
+procedure TfrmDiffer.SetEncodingRight(Sender: TObject);
+begin
+  SynDiffEditRight.Encoding:= (Sender as TMenuItem).Caption;
+  ChooseEncoding(miEncodingRight, SynDiffEditRight.Encoding);
+  ChooseEncoding(pmEncodingRight.Items, SynDiffEditRight.Encoding);
+  actReload.Execute;
 end;
 
 procedure TfrmDiffer.SynDiffEditEnter(Sender: TObject);

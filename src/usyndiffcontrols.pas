@@ -75,6 +75,7 @@ type
     FDiff: TDiff;
     FSpecialLineMarkupEvent: TSpecialLineMarkupEvent;
     FDiffCount: Integer;
+    FEncoding: String;
   private
     function GetDiffCount: Integer;
     function GetDiffKind(Index: Integer): TChangeKind;
@@ -97,6 +98,7 @@ type
     property DiffKind[Index: Integer]: TChangeKind read GetDiffKind;
     property DiffCount: Integer read GetDiffCount;
     property LineNumber[Index: Integer]: PtrInt read GetLineNumber write SetLineNumber;
+    property Encoding: String read FEncoding write FEncoding;
   published
     property OnStatusChange;
   end;
