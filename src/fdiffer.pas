@@ -231,8 +231,12 @@ begin
     try
       edtFileNameLeft.Text:= FileNameLeft;
       edtFileNameRight.Text:= FileNameRight;
-      OpenFileLeft(FileNameLeft);
-      OpenFileRight(FileNameRight);
+      actBinaryCompare.Checked:= not (FileIsText(FileNameLeft) or FileIsText(FileNameRight));
+      if not actBinaryCompare.Checked then
+      begin
+        OpenFileLeft(FileNameLeft);
+        OpenFileRight(FileNameRight);
+      end;
       ShowModal;
     finally
       Free;
