@@ -1,7 +1,7 @@
 object frmDiffer: TfrmDiffer
-  Left = 158
+  Left = 182
   Height = 370
-  Top = 152
+  Top = 140
   Width = 760
   Caption = 'Compare files'
   ClientHeight = 350
@@ -1120,7 +1120,6 @@ object frmDiffer: TfrmDiffer
       object miKeepScrolling: TMenuItem
         Action = actKeepScrolling
         AutoCheck = True
-        Caption = 'Keep Scrolling'
         OnClick = actKeepScrollingExecute
       end
     end
@@ -1617,7 +1616,7 @@ object frmDiffer: TfrmDiffer
     end
     object actKeepScrolling: TAction
       AutoCheck = True
-      Caption = 'actKeepScrolling'
+      Caption = 'Keep Scrolling'
       Checked = True
       OnExecute = actKeepScrollingExecute
     end
@@ -1627,7 +1626,7 @@ object frmDiffer: TfrmDiffer
     end
     object actBinaryCompare: TAction
       AutoCheck = True
-      Caption = 'Binary'
+      Caption = 'Binary Mode'
       OnExecute = actBinaryCompareExecute
     end
     object actPaintBackground: TAction
