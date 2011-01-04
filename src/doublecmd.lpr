@@ -70,7 +70,7 @@ begin
   if WSVersion <> EmptyStr then
     DebugLn('Widgetset library: ' + WSVersion);
   DebugLn('This program is free software released under terms of GNU GPL 2');
-  DebugLn('(C)opyright 2006-2009 Koblov Alexander (Alexx2000@mail.ru)');
+  DebugLn('(C)opyright 2006-2011 Koblov Alexander (Alexx2000@mail.ru)');
   DebugLn('   and contributors (see about dialog)');
 
   LoadPaths; // must be first

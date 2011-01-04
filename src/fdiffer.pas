@@ -48,6 +48,7 @@ type
     actEditRedo: TAction;
     actEditSelectAll: TAction;
     actEditPaste: TAction;
+    actAbout: TAction;
     actSaveRightAs: TAction;
     actSaveLeftAs: TAction;
     actOpenRight: TAction;
@@ -154,6 +155,7 @@ type
     btnCancelCompare: TToolButton;
     Divider4: TToolButton;
     btnReload: TToolButton;
+    procedure actAboutExecute(Sender: TObject);
     procedure actBinaryCompareExecute(Sender: TObject);
     procedure actCloseExecute(Sender: TObject);
     procedure actCopyLeftToRightExecute(Sender: TObject);
@@ -460,6 +462,12 @@ begin
       OpenFileLeft(edtFileNameLeft.Text);
       OpenFileRight(edtFileNameRight.Text);
     end;
+end;
+
+procedure TfrmDiffer.actAboutExecute(Sender: TObject);
+begin
+  ShowMessage('This tool uses Angus Johnson''s excellent TDiff component.' + LineEnding +
+              'You can find it on: http://www.users.on.net/johnson/delphi/');
 end;
 
 procedure TfrmDiffer.actCloseExecute(Sender: TObject);
