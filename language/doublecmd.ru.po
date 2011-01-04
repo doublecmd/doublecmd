@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-01-04 16:12+0300\n"
+"PO-Revision-Date: 2011-01-04 16:49+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -391,7 +391,7 @@ msgstr "Запись"
 
 #: TFRMCALENDAR.CAPTION
 msgid "Calendar"
-msgstr ""
+msgstr "Календарь"
 
 #: TFRMCHECKSUMCALC.BTNCANCEL.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
@@ -472,11 +472,11 @@ msgstr "Одновременная прокрутка"
 
 #: TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION
 msgid "&Insert new button"
-msgstr ""
+msgstr "Вставить"
 
 #: TFRMCONFIGTOOLBAR.BTNAPPENDMORE.CAPTION
 msgid "A&ppend >>"
-msgstr ""
+msgstr "Добавить >>"
 
 #: TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION"
@@ -485,7 +485,7 @@ msgstr "Отмена"
 
 #: TFRMCONFIGTOOLBAR.BTNCLONEBUTTON.CAPTION
 msgid "Clo&ne button"
-msgstr ""
+msgstr "Дублировать"
 
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
@@ -702,7 +702,7 @@ msgstr ""
 #: TFRMDIFFER.ACTABOUT.CAPTION
 msgctxt "TFRMDIFFER.ACTABOUT.CAPTION"
 msgid "About"
-msgstr "О программе..."
+msgstr "О программе"
 
 #: TFRMDIFFER.ACTBINARYCOMPARE.CAPTION
 msgid "Binary Mode"
@@ -914,7 +914,7 @@ msgstr "Действия"
 #: TFRMDIFFER.MNUEDIT.CAPTION
 msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
 msgid "Edit"
-msgstr "Редактировать"
+msgstr "Правка"
 
 #: TFRMDIFFER.MNUFILE.CAPTION
 msgctxt "TFRMDIFFER.MNUFILE.CAPTION"
@@ -2174,7 +2174,6 @@ msgid "&New tab"
 msgstr "Новая вкладка"
 
 #: TFRMMAIN.ACTNEXTTAB.CAPTION
-#, fuzzy
 #| msgid "Switch to next tab"
 msgid "Switch to nex&t tab"
 msgstr "Переключиться на следующую вкладку"
@@ -2199,14 +2198,12 @@ msgid "Open &folder in new tab"
 msgstr "Открыть каталог в новой вкладке"
 
 #: TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION
-#, fuzzy
 #| msgid "Open VFS List"
 msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
 msgid "Open &VFS List"
 msgstr "Открыть список VFS"
 
 #: TFRMMAIN.ACTOPTIONS.CAPTION
-#, fuzzy
 #| msgid "Options..."
 msgid "&Options..."
 msgstr "&Параметры..."
@@ -2247,13 +2244,11 @@ msgid "&Refresh"
 msgstr "Обновить"
 
 #: TFRMMAIN.ACTREMOVEALLTABS.CAPTION
-#, fuzzy
 #| msgid "Remove all tabs"
 msgid "Remove &all tabs"
 msgstr "Удалить все вкладки"
 
 #: TFRMMAIN.ACTREMOVETAB.CAPTION
-#, fuzzy
 #| msgid "Remove tab"
 msgid "&Remove tab"
 msgstr "Удалить вкладку"
@@ -2416,7 +2411,6 @@ msgid "Go to previous entry in history"
 msgstr ""
 
 #: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
-#, fuzzy
 #| msgid "Visit Double Commander Web Site"
 msgid "&Visit Double Commander Web Site"
 msgstr "Посетить сайт Double Commander"
@@ -2883,7 +2877,7 @@ msgstr ""
 
 #: TFRMMULTIRENAME.BTNLOADPRESET.CAPTION
 msgid "&Load"
-msgstr ""
+msgstr "Загрузить"
 
 #: TFRMMULTIRENAME.BTNNAMEMENU.CAPTION
 msgctxt "TFRMMULTIRENAME.BTNNAMEMENU.CAPTION"
@@ -2892,7 +2886,7 @@ msgstr ""
 
 #: TFRMMULTIRENAME.BTNRENAME.CAPTION
 msgid "&Rename"
-msgstr ""
+msgstr "Переименовать"
 
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
 #| msgid "Restore All"
@@ -2960,7 +2954,7 @@ msgstr "Маска"
 
 #: TFRMMULTIRENAME.GBPRESETS.CAPTION
 msgid "Presets"
-msgstr ""
+msgstr "Шаблоны"
 
 #: TFRMMULTIRENAME.LBEXT.CAPTION
 #| msgid "Extension"
@@ -3119,7 +3113,7 @@ msgstr "Применить"
 
 #: TFRMOPTIONS.BTNAUTOCONFIG.CAPTION
 msgid "Auto Configure"
-msgstr ""
+msgstr "Автонастройка"
 
 #: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
@@ -4095,7 +4089,7 @@ msgstr "Состояние"
 
 #: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
 msgid "Plugin"
-msgstr ""
+msgstr "Плагин"
 
 #: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
 msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
@@ -4689,7 +4683,7 @@ msgstr "Красные глаза"
 #: TFRMVIEWER.BTNRELOAD.HINT
 msgctxt "TFRMVIEWER.BTNRELOAD.HINT"
 msgid "Reload"
-msgstr ""
+msgstr "Перезагрузить"
 
 #: TFRMVIEWER.BTNRESIZE.HINT
 msgctxt "TFRMVIEWER.BTNRESIZE.HINT"
@@ -6287,7 +6281,7 @@ msgstr "Внутренняя программа просмотра"
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
-msgstr ""
+msgstr "Пожалуйста сообщите о данной ошибке на багтрекер с описанием того что вы делали и следующим файлом:%sНажмите %s для продолжения работы или %s для выхода из программы."
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
