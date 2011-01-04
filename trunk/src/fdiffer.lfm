@@ -1567,7 +1567,7 @@ object frmDiffer: TfrmDiffer
       end
     end
     object miAbout: TMenuItem
-      Caption = 'About'
+      Action = actAbout
     end
   end
   object ActionList: TActionList
@@ -1718,6 +1718,10 @@ object frmDiffer: TfrmDiffer
       Caption = 'Save Right As...'
       ImageIndex = 10
       OnExecute = actSaveRightAsExecute
+    end
+    object actAbout: TAction
+      Caption = 'About'
+      OnExecute = actAboutExecute
     end
   end
   object ImageList: TImageList
