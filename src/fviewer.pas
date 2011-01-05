@@ -175,7 +175,6 @@ type
       );
     procedure ImageMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure miLookBookClick(Sender: TObject);
     procedure miPreviewClick(Sender: TObject);
     procedure miSaveAsClick(Sender: TObject);
     procedure miSaveClick(Sender: TObject);
@@ -303,6 +302,13 @@ begin
   Viewer.DrawPreview.RowCount:= Viewer.FileList.Count;
   Viewer.LoadFile(0);
   Viewer.Show;
+  case gViewerMode of
+    1: Viewer.miTextClick(Viewer.miText);
+    2: Viewer.miTextClick(Viewer.miBin);
+    3: Viewer.miTextClick(Viewer.miHex);
+    4: Viewer.miTextClick(Viewer.miWrapText);
+    //5: Viewer.miTextClick(Viewer.miLookBook);
+  end;
   if Viewer.miPreview.Checked then
     begin
       Viewer.miPreview.Checked := not(Viewer.miPreview.Checked);
@@ -670,14 +676,6 @@ begin
     end;
     end;
   Image.Cursor:=crDefault;
-end;
-
-procedure TfrmViewer.miLookBookClick(Sender: TObject);
-begin
-  ExitPluginMode;
-  ReopenAsTextIfNeeded;
-  ViewerControl.ViewerMode := vmBook;
-  miLookBook.Checked := True;
 end;
 
 procedure TfrmViewer.CreatePreview(FullPathToFile: String; index: integer; delete: Boolean = false);
@@ -1239,6 +1237,14 @@ begin
   gImagePaintWidth := StrToInt(ComboBoxWidth.Text) ;
   gImagePaintColor := ColorBoxPaint.Selected;
   gTextPosition := ViewerControl.Position;
+  case ViewerControl.ViewerMode of
+    vmText: gViewerMode := 1;
+    vmBin : gViewerMode := 2;
+    vmHex : gViewerMode := 3;
+    vmWrap: gViewerMode := 4;
+    vmBook: gViewerMode := 4;
+  end;
+
   if Assigned(WlxPlugins) then
      begin
        ExitPluginMode;
