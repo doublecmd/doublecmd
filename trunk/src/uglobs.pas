@@ -269,7 +269,8 @@ var
   gCopyMovePath5,
   gImagePaintMode: String;
   gImagePaintWidth,
-  gColCount: Integer;
+  gColCount,
+  gViewerMode: Integer;
   gImagePaintColor,
   gBookBackgroundColor,
   gBookFontColor: TColor;
@@ -692,7 +693,7 @@ begin
   gShowToolTipMode := [stm_show_for_all];
 
   { Auto refresh page }
-  gWatchDirs := [];
+  gWatchDirs := [watch_file_name_change, watch_attributes_change];
   gWatchDirsExclude := '';
 
   { Icons page }
@@ -723,6 +724,7 @@ begin
   gBookBackgroundColor := clBlack;
   gBookFontColor := clWhite;
   gTextPosition:= 0;
+  gViewerMode:= 0;
 
   { - Other - }
   gLuaLib := '/usr/lib/liblua5.1.so';
@@ -1555,6 +1557,7 @@ begin
       gImagePaintMode := GetValue(Node, 'PaintMode', gImagePaintMode);
       gImagePaintWidth := GetValue(Node, 'PaintWidth', gImagePaintWidth);
       gColCount := GetValue(Node, 'NumberOfColumns', gColCount);
+      gViewerMode := GetValue(Node, 'ViewerMode', gViewerMode);
       gImagePaintColor := GetValue(Node, 'PaintColor', gImagePaintColor);
       gBookBackgroundColor := GetValue(Node, 'BackgroundColor', gBookBackgroundColor);
       gBookFontColor := GetValue(Node, 'FontColor', gBookFontColor);
@@ -1794,6 +1797,7 @@ begin
     SetValue(Node, 'PaintMode', gImagePaintMode);
     SetValue(Node, 'PaintWidth', gImagePaintWidth);
     SetValue(Node, 'NumberOfColumns', gColCount);
+    SetValue(Node, 'ViewerMode', gViewerMode);
     SetValue(Node, 'PaintColor', gImagePaintColor);
     SetValue(Node, 'BackgroundColor', gBookBackgroundColor);
     SetValue(Node, 'FontColor', gBookFontColor);
@@ -1841,4 +1845,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.

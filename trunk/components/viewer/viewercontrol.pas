@@ -375,7 +375,7 @@ type
     property ColCount: Integer Read FColCount Write SetColCount;
 
   published
-    property ViewerMode: TViewerMode Read FViewerMode Write SetViewerMode default vmText;
+    property ViewerMode: TViewerMode Read FViewerMode Write SetViewerMode default vmWrap;
     property FileName: UTF8String Read FFileName Write SetFileName;
     property Encoding: TViewerEncoding Read FEncoding Write SetEncoding default veAutoDetect;
     property OnPositionChanged: TNotifyEvent Read FOnPositionChanged Write FOnPositionChanged;
