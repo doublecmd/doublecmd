@@ -76,11 +76,15 @@ type
     FSpecialLineMarkupEvent: TSpecialLineMarkupEvent;
     FDiffCount: Integer;
     FEncoding: String;
+    FOriginalFile,
+    FModifiedFile: TSynDiffEdit;
   private
     function GetDiffCount: Integer;
     function GetDiffKind(Index: Integer): TChangeKind;
     function GetLineNumber(Index: Integer): PtrInt;
     procedure SetLineNumber(Index: Integer; const AValue: PtrInt);
+    procedure SetModifiedFile(const AValue: TSynDiffEdit);
+    procedure SetOriginalFile(const AValue: TSynDiffEdit);
     procedure SetPaintStyle(const AValue: TPaintStyle);
   protected
     procedure SpecialLineMarkupEvent(Sender: TObject; Line: Integer;
@@ -99,6 +103,8 @@ type
     property DiffCount: Integer read GetDiffCount;
     property LineNumber[Index: Integer]: PtrInt read GetLineNumber write SetLineNumber;
     property Encoding: String read FEncoding write FEncoding;
+    property OriginalFile: TSynDiffEdit read FOriginalFile write SetOriginalFile;
+    property ModifiedFile: TSynDiffEdit read FModifiedFile write SetModifiedFile;
   published
     property OnStatusChange;
   end;
@@ -141,6 +147,26 @@ begin
   Lines.Objects[Index]:= TObject(AValue);
 end;
 
+procedure TSynDiffEdit.SetModifiedFile(const AValue: TSynDiffEdit);
+begin
+  if FModifiedFile <> AValue then
+  begin
+    if (AValue <> nil) and (FOriginalFile <> nil) then
+      raise Exception.Create('Having both ModifiedFile and OriginalFile is not supported');
+    FModifiedFile := AValue;
+  end;
+end;
+
+procedure TSynDiffEdit.SetOriginalFile(const AValue: TSynDiffEdit);
+begin
+  if FOriginalFile <> AValue then
+  begin
+    if (AValue <> nil) and (FModifiedFile <> nil) then
+      raise Exception.Create('Having both OriginalFile and ModifiedFile is not supported');
+    FOriginalFile := AValue;
+  end;
+end;
+
 procedure TSynDiffEdit.SetPaintStyle(const AValue: TPaintStyle);
 begin
   if FPaintStyle <> AValue then
@@ -165,9 +191,13 @@ begin
   with AMarkup do
   begin
     case Kind of
-      ckModify: LineColor := clPaleBlue;
       ckDelete: LineColor := clPaleRed;
       ckAdd:    LineColor := clPaleGreen;
+      ckModify:
+        if Assigned(Highlighter) and Highlighter.Enabled then
+          Exit
+        else
+          LineColor := clPaleBlue;
     end;
     if FPaintStyle = psForeground then
       begin
