@@ -90,7 +90,7 @@ function ShowInputQuery(Thread: TThread; const ACaption, APrompt: UTF8String; va
 function ShowInputComboBox(const sCaption, sPrompt : UTF8String; slValueList : TStringList; var sValue : UTF8String) : Boolean;
 
 procedure msgLoadLng;
-
+procedure InitDialogButtonWidth;
 
 implementation
 
@@ -477,8 +477,6 @@ begin
 end;
 
 procedure msgLoadLng;
-var
-  I: TMyMsgButton;
 begin
   cLngButton[msmbOK]           := rsDlgButtonOK;
   cLngButton[msmbNo]           := rsDlgButtonNo;
@@ -494,7 +492,12 @@ begin
   cLngButton[msmbAll]          := rsDlgButtonAll;
   cLngButton[msmbRetry]        := rsDlgButtonRetry;
   cLngButton[msmbAbort]        := rsDlgButtonAbort;
+end;
 
+procedure InitDialogButtonWidth;
+var
+  I: TMyMsgButton;
+begin
   for I:= Low(TMyMsgButton) to High(TMyMsgButton) do
   begin
     // A reminder in case someone forgots to assign text.
