@@ -19,11 +19,11 @@ uses
   {$ENDIF}
   uGlobsPaths,
   uGlobs,
-  fHackForm,
   fMain,
   fAbout,
   fMkDir,
   dmHigh, dmHelpManager, dmCommonData,
+  uShowMsg,
   uCryptProc,
   uPixMapManager,
   uKeyboard,
@@ -74,8 +74,6 @@ begin
   DebugLn('   and contributors (see about dialog)');
 
   LoadPaths; // must be first
-  Application.ShowMainForm:= False;
-  Application.CreateForm(TfrmHackForm, frmHackForm);
   if InitGlobs then
     if IsInstanceAllowed then
      begin
@@ -86,6 +84,9 @@ begin
        Application.CreateForm(TdmComData, dmComData); // common data
        Application.CreateForm(TdmHelpManager, dmHelpMgr); // help manager
        Application.CreateForm(TfrmMkDir, frmMkDir);  // 21.05.2009 - makedir form
+
+       // Calculate buttons width of message dialogs
+       InitDialogButtonWidth;
 
        // Initializing keyboard module on GTK needs GTKProc.InitKeyboardTables
        // which is called by Application.Initialize. On QT needs the handle
