@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This module contains classes with UTF8 file names support.
 
-   Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -40,7 +40,11 @@ type
   public
     constructor Create(const AFileName: UTF8String; Mode: Word);
     destructor Destroy; override;
-    property FileName : UTF8String read FFileName;
+    {$IF (FPC_VERSION <= 2) and (FPC_RELEASE <= 4) and (FPC_PATCH <= 0)}
+    function ReadQWord: QWord;
+    procedure WriteQWord(q: QWord);
+    {$ENDIF}
+    property FileName: UTF8String read FFileName;
   end; 
 
   { TStringListEx }
@@ -123,6 +127,21 @@ begin
   // Close handle after destroying the base object, because it may use Handle in Destroy.
   if FHandle >= 0 then FileClose(FHandle);
 end;
+
+{$IF (FPC_VERSION <= 2) and (FPC_RELEASE <= 4) and (FPC_PATCH <= 0)}
+function TFileStreamEx.ReadQWord: QWord;
+var
+  q: QWord;
+begin
+  ReadBuffer(q, SizeOf(QWord));
+  ReadQWord:= q;
+end;
+
+procedure TFileStreamEx.WriteQWord(q: QWord);
+begin
+  WriteBuffer(q, SizeOf(QWord));
+end;
+{$ENDIF}
 
 { TStringListEx }
 
@@ -278,4 +297,4 @@ begin
     Result := Ident;
 end;
 
-end.
+end.
