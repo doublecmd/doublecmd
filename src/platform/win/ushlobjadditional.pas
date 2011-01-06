@@ -126,7 +126,7 @@ const
 type
    IContextMenu3 = interface(IContextMenu2)
       [SID_IContextMenu3]
-      function HandleMenuMsg2(uMsg : UINT; wParam : WPARAM; lParam : LPARAM; var MsgResult : LongInt) : HResult; stdcall;
+      function HandleMenuMsg2(uMsg : UINT; wParam : WPARAM; lParam : LPARAM; var plResult : LRESULT) : HResult; stdcall;
    end; { IContextMenu3 }
 
 { IPersistFolder2 Interface }
