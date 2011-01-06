@@ -239,20 +239,20 @@ begin
   if Line >= DiffCount then Exit;
 
   Kind:= DiffKind[Line - 1];
-  Special:= (Kind <> ckNone);
 
-  if Special then
+  if (Kind <> ckNone) then
   with AMarkup do
   begin
     case Kind of
       ckDelete: LineColor := FColors.Deleted;
       ckAdd:    LineColor := FColors.Added;
       ckModify:
-        if Assigned(Highlighter) and Highlighter.Enabled then
+        if Assigned(Highlighter) then
           Exit
         else
           LineColor := FColors.Modified;
     end;
+    Special:= True;
     if FPaintStyle = psForeground then
       begin
         Foreground := LineColor;
