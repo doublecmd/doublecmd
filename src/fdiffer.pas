@@ -201,6 +201,7 @@ type
     HashListLeft,
     HashListRight: TList;
     EncodingList: TStringList;
+    ScrollLock: LongInt;
     procedure Clear(bLeft, bRight: Boolean);
     procedure BuildHashList(bLeft, bRight: Boolean);
     procedure ChooseEncoding(SynDiffEdit: TSynDiffEdit);
@@ -224,8 +225,8 @@ procedure ShowDiffer(const FileNameLeft, FileNameRight: UTF8String);
 implementation
 
 uses
-  LCLProc, LConvEncoding, uHash, uLng, uGlobs, uShowMsg, uBinaryCompare, uClassesEx,
-  dmCommonData, uOSUtils;
+  LCLProc, LConvEncoding, SynEditTypes, uHash, uLng, uGlobs, uShowMsg,
+  uBinaryCompare, uClassesEx, dmCommonData, uOSUtils;
 
 {$R *.lfm}
 
@@ -638,6 +639,7 @@ end;
 
 procedure TfrmDiffer.FormCreate(Sender: TObject);
 begin
+  ScrollLock:= 0;
   Diff:= TDiff.Create(Self);
   SynDiffEditLeft:= TSynDiffEdit.Create(Self);
   SynDiffEditRight:= TSynDiffEdit.Create(Self);
@@ -865,22 +867,26 @@ end;
 procedure TfrmDiffer.SynDiffEditLeftStatusChange(Sender: TObject;
   Changes: TSynStatusChanges);
 begin
-  if (actKeepScrolling.Checked) then
-    begin
+  if (actKeepScrolling.Checked) and (scTopLine in Changes) and (ScrollLock = 0) then
+    try
+      Inc(ScrollLock);
+      while (SynDiffEditRight.PaintLock <> 0) do Sleep(1);
       SynDiffEditRight.TopLine:= SynDiffEditLeft.TopLine;
-      SynDiffEditRight.LeftChar:= SynDiffEditLeft.LeftChar;
-      SynDiffEditLeft.Invalidate;
+    finally
+      Dec(ScrollLock);
     end;
 end;
 
 procedure TfrmDiffer.SynDiffEditRightStatusChange(Sender: TObject;
   Changes: TSynStatusChanges);
 begin
-  if (actKeepScrolling.Checked) then
-    begin
+  if (actKeepScrolling.Checked) and (scTopLine in Changes) and (ScrollLock = 0) then
+    try
+      Inc(ScrollLock);
+      while (SynDiffEditLeft.PaintLock <> 0) do Sleep(1);
       SynDiffEditLeft.TopLine:= SynDiffEditRight.TopLine;
-      SynDiffEditLeft.LeftChar:= SynDiffEditRight.LeftChar;
-      SynDiffEditRight.Invalidate;
+    finally
+      Dec(ScrollLock);
     end;
 end;
 
