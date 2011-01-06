@@ -198,7 +198,7 @@
         <PackageName Value="viewerpackage"/>
       </Item6>
     </RequiredPackages>
-    <Units Count="101">
+    <Units Count="102">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -823,6 +823,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uTrash"/>
       </Unit100>
+      <Unit101>
+        <Filename Value="uparitercontrols.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uPariterControls"/>
+      </Unit101>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -873,4 +878,4 @@
       </ExecuteBefore>
     </Other>
   </CompilerOptions>
-</CONFIG>
+</CONFIG>

@@ -30,7 +30,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
   Menus, ComCtrls, ActnList, ExtCtrls, EditBtn, StdCtrls, Buttons, StdActns,
-  SynEdit, uSynDiffControls, uDiff;
+  SynEdit, uSynDiffControls, uPariterControls, uDiff;
 
 type
 
@@ -49,6 +49,7 @@ type
     actEditSelectAll: TAction;
     actEditPaste: TAction;
     actAbout: TAction;
+    actLineDifferences: TAction;
     actSaveRightAs: TAction;
     actSaveLeftAs: TAction;
     actOpenRight: TAction;
@@ -73,6 +74,7 @@ type
     edtFileNameRight: TFileNameEdit;
     ImageList: TImageList;
     MainMenu: TMainMenu;
+    miLineDifferences: TMenuItem;
     miEncodingRight: TMenuItem;
     miEncodingLeft: TMenuItem;
     miAbout: TMenuItem;
@@ -169,6 +171,7 @@ type
     procedure actEditUndoExecute(Sender: TObject);
     procedure actFirstDiffExecute(Sender: TObject);
     procedure actLastDiffExecute(Sender: TObject);
+    procedure actLineDifferencesExecute(Sender: TObject);
     procedure actNextDiffExecute(Sender: TObject);
     procedure actOpenLeftExecute(Sender: TObject);
     procedure actOpenRightExecute(Sender: TObject);
@@ -193,6 +196,8 @@ type
     SynDiffEditActive: TSynDiffEdit;
     SynDiffEditLeft: TSynDiffEdit;
     SynDiffEditRight: TSynDiffEdit;
+    SynDiffHighlighterLeft,
+    SynDiffHighlighterRight: TSynDiffHighlighter;
     HashListLeft,
     HashListRight: TList;
     EncodingList: TStringList;
@@ -318,6 +323,11 @@ begin
     SynDiffEditRight.Invalidate;
     Screen.Cursor := crDefault;
     actCancelCompare.Enabled := False;
+  end;
+  if actLineDifferences.Checked then
+  begin
+    SynDiffEditLeft.Highlighter:= SynDiffHighlighterLeft;
+    SynDiffEditRight.Highlighter:= SynDiffHighlighterRight;
   end;
   //mnuEdit.Enabled := true;
 end;
@@ -583,6 +593,22 @@ begin
   end;
 end;
 
+procedure TfrmDiffer.actLineDifferencesExecute(Sender: TObject);
+begin
+  if actLineDifferences.Checked and (Diff.Count <> 0) then
+    begin
+      SynDiffEditLeft.Highlighter:= SynDiffHighlighterLeft;
+      SynDiffEditRight.Highlighter:= SynDiffHighlighterRight;
+    end
+  else
+    begin
+      SynDiffEditLeft.Highlighter:= nil;
+      SynDiffEditRight.Highlighter:= nil;
+    end;
+  SynDiffEditLeft.Repaint;
+  SynDiffEditRight.Repaint;
+end;
+
 procedure TfrmDiffer.actKeepScrollingExecute(Sender: TObject);
 begin
 
@@ -615,6 +641,8 @@ begin
   Diff:= TDiff.Create(Self);
   SynDiffEditLeft:= TSynDiffEdit.Create(Self);
   SynDiffEditRight:= TSynDiffEdit.Create(Self);
+  SynDiffHighlighterLeft:= TSynDiffHighlighter.Create(SynDiffEditLeft);
+  SynDiffHighlighterRight:= TSynDiffHighlighter.Create(SynDiffEditRight);
   HashListLeft:= TList.Create;
   HashListRight:= TList.Create;
 
@@ -624,6 +652,9 @@ begin
   SynDiffEditRight.Align:= alClient;
   SynDiffEditLeft.PopupMenu:= ContextMenu;
   SynDiffEditRight.PopupMenu:= ContextMenu;
+
+  SynDiffEditLeft.ModifiedFile:= SynDiffEditRight;
+  SynDiffEditRight.OriginalFile:= SynDiffEditLeft;
 
   SynDiffEditLeft.OnEnter:= @SynDiffEditEnter;
   SynDiffEditRight.OnEnter:= @SynDiffEditEnter;

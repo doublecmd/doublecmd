@@ -1109,6 +1109,10 @@ object frmDiffer: TfrmDiffer
         AutoCheck = True
         OnClick = actPaintBackgroundExecute
       end
+      object miLineDifferences: TMenuItem
+        Action = actLineDifferences
+        AutoCheck = True
+      end
       object miDivider3: TMenuItem
         Caption = '-'
       end
@@ -1721,6 +1725,11 @@ object frmDiffer: TfrmDiffer
     object actAbout: TAction
       Caption = 'About'
       OnExecute = actAboutExecute
+    end
+    object actLineDifferences: TAction
+      AutoCheck = True
+      Caption = 'Line Differences'
+      OnExecute = actLineDifferencesExecute
     end
   end
   object ImageList: TImageList
