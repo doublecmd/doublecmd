@@ -357,7 +357,7 @@ begin
       fAddedAttribute.Background := Editor.Colors.Added;
       fRemovedAttribute.Foreground := clNone;
       fRemovedAttribute.Background := Editor.Colors.Deleted;
-      fModifiedAttribute.Foreground := clText;
+      fModifiedAttribute.Foreground := clNone;
       fModifiedAttribute.Background := Editor.Colors.Modified;
       fUnmodifiedAttribute.Foreground := clNone;
       fUnmodifiedAttribute.Background := Editor.Colors.Modified;
