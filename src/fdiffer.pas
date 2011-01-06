@@ -867,11 +867,13 @@ end;
 procedure TfrmDiffer.SynDiffEditLeftStatusChange(Sender: TObject;
   Changes: TSynStatusChanges);
 begin
-  if (actKeepScrolling.Checked) and (scTopLine in Changes) and (ScrollLock = 0) then
+  if (actKeepScrolling.Checked) and (ScrollLock = 0) and
+     ((scTopLine in Changes) or (scLeftChar in Changes)) then
     try
       Inc(ScrollLock);
       while (SynDiffEditRight.PaintLock <> 0) do Sleep(1);
       SynDiffEditRight.TopLine:= SynDiffEditLeft.TopLine;
+      SynDiffEditRight.LeftChar:= SynDiffEditLeft.LeftChar;
     finally
       Dec(ScrollLock);
     end;
@@ -880,11 +882,13 @@ end;
 procedure TfrmDiffer.SynDiffEditRightStatusChange(Sender: TObject;
   Changes: TSynStatusChanges);
 begin
-  if (actKeepScrolling.Checked) and (scTopLine in Changes) and (ScrollLock = 0) then
+  if (actKeepScrolling.Checked) and (ScrollLock = 0) and
+     ((scTopLine in Changes) or (scLeftChar in Changes)) then
     try
       Inc(ScrollLock);
       while (SynDiffEditLeft.PaintLock <> 0) do Sleep(1);
       SynDiffEditLeft.TopLine:= SynDiffEditRight.TopLine;
+      SynDiffEditLeft.LeftChar:= SynDiffEditRight.LeftChar;
     finally
       Dec(ScrollLock);
     end;
