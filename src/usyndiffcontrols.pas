@@ -22,6 +22,25 @@ type
 
 type
 
+  { TDiffColors }
+
+  TDiffColors = class(TPersistent)
+  private
+    fColors: array [TChangeKind] of TColor;
+    fOnChange: TNotifyEvent;
+    function GetColor(const AIndex: TChangeKind): TColor;
+    procedure SetColor(const AIndex: TChangeKind; const AValue: TColor);
+  public
+    constructor Create;
+    procedure Assign(aSource: TPersistent); override;
+    property Colors[const aIndex: TChangeKind]: TColor read GetColor write SetColor; default;
+    property OnChange: TNotifyEvent read fOnChange write fOnChange;
+  published
+    property Added: TColor index ckAdd read GetColor write SetColor;
+    property Modified: TColor index ckModify read GetColor write SetColor;
+    property Deleted: TColor index ckDelete read GetColor write SetColor;
+  end;
+
   { TSynDiffGutterLineNumber }
 
     TSynDiffGutterLineNumber = class(TSynGutterPartBase)
@@ -53,18 +72,15 @@ type
 
     TSynDiffGutterChanges = class(TSynGutterPartBase)
     private
-      FAddedColor: TColor;
-      FModifiedColor: TColor;
-      FDeletedColor: TColor;
+      FColors: TDiffColors;
     protected
       function  PreferedWidth: Integer; override;
     public
       constructor Create(AOwner: TComponent); override;
+      destructor Destroy; override;
       procedure Paint(Canvas: TCanvas; AClip: TRect; FirstLine, LastLine: Integer); override;
     published
-      property AddedColor: TColor read FAddedColor write FAddedColor;
-      property ModifiedColor: TColor read FModifiedColor write FModifiedColor;
-      property DeletedColor: TColor read FDeletedColor write FDeletedColor;
+      property Colors: TDiffColors read FColors write FColors;
     end;
 
   { TSynDiffEdit }
@@ -76,6 +92,7 @@ type
     FSpecialLineMarkupEvent: TSpecialLineMarkupEvent;
     FDiffCount: Integer;
     FEncoding: String;
+    FColors: TDiffColors;
     FOriginalFile,
     FModifiedFile: TSynDiffEdit;
   private
@@ -91,6 +108,7 @@ type
                                      var Special: boolean; AMarkup: TSynSelectedColor);
   public
     constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
     procedure InsertFakeLine(AIndex: Integer; ADiffKind: PtrInt);
     procedure RemoveFakeLines(Strings: TStringList);
     procedure BeginCompare(ADiff: TDiff);
@@ -103,6 +121,7 @@ type
     property DiffCount: Integer read GetDiffCount;
     property LineNumber[Index: Integer]: PtrInt read GetLineNumber write SetLineNumber;
     property Encoding: String read FEncoding write FEncoding;
+    property Colors: TDiffColors read FColors write FColors;
     property OriginalFile: TSynDiffEdit read FOriginalFile write SetOriginalFile;
     property ModifiedFile: TSynDiffEdit read FModifiedFile write SetModifiedFile;
   published
@@ -113,6 +132,41 @@ implementation
 
 uses
   LCLIntf, LCLType, SynEditMiscProcs;
+
+{ TDiffColors }
+
+function TDiffColors.GetColor(const AIndex: TChangeKind): TColor;
+begin
+  Result:= fColors[AIndex];
+end;
+
+procedure TDiffColors.SetColor(const AIndex: TChangeKind; const AValue: TColor);
+begin
+  if fColors[AIndex] <> AValue then
+  begin
+    fColors[AIndex] := AValue;
+    if Assigned(OnChange) then
+      OnChange(Self);
+  end;
+end;
+
+constructor TDiffColors.Create;
+begin
+  fColors[ckAdd] := clPaleGreen;
+  fColors[ckModify] := clPaleBlue;
+  fColors[ckDelete] := clPaleRed;
+end;
+
+procedure TDiffColors.Assign(aSource: TPersistent);
+begin
+  if (aSource is TDiffColors) then
+  with (aSource as TDiffColors) do
+  begin
+    fColors[ckAdd]:= Added;
+    fColors[ckModify]:= Modified;
+    fColors[ckDelete]:= Deleted;
+  end;
+end;
 
 { TSynDiffEdit }
 
@@ -191,13 +245,13 @@ begin
   with AMarkup do
   begin
     case Kind of
-      ckDelete: LineColor := clPaleRed;
-      ckAdd:    LineColor := clPaleGreen;
+      ckDelete: LineColor := FColors.Deleted;
+      ckAdd:    LineColor := FColors.Added;
       ckModify:
         if Assigned(Highlighter) and Highlighter.Enabled then
           Exit
         else
-          LineColor := clPaleBlue;
+          LineColor := FColors.Modified;
     end;
     if FPaintStyle = psForeground then
       begin
@@ -261,7 +315,15 @@ begin
       Name:= 'SynDiffGutterChanges';
     end;
   FPaintStyle:= psBackground;
+  FColors:= TDiffColors.Create;
   OnSpecialLineMarkup:= @SpecialLineMarkupEvent;
+end;
+
+destructor TSynDiffEdit.Destroy;
+begin
+  if Assigned(FColors) then
+    FreeAndNil(FColors);
+  inherited Destroy;
 end;
 
 procedure TSynDiffEdit.InsertFakeLine(AIndex: Integer; ADiffKind: PtrInt);
@@ -291,10 +353,15 @@ constructor TSynDiffGutterChanges.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FAddedColor := clPaleGreen;
-  FModifiedColor := clPaleBlue;
-  FDeletedColor := clPaleRed;
+  FColors:= TDiffColors.Create;
   MarkupInfo.Background := clNone;
+end;
+
+destructor TSynDiffGutterChanges.Destroy;
+begin
+  if Assigned(FColors) then
+    FreeAndNil(FColors);
+  inherited Destroy;
 end;
 
 procedure TSynDiffGutterChanges.Paint(Canvas: TCanvas; AClip: TRect; FirstLine,
@@ -333,11 +400,11 @@ begin
       ckNone:
           Continue;
       ckAdd:
-          Canvas.Pen.Color := FAddedColor;
+          Canvas.Pen.Color := FColors.Added;
       ckDelete:
-          Canvas.Pen.Color := FDeletedColor;
+          Canvas.Pen.Color := FColors.Deleted;
       ckModify:
-          Canvas.Pen.Color := FModifiedColor;
+          Canvas.Pen.Color := FColors.Modified;
     end;
     Canvas.Line(rcLine.Left, rcLine.Top + 1, rcLine.Left, rcLine.Bottom - 1);
   end;
