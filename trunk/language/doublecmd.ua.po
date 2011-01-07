@@ -705,7 +705,7 @@ msgstr "Про програму..."
 
 #: TFRMDIFFER.ACTBINARYCOMPARE.CAPTION
 msgid "Binary Mode"
-msgstr ""
+msgstr "Двійковий режим"
 
 #: TFRMDIFFER.ACTCANCELCOMPARE.CAPTION
 msgctxt "TFRMDIFFER.ACTCANCELCOMPARE.CAPTION"
@@ -719,11 +719,11 @@ msgstr "Закрити"
 
 #: TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION
 msgid "Copy Block Right"
-msgstr ""
+msgstr "Копіювати блок вправо"
 
 #: TFRMDIFFER.ACTCOPYRIGHTTOLEFT.CAPTION
 msgid "Copy Block Left"
-msgstr ""
+msgstr "Копіювати блок вліво"
 
 #: TFRMDIFFER.ACTEDITCOPY.CAPTION
 msgctxt "TFRMDIFFER.ACTEDITCOPY.CAPTION"
@@ -752,7 +752,7 @@ msgstr "Повторити"
 
 #: TFRMDIFFER.ACTEDITSELECTALL.CAPTION
 msgid "Select &All"
-msgstr ""
+msgstr "Виділити в&се"
 
 #: TFRMDIFFER.ACTEDITUNDO.CAPTION
 msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
@@ -761,43 +761,43 @@ msgstr "Відмінити"
 
 #: TFRMDIFFER.ACTFIRSTDIFF.CAPTION
 msgid "First Difference"
-msgstr ""
+msgstr "Перша відмінність"
 
 #: TFRMDIFFER.ACTIGNORECASE.CAPTION
 msgid "Ignore Case"
-msgstr ""
+msgstr "Ігнорувати регістр"
 
 #: TFRMDIFFER.ACTIGNOREWHITESPACE.CAPTION
 msgid "Ignore Blanks"
-msgstr ""
+msgstr "Ігнорувати пробіли"
 
 #: TFRMDIFFER.ACTKEEPSCROLLING.CAPTION
 msgid "Keep Scrolling"
-msgstr ""
+msgstr "Одночасне прокручування"
 
 #: TFRMDIFFER.ACTLASTDIFF.CAPTION
 msgid "Last Difference"
-msgstr ""
+msgstr "Остання відмінність"
 
 #: TFRMDIFFER.ACTNEXTDIFF.CAPTION
 msgid "Next Difference"
-msgstr ""
+msgstr "Наступна відмінність"
 
 #: TFRMDIFFER.ACTOPENLEFT.CAPTION
 msgid "Open Left..."
-msgstr ""
+msgstr "Відкрити зліва..."
 
 #: TFRMDIFFER.ACTOPENRIGHT.CAPTION
 msgid "Open Right..."
-msgstr ""
+msgstr "Відкрити справа..."
 
 #: TFRMDIFFER.ACTPAINTBACKGROUND.CAPTION
 msgid "Paint Background"
-msgstr ""
+msgstr "Зафарбовувати фон"
 
 #: TFRMDIFFER.ACTPREVDIFF.CAPTION
 msgid "Previous Difference"
-msgstr ""
+msgstr "Попередня відмінність"
 
 #: TFRMDIFFER.ACTRELOAD.CAPTION
 msgctxt "TFRMDIFFER.ACTRELOAD.CAPTION"
@@ -811,27 +811,27 @@ msgstr "Зберегти"
 
 #: TFRMDIFFER.ACTSAVEAS.CAPTION
 msgid "Save as..."
-msgstr ""
+msgstr "Зберегти як..."
 
 #: TFRMDIFFER.ACTSAVELEFT.CAPTION
 msgid "Save Left"
-msgstr ""
+msgstr "Зберегти лівий"
 
 #: TFRMDIFFER.ACTSAVELEFTAS.CAPTION
 msgid "Save Left As..."
-msgstr ""
+msgstr "Зберегти лівий як..."
 
 #: TFRMDIFFER.ACTSAVERIGHT.CAPTION
 msgid "Save Right"
-msgstr ""
+msgstr "Зберегти правий"
 
 #: TFRMDIFFER.ACTSAVERIGHTAS.CAPTION
 msgid "Save Right As..."
-msgstr ""
+msgstr "Зберегти правий як..."
 
 #: TFRMDIFFER.ACTSTARTCOMPARE.CAPTION
 msgid "Compare"
-msgstr ""
+msgstr "Порівняння"
 
 #: TFRMDIFFER.FRMDIFFER.CAPTION
 msgctxt "TFRMDIFFER.FRMDIFFER.CAPTION"
@@ -890,11 +890,11 @@ msgstr "Кодування"
 
 #: TFRMDIFFER.MIENCODINGLEFT.CAPTION
 msgid "Left"
-msgstr ""
+msgstr "Справа"
 
 #: TFRMDIFFER.MIENCODINGRIGHT.CAPTION
 msgid "Right"
-msgstr ""
+msgstr "Зліва"
 
 #: TFRMDIFFER.MISEPARATOR1.CAPTION
 msgctxt "TFRMDIFFER.MISEPARATOR1.CAPTION"
@@ -908,7 +908,7 @@ msgstr "-"
 
 #: TFRMDIFFER.MNUACTIONS.CAPTION
 msgid "&Actions"
-msgstr ""
+msgstr "&Дії"
 
 #: TFRMDIFFER.MNUEDIT.CAPTION
 msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
@@ -3239,6 +3239,7 @@ msgstr "..."
 
 #: TFRMOPTIONS.BTNSELMAINFNT.CAPTION
 msgctxt "TFRMOPTIONS.BTNSELMAINFNT.CAPTION"
+
 msgid "..."
 msgstr "..."
 
@@ -3435,7 +3436,7 @@ msgstr "При перейменуванні виділяти тільки ім'�
 
 #: TFRMOPTIONS.CBSAVETHUBNAILS.CAPTION
 msgid "Save thubnails in cache"
-msgstr ""
+msgstr "Зберігати ескізи в кеш"
 
 #: TFRMOPTIONS.CBSELECTIONBYMOUSE.CAPTION
 msgid "Selection by mouse"
@@ -3513,7 +3514,7 @@ msgstr "Сортувати з врахуванням регістру"
 
 #: TFRMOPTIONS.CBSORTMETHOD.TEXT
 msgid "Alphabetical, considering accents"
-msgstr ""
+msgstr "Алфавітний, з врахуванням акцентів"
 
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
@@ -3728,7 +3729,7 @@ msgstr "Заголовки вкладок"
 
 #: TFRMOPTIONS.GBVIEWERBOOKMODE.CAPTION
 msgid "Viewer Book Mode"
-msgstr ""
+msgstr "Режим перегляду книг"
 
 #: TFRMOPTIONS.GBVIEWEREXAMPLE.CAPTION
 msgctxt "TFRMOPTIONS.GBVIEWEREXAMPLE.CAPTION"
@@ -3807,7 +3808,7 @@ msgstr "Фон 2:"
 
 #: TFRMOPTIONS.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION
 msgid "Background color in book viewer"
-msgstr ""
+msgstr "Колір фону в переглядачі книг"
 
 #: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
 msgid "Category attributes:"
@@ -3866,7 +3867,7 @@ msgstr "Шрифт редактора"
 
 #: TFRMOPTIONS.LBLFONTCOLORVIEWERBOOK.CAPTION
 msgid "Font color in book viewer"
-msgstr ""
+msgstr "Колір шрифту в переглядачі книг"
 
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key:"
@@ -3878,7 +3879,7 @@ msgstr "Рівень яскравості неактивної панелі"
 
 #: TFRMOPTIONS.LBLLOGFONT.CAPTION
 msgid "Log font"
-msgstr ""
+msgstr "Шрифт логу"
 
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
@@ -3895,7 +3896,7 @@ msgstr "Режим:"
 
 #: TFRMOPTIONS.LBLNUMBERCOLUMNSVIEWER.CAPTION
 msgid "Number of columns in book viewer"
-msgstr ""
+msgstr "Кількість стовпців у переглядачі книг"
 
 #: TFRMOPTIONS.LBLPARAM.CAPTION
 msgid "Param:"
@@ -3939,7 +3940,7 @@ msgstr "Шлях до зовнішньої програми"
 
 #: TFRMOPTIONS.LBLVIEWERBOOKFONT.CAPTION
 msgid "Viewer Book Font"
-msgstr ""
+msgstr "Шрифт переглядача книг"
 
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
@@ -4070,7 +4071,7 @@ msgstr "Стан"
 
 #: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
 msgid "Plugin"
-msgstr ""
+msgstr "Плагін"
 
 #: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
 msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
@@ -4546,6 +4547,7 @@ msgstr "Підтримує стиснення в пам'яті"
 msgid "Can modify exisiting archives"
 msgstr "Може змінювати існуючі архіви"
 
+
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_MULTIPLE.CAPTION
 msgid "Archive can contain multiple files"
 msgstr "Архів може містити декілька файлів"
@@ -4945,12 +4947,12 @@ msgstr "Відміна"
 
 #: TFRMVIEWOPERATIONS.BTNALLINQUEUE.CAPTION
 msgid "Queue In"
-msgstr ""
+msgstr "У чергу"
 
 #: TFRMVIEWOPERATIONS.BTNALLPAUSE.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNALLPAUSE.CAPTION"
 msgid "Pause"
-msgstr ""
+msgstr "Пауза"
 
 #: TFRMVIEWOPERATIONS.BTNALLSTART.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNALLSTART.CAPTION"
@@ -4965,7 +4967,7 @@ msgstr "Відміна"
 #: TFRMVIEWOPERATIONS.BTNCUROPQUEUEINOUT.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNCUROPQUEUEINOUT.CAPTION"
 msgid "In"
-msgstr ""
+msgstr "В"
 
 #: TFRMVIEWOPERATIONS.BTNDNCUROP.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNDNCUROP.CAPTION"
@@ -4975,7 +4977,7 @@ msgstr "Вниз"
 #: TFRMVIEWOPERATIONS.BTNRUNALLPAUSE.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLPAUSE.CAPTION"
 msgid "Pause"
-msgstr ""
+msgstr "Пауза"
 
 #: TFRMVIEWOPERATIONS.BTNRUNALLSTART.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLSTART.CAPTION"
@@ -4989,7 +4991,7 @@ msgstr "Старт"
 
 #: TFRMVIEWOPERATIONS.BTNSTARTQUEUE.CAPTION
 msgid "Start queue"
-msgstr ""
+msgstr "Запустити по черзі"
 
 #: TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION"
@@ -4998,7 +5000,7 @@ msgstr "Вгору"
 
 #: TFRMVIEWOPERATIONS.CHKQUEUE.CAPTION
 msgid "Enable queue"
-msgstr ""
+msgstr "Ввімкнути чергу"
 
 #: TFRMVIEWOPERATIONS.FRMVIEWOPERATIONS.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.FRMVIEWOPERATIONS.CAPTION"
@@ -5007,15 +5009,15 @@ msgstr "Файлові операції"
 
 #: TFRMVIEWOPERATIONS.GRPALLOPERATION.CAPTION
 msgid "Operations control"
-msgstr ""
+msgstr "Керування операціями"
 
 #: TFRMVIEWOPERATIONS.LBLALL.CAPTION
 msgid "for all"
-msgstr ""
+msgstr "для всіх"
 
 #: TFRMVIEWOPERATIONS.LBLALLPROGRESS.CAPTION
 msgid "Progress"
-msgstr ""
+msgstr "Прогрес"
 
 #: TFRMVIEWOPERATIONS.LBLCOUNT.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.LBLCOUNT.CAPTION"
@@ -5024,19 +5026,19 @@ msgstr "0"
 
 #: TFRMVIEWOPERATIONS.LBLCURRENTOPERATION.CAPTION
 msgid "Current operation"
-msgstr ""
+msgstr "Поточна операція"
 
 #: TFRMVIEWOPERATIONS.LBLOPERATIONSCOUNT.CAPTION
 msgid "Active operations:"
-msgstr ""
+msgstr "Активні операції:"
 
 #: TFRMVIEWOPERATIONS.LBLQUEUE.CAPTION
 msgid "Queue:"
-msgstr ""
+msgstr "Черга:"
 
 #: TFRMVIEWOPERATIONS.LBLRUNNING.CAPTION
 msgid "for running"
-msgstr ""
+msgstr "для запуску"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -5104,11 +5106,11 @@ msgstr "Копіювати (%d) %s"
 
 #: ulng.rsdlgallopcomplete
 msgid "All operations is complete"
-msgstr ""
+msgstr "Всі операції завершено"
 
 #: ulng.rsdlgallopprogress
 msgid "Progress of all operations %d %%"
-msgstr ""
+msgstr "Прогрес всіх операцій %d %%"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -5202,12 +5204,12 @@ msgstr "Перемістити файл(и)"
 
 #: ulng.rsdlgopcaption
 msgid "Caption of operation"
-msgstr ""
+msgstr "Заголовок операції"
 
 #: ulng.rsdlgoppause
 msgctxt "ulng.rsdlgoppause"
 msgid "Pause"
-msgstr ""
+msgstr "Пауза"
 
 #: ulng.rsdlgopstart
 msgctxt "ulng.rsdlgopstart"
@@ -5221,11 +5223,11 @@ msgstr "Упакування..."
 #: ulng.rsdlgqueuein
 msgctxt "ulng.rsdlgqueuein"
 msgid "In"
-msgstr ""
+msgstr "В"
 
 #: ulng.rsdlgqueueout
 msgid "Out"
-msgstr ""
+msgstr "Із"
 
 #: ulng.rsdlgspeedtime
 #| msgid "Speed %s/s, remained time %s"
@@ -5238,7 +5240,7 @@ msgstr "Перевірка..."
 
 #: ulng.rsdlgunknownoperation
 msgid "Unknown operation"
-msgstr ""
+msgstr "Невідома операція"
 
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
