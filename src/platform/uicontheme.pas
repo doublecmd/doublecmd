@@ -4,7 +4,7 @@
     Simple implementation of Icon Theme based on FreeDesktop.org specification
     (http://standards.freedesktop.org/icon-theme-spec/icon-theme-spec-latest.html)
 
-    Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2009-2011  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -222,6 +222,7 @@ var
  sElement: String;
  sThemeName: String;
  IniFile: TIniFileEx = nil;
+ IconDirInfo: PIconDirInfo = nil;
 begin
    Result:= False;
    for I:= Low(FBaseDirList) to  High(FBaseDirList) do
@@ -264,7 +265,8 @@ begin
      sValue:= IniFile.ReadString('Icon Theme', 'Directories', EmptyStr);
      repeat
        sElement:= Copy2SymbDel(sValue, ',');
-       FDirectories.Add(sElement, LoadIconDirInfo(IniFile, sElement));
+       IconDirInfo:= LoadIconDirInfo(IniFile, sElement);
+       if Assigned(IconDirInfo) then FDirectories.Add(sElement, IconDirInfo);
      until sValue = EmptyStr;
 
      // read parent themes
@@ -380,7 +382,8 @@ begin
     else
       begin
         Dispose(Result);
-        raise Exception.Create('Unsupported icon type');
+        DebugLn('Theme directory "%s" has unsupported icon type "%s"', [sIconDirName, IconTypeStr]);
+        Exit(nil);
       end;
 
     SetLength(FileListCache, Length(FBaseDirList));
