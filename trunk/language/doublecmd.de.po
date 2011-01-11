@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.46 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2010-12-21 11:34+0100\n"
+"PO-Revision-Date: 2011-01-07 11:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -560,7 +560,7 @@ msgstr "Icon&datei"
 
 #: TFRMCONFIGTOOLBAR.LBLICONSIZE.CAPTION
 msgid "Ic&on size:"
-msgstr "Höhe der I&cons"
+msgstr "Höhe der I&cons:"
 
 #: TFRMCONFIGTOOLBAR.LBLICONSIZEVALUE.CAPTION
 msgid "32"
@@ -710,7 +710,7 @@ msgstr "&Über"
 
 #: TFRMDIFFER.ACTBINARYCOMPARE.CAPTION
 msgid "Binary Mode"
-msgstr ""
+msgstr "Binärer Modus"
 
 #: TFRMDIFFER.ACTCANCELCOMPARE.CAPTION
 msgctxt "TFRMDIFFER.ACTCANCELCOMPARE.CAPTION"
@@ -724,11 +724,11 @@ msgstr "Schliessen"
 
 #: TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION
 msgid "Copy Block Right"
-msgstr ""
+msgstr "Block nach rechts kopieren"
 
 #: TFRMDIFFER.ACTCOPYRIGHTTOLEFT.CAPTION
 msgid "Copy Block Left"
-msgstr ""
+msgstr "Block nach links kopieren"
 
 #: TFRMDIFFER.ACTEDITCOPY.CAPTION
 msgctxt "TFRMDIFFER.ACTEDITCOPY.CAPTION"
@@ -757,7 +757,7 @@ msgstr "Wiederholen"
 
 #: TFRMDIFFER.ACTEDITSELECTALL.CAPTION
 msgid "Select &All"
-msgstr ""
+msgstr "&Alles markieren"
 
 #: TFRMDIFFER.ACTEDITUNDO.CAPTION
 msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
@@ -766,43 +766,43 @@ msgstr "Rückgängig machen"
 
 #: TFRMDIFFER.ACTFIRSTDIFF.CAPTION
 msgid "First Difference"
-msgstr ""
+msgstr "Erster Unterschied"
 
 #: TFRMDIFFER.ACTIGNORECASE.CAPTION
 msgid "Ignore Case"
-msgstr ""
+msgstr "Gross- / Kleinschreibung ignorieren"
 
 #: TFRMDIFFER.ACTIGNOREWHITESPACE.CAPTION
 msgid "Ignore Blanks"
-msgstr ""
+msgstr "Leerzeichen ignorieren"
 
 #: TFRMDIFFER.ACTKEEPSCROLLING.CAPTION
 msgid "Keep Scrolling"
-msgstr ""
+msgstr "Bildlauf fortsetzen"
 
 #: TFRMDIFFER.ACTLASTDIFF.CAPTION
 msgid "Last Difference"
-msgstr ""
+msgstr "Letzter Unterschied"
 
 #: TFRMDIFFER.ACTNEXTDIFF.CAPTION
 msgid "Next Difference"
-msgstr ""
+msgstr "Nächster Unterschied"
 
 #: TFRMDIFFER.ACTOPENLEFT.CAPTION
 msgid "Open Left..."
-msgstr ""
+msgstr "Öffne links ..."
 
 #: TFRMDIFFER.ACTOPENRIGHT.CAPTION
 msgid "Open Right..."
-msgstr ""
+msgstr "Öffne rechts ..."
 
 #: TFRMDIFFER.ACTPAINTBACKGROUND.CAPTION
 msgid "Paint Background"
-msgstr ""
+msgstr "Hintergrund zeichnen"
 
 #: TFRMDIFFER.ACTPREVDIFF.CAPTION
 msgid "Previous Difference"
-msgstr ""
+msgstr "Vorheriger Unterschied"
 
 #: TFRMDIFFER.ACTRELOAD.CAPTION
 msgctxt "TFRMDIFFER.ACTRELOAD.CAPTION"
@@ -816,27 +816,27 @@ msgstr "Speichern"
 
 #: TFRMDIFFER.ACTSAVEAS.CAPTION
 msgid "Save as..."
-msgstr ""
+msgstr "Speichern unter ..."
 
 #: TFRMDIFFER.ACTSAVELEFT.CAPTION
 msgid "Save Left"
-msgstr ""
+msgstr "Speichere links"
 
 #: TFRMDIFFER.ACTSAVELEFTAS.CAPTION
 msgid "Save Left As..."
-msgstr ""
+msgstr "Speichere links unter ..."
 
 #: TFRMDIFFER.ACTSAVERIGHT.CAPTION
 msgid "Save Right"
-msgstr ""
+msgstr "Speichere rechts"
 
 #: TFRMDIFFER.ACTSAVERIGHTAS.CAPTION
 msgid "Save Right As..."
-msgstr ""
+msgstr "Speichere rechts unter ..."
 
 #: TFRMDIFFER.ACTSTARTCOMPARE.CAPTION
 msgid "Compare"
-msgstr ""
+msgstr "Vergleiche"
 
 #: TFRMDIFFER.FRMDIFFER.CAPTION
 msgctxt "TFRMDIFFER.FRMDIFFER.CAPTION"
@@ -895,11 +895,11 @@ msgstr "Codierung"
 
 #: TFRMDIFFER.MIENCODINGLEFT.CAPTION
 msgid "Left"
-msgstr ""
+msgstr "Links"
 
 #: TFRMDIFFER.MIENCODINGRIGHT.CAPTION
 msgid "Right"
-msgstr ""
+msgstr "Rechts"
 
 #: TFRMDIFFER.MISEPARATOR1.CAPTION
 msgctxt "TFRMDIFFER.MISEPARATOR1.CAPTION"
@@ -913,7 +913,7 @@ msgstr "-"
 
 #: TFRMDIFFER.MNUACTIONS.CAPTION
 msgid "&Actions"
-msgstr ""
+msgstr "&Aktionen"
 
 #: TFRMDIFFER.MNUEDIT.CAPTION
 msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
@@ -3474,7 +3474,7 @@ msgstr "Nur den Dateinamen bearbeiten (nicht die Endung)"
 
 #: TFRMOPTIONS.CBSAVETHUBNAILS.CAPTION
 msgid "Save thubnails in cache"
-msgstr ""
+msgstr "Vorschaubilder im Cache speichern"
 
 #: TFRMOPTIONS.CBSELECTIONBYMOUSE.CAPTION
 msgid "Selection by mouse"
@@ -3552,7 +3552,7 @@ msgstr "Sortieren nach Gross- / Kleinschreibung"
 
 #: TFRMOPTIONS.CBSORTMETHOD.TEXT
 msgid "Alphabetical, considering accents"
-msgstr ""
+msgstr "Alphabetisch, unter Berücksichtigung von Akzenten"
 
 #: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
@@ -3774,7 +3774,7 @@ msgstr "Verzeichnisreiter-Titel"
 
 #: TFRMOPTIONS.GBVIEWERBOOKMODE.CAPTION
 msgid "Viewer Book Mode"
-msgstr ""
+msgstr "Buchartige Ansicht"
 
 #: TFRMOPTIONS.GBVIEWEREXAMPLE.CAPTION
 msgctxt "TFRMOPTIONS.GBVIEWEREXAMPLE.CAPTION"
@@ -3853,7 +3853,7 @@ msgstr "Hintergrund 2:"
 
 #: TFRMOPTIONS.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION
 msgid "Background color in book viewer"
-msgstr ""
+msgstr "Hintergrundfarbe in der buchartigen Ansicht"
 
 #: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
 msgid "Category attributes:"
@@ -3912,7 +3912,7 @@ msgstr "Schrift für Editor"
 
 #: TFRMOPTIONS.LBLFONTCOLORVIEWERBOOK.CAPTION
 msgid "Font color in book viewer"
-msgstr ""
+msgstr "Schriftfarbe in der buchartigen Ansicht"
 
 #: TFRMOPTIONS.LBLHOTKEY.CAPTION
 msgid "Hot Key:"
@@ -3924,7 +3924,7 @@ msgstr "Helligkeitswert des inaktiven Panels"
 
 #: TFRMOPTIONS.LBLLOGFONT.CAPTION
 msgid "Log font"
-msgstr ""
+msgstr "Log-Schriftart"
 
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
@@ -3941,7 +3941,7 @@ msgstr "Modus:"
 
 #: TFRMOPTIONS.LBLNUMBERCOLUMNSVIEWER.CAPTION
 msgid "Number of columns in book viewer"
-msgstr ""
+msgstr "Anzahl der Spalten in der buchartigen Ansicht"
 
 #: TFRMOPTIONS.LBLPARAM.CAPTION
 msgid "Param:"
@@ -3985,7 +3985,7 @@ msgstr "Pfad zum ausführbaren Programm"
 
 #: TFRMOPTIONS.LBLVIEWERBOOKFONT.CAPTION
 msgid "Viewer Book Font"
-msgstr ""
+msgstr "Schriftart für die buchartige Ansicht"
 
 #: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
 msgid "Viewer font"
@@ -4999,7 +4999,7 @@ msgstr "Abbruch"
 
 #: TFRMVIEWOPERATIONS.BTNALLINQUEUE.CAPTION
 msgid "Queue In"
-msgstr ""
+msgstr "In die Warteschlange"
 
 #: TFRMVIEWOPERATIONS.BTNALLPAUSE.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNALLPAUSE.CAPTION"
@@ -5043,7 +5043,7 @@ msgstr ""
 
 #: TFRMVIEWOPERATIONS.BTNSTARTQUEUE.CAPTION
 msgid "Start queue"
-msgstr ""
+msgstr "Warteschlange abarbeiten"
 
 #: TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION"
@@ -5052,7 +5052,7 @@ msgstr "Aufw&ärts"
 
 #: TFRMVIEWOPERATIONS.CHKQUEUE.CAPTION
 msgid "Enable queue"
-msgstr ""
+msgstr "Warteschlange einschalten"
 
 #: TFRMVIEWOPERATIONS.FRMVIEWOPERATIONS.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.FRMVIEWOPERATIONS.CAPTION"
@@ -5061,15 +5061,15 @@ msgstr "Dateioperationen"
 
 #: TFRMVIEWOPERATIONS.GRPALLOPERATION.CAPTION
 msgid "Operations control"
-msgstr ""
+msgstr "Ablaufkontrolle"
 
 #: TFRMVIEWOPERATIONS.LBLALL.CAPTION
 msgid "for all"
-msgstr ""
+msgstr "für alle"
 
 #: TFRMVIEWOPERATIONS.LBLALLPROGRESS.CAPTION
 msgid "Progress"
-msgstr ""
+msgstr "Fortschritt"
 
 #: TFRMVIEWOPERATIONS.LBLCOUNT.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.LBLCOUNT.CAPTION"
@@ -5078,19 +5078,19 @@ msgstr "0"
 
 #: TFRMVIEWOPERATIONS.LBLCURRENTOPERATION.CAPTION
 msgid "Current operation"
-msgstr ""
+msgstr "Aktueller Vorgang"
 
 #: TFRMVIEWOPERATIONS.LBLOPERATIONSCOUNT.CAPTION
 msgid "Active operations:"
-msgstr ""
+msgstr "Aktiver Vorgang:"
 
 #: TFRMVIEWOPERATIONS.LBLQUEUE.CAPTION
 msgid "Queue:"
-msgstr ""
+msgstr "Warteschlange"
 
 #: TFRMVIEWOPERATIONS.LBLRUNNING.CAPTION
 msgid "for running"
-msgstr ""
+msgstr "für laufende"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -5158,11 +5158,11 @@ msgstr "Kopiere (%d) %s"
 
 #: ulng.rsdlgallopcomplete
 msgid "All operations is complete"
-msgstr ""
+msgstr "Alle Vorgänge abgeschlossen"
 
 #: ulng.rsdlgallopprogress
 msgid "Progress of all operations %d %%"
-msgstr ""
+msgstr "Fortschritt für alle Vorgänge %d %%"
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
@@ -5255,7 +5255,7 @@ msgstr "Datei(en) verschieben"
 
 #: ulng.rsdlgopcaption
 msgid "Caption of operation"
-msgstr ""
+msgstr "Titel des Vorgangs"
 
 #: ulng.rsdlgoppause
 msgctxt "ulng.rsdlgoppause"
@@ -5274,11 +5274,11 @@ msgstr "Packe..."
 #: ulng.rsdlgqueuein
 msgctxt "ulng.rsdlgqueuein"
 msgid "In"
-msgstr ""
+msgstr "Hinein"
 
 #: ulng.rsdlgqueueout
 msgid "Out"
-msgstr ""
+msgstr "Hinaus"
 
 #: ulng.rsdlgspeedtime
 #, fuzzy
@@ -5292,7 +5292,7 @@ msgstr "Teste..."
 
 #: ulng.rsdlgunknownoperation
 msgid "Unknown operation"
-msgstr ""
+msgstr "Unbekannter Vorgang"
 
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
@@ -5467,7 +5467,7 @@ msgstr "Zugang:"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
-msgstr "Die Datei \"%s kann nicht über sich selbst kopiert / verschoben werden!"
+msgstr "Die Datei \"%s\ kann nicht über sich selbst kopiert / verschoben werden!"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
