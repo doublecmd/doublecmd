@@ -300,15 +300,17 @@ begin
   Viewer.QuickView:= False;
   Viewer.FileList.Assign(FilesToView);// Make a copy of the list
   Viewer.DrawPreview.RowCount:= Viewer.FileList.Count;
+  with Viewer.ViewerControl do
+  case gViewerMode of
+    1: ViewerMode:= vmText;
+    2: ViewerMode:= vmBin;
+    3: ViewerMode:= vmHex;
+    4: ViewerMode:= vmWrap;
+    //5: ViewerMode:= vmBook;
+  end;
   Viewer.LoadFile(0);
   Viewer.Show;
-  case gViewerMode of
-    1: Viewer.miTextClick(Viewer.miText);
-    2: Viewer.miTextClick(Viewer.miBin);
-    3: Viewer.miTextClick(Viewer.miHex);
-    4: Viewer.miTextClick(Viewer.miWrapText);
-    //5: Viewer.miTextClick(Viewer.miLookBook);
-  end;
+
   if Viewer.miPreview.Checked then
     begin
       Viewer.miPreview.Checked := not(Viewer.miPreview.Checked);

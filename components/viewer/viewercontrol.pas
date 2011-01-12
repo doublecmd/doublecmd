@@ -1054,7 +1054,7 @@ procedure TViewerControl.PageUp;
 var
   H: Integer;
 begin
-  H := GetClientHeightInLines - 1;
+  H := GetClientHeightInLines * FColCount - 1;
   if H <= 0 then
     H := 1;
   Scroll(-H);
@@ -1064,7 +1064,7 @@ procedure TViewerControl.PageDown;
 var
   H: Integer;
 begin
-  H := GetClientHeightInLines - 1;
+  H := GetClientHeightInLines * FColCount - 1;
   if H <= 0 then
     H := 1;
   Scroll(H);
