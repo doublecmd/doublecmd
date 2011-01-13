@@ -107,8 +107,11 @@ type
     }
     procedure SaveDescription;
 
+    {$IF (FPC_VERSION > 2) or ((FPC_VERSION = 2) and (FPC_RELEASE >= 5))}
+    function Find(const S: string; out Index: Integer): Boolean; override;
+    {$ELSE}
     function Find(const S: string; var Index: Integer): Boolean; override;
-
+    {$ENDIF}
     {en
        File description encoding
     }
@@ -157,7 +160,11 @@ begin
     end;
 end;
 
+{$IF (FPC_VERSION > 2) or ((FPC_VERSION = 2) and (FPC_RELEASE >= 5))}
+function TDescription.Find(const S: string; out Index: Integer): Boolean;
+{$ELSE}
 function TDescription.Find(const S: string; var Index: Integer): Boolean;
+{$ENDIF}
 var
   iIndex, iPosOfDivider, iLength, iFirstStringPos: Integer;
   sFileName, sIndexString: String;
