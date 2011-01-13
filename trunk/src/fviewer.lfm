@@ -1,8 +1,8 @@
 object frmViewer: TfrmViewer
-  Left = 342
-  Height = 530
-  Top = 123
-  Width = 1156
+  Left = 100
+  Height = 480
+  Top = 100
+  Width = 640
   HorzScrollBar.Page = 951
   VertScrollBar.Page = 491
   Caption = 'Viewer'
@@ -56,7 +56,6 @@ object frmViewer: TfrmViewer
   OnDestroy = FormDestroy
   OnKeyDown = frmViewerKeyDown
   OnKeyPress = FormKeyPress
-  Position = poScreenCenter
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.31'

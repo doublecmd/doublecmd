@@ -1,8 +1,8 @@
 object frmEditor: TfrmEditor
-  Left = 224
-  Height = 500
-  Top = 174
-  Width = 719
+  Left = 100
+  Height = 480
+  Top = 100
+  Width = 640
   ActiveControl = Editor
   Caption = 'Editor'
   ClientHeight = 469
@@ -52,7 +52,6 @@ object frmEditor: TfrmEditor
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   ParentFont = False
-  Position = poScreenCenter
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.27'
