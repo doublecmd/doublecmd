@@ -23,6 +23,9 @@
 unit uShellContextMenu;
 
 {$mode delphi}{$H+}
+{$IF (FPC_VERSION > 2) or ((FPC_VERSION = 2) and (FPC_RELEASE >= 5))}
+{$POINTERMATH ON}
+{$ENDIF}
 
 interface
 
