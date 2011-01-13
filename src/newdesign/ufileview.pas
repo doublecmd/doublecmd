@@ -403,7 +403,7 @@ end;
 
 procedure TFileView.SetCurrentPath(NewPath: String);
 begin
-  if BeforeChangePath(FileSource, NewPath) then
+  if (NewPath <> CurrentPath) and BeforeChangePath(FileSource, NewPath) then
   begin
     FHistory.AddPath(NewPath); // Sets CurrentPath.
     AfterChangePath;
@@ -948,4 +948,4 @@ begin
 end;
 
 end.
-
+

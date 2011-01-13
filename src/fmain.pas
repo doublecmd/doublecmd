@@ -3412,7 +3412,8 @@ var
 
   procedure ToggleWatcher(FileView: TFileView; var Watcher: TFileSystemWatcher; AnOwner: TComponent);
   begin
-    if (WatchFilter <> []) and Assigned(FileView.FileSource) and
+    if (WatchFilter <> []) and
+       Assigned(FileView) and Assigned(FileView.FileSource) and
        (FileView.FileSource.IsClass(TFileSystemFileSource)) then
       begin
         if not Assigned(Watcher) then
