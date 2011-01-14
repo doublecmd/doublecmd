@@ -11,7 +11,6 @@ uses
   {$ENDIF}
   Interfaces,
   LCLProc,
-  LResources,
   SysUtils,
   Forms,
   {$IFDEF NIGHTLY_BUILD}
@@ -19,6 +18,7 @@ uses
   {$ENDIF}
   uGlobsPaths,
   uGlobs,
+  fHackForm,
   fMain,
   fAbout,
   fMkDir,
@@ -30,7 +30,7 @@ uses
   uUniqueInstance,
   uDCVersion;
 
-{$IFDEF WINDOWS}{$R doublecmd.rc}{$ENDIF}
+{$R *.res}
 
 {$IFDEF HEAPTRC}
 var
@@ -38,8 +38,6 @@ var
 {$ENDIF}
 
 begin
-  {$I doublecmd.lrs}
-
   DebugLn('Starting Double Commander');
 
   {$IFDEF NIGHTLY_BUILD}
@@ -74,6 +72,8 @@ begin
   DebugLn('   and contributors (see about dialog)');
 
   LoadPaths; // must be first
+  Application.ShowMainForm:= False;
+  Application.CreateForm(TfrmHackForm, frmHackForm);
   if InitGlobs then
     if IsInstanceAllowed then
      begin

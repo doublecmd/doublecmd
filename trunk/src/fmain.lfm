@@ -19,7 +19,8 @@ object frmMain: TfrmMain
   OnUTF8KeyPress = FormUTF8KeyPress
   OnWindowStateChange = FormWindowStateChange
   ShowHint = True
-  LCLVersion = '0.9.31'
+  ShowInTaskBar = stAlways
+  LCLVersion = '0.9.29'
   Visible = True
   object MainToolBar: TKASToolBar
     AnchorSideTop.Control = Owner
