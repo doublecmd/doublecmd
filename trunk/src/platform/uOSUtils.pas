@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -113,6 +113,12 @@ function ExecCmdFork(sCmdLine:String; bTerm : Boolean = False; sTerm : String = 
 }
 function ShellExecute(URL: String): Boolean;
 function GetDiskFreeSpace(Path : String; out FreeSize, TotalSize : Int64) : Boolean;
+{en
+   Get maximum file size for a mounted file system
+   @param(Path The pathname of any file within the mounted file  system)
+   @returns(The maximum file size for a mounted file system)
+}
+function GetDiskMaxFileSize(const Path : UTF8String) : Int64;
 {en
    Create a hard link to a file
    @param(Path Name of file)
@@ -681,6 +687,43 @@ begin
   OldErrorMode:= SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOOPENFILEERRORBOX);
   Result:= GetDiskFreeSpaceExW(PWChar(wPath), FreeSize, TotalSize, nil);
   SetErrorMode(OldErrorMode);
+end;
+{$ENDIF}
+
+function GetDiskMaxFileSize(const Path: UTF8String): Int64;
+{$IFDEF UNIX}
+const
+  MSDOS_SUPER_MAGIC = $4d44;
+var
+  sbfs: TStatFS;
+begin
+  Result := High(Int64);
+  if (fpStatFS(PChar(UTF8ToSys(Path)), @sbfs) = 0) then
+  begin
+    if (sbfs.fstype = MSDOS_SUPER_MAGIC) then
+      Result:= $FFFFFFFF; // 4 Gb
+  end;
+end;
+{$ELSE}
+var
+ lpVolumeNameBuffer,
+ lpFileSystemNameBuffer  : array [0..255] of WideChar;
+ lpMaximumComponentLength,
+ lpFileSystemFlags     : DWORD;
+begin
+ Result := High(Int64);
+ if GetVolumeInformationW(PWideChar(UTF8Decode(ExtractFileDrive(Path)) + PathDelim),
+                         lpVolumeNameBuffer, SizeOf(lpVolumeNameBuffer),
+                         nil,
+                         lpMaximumComponentLength,
+                         lpFileSystemFlags,
+                         lpFileSystemNameBuffer, SizeOf(lpFileSystemNameBuffer)) then
+  begin
+    if SameText(lpFileSystemNameBuffer, 'FAT') then
+      Result:= $80000000 // 2 Gb
+    else if SameText(lpFileSystemNameBuffer, 'FAT32') then
+      Result:= $FFFFFFFF; // 4 Gb
+  end;
 end;
 {$ENDIF}
 
@@ -1759,4 +1802,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.

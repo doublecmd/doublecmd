@@ -1006,19 +1006,29 @@ begin
   // will be inconsistent, so remember it here.
   OldDoneBytes := FStatistics.DoneBytes;
 
-  case TargetExists(aNode, AbsoluteTargetFileName) of
-    fsoterSkip:
-      Result := False;
+  if (aNode.TheFile.Size > GetDiskMaxFileSize(ExtractFileDir(AbsoluteTargetFileName))) then
+    case AskQuestion('', Format(rsMsgFileSizeTooBig, [aNode.TheFile.Name]),
+                     [fsourSkip, fsourAbort],
+                     fsourSkip, fsourAbort) of
+      fsourSkip:
+        Result := False;
+      else
+        AbortOperation;
+    end
+  else
+    case TargetExists(aNode, AbsoluteTargetFileName) of
+      fsoterSkip:
+        Result := False;
 
-    fsoterDeleted, fsoterNotExists:
-      Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, False);
+      fsoterDeleted, fsoterNotExists:
+        Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, False);
 
-    fsoterAddToTarget:
-      Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, True);
+      fsoterAddToTarget:
+        Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, True);
 
-    else
-      raise Exception.Create('Invalid TargetExists result');
-  end;
+      else
+        raise Exception.Create('Invalid TargetExists result');
+    end;
 
   if Result = True then
     begin
