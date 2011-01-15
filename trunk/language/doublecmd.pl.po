@@ -5551,6 +5551,10 @@ msgstr "Niektóre operacje na plikach nie zostały zakończone. Zamknięcie Doub
 msgid "File %s is marked as read-only. Delete it?"
 msgstr "Plik %s jest oznaczony jako tylko do odczytu. Usunąć mimo to?"
 
+#: ulng.rsmsgfilesizetoobig
+msgid "The file size of \"%s\" is too big for destination file system!"
+msgstr ""
+
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
 msgstr "katalog o nazwie %s istnieje, zastąpić?"
@@ -6151,6 +6155,9 @@ msgstr "Pliku nie da sie podzilić!"
 msgid "Too many parts!"
 msgstr "Zbyt wiele części!"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rssplitmsgcreated
 msgctxt "ulng.rssplitmsgcreated"
 msgid "Created:"
@@ -6232,7 +6239,3 @@ msgstr "Kodowanie"
 msgid "%s not found!"
 msgstr "%s nie znaleziony!"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
