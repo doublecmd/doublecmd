@@ -5603,6 +5603,10 @@ msgstr ""
 msgid "File %s is marked as read-only. Delete it?"
 msgstr ""
 
+#: ulng.rsmsgfilesizetoobig
+msgid "The file size of \"%s\" is too big for destination file system!"
+msgstr ""
+
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
 msgstr ""

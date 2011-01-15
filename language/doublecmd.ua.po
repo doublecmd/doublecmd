@@ -3239,7 +3239,6 @@ msgstr "..."
 
 #: TFRMOPTIONS.BTNSELMAINFNT.CAPTION
 msgctxt "TFRMOPTIONS.BTNSELMAINFNT.CAPTION"
-
 msgid "..."
 msgstr "..."
 
@@ -4547,7 +4546,6 @@ msgstr "Підтримує стиснення в пам'яті"
 msgid "Can modify exisiting archives"
 msgstr "Може змінювати існуючі архіви"
 
-
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_MULTIPLE.CAPTION
 msgid "Archive can contain multiple files"
 msgstr "Архів може містити декілька файлів"
@@ -5595,6 +5593,10 @@ msgstr "Деякі операції з файлами, ще не заверше�
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
 msgstr "Файл %s помічений як доступний тільки для читання. Видалити?"
+
+#: ulng.rsmsgfilesizetoobig
+msgid "The file size of \"%s\" is too big for destination file system!"
+msgstr ""
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"

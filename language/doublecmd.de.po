@@ -5467,7 +5467,7 @@ msgstr "Zugang:"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
-msgstr "Die Datei \"%s\ kann nicht über sich selbst kopiert / verschoben werden!"
+msgstr "Die Datei \"%s kann nicht über sich selbst kopiert / verschoben werden!"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -5648,6 +5648,10 @@ msgstr "Es gibt Datei-Operationen, die noch nicht beendet sind. Das Schliessen v
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
 msgstr "Datei %s ist als schreibgeschützt markiert. Soll sie gelöscht werden?"
+
+#: ulng.rsmsgfilesizetoobig
+msgid "The file size of \"%s\" is too big for destination file system!"
+msgstr ""
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
