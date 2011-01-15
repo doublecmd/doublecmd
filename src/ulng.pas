@@ -74,6 +74,7 @@ resourcestring
   rsMsgEnterName = 'Enter name:';
   rsMsgEnterFileExt = 'Enter file extension:';
   rsMsgFollowSymlink = 'Follow symlink "%s"?';
+  rsMsgFileSizeTooBig = 'The file size of "%s" is too big for destination file system!';
   rsMsgCloseAllInActiveTabs = 'Remove all inactive tabs?';
   rsMsgErrRegExpSyntax = 'Syntax error in regular expression!';
   rsMsgNoFilesSelected = 'No files selected.';
