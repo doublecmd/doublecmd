@@ -6,6 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
+  uFile,
   uMultiListFileSource,
   uFileSourceOperation,
   uFileSourceProperty;
@@ -19,6 +20,9 @@ type
   {en
      File source for search results.
   }
+
+  { TSearchResultFileSource }
+
   TSearchResultFileSource = class(TMultiListFileSource, ISearchResultFileSource)
   public
     constructor Create; override;
@@ -27,6 +31,8 @@ type
     function SetCurrentWorkingDirectory(NewDir: String): Boolean; override;
 
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
+
+    function GetLocalName(var aFile: TFile): Boolean; override;
   end;
 
 implementation
@@ -54,6 +60,14 @@ end;
 function TSearchResultFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
 begin
   Result := TSearchResultListOperation.Create(Self, TargetPath);
+end;
+
+function TSearchResultFileSource.GetLocalName(var aFile: TFile): Boolean;
+begin
+  if (fspLinksToLocalFiles in FileSource.Properties) then
+    Result:= FileSource.GetLocalName(aFile)
+  else
+    Result:= True;
 end;
 
 end.
