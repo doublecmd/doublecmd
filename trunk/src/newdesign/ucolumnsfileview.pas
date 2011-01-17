@@ -323,7 +323,7 @@ type
     procedure CloseFilterPanel;
 
     procedure CalculateSpaceOfAllDirectories;
-    procedure CalculateSpace(theFile: TDisplayFile);
+    procedure CalculateSpace(AFile: TDisplayFile);
 
     function DimColor(AColor: TColor): TColor;
 
@@ -512,7 +512,7 @@ begin
   aFile := GetActiveItem;
 
   if Assigned(aFile) then
-    Result := aFile.TheFile
+    Result := aFile.FSFile
   else
     Result := nil;
 end;
@@ -525,7 +525,7 @@ begin
 
   for i := 0 to FFiles.Count - 1 do
   begin
-    Result.Add(FFiles[i].TheFile.Clone);
+    Result.Add(FFiles[i].FSFile.Clone);
   end;
 end;
 
@@ -539,7 +539,7 @@ begin
   for i := 0 to FFiles.Count - 1 do
   begin
     if FFiles[i].Selected then
-      Result.Add(FFiles[i].TheFile.Clone);
+      Result.Add(FFiles[i].FSFile.Clone);
   end;
 
   // If no files are selected, add currently active file if it is valid.
@@ -547,7 +547,7 @@ begin
   begin
     aFile := GetActiveItem;
     if IsItemValid(aFile) then
-      Result.Add(aFile.TheFile.Clone);
+      Result.Add(aFile.FSFile.Clone);
   end;
 end;
 
@@ -734,12 +734,12 @@ begin
         for i := 0 to FFiles.Count-1 do
         begin
           if FFiles[i].Selected then
-            fileNamesList.Add(FFiles[i].TheFile.FullPath);
+            fileNamesList.Add(FFiles[i].FSFile.FullPath);
         end;
 
         // If there were no files selected add the dragged file.
         if fileNamesList.Count = 0 then
-          fileNamesList.Add(draggedFileItem.TheFile.FullPath);
+          fileNamesList.Add(draggedFileItem.FSFile.FullPath);
 
         // Initiate external drag&drop operation.
         Result := dgPanel.DragDropSource.DoDragDrop(fileNamesList, MouseButton, ScreenStartPoint);
@@ -1045,7 +1045,7 @@ begin
     AFile := FFiles[iRow - dgPanel.FixedRows]; // substract fixed rows (header)
 
   if Assigned(AFile) and
-     (AFile.TheFile.IsDirectory or AFile.TheFile.IsLinkToDirectory) and
+     (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) and
      (dgPanel.MouseOnGrid(X, Y))
   then
     begin
@@ -1065,10 +1065,10 @@ begin
       begin
         if Assigned(SourcePanel) and Assigned(TargetPanel) then
         begin
-          if AFile.TheFile.Name = '..' then
+          if AFile.FSFile.Name = '..' then
             TargetDir := GetParentDir(TargetDir)
           else
-            TargetDir := TargetDir + AFile.TheFile.Name + DirectorySeparator;
+            TargetDir := TargetDir + AFile.FSFile.Name + DirectorySeparator;
 
           if SourceDir <> TargetDir then Accept := True;
         end
@@ -1220,9 +1220,9 @@ begin
   if HintInfo^.HintStr = EmptyStr then Exit; // don't show
   with dgPanel do
   AFile := FFiles[HintRowIndex - FixedRows];
-  if not AFile.TheFile.IsDirectory then
+  if not AFile.FSFile.IsDirectory then
     begin
-      sHint:= GetFileInfoToolTip(FileSource, AFile.TheFile);
+      sHint:= GetFileInfoToolTip(FileSource, AFile.FSFile);
       with HintInfo^ do
       if (sHint = EmptyStr) and (HintStr = #32) then  // no tooltip
         HintStr:= EmptyStr
@@ -1338,28 +1338,28 @@ procedure TColumnsFileView.ChooseFile(AFile: TDisplayFile; FolderMode: Boolean =
 begin
   with AFile do
   begin
-    if TheFile.Name = '..' then
+    if FSFile.Name = '..' then
     begin
       ChangePathToParent(True);
       Exit;
     end;
 
-    if TheFile.IsLinkToDirectory then // deeper and deeper
+    if FSFile.IsLinkToDirectory then // deeper and deeper
     begin
-      ChooseSymbolicLink(Self, TheFile);
+      ChooseSymbolicLink(Self, FSFile);
       Exit;
     end;
 
-    if TheFile.IsDirectory then // deeper and deeper
+    if FSFile.IsDirectory then // deeper and deeper
     begin
-      ChangePathToChild(TheFile);
+      ChangePathToChild(FSFile);
       Exit;
     end;
 
     if FolderMode then exit;
 
     try
-      uFileSourceUtil.ChooseFile(Self, TheFile);
+      uFileSourceUtil.ChooseFile(Self, FSFile);
 
     except
       on e: Exception do
@@ -1680,7 +1680,7 @@ begin
   try
     while I <> iEnd do
       begin
-        Result := MatchesMask(UTF8LowerCase(FFiles[I - dgPanel.FixedRows].TheFile.Name), sSearchName);
+        Result := MatchesMask(UTF8LowerCase(FFiles[I - dgPanel.FixedRows].FSFile.Name), sSearchName);
 
         if Result then
           begin
@@ -1786,7 +1786,7 @@ var
   SizeSupported: Boolean;
 begin
   if Assigned(FCurrentWorker) and FCurrentWorker.Working and
-     (FCurrentWorker.WorkerType = fvwtFileListBuilder) then
+     (FCurrentWorker.WorkType = fvwtCreate) then
   begin
     lblInfo.Caption := rsMsgLoadingFileList;
   end
@@ -1803,7 +1803,7 @@ begin
     begin
       with FFiles[i] do
       begin
-        if TheFile.Name = '..' then Continue;
+        if FSFile.Name = '..' then Continue;
 
         inc(FilesInDir);
         if Selected then
@@ -1812,7 +1812,7 @@ begin
         // Count size if Size property is supported.
         if SizeSupported then
         begin
-          SizeProperty := TheFile.Properties[fpSize] as TFileSizeProperty;
+          SizeProperty := FSFile.SizeProperty;
 
           if Selected then
             SizeSelected := SizeSelected + SizeProperty.Value;
@@ -1856,7 +1856,7 @@ var
 begin
   if IsActiveItemValid then
   begin
-    sGroup := GetActiveItem.TheFile.Extension;
+    sGroup := GetActiveItem.FSFile.Extension;
     if sGroup <> '' then
       sGroup := '.' + sGroup;
     MarkGroup('*' + sGroup, True);
@@ -1871,7 +1871,7 @@ var
 begin
   if IsActiveItemValid then
   begin
-    sGroup := GetActiveItem.TheFile.Extension;
+    sGroup := GetActiveItem.FSFile.Extension;
     if sGroup <> '' then
       sGroup := '.' + sGroup;
     MarkGroup('*' + sGroup, False);
@@ -1889,7 +1889,7 @@ begin
     with FFiles[I] do
     begin
       if Selected then
-        FSelection.Add(TheFile.Name);
+        FSelection.Add(FSFile.Name);
     end;
 end;
 
@@ -1899,7 +1899,7 @@ var
 begin
   for I := 0 to FFiles.Count - 1 do
     with FFiles[I] do
-    Selected:= (FSelection.IndexOf(TheFile.Name) >= 0);
+    Selected:= (FSelection.IndexOf(FSFile.Name) >= 0);
   dgPanel.Invalidate;
 end;
 
@@ -1934,16 +1934,16 @@ begin
       if Assigned(SearchTemplate) then
         for I := 0 to FFiles.Count - 1 do
           begin
-            if FFiles[I].TheFile.Name = '..' then Continue;
-            if SearchTemplate.CheckFile(FFiles[I].TheFile) then
+            if FFiles[I].FSFile.Name = '..' then Continue;
+            if SearchTemplate.CheckFile(FFiles[I].FSFile) then
               FFiles[I].Selected := bSelect;
           end;
     end
   else
     for I := 0 to FFiles.Count - 1 do
       begin
-        if FFiles[I].TheFile.Name = '..' then Continue;
-        if MatchesMaskList(FFiles[I].TheFile.Name, sMask) then
+        if FFiles[I].FSFile.Name = '..' then Continue;
+        if MatchesMaskList(FFiles[I].FSFile.Name, sMask) then
           FFiles[I].Selected := bSelect;
       end;
 end;
@@ -2152,7 +2152,7 @@ begin
   if (RowNr >= dgPanel.FixedRows) and (RowNr < dgPanel.RowCount) and
      (RowNr - dgPanel.FixedRows < FFiles.Count) then
   begin
-    LastActiveFile := FFiles[RowNr - dgPanel.FixedRows].TheFile.FullPath;
+    LastActiveFile := FFiles[RowNr - dgPanel.FixedRows].FSFile.FullPath;
   end;
 end;
 
@@ -2165,7 +2165,7 @@ begin
     if FileSource.GetPathType(aFilePath) = ptAbsolute then
     begin
       for i := 0 to FFiles.Count - 1 do
-        if FFiles[i].TheFile.FullPath = aFilePath then
+        if FFiles[i].FSFile.FullPath = aFilePath then
         begin
           FUpdatingGrid := True;
           dgPanel.Row := i + dgPanel.FixedRows;
@@ -2177,7 +2177,7 @@ begin
     else
     begin
       for i := 0 to FFiles.Count - 1 do
-        if FFiles[i].TheFile.Name = aFilePath then
+        if FFiles[i].FSFile.Name = aFilePath then
         begin
           FUpdatingGrid := True;
           dgPanel.Row := i + dgPanel.FixedRows;
@@ -2193,7 +2193,7 @@ end;
 procedure TColumnsFileView.SetActiveFile(aFilePath: String);
 begin
   if Assigned(FCurrentWorker) and FCurrentWorker.Working and
-     (FCurrentWorker.WorkerType = fvwtFileListBuilder) then
+     (FCurrentWorker.WorkType = fvwtCreate) then
   begin
     // File list is currently loading - remember requested file for later.
     RequestedActiveFile := aFilePath;
@@ -2455,8 +2455,8 @@ begin
           aFile := GetActiveItem;
           if IsItemValid(aFile) then
           begin
-            if (aFile.TheFile.IsDirectory or
-               aFile.TheFile.IsLinkToDirectory) and
+            if (aFile.FSFile.IsDirectory or
+               aFile.FSFile.IsLinkToDirectory) and
                not aFile.Selected then
             begin
               Screen.Cursor := crHourGlass;
@@ -2506,7 +2506,7 @@ begin
           if IsActiveItemValid then
           begin
             mbSetCurrentDir(CurrentPath);
-            ExecCmdFork(CurrentPath + GetActiveItem.TheFile.Name, True, gRunInTerm);
+            ExecCmdFork(CurrentPath + GetActiveItem.FSFile.Name, True, gRunInTerm);
             Key := 0;
           end;
         end;
@@ -2535,7 +2535,7 @@ end;
 
 function TColumnsFileView.IsItemValid(AFile: TDisplayFile): Boolean;
 begin
-  if Assigned(AFile) and (AFile.TheFile.Name <> '..') then
+  if Assigned(AFile) and (AFile.FSFile.Name <> '..') then
     Result := True
   else
     Result := False;
@@ -3074,8 +3074,8 @@ procedure TColumnsFileView.ReDisplayFileList;
 begin
   if Assigned(FCurrentWorker) and FCurrentWorker.Working then
   begin
-    case FCurrentWorker.WorkerType of
-      fvwtFileListBuilder:
+    case FCurrentWorker.WorkType of
+      fvwtCreate:
         // File list is being loaded from file source - cannot display yet.
         Exit;
       else
@@ -3106,7 +3106,7 @@ begin
     for ACol := 0 to ColumnsClass.Count - 1 do
     begin
       AFile.DisplayStrings.Add(ColumnsClass.GetColumnItemResultString(
-        ACol, AFile.TheFile, FileSource));
+        ACol, AFile.FSFile, FileSource));
     end;
   end;
 end;
@@ -3122,7 +3122,7 @@ begin
   for ACol := 0 to ColumnsClass.Count - 1 do
   begin
     AFile.DisplayStrings.Add(ColumnsClass.GetColumnItemResultString(
-      ACol, AFile.TheFile, FileSource));
+      ACol, AFile.FSFile, FileSource));
   end;
 end;
 
@@ -3135,7 +3135,7 @@ var
 begin
   if (Assigned(FCurrentWorker) and
       FCurrentWorker.Working and
-      (FCurrentWorker.WorkerType in [fvwtFileListBuilder])) or
+      (FCurrentWorker.WorkType = fvwtCreate)) or
      (not Assigned(FFiles)) or
      (csDestroying in ComponentState) then
     Exit;
@@ -3155,11 +3155,11 @@ begin
     begin
       with FFiles[i] do
       begin
-        if (TheFile.Name <> '..') then
+        if (FSFile.Name <> '..') then
         begin
           if IconID = -1 then
-            IconID := PixMapManager.GetIconByFile(TheFile, fspDirectAccess in FileSource.Properties, True);
-          FileSource.RetrieveProperties(TheFile, FilePropertiesNeeded);
+            IconID := PixMapManager.GetIconByFile(FSFile, fspDirectAccess in FileSource.Properties, True);
+          FileSource.RetrieveProperties(FSFile, FilePropertiesNeeded);
           MakeColumnsStrings(FFiles[i]);
         end;
       end;
@@ -3173,12 +3173,12 @@ begin
       begin
         with FFiles[i] do
         begin
-          if (TheFile.Name <> '..') and
-             (FileSource.CanRetrieveProperties(TheFile, FilePropertiesNeeded) or (IconID = -1)) then
+          if (FSFile.Name <> '..') and
+             (FileSource.CanRetrieveProperties(FSFile, FilePropertiesNeeded) or (IconID = -1)) then
           begin
             RetrieveInfo := New(PRetrieveInfo);
             RetrieveInfo^.FileIndex := i;
-            RetrieveInfo^.RefFile   := TheFile.Clone;
+            RetrieveInfo^.FSFile    := FSFile.Clone;
             RetrieveInfo^.IconID    := IconID;
             RetrieveList.Add(RetrieveInfo);
           end;
@@ -3255,18 +3255,18 @@ var
   propType: TFilePropertyType;
   aFile: TFile;
 begin
-  aFile := FFiles[UpdateInfo.FileIndex].TheFile;
+  aFile := FFiles[UpdateInfo.FileIndex].FSFile;
 
 {$IF (fpc_version>2) or ((fpc_version=2) and (fpc_release>4))}
   // This is a bit faster.
-  for propType in UpdateInfo.RefFile.AssignedProperties - aFile.AssignedProperties do
+  for propType in UpdateInfo.FSFile.AssignedProperties - aFile.AssignedProperties do
 {$ELSE}
   for propType := Low(TFilePropertyType) to High(TFilePropertyType) do
-    if (propType in UpdateInfo.RefFile.AssignedProperties) and
+    if (propType in UpdateInfo.FSFile.AssignedProperties) and
        (not (propType in aFile.AssignedProperties)) then
 {$ENDIF}
     begin
-      aFile.Properties[propType] := UpdateInfo.RefFile.ReleaseProperty(propType);
+      aFile.Properties[propType] := UpdateInfo.FSFile.ReleaseProperty(propType);
     end;
 
   if UpdateInfo.IconID <> -1 then
@@ -3369,7 +3369,7 @@ begin
   Screen.Cursor := crHourGlass;
   try
     for i := 0 to FFiles.Count - 1 do
-      if IsItemValid(FFiles[i]) and FFiles[i].TheFile.IsDirectory then
+      if IsItemValid(FFiles[i]) and FFiles[i].FSFile.IsDirectory then
         CalculateSpace(FFiles[i]);
   finally
     Screen.Cursor := crDefault;
@@ -3379,7 +3379,7 @@ begin
   RedrawGrid;
 end;
 
-procedure TColumnsFileView.CalculateSpace(theFile: TDisplayFile);
+procedure TColumnsFileView.CalculateSpace(AFile: TDisplayFile);
 var
   Operation: TFileSourceOperation = nil;
   CalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
@@ -3387,12 +3387,12 @@ var
   TargetFiles: TFiles = nil;
 begin
   if (fsoCalcStatistics in FileSource.GetOperationsTypes) and
-     (fpSize in theFile.TheFile.SupportedProperties) and
-     theFile.TheFile.IsDirectory then
+     (fpSize in AFile.FSFile.SupportedProperties) and
+     AFile.FSFile.IsDirectory then
   begin
     TargetFiles := TFiles.Create(CurrentPath);
     try
-      TargetFiles.Add(theFile.TheFile.Clone);
+      TargetFiles.Add(AFile.FSFile.Clone);
 
       Operation := FileSource.CreateCalcStatisticsOperation(TargetFiles);
       CalcStatisticsOperation := Operation as TFileSourceCalcStatisticsOperation;
@@ -3403,7 +3403,7 @@ begin
 
       CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
 
-      (theFile.TheFile.Properties[fpSize] as TFileSizeProperty).Value := CalcStatisticsOperationStatistics.Size;
+      AFile.FSFile.Size := CalcStatisticsOperationStatistics.Size;
 
       RedrawGrid;
 
@@ -3491,13 +3491,13 @@ begin
 
           // If dropped into a directory modify destination path accordingly.
           if Assigned(AFile) and
-             (AFile.TheFile.IsDirectory or AFile.TheFile.IsLinkToDirectory) then
+             (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) then
           begin
-            if AFile.TheFile.Name = '..' then
+            if AFile.FSFile.Name = '..' then
               // remove the last subdirectory in the path
               TargetPath := GetParentDir(TargetPath)
             else
-              TargetPath := TargetPath + AFile.TheFile.Name + DirectorySeparator;
+              TargetPath := TargetPath + AFile.FSFile.Name + DirectorySeparator;
           end;
         end;
       end;
@@ -3864,10 +3864,10 @@ var
       IconID := AFile.IconID;
       // Draw default icon if there is no icon for the file.
       if IconID = -1 then
-        IconID := PixMapManager.GetDefaultIcon(AFile.TheFile);
+        IconID := PixMapManager.GetDefaultIcon(AFile.FSFile);
 
       PixMapManager.DrawBitmap(IconID,
-                               AFile.TheFile,
+                               AFile.FSFile,
                                FileSourceDirectAccess,
                                Canvas,
                                aRect.Left + 1,
@@ -3953,7 +3953,7 @@ var
 
     // Set text color.
     if ColumnsSet.GetColumnOvercolor(ACol) then
-      TextColor := gColorExt.GetColorBy(AFile.TheFile);
+      TextColor := gColorExt.GetColorBy(AFile.FSFile);
     if TextColor = -1 then
       TextColor := ColumnsSet.GetColumnTextColor(ACol);
 
@@ -4125,11 +4125,11 @@ begin
                   iCol:= aRect.Right - aRect.Left - 8;
                   if gShowIcons <> sim_none then
                     Dec(iCol, gIconsSize);
-                  if iCol < Self.Canvas.TextWidth(AFile.TheFile.Name) then // with file name
-                      Self.Hint:= AFile.TheFile.Name
+                  if iCol < Self.Canvas.TextWidth(AFile.FSFile.Name) then // with file name
+                      Self.Hint:= AFile.FSFile.Name
                   else if (stm_only_large_name in gShowToolTipMode) then // don't show
                     Exit
-                  else if not AFile.TheFile.IsDirectory then // without name
+                  else if not AFile.FSFile.IsDirectory then // without name
                     Self.Hint:= #32;
                 end;
             end;
@@ -4288,7 +4288,7 @@ begin
     AFile := TargetPanel.FFiles[iRow - FixedRows]; // substract fixed rows (header)
 
   if Assigned(AFile) and
-     (AFile.TheFile.IsDirectory or AFile.TheFile.IsLinkToDirectory) and
+     (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) and
      (MouseOnGrid(ClientPoint.X, ClientPoint.Y)) then
     // It is a directory or link.
     begin

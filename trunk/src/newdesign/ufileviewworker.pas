@@ -9,9 +9,9 @@ uses
   uFileView, uDisplayFile, uFile, uFileSource, uFileSorting, uFileProperty;
 
 type
-  TFileViewWorkerType = (fvwtNone,
-                         fvwtFileListBuilder,
-                         fvwtPropertiesRetriever);
+  TFileViewWorkType = (fvwtNone,
+                       fvwtCreate,  // Creates file list
+                       fvwtUpdate); // Updates file list
 
   { TFileViewWorker }
 
@@ -20,7 +20,7 @@ type
     FAborted: Boolean;
     FWorking: Boolean;
   protected
-    FWorkerType: TFileViewWorkerType;
+    FWorkType: TFileViewWorkType;
     function IsWorking: Boolean; virtual;
     procedure Execute; virtual; abstract;
   public
@@ -30,13 +30,13 @@ type
     procedure StartParam(Params: Pointer);
     property Aborted: Boolean read FAborted;
     property Working: Boolean read IsWorking;
-    property WorkerType: TFileViewWorkerType read FWorkerType;
+    property WorkType: TFileViewWorkType read FWorkType;
   end;
 
   PRetrieveInfo = ^TRetrieveInfo;
   TRetrieveInfo = record
     FileIndex: Integer;
-    RefFile: TFile;
+    FSFile: TFile;
     IconID: PtrInt;
   end;
 
@@ -136,7 +136,7 @@ begin
   // Set Working=True on creation because these workers are usually scheduled
   // to run by a non-main thread.
   FWorking := True;
-  FWorkerType := fvwtNone;
+  FWorkType := fvwtNone;
 end;
 
 procedure TFileViewWorker.Abort;
@@ -172,7 +172,7 @@ begin
 
   FTmpFileSourceFiles := nil;
   FTmpDisplayFiles := nil;
-  FWorkerType := fvwtFileListBuilder;
+  FWorkType := fvwtCreate;
 
   // Copy these parameters while it's still safe to access them from the main thread.
   FFileView             := AFileView;
@@ -359,7 +359,7 @@ begin
 
       if gShowIcons <> sim_none then
       begin
-        AFile.IconID := PixMapManager.GetIconByFile(AFile.TheFile,
+        AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile,
                                                     fspDirectAccess in aFileSource.Properties,
                                                     not gLoadIconsSeparately);
       end;
@@ -383,7 +383,7 @@ constructor TFilePropertiesRetriever.Create(AFileSource: IFileSource;
                                             AUpdateFileMethod: TUpdateFileMethod;
                                             var RetrieveList: TFPList);
 begin
-  FWorkerType           := fvwtPropertiesRetriever;
+  FWorkType             := fvwtUpdate;
   FRetrieveList         := RetrieveList;
   RetrieveList          := nil;
   FFileSource           := AFileSource;
@@ -409,12 +409,12 @@ begin
         Exit;
 
       FUpdateInfo := PRetrieveInfo(FRetrieveList[i])^;
-      if FFileSource.CanRetrieveProperties(FUpdateInfo.RefFile, FFilePropertiesNeeded) then
-        FFileSource.RetrieveProperties(FUpdateInfo.RefFile, FFilePropertiesNeeded);
+      if FFileSource.CanRetrieveProperties(FUpdateInfo.FSFile, FFilePropertiesNeeded) then
+        FFileSource.RetrieveProperties(FUpdateInfo.FSFile, FFilePropertiesNeeded);
 
       if FUpdateInfo.IconID = -1 then
         FUpdateInfo.IconID := PixMapManager.GetIconByFile(
-            FUpdateInfo.RefFile,
+            FUpdateInfo.FSFile,
             fspDirectAccess in FFileSource.Properties,
             True);
 
@@ -440,7 +440,7 @@ begin
   begin
     for i := 0 to FRetrieveList.Count - 1 do
     begin
-      PRetrieveInfo(FRetrieveList[i])^.RefFile.Free;
+      PRetrieveInfo(FRetrieveList[i])^.FSFile.Free;
       Dispose(PRetrieveInfo(FRetrieveList[i]));
     end;
     FreeAndNil(FRetrieveList);
