@@ -128,11 +128,10 @@ object frmOptions: TfrmOptions
       Height = 489
       Top = 24
       Width = 709
+      PageIndex = 0
       Align = alClient
-      OnPageChanged = nbNotebookPageChanged
-      PageIndex = 2
-      ShowTabs = False
       TabOrder = 0
+      TabStop = True
       object pgLng: TPage
         ClientWidth = 701
         ClientHeight = 481
