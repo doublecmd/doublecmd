@@ -357,7 +357,6 @@ type
     pgFileOp: TPage;
     pbExample: TPaintBox;
     pcPluginsTypes: TPageControl;
-    pcPluginsType: TPageControl;
     pgFileTypesColors: TPage;
     pgLayout: TPage;
     pgPlugins: TPage;
@@ -544,7 +543,9 @@ uses
   uLng, uGlobsPaths, uPixMapManager, fMain, LCLProc,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
   fTweakPlugin, uhotkeymanger, uTypes, StrUtils, uFindEx, uKeyboard,
-  fMaskInputDlg, uSearchTemplate, uMultiArc;
+  fMaskInputDlg, uSearchTemplate, uMultiArc,
+  // Needed for using Lazarus 0.9.30 with old TNotebook component.
+  typinfo, variants;
 
 const
      stgCmdCommandIndex=0;
@@ -569,6 +570,9 @@ begin
 end;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
+var
+  V: Variant;
+  M: TMethod;
 begin
   FUpdatingTools := False;
 
@@ -648,6 +652,27 @@ begin
   InitPropStorage(Self);
   // Let not warning on which page save form
   nbNotebook.PageIndex := 0;
+
+  // Below needed until after we switch to Lazarus 0.9.31.
+  // 0.9.31
+  nbNotebook.TabStop := True;
+  // Turn off showing tabs if using the old TNotebook component.
+  try
+    V := False;
+    if Assigned(GetPropInfo(nbNotebook, 'ShowTabs')) then
+      SetPropValue(nbNotebook, 'ShowTabs', V);
+  except
+    on EPropertyError do;
+  end;
+  // Assign OnPageChanged (this property doesn't exists in new TNotebook).
+  try
+    M := TMethod(@nbNotebookPageChanged);
+    if Assigned(GetPropInfo(nbNotebook, 'OnPageChanged')) then
+      SetMethodProp(nbNotebook, 'OnPageChanged', M);
+  except
+    on EPropertyError do;
+  end;
+  // 0.9.31
 
   gbViewerBookMode.Enabled := not (cbToolsUseExternalProgram.Checked);
 end;
@@ -2676,10 +2701,10 @@ begin
   cbTabsOpenNearCurrent.Checked:= tb_open_new_near_current in gDirTabOptions;
   cbTabsLockedAsterisk.Checked:= tb_show_asterisk_for_locked in gDirTabOptions;
   cbTabsActivateOnClick.Checked:= tb_activate_panel_on_click in gDirTabOptions;
-  cbTabsMultiLines.Visible:= (nbcMultiline in nbNotebook.GetCapabilities);
+  cbTabsMultiLines.Visible:= (nbcMultiline in pcPluginsTypes.GetCapabilities);
   if cbTabsMultiLines.Visible then
      cbTabsMultiLines.Checked:= tb_multiple_lines in gDirTabOptions;
-  cbTabsShowCloseButton.Visible:= (nbcShowCloseButtons in nbNotebook.GetCapabilities);
+  cbTabsShowCloseButton.Visible:= (nbcShowCloseButtons in pcPluginsTypes.GetCapabilities);
   if cbTabsShowCloseButton.Visible then
     cbTabsShowCloseButton.Checked:= tb_show_close_button in gDirTabOptions;
   edtTabsLimitLength.Text:= IntToStr(gDirTabLimit);
