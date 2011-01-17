@@ -16,7 +16,7 @@ type
   TDisplayFile = class
 
   private
-    FFile: TFile;  // reference to file source's file
+    FFSFile: TFile;          //<en reference to file source's file
 
     // Other properties.
     FSelected: Boolean;      //<en If is selected
@@ -44,7 +44,7 @@ type
 
     procedure CloneTo(AFile: TDisplayFile); virtual;
 
-    property TheFile: TFile read FFile write FFile;
+    property FSFile: TFile read FFSFile write FFSFile;
     property Selected: Boolean read FSelected write FSelected;
     property IconID: PtrInt read FIconID write FIconID;
     property DisplayStrings: TStringList read FDisplayStrings;
@@ -99,7 +99,7 @@ begin
 
   FSelected := False;
   FIconID := -1;
-  TheFile := ReferenceFile;
+  FFSFile := ReferenceFile;
   FDisplayStrings := TStringList.Create;
 end;
 
@@ -120,7 +120,7 @@ begin
   // with a reference file pointing to the cloned reference file.
   for i := 0 to ReferenceFiles.Count - 1 do
   begin
-    if TheFile = ReferenceFiles[i] then
+    if FFSFile = ReferenceFiles[i] then
     begin
       ClonedFile := ClonedReferenceFiles[i];
       break;
