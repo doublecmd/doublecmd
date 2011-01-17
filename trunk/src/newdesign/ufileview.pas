@@ -65,6 +65,7 @@ type
        in the list on next reload.
     }
     FRequestedActiveFile: String;
+    FFileFilter: String;
 
     FMethods: TMethodsList;
 
@@ -85,6 +86,7 @@ type
     function GetFileSourcesCount: Integer;
     function GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
     function GetPathsCount(FileSourceIndex: Integer): Integer;
+    procedure SetFileFilter(const NewFilter: String);
 
     procedure ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
 
@@ -118,6 +120,8 @@ type
        Called after path is changed.
     }
     procedure AfterChangePath; virtual;
+
+    procedure ReDisplayFileList; virtual; abstract;
 
     property FilePropertiesNeeded: TFilePropertiesTypes read FFilePropertiesNeeded write FFilePropertiesNeeded;
     property LastActiveFile: String read FLastActiveFile write FLastActiveFile;
@@ -213,6 +217,7 @@ type
     property CurrentFileSourceIndex: Integer read GetCurrentFileSourceIndex;
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentPathIndex: Integer read GetCurrentPathIndex;
+    property FileFilter: String read FFileFilter write SetFileFilter;
     property FileSource: IFileSource read GetCurrentFileSource;
     property FileSources[Index: Integer]: IFileSource read GetFileSource;
     property FileSourcesCount: Integer read GetFileSourcesCount;
@@ -336,6 +341,7 @@ begin
   FHistory := TFileViewHistory.Create;
   FLastActiveFile := '';
   FRequestedActiveFile := '';
+  FFileFilter := '';
 
   inherited Create(AOwner);
   Parent := AOwner;
@@ -813,6 +819,12 @@ begin
     else
       Result := 0;
   end;
+end;
+
+procedure TFileView.SetFileFilter(const NewFilter: String);
+begin
+  FFileFilter := NewFilter;
+  ReDisplayFileList;
 end;
 
 procedure TFileView.ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
