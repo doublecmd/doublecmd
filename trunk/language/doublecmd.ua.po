@@ -5596,7 +5596,7 @@ msgstr "Файл %s помічений як доступний тільки дл
 
 #: ulng.rsmsgfilesizetoobig
 msgid "The file size of \"%s\" is too big for destination file system!"
-msgstr ""
+msgstr "Розмір файлу \"%s\" є занадто великим для цільової файлової системи!"
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
