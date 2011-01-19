@@ -686,27 +686,30 @@ var
   x, y, z: Integer;
   aRect: TRect;
 begin
-  x:= DrawPreview.DefaultColWidth;
-  y:= DrawPreview.DefaultRowHeight - 30;
-  if not Assigned(FThumbnailManager) then
-    FThumbnailManager:= TThumbnailManager.Create(x, y, DrawPreview.Canvas.Brush.Color);
-  if delete then
+  if DrawPreview.Visible then
     begin
-      FThumbnailManager.RemovePreview(FullPathToFile); // delete thumb if need
-      FBitmapList.Delete(index);
-      Exit;
-    end
-  else
-    begin
-      bmpThumb:= FThumbnailManager.CreatePreview(FullPathToFile);
-      y:= index div DrawPreview.ColCount;
-      x:= index - y * DrawPreview.ColCount;
-      aRect:= DrawPreview.CellRect(x, y);
-      z:= ((aRect.Right - aRect.Left) div 2) - (bmpThumb.Width div 2);
-      // Insert to the BitmapList
-      FBitmapList.Insert(index, bmpThumb);
-      // Draw thumbnail at center
-      DrawPreview.Canvas.Draw(aRect.Left + z, aRect.Top + 5, bmpThumb);
+      x:= DrawPreview.DefaultColWidth;
+      y:= DrawPreview.DefaultRowHeight - 30;
+      if not Assigned(FThumbnailManager) then
+        FThumbnailManager:= TThumbnailManager.Create(x, y, DrawPreview.Canvas.Brush.Color);
+      if delete then
+        begin
+          FThumbnailManager.RemovePreview(FullPathToFile); // delete thumb if need
+          FBitmapList.Delete(index);
+          Exit;
+        end
+        else
+        begin
+          bmpThumb:= FThumbnailManager.CreatePreview(FullPathToFile);
+          y:= index div DrawPreview.ColCount;
+          x:= index - y * DrawPreview.ColCount;
+          aRect:= DrawPreview.CellRect(x, y);
+          z:= ((aRect.Right - aRect.Left) div 2) - (bmpThumb.Width div 2);
+          // Insert to the BitmapList
+          FBitmapList.Insert(index, bmpThumb);
+          // Draw thumbnail at center
+          DrawPreview.Canvas.Draw(aRect.Left + z, aRect.Top + 5, bmpThumb);
+        end;
     end;
 end;
 
