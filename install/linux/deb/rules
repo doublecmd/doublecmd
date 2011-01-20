@@ -73,8 +73,9 @@ binary-arch: build install
 	dh_installchangelogs -a
 	dh_installdocs -a
 
-	cp -r $(CURDIR)/debian/lintian $(CURDIR)/debian/doublecmd/	
-	dh_install -a --sourcedir=$(CURDIR)/debian/doublecmd
+	install -d $(CURDIR)/debian/tmp
+	cp -a $(CURDIR)/debian/lintian $(CURDIR)/debian/tmp
+	dh_install -a --sourcedir=$(CURDIR)/debian/tmp
 
 	dh_strip
 	dh_compress -a --exclude=.pdf
