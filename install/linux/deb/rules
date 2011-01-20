@@ -26,12 +26,12 @@ build-stamp: configure-stamp
 
 	# Build GTK2 version
 	./build.sh all gtk2
-	install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-gtk	
+	./install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-gtk	
 	./clean.sh	
 
 	# Build Qt4 version
 	./build.sh all qt
-	install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-qt	
+	./install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-qt	
 	./clean.sh	
 	
 	touch $@
@@ -52,7 +52,6 @@ clean:
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k 
 
 # Build architecture-independent files here.
 binary-indep: build install
@@ -74,8 +73,8 @@ binary-arch: build install
 	dh_installchangelogs -a
 	dh_installdocs -a
 
-	cp -r $(CURDIR)/debian/lintian $(CURDIR)/debian/doublecmd	
-	dh_install --sourcedir=$(CURDIR)/debian/doublecmd
+	cp -r $(CURDIR)/debian/lintian $(CURDIR)/debian/doublecmd/	
+	dh_install -a --sourcedir=$(CURDIR)/debian/doublecmd
 
 	dh_strip
 	dh_compress -a --exclude=.pdf
