@@ -16,6 +16,9 @@
 export lazbuild=$(which lazbuild)
 
 # Set up widgetset: gtk or gtk2 or qt
+if [ $2 ]
+  then export lcl=$2
+fi
 if [ $lcl ]
   then export DC_ARCH=$(echo "$DC_ARCH --widgetset=$lcl")
 fi

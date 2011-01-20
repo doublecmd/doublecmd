@@ -24,8 +24,16 @@ build: build-stamp
 build-stamp: configure-stamp 
 	dh_testdir
 
-	./build.sh all
+	# Build GTK2 version
+	./build.sh all gtk2
+	install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-gtk	
+	./clean.sh	
 
+	# Build Qt4 version
+	./build.sh all qt
+	install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-qt	
+	./clean.sh	
+	
 	touch $@
 
 clean:
@@ -63,16 +71,17 @@ binary-indep: build install
 binary-arch: build install
 	dh_testdir
 	dh_testroot
-	dh_installchangelogs -a -pdoublecmd
-	dh_installdocs -a -pdoublecmd
+	dh_installchangelogs -a
+	dh_installdocs -a
 
-	install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd
+	cp -r $(CURDIR)/debian/lintian $(CURDIR)/debian/doublecmd	
+	dh_install --sourcedir=$(CURDIR)/debian/doublecmd
 
-	dh_install -a
 	dh_strip
 	dh_compress -a --exclude=.pdf
 	dh_fixperms -a
-	find $(CURDIR)/debian/doublecmd/usr/share/ -type f | xargs chmod a-x
+	find $(CURDIR)/debian/doublecmd-gtk/usr/share/ -type f | xargs chmod a-x
+	find $(CURDIR)/debian/doublecmd-qt/usr/share/ -type f | xargs chmod a-x	
 	dh_installdeb -a
 	dh_shlibdeps -a
 	dh_gencontrol -a
