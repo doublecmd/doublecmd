@@ -58,10 +58,10 @@ mkdir -p $DC_INSTALL_DIR/plugins/wdx/rpm_wdx
 mkdir -p $DC_INSTALL_DIR/plugins/wdx/deb_wdx
 # WLX plugins directories
 mkdir -p $DC_INSTALL_DIR/plugins/wlx
-mkdir -p $DC_INSTALL_DIR/plugins/wlx/WlxMplayer
+mkdir -p $DC_INSTALL_DIR/plugins/wlx/wlxmplayer
 # DSX plugins directories
 mkdir -p $DC_INSTALL_DIR/plugins/dsx
-mkdir -p $DC_INSTALL_DIR/plugins/dsx/DSXLocate
+mkdir -p $DC_INSTALL_DIR/plugins/dsx/dsxlocate
 
 # Copy files
 cp -a doublecmd                    $DC_INSTALL_DIR/
@@ -81,15 +81,14 @@ install -m 644 plugins/wcx/rpm/lib/rpm.wcx          $DC_INSTALL_DIR/plugins/wcx/
 install -m 644 plugins/wcx/unrar/lib/unrar.wcx      $DC_INSTALL_DIR/plugins/wcx/unrar/
 install -m 644 plugins/wcx/unbz2/lib/unbz2.wcx      $DC_INSTALL_DIR/plugins/wcx/unbz2/
 install -m 644 plugins/wcx/zip/lib/zip.wcx          $DC_INSTALL_DIR/plugins/wcx/zip/
-install -m 644 plugins/wcx/zip/src/ZipConfDlg.lfm   $DC_INSTALL_DIR/plugins/wcx/zip/
 # WDX
 install -m 644 plugins/wdx/rpm_wdx/lib/rpm_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/rpm_wdx/
 install -m 644 plugins/wdx/deb_wdx/lib/deb_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/deb_wdx/
 install -m 755 plugins/wdx/scripts/*                $DC_INSTALL_DIR/plugins/wdx/scripts/
 # WLX
-install -m 644 plugins/wlx/WlxMplayer/lib/wlxMplayer.wlx  $DC_INSTALL_DIR/plugins/wlx/WlxMplayer/
+install -m 644 plugins/wlx/WlxMplayer/lib/wlxmplayer.wlx  $DC_INSTALL_DIR/plugins/wlx/wlxmplayer/
 # DSX
-install -m 644 plugins/dsx/DSXLocate/lib/DSXLocate.dsx  $DC_INSTALL_DIR/plugins/dsx/DSXLocate/
+install -m 644 plugins/dsx/DSXLocate/lib/dsxlocate.dsx  $DC_INSTALL_DIR/plugins/dsx/dsxlocate/
 
 if [ -z $CK_PORTABLE ]
   then

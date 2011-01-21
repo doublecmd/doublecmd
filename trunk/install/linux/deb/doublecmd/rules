@@ -60,7 +60,7 @@ binary-indep: build install
 	dh_installchangelogs -i
 	dh_installdocs -i
 	dh_install -i
-	dh_compress -i --exclude=.pdf
+	dh_compress -i
 	dh_installdeb -i
 	dh_gencontrol -i
 	dh_md5sums -i
@@ -73,15 +73,15 @@ binary-arch: build install
 	dh_installchangelogs -a
 	dh_installdocs -a
 
-	install -d $(CURDIR)/debian/tmp
-	cp -a $(CURDIR)/debian/lintian $(CURDIR)/debian/tmp
-	dh_install -a --sourcedir=$(CURDIR)/debian/tmp
+	for pkg in `dh_listpackages` ; do \
+	  install -d     $(CURDIR)/debian/$$pkg/usr/share/lintian/overrides ; \
+	  install -m 644 $(CURDIR)/debian/lintian/$$pkg $(CURDIR)/debian/$$pkg/usr/share/lintian/overrides ; \
+	  find $(CURDIR)/debian/$$pkg/usr/share/ -type f | xargs chmod a-x ; \
+	done
 
 	dh_strip
-	dh_compress -a --exclude=.pdf
+	dh_compress -a
 	dh_fixperms -a
-	find $(CURDIR)/debian/doublecmd-gtk/usr/share/ -type f | xargs chmod a-x
-	find $(CURDIR)/debian/doublecmd-qt/usr/share/ -type f | xargs chmod a-x	
 	dh_installdeb -a
 	dh_shlibdeps -a
 	dh_gencontrol -a

@@ -1,0 +1,7 @@
+doublecmd-gtk: symlink-should-be-relative
+doublecmd-gtk: binary-without-manpage
+doublecmd-gtk: shlib-with-non-pic-code
+doublecmd-gtk: shlib-with-executable-stack
+doublecmd-gtk: shared-lib-without-dependency-information
+doublecmd-gtk: extra-license-file
+doublecmd-gtk: missing-dep-for-interpreter
