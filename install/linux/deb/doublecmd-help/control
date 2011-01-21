@@ -8,18 +8,20 @@ Homepage: http://doublecmd.sourceforge.net/
 
 Package: doublecmd-help-en
 Architecture: all
-Depends: www-browser
+Depends: doublecmd-gtk | doublecmd-qt
+Suggests: www-browser
 Description: Documentation for the Double Commander (English)
  This package contains the documentation files for the Double Commander
  designed for use with the external web browsers.
-
+ .
  This package contains the documentation for the DC in English.
 
 Package: doublecmd-help-ru
 Architecture: all
-Depends: www-browser
+Depends: doublecmd-gtk | doublecmd-qt
+Suggests: www-browser
 Description: Documentation for the Double Commander (Russian)
  This package contains the documentation files for the Double Commander
  designed for use with the external web browsers.
-
+ .
  This package contains the documentation for the DC in Russian.
