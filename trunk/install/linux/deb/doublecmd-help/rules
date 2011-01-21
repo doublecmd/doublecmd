@@ -1,0 +1,86 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+
+	# Add here commands to configure the package.
+	
+	touch configure-stamp
+
+build: build-stamp
+
+build-stamp: configure-stamp 
+	dh_testdir
+	
+	# Add here commands to compile the package.
+
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+
+	# Add here commands to clean up after the build process.
+	rm -f build-stamp configure-stamp
+
+	dh_clean 
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs -A usr/share/doublecmd/doc
+
+	# Add here commands to install the package into debian/tmp
+	install -d $(CURDIR)/debian/tmp
+	cp -r doc/en $(CURDIR)/debian/tmp
+	cp -r doc/ru $(CURDIR)/debian/tmp		
+
+	find $(CURDIR)/debian/tmp -type f \
+		-exec chmod -x '{}' ';'
+
+# Build architecture-dependent files here.
+binary-arch: build install
+# We have nothing to do by default.
+
+# Build architecture-independent files here.
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+#	dh_movefiles
+	dh_installchangelogs
+	dh_link
+	dh_installdocs
+	dh_installexamples
+	dh_install
+#	dh_installmenu
+#	dh_installdebconf	
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_installinit
+#	dh_installcron
+#	dh_installinfo
+	dh_installman
+	dh_strip
+	dh_compress
+	dh_fixperms
+#	dh_perl
+#	dh_python
+#	dh_makeshlibs
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install 
