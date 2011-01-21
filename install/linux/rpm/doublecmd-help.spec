@@ -31,21 +31,21 @@ This package contains the documentation for the DC in Russian.
 %build
 
 %install
-install -d %{_datadir}/%{name}/doc
-cp -r doc/en   %{_datadir}/%{name}/doc/
-cp -r doc/ru   %{_datadir}/%{name}/doc/
+install -d     %{buildroot}/%{_datadir}/doublecmd/doc
+cp -r doc/en   %{buildroot}/%{_datadir}/doublecmd/doc
+cp -r doc/ru   %{buildroot}/%{_datadir}/doublecmd/doc
 
 %clean
 [ %{buildroot} != "/" ] && ( rm -rf %{buildroot} )
 
 %files
 %defattr(-,root,root)
-%{_datadir}/%{name}/doc/en
+%doc %{_datadir}/doublecmd/doc/en
 
 %files -n doublecmd-help-ru
 %defattr(-,root,root)
-%{_datadir}/%{name}/doc/ru
+%doc %{_datadir}/doublecmd/doc/ru
 
 %changelog
-* Fri Jar 21 2011 - Alexander Koblov <Alexx2000@mail.ru>
+* Fri Jan 21 2011 - Alexander Koblov <Alexx2000@mail.ru>
 - Initial package, version 0.4.6
