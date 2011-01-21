@@ -116,7 +116,7 @@ if [ "$CK_PORTABLE" ]; then
   mkdir -p $BUILD_PACK_DIR
   install/linux/install.sh --portable-prefix=$BUILD_PACK_DIR
   cd $BUILD_PACK_DIR
-  sed -i -e 's/UseIniInProgramDir=0/UseIniInProgramDir=1/' doublecmd/doublecmd.ini
+  sed -i -e 's/UseIniInProgramDir=0/UseIniInProgramDir=1/' doublecmd/doublecmd.xml
   tar -cvjf $PACK_DIR/doublecmd-$DC_VER-1.$lcl.$CPU_TARGET.tar.bz2 doublecmd
 fi
 
@@ -130,7 +130,7 @@ if [ "$CK_HELP" ]; then
   for HELP_LANG in `ls`
     do
       cd $BUILD_PACK_DIR/doublecmd
-      tar -cvjf $PACK_DIR/doublecmd-help.$HELP_LANG-$DC_VER.noarch.tar.bz2 doc/$HELP_LANG
+      tar -cvjf $PACK_DIR/doublecmd-help-$HELP_LANG-$DC_VER.noarch.tar.bz2 doc/$HELP_LANG
     done
 fi
 

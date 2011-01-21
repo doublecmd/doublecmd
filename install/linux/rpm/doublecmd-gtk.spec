@@ -1,6 +1,6 @@
 # norootforbuild
 
-Name:		doublecmd
+Name:		doublecmd-gtk
 Summary:	Twin-panel (commander-style) file manager
 Version:	0.4.6
 Release:	1
@@ -10,9 +10,9 @@ License:	GPL
 Group:		Applications/File
 BuildRequires:	fpc >= 2.4.0 fpc-src glib2-devel gtk2-devel lazarus >= 0.9.29
 %if 0%{?mandriva_version}
-BuildRequires:  libhal-devel libncurses-devel
+BuildRequires:  libncurses-devel
 %else
-BuildRequires:  xorg-x11-devel gdk-pixbuf-devel hal-devel ncurses-devel
+BuildRequires:  xorg-x11-devel gdk-pixbuf-devel ncurses-devel
 %endif
 BuildRoot:	%{_tmppath}/%{name}-%{version}-build
 
@@ -24,7 +24,7 @@ It is inspired by Total Commander and features some new ideas.
 %setup -q
 
 %build
-./build.sh all
+./build.sh all gtk2
 
 %install
 install/linux/install.sh --install-prefix=%{buildroot}
