@@ -31,67 +31,67 @@ $lazbuild dsx/DSXLocate/src/DSXLocate.lpi $DC_ARCH
 
 # Strip and rename WCX
 pushd wcx/cpio/lib/
-strip --strip-all cpio.so
-mv cpio.so cpio.wcx
+strip --strip-all libcpio.so
+mv libcpio.so cpio.wcx
 popd
 
 pushd wcx/deb/lib/
-strip --strip-all deb.so
-mv deb.so deb.wcx
+strip --strip-all libdeb.so
+mv libdeb.so deb.wcx
 popd
 
 pushd wcx/lzma/lib/
-strip --strip-all lzma.so
-mv lzma.so lzma.wcx
+strip --strip-all liblzma.so
+mv liblzma.so lzma.wcx
 popd
 
 pushd wcx/rpm/lib/
-strip --strip-all rpm.so
-mv rpm.so rpm.wcx
+strip --strip-all librpm.so
+mv librpm.so rpm.wcx
 popd
 
 pushd wcx/unbz2/lib/
-strip --strip-all unbz2.so
-mv unbz2.so unbz2.wcx
+strip --strip-all libunbz2.so
+mv libunbz2.so unbz2.wcx
 popd
 
 pushd wcx/unrar/lib/
-strip --strip-all unrar.so
-mv unrar.so unrar.wcx
+strip --strip-all libunrar.so
+mv libunrar.so unrar.wcx
 popd
 
 pushd wcx/zip/lib/
-strip --strip-all Zip.so
-mv Zip.so zip.wcx
+strip --strip-all libzip.so
+mv libzip.so zip.wcx
 popd
 
 # Strip and rename WDX
 pushd wdx/rpm_wdx/lib/
-strip --strip-all rpm_wdx.so
-mv rpm_wdx.so rpm_wdx.wdx
+strip --strip-all librpm_wdx.so
+mv librpm_wdx.so rpm_wdx.wdx
 popd
 
 pushd wdx/deb_wdx/lib/
-strip --strip-all deb_wdx.so
-mv deb_wdx.so deb_wdx.wdx
+strip --strip-all libdeb_wdx.so
+mv libdeb_wdx.so deb_wdx.wdx
 popd
 
 # Strip and rename WFX
 pushd wfx/ftp/lib/
-strip --strip-all ftp.so
-mv ftp.so ftp.wfx
+strip --strip-all libftp.so
+mv libftp.so ftp.wfx
 popd
 
 # Strip and rename WLX
 pushd wlx/WlxMplayer/lib/
-strip --strip-all wlxMplayer.so
-mv wlxMplayer.so wlxMplayer.wlx
+strip --strip-all libwlxmplayer.so
+mv libwlxmplayer.so wlxmplayer.wlx
 popd
 
 # Strip and rename DSX
 pushd dsx/DSXLocate/lib/
-strip --strip-all DSXLocate.so
-mv DSXLocate.so DSXLocate.dsx
+strip --strip-all libdsxlocate.so
+mv libdsxlocate.so dsxlocate.dsx
 popd
 
 # Return from plugins directory

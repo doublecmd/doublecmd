@@ -1,7 +1,0 @@
-doublecmd: symlink-should-be-relative
-doublecmd: binary-without-manpage
-doublecmd: shlib-with-non-pic-code
-doublecmd: shlib-with-executable-stack
-doublecmd: shared-lib-without-dependency-information
-doublecmd: extra-license-file
-doublecmd: missing-dep-for-interpreter
