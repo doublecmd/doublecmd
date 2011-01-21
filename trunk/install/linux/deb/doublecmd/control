@@ -24,6 +24,7 @@ Package: doublecmd-gtk
 Architecture: i386 amd64
 Depends: ${shlibs:Depends},
          ${misc:Depends}
+Replaces: doublecmd-qt
 Suggests: www-browser
 Description: twin-panel (commander-style) file manager
  Double Commander is a cross platform open source file manager
@@ -34,6 +35,7 @@ Package: doublecmd-qt
 Architecture: i386 amd64
 Depends: ${shlibs:Depends},
          ${misc:Depends}
+Replaces: doublecmd-gtk
 Suggests: www-browser
 Description: twin-panel (commander-style) file manager
  Double Commander is a cross platform open source file manager

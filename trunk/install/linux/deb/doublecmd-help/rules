@@ -38,13 +38,13 @@ install: build
 	dh_prep
 	dh_installdirs -A usr/share/doublecmd/doc
 
-	# Add here commands to install the package into debian/tmp
-	install -d $(CURDIR)/debian/tmp
-	cp -r doc/en $(CURDIR)/debian/tmp
-	cp -r doc/ru $(CURDIR)/debian/tmp		
+	# Add here commands to install the package.
+	cp -r doc/en $(CURDIR)/debian/doublecmd-help-en/usr/share/doublecmd/doc
+	cp -r doc/ru $(CURDIR)/debian/doublecmd-help-ru/usr/share/doublecmd/doc
 
-	find $(CURDIR)/debian/tmp -type f \
-		-exec chmod -x '{}' ';'
+	for pkg in `dh_listpackages` ; do \
+	  find $(CURDIR)/debian/$$pkg/usr/share/ -type f | xargs chmod a-x ; \
+	done
 
 # Build architecture-dependent files here.
 binary-arch: build install
