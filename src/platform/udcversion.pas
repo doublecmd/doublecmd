@@ -79,6 +79,9 @@ const
       'fpGUI',
       'NoGUI',
       'cocoa'
+{$if (lcl_fullversion) >= 93100}
+      , 'android'
+{$endif}
     );
 
 {$IF DEFINED(UNIX)}
