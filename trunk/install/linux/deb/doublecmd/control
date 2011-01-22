@@ -26,7 +26,7 @@ Depends: ${shlibs:Depends},
          ${misc:Depends}
 Replaces: doublecmd-qt
 Suggests: www-browser
-Description: twin-panel (commander-style) file manager
+Description: twin-panel (commander-style) file manager (GTK2)
  Double Commander is a cross platform open source file manager
  with two panels side by side. It is inspired by Total Commander
  and features some new ideas.
@@ -37,7 +37,7 @@ Depends: ${shlibs:Depends},
          ${misc:Depends}
 Replaces: doublecmd-gtk
 Suggests: www-browser
-Description: twin-panel (commander-style) file manager
+Description: twin-panel (commander-style) file manager (Qt4)
  Double Commander is a cross platform open source file manager
  with two panels side by side. It is inspired by Total Commander
  and features some new ideas.
