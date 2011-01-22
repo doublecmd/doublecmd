@@ -37,8 +37,8 @@ update_doublecmd()
   rm -rf $DC_SOURCE_DIR/doc/en
   rm -rf $DC_SOURCE_DIR/doc/ru
 
-  # Prepare doublecmd.spec file
-  cp -a linux/rpm/doublecmd.spec $DC_TEMP_DIR
+  # Prepare doublecmd-*.spec file
+  cp -a linux/rpm/doublecmd-*.spec $DC_TEMP_DIR
 
   # Create archive with source code
   pushd $DC_TEMP_DIR
@@ -56,12 +56,12 @@ update_doublecmd()
   fi
 
   # Upload archive to OBS
-  rm -f $DC_OBS_PRJ_DIR/doublecmd.spec
+  rm -f $DC_OBS_PRJ_DIR/doublecmd-*.spec
   rm -f $DC_OBS_PRJ_DIR/doublecmd-$DC_VER.tar.gz
-  mv doublecmd.spec $DC_OBS_PRJ_DIR/
+  mv doublecmd-*.spec $DC_OBS_PRJ_DIR/
   mv doublecmd-$DC_VER.tar.gz $DC_OBS_PRJ_DIR/
   cd $DC_OBS_PRJ_DIR
-  osc commit doublecmd.spec doublecmd-$DC_VER.tar.gz -m "Update to revision $DC_REVISION"
+  osc commit doublecmd-*.spec doublecmd-$DC_VER.tar.gz -m "Update to revision $DC_REVISION"
   popd
 }
 
