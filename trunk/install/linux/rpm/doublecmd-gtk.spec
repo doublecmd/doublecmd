@@ -16,6 +16,8 @@ BuildRequires:  libncurses-devel
 %else
 BuildRequires:  xorg-x11-devel gdk-pixbuf-devel ncurses-devel
 %endif
+Provides:  doublecmd
+Obsoletes: doublecmd, doublecmd-qt
 BuildRoot:	%{_tmppath}/%{doublecmd}-%{version}-build
 
 %description
