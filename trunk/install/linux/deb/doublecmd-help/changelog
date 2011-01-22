@@ -1,4 +1,4 @@
-doublecmd-help (0.4.6-3256~lucid1) lucid; urgency=low
+doublecmd-help (0.4.6-3256~ppa) lucid; urgency=low
 
   * Initial release (Closes: #2931241)
 
