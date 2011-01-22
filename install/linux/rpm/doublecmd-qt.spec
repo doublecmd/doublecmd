@@ -25,7 +25,7 @@ Double Commander is a cross platform open source file manager with two panels si
 It is inspired by Total Commander and features some new ideas.
 
 %prep
-%setup -q -n %{doublecmd}
+%setup -q -n %{doublecmd}-%{version}
 
 %build
 ./build.sh all qt
