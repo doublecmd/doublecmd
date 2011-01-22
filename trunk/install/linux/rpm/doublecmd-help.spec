@@ -11,6 +11,7 @@ License:	GPL
 Source0:	%{doublecmd_help}-%{version}.tar.gz
 Group:		Documentation
 Requires:	doublecmd
+BuildArch:      noarch
 
 %description
 This package contains the documentation files for the Double Commander
@@ -22,6 +23,7 @@ This package contains the documentation for the DC in English.
 Summary:	Documentation for the Double Commander (Russian)
 Group:		Documentation
 Requires:	doublecmd
+BuildArch:      noarch
 
 %description -n doublecmd-help-ru
 This package contains the documentation files for the Double Commander
@@ -30,7 +32,7 @@ designed for use with the external web browsers.
 This package contains the documentation for the DC in Russian.
 
 %prep
-%setup -q -n %{doublecmd_help}
+%setup -q -n %{doublecmd_help}-%{version}
 
 %build
 
