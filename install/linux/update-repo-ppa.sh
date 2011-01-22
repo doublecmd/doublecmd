@@ -37,7 +37,7 @@ update_doublecmd()
 
   # Update changelog file
   pushd $DC_SOURCE_DIR/debian
-  dch -m -v $DC_VER-$DC_REVISION "Update to revision $DC_REVISION"
+  dch -m -v $DC_VER-$DC_REVISION~lucid "Update to revision $DC_REVISION"
   popd
 
   # Create archive with source code and upload it to PPA
@@ -59,7 +59,7 @@ update_doublecmd_help()
 
   # Update changelog file
   pushd $DC_HELP_DIR/debian
-  dch -m -v $DC_VER-$DC_REVISION "Update to revision $DC_REVISION"
+  dch -m -v $DC_VER-$DC_REVISION~ppa "Update to revision $DC_REVISION"
   popd
 
   # Create archive with source code
