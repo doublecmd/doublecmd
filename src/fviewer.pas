@@ -686,7 +686,7 @@ var
   x, y, z: Integer;
   aRect: TRect;
 begin
-  if DrawPreview.Visible then
+  if DrawPreview.Visible or delete then
     begin
       x:= DrawPreview.DefaultColWidth;
       y:= DrawPreview.DefaultRowHeight - 30;
@@ -695,7 +695,7 @@ begin
       if delete then
         begin
           FThumbnailManager.RemovePreview(FullPathToFile); // delete thumb if need
-          FBitmapList.Delete(index);
+          if DrawPreview.Visible then FBitmapList.Delete(index);
           Exit;
         end
         else
