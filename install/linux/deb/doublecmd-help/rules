@@ -39,8 +39,8 @@ install: build
 	dh_installdirs -A usr/share/doublecmd/doc
 
 	# Add here commands to install the package.
-	cp -r doc/en $(CURDIR)/debian/doublecmd-help-en/usr/share/doublecmd/doc
-	cp -r doc/ru $(CURDIR)/debian/doublecmd-help-ru/usr/share/doublecmd/doc
+	cp -r en $(CURDIR)/debian/doublecmd-help-en/usr/share/doublecmd/doc
+	cp -r ru $(CURDIR)/debian/doublecmd-help-ru/usr/share/doublecmd/doc
 
 	for pkg in `dh_listpackages` ; do \
 	  find $(CURDIR)/debian/$$pkg/usr/share/ -type f | xargs chmod a-x ; \

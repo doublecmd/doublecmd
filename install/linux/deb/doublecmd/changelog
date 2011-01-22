@@ -1,4 +1,4 @@
-doublecmd (0.4.6-0~svn2844M) lucid; urgency=low
+doublecmd (0.4.6-2844~lucid1) lucid; urgency=low
 
   * Initial release (Closes: #2931241)
 
