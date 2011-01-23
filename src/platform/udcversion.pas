@@ -79,7 +79,7 @@ const
       'fpGUI',
       'NoGUI',
       'cocoa'
-{$if (lcl_fullversion) >= 93100}
+{$if (lcl_release) > 30}
       , 'android'
 {$endif}
     );
