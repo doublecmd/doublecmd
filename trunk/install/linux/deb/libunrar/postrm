@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = "remove" ]; then
+	ldconfig usr/lib/libunrar.so
+fi
+
+#DEBHELPER#
