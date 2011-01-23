@@ -38,7 +38,7 @@ update_doublecmd()
   rm -rf $DC_SOURCE_DIR/doc/ru
 
   # Prepare doublecmd-*.spec file
-  cp -a linux/rpm/doublecmd-*.spec $DC_TEMP_DIR
+  cp -a rpm/doublecmd-*.spec $DC_TEMP_DIR
 
   # Create archive with source code
   pushd $DC_TEMP_DIR
@@ -62,7 +62,7 @@ update_doublecmd()
   rm -f $DC_OBS_PRJ_DIR/doublecmd-gtk/doublecmd-gtk.spec
   rm -f $DC_OBS_PRJ_DIR/doublecmd-gtk/doublecmd-$DC_VER.tar.gz
   mv doublecmd-gtk.spec $DC_OBS_PRJ_DIR/doublecmd-gtk/
-  mv doublecmd-$DC_VER.tar.gz $DC_OBS_PRJ_DIR/doublecmd-gtk/
+  cp -a doublecmd-$DC_VER.tar.gz $DC_OBS_PRJ_DIR/doublecmd-gtk/
   pushd $DC_OBS_PRJ_DIR/doublecmd-gtk
   osc commit doublecmd-gtk.spec doublecmd-$DC_VER.tar.gz -m "Update to revision $DC_REVISION"
   popd
@@ -70,8 +70,8 @@ update_doublecmd()
   # Upload Qt4 archive to OBS
   rm -f $DC_OBS_PRJ_DIR/doublecmd-qt/doublecmd-qt.spec
   rm -f $DC_OBS_PRJ_DIR/doublecmd-qt/doublecmd-$DC_VER.tar.gz
-  mv doublecmd-gtk.spec $DC_OBS_PRJ_DIR/doublecmd-qt/
-  mv doublecmd-$DC_VER.tar.gz $DC_OBS_PRJ_DIR/doublecmd-qt/
+  mv doublecmd-qt.spec $DC_OBS_PRJ_DIR/doublecmd-qt/
+  cp -a doublecmd-$DC_VER.tar.gz $DC_OBS_PRJ_DIR/doublecmd-qt/
   pushd $DC_OBS_PRJ_DIR/doublecmd-qt
   osc commit doublecmd-qt.spec doublecmd-$DC_VER.tar.gz -m "Update to revision $DC_REVISION"
   popd
@@ -88,7 +88,7 @@ update_doublecmd_help()
   rm -f $DC_HELP_DIR/*.txt
 
   # Prepare doublecmd-help.spec file
-  cp -a linux/rpm/doublecmd-help.spec $DC_TEMP_DIR
+  cp -a rpm/doublecmd-help.spec $DC_TEMP_DIR
 
   # Create archive with source code
   pushd $DC_TEMP_DIR
