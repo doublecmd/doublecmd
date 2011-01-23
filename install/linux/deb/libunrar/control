@@ -1,0 +1,15 @@
+Source: libunrar-nonfree
+Section: non-free/libs
+Priority: optional
+Maintainer: Alexander Koblov <Alexx2000@mail.ru>
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.8.4
+XS-Autobuild: yes
+
+Package: libunrar
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Homepage: http://www.rarlabs.com/
+Description: Library for extract *.rar format archives (non-free version)
+ This library can be used by software developers to extract *.rar format
+ archives.

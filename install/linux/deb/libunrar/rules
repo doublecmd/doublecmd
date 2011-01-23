@@ -1,0 +1,43 @@
+#!/usr/bin/make -f
+# Made with the aid of dh_make, by Petr Cech.
+# Sample debian/rules that uses debhelper. GNU copyright 1997 by Joey Hess.
+# Some lines taken from debmake, by Christoph Lameter.
+
+build: 
+	dh_testdir
+	make lib -f makefile.unix CXXFLAGS+="-fPIC -DSILENT"
+
+clean:
+	dh_testdir
+	dh_testroot
+
+	make -f makefile.unix clean
+
+	dh_clean
+
+# Build architecture-independent files here.
+binary-indep: build
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+
+	install -o root -g root -s -m 0644 libunrar.so $(CURDIR)/debian/libunrar/usr/lib
+
+	dh_installdocs
+	dh_installchangelogs
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary
