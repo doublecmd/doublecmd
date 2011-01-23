@@ -14,6 +14,9 @@ This library can be used by software developers to extract *.rar format archives
 %prep
 %setup -q -n unrar
 
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+
 %build
 make lib -f makefile.unix CXXFLAGS="%{optflags} -fPIC -DSILENT" LDFLAGS="%{ldflags}" STRIP=true
 
