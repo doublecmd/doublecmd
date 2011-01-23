@@ -619,19 +619,19 @@ var
   sCmdLine: String;
 begin
   Result:= False;
-  sCmdLine:= '';
-  DesktopEnv:= GetDesktopEnvironment;
-  case DesktopEnv of
-  DE_UNKNOWN,
-  DE_LXDE:
+  sCmdLine:= EmptyStr;
+  if FileIsUnixExecutable(URL) then
     begin
-      if FileIsUnixExecutable(URL) then
-      begin
-        if GetPathType(URL) <> ptAbsolute then
-          sCmdLine := './';
-        sCmdLine:= sCmdLine + QuoteStr(URL);
-      end
-      else
+      if GetPathType(URL) <> ptAbsolute then
+        sCmdLine := './';
+      sCmdLine:= sCmdLine + QuoteStr(URL);
+    end
+  else
+    begin
+      DesktopEnv:= GetDesktopEnvironment;
+      case DesktopEnv of
+      DE_UNKNOWN,
+      DE_LXDE:
         begin
           if GetPathType(URL) = ptAbsolute then
             sCmdLine:= URL
@@ -642,24 +642,15 @@ begin
             end;
           sCmdLine:= GetDefaultAppCmd(sCmdLine);
         end;
-    end;
-  DE_KDE:
-    sCmdLine:= 'kioclient exec ' + QuoteStr(URL);
-  DE_GNOME:
-    begin
-      if FileIsUnixExecutable(URL) then
-      begin
-        if GetPathType(URL) <> ptAbsolute then
-          sCmdLine := './';
-        sCmdLine:= sCmdLine + QuoteStr(URL);
-      end
-      else
+      DE_KDE:
+        sCmdLine:= 'kioclient exec ' + QuoteStr(URL);
+      DE_GNOME:
         sCmdLine:= 'gnome-open ' + QuoteStr(URL);
+      DE_XFCE:
+        sCmdLine:= 'exo-open ' + QuoteStr(URL);
+      end; // case
     end;
-  DE_XFCE:
-    sCmdLine:= 'exo-open ' + QuoteStr(URL);
-  end;
-  if sCmdLine <> '' then
+  if Length(sCmdLine) <> 0 then
     Result:= ExecCmdFork(sCmdLine);
 end;
 {$ENDIF}
@@ -1802,4 +1793,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.
