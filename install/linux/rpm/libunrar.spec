@@ -19,7 +19,7 @@ This library can be used by software developers to extract *.rar format archives
 %postun -p /sbin/ldconfig
 
 %build
-make lib -f makefile.unix CXXFLAGS="%{optflags} -fPIC -DSILENT" LDFLAGS="%{ldflags}" STRIP=true
+make lib -f makefile.unix CXXFLAGS+="-fPIC -DSILENT" STRIP=true
 
 %install
 install -d -m 755 %{buildroot}/%{_libdir}
