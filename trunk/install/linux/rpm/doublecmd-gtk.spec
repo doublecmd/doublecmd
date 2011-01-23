@@ -3,7 +3,7 @@
 %define doublecmd doublecmd
 
 Name:		doublecmd-gtk
-Summary:	Twin-panel (commander-style) file manager
+Summary:	Twin-panel (commander-style) file manager (GTK2)
 Version:	0.4.6
 Release:	1
 URL:		http://doublecmd.sourceforge.net
