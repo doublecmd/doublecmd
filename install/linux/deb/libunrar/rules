@@ -5,13 +5,14 @@
 
 build: 
 	dh_testdir
-	make lib -f makefile.unix CXXFLAGS+="-fPIC -DSILENT"
+	make lib -f makefile.unix CXXFLAGS+="-fPIC -DSILENT" LDFLAGS+="-Wl,-soname,libunrar.so.0"
 
 clean:
 	dh_testdir
 	dh_testroot
 
 	make -f makefile.unix clean
+	rm -f libunrar.so
 
 	dh_clean
 
@@ -26,8 +27,10 @@ binary-arch: build
 	dh_prep
 	dh_installdirs
 
-	install -o root -g root -s -m 0644 libunrar.so $(CURDIR)/debian/libunrar/usr/lib
+	install -o root -g root -s -m 0644 libunrar.so debian/libunrar/usr/lib
+	install -m 0644 debian/lintian/libunrar debian/libunrar/usr/share/lintian/overrides
 
+	dh_link usr/lib/libunrar.so usr/lib/libunrar.so.0
 	dh_installdocs
 	dh_installchangelogs
 	dh_strip
