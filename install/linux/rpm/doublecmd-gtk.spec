@@ -12,7 +12,7 @@ License:	GPL
 Group:		Applications/File
 BuildRequires:	fpc >= 2.4.0 fpc-src glib2-devel gtk2-devel lazarus >= 0.9.29
 %if 0%{?mandriva_version}
-BuildRequires:  libncurses-devel
+BuildRequires:  libncurses-devel libdbus-1-devel
 %else
 BuildRequires:  xorg-x11-devel gdk-pixbuf-devel ncurses-devel
 %endif
