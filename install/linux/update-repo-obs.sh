@@ -16,7 +16,7 @@ DC_OBS_DIR=$HOME/.obs
 # OBS project home directory
 DC_OBS_WEB_DIR=home:Alexx2000
 # OBS project directory
-DC_OBS_PRJ_DIR=$DC_OBS_DIR/$DC_OBS_WEB_DIR/doublecmd-svn
+DC_OBS_PRJ_DIR=$DC_OBS_DIR/$DC_OBS_WEB_DIR
 # DC revision number
 DC_REVISION=$(svnversion -n ../../)
 
@@ -50,18 +50,32 @@ update_doublecmd()
       cd $DC_OBS_DIR
       osc checkout $DC_OBS_WEB_DIR
     else
-      pushd $DC_OBS_PRJ_DIR
+      pushd $DC_OBS_PRJ_DIR/doublecmd-gtk
       osc up
       popd
+      pushd $DC_OBS_PRJ_DIR/doublecmd-qt
+      osc up
+      popd      
   fi
 
-  # Upload archive to OBS
-  rm -f $DC_OBS_PRJ_DIR/doublecmd-*.spec
-  rm -f $DC_OBS_PRJ_DIR/doublecmd-$DC_VER.tar.gz
-  mv doublecmd-*.spec $DC_OBS_PRJ_DIR/
-  mv doublecmd-$DC_VER.tar.gz $DC_OBS_PRJ_DIR/
-  cd $DC_OBS_PRJ_DIR
-  osc commit doublecmd-*.spec doublecmd-$DC_VER.tar.gz -m "Update to revision $DC_REVISION"
+  # Upload GTK2 archive to OBS
+  rm -f $DC_OBS_PRJ_DIR/doublecmd-gtk/doublecmd-gtk.spec
+  rm -f $DC_OBS_PRJ_DIR/doublecmd-gtk/doublecmd-$DC_VER.tar.gz
+  mv doublecmd-gtk.spec $DC_OBS_PRJ_DIR/doublecmd-gtk/
+  mv doublecmd-$DC_VER.tar.gz $DC_OBS_PRJ_DIR/doublecmd-gtk/
+  pushd $DC_OBS_PRJ_DIR/doublecmd-gtk
+  osc commit doublecmd-gtk.spec doublecmd-$DC_VER.tar.gz -m "Update to revision $DC_REVISION"
+  popd
+  
+  # Upload Qt4 archive to OBS
+  rm -f $DC_OBS_PRJ_DIR/doublecmd-qt/doublecmd-qt.spec
+  rm -f $DC_OBS_PRJ_DIR/doublecmd-qt/doublecmd-$DC_VER.tar.gz
+  mv doublecmd-gtk.spec $DC_OBS_PRJ_DIR/doublecmd-qt/
+  mv doublecmd-$DC_VER.tar.gz $DC_OBS_PRJ_DIR/doublecmd-qt/
+  pushd $DC_OBS_PRJ_DIR/doublecmd-qt
+  osc commit doublecmd-qt.spec doublecmd-$DC_VER.tar.gz -m "Update to revision $DC_REVISION"
+  popd
+
   popd
 }
 
@@ -86,17 +100,17 @@ update_doublecmd_help()
       cd $DC_OBS_DIR
       osc checkout $DC_OBS_WEB_DIR
     else
-      pushd $DC_OBS_PRJ_DIR
+      pushd $DC_OBS_PRJ_DIR/doublecmd-help
       osc up
       popd
   fi
 
   # Upload archive to OBS
-  rm -f $DC_OBS_PRJ_DIR/doublecmd-help.spec
-  rm -f $DC_OBS_PRJ_DIR/doublecmd-help-$DC_VER.tar.gz
-  mv doublecmd-help.spec $DC_OBS_PRJ_DIR/
-  mv doublecmd-help-$DC_VER.tar.gz $DC_OBS_PRJ_DIR/
-  cd $DC_OBS_PRJ_DIR
+  rm -f $DC_OBS_PRJ_DIR/doublecmd-help/doublecmd-help.spec
+  rm -f $DC_OBS_PRJ_DIR/doublecmd-help/doublecmd-help-$DC_VER.tar.gz
+  mv doublecmd-help.spec $DC_OBS_PRJ_DIR/doublecmd-help/
+  mv doublecmd-help-$DC_VER.tar.gz $DC_OBS_PRJ_DIR/doublecmd-help/
+  cd $DC_OBS_PRJ_DIR/doublecmd-help
   osc commit doublecmd-help.spec doublecmd-help-$DC_VER.tar.gz -m "Update to revision $DC_REVISION"
   popd
 }
