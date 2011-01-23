@@ -6,6 +6,7 @@ Source:		http://www.rarlab.com/rar/unrarsrc-%{version}.tar.gz
 Url:		http://www.rarlab.com/rar_add.htm
 License:	Freeware
 Group:		System/Libraries
+BuildRequires:  gcc-c++
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 %description
