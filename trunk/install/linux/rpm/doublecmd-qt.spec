@@ -12,13 +12,16 @@ License:	GPL
 Group:		Applications/File
 BuildRequires:	fpc >= 2.4.0 fpc-src glib2-devel libQt4Pas5-devel >= 2.1 lazarus >= 0.9.29
 %if 0%{?mandriva_version}
-BuildRequires:  libncurses-devel libdbus-1-devel
+BuildRequires:  libncurses-devel libdbus-1-devel libbzip2-devel
 %endif
 %if 0%{?fedora_version} >= 11
-BuildRequires:  xorg-x11-devel ncurses-devel dbus-devel
+BuildRequires:  xorg-x11-devel ncurses-devel dbus-devel bzip2-devel
 %endif
+%if 0%{?suse_version} >= 1110
+BuildRequires: ncurses-devel dbus-1-devel libbz2-devel
+%endif 
 Provides:  doublecmd
-Obsoletes: doublecmd, doublecmd-gtk
+Obsoletes: doublecmd < 0.4.6 doublecmd-gtk
 BuildRoot:	%{_tmppath}/%{doublecmd}-%{version}-build
 
 %description
