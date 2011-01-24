@@ -291,7 +291,7 @@ begin
     if (not RegExp) and (not MatchesMaskList(UTF8UpperCase(sr.Name), FilesMasks)) then
       Exit(False);
 
-    if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo) then
+    if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
         Result := CheckFileTime(FFileChecks, sr.Time);
 
     if (IsFileSizeFrom or IsFileSizeTo) and Result then
