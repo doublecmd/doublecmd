@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Controls, Forms, StdCtrls, ExtCtrls, Grids,
-  LMessages, LCLIntf, LCLType, Menus, fgl,
+  LMessages, LCLIntf, LCLType, Menus, fgl, contnrs,
   uDragDropEx,
   uFile,
   uFileProperty,
@@ -168,6 +168,7 @@ type
 
   private
     FFiles: TDisplayFiles;      //<en List of displayed files
+    FHashedFiles: TBucketList;  //<en Contains pointers to file source files for quick checking if a file object is still valid
     FFileSourceFiles: TFiles;   //<en List of files from file source
     FListFilesThread: TFunctionThread;
     FReloading: Boolean;        //<en If currently reloading file list
@@ -214,6 +215,7 @@ type
     procedure SetGridVertLine(const AValue: Boolean);
     function GetColumnsClass: TPanelColumnsClass;
     function GetActiveItem: TDisplayFile;
+    function GetVisibleFilesIndexes: TRange;
     {en
        Returns True if item is not nil and not '..'.
        May be extended to include other conditions.
@@ -249,6 +251,10 @@ type
     procedure UpdateColCount(NewColCount: Integer);
     procedure SetColumnsWidths;
     procedure RedrawGrid;
+    {en
+       Redraw row containing DisplayFile if it is visible.
+    }
+    procedure RedrawFile(DisplayFile: TDisplayFile);
 
     procedure MakeVisible(iRow: Integer);
     procedure MakeSelectedVisible;
@@ -279,6 +285,10 @@ type
     }
     procedure AfterMakeFileList;
     {en
+       Store pointers to file source files in a fast to read structure.
+    }
+    procedure HashFileSourceFileList;
+    {en
        Updates GUI after the display file list has changed.
     }
     procedure DisplayFileListHasChanged;
@@ -297,7 +307,8 @@ type
     }
     procedure SetFileList(var NewDisplayFiles: TDisplayFiles;
                           var NewFileSourceFiles: TFiles);
-    procedure UpdateFile(const UpdateInfo: TRetrieveInfo);
+    procedure UpdateFile(const WorkerData: TFVWorkerData);
+    procedure CalcSpaceUpdateFile(const WorkerData: TFVWorkerData);
 
     {en
        Prepares sortings for later use in Sort function.
@@ -324,6 +335,7 @@ type
 
     procedure CalculateSpaceOfAllDirectories;
     procedure CalculateSpace(AFile: TDisplayFile);
+    procedure CalculateSpace(var AFileList: TFPList);
 
     function DimColor(AColor: TColor): TColor;
 
@@ -471,8 +483,6 @@ uses
   uFileSourceProperty,
   uFileSourceOperation,
   uFileSourceOperationTypes,
-  uFileSourceOperationOptions,
-  uFileSourceCalcStatisticsOperation,
   uFileSystemFileSource,
   fColumnsSetConf,
   uKeyboard,
@@ -2250,6 +2260,22 @@ begin
   dgPanel.Invalidate;
 end;
 
+procedure TColumnsFileView.RedrawFile(DisplayFile: TDisplayFile);
+var
+  VisibleFiles: TRange;
+  i: Integer;
+begin
+  VisibleFiles := GetVisibleFilesIndexes;
+  for i := VisibleFiles.First to VisibleFiles.Last do
+  begin
+    if FFiles[i] = DisplayFile then
+    begin
+      dgPanel.InvalidateRow(i + dgPanel.FixedRows);
+      Break;
+    end;
+  end;
+end;
+
 procedure TColumnsFileView.UpdateColumnsView;
 var
   ColumnsClass: TPanelColumnsClass;
@@ -2723,10 +2749,11 @@ begin
   Align := alClient;
 
   FFiles := nil;
+  FHashedFiles := nil;
   FFileSourceFiles := nil;
   FListFilesThread := nil;
   FReloading := False;
-  FFileViewWorkers := TFileViewWorkers.Create(True);
+  FFileViewWorkers := TFileViewWorkers.Create(False);
   FSelection:= TStringListEx.Create;
 
   ActiveColm := '';
@@ -2917,6 +2944,7 @@ begin
   end;
 
   FreeThenNil(FSelection);
+  FreeThenNil(FHashedFiles);
 
   if Assigned(FFiles) then
     FreeAndNil(FFiles);
@@ -2944,6 +2972,7 @@ begin
       if Assigned(Self.FFileSourceFiles) then
         FFileSourceFiles := Self.FFileSourceFiles.Clone;
       FFiles := Self.FFiles.Clone(Self.FFileSourceFiles, FFileSourceFiles);
+      HashFileSourceFileList;
 
       FLastMark := Self.FLastMark;
       FLastSelectionStartRow := Self.FLastSelectionStartRow;
@@ -3020,6 +3049,7 @@ begin
     FListFilesThread,
     FilePropertiesNeeded,
     @SetFileList);
+  FFileViewWorkers.Add(FCurrentWorker);
 
   if gListFilesInThread then
   begin
@@ -3045,11 +3075,25 @@ end;
 
 procedure TColumnsFileView.AfterMakeFileList;
 begin
+  HashFileSourceFileList;
   MakeColumnsStrings;
   DisplayFileListHasChanged;
   EnsureDisplayProperties; // After displaying.
   DoOnReload;
   dgPanel.Cursor := crDefault;
+end;
+
+procedure TColumnsFileView.HashFileSourceFileList;
+var
+  i: Integer;
+begin
+  // Cannot use FHashedFiles.Clear because it also destroys the buckets.
+  if Assigned(FHashedFiles) then
+    FHashedFiles.Free;
+  // TBucketList seems to do fairly well without needing a proper hash table.
+  FHashedFiles := TBucketList.Create(bl256);
+  for i := 0 to FFiles.Count - 1 do
+    FHashedFiles.Add(FFiles[i], nil);
 end;
 
 procedure TColumnsFileView.DisplayFileListHasChanged;
@@ -3128,10 +3172,10 @@ end;
 
 procedure TColumnsFileView.EnsureDisplayProperties;
 var
-  VisibleRows: TRange;
+  VisibleFiles: TRange;
   i: Integer;
-  RetrieveList: TFPList;
-  RetrieveInfo: PRetrieveInfo;
+  AFileList: TFPList;
+  WorkerData: PFVWorkerData;
 begin
   if (Assigned(FCurrentWorker) and
       FCurrentWorker.Working and
@@ -3140,18 +3184,11 @@ begin
      (csDestroying in ComponentState) then
     Exit;
 
-  VisibleRows := dgPanel.GetVisibleRows;
-  Dec(VisibleRows.First, dgPanel.FixedRows);
-  Dec(VisibleRows.Last, dgPanel.FixedRows);
-
-  if VisibleRows.First < 0 then
-    VisibleRows.First := 0;
-  if VisibleRows.Last >= FFiles.Count then
-    VisibleRows.Last := FFiles.Count - 1;
+  VisibleFiles := GetVisibleFilesIndexes;
 
   if not gListFilesInThread then
   begin
-    for i := VisibleRows.First to VisibleRows.Last do
+    for i := VisibleFiles.First to VisibleFiles.Last do
     begin
       with FFiles[i] do
       begin
@@ -3167,25 +3204,25 @@ begin
   end
   else
   begin
-    RetrieveList := TFPList.Create;
+    AFileList := TFPList.Create;
     try
-      for i := VisibleRows.First to VisibleRows.Last do
+      for i := VisibleFiles.First to VisibleFiles.Last do
       begin
         with FFiles[i] do
         begin
           if (FSFile.Name <> '..') and
              (FileSource.CanRetrieveProperties(FSFile, FilePropertiesNeeded) or (IconID = -1)) then
           begin
-            RetrieveInfo := New(PRetrieveInfo);
-            RetrieveInfo^.FileIndex := i;
-            RetrieveInfo^.FSFile    := FSFile.Clone;
-            RetrieveInfo^.IconID    := IconID;
-            RetrieveList.Add(RetrieveInfo);
+            WorkerData := New(PFVWorkerData);
+            WorkerData^.UserData := Self.FFiles[i];
+            WorkerData^.FSFile   := FSFile.Clone;
+            WorkerData^.IconID   := IconID;
+            AFileList.Add(WorkerData);
           end;
         end;
       end;
 
-      if RetrieveList.Count > 0 then
+      if AFileList.Count > 0 then
       begin
         StopBackgroundWork;
 
@@ -3199,29 +3236,32 @@ begin
           FListFilesThread,
           FilePropertiesNeeded,
           @UpdateFile,
-          RetrieveList);
+          AFileList);
 
+        FFileViewWorkers.Add(FCurrentWorker);
         FListFilesThread.QueueFunction(@FCurrentWorker.StartParam);
       end;
 
     finally
-      if Assigned(RetrieveList) then
-        FreeAndNil(RetrieveList);
+      if Assigned(AFileList) then
+        FreeAndNil(AFileList);
     end;
   end;
 end;
 
 procedure TColumnsFileView.ClearWorkers;
 var
-  i: Integer;
+  i: Integer = 0;
 begin
-  for i := 0 to FFileViewWorkers.Count - 1 do
+  while i < FFileViewWorkers.Count do
   begin
     if not FFileViewWorkers[i].Working then
     begin
       FFileViewWorkers[i].Free;
       FFileViewWorkers.Delete(i);
-    end;
+    end
+    else
+      Inc(i);
   end;
 end;
 
@@ -3250,30 +3290,51 @@ begin
   RequestedActiveFile := '';
 end;
 
-procedure TColumnsFileView.UpdateFile(const UpdateInfo: TRetrieveInfo);
+procedure TColumnsFileView.UpdateFile(const WorkerData: TFVWorkerData);
 var
   propType: TFilePropertyType;
   aFile: TFile;
+  aDisplayFile: TDisplayFile;
 begin
-  aFile := FFiles[UpdateInfo.FileIndex].FSFile;
+  aDisplayFile := TDisplayFile(WorkerData.UserData);
+
+  if not FHashedFiles.Exists(aDisplayFile) then
+    Exit; // File does not exist anymore (reference is invalid).
+
+  aFile := aDisplayFile.FSFile;
 
 {$IF (fpc_version>2) or ((fpc_version=2) and (fpc_release>4))}
   // This is a bit faster.
-  for propType in UpdateInfo.FSFile.AssignedProperties - aFile.AssignedProperties do
+  for propType in WorkerData.FSFile.AssignedProperties - aFile.AssignedProperties do
 {$ELSE}
   for propType := Low(TFilePropertyType) to High(TFilePropertyType) do
-    if (propType in UpdateInfo.FSFile.AssignedProperties) and
+    if (propType in WorkerData.FSFile.AssignedProperties) and
        (not (propType in aFile.AssignedProperties)) then
 {$ENDIF}
     begin
-      aFile.Properties[propType] := UpdateInfo.FSFile.ReleaseProperty(propType);
+      aFile.Properties[propType] := WorkerData.FSFile.ReleaseProperty(propType);
     end;
 
-  if UpdateInfo.IconID <> -1 then
-    FFiles[UpdateInfo.FileIndex].IconID := UpdateInfo.IconID;
+  if WorkerData.IconID <> -1 then
+    aDisplayFile.IconID := WorkerData.IconID;
 
-  MakeColumnsStrings(FFiles[UpdateInfo.FileIndex]);
-  dgPanel.InvalidateRow(UpdateInfo.FileIndex + dgPanel.FixedRows);
+  MakeColumnsStrings(aDisplayFile);
+  RedrawFile(aDisplayFile);
+end;
+
+procedure TColumnsFileView.CalcSpaceUpdateFile(const WorkerData: TFVWorkerData);
+var
+  aDisplayFile: TDisplayFile;
+begin
+  aDisplayFile := TDisplayFile(WorkerData.UserData);
+
+  if not FHashedFiles.Exists(aDisplayFile) then
+    Exit; // File does not exist anymore (reference is invalid).
+
+  aDisplayFile.FSFile.Size := WorkerData.FSFile.Size;
+  MakeColumnsStrings(aDisplayFile);
+  RedrawFile(aDisplayFile);
+  Screen.Cursor := crDefault;
 end;
 
 procedure TColumnsFileView.Reload(const PathsToReload: TPathsArray);
@@ -3354,6 +3415,18 @@ begin
     Result := nil;  // No files in the panel.
 end;
 
+function TColumnsFileView.GetVisibleFilesIndexes: TRange;
+begin
+  Result := dgPanel.GetVisibleRows;
+  Dec(Result.First, dgPanel.FixedRows);
+  Dec(Result.Last, dgPanel.FixedRows);
+
+  if Result.First < 0 then
+    Result.First := 0;
+  if Result.Last >= FFiles.Count then
+    Result.Last := FFiles.Count - 1;
+end;
+
 function TColumnsFileView.GetColumnsClass: TPanelColumnsClass;
 begin
   if isSlave then
@@ -3365,57 +3438,79 @@ end;
 procedure TColumnsFileView.CalculateSpaceOfAllDirectories;
 var
   i: Integer;
+  AFileList: TFPList;
+  WorkerData: PFVWorkerData;
 begin
-  Screen.Cursor := crHourGlass;
+  AFileList := TFPList.Create;
   try
     for i := 0 to FFiles.Count - 1 do
-      if IsItemValid(FFiles[i]) and FFiles[i].FSFile.IsDirectory then
-        CalculateSpace(FFiles[i]);
-  finally
-    Screen.Cursor := crDefault;
-  end;
+    begin
+      with FFiles[i] do
+      begin
+        if IsItemValid(FFiles[i]) and FFiles[i].FSFile.IsDirectory then
+        begin
+          WorkerData := New(PFVWorkerData);
+          WorkerData^.UserData := FFiles[i];
+          WorkerData^.FSFile   := FFiles[i].FSFile.Clone;
+          AFileList.Add(WorkerData);
+        end;
+      end;
+    end;
 
-  MakeColumnsStrings;
-  RedrawGrid;
+    CalculateSpace(AFileList);
+
+  finally
+    if Assigned(AFileList) then
+      FreeAndNil(AFileList);
+  end;
 end;
 
 procedure TColumnsFileView.CalculateSpace(AFile: TDisplayFile);
 var
-  Operation: TFileSourceOperation = nil;
-  CalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
-  CalcStatisticsOperationStatistics: TFileSourceCalcStatisticsOperationStatistics;
-  TargetFiles: TFiles = nil;
+  AFileList: TFPList;
+  WorkerData: PFVWorkerData;
 begin
-  if (fsoCalcStatistics in FileSource.GetOperationsTypes) and
-     (fpSize in AFile.FSFile.SupportedProperties) and
-     AFile.FSFile.IsDirectory then
-  begin
-    TargetFiles := TFiles.Create(CurrentPath);
-    try
-      TargetFiles.Add(AFile.FSFile.Clone);
-
-      Operation := FileSource.CreateCalcStatisticsOperation(TargetFiles);
-      CalcStatisticsOperation := Operation as TFileSourceCalcStatisticsOperation;
-      CalcStatisticsOperation.SkipErrors := True;
-      CalcStatisticsOperation.SymLinkOption := fsooslDontFollow;
-
-      Operation.Execute; // blocks until finished
-
-      CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
-
-      AFile.FSFile.Size := CalcStatisticsOperationStatistics.Size;
-
-      RedrawGrid;
-
-      // Needed to not block GUI as we're not executing operation in a thread.
-      Application.ProcessMessages;
-
-    finally
-      if Assigned(TargetFiles) then
-        FreeAndNil(TargetFiles);
-      if Assigned(Operation) then
-        FreeAndNil(Operation);
+  AFileList := TFPList.Create;
+  try
+    if IsItemValid(AFile) and AFile.FSFile.IsDirectory then
+    begin
+      WorkerData := New(PFVWorkerData);
+      WorkerData^.UserData := AFile;
+      WorkerData^.FSFile   := AFile.FSFile.Clone;
+      AFileList.Add(WorkerData);
     end;
+
+    CalculateSpace(AFileList);
+
+  finally
+    if Assigned(AFileList) then
+      FreeAndNil(AFileList);
+  end;
+end;
+
+procedure TColumnsFileView.CalculateSpace(var AFileList: TFPList);
+begin
+  if Assigned(FCurrentWorker) and FCurrentWorker.Working and
+     (FCurrentWorker.WorkType = fvwtCreate) then
+    Exit;
+
+  if AFileList.Count > 0 then
+  begin
+    StopBackgroundWork;
+
+    if not Assigned(FListFilesThread) then
+      FListFilesThread := TFunctionThread.Create(False);
+
+    FCurrentWorker := TCalculateSpaceWorker.Create(
+      FileSource,
+      FListFilesThread,
+      @CalcSpaceUpdateFile,
+      AFileList);
+
+    dgPanel.Cursor := crHourGlass;
+
+    FFileViewWorkers.Add(FCurrentWorker);
+    FListFilesThread.QueueFunction(@FCurrentWorker.StartParam);
   end;
 end;
 

@@ -33,16 +33,16 @@ type
     property WorkType: TFileViewWorkType read FWorkType;
   end;
 
-  PRetrieveInfo = ^TRetrieveInfo;
-  TRetrieveInfo = record
-    FileIndex: Integer;
-    FSFile: TFile;
+  PFVWorkerData = ^TFVWorkerData;
+  TFVWorkerData = record
+    UserData: Pointer;    // Custom data to use by the worker creator in callbacks.
+    FSFile: TFile;        // Here is updated file.
     IconID: PtrInt;
   end;
 
   TSetFileListMethod = procedure (var NewDisplayFiles: TDisplayFiles;
                                   var NewFileSourceFiles: TFiles) of object;
-  TUpdateFileMethod = procedure (const UpdateInfo: TRetrieveInfo) of object;
+  TUpdateFileMethod = procedure (const WorkerData: TFVWorkerData) of object;
 
   { TFileListBuilder }
 
@@ -95,19 +95,19 @@ type
 
   TFilePropertiesRetriever = class(TFileViewWorker)
   private
-    FUpdateInfo: TRetrieveInfo;
-    FRetrieveList: TFPList;
+    FWorkerData: TFVWorkerData;
+    FFileList: TFPList;
     FUpdateFileMethod: TUpdateFileMethod;
     FFileSource: IFileSource;
     FThread: TThread;
     FFilePropertiesNeeded: TFilePropertiesTypes;
 
     {en
-       Updates file in the file view with new data from FUpdateInfo.
+       Updates file in the file view with new data from FWorkerData.
        It is called from GUI thread.
     }
     procedure DoUpdateFile;
-    procedure DestroyRetrieveList;
+    procedure DestroyFileList;
 
   protected
     procedure Execute; override;
@@ -117,7 +117,35 @@ type
                        AThread: TThread;
                        AFilePropertiesNeeded: TFilePropertiesTypes;
                        AUpdateFileMethod: TUpdateFileMethod;
-                       var RetrieveList: TFPList);
+                       var AFileList: TFPList); reintroduce;
+    destructor Destroy; override;
+  end;
+
+  { TCalculateSpaceWorker }
+
+  TCalculateSpaceWorker = class(TFileViewWorker)
+  private
+    FWorkerData: TFVWorkerData;
+    FFileList: TFPList;
+    FUpdateFileMethod: TUpdateFileMethod;
+    FFileSource: IFileSource;
+    FThread: TThread;
+
+    {en
+       Updates file in the file view with new data.
+       It is called from GUI thread.
+    }
+    procedure DoUpdateFile;
+    procedure DestroyFileList;
+
+  protected
+    procedure Execute; override;
+
+  public
+    constructor Create(AFileSource: IFileSource;
+                       AThread: TThread;
+                       AUpdateFileMethod: TUpdateFileMethod;
+                       var AFileList: TFPList); reintroduce;
     destructor Destroy; override;
   end;
 
@@ -126,7 +154,10 @@ implementation
 uses
   LCLProc,
   uFileSourceListOperation, uFileSourceOperationTypes, uOSUtils, uDCUtils,
-  uGlobs, uMasks, uPixMapManager, uFileSourceProperty;
+  uGlobs, uMasks, uPixMapManager, uFileSourceProperty,
+  uFileSourceOperation,
+  uFileSourceCalcStatisticsOperation,
+  uFileSourceOperationOptions;
 
 { TFileViewWorker }
 
@@ -381,11 +412,13 @@ constructor TFilePropertiesRetriever.Create(AFileSource: IFileSource;
                                             AThread: TThread;
                                             AFilePropertiesNeeded: TFilePropertiesTypes;
                                             AUpdateFileMethod: TUpdateFileMethod;
-                                            var RetrieveList: TFPList);
+                                            var AFileList: TFPList);
 begin
+  inherited Create;
+
   FWorkType             := fvwtUpdate;
-  FRetrieveList         := RetrieveList;
-  RetrieveList          := nil;
+  FFileList             := AFileList;
+  AFileList             := nil;
   FFileSource           := AFileSource;
   FThread               := AThread;
   FFilePropertiesNeeded := AFilePropertiesNeeded;
@@ -394,7 +427,7 @@ end;
 
 destructor TFilePropertiesRetriever.Destroy;
 begin
-  DestroyRetrieveList;
+  DestroyFileList;
   inherited Destroy;
 end;
 
@@ -403,18 +436,18 @@ var
   i: Integer;
 begin
   try
-    for i := 0 to FRetrieveList.Count - 1 do
+    for i := 0 to FFileList.Count - 1 do
     begin
       if Aborted then
         Exit;
 
-      FUpdateInfo := PRetrieveInfo(FRetrieveList[i])^;
-      if FFileSource.CanRetrieveProperties(FUpdateInfo.FSFile, FFilePropertiesNeeded) then
-        FFileSource.RetrieveProperties(FUpdateInfo.FSFile, FFilePropertiesNeeded);
+      FWorkerData := PFVWorkerData(FFileList[i])^;
+      if FFileSource.CanRetrieveProperties(FWorkerData.FSFile, FFilePropertiesNeeded) then
+        FFileSource.RetrieveProperties(FWorkerData.FSFile, FFilePropertiesNeeded);
 
-      if FUpdateInfo.IconID = -1 then
-        FUpdateInfo.IconID := PixMapManager.GetIconByFile(
-            FUpdateInfo.FSFile,
+      if FWorkerData.IconID = -1 then
+        FWorkerData.IconID := PixMapManager.GetIconByFile(
+            FWorkerData.FSFile,
             fspDirectAccess in FFileSource.Properties,
             True);
 
@@ -422,28 +455,120 @@ begin
     end;
 
   finally
-    DestroyRetrieveList;
+    DestroyFileList;
   end;
 end;
 
 procedure TFilePropertiesRetriever.DoUpdateFile;
 begin
   if not Aborted and Assigned(FUpdateFileMethod) then
-    FUpdateFileMethod(FUpdateInfo);
+    FUpdateFileMethod(FWorkerData);
 end;
 
-procedure TFilePropertiesRetriever.DestroyRetrieveList;
+procedure TFilePropertiesRetriever.DestroyFileList;
 var
   i: Integer;
 begin
-  if Assigned(FRetrieveList) then
+  if Assigned(FFileList) then
   begin
-    for i := 0 to FRetrieveList.Count - 1 do
+    for i := 0 to FFileList.Count - 1 do
     begin
-      PRetrieveInfo(FRetrieveList[i])^.FSFile.Free;
-      Dispose(PRetrieveInfo(FRetrieveList[i]));
+      PFVWorkerData(FFileList[i])^.FSFile.Free;
+      Dispose(PFVWorkerData(FFileList[i]));
     end;
-    FreeAndNil(FRetrieveList);
+    FreeAndNil(FFileList);
+  end;
+end;
+
+{ TCalculateSpaceWorker }
+
+constructor TCalculateSpaceWorker.Create(AFileSource: IFileSource;
+                                         AThread: TThread;
+                                         AUpdateFileMethod: TUpdateFileMethod;
+                                         var AFileList: TFPList);
+begin
+  inherited Create;
+
+  FWorkType         := fvwtUpdate;
+  FFileList         := AFileList;
+  AFileList         := nil;
+  FFileSource       := AFileSource;
+  FThread           := AThread;
+  FUpdateFileMethod := AUpdateFileMethod;
+end;
+
+destructor TCalculateSpaceWorker.Destroy;
+begin
+  DestroyFileList;
+  inherited Destroy;
+end;
+
+procedure TCalculateSpaceWorker.Execute;
+var
+  Operation: TFileSourceOperation = nil;
+  CalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
+  CalcStatisticsOperationStatistics: TFileSourceCalcStatisticsOperationStatistics;
+  TargetFiles: TFiles = nil;
+  AFile: TFile;
+  i: Integer;
+begin
+  if fsoCalcStatistics in FFileSource.GetOperationsTypes then
+  begin
+    for i := 0 to FFileList.Count - 1 do
+    begin
+      if Aborted then
+        Exit;
+
+      FWorkerData := PFVWorkerData(FFileList[i])^;
+      AFile := FWorkerData.FSFile;
+      if (fpSize in AFile.SupportedProperties) and AFile.IsDirectory then
+      begin
+        TargetFiles := TFiles.Create(AFile.Path);
+        try
+          TargetFiles.Add(AFile.Clone);
+
+          Operation := FFileSource.CreateCalcStatisticsOperation(TargetFiles);
+          CalcStatisticsOperation := Operation as TFileSourceCalcStatisticsOperation;
+          CalcStatisticsOperation.SkipErrors := True;
+          CalcStatisticsOperation.SymLinkOption := fsooslDontFollow;
+
+          Operation.Execute; // blocks until finished
+
+          CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
+
+          AFile.Size := CalcStatisticsOperationStatistics.Size;
+
+          TThread.Synchronize(FThread, @DoUpdateFile);
+
+        finally
+          if Assigned(TargetFiles) then
+            FreeAndNil(TargetFiles);
+          if Assigned(Operation) then
+            FreeAndNil(Operation);
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure TCalculateSpaceWorker.DoUpdateFile;
+begin
+  if not Aborted and Assigned(FUpdateFileMethod) then
+    FUpdateFileMethod(FWorkerData);
+end;
+
+procedure TCalculateSpaceWorker.DestroyFileList;
+var
+  i: Integer;
+begin
+  if Assigned(FFileList) then
+  begin
+    for i := 0 to FFileList.Count - 1 do
+    begin
+      PFVWorkerData(FFileList[i])^.FSFile.Free;
+      Dispose(PFVWorkerData(FFileList[i]));
+    end;
+    FreeAndNil(FFileList);
   end;
 end;
 
