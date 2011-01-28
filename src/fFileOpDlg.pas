@@ -367,7 +367,7 @@ begin
 
   lblFileNameFrom.Caption := '';
   lblFileNameTo.Caption := '';
-  lblEstimated.Caption := '';
+  lblEstimated.Caption := #32;
 
   Hint := Caption;
 end;
@@ -464,7 +464,7 @@ var
   sEstimated: String;
 begin
   if Operation.State <> fsosRunning then
-    sEstimated := ''
+    sEstimated := #32
   else
   begin
     sEstimated := FormatDateTime('HH:MM:SS', RemainingTime);
@@ -642,4 +642,4 @@ end;
 initialization
  {$I fFileOpDlg.lrs}
 
-end.
+end.
