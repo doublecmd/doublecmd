@@ -453,7 +453,7 @@ begin
         end;
     end; // while
 end;
-{$ELSE}
+{$ELSEIF DEFINED(LINUX)}
   function CheckMountEntry(MountEntry: PMountEntry): Boolean;
   begin
     Result:= False;
@@ -713,6 +713,10 @@ begin
     if Assigned(Drive) then
       Dispose(Drive);
   end;
+end;
+{$ELSE}
+begin
+  Result := TDrivesList.Create;
 end;
 {$ENDIF}
 
