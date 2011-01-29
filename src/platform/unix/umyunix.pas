@@ -24,7 +24,7 @@ unit uMyUnix;
 
 {$mode objfpc}{$H+}
 
-{$IFDEF DARWIN}
+{$IF NOT DEFINED(LINUX)}
 {$DEFINE FPC_USE_LIBC}
 {$ENDIF}
 
