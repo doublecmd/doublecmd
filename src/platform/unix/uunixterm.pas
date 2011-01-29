@@ -32,8 +32,8 @@ uses
    ExtCtrls, LCLProc, cwstring,
    LCLType, Graphics, TermInfo, termio, uTerminal, uOSUtils;
 
-{$IF DEFINED(LINUX)}
-{$LINKLIB util} // under Linux forkpty is situated in libutil.a library
+{$IF NOT DEFINED(DARWIN)}
+{$LINKLIB util} // under Linux and BSD forkpty is situated in libutil.so library
 {$ENDIF}
 
 const clib = 'c';
