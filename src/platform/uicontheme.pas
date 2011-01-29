@@ -90,7 +90,7 @@ implementation
 
 uses
   LCLProc, StrUtils, uDCUtils, uFindEx, uTypes, uOSUtils
-  {$IF NOT DEFINED(DARWIN)}
+  {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   , uUnixIconTheme
   {$ENDIF}
   ;
