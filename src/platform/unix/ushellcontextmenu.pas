@@ -217,12 +217,13 @@ procedure TShellContextMenu.DriveUnmountSelect(Sender: TObject);
 var
   Succeeded: Boolean = False;
 begin
+{$IFDEF LINUX}
   if uUDisks.Initialize then
   begin
     Succeeded := uUDisks.Unmount(DeviceFileToUDisksObjectPath(FDrive.DeviceId), nil);
     uUDisks.Finalize;
   end;
-
+{$ENDIF}
   if not Succeeded then
     fpSystem('umount ' + FDrive.Path);
 end;

@@ -588,7 +588,7 @@ begin
  tio.c_cc[VEOF]:=CEOF;
  tio.c_cc[VEOL]:=CEOL;
  tio.c_cc[VEOL2]:=CEOL2;
-{$IF NOT DEFINED(DARWIN)}
+{$IF DEFINED(LINUX)}
  tio.c_cc[VSWTC]:=CSWTC;
 {$ENDIF}
  tio.c_cc[VMIN]:=CMIN;

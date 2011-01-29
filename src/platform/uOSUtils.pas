@@ -691,7 +691,11 @@ begin
   Result := High(Int64);
   if (fpStatFS(PChar(UTF8ToSys(Path)), @sbfs) = 0) then
   begin
+    {$IFDEF FREEBSD}
+    if (sbfs.ftype = MSDOS_SUPER_MAGIC) then
+    {$ELSE}
     if (sbfs.fstype = MSDOS_SUPER_MAGIC) then
+    {$ENDIF}
       Result:= $FFFFFFFF; // 4 Gb
   end;
 end;
@@ -1009,7 +1013,7 @@ begin
   // Because we show under Mac OS X only mounted volumes
   Result:= True;
 end;
-{$ELSE}
+{$ELSEIF DEFINED(LINUX)}
 var
   mtab: PIOFile;
   pme: PMountEntry;
@@ -1028,6 +1032,10 @@ begin
     pme:= getmntent(mtab);
   end;
   endmntent(mtab);
+end;
+{$ELSE}
+begin
+  Result:= True;
 end;
 {$ENDIF}
 
