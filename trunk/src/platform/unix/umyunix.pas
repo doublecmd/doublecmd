@@ -157,6 +157,9 @@ function fpLChown(path : pChar; owner : TUid; group : TGid): cInt; {$IFDEF FPC_U
 function fpOpenDir(__name: PChar): pDir; cdecl; external libc name 'opendir';
 function fpReadDir(__dirp: pDir): pDirent; cdecl; external libc name 'readdir64';
 function fpCloseDir(__dirp: pDir): cInt; cdecl; external libc name 'closedir';
+{$ELSE}
+function fpReadDir(__dirp: pDir): pDirent; inline;
+function fpCloseDir(__dirp: pDir): cInt; inline;
 {$ENDIF}
 
 function LinuxToWinAttr(pFileName: PChar; const srInfo: BaseUnix.Stat): Longint;
@@ -194,6 +197,20 @@ uses
 function fpLChown(path : pChar; owner : TUid; group : TGid): cInt;
 begin
   fpLChown:=do_syscall(syscall_nr_lchown,TSysParam(path),TSysParam(owner),TSysParam(group));
+end;
+
+{$ENDIF}
+
+{$IF NOT DEFINED(LINUX)}
+
+function fpReadDir(__dirp: pDir): pDirent;
+begin
+  Result:= BaseUnix.FpReaddir(__dirp^);
+end;
+
+function fpCloseDir(__dirp: pDir): cInt;
+begin
+  Result:= BaseUnix.FpClosedir(__dirp^);
 end;
 
 {$ENDIF}
