@@ -153,7 +153,7 @@ function setenv(const name, value: PChar; overwrite: LongInt): LongInt; cdecl; e
 }
 function fpLChown(path : pChar; owner : TUid; group : TGid): cInt; {$IFDEF FPC_USE_LIBC}cdecl; external libc name 'lchown';{$ENDIF}
 
-{$IFNDEF DARWIN}
+{$IFDEF LINUX}
 function fpOpenDir(__name: PChar): pDir; cdecl; external libc name 'opendir';
 function fpReadDir(__dirp: pDir): pDirent; cdecl; external libc name 'readdir64';
 function fpCloseDir(__dirp: pDir): cInt; cdecl; external libc name 'closedir';
