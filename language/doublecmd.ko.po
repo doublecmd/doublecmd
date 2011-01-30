@@ -1424,11 +1424,6 @@ msgstr "확인 (&O)"
 msgid "Skip"
 msgstr "건너뛰기"
 
-#: TFRMFILEPROPERTIES.CAPTION
-msgctxt "TFRMFILEPROPERTIES.CAPTION"
-msgid "Properties"
-msgstr "속성"
-
 #: TFRMFILEPROPERTIES.CBSGID.CAPTION
 msgctxt "TFRMFILEPROPERTIES.CBSGID.CAPTION"
 msgid "SGID"
@@ -1443,6 +1438,11 @@ msgstr "Sticky"
 msgctxt "TFRMFILEPROPERTIES.CBSUID.CAPTION"
 msgid "SUID"
 msgstr "SUID"
+
+#: TFRMFILEPROPERTIES.FRMFILEPROPERTIES.CAPTION
+msgctxt "TFRMFILEPROPERTIES.FRMFILEPROPERTIES.CAPTION"
+msgid "Properties"
+msgstr "속성"
 
 #: TFRMFILEPROPERTIES.GBOWNER.CAPTION
 msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
@@ -3287,6 +3287,11 @@ msgstr "트윅"
 msgid "Set HotKey"
 msgstr "단축키 설정"
 
+#: TFRMOPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.CAPTION"
+msgid "Options"
+msgstr "옵션"
+
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgctxt "TFRMOPTIONS.CBACKGRNDLABEL.CAPTION"
 msgid "BackGround:"
@@ -3433,7 +3438,9 @@ msgid "Show log window"
 msgstr "로그 창 보이기"
 
 #: TFRMOPTIONS.CBLYNXLIKE.CAPTION
-msgid "Lynx like movement"
+#, fuzzy
+#| msgid "Lynx like movement"
+msgid "Lynx-like movement"
 msgstr "Lynx 처럼 이동"
 
 #: TFRMOPTIONS.CBMINIMIZETOTRAY.CAPTION
@@ -3471,7 +3478,9 @@ msgid "Selection by mouse"
 msgstr "마우스로 선택"
 
 #: TFRMOPTIONS.CBSHORTFILESIZEFORMAT.CAPTION
-msgid "Short Filesize format"
+#, fuzzy
+#| msgid "Short Filesize format"
+msgid "Short file size format"
 msgstr "짧은 파일 크기 형식"
 
 #: TFRMOPTIONS.CBSHOWCMDLINE.CAPTION
@@ -3516,8 +3525,10 @@ msgid "Show &status bar"
 msgstr "상태 표시줄 보이기 (&S)"
 
 #: TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION
+#, fuzzy
+#| msgid "Show hidden/system files"
 msgctxt "TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION"
-msgid "Show hidden/system files"
+msgid "Show system and hidden files"
 msgstr "숨김/시스템 파일 보이기"
 
 #: TFRMOPTIONS.CBSHOWTABHEADER.CAPTION
@@ -3538,8 +3549,10 @@ msgid "Skip file operations errors and write them to log window"
 msgstr "파일 작업 오류 건너뛰기 및 로그 창에 기록"
 
 #: TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION
+#, fuzzy
+#| msgid "Case sensitive sorting"
 msgctxt "TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION"
-msgid "Case sensitive sorting"
+msgid "Case-sensitive sorting"
 msgstr "대/소문자를 구분하여 정렬"
 
 #: TFRMOPTIONS.CBSORTMETHOD.TEXT
@@ -3660,11 +3673,6 @@ msgstr ""
 msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
 msgid "Text Color:"
 msgstr "글꼴 색상:"
-
-#: TFRMOPTIONS.FRMOPTIONS.CAPTION
-msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
-msgid "Options"
-msgstr "옵션"
 
 #: TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION
 msgctxt "TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION"
@@ -4006,6 +4014,10 @@ msgstr "뷰어 플러그인은 뷰어에서 이미지, 스프레드시트, 데�
 msgid "Categories:"
 msgstr "카테고리:"
 
+#: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
+msgid "Drive blacklist:"
+msgstr ""
+
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.HINT
 msgid "Here you can enter one or more drives, separated by \";\"."
 msgstr "여기에 하나 또는 여러 드라이브(\";\"로 구분)를 입력합니다."
@@ -4094,44 +4106,40 @@ msgstr "사용자 홈 디렉터리"
 msgid "Use stream for search text in files"
 msgstr "파일에서 텍스트 찾기 할 때 스트림 사용"
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
 msgid "Hotkey"
 msgstr ""
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION"
 msgid "Parameters"
 msgstr ""
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
 msgid "Active"
 msgstr "활성"
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION"
 msgid "Plugin"
 msgstr ""
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION"
 msgid "Registered for"
 msgstr "등록"
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION"
 msgid "File name"
 msgstr "파일명"
 
-#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION"
 msgid "Tool"
 msgstr ""
-
-#: TFRMOPTIONS.SUBLABEL.CAPTION
-msgctxt "TFRMOPTIONS.SUBLABEL.CAPTION"
-msgid "Drive black list:"
-msgstr "드라이브 제외 목록:"
 
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
 msgid "Additional"
