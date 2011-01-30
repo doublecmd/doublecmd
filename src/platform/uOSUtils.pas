@@ -691,7 +691,7 @@ begin
   Result := High(Int64);
   if (fpStatFS(PChar(UTF8ToSys(Path)), @sbfs) = 0) then
   begin
-    {$IFDEF FREEBSD}
+    {$IFDEF BSD}
     if (sbfs.ftype = MSDOS_SUPER_MAGIC) then
     {$ELSE}
     if (sbfs.fstype = MSDOS_SUPER_MAGIC) then
