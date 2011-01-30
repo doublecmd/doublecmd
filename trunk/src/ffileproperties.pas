@@ -40,7 +40,7 @@ type
 
   TfrmFileProperties = class(TForm)
     btnAll: TBitBtn;
-    btnClose: TButton;
+    btnClose: TBitBtn;
     btnOK: TBitBtn;
     btnSkip: TBitBtn;
     cbExecGroup: TCheckBox;

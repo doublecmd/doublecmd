@@ -11,8 +11,8 @@ object frmFileProperties: TfrmFileProperties
   Constraints.MinWidth = 458
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '0.9.28.3'
-  object btnClose: TButton
+  LCLVersion = '0.9.31'
+  object btnClose: TBitBtn
     AnchorSideRight.Control = pcPageControl
     AnchorSideRight.Side = asrBottom
     Left = 348
@@ -37,8 +37,8 @@ object frmFileProperties: TfrmFileProperties
     TabOrder = 1
     object tsProperties: TTabSheet
       Caption = 'Properties'
-      ClientHeight = 232
-      ClientWidth = 436
+      ClientHeight = 224
+      ClientWidth = 434
       object pnlData: TPanel
         AnchorSideLeft.Control = pnlCaption
         AnchorSideLeft.Side = asrBottom
@@ -47,13 +47,13 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = tsProperties
         AnchorSideBottom.Side = asrBottom
-        Left = 147
-        Height = 232
+        Left = 145
+        Height = 224
         Top = 0
         Width = 289
         Anchors = [akTop, akLeft, akRight, akBottom]
         BevelOuter = bvNone
-        ClientHeight = 232
+        ClientHeight = 224
         ClientWidth = 289
         TabOrder = 0
         object lblFileName: TLabel
@@ -192,23 +192,23 @@ object frmFileProperties: TfrmFileProperties
         AnchorSideBottom.Control = tsProperties
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 232
+        Height = 224
         Top = 0
-        Width = 147
+        Width = 145
         Anchors = [akTop, akLeft, akBottom]
         AutoSize = True
         BevelOuter = bvNone
         ChildSizing.LeftRightSpacing = 10
         ChildSizing.TopBottomSpacing = 10
-        ClientHeight = 232
-        ClientWidth = 147
+        ClientHeight = 224
+        ClientWidth = 145
         TabOrder = 1
         object lblFileNameStr: TLabel
           AnchorSideTop.Control = pnlCaption
           Left = 10
           Height = 18
           Top = 12
-          Width = 44
+          Width = 40
           BorderSpacing.Top = 12
           Caption = 'Name:'
           Font.Color = clBlack
@@ -232,7 +232,7 @@ object frmFileProperties: TfrmFileProperties
           Left = 10
           Height = 18
           Top = 60
-          Width = 35
+          Width = 36
           BorderSpacing.Top = 6
           Caption = 'Type:'
           ParentColor = False
@@ -243,7 +243,7 @@ object frmFileProperties: TfrmFileProperties
           Left = 10
           Height = 18
           Top = 84
-          Width = 75
+          Width = 71
           BorderSpacing.Top = 6
           Caption = 'Symlink to:'
           ParentColor = False
@@ -254,7 +254,7 @@ object frmFileProperties: TfrmFileProperties
           Left = 10
           Height = 18
           Top = 108
-          Width = 32
+          Width = 31
           BorderSpacing.Top = 6
           Caption = 'Size:'
           ParentColor = False
@@ -265,7 +265,7 @@ object frmFileProperties: TfrmFileProperties
           Left = 10
           Height = 18
           Top = 138
-          Width = 80
+          Width = 79
           BorderSpacing.Top = 12
           Caption = 'Last access:'
           ParentColor = False
@@ -276,7 +276,7 @@ object frmFileProperties: TfrmFileProperties
           Left = 10
           Height = 18
           Top = 162
-          Width = 117
+          Width = 114
           BorderSpacing.Top = 6
           Caption = 'Last modification:'
           ParentColor = False
@@ -287,7 +287,7 @@ object frmFileProperties: TfrmFileProperties
           Left = 10
           Height = 18
           Top = 186
-          Width = 127
+          Width = 125
           BorderSpacing.Top = 6
           Caption = 'Last status change:'
           ParentColor = False
@@ -631,8 +631,8 @@ object frmFileProperties: TfrmFileProperties
     Width = 440
     Anchors = [akTop, akLeft, akRight]
     Caption = 'Owner'
-    ClientHeight = 86
-    ClientWidth = 436
+    ClientHeight = 83
+    ClientWidth = 432
     TabOrder = 5
     object lblOwnerStr: TLabel
       AnchorSideLeft.Control = gbOwner
@@ -640,8 +640,8 @@ object frmFileProperties: TfrmFileProperties
       AnchorSideTop.Side = asrCenter
       Left = 24
       Height = 18
-      Top = 17
-      Width = 43
+      Top = 13
+      Width = 41
       BorderSpacing.Left = 24
       Caption = 'Owner'
       ParentColor = False
@@ -652,8 +652,8 @@ object frmFileProperties: TfrmFileProperties
       AnchorSideTop.Side = asrCenter
       Left = 24
       Height = 18
-      Top = 50
-      Width = 40
+      Top = 38
+      Width = 38
       BorderSpacing.Left = 24
       Caption = 'Group'
       ParentColor = False
@@ -661,9 +661,9 @@ object frmFileProperties: TfrmFileProperties
     object cbxUsers: TComboBox
       AnchorSideTop.Control = gbOwner
       Left = 135
-      Height = 29
+      Height = 21
       Top = 12
-      Width = 227
+      Width = 223
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 12
       ItemHeight = 0
@@ -674,9 +674,9 @@ object frmFileProperties: TfrmFileProperties
       AnchorSideTop.Control = cbxUsers
       AnchorSideTop.Side = asrBottom
       Left = 135
-      Height = 29
-      Top = 45
-      Width = 227
+      Height = 21
+      Top = 37
+      Width = 223
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
       ItemHeight = 0
