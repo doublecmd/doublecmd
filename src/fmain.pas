@@ -2214,7 +2214,7 @@ begin
     // If same file source and address
     if (fsoCopy in SourceFileSource.GetOperationsTypes) and
        (fsoCopy in TargetFileSource.GetOperationsTypes) and
-       (SourceFileSource = TargetFileSource) and
+       SourceFileSource.Equals(TargetFileSource) and
        SameText(SourceFileSource.GetCurrentAddress, TargetFileSource.GetCurrentAddress) then
        begin
          // Copy to between same file source

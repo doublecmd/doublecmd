@@ -28,9 +28,11 @@ type
   IFileSource = interface(IInterface)
     ['{B7F0C4C8-59F6-4A35-A54C-E8242F4AD809}']
 
+    function Equals(aFileSource: IFileSource): Boolean;
     function IsInterface(InterfaceGuid: TGuid): Boolean;
     function IsClass(ClassType: TClass): Boolean;
     function GetClassName: String;
+    function GetRefCount: Integer;
 
     function GetCurrentAddress: String;
     function GetCurrentWorkingDirectory: String;
@@ -176,9 +178,11 @@ type
     constructor Create; virtual;
     destructor Destroy; override;
 
+    function Equals(aFileSource: IFileSource): Boolean;
     function IsInterface(InterfaceGuid: TGuid): Boolean;
     function IsClass(aClassType: TClass): Boolean;
     function GetClassName: String; // For debugging purposes.
+    function GetRefCount: Integer; // For debugging purposes.
 
     // Retrieve operations permitted on the source.  = capabilities?
     function GetOperationsTypes: TFileSourceOperationTypes; virtual;
@@ -389,6 +393,12 @@ begin
   inherited Destroy;
 end;
 
+function TFileSource.Equals(aFileSource: IFileSource): Boolean;
+begin
+  // Both interface variables must be brought to the same interface.
+  Result := (Self as IFileSource) = (aFileSource as IFileSource);
+end;
+
 function TFileSource.IsInterface(InterfaceGuid: TGuid): Boolean;
 var
   t: TObject;
@@ -406,6 +416,11 @@ end;
 function TFileSource.GetClassName: String;
 begin
   Result := ClassName;
+end;
+
+function TFileSource.GetRefCount: Integer;
+begin
+  Result := RefCount;
 end;
 
 function TFileSource.GetOperationsTypes: TFileSourceOperationTypes;

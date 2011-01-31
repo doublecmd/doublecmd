@@ -186,7 +186,7 @@ begin
     HistEntry := PFileViewHistoryEntry(FHistory.Items[FCurrentFileSource]);
 
     // Don't add if the current file source is the same.
-    if HistEntry^.FileSource = aFileSource then
+    if HistEntry^.FileSource.Equals(aFileSource) then
       Exit;
   end;
 

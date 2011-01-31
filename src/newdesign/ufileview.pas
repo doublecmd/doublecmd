@@ -830,7 +830,7 @@ end;
 procedure TFileView.ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
 begin
   // Reload file view, but only if the file source is currently viewed.
-  if aFileSource = FileSource then
+  if aFileSource.Equals(FileSource) then
     Reload(ReloadedPaths);
 end;
 
