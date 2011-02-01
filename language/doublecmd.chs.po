@@ -2042,10 +2042,6 @@ msgstr "历史浏览目录"
 msgid "Directory &hotlist"
 msgstr "常用目录列表"
 
-#: TFRMMAIN.ACTDRIVECONTEXTMENU.CAPTION
-msgid "Drive context menu"
-msgstr "驱动器右键菜单"
-
 #: TFRMMAIN.ACTEDIT.CAPTION
 msgid "Edit F4"
 msgstr "编辑 F4"
@@ -2099,6 +2095,14 @@ msgstr "分割文件"
 msgid "Focus command line"
 msgstr "转到命令行"
 
+#: TFRMMAIN.ACTGOTOFIRSTFILE.CAPTION
+msgid "Place cursor on first file in list"
+msgstr ""
+
+#: TFRMMAIN.ACTGOTOLASTFILE.CAPTION
+msgid "Place cursor on last file in list"
+msgstr ""
+
 #: TFRMMAIN.ACTHARDLINK.CAPTION
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create link..."
@@ -2109,6 +2113,10 @@ msgstr "创建硬链接"
 #| msgid "Contents"
 msgid "&Contents"
 msgstr "内容"
+
+#: TFRMMAIN.ACTHORIZONTALFILEPANELS.CAPTION
+msgid "Horizontal file panels"
+msgstr ""
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
 #, fuzzy
@@ -2642,6 +2650,11 @@ msgstr "-"
 
 #: TFRMMAIN.MILINE2.CAPTION
 msgctxt "TFRMMAIN.MILINE2.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMMAIN.MILINE20.CAPTION
+msgctxt "TFRMMAIN.MILINE20.CAPTION"
 msgid "-"
 msgstr "-"
 

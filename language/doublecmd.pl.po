@@ -2024,10 +2024,6 @@ msgstr "Historia katalogów"
 msgid "Directory &hotlist"
 msgstr "Lista otwieranych katalogów"
 
-#: TFRMMAIN.ACTDRIVECONTEXTMENU.CAPTION
-msgid "Drive context menu"
-msgstr "Menu kontekstowe napędów"
-
 #: TFRMMAIN.ACTEDIT.CAPTION
 msgid "Edit F4"
 msgstr "Edytuj F4"
@@ -2077,6 +2073,14 @@ msgstr "Podziel plik"
 msgid "Focus command line"
 msgstr "Przejdź do lini poleceń"
 
+#: TFRMMAIN.ACTGOTOFIRSTFILE.CAPTION
+msgid "Place cursor on first file in list"
+msgstr ""
+
+#: TFRMMAIN.ACTGOTOLASTFILE.CAPTION
+msgid "Place cursor on last file in list"
+msgstr ""
+
 #: TFRMMAIN.ACTHARDLINK.CAPTION
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create link..."
@@ -2085,6 +2089,10 @@ msgstr "Utwórz link"
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
 msgid "&Contents"
 msgstr "Zawartość"
+
+#: TFRMMAIN.ACTHORIZONTALFILEPANELS.CAPTION
+msgid "Horizontal file panels"
+msgstr ""
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
 msgid "&Keyboard"
@@ -2594,6 +2602,11 @@ msgstr "-"
 
 #: TFRMMAIN.MILINE2.CAPTION
 msgctxt "TFRMMAIN.MILINE2.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMMAIN.MILINE20.CAPTION
+msgctxt "TFRMMAIN.MILINE20.CAPTION"
 msgid "-"
 msgstr "-"
 
@@ -6155,13 +6168,13 @@ msgstr "Nie można utworzyć katalogu docelowego!"
 msgid "Incorrect file size format!"
 msgstr "Nieprawodłowa format wielkości pliku"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsspliterrsplitfile
 msgid "Unable to split the file!"
 msgstr "Pliku nie da sie podzilić!"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsspliterrtoomanyparts
 msgid "Too many parts!"
 msgstr "Zbyt wiele części!"

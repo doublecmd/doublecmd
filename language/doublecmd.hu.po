@@ -2047,10 +2047,6 @@ msgstr "Könyvtár előzmények"
 msgid "Directory &hotlist"
 msgstr "Kedvenc &könyvtárak"
 
-#: TFRMMAIN.ACTDRIVECONTEXTMENU.CAPTION
-msgid "Drive context menu"
-msgstr ""
-
 #: TFRMMAIN.ACTEDIT.CAPTION
 msgid "Edit F4"
 msgstr "Szerkeszt F4"
@@ -2104,6 +2100,14 @@ msgstr "Fájl szeletelése"
 msgid "Focus command line"
 msgstr "Parancssorra fókuszálás"
 
+#: TFRMMAIN.ACTGOTOFIRSTFILE.CAPTION
+msgid "Place cursor on first file in list"
+msgstr ""
+
+#: TFRMMAIN.ACTGOTOLASTFILE.CAPTION
+msgid "Place cursor on last file in list"
+msgstr ""
+
 #: TFRMMAIN.ACTHARDLINK.CAPTION
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create link..."
@@ -2114,6 +2118,10 @@ msgstr "Hivatkozás létrehozása..."
 #| msgid "Contents"
 msgid "&Contents"
 msgstr "Tartalomjegyzék"
+
+#: TFRMMAIN.ACTHORIZONTALFILEPANELS.CAPTION
+msgid "Horizontal file panels"
+msgstr ""
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
 #, fuzzy
@@ -2642,6 +2650,11 @@ msgstr ""
 
 #: TFRMMAIN.MILINE2.CAPTION
 msgctxt "TFRMMAIN.MILINE2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMAIN.MILINE20.CAPTION
+msgctxt "TFRMMAIN.MILINE20.CAPTION"
 msgid "-"
 msgstr ""
 
