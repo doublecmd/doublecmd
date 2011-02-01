@@ -80,6 +80,7 @@ type
     procedure btnDefaultClick(Sender: TObject);
     procedure btnRemoveClick(Sender: TObject);
     procedure cbExtChange(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     FWCXPlugins: TWCXModuleList;
     FPluginFileName: String;
@@ -94,7 +95,7 @@ function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Bool
 
 implementation
 uses
-  fOptions, WcxPlugin, uDCUtils, uLng;
+  fOptions, WcxPlugin, uDCUtils, uLng, LCLVersion;
 
 function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Boolean;
 var
@@ -263,6 +264,14 @@ begin
   cbPK_CAPS_ENCRYPT.Checked    := (iFlags and PK_CAPS_ENCRYPT) <> 0;
 end;
 
+procedure TfrmTweakPlugin.FormCreate(Sender: TObject);
+begin
+  {$if (lcl_release) < 31}
+  nbTweakAll.ShowTabs := False;
+  nbTweakAll.TabStop := True;
+  {$endif}
+end;
+
 procedure TfrmTweakPlugin.btnDefaultClick(Sender: TObject);
 begin
   cbExt.Items.Objects[cbExt.ItemIndex]:= TObject(GetDefaultFlags(edtPlugin.Text));
@@ -336,4 +345,4 @@ initialization
   {$I ftweakplugin.lrs}
 
 end.
-
+

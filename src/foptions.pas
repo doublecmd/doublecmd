@@ -540,12 +540,10 @@ var
 implementation
 
 uses
-  uLng, uGlobsPaths, uPixMapManager, fMain, LCLProc,
+  uLng, uGlobsPaths, uPixMapManager, fMain, LCLProc, LCLVersion,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
   fTweakPlugin, uhotkeymanger, uTypes, StrUtils, uFindEx, uKeyboard,
-  fMaskInputDlg, uSearchTemplate, uMultiArc,
-  // Needed for using Lazarus 0.9.30 with old TNotebook component.
-  typinfo, variants;
+  fMaskInputDlg, uSearchTemplate, uMultiArc;
 
 const
      stgCmdCommandIndex=0;
@@ -570,9 +568,6 @@ begin
 end;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
-var
-  V: Variant;
-  M: TMethod;
 begin
   FUpdatingTools := False;
 
@@ -654,25 +649,11 @@ begin
   nbNotebook.PageIndex := 0;
 
   // Below needed until after we switch to Lazarus 0.9.31.
-  // 0.9.31
   nbNotebook.TabStop := True;
-  // Turn off showing tabs if using the old TNotebook component.
-  try
-    V := False;
-    if Assigned(GetPropInfo(nbNotebook, 'ShowTabs')) then
-      SetPropValue(nbNotebook, 'ShowTabs', V);
-  except
-    on EPropertyError do;
-  end;
-  // Assign OnPageChanged (this property doesn't exists in new TNotebook).
-  try
-    M := TMethod(@nbNotebookPageChanged);
-    if Assigned(GetPropInfo(nbNotebook, 'OnPageChanged')) then
-      SetMethodProp(nbNotebook, 'OnPageChanged', M);
-  except
-    on EPropertyError do;
-  end;
-  // 0.9.31
+  {$if (lcl_release) < 31}
+  nbNotebook.ShowTabs := False;
+  nbNotebook.OnPageChanged := @nbNotebookPageChanged;
+  {$endif}
 
   gbViewerBookMode.Enabled := not (cbToolsUseExternalProgram.Checked);
 end;

@@ -7,6 +7,7 @@ object frmTweakPlugin: TfrmTweakPlugin
   Caption = 'Tweak plugin'
   ClientHeight = 482
   ClientWidth = 544
+  OnCreate = FormCreate
   Position = poScreenCenter
   ShowInTaskBar = stNever
   LCLVersion = '0.9.31'
@@ -15,10 +16,10 @@ object frmTweakPlugin: TfrmTweakPlugin
     Height = 439
     Top = 0
     Width = 544
-    Align = alClient
     PageIndex = 0
-    ShowTabs = False
+    Align = alClient
     TabOrder = 0
+    TabStop = True
     object pgTweakPacker: TPage
       ClientWidth = 540
       ClientHeight = 435
@@ -451,4 +452,4 @@ object frmTweakPlugin: TfrmTweakPlugin
       TabOrder = 1
     end
   end
-end
+end
