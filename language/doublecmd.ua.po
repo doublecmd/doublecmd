@@ -3979,7 +3979,7 @@ msgstr "Категорії:"
 
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
 msgid "Drive blacklist:"
-msgstr ""
+msgstr "Чорний список дисків:"
 
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.HINT
 msgid "Here you can enter one or more drives, separated by \";\"."
