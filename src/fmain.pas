@@ -79,6 +79,8 @@ type
     actChangeDirToParent: TAction;
     actEditPath: TAction;
     actHorizontalFilePanels: TAction;
+    actGoToFirstFile: TAction;
+    actGoToLastFile: TAction;
     actNetworkDisconnect: TAction;
     actNetworkQuickConnect: TAction;
     actNetworkConnect: TAction;

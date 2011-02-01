@@ -164,6 +164,8 @@ const cf_Null=0;
    procedure cm_ShowButtonMenu(param: string='');
    procedure cm_TransferLeft(param: string='');
    procedure cm_TransferRight(param: string='');
+   procedure cm_GoToFirstFile(param: string='');
+   procedure cm_GoToLastFile(param: string='');
    procedure cm_Minimize(param: string='');
    procedure cm_Wipe(param: string='');
    procedure cm_Exit(param: string='');
@@ -1092,6 +1094,16 @@ begin
   if (frmMain.SelectedPanel = fpLeft) then
     DoTransferPath(frmMain.LeftTabs.ActivePage,
                    frmMain.RightTabs.ActivePage);
+end;
+
+procedure TActs.cm_GoToFirstFile(param: string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_GoToFirstFile', '');
+end;
+
+procedure TActs.cm_GoToLastFile(param: string);
+begin
+  frmMain.ActiveFrame.ExecuteCommand('cm_GoToLastFile', '');
 end;
 
 procedure TActs.cm_Minimize(param:string);
@@ -2825,4 +2837,4 @@ begin
 end;
 
 end.
-
+

@@ -472,6 +472,8 @@ type
     procedure cm_RenameOnly(param: string='');
     procedure cm_ContextMenu(param: string='');
     procedure cm_EditPath(param: string='');
+    procedure cm_GoToFirstFile(param: string='');
+    procedure cm_GoToLastFile(param: string='');
   end;
 
 implementation
@@ -3744,6 +3746,16 @@ end;
 procedure TColumnsFileView.cm_EditPath(param: string);
 begin
   ShowPathEdit;
+end;
+
+procedure TColumnsFileView.cm_GoToFirstFile(param: string);
+begin
+  dgPanel.Row:= dgPanel.FixedRows;
+end;
+
+procedure TColumnsFileView.cm_GoToLastFile(param: string);
+begin
+  dgPanel.Row:= dgPanel.RowCount - 1;
 end;
 
 { TDrawGridEx }
