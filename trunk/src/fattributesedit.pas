@@ -100,6 +100,8 @@ type
 
 implementation
 
+{$R *.lfm}
+
 procedure TfrmAttributesEdit.btnOkClick(Sender: TObject);
 begin
   if Assigned(FOnOk) then
@@ -237,9 +239,6 @@ begin
       Result := '';
   end;
 end;
-
-initialization
-  {$I fattributesedit.lrs}
 
 end.
 

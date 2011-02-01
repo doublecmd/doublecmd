@@ -36,6 +36,8 @@ function ShowSymLinkForm(const sExistingFile, sLinkToCreate, CurrentPath: String
 
 implementation
 
+{$R *.lfm}
+
 uses
   FileUtil, uLng, uGlobs, uLog, uShowMsg, uOSUtils, uDCUtils;
 
@@ -117,7 +119,4 @@ begin
   edtLinkToCreate.SelectAll;
 end;
 
-initialization
- {$I fsymlink.lrs}
-
-end.
+end.

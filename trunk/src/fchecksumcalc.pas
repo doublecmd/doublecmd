@@ -58,6 +58,8 @@ function ShowCalcCheckSum(var sFileName: UTF8String; out SeparateFile: Boolean;
 
 implementation
 
+{$R *.lfm}
+
 uses
   uGlobs;
 
@@ -106,9 +108,6 @@ begin
   edtSaveTo.Text:= FFileName + ExtensionSeparator;
   cmbHashAlgorithmChange(cmbHashAlgorithm);
 end;
-
-initialization
-  {$I fchecksumcalc.lrs}
 
 end.
 

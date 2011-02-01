@@ -62,6 +62,8 @@ procedure ShowAboutBox;
 
 implementation
 
+{$R *.lfm}
+
 uses
   dmHelpManager, uDCVersion;
 
@@ -157,8 +159,5 @@ begin
   lblOperatingSystem.Caption := OSVersion;
   lblWidgetsetVer.Caption    := WSVersion;
 end;
-
-initialization
- {$I fAbout.lrs}
 
 end.

@@ -48,6 +48,8 @@ procedure ShowVerifyCheckSum(const VerifyResult: TStringList);
 
 implementation
 
+{$R *.lfm}
+
 procedure ShowVerifyCheckSum(const VerifyResult: TStringList);
 begin
   with TfrmCheckSumVerify.Create(Application) do
@@ -58,9 +60,6 @@ begin
     Free;
   end;
 end;
-
-initialization
-  {$I fchecksumverify.lrs}
 
 end.
 

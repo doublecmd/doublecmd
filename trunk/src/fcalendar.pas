@@ -26,6 +26,8 @@ function ShowCalendarDialog(ADate: String; APosition: TPoint): String;
 
 implementation
 
+{$R *.lfm}
+
 function ShowCalendarDialog(ADate: String; APosition: TPoint): String;
 var
   dtDate: TDateTime;
@@ -77,9 +79,6 @@ begin
     end;
   end;
 end;
-
-initialization
-  {$I fcalendar.lrs}
 
 end.
 

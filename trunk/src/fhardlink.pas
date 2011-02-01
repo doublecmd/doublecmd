@@ -36,6 +36,8 @@ function ShowHardLinkForm(const sExistingFile, sLinkToCreate, CurrentPath: Strin
 
 implementation
 
+{$R *.lfm}
+
 uses
   FileUtil, uLng, uGlobs, uLog, uShowMsg, uOSUtils, uDCUtils;
 
@@ -117,7 +119,4 @@ begin
   edtLinkToCreate.SelectAll;
 end;
 
-initialization
- {$I fhardlink.lrs}
- 
-end.
+end.

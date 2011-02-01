@@ -76,6 +76,8 @@ var
 
 implementation
 
+{$R *.lfm}
+
 uses
   uFileSourceOperationTypes,
   uLng, fFileOpDlg, uGlobs;
@@ -382,8 +384,5 @@ begin
   sboxOperations.Invalidate;     // force redraw
 end;
 
-initialization
-  {$I fviewoperations.lrs}
-
 end.
-
+

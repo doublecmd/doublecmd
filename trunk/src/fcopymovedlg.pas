@@ -85,6 +85,8 @@ type
 
 implementation
 
+{$R *.lfm}
+
 uses
   fMain, LCLType, uGlobs, uFileSourceOperationOptions, uLng;
 
@@ -466,6 +468,4 @@ begin
   end;
 end;
 
-initialization
- {$I fcopymovedlg.lrs}
 end.

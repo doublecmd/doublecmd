@@ -273,6 +273,8 @@ procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSour
 
 implementation
 
+{$R *.lfm}
+
 uses
   FileUtil, IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx,
   uFindMmap, uDCUtils, LCLIntf;
@@ -2107,9 +2109,6 @@ begin
       end;
   end;
 end;
-
-initialization
- {$I fviewer.lrs}
 
 end.
 
