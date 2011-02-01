@@ -2230,6 +2230,16 @@ object frmMain: TfrmMain
       Caption = 'Horizontal file panels'
       OnExecute = actExecute
     end
+    object actGoToFirstFile: TAction
+      Category = 'Commands'
+      Caption = 'Place cursor on first file in list'
+      OnExecute = actExecute
+    end
+    object actGoToLastFile: TAction
+      Category = 'Commands'
+      Caption = 'Place cursor on last file in list'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 120
@@ -3467,4 +3477,4 @@ object frmMain: TfrmMain
     left = 96
     top = 13
   end
-end
+end
