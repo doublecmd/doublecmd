@@ -133,6 +133,8 @@ procedure ShowFileProperties(aFileSource: IFileSource; const aFiles: TFiles);
 
 implementation
 
+{$R *.lfm}
+
 uses
   LCLType, StrUtils, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
   uDefaultFilePropertyFormatter, uMyUnix, uFileAttributes,
@@ -463,9 +465,6 @@ begin
     end;
   FFileSourceCalcStatisticsOperation:= nil;
 end;
-
-initialization
- {$I ffileproperties.lrs}
 
 end.
 

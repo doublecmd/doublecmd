@@ -48,6 +48,8 @@ var
 
 implementation
 
+{$R *.lfm}
+
 uses
   uGlobsPaths, uGlobs, uDCUtils, uOSUtils, StrUtils;
 
@@ -67,9 +69,6 @@ begin
   HTMLHelpDatabase.BaseURL:= 'file://' + gpExePath + 'doc' + PathDelim + gHelpLang;
   HTMLHelpDatabase.KeywordPrefix:= '/';
 end;
-
-initialization
-  {$I dmhelpmanager.lrs}
 
 end.
 

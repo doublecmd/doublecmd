@@ -26,8 +26,7 @@ var
 
 implementation
 
-initialization
-  {$I dmcommondata.lrs}
+{$R *.lfm}
 
 end.
 

@@ -127,6 +127,8 @@ procedure ShowFileAssocDlg;
 
 implementation
 
+{$R *.lfm}
+
 uses
   LCLType, uGlobsPaths, uGlobs, uPixMapManager, uLng, uOSUtils;
 
@@ -692,8 +694,5 @@ begin
   end;
 end;
 
-initialization
-  {$I ffileassoc.lrs}
-
 end.
-
+

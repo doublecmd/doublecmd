@@ -31,6 +31,8 @@ type
 
 implementation
 
+{$R *.lfm}
+
 procedure TfrmMsg.FormCreate(Sender: TObject);
 begin
   iSelected:=-1;
@@ -80,6 +82,4 @@ begin
   end;
 end;
 
-initialization
- {$I fMsg.lrs}
 end.

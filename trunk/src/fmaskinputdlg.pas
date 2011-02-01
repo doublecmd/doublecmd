@@ -56,6 +56,8 @@ function ShowMaskInputDlg(const sCaption, sPrompt: UTF8String; slValueList: TStr
 
 implementation
 
+{$R *.lfm}
+
 uses
   fFindDlg, uGlobs, uSearchTemplate;
 
@@ -116,9 +118,6 @@ begin
     cmbMask.Text:= cTemplateSign + sTemplateName;
   end;
 end;
-
-initialization
-  {$I fmaskinputdlg.lrs}
 
 end.
 

@@ -129,6 +129,8 @@ type
 
 implementation
 
+{$R *.lfm}
+
 uses
   uLng, uDCUtils;
 
@@ -284,9 +286,6 @@ begin
   rgSearchDirection.Items.Strings[0]:= rsEditSearchFrw;
   rgSearchDirection.Items.Strings[1]:= rsEditSearchBack;
 end;
-
-initialization
-  {$I feditsearch.lrs}
 
 end.
 

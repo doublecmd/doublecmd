@@ -73,6 +73,8 @@ function ShowPackInfoDlg(aFileSource: IArchiveFileSource; aFile: TFile): TFileSo
 
 implementation
 
+{$R *.lfm}
+
 uses
   uFileSourceOperationTypes;
 
@@ -159,8 +161,5 @@ begin
   end;
 end;
 
-initialization
-  {$I fpackinfodlg.lrs}
-
 end.
-
+

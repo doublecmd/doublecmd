@@ -112,6 +112,8 @@ function ShowChangeFilePropertiesDialog(const aOperation: TFileSourceSetFileProp
 
 implementation
 
+{$R *.lfm}
+
 uses
   LCLType, fCalendar, uFileAttributes, uDCUtils;
 
@@ -300,9 +302,6 @@ begin
   edbLastAccessTime.Text:= DateToStr(Date);
   edtLastAccessTime.Text:= TimeToStr(Time);
 end;
-
-initialization
-  {$I fsetfileproperties.lrs}
 
 end.
 

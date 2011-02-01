@@ -86,6 +86,8 @@ type
 
 implementation
 
+{$R *.lfm}
+
 procedure TfrmModView.btnProportionClick(Sender: TObject);
 begin
   btnProportion.ShowCaption:= not (btnProportion.ShowCaption);
@@ -303,9 +305,6 @@ begin
      teHeight.Text := IntToStr(round(StrToInt(teWidth.Text)*prY/prX));
    end;
 end;
-
-initialization
-  {$I fmodview.lrs}
 
 end.
 

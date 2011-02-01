@@ -41,6 +41,8 @@ type
 
 implementation
 
+{$R *.lfm}
+
 uses
   LCLProc, uDCUtils;
 
@@ -79,8 +81,5 @@ begin
   end;
 
 end;
-
-initialization
- {$I ffindview.lrs}
 
 end.

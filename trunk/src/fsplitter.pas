@@ -67,6 +67,8 @@ type
 
 implementation
 
+{$R *.lfm}
+
 uses
   LCLProc, uLng, uClassesEx, uOSUtils;
 
@@ -354,9 +356,5 @@ procedure TfrmSplitter.rbtnKiloBChange(Sender: TObject);
 begin
   SetNumberOfPart;
 end;
-
-
-initialization
- {$I fsplitter.lrs}
 
 end.

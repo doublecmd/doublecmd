@@ -94,6 +94,9 @@ type
 function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Boolean;
 
 implementation
+
+{$R *.lfm}
+
 uses
   fOptions, WcxPlugin, uDCUtils, uLng, LCLVersion;
 
@@ -340,9 +343,6 @@ begin
     end;
   WCXmodule.Free;
 end;
-
-initialization
-  {$I ftweakplugin.lrs}
 
 end.
 

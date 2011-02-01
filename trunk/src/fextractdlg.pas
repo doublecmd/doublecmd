@@ -60,6 +60,8 @@ procedure ShowExtractDlg(SourceFileSource: IFileSource;
 
 implementation
 
+{$R *.lfm}
+
 uses
   Dialogs,
   uGlobs, uDCUtils, uShowMsg, uLng,
@@ -226,9 +228,6 @@ begin
       FreeAndNil(SourceFiles);
   end;
 end;
-
-initialization
-  {$I fextractdlg.lrs}
 
 end.
 
