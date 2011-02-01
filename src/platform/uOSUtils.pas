@@ -275,6 +275,8 @@ function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
 function mbLoadLibrary(Name: UTF8String): TLibHandle;
 function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
 
+procedure FixFormIcon(Handle: HWND);
+
 implementation
 
 uses
@@ -1801,4 +1803,14 @@ begin
 {$ENDIF}
 end;
 
-end.
+procedure FixFormIcon(Handle: HWND);
+begin
+  // Workaround for Lazarus issue 0018484.
+  // Any form that sets its own icon should call this in FormCreate.
+{$IFDEF WINDOWS}
+  Windows.SetClassLong(Handle, GCL_HICONSM, 0);
+  Windows.SetClassLong(Handle, GCL_HICON, 0);
+{$ENDIF}
+end;
+
+end.

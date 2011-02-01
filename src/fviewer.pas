@@ -1433,6 +1433,8 @@ begin
   Status.Panels[sbpFileSize].Alignment := taRightJustify;
 
   ViewerPositionChanged(Self);
+
+  FixFormIcon(Handle);
 end;
 
 procedure TfrmViewer.btnCutTuImageClick(Sender: TObject);
