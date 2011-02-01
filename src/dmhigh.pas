@@ -40,8 +40,12 @@ var
   dmHighl: TdmHighl;
 
 implementation
+
+{$R *.lfm}
+
 uses
   uHighlighterProcs;
+
 { TdmHighl }
 
 procedure TdmHighl.dmHighlCreate(Sender: TObject);
@@ -60,9 +64,6 @@ function TdmHighl.GetHighlighterByExt(const sExtension: string): TSynCustomHighl
 begin
   Result:=GetHighlighterFromFileExt(slHighLighters, sExtension);
 end;
-
-initialization
-  {$I dmhigh.lrs}
 
 end.
 

@@ -81,6 +81,8 @@ type
 
 implementation
 
+{$R *.lfm}
+
 uses
   WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation, uLng, uOSUtils,
   uOperationsManager, fFileOpDlg, uArchiveFileSourceUtil, uMultiArchiveFileSource,
@@ -333,10 +335,6 @@ begin
         cbPackerList.ItemIndex := iIndex;
     end;
 end;
-
-
-initialization
-  {$I fpackdlg.lrs}
 
 end.
 

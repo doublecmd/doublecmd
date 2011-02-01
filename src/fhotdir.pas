@@ -45,6 +45,8 @@ type
 
 implementation
 
+{$R *.lfm}
+
 uses
   uDCUtils, uGlobs, uLng;
 
@@ -155,6 +157,4 @@ begin
   fPivotIndex := -1;
 end;
 
-initialization
- {$I fhotdir.lrs}
 end.

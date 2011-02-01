@@ -192,6 +192,8 @@ type
 
 implementation
 
+{$R *.lfm}
+
 uses
   LCLProc, FileUtil, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils, uShowMsg, uFileSourceUtil, uFileProperty;
 
@@ -1125,7 +1127,5 @@ begin
   SavePresetsXml(gConfig);
 end;
 
-initialization
- {$I fmultirename.lrs}
 end.
 

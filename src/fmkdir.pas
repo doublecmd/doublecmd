@@ -1,5 +1,7 @@
 unit fMkDir;
+
 {$mode objfpc}{$H+}
+
 interface
 
 uses
@@ -30,6 +32,8 @@ var  frmMkDir: TfrmMkDir;  // 21.05.2009  - создаем из файла пр�
 implementation
 //uses      // 21.05.2009 - закомментировал неиспользуемый
 //  uLng;
+
+{$R *.lfm}
 
 procedure TfrmMkDir.FormKeyPress(Sender: TObject; var Key: Char);
 begin
@@ -83,7 +87,4 @@ begin
   end;
 end;
 
-initialization
- {$I fmkdir.lrs}
-
-end.
+end.

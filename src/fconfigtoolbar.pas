@@ -120,6 +120,8 @@ type
 
 implementation
 
+{$R *.lfm}
+
 uses
   ActnList, LCLProc, HelpIntfs, uClassesEx, uOSForms, uPixMapManager,
   uGlobsPaths, uGlobs, uDCUtils, uOSUtils;
@@ -616,9 +618,6 @@ begin
     end;
   WakeSleepControls;
 end;
-
-initialization
-  {$I fconfigtoolbar.lrs}
 
 end.
 

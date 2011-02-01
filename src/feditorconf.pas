@@ -120,6 +120,7 @@ type
 
 implementation
 
+{$R *.lfm}
 
 uses
   FileUtil, uFindEx, uOSUtils, uTypes;
@@ -369,6 +370,4 @@ begin
     cAttrs[lbNames.ItemIndex].fntStyle:= Ord(cbBold.Checked)+ 2*Ord(cbItalic.Checked)+4*ord(cbUnderline.Checked)+8*ord(cbStrikeOut.Checked);
 end;
 
-initialization
- {$I feditorconf.lrs}
 end.

@@ -214,6 +214,8 @@ type
 
 implementation
 
+{$R *.lfm}
+
 uses
   StrUtils, WdxPlugin, uLng, uWdxModule, uFileSystemFileSource, uOSUtils,
   uFileFunctions;
@@ -1200,9 +1202,6 @@ procedure TfColumnsSetConf.SetColumnsClass(AColumnsClass: TPanelColumnsClass);
 begin
   ColumnClass.Assign(AColumnsClass);
 end;
-
-initialization
-  {$I fcolumnssetconf.lrs}
 
 end.
 

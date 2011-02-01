@@ -11,7 +11,9 @@ contributors:
 }
 
 unit fLinker;
+
 {$mode objfpc}{$H+}
+
 interface
 
 uses
@@ -49,6 +51,8 @@ type
 function ShowLinkerFilesForm(const lsFiles:TStringList):Boolean;
 {start function with input arguments}
 implementation
+
+{$R *.lfm}
 
 uses
   LCLProc, uLng, uFileProcs, uClassesEx;
@@ -183,6 +187,4 @@ begin
   end;
 end;
 
-initialization
- {$I flinker.lrs}
 end.

@@ -23,8 +23,7 @@ var
 
 implementation
 
-initialization
-  {$I fhackform.lrs}
+{$R *.lfm}
 
 end.
 
