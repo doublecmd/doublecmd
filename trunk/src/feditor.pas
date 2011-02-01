@@ -183,7 +183,8 @@ implementation
 uses
   dmCommonData, dmHigh, uLng,
   SynEditHighlighter, uShowMsg, fMsg, fEditSearch,
-  SynEditTypes, uGlobsPaths, uGlobs, fEditorConf, LCLType, LConvEncoding;
+  SynEditTypes, uGlobsPaths, uGlobs, fEditorConf, LCLType, LConvEncoding,
+  uOSUtils;
 
 procedure ShowEditor(const sFileName:String);
 var
@@ -258,6 +259,8 @@ begin
       if glsSearchHistory.Count > 0 then
         sSearchText:= glsSearchHistory[0];
     end;
+
+  FixFormIcon(Handle);
 end;
 
 procedure TfrmEditor.actEditFindNextExecute(Sender: TObject);
@@ -812,4 +815,4 @@ end;
 initialization
  {$I feditor.lrs}
 
-end.
+end.
