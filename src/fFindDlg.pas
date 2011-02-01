@@ -174,6 +174,8 @@ function ShowDefineTemplateDlg(out TemplateName: UTF8String): Boolean;
 
 implementation
 
+{$R *.lfm}
+
 uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fCalendar, fViewer, fMain,
   uLng, uGlobs, uShowForm, uOSUtils, uSearchTemplate, uDCUtils,
@@ -1005,9 +1007,6 @@ begin
     sAttr := sAttr + (Sender as TfrmAttributesEdit).AttrsAsText;
   edtAttrib.Text := sAttr;
 end;
-
-initialization
- {$I fFindDlg.lrs}
 
 finalization
   if Assigned(frmFindDlg) then

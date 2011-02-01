@@ -97,6 +97,8 @@ type
 
 implementation
 
+{$R *.lfm}
+
 uses
    dmCommonData, uLng, uDCUtils,
    uFileSourceOperationTypes,
@@ -638,8 +640,5 @@ begin
       pbSecond.Style:= pbstMarquee;
     end;
 end;
-
-initialization
- {$I fFileOpDlg.lrs}
 
 end.

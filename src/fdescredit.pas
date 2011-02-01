@@ -55,6 +55,8 @@ function ShowDescrEditDlg(sFileName: String): Boolean;
 
 implementation
 
+{$R *.lfm}
+
 uses
   LConvEncoding;
 
@@ -107,9 +109,6 @@ begin
   FDescr.Encoding:= cbEncoding.Text;
   memDescr.Lines.Text:= FDescr.ReadDescription(lblFileName.Caption);
 end;
-
-initialization
-  {$I fdescredit.lrs}
 
 end.
 

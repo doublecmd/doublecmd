@@ -539,6 +539,8 @@ var
 
 implementation
 
+{$R *.lfm}
+
 uses
   uLng, uGlobsPaths, uPixMapManager, fMain, LCLProc, LCLVersion,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
@@ -3106,8 +3108,5 @@ begin
   end;
   gbViewerBookMode.Visible := (ExtTool = etViewer);
 end;
-
-initialization
- {$I fOptions.lrs}
 
 end.

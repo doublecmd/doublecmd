@@ -617,6 +617,8 @@ var
 
 implementation
 
+{$R *.lfm}
+
 uses
   LCLIntf, Dialogs, uGlobs, uLng, fConfigToolBar, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, fHotDir, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
@@ -4470,6 +4472,4 @@ begin
   UpdateDiskCount;
 end;
 
-initialization
- {$I fmain.lrs}
 end.

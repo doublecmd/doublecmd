@@ -180,6 +180,8 @@ type
 
 implementation
 
+{$R *.lfm}
+
 uses
   dmCommonData, dmHigh, uLng,
   SynEditHighlighter, uShowMsg, fMsg, fEditSearch,
@@ -811,8 +813,5 @@ begin
     if SameText(NormalizeEncoding(mnuMenuItem.Items[I].Caption), sEncoding) then
       mnuMenuItem.Items[I].Checked:= True;
 end;
-
-initialization
- {$I feditor.lrs}
 
 end.
