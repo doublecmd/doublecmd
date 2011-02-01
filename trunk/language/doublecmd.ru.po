@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-01-04 16:49+0300\n"
+"PO-Revision-Date: 2011-02-01 22:01+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2034,10 +2034,6 @@ msgstr "История каталогов"
 msgid "Directory &hotlist"
 msgstr "Личный спис&ок каталогов"
 
-#: TFRMMAIN.ACTDRIVECONTEXTMENU.CAPTION
-msgid "Drive context menu"
-msgstr "Контекстное меню диска"
-
 #: TFRMMAIN.ACTEDIT.CAPTION
 msgid "Edit F4"
 msgstr "Правка F4"
@@ -2089,6 +2085,14 @@ msgstr "&Разрезать файл..."
 msgid "Focus command line"
 msgstr "Перейти к командной строке"
 
+#: TFRMMAIN.ACTGOTOFIRSTFILE.CAPTION
+msgid "Place cursor on first file in list"
+msgstr "Поместить курсор на первый файл в списке"
+
+#: TFRMMAIN.ACTGOTOLASTFILE.CAPTION
+msgid "Place cursor on last file in list"
+msgstr "Поместить курсор на последний файл в списке"
+
 #: TFRMMAIN.ACTHARDLINK.CAPTION
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create link..."
@@ -2098,6 +2102,10 @@ msgstr "Создать &ссылку..."
 #| msgid "Contents"
 msgid "&Contents"
 msgstr "Содержание"
+
+#: TFRMMAIN.ACTHORIZONTALFILEPANELS.CAPTION
+msgid "Horizontal file panels"
+msgstr "Панели одна над другой"
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
 #| msgid "Keyboard"
@@ -2629,6 +2637,11 @@ msgstr ""
 
 #: TFRMMAIN.MILINE2.CAPTION
 msgctxt "TFRMMAIN.MILINE2.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMAIN.MILINE20.CAPTION
+msgctxt "TFRMMAIN.MILINE20.CAPTION"
 msgid "-"
 msgstr ""
 

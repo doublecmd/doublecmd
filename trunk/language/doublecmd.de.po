@@ -2038,10 +2038,6 @@ msgstr "Verzeichnisverlauf"
 msgid "Directory &hotlist"
 msgstr "Verzeichnis-Favoriten"
 
-#: TFRMMAIN.ACTDRIVECONTEXTMENU.CAPTION
-msgid "Drive context menu"
-msgstr "Kontextmenü für Laufwerke"
-
 #: TFRMMAIN.ACTEDIT.CAPTION
 msgid "Edit F4"
 msgstr "Bearbeiten F4"
@@ -2095,6 +2091,14 @@ msgstr "Tei&le Datei"
 msgid "Focus command line"
 msgstr "Fokus auf die Befehlsze&ile"
 
+#: TFRMMAIN.ACTGOTOFIRSTFILE.CAPTION
+msgid "Place cursor on first file in list"
+msgstr ""
+
+#: TFRMMAIN.ACTGOTOLASTFILE.CAPTION
+msgid "Place cursor on last file in list"
+msgstr ""
+
 #: TFRMMAIN.ACTHARDLINK.CAPTION
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create link..."
@@ -2105,6 +2109,10 @@ msgstr "Hardlink erstellen"
 #| msgid "Contents"
 msgid "&Contents"
 msgstr "Inhalte"
+
+#: TFRMMAIN.ACTHORIZONTALFILEPANELS.CAPTION
+msgid "Horizontal file panels"
+msgstr ""
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
 #, fuzzy
@@ -2642,6 +2650,11 @@ msgstr "-"
 
 #: TFRMMAIN.MILINE2.CAPTION
 msgctxt "TFRMMAIN.MILINE2.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMMAIN.MILINE20.CAPTION
+msgctxt "TFRMMAIN.MILINE20.CAPTION"
 msgid "-"
 msgstr "-"
 
