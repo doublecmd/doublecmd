@@ -1,74 +1,91 @@
 object frmSymLink: TfrmSymLink
-  Left = 296
-  Height = 160
-  Top = 258
-  Width = 400
+  Left = 311
+  Height = 187
+  Top = 267
+  Width = 487
   HorzScrollBar.Page = 399
   HorzScrollBar.Range = 344
   VertScrollBar.Page = 151
   VertScrollBar.Range = 128
   ActiveControl = edtLinkToCreate
+  AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Create symlink'
   ChildSizing.LeftRightSpacing = 8
   ChildSizing.TopBottomSpacing = 8
-  ClientHeight = 160
-  ClientWidth = 400
-  Constraints.MaxHeight = 160
-  Constraints.MaxWidth = 400
+  ClientHeight = 187
+  ClientWidth = 487
   KeyPreview = True
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '0.9.29'
+  LCLVersion = '0.9.31'
   object lblExistingFile: TLabel
+    AnchorSideLeft.Control = edtExistingFile
     AnchorSideTop.Control = edtLinkToCreate
     AnchorSideTop.Side = asrBottom
     Left = 8
-    Height = 18
-    Top = 65
-    Width = 276
+    Height = 22
+    Top = 71
+    Width = 284
     BorderSpacing.Top = 6
     Caption = 'Existing destination (where will link point)'
     FocusControl = edtExistingFile
     ParentColor = False
   end
   object lblLinkToCreate: TLabel
+    AnchorSideLeft.Control = edtLinkToCreate
+    AnchorSideTop.Control = Owner
     Left = 8
-    Height = 18
+    Height = 22
     Top = 8
-    Width = 69
+    Width = 72
+    BorderSpacing.Top = 6
     Caption = 'Link name'
     FocusControl = edtLinkToCreate
     ParentColor = False
   end
   object edtExistingFile: TEdit
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = lblExistingFile
     AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 27
-    Top = 89
-    Width = 384
+    Height = 29
+    Top = 99
+    Width = 471
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 6
     BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
+    Constraints.MinWidth = 400
     TabOrder = 1
   end
   object edtLinkToCreate: TEdit
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = lblLinkToCreate
     AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 27
-    Top = 32
-    Width = 384
+    Height = 29
+    Top = 36
+    Width = 471
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 6
     BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
+    Constraints.MinWidth = 400
     TabOrder = 0
   end
   object btnOK: TBitBtn
     AnchorSideTop.Control = edtExistingFile
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnCancel
-    Left = 206
+    Left = 293
     Height = 32
-    Top = 128
+    Top = 140
     Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 12
@@ -88,9 +105,9 @@ object frmSymLink: TfrmSymLink
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = edtExistingFile
     AnchorSideRight.Side = asrBottom
-    Left = 302
+    Left = 389
     Height = 32
-    Top = 128
+    Top = 140
     Width = 90
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 12
