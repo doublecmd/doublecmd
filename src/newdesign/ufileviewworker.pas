@@ -13,22 +13,38 @@ type
                        fvwtCreate,  // Creates file list
                        fvwtUpdate); // Updates file list
 
+  TFileViewWorker = class;
+
+  TStartingWorkMethod = procedure (const Worker: TFileViewWorker) of object;
+  TFinishedWorkMethod = procedure (const Worker: TFileViewWorker) of object;
+
   { TFileViewWorker }
 
   TFileViewWorker = class
   strict private
     FAborted: Boolean;
+    FCanBeDestroyed: Boolean;
     FWorking: Boolean;
+    FOnStarting: TStartingWorkMethod;
+    FOnFinished: TFinishedWorkMethod;
+    FThread: TThread;
+    procedure DoFinished;
+    procedure DoStarting;
   protected
     FWorkType: TFileViewWorkType;
-    function IsWorking: Boolean; virtual;
+    procedure DoneWorking;
     procedure Execute; virtual; abstract;
+    function IsWorking: Boolean; virtual;
+    property Thread: TThread read FThread;
   public
-    constructor Create; virtual;
+    constructor Create(AThread: TThread); virtual;
     procedure Abort;
     procedure Start;
     procedure StartParam(Params: Pointer);
     property Aborted: Boolean read FAborted;
+    property CanBeDestroyed: Boolean read FCanBeDestroyed;
+    property OnFinished: TFinishedWorkMethod read FOnFinished write FOnFinished;
+    property OnStarting: TStartingWorkMethod read FOnStarting write FOnStarting;
     property Working: Boolean read IsWorking;
     property WorkType: TFileViewWorkType read FWorkType;
   end;
@@ -58,7 +74,6 @@ type
     FFileSourcesCount: Integer;
     FFileFilter: String;
     FCurrentPath: String;
-    FThread: TThread;
     FSortings: TFileSortings;
     FFilePropertiesNeeded: TFilePropertiesTypes;
 
@@ -99,7 +114,6 @@ type
     FFileList: TFPList;
     FUpdateFileMethod: TUpdateFileMethod;
     FFileSource: IFileSource;
-    FThread: TThread;
     FFilePropertiesNeeded: TFilePropertiesTypes;
 
     {en
@@ -129,7 +143,6 @@ type
     FFileList: TFPList;
     FUpdateFileMethod: TUpdateFileMethod;
     FFileSource: IFileSource;
-    FThread: TThread;
 
     {en
        Updates file in the file view with new data.
@@ -161,13 +174,20 @@ uses
 
 { TFileViewWorker }
 
-constructor TFileViewWorker.Create;
+constructor TFileViewWorker.Create(AThread: TThread);
 begin
   FAborted := False;
+  // After FCanBeDestroyed is set to True the worker may be destroyed.
+  FCanBeDestroyed := False;
+
   // Set Working=True on creation because these workers are usually scheduled
-  // to run by a non-main thread.
+  // to run by a non-main thread, so it might take a while for Execute to be called.
   FWorking := True;
   FWorkType := fvwtNone;
+
+  FOnStarting := nil;
+  FOnFinished := nil;
+  FThread := AThread;
 end;
 
 procedure TFileViewWorker.Abort;
@@ -175,21 +195,46 @@ begin
   FAborted := True;
 end;
 
-procedure TFileViewWorker.Start;
+procedure TFileViewWorker.DoFinished;
 begin
-  Execute; // virtual call
   FWorking := False;
+  FOnFinished(Self);
 end;
 
-procedure TFileViewWorker.StartParam(Params: Pointer);
+procedure TFileViewWorker.DoStarting;
 begin
-  Execute; // virtual call
+  FOnStarting(Self);
+end;
+
+procedure TFileViewWorker.DoneWorking;
+begin
   FWorking := False;
 end;
 
 function TFileViewWorker.IsWorking: Boolean;
 begin
-  Result := FWorking;
+  Result := FWorking and not FAborted;
+end;
+
+procedure TFileViewWorker.Start;
+begin
+  try
+    if Assigned(FOnStarting) then
+      TThread.Synchronize(Thread, @DoStarting);
+
+    Execute; // virtual call
+
+    if Assigned(FOnFinished) then
+      TThread.Synchronize(Thread, @DoFinished);
+  finally
+    FWorking := False;
+    FCanBeDestroyed := True;
+  end;
+end;
+
+procedure TFileViewWorker.StartParam(Params: Pointer);
+begin
+  Start;
 end;
 
 { TFileListBuilder }
@@ -199,7 +244,7 @@ constructor TFileListBuilder.Create(AFileView: TFileView;
                                     AFilePropertiesNeeded: TFilePropertiesTypes;
                                     ASetFileListMethod: TSetFileListMethod);
 begin
-  inherited Create;
+  inherited Create(AThread);
 
   FTmpFileSourceFiles := nil;
   FTmpDisplayFiles := nil;
@@ -211,7 +256,6 @@ begin
   FFileSourcesCount     := AFileView.FileSourcesCount;
   FFileFilter           := AFileView.FileFilter;
   FCurrentPath          := AFileView.CurrentPath;
-  FThread               := AThread;
   FSortings             := CloneSortings(AFileView.Sorting);
   FFilePropertiesNeeded := AFilePropertiesNeeded;
   FSetFileListMethod    := ASetFileListMethod;
@@ -233,7 +277,7 @@ begin
       ListOperation := FFileSource.CreateListOperation(FCurrentPath) as TFileSourceListOperation;
       if Assigned(ListOperation) then
         try
-          ListOperation.AssignThread(FThread);
+          ListOperation.AssignThread(Thread);
           ListOperation.Execute;
           FTmpFileSourceFiles := ListOperation.ReleaseFiles;
         finally
@@ -295,7 +339,7 @@ begin
       Exit;
 
     // Loading file list is complete. Update grid with the new file list.
-    TThread.Synchronize(FThread, @DoSetFilelist);
+    TThread.Synchronize(Thread, @DoSetFilelist);
 
     {$IFDEF timeFileView}
     DebugLn('Grid updated   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
@@ -402,6 +446,7 @@ end;
 
 procedure TFileListBuilder.DoSetFileList;
 begin
+  DoneWorking;
   if not Aborted and Assigned(FSetFileListMethod) then
     FSetFileListMethod(FTmpDisplayFiles, FTmpFileSourceFiles);
 end;
@@ -414,13 +459,12 @@ constructor TFilePropertiesRetriever.Create(AFileSource: IFileSource;
                                             AUpdateFileMethod: TUpdateFileMethod;
                                             var AFileList: TFPList);
 begin
-  inherited Create;
+  inherited Create(AThread);
 
   FWorkType             := fvwtUpdate;
   FFileList             := AFileList;
   AFileList             := nil;
   FFileSource           := AFileSource;
-  FThread               := AThread;
   FFilePropertiesNeeded := AFilePropertiesNeeded;
   FUpdateFileMethod     := AUpdateFileMethod;
 end;
@@ -451,7 +495,7 @@ begin
             fspDirectAccess in FFileSource.Properties,
             True);
 
-      TThread.Synchronize(FThread, @DoUpdateFile);
+      TThread.Synchronize(Thread, @DoUpdateFile);
     end;
 
   finally
@@ -487,13 +531,12 @@ constructor TCalculateSpaceWorker.Create(AFileSource: IFileSource;
                                          AUpdateFileMethod: TUpdateFileMethod;
                                          var AFileList: TFPList);
 begin
-  inherited Create;
+  inherited Create(AThread);
 
   FWorkType         := fvwtUpdate;
   FFileList         := AFileList;
   AFileList         := nil;
   FFileSource       := AFileSource;
-  FThread           := AThread;
   FUpdateFileMethod := AUpdateFileMethod;
 end;
 
@@ -538,7 +581,7 @@ begin
 
           AFile.Size := CalcStatisticsOperationStatistics.Size;
 
-          TThread.Synchronize(FThread, @DoUpdateFile);
+          TThread.Synchronize(Thread, @DoUpdateFile);
 
         finally
           if Assigned(TargetFiles) then

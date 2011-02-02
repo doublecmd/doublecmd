@@ -172,14 +172,9 @@ type
     FFileSourceFiles: TFiles;   //<en List of files from file source
     FListFilesThread: TFunctionThread;
     FReloading: Boolean;        //<en If currently reloading file list
-
     FFileViewWorkers: TFileViewWorkers;
-    {en
-       Points to currently active worker if any.
-    }
-    FCurrentWorker: TFileViewWorker;
-    FSelection: TStringListEx;
 
+    FSelection: TStringListEx;
     FActive: Boolean;           //<en Is this view active
     FLastActiveRow: Integer;    //<en Last active row
     FUpdatingGrid: Boolean;
@@ -302,6 +297,10 @@ type
        Free existing builders that have finished working.
     }
     procedure ClearWorkers;
+    {en
+       Returns current work type in progress.
+    }
+    function GetCurrentWorkType: TFileViewWorkType;
     {en
        Assigns the built lists to the file view and displays new the file list.
     }
@@ -1797,8 +1796,7 @@ var
   SizeProperty: TFileSizeProperty;
   SizeSupported: Boolean;
 begin
-  if Assigned(FCurrentWorker) and FCurrentWorker.Working and
-     (FCurrentWorker.WorkType = fvwtCreate) then
+  if GetCurrentWorkType = fvwtCreate then
   begin
     lblInfo.Caption := rsMsgLoadingFileList;
   end
@@ -2204,8 +2202,7 @@ end;
 
 procedure TColumnsFileView.SetActiveFile(aFilePath: String);
 begin
-  if Assigned(FCurrentWorker) and FCurrentWorker.Working and
-     (FCurrentWorker.WorkType = fvwtCreate) then
+  if GetCurrentWorkType = fvwtCreate then
   begin
     // File list is currently loading - remember requested file for later.
     RequestedActiveFile := aFilePath;
@@ -2938,7 +2935,9 @@ begin
       with FFileViewWorkers[i] do
       begin
         if Working then
-          DebugLn('Error: Builder still working!');
+          DebugLn('Error: Worker still working.')
+        else if not CanBeDestroyed then
+          DebugLn('Error: Worker cannot be destroyed.');
         Free;
       end;
     end;
@@ -3027,6 +3026,8 @@ begin
 end;
 
 procedure TColumnsFileView.MakeFileSourceFileList;
+var
+  Worker: TFileViewWorker;
 begin
   if csDestroying in ComponentState then
     Exit;
@@ -3046,12 +3047,12 @@ begin
 
   // Pass parameters to the builder
   // (it is unsafe to access them directly from the worker thread).
-  FCurrentWorker := TFileListBuilder.Create(
+  Worker := TFileListBuilder.Create(
     Self,
     FListFilesThread,
     FilePropertiesNeeded,
     @SetFileList);
-  FFileViewWorkers.Add(FCurrentWorker);
+  FFileViewWorkers.Add(Worker);
 
   if gListFilesInThread then
   begin
@@ -3067,11 +3068,11 @@ begin
 
     dgPanel.Cursor := crHourGlass;
 
-    FListFilesThread.QueueFunction(@FCurrentWorker.StartParam);
+    FListFilesThread.QueueFunction(@Worker.StartParam);
   end
   else
   begin
-    FCurrentWorker.Start;
+    Worker.Start;
   end;
 end;
 
@@ -3118,15 +3119,15 @@ end;
 
 procedure TColumnsFileView.ReDisplayFileList;
 begin
-  if Assigned(FCurrentWorker) and FCurrentWorker.Working then
-  begin
-    case FCurrentWorker.WorkType of
-      fvwtCreate:
-        // File list is being loaded from file source - cannot display yet.
-        Exit;
-      else
-        StopBackgroundWork;
-    end;
+  case GetCurrentWorkType of
+    fvwtNone: ; // Ok to continue.
+    fvwtCreate:
+      // File list is being loaded from file source - cannot display yet.
+      Exit;
+    fvwtUpdate:
+      StopBackgroundWork;
+    else
+      Exit;
   end;
 
   // Redisplaying file list is done in the main thread because it takes
@@ -3178,10 +3179,9 @@ var
   i: Integer;
   AFileList: TFPList;
   WorkerData: PFVWorkerData;
+  Worker: TFileViewWorker;
 begin
-  if (Assigned(FCurrentWorker) and
-      FCurrentWorker.Working and
-      (FCurrentWorker.WorkType = fvwtCreate)) or
+  if (GetCurrentWorkType = fvwtCreate) or
      (not Assigned(FFiles)) or
      (csDestroying in ComponentState) then
     Exit;
@@ -3226,22 +3226,20 @@ begin
 
       if AFileList.Count > 0 then
       begin
-        StopBackgroundWork;
-
         if not Assigned(FListFilesThread) then
           FListFilesThread := TFunctionThread.Create(False);
 
         // Pass parameters to the builder
         // (it is unsafe to access them directly from the worker thread).
-        FCurrentWorker := TFilePropertiesRetriever.Create(
+        Worker := TFilePropertiesRetriever.Create(
           FileSource,
           FListFilesThread,
           FilePropertiesNeeded,
           @UpdateFile,
           AFileList);
 
-        FFileViewWorkers.Add(FCurrentWorker);
-        FListFilesThread.QueueFunction(@FCurrentWorker.StartParam);
+        FFileViewWorkers.Add(Worker);
+        FListFilesThread.QueueFunction(@Worker.StartParam);
       end;
 
     finally
@@ -3257,7 +3255,7 @@ var
 begin
   while i < FFileViewWorkers.Count do
   begin
-    if not FFileViewWorkers[i].Working then
+    if FFileViewWorkers[i].CanBeDestroyed then
     begin
       FFileViewWorkers[i].Free;
       FFileViewWorkers.Delete(i);
@@ -3265,6 +3263,16 @@ begin
     else
       Inc(i);
   end;
+end;
+
+function TColumnsFileView.GetCurrentWorkType: TFileViewWorkType;
+var
+  i: Integer;
+begin
+  for i := 0 to FFileViewWorkers.Count - 1 do
+    if FFileViewWorkers[i].Working then
+      Exit(FFileViewWorkers[i].WorkType);
+  Result := fvwtNone;
 end;
 
 procedure TColumnsFileView.SetFilelist(var NewDisplayFiles: TDisplayFiles;
@@ -3279,9 +3287,6 @@ begin
     FFileSourceFiles.Free;
   FFileSourceFiles := NewFileSourceFiles;
   NewFileSourceFiles := nil;
-
-  // Loading file list is complete. Clear worker.
-  FCurrentWorker := nil;
 
   // Display new file list.
   AfterMakeFileList;
@@ -3364,24 +3369,32 @@ begin
 end;
 
 procedure TColumnsFileView.StopBackgroundWork;
+var
+  i: Integer = 0;
 begin
-  if Assigned(FCurrentWorker) then
+  // Abort any working workers and destroy those that have finished.
+  while i < FFileViewWorkers.Count do
   begin
-    FCurrentWorker.Abort;
-    FCurrentWorker := nil;
-    dgPanel.Cursor := crDefault;
+    if FFileViewWorkers[i].CanBeDestroyed then
+    begin
+      FFileViewWorkers[i].Free;
+      FFileViewWorkers.Delete(i);
+    end
+    else
+    begin
+      if FFileViewWorkers[i].Working then
+        FFileViewWorkers[i].Abort;
+      Inc(i);
+    end;
   end;
-  ClearWorkers;
 end;
 
 procedure TColumnsFileView.UpdateView;
 var
   bLoadingFilelist: Boolean;
 begin
-  bLoadingFilelist := Assigned(FCurrentWorker) and FCurrentWorker.Working;
-
-  if bLoadingFilelist then
-    StopBackgroundWork;
+  bLoadingFilelist := GetCurrentWorkType = fvwtCreate;
+  StopBackgroundWork;
 
   pnlHeader.Visible := gCurDir;  // Current directory
   pnlFooter.Visible := gStatusBar;  // Status bar
@@ -3491,19 +3504,18 @@ begin
 end;
 
 procedure TColumnsFileView.CalculateSpace(var AFileList: TFPList);
+var
+  Worker: TFileViewWorker;
 begin
-  if Assigned(FCurrentWorker) and FCurrentWorker.Working and
-     (FCurrentWorker.WorkType = fvwtCreate) then
+  if GetCurrentWorkType = fvwtCreate then
     Exit;
 
   if AFileList.Count > 0 then
   begin
-    StopBackgroundWork;
-
     if not Assigned(FListFilesThread) then
       FListFilesThread := TFunctionThread.Create(False);
 
-    FCurrentWorker := TCalculateSpaceWorker.Create(
+    Worker := TCalculateSpaceWorker.Create(
       FileSource,
       FListFilesThread,
       @CalcSpaceUpdateFile,
@@ -3511,8 +3523,8 @@ begin
 
     dgPanel.Cursor := crHourGlass;
 
-    FFileViewWorkers.Add(FCurrentWorker);
-    FListFilesThread.QueueFunction(@FCurrentWorker.StartParam);
+    FFileViewWorkers.Add(Worker);
+    FListFilesThread.QueueFunction(@Worker.StartParam);
   end;
 end;
 
