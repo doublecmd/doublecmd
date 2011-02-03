@@ -5,8 +5,10 @@ unit uFileViewWorker;
 interface
 
 uses
-  Classes, SysUtils,
-  uFileView, uDisplayFile, uFile, uFileSource, uFileSorting, uFileProperty;
+  Classes, SysUtils, syncobjs,
+  uFileView, uDisplayFile, uFile, uFileSource, uFileSorting, uFileProperty,
+  uFileSourceOperation,
+  uFileSourceListOperation;
 
 type
   TFileViewWorkType = (fvwtNone,
@@ -38,7 +40,7 @@ type
     property Thread: TThread read FThread;
   public
     constructor Create(AThread: TThread); virtual;
-    procedure Abort;
+    procedure Abort; virtual;
     procedure Start;
     procedure StartParam(Params: Pointer);
     property Aborted: Boolean read FAborted;
@@ -67,6 +69,8 @@ type
     FTmpFileSourceFiles: TFiles;
     FTmpDisplayFiles: TDisplayFiles;
     FSetFileListMethod: TSetFileListMethod;
+    FListOperation: TFileSourceListOperation;
+    FListOperationLock: TCriticalSection;
 
     // Data captured from the file view before start.
     FFileView: TFileView;
@@ -95,6 +99,8 @@ type
                        AThread: TThread;
                        AFilePropertiesNeeded: TFilePropertiesTypes;
                        ASetFileListMethod: TSetFileListMethod); reintroduce;
+    destructor Destroy; override;
+    procedure Abort; override;
 
     {en
        Fills aFiles with files from aFileSourceFiles.
@@ -143,6 +149,8 @@ type
     FFileList: TFPList;
     FUpdateFileMethod: TUpdateFileMethod;
     FFileSource: IFileSource;
+    FOperation: TFileSourceOperation;
+    FOperationLock: TCriticalSection;
 
     {en
        Updates file in the file view with new data.
@@ -160,15 +168,15 @@ type
                        AUpdateFileMethod: TUpdateFileMethod;
                        var AFileList: TFPList); reintroduce;
     destructor Destroy; override;
+    procedure Abort; override;
   end;
 
 implementation
 
 uses
   LCLProc,
-  uFileSourceListOperation, uFileSourceOperationTypes, uOSUtils, uDCUtils,
+  uFileSourceOperationTypes, uOSUtils, uDCUtils,
   uGlobs, uMasks, uPixMapManager, uFileSourceProperty,
-  uFileSourceOperation,
   uFileSourceCalcStatisticsOperation,
   uFileSourceOperationOptions;
 
@@ -247,8 +255,10 @@ begin
   inherited Create(AThread);
 
   FTmpFileSourceFiles := nil;
-  FTmpDisplayFiles := nil;
-  FWorkType := fvwtCreate;
+  FTmpDisplayFiles    := nil;
+  FWorkType           := fvwtCreate;
+  FListOperation      := nil;
+  FListOperationLock  := TCriticalSection.Create;
 
   // Copy these parameters while it's still safe to access them from the main thread.
   FFileView             := AFileView;
@@ -261,10 +271,28 @@ begin
   FSetFileListMethod    := ASetFileListMethod;
 end;
 
+destructor TFileListBuilder.Destroy;
+begin
+  inherited Destroy;
+  FListOperationLock.Free;
+end;
+
+procedure TFileListBuilder.Abort;
+begin
+  inherited;
+
+  FListOperationLock.Acquire;
+  try
+    if Assigned(FListOperation) then
+      FListOperation.Stop;
+  finally
+    FListOperationLock.Release;
+  end;
+end;
+
 procedure TFileListBuilder.Execute;
 var
   AFile: TFile;
-  ListOperation: TFileSourceListOperation;
   i: Integer;
   HaveUpDir: Boolean = False;
 begin
@@ -274,15 +302,27 @@ begin
 
     if fsoList in FFileSource.GetOperationsTypes then
     begin
-      ListOperation := FFileSource.CreateListOperation(FCurrentPath) as TFileSourceListOperation;
-      if Assigned(ListOperation) then
+      FListOperationLock.Acquire;
+      try
+        FListOperation := FFileSource.CreateListOperation(FCurrentPath) as TFileSourceListOperation;
+      finally
+        FListOperationLock.Release;
+      end;
+
+      if Assigned(FListOperation) then
+      try
+        FListOperation.AssignThread(Thread);
+        FListOperation.Execute;
+        if FListOperation.Result = fsorFinished then
+          FTmpFileSourceFiles := FListOperation.ReleaseFiles;
+      finally
+        FListOperationLock.Acquire;
         try
-          ListOperation.AssignThread(Thread);
-          ListOperation.Execute;
-          FTmpFileSourceFiles := ListOperation.ReleaseFiles;
+          FreeAndNil(FListOperation);
         finally
-          FreeAndNil(ListOperation);
+          FListOperationLock.Release;
         end;
+      end;
     end;
 
     {$IFDEF timeFileView}
@@ -495,6 +535,9 @@ begin
             fspDirectAccess in FFileSource.Properties,
             True);
 
+      if Aborted then
+        Exit;
+
       TThread.Synchronize(Thread, @DoUpdateFile);
     end;
 
@@ -538,17 +581,32 @@ begin
   AFileList         := nil;
   FFileSource       := AFileSource;
   FUpdateFileMethod := AUpdateFileMethod;
+  FOperation        := nil;
+  FOperationLock    := TCriticalSection.Create;
 end;
 
 destructor TCalculateSpaceWorker.Destroy;
 begin
   DestroyFileList;
   inherited Destroy;
+  FOperationLock.Free;
+end;
+
+procedure TCalculateSpaceWorker.Abort;
+begin
+  inherited;
+
+  FOperationLock.Acquire;
+  try
+    if Assigned(FOperation) then
+      FOperation.Stop;
+  finally
+    FOperationLock.Release;
+  end;
 end;
 
 procedure TCalculateSpaceWorker.Execute;
 var
-  Operation: TFileSourceOperation = nil;
   CalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
   CalcStatisticsOperationStatistics: TFileSourceCalcStatisticsOperationStatistics;
   TargetFiles: TFiles = nil;
@@ -570,24 +628,40 @@ begin
         try
           TargetFiles.Add(AFile.Clone);
 
-          Operation := FFileSource.CreateCalcStatisticsOperation(TargetFiles);
-          CalcStatisticsOperation := Operation as TFileSourceCalcStatisticsOperation;
+          FOperationLock.Acquire;
+          try
+            FOperation := FFileSource.CreateCalcStatisticsOperation(TargetFiles);
+          finally
+            FOperationLock.Release;
+          end;
+
+          CalcStatisticsOperation := FOperation as TFileSourceCalcStatisticsOperation;
           CalcStatisticsOperation.SkipErrors := True;
           CalcStatisticsOperation.SymLinkOption := fsooslDontFollow;
 
-          Operation.Execute; // blocks until finished
+          FOperation.Execute; // blocks until finished
 
-          CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
+          if FOperation.Result = fsorFinished then
+          begin
+            CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
+            AFile.Size := CalcStatisticsOperationStatistics.Size;
 
-          AFile.Size := CalcStatisticsOperationStatistics.Size;
+            if Aborted then
+              Exit;
 
-          TThread.Synchronize(Thread, @DoUpdateFile);
+            TThread.Synchronize(Thread, @DoUpdateFile);
+          end;
 
         finally
           if Assigned(TargetFiles) then
             FreeAndNil(TargetFiles);
-          if Assigned(Operation) then
-            FreeAndNil(Operation);
+          FOperationLock.Acquire;
+          try
+            if Assigned(FOperation) then
+              FreeAndNil(FOperation);
+          finally
+            FOperationLock.Release;
+          end;
         end;
       end;
     end;

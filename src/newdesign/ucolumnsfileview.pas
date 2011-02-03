@@ -203,6 +203,7 @@ type
     lblAddress: TPathLabel;
     dgPanel: TDrawGridEx;
     tmContextMenu: TTimer;
+    tmClearGrid: TTimer;
 
     function GetGridHorzLine: Boolean;
     function GetGridVertLine: Boolean;
@@ -244,6 +245,7 @@ type
     procedure UpdatePathLabel;
     procedure UpdateInfoPanel;
     procedure UpdateColCount(NewColCount: Integer);
+    procedure SetRowCount(Count: Integer);
     procedure SetColumnsWidths;
     procedure RedrawGrid;
     {en
@@ -388,6 +390,7 @@ type
     procedure dgPanelTopLeftChanged(Sender: TObject);
     procedure dgPanelResize(Sender: TObject);
     procedure tmContextMenuTimer(Sender: TObject);
+    procedure tmClearGridTimer(Sender: TObject);
     procedure lblPathClick(Sender: TObject);
     procedure lblPathMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -1283,6 +1286,17 @@ begin
   end;
 end;
 
+procedure TColumnsFileView.tmClearGridTimer(Sender: TObject);
+begin
+  tmClearGrid.Enabled := False;
+
+  if not Assigned(FFileSourceFiles) or (FFileSourceFiles.Count = 0) then
+  begin
+    SetRowCount(0);
+    RedrawGrid;
+  end;
+end;
+
 procedure TColumnsFileView.edtSearchKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -1559,6 +1573,13 @@ begin
       while FFiles[i].DisplayStrings.Count < NewColCount do
         FFiles[i].DisplayStrings.Add(EmptyStr);
   end;
+end;
+
+procedure TColumnsFileView.SetRowCount(Count: Integer);
+begin
+  FUpdatingGrid := True;
+  dgPanel.RowCount := dgPanel.FixedRows + Count;
+  FUpdatingGrid := False;
 end;
 
 procedure TColumnsFileView.SetColumnsWidths;
@@ -2549,6 +2570,13 @@ begin
         GetCursorPos(ScreenPoint);
         dgPanel.TransformDraggingToExternal(ScreenPoint);
       end;
+
+    VK_ESCAPE:
+      if GetCurrentWorkType <> fvwtNone then
+      begin
+        StopBackgroundWork;
+        Key := 0;
+      end;
   end;
 end;
 
@@ -2854,6 +2882,12 @@ begin
   tmContextMenu:= TTimer.Create(Self);
   tmContextMenu.Enabled:= False;
   tmContextMenu.Interval:= 500;
+  tmContextMenu.OnTimer:= @tmContextMenuTimer;
+
+  tmClearGrid := TTimer.Create(Self);
+  tmClearGrid.Enabled := False;
+  tmClearGrid.Interval := 500;
+  tmClearGrid.OnTimer := @tmClearGridTimer;
 
   {$IFDEF LCLCARBON}
   // Under Carbon AutoSize don't work without it
@@ -2904,8 +2938,6 @@ begin
 
   lblPath.OnClick := @lblPathClick;
   lblPath.OnMouseUp := @lblPathMouseUp;
-
-  tmContextMenu.OnTimer:= @tmContextMenuTimer;
 
   pmColumnsMenu := TPopupMenu.Create(Self);
   pmColumnsMenu.Parent := Self;
@@ -3069,6 +3101,10 @@ begin
     // Display info that file list is being loaded (after assigning worker).
     UpdateInfoPanel;
 
+    // If we cleared grid here there would be flickering if list operation is quickly completed.
+    // So, only clear the grid after the file list has been loading for some time.
+    tmClearGrid.Enabled := True;
+
     FListFilesThread.QueueFunction(@Worker.StartParam);
   end
   else
@@ -3102,10 +3138,7 @@ end;
 procedure TColumnsFileView.DisplayFileListHasChanged;
 begin
   // Update grid row count.
-  FUpdatingGrid := True;
-  dgPanel.RowCount := dgPanel.FixedRows + FFiles.Count;
-  FUpdatingGrid := False;
-
+  SetRowCount(FFiles.Count);
   RedrawGrid;
 
   if SetActiveFileNow(RequestedActiveFile) then
@@ -3278,6 +3311,8 @@ end;
 procedure TColumnsFileView.SetFilelist(var NewDisplayFiles: TDisplayFiles;
                                        var NewFileSourceFiles: TFiles);
 begin
+  tmClearGrid.Enabled := False;
+
   if Assigned(FFiles) then
     FFiles.Free;
   FFiles := NewDisplayFiles;
@@ -3346,11 +3381,13 @@ end;
 procedure TColumnsFileView.WorkerStarting(const Worker: TFileViewWorker);
 begin
   dgPanel.Cursor := crHourGlass;
+  UpdateInfoPanel;
 end;
 
 procedure TColumnsFileView.WorkerFinished(const Worker: TFileViewWorker);
 begin
   dgPanel.Cursor := crDefault;
+  UpdateInfoPanel;
 end;
 
 procedure TColumnsFileView.Reload(const PathsToReload: TPathsArray);
