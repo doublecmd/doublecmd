@@ -1240,12 +1240,12 @@ object frmMain: TfrmMain
     top = 8
     object mnuFiles: TMenuItem
       Caption = '&Files'
-      object mnuFilesLink: TMenuItem
-        Action = actHardLink
-        OnClick = actExecute
-      end
       object mnuFilesSymLink: TMenuItem
         Action = actSymLink
+        OnClick = actExecute
+      end
+      object mnuFilesHardLink: TMenuItem
+        Action = actHardLink
         OnClick = actExecute
       end
       object miLine1: TMenuItem
@@ -1749,13 +1749,13 @@ object frmMain: TfrmMain
     end
     object actSymLink: TAction
       Category = 'File'
-      Caption = 'Create symlink...'
+      Caption = 'Create symbolic link...'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actHardLink: TAction
       Category = 'File'
-      Caption = 'Create link...'
+      Caption = 'Create hard link...'
       HelpType = htKeyword
       OnExecute = actExecute
     end

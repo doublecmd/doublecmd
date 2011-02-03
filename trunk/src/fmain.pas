@@ -314,7 +314,7 @@ type
     miLine3: TMenuItem;
     mnuFilesShwSysFiles: TMenuItem;
     miLine1: TMenuItem;
-    mnuFilesLink: TMenuItem;
+    mnuFilesHardLink: TMenuItem;
     mnuFilesSymLink: TMenuItem;
     mnuConfig: TMenuItem;
     mnuConfigOptions: TMenuItem;
