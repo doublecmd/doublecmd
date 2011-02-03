@@ -308,6 +308,8 @@ type
                           var NewFileSourceFiles: TFiles);
     procedure UpdateFile(const WorkerData: TFVWorkerData);
     procedure CalcSpaceUpdateFile(const WorkerData: TFVWorkerData);
+    procedure WorkerStarting(const Worker: TFileViewWorker);
+    procedure WorkerFinished(const Worker: TFileViewWorker);
 
     {en
        Prepares sortings for later use in Sort function.
@@ -2484,10 +2486,7 @@ begin
                aFile.FSFile.IsLinkToDirectory) and
                not aFile.Selected then
             begin
-              Screen.Cursor := crHourGlass;
               CalculateSpace(aFile);
-              MakeColumnsStrings(aFile);
-              Screen.Cursor := crDefault;
             end;
 
             SelectFile(aFile);
@@ -3052,6 +3051,10 @@ begin
     FListFilesThread,
     FilePropertiesNeeded,
     @SetFileList);
+
+  Worker.OnStarting := @WorkerStarting;
+  Worker.OnFinished := @WorkerFinished;
+
   FFileViewWorkers.Add(Worker);
 
   if gListFilesInThread then
@@ -3065,8 +3068,6 @@ begin
 
     // Display info that file list is being loaded (after assigning worker).
     UpdateInfoPanel;
-
-    dgPanel.Cursor := crHourGlass;
 
     FListFilesThread.QueueFunction(@Worker.StartParam);
   end
@@ -3083,7 +3084,6 @@ begin
   DisplayFileListHasChanged;
   EnsureDisplayProperties; // After displaying.
   DoOnReload;
-  dgPanel.Cursor := crDefault;
 end;
 
 procedure TColumnsFileView.HashFileSourceFileList;
@@ -3341,7 +3341,16 @@ begin
   aDisplayFile.FSFile.Size := WorkerData.FSFile.Size;
   MakeColumnsStrings(aDisplayFile);
   RedrawFile(aDisplayFile);
-  Screen.Cursor := crDefault;
+end;
+
+procedure TColumnsFileView.WorkerStarting(const Worker: TFileViewWorker);
+begin
+  dgPanel.Cursor := crHourGlass;
+end;
+
+procedure TColumnsFileView.WorkerFinished(const Worker: TFileViewWorker);
+begin
+  dgPanel.Cursor := crDefault;
 end;
 
 procedure TColumnsFileView.Reload(const PathsToReload: TPathsArray);
@@ -3485,6 +3494,9 @@ var
   AFileList: TFPList;
   WorkerData: PFVWorkerData;
 begin
+  if GetCurrentWorkType = fvwtCreate then
+    Exit;
+
   AFileList := TFPList.Create;
   try
     if IsItemValid(AFile) and AFile.FSFile.IsDirectory then
@@ -3521,7 +3533,8 @@ begin
       @CalcSpaceUpdateFile,
       AFileList);
 
-    dgPanel.Cursor := crHourGlass;
+    Worker.OnStarting := @WorkerStarting;
+    Worker.OnFinished := @WorkerFinished;
 
     FFileViewWorkers.Add(Worker);
     FListFilesThread.QueueFunction(@Worker.StartParam);
