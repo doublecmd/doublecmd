@@ -27,7 +27,7 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, LCLProc, uClassesEx, uTypes
+    SysUtils, Classes, LCLProc, LCLType, uClassesEx, uTypes
     {$IF DEFINED(MSWINDOWS)}
     , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk, uShlObjAdditional
     {$ELSEIF DEFINED(UNIX)}
@@ -275,7 +275,7 @@ function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
 function mbLoadLibrary(Name: UTF8String): TLibHandle;
 function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
 
-procedure FixFormIcon(Handle: HWND);
+procedure FixFormIcon(Handle: LCLType.HWND);
 
 implementation
 
@@ -1803,7 +1803,7 @@ begin
 {$ENDIF}
 end;
 
-procedure FixFormIcon(Handle: HWND);
+procedure FixFormIcon(Handle: LCLType.HWND);
 begin
   // Workaround for Lazarus issue 0018484.
   // Any form that sets its own icon should call this in FormCreate.
