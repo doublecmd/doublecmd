@@ -423,7 +423,6 @@ type
     procedure cbbUseFrameCursorChange(Sender: TObject);
     procedure cbFontColorViewerBookChange(Sender: TObject);
     procedure cbIconsSizeChange(Sender: TObject);
-    procedure cbListFilesInThreadChange(Sender: TObject);
     procedure cbToolsKeepTerminalOpenChange(Sender: TObject);
     procedure cbToolsRunInTerminalChange(Sender: TObject);
     procedure cbToolsUseExternalProgramChange(Sender: TObject);
@@ -2106,11 +2105,6 @@ begin
   FreeThenNil(bmpTemp);
 end;
 
-procedure TfrmOptions.cbListFilesInThreadChange(Sender: TObject);
-begin
-  cbLoadIconsSeparately.Enabled := cbListFilesInThread.Checked;
-end;
-
 procedure TfrmOptions.cbToolsKeepTerminalOpenChange(Sender: TObject);
 var
   aRow: Integer;
@@ -2633,7 +2627,6 @@ begin
   cbShowSystemFiles.Checked:= gShowSystemFiles;
   cbListFilesInThread.Checked:= gListFilesInThread;
   cbLoadIconsSeparately.Checked:= gLoadIconsSeparately;
-  cbLoadIconsSeparately.Enabled:= gListFilesInThread;
 
   { Tools page }
   tmpExternalTools := gExternalTools;

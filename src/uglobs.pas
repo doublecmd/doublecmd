@@ -576,7 +576,7 @@ begin
   gCutTextToColWidth := True;
   gShowSystemFiles := False;
   gListFilesInThread := False;
-  gLoadIconsSeparately := False;
+  gLoadIconsSeparately := True;
   gDriveBlackList := '';
 
   { Tools page }
