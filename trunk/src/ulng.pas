@@ -176,7 +176,7 @@ resourcestring
   rsSearchResult = 'Search result';
 
   // File operations dialog
-  rsDlgSpeedTime = 'Speed %s/s, remaining time %s';
+  rsDlgSpeedTime = 'Speed %s/s, time remaining %s';
   rsDlgDel = 'Delete file(s)';
   rsDlgWipe = 'Wipe file(s)';
   rsDlgCp = 'Copy file(s)';
