@@ -812,6 +812,20 @@ begin
 
   SetFocus;
 
+  // history navigation for mice with extra buttons
+  case Button of
+    mbExtra1:
+      begin
+        Actions.cm_ViewHistoryPrev();
+        Exit;
+      end;
+    mbExtra2:
+      begin
+        Actions.cm_ViewHistoryNext();
+        Exit;
+      end;
+  end;
+
   if IsEmpty then Exit;
 
   if dgPanel.MouseOnGrid(X, Y) then
