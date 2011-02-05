@@ -233,6 +233,7 @@ type
     gbViewerExample: TGroupBox;
     gbViewerBookMode: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
+    lblSCFiles: TLabel;
     lblNumberColumnsViewer: TLabel;
     lblFontColorViewerBook: TLabel;
     lblBackgroundColorViewerBook: TLabel;
@@ -260,6 +261,7 @@ type
     lblSaveIn: TLabel;
     lblLogFont: TLabel;
     lbxMultiArc: TListBox;
+    lbSCFilesList: TListBox;
     memArchiveListFormat: TMemo;
     memIgnoreList: TMemo;
     pbViewerBook: TPaintBox;
@@ -434,6 +436,7 @@ type
     procedure edtViewerBookFontSizeChange(Sender: TObject);
     procedure fneToolsPathAcceptFileName(Sender: TObject; var Value: String);
     procedure fneToolsPathChange(Sender: TObject);
+    procedure lbSCFilesListSelectionChange(Sender: TObject; User: boolean);
     procedure lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
     procedure OnAutoRefreshOptionChanged(Sender: TObject);
     procedure edHotKeyKeyPress(Sender: TObject; var Key: char);
@@ -512,6 +515,7 @@ type
 
     procedure DeleteHotkeyFromGrid(aHotkey: String);
     procedure ShowExternalToolOptions(ExtTool: TExternalTool);
+    procedure FillSCFilesList;
 
   public
     procedure FillLngListBox;
@@ -657,13 +661,13 @@ begin
   {$endif}
 
   gbViewerBookMode.Enabled := not (cbToolsUseExternalProgram.Checked);
+  FillSCFilesList;
 end;
 
 procedure TfrmOptions.btSetHotKeyClick(Sender: TObject);
 var i: integer;
-    Cat:string;
     st:TStringList;
-    sOldCommand, sCommand: string;
+    sForm, sOldCommand, sCommand: string;
     lslHotKeys:TStringList;
     sShortCut, sParam: String;
 procedure lAddHotKey;
@@ -672,7 +676,7 @@ begin
     HotMan.AddHotKey(sShortCut,
                      stgCommands.Cells[stgCmdCommandIndex,stgCommands.Row],
                      sParam,
-                     frmMain);
+                     sForm, sForm);
 
     stgHotkeys.RowCount := stgHotkeys.RowCount + 1;
     stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := sShortCut;
@@ -704,38 +708,36 @@ begin
  sParam := edtParam.Text;
  sCommand := stgCommands.Cells[stgCmdCommandIndex, stgCommands.Row];
 
- cat:=lbxCategories.Items[lbxCategories.ItemIndex];
- if cat='Main' then
- begin
-  i:=HotMan.GetHotKeyIndex(sShortCut);
+ sForm := 'Frm'+ lbxCategories.Items[lbxCategories.ItemIndex];
+  i:=HotMan.GetHotKeyIndex(sShortCut);      // смотрим есть ли вообще данный шот кат
   if i=-1 then
   begin
-   lAddHotKey;
+   lAddHotKey;                             // если нет, то смело запоминаем
   end
   else
    begin
      st:=TStringList.Create;
-     HotMan.GetControlsListBy(sShortCut,st);
+     HotMan.GetControlsListBy(sShortCut,st);   // если есть то получаем список форм и объектов (категорий)
 
-     if st.IndexOf('frmMain')>-1 then
+     if st.IndexOf(sForm)>-1 then         // если есть список форм то значит  нужно удалить из нее
        begin
           // Shortcut already used.
 
-          HotMan.GetCommandsListBy(sShortCut,st);
-          sOldCommand := Copy(st[0], pos('=',st[0]) + 1, Length(st[0]) - pos('=', st[0]));
+          HotMan.GetCommandsListBy(sShortCut,st);       // берем строку с командами на данном шоткате
+          sOldCommand := Copy(st[0], pos('=',st[0]) + 1, Length(st[0]) - pos('=', st[0]));  // выделяем команду после '='
 
           // Delete the old shortcut.
           // If it was assigned to a different command then ask user for confirmation.
           if (sOldCommand = sCommand) or
-             (MessageDlg(rsOptHotkeysShortCutUsed,
-                         Format(rsOptHotkeysShortCutUsedText1,
+             (MessageDlg(rsOptHotkeysShortCutUsed,                                     // удаляем команду на назначенном шоткате
+                         Format(rsOptHotkeysShortCutUsedText1,                         // если был применен другой
                                 [sShortCut, sOldCommand]) + LineEnding +
                          Format(rsOptHotkeysShortCutUsedText2,
                                 [sCommand]),
                          mtConfirmation, mbYesNo, 0) = mrYes) then
           begin
             //**  delete hotkey
-            HotMan.DeleteHotKey(sShortCut,frmMain);
+            HotMan.DeleteHotKey(sShortCut,sForm,sForm);
             lbPressedHotKeyCommand.Caption:='';// clear message "used by ..."
             // delete hotkey from hotkeylist
             DeleteHotkeyFromGrid(sShortCut);
@@ -759,8 +761,6 @@ begin
          end; //end else if st.IndexOf('frmMain')>-1
      st.free;
    end; //end else if i=-1; i:=HotMan.GetHotKeyIndex(sShortCut);
- end; // end if cat='Main'
-
 end;
 
 procedure TfrmOptions.btnForeColorClick(Sender: TObject);
@@ -1969,6 +1969,24 @@ begin
   Result:=res.Count;
 end;
 
+procedure TfrmOptions.FillSCFilesList;
+var SR : TSearchRecEx;
+    Res, i : Integer;
+begin
+  lbSCFilesList.Items.Clear;
+  i:=0;
+  Res := FindFirstEx(gpCfgDir+'*.scf', faAnyFile, SR);
+  while Res = 0 do
+  begin
+    lbSCFilesList.Items.Add(Sr.Name);
+    if Sr.Name=gNameSCFile then lbSCFilesList.Selected[i]:=true;
+    Res := FindNextEx(SR);
+    i:=i+1;
+  end;
+  FindCloseEx(SR);
+
+end;
+
 procedure TfrmOptions.lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
 begin
   if lbxCategories.ItemIndex=-1 then exit;
@@ -1989,18 +2007,19 @@ var
   sStr: String;
 begin
   sStr:= 'Text';
-  pbViewerBook.Width := (pbViewerBook.Canvas.TextWidth(sStr)+10)*seNumberColumnsViewer.Value;
   pbViewerBook.Canvas.Font.Name := edtViewerBookFont.Text;
+  pbViewerBook.Width := (pbViewerBook.Canvas.TextWidth(sStr)+10)*seNumberColumnsViewer.Value;
   with pbViewerBook.Canvas do
   begin
     Brush.Color := cbBackgroundColorViewerBook.Color;
     Font.Color := cbFontColorViewerBook.Color;
-    Font.Height:= pbViewerBook.Height div 3 - 2;
+    Font.Size := 12;
+    //Font.Height:= pbViewerBook.Height div 3 - 2;
     FillRect(0,0,pbViewerBook.Width,pbViewerBook.Height);
     for i:=0 to seNumberColumnsViewer.Value-1 do
     begin
-      for numb:=0 to 2 do
-      TextOut(i*(pbViewerBook.Canvas.TextWidth(sStr)+5)+3,(Font.Height+2)*numb+2,sStr);
+      for numb:=0 to 1 do
+      TextOut(i*(pbViewerBook.Canvas.TextWidth(sStr)+5)+3,12*numb+4,sStr);
     end;
   end;
 end;
@@ -2210,6 +2229,13 @@ begin
       // Use fneToolsPath.Caption because Filename is one letter behind when typing manually.
       tmpExternalTools[ExtToolFromRow[aRow]].Path := fneToolsPath.Caption;
   end;
+end;
+
+procedure TfrmOptions.lbSCFilesListSelectionChange(Sender: TObject;
+  User: boolean);
+begin
+  HotMan.Load(gpCfgDir + lbSCFilesList.GetSelectedText);
+  FillCommandsPage;
 end;
 
 procedure TfrmOptions.lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
@@ -3038,7 +3064,7 @@ begin
 
   frmMain.UpdateWindowView;
   frmMain.Repaint; // for panels repaint
-  frmMain.SaveShortCuts;
+
   
   { Set plugins lists }
   gDSXPlugins.Assign(tmpDSXPlugins);
@@ -3046,6 +3072,9 @@ begin
   gWDXPlugins.Assign(tmpWDXPlugins);
   gWFXPlugins.Assign(tmpWFXPlugins);
   gWLXPlugins.Assign(tmpWLXPlugins);
+
+  {save hot keys file}
+  gNameSCFile := lbSCFilesList.GetSelectedText;
 end;
 
 procedure TfrmOptions.SetColorInColorBox(const lcbColorBox: TColorBox;

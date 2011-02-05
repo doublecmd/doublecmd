@@ -406,7 +406,7 @@ uses
 
 const
   //cTextWidth      = 80;  // wrap on 80 chars
-  cBinWidth       = 80;//cTextWidth;
+  cBinWidth       = 80;
   cMaxTextWidth   = 300; // maximum of chars on one line unwrapped text
   cHexWidth       = 16;
   cTabSpaces      = 8;   // tab stop - allow to set in settings

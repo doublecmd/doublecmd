@@ -266,8 +266,11 @@ type
     procedure LoadFile(iIndex:Integer);
     procedure ExitPluginMode;
     property QuickView: Boolean read bQuickView write bQuickView;
+
   end;
 
+var
+  frmViewer: TfrmViewer;
 
 procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource = nil);
 
@@ -1256,6 +1259,7 @@ begin
      begin
        ExitPluginMode;
      end;
+  frmViewer := nil;
 end;
 
 procedure TfrmViewer.frmViewerKeyDown(Sender: TObject; var Key: Word;
@@ -1411,7 +1415,7 @@ end;
 procedure TfrmViewer.FormCreate(Sender: TObject);
 begin
   InitPropStorage(Self);
-
+  HotMan.RegisterHotkeyManager(Self);
   FontOptionsToFont(gFonts[dcfViewer], ViewerControl.Font);
 
   FileList := TStringList.Create;
@@ -1627,6 +1631,7 @@ begin
      FreeAndNil(FModSizeDialog);
   if Assigned(FBitmapList) then
      FreeAndNil(FBitmapList);
+  HotMan.UnRegisterHotkeyManager(Self);
 end;
 
 procedure TfrmViewer.miProcessClick(Sender: TObject);
