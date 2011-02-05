@@ -2803,7 +2803,7 @@ end;
 // Full path to a directory.
 procedure TActs.cm_ChangeDir(param: string='');
 begin
-  FrmMain.ActiveFrame.CurrentPath := param;
+  FrmMain.ActiveFrame.CurrentPath := ReplaceEnvVars(param);
 end;
 
 procedure TActs.cm_ClearLogWindow(param: string);
