@@ -610,7 +610,6 @@ object frmOptions: TfrmOptions
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Top = 6
             Caption = 'Load file list in separate thread'
-            OnChange = cbListFilesInThreadChange
             TabOrder = 2
           end
           object cbLoadIconsSeparately: TCheckBox
