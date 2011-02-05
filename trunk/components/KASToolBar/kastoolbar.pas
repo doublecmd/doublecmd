@@ -36,6 +36,11 @@ uses
 type
 
   TOnToolButtonClick = procedure (Sender: TObject; NumberOfButton: Integer) of object;
+  TOnToolButtonMouseUpDown = procedure (Sender: TObject; Button: TMouseButton; Shift:TShiftState; X,Y:Integer; NumberOfButton: Integer) of object;
+  TOnToolButtonMouseMove = procedure (Sender: TObject; Shift:TShiftState; X,Y:Integer; NumberOfButton: Integer) of object;
+  TOnToolButtonDragOver = procedure(Sender, Source: TObject; X,Y: Integer;
+               State: TDragState; var Accept: Boolean; NumberOfButton: Integer) of object;
+  TOnToolButtonDragDrop = procedure(Sender, Source: TObject; X,Y: Integer; NumberOfButton: Integer) of object;
   TOnLoadButtonGlyph = function (sIconFileName: String; iIconSize: Integer; clBackColor: TColor): TBitmap of object;
 
   { TKASToolButton }
@@ -69,6 +74,11 @@ type
     FFlat: Boolean;
     FBarFile: TBarClass;
     FOnToolButtonClick: TOnToolButtonClick;
+    FOnToolButtonMouseDown: TOnToolButtonMouseUpDown;
+    FOnToolButtonMouseUp: TOnToolButtonMouseUpDown;
+    FOnToolButtonMouseMove: TOnToolButtonMouseMove;
+    FOnToolButtonDragOver: TOnToolButtonDragOver;
+    FOnToolButtonDragDrop: TOnToolButtonDragDrop;
     FOnLoadButtonGlyph: TOnLoadButtonGlyph;
     FKASToolBarFlags: TToolBarFlags;
     FResizeButtonsNeeded: Boolean;
@@ -85,6 +95,11 @@ type
     procedure SetFlat(const AValue: Boolean);
     procedure SetGlyphSize(const AValue: Integer);
     procedure ToolButtonClick(Sender: TObject);
+    procedure ToolButtonMouseDown(Sender: TObject; Button: TMouseButton; Shift:TShiftState; X,Y:Integer);
+    procedure ToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift:TShiftState; X,Y:Integer);
+    procedure ToolButtonMouseMove(Sender: TObject; Shift:TShiftState; X,Y:Integer);
+    procedure ToolButtonDragOver(Sender, Source: TObject; X,Y: Integer; State: TDragState; var Accept: Boolean);
+    procedure ToolButtonDragDrop(Sender, Source: TObject; X,Y: Integer);
     procedure UpdateButtonsTags;
   protected
     { Protected declarations }
@@ -134,6 +149,11 @@ type
   published
     { Published declarations }
     property OnToolButtonClick: TOnToolButtonClick read FOnToolButtonClick write FOnToolButtonClick;
+    property OnToolButtonMouseDown: TOnToolButtonMouseUpDown read FOnToolButtonMouseDown write FOnToolButtonMouseDown;
+    property OnToolButtonMouseUp: TOnToolButtonMouseUpDown read FOnToolButtonMouseUp write FOnToolButtonMouseUp;
+    property OnToolButtonMouseMove: TOnToolButtonMouseMove read FOnToolButtonMouseMove write FOnToolButtonMouseMove;
+    property OnToolButtonDragDrop: TOnToolButtonDragDrop read FOnToolButtonDragDrop write FOnToolButtonDragDrop;
+    property OnToolButtonDragOver: TOnToolButtonDragOver read FOnToolButtonDragOver write FOnToolButtonDragOver;
     property OnLoadButtonGlyph : TOnLoadButtonGlyph read FOnLoadButtonGlyph write FOnLoadButtonGlyph;
     property RadioToolBar: Boolean read FRadioToolBar write FRadioToolBar default False;
     property Flat: Boolean read FFlat write SetFlat default False;
@@ -438,6 +458,40 @@ begin
      FOnToolButtonClick(Self, (Sender as TSpeedButton).Tag);
 end;
 
+procedure TKASToolBar.ToolButtonMouseDown(Sender: TObject; Button: TMouseButton; Shift:TShiftState; X,Y:Integer);
+begin
+  inherited MouseDown(Button, Shift, X,Y);
+  if Assigned(FOnToolButtonMouseDown) then
+     FOnToolButtonMouseDown(Sender, Button, Shift, X,Y, (Sender as TSpeedButton).Tag);
+end;
+
+procedure TKASToolBar.ToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift:TShiftState; X,Y:Integer);
+begin
+  inherited MouseUp(Button, Shift, X,Y);
+  if Assigned(FOnToolButtonMouseUp) then
+     FOnToolButtonMouseUp(Sender, Button, Shift, X,Y, (Sender as TSpeedButton).Tag);
+end;
+
+procedure TKASToolBar.ToolButtonMouseMove(Sender: TObject; Shift:TShiftState; X,Y:Integer);
+begin
+  inherited MouseMove(Shift, X,Y);
+  if Assigned(FOnToolButtonMouseMove) then
+     FOnToolButtonMouseMove(Sender, Shift, X,Y, (Sender as TSpeedButton).Tag);
+end;
+
+procedure TKASToolBar.ToolButtonDragOver(Sender, Source: TObject; X,Y: Integer; State: TDragState; var Accept: Boolean);
+begin
+  inherited DragOver(Source, X, Y, State, Accept);
+  if Assigned(FOnToolButtonDragOver) then
+     FOnToolButtonDragOver(Sender, Source, X,Y, State, Accept, (Source as TSpeedButton).Tag);
+end;
+
+procedure TKASToolBar.ToolButtonDragDrop(Sender, Source: TObject; X,Y: Integer);
+begin
+  inherited DragDrop(Source, X, Y);
+  if Assigned(FOnToolButtonDragDrop) then
+     FOnToolButtonDragDrop(Sender, Source, X,Y, (Source as TSpeedButton).Tag)
+end;
 procedure TKASToolBar.UpdateButtonsTags;
 var
   I: Integer;
@@ -625,6 +679,12 @@ begin
   ToolButton.Caption:= sCaption;
   ToolButton.OnMouseUp:= OnMouseUp;
   ToolButton.OnClick:= @ToolButtonClick;
+  ToolButton.OnMouseDown:= @ToolButtonMouseDown;
+  ToolButton.OnMouseUp:= @ToolButtonMouseUp;
+  ToolButton.OnMouseMove:= @ToolButtonMouseMove;
+  ToolButton.OnDragDrop:= @ToolButtonDragDrop;
+  ToolButton.OnDragOver:= @ToolButtonDragOver;
+
   ToolButton.Glyph.Assign(Bitmap);
 
   if FRadioToolBar then
