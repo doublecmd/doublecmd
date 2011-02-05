@@ -3792,6 +3792,16 @@ var
   aFile: TFile = nil;
 begin
   Result:= True;
+
+  if edtCommand.Items.IndexOf(sCmd) = -1 then
+  begin
+    edtCommand.Items.Insert(0,sCmd);
+    // only cMaxStringItems(see uGlobs.pas) is stored
+    if edtCommand.Items.Count>cMaxStringItems then
+      edtCommand.Items.Delete(edtCommand.Items.Count-1);
+  end;
+  edtCommand.DroppedDown:= False;
+
   if (fspDirectAccess in ActiveFrame.FileSource.GetProperties) then
     begin
       iIndex:= Pos('cd ', sCmd);
@@ -3822,20 +3832,12 @@ begin
         end
       else
         begin
-          if edtCommand.Items.IndexOf(sCmd)=-1 then
-            edtCommand.Items.Insert(0,sCmd);
-
           if gTermWindow and Assigned(Cons) then
             Cons.Terminal.Write_pty(sCmd + #13)
           else if bRunInTerm then
             ExecCmdFork(sCmd, True, gRunInTerm)
           else
             ExecCmdFork(sCmd);
-
-          edtCommand.DroppedDown:= False;
-          // only cMaxStringItems(see uGlobs.pas) is stored
-          if edtCommand.Items.Count>cMaxStringItems then
-            edtCommand.Items.Delete(edtCommand.Items.Count-1);
         end;
     end
   else
