@@ -244,6 +244,7 @@ var
 
   {HotKey Manager}
   HotMan:THotKeyManager;
+  gNameSCFile: string;
   
   {Actions}
   Actions:TActs;
@@ -377,7 +378,13 @@ begin
       AddHotKeyEx('Alt+Left','cm_ViewHistoryPrev','','FrmMain','FrmMain');
       AddHotKeyEx('Alt+Right','cm_ViewHistoryNext','','FrmMain','FrmMain');
       AddHotKeyEx('Alt+Down','cm_DirHistory','','FrmMain','FrmMain');
+
 //      AddHotKeyEx('','cm_','','FrmMain','FrmMain');
+
+      // Viewer
+      AddHotKeyEx('F1','cm_Viewer_About','','FrmViewer','FrmViewer');
+      AddHotKeyEx('F1','cm_Viewer_DeleteFile','','FrmViewer','FrmViewer');
+
     end;
 end;
 
@@ -729,6 +736,8 @@ begin
   { - Other - }
   gLuaLib := '/usr/lib/liblua5.1.so';
 
+  gNameSCFile := 'shortcuts.scf';
+
   gExts.Clear;
   gColorExt.Clear;
   glsHotDir.Clear;
@@ -924,6 +933,11 @@ begin
   LoadStringsFromFile(glsReplaceHistory, gpCfgDir + 'replacehistory.txt', cMaxStringItems);
   LoadStringsFromFile(glsIgnoreList, ReplaceEnvVars(gIgnoreListFile));
 
+  { Hotkeys }
+  if not mbFileExists(gpCfgDir + gNameSCFile) then
+    gNameSCFile := 'shortcuts.scf';
+  HotMan.Load(gpCfgDir + gNameSCFile);
+
   { MultiArc addons }
   if mbFileExists(gpCfgDir + 'multiarc.ini') then
     gMultiArcList.LoadFromFile(gpCfgDir + 'multiarc.ini');
@@ -984,8 +998,11 @@ begin
   if gIgnoreListFileEnabled then
     glsIgnoreList.SaveToFile(ReplaceEnvVars(gIgnoreListFile));
   gMultiArcList.SaveToFile(gpCfgDir + 'multiarc.ini');
-  //TODO: Save hotkeys
-  //HotMan.Save();
+
+  { Hotkeys }
+  if not mbFileExists(gpCfgDir + gNameSCFile) then
+    gNameSCFile := 'shortcuts.scf';
+  HotMan.Save(gpCfgDir + gNameSCFile);
 
   if Assigned(gIni) then
     SaveIniConfig;
@@ -1565,6 +1582,7 @@ begin
     end;
     { - Other - }
     gLuaLib := GetValue(Root, 'Lua/PathToLibrary', gLuaLib);
+    gNameSCFile:= GetValue(Root, 'NameShortcutFile', gNameSCFile);
 
   end;
 
@@ -1805,6 +1823,7 @@ begin
 
     { - Other - }
     SetValue(Root, 'Lua/PathToLibrary', gLuaLib);
+    SetValue(Root, 'NameShortcutFile', gNameSCFile);
   end;
 
   { Search template list }

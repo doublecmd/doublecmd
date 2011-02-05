@@ -29,7 +29,8 @@ interface
 
 uses
   Classes, SysUtils, Dialogs, StringHashList, ActnList,
-  uFileView, uFileViewNotebook, uFileSourceOperation, uFileFunctions;
+  uFileView, uFileViewNotebook, uFileSourceOperation, uFileFunctions,
+  fViewer;
   
   
 const cf_Null=0;
@@ -254,6 +255,11 @@ const cf_Null=0;
    procedure cm_NetworkConnect(param: string='');
    procedure cm_NetworkDisconnect(param: string='');
    procedure cm_HorizontalFilePanels(param: string='');
+
+   // Viewer
+   procedure cm_Viewer_About(param: string='');
+   procedure cm_Viewer_DeleteFile(param: string='');
+   procedure cm_Viewer_NextFile(param: string='');
 
    //---------------------
    {   procedure SomeFunction (param:string; var Result:integer);
@@ -2834,6 +2840,24 @@ begin
   gHorizontalFilePanels := not gHorizontalFilePanels;
   frmMain.actHorizontalFilePanels.Checked := gHorizontalFilePanels;
   frmMain.UpdateWindowView;
+end;
+
+procedure TActs.cm_Viewer_DeleteFile(param: string='');
+begin
+  if Assigned(frmViewer) then
+    frmViewer.btnDeleteFileClick(frmViewer);
+end;
+
+procedure TActs.cm_Viewer_NextFile(param: string='');
+begin
+  if Assigned(frmViewer) then
+    frmViewer.miNextClick (frmViewer);
+end;
+
+procedure TActs.cm_Viewer_About(param: string='');
+begin
+  if Assigned(frmViewer) then
+    frmViewer.miAbout2Click(frmViewer);
 end;
 
 end.

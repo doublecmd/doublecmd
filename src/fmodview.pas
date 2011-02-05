@@ -7,8 +7,7 @@ interface
 uses
   LResources, LClType,
   SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, FileUtil, ExtCtrls, ComCtrls,
-  uGlobs;
+  Dialogs, StdCtrls, Buttons, FileUtil, ExtCtrls, ComCtrls;
 
 type
 
@@ -87,6 +86,9 @@ type
 implementation
 
 {$R *.lfm}
+
+uses
+  uGlobs;
 
 procedure TfrmModView.btnProportionClick(Sender: TObject);
 begin

@@ -579,8 +579,6 @@ type
     procedure MinimizeWindow;
     procedure LoadWindowState;
     procedure SaveWindowState;
-    procedure SaveShortCuts;
-    procedure LoadShortCuts;
     procedure SaveMainToolBar;
     function  IsCommandLineVisible: Boolean;
     procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
@@ -737,8 +735,6 @@ begin
 
 
   { *HotKeys* }
-  LoadShortCuts;
-
   HotMan.RegisterHotkeyManager(Self);
   HotMan.RegisterHotkeyManager(edtCommand);
 
@@ -1455,7 +1451,6 @@ begin
     if Assigned(gIni) then
       uGlobs.ConvertIniToXml;
     SaveWindowState;
-    SaveShortCuts;
     SaveGlobs;
   except
   end;
@@ -3938,19 +3933,6 @@ begin
     gConfig.SetValue(ANode, 'Height', Height);
   end;
   gConfig.SetValue(ANode, 'Maximized', (WindowState = wsMaximized));
-end;
-
-// Save ShortCuts to config file
-procedure TfrmMain.SaveShortCuts;
-begin
-  HotMan.Save(gpCfgDir + 'shortcuts.ini');
-end;
-
-// Load ShortCuts from config file
-procedure TfrmMain.LoadShortCuts;
-begin
-  // ToDo Black list HotKey which can't use
-  HotMan.Load(gpCfgDir + 'shortcuts.ini');
 end;
 
 procedure TfrmMain.SaveMainToolBar;

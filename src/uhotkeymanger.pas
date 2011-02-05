@@ -352,6 +352,7 @@ var
   tmp, k: Integer;
   TH: THotkeyInfoClass;
   shortCut: String;
+  st:TStringList;
 begin
   Result := -1;
   shortCut := ShortCutToTextEx(TextToShortCutEx(AHotKey));
@@ -359,24 +360,37 @@ begin
   if shortCut <> '' then
   begin
     Result:= FHotList.IndexOf(shortCut);
-    if Result < 0 then
+    if Result >-1 then
       begin
-        Th:= THotkeyInfoClass.Create;
-        th.ACommand:= ACommand;
-        th.AParams:= AParams;
-        th.AObjectName:= AObjectName;
-        th.AObjectFormName:= AObjectFormName;
+        tmp:=result;
+        st:=TStringList.Create;
+        GetFormsListBy (shortCut,st);
+        if st.IndexOf(AObjectFormName)>-1 then
+          begin
+            GetControlsListBy(shortCut,st);
+            if st.IndexOf(AObjectName)>-1 then
+              begin
+                st.free;
+                Exit;
+              end;
+          end;
+          st.free;
+        end
+    else tmp:= FHotList.AddObject(shortCut,TStringList.Create);
 
-        tmp:= FHotList.AddObject(shortCut,TStringList.Create);
+   Th:=THotkeyInfoClass.Create;
+   th.ACommand:=ACommand;
+   th.AParams:=AParams;
+   th.AObjectName:=AObjectName;
+   th.AObjectFormName:=AObjectFormName;
 
-        //find form and add it in form list
-        k:= TStringList(FHotList.Objects[tmp]).IndexOf(th.AObjectFormName);
-        if k=-1 then
-          k:=TStringList(FHotList.Objects[tmp]).AddObject(th.AObjectFormName,TStringList.Create);
+   //find form and add it in form list
+    k:=TStringList(FHotList.Objects[tmp]).IndexOf(th.AObjectFormName);
+    if k=-1 then
+      k:=TStringList(FHotList.Objects[tmp]).AddObject(th.AObjectFormName,TStringList.Create);
 
-        TStringList(TStringList(FHotList.Objects[tmp]).Objects[k]).AddObject(th.AObjectName,th);
-        Result:= tmp;
-      end;
+    TStringList(TStringList(FHotList.Objects[tmp]).Objects[k]).AddObject(th.AObjectName,th);
+    result:=tmp;
   end;
 end;
 
@@ -467,10 +481,10 @@ begin
                     for k:=0 to cst.Count-1 do
                       begin
                         TH:=THotkeyInfoClass(cst.Objects[k]);
-                        ini.WriteString(FHotList[i],'Command'+IntToStr(k),TH.ACommand);
-                        ini.WriteString(FHotList[i],'Param'+IntToStr(k),TH.AParams);
-                        ini.WriteString(FHotList[i],'Object'+IntToStr(k),Cst[k]);
-                        ini.WriteString(FHotList[i],'Form'+IntToStr(k),fst[j]);
+                        ini.WriteString(FHotList[i],'Command'+IntToStr(j),TH.ACommand);
+                        ini.WriteString(FHotList[i],'Param'+IntToStr(j),TH.AParams);
+                        ini.WriteString(FHotList[i],'Object'+IntToStr(j),Cst[k]);
+                        ini.WriteString(FHotList[i],'Form'+IntToStr(j),fst[j]);
                       end;
                    end;
                end;
