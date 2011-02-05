@@ -154,6 +154,7 @@ type
     AllOpCancel: TMenuItem;
     AllOpStart: TMenuItem;
     AllOpPct: TMenuItem;
+    tbChangeDir: TMenuItem;
     mnuShowHorizontalFilePanels: TMenuItem;
     miLine20: TMenuItem;
     miNetworkDisconnect: TMenuItem;
@@ -476,6 +477,7 @@ type
       Shift: TShiftState);
     procedure edtCommandEnter(Sender: TObject);
     procedure edtCommandExit(Sender: TObject);
+    procedure tbChangeDirClick(Sender: TObject);
     procedure tbCopyClick(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
     procedure FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
@@ -2517,12 +2519,21 @@ procedure TfrmMain.pmToolBarPopup(Sender: TObject);
 var
   I: Integer;
   sText: String;
+  sDir: String;
   bPaste: Boolean;
 begin
   I:= pmToolBar.Tag;
   tbSeparator.Visible:= (I >= 0);
   tbCut.Visible:= (I >= 0);
   tbCopy.Visible:= (I >= 0);
+  tbChangeDir.Visible:= false;
+  if I >= 0 then
+  begin
+    sDir:= MainToolBar.GetButtonX(I, PathX);
+    tbChangeDir.Caption := 'CD ' + sDir;
+    if sDir <> '' then
+      tbChangeDir.Visible:= true;
+  end;
 
   sText:= Clipboard.AsText;
   bPaste:= (Pos('DOUBLECMD#BAR#DATA', sText) = 1) or (Pos('TOTALCMD#BAR#DATA', sText) = 1);
@@ -3683,6 +3694,17 @@ begin
   // Hide command line if it was temporarily shown.
   if (not gCmdLine) and IsCommandLineVisible then
     pnlCommand.Hide;
+end;
+
+procedure TfrmMain.tbChangeDirClick(Sender: TObject);
+var
+  I: Integer;
+begin
+  I:= pmToolBar.Tag;
+  if I < 0 then
+    Exit;
+
+  Actions.cm_ChangeDir(MainToolBar.GetButtonX(I, PathX));
 end;
 
 procedure TfrmMain.tbCopyClick(Sender: TObject);

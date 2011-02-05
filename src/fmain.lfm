@@ -2263,6 +2263,10 @@ object frmMain: TfrmMain
       Caption = 'Delete'
       OnClick = DeleteClick
     end
+    object tbChangeDir: TMenuItem
+      Caption = 'CD'
+      OnClick = tbChangeDirClick
+    end
     object tbSeparator: TMenuItem
       Caption = '-'
       Visible = False
