@@ -5208,7 +5208,9 @@ msgid "Out"
 msgstr "Wyjście"
 
 #: ulng.rsdlgspeedtime
-msgid "Speed %s/s, remaining time %s"
+#, fuzzy
+#| msgid "Speed %s/s, remaining time %s"
+msgid "Speed %s/s, time remaining %s"
 msgstr "Szybkość %s/s, pozostały czas %s"
 
 #: ulng.rsdlgtest
@@ -6160,6 +6162,9 @@ msgstr "Terabajty"
 msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
 msgstr "Plików: %d, Katalogów: %d, Rozmiar: %s (%s bajtów)"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsspliterrdirectory
 msgid "Unable to create target directory!"
 msgstr "Nie można utworzyć katalogu docelowego!"
@@ -6168,9 +6173,6 @@ msgstr "Nie można utworzyć katalogu docelowego!"
 msgid "Incorrect file size format!"
 msgstr "Nieprawodłowa format wielkości pliku"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsspliterrsplitfile
 msgid "Unable to split the file!"
 msgstr "Pliku nie da sie podzilić!"

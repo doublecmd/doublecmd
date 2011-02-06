@@ -5291,8 +5291,8 @@ msgstr ""
 
 #: ulng.rsdlgspeedtime
 #, fuzzy
-#| msgid "Speed %s/s, remained time %s"
-msgid "Speed %s/s, remaining time %s"
+#| msgid "Speed %s/s, remaining time %s"
+msgid "Speed %s/s, time remaining %s"
 msgstr "Sebesség %s/s, hátralevő idő %s"
 
 #: ulng.rsdlgtest

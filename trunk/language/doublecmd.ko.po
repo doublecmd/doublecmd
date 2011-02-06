@@ -5293,8 +5293,8 @@ msgstr ""
 
 #: ulng.rsdlgspeedtime
 #, fuzzy
-#| msgid "Speed %s/s, remained time %s"
-msgid "Speed %s/s, remaining time %s"
+#| msgid "Speed %s/s, remaining time %s"
+msgid "Speed %s/s, time remaining %s"
 msgstr "속도 %s/s, 남은 시간 %s"
 
 #: ulng.rsdlgtest

@@ -5249,8 +5249,9 @@ msgid "Out"
 msgstr "Із"
 
 #: ulng.rsdlgspeedtime
-#| msgid "Speed %s/s, remained time %s"
-msgid "Speed %s/s, remaining time %s"
+#, fuzzy
+#| msgid "Speed %s/s, remaining time %s"
+msgid "Speed %s/s, time remaining %s"
 msgstr "Швидкість %s/с, залишилось часу %s"
 
 #: ulng.rsdlgtest
