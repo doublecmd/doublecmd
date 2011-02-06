@@ -325,7 +325,7 @@ procedure TParserControl.processstring;
 function TParserControl.isdigit(c:UTF8String):boolean;
  begin
  result:=false;
- if pos(c,'=#!&<>|')<=0 then
+ if pos(c,'=#!&<>|()')<=0 then
    result:=true;
  end;
 
@@ -416,4 +416,4 @@ end;
  end;
 
  end.
-
+
