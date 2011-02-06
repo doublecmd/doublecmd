@@ -1,11 +1,13 @@
-#!/bin/bash
+#!/bin/sh
 # Build all plugins
 
 # This script run from main build.sh script
 # If you run it direct, set up $lazbuild first
 
 # CD to plugins directory
-pushd plugins
+basedir=$(pwd)
+cd plugins
+pluginsdir=$(pwd)
 
 # WCX plugins
 $lazbuild wcx/cpio/src/cpio.lpi $DC_ARCH
@@ -30,69 +32,69 @@ $lazbuild wlx/WlxMplayer/src/wlxMplayer.lpi $DC_ARCH
 $lazbuild dsx/DSXLocate/src/DSXLocate.lpi $DC_ARCH
 
 # Strip and rename WCX
-pushd wcx/cpio/lib/
+cd wcx/cpio/lib/
 strip --strip-all libcpio.so
 mv libcpio.so cpio.wcx
-popd
+cd $pluginsdir
 
-pushd wcx/deb/lib/
+cd wcx/deb/lib/
 strip --strip-all libdeb.so
 mv libdeb.so deb.wcx
-popd
+cd $pluginsdir
 
-pushd wcx/lzma/lib/
+cd wcx/lzma/lib/
 strip --strip-all liblzma.so
 mv liblzma.so lzma.wcx
-popd
+cd $pluginsdir
 
-pushd wcx/rpm/lib/
+cd wcx/rpm/lib/
 strip --strip-all librpm.so
 mv librpm.so rpm.wcx
-popd
+cd $pluginsdir
 
-pushd wcx/unbz2/lib/
+cd wcx/unbz2/lib/
 strip --strip-all libunbz2.so
 mv libunbz2.so unbz2.wcx
-popd
+cd $pluginsdir
 
-pushd wcx/unrar/lib/
+cd wcx/unrar/lib/
 strip --strip-all libunrar.so
 mv libunrar.so unrar.wcx
-popd
+cd $pluginsdir
 
-pushd wcx/zip/lib/
+cd wcx/zip/lib/
 strip --strip-all libzip.so
 mv libzip.so zip.wcx
-popd
+cd $pluginsdir
 
 # Strip and rename WDX
-pushd wdx/rpm_wdx/lib/
+cd wdx/rpm_wdx/lib/
 strip --strip-all librpm_wdx.so
 mv librpm_wdx.so rpm_wdx.wdx
-popd
+cd $pluginsdir
 
-pushd wdx/deb_wdx/lib/
+cd wdx/deb_wdx/lib/
 strip --strip-all libdeb_wdx.so
 mv libdeb_wdx.so deb_wdx.wdx
-popd
+cd $pluginsdir
 
 # Strip and rename WFX
-pushd wfx/ftp/lib/
+cd wfx/ftp/lib/
 strip --strip-all libftp.so
 mv libftp.so ftp.wfx
-popd
+cd $pluginsdir
 
 # Strip and rename WLX
-pushd wlx/WlxMplayer/lib/
+cd wlx/WlxMplayer/lib/
 strip --strip-all libwlxmplayer.so
 mv libwlxmplayer.so wlxmplayer.wlx
-popd
+cd $pluginsdir
 
 # Strip and rename DSX
-pushd dsx/DSXLocate/lib/
+cd dsx/DSXLocate/lib/
 strip --strip-all libdsxlocate.so
 mv libdsxlocate.so dsxlocate.dsx
-popd
+cd $pluginsdir
 
 # Return from plugins directory
-popd
+cd $basedir
