@@ -164,7 +164,6 @@ var
   sMsg: UTF8String;
   LogMsgType: TLogMsgType = lmtInfo;
   bLogFile: Boolean;
-  bLock: Boolean = True;
   sName: UTF8String;
   CallbackDataClass: TCallbackDataClass;
 Begin
@@ -181,7 +180,7 @@ Begin
             AddNetworkConnection(sName, CallbackDataClass.FileSource);
           end;
         sMsg:= sMsg + '[' + IntToStr(MsgType) + ']';
-        ShowLogWindow(True, @bLock);
+        ShowLogWindow(True);
       end;
     msgtype_disconnect:
       begin
@@ -205,7 +204,7 @@ Begin
       end;
   end;
   // write log info
-  logWrite(sMsg + ', ' + logString, LogMsgType, False, bLogFile);
+  logWrite(sMsg + ', ' + logString, LogMsgType, True, bLogFile);
 
   //DebugLn('MainLogProc ('+ sMsg + ',' + logString + ')');
 end;
