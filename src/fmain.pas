@@ -3615,8 +3615,8 @@ begin
   ToggleConsole;
 
   // Log window
-  seLogWindow.Visible := gLogWindow or (not miLogHide.Enabled);
-  LogSplitter.Visible := gLogWindow or (not miLogHide.Enabled);
+  seLogWindow.Visible := gLogWindow;
+  LogSplitter.Visible := gLogWindow;
   FontOptionsToFont(gFonts[dcfLog], seLogWindow.Font);
 
   ToggleFileSystemWatcher;

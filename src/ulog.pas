@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains log write functions.
 
-    Copyright (C) 2008-2010  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
 
     contributors:
 
@@ -54,7 +54,7 @@ type
     procedure WriteLog(const sText: String; LogMsgType: TLogMsgType; bForce, bLogFile: Boolean);
   end;
 
-procedure ShowLogWindow(bShow: Boolean; bLock: PBoolean = nil);
+procedure ShowLogWindow(bShow: Boolean);
 procedure logWrite(const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True); overload;
 procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType = lmtInfo; bForce: Boolean = False; bLogFile: Boolean = True); overload;
 
@@ -63,15 +63,13 @@ implementation
 uses
   SysUtils, LCLProc, Forms, fMain, uGlobs, uFileProcs, uOSUtils;
 
-procedure ShowLogWindow(bShow: Boolean; bLock: PBoolean);
+procedure ShowLogWindow(bShow: Boolean);
 begin
   if Assigned(fMain.frmMain) then
   with fMain.frmMain do
   begin
     LogSplitter.Visible:= bShow;
     seLogWindow.Visible:= bShow;
-    if Assigned(bLock) then
-      miLogHide.Enabled:= not bLock^;
     Application.ProcessMessages;
   end;
 end;
@@ -97,19 +95,17 @@ end;
 
 procedure TLogWriteThread.LogWriteInTheThread;
 var
-  hLogFile: Integer;
+  hLogFile: THandle;
   LogMsgTypeObject: TObject;
-  bLock: Boolean;
 begin
   LogMsgTypeObject:= TObject(PtrInt(FLogMsgType));
   if Assigned(fMain.frmMain) then
   with fMain.frmMain do
   begin
-    if (not (gLogWindow and seLogWindow.Visible)) and FForce then
+    if FForce and (not seLogWindow.Visible) then
       ShowLogWindow(True);
 
-    bLock:= not miLogHide.Enabled;
-    if (gLogWindow or FForce or bLock) then // if write log to window
+    if (gLogWindow or FForce) then // if write log to window
       seLogWindow.CaretY:= seLogWindow.Lines.AddObject(FMsg, LogMsgTypeObject) + 1;
   end;
 
