@@ -1970,21 +1970,20 @@ begin
 end;
 
 procedure TfrmOptions.FillSCFilesList;
-var SR : TSearchRecEx;
-    Res, i : Integer;
+var
+  SR : TSearchRecEx;
+  Res : Integer;
 begin
   lbSCFilesList.Items.Clear;
-  i:=0;
-  Res := FindFirstEx(gpCfgDir+'*.scf', faAnyFile, SR);
+  Res := FindFirstEx(gpCfgDir + '*.scf', faAnyFile, SR);
   while Res = 0 do
   begin
-    lbSCFilesList.Items.Add(Sr.Name);
-    if Sr.Name=gNameSCFile then lbSCFilesList.Selected[i]:=true;
+    Res:= lbSCFilesList.Items.Add(Sr.Name);
+    if Sr.Name = gNameSCFile then lbSCFilesList.Selected[Res]:=true;
     Res := FindNextEx(SR);
-    i:=i+1;
   end;
   FindCloseEx(SR);
-
+  lbSCFilesList.OnSelectionChange := @lbSCFilesListSelectionChange;
 end;
 
 procedure TfrmOptions.lbxCategoriesSelectionChange(Sender: TObject; User: boolean);

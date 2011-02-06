@@ -1844,7 +1844,6 @@ object frmOptions: TfrmOptions
           Top = 14
           Width = 297
           ItemHeight = 0
-          OnSelectionChange = lbSCFilesListSelectionChange
           TabOrder = 7
         end
         object lblSCFiles: TLabel
