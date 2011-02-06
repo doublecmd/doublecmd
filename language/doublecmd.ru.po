@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-02-01 22:01+0300\n"
+"PO-Revision-Date: 2011-02-06 22:36+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3437,7 +3437,6 @@ msgid "Show log window"
 msgstr "Окно лога"
 
 #: TFRMOPTIONS.CBLYNXLIKE.CAPTION
-#, fuzzy
 #| msgid "Lynx like movement"
 msgid "Lynx-like movement"
 msgstr "Навигация в стиле Lynx"
@@ -3476,7 +3475,6 @@ msgid "Selection by mouse"
 msgstr "Выделение мышью"
 
 #: TFRMOPTIONS.CBSHORTFILESIZEFORMAT.CAPTION
-#, fuzzy
 #| msgid "Short Filesize format"
 msgid "Short file size format"
 msgstr "Короткий размер файла"
@@ -3522,7 +3520,6 @@ msgid "Show &status bar"
 msgstr "&Строка состояния"
 
 #: TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION
-#, fuzzy
 #| msgid "Show hidden/system files"
 msgctxt "TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION"
 msgid "Show system and hidden files"
@@ -3545,7 +3542,6 @@ msgid "Skip file operations errors and write them to log window"
 msgstr "Пропускать ошибки при файловых операциях и выводить их в окно лога"
 
 #: TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION
-#, fuzzy
 #| msgid "Case sensitive sorting"
 msgctxt "TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION"
 msgid "Case-sensitive sorting"
@@ -3616,17 +3612,15 @@ msgid "Show two drive button bars (fixed width, above file windows)"
 msgstr "Д&ве панели кнопок дисков (над файловыми панелями)"
 
 #: TFRMOPTIONS.CBWATCHATTRIBUTESCHANGE.CAPTION
-#, fuzzy
 #| msgid "Also when &size, date, or attributes change"
 msgid "When &size, date or attributes change"
-msgstr "Также обновлять при изменении &размера, даты или атрибутов"
+msgstr "Обновлять при изменении &размера, даты или атрибутов"
 
 #: TFRMOPTIONS.CBWATCHEXCLUDEDIRS.CAPTION
 msgid "For the following &paths and their subdirectories:"
 msgstr "Для следующих каталогов и их подкаталогов:"
 
 #: TFRMOPTIONS.CBWATCHFILENAMECHANGE.CAPTION
-#, fuzzy
 #| msgid "Refresh when files are &created, deleted and renamed"
 msgid "When files are &created, deleted or renamed"
 msgstr "Обновлять при &создании, удалении и переименовании файлов"
@@ -4011,7 +4005,7 @@ msgstr "Категории:"
 
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
 msgid "Drive blacklist:"
-msgstr ""
+msgstr "Черный список дисков:"
 
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.HINT
 msgid "Here you can enter one or more drives, separated by \";\"."
@@ -5268,8 +5262,8 @@ msgid "Out"
 msgstr "-"
 
 #: ulng.rsdlgspeedtime
-#| msgid "Speed %s/s, remained time %s"
-msgid "Speed %s/s, remaining time %s"
+#| msgid "Speed %s/s, remaining time %s"
+msgid "Speed %s/s, time remaining %s"
 msgstr "Скорость %s/с, осталось времени %s"
 
 #: ulng.rsdlgtest
@@ -5468,7 +5462,7 @@ msgstr "Вкладка (%s) заблокирована! Закрыть?"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
-msgstr ""
+msgstr "Вы уверены что хотите выйти?"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
@@ -5568,7 +5562,7 @@ msgstr "Не могу создать каталог %s!"
 
 #: ulng.rsmsgerrinvalidlink
 msgid "Invalid link"
-msgstr ""
+msgstr "Некорректная ссылка"
 
 #: ulng.rsmsgerrnofiles
 msgid "No files found"
@@ -5870,7 +5864,7 @@ msgstr "Завершено"
 
 #: ulng.rsopermanualstart
 msgid "Manually started"
-msgstr ""
+msgstr "Ручной пуск"
 
 #: ulng.rsopernotstarted
 msgid "Not started"

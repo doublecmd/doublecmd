@@ -5211,7 +5211,7 @@ msgid "Out"
 msgstr ""
 
 #: ulng.rsdlgspeedtime
-msgid "Speed %s/s, remaining time %s"
+msgid "Speed %s/s, time remaining %s"
 msgstr ""
 
 #: ulng.rsdlgtest
