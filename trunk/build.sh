@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/sh 
 
 # if you compile first time you must change variable "lazpath" and "lcl"
 # after it execute this script with parameter "all" at doublecmd dir 
