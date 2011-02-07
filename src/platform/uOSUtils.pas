@@ -28,14 +28,13 @@ interface
 
 uses
     SysUtils, Classes, LCLProc, LCLType, uClassesEx, uTypes
-    {$IF DEFINED(MSWINDOWS)}
-    , Windows, ShellApi, uNTFSLinks, uMyWindows, JwaWinNetWk, uShlObjAdditional
-    {$ELSEIF DEFINED(UNIX)}
-    , BaseUnix, Unix, UnixType, dl, uFileAttributes
+    {$IF DEFINED(UNIX)}
+    , uFileAttributes
       {$IFDEF DARWIN}
       , MacOSAll
       {$ENDIF}
-    {$ENDIF};
+    {$ENDIF}
+    ;
     
 const
   {$IFDEF MSWINDOWS}
@@ -60,12 +59,12 @@ const
 
 type
   TFileMapRec = record
-    FileHandle : THandle;
+    FileHandle : System.THandle;
     FileSize : Int64;
 {$IFDEF MSWINDOWS}
-    MappingHandle : THandle;
+    MappingHandle : System.THandle;
 {$ENDIF}
-    MappedFile : PChar;
+    MappedFile : Pointer;
   end;
 
 const
@@ -112,7 +111,7 @@ function ExecCmdFork(sCmdLine:String; bTerm : Boolean = False; sTerm : String = 
    @returns(The function returns @true if successful, @false otherwise)
 }
 function ShellExecute(URL: String): Boolean;
-function GetDiskFreeSpace(Path : String; out FreeSize, TotalSize : Int64) : Boolean;
+function GetDiskFreeSpace(const Path : String; out FreeSize, TotalSize : Int64) : Boolean;
 {en
    Get maximum file size for a mounted file system
    @param(Path The pathname of any file within the mounted file  system)
@@ -125,21 +124,21 @@ function GetDiskMaxFileSize(const Path : UTF8String) : Int64;
    @param(LinkName Name of hard link)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function CreateHardLink(Path, LinkName: String) : Boolean;
+function CreateHardLink(const Path, LinkName: String) : Boolean;
 {en
    Create a symbolic link
    @param(Path Name of file)
    @param(LinkName Name of symbolic link)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function CreateSymLink(Path, LinkName: string) : Boolean;
+function CreateSymLink(const Path, LinkName: string) : Boolean;
 {en
    Read destination of symbolic link
    @param(LinkName Name of symbolic link)
    @returns(The file name/path the symbolic link name is pointing to.
             The path may be relative to link's location.)
 }
-function ReadSymLink(LinkName : String) : String;
+function ReadSymLink(const LinkName : String) : String;
 {en
    Reads the concrete file's name that the link points to.
    If the link points to a link then it's resolved recursively
@@ -149,7 +148,7 @@ function ReadSymLink(LinkName : String) : String;
             or an empty string when the link is invalid or
             the file it points to does not exist.)
 }
-function mbReadAllLinks(PathToLink : String) : String;
+function mbReadAllLinks(const PathToLink : String) : String;
 {en
    Get the user home directory
    @returns(The user home directory)
@@ -217,9 +216,9 @@ function FormatTerminal(Command: String; bKeepTerminalOpen: Boolean): String;
 function ConsoleToUTF8(const Str: AnsiString): UTF8String;
 
 { File handling functions}
-function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
-function mbFileCreate(const FileName: UTF8String): THandle; overload;
-function mbFileCreate(const FileName: UTF8String; Mode: Integer): THandle; overload;
+function mbFileOpen(const FileName: UTF8String; Mode: Integer): System.THandle;
+function mbFileCreate(const FileName: UTF8String): System.THandle; overload;
+function mbFileCreate(const FileName: UTF8String; Mode: Integer): System.THandle; overload;
 function mbFileAge(const FileName: UTF8String): uTypes.TFileTime;
 // On success returns True.
 function mbFileSetTime(const FileName: UTF8String;
@@ -246,7 +245,7 @@ function mbDeleteFile(const FileName: UTF8String): Boolean;
 
 function mbRenameFile(const OldName: UTF8String; NewName: UTF8String): Boolean;
 function mbFileSize(const FileName: UTF8String): Int64;
-function FileFlush(Handle: THandle): Boolean;
+function FileFlush(Handle: System.THandle): Boolean;
 { Directory handling functions}
 function mbGetCurrentDir: UTF8String;
 function mbSetCurrentDir(const NewDir: UTF8String): Boolean;
@@ -272,7 +271,7 @@ function mbCompareFileNames(const FileName1, FileName2: UTF8String): Boolean;
 { Other functions }
 function mbGetEnvironmentString(Index : Integer) : UTF8String;
 function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
-function mbLoadLibrary(Name: UTF8String): TLibHandle;
+function mbLoadLibrary(const Name: UTF8String): TLibHandle;
 function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
 
 procedure FixFormIcon(Handle: LCLType.HWND);
@@ -281,8 +280,11 @@ implementation
 
 uses
   FileUtil, uDCUtils, uGlobs
-  {$IFDEF UNIX}
-  , uMyUnix
+  {$IF DEFINED(MSWINDOWS)}
+  , Windows, uNTFSLinks, uMyWindows, JwaWinNetWk, uShlObjAdditional
+  {$ENDIF}
+  {$IF DEFINED(UNIX)}
+  , BaseUnix, Unix, uMyUnix, dl
   {$ENDIF}
   ;
 
@@ -468,7 +470,7 @@ function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Bool
 var
   iAttr : TFileAttrs;
   ft : Windows.TFileTime;
-  Handle: THandle;
+  Handle: System.THandle;
 begin
   iAttr := mbFileGetAttr(sSrc);
   //---------------------------------------------------------
@@ -659,7 +661,7 @@ end;
 
 (* Get Disk Free Space *)
 
-function GetDiskFreeSpace(Path : String; out FreeSize, TotalSize : Int64) : Boolean;
+function GetDiskFreeSpace(const Path : String; out FreeSize, TotalSize : Int64) : Boolean;
 {$IFDEF UNIX}
 var
   sbfs: TStatFS;
@@ -724,7 +726,7 @@ begin
 end;
 {$ENDIF}
 
-function CreateHardLink(Path, LinkName: String) : Boolean;
+function CreateHardLink(const Path, LinkName: String) : Boolean;
 {$IFDEF MSWINDOWS}
 var
   wsPath, wsLinkName: WideString;
@@ -744,7 +746,7 @@ begin
 end;
 {$ENDIF}
 
-function CreateSymLink(Path, LinkName: string) : Boolean;
+function CreateSymLink(const Path, LinkName: string) : Boolean;
 {$IFDEF MSWINDOWS}
 var
   wsPath, wsLinkName: WideString;
@@ -766,7 +768,7 @@ end;
 
 (* Get symlink target *)
 
-function ReadSymLink(LinkName : String) : String;
+function ReadSymLink(const LinkName : String) : String;
 {$IFDEF MSWINDOWS}
 var
   wsLinkName,
@@ -789,12 +791,12 @@ begin
 end;
 {$ENDIF}
 
-function mbReadAllLinks(PathToLink: String) : String;
+function mbReadAllLinks(const PathToLink: String) : String;
 var
   Attrs: TFileAttrs;
   LinkTargets: TStringList;  // A list of encountered filenames (for detecting cycles)
 
-  function mbReadAllLinksRec(PathToLink: String): String;
+  function mbReadAllLinksRec(const PathToLink: String): String;
   begin
     Result := ReadSymLink(PathToLink);
     if Result <> '' then
@@ -1100,7 +1102,7 @@ begin
       end;
 
       MappedFile:= fpmmap(nil,FileSize,PROT_READ, MAP_PRIVATE{SHARED},FileHandle,0 );
-      if PtrInt(MappedFile) = -1 then
+      if MappedFile = MAP_FAILED then
         begin
           MappedFile := nil;
           UnMapFile(FileMapRec);
@@ -1169,7 +1171,7 @@ begin
   {$ENDIF}
 end;
 
-function mbFileOpen(const FileName: UTF8String; Mode: Integer): THandle;
+function mbFileOpen(const FileName: UTF8String; Mode: Integer): System.THandle;
 {$IFDEF MSWINDOWS}
 const
   AccessMode: array[0..2] of DWORD  = (
@@ -1201,7 +1203,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileCreate(const FileName: UTF8String): THandle;
+function mbFileCreate(const FileName: UTF8String): System.THandle;
 {$IFDEF MSWINDOWS}
 var
   wFileName: WideString;
@@ -1216,7 +1218,7 @@ begin
 end;
 {$ENDIF}
 
-function mbFileCreate(const FileName: UTF8String; Mode: Integer): THandle;
+function mbFileCreate(const FileName: UTF8String; Mode: Integer): System.THandle;
 {$IFDEF MSWINDOWS}
 begin
   Result:= mbFileCreate(FileName);
@@ -1230,7 +1232,7 @@ end;
 function mbFileAge(const FileName: UTF8String): uTypes.TFileTime;
 {$IFDEF MSWINDOWS}
 var
-  Handle: THandle;
+  Handle: System.THandle;
   FindData: TWin32FindDataW;
   wFileName: WideString;
 begin
@@ -1262,7 +1264,7 @@ function mbFileSetTime(const FileName: UTF8String;
                        LastAccessTime  : uTypes.TFileTime = 0): Boolean;
 {$IFDEF MSWINDOWS}
 var
-  Handle: THandle;
+  Handle: System.THandle;
   wFileName: WideString;
   PWinModificationTime: Windows.LPFILETIME = nil;
   PWinCreationTime: Windows.LPFILETIME = nil;
@@ -1342,7 +1344,7 @@ const
                 GENERIC_WRITE,
                 GENERIC_READ or GENERIC_WRITE);
 var
-  hFile: THandle;
+  hFile: System.THandle;
   wFileName: WideString;
   dwDesiredAccess: DWORD;
   dwShareMode: DWORD = 0;
@@ -1571,7 +1573,7 @@ end;
 function mbFileSize(const FileName: UTF8String): Int64;
 {$IFDEF MSWINDOWS}
 var
-  Handle: THandle;
+  Handle: System.THandle;
   FindData: TWin32FindDataW;
   wFileName: WideString;
 begin
@@ -1595,7 +1597,7 @@ begin
 end;
 {$ENDIF}
 
-function FileFlush(Handle: THandle): Boolean;  
+function FileFlush(Handle: System.THandle): Boolean;
 {$IFDEF MSWINDOWS}
 begin
   Result:= FlushFileBuffers(Handle);
@@ -1777,7 +1779,7 @@ begin
 end;
 {$ENDIF}
 
-function mbLoadLibrary(Name: UTF8String): TLibHandle;
+function mbLoadLibrary(const Name: UTF8String): TLibHandle;
 {$IFDEF MSWINDOWS}
 var
   wsName: WideString;
@@ -1813,4 +1815,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.
