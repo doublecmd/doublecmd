@@ -40,29 +40,29 @@ function DateTimeToFileTime(DateTime : TDateTime) : uTypes.TFileTime;
 {en
    Converts system specific UTC time to local time.
 }
-function FileTimeToLocalFileTime(const lpFileTime: uTypes.TFileTime;
-                                 out lpLocalFileTime: uTypes.TFileTime): LongBool;
+function FileTimeToLocalFileTime(const FileTime: uTypes.TFileTime;
+                                 out LocalFileTime: uTypes.TFileTime): LongBool;
 {en
    Converts system specific local time to UTC time.
 }
-function LocalFileTimeToFileTime(const lpLocalFileTime: uTypes.TFileTime;
-                                 out lpFileTime: uTypes.TFileTime): LongBool;
+function LocalFileTimeToFileTime(const LocalFileTime: uTypes.TFileTime;
+                                 out FileTime: uTypes.TFileTime): LongBool;
 {en
    Converts Windows UTC file time to Windows local file time.
    @param(lpFileTime TWinFileTime structure containing the UTC-based file time)
    @param(lpLocalFileTime TWinFileTime structure to receive the converted local file time)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function WinFileTimeToLocalFileTime(const lpFileTime: TWinFileTime;
-                                     out lpLocalFileTime: TWinFileTime): LongBool;
+function WinFileTimeToLocalFileTime(const FileTime: TWinFileTime;
+                                    out LocalFileTime: TWinFileTime): LongBool;
 {en
    Converts Windows local file time to Windows UTC file time.
    @param(lpLocalFileTime TWinFileTime structure that specifies the local file time)
    @param(lpFileTime TWinFileTime structure to receive the converted UTC-based file time)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function WinLocalFileTimeToFileTime(const lpLocalFileTime: TWinFileTime;
-                                     out lpFileTime: TWinFileTime): LongBool;
+function WinLocalFileTimeToFileTime(const LocalFileTime: TWinFileTime;
+                                    out FileTime: TWinFileTime): LongBool;
 {en
    Converts Windows UTC file time to a file time in TDateTime format.
    @param(ft TWinFileTime structure containing the UTC-based file time)
@@ -116,6 +116,48 @@ const  { Short names of months. }
 {$IFDEF UNIX}
 const
   SecsPerHour = SecsPerMin * MinsPerHour;
+
+function AdjustUnixTime(const FileTime: uTypes.TFileTime;
+                        out AdjustedFileTime: uTypes.TFileTime;
+                        AdjustValue: Int64): Boolean;
+begin
+  if (AdjustValue < 0) and (FileTime < -AdjustValue) then
+  begin
+    AdjustedFileTime := 0;
+    Result := False;
+  end
+  else if (AdjustValue > 0) and (High(FileTime) - FileTime < AdjustValue) then
+  begin
+    AdjustedFileTime := High(FileTime);
+    Result := False;
+  end
+  else
+  begin
+    AdjustedFileTime := FileTime + AdjustValue;
+    Result := True;
+  end;
+end;
+
+function AdjustWinTime(const FileTime: uTypes.TWinFileTime;
+                       out AdjustedFileTime: uTypes.TWinFileTime;
+                       AdjustValue: Int64): Boolean;
+begin
+  if (AdjustValue < 0) and (FileTime < -AdjustValue) then
+  begin
+    AdjustedFileTime := 0;
+    Result := False;
+  end
+  else if (AdjustValue > 0) and (High(FileTime) - FileTime < AdjustValue) then
+  begin
+    AdjustedFileTime := High(FileTime);
+    Result := False;
+  end
+  else
+  begin
+    AdjustedFileTime := FileTime + AdjustValue;
+    Result := True;
+  end;
+end;
 {$ENDIF}
 
 function FileTimeToDateTime(FileTime : uTypes.TFileTime) : TDateTime;
@@ -184,83 +226,63 @@ begin
 end;
 {$ENDIF}
 
-function FileTimeToLocalFileTime(const lpFileTime: uTypes.TFileTime;
-                                 out lpLocalFileTime: uTypes.TFileTime): LongBool;
+function FileTimeToLocalFileTime(const FileTime: uTypes.TFileTime;
+                                 out LocalFileTime: uTypes.TFileTime): LongBool;
 {$IFDEF MSWINDOWS}
 begin
-  Result := Windows.FileTimeToLocalFileTime(Windows.FILETIME(lpFileTime), Windows.FILETIME(lpLocalFileTime));
+  Result := Windows.FileTimeToLocalFileTime(@Windows.FILETIME(FileTime), @Windows.FILETIME(LocalFileTime));
 end;
 {$ELSE}
 begin
-  if lpFileTime < High(uTypes.TFileTime) - TZSeconds then
-  begin
-    lpLocalFileTime := lpFileTime + TZSeconds;
-    Result := True;
-  end
-  else
-  begin
-    lpLocalFileTime := High(uTypes.TFileTime);
-    Result := False;
-  end;
+  Result := AdjustUnixTime(FileTime, LocalFileTime, Tzseconds);
 end;
 {$ENDIF}
 
-function LocalFileTimeToFileTime(const lpLocalFileTime: uTypes.TFileTime;
-                                 out lpFileTime: uTypes.TFileTime): LongBool;
+function LocalFileTimeToFileTime(const LocalFileTime: uTypes.TFileTime;
+                                 out FileTime: uTypes.TFileTime): LongBool;
 {$IFDEF MSWINDOWS}
 begin
-  Result := Windows.LocalFileTimeToFileTime(Windows.FILETIME(lpLocalFileTime), Windows.FILETIME(lpFileTime));
+  Result := Windows.LocalFileTimeToFileTime(@Windows.FILETIME(LocalFileTime), @Windows.FILETIME(FileTime));
 end;
 {$ELSE}
 begin
-  if lpLocalFileTime > TZSeconds then
-  begin
-    lpFileTime := lpLocalFileTime - TZSeconds;
-    Result := True;
-  end
-  else
-  begin
-    lpFileTime := 0;
-    Result := False;
-  end;
+  Result := AdjustUnixTime(LocalFileTime, FileTime, -Tzseconds);
 end;
 {$ENDIF}
 
-function WinFileTimeToLocalFileTime(const lpFileTime: TWinFileTime;
-                                     out lpLocalFileTime: TWinFileTime): LongBool;
+function WinFileTimeToLocalFileTime(const FileTime: TWinFileTime;
+                                    out LocalFileTime: TWinFileTime): LongBool;
 {$IFDEF MSWINDOWS}
 begin
-  Result := Windows.FileTimeToLocalFileTime(Windows.FILETIME(lpFileTime), Windows.FILETIME(lpLocalFileTime));
+  Result := Windows.FileTimeToLocalFileTime(@Windows.FILETIME(FileTime), @Windows.FILETIME(LocalFileTime));
 end;
 {$ELSE}
 begin
-  Int64(lpLocalFileTime) := Int64(lpFileTime) + 10000000 * Int64(TZSeconds);
-  Result := True;
+  Result := AdjustWinTime(FileTime, LocalFileTime, 10000000 * Int64(TZSeconds));
 end;
 {$ENDIF}
 
-function WinLocalFileTimeToFileTime(const lpLocalFileTime: TWinFileTime;
-                                     out lpFileTime: TWinFileTime): LongBool;
+function WinLocalFileTimeToFileTime(const LocalFileTime: TWinFileTime;
+                                    out FileTime: TWinFileTime): LongBool;
 {$IFDEF MSWINDOWS}
 begin
-  Result := Windows.LocalFileTimeToFileTime(Windows.FILETIME(lpLocalFileTime), Windows.FILETIME(lpFileTime));
+  Result := Windows.LocalFileTimeToFileTime(@Windows.FILETIME(LocalFileTime), @Windows.FILETIME(FileTime));
 end;
 {$ELSE}
 begin
-  Int64(lpFileTime) := Int64(lpLocalFileTime) - 10000000 * Int64(TZSeconds);
-  Result := True;
+  Result := AdjustWinTime(LocalFileTime, FileTime, -10000000 * Int64(TZSeconds));
 end;
 {$ENDIF}
 
 function WinFileTimeToDateTime(ft : TWinFileTime) : TDateTime;
 begin
   WinFileTimeToLocalFileTime(ft,ft);
-  Result := (Int64(ft) / 864000000000.0) - 109205.0;
+  Result := (ft / 864000000000.0) - 109205.0;
 end;
 
 function DateTimeToWinFileTime(dt : TDateTime) : TWinFileTime;
 begin
-  Int64(Result) := Round((dt + 109205.0) * 864000000000.0);
+  Result := Round((dt + 109205.0) * 864000000000.0);
   WinLocalFileTimeToFileTime(Result, Result);
 end;
 
@@ -291,8 +313,8 @@ begin
     Result:=0
   else
   begin
-    Result := LongWord((s shr 1) or (m shl 5) or (h shl 11));
-    Result := Result or LongWord(DD shl 16 or (MM shl 21) or (word(YY-1980) shl 25));
+    Result := (s shr 1) or (m shl 5) or (h shl 11) or
+              (DD shl 16) or (MM shl 21) or (Word(YY-1980) shl 25);
   end;
 end;
 
@@ -300,32 +322,32 @@ function WinToDosTime(const WinTime: Windows.FILETIME; var DosTime: TDosFileTime
 var
   lft : Windows.TFILETIME;
 begin
-  Result:= Windows.FileTimeToLocalFileTime(Windows.FILETIME(WinTime), lft) and
-           Windows.FileTimeToDosDateTime(lft, LongRec(Dostime).Hi, LongRec(DosTime).Lo);
+  Result:= Windows.FileTimeToLocalFileTime(@Windows.FILETIME(WinTime), @lft) and
+           Windows.FileTimeToDosDateTime(@lft, @LongRec(Dostime).Hi, @LongRec(DosTime).Lo);
 end;
 
 function DosToWinTime(const DosTime: TDosFileTime; var WinTime: Windows.FILETIME): LongBool;
 var
   lft : Windows.TFILETIME;
 begin
-  Result := Windows.DosDateTimeToFileTime(LongRec(DosTime).Hi, LongRec(DosTime).Lo, lft) and
-            Windows.LocalFileTimeToFileTime(lft, Windows.FILETIME(WinTime));
+  Result := Windows.DosDateTimeToFileTime(LongRec(DosTime).Hi, LongRec(DosTime).Lo, @lft) and
+            Windows.LocalFileTimeToFileTime(@lft, @Windows.FILETIME(WinTime));
 end;
 
 function WinToDosTime(const WinTime: TWinFileTime; var DosTime: TDosFileTime): LongBool;
 var
   lft : Windows.TFILETIME;
 begin
-  Result:= Windows.FileTimeToLocalFileTime(Windows.FILETIME(WinTime), lft) and
-           Windows.FileTimeToDosDateTime(lft, LongRec(Dostime).Hi, LongRec(DosTime).Lo);
+  Result:= Windows.FileTimeToLocalFileTime(@Windows.FILETIME(WinTime), @lft) and
+           Windows.FileTimeToDosDateTime(@lft, @LongRec(Dostime).Hi, @LongRec(DosTime).Lo);
 end;
 
 function DosToWinTime(const DosTime: TDosFileTime; var WinTime: TWinFileTime): LongBool;
 var
   lft : Windows.TFILETIME;
 begin
-  Result := Windows.DosDateTimeToFileTime(LongRec(DosTime).Hi, LongRec(DosTime).Lo, lft) and
-            Windows.LocalFileTimeToFileTime(lft, Windows.FILETIME(WinTime));
+  Result := Windows.DosDateTimeToFileTime(LongRec(DosTime).Hi, LongRec(DosTime).Lo, @lft) and
+            Windows.LocalFileTimeToFileTime(@lft, @Windows.FILETIME(WinTime));
 end;
 {$ENDIF}
 
@@ -370,4 +392,4 @@ begin
 end;
 
 end.
-
+
