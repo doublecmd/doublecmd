@@ -453,45 +453,40 @@ end;
 
 procedure TKASToolBar.ToolButtonClick(Sender: TObject);
 begin
-  inherited Click;
   if Assigned(FOnToolButtonClick) then
      FOnToolButtonClick(Self, (Sender as TSpeedButton).Tag);
 end;
 
 procedure TKASToolBar.ToolButtonMouseDown(Sender: TObject; Button: TMouseButton; Shift:TShiftState; X,Y:Integer);
 begin
-  inherited MouseDown(Button, Shift, X,Y);
   if Assigned(FOnToolButtonMouseDown) then
      FOnToolButtonMouseDown(Sender, Button, Shift, X,Y, (Sender as TSpeedButton).Tag);
 end;
 
 procedure TKASToolBar.ToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift:TShiftState; X,Y:Integer);
 begin
-  inherited MouseUp(Button, Shift, X,Y);
   if Assigned(FOnToolButtonMouseUp) then
      FOnToolButtonMouseUp(Sender, Button, Shift, X,Y, (Sender as TSpeedButton).Tag);
 end;
 
 procedure TKASToolBar.ToolButtonMouseMove(Sender: TObject; Shift:TShiftState; X,Y:Integer);
 begin
-  inherited MouseMove(Shift, X,Y);
   if Assigned(FOnToolButtonMouseMove) then
      FOnToolButtonMouseMove(Sender, Shift, X,Y, (Sender as TSpeedButton).Tag);
 end;
 
 procedure TKASToolBar.ToolButtonDragOver(Sender, Source: TObject; X,Y: Integer; State: TDragState; var Accept: Boolean);
 begin
-  inherited DragOver(Source, X, Y, State, Accept);
   if Assigned(FOnToolButtonDragOver) then
      FOnToolButtonDragOver(Sender, Source, X,Y, State, Accept, (Source as TSpeedButton).Tag);
 end;
 
 procedure TKASToolBar.ToolButtonDragDrop(Sender, Source: TObject; X,Y: Integer);
 begin
-  inherited DragDrop(Source, X, Y);
   if Assigned(FOnToolButtonDragDrop) then
      FOnToolButtonDragDrop(Sender, Source, X,Y, (Source as TSpeedButton).Tag)
 end;
+
 procedure TKASToolBar.UpdateButtonsTags;
 var
   I: Integer;
