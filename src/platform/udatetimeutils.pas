@@ -121,6 +121,7 @@ function AdjustUnixTime(const FileTime: uTypes.TFileTime;
                         out AdjustedFileTime: uTypes.TFileTime;
                         AdjustValue: Int64): Boolean;
 begin
+  {$PUSH}{$R-}
   if (AdjustValue < 0) and (FileTime < -AdjustValue) then
   begin
     AdjustedFileTime := 0;
@@ -136,12 +137,14 @@ begin
     AdjustedFileTime := FileTime + AdjustValue;
     Result := True;
   end;
+  {$POP}  
 end;
 
 function AdjustWinTime(const FileTime: uTypes.TWinFileTime;
                        out AdjustedFileTime: uTypes.TWinFileTime;
                        AdjustValue: Int64): Boolean;
 begin
+  {$PUSH}{$R-}
   if (AdjustValue < 0) and (FileTime < -AdjustValue) then
   begin
     AdjustedFileTime := 0;
@@ -157,6 +160,7 @@ begin
     AdjustedFileTime := FileTime + AdjustValue;
     Result := True;
   end;
+  {$POP}    
 end;
 {$ENDIF}
 
