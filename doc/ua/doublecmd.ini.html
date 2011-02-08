@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+  <title>Налаштування файлу doublecmd.ini</title>
+  <link rel="STYLESHEET" type="text/css" href="doublecmd.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+
+<body>
+  <div class="CHAPTER">
+	<h1>Налаштування файлу <tt>doublecmd.ini</tt></h1>
+	
+	<p>Більшість налаштувань файлу <tt>doublecmd.ini</tt> може бути змінено з діалогових вікон
+	налаштувань. Пряме редагування файлу може знадобитися дуже рідко.</p>
+	
+	<div class="SECT1">
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<col width="25%"/>
+		<col width="25%"/>
+		<thead>
+		  <tr>
+			<th>[Configuration]</th>
+			<th>Основні налаштування</th>
+		  </tr>
+		</thead>
+		
+		<tbody>
+		  <tr>
+			<td><tt><span class="brown">CaseSensitiveSort</span>=0</tt></td>
+			<td>0: Case sensitive sort OFF<br/>1: Case sensitive sort ON</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">CopyBlockSize</span>=64</tt></td>
+			<td>Встановлює размір блоку при копіюванні (в Кб=1024 байт). За замовчуванням 64 (=65536 байт).</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">CustomDriveIcons</span>=0</tt></td>
+			<td>Використовувати своі іконки для дисків (з <tt>%commander_path%\pixmaps\XxX\devices\</tt>)
+			замість системних (тільки у Windows)<br/>0: Використовувати системні іконки<br/>1: Використовувати
+			іконки користувача</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">DirTabLimit</span>=32</tt></td>
+			<td>Максимальне число символів у заголовку вкладки</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">DriveBlackList</span></tt></td>
+			<td>Список дисків які не будуть відображатися на панелі дисків і в меню дисків (; (крапка
+			з комою)&nbsp;&mdash; разділювач)</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">UseExtEdit</span>=0</tt></td>
+			<td>0: Використовувати вбудований редактор<br/>1: Використовувати зовнішній редактор (див. <a href="#ext_edit">ExtEdit</a>)</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">UseExtView</span>=0</tt></td>
+			<td>0: Використовувати вбудований переглядач<br/>1: Використовувати зовнішній переглядач
+			(см. <a href="#ext_view">ExtView<a>)</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">UseExtDiff</span>=0</tt></td>
+			<td>0: Використовувати внутрішній порівнювач<br/>1: Використовувати зовнішній порівнювач (див. <a href="#ext_diff">ExtDiff</a>)</td>
+		  </tr>
+		  <tr>
+			<td><a name="ext_edit"><tt><span class="brown">ExtEdit</span></tt></a></td>
+			<td>шлях до зовнішнього редактору для <kbd>F4</kbd></td>
+		  </tr>
+		  <tr>
+			<td><a name="ext_view"><tt><span class="brown">ExtView</span></tt></a></td>
+			<td>шлях до зовнішнього переглядача для <kbd>F3</kbd></td>
+		  </tr>
+		  <tr>
+			<td><a name="ext_diff"><tt><span class="brown">ExtDiff</span></tt></a></td>
+			<td>шлях до зовнішнього порівнювача</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">Font.Name</span>=default</tt></td>
+			<td>Шрифт для файлових панелей</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">Font.Size</span>=10</tt></td>
+			<td>Размір шрифту для файлових панелей</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">Font.Style</span></tt></td>
+			<td>Стиль шрифту для файлових панелей</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">Maximized</span>=0</tt></td>
+			<td>Стан вікна<br/>0: звичайне вікно<br/>1: вікно, розгорнуте на весь екран</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">MouseSelectionEnabled</span>=1</tt></td>
+			<td>Дозволити виділення мишкою<br/>0: нет<br/>1: да</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">QuickSearchMatchBeginning</span>=1</tt></td>
+			<td>0: A search string like "double" will be read as "*double"<br/>1: Exact match: typing
+			"cmd" will find only "cmd.ini", but not "doublecmd.ini"</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">QuickSearchMatchEnding</span>=1</tt></td>
+			<td>0: Typing a dot is read as *. , "double.i" finds also "doublecmd.ini"<br/>1: Exact
+			match: typing "double.i" finds only "double.ini", but doesn't find "doublecmd.ini"</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">ScrollMode</span>=0</tt></td>
+			<td>Режим прокрутки скролом<br/>0: Порядково з рухом курсора<br/>1: Порядково<br/>2:
+			Посторінково</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">ShowIcons</span>=1</tt></td>
+			<td>Показуватиь іконки у файлових панелях</br>0: Ні<br/>1: Так</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">ShowSystemFiles</span>=0</tt></td>
+			<td>Показувати приховані/системні файли<br/>0: Ні<br/>1: Так</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">UseIniInProgramDir</span>=0</tt></td>
+			<td>Місцезнаходження конфігураційних файлів<br/>0: Домашній каталог користувача<br/>
+			1: Каталог програми</td>
+		  </tr>
+		
+		<thead>
+		  <tr>
+			<th>[Colors]</th>
+			<th>Налаштування кольорів</th>
+		  </tr>
+		</thead>
+		
+		<thead>
+		  <tr>
+			<th>[PackerPlugins]</th>
+			<th>Список встановлених архіваторних плагінів</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+			<td><tt><span class="brown">bz2</span>=0,%commander_path%\plugins\unbz2.wcx</tt></td>
+			<td>Плагін для роботи з bz2-архівами. 0&nbsp;&mdash; сума можливостей плагіну</td>
+		  </tr>
+		</tbody>
+		
+		<thead>
+		  <tr>
+			<th>[Content Plugins]</th>
+			<th>Список і налаштування контентних плагінів</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+			<td><tt><span class="brown">PluginCount</span>=2</tt></td>
+			<td>Кількість встановлених контентних плагінів</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">Plugin1Name</span>=rpm_wdx</tt></td>
+			<td>Назва першого контентного плагіну</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">Plugin1Detect</span>=EXT="RPM"</tt></td>
+			<td>Перший плагін спрацьовує для розширення RPM</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">Plugin1Path</span></tt></td>
+			<td>Шлях до першого контентного плагіну</td>
+		  </tr>
+		</tbody>
+		
+		<thead>
+		  <tr>
+			<th>[ColumnsSet]</th>
+			<th>Список доступних наборів колонок</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+			<td><tt><span class="brown">ColumnsSetCount</span>=2</tt></td>
+			<td>Кількість достуних наборів колонок</td>
+		  </tr>
+		  <tr>
+			<td><tt><span class="brown">ColumnsSet1Name</span>=Default</tt></td>
+			<td>Перший набір колонок&nbsp;&mdash; Default</td>
+		  </tr>
+		</tbody>
+		
+		<thead>
+		  <tr>
+			<th>[lefttabs]</th>
+			<th>Список вкладок лівої панелі</th>
+		  </tr>
+		</thead>
+		
+		<thead>
+		  <tr>
+			<th>[righttabs]</th>
+			<th>Список вкладок правої панелі</th>
+		  </tr>
+		</thead>
+		
+		</tbody>
+	  </table>
+	</div>
+	
+  </div>
+	<div class="SECT1">
+	  <p class="NAVBACK"><a href="index.html">На головну</a></p>
+	</div>
+  
+</body>
+
+</html>

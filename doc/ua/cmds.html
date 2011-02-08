@@ -1,0 +1,451 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+  <title>Внутрішні команди Double Commander</title>
+  <link rel="STYLESHEET" type="text/css" href="doublecmd.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+
+<body>
+  <div class="CHAPTER">
+	<h1>Внутрішні команди Double Commander</h1>
+	
+	<div class="SECT1">
+	  <table border="1" frame="none" rules="all" width="100%" class="CALSTABLE">
+		<thead>
+		  <tr>
+			<th>Команда</th>
+			<th>Опис</th>
+			<th>Клавіши<br/>за замовчуванням</th>
+		  </tr>
+		</thead>
+		
+		<tbody>
+		  <tr>
+			<td><tt>cm_About</tt></td>
+			<td>виводить вікно з інформацією про версію програми і разробниках</td>
+			<td><tt>F1</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_AddPathToCmdLine</tt></td>
+			<td>копіює шлях до каталогу, який відкритий в активній файловій панелі, в командну строку</td>
+			<td><tt>Ctrl+P</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_CalculateSpace</tt></td>
+			<td>розраховує місце, <a href="help.html#cm_CalculateSpace">яке займають на диску</a>, виділені файли і папки</td>
+			<td><tt>Ctrl+L</tt></td>
+		  </tr>
+		   <tr>
+			<td><tt>cm_ChangeDirToRoot</tt></td>
+			<td>відкриває в активній панелі корневий каталог системи, в Лінуксі це "/"</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_CheckSumCalc</tt></td>
+			<td>Розраховує <a href="help.html#012_controlnaya_summa">контрольні суми</a> файлів MD5 і SHA1</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_CheckSumVerify</tt></td>
+			<td>Порівнює контрольні суми файлів MD5 і SHA1 з тими, що є</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_CompareContents</tt></td>
+			<td>відкриває діалог порівняння файлів <a href="help.html#cm_CompareContents">по вмісту</a></td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_ContextMenu</tt></td>
+			<td>показує <a href="help.html#cm_ContextMenu">контекстне меню</a> файлів і папок</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_Copy</tt></td>
+			<td>копіювання виділених папок (файлів) з одної файлової панелі в другу</td>
+			<td><tt>F5</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_CopyFullNamesToClip</tt></td>
+			<td>копіює <a href="help.html#cm_CopyFullNamesToClip">повні імена</a> виділених файлів в буфер обміну</td>
+			<td><tt>Ctrl+Alt+C</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_CopyNamesToClip</tt></td>
+			<td>копіює <a href="help.html#cm_CopyNamesToClip">імена</a> виділених файлів в буфер обміну</td>
+			<td><tt>Ctrl+Alt+X</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_CopySamePanel</tt></td>
+			<td>копіює файл чи папку в ту саму панель (створює копію)</td>
+			<td><tt>Shift+F5</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_CopyToClipboard</tt></td>
+			<td>копіює виділений текст, файл чи папку в буфер обміну</td>
+			<td><tt>Ctrl+C</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_CutToClipboard</tt></td>
+			<td>вирізає виділений текст, файл чи папку в буфер обміну</td>
+			<td><tt>Ctrl+X</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_Delete</tt></td>
+			<td>видаляє обрані файли чи папки</td>
+			<td><tt>F8</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_DirHistory</tt></td>
+			<td>відкриває діалог <a href="help.html#cm_DirHistory">історії зміни каталогів</a></td>
+			<td><tt>Ctrl+H</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_DirHotList</tt></td>
+			<td>відкриває меню <a href="help.html#cm_DirHotList">особистих каталогів</a> (Вибране)</td>
+			<td><tt>Ctrl+D</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_DriveContextMenu</tt></td>
+			<td>викликає контекстне меню конкретного диску. Точка монтування диску вказуєтся в
+			параметрах команди, наприклад (<tt>/media/cdrom</tt>)</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_Edit</tt></td>
+			<td>запускає редактор і відкриває в ньому виділений файл</td>
+			<td><tt>F4</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_EditComment</tt></td>
+			<td>редагування чи створення <a href="help.html#cm_EditComment">коментаря</a> до файлу/папки</td>
+			<td><tt>Ctrl+Z</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_EditNew</tt></td>
+			<td>створює новий файл і відкриває його в редакторі, вбудованому чии зовнішньому (<a href="help.html#5_1_3_instruments">залежить від налаштувань</a>)</td>
+			<td><tt>Shift+F4</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_Exchange</tt></td>
+			<td><a href="help.html#cm_Exchange">міняє файлові панелі</a> місцями. Праву на ліву, а ліву на праву</td>
+			<td><tt>Ctrl+U</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_Exit</tt></td>
+			<td>вихід. Закриває Double Commander</td>
+			<td><tt>Alt+X</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_ExtractFiles</tt></td>
+			<td><a href="help.html#cm_ExtractFiles">розпаковує</a> архів, чи кілька виділених архівів</td>
+			<td><tt>Alt+F9</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_FileAssoc</tt></td>
+			<td>відкриває діалог налаштувань <a href="help.html#cm_FileAssoc">файлових асоціацій</a></td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_FileLinker</tt></td>
+			<td><a href="help.html#cm_FileLinker">склеює</a> раніше розрізані файли з розширенням .split</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_FileProperties</tt></td>
+			<td>виводить інформацію про <a href="help.html#cm_FileProperties">властивості</a>файла/папки (размір, дата створення, атрибути и т.п.</td>
+			<td><tt>Alt+Enter</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_FileSpliter</tt></td>
+			<td>відкриває діалог <a href="help.html#cm_FileSpliter">разрізання</a> файлів (великий файл ділиться на кілька менших)</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_FocusCmdLine</tt></td>
+			<td>перенос фокуса на командную строку, для того чтобы начать работу в ней</td>
+			<td><tt>Shift+F2</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_HardLink</tt></td>
+			<td>создает <a href="help.html#cm_HardLink">жесткую ссылку</a> на файл или папку</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_HelpIndex</tt></td>
+			<td>відкриває <a href="index.html">першу сторінку</a> довідки Double Commander</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_Keyboard</tt></td>
+			<td>відкриває довідку по <a href="shortcuts.html">комбінаціям клавіш</a> в Double Commander</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_LeftEqualRight</tt></td>
+			<td>відкриває в лівій панелі той самий каталог, який відкритий в правій</td>
+			<td><tt>Alt+F1</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_LeftOpenDrives</tt></td>
+			<td>відкриває <a href="help.html#cm_LeftOpenDrives">список дисків</a> над лівою файловою панеллю</td>
+			<td><tt>Alt+F1</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_MakeDir</tt></td>
+			<td>створює новую папку в активній файловій панелі</td>
+			<td><tt>F7</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_MarkCurrentExtension</tt></td>
+			<td><a href="help.html#cm_MarkCurrentExtension">виділяє файли</a> у каталозі, з таким самим розширенням як і файл під курсором</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_MarkInvert</tt></td>
+			<td><a href="help.html#cm_MarkInvert">інвертує</a> виділення. З всіх обраних файлів і папок виділення зніметься, а всі
+			не обрані виділяться</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_MarkMarkAll</tt></td>
+			<td><a href="help.html#cm_MarkMarkAll">виділяє всі</a> файли и папки у каталозі</td>
+			<td><tt>Ctrl+A</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_MarkMinus</tt></td>
+			<td><a href="help.html#cm_MarkMinus">знімає виділення</a> з групи. З всіх файлів, які були виділені з допомогою маски,
+			буде зняте виділення</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_MarkPlus</tt></td>
+			<td><a href="help.html#cm_MarkPlus">виділяє групу</a> файлів по масці</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_MarkUnmarkAll</tt></td>
+			<td>знімає <a href="help.html#cm_MarkUnmarkAll">виділення зі всіх</a> виділених у каталозі файлів і папок</td>
+			<td><tt>F1</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_MultiRename</tt></td>
+			<td>Відкриває діалог <a href="help.html#cm_MultiRename">мультипереіменування</a>, для переіменування одразу кількох
+			файлів</td>
+			<td><tt>Ctrl+M</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_NewTab</tt></td>
+			<td>створює <a href="help.html#cm_NewTab">новую вкладку</a>, відкриває в ній той самий каталог і переключається на неї</td>
+			<td><tt>Ctrl+T</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_NextTab</tt></td>
+			<td>переключає на <a href="help.html#cm_NextTab">наступну вкладку</a>, правіше від активної</td>
+			<td><tt>Ctrl+Tab</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_Open</tt></td>
+			<td>відкриває каталог під курсором, запускає файл чи програму під курсором</td>
+			<td><tt>Enter</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_OpenArchive</tt></td>
+			<td>відкриває будь-який файл під курсором як архів</td>
+			<td><tt>Ctrl+PgDown</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_OpenDirInNewTab</tt></td>
+			<td>відкриває папку під курсором у <a href="help.html#cm_OpenDirInNewTab">новій вкладці</a>, але залишається в поточному каталозі</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_OpenVFSList</tt></td>
+			<td>відкриває список віртуальних файлових систем (залежить від наявності відповідних
+			плагінів у програмі)</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_Options</tt></td>
+			<td>Відкриває діалог налаштувань <a href="help.html#cm_Options">Налаштування</a></td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_PackFiles</tt></td>
+			<td>відкриває діалог <a href="help.html#cm_PackFiles">упаковки</a> файлів і папок в архів</td>
+			<td><tt>Alt+F5</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_PanelSpliterPerPos</tt></td>
+			<td>встановлює положення межі панелей. Ширина лівої панелі вказується у
+			процентах від загального разміра вікна в рядку "Налаштування" команди, наприклад, 50&nbsp;&mdash;
+			посередині</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_PasteFromClipboard</tt></td>
+			<td>вставляє вміст буфера у виділену область (текст/файл/папка)</td>
+			<td><tt>Ctrl+V</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_PrevTab</tt></td>
+			<td>переключає на <a href="help.html#cm_PrevTab">попередню вкладку</a> (левіше) в активній панелі</td>
+			<td><tt>Shift+Ctrl+Tab</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_QuickSearch</tt></td>
+			<td>запускає <a href="help.html#5_1_14_bystrPoisk">швидкий пошук</a> по каталогу, згідно налаштувань</td>
+			<td><tt>Ctrl+S</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_Refresh</tt></td>
+			<td><a href="help.html#cm_Refresh">перечитує</a> вміст каталогу</td>
+			<td><tt>Ctrl+R</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_RemoveAllTabs</tt></td>
+			<td><a href="help.html#cm_RemoveAllTabs">закриває усі</a> вкладки, крім поточної в активній файловій панелі</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_RemoveTab</tt></td>
+			<td>закриває <a href="help.html#cm_RemoveTab">поточну</a> активну вкладку</td>
+			<td><tt>Ctrl+W</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_Rename</tt></td>
+			<td>переміщує виділені файли і/чи папки з однієї панелі в другу</td>
+			<td><tt>F6</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_RenameOnly</tt></td>
+			<td>переіменувати файл чи папку під курсором</td>
+			<td><tt>Shift+F6, F2</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_ReverseOrder</tt></td>
+			<td>сортує вміст каталогу в <a href="help.html#cm_ReverseOrder">зворотньому порядку</a>, по відношенню до поточного</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_RightOpenDrives</tt></td>
+			<td>відкриває <a href="help.html#cm_RightOpenDrives">список дисків</a> над правой файловою панеллю</td>
+			<td><tt>Alt+F2</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_RunTerm</tt></td>
+			<td>запускає <a href="help.html#cm_RunTerm">термінал</a>, чи програму яка вказана у відповідних налаштуваннях</td>
+			<td><tt>F9</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_Search</tt></td>
+			<td>відкриває діалог <a href="help.html#cm_Search">Пошук файлів</a></td>
+			<td><tt>Alt+F7</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_ShowButtonMenu</tt></td>
+			<td>служить для створення <a href="help.html#cm_ShowButtonMenu">випадаючого меню</a>. Приміняєтся з параметром</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_ShowCmdLineHistory</tt></td>
+			<td>виводить історію всіх команд, які були набрані в <a href="help.html#iface_path">командному рядку</a></td>
+			<td><tt>Ctrl+7</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_ShowMenu</tt></td>
+			<td>відкриває <a href="help.html#iface_menu">головне меню</a> Double Commander</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_ShowSysFiles</tt></td>
+			<td>дозволяє програмі показувати <a href="help.html#cm_ShowSysFiles">системні файли</a></td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_SortByAttr</tt></td>
+			<td>сортує вміст файлових панелей (файли і папки) у відповідності з їх <a href="help.html#cm_SortByAttr">атрибутами</a></td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_SortByDate</tt></td>
+			<td>сортує вміст файлових панелей (файли і папки) у відповідності з їх <a href="help.html#cm_SortByDate">датою</a> створення/зміни</td>
+			<td><tt>Ctrl+F5</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_SortByExt</tt></td>
+			<td>сортує вміст файлових панелей (файли і папки) у відповідності з їх <a href="help.html#cm_SortByExt">розширенням</a></td>
+			<td><tt>Ctrl+F4</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_SortByName</tt></td>
+			<td>сортує вміст файлових панелей (файли і папки) по <a href="help.html#cm_SortByName">імені</a></td>
+			<td><tt>Ctrl+F3</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_SortBySize</tt></td>
+			<td>сортує вміст файлових панелей (файли і папки) у відповідності з їх <a href="help.html#cm_SortBySize">розміром</a></td>
+			<td><tt>Ctrl+F6</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_SymLink</tt></td>
+			<td>створює <a href="help.html#cm_SymLink">символьне посилання</a> на файл чи папку</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_TargetEqualSource</tt></td>
+			<td>відкриває в неактивній панелі <a href="help.html#cm_TargetEqualSource">той самий каталог</a>, який відкритий в активній</td>
+			<td><tt>Alt+Z</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_ToggleLockDcaTab</tt></td>
+			<td>заблокувати поточну вкладку, <a href="help.html#cm_ToggleLockDcaTab">з можливістю зміни</a> каталогу</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_ToggleLockTab</tt></td>
+			<td><a href="help.html#cm_ToggleLockTab">заблокувати</a> вкладку</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_TransferLeft</tt></td>
+			<td>відкриває в лівій панелі каталог, який в правій панелі знаходиться під курсором</td>
+			<td><tt>Ctrl+Left</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_TransferRight</tt></td>
+			<td>відкриває в правій панелі каталог, який в лівой панелі знаходиться під курсором</td>
+			<td><tt>Ctrl+Right</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_UnmarkCurrentExtension</tt></td>
+			<td>знімає з файлів виділення, зроблене <a href="help.html#cm_UnmarkCurrentExtension">по розширенню</a></td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_View</tt></td>
+			<td>відкриває файл під курсором в стандартному чи вказаному <a href="help.html#5_1_3_instruments">переглядачі</a> (залежить від
+			налаштувань)</td>
+			<td><tt>F3</tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_VisitHomePage</tt></td>
+			<td>відкриває домашню сторінку проекту Double Commander у вашому браузері</td>
+			<td><tt></tt></td>
+		  </tr>
+		  <tr>
+			<td><tt>cm_Wipe</tt></td>
+			<td>повністю <a href="help.html#cm_Wipe">знищує</a> файл на жорсткому диску</td>
+			<td><tt>Alt+Del</tt></td>
+		  </tr>
+		</body>
+	  </table>
+	</div>
+	
+  </div>
+  <hr>
+  <div style="text-align: left;"><small><span style="font-family: Liberation Sans;">Created by Rustem (dok_rust@bk.ru). Переклав українською Максим aka Ma$terok</span></small><br>
+</body>
+
+</html>
