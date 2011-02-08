@@ -1,0 +1,618 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+  <title>Синтаксис регулярних виразів</title>
+  <link rel="STYLESHEET" type="text/css" href="doublecmd.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+
+<body>
+  <div class="CHAPTER">
+	<h1>Синтаксис регулярних виразів</h1>
+	
+	<div class="TOC">
+	  <dl>
+		<dt class="bold">Зміст</dt>
+		<dt>1. <a a href="#preface">Вступ</a></dt>
+		<dt>2. <a a href="#compare">Просте порівняння</a></dt>
+		<dt>3. <a a href="#esc">Escape-послідовності</a></dt>
+		<dt>4. <a a href="#symbols">Перелік символів</a></dt>
+		<dt>5. <a a href="#meta">Метасимволи</a></dt>
+		<dd>
+		  <dl>
+			<dt>5.1. <a a href="#meta-line">Метасимволи - раздільники рядків</a></dt>
+			<dt>5.2. <a a href="#meta-std">Метасимволи - стандартний перелік символів</a></dt>
+			<dt>5.3. <a a href="#meta-words">Метасимволи - границі слів</a></dt>
+			<dt>5.4. <a a href="#meta-dup">Метасимволи - повторення</a></dt>
+			<dt>5.5. <a a href="#meta-vars">Метасимволи - варіанти</a></dt>
+			<dt>5.6. <a a href="#meta-sub">Метасимволи - підвирази</a></dt>
+			<dt>5.7. <a a href="#meta-back">Метасимволи - зворотні посилання</a></dt>
+		  </dl>
+		</dd>
+		<dt>6. <a a href="#modifiers">Модифікатори</a></dt>
+		<dt>7. <a a href="#perl">Розширення Perl</a></dt>
+	  </dl>
+	</div>
+	
+	<hr/>
+	
+	<p>Double Commander використовує вільну Delphi-бібліотеку TRegExpr Андрея В. Сорокина:
+	<a href="http://www.regexpstudio.com/">http://www.regexpstudio.com/</a>. Більшість з
+	приведених далі пояснень і прикладів позичено з довідкового файла до цієї бібліотеки.</p>
+	
+	<div class="SECT1">
+	  <h2><a name="preface">1. Вступ</a></h2>
+	  <p>Регулярні вирази&nbsp;&mdash; це поширений спосіб опису шаблонів для пошуку
+	  тексту і переверки відповідності тексту шаблону. Спеціальні <span class="bold">метасимволи</span>
+	  дозволяють визначити, наприклад, що Ви шукаєте підрядок на початку вхідного рядка чи певне
+	  число повторень підрядка.<p>
+	  <p>Регулярні вирази призначені головним чином для професіоналів, однак можуть бути
+	  корисні і при роботі в офісі для пошуку певних документів (див. приклади нижче).</p>
+	  <p>Double Commander підтримує регулярні вирази в наступних функціях:</p>
+	  <ul>
+		<li><p>Команди&nbsp;&rarr; Пошук файлів (в імені файла)</p></li>
+		<li><p>у вбудованому редакторі</p></li>
+		<li><p>в інструменті групового переіменування</p></li>
+	  </ul>
+	</div>
+	
+	<div class="SECT1">
+	  <h2><a name="compare">2. Просте порівняння</a></h2>
+	  <p>Будь-який символ співпадає з самим собою, якщо він не відноситься до спеціальних метасимволів
+	  описаних трохи нижче.</p>
+	  <p>Послідовність символів співпадає з такою ж послідовністю у вхідному рядку,
+	  так, що шаблон "bluh" співпадає з підрядком "bluh" у вхідному рядку. Поки, що все просто, чи не так?</p>
+	  <p>Якщо необхідно, щоб метасимволи чи <span class="bold">escape-послідовності</span>
+	  сприймалися як звичайні символи, їх треба попереджувати символом "\", наприклад, метасимвол "^"
+	  зазвичай співпадає з початком рядків, однак, якщо записати його як "\^", то він буде співпадати з
+	  символом "^", "\\" співпадає з "\" і т.д.</p>
+	  <p class="bold">Наприклад:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>foobar</tt></td>
+			<td>знаходить 'foobar'</td>
+		  </tr>
+		  <tr>
+			<td><tt>\^FooBarPtr</tt></td>
+			<td>знаходить '^FooBarPtr'</td>
+		  </tr>
+		</tbody>
+	  </table>
+	</div>
+	
+	<div class="SECT1">
+	  <h2><a name="esc">3. Escape-послідовності</a></h2>
+	  <p>Будь-який символ може бути визначений з допомогою escape послідовності, так само як це
+	  робиться у мовах C або Perl: "\n" означає початок рядка, "\t"&nbsp;&mdash; табуляцію і т.д..
+	  Взагалі, \xnn, де nn це послідовність шістнадцятеричних цифр, означає символ з ASCII-кодом nn.
+	  Якщо необхідно визначити двухбайтний (Unicode) символ, використовуйте формат '\x{nnnn}',
+	  де 'nnnn'&nbsp;&mdash; одна або білльше шістнадцятеричних цифр.</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>\xnn</tt></td>
+			<td>символ з шістнадцятеричним кодом nn</td>
+		  </tr>
+		  <tr>
+			<td><tt>\x{nnnn}</tt></td>
+			<td>символ з шістнадцятеричним кодом nnnn (більше одного байта можна задати тільки в режимі
+			<a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode</a>)</td>
+		  </tr>
+		  <tr>
+			<td><tt>\t</tt></td>
+			<td>табуляція (HT/TAB), можна також \x09</td>
+		  </tr>
+		  <tr>
+			<td><tt>\n</tt></td>
+			<td>новий рядок (NL), можна також \x0a</td>
+		  </tr>
+		  <tr>
+			<td><tt>\r</tt></td>
+			<td>повернення каретки (CR), можна також \x0d</td>
+		  </tr>
+		  <tr>
+			<td><tt>\f</tt></td>
+			<td>перевод формату (FF), можна також \x0c</td>
+		  </tr>
+		  <tr>
+			<td><tt>\a</tt></td>
+			<td>дзвінок (BEL), можна також \x07</td>
+		  </tr>
+		  <tr>
+			<td><tt>\e</tt></td>
+			<td>вихід (ESC), можна також \x1b</td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p class="bold">Наприклад:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>foo\x20bar</tt></td>
+			<td>знаходить 'foo bar' (зверніть увагу на пробіл посередині)</td>
+		  </tr>
+		  <tr>
+			<td><tt>\tfoobar</tt></td>
+			<td>знаходить 'foobar' попереджений табуляцією</td>
+		  </tr>
+		</tbody>
+	  </table>
+	</div>
+	
+	<div class="SECT1">
+	  <h2><a name="symbols">4. Перелік символів</a></h2>
+	  <p>Ви можете визначити перелік, заключивши символи в []. Перелік буде співпадати з будь-яким
+	  <span class="bold">одним</span> символом перелічених у ньому.</p>
+	  <p>Якщо перший символ переліку (одразу після "[") - "^", то такий перелік співпадає з будь-яким
+	  символом <span class="bold">не</span> перелічених у переліку.</p>
+	  <p class="bold">Наприклад:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>foob[aeiou]r</tt></td>
+			<td>знаходить 'foobar', 'foober' і т.д. але не 'foobbr', 'foobcr' і т.д.</td>
+		  </tr>
+		  <tr>
+			<td><tt>foob[^aeiou]r</tt></td>
+			<td>знаходить 'foobbr', 'foobcr' і т.д.. але не 'foobar', 'foober' і т.д.</td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p>В середині переліку символ "-" може бути використаний для визначення <span class="bold">діапазонів</span>
+	  символів, наприклад a-z представляє всі символи між "a" і "z", включно.</p>
+	  <p>Якщо Вам необходимо включити в перелік сам символ "-", помістіть його на початок або в кінець
+	  переліку або попередьте '\'. Якщо Вам необхідно помістити в перелік сам символ ']', помістіть
+	  його в самий початок чи попередьте '\'.</p>
+	  <p class="bold">Наприклад:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>[-az]</tt></td>
+			<td>'a', 'z' і '-'</td>
+		  </tr>
+		  <tr>
+			<td><tt>[az-]</tt></td>
+			<td>'a', 'z' і '-'</td>
+		  </tr>
+		  <tr>
+			<td><tt>[a\-z]</tt></td>
+			<td>'a', 'z' і '-'</td>
+		  </tr>
+		  <tr>
+			<td><tt>[a-z]</tt></td>
+			<td>всі 26 малих латинських літер від 'a' до 'z'</td>
+		  </tr>
+		  <tr>
+			<td><tt>[\n-\x0D]</tt></td>
+			<td>#10, #11, #12, #13</td>
+		  </tr>
+		  <tr>
+			<td><tt>[\d-t]</tt></td>
+			<td>цифра, '-' або 't'</td>
+		  </tr>
+		  <tr>
+			<td><tt>[]-a]</tt></td>
+			<td>символ з діапазону ']'..'a'</td>
+		  </tr>
+		</tbody>
+	  </table>
+	</div>
+	
+	<div class="SECT1">
+	  <h2><a name="meta">5. Метасимволи</a></h2>
+	  <p>Метасимволи&nbsp;&mdash; це спеціальні символи, які являються важливішим поняттям в регулярних
+	  виразах. Існують кілька груп метасимволів.</p>
+	</div>
+	
+	<div class="SECT2">
+	  <h3><a id="meta-line" name="meta-line">5.1. Метасимволи - роздільники рядків</a></h3>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>^</tt></td>
+			<td>початок рядка</td>
+		  </tr>
+		  <tr>
+			<td><tt>$</tt></td>
+			<td>кінець рядка</td>
+		  </tr>
+		  <tr>
+			<td><tt>\A</tt></td>
+			<td>початок тексту</td>
+		  </tr>
+		  <tr>
+			<td><tt>\Z</tt></td>
+			<td>кінець тексту</td>
+		  </tr>
+		  <tr>
+			<td><tt>.</tt></td>
+			<td>будь-який символ в рядку</td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p class="bold">Наприклад:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>^foobar</tt></td>
+			<td>знаходить 'foobar' тільки якщо він на початку рядка</td>
+		  </tr>
+		  <tr>
+			<td><tt>foobar$</tt></td>
+			<td>знаходить 'foobar' тільки якщо він в кінці рядка</td>
+		  </tr>
+		  <tr>
+			<td><tt>^foobar$</tt></td>
+			<td>знаходить 'foobar' тільки якщо це єдине слово у рядку</td>
+		  </tr>
+		  <tr>
+			<td><tt>foob.r</tt></td>
+			<td>знаходить 'foobar', 'foobbr', 'foob1r' і т.д.</td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p>Метасимвол "^" за замовчуванням співпадає тільки на початку вхідного тексту, а метасимвол "$"&nbsp;&mdash; 
+	  тільки в кінці тексту. Внутрішні роздільники рядків, що маються в тексті, не будуть співпадати з
+	  "^" і "$".</p>
+	  <p>Однак, якщо Вам необхідно працювати з текстом як с багаторядковим, щоб "^" співпадав після
+	  кожного роздільника рядка в середині тексту, а "$"&nbsp;&mdash; перед кожним роздільником, то Ви
+	  можете включити <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">модифікатор /m</a>.</p>
+	  <p>Метасимволи \A і \Z аналогичні "^" і "$", але на них не діє <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">модификатор /m</a>,
+	  тоб&nbsp;то вони завжди співпадають тільки з початком і кінцем всього вхідного тексту.</p>
+	  <p>Метасимвол "." за замовчуванням співпадає з будь-яким символом, однак, якщо Ви вимкнете <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_s">модификатор /s</a>,
+	  то '.' не буде співпадати з роздільником рядків.</p>
+	  <p>TRegExpr інтерпритує роздільники рядків так, як це рекомендовано на www.unicode.org
+	  (http://www.unicode.org/unicode/reports/tr18/):</p>
+	  <p>"^" співпадає з початком вхідного тексту, а також, якщо ввімкнений <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">модификатор /m</a>,
+	  з точкою безпосередньо слідуючої після \x0D\x0A, \x0A або \x0D (якщо Ви використовуєте <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode-версію</a>
+	  TRegExpr, то також \x2028 чи \x2029 чи \x0B чи \x0C чи \x85). Зверніть увагу, що він не
+	  співпадає в проміжку в середині послідовності \x0D\x0A.</p>
+	  <p>"$" співпадає з кінцем вхідного тексту, а також, якщо ввімкнений <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_m">модификатор /m</a>,
+	  з точкою безпосередьно попередженої \x0D\x0A, \x0A чи \x0D (якщо Ви використовуєте <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode-версию</a>
+	  TRegExpr, то також \x2028 чи \x2029 чи \x0B чи \x0C или \x85). Зверніть увагу, що він не
+	  співпадає в проміжку в середині послідовності \x0D\x0A.</p>
+	  <p>"." співпадає з будь-яким символом, але якщо вимкнений
+	  <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_s">модификатор /s</a>,
+	  то "." не співпадає з \x0D\x0A і \x0A і \x0D (якщо Ви використовуєете <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#unicode_support">Unicode-версию</a>
+	  TRegExpr, то не співпадає також з \x2028 і \x2029 і \x0B і \x0C і \x85).</p>
+	  <p>Зверніть увагу, що "^.*$" (шаблон для пустого рядка) не співпадає з пустим рядком виду
+	  \x0D\x0A, але співпадає з \x0A\x0D.</p>
+	  <p>Ви можете переналаштувати вище описану поведінку при обробці багаторядкових текстів&nbsp;&mdash;
+	  див. описання властивостей <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#lineseparators">LineSeparators</a>
+	  і <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#linepairedseparator">LinePairedSeparator</a>,
+	  скажімо, Ви можете переналаштуватися на використання тілько Unix-роздільників рядків \n або тільки
+	  DOS/Windows-роздільників \r\n чи змішаних роздільників (так і налаштовано за замовчуванням) чи
+	  взагалі визначити свої власні роздільники рядків!</p>
+	</div>
+	
+	<div class="SECT2">
+	  <h3><a name="meta-std">5.2. Метасимволи - стандартний перелік символів</a></h3>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>\w</tt></td>
+			<td>літерно-цифровий символ або "_"</td>
+		  </tr>
+		  <tr>
+			<td><tt>\W</tt></td>
+			<td>не \w</td>
+		  </tr>
+		  <tr>
+			<td><tt>\d</tt></td>
+			<td>цифровий символ</td>
+		  </tr>
+		  <tr>
+			<td><tt>\D</tt></td>
+			<td>не \d</td>
+		  </tr>
+		  <tr>
+			<td><tt>\s</tt></td>
+			<td>будь-який "пробільний" символ (за замовчуванням&nbsp;&mdash; [\t\n\r\f])</td>
+		  </tr>
+		  <tr>
+			<td><tt>\S</tt></td>
+			<td>не \s</td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p>Стандартні переліки \w, \d и \s можна використовувати і в середині <span class="bold">переліків символів</span>.</p>
+	  <p class="bold">Наприклад:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>foob\dr</tt></td>
+			<td>знаходить 'foob1r', ''foob6r' і т.д. але не 'foobar', 'foobbr' і т.д.</td>
+		  </tr>
+		  <tr>
+			<td><tt>foob[\w\s]r</tt></td>
+			<td>знаходить 'foobar', 'foob r', 'foobbr' і т.д. але не 'foob1r', 'foob=r' і т.д.</td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p>TRegExpr використовує властивості
+	  <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.spacechars">SpaceChars</a>
+	  і <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.wordchars">WordChars</a>
+	  для того, щоб визначити стандартні переліки \w, \W, \s, \S, т.е. Ви легко можете перевизначити
+	  склад цих переліків.</p>
+	</div>
+	
+	<div class="SECT2">
+	  <h3><a name="meta-words">5.3. Метасимволи - границі слів</a></h3>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>\b</tt></td>
+			<td>співпадає на границі слова</td>
+		  </tr>
+		  <tr>
+			<td><tt>\B</tt></td>
+			<td>співпадає не на границі слова </td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p>Границі слова (\b) це точка між двума символами, один з яких задовільняє \w, а
+	  другий&nbsp;&mdash; \W (в будь-якому порядку), при цьому перед початком і після закінчення рядка мається на увазі \W.</p>
+	</div>
+	
+	<div class="SECT2">
+	  <h3><a name="meta-dup">5.4. Метасимволи - повторення</a></h3>
+	  <p>Після будь-якого єлементу регулярного виразу може слідувати дуже важливий тип метасимволу&nbsp;&mdash;
+	  повторювач. Використовуючи їх Ви можете визначити число допустимих повторень попереднього
+	  символа, метасимвола чи підвиразу.</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>*</tt></td>
+			<td>нуль чи більше разів ("жадібний"), те саме, що і {0,}</td>
+		  </tr>
+		  <tr>
+			<td><tt>+</tt></td>
+			<td>один чи більше разів ("жадібний"), те саме, що і {1,}</td>
+		  </tr>
+		  <tr>
+			<td><tt>?</tt></td>
+			<td>нуль чи один раз ("жадібний"), те саме, що і {0,1}</td>
+		  </tr>
+		  <tr>
+			<td><tt>{n}</tt></td>
+			<td>точно n разів ("жадібний")</td>
+		  </tr>
+		  <tr>
+			<td><tt>{n,}</tt></td>
+			<td>не менше n разів ("жадібний")</td>
+		  </tr>
+		  <tr>
+			<td><tt>{n,m}</tt></td>
+			<td>не менше n але не більше m разів ("жадібний")</td>
+		  </tr>
+		  <tr>
+			<td><tt>*?</tt></td>
+			<td>нуль чи більше разів ("не жадібний"), те саме, що і {0,}?</td>
+		  </tr>
+		  <tr>
+			<td><tt>+?</tt></td>
+			<td>один чи більше разів ("не жадібний"), те саме, що і {1,}?</td>
+		  </tr>
+		  <tr>
+			<td><tt>??</tt></td>
+			<td>нуль чи один раз ("не жадібний"), те саме, що і {0,1}?</td>
+		  </tr>
+		  <tr>
+			<td><tt>{n}?</tt></td>
+			<td>точно n разів ("не жадібний")</td>
+		  </tr>
+		  <tr>
+			<td><tt>{n,}?</tt></td>
+			<td>не менее n раз ("не жадібний")</td>
+		  </tr>
+		  <tr>
+			<td><tt>{n,m}?</tt></td>
+			<td>не менше n але не більше m разів ("не жадібний") </td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p>Т.ч. {n,m} задає <span class="bold">мінімум</span> n повторів і <span class="bold">максимум</span>&nbsp;&mdash;
+	  m. Повторювач {n} єквівалентний {n,n} і задає точно n повторів. Повторювач {n,} задає
+	  мінимум n повторів. Теоретично величина параметрів n і m не обмежена, але рекомендується
+	  не задавати великі значення, оскольки в деяких ситуаціях це може вимагати
+	  сутьтевих витрат часу і ОЗУ при обробці такого повторювача у св’язку з рекурсивним
+	  характером работи.</p>
+	  <p>Якщо фігурні дужки зустрічаються в "неправильному" місці, де вони не можуть бути сприйняті
+	  як повторювач, то вони сприймаються просто як символи.</p>
+	  <p class="bold">Наприклад:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>foob.*r</tt></td>
+			<td>знаходить 'foobar', 'foobalkjdflkj9r' і 'foobr'</td>
+		  </tr>
+		  <tr>
+			<td><tt>foob.+r</tt></td>
+			<td>знаходить 'foobar', 'foobalkjdflkj9r' але не 'foobr'</td>
+		  </tr>
+		  <tr>
+			<td><tt>foob.?r</tt></td>
+			<td>знаходить 'foobar', 'foobbr' і 'foobr' але не 'foobalkj9r'</td>
+		  </tr>
+		  <tr>
+			<td><tt>fooba{2}r</tt></td>
+			<td>знаходить 'foobaar'</td>
+		  </tr>
+		  <tr>
+			<td><tt>fooba{2,}r</tt></td>
+			<td>знаходить 'foobaar', 'foobaaar', 'foobaaaar' і т.д.</td>
+		  </tr>
+		  <tr>
+			<td><tt>fooba{2,3}r</tt></td>
+			<td>знаходить 'foobaar', чи 'foobaaar' але не 'foobaaaar' </td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p>Невелике пояснення на рахунок "жадібності". "Жадібні" варіанти повторювачів намагаються захопити
+	  як можна більшу частину вхідного тексту, у той час як "не жадібні"&nbsp;&mdash; як можна
+	  меншу. Наприклад, 'b+' як і 'b*' можна застосувати до вхідного рядка 'abbbbc' найдуть 'bbbb', у той
+	  час як 'b+?' знайде тільки 'b', а 'b*?'&nbsp;&mdash; взагалі&nbsp;&mdash; пустий рядок;
+	  'b{2,3}?' знайде 'bb', у той час як 'b{2,3}' знайде 'bbb'.</p>
+	  <p>Ви можете переключити всі повторювачі у виразі в "не жадібний" режим, скориставшись
+	  <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_g">модифікатором /g</a>.</p>
+	</div>
+	
+	<div class="SECT2">
+	  <h3><a name="meta-vars">5.5. Метасимволи - варіанти</a></h3>
+	  <p>Ви можете визначити перелік <span class="bold">вариантів</span>, використовуючи метасимвол "|"
+	  для їх розділення, наприклад "fee|fie|foe" знайде "fee" чи "fie" чи "foe", (так само як "f(e|i|o)e").
+	  В якості першого варіанту сприймається все від попереднього метасимвола "(" чи "[" чи від
+	  початку виразу до першого метасимвола "|", в якості останнього&nbsp;&mdash; все від
+	  останнього "|" до кінця виразу чи до найближчого метасимволу ")". Зазвичай, щоб не заплутатися,
+	  набір варіантів завжди заключають в дужки, навіть якщо без цього можна було б обійтися.</p>
+	  <p>Варіанти пробуються починаючи з першого і спроби завершуються одразу ж як вийде підбрати
+	  такий при якому співпаде вся наступна частина виразу (докладніше див. <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#mechanism">Механізм роботи</a>).
+	  Це означає, що варианти не обов’язково забезпечують "жадібну" поведінку. Наприклад, якщо застосувати
+	  вираз "foo|foot" до вхідного рядка "barefoot", то буде знайдено "foo" так як це перший варіант
+	  якийй дозволив співпасти всьому виразу.</p>
+	  <p>Зверніть увагу, що метасимвол "|" сприймається як звичайний символ всередині переліку
+	  символів, наприклад, [fee|fie|foe] означає рівно те саме, що і [feio|].</p>
+	  <p class="bold">Наприклад:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>foo(bar|foo)</tt></td>
+			<td>знаходить 'foobar' чи 'foofoo'</td>
+		  </tr>
+		</tbody>
+	  </table>
+	</div>
+	
+	<div class="SECT2">
+	  <h3><a name="meta-sub">5.6. Метасимволи - підвирази</a></h3>
+	  <p>Метасимволи ( ... ) можуть також використовуватися для задавання підвиразів&nbsp;&mdash; по
+	  завершенні пошуку виразу Ви можете звернутися будь-якого підвиразу використовуючи властивості
+	  MatchPos, MatchLen і <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.match">Match</a>,
+	  а також підставляти підвирази в деякий шаблон, використовуючи метод
+	  <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.substitute">Substitute</a>).</p>
+	  <p>Підвирази нумеруються зліва направо, в порядку появи відкриваючих дужок.</p>
+	  <p>Перший підвираз має номер '1' (вирази в цілому&nbsp;&mdash; '0', до нього можна
+	  звертатися в <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#tregexpr.substitute">Substitute</a>
+	  як '$0' так і '$&amp;').</p>
+	  <p class="bold">Наприклад:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>(foobar){8,10}</tt></td>
+			<td>знаходить рядок який містить 8, 9 чи 10 копій 'foobar'</td>
+		  </tr>
+		  <tr>
+			<td><tt>foob([0-9]|a+)r</tt></td>
+			<td>знаходить 'foob0r', 'foob1r' , 'foobar', 'foobaar', 'foobaar' і т.д.</td>
+		  </tr>
+		</tbody>
+	  </table>
+	</div>
+	
+	<div class="SECT2">
+	  <h3><a name="meta-back">5.7. Метасимволи - зворотні посилання</a></h3>
+	  <p>Метасимволи від \1 до \9 сприймаються як зворотні посилання. \&lt;n&gt; співпадає з раніш
+	  знайденим підвиразом #&lt;n&gt;.</p>
+	  <p class="bold">Наприклад:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>(.)\1+</tt></td>
+			<td>знаходить 'aaaa' і 'cc'</td>
+		  </tr>
+		  <tr>
+			<td><tt>(.+)\1+</tt></td>
+			<td>також знаходить 'abab' і '123123'</td>
+		  </tr>
+		  <tr>
+			<td><tt>(['"]?)(\d+)\1</tt></td>
+			<td>знаходить "13" (в подвійних лапках), або '4' (в один. лапках) чи 77 (без лапок) і т.д.</td>
+		  </tr>
+		</tbody>
+	  </table>
+	</div>
+	
+	<div class="SECT1">
+	  <h2><a name="modifiers">6. Модифікатори</a></h2>
+	  <p>Модификатори служать для зміни режимів работи регулярних виразів.</p>
+	  <p>Будь-який модифікатор може змінюватися з допомогою спеціальної конструкції
+	  <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#inline_modifiers">(?...)</a>
+	  в середині регулярного виразу.</p>
+	  <dl>
+		<dt><tt>i</tt></dt>
+		<dd>регістро-незалежний режим (за замовчуванням використовує обрану в ОС мову за замовчуванням),
+		(див. також <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/tregexpr_interface.html#invertcase">InvertCase</a>)</dd>
+		<dt><tt>m</tt></dt>
+		<dd>сприймати вхідний текст як багаторядковий, при цьому метасимволи "^" і "$" будут співпадати
+		не тільки на початку і кінці тексту в цілому, але і на початку і в кінці всіх наявних в тексті
+		рядків (див. також <a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#syntax_line_separators">Раздільники
+		рядків</a>)</dd>
+		<dt><tt>s</tt></dt>
+		<dd>сприймать вхідний текст як один рядок. При цьому метасимвол "." співпадає з будь-яким
+		символом, якщо ж цей модифікатор вимкнений, то він не співпадає с раздільниками рядків (див.також
+		<a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#syntax_line_separators">Роздільники
+		рядків</a>)</dd>
+		<dt><tt>g</tt></dt>
+		<dd>не стандартний модифікатор. Вимикаючи його Ви перемикаєте всі повторювачі в "не жадібний"
+		режим (за замовчуванням цей модифікатор ввімкнений). Тобто якщо його відключити, то всі '+' працюють
+		як '+?', '*' як '*?' і т.д.</dd>
+		<dt><tt>x</tt></dt>
+		<dd>дозволяє форматувати шаблон, щоб забезпечити більш легшу читабельність (див. опис нижче)</dd>
+		<dt><tt>r</tt></dt>
+		<dd>не стандартний модифікатор. Якщо ввімкнено, то діапазони виду 'а-я' включають також літеру
+		'ґ', 'А-Я' включають 'Ґ', а 'а-Я' включає взагалі всі українські літери</dd>
+	  </dl>
+	  <p><a href="http://www.regexpstudio.com/RU/TRegExpr/Help/regexp_syntax.html#modifier_x">Модифікатор
+	  /x</a> заставляє ігнорувати пробіли, табуляції і раздільники рядків, що дозволяє
+	  форматувати текст виразу. Крім того, якщо зустрічається символ #, то всі наступні
+	  символи до кінца рядка сприймаються як коментарй, наприклад:</p>
+	  <pre class="CODE">
+	  (
+		(abc) # Коментар 1
+		  |   # Пробіли всередині виразу також ігноруються
+		(efg) # Коментар 2
+	  )</pre>
+	  <p>Цілком природньо, це означаєт що, якщо Вам необхідно вставити у вираз пробіл, табуляцію чи
+	  разділювач рядка чи #, то в розширеному (/x) режимі це можна зробити тільки попередивши їх
+	  '/' чи використовуючи /xnn (всередині переліку символів всі ці символи сприймаються як зазвичай).</p>
+	</div>
+	
+	<div class="SECT1">
+	  <h2><a name="perl">7. Розширення Perl</a></h2>
+	  <p class="bold">(?imsxr-imsxr)</p>
+	  <p>Дозволяє змінювати значення модифікаторів</p>
+	  <p class="bold">Наприклад:</p>
+	  <table border="0" frame="void" width="100%" class="CALSTABLE">
+		<tbody>
+		  <tr>
+			<td><tt>(?i)Saint-Petersburg</tt></td>
+			<td>знаходить 'Saint-petersburg' і 'Saint-Petersburg'</td>
+		  </tr>
+		  <tr>
+			<td><tt>(?i)Saint-(?-i)Petersburg</tt></td>
+			<td>знаходить 'Saint-Petersburg' але не 'Saint-petersburg'</td>
+		  </tr>
+		  <tr>
+			<td><tt>(?i)(Saint-)?Petersburg</tt></td>
+			<td>знаходить 'Saint-petersburg' і 'saint-petersburg'</td>
+		  </tr>
+		  <tr>
+			<td><tt>((?i)Saint-)?Petersburg</tt></td>
+			<td>знаходить 'saint-Petersburg', але не 'saint-petersburg' </td>
+		  </tr>
+		</tbody>
+	  </table>
+	  <p class="bold">(?#text)</p>
+	  <p>Коментар, просто ігнорується. Зверніть увагу, що в коментарі такого виду
+	  неможливо помістити символ ")", оскільки він сприймається як кінець коментаря.</p>
+	</div>
+	
+	<div class="SECT1">
+	  <p class="NAVBACK"><a href="index.html">На головну</a></p>
+	</div>
+  </div>
+  
+</body>
+
+</html>
