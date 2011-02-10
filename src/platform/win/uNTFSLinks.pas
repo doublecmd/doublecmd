@@ -559,16 +559,16 @@ end;
 
 function DriveSupportsSymlinks(const fn: WideString): Boolean;
 var
-  disk: PAnsiChar;
-  buf1, buf2: array[0..50] of AnsiChar;
+  disk: WideString;
+  buf1, buf2: array[0..50] of WideChar;
   Serial, NameLen, Flags: DWORD;
 begin
   Result:= False;
   if (fn = '') or (Pos(':\', fn) <> 2) then Exit;
-  disk:= PAnsiChar(fn[1]);
+  disk := fn[1] + ':\';
   FillChar(buf1, SizeOf(buf1), 0);
   FillChar(buf2, SizeOf(buf2), 0);
-  if GetVolumeInformation(PAnsiChar(disk + ':\'), @buf1, SizeOf(buf1),
+  if GetVolumeInformationW(PWideChar(disk), @buf1, SizeOf(buf1),
     @Serial, NameLen, Flags, @buf2, SizeOf(buf2)) then
     Result:= (Flags and FILE_SUPPORTS_REPARSE_POINTS) <> 0;
 end;

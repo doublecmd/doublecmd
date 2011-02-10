@@ -57,6 +57,7 @@ type
      function SetCurrentDir(const NewDir: UTF8String): Boolean; override;
      //---------------------
      function KillShell: LongInt; override;
+     function CSI_GetTaskId(const buf:UTF8string):integer; override;
    end;
 
   { TWinConThread }
@@ -230,6 +231,11 @@ begin
   except
     Result := -1;
   end;
+end;
+
+function TWinTerm.CSI_GetTaskId(const buf:UTF8string):integer;
+begin
+  Result := 0; // Dummy
 end;
 
 { TWinConThread }

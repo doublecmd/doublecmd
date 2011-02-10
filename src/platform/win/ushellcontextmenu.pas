@@ -451,7 +451,7 @@ begin
               begin
                 cbSize := sizeof(cmici);
                 hwnd := FParent.Handle;
-                lpVerb := PChar(cmd - 1);
+                lpVerb := PChar(PtrUInt(cmd - 1));
                 nShow := SW_NORMAL;
               end;
               OleCheckUTF8(FShellMenu1.InvokeCommand(cmici));

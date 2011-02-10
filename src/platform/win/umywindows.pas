@@ -129,7 +129,7 @@ function GetFileDescription(const sPath: String): String;
 implementation
 
 uses
-  LCLProc, ShellAPI, MMSystem, JwaWinNetWk, uShlObjAdditional;
+  ShellAPI, MMSystem, JwaWinNetWk, uShlObjAdditional;
 
 function mciSendCommand(IDDevice: MCIDEVICEID; uMsg: UINT; fdwCommand: DWORD; dwParam: DWORD_PTR): MCIERROR; stdcall; external 'winmm.dll' name 'mciSendCommandA';
 
@@ -144,7 +144,7 @@ begin
   begin
     cbSize:= SizeOf(TMenuItemInfoW);
     fMask:= MIIM_FTYPE or MIIM_STRING;
-    dwTypeData:= wca;
+    dwTypeData:= @wca[0];
     cch:= MAX_PATH;
   end;
   if GetMenuItemInfoW(hMenu, uItem, fByPosition, @miiw) then
@@ -511,4 +511,4 @@ begin
 end;
 
 end.
-
+
