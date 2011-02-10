@@ -62,12 +62,14 @@ unit ViewerControl;
 interface
 
 uses
-  SysUtils, Classes, Controls, StdCtrls, Menus, Graphics, LCLType;
+  SysUtils, Classes, Controls, StdCtrls, fgl;
 
 type
   TViewerMode = (vmBin, vmHex, vmText, vmWrap, vmBook);
   TDataAccess = (dtMmap, dtNothing);
   TCharSide = (csBefore, csLeft, csRight, csAfter);
+
+  TPtrIntList = specialize TFPGList<PtrInt>;
 
 type
   // If additional encodings are added they should be also supported by:
@@ -145,7 +147,7 @@ type
     FLowLimit:           PtrInt;  // Lowest possible value for Position
     FHighLimit:          PtrInt;  // Position cannot reach this value
     FBOMLength:          Integer;
-    FLineList:           TList;
+    FLineList:           TPtrIntList;
     FBlockBeg:           PtrInt;
     FBlockEnd:           PtrInt;
     FMouseBlockBeg:      PtrInt;
@@ -253,7 +255,7 @@ type
     function TransformHex(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;
     function TransformBin(var aPosition: PtrInt; aLimit: PtrInt): AnsiString;
 
-    procedure AddLineOffset(iOffset: PtrInt);
+    procedure AddLineOffset(iOffset: PtrInt); inline;
 
     function MapFile(const sFileName: UTF8String): Boolean;
     procedure UnMapFile;
@@ -397,12 +399,12 @@ procedure Register;
 implementation
 
 uses
-  Forms, LCLProc, Clipbrd, LConvEncoding, UnicodeUtils, LCLIntf
+  LCLType, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding, UnicodeUtils, LCLIntf
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix
   {$ELSEIF DEFINED(WINDOWS)}
   , Windows
-  {$ENDIF}  ;
+  {$ENDIF};
 
 const
   //cTextWidth      = 80;  // wrap on 80 chars
@@ -443,7 +445,7 @@ begin
   FTextHeight := 14; // dummy value
   FColCount := 1;
 
-  FLineList := TList.Create;
+  FLineList := TPtrIntList.Create;
 
   FScrollBarVert          := TScrollBar.Create(Self);
   FScrollBarVert.Parent   := Self;
@@ -816,12 +818,12 @@ begin
 
   // Speedup for currently displayed positions.
   if (FLineList.Count > 0) and
-     (aPosition >= PtrInt(FLineList.Items[0])) and
-     (aPosition <= PtrInt(FLineList.Items[FLineList.Count - 1])) then
+     (aPosition >= FLineList.Items[0]) and
+     (aPosition <= FLineList.Items[FLineList.Count - 1]) then
   begin
     for i := FLineList.Count - 1 downto 0 do
-      if PtrInt(FLineList.Items[i]) <= aPosition then
-        Exit(PtrInt(FLineList.Items[i]));
+      if FLineList.Items[i] <= aPosition then
+        Exit(FLineList.Items[i]);
   end;
 
   case FViewerMode of
@@ -959,12 +961,12 @@ begin
 
   // Speedup for currently displayed positions.
   if (FLineList.Count > 0) and
-     (aPosition >= PtrInt(FLineList.Items[0])) and
-     (aPosition <= PtrInt(FLineList.Items[FLineList.Count - 1])) then
+     (aPosition >= FLineList.Items[0]) and
+     (aPosition <= FLineList.Items[FLineList.Count - 1]) then
   begin
     for i := FLineList.Count - 1 downto 0 do
-      if PtrInt(FLineList.Items[i]) < aPosition then
-        Exit(PtrInt(FLineList.Items[i]));
+      if FLineList.Items[i] < aPosition then
+        Exit(FLineList.Items[i]);
   end;
 
   case FViewerMode of
@@ -1030,12 +1032,12 @@ begin
 
   // Speedup for currently displayed positions.
   if (FLineList.Count > 0) and
-     (aPosition >= PtrInt(FLineList.Items[0])) and
-     (aPosition <= PtrInt(FLineList.Items[FLineList.Count - 1])) then
+     (aPosition >= FLineList.Items[0]) and
+     (aPosition <= FLineList.Items[FLineList.Count - 1]) then
   begin
     for i := 0 to FLineList.Count - 1 do
-      if PtrInt(FLineList.Items[i]) > aPosition then
-        Exit(PtrInt(FLineList.Items[i]));
+      if FLineList.Items[i] > aPosition then
+        Exit(FLineList.Items[i]);
   end;
 
   case FViewerMode of
@@ -1148,7 +1150,7 @@ begin
   if Assigned(FMappedFile) then
     UnMapFile; // if needed
   FFileHandle:=fpOpen(PChar(sFileName), O_RDONLY);
-  if FFileHandle = THandle(-1) then
+  if FFileHandle = feInvalidHandle then
   begin
     FFileHandle := 0;
     Exit;
@@ -1704,7 +1706,7 @@ end;
 
 procedure TViewerControl.AddLineOffset(iOffset: PtrInt);
 begin
-  FLineList.Add(Pointer(iOffset));
+  FLineList.Add(iOffset);
 end;
 
 procedure TViewerControl.KeyDown(var Key: word; Shift: TShiftState);
@@ -2228,7 +2230,7 @@ begin
     yIndex := 0;
 
   // Get position of first character of the line.
-  StartLine := PtrInt(FLineList.Items[yIndex]);
+  StartLine := FLineList.Items[yIndex];
   // Get position of last character of the line.
   EndLine   := GetEndOfLine(StartLine);
 
@@ -2624,8 +2626,8 @@ end;
 function TViewerControl.IsVisible(const aPosition: PtrInt): Boolean;
 begin
   if IsFileOpen and (FLineList.Count > 0) then
-    Result := (aPosition >= PtrInt(FLineList.Items[0])) and
-              (aPosition <= PtrInt(FLineList.Items[FLineList.Count - 1]))
+    Result := (aPosition >= FLineList.Items[0]) and
+              (aPosition <= FLineList.Items[FLineList.Count - 1])
   else
     Result := False;
 end;
