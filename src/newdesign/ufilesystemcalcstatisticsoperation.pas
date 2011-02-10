@@ -140,7 +140,7 @@ begin
       end;
 
     except
-      on EFileSystemFileNotExists do
+      on EFileNotFound do
         begin
           LogMessage(rsMsgErrInvalidLink + ': ' + aFile.FullPath + ' -> ' + PathToFile, [log_errors], lmtError);
         end;
@@ -197,4 +197,4 @@ begin
 end;
 
 end.
-
+

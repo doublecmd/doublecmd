@@ -324,6 +324,10 @@ type
   end;
 
   EFileSourceException = class(Exception);
+  EFileNotFound = class(EFileSourceException)
+  public
+    constructor Create(const AFilePath: string); reintroduce;
+  end;
 
 var
   FileSourceManager: TFileSourceManager;
@@ -862,6 +866,11 @@ begin
   Result := nil;
 end;
 
+constructor EFileNotFound.Create(const AFilePath: string);
+begin
+  inherited Create('File ' + aFilePath + ' not found.');
+end;
+
 initialization
   FileSourceManager := TFileSourceManager.Create;
 
@@ -869,4 +878,4 @@ finalization
   FreeAndNil(FileSourceManager);
 
 end.
-
+

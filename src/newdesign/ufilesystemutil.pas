@@ -162,7 +162,7 @@ implementation
 
 uses
   uOSUtils, uDCUtils, FileUtil, uFindEx, uClassesEx, uFileProcs, uLng, uTypes,
-  uFileSystemFileSource, uFileProperty;
+  uFileSource, uFileSystemFileSource, uFileProperty;
 
 procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
 begin
@@ -386,7 +386,7 @@ begin
       AddItem(LinkedFile, AddedNode);
 
     except
-      on EFileSystemFileNotExists do
+      on EFileNotFound do
         begin
           // Link target doesn't exist - add symlink instead of target (or ask user).
           AddLink(aFile, CurrentNode);
