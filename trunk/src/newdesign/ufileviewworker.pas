@@ -519,13 +519,14 @@ procedure TFilePropertiesRetriever.Execute;
 var
   i: Integer;
 begin
-  try
-    for i := 0 to FFileList.Count - 1 do
-    begin
-      if Aborted then
-        Exit;
+  for i := 0 to FFileList.Count - 1 do
+  begin
+    if Aborted then
+      Exit;
 
-      FWorkerData := PFVWorkerData(FFileList[i])^;
+    FWorkerData := PFVWorkerData(FFileList[i])^;
+
+    try
       if FFileSource.CanRetrieveProperties(FWorkerData.FSFile, FFilePropertiesNeeded) then
         FFileSource.RetrieveProperties(FWorkerData.FSFile, FFilePropertiesNeeded);
 
@@ -539,10 +540,10 @@ begin
         Exit;
 
       TThread.Synchronize(Thread, @DoUpdateFile);
-    end;
 
-  finally
-    DestroyFileList;
+    except
+      on EFileNotFound do;
+    end;
   end;
 end;
 
@@ -690,4 +691,4 @@ begin
 end;
 
 end.
-
+

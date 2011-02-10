@@ -106,8 +106,6 @@ type
     procedure SetCurrentPath(NewPath: String); override;
   end;
 
-  EFileSystemFileNotExists = class(Exception);
-
 implementation
 
 uses
@@ -275,7 +273,7 @@ begin
   FindResult := FindFirstEx(aFilePath, faAnyFile, SearchRecord);
   try
     if FindResult <> 0 then
-      raise EFileSystemFileNotExists.Create('File ' + aFilePath + ' does not exist.');
+      raise EFileNotFound.Create(aFilePath);
 
     Result := CreateFile(ExtractFilePath(aFilePath), SearchRecord);
 
@@ -351,7 +349,7 @@ begin
     begin
       FindHandle := FindFirstFileW(PWideChar(UTF8Decode(sFullPath)), @FindData);
       if FindHandle = INVALID_HANDLE_VALUE then
-        raise EFileSystemFileNotExists.Create(sFullPath);
+        raise EFileNotFound.Create(sFullPath);
       Windows.FindClose(FindHandle);
 
       if not (fpAttributes in AProps) then
@@ -419,7 +417,7 @@ begin
        ((uFileProperty.fpLink in PropertiesToSet) and (not (fpAttributes in AssignedProperties))) then
     begin
       if fpLstat(sFullPath, StatInfo) = -1 then
-        raise EFileSystemFileNotExists.Create(sFullPath);
+        raise EFileNotFound.Create(sFullPath);
 
       if not (fpAttributes in AssignedProperties) then
         AttributesProperty := TUnixFileAttributesProperty.Create(StatInfo.st_mode);
@@ -481,7 +479,7 @@ begin
 {$ELSE}
 
     if FindFirstEx(sFullPath, 0, SearchRec) = -1 then
-      raise EFileSystemFileNotExists.Create(sFullPath);
+      raise EFileNotFound.Create(sFullPath);
 
     if not (fpAttributes in AssignedProperties) then
       AttributesProperty := TFileAttributesProperty.Create(SearchRec.Attr);

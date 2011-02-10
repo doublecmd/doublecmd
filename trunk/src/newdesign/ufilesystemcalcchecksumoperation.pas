@@ -238,9 +238,9 @@ begin
           FreeAndNil(aFileToVerify);
 
       except
-        on EFileSystemFileNotExists do
+        on EFileNotFound do
           begin
-            // error - file does not exist
+            // error - file not found
           end
         else
           begin
