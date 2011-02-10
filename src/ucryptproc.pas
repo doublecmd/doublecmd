@@ -192,7 +192,7 @@ end;
 function TPasswordStore.ReadPassword(Prefix, Name, Connection: UTF8String;
                                      out Password: AnsiString): Boolean;
 var
-  Data: AnsiString;
+  Data: AnsiString = '';
 begin
   Result:= False;
   if CheckMasterKey = False then Exit;

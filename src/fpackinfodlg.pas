@@ -28,7 +28,7 @@ unit fPackInfoDlg;
 interface
 
 uses
-  SysUtils, Classes, LResources, Forms, StdCtrls, ExtCtrls, Controls,
+  SysUtils, Classes, Forms, StdCtrls, ExtCtrls, Controls,
   uFile, uArchiveFileSource, uFileSourceExecuteOperation;
 
 type

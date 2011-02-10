@@ -340,7 +340,7 @@ end;
 
 procedure TMultiArcItem.SetSignature(const AValue: AnsiString);
 var
-  I, J: Integer;
+  I: Integer;
   Sign: AnsiString;
   Value: AnsiString;
   Signature: PSignature;

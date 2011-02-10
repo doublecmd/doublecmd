@@ -273,7 +273,7 @@ implementation
 
 uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      fMain, fPackDlg, fFileOpDlg, fMkDir, fFileAssoc, fExtractDlg, fAbout,
-     fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename, fConnectionManager,
+     fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uGlobsPaths,
      uClassesEx, uShowForm, uShellExecute, uClipboard, uHash,

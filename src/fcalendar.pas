@@ -5,8 +5,7 @@ unit fCalendar;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  Calendar, LCLType;
+  Classes, SysUtils, Forms, Controls, Calendar;
 
 type
 
@@ -27,6 +26,9 @@ function ShowCalendarDialog(ADate: String; APosition: TPoint): String;
 implementation
 
 {$R *.lfm}
+
+uses
+  LCLType;
 
 function ShowCalendarDialog(ADate: String; APosition: TPoint): String;
 var

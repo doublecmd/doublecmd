@@ -27,9 +27,8 @@ unit fSetFileProperties;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  ExtCtrls, ComCtrls, StdCtrls, Buttons, EditBtn,
-  uFileProperty, uFileSourceSetFilePropertyOperation, uTypes;
+  Classes, SysUtils, Forms, Controls, ExtCtrls, ComCtrls, StdCtrls, Buttons,
+  EditBtn, uFileSourceSetFilePropertyOperation, uTypes;
 
 type
 
@@ -115,7 +114,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, fCalendar, uFileAttributes, uDCUtils;
+  LCLType, fCalendar, uFileAttributes, uDCUtils, uFileProperty;
 
 function ShowChangeFilePropertiesDialog(const aOperation: TFileSourceSetFilePropertyOperation): Boolean;
 begin
@@ -304,4 +303,4 @@ begin
 end;
 
 end.
-
+

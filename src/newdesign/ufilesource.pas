@@ -178,7 +178,7 @@ type
     constructor Create; virtual;
     destructor Destroy; override;
 
-    function Equals(aFileSource: IFileSource): Boolean;
+    function Equals(aFileSource: IFileSource): Boolean; overload;
     function IsInterface(InterfaceGuid: TGuid): Boolean;
     function IsClass(aClassType: TClass): Boolean;
     function GetClassName: String; // For debugging purposes.

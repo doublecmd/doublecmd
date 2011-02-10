@@ -28,8 +28,8 @@ unit fTweakPlugin;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, uTypes, uWCXModule;
+  Classes, SysUtils, Forms, Controls, ExtCtrls, StdCtrls,
+  uWCXModule, uTypes;
 
 type
 
@@ -98,7 +98,7 @@ implementation
 {$R *.lfm}
 
 uses
-  fOptions, WcxPlugin, uDCUtils, uLng, LCLVersion;
+  Dialogs, fOptions, WcxPlugin, uDCUtils, uLng, LCLVersion;
 
 function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Boolean;
 var
@@ -345,4 +345,4 @@ begin
 end;
 
 end.
-
+

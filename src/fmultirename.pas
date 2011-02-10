@@ -18,9 +18,7 @@ unit fMultiRename;
 interface
 
 uses
-  LResources,
-  SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ComCtrls, Menus, Buttons, SynRegExpr, LCLType,
+  SysUtils, Classes, Graphics, Forms, StdCtrls, ComCtrls, Menus, SynRegExpr,
   uClassesEx, uFile, uFileSource, StringHashList, uXmlConfig;
 
 type
@@ -1128,4 +1126,4 @@ begin
 end;
 
 end.
-
+

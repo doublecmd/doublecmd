@@ -68,7 +68,6 @@ Type
   TWCXModule = class
   private
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
-    FArchiveName: String;
 
   public
     // module's functions

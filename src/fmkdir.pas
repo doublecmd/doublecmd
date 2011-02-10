@@ -5,9 +5,7 @@ unit fMkDir;
 interface
 
 uses
-  LResources,
-  SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons;
+  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons;
 
 type
 
@@ -30,8 +28,6 @@ type
 var  frmMkDir: TfrmMkDir;  // 21.05.2009  - создаем из файла проекта
 
 implementation
-//uses      // 21.05.2009 - закомментировал неиспользуемый
-//  uLng;
 
 {$R *.lfm}
 
@@ -87,4 +83,4 @@ begin
   end;
 end;
 
-end.
+end.

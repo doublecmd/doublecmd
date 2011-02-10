@@ -3,10 +3,8 @@ unit fEditorConf;
 interface
 
 uses
-  LResources,
-  SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, SynEditHighlighter, SynEditStrConst,
-  Grids, Buttons, ComCtrls, uGlobsPaths, SynEdit;
+  SysUtils, Classes, Graphics, Controls, Forms, StdCtrls, SynEditHighlighter, SynEditStrConst,
+  Grids, Buttons, uGlobsPaths, SynEdit;
 
 type
   TLittleAttr= Packed Record

@@ -107,7 +107,7 @@ type
 implementation
 
 uses
-  uTypes, uOSUtils, uGlobs, uDCUtils;
+  uTypes, uGlobs, uDCUtils;
 
 
 function HasSortFunction(FileFunctions: TFileFunctions;

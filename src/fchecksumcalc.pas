@@ -28,8 +28,7 @@ unit fCheckSumCalc;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, Buttons, uHash;
+  Classes, SysUtils, Forms, Controls, StdCtrls, Buttons, uHash;
 
 type
 

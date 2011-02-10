@@ -27,8 +27,7 @@ unit fDescrEdit;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Buttons, uDescr;
+  Classes, SysUtils, Forms, Controls, StdCtrls, Buttons, uDescr;
 
 type
 

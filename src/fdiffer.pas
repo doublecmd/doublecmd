@@ -28,9 +28,9 @@ unit fDiffer;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  Menus, ComCtrls, ActnList, ExtCtrls, EditBtn, StdCtrls, Buttons, StdActns,
-  SynEdit, uSynDiffControls, uPariterControls, uDiff;
+  Classes, SysUtils, FileUtil, Forms, Controls, Dialogs, Menus, ComCtrls,
+  ActnList, ExtCtrls, EditBtn, Buttons, SynEdit, uSynDiffControls,
+  uPariterControls, uDiff;
 
 type
 
@@ -810,8 +810,6 @@ begin
 end;
 
 procedure TfrmDiffer.OpenFileLeft(const FileName: UTF8String);
-var
-  fsFileStream: TFileStreamEx = nil;
 begin
   if not mbFileExists(FileName) then Exit;
   try
@@ -827,8 +825,6 @@ begin
 end;
 
 procedure TfrmDiffer.OpenFileRight(const FileName: UTF8String);
-var
-  fsFileStream: TFileStreamEx = nil;
 begin
   if not mbFileExists(FileName) then Exit;
   try

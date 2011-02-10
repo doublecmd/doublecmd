@@ -194,7 +194,7 @@ end;
 function TThumbnailManager.CreatePreview(const aFile: TFile): TBitmap;
 var
   sFullPathToFile, sThumbFileName,
-  sExt, sOnlyFileName: UTF8String;
+  sExt: UTF8String;
   fsFileStream: TFileStreamEx = nil;
   Picture: TPicture = nil;
 begin

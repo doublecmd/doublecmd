@@ -27,7 +27,7 @@ unit fConfigToolBar;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Menus,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus,
   StdCtrls, Buttons, KASToolBar, ExtCtrls, ComCtrls, KASBarFiles;
 
 type
@@ -123,7 +123,7 @@ implementation
 {$R *.lfm}
 
 uses
-  ActnList, LCLProc, HelpIntfs, uClassesEx, uOSForms, uPixMapManager,
+  LCLProc, HelpIntfs, uClassesEx, uOSForms, uPixMapManager,
   uGlobsPaths, uGlobs, uDCUtils, uOSUtils;
 
 function ShowConfigToolbar(const aBarFileName: UTF8String; iButtonIndex : Integer = -1): Boolean;

@@ -28,8 +28,7 @@ unit fPackDlg;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Buttons, EditBtn, ExtCtrls, uWcxArchiveFileSource,
+  SysUtils, Forms, Controls, Dialogs, StdCtrls, EditBtn, ExtCtrls, uWcxArchiveFileSource,
   uArchiveFileSource, uFile, uFileSource;
 
 type

@@ -44,7 +44,7 @@ uses
   Process, UTF8Process, uDCUtils, uShowForm, uGlobs, uOSUtils,
   uFileSystemFileSource;
 
-{
+(*
   Functions (without parameters they give output for all selected files):
   %f - only filename
   %d - only path, without trailing delimiter
@@ -85,7 +85,7 @@ uses
     %f1{-first }%f2{ -second }
          - if only 1 file selected      : -first <file_1>
          - if 2 (or more) files selected: -first <file_1> -second <file_2>
-}
+*)
 procedure ReplaceExtCommand(var sCmd: String;
                             leftPanel: TFileView;
                             rightPanel: TFileView;
@@ -422,7 +422,7 @@ begin
     sCmd:= StringReplace(sCmd,'%p',QuoteStr(Path + Name),[rfReplaceAll]);
     sCmd:= Trim(sCmd);
 
-    {
+    (*
       Check for <? ?> command.
       This command is used to put output of some console program to a file so
       that the file can then be viewed. The command is between '<?' and '?>'.
@@ -431,7 +431,7 @@ begin
       For example:
       {!VIEWER} <?rpm -qivlp --scripts %p?>
       Show in Viewer information about RPM package
-    }
+    *)
     if Pos('<?', sCmd) <> 0 then
       begin
         iStart:= Pos('<?', sCmd) + 2;

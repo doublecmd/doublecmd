@@ -40,7 +40,6 @@ unit fMain;
 interface
 
 uses
-  LResources,
   Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls,
   KASToolBar, KASBarMenu, KASBarFiles,

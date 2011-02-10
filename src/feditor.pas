@@ -19,10 +19,8 @@ unit fEditor;
 interface
 
 uses
-  LResources,
-  SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, ActnList, Menus, SynEdit,
-  ComCtrls,  SynEditSearch, uClassesEx;
+  SysUtils, Classes, Controls, Forms, ActnList, Menus, SynEdit,
+  ComCtrls, SynEditSearch;
 
 type
 
@@ -183,10 +181,8 @@ implementation
 {$R *.lfm}
 
 uses
-  dmCommonData, dmHigh, uLng,
-  SynEditHighlighter, uShowMsg, fMsg, fEditSearch,
-  SynEditTypes, uGlobsPaths, uGlobs, fEditorConf, LCLType, LConvEncoding,
-  uOSUtils;
+  dmCommonData, dmHigh, SynEditHighlighter, SynEditTypes, LCLType, LConvEncoding,
+  uLng, uShowMsg, fEditSearch, uGlobsPaths, uGlobs, fEditorConf, uOSUtils, uClassesEx;
 
 procedure ShowEditor(const sFileName:String);
 var

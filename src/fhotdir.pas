@@ -5,9 +5,7 @@ unit fHotDir;
 interface
 
 uses
-  LResources,
-  SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons;
+  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons;
 
 type
   
@@ -48,7 +46,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uDCUtils, uGlobs, uLng;
+  Dialogs, uDCUtils, uGlobs, uLng;
 
 procedure TfrmHotDir.LoadFromGlob;
 begin

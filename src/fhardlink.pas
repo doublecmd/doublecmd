@@ -3,7 +3,6 @@ unit fHardLink;
 interface
 
 uses
-  LResources,
   SysUtils, Classes, Controls, Forms, StdCtrls, Buttons;
 
 type

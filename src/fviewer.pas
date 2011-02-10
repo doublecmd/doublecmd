@@ -37,8 +37,8 @@ unit fViewer;
 interface
 
 uses
-  LResources, SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls,
-  LCLProc, Menus, Dialogs, ExtDlgs, EditBtn, StdCtrls, Buttons, ColorBox, Spin,
+  SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls,
+  LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, ColorBox, Spin,
   Grids, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
   uFileSource, fModView, uOSUtils, Types, uThumbnails;
 
@@ -742,8 +742,6 @@ begin
 end;
 
 procedure TfrmViewer.miSaveAsClick(Sender: TObject);
-var
-  sFile: string;
 begin
   if not Assigned(FModSizeDialog) then
      FModSizeDialog:= TfrmModView.Create(Application);
@@ -910,7 +908,7 @@ end;
 
 procedure TfrmViewer.CheckXY;
 var
-  tmp, RealWidth, RealHeight: integer;
+  tmp: integer;
 begin
   if EndX<StartX then
     begin
@@ -1158,7 +1156,6 @@ procedure TfrmViewer.DrawPreviewDrawCell(Sender: TObject; aCol, aRow: Integer;
 var
   i,z,t: Integer;
   sExt, sName, shortName: UTF8String;
-  c: AnsiChar;
   bmpThumb: TBitmap;
 begin
   i:= (aRow * DrawPreview.ColCount) + aCol; // Calculate FileList index

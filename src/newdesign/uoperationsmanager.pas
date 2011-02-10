@@ -5,8 +5,7 @@ unit uOperationsManager;
 interface
 
 uses
-  Classes, SysUtils, ExtCtrls, LCLIntf, uLng,
-  uOperationThread, uFileSourceOperation, lclproc;
+  Classes, SysUtils, uLng, uOperationThread, uFileSourceOperation;
 
 type
 
