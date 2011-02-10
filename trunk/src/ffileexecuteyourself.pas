@@ -28,8 +28,8 @@ unit fFileExecuteYourSelf;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, Buttons, uFile, uFileSource, uFileView;
+  Classes, SysUtils, Forms, Controls, StdCtrls, Buttons,
+  uFile, uFileSource, uFileView;
 
 type
 

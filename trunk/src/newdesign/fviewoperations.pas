@@ -5,7 +5,7 @@ unit fViewOperations;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, StdCtrls, ExtCtrls,
+  Classes, SysUtils, Forms, Controls, Graphics, StdCtrls, ExtCtrls,
   ComCtrls, Buttons, uFileSourceOperation, uOperationsManager;
 
 type

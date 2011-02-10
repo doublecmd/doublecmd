@@ -32,7 +32,7 @@ unit fColumnsSetConf;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, Buttons, Grids,  ComCtrls, Menus, LCLType, uColumns, uGlobs, Spin,
   uColumnsFileView,
   ColorBox;

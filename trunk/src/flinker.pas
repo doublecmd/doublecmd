@@ -17,9 +17,7 @@ unit fLinker;
 interface
 
 uses
-  LResources,
-  SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, Buttons;
+  SysUtils, Classes, Forms, Dialogs, StdCtrls, ComCtrls;
 
 type
   TfrmLinker = class(TForm)

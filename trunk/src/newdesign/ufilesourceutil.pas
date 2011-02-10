@@ -62,7 +62,7 @@ begin
     sOpenCmd:= gExts.GetExtActionCmd(aFile, 'open');
     if (sOpenCmd<>'') then
     begin
-{
+(*
       if Pos('{!VFS}',sOpenCmd)>0 then
       begin
         if fVFS.FindModule(sName) then
@@ -71,7 +71,7 @@ begin
           Exit;
         end;
       end;
-}
+*)
       ReplaceExtCommand(sOpenCmd, aFile, aFileView.CurrentPath);
       if ProcessExtCommand(sOpenCmd, aFileView.CurrentPath) then
         Exit;

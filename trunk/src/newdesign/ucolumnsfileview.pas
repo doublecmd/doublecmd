@@ -487,7 +487,6 @@ uses
   uDCUtils, uOSUtils, math, fMain, fMaskInputDlg, uSearchTemplate,
   uInfoToolTip, dmCommonData,
   uFileSourceProperty,
-  uFileSourceOperation,
   uFileSourceOperationTypes,
   uFileSystemFileSource,
   fColumnsSetConf,

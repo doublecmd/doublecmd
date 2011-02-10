@@ -5,8 +5,7 @@ unit fCopyMoveDlg;
 interface
 
 uses
-  LResources, SysUtils, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls,
-  Buttons, ExtCtrls, lclproc, EditBtn, ComCtrls, Menus,
+  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls, Menus,
   uFileSystemCopyOperation, uFileSystemMoveOperation, uFileViewNotebook,
   uOperationsManager;
 

@@ -5,9 +5,8 @@ unit fModView;
 interface
 
 uses
-  LResources, LClType,
-  SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, FileUtil, ExtCtrls, ComCtrls;
+  SysUtils, Classes, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ExtCtrls, ComCtrls;
 
 type
 

@@ -54,7 +54,7 @@ implementation
 uses
   uDCUtils, uOSUtils, uLng,
   uFileSystemUtil, LCLProc,
-  FileUtil, StrUtils, fCheckSumVerify,
+  FileUtil, StrUtils,
   uFileSystemFileSource;
 
 type

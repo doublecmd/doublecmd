@@ -28,7 +28,7 @@ unit fExtractDlg;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, StdCtrls, EditBtn,
+  Classes, SysUtils, Forms, Controls, StdCtrls, EditBtn,
   uFile, uFileSource;
 
 type

@@ -396,12 +396,10 @@ end;
 
 function Utf8ReplaceBroken(const s: UTF8String): UTF8String;
 var
-  i: Integer;
   Src, Dst, LastGoodPos: PByte;
   BytesLeft: Integer;
   InvalidCharLen: Integer;
   CharLen: Integer;
-  GoodLen: Integer = 0;
 begin
   if Length(s) = 0 then
     Exit(s);
@@ -452,4 +450,4 @@ begin
 end;
 
 end.
-
+

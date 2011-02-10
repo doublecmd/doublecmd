@@ -119,7 +119,6 @@ type
 implementation
 
 uses
-  WSExtCtrls,
   LCLProc,
   uGlobs
   {$IF DEFINED(LCLGTK2)}

@@ -27,7 +27,7 @@ unit fAttributesEdit;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, ExtCtrls, StdCtrls, Buttons;
+  Classes, SysUtils, Forms, ExtCtrls, StdCtrls, Buttons;
 
 type
 

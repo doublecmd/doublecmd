@@ -28,8 +28,7 @@ unit fCheckSumVerify;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, Buttons;
+  Classes, SysUtils, Forms, StdCtrls, Buttons;
 
 type
 

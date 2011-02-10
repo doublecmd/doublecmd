@@ -27,7 +27,7 @@ unit fFileAssoc;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   StdCtrls, Buttons, ExtCtrls, EditBtn, uExts, ExtDlgs, Menus;
 
 type

@@ -11,13 +11,13 @@ contributors:
 }
 
 unit fSplitter;
+
 {$mode objfpc}{$H+}
+
 interface
 
 uses
-  LResources,
-  SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, Buttons;
+  SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls;
 
 type
 

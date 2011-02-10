@@ -37,11 +37,10 @@ function mbCheckTrash(sPath: UTF8String): Boolean;
 implementation
 
 uses
-  uOSUtils, uDCUtils, uFileProcs
   {$IF DEFINED(MSWINDOWS)}
-  , Windows, ShellApi, Win32Int, InterfaceBase, uMyWindows
+  Windows, ShellApi, Win32Int, InterfaceBase, uMyWindows, uOSUtils
   {$ELSEIF DEFINED(UNIX)}
-  , BaseUnix, Unix, uMyUnix
+  BaseUnix, uMyUnix, uDCUtils
     {$IFDEF DARWIN}
     , MacOSAll
     {$ENDIF}

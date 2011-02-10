@@ -102,14 +102,14 @@ const
 
 function LookupFallbackIcon (AIconName: String): UTF8String;
 begin
-{
+(*
   for each directory in $(basename list) {
     for extension in ("png", "svg", "xpm") {
       if exists directory/iconname.extension
         return directory/iconname.extension
     }
   }
-}
+*)
   Result := EmptyStr;
 end;
 
@@ -319,7 +319,7 @@ var
     Result:= FBaseDirList[J] + PathDelim + FTheme + PathDelim +
              FDirectories.Strings[I] + PathDelim +
              AIconName + '.' +
-             IconExtensionList[Integer(FDirectories.Items[I]^.FileListCache[J].List[FoundIndex]^.Data)];
+             IconExtensionList[PtrInt(FDirectories.Items[I]^.FileListCache[J].List[FoundIndex]^.Data)];
   end;
 
 begin

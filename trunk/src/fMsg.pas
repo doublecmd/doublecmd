@@ -3,9 +3,7 @@ unit fMsg;
 interface
 
 uses
-  LResources,
-  SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons;
+  SysUtils, Classes, Controls, Forms, StdCtrls;
 
 var
   cButtonWidth: Integer = 90;

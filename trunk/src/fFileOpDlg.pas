@@ -18,7 +18,6 @@ unit fFileOpDlg;
 interface
 
 uses
-  LResources,
   SysUtils, Classes, Controls, Forms, StdCtrls, ComCtrls, Buttons, ExtCtrls,
   uOperationsManager, uFileSourceOperation, uFileSourceOperationUI, fViewOperations;
 

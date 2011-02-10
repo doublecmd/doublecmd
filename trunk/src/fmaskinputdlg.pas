@@ -27,8 +27,7 @@ unit fMaskInputDlg;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, Buttons;
+  Classes, Forms, Controls, StdCtrls, Buttons;
 
 type
 

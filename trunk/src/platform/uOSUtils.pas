@@ -27,7 +27,7 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, LCLProc, LCLType, uClassesEx, uTypes
+    SysUtils, Classes, LCLType, uClassesEx, uTypes
     {$IF DEFINED(UNIX)}
     , uFileAttributes
       {$IFDEF DARWIN}
@@ -279,7 +279,7 @@ procedure FixFormIcon(Handle: LCLType.HWND);
 implementation
 
 uses
-  FileUtil, uDCUtils, uGlobs
+  LCLProc, FileUtil, uDCUtils, uGlobs
   {$IF DEFINED(MSWINDOWS)}
   , Windows, uNTFSLinks, uMyWindows, JwaWinNetWk, uShlObjAdditional
   {$ENDIF}
@@ -1815,4 +1815,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.

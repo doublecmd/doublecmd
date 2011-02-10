@@ -23,7 +23,7 @@ type
 implementation
 
 uses
-  LCLProc, uOSUtils, uDCUtils, uWCXmodule, uFile;
+  uOSUtils, uDCUtils, uWCXmodule, uFile;
 
 constructor TWcxArchiveListOperation.Create(aFileSource: IFileSource; aPath: String);
 begin

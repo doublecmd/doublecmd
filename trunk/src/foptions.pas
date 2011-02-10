@@ -31,7 +31,6 @@ unit fOptions;
 interface
 
 uses
-  LResources,
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, Spin, ColorBox,
   EditBtn, Grids, uDSXModule, uWCXModule, uWDXModule,

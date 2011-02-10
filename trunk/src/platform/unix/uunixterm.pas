@@ -458,7 +458,7 @@ end;
 
 function TUnixTerm.Fork_pty(const rows, cols: integer; const cmd:UTF8string; const params:UTF8string=''): System.THandle;
 var ws:TWinSize;
-    ChildPid:THandle;
+    ChildPid:System.THandle;
 begin
   FCols:=cols;
   Frows:=rows;

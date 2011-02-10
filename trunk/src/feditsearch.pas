@@ -60,8 +60,7 @@ unit fEditSearch;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, ExtCtrls, Buttons;
+  Classes, SysUtils, Forms, Controls, StdCtrls, ExtCtrls, Buttons;
 
 type
 

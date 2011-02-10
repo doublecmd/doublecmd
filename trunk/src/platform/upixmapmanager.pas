@@ -1516,7 +1516,7 @@ begin
       try
         Result := FExtList.Find(Ext);
         if Result >= 0 then
-          Exit(PtrInt(FExtList.List[Result]^.Data));
+          Exit(PtrInt(PtrUInt(FExtList.List[Result]^.Data)));
 
         if gShowIcons <= sim_standart then
           Exit(FiDefaultIconID);

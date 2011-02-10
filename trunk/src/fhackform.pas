@@ -5,7 +5,7 @@ unit fHackForm;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs; 
+  Classes, SysUtils, Forms;
 
 type
 

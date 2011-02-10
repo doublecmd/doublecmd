@@ -27,13 +27,8 @@ unit uOSForms;
 interface
 
 uses
-  Forms, Classes, SysUtils, Menus, Controls, ExtDlgs, LCLType,
-  uFile, uFileSource, uDrive,
-  {$IFDEF UNIX}
-  Graphics, BaseUnix, Unix, fFileProperties;
-  {$ELSE}
-  FileUtil, Windows, ShlObj, uShlObjAdditional;
-  {$ENDIF}
+  Forms, Classes, SysUtils, Controls,
+  uDrive, uFile, uFileSource;
 
 {en
    Must be called on main form create
@@ -76,11 +71,14 @@ function ShowOpenIconDialog(Owner: TCustomControl; var sFileName : String) : Boo
 implementation
 
 uses
-  LCLProc, Dialogs, fMain, uOSUtils, uShellContextMenu, uFileSystemFileSource
+  ExtDlgs, LCLProc, uShellContextMenu
   {$IF DEFINED(MSWINDOWS)}
-  , Graphics, ComObj, uTotalCommander
+  , Graphics, ComObj, fMain, uOSUtils, uFileSystemFileSource, uTotalCommander
+  , FileUtil, Windows, ShlObj, uShlObjAdditional
   {$ENDIF}
-  ;
+  {$IFDEF UNIX}
+  , BaseUnix, fFileProperties
+  {$ENDIF};
 
 var
   ShellContextMenu : TShellContextMenu = nil;
@@ -260,4 +258,4 @@ finalization
   FreeThenNil(ShellContextMenu);
 
 end.
-
+

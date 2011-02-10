@@ -105,8 +105,6 @@ begin
 end;
 
 procedure HashFinal(var Context: THashContext; out Hash: String);
-var
-  I: Integer;
 begin
   case Context.HashAlgorithm of
     HASH_MD5:

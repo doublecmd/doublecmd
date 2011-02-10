@@ -19,7 +19,6 @@ unit fAbout;
 interface
 
 uses
-  LResources,
   Graphics, Forms, Controls,  StdCtrls, ExtCtrls,
   SysUtils, Classes, LCLType;
 

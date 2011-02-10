@@ -20,7 +20,6 @@ uses
   uGlobs,
   fHackForm,
   fMain,
-  fAbout,
   fMkDir,
   dmHigh, dmHelpManager, dmCommonData,
   uShowMsg,
@@ -103,4 +102,4 @@ begin
      end;
 
   DebugLn('Finished Double Commander');
-end.
+end.

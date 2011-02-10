@@ -18,9 +18,7 @@ unit fFindView;
 interface
 
 uses
-  LResources, LClType,
-  SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons;
+  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons;
 
 type
   TfrmFindView = class(TForm)
@@ -44,7 +42,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, uDCUtils;
+  LCLProc, LCLType, uDCUtils;
 
 procedure TfrmFindView.FormShow(Sender: TObject);
 begin

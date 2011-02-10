@@ -76,7 +76,7 @@ implementation
 
 uses
 {$IFDEF MSWINDOWS}
-  Windows, Win32Proc, ActiveX, uOleDragDrop, fMain;
+  Windows, ActiveX, uOleDragDrop, fMain;
 {$ELSE IFDEF UNIX}
   LCLIntf, Clipbrd;
 {$ENDIF}

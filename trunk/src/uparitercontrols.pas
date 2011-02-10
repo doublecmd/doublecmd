@@ -32,17 +32,10 @@ unit uPariterControls;
 interface
 
 uses
-  LCLType,
-  Forms,
-  Messages,
   Controls,
   SysUtils,
-  Graphics,
   Classes,
-  SynEditKeyCmds,
-  SynEditTextBuffer,
   SynEditHighlighter,
-  SynEdit,
   uSynDiffControls,
   uDiff;
 
@@ -97,7 +90,7 @@ type
 implementation
 
 uses
-  SynEditTypes, uHash;
+  SynEditTypes, Graphics, uHash;
 
 { TSynDiffHighlighter }
 
@@ -368,4 +361,4 @@ begin
 end;
 
 end.
-
+
