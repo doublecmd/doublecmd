@@ -37,8 +37,10 @@ implementation
 
 var
   wcFakeWndClass: TWndClassEx;
-  hMainWindow,
+  //hMainWindow,
+  {$IFDEF DEBUG}
   hFakeWindow: HWND;
+  {$ENDIF}
 
 function WindowProc(hWnd: HWND; uiMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
 begin
@@ -63,7 +65,7 @@ end;
 
 procedure CreateTotalCommanderWindow(hWindow: HWND);
 begin
-  hMainWindow:= hWindow;
+//  hMainWindow:= hWindow;
   FillByte(wcFakeWndClass, SizeOf(wcFakeWndClass), 0);
   wcFakeWndClass.cbSize:= SizeOf (wcFakeWndClass);
   wcFakeWndClass.Style:= CS_HREDRAW or CS_VREDRAW;
@@ -74,7 +76,10 @@ begin
   wcFakeWndClass.lpszClassName:= 'TTOTAL_CMD';
   RegisterClassEx(wcFakeWndClass);
   // Create Total Commander fake window
-  hFakeWindow:= CreateWindowEx(0, 'TTOTAL_CMD', 'Double Commander', WS_OVERLAPPEDWINDOW, 100, 100, 300, 300, 0, 0, hInstance, nil);
+  {$IFDEF DEBUG}
+  hFakeWindow:=
+  {$ENDIF}
+  CreateWindowEx(0, 'TTOTAL_CMD', 'Double Commander', WS_OVERLAPPEDWINDOW, 100, 100, 300, 300, 0, 0, hInstance, nil);
   {$IFDEF DEBUG}
   // Show window (for debugging only)
   ShowWindow(hFakeWindow, SW_SHOW);

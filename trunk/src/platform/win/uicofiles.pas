@@ -186,9 +186,9 @@ var
   Bytes: Integer;
 begin
   iRgbTable := 0;
-  getMem(BitmapInfo,SizeOf(BitmapInfo^.bmiHeader));
+  getMem(BitmapInfo,SizeOf(TBitmapInfo.bmiHeader));
   try
-    FillChar(BitmapInfo^.bmiHeader,sizeof(BitmapInfo^.bmiHeader),0);
+    FillChar(BitmapInfo^.bmiHeader,sizeof(TBitmapInfo.bmiHeader),0);
     with BitmapInfo^ do
       begin
         DS.dsbmih.biSize := 0;
