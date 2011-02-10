@@ -46,7 +46,7 @@ procedure DelTree(const sFolderName: String);
    @param(hFile Handle of file)
    @param(S Stores the result string)
 }
-function FileReadLn(hFile: THandle; var S: String): Boolean;
+function FileReadLn(hFile: THandle; out S: String): Boolean;
 {en
    Write string to a text file and append newline
    @param(hFile Handle of file)
@@ -148,7 +148,7 @@ begin
   end;
 end;
 
-function FileReadLn(hFile: THandle; var S: String): Boolean;
+function FileReadLn(hFile: THandle; out S: String): Boolean;
 const
   cBufSize = 4096;
 var

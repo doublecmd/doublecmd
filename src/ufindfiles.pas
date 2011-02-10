@@ -86,7 +86,7 @@ type
   end;
 
   procedure SearchTemplateToFindFileChecks(const SearchTemplate: TSearchTemplateRec;
-                                           var FileChecks: TFindFileChecks);
+                                           out FileChecks: TFindFileChecks);
 
   function CheckFileTime(const FileChecks: TFindFileChecks; FT : TFileTime) : Boolean; inline;
   function CheckFileDateTime(const FileChecks: TFindFileChecks; DT : TDateTime) : Boolean;
@@ -254,7 +254,7 @@ begin
 end;
 
 procedure SearchTemplateToFindFileChecks(const SearchTemplate: TSearchTemplateRec;
-                                         var FileChecks: TFindFileChecks);
+                                         out FileChecks: TFindFileChecks);
 begin
   FileChecks.FilesMasks := SearchTemplate.FilesMasks;
   FileChecks.RegExp := SearchTemplate.RegExp;
@@ -306,4 +306,4 @@ begin
   end;
 end;
 
-end.
+end.
