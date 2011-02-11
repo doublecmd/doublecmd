@@ -936,6 +936,10 @@ begin
   { Hotkeys }
   if not mbFileExists(gpCfgDir + gNameSCFile) then
     gNameSCFile := 'shortcuts.scf';
+  // Rename old shortcuts file to new name.
+  if mbFileExists(gpCfgDir + 'shortcuts.ini') and
+     not mbFileExists(gpCfgDir + gNameSCFile) then
+       mbRenameFile(gpCfgDir + 'shortcuts.ini', gpCfgDir + gNameSCFile);
   HotMan.Load(gpCfgDir + gNameSCFile);
 
   { MultiArc addons }
