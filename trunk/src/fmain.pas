@@ -3486,6 +3486,52 @@ procedure TfrmMain.UpdateWindowView;
     end;
   end;
 
+  procedure AnchorHorizontalBetween(AControl, ALeftSibling, ARightSibling: TControl);
+  begin
+    AControl.Anchors := AControl.Anchors + [akLeft, akRight];
+    AControl.AnchorSide[akLeft].Control   := ALeftSibling;
+    AControl.AnchorSide[akLeft].Side      := asrRight;
+    AControl.AnchorSide[akRight].Control  := ARightSibling;
+    AControl.AnchorSide[akRight].Side     := asrLeft;
+  end;
+
+  procedure AnchorHorizontal(AControl, ASibling: TControl);
+  begin
+    AControl.Anchors := AControl.Anchors + [akLeft, akRight];
+    AControl.AnchorSide[akLeft].Control   := ASibling;
+    AControl.AnchorSide[akLeft].Side      := asrLeft;
+    AControl.AnchorSide[akRight].Control  := ASibling;
+    AControl.AnchorSide[akRight].Side     := asrRight;
+  end;
+
+  procedure AnchorFreeSpace(LeftControl, RightControl: TControl; ExcludeVert: Boolean);
+  begin
+    if gDriveMenuButton then
+    begin
+      AnchorHorizontalBetween(LeftControl, btnLeftDrive, btnLeftDirectoryHotlist);
+      AnchorHorizontalBetween(RightControl, btnRightDrive, btnRightDirectoryHotlist);
+
+      if not ExcludeVert then
+      begin
+        LeftControl.AnchorVerticalCenterTo(pnlLeftTools);
+        RightControl.AnchorVerticalCenterTo(pnlRightTools);
+      end;
+    end
+    else
+    begin
+      AnchorHorizontal(LeftControl, pnlLeftTools);
+      AnchorHorizontal(RightControl, pnlRightTools);
+
+      if not ExcludeVert then
+      begin
+        LeftControl.AnchorSide[akTop].Control  := pnlLeftTools;
+        LeftControl.AnchorSide[akTop].Side     := asrTop;
+        RightControl.AnchorSide[akTop].Control := pnlRightTools;
+        RightControl.AnchorSide[akTop].Side    := asrTop;
+      end;
+    end;
+  end;
+
 var
   I: Integer;
   IniBarFile: TIniFileEx = nil;
@@ -3582,17 +3628,28 @@ begin
   pbxRightDrive.Visible := gDriveInd;
   pnlRightTools.Visible:= gDriveMenuButton or gDriveFreeSpace or gDriveInd;
 
-  //Indicator of free spase position
-  if gDriveMenuButton=false then
+  // Free space indicator.
+  if gDriveFreeSpace then
+  begin
+    AnchorFreeSpace(lblLeftDriveInfo, lblRightDriveInfo, gDriveInd);
+    if gDriveInd then
     begin
-      lblRightDriveInfo.Align:=alTop;
-      lblLeftDriveInfo.Align:=alTop;
-    end
-  else
-    begin
-      lblRightDriveInfo.Align:=alNone;
-      lblLeftDriveInfo.Align:=alNone;
+      lblLeftDriveInfo.AnchorSide[akTop].Side  := asrTop;
+      lblRightDriveInfo.AnchorSide[akTop].Side := asrTop;
     end;
+  end;
+
+  if gDriveInd then
+  begin
+    AnchorFreeSpace(pbxLeftDrive, pbxRightDrive, gDriveFreeSpace);
+    if gDriveFreeSpace then
+    begin
+      pbxLeftDrive.AnchorSide[akTop].Control  := lblLeftDriveInfo;
+      pbxLeftDrive.AnchorSide[akTop].Side     := asrBottom;
+      pbxRightDrive.AnchorSide[akTop].Control := lblRightDriveInfo;
+      pbxRightDrive.AnchorSide[akTop].Side    := asrBottom;
+    end;
+  end;
 
   // Tabs
   UpdateNoteBook(nbLeft);

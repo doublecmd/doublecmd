@@ -4,7 +4,7 @@ object frmMain: TfrmMain
   Top = 100
   Width = 760
   Caption = 'Double Commander'
-  ClientHeight = 339
+  ClientHeight = 344
   ClientWidth = 760
   KeyPreview = True
   Menu = mnuMain
@@ -20,7 +20,7 @@ object frmMain: TfrmMain
   OnWindowStateChange = FormWindowStateChange
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.29'
+  LCLVersion = '0.9.31'
   Visible = True
   object MainToolBar: TKASToolBar
     AnchorSideTop.Control = Owner
@@ -116,23 +116,23 @@ object frmMain: TfrmMain
   end
   object pnlNotebooks: TPanel
     Left = 0
-    Height = 119
+    Height = 128
     Top = 46
     Width = 760
     Align = alClient
-    ClientHeight = 119
+    ClientHeight = 128
     ClientWidth = 760
     FullRepaint = False
     TabOrder = 1
     OnResize = pnlNotebooksResize
     object pnlLeft: TPanel
       Left = 1
-      Height = 117
+      Height = 126
       Top = 1
       Width = 511
       Align = alLeft
       BevelOuter = bvNone
-      ClientHeight = 117
+      ClientHeight = 126
       ClientWidth = 511
       TabOrder = 0
       OnDblClick = pnlLeftRightDblClick
@@ -230,10 +230,10 @@ object frmMain: TfrmMain
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = lblLeftDriveInfo
           AnchorSideRight.Side = asrBottom
-          Left = 50
+          Left = 52
           Height = 10
-          Top = 14
-          Width = 344
+          Top = 1
+          Width = 342
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 2
           BorderSpacing.Right = 2
@@ -242,13 +242,16 @@ object frmMain: TfrmMain
         object lblLeftDriveInfo: TLabel
           AnchorSideLeft.Control = btnLeftDrive
           AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = pnlLeftTools
           AnchorSideRight.Side = asrBottom
-          Left = 48
-          Height = 14
+          Left = 50
+          Height = 1
           Top = 0
-          Width = 348
+          Width = 346
           Alignment = taCenter
-          Anchors = [akTop, akLeft, akRight, akBottom]
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 2
+          BorderSpacing.Right = 2
           ParentColor = False
           OnDblClick = lblDriveInfoDblClick
         end
@@ -256,12 +259,12 @@ object frmMain: TfrmMain
     end
     object pnlRight: TPanel
       Left = 512
-      Height = 117
+      Height = 126
       Top = 1
       Width = 247
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 117
+      ClientHeight = 126
       ClientWidth = 247
       TabOrder = 1
       OnDblClick = pnlLeftRightDblClick
@@ -355,10 +358,10 @@ object frmMain: TfrmMain
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = lblRightDriveInfo
           AnchorSideRight.Side = asrBottom
-          Left = 50
+          Left = 52
           Height = 10
-          Top = 14
-          Width = 80
+          Top = 1
+          Width = 78
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 2
           BorderSpacing.Right = 2
@@ -367,13 +370,16 @@ object frmMain: TfrmMain
         object lblRightDriveInfo: TLabel
           AnchorSideLeft.Control = btnRightDrive
           AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = pnlRightTools
           AnchorSideRight.Side = asrBottom
-          Left = 48
-          Height = 14
+          Left = 50
+          Height = 1
           Top = 0
-          Width = 84
+          Width = 82
           Alignment = taCenter
-          Anchors = [akTop, akLeft, akRight, akBottom]
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 2
+          BorderSpacing.Right = 2
           ParentColor = False
           OnDblClick = lblDriveInfoDblClick
         end
@@ -398,7 +404,7 @@ object frmMain: TfrmMain
   object PanelAllProgress: TPanel
     Left = 3
     Height = 0
-    Top = 165
+    Top = 174
     Width = 754
     Align = alBottom
     BorderSpacing.Left = 3
@@ -430,7 +436,7 @@ object frmMain: TfrmMain
     Cursor = crVSplit
     Left = 0
     Height = 3
-    Top = 168
+    Top = 177
     Width = 760
     Align = alBottom
     AutoSnap = False
@@ -440,35 +446,35 @@ object frmMain: TfrmMain
   end
   object pnlCommand: TPanel
     Left = 0
-    Height = 93
-    Top = 171
+    Height = 89
+    Top = 180
     Width = 760
     Align = alBottom
     AutoSize = True
     BevelOuter = bvLowered
-    ClientHeight = 93
+    ClientHeight = 89
     ClientWidth = 760
     FullRepaint = False
     TabOrder = 8
     object pnlCmdLine: TPanel
       Left = 1
-      Height = 37
+      Height = 33
       Top = 55
       Width = 758
       Align = alClient
       AutoSize = True
       BevelOuter = bvNone
       ChildSizing.TopBottomSpacing = 2
-      ClientHeight = 37
+      ClientHeight = 33
       ClientWidth = 758
       TabOrder = 1
       object lblCommandPath: TLabel
         AnchorSideTop.Control = edtCommand
         AnchorSideTop.Side = asrCenter
         Left = 0
-        Height = 24
-        Top = 6
-        Width = 36
+        Height = 22
+        Top = 5
+        Width = 32
         Caption = 'Path'
         ParentColor = False
         ShowAccelChar = False
@@ -479,13 +485,13 @@ object frmMain: TfrmMain
         AnchorSideTop.Control = pnlCmdLine
         AnchorSideRight.Control = pnlCmdLine
         AnchorSideRight.Side = asrBottom
-        Left = 40
-        Height = 33
+        Left = 36
+        Height = 29
         Top = 2
-        Width = 718
+        Width = 722
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 4
-        ItemHeight = 0
+        ItemHeight = 21
         OnEnter = edtCommandEnter
         OnExit = edtCommandExit
         OnKeyDown = edtCommandKeyDown
@@ -513,7 +519,7 @@ object frmMain: TfrmMain
     Cursor = crVSplit
     Left = 0
     Height = 4
-    Top = 264
+    Top = 269
     Width = 760
     Align = alBottom
     AutoSnap = False
@@ -524,7 +530,7 @@ object frmMain: TfrmMain
   inline seLogWindow: TSynEdit
     Left = 0
     Height = 51
-    Top = 268
+    Top = 273
     Width = 760
     Align = alBottom
     Font.Height = -16
@@ -537,7 +543,7 @@ object frmMain: TfrmMain
     TabOrder = 4
     TabStop = False
     Visible = False
-    Gutter.Width = 61
+    Gutter.Width = 59
     Gutter.MouseActions = <    
       item
         Shift = []
@@ -1039,7 +1045,7 @@ object frmMain: TfrmMain
         Width = 24
       end
       object SynGutterLineNumber1: TSynGutterLineNumber
-        Width = 21
+        Width = 19
         MouseActions = <>
         MarkupInfo.Background = clBtnFace
         MarkupInfo.Foreground = clNone
@@ -1145,7 +1151,7 @@ object frmMain: TfrmMain
   object pnlKeys: TPanel
     Left = 0
     Height = 20
-    Top = 319
+    Top = 324
     Width = 760
     Align = alBottom
     BevelOuter = bvLowered
