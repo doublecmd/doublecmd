@@ -672,7 +672,7 @@
         <UnitName Value="uWcxArchiveListOperation"/>
       </Unit74>
       <Unit75>
-        <Filename Value="umimeactions.pas"/>
+        <Filename Value="platform\unix\umimeactions.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMimeActions"/>
       </Unit75>
