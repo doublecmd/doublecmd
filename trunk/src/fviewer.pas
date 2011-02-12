@@ -330,7 +330,7 @@ begin
   FFileSource := aFileSource;
   FLastSearchPos := -1;
   FThumbnailManager:= nil;
-  FBitmapList:= TBitmapList.Create;
+  FBitmapList:= TBitmapList.Create(True);
 end;
 
 destructor TfrmViewer.Destroy;

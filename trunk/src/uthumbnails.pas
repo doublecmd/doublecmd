@@ -11,7 +11,7 @@ type
 
   { TBitmapList }
 
-  TBitmapList = specialize TFPGList<TBitmap>;
+  TBitmapList = specialize TFPGObjectList<TBitmap>;
 
   { TThumbnailManager }
 
@@ -281,8 +281,15 @@ begin
 end;
 
 function TThumbnailManager.CreatePreview(const FullPathToFile: UTF8String): TBitmap;
+var
+  aFile: TFile;
 begin
-  Result:= CreatePreview(TFileSystemFileSource.CreateFileFromFile(FullPathToFile));
+  aFile := TFileSystemFileSource.CreateFileFromFile(FullPathToFile);
+  try
+    Result:= CreatePreview(aFile);
+  finally
+    FreeAndNil(AFile);
+  end;
 end;
 
 end.
