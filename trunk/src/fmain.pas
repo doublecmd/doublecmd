@@ -3536,150 +3536,155 @@ var
   I: Integer;
   IniBarFile: TIniFileEx = nil;
 begin
-  if gHorizontalFilePanels then
-  begin
-    pnlLeft.Align := alTop;
-    pnlLeft.BorderSpacing.Right  := 0;
-    pnlLeft.BorderSpacing.Bottom := 3;
-    MainSplitter.Cursor := crVSplit;
-  end
-  else
-  begin
-    pnlLeft.Align := alLeft;
-    pnlLeft.BorderSpacing.Right  := 3;
-    pnlLeft.BorderSpacing.Bottom := 0;
-    MainSplitter.Cursor := crHSplit;
-  end;
-
-  (* Disk Panels *)
-  if gHorizontalFilePanels and gDriveBar1 and gDriveBar2 then
-  begin
-    dskLeft.Parent := pnlDiskLeftInner;
-    dskRight.Parent := pnlDiskRightInner;
-  end
-  else
-  begin
-    dskLeft.Parent := pnlDskLeft;
-    dskRight.Parent := pnlDskRight;
-  end;
-
-  pnlDiskLeftInner.Visible := gHorizontalFilePanels and gDriveBar1 and gDriveBar2;
-  pnlDiskRightInner.Visible := gHorizontalFilePanels and gDriveBar1 and gDriveBar2;
-  pnlDskLeft.Visible := not gHorizontalFilePanels and gDriveBar1 and gDriveBar2;
-  pnlDskRight.Visible := gDriveBar1 and (not gHorizontalFilePanels or not gDriveBar2);
-  pnlDisk.Visible := pnlDskLeft.Visible or pnlDskRight.Visible;
-
-  // Create disk panels after assigning parent.
-  UpdateDiskCount; // Update list of showed drives
-
-  UpdateDriveToolbarSelection(dskLeft, FrameLeft);
-  UpdateDriveToolbarSelection(dskRight, FrameRight);
-  UpdateDriveButtonSelection(btnLeftDrive, FrameLeft);
-  UpdateDriveButtonSelection(btnRightDrive, FrameRight);
-  (*/ Disk Panels *)
-
-  (*Tool Bar*)
-  MainToolBar.Visible:= gButtonBar;
-  if gButtonBar then
+  DisableAutoSizing;
+  try
+    if gHorizontalFilePanels then
     begin
-      MainToolBar.Flat:= gToolBarFlat;
-      MainToolBar.GlyphSize:= gToolBarIconSize;
-      MainToolBar.SetButtonSize(gToolBarButtonSize, gToolBarButtonSize);
+      pnlLeft.Align := alTop;
+      pnlLeft.BorderSpacing.Right  := 0;
+      pnlLeft.BorderSpacing.Bottom := 3;
+      MainSplitter.Cursor := crVSplit;
+    end
+    else
+    begin
+      pnlLeft.Align := alLeft;
+      pnlLeft.BorderSpacing.Right  := 3;
+      pnlLeft.BorderSpacing.Bottom := 0;
+      MainSplitter.Cursor := crHSplit;
+    end;
 
-      MainToolBar.ChangePath:= gpExePath;
-      MainToolBar.EnvVar:= '%commander_path%';
-      try
-        IniBarFile:= TIniFileEx.Create(gpCfgDir + 'default.bar', fmOpenRead or fmShareDenyNone);
-        MainToolBar.LoadFromIniFile(IniBarFile);
-      finally
-        FreeThenNil(IniBarFile);
+    (* Disk Panels *)
+    if gHorizontalFilePanels and gDriveBar1 and gDriveBar2 then
+    begin
+      dskLeft.Parent := pnlDiskLeftInner;
+      dskRight.Parent := pnlDiskRightInner;
+    end
+    else
+    begin
+      dskLeft.Parent := pnlDskLeft;
+      dskRight.Parent := pnlDskRight;
+    end;
+
+    pnlDiskLeftInner.Visible := gHorizontalFilePanels and gDriveBar1 and gDriveBar2;
+    pnlDiskRightInner.Visible := gHorizontalFilePanels and gDriveBar1 and gDriveBar2;
+    pnlDskLeft.Visible := not gHorizontalFilePanels and gDriveBar1 and gDriveBar2;
+    pnlDskRight.Visible := gDriveBar1 and (not gHorizontalFilePanels or not gDriveBar2);
+    pnlDisk.Visible := pnlDskLeft.Visible or pnlDskRight.Visible;
+
+    // Create disk panels after assigning parent.
+    UpdateDiskCount; // Update list of showed drives
+
+    UpdateDriveToolbarSelection(dskLeft, FrameLeft);
+    UpdateDriveToolbarSelection(dskRight, FrameRight);
+    UpdateDriveButtonSelection(btnLeftDrive, FrameLeft);
+    UpdateDriveButtonSelection(btnRightDrive, FrameRight);
+    (*/ Disk Panels *)
+
+    (*Tool Bar*)
+    MainToolBar.Visible:= gButtonBar;
+    if gButtonBar then
+      begin
+        MainToolBar.Flat:= gToolBarFlat;
+        MainToolBar.GlyphSize:= gToolBarIconSize;
+        MainToolBar.SetButtonSize(gToolBarButtonSize, gToolBarButtonSize);
+
+        MainToolBar.ChangePath:= gpExePath;
+        MainToolBar.EnvVar:= '%commander_path%';
+        try
+          IniBarFile:= TIniFileEx.Create(gpCfgDir + 'default.bar', fmOpenRead or fmShareDenyNone);
+          MainToolBar.LoadFromIniFile(IniBarFile);
+        finally
+          FreeThenNil(IniBarFile);
+        end;
+      end;
+
+    btnLeftDrive.Visible := gDriveMenuButton;
+    btnLeftDrive.Flat := gInterfaceFlat;
+    btnLeftRoot.Visible := gDriveMenuButton;
+    btnLeftRoot.Flat := gInterfaceFlat;
+    btnLeftUp.Visible := gDriveMenuButton;
+    btnLeftUp.Flat := gInterfaceFlat;
+    btnLeftHome.Visible := gDriveMenuButton;
+    btnLeftHome.Flat := gInterfaceFlat;
+    btnLeftDirectoryHotlist.Visible := gDriveMenuButton;
+    btnLeftDirectoryHotlist.Flat := gInterfaceFlat;
+    btnLeftEqualRight.Visible := gDriveMenuButton;
+    btnLeftEqualRight.Flat:= gInterfaceFlat;
+    lblLeftDriveInfo.Visible:= gDriveFreeSpace;
+    pbxLeftDrive.Visible := gDriveInd;
+    pnlLeftTools.Visible:= gDriveMenuButton or gDriveFreeSpace or gDriveInd;
+
+    btnRightDrive.Visible := gDriveMenuButton;
+    btnRightDrive.Flat := gInterfaceFlat;
+    btnRightRoot.Visible := gDriveMenuButton;
+    btnRightRoot.Flat := gInterfaceFlat;
+    btnRightUp.Visible := gDriveMenuButton;
+    btnRightUp.Flat := gInterfaceFlat;
+    btnRightHome.Visible := gDriveMenuButton;;
+    btnRightHome.Flat := gInterfaceFlat;
+    btnRightDirectoryHotlist.Visible := gDriveMenuButton;
+    btnRightDirectoryHotlist.Flat := gInterfaceFlat;
+    btnRightEqualLeft.Visible := gDriveMenuButton;
+    btnRightEqualLeft.Flat:= gInterfaceFlat;
+    lblRightDriveInfo.Visible:= gDriveFreeSpace;
+    pbxRightDrive.Visible := gDriveInd;
+    pnlRightTools.Visible:= gDriveMenuButton or gDriveFreeSpace or gDriveInd;
+
+    // Free space indicator.
+    if gDriveFreeSpace then
+    begin
+      AnchorFreeSpace(lblLeftDriveInfo, lblRightDriveInfo, gDriveInd);
+      if gDriveInd then
+      begin
+        lblLeftDriveInfo.AnchorSide[akTop].Side  := asrTop;
+        lblRightDriveInfo.AnchorSide[akTop].Side := asrTop;
       end;
     end;
 
-  btnLeftDrive.Visible := gDriveMenuButton;
-  btnLeftDrive.Flat := gInterfaceFlat;
-  btnLeftRoot.Visible := gDriveMenuButton;
-  btnLeftRoot.Flat := gInterfaceFlat;
-  btnLeftUp.Visible := gDriveMenuButton;
-  btnLeftUp.Flat := gInterfaceFlat;
-  btnLeftHome.Visible := gDriveMenuButton;
-  btnLeftHome.Flat := gInterfaceFlat;
-  btnLeftDirectoryHotlist.Visible := gDriveMenuButton;
-  btnLeftDirectoryHotlist.Flat := gInterfaceFlat;
-  btnLeftEqualRight.Visible := gDriveMenuButton;
-  btnLeftEqualRight.Flat:= gInterfaceFlat;
-  lblLeftDriveInfo.Visible:= gDriveFreeSpace;
-  pbxLeftDrive.Visible := gDriveInd;
-  pnlLeftTools.Visible:= gDriveMenuButton or gDriveFreeSpace or gDriveInd;
-
-  btnRightDrive.Visible := gDriveMenuButton;
-  btnRightDrive.Flat := gInterfaceFlat;
-  btnRightRoot.Visible := gDriveMenuButton;
-  btnRightRoot.Flat := gInterfaceFlat;
-  btnRightUp.Visible := gDriveMenuButton;
-  btnRightUp.Flat := gInterfaceFlat;
-  btnRightHome.Visible := gDriveMenuButton;;
-  btnRightHome.Flat := gInterfaceFlat;
-  btnRightDirectoryHotlist.Visible := gDriveMenuButton;
-  btnRightDirectoryHotlist.Flat := gInterfaceFlat;
-  btnRightEqualLeft.Visible := gDriveMenuButton;
-  btnRightEqualLeft.Flat:= gInterfaceFlat;
-  lblRightDriveInfo.Visible:= gDriveFreeSpace;
-  pbxRightDrive.Visible := gDriveInd;
-  pnlRightTools.Visible:= gDriveMenuButton or gDriveFreeSpace or gDriveInd;
-
-  // Free space indicator.
-  if gDriveFreeSpace then
-  begin
-    AnchorFreeSpace(lblLeftDriveInfo, lblRightDriveInfo, gDriveInd);
     if gDriveInd then
     begin
-      lblLeftDriveInfo.AnchorSide[akTop].Side  := asrTop;
-      lblRightDriveInfo.AnchorSide[akTop].Side := asrTop;
+      AnchorFreeSpace(pbxLeftDrive, pbxRightDrive, gDriveFreeSpace);
+      if gDriveFreeSpace then
+      begin
+        pbxLeftDrive.AnchorSide[akTop].Control  := lblLeftDriveInfo;
+        pbxLeftDrive.AnchorSide[akTop].Side     := asrBottom;
+        pbxRightDrive.AnchorSide[akTop].Control := lblRightDriveInfo;
+        pbxRightDrive.AnchorSide[akTop].Side    := asrBottom;
+      end;
     end;
-  end;
 
-  if gDriveInd then
-  begin
-    AnchorFreeSpace(pbxLeftDrive, pbxRightDrive, gDriveFreeSpace);
-    if gDriveFreeSpace then
+    // Tabs
+    UpdateNoteBook(nbLeft);
+    UpdateNoteBook(nbRight);
+
+    // Function keys
+    pnlKeys.Visible := gKeyButtons;
+    if gKeyButtons then
     begin
-      pbxLeftDrive.AnchorSide[akTop].Control  := lblLeftDriveInfo;
-      pbxLeftDrive.AnchorSide[akTop].Side     := asrBottom;
-      pbxRightDrive.AnchorSide[akTop].Control := lblRightDriveInfo;
-      pbxRightDrive.AnchorSide[akTop].Side    := asrBottom;
+      pnlKeys.Height := Canvas.TextHeight('Wg') + 4;
+      for I := 0 to pnlKeys.ControlCount - 1 do
+        if pnlKeys.Controls[I] is TSpeedButton then
+          (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
     end;
+
+    // Command line
+    pnlCommand.Visible := gCmdLine;
+    edtCommand.Tag := 0;
+    ToggleConsole;
+
+    // Log window
+    seLogWindow.Visible := gLogWindow;
+    LogSplitter.Visible := gLogWindow;
+    FontOptionsToFont(gFonts[dcfLog], seLogWindow.Font);
+
+    ToggleFileSystemWatcher;
+    ShowTrayIcon(gAlwaysShowTrayIcon);
+
+    UpdateFreeSpace(fpLeft);
+    UpdateFreeSpace(fpRight);
+  finally
+    EnableAutoSizing;
   end;
-
-  // Tabs
-  UpdateNoteBook(nbLeft);
-  UpdateNoteBook(nbRight);
-
-  // Function keys
-  pnlKeys.Visible := gKeyButtons;
-  if gKeyButtons then
-  begin
-    pnlKeys.Height := Canvas.TextHeight('Wg') + 4;
-    for I := 0 to pnlKeys.ControlCount - 1 do
-      if pnlKeys.Controls[I] is TSpeedButton then
-        (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
-  end;
-
-  // Command line
-  pnlCommand.Visible := gCmdLine;
-  edtCommand.Tag := 0;
-  ToggleConsole;
-
-  // Log window
-  seLogWindow.Visible := gLogWindow;
-  LogSplitter.Visible := gLogWindow;
-  FontOptionsToFont(gFonts[dcfLog], seLogWindow.Font);
-
-  ToggleFileSystemWatcher;
-  ShowTrayIcon(gAlwaysShowTrayIcon);
-
-  UpdateFreeSpace(fpLeft);
-  UpdateFreeSpace(fpRight);
 end;
 
 procedure TfrmMain.edtCommandKeyDown(Sender: TObject; var Key: Word;
