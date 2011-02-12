@@ -178,7 +178,7 @@ begin
   FBackColor:= BackColor;
   FThumbPath:= gpCacheDir + PathDelim + 'thumbnails';
   // if not directory create it
-  if mbDirectoryExists(FThumbPath) then mbForceDirectory(FThumbPath);
+  if not mbDirectoryExists(FThumbPath) then mbForceDirectory(FThumbPath);
 end;
 
 function TThumbnailManager.RemovePreview(const FullPathToFile: UTF8String): Boolean;
@@ -263,9 +263,14 @@ begin
           Picture.Bitmap.Assign(Result);
           sExt:= GetPreviewFileExt(sExt);
           try
-            fsFileStream:= TFileStreamEx.Create(sThumbFileName, fmCreate);
-            Picture.SaveToStreamWithFileExt(fsFileStream, sExt);
-            WriteMetaData(aFile, fsFileStream);
+            try
+              fsFileStream:= TFileStreamEx.Create(sThumbFileName, fmCreate);
+              Picture.SaveToStreamWithFileExt(fsFileStream, sExt);
+              WriteMetaData(aFile, fsFileStream);
+            except
+              on e: EStreamError do
+                DebugLn(['Cannot save thumbnail to file "', sThumbFileName, '": ', e.Message]);
+            end;
           finally
             FreeThenNil(fsFileStream);
           end;
