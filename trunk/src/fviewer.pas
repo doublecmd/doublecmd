@@ -83,6 +83,7 @@ type
     miSearchPrev: TMenuItem;
     miPrint: TMenuItem;
     miSearchNext: TMenuItem;
+    pnlPreview: TPanel;
     pnlEditFile: TPanel;
     PanelEditImage: TPanel;
     pmiSelectAll: TMenuItem;
@@ -320,11 +321,6 @@ begin
     begin
       Viewer.miPreview.Checked := not(Viewer.miPreview.Checked);
       Viewer.miPreviewClick(Viewer);
-    end
-  else
-    begin
-      Viewer.DrawPreview.Visible:=false;
-      Viewer.Splitter.Align:=alLeft;
     end;
 end;
 
@@ -691,7 +687,7 @@ var
   x, y, z: Integer;
   aRect: TRect;
 begin
-  if DrawPreview.Visible or delete then
+  if pnlPreview.Visible or delete then
     begin
       x:= DrawPreview.DefaultColWidth;
       y:= DrawPreview.DefaultRowHeight - 30;
@@ -700,7 +696,7 @@ begin
       if delete then
         begin
           FThumbnailManager.RemovePreview(FullPathToFile); // delete thumb if need
-          if DrawPreview.Visible then FBitmapList.Delete(index);
+          if pnlPreview.Visible then FBitmapList.Delete(index);
           Exit;
         end
         else
@@ -723,13 +719,10 @@ var
   i: integer;
 begin
   miPreview.Checked:= not (miPreview.Checked);
-  DrawPreview.Visible := miPreview.Checked;
-  if DrawPreview.Visible then Splitter.Align:=alCustom
-  else
-    begin
-      Splitter.Align:=alLeft;
-      FBitmapList.Clear;
-    end;
+  pnlPreview.Visible := miPreview.Checked;
+  Splitter.Visible := pnlPreview.Visible;
+  if not pnlPreview.Visible then
+    FBitmapList.Clear;
   Application.ProcessMessages;
   if miPreview.Checked then
    begin
@@ -1308,7 +1301,7 @@ begin
         Exit;
     end;
   ExitPluginMode;
-  if DrawPreview.Visible then
+  if pnlPreview.Visible then
     begin
       if DrawPreview.Col = DrawPreview.ColCount-1 then
         begin
@@ -1334,7 +1327,7 @@ begin
       if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
         Exit;
     end;
-  if DrawPreview.Visible then
+  if pnlPreview.Visible then
     begin
       if DrawPreview.Col = 0  then
         begin
@@ -2100,15 +2093,6 @@ begin
 
     Status.Panels[sbpFileSize].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
     Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
-  end
-  else if Panel = pnlImage then
-  begin
-    if bQuickView then
-      begin
-        PanelEditImage.Visible:= not (bQuickView);
-        DrawPreview.Visible:=not (bQuickView);
-        Splitter.Align:=alLeft;
-      end;
   end;
 end;
 
