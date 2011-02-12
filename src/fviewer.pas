@@ -2093,6 +2093,10 @@ begin
 
     Status.Panels[sbpFileSize].Text:= cnvFormatFileSize(ViewerControl.FileSize) + ' (100 %)';
     Status.Panels[sbpTextEncoding].Text := rsViewEncoding + ': ' + ViewerControl.EncodingName;
+  end
+  else if Panel = pnlImage then
+  begin
+    PanelEditImage.Visible:= not bQuickView;
   end;
 end;
 
