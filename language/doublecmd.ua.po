@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.4.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-12-05 23:57+0300\n"
+"PO-Revision-Date: 2011-02-12 22:12+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2628,11 +2628,6 @@ msgctxt "TFRMMAIN.MILINE2.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: TFRMMAIN.MILINE20.CAPTION
-msgctxt "TFRMMAIN.MILINE20.CAPTION"
-msgid "-"
-msgstr "-"
-
 #: TFRMMAIN.MILINE22.CAPTION
 msgctxt "TFRMMAIN.MILINE22.CAPTION"
 msgid "-"
@@ -2935,7 +2930,7 @@ msgstr "1"
 
 #: TFRMMULTIRENAME.EXTENSION.CAPTION
 msgid "[E]xtension"
-msgstr "[Р]озширення"
+msgstr "[E]-Розширення"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
@@ -2997,43 +2992,43 @@ msgstr "Шлях до файлу"
 
 #: TFRMMULTIRENAME.MICOUNTER.CAPTION
 msgid "[C]ounter"
-msgstr "[Л]ічильник"
+msgstr "[C]-Лічильник"
 
 #: TFRMMULTIRENAME.MIDAY.CAPTION
 msgid "[D]ay"
-msgstr "[Д]ень"
+msgstr "[D]-День"
 
 #: TFRMMULTIRENAME.MIEXTENSIONX.CAPTION
 msgid "[Ex]xtension"
-msgstr "[Рx]озширення"
+msgstr "[Ex]-Розширення"
 
 #: TFRMMULTIRENAME.MIEXTENSIONXX.CAPTION
 msgid "[Ex:x]xtension"
-msgstr "[Рx:x]озширення"
+msgstr "[Ex:x]-Розширення"
 
 #: TFRMMULTIRENAME.MIHOUR.CAPTION
 msgid "[h]our"
-msgstr "[Ч]ас"
+msgstr "[h]-Час"
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
 msgid "Mi[n]ute"
-msgstr "[Хв]илина"
+msgstr "[n]-Хвилина"
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
 msgid "[M]onth"
-msgstr "[Мі]сяць"
+msgstr "[M]-Місяць"
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
 msgid "[N]ame"
-msgstr "[І]м'я"
+msgstr "[N]-Ім'я"
 
 #: TFRMMULTIRENAME.MINAMEX.CAPTION
 msgid "[Nx]ame"
-msgstr "[Іx]м'я"
+msgstr "[Nx]-Ім'я"
 
 #: TFRMMULTIRENAME.MINAMEXX.CAPTION
 msgid "[Nx:x]ame"
-msgstr "[Іx:x]м'я"
+msgstr "[Nx:x]-Ім'я"
 
 #: TFRMMULTIRENAME.MINEXT.CAPTION
 msgid "Time..."
@@ -3049,11 +3044,11 @@ msgstr "Ім'я..."
 
 #: TFRMMULTIRENAME.MISECOND.CAPTION
 msgid "[s]econd"
-msgstr "[С]екунда"
+msgstr "[s]-Секунда"
 
 #: TFRMMULTIRENAME.MIYEAR.CAPTION
 msgid "[Y]ear"
-msgstr "[Р]ік"
+msgstr "[Y]-Рік"
 
 #: TFRMMULTIRENAME.N1.CAPTION
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
@@ -3423,7 +3418,6 @@ msgid "Show log window"
 msgstr "Вікно звіту"
 
 #: TFRMOPTIONS.CBLYNXLIKE.CAPTION
-#, fuzzy
 #| msgid "Lynx like movement"
 msgid "Lynx-like movement"
 msgstr "Навігація в стилі Lynx"
@@ -3462,7 +3456,6 @@ msgid "Selection by mouse"
 msgstr "Виділення мишкою"
 
 #: TFRMOPTIONS.CBSHORTFILESIZEFORMAT.CAPTION
-#, fuzzy
 #| msgid "Short Filesize format"
 msgid "Short file size format"
 msgstr "Короткий розмір файлу"
@@ -3508,11 +3501,10 @@ msgid "Show &status bar"
 msgstr "Рядок стану"
 
 #: TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION
-#, fuzzy
 #| msgid "Show hidden/system files"
 msgctxt "TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION"
 msgid "Show system and hidden files"
-msgstr "&Показувати системні файли"
+msgstr "Показувати системні файли"
 
 #: TFRMOPTIONS.CBSHOWTABHEADER.CAPTION
 msgid "Show &tabstop header"
@@ -3531,7 +3523,6 @@ msgid "Skip file operations errors and write them to log window"
 msgstr "Пропускати помилки при файлових операціях і заносити у звіт"
 
 #: TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION
-#, fuzzy
 #| msgid "Case sensitive sorting"
 msgctxt "TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION"
 msgid "Case-sensitive sorting"
@@ -5249,9 +5240,8 @@ msgid "Out"
 msgstr "Із"
 
 #: ulng.rsdlgspeedtime
-#, fuzzy
-#| msgid "Speed %s/s, remaining time %s"
-msgid "Speed %s/s, time remaining %s"
+#| msgid "Speed %s/s, remained time %s"
+msgid "Speed %s/s, remaining time %s"
 msgstr "Швидкість %s/с, залишилось часу %s"
 
 #: ulng.rsdlgtest
