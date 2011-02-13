@@ -1,87 +1,276 @@
 object dmHighl: TdmHighl
   OnCreate = dmHighlCreate
   OnDestroy = dmHighlDestroy
-  Height = 300
-  HorizontalOffset = 448
-  VerticalOffset = 218
-  Width = 400
+  OldCreateOrder = False
+  Height = 379
+  HorizontalOffset = 309
+  VerticalOffset = 86
+  Width = 457
   object SynPasSyn1: TSynPasSyn
     Enabled = False
-    left = 42
-    top = 66
+    AsmAttri.FrameEdges = sfeAround
+    CommentAttri.FrameEdges = sfeAround
+    IDEDirectiveAttri.FrameEdges = sfeAround
+    IdentifierAttri.FrameEdges = sfeAround
+    KeyAttri.FrameEdges = sfeAround
+    NumberAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    StringAttri.FrameEdges = sfeAround
+    SymbolAttri.FrameEdges = sfeAround
+    CaseLabelAttri.FrameEdges = sfeAround
+    DirectiveAttri.FrameEdges = sfeAround
+    CompilerMode = pcmDelphi
+    NestedComments = False
+    left = 24
+    top = 8
   end
   object SynCppSyn1: TSynCppSyn
     DefaultFilter = 'C++ Files (*.c,*.cpp,*.h,*.hpp)|*.c;*.cpp;*.h;*.hpp'
     Enabled = False
-    left = 42
-    top = 104
+    AsmAttri.FrameEdges = sfeAround
+    CommentAttri.FrameEdges = sfeAround
+    DirecAttri.FrameEdges = sfeAround
+    IdentifierAttri.FrameEdges = sfeAround
+    InvalidAttri.FrameEdges = sfeAround
+    KeyAttri.FrameEdges = sfeAround
+    NumberAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    StringAttri.FrameEdges = sfeAround
+    SymbolAttri.FrameEdges = sfeAround
+    left = 96
+    top = 8
   end
   object SynJavaSyn1: TSynJavaSyn
     DefaultFilter = 'Java Files (*.java)|*.java'
     Enabled = False
-    left = 41
-    top = 151
+    CommentAttri.FrameEdges = sfeAround
+    DocumentAttri.FrameEdges = sfeAround
+    IdentifierAttri.FrameEdges = sfeAround
+    InvalidAttri.FrameEdges = sfeAround
+    KeyAttri.FrameEdges = sfeAround
+    NumberAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    StringAttri.FrameEdges = sfeAround
+    SymbolAttri.FrameEdges = sfeAround
+    left = 168
+    top = 8
   end
   object SynHTMLSyn1: TSynHTMLSyn
     DefaultFilter = 'HTML Document (*.htm,*.html)|*.htm;*.html'
     Enabled = False
-    left = 42
-    top = 184
+    AndAttri.FrameEdges = sfeAround
+    ASPAttri.FrameEdges = sfeAround
+    CommentAttri.FrameEdges = sfeAround
+    IdentifierAttri.FrameEdges = sfeAround
+    KeyAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    SymbolAttri.FrameEdges = sfeAround
+    TextAttri.FrameEdges = sfeAround
+    UndefKeyAttri.FrameEdges = sfeAround
+    ValueAttri.FrameEdges = sfeAround
+    left = 328
+    top = 8
   end
   object SynXMLSyn1: TSynXMLSyn
-    WantBracesParsed = False
     DefaultFilter = 'XML Document (*.xml,*.xsd,*.xsl,*.xslt,*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd'
     Enabled = False
-    left = 42
-    top = 224
+    ElementAttri.FrameEdges = sfeAround
+    AttributeAttri.FrameEdges = sfeAround
+    NamespaceAttributeAttri.FrameEdges = sfeAround
+    AttributeValueAttri.FrameEdges = sfeAround
+    NamespaceAttributeValueAttri.FrameEdges = sfeAround
+    TextAttri.FrameEdges = sfeAround
+    CDATAAttri.FrameEdges = sfeAround
+    EntityRefAttri.FrameEdges = sfeAround
+    ProcessingInstructionAttri.FrameEdges = sfeAround
+    CommentAttri.FrameEdges = sfeAround
+    DocTypeAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    SymbolAttri.FrameEdges = sfeAround
+    WantBracesParsed = False
+    left = 24
+    top = 72
   end
   object SynLFMSyn1: TSynLFMSyn
     DefaultFilter = 'Lazarus Form Files (*.lfm)|*.lfm'
     Enabled = False
-    left = 41
-    top = 256
+    CommentAttri.FrameEdges = sfeAround
+    IdentifierAttri.FrameEdges = sfeAround
+    KeyAttri.FrameEdges = sfeAround
+    NumberAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    StringAttri.FrameEdges = sfeAround
+    left = 96
+    top = 72
   end
   object SynUNIXShellScriptSyn1: TSynUNIXShellScriptSyn
     DefaultFilter = 'UNIX Shell Scripts (*.sh)|*.sh'
     Enabled = False
-    left = 85
-    top = 224
+    CommentAttri.FrameEdges = sfeAround
+    IdentifierAttri.FrameEdges = sfeAround
+    KeyAttri.FrameEdges = sfeAround
+    SecondKeyAttri.FrameEdges = sfeAround
+    NumberAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    StringAttri.FrameEdges = sfeAround
+    SymbolAttri.FrameEdges = sfeAround
+    VarAttri.FrameEdges = sfeAround
+    left = 296
+    top = 72
   end
   object SynPHPSyn1: TSynPHPSyn
     DefaultFilter = 'PHP Files (*.php,*.php3,*.phtml,*.inc)|*.php;*.php3;*.phtml;*.inc'
     Enabled = False
-    left = 85
-    top = 66
+    CommentAttri.FrameEdges = sfeAround
+    IdentifierAttri.FrameEdges = sfeAround
+    InvalidSymbolAttri.FrameEdges = sfeAround
+    KeyAttri.FrameEdges = sfeAround
+    NumberAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    StringAttri.FrameEdges = sfeAround
+    SymbolAttri.FrameEdges = sfeAround
+    VariableAttri.FrameEdges = sfeAround
+    left = 96
+    top = 136
   end
   object SynTeXSyn1: TSynTeXSyn
     DefaultFilter = 'TeX Files (*.tex)|*.tex'
     Enabled = False
-    left = 85
-    top = 104
+    CommentAttri.FrameEdges = sfeAround
+    TextAttri.FrameEdges = sfeAround
+    ControlSequenceAttri.FrameEdges = sfeAround
+    MathmodeAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    BraceAttri.FrameEdges = sfeAround
+    BracketAttri.FrameEdges = sfeAround
+    left = 168
+    top = 136
   end
   object SynSQLSyn1: TSynSQLSyn
-    SQLDialect = sqlSybase
     DefaultFilter = 'SQL Files (*.sql)|*.sql'
     Enabled = False
-    left = 85
-    top = 151
-  end
-  object SynMultiSyn1: TSynMultiSyn
-    Schemes = <>
-    Enabled = False
-    left = 85
-    top = 185
+    CommentAttri.FrameEdges = sfeAround
+    DataTypeAttri.FrameEdges = sfeAround
+    DefaultPackageAttri.FrameEdges = sfeAround
+    ExceptionAttri.FrameEdges = sfeAround
+    FunctionAttri.FrameEdges = sfeAround
+    IdentifierAttri.FrameEdges = sfeAround
+    KeyAttri.FrameEdges = sfeAround
+    NumberAttri.FrameEdges = sfeAround
+    PLSQLAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    SQLPlusAttri.FrameEdges = sfeAround
+    StringAttri.FrameEdges = sfeAround
+    SymbolAttri.FrameEdges = sfeAround
+    TableNameAttri.FrameEdges = sfeAround
+    VariableAttri.FrameEdges = sfeAround
+    SQLDialect = sqlSybase
+    left = 240
+    top = 136
   end
   object SynPerlSyn1: TSynPerlSyn
     DefaultFilter = 'Perl Files (*.pl,*.pm,*.cgi)|*.pl;*.pm;*.cgi'
     Enabled = False
-    left = 88
-    top = 256
+    CommentAttri.FrameEdges = sfeAround
+    IdentifierAttri.FrameEdges = sfeAround
+    InvalidAttri.FrameEdges = sfeAround
+    KeyAttri.FrameEdges = sfeAround
+    NumberAttri.FrameEdges = sfeAround
+    OperatorAttri.FrameEdges = sfeAround
+    PragmaAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    StringAttri.FrameEdges = sfeAround
+    SymbolAttri.FrameEdges = sfeAround
+    VariableAttri.FrameEdges = sfeAround
+    left = 240
+    top = 8
   end
   object SynCssSyn1: TSynCssSyn
     DefaultFilter = 'Cascading Stylesheets (*.css)|*.css'
     Enabled = False
-    left = 58
-    top = 304
+    CommentAttri.FrameEdges = sfeAround
+    IdentifierAttri.FrameEdges = sfeAround
+    KeyAttri.FrameEdges = sfeAround
+    NumberAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    StringAttri.FrameEdges = sfeAround
+    SymbolAttri.FrameEdges = sfeAround
+    left = 24
+    top = 136
+  end
+  object SynPythonSyn1: TSynPythonSyn
+    DefaultFilter = 'Файлы Python (*.py)|*.py'
+    Enabled = False
+    CommentAttri.FrameEdges = sfeAround
+    IdentifierAttri.FrameEdges = sfeAround
+    KeyAttri.FrameEdges = sfeAround
+    NonKeyAttri.FrameEdges = sfeAround
+    SystemAttri.FrameEdges = sfeAround
+    NumberAttri.FrameEdges = sfeAround
+    HexAttri.FrameEdges = sfeAround
+    OctalAttri.FrameEdges = sfeAround
+    FloatAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    StringAttri.FrameEdges = sfeAround
+    DocStringAttri.FrameEdges = sfeAround
+    SymbolAttri.FrameEdges = sfeAround
+    ErrorAttri.FrameEdges = sfeAround
+    left = 328
+    top = 136
+  end
+  object SynDiffSyn1: TSynDiffSyn
+    Enabled = False
+    UnknownAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    OrigFileAttri.FrameEdges = sfeAround
+    NewFileAttri.FrameEdges = sfeAround
+    ChunkMarkerAttri.FrameEdges = sfeAround
+    ChunkNewAttri.FrameEdges = sfeAround
+    ChunkOldAttri.FrameEdges = sfeAround
+    ChunkMixedAttri.FrameEdges = sfeAround
+    LineAddedAttri.FrameEdges = sfeAround
+    LineRemovedAttri.FrameEdges = sfeAround
+    LineChangedAttri.FrameEdges = sfeAround
+    LineContextAttri.FrameEdges = sfeAround
+    left = 168
+    top = 72
+  end
+  object SynVBSyn1: TSynVBSyn
+    Enabled = False
+    CommentAttri.FrameEdges = sfeAround
+    IdentifierAttri.FrameEdges = sfeAround
+    KeyAttri.FrameEdges = sfeAround
+    NumberAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    StringAttri.FrameEdges = sfeAround
+    SymbolAttri.FrameEdges = sfeAround
+    left = 24
+    top = 200
+  end
+  object SynBatSyn1: TSynBatSyn
+    DefaultFilter = 'Пакетные файлы MS-DOS (*.bat;*.cmd)|*.bat;*.cmd'
+    Enabled = False
+    CommentAttri.FrameEdges = sfeAround
+    IdentifierAttri.FrameEdges = sfeAround
+    KeyAttri.FrameEdges = sfeAround
+    NumberAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    VariableAttri.FrameEdges = sfeAround
+    left = 96
+    top = 200
+  end
+  object SynIniSyn1: TSynIniSyn
+    DefaultFilter = 'INI-файлы (*.ini)|*.ini'
+    Enabled = False
+    CommentAttri.FrameEdges = sfeAround
+    TextAttri.FrameEdges = sfeAround
+    SectionAttri.FrameEdges = sfeAround
+    KeyAttri.FrameEdges = sfeAround
+    NumberAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    StringAttri.FrameEdges = sfeAround
+    SymbolAttri.FrameEdges = sfeAround
+    left = 168
+    top = 200
   end
 end

@@ -5,27 +5,34 @@ unit dmHigh;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Dialogs,
-  SynEditHighlighter, SynHighlighterPas,
-  SynHighlighterCPP, SynHighlighterJava, SynHighlighterHTML, SynHighlighterXML,
-  SynHighlighterLFM, SynHighlighterUNIXShellScript, SynHighlighterPHP,
-  SynHighlighterTeX, SynHighlighterSQL, SynHighlighterMulti, SynHighlighterPerl,
-  SynHighlighterCss;
+  Classes, SysUtils, Forms, Controls, Dialogs, SynEditHighlighter,
+  SynHighlighterPas, SynHighlighterCPP, SynHighlighterJava, SynHighlighterHTML,
+  SynHighlighterXML, SynHighlighterLFM, SynHighlighterUNIXShellScript,
+  SynHighlighterPHP, SynHighlighterTeX, SynHighlighterSQL,
+  SynHighlighterPerl, SynHighlighterCss, SynHighlighterPython,
+  SynHighlighterDiff, SynHighlighterVB, SynHighlighterBat, SynHighlighterIni;
 
 type
+
+  { TdmHighl }
+
   TdmHighl = class(TDataModule)
+    SynBatSyn1: TSynBatSyn;
     SynCppSyn1: TSynCppSyn;
     SynCssSyn1: TSynCssSyn;
+    SynDiffSyn1: TSynDiffSyn;
     SynHTMLSyn1: TSynHTMLSyn;
+    SynIniSyn1: TSynIniSyn;
     SynJavaSyn1: TSynJavaSyn;
     SynLFMSyn1: TSynLFMSyn;
-    SynMultiSyn1: TSynMultiSyn;
     SynPasSyn1: TSynPasSyn;
     SynPerlSyn1: TSynPerlSyn;
     SynPHPSyn1: TSynPHPSyn;
+    SynPythonSyn1: TSynPythonSyn;
     SynSQLSyn1: TSynSQLSyn;
     SynTeXSyn1: TSynTeXSyn;
     SynUNIXShellScriptSyn1: TSynUNIXShellScriptSyn;
+    SynVBSyn1: TSynVBSyn;
     SynXMLSyn1: TSynXMLSyn;
     procedure dmHighlCreate(Sender: TObject);
     procedure dmHighlDestroy(Sender: TObject);
