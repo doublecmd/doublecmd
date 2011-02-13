@@ -746,6 +746,8 @@ begin
           Delete (Path, I, 2);
           I := Pos (DirectorySeparator + '.' + DirectorySeparator, Path);
       end;
+  if StrEnds(Path, DirectorySeparator + '.') then
+    Delete (Path, Length(Path) - 1, 2);
 
   {Then remove all references to '\..\'}
   I := Pos (DirectorySeparator + '..', Path);
