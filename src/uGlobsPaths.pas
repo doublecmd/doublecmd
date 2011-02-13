@@ -6,6 +6,7 @@ var
   gpExePath : String = '';  // executable directory
   gpCfgDir : String = '';  // directory from which configuration files are used
   gpGlobalCfgDir : String = '';  // config dir global for all user
+  gpCmdLineCfgDir : String = ''; // config dir passed on the command line
   gpLngDir : String = '';  // path to language *.po files
   gpPixmapPath : String = '';  // path to pixmaps
   gpCacheDir : UTF8String = ''; // cache directory
@@ -15,7 +16,7 @@ procedure LoadPaths;
 implementation
 
 uses
-  LCLProc, SysUtils, FileUtil, uOSUtils, uFileProcs;
+  LCLProc, SysUtils, FileUtil, uOSUtils, uDCUtils;
 
 function GetAppName : String;
 begin
@@ -29,16 +30,24 @@ begin
   DebugLn('Executable directory: ', gpExePath);
   
   gpGlobalCfgDir := gpExePath;
-  gpCfgDir := GetAppConfigDir;
-  if gpCfgDir <> EmptyStr then
-    begin
-      gpCfgDir := IncludeTrailingPathDelimiter(gpCfgDir);
-      if not mbDirectoryExists(gpCfgDir) then
-        mbForceDirectory(gpCfgDir);
-    end
+  if gpCmdLineCfgDir <> EmptyStr then
+  begin
+    if GetPathType(gpCmdLineCfgDir) <> ptAbsolute then
+      gpCmdLineCfgDir := IncludeTrailingPathDelimiter(mbGetCurrentDir) + gpCmdLineCfgDir;
+    gpCmdLineCfgDir := ExpandAbsolutePath(gpCmdLineCfgDir);
+    gpCfgDir := gpCmdLineCfgDir;
+  end
   else
-    DebugLn('Warning: Cannot get user config directory.');
+  begin
+    gpCfgDir := GetAppConfigDir;
+    if gpCfgDir = EmptyStr then
+    begin
+      DebugLn('Warning: Cannot get user config directory.');
+      gpCfgDir := gpGlobalCfgDir;
+    end;
+  end;
 
+  gpCfgDir := IncludeTrailingPathDelimiter(gpCfgDir);
   gpLngDir := gpExePath + 'language' + DirectorySeparator;
   gpPixmapPath := gpExePath + 'pixmaps' + DirectorySeparator;
   gpCacheDir := GetAppCacheDir;
@@ -47,4 +56,4 @@ begin
   mbSetEnvironmentVariable('commander_path', ExcludeTrailingBackslash(gpExePath));
 end;
 
-end.
+end.

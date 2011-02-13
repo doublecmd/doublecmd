@@ -3262,13 +3262,13 @@ object frmOptions: TfrmOptions
         end
       end
       object pgConfigStorage: TPage
-        ClientWidth = 705
-        ClientHeight = 458
+        ClientWidth = 709
+        ClientHeight = 489
         object gbLocConfigFiles: TGroupBox
           Left = 10
-          Height = 67
+          Height = 114
           Top = 6
-          Width = 677
+          Width = 681
           Anchors = [akTop, akLeft, akRight]
           AutoSize = True
           Caption = 'Location of configuration files'
@@ -3276,14 +3276,14 @@ object frmOptions: TfrmOptions
           ChildSizing.TopBottomSpacing = 5
           ChildSizing.VerticalSpacing = 5
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
-          ClientHeight = 49
-          ClientWidth = 673
+          ClientHeight = 92
+          ClientWidth = 677
           TabOrder = 0
           object rbProgramDir: TRadioButton
             Left = 10
-            Height = 17
+            Height = 25
             Top = 5
-            Width = 193
+            Width = 268
             Caption = 'Program directory (portable version)'
             Checked = True
             TabOrder = 0
@@ -3291,11 +3291,20 @@ object frmOptions: TfrmOptions
           end
           object rbUserHomeDir: TRadioButton
             Left = 10
-            Height = 17
-            Top = 27
-            Width = 193
+            Height = 25
+            Top = 35
+            Width = 268
             Caption = 'User home directory'
             TabOrder = 1
+          end
+          object lblCmdLineConfigDir: TLabel
+            Left = 10
+            Height = 22
+            Top = 65
+            Width = 268
+            Caption = 'Set on command line'
+            ParentColor = False
+            Visible = False
           end
         end
         object gbSaveOnExit: TGroupBox
