@@ -27,7 +27,8 @@ uses
   uPixMapManager,
   uKeyboard,
   uUniqueInstance,
-  uDCVersion;
+  uDCVersion,
+  uCmdLineParams;
 
 {$R *.res}
 
@@ -70,7 +71,9 @@ begin
   DebugLn('(C)opyright 2006-2011 Koblov Alexander (Alexx2000@mail.ru)');
   DebugLn('   and contributors (see about dialog)');
 
-  LoadPaths; // must be first
+  ProcessCommandLineParams; // before load paths
+  LoadPaths; // before loading config
+
   Application.ShowMainForm:= False;
   Application.CreateForm(TfrmHackForm, frmHackForm);
   if InitGlobs then
@@ -102,4 +105,4 @@ begin
      end;
 
   DebugLn('Finished Double Commander');
-end.
+end.
