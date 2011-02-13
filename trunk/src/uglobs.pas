@@ -500,6 +500,29 @@ begin
     mbRenameFile(gpCfgDir + 'doublecmd.ini', gpCfgDir + 'doublecmd.ini.obsolete');
 end;
 
+procedure CopySettingsFiles;
+begin
+  { Create default configuration files if need }
+  if gpCfgDir <> gpGlobalCfgDir then
+    begin
+      // toolbar file
+      if not mbFileExists(gpCfgDir + 'default.bar') then
+        CopyFile(gpGlobalCfgDir + 'default.bar', gpCfgDir + 'default.bar');
+      // extension file
+      if not mbFileExists(gpCfgDir + 'doublecmd.ext') then
+        CopyFile(gpGlobalCfgDir + 'doublecmd.ext.example', gpCfgDir + 'doublecmd.ext.example');
+      // pixmaps file
+      if not mbFileExists(gpCfgDir + 'pixmaps.txt') then
+        CopyFile(gpGlobalCfgDir + 'pixmaps.txt', gpCfgDir + 'pixmaps.txt');
+      // editor highlight file1
+      if not mbFileExists(gpCfgDir + 'editor.col') then
+        CopyFile(gpGlobalCfgDir + 'editor.col', gpCfgDir + 'editor.col');
+      // editor highlight file2
+      if not mbFileExists(gpCfgDir + 'twilight.col') then
+        CopyFile(gpGlobalCfgDir + 'twilight.col', gpCfgDir + 'twilight.col');
+    end;
+end;
+
 procedure CreateGlobs;
 begin
   gExts := TExts.Create;
@@ -773,7 +796,8 @@ begin
     Exit(True);
 
   // Check global directory for XML config.
-  if not Assigned(gConfig) and mbFileExists(gpGlobalCfgDir + 'doublecmd.xml') then
+  if not Assigned(gConfig) and (gpCmdLineCfgDir = EmptyStr) and
+     mbFileExists(gpGlobalCfgDir + 'doublecmd.xml') then
   begin
     if mbFileAccess(gpGlobalCfgDir + 'doublecmd.xml', fmOpenRead) then
     begin
@@ -791,9 +815,9 @@ begin
       end;
     end
     else
-      // File is not accessible - print warning and continue below to check config in user directory.
+      // File is not readable - print warning and continue below to check config in user directory.
       DebugLn('Warning: Config file ' + gpGlobalCfgDir + 'doublecmd.xml' +
-              ' exists but is not accessible.');
+              ' exists but is not readable.');
   end;
 
   // Check user directory for XML config.
@@ -806,7 +830,7 @@ begin
     end
     else
     begin
-      DebugLn('Error: Cannot access config file ' + gpGlobalCfgDir + 'doublecmd.xml.');
+      DebugLn('Error: Cannot read config file ' + gpGlobalCfgDir + 'doublecmd.xml.');
       Exit(False);
     end;
   end;
@@ -823,18 +847,18 @@ begin
       if not gUseConfigInProgramDir then
         FreeAndNil(gIni)
       else
-        begin
-	  if mbFileAccess(gpGlobalCfgDir + 'doublecmd.ini', fmOpenWrite) then
-	    begin
-	      FreeAndNil(gIni);
-              gIni := TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini');
-	    end
-	  else
-	    begin
-              DebugLn('Warning: Config file ' + gpGlobalCfgDir + 'doublecmd.ini' +
-                      ' is not accessible for writing. Configuration will not be saved.');
+      begin
+	      if mbFileAccess(gpGlobalCfgDir + 'doublecmd.ini', fmOpenWrite) then
+	      begin
+	        FreeAndNil(gIni);
+          gIni := TIniFileEx.Create(gpGlobalCfgDir + 'doublecmd.ini');
+	      end
+        else
+	      begin
+          DebugLn('Warning: Config file ' + gpGlobalCfgDir + 'doublecmd.ini' +
+                  ' is not accessible for writing. Configuration will not be saved.');
+	      end;
 	    end;
-	end;
     end;
 
     // Check user directory for INI config.
@@ -875,30 +899,10 @@ begin
   else
     gConfig.SaveOnDestroy := True;
 
-  Result := True;
-end;
+  if not mbDirectoryExists(gpCfgDir) then
+    mbForceDirectory(gpCfgDir);
 
-procedure CopySettingsFiles;
-begin
-  { Create default configuration files if need }
-  if gpCfgDir <> gpGlobalCfgDir then
-    begin
-      // toolbar file
-      if not mbFileExists(gpCfgDir + 'default.bar') then
-        CopyFile(gpGlobalCfgDir + 'default.bar', gpCfgDir + 'default.bar');
-      // extension file
-      if not mbFileExists(gpCfgDir + 'doublecmd.ext') then
-        CopyFile(gpGlobalCfgDir + 'doublecmd.ext.example', gpCfgDir + 'doublecmd.ext.example');
-      // pixmaps file
-      if not mbFileExists(gpCfgDir + 'pixmaps.txt') then
-        CopyFile(gpGlobalCfgDir + 'pixmaps.txt', gpCfgDir + 'pixmaps.txt');
-      // editor highlight file1
-      if not mbFileExists(gpCfgDir + 'editor.col') then
-        CopyFile(gpGlobalCfgDir + 'editor.col', gpCfgDir + 'editor.col');
-      // editor highlight file2
-      if not mbFileExists(gpCfgDir + 'twilight.col') then
-        CopyFile(gpGlobalCfgDir + 'twilight.col', gpCfgDir + 'twilight.col');
-    end;
+  Result := True;
 end;
 
 function LoadGlobs: Boolean;
@@ -958,7 +962,8 @@ var
   TmpConfig: TXmlConfig;
   Ini: TIniFileEx = nil;
 begin
-  if gUseConfigInProgramDirNew <> gUseConfigInProgramDir then
+  if (gUseConfigInProgramDirNew <> gUseConfigInProgramDir) and
+     (gpCmdLineCfgDir = EmptyStr) then
     begin
       LoadPaths;
       if gUseConfigInProgramDirNew then

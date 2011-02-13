@@ -232,6 +232,7 @@ type
     gbViewerExample: TGroupBox;
     gbViewerBookMode: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
+    lblCmdLineConfigDir: TLabel;
     lblSCFiles: TLabel;
     lblNumberColumnsViewer: TLabel;
     lblFontColorViewerBook: TLabel;
@@ -580,9 +581,23 @@ begin
   ParseLineToList(rsOptAutoSizeColumn, cmbAutoSizeColumn.Items);
   ParseLineToList(rsOptTabsPosition, cmbTabsPosition.Items);
   ParseLineToList(rsOptSortMethod, cbSortMethod.Items);
+
   // Show configuration directory
-  rbProgramDir.Caption:= rbProgramDir.Caption + ' - [' + gpGlobalCfgDir + ']';
-  rbUserHomeDir.Caption:= rbUserHomeDir.Caption + ' - [' + GetAppConfigDir + PathDelim + ']';
+  if gpCmdLineCfgDir = '' then
+  begin
+    rbProgramDir.Caption:= rbProgramDir.Caption + ' - [' + IncludeTrailingPathDelimiter(gpGlobalCfgDir) + ']';
+    rbUserHomeDir.Caption:= rbUserHomeDir.Caption + ' - [' + IncludeTrailingPathDelimiter(GetAppConfigDir) + ']';
+  end
+  else
+  begin
+    rbProgramDir.Visible := False;
+    rbProgramDir.Enabled := False;
+    rbUserHomeDir.Visible := False;
+    rbUserHomeDir.Enabled := False;
+    lblCmdLineConfigDir.Visible := True;
+    lblCmdLineConfigDir.Caption := lblCmdLineConfigDir.Caption + ' - [' + IncludeTrailingPathDelimiter(gpCmdLineCfgDir) + ']';
+  end;
+
   // tvTreeView localization
   with tvTreeView.Items do
     begin
