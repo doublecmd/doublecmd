@@ -262,6 +262,7 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dmHighl"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="dmHigh"/>
       </Unit8>
       <Unit9>
