@@ -17,6 +17,7 @@ type
 
   private
     FFSFile: TFile;          //<en reference to file source's file
+    FOwnsReferenceFile: Boolean; //<en If @true then reference file is destroyed on Destroy.
 
     // Other properties.
     FSelected: Boolean;      //<en If is selected
@@ -29,8 +30,6 @@ type
     {en
        A reference TFile must be passed as a parameter.
        TDisplayFile object is invalid without a reference file.
-
-       The reference file is not a copy but a pointer.
     }
     constructor Create(ReferenceFile: TFile); virtual reintroduce;
 
@@ -41,10 +40,12 @@ type
     }
     function Clone(ReferenceFiles: TFiles;
                    ClonedReferenceFiles: TFiles): TDisplayFile; virtual;
+    function Clone(NewReferenceFile: TFile): TDisplayFile; virtual;
 
     procedure CloneTo(AFile: TDisplayFile); virtual;
 
     property FSFile: TFile read FFSFile write FFSFile;
+    property OwnsFSFile: Boolean read FOwnsReferenceFile write FOwnsReferenceFile;
     property Selected: Boolean read FSelected write FSelected;
     property IconID: PtrInt read FIconID write FIconID;
     property DisplayStrings: TStringList read FDisplayStrings;
@@ -100,6 +101,7 @@ begin
   FSelected := False;
   FIconID := -1;
   FFSFile := ReferenceFile;
+  FOwnsReferenceFile := False;
   FDisplayStrings := TStringList.Create;
 end;
 
@@ -108,6 +110,8 @@ begin
   inherited Destroy;
   if Assigned(FDisplayStrings) then
     FreeAndNil(FDisplayStrings);
+  if OwnsFSFile then
+    FSFile.Free;
 end;
 
 function TDisplayFile.Clone(ReferenceFiles: TFiles;
@@ -134,10 +138,17 @@ begin
   CloneTo(Result);
 end;
 
+function TDisplayFile.Clone(NewReferenceFile: TFile): TDisplayFile;
+begin
+  Result := TDisplayFile.Create(NewReferenceFile);
+  CloneTo(Result);
+end;
+
 procedure TDisplayFile.CloneTo(AFile: TDisplayFile);
 begin
   if Assigned(AFile) then
   begin
+    AFile.FOwnsReferenceFile := FOwnsReferenceFile;
     AFile.FSelected := FSelected;
     AFile.FIconID := FIconID;
     AFile.FDisplayStrings.AddStrings(FDisplayStrings);
