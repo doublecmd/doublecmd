@@ -494,6 +494,12 @@ object frmConfigToolBar: TfrmConfigToolBar
       TabOrder = 0
       OnClick = ktbBarClick
       OnToolButtonClick = ktbBarToolButtonClick
+      OnToolButtonMouseDown = ktbBarToolButtonMouseDown
+      OnToolButtonMouseUp = ktbBarToolButtonMouseUp
+      OnToolButtonMouseMove = ktbBarToolButtonMouseMove
+      OnToolButtonDragDrop = ktbBarToolButtonDragDrop
+      OnToolButtonEndDrag = ktbBarToolButtonEndDrag
+      OnToolButtonDragOver = ktbBarToolButtonDragOver
       OnLoadButtonGlyph = ktbBarLoadButtonGlyph
       RadioToolBar = True
       GlyphSize = 16

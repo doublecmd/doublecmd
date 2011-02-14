@@ -41,6 +41,7 @@ type
   TOnToolButtonDragOver = procedure(Sender, Source: TObject; X,Y: Integer;
                State: TDragState; var Accept: Boolean; NumberOfButton: Integer) of object;
   TOnToolButtonDragDrop = procedure(Sender, Source: TObject; X,Y: Integer; NumberOfButton: Integer) of object;
+  TOnToolButtonEndDrag = procedure(Sender, Target: TObject; X,Y: Integer; NumberOfButton: Integer) of object;
   TOnLoadButtonGlyph = function (sIconFileName: String; iIconSize: Integer; clBackColor: TColor): TBitmap of object;
 
   { TKASToolButton }
@@ -79,6 +80,7 @@ type
     FOnToolButtonMouseMove: TOnToolButtonMouseMove;
     FOnToolButtonDragOver: TOnToolButtonDragOver;
     FOnToolButtonDragDrop: TOnToolButtonDragDrop;
+    FOnToolButtonEndDrag: TOnToolButtonEndDrag;
     FOnLoadButtonGlyph: TOnLoadButtonGlyph;
     FKASToolBarFlags: TToolBarFlags;
     FResizeButtonsNeeded: Boolean;
@@ -100,6 +102,7 @@ type
     procedure ToolButtonMouseMove(Sender: TObject; Shift:TShiftState; X,Y:Integer);
     procedure ToolButtonDragOver(Sender, Source: TObject; X,Y: Integer; State: TDragState; var Accept: Boolean);
     procedure ToolButtonDragDrop(Sender, Source: TObject; X,Y: Integer);
+    procedure ToolButtonEndDrag(Sender, Target: TObject; X, Y: Integer);
     procedure UpdateButtonsTags;
   protected
     { Protected declarations }
@@ -128,6 +131,7 @@ type
 
     procedure Clear;
     procedure RemoveButton(Index: Integer);
+    procedure MoveButton(ButtonIndex, MovePosition: integer);
     procedure UncheckAllButtons;
 
     function GetButtonX(Index: Integer; What: TInfor): String;
@@ -153,6 +157,7 @@ type
     property OnToolButtonMouseUp: TOnToolButtonMouseUpDown read FOnToolButtonMouseUp write FOnToolButtonMouseUp;
     property OnToolButtonMouseMove: TOnToolButtonMouseMove read FOnToolButtonMouseMove write FOnToolButtonMouseMove;
     property OnToolButtonDragDrop: TOnToolButtonDragDrop read FOnToolButtonDragDrop write FOnToolButtonDragDrop;
+    property OnToolButtonEndDrag: TOnToolButtonEndDrag read FOnToolButtonEndDrag write FOnToolButtonEndDrag;
     property OnToolButtonDragOver: TOnToolButtonDragOver read FOnToolButtonDragOver write FOnToolButtonDragOver;
     property OnLoadButtonGlyph : TOnLoadButtonGlyph read FOnLoadButtonGlyph write FOnLoadButtonGlyph;
     property RadioToolBar: Boolean read FRadioToolBar write FRadioToolBar default False;
@@ -478,13 +483,39 @@ end;
 procedure TKASToolBar.ToolButtonDragOver(Sender, Source: TObject; X,Y: Integer; State: TDragState; var Accept: Boolean);
 begin
   if Assigned(FOnToolButtonDragOver) then
-     FOnToolButtonDragOver(Sender, Source, X,Y, State, Accept, (Source as TSpeedButton).Tag);
+     FOnToolButtonDragOver(Sender, Source, X,Y, State, Accept, (Sender as TSpeedButton).Tag);
 end;
 
 procedure TKASToolBar.ToolButtonDragDrop(Sender, Source: TObject; X,Y: Integer);
 begin
   if Assigned(FOnToolButtonDragDrop) then
-     FOnToolButtonDragDrop(Sender, Source, X,Y, (Source as TSpeedButton).Tag)
+     FOnToolButtonDragDrop(Sender, Source, X,Y, (Sender as TSpeedButton).Tag)
+end;
+
+procedure TKASToolBar.ToolButtonEndDrag(Sender, Target: TObject; X, Y: Integer);
+begin
+  if Assigned(FOnToolButtonEndDrag) then
+     FOnToolButtonEndDrag(Sender, Target, X,Y, (Sender as TSpeedButton).Tag)
+end;
+
+procedure TKASToolBar.MoveButton(ButtonIndex, MovePosition: integer);
+var
+  NewPosition: integer;
+begin
+  if ButtonIndex > MovePosition then NewPosition:= MovePosition else NewPosition:= MovePosition + 1;
+  FBarFile.InsertButtonX(NewPosition, FBarFile.GetButtonX(ButtonIndex,ButtonX),
+                                      FBarFile.GetButtonX(ButtonIndex,CmdX),
+                                      FBarFile.GetButtonX(ButtonIndex,ParamX),
+                                      FBarFile.GetButtonX(ButtonIndex,PathX),
+                                      FBarFile.GetButtonX(ButtonIndex,MenuX),
+                                      FBarFile.GetButtonX(ButtonIndex,MiskX));
+  FBarFile.SetButtonX(NewPosition, IconicX, FBarFile.GetButtonX(ButtonIndex,IconicX)); // Because IconicX is not set in InsertButtonX
+  ButtonList.Move(ButtonIndex, MovePosition);
+  if ButtonIndex > MovePosition then
+    FBarFile.RemoveButton(ButtonIndex + 1)
+  else
+    FBarFile.RemoveButton(ButtonIndex);
+  UpdateButtonsTags;
 end;
 
 procedure TKASToolBar.UpdateButtonsTags;
@@ -679,6 +710,7 @@ begin
   ToolButton.OnMouseMove:= @ToolButtonMouseMove;
   ToolButton.OnDragDrop:= @ToolButtonDragDrop;
   ToolButton.OnDragOver:= @ToolButtonDragOver;
+  ToolButton.OnEndDrag:= @ToolButtonEndDrag;
 
   ToolButton.Glyph.Assign(Bitmap);
 

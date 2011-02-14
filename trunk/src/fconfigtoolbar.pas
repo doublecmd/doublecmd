@@ -91,6 +91,18 @@ type
     procedure ktbBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
     procedure btnDeleteButtonClick(Sender: TObject);
     procedure btnOpenFileClick(Sender: TObject);
+    procedure ktbBarToolButtonDragDrop(Sender, Source: TObject; X, Y: Integer;
+      NumberOfButton: Integer);
+    procedure ktbBarToolButtonDragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean; NumberOfButton: Integer);
+    procedure ktbBarToolButtonEndDrag(Sender, Target: TObject; X, Y: Integer;
+      NumberOfButton: Integer);
+    procedure ktbBarToolButtonMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
+    procedure ktbBarToolButtonMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer; NumberOfButton: Integer);
+    procedure ktbBarToolButtonMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
     procedure miAddSubBarClick(Sender: TObject);
     procedure miAddSubMenuClick(Sender: TObject);
     procedure sbIconExampleClick(Sender: TObject);
@@ -102,11 +114,12 @@ type
     FBarFileName: UTF8String;
     LastToolButton : Integer;
     DefaultEditBarsColor : TColor; // Because real color depends on compilation switches
-
+    ToolButtonMouseX, ToolButtonMouseY, ToolDragButtonNumber: integer; // For dragging
     procedure FillActionLists;
     procedure WakeSleepControls();
     procedure ClearControls;
     procedure LoadButton(NumberOfButton: Integer);
+    procedure CopyButton(SourceButton, DestinationButton: Integer);
     procedure Save;
     function  GetSelectedButton: Integer;
     procedure InsertButton(InsertAt: Integer);
@@ -177,34 +190,20 @@ begin
   finally
     FreeThenNil(IniBarFile);
   end;
+
   with pnlToolBarFileName do
   begin
     Caption:= MinimizeFilePath(FBarFileName, Canvas, Width);
     Hint:= FBarFileName;
   end;
+
   if ktbBar.Tag >= 0 then
     begin
       ktbBar.Buttons[ktbBar.Tag].Click;
       ktbBar.Buttons[ktbBar.Tag].Down := True;
     end;
 
-  // Next section is commented and should be deleted.
-  // The reason is this: user does not need to have
-  // any buttons selected if he has just opened the dialog.
-  // If user wants to have have some button selected,
-  // he just edits that button.
-  // This text should also be deleted.
-  //
-  //else
-  //  begin
-  //    if ktbBar.ButtonCount > 0 then
-  //      begin
-  //        ktbBar.Buttons[ktbBar.ButtonCount-1].Down := True;
-  //        LoadButton(ktbBar.ButtonCount-1);
-  //        LastToolButton := ktbBar.ButtonCount-1;
-  //      end;
-  //  end;
-
+  ToolDragButtonNumber := -1;
   WakeSleepControls;
   ktbBar.GlyphSize := trbIconSize.Position*2;
   ktbBar.SetButtonSize(trbBarSize.Position*2,trbBarSize.Position*2);
@@ -214,7 +213,7 @@ end;
 
 procedure TfrmConfigToolBar.cbFlatButtonsChange(Sender: TObject);
 begin
-//  ktbBar.Flat := cbFlatButtons.Checked;
+
 end;
 
 procedure TfrmConfigToolBar.cbIsSeparatorChange(Sender: TObject);
@@ -296,13 +295,11 @@ begin
   SelectedIndex := GetSelectedButton;
   if SelectedIndex > -1 then
     begin
-      Save;  // Save currently selected button
-      LastToolButton := ktbBar.InsertButtonX(SelectedIndex, '', '', '', '', '', '', '');
-      ktbBar.SetButtonX(LastToolButton, ButtonX, kedtIconFileName.Text);
-      Save;  // Save newly created button
-      LastToolButton := LastToolButton + 1;
-      ktbBar.Buttons[LastToolButton].Down := True;
-    end;
+    Save;
+    CopyButton(SelectedIndex,SelectedIndex);
+    LastToolButton := LastToolButton + 1;
+    ktbBar.Buttons[LastToolButton].Down := True;
+  end;
 end;
 
 procedure TfrmConfigToolBar.btnHelpClick(Sender: TObject);
@@ -355,7 +352,6 @@ end;
 (*Select button on panel*)
 procedure TfrmConfigToolBar.ktbBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
 begin
-  Save;
   LoadButton(NumberOfButton);
   ktbBar.Buttons[NumberOfButton].Down:=True;
   LastToolButton := NumberOfButton;
@@ -420,17 +416,24 @@ end;
 
 procedure TfrmConfigToolBar.LoadButton(NumberOfButton: Integer);
 begin
-  // cbCommand.Text := ktbBar.Commands[NumberOfButton];
   cbCommand.Text := ktbBar.GetButtonX(NumberOfButton,CmdX);
-  // kedtIconFileName.Text := ktbBar.Icons[NumberOfButton];
   kedtIconFileName.Text := ktbBar.GetButtonX(NumberOfButton,ButtonX);
-
-  // edtToolTip.Text := ktbBar.Buttons[NumberOfButton].Hint;
   edtToolTip.Text := ktbBar.GetButtonX(NumberOfButton,MenuX);
-
   sbIconExample.Glyph := ktbBar.Buttons[NumberOfButton].Glyph;
   edtParams.Text:= ktbBar.GetButtonX(NumberOfButton,ParamX);
   edtStartPath.Text:= ktbBar.GetButtonX(NumberOfButton,PathX);
+end;
+
+procedure TfrmConfigToolBar.CopyButton(SourceButton, DestinationButton: Integer);
+begin
+  ktbBar.InsertButtonX(DestinationButton,
+                        '',
+                        ktbBar.GetButtonX(SourceButton,CmdX),
+                        ktbBar.GetButtonX(SourceButton,ParamX),
+                        ktbBar.GetButtonX(SourceButton,PathX),
+                        ktbBar.GetButtonX(SourceButton,MenuX),
+                        ktbBar.GetButtonX(SourceButton,MiskX),
+                        ktbBar.GetButtonX(SourceButton,ButtonX));
 end;
 
 (*Save current button*)
@@ -491,6 +494,55 @@ begin
       // Refresh icon on the toolbar.
       ktbBar.SetButtonX(LastToolButton, ButtonX, kedtIconFileName.Text);
     end;
+end;
+
+procedure TfrmConfigToolBar.ktbBarToolButtonDragDrop(Sender, Source: TObject;
+  X, Y: Integer; NumberOfButton: Integer);
+begin
+  ktbBar.MoveButton((Source as TSpeedButton).Tag, (Sender as TSpeedButton).Tag);
+  tbScrollBoxClick(Sender);
+  ktbBarToolButtonClick(Sender, NumberOfButton)
+end;
+
+procedure TfrmConfigToolBar.ktbBarToolButtonDragOver(Sender, Source: TObject;
+  X, Y: Integer; State: TDragState; var Accept: Boolean; NumberOfButton: Integer);
+begin
+  // Some type checks to be here
+  if ((Sender as TSpeedButton).Tag) <> ((Source as TSpeedButton).Tag) then
+  Accept:=True;
+end;
+
+procedure TfrmConfigToolBar.ktbBarToolButtonEndDrag(Sender, Target: TObject; X,
+  Y: Integer; NumberOfButton: Integer);
+begin
+
+end;
+
+procedure TfrmConfigToolBar.ktbBarToolButtonMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer;
+  NumberOfButton: Integer);
+begin
+  Save;
+  ToolButtonMouseX:=X;
+  ToolButtonMouseY:=Y;
+end;
+
+procedure TfrmConfigToolBar.ktbBarToolButtonMouseMove(Sender: TObject;
+  Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
+begin
+  if (ssLeft in Shift) and (ToolDragButtonNumber = -1) then
+    if (abs(ToolButtonMouseX-X)>10) or (abs(ToolButtonMouseY-Y)>10) then
+    begin
+      ToolDragButtonNumber:=NumberOfButton;
+      ktbBar.Buttons[NumberOfButton].BeginDrag(false,5);
+    end;
+end;
+
+procedure TfrmConfigToolBar.ktbBarToolButtonMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer;
+  NumberOfButton: Integer);
+begin
+  ToolDragButtonNumber := -1;
 end;
 
 procedure TfrmConfigToolBar.miAddSubBarClick(Sender: TObject);
