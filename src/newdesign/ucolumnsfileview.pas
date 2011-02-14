@@ -308,8 +308,10 @@ type
     }
     procedure SetFileList(var NewDisplayFiles: TDisplayFiles;
                           var NewFileSourceFiles: TFiles);
-    procedure UpdateFile(const WorkerData: TFVWorkerData);
-    procedure CalcSpaceUpdateFile(const WorkerData: TFVWorkerData);
+    procedure UpdateFile(const UpdatedFile: TDisplayFile;
+                         const UserData: Pointer);
+    procedure CalcSpaceUpdateFile(const UpdatedFile: TDisplayFile;
+                                  const UserData: Pointer);
     procedure WorkerStarting(const Worker: TFileViewWorker);
     procedure WorkerFinished(const Worker: TFileViewWorker);
 
@@ -338,7 +340,7 @@ type
 
     procedure CalculateSpaceOfAllDirectories;
     procedure CalculateSpace(AFile: TDisplayFile);
-    procedure CalculateSpace(var AFileList: TFPList);
+    procedure CalculateSpace(var AFileList: TFVWorkerFileList);
 
     function DimColor(AColor: TColor): TColor;
 
@@ -3223,9 +3225,9 @@ procedure TColumnsFileView.EnsureDisplayProperties;
 var
   VisibleFiles: TRange;
   i: Integer;
-  AFileList: TFPList;
-  WorkerData: PFVWorkerData;
+  AFileList: TFVWorkerFileList;
   Worker: TFileViewWorker;
+  AFile: TDisplayFile;
 begin
   if (GetCurrentWorkType = fvwtCreate) or
      (not Assigned(FFiles)) or
@@ -3238,35 +3240,27 @@ begin
   begin
     for i := VisibleFiles.First to VisibleFiles.Last do
     begin
-      with FFiles[i] do
+      AFile := FFiles[i];
+      if AFile.FSFile.Name <> '..' then
       begin
-        if (FSFile.Name <> '..') then
-        begin
-          if IconID = -1 then
-            IconID := PixMapManager.GetIconByFile(FSFile, fspDirectAccess in FileSource.Properties, True);
-          FileSource.RetrieveProperties(FSFile, FilePropertiesNeeded);
-          MakeColumnsStrings(FFiles[i]);
-        end;
+        if AFile.IconID = -1 then
+          AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile, fspDirectAccess in FileSource.Properties, True);
+        FileSource.RetrieveProperties(AFile.FSFile, FilePropertiesNeeded);
+        MakeColumnsStrings(AFile);
       end;
     end;
   end
   else
   begin
-    AFileList := TFPList.Create;
+    AFileList := TFVWorkerFileList.Create;
     try
       for i := VisibleFiles.First to VisibleFiles.Last do
       begin
-        with FFiles[i] do
+        AFile := FFiles[i];
+        if (AFile.FSFile.Name <> '..') and
+           (FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) or (AFile.IconID = -1)) then
         begin
-          if (FSFile.Name <> '..') and
-             (FileSource.CanRetrieveProperties(FSFile, FilePropertiesNeeded) or (IconID = -1)) then
-          begin
-            WorkerData := New(PFVWorkerData);
-            WorkerData^.UserData := Self.FFiles[i];
-            WorkerData^.FSFile   := FSFile.Clone;
-            WorkerData^.IconID   := IconID;
-            AFileList.Add(WorkerData);
-          end;
+          AFileList.AddClone(AFile, AFile);
         end;
       end;
 
@@ -3345,50 +3339,52 @@ begin
   RequestedActiveFile := '';
 end;
 
-procedure TColumnsFileView.UpdateFile(const WorkerData: TFVWorkerData);
+procedure TColumnsFileView.UpdateFile(const UpdatedFile: TDisplayFile;
+                                      const UserData: Pointer);
 var
   propType: TFilePropertyType;
   aFile: TFile;
-  aDisplayFile: TDisplayFile;
+  OrigDisplayFile: TDisplayFile;
 begin
-  aDisplayFile := TDisplayFile(WorkerData.UserData);
+  OrigDisplayFile := TDisplayFile(UserData);
 
-  if not FHashedFiles.Exists(aDisplayFile) then
+  if not FHashedFiles.Exists(OrigDisplayFile) then
     Exit; // File does not exist anymore (reference is invalid).
 
-  aFile := aDisplayFile.FSFile;
+  aFile := OrigDisplayFile.FSFile;
 
 {$IF (fpc_version>2) or ((fpc_version=2) and (fpc_release>4))}
   // This is a bit faster.
-  for propType in WorkerData.FSFile.AssignedProperties - aFile.AssignedProperties do
+  for propType in UpdatedFile.FSFile.AssignedProperties - aFile.AssignedProperties do
 {$ELSE}
   for propType := Low(TFilePropertyType) to High(TFilePropertyType) do
-    if (propType in WorkerData.FSFile.AssignedProperties) and
+    if (propType in UpdatedFile.FSFile.AssignedProperties) and
        (not (propType in aFile.AssignedProperties)) then
 {$ENDIF}
     begin
-      aFile.Properties[propType] := WorkerData.FSFile.ReleaseProperty(propType);
+      aFile.Properties[propType] := UpdatedFile.FSFile.ReleaseProperty(propType);
     end;
 
-  if WorkerData.IconID <> -1 then
-    aDisplayFile.IconID := WorkerData.IconID;
+  if UpdatedFile.IconID <> -1 then
+    OrigDisplayFile.IconID := UpdatedFile.IconID;
 
-  MakeColumnsStrings(aDisplayFile);
-  RedrawFile(aDisplayFile);
+  MakeColumnsStrings(OrigDisplayFile);
+  RedrawFile(OrigDisplayFile);
 end;
 
-procedure TColumnsFileView.CalcSpaceUpdateFile(const WorkerData: TFVWorkerData);
+procedure TColumnsFileView.CalcSpaceUpdateFile(const UpdatedFile: TDisplayFile;
+                                               const UserData: Pointer);
 var
-  aDisplayFile: TDisplayFile;
+  OrigDisplayFile: TDisplayFile;
 begin
-  aDisplayFile := TDisplayFile(WorkerData.UserData);
+  OrigDisplayFile := TDisplayFile(UserData);
 
-  if not FHashedFiles.Exists(aDisplayFile) then
+  if not FHashedFiles.Exists(OrigDisplayFile) then
     Exit; // File does not exist anymore (reference is invalid).
 
-  aDisplayFile.FSFile.Size := WorkerData.FSFile.Size;
-  MakeColumnsStrings(aDisplayFile);
-  RedrawFile(aDisplayFile);
+  OrigDisplayFile.FSFile.Size := UpdatedFile.FSFile.Size;
+  MakeColumnsStrings(OrigDisplayFile);
+  RedrawFile(OrigDisplayFile);
 end;
 
 procedure TColumnsFileView.WorkerStarting(const Worker: TFileViewWorker);
@@ -3512,22 +3508,17 @@ end;
 procedure TColumnsFileView.CalculateSpaceOfAllDirectories;
 var
   i: Integer;
-  AFileList: TFPList;
-  WorkerData: PFVWorkerData;
+  AFileList: TFVWorkerFileList;
+  AFile: TDisplayFile;
 begin
-  AFileList := TFPList.Create;
+  AFileList := TFVWorkerFileList.Create;
   try
     for i := 0 to FFiles.Count - 1 do
     begin
-      with FFiles[i] do
+      AFile := FFiles[i];
+      if IsItemValid(AFile) and AFile.FSFile.IsDirectory then
       begin
-        if IsItemValid(FFiles[i]) and FFiles[i].FSFile.IsDirectory then
-        begin
-          WorkerData := New(PFVWorkerData);
-          WorkerData^.UserData := FFiles[i];
-          WorkerData^.FSFile   := FFiles[i].FSFile.Clone;
-          AFileList.Add(WorkerData);
-        end;
+        AFileList.AddClone(AFile, AFile);
       end;
     end;
 
@@ -3541,20 +3532,16 @@ end;
 
 procedure TColumnsFileView.CalculateSpace(AFile: TDisplayFile);
 var
-  AFileList: TFPList;
-  WorkerData: PFVWorkerData;
+  AFileList: TFVWorkerFileList;
 begin
   if GetCurrentWorkType = fvwtCreate then
     Exit;
 
-  AFileList := TFPList.Create;
+  AFileList := TFVWorkerFileList.Create;
   try
     if IsItemValid(AFile) and AFile.FSFile.IsDirectory then
     begin
-      WorkerData := New(PFVWorkerData);
-      WorkerData^.UserData := AFile;
-      WorkerData^.FSFile   := AFile.FSFile.Clone;
-      AFileList.Add(WorkerData);
+      AFileList.AddClone(AFile, AFile);
     end;
 
     CalculateSpace(AFileList);
@@ -3565,7 +3552,7 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.CalculateSpace(var AFileList: TFPList);
+procedure TColumnsFileView.CalculateSpace(var AFileList: TFVWorkerFileList);
 var
   Worker: TFileViewWorker;
 begin
@@ -3588,7 +3575,9 @@ begin
 
     FFileViewWorkers.Add(Worker);
     FListFilesThread.QueueFunction(@Worker.StartParam);
-  end;
+  end
+  else
+    FreeAndNil(AFileList);
 end;
 
 procedure TColumnsFileView.UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
