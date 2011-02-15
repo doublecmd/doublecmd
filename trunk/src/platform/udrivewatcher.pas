@@ -53,6 +53,9 @@ implementation
 uses
   {$IFDEF UNIX}
   Unix, uMyUnix, LCLProc
+   {$IFDEF BSD}
+   , StrUtils
+   {$ENDIF}
    {$IFDEF LINUX}
    , inotify, uUDisks, uFileSystemWatcher, uDCUtils
    {$ENDIF}
@@ -713,6 +716,147 @@ begin
     if Assigned(Drive) then
       Dispose(Drive);
   end;
+end;
+{$ELSEIF DEFINED(BSD)}
+  function GetDriveTypeFromDeviceOrFSType(const DeviceId, FSType: String): TDriveType;
+  begin
+    // using filesystem type
+    if FSType = 'swap' then
+      Result := dtUnknown
+    else if FSType = 'zfs' then
+      Result := dtHardDisk
+    else if FSType = 'nfs' then
+      Result := dtNetwork
+    else if FSType = 'smbfs' then
+      Result := dtNetwork
+    else if FSType = 'cifs' then
+      Result := dtNetwork
+    // using device name
+    else if AnsiStartsStr('/dev/ad', DeviceId) then
+      Result := dtHardDisk
+    else if AnsiStartsStr('/dev/acd', DeviceId) then
+      Result := dtOptical // CD-ROM (IDE)
+    else if AnsiStartsStr('/dev/da', DeviceId) then
+      Result := dtFlash // USB
+    else if AnsiStartsStr('/dev/cd', DeviceId) then
+      Result := dtOptical // CD-ROM (SCSI)
+    else if AnsiStartsStr('/dev/mcd', DeviceId) then
+      Result := dtOptical // CD-ROM (other)
+    else if AnsiStartsStr('/dev/fd', DeviceId) then
+      Result := dtFloppy
+    else if AnsiStartsStr('/dev/sa', DeviceId) then
+      Result := dtUnknown // Tape (SCSI)
+    else if AnsiStartsStr('/dev/ast', DeviceId) then
+      Result := dtUnknown // Tape (IDE)
+    else if AnsiStartsStr('/dev/fla', DeviceId) then
+      Result := dtHardDisk // Flash drive
+    else if AnsiStartsStr('/dev/aacd', DeviceId)
+      or AnsiStartsStr('/dev/mlxd', DeviceId)
+      or AnsiStartsStr('/dev/mlyd', DeviceId)
+      or AnsiStartsStr('/dev/amrd', DeviceId)
+      or AnsiStartsStr('/dev/idad', DeviceId)
+      or AnsiStartsStr('/dev/idad', DeviceId)
+      or AnsiStartsStr('/dev/twed', DeviceId) then
+      Result := dtHardDisk
+    else
+      Result := dtUnknown; // devfs, nullfs, procfs, etc.
+  end;
+const
+  MAX_FS = 128;
+var
+  drive: PDrive;
+  fstab: PFSTab;
+  fs: TStatFS;
+  fsList: array[0..MAX_FS] of TStatFS;
+  iMounted, iAdded, count: Integer;
+  found: boolean;
+  dtype: TDriveType;
+begin
+  Result := TDrivesList.Create;
+
+  fstab := getfsent();
+  while fstab <> nil do
+  begin
+    dtype := GetDriveTypeFromDeviceOrFSType(fstab^.fs_spec, fstab^.fs_vfstype);
+
+    // only add known drive types
+    if dtype = dtUnknown then
+    begin
+      fstab := getfsent();
+      Continue;
+    end; { if }
+
+    New(drive);
+    Result.Add(drive);
+
+    with drive^ do
+    begin
+      Path := fstab^.fs_file;
+      if Path = '/' then
+        DisplayName := Path
+      else
+        DisplayName := ExtractFileName(Path);
+      DriveLabel := EmptyStr;
+      DeviceId := fstab^.fs_spec;
+      DriveType := dtype;
+      IsMediaAvailable := false;
+      IsMediaEjectable := false;
+      IsMounted := false;
+    end; { with }
+
+    fstab := getfsent();
+  end; { while }
+  endfsent();
+
+  count := getfsstat(@fsList, SizeOf(fsList), MNT_WAIT);
+  for iMounted := 0 to count - 1 do
+  begin
+    fs := fsList[iMounted];
+
+    // check if already added using fstab
+    found := false;
+    for iAdded := 0 to Result.Count - 1 do
+    begin
+      if Result[iAdded]^.Path = fs.mountpoint then
+      begin
+        drive := Result[iAdded];
+        with drive^ do
+        begin
+          IsMounted := true;
+          IsMediaAvailable := true;
+        end;
+        found := true;
+        break;
+      end; { if }
+    end; { for }
+
+    if found then
+      continue;
+
+    dtype := GetDriveTypeFromDeviceOrFSType(fs.mnfromname, fs.fstypename);
+
+    // only add known drive types
+    if dtype = dtUnknown then
+      Continue;
+
+    New(drive);
+    Result.Add(drive);
+
+    with drive^ do
+    begin
+      Path := fs.mountpoint;
+      if Path = '/' then
+        DisplayName := Path
+      else
+        DisplayName := ExtractFileName(Path);
+      DriveLabel := EmptyStr;
+      DeviceId := fs.mnfromname;
+      DriveType := dtype;
+      IsMediaAvailable := true;
+      IsMediaEjectable := false;
+      IsMounted := true;
+    end; { with }
+  end; { for }
 end;
 {$ELSE}
 begin
