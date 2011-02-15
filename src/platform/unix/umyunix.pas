@@ -180,6 +180,31 @@ function FindMountPointPath(const FileName: UTF8String): UTF8String;
 function GetDefaultAppCmd(const FileName: UTF8String): UTF8String;
 function GetFileMimeType(const FileName: UTF8String): UTF8String;
 
+{$IF DEFINED(BSD) AND NOT DEFINED(DARWIN)}
+const
+  MNT_WAIT = 1; // synchronously wait for I/O to complete
+  MNT_NOWAIT = 2; // start all I/O, but do not wait for it
+  MNT_LAZY = 3; // push data not written by filesystem syncer
+  MNT_SUSPEND = 4; // suspend file system after sync
+
+type
+  TFSTab = record
+    fs_spec: PChar; // block special device name
+    fs_file: PChar; // file system path prefix
+    fs_vfstype: PChar; // file system type, ufs, nfs
+    fs_mntops: PChar; // mount options ala -o
+    fs_type: PChar; // FSTAB_* from fs_mntops
+    fs_freq: longint; // dump frequency, in days
+    fs_passno: longint; // pass number on parallel fsc
+  end;
+  PFSTab = ^TFSTab;
+  PStatFS = ^TStatFS;
+
+function getfsstat(struct_statfs: PStatFS; const buffsize: int64; const int_flags: integer): integer; cdecl; external libc name 'getfsstat';
+function getfsent(): PFSTab; cdecl; external libc name 'getfsent';
+procedure endfsent(); cdecl; external libc name 'endfsent';
+{$ENDIF}
+
 implementation
 
 uses
