@@ -248,7 +248,7 @@ begin
   UniqueInstance:= TUniqueInstance.Create(aInstanceName);
   if UniqueInstance.IsRunInstance then
    begin
-    UniqueInstance.SendString('ShowMainForm');
+    UniqueInstance.SendParams;
     Exit(False);
    end;
   UniqueInstance.RunListen;
@@ -266,4 +266,4 @@ finalization
       FreeAndNil(UniqueInstance);
     end;
 end.
-
+
