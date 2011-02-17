@@ -190,7 +190,7 @@ begin
   if not FClientIPC.ServerRunning then Exit;
   sTemp:= EmptyStr;
   for I:= 1 to ParamCount do
-    sTemp:= sTemp + Separator + SysToUTF8(ParamStr(I));
+    sTemp:= sTemp + SysToUTF8(ParamStr(I)) + Separator;
   try
     FClientIPC.Connect;
     FClientIPC.SendStringMessage(ParamCount, sTemp);
