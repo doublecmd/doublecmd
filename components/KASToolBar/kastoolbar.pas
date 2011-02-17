@@ -84,6 +84,7 @@ type
     FOnLoadButtonGlyph: TOnLoadButtonGlyph;
     FKASToolBarFlags: TToolBarFlags;
     FResizeButtonsNeeded: Boolean;
+    procedure AssignToolButtonProperties(ToolButton: TKASToolButton);
     function GetChangePath: String;
     function GetEnvVar: String;
     function LoadBtnIcon(IconPath: String): TBitMap;
@@ -400,6 +401,17 @@ begin
   end;
 end;
 
+procedure TKASToolBar.AssignToolButtonProperties(ToolButton: TKASToolButton);
+begin
+  ToolButton.OnClick:= @ToolButtonClick;
+  ToolButton.OnMouseDown:= @ToolButtonMouseDown;
+  ToolButton.OnMouseUp:= @ToolButtonMouseUp;
+  ToolButton.OnMouseMove:= @ToolButtonMouseMove;
+  ToolButton.OnDragDrop:= @ToolButtonDragDrop;
+  ToolButton.OnDragOver:= @ToolButtonDragOver;
+  ToolButton.OnEndDrag:= @ToolButtonEndDrag;
+end;
+
 function TKASToolBar.GetChangePath: String;
 begin
   Result:= FBarFile.ChangePath;
@@ -665,7 +677,7 @@ var
   ToolDivider: TKASToolDivider;
 begin
   ToolDivider:= TKASToolDivider.Create(Self);
-  ToolDivider.OnMouseUp:= OnMouseUp;
+  AssignToolButtonProperties(ToolDivider);
 
   InsertButton(ButtonList.Count, ToolDivider);
 
@@ -703,14 +715,7 @@ begin
   ToolButton.Hint:= sHint;
   ToolButton.Flat:= FFlat;
   ToolButton.Caption:= sCaption;
-  ToolButton.OnMouseUp:= OnMouseUp;
-  ToolButton.OnClick:= @ToolButtonClick;
-  ToolButton.OnMouseDown:= @ToolButtonMouseDown;
-  ToolButton.OnMouseUp:= @ToolButtonMouseUp;
-  ToolButton.OnMouseMove:= @ToolButtonMouseMove;
-  ToolButton.OnDragDrop:= @ToolButtonDragDrop;
-  ToolButton.OnDragOver:= @ToolButtonDragOver;
-  ToolButton.OnEndDrag:= @ToolButtonEndDrag;
+  AssignToolButtonProperties(ToolButton);
 
   ToolButton.Glyph.Assign(Bitmap);
 
