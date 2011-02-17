@@ -36,6 +36,7 @@ object frmMain: TfrmMain
     OnDragOver = MainToolBarDragOver
     OnMouseUp = MainToolBarMouseUp
     OnToolButtonClick = MainToolBarToolButtonClick
+    OnToolButtonMouseUp = MainToolBarToolButtonMouseUp
     OnLoadButtonGlyph = MainToolBarLoadButtonGlyph
     GlyphSize = 16
     EnvVar = '%commander_path%'
@@ -75,9 +76,9 @@ object frmMain: TfrmMain
         Flat = True
         ShowCaptions = True
         TabOrder = 0
-        OnMouseUp = dskToolBarMouseUp
         OnResize = dskLeftResize
         OnToolButtonClick = dskToolButtonClick
+        OnToolButtonMouseUp = dskToolButtonMouseUp
         RadioToolBar = True
         GlyphSize = 16
       end
@@ -106,9 +107,9 @@ object frmMain: TfrmMain
         Flat = True
         ShowCaptions = True
         TabOrder = 0
-        OnMouseUp = dskToolBarMouseUp
         OnResize = dskRightResize
         OnToolButtonClick = dskToolButtonClick
+        OnToolButtonMouseUp = dskToolButtonMouseUp
         RadioToolBar = True
         GlyphSize = 16
       end
@@ -167,7 +168,7 @@ object frmMain: TfrmMain
           Align = alLeft
           Constraints.MinHeight = 24
           NumGlyphs = 0
-          OnMouseUp = dskToolBarMouseUp
+          OnMouseUp = btnDriveMouseUp
         end
         object btnLeftHome: TSpeedButton
           Left = 465
@@ -299,7 +300,7 @@ object frmMain: TfrmMain
           Align = alLeft
           Constraints.MinHeight = 24
           NumGlyphs = 0
-          OnMouseUp = dskToolBarMouseUp
+          OnMouseUp = btnDriveMouseUp
         end
         object btnRightHome: TSpeedButton
           Left = 201

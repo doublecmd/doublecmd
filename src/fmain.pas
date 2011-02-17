@@ -387,11 +387,14 @@ type
     procedure btnLeftDirectoryHotlistClick(Sender: TObject);
     procedure btnRightClick(Sender: TObject);
     procedure btnRightDirectoryHotlistClick(Sender: TObject);
+    procedure btnDriveMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure ConsoleSplitterCanResize(Sender: TObject; var NewSize: Integer;
       var Accept: Boolean);
     procedure dskLeftResize(Sender: TObject);
     procedure dskRightResize(Sender: TObject);
+    procedure dskToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
     procedure lblAllProgressPctClick(Sender: TObject);
+    procedure MainToolBarToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
 
 
     procedure miLogMenuClick(Sender: TObject);
@@ -401,8 +404,6 @@ type
     procedure PanelButtonClick(Button: TSpeedButton; SourceFrame: TFileView;
                                PanelSelect: TFilePanelSelect);
     procedure DeleteClick(Sender: TObject);
-    procedure dskToolBarMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -424,7 +425,7 @@ type
       State: TDragState; var Accept: Boolean);
     function MainToolBarLoadButtonGlyph(sIconFileName: String;
       iIconSize: Integer; clBackColor: TColor): TBitmap;
-    procedure MainToolBarMouseUp(Sender: TOBject; Button: TMouseButton;
+    procedure MainToolBarMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
     procedure frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -815,6 +816,23 @@ begin
   pmHotList.PopUp(P.x,P.y);
 end;
 
+procedure TfrmMain.btnDriveMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  pt: TPoint;
+begin
+  if Button = mbRight then
+    with Sender as TSpeedButton do
+    begin
+      if (Tag >= 0) and (Tag < DrivesList.Count) then
+        begin
+          pt.X := X;
+          pt.Y := Y;
+          pt := ClientToScreen(pt);
+          ShowDriveContextMenu(Parent, DrivesList[Tag], pt.X, pt.Y, nil);
+        end;
+    end;
+end;
+
 procedure TfrmMain.ConsoleSplitterCanResize(Sender: TObject;
   var NewSize: Integer; var Accept: Boolean);
 begin
@@ -836,12 +854,22 @@ begin
   pnlDiskRightInner.ClientHeight := dskRight.Height + pnlDiskRightInner.BevelWidth * 2;
 end;
 
+procedure TfrmMain.dskToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
+begin
+  btnDriveMouseUp(Sender, Button, Shift, X, Y);
+end;
+
 procedure TfrmMain.lblAllProgressPctClick(Sender: TObject);
 begin
      if not Assigned(frmViewOperations) then
     Application.CreateForm(TfrmViewOperations, frmViewOperations);
 
   frmViewOperations.ShowOnTop;
+end;
+
+procedure TfrmMain.MainToolBarToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
+begin
+  MainToolBarMouseUp(Sender, Button, Shift, X, Y);
 end;
 
 procedure TfrmMain.miLogMenuClick(Sender: TObject);
@@ -1357,24 +1385,6 @@ begin
   end;
 end;
 
-procedure TfrmMain.dskToolBarMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-var
-  pt: TPoint;
-begin
-  if (Button = mbRight) and (Sender is TSpeedButton) then
-    with Sender as TSpeedButton do
-    begin
-      if (Tag >= 0) and (Tag < DrivesList.Count) then
-        begin
-          pt.X := X;
-          pt.Y := Y;
-          pt := ClientToScreen(pt);
-          ShowDriveContextMenu(Parent, DrivesList[Tag], pt.X, pt.Y, nil);
-        end;
-    end;
-end;
-
 procedure TfrmMain.dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
 var
   dskPanel : TKASToolBar;
@@ -1406,33 +1416,39 @@ begin
   SetActiveFrame(PanelSelected);
 end;
 
-procedure TfrmMain.MainToolBarMouseUp(Sender: TOBject; Button: TMouseButton;
+procedure TfrmMain.MainToolBarMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
-Point : TPoint;
+  Point : TPoint;
 begin
-if (Button = mbRight) then
-   begin
-    Point := Mouse.CursorPos;
-    if (Sender is TSpeedButton) then
-        begin
-          pmToolBar.Tag := (Sender as TSpeedButton).Tag;
-          tbDelete.Enabled := true;
-        end
-    else
-        begin
-          pmToolBar.Tag := -1;
-          tbDelete.Enabled := false;
-        end;
+  if (Sender is TSpeedButton) then
+    pmToolBar.Tag := (Sender as TSpeedButton).Tag
+  else
+    pmToolBar.Tag := -1;
 
-    pmToolBar.PopUp(Point.X, Point.Y);
-   end
-else
-   if (Button = mbMiddle) then
+  case Button of
+    mbMiddle:
       begin
-         tbEditClick(Sender)
+        tbEditClick(Sender);
       end;
 
+    mbRight:
+      begin
+        Point.X := X;
+        Point.Y := Y;
+        Point := (Sender as TControl).ClientToScreen(Point);
+        if (Sender is TSpeedButton) then
+          begin
+            tbDelete.Enabled := True;
+          end
+        else
+          begin
+            tbDelete.Enabled := False;
+          end;
+
+        pmToolBar.PopUp(Point.X, Point.Y);
+      end;
+  end;
 end;
 
 procedure TfrmMain.MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
