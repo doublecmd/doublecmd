@@ -613,7 +613,9 @@ begin
         if CheckMountEntry(pme) then
         begin
           DeviceFile := StrPas(pme^.mnt_fsname);
-          MountPoint := ExcludeTrailingPathDelimiter(StrPas(pme^.mnt_dir));
+          MountPoint := StrPas(pme^.mnt_dir);
+          if MountPoint <> PathDelim then
+            MountPoint := ExcludeTrailingPathDelimiter(MountPoint);
 
           if HaveUDisksDevices then
           begin
@@ -649,7 +651,10 @@ begin
             begin
               UDisksDeviceToDrive(UDisksDevice, Drive);
               Drive^.Path := MountPoint;
-              Drive^.DisplayName := ExtractFileName(Drive^.Path);
+              if MountPoint <> PathDelim then
+                Drive^.DisplayName := ExtractFileName(MountPoint)
+              else
+                Drive^.DisplayName := PathDelim;
             end;
           end;
 
@@ -663,7 +668,10 @@ begin
               begin
                 DeviceId := DeviceFile;
                 Path := MountPoint;
-                DisplayName := ExtractFileName(Path);
+                if MountPoint <> PathDelim then
+                  DisplayName := ExtractFileName(Path)
+                else
+                  DisplayName := PathDelim;
                 DriveLabel := Path;
 
                 if IsPartOfString(['ISO9660', 'CDROM', 'CDRW', 'DVD'], UpperCase(pme^.mnt_type)) then
