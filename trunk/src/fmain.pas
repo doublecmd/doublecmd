@@ -583,6 +583,7 @@ type
     procedure SaveWindowState;
     procedure SaveMainToolBar;
     function  IsCommandLineVisible: Boolean;
+    function  FindMatchingDrive(Path: UTF8String): Integer;
     procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
     procedure UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
     procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
@@ -4054,62 +4055,65 @@ begin
   Result := (edtCommand.Visible and pnlCommand.Visible);
 end;
 
-procedure TfrmMain.UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
+function TfrmMain.FindMatchingDrive(Path: UTF8String): Integer;
 var
   i : Integer;
-  ToolButtonPath : String;
-  Path: String;
+  LongestPathLen: Integer = 0;
+  DrivePath: UTF8String;
+  DrivePathLen: PtrInt;
+begin
+  Result := -1;
+
+  if Assigned(DrivesList) then
+  begin
+    Path := UTF8UpperCase(Path);
+
+    for i := 0 to DrivesList.Count - 1 do
+    begin
+      DrivePath := UTF8UpperCase(DrivesList[i]^.Path);
+      DrivePathLen := UTF8Length(DrivePath);
+      if (DrivePathLen > LongestPathLen) and IsInPath(DrivePath, Path, True) then
+      begin
+        LongestPathLen := DrivePathLen;
+        Result := i;
+      end;
+    end;
+  end;
+end;
+
+procedure TfrmMain.UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
+var
+  DriveIndex: Integer;
 begin
   if not gDriveBar1 and not gDriveBar2 then
     Exit;
 
-  Path := FileView.CurrentPath;
-
-  for i := 0 to DriveToolbar.ButtonCount - 1 do
-  begin
-    ToolButtonPath := DriveToolbar.Commands[i];
-    if IsInPath(UTF8UpperCase(ToolButtonPath), UTF8UpperCase(Path), True) then
-    begin
-      DriveToolbar.Buttons[i].Down := True;
-      Exit;
-    end;
-  end;
-
-  // Path not found in toolbar.
-
-  DriveToolbar.UncheckAllButtons;
+  DriveIndex := FindMatchingDrive(FileView.CurrentPath);
+  if DriveIndex >= 0 then
+    DriveToolbar.Buttons[DriveIndex].Down := True
+  else
+    // Path not found in toolbar.
+    DriveToolbar.UncheckAllButtons;
 end;
 
 procedure TfrmMain.UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
 var
-  i : Integer;
   BitmapTmp: Graphics.TBitmap = nil;
+  DriveIndex: Integer;
   Drive: PDrive;
-  Path: String;
-  Found: Boolean = False;
 begin
   if not gDriveMenuButton then
     Exit;
 
-  Path := FileView.CurrentPath;
-
-  for i := 0 to FDrivesListPopup.DrivesCount - 1 do
+  DriveIndex := FindMatchingDrive(FileView.CurrentPath);
+  if DriveIndex >= 0 then
   begin
-    Drive := DrivesList.Items[i];
-
-    if IsInPath(UTF8UpperCase(Drive^.Path), UTF8UpperCase(Path), True) then
-    begin
-      DriveButton.Caption := Drive^.DisplayName;
-      DriveButton.Tag := i;
-
-      BitmapTmp := PixMapManager.GetDriveIcon(Drive, 22, DriveButton.Color);
-      Found := True;
-      Break;
-    end;
-  end;
-
-  // Path not found in menu.
-  if not Found then
+    Drive := DrivesList[DriveIndex];
+    DriveButton.Caption := Drive^.DisplayName;
+    DriveButton.Tag := DriveIndex;
+    BitmapTmp := PixMapManager.GetDriveIcon(Drive, 22, DriveButton.Color);
+  end
+  else
   begin
     DriveButton.Caption := '';
     DriveButton.Tag := -1;
