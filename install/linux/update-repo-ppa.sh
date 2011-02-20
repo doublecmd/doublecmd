@@ -14,6 +14,14 @@ DC_HELP_DIR=$DC_TEMP_DIR/doublecmd-help-$DC_VER
 # DC revision number
 DC_REVISION=$(svnversion -n ../../)
 
+# Set distribution
+if [ -z $2 ]
+   then
+       export DIST=lucid
+   else
+       export DIST=$2
+fi
+
 # Recreate temp directory
 rm -rf $DC_TEMP_DIR
 mkdir -p $DC_TEMP_DIR
@@ -37,7 +45,7 @@ update_doublecmd()
 
   # Update changelog file
   pushd $DC_SOURCE_DIR/debian
-  dch -m -v $DC_VER-$DC_REVISION~lucid "Update to revision $DC_REVISION"
+  dch -m -D $DIST -v $DC_VER-$DC_REVISION~$DIST "Update to revision $DC_REVISION"
   popd
 
   # Create archive with source code and upload it to PPA
