@@ -103,13 +103,6 @@ function MonthToNumberDef(const ShortMonthName: String; Default: Word): Word;
 function YearShortToLong(Year: Word): Word;
 function TwelveToTwentyFour(Hour: Word; Modifier: AnsiString): Word;
 
-function AdjustUnixTime(const FileTime: uTypes.TFileTime;
-                        out AdjustedFileTime: uTypes.TFileTime;
-                        AdjustValue: Int64): Boolean;
-function AdjustWinTime(const FileTime: uTypes.TWinFileTime;
-                       out AdjustedFileTime: uTypes.TWinFileTime;
-                       AdjustValue: Int64): Boolean;
-
 implementation
 
 {$IFDEF UNIX}
@@ -421,4 +414,4 @@ begin
 end;
 
 end.
-
+
