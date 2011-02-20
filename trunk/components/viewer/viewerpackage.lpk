@@ -5,12 +5,17 @@
     <Name Value="viewerpackage"/>
     <Author Value="Radek Červinka"/>
     <CompilerOptions>
-      <Version Value="8"/>
+      <Version Value="10"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value="$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS)\;$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS)\$(LCLWidgetType)\"/>
+        <OtherUnitFiles Value="$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS);$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS)\$(LCLWidgetType)"/>
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <UseAnsiStrings Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
       <Linking>
         <Debugging>
           <GenerateDebugInfo Value="True"/>
@@ -29,15 +34,18 @@
       </Item1>
       <Item2>
         <Filename Value="unicodeutils.pas"/>
-        <UnitName Value="unicodeutils"/>
+        <UnitName Value="UnicodeUtils"/>
       </Item2>
     </Files>
     <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="1">
+    <RequiredPkgs Count="2">
       <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+      <Item2>
         <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
-      </Item1>
+      </Item2>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)\"/>
