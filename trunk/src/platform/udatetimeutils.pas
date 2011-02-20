@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Date and time functions.
 
-   Copyright (C) 2009 cobines (cobines@gmail.com)
+   Copyright (C) 2009-2011 Przemysław Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -103,6 +103,13 @@ function MonthToNumberDef(const ShortMonthName: String; Default: Word): Word;
 function YearShortToLong(Year: Word): Word;
 function TwelveToTwentyFour(Hour: Word; Modifier: AnsiString): Word;
 
+function AdjustUnixTime(const FileTime: uTypes.TFileTime;
+                        out AdjustedFileTime: uTypes.TFileTime;
+                        AdjustValue: Int64): Boolean;
+function AdjustWinTime(const FileTime: uTypes.TWinFileTime;
+                       out AdjustedFileTime: uTypes.TWinFileTime;
+                       AdjustValue: Int64): Boolean;
+
 implementation
 
 {$IFDEF UNIX}
@@ -121,20 +128,31 @@ function AdjustUnixTime(const FileTime: uTypes.TFileTime;
                         out AdjustedFileTime: uTypes.TFileTime;
                         AdjustValue: Int64): Boolean;
 begin
-  if (AdjustValue < 0) and (FileTime < uTypes.TFileTime(-AdjustValue)) then
+  if AdjustValue < 0 then
   begin
-    AdjustedFileTime := 0;
-    Result := False;
-  end
-  else if (AdjustValue > 0) and (High(FileTime) - FileTime < uTypes.TFileTime(AdjustValue)) then
-  begin
-    AdjustedFileTime := High(FileTime);
-    Result := False;
+    if FileTime < uTypes.TFileTime(-AdjustValue) then
+    begin
+      AdjustedFileTime := 0;
+      Result := False;
+    end
+    else
+    begin
+      AdjustedFileTime := FileTime - uTypes.TFileTime(-AdjustValue);
+      Result := True;
+    end;
   end
   else
   begin
-    AdjustedFileTime := FileTime + uTypes.TFileTime(AdjustValue);
-    Result := True;
+    if High(FileTime) - FileTime < uTypes.TFileTime(AdjustValue) then
+    begin
+      AdjustedFileTime := High(FileTime);
+      Result := False;
+    end
+    else
+    begin
+      AdjustedFileTime := FileTime + uTypes.TFileTime(AdjustValue);
+      Result := True;
+    end;
   end;
 end;
 
@@ -142,20 +160,31 @@ function AdjustWinTime(const FileTime: uTypes.TWinFileTime;
                        out AdjustedFileTime: uTypes.TWinFileTime;
                        AdjustValue: Int64): Boolean;
 begin
-  if (AdjustValue < 0) and (FileTime < uTypes.TFileTime(-AdjustValue)) then
+  if AdjustValue < 0 then
   begin
-    AdjustedFileTime := 0;
-    Result := False;
-  end
-  else if (AdjustValue > 0) and (High(FileTime) - FileTime < uTypes.TFileTime(AdjustValue)) then
-  begin
-    AdjustedFileTime := High(FileTime);
-    Result := False;
+    if FileTime < uTypes.TWinFileTime(-AdjustValue) then
+    begin
+      AdjustedFileTime := 0;
+      Result := False;
+    end
+    else
+    begin
+      AdjustedFileTime := FileTime - uTypes.TWinFileTime(-AdjustValue);
+      Result := True;
+    end;
   end
   else
   begin
-    AdjustedFileTime := FileTime + uTypes.TFileTime(AdjustValue);
-    Result := True;
+    if High(FileTime) - FileTime < uTypes.TWinFileTime(AdjustValue) then
+    begin
+      AdjustedFileTime := High(FileTime);
+      Result := False;
+    end
+    else
+    begin
+      AdjustedFileTime := FileTime + uTypes.TWinFileTime(AdjustValue);
+      Result := True;
+    end;
   end;
 end;
 {$ENDIF}
