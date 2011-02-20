@@ -9,7 +9,7 @@ Build-Depends: libbz2-dev,
                libncurses5-dev,
                libncursesw5-dev,
                debhelper (>= 5),
-	       libqt4pas-dev (>= 2.1),
+               libqt4pas-dev (>= 2.1),
                fpc (>= 2.4.0),
                lcl (>= 0.9.29),
                lcl-qt4 (>= 0.9.29),
@@ -24,7 +24,7 @@ Package: doublecmd-gtk
 Architecture: i386 amd64
 Depends: ${shlibs:Depends},
          ${misc:Depends}
-Replaces: doublecmd-qt
+Replaces: doublecmd-qt, doublecmd (< 0.4.6)
 Suggests: www-browser, libunrar
 Description: twin-panel (commander-style) file manager (GTK2)
  Double Commander is a cross platform open source file manager
@@ -35,7 +35,7 @@ Package: doublecmd-qt
 Architecture: i386 amd64
 Depends: ${shlibs:Depends},
          ${misc:Depends}
-Replaces: doublecmd-gtk
+Replaces: doublecmd-gtk, doublecmd (< 0.4.6)
 Suggests: www-browser, libunrar
 Description: twin-panel (commander-style) file manager (Qt4)
  Double Commander is a cross platform open source file manager
