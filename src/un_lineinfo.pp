@@ -61,6 +61,7 @@
 {$longstrings on}
 {$codepage utf-8}
 {$coperators on}
+{$pointermath on}
 
 {.$DEFINE DEBUG_DWARF_PARSER}
 
