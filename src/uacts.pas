@@ -111,6 +111,7 @@ const cf_Null=0;
    procedure DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean);
    procedure DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage);
    procedure DoSortByFunctions(View: TFileView; FileFunctions: TFileFunctions);
+   procedure DoShowMainMenu(bShow: Boolean);
    //---------------------
 
   published
@@ -203,7 +204,7 @@ const cf_Null=0;
    procedure cm_Options(param: string='');
    procedure cm_CompareContents(param: string='');
    procedure cm_Refresh(param: string='');
-   procedure cm_ShowMenu(param: string='');
+   procedure cm_ShowMainMenu(param: string='');
    procedure cm_DirHotList(param: string='');
    procedure cm_MarkInvert(param: string='');
    procedure cm_MarkMarkAll(param: string='');
@@ -776,6 +777,27 @@ begin
   NewSorting[0].SortDirection := SortDirection;
 
   View.Sorting := NewSorting;
+end;
+
+procedure TActs.DoShowMainMenu(bShow: Boolean);
+begin
+  gMainMenu := bShow;
+
+  with frmMain do
+  begin
+    if bShow then
+    begin
+      Menu := mnuMain;
+    end
+    else if Assigned(Menu) then
+    begin
+      Menu := nil;
+      {$IFDEF MSWINDOWS}
+      // Workaround: on Windows need to recreate window to properly recalculate children sizes.
+      RecreateWnd(frmMain);
+      {$ENDIF}
+    end;
+  end;
 end;
 
 //------------------------------------------------------
@@ -1991,10 +2013,9 @@ begin
   end;
 end;
 
-
-procedure TActs.cm_ShowMenu(param:string);
+procedure TActs.cm_ShowMainMenu(param:string);
 begin
-  // Show main menu on demand when hidden?
+  DoShowMainMenu(not gMainMenu);
 end;
 
 procedure TActs.cm_Refresh(param:string);

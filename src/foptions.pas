@@ -142,6 +142,7 @@ type
     cbbUseFrameCursor: TCheckBox;
     cbShowDriveFreeSpace: TCheckBox;
     cbSaveThubnails: TCheckBox;
+    cbShowMainMenu: TCheckBox;
     chkSearchReplaceHistory: TCheckBox;
     chkSaveConfiguration: TCheckBox;
     chkMultiArcEnabled: TCheckBox;
@@ -2609,6 +2610,7 @@ end;
 procedure TfrmOptions.LoadConfig;
 begin
   { Layout page }
+  cbShowMainMenu.Checked := gMainMenu;
   cbShowMainToolBar.Checked := gButtonBar;
   cbFlatToolBar.Checked := gToolBarFlat;
   cbShowDiskPanel.Checked := gDriveBar1;
@@ -2826,6 +2828,7 @@ end;
 procedure TfrmOptions.SaveConfig;
 begin
   { Layout page }
+  gMainMenu := cbShowMainMenu.Checked;
   gButtonBar := cbShowMainToolBar.Checked;
   gToolBarFlat := cbFlatToolBar.Checked;
   gDriveBar1 := cbShowDiskPanel.Checked;
