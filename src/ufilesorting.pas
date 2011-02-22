@@ -18,9 +18,9 @@ type
 
   TFileSortings = array of TFileSorting;
 
-  { TListSorter }
+  { TFileSorter }
 
-  TListSorter = class
+  TFileSorter = class
     private
       FSortList: TFiles;
       FSortings: TFileSortings;
@@ -59,6 +59,11 @@ type
       constructor Create(Files: TFiles; Sortings: TFileSortings);
 
       procedure Sort;
+
+      {en
+         Sorts files in FilesToSort using ASorting.
+      }
+      class procedure Sort(FilesToSort: TFiles; const ASortings: TFileSortings);
   end;
 
   {en
@@ -91,7 +96,7 @@ type
   {en
      Creates a deep copy of sortings.
   }
-  function CloneSortings(Sortings: TFileSortings): TFileSortings;
+  function CloneSortings(const Sortings: TFileSortings): TFileSortings;
 
   function ICompareByDirectory(item1, item2: TFile; bSortNegative: Boolean):Integer;
   function ICompareByName(item1, item2: TFile; bSortNegative: Boolean):Integer;
@@ -219,7 +224,7 @@ begin
   //   There is already a sorting by filename and extension.
 end;
 
-function CloneSortings(Sortings: TFileSortings): TFileSortings;
+function CloneSortings(const Sortings: TFileSortings): TFileSortings;
 var
   i, j: Integer;
 begin
@@ -389,9 +394,9 @@ begin
     Result[i].SortDirection := ReverseSortDirection(Result[i].SortDirection);
 end;
 
-{ TListSorter }
+{ TFileSorter }
 
-constructor TListSorter.Create(Files: TFiles; Sortings: TFileSortings);
+constructor TFileSorter.Create(Files: TFiles; Sortings: TFileSortings);
 begin
   FSortList := Files;
   FSortings := Sortings;
@@ -402,7 +407,7 @@ begin
   inherited Create;
 end;
 
-procedure TListSorter.CheckSupportedProperties(SupportedFileProperties: TFilePropertiesTypes);
+procedure TFileSorter.CheckSupportedProperties(SupportedFileProperties: TFilePropertiesTypes);
 var
   SortingIndex: Integer;
   FunctionIndex: Integer;
@@ -436,11 +441,29 @@ begin
   end;
 end;
 
-procedure TListSorter.Sort;
+procedure TFileSorter.Sort;
 begin
   if Assigned(FSortList) and (FSortList.Count > 1) and (Length(FSortings) > 0) then
   begin
     QuickSort(FSortList.List.List, 0, FSortList.List.Count-1);
+  end;
+end;
+
+class procedure TFileSorter.Sort(FilesToSort: TFiles; const ASortings: TFileSortings);
+var
+  FileListSorter: TFileSorter;
+  ASortingsCopy: TFileSortings;
+begin
+  ASortingsCopy := CloneSortings(ASortings);
+
+  // Add automatic sorting by name and/or extension if there wasn't any.
+  AddSortingByNameIfNeeded(ASortingsCopy);
+
+  FileListSorter := TFileSorter.Create(FilesToSort, ASortingsCopy);
+  try
+    FileListSorter.Sort;
+  finally
+    FreeAndNil(FileListSorter);
   end;
 end;
 
@@ -461,7 +484,7 @@ end;
   Else return +/- as ICompare****
 }
 
-function TListSorter.MultiCompare(item1, item2: Pointer):Integer;
+function TFileSorter.MultiCompare(item1, item2: Pointer):Integer;
 var
   i : Integer;
 begin
@@ -482,7 +505,7 @@ begin
   end;
 end;
 
-function TListSorter.Compare(FileSorting: TFileSorting; File1, File2: TFile): Integer;
+function TFileSorter.Compare(FileSorting: TFileSorting; File1, File2: TFile): Integer;
 var
   i: Integer;
   bNegative: Boolean;
@@ -570,7 +593,7 @@ begin
 end;
 
 // From FPC: lists.inc.
-Procedure TListSorter.QuickSort(FList: PPointerList; L, R : Longint);
+Procedure TFileSorter.QuickSort(FList: PPointerList; L, R : Longint);
 var
   I, J : Longint;
   P, Q : Pointer;

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, contnrs, syncobjs,
-  uFileView, uDisplayFile, uFile, uFileSource, uFileSorting, uFileProperty,
+  uDisplayFile, uFile, uFileSource, uFileSorting, uFileProperty,
   uFileSourceOperation,
   uFileSourceListOperation;
 
@@ -83,7 +83,6 @@ type
     FListOperationLock: TCriticalSection;
 
     // Data captured from the file view before start.
-    FFileView: TFileView;
     FFileSource: IFileSource;
     FFileSourcesCount: Integer;
     FFileFilter: String;
@@ -105,7 +104,11 @@ type
     procedure Execute; override;
 
   public
-    constructor Create(AFileView: TFileView;
+    constructor Create(AFileSource: IFileSource;
+                       AFileSourcesCount: Integer;
+                       const AFileFilter: String;
+                       const ACurrentPath: String;
+                       const ASorting: TFileSortings;
                        AThread: TThread;
                        AFilePropertiesNeeded: TFilePropertiesTypes;
                        ASetFileListMethod: TSetFileListMethod); reintroduce;
@@ -298,7 +301,11 @@ end;
 
 { TFileListBuilder }
 
-constructor TFileListBuilder.Create(AFileView: TFileView;
+constructor TFileListBuilder.Create(AFileSource: IFileSource;
+                                    AFileSourcesCount: Integer;
+                                    const AFileFilter: String;
+                                    const ACurrentPath: String;
+                                    const ASorting: TFileSortings;
                                     AThread: TThread;
                                     AFilePropertiesNeeded: TFilePropertiesTypes;
                                     ASetFileListMethod: TSetFileListMethod);
@@ -311,13 +318,11 @@ begin
   FListOperation      := nil;
   FListOperationLock  := TCriticalSection.Create;
 
-  // Copy these parameters while it's still safe to access them from the main thread.
-  FFileView             := AFileView;
-  FFileSource           := AFileView.FileSource;
-  FFileSourcesCount     := AFileView.FileSourcesCount;
-  FFileFilter           := AFileView.FileFilter;
-  FCurrentPath          := AFileView.CurrentPath;
-  FSortings             := CloneSortings(AFileView.Sorting);
+  FFileSource           := AFileSource;
+  FFileSourcesCount     := AFileSourcesCount;
+  FFileFilter           := AFileFilter;
+  FCurrentPath          := ACurrentPath;
+  FSortings             := CloneSortings(ASorting);
   FFilePropertiesNeeded := AFilePropertiesNeeded;
   FSetFileListMethod    := ASetFileListMethod;
 end;
@@ -385,7 +390,7 @@ begin
 
     if Assigned(FTmpFileSourceFiles) then
     begin
-      TFileView.Sort(FTmpFileSourceFiles, FSortings);
+      TFileSorter.Sort(FTmpFileSourceFiles, FSortings);
 
       // Check if up-dir '..' is present.
       // If it is present it will usually be the first file.
