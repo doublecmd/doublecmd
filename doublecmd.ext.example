@@ -43,38 +43,38 @@
 
 # Default commands
 [default]
-Open=xdg-open '%p'
+Open=xdg-open %p
 
 ### Sources ###
 
 # C
 [c]
-Open={!EDITOR}%p
-Compile={!SHELL}cc -O -c %f
-#Link={!SHELL}cc -O -o %d/`basename %f .c` %f
+Open={!EDITOR} %p
+Compile={!SHELL} cc -O -c %f
+#Link={!SHELL} cc -O -o %d/`basename %f .c` %f
 
 # Fortran
 [f]
-Open={!EDITOR}%p
-Compile={!SHELL}f77 -O -c %f
-Compile and Link={!SHELL}f77 -O %f
+Open={!EDITOR} %p
+Compile={!SHELL} f77 -O -c %f
+Compile and Link={!SHELL} f77 -O %f
 
 # Pascal and Object Pascal :)
 [dpr|pas|pp]
-Open={!EDITOR}%p
-#Compile={!SHELL} fpc '%p'
+Open={!EDITOR} %p
+#Compile={!SHELL} fpc %p
 
 # Asm
 [s]
-Open={!EDITOR}%p
+Open={!EDITOR} %p
 Assemble={!SHELL} cc -O -c %f
-#Link={!SHELL}cc -O -o %d/`basename %f .s` %f
+#Link={!SHELL} cc -O -o %d/`basename %f .s` %f
 
 # C++
 [C|c|cc]
-Open={!EDITOR}%p
+Open={!EDITOR} %p
 Compile={!SHELL} c++ -O -c %f
-#Link={!SHELL}c++ -O -o %d/`basename %f .c` %f
+#Link={!SHELL} c++ -O -o %d/`basename %f .c` %f
 
 ### Documentation ###
 
@@ -85,7 +85,7 @@ Open={!SHELL} info -f %f
 # Manual page
 [man]
 Open={!SHELL} nroff  -Tlatin2 -mandoc %f | less
-View={!SHELL}nroff  -Tlatin2 -mandoc %f
+View={!SHELL} nroff  -Tlatin2 -mandoc %f
 
 ### Sound files ###
 
@@ -98,24 +98,24 @@ Open=xmms %f
 #Open=tracker %f
 
 [mp3]
-Open=xmms '%p'
+Open=xmms %p
 View=mpg123 -tn1 %f 2>&1|grep -E '^(Title|Album|Comment|MPEG|$)'
 
 ### Multimedia ###
 
 [mpg|mpeg|avi|asf|mov]
-Open=totem '%p'
-#Open=xanim '%f'
-#Open=aviplay '%f'
-#Open=mtv '%f' 2>/dev/null&
-#Open=gtv '%f' 2>/dev/null&
-#Open=plaympeg '%f' 2>/dev/null&
-#Open=mpeg_play '%f' &
-#Open(big)=mpeg_play -dither 2x2 '%f' &
-#Open(gray)=mpeg_play -dither gray '%f' &
+Open=totem %p
+#Open=xanim %f
+#Open=aviplay %f
+#Open=mtv %f 2>/dev/null&
+#Open=gtv %f 2>/dev/null&
+#Open=plaympeg %f 2>/dev/null&
+#Open=mpeg_play %f &
+#Open(big)=mpeg_play -dither 2x2 %f &
+#Open(gray)=mpeg_play -dither gray %f &
 
 [rm|ram]
-Open={!SHELL} mplayer '%f'
+Open={!SHELL} mplayer %f
 #Open=realplay %f&
 
 ### Documents ###
@@ -128,20 +128,20 @@ View with GhostView=gv %f
 
 # PDF
 [pdf]
-Open=xpdf '%f'
-#Open=acroread '%f'
-#Open=ghostview '%f'
-View=pdftotext '%f'
+Open=xpdf %f
+#Open=acroread %f
+#Open=ghostview %f
+View=pdftotext %f
 
 # html
 [html|htm|mht]
-Open=opera '%p'
+Open=opera %p
 #Open=mozilla %p
 View=lynx -dump -force_html %p
 
 #txt
 [txt]
-Open={!EDITOR}%p
+Open={!EDITOR} %p
 
 # StarOffice and OpenOffice
 [sdw]
@@ -155,7 +155,7 @@ Open=abiword %f
 [doc|dot|wri]
 Open=soffice %f
 #Open=koffice %f
-View={!SHELL}catdoc -w %f || word2x -f text %f - || strings %f
+View={!SHELL} catdoc -w %f || word2x -f text %f - || strings %f
 
 # Microsoft Excel Worksheet
 [xls|xlw]
@@ -171,11 +171,11 @@ Convert file to Postscript=dvips %f
 
 # TeX
 [tex]
-Open={!EDITOR}%p
-TeX this file={!SHELL}tex %f
-LaTeX this file={!SHELL}latex %f
-csTeX this file={!SHELL}csplain %f
-csLaTeX this file={!SHELL}cslatex %f
+Open={!EDITOR} %p
+TeX this file={!SHELL} tex %f
+LaTeX this file={!SHELL} latex %f
+csTeX this file={!SHELL} csplain %f
+csLaTeX this file={!SHELL} cslatex %f
 
 ### Miscellaneous ###
 
@@ -188,118 +188,118 @@ View=dbview -b %f
 
 [tar]
 Open={!VFS}
-View={!VIEWER}<?tar tvvf '%p'?>
-Extract={!SHELL}tar xf %f
+View={!VIEWER} <?tar tvvf %p?>
+Extract={!SHELL} tar xf %f
 
 [tgz]
 Open={!VFS}
-View={!VIEWER}<?gzip -dc %f 2>/dev/null | tar tvvf -?>
-Extract={!SHELL}gzip -dc %f 2>/dev/null | tar xzf -
+View={!VIEWER} <?gzip -dc %f 2>/dev/null | tar tvvf -?>
+Extract={!SHELL} gzip -dc %f 2>/dev/null | tar xzf -
 
 [bz]
 Open={!VFS}
-View={!VIEWER}<?bzip -dc %f 2>/dev/null?>
-Extract={!SHELL}bzip -dc %f 2>/dev/null
+View={!VIEWER} <?bzip -dc %f 2>/dev/null?>
+Extract={!SHELL} bzip -dc %f 2>/dev/null
 
 [bz2]
 Open={!VFS}
-View={!VIEWER}<?bzip2 -dc %f 2>/dev/null?>
-Extract={!SHELL}bzip2 -dc %f 2>/dev/null
+View={!VIEWER} <?bzip2 -dc %f 2>/dev/null?>
+Extract={!SHELL} bzip2 -dc %f 2>/dev/null
 
 # zip
 [zip|jar]
 Open={!VFS}
-View={!VIEWER}<?unzip -v %f?>
-Extract={!SHELL}unzip %f
+View={!VIEWER} <?unzip -v %f?>
+Extract={!SHELL} unzip %f
 #Extract (with flags)=I=%{Enter any Unzip flags:}; if test -n "$I"; then unzip $I %f; fi
-Unzip={!SHELL}unzip %f '*'
+Unzip={!SHELL} unzip %f '*'
 
 # zoo
 [zoo]
 Open={!VFS}
-View={!VIEWER}<?zoo l %f?>
-Extract={!SHELL}zoo x %f '*'
+View={!VIEWER} <?zoo l %f?>
+Extract={!SHELL} zoo x %f '*'
 
 # lha
 [lha]
 Open={!VFS}
-View={!VIEWER}<?lharc l %f?>
-Extract={!SHELL}lharc x %f '*'
+View={!VIEWER} <?lharc l %f?>
+Extract={!SHELL} lharc x %f '*'
 #Extract (with flags)=I=%{Enter any LHarc flags:}; if test -n "$I"; then lharc x $I %f; fi
 
 # arj
 [arj]
 Open={!VFS}
-View={!VIEWER}<?unarj l '%p'?>
-Extract={!SHELL}unarj x %f '*'
+View={!VIEWER} <?unarj l %p?>
+Extract={!SHELL} unarj x %f '*'
 #Extract (with flags)=I=%{Enter any Unarj flags:}; if test -n "$I"; then unarj x $I %f; fi
 
 # ha
 [ha]
 Open={!VFS}
-View={!VIEWER}<?ha lf '%p'?>
-Extract={!SHELL}ha xy %f '*'
+View={!VIEWER} <?ha lf %p?>
+Extract={!SHELL} ha xy %f '*'
 #	Extract (with flags)=I=%{Enter any HA flags:}; if test -n "$I"; then ha xy $I %f; fi
 
 # rar
 [rar|r00|r02|r02|r03|r04|r05|r06|r07|r08|r09]
 Open={!VFS}
-View={!VIEWER}<?rar v -c- '%p'?>
-Extract={!SHELL}rar x -c- %f '*'
+View={!VIEWER} <?rar v -c- %p?>
+Extract={!SHELL} rar x -c- %f '*'
 #	Extract (with flags)=I=%{Enter any RAR flags:}; if test -n "$I";then rar x $I %f; fi
 
 #compress
 [Z]
 Open={!VFS}
-View={!SHELL}compress -dc '%f'
-Extract={!SHELL}compress -dc '%f'
+View={!SHELL} compress -dc %f
+Extract={!SHELL} compress -dc %f
 
 # cpio
 [cpio]
 Open={!VFS}
-View={!SHELL}cat '%f' | cpio -ictv
-Extract={!SHELL}cat '%f' | cpio -ic
+View={!SHELL} cat %f | cpio -ictv
+Extract={!SHELL} cat %f | cpio -ic
 
 # gzip
 [gz]
 Open={!VFS}
-View={!VIEWER}<?gzip -dc %f 2>/dev/null?>
-Uncompress={!SHELL}gunzip %f
+View={!VIEWER} <?gzip -dc %f 2>/dev/null?>
+Uncompress={!SHELL} gunzip %f
 
 # bzip2
 [bz2|bzip2]
 Open={!VFS}
-View={!VIEWER}<?bzip2 -dc %f 2>/dev/null?>
-Uncompress={!SHELL}bunzip2 %f
+View={!VIEWER} <?bzip2 -dc %f 2>/dev/null?>
+Uncompress={!SHELL} bunzip2 %f
 
 # bzip
 [bz|bzip]
 Open={!VFS}
-View={!VIEWER}<?bzip -dc %f 2>/dev/null?>
-Uncompress={!SHELL}bunzip %f
+View={!VIEWER} <?bzip -dc %f 2>/dev/null?>
+Uncompress={!SHELL} bunzip %f
 
 # ace
 [ace]
 Open={!VFS}
-Uncompress={!SHELL}unace e '%p'
+Uncompress={!SHELL} unace e %p
 
 # Source RPMs (SuSE uses *.spm, others use *.src.rpm)
 [spm|srcm]
 Open={!VFS}
-View={!VIEWER}<?rpm -qivlp --scripts '%p'?>
-Install this RPM={!SHELL}rpm -i %f
-Rebuild this RPM={!SHELL}rpm --rebuild %f
-Check signature={!SHELL}rpm --checksig %f
+View={!VIEWER} <?rpm -qivlp --scripts %p?>
+Install this RPM={!SHELL} rpm -i %f
+Rebuild this RPM={!SHELL} rpm --rebuild %f
+Check signature={!SHELL} rpm --checksig %f
 
 # Compiled RPMs
 [rpm]
 Open={!VFS}
-View={!VIEWER}<?rpm -qivlp --scripts '%p'?>
-Install this RPM={!SHELL}rpm -i '%p'
-Upgrade this RPM={!SHELL}rpm -U '%p'
-Check signature={!SHELL}rpm --checksig '%f'
+View={!VIEWER}<?rpm -qivlp --scripts %p?>
+Install this RPM={!SHELL} rpm -i %p
+Upgrade this RPM={!SHELL} rpm -U %p
+Check signature={!SHELL} rpm --checksig %f
 
 # deb
 [deb]
 Open={!VFS}
-View={!VIEWER}<?dpkg-deb -c '%p'?>
+View={!VIEWER} <?dpkg-deb -c %p?>
