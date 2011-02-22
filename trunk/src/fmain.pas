@@ -340,7 +340,7 @@ type
     actOptions: TAction;
     mnuFilesCmpCnt: TMenuItem;
     actCompareContents: TAction;
-    actShowMenu: TAction;
+    actShowMainMenu: TAction;
     actRefresh: TAction;
     actSearch: TAction;
     actDirHotList: TAction;
@@ -3596,6 +3596,9 @@ begin
     UpdateDriveButtonSelection(btnLeftDrive, FrameLeft);
     UpdateDriveButtonSelection(btnRightDrive, FrameRight);
     (*/ Disk Panels *)
+
+    (*Main menu*)
+    Actions.DoShowMainMenu(gMainMenu);
 
     (*Tool Bar*)
     MainToolBar.Visible:= gButtonBar;

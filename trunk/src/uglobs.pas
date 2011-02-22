@@ -95,6 +95,7 @@ var
   ColSet:TPanelColumnsList;
   
   { Layout page }
+  gMainMenu,
   gButtonBar,
   gToolBarFlat,
   gDriveBar1,
@@ -643,6 +644,7 @@ begin
   gInactivePanelBrightness := 100; // Full brightness
 
   { Layout page }
+  gMainMenu := True;
   gButtonBar := True;
   gToolBarFlat := True;
   gToolBarButtonSize := 16;
@@ -1431,6 +1433,7 @@ begin
     Node := Root.FindNode('Layout');
     if Assigned(Node) then
     begin
+      gMainMenu := GetValue(Node, 'MainMenu', gMainMenu);
       SubNode := Node.FindNode('ButtonBar');
       if Assigned(SubNode) then
       begin
@@ -1701,6 +1704,7 @@ begin
 
     { Layout page }
     Node := FindNode(Root, 'Layout', True);
+    SetValue(Node, 'MainMenu', gMainMenu);
     SubNode := FindNode(Node, 'ButtonBar', True);
     SetAttr(SubNode, 'Enabled', gButtonBar);
     SetValue(SubNode, 'FlatIcons', gToolBarFlat);

@@ -7,7 +7,6 @@ object frmMain: TfrmMain
   ClientHeight = 344
   ClientWidth = 760
   KeyPreview = True
-  Menu = mnuMain
   OnClose = frmMainClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
@@ -1700,7 +1699,7 @@ object frmMain: TfrmMain
       HelpType = htKeyword
       OnExecute = actExecute
     end
-    object actShowMenu: TAction
+    object actShowMainMenu: TAction
       Category = 'Classic'
       Caption = 'Menu F9'
       HelpType = htKeyword
