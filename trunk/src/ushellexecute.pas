@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains some functions for open files in associated applications.
 
-    Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -408,11 +408,6 @@ begin
 end;
 
 procedure ReplaceExtCommand(var sCmd:String; aFile: TFile; ActiveDir: String);
-var
-  sTmpFile, sCmdLine: String;
-  iStart,
-  iCount: Integer;
-  Process: TProcessUTF8;
 begin
   with aFile do
   begin
@@ -421,43 +416,45 @@ begin
     sCmd:= StringReplace(sCmd,'%d',QuoteStr(Path),[rfReplaceAll]);
     sCmd:= StringReplace(sCmd,'%p',QuoteStr(Path + Name),[rfReplaceAll]);
     sCmd:= Trim(sCmd);
-
-    (*
-      Check for <? ?> command.
-      This command is used to put output of some console program to a file so
-      that the file can then be viewed. The command is between '<?' and '?>'.
-      The whole <?...?> expression is replaced with a path to the temporary file
-      containing output of the command.
-      For example:
-      {!VIEWER} <?rpm -qivlp --scripts %p?>
-      Show in Viewer information about RPM package
-    *)
-    if Pos('<?', sCmd) <> 0 then
-      begin
-        iStart:= Pos('<?', sCmd) + 2;
-        iCount:= Pos('?>', sCmd) - iStart;
-        sTmpFile := GetTempFolder + Name + '.tmp';
-        sCmdLine := Copy(sCmd, iStart, iCount) + ' > ' + QuoteStr(sTmpFile);
-        Process:= TProcessUTF8.Create(nil);
-        try
-          Process.CommandLine:= FormatShell(sCmdLine);
-          Process.Options:= [poNoConsole, poWaitOnExit];
-          Process.Execute;
-        finally
-          Process.Free;
-        end;
-
-        sCmd:= Copy(sCmd, 1, iStart-3) + sTmpFile + Copy(sCmd, iStart + iCount + 2, MaxInt);
-      end;
   end;
 end;
 
 function ProcessExtCommand(sCmd:String; ActiveDir: String): Boolean;
 var
   bTerm: Boolean;
+  sTmpFile, sCmdLine: String;
+  iStart,
+  iCount: Integer;
+  Process: TProcessUTF8;  
 begin
   Result:= False;
   bTerm:= False;
+  (*
+    Check for <? ?> command.
+    This command is used to put output of some console program to a file so
+    that the file can then be viewed. The command is between '<?' and '?>'.
+    The whole <?...?> expression is replaced with a path to the temporary file
+    containing output of the command.
+    For example:
+    {!VIEWER} <?rpm -qivlp --scripts %p?>
+    Show in Viewer information about RPM package
+  *)
+  if Pos('<?', sCmd) <> 0 then
+    begin
+      iStart:= Pos('<?', sCmd) + 2;
+      iCount:= Pos('?>', sCmd) - iStart;
+      sTmpFile := GetTempName(GetTempFolder) + '.tmp';
+      sCmdLine := Copy(sCmd, iStart, iCount) + ' > ' + QuoteStr(sTmpFile);
+      Process:= TProcessUTF8.Create(nil);
+      try
+        Process.CommandLine:= FormatShell(sCmdLine);
+        Process.Options:= [poNoConsole, poWaitOnExit];
+        Process.Execute;
+      finally
+        Process.Free;
+      end;
+      sCmd:= Copy(sCmd, 1, iStart-3) + sTmpFile + Copy(sCmd, iStart + iCount + 2, MaxInt);
+    end;  
   if Pos('{!SHELL}', sCmd) > 0 then
   begin
     sCmd:= Trim(StringReplace(sCmd,'{!SHELL}','',[rfReplaceAll]));
