@@ -4088,15 +4088,15 @@ procedure TfrmMain.UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileVi
 var
   DriveIndex: Integer;
 begin
-  if not gDriveBar1 and not gDriveBar2 then
-    Exit;
-
-  DriveIndex := FindMatchingDrive(FileView.CurrentPath);
-  if DriveIndex >= 0 then
-    DriveToolbar.Buttons[DriveIndex].Down := True
-  else
-    // Path not found in toolbar.
-    DriveToolbar.UncheckAllButtons;
+  if DriveToolbar.IsVisible then
+  begin
+    DriveIndex := FindMatchingDrive(FileView.CurrentPath);
+    if (DriveIndex >= 0) and (DriveIndex < DriveToolbar.ButtonCount) then
+      DriveToolbar.Buttons[DriveIndex].Down := True
+    else
+      // Path not found in toolbar.
+      DriveToolbar.UncheckAllButtons;
+  end;
 end;
 
 procedure TfrmMain.UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
