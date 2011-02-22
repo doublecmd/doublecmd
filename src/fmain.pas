@@ -4413,9 +4413,9 @@ procedure TfrmMain.CloseNotebook(ANotebook: TFileViewNotebook);
 var
   i: Integer;
 begin
-  // First stop all work in threads.
+  // First stop all workers.
   for i := 0 to ANotebook.PageCount - 1 do
-    ANotebook.View[i].StopBackgroundWork;
+    ANotebook.View[i].StopWorkers;
   // Then remove file views.
   ANotebook.RemoveAllPages;
 end;
