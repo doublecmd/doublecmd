@@ -47,7 +47,7 @@ build_nightly()
   fpc src/extractdwrflnfo.lpr
   
   # Extract debug line info
-  chmod a-x src/extractdwrflnfo
+  chmod a+x src/extractdwrflnfo
   src/extractdwrflnfo doublecmd
   
   # Strip debug info
