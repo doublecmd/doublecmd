@@ -375,6 +375,7 @@ begin
   FBarFile.SetButtonX(Index, What, Value);
   if What = ButtonX then
     begin
+      if FBarFile.GetButtonX(Index, MenuX)= '-' then Value:= '-'; // To pass separator to FOnLoadButtonGlyph
       if Assigned(FOnLoadButtonGlyph) then
         Bitmap := FOnLoadButtonGlyph(Value, FGlyphSize, Color)
       else
@@ -528,6 +529,7 @@ begin
   else
     FBarFile.RemoveButton(ButtonIndex);
   UpdateButtonsTags;
+  ResizeButtons;
 end;
 
 procedure TKASToolBar.UpdateButtonsTags;
@@ -734,6 +736,7 @@ function TKASToolBar.InsertButton(InsertAt: Integer; sCaption, sCommand, sHint, 
 var
   Bitmap: TBitmap = nil;
 begin
+  if sHint = '-' then sBitmap:= sHint;  // To pass separator to FOnLoadButtonGlyph
   if Assigned(FOnLoadButtonGlyph) then
     Bitmap:= FOnLoadButtonGlyph(sBitmap, FGlyphSize, clBtnFace)
   else

@@ -95,8 +95,6 @@ type
       NumberOfButton: Integer);
     procedure ktbBarToolButtonDragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean; NumberOfButton: Integer);
-    procedure ktbBarToolButtonEndDrag(Sender, Target: TObject; X, Y: Integer;
-      NumberOfButton: Integer);
     procedure ktbBarToolButtonMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
     procedure ktbBarToolButtonMouseMove(Sender: TObject; Shift: TShiftState; X,
@@ -222,6 +220,9 @@ begin
     edtToolTip.Text:= '-'
   else if edtToolTip.Text= '-' then
     edtToolTip.Text:= EmptyStr;
+  if LastToolButton > -1 then
+    if (ktbBar.Buttons[LastToolButton].Down = True) and (kedtIconFileName.Caption = '') then
+        ktbBar.Buttons[LastToolButton].Glyph.Assign(ktbBarLoadButtonGlyph(edtToolTip.Text, ktbBar.GlyphSize, Color));
 end;
 
 procedure TfrmConfigToolBar.edtToolTipChange(Sender: TObject);
@@ -347,14 +348,24 @@ function TfrmConfigToolBar.ktbBarLoadButtonGlyph(sIconFileName: String;
   iIconSize: Integer; clBackColor: TColor): TBitmap;
 begin
   Result := PixMapManager.LoadBitmapEnhanced(sIconFileName, iIconSize, clBackColor);
+
+  if (sIconFileName = '-') then  // Paint 'separator' icon
+    begin
+      Result := TBitmap.Create;
+      Result.SetSize(iIconSize,iIconSize);
+      Result.Canvas.Brush.Color:= clBtnFace;
+      Result.Canvas.FillRect(Rect(0,0,iIconSize,iIconSize));
+      Result.Canvas.Brush.Color:= clBtnText;
+      Result.Canvas.RoundRect(Rect(Round(iIconSize * 0.4), 2, Round(iIconSize * 0.6), iIconSize - 2),iIconSize div 8,iIconSize div 4);
+    end;
 end;
 
 (*Select button on panel*)
 procedure TfrmConfigToolBar.ktbBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
 begin
+  LastToolButton := NumberOfButton;
   LoadButton(NumberOfButton);
   ktbBar.Buttons[NumberOfButton].Down:=True;
-  LastToolButton := NumberOfButton;
   WakeSleepControls;
 end;
 
@@ -397,7 +408,7 @@ if edtToolTip.Text= '-' then
   lblToolTip.Enabled := MakeEnabled;
   edtToolTip.Enabled := MakeEnabled;
   edtToolTip.Color := EditBarsColor;
-  cbIsSeparator.Enabled := MakeEnabled;
+  cbIsSeparator.Checked := edtToolTip.Text='-';
   btnCloneButton.Enabled := MakeEnabled;
   btnDeleteButton.Enabled := MakeEnabled;
   btnAppendButton.Caption:= AddButtonName;
@@ -419,9 +430,9 @@ begin
   cbCommand.Text := ktbBar.GetButtonX(NumberOfButton,CmdX);
   kedtIconFileName.Text := ktbBar.GetButtonX(NumberOfButton,ButtonX);
   edtToolTip.Text := ktbBar.GetButtonX(NumberOfButton,MenuX);
-  sbIconExample.Glyph := ktbBar.Buttons[NumberOfButton].Glyph;
   edtParams.Text:= ktbBar.GetButtonX(NumberOfButton,ParamX);
   edtStartPath.Text:= ktbBar.GetButtonX(NumberOfButton,PathX);
+  sbIconExample.Glyph := ktbBar.Buttons[NumberOfButton].Glyph;
 end;
 
 procedure TfrmConfigToolBar.CopyButton(SourceButton, DestinationButton: Integer);
@@ -442,11 +453,11 @@ begin
    if (LastToolButton >= 0) and (ktbBar.ButtonCount > 0) then
       begin
        //---------------------
+       ktbBar.SetButtonX(LastToolButton,MenuX,edtToolTip.Text);
        ktbBar.SetButtonX(LastToolButton,CmdX,cbCommand.Text);
        ktbBar.SetButtonX(LastToolButton,ParamX,edtParams.Text);
        ktbBar.SetButtonX(LastToolButton,PathX,edtStartPath.Text);
        ktbBar.SetButtonX(LastToolButton,ButtonX,kedtIconFileName.Text);
-       ktbBar.SetButtonX(LastToolButton,MenuX,edtToolTip.Text);
        //---------------------
       end;
 end;
@@ -496,28 +507,27 @@ begin
     end;
 end;
 
+(* Select button after it is dragged*)
 procedure TfrmConfigToolBar.ktbBarToolButtonDragDrop(Sender, Source: TObject;
   X, Y: Integer; NumberOfButton: Integer);
 begin
-  ktbBar.MoveButton((Source as TSpeedButton).Tag, (Sender as TSpeedButton).Tag);
-  tbScrollBoxClick(Sender);
   ktbBarToolButtonClick(Sender, NumberOfButton)
 end;
 
+(* Move button if it is dragged*)
 procedure TfrmConfigToolBar.ktbBarToolButtonDragOver(Sender, Source: TObject;
   X, Y: Integer; State: TDragState; var Accept: Boolean; NumberOfButton: Integer);
 begin
-  // Some type checks to be here
-  if ((Sender as TSpeedButton).Tag) <> ((Source as TSpeedButton).Tag) then
-  Accept:=True;
+  if not (Source is TSpeedButton) then exit;
+  if (ToolDragButtonNumber <>(Sender as TSpeedButton).Tag) then
+    begin
+      ktbBar.MoveButton((Source as TSpeedButton).Tag, (Sender as TSpeedButton).Tag);
+      ToolDragButtonNumber := (Sender as TSpeedButton).Tag;
+      Accept:=True;
+    end;
 end;
 
-procedure TfrmConfigToolBar.ktbBarToolButtonEndDrag(Sender, Target: TObject; X,
-  Y: Integer; NumberOfButton: Integer);
-begin
-
-end;
-
+(* Do not start drag in here, because oterwise button wouldn't be pushed down*)
 procedure TfrmConfigToolBar.ktbBarToolButtonMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer;
   NumberOfButton: Integer);
@@ -527,6 +537,7 @@ begin
   ToolButtonMouseY:=Y;
 end;
 
+(* Start dragging only if mbLeft if pressed and mouse moved.*)
 procedure TfrmConfigToolBar.ktbBarToolButtonMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
 begin
@@ -538,6 +549,7 @@ begin
     end;
 end;
 
+(* End button drag*)
 procedure TfrmConfigToolBar.ktbBarToolButtonMouseUp(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer;
   NumberOfButton: Integer);
@@ -588,15 +600,16 @@ begin
     end;
 end;
 
+// Deselect any selected button
 procedure TfrmConfigToolBar.tbScrollBoxClick(Sender: TObject);
 begin
-  ClearControls;
   LastToolButton := GetSelectedButton;
   if LastToolButton > -1 then
     begin
       ktbBar.Buttons[LastToolButton].Down:=False;
       LastToolButton := -1;
     end;
+  ClearControls;
   WakeSleepControls;
 end;
 
