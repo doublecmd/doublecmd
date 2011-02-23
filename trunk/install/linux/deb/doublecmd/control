@@ -24,7 +24,8 @@ Package: doublecmd-gtk
 Architecture: i386 amd64
 Depends: ${shlibs:Depends},
          ${misc:Depends}
-Conflicts: doublecmd
+Provides: doublecmd
+Conflicts: doublecmd (<= 0.4.5.2)
 Replaces: doublecmd, doublecmd-qt
 Suggests: www-browser, libunrar
 Description: twin-panel (commander-style) file manager (GTK2)
@@ -36,7 +37,8 @@ Package: doublecmd-qt
 Architecture: i386 amd64
 Depends: ${shlibs:Depends},
          ${misc:Depends}
-Conflicts: doublecmd
+Provides: doublecmd
+Conflicts: doublecmd (<= 0.4.5.2)
 Replaces: doublecmd, doublecmd-gtk
 Suggests: www-browser, libunrar
 Description: twin-panel (commander-style) file manager (Qt4)
