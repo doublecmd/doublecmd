@@ -35,7 +35,7 @@ unit uDCUtils;
 interface
 
 uses
-  Classes, SysUtils, Graphics, StdCtrls, uFile
+  Classes, SysUtils, Graphics, Controls, StdCtrls, uFile
   {$IF DEFINED(UNIX)}
   , uTypes
   {$ENDIF}
@@ -376,6 +376,8 @@ function EstimateRemainingTime(StartValue, CurrentValue, EndValue: Int64;
                                out SpeedPerSecond: Int64): TDateTime;
 
 function ModColor(AColor: TColor; APercent: Byte) : TColor;
+
+procedure EnableControl(Control:  TControl; Enabled: Boolean);
 
 implementation
 
@@ -1535,6 +1537,23 @@ begin
   G := G * APercent div 100;
   B := B * APercent div 100;
   Result := RGBToColor(R, G, B);
+end;
+
+procedure EnableControl(Control: TControl; Enabled: Boolean);
+begin
+  Control.Enabled:= Enabled;
+  {$IF DEFINED(LCLWIN32)}
+  if Enabled then
+    begin
+      Control.Color:= clDefault;
+      Control.Font.Color:= clDefault;
+    end
+  else
+    begin
+      Control.Color:= clBtnFace;
+      Control.Font.Color:= clGrayText;
+    end;
+  {$ENDIF}
 end;
 
 end.
