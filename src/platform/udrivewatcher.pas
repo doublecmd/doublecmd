@@ -54,7 +54,7 @@ uses
   {$IFDEF UNIX}
   Unix, uMyUnix, LCLProc
    {$IFDEF BSD}
-   , StrUtils
+   , BSD, BaseUnix, StrUtils
    {$ENDIF}
    {$IFDEF LINUX}
    , inotify, uUDisks, uFileSystemWatcher, uDCUtils
@@ -77,6 +77,35 @@ type
   end;
 {$ENDIF}
 
+{$IFDEF BSD}
+const
+  {$warning Remove this two constants when they are added to FreePascal}
+  NOTE_MOUNTED = $0008;
+  NOTE_UMOUNTED = $0010;
+
+type
+  TKQueueDriveEvent = procedure(Event: TDriveWatcherEvent);
+
+  TKQueueDriveEventWatcher = class(TThread)
+    private
+      kq: Longint;
+      Event: TDriveWatcherEvent;
+      FErrorMsg: String;
+      FOnError: TNotifyEvent;
+      FOnDriveEvent: TKQueueDriveEvent;
+      procedure RaiseErrorEvent;
+      procedure RaiseDriveEvent;
+    protected
+      procedure Execute; override;
+      procedure DoTerminate; override;
+    public
+      property ErrorMsg: String read FErrorMsg;
+      property OnError: TNotifyEvent read FOnError write FOnError;
+      property OnDriveEvent: TKQueueDriveEvent read FOnDriveEvent write FOnDriveEvent;
+      constructor Create();
+    end;
+{$ENDIF}
+
 var
   FObservers: TDriveWatcherObserverList = nil;
   InitializeCounter: Integer = 0;
@@ -87,6 +116,9 @@ var
   {$ENDIF}
   {$IFDEF MSWINDOWS}
   OldWProc: WNDPROC;
+  {$ENDIF}
+  {$IFDEF BSD}
+  KQueueDriveWatcher: TKQueueDriveEventWatcher;
   {$ENDIF}
 
 procedure DoDriveAdded(const ADrive: PDrive);
@@ -138,6 +170,18 @@ begin
 end;
 {$ENDIF}
 
+{$IFDEF BSD}
+procedure KQueueDriveWatcher_OnDriveEvent(Event: TDriveWatcherEvent);
+begin
+  case Event of
+    dweDriveAdded:
+      DoDriveAdded(nil);
+    dweDriveRemoved:
+      DoDriveRemoved(nil);
+  end; { case }
+end;
+{$ENDIF}
+
 class procedure TDriveWatcher.Initialize(Handle: HWND);
 begin
   Inc(InitializeCounter);
@@ -167,6 +211,12 @@ begin
   {$IFDEF MSWINDOWS}
   SetMyWndProc(Handle);
   {$ENDIF}
+
+  {$IFDEF BSD}
+  KQueueDriveWatcher := TKQueueDriveEventWatcher.Create();
+  KQueueDriveWatcher.OnDriveEvent := @KQueueDriveWatcher_OnDriveEvent;
+  KQueueDriveWatcher.Resume;
+  {$ENDIF}
 end;
 
 class procedure TDriveWatcher.Finalize;
@@ -187,6 +237,11 @@ begin
     FreeAndNil(EtcDirWatcher);
   if Assigned(FakeClass) then
     FreeAndNil(FakeClass);
+  {$ENDIF}
+
+  {$IFDEF BSD}
+  KQueueDriveWatcher.Terminate;
+  FreeAndNil(KQueueDriveWatcher);
   {$ENDIF}
 
   if Assigned(FObservers) then
@@ -902,6 +957,102 @@ begin
     if Assigned(ADrive) then
       Dispose(ADrive);
   end;
+end;
+{$ENDIF}
+
+{$IFDEF BSD}
+{ TKQueueDriveEventWatcher }
+
+procedure TKQueueDriveEventWatcher.RaiseErrorEvent;
+begin
+  DebugLn(Self.ErrorMsg);
+  if Assigned(Self.FOnError) then
+    Self.FOnError(Self);
+end;
+
+procedure TKQueueDriveEventWatcher.RaiseDriveEvent;
+begin
+  if Assigned(Self.FOnDriveEvent) then
+    Self.FOnDriveEvent(Self.Event);
+end;
+
+procedure TKQueueDriveEventWatcher.Execute;
+const
+  KQUEUE_TIMEOUT = 0;
+  KQUEUE_ERROR = -1;
+var
+  timeOut: TTimeSpec;
+  ke: TKEvent;
+begin
+  Self.kq := kqueue();
+  if Self.kq = KQUEUE_ERROR then
+  begin
+    Self.FErrorMsg := 'ERROR: kqueue()';
+    Synchronize(@Self.RaiseErrorEvent);
+    exit;
+  end; { if }
+
+  FillByte(ke, SizeOf(ke), 0);
+  EV_SET(@ke, 1, EVFILT_FS, EV_ADD, 0, 0, nil);
+  if kevent(kq, @ke, 1, nil, 0, nil) = KQUEUE_ERROR then
+  begin
+    Self.FErrorMsg := 'ERROR: kevent()';
+    Synchronize(@Self.RaiseErrorEvent);
+    exit;
+  end; { if }
+
+  timeOut.tv_sec := 1;
+  timeOut.tv_nsec := 0;
+
+  while not Terminated do
+  begin
+    FillByte(ke, SizeOf(ke), 0);
+    case kevent(kq, nil, 0, @ke, 1, @timeOut) of
+      KQUEUE_ERROR:
+        break;
+      KQUEUE_TIMEOUT:
+        continue;
+    end; { case }
+
+    if (ke.FFlags and NOTE_DELETE <> 0) then
+      break
+    else if (ke.FFlags and NOTE_MOUNTED <> 0) then
+    begin
+      Self.Event := dweDriveAdded;
+{$IFDEF DARWIN}
+      Sleep(1 * 1000); // wait so drive gets available in MacOSX
+{$ENDIF}
+      Synchronize(@Self.RaiseDriveEvent);
+    end { else if }
+    else if (ke.FFlags and NOTE_UMOUNTED <> 0) then
+    begin
+      Self.Event := dweDriveRemoved;
+{$IFDEF DARWIN}
+      Sleep(1 * 1000); // wait so drive disappears in MacOSX
+{$ENDIF}
+      Synchronize(@Self.RaiseDriveEvent);
+    end; { else if }
+  end; { while }
+
+  FpClose(Self.kq);
+end;
+
+procedure TKQueueDriveEventWatcher.DoTerminate;
+var
+  ke: TKEvent;
+begin
+  FillByte(ke, SizeOf(ke), 0);
+  EV_SET(@ke, 1, EVFILT_FS, EV_DELETE, 0, 0, nil);
+  kevent(Self.kq, @ke, 1, nil, 0, nil);
+
+  inherited DoTerminate;
+end;
+
+constructor TKQueueDriveEventWatcher.Create();
+begin
+  Self.FreeOnTerminate := true;
+
+  inherited Create(true);
 end;
 {$ENDIF}
 
