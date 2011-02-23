@@ -20,12 +20,12 @@ if [ $2 ]
   then export lcl=$2
 fi
 if [ $lcl ]
-  then export DC_ARCH=$(echo "$DC_ARCH --widgetset=$lcl")
+  then export DC_ARCH=$(echo "--widgetset=$lcl $DC_ARCH")
 fi
 
 # Set up processor architecture
 if [ $CPU_TARGET ] 
-  then export DC_ARCH=$(echo "$DC_ARCH --cpu=$CPU_TARGET")
+  then export DC_ARCH=$(echo "--cpu=$CPU_TARGET $DC_ARCH")
 fi
 
 build_default()
