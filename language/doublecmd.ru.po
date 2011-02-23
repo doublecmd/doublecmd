@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-02-06 22:36+0300\n"
+"PO-Revision-Date: 2011-02-23 12:36+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2094,9 +2094,10 @@ msgid "Place cursor on last file in list"
 msgstr "Поместить курсор на последний файл в списке"
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
+#| msgid "Create link..."
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
-msgid "Create link..."
-msgstr "Создать &ссылку..."
+msgid "Create hard link..."
+msgstr "Создать &жесткую ссылку..."
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
 #| msgid "Contents"
@@ -2344,7 +2345,8 @@ msgstr "Показать кнопочное меню"
 msgid "Show command line history"
 msgstr "История командной строки"
 
-#: TFRMMAIN.ACTSHOWMENU.CAPTION
+#: TFRMMAIN.ACTSHOWMAINMENU.CAPTION
+msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
 msgid "Menu F9"
 msgstr "Меню F9"
 
@@ -2378,8 +2380,10 @@ msgid "Enable/disable ignore list file to not show file names"
 msgstr "Функция исключений файловых имён: вкл/выкл"
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
+#, fuzzy
+#| msgid "Create symlink..."
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
-msgid "Create symlink..."
+msgid "Create symbolic link..."
 msgstr "Создать символьную сс&ылку..."
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
@@ -2797,6 +2801,10 @@ msgstr "Настройка"
 #: TFRMMAIN.MNUTABS.CAPTION
 msgid "&Tabs"
 msgstr "Вк&ладки"
+
+#: TFRMMAIN.TBCHANGEDIR.CAPTION
+msgid "CD"
+msgstr ""
 
 #: TFRMMAIN.TBCOPY.CAPTION
 msgctxt "TFRMMAIN.TBCOPY.CAPTION"
