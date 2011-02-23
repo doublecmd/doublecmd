@@ -674,6 +674,8 @@ var
 begin
   Application.OnException := @AppException;
 
+  InitPropStorage(Self);
+
   DrivesList := nil;
   LeftFrameWatcher:= nil;
   RightFrameWatcher:= nil;
