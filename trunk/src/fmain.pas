@@ -394,6 +394,14 @@ type
     procedure dskRightResize(Sender: TObject);
     procedure dskToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
     procedure lblAllProgressPctClick(Sender: TObject);
+    procedure MainToolBarToolButtonDragDrop(Sender, Source: TObject; X,
+      Y: Integer; NumberOfButton: Integer);
+    procedure MainToolBarToolButtonDragOver(Sender, Source: TObject; X,
+      Y: Integer; State: TDragState; var Accept: Boolean;
+      NumberOfButton: Integer);
+    procedure MainToolBarToolButtonMouseDown(Sender: TObject;
+      Button: TMouseButton; Shift: TShiftState; X, Y: Integer;
+      NumberOfButton: Integer);
     procedure MainToolBarToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
 
 
@@ -511,6 +519,9 @@ type
     // frost_asm end
     PressLMB: boolean;
     widthOfItem, ItemEnd: integer;
+    // for dragging buttons and etc
+    NumberOfMoveButton: integer;
+    Draging : boolean;
 
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
@@ -870,9 +881,85 @@ begin
   frmViewOperations.ShowOnTop;
 end;
 
+procedure TfrmMain.MainToolBarToolButtonDragDrop(Sender, Source: TObject; X,
+  Y: Integer; NumberOfButton: Integer);
+var
+  aFile: TFile;
+  Cmd, Param, Path: string;
+begin
+  if (Source is TSpeedButton) then
+    SaveMainToolBar
+  else
+    begin
+      if Sender is TSpeedButton then
+      begin
+        aFile := ActiveFrame.ActiveFile;
+        if Assigned(aFile) and aFile.IsNameValid then
+          begin
+            Cmd:= MainToolBar.GetButtonX(NumberOfButton, CmdX);
+            Param:= MainToolBar.GetButtonX(NumberOfButton, ParamX);
+            Path:= MainToolBar.GetButtonX(NumberOfButton, PathX);
+            Param:= ReplaceEnvVars(Param);
+            Param:= Param + ' ' + aFile.FullPath;
+            if Actions.Execute(Cmd, Param) = uActs.cf_Error then
+              begin
+                Cmd:= mbExpandFileName(Cmd);
+                Path:= ReplaceEnvVars(Path);
+                ReplaceExtCommand(Param, FrameLeft, FrameRight, ActiveFrame);
+                ReplaceExtCommand(Path, FrameLeft, FrameRight, ActiveFrame);
+                if Path <> '' then
+                  mbSetCurrentDir(Path);
+                // Only add a space after command if there are parameters.
+                if Length(Param) > 0 then
+                  Param := ' ' + Param;
+                //Result:= ExecCmdFork(Format('"%s"%s', [Cmd, Param]));
+                ExecCmdFork(Format('"%s"%s', [Cmd, Param]));
+              end;
+          end;
+      end;
+  end;
+end;
+
+procedure TfrmMain.MainToolBarToolButtonDragOver(Sender, Source: TObject; X,
+  Y: Integer; State: TDragState; var Accept: Boolean; NumberOfButton: Integer);
+var
+  aFile: TFile;
+begin
+  if Source is TSpeedButton then
+    begin
+      if (NumberOfMoveButton <> (Sender as TSpeedButton).Tag) then
+        begin
+          Draging := True;
+          MainToolBar.MoveButton((Source as TSpeedButton).Tag, (Sender as TSpeedButton).Tag);
+          NumberOfMoveButton := (Sender as TSpeedButton).Tag;
+          Accept:= True;
+        end;
+    end
+  else
+    begin
+      aFile := ActiveFrame.ActiveFile;
+      if Assigned(aFile) and aFile.IsNameValid then
+        Accept := True
+      else
+        Accept := False;
+    end;
+end;
+
+procedure TfrmMain.MainToolBarToolButtonMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer;
+  NumberOfButton: Integer);
+begin
+  if Button = mbLeft then
+    begin
+      MainToolBar.Buttons[NumberOfButton].BeginDrag(false,5);
+      NumberOfMoveButton:=(Sender as TSpeedButton).Tag;
+    end;
+end;
+
 procedure TfrmMain.MainToolBarToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
 begin
-  MainToolBarMouseUp(Sender, Button, Shift, X, Y);
+  if Button = mbRight then
+    MainToolBarMouseUp(Sender, Button, Shift, X, Y);
 end;
 
 procedure TfrmMain.miLogMenuClick(Sender: TObject);
@@ -1348,14 +1435,20 @@ end;
 procedure TfrmMain.MainToolBarDragDrop(Sender, Source: TObject; X, Y: Integer);
 var
   aFile: TFile;
+  Cmd,Param,Path : string;
+  TargetControl: TControl;
 begin
-  aFile := ActiveFrame.ActiveFile;
-  if Assigned(aFile) and aFile.IsNameValid then
-  begin
-    MainToolBar.AddButtonX('', aFile.FullPath, '', aFile.Path,
-                           ExtractOnlyFileName(aFile.Name), '',  aFile.FullPath);
-    SaveMainToolBar;
-  end;
+  if not (Source is TSpeedButton) then
+    begin
+      aFile := ActiveFrame.ActiveFile;
+      if Assigned(aFile) and aFile.IsNameValid then
+      begin
+        MainToolBar.AddButtonX('', aFile.FullPath, '', aFile.Path,
+                               ExtractOnlyFileName(aFile.Name), '',  aFile.FullPath);
+        SaveMainToolBar;
+      end;
+    end;
+  Draging := False;
 end;
 
 procedure TfrmMain.MainToolBarDragOver(Sender, Source: TObject; X, Y: Integer;
@@ -1456,8 +1549,12 @@ end;
 
 procedure TfrmMain.MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
 begin
-  ExecCmdEx(Sender, NumberOfButton);
-  DebugLn(MainToolBar.Commands[NumberOfButton]);
+  if not Draging then
+    begin
+      ExecCmdEx(Sender, NumberOfButton);
+      DebugLn(MainToolBar.Commands[NumberOfButton]);
+    end;
+  Draging := false;
 end;
 
 procedure TfrmMain.frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
