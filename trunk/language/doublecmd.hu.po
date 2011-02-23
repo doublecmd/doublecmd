@@ -2109,8 +2109,10 @@ msgid "Place cursor on last file in list"
 msgstr ""
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
+#, fuzzy
+#| msgid "Create link..."
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
-msgid "Create link..."
+msgid "Create hard link..."
 msgstr "Hivatkozás létrehozása..."
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
@@ -2355,7 +2357,8 @@ msgstr "Gyorsgomb menü megjelenítése"
 msgid "Show command line history"
 msgstr "Parancssori előzmények megjelenítése"
 
-#: TFRMMAIN.ACTSHOWMENU.CAPTION
+#: TFRMMAIN.ACTSHOWMAINMENU.CAPTION
+msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
 msgid "Menu F9"
 msgstr "Menü F9"
 
@@ -2389,8 +2392,10 @@ msgid "Enable/disable ignore list file to not show file names"
 msgstr ""
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
+#, fuzzy
+#| msgid "Create symlink..."
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
-msgid "Create symlink..."
+msgid "Create symbolic link..."
 msgstr "Symlink készítése.."
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
@@ -2811,6 +2816,10 @@ msgstr ""
 #: TFRMMAIN.MNUTABS.CAPTION
 msgid "&Tabs"
 msgstr "&Fülek"
+
+#: TFRMMAIN.TBCHANGEDIR.CAPTION
+msgid "CD"
+msgstr ""
 
 #: TFRMMAIN.TBCOPY.CAPTION
 msgctxt "TFRMMAIN.TBCOPY.CAPTION"

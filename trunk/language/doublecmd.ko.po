@@ -2110,8 +2110,10 @@ msgid "Place cursor on last file in list"
 msgstr ""
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
+#, fuzzy
+#| msgid "Create link..."
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
-msgid "Create link..."
+msgid "Create hard link..."
 msgstr "하드 링크 만들기..."
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
@@ -2359,7 +2361,8 @@ msgstr "버튼 메뉴 보이기"
 msgid "Show command line history"
 msgstr "명령행 히스토리 보이기"
 
-#: TFRMMAIN.ACTSHOWMENU.CAPTION
+#: TFRMMAIN.ACTSHOWMAINMENU.CAPTION
+msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
 msgid "Menu F9"
 msgstr "메뉴 F9"
 
@@ -2393,8 +2396,10 @@ msgid "Enable/disable ignore list file to not show file names"
 msgstr ""
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
+#, fuzzy
+#| msgid "Create symlink..."
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
-msgid "Create symlink..."
+msgid "Create symbolic link..."
 msgstr "심벌 링크 만들기..."
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
@@ -2819,6 +2824,10 @@ msgstr ""
 #: TFRMMAIN.MNUTABS.CAPTION
 msgid "&Tabs"
 msgstr "탭 (&T)"
+
+#: TFRMMAIN.TBCHANGEDIR.CAPTION
+msgid "CD"
+msgstr ""
 
 #: TFRMMAIN.TBCOPY.CAPTION
 msgctxt "TFRMMAIN.TBCOPY.CAPTION"

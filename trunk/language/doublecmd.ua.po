@@ -2092,8 +2092,10 @@ msgid "Place cursor on last file in list"
 msgstr ""
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
+#, fuzzy
+#| msgid "Create link..."
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
-msgid "Create link..."
+msgid "Create hard link..."
 msgstr "Створити по&силання..."
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
@@ -2332,7 +2334,8 @@ msgstr "Показати меню вкладки"
 msgid "Show command line history"
 msgstr "Історія командної строки"
 
-#: TFRMMAIN.ACTSHOWMENU.CAPTION
+#: TFRMMAIN.ACTSHOWMAINMENU.CAPTION
+msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
 msgid "Menu F9"
 msgstr "Меню F9"
 
@@ -2366,8 +2369,10 @@ msgid "Enable/disable ignore list file to not show file names"
 msgstr "Включити/виключити чорний список файлів, щоб не показувати імена файлів"
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
+#, fuzzy
+#| msgid "Create symlink..."
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
-msgid "Create symlink..."
+msgid "Create symbolic link..."
 msgstr "Створити символічне пос&илання..."
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
@@ -2628,6 +2633,11 @@ msgctxt "TFRMMAIN.MILINE2.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: TFRMMAIN.MILINE20.CAPTION
+msgctxt "TFRMMAIN.MILINE20.CAPTION"
+msgid "-"
+msgstr "-"
+
 #: TFRMMAIN.MILINE22.CAPTION
 msgctxt "TFRMMAIN.MILINE22.CAPTION"
 msgid "-"
@@ -2780,6 +2790,10 @@ msgstr "&Налаштування"
 #: TFRMMAIN.MNUTABS.CAPTION
 msgid "&Tabs"
 msgstr "Вкладк&и"
+
+#: TFRMMAIN.TBCHANGEDIR.CAPTION
+msgid "CD"
+msgstr ""
 
 #: TFRMMAIN.TBCOPY.CAPTION
 msgctxt "TFRMMAIN.TBCOPY.CAPTION"
@@ -5240,8 +5254,9 @@ msgid "Out"
 msgstr "Із"
 
 #: ulng.rsdlgspeedtime
-#| msgid "Speed %s/s, remained time %s"
-msgid "Speed %s/s, remaining time %s"
+#, fuzzy
+#| msgid "Speed %s/s, remaining time %s"
+msgid "Speed %s/s, time remaining %s"
 msgstr "Швидкість %s/с, залишилось часу %s"
 
 #: ulng.rsdlgtest

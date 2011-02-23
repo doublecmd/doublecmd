@@ -2100,8 +2100,10 @@ msgid "Place cursor on last file in list"
 msgstr ""
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
+#, fuzzy
+#| msgid "Create link..."
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
-msgid "Create link..."
+msgid "Create hard link..."
 msgstr "Hardlink erstellen"
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
@@ -2356,7 +2358,8 @@ msgstr "Button-Leiste anzeigen"
 msgid "Show command line history"
 msgstr "Befehlszeilenverlauf anzeigen"
 
-#: TFRMMAIN.ACTSHOWMENU.CAPTION
+#: TFRMMAIN.ACTSHOWMAINMENU.CAPTION
+msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
 msgid "Menu F9"
 msgstr "Menü F9"
 
@@ -2390,8 +2393,10 @@ msgid "Enable/disable ignore list file to not show file names"
 msgstr "De-/Aktivieren der Dateiliste um Dateinamen nicht anzuzeigen"
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
+#, fuzzy
+#| msgid "Create symlink..."
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
-msgid "Create symlink..."
+msgid "Create symbolic link..."
 msgstr "Erstelle symb. Link"
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
@@ -2813,6 +2818,10 @@ msgstr "Optionen"
 #: TFRMMAIN.MNUTABS.CAPTION
 msgid "&Tabs"
 msgstr "&Reiter"
+
+#: TFRMMAIN.TBCHANGEDIR.CAPTION
+msgid "CD"
+msgstr ""
 
 #: TFRMMAIN.TBCOPY.CAPTION
 msgctxt "TFRMMAIN.TBCOPY.CAPTION"

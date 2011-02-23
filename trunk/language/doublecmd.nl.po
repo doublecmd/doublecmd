@@ -2102,8 +2102,10 @@ msgid "Place cursor on last file in list"
 msgstr ""
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
+#, fuzzy
+#| msgid "Create link..."
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
-msgid "Create link..."
+msgid "Create hard link..."
 msgstr "Maak link..."
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
@@ -2354,7 +2356,8 @@ msgstr "Toon knoppen menu"
 msgid "Show command line history"
 msgstr "Toon commandoregel historie"
 
-#: TFRMMAIN.ACTSHOWMENU.CAPTION
+#: TFRMMAIN.ACTSHOWMAINMENU.CAPTION
+msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
 msgid "Menu F9"
 msgstr "Menu F9"
 
@@ -2388,8 +2391,10 @@ msgid "Enable/disable ignore list file to not show file names"
 msgstr ""
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
+#, fuzzy
+#| msgid "Create symlink..."
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
-msgid "Create symlink..."
+msgid "Create symbolic link..."
 msgstr "Maak symlink..."
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
@@ -2811,6 +2816,10 @@ msgstr "Opties"
 #: TFRMMAIN.MNUTABS.CAPTION
 msgid "&Tabs"
 msgstr "&Tabs"
+
+#: TFRMMAIN.TBCHANGEDIR.CAPTION
+msgid "CD"
+msgstr ""
 
 #: TFRMMAIN.TBCOPY.CAPTION
 msgctxt "TFRMMAIN.TBCOPY.CAPTION"

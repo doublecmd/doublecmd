@@ -2093,8 +2093,10 @@ msgid "Place cursor on last file in list"
 msgstr ""
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
+#, fuzzy
+#| msgid "Create link..."
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
-msgid "Create link..."
+msgid "Create hard link..."
 msgstr "Създаване на връзка..."
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
@@ -2334,7 +2336,8 @@ msgstr "Показване на изборници на копчетата"
 msgid "Show command line history"
 msgstr "Показване на дневник на реда управление"
 
-#: TFRMMAIN.ACTSHOWMENU.CAPTION
+#: TFRMMAIN.ACTSHOWMAINMENU.CAPTION
+msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
 msgid "Menu F9"
 msgstr "Изборник F9"
 
@@ -2368,8 +2371,10 @@ msgid "Enable/disable ignore list file to not show file names"
 msgstr "Включване/ изключване на пренебрегването"
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
+#, fuzzy
+#| msgid "Create symlink..."
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
-msgid "Create symlink..."
+msgid "Create symbolic link..."
 msgstr "Създаване на мека взръзка..."
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
@@ -2787,6 +2792,10 @@ msgstr "Въз&можности"
 #: TFRMMAIN.MNUTABS.CAPTION
 msgid "&Tabs"
 msgstr "&Подпрозорци"
+
+#: TFRMMAIN.TBCHANGEDIR.CAPTION
+msgid "CD"
+msgstr ""
 
 #: TFRMMAIN.TBCOPY.CAPTION
 msgctxt "TFRMMAIN.TBCOPY.CAPTION"

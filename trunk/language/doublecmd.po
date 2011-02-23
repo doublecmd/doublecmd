@@ -2085,7 +2085,7 @@ msgstr ""
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
-msgid "Create link..."
+msgid "Create hard link..."
 msgstr ""
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
@@ -2314,7 +2314,8 @@ msgstr ""
 msgid "Show command line history"
 msgstr ""
 
-#: TFRMMAIN.ACTSHOWMENU.CAPTION
+#: TFRMMAIN.ACTSHOWMAINMENU.CAPTION
+msgctxt "TFRMMAIN.ACTSHOWMAINMENU.CAPTION"
 msgid "Menu F9"
 msgstr ""
 
@@ -2349,7 +2350,7 @@ msgstr ""
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
-msgid "Create symlink..."
+msgid "Create symbolic link..."
 msgstr ""
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
@@ -2766,6 +2767,10 @@ msgstr ""
 
 #: TFRMMAIN.MNUTABS.CAPTION
 msgid "&Tabs"
+msgstr ""
+
+#: TFRMMAIN.TBCHANGEDIR.CAPTION
+msgid "CD"
 msgstr ""
 
 #: TFRMMAIN.TBCOPY.CAPTION
