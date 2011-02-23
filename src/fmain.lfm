@@ -36,7 +36,10 @@ object frmMain: TfrmMain
     OnDragOver = MainToolBarDragOver
     OnMouseUp = MainToolBarMouseUp
     OnToolButtonClick = MainToolBarToolButtonClick
+    OnToolButtonMouseDown = MainToolBarToolButtonMouseDown
     OnToolButtonMouseUp = MainToolBarToolButtonMouseUp
+    OnToolButtonDragDrop = MainToolBarToolButtonDragDrop
+    OnToolButtonDragOver = MainToolBarToolButtonDragOver
     OnLoadButtonGlyph = MainToolBarLoadButtonGlyph
     GlyphSize = 16
     EnvVar = '%commander_path%'
