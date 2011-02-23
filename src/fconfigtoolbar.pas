@@ -111,7 +111,6 @@ type
   private
     FBarFileName: UTF8String;
     LastToolButton : Integer;
-    DefaultEditBarsColor : TColor; // Because real color depends on compilation switches
     ToolButtonMouseX, ToolButtonMouseY, ToolDragButtonNumber: integer; // For dragging
     procedure FillActionLists;
     procedure WakeSleepControls();
@@ -172,7 +171,6 @@ var
   IniBarFile: TIniFileEx;
 begin
   FillActionLists;
-  DefaultEditBarsColor:= edtParams.Color;
   trbBarSize.Position := gToolBarButtonSize div 2;
   trbIconSize.Position:= gToolBarIconSize div 2;
   cbFlatButtons.Checked:= gToolBarFlat;
@@ -373,16 +371,13 @@ end;
 Otherwise enables button controls.
 For separators also disables most of button controls. *)
 procedure TfrmConfigToolBar.WakeSleepControls();
-var MakeEnabled: Boolean = True;
-  // Value copied from Controls.pp troperty "Color"
-  EditBarsColor: TColor = {$ifdef UseCLDefault}clDefault{$else}clWindow{$endif};
+var
+  MakeEnabled: Boolean = True;
   AddButtonName: String = '&Insert new button';
 begin
-  EditBarsColor:=DefaultEditBarsColor;
-  If (LastToolButton = -1) or (edtToolTip.Text='-') then
+  if (LastToolButton = -1) or (edtToolTip.Text='-') then
     begin
       MakeEnabled := False ;
-      EditBarsColor := clInactiveCaptionText;
       AddButtonName := '&Add button to end'
     end;
   lblCommand.Enabled := MakeEnabled;
@@ -390,29 +385,22 @@ begin
   lblStartPath.Enabled := MakeEnabled;
   lblIconFile.Enabled := MakeEnabled;
   btnOpenFile.Enabled := MakeEnabled;
-  cbCommand.Enabled := MakeEnabled;
-  cbCommand.Color := EditBarsColor;
-  edtParams.Enabled := MakeEnabled;
-  edtParams.Color := EditBarsColor;
-  edtStartPath.Enabled := MakeEnabled;
-  edtStartPath.Color := EditBarsColor;
-  kedtIconFileName.Enabled := MakeEnabled;
-  kedtIconFileName.Color := EditBarsColor;
+  EnableControl(cbCommand, MakeEnabled);
+  EnableControl(edtParams, MakeEnabled);
+  EnableControl(edtStartPath, MakeEnabled);
+  EnableControl(kedtIconFileName, MakeEnabled);
   sbIconExample.Enabled := MakeEnabled;
-if edtToolTip.Text= '-' then
+  if edtToolTip.Text= '-' then
     begin
       MakeEnabled := True;
-      EditBarsColor := {$ifdef UseCLDefault}clDefault{$else}clWindow{$endif};
       AddButtonName := '&Insert new button'
     end;
   lblToolTip.Enabled := MakeEnabled;
-  edtToolTip.Enabled := MakeEnabled;
-  edtToolTip.Color := EditBarsColor;
+  EnableControl(edtToolTip, MakeEnabled);
   cbIsSeparator.Checked := edtToolTip.Text='-';
   btnCloneButton.Enabled := MakeEnabled;
   btnDeleteButton.Enabled := MakeEnabled;
   btnAppendButton.Caption:= AddButtonName;
-
 end;
 
 procedure TfrmConfigToolBar.ClearControls;
