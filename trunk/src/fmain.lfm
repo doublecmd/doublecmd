@@ -17,9 +17,10 @@ object frmMain: TfrmMain
   OnShow = frmMainShow
   OnUTF8KeyPress = FormUTF8KeyPress
   OnWindowStateChange = FormWindowStateChange
+  SessionProperties = 'nbConsole.Height;seLogWindow.Height'
   ShowHint = True
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.31'
+  LCLVersion = '0.9.29'
   Visible = True
   object MainToolBar: TKASToolBar
     AnchorSideTop.Control = Owner
@@ -516,6 +517,7 @@ object frmMain: TfrmMain
     end
   end
   object LogSplitter: TSplitter
+    AnchorSideBottom.Control = seLogWindow
     Cursor = crVSplit
     Left = 0
     Height = 4
@@ -528,6 +530,7 @@ object frmMain: TfrmMain
     Visible = False
   end
   inline seLogWindow: TSynEdit
+    AnchorSideBottom.Control = pnlKeys
     Left = 0
     Height = 51
     Top = 273
@@ -1149,11 +1152,16 @@ object frmMain: TfrmMain
     end
   end
   object pnlKeys: TPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
     Left = 0
     Height = 20
     Top = 324
     Width = 760
-    Align = alBottom
+    Anchors = [akLeft, akRight, akBottom]
     BevelOuter = bvLowered
     ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
     ChildSizing.EnlargeVertical = crsHomogenousChildResize
