@@ -27,7 +27,7 @@ unit UnRARFunc;
 interface
 
 uses
-  WcxPlugin;
+  WcxPlugin, DialogAPI;
 
 const
   {$IFDEF MSWINDOWS}
@@ -181,6 +181,7 @@ procedure SetChangeVolProc(hArcData : TArcHandle; pChangeVolProc : TChangeVolPro
 procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW);stdcall;
 procedure SetProcessDataProc(hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);stdcall;
 procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);stdcall;
+procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
 
 implementation
 
@@ -214,6 +215,7 @@ var
   ProcessedFileName:  array [0..1023] of Char;
   ProcessedFileNameW: array [0..1023] of WideChar;
   ProcessedFileHostOS: RarHostSystem;
+  DlgProcInfo: TSetDlgProcInfo;
 
 procedure StringToArrayA(src: AnsiString;
                          pDst: PAnsiChar;
@@ -333,6 +335,8 @@ begin
 end;
 
 function UnrarCallback(Msg: LongWord; UserData, P1, P2: PtrInt) : Integer;{$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+var
+  waPassword: array[0..255] of WideChar;
 begin
   Result := 0;
   case Msg of
@@ -363,6 +367,22 @@ begin
         if ProcessDataProc(PAnsiChar(ProcessedFileName), LongInt(P2)) = 0 then
           Result := -1;
       end;
+    end;
+  UCM_NEEDPASSWORD:
+    begin
+      // DLL needs a password to process archive. This message must be
+      // processed if you wish to be able to handle encrypted archives.
+      // Return zero or a positive value to continue process or -1
+      // to cancel the archive operation.
+      // P1 - contains the address pointing to the buffer for
+      // a password in single byte encoding. You need to copy a password
+      // here.
+      // P2 - contains the size of password buffer.
+      waPassword := WideString(PAnsiChar(P1));
+      if not DlgProcInfo.InputBox('Unrar', 'Please enter the password:', True, PWideChar(waPassword), P2) then
+        Result := -1
+      else
+        Move(PAnsiChar(AnsiString(WideString(waPassword)))^, Pointer(P1)^, P2);
     end;
   end;
 end;
@@ -659,6 +679,11 @@ end;
 procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);stdcall;
 begin
   ProcessDataProcW := pProcessDataProc;
+end;
+
+procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
+begin
+  DlgProcInfo := SetDlgProcInfo;
 end;
 
 finalization
