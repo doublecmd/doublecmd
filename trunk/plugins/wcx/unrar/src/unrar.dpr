@@ -15,7 +15,8 @@ exports
   SetChangeVolProc,
   SetChangeVolProcW,
   SetProcessDataProc,
-  SetProcessDataProcW;
+  SetProcessDataProcW,
+  SetDlgProc;
 
 begin
   ModuleHandle := LoadLibrary(_unrar);
