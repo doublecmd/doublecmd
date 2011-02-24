@@ -594,6 +594,7 @@ begin
   LastToolButton := GetSelectedButton;
   if LastToolButton > -1 then
     begin
+      Save;
       ktbBar.Buttons[LastToolButton].Down:=False;
       LastToolButton := -1;
     end;
