@@ -2017,23 +2017,24 @@ end;
 
 procedure TfrmOptions.pbViewerBookPaint(Sender: TObject);
 var
-  i, numb: integer;
+  i, numb, x, y: integer;
   sStr: String;
 begin
   sStr:= 'Text';
-  pbViewerBook.Canvas.Font.Name := edtViewerBookFont.Text;
-  pbViewerBook.Width := (pbViewerBook.Canvas.TextWidth(sStr)+10)*seNumberColumnsViewer.Value;
   with pbViewerBook.Canvas do
   begin
+    Font.Name := edtViewerBookFont.Text;
+    Font.Size := edtViewerBookFontSize.Value;
+    x:= TextWidth(sStr);
+    y:= TextHeight(sStr);
+    pbViewerBook.Width := (x + 10) * seNumberColumnsViewer.Value;
     Brush.Color := cbBackgroundColorViewerBook.Color;
     Font.Color := cbFontColorViewerBook.Color;
-    Font.Size := 12;
-    //Font.Height:= pbViewerBook.Height div 3 - 2;
-    FillRect(0,0,pbViewerBook.Width,pbViewerBook.Height);
-    for i:=0 to seNumberColumnsViewer.Value-1 do
+    FillRect(0, 0, pbViewerBook.Width, pbViewerBook.Height);
+    for i:= 0 to seNumberColumnsViewer.Value - 1 do
     begin
-      for numb:=0 to 1 do
-      TextOut(i*(pbViewerBook.Canvas.TextWidth(sStr)+5)+3,12*numb+4,sStr);
+      for numb:= 0 to 1 do
+      TextOut(i * (x + 5) + 5, y * numb + 4, sStr);
     end;
   end;
 end;
