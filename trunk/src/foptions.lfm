@@ -1241,6 +1241,7 @@ object frmOptions: TfrmOptions
           Width = 53
           Anchors = [akTop, akRight]
           BorderSpacing.Right = 4
+          MinValue = 6
           OnChange = edtViewerBookFontSizeChange
           TabOrder = 13
           Value = 18
