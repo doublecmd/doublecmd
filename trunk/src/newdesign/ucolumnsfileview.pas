@@ -1431,14 +1431,14 @@ begin
   ColumnsClass := GetColumnsClass;
 
   UpdateColCount(ColumnsClass.ColumnsCount);
-  if ColumnsClass.ColumnsCount > 0 then
-    for x:= 0 to ColumnsClass.ColumnsCount - 1 do
-      begin
-        if not ((x = 0) and gAutoFillColumns and (gAutoSizeColumn = 0)) then
-          dgPanel.Columns.Items[x].SizePriority:= 0;
-        dgPanel.ColWidths[x]:= ColumnsClass.GetColumnWidth(x);
-        dgPanel.Columns.Items[x].Title.Caption:= ColumnsClass.GetColumnTitle(x);
-      end;
+  for x:= 0 to ColumnsClass.ColumnsCount - 1 do
+    with dgPanel.Columns.Items[x] do
+    begin
+      if not ((x = 0) and gAutoFillColumns and (gAutoSizeColumn = 0)) then
+        SizePriority:= 0;
+      Width:= ColumnsClass.GetColumnWidth(x);
+      Title.Caption:= ColumnsClass.GetColumnTitle(x);
+    end;
 end;
 
 function TColumnsFileView.DimColor(AColor: TColor): TColor;
@@ -3370,6 +3370,11 @@ begin
 {$ENDIF}
 
   inherited Create(AOwner);
+
+  // Workaround for Lazarus issue 18832.
+  // Set Fixed... before setting ...Count.
+  FixedRows := 0;
+  FixedCols := 0;
 
   // Override default values to start with no columns and no rows.
   RowCount := 0;
