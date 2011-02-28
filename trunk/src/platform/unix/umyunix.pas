@@ -200,7 +200,7 @@ type
   PFSTab = ^TFSTab;
   PStatFS = ^TStatFS;
 
-function getfsstat(struct_statfs: PStatFS; const buffsize: int64; const int_flags: integer): integer; cdecl; external libc name 'getfsstat';
+function getfsstat(struct_statfs: PStatFS; const buffsize: int64; const int_flags: integer): integer;
 function getfsent(): PFSTab; cdecl; external libc name 'getfsent';
 procedure endfsent(); cdecl; external libc name 'endfsent';
 {$ENDIF}
@@ -209,13 +209,23 @@ implementation
 
 uses
   URIParser, uClassesEx, uDCUtils
-{$IFNDEF FPC_USE_LIBC}
   , SysCall
-{$ENDIF}
 {$IFDEF LINUX}
   , uMimeActions
 {$ENDIF}
   ;
+
+{$IF DEFINED(BSD) AND NOT DEFINED(DARWIN)}
+function getfsstat(struct_statfs: PStatFS; const buffsize: int64; const int_flags: integer): integer;
+{$IFDEF FREEBSD}
+{$WARNING Remove this constant when added to FreePascal sources}
+const
+  syscall_nr_getfsstat = 18;
+{$ENDIF}
+begin
+  Result := do_syscall(syscall_nr_getfsstat, TSysParam(struct_statfs), TSysParam(buffsize), TSysParam(int_flags));
+end;
+{$ENDIF}
 
 {$IFNDEF FPC_USE_LIBC}
 
