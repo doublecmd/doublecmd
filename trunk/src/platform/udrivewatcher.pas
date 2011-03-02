@@ -699,17 +699,22 @@ begin
             else
               HandledByUDisks := False;
 
-            // Don't add the device if it's not listed by UDisks.
-            if HandledByUDisks and
-               CanAddDevice(DeviceFile, MountPoint) and
-               UDisksGetDeviceInfo(UDisksDeviceObject, UDisksDevices, UDisksDevice) then
+            if HandledByUDisks then
             begin
-              UDisksDeviceToDrive(UDisksDevice, Drive);
-              Drive^.Path := MountPoint;
-              if MountPoint <> PathDelim then
-                Drive^.DisplayName := ExtractFileName(MountPoint)
-              else
-                Drive^.DisplayName := PathDelim;
+              if CanAddDevice(DeviceFile, MountPoint) and
+                 UDisksGetDeviceInfo(UDisksDeviceObject, UDisksDevices, UDisksDevice) then
+              begin
+                UDisksDeviceToDrive(UDisksDevice, Drive);
+                Drive^.Path := MountPoint;
+                if MountPoint <> PathDelim then
+                  Drive^.DisplayName := ExtractFileName(MountPoint)
+                else
+                  Drive^.DisplayName := PathDelim;
+              end
+              // Even if mounted device is not listed by UDisks add it anyway the standard way.
+              else if I = 2 then // MntEntFileList[2] = _PATH_MOUNTED
+                HandledByUDisks := False;
+              // Else don't add the device if it's not listed by UDisks.
             end;
           end;
 
