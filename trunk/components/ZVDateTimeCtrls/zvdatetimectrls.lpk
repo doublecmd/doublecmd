@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="3">
+    <PathDelim Value="\"/>
+    <Name Value="ZVDateTimeCtrls"/>
+    <Author Value="Zoran Vučenović"/>
+    <CompilerOptions>
+      <Version Value="8"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <UseAnsiStrings Value="True"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="TZVDateTimePicker - the cross-platform control behaving much like VCL's TDateTimePicker. TDBDateTimePicker - the data-aware version of TDateTimePicker"/>
+    <License Value="Modified LGPL"/>
+    <Version Major="1" Minor="2"/>
+    <Files Count="5">
+      <Item1>
+        <Filename Value="zvdatetimepicker.pas"/>
+        <UnitName Value="ZVDateTimePicker"/>
+      </Item1>
+      <Item2>
+        <Filename Value="dbzvdatetimepicker.pas"/>
+        <UnitName Value="DBZVDateTimePicker"/>
+      </Item2>
+      <Item3>
+        <Filename Value="zvdatetimepickerpropedit.pas"/>
+        <UnitName Value="ZVDateTimePickerPropEdit"/>
+      </Item3>
+      <Item4>
+        <Filename Value="zvdatetimecontrolsreg.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ZVDateTimeControlsReg"/>
+      </Item4>
+      <Item5>
+        <Filename Value="zvdatetimectrls.lrs"/>
+        <Type Value="LRS"/>
+      </Item5>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="3">
+      <Item1>
+        <PackageName Value="IDEIntf"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item3>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)\"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

@@ -1,0 +1,42 @@
+﻿===================================================
+Version 1.0 -- 27. Feb. 2010.
+
+Initial release
+
+===================================================
+
+Version 1.1 -- 18. April 2010.
+
+The Data aware control's (DBZVDateTimePicker's) interacting with DataSource is slightly improved.
+
+There are also several fixes, these are some of them. The first three fixes apply to DBZVDateTimePicker control only, the fourth, fifth and sixth apply to both controls.
+
+1. In runtime changing date/time in DBZVDateTimePicker was possible when not connected to database.
+
+   When not connected to specific DB field, or when the Database connection is not active, now the control can only have NULL value, which is appropriate behaviour for a DB control.
+
+2. The Time property was accidentaly published in DBZVDateTimePicker. Time property, as well as Date, cannot be used directly in DBZVDateTimePicker, it is tied to underlying DB field.
+
+   The Time property is removed from published section of TDBZVDateTimePicker.
+
+3. The DBZVDateTimePicker's properties MaxDate and MinDate were displayed as real numbers in Object inspector.
+
+   They are now displayed as dates.
+
+4. The Hint property didn't work -- the hint didn't appear.
+
+   Now the Hint is shown when mouse pointer is over the control, of course only if ShowHint is set to True.
+
+5. When calendar button is shown and AutoSize is False and the width is less than Text's width + SpeedButton's width, then the button gets hidden behind the text.
+
+   Now, the button is shown in front of the text, which is more appropriate behaviour.
+
+6. When UpDown is shown and AutoSize is False, if Heigth is set to more than it would be if AutoSized, then, setting AutoSize to True would not trigger shirnking the control's Height as it should.
+
+   Fixed, now it does.
+
+===================================================
+
+Version 1.2 -- 12. May 2010.
+
+Because of changes in LCL, some changes in code were needed, so that controls can compile with new Lazarus from svn trunk (since revision 25204).

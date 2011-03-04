@@ -1,0 +1,391 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1250">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 3.2  (Win32)">
+	<META NAME="AUTHOR" CONTENT="Zoran Vučenović">
+	<META NAME="CREATED" CONTENT="20100120;12052000">
+	<META NAME="CHANGEDBY" CONTENT="Zoran ">
+	<META NAME="CHANGED" CONTENT="20100512;14331800">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { margin: 2cm }
+		P { margin-bottom: 0.21cm }
+		A:link { so-language: zxx }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="zxx" DIR="LTR">
+<P ALIGN=CENTER STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><B>ZVDateTimeControls
+Package for Lazarus</B></FONT></FONT></P>
+<P ALIGN=CENTER STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0cm"><A HREF="http://wiki.lazarus.freepascal.org/ZVDateTimeControls_Package"><FONT FACE="Arial, sans-serif"><FONT SIZE=3><SPAN STYLE="font-weight: normal">http://wiki.lazarus.freepascal.org/ZVDateTimeControls_Package</SPAN></FONT></FONT></A></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=CENTER STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm; font-weight: normal"><FONT FACE="Arial, sans-serif"><FONT SIZE=4>The
+ZVDateTimeControls package contains two controls:</FONT></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-left: 2cm; margin-bottom: 0cm"><IMG SRC="pictures/TZVDateTimePicker.png" NAME="grafika2" ALIGN=BOTTOM WIDTH=24 HEIGHT=24 BORDER=0><A HREF="#TZVDateTimePicker">
+<FONT FACE="Arial, sans-serif"><FONT SIZE=3><SPAN STYLE="font-weight: normal">TZVDateTimePicker</SPAN></FONT></FONT></A></P>
+<P ALIGN=LEFT STYLE="margin-left: 2cm; margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-left: 2cm; margin-bottom: 0cm"><IMG SRC="pictures/TDBZVDateTimePicker.png" NAME="grafika5" ALIGN=BOTTOM WIDTH=24 HEIGHT=24 BORDER=0><A HREF="#TDBZVDateTimePicker">
+<FONT FACE="Arial, sans-serif"><FONT SIZE=3><SPAN STYLE="font-weight: normal">TDBZVDateTimePicker</SPAN></FONT></FONT></A></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>Author</B></FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><A HREF="http://wiki.lazarus.freepascal.org/User:Zoran"><FONT FACE="Arial, sans-serif"><SPAN STYLE="font-weight: normal">Zoran
+Vučenović</SPAN></FONT></A></P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>License</B></FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm; font-weight: normal">
+<FONT FACE="Arial, sans-serif">Modified LGPL, same as Lazarus
+component library.</FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>Introduction</B></FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Delphi's
+VCL has <A HREF="http://docwiki.embarcadero.com/VCL/en/ComCtrls.TDateTimePicker">a
+control named TDateTimePicker</A>, which I find very useful for
+editing dates. LCL, however, does not have this control. Instead, for
+editing dates <A HREF="http://lazarus-ccr.sourceforge.net/docs/lcl/editbtn/tdateedit.html">LCL
+has a control named TDateEdit</A>, but I prefer the VCL's
+TDateTimePicker.</FONT></P>
+<P ALIGN=LEFT STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Therefore,
+I tried to create a cross-platform Lazarus control which would
+resemble VCL's TDateTimePicker as much as possible.</FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">The
+TZVDateTimePicker control does not use <A HREF="http://msdn.microsoft.com/en-us/library/system.windows.forms.datetimepicker.aspx">native
+Win control</A>. It descends from LCL-s TCustomControl to be
+cross-platform. It has been written and initially tested on Windows
+XP with Win widget set, but then tested on Ubuntu Linux 9.10 with
+gtk2 widget set, where additional adjustments had been made.</FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Note
+that the TZVDateTimePicker control does not descend from TEdit, so it
+does not have unnecessary caret. The VCL's control doesn't have caret
+either.</FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>Installation</B></FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">To
+install the package in Lazarus IDE follow these steps:</FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><BR>
+</P>
+<OL>
+	<OL>
+		<LI><P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Open
+		the package in Package Editor (in Lazarus' main menu click <I>Package</I>,
+		then <I>Open package file...</I> locate the file
+		zv<I>datetimecontrols.lpk</I> and click <I>Open</I>).</FONT></P>
+		<LI><P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Compile
+		the package (click <I>Compile</I> in Package Editor's tool bar).</FONT></P>
+		<LI><P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Install
+		the package in the IDE (click <I>Install</I> &ndash; you will be
+		asked if you want to rebuild Lazarus, click <I>Yes</I>. Wait until
+		Lazarus rebuilds and restarts itself. The new tab &ldquo;<I>Date
+		and Time Ctrs&rdquo;</I> appears on the component palette with
+		TZVDateTimePicker and TDBZVDateTimePicker controls.</FONT></P>
+	</OL>
+</OL>
+<P STYLE="margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>Change
+Log</B></FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm; font-weight: normal">
+<FONT FACE="Arial, sans-serif">For more details about changes, see
+ChangeLog.txt</FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm; font-weight: normal">
+<FONT FACE="Arial, sans-serif">Version 1.0 &ndash; 27. February 2010.</FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm; font-weight: normal">
+<FONT FACE="Arial, sans-serif">Version 1.1 &ndash; 17. April 2010.</FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm; font-weight: normal">
+<FONT FACE="Arial, sans-serif">Version 1.2 &ndash; 12. May 2010.</FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><A NAME="TZVDateTimePicker"></A><FONT FACE="Arial, sans-serif"><B>TZVDateTimePicker
+<IMG SRC="pictures/TZVDateTimePicker.png" NAME="grafika9" ALIGN=MIDDLE WIDTH=24 HEIGHT=24 BORDER=0></B></FONT></P>
+<P STYLE="margin-left: 0.85cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>Properties:</B></FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif">I'll explain some properties of
+TZVDateTimePicker control: </FONT>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>DateTime: TDateTime (public)</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">The
+DateTime value displayed on the control. This property is not
+published in object inspector, but its value is actually the same as
+Date and Time properties composed in one value. This property is
+provided to allow setting or reading of both date and time value at
+once in program code. In design time, Date and Time can be set in
+object inspector. <A HREF="#ZVDateTimePicker Editor">There is also
+component editor</A> which provides easy way of setting this property
+in design time.</FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>Date: TDate</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">The
+date displayed on the control which the user can edit.</FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>Time: TTime</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">The
+time displayed on the control which the user can edit.</FONT></P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>MinDate: TDate</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">The
+minimal date user can enter.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>MaxDate: TDate</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">The
+maximal date user can enter.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm"><A NAME="NullInputAllowed"></A>
+<FONT FACE="Arial, sans-serif"><B>NullInputAllowed: Boolean</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">When
+True, the user can set the date to NullDate constant by pressing N
+key.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>CenturyFrom: Word</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">When
+user enters the year in two-digit format, then the CenturyFrom
+property is used to determine which century the year belongs to. The
+default is 1941, which means that when two digit years is entered, it
+falls in interval 1941 &ndash; 2040. Note that MinDate and MaxDate
+properties can also have influence on the decision &ndash; for
+example, if the CenturyFrom is set to 1941 and MaxDate to 31. 12.
+2010, if user enters year 23, it will be set to 1923, because it
+can&rsquo;t be 2033, due to MaxDate limit.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>Kind: TDateTimeKind</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>type</B>
+TDateTimeKind = (dtkDate, dtkTime, dtkDateTime);</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">The
+control displays only date, only time or both.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><IMG SRC="pictures/ZVDateControls03.PNG" NAME="grafika4" ALIGN=BOTTOM WIDTH=332 HEIGHT=40 BORDER=0></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>DateMode: TDTDateMode</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>type</B>
+TDTDateMode = (dmComboBox, dmUpDown, dmNone);</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">When
+DateMode is set to dmComboBox, there is a button on the right side of
+the control. When user clicks the button, <A HREF="http://lazarus-ccr.sourceforge.net/docs/lcl/calendar/tcalendar.html">the
+calendar control</A> is shown, allowing the user to pick the date.
+When set to dmUpDown, then UpDown buttons are shown.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">In
+my opinion the UpDown buttons aren't really useful in this control,
+they are provided for compatibility with Delphi's TDateTimePicker. Up
+and down keys can always serve for same purpose, so can mouse wheel.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">In
+the next picture the first control's DateMode is set to dmComboBox
+and the second control's to dmUpDown.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><IMG SRC="pictures/ZVDateControls01.PNG" NAME="grafika1" ALIGN=BOTTOM WIDTH=151 HEIGHT=72 BORDER=0></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">If
+DateMode is dmComboBox, when the user clicks on the button a calendar
+drops down, allowing the user to pick a date.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>Note:</B>
+if Kind property is set to dtkTime, the calendar control is
+pointless. Therefore, if DateMode is dmComboBox, the UpDown is shown
+instead.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>ShowCheckBox: Boolean</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">When
+set, there is a check box on the left side of the control. When
+unchecked, the display appears grayed and user interaction with the
+date or time is not possible. (The control is still enabled, though,
+only in sense that the check box remains enabled).</FONT></P>
+<P STYLE="margin-left: 2cm"><IMG SRC="pictures/ZVDateControls02.PNG" NAME="grafika3" ALIGN=BOTTOM WIDTH=116 HEIGHT=35 BORDER=0></P>
+<P STYLE="margin-left: 2cm"><BR><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>Checked: Boolean</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">If
+ShowCheckBox is set to True, this property determines whether the
+check box is checked or not. If ShowCheckBox is False, this property
+has no purpose and is automatically set to True.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>DateDisplayOrder: TDateDisplayOrder</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>type</B>
+TDateDisplayOrder = (ddoDMY, ddoMDY, ddoYMD, ddoTryDefault);</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Defines
+the order for displaying day, month and year part of the date. When
+ddoTryDefault is set, then the controls tries to determine the order
+from <A HREF="http://lazarus-ccr.sourceforge.net/docs/rtl/sysutils/shortdateformat.html">ShortDateFormat
+global variable</A>.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">This
+is similar to <A HREF="http://lazarus-ccr.sourceforge.net/docs/lcl/editbtn/tdateedit.dateorder.html">DateEdit's
+DateOrder</A> property.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>DateSeparator: UTF8String</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Defines
+the string used to separate date, month and year date parts. Setting
+this property automatically sets the UseDefaultSeparators property to
+False. To ensure that date and time separators are set to user's
+system defaults, set UseDefaultSeparators property to True.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>TimeSeparator: UTF8String</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Defines
+the string used to separate hour, minute, second and millisecond time
+parts. Setting this property automatically sets the
+UseDefaultSeparators property to False. To ensure that date and time
+separators are set to user's system defaults, set
+UseDefaultSeparators property to True.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>UseDefaultSeparators: Boolean</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">When
+this property is set to True, then the DateSeparator and
+TimeSeparator properties will be set to <A HREF="http://lazarus-ccr.sourceforge.net/docs/rtl/sysutils/dateseparator.html">DateSeparator</A>
+and <A HREF="http://lazarus-ccr.sourceforge.net/docs/rtl/sysutils/timeseparator.html">TimeSeparator</A>
+global variables, which are set to user system defaults when
+application initializes.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>TrailingSeparator: Boolean</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">When
+set to True, then the DateSeparator is shown once more, after the
+last date part. This property exists because in some languages the
+correct date format is <B>31. 1. 2010.</B> including the last point,
+after the year.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>LeadingZeros: Boolean</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Determines
+whether the date and time parts are displayed with or without leading
+zeros (this actually affects day, month and hour parts of date and
+time display).</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>TimeDisplay: TTimeDisplay</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>type</B>
+TTimeDisplay = (tdHM, tdHMS, tdHMSMs);</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">If
+Kind is dtkTime or dtkDateTime, then TimeDisplay value of tdHM means
+that only hours and minutes are displayed, tdHMS adds displaying of
+seconds and value of tdHMSMs means that milliseconds are displayed
+too.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif"><B>TimeFormat: TTimeFormat</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>type</B>
+TTimeFormat = (tf12, tf24);</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">The
+value of tf12 sets the display of time to 12 hours format, with AM/PM
+string and tf24 sets to 24 hours format.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0cm"><A NAME="TextForNullDate"></A>
+<FONT FACE="Arial, sans-serif"><B>TextForNullDate: UTF8String</B></FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Text
+which appears when the null date is set and control does not have
+focus. When control is focused, the text changes to defined format,
+but displaying zeros for date, and nines for time (for example
+&quot;00/00/0000 99:99:99&quot;), which is appropriate to user input.
+User can set the date to NullDate by pressing N key, provided
+<A HREF="#NullInputAllowed">NullInputAllowed</A> property is True.</FONT></P>
+<P STYLE="margin-left: 2cm; margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-top: 0.18cm; margin-bottom: 0cm"><A NAME="TDBZVDateTimePicker"></A>
+<FONT FACE="Arial, sans-serif"><B>TDBZVDateTimePicker 
+<IMG SRC="pictures/TDBZVDateTimePicker.png" NAME="grafika6" ALIGN=MIDDLE WIDTH=24 HEIGHT=24 BORDER=0></B></FONT></P>
+<P STYLE="margin-left: 0.85cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif">TDBZVDateTimePicker is a data-aware
+version of TZVDateTimePicker, with nice way of handling null database
+values.</FONT></P>
+<P STYLE="margin-top: 0.18cm; margin-bottom: 0cm"><BR>
+</P>
+<H4 STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0.21cm">
+<FONT FACE="Arial, sans-serif"><B>Displaying null values </B></FONT>
+</H4>
+<DL>
+	<DL>
+		<DD STYLE="margin-bottom: 0.5cm"><FONT FACE="Arial, sans-serif">When
+		the underlying DB field has null value, then:</FONT></DD></DL>
+</DL>
+<UL>
+	<UL>
+		<LI><DD STYLE="margin-bottom: 0.5cm">
+		<FONT FACE="Arial, sans-serif">If the control is not focused, then
+		it displays the text defined in <A HREF="#TextForNullDate">TextForNullDate</A>
+		property. The default is &quot;NULL&quot;. </FONT>
+		</DD><LI><DD STYLE="margin-bottom: 0.5cm">
+		<FONT FACE="Arial, sans-serif">When the control gets focus, the
+		text changes to defined format, but displaying zeros for date parts
+		and nines for time parts (for example &quot;00/00/0000 99:99:99&quot;),
+		which is appropriate to user input.</FONT></DD></UL>
+</UL>
+<H4 STYLE="margin-left: 1.48cm; margin-top: 0.18cm; margin-bottom: 0.21cm">
+<FONT FACE="Arial, sans-serif">Setting the field value to null </FONT>
+</H4>
+<DL>
+	<DL>
+		<DD STYLE="margin-bottom: 0.5cm"><FONT FACE="Arial, sans-serif">If
+		<A HREF="#NullInputAllowed">NullInputAllowed</A> property is True,
+		the user can set the date and time to null, by pressing N key. </FONT>
+		</DD></DL>
+</DL>
+<P STYLE="margin-top: 0.18cm; margin-bottom: 0cm">
+<A NAME="ZVDateTimePicker Editor"></A><FONT FACE="Arial, sans-serif"><B>ZVDateTimePicker
+Editor</B></FONT></P>
+<P STYLE="margin-left: 0.85cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<IMG SRC="pictures/ZVDateTimePickerEditor.PNG" NAME="grafika8" ALIGN=BOTTOM WIDTH=404 HEIGHT=188 BORDER=0></P>
+<P STYLE="margin-left: 0.85cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<FONT FACE="Arial, sans-serif">ZVDateTimePicker Editor is a dialog
+which provides easy way to set Date, Time, MinDate and MaxDate
+properties in design time. It is invoked when ZVDateTimePicker
+control is double-clicked in form designer. It is also shown when the
+elipsis (&hellip;) button shown in Date, Time, MinDate and MaxDate
+properties in Object inspector gets clicked.</FONT></P>
+<P STYLE="margin-left: 0.85cm; margin-top: 0.18cm; margin-bottom: 0cm">
+<BR>
+</P>
+</BODY>
+</HTML>
