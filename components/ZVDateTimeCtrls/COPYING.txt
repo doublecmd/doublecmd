@@ -1,0 +1,4 @@
+This is the file COPYING.
+
+The files in ZVDateControls package are under the modified LGPL as described
+in COPYING.modifiedLGPL, which comes with Lazarus distribution.
