@@ -3776,16 +3776,6 @@ begin
     UpdateNoteBook(nbLeft);
     UpdateNoteBook(nbRight);
 
-    // Function keys
-    pnlKeys.Visible := gKeyButtons;
-    if gKeyButtons then
-    begin
-      pnlKeys.Height := Canvas.TextHeight('Wg') + 4;
-      for I := 0 to pnlKeys.ControlCount - 1 do
-        if pnlKeys.Controls[I] is TSpeedButton then
-          (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
-    end;
-
     // Command line
     pnlCommand.Visible := gCmdLine;
     edtCommand.Tag := 0;
@@ -3795,6 +3785,17 @@ begin
     seLogWindow.Visible := gLogWindow;
     LogSplitter.Visible := gLogWindow;
     FontOptionsToFont(gFonts[dcfLog], seLogWindow.Font);
+
+    // Function keys
+    pnlKeys.Visible := gKeyButtons;
+    if gKeyButtons then
+    begin
+      pnlKeys.Height := Canvas.TextHeight('Wg') + 4;
+      pnlKeys.Top:= Height;
+      for I := 0 to pnlKeys.ControlCount - 1 do
+        if pnlKeys.Controls[I] is TSpeedButton then
+          (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
+    end;
 
     ToggleFileSystemWatcher;
     ShowTrayIcon(gAlwaysShowTrayIcon);

@@ -449,6 +449,7 @@ object frmMain: TfrmMain
     Visible = False
   end
   object pnlCommand: TPanel
+    AnchorSideBottom.Control = LogSplitter
     Left = 0
     Height = 89
     Top = 180
