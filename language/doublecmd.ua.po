@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.4.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-02-12 22:12+0300\n"
+"PO-Revision-Date: 2011-03-05 11:58+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2085,18 +2085,17 @@ msgstr "Перейти в командну строку"
 
 #: TFRMMAIN.ACTGOTOFIRSTFILE.CAPTION
 msgid "Place cursor on first file in list"
-msgstr ""
+msgstr "Помістити курсор на перший у списку файл"
 
 #: TFRMMAIN.ACTGOTOLASTFILE.CAPTION
 msgid "Place cursor on last file in list"
-msgstr ""
+msgstr "Помістити курсор на останній у списку файл"
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
-#, fuzzy
 #| msgid "Create link..."
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create hard link..."
-msgstr "Створити по&силання..."
+msgstr "Створити жорстке посилання..."
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
 #| msgid "Contents"
@@ -2105,7 +2104,7 @@ msgstr "Зміст"
 
 #: TFRMMAIN.ACTHORIZONTALFILEPANELS.CAPTION
 msgid "Horizontal file panels"
-msgstr ""
+msgstr "Горизонтальне розміщення панелей"
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
 #| msgid "Keyboard"
@@ -2369,11 +2368,10 @@ msgid "Enable/disable ignore list file to not show file names"
 msgstr "Включити/виключити чорний список файлів, щоб не показувати імена файлів"
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
-#, fuzzy
 #| msgid "Create symlink..."
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
 msgid "Create symbolic link..."
-msgstr "Створити символічне пос&илання..."
+msgstr "Створити символічне посилання..."
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
 msgid "Target &= Source"
@@ -2793,7 +2791,7 @@ msgstr "Вкладк&и"
 
 #: TFRMMAIN.TBCHANGEDIR.CAPTION
 msgid "CD"
-msgstr ""
+msgstr "CD"
 
 #: TFRMMAIN.TBCOPY.CAPTION
 msgctxt "TFRMMAIN.TBCOPY.CAPTION"
