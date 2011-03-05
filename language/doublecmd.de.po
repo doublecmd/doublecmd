@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.46 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2011-01-07 11:34+0100\n"
+"PO-Revision-Date: 2011-03-05 11:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2093,11 +2093,11 @@ msgstr "Fokus auf die Befehlsze&ile"
 
 #: TFRMMAIN.ACTGOTOFIRSTFILE.CAPTION
 msgid "Place cursor on first file in list"
-msgstr ""
+msgstr "Setze die Einfügemarke auf den ersten Eintrag der Liste"
 
 #: TFRMMAIN.ACTGOTOLASTFILE.CAPTION
 msgid "Place cursor on last file in list"
-msgstr ""
+msgstr "Setze die Einfügemarke auf den letzten Eintrag der Liste"
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
 #, fuzzy
@@ -2114,7 +2114,7 @@ msgstr "Inhalte"
 
 #: TFRMMAIN.ACTHORIZONTALFILEPANELS.CAPTION
 msgid "Horizontal file panels"
-msgstr ""
+msgstr "Horizontale Datei-Panel"
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
 #, fuzzy
@@ -2821,7 +2821,7 @@ msgstr "&Reiter"
 
 #: TFRMMAIN.TBCHANGEDIR.CAPTION
 msgid "CD"
-msgstr ""
+msgstr "Verzeichnis-Wechsel"
 
 #: TFRMMAIN.TBCOPY.CAPTION
 msgctxt "TFRMMAIN.TBCOPY.CAPTION"
@@ -4047,7 +4047,7 @@ msgstr "Kategorien:"
 
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
 msgid "Drive blacklist:"
-msgstr ""
+msgstr "Ausschlussliste für Laufwerke:"
 
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.HINT
 msgid "Here you can enter one or more drives, separated by \";\"."
@@ -5497,7 +5497,7 @@ msgstr "Zugang:"
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
-msgstr "Die Datei \"%s kann nicht über sich selbst kopiert / verschoben werden!"
+msgstr "Die Datei \"%s\" kann nicht über sich selbst kopiert / verschoben werden!"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -5681,7 +5681,7 @@ msgstr "Datei %s ist als schreibgeschützt markiert. Soll sie gelöscht werden?"
 
 #: ulng.rsmsgfilesizetoobig
 msgid "The file size of \"%s\" is too big for destination file system!"
-msgstr ""
+msgstr "Die Grösse der Datei \"%s\" ist zu gross für das Dateisystem des Ziel-Laufwerks!"
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
