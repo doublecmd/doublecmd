@@ -175,29 +175,33 @@
         <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="6">
+    <RequiredPackages Count="7">
       <Item1>
-        <PackageName Value="pkg_gifanim"/>
-        <MinVersion Major="1" Minor="4" Valid="True"/>
+        <PackageName Value="ZVDateTimeCtrls"/>
+        <MinVersion Major="1" Minor="2" Valid="True"/>
       </Item1>
       <Item2>
-        <PackageName Value="cmdbox"/>
+        <PackageName Value="pkg_gifanim"/>
+        <MinVersion Major="1" Minor="4" Valid="True"/>
       </Item2>
       <Item3>
-        <PackageName Value="KASComp"/>
-        <MinVersion Major="1" Release="1" Build="1" Valid="True"/>
+        <PackageName Value="cmdbox"/>
       </Item3>
       <Item4>
-        <PackageName Value="LCL"/>
-        <MinVersion Major="1" Valid="True"/>
+        <PackageName Value="KASComp"/>
+        <MinVersion Major="1" Release="1" Build="1" Valid="True"/>
       </Item4>
       <Item5>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item5>
       <Item6>
-        <PackageName Value="viewerpackage"/>
+        <PackageName Value="SynEdit"/>
+        <MinVersion Major="1" Valid="True"/>
       </Item6>
+      <Item7>
+        <PackageName Value="viewerpackage"/>
+      </Item7>
     </RequiredPackages>
     <Units Count="102">
       <Unit0>

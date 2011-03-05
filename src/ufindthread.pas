@@ -288,7 +288,7 @@ begin
       Exit(False);
 
     //DebugLn('File = ', sr.Name);
-    if (not RegExp) and (not MatchesMaskList(UTF8UpperCase(sr.Name), FilesMasks)) then
+    if (not RegExp) and (not MatchesMaskList(UTF8UpperCase(sr.Name), FFileChecks.FilesMasks)) then
       Exit(False);
 
     if (IsDateFrom or IsDateTo or IsTimeFrom or IsTimeTo or IsNotOlderThan) then
@@ -342,7 +342,7 @@ begin
   if FSearchTemplate.RegExp or (Pos(';', FSearchTemplate.FilesMasks) <> 0) then
     Path := sNewDir + PathDelim + '*'
   else
-    Path := sNewDir + PathDelim + FSearchTemplate.FilesMasks;
+    Path := sNewDir + PathDelim + FFileChecks.FilesMasks;
 
   if FindFirstEx(Path, faAnyFile, sr) = 0 then
   repeat

@@ -686,7 +686,7 @@ object frmOptions: TfrmOptions
           Columns = <          
             item
               Title.Caption = 'Tool'
-              Width = 138
+              Width = 142
             end>
           ExtendedSelect = False
           FixedCols = 0
@@ -695,7 +695,7 @@ object frmOptions: TfrmOptions
           TabOrder = 0
           OnSelectCell = stgToolsSelectCell
           ColWidths = (
-            138
+            142
           )
           Cells = (
             3
@@ -1776,11 +1776,11 @@ object frmOptions: TfrmOptions
           Columns = <          
             item
               Title.Caption = 'Hotkey'
-              Width = 130
+              Width = 132
             end          
             item
               Title.Caption = 'Parameters'
-              Width = 131
+              Width = 133
             end>
           FixedCols = 0
           MouseWheelOption = mwGrid
@@ -1789,8 +1789,8 @@ object frmOptions: TfrmOptions
           TabOrder = 2
           OnSelectCell = stgHotkeysSelectCell
           ColWidths = (
-            130
-            131
+            132
+            133
           )
         end
         object pnlHotkeyButtons: TPanel
@@ -2022,7 +2022,7 @@ object frmOptions: TfrmOptions
             item
               SizePriority = 0
               Title.Caption = 'File name'
-              Width = 261
+              Width = 265
             end>
           FixedCols = 0
           Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook]
@@ -2034,7 +2034,7 @@ object frmOptions: TfrmOptions
             70
             183
             183
-            261
+            265
           )
         end
         object btnAddPlugin: TBitBtn
@@ -2769,7 +2769,7 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Side = asrBottom
           Left = 10
           Height = 228
-          Top = 135
+          Top = 158
           Width = 673
           Anchors = [akTop, akLeft, akRight]
           AutoSize = True
@@ -2911,7 +2911,7 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Control = gbCopyBufferSize
           AnchorSideRight.Side = asrBottom
           Left = 10
-          Height = 70
+          Height = 93
           Top = 59
           Width = 673
           Anchors = [akTop, akLeft, akRight]
@@ -2920,7 +2920,7 @@ object frmOptions: TfrmOptions
           Caption = 'File search'
           ChildSizing.LeftRightSpacing = 14
           ChildSizing.TopBottomSpacing = 6
-          ClientHeight = 52
+          ClientHeight = 75
           ClientWidth = 669
           TabOrder = 2
           object rbUseMmapInSearch: TRadioButton
@@ -2943,6 +2943,17 @@ object frmOptions: TfrmOptions
             Checked = True
             TabOrder = 1
             TabStop = True
+          end
+          object cbPartialNameSearch: TCheckBox
+            AnchorSideTop.Control = rbUseStreamInSearch
+            AnchorSideTop.Side = asrBottom
+            Left = 14
+            Height = 17
+            Top = 52
+            Width = 150
+            BorderSpacing.Top = 6
+            Caption = 'Search for part of file name'
+            TabOrder = 2
           end
         end
       end

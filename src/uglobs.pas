@@ -184,12 +184,13 @@ var
   gIconOverlays : Boolean;
   gIconsSize,
   gIconsSizeNew : Integer;
-  gUseMmapInSearch : Boolean;
   gCustomDriveIcons : Boolean; // for use custom drive icons under windows
   
   { File operations page }
 
   gCopyBlockSize : Integer;
+  gUseMmapInSearch : Boolean;
+  gPartialNameSearch: Boolean;
   gSkipFileOpError: Boolean;
   gDropReadOnlyFlag : Boolean;
   gWipePassNumber: Integer;
@@ -672,6 +673,7 @@ begin
   { File operations page }
   gCopyBlockSize := 524288;
   gUseMmapInSearch := False;
+  gPartialNameSearch := True;
   gWipePassNumber := 1;
   gDropReadOnlyFlag := True;
   gProcessComments := True;
@@ -1469,6 +1471,7 @@ begin
     begin
       gCopyBlockSize := GetValue(Node, 'BufferSize', gCopyBlockSize);
       gUseMmapInSearch := GetValue(Node, 'UseMmapInSearch', gUseMmapInSearch);
+      gPartialNameSearch := GetValue(Node, 'PartialNameSearch', gPartialNameSearch);
       gWipePassNumber := GetValue(Node, 'WipePassNumber', gWipePassNumber);
       gDropReadOnlyFlag := GetValue(Node, 'DropReadOnlyFlag', gDropReadOnlyFlag);
       gProcessComments := GetValue(Node, 'ProcessComments', gProcessComments);
@@ -1734,6 +1737,7 @@ begin
     Node := FindNode(Root, 'FileOperations', True);
     SetValue(Node, 'BufferSize', gCopyBlockSize);
     SetValue(Node, 'UseMmapInSearch', gUseMmapInSearch);
+    SetValue(Node, 'PartialNameSearch', gPartialNameSearch);
     SetValue(Node, 'WipePassNumber', gWipePassNumber);
     SetValue(Node, 'DropReadOnlyFlag', gDropReadOnlyFlag);
     SetValue(Node, 'ProcessComments', gProcessComments);

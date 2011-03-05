@@ -40,6 +40,7 @@ type
     FilesMasks: String;
     SearchDepth: Integer; // -1 = unlimited
     RegExp: Boolean;
+    IsPartialNameSearch: Boolean;
     FollowSymLinks: Boolean;
     AttributesPattern: String;
     { Date/time }
@@ -256,7 +257,10 @@ end;
 procedure SearchTemplateToFindFileChecks(const SearchTemplate: TSearchTemplateRec;
                                          out FileChecks: TFindFileChecks);
 begin
-  FileChecks.FilesMasks := SearchTemplate.FilesMasks;
+  if SearchTemplate.IsPartialNameSearch then
+    FileChecks.FilesMasks := '*' + SearchTemplate.FilesMasks + '*'
+  else
+    FileChecks.FilesMasks := SearchTemplate.FilesMasks;
   FileChecks.RegExp := SearchTemplate.RegExp;
   DateTimeOptionsToChecks(SearchTemplate, FileChecks);
   FileSizeOptionsToChecks(SearchTemplate, FileChecks);
@@ -306,4 +310,4 @@ begin
   end;
 end;
 
-end.
+end.
