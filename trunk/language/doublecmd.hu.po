@@ -1674,11 +1674,15 @@ msgid "Date To:"
 msgstr "Dátumig:"
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
-msgid "File Size From:"
+#, fuzzy
+#| msgid "File Size From:"
+msgid "Size from:"
 msgstr "Fájlmérettől:"
 
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
-msgid "File Size To:"
+#, fuzzy
+#| msgid "File Size To:"
+msgid "Size to:"
 msgstr "Fájlméretig:"
 
 #: TFRMFINDDLG.CBFINDTEXT.CAPTION
@@ -1699,6 +1703,10 @@ msgstr "A szöveget NEM tartalmazó fájlok keresése"
 msgid "Not older than:"
 msgstr "Nem régebbi mint:"
 
+#: TFRMFINDDLG.CBPARTIALNAMESEARCH.CAPTION
+msgid "Search for part of file name "
+msgstr ""
+
 #: TFRMFINDDLG.CBREGEXP.CAPTION
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
@@ -1706,8 +1714,8 @@ msgstr "&Reguláris kifejezések"
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
 #, fuzzy
-#| msgid "Replace text"
-msgid "Re&place text"
+#| msgid "Re&place text"
+msgid "Re&place by"
 msgstr "Szöveg helyettesítése"
 
 #: TFRMFINDDLG.CBTIMEFROM.CAPTION
@@ -1746,6 +1754,11 @@ msgstr ""
 msgid "Find Data"
 msgstr "Adat keresése"
 
+#: TFRMFINDDLG.GBFINDOPTIONS.CAPTION
+msgctxt "TFRMFINDDLG.GBFINDOPTIONS.CAPTION"
+msgid "Options"
+msgstr "Opciók"
+
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "Jelenlegi"
@@ -1766,6 +1779,10 @@ msgstr "FájlMaszk"
 #| msgid "FileDir"
 msgid "&Directory"
 msgstr "FájlKönyvtár"
+
+#: TFRMFINDDLG.LBLFINDTEXT.CAPTION
+msgid "Find text"
+msgstr ""
 
 #: TFRMFINDDLG.LBLFOUND.CAPTION
 msgid "Found"
@@ -3314,11 +3331,6 @@ msgstr "Finomhangolás"
 msgid "Set HotKey"
 msgstr "Gyorsbillentyű beállítása"
 
-#: TFRMOPTIONS.CAPTION
-msgctxt "TFRMOPTIONS.CAPTION"
-msgid "Options"
-msgstr "Opciók"
-
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgctxt "TFRMOPTIONS.CBACKGRNDLABEL.CAPTION"
 msgid "BackGround:"
@@ -3482,6 +3494,10 @@ msgstr ""
 msgid "Show panel of operation in background"
 msgstr ""
 
+#: TFRMOPTIONS.CBPARTIALNAMESEARCH.CAPTION
+msgid "Search for part of file name"
+msgstr ""
+
 #: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
 msgid "Process comments with files/folders"
 msgstr "Fájl/könyvtár megjegyzések feldolgozása"
@@ -3541,6 +3557,10 @@ msgstr "Meg&hajtómenü gomb megjelenítése"
 #: TFRMOPTIONS.CBSHOWKEYSPANEL.CAPTION
 msgid "Show &function key buttons"
 msgstr "&Funkcióbillentyűk megjelenítése"
+
+#: TFRMOPTIONS.CBSHOWMAINMENU.CAPTION
+msgid "Show main menu"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWMAINTOOLBAR.CAPTION
 msgid "Show &button bar"
@@ -3696,6 +3716,11 @@ msgstr ""
 msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
 msgid "Text Color:"
 msgstr "Szövegszín"
+
+#: TFRMOPTIONS.FRMOPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
+msgid "Options"
+msgstr "Opciók"
 
 #: TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION
 msgctxt "TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION"
@@ -3898,6 +3923,10 @@ msgstr "Név kategória:"
 msgid "characters"
 msgstr "karakterek"
 
+#: TFRMOPTIONS.LBLCMDLINECONFIGDIR.CAPTION
+msgid "Set on command line"
+msgstr ""
+
 #: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
 msgid "Configure columns for file system:"
 msgstr "Fájlrendszer oszlopok beállítása:"
@@ -3990,6 +4019,10 @@ msgstr "Terminál indítása"
 msgid "&Save in:"
 msgstr ""
 
+#: TFRMOPTIONS.LBLSCFILES.CAPTION
+msgid "Shortcut files:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
 msgid "Sort &method:"
 msgstr ""
@@ -4037,10 +4070,6 @@ msgstr "A nézőke beépülők lehetővé teszik, hogy kép, táblázat, adatbá
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
 msgstr "Kategóriák:"
-
-#: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
-msgid "Drive blacklist:"
-msgstr ""
 
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.HINT
 msgid "Here you can enter one or more drives, separated by \";\"."
@@ -4130,39 +4159,44 @@ msgstr "Felhasználó saját könyvtára"
 msgid "Use stream for search text in files"
 msgstr "Memóriafolyam használata fájlokban történő kereséskor"
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Hotkey"
 msgstr ""
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Parameters"
 msgstr ""
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Active"
 msgstr "Aktív"
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Plugin"
 msgstr ""
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Registered for"
 msgstr "Regisztrálva"
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
 msgid "File name"
 msgstr "Fájlnév"
 
-#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION"
+#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Tool"
+msgstr ""
+
+#: TFRMOPTIONS.SUBLABEL.CAPTION
+msgctxt "TFRMOPTIONS.SUBLABEL.CAPTION"
+msgid "Drive blacklist:"
 msgstr ""
 
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
