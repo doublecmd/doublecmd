@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Load/Save search templates
 
-   Copyright (C) 2009-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -257,6 +257,7 @@ begin
           StartPath:= AConfig.GetValue(ANode, 'StartPath', '');
           FilesMasks:= AConfig.GetValue(ANode, 'FilesMasks', '*');
           SearchDepth:= AConfig.GetValue(ANode, 'SearchDepth', -1);
+          IsPartialNameSearch:= AConfig.GetValue(ANode, 'IsPartialNameSearch', True);
           RegExp:= AConfig.GetValue(ANode, 'RegExp', False);
           FollowSymLinks:= AConfig.GetValue(ANode, 'FollowSymLinks', False);
           AttributesPattern:= AConfig.GetValue(ANode, 'AttributesPattern', '');
@@ -374,6 +375,7 @@ begin
       AConfig.AddValue(SubNode, 'StartPath', StartPath);
       AConfig.AddValue(SubNode, 'FilesMasks', FilesMasks);
       AConfig.AddValue(SubNode, 'SearchDepth', SearchDepth);
+      AConfig.AddValue(SubNode, 'IsPartialNameSearch', IsPartialNameSearch);
       AConfig.AddValue(SubNode, 'RegExp', RegExp);
       AConfig.AddValue(SubNode, 'FollowSymLinks', FollowSymLinks);
       AConfig.AddValue(SubNode, 'AttributesPattern', AttributesPattern);

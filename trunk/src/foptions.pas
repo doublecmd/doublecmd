@@ -143,6 +143,7 @@ type
     cbShowDriveFreeSpace: TCheckBox;
     cbSaveThubnails: TCheckBox;
     cbShowMainMenu: TCheckBox;
+    cbPartialNameSearch: TCheckBox;
     chkSearchReplaceHistory: TCheckBox;
     chkSaveConfiguration: TCheckBox;
     chkMultiArcEnabled: TCheckBox;
@@ -2692,6 +2693,7 @@ begin
   cbSkipFileOpError.Checked:= gSkipFileOpError;
   cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
   rbUseMmapInSearch.Checked := gUseMmapInSearch;
+  cbPartialNameSearch.Checked := gPartialNameSearch;
   seWipePassNumber.Value:= gWipePassNumber;
   cbProcessComments.Checked:= gProcessComments;
   cbShowCopyTabSelectPanel.Checked:=gShowCopyTabSelectPanel;
@@ -2939,6 +2941,7 @@ begin
   gSkipFileOpError:= cbSkipFileOpError.Checked;
   gDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
   gUseMmapInSearch := rbUseMmapInSearch.Checked;
+  gPartialNameSearch := cbPartialNameSearch.Checked;
   gWipePassNumber:= seWipePassNumber.Value;
   gProcessComments:= cbProcessComments.Checked;
   gShowCopyTabSelectPanel:=cbShowCopyTabSelectPanel.Checked;

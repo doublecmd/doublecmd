@@ -29,9 +29,9 @@ unit fFindDlg;
 interface
 
 uses
-  LResources, SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls,
-  ExtCtrls, Menus, EditBtn, Spin, MaskEdit, Buttons, fAttributesEdit,
-  uDsxModule, DsxPlugin, uFindThread, uFindFiles;
+  Graphics, SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls,
+  ExtCtrls, Menus, EditBtn, Spin, MaskEdit, Buttons, ZVDateTimePicker,
+  fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles;
 
 type
 
@@ -39,7 +39,8 @@ type
 
   TfrmFindDlg = class(TForm)
     Bevel2: TBevel;
-    Bevel3: TBevel;
+    btnAddAttribute: TButton;
+    btnAttrsHelp: TButton;
     btnSaveTemplate: TBitBtn;
     btnClose: TButton;
     btnGoToPath: TButton;
@@ -48,8 +49,6 @@ type
     btnStop: TButton;
     btnView: TButton;
     btnWorkWithFound: TButton;
-    btnAttrsHelp: TButton;
-    btnAddAttribute: TButton;
     cbFindText: TCheckBox;
     cbNotContainingText: TCheckBox;
     cbDateFrom: TCheckBox;
@@ -60,6 +59,7 @@ type
     cbReplaceText: TCheckBox;
     cbTimeFrom: TCheckBox;
     cbTimeTo: TCheckBox;
+    cbPartialNameSearch: TCheckBox;
     cmbFollowSymLinks: TCheckBox;
     cmbNotOlderThanUnit: TComboBox;
     cmbFileSizeUnit: TComboBox;
@@ -70,15 +70,13 @@ type
     cbRegExp: TCheckBox;
     cmbReplaceText: TComboBox;
     cmbFindText: TComboBox;
-    deDateFrom: TEditButton;
-    deDateTo: TEditButton;
     edtFindPathStart: TDirectoryEdit;
     edtAttrib: TEdit;
-    edtTimeFrom: TEdit;
-    edtTimeTo: TEdit;
     gbAttributes: TGroupBox;
     btnSearchDelete: TButton;
     btnSearchLoad: TButton;
+    gbFindOptions: TGroupBox;
+    lblFindText: TLabel;
     lblCurrent: TLabel;
     lblFound: TLabel;
     lblStatus: TLabel;
@@ -89,7 +87,6 @@ type
     lblSearchDepth: TLabel;
     lblEncoding: TLabel;
     lsFoundedFiles: TListBox;
-    pnlAttributesButtons: TPanel;
     pnlResults: TPanel;
     pnlStatus: TPanel;
     pnlResultsButtons: TPanel;
@@ -109,15 +106,22 @@ type
     tsAdvanced: TTabSheet;
     PopupMenuFind: TPopupMenu;
     miShowInViewer: TMenuItem;
+    ZVDateFrom: TZVDateTimePicker;
+    ZVDateTo: TZVDateTimePicker;
+    ZVTimeFrom: TZVDateTimePicker;
+    ZVTimeTo: TZVDateTimePicker;
     procedure btnAddAttributeClick(Sender: TObject);
     procedure btnAttrsHelpClick(Sender: TObject);
     procedure btnSearchDeleteClick(Sender: TObject);
     procedure btnSearchLoadClick(Sender: TObject);
     procedure btnSearchSaveClick(Sender: TObject);
+    procedure cbDateFromChange(Sender: TObject);
+    procedure cbDateToChange(Sender: TObject);
+    procedure cbPartialNameSearchChange(Sender: TObject);
+    procedure cbRegExpChange(Sender: TObject);
     procedure cmbEncodingSelect(Sender: TObject);
     procedure cbFindTextChange(Sender: TObject);
     procedure cbUsePluginChange(Sender: TObject);
-    procedure deDateButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGoToPathClick(Sender: TObject);
     procedure btnNewSearchClick(Sender: TObject);
@@ -125,8 +129,6 @@ type
     procedure btnStartClick(Sender: TObject);
     procedure btnViewClick(Sender: TObject);
     procedure btnWorkWithFoundClick(Sender: TObject);
-    procedure cbDateFromChange(Sender: TObject);
-    procedure cbDateToChange(Sender: TObject);
     procedure cbDirectoryChange(Sender: TObject);
     procedure cbFileSizeFromChange(Sender: TObject);
     procedure cbFileSizeToChange(Sender: TObject);
@@ -146,9 +148,15 @@ type
     procedure lsFoundedFilesDblClick(Sender: TObject);
     procedure lsFoundedFilesKeyDown(Sender: TObject;
       var Key: Word; Shift: TShiftState);
-    procedure meTimeChange(Sender: TObject);
     procedure miShowInViewerClick(Sender: TObject);
+    procedure seFileSizeFromChange(Sender: TObject);
+    procedure seFileSizeToChange(Sender: TObject);
+    procedure seNotOlderThanChange(Sender: TObject);
     procedure tsLoadSaveShow(Sender: TObject);
+    procedure ZVDateFromChange(Sender: TObject);
+    procedure ZVDateToChange(Sender: TObject);
+    procedure ZVTimeFromChange(Sender: TObject);
+    procedure ZVTimeToChange(Sender: TObject);
   private
     { Private declarations }
     FFindThread:TFindThread;
@@ -161,13 +169,14 @@ type
     procedure FindOptionsToDSXSearchRec(const AFindOptions: TSearchTemplateRec;
                                         var SRec: TDsxSearchRecord);
     procedure OnAddAttribute(Sender: TObject);
+    procedure UpdateColor(Control: TControl; Checked: Boolean);
   public
     { Public declarations }
     procedure ThreadTerminate(Sender:TObject);
   end;
 
 var
-  frmFindDlg: TfrmFindDlg =nil;
+  frmFindDlg: TfrmFindDlg = nil;
 
 procedure ShowFindDlg(const sActPath: UTF8String);
 function ShowDefineTemplateDlg(out TemplateName: UTF8String): Boolean;
@@ -299,6 +308,22 @@ begin
   GetSupportedEncodings(cmbEncoding.Items);
   cmbEncoding.ItemIndex:= cmbEncoding.Items.IndexOf(EncodingAnsi);
 
+  // gray disabled fields
+  cbUsePluginChange(Sender);
+  cbFindTextChange(Sender);
+  cbNotOlderThanChange(Sender);
+  cbFileSizeFromChange(Sender);
+  cbFileSizeToChange(Sender);
+  ZVDateFrom.DateTime:=Now();
+  ZVDateTo.DateTime:=Now();
+  ZVTimeFrom.DateTime:=Now();
+  ZVTimeTo.DateTime:=Now();
+  cbDateFrom.Checked:=False;
+  cbDateTo.Checked:=False;
+  cbTimeFrom.Checked:=False;
+  cbTimeTo.Checked:=False;
+
+
 {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
   btnStart.Default := True;
 {$ENDIF}
@@ -306,24 +331,18 @@ begin
   cmbNotOlderThanUnit.ItemIndex := 3; // Days
   cmbFileSizeUnit.ItemIndex := 1; // Kilobytes
   edtFindPathStart.ShowHidden := gShowSystemFiles;
+  cbPartialNameSearch.Checked:= gPartialNameSearch;
 end;
 
 procedure TfrmFindDlg.cbUsePluginChange(Sender: TObject);
 begin
-  cmbPlugin.Enabled:=cbUsePlugin.Checked;
+  EnableControl(cmbPlugin, cbUsePlugin.Checked);
 
-  if cmbPlugin.Enabled and cmbPlugin.CanFocus then
+  if cmbPlugin.Enabled and cmbPlugin.CanFocus and (Sender = cbUsePlugin) then
   begin
     cmbPlugin.SetFocus;
     cmbPlugin.SelectAll;
   end;
-end;
-
-procedure TfrmFindDlg.deDateButtonClick(Sender: TObject);
-var
-  ebDate: TEditButton absolute Sender;
-begin
-  ebDate.Text:= ShowCalendarDialog(ebDate.Text, Mouse.CursorPos);
 end;
 
 procedure TfrmFindDlg.cmbEncodingSelect(Sender: TObject);
@@ -344,8 +363,15 @@ end;
 procedure TfrmFindDlg.cbFindTextChange(Sender: TObject);
 begin
   gbFindData.Enabled:=cbFindText.Checked;
+  EnableControl(cmbFindText, cbFindText.Checked);
+  EnableControl(cmbReplaceText, cbFindText.Checked);
+  EnableControl(cmbEncoding, cbFindText.Checked);
+  EnableControl(cmbFindText, cbFindText.Checked);
+  lblEncoding.Enabled:=cbFindText.Checked;
+  lblFindText.Enabled:=cbFindText.Checked;
+  cbReplaceTextChange(Sender);
 
-  if cmbFindText.Enabled and cmbFindText.CanFocus then
+  if cmbFindText.Enabled and cmbFindText.CanFocus and (Sender = cbFindText)then
   begin
     cmbFindText.SetFocus;
     cmbFindText.SelectAll;
@@ -367,17 +393,18 @@ begin
     else
       cbSearchDepth.ItemIndex:= 0;
     cbRegExp.Checked := RegExp;
+    cbPartialNameSearch.Checked := IsPartialNameSearch;
     // attributes
     edtAttrib.Text:= AttributesPattern;
     // file date/time
     cbDateFrom.Checked:= IsDateFrom;
     cbDateTo.Checked:= IsDateTo;
-    deDateFrom.Text:= DateToStr(DateTimeFrom);
-    deDateTo.Text:= DateToStr(DateTimeTo);
+    ZVDateFrom.Date:= DateTimeFrom;
+    ZVDateTo.Date:= DateTimeTo;
     cbTimeFrom.Checked:= IsTimeFrom;
     cbTimeTo.Checked:= IsTimeTo;
-    edtTimeFrom.Text:= TimeToStr(DateTimeFrom);
-    edtTimeTo.Text:= TimeToStr(DateTimeTo);
+    ZVTimeFrom.Time:= DateTimeFrom;
+    ZVTimeTo.Time:= DateTimeTo;
     // not older then
     cbNotOlderThan.Checked:= IsNotOlderThan;
     seNotOlderThan.Value:= NotOlderThan;
@@ -445,6 +472,26 @@ begin
   tsLoadSaveShow(nil);
 end;
 
+procedure TfrmFindDlg.cbDateFromChange(Sender: TObject);
+begin
+  UpdateColor(ZVDateFrom, cbDateFrom.Checked);
+end;
+
+procedure TfrmFindDlg.cbDateToChange(Sender: TObject);
+begin
+  UpdateColor(ZVDateTo, cbDateTo.Checked);
+end;
+
+procedure TfrmFindDlg.cbPartialNameSearchChange(Sender: TObject);
+begin
+  if cbPartialNameSearch.Checked then cbRegExp.Checked:=False;
+end;
+
+procedure TfrmFindDlg.cbRegExpChange(Sender: TObject);
+begin
+  if cbRegExp.Checked then cbPartialNameSearch.Checked:=False;
+end;
+
 procedure TfrmFindDlg.btnSelDirClick(Sender: TObject);
 var
   s:String;
@@ -487,6 +534,7 @@ begin
     FilesMasks     := cmbFindFileMask.Text;
     SearchDepth    := cbSearchDepth.ItemIndex - 1;
     RegExp         := cbRegExp.Checked;
+    IsPartialNameSearch := cbPartialNameSearch.Checked;
     FollowSymLinks := cmbFollowSymLinks.Checked;
 
     { File attributes }
@@ -501,35 +549,23 @@ begin
     IsTimeTo     := False;
     if cbDateFrom.Checked then
       begin
-        if TryStrToDate(deDateFrom.Text, dtTemp) then
-          begin
-            IsDateFrom := True;
-            DateTimeFrom := dtTemp;
-          end;
+        IsDateFrom := True;
+        DateTimeFrom := ZVDateFrom.Date;
       end;
     if cbDateTo.Checked then
       begin
-        if TryStrToDate(deDateTo.Text, dtTemp) then
-          begin
-            IsDateTo := True;
-            DateTimeTo := dtTemp;
-          end;
+        IsDateTo := True;
+        DateTimeTo := ZVDateTo.Date;
       end;
     if cbTimeFrom.Checked then
       begin
-        if TryStrToTime(edtTimeFrom.Text, dtTemp) then
-          begin
-            IsTimeFrom := True;
-            DateTimeFrom := DateTimeFrom + dtTemp;
-          end;
+        IsTimeFrom := True;
+        DateTimeFrom := DateTimeFrom + ZVTimeFrom.Time;
       end;
     if cbTimeTo.Checked then
       begin
-        if TryStrToTime(edtTimeTo.Text, dtTemp) then
-          begin
-            IsTimeTo := True;
-            DateTimeTo := DateTimeTo + dtTemp;
-          end;
+        IsTimeTo := True;
+        DateTimeTo := DateTimeTo + ZVTimeTo.Time;
       end;
 
     { Not Older Than }
@@ -565,7 +601,12 @@ begin
     FillByte(SRec, SizeOf(TDsxSearchRecord), 0);
 
     SRec.StartPath:= Copy(StartPath, 1, SizeOf(SRec.StartPath));
-    SRec.FileMask:= Copy(FilesMasks, 1, SizeOf(SRec.FileMask));
+
+    if IsPartialNameSearch then
+      SRec.FileMask:= '*' + Copy(FilesMasks, 1, SizeOf(SRec.FileMask) - 2) + '*'
+    else
+      SRec.FileMask:= Copy(FilesMasks, 1, SizeOf(SRec.FileMask));
+
     SRec.Attributes:= faAnyFile;  // AttrStrToFileAttr?
     SRec.AttribStr:= Copy(AttributesPattern, 1, SizeOf(SRec.AttribStr));
 
@@ -742,49 +783,31 @@ begin
   Close;
 end;
 
-procedure TfrmFindDlg.cbDateFromChange(Sender: TObject);
-begin
-  deDateFrom.Enabled := cbDateFrom.Checked;
-end;
-
-procedure TfrmFindDlg.cbDateToChange(Sender: TObject);
-begin
-  deDateTo.Enabled := cbDateTo.Checked;
-end;
-
 procedure TfrmFindDlg.cbDirectoryChange(Sender: TObject);
 begin
 end;
 
 procedure TfrmFindDlg.cbFileSizeFromChange(Sender: TObject);
 begin
-  seFileSizeFrom.Enabled := cbFileSizeFrom.Checked;
-
-  if seFileSizeFrom.Enabled or seFileSizeTo.Enabled then
-    cmbFileSizeUnit.Enabled := True
-  else
-    cmbFileSizeUnit.Enabled := False;
+  UpdateColor(seFileSizeFrom, cbFileSizeFrom.Checked);
+  EnableControl(cmbFileSizeUnit,cbFileSizeFrom.Checked or cbFileSizeTo.Checked);
 end;
 
 procedure TfrmFindDlg.cbFileSizeToChange(Sender: TObject);
 begin
-  seFileSizeTo.Enabled := cbFileSizeTo.Checked;
-
-  if seFileSizeFrom.Enabled or seFileSizeTo.Enabled then
-    cmbFileSizeUnit.Enabled := True
-  else
-    cmbFileSizeUnit.Enabled := False;
+  UpdateColor(seFileSizeTo, cbFileSizeTo.Checked);
+  EnableControl(cmbFileSizeUnit,cbFileSizeFrom.Checked or cbFileSizeTo.Checked);
 end;
 
 procedure TfrmFindDlg.cbNotOlderThanChange(Sender: TObject);
 begin
-  seNotOlderThan.Enabled := cbNotOlderThan.Checked;
-  cmbNotOlderThanUnit.Enabled := cbNotOlderThan.Checked;
+   UpdateColor(seNotOlderThan, cbNotOlderThan.Checked);
+   EnableControl(cmbNotOlderThanUnit,cbNotOlderThan.Checked);
 end;
 
 procedure TfrmFindDlg.cbReplaceTextChange(Sender: TObject);
 begin
-  cmbReplaceText.Enabled := cbReplaceText.Checked;
+  EnableControl(cmbReplaceText, cbReplaceText.Checked);
   cbNotContainingText.Checked := False;
   cbNotContainingText.Enabled := not cbReplaceText.Checked;
 
@@ -801,26 +824,18 @@ begin
 end;
 
 procedure TfrmFindDlg.cbTimeFromChange(Sender: TObject);
-var
-  sTime : String;
 begin
-  edtTimeFrom.Enabled := cbTimeFrom.Checked;
-  DateTimeToString(sTime, 'hh:mm:ss', Time);
-  edtTimeFrom.Text := sTime;
+  UpdateColor(ZVTimeFrom, cbTimeFrom.Checked);
 end;
 
 procedure TfrmFindDlg.cbTimeToChange(Sender: TObject);
-var
-  sTime : String;
 begin
-  edtTimeTo.Enabled := cbTimeTo.Checked;
-  DateTimeToString(sTime, 'hh:mm:ss', Time);
-  edtTimeTo.Text := sTime;
+  UpdateColor(ZVTimeTo, cbTimeTo.Checked);
 end;
 
 procedure TfrmFindDlg.ThreadTerminate(Sender:TObject);
 begin
-  FFindThread:=nil;
+  FFindThread:= nil;
   AfterSearchStopped;
 end;
 
@@ -953,24 +968,6 @@ begin
   end;
 end;
 
-procedure TfrmFindDlg.meTimeChange(Sender: TObject);
-var
-  ME : TMaskEdit;
-begin
-  ME := TMaskEdit(Sender);
-
-  if StrToIntDef(Copy(ME.EditText, 1, 2), 24) > 23 then
-    ME.EditText := '00' + Copy(ME.EditText, 3, 6);
-
-  if StrToIntDef(Copy(ME.EditText, 4, 2), 60) > 59 then
-    ME.EditText := Copy(ME.EditText, 1, 3) + '00' + Copy(ME.EditText, 6, 3);
-
-  if StrToIntDef(Copy(ME.EditText, 7, 2), 60) > 59 then
-    ME.EditText := Copy(ME.EditText, 1, 6) + '00';
-
-end;
-
-
 procedure TfrmFindDlg.miShowInViewerClick(Sender: TObject);
 var
   sl:TStringList;
@@ -989,10 +986,45 @@ begin
   end;
 end;
 
+procedure TfrmFindDlg.seFileSizeFromChange(Sender: TObject);
+begin
+  cbFileSizeFrom.Checked:= (seFileSizeFrom.Value > 0);
+end;
+
+procedure TfrmFindDlg.seFileSizeToChange(Sender: TObject);
+begin
+  cbFileSizeTo.Checked:= (seFileSizeTo.Value > 0);
+end;
+
+procedure TfrmFindDlg.seNotOlderThanChange(Sender: TObject);
+begin
+  cbNotOlderThan.Checked:= (seNotOlderThan.Value > 0);
+end;
+
 procedure TfrmFindDlg.tsLoadSaveShow(Sender: TObject);
 begin
   gSearchTemplateList.LoadToStringList(lbSearchTemplates.Items);
   lblSearchContents.Caption:= '';
+end;
+
+procedure TfrmFindDlg.ZVDateFromChange(Sender: TObject);
+begin
+    cbDateFrom.Checked:= True;
+end;
+
+procedure TfrmFindDlg.ZVDateToChange(Sender: TObject);
+begin
+  cbDateTo.Checked:= True;
+end;
+
+procedure TfrmFindDlg.ZVTimeFromChange(Sender: TObject);
+begin
+  cbTimeFrom.Checked:= True;
+end;
+
+procedure TfrmFindDlg.ZVTimeToChange(Sender: TObject);
+begin
+    cbTimeTo.Checked:= True;
 end;
 
 procedure TfrmFindDlg.OnAddAttribute(Sender: TObject);
@@ -1006,6 +1038,14 @@ begin
   else
     sAttr := sAttr + (Sender as TfrmAttributesEdit).AttrsAsText;
   edtAttrib.Text := sAttr;
+end;
+
+procedure TfrmFindDlg.UpdateColor(Control: TControl; Checked: Boolean);
+begin
+  if Checked then
+    Control.Color:= clDefault
+  else
+    Control.Color:= $FFFFFFFF8000000F;
 end;
 
 finalization
