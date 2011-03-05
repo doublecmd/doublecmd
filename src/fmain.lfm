@@ -1156,16 +1156,11 @@ object frmMain: TfrmMain
     end
   end
   object pnlKeys: TPanel
-    AnchorSideLeft.Control = Owner
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = Owner
-    AnchorSideBottom.Side = asrBottom
     Left = 0
     Height = 20
-    Top = 324
+    Top = 350
     Width = 760
-    Anchors = [akLeft, akRight, akBottom]
+    Align = alBottom
     BevelOuter = bvLowered
     ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
     ChildSizing.EnlargeVertical = crsHomogenousChildResize
