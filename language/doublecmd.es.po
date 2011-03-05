@@ -1677,12 +1677,14 @@ msgstr "Fecha final:"
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 #, fuzzy
-msgid "File Size From:"
+#| msgid "File Size From:"
+msgid "Size from:"
 msgstr "Tamaño desde:"
 
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
 #, fuzzy
-msgid "File Size To:"
+#| msgid "File Size To:"
+msgid "Size to:"
 msgstr "Tamaño hasta:"
 
 #: TFRMFINDDLG.CBFINDTEXT.CAPTION
@@ -1699,13 +1701,19 @@ msgstr "Buscar ficheros que NO contengan el texto"
 msgid "Not older than:"
 msgstr "No más de:"
 
+#: TFRMFINDDLG.CBPARTIALNAMESEARCH.CAPTION
+msgid "Search for part of file name "
+msgstr ""
+
 #: TFRMFINDDLG.CBREGEXP.CAPTION
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr ""
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
-msgid "Re&place text"
+#, fuzzy
+#| msgid "Re&place text"
+msgid "Re&place by"
 msgstr "Reemplazar texto"
 
 #: TFRMFINDDLG.CBTIMEFROM.CAPTION
@@ -1743,6 +1751,11 @@ msgstr ""
 msgid "Find Data"
 msgstr "Buscar datos"
 
+#: TFRMFINDDLG.GBFINDOPTIONS.CAPTION
+msgctxt "TFRMFINDDLG.GBFINDOPTIONS.CAPTION"
+msgid "Options"
+msgstr "Opciones"
+
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "Actual"
@@ -1759,6 +1772,10 @@ msgstr "Máscara de ficheros"
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "&Directory"
 msgstr "Directorio de fichero"
+
+#: TFRMFINDDLG.LBLFINDTEXT.CAPTION
+msgid "Find text"
+msgstr ""
 
 #: TFRMFINDDLG.LBLFOUND.CAPTION
 msgid "Found"
@@ -3291,11 +3308,6 @@ msgstr ""
 msgid "Set HotKey"
 msgstr "Elegir tecla rápida"
 
-#: TFRMOPTIONS.CAPTION
-msgctxt "TFRMOPTIONS.CAPTION"
-msgid "Options"
-msgstr "Opciones"
-
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgctxt "TFRMOPTIONS.CBACKGRNDLABEL.CAPTION"
 msgid "BackGround:"
@@ -3457,6 +3469,10 @@ msgstr ""
 msgid "Show panel of operation in background"
 msgstr ""
 
+#: TFRMOPTIONS.CBPARTIALNAMESEARCH.CAPTION
+msgid "Search for part of file name"
+msgstr ""
+
 #: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
 msgid "Process comments with files/folders"
 msgstr ""
@@ -3514,6 +3530,10 @@ msgstr "Mostrar botón de &menú de discos"
 #: TFRMOPTIONS.CBSHOWKEYSPANEL.CAPTION
 msgid "Show &function key buttons"
 msgstr "Mostrar botones de tecla de &función"
+
+#: TFRMOPTIONS.CBSHOWMAINMENU.CAPTION
+msgid "Show main menu"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWMAINTOOLBAR.CAPTION
 msgid "Show &button bar"
@@ -3666,6 +3686,11 @@ msgstr ""
 msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
 msgid "Text Color:"
 msgstr "Color de texto:"
+
+#: TFRMOPTIONS.FRMOPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
+msgid "Options"
+msgstr "Opciones"
 
 #: TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION
 msgctxt "TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION"
@@ -3867,6 +3892,10 @@ msgstr "Nombre de categoría:"
 msgid "characters"
 msgstr "caracteres"
 
+#: TFRMOPTIONS.LBLCMDLINECONFIGDIR.CAPTION
+msgid "Set on command line"
+msgstr ""
+
 #: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
 msgid "Configure columns for file system:"
 msgstr "Configurar columnas para sistema de ficheros:"
@@ -3959,6 +3988,10 @@ msgstr "Run terminal:"
 msgid "&Save in:"
 msgstr ""
 
+#: TFRMOPTIONS.LBLSCFILES.CAPTION
+msgid "Shortcut files:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
 msgid "Sort &method:"
 msgstr ""
@@ -4005,10 +4038,6 @@ msgstr ""
 
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
-msgstr ""
-
-#: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
-msgid "Drive blacklist:"
 msgstr ""
 
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.HINT
@@ -4099,39 +4128,44 @@ msgstr "Directorio inicial de usuario"
 msgid "Use stream for search text in files"
 msgstr "Usar disco para buscar texto en ficheros"
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Hotkey"
 msgstr ""
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Parameters"
 msgstr ""
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Active"
 msgstr ""
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Plugin"
 msgstr ""
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Registered for"
 msgstr ""
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
 msgid "File name"
 msgstr "Nombre de fichero"
 
-#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION"
+#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Tool"
+msgstr ""
+
+#: TFRMOPTIONS.SUBLABEL.CAPTION
+msgctxt "TFRMOPTIONS.SUBLABEL.CAPTION"
+msgid "Drive blacklist:"
 msgstr ""
 
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION

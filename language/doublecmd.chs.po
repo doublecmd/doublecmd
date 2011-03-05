@@ -1679,12 +1679,14 @@ msgstr "结束日期:"
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 #, fuzzy
-msgid "File Size From:"
+#| msgid "File Size From:"
+msgid "Size from:"
 msgstr "最小:"
 
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
 #, fuzzy
-msgid "File Size To:"
+#| msgid "File Size To:"
+msgid "Size to:"
 msgstr "最大:"
 
 #: TFRMFINDDLG.CBFINDTEXT.CAPTION
@@ -1701,13 +1703,19 @@ msgstr "查找不包含这些文本的文件"
 msgid "Not older than:"
 msgstr "不早于:"
 
+#: TFRMFINDDLG.CBPARTIALNAMESEARCH.CAPTION
+msgid "Search for part of file name "
+msgstr ""
+
 #: TFRMFINDDLG.CBREGEXP.CAPTION
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr "正则表达式(&R)"
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
-msgid "Re&place text"
+#, fuzzy
+#| msgid "Re&place text"
+msgid "Re&place by"
 msgstr "替换文本"
 
 #: TFRMFINDDLG.CBTIMEFROM.CAPTION
@@ -1745,6 +1753,11 @@ msgstr ""
 msgid "Find Data"
 msgstr "查找数据"
 
+#: TFRMFINDDLG.GBFINDOPTIONS.CAPTION
+msgctxt "TFRMFINDDLG.GBFINDOPTIONS.CAPTION"
+msgid "Options"
+msgstr "选项"
+
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "当前"
@@ -1761,6 +1774,10 @@ msgstr "文件名掩码"
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "&Directory"
 msgstr "文件所在目录"
+
+#: TFRMFINDDLG.LBLFINDTEXT.CAPTION
+msgid "Find text"
+msgstr ""
 
 #: TFRMFINDDLG.LBLFOUND.CAPTION
 msgid "Found"
@@ -3317,11 +3334,6 @@ msgstr "调整"
 msgid "Set HotKey"
 msgstr "设置快捷键"
 
-#: TFRMOPTIONS.CAPTION
-msgctxt "TFRMOPTIONS.CAPTION"
-msgid "Options"
-msgstr "选项"
-
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgctxt "TFRMOPTIONS.CBACKGRNDLABEL.CAPTION"
 msgid "BackGround:"
@@ -3485,6 +3497,10 @@ msgstr ""
 msgid "Show panel of operation in background"
 msgstr ""
 
+#: TFRMOPTIONS.CBPARTIALNAMESEARCH.CAPTION
+msgid "Search for part of file name"
+msgstr ""
+
 #: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
 msgid "Process comments with files/folders"
 msgstr "文件/文件夹的注释一起处理"
@@ -3544,6 +3560,10 @@ msgstr "显示驱动器菜单(&R)"
 #: TFRMOPTIONS.CBSHOWKEYSPANEL.CAPTION
 msgid "Show &function key buttons"
 msgstr "显示功能键按钮(&F)"
+
+#: TFRMOPTIONS.CBSHOWMAINMENU.CAPTION
+msgid "Show main menu"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWMAINTOOLBAR.CAPTION
 msgid "Show &button bar"
@@ -3702,6 +3722,11 @@ msgstr ""
 msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
 msgid "Text Color:"
 msgstr "文本颜色:"
+
+#: TFRMOPTIONS.FRMOPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
+msgid "Options"
+msgstr "选项"
 
 #: TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION
 msgctxt "TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION"
@@ -3903,6 +3928,10 @@ msgstr "类别名:"
 msgid "characters"
 msgstr "字符"
 
+#: TFRMOPTIONS.LBLCMDLINECONFIGDIR.CAPTION
+msgid "Set on command line"
+msgstr ""
+
 #: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
 msgid "Configure columns for file system:"
 msgstr "为文件系统配置列"
@@ -3995,6 +4024,10 @@ msgstr "开启终端:"
 msgid "&Save in:"
 msgstr ""
 
+#: TFRMOPTIONS.LBLSCFILES.CAPTION
+msgid "Shortcut files:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
 msgid "Sort &method:"
 msgstr ""
@@ -4042,10 +4075,6 @@ msgstr "查看器插件允许查看图片,电子表格,数据库等格式(F3, Ct
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
 msgstr "类别"
-
-#: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
-msgid "Drive blacklist:"
-msgstr ""
 
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.HINT
 msgid "Here you can enter one or more drives, separated by \";\"."
@@ -4135,39 +4164,44 @@ msgstr "用户主目录"
 msgid "Use stream for search text in files"
 msgstr "使用流搜索文本"
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Hotkey"
 msgstr ""
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Parameters"
 msgstr ""
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Active"
 msgstr "激活"
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Plugin"
 msgstr ""
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Registered for"
 msgstr "注册给"
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
 msgid "File name"
 msgstr "文件名"
 
-#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION"
+#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Tool"
+msgstr ""
+
+#: TFRMOPTIONS.SUBLABEL.CAPTION
+msgctxt "TFRMOPTIONS.SUBLABEL.CAPTION"
+msgid "Drive blacklist:"
 msgstr ""
 
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION

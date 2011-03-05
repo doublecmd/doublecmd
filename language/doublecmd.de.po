@@ -1675,12 +1675,14 @@ msgstr "Vor Datum:"
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
 #, fuzzy
-msgid "File Size From:"
+#| msgid "File Size From:"
+msgid "Size from:"
 msgstr "Dateigrösse ab:"
 
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
 #, fuzzy
-msgid "File Size To:"
+#| msgid "File Size To:"
+msgid "Size to:"
 msgstr "Bis Dateigrösse"
 
 #: TFRMFINDDLG.CBFINDTEXT.CAPTION
@@ -1697,13 +1699,19 @@ msgstr "Suche Datei die NICHT den Text enthalten"
 msgid "Not older than:"
 msgstr "Nicht älter als:"
 
+#: TFRMFINDDLG.CBPARTIALNAMESEARCH.CAPTION
+msgid "Search for part of file name "
+msgstr ""
+
 #: TFRMFINDDLG.CBREGEXP.CAPTION
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
 msgid "&Regular expressions"
 msgstr "&Reguläre Ausdrücke"
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
-msgid "Re&place text"
+#, fuzzy
+#| msgid "Re&place text"
+msgid "Re&place by"
 msgstr "Ersetze Text"
 
 #: TFRMFINDDLG.CBTIMEFROM.CAPTION
@@ -1741,6 +1749,11 @@ msgstr "&Attribute"
 msgid "Find Data"
 msgstr "Suche Daten"
 
+#: TFRMFINDDLG.GBFINDOPTIONS.CAPTION
+msgctxt "TFRMFINDDLG.GBFINDOPTIONS.CAPTION"
+msgid "Options"
+msgstr "Optionen"
+
 #: TFRMFINDDLG.LBLCURRENT.CAPTION
 msgid "Current"
 msgstr "Aktuell"
@@ -1757,6 +1770,10 @@ msgstr "Dateimaske"
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "&Directory"
 msgstr "Verzeichnis in dem DoubleCommander suchen soll"
+
+#: TFRMFINDDLG.LBLFINDTEXT.CAPTION
+msgid "Find text"
+msgstr ""
 
 #: TFRMFINDDLG.LBLFOUND.CAPTION
 msgid "Found"
@@ -3317,11 +3334,6 @@ msgstr "Anpassen"
 msgid "Set HotKey"
 msgstr "Tastaturkürzel erstellen"
 
-#: TFRMOPTIONS.CAPTION
-msgctxt "TFRMOPTIONS.CAPTION"
-msgid "Options"
-msgstr "Optionen"
-
 #: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
 msgctxt "TFRMOPTIONS.CBACKGRNDLABEL.CAPTION"
 msgid "BackGround:"
@@ -3487,6 +3499,10 @@ msgstr "Nur eine Instanz von DoubleCommander gleichzeitig erlauben"
 msgid "Show panel of operation in background"
 msgstr "Zeige den ausführenden Fensterteil im Hintergrund"
 
+#: TFRMOPTIONS.CBPARTIALNAMESEARCH.CAPTION
+msgid "Search for part of file name"
+msgstr ""
+
 #: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
 msgid "Process comments with files/folders"
 msgstr "Kommentare von Dateien / Verzeichnissen mitbearbeiten"
@@ -3546,6 +3562,10 @@ msgstr "Zeige Laufwerksmenü-Schalter"
 #: TFRMOPTIONS.CBSHOWKEYSPANEL.CAPTION
 msgid "Show &function key buttons"
 msgstr "Zeige Schalter der Funktionstasten"
+
+#: TFRMOPTIONS.CBSHOWMAINMENU.CAPTION
+msgid "Show main menu"
+msgstr ""
 
 #: TFRMOPTIONS.CBSHOWMAINTOOLBAR.CAPTION
 msgid "Show &button bar"
@@ -3704,6 +3724,11 @@ msgstr "Suche / Ersetze Verlauf "
 msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
 msgid "Text Color:"
 msgstr "Textfarbe"
+
+#: TFRMOPTIONS.FRMOPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
+msgid "Options"
+msgstr "Optionen"
 
 #: TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION
 msgctxt "TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION"
@@ -3905,6 +3930,10 @@ msgstr "Kategoriename"
 msgid "characters"
 msgstr "Bu&chstaben"
 
+#: TFRMOPTIONS.LBLCMDLINECONFIGDIR.CAPTION
+msgid "Set on command line"
+msgstr ""
+
 #: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
 msgid "Configure columns for file system:"
 msgstr "Bearbeite Spalten für Dateisystem"
@@ -3997,6 +4026,10 @@ msgstr "Konsolen-Fenster:"
 msgid "&Save in:"
 msgstr "&Speichern in:"
 
+#: TFRMOPTIONS.LBLSCFILES.CAPTION
+msgid "Shortcut files:"
+msgstr ""
+
 #: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
 msgid "Sort &method:"
 msgstr "Sortierungs&methode"
@@ -4044,10 +4077,6 @@ msgstr "Betrachter-PlugIns erlauben die Anzeige von Bilder, Tabellen, Datenbanke
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
 msgstr "Kategorien:"
-
-#: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
-msgid "Drive blacklist:"
-msgstr "Ausschlussliste für Laufwerke:"
 
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.HINT
 msgid "Here you can enter one or more drives, separated by \";\"."
@@ -4137,40 +4166,45 @@ msgstr "Eigene Dateien"
 msgid "Use stream for search text in files"
 msgstr "Nutze Stream zur Textsuche in Dateien"
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Hotkey"
 msgstr "Tastaturkürzel"
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Parameters"
 msgstr "Parameter"
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Active"
 msgstr "Aktiv"
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Plugin"
 msgstr ""
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Registered for"
 msgstr "Registriert für"
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION"
+#: TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
 msgid "File name"
 msgstr "Dateiname"
 
-#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION"
+#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Tool"
 msgstr "Tools"
+
+#: TFRMOPTIONS.SUBLABEL.CAPTION
+msgctxt "TFRMOPTIONS.SUBLABEL.CAPTION"
+msgid "Drive blacklist:"
+msgstr "Ausschlussliste für Laufwerke:"
 
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
 msgid "Additional"
