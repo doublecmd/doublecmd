@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-03-06 14:16+0300\n"
+"PO-Revision-Date: 2011-03-06 14:28+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1286,7 +1286,7 @@ msgstr "Файловые ассоциации"
 #: TFRMFILEASSOC.GBACTIONS.CAPTION
 msgctxt "TFRMFILEASSOC.GBACTIONS.CAPTION"
 msgid "Actions"
-msgstr ""
+msgstr "Команды"
 
 #: TFRMFILEASSOC.GBEXTS.CAPTION
 msgid "Extensions"
@@ -1295,7 +1295,7 @@ msgstr "Расширения"
 #: TFRMFILEASSOC.GBFILETYPES.CAPTION
 msgctxt "TFRMFILEASSOC.GBFILETYPES.CAPTION"
 msgid "File types"
-msgstr ""
+msgstr "Типы файлов"
 
 #: TFRMFILEASSOC.GBICON.CAPTION
 msgid "Icon"
@@ -1825,7 +1825,7 @@ msgstr "Найти"
 
 #: TFRMFINDVIEW.CBCASESENS.CAPTION
 msgid "Case sensitive"
-msgstr ""
+msgstr "С учетом регистра"
 
 #: TFRMHARDLINK.BTNCANCEL.CAPTION
 msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
@@ -3910,7 +3910,7 @@ msgstr "символов"
 
 #: TFRMOPTIONS.LBLCMDLINECONFIGDIR.CAPTION
 msgid "Set on command line"
-msgstr "Задан через командную строку"
+msgstr "Задано через командную строку"
 
 #: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
 msgid "Configure columns for file system:"
@@ -6250,23 +6250,23 @@ msgstr "Выберите каталог"
 
 #: ulng.rssizeunitbytes
 msgid "Bytes"
-msgstr ""
+msgstr "Байт"
 
 #: ulng.rssizeunitgbytes
 msgid "Gigabytes"
-msgstr ""
+msgstr "Гигабайт"
 
 #: ulng.rssizeunitkbytes
 msgid "Kilobytes"
-msgstr ""
+msgstr "Килобайт"
 
 #: ulng.rssizeunitmbytes
 msgid "Megabytes"
-msgstr ""
+msgstr "Мегабайт"
 
 #: ulng.rssizeunittbytes
 msgid "Terabytes"
-msgstr ""
+msgstr "Терабайт"
 
 #: ulng.rsspacemsg
 msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
@@ -6312,31 +6312,31 @@ msgstr "Ошибка создания симв. ссылки."
 #: ulng.rstimeunitday
 msgctxt "ulng.rstimeunitday"
 msgid "Day(s)"
-msgstr "День"
+msgstr "Дня (дней)"
 
 #: ulng.rstimeunithour
 msgid "Hour(s)"
-msgstr ""
+msgstr "Часа(ов)"
 
 #: ulng.rstimeunitminute
 msgid "Minute(s)"
-msgstr ""
+msgstr "Минуты (минут)"
 
 #: ulng.rstimeunitmonth
 msgid "Month(s)"
-msgstr ""
+msgstr "Месяца(ев)"
 
 #: ulng.rstimeunitsecond
 msgid "Second(s)"
-msgstr ""
+msgstr "Секунды (секунд)"
 
 #: ulng.rstimeunitweek
 msgid "Week(s)"
-msgstr ""
+msgstr "Недели (недель)"
 
 #: ulng.rstimeunityear
 msgid "Year(s)"
-msgstr ""
+msgstr "Года (лет)"
 
 #: ulng.rstooldiffer
 msgid "Differ"
