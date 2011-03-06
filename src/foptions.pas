@@ -1379,7 +1379,7 @@ begin
     FAddSelfExtract:= edtArchiveSelfExtract.Text;
     FID:= edtArchiveID.Text;
     FIDPos:= edtArchiveIDPos.Text;
-    FIDSeekRange:= StrToIntDef(edtArchiveIDSeekRange.Text, 1024 * 1024);
+    FIDSeekRange:= edtArchiveIDSeekRange.Text;
     FOutput:= chkMultiArcOutput.Checked;
     FDebug:= chkMultiArcDebug.Checked;
   end;
@@ -2307,7 +2307,7 @@ begin
       edtArchiveSelfExtract.Text:= FAddSelfExtract;
       edtArchiveID.Text:= FID;
       edtArchiveIDPos.Text:= FIDPos;
-      edtArchiveIDSeekRange.Text:= IntToStr(FIDSeekRange);
+      edtArchiveIDSeekRange.Text:= FIDSeekRange;
       chkMultiArcOutput.Checked:= FOutput;
       chkMultiArcDebug.Checked:= FDebug;
       chkMultiArcEnabled.Checked:= FEnabled;

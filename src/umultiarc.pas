@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Implementation of multi archiver support
 
-   Copyright (C) 2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2010-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@ uses
 
 const
   MaxSignSize = 1024;
+  SignSeekRange = 1024 * 1024;
 
 type
 
@@ -91,10 +92,13 @@ type
     FSeekAfterSignPos: Boolean;
     FSignature,
     FSignaturePosition: AnsiString;
+    FSignatureSeekRange: LongInt;
     FSignatureList: TSignatureList;
     FSignaturePositionList: TSignaturePositionList;
+    function GetSignatureSeekRange: AnsiString;
     procedure SetSignature(const AValue: AnsiString);
     procedure SetSignaturePosition(const AValue: AnsiString);
+    procedure SetSignatureSeekRange(const AValue: AnsiString);
   public
     FArchiver,
     FDescription,
@@ -109,7 +113,6 @@ type
     FAdd,
     FAddMultiVolume,
     FAddSelfExtract: UTF8String;
-    FIDSeekRange: LongInt;
   public
     FEnabled: Boolean;
     FOutput: Boolean;
@@ -119,6 +122,7 @@ type
     function CanYouHandleThisFile(const FileName: UTF8String): Boolean;
     property FID: AnsiString read FSignature write SetSignature;
     property FIDPos: AnsiString read FSignaturePosition write SetSignaturePosition;
+    property FIDSeekRange: AnsiString read GetSignatureSeekRange write SetSignatureSeekRange;
   end;
 
   { TMultiArcList }
@@ -244,7 +248,7 @@ begin
         FDescription:= TrimQuotes(IniFile.ReadString(Section, 'Description', EmptyStr));
         FID:= TrimQuotes(IniFile.ReadString(Section, 'ID', EmptyStr));
         FIDPos:= TrimQuotes(IniFile.ReadString(Section, 'IDPos', EmptyStr));
-        FIDSeekRange:= IniFile.ReadInteger(Section, 'IDSeekRange', 1024 * 1024);
+        FIDSeekRange:= IniFile.ReadString(Section, 'IDSeekRange', EmptyStr);
         FExtension:= TrimQuotes(IniFile.ReadString(Section, 'Extension', EmptyStr));
         FStart:= TrimQuotes(IniFile.ReadString(Section, 'Start', EmptyStr));
         FEnd:= TrimQuotes(IniFile.ReadString(Section, 'End', EmptyStr));
@@ -298,7 +302,7 @@ begin
         IniFile.WriteString(Section, 'Description', FDescription);
         IniFile.WriteString(Section, 'ID', FID);
         IniFile.WriteString(Section, 'IDPos', FIDPos);
-        IniFile.WriteInteger(Section, 'IDSeekRange', FIDSeekRange);
+        IniFile.WriteString(Section, 'IDSeekRange', FIDSeekRange);
         IniFile.WriteString(Section, 'Extension', FExtension);
         IniFile.WriteString(Section, 'Start', FStart);
         IniFile.WriteString(Section, 'End', FEnd);
@@ -337,6 +341,14 @@ begin
 end;
 
 { TMultiArcItem }
+
+function TMultiArcItem.GetSignatureSeekRange: AnsiString;
+begin
+  if FSignatureSeekRange = SignSeekRange then
+    Result:= EmptyStr
+  else
+    Result:= IntToStr(FSignatureSeekRange);
+end;
 
 procedure TMultiArcItem.SetSignature(const AValue: AnsiString);
 var
@@ -392,6 +404,12 @@ begin
         Dispose(SignaturePosition);
       end;
   until Value = EmptyStr;
+end;
+
+procedure TMultiArcItem.SetSignatureSeekRange(const AValue: AnsiString);
+begin
+  if not TryStrToInt(AValue, FSignatureSeekRange) then
+    FSignatureSeekRange:= SignSeekRange;
 end;
 
 constructor TMultiArcItem.Create;
@@ -466,7 +484,7 @@ begin
     FillByte(FileMapRec, SizeOf(FileMapRec), 0);
     if MapFile(FileName, FileMapRec) then
     try
-      dwOffset:= Min(FIDSeekRange, FileMapRec.FileSize);
+      dwOffset:= Min(FSignatureSeekRange, FileMapRec.FileSize);
       for I:= 0 to dwOffset do
       begin
         for J:= 0 to FSignatureList.Count - 1 do
