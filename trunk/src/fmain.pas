@@ -1041,10 +1041,13 @@ begin
       finally
         FreeThenNil(slCommandHistory);
       end;
-    end;  
+    end;
 
-  // Save main toolbar
-  SaveMainToolBar;
+  if gSaveConfiguration then
+    begin
+      // Save main toolbar
+      SaveMainToolBar;
+    end;
 
   FreeAndNil(DrivesList);
 
@@ -1572,8 +1575,8 @@ begin
   except
   end;
 
- if assigned(Cons) then
-  Cons.Free;
+  if Assigned(Cons) then
+    Cons.Free;
 
   Application.Terminate;
 end;
