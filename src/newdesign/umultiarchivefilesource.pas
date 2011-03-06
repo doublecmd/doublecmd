@@ -161,7 +161,7 @@ begin
   begin
     aMultiArcItem:= gMultiArcList.Items[I];
 
-    if SameText(anArchiveType, aMultiArcItem.FExtension) and (aMultiArcItem.FEnabled) then
+    if MatchesMaskList(anArchiveType, aMultiArcItem.FExtension, ',') and (aMultiArcItem.FEnabled) then
     begin
       Result := TMultiArchiveFileSource.Create(anArchiveFileSource,
                                                anArchiveFileName,
@@ -189,7 +189,7 @@ begin
   for I := 0 to gMultiArcList.Count - 1 do
   begin
     aMultiArcItem:= gMultiArcList.Items[I];
-    if SameText(anArchiveType, aMultiArcItem.FExtension) and (aMultiArcItem.FEnabled) then
+    if MatchesMaskList(anArchiveType, aMultiArcItem.FExtension, ',') and (aMultiArcItem.FEnabled) then
       Exit(True);
   end;
   Result := False;
