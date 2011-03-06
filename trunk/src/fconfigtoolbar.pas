@@ -41,13 +41,14 @@ type
     lblIconSize: TLabel;
     lblIconSizeValue: TLabel;
     lblBarSizeValue: TLabel;
+    pnlDialogButtons: TPanel;
+    pnlToolbarButtons: TPanel;
     trbBarSize: TTrackBar;
     trbIconSize: TTrackBar;
     lblButtonBar: TLabel;
     lblCommand: TLabel;
     btnCancel: TButton;
     gbGroupBox: TGroupBox;
-    lblIcon: TLabel;
     lblIconFile: TLabel;
     ktbBar: TKASToolBar;
     btnOpenBarFile: TButton;
@@ -281,8 +282,10 @@ var
   Point: TPoint;
 begin
   with btnAppendMore do
-  Point:= Classes.Point(Left, Top + Height);
-  Point:= ClientToScreen(Point);
+  begin
+    Point:= Classes.Point(Left, Top + Height);
+    Point:= ClientToScreen(Point);
+  end;
   pmChangeButton.PopUp(Point.X, Point.Y);
 end;
 
