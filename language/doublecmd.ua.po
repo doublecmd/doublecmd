@@ -3815,6 +3815,18 @@ msgstr "Розширення:"
 msgid "Extract:"
 msgstr "Розпакувати"
 
+#: TFRMOPTIONS.LBLARCHIVEID.CAPTION
+msgid "ID (optional):"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEIDPOS.CAPTION
+msgid "ID Position (optional):"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEIDSEEKRANGE.CAPTION
+msgid "ID Seek Range (optional):"
+msgstr ""
+
 #: TFRMOPTIONS.LBLARCHIVELIST.CAPTION
 msgid "List:"
 msgstr "Список:"

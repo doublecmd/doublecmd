@@ -3785,6 +3785,18 @@ msgstr "Rozszerzenia:"
 msgid "Extract:"
 msgstr "Wypakuj:"
 
+#: TFRMOPTIONS.LBLARCHIVEID.CAPTION
+msgid "ID (optional):"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEIDPOS.CAPTION
+msgid "ID Position (optional):"
+msgstr ""
+
+#: TFRMOPTIONS.LBLARCHIVEIDSEEKRANGE.CAPTION
+msgid "ID Seek Range (optional):"
+msgstr ""
+
 #: TFRMOPTIONS.LBLARCHIVELIST.CAPTION
 msgid "List:"
 msgstr "Listuj:"
@@ -6139,6 +6151,9 @@ msgstr "Katalog"
 msgid "Named pipe"
 msgstr "Nazwany strumień"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rspropsno
 msgid "No"
 msgstr "Nie"
@@ -6155,9 +6170,6 @@ msgstr "Specjalne urządzenie blokowe"
 msgid "Special character device"
 msgstr "Specjalne urządzenie wirtualne"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rspropssymlink
 msgid "Symbolic link"
 msgstr "Link symboliczny"
