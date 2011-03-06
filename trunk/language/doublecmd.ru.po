@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-03-05 15:34+0300\n"
+"PO-Revision-Date: 2011-03-06 14:16+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3537,7 +3537,7 @@ msgstr "Кнопки &функциональных клавиш"
 
 #: TFRMOPTIONS.CBSHOWMAINMENU.CAPTION
 msgid "Show main menu"
-msgstr ""
+msgstr "Главное меню"
 
 #: TFRMOPTIONS.CBSHOWMAINTOOLBAR.CAPTION
 msgid "Show &button bar"
@@ -3833,15 +3833,15 @@ msgstr "Извлечь:"
 
 #: TFRMOPTIONS.LBLARCHIVEID.CAPTION
 msgid "ID (optional):"
-msgstr ""
+msgstr "ID (необязательный):"
 
 #: TFRMOPTIONS.LBLARCHIVEIDPOS.CAPTION
 msgid "ID Position (optional):"
-msgstr ""
+msgstr "ID Position (необязательный):"
 
 #: TFRMOPTIONS.LBLARCHIVEIDSEEKRANGE.CAPTION
 msgid "ID Seek Range (optional):"
-msgstr ""
+msgstr "ID Seek Range (необязательный):"
 
 #: TFRMOPTIONS.LBLARCHIVELIST.CAPTION
 msgid "List:"
@@ -3910,7 +3910,7 @@ msgstr "символов"
 
 #: TFRMOPTIONS.LBLCMDLINECONFIGDIR.CAPTION
 msgid "Set on command line"
-msgstr ""
+msgstr "Задан через командную строку"
 
 #: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
 msgid "Configure columns for file system:"
