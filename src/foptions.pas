@@ -159,6 +159,9 @@ type
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
+    edtArchiveID: TEdit;
+    edtArchiveIDSeekRange: TEdit;
+    edtArchiveIDPos: TEdit;
     edtViewerBookFont: TEdit;
     edtArchiveListEnd: TEdit;
     edtArchiveListStart: TEdit;
@@ -234,6 +237,9 @@ type
     gbViewerExample: TGroupBox;
     gbViewerBookMode: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
+    lblArchiveID: TLabel;
+    lblArchiveIDSeekRange: TLabel;
+    lblArchiveIDPos: TLabel;
     lblCmdLineConfigDir: TLabel;
     lblSCFiles: TLabel;
     lblNumberColumnsViewer: TLabel;
@@ -1371,6 +1377,9 @@ begin
     FTest:= edtArchiveTest.Text;
     FAddMultiVolume:= edtArchiveMultiVolume.Text;
     FAddSelfExtract:= edtArchiveSelfExtract.Text;
+    FID:= edtArchiveID.Text;
+    FIDPos:= edtArchiveIDPos.Text;
+    FIDSeekRange:= StrToIntDef(edtArchiveIDSeekRange.Text, 1024 * 1024);
     FOutput:= chkMultiArcOutput.Checked;
     FDebug:= chkMultiArcDebug.Checked;
   end;
@@ -2271,6 +2280,9 @@ begin
       edtArchiveTest.Text:= EmptyStr;
       edtArchiveMultiVolume.Text:= EmptyStr;
       edtArchiveSelfExtract.Text:= EmptyStr;
+      edtArchiveID.Text:= EmptyStr;
+      edtArchiveIDPos.Text:= EmptyStr;
+      edtArchiveIDSeekRange.Text:= EmptyStr;
       chkMultiArcOutput.Checked:= False;
       chkMultiArcDebug.Checked:= False;
       chkMultiArcEnabled.Checked:= False;
@@ -2293,6 +2305,9 @@ begin
       edtArchiveTest.Text:= FTest;
       edtArchiveMultiVolume.Text:= FAddMultiVolume;
       edtArchiveSelfExtract.Text:= FAddSelfExtract;
+      edtArchiveID.Text:= FID;
+      edtArchiveIDPos.Text:= FIDPos;
+      edtArchiveIDSeekRange.Text:= IntToStr(FIDSeekRange);
       chkMultiArcOutput.Checked:= FOutput;
       chkMultiArcDebug.Checked:= FDebug;
       chkMultiArcEnabled.Checked:= FEnabled;
