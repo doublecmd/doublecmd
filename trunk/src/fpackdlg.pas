@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File packing window
 
-   Copyright (C) 2007-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -65,6 +65,7 @@ type
     FArchiveTypeCount: Integer;
     FExistsArchive : Boolean;
     FSourceFileSource: IFileSource;
+    FCustomParams: UTF8String;
     procedure AddArchiveType(const FileExt, ArcType: UTF8String);
   public
     { public declarations }
@@ -191,8 +192,9 @@ begin
                         if cbEncrypt.Checked then
                           Password:= InputBox(Caption, rsMsgPasswordEnter, EmptyStr);
                         if cbMultivolume.Checked then
-                          VolumeSize:= StrToIntDef(InputBox(Caption, rsMsgVolumeSizeEnter, EmptyStr), 0);
+                          VolumeSize:= InputBox(Caption, rsMsgVolumeSizeEnter, EmptyStr);
                         PackingFlags := aFlags;
+                        CustomParams:= FCustomParams;
                       end;
                     end;
 
@@ -265,12 +267,16 @@ var
   WcxFileSource: IWcxArchiveFileSource;
 begin
   WcxFileSource := TWcxArchiveFileSource.CreateByArchiveName(FSourceFileSource, edtPackCmd.Text);
-  if Assigned(WcxFileSource) then
-  try
-    WcxFileSource.WcxModule.VFSConfigure(Handle);
-  finally
-    WcxFileSource := nil; // free interface
-  end;
+  if Assigned(WcxFileSource) then // WCX plugin
+    try
+      WcxFileSource.WcxModule.VFSConfigure(Handle);
+    finally
+      WcxFileSource := nil; // free interface
+    end
+  else // MultiArc addon
+    begin
+      FCustomParams:= InputBox(Caption, rsMsgArchiverCustomParams, FCustomParams);
+    end;
 end;
 
 procedure TfrmPackDlg.cbCreateSFXChange(Sender: TObject);
@@ -294,6 +300,7 @@ begin
       if rgPacker.ItemIndex = -1 then
         rgPacker.ItemIndex := 0;
     end;
+  FCustomParams:= EmptyStr;
   cbPackerList.Enabled := cbOtherPlugins.Checked;
 end;
 
@@ -310,6 +317,7 @@ begin
       edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, ExtensionSeparator + FArchiveType);
       cbOtherPlugins.Checked := False;
     end;
+  FCustomParams:= EmptyStr;
 end;
 
 procedure TfrmPackDlg.AddArchiveType(const FileExt, ArcType: UTF8String);
