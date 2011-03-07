@@ -93,7 +93,9 @@ type
     procedure btnRemoveActClick(Sender: TObject);
     procedure btnRemoveExtClick(Sender: TObject);
     procedure btnRemoveTypeClick(Sender: TObject);
+    procedure btnRemoveTypeResize(Sender: TObject);
     procedure btnRenameTypeClick(Sender: TObject);
+    procedure btnRenameTypeResize(Sender: TObject);
     procedure btnUpActClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -118,6 +120,7 @@ type
        Frees icon cached in lbFileTypes.Items.Objects[Index].
     }
     procedure FreeIcon(iIndex: Integer);
+    procedure SetMinimumSize;
   public
     { public declarations }
     destructor Destroy; override;
@@ -282,6 +285,11 @@ begin
   UpdateEnabledButtons;
 end;
 
+procedure TfrmFileAssoc.btnRemoveTypeResize(Sender: TObject);
+begin
+  SetMinimumSize;
+end;
+
 procedure TfrmFileAssoc.btnRenameTypeClick(Sender: TObject);
 var
   iIndex : Integer;
@@ -296,6 +304,11 @@ begin
   Exts.Items[iIndex].Name := sName;
   Exts.Items[iIndex].IsChanged:= True;
   UpdateEnabledButtons;
+end;
+
+procedure TfrmFileAssoc.btnRenameTypeResize(Sender: TObject);
+begin
+  SetMinimumSize;
 end;
 
 procedure TfrmFileAssoc.lbActionsSelectionChange(Sender: TObject; User: boolean);
@@ -692,6 +705,32 @@ begin
       Items.Objects[iIndex] := nil;
     end;
   end;
+end;
+
+procedure TfrmFileAssoc.SetMinimumSize;
+begin
+  gbFileTypes.Constraints.MinWidth :=
+    gbFileTypes.BorderSpacing.Left +
+    btnRemoveType.Left +
+    btnRemoveType.Width +
+    5 + // space between
+    btnRenameType.Width +
+    gbFileTypes.Width - (btnRenameType.Left + btnRenameType.Width) +
+    gbFileTypes.BorderSpacing.Right;
+
+  pnlLeftSettings.Constraints.MinWidth :=
+    gbFileTypes.Constraints.MinWidth +
+    gbFileTypes.BorderSpacing.Around;
+
+  Constraints.MinWidth :=
+    pnlLeftSettings.Constraints.MinWidth +
+    pnlLeftSettings.BorderSpacing.Left +
+    pnlLeftSettings.BorderSpacing.Right +
+    pnlLeftSettings.BorderSpacing.Around +
+    pnlRightSettings.Constraints.MinWidth +
+    pnlRightSettings.BorderSpacing.Left +
+    pnlRightSettings.BorderSpacing.Right +
+    pnlRightSettings.BorderSpacing.Around;
 end;
 
 end.
