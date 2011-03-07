@@ -5541,6 +5541,10 @@ msgstr "Betrachten"
 msgid "Account:"
 msgstr "Zugang:"
 
+#: ulng.rsmsgarchivercustomparams
+msgid "Additional parameters for archiver command-line:"
+msgstr ""
+
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Die Datei \"%s\" kann nicht über sich selbst kopiert / verschoben werden!"

@@ -5563,6 +5563,10 @@ msgstr "Zobrazit"
 msgid "Account:"
 msgstr ""
 
+#: ulng.rsmsgarchivercustomparams
+msgid "Additional parameters for archiver command-line:"
+msgstr ""
+
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr ""

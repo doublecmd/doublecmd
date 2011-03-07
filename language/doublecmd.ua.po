@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.4.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-03-05 11:58+0300\n"
+"PO-Revision-Date: 2011-03-06 21:05+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1699,7 +1699,7 @@ msgstr "Не старші ніж:"
 
 #: TFRMFINDDLG.CBPARTIALNAMESEARCH.CAPTION
 msgid "Search for part of file name "
-msgstr ""
+msgstr "Шукати по частині назви файлу"
 
 #: TFRMFINDDLG.CBREGEXP.CAPTION
 msgctxt "TFRMFINDDLG.CBREGEXP.CAPTION"
@@ -1707,10 +1707,9 @@ msgid "&Regular expressions"
 msgstr "Регулярні вирази"
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
-#, fuzzy
 #| msgid "Re&place text"
 msgid "Re&place by"
-msgstr "За&мінити текст"
+msgstr "За&мінити"
 
 #: TFRMFINDDLG.CBTIMEFROM.CAPTION
 msgid "Time from:"
@@ -1771,7 +1770,7 @@ msgstr "В &каталозі:"
 
 #: TFRMFINDDLG.LBLFINDTEXT.CAPTION
 msgid "Find text"
-msgstr ""
+msgstr "Знайти текст"
 
 #: TFRMFINDDLG.LBLFOUND.CAPTION
 msgid "Found"
@@ -2119,7 +2118,7 @@ msgstr "Створити жорстке посилання..."
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
 #| msgid "Contents"
 msgid "&Contents"
-msgstr "Зміст"
+msgstr "&Довідка"
 
 #: TFRMMAIN.ACTHORIZONTALFILEPANELS.CAPTION
 msgid "Horizontal file panels"
@@ -2128,7 +2127,7 @@ msgstr "Горизонтальне розміщення панелей"
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
 #| msgid "Keyboard"
 msgid "&Keyboard"
-msgstr "К&омбінації клавіш"
+msgstr "Комбінації &клавіш"
 
 #: TFRMMAIN.ACTLEFTEQUALRIGHT.CAPTION
 msgid "Left &= Right"
@@ -3462,7 +3461,7 @@ msgstr "Показувати панель роботи у фоні"
 
 #: TFRMOPTIONS.CBPARTIALNAMESEARCH.CAPTION
 msgid "Search for part of file name"
-msgstr ""
+msgstr "Шукати по частині назви файлу"
 
 #: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
 msgid "Process comments with files/folders"
@@ -3524,7 +3523,7 @@ msgstr "Кнопки &функціональних клавіш"
 
 #: TFRMOPTIONS.CBSHOWMAINMENU.CAPTION
 msgid "Show main menu"
-msgstr ""
+msgstr "Показати головне меню"
 
 #: TFRMOPTIONS.CBSHOWMAINTOOLBAR.CAPTION
 msgid "Show &button bar"
@@ -3817,15 +3816,17 @@ msgstr "Розпакувати"
 
 #: TFRMOPTIONS.LBLARCHIVEID.CAPTION
 msgid "ID (optional):"
-msgstr ""
+msgstr "ID (за бажанням):"
 
 #: TFRMOPTIONS.LBLARCHIVEIDPOS.CAPTION
+#, fuzzy
 msgid "ID Position (optional):"
-msgstr ""
+msgstr "ID Position (за бажанням):"
 
 #: TFRMOPTIONS.LBLARCHIVEIDSEEKRANGE.CAPTION
+#, fuzzy
 msgid "ID Seek Range (optional):"
-msgstr ""
+msgstr "ID Seek Range (за бажанням):"
 
 #: TFRMOPTIONS.LBLARCHIVELIST.CAPTION
 msgid "List:"
@@ -3893,8 +3894,9 @@ msgid "characters"
 msgstr "символів"
 
 #: TFRMOPTIONS.LBLCMDLINECONFIGDIR.CAPTION
+#, fuzzy
 msgid "Set on command line"
-msgstr ""
+msgstr "Встановити в командному рядку"
 
 #: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
 msgid "Configure columns for file system:"
@@ -3990,7 +3992,7 @@ msgstr "&Зберегти в:"
 
 #: TFRMOPTIONS.LBLSCFILES.CAPTION
 msgid "Shortcut files:"
-msgstr ""
+msgstr "Ярлики"
 
 #: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
 msgid "Sort &method:"
@@ -5482,6 +5484,10 @@ msgstr "Перегляд"
 #: ulng.rsmsgaccount
 msgid "Account:"
 msgstr "Обліковий запис:"
+
+#: ulng.rsmsgarchivercustomparams
+msgid "Additional parameters for archiver command-line:"
+msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"

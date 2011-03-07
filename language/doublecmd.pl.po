@@ -5447,6 +5447,10 @@ msgstr "Podgląd"
 msgid "Account:"
 msgstr "Konto:"
 
+#: ulng.rsmsgarchivercustomparams
+msgid "Additional parameters for archiver command-line:"
+msgstr ""
+
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Nie można skopiować/przenieść pliku \"%s\" do niego samego!"
@@ -6142,6 +6146,9 @@ msgctxt "ulng.rspropsfile"
 msgid "File"
 msgstr "Plik"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rspropsfolder
 msgctxt "ulng.rspropsfolder"
 msgid "Directory"
@@ -6151,9 +6158,6 @@ msgstr "Katalog"
 msgid "Named pipe"
 msgstr "Nazwany strumień"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rspropsno
 msgid "No"
 msgstr "Nie"
