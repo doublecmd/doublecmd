@@ -65,7 +65,8 @@ function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
                                aDestPath: UTF8String = '';
                                sTempFile: UTF8String = '';
                                sPassword: UTF8String = '';
-                               iVolumeSize: Int64 = 0): string;
+                               sVolumeSize: UTF8String = '';
+                               sCustomParams: UTF8String = ''): string;
 
 implementation
 
@@ -288,12 +289,13 @@ function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
                                aDestPath: UTF8String;
                                sTempFile: UTF8String;
                                sPassword: UTF8String;
-                               iVolumeSize: Int64): string;
+                               sVolumeSize: UTF8String;
+                               sCustomParams: UTF8String): string;
 type
   TFunctType = (ftNone, ftArchiverLongName, ftArchiverShortName,
     ftArchiveLongName, ftArchiveShortName,
     ftFileListLongName, ftFileListShortName, ftFileName, ftTargetArchiveDir,
-    ftVolumeSize, ftPassword);
+    ftVolumeSize, ftPassword, ftCustomParams);
   TStatePos = (spNone, spPercent, spFunction, spComplete);
   TFuncModifiers = set of (fmOnlyFiles, fmQuoteWithSpaces, fmQuoteAny, fmNameOnly,
     fmPathOnly, fmUTF8, fmAnsi);
@@ -377,14 +379,11 @@ var
       ftTargetArchiveDir:
         Result := BuildName(aDestPath);
       ftVolumeSize:
-        begin
-          if iVolumeSize > 0 then
-            Result:= IntToStr(iVolumeSize)
-          else
-            Result:= EmptyStr;
-        end;
+        Result:= sVolumeSize;
       ftPassword:
         Result:= sPassword;
+      ftCustomParams:
+        Result:= sCustomParams;
       else
         Exit('');
     end;
@@ -522,6 +521,11 @@ begin
               state.funct := ftPassword;
               state.pos := spFunction;
             end;
+            'S':
+            begin
+              state.funct := ftCustomParams;
+              state.pos := spFunction;
+            end;
             else
               state.pos := spFunction;
           end;
@@ -593,4 +597,4 @@ begin
 end;
 
 end.
-
+

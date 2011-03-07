@@ -24,7 +24,8 @@ type
     FFullFilesTree: TFiles;
     FPackingFlags: Integer;
     FPassword: UTF8String;
-    FVolumeSize: Int64;
+    FVolumeSize: UTF8String;
+    FCustomParams: UTF8String;
 
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
@@ -55,7 +56,8 @@ type
 
     property PackingFlags: Integer read FPackingFlags write FPackingFlags;
     property Password: UTF8String read FPassword write FPassword;
-    property VolumeSize: Int64 read FVolumeSize write FVolumeSize;
+    property VolumeSize: UTF8String read FVolumeSize write FVolumeSize;
+    property CustomParams: UTF8String read FCustomParams write FCustomParams;
   end;
 
 implementation
@@ -73,7 +75,7 @@ begin
   FFullFilesTree := nil;
   FPackingFlags := 0;
   FPassword := EmptyStr;
-  FVolumeSize := 0;
+  FVolumeSize := EmptyStr;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
@@ -135,7 +137,7 @@ begin
   ChangeFileListRoot(EmptyStr, FFullFilesTree);
   with FMultiArchiveFileSource do
   begin
-    if (VolumeSize <> 0) and (MultiArcItem.FAddMultiVolume <> EmptyStr) then
+    if (VolumeSize <> EmptyStr) and (MultiArcItem.FAddMultiVolume <> EmptyStr) then
       sCommandLine:= MultiArcItem.FAddMultiVolume
     else if (ExtractFileExt(ArchiveFileName) = GetSfxExt) and (MultiArcItem.FAddSelfExtract <> EmptyStr) then
       sCommandLine:= MultiArcItem.FAddSelfExtract
@@ -159,7 +161,8 @@ begin
                                             sDestPath,
                                             FTempFile,
                                             Password,
-                                            VolumeSize
+                                            VolumeSize,
+                                            CustomParams
                                             );
       OnReadLn(sReadyCommand);
 
@@ -185,7 +188,8 @@ begin
                                             sDestPath,
                                             FTempFile,
                                             Password,
-                                            VolumeSize
+                                            VolumeSize,
+                                            CustomParams
                                             );
       OnReadLn(sReadyCommand);
 

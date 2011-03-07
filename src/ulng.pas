@@ -88,6 +88,7 @@ resourcestring
   rsMsgManualEditHotDir = 'Manualy edit hot path';
   rsMsgManualHotDirQuery = 'Enter name and path (format name=path):';
   rsMsgVolumeSizeEnter = 'Please enter the volume size:';
+  rsMsgArchiverCustomParams = 'Additional parameters for archiver command-line:';
   rsMsgMasterPassword = 'Master Password';
   rsMsgMasterPasswordEnter = 'Please enter the master password:';
   rsMsgPasswordEnter = 'Please enter the password:';
