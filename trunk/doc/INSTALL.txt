@@ -4,11 +4,11 @@ Compiling Double Commander
 
 At first must download FreePascal. I use FPC 2.4.0  (or higher).
 
-After this download Lazarus. I use Lazarus 0.9.29 (or higher).
+After this download Lazarus. I use Lazarus 0.9.30 (or higher).
 
 2) Using the IDE to develop and build DC.
 
-If you want to use Lazarus IDE to develop Double Commander, first you have to install a few additional components all of which reside in components directory of DC sources. You must open each .lpk package file (cmdbox.lpk, kascomp.lpk, viewerpackage.lpk, pkg_gifanim.lpk) and install it into Lazarus. Choose "No" when asked for rebuilding Lazarus after each package, and only rebuild when you have installed all of them.
+If you want to use Lazarus IDE to develop Double Commander, first you have to install a few additional components all of which reside in components directory of DC sources. You must open each .lpk package file (cmdbox.lpk, kascomp.lpk, viewerpackage.lpk, pkg_gifanim.lpk, zvdatetimectrls.lpk) and install it into Lazarus. Choose "No" when asked for rebuilding Lazarus after each package, and only rebuild when you have installed all of them.
 
 After rebuilding Lazarus open the project file doublecmd.lpi (in directory src).
 
