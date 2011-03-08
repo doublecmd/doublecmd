@@ -1,0 +1,42 @@
+inherited WfxPluginCopyMoveOperationOptionsUI: TWfxPluginCopyMoveOperationOptionsUI
+  Height = 158
+  Width = 549
+  AutoSize = True
+  BorderSpacing.Around = 6
+  ClientHeight = 158
+  ClientWidth = 549
+  TabOrder = 0
+  DesignLeft = 535
+  DesignTop = 391
+  object lblFileExists: TLabel[0]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cmbFileExists
+    AnchorSideTop.Side = asrCenter
+    Left = 6
+    Height = 22
+    Top = 3
+    Width = 107
+    BorderSpacing.Around = 6
+    Caption = 'When file exists'
+    FocusControl = cmbFileExists
+    ParentColor = False
+  end
+  object cmbFileExists: TComboBox[1]
+    AnchorSideLeft.Control = lblFileExists
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 121
+    Height = 29
+    Top = 0
+    Width = 109
+    BorderSpacing.Left = 8
+    ItemHeight = 21
+    Items.Strings = (
+      'Ask'
+      'Overwrite'
+      'Skip'
+    )
+    Style = csDropDownList
+    TabOrder = 0
+  end
+end

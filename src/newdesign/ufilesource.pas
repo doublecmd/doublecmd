@@ -19,6 +19,7 @@ type
   IFileSource = interface;
 
   TPathsArray = array of string;
+  TFileSourceOperationsClasses = array[TFileSourceOperationType] of TFileSourceOperationClass;
 
   TFileSourceReloadEventNotify = procedure(const aFileSource: IFileSource;
                                            const ReloadedPaths: TPathsArray) of object;
@@ -73,6 +74,7 @@ type
     function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation;
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
                                             var theNewProperties: TFileProperties): TFileSourceOperation;
+    function GetOperationClass(OperationType: TFileSourceOperationType): TFileSourceOperationClass;
 
     function IsPathAtRoot(Path: String): Boolean;
     function GetParentDir(sPath : String): String;
@@ -119,6 +121,7 @@ type
 
   protected
     FCurrentAddress: String;
+    FOperationsClasses: TFileSourceOperationsClasses;
 
     {en
        Retrieves the full address of the file source
@@ -225,6 +228,7 @@ type
     function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; virtual;
     function CreateSetFilePropertyOperation(var theTargetFiles: TFiles;
                                             var theNewProperties: TFileProperties): TFileSourceOperation; virtual;
+    function GetOperationClass(OperationType: TFileSourceOperationType): TFileSourceOperationClass;
 
     {en
        Returns @true if the given path is the root path of the file source,
@@ -340,12 +344,16 @@ uses
 { TFileSource }
 
 constructor TFileSource.Create;
+var
+  OperationType: TFileSourceOperationType;
 begin
   if ClassType = TFileSource then
     raise Exception.Create('Cannot construct abstract class');
   inherited Create;
 
   FReloadEventListeners := TMethodList.Create;
+  for OperationType := Low(OperationType) to High(OperationType) do
+    FOperationsClasses[OperationType] := nil;
 
   FileSourceManager.Add(Self); // Increases RefCount
 
@@ -635,6 +643,11 @@ begin
   Result := nil;
 end;
 
+function TFileSource.GetOperationClass(OperationType: TFileSourceOperationType): TFileSourceOperationClass;
+begin
+  Result := FOperationsClasses[OperationType];
+end;
+
 function TFileSource.GetConnection(Operation: TFileSourceOperation): TFileSourceConnection;
 begin
   // By default connections are not supported.
@@ -878,4 +891,4 @@ finalization
   FreeAndNil(FileSourceManager);
 
 end.
-
+
