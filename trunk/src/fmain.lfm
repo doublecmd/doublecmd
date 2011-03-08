@@ -2107,7 +2107,7 @@ object frmMain: TfrmMain
     end
     object actSetFileProperties: TAction
       Category = 'File'
-      Caption = 'Change file properties'
+      Caption = 'Change attributes'
       OnExecute = actExecute
     end
     object actOpenDirInNewTab: TAction
