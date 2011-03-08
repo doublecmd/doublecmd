@@ -90,7 +90,6 @@ object frmSetFileProperties: TfrmSetFileProperties
       BorderSpacing.Left = 6
       BorderSpacing.Around = 6
       BevelOuter = bvNone
-      Caption = 'DatesPanel'
       ClientHeight = 90
       ClientWidth = 200
       TabOrder = 1
@@ -346,7 +345,6 @@ object frmSetFileProperties: TfrmSetFileProperties
       Anchors = [akTop, akLeft, akBottom]
       AutoSize = True
       BevelOuter = bvNone
-      Caption = 'ChecksPanel'
       ClientHeight = 90
       ClientWidth = 73
       TabOrder = 0
