@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-03-07 19:07+0300\n"
+"PO-Revision-Date: 2011-03-08 12:59+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2325,9 +2325,10 @@ msgid "&Search"
 msgstr "&Поиск..."
 
 #: TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION
+#| msgid "Change file properties"
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
-msgid "Change file properties"
-msgstr "Изменить свойства"
+msgid "Change attributes"
+msgstr "Изменить аттрибуты"
 
 #: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
 #, fuzzy
@@ -4386,11 +4387,6 @@ msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&ОК"
 
-#: TFRMSETFILEPROPERTIES.CAPTION
-msgctxt "TFRMSETFILEPROPERTIES.CAPTION"
-msgid "Change file properties"
-msgstr "Изменить свойства"
-
 #: TFRMSETFILEPROPERTIES.CBSGID.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CBSGID.CAPTION"
 msgid "SGID"
@@ -4443,6 +4439,27 @@ msgctxt "TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION"
 msgid "System"
 msgstr "Системный"
 
+#: TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION
+#, fuzzy
+#| msgid "Change file properties"
+msgctxt "TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION"
+msgid "Change attributes"
+msgstr "Изменить свойства"
+
+#: TFRMSETFILEPROPERTIES.GBTIMESAMP.CAPTION
+msgid "Timestamp properties"
+msgstr "Дата и время"
+
+#: TFRMSETFILEPROPERTIES.GBUNIXATTRIBUTES.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.GBUNIXATTRIBUTES.CAPTION"
+msgid "Attributes"
+msgstr "Атрибуты"
+
+#: TFRMSETFILEPROPERTIES.GBWINATTRIBUTES.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.GBWINATTRIBUTES.CAPTION"
+msgid "Attributes"
+msgstr "Атрибуты"
+
 #: TFRMSETFILEPROPERTIES.LBLATTRBITSSTR.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.LBLATTRBITSSTR.CAPTION"
 msgid "Bits:"
@@ -4454,7 +4471,7 @@ msgid "Group"
 msgstr "Группа"
 
 #: TFRMSETFILEPROPERTIES.LBLATTRINFO.CAPTION
-msgid "(gray = unchanged, checked=set attribute)"
+msgid "(gray field means unchanged value)"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
@@ -4496,20 +4513,6 @@ msgstr "Чтение"
 msgctxt "TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Запись"
-
-#: TFRMSETFILEPROPERTIES.PGDATETIME.CAPTION
-msgid "Date/Time"
-msgstr "Дата/Время"
-
-#: TFRMSETFILEPROPERTIES.PGUNIXMODE.CAPTION
-msgctxt "TFRMSETFILEPROPERTIES.PGUNIXMODE.CAPTION"
-msgid "Attributes"
-msgstr "Атрибуты"
-
-#: TFRMSETFILEPROPERTIES.PGWINATTR.CAPTION
-msgctxt "TFRMSETFILEPROPERTIES.PGWINATTR.CAPTION"
-msgid "Attributes"
-msgstr "Атрибуты"
 
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
