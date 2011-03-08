@@ -3801,22 +3801,28 @@ begin
     UpdateNoteBook(nbLeft);
     UpdateNoteBook(nbRight);
 
-    // Command line
-    pnlCommand.Visible := gCmdLine;
-    edtCommand.Tag := 0;
-    ToggleConsole;
-
     // Log window
     seLogWindow.Visible := gLogWindow;
     LogSplitter.Visible := gLogWindow;
+    // Align log window
+    seLogWindow.Top := 0;
+    LogSplitter.Top := 0;
     FontOptionsToFont(gFonts[dcfLog], seLogWindow.Font);
+
+    // Command line
+    pnlCommand.Visible := gCmdLine;
+    edtCommand.Tag := 0;
+    // Align command line and terminal window
+    pnlCommand.Top := -Height;
+    ConsoleSplitter.Top:= -Height;
+    ToggleConsole;
 
     // Function keys
     pnlKeys.Visible := gKeyButtons;
     if gKeyButtons then
     begin
       pnlKeys.Height := Canvas.TextHeight('Wg') + 4;
-      pnlKeys.Top:= Height;
+      pnlKeys.Top:= Height * 2;
       for I := 0 to pnlKeys.ControlCount - 1 do
         if pnlKeys.Controls[I] is TSpeedButton then
           (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
