@@ -520,7 +520,7 @@ type
     PressLMB: boolean;
     widthOfItem, ItemEnd: integer;
     // for dragging buttons and etc
-    NumberOfMoveButton: integer;
+    NumberOfMoveButton, NumberOfNewMoveButton: integer;
     Draging : boolean;
 
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
@@ -766,6 +766,7 @@ begin
 
   UpdateWindowView;
   //DebugLn('frmMain.FormCreate Done');
+  Draging:=false;
 end;
 
 procedure TfrmMain.btnLeftClick(Sender: TObject);
@@ -875,7 +876,7 @@ end;
 
 procedure TfrmMain.lblAllProgressPctClick(Sender: TObject);
 begin
-     if not Assigned(frmViewOperations) then
+  if not Assigned(frmViewOperations) then
     Application.CreateForm(TfrmViewOperations, frmViewOperations);
 
   frmViewOperations.ShowOnTop;
@@ -887,61 +888,75 @@ var
   aFile: TFile;
   Cmd, Param, Path: string;
 begin
-  if (Source is TSpeedButton) then
+  if (ssShift in GetKeyShiftState) then
     SaveMainToolBar
   else
-    begin
-      if Sender is TSpeedButton then
+    if Sender is TSpeedButton and not Draging then
       begin
         aFile := ActiveFrame.ActiveFile;
         if Assigned(aFile) and aFile.IsNameValid then
           begin
             Cmd:= MainToolBar.GetButtonX(NumberOfButton, CmdX);
-            Param:= MainToolBar.GetButtonX(NumberOfButton, ParamX);
             Path:= MainToolBar.GetButtonX(NumberOfButton, PathX);
-            Param:= ReplaceEnvVars(Param);
-            Param:= Param + ' ' + aFile.FullPath;
+            Param:= QuoteStr(aFile.FullPath);
             if Actions.Execute(Cmd, Param) = uActs.cf_Error then
               begin
                 Cmd:= mbExpandFileName(Cmd);
                 Path:= ReplaceEnvVars(Path);
-                ReplaceExtCommand(Param, FrameLeft, FrameRight, ActiveFrame);
                 ReplaceExtCommand(Path, FrameLeft, FrameRight, ActiveFrame);
-                if Path <> '' then
+                if Length(Path) <> 0 then
                   mbSetCurrentDir(Path);
-                // Only add a space after command if there are parameters.
-                if Length(Param) > 0 then
-                  Param := ' ' + Param;
-                //Result:= ExecCmdFork(Format('"%s"%s', [Cmd, Param]));
-                ExecCmdFork(Format('"%s"%s', [Cmd, Param]));
+                ExecCmdFork(Format('"%s" %s', [Cmd, Param]));
               end;
           end;
       end;
-  end;
 end;
 
 procedure TfrmMain.MainToolBarToolButtonDragOver(Sender, Source: TObject; X,
   Y: Integer; State: TDragState; var Accept: Boolean; NumberOfButton: Integer);
 var
   aFile: TFile;
+  tmp: integer;
 begin
-  if Source is TSpeedButton then
+  if (ssShift in GetKeyShiftState) then
     begin
+      if not (Source is TSpeedButton) and not Draging then
+        begin
+          aFile := ActiveFrame.ActiveFile;
+          if Assigned(aFile) and aFile.IsNameValid then
+            begin
+              MainToolBar.InsertButtonX((Sender as TSpeedButton).Tag, '', aFile.FullPath, '', aFile.Path,
+                                        ExtractOnlyFileName(aFile.Name), '',  aFile.FullPath);
+              NumberOfMoveButton := (Sender as TSpeedButton).Tag;
+              NumberOfNewMoveButton := (Sender as TSpeedButton).Tag-1;
+              Draging := True;
+              Accept := True;
+            end
+          else
+            begin
+              Accept := False;
+              Exit;
+            end;
+        end;
       if (NumberOfMoveButton <> (Sender as TSpeedButton).Tag) then
         begin
           Draging := True;
-          MainToolBar.MoveButton((Source as TSpeedButton).Tag, (Sender as TSpeedButton).Tag);
+          if Source is TSpeedButton then
+            MainToolBar.MoveButton((Source as TSpeedButton).Tag, (Sender as TSpeedButton).Tag)
+          else
+            begin
+              tmp:= (Sender as TSpeedButton).Tag;
+              MainToolBar.MoveButton(NumberOfNewMoveButton, (Sender as TSpeedButton).Tag);
+              NumberOfNewMoveButton := tmp;
+            end;
           NumberOfMoveButton := (Sender as TSpeedButton).Tag;
-          Accept:= True;
+          Accept := True;
         end;
     end
   else
     begin
       aFile := ActiveFrame.ActiveFile;
-      if Assigned(aFile) and aFile.IsNameValid then
-        Accept := True
-      else
-        Accept := False;
+      Accept := Assigned(aFile) and aFile.IsNameValid and not Draging;
     end;
 end;
 
@@ -949,11 +964,12 @@ procedure TfrmMain.MainToolBarToolButtonMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer;
   NumberOfButton: Integer);
 begin
-  if Button = mbLeft then
+  if (ssShift in Shift) and (Button = mbLeft) then
     begin
-      MainToolBar.Buttons[NumberOfButton].BeginDrag(false,5);
-      NumberOfMoveButton:=(Sender as TSpeedButton).Tag;
+      MainToolBar.Buttons[NumberOfButton].BeginDrag(False, 5);
+      NumberOfMoveButton:= (Sender as TSpeedButton).Tag;
     end;
+  Draging:= False;
 end;
 
 procedure TfrmMain.MainToolBarToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
@@ -1441,16 +1457,16 @@ var
   Cmd,Param,Path : string;
   TargetControl: TControl;
 begin
-  if not (Source is TSpeedButton) then
+  if not (Source is TSpeedButton) and not Draging and (ssShift in GetKeyShiftState) then
     begin
       aFile := ActiveFrame.ActiveFile;
       if Assigned(aFile) and aFile.IsNameValid then
       begin
         MainToolBar.AddButtonX('', aFile.FullPath, '', aFile.Path,
                                ExtractOnlyFileName(aFile.Name), '',  aFile.FullPath);
-        SaveMainToolBar;
       end;
     end;
+  SaveMainToolBar;
   Draging := False;
 end;
 
@@ -1459,11 +1475,12 @@ procedure TfrmMain.MainToolBarDragOver(Sender, Source: TObject; X, Y: Integer;
 var
   aFile: TFile;
 begin
-  aFile := ActiveFrame.ActiveFile;
-  if Assigned(aFile) and aFile.IsNameValid then
-    Accept := True
-  else
-    Accept := False;
+  if (ssShift in GetKeyShiftState) and not (Source is TSpeedButton) then
+    begin
+      aFile := ActiveFrame.ActiveFile;
+      Accept := Assigned(aFile) and aFile.IsNameValid;
+    end
+  else  Accept := false;
 end;
 
 function TfrmMain.MainToolBarLoadButtonGlyph(sIconFileName: String;
