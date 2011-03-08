@@ -1,14 +1,14 @@
 Компиляция Double commander
 
 Для компиляции вам понадобится компилятор FreePascal 2.4.0 (www.freepascal.org)
-и среда разработки Lazarus 0.9.29 (lazarus.freepascal.org)
+и среда разработки Lazarus 0.9.30 (lazarus.freepascal.org)
 
 Компиляцию можно осуществить 2 способами:
 
 1) Из среды разработки Lazarus. В первую очередь необходимо установить компоненты из подкаталога components,
 для этого откройте Lazarus и выберите пункт меню "Компоненты -> Открыть файл пакета *.lpk ...", далее выберите файл
 components\KASToolBar\kascomp.lpk и в появившемся окне нажмите кнопку "Установить".
-Повторите тоже самое для файла пакета components\viewer\viewerpackage.lpk, components\CmdLine\cmdbox.lpk и components\gifanim\pkg_gifanim.lpk.
+Повторите тоже самое для файла пакета components\viewer\viewerpackage.lpk, components\CmdLine\cmdbox.lpk, components\gifanim\pkg_gifanim.lpk и components\ZVDateTimeCtrls\zvdatetimectrls.lpk.
 После этого выберите пункт меню "Проект -> Открыть проект" и выберите файл doublecmd.lpi,
 далее выполните пункт меню "Запуск -> Собрать все"
 
