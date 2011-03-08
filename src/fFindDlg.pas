@@ -169,7 +169,6 @@ type
     procedure FindOptionsToDSXSearchRec(const AFindOptions: TSearchTemplateRec;
                                         var SRec: TDsxSearchRecord);
     procedure OnAddAttribute(Sender: TObject);
-    procedure UpdateColor(Control: TControl; Checked: Boolean);
   public
     { Public declarations }
     procedure ThreadTerminate(Sender:TObject);
@@ -1038,14 +1037,6 @@ begin
   else
     sAttr := sAttr + (Sender as TfrmAttributesEdit).AttrsAsText;
   edtAttrib.Text := sAttr;
-end;
-
-procedure TfrmFindDlg.UpdateColor(Control: TControl; Checked: Boolean);
-begin
-  if Checked then
-    Control.Color:= clDefault
-  else
-    Control.Color:= $FFFFFFFF8000000F;
 end;
 
 finalization

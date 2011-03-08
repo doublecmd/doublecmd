@@ -104,7 +104,6 @@ type
     procedure ShowAttr(Attr: TFileAttrs);
     function GetModeFromForm: TFileAttrs;
     function GetAttrFromForm: TFileAttrs;
-    procedure UpdateColor(Control: TControl; Checked: Boolean);
   public
     constructor Create(aOwner: TComponent; const aOperation: TFileSourceSetFilePropertyOperation); reintroduce;
   end;
@@ -338,12 +337,5 @@ begin
   chkLastWriteTime.Checked:=True;
 end;
 
-procedure TfrmSetFileProperties.UpdateColor(Control: TControl; Checked: Boolean);
-begin
-  if Checked then
-    Control.Color:= $20000000
-  else
-    Control.Color:= $FFFFFFFF8000000F;
-end;
 end.
 

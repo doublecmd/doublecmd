@@ -377,6 +377,7 @@ function EstimateRemainingTime(StartValue, CurrentValue, EndValue: Int64;
 
 function ModColor(AColor: TColor; APercent: Byte) : TColor;
 
+procedure UpdateColor(Control: TControl; Checked: Boolean);
 procedure EnableControl(Control:  TControl; Enabled: Boolean);
 
 implementation
@@ -1537,6 +1538,14 @@ begin
   G := G * APercent div 100;
   B := B * APercent div 100;
   Result := RGBToColor(R, G, B);
+end;
+
+procedure UpdateColor(Control: TControl; Checked: Boolean);
+begin
+  if Checked then
+    Control.Color:= clDefault
+  else
+    Control.Color:= $FFFFFFFF8000000F;
 end;
 
 procedure EnableControl(Control: TControl; Enabled: Boolean);
