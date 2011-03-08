@@ -185,7 +185,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fCalendar, fViewer, fMain,
+  LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fViewer, fMain,
   uLng, uGlobs, uShowForm, uOSUtils, uSearchTemplate, uDCUtils,
   uSearchResultFileSource, uFile, uFileSystemFileSource,
   uFileViewNotebook, uFileView, uColumnsFileView;
