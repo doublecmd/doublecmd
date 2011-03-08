@@ -2325,8 +2325,10 @@ msgid "&Search"
 msgstr "&Търсене"
 
 #: TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION
+#, fuzzy
+#| msgid "Change file properties"
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
-msgid "Change file properties"
+msgid "Change attributes"
 msgstr "Промяна на файловите свойства"
 
 #: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
@@ -4380,11 +4382,6 @@ msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Добре"
 
-#: TFRMSETFILEPROPERTIES.CAPTION
-msgctxt "TFRMSETFILEPROPERTIES.CAPTION"
-msgid "Change file properties"
-msgstr "Промяна на файловите свойства"
-
 #: TFRMSETFILEPROPERTIES.CBSGID.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CBSGID.CAPTION"
 msgid "SGID"
@@ -4437,6 +4434,27 @@ msgctxt "TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION"
 msgid "System"
 msgstr "Системен"
 
+#: TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION
+#, fuzzy
+#| msgid "Change file properties"
+msgctxt "TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION"
+msgid "Change attributes"
+msgstr "Промяна на файловите свойства"
+
+#: TFRMSETFILEPROPERTIES.GBTIMESAMP.CAPTION
+msgid "Timestamp properties"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.GBUNIXATTRIBUTES.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.GBUNIXATTRIBUTES.CAPTION"
+msgid "Attributes"
+msgstr "Принадлежности"
+
+#: TFRMSETFILEPROPERTIES.GBWINATTRIBUTES.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.GBWINATTRIBUTES.CAPTION"
+msgid "Attributes"
+msgstr "Принадлежности"
+
 #: TFRMSETFILEPROPERTIES.LBLATTRBITSSTR.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.LBLATTRBITSSTR.CAPTION"
 msgid "Bits:"
@@ -4448,7 +4466,9 @@ msgid "Group"
 msgstr "Група"
 
 #: TFRMSETFILEPROPERTIES.LBLATTRINFO.CAPTION
-msgid "(gray = unchanged, checked=set attribute)"
+#, fuzzy
+#| msgid "(gray = unchanged, checked=set attribute)"
+msgid "(gray field means unchanged value)"
 msgstr "(сиво = непроменено, отметнато = включено)"
 
 #: TFRMSETFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
@@ -4490,20 +4510,6 @@ msgstr "Запис"
 msgctxt "TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Четене"
-
-#: TFRMSETFILEPROPERTIES.PGDATETIME.CAPTION
-msgid "Date/Time"
-msgstr "Дата/Време"
-
-#: TFRMSETFILEPROPERTIES.PGUNIXMODE.CAPTION
-msgctxt "TFRMSETFILEPROPERTIES.PGUNIXMODE.CAPTION"
-msgid "Attributes"
-msgstr "Принадлежности"
-
-#: TFRMSETFILEPROPERTIES.PGWINATTR.CAPTION
-msgctxt "TFRMSETFILEPROPERTIES.PGWINATTR.CAPTION"
-msgid "Attributes"
-msgstr "Принадлежности"
 
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"

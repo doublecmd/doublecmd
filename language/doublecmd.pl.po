@@ -2303,8 +2303,10 @@ msgid "&Search"
 msgstr "Szukaj"
 
 #: TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION
+#, fuzzy
+#| msgid "Change file properties"
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
-msgid "Change file properties"
+msgid "Change attributes"
 msgstr "Zmień właściwości pliku"
 
 #: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
@@ -4336,11 +4338,6 @@ msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&ОК"
 
-#: TFRMSETFILEPROPERTIES.CAPTION
-msgctxt "TFRMSETFILEPROPERTIES.CAPTION"
-msgid "Change file properties"
-msgstr "Zmień właściwości pliku"
-
 #: TFRMSETFILEPROPERTIES.CBSGID.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CBSGID.CAPTION"
 msgid "SGID"
@@ -4393,6 +4390,27 @@ msgctxt "TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION"
 msgid "System"
 msgstr "System"
 
+#: TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION
+#, fuzzy
+#| msgid "Change file properties"
+msgctxt "TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION"
+msgid "Change attributes"
+msgstr "Zmień właściwości pliku"
+
+#: TFRMSETFILEPROPERTIES.GBTIMESAMP.CAPTION
+msgid "Timestamp properties"
+msgstr ""
+
+#: TFRMSETFILEPROPERTIES.GBUNIXATTRIBUTES.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.GBUNIXATTRIBUTES.CAPTION"
+msgid "Attributes"
+msgstr "Atrybuty"
+
+#: TFRMSETFILEPROPERTIES.GBWINATTRIBUTES.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.GBWINATTRIBUTES.CAPTION"
+msgid "Attributes"
+msgstr "Arybuty"
+
 #: TFRMSETFILEPROPERTIES.LBLATTRBITSSTR.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.LBLATTRBITSSTR.CAPTION"
 msgid "Bits:"
@@ -4404,7 +4422,9 @@ msgid "Group"
 msgstr "Grupa"
 
 #: TFRMSETFILEPROPERTIES.LBLATTRINFO.CAPTION
-msgid "(gray = unchanged, checked=set attribute)"
+#, fuzzy
+#| msgid "(gray = unchanged, checked=set attribute)"
+msgid "(gray field means unchanged value)"
 msgstr "(szary = niezmieniony, zaznaczony=ustaw atrybut)"
 
 #: TFRMSETFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
@@ -4446,20 +4466,6 @@ msgstr "Odczyt"
 msgctxt "TFRMSETFILEPROPERTIES.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Zapis"
-
-#: TFRMSETFILEPROPERTIES.PGDATETIME.CAPTION
-msgid "Date/Time"
-msgstr "Data/czas"
-
-#: TFRMSETFILEPROPERTIES.PGUNIXMODE.CAPTION
-msgctxt "TFRMSETFILEPROPERTIES.PGUNIXMODE.CAPTION"
-msgid "Attributes"
-msgstr "Arybuty"
-
-#: TFRMSETFILEPROPERTIES.PGWINATTR.CAPTION
-msgctxt "TFRMSETFILEPROPERTIES.PGWINATTR.CAPTION"
-msgid "Attributes"
-msgstr "Atrybuty"
 
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
@@ -6129,6 +6135,9 @@ msgstr "Alfabetycznie, uwzględniając akcenty;Naturalne sortowanie: alfabetyczn
 msgid "Top;Bottom;"
 msgstr "Góra;Dół;"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsopttools
 msgid "Tools"
 msgstr "Narzędzia"
@@ -6146,9 +6155,6 @@ msgctxt "ulng.rspropsfile"
 msgid "File"
 msgstr "Plik"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rspropsfolder
 msgctxt "ulng.rspropsfolder"
 msgid "Directory"
