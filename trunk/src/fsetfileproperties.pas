@@ -116,7 +116,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, fCalendar, uFileAttributes, uDCUtils, uFileProperty;
+  LCLType, uFileAttributes, uDCUtils, uFileProperty;
 
 function ShowChangeFilePropertiesDialog(const aOperation: TFileSourceSetFilePropertyOperation): Boolean;
 begin
