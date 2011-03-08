@@ -132,6 +132,19 @@ constructor TFileSystemFileSource.Create;
 begin
   inherited Create;
   FDescr:= nil;
+
+  FOperationsClasses[fsoList]            := TFileSystemListOperation.GetOperationClass;
+  FOperationsClasses[fsoCopy]            := TFileSystemCopyOperation.GetOperationClass;
+  FOperationsClasses[fsoCopyIn]          := TFileSystemCopyInOperation.GetOperationClass;
+  FOperationsClasses[fsoCopyOut]         := TFileSystemCopyOutOperation.GetOperationClass;
+  FOperationsClasses[fsoMove]            := TFileSystemMoveOperation.GetOperationClass;
+  FOperationsClasses[fsoDelete]          := TFileSystemDeleteOperation.GetOperationClass;
+  FOperationsClasses[fsoWipe]            := TFileSystemWipeOperation.GetOperationClass;
+  FOperationsClasses[fsoCreateDirectory] := TFileSystemCreateDirectoryOperation.GetOperationClass;
+  FOperationsClasses[fsoCalcChecksum]    := TFileSystemCalcChecksumOperation.GetOperationClass;
+  FOperationsClasses[fsoCalcStatistics]  := TFileSystemCalcStatisticsOperation.GetOperationClass;
+  FOperationsClasses[fsoSetFileProperty] := TFileSystemSetFilePropertyOperation.GetOperationClass;
+  FOperationsClasses[fsoExecute]         := TFileSystemExecuteOperation.GetOperationClass;
 end;
 
 destructor TFileSystemFileSource.Destroy;
@@ -744,4 +757,4 @@ begin
 end;
 
 end.
-
+

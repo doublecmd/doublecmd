@@ -1,0 +1,147 @@
+inherited FileSystemCopyMoveOperationOptionsUI: TFileSystemCopyMoveOperationOptionsUI
+  Height = 158
+  Width = 549
+  AutoSize = True
+  BorderSpacing.Around = 6
+  ClientHeight = 158
+  ClientWidth = 549
+  TabOrder = 0
+  DesignLeft = 502
+  DesignTop = 250
+  object pnlComboBoxes: TPanel[0]
+    AnchorSideLeft.Control = Owner
+    Left = 0
+    Height = 87
+    Top = 0
+    Width = 249
+    AutoSize = True
+    BevelOuter = bvNone
+    ChildSizing.HorizontalSpacing = 5
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 2
+    ClientHeight = 87
+    ClientWidth = 249
+    TabOrder = 1
+    object lblFileType: TLabel
+      Left = 0
+      Height = 22
+      Top = 3
+      Width = 144
+      BorderSpacing.CellAlignVertical = ccaCenter
+      Caption = 'Only type:'
+      FocusControl = cmbFileType
+      ParentColor = False
+    end
+    object cmbFileType: TComboBox
+      Left = 149
+      Height = 29
+      Top = 0
+      Width = 100
+      Enabled = False
+      ItemHeight = 21
+      TabOrder = 0
+    end
+    object lblFileExists: TLabel
+      Left = 0
+      Height = 22
+      Top = 32
+      Width = 144
+      BorderSpacing.CellAlignVertical = ccaCenter
+      Caption = 'When file exists'
+      FocusControl = cmbFileExists
+      ParentColor = False
+    end
+    object cmbFileExists: TComboBox
+      Left = 149
+      Height = 29
+      Top = 29
+      Width = 100
+      ItemHeight = 21
+      Items.Strings = (
+        'Ask'
+        'Overwrite'
+        'Skip'
+      )
+      Style = csDropDownList
+      TabOrder = 1
+    end
+    object lblDirectoryExists: TLabel
+      Left = 0
+      Height = 22
+      Top = 61
+      Width = 144
+      BorderSpacing.CellAlignVertical = ccaCenter
+      Caption = 'When directory exists'
+      FocusControl = cmbDirectoryExists
+      ParentColor = False
+    end
+    object cmbDirectoryExists: TComboBox
+      Left = 149
+      Height = 29
+      Top = 58
+      Width = 100
+      ItemHeight = 21
+      Items.Strings = (
+        'Ask'
+        'Overwrite'
+        'Copy into'
+        'Skip'
+      )
+      Style = csDropDownList
+      TabOrder = 2
+    end
+  end
+  object pnlCheckboxes: TPanel[1]
+    AnchorSideLeft.Control = pnlComboBoxes
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = pnlComboBoxes
+    Left = 257
+    Height = 100
+    Top = 0
+    Width = 151
+    AutoSize = True
+    BorderSpacing.Left = 8
+    BevelOuter = bvNone
+    BevelWidth = 8
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 100
+    ClientWidth = 151
+    TabOrder = 0
+    object cbCheckFreeSpace: TCheckBox
+      Left = 0
+      Height = 25
+      Top = 0
+      Width = 151
+      Caption = 'Check free space'
+      TabOrder = 0
+    end
+    object cbDropReadOnlyFlag: TCheckBox
+      Left = 0
+      Height = 25
+      Top = 25
+      Width = 151
+      Caption = 'Drop readonly flag'
+      TabOrder = 1
+      Visible = False
+    end
+    object cbFollowLinks: TCheckBox
+      Left = 0
+      Height = 25
+      Top = 50
+      Width = 151
+      AllowGrayed = True
+      Caption = 'Follow links'
+      TabOrder = 2
+      Visible = False
+    end
+    object cbCorrectLinks: TCheckBox
+      Left = 0
+      Height = 25
+      Top = 75
+      Width = 151
+      Caption = 'Correct links'
+      TabOrder = 3
+    end
+  end
+end

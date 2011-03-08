@@ -203,7 +203,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="101">
+    <Units Count="106">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -826,6 +826,38 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uPariterControls"/>
       </Unit100>
+      <Unit101>
+        <Filename Value="ucmdlineparams.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uCmdLineParams"/>
+      </Unit101>
+      <Unit102>
+        <Filename Value="uPathLabel.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uPathLabel"/>
+      </Unit102>
+      <Unit103>
+        <Filename Value="newdesign\ffilesystemcopymoveoperationoptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FileSystemCopyMoveOperationOptionsUI"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fFileSystemCopyMoveOperationOptions"/>
+      </Unit103>
+      <Unit104>
+        <Filename Value="newdesign\ufilesourceoperationoptionsui.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FileSourceOperationOptionsUI"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="uFileSourceOperationOptionsUI"/>
+      </Unit104>
+      <Unit105>
+        <Filename Value="newdesign\fwfxplugincopymoveoperationoptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="WfxPluginCopyMoveOperationOptionsUI"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fWfxPluginCopyMoveOperationOptions"/>
+      </Unit105>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

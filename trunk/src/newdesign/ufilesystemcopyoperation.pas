@@ -10,6 +10,7 @@ uses
   uFileSource,
   uFileSourceOperationTypes,
   uFileSourceOperationOptions,
+  uFileSourceOperationOptionsUI,
   uFile,
   uFileSystemUtil;
 
@@ -25,6 +26,7 @@ type
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
 
     // Options.
+    FDropReadOnlyAttribute: Boolean;
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
     FAutoRenameItSelf: Boolean;
@@ -32,10 +34,6 @@ type
     FCorrectSymLinks: Boolean;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
     FDirExistsOption: TFileSourceOperationOptionDirectoryExists;
-
-  protected
-
-    // ProcessFileNoQuestions (when we're sure the targets don't exist)
 
   public
     constructor Create(aSourceFileSource: IFileSource;
@@ -49,6 +47,9 @@ type
     procedure MainExecute; override;
     procedure Finalize; override;
 
+    class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
+
+    property DropReadOnlyAttribute: Boolean read FDropReadOnlyAttribute write FDropReadOnlyAttribute;
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
     property AutoRenameItSelf: Boolean read FAutoRenameItSelf write FAutoRenameItSelf;
@@ -85,19 +86,20 @@ type
 implementation
 
 uses
-  uGlobs;
+  fFileSystemCopyMoveOperationOptions, uGlobs;
 
 // -- TFileSystemCopyOperation ---------------------------------------------
 
 constructor TFileSystemCopyOperation.Create(aSourceFileSource: IFileSource;
-                                               aTargetFileSource: IFileSource;
-                                               var theSourceFiles: TFiles;
-                                               aTargetPath: String);
+                                            aTargetFileSource: IFileSource;
+                                            var theSourceFiles: TFiles;
+                                            aTargetPath: String);
 begin
   FSourceFilesTree := nil;
   FOperationHelper := nil;
 
   // Here we can read global settings if there are any.
+  FDropReadOnlyAttribute := False;
   FSymLinkOption := gOperationOptionSymLinks;
   FFileExistsOption := gOperationOptionFileExists;
   FDirExistsOption := gOperationOptionDirectoryExists;
@@ -176,6 +178,11 @@ procedure TFileSystemCopyOperation.Finalize;
 begin
   if Assigned(FOperationHelper) then
     FreeAndNil(FOperationHelper);
+end;
+
+class function TFileSystemCopyOperation.GetOptionsUIClass: TFileSourceOperationOptionsUIClass;
+begin
+  Result := TFileSystemCopyOperationOptionsUI;
 end;
 
 { TFileSystemCopyInOperation }

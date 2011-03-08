@@ -6,7 +6,9 @@ interface
 
 uses
   SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls, Menus,
-  uFileSystemCopyOperation, uFileSystemMoveOperation, uFileViewNotebook,
+  uFileViewNotebook,
+  uFileSourceOperation,
+  uFileSourceOperationOptionsUI,
   uOperationsManager;
 
 type
@@ -20,24 +22,15 @@ type
     btnOK: TBitBtn;
     btnOptions: TButton;
     btnSaveOptions: TButton;
-    cbDropReadOnlyFlag: TCheckBox;
-    cbFollowLinks: TCheckBox;
-    cbCorrectLinks: TCheckBox;
-    cbCheckFreeSpace: TCheckBox;
-    cmbFileType: TComboBox;
-    cmbFileExists: TComboBox;
-    cmbDirectoryExists: TComboBox;
     edtDst: TEdit;
     grpOptions: TGroupBox;
-    lblFileExists: TLabel;
-    lblDirectoryExists: TLabel;
     lblCopySrc: TLabel;
-    lblFileType: TLabel;
     miAutoStart: TMenuItem;
     miQueueFirst: TMenuItem;
     miQueueLast: TMenuItem;
     miManualStart: TMenuItem;
-    pnlCheckboxes: TPanel;
+    pnlButtons: TPanel;
+    pnlOptions: TPanel;
     pnlSelector: TPanel;
     btnStartMode: TSpeedButton;
     pmOperationStartMode: TPopupMenu;
@@ -63,6 +56,8 @@ type
     FDialogType: TCopyMoveDlgType;
     noteb: TFileViewNotebook;
     FOperationStartingState: TOperationStartingState;
+    FOperationOptionsUIClass: TFileSourceOperationOptionsUIClass;
+    FOperationOptionsUI: TFileSourceOperationOptionsUI;
 
     function ShowTabsSelector: integer;
     procedure TabsSelector(Sender: TObject);
@@ -74,9 +69,9 @@ type
     procedure UnCheckStartModeMenuItems;
 
   public
-    constructor Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType); reintroduce;
-    procedure SetOperationOptions(CopyOperation: TFileSystemCopyOperation); overload;
-    procedure SetOperationOptions(MoveOperation: TFileSystemMoveOperation); overload;
+    constructor Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType;
+                       AOperationOptionsUIClass: TFileSourceOperationOptionsUIClass); reintroduce;
+    procedure SetOperationOptions(Operation: TFileSourceOperation);
 
     property OperationStartingState: TOperationStartingState read FOperationStartingState;
   end;
@@ -87,15 +82,24 @@ implementation
 {$R *.lfm}
 
 uses
-  fMain, LCLType, uGlobs, uFileSourceOperationOptions, uLng;
+  fMain, LCLType, uGlobs, uLng;
 
-constructor TfrmCopyDlg.Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType);
+constructor TfrmCopyDlg.Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType;
+                               AOperationOptionsUIClass: TFileSourceOperationOptionsUIClass);
 begin
   noteb := nil;
   FDialogType := DialogType;
+  FOperationOptionsUIClass := AOperationOptionsUIClass;
+  FOperationOptionsUI := nil;
   FOperationStartingState := ossAutoStart;
   pmOperationStartMode := nil;
   inherited Create(TheOwner);
+end;
+
+procedure TfrmCopyDlg.SetOperationOptions(Operation: TFileSourceOperation);
+begin
+  if Assigned(FOperationOptionsUI) then
+    FOperationOptionsUI.SetOperationOptions(Operation);
 end;
 
 procedure TfrmCopyDlg.TabsSelector(Sender: TObject);
@@ -176,7 +180,6 @@ begin
   end;
 end;
 
-
 procedure TfrmCopyDlg.frmCopyDlgShow(Sender: TObject);
 begin
   case FDialogType of
@@ -188,8 +191,6 @@ begin
     cmdtMove:
       begin
         Caption := rsDlgMv;
-        cbDropReadOnlyFlag.Visible := False;
-        cbFollowLinks.Visible := False;
       end;
   end;
 
@@ -280,7 +281,7 @@ end;
 procedure TfrmCopyDlg.btnOptionsClick(Sender: TObject);
 begin
 {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
-  ShowOptions(not grpOptions.Visible);
+  ShowOptions(not pnlOptions.Visible);
 {$ENDIF}
 end;
 
@@ -289,38 +290,14 @@ procedure TfrmCopyDlg.btnOptionsMouseUp(Sender: TObject; Button: TMouseButton;
 begin
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
-    ShowOptions(not grpOptions.Visible);
+    ShowOptions(not pnlOptions.Visible);
 {$ENDIF}
 end;
 
 procedure TfrmCopyDlg.btnSaveOptionsClick(Sender: TObject);
 begin
-  case cmbFileExists.ItemIndex of
-    0: gOperationOptionFileExists := fsoofeNone;
-    1: gOperationOptionFileExists := fsoofeOverwrite;
-    2: gOperationOptionFileExists := fsoofeSkip;
-  end;
-  if gOverwriteFolder then
-    case cmbDirectoryExists.ItemIndex of
-      0: gOperationOptionDirectoryExists := fsoodeNone;
-      1: gOperationOptionDirectoryExists := fsoodeDelete;
-      2: gOperationOptionDirectoryExists := fsoodeCopyInto;
-      3: gOperationOptionDirectoryExists := fsoodeSkip;
-    end
-  else
-    case cmbDirectoryExists.ItemIndex of
-      0: gOperationOptionDirectoryExists := fsoodeNone;
-      1: gOperationOptionDirectoryExists := fsoodeCopyInto;
-      2: gOperationOptionDirectoryExists := fsoodeSkip;
-    end;
-  gDropReadOnlyFlag := (cbDropReadOnlyFlag.State = cbChecked);
-  case cbFollowLinks.State of
-    cbChecked   : gOperationOptionSymLinks := fsooslFollow;
-    cbUnchecked : gOperationOptionSymLinks := fsooslDontFollow;
-    cbGrayed    : gOperationOptionSymLinks := fsooslNone;
-  end;
-  gOperationOptionCorrectLinks := cbCorrectLinks.Checked;
-  gOperationOptionCheckFreeSpace := cbCheckFreeSpace.Checked;
+  if Assigned(FOperationOptionsUI) then
+    FOperationOptionsUI.SaveOptions;
 end;
 
 procedure TfrmCopyDlg.btnStartModeClick(Sender: TObject);
@@ -332,44 +309,22 @@ procedure TfrmCopyDlg.FormCreate(Sender: TObject);
 begin
   pnlSelector.Visible := gShowCopyTabSelectPanel;
 
-  // Fix align of options box and dialog size at start.
+  // Fix align of options panel and dialog size at start.
   if not pnlSelector.Visible then
-    grpOptions.Top := grpOptions.Top -
+    pnlOptions.Top := pnlOptions.Top -
                       (pnlSelector.Height +
                        pnlSelector.BorderSpacing.Top +
                        pnlSelector.BorderSpacing.Bottom);
 
-  ShowOptions(False);
-
-  if not gOverwriteFolder then cmbDirectoryExists.Items.Delete(1);
-
-  // Load default options.
-  case gOperationOptionFileExists of
-    fsoofeNone     : cmbFileExists.ItemIndex := 0;
-    fsoofeOverwrite: cmbFileExists.ItemIndex := 1;
-    fsoofeSkip     : cmbFileExists.ItemIndex := 2;
-  end;
-  if gOverwriteFolder then
-    case gOperationOptionDirectoryExists of
-      fsoodeNone     : cmbDirectoryExists.ItemIndex := 0;
-      fsoodeDelete   : cmbDirectoryExists.ItemIndex := 1;
-      fsoodeCopyInto : cmbDirectoryExists.ItemIndex := 2;
-      fsoodeSkip     : cmbDirectoryExists.ItemIndex := 3;
-    end
+  // Operation options.
+  if Assigned(FOperationOptionsUIClass) then
+  begin
+    FOperationOptionsUI := FOperationOptionsUIClass.Create(Self);
+    FOperationOptionsUI.Parent := grpOptions;
+  end
   else
-    case gOperationOptionDirectoryExists of
-      fsoodeNone     : cmbDirectoryExists.ItemIndex := 0;
-      fsoodeCopyInto : cmbDirectoryExists.ItemIndex := 1;
-      fsoodeSkip     : cmbDirectoryExists.ItemIndex := 2;
-    end;
-  cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
-  case gOperationOptionSymLinks of
-    fsooslFollow     : cbFollowLinks.State := cbChecked;
-    fsooslDontFollow : cbFollowLinks.State := cbUnchecked;
-    fsooslNone       : cbFollowLinks.State := cbGrayed;
-  end;
-  cbCorrectLinks.Checked := gOperationOptionCorrectLinks;
-  cbCheckFreeSpace.Checked := gOperationOptionCheckFreeSpace;
+    btnOptions.Visible := False;
+  ShowOptions(False);
 
   // Start mode menu.
   SetStartModeMenuText;
@@ -380,13 +335,14 @@ procedure TfrmCopyDlg.ShowOptions(bShow: Boolean);
 begin
   if bShow then
   begin
-    Self.Height := grpOptions.Top + grpOptions.Height + grpOptions.BorderSpacing.Bottom;
-    grpOptions.Visible := True;
+    pnlOptions.Visible := True;
+    Self.Height := pnlOptions.Top + pnlOptions.Height +
+                   pnlOptions.BorderSpacing.Top + pnlOptions.BorderSpacing.Bottom;
   end
   else
   begin
-    grpOptions.Visible := False;
-    Self.Height := grpOptions.Top;
+    pnlOptions.Visible := False;
+    Self.Height := pnlOptions.Top;
   end;
 end;
 
@@ -404,67 +360,6 @@ var
 begin
   for i := 0 to pmOperationStartMode.Items.Count - 1 do
     pmOperationStartMode.Items[i].Checked := False;
-end;
-
-procedure TfrmCopyDlg.SetOperationOptions(CopyOperation: TFileSystemCopyOperation);
-begin
-  with CopyOperation do
-  begin
-    case cmbFileExists.ItemIndex of
-      0: FileExistsOption := fsoofeNone;
-      1: FileExistsOption := fsoofeOverwrite;
-      2: FileExistsOption := fsoofeSkip;
-    end;
-    if gOverwriteFolder then
-      case cmbDirectoryExists.ItemIndex of
-        0: DirExistsOption := fsoodeNone;
-        1: DirExistsOption := fsoodeDelete;
-        2: DirExistsOption := fsoodeCopyInto;
-        3: DirExistsOption := fsoodeSkip;
-      end
-    else
-      case cmbDirectoryExists.ItemIndex of
-        0: DirExistsOption := fsoodeNone;
-        1: DirExistsOption := fsoodeCopyInto;
-        2: DirExistsOption := fsoodeSkip;
-      end;
-    case cbFollowLinks.State of
-      cbChecked  : SymLinkOption := fsooslFollow;
-      cbUnchecked: SymLinkOption := fsooslDontFollow;
-      cbGrayed   : SymLinkOption := fsooslNone;
-    end;
-    DropReadOnlyAttribute := (cbDropReadOnlyFlag.State = cbChecked);
-    CorrectSymLinks := cbCorrectLinks.Checked;
-    CheckFreeSpace := cbCheckFreeSpace.Checked;
-  end;
-end;
-
-procedure TfrmCopyDlg.SetOperationOptions(MoveOperation: TFileSystemMoveOperation);
-begin
-  with MoveOperation do
-  begin
-    case cmbFileExists.ItemIndex of
-      0: FileExistsOption := fsoofeNone;
-      1: FileExistsOption := fsoofeOverwrite;
-      2: FileExistsOption := fsoofeSkip;
-    end;
-    if gOverwriteFolder then
-      case cmbDirectoryExists.ItemIndex of
-        0: DirExistsOption := fsoodeNone;
-        1: DirExistsOption := fsoodeDelete;
-        2: DirExistsOption := fsoodeCopyInto;
-        3: DirExistsOption := fsoodeSkip;
-      end
-    else
-      case cmbDirectoryExists.ItemIndex of
-        0: DirExistsOption := fsoodeNone;
-        1: DirExistsOption := fsoodeCopyInto;
-        2: DirExistsOption := fsoodeSkip;
-      end;
-    //DropReadOnlyAttribute := (cbDropReadOnlyFlag.State = cbChecked);
-    CorrectSymLinks := cbCorrectLinks.Checked;
-    CheckFreeSpace := cbCheckFreeSpace.Checked;
-  end;
 end;
 
 end.

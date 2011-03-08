@@ -9,6 +9,7 @@ uses
   uFileSourceMoveOperation,
   uFileSource,
   uFileSourceOperationOptions,
+  uFileSourceOperationOptionsUI,
   uFile,
   uFileSystemUtil;
 
@@ -40,6 +41,8 @@ type
     procedure MainExecute; override;
     procedure Finalize; override;
 
+    class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
+
     property CheckFreeSpace: Boolean read FCheckFreeSpace write FCheckFreeSpace;
     property SkipAllBigFiles: Boolean read FSkipAllBigFiles write FSkipAllBigFiles;
     property CorrectSymLinks: Boolean read FCorrectSymLinks write FCorrectSymLinks;
@@ -50,7 +53,7 @@ type
 implementation
 
 uses
-  uGlobs;
+  fFileSystemCopyMoveOperationOptions, uGlobs;
 
 constructor TFileSystemMoveOperation.Create(aFileSource: IFileSource;
                                             var theSourceFiles: TFiles;
@@ -133,6 +136,11 @@ procedure TFileSystemMoveOperation.Finalize;
 begin
   if Assigned(FOperationHelper) then
     FreeAndNil(FOperationHelper);
+end;
+
+class function TFileSystemMoveOperation.GetOptionsUIClass: TFileSourceOperationOptionsUIClass;
+begin
+  Result := TFileSystemMoveOperationOptionsUI;
 end;
 
 end.

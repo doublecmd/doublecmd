@@ -44,7 +44,6 @@ type
     FSourceFiles: TFiles;
     FTargetPath: String;
     FRenameMask: String;
-    FDropReadOnlyAttribute: Boolean;
 
   protected
     function GetID: TFileSourceOperationType; override;
@@ -77,7 +76,6 @@ type
     function RetrieveStatistics: TFileSourceCopyOperationStatistics;
 
     property RenameMask: String read FRenameMask write FRenameMask;
-    property DropReadOnlyAttribute: Boolean read FDropReadOnlyAttribute write FDropReadOnlyAttribute;
   end;
 
   {en
@@ -168,7 +166,6 @@ begin
   FTargetPath := IncludeTrailingPathDelimiter(aTargetPath);
 
   FRenameMask := '';
-  FDropReadOnlyAttribute := False;
 end;
 
 destructor TFileSourceCopyOperation.Destroy;

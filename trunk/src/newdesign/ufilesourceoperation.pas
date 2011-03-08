@@ -23,8 +23,10 @@ interface
 
 uses
   Classes, SysUtils, syncobjs, uLng,
+  uFileSourceOperationOptionsUI,
   uFileSourceOperationTypes,
-  uFileSourceOperationUI, LCLProc;
+  uFileSourceOperationUI,
+  LCLProc;
 
 type
 
@@ -75,6 +77,7 @@ type
   TAbortOperationFunction = procedure of object;
   TCheckOperationStateFunction = procedure of object;
 
+  TFileSourceOperationClass = class of TFileSourceOperation;
   {en
      Base class for each file source operation.
   }
@@ -363,6 +366,11 @@ type
     // These functions are run from the GUI thread.
     procedure AddUserInterface(UserInterface: TFileSourceOperationUI);
     procedure RemoveUserInterface(UserInterface: TFileSourceOperationUI);
+    {en
+       Returns graphical interface class for user to set operation options.
+    }
+    class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; virtual;
+    class function GetOperationClass: TFileSourceOperationClass;
 
     property Progress: Integer read FProgress;
     property ID: TFileSourceOperationType read GetID;
@@ -1015,6 +1023,16 @@ begin
     // Last interface was removed - reset event so that operation
     // thread will wait for an UI if it wants to ask a question.
     RTLeventResetEvent(FUserInterfaceAssignedEvent);
+end;
+
+class function TFileSourceOperation.GetOptionsUIClass: TFileSourceOperationOptionsUIClass;
+begin
+  Result := nil;
+end;
+
+class function TFileSourceOperation.GetOperationClass: TFileSourceOperationClass;
+begin
+  Result := Self;
 end;
 
 function TFileSourceOperation.AskQuestion(

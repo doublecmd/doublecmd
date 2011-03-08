@@ -638,9 +638,9 @@ uses
   uShowMsg, fHotDir, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   uDragDropEx, StrUtils, uKeyboard, uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
-  fFileOpDlg, uFileSystemCopyOperation, uFileSystemMoveOperation, uFileSourceProperty,
-  uFileSourceExecuteOperation, uArchiveFileSource, uShellExecute, uActs,
-  fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd
+  fFileOpDlg, uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource,
+  uShellExecute, uActs, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
+  uFileSourceOperationOptionsUI
   {$IFDEF LCLQT}
     , qtwidgets
   {$ENDIF}
@@ -2304,9 +2304,12 @@ var
   sDstMaskTemp: String;
   Operation: TFileSourceCopyOperation = nil;
   OperationHandle: TOperationHandle;
+  OperationType: TFileSourceOperationType;
   ProgressDialog: TfrmFileOp;
   CopyDialog: TfrmCopyDlg = nil;
   OperationStartingState: TOperationStartingState = ossAutoStart;
+  OperationClass: TFileSourceOperationClass;
+  OperationOptionsUIClass: TFileSourceOperationOptionsUIClass = nil;
 begin
   try
     if not ((fsoCopyOut in SourceFileSource.GetOperationsTypes) and
@@ -2326,10 +2329,34 @@ begin
     else
       sDestination := TargetPath + '*.*';
 
+    // If same file source and address
+    if (fsoCopy in SourceFileSource.GetOperationsTypes) and
+       (fsoCopy in TargetFileSource.GetOperationsTypes) and
+       SourceFileSource.Equals(TargetFileSource) and
+       SameText(SourceFileSource.GetCurrentAddress, TargetFileSource.GetCurrentAddress) then
+    begin
+      OperationType := fsoCopy;
+      OperationClass := SourceFileSource.GetOperationClass(fsoCopy);
+    end
+    else if TargetFileSource.IsClass(TFileSystemFileSource) then
+    begin
+      OperationType := fsoCopyOut;
+      OperationClass := SourceFileSource.GetOperationClass(fsoCopyOut);
+    end
+    else if SourceFileSource.IsClass(TFileSystemFileSource) then
+    begin
+      OperationType := fsoCopyIn;
+      OperationClass := TargetFileSource.GetOperationClass(fsoCopyIn);
+    end
+    else
+      raise Exception.Create('Cannot determine copy operation');
+
     if bShowDialog then
     begin
-      CopyDialog := TfrmCopyDlg.Create(Application, cmdtCopy);
+      if Assigned(OperationClass) then
+        OperationOptionsUIClass := OperationClass.GetOptionsUIClass;
 
+      CopyDialog := TfrmCopyDlg.Create(Application, cmdtCopy, OperationOptionsUIClass);
       with CopyDialog do
       begin
         edtDst.Text := sDestination;
@@ -2347,38 +2374,21 @@ begin
     GetDestinationPathAndMask(TargetFileSource, sDestination,
                               SourceFiles.Path, TargetPath, sDstMaskTemp);
 
-    // If same file source and address
-    if (fsoCopy in SourceFileSource.GetOperationsTypes) and
-       (fsoCopy in TargetFileSource.GetOperationsTypes) and
-       SourceFileSource.Equals(TargetFileSource) and
-       SameText(SourceFileSource.GetCurrentAddress, TargetFileSource.GetCurrentAddress) then
-       begin
-         // Copy to between same file source
-         Operation := SourceFileSource.CreateCopyOperation(
-                        SourceFiles,
-                        TargetPath) as TFileSourceCopyOperation;
-       end
-    else if TargetFileSource.IsClass(TFileSystemFileSource) then
-    begin
-      // CopyOut to filesystem.
-      Operation := SourceFileSource.CreateCopyOutOperation(
+    case OperationType of
+      fsoCopy:
+        // Copy within the same file source.
+        Operation := SourceFileSource.CreateCopyOperation(
+                       SourceFiles,
+                       TargetPath) as TFileSourceCopyOperation;
+      fsoCopyOut:
+        // CopyOut to filesystem.
+        Operation := SourceFileSource.CreateCopyOutOperation(
                        TargetFileSource,
                        SourceFiles,
                        TargetPath) as TFileSourceCopyOperation;
-    end
-    else if SourceFileSource.IsClass(TFileSystemFileSource) then
-    begin
-      {if TargetFileSource is TArchiveFileSource then
-      begin
-        ShowPackDlg(SourceFileSource,
-                    TargetFileSource as TArchiveFileSource,
-                    SourceFiles,
-                    TargetPath);
-        Exit;
-      end;}
-
-      // CopyIn from filesystem.
-      Operation := TargetFileSource.CreateCopyInOperation(
+      fsoCopyIn:
+        // CopyIn from filesystem.
+        Operation := TargetFileSource.CreateCopyInOperation(
                        SourceFileSource,
                        SourceFiles,
                        TargetPath) as TFileSourceCopyOperation;
@@ -2390,10 +2400,7 @@ begin
       Operation.RenameMask := sDstMaskTemp;
 
       if Assigned(CopyDialog) then
-      begin
-        if Operation is TFileSystemCopyOperation then
-          CopyDialog.SetOperationOptions(Operation as TFileSystemCopyOperation);
-      end;
+        CopyDialog.SetOperationOptions(Operation);
 
       // Start operation.
       OperationHandle := OperationsManager.AddOperation(Operation, OperationStartingState);
@@ -2460,7 +2467,8 @@ begin
 
     if bShowDialog then
     begin
-      MoveDialog := TfrmCopyDlg.Create(Application, cmdtMove);
+      MoveDialog := TfrmCopyDlg.Create(Application, cmdtMove,
+        SourceFileSource.GetOperationClass(fsoMove).GetOptionsUIClass);
 
       with MoveDialog do
       begin
@@ -2490,10 +2498,7 @@ begin
         Operation.RenameMask := sDstMaskTemp;
 
         if Assigned(MoveDialog) then
-        begin
-          if Operation is TFileSystemMoveOperation then
-            MoveDialog.SetOperationOptions(Operation as TFileSystemMoveOperation);
-        end;
+          MoveDialog.SetOperationOptions(Operation);
 
         // Start operation.
         OperationHandle := OperationsManager.AddOperation(Operation, OperationStartingState);

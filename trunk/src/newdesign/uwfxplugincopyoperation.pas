@@ -10,6 +10,7 @@ uses
   uFileSource,
   uFileSourceOperation,
   uFileSourceOperationOptions,
+  uFileSourceOperationOptionsUI,
   uFile,
   uWfxPluginFileSource,
   uWfxPluginUtil;
@@ -44,6 +45,8 @@ type
     procedure MainExecute; override;
     procedure Finalize; override;
 
+    class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
+
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
 
   end;
@@ -51,7 +54,7 @@ type
 implementation
 
 uses
-  WfxPlugin;
+  fWfxPluginCopyMoveOperationOptions, WfxPlugin;
 
 // -- TWfxPluginCopyOperation ---------------------------------------------
 
@@ -146,6 +149,11 @@ begin
     WfxModule.WfxStatusInfo(SourceFiles.Path, FS_STATUS_END, FInfoOperation);
     FCallbackDataClass.UpdateProgressFunction:= nil;
   end;
+end;
+
+class function TWfxPluginCopyOperation.GetOptionsUIClass: TFileSourceOperationOptionsUIClass;
+begin
+  Result := TWfxPluginCopyOperationOptionsUI;
 end;
 
 end.

@@ -425,6 +425,16 @@ begin
         FsSetCryptCallbackW(@CryptProcW, FPluginNumber, 0);
       VFSInit(0);
     end;
+
+  FOperationsClasses[fsoList]            := TWfxPluginListOperation.GetOperationClass;
+  FOperationsClasses[fsoCopy]            := TWfxPluginCopyOperation.GetOperationClass;
+  FOperationsClasses[fsoCopyIn]          := TWfxPluginCopyInOperation.GetOperationClass;
+  FOperationsClasses[fsoCopyOut]         := TWfxPluginCopyOutOperation.GetOperationClass;
+  FOperationsClasses[fsoMove]            := TWfxPluginMoveOperation.GetOperationClass;
+  FOperationsClasses[fsoDelete]          := TWfxPluginDeleteOperation.GetOperationClass;
+  FOperationsClasses[fsoCreateDirectory] := TWfxPluginCreateDirectoryOperation.GetOperationClass;
+  FOperationsClasses[fsoSetFileProperty] := TWfxPluginSetFilePropertyOperation.GetOperationClass;
+  FOperationsClasses[fsoExecute]         := TWfxPluginExecuteOperation.GetOperationClass;
 end;
 
 destructor TWfxPluginFileSource.Destroy;
