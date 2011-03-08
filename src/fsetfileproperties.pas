@@ -28,15 +28,15 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, ExtCtrls, ComCtrls, StdCtrls, Buttons,
-  EditBtn, uFileSourceSetFilePropertyOperation, uTypes;
+  EditBtn, uFileSourceSetFilePropertyOperation, uTypes, ZVDateTimePicker;
 
 type
 
   { TfrmSetFileProperties }
 
   TfrmSetFileProperties = class(TForm)
-    Bevel1: TBevel;
     Bevel2: TBevel;
+    Bevel1: TBevel;
     btnCancel: TBitBtn;
     btnCreationTime: TSpeedButton;
     btnLastAccessTime: TSpeedButton;
@@ -54,24 +54,21 @@ type
     cbWriteGroup: TCheckBox;
     cbWriteOther: TCheckBox;
     cbWriteOwner: TCheckBox;
+    chkArchive: TCheckBox;
     chkCreationTime: TCheckBox;
+    chkHidden: TCheckBox;
     chkLastAccessTime: TCheckBox;
     chkLastWriteTime: TCheckBox;
-    chkSystem: TCheckBox;
-    chkHidden: TCheckBox;
     chkReadOnly: TCheckBox;
-    chkArchive: TCheckBox;
     chkRecursive: TCheckBox;
-    edbCreationTime: TEditButton;
-    edbLastAccessTime: TEditButton;
-    edbLastWriteTime: TEditButton;
-    edtCreationTime: TEdit;
-    edtLastAccessTime: TEdit;
-    edtLastWriteTime: TEdit;
+    chkSystem: TCheckBox;
     edtOctal: TEdit;
-    lblAttrInfo: TLabel;
+    gbTimeSamp: TGroupBox;
+    gbWinAttributes: TGroupBox;
+    gbUnixAttributes: TGroupBox;
     lblAttrBitsStr: TLabel;
     lblAttrGroupStr: TLabel;
+    lblAttrInfo: TLabel;
     lblAttrOtherStr: TLabel;
     lblAttrOwnerStr: TLabel;
     lblAttrText: TLabel;
@@ -80,22 +77,26 @@ type
     lblOctal: TLabel;
     lblRead: TLabel;
     lblWrite: TLabel;
-    nbAttributes: TPageControl;
-    pnlLastAccessTime: TPanel;
-    pnlCreationTime: TPanel;
-    pnlLastWriteTime: TPanel;
-    pgWinAttr: TTabSheet;
-    pgDateTime: TTabSheet;
-    pgUnixMode: TTabSheet;
+    DatesPanel: TPanel;
+    ChecksPanel: TPanel;
+    ZVCreationDateTime: TZVDateTimePicker;
+    ZVLastWriteDateTime: TZVDateTimePicker;
+    ZVLastAccessDateTime: TZVDateTimePicker;
     procedure btnCreationTimeClick(Sender: TObject);
     procedure btnLastAccessTimeClick(Sender: TObject);
     procedure btnLastWriteTimeClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure cbChangeModeClick(Sender: TObject);
     procedure chkChangeAttrClick(Sender: TObject);
-    procedure deDateButtonClick(Sender: TObject);
+    procedure chkCreationTimeChange(Sender: TObject);
+    procedure chkLastAccessTimeChange(Sender: TObject);
+    procedure chkLastWriteTimeChange(Sender: TObject);
     procedure edtOctalKeyPress(Sender: TObject; var Key: char);
     procedure edtOctalKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormCreate(Sender: TObject);
+    procedure ZVCreationDateTimeChange(Sender: TObject);
+    procedure ZVLastAccessDateTimeChange(Sender: TObject);
+    procedure ZVLastWriteDateTimeChange(Sender: TObject);
   private
     FOperation: TFileSourceSetFilePropertyOperation;
     FChangeTriggersEnabled: Boolean;
@@ -103,6 +104,7 @@ type
     procedure ShowAttr(Attr: TFileAttrs);
     function GetModeFromForm: TFileAttrs;
     function GetAttrFromForm: TFileAttrs;
+    procedure UpdateColor(Control: TControl; Checked: Boolean);
   public
     constructor Create(aOwner: TComponent; const aOperation: TFileSourceSetFilePropertyOperation); reintroduce;
   end;
@@ -128,12 +130,6 @@ end;
 
 { TfrmSetFileProperties }
 
-procedure TfrmSetFileProperties.btnLastWriteTimeClick(Sender: TObject);
-begin
-  edbLastWriteTime.Text:= DateToStr(Date);
-  edtLastWriteTime.Text:= TimeToStr(Time);
-end;
-
 procedure TfrmSetFileProperties.btnOKClick(Sender: TObject);
 begin
   with FOperation do
@@ -146,11 +142,11 @@ begin
           (NewProperties[fpAttributes] as TUnixFileAttributesProperty).Value:= GetModeFromForm;
       end;
     if chkCreationTime.Checked then
-      (NewProperties[fpCreationTime] as TFileCreationDateTimeProperty).Value:= StrToDate(edbCreationTime.Text) + StrToTime(edtCreationTime.Text);
-    if chkLastAccessTime.Checked then
-      (NewProperties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value:= StrToDate(edbLastAccessTime.Text) + StrToTime(edtLastAccessTime.Text);
+      (NewProperties[fpCreationTime] as TFileCreationDateTimeProperty).Value:= ZVCreationDateTime.DateTime;
     if chkLastWriteTime.Checked then
-      (NewProperties[fpModificationTime] as TFileModificationDateTimeProperty).Value:= StrToDate(edbLastWriteTime.Text) + StrToTime(edtLastWriteTime.Text);
+      (NewProperties[fpModificationTime] as TFileModificationDateTimeProperty).Value:= ZVLastWriteDateTime.DateTime;
+    if chkLastAccessTime.Checked then
+      (NewProperties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value:= ZVLastAccessDateTime.DateTime;
     Recursive:= chkRecursive.Checked;
   end;
 end;
@@ -167,14 +163,7 @@ end;
 
 procedure TfrmSetFileProperties.chkChangeAttrClick(Sender: TObject);
 begin
-
-end;
-
-procedure TfrmSetFileProperties.deDateButtonClick(Sender: TObject);
-var
-  ebDate: TEditButton absolute Sender;
-begin
-  ebDate.Text:= ShowCalendarDialog(ebDate.Text, Mouse.CursorPos);
+  // Called after checking any windows-check
 end;
 
 procedure TfrmSetFileProperties.edtOctalKeyPress(Sender: TObject; var Key: char);
@@ -192,6 +181,11 @@ begin
     ShowMode(OctToDec(edtOctal.Text));
     FChangeTriggersEnabled := True;
   end;
+end;
+
+procedure TfrmSetFileProperties.FormCreate(Sender: TObject);
+begin
+
 end;
 
 procedure TfrmSetFileProperties.ShowMode(Mode: TFileAttrs);
@@ -261,46 +255,95 @@ begin
         if NewProperties[fpAttributes] is TNtfsFileAttributesProperty then
           begin
             ShowAttr((NewProperties[fpAttributes] as TNtfsFileAttributesProperty).Value);
-            pgUnixMode.Free;
+            gbWinAttributes.Show;
           end;
         if NewProperties[fpAttributes] is TUnixFileAttributesProperty then
           begin
             ShowMode((NewProperties[fpAttributes] as TUnixFileAttributesProperty).Value);
-            pgWinAttr.Free;
+            gbUnixAttributes.Show;
           end;
-      end;
-    if (fpModificationTime in SupportedProperties) and Assigned(NewProperties[fpModificationTime]) then
-      begin
-        edbLastWriteTime.Text:= DateToStr((NewProperties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
-        edtLastWriteTime.Text:= TimeToStr((NewProperties[fpModificationTime] as TFileModificationDateTimeProperty).Value);
-        pnlLastWriteTime.Enabled:= True;
       end;
     if (fpCreationTime in SupportedProperties) and Assigned(NewProperties[fpCreationTime]) then
       begin
-        edbCreationTime.Text:= DateToStr((NewProperties[fpCreationTime] as TFileCreationDateTimeProperty).Value);
-        edtCreationTime.Text:= TimeToStr((NewProperties[fpCreationTime] as TFileCreationDateTimeProperty).Value);
-        pnlCreationTime.Enabled:= True;
+        ZVCreationDateTime.DateTime:= (NewProperties[fpCreationTime] as TFileCreationDateTimeProperty).Value;
+        ZVCreationDateTime.Enabled:= True;
+        chkCreationTime.Enabled:= True;
+        btnCreationTime.Enabled:= True;
+      end;
+    if (fpModificationTime in SupportedProperties) and Assigned(NewProperties[fpModificationTime]) then
+      begin
+        ZVLastWriteDateTime.DateTime:= (NewProperties[fpModificationTime] as TFileModificationDateTimeProperty).Value;
+        ZVLastWriteDateTime.Enabled:= True;
+        chkLastWriteTime.Enabled:= True;
+        btnLastWriteTime.Enabled:= True;
       end;
     if (fpLastAccessTime in SupportedProperties) and Assigned(NewProperties[fpLastAccessTime]) then
       begin
-        edbLastAccessTime.Text:= DateToStr((NewProperties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value);
-        edtLastAccessTime.Text:= TimeToStr((NewProperties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value);
-        pnlLastAccessTime.Enabled:= True;
+        ZVLastAccessDateTime.DateTime:= (NewProperties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value;
+        ZVLastAccessDateTime.Enabled:= True;
+        chkLastAccessTime.Enabled:= True;
+        btnLastAccessTime.Enabled:= True;
       end;
   end;
+  chkCreationTime.Checked:=False;
+  chkLastWriteTime.Checked:=False;
+  chkLastAccessTime.Checked:=False;
 end;
 
 procedure TfrmSetFileProperties.btnCreationTimeClick(Sender: TObject);
 begin
-  edbCreationTime.Text:= DateToStr(Date);
-  edtCreationTime.Text:= TimeToStr(Time);
+  ZVCreationDateTime.DateTime:= Now;
 end;
 
 procedure TfrmSetFileProperties.btnLastAccessTimeClick(Sender: TObject);
 begin
-  edbLastAccessTime.Text:= DateToStr(Date);
-  edtLastAccessTime.Text:= TimeToStr(Time);
+  ZVLastAccessDateTime.DateTime:= Now;
 end;
 
+procedure TfrmSetFileProperties.btnLastWriteTimeClick(Sender: TObject);
+begin
+  ZVLastWriteDateTime.DateTime:= Now;
+end;
+
+procedure TfrmSetFileProperties.chkCreationTimeChange(Sender: TObject);
+begin
+  UpdateColor(ZVCreationDateTime, chkCreationTime.Checked);
+  if (chkCreationTime.Checked and Visible) then ZVCreationDateTime.SetFocus;
+end;
+
+procedure TfrmSetFileProperties.chkLastAccessTimeChange(Sender: TObject);
+begin
+  UpdateColor(ZVLastAccessDateTime, chkLastAccessTime.Checked);
+  if (chkLastAccessTime.Checked and Visible) then ZVLastAccessDateTime.SetFocus;
+end;
+
+procedure TfrmSetFileProperties.chkLastWriteTimeChange(Sender: TObject);
+begin
+  UpdateColor(ZVLastWriteDateTime, chkLastWriteTime.Checked);
+  if (chkLastWriteTime.Checked and Visible) then ZVLastWriteDateTime.SetFocus;
+end;
+
+procedure TfrmSetFileProperties.ZVCreationDateTimeChange(Sender: TObject);
+begin
+  chkCreationTime.Checked:=True;
+end;
+
+procedure TfrmSetFileProperties.ZVLastAccessDateTimeChange(Sender: TObject);
+begin
+  chkLastAccessTime.Checked:=True;
+end;
+
+procedure TfrmSetFileProperties.ZVLastWriteDateTimeChange(Sender: TObject);
+begin
+  chkLastWriteTime.Checked:=True;
+end;
+
+procedure TfrmSetFileProperties.UpdateColor(Control: TControl; Checked: Boolean);
+begin
+  if Checked then
+    Control.Color:= $20000000
+  else
+    Control.Color:= $FFFFFFFF8000000F;
+end;
 end.
-
+
