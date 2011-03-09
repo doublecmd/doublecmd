@@ -70,10 +70,8 @@ begin
 
   if CompareFilenames(sSrc, sDst) = 0 then Exit;
 
-  if GetPathType(sSrc) <> ptAbsolute then
-    sSrc := FCurrentPath + sSrc;
-  if GetPathType(sDst) <> ptAbsolute then
-    sDst := FCurrentPath + sDst;
+  sSrc := GetAbsoluteFileName(FCurrentPath, sSrc);
+  sDst := GetAbsoluteFileName(FCurrentPath, sDst);
 
   if CreateHardLink(sSrc, sDst) then
     begin

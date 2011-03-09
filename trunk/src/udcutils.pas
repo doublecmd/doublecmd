@@ -110,7 +110,7 @@ function GetDirs (DirName : String; var Dirs : TStringList) : Longint;
    @param(sRelativeFileName Relative file name)
    @returns(Absolute file name)
 }
-function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
+function GetAbsoluteFileName(const sPath, sRelativeFileName : String) : String;
 {en
    Checks if a path to a directory or file is absolute or relative.
    @returns(ptNone if a path is just a directory or file name (MyDir)
@@ -155,7 +155,7 @@ function MinimizeFilePath(const PathToMince: String; Canvas: TCanvas;
 
    @param(Path path to expand.)
 }
-function ExpandAbsolutePath(Path: String): String;
+function ExpandAbsolutePath(const Path: String): String;
 
 {en
   Checks if a file or directory belongs in the specified path.
@@ -551,7 +551,7 @@ begin
   if Result > -1 then inc(Result);
 end;
 
-function GetAbsoluteFileName(sPath, sRelativeFileName : String) : String;
+function GetAbsoluteFileName(const sPath, sRelativeFileName : String) : String;
 begin
   case GetPathType(sRelativeFileName) of
     ptNone:
@@ -738,35 +738,35 @@ Begin
        end;
 End;
 
-function ExpandAbsolutePath(Path: String): String;
+function ExpandAbsolutePath(const Path: String): String;
 var
   I, J: Integer;
 begin
+  Result := Path;
+
   {First remove all references to '\.\'}
-  I := Pos (DirectorySeparator + '.' + DirectorySeparator, Path);
+  I := Pos (DirectorySeparator + '.' + DirectorySeparator, Result);
   while I <> 0 do
-      begin
-          Delete (Path, I, 2);
-          I := Pos (DirectorySeparator + '.' + DirectorySeparator, Path);
-      end;
-  if StrEnds(Path, DirectorySeparator + '.') then
-    Delete (Path, Length(Path) - 1, 2);
+    begin
+      Delete (Result, I, 2);
+      I := Pos (DirectorySeparator + '.' + DirectorySeparator, Result);
+    end;
+  if StrEnds(Result, DirectorySeparator + '.') then
+    Delete (Result, Length(Result) - 1, 2);
 
   {Then remove all references to '\..\'}
-  I := Pos (DirectorySeparator + '..', Path);
+  I := Pos (DirectorySeparator + '..', Result);
   while (I <> 0) do
-      begin
-          J := Pred (I);
-          while (J > 0) and (Path [J] <> DirectorySeparator) do
-              Dec (J);
-          if (J = 0) then
-              Delete (Path, I, 3)
-          else
-              Delete (Path, J, I - J + 3);
-          I := Pos (DirectorySeparator + '..', Path);
-      end;
-
-  Result := Path;
+    begin
+      J := Pred (I);
+      while (J > 0) and (Result [J] <> DirectorySeparator) do
+        Dec (J);
+      if (J = 0) then
+        Delete (Result, I, 3)
+      else
+        Delete (Result, J, I - J + 3);
+      I := Pos (DirectorySeparator + '..', Result);
+    end;
 end;
 
 function IsInPath(sBasePath : String; sPathToCheck : String; AllowSubDirs: Boolean) : Boolean;
