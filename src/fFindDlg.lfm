@@ -14,6 +14,7 @@ object frmFindDlg: TfrmFindDlg
   OnKeyDown = FormKeyDown
   OnShow = frmFindDlgShow
   Position = poScreenCenter
+  SessionProperties = 'Height;Left;Top;Width;WindowState'
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.29'
   object pnlFindFile: TPanel

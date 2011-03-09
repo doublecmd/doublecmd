@@ -331,6 +331,8 @@ begin
   cmbFileSizeUnit.ItemIndex := 1; // Kilobytes
   edtFindPathStart.ShowHidden := gShowSystemFiles;
   cbPartialNameSearch.Checked:= gPartialNameSearch;
+
+  InitPropStorage(Self);
 end;
 
 procedure TfrmFindDlg.cbUsePluginChange(Sender: TObject);
