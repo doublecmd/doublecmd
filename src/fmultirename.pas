@@ -136,12 +136,12 @@ type
     FFiles: TFiles;
     FPresets: TStringHashList; // of PMultiRenamePreset
 
+    {Handles a single formatting string}
+    function sHandleFormatString(const sFormatStr: string; ItemNr: Integer): string;
     {Function sReplace call sReplaceXX with parametres}
-    function sReplace(sMask:string;count:integer):string;
-    {sReplaceXX doing Nx,Nx:x and Ex,Ex:x}
-    function sReplaceXX(sMask,sSymbol,sOrig:string):string;
-    {sReplaceDateTime doing Y,M,D and h,m,s}
-    function sReplaceDateTime(sMask: String; dtDateTime: TDateTime): String;
+    function sReplace(sMask: string; ItemNr: Integer): string;
+    {sReplaceXX doing N, Nx, Nx:x and E, Ex, Ex:x}
+    function sReplaceXX(const sFormatStr, sOrig: string): string;
     {InsertMask is for write key symbols from buttons}
     procedure InsertMask(Mask:string;edChoose:Tedit);
     {Main function for write into lsvwFile}
@@ -515,97 +515,88 @@ begin
   FLastPreset:='';
 end;
 
-function TfrmMultiRename.sReplace(sMask:string;count:integer):string;
+function TfrmMultiRename.sHandleFormatString(const sFormatStr: string; ItemNr: Integer): string;
 var
-  sNew,sTmp,sOrigName,sOrigExt:string;
-  i:integer;
+  aFile: TFile;
+  Counter: Integer;
 begin
-  sOrigName:=ChangeFileExt(lsvwFile.Items[count].Caption,'');
-  sOrigExt:=ExtractFileExt(lsvwFile.Items[count].Caption);
-  delete(sOrigExt,1,1);
-//type [E]
-  sNew:=StringReplace(sMask,'[E]', sOrigExt,[rfReplaceAll]);
-//type [N]
-  sNew:=StringReplace(sNew,'[N]', sOrigName,[rfReplaceAll]);
-//type [C]
-  i:=StrToInt(edPoc.Text)+StrToInt(edInterval.Text)*count;
-  sTmp:=format('%.'+
-    cmbxWidth.Items[cmbxWidth.ItemIndex]+'d',[i]);
-  sNew:=StringReplace(sNew,'[C]',
-        sTmp,[rfReplaceAll,rfIgnoreCase]);
-//type[Nxx]
-  sNew:=sReplaceXX(sNew,'[N',sOrigName);
-//type[Exx]
-  sNew:=sReplaceXX(sNew,'[E',sOrigExt);
-//type [h][n][s][Y][M][D]
-  with FFiles.Items[count] do
-    if fpModificationTime in SupportedProperties then
-      sNew:= sReplaceDateTime(sNew, ModificationTime);
-  Result:= sNew;
-end;
-
-function TfrmMultiRename.sReplaceXX(sMask,sSymbol,sOrig:string):string;
-var
-  p:array [0..2] of integer;
-  sTmp,sTmp2:string;
-  c,c1:integer;
-Begin
-  while Pos(sSymbol,UpperCase(sMask))>0 do
+  Result := '';
+  if Length(sFormatStr) > 0 then
   begin
-    p[0]:=Pos(sSymbol,UpperCase(sMask));
-    p[1]:=Pos(':',sMask);
-    p[2]:=Pos(']',sMask);
-//incorect type
-    if (p[2]=0)or(p[0]>p[2]) then
-      break;
-//type [Symbolx]
-    if (p[1]=0)or(p[1]>p[2])or(p[1]<p[0]) then
-    begin
-      sTmp:=copy(sMask,p[0]+2,p[2]-(p[0]+2));
-      c:=StrToIntDef(sTmp,0);
-      if (c<1) then
-        break;
-      if (c<=length(sOrig)) then
-        sMask:=StringReplace(sMask,copy(sMask,p[0],(p[2]+1)-(p[0])),
-            sOrig[c],[rfIgnoreCase])
+    aFile := FFiles[ItemNr];
+    case sFormatStr[1] of
+      'N':
+        begin
+          Result := sReplaceXX(sFormatStr, aFile.NameNoExt);
+        end;
+      'E':
+        begin
+          Result := sReplaceXX(sFormatStr, aFile.Extension);
+        end;
+      'C':
+        begin
+          Counter := StrToIntDef(edPoc.Text, 1) +
+                     StrToIntDef(edInterval.Text, 1) * ItemNr;
+          Result := Format('%.' + cmbxWidth.Items[cmbxWidth.ItemIndex] + 'd', [Counter]);
+        end;
       else
-        sMask:=StringReplace(sMask,copy(sMask,p[0],(p[2]+1)-(p[0])),
-            '',[rfIgnoreCase]);
-    end
-//type [Symbolx:x]
-    else
-    begin
-      sTmp:=copy(sMask,p[0]+2,p[1]-(p[0]+2));
-      sTmp2:=copy(sMask,p[1]+1,p[2]-(p[1]+1));
-      c:=StrToIntDef(sTmp,0);
-      c1:=StrToIntDef(sTmp2,0);
-      if (c>c1)or(c<1) then
-        break;
-      if (c1>length(sOrig))then
-        c1:=length(sOrig);
-      sMask:=StringReplace(sMask,copy(sMask,p[0],(p[2]+1)-(p[0])),
-      copy(sOrig,c,(c1+1)-c),[rfIgnoreCase]);
+      begin
+        // Assume it is date/time formatting string ([h][n][s][Y][M][D]).
+        with FFiles.Items[ItemNr] do
+          if fpModificationTime in SupportedProperties then
+            Result := SysToUTF8(FormatDateTime(sFormatStr, ModificationTime));
+      end;
     end;
   end;
-  result:=sMask;
 end;
 
-function TfrmMultiRename.sReplaceDateTime(sMask: String; dtDateTime: TDateTime): String;
+function TfrmMultiRename.sReplace(sMask: string; ItemNr: Integer): string;
 var
-  iStart,
-  iEnd: Integer;
-  sTmp: String;
+  iStart, iEnd: Integer;
 begin
-  Result:= sMask;
-  repeat
-    iStart:= Pos('[', Result);
-    iEnd:= Pos(']', Result);
-    if (iStart = 0) or (iEnd = 0) then Exit;
-    sTmp:= Copy(Result, iStart+1, iEnd-iStart-1);
-    sTmp:= SysToUTF8(FormatDateTime(sTmp, dtDateTime));
-    Delete(Result, iStart, iEnd-iStart+1);
-    Insert(sTmp, Result, iStart);
-  until False;
+  Result := '';
+  while Length(sMask) > 0 do
+  begin
+    iStart := Pos('[', sMask);
+    if iStart > 0 then
+    begin
+      iEnd := Pos(']', sMask);
+      if iEnd > 0 then
+      begin
+        Result := Result + Copy(sMask, 1, iStart - 1) +
+                  sHandleFormatString(Copy(sMask, iStart + 1, iEnd - iStart - 1), ItemNr);
+        Delete(sMask, 1, iEnd);
+      end
+      else
+        Break;
+    end
+    else
+      Break;
+  end;
+  Result := Result + sMask;
+end;
+
+function TfrmMultiRename.sReplaceXX(const sFormatStr, sOrig: string): string;
+var
+  iFrom, iTo, iSemiColon: Integer;
+begin
+  if Length(sFormatStr) = 1 then
+    Result := sOrig
+  else
+  begin
+    iSemiColon := Pos(':', sFormatStr);
+    if iSemiColon = 0 then
+    begin
+      iFrom := StrToIntDef(Copy(sFormatStr, 2, MaxInt), 1);
+      iTo   := iFrom;
+    end
+    else
+    begin
+      iFrom := StrToIntDef(Copy(sFormatStr, 2, iSemiColon - 2), 1);
+      iTo   := StrToIntDef(Copy(sFormatStr, iSemiColon + 1, MaxInt), MaxInt);
+    end;
+    Result := Copy(sOrig, iFrom, iTo - iFrom + 1);
+  end;
 end;
 
 procedure TfrmMultiRename.btnNameMenuClick(Sender: TObject);
@@ -1126,4 +1117,4 @@ begin
 end;
 
 end.
-
+
