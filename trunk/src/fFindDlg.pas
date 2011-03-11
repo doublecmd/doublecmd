@@ -76,7 +76,6 @@ type
     btnSearchDelete: TButton;
     btnSearchLoad: TButton;
     gbFindOptions: TGroupBox;
-    lblFindText: TLabel;
     lblCurrent: TLabel;
     lblFound: TLabel;
     lblStatus: TLabel;
@@ -87,6 +86,7 @@ type
     lblSearchDepth: TLabel;
     lblEncoding: TLabel;
     lsFoundedFiles: TListBox;
+    CheksPanel: TPanel;
     pnlResults: TPanel;
     pnlStatus: TPanel;
     pnlResultsButtons: TPanel;
@@ -134,7 +134,6 @@ type
     procedure cbFileSizeToChange(Sender: TObject);
     procedure cbNotOlderThanChange(Sender: TObject);
     procedure cbReplaceTextChange(Sender: TObject);
-    procedure cbSymLinkChange(Sender: TObject);
     procedure cbTimeFromChange(Sender: TObject);
     procedure cbTimeToChange(Sender: TObject);
     procedure btnStopClick(Sender: TObject);
@@ -363,13 +362,14 @@ end;
 
 procedure TfrmFindDlg.cbFindTextChange(Sender: TObject);
 begin
-  gbFindData.Enabled:=cbFindText.Checked;
   EnableControl(cmbFindText, cbFindText.Checked);
   EnableControl(cmbReplaceText, cbFindText.Checked);
   EnableControl(cmbEncoding, cbFindText.Checked);
-  EnableControl(cmbFindText, cbFindText.Checked);
+  EnableControl(cbCaseSens, cbFindText.Checked);
+  EnableControl(cbReplaceText, cbFindText.Checked);
+  EnableControl(cbNotContainingText, cbFindText.Checked);
   lblEncoding.Enabled:=cbFindText.Checked;
-  lblFindText.Enabled:=cbFindText.Checked;
+  cbReplaceText.Checked:= False;
   cbReplaceTextChange(Sender);
 
   if cmbFindText.Enabled and cmbFindText.CanFocus and (Sender = cbFindText)then
@@ -808,20 +808,15 @@ end;
 
 procedure TfrmFindDlg.cbReplaceTextChange(Sender: TObject);
 begin
-  EnableControl(cmbReplaceText, cbReplaceText.Checked);
+  EnableControl(cmbReplaceText, cbReplaceText.Checked and cbFindText.Checked);
   cbNotContainingText.Checked := False;
-  cbNotContainingText.Enabled := not cbReplaceText.Checked;
+  cbNotContainingText.Enabled := (not cbReplaceText.Checked and cbFindText.Checked);
 
   if cmbReplaceText.Enabled and cmbReplaceText.CanFocus then
   begin
     cmbReplaceText.SetFocus;
     cmbReplaceText.SelectAll;
   end;
-end;
-
-procedure TfrmFindDlg.cbSymLinkChange(Sender: TObject);
-begin
-
 end;
 
 procedure TfrmFindDlg.cbTimeFromChange(Sender: TObject);
