@@ -209,7 +209,9 @@ implementation
 
 uses
   URIParser, uClassesEx, uDCUtils
+{$IF (NOT DEFINED(FPC_USE_LIBC)) or (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
   , SysCall
+{$ENDIF}
 {$IFDEF LINUX}
   , uMimeActions
 {$ENDIF}
