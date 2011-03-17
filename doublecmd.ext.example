@@ -184,6 +184,10 @@ csLaTeX this file={!SHELL} cslatex %f
 #Open={!VIEWER} <?dbview %f?>
 View=dbview -b %f
 
+# BitTorrent
+[torrent]
+View={!VIEWER} <?aria2c -S %p?>
+
 ### Archives ###
 
 [tar]
