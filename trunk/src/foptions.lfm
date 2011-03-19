@@ -129,7 +129,7 @@ object frmOptions: TfrmOptions
       Top = 24
       Width = 709
       Align = alClient
-      PageIndex = 9
+      PageIndex = 19
       TabOrder = 0
       object pgLng: TPage
         ClientWidth = 705
@@ -3753,8 +3753,8 @@ object frmOptions: TfrmOptions
         end
       end
       object pgMisc: TPage
-        ClientWidth = 705
-        ClientHeight = 458
+        ClientWidth = 701
+        ClientHeight = 463
         object gbShowGrid: TGroupBox
           AnchorSideLeft.Control = pgMisc
           AnchorSideTop.Control = pgMisc
@@ -4656,20 +4656,38 @@ object frmOptions: TfrmOptions
               end
             end
             object tbArchiverAdditional: TTabSheet
+              HelpType = htKeyword
+              HelpKeyword = '/multiarc.html'
               Caption = 'Additional'
+              ChildSizing.LeftRightSpacing = 10
+              ChildSizing.TopBottomSpacing = 10
               ClientHeight = 387
               ClientWidth = 633
+              OnShow = tbArchiverAdditionalShow
+              object stgArchiverCommands: TStringGrid
+                Left = 10
+                Height = 314
+                Top = 10
+                Width = 613
+                Align = alClient
+                AutoFillColumns = True
+                ColCount = 2
+                DefaultColWidth = 128
+                Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goEditing, goSmoothScroll]
+                RowCount = 8
+                TabOrder = 0
+                ColWidths = (
+                  64
+                  545
+                )
+              end
               object gbArchiverOptions: TGroupBox
-                AnchorSideLeft.Control = lblArchiveMultiVolume
-                AnchorSideTop.Control = edtArchiveIDSeekRange
-                AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = lblArchiveMultiVolume
-                AnchorSideRight.Side = asrBottom
                 Left = 10
                 Height = 51
-                Top = 277
+                Top = 326
                 Width = 613
-                Anchors = [akTop, akLeft, akRight]
+                Align = alBottom
+                Anchors = [akLeft, akRight]
                 AutoSize = True
                 BorderSpacing.Top = 2
                 Caption = 'Options'
@@ -4677,7 +4695,7 @@ object frmOptions: TfrmOptions
                 ChildSizing.TopBottomSpacing = 8
                 ClientHeight = 33
                 ClientWidth = 609
-                TabOrder = 0
+                TabOrder = 1
                 object chkMultiArcOutput: TCheckBox
                   AnchorSideTop.Control = gbArchiverOptions
                   Left = 10
@@ -4700,207 +4718,6 @@ object frmOptions: TfrmOptions
                   Caption = 'Debug mode'
                   TabOrder = 1
                 end
-              end
-              object lblArchiveMultiVolume: TLabel
-                AnchorSideLeft.Control = tbArchiverAdditional
-                AnchorSideTop.Control = edtArchiveTest
-                AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = tbArchiverAdditional
-                AnchorSideRight.Side = asrBottom
-                Left = 10
-                Height = 14
-                Top = 84
-                Width = 613
-                Anchors = [akTop, akLeft, akRight]
-                BorderSpacing.Left = 10
-                BorderSpacing.Top = 2
-                BorderSpacing.Right = 10
-                Caption = 'Create multivolume archive:'
-                ParentColor = False
-              end
-              object edtArchiveMultiVolume: TEdit
-                AnchorSideLeft.Control = lblArchiveMultiVolume
-                AnchorSideTop.Control = lblArchiveMultiVolume
-                AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = lblArchiveMultiVolume
-                AnchorSideRight.Side = asrBottom
-                Left = 10
-                Height = 21
-                Top = 98
-                Width = 613
-                Anchors = [akTop, akLeft, akRight]
-                TabOrder = 1
-              end
-              object lblArchiveSelfExtract: TLabel
-                AnchorSideLeft.Control = lblArchiveMultiVolume
-                AnchorSideTop.Control = edtArchiveMultiVolume
-                AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = lblArchiveMultiVolume
-                AnchorSideRight.Side = asrBottom
-                Left = 10
-                Height = 14
-                Top = 123
-                Width = 613
-                Anchors = [akTop, akLeft, akRight]
-                BorderSpacing.Top = 4
-                Caption = 'Create self extracting archive:'
-                ParentColor = False
-              end
-              object edtArchiveSelfExtract: TEdit
-                AnchorSideLeft.Control = lblArchiveMultiVolume
-                AnchorSideTop.Control = lblArchiveSelfExtract
-                AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = lblArchiveMultiVolume
-                AnchorSideRight.Side = asrBottom
-                Left = 10
-                Height = 21
-                Top = 137
-                Width = 613
-                Anchors = [akTop, akLeft, akRight]
-                TabOrder = 2
-              end
-              object lblArchiveDelete: TLabel
-                AnchorSideLeft.Control = tbArchiverAdditional
-                AnchorSideTop.Control = tbArchiverAdditional
-                AnchorSideRight.Control = tbArchiverAdditional
-                AnchorSideRight.Side = asrBottom
-                Left = 10
-                Height = 14
-                Top = 10
-                Width = 613
-                Anchors = [akTop, akLeft, akRight]
-                BorderSpacing.Left = 10
-                BorderSpacing.Top = 10
-                BorderSpacing.Right = 10
-                Caption = 'Delete:'
-                ParentColor = False
-              end
-              object edtArchiveDelete: TEdit
-                AnchorSideLeft.Control = lblArchiveDelete
-                AnchorSideTop.Control = lblArchiveDelete
-                AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = lblArchiveDelete
-                AnchorSideRight.Side = asrBottom
-                Left = 10
-                Height = 21
-                Top = 24
-                Width = 613
-                Anchors = [akTop, akLeft, akRight]
-                TabOrder = 3
-              end
-              object lblArchiveTest: TLabel
-                AnchorSideLeft.Control = tbArchiverAdditional
-                AnchorSideTop.Control = edtArchiveDelete
-                AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = tbArchiverAdditional
-                AnchorSideRight.Side = asrBottom
-                Left = 10
-                Height = 14
-                Top = 47
-                Width = 613
-                Anchors = [akTop, akLeft, akRight]
-                BorderSpacing.Left = 10
-                BorderSpacing.Top = 2
-                BorderSpacing.Right = 10
-                Caption = 'Test:'
-                ParentColor = False
-              end
-              object edtArchiveTest: TEdit
-                AnchorSideLeft.Control = lblArchiveTest
-                AnchorSideTop.Control = lblArchiveTest
-                AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = lblArchiveTest
-                AnchorSideRight.Side = asrBottom
-                Left = 10
-                Height = 21
-                Top = 61
-                Width = 613
-                Anchors = [akTop, akLeft, akRight]
-                TabOrder = 4
-              end
-              object lblArchiveID: TLabel
-                AnchorSideLeft.Control = edtArchiveSelfExtract
-                AnchorSideTop.Control = edtArchiveSelfExtract
-                AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = edtArchiveSelfExtract
-                AnchorSideRight.Side = asrBottom
-                Left = 10
-                Height = 14
-                Top = 162
-                Width = 613
-                Anchors = [akTop, akLeft, akRight]
-                BorderSpacing.Top = 4
-                Caption = 'ID (optional):'
-                ParentColor = False
-              end
-              object edtArchiveID: TEdit
-                AnchorSideLeft.Control = lblArchiveID
-                AnchorSideTop.Control = lblArchiveID
-                AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = lblArchiveID
-                AnchorSideRight.Side = asrBottom
-                Left = 10
-                Height = 21
-                Top = 176
-                Width = 613
-                Anchors = [akTop, akLeft, akRight]
-                TabOrder = 5
-              end
-              object edtArchiveIDPos: TEdit
-                AnchorSideLeft.Control = lblArchiveID
-                AnchorSideTop.Control = lblArchiveIDPos
-                AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = lblArchiveID
-                AnchorSideRight.Side = asrBottom
-                Left = 10
-                Height = 21
-                Top = 215
-                Width = 613
-                Anchors = [akTop, akLeft, akRight]
-                TabOrder = 6
-              end
-              object lblArchiveIDPos: TLabel
-                AnchorSideLeft.Control = edtArchiveSelfExtract
-                AnchorSideTop.Control = edtArchiveID
-                AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = edtArchiveSelfExtract
-                AnchorSideRight.Side = asrBottom
-                Left = 10
-                Height = 14
-                Top = 201
-                Width = 613
-                Anchors = [akTop, akLeft, akRight]
-                BorderSpacing.Top = 4
-                Caption = 'ID Position (optional):'
-                ParentColor = False
-              end
-              object edtArchiveIDSeekRange: TEdit
-                AnchorSideLeft.Control = lblArchiveID
-                AnchorSideTop.Control = lblArchiveIDSeekRange
-                AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = lblArchiveID
-                AnchorSideRight.Side = asrBottom
-                Left = 10
-                Height = 21
-                Top = 254
-                Width = 613
-                Anchors = [akTop, akLeft, akRight]
-                TabOrder = 7
-              end
-              object lblArchiveIDSeekRange: TLabel
-                AnchorSideLeft.Control = edtArchiveSelfExtract
-                AnchorSideTop.Control = edtArchiveIDPos
-                AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Control = edtArchiveSelfExtract
-                AnchorSideRight.Side = asrBottom
-                Left = 10
-                Height = 14
-                Top = 240
-                Width = 613
-                Anchors = [akTop, akLeft, akRight]
-                BorderSpacing.Top = 4
-                Caption = 'ID Seek Range (optional):'
-                ParentColor = False
               end
             end
           end

@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Implementing of Options dialog
 
-   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    contributors:
 
@@ -144,13 +144,13 @@ type
     cbSaveThubnails: TCheckBox;
     cbShowMainMenu: TCheckBox;
     cbPartialNameSearch: TCheckBox;
+    chkMultiArcDebug: TCheckBox;
+    chkMultiArcOutput: TCheckBox;
     chkSearchReplaceHistory: TCheckBox;
     chkSaveConfiguration: TCheckBox;
     chkMultiArcEnabled: TCheckBox;
     chkAutoFillColumns: TCheckBox;
     chkIgnoreEnable: TCheckBox;
-    chkMultiArcOutput: TCheckBox;
-    chkMultiArcDebug: TCheckBox;
     cmbTabsPosition: TComboBox;
     cmbAutoSizeColumn: TComboBox;
     cbSortMethod: TComboBox;
@@ -159,20 +159,13 @@ type
     cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
-    edtArchiveID: TEdit;
-    edtArchiveIDSeekRange: TEdit;
-    edtArchiveIDPos: TEdit;
     edtViewerBookFont: TEdit;
     edtArchiveListEnd: TEdit;
     edtArchiveListStart: TEdit;
-    edtArchiveDelete: TEdit;
-    edtArchiveMultiVolume: TEdit;
-    edtArchiveSelfExtract: TEdit;
     edtArchiveAdd: TEdit;
     edtArchiveExtension: TEdit;
     edtArchiveExtract: TEdit;
     edtArchiveList: TEdit;
-    edtArchiveTest: TEdit;
     edtDescription: TEdit;
     edtLogFont: TEdit;
     edtToolsParameters: TEdit;
@@ -237,9 +230,6 @@ type
     gbViewerExample: TGroupBox;
     gbViewerBookMode: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
-    lblArchiveID: TLabel;
-    lblArchiveIDSeekRange: TLabel;
-    lblArchiveIDPos: TLabel;
     lblCmdLineConfigDir: TLabel;
     lblSCFiles: TLabel;
     lblNumberColumnsViewer: TLabel;
@@ -249,16 +239,12 @@ type
     lblSortMethod: TLabel;
     lblArchiveListEnd: TLabel;
     lblArchiveListStart: TLabel;
-    lblArchiveDelete: TLabel;
-    lblArchiveMultiVolume: TLabel;
-    lblArchiveSelfExtract: TLabel;
     lblArchiveAdd: TLabel;
     lblArchiveExtension: TLabel;
     lblArchiveExtract: TLabel;
     lblArchiveList: TLabel;
     lblArchiveListFormat: TLabel;
     lblArchiver: TLabel;
-    lblArchiveTest: TLabel;
     lblDescription: TLabel;
     lblToolsPath: TLabel;
     lblToolsParameters: TLabel;
@@ -397,6 +383,7 @@ type
     gbIconsSize: TGroupBox;
     stgHotkeys: TStringGrid;
     stgTools: TStringGrid;
+    stgArchiverCommands: TStringGrid;
     tbArchiverAdditional: TTabSheet;
     tbArchiverGeneral: TTabSheet;
     tbInactivePanelBrightness: TTrackBar;
@@ -510,6 +497,7 @@ type
     procedure stgPluginsBeforeSelection(Sender: TObject; aCol, aRow: Integer);
     procedure stgToolsSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
+    procedure tbArchiverAdditionalShow(Sender: TObject);
     procedure tsDSXShow(Sender: TObject);
     procedure tsWCXShow(Sender: TObject);
     procedure tsWDXShow(Sender: TObject);
@@ -559,9 +547,18 @@ uses
   fMaskInputDlg, uSearchTemplate, uMultiArc;
 
 const
-     stgCmdCommandIndex=0;
-     stgCmdCommentIndex=1;
-     stgCmdHotkeysIndex=2;
+  stgCmdCommandIndex = 0;
+  stgCmdCommentIndex = 1;
+  stgCmdHotkeysIndex = 2;
+
+  stgArchiveTitle       = 0;
+  stgArchiveDelete      = 1;
+  stgArchiveTest        = 2;
+  stgArchiveMultiVolume = 3;
+  stgArchiveSelfExtract = 4;
+  stgArchiveID          = 5;
+  stgArchiveIDPos       = 6;
+  stgArchiveIDSeekRange = 7;
 
 const
   // Tools page: what tool is displayed in each row.
@@ -654,6 +651,17 @@ begin
   // stgCommands is localized in FillCommandList.
   stgHotkeys.Columns.Items[0].Title.Caption := rsOptHotkeysHotkey;
   stgHotkeys.Columns.Items[1].Title.Caption := rsOptHotkeysParameters;
+
+  // Localize additional archiver commands.
+  stgArchiverCommands.Cells[0, stgArchiveTitle] := rsOptArchiveCommand;
+  stgArchiverCommands.Cells[1, stgArchiveTitle] := rsOptArchiveValue;
+  stgArchiverCommands.Cells[0, stgArchiveDelete] := rsOptArchiveDelete;
+  stgArchiverCommands.Cells[0, stgArchiveTest] := rsOptArchiveTest;
+  stgArchiverCommands.Cells[0, stgArchiveMultiVolume] := rsOptArchiveMultiVolume;
+  stgArchiverCommands.Cells[0, stgArchiveSelfExtract] := rsOptArchiveSelfExtract;
+  stgArchiverCommands.Cells[0, stgArchiveID] := rsOptArchiveID;
+  stgArchiverCommands.Cells[0, stgArchiveIDPos] := rsOptArchiveIDPos;
+  stgArchiverCommands.Cells[0, stgArchiveIDSeekRange] := rsOptArchiveIDSeekRange;
 
   // Localize plugins.
   stgPlugins.Columns.Items[0].Title.Caption := rsOptPluginsActive;
@@ -1300,6 +1308,19 @@ begin
   end;
 end;
 
+procedure TfrmOptions.tbArchiverAdditionalShow(Sender: TObject);
+var
+  I, J: LongInt;
+  iWidth: LongInt = 0;
+begin
+  for I:= 0 to stgArchiverCommands.RowCount - 1 do
+  begin
+    J:= stgArchiverCommands.Canvas.TextWidth(stgArchiverCommands.Cells[0, I]);
+    if J > iWidth then iWidth:= J;
+  end;
+  stgArchiverCommands.ColWidths[0]:= iWidth + 12;
+end;
+
 procedure TfrmOptions.btnEnablePluginClick(Sender: TObject);
 var
   sExt,
@@ -1362,7 +1383,7 @@ end;
 procedure TfrmOptions.btnMultiArcApplyClick(Sender: TObject);
 begin
   if lbxMultiArc.ItemIndex < 0 then Exit;
-  with TMultiArcItem(lbxMultiArc.Items.Objects[lbxMultiArc.ItemIndex]) do
+  with TMultiArcItem(lbxMultiArc.Items.Objects[lbxMultiArc.ItemIndex]), stgArchiverCommands do
   begin
     FDescription:= edtDescription.Text;
     FArchiver:= fneArchiver.FileName;
@@ -1373,13 +1394,13 @@ begin
     FFormat.Assign(memArchiveListFormat.Lines);
     FExtract:= edtArchiveExtract.Text;
     FAdd:= edtArchiveAdd.Text;
-    FDelete:= edtArchiveDelete.Text;
-    FTest:= edtArchiveTest.Text;
-    FAddMultiVolume:= edtArchiveMultiVolume.Text;
-    FAddSelfExtract:= edtArchiveSelfExtract.Text;
-    FID:= edtArchiveID.Text;
-    FIDPos:= edtArchiveIDPos.Text;
-    FIDSeekRange:= edtArchiveIDSeekRange.Text;
+    FDelete:= Cells[1, stgArchiveDelete];
+    FTest:= Cells[1, stgArchiveTest];
+    FAddMultiVolume:= Cells[1, stgArchiveMultiVolume];
+    FAddSelfExtract:= Cells[1, stgArchiveSelfExtract];
+    FID:= Cells[1, stgArchiveID];
+    FIDPos:= Cells[1, stgArchiveIDPos];
+    FIDSeekRange:= Cells[1, stgArchiveIDSeekRange];
     FOutput:= chkMultiArcOutput.Checked;
     FDebug:= chkMultiArcDebug.Checked;
   end;
@@ -2266,6 +2287,7 @@ end;
 procedure TfrmOptions.lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
 begin
   if lbxMultiArc.ItemIndex < 0 then
+  with stgArchiverCommands do
     begin
       edtDescription.Text:= EmptyStr;
       fneArchiver.FileName:= EmptyStr;
@@ -2276,13 +2298,13 @@ begin
       memArchiveListFormat.Lines.Clear;
       edtArchiveExtract.Text:= EmptyStr;
       edtArchiveAdd.Text:= EmptyStr;
-      edtArchiveDelete.Text:= EmptyStr;
-      edtArchiveTest.Text:= EmptyStr;
-      edtArchiveMultiVolume.Text:= EmptyStr;
-      edtArchiveSelfExtract.Text:= EmptyStr;
-      edtArchiveID.Text:= EmptyStr;
-      edtArchiveIDPos.Text:= EmptyStr;
-      edtArchiveIDSeekRange.Text:= EmptyStr;
+      Cells[1, stgArchiveDelete]:= EmptyStr;
+      Cells[1, stgArchiveTest]:= EmptyStr;
+      Cells[1, stgArchiveMultiVolume]:= EmptyStr;
+      Cells[1, stgArchiveSelfExtract]:= EmptyStr;
+      Cells[1, stgArchiveID]:= EmptyStr;
+      Cells[1, stgArchiveIDPos]:= EmptyStr;
+      Cells[1, stgArchiveIDSeekRange]:= EmptyStr;
       chkMultiArcOutput.Checked:= False;
       chkMultiArcDebug.Checked:= False;
       chkMultiArcEnabled.Checked:= False;
@@ -2290,7 +2312,7 @@ begin
       chkMultiArcEnabled.Enabled:= (lbxMultiArc.Count <> 0);
     end
   else
-    with TMultiArcItem(lbxMultiArc.Items.Objects[lbxMultiArc.ItemIndex]) do
+    with TMultiArcItem(lbxMultiArc.Items.Objects[lbxMultiArc.ItemIndex]), stgArchiverCommands  do
     begin
       edtDescription.Text:= FDescription;
       fneArchiver.FileName:= FArchiver;
@@ -2301,13 +2323,13 @@ begin
       memArchiveListFormat.Lines.Assign(FFormat);
       edtArchiveExtract.Text:= FExtract;
       edtArchiveAdd.Text:= FAdd;
-      edtArchiveDelete.Text:= FDelete;
-      edtArchiveTest.Text:= FTest;
-      edtArchiveMultiVolume.Text:= FAddMultiVolume;
-      edtArchiveSelfExtract.Text:= FAddSelfExtract;
-      edtArchiveID.Text:= FID;
-      edtArchiveIDPos.Text:= FIDPos;
-      edtArchiveIDSeekRange.Text:= FIDSeekRange;
+      Cells[1, stgArchiveDelete]:= FDelete;
+      Cells[1, stgArchiveTest]:= FTest;
+      Cells[1, stgArchiveMultiVolume]:= FAddMultiVolume;
+      Cells[1, stgArchiveSelfExtract]:= FAddSelfExtract;
+      Cells[1, stgArchiveID]:= FID;
+      Cells[1, stgArchiveIDPos]:= FIDPos;
+      Cells[1, stgArchiveIDSeekRange]:= FIDSeekRange;
       chkMultiArcOutput.Checked:= FOutput;
       chkMultiArcDebug.Checked:= FDebug;
       chkMultiArcEnabled.Checked:= FEnabled;
