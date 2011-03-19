@@ -1192,10 +1192,6 @@ msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "Oké"
 
-#: TFRMEXTRACTDLG.CAPTION
-msgid "Unpack files"
-msgstr "Fájlok kibontása"
-
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "Ú&tvonalak kibontása ha a fájlnév tartalmazza"
@@ -1212,13 +1208,26 @@ msgstr "Minden archívum kibontása külön &alkönyvtárakba (archívnév)"
 msgid "&Overwrite existing files"
 msgstr "Létező fájlok &felülírása"
 
+#: TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION
+msgctxt "TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION"
+msgid "Unpack files"
+msgstr "Fájlok kibontása"
+
 #: TFRMEXTRACTDLG.LBLEXTRACTTO.CAPTION
-msgid "Unpack file to:"
+#, fuzzy
+#| msgid "Unpack file to:"
+msgid "To the directory:"
 msgstr "Fájl kicsomagolása ide:"
 
 #: TFRMEXTRACTDLG.LBLFILEMASK.CAPTION
-msgid "&Files to unpack:"
+#, fuzzy
+#| msgid "&Files to unpack:"
+msgid "Extract files matching file mask:"
 msgstr "&Kibontandó fájlok:"
+
+#: TFRMEXTRACTDLG.LBLPASSWORD.CAPTION
+msgid "Password for encrypted files:"
+msgstr ""
 
 #: TFRMFILEASSOC.BTNADDACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"

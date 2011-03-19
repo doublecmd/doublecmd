@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-03-19 22:56+0300\n"
+"PO-Revision-Date: 2011-03-19 23:37+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1192,10 +1192,6 @@ msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr ""
 
-#: TFRMEXTRACTDLG.CAPTION
-msgid "Unpack files"
-msgstr "Распаковать файлы"
-
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "&Учитывать подкаталоги"
@@ -1212,13 +1208,24 @@ msgstr "Распаковать каждый архив в &отдельный к
 msgid "&Overwrite existing files"
 msgstr "&Заменять существующие файлы"
 
+#: TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION
+msgctxt "TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION"
+msgid "Unpack files"
+msgstr "Распаковать файлы"
+
 #: TFRMEXTRACTDLG.LBLEXTRACTTO.CAPTION
-msgid "Unpack file to:"
-msgstr "Распаковать файлы по указанной ниже маске из архива в:"
+#| msgid "Unpack file to:"
+msgid "To the directory:"
+msgstr "В каталог:"
 
 #: TFRMEXTRACTDLG.LBLFILEMASK.CAPTION
-msgid "&Files to unpack:"
-msgstr "&Маска для распаковки:"
+#| msgid "&Files to unpack:"
+msgid "Extract files matching file mask:"
+msgstr "Распаковать файлы согласно маске:"
+
+#: TFRMEXTRACTDLG.LBLPASSWORD.CAPTION
+msgid "Password for encrypted files:"
+msgstr "Пароль (для зашифрованных файлов):"
 
 #: TFRMFILEASSOC.BTNADDACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"

@@ -1187,10 +1187,6 @@ msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "OK"
 
-#: TFRMEXTRACTDLG.CAPTION
-msgid "Unpack files"
-msgstr "Rozpakuj plik/i"
-
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "Z podkatalogami"
@@ -1207,13 +1203,26 @@ msgstr "Każde archiwum rozpakuj do oddzielnego katalogu"
 msgid "&Overwrite existing files"
 msgstr "Nadpisz istniejące pliki"
 
+#: TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION
+msgctxt "TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION"
+msgid "Unpack files"
+msgstr "Rozpakuj plik/i"
+
 #: TFRMEXTRACTDLG.LBLEXTRACTTO.CAPTION
-msgid "Unpack file to:"
+#, fuzzy
+#| msgid "Unpack file to:"
+msgid "To the directory:"
 msgstr "Rozpakuj do:"
 
 #: TFRMEXTRACTDLG.LBLFILEMASK.CAPTION
-msgid "&Files to unpack:"
+#, fuzzy
+#| msgid "&Files to unpack:"
+msgid "Extract files matching file mask:"
 msgstr "Rozpakuj pliki:"
+
+#: TFRMEXTRACTDLG.LBLPASSWORD.CAPTION
+msgid "Password for encrypted files:"
+msgstr ""
 
 #: TFRMFILEASSOC.BTNADDACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"
@@ -6046,6 +6055,9 @@ msgstr "Czcionki"
 msgid "Hot keys"
 msgstr "Skróty klawiaturowe"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsopthotkeyscommands
 msgid "Commands"
 msgstr "Polecenia"
@@ -6063,9 +6075,6 @@ msgstr "Skrót"
 msgid "Hotkeys"
 msgstr "Skróty"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsopthotkeysparameters
 msgctxt "ulng.rsopthotkeysparameters"
 msgid "Parameters"

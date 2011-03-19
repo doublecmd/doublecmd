@@ -1188,10 +1188,6 @@ msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr ""
 
-#: TFRMEXTRACTDLG.CAPTION
-msgid "Unpack files"
-msgstr ""
-
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr ""
@@ -1208,12 +1204,21 @@ msgstr ""
 msgid "&Overwrite existing files"
 msgstr ""
 
+#: TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION
+msgctxt "TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION"
+msgid "Unpack files"
+msgstr ""
+
 #: TFRMEXTRACTDLG.LBLEXTRACTTO.CAPTION
-msgid "Unpack file to:"
+msgid "To the directory:"
 msgstr ""
 
 #: TFRMEXTRACTDLG.LBLFILEMASK.CAPTION
-msgid "&Files to unpack:"
+msgid "Extract files matching file mask:"
+msgstr ""
+
+#: TFRMEXTRACTDLG.LBLPASSWORD.CAPTION
+msgid "Password for encrypted files:"
 msgstr ""
 
 #: TFRMFILEASSOC.BTNADDACT.CAPTION

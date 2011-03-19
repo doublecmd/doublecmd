@@ -1192,10 +1192,6 @@ msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "Добре"
 
-#: TFRMEXTRACTDLG.CAPTION
-msgid "Unpack files"
-msgstr "Извличане на файлове"
-
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "&Разгъване на имената на пътищата, ако са съхранени във файловете"
@@ -1212,13 +1208,26 @@ msgstr "Разгъване на всяка сбивка в отделна пап
 msgid "&Overwrite existing files"
 msgstr "&Замяна на съществуващите файлове"
 
+#: TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION
+msgctxt "TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION"
+msgid "Unpack files"
+msgstr "Извличане на файлове"
+
 #: TFRMEXTRACTDLG.LBLEXTRACTTO.CAPTION
-msgid "Unpack file to:"
+#, fuzzy
+#| msgid "Unpack file to:"
+msgid "To the directory:"
 msgstr "Извличане на файл в:"
 
 #: TFRMEXTRACTDLG.LBLFILEMASK.CAPTION
-msgid "&Files to unpack:"
+#, fuzzy
+#| msgid "&Files to unpack:"
+msgid "Extract files matching file mask:"
 msgstr "&Файлове за разгъване:"
+
+#: TFRMEXTRACTDLG.LBLPASSWORD.CAPTION
+msgid "Password for encrypted files:"
+msgstr ""
 
 #: TFRMFILEASSOC.BTNADDACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"

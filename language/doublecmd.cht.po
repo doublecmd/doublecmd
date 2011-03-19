@@ -1192,10 +1192,6 @@ msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "確定"
 
-#: TFRMEXTRACTDLG.CAPTION
-msgid "Unpack files"
-msgstr "解壓縮檔案"
-
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "如果目錄包含檔案就解壓縮檔案路徑"
@@ -1212,13 +1208,26 @@ msgstr "解壓縮每個檔案到子目錄(名稱用壓縮檔案名)"
 msgid "&Overwrite existing files"
 msgstr "覆蓋已存在檔案(&O)"
 
+#: TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION
+msgctxt "TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION"
+msgid "Unpack files"
+msgstr "解壓縮檔案"
+
 #: TFRMEXTRACTDLG.LBLEXTRACTTO.CAPTION
-msgid "Unpack file to:"
+#, fuzzy
+#| msgid "Unpack file to:"
+msgid "To the directory:"
 msgstr "解壓縮到"
 
 #: TFRMEXTRACTDLG.LBLFILEMASK.CAPTION
-msgid "&Files to unpack:"
+#, fuzzy
+#| msgid "&Files to unpack:"
+msgid "Extract files matching file mask:"
 msgstr "解壓縮(&F)"
+
+#: TFRMEXTRACTDLG.LBLPASSWORD.CAPTION
+msgid "Password for encrypted files:"
+msgstr ""
 
 #: TFRMFILEASSOC.BTNADDACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"
