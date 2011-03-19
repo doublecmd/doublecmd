@@ -221,6 +221,37 @@ msgctxt "TFCOLUMNSSETCONF.RESTEXT.CAPTION"
 msgid "R"
 msgstr "R"
 
+#: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBCHECKFREESPACE.CAPTION
+msgid "Check free space"
+msgstr ""
+
+#: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBCORRECTLINKS.CAPTION
+msgid "Correct links"
+msgstr ""
+
+#: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION
+msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
+msgid "Drop readonly flag"
+msgstr "丢弃只读标志"
+
+#: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBFOLLOWLINKS.CAPTION
+msgid "Follow links"
+msgstr ""
+
+#: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLDIRECTORYEXISTS.CAPTION
+msgid "When directory exists"
+msgstr ""
+
+#: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION
+msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
+msgid "When file exists"
+msgstr ""
+
+#: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION
+msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION"
+msgid "Only type:"
+msgstr "只有类型:"
+
 #: TFRMABOUT.CAPTION
 msgctxt "TFRMABOUT.CAPTION"
 msgid "About"
@@ -404,28 +435,25 @@ msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "确定(&O)"
 
-#: TFRMCHECKSUMCALC.CAPTION
-msgctxt "TFRMCHECKSUMCALC.CAPTION"
-msgid "Calculate check sum..."
-msgstr "产生校验..."
-
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
 #, fuzzy
 #| msgid "Create separate MD5 files for each file"
 msgid "Create separate checksum file for each file"
 msgstr "为每个文件分别创建MD5/SHA1文件"
 
-#: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
-msgid "Save check sum file(s) to:"
-msgstr "保存校验数据到文件："
-
-#: TFRMCHECKSUMCALC.RBHASHMD5.CAPTION
+#: TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT
+msgctxt "TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT"
 msgid "MD5"
 msgstr ""
 
-#: TFRMCHECKSUMCALC.RBHASHSHA1.CAPTION
-msgid "SHA1"
-msgstr ""
+#: TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION
+msgctxt "TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr "产生校验..."
+
+#: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
+msgid "Save check sum file(s) to:"
+msgstr "保存校验数据到文件："
 
 #: TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -548,10 +576,6 @@ msgctxt "TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION"
 msgid "&Command:"
 msgstr "命令(&C)"
 
-#: TFRMCONFIGTOOLBAR.LBLICON.CAPTION
-msgid "Ic&on:"
-msgstr "图标(&O)"
-
 #: TFRMCONFIGTOOLBAR.LBLICONFILE.CAPTION
 msgid "Icon &file:"
 msgstr "图标文件(&F)"
@@ -637,39 +661,9 @@ msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "复制文件"
 
-#: TFRMCOPYDLG.CBCHECKFREESPACE.CAPTION
-msgid "Check free space"
-msgstr ""
-
-#: TFRMCOPYDLG.CBCORRECTLINKS.CAPTION
-msgid "Correct links"
-msgstr ""
-
-#: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
-msgctxt "TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION"
-msgid "Drop readonly flag"
-msgstr "丢弃只读标志"
-
-#: TFRMCOPYDLG.CBFOLLOWLINKS.CAPTION
-msgid "Follow links"
-msgstr ""
-
 #: TFRMCOPYDLG.LBLCOPYSRC.CAPTION
 msgid "Copy %s:"
 msgstr "复制 %s:"
-
-#: TFRMCOPYDLG.LBLDIRECTORYEXISTS.CAPTION
-msgid "When directory exists"
-msgstr ""
-
-#: TFRMCOPYDLG.LBLFILEEXISTS.CAPTION
-msgid "When file exists"
-msgstr ""
-
-#: TFRMCOPYDLG.LBLFILETYPE.CAPTION
-msgctxt "TFRMCOPYDLG.LBLFILETYPE.CAPTION"
-msgid "Only type:"
-msgstr "仅类型:"
 
 #: TFRMDESCREDIT.BTNCANCEL.CAPTION
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
@@ -778,6 +772,10 @@ msgstr ""
 
 #: TFRMDIFFER.ACTLASTDIFF.CAPTION
 msgid "Last Difference"
+msgstr ""
+
+#: TFRMDIFFER.ACTLINEDIFFERENCES.CAPTION
+msgid "Line Differences"
 msgstr ""
 
 #: TFRMDIFFER.ACTNEXTDIFF.CAPTION
@@ -1369,6 +1367,28 @@ msgstr "视图"
 msgid "Open in Viewer"
 msgstr "在查看器中打开"
 
+#: TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION
+msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
+msgid "&Close"
+msgstr "关闭(&C)"
+
+#: TFRMFILEEXECUTEYOURSELF.FRMFILEEXECUTEYOURSELF.CAPTION
+msgid "Wait..."
+msgstr ""
+
+#: TFRMFILEEXECUTEYOURSELF.LBLFILENAME.CAPTION
+msgid "File name:"
+msgstr ""
+
+#: TFRMFILEEXECUTEYOURSELF.LBLFROMPATH.CAPTION
+msgctxt "TFRMFILEEXECUTEYOURSELF.LBLFROMPATH.CAPTION"
+msgid "From:"
+msgstr "从："
+
+#: TFRMFILEEXECUTEYOURSELF.LBLPROMPT.CAPTION
+msgid "Click on Close when the temporary file can be deleted!"
+msgstr ""
+
 #: TFRMFILEOP.BTHOPEND.CAPTION
 msgid "End"
 msgstr ""
@@ -1406,6 +1426,7 @@ msgid "File name to"
 msgstr "文件命名为："
 
 #: TFRMFILEOP.LBLFROM.CAPTION
+msgctxt "TFRMFILEOP.LBLFROM.CAPTION"
 msgid "From:"
 msgstr "从："
 
@@ -1784,10 +1805,6 @@ msgstr "文件名掩码"
 msgid "&Directory"
 msgstr "文件所在目录"
 
-#: TFRMFINDDLG.LBLFINDTEXT.CAPTION
-msgid "Find text"
-msgstr ""
-
 #: TFRMFINDDLG.LBLFOUND.CAPTION
 msgid "Found"
 msgstr "找到"
@@ -1854,12 +1871,16 @@ msgid "&OK"
 msgstr "确定(&O)"
 
 #: TFRMHARDLINK.CAPTION
-msgid "Create hardlink"
+#, fuzzy
+#| msgid "Create hardlink"
+msgid "Create hard link"
 msgstr "创建硬链接"
 
 #: TFRMHARDLINK.LBLEXISTINGFILE.CAPTION
+#, fuzzy
+#| msgid "Existing destination (where will link point)"
 msgctxt "TFRMHARDLINK.LBLEXISTINGFILE.CAPTION"
-msgid "Existing destination (where will link point)"
+msgid "Destination that the link will point to"
 msgstr "目标已存在(链接点所在)"
 
 #: TFRMHARDLINK.LBLLINKTOCREATE.CAPTION
@@ -2477,6 +2498,7 @@ msgid "Cancel"
 msgstr "取消"
 
 #: TFRMMAIN.ALLOPPAUSE.CAPTION
+msgctxt "TFRMMAIN.ALLOPPAUSE.CAPTION"
 msgid "||"
 msgstr ""
 
@@ -2915,6 +2937,114 @@ msgstr "创建新目录"
 msgid "Input new directory name:"
 msgstr "熟路新目录名:"
 
+#: TFRMMODVIEW.BTNCANCEL.CAPTION
+msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "取消"
+
+#: TFRMMODVIEW.BTNOK.CAPTION
+msgid "Ok"
+msgstr ""
+
+#: TFRMMODVIEW.BTNPATH1.CAPTION
+msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: TFRMMODVIEW.BTNPATH2.CAPTION
+msgctxt "TFRMMODVIEW.BTNPATH2.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: TFRMMODVIEW.BTNPATH3.CAPTION
+msgctxt "TFRMMODVIEW.BTNPATH3.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: TFRMMODVIEW.BTNPATH4.CAPTION
+msgctxt "TFRMMODVIEW.BTNPATH4.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: TFRMMODVIEW.BTNPATH5.CAPTION
+msgctxt "TFRMMODVIEW.BTNPATH5.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: TFRMMODVIEW.BTNPROPORTION.CAPTION
+msgid "Pr"
+msgstr ""
+
+#: TFRMMODVIEW.FRMMODVIEW.CAPTION
+msgid "New Size"
+msgstr ""
+
+#: TFRMMODVIEW.LBLHEIGHT.CAPTION
+msgid "Height :"
+msgstr ""
+
+#: TFRMMODVIEW.LBLPATH1.CAPTION
+msgctxt "TFRMMODVIEW.LBLPATH1.CAPTION"
+msgid "1"
+msgstr "1"
+
+#: TFRMMODVIEW.LBLPATH2.CAPTION
+msgid "2"
+msgstr ""
+
+#: TFRMMODVIEW.LBLPATH3.CAPTION
+msgid "3"
+msgstr ""
+
+#: TFRMMODVIEW.LBLPATH4.CAPTION
+msgid "4"
+msgstr ""
+
+#: TFRMMODVIEW.LBLPATH5.CAPTION
+msgid "5"
+msgstr ""
+
+#: TFRMMODVIEW.LBLQUALITY.CAPTION
+msgid "Quality of compress to Jpg"
+msgstr ""
+
+#: TFRMMODVIEW.LBLWIDTH.CAPTION
+msgid "Width :"
+msgstr ""
+
+#: TFRMMODVIEW.RBBMP.CAPTION
+msgid "BMP"
+msgstr ""
+
+#: TFRMMODVIEW.RBICO.CAPTION
+msgid "ICO"
+msgstr ""
+
+#: TFRMMODVIEW.RBJPG.CAPTION
+msgid "JPG"
+msgstr ""
+
+#: TFRMMODVIEW.RBPNG.CAPTION
+msgid "PNG"
+msgstr ""
+
+#: TFRMMODVIEW.RBPNM.CAPTION
+msgid "PNM"
+msgstr ""
+
+#: TFRMMODVIEW.TEHEIGHT.TEXT
+msgid "Height"
+msgstr ""
+
+#: TFRMMODVIEW.TEQUALITY.TEXT
+msgid "80"
+msgstr ""
+
+#: TFRMMODVIEW.TEWIDTH.TEXT
+msgctxt "TFRMMODVIEW.TEWIDTH.TEXT"
+msgid "Width"
+msgstr "宽度"
+
 #: TFRMMOVEDLG.LBLFILETYPE.CAPTION
 msgctxt "TFRMMOVEDLG.LBLFILETYPE.CAPTION"
 msgid "Only type:"
@@ -2968,8 +3098,10 @@ msgid "MultiRename"
 msgstr "多文件改名"
 
 #: TFRMMULTIRENAME.CBLOG.CAPTION
+#, fuzzy
+#| msgid "Log"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
-msgid "Log"
+msgid "Enable"
 msgstr "日志"
 
 #: TFRMMULTIRENAME.CBREGEXP.CAPTION
@@ -4308,11 +4440,6 @@ msgstr "解包并执行(&U)"
 msgid "Properties of packed file"
 msgstr "压缩包属性"
 
-#: TFRMPACKINFODLG.EDTPACKEDFILE.TEXT
-msgctxt "TFRMPACKINFODLG.EDTPACKEDFILE.TEXT"
-msgid "?"
-msgstr ""
-
 #: TFRMPACKINFODLG.LBLATTRIBUTES.CAPTION
 msgid "Attributes:"
 msgstr "属性:"
@@ -4333,53 +4460,13 @@ msgstr "事件:"
 msgid "Original size:"
 msgstr "原始大小:"
 
-#: TFRMPACKINFODLG.LBLPACKEDATTR.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDATTR.CAPTION"
-msgid "?"
-msgstr ""
-
-#: TFRMPACKINFODLG.LBLPACKEDCOMPRESSION.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDCOMPRESSION.CAPTION"
-msgid "?"
-msgstr ""
-
-#: TFRMPACKINFODLG.LBLPACKEDDATE.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDDATE.CAPTION"
-msgid "?"
-msgstr ""
-
 #: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
 msgid "File:"
 msgstr "文件:"
 
-#: TFRMPACKINFODLG.LBLPACKEDMETHOD.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDMETHOD.CAPTION"
-msgid "?"
-msgstr ""
-
-#: TFRMPACKINFODLG.LBLPACKEDORGSIZE.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDORGSIZE.CAPTION"
-msgid "?"
-msgstr ""
-
-#: TFRMPACKINFODLG.LBLPACKEDPACKEDSIZE.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDPACKEDSIZE.CAPTION"
-msgid "?"
-msgstr ""
-
-#: TFRMPACKINFODLG.LBLPACKEDPACKER.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDPACKER.CAPTION"
-msgid "?"
-msgstr ""
-
 #: TFRMPACKINFODLG.LBLPACKEDSIZE.CAPTION
 msgid "Packed size:"
 msgstr "包大小:"
-
-#: TFRMPACKINFODLG.LBLPACKEDTIME.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDTIME.CAPTION"
-msgid "?"
-msgstr ""
 
 #: TFRMPACKINFODLG.LBLPACKER.CAPTION
 msgid "Packer:"
@@ -4388,11 +4475,6 @@ msgstr "打包者:"
 #: TFRMPACKINFODLG.LBLTIME.CAPTION
 msgid "Time:"
 msgstr "时间:"
-
-#: TFRMPACKINFODLG.PGGENERAL.CAPTION
-msgctxt "TFRMPACKINFODLG.PGGENERAL.CAPTION"
-msgid "General"
-msgstr "一般"
 
 #: TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
@@ -4544,13 +4626,14 @@ msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
 msgid "OK"
 msgstr "确定"
 
-#: TFRMSPLITTER.CAPTION
-msgid "Splitter"
-msgstr "分割"
-
 #: TFRMSPLITTER.CMBXSIZE.TEXT
 msgid "1457664B - 3.5\""
 msgstr "1457664B - 3.5\""
+
+#: TFRMSPLITTER.FRMSPLITTER.CAPTION
+msgctxt "TFRMSPLITTER.FRMSPLITTER.CAPTION"
+msgid "Splitter"
+msgstr "分割"
 
 #: TFRMSPLITTER.GRBXFILE.CAPTION
 msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
@@ -4558,7 +4641,9 @@ msgid "File name"
 msgstr "文件名"
 
 #: TFRMSPLITTER.GRBXSIZE.CAPTION
-msgid "File size"
+#, fuzzy
+#| msgid "File size"
+msgid "Size and number of parts"
 msgstr "文件大小"
 
 #: TFRMSPLITTER.GRBXWATCH.CAPTION
@@ -4573,6 +4658,25 @@ msgstr "目标目录"
 msgid "File source"
 msgstr "源文件"
 
+#: TFRMSPLITTER.LBLNUMBERPARTS.CAPTION
+msgid "Number of parts"
+msgstr ""
+
+#: TFRMSPLITTER.RBTNGIGAB.CAPTION
+msgctxt "TFRMSPLITTER.RBTNGIGAB.CAPTION"
+msgid "Gigabytes"
+msgstr ""
+
+#: TFRMSPLITTER.RBTNKILOB.CAPTION
+msgctxt "TFRMSPLITTER.RBTNKILOB.CAPTION"
+msgid "Kilobytes"
+msgstr ""
+
+#: TFRMSPLITTER.RBTNMEGAB.CAPTION
+msgctxt "TFRMSPLITTER.RBTNMEGAB.CAPTION"
+msgid "Megabytes"
+msgstr ""
+
 #: TFRMSYMLINK.BTNCANCEL.CAPTION
 msgctxt "TFRMSYMLINK.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -4584,12 +4688,16 @@ msgid "&OK"
 msgstr "确定(&O)"
 
 #: TFRMSYMLINK.CAPTION
-msgid "Create symlink"
+#, fuzzy
+#| msgid "Create symlink"
+msgid "Create symbolic link"
 msgstr "创建符号链接"
 
 #: TFRMSYMLINK.LBLEXISTINGFILE.CAPTION
+#, fuzzy
+#| msgid "Existing destination (where will link point)"
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
-msgid "Existing destination (where will link point)"
+msgid "Destination that the link will point to"
 msgstr "目标已存在(链接点所在)"
 
 #: TFRMSYMLINK.LBLLINKTOCREATE.CAPTION
@@ -4686,10 +4794,6 @@ msgstr "扩展名："
 msgid "Flags:"
 msgstr "标志:"
 
-#: TFRMTWEAKPLUGIN.LBLFLAGSVALUE.CAPTION
-msgid "(000)"
-msgstr "(000)"
-
 #: TFRMTWEAKPLUGIN.LBLNAME.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.LBLNAME.CAPTION"
 msgid "Name:"
@@ -4720,6 +4824,11 @@ msgctxt "TFRMVIEWER.BTNCOPYFILE.HINT"
 msgid "Copy"
 msgstr "复制"
 
+#: TFRMVIEWER.BTNCOPYFILE1.HINT
+msgctxt "TFRMVIEWER.BTNCOPYFILE1.HINT"
+msgid "Copy"
+msgstr "复制"
+
 #: TFRMVIEWER.BTNCUTTUIMAGE.HINT
 msgctxt "TFRMVIEWER.BTNCUTTUIMAGE.HINT"
 msgid "Crop"
@@ -4730,9 +4839,23 @@ msgctxt "TFRMVIEWER.BTNDELETEFILE.HINT"
 msgid "Delete"
 msgstr "删除"
 
+#: TFRMVIEWER.BTNDELETEFILE1.HINT
+msgctxt "TFRMVIEWER.BTNDELETEFILE1.HINT"
+msgid "Delete"
+msgstr "删除"
+
 #: TFRMVIEWER.BTNFULLSCREEN.HINT
 msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
 msgid "Full Screen"
+msgstr ""
+
+#: TFRMVIEWER.BTNGIFMOVE.CAPTION
+msgctxt "TFRMVIEWER.BTNGIFMOVE.CAPTION"
+msgid "||"
+msgstr ""
+
+#: TFRMVIEWER.BTNGIFTOBMP.CAPTION
+msgid "S"
 msgstr ""
 
 #: TFRMVIEWER.BTNHIGHTLIGHT.HINT
@@ -4750,8 +4873,23 @@ msgctxt "TFRMVIEWER.BTNMOVEFILE.HINT"
 msgid "Move"
 msgstr "移动"
 
+#: TFRMVIEWER.BTNMOVEFILE1.HINT
+msgctxt "TFRMVIEWER.BTNMOVEFILE1.HINT"
+msgid "Move"
+msgstr "移动"
+
 #: TFRMVIEWER.BTNNEXT.HINT
+msgctxt "TFRMVIEWER.BTNNEXT.HINT"
 msgid "Next"
+msgstr ""
+
+#: TFRMVIEWER.BTNNEXT1.HINT
+msgctxt "TFRMVIEWER.BTNNEXT1.HINT"
+msgid "Next"
+msgstr ""
+
+#: TFRMVIEWER.BTNNEXTGIFFRAME.CAPTION
+msgid "||>"
 msgstr ""
 
 #: TFRMVIEWER.BTNPAINT.HINT
@@ -4760,7 +4898,17 @@ msgid "Paint"
 msgstr ""
 
 #: TFRMVIEWER.BTNPREV.HINT
+msgctxt "TFRMVIEWER.BTNPREV.HINT"
 msgid "Previous"
+msgstr ""
+
+#: TFRMVIEWER.BTNPREV1.HINT
+msgctxt "TFRMVIEWER.BTNPREV1.HINT"
+msgid "Previous"
+msgstr ""
+
+#: TFRMVIEWER.BTNPREVGIFFRAME.CAPTION
+msgid "<||"
 msgstr ""
 
 #: TFRMVIEWER.BTNREDEYE.HINT
@@ -4769,6 +4917,11 @@ msgstr ""
 
 #: TFRMVIEWER.BTNRELOAD.HINT
 msgctxt "TFRMVIEWER.BTNRELOAD.HINT"
+msgid "Reload"
+msgstr ""
+
+#: TFRMVIEWER.BTNRELOAD1.HINT
+msgctxt "TFRMVIEWER.BTNRELOAD1.HINT"
 msgid "Reload"
 msgstr ""
 
@@ -4792,11 +4945,6 @@ msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
 msgid "Zoom Out"
 msgstr ""
 
-#: TFRMVIEWER.CAPTION
-msgctxt "TFRMVIEWER.CAPTION"
-msgid "Viewer"
-msgstr "查看器"
-
 #: TFRMVIEWER.CBSLIDESHOW.CAPTION
 msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
 msgid "Slide Show"
@@ -4810,6 +4958,11 @@ msgstr ""
 msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
 msgid "1"
 msgstr "1"
+
+#: TFRMVIEWER.FRMVIEWER.CAPTION
+msgctxt "TFRMVIEWER.FRMVIEWER.CAPTION"
+msgid "Viewer"
+msgstr "查看器"
 
 #: TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION
 msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
@@ -4882,6 +5035,11 @@ msgctxt "TFRMVIEWER.MIDIV3.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: TFRMVIEWER.MIDIV4.CAPTION
+msgctxt "TFRMVIEWER.MIDIV4.CAPTION"
+msgid "-"
+msgstr "-"
+
 #: TFRMVIEWER.MIDIV5.CAPTION
 msgctxt "TFRMVIEWER.MIDIV5.CAPTION"
 msgid "-"
@@ -4924,6 +5082,10 @@ msgstr "显示为十六进制"
 msgid "&Image"
 msgstr "图片(&I)"
 
+#: TFRMVIEWER.MILOOKBOOK.CAPTION
+msgid "Show as B&ook"
+msgstr ""
+
 #: TFRMVIEWER.MIMIRROR.CAPTION
 msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
 msgid "Mirror"
@@ -4942,6 +5104,11 @@ msgstr "插件"
 msgid "&Previous"
 msgstr "向前(&P)"
 
+#: TFRMVIEWER.MIPREVIEW.CAPTION
+msgctxt "TFRMVIEWER.MIPREVIEW.CAPTION"
+msgid "Preview"
+msgstr "预览"
+
 #: TFRMVIEWER.MIPRINT.CAPTION
 msgid "Print..."
 msgstr ""
@@ -4957,26 +5124,6 @@ msgstr ""
 
 #: TFRMVIEWER.MISAVEAS.CAPTION
 msgid "Save As..."
-msgstr ""
-
-#: TFRMVIEWER.MISAVEASBMP.CAPTION
-msgid "Bmp"
-msgstr ""
-
-#: TFRMVIEWER.MISAVEASJPG.CAPTION
-msgid "Jpg"
-msgstr ""
-
-#: TFRMVIEWER.MISAVEASPNG.CAPTION
-msgid "Png"
-msgstr ""
-
-#: TFRMVIEWER.MISAVETOICO.CAPTION
-msgid "Ico"
-msgstr ""
-
-#: TFRMVIEWER.MISAVETOPNM.CAPTION
-msgid "Pnm"
 msgstr ""
 
 #: TFRMVIEWER.MISCREENSHOT.CAPTION
@@ -5142,6 +5289,11 @@ msgstr ""
 
 #: TFRMVIEWOPERATIONS.LBLRUNNING.CAPTION
 msgid "for running"
+msgstr ""
+
+#: TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION
+msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
+msgid "When file exists"
 msgstr ""
 
 #: ulng.rscolattr
@@ -6325,14 +6477,17 @@ msgid "Bytes"
 msgstr ""
 
 #: ulng.rssizeunitgbytes
+msgctxt "ulng.rssizeunitgbytes"
 msgid "Gigabytes"
 msgstr ""
 
 #: ulng.rssizeunitkbytes
+msgctxt "ulng.rssizeunitkbytes"
 msgid "Kilobytes"
 msgstr ""
 
 #: ulng.rssizeunitmbytes
+msgctxt "ulng.rssizeunitmbytes"
 msgid "Megabytes"
 msgstr ""
 

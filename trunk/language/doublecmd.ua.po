@@ -220,6 +220,37 @@ msgctxt "TFCOLUMNSSETCONF.RESTEXT.CAPTION"
 msgid "R"
 msgstr "R"
 
+#: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBCHECKFREESPACE.CAPTION
+msgid "Check free space"
+msgstr ""
+
+#: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBCORRECTLINKS.CAPTION
+msgid "Correct links"
+msgstr ""
+
+#: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION
+msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
+msgid "Drop readonly flag"
+msgstr "Зкинути позначку \"Тільки для читання\""
+
+#: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBFOLLOWLINKS.CAPTION
+msgid "Follow links"
+msgstr ""
+
+#: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLDIRECTORYEXISTS.CAPTION
+msgid "When directory exists"
+msgstr ""
+
+#: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION
+msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
+msgid "When file exists"
+msgstr ""
+
+#: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION
+msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION"
+msgid "Only type:"
+msgstr "Тільки типу:"
+
 #: TFRMABOUT.CAPTION
 msgctxt "TFRMABOUT.CAPTION"
 msgid "About"
@@ -403,27 +434,24 @@ msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Так"
 
-#: TFRMCHECKSUMCALC.CAPTION
-msgctxt "TFRMCHECKSUMCALC.CAPTION"
-msgid "Calculate check sum..."
-msgstr "Вирахувати контрольну суму..."
-
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
 #| msgid "Create separate MD5 files for each file"
 msgid "Create separate checksum file for each file"
 msgstr "Для кожного файлу створити свій MD5/SHA1-файл"
 
-#: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
-msgid "Save check sum file(s) to:"
-msgstr "Зберегти файл(и) контрольних сум як:"
-
-#: TFRMCHECKSUMCALC.RBHASHMD5.CAPTION
+#: TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT
+msgctxt "TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT"
 msgid "MD5"
 msgstr "MD5"
 
-#: TFRMCHECKSUMCALC.RBHASHSHA1.CAPTION
-msgid "SHA1"
-msgstr "SHA1"
+#: TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION
+msgctxt "TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr "&Розрахувати контрольну суму..."
+
+#: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
+msgid "Save check sum file(s) to:"
+msgstr "Зберегти файл(и) контрольних сум як:"
 
 #: TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
@@ -547,10 +575,6 @@ msgctxt "TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION"
 msgid "&Command:"
 msgstr "&Команда:"
 
-#: TFRMCONFIGTOOLBAR.LBLICON.CAPTION
-msgid "Ic&on:"
-msgstr "Іко&нка:"
-
 #: TFRMCONFIGTOOLBAR.LBLICONFILE.CAPTION
 msgid "Icon &file:"
 msgstr "&Файл іконки:"
@@ -636,39 +660,9 @@ msgctxt "TFRMCOPYDLG.CAPTION"
 msgid "Copy file(s)"
 msgstr "Копіювати файл(и)"
 
-#: TFRMCOPYDLG.CBCHECKFREESPACE.CAPTION
-msgid "Check free space"
-msgstr "Перевірити вільне місце"
-
-#: TFRMCOPYDLG.CBCORRECTLINKS.CAPTION
-msgid "Correct links"
-msgstr "Виправляти посилання"
-
-#: TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION
-msgctxt "TFRMCOPYDLG.CBDROPREADONLYFLAG.CAPTION"
-msgid "Drop readonly flag"
-msgstr "Скинути позначку \"Тільки для читання\""
-
-#: TFRMCOPYDLG.CBFOLLOWLINKS.CAPTION
-msgid "Follow links"
-msgstr "Слідувати за посиланнями"
-
 #: TFRMCOPYDLG.LBLCOPYSRC.CAPTION
 msgid "Copy %s:"
 msgstr "Копіювати %s:"
-
-#: TFRMCOPYDLG.LBLDIRECTORYEXISTS.CAPTION
-msgid "When directory exists"
-msgstr "Якщо каталог існує"
-
-#: TFRMCOPYDLG.LBLFILEEXISTS.CAPTION
-msgid "When file exists"
-msgstr "Якщо файл існує"
-
-#: TFRMCOPYDLG.LBLFILETYPE.CAPTION
-msgctxt "TFRMCOPYDLG.LBLFILETYPE.CAPTION"
-msgid "Only type:"
-msgstr "Тільки тип:"
 
 #: TFRMDESCREDIT.BTNCANCEL.CAPTION
 msgctxt "TFRMDESCREDIT.BTNCANCEL.CAPTION"
@@ -778,6 +772,10 @@ msgstr "Одночасне прокручування"
 #: TFRMDIFFER.ACTLASTDIFF.CAPTION
 msgid "Last Difference"
 msgstr "Остання відмінність"
+
+#: TFRMDIFFER.ACTLINEDIFFERENCES.CAPTION
+msgid "Line Differences"
+msgstr ""
 
 #: TFRMDIFFER.ACTNEXTDIFF.CAPTION
 msgid "Next Difference"
@@ -1366,6 +1364,28 @@ msgstr "Перегляд"
 msgid "Open in Viewer"
 msgstr "Відкрити у переглядачі"
 
+#: TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION
+msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
+msgid "&Close"
+msgstr "Закрити"
+
+#: TFRMFILEEXECUTEYOURSELF.FRMFILEEXECUTEYOURSELF.CAPTION
+msgid "Wait..."
+msgstr ""
+
+#: TFRMFILEEXECUTEYOURSELF.LBLFILENAME.CAPTION
+msgid "File name:"
+msgstr ""
+
+#: TFRMFILEEXECUTEYOURSELF.LBLFROMPATH.CAPTION
+msgctxt "TFRMFILEEXECUTEYOURSELF.LBLFROMPATH.CAPTION"
+msgid "From:"
+msgstr "З"
+
+#: TFRMFILEEXECUTEYOURSELF.LBLPROMPT.CAPTION
+msgid "Click on Close when the temporary file can be deleted!"
+msgstr ""
+
 #: TFRMFILEOP.BTHOPEND.CAPTION
 msgid "End"
 msgstr "Кінець"
@@ -1403,6 +1423,7 @@ msgid "File name to"
 msgstr "Ім’я файлу до"
 
 #: TFRMFILEOP.LBLFROM.CAPTION
+msgctxt "TFRMFILEOP.LBLFROM.CAPTION"
 msgid "From:"
 msgstr "З"
 
@@ -1777,10 +1798,6 @@ msgstr "&Маска файлу"
 msgid "&Directory"
 msgstr "В &каталозі:"
 
-#: TFRMFINDDLG.LBLFINDTEXT.CAPTION
-msgid "Find text"
-msgstr "Знайти текст"
-
 #: TFRMFINDDLG.LBLFOUND.CAPTION
 msgid "Found"
 msgstr "Знайдено"
@@ -1847,12 +1864,16 @@ msgid "&OK"
 msgstr "&Так"
 
 #: TFRMHARDLINK.CAPTION
-msgid "Create hardlink"
+#, fuzzy
+#| msgid "Create hardlink"
+msgid "Create hard link"
 msgstr "Створити жорстке посилання"
 
 #: TFRMHARDLINK.LBLEXISTINGFILE.CAPTION
+#, fuzzy
+#| msgid "Existing destination (where will link point)"
 msgctxt "TFRMHARDLINK.LBLEXISTINGFILE.CAPTION"
-msgid "Existing destination (where will link point)"
+msgid "Destination that the link will point to"
 msgstr "На що вказує"
 
 #: TFRMHARDLINK.LBLLINKTOCREATE.CAPTION
@@ -2452,6 +2473,7 @@ msgid "Cancel"
 msgstr "Відміна"
 
 #: TFRMMAIN.ALLOPPAUSE.CAPTION
+msgctxt "TFRMMAIN.ALLOPPAUSE.CAPTION"
 msgid "||"
 msgstr "||"
 
@@ -2887,6 +2909,114 @@ msgstr "Створити новий каталог"
 msgid "Input new directory name:"
 msgstr "Введіть ім'я каталогу:"
 
+#: TFRMMODVIEW.BTNCANCEL.CAPTION
+msgctxt "TFRMMODVIEW.BTNCANCEL.CAPTION"
+msgid "Cancel"
+msgstr "Відміна"
+
+#: TFRMMODVIEW.BTNOK.CAPTION
+msgid "Ok"
+msgstr ""
+
+#: TFRMMODVIEW.BTNPATH1.CAPTION
+msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: TFRMMODVIEW.BTNPATH2.CAPTION
+msgctxt "TFRMMODVIEW.BTNPATH2.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: TFRMMODVIEW.BTNPATH3.CAPTION
+msgctxt "TFRMMODVIEW.BTNPATH3.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: TFRMMODVIEW.BTNPATH4.CAPTION
+msgctxt "TFRMMODVIEW.BTNPATH4.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: TFRMMODVIEW.BTNPATH5.CAPTION
+msgctxt "TFRMMODVIEW.BTNPATH5.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: TFRMMODVIEW.BTNPROPORTION.CAPTION
+msgid "Pr"
+msgstr ""
+
+#: TFRMMODVIEW.FRMMODVIEW.CAPTION
+msgid "New Size"
+msgstr ""
+
+#: TFRMMODVIEW.LBLHEIGHT.CAPTION
+msgid "Height :"
+msgstr ""
+
+#: TFRMMODVIEW.LBLPATH1.CAPTION
+msgctxt "TFRMMODVIEW.LBLPATH1.CAPTION"
+msgid "1"
+msgstr "1"
+
+#: TFRMMODVIEW.LBLPATH2.CAPTION
+msgid "2"
+msgstr ""
+
+#: TFRMMODVIEW.LBLPATH3.CAPTION
+msgid "3"
+msgstr ""
+
+#: TFRMMODVIEW.LBLPATH4.CAPTION
+msgid "4"
+msgstr ""
+
+#: TFRMMODVIEW.LBLPATH5.CAPTION
+msgid "5"
+msgstr ""
+
+#: TFRMMODVIEW.LBLQUALITY.CAPTION
+msgid "Quality of compress to Jpg"
+msgstr ""
+
+#: TFRMMODVIEW.LBLWIDTH.CAPTION
+msgid "Width :"
+msgstr ""
+
+#: TFRMMODVIEW.RBBMP.CAPTION
+msgid "BMP"
+msgstr ""
+
+#: TFRMMODVIEW.RBICO.CAPTION
+msgid "ICO"
+msgstr ""
+
+#: TFRMMODVIEW.RBJPG.CAPTION
+msgid "JPG"
+msgstr ""
+
+#: TFRMMODVIEW.RBPNG.CAPTION
+msgid "PNG"
+msgstr ""
+
+#: TFRMMODVIEW.RBPNM.CAPTION
+msgid "PNM"
+msgstr ""
+
+#: TFRMMODVIEW.TEHEIGHT.TEXT
+msgid "Height"
+msgstr ""
+
+#: TFRMMODVIEW.TEQUALITY.TEXT
+msgid "80"
+msgstr ""
+
+#: TFRMMODVIEW.TEWIDTH.TEXT
+msgctxt "TFRMMODVIEW.TEWIDTH.TEXT"
+msgid "Width"
+msgstr "Ширина"
+
 #: TFRMMOVEDLG.LBLFILETYPE.CAPTION
 msgctxt "TFRMMOVEDLG.LBLFILETYPE.CAPTION"
 msgid "Only type:"
@@ -2939,8 +3069,10 @@ msgid "MultiRename"
 msgstr "Групове перейменування"
 
 #: TFRMMULTIRENAME.CBLOG.CAPTION
+#, fuzzy
+#| msgid "Log"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
-msgid "Log"
+msgid "Enable"
 msgstr "Звіт"
 
 #: TFRMMULTIRENAME.CBREGEXP.CAPTION
@@ -4257,11 +4389,6 @@ msgstr "Розпакувати і виконати"
 msgid "Properties of packed file"
 msgstr "Властивості стисненого файлу"
 
-#: TFRMPACKINFODLG.EDTPACKEDFILE.TEXT
-msgctxt "TFRMPACKINFODLG.EDTPACKEDFILE.TEXT"
-msgid "?"
-msgstr "?"
-
 #: TFRMPACKINFODLG.LBLATTRIBUTES.CAPTION
 msgid "Attributes:"
 msgstr "Атрибути:"
@@ -4282,53 +4409,13 @@ msgstr "Метод:"
 msgid "Original size:"
 msgstr "Оригінальний розмір:"
 
-#: TFRMPACKINFODLG.LBLPACKEDATTR.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDATTR.CAPTION"
-msgid "?"
-msgstr "?"
-
-#: TFRMPACKINFODLG.LBLPACKEDCOMPRESSION.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDCOMPRESSION.CAPTION"
-msgid "?"
-msgstr "?"
-
-#: TFRMPACKINFODLG.LBLPACKEDDATE.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDDATE.CAPTION"
-msgid "?"
-msgstr "?"
-
 #: TFRMPACKINFODLG.LBLPACKEDFILE.CAPTION
 msgid "File:"
 msgstr "Файл:"
 
-#: TFRMPACKINFODLG.LBLPACKEDMETHOD.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDMETHOD.CAPTION"
-msgid "?"
-msgstr "?"
-
-#: TFRMPACKINFODLG.LBLPACKEDORGSIZE.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDORGSIZE.CAPTION"
-msgid "?"
-msgstr "?"
-
-#: TFRMPACKINFODLG.LBLPACKEDPACKEDSIZE.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDPACKEDSIZE.CAPTION"
-msgid "?"
-msgstr "?"
-
-#: TFRMPACKINFODLG.LBLPACKEDPACKER.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDPACKER.CAPTION"
-msgid "?"
-msgstr "?"
-
 #: TFRMPACKINFODLG.LBLPACKEDSIZE.CAPTION
 msgid "Packed size:"
 msgstr "Розмір стисненого:"
-
-#: TFRMPACKINFODLG.LBLPACKEDTIME.CAPTION
-msgctxt "TFRMPACKINFODLG.LBLPACKEDTIME.CAPTION"
-msgid "?"
-msgstr "?"
 
 #: TFRMPACKINFODLG.LBLPACKER.CAPTION
 msgid "Packer:"
@@ -4337,11 +4424,6 @@ msgstr "Пакувальник:"
 #: TFRMPACKINFODLG.LBLTIME.CAPTION
 msgid "Time:"
 msgstr "Час:"
-
-#: TFRMPACKINFODLG.PGGENERAL.CAPTION
-msgctxt "TFRMPACKINFODLG.PGGENERAL.CAPTION"
-msgid "General"
-msgstr "Основні"
 
 #: TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
@@ -4497,13 +4579,14 @@ msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
 msgid "OK"
 msgstr "Так"
 
-#: TFRMSPLITTER.CAPTION
-msgid "Splitter"
-msgstr "Розбивка"
-
 #: TFRMSPLITTER.CMBXSIZE.TEXT
 msgid "1457664B - 3.5\""
 msgstr "1457664B - 3.5\""
+
+#: TFRMSPLITTER.FRMSPLITTER.CAPTION
+msgctxt "TFRMSPLITTER.FRMSPLITTER.CAPTION"
+msgid "Splitter"
+msgstr "Розбивка"
 
 #: TFRMSPLITTER.GRBXFILE.CAPTION
 msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
@@ -4511,7 +4594,9 @@ msgid "File name"
 msgstr "Ім'я файлу"
 
 #: TFRMSPLITTER.GRBXSIZE.CAPTION
-msgid "File size"
+#, fuzzy
+#| msgid "File size"
+msgid "Size and number of parts"
 msgstr "Розмір файлу"
 
 #: TFRMSPLITTER.GRBXWATCH.CAPTION
@@ -4526,6 +4611,25 @@ msgstr "Каталог призначення"
 msgid "File source"
 msgstr "Вихідний файл"
 
+#: TFRMSPLITTER.LBLNUMBERPARTS.CAPTION
+msgid "Number of parts"
+msgstr ""
+
+#: TFRMSPLITTER.RBTNGIGAB.CAPTION
+msgctxt "TFRMSPLITTER.RBTNGIGAB.CAPTION"
+msgid "Gigabytes"
+msgstr "Гігабайти"
+
+#: TFRMSPLITTER.RBTNKILOB.CAPTION
+msgctxt "TFRMSPLITTER.RBTNKILOB.CAPTION"
+msgid "Kilobytes"
+msgstr "Кілобайти"
+
+#: TFRMSPLITTER.RBTNMEGAB.CAPTION
+msgctxt "TFRMSPLITTER.RBTNMEGAB.CAPTION"
+msgid "Megabytes"
+msgstr "Мегабайти"
+
 #: TFRMSYMLINK.BTNCANCEL.CAPTION
 msgctxt "TFRMSYMLINK.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -4537,12 +4641,16 @@ msgid "&OK"
 msgstr "&Так"
 
 #: TFRMSYMLINK.CAPTION
-msgid "Create symlink"
+#, fuzzy
+#| msgid "Create symlink"
+msgid "Create symbolic link"
 msgstr "Створити симв. посилання"
 
 #: TFRMSYMLINK.LBLEXISTINGFILE.CAPTION
+#, fuzzy
+#| msgid "Existing destination (where will link point)"
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
-msgid "Existing destination (where will link point)"
+msgid "Destination that the link will point to"
 msgstr "На що вказує"
 
 #: TFRMSYMLINK.LBLLINKTOCREATE.CAPTION
@@ -4639,10 +4747,6 @@ msgstr "Розширення:"
 msgid "Flags:"
 msgstr "Позначки:"
 
-#: TFRMTWEAKPLUGIN.LBLFLAGSVALUE.CAPTION
-msgid "(000)"
-msgstr "(000)"
-
 #: TFRMTWEAKPLUGIN.LBLNAME.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.LBLNAME.CAPTION"
 msgid "Name:"
@@ -4673,6 +4777,11 @@ msgctxt "TFRMVIEWER.BTNCOPYFILE.HINT"
 msgid "Copy"
 msgstr "&Копіювати"
 
+#: TFRMVIEWER.BTNCOPYFILE1.HINT
+msgctxt "TFRMVIEWER.BTNCOPYFILE1.HINT"
+msgid "Copy"
+msgstr "&Копіювати"
+
 #: TFRMVIEWER.BTNCUTTUIMAGE.HINT
 msgctxt "TFRMVIEWER.BTNCUTTUIMAGE.HINT"
 msgid "Crop"
@@ -4683,10 +4792,24 @@ msgctxt "TFRMVIEWER.BTNDELETEFILE.HINT"
 msgid "Delete"
 msgstr "Видалити"
 
+#: TFRMVIEWER.BTNDELETEFILE1.HINT
+msgctxt "TFRMVIEWER.BTNDELETEFILE1.HINT"
+msgid "Delete"
+msgstr "Видалити"
+
 #: TFRMVIEWER.BTNFULLSCREEN.HINT
 msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
 msgid "Full Screen"
 msgstr "На весь екран"
+
+#: TFRMVIEWER.BTNGIFMOVE.CAPTION
+msgctxt "TFRMVIEWER.BTNGIFMOVE.CAPTION"
+msgid "||"
+msgstr "||"
+
+#: TFRMVIEWER.BTNGIFTOBMP.CAPTION
+msgid "S"
+msgstr ""
 
 #: TFRMVIEWER.BTNHIGHTLIGHT.HINT
 msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
@@ -4703,9 +4826,24 @@ msgctxt "TFRMVIEWER.BTNMOVEFILE.HINT"
 msgid "Move"
 msgstr "Перемістити"
 
+#: TFRMVIEWER.BTNMOVEFILE1.HINT
+msgctxt "TFRMVIEWER.BTNMOVEFILE1.HINT"
+msgid "Move"
+msgstr "Перемістити"
+
 #: TFRMVIEWER.BTNNEXT.HINT
+msgctxt "TFRMVIEWER.BTNNEXT.HINT"
 msgid "Next"
 msgstr "Наступний"
+
+#: TFRMVIEWER.BTNNEXT1.HINT
+msgctxt "TFRMVIEWER.BTNNEXT1.HINT"
+msgid "Next"
+msgstr "Наступний"
+
+#: TFRMVIEWER.BTNNEXTGIFFRAME.CAPTION
+msgid "||>"
+msgstr ""
 
 #: TFRMVIEWER.BTNPAINT.HINT
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
@@ -4713,8 +4851,18 @@ msgid "Paint"
 msgstr "Малювати"
 
 #: TFRMVIEWER.BTNPREV.HINT
+msgctxt "TFRMVIEWER.BTNPREV.HINT"
 msgid "Previous"
 msgstr "Попередній"
+
+#: TFRMVIEWER.BTNPREV1.HINT
+msgctxt "TFRMVIEWER.BTNPREV1.HINT"
+msgid "Previous"
+msgstr "Попередній"
+
+#: TFRMVIEWER.BTNPREVGIFFRAME.CAPTION
+msgid "<||"
+msgstr ""
 
 #: TFRMVIEWER.BTNREDEYE.HINT
 msgid "Red Eyes"
@@ -4722,6 +4870,11 @@ msgstr "Червоні очі"
 
 #: TFRMVIEWER.BTNRELOAD.HINT
 msgctxt "TFRMVIEWER.BTNRELOAD.HINT"
+msgid "Reload"
+msgstr "Перезавантажити"
+
+#: TFRMVIEWER.BTNRELOAD1.HINT
+msgctxt "TFRMVIEWER.BTNRELOAD1.HINT"
 msgid "Reload"
 msgstr "Перезавантажити"
 
@@ -4745,11 +4898,6 @@ msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
 msgid "Zoom Out"
 msgstr "Зменшити"
 
-#: TFRMVIEWER.CAPTION
-msgctxt "TFRMVIEWER.CAPTION"
-msgid "Viewer"
-msgstr "Переглядач"
-
 #: TFRMVIEWER.CBSLIDESHOW.CAPTION
 msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
 msgid "Slide Show"
@@ -4763,6 +4911,11 @@ msgstr "Ручка"
 msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
 msgid "1"
 msgstr "1"
+
+#: TFRMVIEWER.FRMVIEWER.CAPTION
+msgctxt "TFRMVIEWER.FRMVIEWER.CAPTION"
+msgid "Viewer"
+msgstr "Переглядач"
 
 #: TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION
 msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
@@ -4835,6 +4988,11 @@ msgctxt "TFRMVIEWER.MIDIV3.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: TFRMVIEWER.MIDIV4.CAPTION
+msgctxt "TFRMVIEWER.MIDIV4.CAPTION"
+msgid "-"
+msgstr "-"
+
 #: TFRMVIEWER.MIDIV5.CAPTION
 msgctxt "TFRMVIEWER.MIDIV5.CAPTION"
 msgid "-"
@@ -4877,6 +5035,10 @@ msgstr "В &шістнадцятеричному"
 msgid "&Image"
 msgstr "Малюнок"
 
+#: TFRMVIEWER.MILOOKBOOK.CAPTION
+msgid "Show as B&ook"
+msgstr ""
+
 #: TFRMVIEWER.MIMIRROR.CAPTION
 msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
 msgid "Mirror"
@@ -4895,6 +5057,11 @@ msgstr "Плагіни"
 msgid "&Previous"
 msgstr "&Попередній"
 
+#: TFRMVIEWER.MIPREVIEW.CAPTION
+msgctxt "TFRMVIEWER.MIPREVIEW.CAPTION"
+msgid "Preview"
+msgstr "Попередній перегляд"
+
 #: TFRMVIEWER.MIPRINT.CAPTION
 msgid "Print..."
 msgstr "Друк"
@@ -4911,26 +5078,6 @@ msgstr "Зберегти"
 #: TFRMVIEWER.MISAVEAS.CAPTION
 msgid "Save As..."
 msgstr "Зберегти як..."
-
-#: TFRMVIEWER.MISAVEASBMP.CAPTION
-msgid "Bmp"
-msgstr "Bmp"
-
-#: TFRMVIEWER.MISAVEASJPG.CAPTION
-msgid "Jpg"
-msgstr "Jpg"
-
-#: TFRMVIEWER.MISAVEASPNG.CAPTION
-msgid "Png"
-msgstr "Png"
-
-#: TFRMVIEWER.MISAVETOICO.CAPTION
-msgid "Ico"
-msgstr "Ico"
-
-#: TFRMVIEWER.MISAVETOPNM.CAPTION
-msgid "Pnm"
-msgstr "Pnm"
 
 #: TFRMVIEWER.MISCREENSHOT.CAPTION
 msgctxt "TFRMVIEWER.MISCREENSHOT.CAPTION"
@@ -5096,6 +5243,11 @@ msgstr "Черга:"
 #: TFRMVIEWOPERATIONS.LBLRUNNING.CAPTION
 msgid "for running"
 msgstr "для запуску"
+
+#: TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION
+msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
+msgid "When file exists"
+msgstr ""
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -6278,14 +6430,17 @@ msgid "Bytes"
 msgstr "Байти"
 
 #: ulng.rssizeunitgbytes
+msgctxt "ulng.rssizeunitgbytes"
 msgid "Gigabytes"
 msgstr "Гігабайти"
 
 #: ulng.rssizeunitkbytes
+msgctxt "ulng.rssizeunitkbytes"
 msgid "Kilobytes"
 msgstr "Кілобайти"
 
 #: ulng.rssizeunitmbytes
+msgctxt "ulng.rssizeunitmbytes"
 msgid "Megabytes"
 msgstr "Мегабайти"
 
