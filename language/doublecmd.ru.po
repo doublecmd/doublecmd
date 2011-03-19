@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-03-08 13:06+0300\n"
+"PO-Revision-Date: 2011-03-19 21:58+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3819,10 +3819,6 @@ msgstr "Фильтр"
 msgid "Add:"
 msgstr "Добавить:"
 
-#: TFRMOPTIONS.LBLARCHIVEDELETE.CAPTION
-msgid "Delete:"
-msgstr "Удалить:"
-
 #: TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION
 msgctxt "TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION"
 msgid "Extension:"
@@ -3831,18 +3827,6 @@ msgstr "Расширение:"
 #: TFRMOPTIONS.LBLARCHIVEEXTRACT.CAPTION
 msgid "Extract:"
 msgstr "Извлечь:"
-
-#: TFRMOPTIONS.LBLARCHIVEID.CAPTION
-msgid "ID (optional):"
-msgstr "ID (необязательный):"
-
-#: TFRMOPTIONS.LBLARCHIVEIDPOS.CAPTION
-msgid "ID Position (optional):"
-msgstr "ID Position (необязательный):"
-
-#: TFRMOPTIONS.LBLARCHIVEIDSEEKRANGE.CAPTION
-msgid "ID Seek Range (optional):"
-msgstr "ID Seek Range (необязательный):"
 
 #: TFRMOPTIONS.LBLARCHIVELIST.CAPTION
 msgid "List:"
@@ -3860,21 +3844,9 @@ msgstr "Формат списка:"
 msgid "Listing start (optional):"
 msgstr "Начало списка (необязательный):"
 
-#: TFRMOPTIONS.LBLARCHIVEMULTIVOLUME.CAPTION
-msgid "Create multivolume archive:"
-msgstr "Создать многотомный архив:"
-
 #: TFRMOPTIONS.LBLARCHIVER.CAPTION
 msgid "Archiver:"
 msgstr "Архиватор:"
-
-#: TFRMOPTIONS.LBLARCHIVESELFEXTRACT.CAPTION
-msgid "Create self extracting archive:"
-msgstr "Создать самораспаковывающийся архив:"
-
-#: TFRMOPTIONS.LBLARCHIVETEST.CAPTION
-msgid "Test:"
-msgstr "Проверить:"
 
 #: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
 msgid "Auto size column:"
@@ -4182,6 +4154,7 @@ msgid "Drive blacklist:"
 msgstr "Черный список дисков:"
 
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
+msgctxt "TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION"
 msgid "Additional"
 msgstr "Дополнительные"
 
@@ -5984,13 +5957,56 @@ msgstr ""
 msgid "Waiting for user response"
 msgstr "Ожидание ответа от пользователя"
 
+#: ulng.rsoptarchivecommand
+msgid "Command"
+msgstr "Команда"
+
+#: ulng.rsoptarchivedelete
+msgctxt "ulng.rsoptarchivedelete"
+msgid "Delete:"
+msgstr "Удалить:"
+
+#: ulng.rsoptarchiveid
+msgctxt "ulng.rsoptarchiveid"
+msgid "ID (optional):"
+msgstr "ID (необязательный):"
+
+#: ulng.rsoptarchiveidpos
+msgctxt "ulng.rsoptarchiveidpos"
+msgid "ID Position (optional):"
+msgstr "ID Position (необязательный):"
+
+#: ulng.rsoptarchiveidseekrange
+msgctxt "ulng.rsoptarchiveidseekrange"
+msgid "ID Seek Range (optional):"
+msgstr "ID Seek Range (необязательный):"
+
+#: ulng.rsoptarchivemultivolume
+msgctxt "ulng.rsoptarchivemultivolume"
+msgid "Create multivolume archive:"
+msgstr "Создать многотомный архив:"
+
 #: ulng.rsoptarchivers
 msgid "Archivers"
 msgstr "Архиваторы"
 
+#: ulng.rsoptarchiveselfextract
+msgctxt "ulng.rsoptarchiveselfextract"
+msgid "Create self extracting archive:"
+msgstr "Создать самораспаковывающийся архив:"
+
+#: ulng.rsoptarchivetest
+msgctxt "ulng.rsoptarchivetest"
+msgid "Test:"
+msgstr "Проверить:"
+
 #: ulng.rsoptarchivetypename
 msgid "Archive type name:"
 msgstr "Наименование типа архива:"
+
+#: ulng.rsoptarchivevalue
+msgid "Value"
+msgstr "Значение"
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"

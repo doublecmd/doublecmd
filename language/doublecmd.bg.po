@@ -3814,10 +3814,6 @@ msgstr "Пресяване"
 msgid "Add:"
 msgstr "Добавяне:"
 
-#: TFRMOPTIONS.LBLARCHIVEDELETE.CAPTION
-msgid "Delete:"
-msgstr "Изтриване:"
-
 #: TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION
 msgctxt "TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION"
 msgid "Extension:"
@@ -3826,18 +3822,6 @@ msgstr "Разширение:"
 #: TFRMOPTIONS.LBLARCHIVEEXTRACT.CAPTION
 msgid "Extract:"
 msgstr "Извличане:"
-
-#: TFRMOPTIONS.LBLARCHIVEID.CAPTION
-msgid "ID (optional):"
-msgstr ""
-
-#: TFRMOPTIONS.LBLARCHIVEIDPOS.CAPTION
-msgid "ID Position (optional):"
-msgstr ""
-
-#: TFRMOPTIONS.LBLARCHIVEIDSEEKRANGE.CAPTION
-msgid "ID Seek Range (optional):"
-msgstr ""
 
 #: TFRMOPTIONS.LBLARCHIVELIST.CAPTION
 msgid "List:"
@@ -3855,21 +3839,9 @@ msgstr "Изписване на списъка:"
 msgid "Listing start (optional):"
 msgstr "Начало на списъка (избираемо):"
 
-#: TFRMOPTIONS.LBLARCHIVEMULTIVOLUME.CAPTION
-msgid "Create multivolume archive:"
-msgstr "Създаване на многотомен архив:"
-
 #: TFRMOPTIONS.LBLARCHIVER.CAPTION
 msgid "Archiver:"
 msgstr "Архиватор:"
-
-#: TFRMOPTIONS.LBLARCHIVESELFEXTRACT.CAPTION
-msgid "Create self extracting archive:"
-msgstr "Създаване на саморазгъващ се архив:"
-
-#: TFRMOPTIONS.LBLARCHIVETEST.CAPTION
-msgid "Test:"
-msgstr "Проверка:"
 
 #: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
 msgid "Auto size column:"
@@ -4177,6 +4149,7 @@ msgid "Drive blacklist:"
 msgstr ""
 
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
+msgctxt "TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION"
 msgid "Additional"
 msgstr "Допълнителни"
 
@@ -5982,13 +5955,56 @@ msgstr ""
 msgid "Waiting for user response"
 msgstr ""
 
+#: ulng.rsoptarchivecommand
+msgid "Command"
+msgstr ""
+
+#: ulng.rsoptarchivedelete
+msgctxt "ulng.rsoptarchivedelete"
+msgid "Delete:"
+msgstr "Изтриване:"
+
+#: ulng.rsoptarchiveid
+msgctxt "ulng.rsoptarchiveid"
+msgid "ID (optional):"
+msgstr ""
+
+#: ulng.rsoptarchiveidpos
+msgctxt "ulng.rsoptarchiveidpos"
+msgid "ID Position (optional):"
+msgstr ""
+
+#: ulng.rsoptarchiveidseekrange
+msgctxt "ulng.rsoptarchiveidseekrange"
+msgid "ID Seek Range (optional):"
+msgstr ""
+
+#: ulng.rsoptarchivemultivolume
+msgctxt "ulng.rsoptarchivemultivolume"
+msgid "Create multivolume archive:"
+msgstr "Създаване на многотомен архив:"
+
 #: ulng.rsoptarchivers
 msgid "Archivers"
 msgstr "Архиватори"
 
+#: ulng.rsoptarchiveselfextract
+msgctxt "ulng.rsoptarchiveselfextract"
+msgid "Create self extracting archive:"
+msgstr "Създаване на саморазгъващ се архив:"
+
+#: ulng.rsoptarchivetest
+msgctxt "ulng.rsoptarchivetest"
+msgid "Test:"
+msgstr "Проверка:"
+
 #: ulng.rsoptarchivetypename
 msgid "Archive type name:"
 msgstr "Име на вида архив:"
+
+#: ulng.rsoptarchivevalue
+msgid "Value"
+msgstr ""
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
