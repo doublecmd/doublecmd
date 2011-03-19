@@ -112,7 +112,8 @@ type
     FDelete,
     FAdd,
     FAddMultiVolume,
-    FAddSelfExtract: UTF8String;
+    FAddSelfExtract,
+    FPasswordQuery: UTF8String;
   public
     FEnabled: Boolean;
     FOutput: Boolean;
@@ -267,6 +268,7 @@ begin
         FAdd:= TrimQuotes(IniFile.ReadString(Section, 'Add', EmptyStr));
         FAddMultiVolume:= TrimQuotes(IniFile.ReadString(Section, 'AddMultiVolume', EmptyStr));
         FAddSelfExtract:= TrimQuotes(IniFile.ReadString(Section, 'AddSelfExtract', EmptyStr));
+        FPasswordQuery:= IniFile.ReadString(Section, 'PasswordQuery', EmptyStr);
         // optional
         FEnabled:= IniFile.ReadBool(Section, 'Enabled', True);
         FOutput:= IniFile.ReadBool(Section, 'Output', False);
@@ -317,6 +319,7 @@ begin
         IniFile.WriteString(Section, 'Add', FAdd);
         IniFile.WriteString(Section, 'AddMultiVolume', FAddMultiVolume);
         IniFile.WriteString(Section, 'AddSelfExtract', FAddSelfExtract);
+        IniFile.WriteString(Section, 'PasswordQuery', FPasswordQuery);
         // optional
         IniFile.WriteBool(Section, 'Enabled', FEnabled);
         IniFile.WriteBool(Section, 'Output', FOutput);

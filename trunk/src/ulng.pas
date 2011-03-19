@@ -325,6 +325,7 @@ resourcestring
   rsOptArchiveID = 'ID (optional):';
   rsOptArchiveIDPos = 'ID Position (optional):';
   rsOptArchiveIDSeekRange = 'ID Seek Range (optional):';
+  rsOptArchivePasswordQuery = 'Password query string:';
   //-------------------------------
   rsOptEnterExt = 'Enter extension';
   rsOptAssocPluginWith = 'Associate plugin "%s" with:';

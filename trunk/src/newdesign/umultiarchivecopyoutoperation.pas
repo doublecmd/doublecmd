@@ -57,6 +57,7 @@ type
     FFileMask: UTF8String;
     FErrorLevel: LongInt;
     procedure OnReadLn(str: string);
+    procedure OnQueryString(str: string);
     procedure UpdateProgress(SourceName, TargetName: UTF8String; IncSize: Int64);
     procedure FileSourceOperationStateChangedNotify(Operation: TFileSourceOperation;
                                                     AState: TFileSourceOperationState);
@@ -79,7 +80,7 @@ implementation
 
 uses
   LCLProc, FileUtil, uOSUtils, uDCUtils, uMultiArc, uFileSourceOperationUI,
-  uMultiArchiveUtil, uFileProcs, uLng, uDateTimeUtils, uTypes;
+  uMultiArchiveUtil, uFileProcs, uLng, uDateTimeUtils, uTypes, uShowMsg;
 
 constructor TMultiArchiveCopyOutOperation.Create(aSourceFileSource: IFileSource;
                                                aTargetFileSource: IFileSource;
@@ -104,6 +105,13 @@ begin
   FExProcess.OnReadLn:= @OnReadLn;
   FExProcess.OnOperationProgress:= @CheckOperationState;
   FTempFile:= GetTempName(GetTempFolder);
+
+  with FMultiArchiveFileSource.MultiArcItem do
+  if Length(FPasswordQuery) <> 0 then
+  begin
+    FExProcess.QueryString:= UTF8ToConsole(FPasswordQuery);
+    FExProcess.OnQueryString:= @OnQueryString;
+  end;
 
   AddStateChangedListener([fsosStarting, fsosPausing, fsosStopping], @FileSourceOperationStateChangedNotify);
 
@@ -446,6 +454,16 @@ begin
   with FMultiArchiveFileSource.MultiArcItem do
   if FOutput or FDebug then
     logWrite(Thread, str, lmtInfo, True, False);
+end;
+
+procedure TMultiArchiveCopyOutOperation.OnQueryString(str: string);
+var
+  sPassword: UTF8String;
+  pcPassword: PAnsiChar;
+begin
+  ShowInputQuery(FMultiArchiveFileSource.MultiArcItem.FDescription, rsMsgPasswordEnter, True, sPassword);
+  pcPassword:= PAnsiChar(UTF8ToConsole(sPassword + LineEnding));
+  FExProcess.Process.Input.Write(pcPassword^, Length(pcPassword));
 end;
 
 procedure TMultiArchiveCopyOutOperation.UpdateProgress(SourceName,

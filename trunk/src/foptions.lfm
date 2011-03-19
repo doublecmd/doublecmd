@@ -4674,7 +4674,7 @@ object frmOptions: TfrmOptions
                 ColCount = 2
                 DefaultColWidth = 128
                 Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goEditing, goSmoothScroll]
-                RowCount = 8
+                RowCount = 9
                 TabOrder = 0
                 OnPrepareCanvas = stgArchiverCommandsPrepareCanvas
                 ColWidths = (
