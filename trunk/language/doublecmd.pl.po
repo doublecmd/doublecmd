@@ -5937,6 +5937,10 @@ msgstr "Utwórz archiwum wieloczęściowe:"
 msgid "Parameter"
 msgstr ""
 
+#: ulng.rsoptarchivepasswordquery
+msgid "Password query string:"
+msgstr ""
+
 #: ulng.rsoptarchivers
 msgid "Archivers"
 msgstr "Archiwizery"
@@ -6059,6 +6063,9 @@ msgstr "Skrót"
 msgid "Hotkeys"
 msgstr "Skróty"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsopthotkeysparameters
 msgctxt "ulng.rsopthotkeysparameters"
 msgid "Parameters"
@@ -6076,9 +6083,6 @@ msgstr "Skrót %s jest już użyty dla %s."
 msgid "Change it to %s?"
 msgstr "Zmienić na %s?"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsopthotkeysusedby
 msgid "used by"
 msgstr "używany przez"
