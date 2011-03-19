@@ -490,6 +490,8 @@ type
     procedure rbIconsShowNoneChange(Sender: TObject);
     procedure rbQuickSearchFilterKeyChange(Sender: TObject);
     procedure seNumberColumnsViewerChange(Sender: TObject);
+    procedure stgArchiverCommandsPrepareCanvas(Sender: TObject; aCol,
+      aRow: Integer; aState: TGridDrawState);
     procedure stgCommandsResize(Sender: TObject);
     procedure stgCommandsSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
@@ -1234,6 +1236,15 @@ end;
 procedure TfrmOptions.seNumberColumnsViewerChange(Sender: TObject);
 begin
   pbViewerBook.Repaint;
+end;
+
+procedure TfrmOptions.stgArchiverCommandsPrepareCanvas(Sender: TObject; aCol,
+  aRow: Integer; aState: TGridDrawState);
+begin
+  if aRow = 0 then
+    stgArchiverCommands.Canvas.Brush.Color:= stgArchiverCommands.FixedColor
+  else
+    stgArchiverCommands.Canvas.Brush.Color:= stgArchiverCommands.Color;
 end;
 
 procedure TfrmOptions.stgCommandsResize(Sender: TObject);
