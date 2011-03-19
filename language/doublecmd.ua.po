@@ -5944,10 +5944,6 @@ msgstr "Очікування доступу до джерела"
 msgid "Waiting for user response"
 msgstr "Очікування відповіді від користувача"
 
-#: ulng.rsoptarchivecommand
-msgid "Command"
-msgstr ""
-
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
 msgid "Delete:"
@@ -5974,6 +5970,10 @@ msgstr "ID Seek Range (за бажанням):"
 msgctxt "ulng.rsoptarchivemultivolume"
 msgid "Create multivolume archive:"
 msgstr "Створити багатотомний архів:"
+
+#: ulng.rsoptarchiveparam
+msgid "Parameter"
+msgstr ""
 
 #: ulng.rsoptarchivers
 msgid "Archivers"

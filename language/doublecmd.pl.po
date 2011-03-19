@@ -5908,10 +5908,6 @@ msgstr "Oczekiwanie na dostęp do źródła pliku"
 msgid "Waiting for user response"
 msgstr "Oczekiwanie na odpowiedź użytkownika"
 
-#: ulng.rsoptarchivecommand
-msgid "Command"
-msgstr ""
-
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
 msgid "Delete:"
@@ -5936,6 +5932,10 @@ msgstr ""
 msgctxt "ulng.rsoptarchivemultivolume"
 msgid "Create multivolume archive:"
 msgstr "Utwórz archiwum wieloczęściowe:"
+
+#: ulng.rsoptarchiveparam
+msgid "Parameter"
+msgstr ""
 
 #: ulng.rsoptarchivers
 msgid "Archivers"
@@ -6076,13 +6076,13 @@ msgstr "Skrót %s jest już użyty dla %s."
 msgid "Change it to %s?"
 msgstr "Zmienić na %s?"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsopthotkeysusedby
 msgid "used by"
 msgstr "używany przez"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsopticons
 msgid "Icons"
 msgstr "Ikony"
