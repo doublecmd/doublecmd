@@ -316,6 +316,16 @@ resourcestring
   rsOptIgnoreList = 'Ignore list';
   rsOptArchivers = 'Archivers';
   //-------------------------------
+  rsOptArchiveCommand = 'Command';
+  rsOptArchiveValue = 'Value';
+  rsOptArchiveDelete = 'Delete:';
+  rsOptArchiveTest = 'Test:';
+  rsOptArchiveMultiVolume = 'Create multivolume archive:';
+  rsOptArchiveSelfExtract = 'Create self extracting archive:';
+  rsOptArchiveID = 'ID (optional):';
+  rsOptArchiveIDPos = 'ID Position (optional):';
+  rsOptArchiveIDSeekRange = 'ID Seek Range (optional):';
+  //-------------------------------
   rsOptEnterExt = 'Enter extension';
   rsOptAssocPluginWith = 'Associate plugin "%s" with:';
   rsOptEnable = 'Enable';
