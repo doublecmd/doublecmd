@@ -19,7 +19,9 @@ type
     FProcess: TProcess;
     FOutputLine: String;
     FStop: Boolean;
-    FOnReadLn: TOnReadLn;
+    FQueryString: String;
+    FOnReadLn,
+    FOnQueryString: TOnReadLn;
     FOnOperationProgress: TOnOperationProgress;
     function _GetExitStatus(): Integer;
   public
@@ -31,7 +33,9 @@ type
 
     property Process: TProcess read FProcess;
     property ExitStatus: Integer read _GetExitStatus;
+    property QueryString: String read FQueryString write FQueryString;
     property OnReadLn: TOnReadLn read FOnReadLn write FOnReadLn;
+    property OnQueryString: TOnReadLn read FOnQueryString write FOnQueryString;
     property OnOperationProgress: TOnOperationProgress read FOnOperationProgress write FOnOperationProgress;
   end;
 
@@ -95,16 +99,24 @@ begin
         J:= Pos(#10, FOutputLine);
         if I = 0 then I:= J;
         if J = 0 then J:= I;
-        if J = 0 then Break; // There are no complete lines yet.
+        if (J = 0) then // There are no complete lines yet.
+          begin
+            if Assigned(FOnQueryString) and (Pos(FQueryString, FOutputLine) <> 0) then
+              begin
+                FOnQueryString(FOutputLine);
+                FOutputLine:= EmptyStr;
+              end;
+            Break;
+          end;
         if Assigned(FOnReadLn) then
           FOnReadLn(Copy(FOutputLine, 1, Min(I, J) - 1)); // Return the line without the CR/LF characters
         // Remove the line from accumulator
         FOutputLine:= Copy(FOutputLine, Max(I, J) + 1, Length(FOutputLine) - Max(I, J));
       until False;
-      if (OutputBuffer = EmptyStr) then Break;
+      if Length(OutputBuffer) = 0 then Break;
     until False;
     if FStop then Exit;
-    if (FOutputLine <> EmptyStr) and Assigned(FOnReadLn) then
+    if (Length(FOutputLine) <> 0) and Assigned(FOnReadLn) then
       FOnReadLn(FOutputLine);
     OutputBuffer:= EmptyStr;
     if Assigned(FOnReadLn) then
