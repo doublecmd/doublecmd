@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-03-19 21:58+0300\n"
+"PO-Revision-Date: 2011-03-19 22:19+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5957,10 +5957,6 @@ msgstr ""
 msgid "Waiting for user response"
 msgstr "Ожидание ответа от пользователя"
 
-#: ulng.rsoptarchivecommand
-msgid "Command"
-msgstr "Команда"
-
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
 msgid "Delete:"
@@ -5985,6 +5981,10 @@ msgstr "ID Seek Range (необязательный):"
 msgctxt "ulng.rsoptarchivemultivolume"
 msgid "Create multivolume archive:"
 msgstr "Создать многотомный архив:"
+
+#: ulng.rsoptarchiveparam
+msgid "Parameter"
+msgstr "Параметр"
 
 #: ulng.rsoptarchivers
 msgid "Archivers"

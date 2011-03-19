@@ -6004,10 +6004,6 @@ msgstr "Warte auf Zugriff auf Datei-Quelle"
 msgid "Waiting for user response"
 msgstr "Warte auf Benutzereingabe"
 
-#: ulng.rsoptarchivecommand
-msgid "Command"
-msgstr ""
-
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
 msgid "Delete:"
@@ -6032,6 +6028,10 @@ msgstr ""
 msgctxt "ulng.rsoptarchivemultivolume"
 msgid "Create multivolume archive:"
 msgstr "Multivolume-Archiv erstellen:"
+
+#: ulng.rsoptarchiveparam
+msgid "Parameter"
+msgstr ""
 
 #: ulng.rsoptarchivers
 msgid "Archivers"

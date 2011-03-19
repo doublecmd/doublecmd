@@ -5895,10 +5895,6 @@ msgstr ""
 msgid "Waiting for user response"
 msgstr ""
 
-#: ulng.rsoptarchivecommand
-msgid "Command"
-msgstr ""
-
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
 msgid "Delete:"
@@ -5922,6 +5918,10 @@ msgstr ""
 #: ulng.rsoptarchivemultivolume
 msgctxt "ulng.rsoptarchivemultivolume"
 msgid "Create multivolume archive:"
+msgstr ""
+
+#: ulng.rsoptarchiveparam
+msgid "Parameter"
 msgstr ""
 
 #: ulng.rsoptarchivers
