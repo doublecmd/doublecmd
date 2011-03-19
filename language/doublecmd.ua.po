@@ -5975,6 +5975,10 @@ msgstr "Створити багатотомний архів:"
 msgid "Parameter"
 msgstr ""
 
+#: ulng.rsoptarchivepasswordquery
+msgid "Password query string:"
+msgstr ""
+
 #: ulng.rsoptarchivers
 msgid "Archivers"
 msgstr "Архіватори"

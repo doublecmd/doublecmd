@@ -6021,6 +6021,10 @@ msgstr ""
 msgid "Parameter"
 msgstr ""
 
+#: ulng.rsoptarchivepasswordquery
+msgid "Password query string:"
+msgstr ""
+
 #: ulng.rsoptarchivers
 msgid "Archivers"
 msgstr ""

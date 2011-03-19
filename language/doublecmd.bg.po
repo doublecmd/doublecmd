@@ -5984,6 +5984,10 @@ msgstr "Създаване на многотомен архив:"
 msgid "Parameter"
 msgstr ""
 
+#: ulng.rsoptarchivepasswordquery
+msgid "Password query string:"
+msgstr ""
+
 #: ulng.rsoptarchivers
 msgid "Archivers"
 msgstr "Архиватори"
