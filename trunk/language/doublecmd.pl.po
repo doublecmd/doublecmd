@@ -3774,10 +3774,6 @@ msgstr "Filtr"
 msgid "Add:"
 msgstr "Dodaj:"
 
-#: TFRMOPTIONS.LBLARCHIVEDELETE.CAPTION
-msgid "Delete:"
-msgstr "Usuń:"
-
 #: TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION
 msgctxt "TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION"
 msgid "Extension:"
@@ -3786,18 +3782,6 @@ msgstr "Rozszerzenia:"
 #: TFRMOPTIONS.LBLARCHIVEEXTRACT.CAPTION
 msgid "Extract:"
 msgstr "Wypakuj:"
-
-#: TFRMOPTIONS.LBLARCHIVEID.CAPTION
-msgid "ID (optional):"
-msgstr ""
-
-#: TFRMOPTIONS.LBLARCHIVEIDPOS.CAPTION
-msgid "ID Position (optional):"
-msgstr ""
-
-#: TFRMOPTIONS.LBLARCHIVEIDSEEKRANGE.CAPTION
-msgid "ID Seek Range (optional):"
-msgstr ""
 
 #: TFRMOPTIONS.LBLARCHIVELIST.CAPTION
 msgid "List:"
@@ -3815,21 +3799,9 @@ msgstr "Format listingu:"
 msgid "Listing start (optional):"
 msgstr "Początek listingu (opcjonalnie):"
 
-#: TFRMOPTIONS.LBLARCHIVEMULTIVOLUME.CAPTION
-msgid "Create multivolume archive:"
-msgstr "Utwórz archiwum wieloczęściowe:"
-
 #: TFRMOPTIONS.LBLARCHIVER.CAPTION
 msgid "Archiver:"
 msgstr "Archiwizer:"
-
-#: TFRMOPTIONS.LBLARCHIVESELFEXTRACT.CAPTION
-msgid "Create self extracting archive:"
-msgstr "Utwórz archiwum samorozpakowujące:"
-
-#: TFRMOPTIONS.LBLARCHIVETEST.CAPTION
-msgid "Test:"
-msgstr "Test:"
 
 #: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
 msgid "Auto size column:"
@@ -4133,6 +4105,7 @@ msgid "Drive blacklist:"
 msgstr ""
 
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
+msgctxt "TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION"
 msgid "Additional"
 msgstr "Dodatkowe"
 
@@ -5935,13 +5908,56 @@ msgstr "Oczekiwanie na dostęp do źródła pliku"
 msgid "Waiting for user response"
 msgstr "Oczekiwanie na odpowiedź użytkownika"
 
+#: ulng.rsoptarchivecommand
+msgid "Command"
+msgstr ""
+
+#: ulng.rsoptarchivedelete
+msgctxt "ulng.rsoptarchivedelete"
+msgid "Delete:"
+msgstr "Usuń:"
+
+#: ulng.rsoptarchiveid
+msgctxt "ulng.rsoptarchiveid"
+msgid "ID (optional):"
+msgstr ""
+
+#: ulng.rsoptarchiveidpos
+msgctxt "ulng.rsoptarchiveidpos"
+msgid "ID Position (optional):"
+msgstr ""
+
+#: ulng.rsoptarchiveidseekrange
+msgctxt "ulng.rsoptarchiveidseekrange"
+msgid "ID Seek Range (optional):"
+msgstr ""
+
+#: ulng.rsoptarchivemultivolume
+msgctxt "ulng.rsoptarchivemultivolume"
+msgid "Create multivolume archive:"
+msgstr "Utwórz archiwum wieloczęściowe:"
+
 #: ulng.rsoptarchivers
 msgid "Archivers"
 msgstr "Archiwizery"
 
+#: ulng.rsoptarchiveselfextract
+msgctxt "ulng.rsoptarchiveselfextract"
+msgid "Create self extracting archive:"
+msgstr "Utwórz archiwum samorozpakowujące:"
+
+#: ulng.rsoptarchivetest
+msgctxt "ulng.rsoptarchivetest"
+msgid "Test:"
+msgstr "Test:"
+
 #: ulng.rsoptarchivetypename
 msgid "Archive type name:"
 msgstr "Nazwa rodzaju archiwum:"
+
+#: ulng.rsoptarchivevalue
+msgid "Value"
+msgstr ""
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
@@ -6064,6 +6080,9 @@ msgstr "Zmienić na %s?"
 msgid "used by"
 msgstr "używany przez"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsopticons
 msgid "Icons"
 msgstr "Ikony"
@@ -6135,9 +6154,6 @@ msgstr "Alfabetycznie, uwzględniając akcenty;Naturalne sortowanie: alfabetyczn
 msgid "Top;Bottom;"
 msgstr "Góra;Dół;"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsopttools
 msgid "Tools"
 msgstr "Narzędzia"

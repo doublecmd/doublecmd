@@ -3764,10 +3764,6 @@ msgstr ""
 msgid "Add:"
 msgstr ""
 
-#: TFRMOPTIONS.LBLARCHIVEDELETE.CAPTION
-msgid "Delete:"
-msgstr ""
-
 #: TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION
 msgctxt "TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION"
 msgid "Extension:"
@@ -3775,18 +3771,6 @@ msgstr ""
 
 #: TFRMOPTIONS.LBLARCHIVEEXTRACT.CAPTION
 msgid "Extract:"
-msgstr ""
-
-#: TFRMOPTIONS.LBLARCHIVEID.CAPTION
-msgid "ID (optional):"
-msgstr ""
-
-#: TFRMOPTIONS.LBLARCHIVEIDPOS.CAPTION
-msgid "ID Position (optional):"
-msgstr ""
-
-#: TFRMOPTIONS.LBLARCHIVEIDSEEKRANGE.CAPTION
-msgid "ID Seek Range (optional):"
 msgstr ""
 
 #: TFRMOPTIONS.LBLARCHIVELIST.CAPTION
@@ -3805,20 +3789,8 @@ msgstr ""
 msgid "Listing start (optional):"
 msgstr ""
 
-#: TFRMOPTIONS.LBLARCHIVEMULTIVOLUME.CAPTION
-msgid "Create multivolume archive:"
-msgstr ""
-
 #: TFRMOPTIONS.LBLARCHIVER.CAPTION
 msgid "Archiver:"
-msgstr ""
-
-#: TFRMOPTIONS.LBLARCHIVESELFEXTRACT.CAPTION
-msgid "Create self extracting archive:"
-msgstr ""
-
-#: TFRMOPTIONS.LBLARCHIVETEST.CAPTION
-msgid "Test:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
@@ -4123,6 +4095,7 @@ msgid "Drive blacklist:"
 msgstr ""
 
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
+msgctxt "TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION"
 msgid "Additional"
 msgstr ""
 
@@ -5922,12 +5895,55 @@ msgstr ""
 msgid "Waiting for user response"
 msgstr ""
 
+#: ulng.rsoptarchivecommand
+msgid "Command"
+msgstr ""
+
+#: ulng.rsoptarchivedelete
+msgctxt "ulng.rsoptarchivedelete"
+msgid "Delete:"
+msgstr ""
+
+#: ulng.rsoptarchiveid
+msgctxt "ulng.rsoptarchiveid"
+msgid "ID (optional):"
+msgstr ""
+
+#: ulng.rsoptarchiveidpos
+msgctxt "ulng.rsoptarchiveidpos"
+msgid "ID Position (optional):"
+msgstr ""
+
+#: ulng.rsoptarchiveidseekrange
+msgctxt "ulng.rsoptarchiveidseekrange"
+msgid "ID Seek Range (optional):"
+msgstr ""
+
+#: ulng.rsoptarchivemultivolume
+msgctxt "ulng.rsoptarchivemultivolume"
+msgid "Create multivolume archive:"
+msgstr ""
+
 #: ulng.rsoptarchivers
 msgid "Archivers"
 msgstr ""
 
+#: ulng.rsoptarchiveselfextract
+msgctxt "ulng.rsoptarchiveselfextract"
+msgid "Create self extracting archive:"
+msgstr ""
+
+#: ulng.rsoptarchivetest
+msgctxt "ulng.rsoptarchivetest"
+msgid "Test:"
+msgstr ""
+
 #: ulng.rsoptarchivetypename
 msgid "Archive type name:"
+msgstr ""
+
+#: ulng.rsoptarchivevalue
+msgid "Value"
 msgstr ""
 
 #: ulng.rsoptassocpluginwith
