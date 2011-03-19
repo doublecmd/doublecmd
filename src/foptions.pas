@@ -655,7 +655,7 @@ begin
   stgHotkeys.Columns.Items[1].Title.Caption := rsOptHotkeysParameters;
 
   // Localize additional archiver commands.
-  stgArchiverCommands.Cells[0, stgArchiveTitle] := rsOptArchiveCommand;
+  stgArchiverCommands.Cells[0, stgArchiveTitle] := rsOptArchiveParam;
   stgArchiverCommands.Cells[1, stgArchiveTitle] := rsOptArchiveValue;
   stgArchiverCommands.Cells[0, stgArchiveDelete] := rsOptArchiveDelete;
   stgArchiverCommands.Cells[0, stgArchiveTest] := rsOptArchiveTest;
