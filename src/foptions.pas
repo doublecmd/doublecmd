@@ -553,14 +553,15 @@ const
   stgCmdCommentIndex = 1;
   stgCmdHotkeysIndex = 2;
 
-  stgArchiveTitle       = 0;
-  stgArchiveDelete      = 1;
-  stgArchiveTest        = 2;
-  stgArchiveMultiVolume = 3;
-  stgArchiveSelfExtract = 4;
-  stgArchiveID          = 5;
-  stgArchiveIDPos       = 6;
-  stgArchiveIDSeekRange = 7;
+  stgArchiveTitle         = 0;
+  stgArchiveDelete        = 1;
+  stgArchiveTest          = 2;
+  stgArchiveMultiVolume   = 3;
+  stgArchiveSelfExtract   = 4;
+  stgArchiveID            = 5;
+  stgArchiveIDPos         = 6;
+  stgArchiveIDSeekRange   = 7;
+  stgArchivePasswordQuery = 8;
 
 const
   // Tools page: what tool is displayed in each row.
@@ -664,6 +665,7 @@ begin
   stgArchiverCommands.Cells[0, stgArchiveID] := rsOptArchiveID;
   stgArchiverCommands.Cells[0, stgArchiveIDPos] := rsOptArchiveIDPos;
   stgArchiverCommands.Cells[0, stgArchiveIDSeekRange] := rsOptArchiveIDSeekRange;
+  stgArchiverCommands.Cells[0, stgArchivePasswordQuery] := rsOptArchivePasswordQuery;
 
   // Localize plugins.
   stgPlugins.Columns.Items[0].Title.Caption := rsOptPluginsActive;
@@ -1412,6 +1414,7 @@ begin
     FID:= Cells[1, stgArchiveID];
     FIDPos:= Cells[1, stgArchiveIDPos];
     FIDSeekRange:= Cells[1, stgArchiveIDSeekRange];
+    FPasswordQuery:= Cells[1, stgArchivePasswordQuery];
     FOutput:= chkMultiArcOutput.Checked;
     FDebug:= chkMultiArcDebug.Checked;
   end;
@@ -2316,6 +2319,7 @@ begin
       Cells[1, stgArchiveID]:= EmptyStr;
       Cells[1, stgArchiveIDPos]:= EmptyStr;
       Cells[1, stgArchiveIDSeekRange]:= EmptyStr;
+      Cells[1, stgArchivePasswordQuery]:= EmptyStr;
       chkMultiArcOutput.Checked:= False;
       chkMultiArcDebug.Checked:= False;
       chkMultiArcEnabled.Checked:= False;
@@ -2341,6 +2345,7 @@ begin
       Cells[1, stgArchiveID]:= FID;
       Cells[1, stgArchiveIDPos]:= FIDPos;
       Cells[1, stgArchiveIDSeekRange]:= FIDSeekRange;
+      Cells[1, stgArchivePasswordQuery]:= FPasswordQuery;
       chkMultiArcOutput.Checked:= FOutput;
       chkMultiArcDebug.Checked:= FDebug;
       chkMultiArcEnabled.Checked:= FEnabled;
