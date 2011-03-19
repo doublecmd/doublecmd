@@ -28,7 +28,7 @@ unit fExtractDlg;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, StdCtrls, EditBtn,
+  Classes, SysUtils, Forms, Controls, StdCtrls, EditBtn, ExtCtrls,
   uFile, uFileSource;
 
 type
@@ -36,9 +36,9 @@ type
   { TfrmExtractDlg }
 
   TfrmExtractDlg = class(TForm)
+    edtPassword: TEdit;
     edtExtractTo: TDirectoryEdit;
-    lblExtractTo : TLabel;
-    lblFileMask : TLabel;
+    Label1: TLabel;
     cbFileMask : TComboBox;
     cbExtractPath : TCheckBox;
     cbOverwrite : TCheckBox;
@@ -46,6 +46,8 @@ type
     btnOK : TButton;
     btnCancel : TButton;
     btnHelp : TButton;
+    lblFileMask: TLabel;
+    pnlLabels: TPanel;
   private
     { private declarations }
   public
