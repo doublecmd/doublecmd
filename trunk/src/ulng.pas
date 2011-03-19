@@ -316,7 +316,7 @@ resourcestring
   rsOptIgnoreList = 'Ignore list';
   rsOptArchivers = 'Archivers';
   //-------------------------------
-  rsOptArchiveCommand = 'Command';
+  rsOptArchiveParam = 'Parameter';
   rsOptArchiveValue = 'Value';
   rsOptArchiveDelete = 'Delete:';
   rsOptArchiveTest = 'Test:';
