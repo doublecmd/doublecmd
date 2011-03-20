@@ -22,6 +22,7 @@ type
     FMultiArchiveFileSource: IMultiArchiveFileSource;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     FFullFilesTreeToExtract: TFiles;  // source files including all files/dirs in subdirectories
+    FPassword: UTF8String;
 
     {en
       Creates neccessary paths before extracting files from archive.
@@ -74,6 +75,7 @@ type
     procedure MainExecute; override;
     procedure Finalize; override;
 
+    property Password: UTF8String read FPassword write FPassword;
   end;
 
 implementation
@@ -175,7 +177,8 @@ begin
                                                   nil,
                                                   aFile.FullPath,
                                                   TargetPath,
-                                                  FTempFile
+                                                  FTempFile,
+                                                  FPassword
                                                   );
             OnReadLn(sReadyCommand);
 
@@ -205,7 +208,8 @@ begin
                                             FFullFilesTreeToExtract,
                                             EmptyStr,
                                             TargetPath,
-                                            FTempFile
+                                            FTempFile,
+                                            FPassword
                                             );
       OnReadLn(sReadyCommand);
 
@@ -462,7 +466,7 @@ var
   pcPassword: PAnsiChar;
 begin
   ShowInputQuery(FMultiArchiveFileSource.MultiArcItem.FDescription, rsMsgPasswordEnter, True, sPassword);
-  pcPassword:= PAnsiChar(UTF8ToConsole(sPassword + LineEnding));
+  pcPassword:= PAnsiChar(UTF8ToConsole(sPassword + #13#10));
   FExProcess.Process.Input.Write(pcPassword^, Length(pcPassword));
 end;
 
