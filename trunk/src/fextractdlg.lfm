@@ -211,6 +211,7 @@ object frmExtractDlg: TfrmExtractDlg
     Width = 329
     Anchors = [akTop, akLeft, akRight]
     EchoMode = emPassword
+    Enabled = False
     PasswordChar = '*'
     TabOrder = 4
   end

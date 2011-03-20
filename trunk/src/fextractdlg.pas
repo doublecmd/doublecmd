@@ -38,7 +38,7 @@ type
   TfrmExtractDlg = class(TForm)
     edtPassword: TEdit;
     edtExtractTo: TDirectoryEdit;
-    Label1: TLabel;
+    lblPassword: TLabel;
     cbFileMask : TComboBox;
     cbExtractPath : TCheckBox;
     cbOverwrite : TCheckBox;
@@ -72,8 +72,11 @@ uses
   uFileSystemFileSource,
   uArchiveFileSourceUtil,
   uFileSourceOperationTypes,
+  uMultiArchiveFileSource,
+  uMultiArchiveCopyOutOperation,
   uOperationsManager,
-  fFileOpDlg;
+  fFileOpDlg,
+  uMasks;
   
 procedure ShowExtractDlg(SourceFileSource: IFileSource;
                          var SourceFiles: TFiles;
@@ -106,6 +109,24 @@ begin
         if SourceFileSource.IsClass(TArchiveFileSource) then
           cbInSeparateFolder.Visible := False;
         cbFileMask.Items.Assign(glsMaskHistory);
+        EnableControl(edtPassword, False);
+
+        // If one archive is selected
+        if (SourceFiles.Count = 1) then
+        begin
+          sTmpPath:= SourceFiles[0].Extension;
+          // Check for this archive will be processed by MultiArc
+          for I := 0 to gMultiArcList.Count - 1 do
+          with gMultiArcList.Items[I] do
+          begin
+            if FEnabled and MatchesMaskList(sTmpPath, FExtension, ',') and (Pos('%W', FExtract) <> 0) then
+            begin
+              // Addon supports unpacking with password, enable password input
+              EnableControl(edtPassword, True);
+              Break;
+            end;
+          end;
+        end;
 
         Result:= (ShowModal = mrOK);
 
@@ -188,6 +209,14 @@ begin
 
                         if Assigned(Operation) then
                         begin
+                          if ArchiveFileSource.IsInterface(IMultiArchiveFileSource) then
+                          begin
+                            with Operation as TMultiArchiveCopyOutOperation do
+                            begin
+                              Password:= edtPassword.Text;
+                            end;
+                          end;
+
                           // Start operation.
                           OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
 

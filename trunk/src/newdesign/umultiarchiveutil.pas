@@ -381,7 +381,7 @@ var
       ftVolumeSize:
         Result:= sVolumeSize;
       ftPassword:
-        Result:= sPassword;
+        Result:= UTF8ToConsole(sPassword);
       ftCustomParams:
         Result:= sCustomParams;
       else
