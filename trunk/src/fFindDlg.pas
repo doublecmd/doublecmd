@@ -87,6 +87,7 @@ type
     lblEncoding: TLabel;
     lsFoundedFiles: TListBox;
     CheksPanel: TPanel;
+    pnlMainButtons: TPanel;
     pnlResults: TPanel;
     pnlStatus: TPanel;
     pnlResultsButtons: TPanel;
