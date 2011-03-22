@@ -79,6 +79,7 @@ var
   TempFS: ITempFileSystemFileSource = nil;
   Operation: TFileSourceOperation = nil;
   Files: TFiles = nil;
+  LocalArchiveFile: TFile;
 begin
   if fspDirectAccess in SourceFileSource.Properties then
   begin
@@ -90,15 +91,20 @@ begin
 
   if fspLinksToLocalFiles in SourceFileSource.Properties then
   begin
-    if SourceFileSource.GetLocalName(ArchiveFile) then
-    begin
-      TempFS := TTempFileSystemFileSource.Create(ArchiveFile.Path);
-      // Source FileSource manages the files, not the TempFileSource.
-      TempFS.DeleteOnDestroy := False;
-      // The files on temp file source are valid as long as source FileSource is valid.
-      TempFS.ParentFileSource := SourceFileSource;
-      Result := GetArchiveFileSourceDirect(TempFS, ArchiveFile.FullPath, ArchiveType, ArchiveSign);
-      // If not successful will try to get files through CopyOut below.
+    LocalArchiveFile := ArchiveFile.Clone;
+    try
+      if SourceFileSource.GetLocalName(LocalArchiveFile) then
+      begin
+        TempFS := TTempFileSystemFileSource.Create(LocalArchiveFile.Path);
+        // Source FileSource manages the files, not the TempFileSource.
+        TempFS.DeleteOnDestroy := False;
+        // The files on temp file source are valid as long as source FileSource is valid.
+        TempFS.ParentFileSource := SourceFileSource;
+        Result := GetArchiveFileSourceDirect(TempFS, LocalArchiveFile.FullPath, ArchiveType, ArchiveSign);
+        // If not successful will try to get files through CopyOut below.
+      end;
+    finally
+      FreeAndNil(LocalArchiveFile);
     end;
   end;
 
