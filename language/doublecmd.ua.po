@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.4.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-03-08 17:57+0300\n"
+"PO-Revision-Date: 2011-03-20 23:21+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -222,11 +222,12 @@ msgstr "R"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBCHECKFREESPACE.CAPTION
 msgid "Check free space"
-msgstr ""
+msgstr "Перевірте вільне місце"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBCORRECTLINKS.CAPTION
+#, fuzzy
 msgid "Correct links"
-msgstr ""
+msgstr "Правильні посилання"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
@@ -235,16 +236,16 @@ msgstr "Зкинути позначку \"Тільки для читання\""
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBFOLLOWLINKS.CAPTION
 msgid "Follow links"
-msgstr ""
+msgstr "Слідувати за посиланнями"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLDIRECTORYEXISTS.CAPTION
 msgid "When directory exists"
-msgstr ""
+msgstr "Якщо каталог існує"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
-msgstr ""
+msgstr "Якщо файл існує"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION"
@@ -775,7 +776,7 @@ msgstr "Остання відмінність"
 
 #: TFRMDIFFER.ACTLINEDIFFERENCES.CAPTION
 msgid "Line Differences"
-msgstr ""
+msgstr "Відмінності в рядку"
 
 #: TFRMDIFFER.ACTNEXTDIFF.CAPTION
 msgid "Next Difference"
@@ -1211,20 +1212,18 @@ msgid "Unpack files"
 msgstr "Розпакувати файли"
 
 #: TFRMEXTRACTDLG.LBLEXTRACTTO.CAPTION
-#, fuzzy
 #| msgid "Unpack file to:"
 msgid "To the directory:"
-msgstr "Розпакувати файли по вказаній нижче масці з архіву в:"
+msgstr "В каталог:"
 
 #: TFRMEXTRACTDLG.LBLFILEMASK.CAPTION
-#, fuzzy
 #| msgid "&Files to unpack:"
 msgid "Extract files matching file mask:"
-msgstr "&Маска для розпакування:"
+msgstr "Розпакувати файли по масці:"
 
 #: TFRMEXTRACTDLG.LBLPASSWORD.CAPTION
 msgid "Password for encrypted files:"
-msgstr ""
+msgstr "Пароль для зашифрованих файлів:"
 
 #: TFRMFILEASSOC.BTNADDACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"
@@ -1371,11 +1370,11 @@ msgstr "Закрити"
 
 #: TFRMFILEEXECUTEYOURSELF.FRMFILEEXECUTEYOURSELF.CAPTION
 msgid "Wait..."
-msgstr ""
+msgstr "Почекайте..."
 
 #: TFRMFILEEXECUTEYOURSELF.LBLFILENAME.CAPTION
 msgid "File name:"
-msgstr ""
+msgstr "Ім'я файлу:"
 
 #: TFRMFILEEXECUTEYOURSELF.LBLFROMPATH.CAPTION
 msgctxt "TFRMFILEEXECUTEYOURSELF.LBLFROMPATH.CAPTION"
@@ -1384,7 +1383,7 @@ msgstr "З"
 
 #: TFRMFILEEXECUTEYOURSELF.LBLPROMPT.CAPTION
 msgid "Click on Close when the temporary file can be deleted!"
-msgstr ""
+msgstr "Натисніть \"Закрити\", коли тимчасовий файл може бути видалений!"
 
 #: TFRMFILEOP.BTHOPEND.CAPTION
 msgid "End"
@@ -2916,7 +2915,7 @@ msgstr "Відміна"
 
 #: TFRMMODVIEW.BTNOK.CAPTION
 msgid "Ok"
-msgstr ""
+msgstr "Так"
 
 #: TFRMMODVIEW.BTNPATH1.CAPTION
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"
@@ -2944,16 +2943,17 @@ msgid "..."
 msgstr "..."
 
 #: TFRMMODVIEW.BTNPROPORTION.CAPTION
+#, fuzzy
 msgid "Pr"
-msgstr ""
+msgstr "Pr"
 
 #: TFRMMODVIEW.FRMMODVIEW.CAPTION
 msgid "New Size"
-msgstr ""
+msgstr "Новий розмір"
 
 #: TFRMMODVIEW.LBLHEIGHT.CAPTION
 msgid "Height :"
-msgstr ""
+msgstr "Висота:"
 
 #: TFRMMODVIEW.LBLPATH1.CAPTION
 msgctxt "TFRMMODVIEW.LBLPATH1.CAPTION"
@@ -2962,55 +2962,55 @@ msgstr "1"
 
 #: TFRMMODVIEW.LBLPATH2.CAPTION
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: TFRMMODVIEW.LBLPATH3.CAPTION
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: TFRMMODVIEW.LBLPATH4.CAPTION
 msgid "4"
-msgstr ""
+msgstr "4"
 
 #: TFRMMODVIEW.LBLPATH5.CAPTION
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: TFRMMODVIEW.LBLQUALITY.CAPTION
 msgid "Quality of compress to Jpg"
-msgstr ""
+msgstr "Якість стиснення в Jpg"
 
 #: TFRMMODVIEW.LBLWIDTH.CAPTION
 msgid "Width :"
-msgstr ""
+msgstr "Ширина:"
 
 #: TFRMMODVIEW.RBBMP.CAPTION
 msgid "BMP"
-msgstr ""
+msgstr "BMP"
 
 #: TFRMMODVIEW.RBICO.CAPTION
 msgid "ICO"
-msgstr ""
+msgstr "ICO"
 
 #: TFRMMODVIEW.RBJPG.CAPTION
 msgid "JPG"
-msgstr ""
+msgstr "JPG"
 
 #: TFRMMODVIEW.RBPNG.CAPTION
 msgid "PNG"
-msgstr ""
+msgstr "PNG"
 
 #: TFRMMODVIEW.RBPNM.CAPTION
 msgid "PNM"
-msgstr ""
+msgstr "PNM"
 
 #: TFRMMODVIEW.TEHEIGHT.TEXT
 msgid "Height"
-msgstr ""
+msgstr "Висота"
 
 #: TFRMMODVIEW.TEQUALITY.TEXT
 msgid "80"
-msgstr ""
+msgstr "80"
 
 #: TFRMMODVIEW.TEWIDTH.TEXT
 msgctxt "TFRMMODVIEW.TEWIDTH.TEXT"
@@ -4613,7 +4613,7 @@ msgstr "Вихідний файл"
 
 #: TFRMSPLITTER.LBLNUMBERPARTS.CAPTION
 msgid "Number of parts"
-msgstr ""
+msgstr "Кількість частин"
 
 #: TFRMSPLITTER.RBTNGIGAB.CAPTION
 msgctxt "TFRMSPLITTER.RBTNGIGAB.CAPTION"
@@ -4808,8 +4808,9 @@ msgid "||"
 msgstr "||"
 
 #: TFRMVIEWER.BTNGIFTOBMP.CAPTION
+#, fuzzy
 msgid "S"
-msgstr ""
+msgstr "S"
 
 #: TFRMVIEWER.BTNHIGHTLIGHT.HINT
 msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
@@ -4843,7 +4844,7 @@ msgstr "Наступний"
 
 #: TFRMVIEWER.BTNNEXTGIFFRAME.CAPTION
 msgid "||>"
-msgstr ""
+msgstr "||>"
 
 #: TFRMVIEWER.BTNPAINT.HINT
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
@@ -4862,7 +4863,7 @@ msgstr "Попередній"
 
 #: TFRMVIEWER.BTNPREVGIFFRAME.CAPTION
 msgid "<||"
-msgstr ""
+msgstr "<||"
 
 #: TFRMVIEWER.BTNREDEYE.HINT
 msgid "Red Eyes"
@@ -5036,8 +5037,9 @@ msgid "&Image"
 msgstr "Малюнок"
 
 #: TFRMVIEWER.MILOOKBOOK.CAPTION
+#, fuzzy
 msgid "Show as B&ook"
-msgstr ""
+msgstr "Показати як &книгу"
 
 #: TFRMVIEWER.MIMIRROR.CAPTION
 msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
@@ -5247,7 +5249,7 @@ msgstr "для запуску"
 #: TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
-msgstr ""
+msgstr "Якщо файл існує"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -6134,11 +6136,11 @@ msgstr "Створити багатотомний архів:"
 
 #: ulng.rsoptarchiveparam
 msgid "Parameter"
-msgstr ""
+msgstr "Параметр"
 
 #: ulng.rsoptarchivepasswordquery
 msgid "Password query string:"
-msgstr ""
+msgstr "Рядок запиту пароля:"
 
 #: ulng.rsoptarchivers
 msgid "Archivers"
@@ -6160,7 +6162,7 @@ msgstr "Тип архіву:"
 
 #: ulng.rsoptarchivevalue
 msgid "Value"
-msgstr ""
+msgstr "Значення"
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
