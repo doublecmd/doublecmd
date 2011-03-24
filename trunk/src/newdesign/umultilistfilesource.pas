@@ -86,7 +86,7 @@ type
                                  TargetPath: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; override;
-    function CreateExecuteOperation(const ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
+    function CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation; override;
     function CreateCalcChecksumOperation(var theFiles: TFiles;
                                          aTargetPath: String;
@@ -196,7 +196,7 @@ begin
   Result := FFileSource.CreateWipeOperation(FilesToWipe);
 end;
 
-function TMultiListFileSource.CreateExecuteOperation(const ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation;
+function TMultiListFileSource.CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation;
 begin
   Result := FFileSource.CreateExecuteOperation(ExecutableFile, ExecutableFile.Path, Verb);
 end;
@@ -225,4 +225,4 @@ begin
 end;
 
 end.
-
+

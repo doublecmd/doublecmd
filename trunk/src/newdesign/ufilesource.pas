@@ -66,7 +66,7 @@ type
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation;
     function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation;
-    function CreateExecuteOperation(const ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation;
+    function CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation;
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation;
     function CreateCalcChecksumOperation(var theFiles: TFiles;
                                          aTargetPath: String;
@@ -220,7 +220,7 @@ type
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; virtual;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; virtual;
     function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; virtual;
-    function CreateExecuteOperation(const ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; virtual;
+    function CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; virtual;
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation; virtual;
     function CreateCalcChecksumOperation(var theFiles: TFiles;
                                          aTargetPath: String;
@@ -615,7 +615,7 @@ begin
   Result := nil;
 end;
 
-function TFileSource.CreateExecuteOperation(const ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation;
+function TFileSource.CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation;
 begin
   Result := nil;
 end;

@@ -85,7 +85,7 @@ type
 
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
 
-    function CreateExecuteOperation(const ExecutableFile: TFile;
+    function CreateExecuteOperation(var ExecutableFile: TFile;
                                     BasePath, Verb: String): TFileSourceOperation; override;
 
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation; override;
@@ -351,8 +351,8 @@ begin
                                                 FilesToDelete);
 end;
 
-function TMultiArchiveFileSource.CreateExecuteOperation(const ExecutableFile: TFile;
-                                                      BasePath, Verb: String): TFileSourceOperation;
+function TMultiArchiveFileSource.CreateExecuteOperation(var ExecutableFile: TFile;
+                                                        BasePath, Verb: String): TFileSourceOperation;
 var
   TargetFileSource: IFileSource;
 begin

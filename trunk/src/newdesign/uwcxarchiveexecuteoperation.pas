@@ -18,7 +18,6 @@ type
   TWcxArchiveExecuteOperation = class(TFileSourceExecuteOperation)
   private
     FWcxArchiveFileSource: IWcxArchiveFileSource;
-    FWcxArchiveFile: TFile;
   public
     {en
        @param(aTargetFileSource
@@ -29,7 +28,7 @@ type
               Path of the file source where the execution should take place.)
     }
     constructor Create(aTargetFileSource: IFileSource;
-                       aExecutableFile: TFile;
+                       var aExecutableFile: TFile;
                        aCurrentPath,
                        aVerb: UTF8String); override;
 
@@ -45,12 +44,11 @@ uses
 
 constructor TWcxArchiveExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
-                aExecutableFile: TFile;
+                var aExecutableFile: TFile;
                 aCurrentPath,
                 aVerb: UTF8String);
 begin
   FWcxArchiveFileSource := aTargetFileSource as IWcxArchiveFileSource;
-  FWcxArchiveFile:= aExecutableFile;
   inherited Create(aTargetFileSource, aExecutableFile, aCurrentPath, aVerb);
 end;
 
@@ -61,7 +59,7 @@ end;
 
 procedure TWcxArchiveExecuteOperation.MainExecute;
 begin
-  FExecuteOperationResult:= ShowPackInfoDlg(FWcxArchiveFileSource, FWcxArchiveFile);
+  FExecuteOperationResult:= ShowPackInfoDlg(FWcxArchiveFileSource, ExecutableFile);
 end;
 
 procedure TWcxArchiveExecuteOperation.Finalize;

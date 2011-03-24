@@ -18,7 +18,6 @@ type
   TMultiArchiveExecuteOperation = class(TFileSourceExecuteOperation)
   private
     FMultiArchiveFileSource: IMultiArchiveFileSource;
-    FMultiArchiveFile: TFile;
   public
     {en
        @param(aTargetFileSource
@@ -29,7 +28,7 @@ type
               Path of the file source where the execution should take place.)
     }
     constructor Create(aTargetFileSource: IFileSource;
-                       aExecutableFile: TFile;
+                       var aExecutableFile: TFile;
                        aCurrentPath,
                        aVerb: UTF8String); override;
 
@@ -45,12 +44,11 @@ uses
 
 constructor TMultiArchiveExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
-                aExecutableFile: TFile;
+                var aExecutableFile: TFile;
                 aCurrentPath,
                 aVerb: UTF8String);
 begin
   FMultiArchiveFileSource := aTargetFileSource as IMultiArchiveFileSource;
-  FMultiArchiveFile:= aExecutableFile;
   inherited Create(aTargetFileSource, aExecutableFile, aCurrentPath, aVerb);
 end;
 
@@ -61,7 +59,7 @@ end;
 
 procedure TMultiArchiveExecuteOperation.MainExecute;
 begin
-  FExecuteOperationResult:= ShowPackInfoDlg(FMultiArchiveFileSource, FMultiArchiveFile);
+  FExecuteOperationResult:= ShowPackInfoDlg(FMultiArchiveFileSource, ExecutableFile);
 end;
 
 procedure TMultiArchiveExecuteOperation.Finalize;
