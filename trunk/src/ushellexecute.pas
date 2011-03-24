@@ -488,19 +488,23 @@ begin
   // Executing files directly only works for FileSystem.
 
   aFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
+  try
+    sCommand:= gExts.GetExtActionCmd(aFile, sCmd);
+    if sCommand <> '' then
+      begin
+        ReplaceExtCommand(sCommand, aFile, sActiveDir);
+        Result:= ProcessExtCommand(sCommand, sActiveDir);
+      end;
 
-  sCommand:= gExts.GetExtActionCmd(aFile, sCmd);
-  if sCommand <> '' then
-    begin
-      ReplaceExtCommand(sCommand, aFile, sActiveDir);
-      Result:= ProcessExtCommand(sCommand, sActiveDir);
-    end;
+    if not Result then
+      begin
+        mbSetCurrentDir(sActiveDir);
+        Result:= ShellExecute(sFileName);
+      end;
 
-  if not Result then
-    begin
-      mbSetCurrentDir(sActiveDir);
-      Result:= ShellExecute(sFileName);
-    end;
+  finally
+    FreeAndNil(aFile);
+  end;
 end;
 
 end.
