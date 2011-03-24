@@ -12,6 +12,7 @@ object frmFileExecuteYourSelf: TfrmFileExecuteYourSelf
   ClientHeight = 102
   ClientWidth = 320
   OnClose = FormClose
+  ShowInTaskBar = stAlways
   LCLVersion = '0.9.29'
   object lblPrompt: TLabel
     AnchorSideLeft.Control = Owner
