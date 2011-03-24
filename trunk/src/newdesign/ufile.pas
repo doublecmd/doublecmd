@@ -321,7 +321,7 @@ begin
 
     for PropertyType := Low(TFilePropertyType) to High(TFilePropertyType) do
     begin
-      if Assigned(Self.Properties[PropertyType]) then
+      if Assigned(Self.FProperties[PropertyType]) then
       begin
         AFile.FProperties[PropertyType] := Self.FProperties[PropertyType].Clone;
       end;
