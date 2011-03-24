@@ -49,7 +49,8 @@ uses
 procedure ChooseFile(aFileView: TFileView; aFile: TFile);
 var
   sOpenCmd: String;
-  Operation: TFileSourceExecuteOperation;
+  Operation: TFileSourceExecuteOperation = nil;
+  aFileCopy: TFile = nil;
 begin
   // First test for file sources.
   if ChooseFileSource(aFileView, aFile) then
@@ -79,14 +80,15 @@ begin
   end;
 
   if (fsoExecute in aFileView.FileSource.GetOperationsTypes) then
-    begin
+    try
+      aFileCopy := aFile.Clone;
       Operation := aFileView.FileSource.CreateExecuteOperation(
-                        aFile,
+                        aFileCopy,
                         aFileView.CurrentPath,
                         'open') as TFileSourceExecuteOperation;
 
       if Assigned(Operation) then
-        try
+        begin
           Operation.Execute;
           case Operation.ExecuteOperationResult of
           fseorError:
@@ -111,10 +113,11 @@ begin
               aFileView.CurrentPath:= Operation.SymLinkPath;
             end;
           end;
-        finally
-          FreeAndNil(Operation);
           aFileView.Reload;
         end;
+    finally
+      FreeAndNil(aFileCopy);
+      FreeAndNil(Operation);
     end;
 end;
 

@@ -28,7 +28,7 @@ type
               Path of the file source where the execution should take place.)
     }
     constructor Create(aTargetFileSource: IFileSource;
-                       aExecutableFile: TFile;
+                       var aExecutableFile: TFile;
                        aCurrentPath,
                        aVerb: UTF8String); override;
 
@@ -44,7 +44,7 @@ uses
 
 constructor TFileSystemExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
-                aExecutableFile: TFile;
+                var aExecutableFile: TFile;
                 aCurrentPath,
                 aVerb: UTF8String);
 begin

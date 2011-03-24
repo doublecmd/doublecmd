@@ -45,7 +45,7 @@ type
 
     // These functions create an operation object specific to the file source.
     function CreateListOperation(TargetPath: String): TFileSourceOperation; override;
-    function CreateExecuteOperation(const ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
+    function CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
 
     property VfsFileList: TWFXModuleList read FWFXModuleList;
 
@@ -110,7 +110,7 @@ begin
   Result := TVfsListOperation.Create(TargetFileSource, TargetPath);
 end;
 
-function TVfsFileSource.CreateExecuteOperation(const ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation;
+function TVfsFileSource.CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation;
 var
   TargetFileSource: IFileSource;
 begin
@@ -119,4 +119,4 @@ begin
 end;
 
 end.
-
+

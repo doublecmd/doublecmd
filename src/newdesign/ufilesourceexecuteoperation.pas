@@ -27,6 +27,7 @@ type
   private
     FFileSource: IFileSource;
     FCurrentPath: String;
+    FExecutableFile: TFile;
     FAbsolutePath: UTF8String;
     FRelativePath: UTF8String;
     FVerb: UTF8String;
@@ -48,13 +49,14 @@ type
               Path of the file source where the execution should take place.)
     }
     constructor Create(aTargetFileSource: IFileSource;
-                       aExecutableFile: TFile;
+                       var aExecutableFile: TFile;
                        aCurrentPath,
                        aVerb: UTF8String); virtual reintroduce;
 
     destructor Destroy; override;
 
     property CurrentPath: UTF8String read FCurrentPath;
+    property ExecutableFile: TFile read FExecutableFile;
     property SymLinkPath: UTF8String read FSymLinkPath write FSymLinkPath;
     property AbsolutePath: UTF8String read FAbsolutePath;
     property RelativePath: UTF8String read FRelativePath;
@@ -66,7 +68,7 @@ implementation
 
 constructor TFileSourceExecuteOperation.Create(
                 aTargetFileSource: IFileSource;
-                aExecutableFile: TFile;
+                var aExecutableFile: TFile;
                 aCurrentPath,
                 aVerb: UTF8String);
 begin
@@ -74,16 +76,18 @@ begin
 
   FFileSource := aTargetFileSource;
   FCurrentPath := aCurrentPath;
-//  FExecutablePath := aExecutablePath;
+  FExecutableFile := aExecutableFile;
+  aExecutableFile := nil;
   FVerb := aVerb;
 
-  FAbsolutePath := aExecutableFile.FullPath;
-  FRelativePath := aExecutableFile.Name;
+  FAbsolutePath := FExecutableFile.FullPath;
+  FRelativePath := FExecutableFile.Name;
 end;
 
 destructor TFileSourceExecuteOperation.Destroy;
 begin
   inherited Destroy;
+  FreeAndNil(FExecutableFile);
 end;
 
 procedure TFileSourceExecuteOperation.UpdateStatisticsAtStartTime;
