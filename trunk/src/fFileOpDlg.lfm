@@ -25,6 +25,7 @@ object frmFileOp: TfrmFileOp
     Top = 8
     Width = 476
     Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
     BorderSpacing.Left = 6
     BorderSpacing.Top = 8
     BorderSpacing.Right = 12
@@ -83,6 +84,7 @@ object frmFileOp: TfrmFileOp
     Top = 24
     Width = 478
     Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
     BorderSpacing.Top = 2
     BorderSpacing.Right = 10
     Caption = 'File name to'
