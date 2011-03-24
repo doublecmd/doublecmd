@@ -61,7 +61,6 @@ uses
 
 function ShowFileExecuteYourSelf(aFileView: TFileView; aFile: TFile; bWithAll: Boolean): Boolean;
 var
-  ActiveFile: TFile = nil;
   TempFiles: TFiles = nil;
   TempFileSource: ITempFileSystemFileSource = nil;
   Operation: TFileSourceOperation = nil;
@@ -70,7 +69,6 @@ var
 begin
   Result:= False;
   try
-    ActiveFile:= aFile.Clone;
     TempFileSource:= TTempFileSystemFileSource.GetFileSource;
     if bWithAll then
       begin
@@ -106,7 +104,6 @@ begin
     end;
   finally
     FreeThenNil(Operation);
-    FreeThenNil(ActiveFile);
     FreeThenNil(TempFiles);
   end;
 end;
