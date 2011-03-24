@@ -524,8 +524,8 @@ begin
 
   with CopyStatistics do
   begin
-    lblFileNameFrom.Caption := CurrentFileFrom;
-    lblFileNameTo.Caption := CurrentFileTo;
+    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
+    lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
     SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
@@ -543,8 +543,8 @@ begin
 
   with MoveStatistics do
   begin
-    lblFileNameFrom.Caption := CurrentFileFrom;
-    lblFileNameTo.Caption := CurrentFileTo;
+    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
+    lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
     SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
@@ -562,7 +562,7 @@ begin
 
   with DeleteStatistics do
   begin
-    lblFileNameFrom.Caption := CurrentFile;
+    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
 
     SetProgress(pbFirst, DoneFiles, TotalFiles,
       cnvFormatFileSize(DoneFiles, True) + '/' +
@@ -581,7 +581,7 @@ begin
 
   with WipeStatistics do
   begin
-    lblFileNameFrom.Caption := CurrentFile;
+    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
 
     SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
@@ -599,7 +599,7 @@ begin
 
   with CalcChecksumStatistics do
   begin
-    lblFileNameFrom.Caption := CurrentFile;
+    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
 
     SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
@@ -617,8 +617,8 @@ begin
 
   with TestArchiveStatistics do
   begin
-    lblFileNameFrom.Caption := ArchiveFile;
-    lblFileNameTo.Caption := CurrentFile;
+    lblFileNameFrom.Caption := MinimizeFilePath(ArchiveFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
+    lblFileNameTo.Caption := MinimizeFilePath(CurrentFile, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
     SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
