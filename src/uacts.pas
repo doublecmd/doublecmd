@@ -713,7 +713,7 @@ var
 begin
   aFile := SourcePage.FileView.ActiveFile;
   if Assigned(aFile) then
-  begin
+  try
     if aFile.IsDirectory then
     begin
       if aFile.Name = '..' then
@@ -741,6 +741,8 @@ begin
           MessageDlg('Error', e.Message, mtError, [mbOK], 0);
       end;
     end;
+  finally
+    FreeAndNil(aFile);
   end;
 end;
 
@@ -828,11 +830,13 @@ begin
     begin
       aFile := ActiveFrame.ActiveFile;
       if Assigned(aFile) then
-      begin
+      try
         OldPosition := edtCommand.SelStart;
         AddedString := QuoteStr(aFile.Name) + ' ';
         edtCommand.Text := edtCommand.Text + AddedString;
         edtCommand.SelStart := OldPosition + Length(AddedString);
+      finally
+        FreeAndNil(aFile);
       end;
     end;
 end;
@@ -847,7 +851,7 @@ begin
     begin
       aFile := ActiveFrame.ActiveFile;
       if Assigned(aFile) then
-      begin
+      try
         if aFile.Name = '..' then
           AddedString := QuoteStr(ActiveFrame.CurrentPath) + ' '
         else
@@ -856,6 +860,8 @@ begin
         OldPosition := edtCommand.SelStart;
         edtCommand.Text := edtCommand.Text + AddedString;
         edtCommand.SelStart := OldPosition + Length(AddedString);
+      finally
+        FreeAndNil(aFile);
       end;
     end;
 end;
@@ -895,15 +901,20 @@ begin
   with FrmMain do
   begin
     aFile := ActiveFrame.ActiveFile;
-    if Assigned(aFile) and aFile.IsNameValid and
-       (aFile.IsDirectory or aFile.IsLinkToDirectory) then
-    begin
-      NewPath := ActiveFrame.CurrentPath + aFile.Name;
-      NewPage := ActiveNotebook.AddPage;
-      ActiveFrame.Clone(NewPage);
-      NewPage.FileView.CurrentPath := NewPath;
-      if tb_open_new_in_foreground in gDirTabOptions then
-        NewPage.MakeActive;
+    if Assigned(aFile) then
+    try
+      if aFile.IsNameValid and
+         (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+      begin
+        NewPath := ActiveFrame.CurrentPath + aFile.Name;
+        NewPage := ActiveNotebook.AddPage;
+        ActiveFrame.Clone(NewPage);
+        NewPage.FileView.CurrentPath := NewPath;
+        if tb_open_new_in_foreground in gDirTabOptions then
+          NewPage.MakeActive;
+      end;
+    finally
+      FreeAndNil(aFile);
     end;
   end;
 end;
@@ -954,12 +965,17 @@ begin
   with frmMain.ActiveFrame do
   begin
     aFile := ActiveFile;
-    if Assigned(aFile) and aFile.IsNameValid then
-    begin
-      if aFile.IsDirectory or aFile.IsLinkToDirectory then
-        ChangePathToChild(aFile)
-      else
-        ChooseArchive(frmMain.ActiveFrame, aFile, True);
+    if Assigned(aFile) then
+    try
+      if aFile.IsNameValid then
+      begin
+        if aFile.IsDirectory or aFile.IsLinkToDirectory then
+          ChangePathToChild(aFile)
+        else
+          ChooseArchive(frmMain.ActiveFrame, aFile, True);
+      end;
+    finally
+      FreeAndNil(aFile);
     end;
   end;
 end;
@@ -1273,6 +1289,7 @@ var
   sl: TStringList = nil;
   i, n: Integer;
   sViewCmd: String;
+  ActiveFile: TFile = nil;
   AllFiles: TFiles = nil;
   SelectedFiles: TFiles = nil;
   TempFiles: TFiles = nil;
@@ -1284,10 +1301,11 @@ begin
   with frmMain do
   try
     SelectedFiles := ActiveFrame.SelectedFiles;
+    ActiveFile := ActiveFrame.ActiveFile;
 
     // Enter directories using View command.
-    aFile := ActiveFrame.ActiveFile;
-    if Assigned(aFile) and (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+    if Assigned(ActiveFile) and
+       (ActiveFile.IsDirectory or ActiveFile.IsLinkToDirectory) then
     begin
       ActiveFrame.ExecuteCommand('cm_Open');
       Exit;
@@ -1396,7 +1414,7 @@ begin
             if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
               begin
                 if n>0 then sl.Add(aFile.FullPath);
-                if aFile.Name = ActiveFrame.ActiveFile.Name then n:=i;
+                if aFile.Name = ActiveFile.Name then n:=i;
               end;
           end;
 
@@ -1421,6 +1439,8 @@ begin
       FreeAndNil(SelectedFiles);
     if Assigned(TempFiles) then
       FreeAndNil(TempFiles);
+    if Assigned(ActiveFile) then
+      FreeAndNil(ActiveFile);
   end;
 end;
 
@@ -1526,21 +1546,21 @@ end;
 procedure TActs.cm_MakeDir(param:string);
 var
   sPath: UTF8String;
-  aFile: TFile = nil;
+  ActiveFile: TFile = nil;
   Operation: TFileSourceOperation = nil;
   UI: TFileSourceOperationMessageBoxesUI = nil;
 begin
   with frmMain do
-  begin
+  try
     if not (fsoCreateDirectory in ActiveFrame.FileSource.GetOperationsTypes) then
     begin
       msgWarning(rsMsgErrNotSupported);
       Exit;
     end;
 
-    aFile:= ActiveFrame.ActiveFile;
-    if Assigned(aFile) and aFile.IsNameValid then
-      sPath := aFile.Name // 21.05.2009 - pass name from cursor to makedir form
+    ActiveFile := ActiveFrame.ActiveFile;
+    if Assigned(ActiveFile) and ActiveFile.IsNameValid then
+      sPath := ActiveFile.Name // 21.05.2009 - pass name from cursor to makedir form
     else
       sPath := EmptyStr;
 
@@ -1550,19 +1570,18 @@ begin
     Operation := ActiveFrame.FileSource.CreateCreateDirectoryOperation(ActiveFrame.CurrentPath, sPath);
     if Assigned(Operation) then
     begin
-      try
-        // Call directly - not through operations manager.
-        UI := TFileSourceOperationMessageBoxesUI.Create;
-        Operation.AddUserInterface(UI);
-        Operation.Execute;
+      // Call directly - not through operations manager.
+      UI := TFileSourceOperationMessageBoxesUI.Create;
+      Operation.AddUserInterface(UI);
+      Operation.Execute;
 
-        sPath := ExtractFileName(ExcludeTrailingPathDelimiter(sPath));
-        ActiveFrame.SetActiveFile(sPath);
-      finally
-        FreeAndNil(Operation);
-        FreeAndNil(UI);
-      end;
+      sPath := ExtractFileName(ExcludeTrailingPathDelimiter(sPath));
+      ActiveFrame.SetActiveFile(sPath);
     end;
+  finally
+    FreeAndNil(Operation);
+    FreeAndNil(UI);
+    FreeAndNil(ActiveFile);
   end;
 end;
 
@@ -2305,10 +2324,15 @@ begin
   if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
   begin
     aFile := ActiveFrame.ActiveFile;
-    if Assigned(aFile) and aFile.IsNameValid then
-      sNewFile:= aFile.Name
-    else
-      sNewFile:= rsEditNewFile;
+    if Assigned(aFile) then
+    try
+      if aFile.IsNameValid then
+        sNewFile:= aFile.Name
+      else
+        sNewFile:= rsEditNewFile;
+    finally
+      FreeAndNil(aFile);
+    end;
 
     if not InputQuery(rsEditNewOpen, rsEditNewFileName, sNewFile) then Exit;
 
@@ -2420,15 +2444,15 @@ end;
 
 procedure TActs.cm_SetFileProperties(param: string);
 var
-  aFile: TFile;
-  SelectedFiles: TFiles;
+  ActiveFile: TFile = nil;
+  SelectedFiles: TFiles = nil;
   aFileProperties: TFileProperties;
-  Operation: TFileSourceSetFilePropertyOperation;
+  Operation: TFileSourceSetFilePropertyOperation = nil;
   OperationHandle: TOperationHandle;
   ProgressDialog: TfrmFileOp;
 begin
   with frmMain do
-  begin
+  try
     if not (fsoSetFileProperty in ActiveFrame.FileSource.GetOperationsTypes) then
       begin
         msgWarning(rsMsgErrNotSupported);
@@ -2436,40 +2460,41 @@ begin
       end;
 
     SelectedFiles := ActiveFrame.SelectedFiles;
-    aFile:= ActiveFrame.ActiveFile;
-    if Assigned(aFile) then
-      try
+    ActiveFile := ActiveFrame.ActiveFile;
+    if Assigned(ActiveFile) then
+      begin
         FillByte(aFileProperties, SizeOf(aFileProperties), 0);
-        if fpAttributes in aFile.SupportedProperties then
-          aFileProperties[fpAttributes]:= AFile.Properties[fpAttributes].Clone;
-        if fpModificationTime in aFile.SupportedProperties then
-          aFileProperties[fpModificationTime]:= AFile.Properties[fpModificationTime].Clone;
-        if fpCreationTime in aFile.SupportedProperties then
-          aFileProperties[fpCreationTime]:= AFile.Properties[fpCreationTime].Clone;
-        if fpLastAccessTime in aFile.SupportedProperties then
-          aFileProperties[fpLastAccessTime]:= AFile.Properties[fpLastAccessTime].Clone;
+        if fpAttributes in ActiveFile.SupportedProperties then
+          aFileProperties[fpAttributes]:= ActiveFile.Properties[fpAttributes].Clone;
+        if fpModificationTime in ActiveFile.SupportedProperties then
+          aFileProperties[fpModificationTime]:= ActiveFile.Properties[fpModificationTime].Clone;
+        if fpCreationTime in ActiveFile.SupportedProperties then
+          aFileProperties[fpCreationTime]:= ActiveFile.Properties[fpCreationTime].Clone;
+        if fpLastAccessTime in ActiveFile.SupportedProperties then
+          aFileProperties[fpLastAccessTime]:= ActiveFile.Properties[fpLastAccessTime].Clone;
 
         Operation:= ActiveFrame.FileSource.CreateSetFilePropertyOperation(
                         SelectedFiles,
                         aFileProperties) as TFileSourceSetFilePropertyOperation;
+
         if Assigned(Operation) then
           begin
             if ShowChangeFilePropertiesDialog(Operation) then
               begin
                 OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+                Operation := nil; // So it doesn't get destroyed below.
                 ProgressDialog := TfrmFileOp.Create(OperationHandle);
                 ProgressDialog.Show;
-              end
-            else
-              begin
-                if Assigned(Operation) then
-                  FreeAndNil(Operation);
               end;
           end;
-      finally
-        if Assigned(SelectedFiles) then
-          FreeAndNil(SelectedFiles);
       end;
+  finally
+    if Assigned(SelectedFiles) then
+      FreeAndNil(SelectedFiles);
+    if Assigned(ActiveFile) then
+      FreeAndNil(ActiveFile);
+    if Assigned(Operation) then
+      FreeAndNil(Operation);
   end;
 end;
 
@@ -2511,6 +2536,7 @@ begin
               Operation.Execute;
           finally
             FreeThenNil(Operation);
+            FreeThenNil(aFile);
           end;
       end;
   end;
@@ -2625,18 +2651,20 @@ begin
       begin
         aFile:= ActiveFile;
         if Assigned(aFile) then
-          begin
+          try
             if aFile.IsNameValid then
               ShowDescrEditDlg(CurrentPath + aFile.Name)
             else
               msgWarning(rsMsgNoFilesSelected);
+          finally
+            FreeAndNil(aFile);
           end;
       end
     else if (fspLinksToLocalFiles in FileSource.GetProperties) then
       begin
-        aFile:= ActiveFile.Clone;
+        aFile:= ActiveFile;
         if Assigned(aFile) then
-          begin
+          try
             if aFile.IsNameValid then
               begin
                 if FileSource.GetLocalName(aFile) then
@@ -2648,6 +2676,7 @@ begin
               begin
                 msgWarning(rsMsgNoFilesSelected);
               end;
+          finally
             FreeAndNil(aFile);
           end;
       end

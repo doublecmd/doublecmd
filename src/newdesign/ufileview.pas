@@ -115,7 +115,7 @@ type
     function GetCurrentPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
     function GetActiveDisplayFile: TDisplayFile; virtual; abstract;
-    function GetActiveFile: TFile; virtual;
+    function GetActiveFile: TFile;
     function GetFiles: TFiles; virtual;
     function GetSelectedFiles: TFiles; virtual;
     function GetWorkersThread: TFunctionThread;
@@ -139,7 +139,7 @@ type
        Runs from GUI thread.
     }
     procedure BeforeMakeFileList; virtual;
-    procedure ChooseFile(AFile: TDisplayFile; FolderMode: Boolean = False); virtual;
+    procedure ChooseFile(const AFile: TDisplayFile; FolderMode: Boolean = False); virtual;
     {en
        Returns current work type in progress.
     }
@@ -288,6 +288,8 @@ type
 
     {en
        Currently active file.
+       Returns a cloned copy. Caller is responsible for freeing it.
+
        There should always be at least one file in the view at any time, but
        what 'active' means depends on the specific view, so ActiveFile may
        return 'nil' if there is no file active. Usually it is the file pointed
@@ -558,7 +560,7 @@ begin
   aFile := GetActiveDisplayFile;
 
   if Assigned(aFile) then
-    Result := aFile.FSFile
+    Result := aFile.FSFile.Clone
   else
     Result := nil;
 end;
@@ -679,38 +681,27 @@ procedure TFileView.BeforeMakeFileList;
 begin
 end;
 
-procedure TFileView.ChooseFile(AFile: TDisplayFile; FolderMode: Boolean = False);
+procedure TFileView.ChooseFile(const AFile: TDisplayFile; FolderMode: Boolean = False);
+var
+  FSFile: TFile;
 begin
-  with AFile do
-  begin
+  FSFile := AFile.FSFile.Clone;
+  try
     if FSFile.Name = '..' then
-    begin
-      ChangePathToParent(True);
-      Exit;
-    end;
-
-    if FSFile.IsLinkToDirectory then // deeper and deeper
-    begin
-      ChooseSymbolicLink(Self, FSFile);
-      Exit;
-    end;
-
-    if FSFile.IsDirectory then // deeper and deeper
-    begin
-      ChangePathToChild(FSFile);
-      Exit;
-    end;
-
-    if not FolderMode then
-    begin
+      ChangePathToParent(True)
+    else if FSFile.IsLinkToDirectory then
+      ChooseSymbolicLink(Self, FSFile)
+    else if FSFile.IsDirectory then
+      ChangePathToChild(FSFile)
+    else if not FolderMode then
       try
         uFileSourceUtil.ChooseFile(Self, FSFile);
-
       except
         on e: Exception do
           MessageDlg('Error', e.Message, mtError, [mbOK], 0);
       end;
-    end;
+  finally
+    FSFile.Free;
   end;
 end;
 

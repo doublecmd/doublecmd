@@ -41,10 +41,17 @@ uses
   uFileSourceProperty, uFileSourceOperation, uFileSourceOperationTypes;
 
 procedure QuickViewShow(aFileViewPage: TFileViewPage; aFileView: TFileView);
+var
+  aFile: TFile = nil;
 begin
   QuickViewPanel:= TQuickViewPanel.Create(Application, aFileViewPage);
   QuickViewPanel.CreateViewer(aFileView);
-  QuickViewPanel.FileViewChangeActiveFile(aFileView, aFileView.ActiveFile);
+  aFile := aFileView.ActiveFile;
+  try
+    QuickViewPanel.FileViewChangeActiveFile(aFileView, aFile);
+  finally
+    FreeAndNil(aFile);
+  end;
   aFileView.OnChangeActiveFile:= @QuickViewPanel.FileViewChangeActiveFile;
 end;
 
