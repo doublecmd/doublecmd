@@ -1091,6 +1091,8 @@ begin
 end;
 
 procedure TColumnsFileView.dgPanelSelection(Sender: TObject; aCol, aRow: Integer);
+var
+  aFile: TFile = nil;
 begin
   if (FLastActiveRow <> aRow) and (not FUpdatingGrid) then
     begin
@@ -1098,7 +1100,14 @@ begin
       FLastActiveRow:= aRow;
 
       if Assigned(OnChangeActiveFile) then
-        OnChangeActiveFile(Self, ActiveFile);
+      begin
+        aFile := ActiveFile;
+        try
+          OnChangeActiveFile(Self, aFile);
+        finally
+          FreeAndNil(aFile);
+        end;
+      end;
     end;
 end;
 
@@ -1837,6 +1846,7 @@ var
   OldFileNameAbsolute: String;
   lenEdtText, lenEdtTextExt, i: Integer;
   seperatorSet: set of AnsiChar;
+  aFile: TFile = nil;
 begin
   case Key of
     VK_ESCAPE:
@@ -1854,19 +1864,24 @@ begin
         NewFileName         := edtRename.Text;
         OldFileNameAbsolute := edtRename.Hint;
 
+        aFile := ActiveFile;
         try
-          if RenameFile(FileSource, ActiveFile, NewFileName, True) = True then
-          begin
-            edtRename.Visible:=False;
-            SetActiveFile(CurrentPath + NewFileName);
-            SetFocus;
-          end
-          else
-            msgError(Format(rsMsgErrRename, [ExtractFileName(OldFileNameAbsolute), NewFileName]));
+          try
+            if RenameFile(FileSource, aFile, NewFileName, True) = True then
+            begin
+              edtRename.Visible:=False;
+              SetActiveFile(CurrentPath + NewFileName);
+              SetFocus;
+            end
+            else
+              msgError(Format(rsMsgErrRename, [ExtractFileName(OldFileNameAbsolute), NewFileName]));
 
-        except
-          on e: EInvalidFileProperty do
-            msgError(Format(rsMsgErrRename + ':' + LineEnding + '%s (%s)', [ExtractFileName(OldFileNameAbsolute), NewFileName, rsMsgInvalidFileName, e.Message]));
+          except
+            on e: EInvalidFileProperty do
+              msgError(Format(rsMsgErrRename + ':' + LineEnding + '%s (%s)', [ExtractFileName(OldFileNameAbsolute), NewFileName, rsMsgInvalidFileName, e.Message]));
+          end;
+        finally
+          FreeAndNil(aFile);
         end;
       end;
 
@@ -3320,10 +3335,15 @@ begin
   if (fsoSetFileProperty in FileSource.GetOperationsTypes) then
     begin
       aFile:= ActiveFile;
-      if Assigned(aFile) and aFile.IsNameValid then
+      if Assigned(aFile) then
+      try
+        if aFile.IsNameValid then
         begin
           ShowRenameFileEdit(CurrentPath + aFile.Name);
         end;
+      finally
+        FreeAndNil(aFile);
+      end;
     end;
 end;
 

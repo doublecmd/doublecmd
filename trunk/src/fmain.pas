@@ -894,21 +894,25 @@ begin
     if Sender is TSpeedButton and not Draging then
       begin
         aFile := ActiveFrame.ActiveFile;
-        if Assigned(aFile) and aFile.IsNameValid then
-          begin
-            Cmd:= MainToolBar.GetButtonX(NumberOfButton, CmdX);
-            Path:= MainToolBar.GetButtonX(NumberOfButton, PathX);
-            Param:= QuoteStr(aFile.FullPath);
-            if Actions.Execute(Cmd, Param) = uActs.cf_Error then
-              begin
-                Cmd:= mbExpandFileName(Cmd);
-                Path:= ReplaceEnvVars(Path);
-                ReplaceExtCommand(Path, FrameLeft, FrameRight, ActiveFrame);
-                if Length(Path) <> 0 then
-                  mbSetCurrentDir(Path);
-                ExecCmdFork(Format('"%s" %s', [Cmd, Param]));
-              end;
-          end;
+        try
+          if Assigned(aFile) and aFile.IsNameValid then
+            begin
+              Cmd:= MainToolBar.GetButtonX(NumberOfButton, CmdX);
+              Path:= MainToolBar.GetButtonX(NumberOfButton, PathX);
+              Param:= QuoteStr(aFile.FullPath);
+              if Actions.Execute(Cmd, Param) = uActs.cf_Error then
+                begin
+                  Cmd:= mbExpandFileName(Cmd);
+                  Path:= ReplaceEnvVars(Path);
+                  ReplaceExtCommand(Path, FrameLeft, FrameRight, ActiveFrame);
+                  if Length(Path) <> 0 then
+                    mbSetCurrentDir(Path);
+                  ExecCmdFork(Format('"%s" %s', [Cmd, Param]));
+                end;
+            end;
+        finally
+          FreeAndNil(aFile);
+        end;
       end;
 end;
 
@@ -923,20 +927,24 @@ begin
       if not (Source is TSpeedButton) and not Draging then
         begin
           aFile := ActiveFrame.ActiveFile;
-          if Assigned(aFile) and aFile.IsNameValid then
-            begin
-              MainToolBar.InsertButtonX((Sender as TSpeedButton).Tag, '', aFile.FullPath, '', aFile.Path,
-                                        ExtractOnlyFileName(aFile.Name), '',  aFile.FullPath);
-              NumberOfMoveButton := (Sender as TSpeedButton).Tag;
-              NumberOfNewMoveButton := (Sender as TSpeedButton).Tag-1;
-              Draging := True;
-              Accept := True;
-            end
-          else
-            begin
-              Accept := False;
-              Exit;
-            end;
+          try
+            if Assigned(aFile) and aFile.IsNameValid then
+              begin
+                MainToolBar.InsertButtonX((Sender as TSpeedButton).Tag, '', aFile.FullPath, '', aFile.Path,
+                                          ExtractOnlyFileName(aFile.Name), '',  aFile.FullPath);
+                NumberOfMoveButton := (Sender as TSpeedButton).Tag;
+                NumberOfNewMoveButton := (Sender as TSpeedButton).Tag-1;
+                Draging := True;
+                Accept := True;
+              end
+            else
+              begin
+                Accept := False;
+                Exit;
+              end;
+          finally
+            FreeAndNil(aFile);
+          end;
         end;
       if (NumberOfMoveButton <> (Sender as TSpeedButton).Tag) then
         begin
@@ -956,7 +964,11 @@ begin
   else
     begin
       aFile := ActiveFrame.ActiveFile;
-      Accept := Assigned(aFile) and aFile.IsNameValid and not Draging;
+      try
+        Accept := Assigned(aFile) and aFile.IsNameValid and not Draging;
+      finally
+        FreeAndNil(aFile);
+      end;
     end;
 end;
 
@@ -1460,10 +1472,14 @@ begin
   if not (Source is TSpeedButton) and not Draging and (ssShift in GetKeyShiftState) then
     begin
       aFile := ActiveFrame.ActiveFile;
-      if Assigned(aFile) and aFile.IsNameValid then
-      begin
-        MainToolBar.AddButtonX('', aFile.FullPath, '', aFile.Path,
-                               ExtractOnlyFileName(aFile.Name), '',  aFile.FullPath);
+      try
+        if Assigned(aFile) and aFile.IsNameValid then
+        begin
+          MainToolBar.AddButtonX('', aFile.FullPath, '', aFile.Path,
+                                 ExtractOnlyFileName(aFile.Name), '',  aFile.FullPath);
+        end;
+      finally
+        FreeAndNil(aFile);
       end;
     end;
   SaveMainToolBar;
@@ -1478,7 +1494,11 @@ begin
   if (ssShift in GetKeyShiftState) and not (Source is TSpeedButton) then
     begin
       aFile := ActiveFrame.ActiveFile;
-      Accept := Assigned(aFile) and aFile.IsNameValid;
+      try
+        Accept := Assigned(aFile) and aFile.IsNameValid;
+      finally
+        FreeAndNil(aFile);
+      end;
     end
   else  Accept := false;
 end;
@@ -4074,7 +4094,6 @@ begin
       aFile:= ActiveFrame.ActiveFile;
       if Assigned(aFile) then
         try
-          aFile:= aFile.Clone;
           sCmd:= 'quote' + #32 + sCmd;
           aFile.FullPath:= ActiveFrame.CurrentPath;
           Operation:= ActiveFrame.FileSource.CreateExecuteOperation(
