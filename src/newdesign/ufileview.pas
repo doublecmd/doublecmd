@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Controls, ExtCtrls, contnrs, fgl,
   uFile, uDisplayFile, uFileSource, uMethodsList, uDragDropEx, uXmlConfig,
   uClassesEx, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
-  uFunctionThread;
+  uFunctionThread, uFileSystemWatcher;
 
 type
 
@@ -74,6 +74,7 @@ type
     }
     FRequestedActiveFile: String;
     FFileFilter: String;
+    FWatchPath: String;
 
     FMethods: TMethodsList;
 
@@ -92,14 +93,17 @@ type
     function GetFileSourcesCount: Integer;
     function GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
     function GetPathsCount(FileSourceIndex: Integer): Integer;
+    function GetWatcherActive: Boolean;
     procedure SetFileFilter(const NewFilter: String);
     {en
        Assigns the built lists to the file view and displays new the file list.
     }
     procedure SetFileList(var NewDisplayFiles: TDisplayFiles;
                           var NewFileSourceFiles: TFiles);
+    procedure EnableWatcher(Enable: Boolean);
 
     procedure ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
+    procedure WatcherEvent(const WatchPath: String; NotifyData, UserData: Pointer);
 
   protected
     FFiles: TDisplayFiles;      //<en List of displayed files
@@ -233,7 +237,7 @@ type
     procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); virtual;
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); virtual;
 
-    procedure UpdateView; virtual abstract;
+    procedure UpdateView; virtual;
 
     {en
        Moves the selection focus to the file specified by aFilePath.
@@ -308,6 +312,7 @@ type
     }
     property SelectedFiles: TFiles read GetSelectedFiles;
     property Sorting: TFileSortings read FSortings write SetSorting;
+    property WatcherActive: Boolean read GetWatcherActive;
 
     property NotebookPage: TCustomPage read GetNotebookPage;
     property OnBeforeChangePath : TOnBeforeChangePath read FOnBeforeChangePath write FOnBeforeChangePath;
@@ -364,7 +369,7 @@ type
 implementation
 
 uses
-  Dialogs, LCLProc,
+  Dialogs, LCLProc, Forms, strutils,
   uActs, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil, uDCUtils, uGlobs;
 
 constructor TFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String);
@@ -414,6 +419,7 @@ begin
   FWorkersThread := nil;
   FReloading := False;
   FFileViewWorkers := TFileViewWorkers.Create(False);
+  FWatchPath := EmptyStr;
 
   inherited Create(AOwner);
   Parent := AOwner;
@@ -545,8 +551,10 @@ procedure TFileView.SetCurrentPath(NewPath: String);
 begin
   if (NewPath <> CurrentPath) and BeforeChangePath(FileSource, NewPath) then
   begin
+    EnableWatcher(False);
     FHistory.AddPath(NewPath); // Sets CurrentPath.
     AfterChangePath;
+    EnableWatcher(True);
     {$IFDEF DEBUG_HISTORY}
     FHistory.DebugShow;
     {$ENDIF}
@@ -966,6 +974,11 @@ begin
   end;
 end;
 
+procedure TFileView.UpdateView;
+begin
+  EnableWatcher(IsFileSystemWatcher);
+end;
+
 function TFileView.BeforeChangePath(NewFileSource: IFileSource; NewPath: String): Boolean;
 begin
   if NewPath <> '' then
@@ -1055,6 +1068,7 @@ begin
   begin
     if Assigned(FileSource) and IsNewFileSource then
       FileSource.RemoveReloadEventListener(@ReloadEvent);
+    EnableWatcher(False);
 
     FHistory.Add(aFileSource, aPath);
 
@@ -1066,6 +1080,7 @@ begin
     end;
 
     AfterChangePath;
+    EnableWatcher(True);
 
     {$IFDEF DEBUG_HISTORY}
     FHistory.DebugShow;
@@ -1094,6 +1109,7 @@ begin
     begin
       if IsNewFileSource then
         FileSource.RemoveReloadEventListener(@ReloadEvent);
+      EnableWatcher(False);
 
       FHistory.DeleteFromCurrentFileSource;
 
@@ -1105,6 +1121,7 @@ begin
       end;
 
       AfterChangePath;
+      EnableWatcher(True);
 
       {$IFDEF DEBUG_HISTORY}
       FHistory.DebugShow;
@@ -1117,27 +1134,27 @@ procedure TFileView.RemoveAllFileSources;
 begin
   if FileSourcesCount > 0 then
   begin
-    if BeforeChangePath(nil, '') then
-    begin
-      FileSource.RemoveReloadEventListener(@ReloadEvent);
-      FHistory.Clear;
+    FileSource.RemoveReloadEventListener(@ReloadEvent);
+    EnableWatcher(False);
+    FHistory.Clear;
 
-      AfterChangePath;
+    AfterChangePath;
 
-      {$IFDEF DEBUG_HISTORY}
-      FHistory.DebugShow;
-      {$ENDIF}
-    end;
+    {$IFDEF DEBUG_HISTORY}
+    FHistory.DebugShow;
+    {$ENDIF}
   end;
 end;
 
 procedure TFileView.AssignFileSources(const otherFileView: TFileView);
 begin
   FileSource.RemoveReloadEventListener(@ReloadEvent);
+  EnableWatcher(False);
   FHistory.Assign(otherFileView.FHistory);
   Reload;
   UpdateView;
   FileSource.AddReloadEventListener(@ReloadEvent);
+  EnableWatcher(True);
 end;
 
 function TFileView.GetCurrentFileSource: IFileSource;
@@ -1187,6 +1204,11 @@ begin
   end;
 end;
 
+function TFileView.GetWatcherActive: Boolean;
+begin
+  Result := FWatchPath <> EmptyStr;
+end;
+
 procedure TFileView.SetFileFilter(const NewFilter: String);
 begin
   FFileFilter := NewFilter;
@@ -1217,11 +1239,69 @@ begin
   DoOnReload;
 end;
 
+procedure TFileView.EnableWatcher(Enable: Boolean);
+var
+  sDrive, sWatchDirsExclude: String;
+  WatchFilter: TFSWatchFilter;
+begin
+  if Enable then
+  begin
+    if WatcherActive then
+      EnableWatcher(False);
+
+    if IsFileSystemWatcher and
+       Assigned(FileSource) and
+       FileSource.IsClass(TFileSystemFileSource) then
+    begin
+      // If current path is in exclude list then exit.
+      if (watch_exclude_dirs in gWatchDirs) and (gWatchDirsExclude <> '') then
+      begin
+        sWatchDirsExclude := gWatchDirsExclude;
+        repeat
+          sDrive := Copy2SymbDel(sWatchDirsExclude, ';');
+          if IsInPath(UTF8UpperCase(sDrive), UTF8UpperCase(CurrentPath), True) then
+            Exit;
+        until sWatchDirsExclude = '';
+      end;
+
+      WatchFilter := [];
+      if watch_file_name_change in gWatchDirs then
+        Include(WatchFilter, wfFileNameChange);
+      if watch_attributes_change in gWatchDirs then
+        Include(WatchFilter, wfAttributesChange);
+
+      if WatchFilter <> [] then
+      begin
+        FWatchPath := CurrentPath;
+        TFileSystemWatcher.AddWatch(FWatchPath, WatchFilter, @WatcherEvent);
+      end;
+    end;
+  end
+  else
+  begin
+    TFileSystemWatcher.RemoveWatch(FWatchPath, @WatcherEvent);
+    FWatchPath := EmptyStr;
+  end;
+end;
+
 procedure TFileView.ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
 begin
   // Reload file view, but only if the file source is currently viewed.
   if aFileSource.Equals(FileSource) then
     Reload(ReloadedPaths);
+end;
+
+procedure TFileView.WatcherEvent(const WatchPath: String; NotifyData, UserData: Pointer);
+var
+  Paths: TPathsArray;
+begin
+  // if not active and refresh only in foreground then exit
+  if (watch_only_foreground in gWatchDirs) and (not Application.Active) then
+    Exit;
+
+  SetLength(Paths, 1);
+  Paths[0] := WatchPath;
+  Reload(Paths);
 end;
 
 procedure TFileView.GoToHistoryIndex(aFileSourceIndex, aPathIndex: Integer);
@@ -1235,6 +1315,7 @@ begin
   begin
     if Assigned(FileSource) and IsNewFileSource then
       FileSource.RemoveReloadEventListener(@ReloadEvent);
+    EnableWatcher(False);
 
     FHistory.SetIndexes(aFileSourceIndex, aPathIndex);
 
@@ -1246,6 +1327,7 @@ begin
     end;
 
     AfterChangePath;
+    EnableWatcher(True);
 
     {$IFDEF DEBUG_HISTORY}
     FHistory.DebugShow;
@@ -1362,4 +1444,4 @@ begin
 end;
 
 end.
-
+

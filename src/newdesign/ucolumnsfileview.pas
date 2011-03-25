@@ -16,7 +16,6 @@ uses
   uDisplayFile,
   uColumns,
   uFileSorting,
-  uFunctionThread,
   uXmlConfig,
   uClassesEx,
   uTypes,
@@ -3001,6 +3000,8 @@ procedure TColumnsFileView.UpdateView;
 var
   bLoadingFilelist: Boolean;
 begin
+  inherited;
+
   bLoadingFilelist := GetCurrentWorkType = fvwtCreate;
   StopWorkers;
 
@@ -4237,4 +4238,4 @@ begin
 end;
 
 end.
-
+
