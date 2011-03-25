@@ -99,7 +99,7 @@ type
 
   TFileSystemWatcherImpl = class(TThread)
   private
-    FWatcherLock: TCriticalSection;
+    FWatcherLock: syncobjs.TCriticalSection;
     FOSWatchers: TOSWatchs;
     {$IF DEFINED(MSWINDOWS)}
     FWaitEvent: THandle;
@@ -491,7 +491,13 @@ begin
             with FOSWatchers[i].Observers[j] do
             begin
               if Assigned(WatcherEvent) then
-                WatcherEvent(FOSWatchers[i].WatchPath, FNotifyData, UserData);
+                WatcherEvent(FOSWatchers[i].WatchPath,
+                             {$IFDEF LINUX}
+                             FNotifyData,
+                             {$ELSE}
+                             nil,
+                             {$ENDIF}
+                             UserData);
             end;
           end;
 
@@ -898,4 +904,4 @@ finalization
   TFileSystemWatcher.DestroyFileSystemWatcher;
 
 end.
-
+
