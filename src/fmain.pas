@@ -887,7 +887,7 @@ begin
   else
     if Sender is TSpeedButton and not Draging then
       begin
-        aFile := ActiveFrame.ActiveFile;
+        aFile := ActiveFrame.CloneActiveFile;
         try
           if Assigned(aFile) and aFile.IsNameValid then
             begin
@@ -920,7 +920,7 @@ begin
     begin
       if not (Source is TSpeedButton) and not Draging then
         begin
-          aFile := ActiveFrame.ActiveFile;
+          aFile := ActiveFrame.CloneActiveFile;
           try
             if Assigned(aFile) and aFile.IsNameValid then
               begin
@@ -957,7 +957,7 @@ begin
     end
   else
     begin
-      aFile := ActiveFrame.ActiveFile;
+      aFile := ActiveFrame.CloneActiveFile;
       try
         Accept := Assigned(aFile) and aFile.IsNameValid and not Draging;
       finally
@@ -1458,7 +1458,7 @@ var
 begin
   if not (Source is TSpeedButton) and not Draging and (ssShift in GetKeyShiftState) then
     begin
-      aFile := ActiveFrame.ActiveFile;
+      aFile := ActiveFrame.CloneActiveFile;
       try
         if Assigned(aFile) and aFile.IsNameValid then
         begin
@@ -1480,7 +1480,7 @@ var
 begin
   if (ssShift in GetKeyShiftState) and not (Source is TSpeedButton) then
     begin
-      aFile := ActiveFrame.ActiveFile;
+      aFile := ActiveFrame.CloneActiveFile;
       try
         Accept := Assigned(aFile) and aFile.IsNameValid;
       finally
@@ -2523,7 +2523,7 @@ procedure TfrmMain.CopyFiles(sDestPath: String; bShowDialog: Boolean);
 var
   SourceFiles: TFiles = nil;
 begin
-  SourceFiles := ActiveFrame.SelectedFiles;
+  SourceFiles := ActiveFrame.CloneSelectedFiles;
   if Assigned(SourceFiles) then
   try
     CopyFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
@@ -2538,7 +2538,7 @@ procedure TfrmMain.MoveFiles(sDestPath: String; bShowDialog: Boolean);
 var
   SourceFiles: TFiles = nil;
 begin
-  SourceFiles := ActiveFrame.SelectedFiles;
+  SourceFiles := ActiveFrame.CloneSelectedFiles;
   if Assigned(SourceFiles) then
   try
     MoveFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
@@ -3997,7 +3997,7 @@ begin
     end
   else
     begin
-      aFile:= ActiveFrame.ActiveFile;
+      aFile:= ActiveFrame.CloneActiveFile;
       if Assigned(aFile) then
         try
           sCmd:= 'quote' + #32 + sCmd;

@@ -118,11 +118,6 @@ var
   sOutput: String = '';
   parseStartIndex: Integer;
 
-  procedure BuildSelectedFilesList(var files: TFiles; panel: TFileView);
-  begin
-    files := panel.SelectedFiles;
-  end;
-
   function BuildName(aFile: TFile): String;
   begin
     case state.funct of
@@ -233,8 +228,8 @@ var
 
 begin
   try
-    BuildSelectedFilesList(leftFiles, leftPanel);
-    BuildSelectedFilesList(rightFiles, rightPanel);
+    leftFiles := leftPanel.CloneSelectedFiles;
+    rightFiles := rightPanel.CloneSelectedFiles;
 
     if activePanel = leftPanel then
     begin

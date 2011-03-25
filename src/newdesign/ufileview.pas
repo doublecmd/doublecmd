@@ -119,9 +119,6 @@ type
     function GetCurrentPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
     function GetActiveDisplayFile: TDisplayFile; virtual; abstract;
-    function GetActiveFile: TFile;
-    function GetFiles: TFiles; virtual;
-    function GetSelectedFiles: TFiles; virtual;
     function GetWorkersThread: TFunctionThread;
     {en
        This function should set active file by reference of TFile
@@ -223,6 +220,28 @@ type
     procedure AssignFileSources(const otherFileView: TFileView); virtual;
 
     {en
+       Returns a copy of currently active file.
+       Caller is responsible for freeing it.
+
+       There should always be at least one file in the view at any time, but
+       what 'active' means depends on the specific view, so ActiveFile may
+       return 'nil' if there is no such file. Usually it is the file pointed
+       to by the cursor or some other indicator.
+    }
+    function CloneActiveFile: TFile;
+    {en
+       A list of all files in the file view.
+       Caller is responsible for freeing the list.
+    }
+    function CloneFiles: TFiles;
+    {en
+       A list of files selected by the user
+       (this should be a subset of displayed files list returned by Files).
+       Caller is responsible for freeing the list.
+    }
+    function CloneSelectedFiles: TFiles;
+
+    {en
        Retrieves files from file source again and displays the new list of files.
        Returns @true if reloading is done, @false if reloading will not be done
        (for example paths don't match).
@@ -290,27 +309,6 @@ type
     property Path[FileSourceIndex, PathIndex: Integer]: UTF8String read GetPath;
     property PathsCount[FileSourceIndex: Integer]: Integer read GetPathsCount;
 
-    {en
-       Currently active file.
-       Returns a cloned copy. Caller is responsible for freeing it.
-
-       There should always be at least one file in the view at any time, but
-       what 'active' means depends on the specific view, so ActiveFile may
-       return 'nil' if there is no file active. Usually it is the file pointed
-       to by a cursor or some other indicator.
-    }
-    property ActiveFile: TFile read GetActiveFile write SetActiveFile;
-    {en
-       A list of currently displayed files.
-       Caller is responsible for freeing the list.
-    }
-    property Files: TFiles read GetFiles;
-    {en
-       A list of files selected by the user
-       (this should be a subset of displayed files list returned by Files).
-       Caller is responsible for freeing the list.
-    }
-    property SelectedFiles: TFiles read GetSelectedFiles;
     property Sorting: TFileSortings read FSortings write SetSorting;
     property WatcherActive: Boolean read GetWatcherActive;
 
@@ -561,7 +559,7 @@ begin
   end;
 end;
 
-function TFileView.GetActiveFile: TFile;
+function TFileView.CloneActiveFile: TFile;
 var
   aFile: TDisplayFile;
 begin
@@ -573,7 +571,7 @@ begin
     Result := nil;
 end;
 
-function TFileView.GetFiles: TFiles;
+function TFileView.CloneFiles: TFiles;
 var
   i: Integer;
 begin
@@ -585,7 +583,7 @@ begin
   end;
 end;
 
-function TFileView.GetSelectedFiles: TFiles;
+function TFileView.CloneSelectedFiles: TFiles;
 var
   i: Integer;
   aFile: TDisplayFile;
@@ -1444,4 +1442,4 @@ begin
 end;
 
 end.
-
+
