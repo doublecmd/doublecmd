@@ -204,7 +204,7 @@ const
 
 procedure ShowError(const sErrMsg: String);
 begin
-  DebugLn(sErrMsg + ': ' + SysErrorMessage(GetLastOSError));
+  DebugLn('FSWatcher: ' + sErrMsg + ': ' + SysErrorMessage(GetLastOSError));
 end;
 
 { TFileSystemWatcherImpl }
@@ -237,7 +237,7 @@ var
   WaitHandles: TWOHandleArray;
   WaitObjectsCount: Integer = 0;
   i: Integer;
-  CurrentHandle: THandle;
+  SignaledHandle: THandle;
 begin
   while not Terminated do
   begin
@@ -254,7 +254,7 @@ begin
       FWatcherLock.Release;
     end; { try - finally }
 
-    dwWaitResult := WaitForMultipleObjects(WaitObjectsCount, @WaitHandles, FALSE, INFINITE);
+    dwWaitResult := WaitForMultipleObjects(WaitObjectsCount, @WaitHandles[0], FALSE, INFINITE);
 
     case dwWaitResult of
       WAIT_OBJECT_0: ;  // FWaitEvent, User triggered
@@ -264,24 +264,24 @@ begin
           if Terminated then
             Break;
 
-          CurrentHandle := FOSWatchers[dwWaitResult - (WAIT_OBJECT_0 + 1)].Handle;
-          FCurrentEventPath := FOSWatchers[dwWaitResult - (WAIT_OBJECT_0 + 1)].WatchPath;
-          Synchronize(@DoWatcherEvent);
+          SignaledHandle := WaitHandles[dwWaitResult - WAIT_OBJECT_0];
 
-          // After Synchronize the watcher may have been removed,
-          // so compare path and handle.
+          // While waiting, the watcher may have been removed and the signaled
+          // handle may now be invalid. Need to confirm it is still there.
 
+          FCurrentEventPath := EmptyStr;
           FWatcherLock.Acquire;
           try
             for i := 0 to FOSWatchers.Count - 1 do
             begin
-              if (FOSWatchers[i].Handle = CurrentHandle) and
-                 (FOSWatchers[i].WatchPath = FCurrentEventPath) then
+              if FOSWatchers[i].Handle = SignaledHandle then
               begin
-                if not FindNextChangeNotification(FOSWatchers[i].Handle) then
+                FCurrentEventPath := FOSWatchers[i].WatchPath;
+
+                if not FindNextChangeNotification(SignaledHandle) then
                 begin
                   ShowError('FindNextChangeNotification failed');
-                  RemoveOSWatch(CurrentHandle);
+                  RemoveOSWatch(SignaledHandle);
                 end; { if }
 
                 Break;
@@ -291,16 +291,22 @@ begin
           finally
             FWatcherLock.Release;
           end; { try - finally }
+
+          if FCurrentEventPath <> EmptyStr then
+            Synchronize(@DoWatcherEvent);
         end;
 
       WAIT_FAILED:
         begin
-          ShowError('WAIT_FAILED');
+          ShowError('WaitForMultipleObjects returned WAIT_FAILED');
           Break;
         end;
 
       else
-        Break;
+        begin
+          ShowError('WaitForMultipleObjects returned ' + IntToStr(dwWaitResult));
+          Break;
+        end;
     end; { case }
 
   end; { while }
@@ -894,7 +900,8 @@ begin
     FpClose(FHandle);
     {$ENDIF}
     {$IF DEFINED(MSWINDOWS)}
-    FindCloseChangeNotification(FHandle);
+    if FindCloseChangeNotification(FHandle) = False then
+      ShowError('FindCloseChangeNotification error');
     {$ENDIF}
     FHandle := feInvalidHandle;
   end;
