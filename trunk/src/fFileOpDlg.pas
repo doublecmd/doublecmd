@@ -72,12 +72,14 @@ type
     procedure InitializeMoveOperation(Operation: TFileSourceOperation);
     procedure InitializeDeleteOperation(Operation: TFileSourceOperation);
     procedure InitializeWipeOperation(Operation: TFileSourceOperation);
+    procedure InitializeCombineOperation(Operation: TFileSourceOperation);
     procedure InitializeCalcChecksumOperation(Operation: TFileSourceOperation);
     procedure InitializeTestArchiveOperation(Operation: TFileSourceOperation);
     procedure UpdateCopyOperation(Operation: TFileSourceOperation);
     procedure UpdateMoveOperation(Operation: TFileSourceOperation);
     procedure UpdateDeleteOperation(Operation: TFileSourceOperation);
     procedure UpdateWipeOperation(Operation: TFileSourceOperation);
+    procedure UpdateCombineOperation(Operation: TFileSourceOperation);
     procedure UpdateCalcChecksumOperation(Operation: TFileSourceOperation);
     procedure UpdateTestArchiveOperation(Operation: TFileSourceOperation);
 
@@ -105,6 +107,7 @@ uses
    uFileSourceMoveOperation,
    uFileSourceDeleteOperation,
    uFileSourceWipeOperation,
+   uFileSourceCombineOperation,
    uFileSourceCalcChecksumOperation,
    uFileSourceTestArchiveOperation,
    uFileSourceOperationMessageBoxesUI
@@ -222,6 +225,8 @@ begin
         InitializeDeleteOperation(Operation);
       fsoWipe:
         InitializeWipeOperation(Operation);
+      fsoCombine:
+        InitializeCombineOperation(Operation);
       fsoCalcChecksum:
         InitializeCalcChecksumOperation(Operation);
       fsoTestArchive:
@@ -328,6 +333,8 @@ begin
         UpdateDeleteOperation(Operation);
       fsoWipe:
         UpdateWipeOperation(Operation);
+      fsoCombine:
+        UpdateCombineOperation(Operation);
       fsoCalcChecksum:
         UpdateCalcChecksumOperation(Operation);
       fsoTestArchive:
@@ -501,6 +508,12 @@ begin
   lblFrom.Caption := rsDlgDeleting;
 end;
 
+procedure TfrmFileOp.InitializeCombineOperation(Operation: TFileSourceOperation);
+begin
+  Caption := rsDlgCombine;
+  InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
+end;
+
 procedure TfrmFileOp.InitializeCalcChecksumOperation(Operation: TFileSourceOperation);
 begin
   Caption := rsDlgCheckSumCalc;
@@ -582,6 +595,25 @@ begin
   with WipeStatistics do
   begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
+
+    SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
+    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
+  end;
+end;
+
+procedure TfrmFileOp.UpdateCombineOperation(Operation: TFileSourceOperation);
+var
+  CombineOperation: TFileSourceCombineOperation;
+  CombineStatistics: TFileSourceCombineOperationStatistics;
+begin
+  CombineOperation := Operation as TFileSourceCombineOperation;
+  CombineStatistics := CombineOperation.RetrieveStatistics;
+
+  with CombineStatistics do
+  begin
+    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
+    lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
     SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(pbSecond, DoneBytes, TotalBytes);

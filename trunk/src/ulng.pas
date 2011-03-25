@@ -180,6 +180,7 @@ resourcestring
   rsDlgSpeedTime = 'Speed %s/s, time remaining %s';
   rsDlgDel = 'Delete file(s)';
   rsDlgWipe = 'Wipe file(s)';
+  rsDlgCombine = 'Combine files';
   rsDlgCp = 'Copy file(s)';
   rsDlgMv = 'Move file(s)';
   rsDlgPack = 'Packing...';

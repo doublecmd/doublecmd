@@ -65,6 +65,8 @@ type
                                  TargetPath: String): TFileSourceOperation;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation;
+    function CreateCombineOperation(var theSourceFiles: TFiles;
+                                    aTargetFile: String): TFileSourceOperation;
     function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation;
     function CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation;
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation;
@@ -219,6 +221,8 @@ type
                                  TargetPath: String): TFileSourceOperation; virtual;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; virtual;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; virtual;
+    function CreateCombineOperation(var theSourceFiles: TFiles;
+                                    aTargetFile: String): TFileSourceOperation; virtual;
     function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; virtual;
     function CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; virtual;
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation; virtual;
@@ -606,6 +610,12 @@ begin
 end;
 
 function TFileSource.CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation;
+begin
+  Result := nil;
+end;
+
+function TFileSource.CreateCombineOperation(var theSourceFiles: TFiles;
+                                            aTargetFile: String): TFileSourceOperation;
 begin
   Result := nil;
 end;
