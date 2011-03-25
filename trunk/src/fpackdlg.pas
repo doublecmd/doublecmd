@@ -205,6 +205,8 @@ begin
                   ProgressDialog.Show;
                 end;
               end;
+            // Save last used packer
+            gLastUsedPacker:= FArchiveType;
           end;
       end;
 
@@ -329,16 +331,22 @@ begin
     begin
       iIndex := rgPacker.Items.Add(ArcType);
       if FExistsArchive then
-        if (FileExt = ArcType) then
-          rgPacker.ItemIndex := iIndex
-        else
-          rgPacker.Controls[iIndex + 1].Enabled := False;
+        begin
+          if (FileExt = ArcType) then
+            rgPacker.ItemIndex := iIndex
+          else
+            rgPacker.Controls[iIndex + 1].Enabled := False;
+        end
+      else if (gLastUsedPacker = ArcType) then
+        begin
+           rgPacker.ItemIndex := iIndex;
+        end;
       FArchiveTypeCount := FArchiveTypeCount + 1;
      end
    else  // Other plugins we add in ComboBox
     begin
       iIndex := cbPackerList.Items.Add(ArcType);
-      if FExistsArchive and (FileExt = ArcType) then
+      if (gLastUsedPacker = ArcType) or (FExistsArchive and (FileExt = ArcType)) then
         cbPackerList.ItemIndex := iIndex;
     end;
 end;
