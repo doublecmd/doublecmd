@@ -9,7 +9,7 @@
    
    contributors:
    
-   Copyright (C) 2006-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -1444,7 +1444,9 @@ begin
     begin
       {$IF DEFINED(MSWINDOWS)}
       if (gShowIcons = sim_standart) or
-         (not (DirectAccess and mbFileExists(FullPath + '\desktop.ini'))) or
+         // Directory has special icon only if it has "read only" or "system" attributes
+         // and contains desktop.ini file
+         (not (DirectAccess and (IsSysFile or FileIsReadOnly(Attributes)) and mbFileExists(FullPath + '\desktop.ini'))) or
          (GetDeviceCaps(Application.MainForm.Canvas.Handle, BITSPIXEL) < 16) then
       {$ELSEIF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
       if (gShowIcons = sim_all_and_exe) and
