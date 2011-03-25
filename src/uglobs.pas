@@ -156,6 +156,7 @@ var
   gDriveBlackList: String;
   gListFilesInThread: Boolean;
   gLoadIconsSeparately: Boolean;
+  gLastUsedPacker: String;
 
   { Tools page }
   gExternalTools: TExternalToolsOptions;
@@ -765,8 +766,8 @@ begin
 
   { - Other - }
   gLuaLib := '/usr/lib/liblua5.1.so';
-
   gNameSCFile := 'shortcuts.scf';
+  gLastUsedPacker := 'zip';
 
   gExts.Clear;
   gColorExt.Clear;
@@ -1601,7 +1602,7 @@ begin
     { - Other - }
     gLuaLib := GetValue(Root, 'Lua/PathToLibrary', gLuaLib);
     gNameSCFile:= GetValue(Root, 'NameShortcutFile', gNameSCFile);
-
+    gLastUsedPacker:= GetValue(Root, 'LastUsedPacker', gLastUsedPacker);
   end;
 
   { Search template list }
@@ -1844,6 +1845,7 @@ begin
     { - Other - }
     SetValue(Root, 'Lua/PathToLibrary', gLuaLib);
     SetValue(Root, 'NameShortcutFile', gNameSCFile);
+    SetValue(Root, 'LastUsedPacker', gLastUsedPacker);
   end;
 
   { Search template list }
