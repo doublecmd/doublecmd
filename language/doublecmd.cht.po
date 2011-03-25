@@ -1933,7 +1933,8 @@ msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: TFRMLINKER.CAPTION
+#: TFRMLINKER.FRMLINKER.CAPTION
+msgctxt "TFRMLINKER.FRMLINKER.CAPTION"
 msgid "Linker"
 msgstr "捷徑程式"
 
@@ -4423,7 +4424,8 @@ msgstr "解開所有並執行(&A)"
 msgid "&Unpack and execute"
 msgstr "解壓縮並執行(&U)"
 
-#: TFRMPACKINFODLG.CAPTION
+#: TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION
+msgctxt "TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
 msgstr "壓縮檔案屬性"
 
@@ -5419,6 +5421,10 @@ msgstr "計算校驗..."
 msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "驗證校驗..."
+
+#: ulng.rsdlgcombine
+msgid "Combine files"
+msgstr ""
 
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"

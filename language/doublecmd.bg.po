@@ -1930,7 +1930,8 @@ msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: TFRMLINKER.CAPTION
+#: TFRMLINKER.FRMLINKER.CAPTION
+msgctxt "TFRMLINKER.FRMLINKER.CAPTION"
 msgid "Linker"
 msgstr "Сглобяване на файл"
 
@@ -4396,7 +4397,8 @@ msgstr "Разгъване на вси&чки и изпълняване"
 msgid "&Unpack and execute"
 msgstr "&Разгъване и изпълняване"
 
-#: TFRMPACKINFODLG.CAPTION
+#: TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION
+msgctxt "TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
 msgstr "Свойства на сбития файл"
 
@@ -5399,6 +5401,10 @@ msgstr "Изчисляване на проверочен сбор..."
 msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "Сверяване на проверочен сбор..."
+
+#: ulng.rsdlgcombine
+msgid "Combine files"
+msgstr ""
 
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"

@@ -1932,7 +1932,8 @@ msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
 msgstr ""
 
-#: TFRMLINKER.CAPTION
+#: TFRMLINKER.FRMLINKER.CAPTION
+msgctxt "TFRMLINKER.FRMLINKER.CAPTION"
 msgid "Linker"
 msgstr "Verschmelzer"
 
@@ -4440,7 +4441,8 @@ msgstr "&Alle entpacken und ausführen"
 msgid "&Unpack and execute"
 msgstr "&Entpacken und ausführen"
 
-#: TFRMPACKINFODLG.CAPTION
+#: TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION
+msgctxt "TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
 msgstr "Eigenschaften der gepackten Datei(en)"
 
@@ -5447,6 +5449,10 @@ msgstr "Berechne Prüfsumme..."
 msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "Verifiziere Prüfsumme..."
+
+#: ulng.rsdlgcombine
+msgid "Combine files"
+msgstr ""
 
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"

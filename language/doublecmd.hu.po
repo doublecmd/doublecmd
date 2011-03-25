@@ -1941,7 +1941,8 @@ msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
 msgstr ""
 
-#: TFRMLINKER.CAPTION
+#: TFRMLINKER.FRMLINKER.CAPTION
+msgctxt "TFRMLINKER.FRMLINKER.CAPTION"
 msgid "Linker"
 msgstr ""
 
@@ -4430,7 +4431,8 @@ msgstr "Mind kicsomagolása és végreh&ajtás"
 msgid "&Unpack and execute"
 msgstr "Kicsomagolás és &végrehajtás"
 
-#: TFRMPACKINFODLG.CAPTION
+#: TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION
+msgctxt "TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
 msgstr "A tömörített fájl tulajdonságai"
 
@@ -5428,6 +5430,10 @@ msgstr "Ellenőrző összeg számítása"
 msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "Ellenőrző összeg vizsgálata..."
+
+#: ulng.rsdlgcombine
+msgid "Combine files"
+msgstr ""
 
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"

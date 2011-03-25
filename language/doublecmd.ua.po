@@ -1928,7 +1928,8 @@ msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: TFRMLINKER.CAPTION
+#: TFRMLINKER.FRMLINKER.CAPTION
+msgctxt "TFRMLINKER.FRMLINKER.CAPTION"
 msgid "Linker"
 msgstr "Збірка"
 
@@ -2207,7 +2208,6 @@ msgid "Minimize window"
 msgstr "Згорнути"
 
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
-
 msgid "Multi Rename Tool"
 msgstr "&Мультиперейменування"
 
@@ -2862,7 +2862,6 @@ msgstr "Видалити"
 msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
 msgstr "Редагувати"
-
 
 #: TFRMMAIN.TBPASTE.CAPTION
 msgctxt "TFRMMAIN.TBPASTE.CAPTION"
@@ -4387,7 +4386,8 @@ msgstr "Розпакувати все і виконати"
 msgid "&Unpack and execute"
 msgstr "Розпакувати і виконати"
 
-#: TFRMPACKINFODLG.CAPTION
+#: TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION
+msgctxt "TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
 msgstr "Властивості стисненого файлу"
 
@@ -5392,6 +5392,10 @@ msgstr "Розрахувати контрольні суми..."
 msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "Перевірити контрольну суму..."
+
+#: ulng.rsdlgcombine
+msgid "Combine files"
+msgstr ""
 
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"

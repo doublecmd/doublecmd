@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-03-19 23:37+0300\n"
+"PO-Revision-Date: 2011-03-26 00:36+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1927,7 +1927,8 @@ msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
 msgstr ""
 
-#: TFRMLINKER.CAPTION
+#: TFRMLINKER.FRMLINKER.CAPTION
+msgctxt "TFRMLINKER.FRMLINKER.CAPTION"
 msgid "Linker"
 msgstr "Сборка"
 
@@ -4399,7 +4400,8 @@ msgstr "Выполнить, распаковав все"
 msgid "&Unpack and execute"
 msgstr "Распаковать и выполнить"
 
-#: TFRMPACKINFODLG.CAPTION
+#: TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION
+msgctxt "TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
 msgstr "Свойства упакованного файла"
 
@@ -4625,7 +4627,7 @@ msgstr "Исходный файл"
 
 #: TFRMSPLITTER.LBLNUMBERPARTS.CAPTION
 msgid "Number of parts"
-msgstr ""
+msgstr "Кол-во частей"
 
 #: TFRMSPLITTER.RBTNGIGAB.CAPTION
 msgctxt "TFRMSPLITTER.RBTNGIGAB.CAPTION"
@@ -5401,6 +5403,10 @@ msgstr "Посчитать контрольные суммы..."
 msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "Проверить контрольные суммы..."
+
+#: ulng.rsdlgcombine
+msgid "Combine files"
+msgstr "Сборка"
 
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
