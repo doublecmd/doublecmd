@@ -546,7 +546,7 @@ uses
   uLng, uGlobsPaths, uPixMapManager, fMain, LCLProc, LCLVersion,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
   fTweakPlugin, uhotkeymanger, uTypes, StrUtils, uFindEx, uKeyboard,
-  fMaskInputDlg, uSearchTemplate, uMultiArc;
+  fMaskInputDlg, uSearchTemplate, uMultiArc, uFile;
 
 const
   stgCmdCommandIndex = 0;
@@ -1923,14 +1923,17 @@ end;
 procedure TfrmOptions.FillIgnoreList(bWithFullPath: Boolean);
 var
   I: Integer;
+  SelectedFiles: TFiles;
 begin
-  with frmMain.ActiveFrame.SelectedFiles do
-  begin
-    for I:= 0 to Count - 1 do
+  SelectedFiles := frmMain.ActiveFrame.CloneSelectedFiles;
+  try
+    for I:= 0 to SelectedFiles.Count - 1 do
       if bWithFullPath then
-        memIgnoreList.Lines.Add(Items[I].FullPath)
+        memIgnoreList.Lines.Add(SelectedFiles[I].FullPath)
       else
-        memIgnoreList.Lines.Add(Items[I].Name);
+        memIgnoreList.Lines.Add(SelectedFiles[I].Name);
+  finally
+    FreeAndNil(SelectedFiles);
   end;
 end;
 

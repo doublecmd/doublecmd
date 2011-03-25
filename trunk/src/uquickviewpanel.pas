@@ -46,7 +46,7 @@ var
 begin
   QuickViewPanel:= TQuickViewPanel.Create(Application, aFileViewPage);
   QuickViewPanel.CreateViewer(aFileView);
-  aFile := aFileView.ActiveFile;
+  aFile := aFileView.CloneActiveFile;
   try
     QuickViewPanel.FileViewChangeActiveFile(aFileView, aFile);
   finally

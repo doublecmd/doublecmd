@@ -994,7 +994,7 @@ begin
     SourcePanel := ((Source as TDrawGridEx).Parent) as TColumnsFileView;
 
     // Get file names from source panel.
-    SourceFiles := SourcePanel.SelectedFiles;
+    SourceFiles := SourcePanel.CloneSelectedFiles;
     try
       // Drop onto target panel.
       with Sender as TDrawGridEx do
@@ -1100,7 +1100,7 @@ begin
 
       if Assigned(OnChangeActiveFile) then
       begin
-        aFile := ActiveFile;
+        aFile := CloneActiveFile;
         try
           OnChangeActiveFile(Self, aFile);
         finally
@@ -1863,7 +1863,7 @@ begin
         NewFileName         := edtRename.Text;
         OldFileNameAbsolute := edtRename.Hint;
 
-        aFile := ActiveFile;
+        aFile := CloneActiveFile;
         try
           try
             if RenameFile(FileSource, aFile, NewFileName, True) = True then
@@ -3335,7 +3335,7 @@ var
 begin
   if (fsoSetFileProperty in FileSource.GetOperationsTypes) then
     begin
-      aFile:= ActiveFile;
+      aFile:= CloneActiveFile;
       if Assigned(aFile) then
       try
         if aFile.IsNameValid then
@@ -4238,4 +4238,4 @@ begin
 end;
 
 end.
-
+

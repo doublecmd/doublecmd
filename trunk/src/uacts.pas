@@ -618,7 +618,7 @@ var
   SelectedFiles: TFiles = nil;
   PathToAdd: String;
 begin
-  SelectedFiles := FileView.SelectedFiles;
+  SelectedFiles := FileView.CloneSelectedFiles;
   try
     if SelectedFiles.Count > 0 then
     begin
@@ -686,7 +686,7 @@ begin
       end
     else
       begin
-        aFiles:= Panel.SelectedFiles;
+        aFiles:= Panel.CloneSelectedFiles;
       end;
 
     if Assigned(aFiles) then
@@ -711,7 +711,7 @@ var
   aFile: TFile;
   NewPath: String;
 begin
-  aFile := SourcePage.FileView.ActiveFile;
+  aFile := SourcePage.FileView.CloneActiveFile;
   if Assigned(aFile) then
   try
     if aFile.IsDirectory then
@@ -828,7 +828,7 @@ var
 begin
   with frmMain do
     begin
-      aFile := ActiveFrame.ActiveFile;
+      aFile := ActiveFrame.CloneActiveFile;
       if Assigned(aFile) then
       try
         OldPosition := edtCommand.SelStart;
@@ -849,7 +849,7 @@ var
 begin
   with frmMain do
     begin
-      aFile := ActiveFrame.ActiveFile;
+      aFile := ActiveFrame.CloneActiveFile;
       if Assigned(aFile) then
       try
         if aFile.Name = '..' then
@@ -900,7 +900,7 @@ var
 begin
   with FrmMain do
   begin
-    aFile := ActiveFrame.ActiveFile;
+    aFile := ActiveFrame.CloneActiveFile;
     if Assigned(aFile) then
     try
       if aFile.IsNameValid and
@@ -964,7 +964,7 @@ var
 begin
   with frmMain.ActiveFrame do
   begin
-    aFile := ActiveFile;
+    aFile := CloneActiveFile;
     if Assigned(aFile) then
     try
       if aFile.IsNameValid then
@@ -986,7 +986,7 @@ var
 begin
   with frmMain do
   begin
-    SelectedFiles := ActiveFrame.SelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedFiles;
     try
       TestArchive(ActiveFrame, SelectedFiles);
     finally
@@ -1022,7 +1022,7 @@ var
 begin
   with frmMain do
   begin
-    SelectedFiles := ActiveFrame.SelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedFiles;
     try
       ShowPackDlg(ActiveFrame.FileSource,
                   nil, // No specific target (create new)
@@ -1045,7 +1045,7 @@ var
 begin
   with frmMain do
   begin
-    SelectedFiles := ActiveFrame.SelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedFiles;
     if Assigned(SelectedFiles) then
     try
       if SelectedFiles.Count > 0 then
@@ -1172,7 +1172,7 @@ begin
 
     // ------------------------------------------------------
 
-    theFilesToWipe := SelectedFiles; // free at Thread end by thread
+    theFilesToWipe := CloneSelectedFiles; // free at Thread end by thread
 
     if Assigned(theFilesToWipe) then
     try
@@ -1300,8 +1300,8 @@ var
 begin
   with frmMain do
   try
-    SelectedFiles := ActiveFrame.SelectedFiles;
-    ActiveFile := ActiveFrame.ActiveFile;
+    SelectedFiles := ActiveFrame.CloneSelectedFiles;
+    ActiveFile := ActiveFrame.CloneActiveFile;
 
     // Enter directories using View command.
     if Assigned(ActiveFile) and
@@ -1396,7 +1396,7 @@ begin
        (not gExternalTools[etViewer].Enabled) and
        ([fspDirectAccess, fspLinksToLocalFiles] * ActiveFrame.FileSource.Properties <> []) then
       begin
-        AllFiles := ActiveFrame.Files;
+        AllFiles := ActiveFrame.CloneFiles;
 
         if (fspLinksToLocalFiles in ActiveFrame.FileSource.Properties) then
           begin
@@ -1471,7 +1471,7 @@ begin
     // If files are links to local files
     if (fspLinksToLocalFiles in ActiveFrame.FileSource.Properties) then
       begin
-        SelectedFiles := ActiveFrame.SelectedFiles;
+        SelectedFiles := ActiveFrame.CloneSelectedFiles;
         for I := 0 to SelectedFiles.Count - 1 do
           begin
             aFile := SelectedFiles[I];
@@ -1486,7 +1486,7 @@ begin
       end
     else
       begin
-        SelectedFiles := ActiveFrame.SelectedFiles;
+        SelectedFiles := ActiveFrame.CloneSelectedFiles;
       end;
 
     for i := 0 to SelectedFiles.Count - 1 do
@@ -1558,7 +1558,7 @@ begin
       Exit;
     end;
 
-    ActiveFile := ActiveFrame.ActiveFile;
+    ActiveFile := ActiveFrame.CloneActiveFile;
     if Assigned(ActiveFile) and ActiveFile.IsNameValid then
       sPath := ActiveFile.Name // 21.05.2009 - pass name from cursor to makedir form
     else
@@ -1633,7 +1633,7 @@ begin
 
     // ------------------------------------------------------
 
-    theFilesToDelete := SelectedFiles; // free at Thread end by thread
+    theFilesToDelete := CloneSelectedFiles; // free at Thread end by thread
 
     if Assigned(theFilesToDelete) then
     try
@@ -1698,7 +1698,7 @@ begin
       // Do command on TempFileSource and later delete it (or leave cached on disk?)
     end;
 
-    SelectedFiles := ActiveFrame.SelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedFiles;
     try
       if SelectedFiles.Count = 0 then
       begin
@@ -1771,7 +1771,7 @@ begin
       // Do command on TempFileSource and later delete it (or leave cached on disk?)
     end;
 
-    SelectedFiles := ActiveFrame.SelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedFiles;
     try
       if SelectedFiles.Count = 0 then
       begin
@@ -1955,11 +1955,11 @@ begin
         end;
 
         try
-          ActiveSelectedFiles := ActiveFrame.SelectedFiles;
+          ActiveSelectedFiles := ActiveFrame.CloneSelectedFiles;
 
           if ActiveSelectedFiles.Count = 1 then
           begin
-            NotActiveSelectedFiles := NotActiveFrame.SelectedFiles;
+            NotActiveSelectedFiles := NotActiveFrame.CloneSelectedFiles;
 
             if NotActiveSelectedFiles.Count = 1 then
             begin
@@ -2139,7 +2139,7 @@ begin
       // Or create a symlink in temp filesystem and CopyIn to target file source.
     end;
 
-    SelectedFiles := ActiveFrame.SelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedFiles;
     try
       if SelectedFiles.Count > 1 then
         msgWarning(rsMsgTooManyFilesSelected)
@@ -2189,7 +2189,7 @@ begin
       Exit;
     end;
 
-    SelectedFiles := ActiveFrame.SelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedFiles;
     try
       if SelectedFiles.Count > 1 then
         msgWarning(rsMsgTooManyFilesSelected)
@@ -2285,7 +2285,7 @@ begin
         Exit;
       end;
 
-    aFiles:= ActiveFrame.SelectedFiles;
+    aFiles:= ActiveFrame.CloneSelectedFiles;
     if Assigned(aFiles) then
       try
         if aFiles.Count > 0 then
@@ -2323,7 +2323,7 @@ begin
   with frmMain do
   if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
   begin
-    aFile := ActiveFrame.ActiveFile;
+    aFile := ActiveFrame.CloneActiveFile;
     if Assigned(aFile) then
     try
       if aFile.IsNameValid then
@@ -2423,7 +2423,7 @@ var
 begin
   with frmMain do
   begin
-    SelectedFiles := ActiveFrame.SelectedFiles;
+    SelectedFiles := ActiveFrame.CloneSelectedFiles;
     try
       Operation := ActiveFrame.FileSource.CreateCalcStatisticsOperation(SelectedFiles);
       Operation.AddStateChangedListener([fsosStopped], @OnCalcStatisticsStateChanged);
@@ -2459,8 +2459,8 @@ begin
         Exit;
       end;
 
-    SelectedFiles := ActiveFrame.SelectedFiles;
-    ActiveFile := ActiveFrame.ActiveFile;
+    SelectedFiles := ActiveFrame.CloneSelectedFiles;
+    ActiveFile := ActiveFrame.CloneActiveFile;
     if Assigned(ActiveFile) then
       begin
         FillByte(aFileProperties, SizeOf(aFileProperties), 0);
@@ -2508,7 +2508,7 @@ begin
   begin
     if ActiveFrame.FileSource.IsClass(TFileSystemFileSource) then
       begin
-        SelectedFiles := ActiveFrame.SelectedFiles;
+        SelectedFiles := ActiveFrame.CloneSelectedFiles;
         if Assigned(SelectedFiles) then
         try
           if SelectedFiles.Count > 0 then
@@ -2525,7 +2525,7 @@ begin
       end
     else if (fsoExecute in ActiveFrame.FileSource.GetOperationsTypes) then
       begin
-        aFile:= ActiveFrame.ActiveFile;
+        aFile:= ActiveFrame.CloneActiveFile;
         if Assigned(aFile) then
           try
             Operation:= ActiveFrame.FileSource.CreateExecuteOperation(
@@ -2558,7 +2558,7 @@ begin
       sl:= TStringList.Create;
       try
         Result:= False;
-        aSelectedFiles := SelectedFiles;
+        aSelectedFiles := CloneSelectedFiles;
 
         for I := 0 to aSelectedFiles.Count - 1 do
           begin
@@ -2601,7 +2601,7 @@ begin
       sl:= TStringList.Create;
       try
         Result:= False;
-        aSelectedFiles := SelectedFiles;
+        aSelectedFiles := CloneSelectedFiles;
 
         for I := 0 to aSelectedFiles.Count - 1 do
           begin
@@ -2649,7 +2649,7 @@ begin
   begin
     if (fspDirectAccess in FileSource.GetProperties) then
       begin
-        aFile:= ActiveFile;
+        aFile:= CloneActiveFile;
         if Assigned(aFile) then
           try
             if aFile.IsNameValid then
@@ -2662,7 +2662,7 @@ begin
       end
     else if (fspLinksToLocalFiles in FileSource.GetProperties) then
       begin
-        aFile:= ActiveFile;
+        aFile:= CloneActiveFile;
         if Assigned(aFile) then
           try
             if aFile.IsNameValid then
@@ -2700,7 +2700,7 @@ begin
   begin
     sl := TStringList.Create;
     try
-      theSelectedFiles := SelectedFiles;
+      theSelectedFiles := CloneSelectedFiles;
 
       for i := 0 to theSelectedFiles.Count - 1 do
         sl.Add(CurrentPath + theSelectedFiles[i].Name);
