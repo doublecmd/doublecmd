@@ -1934,7 +1934,8 @@ msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: TFRMLINKER.CAPTION
+#: TFRMLINKER.FRMLINKER.CAPTION
+msgctxt "TFRMLINKER.FRMLINKER.CAPTION"
 msgid "Linker"
 msgstr "Linker"
 
@@ -4426,7 +4427,8 @@ msgstr "Alles uitpakken en uitvoeren"
 msgid "&Unpack and execute"
 msgstr "Uitpakken en uitvoeren"
 
-#: TFRMPACKINFODLG.CAPTION
+#: TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION
+msgctxt "TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
 msgstr "Eigenschappen van ingepakt bestand"
 
@@ -5424,6 +5426,10 @@ msgstr ""
 #: ulng.rsdlgchecksumverify
 msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
+msgstr ""
+
+#: ulng.rsdlgcombine
+msgid "Combine files"
 msgstr ""
 
 #: ulng.rsdlgcp

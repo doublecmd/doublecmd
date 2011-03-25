@@ -1936,7 +1936,8 @@ msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: TFRMLINKER.CAPTION
+#: TFRMLINKER.FRMLINKER.CAPTION
+msgctxt "TFRMLINKER.FRMLINKER.CAPTION"
 msgid "Linker"
 msgstr "链接程序"
 
@@ -4436,7 +4437,8 @@ msgstr "解开所有包并执行(&A)"
 msgid "&Unpack and execute"
 msgstr "解包并执行(&U)"
 
-#: TFRMPACKINFODLG.CAPTION
+#: TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION
+msgctxt "TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
 msgstr "压缩包属性"
 
@@ -5435,6 +5437,10 @@ msgstr "产生校验..."
 msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "验证校验..."
+
+#: ulng.rsdlgcombine
+msgid "Combine files"
+msgstr ""
 
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"

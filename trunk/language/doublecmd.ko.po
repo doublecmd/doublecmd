@@ -1942,8 +1942,8 @@ msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: TFRMLINKER.CAPTION
-msgctxt "TFRMLINKER.CAPTION"
+#: TFRMLINKER.FRMLINKER.CAPTION
+msgctxt "TFRMLINKER.FRMLINKER.CAPTION"
 msgid "Linker"
 msgstr "링커"
 
@@ -4431,7 +4431,8 @@ msgstr "전부 압축 풀기 및 실행 (&A)"
 msgid "&Unpack and execute"
 msgstr "압축 풀기 및 실행 (&U)"
 
-#: TFRMPACKINFODLG.CAPTION
+#: TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION
+msgctxt "TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
 msgstr "압축 파일의 속성"
 
@@ -5433,6 +5434,10 @@ msgstr "체크섬 계산..."
 msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "체크섬 검사..."
+
+#: ulng.rsdlgcombine
+msgid "Combine files"
+msgstr ""
 
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"

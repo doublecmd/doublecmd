@@ -1922,7 +1922,8 @@ msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: TFRMLINKER.CAPTION
+#: TFRMLINKER.FRMLINKER.CAPTION
+msgctxt "TFRMLINKER.FRMLINKER.CAPTION"
 msgid "Linker"
 msgstr "Linkowanie"
 
@@ -4352,7 +4353,8 @@ msgstr "Wypakuj wszystko i uruchom"
 msgid "&Unpack and execute"
 msgstr "Wypakuj i uruchom"
 
-#: TFRMPACKINFODLG.CAPTION
+#: TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION
+msgctxt "TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
 msgstr "Właściwości spakowanego pliku"
 
@@ -5356,6 +5358,10 @@ msgctxt "ulng.rsdlgchecksumverify"
 msgid "Verify check sum..."
 msgstr "Sprawdź sumę kontrolną"
 
+#: ulng.rsdlgcombine
+msgid "Combine files"
+msgstr ""
+
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
@@ -6165,6 +6171,9 @@ msgstr "Włącz"
 msgid "Enter extension"
 msgstr "Wpisz rozszerzenie"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsoptexamplecursor
 msgid "Cursor"
 msgstr "Kursor"
@@ -6190,9 +6199,6 @@ msgstr "Operacje na plikach"
 msgid "File panels"
 msgstr "Okna główne"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsoptfiletypes
 msgctxt "ulng.rsoptfiletypes"
 msgid "File types"
