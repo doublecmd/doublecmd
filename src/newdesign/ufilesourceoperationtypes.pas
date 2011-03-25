@@ -19,6 +19,7 @@ type
     fsoMove,            // Move/rename files within the same file source.
     fsoDelete,
     fsoWipe,
+    fsoCombine,
     fsoCreateDirectory,
     //fsoCreateFile,
     //fsoCreateLink,

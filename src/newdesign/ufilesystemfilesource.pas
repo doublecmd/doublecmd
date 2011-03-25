@@ -86,6 +86,8 @@ type
                                  TargetPath: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; override;
+    function CreateCombineOperation(var SourceFiles: TFiles;
+                                    aTargetFile: String): TFileSourceOperation; override;
     function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; override;
     function CreateExecuteOperation(var ExecutableFile: TFile; BasePath, Verb: String): TFileSourceOperation; override;
     function CreateCalcChecksumOperation(var theFiles: TFiles;
@@ -121,6 +123,7 @@ uses
   uFileSystemMoveOperation,
   uFileSystemDeleteOperation,
   uFileSystemWipeOperation,
+  uFileSystemCombineOperation,
   uFileSystemCreateDirectoryOperation,
   uFileSystemExecuteOperation,
   uFileSystemCalcChecksumOperation,
@@ -139,6 +142,7 @@ begin
   FOperationsClasses[fsoMove]            := TFileSystemMoveOperation.GetOperationClass;
   FOperationsClasses[fsoDelete]          := TFileSystemDeleteOperation.GetOperationClass;
   FOperationsClasses[fsoWipe]            := TFileSystemWipeOperation.GetOperationClass;
+  FOperationsClasses[fsoCombine]         := TFileSystemCombineOperation.GetOperationClass;
   FOperationsClasses[fsoCreateDirectory] := TFileSystemCreateDirectoryOperation.GetOperationClass;
   FOperationsClasses[fsoCalcChecksum]    := TFileSystemCalcChecksumOperation.GetOperationClass;
   FOperationsClasses[fsoCalcStatistics]  := TFileSystemCalcStatisticsOperation.GetOperationClass;
@@ -543,6 +547,7 @@ begin
              fsoMove,
              fsoDelete,
              fsoWipe,
+             fsoCombine,
              fsoCreateDirectory,
              fsoCalcChecksum,
              fsoCalcStatistics,
@@ -686,6 +691,15 @@ begin
   Result := TFileSystemWipeOperation.Create(TargetFileSource, FilesToWipe);
 end;
 
+function TFileSystemFileSource.CreateCombineOperation(var SourceFiles: TFiles;
+                                                      aTargetFile: String): TFileSourceOperation;
+var
+  SourceFileSource: IFileSource;
+begin
+  SourceFileSource := Self;
+  Result := TFileSystemCombineOperation.Create(SourceFileSource, SourceFiles, aTargetFile);
+end;
+
 function TFileSystemFileSource.CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation;
 var
   TargetFileSource: IFileSource;
@@ -756,4 +770,4 @@ begin
 end;
 
 end.
-
+

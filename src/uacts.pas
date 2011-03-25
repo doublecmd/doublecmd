@@ -2544,7 +2544,6 @@ end;
 
 procedure TActs.cm_FileLinker(param:string);
 var
-  sl: TStringList = nil;
   I: Integer;
   Result: Boolean;
   aSelectedFiles: TFiles = nil;
@@ -2552,36 +2551,33 @@ var
 begin
   with frmMain, frmMain.ActiveFrame do
   begin
-    // For now only works for FileSystem.
-    if FileSource.IsClass(TFileSystemFileSource) then
-    begin
-      sl:= TStringList.Create;
-      try
-        Result:= False;
-        aSelectedFiles := CloneSelectedFiles;
+    if not (fsoCombine in FileSource.GetOperationsTypes) then
+      begin
+        msgWarning(rsMsgErrNotSupported);
+        Exit;
+      end;
 
-        for I := 0 to aSelectedFiles.Count - 1 do
-          begin
-            aFile := aSelectedFiles[I];
-            if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
-              sl.Add(CurrentPath + aFile.Name);
-          end;
+    try
+      Result:= False;
+      aSelectedFiles := CloneSelectedFiles;
 
-        if sl.Count > 1 then
-          Result := ShowLinkerFilesForm(sl)
-        else
-          msgWarning(rsMsgInvalidSelection); 
-      finally
-        FreeThenNil(sl);
-        FreeThenNil(aSelectedFiles);
-        if Result then
+      for I := 0 to aSelectedFiles.Count - 1 do
+        begin
+          aFile := aSelectedFiles[I];
+          if (aFile.IsDirectory or aFile.IsLinkToDirectory) then
           begin
-            ActiveFrame.Reload;
-            NotActiveFrame.Reload;
+            msgWarning(rsMsgInvalidSelection);
+            Exit;
           end;
-        ActiveFrame.SetFocus;
-      end; // try
-    end; // if
+        end;
+
+      if aSelectedFiles.Count > 1 then
+        ShowLinkerFilesForm(FileSource, aSelectedFiles, NotActiveFrame.CurrentPath)
+      else
+        msgWarning(rsMsgInvalidSelection);
+    finally
+      FreeThenNil(aSelectedFiles);
+    end; // try
   end; // with
 end;
 

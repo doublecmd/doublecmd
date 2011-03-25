@@ -1,6 +1,6 @@
 object frmLinker: TfrmLinker
   Left = 323
-  Height = 364
+  Height = 337
   Top = 176
   Width = 360
   HorzScrollBar.Page = 359
@@ -9,30 +9,14 @@ object frmLinker: TfrmLinker
   VertScrollBar.Range = 331
   ActiveControl = edSave
   Caption = 'Linker'
-  ClientHeight = 364
+  ClientHeight = 337
   ClientWidth = 360
   Position = poScreenCenter
-  object prbrWork: TProgressBar
-    AnchorSideLeft.Control = Owner
-    AnchorSideRight.Control = Owner
-    AnchorSideBottom.Control = Owner
-    AnchorSideBottom.Side = asrBottom
-    Left = 6
-    Height = 24
-    Top = 334
-    Width = 348
-    Align = alBottom
-    BorderSpacing.Left = 6
-    BorderSpacing.Right = 6
-    BorderSpacing.Bottom = 6
-    Max = 100
-    TabOrder = 0
-  end
+  LCLVersion = '0.9.29'
   object gbSaveTo: TGroupBox
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = lstFile
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = prbrWork
     Left = 6
     Height = 80
     Top = 248
@@ -43,15 +27,14 @@ object frmLinker: TfrmLinker
     Caption = 'Save to...'
     ClientHeight = 62
     ClientWidth = 238
-    ParentCtl3D = False
-    TabOrder = 1
+    TabOrder = 0
     object lblFileName: TLabel
       AnchorSideLeft.Control = gbSaveTo
       AnchorSideTop.Control = gbSaveTo
       Left = 6
-      Height = 19
+      Height = 14
       Top = 6
-      Width = 66
+      Width = 46
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       Caption = 'File name'
@@ -63,8 +46,8 @@ object frmLinker: TfrmLinker
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = btnSave
       Left = 6
-      Height = 24
-      Top = 31
+      Height = 21
+      Top = 26
       Width = 195
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 6
@@ -78,7 +61,7 @@ object frmLinker: TfrmLinker
       AnchorSideRight.Side = asrBottom
       Left = 207
       Height = 25
-      Top = 31
+      Top = 26
       Width = 25
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 6
@@ -96,14 +79,14 @@ object frmLinker: TfrmLinker
     AnchorSideBottom.Side = asrBottom
     Left = 254
     Height = 242
+    Top = 0
     Width = 100
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.Right = 6
     Caption = 'Item'
     ClientHeight = 224
     ClientWidth = 96
-    ParentCtl3D = False
-    TabOrder = 2
+    TabOrder = 1
     object spbtnUp: TButton
       AnchorSideLeft.Control = grbxControl
       AnchorSideRight.Control = grbxControl
@@ -178,8 +161,8 @@ object frmLinker: TfrmLinker
     BorderSpacing.InnerBorder = 4
     Caption = 'OK'
     Default = True
-    OnClick = btnOKClick
-    TabOrder = 3
+    ModalResult = 1
+    TabOrder = 2
   end
   object btnExit: TButton
     AnchorSideTop.Side = asrBottom
@@ -197,7 +180,7 @@ object frmLinker: TfrmLinker
     Cancel = True
     Caption = 'Exit'
     ModalResult = 2
-    TabOrder = 4
+    TabOrder = 3
   end
   object lstFile: TListBox
     AnchorSideLeft.Control = Owner
@@ -213,12 +196,13 @@ object frmLinker: TfrmLinker
     BorderSpacing.Top = 8
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 6
-    TabOrder = 5
+    ItemHeight = 0
+    TabOrder = 4
   end
   object dlgSaveAll: TSaveDialog
     Filter = 'All files|*.*'
     FilterIndex = 0
-    left = 160
-    top = 240
+    left = 288
+    top = 160
   end
 end
