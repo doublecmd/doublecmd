@@ -222,7 +222,7 @@ msgstr "R"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBCHECKFREESPACE.CAPTION
 msgid "Check free space"
-msgstr "Перевірте вільне місце"
+msgstr "Перевірити вільне місце"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBCORRECTLINKS.CAPTION
 #, fuzzy
@@ -2207,6 +2207,7 @@ msgid "Minimize window"
 msgstr "Згорнути"
 
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
+
 msgid "Multi Rename Tool"
 msgstr "&Мультиперейменування"
 
@@ -2861,6 +2862,7 @@ msgstr "Видалити"
 msgctxt "TFRMMAIN.TBEDIT.CAPTION"
 msgid "Edit"
 msgstr "Редагувати"
+
 
 #: TFRMMAIN.TBPASTE.CAPTION
 msgctxt "TFRMMAIN.TBPASTE.CAPTION"
@@ -4480,7 +4482,7 @@ msgstr "Тільки читання"
 
 #: TFRMSETFILEPROPERTIES.CHKRECURSIVE.CAPTION
 msgid "Recursive"
-msgstr "Рекурсивний"
+msgstr "Рекурсивно"
 
 #: TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION"
