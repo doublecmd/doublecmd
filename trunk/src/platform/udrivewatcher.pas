@@ -72,7 +72,7 @@ uses
 type
   TFakeClass = class
   public
-    procedure OnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
+    procedure OnWatcherNotifyEvent(const WatchPath: String; NotifyData, UserData: Pointer);
     procedure OnUDisksNotify(Reason: TUDisksMethod; const ObjectPath: UTF8String);
   end;
 {$ENDIF}
@@ -110,7 +110,6 @@ var
   FObservers: TDriveWatcherObserverList = nil;
   InitializeCounter: Integer = 0;
   {$IFDEF LINUX}
-  EtcDirWatcher: TFileSystemWatcher = nil;
   FakeClass: TFakeClass = nil;
   IsUDisksAvailable: Boolean = False;
   {$ENDIF}
@@ -202,9 +201,7 @@ begin
   else
   begin
     DebugLn('Detecting devices through /etc/mtab.');
-    EtcDirWatcher:= TFileSystemWatcher.Create(nil, '/etc', [wfFileNameChange]);
-    EtcDirWatcher.OnWatcherNotifyEvent:= @FakeClass.OnWatcherNotifyEvent;
-    EtcDirWatcher.Active:= True;
+    TFileSystemWatcher.AddWatch('/etc', [wfFileNameChange], @FakeClass.OnWatcherNotifyEvent);
   end;
   {$ENDIF}
 
@@ -233,8 +230,7 @@ begin
     uUDisks.Finalize;
     IsUDisksAvailable := False;
   end;
-  if Assigned(EtcDirWatcher) then
-    FreeAndNil(EtcDirWatcher);
+  TFileSystemWatcher.RemoveWatch('/etc', @FakeClass.OnWatcherNotifyEvent);
   if Assigned(FakeClass) then
     FreeAndNil(FakeClass);
   {$ENDIF}
@@ -933,7 +929,7 @@ end;
 {$ENDIF}
 
 {$IFDEF LINUX}
-procedure TFakeClass.OnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
+procedure TFakeClass.OnWatcherNotifyEvent(const WatchPath: String; NotifyData, UserData: Pointer);
 var
   ev: pinotify_event absolute NotifyData;
   ADrive: PDrive = nil;

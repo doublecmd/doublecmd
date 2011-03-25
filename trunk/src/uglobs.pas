@@ -296,6 +296,8 @@ function InitPropStorage(Owner: TComponent): TIniPropStorageEx;
 procedure FontToFontOptions(Font: TFont; out Options: TDCFontOptions);
 procedure FontOptionsToFont(Options: TDCFontOptions; Font: TFont);
 
+function IsFileSystemWatcher: Boolean;
+
 const
   cMaxStringItems=50;
   
@@ -1878,8 +1880,13 @@ begin
   Result := True;
 end;
 
+function IsFileSystemWatcher: Boolean;
+begin
+  Result := ([watch_file_name_change, watch_attributes_change] * gWatchDirs <> []);
+end;
+
 initialization
 
 finalization
   DestroyGlobs;
-end.
+end.

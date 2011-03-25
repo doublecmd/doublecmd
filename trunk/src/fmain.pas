@@ -43,7 +43,7 @@ uses
   Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls,
   KASToolBar, KASBarMenu, KASBarFiles,
-  uCmdBox, uFileSystemWatcher, uFilePanelSelect,
+  uCmdBox, uFilePanelSelect,
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
   uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, uClassesEx,
   uXmlConfig, uDrive, uDriveWatcher;
@@ -488,15 +488,12 @@ type
     procedure tbChangeDirClick(Sender: TObject);
     procedure tbCopyClick(Sender: TObject);
     procedure tbEditClick(Sender: TObject);
-    procedure FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
     procedure OnUniqueInstanceMessage(Sender: TObject; Params: array of UTF8String; ParamCount: Integer);
     procedure tbPasteClick(Sender: TObject);
     procedure AllProgressOnUpdateTimer(Sender: TObject);
   private
     { Private declarations }
     PanelSelected: TFilePanelSelect;
-    LeftFrameWatcher,
-    RightFrameWatcher: TFileSystemWatcher;
     DrivesList : TDrivesList;
     MainSplitterHintWnd: THintWindow;
     HiddenToTray: Boolean;
@@ -587,7 +584,6 @@ type
     function ExecCmd(Cmd:string; param:string='') : Boolean;
     function ExecCmdEx(Sender: TObject; NumberOfButton:Integer) : Boolean;
     procedure ToggleConsole;
-    procedure ToggleFileSystemWatcher;
     procedure UpdateWindowView;
     procedure MinimizeWindow;
     procedure LoadWindowState;
@@ -636,7 +632,7 @@ implementation
 uses
   LCLIntf, Dialogs, uGlobs, uLng, fConfigToolBar, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, fHotDir, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
-  uDragDropEx, StrUtils, uKeyboard, uFileSystemFileSource, fViewOperations,
+  uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource,
   uShellExecute, uActs, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
@@ -688,8 +684,6 @@ begin
   InitPropStorage(Self);
 
   DrivesList := nil;
-  LeftFrameWatcher:= nil;
-  RightFrameWatcher:= nil;
   FDropParams := nil;
   cmdConsole:= nil;
 
@@ -1044,13 +1038,6 @@ var
   slCommandHistory: TStringListEx;
 begin
   DebugLn('Destroying main form');
-
-  // Disable file watcher.
-  if Assigned(LeftFrameWatcher) then
-    FreeAndNil(LeftFrameWatcher);
-  if Assigned(RightFrameWatcher) then
-    FreeAndNil(RightFrameWatcher);
-  DebugLn('File watchers finished');
 
   TDriveWatcher.RemoveObserver(@OnDriveWatcherEvent);
   TDriveWatcher.Finalize;
@@ -1769,17 +1756,7 @@ begin
   if Assigned(Page) then
   begin
     if Page.LockState = tlsPathResets then // if locked with directory change
-      Page.FileView.CurrentPath := Page.LockPath
-    else if (Notebook = nbLeft) and (FrameLeft <> nil) then
-      begin
-        if Assigned(LeftFrameWatcher) and (LeftFrameWatcher.WatchPath <> FrameLeft.CurrentPath) then
-          LeftFrameWatcher.WatchPath:= FrameLeft.CurrentPath;
-      end
-    else if (Notebook = nbRight) and (FrameRight <> nil) then
-      begin
-        if Assigned(RightFrameWatcher) and (RightFrameWatcher.WatchPath <> FrameRight.CurrentPath) then
-          RightFrameWatcher.WatchPath:= FrameRight.CurrentPath;
-      end;
+      Page.FileView.CurrentPath := Page.LockPath;
 
     // Update selected drive only on non-active panel,
     // because active panel is updated on focus change.
@@ -3028,18 +3005,10 @@ begin
 
       if Page.IsActive then
       begin
-        ToggleFileSystemWatcher;
-
         if Assigned(FileView.FileSource) then
         begin
-          // update file system watcher directory
           if FileView.FileSource.IsClass(TFileSystemFileSource) then
           begin
-            if (ANoteBook = nbLeft) and Assigned(LeftFrameWatcher) then
-              LeftFrameWatcher.WatchPath:= FileView.CurrentPath
-            else if (ANoteBook = nbRight) and Assigned(RightFrameWatcher) then
-                RightFrameWatcher.WatchPath:= FileView.CurrentPath;
-
             if glsDirHistory.IndexOf(FileView.CurrentPath) = -1 then
               glsDirHistory.Insert(0, FileView.CurrentPath);
           end;
@@ -3576,41 +3545,6 @@ begin
   ConsoleSplitter.Visible:= gTermWindow;
 end;
 
-procedure TfrmMain.ToggleFileSystemWatcher;
-var
-  WatchFilter: TWatchFilter;
-
-  procedure ToggleWatcher(FileView: TFileView; var Watcher: TFileSystemWatcher; AnOwner: TComponent);
-  begin
-    if (WatchFilter <> []) and
-       Assigned(FileView) and Assigned(FileView.FileSource) and
-       (FileView.FileSource.IsClass(TFileSystemFileSource)) then
-      begin
-        if not Assigned(Watcher) then
-          begin
-            Watcher:= TFileSystemWatcher.Create(AnOwner, FileView.CurrentPath, WatchFilter);
-            Watcher.OnWatcherNotifyEvent:= @FramePanelOnWatcherNotifyEvent;
-            Watcher.Active:= True;
-          end;
-      end
-    else
-      begin
-        if Assigned(Watcher) then
-          FreeAndNil(Watcher);
-      end;
-  end;
-
-begin
-  WatchFilter:= [];
-  if (watch_file_name_change in gWatchDirs) then
-    Include(WatchFilter, wfFileNameChange);
-  if (watch_attributes_change in gWatchDirs) then
-    Include(WatchFilter, wfAttributesChange);
-
-  ToggleWatcher(FrameLeft, LeftFrameWatcher, nbLeft);
-  ToggleWatcher(FrameRight, RightFrameWatcher, nbRight);
-end;
-
 procedure TfrmMain.UpdateWindowView;
 
   procedure UpdateNoteBook(NoteBook: TFileViewNotebook);
@@ -3848,7 +3782,6 @@ begin
           (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
     end;
 
-    ToggleFileSystemWatcher;
     ShowTrayIcon(gAlwaysShowTrayIcon);
 
     UpdateFreeSpace(fpLeft);
@@ -3976,33 +3909,6 @@ begin
         FreeThenNil(IniFile);
       end;
     end;
-end;
-
-procedure TfrmMain.FramePanelOnWatcherNotifyEvent(Sender: TObject; NotifyData: PtrInt);
-var
-  sDrive,
-  sWatchDirsExclude: String;
-  FileView: TFileView;
-begin
-  // if not active and refresh only in foreground then exit
-  if (watch_only_foreground in gWatchDirs) and (not Application.Active) then Exit;
-  if not (Sender is TFileViewNotebook) then Exit;
-
-  FileView := (Sender as TFileViewNotebook).ActiveView;
-  if not Assigned(FileView) then Exit;
-
-  // if current path in exclude list then exit
-  if (watch_exclude_dirs in gWatchDirs) and (gWatchDirsExclude <> '') then
-    begin
-      sWatchDirsExclude:= gWatchDirsExclude;
-      repeat
-        sDrive:= Copy2SymbDel(sWatchDirsExclude, ';');
-        if IsInPath(UTF8UpperCase(sDrive), UTF8UpperCase(FileView.CurrentPath), True) then
-          Exit;
-      until sWatchDirsExclude = '';
-    end;
-
-  FileView.Reload;
 end;
 
 procedure TfrmMain.OnUniqueInstanceMessage(Sender: TObject; Params: array of UTF8String; ParamCount: Integer);

@@ -109,14 +109,13 @@ type
 implementation
 
 uses
-  uOSUtils, uFindEx, uDateTimeUtils,
+  uOSUtils, uFindEx, uDateTimeUtils, uGlobs,
 {$IFDEF MSWINDOWS}
   uMyWindows, Windows,
 {$ENDIF}
 {$IFDEF UNIX}
   BaseUnix, uUsersGroups, FileUtil, uMyUnix,
 {$ENDIF}
-  uFileSystemWatcher,
   uFileSystemListOperation,
   uFileSystemCopyOperation,
   uFileSystemMoveOperation,
@@ -757,4 +756,4 @@ begin
 end;
 
 end.
-
+
