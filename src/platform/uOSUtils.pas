@@ -470,12 +470,14 @@ function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Bool
 var
   iAttr : TFileAttrs;
   ft : Windows.TFileTime;
+  fAcct : Windows.TFileTime;
+  fOpnt : Windows.TFileTime;
   Handle: System.THandle;
 begin
   iAttr := mbFileGetAttr(sSrc);
   //---------------------------------------------------------
   Handle:= mbFileOpen(sSrc, fmOpenRead or fmShareDenyNone);
-  GetFileTime(Handle,nil,nil,@ft);
+  GetFileTime(Handle,@fAcct,@fOpnt,@ft);
   FileClose(Handle);
   //---------------------------------------------------------
   if bDropReadOnlyFlag and ((iAttr and faReadOnly) <> 0) then
@@ -483,7 +485,7 @@ begin
   Result := (mbFileSetAttr(sDst, iAttr) = 0);
   //---------------------------------------------------------
   Handle:= mbFileOpen(sDst, fmOpenReadWrite or fmShareExclusive);
-  Result := SetFileTime(Handle, nil, nil, @ft);
+  Result := SetFileTime(Handle, @fAcct, @fOpnt, @ft);
   FileClose(Handle);
 end;
 {$ELSE}  // *nix
