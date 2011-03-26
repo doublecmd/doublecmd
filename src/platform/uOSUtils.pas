@@ -1692,7 +1692,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= fpMkDir(PChar(NewDir), $FFF) = 0;
+  Result:= fpMkDir(PChar(NewDir), &0777) = 0;
 end;
 {$ENDIF}
 
@@ -1817,4 +1817,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.
