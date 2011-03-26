@@ -103,7 +103,7 @@ type
     procedure EnableWatcher(Enable: Boolean);
 
     procedure ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
-    procedure WatcherEvent(const WatchPath: String; NotifyData, UserData: Pointer);
+    procedure WatcherEvent(const EventData: TFSWatcherEventData);
 
   protected
     FFiles: TDisplayFiles;      //<en List of displayed files
@@ -1289,7 +1289,7 @@ begin
     Reload(ReloadedPaths);
 end;
 
-procedure TFileView.WatcherEvent(const WatchPath: String; NotifyData, UserData: Pointer);
+procedure TFileView.WatcherEvent(const EventData: TFSWatcherEventData);
 var
   Paths: TPathsArray;
 begin
@@ -1298,7 +1298,7 @@ begin
     Exit;
 
   SetLength(Paths, 1);
-  Paths[0] := WatchPath;
+  Paths[0] := EventData.Path;
   Reload(Paths);
 end;
 
@@ -1442,4 +1442,4 @@ begin
 end;
 
 end.
-
+
