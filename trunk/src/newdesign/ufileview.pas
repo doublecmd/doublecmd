@@ -1244,13 +1244,14 @@ var
 begin
   if Enable then
   begin
-    if WatcherActive then
-      EnableWatcher(False);
-
     if IsFileSystemWatcher and
        Assigned(FileSource) and
-       FileSource.IsClass(TFileSystemFileSource) then
+       FileSource.IsClass(TFileSystemFileSource) and
+       (FWatchPath <> CurrentPath) then
     begin
+      if WatcherActive then
+        EnableWatcher(False);
+
       // If current path is in exclude list then exit.
       if (watch_exclude_dirs in gWatchDirs) and (gWatchDirsExclude <> '') then
       begin
