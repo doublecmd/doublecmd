@@ -333,39 +333,17 @@ var
   buf: PChar;
   ev: pinotify_event;
   fds: TFDSet;
-  nfds, flags: cint;
-  pipesCreated: Boolean = False;
+  nfds: cint;
   Cookies: TINotifyRenameCookies = nil;
   CookieIndex: Integer;
 begin
+  if (FNotifyHandle = feInvalidHandle) or
+     (FEventPipe[0] = -1) or
+     (FEventPipe[1] = -1) then
+    Exit;
+
   try
     Cookies := TINotifyRenameCookies.Create;
-
-    // create inotify instance
-    FNotifyHandle := inotify_init();
-    if FNotifyHandle < 0 then
-    begin
-      ShowError('inotify_init() failed');
-      Exit;
-    end; { if }
-
-    // create pipe for user triggered fake event
-    if FpPipe(FEventPipe) <> 0 then
-    begin
-      ShowError('pipe() failed');
-      Exit;
-    end; { if }
-
-    pipesCreated := True;
-
-    // set both ends of pipe non blocking
-    flags := FpFcntl(FEventPipe[0], F_GetFl);
-    flags := flags or O_NONBLOCK;
-    FpFcntl(FEventPipe[0], F_SetFl, flags);
-
-    flags := FpFcntl(FEventPipe[1], F_GetFl);
-    flags := flags or O_NONBLOCK;
-    FpFcntl(FEventPipe[1], F_SetFl, flags);
 
     // get maximum file descriptor
     nfds := FEventPipe[0] + 1;
@@ -493,33 +471,15 @@ begin
     end; { while }
 
   finally
-    // close both ends of pipe
-    if pipesCreated then
-    begin
-      FpClose(FEventPipe[0]);
-      FpClose(FEventPipe[1]);
-    end;
-
-    if FNotifyHandle <> feInvalidHandle then
-    begin
-      FpClose(FNotifyHandle);
-      FNotifyHandle := feInvalidHandle;
-    end;
-
     FreeAndNil(Cookies);
   end; { try - finally }
 end;
 {$ELSEIF DEFINED(BSD)}
 var
   ke: TKEvent;
-  i: Integer;
 begin
-  FNotifyHandle := kqueue();
   if FNotifyHandle = feInvalidHandle then
-  begin
-    ShowError('ERROR: kqueue()');
     exit;
-  end; { if }
 
   while not Terminated do
   begin
@@ -545,9 +505,6 @@ begin
       end;
     end; { case }
   end; { while }
-
-  FpClose(FNotifyHandle);
-  FNotifyHandle := feInvalidHandle;
 end;
 {$ELSE}
 begin
@@ -619,6 +576,27 @@ begin
 
   {$IF DEFINED(MSWINDOWS)}
   FWaitEvent := CreateEvent(nil, FALSE, FALSE, nil);
+  {$ELSEIF DEFINED(LINUX)}
+  // create inotify instance
+  FNotifyHandle := inotify_init();
+  if FNotifyHandle < 0 then
+    ShowError('inotify_init() failed');
+
+  // create pipe for user triggered fake event
+  FEventPipe[0] := -1;
+  FEventPipe[1] := -1;
+  if FpPipe(FEventPipe) = 0 then
+  begin
+    // set both ends of pipe non blocking
+    FpFcntl(FEventPipe[0], F_SetFl, FpFcntl(FEventPipe[0], F_GetFl) or O_NONBLOCK);
+    FpFcntl(FEventPipe[1], F_SetFl, FpFcntl(FEventPipe[1], F_GetFl) or O_NONBLOCK);
+  end
+  else
+    ShowError('pipe() failed')
+  {$ELSEIF DEFINED(BSD)}
+  FNotifyHandle := kqueue();
+  if FNotifyHandle = feInvalidHandle then
+    ShowError('kqueue() failed');
   {$ELSEIF DEFINED(UNIX)}
   FNotifyHandle := feInvalidHandle;
   {$ENDIF}
@@ -630,13 +608,36 @@ end;
 
 destructor TFileSystemWatcherImpl.Destroy;
 begin
-{$IF DEFINED(MSWINDOWS)}
+  {$IF DEFINED(MSWINDOWS)}
   if FWaitEvent <> 0 then
   begin
     CloseHandle(FWaitEvent);
     FWaitEvent := 0;
   end;
-{$ENDIF}
+  {$ELSEIF DEFINED(LINUX)}
+  // close both ends of pipe
+  if FEventPipe[0] <> -1 then
+  begin
+    FpClose(FEventPipe[0]);
+    FEventPipe[0] := -1;
+  end;
+  if FEventPipe[1] <> -1 then
+  begin
+    FpClose(FEventPipe[1]);
+    FEventPipe[1] := -1;
+  end;
+  if FNotifyHandle <> feInvalidHandle then
+  begin
+    FpClose(FNotifyHandle);
+    FNotifyHandle := feInvalidHandle;
+  end;
+  {$ELSEIF DEFINED(BSD)}
+  if FNotifyHandle <> feInvalidHandle then
+  begin
+    FpClose(FNotifyHandle);
+    FNotifyHandle := feInvalidHandle;
+  end;
+  {$ENDIF}
 
   if Assigned(FOSWatchers) then
     FreeAndNil(FOSWatchers);
