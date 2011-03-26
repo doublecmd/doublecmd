@@ -33,9 +33,21 @@ uses
 type
   TFSWatchFilter = set of (wfFileNameChange, wfAttributesChange);
 
-  TFSWatcherEvent = procedure(const WatchPath: String;
-                              NotifyData: Pointer;
-                              UserData: Pointer) of object;
+  TFSWatcherEventType = (fswFileCreated,
+                         fswFileChanged,
+                         fswFileDeleted,
+                         fswFileRenamed,
+                         fswUnknownChange);
+
+  TFSWatcherEventData = record
+    Path: String;
+    EventType: TFSWatcherEventType;
+    FileName: String;    // Valid for fswFileCreated, fswFileChanged, fswFileDeleted, fswFileRenamed
+    OldFileName: String; // Valid for fswFileRenamed
+    UserData: Pointer;
+  end;
+
+  TFSWatcherEvent = procedure(const EventData: TFSWatcherEventData) of object;
 
   { TFileSystemWatcher }
 
@@ -108,9 +120,8 @@ type
     {$ENDIF}
     {$IF DEFINED(LINUX)}
     FEventPipe: TFilDes;
-    FNotifyData: Pointer; // Temporary until add, remove events properly done.
     {$ENDIF}
-    FCurrentEventPath: UTF8String;
+    FCurrentEventData: TFSWatcherEventData;
     FFinished: Boolean;
     FExceptionMessage: String;
     FExceptionBackTrace: String;
@@ -200,6 +211,8 @@ end;
 {$IF DEFINED(LINUX)}
 const
   FIONREAD = $541B;
+type
+  TINotifyRenameCookies = specialize TFPGMap<uint32_t, string>;
 {$ENDIF}
 
 procedure ShowError(const sErrMsg: String);
@@ -269,14 +282,17 @@ begin
           // While waiting, the watcher may have been removed and the signaled
           // handle may now be invalid. Need to confirm it is still there.
 
-          FCurrentEventPath := EmptyStr;
+          FCurrentEventData.Path := EmptyStr;
           FWatcherLock.Acquire;
           try
             for i := 0 to FOSWatchers.Count - 1 do
             begin
               if FOSWatchers[i].Handle = SignaledHandle then
               begin
-                FCurrentEventPath := FOSWatchers[i].WatchPath;
+                FCurrentEventData.Path := FOSWatchers[i].WatchPath;
+                FCurrentEventData.EventType := fswUnknownChange;
+                FCurrentEventData.FileName := EmptyStr;
+                FCurrentEventData.OldFileName := EmptyStr;
 
                 if not FindNextChangeNotification(SignaledHandle) then
                 begin
@@ -292,7 +308,7 @@ begin
             FWatcherLock.Release;
           end; { try - finally }
 
-          if FCurrentEventPath <> EmptyStr then
+          if FCurrentEventData.Path <> EmptyStr then
             Synchronize(@DoWatcherEvent);
         end;
 
@@ -305,7 +321,7 @@ begin
       else
         begin
           ShowError('WaitForMultipleObjects returned ' + IntToStr(dwWaitResult));
-          Break;
+        Break;
         end;
     end; { case }
 
@@ -319,8 +335,12 @@ var
   fds: TFDSet;
   nfds, flags: cint;
   pipesCreated: Boolean = False;
+  Cookies: TINotifyRenameCookies = nil;
+  CookieIndex: Integer;
 begin
   try
+    Cookies := TINotifyRenameCookies.Create;
+
     // create inotify instance
     FNotifyHandle := inotify_init();
     if FNotifyHandle < 0 then
@@ -398,15 +418,65 @@ begin
       p := 0;
       while p < bytes_to_parse do
       begin
-        ev := pinotify_event((buf + p));
-        WriteLn('wd = ',ev^.wd,', mask = ',ev^.mask,', cookie = ',ev^.cookie, ' name = ', PChar(@ev^.name));
+        ev := pinotify_event(buf + p);
 
         for i := 0 to FOSWatchers.Count - 1 do
         begin
           if ev^.wd = FOSWatchers[i].Handle then
           begin
-            FCurrentEventPath := FOSWatchers[i].WatchPath;
-            FNotifyData := ev;
+            with FCurrentEventData do
+            begin
+              Path := FOSWatchers[i].WatchPath;
+              FileName := StrPas(PChar(@ev^.name));
+              OldFileName := EmptyStr;
+
+              case ev^.mask of
+                IN_ACCESS,
+                IN_MODIFY,
+                IN_ATTRIB,
+                IN_CLOSE,
+                IN_OPEN:
+                  EventType := fswFileChanged;
+
+                IN_CREATE:
+                  EventType := fswFileCreated;
+
+                IN_DELETE, IN_DELETE_SELF:
+                  EventType := fswFileDeleted;
+
+                IN_MOVE_SELF:
+                  begin
+                    EventType := fswFileRenamed;
+                    OldFileName := FileName;
+                  end;
+
+                IN_MOVED_FROM:
+                  begin
+                    Cookies.Add(ev^.cookie, FileName);
+                    // Don't send event until IN_MOVED_TO is received.
+                    Break;
+                  end;
+
+                IN_MOVED_TO:
+                  begin
+                    CookieIndex := Cookies.IndexOf(ev^.cookie);
+                    if CookieIndex >= 0 then
+                    begin
+                      OldFileName := Cookies.Data[CookieIndex];
+                      Cookies.Delete(CookieIndex);
+                    end;
+                    // else
+                    // Cookie has not been found but send event anyway
+                    // just without OldFileName.
+                  end;
+
+                IN_IGNORED:
+                  Break;
+
+                else
+                  EventType := fswUnknownChange;
+              end;
+            end;
 
             // call event handler
             Synchronize(@DoWatcherEvent);
@@ -435,6 +505,8 @@ begin
       FpClose(FNotifyHandle);
       FNotifyHandle := feInvalidHandle;
     end;
+
+    FreeAndNil(Cookies);
   end; { try - finally }
 end;
 {$ELSEIF DEFINED(BSD)}
@@ -461,7 +533,14 @@ begin
 
       EVFILT_VNODE:
       begin
-        FCurrentEventPath := TOSWatch(ke.uData).WatchPath;
+        with FCurrentEventData do
+        begin
+          Path := TOSWatch(ke.uData).WatchPath;
+          EventType := fswUnknownChange;
+          FileName := EmptyStr;
+          OldFileName := EmptyStr;
+        end;
+
         Synchronize(@DoWatcherEvent);
       end;
     end; { case }
@@ -485,7 +564,7 @@ begin
     try
       for i := 0 to FOSWatchers.Count - 1 do
       begin
-        if FOSWatchers[i].WatchPath = FCurrentEventPath then
+        if FOSWatchers[i].WatchPath = FCurrentEventData.Path then
         begin
           for j := 0 to FOSWatchers[i].Observers.Count - 1 do
           begin
@@ -497,13 +576,10 @@ begin
             with FOSWatchers[i].Observers[j] do
             begin
               if Assigned(WatcherEvent) then
-                WatcherEvent(FOSWatchers[i].WatchPath,
-                             {$IFDEF LINUX}
-                             FNotifyData,
-                             {$ELSE}
-                             nil,
-                             {$ENDIF}
-                             UserData);
+              begin
+                FCurrentEventData.UserData := UserData;
+                WatcherEvent(FCurrentEventData);
+              end;
             end;
           end;
 
@@ -911,4 +987,4 @@ finalization
   TFileSystemWatcher.DestroyFileSystemWatcher;
 
 end.
-
+

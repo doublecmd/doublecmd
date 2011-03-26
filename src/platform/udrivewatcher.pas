@@ -57,7 +57,7 @@ uses
    , BSD, BaseUnix, StrUtils
    {$ENDIF}
    {$IFDEF LINUX}
-   , inotify, uUDisks, uFileSystemWatcher, uDCUtils
+   , uUDisks, uFileSystemWatcher, uDCUtils
    {$ENDIF}
    {$IFDEF DARWIN}
    , MacOSAll
@@ -72,7 +72,7 @@ uses
 type
   TFakeClass = class
   public
-    procedure OnWatcherNotifyEvent(const WatchPath: String; NotifyData, UserData: Pointer);
+    procedure OnWatcherNotifyEvent(const EventData: TFSWatcherEventData);
     procedure OnUDisksNotify(Reason: TUDisksMethod; const ObjectPath: UTF8String);
   end;
 {$ENDIF}
@@ -929,12 +929,11 @@ end;
 {$ENDIF}
 
 {$IFDEF LINUX}
-procedure TFakeClass.OnWatcherNotifyEvent(const WatchPath: String; NotifyData, UserData: Pointer);
+procedure TFakeClass.OnWatcherNotifyEvent(const EventData: TFSWatcherEventData);
 var
-  ev: pinotify_event absolute NotifyData;
   ADrive: PDrive = nil;
 begin
-  if (ev^.mask = IN_DELETE) and (Pos('mtab', PChar(@ev^.name)) = 1) then
+  if (EventData.EventType = fswFileDeleted) and (Pos('mtab', EventData.FileName) = 1) then
     DoDriveChanged(ADrive);
 end;
 
