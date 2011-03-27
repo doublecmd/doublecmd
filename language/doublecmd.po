@@ -1897,7 +1897,7 @@ msgstr ""
 
 #: TFRMLINKER.BTNEXIT.CAPTION
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr ""
 
 #: TFRMLINKER.BTNOK.CAPTION
@@ -2104,6 +2104,7 @@ msgid "Show file properties"
 msgstr ""
 
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
+msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Split file"
 msgstr ""
 
@@ -4511,7 +4512,7 @@ msgstr ""
 
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr ""
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
@@ -4540,10 +4541,6 @@ msgstr ""
 
 #: TFRMSPLITTER.GRBXSIZE.CAPTION
 msgid "Size and number of parts"
-msgstr ""
-
-#: TFRMSPLITTER.GRBXWATCH.CAPTION
-msgid "Watchtower"
 msgstr ""
 
 #: TFRMSPLITTER.LBDIRTARGET.CAPTION
@@ -5330,7 +5327,7 @@ msgid "Verify check sum..."
 msgstr ""
 
 #: ulng.rsdlgcombine
-msgid "Combine files"
+msgid "Combine"
 msgstr ""
 
 #: ulng.rsdlgcp
@@ -5383,6 +5380,11 @@ msgstr ""
 
 #: ulng.rsdlgspeedtime
 msgid "Speed %s/s, time remaining %s"
+msgstr ""
+
+#: ulng.rsdlgsplit
+msgctxt "ulng.rsdlgsplit"
+msgid "Split"
 msgstr ""
 
 #: ulng.rsdlgtest
@@ -6402,21 +6404,8 @@ msgstr ""
 msgid "Unable to split the file!"
 msgstr ""
 
-#: ulng.rsspliterrtoomanyparts
-msgid "Too many parts!"
-msgstr ""
-
-#: ulng.rssplitmsgcreated
-msgctxt "ulng.rssplitmsgcreated"
-msgid "Created:"
-msgstr ""
-
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
-msgstr ""
-
-#: ulng.rssplitmsgsize
-msgid "size:"
 msgstr ""
 
 #: ulng.rssplitseldir

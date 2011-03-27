@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.4.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-03-20 23:21+0300\n"
+"PO-Revision-Date: 2011-03-26 12:07+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1914,8 +1914,10 @@ msgid "Directory Hotlist"
 msgstr "Вибрані каталоги"
 
 #: TFRMLINKER.BTNEXIT.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "Вихід"
 
 #: TFRMLINKER.BTNOK.CAPTION
@@ -4567,8 +4569,10 @@ msgid "Write"
 msgstr "Запис"
 
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "Вихід"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
@@ -4600,10 +4604,6 @@ msgstr "Ім'я файлу"
 #| msgid "File size"
 msgid "Size and number of parts"
 msgstr "Розмір файлу"
-
-#: TFRMSPLITTER.GRBXWATCH.CAPTION
-msgid "Watchtower"
-msgstr "Протокол"
 
 #: TFRMSPLITTER.LBDIRTARGET.CAPTION
 msgid "Directory target"
@@ -5394,8 +5394,10 @@ msgid "Verify check sum..."
 msgstr "Перевірити контрольну суму..."
 
 #: ulng.rsdlgcombine
-msgid "Combine files"
-msgstr ""
+#, fuzzy
+#| msgid "Combine files"
+msgid "Combine"
+msgstr "Об’єднати файли"
 
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
@@ -5451,6 +5453,10 @@ msgstr "Із"
 #| msgid "Speed %s/s, remaining time %s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "Швидкість %s/с, залишилось часу %s"
+
+#: ulng.rsdlgsplit
+msgid "Split"
+msgstr ""
 
 #: ulng.rsdlgtest
 msgid "Testing..."
@@ -6472,22 +6478,9 @@ msgstr "Невірний розмір файла!"
 msgid "Unable to split the file!"
 msgstr "Не можу розрізати файл!"
 
-#: ulng.rsspliterrtoomanyparts
-msgid "Too many parts!"
-msgstr "Надто багато частин!"
-
-#: ulng.rssplitmsgcreated
-msgctxt "ulng.rssplitmsgcreated"
-msgid "Created:"
-msgstr "Створено:"
-
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr "Кількість частин більше 100! Продовжити?"
-
-#: ulng.rssplitmsgsize
-msgid "size:"
-msgstr "розмір:"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"

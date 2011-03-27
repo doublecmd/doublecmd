@@ -1919,8 +1919,10 @@ msgid "Directory Hotlist"
 msgstr "常用目錄列表"
 
 #: TFRMLINKER.BTNEXIT.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "退出"
 
 #: TFRMLINKER.BTNOK.CAPTION
@@ -2133,6 +2135,7 @@ msgid "Show file properties"
 msgstr "顯示檔案屬性"
 
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
+msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Split file"
 msgstr "分割檔案"
 
@@ -4601,8 +4604,10 @@ msgid "Write"
 msgstr "寫"
 
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "退出"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
@@ -4634,10 +4639,6 @@ msgstr "檔案名"
 #| msgid "File size"
 msgid "Size and number of parts"
 msgstr "檔案大小"
-
-#: TFRMSPLITTER.GRBXWATCH.CAPTION
-msgid "Watchtower"
-msgstr "監視塔"
 
 #: TFRMSPLITTER.LBDIRTARGET.CAPTION
 msgid "Directory target"
@@ -5423,7 +5424,7 @@ msgid "Verify check sum..."
 msgstr "驗證校驗..."
 
 #: ulng.rsdlgcombine
-msgid "Combine files"
+msgid "Combine"
 msgstr ""
 
 #: ulng.rsdlgcp
@@ -5479,6 +5480,13 @@ msgstr ""
 #| msgid "Speed %s/s, remaining time %s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "速度 %s/秒, 剩餘時間 %s"
+
+#: ulng.rsdlgsplit
+#, fuzzy
+#| msgid "Split file"
+msgctxt "ulng.rsdlgsplit"
+msgid "Split"
+msgstr "分割檔案"
 
 #: ulng.rsdlgtest
 msgid "Testing..."
@@ -6501,22 +6509,9 @@ msgstr "無效的檔案大小格式!"
 msgid "Unable to split the file!"
 msgstr "不能分割檔案!"
 
-#: ulng.rsspliterrtoomanyparts
-msgid "Too many parts!"
-msgstr "太多參數"
-
-#: ulng.rssplitmsgcreated
-msgctxt "ulng.rssplitmsgcreated"
-msgid "Created:"
-msgstr "建立日期:"
-
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr ""
-
-#: ulng.rssplitmsgsize
-msgid "size:"
-msgstr "大小:"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"

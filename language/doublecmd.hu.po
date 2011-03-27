@@ -1927,8 +1927,10 @@ msgid "Directory Hotlist"
 msgstr "Kedvenc könyvtárak"
 
 #: TFRMLINKER.BTNEXIT.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "Kilépés"
 
 #: TFRMLINKER.BTNOK.CAPTION
@@ -2141,6 +2143,7 @@ msgid "Show file properties"
 msgstr "Fájl tulajdonságainak megjelenítése"
 
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
+msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Split file"
 msgstr "Fájl szeletelése"
 
@@ -4608,8 +4611,10 @@ msgid "Write"
 msgstr "Írás"
 
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "Kilépés"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
@@ -4641,10 +4646,6 @@ msgstr "Fájlnév"
 #| msgid "File size"
 msgid "Size and number of parts"
 msgstr "Fájlméret"
-
-#: TFRMSPLITTER.GRBXWATCH.CAPTION
-msgid "Watchtower"
-msgstr "Őrtorony"
 
 #: TFRMSPLITTER.LBDIRTARGET.CAPTION
 msgid "Directory target"
@@ -5432,7 +5433,7 @@ msgid "Verify check sum..."
 msgstr "Ellenőrző összeg vizsgálata..."
 
 #: ulng.rsdlgcombine
-msgid "Combine files"
+msgid "Combine"
 msgstr ""
 
 #: ulng.rsdlgcp
@@ -5488,6 +5489,13 @@ msgstr ""
 #| msgid "Speed %s/s, remaining time %s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "Sebesség %s/s, hátralevő idő %s"
+
+#: ulng.rsdlgsplit
+#, fuzzy
+#| msgid "Split file"
+msgctxt "ulng.rsdlgsplit"
+msgid "Split"
+msgstr "Fájl szeletelése"
 
 #: ulng.rsdlgtest
 msgid "Testing..."
@@ -6513,22 +6521,9 @@ msgstr "Hibás fájlméret formátum!"
 msgid "Unable to split the file!"
 msgstr "Nem lehet darabolni a fájlt!"
 
-#: ulng.rsspliterrtoomanyparts
-msgid "Too many parts!"
-msgstr ""
-
-#: ulng.rssplitmsgcreated
-msgctxt "ulng.rssplitmsgcreated"
-msgid "Created:"
-msgstr "Elkészült:"
-
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr "A darabok száma több mint 100! Folytassam?"
-
-#: ulng.rssplitmsgsize
-msgid "size:"
-msgstr "méret:"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"

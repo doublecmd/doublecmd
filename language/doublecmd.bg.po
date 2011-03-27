@@ -1916,8 +1916,10 @@ msgid "Directory Hotlist"
 msgstr "Бързодостъпни папки"
 
 #: TFRMLINKER.BTNEXIT.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "Изход"
 
 #: TFRMLINKER.BTNOK.CAPTION
@@ -2127,6 +2129,7 @@ msgid "Show file properties"
 msgstr "Показване на файловите свойства"
 
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
+msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Split file"
 msgstr "Раздробяване на файл"
 
@@ -4578,8 +4581,10 @@ msgid "Write"
 msgstr "Четене"
 
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "Изход"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
@@ -4611,10 +4616,6 @@ msgstr "Файлово име"
 #| msgid "File size"
 msgid "Size and number of parts"
 msgstr "Файлов размер"
-
-#: TFRMSPLITTER.GRBXWATCH.CAPTION
-msgid "Watchtower"
-msgstr "Наблюдателна"
 
 #: TFRMSPLITTER.LBDIRTARGET.CAPTION
 msgid "Directory target"
@@ -5403,7 +5404,7 @@ msgid "Verify check sum..."
 msgstr "Сверяване на проверочен сбор..."
 
 #: ulng.rsdlgcombine
-msgid "Combine files"
+msgid "Combine"
 msgstr ""
 
 #: ulng.rsdlgcp
@@ -5459,6 +5460,13 @@ msgstr ""
 #| msgid "Speed %s/s, remaining time %s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "Скорост %s/s, оставащо време %s"
+
+#: ulng.rsdlgsplit
+#, fuzzy
+#| msgid "Split file"
+msgctxt "ulng.rsdlgsplit"
+msgid "Split"
+msgstr "Раздробяване на файл"
 
 #: ulng.rsdlgtest
 msgid "Testing..."
@@ -6479,22 +6487,9 @@ msgstr "Неправилно изписване на файловия разме
 msgid "Unable to split the file!"
 msgstr "Неуспешно раздробяване на файла!"
 
-#: ulng.rsspliterrtoomanyparts
-msgid "Too many parts!"
-msgstr ""
-
-#: ulng.rssplitmsgcreated
-msgctxt "ulng.rssplitmsgcreated"
-msgid "Created:"
-msgstr "Саздаден:"
-
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr ""
-
-#: ulng.rssplitmsgsize
-msgid "size:"
-msgstr "размер:"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"
