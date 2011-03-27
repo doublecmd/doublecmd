@@ -56,10 +56,13 @@ type
     class procedure CreateFileSystemWatcher;
     class procedure DestroyFileSystemWatcher;
   public
-    class procedure AddWatch(aWatchPath: UTF8String;
-                             aWatchFilter: TFSWatchFilter;
-                             aWatcherEvent: TFSWatcherEvent;
-                             UserData: Pointer = nil);
+    {en
+       Returns @true if watch has been successfully added or already exists.
+    }
+    class function AddWatch(aWatchPath: UTF8String;
+                            aWatchFilter: TFSWatchFilter;
+                            aWatcherEvent: TFSWatcherEvent;
+                            UserData: Pointer = nil): Boolean;
     class procedure RemoveWatch(aWatchPath: UTF8String;
                                 aWatcherEvent: TFSWatcherEvent);
     class procedure RemoveWatch(aWatcherEvent: TFSWatcherEvent);
@@ -138,10 +141,10 @@ type
     constructor Create;
     destructor Destroy; override;
     procedure Terminate;
-    procedure AddWatch(aWatchPath: UTF8String;
-                       aWatchFilter: TFSWatchFilter;
-                       aWatcherEvent: TFSWatcherEvent;
-                       UserData: Pointer = nil);
+    function AddWatch(aWatchPath: UTF8String;
+                      aWatchFilter: TFSWatchFilter;
+                      aWatcherEvent: TFSWatcherEvent;
+                      UserData: Pointer = nil): Boolean;
     procedure RemoveWatch(aWatchPath: UTF8String;
                           aWatcherEvent: TFSWatcherEvent);
     procedure RemoveWatch(aWatcherEvent: TFSWatcherEvent);
@@ -180,14 +183,16 @@ begin
   end;
 end;
 
-class procedure TFileSystemWatcher.AddWatch(aWatchPath: UTF8String;
-                                            aWatchFilter: TFSWatchFilter;
-                                            aWatcherEvent: TFSWatcherEvent;
-                                            UserData: Pointer = nil);
+class function TFileSystemWatcher.AddWatch(aWatchPath: UTF8String;
+                                           aWatchFilter: TFSWatchFilter;
+                                           aWatcherEvent: TFSWatcherEvent;
+                                           UserData: Pointer = nil): Boolean;
 begin
   CreateFileSystemWatcher;
   if Assigned(FileSystemWatcher) then
-    FileSystemWatcher.AddWatch(aWatchPath, aWatchFilter, aWatcherEvent, UserData);
+    Result := FileSystemWatcher.AddWatch(aWatchPath, aWatchFilter, aWatcherEvent, UserData)
+  else
+    Result := False;
 end;
 
 class procedure TFileSystemWatcher.RemoveWatch(aWatchPath: UTF8String;
@@ -660,10 +665,10 @@ begin
   TriggerEvent;
 end;
 
-procedure TFileSystemWatcherImpl.AddWatch(aWatchPath: UTF8String;
-                                          aWatchFilter: TFSWatchFilter;
-                                          aWatcherEvent: TFSWatcherEvent;
-                                          UserData: Pointer);
+function TFileSystemWatcherImpl.AddWatch(aWatchPath: UTF8String;
+                                         aWatchFilter: TFSWatchFilter;
+                                         aWatcherEvent: TFSWatcherEvent;
+                                         UserData: Pointer): Boolean;
 var
   OSWatcher: TOSWatch = nil;
   OSWatcherCreated: Boolean = False;
@@ -671,7 +676,7 @@ var
   i, j: Integer;
 begin
   if (aWatchPath = '') or (aWatcherEvent = nil) then
-    Exit;
+    Exit(False);
 
 {$IFDEF UNIX}
   if aWatchPath <> PathDelim then
@@ -690,7 +695,7 @@ begin
         for j := 0 to OSWatcher.Observers.Count - 1 do
         begin
           if CompareMethods(TMethod(OSWatcher.Observers[j].WatcherEvent), TMethod(aWatcherEvent)) then
-            Exit;
+            Exit(True);
         end;
 
         Break;
@@ -718,9 +723,12 @@ begin
     OSWatcher.Observers.Add(Observer);
     OSWatcher.UpdateFilter; // This recreates handle.
 
+    Result := OSWatcher.Handle <> feInvalidHandle;
+
     // Remove watcher if could not create notification handle.
-    if OSWatcher.Handle = feInvalidHandle then
+    if not Result then
       FOSWatchers.Remove(OSWatcher);
+
   finally
     FWatcherLock.Release;
   end;
