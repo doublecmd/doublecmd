@@ -203,7 +203,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="106">
+    <Units Count="110">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -384,6 +384,7 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmSplitter"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="fSplitter"/>
       </Unit23>
       <Unit24>
@@ -858,6 +859,26 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fWfxPluginCopyMoveOperationOptions"/>
       </Unit105>
+      <Unit106>
+        <Filename Value="newdesign\ufilesystemcombineoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemCombineOperation"/>
+      </Unit106>
+      <Unit107>
+        <Filename Value="newdesign\ufilesourcecombineoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceCombineOperation"/>
+      </Unit107>
+      <Unit108>
+        <Filename Value="newdesign\ufilesourcesplitoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSourceSplitOperation"/>
+      </Unit108>
+      <Unit109>
+        <Filename Value="newdesign\ufilesystemsplitoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileSystemSplitOperation"/>
+      </Unit109>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

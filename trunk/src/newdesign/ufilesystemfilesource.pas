@@ -86,6 +86,8 @@ type
                                  TargetPath: String): TFileSourceOperation; override;
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; override;
+    function CreateSplitOperation(var aSourceFile: TFile;
+                                  aTargetPath: String): TFileSourceOperation;
     function CreateCombineOperation(var SourceFiles: TFiles;
                                     aTargetFile: String): TFileSourceOperation; override;
     function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; override;
@@ -123,6 +125,7 @@ uses
   uFileSystemMoveOperation,
   uFileSystemDeleteOperation,
   uFileSystemWipeOperation,
+  uFileSystemSplitOperation,
   uFileSystemCombineOperation,
   uFileSystemCreateDirectoryOperation,
   uFileSystemExecuteOperation,
@@ -547,6 +550,7 @@ begin
              fsoMove,
              fsoDelete,
              fsoWipe,
+             fsoSplit,
              fsoCombine,
              fsoCreateDirectory,
              fsoCalcChecksum,
@@ -689,6 +693,15 @@ var
 begin
   TargetFileSource := Self;
   Result := TFileSystemWipeOperation.Create(TargetFileSource, FilesToWipe);
+end;
+
+function TFileSystemFileSource.CreateSplitOperation(var aSourceFile: TFile;
+                                                    aTargetPath: String): TFileSourceOperation;
+var
+  SourceFileSource: IFileSource;
+begin
+  SourceFileSource := Self;
+  Result := TFileSystemSplitOperation.Create(SourceFileSource, aSourceFile, aTargetPath);
 end;
 
 function TFileSystemFileSource.CreateCombineOperation(var SourceFiles: TFiles;
