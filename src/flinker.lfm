@@ -178,7 +178,7 @@ object frmLinker: TfrmLinker
     BorderSpacing.Top = 6
     BorderSpacing.InnerBorder = 4
     Cancel = True
-    Caption = 'Exit'
+    Caption = 'Cancel'
     ModalResult = 2
     TabOrder = 3
   end
