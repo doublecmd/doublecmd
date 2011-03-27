@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-03-26 00:36+0300\n"
+"PO-Revision-Date: 2011-03-27 11:37+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -239,12 +239,12 @@ msgstr ""
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLDIRECTORYEXISTS.CAPTION
 msgid "When directory exists"
-msgstr ""
+msgstr "Если каталог существует"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
-msgstr ""
+msgstr "Если файл существует"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION"
@@ -1862,7 +1862,6 @@ msgid "&OK"
 msgstr "&ОК"
 
 #: TFRMHARDLINK.CAPTION
-#, fuzzy
 #| msgid "Create hardlink"
 msgid "Create hard link"
 msgstr "Создать жёсткую ссылку"
@@ -1914,8 +1913,8 @@ msgstr "Избранные каталоги"
 
 #: TFRMLINKER.BTNEXIT.CAPTION
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "Exit"
-msgstr "Выход"
+msgid "Cancel"
+msgstr "Отмена"
 
 #: TFRMLINKER.BTNOK.CAPTION
 msgctxt "TFRMLINKER.BTNOK.CAPTION"
@@ -2124,6 +2123,7 @@ msgid "Show file properties"
 msgstr "&Свойства..."
 
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
+msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Split file"
 msgstr "&Разрезать файл..."
 
@@ -2427,7 +2427,6 @@ msgid "Enable/disable ignore list file to not show file names"
 msgstr "Функция исключений файловых имён: вкл/выкл"
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
-#, fuzzy
 #| msgid "Create symlink..."
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
 msgid "Create symbolic link..."
@@ -4504,11 +4503,10 @@ msgid "System"
 msgstr "Системный"
 
 #: TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION
-#, fuzzy
 #| msgid "Change file properties"
 msgctxt "TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION"
 msgid "Change attributes"
-msgstr "Изменить свойства"
+msgstr "Изменить атрибуты"
 
 #: TFRMSETFILEPROPERTIES.GBTIMESAMP.CAPTION
 msgid "Timestamp properties"
@@ -4580,8 +4578,8 @@ msgstr "Запись"
 
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "Exit"
-msgstr "Выход"
+msgid "Cancel"
+msgstr "Отмена"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
 msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
@@ -4608,14 +4606,9 @@ msgid "File name"
 msgstr "Имя файла"
 
 #: TFRMSPLITTER.GRBXSIZE.CAPTION
-#, fuzzy
 #| msgid "File size"
 msgid "Size and number of parts"
-msgstr "Размер файла"
-
-#: TFRMSPLITTER.GRBXWATCH.CAPTION
-msgid "Watchtower"
-msgstr "Протокол"
+msgstr "Размер и кол-во частей"
 
 #: TFRMSPLITTER.LBDIRTARGET.CAPTION
 msgid "Directory target"
@@ -4655,13 +4648,11 @@ msgid "&OK"
 msgstr "&ОК"
 
 #: TFRMSYMLINK.CAPTION
-#, fuzzy
 #| msgid "Create symlink"
 msgid "Create symbolic link"
 msgstr "Создать симв. ссылку"
 
 #: TFRMSYMLINK.LBLEXISTINGFILE.CAPTION
-#, fuzzy
 #| msgid "Existing destination (where will link point)"
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
 msgid "Destination that the link will point to"
@@ -5405,7 +5396,7 @@ msgid "Verify check sum..."
 msgstr "Проверить контрольные суммы..."
 
 #: ulng.rsdlgcombine
-msgid "Combine files"
+msgid "Combine"
 msgstr "Сборка"
 
 #: ulng.rsdlgcp
@@ -5460,6 +5451,11 @@ msgstr "-"
 #| msgid "Speed %s/s, remaining time %s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "Скорость %s/с, осталось времени %s"
+
+#: ulng.rsdlgsplit
+msgctxt "ulng.rsdlgsplit"
+msgid "Split"
+msgstr "Разбиение"
 
 #: ulng.rsdlgtest
 msgid "Testing..."
@@ -6479,22 +6475,9 @@ msgstr "Неправильный размер файла"
 msgid "Unable to split the file!"
 msgstr "Не могу разрезать файл!"
 
-#: ulng.rsspliterrtoomanyparts
-msgid "Too many parts!"
-msgstr "Слишком много частей!"
-
-#: ulng.rssplitmsgcreated
-msgctxt "ulng.rssplitmsgcreated"
-msgid "Created:"
-msgstr "Создан:"
-
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr "Количество частей больше 100! Продолжить?"
-
-#: ulng.rssplitmsgsize
-msgid "size:"
-msgstr "размер:"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"

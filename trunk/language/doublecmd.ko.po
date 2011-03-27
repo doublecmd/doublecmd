@@ -1928,8 +1928,10 @@ msgid "Directory Hotlist"
 msgstr "디렉터리 즐겨찾기"
 
 #: TFRMLINKER.BTNEXIT.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "종료"
 
 #: TFRMLINKER.BTNOK.CAPTION
@@ -2142,6 +2144,7 @@ msgid "Show file properties"
 msgstr "파일 속성 보이기"
 
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
+msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Split file"
 msgstr "파일 자르기"
 
@@ -4608,8 +4611,10 @@ msgid "Write"
 msgstr "쓰기"
 
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "종료"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
@@ -4641,11 +4646,6 @@ msgstr "파일명"
 #| msgid "File size"
 msgid "Size and number of parts"
 msgstr "파일 크기"
-
-#: TFRMSPLITTER.GRBXWATCH.CAPTION
-msgctxt "TFRMSPLITTER.GRBXWATCH.CAPTION"
-msgid "Watchtower"
-msgstr "감시탑"
 
 #: TFRMSPLITTER.LBDIRTARGET.CAPTION
 msgid "Directory target"
@@ -5436,7 +5436,7 @@ msgid "Verify check sum..."
 msgstr "체크섬 검사..."
 
 #: ulng.rsdlgcombine
-msgid "Combine files"
+msgid "Combine"
 msgstr ""
 
 #: ulng.rsdlgcp
@@ -5492,6 +5492,13 @@ msgstr ""
 #| msgid "Speed %s/s, remaining time %s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "속도 %s/s, 남은 시간 %s"
+
+#: ulng.rsdlgsplit
+#, fuzzy
+#| msgid "Split file"
+msgctxt "ulng.rsdlgsplit"
+msgid "Split"
+msgstr "파일 자르기"
 
 #: ulng.rsdlgtest
 msgid "Testing..."
@@ -6516,22 +6523,9 @@ msgstr "잘못된 파일 크기 형식!"
 msgid "Unable to split the file!"
 msgstr "파일을 자를 수 없습니다"
 
-#: ulng.rsspliterrtoomanyparts
-msgid "Too many parts!"
-msgstr "너무 많은 부분!"
-
-#: ulng.rssplitmsgcreated
-msgctxt "ulng.rssplitmsgcreated"
-msgid "Created:"
-msgstr "만들기:"
-
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr "100 개 이상의 부분으로 되어 있습니다! 계속할까요?"
-
-#: ulng.rssplitmsgsize
-msgid "size:"
-msgstr "크기:"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"

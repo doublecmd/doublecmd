@@ -1908,8 +1908,10 @@ msgid "Directory Hotlist"
 msgstr "Otwarte katalogi"
 
 #: TFRMLINKER.BTNEXIT.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "Koniec"
 
 #: TFRMLINKER.BTNOK.CAPTION
@@ -2116,6 +2118,7 @@ msgid "Show file properties"
 msgstr "Właściwości"
 
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
+msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Split file"
 msgstr "Podziel plik"
 
@@ -4534,8 +4537,10 @@ msgid "Write"
 msgstr "Zapis"
 
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "Koniec"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
@@ -4567,10 +4572,6 @@ msgstr "Nazwa pliku"
 #| msgid "File size"
 msgid "Size and number of parts"
 msgstr "Wielkość pliku"
-
-#: TFRMSPLITTER.GRBXWATCH.CAPTION
-msgid "Watchtower"
-msgstr "Protokoł"
 
 #: TFRMSPLITTER.LBDIRTARGET.CAPTION
 msgid "Directory target"
@@ -5359,7 +5360,7 @@ msgid "Verify check sum..."
 msgstr "Sprawdź sumę kontrolną"
 
 #: ulng.rsdlgcombine
-msgid "Combine files"
+msgid "Combine"
 msgstr ""
 
 #: ulng.rsdlgcp
@@ -5415,6 +5416,13 @@ msgstr "Wyjście"
 #| msgid "Speed %s/s, remaining time %s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "Szybkość %s/s, pozostały czas %s"
+
+#: ulng.rsdlgsplit
+#, fuzzy
+#| msgid "Split file"
+msgctxt "ulng.rsdlgsplit"
+msgid "Split"
+msgstr "Podziel plik"
 
 #: ulng.rsdlgtest
 msgid "Testing..."
@@ -6059,6 +6067,9 @@ msgstr "Kolejkuj jako pierwszy"
 msgid "Queue as last"
 msgstr "Kolejkuj jako ostatni"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsoperstopped
 msgid "Stopped"
 msgstr "Zatrzymane"
@@ -6171,9 +6182,6 @@ msgstr "Włącz"
 msgid "Enter extension"
 msgstr "Wpisz rozszerzenie"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsoptexamplecursor
 msgid "Cursor"
 msgstr "Kursor"
@@ -6434,22 +6442,9 @@ msgstr "Nieprawodłowa format wielkości pliku"
 msgid "Unable to split the file!"
 msgstr "Pliku nie da sie podzilić!"
 
-#: ulng.rsspliterrtoomanyparts
-msgid "Too many parts!"
-msgstr "Zbyt wiele części!"
-
-#: ulng.rssplitmsgcreated
-msgctxt "ulng.rssplitmsgcreated"
-msgid "Created:"
-msgstr "Utworzony:"
-
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr "Liczba części jest większa niż 100! Kontynuować?"
-
-#: ulng.rssplitmsgsize
-msgid "size:"
-msgstr "wielkość:"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"

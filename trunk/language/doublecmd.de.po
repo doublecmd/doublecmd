@@ -1918,8 +1918,10 @@ msgid "Directory Hotlist"
 msgstr "Verzeichnisfavoriten"
 
 #: TFRMLINKER.BTNEXIT.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "Ende"
 
 #: TFRMLINKER.BTNOK.CAPTION
@@ -2132,6 +2134,7 @@ msgid "Show file properties"
 msgstr "Dateiei&genschaften"
 
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
+msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Split file"
 msgstr "Tei&le Datei"
 
@@ -4622,8 +4625,10 @@ msgid "Write"
 msgstr "Schreiben"
 
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "Ende"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
@@ -4655,10 +4660,6 @@ msgstr "Dateiname"
 #| msgid "File size"
 msgid "Size and number of parts"
 msgstr "Grösse und Anzahl der Teilstücke"
-
-#: TFRMSPLITTER.GRBXWATCH.CAPTION
-msgid "Watchtower"
-msgstr "Wachturm"
 
 #: TFRMSPLITTER.LBDIRTARGET.CAPTION
 msgid "Directory target"
@@ -5451,7 +5452,7 @@ msgid "Verify check sum..."
 msgstr "Verifiziere Prüfsumme..."
 
 #: ulng.rsdlgcombine
-msgid "Combine files"
+msgid "Combine"
 msgstr ""
 
 #: ulng.rsdlgcp
@@ -5507,6 +5508,13 @@ msgstr "Hinaus"
 #| msgid "Speed %s/s, remaining time %s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "Geschwindigkeit %s/s, verbleibende Zeit %s"
+
+#: ulng.rsdlgsplit
+#, fuzzy
+#| msgid "Split file"
+msgctxt "ulng.rsdlgsplit"
+msgid "Split"
+msgstr "Tei&le Datei"
 
 #: ulng.rsdlgtest
 msgid "Testing..."
@@ -6529,22 +6537,9 @@ msgstr "Falsches Dateigrössenformat!"
 msgid "Unable to split the file!"
 msgstr "Kann Datei nicht teilen!"
 
-#: ulng.rsspliterrtoomanyparts
-msgid "Too many parts!"
-msgstr "Zuviele Teile!"
-
-#: ulng.rssplitmsgcreated
-msgctxt "ulng.rssplitmsgcreated"
-msgid "Created:"
-msgstr "Erstellt:"
-
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr "Die Anzahl der Teile ist grösser als 100! Fortfahren?"
-
-#: ulng.rssplitmsgsize
-msgid "size:"
-msgstr "Grösse:"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"

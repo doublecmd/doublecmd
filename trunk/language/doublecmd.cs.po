@@ -1938,8 +1938,10 @@ msgid "Directory Hotlist"
 msgstr "Rychlé adresáře"
 
 #: TFRMLINKER.BTNEXIT.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "Konec"
 
 #: TFRMLINKER.BTNOK.CAPTION
@@ -2152,6 +2154,7 @@ msgid "Show file properties"
 msgstr "Zobrazit vlastnosti souboru"
 
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
+msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Split file"
 msgstr "Dělení souborů"
 
@@ -4639,8 +4642,10 @@ msgid "Write"
 msgstr "Zápis"
 
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
+#, fuzzy
+#| msgid "Exit"
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
-msgid "Exit"
+msgid "Cancel"
 msgstr "Konec"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
@@ -4672,10 +4677,6 @@ msgstr "Název souboru"
 #| msgid "File size"
 msgid "Size and number of parts"
 msgstr "Velikost souboru"
-
-#: TFRMSPLITTER.GRBXWATCH.CAPTION
-msgid "Watchtower"
-msgstr "Sledování výsledků"
 
 #: TFRMSPLITTER.LBDIRTARGET.CAPTION
 msgid "Directory target"
@@ -5465,7 +5466,7 @@ msgid "Verify check sum..."
 msgstr "Kontrola kontrolního součtu..."
 
 #: ulng.rsdlgcombine
-msgid "Combine files"
+msgid "Combine"
 msgstr ""
 
 #: ulng.rsdlgcp
@@ -5521,6 +5522,13 @@ msgstr ""
 #| msgid "Speed %s/s, remaining time %s"
 msgid "Speed %s/s, time remaining %s"
 msgstr "Rychlost %s/s, zbývající čas %s"
+
+#: ulng.rsdlgsplit
+#, fuzzy
+#| msgid "Split file"
+msgctxt "ulng.rsdlgsplit"
+msgid "Split"
+msgstr "Dělení souborů"
 
 #: ulng.rsdlgtest
 msgid "Testing..."
@@ -6551,22 +6559,9 @@ msgstr "Nekorektní formát velikosti souboru!"
 msgid "Unable to split the file!"
 msgstr "Nelze split soubor!"
 
-#: ulng.rsspliterrtoomanyparts
-msgid "Too many parts!"
-msgstr ""
-
-#: ulng.rssplitmsgcreated
-msgctxt "ulng.rssplitmsgcreated"
-msgid "Created:"
-msgstr "Vytvořeno:"
-
 #: ulng.rssplitmsgmanyparts
 msgid "The number of parts is more than 100! Continue?"
 msgstr ""
-
-#: ulng.rssplitmsgsize
-msgid "size:"
-msgstr "velikost:"
 
 #: ulng.rssplitseldir
 msgid "Select directory:"
