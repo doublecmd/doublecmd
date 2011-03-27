@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2008-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit fFileOpDlg;
@@ -72,6 +72,7 @@ type
     procedure InitializeMoveOperation(Operation: TFileSourceOperation);
     procedure InitializeDeleteOperation(Operation: TFileSourceOperation);
     procedure InitializeWipeOperation(Operation: TFileSourceOperation);
+    procedure InitializeSplitOperation(Operation: TFileSourceOperation);
     procedure InitializeCombineOperation(Operation: TFileSourceOperation);
     procedure InitializeCalcChecksumOperation(Operation: TFileSourceOperation);
     procedure InitializeTestArchiveOperation(Operation: TFileSourceOperation);
@@ -79,6 +80,7 @@ type
     procedure UpdateMoveOperation(Operation: TFileSourceOperation);
     procedure UpdateDeleteOperation(Operation: TFileSourceOperation);
     procedure UpdateWipeOperation(Operation: TFileSourceOperation);
+    procedure UpdateSplitOperation(Operation: TFileSourceOperation);
     procedure UpdateCombineOperation(Operation: TFileSourceOperation);
     procedure UpdateCalcChecksumOperation(Operation: TFileSourceOperation);
     procedure UpdateTestArchiveOperation(Operation: TFileSourceOperation);
@@ -107,6 +109,7 @@ uses
    uFileSourceMoveOperation,
    uFileSourceDeleteOperation,
    uFileSourceWipeOperation,
+   uFileSourceSplitOperation,
    uFileSourceCombineOperation,
    uFileSourceCalcChecksumOperation,
    uFileSourceTestArchiveOperation,
@@ -225,6 +228,8 @@ begin
         InitializeDeleteOperation(Operation);
       fsoWipe:
         InitializeWipeOperation(Operation);
+      fsoSplit:
+        InitializeSplitOperation(Operation);
       fsoCombine:
         InitializeCombineOperation(Operation);
       fsoCalcChecksum:
@@ -333,6 +338,8 @@ begin
         UpdateDeleteOperation(Operation);
       fsoWipe:
         UpdateWipeOperation(Operation);
+      fsoSplit:
+        UpdateSplitOperation(Operation);
       fsoCombine:
         UpdateCombineOperation(Operation);
       fsoCalcChecksum:
@@ -508,6 +515,12 @@ begin
   lblFrom.Caption := rsDlgDeleting;
 end;
 
+procedure TfrmFileOp.InitializeSplitOperation(Operation: TFileSourceOperation);
+begin
+  Caption := rsDlgSplit;
+  InitializeControls([fodl_from_lbl, fodl_to_lbl, fodl_first_pb, fodl_second_pb]);
+end;
+
 procedure TfrmFileOp.InitializeCombineOperation(Operation: TFileSourceOperation);
 begin
   Caption := rsDlgCombine;
@@ -595,6 +608,25 @@ begin
   with WipeStatistics do
   begin
     lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
+
+    SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
+    SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
+    SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
+  end;
+end;
+
+procedure TfrmFileOp.UpdateSplitOperation(Operation: TFileSourceOperation);
+var
+  SplitOperation: TFileSourceSplitOperation;
+  SplitStatistics: TFileSourceSplitOperationStatistics;
+begin
+  SplitOperation := Operation as TFileSourceSplitOperation;
+  SplitStatistics := SplitOperation.RetrieveStatistics;
+
+  with SplitStatistics do
+  begin
+    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFileFrom, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
+    lblFileNameTo.Caption := MinimizeFilePath(CurrentFileTo, lblFileNameTo.Canvas, lblFileNameTo.Width);
 
     SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(pbSecond, DoneBytes, TotalBytes);

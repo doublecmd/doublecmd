@@ -2545,7 +2545,6 @@ end;
 procedure TActs.cm_FileLinker(param:string);
 var
   I: Integer;
-  Result: Boolean;
   aSelectedFiles: TFiles = nil;
   aFile: TFile;
 begin
@@ -2558,7 +2557,6 @@ begin
       end;
 
     try
-      Result:= False;
       aSelectedFiles := CloneSelectedFiles;
 
       for I := 0 to aSelectedFiles.Count - 1 do
@@ -2583,42 +2581,26 @@ end;
 
 procedure TActs.cm_FileSpliter(param:string);
 var
-  sl: TStringList = nil;
   I: Integer;
-  Result: Boolean;
-  aSelectedFiles: TFiles = nil;
-  aFile: TFile;
+  aFile: TFile = nil;
 begin
   with frmMain, frmMain.ActiveFrame do
   begin
-    // For now only works for FileSystem.
-    if FileSource.IsClass(TFileSystemFileSource) then
-    begin
-      sl:= TStringList.Create;
-      try
-        Result:= False;
-        aSelectedFiles := CloneSelectedFiles;
+    if not (fsoSplit in FileSource.GetOperationsTypes) then
+      begin
+        msgWarning(rsMsgErrNotSupported);
+        Exit;
+      end;
 
-        for I := 0 to aSelectedFiles.Count - 1 do
-          begin
-            aFile := aSelectedFiles[I];
-            if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
-              sl.Add(CurrentPath + aFile.Name);
-          end;
-
-        if sl.Count > 0 then
-          Result:= ShowSplitterFileForm(sl, NotActiveFrame.CurrentPath);
-      finally
-        FreeThenNil(sl);
-        FreeThenNil(aSelectedFiles);
-        if Result then
-          begin
-            ActiveFrame.Reload;
-            NotActiveFrame.Reload;
-          end;
-        ActiveFrame.SetFocus;
-      end; // try
-    end; // if
+    try
+      aFile := CloneActiveFile;
+      if (not Assigned(aFile)) or (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+        msgWarning(rsMsgInvalidSelection)
+      else
+        ShowSplitterFileForm(FileSource, aFile, NotActiveFrame.CurrentPath);
+    finally
+      FreeThenNil(aFile);
+    end; // try
   end; // with
 end;
 

@@ -180,7 +180,8 @@ resourcestring
   rsDlgSpeedTime = 'Speed %s/s, time remaining %s';
   rsDlgDel = 'Delete file(s)';
   rsDlgWipe = 'Wipe file(s)';
-  rsDlgCombine = 'Combine files';
+  rsDlgSplit = 'Split';
+  rsDlgCombine = 'Combine';
   rsDlgCp = 'Copy file(s)';
   rsDlgMv = 'Move file(s)';
   rsDlgPack = 'Packing...';
@@ -278,10 +279,7 @@ resourcestring
   rsSplitErrFileSize = 'Incorrect file size format!';
   rsSplitErrDirectory = 'Unable to create target directory!';
   rsSplitErrSplitFile = 'Unable to split the file!';
-  rsSplitErrTooManyParts = 'Too many parts!';
   rsSplitMsgManyParts = 'The number of parts is more than 100! Continue?';
-  rsSplitMsgCreated = 'Created:';
-  rsSplitMsgSize = 'size:';
   // MultiRename dialog
   rsMulRenFileNameStyleList = 'No change;UPPERCASE;lowercase;First char uppercase;' +
                               'First Char Of Every Word Uppercase;';
