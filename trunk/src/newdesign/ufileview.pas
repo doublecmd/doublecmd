@@ -246,7 +246,8 @@ type
        Returns @true if reloading is done, @false if reloading will not be done
        (for example paths don't match).
     }
-    function Reload(const PathsToReload: TPathsArray = nil): Boolean; virtual;
+    function Reload(const PathsToReload: TPathsArray = nil): Boolean; overload;
+    function Reload(const PathToReload: String): Boolean; overload;
     procedure StopWorkers; virtual;
 
     // For now we use here the knowledge that there are tabs.
@@ -792,6 +793,15 @@ begin
   MakeFileSourceFileList;
 end;
 
+function TFileView.Reload(const PathToReload: String): Boolean;
+var
+  Paths: TPathsArray;
+begin
+  SetLength(Paths, 1);
+  Paths[0] := PathToReload;
+  Reload(Paths);
+end;
+
 procedure TFileView.StopWorkers;
 var
   i: Integer = 0;
@@ -1244,8 +1254,7 @@ var
 begin
   if Enable then
   begin
-    if IsFileSystemWatcher and
-       Assigned(FileSource) and
+    if Assigned(FileSource) and
        FileSource.IsClass(TFileSystemFileSource) and
        (FWatchPath <> CurrentPath) then
     begin
@@ -1272,7 +1281,8 @@ begin
       if WatchFilter <> [] then
       begin
         FWatchPath := CurrentPath;
-        TFileSystemWatcher.AddWatch(FWatchPath, WatchFilter, @WatcherEvent);
+        if TFileSystemWatcher.AddWatch(FWatchPath, WatchFilter, @WatcherEvent) = False then
+          FWatchPath := EmptyStr;
       end;
     end;
   end
@@ -1285,22 +1295,18 @@ end;
 
 procedure TFileView.ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
 begin
-  // Reload file view, but only if the file source is currently viewed.
-  if aFileSource.Equals(FileSource) then
+  // Reload file view but only if the file source is currently viewed
+  // and FileSystemWatcher is not being used.
+  if not WatcherActive and aFileSource.Equals(FileSource) then
     Reload(ReloadedPaths);
 end;
 
 procedure TFileView.WatcherEvent(const EventData: TFSWatcherEventData);
-var
-  Paths: TPathsArray;
 begin
   // if not active and refresh only in foreground then exit
   if (watch_only_foreground in gWatchDirs) and (not Application.Active) then
     Exit;
-
-  SetLength(Paths, 1);
-  Paths[0] := EventData.Path;
-  Reload(Paths);
+  Reload(EventData.Path);
 end;
 
 procedure TFileView.GoToHistoryIndex(aFileSourceIndex, aPathIndex: Integer);
@@ -1443,4 +1449,4 @@ begin
 end;
 
 end.
-
+
