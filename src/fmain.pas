@@ -4498,7 +4498,7 @@ var
   Operation: TFileSourceOperation;
   visiblePanel: boolean;
 begin
-  // Скрываем прогрессбар если нет операций в фоне
+  // Hide progress bar if there are no operations
   if OperationsManager.OperationsCount = 0 then
     begin
       PanelAllProgress.Visible:=false;
@@ -4513,14 +4513,6 @@ begin
       if gPanelOfOp = True then
         begin
           PanelAllProgress.Height := sboxOperations.Canvas.TextHeight('Pg') * 2 + 8;
-          for i := 0 to OperationsManager.OperationsCount - 1 do
-          begin
-            Operation := OperationsManager.GetOperationByIndex(i);
-            if Assigned(Operation) then
-              begin
-                sboxOperations.Invalidate; // force redraw
-              end;
-          end;
           // Делаем все видимым  если у хотя бы одной операции нет формы
           visiblePanel:= False;
            for i := 0 to  OperationsManager.OperationsCount - 1 do
@@ -4531,7 +4523,8 @@ begin
            if visiblePanel = True then
              PanelAllProgress.Visible:= True
            else
-             PanelAllProgress.Visible:= False ;
+             PanelAllProgress.Visible:= False;
+           sboxOperations.Invalidate; // force redraw
         end;
 
       if gProgInMenuBar = true then
