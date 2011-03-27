@@ -155,6 +155,11 @@ var
 
 class procedure TFileSystemWatcher.CreateFileSystemWatcher;
 begin
+  if Assigned(FileSystemWatcher) and FileSystemWatcher.FFinished then
+    // Thread finished prematurely maybe because of an error.
+    // Destroy and recreate below.
+    DestroyFileSystemWatcher;
+
   if not Assigned(FileSystemWatcher) then
     FileSystemWatcher := TFileSystemWatcherImpl.Create;
 end;
@@ -709,8 +714,13 @@ begin
   try
     if OSWatcherCreated then
       FOSWatchers.Add(OSWatcher);
+
     OSWatcher.Observers.Add(Observer);
-    OSWatcher.UpdateFilter;
+    OSWatcher.UpdateFilter; // This recreates handle.
+
+    // Remove watcher if could not create notification handle.
+    if OSWatcher.Handle = feInvalidHandle then
+      FOSWatchers.Remove(OSWatcher);
   finally
     FWatcherLock.Release;
   end;
@@ -914,7 +924,7 @@ begin
   if FHandle = INVALID_HANDLE_VALUE then
   begin
     FHandle := feInvalidHandle;
-    ShowError('FindFirstChangeNotification failed');
+    ShowError('FindFirstChangeNotificationW failed for ' + FWatchPath);
   end;
 end;
 {$ELSEIF DEFINED(LINUX)}
@@ -930,7 +940,7 @@ begin
   if FHandle < 0 then
   begin
     FHandle := feInvalidHandle;
-    ShowError('inotify_add_watch() failed');
+    ShowError('inotify_add_watch() failed for ' + FWatchPath);
   end;
 end;
 {$ELSEIF DEFINED(BSD)}
@@ -947,7 +957,7 @@ begin
   if FHandle < 0 then
   begin
     FHandle := feInvalidHandle;
-    ShowError('failed to open file');
+    ShowError('failed to open file ' + FWatchPath);
   end
   else
   begin
@@ -988,4 +998,4 @@ finalization
   TFileSystemWatcher.DestroyFileSystemWatcher;
 
 end.
-
+
