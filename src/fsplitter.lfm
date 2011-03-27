@@ -104,6 +104,7 @@ object frmSplitter: TfrmSplitter
     Height = 103
     Top = 130
     Width = 300
+    Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
