@@ -59,11 +59,13 @@ object frmLinker: TfrmLinker
       AnchorSideTop.Control = edSave
       AnchorSideRight.Control = gbSaveTo
       AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = edSave
+      AnchorSideBottom.Side = asrBottom
       Left = 207
-      Height = 25
+      Height = 21
       Top = 26
       Width = 25
-      Anchors = [akTop, akRight]
+      Anchors = [akTop, akRight, akBottom]
       BorderSpacing.Right = 6
       BorderSpacing.InnerBorder = 4
       Caption = '...'
