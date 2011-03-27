@@ -597,7 +597,7 @@ begin
     FpFcntl(FEventPipe[1], F_SetFl, FpFcntl(FEventPipe[1], F_GetFl) or O_NONBLOCK);
   end
   else
-    ShowError('pipe() failed')
+    ShowError('pipe() failed');
   {$ELSEIF DEFINED(BSD)}
   FNotifyHandle := kqueue();
   if FNotifyHandle = feInvalidHandle then
@@ -998,4 +998,4 @@ finalization
   TFileSystemWatcher.DestroyFileSystemWatcher;
 
 end.
-
+
