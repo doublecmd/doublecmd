@@ -1651,7 +1651,7 @@ begin
   begin
     lblInfo.Caption := rsMsgLoadingFileList;
   end
-  else
+  else if Assigned(FileSource) then
   begin
     FilesInDir := 0;
     FilesSelected := 0;
@@ -1688,7 +1688,9 @@ begin
                                cnvFormatFileSize(SizeInDir),
                                FilesSelected,
                                FilesInDir]);
-  end;
+  end
+  else if not (csDestroying in ComponentState) then
+    lblInfo.Caption := '';
 end;
 
 procedure TColumnsFileView.MarkAll;
