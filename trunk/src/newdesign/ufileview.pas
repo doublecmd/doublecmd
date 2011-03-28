@@ -431,8 +431,6 @@ begin
   for i := 0 to FileSourcesCount - 1 do
     FHistory.FileSource[i].RemoveReloadEventListener(@ReloadEvent);
 
-  RemoveAllFileSources;
-
   if Assigned(FWorkersThread) then
   begin
     StopWorkers;
@@ -460,6 +458,8 @@ begin
     end;
     FreeAndNil(FFileViewWorkers);
   end;
+
+  RemoveAllFileSources;
 
   if Assigned(FFiles) then
     FreeAndNil(FFiles);
