@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.4.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-03-26 12:07+0300\n"
+"PO-Revision-Date: 2011-03-27 22:41+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1914,11 +1914,10 @@ msgid "Directory Hotlist"
 msgstr "Вибрані каталоги"
 
 #: TFRMLINKER.BTNEXIT.CAPTION
-#, fuzzy
 #| msgid "Exit"
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
 msgid "Cancel"
-msgstr "Вихід"
+msgstr "Відміна"
 
 #: TFRMLINKER.BTNOK.CAPTION
 msgctxt "TFRMLINKER.BTNOK.CAPTION"
@@ -4523,7 +4522,6 @@ msgid "Group"
 msgstr "Група"
 
 #: TFRMSETFILEPROPERTIES.LBLATTRINFO.CAPTION
-#, fuzzy
 #| msgid "(gray = unchanged, checked=set attribute)"
 msgid "(gray field means unchanged value)"
 msgstr "(сірі поля змінити неможливо)"
@@ -4569,11 +4567,10 @@ msgid "Write"
 msgstr "Запис"
 
 #: TFRMSPLITTER.BTNCANCEL.CAPTION
-#, fuzzy
 #| msgid "Exit"
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr "Вихід"
+msgstr "Відміна"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
 msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
@@ -5394,10 +5391,9 @@ msgid "Verify check sum..."
 msgstr "Перевірити контрольну суму..."
 
 #: ulng.rsdlgcombine
-#, fuzzy
 #| msgid "Combine files"
 msgid "Combine"
-msgstr "Об’єднати файли"
+msgstr "Об’єднання"
 
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
@@ -5455,8 +5451,9 @@ msgid "Speed %s/s, time remaining %s"
 msgstr "Швидкість %s/с, залишилось часу %s"
 
 #: ulng.rsdlgsplit
+#, fuzzy
 msgid "Split"
-msgstr ""
+msgstr "Розрізання"
 
 #: ulng.rsdlgtest
 msgid "Testing..."
