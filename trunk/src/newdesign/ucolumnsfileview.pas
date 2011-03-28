@@ -2881,9 +2881,9 @@ var
   Worker: TFileViewWorker;
   AFile: TDisplayFile;
 begin
-  if (GetCurrentWorkType = fvwtCreate) or
+  if (csDestroying in ComponentState) or
      (not Assigned(FFiles)) or
-     (csDestroying in ComponentState) then
+     (GetCurrentWorkType = fvwtCreate) then
     Exit;
 
   VisibleFiles := GetVisibleFilesIndexes;
@@ -4240,4 +4240,4 @@ begin
 end;
 
 end.
-
+

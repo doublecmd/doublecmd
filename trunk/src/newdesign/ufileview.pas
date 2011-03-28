@@ -716,9 +716,12 @@ function TFileView.GetCurrentWorkType: TFileViewWorkType;
 var
   i: Integer;
 begin
-  for i := 0 to FFileViewWorkers.Count - 1 do
-    if FFileViewWorkers[i].Working then
-      Exit(FFileViewWorkers[i].WorkType);
+  if Assigned(FFileViewWorkers) then
+  begin
+    for i := 0 to FFileViewWorkers.Count - 1 do
+      if FFileViewWorkers[i].Working then
+        Exit(FFileViewWorkers[i].WorkType);
+  end;
   Result := fvwtNone;
 end;
 
@@ -1449,4 +1452,4 @@ begin
 end;
 
 end.
-
+
