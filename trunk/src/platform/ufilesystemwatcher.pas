@@ -413,52 +413,55 @@ begin
               FileName := StrPas(PChar(@ev^.name));
               OldFileName := EmptyStr;
 
-              case ev^.mask of
-                IN_ACCESS,
-                IN_MODIFY,
-                IN_ATTRIB,
-                IN_CLOSE,
-                IN_OPEN:
-                  EventType := fswFileChanged;
-
-                IN_CREATE:
-                  EventType := fswFileCreated;
-
-                IN_DELETE, IN_DELETE_SELF:
-                  EventType := fswFileDeleted;
-
-                IN_MOVE_SELF:
-                  begin
-                    EventType := fswFileRenamed;
-                    OldFileName := FileName;
-                  end;
-
-                IN_MOVED_FROM:
-                  begin
-                    Cookies.Add(ev^.cookie, FileName);
-                    // Don't send event until IN_MOVED_TO is received.
-                    Break;
-                  end;
-
-                IN_MOVED_TO:
-                  begin
-                    CookieIndex := Cookies.IndexOf(ev^.cookie);
-                    if CookieIndex >= 0 then
-                    begin
-                      OldFileName := Cookies.Data[CookieIndex];
-                      Cookies.Delete(CookieIndex);
-                    end;
-                    // else
-                    // Cookie has not been found but send event anyway
-                    // just without OldFileName.
-                  end;
-
-                IN_IGNORED:
+              if (ev^.mask and (IN_IGNORED or
+                                IN_Q_OVERFLOW)) <> 0 then
+                begin
+                  // Ignore this event.
                   Break;
-
-                else
-                  EventType := fswUnknownChange;
-              end;
+                end
+              else if (ev^.mask and (IN_ACCESS or
+                                     IN_MODIFY or
+                                     IN_ATTRIB or
+                                     IN_CLOSE or
+                                     IN_OPEN)) <> 0 then
+                begin
+                  EventType := fswFileChanged;
+                end
+              else if (ev^.mask and IN_CREATE) <> 0 then
+                begin
+                  EventType := fswFileCreated;
+                end
+              else if (ev^.mask and (IN_DELETE or
+                                     IN_DELETE_SELF)) <> 0 then
+                begin
+                  EventType := fswFileDeleted;
+                end
+              else if (ev^.mask and IN_MOVE_SELF) <> 0 then
+                begin
+                  EventType := fswFileRenamed;
+                  OldFileName := FileName;
+                end
+              else if (ev^.mask and IN_MOVED_FROM) <> 0 then
+                begin
+                  Cookies.Add(ev^.cookie, FileName);
+                  // Don't send event until IN_MOVED_TO is received.
+                  Break;
+                end
+              else if (ev^.mask and IN_MOVED_TO) <> 0 then
+                begin
+                  EventType := fswFileRenamed;
+                  CookieIndex := Cookies.IndexOf(ev^.cookie);
+                  if CookieIndex >= 0 then
+                  begin
+                    OldFileName := Cookies.Data[CookieIndex];
+                    Cookies.Delete(CookieIndex);
+                  end;
+                  // else
+                  // Cookie has not been found but send event anyway
+                  // just without OldFileName.
+                end
+              else
+                EventType := fswUnknownChange;
             end;
 
             // call event handler
