@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-03-27 11:37+0300\n"
+"PO-Revision-Date: 2011-03-29 21:28+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5252,7 +5252,7 @@ msgstr "для запущенных"
 #: TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
-msgstr ""
+msgstr "Если файл существует"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -6123,25 +6123,27 @@ msgctxt "ulng.rsoptarchivedelete"
 msgid "Delete:"
 msgstr "Удалить:"
 
+#: ulng.rsoptarchiveextractwithoutpath
+msgid "Extract without path:"
+msgstr "Распаковать не учитывая пути:"
+
 #: ulng.rsoptarchiveid
+#| msgid "ID (optional):"
 msgctxt "ulng.rsoptarchiveid"
-msgid "ID (optional):"
-msgstr "ID (необязательный):"
+msgid "ID:"
+msgstr "ID:"
 
 #: ulng.rsoptarchiveidpos
+#| msgid "ID Position (optional):"
 msgctxt "ulng.rsoptarchiveidpos"
-msgid "ID Position (optional):"
-msgstr "ID Position (необязательный):"
+msgid "ID Position:"
+msgstr "ID Position:"
 
 #: ulng.rsoptarchiveidseekrange
+#| msgid "ID Seek Range (optional):"
 msgctxt "ulng.rsoptarchiveidseekrange"
-msgid "ID Seek Range (optional):"
-msgstr "ID Seek Range (необязательный):"
-
-#: ulng.rsoptarchivemultivolume
-msgctxt "ulng.rsoptarchivemultivolume"
-msgid "Create multivolume archive:"
-msgstr "Создать многотомный архив:"
+msgid "ID Seek Range:"
+msgstr "ID Seek Range:"
 
 #: ulng.rsoptarchiveparam
 msgid "Parameter"
