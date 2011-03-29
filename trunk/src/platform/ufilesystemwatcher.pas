@@ -219,8 +219,6 @@ end;
 // ----------------------------------------------------------------------------
 
 {$IF DEFINED(LINUX)}
-const
-  FIONREAD = $541B;
 type
   TINotifyRenameCookies = specialize TFPGMap<uint32_t, string>;
 {$ENDIF}
@@ -338,9 +336,16 @@ begin
   end; { while }
 end;
 {$ELSEIF DEFINED(LINUX)}
+const
+  // Buffer size passed to read() must be at least the size of the first event
+  // to be read from the file descriptor, otherwise Invalid Parameter is returned.
+  // Event record size is variable, we use maximum possible for a single event.
+  // Usually it is big enough so that multiple events can be read with single read().
+  // The 'name' field is always padded up to multiple of 16 bytes with NULLs.
+  buffer_size = sizeof(inotify_event) + MAX_PATH;
 var
   bytes_to_parse, p, i: Integer;
-  buf: PChar;
+  buf: PChar = nil;
   ev: pinotify_event;
   fds: TFDSet;
   nfds: cint;
@@ -354,6 +359,7 @@ begin
 
   try
     Cookies := TINotifyRenameCookies.Create;
+    buf := GetMem(buffer_size);
 
     // get maximum file descriptor
     nfds := FEventPipe[0] + 1;
@@ -383,23 +389,12 @@ begin
       if fpFD_ISSET(FNotifyHandle, fds) = 0 then // inotify handle didn't change, so user triggered
         continue;
 
-      repeat
-        if fpioctl(FNotifyHandle, FIONREAD, @bytes_to_parse) = -1 then
-        begin
-          ShowError('ioctl(): failed');
-          Exit;
-        end; { if }
-
-        if Terminated then Exit;
-      until (bytes_to_parse >= SizeOf(inotify_event));
-
-      // get memory for events and read them
-      buf := GetMem(bytes_to_parse);
-      if fpread(FNotifyHandle, buf, bytes_to_parse) = -1 then
+      // Read events.
+      bytes_to_parse := fpread(FNotifyHandle, buf, buffer_size);
+      if bytes_to_parse = -1 then
       begin
         ShowError('read(): failed');
-        FreeMem(buf);
-        Exit;
+        continue;
       end; { if }
 
       // parse events and print them
@@ -473,15 +468,15 @@ begin
           end; { if }
         end; { for }
 
-        p := p + ev^.len + 16;
+        p := p + sizeof(inotify_event) + ev^.len;
       end; { while }
 
-      // free memory
-      FreeMem(buf);
     end; { while }
 
   finally
     FreeAndNil(Cookies);
+    if Assigned(buf) then
+      FreeMem(buf);
   end; { try - finally }
 end;
 {$ELSEIF DEFINED(BSD)}
