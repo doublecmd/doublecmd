@@ -461,7 +461,11 @@ object frmOptions: TfrmOptions
             BorderSpacing.Right = 8
             ItemHeight = 13
             Items.Strings = (
+              'yyyy.mm.dd hh:mm:ss'
+              'yyyy.mm.dd hh:mm'
+              'yy.mm.dd hh:mm'
               'dd.mm.yyyy hh:mm:ss'
+              'dd.mm.yyyy hh:mm'
               'dd.mm.yy hh:mm'
               'dd.mm.yyyy'
               'dd.mm.yy'
