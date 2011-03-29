@@ -2005,7 +2005,11 @@ begin
         begin
           FLastSearchPos := PAdr - ViewerControl.GetDataAdr;
           // text found, show it in ViewerControl if not visible
-          ViewerControl.MakeVisible(FLastSearchPos);
+          if not ViewerControl.IsVisible(FLastSearchPos) then
+            begin
+              ViewerControl.Position:=FLastSearchPos;
+              ViewerControl.Scroll(-4);
+            end;
           // Select found text.
           ViewerControl.SelectText(FLastSearchPos, FLastSearchPos + UTF8Length(sSearchText));
         end
