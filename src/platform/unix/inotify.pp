@@ -13,11 +13,11 @@ type
   uint32_t = cuint32;
   {en Structure describing an inotify event. }
   inotify_event = record
-    wd:     longint;  //en< Watch descriptor.
-    mask:   uint32_t; //en< Watch mask.
-    cookie: uint32_t; //en< Cookie to synchronize two events.
-    len:    uint32_t; //en< Length (including NULs) of name.
-    name:   char;     //en< Name.
+    wd:     cint32;      //en< Watch descriptor.
+    mask:   uint32_t;    //en< Watch mask.
+    cookie: uint32_t;    //en< Cookie to synchronize two events.
+    len:    uint32_t;    //en< Length (including NULs) of name.
+    name:   record end;  //en< Stub for possible name (doesn't add to event size).
   end;
   {en Pointer to structure describing an inotify event. }
   pinotify_event = ^inotify_event;
