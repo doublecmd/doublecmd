@@ -219,10 +219,9 @@ uses
 
 {$IF DEFINED(BSD) AND NOT DEFINED(DARWIN)}
 function getfsstat(struct_statfs: PStatFS; const buffsize: int64; const int_flags: integer): integer;
-{$IFDEF FREEBSD}
-{$WARNING Remove this constant when added to FreePascal sources}
+{$IF DEFINED(FREEBSD) AND ((fpc_version<2) OR ((fpc_version=2) AND (fpc_release<5)))}
 const
-  syscall_nr_getfsstat = 18;
+  syscall_nr_getfsstat = 18; // was not defined before fpc 2.5.1
 {$ENDIF}
 begin
   Result := do_syscall(syscall_nr_getfsstat, TSysParam(struct_statfs), TSysParam(buffsize), TSysParam(int_flags));
