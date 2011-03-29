@@ -366,6 +366,9 @@ begin
   if LoadModule = False then
     raise EModuleNotLoadedException.Create('Cannot load WCX module ' + FModuleFileName);
 
+  FOperationsClasses[fsoCopyIn]          := TWcxArchiveCopyInOperation.GetOperationClass;
+  FOperationsClasses[fsoCopyOut]         := TWcxArchiveCopyOutOperation.GetOperationClass;
+
   SetCryptCallback;
 
   ReadArchive;
@@ -383,6 +386,9 @@ begin
   FPluginCapabilities := aWcxPluginCapabilities;
   FArcFileList := TObjectList.Create(True);
   FWcxModule := aWcxPluginModule;
+
+  FOperationsClasses[fsoCopyIn]          := TWcxArchiveCopyInOperation.GetOperationClass;
+  FOperationsClasses[fsoCopyOut]         := TWcxArchiveCopyOutOperation.GetOperationClass;
 
   SetCryptCallback;
 

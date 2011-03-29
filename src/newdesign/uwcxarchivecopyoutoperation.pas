@@ -9,16 +9,24 @@ uses
   uFileSourceCopyOperation,
   uFileSource,
   uFileSourceOperation,
+  uFileSourceOperationOptions,
+  uFileSourceOperationOptionsUI,
   uFile,
   uWcxArchiveFileSource;
 
 type
+
+  { TWcxArchiveCopyOutOperation }
+
   TWcxArchiveCopyOutOperation = class(TFileSourceCopyOutOperation)
 
   private
     FWcxArchiveFileSource: IWcxArchiveFileSource;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     FCurrentFileSize: Int64;
+
+	// Options.
+	FFileExistsOption: TFileSourceOperationOptionFileExists;
 
     {en
       Creates neccessary paths before extracting files from archive.
@@ -47,6 +55,8 @@ type
              from where the attributes are retrieved.}
     function SetDirsAttributes(const Paths: TStringHashList): Boolean;
 
+    function DoFileExists(const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
+	
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
@@ -65,13 +75,18 @@ type
     procedure Finalize; override;
 
     class procedure ClearCurrentOperation;
+
+    class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
+
+    property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
   end;
 
 implementation
 
 uses
   LCLProc, uMasks, FileUtil, contnrs, uOSUtils, uDCUtils, uShowMsg, WcxPlugin,
-  uFileSourceOperationUI, uWCXmodule, uFileProcs, uLng, uDateTimeUtils, uTypes;
+  uFileSourceOperationUI, fWcxArchiveCopyOperationOptions, uWCXmodule,
+  uFileProcs, uLng, uDateTimeUtils, uTypes;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
@@ -181,6 +196,7 @@ constructor TWcxArchiveCopyOutOperation.Create(aSourceFileSource: IFileSource;
                                                aTargetPath: String);
 begin
   FWcxArchiveFileSource := aSourceFileSource as IWcxArchiveFileSource;
+  FFileExistsOption := fsoofeNone;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
@@ -281,7 +297,10 @@ begin
           FCurrentFileSize := Header.UnpSize;
         end;
 
-        iResult := WcxModule.WcxProcessFile(ArcHandle, PK_EXTRACT, EmptyStr, TargetFileName);
+        if (DoFileExists(TargetFileName) = fsoofeOverwrite) then
+          iResult := WcxModule.WcxProcessFile(ArcHandle, PK_EXTRACT, EmptyStr, TargetFileName)
+        else
+          iResult := WcxModule.WcxProcessFile(ArcHandle, PK_SKIP, EmptyStr, EmptyStr);
 
         if iResult <> E_SUCCESS then
         begin
@@ -506,6 +525,44 @@ begin
   end;
 end;
 
+function TWcxArchiveCopyOutOperation.DoFileExists(const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
+const
+  PossibleResponses: array[0..4] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll, fsourCancel);
+begin
+  case FFileExistsOption of
+    fsoofeNone:
+      begin
+        if not mbFileExists(AbsoluteTargetFileName) then
+          Result:= fsoofeOverwrite
+        else
+          case AskQuestion(Format(rsMsgFileExistsRwrt, [AbsoluteTargetFileName]), '',
+                           PossibleResponses, fsourOverwrite, fsourSkip) of
+            fsourOverwrite:
+              Result := fsoofeOverwrite;
+            fsourSkip:
+              Result := fsoofeSkip;
+            fsourOverwriteAll:
+              begin
+                FFileExistsOption := fsoofeOverwrite;
+                Result := fsoofeOverwrite;
+              end;
+            fsourSkipAll:
+              begin
+                FFileExistsOption := fsoofeSkip;
+                Result := fsoofeSkip;
+              end;
+            fsourNone,
+            fsourCancel:
+              RaiseAbortOperation;
+          end;
+      end;
+
+    else
+      Result := FFileExistsOption;
+  end;
+end;
+
 procedure TWcxArchiveCopyOutOperation.ShowError(sMessage: String; logOptions: TLogOptions);
 begin
   if not gSkipFileOpError then
@@ -542,6 +599,11 @@ end;
 class procedure TWcxArchiveCopyOutOperation.ClearCurrentOperation;
 begin
   WcxCopyOutOperation := nil;
+end;
+
+class function TWcxArchiveCopyOutOperation.GetOptionsUIClass: TFileSourceOperationOptionsUIClass;
+begin
+  Result:= TWcxArchiveCopyOperationOptionsUI;
 end;
 
 end.
