@@ -319,7 +319,7 @@ resourcestring
   rsOptArchiveValue = 'Value';
   rsOptArchiveDelete = 'Delete:';
   rsOptArchiveTest = 'Test:';
-  rsOptArchiveMultiVolume = 'Create multivolume archive:';
+  rsOptArchiveExtractWithoutPath = 'Extract without path:';
   rsOptArchiveSelfExtract = 'Create self extracting archive:';
   rsOptArchiveID = 'ID (optional):';
   rsOptArchiveIDPos = 'ID Position (optional):';

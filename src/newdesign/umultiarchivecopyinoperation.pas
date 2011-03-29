@@ -137,9 +137,7 @@ begin
   ChangeFileListRoot(EmptyStr, FFullFilesTree);
   with FMultiArchiveFileSource do
   begin
-    if (VolumeSize <> EmptyStr) and (MultiArcItem.FAddMultiVolume <> EmptyStr) then
-      sCommandLine:= MultiArcItem.FAddMultiVolume
-    else if (ExtractFileExt(ArchiveFileName) = GetSfxExt) and (MultiArcItem.FAddSelfExtract <> EmptyStr) then
+    if (ExtractFileExt(ArchiveFileName) = GetSfxExt) and (Length(MultiArcItem.FAddSelfExtract) <> 0) then
       sCommandLine:= MultiArcItem.FAddSelfExtract
     else
       sCommandLine:= MultiArcItem.FAdd;
