@@ -553,15 +553,15 @@ const
   stgCmdCommentIndex = 1;
   stgCmdHotkeysIndex = 2;
 
-  stgArchiveTitle         = 0;
-  stgArchiveDelete        = 1;
-  stgArchiveTest          = 2;
-  stgArchiveMultiVolume   = 3;
-  stgArchiveSelfExtract   = 4;
-  stgArchiveID            = 5;
-  stgArchiveIDPos         = 6;
-  stgArchiveIDSeekRange   = 7;
-  stgArchivePasswordQuery = 8;
+  stgArchiveTitle                = 0;
+  stgArchiveDelete               = 1;
+  stgArchiveTest                 = 2;
+  stgArchiveExtractWithoutPath   = 3;
+  stgArchiveSelfExtract          = 4;
+  stgArchiveID                   = 5;
+  stgArchiveIDPos                = 6;
+  stgArchiveIDSeekRange          = 7;
+  stgArchivePasswordQuery        = 8;
 
 const
   // Tools page: what tool is displayed in each row.
@@ -660,7 +660,7 @@ begin
   stgArchiverCommands.Cells[1, stgArchiveTitle] := rsOptArchiveValue;
   stgArchiverCommands.Cells[0, stgArchiveDelete] := rsOptArchiveDelete;
   stgArchiverCommands.Cells[0, stgArchiveTest] := rsOptArchiveTest;
-  stgArchiverCommands.Cells[0, stgArchiveMultiVolume] := rsOptArchiveMultiVolume;
+  stgArchiverCommands.Cells[0, stgArchiveExtractWithoutPath] := rsOptArchiveExtractWithoutPath;
   stgArchiverCommands.Cells[0, stgArchiveSelfExtract] := rsOptArchiveSelfExtract;
   stgArchiverCommands.Cells[0, stgArchiveID] := rsOptArchiveID;
   stgArchiverCommands.Cells[0, stgArchiveIDPos] := rsOptArchiveIDPos;
@@ -1409,7 +1409,7 @@ begin
     FAdd:= edtArchiveAdd.Text;
     FDelete:= Cells[1, stgArchiveDelete];
     FTest:= Cells[1, stgArchiveTest];
-    FAddMultiVolume:= Cells[1, stgArchiveMultiVolume];
+    FExtractWithoutPath:= Cells[1, stgArchiveExtractWithoutPath];
     FAddSelfExtract:= Cells[1, stgArchiveSelfExtract];
     FID:= Cells[1, stgArchiveID];
     FIDPos:= Cells[1, stgArchiveIDPos];
@@ -2317,7 +2317,7 @@ begin
       edtArchiveAdd.Text:= EmptyStr;
       Cells[1, stgArchiveDelete]:= EmptyStr;
       Cells[1, stgArchiveTest]:= EmptyStr;
-      Cells[1, stgArchiveMultiVolume]:= EmptyStr;
+      Cells[1, stgArchiveExtractWithoutPath]:= EmptyStr;
       Cells[1, stgArchiveSelfExtract]:= EmptyStr;
       Cells[1, stgArchiveID]:= EmptyStr;
       Cells[1, stgArchiveIDPos]:= EmptyStr;
@@ -2343,7 +2343,7 @@ begin
       edtArchiveAdd.Text:= FAdd;
       Cells[1, stgArchiveDelete]:= FDelete;
       Cells[1, stgArchiveTest]:= FTest;
-      Cells[1, stgArchiveMultiVolume]:= FAddMultiVolume;
+      Cells[1, stgArchiveExtractWithoutPath]:= FExtractWithoutPath;
       Cells[1, stgArchiveSelfExtract]:= FAddSelfExtract;
       Cells[1, stgArchiveID]:= FID;
       Cells[1, stgArchiveIDPos]:= FIDPos;
