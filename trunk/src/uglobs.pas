@@ -525,6 +525,9 @@ begin
       // editor highlight file2
       if not mbFileExists(gpCfgDir + 'twilight.col') then
         CopyFile(gpGlobalCfgDir + 'twilight.col', gpCfgDir + 'twilight.col');
+      // multiarc configuration file
+      if not mbFileExists(gpCfgDir + 'multiarc.ini') then
+        CopyFile(gpGlobalCfgDir + 'multiarc.ini', gpCfgDir + 'multiarc.ini');
     end;
 end;
 
@@ -1891,4 +1894,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.
