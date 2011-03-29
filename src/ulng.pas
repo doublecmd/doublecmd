@@ -321,9 +321,9 @@ resourcestring
   rsOptArchiveTest = 'Test:';
   rsOptArchiveExtractWithoutPath = 'Extract without path:';
   rsOptArchiveSelfExtract = 'Create self extracting archive:';
-  rsOptArchiveID = 'ID (optional):';
-  rsOptArchiveIDPos = 'ID Position (optional):';
-  rsOptArchiveIDSeekRange = 'ID Seek Range (optional):';
+  rsOptArchiveID = 'ID:';
+  rsOptArchiveIDPos = 'ID Position:';
+  rsOptArchiveIDSeekRange = 'ID Seek Range:';
   rsOptArchivePasswordQuery = 'Password query string:';
   //-------------------------------
   rsOptEnterExt = 'Enter extension';

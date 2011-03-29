@@ -6135,25 +6135,24 @@ msgctxt "ulng.rsoptarchivedelete"
 msgid "Delete:"
 msgstr "Изтриване:"
 
+#: ulng.rsoptarchiveextractwithoutpath
+msgid "Extract without path:"
+msgstr ""
+
 #: ulng.rsoptarchiveid
 msgctxt "ulng.rsoptarchiveid"
-msgid "ID (optional):"
+msgid "ID:"
 msgstr ""
 
 #: ulng.rsoptarchiveidpos
 msgctxt "ulng.rsoptarchiveidpos"
-msgid "ID Position (optional):"
+msgid "ID Position:"
 msgstr ""
 
 #: ulng.rsoptarchiveidseekrange
 msgctxt "ulng.rsoptarchiveidseekrange"
-msgid "ID Seek Range (optional):"
+msgid "ID Seek Range:"
 msgstr ""
-
-#: ulng.rsoptarchivemultivolume
-msgctxt "ulng.rsoptarchivemultivolume"
-msgid "Create multivolume archive:"
-msgstr "Създаване на многотомен архив:"
 
 #: ulng.rsoptarchiveparam
 msgid "Parameter"
