@@ -108,6 +108,7 @@ type
     FFormat: TStringList;
     FList,
     FExtract,
+    FExtractWithoutPath,
     FTest,
     FDelete,
     FAdd,
@@ -237,7 +238,7 @@ begin
     for I:= 0 to Sections.Count - 1 do
     begin
       Section:= Sections[I];
-      if SameText(Section, 'Configuration') then
+      if SameText(Section, 'MultiArc') then
       begin
         FirstTime:= IniFile.ReadBool(Section, 'FirstTime', True);
         Continue;
@@ -263,6 +264,7 @@ begin
         end;
         FList:= TrimQuotes(IniFile.ReadString(Section, 'List', EmptyStr));
         FExtract:= TrimQuotes(IniFile.ReadString(Section, 'Extract', EmptyStr));
+        FExtractWithoutPath:= TrimQuotes(IniFile.ReadString(Section, 'ExtractWithoutPath', EmptyStr));
         FTest:= TrimQuotes(IniFile.ReadString(Section, 'Test', EmptyStr));
         FDelete:= TrimQuotes(IniFile.ReadString(Section, 'Delete', EmptyStr));
         FAdd:= TrimQuotes(IniFile.ReadString(Section, 'Add', EmptyStr));
@@ -314,6 +316,7 @@ begin
         end;
         IniFile.WriteString(Section, 'List', FList);
         IniFile.WriteString(Section, 'Extract', FExtract);
+        IniFile.WriteString(Section, 'ExtractWithoutPath', FExtractWithoutPath);
         IniFile.WriteString(Section, 'Test', FTest);
         IniFile.WriteString(Section, 'Delete', FDelete);
         IniFile.WriteString(Section, 'Add', FAdd);
@@ -326,7 +329,7 @@ begin
         IniFile.WriteBool(Section, 'Debug', FDebug);
       end;
     end;
-    IniFile.WriteBool('Configuration', 'FirstTime', False);
+    IniFile.WriteBool('MultiArc', 'FirstTime', False);
   finally
     FreeThenNil(IniFile);
   end;

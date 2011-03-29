@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    File unpacking window
 
-   Copyright (C) 2007-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, StdCtrls, EditBtn, ExtCtrls,
-  uFile, uFileSource;
+  uFile, uFileSource, uArchiveFileSource;
 
 type
 
@@ -39,26 +39,30 @@ type
     edtPassword: TEdit;
     edtExtractTo: TDirectoryEdit;
     lblPassword: TLabel;
-    cbFileMask : TComboBox;
-    cbExtractPath : TCheckBox;
-    cbOverwrite : TCheckBox;
-    cbInSeparateFolder : TCheckBox;
-    btnOK : TButton;
-    btnCancel : TButton;
-    btnHelp : TButton;
+    cbFileMask: TComboBox;
+    cbExtractPath: TCheckBox;
+    cbOverwrite: TCheckBox;
+    cbInSeparateFolder: TCheckBox;
+    btnOK: TButton;
+    btnCancel: TButton;
+    btnHelp: TButton;
     lblFileMask: TLabel;
     pnlLabels: TPanel;
+    procedure cbExtractPathChange(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { private declarations }
+    FArcType: UTF8String;
+    procedure SwitchOptions;
+    procedure ExtractArchive(ArchiveFileSource: IArchiveFileSource; TargetFileSource: IFileSource;
+                             const TargetPath: UTF8String);
   public
     { public declarations }
-  end; 
+  end;
 
 // Frees 'SourceFiles'.
-procedure ShowExtractDlg(SourceFileSource: IFileSource;
-                         var SourceFiles: TFiles;
-                         TargetFileSource: IFileSource;
-                         sDestPath: String);
+procedure ShowExtractDlg(SourceFileSource: IFileSource; var SourceFiles: TFiles;
+                         TargetFileSource: IFileSource; sDestPath: UTF8String);
 
 implementation
 
@@ -67,31 +71,29 @@ implementation
 uses
   Dialogs,
   uGlobs, uDCUtils, uShowMsg, uLng,
-  uArchiveFileSource,
   uFileSourceOperation,
   uFileSystemFileSource,
   uArchiveFileSourceUtil,
   uFileSourceOperationTypes,
   uMultiArchiveFileSource,
   uMultiArchiveCopyOutOperation,
+  uWcxArchiveFileSource,
+  uWcxArchiveCopyOutOperation,
+  uFileSourceOperationOptions,
   uOperationsManager,
   fFileOpDlg,
   uMasks;
-  
-procedure ShowExtractDlg(SourceFileSource: IFileSource;
-                         var SourceFiles: TFiles;
-                         TargetFileSource: IFileSource;
-                         sDestPath: String);
+
+procedure ShowExtractDlg(SourceFileSource: IFileSource; var SourceFiles: TFiles;
+                         TargetFileSource: IFileSource; sDestPath: UTF8String);
 var
-  I : Integer;
-  FilesToExtract: TFiles;
+  I: integer;
   Operation: TFileSourceOperation;
   OperationHandle: TOperationHandle;
-  ProgressDialog: TfrmFileOp;
   ArchiveFileSource: IArchiveFileSource;
   extractDialog: TfrmExtractDlg;
-  Result: Boolean;
-  sTmpPath: String;
+  Result: boolean;
+  sTmpPath: string;
 begin
   if not TargetFileSource.IsClass(TFileSystemFileSource) then
   begin
@@ -101,8 +103,8 @@ begin
 
   extractDialog := TfrmExtractDlg.Create(nil);
   if Assigned(extractDialog) then
-  try
-    with extractDialog do
+    try
+      with extractDialog do
       begin
         edtExtractTo.Text := sDestPath;
 
@@ -114,149 +116,197 @@ begin
         // If one archive is selected
         if (SourceFiles.Count = 1) then
         begin
-          sTmpPath:= SourceFiles[0].Extension;
-          // Check for this archive will be processed by MultiArc
-          for I := 0 to gMultiArcList.Count - 1 do
-          with gMultiArcList.Items[I] do
-          begin
-            if FEnabled and MatchesMaskList(sTmpPath, FExtension, ',') and (Pos('%W', FExtract) <> 0) then
-            begin
-              // Addon supports unpacking with password, enable password input
-              EnableControl(edtPassword, True);
-              Break;
-            end;
-          end;
+          FArcType:= SourceFiles[0].Extension;
+          SwitchOptions;
         end;
 
-        Result:= (ShowModal = mrOK);
+        // Show form
+        Result := (ShowModal = mrOk);
 
         if Result then
+        begin
+          if glsMaskHistory.IndexOf(cbFileMask.Text) < 0 then
+            glsMaskHistory.Add(cbFileMask.Text);
+
+          sDestPath := edtExtractTo.Text;
+
+          // if in archive
+          if SourceFileSource.IsClass(TArchiveFileSource) then
           begin
-            if glsMaskHistory.IndexOf(cbFileMask.Text) < 0 then
-              glsMaskHistory.Add(cbFileMask.Text);
-
-            sDestPath := edtExtractTo.Text;
-
-            // if in archive
-            if SourceFileSource.IsClass(TArchiveFileSource) then
-              begin
-                if fsoCopyOut in SourceFileSource.GetOperationsTypes then
-                begin
-                  // if destination path is null then extract to path there archive is located
-                  if Length(sDestPath) = 0 then
-                     sDestPath:= ExtractFilePath((SourceFileSource as IArchiveFileSource).ArchiveFileName)
-                  else
-                     sDestPath:= IncludeTrailingPathDelimiter(sDestPath);
-
-                  Operation := SourceFileSource.CreateCopyOutOperation(
-                                 TargetFileSource,
-                                 SourceFiles,
-                                 sDestPath);
-
-                  if Assigned(Operation) then
-                  begin
-                    // Start operation.
-                    OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
-
-                    ProgressDialog := TfrmFileOp.Create(OperationHandle);
-                    ProgressDialog.Show;
-                  end
-                  else
-                    msgWarning(rsMsgNotImplemented);
-                end
-                else
-                  msgWarning(rsMsgErrNotSupported);
-              end
-            else
-            // if filesystem
-            if SourceFileSource.IsClass(TFileSystemFileSource) then
+            if fsoCopyOut in SourceFileSource.GetOperationsTypes then
             begin
-              for I := 0 to SourceFiles.Count - 1 do // extract all selected archives
+              // if destination path is null then extract to path there archive is located
+              if Length(sDestPath) = 0 then
+                sDestPath := ExtractFilePath((SourceFileSource as IArchiveFileSource).ArchiveFileName)
+              else
+                sDestPath := IncludeTrailingPathDelimiter(sDestPath);
+
+              Operation := SourceFileSource.CreateCopyOutOperation(TargetFileSource, SourceFiles, sDestPath);
+
+              if Assigned(Operation) then
               begin
-                try
-                  // Check if there is a ArchiveFileSource for possible archive.
-                  ArchiveFileSource := GetArchiveFileSource(SourceFileSource, SourceFiles[i]);
+                // Start operation.
+                OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
 
-                  if Assigned(ArchiveFileSource) then
-                  begin
-                    // Check if List and CopyOut are supported.
-                    if [fsoList, fsoCopyOut] * ArchiveFileSource.GetOperationsTypes = [fsoList, fsoCopyOut] then
-                    begin
-                      // Get files to extract.
-                      FilesToExtract := ArchiveFileSource.GetFiles(ArchiveFileSource.GetRootDir);
-
-                      if Assigned(FilesToExtract) then
-                      try
-                        // if destination path is null then extract to path there archive is located
-                        if Length(sDestPath) = 0 then
-                          sTmpPath:= ExtractFilePath(ArchiveFileSource.ArchiveFileName)
-                        else
-                          sTmpPath:= IncludeTrailingPathDelimiter(sDestPath);
-
-                        // if each archive in separate folder
-                        if cbInSeparateFolder.Checked then
-                          begin
-                            sTmpPath := sTmpPath +
-                                        ExtractOnlyFileName(ArchiveFileSource.ArchiveFileName) +
-                                        PathDelim;
-                          end;
-
-                        // extract all files
-                        Operation := ArchiveFileSource.CreateCopyOutOperation(
-                                       TargetFileSource,
-                                       FilesToExtract,
-                                       sTmpPath);
-
-                        if Assigned(Operation) then
-                        begin
-                          if ArchiveFileSource.IsInterface(IMultiArchiveFileSource) then
-                          begin
-                            with Operation as TMultiArchiveCopyOutOperation do
-                            begin
-                              Password:= edtPassword.Text;
-                            end;
-                          end;
-
-                          // Start operation.
-                          OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
-
-                          ProgressDialog := TfrmFileOp.Create(OperationHandle);
-                          ProgressDialog.Show;
-                        end
-                        else
-                          msgWarning(rsMsgNotImplemented);
-
-                      finally
-                        if Assigned(FilesToExtract) then
-                          FreeAndNil(FilesToExtract);
-                      end;
-                    end
-                    else
-                      msgWarning(rsMsgErrNotSupported);
-
-                  end;
-
-                  // Short pause, so that all operations are not spawned at once.
-                  Sleep(100);
-                except
-                  on e: EFileSourceException do
-                    begin
-                      MessageDlg(e.Message, mtError, [mbOK], 0);
-                    end;
-                end;
-              end; // for
+                // Create and show progress dialog
+                with TfrmFileOp.Create(OperationHandle) do
+                  Show;
+              end
+              else
+                msgWarning(rsMsgNotImplemented);
             end
             else
               msgWarning(rsMsgErrNotSupported);
+          end
+          else
+          // if filesystem
+          if SourceFileSource.IsClass(TFileSystemFileSource) then
+          begin
+            for I := 0 to SourceFiles.Count - 1 do // extract all selected archives
+            begin
+              try
+                // Check if there is a ArchiveFileSource for possible archive.
+                ArchiveFileSource := GetArchiveFileSource(SourceFileSource, SourceFiles[i]);
 
-          end; // if Result
+                // Extract current archive
+                ExtractArchive(ArchiveFileSource, TargetFileSource, sDestPath);
+
+                // Short pause, so that all operations are not spawned at once.
+                Sleep(100);
+              except
+                on e: EFileSourceException do
+                begin
+                  MessageDlg(e.Message, mtError, [mbOK], 0);
+                end;
+              end;
+            end; // for
+          end
+          else
+            msgWarning(rsMsgErrNotSupported);
+
+        end; // if Result
       end;
 
-  finally
-    if Assigned(extractDialog) then
-      FreeAndNil(extractDialog);
-    if Assigned(SourceFiles) then
-      FreeAndNil(SourceFiles);
+    finally
+      if Assigned(extractDialog) then
+        FreeAndNil(extractDialog);
+      if Assigned(SourceFiles) then
+        FreeAndNil(SourceFiles);
+    end;
+end;
+
+{ TfrmExtractDlg }
+
+procedure TfrmExtractDlg.FormCreate(Sender: TObject);
+begin
+  InitPropStorage(Self);
+end;
+
+procedure TfrmExtractDlg.cbExtractPathChange(Sender: TObject);
+begin
+  SwitchOptions;
+end;
+
+procedure TfrmExtractDlg.SwitchOptions;
+var
+  I: LongInt;
+begin
+  // Check for this archive will be processed by MultiArc
+  for I := 0 to gMultiArcList.Count - 1 do
+    with gMultiArcList.Items[I] do
+    begin
+      if FEnabled and MatchesMaskList(FArcType, FExtension, ',') then
+      begin
+        // If addon supports unpacking without path
+        if (Length(FExtractWithoutPath) <> 0) then
+          cbExtractPath.Enabled:= True
+        else
+          begin
+            cbExtractPath.Enabled:= False;
+            cbExtractPath.Checked:= True;
+          end;
+        // If addon supports unpacking with password
+        if cbExtractPath.Checked then
+          EnableControl(edtPassword, (Pos('%W', FExtract) <> 0))
+        else
+          EnableControl(edtPassword, (Pos('%W', FExtractWithoutPath) <> 0));
+        Break;
+      end;
+    end;
+end;
+
+procedure TfrmExtractDlg.ExtractArchive(ArchiveFileSource: IArchiveFileSource;
+                                        TargetFileSource: IFileSource; const TargetPath: UTF8String);
+var
+  I: integer;
+  FilesToExtract: TFiles;
+  Operation: TFileSourceOperation;
+  OperationHandle: TOperationHandle;
+  sTmpPath: string;
+begin
+  if Assigned(ArchiveFileSource) then
+  begin
+    // Check if List and CopyOut are supported.
+    if [fsoList, fsoCopyOut] * ArchiveFileSource.GetOperationsTypes = [fsoList, fsoCopyOut] then
+    begin
+      // Get files to extract.
+      FilesToExtract := ArchiveFileSource.GetFiles(ArchiveFileSource.GetRootDir);
+
+      if Assigned(FilesToExtract) then
+        try
+          // if destination path is null then extract to path there archive is located
+          if Length(TargetPath) = 0 then
+            sTmpPath := ExtractFilePath(ArchiveFileSource.ArchiveFileName)
+          else
+            sTmpPath := IncludeTrailingPathDelimiter(TargetPath);
+
+          // if each archive in separate folder
+          if cbInSeparateFolder.Checked then
+          begin
+            sTmpPath := sTmpPath + ExtractOnlyFileName(ArchiveFileSource.ArchiveFileName) + PathDelim;
+          end;
+
+          // extract all files
+          Operation := ArchiveFileSource.CreateCopyOutOperation(TargetFileSource, FilesToExtract, sTmpPath);
+
+          // Set operation specific options
+          if Assigned(Operation) then
+          begin
+            if ArchiveFileSource.IsInterface(IMultiArchiveFileSource) then
+            begin
+              with Operation as TMultiArchiveCopyOutOperation do
+              begin
+                Password := edtPassword.Text;
+                ExtractWithoutPath:= not cbExtractPath.Checked;
+              end;
+            end
+            else if ArchiveFileSource.IsInterface(IWcxArchiveFileSource) then
+            begin
+              with Operation as TWcxArchiveCopyOutOperation do
+              begin
+                if cbOverwrite.Checked then
+                  FileExistsOption := fsoofeOverwrite;
+                ExtractWithoutPath:= not cbExtractPath.Checked;
+              end;
+            end;
+
+            // Start operation.
+            OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+
+            // Create and show progress dialog
+            with TfrmFileOp.Create(OperationHandle) do Show;
+          end
+          else
+            msgWarning(rsMsgNotImplemented);
+
+        finally
+          if Assigned(FilesToExtract) then
+            FreeAndNil(FilesToExtract);
+        end;
+    end
+    else
+      msgWarning(rsMsgErrNotSupported);
+
   end;
 end;
 

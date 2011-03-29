@@ -19,7 +19,9 @@ object frmExtractDlg: TfrmExtractDlg
   ClientHeight = 225
   ClientWidth = 528
   Constraints.MinWidth = 500
+  OnCreate = FormCreate
   Position = poScreenCenter
+  SessionProperties = 'cbOverwrite.Checked'
   LCLVersion = '0.9.29'
   object pnlLabels: TPanel
     AnchorSideLeft.Control = Owner
@@ -105,7 +107,7 @@ object frmExtractDlg: TfrmExtractDlg
     Width = 200
     Caption = '&Unpack path names if stored with files'
     Checked = True
-    Enabled = False
+    OnChange = cbExtractPathChange
     State = cbChecked
     TabOrder = 2
   end
@@ -119,7 +121,6 @@ object frmExtractDlg: TfrmExtractDlg
     Width = 128
     Caption = '&Overwrite existing files'
     Checked = True
-    Enabled = False
     State = cbChecked
     TabOrder = 3
   end

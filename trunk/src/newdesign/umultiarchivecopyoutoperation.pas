@@ -8,6 +8,8 @@ uses
   Classes, SysUtils, StringHashList, uLog, uGlobs, un_process,
   uFileSourceOperation,
   uFileSourceCopyOperation,
+  uFileSourceOperationOptions,
+  uFileSourceOperationOptionsUI,
   uFileSource,
   uFile,
   uMultiArchiveFileSource;
@@ -22,7 +24,11 @@ type
     FMultiArchiveFileSource: IMultiArchiveFileSource;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     FFullFilesTreeToExtract: TFiles;  // source files including all files/dirs in subdirectories
+
+    // Options
     FPassword: UTF8String;
+    FExtractWithoutPath: Boolean;
+    FFileExistsOption: TFileSourceOperationOptionFileExists;
 
     {en
       Creates neccessary paths before extracting files from archive.
@@ -47,6 +53,8 @@ type
              Each list item's data field must be a pointer to TMultiArchiveFile,
              from where the attributes are retrieved.}
     function SetDirsAttributes(const Paths: TStringHashList): Boolean;
+
+    function DoFileExists(const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
 
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
@@ -75,13 +83,17 @@ type
     procedure MainExecute; override;
     procedure Finalize; override;
 
+    class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
+
     property Password: UTF8String read FPassword write FPassword;
+    property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
+    property ExtractWithoutPath: Boolean read FExtractWithoutPath write FExtractWithoutPath;
   end;
 
 implementation
 
 uses
-  LCLProc, FileUtil, uOSUtils, uDCUtils, uMultiArc, uFileSourceOperationUI,
+  LCLProc, FileUtil, uOSUtils, uDCUtils, uMultiArc, uFileSourceOperationUI, fMultiArchiveCopyOperationOptions,
   uMultiArchiveUtil, uFileProcs, uLng, uDateTimeUtils, uTypes, uShowMsg;
 
 constructor TMultiArchiveCopyOutOperation.Create(aSourceFileSource: IFileSource;
@@ -91,6 +103,8 @@ constructor TMultiArchiveCopyOutOperation.Create(aSourceFileSource: IFileSource;
 begin
   FMultiArchiveFileSource := aSourceFileSource as IMultiArchiveFileSource;
   FFullFilesTreeToExtract:= nil;
+  FFileExistsOption := fsoofeNone;
+  FExtractWithoutPath:= False;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
@@ -137,23 +151,30 @@ var
   SourcePath,
   sCurrPath,
   sTempDir: UTF8String;
-  CreatedPaths: TStringHashList;
+  CreatedPaths: TStringHashList = nil;
   I: Integer;
   aFile: TFile;
   MultiArcItem: TMultiArcItem;
   sReadyCommand,
   sCommandLine: UTF8String;
+  FilesToExtract: TFiles = nil;
 begin
   MultiArcItem := FMultiArchiveFileSource.MultiArcItem;
-  CreatedPaths := TStringHashList.Create(True);
   try
     // save current path
     sCurrPath:= mbGetCurrentDir;
     // Archive current path
     SourcePath:= ExcludeFrontPathDelimiter(SourceFiles.Path);
-    // Create needed directories.
-    CreateDirs(FFullFilesTreeToExtract, TargetPath, SourcePath, CreatedPaths);
-    sCommandLine:= MultiArcItem.FExtract;
+    // Check ExtractWithoutPath option
+    if FExtractWithoutPath then
+      sCommandLine:= MultiArcItem.FExtractWithoutPath
+    else
+      begin
+        // Create needed directories.
+        CreatedPaths := TStringHashList.Create(True);
+        CreateDirs(FFullFilesTreeToExtract, TargetPath, SourcePath, CreatedPaths);
+        sCommandLine:= MultiArcItem.FExtract;
+      end;
     // Get maximum acceptable command errorlevel
     FErrorLevel:= ExtractErrorLevel(sCommandLine);
     if Pos('%F', sCommandLine) <> 0 then // extract file by file
@@ -164,7 +185,16 @@ begin
         // Now check if the file is to be extracted.
         if (not aFile.AttributesProperty.IsDirectory) then  // Omit directories (we handle them ourselves).
           begin
-            TargetFileName := TargetPath + ExtractDirLevel(SourcePath, aFile.FullPath);
+            // Check ExtractWithoutPath option
+            if FExtractWithoutPath then
+              TargetFileName := TargetPath + aFile.Name
+            else
+              TargetFileName := TargetPath + ExtractDirLevel(SourcePath, aFile.FullPath);
+
+            // Check existence of target file
+            if (DoFileExists(TargetFileName) <> fsoofeOverwrite) then
+              Continue;
+
             // go to target directory
             mbSetCurrentDir(ExtractFileDir(TargetFileName));
 
@@ -193,11 +223,26 @@ begin
   else  // extract whole file list
     begin
       sTempDir:= TargetPath; // directory where files will be unpacked
-      if SourceFiles.Path <> PathDelim then // if extract from not root directory
+      // if extract from not root directory and with path
+      if (SourceFiles.Path <> PathDelim) and (FExtractWithoutPath = False) then
         begin
           sTempDir:= GetTempName(TargetPath);
           mbCreateDir(sTempDir);
         end;
+
+      // Check existence of target files
+      FilesToExtract:= TFiles.Create(FFullFilesTreeToExtract.Path);
+      for I:= 0 to FFullFilesTreeToExtract.Count - 1 do
+      begin
+        aFile:= FFullFilesTreeToExtract[I];
+        if FExtractWithoutPath then
+           TargetFileName := TargetPath + aFile.Name
+        else
+           TargetFileName := TargetPath + ExtractDirLevel(SourcePath, aFile.FullPath);
+        if (DoFileExists(TargetFileName) = fsoofeOverwrite) then
+          FilesToExtract.Add(aFile.Clone);
+      end;
+
       // go to target directory
       mbSetCurrentDir(sTempDir);
 
@@ -205,7 +250,7 @@ begin
                                             MultiArcItem.FArchiver,
                                             sCommandLine,
                                             FMultiArchiveFileSource.ArchiveFileName,
-                                            FFullFilesTreeToExtract,
+                                            FilesToExtract,
                                             EmptyStr,
                                             TargetPath,
                                             FTempFile,
@@ -219,12 +264,13 @@ begin
       // Check for errors.
       CheckForErrors(FMultiArchiveFileSource.ArchiveFileName, EmptyStr, FExProcess.ExitStatus);
 
-      if SourceFiles.Path <> PathDelim then // if extract from not root directory
+      // if extract from not root directory and with path
+      if (SourceFiles.Path <> PathDelim) and (FExtractWithoutPath = False) then
       begin
         // move files to real target directory
-        for I:= 0 to FFullFilesTreeToExtract.Count - 1 do
+        for I:= 0 to FilesToExtract.Count - 1 do
         begin
-          aFile:= FFullFilesTreeToExtract[I];
+          aFile:= FilesToExtract[I];
           if not aFile.AttributesProperty.IsDirectory then
             begin
               TargetFileName := TargetPath + ExtractDirLevel(SourcePath, aFile.FullPath);
@@ -238,10 +284,11 @@ begin
       end;
     end;
 
-    SetDirsAttributes(CreatedPaths);
+    if (FExtractWithoutPath = False) then SetDirsAttributes(CreatedPaths);
 
   finally
-    FreeAndNil(CreatedPaths);
+    FreeThenNil(CreatedPaths);
+    FreeThenNil(FilesToExtract);
     // restore current path
     mbSetCurrentDir(sCurrPath);
   end;
@@ -401,6 +448,45 @@ begin
   end;
 end;
 
+function TMultiArchiveCopyOutOperation.DoFileExists(
+  const AbsoluteTargetFileName: String): TFileSourceOperationOptionFileExists;
+const
+  PossibleResponses: array[0..4] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll, fsourCancel);
+begin
+  case FFileExistsOption of
+    fsoofeNone:
+      begin
+        if not mbFileExists(AbsoluteTargetFileName) then
+          Result:= fsoofeOverwrite
+        else
+          case AskQuestion(Format(rsMsgFileExistsRwrt, [AbsoluteTargetFileName]), '',
+                           PossibleResponses, fsourOverwrite, fsourSkip) of
+            fsourOverwrite:
+              Result := fsoofeOverwrite;
+            fsourSkip:
+              Result := fsoofeSkip;
+            fsourOverwriteAll:
+              begin
+                FFileExistsOption := fsoofeOverwrite;
+                Result := fsoofeOverwrite;
+              end;
+            fsourSkipAll:
+              begin
+                FFileExistsOption := fsoofeSkip;
+                Result := fsoofeSkip;
+              end;
+            fsourNone,
+            fsourCancel:
+              RaiseAbortOperation;
+          end;
+      end;
+
+    else
+      Result := FFileExistsOption;
+  end;
+end;
+
 procedure TMultiArchiveCopyOutOperation.ShowError(sMessage: String; logOptions: TLogOptions);
 begin
   if not gSkipFileOpError then
@@ -496,6 +582,11 @@ begin
     fsosStopping:
       FExProcess.Stop;
   end;
+end;
+
+class function TMultiArchiveCopyOutOperation.GetOptionsUIClass: TFileSourceOperationOptionsUIClass;
+begin
+  Result:= TMultiArchiveCopyOperationOptionsUI;
 end;
 
 end.
