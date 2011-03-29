@@ -208,6 +208,9 @@ begin
   FOutputParser := TOutputParser.Create(aMultiArcItem, anArchiveFileName);
   FOutputParser.OnGetArchiveItem:= @OnGetArchiveItem;
 
+  FOperationsClasses[fsoCopyIn]          := TMultiArchiveCopyInOperation.GetOperationClass;
+  FOperationsClasses[fsoCopyOut]         := TMultiArchiveCopyOutOperation.GetOperationClass;
+
   ReadArchive;
 end;
 

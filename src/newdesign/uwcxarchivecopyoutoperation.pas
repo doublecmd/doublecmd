@@ -25,8 +25,9 @@ type
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     FCurrentFileSize: Int64;
 
-	// Options.
-	FFileExistsOption: TFileSourceOperationOptionFileExists;
+    // Options.
+    FFileExistsOption: TFileSourceOperationOptionFileExists;
+    FExtractWithoutPath: Boolean;
 
     {en
       Creates neccessary paths before extracting files from archive.
@@ -79,6 +80,7 @@ type
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; override;
 
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
+    property ExtractWithoutPath: Boolean read FExtractWithoutPath write FExtractWithoutPath;
   end;
 
 implementation
@@ -197,6 +199,7 @@ constructor TWcxArchiveCopyOutOperation.Create(aSourceFileSource: IFileSource;
 begin
   FWcxArchiveFileSource := aSourceFileSource as IWcxArchiveFileSource;
   FFileExistsOption := fsoofeNone;
+  FExtractWithoutPath := False;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
@@ -284,7 +287,10 @@ begin
           or MatchesMaskList(ExtractFileName(Header.FileName), FileMask))
       then
       begin
-        TargetFileName := TargetPath + ExtractDirLevel(Files.Path, Header.FileName);
+        if FExtractWithoutPath then
+          TargetFileName := TargetPath + ExtractFileName(Header.FileName)
+        else
+          TargetFileName := TargetPath + ExtractDirLevel(Files.Path, Header.FileName);
 
         with FStatistics do
         begin
@@ -340,7 +346,7 @@ begin
 
     WcxModule.CloseArchive(ArcHandle);
 
-    SetDirsAttributes(CreatedPaths);
+    if (FExtractWithoutPath = False) then SetDirsAttributes(CreatedPaths);
 
   finally
     if Assigned(Files) then
@@ -369,7 +375,7 @@ var
   i: Integer;
   CurrentFileName: String;
   Header: TWCXHeader;
-  Directories: TStringList;
+  Directories: TStringList = nil;
   PathIndex: Integer;
   ListIndex: Integer;
   TargetDir: String;
@@ -427,6 +433,8 @@ begin
     end;
   end;
 
+  if FExtractWithoutPath then Exit;
+
   { Second, create paths and save which paths were created and their attributes. }
 
   Directories := TStringList.Create;
@@ -480,7 +488,7 @@ begin
   finally
     FreeAndNil(PathsToCreate);
     FreeAndNil(DirsAttributes);
-    FreeAndNil(Directories);
+    FreeThenNil(Directories);
   end;
 end;
 
