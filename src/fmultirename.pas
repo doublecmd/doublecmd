@@ -193,7 +193,8 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, FileUtil, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils, uShowMsg, uFileSourceUtil, uFileProperty;
+  LCLProc, FileUtil, uDebug, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils,
+  uShowMsg, uFileSourceUtil, uFileProperty;
 
 const
   sPresetsSection = 'MultiRenamePresets';
@@ -925,7 +926,7 @@ begin
           end;
         end
         else
-          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+          DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
       end;
       ANode := ANode.NextSibling;
     end;
@@ -1117,4 +1118,4 @@ begin
 end;
 
 end.
-
+

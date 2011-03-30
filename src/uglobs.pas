@@ -310,7 +310,7 @@ implementation
 
 uses
    LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils,
-   uDCUtils, fMultiRename, uFile, uDCVersion;
+   uDCUtils, fMultiRename, uFile, uDCVersion, uDebug;
 
 procedure LoadDefaultHotkeyBindings;
 begin
@@ -472,7 +472,7 @@ begin
           glsHotDir.Add(Name + '=' + Path);
         end
         else
-          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(Node) + '.');
+          DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(Node) + '.');
       end;
       Node := Node.NextSibling;
     end;
@@ -826,7 +826,7 @@ begin
     end
     else
       // File is not readable - print warning and continue below to check config in user directory.
-      DebugLn('Warning: Config file ' + gpGlobalCfgDir + 'doublecmd.xml' +
+      DCDebug('Warning: Config file ' + gpGlobalCfgDir + 'doublecmd.xml' +
               ' exists but is not readable.');
   end;
 
@@ -840,7 +840,7 @@ begin
     end
     else
     begin
-      DebugLn('Error: Cannot read config file ' + gpGlobalCfgDir + 'doublecmd.xml.');
+      DCDebug('Error: Cannot read config file ' + gpGlobalCfgDir + 'doublecmd.xml.');
       Exit(False);
     end;
   end;
@@ -865,7 +865,7 @@ begin
 	      end
         else
 	      begin
-          DebugLn('Warning: Config file ' + gpGlobalCfgDir + 'doublecmd.ini' +
+          DCDebug('Warning: Config file ' + gpGlobalCfgDir + 'doublecmd.ini' +
                   ' is not accessible for writing. Configuration will not be saved.');
 	      end;
 	    end;
@@ -903,7 +903,7 @@ begin
   if mbFileExists(gpCfgDir + 'doublecmd.xml') and
      (not mbFileAccess(gpCfgDir + 'doublecmd.xml', fmOpenWrite)) then
   begin
-    DebugLn('Warning: Config file ' + gpCfgDir + 'doublecmd.xml' +
+    DCDebug('Warning: Config file ' + gpCfgDir + 'doublecmd.xml' +
             ' is not accessible for writing. Configuration will not be saved.');
   end
   else
@@ -921,7 +921,7 @@ begin
   if not OpenConfig then
     Exit;
 
-  DebugLn('Loading configuration...');
+  DCDebug('Loading configuration...');
   SetDefaultConfigGlobs;
   if Assigned(gIni) then
     LoadIniConfig
@@ -929,7 +929,7 @@ begin
     LoadXmlConfig
   else
   begin
-    DebugLn('Error: No config created.');
+    DCDebug('Error: No config created.');
     Exit(False);
   end;
 
@@ -1894,4 +1894,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.

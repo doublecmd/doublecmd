@@ -386,7 +386,7 @@ begin
     end;
 
     {$IFDEF timeFileView}
-    DebugLn('Loaded files   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+    DCDebug('Loaded files   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
     {$ENDIF}
 
     if Aborted then
@@ -424,7 +424,7 @@ begin
       Exit;
 
     {$IFDEF timeFileView}
-    DebugLn('Sorted files   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+    DCDebug('Sorted files   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
     {$ENDIF}
 
     // Make display file list from file source file list.
@@ -432,7 +432,7 @@ begin
     MakeDisplayFileList(FFileSource, FTmpFileSourceFiles, FTmpDisplayFiles, FFileFilter);
 
     {$IFDEF timeFileView}
-    DebugLn('Made disp. list: ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+    DCDebug('Made disp. list: ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
     {$ENDIF}
 
     if Aborted then
@@ -442,12 +442,12 @@ begin
     TThread.Synchronize(Thread, @DoSetFilelist);
 
     {$IFDEF timeFileView}
-    DebugLn('Grid updated   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+    DCDebug('Grid updated   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
     {$ENDIF}
 
   finally
     {$IFDEF timeFileView}
-    DebugLn('Finished       : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+    DCDebug('Finished       : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
     {$ENDIF}
 
     FreeThenNil(FTmpDisplayFiles);

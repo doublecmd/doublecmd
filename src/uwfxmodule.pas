@@ -185,8 +185,8 @@ type
 implementation
 
 uses
-  LCLProc, uLng, FileUtil, uGlobsPaths, uDCUtils, uOSUtils, uWfxPluginUtil,
-  fDialogBox;
+  uLng, FileUtil, uGlobsPaths, uDCUtils, uOSUtils, uWfxPluginUtil,
+  fDialogBox, uDebug;
 
 const
   WfxIniFileName = 'wfx.ini';
@@ -461,7 +461,7 @@ begin
   Result := (FModuleHandle <> 0);
   if  FModuleHandle = 0 then Exit(False);
 
-  DebugLn('WFX module loaded ' + sName + ' at ' + hexStr(Pointer(FModuleHandle)));
+  DCDebug('WFX module loaded ' + sName + ' at ' + hexStr(Pointer(FModuleHandle)));
 
   FModuleFileName:= sName;
 { Mandatory }
@@ -744,7 +744,7 @@ begin
           Enabled[I] := AConfig.GetAttr(ANode, 'Enabled', True);
         end
         else
-          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+          DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
       end;
       ANode := ANode.NextSibling;
     end;

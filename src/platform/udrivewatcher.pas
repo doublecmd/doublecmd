@@ -52,7 +52,7 @@ implementation
 
 uses
   {$IFDEF UNIX}
-  Unix, uMyUnix, LCLProc
+  Unix, uMyUnix, uDebug
    {$IFDEF BSD}
    , BSD, BaseUnix, StrUtils
    {$ENDIF}
@@ -200,7 +200,7 @@ begin
   end
   else
   begin
-    DebugLn('Detecting devices through /etc/mtab.');
+    DCDebug('Detecting devices through /etc/mtab.');
     TFileSystemWatcher.AddWatch('/etc', [wfFileNameChange], @FakeClass.OnWatcherNotifyEvent);
   end;
   {$ENDIF}
@@ -764,7 +764,7 @@ begin
             AddedMountPoints.Add(MountPoint);
 
             {$IFDEF DEBUG}
-            DebugLn('Adding drive "' + DeviceFile + '" with mount point "' + MountPoint + '"');
+            DCDebug('Adding drive "' + DeviceFile + '" with mount point "' + MountPoint + '"');
             {$ENDIF}
           end;
         end;
@@ -965,7 +965,7 @@ end;
 
 procedure TKQueueDriveEventWatcher.RaiseErrorEvent;
 begin
-  DebugLn(Self.ErrorMsg);
+  DCDebug(Self.ErrorMsg);
   if Assigned(Self.FOnError) then
     Self.FOnError(Self);
 end;

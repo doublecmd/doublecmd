@@ -162,8 +162,8 @@ Type
 implementation
 
 uses
-  SysUtils, LCLProc, uLng, fDialogBox, uGlobsPaths, FileUtil, uOSUtils,
-  uDateTimeUtils;
+  SysUtils, uLng, fDialogBox, uGlobsPaths, FileUtil, uOSUtils,
+  uDateTimeUtils, uDebug;
 
 const
   WcxIniFileName = 'wcx.ini';
@@ -320,7 +320,7 @@ begin
   if FModuleHandle = 0 then
     Exit(False);
 
-  DebugLn('WCX module loaded ' + sName + ' at ' + hexStr(Pointer(FModuleHandle)));
+  DCDebug('WCX module loaded ' + sName + ' at ' + hexStr(Pointer(FModuleHandle)));
 
   // Mandatory functions
   OpenArchive:= TOpenArchive(GetProcAddress(FModuleHandle,'OpenArchive'));
@@ -629,7 +629,7 @@ begin
           Enabled[I] := AConfig.GetAttr(ANode, 'Enabled', True);
         end
         else
-          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+          DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
       end;
       ANode := ANode.NextSibling;
     end;

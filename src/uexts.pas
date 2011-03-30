@@ -220,7 +220,7 @@ begin
           s[iIndex]:= LowerCase(s[iIndex]);
         end;
 
-      // DebugLn(sLine);
+      // DCDebug(sLine);
       if Pos('name', s) = 1 then // File type name
         extCmd.Name := Copy(sLine, iIndex + 1, Length(sLine))
       else if Pos('icon', s) = 1 then // File type icon
@@ -259,7 +259,7 @@ begin
     if SectionIndex >= extFile.Count then Exit;
 
     sLine := extFile.Strings[SectionIndex];
-    //DebugLn('sLine = ', sLine);
+    //DCDebug('sLine = ', sLine);
   until ((Pos('[', sLine)<>0) and (Pos(']', sLine)<>0)) or
         ((Pos('#', sLine)<>0) and (Pos('[', extFile.Strings[SectionIndex+1])<>0) and
         (Pos(']', extFile.Strings[SectionIndex+1])<>0));
@@ -316,8 +316,8 @@ begin
         bExists      := False;
         for J := 0 to Count - 1 do
         begin
-          //DebugLn('sSectionName = ', sSectionName);
-          //DebugLn('GetItems(J).SectionName = ', GetItems(J).SectionName);
+          //DCDebug('sSectionName = ', sSectionName);
+          //DCDebug('GetItems(J).SectionName = ', GetItems(J).SectionName);
 
           if sSectionName = GetItems(J).SectionName then
           begin

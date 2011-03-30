@@ -78,7 +78,7 @@ var
 implementation
 
 uses
-  LCLProc, uExceptions;
+  uDebug, uExceptions;
 
 const
   // How many functions maximum to call per one Synchronize.
@@ -188,7 +188,7 @@ begin
       on Exception do
         begin
           WriteExceptionToErrorFile;
-          DebugLn(ExceptionToString);
+          DCDebug(ExceptionToString);
           ShowExceptionDialog;
         end;
     end;
@@ -214,14 +214,14 @@ end;
 
 procedure InitializeGuiMessageQueue;
 begin
-  DebugLn('Starting GuiMessageQueue');
+  DCDebug('Starting GuiMessageQueue');
   GuiMessageQueue := TGuiMessageQueueThread.Create(False);
 end;
 
 procedure FinalizeGuiMessageQueue;
 begin
   GuiMessageQueue.Terminate;
-  DebugLn('Finishing GuiMessageQueue');
+  DCDebug('Finishing GuiMessageQueue');
   WaitForThreadTerminate(GuiMessageQueue.ThreadID, 10000); // wait max 10 seconds
 end;
 

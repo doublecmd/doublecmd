@@ -5,7 +5,7 @@ unit uFileSystemUtil;
 interface
 
 uses
-  Classes, SysUtils, LCLProc, uDescr, uLog, uGlobs,
+  Classes, SysUtils, uDescr, uLog, uGlobs,
   uFile,
   uFileSourceOperation,
   uFileSourceOperationOptions,
@@ -161,8 +161,8 @@ type
 implementation
 
 uses
-  uOSUtils, uDCUtils, FileUtil, uFindEx, uClassesEx, uFileProcs, uLng, uTypes,
-  uFileSource, uFileSystemFileSource, uFileProperty;
+  uDebug, uOSUtils, uDCUtils, FileUtil, uFindEx, uClassesEx, uFileProcs, uLng,
+  uTypes, uFileSource, uFileSystemFileSource, uFileProperty;
 
 procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
 begin
@@ -931,7 +931,7 @@ begin
   if aNode.SubNodesCount > 0 then
   begin
     aSubNode := aNode.SubNodes[0];
-    //DebugLn('Link ' + aFile.FullPath + ' followed to '
+    //DCDebug('Link ' + aFile.FullPath + ' followed to '
     //        + (aSubNode.TheFile as TFileSystemFile).FullPath
     //        + ' will be copied as: ' + AbsoluteTargetFileName);
     if aSubNode.TheFile.AttributesProperty.IsDirectory then
@@ -979,7 +979,7 @@ begin
           end
           else
           begin
-            DebugLn('Error reading link');
+            DCDebug('Error reading link');
             Result := False;
           end;
         end;

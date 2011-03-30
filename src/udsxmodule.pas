@@ -107,7 +107,7 @@ type
 implementation
 
 uses
-  uGlobs, uGlobsPaths;
+  uDebug, uGlobs, uGlobsPaths;
 
 const
   DsxIniFileName = 'dsx.ini';
@@ -272,7 +272,7 @@ begin
           ADsxModule.Descr := AConfig.GetValue(ANode, 'Description', '');
         end
         else
-          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+          DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
       end;
       ANode := ANode.NextSibling;
     end;

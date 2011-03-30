@@ -636,7 +636,7 @@ uses
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource,
   uShellExecute, uActs, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
-  uFileSourceOperationOptionsUI
+  uFileSourceOperationOptionsUI, uDebug
   {$IFDEF LCLQT}
     , qtwidgets
   {$ENDIF}
@@ -759,7 +759,7 @@ begin
   { *HotKeys* }
 
   UpdateWindowView;
-  //DebugLn('frmMain.FormCreate Done');
+  //DCDebug('frmMain.FormCreate Done');
   Draging:=false;
 end;
 
@@ -1037,11 +1037,11 @@ procedure TfrmMain.FormDestroy(Sender: TObject);
 var
   slCommandHistory: TStringListEx;
 begin
-  DebugLn('Destroying main form');
+  DCDebug('Destroying main form');
 
   TDriveWatcher.RemoveObserver(@OnDriveWatcherEvent);
   TDriveWatcher.Finalize;
-  DebugLn('Drive watcher finished');
+  DCDebug('Drive watcher finished');
 
   // Close all tabs.
   CloseNotebook(LeftTabs);
@@ -1066,7 +1066,7 @@ begin
 
   FreeAndNil(DrivesList);
 
-  DebugLn('Main form destroyed');
+  DCDebug('Main form destroyed');
 end;
 
 procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -1579,7 +1579,7 @@ begin
   if not Draging then
     begin
       ExecCmdEx(Sender, NumberOfButton);
-      DebugLn(MainToolBar.Commands[NumberOfButton]);
+      DCDebug(MainToolBar.Commands[NumberOfButton]);
     end;
   Draging := false;
 end;
@@ -1613,7 +1613,7 @@ end;
 
 procedure TfrmMain.frmMainShow(Sender: TObject);
 begin
-  DebugLn('frmMain.frmMainShow');
+  DCDebug('frmMain.frmMainShow');
   Application.QueueAsyncCall(@frmMainAfterShow, 0);
 end;
 
@@ -3324,7 +3324,7 @@ begin
             AFileView := CreateFileView(sViewType, Page, gConfig, ViewNode);
           end
           else
-            DebugLn('File view type not specified in configuration: ' + gConfig.GetPathFromNode(ViewNode) + '.');
+            DCDebug('File view type not specified in configuration: ' + gConfig.GetPathFromNode(ViewNode) + '.');
         end
         // Else try old configuration.
         else if gConfig.TryGetValue(TabNode, 'Path', sPath) then
@@ -3338,7 +3338,7 @@ begin
           end;
         end
         else
-          DebugLn('Invalid entry in configuration: ' + gConfig.GetPathFromNode(TabNode) + '.');
+          DCDebug('Invalid entry in configuration: ' + gConfig.GetPathFromNode(TabNode) + '.');
 
         if Assigned(Page) then
         begin
@@ -3918,7 +3918,7 @@ begin
   WindowState:= lastWindowState;
   BringToFront;
   for I:= 0 to ParamCount - 1 do
-    DebugLn(Params[I]);
+    DCDebug(Params[I]);
 end;
 
 procedure TfrmMain.tbPasteClick(Sender: TObject);
@@ -3980,7 +3980,7 @@ begin
             begin
               sDir := mbGetCurrentDir;
               ActiveFrame.CurrentPath := sDir;
-              DebugLn(sDir);
+              DCDebug(sDir);
               if gTermWindow and Assigned(Cons) then
                 Cons.Terminal.SetCurrentDir(sDir);
             end;

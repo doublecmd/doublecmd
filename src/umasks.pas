@@ -192,7 +192,7 @@ var
         mcChar:
           begin
             if CharIndex > L then Exit;
-            //DebugLn('Match ' + S[CharIndex] + '<?>' + FMask.Chars[I].CharValue);
+            //DCDebug('Match ' + S[CharIndex] + '<?>' + FMask.Chars[I].CharValue);
             if S[CharIndex] <> FMask.Chars[I].CharValue then Exit;
             Inc(CharIndex);
           end;

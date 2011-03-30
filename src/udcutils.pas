@@ -727,7 +727,7 @@ Begin
           End;
     sl.Free;
   End;
-  //DebugLn('PathX ' , Result);
+  //DCDebug('PathX ' , Result);
   if Canvas.TextWidth(Result) > MaxLen + Canvas.TextWidth('XXX') then
        begin
          while (Length(Result) > 0) and (Canvas.TextWidth(Result) > MaxLen) do

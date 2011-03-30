@@ -61,7 +61,7 @@ procedure logWrite(Thread: TThread; const sText: String; LogMsgType: TLogMsgType
 implementation
 
 uses
-  SysUtils, LCLProc, Forms, fMain, uGlobs, uFileProcs, uOSUtils;
+  SysUtils, Forms, fMain, uDebug, uGlobs, uFileProcs, uOSUtils;
 
 procedure ShowLogWindow(bShow: Boolean);
 begin
@@ -119,12 +119,12 @@ begin
       FileSeek(hLogFile, 0, soFromEnd);
       FileWriteLn(hLogFile, Format('%s %s', [DateTimeToStr(Now), FMsg]));
 
-      DebugLn(Format('%s %s',[DateTimeToStr(Now), FMsg]));
+      DCDebug(Format('%s %s',[DateTimeToStr(Now), FMsg]));
 
       FileClose(hLogFile);
     except
       on E: Exception do
-        DebugLn('Error writing to log: ' + E.Message);
+        DCDebug('Error writing to log: ' + E.Message);
     end; // gLogWriteFile
 end;
 
@@ -148,4 +148,4 @@ begin
   TThread.Synchronize(FThread, @LogWriteInTheThread);
 end;
 
-end.
+end.

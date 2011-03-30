@@ -94,7 +94,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng, uFindEx, uClassesEx, uFileSystemUtil, LCLProc, uTypes;
+  uDebug, uOSUtils, uLng, uFindEx, uClassesEx, uFileSystemUtil, LCLProc, uTypes;
 
 constructor TFileSystemWipeOperation.Create(aTargetFileSource: IFileSource;
                                             var theFilesToWipe: TFiles);
@@ -285,7 +285,7 @@ begin
       Exit;
     end;
   files:= files+1;
-  DebugLn('OK');
+  DCDebug('OK');
   FEverythingOK:= True;
 end;
 
@@ -303,19 +303,19 @@ begin
         //remove read-only attr
         try
           if not mbFileSetReadOnly(sPath + Search.Name, False) then
-            DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
+            DCDebug('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
         except
-          DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
+          DCDebug('wp: FAILED when trying to remove read-only attr on '+ sPath + Search.Name);
         end;
 
         if fpS_ISDIR(Search.Attr) then
           begin
-            DebugLn('Entering '+ sPath + Search.Name);
+            DCDebug('Entering '+ sPath + Search.Name);
             WipeDir(sPath + Search.Name);
           end
         else
           begin
-            DebugLn('Wiping '+ sPath + Search.Name);
+            DCDebug('Wiping '+ sPath + Search.Name);
             SecureDelete(gWipePassNumber, sPath + Search.Name);
           end;
       end;
@@ -325,11 +325,11 @@ begin
   try
     if FEverythingOK then
       begin
-        DebugLn('Wiping ' + dir);
+        DCDebug('Wiping ' + dir);
 
         if not mbRemoveDir(dir) then
           begin
-            DebugLn('wp: error wiping directory ' + dir);
+            DCDebug('wp: error wiping directory ' + dir);
             // write log -------------------------------------------------------------------
             LogMessage(Format(rsMsgLogError+rsMsgLogRmDir, [dir]), [log_dir_op, log_delete], lmtError);
             //------------------------------------------------------------------------------
@@ -337,14 +337,14 @@ begin
         else
           begin
             directories:= directories + 1;
-            DebugLn('OK');
+            DCDebug('OK');
             // write log -------------------------------------------------------------------
             LogMessage(Format(rsMsgLogSuccess+rsMsgLogRmDir, [dir]), [log_dir_op, log_delete], lmtSuccess);
             //------------------------------------------------------------------------------
           end;
       end;
   except
-    on EInOutError do DebugLn('Couldn''t remove '+ dir);
+    on EInOutError do DCDebug('Couldn''t remove '+ dir);
   end;
 end;
 
@@ -359,7 +359,7 @@ begin
   Found:= FindFirstEx(filename,faReadOnly or faSysFile or faArchive or faHidden, SRec);
   if Found <> 0 then
     begin
-      DebugLn('wp: file not found: ', filename);
+      DCDebug('wp: file not found: ', filename);
       FErrors:= FErrors + 1;
       Exit;
     end;
@@ -368,15 +368,15 @@ begin
       //remove read-only attr
       try
         if not mbFileSetReadOnly(sPath + SRec.Name, False) then
-          DebugLn('wp: FAILED when trying to remove read-only attr on '+ sPath + SRec.Name);
+          DCDebug('wp: FAILED when trying to remove read-only attr on '+ sPath + SRec.Name);
       except
-        DebugLn('wp: can''t wipe '+ sPath + SRec.Name + ', file might be in use.');
+        DCDebug('wp: can''t wipe '+ sPath + SRec.Name + ', file might be in use.');
         FEverythingOK:= False;
         FErrors:= FErrors + 1;
         Exit;
       end;
 
-      DebugLn('Wiping ' + sPath + SRec.Name);
+      DCDebug('Wiping ' + sPath + SRec.Name);
       SecureDelete(gWipePassNumber, sPath + SRec.Name);
       // write log -------------------------------------------------------------------
       if FEverythingOK then
@@ -404,7 +404,7 @@ begin
     if gProcessComments then
       FDescription.DeleteDescription(FileName);
   except
-    DebugLn('Can not wipe ', FileName);
+    DCDebug('Can not wipe ', FileName);
   end;
 end;
 
@@ -443,4 +443,4 @@ begin
 end;
 
 end.
-
+

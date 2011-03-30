@@ -379,7 +379,7 @@ type
 implementation
 
 uses
-  LCLProc, uMasks, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager,
+  LCLProc, uMasks, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
   uDCUtils, uOSUtils, math, fMain, fMaskInputDlg, uSearchTemplate,
   uInfoToolTip, dmCommonData,
   uFileSourceProperty,
@@ -520,7 +520,7 @@ begin
           FColumnsSorting.AddSorting(SortColumn, SortDirection);
         end
         else
-          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+          DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
       end;
       ANode := ANode.NextSibling;
     end;
@@ -1500,7 +1500,7 @@ var
   sSearchExt : UTF8String;
 begin
   if (edtSearch.Text='') or IsEmpty then Exit;
-  //DebugLn('edtSearchChange: '+ edtSearch.Text);
+  //DCDebug('edtSearchChange: '+ edtSearch.Text);
 
   sSearchName := UTF8LowerCase(edtSearch.Text);
 
@@ -1521,7 +1521,7 @@ begin
       sSearchName := sSearchName + '*';
     end;
 
-  DebugLn('sSearchName = ', sSearchName);
+  DCDebug('sSearchName = ', sSearchName);
 
   I := dgPanel.Row; // start search from current cursor position
   iPos := I;        // save cursor position
@@ -2572,7 +2572,7 @@ end;
 
 procedure TColumnsFileView.CreateDefault(AOwner: TWinControl);
 begin
-  DebugLn('TColumnsFileView.Create components');
+  DCDebug('TColumnsFileView.Create components');
 
   dgPanel := nil;
 

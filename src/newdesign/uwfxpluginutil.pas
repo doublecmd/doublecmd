@@ -340,8 +340,8 @@ begin
       sTargetFile := FRootTargetPath + ExtractDirLevel(aFiles.Path, aFile.Path);
       sTargetFile := sTargetFile + ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask);
 
-      //DebugLn('Source name == ' + aFile.FullPath);
-      //DebugLn('Target name == ' + sTargetFile);
+      //DCDebug('Source name == ' + aFile.FullPath);
+      //DCDebug('Target name == ' + sTargetFile);
 
       with FStatistics do
       begin

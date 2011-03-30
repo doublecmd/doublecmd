@@ -67,12 +67,12 @@ begin
   if Instance.InheritsFrom(TForm) then
     begin
       FFormClassName := Instance.ClassName;
-      //DebugLn(UpperCase(FFormClassName + '.'+PropInfo^.Name) + '=' + Content);
+      //DCDebug(UpperCase(FFormClassName + '.'+PropInfo^.Name) + '=' + Content);
       Content := FPOFile.Translate(UpperCase(FFormClassName + '.' + PropInfo^.Name), Content);
     end
   else
     begin
-      //DebugLn(UpperCase(FFormClassName + '.'+Instance.GetNamePath + '.' + PropInfo^.Name) + '=' + Content);
+      //DCDebug(UpperCase(FFormClassName + '.'+Instance.GetNamePath + '.' + PropInfo^.Name) + '=' + Content);
       Content := FPOFile.Translate(UpperCase(FFormClassName + '.'+Instance.GetNamePath + '.'+ PropInfo^.Name), Content);
     end;
   // convert UTF8 to current local

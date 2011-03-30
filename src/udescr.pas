@@ -129,7 +129,7 @@ type
 implementation
 
 uses
-  LCLProc, LConvEncoding, uOSUtils;
+  LConvEncoding, uDebug, uOSUtils;
 
 { TDescription }
 
@@ -156,7 +156,7 @@ begin
         end;
     except
       on E: Exception do
-        DebugLn('TDescription.PrepareDescrFile - ' + E.Message);
+        DCDebug('TDescription.PrepareDescrFile - ' + E.Message);
     end;
 end;
 
@@ -172,15 +172,15 @@ var
 begin
   Result:= False;
   sFileName:= ExtractFileName(S);
-  //DebugLn('#########################');
-  //DebugLn('sFileName:               '+ sFileName);
+  //DCDebug('#########################');
+  //DCDebug('sFileName:               '+ sFileName);
   for iIndex:= Count - 1 downto 0 do
   begin
     sIndexString := Self[iIndex];
-    //DebugLn('Self[I]:                 '+ sIndexString);
-    //DebugLn('iIndex:                  '+ IntToStr(iIndex));
-    //DebugLn('Count:                   '+ IntToStr(Count));
-    //DebugLn('Pos(sFileName, Self[I]): '+ IntToStr(Pos(sFileName, sIndexString)));
+    //DCDebug('Self[I]:                 '+ sIndexString);
+    //DCDebug('iIndex:                  '+ IntToStr(iIndex));
+    //DCDebug('Count:                   '+ IntToStr(Count));
+    //DCDebug('Pos(sFileName, Self[I]): '+ IntToStr(Pos(sFileName, sIndexString)));
 
     // File comment length
     iLength := Length(sIndexString);
@@ -369,7 +369,7 @@ begin
   PrepareDescrFile(FileNameFrom);
   if Find(FileNameFrom, I) then
     begin
-      DebugLn(FileNameFrom, '=', DescrByIndex[I]);
+      DCDebug(FileNameFrom, '=', DescrByIndex[I]);
       FDestDescr.WriteDescription(FileNameTo, DescrByIndex[I]);
       Result:= True;
     end;
@@ -383,7 +383,7 @@ begin
   PrepareDescrFile(FileNameFrom);
   if Find(FileNameFrom, I) then
     begin
-      DebugLn(FileNameFrom, '=', DescrByIndex[I]);
+      DCDebug(FileNameFrom, '=', DescrByIndex[I]);
       FDestDescr.WriteDescription(FileNameTo, DescrByIndex[I]);
       Delete(I);
       FModified:= True;
@@ -402,9 +402,9 @@ begin
       FDestDescr.SaveDescription;
     except
       on E: Exception do
-        DebugLn('TDescription.SaveDescription - ' + E.Message);
+        DCDebug('TDescription.SaveDescription - ' + E.Message);
     end;
 end;
 
 end.
-
+

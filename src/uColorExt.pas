@@ -65,7 +65,7 @@ type
 implementation
 
 uses
-  SysUtils, LCLProc, uGlobs, uMasks, uFileProperty;
+  SysUtils, uDebug, uGlobs, uMasks, uFileProperty;
 
 constructor TColorExt.Create;
 begin
@@ -287,7 +287,7 @@ begin
         end
         else
         begin
-          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+          DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
         end;
       end;
       ANode := ANode.NextSibling;
@@ -316,4 +316,4 @@ begin
     end;
 end;
 
-end.
+end.

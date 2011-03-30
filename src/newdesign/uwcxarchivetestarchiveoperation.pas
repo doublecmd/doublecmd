@@ -91,7 +91,7 @@ end;
 
 function ProcessDataProc(FileName: UTF8String; Size: LongInt): LongInt;
 begin
-  //DebugLn('Working ' + FileName + ' Size = ' + IntToStr(Size));
+  //DCDebug('Working ' + FileName + ' Size = ' + IntToStr(Size));
 
   Result := 1;
 
@@ -116,12 +116,12 @@ begin
 
             if Size = -100 then // File finished
               DoneBytes := DoneBytes + WcxTestArchiveOperation.FCurrentFileSize;
-            //DebugLn('Working ' + FileName + ' Percent1 = ' + IntToStr(FFileOpDlg.iProgress1Pos));
+            //DCDebug('Working ' + FileName + ' Percent1 = ' + IntToStr(FFileOpDlg.iProgress1Pos));
           end
         else if (Size >= -1100) and (Size <= -1000) then // second percent bar
           begin
             DoneBytes := TotalBytes * Int64(-Size - 1000) div 100;
-            //DebugLn('Working ' + FileName + ' Percent2 = ' + IntToStr(FFileOpDlg.iProgress2Pos));
+            //DCDebug('Working ' + FileName + ' Percent2 = ' + IntToStr(FFileOpDlg.iProgress2Pos));
           end
         else
           begin

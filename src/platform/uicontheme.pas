@@ -89,7 +89,7 @@ type
 implementation
 
 uses
-  LCLProc, StrUtils, uDCUtils, uFindEx, uTypes, uOSUtils
+  LCLProc, StrUtils, uDCUtils, uDebug, uFindEx, uTypes, uOSUtils
   {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
   , uUnixIconTheme
   {$ENDIF}
@@ -239,7 +239,7 @@ begin
    // theme not found
    if Result = False then
      begin
-       DebugLn('Theme ', FTheme, ' not found.');
+       DCDebug('Theme ', FTheme, ' not found.');
        Exit;
      end;
 
@@ -259,7 +259,7 @@ begin
      FThemeName:= IniFile.ReadString('Icon Theme', 'Name', EmptyStr);
      FComment:= IniFile.ReadString('Icon Theme', 'Comment', EmptyStr);
 
-     DebugLn('Loading icon theme ', FThemeName);
+     DCDebug('Loading icon theme ', FThemeName);
 
      // read theme directories
      sValue:= IniFile.ReadString('Icon Theme', 'Directories', EmptyStr);
@@ -382,7 +382,7 @@ begin
     else
       begin
         Dispose(Result);
-        DebugLn('Theme directory "%s" has unsupported icon type "%s"', [sIconDirName, IconTypeStr]);
+        DCDebug('Theme directory "%s" has unsupported icon type "%s"', [sIconDirName, IconTypeStr]);
         Exit(nil);
       end;
 

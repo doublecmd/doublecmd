@@ -38,7 +38,7 @@ type
 implementation
 
 uses
-  LCLProc, FileUtil, uOSUtils, uFileProcs, uDCUtils, uReSample, uGlobsPaths,
+  LCLProc, FileUtil, uDebug, uOSUtils, uFileProcs, uDCUtils, uReSample, uGlobsPaths,
   uGlobs, uPixmapManager, URIParser, md5, uFileSystemFileSource;
 
 const
@@ -269,7 +269,7 @@ begin
               WriteMetaData(aFile, fsFileStream);
             except
               on e: EStreamError do
-                DebugLn(['Cannot save thumbnail to file "', sThumbFileName, '": ', e.Message]);
+                DCDebug(['Cannot save thumbnail to file "', sThumbFileName, '": ', e.Message]);
             end;
           finally
             FreeThenNil(fsFileStream);
@@ -293,4 +293,4 @@ begin
 end;
 
 end.
-
+

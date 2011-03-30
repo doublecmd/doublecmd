@@ -28,8 +28,8 @@ unit uDetectStr;
 interface
 
 uses
-  SysUtils, Classes, LCLProc, uMasks,
-  uFile;
+  SysUtils, Classes,
+  uMasks, uFile;
 
 type
   TMathtype=(mtnil,mtoperator,mtlbracket,mtrbracket,mtoperand);
@@ -86,7 +86,7 @@ type
 implementation
 
 uses
-  uFileProperty, uFileSystemFileSource;
+  uDebug, uFileProperty, uFileSystemFileSource;
   
 function TParserControl.calculate(aFile: TFile; operand1,operand2,Aoperator:Tmathchar):string;
 var tmp:string;
@@ -160,7 +160,7 @@ var
 begin
   aFile:= TFileSystemFileSource.CreateFileFromFile(aFileName);
   try
-    DebugLn('aFile.Extension = ' + aFile.Extension);
+    DCDebug('aFile.Extension = ' + aFile.Extension);
     Result:= getresult(aFile);
   finally
     aFile.Free;

@@ -62,7 +62,7 @@ function TWfxPluginMoveOperation.UpdateProgress(SourceName, TargetName: UTF8Stri
 begin
   Result := 0;
 
-  //DebugLn('SourceName=', SourceName, #32, 'TargetName=', TargetName, #32, 'PercentDone=', IntToStr(PercentDone));
+  //DCDebug('SourceName=', SourceName, #32, 'TargetName=', TargetName, #32, 'PercentDone=', IntToStr(PercentDone));
 
   if State = fsosStopping then  // Cancel operation
     Exit(1);

@@ -188,6 +188,9 @@ function execl(__path:Pchar; __arg:Pchar):longint;cdecl;varargs;external clib na
 
 implementation
 
+uses
+  uDebug;
+
 { TUnixConThread }
 
 procedure TUnixConThread.WriteS(const s:UTF8String);
@@ -251,14 +254,14 @@ end;
 
 procedure TUnixConThread.CSI_CaretTo(Y,X:integer); //хз x y или y x. Надо проверить.
 begin
-debugln('  Y: '+inttostr(Y)+'  X: '+inttostr(X));
+DCDebug('  Y: '+inttostr(Y)+'  X: '+inttostr(X));
 //Fout.OutY:=Y;
 //Fout.OutX:=X;
 end;
 
 procedure TUnixConThread.CSIProc(NCode, Param:integer; ExParam:integer=0);
 begin
-  //debugln('Code:'+Inttostr(NCode)+'  Param: '+inttostr(Param));
+  //DCDebug('Code:'+Inttostr(NCode)+'  Param: '+inttostr(Param));
   case NCode of
   9:CSI_CaretTo(Param,ExParam);
   24:CSI_Colors(Param);

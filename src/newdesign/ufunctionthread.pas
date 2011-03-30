@@ -68,7 +68,7 @@ type
 implementation
 
 uses
-  LCLProc, uExceptions;
+  LCLProc, uDebug, uExceptions;
 
 constructor TFunctionThread.Create(CreateSuspended: Boolean);
 begin
@@ -164,7 +164,7 @@ begin
           FExceptionBackTrace := ExceptionToString;
 
           if FExceptionBackTrace <> EmptyStr then
-            DebugLn(FExceptionBackTrace);
+            DCDebug(FExceptionBackTrace);
 
           Synchronize(@ShowException);
         end;

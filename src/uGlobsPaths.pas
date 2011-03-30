@@ -16,7 +16,7 @@ procedure LoadPaths;
 implementation
 
 uses
-  LCLProc, SysUtils, FileUtil, uOSUtils, uDCUtils;
+  SysUtils, FileUtil, uDebug, uOSUtils, uDCUtils;
 
 function GetAppName : String;
 begin
@@ -27,7 +27,7 @@ procedure LoadPaths;
 begin
   OnGetApplicationName := @GetAppName;
   gpExePath := ExtractFilePath(TryReadAllLinks(ParamStrUTF8(0)));
-  DebugLn('Executable directory: ', gpExePath);
+  DCDebug('Executable directory: ', gpExePath);
   
   gpGlobalCfgDir := gpExePath;
   if gpCmdLineCfgDir <> EmptyStr then
@@ -42,7 +42,7 @@ begin
     gpCfgDir := GetAppConfigDir;
     if gpCfgDir = EmptyStr then
     begin
-      DebugLn('Warning: Cannot get user config directory.');
+      DCDebug('Warning: Cannot get user config directory.');
       gpCfgDir := gpGlobalCfgDir;
     end;
   end;
@@ -56,4 +56,4 @@ begin
   mbSetEnvironmentVariable('commander_path', ExcludeTrailingBackslash(gpExePath));
 end;
 
-end.
+end.

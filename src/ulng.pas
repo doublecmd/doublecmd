@@ -395,9 +395,10 @@ procedure lngLoadLng(const sFileName:String);
 procedure DoLoadLng;
 
 implementation
+
 uses
   Classes, SysUtils, StrUtils, GetText, Translations, uGlobs, uGlobsPaths, uTranslator,
-  LCLProc, uFileProcs, uDCUtils, uOSUtils;
+  uDebug, uFileProcs, uDCUtils, uOSUtils;
 
 function GetLanguageName(poFileName : String) : String;
 var
@@ -471,7 +472,7 @@ begin
     end;
   if mbFileExists(gpLngDir + gPOFileName) then
     begin
-      DebugLn('Loading lng file: ' + gpLngDir + gPOFileName);
+      DCDebug('Loading lng file: ' + gpLngDir + gPOFileName);
       TranslateLCL(gPOFileName);
       Translations.TranslateUnitResourceStrings('uLng', gpLngDir + gPOFileName);
       LRSTranslator := TTranslator.Create(gpLngDir + gPOFileName);

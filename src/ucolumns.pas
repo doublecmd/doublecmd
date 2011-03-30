@@ -29,7 +29,7 @@ unit uColumns;
 interface
 
 uses
-  Classes, SysUtils, uClassesEx, LCLProc, Graphics, uFile, uFileSource,
+  Classes, SysUtils, uClassesEx, Graphics, uFile, uFileSource,
   uXmlConfig, uFileFunctions;
 
 type
@@ -215,7 +215,7 @@ type
 implementation
 
 uses
-  uLng, uGlobs;
+  uDebug, uLng, uGlobs;
 
 function StrToAlign(str: String): TAlignment;
 begin
@@ -946,9 +946,9 @@ begin
       fSet.AddObject(Ini.ReadString('ColumnsSet', 'ColumnsSet' +
         IntToStr(I + 1) + 'Name', ''), TPanelColumnsClass.Create);
       TPanelColumnsClass(fSet.Objects[I]).Load(ini, fset[i]);
-      DebugLn('FsetName=' + Fset[i]);
+      DCDebug('FsetName=' + Fset[i]);
     end;
-  DebugLn('FsetCount=' + IntToStr(fset.Count));
+  DCDebug('FsetCount=' + IntToStr(fset.Count));
 end;
 
 procedure TPanelColumnsList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -974,7 +974,7 @@ begin
           AnObject.Load(AConfig, ANode);
         end
         else
-          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+          DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
       end;
       ANode := ANode.NextSibling;
     end;
@@ -1060,7 +1060,7 @@ end;
 
 function TPanelColumnsList.GetColumnSet(const Index: Integer): TPanelColumnsClass;
 begin
-  //DebugLn('FsetCount='+inttostr(fset.Count));
+  //DCDebug('FsetCount='+inttostr(fset.Count));
   if (Index > -1) and (Index < Fset.Count) then
     Result := TPanelColumnsClass(Fset.Objects[Index])
   else
@@ -1076,7 +1076,7 @@ end;
 
 function TPanelColumnsList.GetColumnSet(Setname: String): TPanelColumnsClass;
 begin
-  //DebugLn('FsetCount='+inttostr(fset.Count));
+  //DCDebug('FsetCount='+inttostr(fset.Count));
   if fset.IndexOf(Setname) > -1 then
     Result := TPanelColumnsClass(Fset.Objects[fset.IndexOf(Setname)])
   else

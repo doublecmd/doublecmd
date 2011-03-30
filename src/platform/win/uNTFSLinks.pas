@@ -97,7 +97,7 @@ function DriveSupportsSymlinks(const fn: WideString): boolean;
 implementation
 
 uses
-  LCLProc;
+  LCLProc, uDebug;
 
 //-------------------------------------------------------------
 
@@ -126,14 +126,14 @@ begin
   hLib:= GetModuleHandle('kernel32.dll');
   if hLib = 0 then
     begin
-      DebugLn('Can not load library "kernel32.dll"');
+      DCDebug('Can not load library "kernel32.dll"');
       Exit;
     end;
 
   CreateHardLinkW:= TCreateHardLinkW(GetProcAddress(hLib, 'CreateHardLinkW'));
   if not Assigned(CreateHardLinkW) then
     begin
-      DebugLn('Can not get function address for "CreateHardLinkW"');
+      DCDebug('Can not get function address for "CreateHardLinkW"');
       Exit;
     end;
 
@@ -341,14 +341,14 @@ begin
   hLib:= GetModuleHandle('kernel32.dll');
   if hLib = 0 then
     begin
-      DebugLn('Can not load library "kernel32.dll"');
+      DCDebug('Can not load library "kernel32.dll"');
       Exit;
     end;
 
   CreateSymbolicLinkW:= TCreateSymbolicLinkW(GetProcAddress(hLib, 'CreateSymbolicLinkW'));
   if not Assigned(CreateSymbolicLinkW) then
     begin
-      DebugLn('Can not get function address for "CreateSymbolicLinkW"');
+      DCDebug('Can not get function address for "CreateSymbolicLinkW"');
       Exit;
     end;
 
@@ -469,7 +469,7 @@ begin
 
   if h = INVALID_HANDLE_VALUE then
     begin
-      DebugLn('CreateFileW failed');
+      DCDebug('CreateFileW failed');
       Exit;
     end;
 
@@ -481,7 +481,7 @@ begin
 
   if not control then
     begin
-      DebugLn('DeviceIoControl failed');
+      DCDebug('DeviceIoControl failed');
       Exit;
     end;
 

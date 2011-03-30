@@ -369,7 +369,8 @@ implementation
 
 uses
   Dialogs, LCLProc, Forms, strutils,
-  uActs, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil, uDCUtils, uGlobs;
+  uActs, uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
+  uDCUtils, uGlobs;
 
 constructor TFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String);
 begin
@@ -437,7 +438,7 @@ begin
 
     // Wait until all the workers finish.
     FWorkersThread.Finish;
-    DebugLn('Waiting for workers thread ', hexStr(FWorkersThread));
+    DCDebug('Waiting for workers thread ', hexStr(FWorkersThread));
     TFunctionThread.WaitForWithSynchronize(FWorkersThread);
     FWorkersThread := nil;
   end;
@@ -450,9 +451,9 @@ begin
       with FFileViewWorkers[i] do
       begin
         if Working then
-          DebugLn('Error: Worker still working.')
+          DCDebug('Error: Worker still working.')
         else if not CanBeDestroyed then
-          DebugLn('Error: Worker cannot be destroyed.');
+          DCDebug('Error: Worker cannot be destroyed.');
         Free;
       end;
     end;
@@ -641,7 +642,7 @@ begin
 
   {$IFDEF timeFileView}
   startTime := Now;
-  DebugLn('---- Start ----');
+  DCDebug('---- Start ----');
   {$ENDIF}
 
   StopWorkers;

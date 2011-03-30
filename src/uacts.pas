@@ -2117,7 +2117,6 @@ end;
 
 procedure TActs.cm_Search(param:string);
 begin
-  DebugLn('ShowFindDlg');
   ShowFindDlg(frmMain.ActiveFrame.CurrentPath);
 end;
 
@@ -2889,4 +2888,4 @@ begin
 end;
 
 end.
-
+
