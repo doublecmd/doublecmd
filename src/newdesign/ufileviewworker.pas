@@ -281,13 +281,17 @@ end;
 procedure TFileViewWorker.Start;
 begin
   try
-    if Assigned(FOnStarting) then
-      TThread.Synchronize(Thread, @DoStarting);
+    if not Aborted then
+    begin
+      if Assigned(FOnStarting) then
+        TThread.Synchronize(Thread, @DoStarting);
 
-    Execute; // virtual call
+      if not Aborted then
+        Execute; // virtual call
 
-    if Assigned(FOnFinished) then
-      TThread.Synchronize(Thread, @DoFinished);
+      if Assigned(FOnFinished) then
+        TThread.Synchronize(Thread, @DoFinished);
+    end;
   finally
     FWorking := False;
     FCanBeDestroyed := True;
