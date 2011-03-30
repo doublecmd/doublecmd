@@ -439,7 +439,7 @@ begin
     // Wait until all the workers finish.
     FWorkersThread.Finish;
     DCDebug('Waiting for workers thread ', hexStr(FWorkersThread));
-    TFunctionThread.WaitForWithSynchronize(FWorkersThread);
+    TFunctionThread.Finalize(FWorkersThread);
     FWorkersThread := nil;
   end;
 
@@ -1453,4 +1453,4 @@ begin
 end;
 
 end.
-
+

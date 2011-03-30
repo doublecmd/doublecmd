@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Executing functions in a thread.
 
-   Copyright (C) 2009 cobines (cobines@gmail.com)
+   Copyright (C) 2009-2011 Przemysław Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -45,7 +45,6 @@ type
     FWaitEvent: PRTLEvent;
     FLock: TCriticalSection;
     FFinished: Boolean;
-    FFinishedEvent: PRTLEvent;
 
   protected
     procedure Execute; override;
@@ -59,10 +58,9 @@ type
     procedure QueueFunction(AFunctionToCall: TFunctionThreadMethod; AParams: Pointer = nil);
     procedure Finish;
 
-    class procedure WaitForWithSynchronize(AThread: TFunctionThread; WaitTimeMs: Cardinal = 0);
+    class procedure Finalize(var AThread: TFunctionThread);
 
     property Finished: Boolean read FFinished;
-    property FinishedEvent: PRTLEvent read FFinishedEvent;
   end;
 
 implementation
@@ -72,13 +70,11 @@ uses
 
 constructor TFunctionThread.Create(CreateSuspended: Boolean);
 begin
-  FreeOnTerminate := False;
-
   FWaitEvent := RTLEventCreate;
   FFunctionsToCall := TFPList.Create;
   FLock := TCriticalSection.Create;
   FFinished := False;
-  FFinishedEvent := RTLEventCreate;
+  FreeOnTerminate := False;
 
   inherited Create(CreateSuspended, DefaultStackSize);
 end;
@@ -96,9 +92,6 @@ begin
 
   FreeThenNil(FFunctionsToCall);
   FreeThenNil(FLock);
-
-  RTLeventSetEvent(FFinishedEvent);
-  RTLeventdestroy(FFinishedEvent);
 
   inherited Destroy;
 end;
@@ -134,50 +127,51 @@ procedure TFunctionThread.Execute;
 var
   pItem: PFunctionThreadItem;
 begin
-  while (not Terminated) {or (FFunctionsToCall.Count > 0)} do
-  begin
-    RTLeventResetEvent(FWaitEvent);
-
-    pItem := nil;
-
-    FLock.Acquire;
-    try
-      if FFunctionsToCall.Count > 0 then
-      begin
-        pItem := PFunctionThreadItem(FFunctionsToCall[0]);
-        FFunctionsToCall.Delete(0);
-      end;
-    finally
-      FLock.Release;
-    end;
-
-    if Assigned(pItem) then
+  try
+    while (not Terminated) or (FFunctionsToCall.Count > 0) do
     begin
+      RTLeventResetEvent(FWaitEvent);
+
+      pItem := nil;
+
+      FLock.Acquire;
       try
-        pItem^.Method(pItem^.Params);
-        Dispose(pItem);
-      except
-        on e: Exception do
+        if FFunctionsToCall.Count > 0 then
         begin
-          Dispose(pItem);
-          FExceptionMessage := e.Message;
-          FExceptionBackTrace := ExceptionToString;
-
-          if FExceptionBackTrace <> EmptyStr then
-            DCDebug(FExceptionBackTrace);
-
-          Synchronize(@ShowException);
+          pItem := PFunctionThreadItem(FFunctionsToCall[0]);
+          FFunctionsToCall.Delete(0);
         end;
+      finally
+        FLock.Release;
       end;
-    end
-    else
-    begin
-      RTLeventWaitFor(FWaitEvent);
-    end;
-  end;
 
-  FFinished := True;
-  RTLeventSetEvent(FFinishedEvent);
+      if Assigned(pItem) then
+      begin
+        try
+          pItem^.Method(pItem^.Params);
+          Dispose(pItem);
+        except
+          on e: Exception do
+          begin
+            Dispose(pItem);
+            FExceptionMessage := e.Message;
+            FExceptionBackTrace := ExceptionToString;
+
+            if FExceptionBackTrace <> EmptyStr then
+              DCDebug(FExceptionBackTrace);
+
+            Synchronize(@ShowException);
+          end;
+        end;
+      end
+      else
+      begin
+        RTLeventWaitFor(FWaitEvent);
+      end;
+    end;
+  finally
+    FFinished := True;
+  end;
 end;
 
 procedure TFunctionThread.ShowException;
@@ -186,34 +180,17 @@ begin
   ShowExceptionDialog(FExceptionMessage);
 end;
 
-class procedure TFunctionThread.WaitForWithSynchronize(AThread: TFunctionThread; WaitTimeMs: Cardinal);
-var
-  Waited: Cardinal = 0;
+class procedure TFunctionThread.Finalize(var AThread: TFunctionThread);
 begin
   AThread.Finish;
-
-  while not AThread.Finished do
-  begin
-    RTLeventWaitFor(AThread.FinishedEvent, 100);
-    if AThread.Finished then
-      Break;
-
-    if WaitTimeMs > 0 then
-    begin
-      Inc(Waited, 100);
-      if Waited >= WaitTimeMs then
-      begin
-        AThread.FreeOnTerminate := True;
-        Exit;
-      end;
-    end;
-
-    CheckSynchronize;
-  end;
-
-  // Can now safely wait without checking for Synchronize.
-  WaitForThreadTerminate(AThread.Handle, WaitTimeMs - Waited);
+{$IF (fpc_version<2) or ((fpc_version=2) and (fpc_release<5))}
+  If (MainThreadID=GetCurrentThreadID) then
+    while not AThread.Finished do
+      CheckSynchronize(100);
+{$ENDIF}
+  AThread.WaitFor;
   AThread.Free;
+  AThread := nil;
 end;
 
 end.

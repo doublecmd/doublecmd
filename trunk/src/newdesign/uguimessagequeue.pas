@@ -4,7 +4,7 @@
    Thread-safe asynchronous call queue.
    It allows queueing methods that should be called by GUI thread.
 
-   Copyright (C) 2009 cobines (cobines@gmail.com)
+   Copyright (C) 2009-2011 Przemysław Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@ type
     FMessageQueue: PMessageQueueItem;
     FMessageQueueLastItem: PMessageQueueItem;
     FMessageQueueLock: TCriticalSection;
+    FFinished: Boolean;
 
     {en
        This method executes some queued functions.
@@ -90,9 +91,10 @@ begin
   FMessageQueue := nil;
   FMessageQueueLastItem := nil;
   FMessageQueueLock := TCriticalSection.Create;
+  FFinished := False;
+  FreeOnTerminate := False;
 
   inherited Create(CreateSuspended, DefaultStackSize);
-  FreeOnTerminate := True;
 end;
 
 destructor TGuiMessageQueueThread.Destroy;
@@ -126,14 +128,18 @@ end;
 
 procedure TGuiMessageQueueThread.Execute;
 begin
-  while not Terminated do
-  begin
-    if Assigned(FMessageQueue) then
-      // Call some methods.
-      Synchronize(@CallMethods)
-    else
-      // Wait for messages.
-      RTLeventWaitFor(FWakeThreadEvent);
+  try
+    while not Terminated do
+    begin
+      if Assigned(FMessageQueue) then
+        // Call some methods.
+        Synchronize(@CallMethods)
+      else
+        // Wait for messages.
+        RTLeventWaitFor(FWakeThreadEvent);
+    end;
+  finally
+    FFinished := True;
   end;
 end;
 
@@ -215,14 +221,25 @@ end;
 procedure InitializeGuiMessageQueue;
 begin
   DCDebug('Starting GuiMessageQueue');
+{$IF (fpc_version<2) or ((fpc_version=2) and (fpc_release<5))}
+  GuiMessageQueue := TGuiMessageQueueThread.Create(True);
+  GuiMessageQueue.Resume;
+{$ELSE}
   GuiMessageQueue := TGuiMessageQueueThread.Create(False);
+{$ENDIF}
 end;
 
 procedure FinalizeGuiMessageQueue;
 begin
   GuiMessageQueue.Terminate;
   DCDebug('Finishing GuiMessageQueue');
-  WaitForThreadTerminate(GuiMessageQueue.ThreadID, 10000); // wait max 10 seconds
+{$IF (fpc_version<2) or ((fpc_version=2) and (fpc_release<5))}
+  If (MainThreadID=GetCurrentThreadID) then
+    while not GuiMessageQueue.FFinished do
+      CheckSynchronize(100);
+{$ENDIF}
+  GuiMessageQueue.WaitFor;
+  FreeAndNil(GuiMessageQueue);
 end;
 
 initialization
