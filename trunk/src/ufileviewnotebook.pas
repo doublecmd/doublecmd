@@ -96,7 +96,7 @@ type
     function InsertPage(Index: Integer; aCaption: String = ''): TFileViewPage;
     procedure RemovePage(Index: Integer);
     procedure RemovePage(var aPage: TFileViewPage);
-    procedure RemoveAllPages;
+    procedure DestroyAllPages;
     procedure ActivatePrevTab;
     procedure ActivateNextTab;
 
@@ -349,9 +349,10 @@ begin
   aPage := nil;
 end;
 
-procedure TFileViewNotebook.RemoveAllPages;
+procedure TFileViewNotebook.DestroyAllPages;
 begin
-  Pages.Clear;
+  while PageCount > 0 do
+    Page[0].Free;
 end;
 
 procedure TFileViewNotebook.ActivatePrevTab;
