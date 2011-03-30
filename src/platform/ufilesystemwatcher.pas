@@ -232,23 +232,26 @@ end;
 
 procedure TFileSystemWatcherImpl.Execute;
 begin
-  DebugLn('FileSystemWatcher thread starting');
+//  DebugLn('FileSystemWatcher thread starting');
   try
-    ExecuteWatcher;
-  except
-    on e: Exception do
-    begin
-      FExceptionMessage := e.Message;
-      FExceptionBackTrace := ExceptionToString;
+    try
+      ExecuteWatcher;
+    except
+      on e: Exception do
+      begin
+        FExceptionMessage := e.Message;
+        FExceptionBackTrace := ExceptionToString;
 
-      if FExceptionBackTrace <> EmptyStr then
-        DebugLn(FExceptionBackTrace);
+        if FExceptionBackTrace <> EmptyStr then
+          DebugLn(FExceptionBackTrace);
 
-      Synchronize(@ShowException);
+        Synchronize(@ShowException);
+      end;
     end;
+  finally
+    FFinished := True;
+    //DebugLn('FileSystemWatcher thread finished');
   end;
-  FFinished := True;
-  DebugLn('FileSystemWatcher thread finished');
 end;
 
 procedure TFileSystemWatcherImpl.ExecuteWatcher;
@@ -1004,4 +1007,4 @@ finalization
   TFileSystemWatcher.DestroyFileSystemWatcher;
 
 end.
-
+
