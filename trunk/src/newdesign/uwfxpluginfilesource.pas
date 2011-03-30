@@ -116,7 +116,7 @@ implementation
 
 uses
   LCLProc, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, uDCUtils, uLog,
-  uLng, uCryptProc, uFileAttributes, uConnectionManager,
+  uDebug, uLng, uCryptProc, uFileAttributes, uConnectionManager,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
   uWfxPluginDeleteOperation, uWfxPluginSetFilePropertyOperation, uWfxPluginCopyOperation;
@@ -129,7 +129,7 @@ var
 begin
   Result:= 0;
 
-  DebugLn('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+IntToStr(PercentDone)+')=' ,IntTostr(Result));
+  DCDebug('MainProgressProc ('+IntToStr(PluginNr)+','+SourceName+','+TargetName+','+IntToStr(PercentDone)+')=' ,IntTostr(Result));
 
   CallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNr]);
 
@@ -206,7 +206,7 @@ Begin
   // write log info
   logWrite(sMsg + ', ' + logString, LogMsgType, True, bLogFile);
 
-  //DebugLn('MainLogProc ('+ sMsg + ',' + logString + ')');
+  //DCDebug('MainLogProc ('+ sMsg + ',' + logString + ')');
 end;
 
 procedure MainLogProcA(PluginNr, MsgType: Integer; LogString: PAnsiChar); stdcall;
@@ -286,7 +286,7 @@ begin
       end;
   end;
 
-  DebugLn('MainRequestProc ('+IntToStr(PluginNr)+','+sReq+','+CustomTitle+','+CustomText+','+ReturnedText+')', BoolToStr(Result, True));
+  DCDebug('MainRequestProc ('+IntToStr(PluginNr)+','+sReq+','+CustomTitle+','+CustomText+','+ReturnedText+')', BoolToStr(Result, True));
 end;
 
 function MainRequestProcA(PluginNr, RequestType: Integer; CustomTitle, CustomText, ReturnedText: PAnsiChar; MaxLen: Integer): Bool; stdcall;
@@ -755,7 +755,7 @@ begin
       sModuleFileName:= GetCmdDirFromEnvVar(sModuleFileName);
       Result:= TWfxPluginFileSource.Create(sModuleFileName, aRootName);
 
-      DebugLn('Found registered plugin ' + sModuleFileName + ' for file system ' + aRootName);
+      DCDebug('Found registered plugin ' + sModuleFileName + ' for file system ' + aRootName);
     end;
 end;
 
@@ -774,4 +774,4 @@ finalization
   if Assigned(WfxOperationList) then
     FreeAndNil(WfxOperationList);
 
-end.
+end.

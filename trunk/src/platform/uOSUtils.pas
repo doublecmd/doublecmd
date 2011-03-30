@@ -279,7 +279,7 @@ procedure FixFormIcon(Handle: LCLType.HWND);
 implementation
 
 uses
-  LCLProc, FileUtil, uDCUtils, uGlobs
+  FileUtil, uDebug, uDCUtils, uGlobs
   {$IF DEFINED(MSWINDOWS)}
   , Windows, uNTFSLinks, uMyWindows, JwaWinNetWk, uShlObjAdditional
   {$ENDIF}
@@ -502,7 +502,7 @@ begin
     if fpLChown(PChar(sDst),StatInfo.st_uid, StatInfo.st_gid)=-1 then
     begin
       // development messages
-      DebugLN(Format('chown (%s) failed',[sDst]));
+      DCDebug(Format('chown (%s) failed',[sDst]));
     end;
   end
   else
@@ -518,7 +518,7 @@ begin
     if fpChown(PChar(sDst),StatInfo.st_uid, StatInfo.st_gid)=-1 then
     begin
       // development messages
-      DebugLN(Format('chown (%s) failed',[sDst]));
+      DCDebug(Format('chown (%s) failed',[sDst]));
     end;
     // mod
     mode := StatInfo.st_mode;
@@ -527,7 +527,7 @@ begin
     if fpChmod(PChar(sDst), mode) = -1 then
     begin
       // development messages
-      DebugLN(Format('chmod (%s) failed',[sDst]));
+      DCDebug(Format('chmod (%s) failed',[sDst]));
     end;
   end;
 
@@ -591,7 +591,7 @@ begin
     end;
     
   SplitCmdLine(sCmdLine, sFileName, sParams);
-  DebugLn('File: ' + sFileName + ' Params: ' + sParams + ' WorkDir: ' + wWorkDir);
+  DCDebug('File: ' + sFileName + ' Params: ' + sParams + ' WorkDir: ' + wWorkDir);
   wFileName:= UTF8Decode(sFileName);
   wParams:= UTF8Decode(sParams);
   Result := (ShellExecuteW(0, 'open', PWChar(wFileName), PWChar(wParams), PWChar(wWorkDir), SW_SHOW) > 32);

@@ -28,7 +28,8 @@ uses
   uKeyboard,
   uUniqueInstance,
   uDCVersion,
-  uCmdLineParams;
+  uCmdLineParams,
+  uDebug;
 
 {$R *.res}
 
@@ -38,7 +39,7 @@ var
 {$ENDIF}
 
 begin
-  DebugLn('Starting Double Commander');
+  DCDebug('Starting Double Commander');
 
   {$IFDEF NIGHTLY_BUILD}
   InitLineInfo;
@@ -58,18 +59,18 @@ begin
   AllowDirectorySeparators:= [DirectorySeparator];
   ThousandSeparator:= ' ';
 
-  DebugLn('Double Commander ' + dcVersion);
-  DebugLn('Revision: ' + dcRevision);
-  DebugLn('Build: ' + dcBuildDate);
-  DebugLn('Lazarus: ' + lazVersion + '-' + lazRevision);
-  DebugLn('Free Pascal: ' + fpcVersion);
-  DebugLn('Platform: ' + TargetCPU + '-' + TargetOS + '-' + TargetWS);
-  DebugLn('System: ' + OSVersion);
+  DCDebug('Double Commander ' + dcVersion);
+  DCDebug('Revision: ' + dcRevision);
+  DCDebug('Build: ' + dcBuildDate);
+  DCDebug('Lazarus: ' + lazVersion + '-' + lazRevision);
+  DCDebug('Free Pascal: ' + fpcVersion);
+  DCDebug('Platform: ' + TargetCPU + '-' + TargetOS + '-' + TargetWS);
+  DCDebug('System: ' + OSVersion);
   if WSVersion <> EmptyStr then
-    DebugLn('Widgetset library: ' + WSVersion);
-  DebugLn('This program is free software released under terms of GNU GPL 2');
-  DebugLn('(C)opyright 2006-2011 Koblov Alexander (Alexx2000@mail.ru)');
-  DebugLn('   and contributors (see about dialog)');
+    DCDebug('Widgetset library: ' + WSVersion);
+  DCDebug('This program is free software released under terms of GNU GPL 2');
+  DCDebug('(C)opyright 2006-2011 Koblov Alexander (Alexx2000@mail.ru)');
+  DCDebug('   and contributors (see about dialog)');
 
   ProcessCommandLineParams; // before load paths
   LoadPaths; // before loading config
@@ -101,8 +102,8 @@ begin
      end
     else
      begin
-       DebugLn('Another instance of DC is already running. Exiting.');
+       DCDebug('Another instance of DC is already running. Exiting.');
      end;
 
-  DebugLn('Finished Double Commander');
-end.
+  DCDebug('Finished Double Commander');
+end.

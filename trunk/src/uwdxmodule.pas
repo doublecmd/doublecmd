@@ -258,7 +258,7 @@ type
 implementation
 
 uses
-  StrUtils, uGlobs, uGlobsPaths, FileUtil;
+  StrUtils, uGlobs, uGlobsPaths, FileUtil, uDebug;
 
 const
   WdxIniFileName = 'wdx.ini';
@@ -325,7 +325,7 @@ begin
     tmp := Ini.ReadString('Content Plugins', 'Plugin' + IntToStr(I + 1) + 'Name', '');
     // читать FileName - читать расширение и создавать нужный обьект
     tp := GetCmdDirFromEnvVar(Ini.ReadString('Content Plugins', 'Plugin' + IntToStr(I + 1) + 'Path', ''));
-    DebugLn('WDX:LOAD:' + tp);
+    DCDebug('WDX:LOAD:' + tp);
     if upcase(ExtractFileExt(tp)) = '.WDX' then
       Flist.AddObject(UpCase(tmp), TPluginWDX.Create)
     else {иначе проверка на скрипт}
@@ -359,7 +359,7 @@ begin
         begin
           // Create a correct object based on plugin file extension.
           APath := GetCmdDirFromEnvVar(APath);
-          DebugLn('WDX: LOAD: ' + APath);
+          DCDebug('WDX: LOAD: ' + APath);
           if UpCase(ExtractFileExt(APath)) = '.WDX' then
             AWdxModule := TPluginWDX.Create
           else if UpCase(ExtractFileExt(APath)) = '.LUA' then
@@ -373,7 +373,7 @@ begin
           Flist.AddObject(UpCase(AName), AWdxModule);
         end
         else
-          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+          DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
       end;
       ANode := ANode.NextSibling;
     end;
@@ -993,7 +993,7 @@ begin
   Index := 0;
   repeat
     Rez := WdxLuaContentGetSupportedField(Index, xFieldName, xUnits);
-    DebugLn('WDX:CallGetSupFields:' + IntToStr(Rez));
+    DCDebug('WDX:CallGetSupFields:' + IntToStr(Rez));
     if Rez <> ft_nomorefields then
     begin
       tmp := FFieldsList.AddObject(xFieldName, TWdxField.Create);

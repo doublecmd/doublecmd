@@ -37,7 +37,7 @@ type
 implementation
 
 uses
-  LCLProc, uExceptions;
+  uDebug, uExceptions;
 
 constructor TOperationThread.Create(CreateSuspended: Boolean; Operation: TFileSourceOperation);
 begin
@@ -66,7 +66,7 @@ begin
       FExceptionBackTrace := ExceptionToString;
 
       if FExceptionBackTrace <> EmptyStr then
-        DebugLn(FExceptionBackTrace);
+        DCDebug(FExceptionBackTrace);
 
       Synchronize(@ShowException);
     end;

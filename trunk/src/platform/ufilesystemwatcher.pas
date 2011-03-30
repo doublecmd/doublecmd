@@ -71,7 +71,7 @@ type
 implementation
 
 uses
-  LCLProc, uExceptions, syncobjs, fgl
+  LCLProc, uDebug, uExceptions, syncobjs, fgl
   {$IF DEFINED(MSWINDOWS)}
   ,Windows
   {$ELSEIF DEFINED(LINUX)}
@@ -171,7 +171,7 @@ class procedure TFileSystemWatcher.DestroyFileSystemWatcher;
 begin
   if Assigned(FileSystemWatcher) then
   begin
-    DebugLn('Waiting for FileSystemWatcher thread');
+    DCDebug('Waiting for FileSystemWatcher thread');
     FileSystemWatcher.Terminate;
   {$IF (fpc_version<2) or ((fpc_version=2) and (fpc_release<5))}
     If (MainThreadID=GetCurrentThreadID) then
@@ -225,14 +225,14 @@ type
 
 procedure ShowError(const sErrMsg: String);
 begin
-  DebugLn('FSWatcher: ' + sErrMsg + ': ' + SysErrorMessage(GetLastOSError));
+  DCDebug('FSWatcher: ' + sErrMsg + ': ' + SysErrorMessage(GetLastOSError));
 end;
 
 { TFileSystemWatcherImpl }
 
 procedure TFileSystemWatcherImpl.Execute;
 begin
-//  DebugLn('FileSystemWatcher thread starting');
+  DCDebug('FileSystemWatcher thread starting');
   try
     try
       ExecuteWatcher;
@@ -243,14 +243,14 @@ begin
         FExceptionBackTrace := ExceptionToString;
 
         if FExceptionBackTrace <> EmptyStr then
-          DebugLn(FExceptionBackTrace);
+          DCDebug(FExceptionBackTrace);
 
         Synchronize(@ShowException);
       end;
     end;
   finally
     FFinished := True;
-    //DebugLn('FileSystemWatcher thread finished');
+    DCDebug('FileSystemWatcher thread finished');
   end;
 end;
 
@@ -1007,4 +1007,4 @@ finalization
   TFileSystemWatcher.DestroyFileSystemWatcher;
 
 end.
-
+

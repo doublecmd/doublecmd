@@ -546,7 +546,7 @@ uses
   uLng, uGlobsPaths, uPixMapManager, fMain, LCLProc, LCLVersion,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
   fTweakPlugin, uhotkeymanger, uTypes, StrUtils, uFindEx, uKeyboard,
-  fMaskInputDlg, uSearchTemplate, uMultiArc, uFile;
+  fMaskInputDlg, uSearchTemplate, uMultiArc, uFile, uDebug;
 
 const
   stgCmdCommandIndex = 0;
@@ -907,7 +907,7 @@ var
   sLangName : String;
 begin
   lngList.Clear;
-  DebugLn('Language dir: ' + gpLngDir);
+  DCDebug('Language dir: ' + gpLngDir);
   if FindFirstEx(gpLngDir+'*.po', faAnyFile, fr)<>0 then
   begin
     FindCloseEx(fr);
@@ -1528,42 +1528,42 @@ begin
   if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
     begin
       WCXmodule := TWCXmodule.Create;
-      DebugLn('TWCXmodule created');
+      DCDebug('TWCXmodule created');
       try
         if WCXmodule.LoadModule(PluginFileName) then
          begin
-           DebugLn('WCXModule Loaded');
+           DCDebug('WCXModule Loaded');
            WCXmodule.VFSConfigure(stgPlugins.Handle);
-           DebugLn('Dialog executed');
+           DCDebug('Dialog executed');
            WCXModule.UnloadModule;
-           DebugLn('WCX Module Unloaded');
+           DCDebug('WCX Module Unloaded');
          end
          else
            msgError(rsMsgErrEOpen + ': ' + PluginFileName);
       finally
         WCXmodule.Free;
-        DebugLn('WCX Freed');
+        DCDebug('WCX Freed');
       end;
     end
   else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
     begin
       WFXmodule := TWFXmodule.Create;
-      DebugLn('TWFXmodule created');
+      DCDebug('TWFXmodule created');
       try
         if WFXmodule.LoadModule(PluginFileName) then
          begin
-           DebugLn('WFXModule Loaded');
+           DCDebug('WFXModule Loaded');
            WfxModule.VFSInit(0);
            WFXmodule.VFSConfigure(stgPlugins.Handle);
-           DebugLn('Dialog executed');
+           DCDebug('Dialog executed');
            WFXModule.UnloadModule;
-           DebugLn('WFX Module Unloaded');
+           DCDebug('WFX Module Unloaded');
          end
          else
            msgError(rsMsgErrEOpen + ': ' + PluginFileName);
       finally
         WFXmodule.Free;
-        DebugLn('WFX Freed');
+        DCDebug('WFX Freed');
       end;
     end;
 end;
@@ -1768,18 +1768,18 @@ begin
   odOpenDialog.Filter := 'File system plugins (*.wfx)|*.wfx';
   if odOpenDialog.Execute then
   begin
-  DebugLn('Dialog executed');
+  DCDebug('Dialog executed');
     WfxModule := TWfxModule.Create;
-    DebugLn('TWFXmodule created');
+    DCDebug('TWFXmodule created');
     if WfxModule.LoadModule(odOpenDialog.FileName) then
      begin
-       DebugLn('WFXModule Loaded');
+       DCDebug('WFXModule Loaded');
        sRootName:= WfxModule.VFSRootName;
        if sRootName <> EmptyStr then
         sPluginName := sRootName + '=' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
        else
          begin
-           DebugLn('WFX alternate name');
+           DCDebug('WFX alternate name');
            sRootName:= ExtractFileName(odOpenDialog.FileName);
            sRootName:= Copy(sRootName, 1, Pos('.', sRootName) - 1);
            sPluginName := sRootName + '=' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
@@ -1787,11 +1787,11 @@ begin
      end
     else
     begin
-      DebugLn('Module not loaded');
+      DCDebug('Module not loaded');
       sPluginName := ExtractFileName(odOpenDialog.FileName) +'=' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
     end;
 
-  DebugLn('WFX sPluginName='+sPluginName);
+  DCDebug('WFX sPluginName='+sPluginName);
   I:= tmpWFXPlugins.AddObject(sPluginName, TObject(True));
   stgPlugins.RowCount:= tmpWFXPlugins.Count + 1;
   J:= stgPlugins.RowCount-1;
@@ -1799,11 +1799,11 @@ begin
   stgPlugins.Cells[1, J]:= tmpWFXPlugins.Name[I];
   stgPlugins.Cells[2, J]:= EmptyStr;
   stgPlugins.Cells[3, J]:= tmpWFXPlugins.FileName[I];
-  DebugLn('WFX Item Added');
+  DCDebug('WFX Item Added');
   WFXModule.UnloadModule;
-  DebugLn('WFX Module Unloaded');
+  DCDebug('WFX Module Unloaded');
   WFXmodule.Free;
-  DebugLn('WFX Freed');
+  DCDebug('WFX Freed');
   end;
 end;
 

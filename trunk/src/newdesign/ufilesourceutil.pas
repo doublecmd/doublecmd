@@ -33,7 +33,7 @@ function RenameFile(aFileSource: IFileSource; const aFile: TFile;
 implementation
 
 uses
-  LCLProc, fFileExecuteYourSelf, uGlobs, uShellExecute, uFindEx,
+  LCLProc, fFileExecuteYourSelf, uGlobs, uShellExecute, uFindEx, uDebug,
   uOSUtils, uShowMsg, uTypes, uLng, uDCUtils,
   uFileSourceOperation,
   uFileSourceSetFilePropertyOperation,
@@ -93,23 +93,23 @@ begin
           case Operation.ExecuteOperationResult of
           fseorError:
             // Show error message
-            DebugLn('Execution error!');
+            DCDebug('Execution error!');
           fseorYourSelf:
             begin
               // Copy out file to temp file system and execute
               if not ShowFileExecuteYourSelf(aFileView, aFile, False) then
-                DebugLn('Execution error!');
+                DCDebug('Execution error!');
             end;
           fseorWithAll:
             begin
               // Copy out all files to temp file system and execute chosen
               if not ShowFileExecuteYourSelf(aFileView, aFile, True) then
-                DebugLn('Execution error!');
+                DCDebug('Execution error!');
             end;
           fseorSymLink:
             begin
               // change directory to new path (returned in Operation.SymLinkPath)
-              DebugLn('Change directory to ', Operation.SymLinkPath);
+              DCDebug('Change directory to ', Operation.SymLinkPath);
               aFileView.CurrentPath:= Operation.SymLinkPath;
             end;
           end;
@@ -243,4 +243,4 @@ begin
 end;
 
 end.
-
+

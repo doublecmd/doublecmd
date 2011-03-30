@@ -281,7 +281,7 @@ implementation
 
 uses
   FileUtil, IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx,
-  uFindMmap, uDCUtils, LCLIntf;
+  uFindMmap, uDCUtils, LCLIntf, uDebug;
 
 const
   // Status bar panels indexes.
@@ -301,7 +301,7 @@ procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSour
 var
   Viewer: TfrmViewer;
 begin
-  //DebugLn('ShowViewer - Using Internal');
+  //DCDebug('ShowViewer - Using Internal');
   Viewer := TfrmViewer.Create(Application, aFileSource);
   Viewer.QuickView:= False;
   Viewer.FileList.Assign(FilesToView);// Make a copy of the list
@@ -942,17 +942,17 @@ var
   I: Integer;
 begin
   I:= 0;
-//  DebugLn('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
+//  DCDebug('WlXPlugins.Count = ' + IntToStr(WlxPlugins.Count));
   while (I < WlxPlugins.Count) do
    if WlxPlugins.GetWLxModule(I).FileParamVSDetectStr(sFileName) then
      begin
        Result:= True;
-       DebugLn('I = '+IntToStr(I));
+       DCDebug('I = '+IntToStr(I));
        {$PUSH}{$R-}
        if not WlxPrepareContainer(pnlLister.Handle) then {TODO: ERROR and exit;};
        {$POP}
        WlxPlugins.LoadModule(I);
-       DebugLn('WlxModule.Name = ', WlxPlugins.GetWLxModule(I).Name);
+       DCDebug('WlxModule.Name = ', WlxPlugins.GetWLxModule(I).Name);
        if WlxPlugins.GetWLxModule(I).CallListLoad(pnlLister.Handle, sFileName, {TODO: showFlags}0) = 0 then
          begin
            WlxPlugins.GetWLxModule(I).UnloadModule;
@@ -1412,7 +1412,7 @@ begin
 
   WlxPlugins:=TWLXModuleList.Create;
   WlxPlugins.Assign(gWLXPlugins);
-  DebugLn('WLX: Load - OK');
+  DCDebug('WLX: Load - OK');
 
   FFindDialog:=nil; // dialog is created in first use
   
@@ -1629,7 +1629,7 @@ procedure TfrmViewer.miProcessClick(Sender: TObject);
   sViewCmd:String;
   sCurrName:String;}
 begin
-{  DebugLn('TfrmViewer.miProcessClick');
+{  DCDebug('TfrmViewer.miProcessClick');
   inherited;
   miEdit.Visible:=True;
   if not miProcess.Checked then
@@ -2105,4 +2105,4 @@ begin
 end;
 
 end.
-
+

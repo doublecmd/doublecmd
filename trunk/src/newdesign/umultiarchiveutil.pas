@@ -71,7 +71,8 @@ function FormatArchiverCommand(const Archiver, sCmd, anArchiveName: UTF8String;
 implementation
 
 uses
-  LCLProc, FileUtil, StrUtils, uClassesEx, uDCUtils, uOSUtils, uDateTimeUtils;
+  LCLProc, FileUtil, StrUtils, uClassesEx, uDCUtils, uOSUtils, uDateTimeUtils,
+  uDebug;
 
 function TOutputParser.FixPosition(const Str: String; Key: TKeyPos): LongInt;
 var
@@ -124,7 +125,7 @@ begin
       Position.Count := Position.Count - Position.Start;
       Position.Index := I;
       {$IFDEF DEBUG}
-      DebugLn('Key: ', Key, ' Format: ', IntToStr(I), ' Start: ', IntToStr(Position.Start), ' Count: ', IntToStr(Position.Count));
+      DCDebug('Key: ', Key, ' Format: ', IntToStr(I), ' Start: ', IntToStr(Position.Start), ' Count: ', IntToStr(Position.Count));
       {$ENDIF}
       Result := True;
       Break;
@@ -141,7 +142,7 @@ end;
 procedure TOutputParser.OnReadLn(str: string);
 begin
   if FMultiArcItem.FDebug then
-    DebugLn(str);
+    DCDebug(str);
 
   if (str = EmptyStr) or (Trim(str) = EmptyStr) then Exit; // skip empty lines
 
@@ -190,11 +191,11 @@ begin
     begin
       FFormatIndex := 0;
       {$IFDEF DEBUG}
-      DebugLn('FileName: ', FArchiveItem.FileName);
-      DebugLn('Size: ', IntToStr(FArchiveItem.UnpSize));
-      DebugLn('Pack size: ', IntToStr(FArchiveItem.PackSize));
-      DebugLn('Attributes: ', IntToStr(FArchiveItem.Attributes));
-      DebugLn('-------------------------------------');
+      DCDebug('FileName: ', FArchiveItem.FileName);
+      DCDebug('Size: ', IntToStr(FArchiveItem.UnpSize));
+      DCDebug('Pack size: ', IntToStr(FArchiveItem.PackSize));
+      DCDebug('Attributes: ', IntToStr(FArchiveItem.Attributes));
+      DCDebug('-------------------------------------');
       {$ENDIF}
       if Assigned(FOnGetArchiveItem) then
         FOnGetArchiveItem(FArchiveItem);
@@ -259,7 +260,7 @@ begin
   sCommandLine:= FormatArchiverCommand(FMultiArcItem.FArchiver,
                                        FMultiArcItem.FList, FArchiveName);
   if FMultiArcItem.FDebug then
-    DebugLn(sCommandLine);
+    DCDebug(sCommandLine);
 
   FExProcess := TExProcess.Create(sCommandLine);
   FExProcess.OnReadLn := @OnReadLn;
@@ -597,4 +598,4 @@ begin
 end;
 
 end.
-
+

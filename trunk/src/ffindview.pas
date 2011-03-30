@@ -66,7 +66,6 @@ begin
   inherited;
   if (Key = VK_Down) and (cbDataToFind.Items.Count > 0) then
     cbDataToFind.DroppedDown:= True;
-  DebugLn(IntToStr(Key));
   if Key = 13 then
   begin
     Key:= 0;
@@ -77,7 +76,6 @@ begin
     Key:= 0;
     ModalResult:= mrCancel;
   end;
-
 end;
 
 end.

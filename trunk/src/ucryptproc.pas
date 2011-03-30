@@ -66,7 +66,7 @@ var
 implementation
 
 uses
-  LCLProc, LCLType, Base64, BlowFish, md5, uShowMsg, uGlobsPaths, uLng;
+  LCLProc, LCLType, Base64, BlowFish, md5, uShowMsg, uGlobsPaths, uLng, uDebug;
 
 type
   TBlowFishKeyRec = record
@@ -214,7 +214,7 @@ begin
   try
     PasswordStore:= TPasswordStore.Create(gpCfgDir + 'pwd.ini', fmOpenReadWrite);
   except
-    DebugLn('Can not create secure password store!');
+    DCDebug('Can not create secure password store!');
   end;
 end;
 
@@ -229,4 +229,4 @@ finalization
   FreeThenNil(PasswordStore);
 
 end.
-
+

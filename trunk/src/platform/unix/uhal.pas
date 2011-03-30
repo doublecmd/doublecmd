@@ -43,9 +43,9 @@ var
 procedure PrintError(const sMessage: String; pError: PDBusError);
 begin
   if Assigned(pError) and (dbus_error_is_set(pError) <> 0) then
-    DebugLn(sMessage + ': ' + pError^.name + ' ' + pError^.message)
+    DCDebug(sMessage + ': ' + pError^.name + ' ' + pError^.message)
   else
-    DebugLn(sMessage);
+    DCDebug(sMessage);
 end;
 
 procedure CheckBlockDev(ctx: PLibHalContext; const udi: PChar; const CreateArray: boolean = False);
@@ -118,7 +118,7 @@ begin
     libhal_free_string(cap);
   end;
 
-  //DebugLn(s);
+  //DCDebug(s);
 end;
 
 function CreateBlokDevArr: Boolean;
@@ -142,7 +142,7 @@ begin
     dbus_error_free(@DcDbusError);
     Exit;
   end;
-  //DebugLn('Number of devices: ' + IntToStr(numDevices));
+  //DCDebug('Number of devices: ' + IntToStr(numDevices));
 
   // show info for all dev
   for i := 0 to numDevices - 1 do
@@ -163,14 +163,14 @@ var
 begin
   Result := False;
 
-  DebugLn('Initializing HAL');
+  DCDebug('Initializing HAL');
 
   // create new HAL
   DcHalCtx := libhal_ctx_new;
 
   if DcHalCtx = nil then
   begin
-    DebugLn('Cannot create HAL context');
+    DCDebug('Cannot create HAL context');
     Exit;
   end;
 
@@ -193,7 +193,7 @@ begin
   // Set dbus connection for the HAL context.
   if libhal_ctx_set_dbus_connection(DcHalCtx, DcDbus) = 0 then
   begin
-    DebugLn('Cannot set DBUS connection for HAL context');
+    DCDebug('Cannot set DBUS connection for HAL context');
     FreeHal;
     Exit;
   end;
@@ -212,22 +212,22 @@ begin
   HalConnectionOpen := True;
 
   if libhal_ctx_set_device_added(DcHalCtx, @LibHalDeviceAdded) = 0 then
-    DebugLn('Cannot register LibHalDeviceAdded');
+    DCDebug('Cannot register LibHalDeviceAdded');
 
   if libhal_ctx_set_device_removed(DcHalCtx, @LibHalDeviceRemoved) = 0 then
-    DebugLn('Cannot register LibHalDeviceRemoved');
+    DCDebug('Cannot register LibHalDeviceRemoved');
 
   if libhal_ctx_set_device_new_capability(DcHalCtx, @LibHalDeviceNewCapability) = 0 then
-    DebugLn('Cannot register LibHalDeviceNewCapability');
+    DCDebug('Cannot register LibHalDeviceNewCapability');
 
   if libhal_ctx_set_device_lost_capability(DcHalCtx, @LibHalDeviceLostCapability) = 0 then
-    DebugLn('Cannot register LibHalDeviceLostCapability');
+    DCDebug('Cannot register LibHalDeviceLostCapability');
 
   if libhal_ctx_set_device_property_modified(DcHalCtx, @LibHalDevicePropertyModified) = 0 then
-    DebugLn('Cannot register LibHalDevicePropertyModified');
+    DCDebug('Cannot register LibHalDevicePropertyModified');
 
   if libhal_ctx_set_device_condition(DcHalCtx, @LibHalDeviceCondition) = 0 then
-    DebugLn('Cannot register LibHalDeviceCondition');
+    DCDebug('Cannot register LibHalDeviceCondition');
 
   // Watch all properties.
   dbus_error_init(@DcDbusError);
@@ -247,13 +247,13 @@ begin
     Exit;
   end;
 
-  DebugLn('HAL initialized OK');
+  DCDebug('HAL initialized OK');
   Result := True;
 end;
 
 procedure LibHalDeviceAdded(ctx: PLibHalContext; const udi: PChar); cdecl;
 begin
-  DebugLn('HAL: new device added: ',udi);
+  DCDebug('HAL: new device added: ',udi);
 //  sleep(1500); // if we dont do it we don`t see new dev
   CheckBlockDev(ctx,udi); // it return value 2 time on one flash like /dev/sda /dev/sda1
 end;
@@ -267,14 +267,14 @@ begin
   // here we can know only UDI
   // UDI here don`t have mount point and dev name
 
-//  DebugLn('remove dev  ', udi);
+//  DCDebug('remove dev  ', udi);
   if DeviceList.IndexOf(udi) > -1 then
   begin
     DeviceWasChanged := True;
     DeviceList.Delete(DeviceList.IndexOf(udi));
     //CreateBlokDevArr; or we can re create DeviceList
   end;
-  DebugLn('HAL: Device was removed: ', udi);
+  DCDebug('HAL: Device was removed: ', udi);
 end;
 
 procedure LibHalDeviceNewCapability(ctx: PLibHalContext; const udi: PChar; const capability: PChar);cdecl;
@@ -329,7 +329,7 @@ begin
   begin
     if HalConnectionOpen then
     begin
-      DebugLn('Shutting down HAL');
+      DCDebug('Shutting down HAL');
       libhal_ctx_shutdown(DcHalCtx, nil);
       HalConnectionOpen := False;
     end;
@@ -340,7 +340,7 @@ begin
   begin
     if DBusConnectionOpen then
     begin
-      DebugLn('Closing DBUS connection');
+      DCDebug('Closing DBUS connection');
       dbus_connection_close(DcDbus);
       DBusConnectionOpen := False;
     end;

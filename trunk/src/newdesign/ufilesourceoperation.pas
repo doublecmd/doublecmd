@@ -25,8 +25,7 @@ uses
   Classes, SysUtils, syncobjs, uLng,
   uFileSourceOperationOptionsUI,
   uFileSourceOperationTypes,
-  uFileSourceOperationUI,
-  LCLProc;
+  uFileSourceOperationUI;
 
 type
 
@@ -388,7 +387,7 @@ type
 implementation
 
 uses
-  Forms, uFileSource, uFileSourceProperty, uExceptions
+  Forms, uFileSource, uFileSourceProperty, uDebug, uExceptions
   {$IFNDEF fsoSynchronizeEvents}
   , uGuiMessageQueue
   {$ENDIF}
@@ -497,7 +496,7 @@ var
 begin
   try
 {$IFDEF debugFileSourceOperation}
-   DebugLn('Op: ', hexStr(Self), ' ', FormatDateTime('nnss.zzzz', Now), ': Start operation ', ClassName);
+   DCDebug('Op: ', hexStr(Self), ' ', FormatDateTime('nnss.zzzz', Now), ': Start operation ', ClassName);
 {$ENDIF}
 
     UpdateProgress(0);
@@ -542,13 +541,13 @@ begin
       UpdateState(fsosRunning);
 
 {$IFDEF debugFileSourceOperation}
-      DebugLn('Op: ', hexStr(Self), ' ', FormatDateTime('nnss.zzzz', Now), ': Before main execute');
+      DCDebug('Op: ', hexStr(Self), ' ', FormatDateTime('nnss.zzzz', Now), ': Before main execute');
 {$ENDIF}
 
       MainExecute;
 
 {$IFDEF debugFileSourceOperation}
-      DebugLn('Op: ', hexStr(Self), ' ', FormatDateTime('nnss.zzzz', Now), ': After main execute');
+      DCDebug('Op: ', hexStr(Self), ' ', FormatDateTime('nnss.zzzz', Now), ': After main execute');
 {$ENDIF}
 
       FOperationResult := fsorFinished;
@@ -568,7 +567,7 @@ begin
     UpdateState(fsosStopped);
 
 {$IFDEF debugFileSourceOperation}
-    DebugLn('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Operation finished ', ClassName);
+    DCDebug('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Operation finished ', ClassName);
 {$ENDIF}
 
 {$IFNDEF fsoSynchronizeEvents}
@@ -577,7 +576,7 @@ begin
     RTLeventWaitFor(FNoEventsListenersCallsScheduledEvent);
 
 {$IFDEF debugFileSourceOperation}
-    DebugLn('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': After wait for events');
+    DCDebug('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': After wait for events');
 {$ENDIF}
 {$ENDIF}
   end;
@@ -604,7 +603,7 @@ begin
   end;
 
 {$IFDEF debugFileSourceOperation}
-  DebugLn('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Updated state to ', IntToStr(Integer(NewState)));
+  DCDebug('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Updated state to ', IntToStr(Integer(NewState)));
 {$ENDIF}
   NotifyStateChanged(NewState);
 end;
@@ -870,7 +869,7 @@ begin
   end;
 
 {$IFDEF debugFileSourceOperation}
-  DebugLn('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Before notify events');
+  DCDebug('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Before notify events');
 {$ENDIF}
 
   if GetCurrentThreadID <> MainThreadID then
@@ -902,7 +901,7 @@ begin
         on Exception do
           begin
             WriteExceptionToErrorFile;
-            DebugLn(ExceptionToString);
+            DCDebug(ExceptionToString);
             ShowExceptionDialog;
           end;
       end;
@@ -918,7 +917,7 @@ begin
   end;
 
 {$IFDEF debugFileSourceOperation}
-  DebugLn('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': After notify events');
+  DCDebug('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': After notify events');
 {$ENDIF}
 end;
 
@@ -935,7 +934,7 @@ var
   FunctionsCount: Integer = 0;
 begin
 {$IFDEF debugFileSourceOperation}
-  DebugLn('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Before call events');
+  DCDebug('Op: ', hexStr(self), ' ', FormatDateTime('nnss.zzzz', Now), ': Before call events');
 {$ENDIF}
 
 {$IFDEF fsoSynchronizeEvents}
@@ -987,7 +986,7 @@ begin
 {$ENDIF}
 
 {$IFDEF debugFileSourceOperation}
-  DebugLn('Op: ', hexStr(Self), ' ', FormatDateTime('nnss.zzzz', Now), ': After call events');
+  DCDebug('Op: ', hexStr(Self), ' ', FormatDateTime('nnss.zzzz', Now), ': After call events');
 {$ENDIF}
 end;
 

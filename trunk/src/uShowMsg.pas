@@ -95,8 +95,8 @@ procedure InitDialogButtonWidth;
 implementation
 
 uses
-  LCLIntf, SysUtils, StdCtrls, Graphics, Math, LCLProc, typinfo,
-  fMsg, uLng, Buttons, Controls, uLog, uGlobs;
+  LCLIntf, SysUtils, StdCtrls, Graphics, Math, typinfo,
+  fMsg, uLng, Buttons, Controls, uLog, uGlobs, uDebug;
 
 const
   cMsgName = 'Double Commander';
@@ -502,7 +502,7 @@ begin
   begin
     // A reminder in case someone forgots to assign text.
     if cLngButton[I] = EmptyStr then
-      DebugLn('Warning: MsgBox button ' + GetEnumName(TypeInfo(TMyMsgButton), Integer(I)) + ' caption not set.');
+      DCDebug('Warning: MsgBox button ' + GetEnumName(TypeInfo(TMyMsgButton), Integer(I)) + ' caption not set.');
 
     with Application.MainForm.Canvas do
     if TextWidth(cLngButton[I]) >= (cButtonWidth - 8) then
@@ -510,4 +510,4 @@ begin
   end;
 end;
 
-end.
+end.

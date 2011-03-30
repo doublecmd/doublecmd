@@ -347,7 +347,7 @@ var
 implementation
 
 uses
-  uFileSourceListOperation;
+  uDebug, uFileSourceListOperation;
 
 { TFileSource }
 
@@ -372,12 +372,12 @@ begin
   // (in the Manager) is removed there.
   InterLockedDecrement(frefcount);
 
-  DebugLn('Creating ', ClassName);
+  DCDebug('Creating ', ClassName);
 end;
 
 destructor TFileSource.Destroy;
 begin
-  DebugLn('Destroying ', ClassName, ' when refcount=', DbgS(refcount));
+  DCDebug('Destroying ', ClassName, ' when refcount=', DbgS(refcount));
 
   if RefCount <> 0 then
   begin
@@ -385,7 +385,7 @@ begin
     // in which case RefCount will be 1, so only issue warning if there was no exception.
     // This will check for any exception, but it's enough for a warning.
     if not Assigned(ExceptObject) then
-      DebugLn('Error: RefCount <> 0 for ', Self.ClassName);
+      DCDebug('Error: RefCount <> 0 for ', Self.ClassName);
   end;
 
   if Assigned(FileSourceManager) then
@@ -406,7 +406,7 @@ begin
     // RefCount = 0 (back at the final value)
   end
   else
-    DebugLn('Error: Cannot remove file source - manager already destroyed!');
+    DCDebug('Error: Cannot remove file source - manager already destroyed!');
 
   FreeThenNil(FReloadEventListeners);
 
@@ -756,17 +756,17 @@ begin
   FAssignedOperation := nil;
   FOperationLock := TCriticalSection.Create;
   inherited Create;
-  debugln('Creating connection ', ClassName);
+  DCDebug('Creating connection ', ClassName);
 end;
 
 destructor TFileSourceConnection.Destroy;
 begin
   if Assigned(FAssignedOperation) and (FAssignedOperation.State <> fsosStopped) then
-    DebugLn('Error: Destroying connection ', ClassName, ' with active operation ', FAssignedOperation.ClassName);
+    DCDebug('Error: Destroying connection ', ClassName, ' with active operation ', FAssignedOperation.ClassName);
 
   inherited Destroy;
 
-  DebugLn('Destroying connection ', ClassName);
+  DCDebug('Destroying connection ', ClassName);
 
   if Assigned(FOperationLock) then
     FreeAndNil(FOperationLock);
@@ -850,7 +850,7 @@ var
 begin
   if FFileSources.Count > 0 then
   begin
-    DebugLn('Warning: Destroying manager with existing file sources!');
+    DCDebug('Warning: Destroying manager with existing file sources!');
 
     for i := 0 to FFileSources.Count - 1 do
     begin
@@ -875,7 +875,7 @@ begin
     FFileSources.Add(aFileSource);
   end
   else
-    DebugLn('Error: File source already exists in manager!');
+    DCDebug('Error: File source already exists in manager!');
 end;
 
 procedure TFileSourceManager.Remove(aFileSource: IFileSource);
@@ -911,4 +911,4 @@ finalization
   FreeAndNil(FileSourceManager);
 
 end.
-
+

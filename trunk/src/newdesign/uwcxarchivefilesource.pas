@@ -140,7 +140,7 @@ type
 implementation
 
 uses
-  uGlobs, LCLProc, uDCUtils,
+  LCLProc, uDebug, uDCUtils, uGlobs,
   uDateTimeUtils,
   FileUtil, uCryptProc,
   uWcxArchiveListOperation,
@@ -297,7 +297,7 @@ begin
                                              WcxPlugin,
                                              gWCXPlugins.Flags[I]);
 
-      DebugLn('Found registered plugin ' + ModuleFileName + ' for archive ' + anArchiveFileName);
+      DCDebug('Found registered plugin ' + ModuleFileName + ' for archive ' + anArchiveFileName);
     end;
 end;
 
@@ -323,7 +323,7 @@ begin
                                              ModuleFileName,
                                              gWCXPlugins.Flags[I]);
 
-      DebugLn('Found registered plugin ' + ModuleFileName + ' for archive ' + anArchiveFileName);
+      DCDebug('Found registered plugin ' + ModuleFileName + ' for archive ' + anArchiveFileName);
       break;
     end;
   end;
@@ -630,7 +630,7 @@ begin
       Exit;
     end;
 
-  DebugLN('Open Archive');
+  DCDebug('Open Archive');
 
   (*Open Archive*)
   ArcHandle := WcxModule.OpenArchiveHandle(ArchiveFileName, PK_OM_LIST, lOpenResult);
@@ -645,7 +645,7 @@ begin
   WcxModule.WcxSetChangeVolProc(ArcHandle, nil, nil {ChangeVolProc});
   WcxModule.WcxSetProcessDataProc(ArcHandle, nil, nil {ProcessDataProc});
 
-  DebugLN('Get File List');
+  DCDebug('Get File List');
   (*Get File List*)
   FArcFileList.Clear;
   ExistsDirList := TStringHashList.Create(True);
@@ -935,4 +935,4 @@ finalization
   FreeThenNil(WcxOperationsQueueLock);
 
 end.
-
+

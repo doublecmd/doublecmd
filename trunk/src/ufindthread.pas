@@ -287,7 +287,7 @@ begin
     if RegExp and not ExecRegExpr(FilesMasks, sr.Name) then
       Exit(False);
 
-    //DebugLn('File = ', sr.Name);
+    //DCDebug('File = ', sr.Name);
     if (not RegExp) and (not MatchesMaskList(UTF8UpperCase(sr.Name), FFileChecks.FilesMasks)) then
       Exit(False);
 
@@ -368,7 +368,7 @@ begin
   if (not Terminated) and (FCurrentDepth < FSearchTemplate.SearchDepth) then
   begin
     Path := sNewDir + PathDelim + '*';
-    //DebugLn('Search in sub folders = ', Path);
+    //DCDebug('Search in sub folders = ', Path);
     if not Terminated and (FindFirstEx(Path, faDirectory, sr) = 0) then
       repeat
         IsLink:= FPS_ISLNK(sr.Attr);

@@ -54,7 +54,7 @@ function CheckAttrMask(DefaultAttr : TFileAttrs; sAttr : String; Attr : TFileAtt
 implementation
 
 uses
-  LCLProc
+  LCLProc, uDebug
   {$IFDEF UNIX}
   , uMyUnix, Unix
   {$ELSE}
@@ -122,7 +122,7 @@ end;
 var
   UnixFindData: PUnixFindData;
 begin
-  //DebugLn('FindFirstEx with Path == ', Path);
+  //DCDebug('FindFirstEx with Path == ', Path);
   { Allocate UnixFindData }
   New(UnixFindData);
   FillChar(UnixFindData^, SizeOf(UnixFindData^), 0);
@@ -241,10 +241,10 @@ begin
     begin
       if Boolean(DefaultAttr and faDirectory) then
         Result := Result and fpS_ISDIR(Attr);
-      DebugLn('Result do == ', BoolToStr(Result));
+      DCDebug('Result do == ', BoolToStr(Result));
       if Boolean(DefaultAttr and faSymLink) then
         Result := Result and ((Attr and S_IFLNK) = S_IFLNK);
-         DebugLn('Result after == ', BoolToStr(Result));
+         DCDebug('Result after == ', BoolToStr(Result));
     end;
   if Length(sAttr) < 9 then Exit;
 
@@ -273,4 +273,4 @@ end;
 {$ENDIF}
 
 end.
-
+

@@ -158,7 +158,7 @@ type
 implementation
 
 uses
-  FileUtil, uOSUtils, uGlobsPaths, uGlobs;
+  FileUtil, uDebug, uOSUtils, uGlobsPaths, uGlobs;
 
 const
   WlxIniFileName = 'wlx.ini';
@@ -218,7 +218,7 @@ end;
 
 function TWLXModule.LoadModule: Boolean;
 begin
-//  DebugLn('WLXM LoadModule entered');
+//  DCDebug('WLXM LoadModule entered');
   FModuleHandle := mbLoadLibrary(Self.FileName);
   Result := (FModuleHandle <> 0);
   if  FModuleHandle = 0 then exit;
@@ -241,7 +241,7 @@ begin
         ListSearchTextW:= TListSearchTextW(GetProcAddress(FModuleHandle, 'ListSearchTextW'));
         ListPrintW:= TListPrintW(GetProcAddress(FModuleHandle, 'ListPrintW'));
         ListGetPreviewBitmapW:= TListGetPreviewBitmapW(GetProcAddress(FModuleHandle, 'ListGetPreviewBitmapW'));
-//DebugLn('WLXM LoadModule Leaved');
+//DCDebug('WLXM LoadModule Leaved');
 end;
 
 procedure TWLXModule.UnloadModule;
@@ -304,19 +304,19 @@ end;
 procedure TWLXModule.CallListCloseWindow;
 begin
   if not Assigned(ListCloseWindow) then Exit;
-//  DebugLn('Try to call ListCloseWindow');
+//  DCDebug('Try to call ListCloseWindow');
   try
     ListCloseWindow(FPluginWindow);
   finally
     FPluginWindow:=0;
   end;
-//  DebugLn('Call ListCloseWindow success');
+//  DCDebug('Call ListCloseWindow success');
 end;
 
 function TWLXModule.CallListGetDetectString: string;
 var pc:Pchar;
 begin
-//DebugLn('GetDetectstr Entered');
+//DCDebug('GetDetectstr Entered');
   if assigned(ListGetDetectString) then
    begin
      GetMem(pc,MAX_PATH);
@@ -326,7 +326,7 @@ begin
    end
   else
     Result:='';
-//DebugLn('GetDetectStr Leaved');
+//DCDebug('GetDetectStr Leaved');
 end;
 
 function TWLXModule.CallListSearchText(SearchString: string;
@@ -367,8 +367,8 @@ end;}
 function TWLXModule.FileParamVSDetectStr(AFileName: String): boolean;
 begin
   FParser.DetectStr:=Self.DetectStr;
-  DebugLn('DetectStr = '+FParser.DetectStr);
-  DebugLn('AFileName = '+AFileName);
+  DCDebug('DetectStr = '+FParser.DetectStr);
+  DCDebug('AFileName = '+AFileName);
   Result:=FParser.TestFileResult(AFileName);
 end;
 
@@ -495,7 +495,7 @@ begin
           AWlxModule.DetectStr := AConfig.GetValue(ANode, 'DetectString', '');
         end
         else
-          DebugLn('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
+          DCDebug('Invalid entry in configuration: ' + AConfig.GetPathFromNode(ANode) + '.');
       end;
       ANode := ANode.NextSibling;
     end;
@@ -549,7 +549,7 @@ end;
 function TWLXModuleList.Add(FileName: string): integer;
 var s:string;
 begin
-//    DebugLn('WLXLIST Add entered');
+//    DCDebug('WLXLIST Add entered');
     s:=ExtractFileName(FileName);
     if pos('.',s)>0 then
       delete(s,pos('.',s),length(s));
@@ -561,7 +561,7 @@ begin
       TWLXModule(Flist.Objects[Result]).DetectStr:=TWLXModule(Flist.Objects[Result]).CallListGetDetectString;
       TWLXModule(Flist.Objects[Result]).UnloadModule;
     end;
-//    DebugLn('WLXLIST ADD Leaved');
+//    DCDebug('WLXLIST ADD Leaved');
 end;
 
 function TWLXModuleList.Add(AName, FileName, DetectStr: string): integer;

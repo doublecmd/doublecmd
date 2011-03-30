@@ -109,7 +109,7 @@ type
 implementation
 
 uses
-  uGlobs, LCLProc,
+  uDebug, uGlobs,
   FileUtil, uMasks, uDCUtils,
   uMultiArchiveListOperation,
   uMultiArchiveCopyInOperation,
@@ -140,7 +140,7 @@ begin
                                                  anArchiveFileName,
                                                  aMultiArcItem);
 
-        DebugLn('Found registered addon "' + aMultiArcItem.FDescription + '" for archive ' + anArchiveFileName);
+        DCDebug('Found registered addon "' + aMultiArcItem.FDescription + '" for archive ' + anArchiveFileName);
         Break;
       end;
     end;
@@ -167,7 +167,7 @@ begin
                                                anArchiveFileName,
                                                aMultiArcItem);
 
-      DebugLn('Found registered addon "' + aMultiArcItem.FDescription + '" for archive ' + anArchiveFileName);
+      DCDebug('Found registered addon "' + aMultiArcItem.FDescription + '" for archive ' + anArchiveFileName);
       Break;
     end;
   end;
@@ -447,7 +447,7 @@ begin
   FAllDirsList := TStringHashList.Create(True);
 
   try
-    DebugLn('Get File List');
+    DCDebug('Get File List');
 
     FOutputParser.Prepare;
     FOutputParser.Execute;
@@ -526,4 +526,4 @@ begin
 end;
 
 end.
-
+

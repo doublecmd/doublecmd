@@ -99,7 +99,7 @@ end;
 
 function ProcessDataProc(FileName: UTF8String; Size: LongInt): LongInt;
 begin
-  //DebugLn('Working ' + FileName + ' Size = ' + IntToStr(Size));
+  //DCDebug('Working ' + FileName + ' Size = ' + IntToStr(Size));
 
   Result := 1;
 

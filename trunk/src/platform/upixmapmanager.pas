@@ -255,7 +255,7 @@ implementation
 
 uses
   LCLIntf, LCLType, LCLProc, Forms, uGlobsPaths, WcxPlugin,
-  uGlobs, uDCUtils, uFileSystemFileSource, uReSample
+  uGlobs, uDCUtils, uFileSystemFileSource, uReSample, uDebug
   {$IFDEF LCLGTK2}
     , uPixMapGtk, gdk2pixbuf, gdk2, glib2
   {$ENDIF}
@@ -349,7 +349,7 @@ begin
       begin
         if Assigned(ABitmap) then
           FreeAndNil(ABitmap);
-        DebugLn(Format('Error: Cannot load pixmap [%s] : %s',[AIconFileName, e.Message]));
+        DCDebug(Format('Error: Cannot load pixmap [%s] : %s',[AIconFileName, e.Message]));
       end;
   end;
 end;
@@ -486,7 +486,7 @@ function TPixMapManager.CheckLoadPixmap(const AIconName: String): Graphics.TBitm
 begin
   if not mbFileExists(AIconName) then
     begin
-      DebugLn(Format('Warning: pixmap [%s] not exists!',[AIconName]));
+      DCDebug(Format('Warning: pixmap [%s] not exists!',[AIconName]));
       Exit(nil);
     end;
   LoadBitmap(AIconName, Result);
@@ -530,7 +530,7 @@ begin
           begin
             if not mbFileExists(AIconName) then
               begin
-                DebugLn(Format('Warning: pixmap [%s] not exists!', [AIconName]));
+                DCDebug(Format('Warning: pixmap [%s] not exists!', [AIconName]));
                 Exit;
               end;
         {$IFDEF LCLGTK2}
@@ -541,7 +541,7 @@ begin
                 FPixmapsFileNames.Add(AIconName, Pointer(Result));
               end
             else
-              DebugLn(Format('Error: pixmap [%s] not loaded!', [AIconName]));
+              DCDebug(Format('Error: pixmap [%s] not loaded!', [AIconName]));
         {$ELSE}
             if LoadBitmap(AIconName, bmpBitmap) then
             begin
@@ -1150,7 +1150,7 @@ begin
           iPixMap:= CheckAddPixmap(sPixMap, gIconsSize);
           if iPixMap < 0 then Continue;
           gExts.Items[I].IconIndex:= iPixMap;
-          //DebugLn('sPixMap = ',sPixMap, ' Index = ', IntToStr(iPixMap));
+          //DCDebug('sPixMap = ',sPixMap, ' Index = ', IntToStr(iPixMap));
 
           // set pixmap index for all extensions
           for iekv := 0 to gExts.Items[I].Extensions.Count - 1 do
@@ -1739,7 +1739,7 @@ end;
 
 procedure LoadPixMapManager;
 begin
-  DebugLn('Creating PixmapManager');
+  DCDebug('Creating PixmapManager');
   PixMapManager:=TPixMapManager.Create;
   PixMapManager.Load(gpCfgDir + 'pixmaps.txt');
 end;
@@ -1750,7 +1750,7 @@ finalization
 
   if Assigned(PixMapManager) then
   begin
-    DebugLn('Shutting down PixmapManager');
+    DCDebug('Shutting down PixmapManager');
     FreeAndNil(PixMapManager);
   end;
 
