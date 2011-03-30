@@ -92,7 +92,7 @@ begin
     WM_MENUCHAR,
     WM_MEASUREITEM:
       if Assigned(ShellMenu3) then
-        ShellMenu3.HandleMenuMsg2(uiMsg, wParam, lParam, Result)
+        ShellMenu3.HandleMenuMsg2(uiMsg, wParam, lParam, @Result)
       else if Assigned(ShellMenu2) then
           begin
             ShellMenu2.HandleMenuMsg(uiMsg, wParam, lParam);

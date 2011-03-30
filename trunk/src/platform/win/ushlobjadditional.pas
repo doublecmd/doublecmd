@@ -85,50 +85,6 @@ type
    end; { TCMInvokeCommandInfoEx4 }
    PCMInvokeCommandInfoEx4 = ^TCMInvokeCommandInfoEx4;
 
-const
-  SID_IContextMenu       = '{000214E4-0000-0000-C000-000000000046}';
-  SID_IContextMenu2      = '{000214F4-0000-0000-C000-000000000046}';
-
-type
-  IContextMenu = interface(IUnknown)
-    [SID_IContextMenu]
-    function QueryContextMenu(Menu: HMENU;
-      indexMenu, idCmdFirst, idCmdLast, uFlags: UINT): HResult; stdcall;
-    function InvokeCommand(var lpici: TCMInvokeCommandInfo): HResult; stdcall;
-    function GetCommandString(idCmd, uType: UINT; pwReserved: PUINT;
-      pszName: LPSTR; cchMax: UINT): HResult; stdcall;
-  end;
-
-  IContextMenu2 = interface(IContextMenu)
-    [SID_IContextMenu2]
-    function HandleMenuMsg(uMsg: UINT; wParam : WPARAM; lParam : LPARAM): HResult; stdcall;
-  end;
-
-{ IContextMenu3 Interface }
-{
-   IContextMenu3 (IContextMenu2 with one new member)
-
-   IContextMenu3::HandleMenuMsg2
-
-   This function is called if the client of IContextMenu is aware of
-   the IContextMenu3 interface and receives a WM_MENUCHAR message while
-   it is calling TrackPopupMenu (in the window proc of hwndOwner)
-   (typically when an accelerator is used to select a menu item that displays a bitmap).
-   WM_MENUCHAR is sent when the user presses a key that does not correspond to any
-   mnemonic or accelerator key; an application should process this message when an
-   accelerator is used to select a menu item that displays a bitmap.
-}
-const
-   IID_IContextMenu3 : TGUID = (
-   D1:$BCFCE0A0; D2:$EC17; D3:$11D0; D4:($8D,$10,$00,$A0,$C9,$0F,$27,$19));
-   SID_IContextMenu3 = '{BCFCE0A0-EC17-11d0-8D10-00A0C90F2719}';
-
-type
-   IContextMenu3 = interface(IContextMenu2)
-      [SID_IContextMenu3]
-      function HandleMenuMsg2(uMsg : UINT; wParam : WPARAM; lParam : LPARAM; var plResult : LRESULT) : HResult; stdcall;
-   end; { IContextMenu3 }
-
 { IPersistFolder2 Interface }
 //Shell 4+ only
 {
