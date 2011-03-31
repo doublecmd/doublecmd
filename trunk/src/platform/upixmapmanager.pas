@@ -216,7 +216,14 @@ type
               Index of pixmap manager's bitmap.)
     }
     function DrawBitmap(iIndex: PtrInt; Canvas : TCanvas; X, Y, Width, Height: Integer) : Boolean;
-    function DrawBitmap(iIndex: PtrInt; AFile: TFile; DirectAccess: Boolean; Canvas : TCanvas; X, Y: Integer) : Boolean;
+    {en
+       Draws overlay bitmap for a file.
+       @param(AFile
+              File for which is needed to draw the overlay icon.)
+       @param(DirectAccess
+              Whether the file is on a directly accessible file source.)
+    }
+    function DrawOverlayBitmap(AFile: TFile; DirectAccess: Boolean; Canvas : TCanvas; X, Y: Integer) : Boolean;
     function GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
     {en
        Retrieves icon index in FPixmapList table for a file.
@@ -1362,33 +1369,29 @@ begin
   {$ENDIF}
 end;
 
-function TPixMapManager.DrawBitmap(iIndex: PtrInt; AFile: TFile; DirectAccess: Boolean; Canvas: TCanvas; X, Y: Integer): Boolean;
+function TPixMapManager.DrawOverlayBitmap(AFile: TFile; DirectAccess: Boolean; Canvas: TCanvas; X, Y: Integer): Boolean;
 var
   I: Integer;
 begin
-  Result:= DrawBitmap(iIndex, Canvas, X, Y);
-
-  if gIconOverlays then
+  if AFile.IsLink then
     begin
-      if AFile.IsLink then
-        begin
-          I:= gIconsSize div 2;
-          Result:= DrawBitmap(FiEmblemLinkID, Canvas, X, Y + I, I, I);
-          if not AFile.LinkProperty.IsValid then
-            Result:= DrawBitmap(FiEmblemUnreadableID, Canvas, X + I, Y + I, I, I);
-        end
-    {$IFDEF MSWINDOWS}
-      else
-      // Windows XP doesn't draw link overlay icon for soft links (don't know about Vista or 7).
-      if DirectAccess then
-      begin
-        I:= SHGetOverlayIconIndex(AFile.Path, AFile.Name);
-        if I >= 0 then
-          Result:= DrawBitmap(I + SystemIconIndexStart, Canvas, X, Y);
-      end;
-    {$ENDIF}
-      ;
+      I:= gIconsSize div 2;
+      Result:= DrawBitmap(FiEmblemLinkID, Canvas, X, Y + I, I, I);
+      if not AFile.LinkProperty.IsValid then
+        Result:= DrawBitmap(FiEmblemUnreadableID, Canvas, X + I, Y + I, I, I);
+    end
+  {$IFDEF MSWINDOWS}
+  else
+    // Windows XP doesn't draw link overlay icon for soft links (don't know about Vista or 7).
+    if DirectAccess then
+    begin
+      if AFile.OverlayIconIndex < 0 then
+        AFile.OverlayIconIndex:= SHGetOverlayIconIndex(AFile.Path, AFile.Name);
+      if AFile.OverlayIconIndex >= 0 then
+        Result:= DrawBitmap(AFile.OverlayIconIndex + SystemIconIndexStart, Canvas, X, Y);
     end;
+  {$ENDIF}
+    ;
 end;
 
 function TPixMapManager.GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;

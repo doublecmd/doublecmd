@@ -3588,6 +3588,7 @@ var
   procedure DrawIconCell;
   //------------------------------------------------------
   var
+    Y: Integer;
     IconID: PtrInt;
   begin
     if (gShowIcons <> sim_none) then
@@ -3597,13 +3598,27 @@ var
       if IconID = -1 then
         IconID := PixMapManager.GetDefaultIcon(AFile.FSFile);
 
+      // center icon vertically
+      Y:= aRect.Top + (RowHeights[ARow] - gIconsSize) div 2;
+
+      // Draw icon for a file
       PixMapManager.DrawBitmap(IconID,
-                               AFile.FSFile,
-                               FileSourceDirectAccess,
                                Canvas,
                                aRect.Left + 1,
-                               // center icon vertically
-                               aRect.Top + (RowHeights[ARow] - gIconsSize) div 2);
+                               Y
+                               );
+
+      // Draw overlay icon for a file if needed
+      if gIconOverlays then
+      begin
+        PixMapManager.DrawOverlayBitmap(AFile.FSFile,
+                                        FileSourceDirectAccess,
+                                        Canvas,
+                                        aRect.Left + 1,
+                                        Y
+                                        );
+      end;
+
     end;
 
     s := AFile.DisplayStrings.Strings[ACol];
@@ -4240,4 +4255,4 @@ begin
 end;
 
 end.
-
+
