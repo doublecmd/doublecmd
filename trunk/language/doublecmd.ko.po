@@ -1375,6 +1375,7 @@ msgid "&Close"
 msgstr "닫기 (&C)"
 
 #: TFRMFILEEXECUTEYOURSELF.FRMFILEEXECUTEYOURSELF.CAPTION
+msgctxt "TFRMFILEEXECUTEYOURSELF.FRMFILEEXECUTEYOURSELF.CAPTION"
 msgid "Wait..."
 msgstr ""
 
@@ -3137,7 +3138,9 @@ msgid "1"
 msgstr "1"
 
 #: TFRMMULTIRENAME.EXTENSION.CAPTION
-msgid "[E]xtension"
+#, fuzzy
+#| msgid "[E]xtension"
+msgid "[E] Extension"
 msgstr "[E] 확장자"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
@@ -3189,49 +3192,109 @@ msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
 msgid "Width"
 msgstr "너비"
 
-#: TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION
-msgctxt "TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION"
+#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[0].CAPTION
+msgid "Old File Name"
+msgstr ""
+
+#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[1].CAPTION
+msgid "New File Name"
+msgstr ""
+
+#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION
+msgctxt "TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION"
 msgid "File Path"
 msgstr "파일 경로"
 
 #: TFRMMULTIRENAME.MICOUNTER.CAPTION
-msgid "[C]ounter"
+#, fuzzy
+#| msgid "[C]ounter"
+msgid "[C] Counter"
 msgstr "[C] 카운터"
 
 #: TFRMMULTIRENAME.MIDAY.CAPTION
-msgid "[D]ay"
+#, fuzzy
+#| msgid "[D]ay"
+msgid "[D] Day"
 msgstr "[D] 날짜"
 
+#: TFRMMULTIRENAME.MIDAY1.CAPTION
+msgid "[DD] Day (2 digits)"
+msgstr ""
+
+#: TFRMMULTIRENAME.MIDAY2.CAPTION
+msgid "[DDD] Day of the week (short, e.g., \"mon\")"
+msgstr ""
+
+#: TFRMMULTIRENAME.MIDAY3.CAPTION
+msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
+msgstr ""
+
 #: TFRMMULTIRENAME.MIEXTENSIONX.CAPTION
-msgid "[Ex]xtension"
+#, fuzzy
+#| msgid "[Ex]xtension"
+msgid "[Ex] Character at position x"
 msgstr "[Ex] 확장자"
 
 #: TFRMMULTIRENAME.MIEXTENSIONXX.CAPTION
-msgid "[Ex:x]xtension"
+#, fuzzy
+#| msgid "[Ex:x]xtension"
+msgid "[Ex:y] Characters from position x to y"
 msgstr "[Ex:x] 확장자"
 
 #: TFRMMULTIRENAME.MIHOUR.CAPTION
-msgid "[h]our"
+#, fuzzy
+#| msgid "[h]our"
+msgid "[h] Hour"
 msgstr "[h] 시간"
 
+#: TFRMMULTIRENAME.MIHOUR1.CAPTION
+msgid "[hh] Hour (2 digits)"
+msgstr ""
+
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-msgid "Mi[n]ute"
+#, fuzzy
+#| msgid "Mi[n]ute"
+msgid "[n] Minute"
 msgstr "[n] 분"
 
+#: TFRMMULTIRENAME.MIMINUTE1.CAPTION
+msgid "[nn] Minute (2 digits)"
+msgstr ""
+
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
-msgid "[M]onth"
+#, fuzzy
+#| msgid "[M]onth"
+msgid "[M] Month"
 msgstr "[M] 월"
 
+#: TFRMMULTIRENAME.MIMONTH1.CAPTION
+msgid "[MM] Month (2 digits)"
+msgstr ""
+
+#: TFRMMULTIRENAME.MIMONTH2.CAPTION
+msgid "[MMM] Month name (short, e.g., \"jan\")"
+msgstr ""
+
+#: TFRMMULTIRENAME.MIMONTH3.CAPTION
+msgid "[MMMM] Month name (long, e.g. \"january\")"
+msgstr ""
+
 #: TFRMMULTIRENAME.MINAME.CAPTION
-msgid "[N]ame"
+#, fuzzy
+#| msgid "[N]ame"
+msgid "[N] Name"
 msgstr "[N] 이름"
 
 #: TFRMMULTIRENAME.MINAMEX.CAPTION
-msgid "[Nx]ame"
+#, fuzzy
+#| msgid "[Nx]ame"
+msgid "[Nx] Character at position x"
 msgstr "[Nx] 이름"
 
 #: TFRMMULTIRENAME.MINAMEXX.CAPTION
-msgid "[Nx:x]ame"
+#, fuzzy
+#| msgid "[Nx:x]ame"
+msgid "[Nx:y] Characters from position x to y"
 msgstr "[Nx:x] 이름"
 
 #: TFRMMULTIRENAME.MINEXT.CAPTION
@@ -3247,12 +3310,24 @@ msgid "Name..."
 msgstr "이름..."
 
 #: TFRMMULTIRENAME.MISECOND.CAPTION
-msgid "[s]econd"
+#, fuzzy
+#| msgid "[s]econd"
+msgid "[s] Second"
 msgstr "[s] 초"
 
+#: TFRMMULTIRENAME.MISECOND1.CAPTION
+msgid "[ss] Second (2 digits)"
+msgstr ""
+
 #: TFRMMULTIRENAME.MIYEAR.CAPTION
-msgid "[Y]ear"
+#, fuzzy
+#| msgid "[Y] Year"
+msgid "[Y] Year (2 digits)"
 msgstr "[Y] 년"
+
+#: TFRMMULTIRENAME.MIYEAR1.CAPTION
+msgid "[YYYY] Year (4 digits)"
+msgstr ""
 
 #: TFRMMULTIRENAME.N1.CAPTION
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"

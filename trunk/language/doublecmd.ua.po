@@ -1369,6 +1369,7 @@ msgid "&Close"
 msgstr "Закрити"
 
 #: TFRMFILEEXECUTEYOURSELF.FRMFILEEXECUTEYOURSELF.CAPTION
+msgctxt "TFRMFILEEXECUTEYOURSELF.FRMFILEEXECUTEYOURSELF.CAPTION"
 msgid "Wait..."
 msgstr "Почекайте..."
 
@@ -3103,7 +3104,9 @@ msgid "1"
 msgstr "1"
 
 #: TFRMMULTIRENAME.EXTENSION.CAPTION
-msgid "[E]xtension"
+#, fuzzy
+#| msgid "[E]xtension"
+msgid "[E] Extension"
 msgstr "[E]-Розширення"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
@@ -3159,49 +3162,109 @@ msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
 msgid "Width"
 msgstr "Ширина"
 
-#: TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION
-msgctxt "TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION"
+#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[0].CAPTION
+msgid "Old File Name"
+msgstr ""
+
+#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[1].CAPTION
+msgid "New File Name"
+msgstr ""
+
+#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION
+msgctxt "TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION"
 msgid "File Path"
 msgstr "Шлях до файлу"
 
 #: TFRMMULTIRENAME.MICOUNTER.CAPTION
-msgid "[C]ounter"
+#, fuzzy
+#| msgid "[C]ounter"
+msgid "[C] Counter"
 msgstr "[C]-Лічильник"
 
 #: TFRMMULTIRENAME.MIDAY.CAPTION
-msgid "[D]ay"
+#, fuzzy
+#| msgid "[D]ay"
+msgid "[D] Day"
 msgstr "[D]-День"
 
+#: TFRMMULTIRENAME.MIDAY1.CAPTION
+msgid "[DD] Day (2 digits)"
+msgstr ""
+
+#: TFRMMULTIRENAME.MIDAY2.CAPTION
+msgid "[DDD] Day of the week (short, e.g., \"mon\")"
+msgstr ""
+
+#: TFRMMULTIRENAME.MIDAY3.CAPTION
+msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
+msgstr ""
+
 #: TFRMMULTIRENAME.MIEXTENSIONX.CAPTION
-msgid "[Ex]xtension"
+#, fuzzy
+#| msgid "[Ex]xtension"
+msgid "[Ex] Character at position x"
 msgstr "[Ex]-Розширення"
 
 #: TFRMMULTIRENAME.MIEXTENSIONXX.CAPTION
-msgid "[Ex:x]xtension"
+#, fuzzy
+#| msgid "[Ex:x]xtension"
+msgid "[Ex:y] Characters from position x to y"
 msgstr "[Ex:x]-Розширення"
 
 #: TFRMMULTIRENAME.MIHOUR.CAPTION
-msgid "[h]our"
+#, fuzzy
+#| msgid "[h]our"
+msgid "[h] Hour"
 msgstr "[h]-Час"
 
+#: TFRMMULTIRENAME.MIHOUR1.CAPTION
+msgid "[hh] Hour (2 digits)"
+msgstr ""
+
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-msgid "Mi[n]ute"
+#, fuzzy
+#| msgid "Mi[n]ute"
+msgid "[n] Minute"
 msgstr "[n]-Хвилина"
 
+#: TFRMMULTIRENAME.MIMINUTE1.CAPTION
+msgid "[nn] Minute (2 digits)"
+msgstr ""
+
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
-msgid "[M]onth"
+#, fuzzy
+#| msgid "[M]onth"
+msgid "[M] Month"
 msgstr "[M]-Місяць"
 
+#: TFRMMULTIRENAME.MIMONTH1.CAPTION
+msgid "[MM] Month (2 digits)"
+msgstr ""
+
+#: TFRMMULTIRENAME.MIMONTH2.CAPTION
+msgid "[MMM] Month name (short, e.g., \"jan\")"
+msgstr ""
+
+#: TFRMMULTIRENAME.MIMONTH3.CAPTION
+msgid "[MMMM] Month name (long, e.g. \"january\")"
+msgstr ""
+
 #: TFRMMULTIRENAME.MINAME.CAPTION
-msgid "[N]ame"
+#, fuzzy
+#| msgid "[N]ame"
+msgid "[N] Name"
 msgstr "[N]-Ім'я"
 
 #: TFRMMULTIRENAME.MINAMEX.CAPTION
-msgid "[Nx]ame"
+#, fuzzy
+#| msgid "[Nx]ame"
+msgid "[Nx] Character at position x"
 msgstr "[Nx]-Ім'я"
 
 #: TFRMMULTIRENAME.MINAMEXX.CAPTION
-msgid "[Nx:x]ame"
+#, fuzzy
+#| msgid "[Nx:x]ame"
+msgid "[Nx:y] Characters from position x to y"
 msgstr "[Nx:x]-Ім'я"
 
 #: TFRMMULTIRENAME.MINEXT.CAPTION
@@ -3217,12 +3280,24 @@ msgid "Name..."
 msgstr "Ім'я..."
 
 #: TFRMMULTIRENAME.MISECOND.CAPTION
-msgid "[s]econd"
+#, fuzzy
+#| msgid "[s]econd"
+msgid "[s] Second"
 msgstr "[s]-Секунда"
 
+#: TFRMMULTIRENAME.MISECOND1.CAPTION
+msgid "[ss] Second (2 digits)"
+msgstr ""
+
 #: TFRMMULTIRENAME.MIYEAR.CAPTION
-msgid "[Y]ear"
+#, fuzzy
+#| msgid "[Y] Year"
+msgid "[Y] Year (2 digits)"
 msgstr "[Y]-Рік"
+
+#: TFRMMULTIRENAME.MIYEAR1.CAPTION
+msgid "[YYYY] Year (4 digits)"
+msgstr ""
 
 #: TFRMMULTIRENAME.N1.CAPTION
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
@@ -4491,7 +4566,6 @@ msgid "System"
 msgstr "Системний"
 
 #: TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION
-#| msgid "Change file properties"
 msgctxt "TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION"
 msgid "Change attributes"
 msgstr "Змінити атрибути"
