@@ -78,6 +78,12 @@ type
     edFile: TEdit;
     cbLog: TCheckBox;
     btnRestore: TButton;
+    miDay3: TMenuItem;
+    miDay1: TMenuItem;
+    miMonth3: TMenuItem;
+    miMonth2: TMenuItem;
+    miMonth1: TMenuItem;
+    miYear1: TMenuItem;
     ppNameMenu: TPopupMenu;
     miNextName: TMenuItem;
     miName: TMenuItem;
@@ -113,11 +119,21 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure miDay1Click(Sender: TObject);
+    procedure miDay2Click(Sender: TObject);
+    procedure miDay3Click(Sender: TObject);
     procedure miDayClick(Sender: TObject);
+    procedure miHour1Click(Sender: TObject);
     procedure miHourClick(Sender: TObject);
+    procedure miMinute1Click(Sender: TObject);
     procedure miMinuteClick(Sender: TObject);
+    procedure miMonth1Click(Sender: TObject);
+    procedure miMonth2Click(Sender: TObject);
+    procedure miMonth3Click(Sender: TObject);
     procedure miMonthClick(Sender: TObject);
+    procedure miSecond1Click(Sender: TObject);
     procedure miSecondClick(Sender: TObject);
+    procedure miYear1Click(Sender: TObject);
     procedure miYearClick(Sender: TObject);
     procedure NameClick(Sender: TObject);
     procedure NameXClick(Sender: TObject);
@@ -128,7 +144,6 @@ type
     procedure cbLogClick(Sender: TObject);
     procedure ExtensionXClick(Sender: TObject);
     procedure ExtensionXXClick(Sender: TObject);
-    procedure ppNameMenuPopup(Sender: TObject);
  private
     IniPropStorage: TIniPropStorageEx;
     FLastPreset: String;
@@ -140,10 +155,11 @@ type
     function sHandleFormatString(const sFormatStr: string; ItemNr: Integer): string;
     {Function sReplace call sReplaceXX with parametres}
     function sReplace(sMask: string; ItemNr: Integer): string;
-    {sReplaceXX doing N, Nx, Nx:x and E, Ex, Ex:x}
+    {sReplaceXX doing N, Nx, Nx:y and E, Ex, Ex:y}
     function sReplaceXX(const sFormatStr, sOrig: string): string;
     {InsertMask is for write key symbols from buttons}
-    procedure InsertMask(Mask:string;edChoose:Tedit);
+    procedure InsertMask(const Mask:string;edChoose:Tedit);
+    procedure InsertMask(const Mask:string;editNr:PtrInt);
     {Main function for write into lsvwFile}
     procedure FreshText;
     {Executes the main operation of renaming files}
@@ -288,52 +304,84 @@ begin
   end;
 end;
 
+procedure TfrmMultiRename.miDay1Click(Sender: TObject);
+begin
+  InsertMask('[DD]',ppNameMenu.Tag);
+end;
+
+procedure TfrmMultiRename.miDay2Click(Sender: TObject);
+begin
+  InsertMask('[DDD]',ppNameMenu.Tag);
+end;
+
+procedure TfrmMultiRename.miDay3Click(Sender: TObject);
+begin
+  InsertMask('[DDDD]',ppNameMenu.Tag);
+end;
+
 procedure TfrmMultiRename.miDayClick(Sender: TObject);
 begin
-  if ppNameMenu.Tag=0 then
-    InsertMask('[D]',edName)
-  else
-    InsertMask('[D]',edExt);
+  InsertMask('[D]',ppNameMenu.Tag);
+end;
+
+procedure TfrmMultiRename.miHour1Click(Sender: TObject);
+begin
+  InsertMask('[hh]',ppNameMenu.Tag);
 end;
 
 procedure TfrmMultiRename.miHourClick(Sender: TObject);
 begin
-  if ppNameMenu.Tag=0 then
-    InsertMask('[h]',edName)
-  else
-    InsertMask('[h]',edExt);
+  InsertMask('[h]',ppNameMenu.Tag);
+end;
+
+procedure TfrmMultiRename.miMinute1Click(Sender: TObject);
+begin
+  InsertMask('[nn]',ppNameMenu.Tag);
 end;
 
 procedure TfrmMultiRename.miMinuteClick(Sender: TObject);
 begin
-  if ppNameMenu.Tag=0 then
-    InsertMask('[n]',edName)
-  else
-    InsertMask('[n]',edExt);
+  InsertMask('[n]',ppNameMenu.Tag);
+end;
+
+procedure TfrmMultiRename.miMonth1Click(Sender: TObject);
+begin
+  InsertMask('[MM]',ppNameMenu.Tag);
+end;
+
+procedure TfrmMultiRename.miMonth2Click(Sender: TObject);
+begin
+  InsertMask('[MMM]',ppNameMenu.Tag);
+end;
+
+procedure TfrmMultiRename.miMonth3Click(Sender: TObject);
+begin
+  InsertMask('[MMMM]',ppNameMenu.Tag);
 end;
 
 procedure TfrmMultiRename.miMonthClick(Sender: TObject);
 begin
-  if ppNameMenu.Tag=0 then
-    InsertMask('[M]',edName)
-  else
-    InsertMask('[M]',edExt);
+  InsertMask('[M]',ppNameMenu.Tag);
+end;
+
+procedure TfrmMultiRename.miSecond1Click(Sender: TObject);
+begin
+  InsertMask('[ss]',ppNameMenu.Tag);
 end;
 
 procedure TfrmMultiRename.miSecondClick(Sender: TObject);
 begin
-  if ppNameMenu.Tag=0 then
-    InsertMask('[s]',edName)
-  else
-    InsertMask('[s]',edExt);
+  InsertMask('[s]',ppNameMenu.Tag);
+end;
+
+procedure TfrmMultiRename.miYear1Click(Sender: TObject);
+begin
+  InsertMask('[YYYY]',ppNameMenu.Tag);
 end;
 
 procedure TfrmMultiRename.miYearClick(Sender: TObject);
 begin
-  if ppNameMenu.Tag=0 then
-    InsertMask('[Y]',edName)
-  else
-    InsertMask('[Y]',edExt);
+  InsertMask('[Y]',ppNameMenu.Tag);
 end;
 
 procedure TfrmMultiRename.FreshText;
@@ -475,7 +523,7 @@ begin
   FreshText;
 end;
 
-procedure TfrmMultiRename.InsertMask(Mask:string;edChoose:Tedit);
+procedure TfrmMultiRename.InsertMask(const Mask:string;edChoose:Tedit);
 var
   sTmp:string;
   i:integer;
@@ -488,6 +536,14 @@ begin
   inc(i);
   edChoose.Text:=sTmp;
   edChoose.SelStart:=i;
+end;
+
+procedure TfrmMultiRename.InsertMask(const Mask:string;editNr:PtrInt);
+begin
+  if editNr = 0 then
+    InsertMask(Mask, edName)
+  else
+    InsertMask(Mask, edExt);
 end;
 
 procedure TfrmMultiRename.btnRestoreClick(Sender: TObject);
@@ -620,18 +676,12 @@ end;
 
 procedure TfrmMultiRename.NameClick(Sender: TObject);
 begin
-  if ppNameMenu.Tag=0 then
-    InsertMask('[N]',edName)
-  else
-    InsertMask('[N]',edExt);
+  InsertMask('[N]',ppNameMenu.Tag);
 end;
 
 procedure TfrmMultiRename.NameXClick(Sender: TObject);
 begin
-  if ppNameMenu.Tag=0 then
-    InsertMask('[N1]',edName)
-  else
-    InsertMask('[N1]',edExt);
+  InsertMask('[N1]',ppNameMenu.Tag);
 end;
 
 procedure TfrmMultiRename.NameXXClick(Sender: TObject);
@@ -642,26 +692,17 @@ begin
   for c:=0 to lsvwFile.Items.Count-1 do
     if i<length(ChangeFileExt(lsvwFile.Items[c].Caption,'')) then
       i:=length(ChangeFileExt(lsvwFile.Items[c].Caption,''));
-  if ppNameMenu.Tag=0 then
-    InsertMask('[N1:'+inttostr(i)+']',edName)
-  else
-    InsertMask('[N1:'+inttostr(i)+']',edExt);
+  InsertMask('[N1:'+inttostr(i)+']',ppNameMenu.Tag);
 end;
 
 procedure TfrmMultiRename.ExtensionClick(Sender: TObject);
 begin
-  if ppNameMenu.Tag=0 then
-    InsertMask('[E]',edName)
-  else
-    InsertMask('[E]',edExt);
+  InsertMask('[E]',ppNameMenu.Tag);
 end;
 
 procedure TfrmMultiRename.ExtensionXClick(Sender: TObject);
 begin
-  if ppNameMenu.Tag=0 then
-    InsertMask('[E1]',edName)
-  else
-    InsertMask('[E1]',edExt);
+  InsertMask('[E1]',ppNameMenu.Tag);
 end;
 
 procedure TfrmMultiRename.ExtensionXXClick(Sender: TObject);
@@ -677,23 +718,12 @@ begin
     if i<length(sTmp) then
       i:=length(sTmp);
   end;
-  if ppNameMenu.Tag=0 then
-    InsertMask('[E1:'+inttostr(i)+']',edName)
-  else
-    InsertMask('[E1:'+inttostr(i)+']',edExt);
-end;
-
-procedure TfrmMultiRename.ppNameMenuPopup(Sender: TObject);
-begin
-
+  InsertMask('[E1:'+inttostr(i)+']',ppNameMenu.Tag);
 end;
 
 procedure TfrmMultiRename.CounterClick(Sender: TObject);
 begin
-  if ppNameMenu.Tag=0 then
-    InsertMask('[C]',edName)
-  else
-    InsertMask('[C]',edExt);
+  InsertMask('[C]',ppNameMenu.Tag);
 end;
 
 procedure TfrmMultiRename.cbLogClick(Sender: TObject);
@@ -1118,4 +1148,4 @@ begin
 end;
 
 end.
-
+
