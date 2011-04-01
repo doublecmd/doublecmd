@@ -1366,6 +1366,7 @@ msgid "&Close"
 msgstr "Zamknij"
 
 #: TFRMFILEEXECUTEYOURSELF.FRMFILEEXECUTEYOURSELF.CAPTION
+msgctxt "TFRMFILEEXECUTEYOURSELF.FRMFILEEXECUTEYOURSELF.CAPTION"
 msgid "Wait..."
 msgstr ""
 
@@ -3080,7 +3081,9 @@ msgid "1"
 msgstr "1"
 
 #: TFRMMULTIRENAME.EXTENSION.CAPTION
-msgid "[E]xtension"
+#, fuzzy
+#| msgid "[E]xtension"
+msgid "[E] Extension"
 msgstr "[E] Rozszerzenie"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
@@ -3132,49 +3135,109 @@ msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
 msgid "Width"
 msgstr "Cyfry"
 
-#: TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION
-msgctxt "TFRMMULTIRENAME.LSVWFILE.COLUMNS.CAPTION"
+#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[0].CAPTION
+msgid "Old File Name"
+msgstr ""
+
+#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[1].CAPTION
+msgid "New File Name"
+msgstr ""
+
+#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION
+msgctxt "TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION"
 msgid "File Path"
 msgstr "Ścieżka"
 
 #: TFRMMULTIRENAME.MICOUNTER.CAPTION
-msgid "[C]ounter"
+#, fuzzy
+#| msgid "[C]ounter"
+msgid "[C] Counter"
 msgstr "[C] Licznik"
 
 #: TFRMMULTIRENAME.MIDAY.CAPTION
-msgid "[D]ay"
+#, fuzzy
+#| msgid "[D]ay"
+msgid "[D] Day"
 msgstr "[D] Dzień"
 
+#: TFRMMULTIRENAME.MIDAY1.CAPTION
+msgid "[DD] Day (2 digits)"
+msgstr ""
+
+#: TFRMMULTIRENAME.MIDAY2.CAPTION
+msgid "[DDD] Day of the week (short, e.g., \"mon\")"
+msgstr ""
+
+#: TFRMMULTIRENAME.MIDAY3.CAPTION
+msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
+msgstr ""
+
 #: TFRMMULTIRENAME.MIEXTENSIONX.CAPTION
-msgid "[Ex]xtension"
+#, fuzzy
+#| msgid "[Ex]xtension"
+msgid "[Ex] Character at position x"
 msgstr "[Ex] Rozszerzenie"
 
 #: TFRMMULTIRENAME.MIEXTENSIONXX.CAPTION
-msgid "[Ex:x]xtension"
+#, fuzzy
+#| msgid "[Ex:x]xtension"
+msgid "[Ex:y] Characters from position x to y"
 msgstr "[Ex:x] Rozszerzenie"
 
 #: TFRMMULTIRENAME.MIHOUR.CAPTION
-msgid "[h]our"
+#, fuzzy
+#| msgid "[h]our"
+msgid "[h] Hour"
 msgstr "[h] Godzina"
 
+#: TFRMMULTIRENAME.MIHOUR1.CAPTION
+msgid "[hh] Hour (2 digits)"
+msgstr ""
+
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-msgid "Mi[n]ute"
+#, fuzzy
+#| msgid "Mi[n]ute"
+msgid "[n] Minute"
 msgstr "[n] Minuta"
 
+#: TFRMMULTIRENAME.MIMINUTE1.CAPTION
+msgid "[nn] Minute (2 digits)"
+msgstr ""
+
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
-msgid "[M]onth"
+#, fuzzy
+#| msgid "[M]onth"
+msgid "[M] Month"
 msgstr "[М] Miesiąc"
 
+#: TFRMMULTIRENAME.MIMONTH1.CAPTION
+msgid "[MM] Month (2 digits)"
+msgstr ""
+
+#: TFRMMULTIRENAME.MIMONTH2.CAPTION
+msgid "[MMM] Month name (short, e.g., \"jan\")"
+msgstr ""
+
+#: TFRMMULTIRENAME.MIMONTH3.CAPTION
+msgid "[MMMM] Month name (long, e.g. \"january\")"
+msgstr ""
+
 #: TFRMMULTIRENAME.MINAME.CAPTION
-msgid "[N]ame"
+#, fuzzy
+#| msgid "[N]ame"
+msgid "[N] Name"
 msgstr "[N] Nazwa"
 
 #: TFRMMULTIRENAME.MINAMEX.CAPTION
-msgid "[Nx]ame"
+#, fuzzy
+#| msgid "[Nx]ame"
+msgid "[Nx] Character at position x"
 msgstr "[Nx] Nazwa"
 
 #: TFRMMULTIRENAME.MINAMEXX.CAPTION
-msgid "[Nx:x]ame"
+#, fuzzy
+#| msgid "[Nx:x]ame"
+msgid "[Nx:y] Characters from position x to y"
 msgstr "[Nx:x] Nazwa"
 
 #: TFRMMULTIRENAME.MINEXT.CAPTION
@@ -3190,12 +3253,24 @@ msgid "Name..."
 msgstr "Nazwa..."
 
 #: TFRMMULTIRENAME.MISECOND.CAPTION
-msgid "[s]econd"
+#, fuzzy
+#| msgid "[s]econd"
+msgid "[s] Second"
 msgstr "[s] sekunda"
 
+#: TFRMMULTIRENAME.MISECOND1.CAPTION
+msgid "[ss] Second (2 digits)"
+msgstr ""
+
 #: TFRMMULTIRENAME.MIYEAR.CAPTION
-msgid "[Y]ear"
+#, fuzzy
+#| msgid "[Y] Year"
+msgid "[Y] Year (2 digits)"
 msgstr "[Y] Rok"
+
+#: TFRMMULTIRENAME.MIYEAR1.CAPTION
+msgid "[YYYY] Year (4 digits)"
+msgstr ""
 
 #: TFRMMULTIRENAME.N1.CAPTION
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
@@ -5717,6 +5792,9 @@ msgstr "Błąd odczytu pliku"
 msgid "Error writing to file"
 msgstr "Błąd przy zapisie pliku"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgerrforcedir
 msgid "Can not create directory %s!"
 msgstr "Nie można utworzyć katalogu %s!"
@@ -5921,6 +5999,9 @@ msgstr "Hasło:"
 msgid "Please enter the password:"
 msgstr "Proszę wprowadzić hasło:"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
 msgstr "Hasło (Firewall):"
@@ -5962,6 +6043,9 @@ msgstr "Wybrano %s z %s w %d z %d plików"
 msgid "Please select only check sum files!"
 msgstr "Zaznacz tylko pliki z sumą kontrolną!"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"
 msgstr "Wybierz lokalizacją kolejnej części"
@@ -6002,6 +6086,9 @@ msgstr "Proszę wpisać rozmiar części:"
 msgid "Wipe %d selected files/directories?"
 msgstr "Zamazać %d wybranych plików/katalogów?"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgwipesel
 msgid "Wipe selected \"%s\"?"
 msgstr "Zamazać \"%s\"?"
@@ -6063,9 +6150,6 @@ msgstr "Ręczny start"
 msgid "Queue as first"
 msgstr "Kolejkuj jako pierwszy"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsoperstartstatequeuelast
 msgid "Queue as last"
 msgstr "Kolejkuj jako ostatni"
