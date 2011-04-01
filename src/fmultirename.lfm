@@ -563,21 +563,20 @@ object frmMultiRename: TfrmMultiRename
   end
   object ppNameMenu: TPopupMenu
     AutoPopup = False
-    OnPopup = ppNameMenuPopup
     left = 784
     top = 168
     object miNextName: TMenuItem
       Caption = 'Name...'
       object miName: TMenuItem
-        Caption = '[N]ame'
+        Caption = '[N] Name'
         OnClick = NameClick
       end
       object miNameX: TMenuItem
-        Caption = '[Nx]ame'
+        Caption = '[Nx] Character at position x'
         OnClick = NameXClick
       end
       object miNameXX: TMenuItem
-        Caption = '[Nx:x]ame'
+        Caption = '[Nx:y] Characters from position x to y'
         OnClick = NameXXClick
       end
     end
@@ -587,15 +586,15 @@ object frmMultiRename: TfrmMultiRename
     object miNextExtension: TMenuItem
       Caption = 'Extension...'
       object Extension: TMenuItem
-        Caption = '[E]xtension'
+        Caption = '[E] Extension'
         OnClick = ExtensionClick
       end
       object miExtensionX: TMenuItem
-        Caption = '[Ex]xtension'
+        Caption = '[Ex] Character at position x'
         OnClick = ExtensionXClick
       end
       object miExtensionXX: TMenuItem
-        Caption = '[Ex:x]xtension'
+        Caption = '[Ex:y] Characters from position x to y'
         OnClick = ExtensionXXClick
       end
     end
@@ -603,7 +602,7 @@ object frmMultiRename: TfrmMultiRename
       Caption = '-'
     end
     object miCounter: TMenuItem
-      Caption = '[C]ounter'
+      Caption = '[C] Counter'
       OnClick = CounterClick
     end
     object N3: TMenuItem
@@ -612,31 +611,71 @@ object frmMultiRename: TfrmMultiRename
     object miNext: TMenuItem
       Caption = 'Time...'
       object miYear: TMenuItem
-        Caption = '[Y]ear'
+        Caption = '[Y] Year (2 digits)'
         OnClick = miYearClick
       end
+      object miYear1: TMenuItem
+        Caption = '[YYYY] Year (4 digits)'
+        OnClick = miYear1Click
+      end
       object miMonth: TMenuItem
-        Caption = '[M]onth'
+        Caption = '[M] Month'
         OnClick = miMonthClick
       end
+      object miMonth1: TMenuItem
+        Caption = '[MM] Month (2 digits)'
+        OnClick = miMonth1Click
+      end
+      object miMonth2: TMenuItem
+        Caption = '[MMM] Month name (short, e.g., "jan")'
+        OnClick = miMonth2Click
+      end
+      object miMonth3: TMenuItem
+        Caption = '[MMMM] Month name (long, e.g. "january")'
+        OnClick = miMonth3Click
+      end
       object miDay: TMenuItem
-        Caption = '[D]ay'
+        Caption = '[D] Day'
         OnClick = miDayClick
+      end
+      object miDay1: TMenuItem
+        Caption = '[DD] Day (2 digits)'
+        OnClick = miDay1Click
+      end
+      object miDay2: TMenuItem
+        Caption = '[DDD] Day of the week (short, e.g., "mon")'
+        OnClick = miDay2Click
+      end
+      object miDay3: TMenuItem
+        Caption = '[DDDD] Day of the week (long, e.g., "monday")'
+        OnClick = miDay3Click
       end
       object N4: TMenuItem
         Caption = '-'
       end
       object miHour: TMenuItem
-        Caption = '[h]our'
+        Caption = '[h] Hour'
         OnClick = miHourClick
       end
+      object miHour1: TMenuItem
+        Caption = '[hh] Hour (2 digits)'
+        OnClick = miHour1Click
+      end
       object miMinute: TMenuItem
-        Caption = 'Mi[n]ute'
+        Caption = '[n] Minute'
         OnClick = miMinuteClick
       end
+      object miMinute1: TMenuItem
+        Caption = '[nn] Minute (2 digits)'
+        OnClick = miMinute1Click
+      end
       object miSecond: TMenuItem
-        Caption = '[s]econd'
+        Caption = '[s] Second'
         OnClick = miSecondClick
+      end
+      object miSecond1: TMenuItem
+        Caption = '[ss] Second (2 digits)'
+        OnClick = miSecond1Click
       end
     end
   end
