@@ -51,10 +51,17 @@ type
     class function CreateFileFromFile(const aFilePath: String): TFile;
     {en
        Creates file list from a list of template files.
+       @param(APath
+              Path to which the files names are relative.)
        @param(FileNamesList
               A list of absolute paths to files.)
+       @param(OmitNotExisting
+              If @true then silently omits not existing files.
+              If @false an exception is raised when file not exists.)
     }
-    class function CreateFilesFromFileList(const APath: String; const FileNamesList: TStringList): TFiles;
+    class function CreateFilesFromFileList(const APath: String;
+                                           const FileNamesList: TStringList;
+                                           OmitNotExisting: Boolean = False): TFiles;
 
     procedure RetrieveProperties(AFile: TFile; PropertiesToSet: TFilePropertiesTypes); override;
 
@@ -299,7 +306,10 @@ begin
   end;
 end;
 
-class function TFileSystemFileSource.CreateFilesFromFileList(const APath: String; const FileNamesList: TStringList): TFiles;
+class function TFileSystemFileSource.CreateFilesFromFileList(
+    const APath: String;
+    const FileNamesList: TStringList;
+    OmitNotExisting: Boolean): TFiles;
 var
   i: Integer;
 begin
@@ -307,7 +317,15 @@ begin
   if Assigned(FileNamesList) and (FileNamesList.Count > 0) then
   begin
     for i := 0 to FileNamesList.Count - 1 do
-      Result.Add(CreateFileFromFile(FileNamesList[i]));
+    begin
+      try
+        Result.Add(CreateFileFromFile(FileNamesList[i]));
+      except
+        on EFileNotFound do
+          if not OmitNotExisting then
+            raise;
+      end;
+    end;
   end;
 end;
 

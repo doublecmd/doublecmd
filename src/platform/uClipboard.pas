@@ -21,6 +21,8 @@ uses
   function FormatUriList(FileNames: TStringList): String;
   function FormatTextPlain(FileNames: TStringList): String;
 
+  procedure ClearClipboard;
+
 const
   // General MIME
   uriListMime     = 'text/uri-list';
@@ -670,10 +672,26 @@ begin
 {$ENDIF}
 end;
 
+procedure ClearClipboard;
+{$IFDEF MSWINDOWS}
+begin
+  if OpenClipboard(0) then
+  begin
+    EmptyClipboard;
+    CloseClipboard;
+  end;
+end;
+{$ELSE}
+begin
+  Clipboard.Open;
+  Clipboard.AsText := '';
+  Clipboard.Close;
+end;
+{$ENDIF}
 
 initialization
 
   RegisterUserFormats;
 
 end.
-
+
