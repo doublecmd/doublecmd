@@ -87,6 +87,8 @@ type
     lblEncoding: TLabel;
     lsFoundedFiles: TListBox;
     CheksPanel: TPanel;
+    miShowAllFound: TMenuItem;
+    miRemoveFromLlist: TMenuItem;
     pnlMainButtons: TPanel;
     pnlResults: TPanel;
     pnlStatus: TPanel;
@@ -148,6 +150,8 @@ type
     procedure lsFoundedFilesDblClick(Sender: TObject);
     procedure lsFoundedFilesKeyDown(Sender: TObject;
       var Key: Word; Shift: TShiftState);
+    procedure miRemoveFromLlistClick(Sender: TObject);
+    procedure miShowAllFoundClick(Sender: TObject);
     procedure miShowInViewerClick(Sender: TObject);
     procedure seFileSizeFromChange(Sender: TObject);
     procedure seFileSizeToChange(Sender: TObject);
@@ -169,6 +173,7 @@ type
     procedure FindOptionsToDSXSearchRec(const AFindOptions: TSearchTemplateRec;
                                         var SRec: TDsxSearchRecord);
     procedure OnAddAttribute(Sender: TObject);
+    procedure FoundedStringCopyChanged(Sender: TObject);
   public
     { Public declarations }
     procedure ThreadTerminate(Sender:TObject);
@@ -176,6 +181,7 @@ type
 
 var
   frmFindDlg: TfrmFindDlg = nil;
+  FoundedStringCopy: TStringlist = nil;
 
 procedure ShowFindDlg(const sActPath: UTF8String);
 function ShowDefineTemplateDlg(out TemplateName: UTF8String): Boolean;
@@ -207,7 +213,7 @@ begin
     end
   else
     begin
-     frmFindDlg.lsFoundedFiles.Items.Add(s);
+     FoundedStringCopy.Add(s);
      Application.ProcessMessages;
     end;
 end;
@@ -280,6 +286,8 @@ begin
   Height:= pnlFindFile.Height + 22;
   DsxPlugins := TDSXModuleList.Create;
   DsxPlugins.Assign(gDSXPlugins);
+  FoundedStringCopy := TStringlist.Create;
+  FoundedStringCopy.OnChange:=@FoundedStringCopyChanged;
 
   // load language
   edtFindPathStart.DialogTitle:= rsFindWhereBeg;
@@ -509,6 +517,8 @@ begin
   StopSearch;
   pgcSearch.PageIndex:= 0;
   lsFoundedFiles.Clear;
+  FoundedStringCopy.Clear;
+  miShowAllFound.Enabled:=False;
   lblStatus.Caption:= EmptyStr;
   lblCurrent.Caption:= EmptyStr;
   lblFound.Caption:= EmptyStr;
@@ -657,12 +667,13 @@ end;
 
 procedure TfrmFindDlg.AfterSearchStopped;
 begin
-  btnStop.Enabled:=False;
-  btnStart.Enabled:=True;
+  btnStop.Enabled:= False;
+  btnStart.Enabled:= True;
 {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
-  btnStart.Default:=True;
+  btnStart.Default:= True;
 {$ENDIF}
-  btnClose.Enabled:=True;
+  btnClose.Enabled:= True;
+  btnNewSearch.Enabled:= True;
   FSearchingActive := False;
 end;
 
@@ -701,14 +712,17 @@ begin
     lsFoundedFiles.SetFocus;
 
   lsFoundedFiles.Items.Clear;
+  FoundedStringCopy.Clear;
+  miShowAllFound.Enabled:=False;
 
   FSearchingActive := True;
   btnStop.Enabled:=True;
 {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
   btnStop.Default:=True;
 {$ENDIF}
-  btnStart.Enabled:=False;
-  btnClose.Enabled:=False;
+  btnStart.Enabled:= False;
+  btnClose.Enabled:= False;
+  btnNewSearch.Enabled:= False;
 
   FillFindOptions(FindOptions);
   try
@@ -728,7 +742,7 @@ begin
         FFindThread := TFindThread.Create(FindOptions);
         with FFindThread do
         begin
-          Items := lsFoundedFiles.Items;
+          Items := FoundedStringCopy;
           Status := lblStatus;
           Current := lblCurrent;
           Found := lblFound;
@@ -740,6 +754,11 @@ begin
     StopSearch;
     raise;
   end;
+end;
+procedure TfrmFindDlg.FoundedStringCopyChanged(Sender: TObject);
+begin
+  if FoundedStringCopy.Count > 0 then
+    lsFoundedFiles.Items.Add(FoundedStringCopy[FoundedStringCopy.Count - 1]);
 end;
 
 procedure TfrmFindDlg.btnViewClick(Sender: TObject);
@@ -857,6 +876,7 @@ end;
 
 procedure TfrmFindDlg.FormDestroy(Sender: TObject);
 begin
+  FreeThenNil(FoundedStringCopy);
   FreeThenNil(DsxPlugins);
 end;
 
@@ -964,8 +984,38 @@ begin
         ShowEditorByGlob(lsFoundedFiles.Items[lsFoundedFiles.ItemIndex]);
         Key := 0;
       end;
+
+      VK_DELETE:
+      begin
+        miRemoveFromLlistClick(Sender);
+        Key := 0;
+      end;
     end;
   end;
+end;
+
+procedure TfrmFindDlg.miRemoveFromLlistClick(Sender: TObject);
+var
+  i:Integer;
+begin
+  if lsFoundedFiles.ItemIndex=-1 then Exit;
+  if lsFoundedFiles.SelCount = 0 then Exit;
+
+  for i:=lsFoundedFiles.Items.Count-1 downto 0 do
+    if lsFoundedFiles.Selected[i] then
+      lsFoundedFiles.Items.Delete(i);
+
+  miShowAllFound.Enabled:=True;
+end;
+
+procedure TfrmFindDlg.miShowAllFoundClick(Sender: TObject);
+var
+  i:Integer;
+begin
+  lsFoundedFiles.Clear;
+  lsFoundedFiles.Items.AddStrings(FoundedStringCopy);
+
+  miShowAllFound.Enabled:=False;
 end;
 
 procedure TfrmFindDlg.miShowInViewerClick(Sender: TObject);
