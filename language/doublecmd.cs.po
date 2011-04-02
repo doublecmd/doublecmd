@@ -1837,6 +1837,14 @@ msgstr "Stav"
 msgid "&Previous searches:"
 msgstr "&Minulá hledání:"
 
+#: TFRMFINDDLG.MIREMOVEFROMLLIST.CAPTION
+msgid "Remove from list"
+msgstr ""
+
+#: TFRMFINDDLG.MISHOWALLFOUND.CAPTION
+msgid "Show all found items"
+msgstr ""
+
 #: TFRMFINDDLG.MISHOWINVIEWER.CAPTION
 msgid "Show In Viewer"
 msgstr "Zobrazit v prohlížeči"

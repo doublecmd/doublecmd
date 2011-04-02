@@ -1828,6 +1828,14 @@ msgstr "상태"
 msgid "&Previous searches:"
 msgstr "이전 찾기 (&P):"
 
+#: TFRMFINDDLG.MIREMOVEFROMLLIST.CAPTION
+msgid "Remove from list"
+msgstr ""
+
+#: TFRMFINDDLG.MISHOWALLFOUND.CAPTION
+msgid "Show all found items"
+msgstr ""
+
 #: TFRMFINDDLG.MISHOWINVIEWER.CAPTION
 msgid "Show In Viewer"
 msgstr "뷰어로 보여주기"
