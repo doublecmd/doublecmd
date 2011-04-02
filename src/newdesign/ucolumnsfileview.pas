@@ -1116,8 +1116,14 @@ var
   sHint: UTF8String;
 begin
   if HintInfo^.HintStr = EmptyStr then Exit; // don't show
+
   with dgPanel do
-  AFile := FFiles[HintRowIndex - FixedRows];
+  begin
+    if not InRange(HintRowIndex - FixedRows, 0, FFiles.Count - 1) then
+      Exit;
+    AFile := FFiles[HintRowIndex - FixedRows];
+  end;
+
   if not AFile.FSFile.IsDirectory then
     begin
       sHint:= GetFileInfoToolTip(FileSource, AFile.FSFile);
@@ -4255,4 +4261,4 @@ begin
 end;
 
 end.
-
+
