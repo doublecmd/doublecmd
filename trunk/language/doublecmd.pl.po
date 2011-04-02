@@ -1808,6 +1808,14 @@ msgstr "Status"
 msgid "&Previous searches:"
 msgstr "Poprzednie wyszukiwanie:"
 
+#: TFRMFINDDLG.MIREMOVEFROMLLIST.CAPTION
+msgid "Remove from list"
+msgstr ""
+
+#: TFRMFINDDLG.MISHOWALLFOUND.CAPTION
+msgid "Show all found items"
+msgstr ""
+
 #: TFRMFINDDLG.MISHOWINVIEWER.CAPTION
 msgid "Show In Viewer"
 msgstr "Podgląd"
@@ -5788,13 +5796,13 @@ msgstr "Nie można otworzyć pliku"
 msgid "Error reading from file"
 msgstr "Błąd odczytu pliku"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgerrewrite
 msgid "Error writing to file"
 msgstr "Błąd przy zapisie pliku"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgerrforcedir
 msgid "Can not create directory %s!"
 msgstr "Nie można utworzyć katalogu %s!"
@@ -5995,13 +6003,13 @@ msgstr "Nie zaimplementowo."
 msgid "Password:"
 msgstr "Hasło:"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
 msgstr "Proszę wprowadzić hasło:"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
 msgstr "Hasło (Firewall):"
@@ -6039,13 +6047,13 @@ msgstr "Zmiana ustawień. Należy ponownie uruchomić Double Commandera"
 msgid "Selected %s of %s in %d of %d files"
 msgstr "Wybrano %s z %s w %d z %d plików"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only check sum files!"
 msgstr "Zaznacz tylko pliki z sumą kontrolną!"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgsellocnextvol
 msgid "Please select location of next volume"
 msgstr "Wybierz lokalizacją kolejnej części"
@@ -6082,13 +6090,13 @@ msgstr "Etykieta części:"
 msgid "Please enter the volume size:"
 msgstr "Proszę wpisać rozmiar części:"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
 msgstr "Zamazać %d wybranych plików/katalogów?"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgwipesel
 msgid "Wipe selected \"%s\"?"
 msgstr "Zamazać \"%s\"?"
