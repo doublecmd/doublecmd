@@ -2725,7 +2725,7 @@ begin
     FCal.SetBounds(1, 1, P.x, P.y);
     FCal.TabStop := True;
 
-    FCalendarForm := TCustomForm.Create(nil);
+    FCalendarForm := TCustomForm.CreateNew(nil);
 
   {$IFDEF LCL_0_9_29_OR_AFTER}
   // Nice new property!
@@ -3655,4 +3655,4 @@ begin
   Result := FDateTimeEditor.DateIsNull;
 end;
 
-end.
+end.
