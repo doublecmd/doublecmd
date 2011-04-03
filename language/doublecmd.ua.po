@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.4.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-04-01 21:07+0300\n"
+"PO-Revision-Date: 2011-04-02 23:48+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1816,11 +1816,11 @@ msgstr "&Попередні пошуки:"
 
 #: TFRMFINDDLG.MIREMOVEFROMLLIST.CAPTION
 msgid "Remove from list"
-msgstr ""
+msgstr "Видалити зі списку"
 
 #: TFRMFINDDLG.MISHOWALLFOUND.CAPTION
 msgid "Show all found items"
-msgstr ""
+msgstr "Показати все знайдене"
 
 #: TFRMFINDDLG.MISHOWINVIEWER.CAPTION
 msgid "Show In Viewer"
@@ -2836,7 +2836,7 @@ msgstr "Ви&гляд"
 
 #: TFRMMAIN.MNUSHOWOPERATIONS.CAPTION
 msgid "Operations viewer"
-msgstr "Файлові операції"
+msgstr "Показати операції з файлами"
 
 #: TFRMMAIN.MNUTABOPTIONS.CAPTION
 #| msgid "Options"
@@ -3950,7 +3950,7 @@ msgstr "Місцерозміщення файлів конфігурації"
 
 #: TFRMOPTIONS.GBLOGFILE.CAPTION
 msgid "File operation log file"
-msgstr "Звіт про файлові операції"
+msgstr "Звіт про операції з файлами"
 
 #: TFRMOPTIONS.GBLOGFILEOP.CAPTION
 msgid "Log operations:"
@@ -4669,10 +4669,9 @@ msgid "File name"
 msgstr "Ім'я файлу"
 
 #: TFRMSPLITTER.GRBXSIZE.CAPTION
-#, fuzzy
 #| msgid "File size"
 msgid "Size and number of parts"
-msgstr "Розмір файлу"
+msgstr "Розмір і кількість частин"
 
 #: TFRMSPLITTER.LBDIRTARGET.CAPTION
 msgid "Directory target"
@@ -5282,7 +5281,7 @@ msgstr "Ввімкнути чергу"
 #: TFRMVIEWOPERATIONS.FRMVIEWOPERATIONS.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.FRMVIEWOPERATIONS.CAPTION"
 msgid "File operations"
-msgstr "Файлові операції"
+msgstr "Операції з файлами"
 
 #: TFRMVIEWOPERATIONS.GRPALLOPERATION.CAPTION
 msgid "Operations control"
@@ -6308,7 +6307,7 @@ msgstr "Текст"
 #: ulng.rsoptfileop
 msgctxt "ulng.rsoptfileop"
 msgid "File operations"
-msgstr "Файлові операції"
+msgstr "Операції з файлами"
 
 #: ulng.rsoptfilepanels
 msgid "File panels"
