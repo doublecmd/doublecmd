@@ -191,11 +191,9 @@ begin
       // Call method with parameter.
       FMessageQueue^.Method(FMessageQueue^.Data);
     except
-      on Exception do
+      on e: Exception do
         begin
-          WriteExceptionToErrorFile;
-          DCDebug(ExceptionToString);
-          ShowExceptionDialog;
+          HandleException(e, Self);
         end;
     end;
 

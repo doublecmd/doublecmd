@@ -188,7 +188,7 @@ implementation
 
 uses
   LCLProc,
-  uFileSourceOperationTypes, uOSUtils, uDCUtils,
+  uFileSourceOperationTypes, uOSUtils, uDCUtils, uExceptions,
   uGlobs, uMasks, uPixMapManager, uFileSourceProperty,
   uFileSourceCalcStatisticsOperation,
   uFileSourceOperationOptions;
@@ -260,12 +260,22 @@ end;
 procedure TFileViewWorker.DoFinished;
 begin
   FWorking := False;
-  FOnFinished(Self);
+  try
+    FOnFinished(Self);
+  except
+    on e: Exception do
+      HandleException(e);
+  end;
 end;
 
 procedure TFileViewWorker.DoStarting;
 begin
-  FOnStarting(Self);
+  try
+    FOnStarting(Self);
+  except
+    on e: Exception do
+      HandleException(e);
+  end;
 end;
 
 procedure TFileViewWorker.DoneWorking;
