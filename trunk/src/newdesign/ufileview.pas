@@ -63,6 +63,7 @@ type
     FFileViewWorkers: TFileViewWorkers;
     FHashedFiles: TBucketList;  //<en Contains pointers to file source files for quick checking if a file object is still valid
     FReloading: Boolean;        //<en If currently reloading file list
+    FReloadNeeded: Boolean;     //<en If file list should be reloaded
     FWorkersThread: TFunctionThread;
 
     FActive: Boolean;             //<en Is this view active
@@ -102,6 +103,7 @@ type
                           var NewFileSourceFiles: TFiles);
     procedure EnableWatcher(Enable: Boolean);
 
+    procedure ActivateEvent(Sender: TObject);
     procedure ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
     procedure WatcherEvent(const EventData: TFSWatcherEventData);
 
@@ -248,6 +250,7 @@ type
     }
     function Reload(const PathsToReload: TPathsArray = nil): Boolean; overload;
     function Reload(const PathToReload: String): Boolean; overload;
+    procedure ReloadIfNeeded;
     procedure StopWorkers; virtual;
 
     // For now we use here the knowledge that there are tabs.
@@ -370,7 +373,7 @@ implementation
 uses
   Dialogs, LCLProc, Forms, strutils,
   uActs, uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
-  uDCUtils, uGlobs;
+  uDCUtils, uGlobs, uFileViewNotebook;
 
 constructor TFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String);
 begin
@@ -418,11 +421,15 @@ begin
   FFileSourceFiles := nil;
   FWorkersThread := nil;
   FReloading := False;
+  FReloadNeeded := False;
   FFileViewWorkers := TFileViewWorkers.Create(False);
   FWatchPath := EmptyStr;
 
   inherited Create(AOwner);
   Parent := AOwner;
+
+  if AOwner is TFileViewPage then
+    (AOwner as TFileViewPage).OnActivate := @ActivateEvent;
 end;
 
 destructor TFileView.Destroy;
@@ -497,6 +504,7 @@ begin
     AFileView.FLastActiveFile := Self.FLastActiveFile;
     AFileView.FRequestedActiveFile := Self.FRequestedActiveFile;
     AFileView.FFileFilter := Self.FFileFilter;
+    AFileView.FReloadNeeded := Self.FReloadNeeded;
 
     if Assigned(Self.FFileSourceFiles) then
       AFileView.FFileSourceFiles := Self.FFileSourceFiles.Clone;
@@ -778,10 +786,9 @@ function TFileView.Reload(const PathsToReload: TPathsArray = nil): Boolean;
 var
   i: Integer;
 begin
-  Result := False;
-
   if Assigned(PathsToReload) then
   begin
+    Result := False;
     for i := Low(PathsToReload) to High(PathsToReload) do
       if IsInPath(PathsToReload[i], CurrentPath, True) then
       begin
@@ -793,8 +800,20 @@ begin
       Exit;
   end;
 
-  FReloading := True;
-  MakeFileSourceFileList;
+  if ((watch_only_foreground in gWatchDirs) and (not Application.Active)) or
+     ((NotebookPage is TFileViewPage) and not TFileViewPage(NotebookPage).IsActive) then
+  begin
+    // Delay reloading.
+    Result := False;
+    FReloadNeeded := True;
+  end
+  else
+  begin
+    Result := True;
+    FReloadNeeded := False;
+    FReloading := True;
+    MakeFileSourceFileList;
+  end;
 end;
 
 function TFileView.Reload(const PathToReload: String): Boolean;
@@ -804,6 +823,12 @@ begin
   SetLength(Paths, 1);
   Paths[0] := PathToReload;
   Reload(Paths);
+end;
+
+procedure TFileView.ReloadIfNeeded;
+begin
+  if FReloadNeeded then
+    Reload;
 end;
 
 procedure TFileView.StopWorkers;
@@ -1015,6 +1040,7 @@ procedure TFileView.AfterChangePath;
 begin
   LastActiveFile := '';
   RequestedActiveFile := '';
+  FReloadNeeded := False;
 
   if Assigned(OnAfterChangePath) then
     OnAfterChangePath(Self);
@@ -1297,6 +1323,11 @@ begin
   end;
 end;
 
+procedure TFileView.ActivateEvent(Sender: TObject);
+begin
+  ReloadIfNeeded;
+end;
+
 procedure TFileView.ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
 begin
   // Reload file view but only if the file source is currently viewed
@@ -1307,9 +1338,6 @@ end;
 
 procedure TFileView.WatcherEvent(const EventData: TFSWatcherEventData);
 begin
-  // if not active and refresh only in foreground then exit
-  if (watch_only_foreground in gWatchDirs) and (not Application.Active) then
-    Exit;
   Reload(EventData.Path);
 end;
 

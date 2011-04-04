@@ -27,6 +27,7 @@ type
     {$IFDEF LCLQT}
     FSettingCaption: Boolean;
     {$ENDIF}
+    FOnActivate: TNotifyEvent;
 
     {en
        Shows or removes the '*' indicator of a locked tab.
@@ -47,6 +48,8 @@ type
 
     procedure SetLockState(NewLockState: TTabLockState);
 
+    procedure DoActivate;
+
   {$IFDEF LCLQT}
   protected
     procedure RealSetText(const AValue: TCaption); override;
@@ -66,6 +69,7 @@ type
     property LockPath: String read FLockPath write FLockPath;
     property FileView: TFileView read GetFileView write SetFileView;
     property Notebook: TFileViewNotebook read GetNotebook;
+    property OnActivate: TNotifyEvent read FOnActivate write FOnActivate;
 
   end;
 
@@ -88,6 +92,12 @@ type
     procedure DragOverEvent(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
     procedure DragDropEvent(Sender, Source: TObject; X, Y: Integer);
 
+  protected
+    procedure DoChange; override;
+    procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
+    procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
+    procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
+
   public
     constructor Create(ParentControl: TWinControl;
                        NotebookSide: TFilePanelSelect); reintroduce;
@@ -99,10 +109,6 @@ type
     procedure DestroyAllPages;
     procedure ActivatePrevTab;
     procedure ActivateNextTab;
-
-    procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
-    procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
-    procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
 
     property ActivePage: TFileViewPage read GetActivePage;
     property ActiveView: TFileView read GetActiveView;
@@ -250,6 +256,12 @@ begin
   if NewLockState = tlsPathResets then
     LockPath := FileView.CurrentPath;
   UpdateTabLockState;
+end;
+
+procedure TFileViewPage.DoActivate;
+begin
+  if Assigned(FOnActivate) then
+    FOnActivate(Self);
 end;
 
 // -- TFileViewNotebook -------------------------------------------------------
@@ -461,6 +473,12 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TFileViewNotebook.DoChange;
+begin
+  inherited DoChange;
+  ActivePage.DoActivate;
 end;
 
 end.

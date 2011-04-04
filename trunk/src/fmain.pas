@@ -536,6 +536,8 @@ type
     procedure SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);
     procedure SetPanelDrive(aPanel: TFilePanelSelect; aPath: UTF8String);
     procedure OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
+    procedure AppActivate(Sender: TObject);
+    procedure AppException(Sender: TObject; E: Exception);
 
   public
     Function ActiveFrame: TFileView;  // get Active frame
@@ -544,7 +546,6 @@ type
     function NotActiveNotebook: TFileViewNotebook;
     function FrameLeft: TFileView;
     function FrameRight: TFileView;
-    procedure AppException(Sender: TObject; E: Exception);
     //check selected count and generate correct msg, parameters is lng indexs
     Function GetFileDlgStr(sLngOne, sLngMulti : String; Files: TFiles):String;
     procedure HotDirSelected(Sender:TObject);
@@ -680,6 +681,7 @@ var
   I: Integer;
 begin
   Application.OnException := @AppException;
+  Application.OnActivate := @AppActivate;
 
   InitPropStorage(Self);
 
@@ -1758,14 +1760,14 @@ begin
     if Page.LockState = tlsPathResets then // if locked with directory change
       Page.FileView.CurrentPath := Page.LockPath;
 
-    // Update selected drive only on non-active panel,
-    // because active panel is updated on focus change.
+  // Update selected drive only on non-active panel,
+  // because active panel is updated on focus change.
     if Assigned(ActiveFrame) and (ActiveFrame.Parent.Parent <> Sender) and
-       not (tb_activate_panel_on_click in gDirTabOptions) then
-    begin
-      UpdateSelectedDrive(Notebook);
-      UpdateFreeSpace(Notebook.Side);
-    end;
+     not (tb_activate_panel_on_click in gDirTabOptions) then
+  begin
+    UpdateSelectedDrive(Notebook);
+    UpdateFreeSpace(Notebook.Side);
+  end;
   end;
   if Assigned(QuickViewPanel) then
     Actions.cm_QuickView('Close');
@@ -4605,6 +4607,14 @@ end;
 procedure TfrmMain.OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
 begin
   UpdateDiskCount;
+end;
+
+procedure TfrmMain.AppActivate(Sender: TObject);
+begin
+  if Assigned(FrameLeft) then
+    FrameLeft.ReloadIfNeeded;
+  if Assigned(FrameRight) then
+    FrameRight.ReloadIfNeeded;
 end;
 
 end.
