@@ -40,16 +40,12 @@ type
   TFunctionThread = class(TThread)
   private
     FFunctionsToCall: TFPList;
-    FExceptionMessage: String;
-    FExceptionBackTrace: String;
     FWaitEvent: PRTLEvent;
     FLock: TCriticalSection;
     FFinished: Boolean;
 
   protected
     procedure Execute; override;
-
-    procedure ShowException;
 
   public
     constructor Create(CreateSuspended: Boolean); reintroduce;
@@ -154,13 +150,7 @@ begin
           on e: Exception do
           begin
             Dispose(pItem);
-            FExceptionMessage := e.Message;
-            FExceptionBackTrace := ExceptionToString;
-
-            if FExceptionBackTrace <> EmptyStr then
-              DCDebug(FExceptionBackTrace);
-
-            Synchronize(@ShowException);
+            HandleException(e, Self);
           end;
         end;
       end
@@ -172,12 +162,6 @@ begin
   finally
     FFinished := True;
   end;
-end;
-
-procedure TFunctionThread.ShowException;
-begin
-  WriteExceptionToErrorFile(FExceptionBackTrace);
-  ShowExceptionDialog(FExceptionMessage);
 end;
 
 class procedure TFunctionThread.Finalize(var AThread: TFunctionThread);

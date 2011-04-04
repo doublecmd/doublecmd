@@ -16,13 +16,9 @@ type
   TOperationThread = class(TThread)
   private
     FOperation: TFileSourceOperation;
-    FExceptionMessage: String;
-    FExceptionBackTrace: String;
 
   protected
     procedure Execute; override;
-
-    procedure ShowException;
 
   public
     {en
@@ -31,7 +27,6 @@ type
        @param(Operation is the file source operation that will be executed.)
     }
     constructor Create(CreateSuspended: Boolean; Operation: TFileSourceOperation); reintroduce;
-    destructor Destroy; override;
   end;
 
 implementation
@@ -42,17 +37,10 @@ uses
 constructor TOperationThread.Create(CreateSuspended: Boolean; Operation: TFileSourceOperation);
 begin
   FreeOnTerminate := True;
-
   FOperation := Operation;
+  FOperation.AssignThread(Self);
 
   inherited Create(CreateSuspended, DefaultStackSize);
-
-  FOperation.AssignThread(Self); // This may be executed from the thread already.
-end;
-
-destructor TOperationThread.Destroy;
-begin
-  inherited Destroy;
 end;
 
 procedure TOperationThread.Execute;
@@ -61,22 +49,8 @@ begin
     FOperation.Execute;
   except
     on e: Exception do
-    begin
-      FExceptionMessage := e.Message;
-      FExceptionBackTrace := ExceptionToString;
-
-      if FExceptionBackTrace <> EmptyStr then
-        DCDebug(FExceptionBackTrace);
-
-      Synchronize(@ShowException);
-    end;
+      HandleException(e, Self);
   end;
-end;
-
-procedure TOperationThread.ShowException;
-begin
-  WriteExceptionToErrorFile(FExceptionBackTrace);
-  ShowExceptionDialog(FExceptionMessage);
 end;
 
 end.

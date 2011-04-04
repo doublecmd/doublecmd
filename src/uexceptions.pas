@@ -11,12 +11,33 @@ function ExceptionToString: String;
 procedure WriteExceptionToFile(const aFileName: UTF8String; const ExceptionText: String = '');
 procedure WriteExceptionToErrorFile(const ExceptionText: String = ''); inline;
 procedure ShowExceptionDialog(const ExceptionText: String = '');
+{en
+   Log exception to file, show on console and show message dialog.
+   Can be called from other threads.
+}
+procedure HandleException(e: Exception; AThread: TThread = nil);
 
 implementation
 
 uses
-  Forms, Controls, Dialogs, LCLProc, LCLStrConsts,
-  uLng, uGlobs, uDCVersion;
+  Forms, Controls, Dialogs, LCLProc, LCLStrConsts, syncobjs,
+  uDebug, uLng, uGlobs, uDCVersion;
+
+type
+  THandleException = class
+  private
+    FHandleExceptionLock: TCriticalSection;
+    FHandleExceptionMessage: String;
+    FHandleExceptionBackTrace: String;
+    procedure ShowException;
+  public
+    constructor Create; reintroduce;
+    destructor Destroy; override;
+    procedure HandleException(e: Exception; AThread: TThread = nil);
+  end;
+
+var
+  HandleExceptionObj: THandleException;
 
 function ExceptionToString: String;
 var
@@ -141,6 +162,63 @@ begin
     end;
   end;
 end;
+
+procedure HandleException(e: Exception; AThread: TThread);
+begin
+  HandleExceptionObj.HandleException(e, AThread);
+end;
+
+constructor THandleException.Create;
+begin
+  FHandleExceptionLock := TCriticalSection.Create;
+end;
+
+destructor THandleException.Destroy;
+begin
+  inherited;
+  FreeAndNil(FHandleExceptionLock);
+end;
+
+procedure THandleException.HandleException(e: Exception; AThread: TThread);
+var
+  BackTrace: String;
+begin
+  if MainThreadID = GetCurrentThreadId then
+  begin
+    BackTrace := ExceptionToString;
+    DCDebug(BackTrace);
+    WriteExceptionToErrorFile(BackTrace);
+    ShowExceptionDialog(e.Message);
+  end
+  else
+  begin
+    FHandleExceptionLock.Acquire;
+    try
+      FHandleExceptionMessage := e.Message;
+      FHandleExceptionBackTrace := ExceptionToString;
+
+      if FHandleExceptionBackTrace <> EmptyStr then
+        DCDebug(FHandleExceptionBackTrace);
+
+      TThread.Synchronize(AThread, @ShowException);
+
+    finally
+      FHandleExceptionLock.Release;
+    end;
+  end;
+end;
+
+procedure THandleException.ShowException;
+begin
+  WriteExceptionToErrorFile(FHandleExceptionBackTrace);
+  ShowExceptionDialog(FHandleExceptionMessage);
+end;
+
+initialization
+  HandleExceptionObj := THandleException.Create;
+
+finalization
+  FreeAndNil(HandleExceptionObj);
 
 end.
 

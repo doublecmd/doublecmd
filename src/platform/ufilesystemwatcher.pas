@@ -126,13 +126,10 @@ type
     {$ENDIF}
     FCurrentEventData: TFSWatcherEventData;
     FFinished: Boolean;
-    FExceptionMessage: String;
-    FExceptionBackTrace: String;
 
     procedure DoWatcherEvent;
     function GetWatchersCount: Integer;
     procedure RemoveOSWatch(aHandle: THandle);
-    procedure ShowException;
     procedure TriggerEvent;
   protected
     procedure Execute; override;
@@ -238,15 +235,7 @@ begin
       ExecuteWatcher;
     except
       on e: Exception do
-      begin
-        FExceptionMessage := e.Message;
-        FExceptionBackTrace := ExceptionToString;
-
-        if FExceptionBackTrace <> EmptyStr then
-          DCDebug(FExceptionBackTrace);
-
-        Synchronize(@ShowException);
-      end;
+        HandleException(e, Self);
     end;
   finally
     FFinished := True;
@@ -528,35 +517,40 @@ var
 begin
   if not Terminated then
   begin
-    FWatcherLock.Acquire;
     try
-      for i := 0 to FOSWatchers.Count - 1 do
-      begin
-        if FOSWatchers[i].WatchPath = FCurrentEventData.Path then
+      FWatcherLock.Acquire;
+      try
+        for i := 0 to FOSWatchers.Count - 1 do
         begin
-          for j := 0 to FOSWatchers[i].Observers.Count - 1 do
+          if FOSWatchers[i].WatchPath = FCurrentEventData.Path then
           begin
-            // TODO: Check filter.
-
-            // Can be called under the lock because this function is run from
-            // the main thread and the watcher thread is suspended anyway because
-            // it's waiting until Synchronize call (thus this function) finishes.
-            with FOSWatchers[i].Observers[j] do
+            for j := 0 to FOSWatchers[i].Observers.Count - 1 do
             begin
-              if Assigned(WatcherEvent) then
+              // TODO: Check filter.
+
+              // Can be called under the lock because this function is run from
+              // the main thread and the watcher thread is suspended anyway because
+              // it's waiting until Synchronize call (thus this function) finishes.
+              with FOSWatchers[i].Observers[j] do
               begin
-                FCurrentEventData.UserData := UserData;
-                WatcherEvent(FCurrentEventData);
+                if Assigned(WatcherEvent) then
+                begin
+                  FCurrentEventData.UserData := UserData;
+                  WatcherEvent(FCurrentEventData);
+                end;
               end;
             end;
-          end;
 
-          Break;
-        end; { if }
-      end; { for }
-    finally
-      FWatcherLock.Release;
-    end; { try - finally }
+            Break;
+          end; { if }
+        end; { for }
+      finally
+        FWatcherLock.Release;
+      end; { try - finally }
+    except
+      on e: Exception do
+        HandleException(e, Self);
+    end;
   end; { if }
 end;
 
@@ -836,12 +830,6 @@ begin
 {$ENDIF}
 end;
 
-procedure TFileSystemWatcherImpl.ShowException;
-begin
-  WriteExceptionToErrorFile(FExceptionBackTrace);
-  ShowExceptionDialog(FExceptionMessage);
-end;
-
 procedure TFileSystemWatcherImpl.TriggerEvent;
 {$IF DEFINED(MSWINDOWS)}
 begin
@@ -1007,4 +995,4 @@ finalization
   TFileSystemWatcher.DestroyFileSystemWatcher;
 
 end.
-
+
