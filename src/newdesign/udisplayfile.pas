@@ -22,6 +22,7 @@ type
     // Other properties.
     FSelected: Boolean;      //<en If is selected
     FIconID: PtrInt;         //<en Icon ID for PixmapManager
+    FIconOverlayID: PtrInt;  //<en Overlay icon ID for PixmapManager
 
     // Cache of displayed strings.
     FDisplayStrings: TStringList;
@@ -48,6 +49,7 @@ type
     property OwnsFSFile: Boolean read FOwnsReferenceFile write FOwnsReferenceFile;
     property Selected: Boolean read FSelected write FSelected;
     property IconID: PtrInt read FIconID write FIconID;
+    property IconOverlayID: PtrInt read FIconOverlayID write FIconOverlayID;
     property DisplayStrings: TStringList read FDisplayStrings;
 
   end;
@@ -100,6 +102,7 @@ begin
 
   FSelected := False;
   FIconID := -1;
+  FIconOverlayID := -1;
   FFSFile := ReferenceFile;
   FOwnsReferenceFile := False;
   FDisplayStrings := TStringList.Create;
@@ -151,6 +154,7 @@ begin
     AFile.FOwnsReferenceFile := FOwnsReferenceFile;
     AFile.FSelected := FSelected;
     AFile.FIconID := FIconID;
+    AFile.FIconOverlayID := FIconOverlayID;
     AFile.FDisplayStrings.AddStrings(FDisplayStrings);
   end;
 end;

@@ -83,10 +83,6 @@ type
     procedure SetTypeProperty(NewValue: TFileTypeProperty);
     function GetCommentProperty: TFileCommentProperty;
     procedure SetCommentProperty(NewValue: TFileCommentProperty);
-    {$IF DEFINED(MSWINDOWS)}
-  public
-    OverlayIconIndex: PtrInt;
-    {$ENDIF}
   public
     constructor Create(const APath: String);
     constructor CreateForCloning;
@@ -278,10 +274,6 @@ var
   PropertyType: TFilePropertyType;
 begin
   inherited Create;
-
-  {$IF DEFINED(MSWINDOWS)}
-  OverlayIconIndex:= -1;
-  {$ENDIF}
 
   FSupportedProperties := [];
   for PropertyType := Low(TFilePropertyType) to High(TFilePropertyType) do
