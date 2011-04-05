@@ -42,7 +42,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, syncobjs, uOSUtils, uFileSorting, StringHashList,
-  uFile, uIconTheme, uDrive
+  uFile, uIconTheme, uDrive, uDisplayFile
   {$IF DEFINED(UNIX)}
   , uClassesEx
     {$IF NOT DEFINED(DARWIN)}
@@ -223,7 +223,7 @@ type
        @param(DirectAccess
               Whether the file is on a directly accessible file source.)
     }
-    function DrawOverlayBitmap(AFile: TFile; DirectAccess: Boolean; Canvas : TCanvas; X, Y: Integer) : Boolean;
+    function DrawBitmapOverlay(AFile: TDisplayFile; DirectAccess: Boolean; Canvas : TCanvas; X, Y: Integer) : Boolean;
     function GetIconBySortingDirection(SortingDirection: TSortDirection): PtrInt;
     {en
        Retrieves icon index in FPixmapList table for a file.
@@ -242,6 +242,17 @@ type
               its index regardless of LoadIcon parameter.)
     }
     function GetIconByFile(AFile: TFile; DirectAccess: Boolean; LoadIcon: Boolean): PtrInt;
+    {$IF DEFINED(MSWINDOWS)}
+    {en
+       Retrieves overlay icon index for a file.
+
+       @param(AFile
+              File for which to retrieve the overlay icon.)
+       @param(DirectAccess
+              Whether the file is on a directly accessible file source.)
+    }
+    function GetIconOverlayByFile(AFile: TFile; DirectAccess: Boolean): PtrInt;
+    {$ENDIF}
     function GetIconByName(const AIconName: UTF8String): PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
@@ -1369,15 +1380,15 @@ begin
   {$ENDIF}
 end;
 
-function TPixMapManager.DrawOverlayBitmap(AFile: TFile; DirectAccess: Boolean; Canvas: TCanvas; X, Y: Integer): Boolean;
+function TPixMapManager.DrawBitmapOverlay(AFile: TDisplayFile; DirectAccess: Boolean; Canvas: TCanvas; X, Y: Integer): Boolean;
 var
   I: Integer;
 begin
-  if AFile.IsLink then
+  if AFile.FSFile.IsLink then
     begin
       I:= gIconsSize div 2;
       Result:= DrawBitmap(FiEmblemLinkID, Canvas, X, Y + I, I, I);
-      if not AFile.LinkProperty.IsValid then
+      if not AFile.FSFile.LinkProperty.IsValid then
         Result:= DrawBitmap(FiEmblemUnreadableID, Canvas, X + I, Y + I, I, I);
     end
   {$IFDEF MSWINDOWS}
@@ -1385,10 +1396,8 @@ begin
     // Windows XP doesn't draw link overlay icon for soft links (don't know about Vista or 7).
     if DirectAccess then
     begin
-      if AFile.OverlayIconIndex < 0 then
-        AFile.OverlayIconIndex:= SHGetOverlayIconIndex(AFile.Path, AFile.Name);
-      if AFile.OverlayIconIndex >= 0 then
-        Result:= DrawBitmap(AFile.OverlayIconIndex + SystemIconIndexStart, Canvas, X, Y);
+      if AFile.IconOverlayID >= SystemIconIndexStart then
+        Result:= DrawBitmap(AFile.IconOverlayID, Canvas, X, Y);
     end;
   {$ENDIF}
     ;
@@ -1598,6 +1607,16 @@ begin
     {$ENDIF}
   end;
 end;
+
+{$IF DEFINED(MSWINDOWS)}
+function TPixMapManager.GetIconOverlayByFile(AFile: TFile; DirectAccess: Boolean): PtrInt;
+begin
+  if DirectAccess then
+    Result:= SHGetOverlayIconIndex(AFile.Path, AFile.Name) + SystemIconIndexStart
+  else
+    Result:= -1;
+end;
+{$ENDIF}
 
 function TPixMapManager.GetIconByName(const AIconName: UTF8String): PtrInt;
 begin

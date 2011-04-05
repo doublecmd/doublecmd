@@ -3617,7 +3617,7 @@ var
       // Draw overlay icon for a file if needed
       if gIconOverlays then
       begin
-        PixMapManager.DrawOverlayBitmap(AFile.FSFile,
+        PixMapManager.DrawBitmapOverlay(AFile,
                                         FileSourceDirectAccess,
                                         Canvas,
                                         aRect.Left + 1,
@@ -4261,4 +4261,4 @@ begin
 end;
 
 end.
-
+
