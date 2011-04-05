@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.46 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2011-03-21 11:34+0100\n"
+"PO-Revision-Date: 2011-04-03 11:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1820,11 +1820,11 @@ msgstr "Vorherige Suche(n)"
 
 #: TFRMFINDDLG.MIREMOVEFROMLLIST.CAPTION
 msgid "Remove from list"
-msgstr ""
+msgstr "Von der Liste entfernen"
 
 #: TFRMFINDDLG.MISHOWALLFOUND.CAPTION
 msgid "Show all found items"
-msgstr ""
+msgstr "Alle gefundenen Einträge anzeigen"
 
 #: TFRMFINDDLG.MISHOWINVIEWER.CAPTION
 msgid "Show In Viewer"
@@ -3211,11 +3211,11 @@ msgstr "Breite"
 
 #: TFRMMULTIRENAME.LSVWFILE.COLUMNS[0].CAPTION
 msgid "Old File Name"
-msgstr ""
+msgstr "Vorheriger Dateiname"
 
 #: TFRMMULTIRENAME.LSVWFILE.COLUMNS[1].CAPTION
 msgid "New File Name"
-msgstr ""
+msgstr "Neuer Dateiname"
 
 #: TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION
 msgctxt "TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION"
@@ -3226,93 +3226,93 @@ msgstr "Dateipfad"
 #, fuzzy
 #| msgid "[C]ounter"
 msgid "[C] Counter"
-msgstr "[Z]ählweise"
+msgstr "[C] Zählweise"
 
 #: TFRMMULTIRENAME.MIDAY.CAPTION
 #, fuzzy
 #| msgid "[D]ay"
 msgid "[D] Day"
-msgstr "[T]ag"
+msgstr "[D] Tag"
 
 #: TFRMMULTIRENAME.MIDAY1.CAPTION
 msgid "[DD] Day (2 digits)"
-msgstr ""
+msgstr "[DD] Tag (zweistellig)"
 
 #: TFRMMULTIRENAME.MIDAY2.CAPTION
 msgid "[DDD] Day of the week (short, e.g., \"mon\")"
-msgstr ""
+msgstr "[DDD] Tag der Woche (kurz, z. B. \"Mo\")"
 
 #: TFRMMULTIRENAME.MIDAY3.CAPTION
 msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
-msgstr ""
+msgstr "[DDDD] Tag der Woche (lang, z. B. \"Montag\")"
 
 #: TFRMMULTIRENAME.MIEXTENSIONX.CAPTION
 #, fuzzy
 #| msgid "[Ex]xtension"
 msgid "[Ex] Character at position x"
-msgstr "[Ex]ndung"
+msgstr "[Ex]Bezeichnung an Position x"
 
 #: TFRMMULTIRENAME.MIEXTENSIONXX.CAPTION
 #, fuzzy
 #| msgid "[Ex:x]xtension"
 msgid "[Ex:y] Characters from position x to y"
-msgstr "[Ex:x]ndung"
+msgstr "[Ex:y]Bezeichnung von Positionx bis y"
 
 #: TFRMMULTIRENAME.MIHOUR.CAPTION
 #, fuzzy
 #| msgid "[h]our"
 msgid "[h] Hour"
-msgstr "[S]tunde"
+msgstr "[h]Stunde"
 
 #: TFRMMULTIRENAME.MIHOUR1.CAPTION
 msgid "[hh] Hour (2 digits)"
-msgstr ""
+msgstr "[hh] Stunde (zweistellig)"
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
 #, fuzzy
 #| msgid "Mi[n]ute"
 msgid "[n] Minute"
-msgstr "[M]inute"
+msgstr "[n] Minute"
 
 #: TFRMMULTIRENAME.MIMINUTE1.CAPTION
 msgid "[nn] Minute (2 digits)"
-msgstr ""
+msgstr "[nn] Minute (zweistellig)"
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
 #, fuzzy
 #| msgid "[M]onth"
 msgid "[M] Month"
-msgstr "[Mo]nat"
+msgstr "[M] Monat"
 
 #: TFRMMULTIRENAME.MIMONTH1.CAPTION
 msgid "[MM] Month (2 digits)"
-msgstr ""
+msgstr "[MM] Monat (zweistellig)"
 
 #: TFRMMULTIRENAME.MIMONTH2.CAPTION
 msgid "[MMM] Month name (short, e.g., \"jan\")"
-msgstr ""
+msgstr "[MMM] Monatsname (kurz, z. B. \"Jan\")"
 
 #: TFRMMULTIRENAME.MIMONTH3.CAPTION
 msgid "[MMMM] Month name (long, e.g. \"january\")"
-msgstr ""
+msgstr "[MMMM] Monatsname (lang, z. B. \"Januar\")"
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
 #, fuzzy
 #| msgid "[N]ame"
 msgid "[N] Name"
-msgstr "[N]ame"
+msgstr "[N] Name"
 
 #: TFRMMULTIRENAME.MINAMEX.CAPTION
 #, fuzzy
 #| msgid "[Nx]ame"
 msgid "[Nx] Character at position x"
-msgstr "[Nx]ame"
+msgstr "[Nx]Bezeichnung an Position x"
 
 #: TFRMMULTIRENAME.MINAMEXX.CAPTION
 #, fuzzy
 #| msgid "[Nx:x]ame"
 msgid "[Nx:y] Characters from position x to y"
-msgstr "[Nx:]ame"
+msgstr "[Nx:y] Bezeichnung von Position x bis y"
 
 #: TFRMMULTIRENAME.MINEXT.CAPTION
 msgid "Time..."
@@ -3330,21 +3330,21 @@ msgstr "Name..."
 #, fuzzy
 #| msgid "[s]econd"
 msgid "[s] Second"
-msgstr "[S]ekunde"
+msgstr "[S] Sekunde"
 
 #: TFRMMULTIRENAME.MISECOND1.CAPTION
 msgid "[ss] Second (2 digits)"
-msgstr ""
+msgstr "[ss] Sekunde (zweistellig)"
 
 #: TFRMMULTIRENAME.MIYEAR.CAPTION
 #, fuzzy
 #| msgid "[Y] Year"
 msgid "[Y] Year (2 digits)"
-msgstr "[J]ahr"
+msgstr "[Y] Jahr (zweistellig)"
 
 #: TFRMMULTIRENAME.MIYEAR1.CAPTION
 msgid "[YYYY] Year (4 digits)"
-msgstr ""
+msgstr "[YYYY] Jahr (vierstellig)"
 
 #: TFRMMULTIRENAME.N1.CAPTION
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
@@ -5536,7 +5536,7 @@ msgstr "Verifiziere Prüfsumme..."
 
 #: ulng.rsdlgcombine
 msgid "Combine"
-msgstr ""
+msgstr "Dateien verschmelzen"
 
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
@@ -6269,7 +6269,7 @@ msgstr "Lösche:"
 
 #: ulng.rsoptarchiveextractwithoutpath
 msgid "Extract without path:"
-msgstr ""
+msgstr "Ohne gespeicherten Pfad entpacken:"
 
 #: ulng.rsoptarchiveid
 msgctxt "ulng.rsoptarchiveid"
