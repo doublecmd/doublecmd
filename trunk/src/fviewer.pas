@@ -1704,10 +1704,10 @@ function TfrmViewer.CheckGraphics(const sFileName:String):Boolean;
 var
   sExt: String;
 begin
-  sExt:= Lowercase(ExtractFileExt(sFileName));
+  sExt:= LowerCase(ExtractFileExt(sFileName));
   Result:=(sExt='.bmp') or (sExt='.xpm') or (sExt='.png') or
        (sExt='.jpg') or (sExt='.jpeg') or (sExt='.ico') or (sExt='.icns') or
-       (sExt='.ddw') or (sExt='.tga') or (sExt='.gif');
+       (sExt='.ddw') or (sExt='.tga') or (sExt='.cur') or (sExt='.gif');
 end;
 
 // Adjust Image size (width and height) to sboxImage size
@@ -2105,4 +2105,4 @@ begin
 end;
 
 end.
-
+

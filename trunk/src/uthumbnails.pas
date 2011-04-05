@@ -51,7 +51,7 @@ begin
   sExt:= LowerCase(sFileExt);
   Result:= (sExt = 'bmp') or (sExt = 'xpm') or (sExt = 'png') or
            (sExt = 'jpg') or (sExt = 'jpeg') or (sExt = 'ico') or (sExt = 'icns') or
-           (sExt = 'ddw') or (sExt = 'tga') or (sExt = 'gif');
+           (sExt = 'ddw') or (sExt = 'tga') or (sExt = 'cur') or (sExt = 'gif');
 end;
 
 function TThumbnailManager.GetPreviewFileExt(const sFileExt: UTF8String): UTF8String;
@@ -293,4 +293,4 @@ begin
 end;
 
 end.
-
+
