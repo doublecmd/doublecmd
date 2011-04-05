@@ -547,13 +547,6 @@ begin
         AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile,
                                                     fspDirectAccess in aFileSource.Properties,
                                                     not gLoadIconsSeparately);
-        {$IF DEFINED(MSWINDOWS)}
-        if gIconOverlays then
-        begin
-          AFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(AFile.FSFile,
-                                                                    fspDirectAccess in aFileSource.Properties);
-        end;
-        {$ENDIF}
       end;
 
       aFiles.Add(AFile);

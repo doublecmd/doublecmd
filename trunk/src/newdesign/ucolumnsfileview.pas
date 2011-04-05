@@ -2903,6 +2903,13 @@ begin
       begin
         if AFile.IconID = -1 then
           AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile, fspDirectAccess in FileSource.Properties, True);
+        {$IF DEFINED(MSWINDOWS)}
+        if gIconOverlays and (AFile.IconOverlayID < 0) then
+        begin
+          AFile.IconOverlayID := PixMapManager.GetIconOverlayByFile(AFile.FSFile,
+                                                                    fspDirectAccess in FileSource.Properties);
+        end;
+        {$ENDIF}
         FileSource.RetrieveProperties(AFile.FSFile, FilePropertiesNeeded);
         MakeColumnsStrings(AFile);
       end;
