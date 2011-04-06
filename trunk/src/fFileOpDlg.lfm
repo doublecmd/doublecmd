@@ -88,7 +88,7 @@ object frmFileOp: TfrmFileOp
     Caption = 'File name to'
     ParentColor = False
   end
-  object pbSecond: TProgressBar
+  object pbSecond: TKASProgressBar
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = pbFirst
     AnchorSideTop.Side = asrBottom
@@ -105,8 +105,9 @@ object frmFileOp: TfrmFileOp
     Smooth = True
     TabOrder = 0
     BarShowText = True
+    ShowInTaskbar = True
   end
-  object pbFirst: TProgressBar
+  object pbFirst: TKASProgressBar
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = lblTo
     AnchorSideTop.Side = asrBottom
