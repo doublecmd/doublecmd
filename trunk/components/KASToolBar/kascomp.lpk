@@ -4,8 +4,9 @@
     <Name Value="KASComp"/>
     <Author Value="Alexander Koblov"/>
     <CompilerOptions>
-      <Version Value="8"/>
+      <Version Value="9"/>
       <SearchPaths>
+        <OtherUnitFiles Value="$(LazarusDir)/lcl/units/$(TargetCPU)-$(TargetOS)/$(LCLWidgetType)"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -27,8 +28,8 @@
 "/>
     <License Value="GNU GPL 2
 "/>
-    <Version Major="1" Minor="5"/>
-    <Files Count="3">
+    <Version Major="1" Minor="6"/>
+    <Files Count="4">
       <Item1>
         <Filename Value="kastoolbar.pas"/>
         <HasRegisterProc Value="True"/>
@@ -43,6 +44,11 @@
         <Filename Value="kasbarfiles.pas"/>
         <UnitName Value="KASBarFiles"/>
       </Item3>
+      <Item4>
+        <Filename Value="kasprogressbar.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="KASProgressBar"/>
+      </Item4>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="2">
