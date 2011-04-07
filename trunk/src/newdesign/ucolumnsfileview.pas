@@ -2923,7 +2923,8 @@ begin
       begin
         AFile := FFiles[i];
         if (AFile.FSFile.Name <> '..') and
-           (FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) or (AFile.IconID = -1)) then
+           (FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) or
+           (AFile.IconID = -1) or (AFile.IconOverlayID = -1)) then
         begin
           AFileList.AddClone(AFile, AFile);
         end;
@@ -2977,6 +2978,9 @@ begin
 
   if UpdatedFile.IconID <> -1 then
     OrigDisplayFile.IconID := UpdatedFile.IconID;
+
+  if UpdatedFile.IconOverlayID <> -1 then
+    OrigDisplayFile.IconOverlayID := UpdatedFile.IconOverlayID;
 
   MakeColumnsStrings(OrigDisplayFile);
   RedrawFile(OrigDisplayFile);
