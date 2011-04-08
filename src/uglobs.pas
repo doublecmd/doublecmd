@@ -310,7 +310,7 @@ implementation
 
 uses
    LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils,
-   uDCUtils, fMultiRename, uFile, uDCVersion, uDebug;
+   uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions;
 
 procedure LoadDefaultHotkeyBindings;
 begin
@@ -964,6 +964,7 @@ begin
   { Localization }
   DoLoadLng;
   msgLoadLng;
+  FillFileFuncList;
   Result := True;
 end;
 
@@ -1894,4 +1895,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.

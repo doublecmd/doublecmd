@@ -87,6 +87,8 @@ type
   function FormatFileFunction(FuncS: string; AFile: TFile; const AFileSource: IFileSource): string;
   function GetFileFunctionByName(FuncS: string): TFileFunction;
 
+  procedure FillFileFuncList;
+
 const
   sFuncTypeDC     = 'DC';
   sFuncTypePlugin = 'PLUGIN';
@@ -97,7 +99,7 @@ var
 implementation
 
 uses
-  uGlobs, uDefaultFilePropertyFormatter, uFileSourceProperty;
+  uGlobs, uLng, uDefaultFilePropertyFormatter, uFileSourceProperty;
 
 //Return type (Script or DC or Plugin etc)
 function GetModType(str: String): String;
@@ -170,7 +172,7 @@ begin
   //------------------------------------------------------
   if AType = sFuncTypeDC then
   begin
-    case TFileFunction(FileFunctionsStr.IndexOf(AFunc)) of
+    case TFileFunction(FileFunctionsStr.IndexOfName(AFunc)) of
       fsfName:
         begin
           // Show square brackets around directories
@@ -279,18 +281,34 @@ begin
 
   // Only internal DC functions.
   if AType = sFuncTypeDC then
-    Result := TFileFunction(FileFunctionsStr.IndexOf(AFunc))
+    Result := TFileFunction(FileFunctionsStr.IndexOfName(AFunc))
   else
     Result := fsfInvalid;
 end;
 
-var
-  i: TFileFunction;
+procedure FillFileFuncList;
+begin
+  with FileFunctionsStr do
+  begin
+    Add(TFileFunctionStrings[fsfName] + '=' + rsFuncName);
+    Add(TFileFunctionStrings[fsfExtension] + '=' + rsFuncExt);
+    Add(TFileFunctionStrings[fsfSize] + '=' + rsFuncSize);
+    Add(TFileFunctionStrings[fsfAttr] + '=' + rsFuncAttr);
+    Add(TFileFunctionStrings[fsfPath] + '=' + rsFuncPath);
+    Add(TFileFunctionStrings[fsfGroup] + '=' + rsFuncGroup);
+    Add(TFileFunctionStrings[fsfOwner] + '=' + rsFuncOwner);
+    Add(TFileFunctionStrings[fsfModificationTime] + '=' + rsFuncMTime);
+    Add(TFileFunctionStrings[fsfCreationTime] + '=' + rsFuncCTime);
+    Add(TFileFunctionStrings[fsfLastAccessTime] + '=' + rsFuncATime);
+    Add(TFileFunctionStrings[fsfLinkTo] + '=' + rsFuncLinkTo);
+    Add(TFileFunctionStrings[fsfNameNoExtension] + '=' + rsFuncNameNoExt);
+    Add(TFileFunctionStrings[fsfType] + '=' + rsFuncType);
+    Add(TFileFunctionStrings[fsfComment] + '=' + rsFuncComment);
+  end;
+end;
 
 initialization
   FileFunctionsStr := TStringList.Create;
-  for i := Low(TFileFunction) to Pred(fsfInvalid) do
-    FileFunctionsStr.Add(TFileFunctionStrings[i]);
 
 finalization
   FreeAndNil(FileFunctionsStr);

@@ -211,6 +211,23 @@ resourcestring
   rsColSize = 'Size';
   rsColDate = 'Date';
   rsColAttr = 'Attr';
+
+  // File function names
+  rsFuncName = 'Name';
+  rsFuncExt = 'Extension';
+  rsFuncSize = 'Size';
+  rsFuncAttr = 'Attributes';
+  rsFuncPath = 'Path';
+  rsFuncGroup = 'Group';
+  rsFuncOwner = 'Owner';
+  rsFuncMTime = 'Modification date/time';
+  rsFuncCTime = 'Creation date/time';
+  rsFuncATime = 'Access date/time';
+  rsFuncLinkTo = 'Link to';
+  rsFuncNameNoExt = 'Name without extension';
+  rsFuncType = 'Type';
+  rsFuncComment = 'Comment';
+
   // Tools
   rsToolViewer = 'Viewer';
   rsToolEditor = 'Editor';

@@ -7,7 +7,7 @@
    
    contributors:
 
-   Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -471,12 +471,12 @@ end;
 
 procedure TfColumnsSetConf.AddNewField;
 begin
-  stgColumns.RowCount:=stgColumns.RowCount+1;
-  stgColumns.Cells[1,stgColumns.RowCount-1]:='Field N'+IntToStr(stgColumns.RowCount-1);
-  stgColumns.Cells[2,stgColumns.RowCount-1]:='50';
-  stgColumns.Cells[3,stgColumns.RowCount-1]:='<-';
-  stgColumns.Cells[4,stgColumns.RowCount-1]:='';
-  stgColumns.Objects[6,stgColumns.RowCount-1]:=TColPrm.Create;
+  stgColumns.RowCount:= stgColumns.RowCount + 1;
+  stgColumns.Cells[1,stgColumns.RowCount-1]:= EmptyStr;
+  stgColumns.Cells[2,stgColumns.RowCount-1]:= '50';
+  stgColumns.Cells[3,stgColumns.RowCount-1]:= '<-';
+  stgColumns.Cells[4,stgColumns.RowCount-1]:= '';
+  stgColumns.Objects[6,stgColumns.RowCount-1]:= TColPrm.Create;
 
   UpdateColumnClass;
 end;
@@ -1017,16 +1017,25 @@ begin
 end;
 
 procedure TfColumnsSetConf.MenuFieldsClick(Sender: TObject);
+var
+  MenuItem: TMenuItem absolute Sender;
 begin
-  case (Sender as TMenuItem).Tag of
+  if Length(stgColumns.Cells[1,btnAdd.Tag]) = 0 then
+  begin
+    if MenuItem.Tag = 0 then
+      stgColumns.Cells[1,btnAdd.Tag]:= Copy(MenuItem.Caption, 1, Pos('(', MenuItem.Caption) - 3)
+    else
+      stgColumns.Cells[1,btnAdd.Tag]:= MenuItem.Caption;
+  end;
+  case MenuItem.Tag of
     0:  begin
-          stgColumns.Cells[4,btnAdd.Tag]:=stgColumns.Cells[4,btnAdd.Tag]+'[DC().'+(Sender as TMenuItem).Caption+'{}] ';
+          stgColumns.Cells[4,btnAdd.Tag]:= stgColumns.Cells[4,btnAdd.Tag]+'[DC().'+MenuItem.Hint+'{}] ';
         end;
     1: begin
-          stgColumns.Cells[4,btnAdd.Tag]:=stgColumns.Cells[4,btnAdd.Tag]+'[Plugin('+(Sender as TMenuItem).Parent.Caption+').'+(Sender as TMenuItem).Caption+'{}] ';
+          stgColumns.Cells[4,btnAdd.Tag]:= stgColumns.Cells[4,btnAdd.Tag]+'[Plugin('+MenuItem.Parent.Caption+').'+MenuItem.Caption+'{}] ';
        end;
     2: begin
-          stgColumns.Cells[4,btnAdd.Tag]:=stgColumns.Cells[4,btnAdd.Tag]+'[Plugin('+(Sender as TMenuItem).Parent.Parent.Caption+').'+(Sender as TMenuItem).Parent.Caption+'{' + (Sender as TMenuItem).Caption + '}] ';
+          stgColumns.Cells[4,btnAdd.Tag]:= stgColumns.Cells[4,btnAdd.Tag]+'[Plugin('+MenuItem.Parent.Parent.Caption+').'+MenuItem.Parent.Caption+'{' + MenuItem.Caption + '}] ';
        end;
   end;
  EditorSaveResult(Sender);
@@ -1106,8 +1115,9 @@ begin
          begin
            MI:=TMenuItem.Create(pmFields);
            MI.Tag:=0;
-           MI.Caption:=FileFunctionsStr[i];
-           MI.OnClick:=@MenuFieldsClick;
+           MI.Hint:= FileFunctionsStr.Names[i];
+           MI.Caption:= FileFunctionsStr.ValueFromIndex[i] + '  (' + MI.Hint + ')';
+           MI.OnClick:= @MenuFieldsClick;
            pmFields.Items.Items[0].Add(MI);
          end;
   //Plugins
