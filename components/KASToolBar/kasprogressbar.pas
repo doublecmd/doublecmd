@@ -54,7 +54,6 @@ type
     {$IFDEF LCLWIN32}
     FOwnerForm: TWinControl;
     FTaskbarList: ITaskbarList;
-    FTaskbarList2: ITaskbarList2;
     FTaskbarList3: ITaskbarList3;
     {$ENDIF}
   protected
@@ -84,7 +83,10 @@ end;
 procedure TKASProgressBar.InitializeWnd;
 begin
   inherited InitializeWnd;
-  FOwnerForm:= GetParentForm(Self);
+  if CheckWin32Version(6, 1) then
+    FOwnerForm:= GetParentForm(Self)
+  else
+    FOwnerForm:= nil;
 end;
 {$ENDIF}
 
@@ -93,20 +95,14 @@ begin
   inherited Create(AOwner);
 
   {$IFDEF LCLWIN32}
-  // Works only under Windows 7
-  if (Win32MajorVersion >= 6) and (Win32MinorVersion >= 1) then
+  FTaskbarList3 := nil;
+  // Works only under Windows 7 and higher
+  if CheckWin32Version(6, 1) then
   begin
     FTaskbarList := ITaskbarList(CreateComObject(CLSID_TaskbarList));
-    if FTaskbarList = nil then
-      begin
-        FTaskbarList2 := nil;
-        FTaskbarList3 := nil;
-      end
-    else
+    if FTaskbarList <> nil then
       begin
         FTaskbarList.HrInit;
-
-        FTaskbarList.QueryInterface(CLSID_TaskbarList2, FTaskbarList2);
         FTaskbarList.QueryInterface(CLSID_TaskbarList3, FTaskbarList3);
       end;
   end;
