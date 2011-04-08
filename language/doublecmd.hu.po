@@ -2613,6 +2613,7 @@ msgid "Double Commander"
 msgstr ""
 
 #: TFRMMAIN.LBLCOMMANDPATH.CAPTION
+msgctxt "TFRMMAIN.LBLCOMMANDPATH.CAPTION"
 msgid "Path"
 msgstr "Útvonal"
 
@@ -5391,6 +5392,7 @@ msgid "Name"
 msgstr "Név"
 
 #: ulng.rscolsize
+msgctxt "ulng.rscolsize"
 msgid "Size"
 msgstr "Méret"
 
@@ -5681,6 +5683,68 @@ msgstr "%s szabad %s bájtból"
 
 #: ulng.rsfreemsgshort
 msgid "%s bytes free"
+msgstr ""
+
+#: ulng.rsfuncatime
+msgid "Access date/time"
+msgstr ""
+
+#: ulng.rsfuncattr
+msgctxt "ulng.rsfuncattr"
+msgid "Attributes"
+msgstr "Attribútumok"
+
+#: ulng.rsfunccomment
+msgid "Comment"
+msgstr ""
+
+#: ulng.rsfuncctime
+msgid "Creation date/time"
+msgstr ""
+
+#: ulng.rsfuncext
+msgid "Extension"
+msgstr ""
+
+#: ulng.rsfuncgroup
+msgctxt "ulng.rsfuncgroup"
+msgid "Group"
+msgstr "Csoport"
+
+#: ulng.rsfunclinkto
+msgid "Link to"
+msgstr ""
+
+#: ulng.rsfuncmtime
+msgid "Modification date/time"
+msgstr ""
+
+#: ulng.rsfuncname
+msgctxt "ulng.rsfuncname"
+msgid "Name"
+msgstr "Név"
+
+#: ulng.rsfuncnamenoext
+msgid "Name without extension"
+msgstr ""
+
+#: ulng.rsfuncowner
+msgctxt "ulng.rsfuncowner"
+msgid "Owner"
+msgstr "Tulajdonos"
+
+#: ulng.rsfuncpath
+msgctxt "ulng.rsfuncpath"
+msgid "Path"
+msgstr "Útvonal"
+
+#: ulng.rsfuncsize
+msgctxt "ulng.rsfuncsize"
+msgid "Size"
+msgstr "Méret"
+
+#: ulng.rsfunctype
+msgid "Type"
 msgstr ""
 
 #: ulng.rsharderrcreate

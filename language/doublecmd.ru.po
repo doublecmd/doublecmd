@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-04-02 21:03+0300\n"
+"PO-Revision-Date: 2011-04-08 20:34+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2594,6 +2594,7 @@ msgid "Double Commander"
 msgstr ""
 
 #: TFRMMAIN.LBLCOMMANDPATH.CAPTION
+msgctxt "TFRMMAIN.LBLCOMMANDPATH.CAPTION"
 msgid "Path"
 msgstr "Путь"
 
@@ -3119,10 +3120,9 @@ msgid "1"
 msgstr ""
 
 #: TFRMMULTIRENAME.EXTENSION.CAPTION
-#, fuzzy
 #| msgid "[E]xtension"
 msgid "[E] Extension"
-msgstr "[Р]асширение"
+msgstr "[E] Расширение"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
@@ -3191,16 +3191,14 @@ msgid "File Path"
 msgstr "Путь файла"
 
 #: TFRMMULTIRENAME.MICOUNTER.CAPTION
-#, fuzzy
 #| msgid "[C]ounter"
 msgid "[C] Counter"
-msgstr "[С]чётчик"
+msgstr "[C] Счётчик"
 
 #: TFRMMULTIRENAME.MIDAY.CAPTION
-#, fuzzy
 #| msgid "[D]ay"
 msgid "[D] Day"
-msgstr "[Д]ень"
+msgstr "[D] День"
 
 #: TFRMMULTIRENAME.MIDAY1.CAPTION
 msgid "[DD] Day (2 digits)"
@@ -3227,30 +3225,27 @@ msgid "[Ex:y] Characters from position x to y"
 msgstr "[Рx:x]асширени"
 
 #: TFRMMULTIRENAME.MIHOUR.CAPTION
-#, fuzzy
 #| msgid "[h]our"
 msgid "[h] Hour"
-msgstr "[Ч]ас"
+msgstr "[h] Час"
 
 #: TFRMMULTIRENAME.MIHOUR1.CAPTION
 msgid "[hh] Hour (2 digits)"
 msgstr ""
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-#, fuzzy
 #| msgid "Mi[n]ute"
 msgid "[n] Minute"
-msgstr "[Ми]нута"
+msgstr "[n] Минута"
 
 #: TFRMMULTIRENAME.MIMINUTE1.CAPTION
 msgid "[nn] Minute (2 digits)"
 msgstr ""
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
-#, fuzzy
 #| msgid "[M]onth"
 msgid "[M] Month"
-msgstr "[Ме]сяц"
+msgstr "[M] Месяц"
 
 #: TFRMMULTIRENAME.MIMONTH1.CAPTION
 msgid "[MM] Month (2 digits)"
@@ -3265,10 +3260,9 @@ msgid "[MMMM] Month name (long, e.g. \"january\")"
 msgstr ""
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
-#, fuzzy
 #| msgid "[N]ame"
 msgid "[N] Name"
-msgstr "[И]мя"
+msgstr "[N] Имя"
 
 #: TFRMMULTIRENAME.MINAMEX.CAPTION
 #, fuzzy
@@ -3295,20 +3289,18 @@ msgid "Name..."
 msgstr "Имя..."
 
 #: TFRMMULTIRENAME.MISECOND.CAPTION
-#, fuzzy
 #| msgid "[s]econd"
 msgid "[s] Second"
-msgstr "[С]екунда"
+msgstr "[s] Секунда"
 
 #: TFRMMULTIRENAME.MISECOND1.CAPTION
 msgid "[ss] Second (2 digits)"
 msgstr ""
 
 #: TFRMMULTIRENAME.MIYEAR.CAPTION
-#, fuzzy
 #| msgid "[Y] Year"
 msgid "[Y] Year (2 digits)"
-msgstr "[Г]од"
+msgstr "[Y] Год (двузначный)"
 
 #: TFRMMULTIRENAME.MIYEAR1.CAPTION
 msgid "[YYYY] Year (4 digits)"
@@ -5354,6 +5346,7 @@ msgid "Name"
 msgstr "Имя"
 
 #: ulng.rscolsize
+msgctxt "ulng.rscolsize"
 msgid "Size"
 msgstr "Размер"
 
@@ -5640,6 +5633,68 @@ msgstr "Свободно %s из %s байт"
 #: ulng.rsfreemsgshort
 msgid "%s bytes free"
 msgstr "%s байт свободно"
+
+#: ulng.rsfuncatime
+msgid "Access date/time"
+msgstr "Дата/время последнего доступа"
+
+#: ulng.rsfuncattr
+msgctxt "ulng.rsfuncattr"
+msgid "Attributes"
+msgstr "Атрибуты"
+
+#: ulng.rsfunccomment
+msgid "Comment"
+msgstr "Комментарий"
+
+#: ulng.rsfuncctime
+msgid "Creation date/time"
+msgstr "Дата/время создания"
+
+#: ulng.rsfuncext
+msgid "Extension"
+msgstr "Расширение"
+
+#: ulng.rsfuncgroup
+msgctxt "ulng.rsfuncgroup"
+msgid "Group"
+msgstr "Группа"
+
+#: ulng.rsfunclinkto
+msgid "Link to"
+msgstr "Ссылка на"
+
+#: ulng.rsfuncmtime
+msgid "Modification date/time"
+msgstr "Дата/время модификации"
+
+#: ulng.rsfuncname
+msgctxt "ulng.rsfuncname"
+msgid "Name"
+msgstr "Имя"
+
+#: ulng.rsfuncnamenoext
+msgid "Name without extension"
+msgstr "Имя без расширения"
+
+#: ulng.rsfuncowner
+msgctxt "ulng.rsfuncowner"
+msgid "Owner"
+msgstr "Владелец"
+
+#: ulng.rsfuncpath
+msgctxt "ulng.rsfuncpath"
+msgid "Path"
+msgstr "Путь"
+
+#: ulng.rsfuncsize
+msgctxt "ulng.rsfuncsize"
+msgid "Size"
+msgstr "Размер"
+
+#: ulng.rsfunctype
+msgid "Type"
+msgstr "Тип"
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."

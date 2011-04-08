@@ -2616,6 +2616,7 @@ msgid "Double Commander"
 msgstr "Double Commander"
 
 #: TFRMMAIN.LBLCOMMANDPATH.CAPTION
+msgctxt "TFRMMAIN.LBLCOMMANDPATH.CAPTION"
 msgid "Path"
 msgstr "Pfad"
 
@@ -5412,6 +5413,7 @@ msgid "Name"
 msgstr "Name"
 
 #: ulng.rscolsize
+msgctxt "ulng.rscolsize"
 msgid "Size"
 msgstr "Grösse"
 
@@ -5700,6 +5702,68 @@ msgstr "%s Byte von %s frei"
 #: ulng.rsfreemsgshort
 msgid "%s bytes free"
 msgstr "%s Bytes frei"
+
+#: ulng.rsfuncatime
+msgid "Access date/time"
+msgstr ""
+
+#: ulng.rsfuncattr
+msgctxt "ulng.rsfuncattr"
+msgid "Attributes"
+msgstr "Attribute"
+
+#: ulng.rsfunccomment
+msgid "Comment"
+msgstr ""
+
+#: ulng.rsfuncctime
+msgid "Creation date/time"
+msgstr ""
+
+#: ulng.rsfuncext
+msgid "Extension"
+msgstr ""
+
+#: ulng.rsfuncgroup
+msgctxt "ulng.rsfuncgroup"
+msgid "Group"
+msgstr "Gruppe"
+
+#: ulng.rsfunclinkto
+msgid "Link to"
+msgstr ""
+
+#: ulng.rsfuncmtime
+msgid "Modification date/time"
+msgstr ""
+
+#: ulng.rsfuncname
+msgctxt "ulng.rsfuncname"
+msgid "Name"
+msgstr "Name"
+
+#: ulng.rsfuncnamenoext
+msgid "Name without extension"
+msgstr ""
+
+#: ulng.rsfuncowner
+msgctxt "ulng.rsfuncowner"
+msgid "Owner"
+msgstr "Besitzer"
+
+#: ulng.rsfuncpath
+msgctxt "ulng.rsfuncpath"
+msgid "Path"
+msgstr "Pfad"
+
+#: ulng.rsfuncsize
+msgctxt "ulng.rsfuncsize"
+msgid "Size"
+msgstr "Grösse"
+
+#: ulng.rsfunctype
+msgid "Type"
+msgstr ""
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
