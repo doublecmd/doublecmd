@@ -34,7 +34,7 @@ interface
 uses
   LCLType, Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ComCtrls
   {$IFDEF LCLWIN32}
-  , ComObj, dwTaskbarList
+  , InterfaceBase, ComObj, dwTaskbarList
   {$ENDIF}
   {$IFDEF LCLGTK2}
   , Gtk2
@@ -52,7 +52,7 @@ type
   private
     FShowInTaskbar: Boolean;
     {$IFDEF LCLWIN32}
-    FOwnerForm: TWinControl;
+    FTaskBarEntryHandle: HWND;
     FTaskbarList: ITaskbarList;
     FTaskbarList3: ITaskbarList3;
     {$ENDIF}
@@ -81,12 +81,18 @@ end;
 
 {$IFDEF LCLWIN32}
 procedure TKASProgressBar.InitializeWnd;
+var
+  aOwnerForm: TWinControl;
 begin
   inherited InitializeWnd;
   if CheckWin32Version(6, 1) then
-    FOwnerForm:= GetParentForm(Self)
-  else
-    FOwnerForm:= nil;
+  begin
+    aOwnerForm:= GetParentForm(Self);
+    if Assigned(aOwnerForm) and (aOwnerForm <> Application.MainForm) then
+      FTaskBarEntryHandle := aOwnerForm.Handle
+    else
+      FTaskBarEntryHandle := Widgetset.AppHandle;
+  end;
 end;
 {$ENDIF}
 
@@ -96,6 +102,7 @@ begin
 
   {$IFDEF LCLWIN32}
   FTaskbarList3 := nil;
+  FTaskBarEntryHandle := INVALID_HANDLE_VALUE;
   // Works only under Windows 7 and higher
   if CheckWin32Version(6, 1) then
   begin
@@ -132,9 +139,9 @@ begin
     Position := 0;
 
 {$IFDEF LCLWIN32}
-  if FShowInTaskbar and Assigned(FOwnerForm) and Assigned(FTaskbarList3) then
+  if FShowInTaskbar and (FTaskBarEntryHandle <> INVALID_HANDLE_VALUE) and Assigned(FTaskbarList3) then
   begin
-    FTaskbarList3.SetProgressValue(FOwnerForm.Handle, Position, Max);
+    FTaskbarList3.SetProgressValue(FTaskBarEntryHandle, Position, Max);
   end;
 {$ENDIF}
 
