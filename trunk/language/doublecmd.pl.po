@@ -2570,6 +2570,7 @@ msgid "Double Commander"
 msgstr "Double Commander"
 
 #: TFRMMAIN.LBLCOMMANDPATH.CAPTION
+msgctxt "TFRMMAIN.LBLCOMMANDPATH.CAPTION"
 msgid "Path"
 msgstr "Ścieżka"
 
@@ -5320,6 +5321,7 @@ msgid "Name"
 msgstr "Nazwa"
 
 #: ulng.rscolsize
+msgctxt "ulng.rscolsize"
 msgid "Size"
 msgstr "Rozmiar"
 
@@ -5609,6 +5611,68 @@ msgstr "Wolne %s z %s"
 msgid "%s bytes free"
 msgstr "%s bajtów wolnych"
 
+#: ulng.rsfuncatime
+msgid "Access date/time"
+msgstr ""
+
+#: ulng.rsfuncattr
+msgctxt "ulng.rsfuncattr"
+msgid "Attributes"
+msgstr "Atrybuty"
+
+#: ulng.rsfunccomment
+msgid "Comment"
+msgstr ""
+
+#: ulng.rsfuncctime
+msgid "Creation date/time"
+msgstr ""
+
+#: ulng.rsfuncext
+msgid "Extension"
+msgstr ""
+
+#: ulng.rsfuncgroup
+msgctxt "ulng.rsfuncgroup"
+msgid "Group"
+msgstr "Grupa"
+
+#: ulng.rsfunclinkto
+msgid "Link to"
+msgstr ""
+
+#: ulng.rsfuncmtime
+msgid "Modification date/time"
+msgstr ""
+
+#: ulng.rsfuncname
+msgctxt "ulng.rsfuncname"
+msgid "Name"
+msgstr "Nazwa"
+
+#: ulng.rsfuncnamenoext
+msgid "Name without extension"
+msgstr ""
+
+#: ulng.rsfuncowner
+msgctxt "ulng.rsfuncowner"
+msgid "Owner"
+msgstr "Właściciel"
+
+#: ulng.rsfuncpath
+msgctxt "ulng.rsfuncpath"
+msgid "Path"
+msgstr "Ścieżka"
+
+#: ulng.rsfuncsize
+msgctxt "ulng.rsfuncsize"
+msgid "Size"
+msgstr "Rozmiar"
+
+#: ulng.rsfunctype
+msgid "Type"
+msgstr ""
+
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Błąd podczas tworzenia twardego linku."
@@ -5772,6 +5836,9 @@ msgstr "Data %s nie jest obsługiwana"
 msgid "Directory %s exists!"
 msgstr "katalog %s już istnieje!"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgerreaborted
 msgid "Function aborted by user"
 msgstr "Przerwane pzrez użytkownika."
@@ -5796,9 +5863,6 @@ msgstr "Nie można otworzyć pliku"
 msgid "Error reading from file"
 msgstr "Błąd odczytu pliku"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgerrewrite
 msgid "Error writing to file"
 msgstr "Błąd przy zapisie pliku"
@@ -5979,6 +6043,9 @@ msgstr "Nowy plik"
 msgid "Next volume will be unpacked"
 msgstr "Kolejna część będzie rozpakowana"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgnofilesselected
 msgid "No files selected."
 msgstr "Brak wybranych plików."
@@ -6003,9 +6070,6 @@ msgstr "Nie zaimplementowo."
 msgid "Password:"
 msgstr "Hasło:"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
 msgstr "Proszę wprowadzić hasło:"
@@ -6023,6 +6087,9 @@ msgctxt "ulng.rsmsgpopuphotcnf"
 msgid "&Configure"
 msgstr "&Konfiguruj"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"
 msgstr "&Usuń %s"
@@ -6047,9 +6114,6 @@ msgstr "Zmiana ustawień. Należy ponownie uruchomić Double Commandera"
 msgid "Selected %s of %s in %d of %d files"
 msgstr "Wybrano %s z %s w %d z %d plików"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only check sum files!"
 msgstr "Zaznacz tylko pliki z sumą kontrolną!"
@@ -6066,6 +6130,9 @@ msgstr "Zmień etykietę części"
 msgid "Target path:"
 msgstr "Ścieżka docelowa:"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "Wybrano zbyt dużo plików"
@@ -6090,9 +6157,6 @@ msgstr "Etykieta części:"
 msgid "Please enter the volume size:"
 msgstr "Proszę wpisać rozmiar części:"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
 msgstr "Zamazać %d wybranych plików/katalogów?"
