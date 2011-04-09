@@ -528,17 +528,20 @@ end;
 
 procedure TfrmMultiRename.InsertMask(const Mask:string;edChoose:Tedit);
 var
-  sTmp:string;
-  i:integer;
+  sTmp: String;
+  I: Integer;
 begin
-  if edChoose.SelLength>0 then
-    edChoose.Text:='';  //selected text clear
-  sTmp:=edChoose.Text;
-  i:=edChoose.SelStart+2;    //insert on current position
-  System.Insert(Mask,sTmp,i);
-  inc(i);
-  edChoose.Text:=sTmp;
-  edChoose.SelStart:=i;
+  if edChoose.SelLength > 0 then
+    edChoose.SelText:= Mask // Replace selected text
+  else
+    begin
+      sTmp:= edChoose.Text;
+      I:= edChoose.SelStart + 1;  // Insert on current position
+      UTF8Insert(Mask, sTmp, I);
+      Inc(I, UTF8Length(Mask));
+      edChoose.Text:= sTmp;
+      edChoose.SelStart:= I - 1;
+    end;
 end;
 
 procedure TfrmMultiRename.InsertMask(const Mask:string;editNr:PtrInt);
@@ -552,9 +555,9 @@ end;
 procedure TfrmMultiRename.btnRestoreClick(Sender: TObject);
 begin
   edName.Text:='[N]';
-  edName.SelStart:=length(edName.Text);
+  edName.SelStart:= UTF8Length(edName.Text);
   edExt.Text:='[E]';
-  edExt.SelStart:=length(edExt.Text);
+  edExt.SelStart:= UTF8Length(edExt.Text);
   edFind.Text:='';
   edReplace.Text:='';
   cbRegExp.Checked:=False;
@@ -570,7 +573,7 @@ begin
     edFile.Text:=IncludeTrailingBackslash(lsvwFile.Items.Item[0].SubItems[1])+'default.log'
   else
     edFile.Text:='default.log';
-  edFile.SelStart:=length(edFile.Text);
+  edFile.SelStart:= UTF8Length(edFile.Text);
   cbPresets.Text:='';
   FLastPreset:='';
 end;
@@ -601,7 +604,7 @@ begin
         end;
       '=':
         begin
-          Result:= FormatFileFunction(Copy(sFormatStr, 2, Length(sFormatStr) - 1), FFiles.Items[ItemNr], FFileSource);
+          Result:= FormatFileFunction(UTF8Copy(sFormatStr, 2, UTF8Length(sFormatStr) - 1), FFiles.Items[ItemNr], FFileSource);
         end;
       else
       begin
@@ -699,8 +702,8 @@ var
 begin
   i:=0;
   for c:=0 to lsvwFile.Items.Count-1 do
-    if i<length(ChangeFileExt(lsvwFile.Items[c].Caption,'')) then
-      i:=length(ChangeFileExt(lsvwFile.Items[c].Caption,''));
+    if i < UTF8Length(ChangeFileExt(lsvwFile.Items[c].Caption,'')) then
+      i:= UTF8Length(ChangeFileExt(lsvwFile.Items[c].Caption,''));
   InsertMask('[N1:'+inttostr(i)+']',ppNameMenu.Tag);
 end;
 
@@ -724,8 +727,8 @@ begin
   begin
     sTmp:=ExtractFileExt(lsvwFile.Items[c].Caption);
     delete(sTmp,1,1);
-    if i<length(sTmp) then
-      i:=length(sTmp);
+    if i<UTF8Length(sTmp) then
+      i:=UTF8Length(sTmp);
   end;
   InsertMask('[E1:'+inttostr(i)+']',ppNameMenu.Tag);
 end;
