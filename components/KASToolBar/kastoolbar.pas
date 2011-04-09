@@ -603,7 +603,7 @@ end;
 procedure TKASToolBar.LoadFromIniFile(IniFile: TIniFile);
 var  
   I: Integer;
-  sMenu: String;
+  sMenu, sHotKey: String;
 begin
   BeginUpdate;
   try
@@ -615,7 +615,15 @@ begin
         if (sMenu = '-') and not FShowDividerAsButton then
           AddDivider
         else
-          AddButton('', FBarFile.GetButtonX(I, CmdX), sMenu, FBarFile.GetButtonX(I, ButtonX));
+          begin
+            sHotKey := FBarFile.GetButtonX(I, MiskX);
+            if sHotKey = '' then
+              AddButton('', FBarFile.GetButtonX(I, CmdX), sMenu,
+                        FBarFile.GetButtonX(I, ButtonX))
+            else
+              AddButton('', FBarFile.GetButtonX(I, CmdX), sMenu+' ('+sHotKey+')',
+                        FBarFile.GetButtonX(I, ButtonX));
+          end;
       end;
   finally
     EndUpdate;

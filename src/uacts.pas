@@ -62,7 +62,8 @@ const cf_Null=0;
                                           State: TFileSourceOperationState);
    procedure OnCalcChecksumStateChanged(Operation: TFileSourceOperation;
                                         State: TFileSourceOperationState);
-
+   procedure GetCommandFromBar (const cFilename, cParam: string;
+                                var Com, Par, Pat:string);
   public
    FActionsState: TStringHashList;
    constructor Create;
@@ -256,6 +257,8 @@ const cf_Null=0;
    procedure cm_NetworkConnect(param: string='');
    procedure cm_NetworkDisconnect(param: string='');
    procedure cm_HorizontalFilePanels(param: string='');
+   // Internal commands
+   procedure cm_Int_RunCommandFromBarFile(param: string='');
 
    // Viewer
    procedure cm_Viewer_About(param: string='');
@@ -285,7 +288,8 @@ uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      uFileSourceCalcStatisticsOperation, uFileSource, uFileSourceProperty,
      uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
-     uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation;
+     uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation, uFindEx,
+     uTypes;
 
 { TActs }
 
@@ -2875,6 +2879,62 @@ begin
   gHorizontalFilePanels := not gHorizontalFilePanels;
   frmMain.actHorizontalFilePanels.Checked := gHorizontalFilePanels;
   frmMain.UpdateWindowView;
+end;
+
+procedure TActs.cm_Int_RunCommandFromBarFile(param: string='');
+var
+  SR : TSearchRecEx;
+  Res, i : Integer;
+  sCmd, sParam, sPath : string;
+begin
+  Res := FindFirstEx(gpCfgDir + '*.bar', faAnyFile, SR);
+  while Res = 0 do
+  begin
+    GetCommandFromBar (gpCfgDir + Sr.Name, param, sCmd, sParam, sPath);
+    if sCmd = '' then
+      Res := FindNextEx(SR)
+    else
+      Res := -1;
+  end;
+  FindCloseEx(SR);
+  if sCmd <> '' then
+    begin
+      sParam:= ReplaceEnvVars(sParam);
+      if Actions.Execute(sCmd, sParam) = uActs.cf_Error then
+          //Result:= True
+          //  else
+        begin
+          sCmd:= mbExpandFileName(sCmd);
+          sPath:= ReplaceEnvVars(sPath);
+          if sPath <> '' then
+            mbSetCurrentDir(sPath);
+          // Only add a space after command if there are parameters.
+          if Length(sParam) > 0 then
+            sParam := ' ' + sParam;
+          //Result:= ExecCmdFork(Format('"%s"%s', [sCmd, sParam]));
+          ExecCmdFork(Format('"%s"%s', [sCmd, sParam]));
+        end;
+    end;
+end;
+
+procedure TActs.GetCommandFromBar (const cFilename, cParam: string; var Com, Par, Pat:string);
+var
+  i, BtnCount: integer;
+  IniFile: TIniFileEx=nil;
+begin
+  Com :='';
+  IniFile:= TIniFileEx.Create(cFilename);
+  BtnCount := IniFile.ReadInteger('Buttonbar', 'Buttoncount', 0);
+  for i := 1 to BtnCount do
+    begin
+       if IniFile.ReadString('Buttonbar', 'misk' + IntToStr(i), '') = cParam then
+         begin
+           Com := IniFile.ReadString('Buttonbar', 'cmd' + IntToStr(i), '');
+           Par := IniFile.ReadString('Buttonbar', 'param' + IntToStr(i), '');
+           Pat := IniFile.ReadString('Buttonbar', 'path' + IntToStr(i), '');
+         end;
+    end;
+  FreeThenNil(IniFile);
 end;
 
 procedure TActs.cm_Viewer_DeleteFile(param: string='');

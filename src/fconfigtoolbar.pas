@@ -35,9 +35,12 @@ type
   { TfrmConfigToolBar }
 
   TfrmConfigToolBar = class(TForm)
+    btnClearHotKey: TButton;
     btnAppendButton: TButton;
     btnCloneButton: TButton;
     cbIsSeparator: TCheckBox;
+    lblHotKeys: TLabel;
+    edtHotKeys: TEdit;
     lblIconSize: TLabel;
     lblIconSizeValue: TLabel;
     lblBarSizeValue: TLabel;
@@ -76,13 +79,16 @@ type
     lblStartPath: TLabel;
     lblToolTip: TLabel;
     procedure btnAppendMoreClick(Sender: TObject);
+    procedure btnClearHotKeyClick(Sender: TObject);
     procedure btnCloneButtonClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);
     procedure btnAppendButtonClick(Sender: TObject);
     procedure btnOpenBarFileClick(Sender: TObject);
     procedure cbCommandSelect(Sender: TObject);
-    procedure cbFlatButtonsChange(Sender: TObject);
     procedure cbIsSeparatorChange(Sender: TObject);
+    procedure edtHotKeysKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtHotKeysKeyPress(Sender: TObject; var Key: char);
     procedure edtToolTipChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
@@ -113,6 +119,8 @@ type
     FBarFileName: UTF8String;
     LastToolButton : Integer;
     ToolButtonMouseX, ToolButtonMouseY, ToolDragButtonNumber: integer; // For dragging
+    HintWindow: THintWindow;
+    FHotKeyList: TStringList;
     procedure FillActionLists;
     procedure WakeSleepControls();
     procedure ClearControls;
@@ -122,9 +130,14 @@ type
     function  GetSelectedButton: Integer;
     procedure InsertButton(InsertAt: Integer);
     function AddSpecialButton(const sCommand: AnsiString; out aFileName: UTF8String): Boolean;
+    procedure LoadHotKeyList;
+    function GetHotKey (IndexButton:integer): string;
+    procedure SetButtonHotKey;
+    procedure ShowHint(Control: TControl; HintText: String);
 
   public
     constructor Create(TheOwner: TComponent; const aBarFileName: UTF8String); reintroduce;
+    destructor Destroy; override;
   end;
 
   function ShowConfigToolbar(const aBarFileName: UTF8String; iButtonIndex : Integer = -1): Boolean;
@@ -134,8 +147,8 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, HelpIntfs, uClassesEx, uOSForms, uPixMapManager,
-  uGlobsPaths, uGlobs, uDCUtils, uOSUtils;
+  LCLProc, HelpIntfs, uClassesEx, uOSForms, uPixMapManager, uLng,
+  uGlobsPaths, uGlobs, uDCUtils, uOSUtils, uhotkeymanger, uKeyboard;
 
 function ShowConfigToolbar(const aBarFileName: UTF8String; iButtonIndex : Integer = -1): Boolean;
 begin
@@ -151,6 +164,7 @@ end;
 const
   cOpenBar = 'cm_OpenBar';
   cShowButtonMenu = 'cm_ShowButtonMenu';
+  cHotKeyCommand = 'cm_Int_RunCommandFromBarFile';
 
 { TfrmConfigToolBar }
 
@@ -158,19 +172,60 @@ constructor TfrmConfigToolBar.Create(TheOwner: TComponent; const aBarFileName:UT
 begin
   FBarFileName:= aBarFileName;
   LastToolButton := -1;
+  FHotKeyList:= TStringList.Create;
+  HintWindow:= THintWindow.Create(Self);
+  HintWindow.AutoHide:= True;
   inherited Create(TheOwner);
 end;
 
-procedure TfrmConfigToolBar.FillActionLists;
+destructor TfrmConfigToolBar.Destroy;
 begin
-  cbCommand.Items.AddStrings(Actions.CommandList);
-  cbCommand.Sorted:=true;
+  FreeThenNil(FHotKeyList);
+  FreeThenNil(HintWindow);
+  inherited Destroy;
+end;
+
+procedure TfrmConfigToolBar.FillActionLists;
+var
+  I: integer;
+  sItem: String;
+begin
+  for I:= 0 to Actions.CommandList.Count - 1 do
+    begin
+      sItem:= Actions.CommandList.Strings[I];
+      if (NumCountChars('_', sItem) = 1) then
+        cbCommand.Items.Add(sItem);
+    end;
+  cbCommand.Sorted:= True;
+end;
+
+procedure TfrmConfigToolBar.LoadHotKeyList;
+var
+  i,j: Integer;
+  lstl:TStringList;
+begin
+  lstl:=TStringList.Create;
+  try
+    for i:=0 to HotMan.HotkeyList.Count - 1 do
+    begin
+      HotMan.GetControlsListBy(HotMan.HotkeyList[i],lstl);
+      for j:=0 to lstl.Count-1 do
+      begin
+        if Assigned(lstl.Objects[j]) then
+          if THotkeyInfoClass(lstl.Objects[j]).ACommand = cHotKeyCommand then
+            FHotKeyList.AddObject(HotMan.HotkeyList[i], lstl.Objects[j]);
+      end; // for j
+    end; // for i
+  finally
+    FreeAndNil(lstl);
+  end;
 end;
 
 procedure TfrmConfigToolBar.FormShow(Sender: TObject);
 var
   IniBarFile: TIniFileEx;
 begin
+  LoadHotKeyList;
   FillActionLists;
   trbBarSize.Position := gToolBarButtonSize div 2;
   trbIconSize.Position:= gToolBarIconSize div 2;
@@ -205,12 +260,21 @@ begin
   ktbBar.GlyphSize := trbIconSize.Position*2;
   ktbBar.SetButtonSize(trbBarSize.Position*2,trbBarSize.Position*2);
   Update;
-  Height:= sbIconExample.Top + sbIconExample.Height + 18;
+  Height:= edtHotKeys.Top + edtHotKeys.Height + 3;
 end;
 
-procedure TfrmConfigToolBar.cbFlatButtonsChange(Sender: TObject);
+function TfrmConfigToolBar.GetHotKey(IndexButton: Integer): String;
+var
+  i: integer;
+  sHotKey: string;
 begin
-
+  Result := '';
+  sHotKey := ktbBar.GetButtonX(IndexButton, MiskX);
+  for i:=0 to FHotKeyList.Count-1 do
+    begin
+      if THotkeyInfoClass(FHotKeyList.Objects[i]).AParams = sHotKey then
+         Result := FHotKeyList.Strings[i];
+    end;
 end;
 
 procedure TfrmConfigToolBar.cbIsSeparatorChange(Sender: TObject);
@@ -226,7 +290,7 @@ end;
 
 procedure TfrmConfigToolBar.edtToolTipChange(Sender: TObject);
 begin
-  cbIsSeparator.Checked:=(edtToolTip.Text='-');
+  cbIsSeparator.Checked:= (edtToolTip.Text='-');
   WakeSleepControls;
 end;
 
@@ -292,7 +356,7 @@ end;
 (*Clone selected button on tool bar*)
 procedure TfrmConfigToolBar.btnCloneButtonClick(Sender: TObject);
 var
-SelectedIndex: Integer = 0;
+  SelectedIndex: Integer = 0;
 begin
   SelectedIndex := GetSelectedButton;
   if SelectedIndex > -1 then
@@ -316,7 +380,7 @@ end;
 
 procedure TfrmConfigToolBar.btnOKClick(Sender: TObject);
 var
-  IniBarFile: TIniFileEx;
+  IniBarFile: TIniFileEx = nil;
 begin
   Save;
 
@@ -326,13 +390,13 @@ begin
   { TODO : Maybe we should get rid of gToolBarSmallIcons, it's useless now. }
   gToolBarSmallIcons:= (gToolBarButtonSize<>gToolBarIconSize);
 
-  IniBarFile:= TIniFileEx.Create(FBarFileName);
   try
+    IniBarFile:= TIniFileEx.Create(FBarFileName);
     IniBarFile.CacheUpdates:= True;
     ktbBar.SaveToIniFile(IniBarFile);
     IniBarFile.UpdateFile;
   finally
-    FreeAndNil(IniBarFile);
+    FreeThenNil(IniBarFile);
   end;
 
   Close;
@@ -404,6 +468,7 @@ begin
   btnCloneButton.Enabled := MakeEnabled;
   btnDeleteButton.Enabled := MakeEnabled;
   btnAppendButton.Caption:= AddButtonName;
+  btnClearHotKey.Enabled:= Length(edtHotKeys.Text) <> 0;
 end;
 
 procedure TfrmConfigToolBar.ClearControls;
@@ -414,6 +479,8 @@ begin
   sbIconExample.Glyph := nil;
   edtParams.Text:= '';
   edtStartPath.Text:= '';
+  edtHotKeys.Text:='';
+  btnClearHotKey.Enabled:= False;
 end;
 
 procedure TfrmConfigToolBar.LoadButton(NumberOfButton: Integer);
@@ -424,6 +491,8 @@ begin
   edtParams.Text:= ktbBar.GetButtonX(NumberOfButton,ParamX);
   edtStartPath.Text:= ktbBar.GetButtonX(NumberOfButton,PathX);
   sbIconExample.Glyph := ktbBar.Buttons[NumberOfButton].Glyph;
+  edtHotKeys.Text :=  GetHotKey(NumberOfButton);
+  btnClearHotKey.Enabled:= Length(edtHotKeys.Text) <> 0;
 end;
 
 procedure TfrmConfigToolBar.CopyButton(SourceButton, DestinationButton: Integer);
@@ -443,6 +512,10 @@ procedure TfrmConfigToolBar.Save;
 begin
    if (LastToolButton >= 0) and (ktbBar.ButtonCount > 0) then
       begin
+       ///// save hotkey /////
+       SetButtonHotKey;
+       FHotKeyList.Clear;
+       LoadHotKeyList;
        //---------------------
        ktbBar.SetButtonX(LastToolButton,MenuX,edtToolTip.Text);
        ktbBar.SetButtonX(LastToolButton,CmdX,cbCommand.Text);
@@ -451,6 +524,104 @@ begin
        ktbBar.SetButtonX(LastToolButton,ButtonX,kedtIconFileName.Text);
        //---------------------
       end;
+end;
+
+procedure TfrmConfigToolBar.btnClearHotKeyClick(Sender: TObject);
+begin
+  edtHotKeys.Text:= EmptyStr;
+  btnClearHotKey.Enabled:= False;
+  ktbBar.SetButtonX(LastToolButton, MiskX, EmptyStr);
+  HotMan.DeleteHotKey(GetHotKey(LastToolButton), 'FrmMain', 'FrmMain');
+end;
+
+procedure TfrmConfigToolBar.edtHotKeysKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+var
+  sCommand: String;
+  sShortCut: String;
+begin
+  sShortCut := ShortCutToTextEx(ShortCutEx(Key,GetKeyShiftStateEx));
+  edtHotKeys.Text := sShortCut;
+  Key := 0;
+  HintWindow.Hide;
+  if Length(sShortCut) > 0 then
+  begin
+    // Find hotkey
+    sCommand:= HotMan.FindFirstCommand(sShortCut, 'FrmMain', 'FrmMain');
+    if Length(sCommand) > 0 then
+    begin
+      ShowHint(edtHotKeys, Format(rsOptHotkeysShortCutUsedText1, [sShortCut, sCommand]));
+    end;
+  end;
+  btnClearHotKey.Enabled:= Length(edtHotKeys.Text) <> 0;
+end;
+
+procedure TfrmConfigToolBar.edtHotKeysKeyPress(Sender: TObject; var Key: char);
+begin
+  Key := #0;
+  edtHotKeys.Text := '';
+end;
+
+procedure TfrmConfigToolBar.SetButtonHotKey;
+var
+  sShortCut, sOldCommand: String;
+  st: TStringList;
+
+  //< local function for add hot key,
+  procedure AddHotKeyButton;
+  begin
+    HotMan.AddHotKeyEx(sShortCut,
+                       cHotKeyCommand,
+                       sShortCut,
+                       'FrmMain', 'FrmMain');
+    ktbBar.SetButtonX(LastToolButton, MiskX, edtHotKeys.Text);
+  end;
+
+begin
+   if Length(edtHotKeys.Text) = 0 then
+     ktbBar.SetButtonX(LastToolButton, MiskX, edtHotKeys.Text)
+   else
+    begin
+      sShortCut := edtHotKeys.Text;
+      sOldCommand := HotMan.FindFirstCommand(sShortCut, 'FrmMain', 'FrmMain');
+      if Length(sOldCommand) = 0 then
+        AddHotKeyButton
+      else
+        begin
+          if (sOldCommand = cHotKeyCommand) or
+             (MessageDlg(rsOptHotkeysShortCutUsed,
+                         Format(rsOptHotkeysShortCutUsedText1,
+                                [sShortCut, sOldCommand]) + LineEnding +
+                         Format(rsOptHotkeysShortCutUsedText2,
+                                [cHotKeyCommand]),
+                         mtConfirmation, mbYesNo, 0) = mrYes) then
+            begin
+              if HotMan.DeleteHotKey(sShortCut, 'FrmMain', 'FrmMain') then
+                begin
+                  AddHotKeyButton;
+                end;
+            end;
+        end // Shortcut already used
+    end  // Clear shortcut
+end;
+
+procedure TfrmConfigToolBar.ShowHint(Control: TControl; HintText: String);
+var
+  Rect: TRect;
+  APoint: TPoint;
+begin
+  // Calculate hint position
+  Rect:= HintWindow.CalcHintRect(400, HintText, nil);
+  APoint:= Control.ClientOrigin;
+  with Rect do
+  begin
+    Right:= APoint.X + 8 + Right;
+    Bottom:= APoint.Y + Bottom - Control.Height;
+    Left:= APoint.X + 8;
+    Top:= APoint.Y - Control.Height;
+  end;
+  // Show hint
+  HintWindow.ActivateHint(Rect, HintText);
 end;
 
 (*Remove current button*)

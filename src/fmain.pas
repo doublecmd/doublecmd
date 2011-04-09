@@ -2648,6 +2648,7 @@ begin
         case PanelSelected of
           fpLeft: SetActiveFrame(fpRight);
           fpRight: SetActiveFrame(fpLeft);
+        else SetActiveFrame(fpLeft);
         end;
         Key := 0;
       end;

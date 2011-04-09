@@ -99,6 +99,10 @@ type
      function GetFormsListBy(Hotkey: string; List: TStringList): integer;
      function GetControlsListBy(Hotkey: string; List: TStringList): integer;
      function GetCommandsListBy(Hotkey: string; List: TStringList): integer;
+     {en
+        Find first command for hotkey and object
+     }
+     function FindFirstCommand(const AHotKey, AObjectName, AObjectFormName: String): String;
      //---------------------
      procedure LoadShortCutToActionList(ActionList: TActionList);
      //---------------------
@@ -768,6 +772,36 @@ begin
     end;
 end;
 
+function THotKeyManager.FindFirstCommand(const AHotKey, AObjectName,
+  AObjectFormName: String): String;
+var
+  I: Integer;
+  st: TStringList;
+begin
+  Result:= EmptyStr;
+  // Find hotkey index
+  I:= GetHotKeyIndex(AHotkey);
+  if I >= 0 then
+  begin
+    st:= TStringList(FHotList.Objects[I]);
+    // Find object name
+    I:= st.IndexOf(AObjectName);
+    if I >= 0 then
+    begin
+      st:= TStringList(st.Objects[I]);
+      // Find control name
+      I:= st.IndexOf(AObjectFormName);
+      if (I >= 0) then
+      begin
+       // Find first command
+       if (st.Count > 0) and Assigned(st.Objects[0]) then
+         begin
+           Result:= THotkeyInfoClass(st.Objects[0]).ACommand;
+         end;
+       end;
+    end;
+  end;
+end;
 
 procedure THotKeyManager.KeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
  //------------------------------------------------------
