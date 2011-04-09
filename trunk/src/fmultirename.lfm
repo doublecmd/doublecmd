@@ -678,5 +678,11 @@ object frmMultiRename: TfrmMultiRename
         OnClick = miSecond1Click
       end
     end
+    object N5: TMenuItem
+      Caption = '-'
+    end
+    object miPlugin: TMenuItem
+      Caption = 'Plugin'
+    end
   end
 end

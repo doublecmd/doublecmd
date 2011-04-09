@@ -217,7 +217,7 @@ implementation
 {$R *.lfm}
 
 uses
-  StrUtils, WdxPlugin, uLng, uWdxModule, uFileSystemFileSource, uOSUtils,
+  StrUtils, uLng, uFileSystemFileSource, uOSUtils,
   uFileFunctions;
 
 const
@@ -1097,73 +1097,15 @@ end;
 
 procedure TfColumnsSetConf.ButtonAddClick(Sender: TObject);
 var
-  Mi, mi2:TMenuItem;
-  i,j:integer;
-  point:TPoint;
-  sUnits: String;
+  Point: TPoint;
 begin
-// show column fields menu
-
-  pmFields.Items.Clear;
-
-  //DC commands
-
-       MI:=TMenuItem.Create(pmFields);
-       MI.Caption:='DC';
-       pmFields.Items.Add(MI);
-       for i:= 0 to FileFunctionsStr.Count-1 do
-         begin
-           MI:=TMenuItem.Create(pmFields);
-           MI.Tag:=0;
-           MI.Hint:= FileFunctionsStr.Names[i];
-           MI.Caption:= FileFunctionsStr.ValueFromIndex[i] + '  (' + MI.Hint + ')';
-           MI.OnClick:= @MenuFieldsClick;
-           pmFields.Items.Items[0].Add(MI);
-         end;
-  //Plugins
-       MI:=TMenuItem.Create(pmFields);
-       MI.Caption:='Plugins';
-       pmFields.Items.Add(MI);
-       for i:=0 to gWdxPlugins.Count-1 do
-         begin
-           MI:=TMenuItem.Create(pmFields);
-           MI.Caption:=gWdxPlugins.GetWdxModule(i).Name;
-           pmFields.Items.Items[1].Add(MI);
-           //Load fields list
-           if gWdxPlugins.GetWdxModule(i).IsLoaded=false then
-             if not (gWdxPlugins.GetWdxModule(i).LoadModule) then break;
-           for j:=0 to  gWdxPlugins.GetWdxModule(i).FieldList.Count-1 do
-             begin
-               with gWdxPlugins.GetWdxModule(i) do
-                 begin
-                   MI:=TMenuItem.Create(pmFields);
-                   MI.Tag:=1;
-                   MI.Caption:=FieldList[j];
-                   MI.OnClick:=@MenuFieldsClick;
-                   pmFields.Items.Items[1].Items[i].Add(MI);
-                   with TWdxField(FieldList.Objects[j]) do
-                   if FType <> ft_multiplechoice then
-                     begin
-                       sUnits:= FUnits;
-                       while sUnits <> EmptyStr do
-                       begin
-                         MI2:=TMenuItem.Create(pmFields);
-                         MI2.Tag:= 2;
-                         MI2.Caption:= Copy2SymbDel(sUnits, '|');
-                         MI2.OnClick:= @MenuFieldsClick;
-                         MI.Add(MI2);
-                       end;
-                     end;
-                 end;
-             end;
-         end;
-         
-         
-   point.x:=(Sender as TButton).Left-25;
-   point.y:=(Sender as TButton).top+(Sender as TButton).Height+40;;
-   point:=ClientToScreen(Point);
-   pmFields.PopUp(point.X,point.Y);
-  
+  // Fill column fields menu
+  FillContentFieldMenu(pmFields.Items, @MenuFieldsClick);
+  // Show popup menu
+  Point.x:= (Sender as TButton).Left - 25;
+  Point.y:= (Sender as TButton).Top + (Sender as TButton).Height + 40;
+  Point:= ClientToScreen(Point);
+  pmFields.PopUp(Point.X, Point.Y);
 end;
 
 procedure TfColumnsSetConf.OpenColorsPanel;
