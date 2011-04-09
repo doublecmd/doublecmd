@@ -27,7 +27,7 @@ unit uFileFunctions;
 interface
 
 uses
-  Classes, SysUtils, uFile, uFileProperty, uFileSource;
+  Classes, SysUtils, Menus, uFile, uFileProperty, uFileSource;
 
 type
   TFileFunction = (fsfName,
@@ -87,6 +87,8 @@ type
   function FormatFileFunction(FuncS: string; AFile: TFile; const AFileSource: IFileSource): string;
   function GetFileFunctionByName(FuncS: string): TFileFunction;
 
+  procedure FillContentFieldMenu(MenuItem: TMenuItem; OnMenuItemClick: TNotifyEvent);
+
   procedure FillFileFuncList;
 
 const
@@ -99,7 +101,7 @@ var
 implementation
 
 uses
-  uGlobs, uLng, uDefaultFilePropertyFormatter, uFileSourceProperty;
+  StrUtils, WdxPlugin, uWdxModule, uGlobs, uLng, uDefaultFilePropertyFormatter, uFileSourceProperty;
 
 //Return type (Script or DC or Plugin etc)
 function GetModType(str: String): String;
@@ -276,14 +278,75 @@ function GetFileFunctionByName(FuncS: String): TFileFunction;
 var
   AType, AFunc: String;
 begin
-  AType := upcase(GetModType(FuncS));
-  AFunc := upcase(GetModFunctionName(FuncS));
+  AType := UpCase(GetModType(FuncS));
+  AFunc := UpCase(GetModFunctionName(FuncS));
 
   // Only internal DC functions.
   if AType = sFuncTypeDC then
     Result := TFileFunction(FileFunctionsStr.IndexOfName(AFunc))
   else
     Result := fsfInvalid;
+end;
+
+procedure FillContentFieldMenu(MenuItem: TMenuItem; OnMenuItemClick: TNotifyEvent);
+var
+  Mi, mi2: TMenuItem;
+  i,j: Integer;
+  sUnits: String;
+begin
+  MenuItem.Clear;
+
+  // DC commands
+  MI:= TMenuItem.Create(MenuItem);
+  MI.Caption:= 'DC';
+  MenuItem.Add(MI);
+  for i:= 0 to FileFunctionsStr.Count-1 do
+    begin
+      MI:=TMenuItem.Create(MenuItem);
+      MI.Tag:=0;
+      MI.Hint:= FileFunctionsStr.Names[i];
+      MI.Caption:= FileFunctionsStr.ValueFromIndex[i] + '  (' + MI.Hint + ')';
+      MI.OnClick:= OnMenuItemClick;
+      MenuItem.Items[0].Add(MI);
+    end;
+
+  // Plugins
+  MI:=TMenuItem.Create(MenuItem);
+  MI.Caption:= 'Plugins';
+  MenuItem.Add(MI);
+  for i:=0 to gWdxPlugins.Count-1 do
+    begin
+     MI:=TMenuItem.Create(MenuItem);
+     MI.Caption:=gWdxPlugins.GetWdxModule(i).Name;
+     MenuItem.Items[1].Add(MI);
+     // Load fields list
+     if gWdxPlugins.GetWdxModule(i).IsLoaded=false then
+       if not (gWdxPlugins.GetWdxModule(i).LoadModule) then Break;
+         for j:=0 to  gWdxPlugins.GetWdxModule(i).FieldList.Count-1 do
+           begin
+             with gWdxPlugins.GetWdxModule(i) do
+               begin
+                 MI:=TMenuItem.Create(MenuItem);
+                 MI.Tag:=1;
+                 MI.Caption:=FieldList[j];
+                 MI.OnClick:= OnMenuItemClick;
+                 MenuItem.Items[1].Items[i].Add(MI);
+                 with TWdxField(FieldList.Objects[j]) do
+                 if FType <> ft_multiplechoice then
+                   begin
+                     sUnits:= FUnits;
+                     while sUnits <> EmptyStr do
+                     begin
+                       MI2:=TMenuItem.Create(MenuItem);
+                       MI2.Tag:= 2;
+                       MI2.Caption:= Copy2SymbDel(sUnits, '|');
+                       MI2.OnClick:= OnMenuItemClick;
+                       MI.Add(MI2);
+                     end;
+                   end;
+               end;
+           end;
+    end;
 end;
 
 procedure FillFileFuncList;

@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2007-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2011  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit fMultiRename;
@@ -78,6 +78,8 @@ type
     edFile: TEdit;
     cbLog: TCheckBox;
     btnRestore: TButton;
+    miPlugin: TMenuItem;
+    N5: TMenuItem;
     miDay3: TMenuItem;
     miDay1: TMenuItem;
     miMonth3: TMenuItem;
@@ -135,6 +137,7 @@ type
     procedure miSecondClick(Sender: TObject);
     procedure miYear1Click(Sender: TObject);
     procedure miYearClick(Sender: TObject);
+    procedure miPluginClick(Sender: TObject);
     procedure NameClick(Sender: TObject);
     procedure NameXClick(Sender: TObject);
     procedure NameXXClick(Sender: TObject);
@@ -210,7 +213,7 @@ implementation
 
 uses
   LCLProc, FileUtil, uDebug, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils,
-  uShowMsg, uFileSourceUtil, uFileProperty;
+  uShowMsg, uFileSourceUtil, uFileProperty, uFileFunctions;
 
 const
   sPresetsSection = 'MultiRenamePresets';
@@ -596,6 +599,10 @@ begin
                      StrToIntDef(edInterval.Text, 1) * ItemNr;
           Result := Format('%.' + cmbxWidth.Items[cmbxWidth.ItemIndex] + 'd', [Counter]);
         end;
+      '=':
+        begin
+          Result:= FormatFileFunction(Copy(sFormatStr, 2, Length(sFormatStr) - 1), FFiles.Items[ItemNr], FFileSource);
+        end;
       else
       begin
         // Assume it is date/time formatting string ([h][n][s][Y][M][D]).
@@ -658,20 +665,22 @@ end;
 
 procedure TfrmMultiRename.btnNameMenuClick(Sender: TObject);
 begin
-  ppNameMenu.AutoPopup:=false;
+  ppNameMenu.AutoPopup:= False;
+  FillContentFieldMenu(miPlugin, @miPluginClick);
   ppNameMenu.Popup(gbMaska.Parent.Left+gbMaska.Left+
                     btnNameMenu.Left,gbMaska.Parent.Top+
                     gbMaska.Top+btnNameMenu.Top);
-  ppNameMenu.Tag:=0;
+  ppNameMenu.Tag:= 0;
 end;
 
 procedure TfrmMultiRename.btnExtMenuClick(Sender: TObject);
 begin
-  ppNameMenu.AutoPopup:=false;
+  ppNameMenu.AutoPopup:= False;
+  FillContentFieldMenu(miPlugin, @miPluginClick);
   ppNameMenu.Popup(gbMaska.Parent.Left+gbMaska.Left+
                     btnExtMenu.Left,gbMaska.Parent.Top+
                     gbMaska.Top+btnExtMenu.Top);
-  ppNameMenu.Tag:=1;
+  ppNameMenu.Tag:= 1;
 end;
 
 procedure TfrmMultiRename.NameClick(Sender: TObject);
@@ -719,6 +728,25 @@ begin
       i:=length(sTmp);
   end;
   InsertMask('[E1:'+inttostr(i)+']',ppNameMenu.Tag);
+end;
+
+procedure TfrmMultiRename.miPluginClick(Sender: TObject);
+var
+  sMask: String;
+  MenuItem: TMenuItem absolute Sender;
+begin
+  case MenuItem.Tag of
+    0:  begin
+          sMask := '[=DC().' + MenuItem.Hint + '{}]';
+        end;
+    1: begin
+          sMask := '[=Plugin(' + MenuItem.Parent.Caption + ').' + MenuItem.Caption + '{}]';
+       end;
+    2: begin
+          sMask := '[=Plugin(' + MenuItem.Parent.Parent.Caption + ').' + MenuItem.Parent.Caption + '{' + MenuItem.Caption + '}]';
+       end;
+  end;
+  InsertMask(sMask, ppNameMenu.Tag);
 end;
 
 procedure TfrmMultiRename.CounterClick(Sender: TObject);
