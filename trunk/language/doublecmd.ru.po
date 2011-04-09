@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-04-08 20:34+0300\n"
+"PO-Revision-Date: 2011-04-09 18:29+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3180,11 +3180,11 @@ msgstr "Ширина"
 
 #: TFRMMULTIRENAME.LSVWFILE.COLUMNS[0].CAPTION
 msgid "Old File Name"
-msgstr ""
+msgstr "Старое имя"
 
 #: TFRMMULTIRENAME.LSVWFILE.COLUMNS[1].CAPTION
 msgid "New File Name"
-msgstr ""
+msgstr "Новое имя"
 
 #: TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION
 msgctxt "TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION"
@@ -3203,15 +3203,15 @@ msgstr "[D] День"
 
 #: TFRMMULTIRENAME.MIDAY1.CAPTION
 msgid "[DD] Day (2 digits)"
-msgstr ""
+msgstr "[DD] День (2 цифры)"
 
 #: TFRMMULTIRENAME.MIDAY2.CAPTION
 msgid "[DDD] Day of the week (short, e.g., \"mon\")"
-msgstr ""
+msgstr "[DDD] День недели (краткий, т.е., \"Пн\")"
 
 #: TFRMMULTIRENAME.MIDAY3.CAPTION
 msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
-msgstr ""
+msgstr "[DDDD] День недели (полный, т.е., \"понедельник\")"
 
 #: TFRMMULTIRENAME.MIEXTENSIONX.CAPTION
 #, fuzzy
@@ -3232,7 +3232,7 @@ msgstr "[h] Час"
 
 #: TFRMMULTIRENAME.MIHOUR1.CAPTION
 msgid "[hh] Hour (2 digits)"
-msgstr ""
+msgstr "[hh] Час (2 цифры)"
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
 #| msgid "Mi[n]ute"
@@ -3241,7 +3241,7 @@ msgstr "[n] Минута"
 
 #: TFRMMULTIRENAME.MIMINUTE1.CAPTION
 msgid "[nn] Minute (2 digits)"
-msgstr ""
+msgstr "[nn] Минута (2 цифры)"
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
 #| msgid "[M]onth"
@@ -3250,15 +3250,15 @@ msgstr "[M] Месяц"
 
 #: TFRMMULTIRENAME.MIMONTH1.CAPTION
 msgid "[MM] Month (2 digits)"
-msgstr ""
+msgstr "[MM] Месяц (2 цифры)"
 
 #: TFRMMULTIRENAME.MIMONTH2.CAPTION
 msgid "[MMM] Month name (short, e.g., \"jan\")"
-msgstr ""
+msgstr "[MMM] Наименование месяца (краткий, т.е., \"янв\")"
 
 #: TFRMMULTIRENAME.MIMONTH3.CAPTION
 msgid "[MMMM] Month name (long, e.g. \"january\")"
-msgstr ""
+msgstr "[MMM] Наименование месяца (полный, т.е., \"Январь\")"
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
 #| msgid "[N]ame"
@@ -3301,16 +3301,16 @@ msgstr "[s] Секунда"
 
 #: TFRMMULTIRENAME.MISECOND1.CAPTION
 msgid "[ss] Second (2 digits)"
-msgstr ""
+msgstr "[ss] Секунда (2 цифры)"
 
 #: TFRMMULTIRENAME.MIYEAR.CAPTION
 #| msgid "[Y] Year"
 msgid "[Y] Year (2 digits)"
-msgstr "[Y] Год (двузначный)"
+msgstr "[Y] Год (2 цифры)"
 
 #: TFRMMULTIRENAME.MIYEAR1.CAPTION
 msgid "[YYYY] Year (4 digits)"
-msgstr ""
+msgstr "[YYYY] Год (4 цифры)"
 
 #: TFRMMULTIRENAME.N1.CAPTION
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
