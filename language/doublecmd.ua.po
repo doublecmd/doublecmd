@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.4.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-04-02 23:48+0300\n"
+"PO-Revision-Date: 2011-04-09 20:11+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5655,7 +5655,7 @@ msgstr "%s байт вільно"
 
 #: ulng.rsfuncatime
 msgid "Access date/time"
-msgstr ""
+msgstr "Дата/Час доступу"
 
 #: ulng.rsfuncattr
 msgctxt "ulng.rsfuncattr"
@@ -5664,15 +5664,15 @@ msgstr "Атрибути"
 
 #: ulng.rsfunccomment
 msgid "Comment"
-msgstr ""
+msgstr "Коментар"
 
 #: ulng.rsfuncctime
 msgid "Creation date/time"
-msgstr ""
+msgstr "Дата/Час створення"
 
 #: ulng.rsfuncext
 msgid "Extension"
-msgstr ""
+msgstr "Розширення"
 
 #: ulng.rsfuncgroup
 msgctxt "ulng.rsfuncgroup"
@@ -5681,11 +5681,11 @@ msgstr "Група"
 
 #: ulng.rsfunclinkto
 msgid "Link to"
-msgstr ""
+msgstr "Посилання на"
 
 #: ulng.rsfuncmtime
 msgid "Modification date/time"
-msgstr ""
+msgstr "Дата/Час зміни"
 
 #: ulng.rsfuncname
 msgctxt "ulng.rsfuncname"
@@ -5694,7 +5694,7 @@ msgstr "Ім'я"
 
 #: ulng.rsfuncnamenoext
 msgid "Name without extension"
-msgstr ""
+msgstr "Ім’я без розширення"
 
 #: ulng.rsfuncowner
 msgctxt "ulng.rsfuncowner"
@@ -5713,7 +5713,7 @@ msgstr "Розмір"
 
 #: ulng.rsfunctype
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
