@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-04-09 18:29+0300\n"
+"PO-Revision-Date: 2011-04-09 18:42+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1374,7 +1374,7 @@ msgstr ""
 
 #: TFRMFILEEXECUTEYOURSELF.LBLFILENAME.CAPTION
 msgid "File name:"
-msgstr ""
+msgstr "Имя файла:"
 
 #: TFRMFILEEXECUTEYOURSELF.LBLFROMPATH.CAPTION
 msgctxt "TFRMFILEEXECUTEYOURSELF.LBLFROMPATH.CAPTION"
@@ -1875,7 +1875,6 @@ msgid "Create hard link"
 msgstr "Создать жёсткую ссылку"
 
 #: TFRMHARDLINK.LBLEXISTINGFILE.CAPTION
-#, fuzzy
 #| msgid "Existing destination (where will link point)"
 msgctxt "TFRMHARDLINK.LBLEXISTINGFILE.CAPTION"
 msgid "Destination that the link will point to"
@@ -2255,7 +2254,6 @@ msgid "Open bar file"
 msgstr "Открыть bar файл"
 
 #: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
-#, fuzzy
 #| msgid "Open folder in new tab"
 msgid "Open &folder in new tab"
 msgstr "Открыть каталог в новой вкладке"
@@ -3084,11 +3082,10 @@ msgid "&Save"
 msgstr "&Сохранить"
 
 #: TFRMMULTIRENAME.CBLOG.CAPTION
-#, fuzzy
 #| msgid "Log"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "Enable"
-msgstr "Протокол"
+msgstr "Включено"
 
 #: TFRMMULTIRENAME.CBREGEXP.CAPTION
 #| msgid "&Regular expressions"
@@ -3214,16 +3211,14 @@ msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
 msgstr "[DDDD] День недели (полный, т.е., \"понедельник\")"
 
 #: TFRMMULTIRENAME.MIEXTENSIONX.CAPTION
-#, fuzzy
 #| msgid "[Ex]xtension"
 msgid "[Ex] Character at position x"
-msgstr "[Рx]асширение"
+msgstr "[Ex] Символ с позиции x"
 
 #: TFRMMULTIRENAME.MIEXTENSIONXX.CAPTION
-#, fuzzy
 #| msgid "[Ex:x]xtension"
 msgid "[Ex:y] Characters from position x to y"
-msgstr "[Рx:x]асширени"
+msgstr "[Ex:y] Символы с позиции x по y"
 
 #: TFRMMULTIRENAME.MIHOUR.CAPTION
 #| msgid "[h]our"
@@ -3266,16 +3261,14 @@ msgid "[N] Name"
 msgstr "[N] Имя"
 
 #: TFRMMULTIRENAME.MINAMEX.CAPTION
-#, fuzzy
 #| msgid "[Nx]ame"
 msgid "[Nx] Character at position x"
-msgstr "[Иx]мя"
+msgstr "[Nx] Символ с позиции x"
 
 #: TFRMMULTIRENAME.MINAMEXX.CAPTION
-#, fuzzy
 #| msgid "[Nx:x]ame"
 msgid "[Nx:y] Characters from position x to y"
-msgstr "[Иx:x]мя"
+msgstr "[Nx:y] Символы с позиции x по y"
 
 #: TFRMMULTIRENAME.MINEXT.CAPTION
 msgid "Time..."
