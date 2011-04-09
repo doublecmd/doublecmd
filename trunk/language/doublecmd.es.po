@@ -3085,10 +3085,6 @@ msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
 msgid "&Save"
 msgstr "&Guardar"
 
-#: TFRMMULTIRENAME.CAPTION
-msgid "MultiRename"
-msgstr "Renombrado múltiple"
-
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 #, fuzzy
 #| msgid "Log"
@@ -3124,6 +3120,11 @@ msgstr "1"
 #| msgid "[E]xtension"
 msgid "[E] Extension"
 msgstr "[E]xtensión"
+
+#: TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION
+msgctxt "TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION"
+msgid "MultiRename"
+msgstr "Renombrado múltiple"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
@@ -3299,6 +3300,11 @@ msgstr "Extensión..."
 msgid "Name..."
 msgstr "Nombre..."
 
+#: TFRMMULTIRENAME.MIPLUGIN.CAPTION
+msgctxt "TFRMMULTIRENAME.MIPLUGIN.CAPTION"
+msgid "Plugin"
+msgstr ""
+
 #: TFRMMULTIRENAME.MISECOND.CAPTION
 #, fuzzy
 #| msgid "[s]econd"
@@ -3336,6 +3342,11 @@ msgstr ""
 
 #: TFRMMULTIRENAME.N4.CAPTION
 msgctxt "TFRMMULTIRENAME.N4.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMULTIRENAME.N5.CAPTION
+msgctxt "TFRMMULTIRENAME.N5.CAPTION"
 msgid "-"
 msgstr ""
 

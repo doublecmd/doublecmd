@@ -3083,10 +3083,6 @@ msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
 msgid "&Save"
 msgstr "&Сохранить"
 
-#: TFRMMULTIRENAME.CAPTION
-msgid "MultiRename"
-msgstr "Групповое переименование"
-
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 #, fuzzy
 #| msgid "Log"
@@ -3123,6 +3119,11 @@ msgstr ""
 #| msgid "[E]xtension"
 msgid "[E] Extension"
 msgstr "[E] Расширение"
+
+#: TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION
+msgctxt "TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION"
+msgid "MultiRename"
+msgstr "Групповое переименование"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
@@ -3288,6 +3289,11 @@ msgstr "Расширение..."
 msgid "Name..."
 msgstr "Имя..."
 
+#: TFRMMULTIRENAME.MIPLUGIN.CAPTION
+msgctxt "TFRMMULTIRENAME.MIPLUGIN.CAPTION"
+msgid "Plugin"
+msgstr "Плагин"
+
 #: TFRMMULTIRENAME.MISECOND.CAPTION
 #| msgid "[s]econd"
 msgid "[s] Second"
@@ -3323,6 +3329,11 @@ msgstr ""
 
 #: TFRMMULTIRENAME.N4.CAPTION
 msgctxt "TFRMMULTIRENAME.N4.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMULTIRENAME.N5.CAPTION
+msgctxt "TFRMMULTIRENAME.N5.CAPTION"
 msgid "-"
 msgstr ""
 

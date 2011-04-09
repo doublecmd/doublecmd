@@ -3041,10 +3041,6 @@ msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
 msgid "&Save"
 msgstr ""
 
-#: TFRMMULTIRENAME.CAPTION
-msgid "MultiRename"
-msgstr ""
-
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "Enable"
@@ -3075,6 +3071,11 @@ msgstr ""
 
 #: TFRMMULTIRENAME.EXTENSION.CAPTION
 msgid "[E] Extension"
+msgstr ""
+
+#: TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION
+msgctxt "TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION"
+msgid "MultiRename"
 msgstr ""
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
@@ -3223,6 +3224,11 @@ msgstr ""
 msgid "Name..."
 msgstr ""
 
+#: TFRMMULTIRENAME.MIPLUGIN.CAPTION
+msgctxt "TFRMMULTIRENAME.MIPLUGIN.CAPTION"
+msgid "Plugin"
+msgstr ""
+
 #: TFRMMULTIRENAME.MISECOND.CAPTION
 msgid "[s] Second"
 msgstr ""
@@ -3256,6 +3262,11 @@ msgstr ""
 
 #: TFRMMULTIRENAME.N4.CAPTION
 msgctxt "TFRMMULTIRENAME.N4.CAPTION"
+msgid "-"
+msgstr ""
+
+#: TFRMMULTIRENAME.N5.CAPTION
+msgctxt "TFRMMULTIRENAME.N5.CAPTION"
 msgid "-"
 msgstr ""
 
