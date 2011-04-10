@@ -331,6 +331,7 @@ resourcestring
   rsOptIcons = 'Icons';
   rsOptIgnoreList = 'Ignore list';
   rsOptArchivers = 'Archivers';
+  rsOptTooltips = 'Tooltips';
   //-------------------------------
   rsOptArchiveParam = 'Parameter';
   rsOptArchiveValue = 'Value';

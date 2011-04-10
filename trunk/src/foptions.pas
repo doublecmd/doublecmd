@@ -34,7 +34,7 @@ uses
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, Spin, ColorBox,
   EditBtn, Grids, uDSXModule, uWCXModule, uWDXModule,
-  uWFXmodule, uWLXModule, uGlobs;
+  uWFXmodule, uWLXModule, uGlobs, fOptionsFrame;
 
 type
 
@@ -225,7 +225,6 @@ type
     gbShowIconsMode: TGroupBox;
     gbAutoRefreshEnable: TGroupBox;
     gbAutoRefreshDisable: TGroupBox;
-    gbShowToolTip: TGroupBox;
     gbSorting: TGroupBox;
     gbViewerExample: TGroupBox;
     gbViewerBookMode: TGroupBox;
@@ -258,6 +257,7 @@ type
     lbSCFilesList: TListBox;
     memArchiveListFormat: TMemo;
     memIgnoreList: TMemo;
+    pgToolTips: TPage;
     pbViewerBook: TPaintBox;
     pnlHotkeyButtons: TPanel;
     pnlMultiArcButtons: TPanel;
@@ -271,9 +271,6 @@ type
     sbxMultiArc: TScrollBox;
     pnlQuickSearch: TPanel;
     pnlQuickFilter: TPanel;
-    rbToolTipNone: TRadioButton;
-    rbToolTipOnlyLarge: TRadioButton;
-    rbToolTipAllFiles: TRadioButton;
     rbAltLetterQF: TRadioButton;
     rbCtrlAltLetterQF: TRadioButton;
     rbLetterQF: TRadioButton;
@@ -508,13 +505,14 @@ type
     procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
 
   private
+    FOptionsEditorList: TOptionsEditorList;
     tmpExternalTools: TExternalToolsOptions;
     FUpdatingTools: Boolean;
 
     procedure DeleteHotkeyFromGrid(aHotkey: String);
     procedure ShowExternalToolOptions(ExtTool: TExternalTool);
     procedure FillSCFilesList;
-
+    procedure LoadOptionsEditorList;
   public
     procedure FillLngListBox;
     procedure FillFontLists;
@@ -546,7 +544,7 @@ uses
   uLng, uGlobsPaths, uPixMapManager, fMain, LCLProc, LCLVersion,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
   fTweakPlugin, uhotkeymanger, uTypes, StrUtils, uFindEx, uKeyboard,
-  fMaskInputDlg, uSearchTemplate, uMultiArc, uFile, uDebug;
+  fMaskInputDlg, uSearchTemplate, uMultiArc, uFile, uDebug, fOptionsToolTips;
 
 const
   stgCmdCommandIndex = 0;
@@ -629,7 +627,8 @@ begin
       Item[17].Text := rsOptAutoRefresh;
       Item[18].Text := rsOptIcons;
       Item[19].Text := rsOptIgnoreList;
-      Item[20].Text := rsOptArchivers
+      Item[20].Text := rsOptArchivers;
+      Item[21].Text := rsOptTooltips;
     end;
   tvTreeView.Items.Item[0].Selected:= True;
 
@@ -696,6 +695,10 @@ begin
 
   gbViewerBookMode.Enabled := not (cbToolsUseExternalProgram.Checked);
   FillSCFilesList;
+
+  FOptionsEditorList:= TOptionsEditorList.Create;
+
+  LoadOptionsEditorList;
 end;
 
 procedure TfrmOptions.btSetHotKeyClick(Sender: TObject);
@@ -1061,8 +1064,7 @@ end;
 
 procedure TfrmOptions.FormDestroy(Sender: TObject);
 begin
-  if Assigned(tmpDSXPlugins) then
-    FreeAndNil(tmpDSXPlugins);
+  FreeThenNil(tmpDSXPlugins);
   if Assigned(tmpWCXPlugins) then
     FreeAndNil(tmpWCXPlugins);
   if Assigned(tmpWDXPlugins) then
@@ -1071,6 +1073,7 @@ begin
     FreeAndNil(tmpWFXPlugins);
   if Assigned(tmpWLXPlugins) then
     FreeAndNil(tmpWLXPlugins);
+  FreeThenNil(FOptionsEditorList);
 end;
 
 procedure TfrmOptions.FormShow(Sender: TObject);
@@ -2049,6 +2052,16 @@ begin
   lbSCFilesList.OnSelectionChange := @lbSCFilesListSelectionChange;
 end;
 
+procedure TfrmOptions.LoadOptionsEditorList;
+var
+  aOptionsEditor: TAbstractOptionsEditor;
+begin
+  aOptionsEditor:= TfrmOptionsToolTips.Create(Self);
+  aOptionsEditor.Parent:= pgToolTips;
+  aOptionsEditor.Load;
+  FOptionsEditorList.Add(aOptionsEditor);
+end;
+
 procedure TfrmOptions.lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
 begin
   if lbxCategories.ItemIndex=-1 then exit;
@@ -2653,7 +2666,7 @@ end;
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
 begin
   //DebugLN('Page index == ' + IntToStr(Node.Index));
-  if tvTreeView.Selected.ImageIndex = 20 then // special for "Colors" item
+  if tvTreeView.Selected.ImageIndex = 21 then // special for "Colors" item
     begin
       nbNotebook.PageIndex := 4;
       pnlCaption.Caption := tvTreeView.Items.Item[5].Text;
@@ -2834,8 +2847,6 @@ begin
   cbShowWarningMessages.Checked:= gShowWarningMessages;
   cbSpaceMovesDown.Checked:= gSpaceMovesDown;
   cbDirBrackets.Checked:= gDirBrackets;
-  rbToolTipAllFiles.Checked:= (stm_show_for_all in gShowToolTipMode);
-  rbToolTipOnlyLarge.Checked:= (stm_only_large_name in gShowToolTipMode);
   cbSortCaseSensitive.Checked:= gSortCaseSensitive;
   if gSortNatural then cbSortMethod.ItemIndex:= 1;
 
@@ -2885,6 +2896,8 @@ begin
 end;
 
 procedure TfrmOptions.SaveConfig;
+var
+  I: LongInt;
 begin
   { Layout page }
   gMainMenu := cbShowMainMenu.Checked;
@@ -3090,11 +3103,6 @@ begin
   gShowWarningMessages:= cbShowWarningMessages.Checked;
   gSpaceMovesDown:= cbSpaceMovesDown.Checked;
   gDirBrackets:= cbDirBrackets.Checked;
-  gShowToolTipMode:= []; // Reset tool tip show mode
-  if rbToolTipAllFiles.Checked then
-    Include(gShowToolTipMode, stm_show_for_all);
-  if rbToolTipOnlyLarge.Checked then
-    Include(gShowToolTipMode, stm_only_large_name);
   gSortCaseSensitive:= cbSortCaseSensitive.Checked;
   gSortNatural:= (cbSortMethod.ItemIndex = 1);
 
@@ -3151,6 +3159,10 @@ begin
 
   {save hot keys file}
   gNameSCFile := lbSCFilesList.GetSelectedText;
+
+  { Save options from frames }
+  for I:= 0 to FOptionsEditorList.Count - 1 do
+    FOptionsEditorList[I].Save;
 end;
 
 procedure TfrmOptions.SetColorInColorBox(const lcbColorBox: TColorBox;
