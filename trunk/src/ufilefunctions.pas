@@ -85,6 +85,7 @@ type
                [] { invalid });
 
   function FormatFileFunction(FuncS: string; AFile: TFile; const AFileSource: IFileSource): string;
+  function FormatFileFunctions(FuncS: String; AFile: TFile; const AFileSource: IFileSource): String;
   function GetFileFunctionByName(FuncS: string): TFileFunction;
 
   procedure FillContentFieldMenu(MenuItem: TMenuItem; OnMenuItemClick: TNotifyEvent);
@@ -272,6 +273,33 @@ begin
     end;
   end;
   //------------------------------------------------------
+end;
+
+function FormatFileFunctions(FuncS: String; AFile: TFile; const AFileSource: IFileSource): String;
+var
+  p: Integer;
+begin
+  Result:= EmptyStr;
+
+  while True do
+  begin
+    p := pos('[', FuncS);
+    if p = 0 then
+      Break
+    else if p > 1 then
+      Result:= Result + Copy(FuncS, 1, p - 1);
+    Delete(FuncS, 1, p);
+
+    p := pos(']', FuncS);
+    if p = 0 then
+      Break
+    else if p > 1 then
+      Result:= Result + FormatFileFunction(Copy(FuncS, 1, p - 1), AFile, AFileSource);
+    Delete(FuncS, 1, p);
+  end;
+
+  if Length(FuncS) <> 0 then
+    Result:= Result + FuncS;
 end;
 
 function GetFileFunctionByName(FuncS: String): TFileFunction;
