@@ -27,7 +27,8 @@ interface
 uses
   Classes, Controls, Forms, uExts, uColorExt, Graphics, uClassesEx, uMultiArc,
   uColumns, uhotkeymanger, uActs, uSearchTemplate, uFileSourceOperationOptions,
-  uWFXModule, uWCXModule, uWDXModule, uwlxmodule, udsxmodule, uXmlConfig;
+  uWFXModule, uWCXModule, uWDXModule, uwlxmodule, udsxmodule, uXmlConfig,
+  uInfoToolTip;
 
 type
   { Log options }
@@ -164,6 +165,7 @@ var
   gLuaLib:String;
   gExts:TExts;
   gColorExt:TColorExt;
+  gFileInfoToolTip: TFileInfoToolTip;
 
   { Fonts page }
   gFonts: TDCFontsOptions;
@@ -535,6 +537,7 @@ procedure CreateGlobs;
 begin
   gExts := TExts.Create;
   gColorExt := TColorExt.Create;
+  gFileInfoToolTip := TFileInfoToolTip.Create;
   glsHotDir := TStringListEx.Create;
   glsDirHistory := TStringListEx.Create;
   glsMaskHistory := TStringListEx.Create;
@@ -556,6 +559,7 @@ end;
 procedure DestroyGlobs;
 begin
   FreeThenNil(gColorExt);
+  FreeThenNil(gFileInfoToolTip);
   FreeThenNil(glsDirHistory);
   FreeThenNil(glsHotDir);
   FreeThenNil(glsMaskHistory);
@@ -774,6 +778,7 @@ begin
 
   gExts.Clear;
   gColorExt.Clear;
+  gFileInfoToolTip.Clear;
   glsHotDir.Clear;
   glsDirHistory.Clear;
   glsMaskHistory.Clear;
@@ -1438,6 +1443,14 @@ begin
       gColorExt.Load(gConfig, Node);
     end;
 
+    { ToolTips page }
+    Node := Root.FindNode('ToolTips');
+    if Assigned(Node) then
+    begin
+      gShowToolTipMode := TShowToolTipMode(GetValue(Node, 'ShowToolTipMode', Integer(gShowToolTipMode)));
+      gFileInfoToolTip.Load(gConfig, Node);
+    end;
+
     { Layout page }
     Node := Root.FindNode('Layout');
     if Assigned(Node) then
@@ -1550,7 +1563,6 @@ begin
       gShowWarningMessages := GetValue(Node, 'ShowWarningMessages', gShowWarningMessages);
       gSpaceMovesDown := GetValue(Node, 'SpaceMovesDown', gSpaceMovesDown);
       gDirBrackets := GetValue(Node, 'DirBrackets', gDirBrackets);
-      gShowToolTipMode := TShowToolTipMode(GetValue(Node, 'ShowToolTipMode', Integer(gShowToolTipMode)));
     end;
 
     { Auto refresh page }
@@ -1712,6 +1724,11 @@ begin
     SetValue(Node, 'UseFrameCursor', gUseFrameCursor);
     gColorExt.Save(gConfig, Node);
 
+    { ToolTips page }
+    Node := FindNode(Root, 'ToolTips', True);
+    SetValue(Node, 'ShowToolTipMode', Integer(gShowToolTipMode));
+    gFileInfoToolTip.Save(gConfig, Node);
+
     { Layout page }
     Node := FindNode(Root, 'Layout', True);
     SetValue(Node, 'MainMenu', gMainMenu);
@@ -1798,7 +1815,6 @@ begin
     SetValue(Node, 'ShowWarningMessages', gShowWarningMessages);
     SetValue(Node, 'SpaceMovesDown', gSpaceMovesDown);
     SetValue(Node, 'DirBrackets', gDirBrackets);
-    SetValue(Node, 'ShowToolTipMode', Integer(gShowToolTipMode));
 
     { Auto refresh page }
     Node := FindNode(Root, 'AutoRefresh', True);
