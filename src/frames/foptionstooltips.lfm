@@ -5,7 +5,6 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
   AutoSize = True
   ClientHeight = 415
   ClientWidth = 599
-  TabOrder = 0
   DesignLeft = 316
   DesignTop = 53
   object gbCustomFields: TGroupBox[0]
@@ -13,17 +12,18 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 314
+    Height = 319
     Top = 6
     Width = 583
     Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
     BorderSpacing.Left = 8
     BorderSpacing.Top = 6
     BorderSpacing.Right = 8
     BorderSpacing.Bottom = 8
     Caption = 'Custom fields by file type'
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 296
+    ClientHeight = 301
     ClientWidth = 579
     TabOrder = 0
     object btnAddFields: TBitBtn
@@ -31,7 +31,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       AnchorSideRight.Control = btnDeleteFields
       Left = 229
       Height = 32
-      Top = 257
+      Top = 263
       Width = 110
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 6
@@ -45,7 +45,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       AnchorSideRight.Control = btnApplyFields
       Left = 345
       Height = 32
-      Top = 257
+      Top = 263
       Width = 110
       Anchors = [akTop, akRight]
       BorderSpacing.Right = 6
@@ -56,11 +56,12 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       TabOrder = 1
     end
     object lsbCustomFields: TListBox
+      AnchorSideTop.Control = gbCustomFields
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
       Left = 12
       Height = 142
-      Top = 0
+      Top = 6
       Width = 559
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
@@ -76,7 +77,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       AnchorSideRight.Side = asrBottom
       Left = 461
       Height = 32
-      Top = 257
+      Top = 263
       Width = 110
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 12
@@ -93,7 +94,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       AnchorSideRight.Side = asrBottom
       Left = 12
       Height = 97
-      Top = 148
+      Top = 154
       Width = 559
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
@@ -254,7 +255,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
     AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 85
-    Top = 328
+    Top = 333
     Width = 583
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
