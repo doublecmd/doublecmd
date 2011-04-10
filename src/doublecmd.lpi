@@ -203,7 +203,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="110">
+    <Units Count="112">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -879,6 +879,21 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileSystemSplitOperation"/>
       </Unit109>
+      <Unit110>
+        <Filename Value="frames\foptionstooltips.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsToolTips"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsToolTips"/>
+      </Unit110>
+      <Unit111>
+        <Filename Value="foptionsframe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="AbstractOptionsEditor"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsFrame"/>
+      </Unit111>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -890,7 +905,7 @@
     <SearchPaths>
       <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir)"/>
       <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
-      <OtherUnitFiles Value="$(ProjPath)\platform;$(ProjPath)\platform\$(SrcOS);..\sdk;$(ProjPath)\newdesign;$(ProjPath)\newdesign\fileproperties;newdesign\columnsview"/>
+      <OtherUnitFiles Value="$(ProjPath)\platform;$(ProjPath)\platform\$(SrcOS);..\sdk;$(ProjPath)\newdesign;$(ProjPath)\newdesign\fileproperties;newdesign\columnsview;frames"/>
       <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
       <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
     </SearchPaths>

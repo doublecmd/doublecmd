@@ -86,11 +86,11 @@ object frmOptions: TfrmOptions
     OnChange = tvTreeViewChange
     Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips]
     Items.Data = {
-      F9FFFFFF0200130000000000000000000000FFFFFFFFFFFFFFFF000000000000
+      F9FFFFFF0200140000000000000000000000FFFFFFFFFFFFFFFF000000000000
       000000080000004C616E67756167650100000001000000FFFFFFFFFFFFFFFF00
       0000000000000000090000004265686176696F72730200000002000000FFFFFF
       FFFFFFFFFF00000000000000000005000000546F6F6C730300000003000000FF
-      FFFFFFFFFFFFFF00000000000000000005000000466F6E747314000000140000
+      FFFFFFFFFFFFFF00000000000000000005000000466F6E747315000000150000
       0000000000FFFFFFFF02000000000000000106000000436F6C6F727304000000
       04000000FFFFFFFFFFFFFFFF0000000000000000000B00000046696C65207061
       6E656C730700000007000000FFFFFFFFFFFFFFFF0000000000000000000A0000
@@ -111,7 +111,8 @@ object frmOptions: TfrmOptions
       68110000001100000000000000FFFFFFFF000000000000000000050000004963
       6F6E73120000001200000000000000FFFFFFFF0000000000000000000B000000
       49676E6F7265206C697374130000001300000000000000FFFFFFFF0000000000
-      0000000009000000417263686976657273
+      0000000009000000417263686976657273140000001400000000000000FFFFFF
+      FF00000000000000000008000000546F6F6C74697073
     }
   end
   object Panel3: TPanel
@@ -3848,73 +3849,15 @@ object frmOptions: TfrmOptions
             TabOrder = 2
           end
         end
-        object gbShowToolTip: TGroupBox
+        object gbSorting: TGroupBox
           AnchorSideLeft.Control = pgMisc
           AnchorSideTop.Control = gbExtended
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = pgMisc
           AnchorSideRight.Side = asrBottom
           Left = 8
-          Height = 85
-          Top = 171
-          Width = 685
-          Anchors = [akTop, akLeft, akRight]
-          AutoSize = True
-          BorderSpacing.Left = 8
-          BorderSpacing.Top = 6
-          BorderSpacing.Right = 8
-          Caption = 'Show tool tip'
-          ChildSizing.LeftRightSpacing = 12
-          ChildSizing.TopBottomSpacing = 6
-          ClientHeight = 67
-          ClientWidth = 681
-          TabOrder = 2
-          object rbToolTipAllFiles: TRadioButton
-            AnchorSideLeft.Control = gbShowToolTip
-            AnchorSideTop.Control = rbToolTipNone
-            AnchorSideTop.Side = asrBottom
-            Left = 12
-            Height = 17
-            Top = 25
-            Width = 189
-            BorderSpacing.Top = 2
-            Caption = 'Show tool tip for all files in file panel'
-            TabOrder = 0
-          end
-          object rbToolTipOnlyLarge: TRadioButton
-            AnchorSideLeft.Control = gbShowToolTip
-            AnchorSideTop.Control = rbToolTipAllFiles
-            AnchorSideTop.Side = asrBottom
-            Left = 12
-            Height = 17
-            Top = 44
-            Width = 235
-            BorderSpacing.Top = 2
-            Caption = 'Show tool tip for files in file panel if truncated'
-            TabOrder = 1
-          end
-          object rbToolTipNone: TRadioButton
-            AnchorSideLeft.Control = gbShowToolTip
-            AnchorSideTop.Control = gbShowToolTip
-            Left = 12
-            Height = 17
-            Top = 6
-            Width = 71
-            Caption = 'Don''t show'
-            Checked = True
-            TabOrder = 2
-            TabStop = True
-          end
-        end
-        object gbSorting: TGroupBox
-          AnchorSideLeft.Control = pgMisc
-          AnchorSideTop.Control = gbShowToolTip
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = pgMisc
-          AnchorSideRight.Side = asrBottom
-          Left = 8
           Height = 78
-          Top = 262
+          Top = 171
           Width = 685
           Anchors = [akTop, akLeft, akRight]
           AutoSize = True
@@ -3926,7 +3869,7 @@ object frmOptions: TfrmOptions
           ChildSizing.TopBottomSpacing = 8
           ClientHeight = 60
           ClientWidth = 681
-          TabOrder = 3
+          TabOrder = 2
           object cbSortCaseSensitive: TCheckBox
             AnchorSideLeft.Control = gbSorting
             AnchorSideTop.Control = gbSorting
@@ -3979,8 +3922,8 @@ object frmOptions: TfrmOptions
         end
       end
       object pgAutoRefresh: TPage
-        ClientWidth = 705
-        ClientHeight = 458
+        ClientWidth = 701
+        ClientHeight = 463
         object gbAutoRefreshEnable: TGroupBox
           AnchorSideLeft.Control = pgAutoRefresh
           AnchorSideTop.Control = pgAutoRefresh
@@ -4082,8 +4025,8 @@ object frmOptions: TfrmOptions
         end
       end
       object pgIcons: TPage
-        ClientWidth = 705
-        ClientHeight = 458
+        ClientWidth = 701
+        ClientHeight = 463
         object gbIconsSize: TGroupBox
           AnchorSideLeft.Control = pgIcons
           AnchorSideTop.Control = gbShowIconsMode
@@ -4239,8 +4182,8 @@ object frmOptions: TfrmOptions
         end
       end
       object pgIgnoreList: TPage
-        ClientWidth = 705
-        ClientHeight = 458
+        ClientWidth = 701
+        ClientHeight = 463
         object lblSaveIn: TLabel
           Tag = 304
           AnchorSideLeft.Control = memIgnoreList
@@ -4248,7 +4191,7 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Side = asrCenter
           Left = 10
           Height = 14
-          Top = 413
+          Top = 395
           Width = 40
           Caption = '&Save in:'
           ParentColor = False
@@ -4262,7 +4205,7 @@ object frmOptions: TfrmOptions
           Left = 10
           Height = 17
           Top = 8
-          Width = 737
+          Width = 681
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 10
           BorderSpacing.Top = 8
@@ -4279,9 +4222,9 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = fneSaveIn
           Left = 10
-          Height = 369
+          Height = 351
           Top = 31
-          Width = 737
+          Width = 681
           Anchors = [akTop, akLeft, akRight, akBottom]
           BorderSpacing.Top = 6
           BorderSpacing.Bottom = 10
@@ -4299,9 +4242,9 @@ object frmOptions: TfrmOptions
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Control = pgIgnoreList
           AnchorSideBottom.Side = asrBottom
-          Left = 625
+          Left = 569
           Height = 30
-          Top = 441
+          Top = 423
           Width = 122
           Anchors = [akRight, akBottom]
           AutoSize = True
@@ -4319,7 +4262,7 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Side = asrBottom
           Left = 10
           Height = 30
-          Top = 441
+          Top = 423
           Width = 187
           Anchors = [akLeft, akBottom]
           AutoSize = True
@@ -4337,8 +4280,8 @@ object frmOptions: TfrmOptions
           AnchorSideBottom.Control = btnAddSel
           Left = 58
           Height = 21
-          Top = 410
-          Width = 669
+          Top = 392
+          Width = 665
           DialogOptions = []
           FilterIndex = 0
           HideDirectories = False
@@ -4683,7 +4626,7 @@ object frmOptions: TfrmOptions
                 OnPrepareCanvas = stgArchiverCommandsPrepareCanvas
                 ColWidths = (
                   64
-                  545
+                  549
                 )
               end
               object gbArchiverOptions: TGroupBox
@@ -4825,6 +4768,8 @@ object frmOptions: TfrmOptions
           end
         end
       end
+      object pgToolTips: TPage
+      end
     end
     object pnlCaption: TPanel
       Left = 1
@@ -4884,7 +4829,7 @@ object frmOptions: TfrmOptions
     left = 16
     top = 368
     Bitmap = {
-      4C6915000000100000001000000066355CFF66355CFF66355CFF66355CFF6635
+      4C6916000000100000001000000066355CFF66355CFF66355CFF66355CFF6635
       5CFF66355CFF66355CFF66355CFF66355CFF66355CFF66355CFF66355CFF6635
       5CFF00000000000000000000000066355CFFB395AFFFC6ACC3FFD3BED0FFD1C0
       CEFFC9BBC7FFAA97A7FF877184FF755871FF6A4565FF744B6FFF7E5278FF6635
@@ -5524,6 +5469,38 @@ object frmOptions: TfrmOptions
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000774B3B86774A3AE1784938FC794A38FD774B3AE3764C3D8D000000000000
+      000000000000000000000000000000000000000000000000000077493821784C
+      3BE2C3ADA4FFF4EFEDFFFDFCFCFFFBF9F7FFEFE7E2FFBEA59AFF794E3EE9764D
+      3D26000000000000000000000000000000000000000000000000784D3CE6E0D5
+      D0FFFAF8F5D5F4EFE8AAF3EAE2A4EEE3D9A8EBDFD3B2EDE2D8D9D6C4B9FF7B51
+      41F00000000000000000000000000000000000000000764D3D8EC3ADA4FFFAF8
+      F5D6F7F3EFA0FAF7F49FF6F0EBA2F2E8DFA6EDE0D4AAE4D3C2A7E5D5C5D3B89C
+      8DFF775143A2000000000000000000000000000000007A5040EDF4EFEDFFF5EF
+      E8ACFAF7F39FFDFCFA9DF7F1ECA1F2E7DFA4EBDDD0A4E4D2C1A5C49D788AE1D2
+      C5FF7F5546F600000000000000000000000000000000794A39FDFDFBFAFFF2E9
+      E0A5F8F3EEB2FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD7CCC1C1B988597BE9DB
+      CEFF7A4B39FE716461020000000000000000000000007A4B3AFEFAF7F4FFEDE1
+      D6A7F1E7DEA7FFFFFFFFF5F0EBC9ECE6E0CCE2DAD2C8CDAE9191B682537DE7D6
+      C9FF7A4B39FE7164610B0000000000000000000000007E5445F4EDE5E0FFE8D9
+      CBADE8D7C89EFFFFFFFFE3D0C097E0CAB596D6B99D90BA895C7BBC8E608CDBC7
+      B5FF835848F9000000000000000000000000000000007A574ABABDA498FFECE0
+      D4D7D8BEA693FFFFFFFFD8BEA594CCA88787B9895B7AB27E4B80D9C1AAD6B191
+      7EFF836054D7000000000000000000000000000000007164610A805747F7D5C2
+      B7FFE4D3C3D3C59D778AFFFFFFFFB581527EBA8D5E8DD9C0A9D6C8AE9BFF8559
+      49FA7164611B000000000000000000000000000000000000000073584F4D8057
+      47F9B89B8CFFE0D0C2FFE8D9CCFFE5D6C7FFDAC6B5FFB2907EFF865A4AFB7C62
+      596A000000000000000000000000000000000000000000000000000000007164
+      6113836358DD835B4BFC98ACA6FF98ADA7FF98B1ABFF80685EF37164611F0000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00004259590C3E5E5EFFC1EDEBFFCAF8F5FFABDFDDFF3E5E5EFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000425959073E5E5EFF5C8080FF84AAA8FF668B8AFF3E5E5EFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000003E5E5EFFBAE6E3FEC9F6F3FFB0D5D3FE3E5E5EFF000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000003E5E5E4C363939A5464646EC303030A93E5E5E4C000000000000
       0000000000000000000000000000FFFFFF00FFFFFF00FFFFFF000DD8000004D0
       13000CD135FF15D255FF18D474FF18D68CFF13D8A2FF0DDBB9FF06E4D900FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF003AD5040020D009FF3AD7

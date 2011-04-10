@@ -9,26 +9,29 @@ uses
   uFile, uFileSource;
 
 type
-  { TMaskItem }
+  { THintItem }
 
-  TMaskItem = class
+  THintItem = class
     Name: UTF8String;
     Mask: UTF8String;
     Hint: UTF8String;
+    function Clone: THintItem;
   end;
 
-  { TMaskItemList }
+  { THintItemList }
 
-  TMaskItemList = specialize TFPGObjectList<TMaskItem>;
+  THintItemList = specialize TFPGObjectList<THintItem>;
 
   { TFileInfoToolTip }
 
-  TFileInfoToolTip = class
+  TFileInfoToolTip = class(TPersistent)
   protected
-    FMaskItemList: TMaskItemList;
+    FHintItemList: THintItemList;
   public
     constructor Create;
     destructor Destroy; override;
+
+    procedure Assign(Source: TPersistent); override;
 
     procedure Clear;
 
@@ -37,7 +40,7 @@ type
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);
 
-    property  MaskItemList: TMaskItemList read FMaskItemList;
+    property  HintItemList: THintItemList read FHintItemList;
   end;
 
 function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): UTF8String;
@@ -46,7 +49,7 @@ implementation
 
 uses
   LCLProc, StrUtils, uMasks, uDebug, uGlobs, uFileProperty, uFileFunctions,
-  uFileSourceProperty
+  uSearchTemplate, uFileSourceProperty
 {$IF DEFINED(MSWINDOWS)}
   , uShlObjAdditional
 {$ENDIF}
@@ -77,59 +80,80 @@ begin
     end;
 end;
 
+{ THintItem }
+
+function THintItem.Clone: THintItem;
+begin
+  Result:= THintItem.Create;
+  Result.Name:= Name;
+  Result.Mask:= Mask;
+  Result.Hint:= Hint;
+end;
+
 { TFileInfoToolTip }
 
 constructor TFileInfoToolTip.Create;
 begin
-  FMaskItemList:= TMaskItemList.Create(True);
+  FHintItemList:= THintItemList.Create(True);
 end;
 
 destructor TFileInfoToolTip.Destroy;
 begin
-  FreeThenNil(FMaskItemList);
+  FreeThenNil(FHintItemList);
   inherited Destroy;
 end;
 
 procedure TFileInfoToolTip.Clear;
 begin
   begin
-    while FMaskItemList.Count > 0 do
+    while FHintItemList.Count > 0 do
       begin
-        FMaskItemList[0].Free;
-        FMaskItemList.Delete(0);
+        //FHintItemList[0].Free;
+        FHintItemList.Delete(0);
       end;
   end;
+end;
+
+procedure TFileInfoToolTip.Assign(Source: TPersistent);
+var
+  I: LongInt;
+  From: TFileInfoToolTip;
+begin
+  Clear;
+  From:= Source as TFileInfoToolTip;
+  for I:= 0 to From.FHintItemList.Count - 1 do
+    FHintItemList.Add(From.FHintItemList[I].Clone);
 end;
 
 function TFileInfoToolTip.GetFileInfoToolTip(aFileSource: IFileSource;
   const aFile: TFile): UTF8String;
 var
   I, J: Integer;
-  MaskItem: TMaskItem;
+  HintItem: THintItem;
 begin
  Result:= EmptyStr;
 
- for I:= 0 to FMaskItemList.Count - 1 do
+ for I:= 0 to FHintItemList.Count - 1 do
    begin
-     MaskItem:= FMaskItemList[I];
+     HintItem:= FHintItemList[I];
 
      // Get hint by search template
-     if MaskItem.Mask[1] = '>' then
+     if IsMaskSearchTemplate(HintItem.Mask) then
        for J:= 0 to gSearchTemplateList.Count - 1 do
          with gSearchTemplateList do
          begin
-           if (Templates[J].TemplateName = PChar(MaskItem.Mask)+1) and
+           if (Templates[J].TemplateName = PChar(HintItem.Mask)+1) and
               Templates[J].CheckFile(AFile) then
              begin
-               Result:= FormatFileFunctions(MaskItem.Hint, aFile, aFileSource);
+               Result:= FormatFileFunctions(HintItem.Hint, aFile, aFileSource);
                Exit;
              end;
          end;
 
      // Get hint by file mask
-     if MatchesMaskList(AFile.Name, MaskItem.Mask) then
+     if MatchesMaskList(AFile.Name, HintItem.Mask) then
        begin
-         Result:= FormatFileFunctions(MaskItem.Hint, aFile, aFileSource);
+         Result:= FormatFileFunctions(HintItem.Hint, aFile, aFileSource);
          Exit;
        end;
    end;
@@ -140,7 +164,7 @@ var
   sMask,
   sName,
   sHint: UTF8String;
-  MaskItem: TMaskItem;
+  MaskItem: THintItem;
 begin
   Clear;
 
@@ -156,11 +180,11 @@ begin
            AConfig.TryGetValue(ANode, 'Mask', sMask) and
            AConfig.TryGetValue(ANode, 'Hint', sHint) then
         begin
-          MaskItem:= TMaskItem.Create;
+          MaskItem:= THintItem.Create;
           MaskItem.Name := sName;
           MaskItem.Mask := sMask;
           MaskItem.Hint := sHint;
-          FMaskItemList.Add(MaskItem);
+          FHintItemList.Add(MaskItem);
         end
         else
         begin
@@ -180,12 +204,12 @@ begin
   ANode := AConfig.FindNode(ANode, 'CustomFields', True);
   AConfig.ClearNode(ANode);
 
-  for I:=0 to FMaskItemList.Count - 1 do
+  for I:=0 to FHintItemList.Count - 1 do
     begin
       SubNode := AConfig.AddNode(ANode, 'CustomField');
-      AConfig.AddValue(SubNode, 'Name', FMaskItemList[I].Name);
-      AConfig.AddValue(SubNode, 'Mask', FMaskItemList[I].Mask);
-      AConfig.AddValue(SubNode, 'Hint', FMaskItemList[I].Hint);
+      AConfig.AddValue(SubNode, 'Name', FHintItemList[I].Name);
+      AConfig.AddValue(SubNode, 'Mask', FHintItemList[I].Mask);
+      AConfig.AddValue(SubNode, 'Hint', FHintItemList[I].Hint);
     end;
 end;
 
