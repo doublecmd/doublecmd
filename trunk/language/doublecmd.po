@@ -3940,10 +3940,6 @@ msgctxt "TFRMOPTIONS.GBSHOWICONSMODE.CAPTION"
 msgid " Show icons to the left of the filename "
 msgstr ""
 
-#: TFRMOPTIONS.GBSHOWTOOLTIP.CAPTION
-msgid "Show tool tip"
-msgstr ""
-
 #: TFRMOPTIONS.GBSORTING.CAPTION
 msgid "Sorting"
 msgstr ""
@@ -4028,10 +4024,12 @@ msgid "Category color:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLCATEGORYMASK.CAPTION
+msgctxt "TFRMOPTIONS.LBLCATEGORYMASK.CAPTION"
 msgid "Category mask:"
 msgstr ""
 
 #: TFRMOPTIONS.LBLCATEGORYNAME.CAPTION
+msgctxt "TFRMOPTIONS.LBLCATEGORYNAME.CAPTION"
 msgid "Category name:"
 msgstr ""
 
@@ -4244,18 +4242,6 @@ msgstr ""
 msgid "Page by page"
 msgstr ""
 
-#: TFRMOPTIONS.RBTOOLTIPALLFILES.CAPTION
-msgid "Show tool tip for all files in file panel"
-msgstr ""
-
-#: TFRMOPTIONS.RBTOOLTIPNONE.CAPTION
-msgid "Don't show"
-msgstr ""
-
-#: TFRMOPTIONS.RBTOOLTIPONLYLARGE.CAPTION
-msgid "Show tool tip for files in file panel if truncated"
-msgstr ""
-
 #: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
 msgid "Use memory mapping for search text in files"
 msgstr ""
@@ -4336,6 +4322,71 @@ msgstr ""
 
 #: TFRMOPTIONS.TSWLX.CAPTION
 msgid "Viewer plugins (.WLX)"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION"
+msgid "Add"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.BTNAPPLYFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNAPPLYFIELDS.CAPTION"
+msgid "Apply"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.BTNDELETEFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNDELETEFIELDS.CAPTION"
+msgid "Delete"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
+msgid "Template..."
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION"
+msgid "Custom fields by file type"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION"
+msgid "Show tool tip"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
+msgid "Category hint:"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION"
+msgid "Category mask:"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
+msgid "Category name:"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
+msgid "Show tool tip for all files in file panel"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
+msgid "Don't show"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
+msgid "Show tool tip for files in file panel if truncated"
 msgstr ""
 
 #: TFRMPACKDLG.BTNCANCEL.CAPTION
@@ -6440,6 +6491,10 @@ msgstr ""
 
 #: ulng.rsopttools
 msgid "Tools"
+msgstr ""
+
+#: ulng.rsopttooltips
+msgid "Tooltips"
 msgstr ""
 
 #: ulng.rspropserrchmod

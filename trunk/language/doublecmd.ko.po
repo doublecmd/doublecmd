@@ -4058,10 +4058,6 @@ msgstr "파일 창에서 표시선 보이기"
 msgid " Show icons to the left of the filename "
 msgstr ""
 
-#: TFRMOPTIONS.GBSHOWTOOLTIP.CAPTION
-msgid "Show tool tip"
-msgstr ""
-
 #: TFRMOPTIONS.GBSORTING.CAPTION
 msgid "Sorting"
 msgstr ""
@@ -4146,10 +4142,12 @@ msgid "Category color:"
 msgstr "카테고리 색상:"
 
 #: TFRMOPTIONS.LBLCATEGORYMASK.CAPTION
+msgctxt "TFRMOPTIONS.LBLCATEGORYMASK.CAPTION"
 msgid "Category mask:"
 msgstr "카테고리 마스크:"
 
 #: TFRMOPTIONS.LBLCATEGORYNAME.CAPTION
+msgctxt "TFRMOPTIONS.LBLCATEGORYNAME.CAPTION"
 msgid "Category name:"
 msgstr "카테고리 이름:"
 
@@ -4370,18 +4368,6 @@ msgctxt "TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION"
 msgid "Page by page"
 msgstr "Page by page"
 
-#: TFRMOPTIONS.RBTOOLTIPALLFILES.CAPTION
-msgid "Show tool tip for all files in file panel"
-msgstr ""
-
-#: TFRMOPTIONS.RBTOOLTIPNONE.CAPTION
-msgid "Don't show"
-msgstr ""
-
-#: TFRMOPTIONS.RBTOOLTIPONLYLARGE.CAPTION
-msgid "Show tool tip for files in file panel if truncated"
-msgstr ""
-
 #: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
 msgid "Use memory mapping for search text in files"
 msgstr "파일에서 텍스트 찾기 할 때 메모리 매핑 사용"
@@ -4463,6 +4449,71 @@ msgstr "파일 시스템 플러그인 (.WFX)"
 #: TFRMOPTIONS.TSWLX.CAPTION
 msgid "Viewer plugins (.WLX)"
 msgstr "뷰어 플러그인 (.WLX)"
+
+#: TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION"
+msgid "Add"
+msgstr "추가"
+
+#: TFRMOPTIONSTOOLTIPS.BTNAPPLYFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNAPPLYFIELDS.CAPTION"
+msgid "Apply"
+msgstr "적용"
+
+#: TFRMOPTIONSTOOLTIPS.BTNDELETEFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNDELETEFIELDS.CAPTION"
+msgid "Delete"
+msgstr "지우기"
+
+#: TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
+msgid "Template..."
+msgstr "템플릿..."
+
+#: TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION"
+msgid "Custom fields by file type"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION"
+msgid "Show tool tip"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
+msgid "Category hint:"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION"
+msgid "Category mask:"
+msgstr "카테고리 마스크:"
+
+#: TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
+msgid "Category name:"
+msgstr "카테고리 이름:"
+
+#: TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
+msgid "Show tool tip for all files in file panel"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
+msgid "Don't show"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
+msgid "Show tool tip for files in file panel if truncated"
+msgstr ""
 
 #: TFRMPACKDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
@@ -6586,6 +6637,10 @@ msgstr ""
 #: ulng.rsopttools
 msgid "Tools"
 msgstr "도구"
+
+#: ulng.rsopttooltips
+msgid "Tooltips"
+msgstr ""
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
