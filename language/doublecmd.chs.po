@@ -6640,6 +6640,10 @@ msgstr ""
 msgid "Tools"
 msgstr "工具栏"
 
+#: ulng.rsopttooltips
+msgid "Tooltips"
+msgstr ""
+
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
 msgstr ""

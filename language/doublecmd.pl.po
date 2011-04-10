@@ -5543,13 +5543,13 @@ msgstr "Rozpakowywanie..."
 msgid "Move file(s)"
 msgstr "Przenieś plik/i"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsdlgopcaption
 msgid "Caption of operation"
 msgstr ""
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsdlgoppause
 msgctxt "ulng.rsdlgoppause"
 msgid "Pause"
@@ -5766,13 +5766,13 @@ msgstr "Maska deselekcji"
 msgid "Select mask"
 msgstr "Maska selekcji"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmaskinput
 msgid "Input mask:"
 msgstr "Maska wejściowa:"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
 msgstr "Ustawienia własnego wyglądu kolumn"
@@ -5811,13 +5811,13 @@ msgstr "Brak dostępnego nośnika"
 msgid "Open with ..."
 msgstr "Otwórz z ..."
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmnusortby
 msgid "Sort by"
 msgstr "Sortuj po"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmnuumount
 msgid "Unmount"
 msgstr "Odmontuj"
@@ -5855,13 +5855,13 @@ msgstr "Karta (%s) jest zablokowana! Zamknąć mimo to?"
 msgid "Are you sure you want to quit?"
 msgstr "Na pewno zakończyć?"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
 msgstr "Skopiować %d wybranych plików/katalogów?"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgcpsel
 msgid "Copy selected \"%s\"?"
 msgstr "Skopiować wybrane \"%s\"?"
