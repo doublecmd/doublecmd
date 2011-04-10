@@ -6635,6 +6635,10 @@ msgstr ""
 msgid "Tools"
 msgstr "Eszközök"
 
+#: ulng.rsopttooltips
+msgid "Tooltips"
+msgstr ""
+
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
 msgstr "\"%s\" jogosultsága nem állítható"
