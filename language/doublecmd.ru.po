@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-04-09 18:42+0300\n"
+"PO-Revision-Date: 2011-04-10 21:15+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -4010,10 +4010,6 @@ msgstr "Показывать сетку в файловой панели"
 msgid " Show icons to the left of the filename "
 msgstr " Показ значков, связанных с типом файлов "
 
-#: TFRMOPTIONS.GBSHOWTOOLTIP.CAPTION
-msgid "Show tool tip"
-msgstr "Показывать всплывающие подсказки"
-
 #: TFRMOPTIONS.GBSORTING.CAPTION
 msgid "Sorting"
 msgstr "Сортировка"
@@ -4098,10 +4094,12 @@ msgid "Category color:"
 msgstr "Цвет:"
 
 #: TFRMOPTIONS.LBLCATEGORYMASK.CAPTION
+msgctxt "TFRMOPTIONS.LBLCATEGORYMASK.CAPTION"
 msgid "Category mask:"
 msgstr "Маска:"
 
 #: TFRMOPTIONS.LBLCATEGORYNAME.CAPTION
+msgctxt "TFRMOPTIONS.LBLCATEGORYNAME.CAPTION"
 msgid "Category name:"
 msgstr "Наименование:"
 
@@ -4318,18 +4316,6 @@ msgctxt "TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION"
 msgid "Page by page"
 msgstr "Постранично"
 
-#: TFRMOPTIONS.RBTOOLTIPALLFILES.CAPTION
-msgid "Show tool tip for all files in file panel"
-msgstr "Для всех файлов в файловой панели"
-
-#: TFRMOPTIONS.RBTOOLTIPNONE.CAPTION
-msgid "Don't show"
-msgstr "Не показывать"
-
-#: TFRMOPTIONS.RBTOOLTIPONLYLARGE.CAPTION
-msgid "Show tool tip for files in file panel if truncated"
-msgstr "Для файлов с именами не помещающимися на панели"
-
 #: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
 msgid "Use memory mapping for search text in files"
 msgstr "Использовать отображение в память, при поиске текста в файлах"
@@ -4411,6 +4397,71 @@ msgstr "Плагины файловой системы (.WFX)"
 #: TFRMOPTIONS.TSWLX.CAPTION
 msgid "Viewer plugins (.WLX)"
 msgstr "Плагины просмотрщика (.WLX)"
+
+#: TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION"
+msgid "Add"
+msgstr "Добавить"
+
+#: TFRMOPTIONSTOOLTIPS.BTNAPPLYFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNAPPLYFIELDS.CAPTION"
+msgid "Apply"
+msgstr "Применить"
+
+#: TFRMOPTIONSTOOLTIPS.BTNDELETEFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNDELETEFIELDS.CAPTION"
+msgid "Delete"
+msgstr "Удалить"
+
+#: TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
+msgid "Template..."
+msgstr "Шаблон..."
+
+#: TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION"
+msgid "Custom fields by file type"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION"
+msgid "Show tool tip"
+msgstr "Показывать всплывающие подсказки"
+
+#: TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
+msgid "Category hint:"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION"
+msgid "Category mask:"
+msgstr "Маска:"
+
+#: TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
+msgid "Category name:"
+msgstr "Наименование:"
+
+#: TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
+msgid "Show tool tip for all files in file panel"
+msgstr "Для всех файлов в файловой панели"
+
+#: TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
+msgid "Don't show"
+msgstr "Не показывать"
+
+#: TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
+msgid "Show tool tip for files in file panel if truncated"
+msgstr "Для файлов с именами не помещающимися на панели"
 
 #: TFRMPACKDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
@@ -6524,6 +6575,10 @@ msgstr "Вверху;Внизу;"
 #: ulng.rsopttools
 msgid "Tools"
 msgstr "Инструменты"
+
+#: ulng.rsopttooltips
+msgid "Tooltips"
+msgstr "Всплывающие подсказки"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""

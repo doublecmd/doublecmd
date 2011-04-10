@@ -3988,10 +3988,6 @@ msgstr "Pokaż siatkę w oknach"
 msgid " Show icons to the left of the filename "
 msgstr " Pokazuj ikony po lewej stronie nazwy pliku"
 
-#: TFRMOPTIONS.GBSHOWTOOLTIP.CAPTION
-msgid "Show tool tip"
-msgstr "Pokaż podpowiedzi"
-
 #: TFRMOPTIONS.GBSORTING.CAPTION
 msgid "Sorting"
 msgstr "Sortowanie"
@@ -4076,10 +4072,12 @@ msgid "Category color:"
 msgstr "Kolor:"
 
 #: TFRMOPTIONS.LBLCATEGORYMASK.CAPTION
+msgctxt "TFRMOPTIONS.LBLCATEGORYMASK.CAPTION"
 msgid "Category mask:"
 msgstr "Wzorzec typu:"
 
 #: TFRMOPTIONS.LBLCATEGORYNAME.CAPTION
+msgctxt "TFRMOPTIONS.LBLCATEGORYNAME.CAPTION"
 msgid "Category name:"
 msgstr "Nazwa:"
 
@@ -4292,18 +4290,6 @@ msgctxt "TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION"
 msgid "Page by page"
 msgstr "Całymi stronami"
 
-#: TFRMOPTIONS.RBTOOLTIPALLFILES.CAPTION
-msgid "Show tool tip for all files in file panel"
-msgstr "Pokazuj podpowiedzi dla wszystkich plików w panelu"
-
-#: TFRMOPTIONS.RBTOOLTIPNONE.CAPTION
-msgid "Don't show"
-msgstr "Nie pokazuj"
-
-#: TFRMOPTIONS.RBTOOLTIPONLYLARGE.CAPTION
-msgid "Show tool tip for files in file panel if truncated"
-msgstr "Pokazuj podpowiedzi dla plików jeśli panel plików nie jest widoczny w całości"
-
 #: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
 msgid "Use memory mapping for search text in files"
 msgstr "Przy poszukiwaniu ciągu znaków korzystaj z mapowania pamięci"
@@ -4385,6 +4371,71 @@ msgstr "Wtyczki systemu plików (.WFX)"
 #: TFRMOPTIONS.TSWLX.CAPTION
 msgid "Viewer plugins (.WLX)"
 msgstr "Wtyczki przeglądarki (listera) (.WLX)"
+
+#: TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION"
+msgid "Add"
+msgstr "Dodaj"
+
+#: TFRMOPTIONSTOOLTIPS.BTNAPPLYFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNAPPLYFIELDS.CAPTION"
+msgid "Apply"
+msgstr "Zastosuj"
+
+#: TFRMOPTIONSTOOLTIPS.BTNDELETEFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNDELETEFIELDS.CAPTION"
+msgid "Delete"
+msgstr "Usuń"
+
+#: TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSLIST.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT
+msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
+msgid "Template..."
+msgstr "Szablon"
+
+#: TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION"
+msgid "Custom fields by file type"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION"
+msgid "Show tool tip"
+msgstr "Pokaż podpowiedzi"
+
+#: TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
+msgid "Category hint:"
+msgstr ""
+
+#: TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION"
+msgid "Category mask:"
+msgstr "Wzorzec typu:"
+
+#: TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
+msgid "Category name:"
+msgstr "Nazwa:"
+
+#: TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
+msgid "Show tool tip for all files in file panel"
+msgstr "Pokazuj podpowiedzi dla wszystkich plików w panelu"
+
+#: TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
+msgid "Don't show"
+msgstr "Nie pokazuj"
+
+#: TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION
+msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
+msgid "Show tool tip for files in file panel if truncated"
+msgstr "Pokazuj podpowiedzi dla plików jeśli panel plików nie jest widoczny w całości"
 
 #: TFRMPACKDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
@@ -5496,6 +5547,9 @@ msgstr "Przenieś plik/i"
 msgid "Caption of operation"
 msgstr ""
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsdlgoppause
 msgctxt "ulng.rsdlgoppause"
 msgid "Pause"
@@ -5761,6 +5815,9 @@ msgstr "Otwórz z ..."
 msgid "Sort by"
 msgstr "Sortuj po"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmnuumount
 msgid "Unmount"
 msgstr "Odmontuj"
@@ -5802,6 +5859,9 @@ msgstr "Na pewno zakończyć?"
 msgid "Copy %d selected files/directories?"
 msgstr "Skopiować %d wybranych plików/katalogów?"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgcpsel
 msgid "Copy selected \"%s\"?"
 msgstr "Skopiować wybrane \"%s\"?"
@@ -5926,9 +5986,6 @@ msgstr "Nie można zapisać pliku"
 msgid "Can not set attributes for \"%s\""
 msgstr "Nie można ustawić atrybutów dla \"%s\""
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgerrsetdatetime
 msgid "Can not set date/time for \"%s\""
 msgstr "Nie można ustawić daty/czasu dla \"%s\""
@@ -5969,9 +6026,6 @@ msgstr "Plik %s jest oznaczony jako tylko do odczytu. Usunąć mimo to?"
 msgid "The file size of \"%s\" is too big for destination file system!"
 msgstr ""
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
 msgstr "katalog o nazwie %s istnieje, zastąpić?"
@@ -6012,9 +6066,6 @@ msgstr "Rozpakowywanie pliku %s"
 msgid "Info: "
 msgstr "Informacja: "
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgloglink
 msgid "Create link %s"
 msgstr "Tworzenie twardego linku %s"
@@ -6514,6 +6565,10 @@ msgstr "Góra;Dół;"
 #: ulng.rsopttools
 msgid "Tools"
 msgstr "Narzędzia"
+
+#: ulng.rsopttooltips
+msgid "Tooltips"
+msgstr ""
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
