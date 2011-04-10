@@ -33,8 +33,7 @@ interface
 uses
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, Spin, ColorBox,
-  EditBtn, Grids, uDSXModule, uWCXModule, uWDXModule,
-  uWFXmodule, uWLXModule, uGlobs, fOptionsFrame;
+  EditBtn, Grids, uGlobs, fOptionsFrame;
 
 type
 
@@ -54,13 +53,8 @@ type
     btnCategoryColor: TButton;
     btnConfigApply: TBitBtn;
     btnConfigEdit: TBitBtn;
-    btnConfigPlugin: TBitBtn;
     btnSearchTemplate: TBitBtn;
     btnSelLogFnt: TButton;
-    btnTweakPlugin: TBitBtn;
-    btnRemovePlugin: TBitBtn;
-    btnEnablePlugin: TBitBtn;
-    btnAddPlugin: TBitBtn;
     btnSelEditFnt: TButton;
     btnSelMainFnt: TButton;
     btnSelViewFnt: TButton;
@@ -290,16 +284,12 @@ type
     lbPressedHotKeyCommand: TLabel;
     lbFilter: TLabel;
     ledDriveBlackList: TLabeledEdit;
-    lblDSXDescription: TLabel;
-    lblWLXDescription: TLabel;
-    lblWCXDescription: TLabel;
     lbcategory: TLabel;
     lbcommands: TLabel;
     lblParam: TLabel;
     lblWipePassNumber: TLabel;
     lblMouseMode: TLabel;
     lblConfigColumns: TLabel;
-    lblWDXDescription: TLabel;
     lbtypes: TLabel;
     lbxCategories: TListBox;
     lstColumnsSets: TListBox;
@@ -320,7 +310,6 @@ type
     lblDateTimeExample: TLabel;
     lblDateTimeFormat: TLabel;
     lblCopyBufferSize: TLabel;
-    lblWFXDescription: TLabel;
     lblBackground2: TLabel;
     lblMarkColor: TLabel;
     lblCursorColor: TLabel;
@@ -349,7 +338,6 @@ type
     pgTabs: TPage;
     pgFileOp: TPage;
     pbExample: TPaintBox;
-    pcPluginsTypes: TPageControl;
     pgFileTypesColors: TPage;
     pgLayout: TPage;
     pgPlugins: TPage;
@@ -375,7 +363,6 @@ type
     seNumberColumnsViewer: TSpinEdit;
     splMultiArc: TSplitter;
     splOptionsSplitter: TSplitter;
-    stgPlugins: TStringGrid;
     stgCommands: TStringGrid;
     gbIconsSize: TGroupBox;
     stgHotkeys: TStringGrid;
@@ -384,11 +371,6 @@ type
     tbArchiverAdditional: TTabSheet;
     tbArchiverGeneral: TTabSheet;
     tbInactivePanelBrightness: TTrackBar;
-    tsWLX: TTabSheet;
-    tsDSX: TTabSheet;
-    tsWDX: TTabSheet;
-    tsWCX: TTabSheet;
-    tsWFX: TTabSheet;
     tvTreeView: TTreeView;
     cbWatchFileNameChange: TCheckBox;
     edtWatchExcludeDirs: TEdit;
@@ -403,9 +385,6 @@ type
     procedure btnBackViewerColorClick(Sender: TObject);
     procedure btnConfigApplyClick(Sender: TObject);
     procedure btnConfigEditClick(Sender: TObject);
-    procedure btnConfigPluginClick(Sender: TObject);
-    procedure btnDSXAddClick(Sender: TObject);
-    procedure btnEnablePluginClick(Sender: TObject);
     procedure btnFontViewerColorClick(Sender: TObject);
     procedure btnMultiArcAddClick(Sender: TObject);
     procedure btnMultiArcApplyClick(Sender: TObject);
@@ -432,9 +411,6 @@ type
     procedure lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
     procedure OnAutoRefreshOptionChanged(Sender: TObject);
     procedure edHotKeyKeyPress(Sender: TObject; var Key: char);
-    procedure btnWDXAddClick(Sender: TObject);
-    procedure btnWFXAddClick(Sender: TObject);
-    procedure btnWLXAddClick(Sender: TObject);
     procedure btClearHotKeyClick(Sender: TObject);
     procedure btnBackColor2Click(Sender: TObject);
     procedure btnCopyColumnsSetClick(Sender: TObject);
@@ -445,11 +421,8 @@ type
     procedure btnEditColumnsSetClick(Sender: TObject);
     procedure btnMarkColorClick(Sender: TObject);
     procedure btnNewColumnsSetClick(Sender: TObject);
-    procedure btnWCXAddClick(Sender: TObject);
     procedure btnForeColorClick(Sender: TObject);
     procedure btnBackColorClick(Sender: TObject);
-    procedure btnRemovePluginClick(Sender: TObject);
-    procedure btnTweakPluginClick(Sender: TObject);
     procedure cbbUseInvertedSelectionChange(Sender: TObject);
     procedure cbCategoryColorChange(Sender: TObject);
     procedure cbColorBoxChange(Sender: TObject);
@@ -471,8 +444,7 @@ type
     procedure btnSelMainFntClick(Sender: TObject);
     procedure btnSelViewFntClick(Sender: TObject);
     procedure btnSelLogFntClick(Sender: TObject);
-    procedure edHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
-      );
+    procedure edHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure lbCategoriesClick(Sender: TObject);
@@ -482,7 +454,6 @@ type
     procedure nbNotebookPageChanged(Sender: TObject);
     procedure pbViewerBookPaint(Sender: TObject);
     procedure pbExamplePaint(Sender: TObject);
-    procedure pcPluginsTypesChange(Sender: TObject);
     procedure pgBehavResize(Sender: TObject);
     procedure rbIconsShowNoneChange(Sender: TObject);
     procedure rbQuickSearchFilterKeyChange(Sender: TObject);
@@ -493,15 +464,9 @@ type
     procedure stgCommandsSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
     procedure stgHotkeysSelectCell(Sender: TObject; aCol, aRow: Integer; var CanSelect: Boolean);
-    procedure stgPluginsBeforeSelection(Sender: TObject; aCol, aRow: Integer);
     procedure stgToolsSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
     procedure tbArchiverAdditionalShow(Sender: TObject);
-    procedure tsDSXShow(Sender: TObject);
-    procedure tsWCXShow(Sender: TObject);
-    procedure tsWDXShow(Sender: TObject);
-    procedure tsWFXShow(Sender: TObject);
-    procedure tsWLXShow(Sender: TObject);
     procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
 
   private
@@ -529,13 +494,6 @@ type
     function  getHotKeyListByCommand(command:string; const res:TStringList):integer;
   end;
 
-var
-  tmpDSXPlugins: TDSXModuleList;
-  tmpWCXPlugins: TWCXModuleList;
-  tmpWDXPlugins: TWDXModuleList;
-  tmpWFXPlugins: TWFXModuleList;
-  tmpWLXPlugins: TWLXModuleList;
-
 implementation
 
 {$R *.lfm}
@@ -543,8 +501,9 @@ implementation
 uses
   uLng, uGlobsPaths, uPixMapManager, fMain, LCLProc, LCLVersion,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
-  fTweakPlugin, uhotkeymanger, uTypes, StrUtils, uFindEx, uKeyboard,
-  fMaskInputDlg, uSearchTemplate, uMultiArc, uFile, uDebug, fOptionsToolTips;
+  uhotkeymanger, uTypes, StrUtils, uFindEx, uKeyboard,
+  fMaskInputDlg, uSearchTemplate, uMultiArc, uFile, uDebug,
+  fOptionsPlugins, fOptionsToolTips;
 
 const
   stgCmdCommandIndex = 0;
@@ -666,18 +625,6 @@ begin
   stgArchiverCommands.Cells[0, stgArchiveIDSeekRange] := rsOptArchiveIDSeekRange;
   stgArchiverCommands.Cells[0, stgArchivePasswordQuery] := rsOptArchivePasswordQuery;
 
-  // Localize plugins.
-  stgPlugins.Columns.Items[0].Title.Caption := rsOptPluginsActive;
-  stgPlugins.Columns.Items[1].Title.Caption := rsOptPluginsName;
-  stgPlugins.Columns.Items[2].Title.Caption := rsOptPluginsRegisteredFor;
-  stgPlugins.Columns.Items[3].Title.Caption := rsOptPluginsFileName;
-
-  // create plugins lists
-  tmpDSXPlugins:= TDSXModuleList.Create;
-  tmpWCXPlugins:= TWCXModuleList.Create;
-  tmpWDXPlugins:= TWDXModuleList.Create;
-  tmpWFXPlugins:= TWFXModuleList.Create;
-  tmpWLXPlugins:= TWLXModuleList.Create;
   // load all configuration
   LoadConfig;
 
@@ -1064,15 +1011,6 @@ end;
 
 procedure TfrmOptions.FormDestroy(Sender: TObject);
 begin
-  FreeThenNil(tmpDSXPlugins);
-  if Assigned(tmpWCXPlugins) then
-    FreeAndNil(tmpWCXPlugins);
-  if Assigned(tmpWDXPlugins) then
-    FreeAndNil(tmpWDXPlugins);
-  if Assigned(tmpWFXPlugins) then
-    FreeAndNil(tmpWFXPlugins);
-  if Assigned(tmpWLXPlugins) then
-    FreeAndNil(tmpWLXPlugins);
   FreeThenNil(FOptionsEditorList);
 end;
 
@@ -1209,12 +1147,6 @@ begin
   end; // for
 end;
 
-procedure TfrmOptions.pcPluginsTypesChange(Sender: TObject);
-begin
-  if stgPlugins.RowCount > stgPlugins.FixedRows then
-    stgPluginsBeforeSelection(stgPlugins, 0, stgPlugins.FixedRows);
-end;
-
 procedure TfrmOptions.pgBehavResize(Sender: TObject);
 var
   iWidth: Integer;
@@ -1299,19 +1231,6 @@ begin
   lbPressedHotKeyCommand.Caption:='';
 end;
 
-{ Plugins }
-
-procedure TfrmOptions.stgPluginsBeforeSelection(Sender: TObject; aCol,
-  aRow: Integer);
-begin
-  if stgPlugins.Cells[0, aRow] = '+' then
-    btnEnablePlugin.Caption:= rsOptDisable
-  else if stgPlugins.Cells[0, aRow] = '-' then
-    btnEnablePlugin.Caption:= rsOptEnable;
-
-  btnEnablePlugin.Enabled:= (stgPlugins.Cells[0, aRow] <> '');
-end;
-
 procedure TfrmOptions.stgToolsSelectCell(Sender: TObject; aCol, aRow: Integer;
   var CanSelect: Boolean);
 begin
@@ -1335,39 +1254,6 @@ begin
     if J > iWidth then iWidth:= J;
   end;
   stgArchiverCommands.ColWidths[0]:= iWidth + 12;
-end;
-
-procedure TfrmOptions.btnEnablePluginClick(Sender: TObject);
-var
-  sExt,
-  sExts: String;
-  iPluginIndex: Integer;
-  bEnabled: Boolean;
-begin
-  if stgPlugins.Row < stgPlugins.FixedRows then Exit;
-  if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
-    begin
-      sExts:= stgPlugins.Cells[2, stgPlugins.Row];
-      sExt:= Copy2SpaceDel(sExts);
-      repeat
-        iPluginIndex:= tmpWCXPlugins.Find(stgPlugins.Cells[3, stgPlugins.Row], sExt);
-        if iPluginIndex <> -1 then
-        begin
-          bEnabled:= not tmpWCXPlugins.Enabled[iPluginIndex];
-          tmpWCXPlugins.Enabled[iPluginIndex]:= bEnabled;
-        end;
-        sExt:= Copy2SpaceDel(sExts);
-      until sExt = '';
-      stgPlugins.Cells[0, stgPlugins.Row]:= IfThen(bEnabled, string('+'), string('-'));
-      btnEnablePlugin.Caption:= IfThen(bEnabled, rsOptDisable, rsOptEnable);
-    end
-  else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
-    begin
-      bEnabled:= not tmpWFXPlugins.Enabled[stgPlugins.Row - stgPlugins.FixedRows];
-      stgPlugins.Cells[0, stgPlugins.Row]:= IfThen(bEnabled, string('+'), string('-'));
-      tmpWFXPlugins.Enabled[stgPlugins.Row - stgPlugins.FixedRows]:= bEnabled;
-      btnEnablePlugin.Caption:= IfThen(bEnabled, rsOptDisable, rsOptEnable);
-    end;
 end;
 
 procedure TfrmOptions.btnFontViewerColorClick(Sender: TObject);
@@ -1446,430 +1332,6 @@ begin
     begin
       lbxMultiArc.Items[lbxMultiArc.ItemIndex]:= sNewName;
       gMultiArcList.Names[lbxMultiArc.ItemIndex]:= sNewName;
-    end;
-end;
-
-procedure TfrmOptions.btnRemovePluginClick(Sender: TObject);
-var
-  sExt,
-  sExts: String;
-  iPluginIndex: Integer;
-begin
-  if stgPlugins.Row < stgPlugins.FixedRows then Exit; // no plugins
-
-  if pcPluginsTypes.ActivePage.Name = 'tsDSX' then
-    begin
-      tmpDSXPlugins.DeleteItem(stgPlugins.Row - stgPlugins.FixedRows);
-      stgPlugins.DeleteColRow(False, stgPlugins.Row);
-    end
-  else if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
-    begin
-      sExts:= stgPlugins.Cells[2, stgPlugins.Row];
-      sExt:= Copy2SpaceDel(sExts);
-      repeat
-        iPluginIndex:= tmpWCXPlugins.Find(stgPlugins.Cells[3, stgPlugins.Row], sExt);
-        if iPluginIndex <> -1 then
-          tmpWCXPlugins.Delete(iPluginIndex);
-        sExt:= Copy2SpaceDel(sExts);
-      until sExt = '';
-      stgPlugins.DeleteColRow(False, stgPlugins.Row);
-    end
-  else if pcPluginsTypes.ActivePage.Name = 'tsWDX' then
-    begin
-      tmpWDXPlugins.DeleteItem(stgPlugins.Row - stgPlugins.FixedRows);
-      stgPlugins.DeleteColRow(False, stgPlugins.Row);
-    end
-  else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
-    begin
-      tmpWFXPlugins.Delete(stgPlugins.Row - stgPlugins.FixedRows);
-      stgPlugins.DeleteColRow(False, stgPlugins.Row);
-    end
-  else if pcPluginsTypes.ActivePage.Name = 'tsWLX' then
-    begin
-      tmpWLXPlugins.DeleteItem(stgPlugins.Row - stgPlugins.FixedRows);
-      stgPlugins.DeleteColRow(False, stgPlugins.Row);
-    end
-end;
-
-procedure TfrmOptions.btnTweakPluginClick(Sender: TObject);
-var
-  ptPluginType: TPluginType;
-  iPluginIndex: Integer;
-begin
-  iPluginIndex:= stgPlugins.Row - stgPlugins.FixedRows;
-  if pcPluginsTypes.ActivePage.Name = 'tsDSX' then
-    ptPluginType:= ptDSX
-  else if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
-    begin
-      ptPluginType:= ptWCX;
-      // get plugin index
-      iPluginIndex:= tmpWCXPlugins.Find(stgPlugins.Cells[3, stgPlugins.Row],
-                                        Copy2Space(stgPlugins.Cells[2, stgPlugins.Row]));
-    end
-  else if pcPluginsTypes.ActivePage.Name = 'tsWDX' then
-    ptPluginType:= ptWDX
-  else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
-    ptPluginType:= ptWFX
-  else if pcPluginsTypes.ActivePage.Name = 'tsWLX' then
-    ptPluginType:= ptWLX;
-
-  if iPluginIndex < 0 then Exit;
-  if ShowTweakPluginDlg(ptPluginType, iPluginIndex) then
-    pcPluginsTypes.ActivePage.OnShow(pcPluginsTypes.ActivePage); // update info in plugin list
-end;
-
-procedure TfrmOptions.btnConfigPluginClick(Sender: TObject);
-var
-  WCXmodule: TWCXmodule;
-  WFXmodule: TWFXmodule;
-  PluginFileName: String;
-begin
-  if stgPlugins.Row < stgPlugins.FixedRows then Exit; // no plugins
-
-  PluginFileName := GetCmdDirFromEnvVar(stgPlugins.Cells[3, stgPlugins.Row]);
-
-  if pcPluginsTypes.ActivePage.Name = 'tsWCX' then
-    begin
-      WCXmodule := TWCXmodule.Create;
-      DCDebug('TWCXmodule created');
-      try
-        if WCXmodule.LoadModule(PluginFileName) then
-         begin
-           DCDebug('WCXModule Loaded');
-           WCXmodule.VFSConfigure(stgPlugins.Handle);
-           DCDebug('Dialog executed');
-           WCXModule.UnloadModule;
-           DCDebug('WCX Module Unloaded');
-         end
-         else
-           msgError(rsMsgErrEOpen + ': ' + PluginFileName);
-      finally
-        WCXmodule.Free;
-        DCDebug('WCX Freed');
-      end;
-    end
-  else if pcPluginsTypes.ActivePage.Name = 'tsWFX' then
-    begin
-      WFXmodule := TWFXmodule.Create;
-      DCDebug('TWFXmodule created');
-      try
-        if WFXmodule.LoadModule(PluginFileName) then
-         begin
-           DCDebug('WFXModule Loaded');
-           WfxModule.VFSInit(0);
-           WFXmodule.VFSConfigure(stgPlugins.Handle);
-           DCDebug('Dialog executed');
-           WFXModule.UnloadModule;
-           DCDebug('WFX Module Unloaded');
-         end
-         else
-           msgError(rsMsgErrEOpen + ': ' + PluginFileName);
-      finally
-        WFXmodule.Free;
-        DCDebug('WFX Freed');
-      end;
-    end;
-end;
-
-{ DSX plugins }
-
-procedure TfrmOptions.btnDSXAddClick(Sender: TObject);
-var
-  I, J: Integer;
-  sPluginName : String;
-begin
-  odOpenDialog.Filter := 'Search plugins (*.dsx)|*.dsx';
-  if odOpenDialog.Execute then
-    begin
-      sPluginName := ExtractFileName(odOpenDialog.FileName);
-      Delete(sPluginName,length(sPluginName)-4,4);
-      I:= tmpDSXPlugins.Add(sPluginName,odOpenDialog.FileName,'');
-
-      stgPlugins.RowCount:= stgPlugins.RowCount + 1;
-      J:= stgPlugins.RowCount - stgPlugins.FixedRows;
-      stgPlugins.Cells[1, J]:= tmpDSXPlugins.GetDsxModule(I).Name;
-      stgPlugins.Cells[2, J]:= tmpDSXPlugins.GetDsxModule(I).Descr;
-      stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpDSXPlugins.GetDsxModule(I).FileName);
-    end;
-end;
-
-procedure TfrmOptions.tsDSXShow(Sender: TObject);
-var i:integer;
-begin
-  btnAddPlugin.OnClick:= @btnDSXAddClick;
-  stgPlugins.RowCount:= tmpDSXPlugins.Count + stgPlugins.FixedRows;
-  for i:=0 to tmpDSXPlugins.Count-1 do
-    begin
-    stgPlugins.Cells[1, I + stgPlugins.FixedRows]:= tmpDSXPlugins.GetDsxModule(i).Name;
-    stgPlugins.Cells[2, I + stgPlugins.FixedRows]:= tmpDSXPlugins.GetDsxModule(i).Descr;
-    stgPlugins.Cells[3, I + stgPlugins.FixedRows]:= SetCmdDirAsEnvVar(tmpDSXPlugins.GetDsxModule(i).FileName);
-    end;
-end;
-
-{ WCX plugins }
-
-procedure TfrmOptions.btnWCXAddClick(Sender: TObject);
-var
-  J, iPluginIndex, iFlags: Integer;
-  sExt : String;
-  sExts : String;
-  sExtsTemp : String;
-  sPluginName : String;
-  sAlreadyAssignedExts : String;
-  WCXmodule : TWCXmodule;
-begin
-  odOpenDialog.Filter := 'Archive plugins (*.wcx)|*.wcx';
-  if odOpenDialog.Execute then
-    begin
-      WCXmodule := TWCXmodule.Create;
-      try
-        if WCXmodule.LoadModule(odOpenDialog.FileName) then
-          begin
-            iFlags := WCXmodule.GetPluginCapabilities;
-            WCXModule.UnloadModule;
-          end
-        else
-          iFlags := 0;
-
-        sPluginName := SetCmdDirAsEnvVar(odOpenDialog.FileName);
-        if InputQuery(rsOptEnterExt, Format(rsOptAssocPluginWith, [odOpenDialog.FileName]), sExts) then
-          begin
-            sExtsTemp := sExts;
-            sExts := '';
-            sAlreadyAssignedExts := '';
-            sExt:= Copy2SpaceDel(sExtsTemp);
-            repeat
-              iPluginIndex:= tmpWCXPlugins.Find(sPluginName, sExt);
-              if iPluginIndex <> -1 then
-                begin
-                  AddStrWithSep(sAlreadyAssignedExts, sExt);
-                end
-              else
-                begin
-                  tmpWCXPlugins.AddObject(sExt + '=' + IntToStr(iFlags) + ',' + sPluginName, TObject(True));
-                  AddStrWithSep(sExts, sExt);
-                end;
-              sExt:= Copy2SpaceDel(sExtsTemp);
-            until sExt = '';
-
-            if sAlreadyAssignedExts <> '' then
-              MessageDlg(Format(rsOptPluginAlreadyAssigned, [odOpenDialog.FileName]) +
-                         LineEnding + sAlreadyAssignedExts, mtWarning, [mbOK], 0);
-
-            if sExts <> '' then
-              begin
-                stgPlugins.RowCount:= stgPlugins.RowCount + 1; // Add new row
-                J:= stgPlugins.RowCount-1;
-                stgPlugins.Cells[0, J]:= '+'; // Enabled
-                stgPlugins.Cells[1, J]:= ExtractOnlyFileName(odOpenDialog.FileName);
-                stgPlugins.Cells[2, J]:= sExts;
-                stgPlugins.Cells[3, J]:= sPluginName;
-              end;
-          end;
-      finally
-        WCXmodule.Free;
-      end;
-    end;
-end;
-
-procedure TfrmOptions.tsWCXShow(Sender: TObject);
-var
-  I,
-  iIndex: Integer;
-  sFileName,
-  sExt: String;
-  iRow: Integer;
-begin
-  btnAddPlugin.OnClick:= @btnWCXAddClick;
-  stgPlugins.RowCount:= stgPlugins.FixedRows;
-
-  // Clear column with extensions
-  stgPlugins.Clean(2, stgPlugins.FixedRows, 2, stgPlugins.RowCount, [gzNormal]);
-
-  for I := 0 to tmpWCXPlugins.Count - 1 do
-  begin
-    // get associated extension
-    sExt := tmpWCXPlugins.Ext[I];
-
-    //get file name
-    sFileName:= tmpWCXPlugins.FileName[I];
-
-    iIndex:= stgPlugins.Cols[3].IndexOf(sFileName);
-    if iIndex < 0 then
-      begin
-        stgPlugins.RowCount:= stgPlugins.RowCount + 1;
-        iRow := stgPlugins.RowCount - 1;
-        stgPlugins.Cells[1, iRow]:= ExtractOnlyFileName(sFileName);
-        stgPlugins.Cells[2, iRow]:= sExt + #32;
-
-        if tmpWCXPlugins.Enabled[I] then // enabled
-          begin
-            stgPlugins.Cells[3, iRow]:= sFileName;
-            stgPlugins.Cells[0, iRow]:= '+';
-          end
-        else // disabled
-          begin
-            stgPlugins.Cells[3, iRow]:= sFileName;
-            stgPlugins.Cells[0, iRow]:= '-';
-          end;
-      end
-    else
-      begin
-        stgPlugins.Cells[2, iIndex]:= stgPlugins.Cells[2, iIndex] + sExt + #32;
-      end;
-  end;
-  if stgPlugins.RowCount > stgPlugins.FixedRows then
-    stgPluginsBeforeSelection(stgPlugins, 0, stgPlugins.FixedRows);
-end;
-
-{ WDX plugins }
-
-procedure TfrmOptions.btnWDXAddClick(Sender: TObject);
-var
-  I, J: Integer;
-  sPluginName : String;
-begin
-  odOpenDialog.Filter := 'Content plugins (*.wdx; *.lua)|*.wdx;*.lua';
-  if odOpenDialog.Execute then
-    begin
-      sPluginName := ExtractOnlyFileName(odOpenDialog.FileName);
-      I:= tmpWDXPlugins.Add(sPluginName, odOpenDialog.FileName, '');
-
-      tmpWDXPlugins.LoadModule(sPluginName);
-      tmpWDXPlugins.GetWdxModule(sPluginName).DetectStr:=tmpWDXPlugins.GetWdxModule(sPluginName).CallContentGetDetectString;
-
-      stgPlugins.RowCount:= stgPlugins.RowCount + 1;
-      J:= stgPlugins.RowCount-1;
-      stgPlugins.Cells[1, J]:= tmpWDXPlugins.GetWdxModule(I).Name;
-      stgPlugins.Cells[2, J]:= tmpWDXPlugins.GetWdxModule(I).DetectStr;
-      stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpWDXPlugins.GetWdxModule(I).FileName);
-    end;
-end;
-
-procedure TfrmOptions.tsWDXShow(Sender: TObject);
-var i:integer;
-begin
-  btnAddPlugin.OnClick:= @btnWDXAddClick;
-  stgPlugins.RowCount:= tmpWDXPlugins.Count + stgPlugins.FixedRows;
-  for i:=0 to tmpWDXPlugins.Count-1 do
-    begin
-    stgPlugins.Cells[1, I + stgPlugins.FixedRows]:= tmpWDXPlugins.GetWdxModule(i).Name;
-    stgPlugins.Cells[2, I + stgPlugins.FixedRows]:= tmpWDXPlugins.GetWdxModule(i).DetectStr;
-    stgPlugins.Cells[3, I + stgPlugins.FixedRows]:= SetCmdDirAsEnvVar(tmpWDXPlugins.GetWdxModule(i).FileName);
-    end;
-end;
-
-{ WFX plugins }
-
-procedure TfrmOptions.btnWFXAddClick(Sender: TObject);
-var
-  I, J: Integer;
-  WfxModule : TWFXmodule;
-  sPluginName,
-  sRootName: UTF8String;
-begin
-  odOpenDialog.Filter := 'File system plugins (*.wfx)|*.wfx';
-  if odOpenDialog.Execute then
-  begin
-  DCDebug('Dialog executed');
-    WfxModule := TWfxModule.Create;
-    DCDebug('TWFXmodule created');
-    if WfxModule.LoadModule(odOpenDialog.FileName) then
-     begin
-       DCDebug('WFXModule Loaded');
-       sRootName:= WfxModule.VFSRootName;
-       if sRootName <> EmptyStr then
-        sPluginName := sRootName + '=' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
-       else
-         begin
-           DCDebug('WFX alternate name');
-           sRootName:= ExtractFileName(odOpenDialog.FileName);
-           sRootName:= Copy(sRootName, 1, Pos('.', sRootName) - 1);
-           sPluginName := sRootName + '=' + SetCmdDirAsEnvVar(odOpenDialog.FileName)
-         end;
-     end
-    else
-    begin
-      DCDebug('Module not loaded');
-      sPluginName := ExtractFileName(odOpenDialog.FileName) +'=' + SetCmdDirAsEnvVar(odOpenDialog.FileName);
-    end;
-
-  DCDebug('WFX sPluginName='+sPluginName);
-  I:= tmpWFXPlugins.AddObject(sPluginName, TObject(True));
-  stgPlugins.RowCount:= tmpWFXPlugins.Count + 1;
-  J:= stgPlugins.RowCount-1;
-  stgPlugins.Cells[0, J]:= '+';
-  stgPlugins.Cells[1, J]:= tmpWFXPlugins.Name[I];
-  stgPlugins.Cells[2, J]:= EmptyStr;
-  stgPlugins.Cells[3, J]:= tmpWFXPlugins.FileName[I];
-  DCDebug('WFX Item Added');
-  WFXModule.UnloadModule;
-  DCDebug('WFX Module Unloaded');
-  WFXmodule.Free;
-  DCDebug('WFX Freed');
-  end;
-end;
-
-procedure TfrmOptions.tsWFXShow(Sender: TObject);
-var
-  I, iRow: Integer;
-begin
-  btnAddPlugin.OnClick:= @btnWFXAddClick;
-  stgPlugins.RowCount:= tmpWFXPlugins.Count + stgPlugins.FixedRows;
-  for I:= 0 to tmpWFXPlugins.Count - 1 do
-  begin
-    iRow := I + stgPlugins.FixedRows;
-    if tmpWFXPlugins.Enabled[I] then
-      begin
-        stgPlugins.Cells[1, iRow]:= tmpWFXPlugins.Name[I];
-        stgPlugins.Cells[3, iRow]:= tmpWFXPlugins.FileName[I];
-        stgPlugins.Cells[0, iRow]:= '+';
-      end
-    else
-      begin
-        stgPlugins.Cells[1, iRow]:= tmpWFXPlugins.Name[I];
-        stgPlugins.Cells[3, iRow]:= tmpWFXPlugins.FileName[I];
-        stgPlugins.Cells[0, iRow]:= '-';
-      end;
-    stgPlugins.Cells[2, iRow]:= '';
-  end;
-end;
-
-{ WLX Plugins }
-
-procedure TfrmOptions.btnWLXAddClick(Sender: TObject);
-var
-  I, J: Integer;
-  sPluginName : String;
-begin
-  odOpenDialog.Filter := 'Viewer plugins (*.wlx)|*.wlx';
-  if odOpenDialog.Execute then
-    begin
-      sPluginName := ExtractOnlyFileName(odOpenDialog.FileName);
-      I:= tmpWLXPlugins.Add(sPluginName,odOpenDialog.FileName,'');
-
-      tmpWLXPlugins.LoadModule(sPluginName);
-      tmpWLXPlugins.GetWlxModule(sPluginName).DetectStr:=tmpWLXPlugins.GetWlxModule(sPluginName).CallListGetDetectString;
-
-      stgPlugins.RowCount:= stgPlugins.RowCount + 1;
-      J:= stgPlugins.RowCount-1;
-      stgPlugins.Cells[1, J]:= tmpWLXPlugins.GetWlxModule(I).Name;
-      stgPlugins.Cells[2, J]:= tmpWLXPlugins.GetWlxModule(I).DetectStr;
-      stgPlugins.Cells[3, J]:= SetCmdDirAsEnvVar(tmpWLXPlugins.GetWlxModule(I).FileName);
-    end;
-end;
-
-procedure TfrmOptions.tsWLXShow(Sender: TObject);
-var
-  i: Integer;
-begin
-  btnAddPlugin.OnClick:= @btnWLXAddClick;
-  stgPlugins.RowCount:= tmpWLXPlugins.Count + stgPlugins.FixedRows;
-  for i:=0 to tmpWLXPlugins.Count-1 do
-    begin
-    stgPlugins.Cells[1, I + stgPlugins.FixedRows]:= tmpWLXPlugins.GetWlxModule(i).Name;
-    stgPlugins.Cells[2, I + stgPlugins.FixedRows]:= tmpWLXPlugins.GetWlxModule(i).DetectStr;
-    stgPlugins.Cells[3, I + stgPlugins.FixedRows]:= SetCmdDirAsEnvVar(tmpWLXPlugins.GetWlxModule(i).FileName);
     end;
 end;
 
@@ -2058,6 +1520,10 @@ var
 begin
   aOptionsEditor:= TfrmOptionsToolTips.Create(Self);
   aOptionsEditor.Parent:= pgToolTips;
+  aOptionsEditor.Load;
+  FOptionsEditorList.Add(aOptionsEditor);
+  aOptionsEditor:= TfrmOptionsPlugins.Create(Self);
+  aOptionsEditor.Parent:= pgPlugins;
   aOptionsEditor.Load;
   FOptionsEditorList.Add(aOptionsEditor);
 end;
@@ -2790,10 +2256,10 @@ begin
   cbTabsOpenNearCurrent.Checked:= tb_open_new_near_current in gDirTabOptions;
   cbTabsLockedAsterisk.Checked:= tb_show_asterisk_for_locked in gDirTabOptions;
   cbTabsActivateOnClick.Checked:= tb_activate_panel_on_click in gDirTabOptions;
-  cbTabsMultiLines.Visible:= (nbcMultiline in pcPluginsTypes.GetCapabilities);
+  cbTabsMultiLines.Visible:= (nbcMultiline in pcArchiverCommands.GetCapabilities);
   if cbTabsMultiLines.Visible then
      cbTabsMultiLines.Checked:= tb_multiple_lines in gDirTabOptions;
-  cbTabsShowCloseButton.Visible:= (nbcShowCloseButtons in pcPluginsTypes.GetCapabilities);
+  cbTabsShowCloseButton.Visible:= (nbcShowCloseButtons in pcArchiverCommands.GetCapabilities);
   if cbTabsShowCloseButton.Visible then
     cbTabsShowCloseButton.Checked:= tb_show_close_button in gDirTabOptions;
   edtTabsLimitLength.Text:= IntToStr(gDirTabLimit);
@@ -2886,13 +2352,6 @@ begin
    FillCommandsPage;
    // fill archiver list
    FillArchiverList;
-
-  { Fill plugins lists }
-  tmpDSXPlugins.Assign(gDSXPlugins);
-  tmpWCXPlugins.Assign(gWCXPlugins);
-  tmpWDXPlugins.Assign(gWDXPlugins);
-  tmpWFXPlugins.Assign(gWFXPlugins);
-  tmpWLXPlugins.Assign(gWLXPlugins);
 end;
 
 procedure TfrmOptions.SaveConfig;
@@ -3148,14 +2607,6 @@ begin
 
   frmMain.UpdateWindowView;
   frmMain.Repaint; // for panels repaint
-
-  
-  { Set plugins lists }
-  gDSXPlugins.Assign(tmpDSXPlugins);
-  gWCXPlugins.Assign(tmpWCXPlugins);
-  gWDXPlugins.Assign(tmpWDXPlugins);
-  gWFXPlugins.Assign(tmpWFXPlugins);
-  gWLXPlugins.Assign(tmpWLXPlugins);
 
   {save hot keys file}
   gNameSCFile := lbSCFilesList.GetSelectedText;

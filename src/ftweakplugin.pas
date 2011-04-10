@@ -98,7 +98,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Dialogs, fOptions, WcxPlugin, uDCUtils, uLng, LCLVersion;
+  Dialogs, fOptionsPlugins, WcxPlugin, uDCUtils, uLng, LCLVersion;
 
 function ShowTweakPluginDlg(PluginType: TPluginType; PluginIndex: Integer): Boolean;
 var
@@ -345,4 +345,4 @@ begin
 end;
 
 end.
-
+

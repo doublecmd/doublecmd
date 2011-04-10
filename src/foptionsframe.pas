@@ -13,8 +13,8 @@ type
 
   TAbstractOptionsEditor = class(TFrame)
   protected
-    procedure Init; virtual; abstract;
-    procedure Done; virtual; abstract;
+    procedure Init; virtual;
+    procedure Done; virtual;
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -30,6 +30,16 @@ type
 implementation
 
 { TAbstractOptionsEditor }
+
+procedure TAbstractOptionsEditor.Init;
+begin
+
+end;
+
+procedure TAbstractOptionsEditor.Done;
+begin
+
+end;
 
 constructor TAbstractOptionsEditor.Create(TheOwner: TComponent);
 begin

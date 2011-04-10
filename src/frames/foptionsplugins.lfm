@@ -1,0 +1,382 @@
+object frmOptionsPlugins: TfrmOptionsPlugins
+  Left = 0
+  Height = 376
+  Top = 0
+  Width = 604
+  Align = alClient
+  ClientHeight = 376
+  ClientWidth = 604
+  TabOrder = 0
+  DesignLeft = 330
+  DesignTop = 87
+  object pcPluginsTypes: TPageControl
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 0
+    Height = 84
+    Top = 0
+    Width = 604
+    ActivePage = tsWCX
+    Align = alTop
+    TabIndex = 0
+    TabOrder = 0
+    OnChange = pcPluginsTypesChange
+    object tsWCX: TTabSheet
+      Caption = 'Packer plugins (.WCX)'
+      ClientHeight = 58
+      ClientWidth = 596
+      OnShow = tsWCXShow
+      object lblWCXDescription: TLabel
+        AnchorSideLeft.Control = tsWCX
+        AnchorSideTop.Control = tsWCX
+        AnchorSideRight.Control = tsWCX
+        AnchorSideRight.Side = asrBottom
+        Left = 10
+        Height = 14
+        Top = 12
+        Width = 576
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 10
+        BorderSpacing.Top = 12
+        BorderSpacing.Right = 10
+        Caption = 'Packer plugins are used to work with archives.'
+        ParentColor = False
+        WordWrap = True
+      end
+    end
+    object tsWFX: TTabSheet
+      Caption = 'File system plugins (.WFX)'
+      ChildSizing.LeftRightSpacing = 239
+      ClientHeight = 58
+      ClientWidth = 747
+      OnShow = tsWFXShow
+      object lblWFXDescription: TLabel
+        AnchorSideTop.Control = tsWFX
+        AnchorSideRight.Control = tsWFX
+        AnchorSideRight.Side = asrBottom
+        Left = 10
+        Height = 27
+        Top = 12
+        Width = 498
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 10
+        BorderSpacing.Top = 12
+        BorderSpacing.Right = 10
+        Caption = 'File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC.'
+        ParentColor = False
+        WordWrap = True
+      end
+    end
+    object tsWDX: TTabSheet
+      Caption = 'Content plugins (.WDX)'
+      ClientHeight = 58
+      ClientWidth = 747
+      OnShow = tsWDXShow
+      object lblWDXDescription: TLabel
+        AnchorSideLeft.Control = tsWDX
+        AnchorSideTop.Control = tsWDX
+        AnchorSideRight.Control = tsWDX
+        AnchorSideRight.Side = asrBottom
+        Left = 10
+        Height = 14
+        Top = 12
+        Width = 727
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 10
+        BorderSpacing.Top = 12
+        BorderSpacing.Right = 10
+        Caption = 'Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool'
+        ParentColor = False
+        WordWrap = True
+      end
+    end
+    object tsDSX: TTabSheet
+      Caption = 'Search plugins (.DSX)'
+      ClientHeight = 58
+      ClientWidth = 747
+      OnShow = tsDSXShow
+      object lblDSXDescription: TLabel
+        AnchorSideLeft.Control = tsDSX
+        AnchorSideTop.Control = tsDSX
+        AnchorSideRight.Control = tsDSX
+        AnchorSideRight.Side = asrBottom
+        Left = 10
+        Height = 14
+        Top = 12
+        Width = 727
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 10
+        BorderSpacing.Top = 12
+        BorderSpacing.Right = 10
+        Caption = 'Search plugins allow to use alternative search algorithms or external tools (like "locate", etc.)'
+        ParentColor = False
+        WordWrap = True
+      end
+    end
+    object tsWLX: TTabSheet
+      Caption = 'Viewer plugins (.WLX)'
+      ClientHeight = 58
+      ClientWidth = 596
+      OnShow = tsWLXShow
+      object lblWLXDescription: TLabel
+        AnchorSideLeft.Control = tsWLX
+        AnchorSideTop.Control = tsWLX
+        AnchorSideRight.Control = tsWLX
+        AnchorSideRight.Side = asrBottom
+        Left = 10
+        Height = 14
+        Top = 12
+        Width = 576
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 10
+        BorderSpacing.Top = 12
+        BorderSpacing.Right = 10
+        Caption = 'Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)'
+        ParentColor = False
+        WordWrap = True
+      end
+    end
+  end
+  object stgPlugins: TStringGrid
+    AnchorSideLeft.Control = pcPluginsTypes
+    AnchorSideTop.Control = pcPluginsTypes
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = pcPluginsTypes
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = btnTweakPlugin
+    Left = 0
+    Height = 242
+    Top = 84
+    Width = 604
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    AutoAdvance = aaRightDown
+    AutoFillColumns = True
+    BorderSpacing.Bottom = 12
+    ColCount = 4
+    Columns = <    
+      item
+        Alignment = taCenter
+        MaxSize = 80
+        SizePriority = 0
+        Title.Caption = 'Active'
+        Width = 70
+      end    
+      item
+        SizePriority = 0
+        Title.Caption = 'Plugin'
+        Width = 183
+      end    
+      item
+        SizePriority = 0
+        Title.Caption = 'Registered for'
+        Width = 183
+      end    
+      item
+        SizePriority = 0
+        Title.Caption = 'File name'
+        Width = 164
+      end>
+    FixedCols = 0
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goThumbTracking, goSmoothScroll, goHeaderHotTracking, goHeaderPushedLook]
+    RowCount = 1
+    TabOrder = 1
+    TitleStyle = tsNative
+    OnBeforeSelection = stgPluginsBeforeSelection
+    ColWidths = (
+      70
+      183
+      183
+      164
+    )
+  end
+  object btnAddPlugin: TBitBtn
+    AnchorSideRight.Control = btnEnablePlugin
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 22
+    Height = 30
+    Top = 338
+    Width = 110
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 8
+    Caption = 'Add'
+    Glyph.Data = {
+      36040000424D3604000000000000360000002800000010000000100000000100
+      2000000000000004000064000000640000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000000000009E9E9EA38181
+      81FF818181FF818181FF818181FF818181FF818181FF818181FF818181FF8181
+      81FF818181FF818181FF818181FF9E9E9E950000000000000000818181FFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFF818181FF0000000000000000818181FFFFFF
+      FFFFEDEDEDFFEDEDEDFFEEEEEEFFEFEFEFFFEFEFEFFFF0F0F0FFF0F0F0FFF1F1
+      F1FFF2F2F2FFF2F2F2FFFFFFFFFF818181FF0000000000000000818181FFFFFF
+      FFFFEDEDEDFFEDEDEDFFEEEEEEFFEEEEEEFFEFEFEFFFF0F0F0FFF0F0F0FFF1F1
+      F1FFF1F1F1FFF2F2F2FFFFFFFFFF818181FF0000000000000000818181FFFFFF
+      FFFFECECECFFEDEDEDFFEEEEEEFFEEEEEEFFEFEFEFFFEFEFEFFFF0F0F0FFF1F1
+      F1FFF1F1F1FFF1F1F1FFFFFFFFFF818181FF0000000000000000818181FFFFFF
+      FFFFECECECFFECECECFFEDEDEDFFEDEDEDFFEEEEEEFFEEEEEEFFEFEFEFFFEFEF
+      EFFFF0F0F0FFF0F0F0FFFFFFFFFF818181FF0000000000000000818181FFFFFF
+      FFFFECECECFFECECECFFEDEDEDFFEDEDEDFFEEEEEEFFEEEEEEFFEFEFEFFFEFEF
+      EFFFEFEFEFFFF0F0F0FFFFFFFFFF818181FF0000000000000000818181FFFFFF
+      FFFFEBEBEBFFECECECFFECECECFFEDEDEDFFEDEDEDFFEEEEEEFFEEEEEEFFE2EE
+      EEFFB1F0F3FF92F0F5FF9AF0F5FF779696FF0000000000000000818181FFFFFF
+      FFFFEBEBEBFFEBEBEBFFECECECFFECECECFFEDEDEDFFEDEDEDFFE0EEEFFF96EF
+      F4FF63F1F8FF46F3FBFF45F3FBFF5DEFF7FD36DDE67603F3FF01818181FFFFFF
+      FFFFEBEBEBFFEBEBEBFFECECECFFECECECFFECECECFFEDEDEDFFB1EEF1FF67F1
+      F8FF40F4FDFF71F7FDFF72F7FDFF43F3FCFE24ECF6B60AF3FF25818181FFFFFF
+      FFFFEAEAEAFFEBEBEBFFEBEBEBFFECECECFFECECECFFECECECFF9BEFF3FF4EF2
+      FAFF6AF6FDFFBBFAFEFFBFFBFEFF6EF6FDFF22F0FAD20DF3FF50818181FFFFFF
+      FFFFEAEAEAFFEAEAEAFFEBEBEBFFEBEBEBFFECECECFFECECECFF9CEEF2FF4EF2
+      FAFF67F6FDFFB5FAFEFFB8FAFEFF6BF5FDFF22EFFAD10DF3FF5C818181FFFFFF
+      FFFFECECECFFEAEAEAFFEAEAEAFFEBEBEBFFEBEBEBFFEBEBEBFFB4EDF0FF6AF0
+      F7FF3AF4FCFF68F6FDFF6AF6FDFF3CF2FBFD1EEFF9A909F3FF37818181FFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9BEE
+      F2FF69F0F7FF4DF2FAFF46EFF7FA28EBF4B60DF3FF6102F3FF099E9E9EA38181
+      81FF818181FF818181FF818181FF818181FF818181FF818181FF818181FF7C8C
+      8CFF729F9FFF6AAEAFFF36E4ED8A09F3FF4502F3FF0F00000000
+    }
+    NumGlyphs = 0
+    TabOrder = 2
+  end
+  object btnEnablePlugin: TBitBtn
+    AnchorSideRight.Control = btnRemovePlugin
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 138
+    Height = 30
+    Top = 338
+    Width = 110
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 8
+    Caption = 'Enable'
+    NumGlyphs = 0
+    OnClick = btnEnablePluginClick
+    TabOrder = 3
+  end
+  object btnRemovePlugin: TBitBtn
+    AnchorSideRight.Control = btnTweakPlugin
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 254
+    Height = 30
+    Top = 338
+    Width = 110
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 8
+    Caption = 'Remove'
+    Glyph.Data = {
+      36040000424D3604000000000000360000002800000010000000100000000100
+      2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00008B9C1F008C9DED008D9EEC008D
+      9E9E008B9C21FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00008B9C13008D9EE24FC3D2FD5BD3E1FF30B5
+      C6FA0890A1F6008D9FA9008B9C14FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00008E9FC536B5C5FA5FD8E7FF26CADFFF4ED4
+      E5FF6DD9E7FF32B4C5FB008D9EE6008B9C26FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00008B9C431A9BABF66CDAE8FF10C5DCFF03C2DAFF03C2
+      DAFF15C6DCFF5BD7E7FF56C8D6FE058FA0F1008B9C3FFFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00018EA0D45ECFDDFF46DAEDFF18D0E7FF11CBE3FF07C4
+      DCFF03C2DAFF03C2DAFF4CD3E4FF58CDDCFF048E9FF4008B9C1CFFFFFF00FFFF
+      FF00FFFFFF00008B9C1A1194A5F78BEDFBFF3CE5FCFF37E4FBFF2FDEF6FF23D7
+      EEFF14CDE5FF04C3DBFF03C2DAFF56D6E6FF33B6C6FB008E9FA8FFFFFF00FFFF
+      FF00FFFFFF00007F9C5F2FB0C0F58AEFFDFF5FEAFDFF61EBFDFF52E9FDFF3CE6
+      FDFF2ADBF3FF18D0E7FF10C6DCFF49D2E4FF67D4E2FF018D9FE9FFFFFF00FFFF
+      FF00008B9C070024A1D71342ADFC84EAFBFF6BECFDFF84EFFDFF6DECFDFF52E9
+      FDFF44E5FBFF65E3F3FF77DDEBFF49C1CFFE1B9EAEF3008C9DEAFFFFFF00008B
+      9C5F008D9EEB29A5BBF6284ABBFF1D38B8FF61D8F6FF63EAFDFF6CEBFDFF7DEE
+      FDFF88EAF8FF45BECDFA058F9FF7008E9FA3008B9C40008B9C02FFFFFF00008B
+      9C5A018D9EF64FC8D8FF68DCECFF336DC8FF0D1BABFF62B1D7FF72DCEAFF43BD
+      CCF70990A2F6018E9F9F008B9C1BFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF000064878100889CFE41BDCDFF77DEEBFF1769B0F70036A0E4018FA0D2008C
+      9D77008B9C15FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0000487802004A
+      7B95014E80F40B76B2FF0188A1FF32AEBEFE1DA0B1F2008B9C3DFFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000049796F0352
+      86F40F7ABCFF107DC1FF015284F200859ACE008B9CFF008B9C29FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00004A7BED0C72
+      B2FF107DC1FF0A6BA9FF004A7BDA00698A02008B9C82008B9C13FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00004A7BE50A69
+      A6FF0B6DABFF004A7BF500487844FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000048783B004B
+      7CDA004A7BE300487847FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+    }
+    NumGlyphs = 0
+    OnClick = btnRemovePluginClick
+    TabOrder = 4
+  end
+  object btnTweakPlugin: TBitBtn
+    AnchorSideRight.Control = btnConfigPlugin
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 370
+    Height = 30
+    Top = 338
+    Width = 110
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 8
+    Caption = 'Tweak'
+    Glyph.Data = {
+      36040000424D3604000000000000360000002800000010000000100000000100
+      2000000000000004000064000000640000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000009595
+      95B4818181FF818181FF818181FF818181FF818181FF818181FF818181FF8181
+      81FF818181FF818181FF818181FF818181FF959595A800000000000000008181
+      81FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF818181FF00000000000000008181
+      81FFFFFFFFFFEDEDEDFFEDEDEDFFEEEEEEFFEFEFEFFFEFEFEFFFF0F0F0FFF0F0
+      F0FFE0E0E0FFADADADFFBABABAFFFFFFFFFF818181FF00000000000000008181
+      81FFFFFFFFFFEDEDEDFFC6C6C6FFC7C7C7FFC7C7C7FFC8C8C8FFC8C8C8FFB5B5
+      B5FF929292FF9E9E9EFFABABABFFFFFFFFFF818181FF00000000000000008181
+      81FFFFFFFFFFECECECFFEDEDEDFFEEEEEEFFEEEEEEFFEFEFEFFFD4D4D4FF7777
+      77FF858585FF909090FF9D9D9DFFFFFFFFFF818181FF00000000000000008181
+      81FFFFFFFFFFECECECFFB0B0B0FF585858FF585858FF585858FF585858FF5959
+      59FF626262FF6C6C6CFFDCDCDCFFFFFFFFFF818181FF00000000000000008181
+      81FFFFFFFFFFECECECFF696969FF696969FF696969FF6A6A6AFF6A6A6AFF6A6A
+      6AFF6A6A6AFFD6D6D6FFF0F0F0FFFFFFFFFF818181FF00000000000000008181
+      81FFFFFFFFFFEBEBEBFF585858FF585858FFB0B0B0FF585858FF6A6A6AFF6A6A
+      6AFFCCD2D2FFEEEEEEFFF0F0F0FFFFFFFFFF818181FF00000000000000008181
+      81FFFFFFFFFFEBEBEBFF696969FFD2D2D2FFECECECFFD2D2D2FF696969FF6669
+      69FFECECECFFEEEEEEFFF0F0F0FFFFFFFFFF818181FF00000000000000008181
+      81FFFFFFFFFFEBEBEBFFC5C5C5FFC6C6C6FFB0B0B0FF585858FF585858FF5858
+      58FFC6C6C6FFC7C7C7FFF0F0F0FFFFFFFFFF818181FF00000000000000008181
+      81FFFFFFFFFFEAEAEAFFEBEBEBFFEBEBEBFF696969FF696969FF696969FFD2D2
+      D2FFEDEDEDFFEEEEEEFFF0F0F0FFFFFFFFFF818181FF00000000000000008181
+      81FFFFFFFFFFEAEAEAFFC4C4C4FFC5C5C5FFC5C5C5FFC6C6C6FFC6C6C6FFC6C6
+      C6FFC6C6C6FFC7C7C7FFF0F0F0FFFFFFFFFF818181FF00000000000000008181
+      81FFFFFFFFFFECECECFFEAEAEAFFEAEAEAFFEBEBEBFFEBEBEBFFEBEBEBFFECEC
+      ECFFECECECFFEDEDEDFFF0F0F0FFFFFFFFFF818181FF00000000000000008181
+      81FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF818181FF00000000000000009999
+      99AC818181FF818181FF818181FF818181FF818181FF818181FF818181FF8181
+      81FF818181FF818181FF818181FF818181FF8181815600000000
+    }
+    NumGlyphs = 0
+    OnClick = btnTweakPluginClick
+    TabOrder = 5
+  end
+  object btnConfigPlugin: TBitBtn
+    AnchorSideRight.Control = stgPlugins
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 486
+    Height = 30
+    Top = 338
+    Width = 110
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 8
+    BorderSpacing.Bottom = 8
+    Caption = 'Configure'
+    NumGlyphs = 0
+    OnClick = btnConfigPluginClick
+    TabOrder = 6
+  end
+end
