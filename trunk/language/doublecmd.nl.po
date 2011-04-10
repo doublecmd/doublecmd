@@ -3404,11 +3404,6 @@ msgstr "Verwijder"
 msgid "Clear HotKey"
 msgstr "Verwijder HotKey"
 
-#: TFRMOPTIONS.BTNADDPLUGIN.CAPTION
-msgctxt "TFRMOPTIONS.BTNADDPLUGIN.CAPTION"
-msgid "Add"
-msgstr "Voeg toe"
-
 #: TFRMOPTIONS.BTNADDSEL.CAPTION
 msgid "&Add selected names"
 msgstr ""
@@ -3461,10 +3456,6 @@ msgctxt "TFRMOPTIONS.BTNCONFIGEDIT.CAPTION"
 msgid "Edit"
 msgstr "Bewerk"
 
-#: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
-msgid "Configure"
-msgstr "Configureer"
-
 #: TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION"
 msgid "Copy"
@@ -3489,11 +3480,6 @@ msgstr "Verwijder"
 msgctxt "TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION"
 msgid "Edit"
 msgstr "Bewerk"
-
-#: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
-msgctxt "TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION"
-msgid "Enable"
-msgstr "Activeren"
 
 #: TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION"
@@ -3540,11 +3526,6 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
-#: TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION
-msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
-msgid "Remove"
-msgstr "Verwijder"
-
 #: TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT
 msgctxt "TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT"
 msgid "Template..."
@@ -3574,10 +3555,6 @@ msgstr "..."
 msgctxt "TFRMOPTIONS.BTNSELVIEWFNT.CAPTION"
 msgid "..."
 msgstr "..."
-
-#: TFRMOPTIONS.BTNTWEAKPLUGIN.CAPTION
-msgid "Tweak"
-msgstr "Aanpassen"
 
 #: TFRMOPTIONS.BTSETHOTKEY.CAPTION
 msgid "Set HotKey"
@@ -4182,10 +4159,6 @@ msgctxt "TFRMOPTIONS.LBLDESCRIPTION.CAPTION"
 msgid "Description:"
 msgstr "Omschrijving:"
 
-#: TFRMOPTIONS.LBLDSXDESCRIPTION.CAPTION
-msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr "Zoek plug-ins "
-
 #: TFRMOPTIONS.LBLEDITORFONT.CAPTION
 msgid "Editor font"
 msgstr "Editor lettertype"
@@ -4276,25 +4249,9 @@ msgstr ""
 msgid "Viewer font"
 msgstr "Viewer lettertype"
 
-#: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
-msgid "Packer plugins are used to work with archives."
-msgstr "Inpak plug-ins worden gebruikt om te werken met archieven"
-
-#: TFRMOPTIONS.LBLWDXDESCRIPTION.CAPTION
-msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgstr "Inhoud plug-ins geven uitgebreide bestanddetails weer zoals mp3 tags of afbeeldings attributen in bestandslijsten, of gebruik ze in zoek en hernoem tool"
-
-#: TFRMOPTIONS.LBLWFXDESCRIPTION.CAPTION
-msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr "Bestandssysteem plug-ins zorgen voor toegang tot schijven niet benaderbaar door het bedrijfssysteem of tot apparaten zoals Palm/PocketPC."
-
 #: TFRMOPTIONS.LBLWIPEPASSNUMBER.CAPTION
 msgid "Number of wipe pass:"
 msgstr "Aantal wissingen:"
-
-#: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
-msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr "Viewer plug-ins laten formaten zoals plaatjes, rekenbladen en databases etc. zien in Viewer (F3, Ctrl+Q)"
 
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
@@ -4386,26 +4343,6 @@ msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Parameters"
 msgstr ""
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
-msgid "Active"
-msgstr "Aktief"
-
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
-msgid "Plugin"
-msgstr ""
-
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
-msgid "Registered for"
-msgstr "Geregisreerd voor"
-
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
-msgid "File name"
-msgstr "Bestandsnaam"
-
 #: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
 msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Tool"
@@ -4426,23 +4363,98 @@ msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
 msgid "General"
 msgstr "Algemeen"
 
-#: TFRMOPTIONS.TSDSX.CAPTION
+#: TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
+msgid "Add"
+msgstr "Toevoegen"
+
+#: TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
+msgid "Configure"
+msgstr "Configureer"
+
+#: TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
+msgid "Enable"
+msgstr "Activeer"
+
+#: TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
+msgid "Remove"
+msgstr "Verwijder"
+
+#: TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION"
+msgid "Tweak"
+msgstr "Aanpassen"
+
+#: TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
+msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "Zoek plug-ins "
+
+#: TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
+msgid "Packer plugins are used to work with archives."
+msgstr "Inpak plug-ins worden gebruikt om te werken met archieven"
+
+#: TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
+msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "Inhoud plug-ins geven uitgebreide bestanddetails weer zoals mp3 tags of afbeeldings attributen in bestandslijsten, of gebruik ze in zoek en hernoem tool"
+
+#: TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
+msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr "Bestandssysteem plug-ins zorgen voor toegang tot schijven niet benaderbaar door het bedrijfssysteem of tot apparaten zoals Palm/PocketPC."
+
+#: TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
+msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "Viewer plug-ins laten formaten zoals plaatjes, rekenbladen en databases etc. zien in Viewer (F3, Ctrl+Q)"
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+msgid "Active"
+msgstr "Aktief"
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
+msgid "Plugin"
+msgstr ""
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
+msgid "Registered for"
+msgstr "Geregisreerd voor"
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
+msgid "File name"
+msgstr "Bestandsnaam"
+
+#: TFRMOPTIONSPLUGINS.TSDSX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
 msgid "Search plugins (.DSX)"
 msgstr "Zoek plug-ins (.DSX)"
 
-#: TFRMOPTIONS.TSWCX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWCX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWCX.CAPTION"
 msgid "Packer plugins (.WCX)"
 msgstr "Inpak plugins (.WCX)"
 
-#: TFRMOPTIONS.TSWDX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWDX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWDX.CAPTION"
 msgid "Content plugins (.WDX)"
 msgstr "Inhoud plugins (.WDX)"
 
-#: TFRMOPTIONS.TSWFX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWFX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWFX.CAPTION"
 msgid "File system plugins (.WFX)"
 msgstr "Bestandsysteem plugins (.WFX)"
 
-#: TFRMOPTIONS.TSWLX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWLX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
 msgid "Viewer plugins (.WLX)"
 msgstr "Viewer plug-ins (.WLX)"
 

@@ -3360,11 +3360,6 @@ msgstr "Удалить"
 msgid "Clear HotKey"
 msgstr "Очистить"
 
-#: TFRMOPTIONS.BTNADDPLUGIN.CAPTION
-msgctxt "TFRMOPTIONS.BTNADDPLUGIN.CAPTION"
-msgid "Add"
-msgstr "Добавить"
-
 #: TFRMOPTIONS.BTNADDSEL.CAPTION
 msgid "&Add selected names"
 msgstr "&Добавить все выделенные"
@@ -3417,10 +3412,6 @@ msgctxt "TFRMOPTIONS.BTNCONFIGEDIT.CAPTION"
 msgid "Edit"
 msgstr "Редактировать"
 
-#: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
-msgid "Configure"
-msgstr "Настроить"
-
 #: TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION"
 msgid "Copy"
@@ -3445,11 +3436,6 @@ msgstr "Удалить"
 msgctxt "TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION"
 msgid "Edit"
 msgstr "Редактировать"
-
-#: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
-msgctxt "TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION"
-msgid "Enable"
-msgstr "Включить"
 
 #: TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION"
@@ -3496,11 +3482,6 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&ОК"
 
-#: TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION
-msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
-msgid "Remove"
-msgstr "Удалить"
-
 #: TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT
 msgctxt "TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT"
 msgid "Template..."
@@ -3530,10 +3511,6 @@ msgstr ""
 msgctxt "TFRMOPTIONS.BTNSELVIEWFNT.CAPTION"
 msgid "..."
 msgstr ""
-
-#: TFRMOPTIONS.BTNTWEAKPLUGIN.CAPTION
-msgid "Tweak"
-msgstr "Параметры"
 
 #: TFRMOPTIONS.BTSETHOTKEY.CAPTION
 msgid "Set HotKey"
@@ -4138,10 +4115,6 @@ msgctxt "TFRMOPTIONS.LBLDESCRIPTION.CAPTION"
 msgid "Description:"
 msgstr "Описание:"
 
-#: TFRMOPTIONS.LBLDSXDESCRIPTION.CAPTION
-msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr "Позволяют использовать в поиске альтернативные алгоритмы или внешние инструменты (например \"locate\", и т.п.)"
-
 #: TFRMOPTIONS.LBLEDITORFONT.CAPTION
 msgid "Editor font"
 msgstr "Редактора"
@@ -4232,25 +4205,9 @@ msgstr ""
 msgid "Viewer font"
 msgstr "Просмотрщика"
 
-#: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
-msgid "Packer plugins are used to work with archives."
-msgstr "Позволяют работать с архивами."
-
-#: TFRMOPTIONS.LBLWDXDESCRIPTION.CAPTION
-msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgstr "Позволяют использовать расширенные сведения о файлах (теги mp3, атрибуты изображений и т.д.) в панелях или при поиске/переименовании."
-
-#: TFRMOPTIONS.LBLWFXDESCRIPTION.CAPTION
-msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr "Позволяют обращаться к дискам, недоступным из ОС или к внешним устройствам, типа Palm/PocketPC, и т.д."
-
 #: TFRMOPTIONS.LBLWIPEPASSNUMBER.CAPTION
 msgid "Number of wipe pass:"
 msgstr "Число перезаписей при стирании (Wipe):"
-
-#: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
-msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr "Позволяют отображать во внутреннем просмотрщике (F3, Ctrl+Q) файлы различных форматов, таких как рисунки, таблицы, базы данных и т.д."
 
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
@@ -4338,26 +4295,6 @@ msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Parameters"
 msgstr "Параметры"
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
-msgid "Active"
-msgstr "Состояние"
-
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
-msgid "Plugin"
-msgstr "Плагин"
-
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
-msgid "Registered for"
-msgstr "Ассоциация"
-
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
-msgid "File name"
-msgstr "Имя файла"
-
 #: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
 msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Tool"
@@ -4378,23 +4315,98 @@ msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
 msgid "General"
 msgstr "Основные"
 
-#: TFRMOPTIONS.TSDSX.CAPTION
+#: TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
+msgid "Add"
+msgstr "Добавить"
+
+#: TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
+msgid "Configure"
+msgstr "Настроить"
+
+#: TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
+msgid "Enable"
+msgstr "Включить"
+
+#: TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
+msgid "Remove"
+msgstr "Удалить"
+
+#: TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION"
+msgid "Tweak"
+msgstr "Параметры"
+
+#: TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
+msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "Позволяют использовать в поиске альтернативные алгоритмы или внешние инструменты (например \"locate\", и т.п.)"
+
+#: TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
+msgid "Packer plugins are used to work with archives."
+msgstr "Позволяют работать с архивами."
+
+#: TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
+msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "Позволяют использовать расширенные сведения о файлах (теги mp3, атрибуты изображений и т.д.) в панелях или при поиске/переименовании."
+
+#: TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
+msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr "Позволяют обращаться к дискам, недоступным из ОС или к внешним устройствам, типа Palm/PocketPC, и т.д."
+
+#: TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
+msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "Позволяют отображать во внутреннем просмотрщике (F3, Ctrl+Q) файлы различных форматов, таких как рисунки, таблицы, базы данных и т.д."
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+msgid "Active"
+msgstr "Состояние"
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
+msgid "Plugin"
+msgstr "Плагин"
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
+msgid "Registered for"
+msgstr "Ассоциация"
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
+msgid "File name"
+msgstr "Имя файла"
+
+#: TFRMOPTIONSPLUGINS.TSDSX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
 msgid "Search plugins (.DSX)"
 msgstr "Поисковые плагины (.DSX)"
 
-#: TFRMOPTIONS.TSWCX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWCX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWCX.CAPTION"
 msgid "Packer plugins (.WCX)"
 msgstr "Архиваторные плагины (.WCX)"
 
-#: TFRMOPTIONS.TSWDX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWDX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWDX.CAPTION"
 msgid "Content plugins (.WDX)"
 msgstr "Контентные плагины (.WDX)"
 
-#: TFRMOPTIONS.TSWFX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWFX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWFX.CAPTION"
 msgid "File system plugins (.WFX)"
 msgstr "Плагины файловой системы (.WFX)"
 
-#: TFRMOPTIONS.TSWLX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWLX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
 msgid "Viewer plugins (.WLX)"
 msgstr "Плагины просмотрщика (.WLX)"
 

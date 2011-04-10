@@ -3427,11 +3427,6 @@ msgstr "Vymazat"
 msgid "Clear HotKey"
 msgstr "Vymazat seznam"
 
-#: TFRMOPTIONS.BTNADDPLUGIN.CAPTION
-msgctxt "TFRMOPTIONS.BTNADDPLUGIN.CAPTION"
-msgid "Add"
-msgstr "Přidat"
-
 #: TFRMOPTIONS.BTNADDSEL.CAPTION
 msgid "&Add selected names"
 msgstr ""
@@ -3484,10 +3479,6 @@ msgctxt "TFRMOPTIONS.BTNCONFIGEDIT.CAPTION"
 msgid "Edit"
 msgstr "Upravit"
 
-#: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
-msgid "Configure"
-msgstr "Konfigurovat"
-
 #: TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION"
 msgid "Copy"
@@ -3512,11 +3503,6 @@ msgstr "Vymazat"
 msgctxt "TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION"
 msgid "Edit"
 msgstr "Upravit"
-
-#: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
-msgctxt "TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION"
-msgid "Enable"
-msgstr "Povolit"
 
 #: TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION"
@@ -3563,11 +3549,6 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
-#: TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION
-msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
-msgid "Remove"
-msgstr "Smazat"
-
 #: TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT
 msgctxt "TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT"
 msgid "Template..."
@@ -3597,10 +3578,6 @@ msgstr "..."
 msgctxt "TFRMOPTIONS.BTNSELVIEWFNT.CAPTION"
 msgid "..."
 msgstr "..."
-
-#: TFRMOPTIONS.BTNTWEAKPLUGIN.CAPTION
-msgid "Tweak"
-msgstr "Ladění"
 
 #: TFRMOPTIONS.BTSETHOTKEY.CAPTION
 msgid "Set HotKey"
@@ -4215,10 +4192,6 @@ msgctxt "TFRMOPTIONS.LBLDESCRIPTION.CAPTION"
 msgid "Description:"
 msgstr "Popis:"
 
-#: TFRMOPTIONS.LBLDSXDESCRIPTION.CAPTION
-msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr "Vyhledávací pluginy umožňují použití při hledání alternativních vyhledávacích algoritmů nebo externích nástrojů (např. \"najít \", atd.)"
-
 #: TFRMOPTIONS.LBLEDITORFONT.CAPTION
 msgid "Editor font"
 msgstr "Písmo editoru"
@@ -4309,25 +4282,9 @@ msgstr ""
 msgid "Viewer font"
 msgstr "Písmo prohlížeče"
 
-#: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
-msgid "Packer plugins are used to work with archives."
-msgstr "Komprimační zásuvný modul pro práci s archívy."
-
-#: TFRMOPTIONS.LBLWDXDESCRIPTION.CAPTION
-msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgstr "Obsahové zásuvné moduly umožňují zobrazit rozšířené informace jako jsou MP3 tagy nebo atributy obrázků v seznamu souborů, nebo je používat k vyhledávání a \"multi-přejmenování\""
-
-#: TFRMOPTIONS.LBLWFXDESCRIPTION.CAPTION
-msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr "Zásuvné moduly souborovýcch systémů umožní přístup na běžně nedostupná média jako jsou například externí zařízení (Palm/PocketPC)."
-
 #: TFRMOPTIONS.LBLWIPEPASSNUMBER.CAPTION
 msgid "Number of wipe pass:"
 msgstr "Počet WIPE průchodů:"
-
-#: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
-msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr "Zobrazovací zásuvné moduly umožňují prohlížení souborů jako jsou například obrázky, databáze a podobně v prohlížeči (F3, nebo Ctrl+Q)"
 
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
@@ -4419,26 +4376,6 @@ msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Parameters"
 msgstr ""
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
-msgid "Active"
-msgstr "Aktivní"
-
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
-msgid "Plugin"
-msgstr ""
-
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
-msgid "Registered for"
-msgstr "Registrováno pro"
-
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
-msgid "File name"
-msgstr "Název souboru"
-
 #: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
 msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Tool"
@@ -4459,23 +4396,98 @@ msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
 msgid "General"
 msgstr "Hlavní"
 
-#: TFRMOPTIONS.TSDSX.CAPTION
+#: TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
+msgid "Add"
+msgstr "Přidat"
+
+#: TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
+msgid "Configure"
+msgstr "Konfigurovat"
+
+#: TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
+msgid "Enable"
+msgstr "Povolit"
+
+#: TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
+msgid "Remove"
+msgstr "Smazat"
+
+#: TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION"
+msgid "Tweak"
+msgstr "Ladění"
+
+#: TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
+msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "Vyhledávací pluginy umožňují použití při hledání alternativních vyhledávacích algoritmů nebo externích nástrojů (např. \"najít \", atd.)"
+
+#: TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
+msgid "Packer plugins are used to work with archives."
+msgstr "Komprimační zásuvný modul pro práci s archívy."
+
+#: TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
+msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "Obsahové zásuvné moduly umožňují zobrazit rozšířené informace jako jsou MP3 tagy nebo atributy obrázků v seznamu souborů, nebo je používat k vyhledávání a \"multi-přejmenování\""
+
+#: TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
+msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr "Zásuvné moduly souborovýcch systémů umožní přístup na běžně nedostupná média jako jsou například externí zařízení (Palm/PocketPC)."
+
+#: TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
+msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "Zobrazovací zásuvné moduly umožňují prohlížení souborů jako jsou například obrázky, databáze a podobně v prohlížeči (F3, nebo Ctrl+Q)"
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+msgid "Active"
+msgstr "Aktivní"
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
+msgid "Plugin"
+msgstr ""
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
+msgid "Registered for"
+msgstr "Registrováno pro"
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
+msgid "File name"
+msgstr "Název souboru"
+
+#: TFRMOPTIONSPLUGINS.TSDSX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
 msgid "Search plugins (.DSX)"
 msgstr "Vyhledávací pluginy (.DSX)"
 
-#: TFRMOPTIONS.TSWCX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWCX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWCX.CAPTION"
 msgid "Packer plugins (.WCX)"
 msgstr "Komprimační pluginy (.WCX)"
 
-#: TFRMOPTIONS.TSWDX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWDX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWDX.CAPTION"
 msgid "Content plugins (.WDX)"
 msgstr "Content plugins (.WDX)"
 
-#: TFRMOPTIONS.TSWFX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWFX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWFX.CAPTION"
 msgid "File system plugins (.WFX)"
 msgstr "Pluginy souborových systémů (.WFX)"
 
-#: TFRMOPTIONS.TSWLX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWLX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
 msgid "Viewer plugins (.WLX)"
 msgstr "Zobrazovací pluginy (.WLX)"
 

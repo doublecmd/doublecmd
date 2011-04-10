@@ -3342,11 +3342,6 @@ msgstr "Usuń"
 msgid "Clear HotKey"
 msgstr "Wyszczyść"
 
-#: TFRMOPTIONS.BTNADDPLUGIN.CAPTION
-msgctxt "TFRMOPTIONS.BTNADDPLUGIN.CAPTION"
-msgid "Add"
-msgstr "Dodaj"
-
 #: TFRMOPTIONS.BTNADDSEL.CAPTION
 msgid "&Add selected names"
 msgstr "Dodaj wybrane nazwy"
@@ -3399,10 +3394,6 @@ msgctxt "TFRMOPTIONS.BTNCONFIGEDIT.CAPTION"
 msgid "Edit"
 msgstr "Edytuj"
 
-#: TFRMOPTIONS.BTNCONFIGPLUGIN.CAPTION
-msgid "Configure"
-msgstr "Konfiguruj"
-
 #: TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION"
 msgid "Copy"
@@ -3427,11 +3418,6 @@ msgstr "Usuń"
 msgctxt "TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION"
 msgid "Edit"
 msgstr "Edytuj"
-
-#: TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION
-msgctxt "TFRMOPTIONS.BTNENABLEPLUGIN.CAPTION"
-msgid "Enable"
-msgstr "Włącz"
 
 #: TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION"
@@ -3478,11 +3464,6 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&ОК"
 
-#: TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION
-msgctxt "TFRMOPTIONS.BTNREMOVEPLUGIN.CAPTION"
-msgid "Remove"
-msgstr "Usuń"
-
 #: TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT
 msgctxt "TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT"
 msgid "Template..."
@@ -3512,10 +3493,6 @@ msgstr "..."
 msgctxt "TFRMOPTIONS.BTNSELVIEWFNT.CAPTION"
 msgid "..."
 msgstr "..."
-
-#: TFRMOPTIONS.BTNTWEAKPLUGIN.CAPTION
-msgid "Tweak"
-msgstr "Parametry"
 
 #: TFRMOPTIONS.BTSETHOTKEY.CAPTION
 msgid "Set HotKey"
@@ -4116,10 +4093,6 @@ msgctxt "TFRMOPTIONS.LBLDESCRIPTION.CAPTION"
 msgid "Description:"
 msgstr "Opis:"
 
-#: TFRMOPTIONS.LBLDSXDESCRIPTION.CAPTION
-msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr "Zezwalaj na szukanie wtyczek wg alternatwnych algorytmów i narzędzi zewnętrznych (np. \"locate\")"
-
 #: TFRMOPTIONS.LBLEDITORFONT.CAPTION
 msgid "Editor font"
 msgstr "Edytora"
@@ -4210,25 +4183,9 @@ msgstr "Czcionka przeglądarki książek"
 msgid "Viewer font"
 msgstr "Podgląd"
 
-#: TFRMOPTIONS.LBLWCXDESCRIPTION.CAPTION
-msgid "Packer plugins are used to work with archives."
-msgstr "Obsługa archiwów z użyciem wtyczek."
-
-#: TFRMOPTIONS.LBLWDXDESCRIPTION.CAPTION
-msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgstr "Wtyczki pozwalające wyświetlać dodatkowe informacje o plikach (np. tagi mp3, atrybuty grafiki) w panelach oraz przy szukaniu i zamianie."
-
-#: TFRMOPTIONS.LBLWFXDESCRIPTION.CAPTION
-msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr "Wtyczki obsługujące niedostępne dla systemu dyski i urządzenia zewnętrzne (np. Palm/PocketPC)"
-
 #: TFRMOPTIONS.LBLWIPEPASSNUMBER.CAPTION
 msgid "Number of wipe pass:"
 msgstr "Liczba zapisów wielokrotnych przy zacieraniu usuniętego pliku na dysku (Wipe):"
-
-#: TFRMOPTIONS.LBLWLXDESCRIPTION.CAPTION
-msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr "Wtyczki pozwalające wyświetlić za pomocą przeglądarki (listera, komendą F3) pliki takie jak np. grafika, bazy danych akusze kalkulacyjne"
 
 #: TFRMOPTIONS.LBTYPES.CAPTION
 msgid "Categories:"
@@ -4312,26 +4269,6 @@ msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Parameters"
 msgstr "Parametry"
 
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
-msgid "Active"
-msgstr "Stan"
-
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
-msgid "Plugin"
-msgstr "Wtyczka"
-
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
-msgid "Registered for"
-msgstr "Skojarzenia"
-
-#: TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
-msgid "File name"
-msgstr "Nazwa pliku"
-
 #: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
 msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Tool"
@@ -4352,23 +4289,98 @@ msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
 msgid "General"
 msgstr "Ogólne"
 
-#: TFRMOPTIONS.TSDSX.CAPTION
+#: TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
+msgid "Add"
+msgstr "Dodaj"
+
+#: TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
+msgid "Configure"
+msgstr "Konfiguruj"
+
+#: TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
+msgid "Enable"
+msgstr "Włącz"
+
+#: TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
+msgid "Remove"
+msgstr "Usuń"
+
+#: TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION"
+msgid "Tweak"
+msgstr "Parametry"
+
+#: TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
+msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
+msgstr "Zezwalaj na szukanie wtyczek wg alternatwnych algorytmów i narzędzi zewnętrznych (np. \"locate\")"
+
+#: TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
+msgid "Packer plugins are used to work with archives."
+msgstr "Obsługa archiwów z użyciem wtyczek."
+
+#: TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
+msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
+msgstr "Wtyczki pozwalające wyświetlać dodatkowe informacje o plikach (np. tagi mp3, atrybuty grafiki) w panelach oraz przy szukaniu i zamianie."
+
+#: TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
+msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
+msgstr "Wtyczki obsługujące niedostępne dla systemu dyski i urządzenia zewnętrzne (np. Palm/PocketPC)"
+
+#: TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
+msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
+msgstr "Wtyczki pozwalające wyświetlić za pomocą przeglądarki (listera, komendą F3) pliki takie jak np. grafika, bazy danych akusze kalkulacyjne"
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+msgid "Active"
+msgstr "Stan"
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
+msgid "Plugin"
+msgstr "Wtyczka"
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
+msgid "Registered for"
+msgstr "Skojarzenia"
+
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
+msgid "File name"
+msgstr "Nazwa pliku"
+
+#: TFRMOPTIONSPLUGINS.TSDSX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
 msgid "Search plugins (.DSX)"
 msgstr "Znajdź wtyczki (.DSX)"
 
-#: TFRMOPTIONS.TSWCX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWCX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWCX.CAPTION"
 msgid "Packer plugins (.WCX)"
 msgstr "Wtyczki pakera (.WCX)"
 
-#: TFRMOPTIONS.TSWDX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWDX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWDX.CAPTION"
 msgid "Content plugins (.WDX)"
 msgstr "Wtyczki zawartości (.WDX)"
 
-#: TFRMOPTIONS.TSWFX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWFX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWFX.CAPTION"
 msgid "File system plugins (.WFX)"
 msgstr "Wtyczki systemu plików (.WFX)"
 
-#: TFRMOPTIONS.TSWLX.CAPTION
+#: TFRMOPTIONSPLUGINS.TSWLX.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
 msgid "Viewer plugins (.WLX)"
 msgstr "Wtyczki przeglądarki (listera) (.WLX)"
 
@@ -5500,6 +5512,9 @@ msgstr "Ponów"
 msgid "&Skip"
 msgstr "&Pomiń"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsdlgbuttonskipall
 msgid "S&kip All"
 msgstr "Pomiń &wszystko"
@@ -5543,9 +5558,6 @@ msgstr "Rozpakowywanie..."
 msgid "Move file(s)"
 msgstr "Przenieś plik/i"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsdlgopcaption
 msgid "Caption of operation"
 msgstr ""
@@ -5722,6 +5734,9 @@ msgstr ""
 msgid "Modification date/time"
 msgstr ""
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsfuncname
 msgctxt "ulng.rsfuncname"
 msgid "Name"
@@ -5855,9 +5870,6 @@ msgstr "Karta (%s) jest zablokowana! Zamknąć mimo to?"
 msgid "Are you sure you want to quit?"
 msgstr "Na pewno zakończyć?"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
 msgstr "Skopiować %d wybranych plików/katalogów?"
