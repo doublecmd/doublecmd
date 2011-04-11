@@ -919,7 +919,7 @@
     <SearchPaths>
       <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir)"/>
       <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
-      <OtherUnitFiles Value="$(ProjPath)\platform;$(ProjPath)\platform\$(SrcOS);..\sdk;$(ProjPath)\newdesign;$(ProjPath)\newdesign\fileproperties;newdesign\columnsview;frames"/>
+      <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;newdesign;newdesign\fileproperties;frames"/>
       <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
       <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
     </SearchPaths>
