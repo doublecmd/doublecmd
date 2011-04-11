@@ -1,7 +1,7 @@
 object frmOptions: TfrmOptions
-  Left = 48
+  Left = 72
   Height = 557
-  Top = 0
+  Top = 8
   Width = 886
   ActiveControl = tvTreeView
   Caption = 'Options'
@@ -86,33 +86,31 @@ object frmOptions: TfrmOptions
     OnChange = tvTreeViewChange
     Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips]
     Items.Data = {
-      F9FFFFFF0200140000000000000000000000FFFFFFFFFFFFFFFF000000000000
-      000000080000004C616E67756167650100000001000000FFFFFFFFFFFFFFFF00
-      0000000000000000090000004265686176696F72730200000002000000FFFFFF
-      FFFFFFFFFF00000000000000000005000000546F6F6C730300000003000000FF
-      FFFFFFFFFFFFFF00000000000000000005000000466F6E747315000000150000
-      0000000000FFFFFFFF02000000000000000106000000436F6C6F727304000000
-      04000000FFFFFFFFFFFFFFFF0000000000000000000B00000046696C65207061
-      6E656C730700000007000000FFFFFFFFFFFFFFFF0000000000000000000A0000
-      0046696C652074797065730500000005000000FFFFFFFFFFFFFFFF0000000000
-      0000000008000000486F74206B6579730600000006000000FFFFFFFFFFFFFFFF
-      00000000000000000007000000506C7567696E730800000008000000FFFFFFFF
-      FFFFFFFF000000000000000000060000004C61796F7574090000000900000009
-      000000FFFFFFFF0000000000000000000F00000046696C65206F706572617469
-      6F6E730A0000000A000000FFFFFFFFFFFFFFFF0000000000000000000B000000
-      466F6C64657220746162730B0000000B000000FFFFFFFFFFFFFFFF0000000000
-      00000000080000004C6F672066696C650C0000000C000000FFFFFFFFFFFFFFFF
-      0000000000000000000D000000436F6E66696775726174696F6E0D0000000D00
-      0000FFFFFFFFFFFFFFFF00000000000000000013000000517569636B20736561
-      7263682F66696C7465720E0000000E000000FFFFFFFFFFFFFFFF000000000000
-      00000007000000436F6C756D6E730F0000000F00000000000000FFFFFFFF0000
-      000000000000000D0000004D697363656C6C616E656F75731000000010000000
-      00000000FFFFFFFF0000000000000000000C0000004175746F20726566726573
-      68110000001100000000000000FFFFFFFF000000000000000000050000004963
-      6F6E73120000001200000000000000FFFFFFFF0000000000000000000B000000
-      49676E6F7265206C697374130000001300000000000000FFFFFFFF0000000000
-      0000000009000000417263686976657273140000001400000000000000FFFFFF
-      FF00000000000000000008000000546F6F6C74697073
+      F9FFFFFF020014000000000000000000000000000000FFFFFFFF000000000000
+      000000080000004C616E6775616765010000000100000001000000FFFFFFFF00
+      0000000000000000090000004265686176696F72730200000002000000020000
+      00FFFFFFFF00000000000000000005000000546F6F6C73030000000300000003
+      000000FFFFFFFF00000000000000000005000000466F6E747304000000040000
+      0004000000FFFFFFFF00000000000000000006000000436F6C6F727305000000
+      0500000005000000FFFFFFFF00000000000000000008000000486F74206B6579
+      73060000000600000006000000FFFFFFFF00000000000000000007000000506C
+      7567696E73070000000700000007000000FFFFFFFF0000000000000000000600
+      00004C61796F7574080000000800000008000000FFFFFFFF0000000000000000
+      000F00000046696C65206F7065726174696F6E73090000000900000009000000
+      FFFFFFFF0000000000000000000B000000466F6C64657220746162730A000000
+      0A0000000A000000FFFFFFFF000000000000000000080000004C6F672066696C
+      650B0000000B0000000B000000FFFFFFFF0000000000000000000D000000436F
+      6E66696775726174696F6E0C0000000C0000000C000000FFFFFFFF0000000000
+      0000000013000000517569636B207365617263682F66696C7465720D0000000D
+      0000000D000000FFFFFFFF00000000000000000007000000436F6C756D6E730E
+      0000000E0000000E000000FFFFFFFF0000000000000000000D0000004D697363
+      656C6C616E656F75730F0000000F0000000F000000FFFFFFFF00000000000000
+      00000C0000004175746F2072656672657368100000001000000010000000FFFF
+      FFFF0000000000000000000500000049636F6E73110000001100000011000000
+      FFFFFFFF0000000000000000000B00000049676E6F7265206C69737412000000
+      1200000012000000FFFFFFFF0000000000000000000900000041726368697665
+      7273130000001300000013000000FFFFFFFF0000000000000000000800000054
+      6F6F6C74697073
     }
   end
   object Panel3: TPanel
@@ -1266,356 +1264,6 @@ object frmOptions: TfrmOptions
         end
       end
       object pgColor: TPage
-        ClientWidth = 705
-        ClientHeight = 458
-        object cTextLabel: TLabel
-          AnchorSideTop.Control = cbTextColor
-          AnchorSideTop.Side = asrCenter
-          Left = 10
-          Height = 14
-          Top = 30
-          Width = 55
-          Caption = 'Text Color:'
-          ParentColor = False
-        end
-        object cBackGrndLabel: TLabel
-          AnchorSideTop.Control = cbBackColor
-          AnchorSideTop.Side = asrCenter
-          Left = 10
-          Height = 14
-          Top = 60
-          Width = 62
-          Caption = 'BackGround:'
-          ParentColor = False
-        end
-        object lblBackground2: TLabel
-          AnchorSideTop.Control = cbBackColor2
-          AnchorSideTop.Side = asrCenter
-          Left = 10
-          Height = 14
-          Top = 90
-          Width = 70
-          Caption = 'Background 2:'
-          ParentColor = False
-        end
-        object lblMarkColor: TLabel
-          AnchorSideTop.Control = cbMarkColor
-          AnchorSideTop.Side = asrCenter
-          Left = 10
-          Height = 14
-          Top = 120
-          Width = 56
-          Caption = 'Mark Color:'
-          ParentColor = False
-        end
-        object lblCursorColor: TLabel
-          AnchorSideTop.Control = cbCursorColor
-          AnchorSideTop.Side = asrCenter
-          Left = 10
-          Height = 14
-          Top = 150
-          Width = 65
-          Caption = 'Cursor Color:'
-          ParentColor = False
-        end
-        object lblCursorText: TLabel
-          AnchorSideTop.Control = cbCursorText
-          AnchorSideTop.Side = asrCenter
-          Left = 10
-          Height = 14
-          Top = 180
-          Width = 62
-          Caption = 'Cursor Text:'
-          ParentColor = False
-        end
-        object cbTextColor: TColorBox
-          AnchorSideRight.Side = asrBottom
-          Left = 160
-          Height = 22
-          Top = 26
-          Width = 258
-          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-          Anchors = [akTop, akLeft, akRight]
-          ItemHeight = 16
-          OnChange = cbColorBoxChange
-          OnDropDown = cbColorBoxDropDown
-          TabOrder = 0
-        end
-        object cbBackColor: TColorBox
-          AnchorSideLeft.Control = cbTextColor
-          AnchorSideTop.Control = cbTextColor
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = cbTextColor
-          AnchorSideRight.Side = asrBottom
-          Left = 160
-          Height = 22
-          Top = 56
-          Width = 258
-          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 8
-          ItemHeight = 16
-          OnChange = cbColorBoxChange
-          OnDropDown = cbColorBoxDropDown
-          TabOrder = 2
-        end
-        object btnForeColor: TButton
-          AnchorSideLeft.Control = cbTextColor
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = cbTextColor
-          AnchorSideBottom.Control = cbTextColor
-          AnchorSideBottom.Side = asrBottom
-          Left = 424
-          Height = 22
-          Top = 26
-          Width = 28
-          Anchors = [akTop, akLeft, akBottom]
-          BorderSpacing.Left = 6
-          BorderSpacing.InnerBorder = 4
-          Caption = '>>'
-          OnClick = btnForeColorClick
-          TabOrder = 1
-        end
-        object btnBackColor: TButton
-          AnchorSideLeft.Control = cbBackColor
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = cbBackColor
-          AnchorSideBottom.Control = cbBackColor
-          AnchorSideBottom.Side = asrBottom
-          Left = 424
-          Height = 22
-          Top = 56
-          Width = 28
-          Anchors = [akTop, akLeft, akBottom]
-          BorderSpacing.Left = 6
-          BorderSpacing.InnerBorder = 4
-          Caption = '>>'
-          OnClick = btnBackColorClick
-          TabOrder = 3
-        end
-        object cbBackColor2: TColorBox
-          AnchorSideLeft.Control = cbTextColor
-          AnchorSideTop.Control = cbBackColor
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = cbTextColor
-          AnchorSideRight.Side = asrBottom
-          Left = 160
-          Height = 22
-          Top = 86
-          Width = 258
-          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 8
-          ItemHeight = 16
-          OnChange = cbColorBoxChange
-          OnDropDown = cbColorBoxDropDown
-          TabOrder = 4
-        end
-        object cbMarkColor: TColorBox
-          AnchorSideLeft.Control = cbTextColor
-          AnchorSideTop.Control = cbBackColor2
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = cbTextColor
-          AnchorSideRight.Side = asrBottom
-          Left = 160
-          Height = 22
-          Top = 116
-          Width = 258
-          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 8
-          ItemHeight = 16
-          OnChange = cbColorBoxChange
-          OnDropDown = cbColorBoxDropDown
-          TabOrder = 6
-        end
-        object cbCursorColor: TColorBox
-          AnchorSideLeft.Control = cbTextColor
-          AnchorSideTop.Control = cbMarkColor
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = cbTextColor
-          AnchorSideRight.Side = asrBottom
-          Left = 160
-          Height = 22
-          Top = 146
-          Width = 258
-          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 8
-          ItemHeight = 16
-          OnChange = cbColorBoxChange
-          OnDropDown = cbColorBoxDropDown
-          TabOrder = 8
-        end
-        object cbCursorText: TColorBox
-          AnchorSideLeft.Control = cbTextColor
-          AnchorSideTop.Control = cbCursorColor
-          AnchorSideTop.Side = asrBottom
-          AnchorSideRight.Control = cbTextColor
-          AnchorSideRight.Side = asrBottom
-          Left = 160
-          Height = 22
-          Top = 176
-          Width = 258
-          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 8
-          ItemHeight = 16
-          OnChange = cbColorBoxChange
-          OnDropDown = cbColorBoxDropDown
-          TabOrder = 10
-        end
-        object btnMarkColor: TButton
-          AnchorSideLeft.Control = cbMarkColor
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = cbMarkColor
-          AnchorSideBottom.Control = cbMarkColor
-          AnchorSideBottom.Side = asrBottom
-          Left = 424
-          Height = 22
-          Top = 116
-          Width = 28
-          Anchors = [akTop, akLeft, akBottom]
-          BorderSpacing.Left = 6
-          BorderSpacing.InnerBorder = 4
-          Caption = '>>'
-          OnClick = btnMarkColorClick
-          TabOrder = 7
-        end
-        object btnCursorColor: TButton
-          AnchorSideLeft.Control = cbCursorColor
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = cbCursorColor
-          AnchorSideBottom.Control = cbCursorColor
-          AnchorSideBottom.Side = asrBottom
-          Left = 424
-          Height = 22
-          Top = 146
-          Width = 28
-          Anchors = [akTop, akLeft, akBottom]
-          BorderSpacing.Left = 6
-          BorderSpacing.InnerBorder = 4
-          Caption = '>>'
-          OnClick = btnCursorColorClick
-          TabOrder = 9
-        end
-        object btnCursorText: TButton
-          AnchorSideLeft.Control = cbCursorText
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = cbCursorText
-          AnchorSideBottom.Control = cbCursorText
-          AnchorSideBottom.Side = asrBottom
-          Left = 424
-          Height = 22
-          Top = 176
-          Width = 28
-          Anchors = [akTop, akLeft, akBottom]
-          BorderSpacing.Left = 6
-          BorderSpacing.InnerBorder = 4
-          Caption = '>>'
-          OnClick = btnCursorTextClick
-          TabOrder = 11
-        end
-        object btnBackColor2: TButton
-          AnchorSideLeft.Control = cbBackColor2
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = cbBackColor2
-          AnchorSideBottom.Control = cbBackColor2
-          AnchorSideBottom.Side = asrBottom
-          Left = 424
-          Height = 22
-          Top = 86
-          Width = 28
-          Anchors = [akTop, akLeft, akBottom]
-          BorderSpacing.Left = 6
-          BorderSpacing.InnerBorder = 4
-          Caption = '>>'
-          OnClick = btnBackColor2Click
-          TabOrder = 5
-        end
-        object gbExample: TGroupBox
-          AnchorSideLeft.Control = btnForeColor
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideRight.Control = pgColor
-          AnchorSideRight.Side = asrBottom
-          Left = 462
-          Height = 172
-          Top = 26
-          Width = 229
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Left = 10
-          BorderSpacing.Right = 10
-          Caption = 'Example'
-          ChildSizing.LeftRightSpacing = 6
-          ChildSizing.TopBottomSpacing = 6
-          ClientHeight = 154
-          ClientWidth = 225
-          TabOrder = 12
-          object pbExample: TPaintBox
-            Left = 6
-            Height = 142
-            Top = 6
-            Width = 213
-            Align = alClient
-            OnPaint = pbExamplePaint
-          end
-        end
-        object cbbUseInvertedSelection: TCheckBox
-          AnchorSideTop.Control = cbCursorText
-          AnchorSideTop.Side = asrBottom
-          Left = 10
-          Height = 17
-          Top = 210
-          Width = 127
-          BorderSpacing.Top = 12
-          Caption = 'Use Inverted Selection'
-          OnChange = cbbUseInvertedSelectionChange
-          TabOrder = 13
-        end
-        object tbInactivePanelBrightness: TTrackBar
-          AnchorSideLeft.Control = lblInactivePanelBrightness
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = cbbUseInvertedSelection
-          AnchorSideTop.Side = asrBottom
-          Left = 176
-          Height = 46
-          Top = 233
-          Width = 376
-          Max = 100
-          PageSize = 10
-          Position = 0
-          ScalePos = trRight
-          TickStyle = tsNone
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Left = 8
-          BorderSpacing.Top = 6
-          TabOrder = 14
-        end
-        object lblInactivePanelBrightness: TLabel
-          AnchorSideLeft.Control = cbbUseInvertedSelection
-          AnchorSideTop.Control = tbInactivePanelBrightness
-          AnchorSideTop.Side = asrCenter
-          Left = 10
-          Height = 14
-          Top = 249
-          Width = 158
-          Caption = 'Brightness level of inactive panel'
-          ParentColor = False
-        end
-        object cbbUseFrameCursor: TCheckBox
-          AnchorSideLeft.Control = cbbUseInvertedSelection
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideTop.Control = cbbUseInvertedSelection
-          AnchorSideBottom.Control = lblInactivePanelBrightness
-          Left = 147
-          Height = 17
-          Top = 210
-          Width = 104
-          BorderSpacing.Left = 10
-          Caption = 'Use Frame Cursor'
-          OnChange = cbbUseFrameCursorChange
-          TabOrder = 15
-        end
       end
       object pgHotKey: TPage
         ClientWidth = 701
@@ -1781,11 +1429,11 @@ object frmOptions: TfrmOptions
           Columns = <          
             item
               Title.Caption = 'Hotkey'
-              Width = 132
+              Width = 130
             end          
             item
               Title.Caption = 'Parameters'
-              Width = 133
+              Width = 131
             end>
           FixedCols = 0
           MouseWheelOption = mwGrid
@@ -1794,8 +1442,8 @@ object frmOptions: TfrmOptions
           TabOrder = 2
           OnSelectCell = stgHotkeysSelectCell
           ColWidths = (
-            132
-            133
+            130
+            131
           )
         end
         object pnlHotkeyButtons: TPanel
@@ -1861,263 +1509,6 @@ object frmOptions: TfrmOptions
         end
       end
       object pgPlugins: TPage
-      end
-      object pgFileTypesColors: TPage
-        ClientWidth = 701
-        ClientHeight = 463
-        object gbFileTypesColors: TGroupBox
-          AnchorSideLeft.Control = pgFileTypesColors
-          AnchorSideTop.Control = pgFileTypesColors
-          AnchorSideRight.Control = pgFileTypesColors
-          AnchorSideRight.Side = asrBottom
-          AnchorSideBottom.Control = pgFileTypesColors
-          AnchorSideBottom.Side = asrBottom
-          Left = 8
-          Height = 449
-          Top = 6
-          Width = 685
-          Anchors = [akTop, akLeft, akRight, akBottom]
-          BorderSpacing.Left = 8
-          BorderSpacing.Top = 6
-          BorderSpacing.Right = 8
-          BorderSpacing.Bottom = 8
-          Caption = 'File types colors'
-          ClientHeight = 431
-          ClientWidth = 681
-          TabOrder = 0
-          object lblCategoryName: TLabel
-            AnchorSideTop.Control = edtCategoryName
-            AnchorSideTop.Side = asrCenter
-            Left = 12
-            Height = 14
-            Top = 243
-            Width = 79
-            Caption = 'Category name:'
-            ParentColor = False
-          end
-          object lblCategoryMask: TLabel
-            AnchorSideTop.Control = edtCategoryMask
-            AnchorSideTop.Side = asrCenter
-            Left = 12
-            Height = 14
-            Top = 272
-            Width = 77
-            Caption = 'Category mask:'
-            ParentColor = False
-          end
-          object lblCategoryColor: TLabel
-            AnchorSideTop.Control = cbCategoryColor
-            AnchorSideTop.Side = asrCenter
-            Left = 12
-            Height = 14
-            Top = 331
-            Width = 76
-            Caption = 'Category color:'
-            ParentColor = False
-          end
-          object lblCategoryAttr: TLabel
-            AnchorSideTop.Control = edtCategoryAttr
-            AnchorSideTop.Side = asrCenter
-            Left = 12
-            Height = 14
-            Top = 301
-            Width = 100
-            Caption = 'Category attributes:'
-            ParentColor = False
-          end
-          object edtCategoryName: TEdit
-            AnchorSideTop.Control = lbCategories
-            AnchorSideTop.Side = asrBottom
-            AnchorSideRight.Control = lbCategories
-            AnchorSideRight.Side = asrBottom
-            Left = 174
-            Height = 21
-            Top = 240
-            Width = 499
-            Anchors = [akTop, akLeft, akRight]
-            BorderSpacing.Top = 12
-            TabOrder = 0
-          end
-          object edtCategoryMask: TEdit
-            AnchorSideTop.Control = edtCategoryName
-            AnchorSideTop.Side = asrBottom
-            AnchorSideRight.Control = btnSearchTemplate
-            Left = 174
-            Height = 21
-            Top = 269
-            Width = 470
-            Anchors = [akTop, akLeft, akRight]
-            BorderSpacing.Top = 8
-            BorderSpacing.Right = 6
-            TabOrder = 1
-          end
-          object cbCategoryColor: TColorBox
-            AnchorSideTop.Control = edtCategoryAttr
-            AnchorSideTop.Side = asrBottom
-            AnchorSideRight.Control = btnCategoryColor
-            Left = 174
-            Height = 22
-            Top = 327
-            Width = 465
-            Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
-            Anchors = [akTop, akLeft, akRight]
-            BorderSpacing.Top = 8
-            BorderSpacing.Right = 6
-            ItemHeight = 16
-            OnChange = cbCategoryColorChange
-            OnDropDown = cbColorBoxDropDown
-            TabOrder = 2
-          end
-          object bbtnAddCategory: TBitBtn
-            AnchorSideTop.Control = cbCategoryColor
-            AnchorSideTop.Side = asrBottom
-            AnchorSideRight.Control = bbtnDeleteCategory
-            Left = 331
-            Height = 32
-            Top = 361
-            Width = 110
-            Anchors = [akTop, akRight]
-            BorderSpacing.Top = 12
-            BorderSpacing.Right = 6
-            Caption = 'Add'
-            NumGlyphs = 0
-            OnClick = bbtnAddCategoryClick
-            TabOrder = 3
-          end
-          object bbtnDeleteCategory: TBitBtn
-            AnchorSideTop.Control = cbCategoryColor
-            AnchorSideTop.Side = asrBottom
-            AnchorSideRight.Control = bbtnApplyCategory
-            Left = 447
-            Height = 32
-            Top = 361
-            Width = 110
-            Anchors = [akTop, akRight]
-            BorderSpacing.Top = 12
-            BorderSpacing.Right = 6
-            Caption = 'Delete'
-            NumGlyphs = 0
-            OnClick = bbtnDeleteCategoryClick
-            TabOrder = 4
-          end
-          object btnCategoryColor: TButton
-            AnchorSideLeft.Side = asrBottom
-            AnchorSideTop.Control = cbCategoryColor
-            AnchorSideRight.Control = edtCategoryAttr
-            AnchorSideRight.Side = asrBottom
-            AnchorSideBottom.Control = cbCategoryColor
-            AnchorSideBottom.Side = asrBottom
-            Left = 645
-            Height = 22
-            Top = 327
-            Width = 28
-            Anchors = [akTop, akRight, akBottom]
-            BorderSpacing.InnerBorder = 4
-            Caption = '>>'
-            OnClick = btnCategoryColorClick
-            TabOrder = 5
-          end
-          object lbCategories: TListBox
-            AnchorSideTop.Control = gbFileTypesColors
-            AnchorSideRight.Control = gbFileTypesColors
-            AnchorSideRight.Side = asrBottom
-            Left = 12
-            Height = 222
-            Top = 6
-            Width = 661
-            Anchors = [akTop, akLeft, akRight, akBottom]
-            BorderSpacing.Top = 6
-            BorderSpacing.Right = 8
-            ItemHeight = 0
-            OnClick = lbCategoriesClick
-            OnDrawItem = lbCategoriesDrawItem
-            Style = lbOwnerDrawFixed
-            TabOrder = 6
-          end
-          object bbtnApplyCategory: TBitBtn
-            AnchorSideTop.Control = cbCategoryColor
-            AnchorSideTop.Side = asrBottom
-            AnchorSideRight.Control = lbCategories
-            AnchorSideRight.Side = asrBottom
-            Left = 563
-            Height = 32
-            Top = 361
-            Width = 110
-            Anchors = [akTop, akRight]
-            BorderSpacing.Top = 12
-            Caption = 'Apply'
-            NumGlyphs = 0
-            OnClick = bbtnApplyCategoryClick
-            TabOrder = 7
-          end
-          object edtCategoryAttr: TEdit
-            AnchorSideTop.Control = edtCategoryMask
-            AnchorSideTop.Side = asrBottom
-            AnchorSideRight.Control = lbCategories
-            AnchorSideRight.Side = asrBottom
-            Left = 174
-            Height = 21
-            Top = 298
-            Width = 499
-            Anchors = [akTop, akLeft, akRight]
-            BorderSpacing.Top = 8
-            TabOrder = 8
-          end
-          object btnSearchTemplate: TBitBtn
-            AnchorSideTop.Control = edtCategoryMask
-            AnchorSideRight.Control = lbCategories
-            AnchorSideRight.Side = asrBottom
-            AnchorSideBottom.Control = edtCategoryMask
-            AnchorSideBottom.Side = asrBottom
-            Left = 650
-            Height = 21
-            Hint = 'Template...'
-            Top = 269
-            Width = 23
-            Anchors = [akTop, akRight, akBottom]
-            Glyph.Data = {
-              36040000424D3604000000000000360000002800000010000000100000000100
-              2000000000000004000064000000640000000000000000000000000000009700
-              00FF000000000000000000000000000000FF00000000000000FFC2B5B3E30000
-              00FF000000000000000000000000000000000000000000000000000000000000
-              0000970000FF00000000000000000000000000000000C5B8B570E3DBD9FF8975
-              7375000000000000000000000000000000000000000000000000000000000000
-              000000000000970000FF000000000000000000000000C2B4B26FE1D9D7FF8571
-              6E75000000000000000000000000000000000000000000000000000000000000
-              0000970000FF00000000000000000000000000000000B3A4A26FD6C9C7FF705E
-              5B75000000000000000000000000000000000000000000000000000000009700
-              00FF0000000000000000000000000000000000000000A798967DD9CBCAFF7362
-              6184000000000000000000000000000000000000000000000000000000000000
-              0000000000000000000000000000000000005B494812D4C6C5FFD1C2C1FE8F7E
-              7DFF5B4B4E160000000000000000000000000000000000000000000000000000
-              000000000000000000000000000000000000C2B3B3C0EEE2E2FED5C8C7FFD6C9
-              C8FE746363C60000000000000000000000000000000000000000000000000000
-              00000000000000000000000000009D8B8B5CF9EEEFFFEDE1E0FFDED1D1FFEADE
-              DCFFB1A1A0FF645455630000000000000000000000000000000000000000D2C6
-              C36CEEE5E2C3BEADABB100000002D2C4C3FBFDF5F4FEE0D4D3FFDACCCBFFE8DD
-              DBFFD2C4C2FE796868FD61525509000000000000000000000000000000008B78
-              754B00000000000000007C6B6BFCF7ECECFFFEF6F4FFCFC2C0FFD4C7C7FFEDE3
-              E1FFCDBDBBFF998887FE605151BC00000000000000000000000000000000806F
-              6D350000000062514F4CCEBEBEFFFBF2F0FFFBF6F5FFC7B9B7FFD0C3C3FFF8F0
-              EFFFC7B7B4FFA69593FF665555FF5545464D000000000000000000000000D8CF
-              CE59D1C5C299978484FFF4EBEBFEFEFDFDFFF4EEEDFFC3B5B3FFD8CBC9FFFFFC
-              FCFFD8CBC9FFB2A1A0FF867474FE524343FA0000000200000000000000000000
-              00007767669CE0D3D1FFFFFEFEFFFFFFFFFFEFE7E6FFAF9E9BFFD6C6C4FFFCF7
-              F7FFD8CACAFFAE9D9EFF827173FF5B4A4EFF67595C9F00000000000000000000
-              00008E7F7ED8E2D7D6FFCCC2C2FFCDC6C6FFD0C9C9FFD7D1D2FFD6D1D2FFCEC6
-              C6FFCBC5C5FFC7C0C0FFC2B8B8FFA39698FF726468DC00000000000000000000
-              0000ACA2A3DEAC9C99FFC9BCBBFFDBCDCAFFF3E6E2FEFFFFFEFFF5EEECFFB9A7
-              A3FFF3EDEBFEF7F3F3FFA99998FFA49695FFB1A6A7E700000000000000000000
-              0000000000005F5054459C919391B7ADAFB4BBB2B2C3C0B5B6CFC0B6B7D2BBB2
-              B3D0BCB2B3C3BBB3B4B59D929592615156460000000000000000
-            }
-            Layout = blGlyphRight
-            OnClick = btnSearchTemplateClick
-            ParentShowHint = False
-            ShowHint = True
-            TabOrder = 9
-          end
-        end
       end
       object pgLayout: TPage
         ClientWidth = 701
@@ -4460,7 +3851,7 @@ object frmOptions: TfrmOptions
     left = 16
     top = 368
     Bitmap = {
-      4C6916000000100000001000000066355CFF66355CFF66355CFF66355CFF6635
+      4C6914000000100000001000000066355CFF66355CFF66355CFF66355CFF6635
       5CFF66355CFF66355CFF66355CFF66355CFF66355CFF66355CFF66355CFF6635
       5CFF00000000000000000000000066355CFFB395AFFFC6ACC3FFD3BED0FFD1C0
       CEFFC9BBC7FFAA97A7FF877184FF755871FF6A4565FF744B6FFF7E5278FF6635
@@ -4588,39 +3979,39 @@ object frmOptions: TfrmOptions
       FCFFFCFCFCFFFCFCFCFFFCFCFCFFFAFAFAFFFAFAFAFFFAFAFAFFF6F6F6FFF6F6
       F6FFF6F6F6FFEFEFEFFF858A88FF00000000858A88FF858A88FF858A88FF858A
       88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A
-      88FF858A88FF858A88FF00000000699A2FFF412323FF412323FF412323FF4123
-      23FF412323FF412323FF412323FF412323FF412323FF412323FF412323FF4123
-      23FF412323FF412323FFFF0000FF412323FFD8E9ECFFD8E9ECFFD8E9ECFFD8E9
-      ECFFD8E9ECFFD8E9ECFFD8E9ECFFD8E9ECFFD8E9ECFFD8E9ECFFD8E9ECFFD8E9
-      ECFFD8E9ECFFD8E9ECFF412323FF412323FF412323FF412323FF412323FF4123
-      23FF412323FF412323FF412323FF412323FF412323FF412323FF412323FF4123
-      23FF412323FF412323FF412323FF412323FFFFF8F1FFFFF8F1FFFFF8F1FFFFF8
-      F1FFFFF8F1FFFFF8F1FFFFF8F1FF412323FFFFF8F1FFFFF8F1FFFFF8F1FFFFF8
-      F1FFFFF8F1FFFFF8F1FF412323FF412323FFFFF8F1FF412323FF412323FF4123
-      23FF412323FFFFF8F1FFFFF8F1FF412323FFFFF8F1FF412323FF412323FF4123
-      23FFFFF8F1FFFFF8F1FF412323FF412323FFFFF8F1FFFFF8F1FFFFF8F1FFFFF8
-      F1FFFFF8F1FFFFF8F1FFFFF8F1FF412323FFFFF8F1FFFFF8F1FFFFF8F1FFFFF8
-      F1FFFFF8F1FFFFF8F1FF412323FF412323FFFFF8F1FF0000FFFF0000FFFF0000
-      FFFF0000FFFFFFF8F1FFFFF8F1FF412323FFFFF8F1FFFF0000FFFF0000FFFF00
-      00FFFFF8F1FFFFF8F1FF412323FF412323FFFFF8F1FFFFF8F1FFFFF8F1FFFFF8
-      F1FFFFF8F1FFFFF8F1FFFFF8F1FF412323FFFFF8F1FFFFF8F1FFFFF8F1FFFFF8
-      F1FFFFF8F1FFFFF8F1FF412323FF412323FFFFF8F1FFFF00FFFFFF00FFFFFF00
-      FFFFFF00FFFFFFF8F1FFFFF8F1FF412323FFFFF8F1FFFFFF00FFFFFF00FFFFFF
-      00FFFFF8F1FFFFF8F1FF412323FF412323FFFFF8F1FFFFF8F1FFFFF8F1FFFFF8
-      F1FFFFF8F1FFFFF8F1FFFFF8F1FF412323FFFFF8F1FFFFF8F1FFFFF8F1FFFFF8
-      F1FFFFF8F1FFFFF8F1FF412323FF412323FFFFF8F1FF00FF00FF00FF00FF00FF
-      00FF00FF00FFFFF8F1FFFFF8F1FF412323FFFFF8F1FF00FFFFFF00FFFFFF00FF
-      FFFFFFF8F1FFFFF8F1FF412323FF412323FFFFF8F1FFFFF8F1FFFFF8F1FFFFF8
-      F1FFFFF8F1FFFFF8F1FFFFF8F1FF412323FFFFF8F1FFFFF8F1FFFFF8F1FFFFF8
-      F1FFFFF8F1FFFFF8F1FF412323FF412323FFFFF8F1FFFFF8F1FFFFF8F1FFFFF8
-      F1FFFFF8F1FFFFF8F1FFFFF8F1FF412323FFFFF8F1FFFFF8F1FFFFF8F1FFFFF8
-      F1FFFFF8F1FFFFF8F1FF412323FF412323FF412323FF412323FF412323FF4123
-      23FF412323FF412323FF412323FF412323FF412323FF412323FF412323FF4123
-      23FF412323FF412323FF412323FF412323FFFFFFFFFFFFFFFFFF412323FF4123
-      23FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFF412323FF412323FF412323FF412323FF412323FF4123
-      23FF412323FF412323FF412323FF412323FF412323FF412323FF412323FF4123
-      23FF412323FF412323FF412323FF000000000000000000000000000000000000
+      88FF858A88FF858A88FF00000000FFFFFF00FFFFFF00FFFFFF000DD8000004D0
+      13000CD135FF15D255FF18D474FF18D68CFF13D8A2FF0DDBB9FF06E4D900FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF003AD5040020D009FF3AD7
+      3DFF6AE67CFF88F3AAFF96F9C4FF97FBD3FF87F7DBFF68EFE0FF1AE7E5FF0AD5
+      EBFF05BBF400FFFFFF00FFFFFF00FFFFFF0065D800004CD50EFF74E158FFA1F6
+      99FF9EFFA6FF7BFF9EFF70FFAEFF70FFC7FF7CFFE3FFA5FFFAFF98F4FBFF55D8
+      F5FF0DB7F9FF008DFC00FFFFFF0080DE000077DA09FF94E257FFBBF99DFF8AFF
+      6EFF79FF76FF82FF97FF89FFB6FF87FFD1FF7EFFECFF6DFBFEFF76E8FFFF9BDF
+      FCFF54BAFBFF0782F6FFFFFFFF0096DF0000A0E138FFCBF697FFAEFF6CFFA4FF
+      7AFF9DFF8DFF9BFFA3FFA4FFC4FFA2FFDFFF97FFF8FF85EFFFFF6ED3FFFF78C5
+      FFFF92C5FCFF146EF4FF0052F000B2E608FFC6EB67FFDDFF9BFFC5FF6FFFC3FF
+      8CFFBEFFA1FFB9FFB3FFBDFFCFFFBDFFEEFFB0F8FFFF99DEFFFF7EC2FFFF63A3
+      FFFF9EBDFFFF5983F8FF0336E2FFCDEA0EFFE4F582FFE5FF6FFFE0FF79FFE0FF
+      95FFDFFFAFFFDCFFC7FFDCFFE0FFD9FEFAFFC5E9FFFFA7CAFFFF87AAFFFF698B
+      FFFF788EFFFF7386FBFF0822DDFFEAEC0EFFF9FA92FFFAFD64FFFAFD7BFFF9FD
+      98FFFAFDB5FFFAFED3FFFAFEEFFFEFF3FFFFD0D5FFFFAFB3FFFF8D91FFFF6C6F
+      FFFF6769FFFF8283FBFF090DD9FFF1DA0EFFFFF290FFFFE962FFFFE876FFFFE7
+      93FFFFE7B0FFFFE6CAFFFFE5E5FFFCDEFDFFE1C6FFFFC2A6FFFFA184FFFF7E66
+      FFFF7664FFFF887BF6FF1A08D5FFF5BF09FFFEDD80FFFFD16CFFFFC76BFFFFC7
+      85FFFFC49EFFFFBDB3FFFFBFD0FFFFBFF1FFF4B0FFFFD696FFFFB679FFFF955E
+      FFFF9977FFFF8265ECFF2A04D0FFFBA600FFFDBE60FFFFD09CFFFFA55BFFFFA2
+      71FFFF9A84FFFF979BFFFF9FBFFFFF9FE0FFFE92FBFFE77CFFFFC966FFFFA84F
+      FFFFBE95FDFF7240DDFF3600CC00FA820000F87C0BFFFBB98EFFFF976AFFFF79
+      5BFFFF716BFFFF7689FFFF7CADFFFF7BCDFFFF71EDFFF763FFFFD952FFFFCF7C
+      FFFFB373ECFF5906CCFF4600CC00FFFFFF00F05600FFF07744FFFCA692FFFF7B
+      6FFFFF5158FFFF5A79FFFF5E9BFFFF5CBCFFFF57DAFFFF4CF7FFF17BFFFFD685
+      F1FF9734CFFF6100C200FFFFFF00FFFFFF00EB470000E22A00FFE95240FFF885
+      84FFFF969FFFFF7491FFFF609AFFFF60B7FFFF78D8FFFC92EFFFE871EAFFB632
+      CCFF8900BDFF6D00CE00FFFFFF00FFFFFF00FFFFFF00E51E0000D30400FFD404
+      0CFFE14059FFEE6384FFF373A1FFF071B2FFE45AB6FFD236B4FFBE02B4FFAD00
+      BA009700CC00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00D000
+      0700C3001C00BF0031FFBE0144FFBB005AFFB90072FFB8008A00C100AF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00000000000000000000000000000000000000
       000000000000894D25FF884C23FF884C23FF884C23FF884C23FF884C23FF884C
       23FF884C23FF894F26FF00000000000000000000000000000000000000000000
       00008B5129FFE2DFDAFFEDEFEEFFF0F2F1FFF4F5F4FFF6F7F7FFF7F8F8FFF5F6
@@ -4684,39 +4075,7 @@ object frmOptions: TfrmOptions
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFF9C9C9CFFA0A0A0FF9B9B9BFF9B9B9BFF9B9B9BFF9B9B
       9BFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B
-      9BFF9B9B9BFF9B9B9BFFA1A1A1FF000000008A8F8DFF858A88FF858A88FF858A
-      88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A
-      88FF858A88FF8A8F8DFF0000000000000000858A88FFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFF888D8BFF0000000000000000858A88FFFFFFFFFFF7F8F8FFF7F8
-      F8FFF7F8F8FFF7F8F8FFF7F8F8FFF7F8F8FFF7F8F8FFF7F8F8FFF7F8F8FFF7F8
-      F8FFFEFEFEFF888D8BFF0000000000000000858A88FFFFFFFFFFF7F8F8FF0000
-      FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFFF7F8
-      F8FFFEFEFEFF888D8BFF0000000000000000858A88FFFFFFFFFFF7F8F8FFF4F5
-      F5FFF4F5F5FFF4F5F5FFF4F5F5FFF4F5F5FFF4F5F5FFF4F5F5FFF4F5F5FFF7F8
-      F8FFFEFEFEFF888D8BFF0000000000000000858A88FFFFFFFFFFF7F8F8FFF7F8
-      F8FFF7F8F8FFF7F8F8FFF7F8F8FFF7F8F8FFF7F8F8FFF7F8F8FFF7F8F8FFF7F8
-      F8FFFEFEFEFF888D8BFF0000000000000000858A88FFFFFFFFFFF7F8F8FFFF00
-      FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFF5F6
-      F6FFFEFEFEFF888D8BFF0000000000000000858A88FFFFFFFFFFF7F8F8FFF7F8
-      F8FFF7F8F8FFF7F8F8FFF7F8F8FFF7F8F8FFF7F8F8FFF6F7F7FFF5F6F6FFF4F5
-      F5FFFEFEFEFF888D8BFF0000000000000000858A88FFFFFFFFFFF7F8F8FFF7F8
-      F8FFF7F8F8FFF7F8F8FFF7F8F8FFF6F7F7FFF5F6F6FFF4F5F5FFF3F4F4FFF3F3
-      F3FFFEFEFEFF888D8BFF0000000000000000858A88FFFFFFFFFFF7F8F8FF007F
-      00FF007F00FF007F00FF007F00FF007F00FF007F00FF007F00FF007F00FFF1F2
-      F2FFFEFEFEFF888D8BFF0000000000000000858A88FFFFFFFFFFF7F8F8FFF3F4
-      F4FFF3F4F4FFF2F3F3FFF1F2F2FFF0F1F1FFEFF0F0FFEEEFEFFFEDEEEEFFF0F0
-      F0FFFEFEFEFF888D8BFF0000000000000000858A88FFFFFFFFFFF6F7F7FFF5F6
-      F6FFF4F5F5FFF3F4F4FFF2F3F3FFF2F2F2FFF1F1F1FFF0F0F0FFEFF0F0FFEEEF
-      EFFFFEFEFEFF888D8BFF0000000000000000858A88FFFFFFFFFFF4F5F5FF9999
-      99FF999999FF999999FF999999FF999999FF999999FF999999FF999999FFEDED
-      EDFFFEFEFEFF888D8BFF0000000000000000858A88FFFFFFFFFFF3F4F4FFEFF0
-      F0FFEEEFEFFFEDEEEEFFEDEDEDFFECECECFFEBEBEBFFEAEAEAFFE9E9E9FFEBEC
-      ECFFFEFEFEFF888D8BFF0000000000000000858A88FFFFFFFFFFFEFEFEFFFEFE
-      FEFFFEFEFEFFFEFEFEFFFEFEFEFFFEFEFEFFFEFEFEFFFEFEFEFFFEFEFEFFFEFE
-      FEFFFFFFFFFF888D8BFF00000000000000008A8F8DFF888D8BFF888D8BFF888D
-      8BFF888D8BFF888D8BFF888D8BFF888D8BFF888D8BFF888D8BFF888D8BFF888D
-      8BFF888D8BFF8A8E8CFF0000000000000000B6BDBAFFB6BDBAFFB6BDBAFFB6BD
+      9BFF9B9B9BFF9B9B9BFFA1A1A1FF00000000B6BDBAFFB6BDBAFFB6BDBAFFB6BD
       BAFFB6BDBAFFB6BDBAFFB6BDBAFFB6BDBAFFB6BDBAFFB6BDBAFF000000000000
       0000000000000000000000000000B6BDBAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB6BDBAFF0000
@@ -5132,39 +4491,7 @@ object frmOptions: TfrmOptions
       0000000000003E5E5EFFBAE6E3FEC9F6F3FFB0D5D3FE3E5E5EFF000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000003E5E5E4C363939A5464646EC303030A93E5E5E4C000000000000
-      0000000000000000000000000000FFFFFF00FFFFFF00FFFFFF000DD8000004D0
-      13000CD135FF15D255FF18D474FF18D68CFF13D8A2FF0DDBB9FF06E4D900FFFF
-      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF003AD5040020D009FF3AD7
-      3DFF6AE67CFF88F3AAFF96F9C4FF97FBD3FF87F7DBFF68EFE0FF1AE7E5FF0AD5
-      EBFF05BBF400FFFFFF00FFFFFF00FFFFFF0065D800004CD50EFF74E158FFA1F6
-      99FF9EFFA6FF7BFF9EFF70FFAEFF70FFC7FF7CFFE3FFA5FFFAFF98F4FBFF55D8
-      F5FF0DB7F9FF008DFC00FFFFFF0080DE000077DA09FF94E257FFBBF99DFF8AFF
-      6EFF79FF76FF82FF97FF89FFB6FF87FFD1FF7EFFECFF6DFBFEFF76E8FFFF9BDF
-      FCFF54BAFBFF0782F6FFFFFFFF0096DF0000A0E138FFCBF697FFAEFF6CFFA4FF
-      7AFF9DFF8DFF9BFFA3FFA4FFC4FFA2FFDFFF97FFF8FF85EFFFFF6ED3FFFF78C5
-      FFFF92C5FCFF146EF4FF0052F000B2E608FFC6EB67FFDDFF9BFFC5FF6FFFC3FF
-      8CFFBEFFA1FFB9FFB3FFBDFFCFFFBDFFEEFFB0F8FFFF99DEFFFF7EC2FFFF63A3
-      FFFF9EBDFFFF5983F8FF0336E2FFCDEA0EFFE4F582FFE5FF6FFFE0FF79FFE0FF
-      95FFDFFFAFFFDCFFC7FFDCFFE0FFD9FEFAFFC5E9FFFFA7CAFFFF87AAFFFF698B
-      FFFF788EFFFF7386FBFF0822DDFFEAEC0EFFF9FA92FFFAFD64FFFAFD7BFFF9FD
-      98FFFAFDB5FFFAFED3FFFAFEEFFFEFF3FFFFD0D5FFFFAFB3FFFF8D91FFFF6C6F
-      FFFF6769FFFF8283FBFF090DD9FFF1DA0EFFFFF290FFFFE962FFFFE876FFFFE7
-      93FFFFE7B0FFFFE6CAFFFFE5E5FFFCDEFDFFE1C6FFFFC2A6FFFFA184FFFF7E66
-      FFFF7664FFFF887BF6FF1A08D5FFF5BF09FFFEDD80FFFFD16CFFFFC76BFFFFC7
-      85FFFFC49EFFFFBDB3FFFFBFD0FFFFBFF1FFF4B0FFFFD696FFFFB679FFFF955E
-      FFFF9977FFFF8265ECFF2A04D0FFFBA600FFFDBE60FFFFD09CFFFFA55BFFFFA2
-      71FFFF9A84FFFF979BFFFF9FBFFFFF9FE0FFFE92FBFFE77CFFFFC966FFFFA84F
-      FFFFBE95FDFF7240DDFF3600CC00FA820000F87C0BFFFBB98EFFFF976AFFFF79
-      5BFFFF716BFFFF7689FFFF7CADFFFF7BCDFFFF71EDFFF763FFFFD952FFFFCF7C
-      FFFFB373ECFF5906CCFF4600CC00FFFFFF00F05600FFF07744FFFCA692FFFF7B
-      6FFFFF5158FFFF5A79FFFF5E9BFFFF5CBCFFFF57DAFFFF4CF7FFF17BFFFFD685
-      F1FF9734CFFF6100C200FFFFFF00FFFFFF00EB470000E22A00FFE95240FFF885
-      84FFFF969FFFFF7491FFFF609AFFFF60B7FFFF78D8FFFC92EFFFE871EAFFB632
-      CCFF8900BDFF6D00CE00FFFFFF00FFFFFF00FFFFFF00E51E0000D30400FFD404
-      0CFFE14059FFEE6384FFF373A1FFF071B2FFE45AB6FFD236B4FFBE02B4FFAD00
-      BA009700CC00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00D000
-      0700C3001C00BF0031FFBE0144FFBB005AFFB90072FFB8008A00C100AF00FFFF
-      FF00FFFFFF00FFFFFF00FFFFFF00
+      0000000000000000000000000000
     }
   end
   object odOpenDialog: TOpenDialog
