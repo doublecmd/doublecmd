@@ -3323,21 +3323,6 @@ msgctxt "TFRMMULTIRENAME.N5.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: TFRMOPTIONS.BBTNADDCATEGORY.CAPTION
-msgctxt "TFRMOPTIONS.BBTNADDCATEGORY.CAPTION"
-msgid "Add"
-msgstr "Dodaj"
-
-#: TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION
-msgctxt "TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION"
-msgid "Apply"
-msgstr "Zastosuj"
-
-#: TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION
-msgctxt "TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION"
-msgid "Delete"
-msgstr "Usuń"
-
 #: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
 msgid "Clear HotKey"
 msgstr "Wyszczyść"
@@ -3359,16 +3344,6 @@ msgstr "Zastosuj"
 msgid "Auto Configure"
 msgstr "Autokonfiguracja"
 
-#: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: TFRMOPTIONS.BTNBACKCOLOR2.CAPTION
-msgctxt "TFRMOPTIONS.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: TFRMOPTIONS.BTNBACKVIEWERCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKVIEWERCOLOR.CAPTION"
 msgid ">>"
@@ -3378,11 +3353,6 @@ msgstr ">>"
 msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Anuluj"
-
-#: TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
 
 #: TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION
 msgctxt "TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION"
@@ -3399,16 +3369,6 @@ msgctxt "TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION"
 msgid "Copy"
 msgstr "Kopiuj"
 
-#: TFRMOPTIONS.BTNCURSORCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: TFRMOPTIONS.BTNCURSORTEXT.CAPTION
-msgctxt "TFRMOPTIONS.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION"
 msgid "Delete"
@@ -3421,16 +3381,6 @@ msgstr "Edytuj"
 
 #: TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: TFRMOPTIONS.BTNFORECOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: TFRMOPTIONS.BTNMARKCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
@@ -3464,11 +3414,6 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&ОК"
 
-#: TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT
-msgctxt "TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT"
-msgid "Template..."
-msgstr "Szablon"
-
 #: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
 msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
 msgid "..."
@@ -3498,11 +3443,6 @@ msgstr "..."
 msgid "Set HotKey"
 msgstr "Wybierz"
 
-#: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
-msgctxt "TFRMOPTIONS.CBACKGRNDLABEL.CAPTION"
-msgid "BackGround:"
-msgstr "Tło &1"
-
 #: TFRMOPTIONS.CBALWAYSSHOWTRAYICON.CAPTION
 msgid "Always show tray icon"
 msgstr "Ikona zawsze widoczna na pasku"
@@ -3511,14 +3451,6 @@ msgstr "Ikona zawsze widoczna na pasku"
 msgctxt "TFRMOPTIONS.CBBFILESYSTEM.TEXT"
 msgid "General"
 msgstr "Ogólne"
-
-#: TFRMOPTIONS.CBBUSEFRAMECURSOR.CAPTION
-msgid "Use Frame Cursor"
-msgstr "Kursor jako ramka"
-
-#: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
-msgid "Use Inverted Selection"
-msgstr "Odwrotna selekcja"
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
@@ -3872,11 +3804,6 @@ msgstr "Zapisz konfigurację"
 msgid "Search/Replace history"
 msgstr "Historia znajdź/zamień"
 
-#: TFRMOPTIONS.CTEXTLABEL.CAPTION
-msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
-msgid "Text Color:"
-msgstr "Kolor tekstu:"
-
 #: TFRMOPTIONS.FRMOPTIONS.CAPTION
 msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
 msgid "Options"
@@ -3907,18 +3834,9 @@ msgstr "Data i czas"
 msgid "Exact name match:"
 msgstr "Dokładne brzmienie nazwy:"
 
-#: TFRMOPTIONS.GBEXAMPLE.CAPTION
-msgctxt "TFRMOPTIONS.GBEXAMPLE.CAPTION"
-msgid "Example"
-msgstr "Przykład"
-
 #: TFRMOPTIONS.GBFILESEARCH.CAPTION
 msgid "File search"
 msgstr "Szukanie plików"
-
-#: TFRMOPTIONS.GBFILETYPESCOLORS.CAPTION
-msgid "File types colors"
-msgstr "Kolor typu plików"
 
 #: TFRMOPTIONS.GBGENERALOPTIONS.CAPTION
 msgid "General options"
@@ -4031,32 +3949,9 @@ msgstr "Archiwizer:"
 msgid "Auto size column:"
 msgstr "Autorozmiar kolumn:"
 
-#: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
-msgctxt "TFRMOPTIONS.LBLBACKGROUND2.CAPTION"
-msgid "Background 2:"
-msgstr "Tło 2"
-
 #: TFRMOPTIONS.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION
 msgid "Background color in book viewer"
 msgstr "Kolor tła w przeglądarce książek"
-
-#: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
-msgid "Category attributes:"
-msgstr "Atrybuty"
-
-#: TFRMOPTIONS.LBLCATEGORYCOLOR.CAPTION
-msgid "Category color:"
-msgstr "Kolor:"
-
-#: TFRMOPTIONS.LBLCATEGORYMASK.CAPTION
-msgctxt "TFRMOPTIONS.LBLCATEGORYMASK.CAPTION"
-msgid "Category mask:"
-msgstr "Wzorzec typu:"
-
-#: TFRMOPTIONS.LBLCATEGORYNAME.CAPTION
-msgctxt "TFRMOPTIONS.LBLCATEGORYNAME.CAPTION"
-msgid "Category name:"
-msgstr "Nazwa:"
 
 #: TFRMOPTIONS.LBLCHAR.CAPTION
 msgid "characters"
@@ -4073,16 +3968,6 @@ msgstr "Konfiguracja kolumn okna głównego:"
 #: TFRMOPTIONS.LBLCOPYBUFFERSIZE.CAPTION
 msgid "Buffer size (Kb):"
 msgstr "Wielkość bufora (Кb):"
-
-#: TFRMOPTIONS.LBLCURSORCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.LBLCURSORCOLOR.CAPTION"
-msgid "Cursor Color:"
-msgstr "Kursor"
-
-#: TFRMOPTIONS.LBLCURSORTEXT.CAPTION
-msgctxt "TFRMOPTIONS.LBLCURSORTEXT.CAPTION"
-msgid "Cursor Text:"
-msgstr "Tekst pod kursorem"
 
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
@@ -4106,10 +3991,6 @@ msgctxt "TFRMOPTIONS.LBLHOTKEY.CAPTION"
 msgid "Hot Key:"
 msgstr "Skróty klawiaturowe:"
 
-#: TFRMOPTIONS.LBLINACTIVEPANELBRIGHTNESS.CAPTION
-msgid "Brightness level of inactive panel"
-msgstr "Przyciemnienie nieaktywnego panelu"
-
 #: TFRMOPTIONS.LBLLOGFONT.CAPTION
 msgid "Log font"
 msgstr "Czcionka logów"
@@ -4117,11 +3998,6 @@ msgstr "Czcionka logów"
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
 msgstr "Podstawowy"
-
-#: TFRMOPTIONS.LBLMARKCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.LBLMARKCOLOR.CAPTION"
-msgid "Mark Color:"
-msgstr "Zaznaczenie:"
 
 #: TFRMOPTIONS.LBLMOUSEMODE.CAPTION
 msgid "Mode:"
@@ -4288,6 +4164,146 @@ msgstr "Dodatkowe"
 msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
 msgid "General"
 msgstr "Ogólne"
+
+#: TFRMOPTIONSCOLORS.BBTNADDCATEGORY.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BBTNADDCATEGORY.CAPTION"
+msgid "Add"
+msgstr "Dodaj"
+
+#: TFRMOPTIONSCOLORS.BBTNAPPLYCATEGORY.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BBTNAPPLYCATEGORY.CAPTION"
+msgid "Apply"
+msgstr "Zastosuj"
+
+#: TFRMOPTIONSCOLORS.BBTNDELETECATEGORY.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BBTNDELETECATEGORY.CAPTION"
+msgid "Delete"
+msgstr "Usuń"
+
+#: TFRMOPTIONSCOLORS.BTNBACKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNBACKCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNBACKCOLOR2.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNBACKCOLOR2.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNCATEGORYCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNCATEGORYCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNCURSORCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNCURSORCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNCURSORTEXT.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNCURSORTEXT.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNFORECOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNFORECOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNMARKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNMARKCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNSEARCHTEMPLATE.HINT
+msgctxt "TFRMOPTIONSCOLORS.BTNSEARCHTEMPLATE.HINT"
+msgid "Template..."
+msgstr "Szablon"
+
+#: TFRMOPTIONSCOLORS.CBACKGRNDLABEL.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CBACKGRNDLABEL.CAPTION"
+msgid "BackGround:"
+msgstr "Tło &1"
+
+#: TFRMOPTIONSCOLORS.CBBUSEFRAMECURSOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
+msgid "Use Frame Cursor"
+msgstr "Kursor jako ramka"
+
+#: TFRMOPTIONSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
+msgid "Use Inverted Selection"
+msgstr "Odwrotna selekcja"
+
+#: TFRMOPTIONSCOLORS.CTEXTLABEL.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CTEXTLABEL.CAPTION"
+msgid "Text Color:"
+msgstr "Kolor tekstu:"
+
+#: TFRMOPTIONSCOLORS.GBEXAMPLE.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.GBEXAMPLE.CAPTION"
+msgid "Example"
+msgstr "Przykład"
+
+#: TFRMOPTIONSCOLORS.GBFILETYPESCOLORS.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.GBFILETYPESCOLORS.CAPTION"
+msgid "File types colors"
+msgstr "Kolor typu plików"
+
+#: TFRMOPTIONSCOLORS.LBLBACKGROUND2.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLBACKGROUND2.CAPTION"
+msgid "Background 2:"
+msgstr "Tło 2"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYATTR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYATTR.CAPTION"
+msgid "Category attributes:"
+msgstr "Atrybuty"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYCOLOR.CAPTION"
+msgid "Category color:"
+msgstr "Kolor:"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYMASK.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYMASK.CAPTION"
+msgid "Category mask:"
+msgstr "Wzorzec typu:"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYNAME.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYNAME.CAPTION"
+msgid "Category name:"
+msgstr "Nazwa:"
+
+#: TFRMOPTIONSCOLORS.LBLCURSORCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCURSORCOLOR.CAPTION"
+msgid "Cursor Color:"
+msgstr "Kursor"
+
+#: TFRMOPTIONSCOLORS.LBLCURSORTEXT.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCURSORTEXT.CAPTION"
+msgid "Cursor Text:"
+msgstr "Tekst pod kursorem:"
+
+#: TFRMOPTIONSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
+msgid "Brightness level of inactive panel"
+msgstr "Przyciemnienie nieaktywnego panelu"
+
+#: TFRMOPTIONSCOLORS.LBLMARKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLMARKCOLOR.CAPTION"
+msgid "Mark Color:"
+msgstr "Kolor zaznaczania:"
+
+#: TFRMOPTIONSCOLORS.TSFILEPANELS.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.TSFILEPANELS.CAPTION"
+msgid "File panels"
+msgstr "Okna główne"
+
+#: TFRMOPTIONSCOLORS.TSFILETYPES.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.TSFILETYPES.CAPTION"
+msgid "File types"
+msgstr "Typy plików"
 
 #: TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
@@ -5384,6 +5400,9 @@ msgstr "Kolejka:"
 msgid "for running"
 msgstr "dla działających"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
@@ -5512,9 +5531,6 @@ msgstr "Ponów"
 msgid "&Skip"
 msgstr "&Pomiń"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsdlgbuttonskipall
 msgid "S&kip All"
 msgstr "Pomiń &wszystko"
@@ -5610,6 +5626,9 @@ msgstr "Nieznana operacja"
 msgid "Wipe file(s)"
 msgstr "Wymaż plik(i)"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
 msgstr "Wewnętrzny edytor Double Commandera"
@@ -5651,6 +5670,9 @@ msgstr "Zdefiniuj wzorzec"
 msgid "%s level(s)"
 msgstr "%s poziom(y)"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsfinddepthall
 msgid "all (unlimited depth)"
 msgstr "Wszystko (bez ograniczeń)"
@@ -5692,6 +5714,9 @@ msgstr "Znajdź plik"
 msgid "Begin at"
 msgstr "Zacznij w"
 
+#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
+#~ msgid "File name"
+#~ msgstr "Nazwa pliku"
 #: ulng.rsfreemsg
 msgid "Free %s from %s bytes"
 msgstr "Wolne %s z %s"
@@ -5734,9 +5759,6 @@ msgstr ""
 msgid "Modification date/time"
 msgstr ""
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsfuncname
 msgctxt "ulng.rsfuncname"
 msgid "Name"
@@ -5781,9 +5803,6 @@ msgstr "Maska deselekcji"
 msgid "Select mask"
 msgstr "Maska selekcji"
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmaskinput
 msgid "Input mask:"
 msgstr "Maska wejściowa:"
@@ -5826,9 +5845,6 @@ msgstr "Brak dostępnego nośnika"
 msgid "Open with ..."
 msgstr "Otwórz z ..."
 
-#~ msgctxt "TFRMOPTIONS.STGPLUGINS.COLUMNS.TITLE.CAPTION"
-#~ msgid "File name"
-#~ msgstr "Nazwa pliku"
 #: ulng.rsmnusortby
 msgid "Sort by"
 msgstr "Sortuj po"
@@ -6445,6 +6461,7 @@ msgid "File operations"
 msgstr "Operacje na plikach"
 
 #: ulng.rsoptfilepanels
+msgctxt "ulng.rsoptfilepanels"
 msgid "File panels"
 msgstr "Okna główne"
 

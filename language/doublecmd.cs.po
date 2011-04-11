@@ -3408,21 +3408,6 @@ msgctxt "TFRMMULTIRENAME.N5.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: TFRMOPTIONS.BBTNADDCATEGORY.CAPTION
-msgctxt "TFRMOPTIONS.BBTNADDCATEGORY.CAPTION"
-msgid "Add"
-msgstr "Přidat"
-
-#: TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION
-msgctxt "TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION"
-msgid "Apply"
-msgstr "Použít"
-
-#: TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION
-msgctxt "TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION"
-msgid "Delete"
-msgstr "Vymazat"
-
 #: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
 msgid "Clear HotKey"
 msgstr "Vymazat seznam"
@@ -3444,16 +3429,6 @@ msgstr "Použít"
 msgid "Auto Configure"
 msgstr ""
 
-#: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: TFRMOPTIONS.BTNBACKCOLOR2.CAPTION
-msgctxt "TFRMOPTIONS.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: TFRMOPTIONS.BTNBACKVIEWERCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKVIEWERCOLOR.CAPTION"
 msgid ">>"
@@ -3463,11 +3438,6 @@ msgstr ">>"
 msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Zrušit"
-
-#: TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
 
 #: TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION
 msgctxt "TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION"
@@ -3484,16 +3454,6 @@ msgctxt "TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION"
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: TFRMOPTIONS.BTNCURSORCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: TFRMOPTIONS.BTNCURSORTEXT.CAPTION
-msgctxt "TFRMOPTIONS.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION"
 msgid "Delete"
@@ -3506,16 +3466,6 @@ msgstr "Upravit"
 
 #: TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: TFRMOPTIONS.BTNFORECOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: TFRMOPTIONS.BTNMARKCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
@@ -3549,11 +3499,6 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
-#: TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT
-msgctxt "TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT"
-msgid "Template..."
-msgstr "Šablony..."
-
 #: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
 msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
 msgid "..."
@@ -3583,11 +3528,6 @@ msgstr "..."
 msgid "Set HotKey"
 msgstr "Nastavit hokré klávesy"
 
-#: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
-msgctxt "TFRMOPTIONS.CBACKGRNDLABEL.CAPTION"
-msgid "BackGround:"
-msgstr "Pozadí:"
-
 #: TFRMOPTIONS.CBALWAYSSHOWTRAYICON.CAPTION
 msgid "Always show tray icon"
 msgstr "Vždy zobrazit \"tray\" ikonu"
@@ -3596,14 +3536,6 @@ msgstr "Vždy zobrazit \"tray\" ikonu"
 msgctxt "TFRMOPTIONS.CBBFILESYSTEM.TEXT"
 msgid "General"
 msgstr "Hlavní"
-
-#: TFRMOPTIONS.CBBUSEFRAMECURSOR.CAPTION
-msgid "Use Frame Cursor"
-msgstr ""
-
-#: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
-msgid "Use Inverted Selection"
-msgstr "Použít obrácený výběr"
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
@@ -3967,11 +3899,6 @@ msgstr ""
 msgid "Search/Replace history"
 msgstr ""
 
-#: TFRMOPTIONS.CTEXTLABEL.CAPTION
-msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
-msgid "Text Color:"
-msgstr "Barva písma:"
-
 #: TFRMOPTIONS.FRMOPTIONS.CAPTION
 msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
 msgid "Options"
@@ -4004,18 +3931,9 @@ msgstr "Datum a čas"
 msgid "Exact name match:"
 msgstr "Upřesnění rychlého hledání"
 
-#: TFRMOPTIONS.GBEXAMPLE.CAPTION
-msgctxt "TFRMOPTIONS.GBEXAMPLE.CAPTION"
-msgid "Example"
-msgstr "Ukázka"
-
 #: TFRMOPTIONS.GBFILESEARCH.CAPTION
 msgid "File search"
 msgstr "Hledání souborů"
-
-#: TFRMOPTIONS.GBFILETYPESCOLORS.CAPTION
-msgid "File types colors"
-msgstr "Obarvování souborů dle typu"
 
 #: TFRMOPTIONS.GBGENERALOPTIONS.CAPTION
 msgid "General options"
@@ -4128,34 +4046,9 @@ msgstr ""
 msgid "Auto size column:"
 msgstr ""
 
-#: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
-msgctxt "TFRMOPTIONS.LBLBACKGROUND2.CAPTION"
-msgid "Background 2:"
-msgstr "Pozadí 2:"
-
 #: TFRMOPTIONS.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION
 msgid "Background color in book viewer"
 msgstr ""
-
-#: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
-#, fuzzy
-msgid "Category attributes:"
-msgstr "Atributy kategorií:"
-
-#: TFRMOPTIONS.LBLCATEGORYCOLOR.CAPTION
-msgid "Category color:"
-msgstr "Barva kategorie:"
-
-#: TFRMOPTIONS.LBLCATEGORYMASK.CAPTION
-#, fuzzy
-msgctxt "TFRMOPTIONS.LBLCATEGORYMASK.CAPTION"
-msgid "Category mask:"
-msgstr "Maska kategorie:"
-
-#: TFRMOPTIONS.LBLCATEGORYNAME.CAPTION
-msgctxt "TFRMOPTIONS.LBLCATEGORYNAME.CAPTION"
-msgid "Category name:"
-msgstr "Název kategore:"
 
 #: TFRMOPTIONS.LBLCHAR.CAPTION
 msgid "characters"
@@ -4172,16 +4065,6 @@ msgstr "Konfigurace sloupců pro systém souborů:"
 #: TFRMOPTIONS.LBLCOPYBUFFERSIZE.CAPTION
 msgid "Buffer size (Kb):"
 msgstr "Velikost buferu (Kb):"
-
-#: TFRMOPTIONS.LBLCURSORCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.LBLCURSORCOLOR.CAPTION"
-msgid "Cursor Color:"
-msgstr "Barva kursoru:"
-
-#: TFRMOPTIONS.LBLCURSORTEXT.CAPTION
-msgctxt "TFRMOPTIONS.LBLCURSORTEXT.CAPTION"
-msgid "Cursor Text:"
-msgstr "Text kursoru:"
 
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
@@ -4205,10 +4088,6 @@ msgctxt "TFRMOPTIONS.LBLHOTKEY.CAPTION"
 msgid "Hot Key:"
 msgstr "Horká klávesa:"
 
-#: TFRMOPTIONS.LBLINACTIVEPANELBRIGHTNESS.CAPTION
-msgid "Brightness level of inactive panel"
-msgstr ""
-
 #: TFRMOPTIONS.LBLLOGFONT.CAPTION
 msgid "Log font"
 msgstr ""
@@ -4216,11 +4095,6 @@ msgstr ""
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
 msgstr "Hlavní písmo"
-
-#: TFRMOPTIONS.LBLMARKCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.LBLMARKCOLOR.CAPTION"
-msgid "Mark Color:"
-msgstr "Barva označených:"
 
 #: TFRMOPTIONS.LBLMOUSEMODE.CAPTION
 msgid "Mode:"
@@ -4395,6 +4269,149 @@ msgstr ""
 msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
 msgid "General"
 msgstr "Hlavní"
+
+#: TFRMOPTIONSCOLORS.BBTNADDCATEGORY.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BBTNADDCATEGORY.CAPTION"
+msgid "Add"
+msgstr "Přidat"
+
+#: TFRMOPTIONSCOLORS.BBTNAPPLYCATEGORY.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BBTNAPPLYCATEGORY.CAPTION"
+msgid "Apply"
+msgstr "Použít"
+
+#: TFRMOPTIONSCOLORS.BBTNDELETECATEGORY.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BBTNDELETECATEGORY.CAPTION"
+msgid "Delete"
+msgstr "Vymazat"
+
+#: TFRMOPTIONSCOLORS.BTNBACKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNBACKCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNBACKCOLOR2.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNBACKCOLOR2.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNCATEGORYCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNCATEGORYCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNCURSORCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNCURSORCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNCURSORTEXT.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNCURSORTEXT.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNFORECOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNFORECOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNMARKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNMARKCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNSEARCHTEMPLATE.HINT
+msgctxt "TFRMOPTIONSCOLORS.BTNSEARCHTEMPLATE.HINT"
+msgid "Template..."
+msgstr "Šablony..."
+
+#: TFRMOPTIONSCOLORS.CBACKGRNDLABEL.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CBACKGRNDLABEL.CAPTION"
+msgid "BackGround:"
+msgstr "Pozadí:"
+
+#: TFRMOPTIONSCOLORS.CBBUSEFRAMECURSOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
+msgid "Use Frame Cursor"
+msgstr ""
+
+#: TFRMOPTIONSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
+msgid "Use Inverted Selection"
+msgstr "Použít obrácený výběr"
+
+#: TFRMOPTIONSCOLORS.CTEXTLABEL.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CTEXTLABEL.CAPTION"
+msgid "Text Color:"
+msgstr "Barva písma:"
+
+#: TFRMOPTIONSCOLORS.GBEXAMPLE.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.GBEXAMPLE.CAPTION"
+msgid "Example"
+msgstr "Ukázka"
+
+#: TFRMOPTIONSCOLORS.GBFILETYPESCOLORS.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.GBFILETYPESCOLORS.CAPTION"
+msgid "File types colors"
+msgstr "Obarvování souborů dle typu"
+
+#: TFRMOPTIONSCOLORS.LBLBACKGROUND2.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLBACKGROUND2.CAPTION"
+msgid "Background 2:"
+msgstr "Pozadí 2:"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYATTR.CAPTION
+#, fuzzy
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYATTR.CAPTION"
+msgid "Category attributes:"
+msgstr "Atributy kategorií:"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYCOLOR.CAPTION"
+msgid "Category color:"
+msgstr "Barva kategorie:"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYMASK.CAPTION
+#, fuzzy
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYMASK.CAPTION"
+msgid "Category mask:"
+msgstr "Maska kategorie:"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYNAME.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYNAME.CAPTION"
+msgid "Category name:"
+msgstr "Název kategore:"
+
+#: TFRMOPTIONSCOLORS.LBLCURSORCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCURSORCOLOR.CAPTION"
+msgid "Cursor Color:"
+msgstr "Barva kursoru:"
+
+#: TFRMOPTIONSCOLORS.LBLCURSORTEXT.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCURSORTEXT.CAPTION"
+msgid "Cursor Text:"
+msgstr "Text kursoru:"
+
+#: TFRMOPTIONSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
+msgid "Brightness level of inactive panel"
+msgstr ""
+
+#: TFRMOPTIONSCOLORS.LBLMARKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLMARKCOLOR.CAPTION"
+msgid "Mark Color:"
+msgstr "Barva označených:"
+
+#: TFRMOPTIONSCOLORS.TSFILEPANELS.CAPTION
+#, fuzzy
+msgctxt "TFRMOPTIONSCOLORS.TSFILEPANELS.CAPTION"
+msgid "File panels"
+msgstr "Panely souborů"
+
+#: TFRMOPTIONSCOLORS.TSFILETYPES.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.TSFILETYPES.CAPTION"
+msgid "File types"
+msgstr "Typy souborů"
 
 #: TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
@@ -6552,6 +6569,7 @@ msgstr "Souborové operace"
 
 #: ulng.rsoptfilepanels
 #, fuzzy
+msgctxt "ulng.rsoptfilepanels"
 msgid "File panels"
 msgstr "Panely souborů"
 

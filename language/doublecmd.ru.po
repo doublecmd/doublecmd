@@ -3341,21 +3341,6 @@ msgctxt "TFRMMULTIRENAME.N5.CAPTION"
 msgid "-"
 msgstr ""
 
-#: TFRMOPTIONS.BBTNADDCATEGORY.CAPTION
-msgctxt "TFRMOPTIONS.BBTNADDCATEGORY.CAPTION"
-msgid "Add"
-msgstr "Добавить"
-
-#: TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION
-msgctxt "TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION"
-msgid "Apply"
-msgstr "Применить"
-
-#: TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION
-msgctxt "TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION"
-msgid "Delete"
-msgstr "Удалить"
-
 #: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
 msgid "Clear HotKey"
 msgstr "Очистить"
@@ -3377,16 +3362,6 @@ msgstr "Применить"
 msgid "Auto Configure"
 msgstr "Автонастройка"
 
-#: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: TFRMOPTIONS.BTNBACKCOLOR2.CAPTION
-msgctxt "TFRMOPTIONS.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ""
-
 #: TFRMOPTIONS.BTNBACKVIEWERCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKVIEWERCOLOR.CAPTION"
 msgid ">>"
@@ -3396,11 +3371,6 @@ msgstr ""
 msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Отмена"
-
-#: TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
-msgid ">>"
-msgstr ""
 
 #: TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION
 msgctxt "TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION"
@@ -3417,16 +3387,6 @@ msgctxt "TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION"
 msgid "Copy"
 msgstr "&Копировать"
 
-#: TFRMOPTIONS.BTNCURSORCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: TFRMOPTIONS.BTNCURSORTEXT.CAPTION
-msgctxt "TFRMOPTIONS.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ""
-
 #: TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION"
 msgid "Delete"
@@ -3439,16 +3399,6 @@ msgstr "Редактировать"
 
 #: TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: TFRMOPTIONS.BTNFORECOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: TFRMOPTIONS.BTNMARKCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
 msgstr ""
 
@@ -3482,11 +3432,6 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&ОК"
 
-#: TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT
-msgctxt "TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT"
-msgid "Template..."
-msgstr "Шаблон..."
-
 #: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
 msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
 msgid "..."
@@ -3516,11 +3461,6 @@ msgstr ""
 msgid "Set HotKey"
 msgstr "Установить"
 
-#: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
-msgctxt "TFRMOPTIONS.CBACKGRNDLABEL.CAPTION"
-msgid "BackGround:"
-msgstr "Фон &1"
-
 #: TFRMOPTIONS.CBALWAYSSHOWTRAYICON.CAPTION
 msgid "Always show tray icon"
 msgstr "Всегда показывать иконку в трее"
@@ -3529,14 +3469,6 @@ msgstr "Всегда показывать иконку в трее"
 msgctxt "TFRMOPTIONS.CBBFILESYSTEM.TEXT"
 msgid "General"
 msgstr "Основные"
-
-#: TFRMOPTIONS.CBBUSEFRAMECURSOR.CAPTION
-msgid "Use Frame Cursor"
-msgstr ""
-
-#: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
-msgid "Use Inverted Selection"
-msgstr "Инверсное выделение"
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
@@ -3893,11 +3825,6 @@ msgstr "Сохранять конфигурацию"
 msgid "Search/Replace history"
 msgstr "История поиска/замены"
 
-#: TFRMOPTIONS.CTEXTLABEL.CAPTION
-msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
-msgid "Text Color:"
-msgstr "&Текст:"
-
 #: TFRMOPTIONS.FRMOPTIONS.CAPTION
 msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
 msgid "Options"
@@ -3929,18 +3856,9 @@ msgstr "Дата и время"
 msgid "Exact name match:"
 msgstr "Точное соответствие имени:"
 
-#: TFRMOPTIONS.GBEXAMPLE.CAPTION
-msgctxt "TFRMOPTIONS.GBEXAMPLE.CAPTION"
-msgid "Example"
-msgstr "Пример"
-
 #: TFRMOPTIONS.GBFILESEARCH.CAPTION
 msgid "File search"
 msgstr "Поиск файлов"
-
-#: TFRMOPTIONS.GBFILETYPESCOLORS.CAPTION
-msgid "File types colors"
-msgstr "Цвета по типу"
 
 #: TFRMOPTIONS.GBGENERALOPTIONS.CAPTION
 msgid "General options"
@@ -4053,32 +3971,9 @@ msgstr "Архиватор:"
 msgid "Auto size column:"
 msgstr "Изменять размер колонки:"
 
-#: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
-msgctxt "TFRMOPTIONS.LBLBACKGROUND2.CAPTION"
-msgid "Background 2:"
-msgstr "Фон &2"
-
 #: TFRMOPTIONS.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION
 msgid "Background color in book viewer"
 msgstr "Цвет в фона      "
-
-#: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
-msgid "Category attributes:"
-msgstr "Атрибуты"
-
-#: TFRMOPTIONS.LBLCATEGORYCOLOR.CAPTION
-msgid "Category color:"
-msgstr "Цвет:"
-
-#: TFRMOPTIONS.LBLCATEGORYMASK.CAPTION
-msgctxt "TFRMOPTIONS.LBLCATEGORYMASK.CAPTION"
-msgid "Category mask:"
-msgstr "Маска:"
-
-#: TFRMOPTIONS.LBLCATEGORYNAME.CAPTION
-msgctxt "TFRMOPTIONS.LBLCATEGORYNAME.CAPTION"
-msgid "Category name:"
-msgstr "Наименование:"
 
 #: TFRMOPTIONS.LBLCHAR.CAPTION
 msgid "characters"
@@ -4095,16 +3990,6 @@ msgstr "Настроить колонки для файловой системы
 #: TFRMOPTIONS.LBLCOPYBUFFERSIZE.CAPTION
 msgid "Buffer size (Kb):"
 msgstr "Размер буфера (Кб):"
-
-#: TFRMOPTIONS.LBLCURSORCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.LBLCURSORCOLOR.CAPTION"
-msgid "Cursor Color:"
-msgstr "&Курсор"
-
-#: TFRMOPTIONS.LBLCURSORTEXT.CAPTION
-msgctxt "TFRMOPTIONS.LBLCURSORTEXT.CAPTION"
-msgid "Cursor Text:"
-msgstr "Текст &под курсором"
 
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
@@ -4128,10 +4013,6 @@ msgctxt "TFRMOPTIONS.LBLHOTKEY.CAPTION"
 msgid "Hot Key:"
 msgstr "Горячая клавиша:"
 
-#: TFRMOPTIONS.LBLINACTIVEPANELBRIGHTNESS.CAPTION
-msgid "Brightness level of inactive panel"
-msgstr "Уровень яркости неактивной панели"
-
 #: TFRMOPTIONS.LBLLOGFONT.CAPTION
 msgid "Log font"
 msgstr "Окно лога"
@@ -4139,11 +4020,6 @@ msgstr "Окно лога"
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
 msgstr "Главный"
-
-#: TFRMOPTIONS.LBLMARKCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.LBLMARKCOLOR.CAPTION"
-msgid "Mark Color:"
-msgstr "&Выделение"
 
 #: TFRMOPTIONS.LBLMOUSEMODE.CAPTION
 msgid "Mode:"
@@ -4314,6 +4190,146 @@ msgstr "Дополнительные"
 msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
 msgid "General"
 msgstr "Основные"
+
+#: TFRMOPTIONSCOLORS.BBTNADDCATEGORY.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BBTNADDCATEGORY.CAPTION"
+msgid "Add"
+msgstr "Добавить"
+
+#: TFRMOPTIONSCOLORS.BBTNAPPLYCATEGORY.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BBTNAPPLYCATEGORY.CAPTION"
+msgid "Apply"
+msgstr "Применить"
+
+#: TFRMOPTIONSCOLORS.BBTNDELETECATEGORY.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BBTNDELETECATEGORY.CAPTION"
+msgid "Delete"
+msgstr "Удалить"
+
+#: TFRMOPTIONSCOLORS.BTNBACKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNBACKCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSCOLORS.BTNBACKCOLOR2.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNBACKCOLOR2.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSCOLORS.BTNCATEGORYCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNCATEGORYCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSCOLORS.BTNCURSORCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNCURSORCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSCOLORS.BTNCURSORTEXT.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNCURSORTEXT.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSCOLORS.BTNFORECOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNFORECOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSCOLORS.BTNMARKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNMARKCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSCOLORS.BTNSEARCHTEMPLATE.HINT
+msgctxt "TFRMOPTIONSCOLORS.BTNSEARCHTEMPLATE.HINT"
+msgid "Template..."
+msgstr "Шаблон..."
+
+#: TFRMOPTIONSCOLORS.CBACKGRNDLABEL.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CBACKGRNDLABEL.CAPTION"
+msgid "BackGround:"
+msgstr "Фон &1"
+
+#: TFRMOPTIONSCOLORS.CBBUSEFRAMECURSOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
+msgid "Use Frame Cursor"
+msgstr ""
+
+#: TFRMOPTIONSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
+msgid "Use Inverted Selection"
+msgstr "Инверсное выделение"
+
+#: TFRMOPTIONSCOLORS.CTEXTLABEL.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CTEXTLABEL.CAPTION"
+msgid "Text Color:"
+msgstr "&Текст:"
+
+#: TFRMOPTIONSCOLORS.GBEXAMPLE.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.GBEXAMPLE.CAPTION"
+msgid "Example"
+msgstr "Пример"
+
+#: TFRMOPTIONSCOLORS.GBFILETYPESCOLORS.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.GBFILETYPESCOLORS.CAPTION"
+msgid "File types colors"
+msgstr "Цвета по типу"
+
+#: TFRMOPTIONSCOLORS.LBLBACKGROUND2.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLBACKGROUND2.CAPTION"
+msgid "Background 2:"
+msgstr "Фон &2"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYATTR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYATTR.CAPTION"
+msgid "Category attributes:"
+msgstr "Атрибуты"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYCOLOR.CAPTION"
+msgid "Category color:"
+msgstr "Цвет:"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYMASK.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYMASK.CAPTION"
+msgid "Category mask:"
+msgstr "Маска:"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYNAME.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYNAME.CAPTION"
+msgid "Category name:"
+msgstr "Наименование:"
+
+#: TFRMOPTIONSCOLORS.LBLCURSORCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCURSORCOLOR.CAPTION"
+msgid "Cursor Color:"
+msgstr "&Курсор"
+
+#: TFRMOPTIONSCOLORS.LBLCURSORTEXT.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCURSORTEXT.CAPTION"
+msgid "Cursor Text:"
+msgstr "Текст &под курсором"
+
+#: TFRMOPTIONSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
+msgid "Brightness level of inactive panel"
+msgstr "Уровень яркости неактивной панели"
+
+#: TFRMOPTIONSCOLORS.LBLMARKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLMARKCOLOR.CAPTION"
+msgid "Mark Color:"
+msgstr "&Выделение"
+
+#: TFRMOPTIONSCOLORS.TSFILEPANELS.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.TSFILEPANELS.CAPTION"
+msgid "File panels"
+msgstr "Файловые панели"
+
+#: TFRMOPTIONSCOLORS.TSFILETYPES.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.TSFILETYPES.CAPTION"
+msgid "File types"
+msgstr "Типы файлов"
 
 #: TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
@@ -6454,6 +6470,7 @@ msgid "File operations"
 msgstr "Файловые операции"
 
 #: ulng.rsoptfilepanels
+msgctxt "ulng.rsoptfilepanels"
 msgid "File panels"
 msgstr "Файловые панели"
 

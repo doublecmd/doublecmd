@@ -3385,21 +3385,6 @@ msgctxt "TFRMMULTIRENAME.N5.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: TFRMOPTIONS.BBTNADDCATEGORY.CAPTION
-msgctxt "TFRMOPTIONS.BBTNADDCATEGORY.CAPTION"
-msgid "Add"
-msgstr "Voeg toe"
-
-#: TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION
-msgctxt "TFRMOPTIONS.BBTNAPPLYCATEGORY.CAPTION"
-msgid "Apply"
-msgstr "Toepassen"
-
-#: TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION
-msgctxt "TFRMOPTIONS.BBTNDELETECATEGORY.CAPTION"
-msgid "Delete"
-msgstr "Verwijder"
-
 #: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
 msgid "Clear HotKey"
 msgstr "Verwijder HotKey"
@@ -3421,16 +3406,6 @@ msgstr "Toepassen"
 msgid "Auto Configure"
 msgstr ""
 
-#: TFRMOPTIONS.BTNBACKCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: TFRMOPTIONS.BTNBACKCOLOR2.CAPTION
-msgctxt "TFRMOPTIONS.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: TFRMOPTIONS.BTNBACKVIEWERCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKVIEWERCOLOR.CAPTION"
 msgid ">>"
@@ -3440,11 +3415,6 @@ msgstr ">>"
 msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Afbreken"
-
-#: TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNCATEGORYCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
 
 #: TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION
 msgctxt "TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION"
@@ -3461,16 +3431,6 @@ msgctxt "TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION"
 msgid "Copy"
 msgstr "Kopiëer"
 
-#: TFRMOPTIONS.BTNCURSORCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: TFRMOPTIONS.BTNCURSORTEXT.CAPTION
-msgctxt "TFRMOPTIONS.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ">>"
-
 #: TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION"
 msgid "Delete"
@@ -3483,16 +3443,6 @@ msgstr "Bewerk"
 
 #: TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: TFRMOPTIONS.BTNFORECOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: TFRMOPTIONS.BTNMARKCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
@@ -3526,11 +3476,6 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
-#: TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT
-msgctxt "TFRMOPTIONS.BTNSEARCHTEMPLATE.HINT"
-msgid "Template..."
-msgstr ""
-
 #: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
 msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
 msgid "..."
@@ -3560,11 +3505,6 @@ msgstr "..."
 msgid "Set HotKey"
 msgstr "Zet Hot Key"
 
-#: TFRMOPTIONS.CBACKGRNDLABEL.CAPTION
-msgctxt "TFRMOPTIONS.CBACKGRNDLABEL.CAPTION"
-msgid "BackGround:"
-msgstr "Achtergrond:"
-
 #: TFRMOPTIONS.CBALWAYSSHOWTRAYICON.CAPTION
 msgid "Always show tray icon"
 msgstr ""
@@ -3573,14 +3513,6 @@ msgstr ""
 msgctxt "TFRMOPTIONS.CBBFILESYSTEM.TEXT"
 msgid "General"
 msgstr "Algemeen"
-
-#: TFRMOPTIONS.CBBUSEFRAMECURSOR.CAPTION
-msgid "Use Frame Cursor"
-msgstr ""
-
-#: TFRMOPTIONS.CBBUSEINVERTEDSELECTION.CAPTION
-msgid "Use Inverted Selection"
-msgstr "Gebruik geïnverteerde selectie"
 
 #: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
 msgid "Command line history"
@@ -3936,11 +3868,6 @@ msgstr ""
 msgid "Search/Replace history"
 msgstr ""
 
-#: TFRMOPTIONS.CTEXTLABEL.CAPTION
-msgctxt "TFRMOPTIONS.CTEXTLABEL.CAPTION"
-msgid "Text Color:"
-msgstr "Tekst kleur:"
-
 #: TFRMOPTIONS.FRMOPTIONS.CAPTION
 msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
 msgid "Options"
@@ -3973,18 +3900,9 @@ msgstr "Datum en tijd"
 msgid "Exact name match:"
 msgstr "Precieze naamovereenkomst:"
 
-#: TFRMOPTIONS.GBEXAMPLE.CAPTION
-msgctxt "TFRMOPTIONS.GBEXAMPLE.CAPTION"
-msgid "Example"
-msgstr "Voorbeeld"
-
 #: TFRMOPTIONS.GBFILESEARCH.CAPTION
 msgid "File search"
 msgstr "Zoek bestand"
-
-#: TFRMOPTIONS.GBFILETYPESCOLORS.CAPTION
-msgid "File types colors"
-msgstr "Bestandstype kleuren"
 
 #: TFRMOPTIONS.GBGENERALOPTIONS.CAPTION
 msgid "General options"
@@ -4097,32 +4015,9 @@ msgstr ""
 msgid "Auto size column:"
 msgstr ""
 
-#: TFRMOPTIONS.LBLBACKGROUND2.CAPTION
-msgctxt "TFRMOPTIONS.LBLBACKGROUND2.CAPTION"
-msgid "Background 2:"
-msgstr "Achtergrond 2:"
-
 #: TFRMOPTIONS.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION
 msgid "Background color in book viewer"
 msgstr ""
-
-#: TFRMOPTIONS.LBLCATEGORYATTR.CAPTION
-msgid "Category attributes:"
-msgstr "Categorie attributen:"
-
-#: TFRMOPTIONS.LBLCATEGORYCOLOR.CAPTION
-msgid "Category color:"
-msgstr "Categorie kleur:"
-
-#: TFRMOPTIONS.LBLCATEGORYMASK.CAPTION
-msgctxt "TFRMOPTIONS.LBLCATEGORYMASK.CAPTION"
-msgid "Category mask:"
-msgstr "Categorie masker:"
-
-#: TFRMOPTIONS.LBLCATEGORYNAME.CAPTION
-msgctxt "TFRMOPTIONS.LBLCATEGORYNAME.CAPTION"
-msgid "Category name:"
-msgstr "Categorie naam:"
 
 #: TFRMOPTIONS.LBLCHAR.CAPTION
 msgid "characters"
@@ -4139,16 +4034,6 @@ msgstr "Konfigureer kolommen voor bestandsysteem:"
 #: TFRMOPTIONS.LBLCOPYBUFFERSIZE.CAPTION
 msgid "Buffer size (Kb):"
 msgstr "Buffergrootte (kB):"
-
-#: TFRMOPTIONS.LBLCURSORCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.LBLCURSORCOLOR.CAPTION"
-msgid "Cursor Color:"
-msgstr "Cursor kleur:"
-
-#: TFRMOPTIONS.LBLCURSORTEXT.CAPTION
-msgctxt "TFRMOPTIONS.LBLCURSORTEXT.CAPTION"
-msgid "Cursor Text:"
-msgstr "Cursor tekst:"
 
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
@@ -4172,10 +4057,6 @@ msgctxt "TFRMOPTIONS.LBLHOTKEY.CAPTION"
 msgid "Hot Key:"
 msgstr "Hot Key:"
 
-#: TFRMOPTIONS.LBLINACTIVEPANELBRIGHTNESS.CAPTION
-msgid "Brightness level of inactive panel"
-msgstr ""
-
 #: TFRMOPTIONS.LBLLOGFONT.CAPTION
 msgid "Log font"
 msgstr ""
@@ -4183,11 +4064,6 @@ msgstr ""
 #: TFRMOPTIONS.LBLMAINFONT.CAPTION
 msgid "Main font"
 msgstr "Standaard lettertype"
-
-#: TFRMOPTIONS.LBLMARKCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.LBLMARKCOLOR.CAPTION"
-msgid "Mark Color:"
-msgstr "Markeer kleur:"
 
 #: TFRMOPTIONS.LBLMOUSEMODE.CAPTION
 msgid "Mode:"
@@ -4362,6 +4238,146 @@ msgstr ""
 msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
 msgid "General"
 msgstr "Algemeen"
+
+#: TFRMOPTIONSCOLORS.BBTNADDCATEGORY.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BBTNADDCATEGORY.CAPTION"
+msgid "Add"
+msgstr "Toevoegen"
+
+#: TFRMOPTIONSCOLORS.BBTNAPPLYCATEGORY.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BBTNAPPLYCATEGORY.CAPTION"
+msgid "Apply"
+msgstr "Toepassen"
+
+#: TFRMOPTIONSCOLORS.BBTNDELETECATEGORY.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BBTNDELETECATEGORY.CAPTION"
+msgid "Delete"
+msgstr "Verwijder"
+
+#: TFRMOPTIONSCOLORS.BTNBACKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNBACKCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNBACKCOLOR2.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNBACKCOLOR2.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNCATEGORYCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNCATEGORYCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNCURSORCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNCURSORCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNCURSORTEXT.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNCURSORTEXT.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNFORECOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNFORECOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNMARKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.BTNMARKCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSCOLORS.BTNSEARCHTEMPLATE.HINT
+msgctxt "TFRMOPTIONSCOLORS.BTNSEARCHTEMPLATE.HINT"
+msgid "Template..."
+msgstr ""
+
+#: TFRMOPTIONSCOLORS.CBACKGRNDLABEL.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CBACKGRNDLABEL.CAPTION"
+msgid "BackGround:"
+msgstr "Achtergrond:"
+
+#: TFRMOPTIONSCOLORS.CBBUSEFRAMECURSOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
+msgid "Use Frame Cursor"
+msgstr ""
+
+#: TFRMOPTIONSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
+msgid "Use Inverted Selection"
+msgstr "Gebruik geïnverteerde selectie"
+
+#: TFRMOPTIONSCOLORS.CTEXTLABEL.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.CTEXTLABEL.CAPTION"
+msgid "Text Color:"
+msgstr "Tekst kleur:"
+
+#: TFRMOPTIONSCOLORS.GBEXAMPLE.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.GBEXAMPLE.CAPTION"
+msgid "Example"
+msgstr "Voorbeeld"
+
+#: TFRMOPTIONSCOLORS.GBFILETYPESCOLORS.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.GBFILETYPESCOLORS.CAPTION"
+msgid "File types colors"
+msgstr "Bestandstype kleuren"
+
+#: TFRMOPTIONSCOLORS.LBLBACKGROUND2.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLBACKGROUND2.CAPTION"
+msgid "Background 2:"
+msgstr "Achtergrond 2:"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYATTR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYATTR.CAPTION"
+msgid "Category attributes:"
+msgstr "Categorie attributen:"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYCOLOR.CAPTION"
+msgid "Category color:"
+msgstr "Categorie kleur:"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYMASK.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYMASK.CAPTION"
+msgid "Category mask:"
+msgstr "Categorie masker:"
+
+#: TFRMOPTIONSCOLORS.LBLCATEGORYNAME.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYNAME.CAPTION"
+msgid "Category name:"
+msgstr "Categorie naam:"
+
+#: TFRMOPTIONSCOLORS.LBLCURSORCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCURSORCOLOR.CAPTION"
+msgid "Cursor Color:"
+msgstr "Cursor kleur:"
+
+#: TFRMOPTIONSCOLORS.LBLCURSORTEXT.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLCURSORTEXT.CAPTION"
+msgid "Cursor Text:"
+msgstr "Cursor tekst:"
+
+#: TFRMOPTIONSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
+msgid "Brightness level of inactive panel"
+msgstr ""
+
+#: TFRMOPTIONSCOLORS.LBLMARKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.LBLMARKCOLOR.CAPTION"
+msgid "Mark Color:"
+msgstr "Markeer kleur:"
+
+#: TFRMOPTIONSCOLORS.TSFILEPANELS.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.TSFILEPANELS.CAPTION"
+msgid "File panels"
+msgstr "Bestands panelen"
+
+#: TFRMOPTIONSCOLORS.TSFILETYPES.CAPTION
+msgctxt "TFRMOPTIONSCOLORS.TSFILETYPES.CAPTION"
+msgid "File types"
+msgstr "Bestandstypes"
 
 #: TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
@@ -6507,6 +6523,7 @@ msgid "File operations"
 msgstr "Bestandshandelingen"
 
 #: ulng.rsoptfilepanels
+msgctxt "ulng.rsoptfilepanels"
 msgid "File panels"
 msgstr "Bestands panelen"
 
