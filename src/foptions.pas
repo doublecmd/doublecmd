@@ -40,9 +40,6 @@ type
   { TfrmOptions }
 
   TfrmOptions = class(TForm)
-    bbtnAddCategory: TBitBtn;
-    bbtnApplyCategory: TBitBtn;
-    bbtnDeleteCategory: TBitBtn;
     btnAutoConfig: TBitBtn;
     btnMultiArcAdd: TBitBtn;
     btnMultiArcDelete: TBitBtn;
@@ -50,22 +47,14 @@ type
     btnMultiArcApply: TBitBtn;
     btnAddSel: TButton;
     btnAddSelWithPath: TButton;
-    btnCategoryColor: TButton;
     btnConfigApply: TBitBtn;
     btnConfigEdit: TBitBtn;
-    btnSearchTemplate: TBitBtn;
     btnSelLogFnt: TButton;
     btnSelEditFnt: TButton;
     btnSelMainFnt: TButton;
     btnSelViewFnt: TButton;
     btSetHotKey: TButton;
-    btnForeColor: TButton;
-    btnBackColor: TButton;
     btClearHotKey: TButton;
-    btnBackColor2: TButton;
-    btnMarkColor: TButton;
-    btnCursorColor: TButton;
-    btnCursorText: TButton;
     btnNewColumnsSet: TButton;
     btnEditColumnsSet: TButton;
     btnDelColumnsSet: TButton;
@@ -73,10 +62,7 @@ type
     btnSelViewerBookFnt: TButton;
     btnBackViewerColor: TButton;
     btnFontViewerColor: TButton;
-    cbBackColor: TColorBox;
-    cBackGrndLabel: TLabel;
     cbSortCaseSensitive: TCheckBox;
-    cbCategoryColor: TColorBox;
     cbOnlyOnce: TCheckBox;
     cbDropReadOnlyFlag: TCheckBox;
     cbIconsShowOverlay: TCheckBox;
@@ -97,13 +83,7 @@ type
     cbFileMaskHistory: TCheckBox;
     cbSelectionByMouse: TCheckBox;
     cbTabsOpenForeground: TCheckBox;
-    cbbUseInvertedSelection: TCheckBox;
     cbMinimizeToTray: TCheckBox;
-    cbBackColor2: TColorBox;
-    cbMarkColor: TColorBox;
-    cbCursorColor: TColorBox;
-    cbCursorText: TColorBox;
-    cbTextColor: TColorBox;
     cbDateTimeFormat: TComboBox;
     cbbFileSystem: TComboBox;
     cbMouseMode: TComboBox;
@@ -133,7 +113,6 @@ type
     cbFreespaceInd: TCheckBox;
     cbProgInMenuBar: TCheckBox;
     cbPanelOfOperations: TCheckBox;
-    cbbUseFrameCursor: TCheckBox;
     cbShowDriveFreeSpace: TCheckBox;
     cbSaveThubnails: TCheckBox;
     cbShowMainMenu: TCheckBox;
@@ -150,7 +129,6 @@ type
     cbSortMethod: TComboBox;
     cbBackgroundColorViewerBook: TColorBox;
     cbFontColorViewerBook: TColorBox;
-    cTextLabel: TLabel;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
     edtViewerBookFont: TEdit;
@@ -163,9 +141,6 @@ type
     edtDescription: TEdit;
     edtLogFont: TEdit;
     edtToolsParameters: TEdit;
-    edtCategoryAttr: TEdit;
-    edtCategoryMask: TEdit;
-    edtCategoryName: TEdit;
     edtFilter: TEdit;
     edtParam: TEdit;
     edtTabsLimitLength: TEdit;
@@ -186,12 +161,10 @@ type
     gbArchiverOptions: TGroupBox;
     gbExactNameMatch: TGroupBox;
     fneLogFileName: TFileNameEdit;
-    gbFileTypesColors: TGroupBox;
     gbLogFile: TGroupBox;
     gbLogFileOp: TGroupBox;
     gbLogFileStatus: TGroupBox;
     gbMisc1: TGroupBox;
-    gbExample: TGroupBox;
     gbMisc2: TGroupBox;
     gbScreenLayout: TGroupBox;
     cbFlatDiskPanel: TCheckBox;
@@ -241,7 +214,6 @@ type
     lblDescription: TLabel;
     lblToolsPath: TLabel;
     lblToolsParameters: TLabel;
-    lblInactivePanelBrightness: TLabel;
     lblAutoSizeColumn: TLabel;
     lblQuickSearch: TLabel;
     lblQuickFilter: TLabel;
@@ -276,11 +248,6 @@ type
     pnlIconExample: TPanel;
     imgIconExample: TImage;
     lblTabsPosition: TLabel;
-    lbCategories: TListBox;
-    lblCategoryAttr: TLabel;
-    lblCategoryColor: TLabel;
-    lblCategoryMask: TLabel;
-    lblCategoryName: TLabel;
     lbPressedHotKeyCommand: TLabel;
     lbFilter: TLabel;
     ledDriveBlackList: TLabeledEdit;
@@ -310,10 +277,6 @@ type
     lblDateTimeExample: TLabel;
     lblDateTimeFormat: TLabel;
     lblCopyBufferSize: TLabel;
-    lblBackground2: TLabel;
-    lblMarkColor: TLabel;
-    lblCursorColor: TLabel;
-    lblCursorText: TLabel;
     lblEditorFont: TLabel;
     lblHotKey: TLabel;
     lblMainFont: TLabel;
@@ -337,8 +300,6 @@ type
     pgLogFile: TPage;
     pgTabs: TPage;
     pgFileOp: TPage;
-    pbExample: TPaintBox;
-    pgFileTypesColors: TPage;
     pgLayout: TPage;
     pgPlugins: TPage;
     pnlCaption: TPanel;
@@ -370,15 +331,11 @@ type
     stgArchiverCommands: TStringGrid;
     tbArchiverAdditional: TTabSheet;
     tbArchiverGeneral: TTabSheet;
-    tbInactivePanelBrightness: TTrackBar;
     tvTreeView: TTreeView;
     cbWatchFileNameChange: TCheckBox;
     edtWatchExcludeDirs: TEdit;
     cbWatchOnlyForeground: TCheckBox;
     cbWatchAttributesChange: TCheckBox;
-    procedure bbtnAddCategoryClick(Sender: TObject);
-    procedure bbtnApplyCategoryClick(Sender: TObject);
-    procedure bbtnDeleteCategoryClick(Sender: TObject);
     procedure btnAddSelClick(Sender: TObject);
     procedure btnAddSelWithPathClick(Sender: TObject);
     procedure btnAutoConfigClick(Sender: TObject);
@@ -390,10 +347,8 @@ type
     procedure btnMultiArcApplyClick(Sender: TObject);
     procedure btnMultiArcDeleteClick(Sender: TObject);
     procedure btnMultiArcRenameClick(Sender: TObject);
-    procedure btnSearchTemplateClick(Sender: TObject);
     procedure btnSelViewerBookFntClick(Sender: TObject);
     procedure cbAlwaysShowTrayIconChange(Sender: TObject);
-    procedure cbbUseFrameCursorChange(Sender: TObject);
     procedure cbFontColorViewerBookChange(Sender: TObject);
     procedure cbIconsSizeChange(Sender: TObject);
     procedure cbToolsKeepTerminalOpenChange(Sender: TObject);
@@ -412,24 +367,14 @@ type
     procedure OnAutoRefreshOptionChanged(Sender: TObject);
     procedure edHotKeyKeyPress(Sender: TObject; var Key: char);
     procedure btClearHotKeyClick(Sender: TObject);
-    procedure btnBackColor2Click(Sender: TObject);
     procedure btnCopyColumnsSetClick(Sender: TObject);
-    procedure btnCursorColorClick(Sender: TObject);
-    procedure btnCursorTextClick(Sender: TObject);
-    procedure btnCategoryColorClick(Sender: TObject);
     procedure btnDelColumnsSetClick(Sender: TObject);
     procedure btnEditColumnsSetClick(Sender: TObject);
-    procedure btnMarkColorClick(Sender: TObject);
     procedure btnNewColumnsSetClick(Sender: TObject);
-    procedure btnForeColorClick(Sender: TObject);
-    procedure btnBackColorClick(Sender: TObject);
-    procedure cbbUseInvertedSelectionChange(Sender: TObject);
-    procedure cbCategoryColorChange(Sender: TObject);
     procedure cbColorBoxChange(Sender: TObject);
     procedure cbDateTimeFormatChange(Sender: TObject);
     procedure cbShowDiskPanelChange(Sender: TObject);
     procedure cbTermWindowChange(Sender: TObject);
-    procedure cbTextColorChange(Sender: TObject);
     procedure cbColorBoxDropDown(Sender: TObject);
     procedure edtFilterChange(Sender: TObject);
     procedure edtEditorFontSizeChange(Sender: TObject);
@@ -447,13 +392,9 @@ type
     procedure edHotKeyKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure lbCategoriesClick(Sender: TObject);
-    procedure lbCategoriesDrawItem(Control: TWinControl; Index: Integer;
-      ARect: TRect; State: TOwnerDrawState);
     procedure lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
     procedure nbNotebookPageChanged(Sender: TObject);
     procedure pbViewerBookPaint(Sender: TObject);
-    procedure pbExamplePaint(Sender: TObject);
     procedure pgBehavResize(Sender: TObject);
     procedure rbIconsShowNoneChange(Sender: TObject);
     procedure rbQuickSearchFilterKeyChange(Sender: TObject);
@@ -468,7 +409,6 @@ type
       var CanSelect: Boolean);
     procedure tbArchiverAdditionalShow(Sender: TObject);
     procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
-
   private
     FOptionsEditorList: TOptionsEditorList;
     tmpExternalTools: TExternalToolsOptions;
@@ -481,7 +421,6 @@ type
   public
     procedure FillLngListBox;
     procedure FillFontLists;
-    procedure FillFileColorsList;
     procedure FillColumnsList;
     procedure FillCommandsPage;
     procedure FillIgnoreList(bWithFullPath: Boolean);
@@ -503,7 +442,7 @@ uses
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
   uhotkeymanger, uTypes, StrUtils, uFindEx, uKeyboard,
   fMaskInputDlg, uSearchTemplate, uMultiArc, uFile, uDebug,
-  fOptionsPlugins, fOptionsToolTips;
+  fOptionsPlugins, fOptionsToolTips, fOptionsColors;
 
 const
   stgCmdCommandIndex = 0;
@@ -571,23 +510,21 @@ begin
       Item[2].Text := rsOptTools;
       Item[3].Text := rsOptFonts;
       Item[4].Text := rsOptColors;
-      Item[5].Text := rsOptFilePanels;
-      Item[6].Text := rsOptFileTypes;
-      Item[7].Text := rsOptHotKeys;
-      Item[8].Text := rsOptPlugins;
-      Item[9].Text := rsOptLayout;
-      Item[10].Text := rsOptFileOp;
-      Item[11].Text := rsOptFolderTabs;
-      Item[12].Text := rsOptLog;
-      Item[13].Text := rsOptConfig;
-      Item[14].Text := rsOptQuickSearch;
-      Item[15].Text := rsOptColumns;
-      Item[16].Text := rsOptMiscellaneous;
-      Item[17].Text := rsOptAutoRefresh;
-      Item[18].Text := rsOptIcons;
-      Item[19].Text := rsOptIgnoreList;
-      Item[20].Text := rsOptArchivers;
-      Item[21].Text := rsOptTooltips;
+      Item[5].Text := rsOptHotKeys;
+      Item[6].Text := rsOptPlugins;
+      Item[7].Text := rsOptLayout;
+      Item[8].Text := rsOptFileOp;
+      Item[9].Text := rsOptFolderTabs;
+      Item[10].Text := rsOptLog;
+      Item[11].Text := rsOptConfig;
+      Item[12].Text := rsOptQuickSearch;
+      Item[13].Text := rsOptColumns;
+      Item[14].Text := rsOptMiscellaneous;
+      Item[15].Text := rsOptAutoRefresh;
+      Item[16].Text := rsOptIcons;
+      Item[17].Text := rsOptIgnoreList;
+      Item[18].Text := rsOptArchivers;
+      Item[19].Text := rsOptTooltips;
     end;
   tvTreeView.Items.Item[0].Selected:= True;
 
@@ -747,35 +684,9 @@ begin
    end; //end else if i=-1; i:=HotMan.GetHotKeyIndex(sShortCut);
 end;
 
-procedure TfrmOptions.btnForeColorClick(Sender: TObject);
-begin
-  optColorDialog.Color:= cbTextColor.Color;
-  if optColorDialog.Execute then
-  begin
-    SetColorInColorBox(cbTextColor,optColorDialog.Color);
-    pbExample.Repaint;
-  end;
-end;
-
-procedure TfrmOptions.btnBackColorClick(Sender: TObject);
-begin
-   optColorDialog.Color:= cbBackColor.Color;
-   if optColorDialog.Execute then
-   begin
-    SetColorInColorBox(cbBackColor,optColorDialog.Color);
-    pbExample.Repaint;
-   end;
-end;
-
-procedure TfrmOptions.cbbUseInvertedSelectionChange(Sender: TObject);
-begin
-  pbExample.Repaint;
-end;
-
 procedure TfrmOptions.cbColorBoxChange(Sender: TObject);
 begin
   (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
-  pbExample.Repaint;
   pbViewerBook.Repaint;
 end;
 
@@ -803,11 +714,6 @@ begin
       cbShowCmdLine.Checked:= Boolean(cbShowCmdLine.Tag);
       cbShowCmdLine.Enabled:= True;
     end;
-end;
-
-procedure TfrmOptions.cbTextColorChange(Sender: TObject);
-begin
-  cbTextColor.Color := cbTextColor.Selected;
 end;
 
 procedure TfrmOptions.cbColorBoxDropDown(Sender: TObject);
@@ -1022,131 +928,6 @@ begin
 
 end;
 
-procedure TfrmOptions.pbExamplePaint(Sender: TObject);
-var
-  h, I : integer;
-  sText : String;
-  iTextTop, iTextLeft : Integer;
-  Rect : TRect;
-begin
-  h := pbExample.Height div 6;
-  Rect.Left := 0;
-  Rect.Top := 0;
-  Rect.Right := pbExample.Width;
-  Rect.Bottom := h;
-
-  for I := 1 to 6 do
-  with pbExample.Canvas do
-  begin
-    case I of
-    1:
-      begin
-       if  cbbUseInvertedSelection.Checked then
-         begin
-            Brush.Color := cbMarkColor.Color;
-            Font.Color := cbTextColor.Color;
-            sText := rsOptExampleMark;
-         end
-       else
-         begin
-            Brush.Color := cbBackColor.Color;
-            Font.Color := cbMarkColor.Color;
-            sText := rsOptExampleMark;
-         end;
-      end;
-    2:
-      begin
-       if  cbbUseInvertedSelection.Checked then
-         begin
-            Brush.Color := cbMarkColor.Color;
-            Font.Color := cbTextColor.Color;
-            sText := rsOptExampleMark;
-         end
-       else
-         begin
-            Brush.Color := cbBackColor2.Color;
-            Font.Color := cbMarkColor.Color;
-            sText := rsOptExampleMark;
-         end;
-      end;
-    3:
-      begin
-        Brush.Color := cbBackColor.Color;
-        Font.Color := cbTextColor.Color;
-        sText := rsOptExampleText;
-      end;
-    4:
-      begin
-        Brush.Color := cbBackColor2.Color;
-        Font.Color := cbTextColor.Color;
-        sText := rsOptExampleText;
-      end;
-    5:
-      begin
-        if cbbUseFrameCursor.Checked then
-         begin
-          Pen.Color := cbCursorColor.Color;
-          Brush.Color := cbBackColor.Color;
-         end
-          else  Brush.Color := cbCursorColor.Color;
-
-        Font.Color := cbCursorText.Color;
-        sText := rsOptExampleCursor;
-      end;
-    6:
-      begin
-       if  cbbUseInvertedSelection.Checked then
-         begin
-           if cbbUseFrameCursor.Checked then
-              begin
-                Pen.Color := cbCursorColor.Color;
-                Brush.Color := cbBackColor.Color;
-                Font.Color := cbMarkColor.Color;
-              end
-           else
-             begin
-               Brush.Color := cbCursorColor.Color;
-               Font.Color :=InvertColor(cbCursorText.Color);
-             end;
-            sText := rsOptExampleMarkCursor;
-         end
-       else
-         begin
-           if cbbUseFrameCursor.Checked then
-              begin
-                Pen.Color := cbCursorColor.Color;
-                Brush.Color := cbBackColor.Color;
-                Font.Color := cbMarkColor.Color;
-              end
-           else
-             begin
-               Brush.Color := cbCursorColor.Color;
-               Font.Color := cbMarkColor.Color;
-             end;
-            sText := rsOptExampleMarkCursor;
-         end;
-      end;
-    end; // case
-    
-    Font.Style := edtMainFont.Font.Style;
-    Font.Size := edtMainFont.Font.Size;
-    Font.Name := edtMainFont.Font.Name;
-
-    iTextTop := Rect.Top + (h div 2) - (TextHeight(sText) div 2);
-    iTextLeft := Rect.Left + (pbExample.Width div 2) - (TextWidth(sText) div 2);
-    FillRect(Rect);
-    if (cbbUseFrameCursor.Checked) and ((i=5) or (i=6)) then
-      begin
-         Pen.Color:=cbCursorColor.Color;
-         Line(Rect.Left, Rect.Top, Rect.Right, Rect.Top);
-         Line(Rect.Left, Rect.Bottom - 1, Rect.Right, Rect.Bottom - 1);
-      end;
-    TextOut(iTextLeft, iTextTop, sText);
-    Rect.Top := Rect.Bottom;
-    Rect.Bottom := h * (I + 1);
-  end; // for
-end;
-
 procedure TfrmOptions.pgBehavResize(Sender: TObject);
 var
   iWidth: Integer;
@@ -1262,7 +1043,6 @@ begin
   if optColorDialog.Execute then
   begin
     SetColorInColorBox(cbFontColorViewerBook,optColorDialog.Color);
-    pbExample.Repaint;
   end;
 end;
 
@@ -1333,36 +1113,6 @@ begin
       lbxMultiArc.Items[lbxMultiArc.ItemIndex]:= sNewName;
       gMultiArcList.Names[lbxMultiArc.ItemIndex]:= sNewName;
     end;
-end;
-
-{ File lbtypes category color }
-
-procedure TfrmOptions.FillFileColorsList;
-var
-  sCategoryName : String;
-  I : Integer;
-begin
-
-  for I := 0 to gColorExt.MaskItemList.Count - 1 do
-    begin
-      sCategoryName := TMaskItem(gColorExt.MaskItemList.Items[I]).sName;
-      lbCategories.Items.AddObject(sCategoryName,TMaskItem(gColorExt.MaskItemList.Items[I]));
-    end; // for
-    
-    
-    if lbCategories.Count > 0 then
-      lbCategories.ItemIndex := 0
-    else
-      begin
-        edtCategoryName.Enabled := False;
-        edtCategoryMask.Enabled := False;
-        edtCategoryAttr.Enabled := False;
-        cbCategoryColor.Enabled := False;
-        btnCategoryColor.Enabled := False;
-        bbtnDeleteCategory.Enabled := False;
-        bbtnApplyCategory.Enabled := False;
-      end;
-    lbCategoriesClick(lbCategories);
 end;
 
 procedure TfrmOptions.FillColumnsList;
@@ -1526,6 +1276,10 @@ begin
   aOptionsEditor.Parent:= pgPlugins;
   aOptionsEditor.Load;
   FOptionsEditorList.Add(aOptionsEditor);
+  aOptionsEditor:= TfrmOptionsColors.Create(Self);
+  aOptionsEditor.Parent:= pgColor;
+  aOptionsEditor.Load;
+  FOptionsEditorList.Add(aOptionsEditor);
 end;
 
 procedure TfrmOptions.lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
@@ -1566,84 +1320,10 @@ begin
   end;
 end;
 
-{ File type color }
-
-procedure TfrmOptions.cbCategoryColorChange(Sender: TObject);
-begin
-  (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
-end;
-
-procedure TfrmOptions.lbCategoriesClick(Sender: TObject);
-var
-  MaskItem : TMaskItem;
-  bEnabled: Boolean;
-begin
-
-  if (lbCategories.Count > 0) and (Assigned(lbCategories.Items.Objects[lbCategories.ItemIndex])) then
-    begin
-      edtCategoryName.Text := lbCategories.Items[lbCategories.ItemIndex];
-      MaskItem := TMaskItem(lbCategories.Items.Objects[lbCategories.ItemIndex]);
-
-      edtCategoryMask.Text := MaskItem.sExt;
-      SetColorInColorBox(cbCategoryColor,MaskItem.cColor);
-      bEnabled:= Pos('>', MaskItem.sExt) <> 1;
-      edtCategoryMask.Enabled:= bEnabled;
-      edtCategoryAttr.Enabled:= bEnabled;
-      edtCategoryAttr.Text := MaskItem.sModeStr;
-    end
-  else
-    begin
-      if lbCategories.Count = 0 then
-        edtCategoryName.Text := ''
-      else
-        edtCategoryName.Text := lbCategories.Items[lbCategories.ItemIndex];
-      edtCategoryMask.Text := '*';
-      edtCategoryAttr.Text := '';
-      cbCategoryColor.ItemIndex := -1;
-      cbCategoryColor.Color := clWindow;
-      cbCategoryColor.Selected := cbCategoryColor.Color;
-    end;
-end;
-
-procedure TfrmOptions.lbCategoriesDrawItem(Control: TWinControl;
-  Index: Integer; ARect: TRect; State: TOwnerDrawState);
-begin
-  With (Control as TListBox) do
-   begin
-     Canvas.FillRect(ARect);
-     if (not Selected[Index]) and Assigned(Items.Objects[Index]) then
-       Canvas.Font.Color:=TMaskItem(Items.Objects[Index]).cColor
-     else
-       Canvas.Font.Color:=gCursorText;
-
-     Canvas.TextOut(ARect.Left+2,ARect.Top+1,Items[Index]);
-   end;
-end;
-
-procedure TfrmOptions.btnSearchTemplateClick(Sender: TObject);
-var
-  sMask: UTF8String;
-  bTemplate: Boolean;
-begin
-  if ShowMaskInputDlg(rsMarkPlus, rsMaskInput, glsMaskHistory, sMask) then
-    begin
-      bTemplate:= IsMaskSearchTemplate(sMask);
-      edtCategoryMask.Text:= sMask;
-      if bTemplate then edtCategoryAttr.Text:= EmptyStr;
-      edtCategoryMask.Enabled:= not bTemplate;
-      edtCategoryAttr.Enabled:= not bTemplate;
-    end;
-end;
-
 procedure TfrmOptions.cbAlwaysShowTrayIconChange(Sender: TObject);
 begin
   // Force minimizing to tray when tray icon is always shown.
   cbMinimizeToTray.Enabled:= not cbAlwaysShowTrayIcon.Checked;
-end;
-
-procedure TfrmOptions.cbbUseFrameCursorChange(Sender: TObject);
-begin
-  pbExample.Repaint;
 end;
 
 procedure TfrmOptions.cbFontColorViewerBookChange(Sender: TObject);
@@ -1847,80 +1527,6 @@ begin
   btSetHotKey.Enabled := False;
 end;
 
-procedure TfrmOptions.bbtnAddCategoryClick(Sender: TObject);
-var
-  iIndex : Integer;
-begin
-  if lbCategories.Count = 0 then
-    begin
-      edtCategoryName.Enabled := True;
-      edtCategoryMask.Enabled := True;
-      edtCategoryAttr.Enabled := True;
-      cbCategoryColor.Enabled := True;
-      btnCategoryColor.Enabled := True;
-      bbtnDeleteCategory.Enabled := True;
-      bbtnApplyCategory.Enabled := True;
-    end;
-  iIndex := lbCategories.Items.AddObject('', nil);
-  lbCategories.ItemIndex := iIndex;
-  edtCategoryName.Text := '';
-  edtCategoryMask.Text := '*';
-  edtCategoryAttr.Text := '';
-  cbCategoryColor.ItemIndex := -1;
-  cbCategoryColor.Color := clWindow;
-end;
-
-procedure TfrmOptions.bbtnApplyCategoryClick(Sender: TObject);
-var
-  MaskItem : TMaskItem;
-  I, iCount : Integer;
-begin
-  if bbtnDeleteCategory.Tag = 0 then // if we add or change category
-    begin
-      lbCategories.Items[lbCategories.ItemIndex] := edtCategoryName.Text;
-      MaskItem := TMaskItem.Create;
-      MaskItem.sName := edtCategoryName.Text;
-      MaskItem.cColor := cbCategoryColor.Color;
-      if edtCategoryMask.Text = '' then
-        edtCategoryMask.Text := '*'; // because we load colors from ini by mask
-      MaskItem.sExt := edtCategoryMask.Text;
-      MaskItem.sModeStr := edtCategoryAttr.Text;
-      lbCategories.Items.Objects[lbCategories.ItemIndex] := MaskItem;
-      if lbCategories.ItemIndex >= gColorExt.MaskItemList.Count then
-        gColorExt.MaskItemList.Add(MaskItem)
-      else
-        begin
-          TMaskItem(gColorExt.MaskItemList.Items[lbCategories.ItemIndex]).Free;
-          gColorExt.MaskItemList.Items[lbCategories.ItemIndex] := MaskItem;
-        end;
-
-    end
-  else  // if we delete category
-    begin
-      iCount := gColorExt.MaskItemList.Count - 1;
-      for I := iCount downto 0 do  // delete old categories
-        begin
-          gColorExt.MaskItemList.Delete(I);
-        end;
-      iCount := lbCategories.Count;
-      for I := 0 to iCount - 1 do  //write new categories
-        begin
-          gColorExt.MaskItemList.Add(lbCategories.Items.Objects[I]);
-        end;
-    end; // delete category
-
-    bbtnDeleteCategory.Tag := 0;
-end;
-
-procedure TfrmOptions.bbtnDeleteCategoryClick(Sender: TObject);
-begin
-  lbCategories.Items.Delete(lbCategories.ItemIndex);
-  bbtnDeleteCategory.Tag := 1; // show that we delete category
-  if lbCategories.Count > 0 then
-    lbCategories.ItemIndex := 0;
-  lbCategoriesClick(lbCategories);
-end;
-
 procedure TfrmOptions.btnAddSelClick(Sender: TObject);
 begin
   FillIgnoreList(False);
@@ -1943,18 +1549,8 @@ begin
   if optColorDialog.Execute then
   begin
     SetColorInColorBox(cbBackgroundColorViewerBook,optColorDialog.Color);
-    pbExample.Repaint;
   end;
 end;
-
-procedure TfrmOptions.btnCategoryColorClick(Sender: TObject);
-begin
-  optColorDialog.Color:= cbCategoryColor.Color;
-  if optColorDialog.Execute then
-    SetColorInColorBox(cbCategoryColor,optColorDialog.Color);
-end;
-
-{ /File type color }
 
 procedure TfrmOptions.btnConfigApplyClick(Sender: TObject);
 begin
@@ -2002,8 +1598,6 @@ begin
     FreeAndNil(frmColumnsSetConf);
   end;
 end;
-
-{/ File lbtypes category color }
 
 procedure TfrmOptions.btClearHotKeyClick(Sender: TObject);
 var st:TStringList;
@@ -2059,16 +1653,6 @@ begin
  end;
 end;
 
-procedure TfrmOptions.btnBackColor2Click(Sender: TObject);
-begin
-  optColorDialog.Color:= cbBackColor2.Color;
-  if optColorDialog.Execute then
-   begin
-    SetColorInColorBox(cbBackColor2,optColorDialog.Color);
-    pbExample.Repaint;
-   end;
-end;
-
 procedure TfrmOptions.btnCopyColumnsSetClick(Sender: TObject);
 var
   s: string;
@@ -2078,36 +1662,6 @@ begin
     s := lstColumnsSets.Items[lstColumnsSets.ItemIndex];
     ColSet.CopyColumnSet(s, s + '_Copy');
     FillColumnsList;
-  end;
-end;
-
-procedure TfrmOptions.btnCursorColorClick(Sender: TObject);
-begin
-  optColorDialog.Color:= cbCursorColor.Color;
-  if optColorDialog.Execute then
-  begin
-    SetColorInColorBox(cbCursorColor,optColorDialog.Color);
-    pbExample.Repaint;
-  end;
-end;
-
-procedure TfrmOptions.btnCursorTextClick(Sender: TObject);
-begin
-  optColorDialog.Color:= cbCursorText.Color;
-  if optColorDialog.Execute then
-  begin
-    SetColorInColorBox(cbCursorText,optColorDialog.Color);
-    pbExample.Repaint;
-  end;
-end;
-
-procedure TfrmOptions.btnMarkColorClick(Sender: TObject);
-begin
-  optColorDialog.Color:= cbMarkColor.Color;
-  if optColorDialog.Execute then
-  begin
-    SetColorInColorBox(cbMarkColor,optColorDialog.Color);
-    pbExample.Repaint;
   end;
 end;
 
@@ -2132,16 +1686,8 @@ end;
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
 begin
   //DebugLN('Page index == ' + IntToStr(Node.Index));
-  if tvTreeView.Selected.ImageIndex = 21 then // special for "Colors" item
-    begin
-      nbNotebook.PageIndex := 4;
-      pnlCaption.Caption := tvTreeView.Items.Item[5].Text;
-    end
-  else
-    begin
-      nbNotebook.PageIndex := tvTreeView.Selected.ImageIndex; // temporally image index
-      pnlCaption.Caption := tvTreeView.Selected.Text;
-    end;
+  nbNotebook.PageIndex := tvTreeView.Selected.ImageIndex; // temporally image index
+  pnlCaption.Caption := tvTreeView.Selected.Text;
 end;
 
 procedure TfrmOptions.LoadConfig;
@@ -2211,17 +1757,8 @@ begin
   seNumberColumnsViewer.Value := gColCount;
 
   { Colors }
-  SetColorInColorBox(cbTextColor,gForeColor);
-  SetColorInColorBox(cbBackColor,gBackColor);
-  SetColorInColorBox(cbBackColor2,gBackColor2);
-  SetColorInColorBox(cbMarkColor,gMarkColor);
-  SetColorInColorBox(cbCursorColor,gCursorColor);
-  SetColorInColorBox(cbCursorText,gCursorText);
   SetColorInColorBox(cbBackgroundColorViewerBook,gBookBackgroundColor);
   SetColorInColorBox(cbFontColorViewerBook,gBookFontColor);
-  cbbUseInvertedSelection.Checked:=gUseInvertedSelection;
-  cbbUseFrameCursor.Checked:=gUseFrameCursor;
-  tbInactivePanelBrightness.Position:=gInactivePanelBrightness;
 
   { File operations }
   edtCopyBufferSize.Text:= IntToStr(gCopyBlockSize div 1024);
@@ -2344,14 +1881,12 @@ begin
 
   FillLngListBox;
   FillFontLists;
-  FillFileColorsList;
 
-
-   FillColumnsList;
-   // fill commands
-   FillCommandsPage;
-   // fill archiver list
-   FillArchiverList;
+  FillColumnsList;
+  // fill commands
+  FillCommandsPage;
+  // fill archiver list
+  FillArchiverList;
 end;
 
 procedure TfrmOptions.SaveConfig;
@@ -2452,17 +1987,8 @@ begin
   end;
 
   { Colors }
-  gForeColor := cbTextColor.Color;
-  gBackColor := cbBackColor.Color; // background color
-  gBackColor2 := cbBackColor2.Color;
-  gMarkColor := cbMarkColor.Color;
-  gCursorColor := cbCursorColor.Color;
-  gCursorText := cbCursorText.Color;
   gBookBackgroundColor := cbBackgroundColorViewerBook.Color;
   gBookFontColor := cbFontColorViewerBook.Color;
-  gUseInvertedSelection:=cbbUseInvertedSelection.Checked;
-  gInactivePanelBrightness:=tbInactivePanelBrightness.Position;
-  gUseFrameCursor:=cbbUseFrameCursor.Checked;
 
   { File operations }
   gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;

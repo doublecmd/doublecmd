@@ -203,7 +203,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="113">
+    <Units Count="114">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -901,6 +901,13 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsPlugins"/>
       </Unit112>
+      <Unit113>
+        <Filename Value="frames\foptionscolors.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsColors"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsColors"/>
+      </Unit113>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
