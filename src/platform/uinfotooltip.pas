@@ -56,6 +56,20 @@ uses
   ;
 
 function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): UTF8String;
+
+  function GetDefaultToolTip(const Hint: UTF8String): UTF8String;
+  begin
+    if fpModificationTime in aFile.SupportedProperties then
+      with (aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty) do
+      Result:= IfThen(Hint = EmptyStr, EmptyStr, Hint + LineEnding) + GetDescription + #58#32 +  AsString;
+    if fpSize in aFile.SupportedProperties then
+      with (aFile.Properties[fpSize] as TFileSizeProperty) do
+      Result:= IfThen(Hint = EmptyStr, EmptyStr, Hint + LineEnding) + GetDescription + #58#32 + AsString;
+    if fpCompressedSize in aFile.SupportedProperties then
+      with (aFile.Properties[fpCompressedSize] as TFileCompressedSizeProperty) do
+      Result:= IfThen(Hint = EmptyStr, EmptyStr, Hint + LineEnding) + GetDescription + #58#32 + AsString;
+  end;
+
 begin
   Result:= EmptyStr;
 
@@ -64,19 +78,13 @@ begin
       Result:= StringReplace(gFileInfoToolTip.GetFileInfoToolTip(aFileSource, aFile), '\n', LineEnding, [rfReplaceAll]);
       {$IF DEFINED(MSWINDOWS)}
       Result:= IfThen(Result = EmptyStr, EmptyStr, Result + LineEnding) + SHGetInfoTip(aFile.Path, aFile.Name)
+      {$ELSE}
+      Result:= GetDefaultToolTip(Result);
       {$ENDIF}
     end
   else
     begin
-      if fpModificationTime in aFile.SupportedProperties then
-        with (aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty) do
-        Result:= GetDescription + #58#32 +  AsString;
-      if fpSize in aFile.SupportedProperties then
-        with (aFile.Properties[fpSize] as TFileSizeProperty) do
-        Result:= IfThen(Result = EmptyStr, EmptyStr, Result + LineEnding) + GetDescription + #58#32 + AsString;
-      if fpCompressedSize in aFile.SupportedProperties then
-        with (aFile.Properties[fpCompressedSize] as TFileCompressedSizeProperty) do
-        Result:= IfThen(Result = EmptyStr, EmptyStr, Result + LineEnding) + GetDescription + #58#32 + AsString;
+      Result:= GetDefaultToolTip(Result);
     end;
 end;
 
