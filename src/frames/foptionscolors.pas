@@ -95,8 +95,6 @@ type
     procedure btnCategoryColorClick(Sender: TObject);
     procedure lbCategoriesDrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; State: TOwnerDrawState);
-  private
-    procedure SetColorInColorBox(const lcbColorBox:TColorBox;const lColor:TColor);
   protected
     procedure Init; override;
     procedure Done; override;
@@ -110,7 +108,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uLng, uGlobs, uColorExt, fMaskInputDlg, uSearchTemplate;
+  uLng, uGlobs, uColorExt, fMaskInputDlg, uSearchTemplate, uDCUtils;
 
 { TfrmOptionsColors }
 
@@ -445,32 +443,6 @@ begin
 
      Canvas.TextOut(ARect.Left+2,ARect.Top+1,Items[Index]);
    end;
-end;
-
-procedure TfrmOptionsColors.SetColorInColorBox(const lcbColorBox: TColorBox;
-  const lColor: TColor);
-//< select in lcbColorBox lColor if lColor in lcbColorBox else
-// add to lcbColorBox lColor and select him
-var
-  i: LongInt;
-begin
-  if (lcbColorBox = nil) then Exit; // if lcbColorBox not exist
-
-  with lcbColorBox do
-  begin
-    // search lColor in colorbox colorlist
-    for i:= 0 to Items.Count - 1 do
-      if Colors[i] = lColor then // find color
-      begin
-        // select color
-        Selected:= lColor;
-        Exit;
-      end;//  if for
-
-    //add items to colorbox list
-    Items.Objects[Items.Add('$'+HexStr(lColor,8))]:= TObject(PtrInt(lColor));
-    Selected:= lColor;
-  end; // with
 end;
 
 procedure TfrmOptionsColors.Init;
