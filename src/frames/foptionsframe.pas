@@ -9,9 +9,13 @@ uses
 
 type
 
-  { TAbstractOptionsEditor }
+  { TOptionsEditorClass }
 
-  TAbstractOptionsEditor = class(TFrame)
+  TOptionsEditorClass = class of TOptionsEditor;
+
+  { TOptionsEditor }
+
+  TOptionsEditor = class(TFrame)
   protected
     procedure Init; virtual;
     procedure Done; virtual;
@@ -23,35 +27,68 @@ type
     procedure Save; virtual; abstract;
   end;
 
+  { TOptionsEditorRec }
+
+  TOptionsEditorRec = class
+    PageIndex: LongInt;
+    OptionsEditorClass: TOptionsEditorClass;
+  end;
+
   { TOptionsEditorList }
 
-  TOptionsEditorList = specialize TFPGList<TAbstractOptionsEditor>;
+  TOptionsEditorList = specialize TFPGList<TOptionsEditor>;
+
+  { TOptionsEditorClassList }
+
+  TOptionsEditorClassList = specialize TFPGObjectList<TOptionsEditorRec>;
+
+  procedure RegisterOptionsEditor(APageIndex: LongInt; AEditorClass: TOptionsEditorClass);
+
+var
+  OptionsEditorClassList: TOptionsEditorClassList = nil;
 
 implementation
 
-{ TAbstractOptionsEditor }
+{ TOptionsEditor }
 
-procedure TAbstractOptionsEditor.Init;
+procedure TOptionsEditor.Init;
 begin
 
 end;
 
-procedure TAbstractOptionsEditor.Done;
+procedure TOptionsEditor.Done;
 begin
 
 end;
 
-constructor TAbstractOptionsEditor.Create(TheOwner: TComponent);
+constructor TOptionsEditor.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   Init;
 end;
 
-destructor TAbstractOptionsEditor.Destroy;
+destructor TOptionsEditor.Destroy;
 begin
   Done;
   inherited Destroy;
 end;
+
+procedure RegisterOptionsEditor(APageIndex: LongInt; AEditorClass: TOptionsEditorClass);
+var
+  OptionsEditorRec: TOptionsEditorRec;
+begin
+  OptionsEditorRec:= TOptionsEditorRec.Create;
+  OptionsEditorRec.PageIndex:= APageIndex;
+  OptionsEditorRec.OptionsEditorClass:= AEditorClass;
+  OptionsEditorClassList.Add(OptionsEditorRec);
+end;
+
+initialization
+  OptionsEditorClassList:= TOptionsEditorClassList.Create;
+
+finalization
+  if Assigned(OptionsEditorClassList) then
+    FreeAndNil(OptionsEditorClassList);
 
 end.
 
