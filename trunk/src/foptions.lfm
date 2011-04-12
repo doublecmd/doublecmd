@@ -955,7 +955,6 @@ object frmOptions: TfrmOptions
             BorderSpacing.Top = 5
             ItemHeight = 16
             OnChange = cbColorBoxChange
-            OnDropDown = cbColorBoxDropDown
             TabOrder = 4
           end
           object lblFontColorViewerBook: TLabel
@@ -983,7 +982,6 @@ object frmOptions: TfrmOptions
             BorderSpacing.Left = 14
             ItemHeight = 16
             OnChange = cbColorBoxChange
-            OnDropDown = cbColorBoxDropDown
             TabOrder = 5
           end
         end
@@ -1429,11 +1427,11 @@ object frmOptions: TfrmOptions
           Columns = <          
             item
               Title.Caption = 'Hotkey'
-              Width = 130
+              Width = 132
             end          
             item
               Title.Caption = 'Parameters'
-              Width = 131
+              Width = 133
             end>
           FixedCols = 0
           MouseWheelOption = mwGrid
@@ -1442,8 +1440,8 @@ object frmOptions: TfrmOptions
           TabOrder = 2
           OnSelectCell = stgHotkeysSelectCell
           ColWidths = (
-            130
-            131
+            132
+            133
           )
         end
         object pnlHotkeyButtons: TPanel

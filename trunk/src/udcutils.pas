@@ -35,7 +35,7 @@ unit uDCUtils;
 interface
 
 uses
-  Classes, SysUtils, Graphics, Controls, StdCtrls, uFile
+  Classes, SysUtils, Graphics, Controls, StdCtrls, ColorBox, uFile
   {$IF DEFINED(UNIX)}
   , uTypes
   {$ENDIF}
@@ -376,7 +376,7 @@ function EstimateRemainingTime(StartValue, CurrentValue, EndValue: Int64;
                                out SpeedPerSecond: Int64): TDateTime;
 
 function ModColor(AColor: TColor; APercent: Byte) : TColor;
-
+procedure SetColorInColorBox(const lcbColorBox: TColorBox; const lColor: TColor);
 procedure UpdateColor(Control: TControl; Checked: Boolean);
 procedure EnableControl(Control:  TControl; Enabled: Boolean);
 
@@ -1538,6 +1538,31 @@ begin
   G := G * APercent div 100;
   B := B * APercent div 100;
   Result := RGBToColor(R, G, B);
+end;
+
+procedure SetColorInColorBox(const lcbColorBox: TColorBox; const lColor: TColor);
+//< select in lcbColorBox lColor if lColor in lcbColorBox else
+// add to lcbColorBox lColor and select him
+var
+  I: LongInt;
+begin
+  if (lcbColorBox = nil) then Exit; // if lcbColorBox not exist
+
+  with lcbColorBox do
+  begin
+    // search lColor in colorbox colorlist
+    for I:= 0 to Items.Count - 1 do
+      if Colors[I] = lColor then // find color
+      begin
+        // select color
+        Selected:= lColor;
+        Exit;
+      end;//  if for
+
+    //add items to colorbox list
+    Items.Objects[Items.Add('$'+HexStr(lColor, 8))]:= TObject(PtrInt(lColor));
+    Selected:= lColor;
+  end; // with
 end;
 
 procedure UpdateColor(Control: TControl; Checked: Boolean);

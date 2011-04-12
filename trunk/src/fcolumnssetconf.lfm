@@ -339,7 +339,6 @@ object fColumnsSetConf: TfColumnsSetConf
           Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
           ItemHeight = 16
           OnChange = cbTextColorChange
-          OnDropDown = cbTextColorDropDown
           TabOrder = 6
         end
         object cbBackColor: TColorBox
@@ -352,7 +351,6 @@ object fColumnsSetConf: TfColumnsSetConf
           BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbBackColorChange
-          OnDropDown = cbTextColorDropDown
           TabOrder = 7
         end
         object cbBackColor2: TColorBox
@@ -365,7 +363,6 @@ object fColumnsSetConf: TfColumnsSetConf
           BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbBackColor2Change
-          OnDropDown = cbTextColorDropDown
           TabOrder = 8
         end
         object btnForeColor: TButton
@@ -555,7 +552,6 @@ object fColumnsSetConf: TfColumnsSetConf
           BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbMarkColorChange
-          OnDropDown = cbTextColorDropDown
           TabOrder = 18
         end
         object cbCursorColor: TColorBox
@@ -568,7 +564,6 @@ object fColumnsSetConf: TfColumnsSetConf
           BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbCursorColorChange
-          OnDropDown = cbTextColorDropDown
           TabOrder = 19
         end
         object cbCursorText: TColorBox
@@ -581,7 +576,6 @@ object fColumnsSetConf: TfColumnsSetConf
           BorderSpacing.Top = 8
           ItemHeight = 16
           OnChange = cbCursorTextChange
-          OnDropDown = cbTextColorDropDown
           TabOrder = 20
         end
         object btnMarkColor: TButton
@@ -881,7 +875,6 @@ object fColumnsSetConf: TfColumnsSetConf
       BorderSpacing.Left = 6
       ItemHeight = 16
       OnChange = cbCursorBorderColorChange
-      OnDropDown = cbTextColorDropDown
       TabOrder = 1
     end
     object btnCursorBorderColor: TButton

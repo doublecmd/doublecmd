@@ -375,7 +375,6 @@ type
     procedure cbDateTimeFormatChange(Sender: TObject);
     procedure cbShowDiskPanelChange(Sender: TObject);
     procedure cbTermWindowChange(Sender: TObject);
-    procedure cbColorBoxDropDown(Sender: TObject);
     procedure edtFilterChange(Sender: TObject);
     procedure edtEditorFontSizeChange(Sender: TObject);
     procedure edtMainFontSizeChange(Sender: TObject);
@@ -427,7 +426,6 @@ type
     procedure FillArchiverList;
     procedure LoadConfig;
     procedure SaveConfig;
-    procedure SetColorInColorBox(const lcbColorBox:TColorBox;const lColor:TColor);
     procedure FillCommandList(lstFilter:string);// fill stringgrid
     // return assigned hotkey for command
     function  getHotKeyListByCommand(command:string; const res:TStringList):integer;
@@ -685,7 +683,6 @@ end;
 
 procedure TfrmOptions.cbColorBoxChange(Sender: TObject);
 begin
-  (Sender as TColorBox).Color := (Sender as TColorBox).Selected;
   pbViewerBook.Repaint;
 end;
 
@@ -713,11 +710,6 @@ begin
       cbShowCmdLine.Checked:= Boolean(cbShowCmdLine.Tag);
       cbShowCmdLine.Enabled:= True;
     end;
-end;
-
-procedure TfrmOptions.cbColorBoxDropDown(Sender: TObject);
-begin
-  (Sender as TColorBox).Color := clWindow;
 end;
 
 procedure TfrmOptions.edtFilterChange(Sender: TObject);
@@ -1038,10 +1030,10 @@ end;
 
 procedure TfrmOptions.btnFontViewerColorClick(Sender: TObject);
 begin
-  optColorDialog.Color:= cbFontColorViewerBook.Color;
+  optColorDialog.Color:= cbFontColorViewerBook.Selected;
   if optColorDialog.Execute then
   begin
-    SetColorInColorBox(cbFontColorViewerBook,optColorDialog.Color);
+    SetColorInColorBox(cbFontColorViewerBook, optColorDialog.Color);
   end;
 end;
 
@@ -1304,8 +1296,8 @@ begin
     x:= TextWidth(sStr);
     y:= TextHeight(sStr);
     pbViewerBook.Width := (x + 10) * seNumberColumnsViewer.Value;
-    Brush.Color := cbBackgroundColorViewerBook.Color;
-    Font.Color := cbFontColorViewerBook.Color;
+    Brush.Color := cbBackgroundColorViewerBook.Selected;
+    Font.Color := cbFontColorViewerBook.Selected;
     FillRect(0, 0, pbViewerBook.Width, pbViewerBook.Height);
     for i:= 0 to seNumberColumnsViewer.Value - 1 do
     begin
@@ -1540,10 +1532,10 @@ end;
 
 procedure TfrmOptions.btnBackViewerColorClick(Sender: TObject);
 begin
-  optColorDialog.Color:= cbBackgroundColorViewerBook.Color;
+  optColorDialog.Color:= cbBackgroundColorViewerBook.Selected;
   if optColorDialog.Execute then
   begin
-    SetColorInColorBox(cbBackgroundColorViewerBook,optColorDialog.Color);
+    SetColorInColorBox(cbBackgroundColorViewerBook, optColorDialog.Color);
   end;
 end;
 
@@ -1988,8 +1980,8 @@ begin
   end;
 
   { Colors }
-  gBookBackgroundColor := cbBackgroundColorViewerBook.Color;
-  gBookFontColor := cbFontColorViewerBook.Color;
+  gBookBackgroundColor := cbBackgroundColorViewerBook.Selected;
+  gBookFontColor := cbFontColorViewerBook.Selected;
 
   { File operations }
   gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
@@ -2141,35 +2133,6 @@ begin
   { Save options from frames }
   for I:= 0 to FOptionsEditorList.Count - 1 do
     FOptionsEditorList[I].Save;
-end;
-
-procedure TfrmOptions.SetColorInColorBox(const lcbColorBox: TColorBox;
-  const lColor: TColor);
-//< setelect in lcbColorBox lColor if lColor in lcbColorBox else
-// add to lcbColorBox lColor and select him
-var
-  i: LongInt;
-begin
-     if(lcbColorBox=nil) then exit; // if lcbColorBox not exist;
-
-     with lcbColorBox do
-     begin
-       //search lColor in colorbox colorlist
-       for i:=0 to Items.Count-1 do
-        if Colors[i]=lColor then //find color
-         begin
-       // select color
-           Selected:=lColor;
-       // set colorbox color to lColor
-           Color:=lColor;
-           exit;
-         end;//  if for
-
-       //add items to colorbox list
-       Items.Objects[Items.Add('$'+HexStr(lColor,8))]:=TObject(PtrInt(lColor));
-       Color:=lColor;
-       Selected:=lColor;
-     end; // with
 end;
 
 procedure TfrmOptions.DeleteHotkeyFromGrid(aHotkey: String);
