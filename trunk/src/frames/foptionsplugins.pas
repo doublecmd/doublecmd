@@ -35,7 +35,7 @@ type
 
   { TfrmOptionsPlugins }
 
-  TfrmOptionsPlugins = class(TAbstractOptionsEditor)
+  TfrmOptionsPlugins = class(TOptionsEditor)
     btnAddPlugin: TBitBtn;
     btnConfigPlugin: TBitBtn;
     btnEnablePlugin: TBitBtn;
@@ -612,6 +612,9 @@ begin
   gWFXPlugins.Assign(tmpWFXPlugins);
   gWLXPlugins.Assign(tmpWLXPlugins);
 end;
+
+initialization
+  RegisterOptionsEditor(6, TfrmOptionsPlugins);
 
 end.
 

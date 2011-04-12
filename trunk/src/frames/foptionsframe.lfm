@@ -1,4 +1,4 @@
-object AbstractOptionsEditor: TAbstractOptionsEditor
+object OptionsEditor: TOptionsEditor
   Left = 0
   Height = 240
   Top = 0

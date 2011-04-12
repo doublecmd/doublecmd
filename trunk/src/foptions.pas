@@ -417,7 +417,7 @@ type
     procedure DeleteHotkeyFromGrid(aHotkey: String);
     procedure ShowExternalToolOptions(ExtTool: TExternalTool);
     procedure FillSCFilesList;
-    procedure LoadOptionsEditorList;
+    procedure CreateOptionsEditorList;
   public
     procedure FillLngListBox;
     procedure FillFontLists;
@@ -562,7 +562,10 @@ begin
   stgArchiverCommands.Cells[0, stgArchiveIDSeekRange] := rsOptArchiveIDSeekRange;
   stgArchiverCommands.Cells[0, stgArchivePasswordQuery] := rsOptArchivePasswordQuery;
 
-  // load all configuration
+  // Create and fill options editor list
+  CreateOptionsEditorList;
+
+  // Load all configuration
   LoadConfig;
 
   // Initialize property storage
@@ -579,10 +582,6 @@ begin
 
   gbViewerBookMode.Enabled := not (cbToolsUseExternalProgram.Checked);
   FillSCFilesList;
-
-  FOptionsEditorList:= TOptionsEditorList.Create;
-
-  LoadOptionsEditorList;
 end;
 
 procedure TfrmOptions.btSetHotKeyClick(Sender: TObject);
@@ -1264,22 +1263,18 @@ begin
   lbSCFilesList.OnSelectionChange := @lbSCFilesListSelectionChange;
 end;
 
-procedure TfrmOptions.LoadOptionsEditorList;
+procedure TfrmOptions.CreateOptionsEditorList;
 var
-  aOptionsEditor: TAbstractOptionsEditor;
+  I: LongInt;
+  aOptionsEditor: TOptionsEditor;
 begin
-  aOptionsEditor:= TfrmOptionsToolTips.Create(Self);
-  aOptionsEditor.Parent:= pgToolTips;
-  aOptionsEditor.Load;
-  FOptionsEditorList.Add(aOptionsEditor);
-  aOptionsEditor:= TfrmOptionsPlugins.Create(Self);
-  aOptionsEditor.Parent:= pgPlugins;
-  aOptionsEditor.Load;
-  FOptionsEditorList.Add(aOptionsEditor);
-  aOptionsEditor:= TfrmOptionsColors.Create(Self);
-  aOptionsEditor.Parent:= pgColor;
-  aOptionsEditor.Load;
-  FOptionsEditorList.Add(aOptionsEditor);
+  FOptionsEditorList:= TOptionsEditorList.Create;
+  for I:= 0 to OptionsEditorClassList.Count - 1 do
+  begin
+    aOptionsEditor:= OptionsEditorClassList[I].OptionsEditorClass.Create(Self);
+    aOptionsEditor.Parent:= nbNotebook.Page[OptionsEditorClassList[I].PageIndex];
+    FOptionsEditorList.Add(aOptionsEditor);
+  end;
 end;
 
 procedure TfrmOptions.lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
@@ -1691,6 +1686,8 @@ begin
 end;
 
 procedure TfrmOptions.LoadConfig;
+var
+  I: LongInt;
 begin
   { Layout page }
   cbShowMainMenu.Checked := gMainMenu;
@@ -1887,6 +1884,10 @@ begin
   FillCommandsPage;
   // fill archiver list
   FillArchiverList;
+
+  { Load options to frames }
+  for I:= 0 to FOptionsEditorList.Count - 1 do
+    FOptionsEditorList[I].Load;
 end;
 
 procedure TfrmOptions.SaveConfig;

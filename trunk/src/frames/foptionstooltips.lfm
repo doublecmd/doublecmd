@@ -5,8 +5,6 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
   AutoSize = True
   ClientHeight = 415
   ClientWidth = 599
-  DesignLeft = 316
-  DesignTop = 53
   object gbCustomFields: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = Owner
