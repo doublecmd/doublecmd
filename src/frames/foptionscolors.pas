@@ -82,8 +82,6 @@ type
     procedure cbColorBoxChange(Sender: TObject);
     procedure btnForeColorClick(Sender: TObject);
     procedure btnBackColorClick(Sender: TObject);
-    procedure cbbUseFrameCursorChange(Sender: TObject);
-    procedure cbbUseInvertedSelectionChange(Sender: TObject);
     procedure pbExamplePaint(Sender: TObject);
     procedure btnBackColor2Click(Sender: TObject);
     procedure btnCursorColorClick(Sender: TObject);
@@ -123,32 +121,22 @@ end;
 
 procedure TfrmOptionsColors.btnForeColorClick(Sender: TObject);
 begin
-  optColorDialog.Color:= cbTextColor.Color;
+  optColorDialog.Color:= cbTextColor.Selected;
   if optColorDialog.Execute then
   begin
-    SetColorInColorBox(cbTextColor,optColorDialog.Color);
+    SetColorInColorBox(cbTextColor, optColorDialog.Color);
     pbExample.Repaint;
   end;
 end;
 
 procedure TfrmOptionsColors.btnBackColorClick(Sender: TObject);
 begin
-   optColorDialog.Color:= cbBackColor.Color;
+   optColorDialog.Color:= cbBackColor.Selected;
    if optColorDialog.Execute then
    begin
-    SetColorInColorBox(cbBackColor,optColorDialog.Color);
+    SetColorInColorBox(cbBackColor, optColorDialog.Color);
     pbExample.Repaint;
    end;
-end;
-
-procedure TfrmOptionsColors.cbbUseFrameCursorChange(Sender: TObject);
-begin
-  pbExample.Repaint;
-end;
-
-procedure TfrmOptionsColors.cbbUseInvertedSelectionChange(Sender: TObject);
-begin
-  pbExample.Repaint;
 end;
 
 procedure TfrmOptionsColors.pbExamplePaint(Sender: TObject);
@@ -281,7 +269,7 @@ end;
 
 procedure TfrmOptionsColors.btnBackColor2Click(Sender: TObject);
 begin
-  optColorDialog.Color:= cbBackColor2.Color;
+  optColorDialog.Color:= cbBackColor2.Selected;
   if optColorDialog.Execute then
    begin
     SetColorInColorBox(cbBackColor2, optColorDialog.Color);
@@ -291,7 +279,7 @@ end;
 
 procedure TfrmOptionsColors.btnCursorColorClick(Sender: TObject);
 begin
-  optColorDialog.Color:= cbCursorColor.Color;
+  optColorDialog.Color:= cbCursorColor.Selected;
   if optColorDialog.Execute then
   begin
     SetColorInColorBox(cbCursorColor, optColorDialog.Color);
@@ -301,7 +289,7 @@ end;
 
 procedure TfrmOptionsColors.btnCursorTextClick(Sender: TObject);
 begin
-  optColorDialog.Color:= cbCursorText.Color;
+  optColorDialog.Color:= cbCursorText.Selected;
   if optColorDialog.Execute then
   begin
     SetColorInColorBox(cbCursorText, optColorDialog.Color);
@@ -311,7 +299,7 @@ end;
 
 procedure TfrmOptionsColors.btnMarkColorClick(Sender: TObject);
 begin
-  optColorDialog.Color:= cbMarkColor.Color;
+  optColorDialog.Color:= cbMarkColor.Selected;
   if optColorDialog.Execute then
   begin
     SetColorInColorBox(cbMarkColor, optColorDialog.Color);
@@ -330,7 +318,7 @@ begin
       MaskItem := TMaskItem(lbCategories.Items.Objects[lbCategories.ItemIndex]);
 
       edtCategoryMask.Text := MaskItem.sExt;
-      SetColorInColorBox(cbCategoryColor,MaskItem.cColor);
+      SetColorInColorBox(cbCategoryColor, MaskItem.cColor);
       bEnabled:= Pos('>', MaskItem.sExt) <> 1;
       edtCategoryMask.Enabled:= bEnabled;
       edtCategoryAttr.Enabled:= bEnabled;
@@ -345,8 +333,7 @@ begin
       edtCategoryMask.Text := '*';
       edtCategoryAttr.Text := '';
       cbCategoryColor.ItemIndex := -1;
-      cbCategoryColor.Color := clWindow;
-      cbCategoryColor.Selected := cbCategoryColor.Color;
+      cbCategoryColor.Selected := clWindow;
     end;
 end;
 
@@ -385,7 +372,6 @@ begin
   edtCategoryMask.Text := '*';
   edtCategoryAttr.Text := '';
   cbCategoryColor.ItemIndex := -1;
-  cbCategoryColor.Color := clWindow;
 end;
 
 procedure TfrmOptionsColors.bbtnApplyCategoryClick(Sender: TObject);
@@ -398,7 +384,7 @@ begin
       lbCategories.Items[lbCategories.ItemIndex] := edtCategoryName.Text;
       MaskItem := TMaskItem.Create;
       MaskItem.sName := edtCategoryName.Text;
-      MaskItem.cColor := cbCategoryColor.Color;
+      MaskItem.cColor := cbCategoryColor.Selected;
       if edtCategoryMask.Text = '' then
         edtCategoryMask.Text := '*'; // because we load colors from ini by mask
       MaskItem.sExt := edtCategoryMask.Text;
@@ -441,7 +427,7 @@ end;
 
 procedure TfrmOptionsColors.btnCategoryColorClick(Sender: TObject);
 begin
-  optColorDialog.Color:= cbCategoryColor.Color;
+  optColorDialog.Color:= cbCategoryColor.Selected;
   if optColorDialog.Execute then
     SetColorInColorBox(cbCategoryColor, optColorDialog.Color);
 end;
@@ -521,28 +507,28 @@ end;
 
 procedure TfrmOptionsColors.Load;
 begin
-  SetColorInColorBox(cbTextColor,gForeColor);
-  SetColorInColorBox(cbBackColor,gBackColor);
-  SetColorInColorBox(cbBackColor2,gBackColor2);
-  SetColorInColorBox(cbMarkColor,gMarkColor);
-  SetColorInColorBox(cbCursorColor,gCursorColor);
-  SetColorInColorBox(cbCursorText,gCursorText);
-  cbbUseInvertedSelection.Checked:=gUseInvertedSelection;
-  cbbUseFrameCursor.Checked:=gUseFrameCursor;
-  tbInactivePanelBrightness.Position:=gInactivePanelBrightness;
+  SetColorInColorBox(cbTextColor, gForeColor);
+  SetColorInColorBox(cbBackColor, gBackColor);
+  SetColorInColorBox(cbBackColor2, gBackColor2);
+  SetColorInColorBox(cbMarkColor, gMarkColor);
+  SetColorInColorBox(cbCursorColor, gCursorColor);
+  SetColorInColorBox(cbCursorText, gCursorText);
+  cbbUseInvertedSelection.Checked:= gUseInvertedSelection;
+  cbbUseFrameCursor.Checked:= gUseFrameCursor;
+  tbInactivePanelBrightness.Position:= gInactivePanelBrightness;
 end;
 
 procedure TfrmOptionsColors.Save;
 begin
-  gForeColor := cbTextColor.Color;
-  gBackColor := cbBackColor.Color; // background color
-  gBackColor2 := cbBackColor2.Color;
-  gMarkColor := cbMarkColor.Color;
-  gCursorColor := cbCursorColor.Color;
-  gCursorText := cbCursorText.Color;
-  gUseInvertedSelection:=cbbUseInvertedSelection.Checked;
-  gInactivePanelBrightness:=tbInactivePanelBrightness.Position;
-  gUseFrameCursor:=cbbUseFrameCursor.Checked;
+  gForeColor := cbTextColor.Selected;
+  gBackColor := cbBackColor.Selected; // background color
+  gBackColor2 := cbBackColor2.Selected;
+  gMarkColor := cbMarkColor.Selected;
+  gCursorColor := cbCursorColor.Selected;
+  gCursorText := cbCursorText.Selected;
+  gUseInvertedSelection := cbbUseInvertedSelection.Checked;
+  gInactivePanelBrightness := tbInactivePanelBrightness.Position;
+  gUseFrameCursor := cbbUseFrameCursor.Checked;
 end;
 
 initialization

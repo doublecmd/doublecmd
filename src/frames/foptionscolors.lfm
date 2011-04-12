@@ -1,11 +1,9 @@
 inherited frmOptionsColors: TfrmOptionsColors
   Height = 359
   Width = 644
+  Align = alClient
   ClientHeight = 359
   ClientWidth = 644
-  DesignLeft = 315
-  DesignTop = 77
-  Align = alClient
   object pcColors: TPageControl[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -317,7 +315,7 @@ inherited frmOptionsColors: TfrmOptionsColors
         Width = 127
         BorderSpacing.Top = 12
         Caption = 'Use Inverted Selection'
-        OnChange = cbbUseInvertedSelectionChange
+        OnChange = cbColorBoxChange
         TabOrder = 13
       end
       object tbInactivePanelBrightness: TTrackBar
@@ -361,7 +359,7 @@ inherited frmOptionsColors: TfrmOptionsColors
         Width = 104
         BorderSpacing.Left = 10
         Caption = 'Use Frame Cursor'
-        OnChange = cbbUseFrameCursorChange
+        OnChange = cbColorBoxChange
         TabOrder = 15
       end
     end
