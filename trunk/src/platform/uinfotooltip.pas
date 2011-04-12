@@ -1,6 +1,6 @@
 unit uInfoToolTip;
 
-{$mode delphi}
+{$mode objfpc}{$H+}
 
 interface
 
@@ -222,4 +222,4 @@ begin
 end;
 
 end.
-
+
