@@ -35,7 +35,7 @@ type
 
   { TfrmOptionsColors }
 
-  TfrmOptionsColors = class(TAbstractOptionsEditor)
+  TfrmOptionsColors = class(TOptionsEditor)
     optColorDialog: TColorDialog;
     pcColors: TPageControl;
     tsFileTypes: TTabSheet;
@@ -544,6 +544,9 @@ begin
   gInactivePanelBrightness:=tbInactivePanelBrightness.Position;
   gUseFrameCursor:=cbbUseFrameCursor.Checked;
 end;
+
+initialization
+  RegisterOptionsEditor(4, TfrmOptionsColors);
 
 end.
 

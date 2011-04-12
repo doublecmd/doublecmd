@@ -1,19 +1,13 @@
-object frmOptionsPlugins: TfrmOptionsPlugins
-  Left = 0
+inherited frmOptionsPlugins: TfrmOptionsPlugins
   Height = 376
-  Top = 0
   Width = 604
   Align = alClient
   ClientHeight = 376
   ClientWidth = 604
-  TabOrder = 0
-  DesignLeft = 330
-  DesignTop = 87
-  object pcPluginsTypes: TPageControl
+  object pcPluginsTypes: TPageControl[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 84
     Top = 0
@@ -25,7 +19,7 @@ object frmOptionsPlugins: TfrmOptionsPlugins
     OnChange = pcPluginsTypesChange
     object tsWCX: TTabSheet
       Caption = 'Packer plugins (.WCX)'
-      ClientHeight = 58
+      ClientHeight = 56
       ClientWidth = 596
       OnShow = tsWCXShow
       object lblWCXDescription: TLabel
@@ -34,7 +28,7 @@ object frmOptionsPlugins: TfrmOptionsPlugins
         AnchorSideRight.Control = tsWCX
         AnchorSideRight.Side = asrBottom
         Left = 10
-        Height = 14
+        Height = 16
         Top = 12
         Width = 576
         Anchors = [akTop, akLeft, akRight]
@@ -139,7 +133,7 @@ object frmOptionsPlugins: TfrmOptionsPlugins
       end
     end
   end
-  object stgPlugins: TStringGrid
+  object stgPlugins: TStringGrid[1]
     AnchorSideLeft.Control = pcPluginsTypes
     AnchorSideTop.Control = pcPluginsTypes
     AnchorSideTop.Side = asrBottom
@@ -191,7 +185,7 @@ object frmOptionsPlugins: TfrmOptionsPlugins
       164
     )
   end
-  object btnAddPlugin: TBitBtn
+  object btnAddPlugin: TBitBtn[2]
     AnchorSideRight.Control = btnEnablePlugin
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
@@ -242,7 +236,7 @@ object frmOptionsPlugins: TfrmOptionsPlugins
     NumGlyphs = 0
     TabOrder = 2
   end
-  object btnEnablePlugin: TBitBtn
+  object btnEnablePlugin: TBitBtn[3]
     AnchorSideRight.Control = btnRemovePlugin
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
@@ -258,7 +252,7 @@ object frmOptionsPlugins: TfrmOptionsPlugins
     OnClick = btnEnablePluginClick
     TabOrder = 3
   end
-  object btnRemovePlugin: TBitBtn
+  object btnRemovePlugin: TBitBtn[4]
     AnchorSideRight.Control = btnTweakPlugin
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
@@ -310,7 +304,7 @@ object frmOptionsPlugins: TfrmOptionsPlugins
     OnClick = btnRemovePluginClick
     TabOrder = 4
   end
-  object btnTweakPlugin: TBitBtn
+  object btnTweakPlugin: TBitBtn[5]
     AnchorSideRight.Control = btnConfigPlugin
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
@@ -362,7 +356,7 @@ object frmOptionsPlugins: TfrmOptionsPlugins
     OnClick = btnTweakPluginClick
     TabOrder = 5
   end
-  object btnConfigPlugin: TBitBtn
+  object btnConfigPlugin: TBitBtn[6]
     AnchorSideRight.Control = stgPlugins
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner

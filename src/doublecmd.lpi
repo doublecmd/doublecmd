@@ -887,9 +887,9 @@
         <UnitName Value="fOptionsToolTips"/>
       </Unit110>
       <Unit111>
-        <Filename Value="foptionsframe.pas"/>
+        <Filename Value="frames\foptionsframe.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="AbstractOptionsEditor"/>
+        <ComponentName Value="OptionsEditor"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsFrame"/>
