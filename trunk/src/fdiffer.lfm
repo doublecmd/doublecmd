@@ -1522,10 +1522,12 @@ object frmDiffer: TfrmDiffer
     object actSave: TAction
       Caption = 'Save'
       ImageIndex = 0
+      OnExecute = actSaveExecute
     end
     object actSaveAs: TAction
       Caption = 'Save as...'
       ImageIndex = 1
+      OnExecute = actSaveAsExecute
     end
     object actStartCompare: TAction
       Caption = 'Compare'
