@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-04-10 21:21+0300\n"
+"PO-Revision-Date: 2011-04-15 21:04+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -708,6 +708,10 @@ msgctxt "TFRMDIFFER.ACTABOUT.CAPTION"
 msgid "About"
 msgstr "О программе"
 
+#: TFRMDIFFER.ACTAUTOCOMPARE.CAPTION
+msgid "Auto Compare"
+msgstr "Автоматическое сравнение"
+
 #: TFRMDIFFER.ACTBINARYCOMPARE.CAPTION
 msgid "Binary Mode"
 msgstr "Бинарный режим"
@@ -852,6 +856,11 @@ msgctxt "TFRMDIFFER.MIDIVIDER1.CAPTION"
 msgid "-"
 msgstr ""
 
+#: TFRMDIFFER.MIDIVIDER10.CAPTION
+msgctxt "TFRMDIFFER.MIDIVIDER10.CAPTION"
+msgid "-"
+msgstr ""
+
 #: TFRMDIFFER.MIDIVIDER2.CAPTION
 msgctxt "TFRMDIFFER.MIDIVIDER2.CAPTION"
 msgid "-"
@@ -892,11 +901,6 @@ msgctxt "TFRMDIFFER.MIDIVIDER9.CAPTION"
 msgid "-"
 msgstr ""
 
-#: TFRMDIFFER.MIENCODING.CAPTION
-msgctxt "TFRMDIFFER.MIENCODING.CAPTION"
-msgid "Encoding"
-msgstr "Кодировка"
-
 #: TFRMDIFFER.MIENCODINGLEFT.CAPTION
 msgid "Left"
 msgstr "Слева"
@@ -923,6 +927,11 @@ msgstr "Действия"
 msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
 msgid "Edit"
 msgstr "Правка"
+
+#: TFRMDIFFER.MNUENCODING.CAPTION
+msgctxt "TFRMDIFFER.MNUENCODING.CAPTION"
+msgid "Encoding"
+msgstr "Кодировка"
 
 #: TFRMDIFFER.MNUFILE.CAPTION
 msgctxt "TFRMDIFFER.MNUFILE.CAPTION"

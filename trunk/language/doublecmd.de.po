@@ -712,6 +712,10 @@ msgctxt "TFRMDIFFER.ACTABOUT.CAPTION"
 msgid "About"
 msgstr "&Über"
 
+#: TFRMDIFFER.ACTAUTOCOMPARE.CAPTION
+msgid "Auto Compare"
+msgstr ""
+
 #: TFRMDIFFER.ACTBINARYCOMPARE.CAPTION
 msgid "Binary Mode"
 msgstr "Binärer Modus"
@@ -856,6 +860,11 @@ msgctxt "TFRMDIFFER.MIDIVIDER1.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: TFRMDIFFER.MIDIVIDER10.CAPTION
+msgctxt "TFRMDIFFER.MIDIVIDER10.CAPTION"
+msgid "-"
+msgstr "-"
+
 #: TFRMDIFFER.MIDIVIDER2.CAPTION
 msgctxt "TFRMDIFFER.MIDIVIDER2.CAPTION"
 msgid "-"
@@ -896,11 +905,6 @@ msgctxt "TFRMDIFFER.MIDIVIDER9.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: TFRMDIFFER.MIENCODING.CAPTION
-msgctxt "TFRMDIFFER.MIENCODING.CAPTION"
-msgid "Encoding"
-msgstr "Codierung"
-
 #: TFRMDIFFER.MIENCODINGLEFT.CAPTION
 msgid "Left"
 msgstr "Links"
@@ -927,6 +931,11 @@ msgstr "&Aktionen"
 msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
 msgid "Edit"
 msgstr "Bea&rbeiten"
+
+#: TFRMDIFFER.MNUENCODING.CAPTION
+msgctxt "TFRMDIFFER.MNUENCODING.CAPTION"
+msgid "Encoding"
+msgstr "Codierung"
 
 #: TFRMDIFFER.MNUFILE.CAPTION
 msgctxt "TFRMDIFFER.MNUFILE.CAPTION"
