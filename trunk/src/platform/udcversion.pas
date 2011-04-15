@@ -227,6 +227,32 @@ begin
 end;
 {$ENDIF}
 
+{$IF DEFINED(MSWINDOWS)}
+procedure TryGetNativeSystemInfo(var SystemInfo: TSystemInfo);
+type
+  TGetNativeSystemInfo = procedure (var lpSystemInfo: TSystemInfo); stdcall;
+var
+  hLib: HANDLE;
+  GetNativeSystemInfoProc: TGetNativeSystemInfo;
+begin
+  hLib := LoadLibrary(LPCTSTR('kernel32.dll'));
+  if hLib <> 0 then
+  begin
+    try
+      GetNativeSystemInfoProc := TGetNativeSystemInfo(GetProcAddress(hLib, 'GetNativeSystemInfo'));
+      if Assigned(GetNativeSystemInfoProc) then
+        GetNativeSystemInfoProc(SystemInfo)
+      else
+        GetSystemInfo(SystemInfo);
+    finally
+      FreeLibrary(hLib);
+    end;
+  end
+  else
+    GetSystemInfo(SystemInfo);
+end;
+{$ENDIF}
+
 procedure InitializeVersionInfo;
 {$IFDEF LCLQT}
 const
@@ -266,7 +292,7 @@ begin
 
   if GetVersionEx(@osvi) then
   begin
-    GetSystemInfo(si);
+    TryGetNativeSystemInfo(si);
 
     case osvi.dwPlatformId of
       VER_PLATFORM_WIN32_WINDOWS:
@@ -325,7 +351,7 @@ begin
         end;
     end;
 
-    // If something detected then add service pack number.
+    // If something detected then add service pack number and architecture.
     if OSVersion <> 'Windows' then
     begin
       if osvi.wServicePackMajor > 0 then
@@ -334,6 +360,11 @@ begin
         if osvi.wServicePackMinor > 0 then
           OSVersion := OSVersion + '.' + IntToStr(osvi.wServicePackMinor);
       end;
+
+      if si.wProcessorArchitecture in [PROCESSOR_ARCHITECTURE_AMD64] then
+        OSVersion := OSVersion + ' x86_64'
+      else
+        OSVersion := OSVersion + ' i386';
     end
     else
       OSVersion := OSVersion + ' Build ' + IntToStr(osvi.dwBuildNumber);
