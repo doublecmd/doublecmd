@@ -110,7 +110,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure InsertFakeLine(AIndex: Integer; ADiffKind: PtrInt);
-    procedure RemoveFakeLines(Strings: TStringList);
+    procedure RemoveFakeLines(Strings: TStrings);
     procedure BeginCompare(ADiff: TDiff);
     procedure EndCompare(ADiffCount: Integer);
     function DiffBegin(ALine: Integer): Integer;
@@ -270,6 +270,8 @@ procedure TSynDiffEdit.BeginCompare(ADiff: TDiff);
 begin
   FDiff:= ADiff;
   BeginUpdate;
+  // Remove fake lines
+  RemoveFakeLines(Lines);
 end;
 
 procedure TSynDiffEdit.EndCompare(ADiffCount: Integer);
@@ -331,7 +333,7 @@ begin
   Lines.InsertObject(AIndex, EmptyStr, TObject(ADiffKind));
 end;
 
-procedure TSynDiffEdit.RemoveFakeLines(Strings: TStringList);
+procedure TSynDiffEdit.RemoveFakeLines(Strings: TStrings);
 var
   I: Integer;
 begin
