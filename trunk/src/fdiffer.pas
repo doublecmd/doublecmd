@@ -49,6 +49,7 @@ type
     actEditSelectAll: TAction;
     actEditPaste: TAction;
     actAbout: TAction;
+    actAutoCompare: TAction;
     actLineDifferences: TAction;
     actSaveRightAs: TAction;
     actSaveLeftAs: TAction;
@@ -74,11 +75,13 @@ type
     edtFileNameRight: TFileNameEdit;
     ImageList: TImageList;
     MainMenu: TMainMenu;
+    miAutoCompare: TMenuItem;
+    miDivider10: TMenuItem;
     miLineDifferences: TMenuItem;
     miEncodingRight: TMenuItem;
     miEncodingLeft: TMenuItem;
     miAbout: TMenuItem;
-    miEncoding: TMenuItem;
+    mnuEncoding: TMenuItem;
     miSaveRightAs: TMenuItem;
     miSaveLeftAs: TMenuItem;
     miCopyContext: TMenuItem;
@@ -157,6 +160,9 @@ type
     btnCancelCompare: TToolButton;
     Divider4: TToolButton;
     btnReload: TToolButton;
+    btnCopyRightToLeft: TToolButton;
+    btnCopyLeftToRight: TToolButton;
+    Divider5: TToolButton;
     procedure actAboutExecute(Sender: TObject);
     procedure actBinaryCompareExecute(Sender: TObject);
     procedure actCloseExecute(Sender: TObject);
@@ -170,6 +176,7 @@ type
     procedure actEditSelectAllExecute(Sender: TObject);
     procedure actEditUndoExecute(Sender: TObject);
     procedure actFirstDiffExecute(Sender: TObject);
+    procedure actIgnoreCaseExecute(Sender: TObject);
     procedure actLastDiffExecute(Sender: TObject);
     procedure actLineDifferencesExecute(Sender: TObject);
     procedure actNextDiffExecute(Sender: TObject);
@@ -242,6 +249,7 @@ begin
       begin
         OpenFileLeft(FileNameLeft);
         OpenFileRight(FileNameRight);
+        if actAutoCompare.Checked then actStartCompare.Execute;
       end;
       ShowModal;
     finally
@@ -432,6 +440,7 @@ procedure TfrmDiffer.actReloadExecute(Sender: TObject);
 begin
   OpenFileLeft(edtFileNameLeft.FileName);
   OpenFileRight(edtFileNameRight.FileName);
+  if actAutoCompare.Checked then actStartCompare.Execute;
 end;
 
 procedure TfrmDiffer.actSaveLeftAsExecute(Sender: TObject);
@@ -466,9 +475,23 @@ end;
 
 procedure TfrmDiffer.actBinaryCompareExecute(Sender: TObject);
 begin
-  miEncoding.Enabled:= not actBinaryCompare.Checked;
+  mnuEdit.Enabled:= not actBinaryCompare.Checked;
+  mnuEncoding.Enabled:= not actBinaryCompare.Checked;
   btnLeftEncoding.Enabled:= not actBinaryCompare.Checked;
   btnRightEncoding.Enabled:= not actBinaryCompare.Checked;
+  SynDiffEditLeft.ReadOnly:= actBinaryCompare.Checked;
+  SynDiffEditRight.ReadOnly:= actBinaryCompare.Checked;
+  actCopyLeftToRight.Enabled:= not actBinaryCompare.Checked;
+  actCopyRightToLeft.Enabled:= not actBinaryCompare.Checked;
+  actSave.Enabled:= not actBinaryCompare.Checked;
+  actSaveAs.Enabled:= not actBinaryCompare.Checked;
+  actSaveLeft.Enabled:= not actBinaryCompare.Checked;
+  actSaveLeftAs.Enabled:= not actBinaryCompare.Checked;
+  actSaveRight.Enabled:= not actBinaryCompare.Checked;
+  actSaveRightAs.Enabled:= not actBinaryCompare.Checked;
+  actIgnoreCase.Enabled:= not actBinaryCompare.Checked;
+  actIgnoreWhiteSpace.Enabled:= not actBinaryCompare.Checked;
+  actLineDifferences.Enabled:= not actBinaryCompare.Checked;
   if actBinaryCompare.Checked then
     begin
       SynDiffEditLeft.Lines.Clear;
@@ -479,11 +502,15 @@ begin
       OpenFileLeft(edtFileNameLeft.Text);
       OpenFileRight(edtFileNameRight.Text);
     end;
+  if actAutoCompare.Checked then actStartCompare.Execute;
 end;
 
 procedure TfrmDiffer.actAboutExecute(Sender: TObject);
 begin
-  ShowMessage('This tool uses Angus Johnson''s excellent TDiff component.' + LineEnding +
+  ShowMessage('Internal Differ tool of Double Commander.' + LineEnding + LineEnding +
+              'It is inspired by Flavio Etrusco''s Pariter tool.' + LineEnding +
+              'You can find it on: http://sourceforge.net/projects/pariter/' + LineEnding +
+              'It is based on Angus Johnson''s excellent TDiff component.' + LineEnding +
               'You can find it on: http://www.users.on.net/johnson/delphi/');
 end;
 
@@ -571,6 +598,11 @@ begin
     SynDiffEditRight.CaretY := Line;
     SynDiffEditRight.TopLine := Line;
   end;
+end;
+
+procedure TfrmDiffer.actIgnoreCaseExecute(Sender: TObject);
+begin
+  if actAutoCompare.Checked then actStartCompare.Execute;
 end;
 
 procedure TfrmDiffer.actLastDiffExecute(Sender: TObject);
@@ -777,17 +809,28 @@ procedure TfrmDiffer.LoadFromFile(SynDiffEdit: TSynDiffEdit; const FileName: UTF
 var
   fsFileStream: TFileStreamEx = nil;
 begin
-  fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
   try
-    SynDiffEdit.Lines.LoadFromStream(fsFileStream);
-    if Length(SynDiffEdit.Encoding) = 0 then
-    begin
-      SynDiffEdit.Encoding:= GuessEncoding(SynDiffEdit.Lines.Text);
-      ChooseEncoding(SynDiffEdit);
+    try
+      fsFileStream:= TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
+      SynDiffEdit.Lines.LoadFromStream(fsFileStream);
+      if Length(SynDiffEdit.Encoding) = 0 then
+      begin
+        SynDiffEdit.Encoding:= GuessEncoding(SynDiffEdit.Lines.Text);
+        ChooseEncoding(SynDiffEdit);
+      end;
+      SynDiffEdit.Lines.Text:= ConvertEncoding(SynDiffEdit.Lines.Text, SynDiffEdit.Encoding, EncodingUTF8);
+    except
+      on EFOpenError do
+      begin
+        msgError(rsMsgErrEOpen + ': ' + FileName);
+      end;
+      on EReadError do
+      begin
+        msgError(rsMsgErrERead + ': ' + FileName);
+      end;
     end;
-    SynDiffEdit.Lines.Text:= ConvertEncoding(SynDiffEdit.Lines.Text, SynDiffEdit.Encoding, EncodingUTF8);
   finally
-    fsFileStream.Free;
+    FreeThenNil(fsFileStream);
   end;
 end;
 
@@ -803,9 +846,24 @@ begin
     SynDiffEdit.RemoveFakeLines(slStringList);
     // restore encoding
     slStringList.Text:= ConvertEncoding(slStringList.Text, EncodingUTF8, SynDiffEdit.Encoding);
-    // save to file
-    slStringList.SaveToFile(FileName);
-    SynDiffEdit.Modified:= False; // needed for the undo stack
+    try
+      // save to file
+      slStringList.SaveToFile(FileName);
+      SynDiffEdit.Modified:= False; // needed for the undo stack
+    except
+      on EFCreateError do
+      begin
+        msgError(rsMsgErrECreate + ': ' + FileName);
+      end;
+      on EFOpenError do
+      begin
+        msgError(rsMsgErrEOpen + ': ' + FileName);
+      end;
+      on EWriteError do
+      begin
+        msgError(rsMsgErrEWrite + ': ' + FileName);
+      end;
+    end;
   finally
     slStringList.Free;
   end;
@@ -869,7 +927,7 @@ begin
      ((scTopLine in Changes) or (scLeftChar in Changes)) then
     try
       Inc(ScrollLock);
-      while (SynDiffEditRight.PaintLock <> 0) do Sleep(1);
+      //while (SynDiffEditRight.PaintLock <> 0) do Sleep(1);
       SynDiffEditRight.TopLine:= SynDiffEditLeft.TopLine;
       SynDiffEditRight.LeftChar:= SynDiffEditLeft.LeftChar;
     finally
@@ -884,7 +942,7 @@ begin
      ((scTopLine in Changes) or (scLeftChar in Changes)) then
     try
       Inc(ScrollLock);
-      while (SynDiffEditLeft.PaintLock <> 0) do Sleep(1);
+      //while (SynDiffEditLeft.PaintLock <> 0) do Sleep(1);
       SynDiffEditLeft.TopLine:= SynDiffEditRight.TopLine;
       SynDiffEditLeft.LeftChar:= SynDiffEditRight.LeftChar;
     finally
