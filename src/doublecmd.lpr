@@ -13,8 +13,12 @@ uses
   LCLProc,
   SysUtils,
   Forms,
-  {$IFDEF NIGHTLY_BUILD}
+  {$IF DEFINED(NIGHTLY_BUILD)}
+  {$IF NOT DEFINED(DARWIN)}
   un_lineinfo,
+  {$ELSE}
+  lnfodwrf,
+  {$ENDIF}
   {$ENDIF}
   uGlobsPaths,
   uGlobs,
@@ -41,7 +45,7 @@ var
 begin
   DCDebug('Starting Double Commander');
 
-  {$IFDEF NIGHTLY_BUILD}
+  {$IF DEFINED(NIGHTLY_BUILD) AND NOT DEFINED(DARWIN)}
   InitLineInfo;
   {$ENDIF}
 
@@ -106,4 +110,4 @@ begin
      end;
 
   DCDebug('Finished Double Commander');
-end.
+end.
