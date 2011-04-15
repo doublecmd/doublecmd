@@ -708,6 +708,10 @@ msgctxt "TFRMDIFFER.ACTABOUT.CAPTION"
 msgid "About"
 msgstr "Про програму..."
 
+#: TFRMDIFFER.ACTAUTOCOMPARE.CAPTION
+msgid "Auto Compare"
+msgstr ""
+
 #: TFRMDIFFER.ACTBINARYCOMPARE.CAPTION
 msgid "Binary Mode"
 msgstr "Двійковий режим"
@@ -852,6 +856,11 @@ msgctxt "TFRMDIFFER.MIDIVIDER1.CAPTION"
 msgid "-"
 msgstr "-"
 
+#: TFRMDIFFER.MIDIVIDER10.CAPTION
+msgctxt "TFRMDIFFER.MIDIVIDER10.CAPTION"
+msgid "-"
+msgstr "-"
+
 #: TFRMDIFFER.MIDIVIDER2.CAPTION
 msgctxt "TFRMDIFFER.MIDIVIDER2.CAPTION"
 msgid "-"
@@ -892,11 +901,6 @@ msgctxt "TFRMDIFFER.MIDIVIDER9.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: TFRMDIFFER.MIENCODING.CAPTION
-msgctxt "TFRMDIFFER.MIENCODING.CAPTION"
-msgid "Encoding"
-msgstr "Кодування"
-
 #: TFRMDIFFER.MIENCODINGLEFT.CAPTION
 msgid "Left"
 msgstr "Справа"
@@ -923,6 +927,11 @@ msgstr "&Дії"
 msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
 msgid "Edit"
 msgstr "Редагувати"
+
+#: TFRMDIFFER.MNUENCODING.CAPTION
+msgctxt "TFRMDIFFER.MNUENCODING.CAPTION"
+msgid "Encoding"
+msgstr "Кодування"
 
 #: TFRMDIFFER.MNUFILE.CAPTION
 msgctxt "TFRMDIFFER.MNUFILE.CAPTION"
