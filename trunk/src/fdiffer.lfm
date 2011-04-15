@@ -1613,10 +1613,12 @@ object frmDiffer: TfrmDiffer
     object actIgnoreCase: TAction
       AutoCheck = True
       Caption = 'Ignore Case'
+      DisableIfNoHandler = False
     end
     object actIgnoreWhiteSpace: TAction
       AutoCheck = True
       Caption = 'Ignore Blanks'
+      DisableIfNoHandler = False
     end
     object actKeepScrolling: TAction
       AutoCheck = True

@@ -394,7 +394,9 @@ begin
     begin
       SynDiffEditLeft.PaintStyle:= psForeground;
       SynDiffEditRight.PaintStyle:= psForeground;
-    end
+    end;
+  SynDiffHighlighterLeft.UpdateColors;
+  SynDiffHighlighterRight.UpdateColors;
 end;
 
 procedure TfrmDiffer.actPrevDiffExecute(Sender: TObject);

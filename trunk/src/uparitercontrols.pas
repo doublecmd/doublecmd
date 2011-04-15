@@ -67,7 +67,6 @@ type
     function GetEditor: TSynDiffEdit;
     procedure ComputeTokens(const aOldLine, aNewLine: String);
   protected
-    procedure UpdateColors;
     function GetDefaultAttribute(Index: Integer): TSynHighlighterAttributes; override;
   public
     constructor Create(aOwner: TSynDiffEdit); reintroduce; overload;
@@ -76,6 +75,8 @@ type
 
     procedure ResetRange; override;
     procedure SetLine(const aNewValue: String; aLineNumber: Integer); override;
+
+    procedure UpdateColors;
 
     function GetEol: Boolean; override;
     function GetToken: String; override;
@@ -90,83 +91,73 @@ type
 implementation
 
 uses
-  SynEditTypes, Graphics, uHash;
+  SynEditTypes, Graphics;
 
 { TSynDiffHighlighter }
 
 procedure TSynDiffHighlighter.ComputeTokens(const aOldLine, aNewLine: String);
-
-  procedure Tokenize(const aText: String; aList: TStrings);
-  var
-    vTokenStart: PChar;
-    vRun: PChar;
-    vToken: String;
-  begin
-    vTokenStart := PChar(aText);
-    vRun := vTokenStart;
-    while vRun^ <> #0 do
-    begin
-      while vRun^ in [#32,#9] do
-        Inc(vRun);
-      if vTokenStart <> vRun then
-      begin
-        SetString(vToken, vTokenStart, vRun - vTokenStart);
-        aList.Add(vToken);
-        vTokenStart := vRun;
-      end;
-      {}
-      while vRun^ in TSynValidStringChars do
-        Inc(vRun);
-      if vTokenStart <> vRun then
-      begin
-        SetString(vToken, vTokenStart, vRun - vTokenStart);
-        aList.Add(vToken);
-        vTokenStart := vRun;
-      end;
-      {}
-      if vRun^ in [#33..#255] - TSynValidStringChars then
-      begin
-        aList.Add(vRun^);
-        Inc(vRun);
-        vTokenStart := vRun;
-      end;
-    end;
-  end;
-
+const
+  skipChar = #10;
 var
-  vOldTokens: TStringList;
-  vArray1: array of Integer;
-  vArray2: array of Integer;
-  i: Integer;
-  vChange: TCompareRec;
-  cChange, cLine: Integer;
-begin
-  { Tokenize fOldLine }
-  vOldTokens := TStringList.Create;
-  try
-    Tokenize(aOldLine, vOldTokens);
-    SetLength(vArray1, vOldTokens.Count);
-    for i := Length(vArray1) -1 downto 0 do
-      vArray1[i] := PtrInt(HashString(vOldTokens[i], False, False));
-  finally
-    vOldTokens.Free;
-  end;
-  { Tokenize fNewLine }
-  Tokenize(aNewLine, fTokens);
-  SetLength(vArray2, fTokens.Count);
-  for i := Length(vArray2) -1 downto 0 do
-    vArray2[i] := PtrInt(HashString(fTokens[i], False, False));
-  { Calculate diffs }
-  fDiff.Execute( PInteger(@(vArray1[0])), PInteger(@(vArray2[0])),
-    Length(vArray1), Length(vArray2) );
-  for cChange := 0 to fDiff.Count -1 do
+  I: Integer;
+  lastKind: TChangeKind;
+  lastToken: String;
+
+  procedure AddTokenIfNeed(Symbol: Char; Kind: TChangeKind);
   begin
-    vChange := fDiff.Compares[cChange];
-    if vChange.Kind <> ckDelete then
-      for cLine := vChange.oldIndex1 to vChange.oldIndex2 do
-        fTokens.Objects[cLine] := TObject(PtrInt(vChange.Kind));
+    if (Kind = lastKind) then // Same Kind, no need to change colors
+    begin
+      if Symbol = skipChar then
+        lastToken:= #32
+      else
+        lastToken := lastToken + Symbol;
+    end
+    else
+      begin
+        fTokens.AddObject(lastToken, TObject(PtrInt(lastKind)));
+        if Symbol = skipChar then
+          lastToken:= #32
+        else
+          lastToken := Symbol;
+        lastKind := Kind;
+      end;
   end;
-  fDiff.Clear;
+
+begin
+  // Compare lines
+  if not Assigned(Editor.OriginalFile) then // Original file
+    fDiff.Execute(PChar(aNewLine), PChar(aOldLine), Length(aNewLine), Length(aOldLine))
+  else if not Assigned(Editor.ModifiedFile) then // Modified file
+    fDiff.Execute(PChar(aOldLine), PChar(aNewLine), Length(aOldLine), Length(aNewLine));
+
+  // Prepare diffs to display
+  lastKind := ckNone;
+  lastToken:= EmptyStr;
+
+  for I := 0 to fDiff.Count - 1 do
+    with fDiff.Compares[I] do
+    begin
+      if not Assigned(Editor.OriginalFile) then // Original file
+        begin
+          // Show changes for original file
+          // with spaces for adds to align with modified file
+          if Kind = ckAdd then
+            AddTokenIfNeed(skipChar, Kind)
+          else
+            AddTokenIfNeed(chr1, Kind);
+        end
+      else if not Assigned(Editor.ModifiedFile) then // Modified file
+        begin
+          // Show changes for modified file
+          // with spaces for deletes to align with original file
+          if Kind = ckDelete then
+            AddTokenIfNeed(skipChar, Kind)
+          else
+            AddTokenIfNeed(chr2, Kind);
+        end;
+    end;
+  // Add last token
+  fTokens.AddObject(lastToken, TObject(PtrInt(lastKind)));
 end;
 
 constructor TSynDiffHighlighter.Create(aOwner: TComponent);
@@ -246,6 +237,8 @@ begin
       Result := fAddedAttriPointer;
     ckModify:
       Result := fModifiedAttribute;
+    ckDelete:
+      Result := fAddedAttriPointer;
     else
       Result := fDefaultAttriPointer;
   end;
@@ -343,7 +336,7 @@ begin
       fModifiedAttribute.Foreground := Editor.Colors.Modified;
       fModifiedAttribute.Background := clBtnFace;
       fUnmodifiedAttribute.Foreground := clNone;
-      fUnmodifiedAttribute.Background := clBtnFace;
+      fUnmodifiedAttribute.Background := clNone;
     end
     else begin
       fAddedAttribute.Foreground := clNone;
@@ -361,4 +354,4 @@ begin
 end;
 
 end.
-
+
