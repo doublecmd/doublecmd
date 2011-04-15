@@ -185,6 +185,8 @@ type
     procedure actPaintBackgroundExecute(Sender: TObject);
     procedure actPrevDiffExecute(Sender: TObject);
     procedure actReloadExecute(Sender: TObject);
+    procedure actSaveAsExecute(Sender: TObject);
+    procedure actSaveExecute(Sender: TObject);
     procedure actSaveLeftAsExecute(Sender: TObject);
     procedure actSaveLeftExecute(Sender: TObject);
     procedure actSaveRightAsExecute(Sender: TObject);
@@ -441,6 +443,22 @@ begin
   OpenFileLeft(edtFileNameLeft.FileName);
   OpenFileRight(edtFileNameRight.FileName);
   if actAutoCompare.Checked then actStartCompare.Execute;
+end;
+
+procedure TfrmDiffer.actSaveAsExecute(Sender: TObject);
+begin
+  if SynDiffEditActive = SynDiffEditLeft then
+    actSaveLeftAs.Execute
+  else if SynDiffEditActive = SynDiffEditRight then
+    actSaveRightAs.Execute;
+end;
+
+procedure TfrmDiffer.actSaveExecute(Sender: TObject);
+begin
+  if SynDiffEditActive = SynDiffEditLeft then
+    actSaveLeft.Execute
+  else if SynDiffEditActive = SynDiffEditRight then
+    actSaveRight.Execute;
 end;
 
 procedure TfrmDiffer.actSaveLeftAsExecute(Sender: TObject);
