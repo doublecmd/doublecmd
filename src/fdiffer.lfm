@@ -7,10 +7,12 @@ object frmDiffer: TfrmDiffer
   ClientHeight = 350
   ClientWidth = 760
   Menu = MainMenu
+  OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnResize = FormResize
   SessionProperties = 'actAutoCompare.Checked;actIgnoreCase.Checked;actIgnoreWhiteSpace.Checked;actKeepScrolling.Checked;actLineDifferences.Checked;actPaintBackground.Checked;Height;Left;Top;Width;WindowState'
+  ShowInTaskBar = stAlways
   LCLVersion = '0.9.29'
   object ToolBar: TToolBar
     Left = 0

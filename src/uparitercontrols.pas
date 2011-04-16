@@ -315,7 +315,7 @@ begin
   vNewLine := aNewValue;
   if Length(vNewLine) <> 0 then
     begin
-      if Length(vOldLine) <> 0 then
+      if (Length(vOldLine) <> 0) and (Editor.DiffKind[aLineNumber] = ckModify) then
         ComputeTokens(vOldLine, vNewLine)
       else
         fTokens.Add(vNewLine);

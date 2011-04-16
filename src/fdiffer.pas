@@ -197,6 +197,7 @@ type
     procedure btnRightEncodingClick(Sender: TObject);
     procedure edtFileNameLeftAcceptFileName(Sender: TObject; var Value: String);
     procedure edtFileNameRightAcceptFileName(Sender: TObject; var Value: String);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
@@ -243,20 +244,16 @@ procedure ShowDiffer(const FileNameLeft, FileNameRight: UTF8String);
 begin
   with TfrmDiffer.Create(Application) do
   begin
-    try
-      edtFileNameLeft.Text:= FileNameLeft;
-      edtFileNameRight.Text:= FileNameRight;
-      actBinaryCompare.Checked:= not (FileIsText(FileNameLeft) or FileIsText(FileNameRight));
-      if not actBinaryCompare.Checked then
-      begin
-        OpenFileLeft(FileNameLeft);
-        OpenFileRight(FileNameRight);
-        if actAutoCompare.Checked then actStartCompare.Execute;
-      end;
-      ShowModal;
-    finally
-      Free;
+    edtFileNameLeft.Text:= FileNameLeft;
+    edtFileNameRight.Text:= FileNameRight;
+    actBinaryCompare.Checked:= not (FileIsText(FileNameLeft) or FileIsText(FileNameRight));
+    if not actBinaryCompare.Checked then
+    begin
+      OpenFileLeft(FileNameLeft);
+      OpenFileRight(FileNameRight);
+      if actAutoCompare.Checked then actStartCompare.Execute;
     end;
+    ShowOnTop;
   end;
 end;
 
@@ -738,6 +735,11 @@ end;
 procedure TfrmDiffer.FormResize(Sender: TObject);
 begin
   pnlLeft.Width:= (ClientWidth div 2) - (Splitter.Width div 2);
+end;
+
+procedure TfrmDiffer.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  CloseAction:= caFree;
 end;
 
 procedure TfrmDiffer.Clear(bLeft, bRight: Boolean);
