@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.4.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-04-09 20:11+0300\n"
+"PO-Revision-Date: 2011-04-16 01:20+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -710,7 +710,7 @@ msgstr "Про програму..."
 
 #: TFRMDIFFER.ACTAUTOCOMPARE.CAPTION
 msgid "Auto Compare"
-msgstr ""
+msgstr "Авто. порівняння"
 
 #: TFRMDIFFER.ACTBINARYCOMPARE.CAPTION
 msgid "Binary Mode"
@@ -4458,7 +4458,7 @@ msgstr "Шаблон..."
 #: TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION"
 msgid "Custom fields by file type"
-msgstr ""
+msgstr "Додаткові поля по типам файлів"
 
 #: TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION"
@@ -4466,9 +4466,10 @@ msgid "Show tool tip"
 msgstr "Показати спливаючі підказки"
 
 #: TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
 msgid "Category hint:"
-msgstr ""
+msgstr "Категорія підказки:"
 
 #: TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION"
@@ -6622,7 +6623,7 @@ msgstr "Інструменти"
 
 #: ulng.rsopttooltips
 msgid "Tooltips"
-msgstr ""
+msgstr "Підказки"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
