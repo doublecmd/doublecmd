@@ -93,6 +93,7 @@ type
       FErrorMsg: String;
       FOnError: TNotifyEvent;
       FOnDriveEvent: TKQueueDriveEvent;
+      FFinished: Boolean;
       procedure RaiseErrorEvent;
       procedure RaiseDriveEvent;
     protected
@@ -103,6 +104,7 @@ type
       property OnError: TNotifyEvent read FOnError write FOnError;
       property OnDriveEvent: TKQueueDriveEvent read FOnDriveEvent write FOnDriveEvent;
       constructor Create();
+      destructor Destroy; override;
     end;
 {$ENDIF}
 
@@ -978,81 +980,103 @@ end;
 
 procedure TKQueueDriveEventWatcher.Execute;
 const
-  KQUEUE_TIMEOUT = 0;
   KQUEUE_ERROR = -1;
 var
-  timeOut: TTimeSpec;
   ke: TKEvent;
 begin
-  Self.kq := kqueue();
-  if Self.kq = KQUEUE_ERROR then
-  begin
-    Self.FErrorMsg := 'ERROR: kqueue()';
-    Synchronize(@Self.RaiseErrorEvent);
-    exit;
-  end; { if }
-
-  FillByte(ke, SizeOf(ke), 0);
-  EV_SET(@ke, 1, EVFILT_FS, EV_ADD, 0, 0, nil);
-  if kevent(kq, @ke, 1, nil, 0, nil) = KQUEUE_ERROR then
-  begin
-    Self.FErrorMsg := 'ERROR: kevent()';
-    Synchronize(@Self.RaiseErrorEvent);
-    exit;
-  end; { if }
-
-  timeOut.tv_sec := 1;
-  timeOut.tv_nsec := 0;
-
-  while not Terminated do
-  begin
-    FillByte(ke, SizeOf(ke), 0);
-    case kevent(kq, nil, 0, @ke, 1, @timeOut) of
-      KQUEUE_ERROR:
-        break;
-      KQUEUE_TIMEOUT:
-        continue;
-    end; { case }
-
-    if (ke.FFlags and NOTE_DELETE <> 0) then
-      break
-    else if (ke.FFlags and NOTE_MOUNTED <> 0) then
+  try
+    Self.kq := kqueue();
+    if Self.kq = KQUEUE_ERROR then
     begin
-      Self.Event := dweDriveAdded;
-{$IFDEF DARWIN}
-      Sleep(1 * 1000); // wait so drive gets available in MacOSX
-{$ENDIF}
-      Synchronize(@Self.RaiseDriveEvent);
-    end { else if }
-    else if (ke.FFlags and NOTE_UMOUNTED <> 0) then
-    begin
-      Self.Event := dweDriveRemoved;
-{$IFDEF DARWIN}
-      Sleep(1 * 1000); // wait so drive disappears in MacOSX
-{$ENDIF}
-      Synchronize(@Self.RaiseDriveEvent);
-    end; { else if }
-  end; { while }
+      Self.FErrorMsg := 'ERROR: kqueue()';
+      Synchronize(@Self.RaiseErrorEvent);
+      exit;
+    end; { if }
 
-  FpClose(Self.kq);
+    try
+      FillByte(ke, SizeOf(ke), 0);
+      EV_SET(@ke, 1, EVFILT_FS, EV_ADD, 0, 0, nil);
+      if kevent(kq, @ke, 1, nil, 0, nil) = KQUEUE_ERROR then
+      begin
+        Self.FErrorMsg := 'ERROR: kevent()';
+        Synchronize(@Self.RaiseErrorEvent);
+        exit;
+      end; { if }
+
+      while not Terminated do
+      begin
+        FillByte(ke, SizeOf(ke), 0);
+        if kevent(kq, nil, 0, @ke, 1, nil) = KQUEUE_ERROR then
+            break;
+
+        case ke.Filter of
+          EVFILT_TIMER: // user triggered
+            continue;
+
+          EVFILT_FS:
+          begin
+            if (ke.FFlags and NOTE_MOUNTED <> 0) then
+            begin
+              Self.Event := dweDriveAdded;
+  {$IFDEF DARWIN}
+              Sleep(1 * 1000); // wait so drive gets available in MacOSX
+  {$ENDIF}
+              Synchronize(@Self.RaiseDriveEvent);
+            end { if }
+            else if (ke.FFlags and NOTE_UMOUNTED <> 0) then
+            begin
+              Self.Event := dweDriveRemoved;
+  {$IFDEF DARWIN}
+              Sleep(1 * 1000); // wait so drive disappears in MacOSX
+  {$ENDIF}
+              Synchronize(@Self.RaiseDriveEvent);
+            end; { else if }
+          end;
+        end; { case }
+      end; { while }
+
+    finally
+      FpClose(Self.kq);
+    end; { try - finally }
+  finally
+    FFinished := True;
+  end; { try - finally }
 end;
 
 procedure TKQueueDriveEventWatcher.DoTerminate;
 var
   ke: TKEvent;
 begin
-  FillByte(ke, SizeOf(ke), 0);
-  EV_SET(@ke, 1, EVFILT_FS, EV_DELETE, 0, 0, nil);
-  kevent(Self.kq, @ke, 1, nil, 0, nil);
-
   inherited DoTerminate;
+
+  if Self.kq = -1 then
+    Exit;
+
+  FillByte(ke, SizeOf(ke), 0);
+  EV_SET(@ke, 0, EVFILT_TIMER, EV_ADD or EV_ONESHOT, 0, 0, nil);
+  kevent(Self.kq, @ke, 1, nil, 0, nil);
 end;
 
 constructor TKQueueDriveEventWatcher.Create();
 begin
   Self.FreeOnTerminate := true;
+  Self.FFinished := false;
 
   inherited Create(true);
+end;
+
+destructor TKQueueDriveEventWatcher.Destroy;
+begin
+  if not Terminated then
+  begin
+    Self.Terminate;
+{$IF (fpc_version<2) or ((fpc_version=2) and (fpc_release<5))}
+    If (MainThreadID=GetCurrentThreadID) then
+      while not FFinished do
+        CheckSynchronize(100);
+{$ENDIF}
+    WaitFor;
+  end; { if }
 end;
 {$ENDIF}
 
