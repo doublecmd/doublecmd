@@ -1579,6 +1579,7 @@ object frmDiffer: TfrmDiffer
     object actCancelCompare: TAction
       Caption = 'Cancel'
       ImageIndex = 7
+      OnExecute = actCancelCompareExecute
     end
     object actBinaryCompare: TAction
       Category = 'Options'

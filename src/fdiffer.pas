@@ -165,6 +165,7 @@ type
     Divider5: TToolButton;
     procedure actAboutExecute(Sender: TObject);
     procedure actBinaryCompareExecute(Sender: TObject);
+    procedure actCancelCompareExecute(Sender: TObject);
     procedure actCloseExecute(Sender: TObject);
     procedure actCopyLeftToRightExecute(Sender: TObject);
     procedure actCopyRightToLeftExecute(Sender: TObject);
@@ -266,6 +267,7 @@ var
   LineNumberRight: PtrInt;
 begin
   try
+    Inc(ScrollLock);
     Screen.Cursor := crHourGlass;
     if actBinaryCompare.Checked then
       begin
@@ -331,6 +333,7 @@ begin
     SynDiffEditRight.Invalidate;
     Screen.Cursor := crDefault;
     actCancelCompare.Enabled := False;
+    Dec(ScrollLock);
   end;
   if actLineDifferences.Checked then
   begin
@@ -518,6 +521,11 @@ begin
       OpenFileRight(edtFileNameRight.Text);
     end;
   if actAutoCompare.Checked then actStartCompare.Execute;
+end;
+
+procedure TfrmDiffer.actCancelCompareExecute(Sender: TObject);
+begin
+  Diff.Cancel;
 end;
 
 procedure TfrmDiffer.actAboutExecute(Sender: TObject);
@@ -947,7 +955,7 @@ begin
      ((scTopLine in Changes) or (scLeftChar in Changes)) then
     try
       Inc(ScrollLock);
-      //while (SynDiffEditRight.PaintLock <> 0) do Sleep(1);
+      while (SynDiffEditRight.PaintLock <> 0) do Sleep(1);
       SynDiffEditRight.TopLine:= SynDiffEditLeft.TopLine;
       SynDiffEditRight.LeftChar:= SynDiffEditLeft.LeftChar;
     finally
@@ -962,7 +970,7 @@ begin
      ((scTopLine in Changes) or (scLeftChar in Changes)) then
     try
       Inc(ScrollLock);
-      //while (SynDiffEditLeft.PaintLock <> 0) do Sleep(1);
+      while (SynDiffEditLeft.PaintLock <> 0) do Sleep(1);
       SynDiffEditLeft.TopLine:= SynDiffEditRight.TopLine;
       SynDiffEditLeft.LeftChar:= SynDiffEditRight.LeftChar;
     finally
