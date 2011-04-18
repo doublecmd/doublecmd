@@ -42,7 +42,7 @@ uses
   {$ELSEIF DEFINED(UNIX)}
   BaseUnix, uMyUnix, uDCUtils
     {$IFDEF DARWIN}
-    , MacOSAll
+    , MacOSAll, DynLibs, StrUtils, uOSUtils
     {$ENDIF}
   {$ENDIF};
 
@@ -63,15 +63,71 @@ begin
   Result := (SHFileOperationW(@FileOp) = 0) and (not FileOp.fAnyOperationsAborted);
 end;
 {$ELSEIF DEFINED(DARWIN)}
+type
+  TFSMoveObjectToTrashSync = function( const (*var*) source: FSRef; var target: FSRef; options: OptionBits ): OSStatus; stdcall;
 var
+  FSMoveObjectToTrash: TFSMoveObjectToTrashSync;
+  CarbonLib: THandle;
   theSourceFSRef,
   theTargetFSRef: FSRef;
+
+  newFileName: String;
+  fullFileName: String;
+  trashDir: String;
+  dirList: array[0..100] of PChar;
 begin
-  Result:= False;
-  if (FSPathMakeRefWithOptions(PAnsiChar(FileName), kFSPathMakeRefDoNotFollowLeafSymlink, theSourceFSRef, nil) = noErr) then
+  Result := False;
+
+  CarbonLib := LoadLibrary('Carbon.framework/Versions/A/Carbon');
+  if CarbonLib <> NilHandle then
   begin
-    Result:= (FSMoveObjectToTrashSync(theSourceFSRef, theTargetFSRef, kFSFileOperationDefaultOptions) = noErr);
-  end;
+    try
+      FSMoveObjectToTrash := TFSMoveObjectToTrashSync(GetProcedureAddress(CarbonLib, 'FSMoveObjectToTrashSync'));
+      if Assigned(FSMoveObjectToTrash) then
+      begin
+        if (FSPathMakeRefWithOptions(PAnsiChar(FileName), kFSPathMakeRefDoNotFollowLeafSymlink, theSourceFSRef, nil) = noErr) then
+        begin
+          Result:= (FSMoveObjectToTrash(theSourceFSRef, theTargetFSRef, kFSFileOperationDefaultOptions) = noErr);
+          Exit;
+        end;
+      end; { if }
+
+    finally
+      UnloadLibrary(CarbonLib);
+    end; { try - finally }
+  end; { if }
+
+{
+  MacOSX 10.4 and below compatibility mode:
+  - If file is in base drive, it gets moved to $HOME/.Trash
+  - If file is in some other local drive, it gets moved to /Volumes/.Trashes/uid/
+  - If file is in network, it can't be moved to trash
+  Trash folders are automatically created by OS at login and deleted if empty at logout.
+  If a file with same name exists in trash folder, time is appended to filename
+}
+  fullFileName := ExpandFileName(FileName);
+  if AnsiStartsStr('/Volumes/', fullFileName) then
+  begin
+    // file is not located at base drive
+    FillChar(dirList, SizeOf(dirList), 0);
+    SysUtils.GetDirs(fullFileName, dirList);
+    trashDir := Format('/Volumes/%s/.Trashes/%d/', [StrPas(dirList[1]), FpGetuid]);
+  end { if }
+  else
+    trashDir := GetHomeDir + '.Trash/';
+
+  // check if trash folder exists (e.g. network drives don't have one)
+  if not FileExists(trashDir) then
+  begin
+    Result := false;
+    Exit;
+  end; { if }
+
+  newFileName := trashDir + ExtractFileName(FileName);
+  if FileExists(newFileName) then
+    newFileName := Format('%s %s', [newFileName, FormatDateTime('hh-nn-ss', Time)]);
+
+  Result := RenameFile(FileName, newFileName);
 end;
 {$ELSEIF DEFINED(UNIX)}
 // This implementation is based on FreeDesktop.org "Trash Specification"
