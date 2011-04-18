@@ -30,6 +30,8 @@ interface
 uses
   Classes, SysUtils;
 
+//{$DEFINE DEBUG_WATCHER}
+
 type
   TFSWatchFilter = set of (wfFileNameChange, wfAttributesChange);
 
@@ -40,10 +42,10 @@ type
                          fswUnknownChange);
 
   TFSWatcherEventData = record
-    Path: String;
+    Path: UTF8String;
     EventType: TFSWatcherEventType;
-    FileName: String;    // Valid for fswFileCreated, fswFileChanged, fswFileDeleted, fswFileRenamed
-    OldFileName: String; // Valid for fswFileRenamed
+    FileName: UTF8String;    // Valid for fswFileCreated, fswFileChanged, fswFileDeleted, fswFileRenamed
+    OldFileName: UTF8String; // Valid for fswFileRenamed
     UserData: Pointer;
   end;
 
@@ -73,12 +75,28 @@ implementation
 uses
   LCLProc, uDebug, uExceptions, syncobjs, fgl
   {$IF DEFINED(MSWINDOWS)}
-  ,Windows
+  ,Windows, JwaWinNT, JwaWinBase
   {$ELSEIF DEFINED(LINUX)}
   ,inotify, BaseUnix
   {$ELSEIF DEFINED(BSD)}
   ,BSD, Unix, BaseUnix, UnixType
   {$ENDIF};
+
+{$IF DEFINED(MSWINDOWS)}
+const
+  // For each outstanding ReadDirectoryW a buffer of this size will be allocated
+  // by kernel, so this value should be rather small.
+  READDIRECTORYCHANGESW_BUFFERSIZE       = 4096;
+  READDIRECTORYCHANGESW_DRIVE_BUFFERSIZE = 32768;
+
+var
+  // 0 - prevents deleting watched directories
+  // 1 - does not prevent deleting watched directories
+  // 2 - watch whole drives instead of single directories to omit problems with deleting watched directories
+  FSWatcherMode: Integer = 0;
+  VAR_READDIRECTORYCHANGESW_BUFFERSIZE: DWORD = READDIRECTORYCHANGESW_BUFFERSIZE;
+  CREATEFILEW_SHAREMODE: DWORD = FILE_SHARE_READ or FILE_SHARE_WRITE;
+{$ENDIF}
 
 type
   TOSWatchObserver = class
@@ -94,16 +112,32 @@ type
     FObservers: TOSWatchObservers;
     FWatchFilter: TFSWatchFilter;
     FWatchPath: UTF8String;
+    {$IF DEFINED(MSWINDOWS)}
+    FOverlapped: OVERLAPPED;
+    FBuffer: PByte;
+    FNotifyFilter: DWORD;
+    FReferenceCount: LongInt;
+    FOldFileName: UTF8String; // for FILE_ACTION_RENAMED_OLD_NAME action
+    {$ENDIF}
     {$IF DEFINED(UNIX)}
     FNotifyHandle: THandle;
     {$ENDIF}
     procedure CreateHandle;
     procedure DestroyHandle;
+    {$IF DEFINED(MSWINDOWS)}
+    procedure QueueCancelRead;
+    procedure QueueRead;
+    procedure SetFilter(aWatchFilter: TFSWatchFilter);
+    {$ENDIF}
   public
     constructor Create(const aWatchPath: UTF8String
                        {$IFDEF UNIX}; aNotifyHandle: THandle{$ENDIF}); reintroduce;
     destructor Destroy; override;
     procedure UpdateFilter;
+    {$IF DEFINED(MSWINDOWS)}
+    procedure Reference{$IFDEF DEBUG_WATCHER}(s: String){$ENDIF};
+    procedure Dereference{$IFDEF DEBUG_WATCHER}(s: String){$ENDIF};
+    {$ENDIF}
     property Handle: THandle read FHandle;
     property Observers: TOSWatchObservers read FObservers;
     property WatchPath: UTF8String read FWatchPath;
@@ -116,9 +150,7 @@ type
   private
     FWatcherLock: syncobjs.TCriticalSection;
     FOSWatchers: TOSWatchs;
-    {$IF DEFINED(MSWINDOWS)}
-    FWaitEvent: THandle;
-    {$ELSEIF DEFINED(UNIX)}
+    {$IF DEFINED(UNIX)}
     FNotifyHandle: THandle;
     {$ENDIF}
     {$IF DEFINED(LINUX)}
@@ -129,8 +161,16 @@ type
 
     procedure DoWatcherEvent;
     function GetWatchersCount: Integer;
-    procedure RemoveOSWatch(aHandle: THandle);
-    procedure TriggerEvent;
+    {en
+       Call only under FWatcherLock.
+    }
+    procedure RemoveObserverLocked(OSWatcherIndex: Integer; aWatcherEvent: TFSWatcherEvent);
+    {en
+       Call only under FWatcherLock.
+    }
+    procedure RemoveOSWatchLocked(Index: Integer);
+    procedure RemoveOSWatch(Watch: TOSWatch);
+    procedure TriggerTerminateEvent;
   protected
     procedure Execute; override;
     procedure ExecuteWatcher;
@@ -222,8 +262,247 @@ type
 
 procedure ShowError(const sErrMsg: String);
 begin
-  DCDebug('FSWatcher: ' + sErrMsg + ': ' + SysErrorMessage(GetLastOSError));
+  DCDebug('FSWatcher: ' + sErrMsg + ': (' + IntToStr(GetLastOSError) + ') ' +
+          SysErrorMessage(GetLastOSError));
 end;
+
+{$IF DEFINED(MSWINDOWS)}
+procedure NotifyRoutine(dwErrorCode: DWORD; dwNumberOfBytes: DWORD; Overlapped: LPOVERLAPPED); stdcall; forward;
+
+function StartReadDirectoryChanges(Watch: TOSWatch): Boolean;
+begin
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug('FSWatcher: ReadChanges for ', Watch.FWatchPath);
+  {$ENDIF}
+  if Watch.Handle <> feInvalidHandle then
+  begin
+    Result := ReadDirectoryChangesW(
+                Watch.Handle,
+                @Watch.FBuffer[0],
+                VAR_READDIRECTORYCHANGESW_BUFFERSIZE,
+                False,
+                Watch.FNotifyFilter,
+                nil,
+                @Watch.FOverlapped,
+                @NotifyRoutine)
+            or
+              // ERROR_IO_PENDING is a confirmation that the I/O operation has started.
+              (GetLastError = ERROR_IO_PENDING);
+
+    if Result then
+      Watch.Reference{$IFDEF DEBUG_WATCHER}('StartReadDirectoryChanges'){$ENDIF}
+    else
+    begin
+      // ERROR_INVALID_HANDLE will be when handle was destroyed
+      // just before the call to ReadDirectoryChangesW.
+      if GetLastError <> ERROR_INVALID_HANDLE then
+        ShowError('ReadDirectoryChangesW error');
+    end;
+  end
+  else
+    Result := False;
+end;
+
+procedure ProcessFileNotifyInfo(Watch: TOSWatch; dwBytesReceived: DWORD);
+var
+  wFilename: Widestring;
+  fnInfo: PFILE_NOTIFY_INFORMATION;
+begin
+  with FileSystemWatcher do
+  begin
+    FCurrentEventData.Path := Watch.WatchPath;
+
+    if dwBytesReceived = 0 then
+    begin
+    {$IFDEF DEBUG_WATCHER}
+      DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Buffer overflowed. Some events happened though.');
+    {$ENDIF}
+      // Buffer was not large enough to store all events. In this case it is only
+      // known that something has changed but all specific events have been lost.
+      FCurrentEventData.EventType := fswUnknownChange;
+      FCurrentEventData.FileName := EmptyStr;
+      FCurrentEventData.OldFileName := EmptyStr;
+      Synchronize(@DoWatcherEvent);
+      Exit;
+    end;
+
+    fnInfo := @Watch.FBuffer[0];
+
+    // FCurrentEventData can be accessed safely because only one ProcessFileNotifyInfo
+    // is called at a time due to completion routines being in a queue.
+    while True do
+    begin
+      SetString(wFilename, PWideChar(@fnInfo^.FileName), fnInfo^.FileNameLength div SizeOf(WideChar));
+      FCurrentEventData.OldFileName := EmptyStr;
+
+      case fnInfo^.Action of
+        FILE_ACTION_ADDED:
+          begin
+            FCurrentEventData.FileName := UTF8Encode(wFilename);
+            FCurrentEventData.EventType := fswFileCreated;
+            {$IFDEF DEBUG_WATCHER}
+            DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Created file ', FCurrentEventData.FileName);
+            {$ENDIF}
+          end;
+        FILE_ACTION_REMOVED:
+          begin
+            FCurrentEventData.FileName := UTF8Encode(wFilename);
+            FCurrentEventData.EventType := fswFileDeleted;
+            {$IFDEF DEBUG_WATCHER}
+            DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Deleted file ', FCurrentEventData.FileName);
+            {$ENDIF}
+          end;
+        FILE_ACTION_MODIFIED:
+          begin
+            FCurrentEventData.FileName := UTF8Encode(wFilename);
+            FCurrentEventData.EventType := fswFileChanged;
+            {$IFDEF DEBUG_WATCHER}
+            DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Modified file ', FCurrentEventData.FileName);
+            {$ENDIF}
+          end;
+        FILE_ACTION_RENAMED_OLD_NAME:
+          begin
+            Watch.FOldFileName := UTF8Encode(wFilename);
+            {$IFDEF DEBUG_WATCHER}
+            DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Rename from ', FCurrentEventData.FileName);
+            {$ENDIF}
+          end;
+        FILE_ACTION_RENAMED_NEW_NAME:
+          begin
+            FCurrentEventData.OldFileName := Watch.FOldFileName;
+            FCurrentEventData.FileName := UTF8Encode(wFilename);
+            FCurrentEventData.EventType := fswFileRenamed;
+            {$IFDEF DEBUG_WATCHER}
+            DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Rename to ', FCurrentEventData.FileName);
+            {$ENDIF}
+          end;
+        else
+          begin
+            FCurrentEventData.EventType := fswUnknownChange;
+            FCurrentEventData.FileName := EmptyStr;
+            {$IFDEF DEBUG_WATCHER}
+            DCDebug(['FSWatcher: Process watch ', hexStr(Watch), ': Action ', fnInfo^.Action, ' for ', FCurrentEventData.FileName]);
+            {$ENDIF}
+          end;
+      end;
+
+      if fnInfo^.Action <> FILE_ACTION_RENAMED_OLD_NAME then
+        Synchronize(@DoWatcherEvent);
+
+      if fnInfo^.NextEntryOffset = 0 then
+        Break
+      else
+        fnInfo := PFILE_NOTIFY_INFORMATION(PByte(fnInfo) + fnInfo^.NextEntryOffset);
+    end;
+  end;
+end;
+
+procedure NotifyRoutine(dwErrorCode: DWORD; dwNumberOfBytes: DWORD; Overlapped: LPOVERLAPPED); stdcall;
+var
+  Watch: TOSWatch;
+  bReadStarted: Boolean = False;
+begin
+  Watch := TOSWatch(Overlapped^.hEvent);
+
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug(['FSWatcher: NotifyRoutine for watch ', hexStr(Watch), ' bytes=', dwNumberOfBytes, ' code=', dwErrorCode, ' handle=', Integer(Watch.Handle)]);
+  {$ENDIF}
+  case dwErrorCode of
+    ERROR_SUCCESS:
+      begin
+        if Watch.FHandle <> feInvalidHandle then
+        begin
+          ProcessFileNotifyInfo(Watch, dwNumberOfBytes);
+          bReadStarted := StartReadDirectoryChanges(Watch);
+        end
+        else
+        begin
+          {$IFDEF DEBUG_WATCHER}
+          DCDebug('FSWatcher: NotifyRoutine Handle destroyed, not starting Read');
+          {$ENDIF};
+        end;
+      end;
+    ERROR_OPERATION_ABORTED:
+      begin
+        // I/O operation has been cancelled to change parameters.
+        {$IFDEF DEBUG_WATCHER}
+        DCDebug('FSWatcher: NotifyRoutine aborted, will restart');
+        {$ENDIF}
+        bReadStarted := StartReadDirectoryChanges(Watch);
+      end;
+    ERROR_ACCESS_DENIED:
+      begin
+        // Most probably handle has been closed or become invalid.
+        {$IFDEF DEBUG_WATCHER}
+        DCDebug(['FSWatcher: NotifyRoutine ERROR_ACCESS_DENIED watch=', hexStr(Watch)]);
+        {$ENDIF}
+      end;
+    else
+      begin
+        DCDebug(['FSWatcher: NotifyRoutine error=', dwErrorCode]);
+      end;
+  end;
+
+  if not bReadStarted then
+  begin
+    if Watch.Handle <> feInvalidHandle then
+      // This will destroy the handle.
+      FileSystemWatcher.RemoveOSWatch(Watch);
+    // If Handle = feInvalidHandle that means Watch has already been
+    // removed from FileSystemWatcher by main thread.
+  end;
+
+  Watch.Dereference{$IFDEF DEBUG_WATCHER}('NotifyRoutine'){$ENDIF};
+
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug(['FSWatcher: NotifyRoutine for watch ', hexStr(Watch), ' done']);
+  {$ENDIF}
+end;
+
+procedure ReadChangesProc(dwParam: ULONG_PTR); stdcall;
+var
+  Watch: TOSWatch absolute dwParam;
+begin
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug('FSWatcher: ReadChangesProc for watch ', hexStr(Watch));
+  {$ENDIF}
+  if not StartReadDirectoryChanges(Watch) then
+  begin
+    if Watch.Handle <> feInvalidHandle then
+      FileSystemWatcher.RemoveOSWatch(Watch);
+  end;
+  Watch.Dereference{$IFDEF DEBUG_WATCHER}('ReadChangesProc'){$ENDIF};
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug('FSWatcher: ReadChangesProc done for watch ', hexStr(Watch));
+  {$ENDIF}
+end;
+
+procedure CancelReadChangesProc(dwParam: ULONG_PTR); stdcall;
+var
+  Watch: TOSWatch absolute dwParam;
+begin
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug(['FSWatcher: CancelReadChangesProc for watch ', hexStr(Watch), ' handle ', Integer(Watch.Handle)]);
+  {$ENDIF}
+  // CancelIo will cause the completion routine to be called with ERROR_OPERATION_ABORTED.
+  // Must be called from the same thread which started the I/O operation.
+  if CancelIo(Watch.Handle) = False then
+  begin
+    if GetLastOSError <> ERROR_INVALID_HANDLE then
+      ShowError('CancelReadChangesProc: CancelIo error');
+  end;
+  Watch.Dereference{$IFDEF DEBUG_WATCHER}('CancelReadChangesProc'){$ENDIF};
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug('FSWatcher: CancelReadChangesProc done for watch ', hexStr(Watch));
+  {$ENDIF}
+end;
+
+procedure TerminateProc(dwParam: ULONG_PTR); stdcall;
+begin
+  // This procedure does nothing. Simply queueing and executing it will cause
+  // SleepEx to exit if there were no other APCs in the queue.
+end;
+{$ENDIF}
 
 { TFileSystemWatcherImpl }
 
@@ -245,87 +524,21 @@ end;
 
 procedure TFileSystemWatcherImpl.ExecuteWatcher;
 {$IF DEFINED(MSWINDOWS)}
-var
-  dwWaitResult: DWORD;
-  WaitHandles: TWOHandleArray;
-  WaitObjectsCount: Integer = 0;
-  i: Integer;
-  SignaledHandle: THandle;
 begin
   while not Terminated do
   begin
-    WaitHandles[0] := FWaitEvent;
-
-    FWatcherLock.Acquire;
-    try
-      WaitObjectsCount := min(FOSWatchers.Count + 1, MAXIMUM_WAIT_OBJECTS);
-
-      for i := 0 to WaitObjectsCount - 2 do
-        WaitHandles[i + 1] := FOSWatchers[i].Handle;
-
-    finally
-      FWatcherLock.Release;
-    end; { try - finally }
-
-    dwWaitResult := WaitForMultipleObjects(WaitObjectsCount, @WaitHandles[0], FALSE, INFINITE);
-
-    case dwWaitResult of
-      WAIT_OBJECT_0: ;  // FWaitEvent, User triggered
-
-      WAIT_OBJECT_0 + 1 .. WAIT_OBJECT_0 + MAXIMUM_WAIT_OBJECTS - 1:
-        begin
-          if Terminated then
-            Break;
-
-          SignaledHandle := WaitHandles[dwWaitResult - WAIT_OBJECT_0];
-
-          // While waiting, the watcher may have been removed and the signaled
-          // handle may now be invalid. Need to confirm it is still there.
-
-          FCurrentEventData.Path := EmptyStr;
-          FWatcherLock.Acquire;
-          try
-            for i := 0 to FOSWatchers.Count - 1 do
-            begin
-              if FOSWatchers[i].Handle = SignaledHandle then
-              begin
-                FCurrentEventData.Path := FOSWatchers[i].WatchPath;
-                FCurrentEventData.EventType := fswUnknownChange;
-                FCurrentEventData.FileName := EmptyStr;
-                FCurrentEventData.OldFileName := EmptyStr;
-
-                if not FindNextChangeNotification(SignaledHandle) then
-                begin
-                  ShowError('FindNextChangeNotification failed');
-                  RemoveOSWatch(SignaledHandle);
-                end; { if }
-
-                Break;
-              end; { if }
-            end; { for }
-
-          finally
-            FWatcherLock.Release;
-          end; { try - finally }
-
-          if FCurrentEventData.Path <> EmptyStr then
-            Synchronize(@DoWatcherEvent);
-        end;
-
-      WAIT_FAILED:
-        begin
-          ShowError('WaitForMultipleObjects returned WAIT_FAILED');
-          Break;
-        end;
-
-      else
-        begin
-          ShowError('WaitForMultipleObjects returned ' + IntToStr(dwWaitResult));
-        Break;
-        end;
-    end; { case }
-
-  end; { while }
+  {$IFDEF DEBUG_WATCHER}
+    DCDebug(['FSWatcher: SleepEx (', FOSWatchers.Count, ' watches)']);
+  {$ENDIF}
+    // Contrary to documentation:
+    // SleepEx does not return until all APCs (including I/O completion routines)
+    // in queue are called. Then it returns with WAIT_IO_COMPLETION.
+    // Therefore there is no need to artificially flush queue.
+    SleepEx(INFINITE, True);
+  end;
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug('FSWatcher: SleepEx loop done');
+  {$ENDIF}
 end;
 {$ELSEIF DEFINED(LINUX)}
 const
@@ -573,14 +786,24 @@ begin
   inherited Create(False);
 {$ENDIF}
 
-  FOSWatchers := TOSWatchs.Create(True);
+  FOSWatchers := TOSWatchs.Create({$IFDEF MSWINDOWS}False{$ELSE}True{$ENDIF});
   FWatcherLock := syncobjs.TCriticalSection.Create;
 
   FreeOnTerminate := False;
   FFinished := False;
 
   {$IF DEFINED(MSWINDOWS)}
-  FWaitEvent := CreateEvent(nil, FALSE, FALSE, nil);
+  case FSWatcherMode of
+    0:
+      VAR_READDIRECTORYCHANGESW_BUFFERSIZE := READDIRECTORYCHANGESW_BUFFERSIZE;
+    1:
+      begin
+        VAR_READDIRECTORYCHANGESW_BUFFERSIZE := READDIRECTORYCHANGESW_BUFFERSIZE;
+        CREATEFILEW_SHAREMODE := CREATEFILEW_SHAREMODE or FILE_SHARE_DELETE;
+      end;
+    2:
+      VAR_READDIRECTORYCHANGESW_BUFFERSIZE := READDIRECTORYCHANGESW_DRIVE_BUFFERSIZE;
+  end;
   {$ELSEIF DEFINED(LINUX)}
   // create inotify instance
   FNotifyHandle := inotify_init();
@@ -613,13 +836,7 @@ end;
 
 destructor TFileSystemWatcherImpl.Destroy;
 begin
-  {$IF DEFINED(MSWINDOWS)}
-  if FWaitEvent <> 0 then
-  begin
-    CloseHandle(FWaitEvent);
-    FWaitEvent := 0;
-  end;
-  {$ELSEIF DEFINED(LINUX)}
+  {$IF DEFINED(LINUX)}
   // close both ends of pipe
   if FEventPipe[0] <> -1 then
   begin
@@ -655,9 +872,16 @@ end;
 
 procedure TFileSystemWatcherImpl.Terminate;
 begin
+{$IF DEFINED(MSWINDOWS)}
+  // Remove leftover watchers before queueing TerminateProc.
+  // Their handles will be destroyed which will cause completion routines
+  // to be called before Terminate is set and SleepEx loop breaks.
+  while FOSWatchers.Count > 0 do
+    RemoveOSWatch(FOSWatchers[0]);
+  // Then queue TerminateProc in TriggerTerminateEvent.
+{$ENDIF}
   inherited Terminate;
-
-  TriggerEvent;
+  TriggerTerminateEvent;
 end;
 
 function TFileSystemWatcherImpl.AddWatch(aWatchPath: UTF8String;
@@ -669,6 +893,7 @@ var
   OSWatcherCreated: Boolean = False;
   Observer: TOSWatchObserver;
   i, j: Integer;
+  WatcherIndex: Integer = -1;
 begin
   if (aWatchPath = '') or (aWatcherEvent = nil) then
     Exit(False);
@@ -685,6 +910,7 @@ begin
       if FOSWatchers[i].WatchPath = aWatchPath then
       begin
         OSWatcher := FOSWatchers[i];
+        WatcherIndex := i;
 
         // Check if the observer is not already registered.
         for j := 0 to OSWatcher.Observers.Count - 1 do
@@ -702,6 +928,9 @@ begin
   if not Assigned(OSWatcher) then
   begin
     OSWatcher := TOSWatch.Create(aWatchPath {$IFDEF UNIX}, FNotifyHandle {$ENDIF});
+    {$IF DEFINED(MSWINDOWS)}
+    OSWatcher.Reference{$IFDEF DEBUG_WATCHER}('AddWatch'){$ENDIF}; // For usage by FileSystemWatcher (main thread)
+    {$ENDIF}
     OSWatcherCreated := True;
   end;
 
@@ -713,31 +942,26 @@ begin
   FWatcherLock.Acquire;
   try
     if OSWatcherCreated then
-      FOSWatchers.Add(OSWatcher);
+      WatcherIndex := FOSWatchers.Add(OSWatcher);
 
     OSWatcher.Observers.Add(Observer);
-    OSWatcher.UpdateFilter; // This recreates handle.
+    OSWatcher.UpdateFilter; // This creates or recreates handle.
 
     Result := OSWatcher.Handle <> feInvalidHandle;
 
     // Remove watcher if could not create notification handle.
     if not Result then
-      FOSWatchers.Remove(OSWatcher);
+      RemoveOSWatchLocked(WatcherIndex);
 
   finally
     FWatcherLock.Release;
   end;
-
-{$IF DEFINED(MSWINDOWS)}
-  // trigger fake event to update event handle list
-  TriggerEvent;
-{$ENDIF}
 end;
 
 procedure TFileSystemWatcherImpl.RemoveWatch(aWatchPath: UTF8String;
                                              aWatcherEvent: TFSWatcherEvent);
 var
-  i, j: Integer;
+  i: Integer;
 begin
 {$IFDEF UNIX}
   if aWatchPath <> PathDelim then
@@ -750,63 +974,16 @@ begin
     begin
       if FOSWatchers[i].WatchPath = aWatchPath then
       begin
-        for j := 0 to FOSWatchers[i].Observers.Count - 1 do
-        begin
-          if CompareMethods(TMethod(FOSWatchers[i].Observers[j].WatcherEvent), TMethod(aWatcherEvent)) then
-          begin
-            FOSWatchers[i].Observers.Delete(j);
-            Break;
-          end;
-        end;
-
-        if FOSWatchers[i].Observers.Count = 0 then
-          FOSWatchers.Delete(i)
-        else
-          FOSWatchers[i].UpdateFilter;
-
+        RemoveObserverLocked(i, aWatcherEvent);
         Break;
       end;
     end;
   finally
     FWatcherLock.Release;
   end;
-
-{$IF DEFINED(MSWINDOWS)}
-  // trigger fake event to update event handle list
-  TriggerEvent;
-{$ENDIF}
 end;
 
 procedure TFileSystemWatcherImpl.RemoveWatch(aWatcherEvent: TFSWatcherEvent);
-var
-  i, j: Integer;
-begin
-  FWatcherLock.Acquire;
-  try
-    for i := 0 to FOSWatchers.Count - 1 do
-    begin
-      for j := 0 to FOSWatchers[i].Observers.Count - 1 do
-      begin
-        if CompareMethods(TMethod(FOSWatchers[i].Observers[j].WatcherEvent), TMethod(aWatcherEvent)) then
-          FOSWatchers[i].Observers.Delete(j);
-      end;
-
-      if FOSWatchers[i].Observers.Count = 0 then
-        FOSWatchers.Delete(i)
-      else
-        FOSWatchers[i].UpdateFilter;
-    end;
-  finally
-    FWatcherLock.Release;
-  end;
-
-{$IF DEFINED(MSWINDOWS)}
-  // trigger fake event to update event handle list
-  TriggerEvent;
-{$ENDIF}
-end;
-
-procedure TFileSystemWatcherImpl.RemoveOSWatch(aHandle: THandle);
 var
   i: Integer;
 begin
@@ -814,26 +991,68 @@ begin
   try
     for i := 0 to FOSWatchers.Count - 1 do
     begin
-      if FOSWatchers[i].Handle = aHandle then
+      RemoveObserverLocked(i, aWatcherEvent);
+    end;
+  finally
+    FWatcherLock.Release;
+  end;
+end;
+
+procedure TFileSystemWatcherImpl.RemoveObserverLocked(OSWatcherIndex: Integer; aWatcherEvent: TFSWatcherEvent);
+var
+  j: Integer;
+begin
+  for j := 0 to FOSWatchers[OSWatcherIndex].Observers.Count - 1 do
+  begin
+    if CompareMethods(TMethod(FOSWatchers[OSWatcherIndex].Observers[j].WatcherEvent), TMethod(aWatcherEvent)) then
+    begin
+      FOSWatchers[OSWatcherIndex].Observers.Delete(j);
+
+      if FOSWatchers[OSWatcherIndex].Observers.Count = 0 then
+        RemoveOSWatchLocked(OSWatcherIndex)
+      else
+        FOSWatchers[OSWatcherIndex].UpdateFilter;
+
+      Break;
+    end;
+  end;
+end;
+
+procedure TFileSystemWatcherImpl.RemoveOSWatchLocked(Index: Integer);
+begin
+  {$IF DEFINED(MSWINDOWS)}
+  with FOSWatchers[Index] do
+  begin
+    DestroyHandle;
+    Dereference{$IFDEF DEBUG_WATCHER}('RemoveOSWatchLocked'){$ENDIF}; // Not using anymore by FileSystemWatcher from main thread
+  end;
+  {$ENDIF}
+  FOSWatchers.Delete(Index);
+end;
+
+procedure TFileSystemWatcherImpl.RemoveOSWatch(Watch: TOSWatch);
+var
+  i: Integer;
+begin
+  FWatcherLock.Acquire;
+  try
+    for i := 0 to FOSWatchers.Count - 1 do
+    begin
+      if FOSWatchers[i] = Watch then
       begin
-        FOSWatchers.Delete(i);
+        RemoveOSWatchLocked(i);
         Break;
       end;
     end;
   finally
     FWatcherLock.Release;
   end;
-
-{$IF DEFINED(MSWINDOWS)}
-  // trigger fake event to update event handle list
-  TriggerEvent;
-{$ENDIF}
 end;
 
-procedure TFileSystemWatcherImpl.TriggerEvent;
+procedure TFileSystemWatcherImpl.TriggerTerminateEvent;
 {$IF DEFINED(MSWINDOWS)}
 begin
-  SetEvent(FWaitEvent);
+  QueueUserAPC(@TerminateProc, Self.Handle, ULONG_PTR(Self));
 end;
 {$ELSEIF DEFINED(LINUX)}
 var
@@ -879,13 +1098,24 @@ begin
   {$IFDEF UNIX}
   FNotifyHandle := aNotifyHandle;
   {$ENDIF}
+  {$IF DEFINED(MSWINDOWS)}
+  FReferenceCount := 0;
+  FBuffer := GetMem(VAR_READDIRECTORYCHANGESW_BUFFERSIZE);
+  {$ENDIF}
   FHandle := feInvalidHandle;
 end;
 
 destructor TOSWatch.Destroy;
 begin
-  FObservers.Free;
   DestroyHandle;
+  inherited;
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug(['FSWatcher: Destroying watch ', hexStr(Self)]);
+  {$ENDIF}
+  FObservers.Free;
+  {$IF DEFINED(MSWINDOWS)}
+  Freemem(FBuffer);
+  {$ENDIF}
 end;
 
 procedure TOSWatch.UpdateFilter;
@@ -901,27 +1131,74 @@ begin
     FWatchFilter := NewFilter;
 
     // Change watcher filter or recreate watcher.
+    {$IF DEFINED(MSWINDOWS)}
+    SetFilter(FWatchFilter);
+    if FHandle = feInvalidHandle then
+      CreateHandle
+    else
+      QueueCancelRead; // Will cancel and restart Read
+    {$ELSE}
     DestroyHandle;
     CreateHandle;
+    {$ENDIF}
   end;
 end;
 
+{$IF DEFINED(MSWINDOWS)}
+procedure TOSWatch.Reference{$IFDEF DEBUG_WATCHER}(s: String){$ENDIF};
+{$IFDEF DEBUG_WATCHER}
+var
+  CurrentRefCount: LongInt;
+{$ENDIF}
+begin
+  {$IFDEF DEBUG_WATCHER}
+  CurrentRefCount :=
+  {$ENDIF}
+  InterlockedIncrement(FReferenceCount);
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug(['FSWatcher: Watch ', hexStr(Self), ' ++ref=', CurrentRefCount, ' ', s]);
+  {$ENDIF}
+end;
+
+procedure TOSWatch.Dereference{$IFDEF DEBUG_WATCHER}(s: String){$ENDIF};
+{$IFDEF DEBUG_WATCHER}
+var
+  CurrentRefCount: LongInt;
+{$ENDIF}
+begin
+  {$IFDEF DEBUG_WATCHER}
+  CurrentRefCount := InterlockedDecrement(FReferenceCount);
+  DCDebug(['FSWatcher: Watch ', hexStr(Self), ' --ref=', CurrentRefCount, ' ', s]);
+  if CurrentRefCount = 0 then
+  {$ELSE}
+  if InterlockedDecrement(FReferenceCount) = 0 then
+  {$ENDIF}
+    Free;
+end;
+{$ENDIF}
+
 procedure TOSWatch.CreateHandle;
 {$IF DEFINED(MSWINDOWS)}
-var
-  hNotifyFilter: LongWord = 0;
 begin
-  if wfFileNameChange in FWatchFilter then
-    hNotifyFilter:= hNotifyFilter or FILE_NOTIFY_CHANGE_FILE_NAME
-                                  or FILE_NOTIFY_CHANGE_DIR_NAME;
-  if wfAttributesChange in FWatchFilter then
-    hNotifyFilter:= hNotifyFilter or FILE_NOTIFY_CHANGE_ATTRIBUTES;
+  FHandle := CreateFileW(PWideChar(UTF8Decode(FWatchPath)),
+               FILE_LIST_DIRECTORY,
+               CREATEFILEW_SHAREMODE,
+               nil,
+               OPEN_EXISTING,
+               FILE_FLAG_BACKUP_SEMANTICS or FILE_FLAG_OVERLAPPED,
+               0);
 
-  FHandle := FindFirstChangeNotificationW(PWideChar(UTF8Decode(FWatchPath)), False, hNotifyFilter);
   if FHandle = INVALID_HANDLE_VALUE then
   begin
     FHandle := feInvalidHandle;
-    ShowError('FindFirstChangeNotificationW failed for ' + FWatchPath);
+    ShowError('CreateFileW failed for ' + FWatchPath);
+  end
+  else
+  begin
+    FillChar(FOverlapped, SizeOf(FOverlapped), 0);
+    // Pass pointer to watcher to the notify routine via hEvent member.
+    FOverlapped.hEvent := Windows.HANDLE(Self);
+    QueueRead;
   end;
 end;
 {$ELSEIF DEFINED(LINUX)}
@@ -974,6 +1251,10 @@ end;
 {$ENDIF}
 
 procedure TOSWatch.DestroyHandle;
+{$IF DEFINED(MSWINDOWS)}
+var
+  tmpHandle: THandle;
+{$ENDIF}
 begin
   if FHandle <> feInvalidHandle then
   begin
@@ -984,12 +1265,63 @@ begin
     FpClose(FHandle);
     {$ENDIF}
     {$IF DEFINED(MSWINDOWS)}
-    if FindCloseChangeNotification(FHandle) = False then
-      ShowError('FindCloseChangeNotification error');
+    // If there are outstanding I/O operations on the handle calling CloseHandle
+    // will fail those operations and cause completion routines to be called
+    // but with ErrorCode = 0. Clearing FHandle before the call allows to know
+    // that handle has been destroyed and to not schedule new Reads.
+    {$IFDEF DEBUG_WATCHER}
+    DCDebug(['FSWatcher: Watch ', hexStr(Self),' DestroyHandle ', Integer(FHandle), ' done']);
     {$ENDIF}
+    tmpHandle := FHandle;
     FHandle := feInvalidHandle;
+    CloseHandle(tmpHandle);
+    {$ELSE}
+    FHandle := feInvalidHandle;
+    {$ENDIF}
   end;
 end;
+
+{$IF DEFINED(MSWINDOWS)}
+procedure TOSWatch.QueueCancelRead;
+begin
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug('FSWatcher: QueueCancelRead: Queueing Cancel APC');
+  {$ENDIF}
+  Reference{$IFDEF DEBUG_WATCHER}('QueueCancelRead'){$ENDIF}; // For use by CancelReadChangesProc.
+  QueueUserAPC(@CancelReadChangesProc, FileSystemWatcher.Handle, ULONG_PTR(Self));
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug('FSWatcher: QueueCancelRead: Queueing Cancel APC done');
+  {$ENDIF}
+end;
+
+procedure TOSWatch.QueueRead;
+begin
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug('FSWatcher: QueueRead: Queueing Read APC');
+  {$ENDIF}
+  Reference{$IFDEF DEBUG_WATCHER}('QueueRead'){$ENDIF}; // For use by ReadChangesProc.
+  QueueUserAPC(@ReadChangesProc, FileSystemWatcher.Handle, ULONG_PTR(Self));
+  {$IFDEF DEBUG_WATCHER}
+  DCDebug('FSWatcher: QueueRead: Queueing Read APC done');
+  {$ENDIF}
+end;
+
+procedure TOSWatch.SetFilter(aWatchFilter: TFSWatchFilter);
+var
+  // Use temp variable so that assigning FNotifyFilter is coherent.
+  dwFilter: DWORD = 0;
+begin
+  if wfFileNameChange in aWatchFilter then
+    dwFilter := dwFilter or FILE_NOTIFY_CHANGE_FILE_NAME
+                         or FILE_NOTIFY_CHANGE_DIR_NAME;
+  if wfAttributesChange in aWatchFilter then
+    dwFilter := dwFilter or FILE_NOTIFY_CHANGE_ATTRIBUTES or
+                            FILE_NOTIFY_CHANGE_SIZE or
+                            FILE_NOTIFY_CHANGE_LAST_WRITE;
+  FNotifyFilter := dwFilter;
+end;
+
+{$ENDIF}
 
 finalization
   TFileSystemWatcher.DestroyFileSystemWatcher;
