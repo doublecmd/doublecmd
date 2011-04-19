@@ -1819,6 +1819,8 @@ end;
 
 procedure TColumnsFileView.edtPathKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+var
+  NewPath: UTF8String;
 begin
   case Key of
     VK_ESCAPE:
@@ -1832,7 +1834,14 @@ begin
     VK_SELECT:
       begin
         Key := 0; // catch the enter
-        CurrentPath := edtPath.Text;
+        NewPath:= NormalizePathDelimiters(edtPath.Text);
+        if not mbFileExists(NewPath) then
+          CurrentPath := NewPath
+        else
+          begin
+            CurrentPath := ExtractFileDir(NewPath);
+            SetActiveFile(ExtractFileName(NewPath));
+          end;
         edtPath.Visible := False;
         SetFocus;
       end;
@@ -3358,9 +3367,9 @@ begin
       if Assigned(aFile) then
       try
         if aFile.IsNameValid then
-        begin
-          ShowRenameFileEdit(CurrentPath + aFile.Name);
-        end;
+          ShowRenameFileEdit(CurrentPath + aFile.Name)
+        else
+          ShowPathEdit;
       finally
         FreeAndNil(aFile);
       end;
