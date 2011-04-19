@@ -1154,7 +1154,7 @@ begin
   {$IFDEF DEBUG_WATCHER}
   CurrentRefCount :=
   {$ENDIF}
-  InterlockedIncrement(FReferenceCount);
+  System.InterlockedIncrement(FReferenceCount);
   {$IFDEF DEBUG_WATCHER}
   DCDebug(['FSWatcher: Watch ', hexStr(Self), ' ++ref=', CurrentRefCount, ' ', s]);
   {$ENDIF}
@@ -1167,11 +1167,11 @@ var
 {$ENDIF}
 begin
   {$IFDEF DEBUG_WATCHER}
-  CurrentRefCount := InterlockedDecrement(FReferenceCount);
+  CurrentRefCount := System.InterlockedDecrement(FReferenceCount);
   DCDebug(['FSWatcher: Watch ', hexStr(Self), ' --ref=', CurrentRefCount, ' ', s]);
   if CurrentRefCount = 0 then
   {$ELSE}
-  if InterlockedDecrement(FReferenceCount) = 0 then
+  if System.InterlockedDecrement(FReferenceCount) = 0 then
   {$ENDIF}
     Free;
 end;
