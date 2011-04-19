@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.46 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2011-04-03 11:34+0100\n"
+"PO-Revision-Date: 2011-04-019 11:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -518,7 +518,7 @@ msgstr "A&bbruch"
 #: TFRMCONFIGTOOLBAR.BTNCLEARHOTKEY.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNCLEARHOTKEY.CAPTION"
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: TFRMCONFIGTOOLBAR.BTNCLONEBUTTON.CAPTION
 msgid "Clo&ne button"
@@ -714,7 +714,7 @@ msgstr "&Über"
 
 #: TFRMDIFFER.ACTAUTOCOMPARE.CAPTION
 msgid "Auto Compare"
-msgstr ""
+msgstr "Automatisch vergleichen"
 
 #: TFRMDIFFER.ACTBINARYCOMPARE.CAPTION
 msgid "Binary Mode"
@@ -1287,7 +1287,7 @@ msgstr "Entfernen"
 #: TFRMFILEASSOC.BTNREMOVEICON.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVEICON.CAPTION"
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
@@ -4525,7 +4525,7 @@ msgstr "Vorlage..."
 #: TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION"
 msgid "Custom fields by file type"
-msgstr ""
+msgstr "Angepasste Felder nach Dateityp"
 
 #: TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION"
@@ -4535,7 +4535,7 @@ msgstr "Zeige Tooltips (Hinweistexte)"
 #: TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
 msgid "Category hint:"
-msgstr ""
+msgstr "Kategorie-Hinweis:"
 
 #: TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION"
@@ -5816,7 +5816,7 @@ msgstr "%s Bytes frei"
 
 #: ulng.rsfuncatime
 msgid "Access date/time"
-msgstr ""
+msgstr "Datum / Zeit des letzten Zugriffs"
 
 #: ulng.rsfuncattr
 msgctxt "ulng.rsfuncattr"
@@ -5825,15 +5825,15 @@ msgstr "Attribute"
 
 #: ulng.rsfunccomment
 msgid "Comment"
-msgstr ""
+msgstr "Kommentar"
 
 #: ulng.rsfuncctime
 msgid "Creation date/time"
-msgstr ""
+msgstr "Datum / Zeit der Erstellung"
 
 #: ulng.rsfuncext
 msgid "Extension"
-msgstr ""
+msgstr "Endung"
 
 #: ulng.rsfuncgroup
 msgctxt "ulng.rsfuncgroup"
@@ -5842,11 +5842,11 @@ msgstr "Gruppe"
 
 #: ulng.rsfunclinkto
 msgid "Link to"
-msgstr ""
+msgstr "Vernüpfung mit"
 
 #: ulng.rsfuncmtime
 msgid "Modification date/time"
-msgstr ""
+msgstr "Datum / Zeit der letzten Änderung"
 
 #: ulng.rsfuncname
 msgctxt "ulng.rsfuncname"
@@ -5855,7 +5855,7 @@ msgstr "Name"
 
 #: ulng.rsfuncnamenoext
 msgid "Name without extension"
-msgstr ""
+msgstr "Name ohne Endung"
 
 #: ulng.rsfuncowner
 msgctxt "ulng.rsfuncowner"
@@ -5874,7 +5874,7 @@ msgstr "Grösse"
 
 #: ulng.rsfunctype
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
@@ -6694,7 +6694,7 @@ msgstr "Tools"
 
 #: ulng.rsopttooltips
 msgid "Tooltips"
-msgstr ""
+msgstr "Tooltips"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
