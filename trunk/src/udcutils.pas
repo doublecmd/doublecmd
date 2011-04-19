@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Several useful functions
    
-   Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    contributors:
    
@@ -400,7 +400,6 @@ begin
 end;
 
 function NormalizePathDelimiters(const Path: String): String;
-{$IFDEF UNIX}
 const
   AllowPathDelimiters : set of char = ['\','/'];
 var
@@ -411,12 +410,6 @@ begin
     if Path[I] in AllowPathDelimiters then
       Result[I]:= DirectorySeparator;
 end;
-{$ELSE}
-begin
-  Result:= Path;
-  DoDirSeparators(Result);
-end;
-{$ENDIF}
 
 function ReplaceEnvVars(const sText: String): String;
 var
