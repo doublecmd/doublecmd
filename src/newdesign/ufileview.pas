@@ -65,6 +65,10 @@ type
     FReloading: Boolean;        //<en If currently reloading file list
     FReloadNeeded: Boolean;     //<en If file list should be reloaded
     FWorkersThread: TFunctionThread;
+    FReloadTimer: TTimer;
+    FLoadFilesStartTime: TDateTime;
+    FLoadFilesFinishTime: TDateTime;
+    FLoadFilesNoDelayCount: Integer; //<en How many reloads have been accepted without delay
 
     FActive: Boolean;             //<en Is this view active
     FLastActiveFile: String;      //<en Last active file (cursor)
@@ -104,7 +108,10 @@ type
     procedure EnableWatcher(Enable: Boolean);
 
     procedure ActivateEvent(Sender: TObject);
+    function CheckIfDelayReload: Boolean;
+    procedure DoReload;
     procedure ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
+    procedure ReloadTimerEvent(Sender: TObject);
     procedure WatcherEvent(const EventData: TFSWatcherEventData);
 
   protected
@@ -375,6 +382,9 @@ uses
   uActs, uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
   uDCUtils, uGlobs, uFileViewNotebook;
 
+const
+  MinimumReloadInterval  = 1000; // 1 second
+
 constructor TFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String);
 begin
   CreateDefault(AOwner);
@@ -424,6 +434,12 @@ begin
   FReloadNeeded := False;
   FFileViewWorkers := TFileViewWorkers.Create(False);
   FWatchPath := EmptyStr;
+  FReloadTimer := TTimer.Create(Self);
+  FReloadTimer.Enabled := False;
+  FReloadTimer.OnTimer := @ReloadTimerEvent;
+  FLoadFilesStartTime := 0;
+  FLoadFilesFinishTime := 0;
+  FLoadFilesNoDelayCount := 0;
 
   inherited Create(AOwner);
   Parent := AOwner;
@@ -800,8 +816,12 @@ begin
       Exit;
   end;
 
-  if ((watch_only_foreground in gWatchDirs) and (not Application.Active)) or
-     ((NotebookPage is TFileViewPage) and not TFileViewPage(NotebookPage).IsActive) then
+  if FReloadTimer.Enabled then
+  begin
+    // Reload is already scheduled.
+    Result := True;
+  end
+  else if CheckIfDelayReload then
   begin
     // Delay reloading.
     Result := False;
@@ -809,10 +829,43 @@ begin
   end
   else
   begin
-    Result := True;
-    FReloadNeeded := False;
-    FReloading := True;
-    MakeFileSourceFileList;
+    if GetCurrentWorkType = fvwtCreate then
+    begin
+      Result := False;
+
+      // Allow interrupting loading a few times.
+      if FLoadFilesNoDelayCount < 2 then
+      begin
+        Inc(FLoadFilesNoDelayCount);
+        DoReload;
+      end
+      else
+      begin
+        // Let current loading finish and another will be scheduled after delay via timer.
+        FReloadNeeded := True;
+      end;
+    end
+    else
+    begin
+      Result := True;
+
+      if DateTimeToTimeStamp(SysUtils.Now - FLoadFilesFinishTime).Time > MinimumReloadInterval then
+      begin
+        FLoadFilesNoDelayCount := 0;
+        DoReload;
+      end
+      // Allow a few reloads in quick succession.
+      else if FLoadFilesNoDelayCount < 4 then
+      begin
+        Inc(FLoadFilesNoDelayCount);
+        DoReload;
+      end
+      else
+      begin
+        FReloadTimer.Interval := MinimumReloadInterval;
+        FReloadTimer.Enabled  := True;
+      end;
+    end;
   end;
 end;
 
@@ -1040,7 +1093,13 @@ procedure TFileView.AfterChangePath;
 begin
   LastActiveFile := '';
   RequestedActiveFile := '';
+
   FReloadNeeded := False;
+  FReloading := False;
+  FReloadTimer.Enabled := False;
+  FLoadFilesStartTime := 0;
+  FLoadFilesFinishTime := 0;
+  FLoadFilesNoDelayCount := 0;
 
   if Assigned(OnAfterChangePath) then
     OnAfterChangePath(Self);
@@ -1328,12 +1387,31 @@ begin
   ReloadIfNeeded;
 end;
 
+function TFileView.CheckIfDelayReload: Boolean;
+begin
+  Result := ((watch_only_foreground in gWatchDirs) and (not Application.Active)) or
+            ((NotebookPage is TFileViewPage) and not TFileViewPage(NotebookPage).IsActive);
+end;
+
+procedure TFileView.DoReload;
+begin
+  FReloading := True;
+  FReloadNeeded := False;
+  MakeFileSourceFileList;
+end;
+
 procedure TFileView.ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
 begin
   // Reload file view but only if the file source is currently viewed
   // and FileSystemWatcher is not being used.
   if not WatcherActive and aFileSource.Equals(FileSource) then
     Reload(ReloadedPaths);
+end;
+
+procedure TFileView.ReloadTimerEvent(Sender: TObject);
+begin
+  FReloadTimer.Enabled := False;
+  DoReload;
 end;
 
 procedure TFileView.WatcherEvent(const EventData: TFSWatcherEventData);
@@ -1439,10 +1517,31 @@ end;
 
 procedure TFileView.WorkerStarting(const Worker: TFileViewWorker);
 begin
+  if (Worker.WorkType = fvwtCreate) and not Worker.Aborted then
+  begin
+    FLoadFilesStartTime := SysUtils.Now;
+  end;
 end;
 
 procedure TFileView.WorkerFinished(const Worker: TFileViewWorker);
+var
+  Interval: Integer;
 begin
+  if (Worker.WorkType = fvwtCreate) and not Worker.Aborted then
+  begin
+    FLoadFilesFinishTime := SysUtils.Now;
+
+    // Schedule another reload if needed.
+    if FReloadNeeded and not CheckIfDelayReload then
+    begin
+      // Delay by half the time taken by previous loading.
+      Interval := DateTimeToTimeStamp(SysUtils.Now - FLoadFilesStartTime).Time div 2;
+      if Interval < MinimumReloadInterval then
+        Interval := MinimumReloadInterval;
+      FReloadTimer.Interval := Interval;
+      FReloadTimer.Enabled  := True;
+    end;
+  end;
 end;
 
 { TDropParams }
