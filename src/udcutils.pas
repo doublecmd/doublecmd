@@ -400,6 +400,11 @@ begin
 end;
 
 function NormalizePathDelimiters(const Path: String): String;
+{$IFDEF UNIX}
+begin
+  Result:= Path;
+end;
+{$ELSE}
 const
   AllowPathDelimiters : set of char = ['\','/'];
 var
@@ -410,6 +415,7 @@ begin
     if Path[I] in AllowPathDelimiters then
       Result[I]:= DirectorySeparator;
 end;
+{$ENDIF}
 
 function ReplaceEnvVars(const sText: String): String;
 var
