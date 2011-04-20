@@ -126,6 +126,8 @@ function GetFileOwner(const sPath: String; out sUser, sGroup: String): Boolean;
 }
 function GetFileDescription(const sPath: String): String;
 
+procedure InitErrorMode;
+
 implementation
 
 uses
@@ -508,6 +510,11 @@ begin
     Result := UTF8Encode(WideString(SFI.szTypeName))
   else
     Result := EmptyStr;
+end;
+
+procedure InitErrorMode;
+begin
+  SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOOPENFILEERRORBOX);
 end;
 
 end.

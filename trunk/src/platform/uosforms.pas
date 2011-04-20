@@ -140,16 +140,13 @@ procedure ShowDriveContextMenu(Parent: TWinControl; ADrive: PDrive; X, Y : Integ
 var
   aFile: TFile;
   Files: TFiles;
-  OldErrorMode: Word;
 begin
   aFile := TFileSystemFileSource.CreateFile(EmptyStr);
   aFile.FullPath := ADrive^.Path;
   aFile.Attributes := faFolder;
   Files:= TFiles.Create(EmptyStr); // free in ShowContextMenu
   Files.Add(aFile);
-  OldErrorMode:= SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOOPENFILEERRORBOX);
   ShowContextMenu(Parent, Files, X, Y, False, CloseEvent);
-  SetErrorMode(OldErrorMode);
 end;
 {$ELSE}
 begin
@@ -258,4 +255,4 @@ finalization
   FreeThenNil(ShellContextMenu);
 
 end.
-
+
