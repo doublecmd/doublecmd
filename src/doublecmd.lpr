@@ -33,7 +33,11 @@ uses
   uUniqueInstance,
   uDCVersion,
   uCmdLineParams,
-  uDebug;
+  uDebug
+  {$IFDEF MSWINDOWS}
+  , uMyWindows
+  {$ENDIF}
+  ;
 
 {$R *.res}
 
@@ -53,6 +57,10 @@ begin
   LogPath := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'logs';
   CreateDir(LogPath);
   SetHeapTraceOutput(LogPath + '/heaptrc-' + FormatDateTime('yyyy-mm-dd hh.mm.ss', Now) + '.log');
+  {$ENDIF}
+
+  {$IFDEF MSWINDOWS}
+  uMyWindows.InitErrorMode;
   {$ENDIF}
 
   Application.Title:= 'Double Commander';

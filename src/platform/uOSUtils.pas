@@ -678,12 +678,9 @@ end;
 {$ELSE}
 var
   wPath: WideString;
-  OldErrorMode: Word;
 begin
   wPath:= UTF8Decode(Path);
-  OldErrorMode:= SetErrorMode(SEM_FAILCRITICALERRORS or SEM_NOOPENFILEERRORBOX);
   Result:= GetDiskFreeSpaceExW(PWChar(wPath), FreeSize, TotalSize, nil);
-  SetErrorMode(OldErrorMode);
 end;
 {$ENDIF}
 
@@ -1817,4 +1814,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.
