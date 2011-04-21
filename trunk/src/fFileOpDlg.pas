@@ -51,6 +51,8 @@ type
     procedure btnWorkInBackgroundClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    function GetProgressBarStyle: TProgressBarStyle;
+    procedure SetProgressBarStyle(const AValue: TProgressBarStyle);
 
   private
     { Private declarations }
@@ -94,7 +96,7 @@ type
 
     function CloseQuery: Boolean; override;
 
-    procedure ToggleProgressBarStyle;
+    property ProgressBarStyle: TProgressBarStyle read GetProgressBarStyle write SetProgressBarStyle;
 
   end;
 
@@ -201,16 +203,10 @@ begin
   pbSecond.DoubleBuffered:= True;
   Self.DoubleBuffered:= True;
 
-  {$IFDEF LCLGTK2}
-  // Have to disable LCLGTK2 default progress bar text
-  // set in TGtk2WSProgressBar.UpdateProgressBarText.
-  pbFirst.BarShowText := False;
-  pbSecond.BarShowText := False;
-  {$ENDIF}
-
   Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
   if Assigned(Operation) then
   begin
+    ProgressBarStyle:= pbstMarquee;
 
     case Operation.ID of
 
@@ -322,6 +318,11 @@ begin
   Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
   if Assigned(Operation) and (Operation.State <> fsosStopped) then
   begin
+    if (Operation.State = fsosRunning) and (ProgressBarStyle = pbstMarquee) then
+    begin
+      ProgressBarStyle:= pbstNormal;
+    end;
+
     case Operation.ID of
 
       fsoCopy, fsoCopyIn, fsoCopyOut:
@@ -373,6 +374,11 @@ begin
   lblFileNameTo.Visible   := fodl_to_lbl in FileOpDlgLook;
   pbFirst.Visible         := fodl_first_pb in FileOpDlgLook;
   pbSecond.Visible        := fodl_second_pb in FileOpDlgLook;
+
+  if (fodl_second_pb in FileOpDlgLook) then
+    pbSecond.ShowInTaskbar:= True
+  else
+    pbFirst.ShowInTaskbar:= True;
 
   lblFileNameFrom.Caption := '';
   lblFileNameTo.Caption := '';
@@ -639,18 +645,18 @@ begin
   end;
 end;
 
-procedure TfrmFileOp.ToggleProgressBarStyle;
+function TfrmFileOp.GetProgressBarStyle: TProgressBarStyle;
 begin
   if (pbFirst.Style = pbstMarquee) and (pbSecond.Style = pbstMarquee) then
-    begin
-      pbFirst.Style:= pbstNormal;
-      pbSecond.Style:= pbstNormal;
-    end
+    Result:= pbstMarquee
   else
-    begin
-      pbFirst.Style:= pbstMarquee;
-      pbSecond.Style:= pbstMarquee;
-    end;
+    Result:= pbstNormal;
+end;
+
+procedure TfrmFileOp.SetProgressBarStyle(const AValue: TProgressBarStyle);
+begin
+  pbFirst.Style:= AValue;
+  pbSecond.Style:= AValue;
 end;
 
 end.
