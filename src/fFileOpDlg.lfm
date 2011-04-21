@@ -105,7 +105,6 @@ object frmFileOp: TfrmFileOp
     Smooth = True
     TabOrder = 0
     BarShowText = True
-    ShowInTaskbar = True
   end
   object pbFirst: TKASProgressBar
     AnchorSideLeft.Control = Owner
