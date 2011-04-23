@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
 }
 
 unit uExts;
@@ -404,14 +404,14 @@ var
   I: Integer;
   sMask: String;
 begin
-  Result:=False;
+  Result:= False;
+
   if aFile.IsDirectory or aFile.IsLinkToDirectory then
     sMask:= cMaskFolder
   else
     sMask:= LowerCase(aFile.Extension);
 
-  if sMask = '' then Exit;
-
+  if Length(sMask) <> 0 then
   for I:= 0 to FExtList.Count - 1 do
     with GetItems(i) do
     begin
@@ -422,7 +422,9 @@ begin
         Break;
       end;
     end;
+
   if sMask = cMaskFolder then Exit;
+
   for I:= 0 to FExtList.Count - 1 do
     with GetItems(i) do
     begin
@@ -477,12 +479,14 @@ var
   I: Integer;
   sMask: String;
 begin
-  Result:= '';
+  Result:= EmptyStr;
+
   if aFile.IsDirectory or aFile.IsLinkToDirectory then
     sMask:= cMaskFolder
   else
     sMask:= LowerCase(aFile.Extension);
-  if sMask = '' then Exit;
+
+  if Length(sMask) <> 0 then
   for I:= 0 to FExtList.Count - 1 do
     with GetItems(I) do
     begin
@@ -492,6 +496,7 @@ begin
         Exit;
       end;
     end;
+
   // if command not found then try to find default command
   for I:= 0 to FExtList.Count - 1 do
     with GetItems(I) do
