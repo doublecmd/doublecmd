@@ -86,6 +86,7 @@ const
 procedure mime_type_init; cdecl; external libmime;
 procedure mime_type_finalize; cdecl; external libmime;
 function mime_type_get_by_filename(filename: PChar; stat: Pointer) : PChar; cdecl; external libmime;
+function mime_type_get_by_file(filepath: PChar; stat: Pointer; basename: PChar): PChar; cdecl; external libmime;
 function mime_type_get_actions(mimeType: PChar): PPChar; cdecl; external libmime;
 function mime_type_locate_desktop_file(DirectoryToCheck: PChar; DesktopFileId: PChar): PChar; cdecl; external libmime;
 function mime_get_desktop_entry(DesktopFileName: PChar): TCDesktopFileEntry; cdecl; external libmime;
@@ -306,7 +307,7 @@ begin
   Result := TList.Create;
 
   // This string should not be freed.
-  mimeType := mime_type_get_by_filename(PChar(FileNames[0]), nil);
+  mimeType := mime_type_get_by_file(PChar(FileNames[0]), nil, nil);
 
   // Retrieve *.desktop identificators
   actions := mime_type_get_actions(mimeType);
@@ -355,7 +356,7 @@ begin
   if FileNames.Count = 0 then Exit;
 
   // This string should not be freed.
-  mimeType := mime_type_get_by_filename(PChar(FileNames[0]), nil);
+  mimeType := mime_type_get_by_file(PChar(FileNames[0]), nil, nil);
 
   // Read actions from mimeapps.list
   ReadMimeAppsList(mimeType, Added, Removed);
@@ -413,7 +414,7 @@ var
   mimeType: PChar;
 begin
   // This string should not be freed.
-  mimeType := mime_type_get_by_filename(PChar(FileName), nil);
+  mimeType := mime_type_get_by_file(PChar(FileName), nil, nil);
   Result:= StrPas(mimeType);
 end;
 
