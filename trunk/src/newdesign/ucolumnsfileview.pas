@@ -2498,7 +2498,7 @@ begin
           end;
     1001: //All columns
           begin
-            Actions.cm_Options('15');
+            Actions.cm_Options('13');
             frmMain.ReLoadTabs(frmMain.LeftTabs);
             frmMain.ReLoadTabs(frmMain.RightTabs);
           end;
@@ -4281,4 +4281,4 @@ begin
 end;
 
 end.
-
+
