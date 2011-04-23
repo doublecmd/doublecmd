@@ -375,9 +375,7 @@ begin
       repeat
         action := actions[i];
         inc(i);
-        // If action is removed by mimeapps.list then get next
-        if (Removed.IndexOf(action) >= 0) then Continue;
-      until (action <> nil) or (action <> EmptyStr);
+      until ((action <> nil) or (action <> EmptyStr)) and (Removed.IndexOf(action) < 0);
     end;
 
   if (action <> nil) then
