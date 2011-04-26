@@ -275,13 +275,14 @@ function mbLoadLibrary(const Name: UTF8String): TLibHandle;
 function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
 
 procedure FixFormIcon(Handle: LCLType.HWND);
+procedure HideConsoleWindow;
 
 implementation
 
 uses
   FileUtil, uDebug, uDCUtils, uGlobs
   {$IF DEFINED(MSWINDOWS)}
-  , Windows, uNTFSLinks, uMyWindows, JwaWinNetWk, uShlObjAdditional
+  , JwaWinCon, Windows, uNTFSLinks, uMyWindows, JwaWinNetWk, uShlObjAdditional
   {$ENDIF}
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, uMyUnix, dl
@@ -1811,6 +1812,13 @@ begin
 {$IFDEF WINDOWS}
   Windows.SetClassLong(Handle, GCL_HICONSM, 0);
   Windows.SetClassLong(Handle, GCL_HICON, 0);
+{$ENDIF}
+end;
+
+procedure HideConsoleWindow;
+begin
+{$IFDEF WINDOWS}
+  if isConsole then ShowWindow(GetConsoleWindow, SW_HIDE);
 {$ENDIF}
 end;
 

@@ -9,7 +9,7 @@ procedure ProcessCommandLineParams;
 implementation
 
 uses
-  uDCUtils, uGlobsPaths, FileUtil;
+  uDCUtils, uGlobsPaths, FileUtil, uOSUtils;
 
 procedure ProcessCommandLineParams;
 var
@@ -22,6 +22,11 @@ begin
     param := ParamStrUTF8(i);
     if StrBegins(param, '--config-dir=') then
       gpCmdLineCfgDir := TrimQuotes(Copy(param, 1 + Length('--config-dir='), MaxInt));
+
+    {$IF DEFINED(NIGHTLY_BUILD)}
+    if StrBegins(param, '--no-console') then
+      HideConsoleWindow;
+    {$ENDIF}
   end;
 end;
 
