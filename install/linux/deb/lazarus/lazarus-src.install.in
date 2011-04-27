@@ -1,0 +1,15 @@
+#/usr/lib/lazarus/%{lazarusversion}/Makefile
+#/usr/lib/lazarus/%{lazarusversion}/Makefile.fpc
+/usr/lib/lazarus/%{lazarusversion}/components
+/usr/lib/lazarus/%{lazarusversion}/debugger
+/usr/lib/lazarus/%{lazarusversion}/examples
+/usr/lib/lazarus/%{lazarusversion}/ide
+/usr/lib/lazarus/%{lazarusversion}/images
+/usr/lib/lazarus/%{lazarusversion}/lcl
+/usr/lib/lazarus/%{lazarusversion}/designer
+/usr/lib/lazarus/%{lazarusversion}/packager
+/usr/lib/lazarus/%{lazarusversion}/test
+/usr/lib/lazarus/%{lazarusversion}/doceditor
+/usr/lib/lazarus/%{lazarusversion}/ideintf
+/usr/lib/lazarus/%{lazarusversion}/tools
+/usr/lib/lazarus/%{lazarusversion}/converter

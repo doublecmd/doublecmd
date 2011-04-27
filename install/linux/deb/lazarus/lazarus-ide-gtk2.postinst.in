@@ -1,0 +1,12 @@
+#! /bin/sh
+
+set -e
+
+LAZARUS_DIR=/usr/lib/lazarus/%{lazarusversion}
+
+# add alternative
+update-alternatives \
+    --install ${LAZARUS_DIR}/lazarus lazarus ${LAZARUS_DIR}/lazarus-gtk2 20 \
+
+# Debhelper code
+#DEBHELPER#

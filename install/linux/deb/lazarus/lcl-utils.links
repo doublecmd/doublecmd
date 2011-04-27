@@ -1,0 +1,5 @@
+/usr/lib/lazarus/0.9.29/lazbuild /usr/bin/lazbuild
+/usr/lib/lazarus/0.9.29/tools/lazres /usr/bin/lazres
+/usr/lib/lazarus/0.9.29/tools/lrstolfm /usr/bin/lrstolfm
+/usr/lib/lazarus/0.9.29/tools/svn2revisioninc /usr/bin/svn2revisioninc
+/usr/lib/lazarus/0.9.29/tools/updatepofiles /usr/bin/updatepofiles

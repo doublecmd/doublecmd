@@ -1,0 +1,2 @@
+/usr/lib/lazarus/%{lazarusversion}/startlazarus /usr/bin/startlazarus
+/usr/lib/lazarus/%{lazarusversion}/startlazarus /usr/bin/lazarus-ide

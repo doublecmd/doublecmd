@@ -1,0 +1,3 @@
+/usr/share/doc/lazarus/%{lazarusversion}/index.html
+/usr/share/doc/lazarus/%{lazarusversion}/images
+/usr/share/doc/lazarus/%{lazarusversion}/lcl

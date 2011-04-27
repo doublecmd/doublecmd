@@ -1,0 +1,393 @@
+lazarus (0.9.30.1-30490M~lucid) lucid; urgency=low
+
+  * Snapshot of the Lazarus fixes SVN branch.
+
+ -- Alexander Koblov <Alexx2000@mail.ru>  Wed, 27 Apr 2011 19:10:48 +0400
+
+lazarus (0.9.30.1+svn29726.01-0) lucid; urgency=low
+
+  * Snapshot of the Lazarus fixes SVN branch.
+
+ -- Alexander Koblov <Alexx2000@mail.ru>  Fri, 04 Mar 2011 20:14:32 +0300
+
+lazarus (0.9.29+svn29610.01-0) lucid; urgency=low
+
+  * Snapshot of the Lazarus fixes SVN branch.
+
+ -- Alexander Koblov <Alexx2000@mail.ru>  Sun, 20 Feb 2011 14:34:31 +0300
+
+lazarus (0.9.29+svn29112.01-0) natty; urgency=low
+
+  * Snapshot of the Lazarus fixes SVN branch.
+
+ -- Matthias Klumpp <matthias@nlinux.org>  Sun, 11 Apr 2010 14:15:12 +0200
+
+lazarus (0.9.28.2-9) unstable; urgency=low
+
+  * Bumped standard version.
+  * Split lazarus-ide package into the following packages in order to reduce
+    its size and afford more widgetsets support. (Closes:Bug#553519)
+      + lazarus-ide-gtk2 : contains IDE linked to GTK+2 backend
+      + lazarus-ide-qt4  : contains IDE linked to Qt4 backend
+      + lazarus-ide : contains lazarus launcher and depending on either above
+        packges
+      + lcl-utils: contains command line tools (lazbuild, ...)
+      + lcl-units : contains widgetset independent binary units depending on
+        either follwing packages
+      + lcl-nogui : contains NOGUI backend based LCL interface units
+      + lcl-gtk2 : contains GTK+2 backend based LCL interface untis
+      + lcl-qt4 : contains Qt4 backend based LCL interface units
+      + lcl : metapackage depending on lcl-units and lcl-utils.
+  * Fixed help for FPC identifiers applying a ptch from upstream and filled
+    correct FPC source directory. (Closes:Bug#507523)
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Mon, 15 Mar 2010 20:02:00 +0100
+
+lazarus (0.9.28.2-8) unstable; urgency=low
+
+  * Added dependency on ${misc:Depends} as required for packages using
+    debhelper.
+  * Removed pre-dependency on dpkg (>= 1.10.24).
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Mon, 25 Jan 2010 23:48:00 +0100
+
+lazarus (0.9.28.2-7) unstable; urgency=low
+
+  * Removed image files from sources as these are not used by the code tool.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Sat, 07 Jan 2010 19:04:00 +0100
+
+lazarus (0.9.28.2-6) unstable; urgency=low
+
+  * Removed lintian warnings : empty directories in source package.
+  * Removed lintian warnings : Fixed spell errors.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Sat, 06 Jan 2010 23:05:00 +0100
+
+lazarus (0.9.28.2-5) unstable; urgency=low
+
+  * Included quilt.make in rules file. (Closes: Bug#538553)
+  * Build against fpc_2.2.4-5. (Closes: Bug#563236)
+  * Removed lintian warnings.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Sat, 03 Jan 2010 19:18:00 +0100
+
+lazarus (0.9.28.2-4) unstable; urgency=low
+
+  * Use default X web browser instead of epiphany. 
+  * Fixed online help default page URL.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Sat, 29 Nov 2009 22:52:00 +0100
+
+lazarus (0.9.28.2-3) unstable; urgency=low
+
+  * Added missing online help default page. (Closes: Bug#537576)
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Sat, 14 Nov 2009 10:08:00 +0100
+
+lazarus (0.9.28.2-2) unstable; urgency=low
+
+  * Fixed default help configuration.
+  * Fixed short description. (Closes: Bug#533420)
+  * Put sources back to Lazarus directory.
+  * Fixed strict dependency issue of lazarus package on lazarus-ide package
+    making package lazarus not installable. (Closes: Bug#555649)
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Mon, 09 Nov 2009 09:12:00 +0100
+
+lazarus (0.9.28.2-1) unstable; urgency=low
+
+  * Fixed compiling a test application without saving (missing project1.lrs)
+  * Fixed Lazarus directory set by deb package 
+  * Fixed conflicting key definitions related to persistent block
+  * Fixed quick paste selection
+  * Fixed endless auto sizing loop when opening project (issue 14862)
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Mon, 02 Nov 2009 18:54:00 +0100
+
+lazarus (0.9.28-1) unstable; urgency=low
+
+  * Allow Debian maintainers (DM) to upload.
+  * Applied patch from BTS fixing short description. (Closes: Bug#533420)
+  * Bumped standard version, removed legacy dh_desktop, added README.source and
+    fixed dependencies.
+  * New upstream version 0.9.28. (Closes: Bug#551724)
+  * LCL now uses gtk2 as default widgetset on Linux and BSD
+  * Windows CE: Implemented TCalendar, TFloatSpinEdit, TOpenDialog and
+    TSaveDialog
+  * TFrame support. Visually nesting in the IDE.
+  * TMonitor class: multi-monitor support
+  * New components: TShellTreeView, TShellListView and TFilterComboBox
+  * Refactoring of LCL reduced minimum size of executables by about 15%
+  * New IDE options dialog combines environments, editor, codetools, code
+    explorer, debugger and help options.
+  * Application icon has been added to the Project Options
+  * Many source editor improvements like display of "double width" fonts
+    (Eastern, Japanese, Chinese, Arabic, ...), better code folding,
+    highlighting, syncro editing, persistent blocks ...
+  * Codetools: removing empty methods, block completion, update references when
+    renaming a unit
+  * Debugger: assembler windows, easier exception handling, breakpoint
+    properties
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Wed, 25 Oct 2009 11:59:00 +0100
+
+lazarus (0.9.26.2-2) unstable; urgency=low
+
+  * Fixed typos and errors reported by Lintian.
+  * Fixed mouse event handling on scrolled controls.
+  * Fixed painting of scrolled windows.
+  * Updated FPC version required for building and using Lazarus to fix crash
+    on power PC architecture.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Fri, 05 Jun 2009 23:49:00 +0200
+
+lazarus (0.9.26.2-1) unstable; urgency=low
+
+  * New upstream version.
+  * Used GTK2 and dropped GTK1 dependency. (Closes: Bug#521326)
+  * Added LCL docs to lazarus-doc package.
+  * Fixed bug in code tool making LFM tree search for properties not working.
+  * Made mouse events propagated from controls to their parents until handled.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Wed, 17 Feb 2009 16:17:00 +0100
+
+lazarus (0.9.26-4) unstable; urgency=low
+
+  * Removed .pc directory in clean target to avoid a lintian warning.
+  * Fixed bugs in tray icon.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Sun, 14 Dec 2008 14:40:00 +0100
+
+lazarus (0.9.26-3) unstable; urgency=low
+
+  * Added man files for all provided binaries. (Closes: #500858)
+  * Remove auto-generated make files in clean target to avoid lintian warning.
+    (Closes: Bug#508025)
+  * Removed non standard entry from desktop file.
+  * Used quilt as patch system instead of dpatch.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Tue, 09 Dec 2008 13:09:00 +0100
+
+lazarus (0.9.26-2) unstable; urgency=low
+
+  * Removed taborder binary from lazarus-src which removes a lintian warning.
+  * Fixed build of arch independent packages as debian/files was removed before
+    they were created.
+  * replaced depreciated dh_clean -k by dh_prep.
+  * Fixed syntax error in script file.
+  * Fixed minor issues in man pages from upstream.
+  * Removed leading "Lazarus is a" from Description field. (Closes: #502786)
+  * Added svn2revision to packaged binaries needed by Lazarus when rebuilding
+    itself after installation of new components. (Closes: #501049)
+  * Added contributers list to lazarus-ide packages as they are needed by the
+    about dialog.
+  * Fixed dependencies in rules file speeding package generation by avoiding
+    rebuilding binaries up to four times.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Sun, 04 Nov 2008 00:22:00 +0100
+
+lazarus (0.9.26-1) unstable; urgency=low
+
+  [ Abou Al Montacir ]
+  * New upstream version.
+  * Fixed lintian error due to initial sources containing debian/files.
+  * Fixed find expression precedence in clean target.
+  * About dialog box will display version with Debian build number and the
+    upstream svn revision.
+
+  [ Torsten Werner ]
+  * Add Build-Depends: fp-utils (ships fpcmake).
+  * Bump up Standards-Version: 3.8.0 (no changes).
+  * Build orig tarball from subversion export because the files at sourceforge
+    are broken.
+
+ -- Torsten Werner <twerner@debian.org>  Sun, 12 Oct 2008 12:09:58 +0200
+
+lazarus (0.9.24-0-12) unstable; urgency=low
+ 
+  * User is now able to rebuild the IDE to add his own components.
+    (Closes: #490162)
+  * Removed false warning on read only sources when recompiling end used local
+    copy.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Mon, 25 Aug 2008 17:42:00 +0200
+
+lazarus (0.9.24-0-11) unstable; urgency=low
+
+  * Add patch 07_sh_using_tmp.patch.dpatch to avoid /tmp file vulnerabilities.
+    (Closes: #496377)
+
+ -- Torsten Werner <twerner@debian.org>  Sun, 24 Aug 2008 22:23:18 +0200
+
+lazarus (0.9.24-0-10) unstable; urgency=low
+
+  [ Abou Al Montacir ]
+  * Fixed clean target.
+  * Added system wide default configuration file.
+  * Fixed comments in dpatch files.
+  * Fixed compilation error with FPC 2.2.2.
+
+  [ Torsten Werner ]
+  * Built against fpc 2.2.2. (Closes: #495688)
+
+ -- Torsten Werner <twerner@debian.org>  Wed, 20 Aug 2008 01:03:50 +0200
+
+lazarus (0.9.24-0-9) unstable; urgency=low
+
+  [ Torsten Werner ]
+  * Fix email address of Abou Al Montacir in debian/control.
+
+  [ Abou Al Montacir ]
+  * Adapted FPCDIR default value to new fpc-source directory.
+    (Closes: #484195)
+  * Added support of multiple FPC installed releases.
+  * Added verbose option to dpatch.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Thu, 29 May 2008 01:05:28 +0200
+
+lazarus (0.9.24-0-8) unstable; urgency=low
+
+  [ Abou Al Montacir ]
+  * Added patch from upstream fixing compilation using lazbuild by making it
+  	generating LRS files from LFM files.
+  * Added gdb as recommended package. (closes: #477293)
+  * Call fpcmake with -Tall to allow user rebuilding Lazarus from lazarus-src
+    package on all supported targets. This results in making build depending on
+    package fpc-source (>= 2.2.0-dfsg1-7). (closes: #477361)
+  * Updated build dependency on compiler setting fp-compiler (>=2.2.0-dfsg1-8)
+    and fpc-source (>= 2.2.0-dfsg1-8)
+  * Added fp-docs to list of package lazarus suggest packages.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Wed, 30 Apr 2008 14:17:06 +0200
+
+lazarus (0.9.24-0-7) unstable; urgency=low
+
+  [ Abou Al Montacir ]
+  * Added a link of lazbuild tool into /usr/bin
+  * Added man pages for binaries.
+  * Fixed compilation of printer support component.
+
+  [ Torsten Werner ]
+  * Add Abou Al Montacir to Uploaders.
+
+ -- Torsten Werner <twerner@debian.org>  Sun, 20 Apr 2008 17:06:38 +0200
+
+lazarus (0.9.24-0-6) unstable; urgency=low
+
+  [ Abou Al Montacir ]
+  * Split lazarus package into sevaral packages
+    + lazarus-ide : for IDE and binary files
+    + lazarus-src : for source files
+    + lazarus-doc : for documentation
+    + lazarus : a metapackage depending on previous packages
+
+  [ Torsten Werner ]
+  * Add Build-Depends: fp-units-gtk2, fp-units-i386 [i386].
+  * Several lintian cleanups.
+  * Make sure that uscan will clean up the tarball for the next upstream
+    version.
+
+ -- Torsten Werner <twerner@debian.org>  Sat, 08 Mar 2008 19:28:47 +0100
+
+lazarus (0.9.24-0-5) unstable; urgency=low
+
+  * Fixed 'make distclean' to ensure all generated files are deleted.
+
+ -- Abou Al Montacir <abou.almontacir@sfr.fr>  Sat, 16 Feb 2008 10:47:12 +0100
+
+lazarus (0.9.24-0-4) unstable; urgency=low
+
+  * Ignore errors from fpcmake; we did not call this in older versions of the
+    package anyway. (Closes: #458590)
+  * Add FPC=fpc to 'make distclean', too.
+
+ -- Torsten Werner <twerner@debian.org>  Wed, 02 Jan 2008 17:22:26 +0100
+
+lazarus (0.9.24-0-3) unstable; urgency=low
+
+  [ Torsten Werner ]
+  * Use fpc-depends to calculate dependencies more accurately.
+  * Add Recommends: fpc-source. (Closes: #413806)
+  * Use bzip2 for compressing the binary package and add
+    Pre-Depends: dpkg (>= 1.10.24).
+  * Change Standards-Version: 3.7.3.
+  * Refer to GPL-2 and LGPL-2 in debian/copyright.
+
+  [ Abou Al Montacir ]
+  * Include README.Debian file for docs
+  * Run fpcmake before building to ensure correct target dependencies
+  * Include Copyright file
+  * Set compat level to 5
+
+ -- Torsten Werner <twerner@debian.org>  Sat, 29 Dec 2007 23:05:42 +0100
+
+lazarus (0.9.24-0-2) unstable; urgency=low
+
+  * Set FPC=fpc for building lazarus.
+
+ -- Torsten Werner <twerner@debian.org>  Tue, 04 Dec 2007 20:56:52 +0100
+
+lazarus (0.9.24-0-1) unstable; urgency=low
+
+  * new upstream release
+  * Implement get-orig-source in debian/rules.
+  * Update Vcs and Homepage headers in debian/control.
+  * Add Architecture: arm.
+  * Remove debian/*.ex and debian/files in clean target. (Closes: #451056)
+  * Add and fix debian/menu.
+  * Do not ignore errors of 'make distclean'.
+
+ -- Torsten Werner <twerner@debian.org>  Mon, 03 Dec 2007 22:54:10 +0100
+
+lazarus (0.9.22-1) unstable; urgency=low
+
+  * Add homepage to debian/control.
+  * New upstream release. (Closes: #421850, #408512)
+  * Remove old patch and add new symlink /usr/bin/startlazarus.
+  * Add myself to Uploaders.
+  * Add XS-X-Vcs-Svn header to debian/control.
+
+ -- Torsten Werner <twerner@debian.org>  Sun,  6 May 2007 13:46:10 +0200
+
+lazarus (0.9.20-1) unstable; urgency=low
+
+  * New upstream release (Closes: #298726)
+  * Fix Build-Dependencies (Closes: #303864)
+  * Fix desktop file (Closes: #329071, #275802)
+  * debian/rules:
+    + Remove unnecessary comments
+    + Use dpatch to apply patches
+
+ -- Varun Hiremath <varunhiremath@gmail.com>  Sun, 14 Jan 2007 12:20:05 +0530
+
+lazarus (0.9.17-1) experimental; urgency=low
+
+  * Snapshot.
+
+ -- Micha Nelissen <micha@neli.hopto.org>  Fri, 21 Jul 2006 16:09:00 +0200
+
+lazarus (0.9.2-2) experimental; urgency=low
+
+  * First upload to Debian.  (Closes: #253907)
+
+ -- Carlos Laviola <claviola@debian.org>  Thu,  9 Sep 2004 23:42:37 -0300
+
+lazarus (0.9.2-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Carlos Laviola <claviola@debian.org>  Tue, 24 Aug 2004 00:09:02 -0300
+
+lazarus (0.9.1.5+cvs.20040818-1) unstable; urgency=low
+
+  * Initial official release.
+
+ -- Carlos Laviola <claviola@debian.org>  Wed, 18 Aug 2004 13:15:25 -0300
+
+lazarus (0.9.1beta-0) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Pierre Gillmann <pierre@kiste-pierre.invalid>  Sun, 30 May 2004 18:17:14 +0200
+

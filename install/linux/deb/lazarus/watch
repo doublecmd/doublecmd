@@ -1,0 +1,3 @@
+version=3
+http://sf.net/lazarus/lazarus-(.*).tar.gz debian debian/orig-tar.sh
+

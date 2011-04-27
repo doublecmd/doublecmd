@@ -1,0 +1,19 @@
+lazarus for Debian
+------------------
+
+The main binary was renamed to ``lazarus-ide'' because the ``tct'' package
+already comes with an utility called ``lazarus''.
+
+Note that when you first run Lazarus, you might be presented with the
+following notice:
+
+    Free Pascal Sources not found
+
+    The Free Pascal source directory was not found.
+    Some code functions will not work.
+    It is recommended that you install it and set the path
+    Environment -> Environment Options -> Files 
+
+Please install the package fpc-source.
+
+ -- Torsten Werner <twerner@debian.org>  Sat, 29 Dec 2007 23:02:53 +0100
