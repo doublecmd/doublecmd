@@ -2,6 +2,6 @@
 
 set -e
 
-ldconfig usr/lib/libunrar.so
+ldconfig /usr/lib/libunrar.so
 
 #DEBHELPER#
