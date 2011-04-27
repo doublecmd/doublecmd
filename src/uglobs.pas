@@ -69,6 +69,11 @@ type
   end;
   TDCFontsOptions = array[TDCFont] of TDCFontOptions;
 
+  // fswmPreventDelete - prevents deleting watched directories
+  // fswmAllowDelete   - does not prevent deleting watched directories
+  // fswmWholeDrive    - watch whole drives instead of single directories to omit problems with deleting watched directories
+  TWatcherMode = (fswmPreventDelete, fswmAllowDelete, fswmWholeDrive);
+
 const
   { Default hotkey list version number }
   hkVersion: String = '0.4.6.r3341';
@@ -241,6 +246,8 @@ var
   { Auto refresh page }
   gWatchDirs: TWatchOptions;
   gWatchDirsExclude: String;
+  gWatcherMode: TWatcherMode;
+
   { Ignore list page }
   gIgnoreListFileEnabled: Boolean;
   gIgnoreListFile: UTF8String;
@@ -740,6 +747,7 @@ begin
   { Auto refresh page }
   gWatchDirs := [watch_file_name_change, watch_attributes_change];
   gWatchDirsExclude := '';
+  gWatcherMode := fswmPreventDelete;
 
   { Icons page }
   gShowIcons := sim_all_and_exe;
@@ -1571,6 +1579,7 @@ begin
     begin
       gWatchDirs := TWatchOptions(GetValue(Node, 'Options', Integer(gWatchDirs)));
       gWatchDirsExclude := GetValue(Node, 'ExcludeDirs', gWatchDirsExclude);
+      gWatcherMode := TWatcherMode(GetValue(Node, 'Mode', Integer(gWatcherMode)));
     end;
 
     { Icons page }
@@ -1820,6 +1829,7 @@ begin
     Node := FindNode(Root, 'AutoRefresh', True);
     SetValue(Node, 'Options', Integer(gWatchDirs));
     SetValue(Node, 'ExcludeDirs', gWatchDirsExclude);
+    SetValue(Node, 'Mode', Integer(gWatcherMode));
 
     { Icons page }
     Node := FindNode(Root, 'Icons', True);
