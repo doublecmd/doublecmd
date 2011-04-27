@@ -75,7 +75,7 @@ implementation
 uses
   LCLProc, uDebug, uExceptions, syncobjs, fgl
   {$IF DEFINED(MSWINDOWS)}
-  ,Windows, JwaWinNT, JwaWinBase
+  ,Windows, JwaWinNT, JwaWinBase, uDCUtils, uGlobs
   {$ELSEIF DEFINED(LINUX)}
   ,inotify, BaseUnix
   {$ELSEIF DEFINED(BSD)}
@@ -90,10 +90,6 @@ const
   READDIRECTORYCHANGESW_DRIVE_BUFFERSIZE = 32768;
 
 var
-  // 0 - prevents deleting watched directories
-  // 1 - does not prevent deleting watched directories
-  // 2 - watch whole drives instead of single directories to omit problems with deleting watched directories
-  FSWatcherMode: Integer = 0;
   VAR_READDIRECTORYCHANGESW_BUFFERSIZE: DWORD = READDIRECTORYCHANGESW_BUFFERSIZE;
   CREATEFILEW_SHAREMODE: DWORD = FILE_SHARE_READ or FILE_SHARE_WRITE;
 {$ENDIF}
@@ -103,6 +99,9 @@ type
     UserData: Pointer;
     WatcherEvent: TFSWatcherEvent;
     WatchFilter: TFSWatchFilter;
+    {$IF DEFINED(MSWINDOWS)}
+    RegisteredWatchPath: UTF8String; // Path that was registered to watch (for watching whole drive mode).
+    {$ENDIF}
   end;
   TOSWatchObservers = specialize TFPGObjectList<TOSWatchObserver>;
 
@@ -161,6 +160,9 @@ type
 
     procedure DoWatcherEvent;
     function GetWatchersCount: Integer;
+    {$IF DEFINED(MSWINDOWS)}
+    function IsPathObserved(Watch: TOSWatch; FileName: UTF8String): Boolean;
+    {$ENDIF}
     {en
        Call only under FWatcherLock.
     }
@@ -280,7 +282,7 @@ begin
                 Watch.Handle,
                 @Watch.FBuffer[0],
                 VAR_READDIRECTORYCHANGESW_BUFFERSIZE,
-                False,
+                gWatcherMode = fswmWholeDrive,
                 Watch.FNotifyFilter,
                 nil,
                 @Watch.FOverlapped,
@@ -341,7 +343,8 @@ begin
             FCurrentEventData.FileName := UTF8Encode(wFilename);
             FCurrentEventData.EventType := fswFileCreated;
             {$IFDEF DEBUG_WATCHER}
-            DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Created file ', FCurrentEventData.FileName);
+            DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Created file ',
+              IncludeTrailingPathDelimiter(Watch.WatchPath) + FCurrentEventData.FileName);
             {$ENDIF}
           end;
         FILE_ACTION_REMOVED:
@@ -349,7 +352,8 @@ begin
             FCurrentEventData.FileName := UTF8Encode(wFilename);
             FCurrentEventData.EventType := fswFileDeleted;
             {$IFDEF DEBUG_WATCHER}
-            DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Deleted file ', FCurrentEventData.FileName);
+            DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Deleted file ',
+              IncludeTrailingPathDelimiter(Watch.WatchPath) + FCurrentEventData.FileName);
             {$ENDIF}
           end;
         FILE_ACTION_MODIFIED:
@@ -357,14 +361,16 @@ begin
             FCurrentEventData.FileName := UTF8Encode(wFilename);
             FCurrentEventData.EventType := fswFileChanged;
             {$IFDEF DEBUG_WATCHER}
-            DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Modified file ', FCurrentEventData.FileName);
+            DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Modified file ',
+              IncludeTrailingPathDelimiter(Watch.WatchPath) + FCurrentEventData.FileName);
             {$ENDIF}
           end;
         FILE_ACTION_RENAMED_OLD_NAME:
           begin
             Watch.FOldFileName := UTF8Encode(wFilename);
             {$IFDEF DEBUG_WATCHER}
-            DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Rename from ', FCurrentEventData.FileName);
+            DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Rename from ',
+              IncludeTrailingPathDelimiter(Watch.WatchPath) + FCurrentEventData.FileName);
             {$ENDIF}
           end;
         FILE_ACTION_RENAMED_NEW_NAME:
@@ -373,7 +379,8 @@ begin
             FCurrentEventData.FileName := UTF8Encode(wFilename);
             FCurrentEventData.EventType := fswFileRenamed;
             {$IFDEF DEBUG_WATCHER}
-            DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Rename to ', FCurrentEventData.FileName);
+            DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Rename to ',
+              IncludeTrailingPathDelimiter(Watch.WatchPath) + FCurrentEventData.FileName);
             {$ENDIF}
           end;
         else
@@ -381,12 +388,14 @@ begin
             FCurrentEventData.EventType := fswUnknownChange;
             FCurrentEventData.FileName := EmptyStr;
             {$IFDEF DEBUG_WATCHER}
-            DCDebug(['FSWatcher: Process watch ', hexStr(Watch), ': Action ', fnInfo^.Action, ' for ', FCurrentEventData.FileName]);
+            DCDebug(['FSWatcher: Process watch ', hexStr(Watch), ': Action ', fnInfo^.Action, ' for ',
+              IncludeTrailingPathDelimiter(Watch.WatchPath) + FCurrentEventData.FileName]);
             {$ENDIF}
           end;
       end;
 
-      if fnInfo^.Action <> FILE_ACTION_RENAMED_OLD_NAME then
+      if (fnInfo^.Action <> FILE_ACTION_RENAMED_OLD_NAME) and
+         ((gWatcherMode <> fswmWholeDrive) or IsPathObserved(Watch, FCurrentEventData.FileName)) then
         Synchronize(@DoWatcherEvent);
 
       if fnInfo^.NextEntryOffset = 0 then
@@ -746,9 +755,20 @@ begin
               // it's waiting until Synchronize call (thus this function) finishes.
               with FOSWatchers[i].Observers[j] do
               begin
-                if Assigned(WatcherEvent) then
+                if Assigned(WatcherEvent)
+                {$IFDEF MSWINDOWS}
+                and ((gWatcherMode <> fswmWholeDrive) or
+                      IsInPath(RegisteredWatchPath,
+                               FOSWatchers[i].WatchPath + FCurrentEventData.FileName,
+                               False))
+                {$ENDIF}
+                then
                 begin
                   FCurrentEventData.UserData := UserData;
+                  {$IFDEF MSWINDOWS}
+                  if gWatcherMode = fswmWholeDrive then
+                    FCurrentEventData.Path := RegisteredWatchPath;
+                  {$ENDIF}
                   WatcherEvent(FCurrentEventData);
                 end;
               end;
@@ -777,6 +797,29 @@ begin
   end; { try - finally }
 end;
 
+{$IF DEFINED(MSWINDOWS)}
+function TFileSystemWatcherImpl.IsPathObserved(Watch: TOSWatch; FileName: UTF8String): Boolean;
+var
+  j: Integer;
+  Path: UTF8String;
+begin
+  Path := Watch.WatchPath + FileName;
+
+  FWatcherLock.Acquire;
+  try
+    for j := 0 to Watch.Observers.Count - 1 do
+    begin
+      if IsInPath(Watch.Observers[j].RegisteredWatchPath, Path, False) then
+        Exit(True);
+    end;
+  finally
+    FWatcherLock.Release;
+  end; { try - finally }
+
+  Result := False;
+end;
+{$ENDIF}
+
 constructor TFileSystemWatcherImpl.Create;
 begin
 {$IF (fpc_version<2) or ((fpc_version=2) and (fpc_release<5))}
@@ -793,16 +836,19 @@ begin
   FFinished := False;
 
   {$IF DEFINED(MSWINDOWS)}
-  case FSWatcherMode of
-    0:
+  case gWatcherMode of
+    fswmPreventDelete:
       VAR_READDIRECTORYCHANGESW_BUFFERSIZE := READDIRECTORYCHANGESW_BUFFERSIZE;
-    1:
+    fswmAllowDelete:
       begin
         VAR_READDIRECTORYCHANGESW_BUFFERSIZE := READDIRECTORYCHANGESW_BUFFERSIZE;
         CREATEFILEW_SHAREMODE := CREATEFILEW_SHAREMODE or FILE_SHARE_DELETE;
       end;
-    2:
-      VAR_READDIRECTORYCHANGESW_BUFFERSIZE := READDIRECTORYCHANGESW_DRIVE_BUFFERSIZE;
+    fswmWholeDrive:
+      begin
+        VAR_READDIRECTORYCHANGESW_BUFFERSIZE := READDIRECTORYCHANGESW_DRIVE_BUFFERSIZE;
+        CREATEFILEW_SHAREMODE := CREATEFILEW_SHAREMODE or FILE_SHARE_DELETE;
+      end;
   end;
   {$ELSEIF DEFINED(LINUX)}
   // create inotify instance
@@ -894,6 +940,9 @@ var
   Observer: TOSWatchObserver;
   i, j: Integer;
   WatcherIndex: Integer = -1;
+  {$IFDEF MSWINDOWS}
+  RegisteredPath: UTF8String;
+  {$ENDIF}
 begin
   if (aWatchPath = '') or (aWatcherEvent = nil) then
     Exit(False);
@@ -902,6 +951,14 @@ begin
   if aWatchPath <> PathDelim then
 {$ENDIF}
     aWatchPath := ExcludeTrailingPathDelimiter(aWatchPath);
+
+  {$IFDEF MSWINDOWS}
+  if gWatcherMode = fswmWholeDrive then
+  begin
+    RegisteredPath := aWatchPath;
+    aWatchPath := ExtractFileDrive(aWatchPath) + PathDelim;
+  end;
+  {$ENDIF}
 
   // Check if the path is not already watched.
   FWatcherLock.Acquire;
@@ -938,6 +995,10 @@ begin
   Observer.WatchFilter := aWatchFilter;
   Observer.WatcherEvent := aWatcherEvent;
   Observer.UserData := UserData;
+  {$IFDEF MSWINDOWS}
+  if gWatcherMode = fswmWholeDrive then
+    Observer.RegisteredWatchPath := RegisteredPath;
+  {$ENDIF}
 
   FWatcherLock.Acquire;
   try
@@ -965,6 +1026,11 @@ var
 begin
 {$IFDEF UNIX}
   if aWatchPath <> PathDelim then
+{$ENDIF}
+{$IFDEF MSWINDOWS}
+  if gWatcherMode = fswmWholeDrive then
+    aWatchPath := ExtractFileDrive(aWatchPath) + PathDelim
+  else
 {$ENDIF}
     aWatchPath := ExcludeTrailingPathDelimiter(aWatchPath);
 
