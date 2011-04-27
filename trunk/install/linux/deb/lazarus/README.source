@@ -1,0 +1,11 @@
+Debian specific changes to Lazarus sources.
+-------------------------------------------
+
+This version of Lazarus was modified by Debian maintainer. All modifications
+are avaialble in debian/patches directory.
+
+For more information about Debian change policy, please refer to
+/usr/share/doc/quilt/README.source.
+
+ -- Abou Al Montacir <abo.almontacir@sfr.fr>  Fri, 23 Oct 2009 08:50:53 +0200
+

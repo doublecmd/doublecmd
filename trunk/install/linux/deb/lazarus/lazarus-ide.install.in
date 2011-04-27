@@ -1,0 +1,10 @@
+/usr/lib/lazarus/%{lazarusversion}/docs/Contributors.txt
+/usr/lib/lazarus/%{lazarusversion}/docs/contributors.utf8
+/usr/lib/lazarus/%{lazarusversion}/docs/acknowledgements.txt
+/usr/lib/lazarus/%{lazarusversion}/examples
+/usr/lib/lazarus/%{lazarusversion}/languages
+/usr/lib/lazarus/%{lazarusversion}/startlazarus
+/usr/share/applications
+/usr/share/man/man1/lazarus-ide.1
+/usr/share/man/man1/startlazarus.1
+/usr/share/pixmaps

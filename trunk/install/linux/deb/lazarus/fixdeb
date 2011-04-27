@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# Create debian files from *.in files
+#
+# $1 = path to debian files
+# $2 = fpc target (i386-linux)
+# $3 = ppcXXX binary name (ppc386)
+#
+if [ $# != 2 ]; then
+  echo 'Usage : fixdeb path fpctarget'
+  exit 1
+fi
+
+PACKAGEVERSION=`dpkg-parsechangelog | sed -ne's,^Version: \(.*\),\1,p'`
+LAZARUSVERSION=`echo $PACKAGEVERSION | sed -ne's,^\([0-9.]*\).*,\1,p'`
+DEBVERSION=`echo $PACKAGEVERSION | awk -F '-' '{ print $NF }'`
+FPCSVNPATH=`echo $FPCVERSION | awk -F '.' '{ print "release_"$1"_"$2"_"$3 }'`
+FPCTARGET="$2"
+
+echo 'PackageVersion: ' $PACKAGEVERSION
+echo 'FPCVersion    : ' $FPCVERSION
+echo 'FPCTarget     : ' $FPCTARGET
+echo 'DebVersion    : ' $DEBVERSION
+echo 'SVNPath       : ' $FPCSVNPATH
+
+for i in $1/*.in
+do
+  j=$1/$(basename $i .in)
+  sed -e 's/%{lazarusversion}/'$LAZARUSVERSION'/g;s/%{packageversion}/'$PACKAGEVERSION'/g;s/%{fpctarget}/'$FPCTARGET'/g;s/%{fpcsvnpath}/'$FPCSVNPATH'/g' $i > $j
+done
