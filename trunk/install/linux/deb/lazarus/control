@@ -12,7 +12,7 @@ Homepage: http://www.lazarus.freepascal.org
 
 Package: lazarus
 Architecture: all
-Depends: ${misc:Depends}, lazarus-ide (>= ${source:Version}), lazarus-src (>= ${source:Version}), lazarus-doc (>= ${source:Version})
+Depends: ${misc:Depends}, lazarus-ide (>= ${source:Upstream-Version}), lazarus-src (>= ${source:Upstream-Version}), lazarus-doc (>= ${source:Upstream-Version})
 Recommends: fpc, fpc-source
 Suggests: fp-utils, fp-docs
 Description: IDE for Free Pascal - Meta Package
@@ -197,7 +197,7 @@ Architecture: i386 powerpc sparc amd64 armel
 Depends: ${misc:Depends}, ${shlibs:Depends}, ${fpc-abi:Depends}, fp-utils, lcl-gtk | lcl-qt
 Recommends: lazarus-ide, fpc
 Suggests: gdb
-Provides: lcl-${source:Upstream-Version}, lcl-${source:Version}, lcl-gtk
+Provides: lcl-${source:Upstream-Version}, lcl-gtk
 Breaks: lazarus-ide (<= 0.9.28.2-2)
 Replaces: lazarus-ide (<= 0.9.28.2-2)
 Description: Lazarus Components Library - Backend independent components
