@@ -52,7 +52,7 @@ constructor TFileSystemSplitOperation.Create(aFileSource: IFileSource;
                                                aTargetPath: String);
 begin
   FCheckFreeSpace := True;
-  FTargetFile := aTargetPath + aSourceFile.Name;
+  FTargetFile := IncludeTrailingPathDelimiter(aTargetPath) + aSourceFile.Name;
   FBufferSize := gCopyBlockSize;
   GetMem(FBuffer, FBufferSize);
 

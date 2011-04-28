@@ -98,7 +98,7 @@ begin
   FFileSource := aFileSource;
   FSourceFile := aSourceFile;
   aSourceFile := nil;
-  FTargetPath := aTargetPath;
+  FTargetPath := IncludeTrailingPathDelimiter(aTargetPath);
 end;
 
 destructor TFileSourceSplitOperation.Destroy;
