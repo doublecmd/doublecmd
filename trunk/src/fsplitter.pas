@@ -100,7 +100,7 @@ begin
           msgError(rsSplitErrSplitFile); // Unable to split the file!
           Exit;
         end;
-        if not mbForceDirectory(ExtractFileDir(edDirTarget.Text)) then
+        if not mbForceDirectory(edDirTarget.Text) then
         begin
           msgError(rsSplitErrDirectory); // Unable to create target directory!
           Exit;
