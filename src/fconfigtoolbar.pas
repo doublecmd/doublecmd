@@ -434,9 +434,9 @@ begin
   WakeSleepControls;
 end;
 
-(*Disables button controls if LastToolButton = -1.
-Otherwise enables button controls.
-For separators also disables most of button controls. *)
+(* Disables button controls if no toolbar button is selected.
+Also disables most of button controls for separators.
+Otherwise enables button controls. *)
 procedure TfrmConfigToolBar.WakeSleepControls();
 var
   MakeEnabled: Boolean = True;
@@ -451,11 +451,13 @@ begin
   lblParameters.Enabled := MakeEnabled;
   lblStartPath.Enabled := MakeEnabled;
   lblIconFile.Enabled := MakeEnabled;
+  lblHotKeys.Enabled := MakeEnabled;
   btnOpenFile.Enabled := MakeEnabled;
   EnableControl(cbCommand, MakeEnabled);
   EnableControl(edtParams, MakeEnabled);
   EnableControl(edtStartPath, MakeEnabled);
   EnableControl(kedtIconFileName, MakeEnabled);
+  EnableControl(edtHotKeys, MakeEnabled);
   sbIconExample.Enabled := MakeEnabled;
   if edtToolTip.Text= '-' then
     begin

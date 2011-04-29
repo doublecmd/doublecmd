@@ -1,7 +1,7 @@
 object frmConfigToolBar: TfrmConfigToolBar
-  Left = 256
+  Left = 639
   Height = 365
-  Top = 92
+  Top = 122
   Width = 662
   HelpType = htKeyword
   HelpKeyword = '/toolbar.html'
@@ -106,7 +106,7 @@ object frmConfigToolBar: TfrmConfigToolBar
     Top = 269
     Width = 40
     BorderSpacing.Top = 4
-    BorderSpacing.Bottom = 7
+    BorderSpacing.Bottom = 4
     NumGlyphs = 0
     OnClick = sbIconExampleClick
   end
@@ -262,7 +262,7 @@ object frmConfigToolBar: TfrmConfigToolBar
       Left = 8
       Height = 17
       Top = 113
-      Width = 76
+      Width = 78
       BorderSpacing.Top = 8
       Caption = 'Flat b&uttons'
       Checked = True
@@ -425,7 +425,7 @@ object frmConfigToolBar: TfrmConfigToolBar
     Left = 548
     Height = 17
     Top = 174
-    Width = 66
+    Width = 68
     BorderSpacing.Left = 6
     Caption = 'S&eparator'
     OnChange = cbIsSeparatorChange
@@ -555,16 +555,18 @@ object frmConfigToolBar: TfrmConfigToolBar
     end
   end
   object edtHotKeys: TEdit
+    AnchorSideLeft.Control = edtParams
     AnchorSideTop.Control = sbIconExample
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = btnClearHotKey
+    AnchorSideBottom.Side = asrBottom
     Left = 108
     Height = 21
-    Top = 316
+    Top = 313
     Width = 400
     Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Left = 97
     BorderSpacing.Top = 4
+    BorderSpacing.Bottom = 6
     OnKeyDown = edtHotKeysKeyDown
     OnKeyPress = edtHotKeysKeyPress
     ParentShowHint = False
@@ -575,9 +577,10 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideTop.Side = asrCenter
     Left = 8
     Height = 14
-    Top = 319
+    Top = 316
     Width = 43
     Caption = 'Hot Key:'
+    FocusControl = edtHotKeys
     ParentColor = False
   end
   object btnClearHotKey: TButton
@@ -588,7 +591,7 @@ object frmConfigToolBar: TfrmConfigToolBar
     AnchorSideBottom.Side = asrBottom
     Left = 508
     Height = 21
-    Top = 316
+    Top = 313
     Width = 26
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.InnerBorder = 4
