@@ -62,7 +62,11 @@ type
 implementation
 
 uses
-  LCLProc, uDebug, uExceptions;
+  LCLProc, uDebug, uExceptions
+  {$IFDEF MSWINDOWS}
+  , ActiveX
+  {$ENDIF}
+  ;
 
 constructor TFunctionThread.Create(CreateSuspended: Boolean);
 begin
@@ -123,6 +127,10 @@ procedure TFunctionThread.Execute;
 var
   pItem: PFunctionThreadItem;
 begin
+  {$IFDEF MSWINDOWS}
+  CoInitializeEx(nil, COINIT_APARTMENTTHREADED);
+  {$ENDIF}
+
   try
     while (not Terminated) or (FFunctionsToCall.Count > 0) do
     begin
@@ -160,6 +168,7 @@ begin
       end;
     end;
   finally
+    CoUninitialize;
     FFinished := True;
   end;
 end;
