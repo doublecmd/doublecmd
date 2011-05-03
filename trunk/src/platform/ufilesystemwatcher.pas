@@ -257,11 +257,6 @@ end;
 
 // ----------------------------------------------------------------------------
 
-{$IF DEFINED(LINUX)}
-type
-  TINotifyRenameCookies = specialize TFPGMap<uint32_t, string>;
-{$ENDIF}
-
 procedure ShowError(const sErrMsg: String);
 begin
   DCDebug('FSWatcher: ' + sErrMsg + ': (' + IntToStr(GetLastOSError) + ') ' +
@@ -563,8 +558,6 @@ var
   ev: pinotify_event;
   fds: TFDSet;
   nfds: cint;
-  Cookies: TINotifyRenameCookies = nil;
-  CookieIndex: Integer;
 begin
   if (FNotifyHandle = feInvalidHandle) or
      (FEventPipe[0] = -1) or
@@ -572,7 +565,6 @@ begin
     Exit;
 
   try
-    Cookies := TINotifyRenameCookies.Create;
     buf := GetMem(buffer_size);
 
     // get maximum file descriptor
@@ -627,6 +619,13 @@ begin
               FileName := StrPas(PChar(@ev^.name));
               OldFileName := EmptyStr;
 
+              // IN_MOVED_FROM is converted to FileDelete.
+              // IN_MOVED_TO is converted to FileCreate.
+              // There is no guarantee we will receive as sequence of
+              // IN_MOVED_FROM, IN_MOVED_TO as the events are only sent
+              // if the source and destination directories respectively
+              // are being watched.
+
               if (ev^.mask and (IN_IGNORED or
                                 IN_Q_OVERFLOW)) <> 0 then
                 begin
@@ -641,12 +640,14 @@ begin
                 begin
                   EventType := fswFileChanged;
                 end
-              else if (ev^.mask and IN_CREATE) <> 0 then
+              else if (ev^.mask and (IN_CREATE or
+                                     IN_MOVED_FROM)) <> 0 then
                 begin
                   EventType := fswFileCreated;
                 end
               else if (ev^.mask and (IN_DELETE or
-                                     IN_DELETE_SELF)) <> 0 then
+                                     IN_DELETE_SELF or
+                                     IN_MOVED_TO)) <> 0 then
                 begin
                   EventType := fswFileDeleted;
                 end
@@ -654,25 +655,6 @@ begin
                 begin
                   EventType := fswFileRenamed;
                   OldFileName := FileName;
-                end
-              else if (ev^.mask and IN_MOVED_FROM) <> 0 then
-                begin
-                  Cookies.Add(ev^.cookie, FileName);
-                  // Don't send event until IN_MOVED_TO is received.
-                  Break;
-                end
-              else if (ev^.mask and IN_MOVED_TO) <> 0 then
-                begin
-                  EventType := fswFileRenamed;
-                  CookieIndex := Cookies.IndexOf(ev^.cookie);
-                  if CookieIndex >= 0 then
-                  begin
-                    OldFileName := Cookies.Data[CookieIndex];
-                    Cookies.Delete(CookieIndex);
-                  end;
-                  // else
-                  // Cookie has not been found but send event anyway
-                  // just without OldFileName.
                 end
               else
                 EventType := fswUnknownChange;
@@ -691,7 +673,6 @@ begin
     end; { while }
 
   finally
-    FreeAndNil(Cookies);
     if Assigned(buf) then
       FreeMem(buf);
   end; { try - finally }
@@ -1393,4 +1374,4 @@ finalization
   TFileSystemWatcher.DestroyFileSystemWatcher;
 
 end.
-
+
