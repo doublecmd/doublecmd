@@ -168,7 +168,9 @@ begin
       end;
     end;
   finally
+    {$IFDEF MSWINDOWS}
     CoUninitialize;
+    {$ENDIF}
     FFinished := True;
   end;
 end;
