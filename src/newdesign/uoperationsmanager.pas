@@ -157,7 +157,7 @@ type
     procedure PauseAll;
     procedure PauseRunning;
     procedure StartRunning;
-    function  AllProgressPoint: Integer;
+    function  AllProgressPoint: Double;
 
     {en
        This function is used to check if the pointer to an operation is still
@@ -656,25 +656,22 @@ begin
   if not StartOp then OperationsManager.GetOperationByIndex(0).Start;        //если нет до этого запущенных, то запускаем первую
 end;
 
-function TOperationsManager.AllProgressPoint: Integer;
+function TOperationsManager.AllProgressPoint: Double;
 var
   Operation: TFileSourceOperation;
-  i, n, AllProgressCur: Integer;
+  i: Integer;
 begin
-  n:= 0;
-  for i := 0 to OperationsCount - 1 do
+  Result := 0;
+  if OperationsManager.OperationsCount <> 0 then
   begin
-    Operation := OperationsManager.GetOperationByIndex(i);
-    if Assigned(Operation) then
-      n:= n + Operation.Progress;  // calculate allProgressBar
+    for i := 0 to OperationsCount - 1 do
+    begin
+      Operation := OperationsManager.GetOperationByIndex(i);
+      if Assigned(Operation) then
+        Result := Result + Operation.Progress;  // calculate allProgressBar
+    end;
+    Result := Result / OperationsManager.OperationsCount;  // Показываем средний прогресс
   end;
-
-  if OperationsManager.OperationsCount<>0 then
-    AllProgressCur:= Round(n / OperationsManager.OperationsCount)  // Показываем средний прогресс
-  else
-    AllProgressCur:= 0 ;   // если фоновых операций нет, то прогресса тоже нет
-
-  Result := AllProgressCur;
 end;
 
 function TOperationsManager.OperationExists(Operation: TFileSourceOperation): Boolean;

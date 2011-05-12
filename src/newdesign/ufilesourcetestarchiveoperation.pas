@@ -134,7 +134,7 @@ begin
 
         // Update overall progress.
         if TotalBytes <> 0 then
-          UpdateProgress((DoneBytes * 100) div TotalBytes);
+          UpdateProgress(DoneBytes/TotalBytes);
       end;
     end;
 

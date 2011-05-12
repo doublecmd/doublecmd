@@ -96,7 +96,7 @@ type
        General progress of the operation (0 - 100 %).
        Specific statistics are returned by the individual operations.
     }
-    FProgress: Integer;
+    FProgress: Double;
     FDesiredState: TFileSourceOperationState;
     FOperationResult: TFileSourceOperationResult;
 
@@ -226,7 +226,7 @@ type
     }
     FNeedsConnection: Boolean;
 
-    procedure UpdateProgress(NewProgress: Integer);
+    procedure UpdateProgress(NewProgress: Double);
     function GetDesiredState: TFileSourceOperationState;
 
     {en
@@ -371,7 +371,7 @@ type
     class function GetOptionsUIClass: TFileSourceOperationOptionsUIClass; virtual;
     class function GetOperationClass: TFileSourceOperationClass;
 
-    property Progress: Integer read FProgress;
+    property Progress: Double read FProgress;
     property ID: TFileSourceOperationType read GetID;
     property State: TFileSourceOperationState read GetState;
     property StartTime: TDateTime read FStartTime;
@@ -561,7 +561,7 @@ begin
     if initialized then
       Finalize;
 
-    UpdateProgress(100);
+    UpdateProgress(1);
 
   finally
     UpdateState(fsosStopped);
@@ -586,7 +586,7 @@ begin
     ReloadFileSources;
 end;
 
-procedure TFileSourceOperation.UpdateProgress(NewProgress: Integer);
+procedure TFileSourceOperation.UpdateProgress(NewProgress: Double);
 begin
   FProgress := NewProgress;
 end;

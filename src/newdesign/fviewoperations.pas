@@ -172,7 +172,7 @@ begin
       grpAllOperation.Enabled:=true;
     end;
 
-  pbrAllProgress.Position:= OperationsManager.AllProgressPoint;
+  pbrAllProgress.Position:= Round(OperationsManager.AllProgressPoint * pbrAllProgress.Max);
 
   if pbrAllProgress.Position <> 0 then
     lblAllProgress.Caption:= Format(rsDlgAllOpProgress, [pbrAllProgress.Position])
@@ -287,7 +287,7 @@ begin
 
       OutString := IntToStr(OperationHandle) + ': '
                  + OutString + ' - '
-                 + IntToStr(Operation.Progress) + ' %'
+                 + FloatToStrF(Operation.Progress * 100, ffFixed, 0, 0) + ' %'
                  + ' (' + FileSourceOperationStateText[Operation.State] + ')';
 
       StartingState := OperationsManager.GetStartingState(OperationHandle);
@@ -318,7 +318,7 @@ begin
       sboxOperations.Canvas.FillRect(
         5,
         5 + (aRowHeight * i) + sboxOperations.Canvas.TextHeight('Pg'),
-        5 + (sboxOperations.Width - 10) * Operation.Progress div 100,
+        Round(5 + (sboxOperations.Width - 10) * Operation.Progress),
         aRowHeight * (i + 1) - 5);
 
      end;

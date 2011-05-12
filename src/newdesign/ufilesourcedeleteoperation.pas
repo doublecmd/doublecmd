@@ -123,7 +123,7 @@ begin
 
         // Update overall progress.
         if TotalFiles <> 0 then
-          UpdateProgress((DoneFiles * 100) div TotalFiles);
+          UpdateProgress(DoneFiles/TotalFiles);
       end;
     end;
 

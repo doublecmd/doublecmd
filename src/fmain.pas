@@ -2914,7 +2914,7 @@ begin
 
       OutString := IntToStr(OperationHandle) + ': '
                  + OutString + ' - '
-                 + IntToStr(Operation.Progress) + ' %';
+                 + FloatToStrF(Operation.Progress * 100, ffFixed, 0, 0) + ' %';
 
       StartingState := OperationsManager.GetStartingState(OperationHandle);
       if OperationsManager.GetFormCreate (OperationHandle) = True  then
@@ -2938,7 +2938,7 @@ begin
       sboxOperations.Canvas.FillRect(
         3 + (widthOfItem * i),
         2 + textHeight,
-        5 + (widthOfItem * i) + (widthOfItem - 10) * Operation.Progress div 100,
+        Round(5 + (widthOfItem * i) + (widthOfItem - 10) * Operation.Progress),
         10 + textHeight);
       end;
     end; // for
@@ -4532,7 +4532,7 @@ begin
 
       if gProgInMenuBar = true then
         begin
-          AllProgressPoint:= OperationsManager.AllProgressPoint;
+          AllProgressPoint:= Round(OperationsManager.AllProgressPoint*100);
           AllOpPct.Caption:=IntToStr(AllProgressPoint)+' %'; // Показываем в строке меню
           Pct:='';
           for i:=0 to 25 do
