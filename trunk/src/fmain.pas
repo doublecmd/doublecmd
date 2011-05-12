@@ -1021,13 +1021,19 @@ end;
 
 procedure TfrmMain.PanelButtonClick(Button: TSpeedButton; SourceFrame: TFileView;
                                     PanelSelect: TFilePanelSelect);
+var
+  aFile : UTF8String;
 begin
   with SourceFrame do
   begin
     if Button.Caption = '/' then
       CurrentPath := FileSource.GetRootDir(CurrentPath)
     else if Button.Caption = '..' then
-      CurrentPath := FileSource.GetParentDir(CurrentPath)
+      begin
+        aFile := ExtractFileName(ExcludeTrailingPathDelimiter(CurrentPath));
+        CurrentPath := FileSource.GetParentDir(CurrentPath);
+        ActiveFrame.SetActiveFile(aFile);
+      end
     else if Button.Caption = '~' then
       SetFileSystemPath(SourceFrame, GetHomeDir);
   end;

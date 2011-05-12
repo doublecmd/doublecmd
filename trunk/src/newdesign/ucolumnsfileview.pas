@@ -2432,13 +2432,23 @@ begin
 end;
 
 procedure TColumnsFileView.lblPathClick(Sender: TObject);
+var
+  walkPath, dirNameToSelect: UTF8String;
 begin
   SetFocus;
 
   if lblPath.SelectedDir <> '' then
   begin
     // User clicked on a subdirectory of the path.
+    walkPath := CurrentPath;
     CurrentPath := lblPath.SelectedDir;
+
+    while (Length(walkPath) > Length(lblPath.SelectedDir) + 1) do
+    begin
+      dirNameToSelect := ExtractFileName(ExcludeTrailingPathDelimiter(walkPath));
+      walkPath := FileSource.GetParentDir(walkPath);
+    end;
+    SetActiveFile(dirNameToSelect);
   end
   else
     Actions.cm_ViewHistory('');
