@@ -346,13 +346,13 @@ begin
       begin
         // Operation not currently supported for display.
         // Only show general progress.
-        pbFirst.Position := Operation.Progress;
+        pbFirst.Position := Round(Operation.Progress * pbFirst.Max);
       end;
     end;
 
     UpdatePauseStartButton(Operation.State);
 
-    NewCaption := IntToStr(Operation.Progress) + '% ' + Hint;
+    NewCaption := FloatToStrF(Operation.Progress * 100, ffFixed, 0, 0) + '% ' + Hint;
     if Operation.State <> fsosRunning then
       NewCaption := NewCaption + ' [' + FileSourceOperationStateText[Operation.State] + ']';
     Caption := NewCaption;

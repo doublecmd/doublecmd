@@ -60,6 +60,7 @@ type
     {$IFDEF LCLWIN32}
     procedure InitializeWnd; override;
     {$ENDIF}
+    procedure DoOnResize; override;
   public
     constructor Create(AOwner: TComponent); override;
 
@@ -95,6 +96,12 @@ begin
   end;
 end;
 {$ENDIF}
+
+procedure TKASProgressBar.DoOnResize;
+begin
+  inherited;
+  Max := Width;
+end;
 
 constructor TKASProgressBar.Create(AOwner: TComponent);
 begin
@@ -134,7 +141,7 @@ var
 {$ENDIF}
 begin
   if MaxValue <> 0 then
-    Position := (CurrentValue * 100) div MaxValue
+    Position := Round(CurrentValue * Max / MaxValue)
   else
     Position := 0;
 
