@@ -75,7 +75,7 @@ implementation
 uses
   LCLProc, uDebug, uExceptions, syncobjs, fgl
   {$IF DEFINED(MSWINDOWS)}
-  ,Windows, JwaWinNT, JwaWinBase, uDCUtils, uGlobs
+  ,Windows, JwaWinNT, JwaWinBase, uDCUtils, uGlobs, uOSUtils
   {$ELSEIF DEFINED(LINUX)}
   ,inotify, BaseUnix
   {$ELSEIF DEFINED(BSD)}
@@ -92,6 +92,18 @@ const
 var
   VAR_READDIRECTORYCHANGESW_BUFFERSIZE: DWORD = READDIRECTORYCHANGESW_BUFFERSIZE;
   CREATEFILEW_SHAREMODE: DWORD = FILE_SHARE_READ or FILE_SHARE_WRITE;
+
+function GetTargetPath(const Path: UTF8String): UTF8String;
+begin
+  Result := mbReadAllLinks(Path);
+  if Result = EmptyStr then
+    Result := Path;
+end;
+
+function GetDriveOfPath(const Path: UTF8String): UTF8String;
+begin
+  Result := ExtractFileDrive(GetTargetPath(Path)) + PathDelim;
+end;
 {$ENDIF}
 
 type
@@ -101,6 +113,7 @@ type
     WatchFilter: TFSWatchFilter;
     {$IF DEFINED(MSWINDOWS)}
     RegisteredWatchPath: UTF8String; // Path that was registered to watch (for watching whole drive mode).
+    TargetWatchPath: UTF8String;     // What path is actually to be watched (for watching whole drive mode).
     {$ENDIF}
   end;
   TOSWatchObservers = specialize TFPGObjectList<TOSWatchObserver>;
@@ -739,8 +752,8 @@ begin
                 if Assigned(WatcherEvent)
                 {$IFDEF MSWINDOWS}
                 and ((gWatcherMode <> fswmWholeDrive) or
-                      IsInPath(RegisteredWatchPath,
-                               FOSWatchers[i].WatchPath + FCurrentEventData.FileName,
+                      IsInPath(TargetWatchPath,
+                               UTF8UpperCase(FOSWatchers[i].WatchPath + FCurrentEventData.FileName),
                                False))
                 {$ENDIF}
                 then
@@ -784,13 +797,13 @@ var
   j: Integer;
   Path: UTF8String;
 begin
-  Path := Watch.WatchPath + FileName;
+  Path := UTF8UpperCase(Watch.WatchPath + FileName);
 
   FWatcherLock.Acquire;
   try
     for j := 0 to Watch.Observers.Count - 1 do
     begin
-      if IsInPath(Watch.Observers[j].RegisteredWatchPath, Path, False) then
+      if IsInPath(Watch.Observers[j].TargetWatchPath, Path, False) then
         Exit(True);
     end;
   finally
@@ -937,7 +950,7 @@ begin
   if gWatcherMode = fswmWholeDrive then
   begin
     RegisteredPath := aWatchPath;
-    aWatchPath := ExtractFileDrive(aWatchPath) + PathDelim;
+    aWatchPath := GetDriveOfPath(aWatchPath);
   end;
   {$ENDIF}
 
@@ -978,7 +991,10 @@ begin
   Observer.UserData := UserData;
   {$IFDEF MSWINDOWS}
   if gWatcherMode = fswmWholeDrive then
+  begin
     Observer.RegisteredWatchPath := RegisteredPath;
+    Observer.TargetWatchPath := UTF8UpperCase(GetTargetPath(RegisteredPath));
+  end;
   {$ENDIF}
 
   FWatcherLock.Acquire;
@@ -1010,7 +1026,7 @@ begin
 {$ENDIF}
 {$IFDEF MSWINDOWS}
   if gWatcherMode = fswmWholeDrive then
-    aWatchPath := ExtractFileDrive(aWatchPath) + PathDelim
+    aWatchPath := GetDriveOfPath(aWatchPath)
   else
 {$ENDIF}
     aWatchPath := ExcludeTrailingPathDelimiter(aWatchPath);
@@ -1374,4 +1390,4 @@ finalization
   TFileSystemWatcher.DestroyFileSystemWatcher;
 
 end.
-
+
