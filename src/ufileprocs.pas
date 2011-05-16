@@ -109,7 +109,7 @@ begin
         src.ReadBuffer(Buffer^, src.Size+iDstBeg-dst.size);
         dst.WriteBuffer(Buffer^, src.Size+iDstBeg-dst.size);
       end;
-      Result := FileCopyAttr(sSrc, sDst, gDropReadOnlyFlag); // chmod, chgrp
+      Result := mbFileCopyAttr(sSrc, sDst, gDropReadOnlyFlag); // chmod, chgrp
 
     except
       on EStreamError do

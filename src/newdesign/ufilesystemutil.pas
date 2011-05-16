@@ -764,7 +764,7 @@ begin
     end;
 
     // copy file attributes
-    Result := FileCopyAttr(SourceFile.FullPath, TargetFileName, FDropReadOnlyAttribute);
+    Result := mbFileCopyAttr(SourceFile.FullPath, TargetFileName, FDropReadOnlyAttribute);
 
   except
     on EFCreateError do
@@ -893,7 +893,7 @@ begin
             // Copy/Move all files inside.
             Result := ProcessNode(aNode, IncludeTrailingPathDelimiter(AbsoluteTargetFileName));
             // Copy attributes after copy/move directory contents, because this operation can change date/time
-            FileCopyAttr(aNode.TheFile.FullPath, AbsoluteTargetFileName, False);
+            mbFileCopyAttr(aNode.TheFile.FullPath, AbsoluteTargetFileName, False);
           end
           else
           begin
@@ -969,7 +969,7 @@ begin
 
             if CreateSymlink(LinkTarget, AbsoluteTargetFileName) then
             begin
-              FileCopyAttr(aFile.FullPath, AbsoluteTargetFileName, False);
+              mbFileCopyAttr(aFile.FullPath, AbsoluteTargetFileName, False);
             end
             else
             begin
