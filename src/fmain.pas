@@ -560,14 +560,20 @@ type
     procedure miHotAddClick(Sender: TObject);
     procedure miHotDeleteClick(Sender: TObject);
     procedure miHotConfClick(Sender: TObject);
-    procedure CopyFiles(SourceFileSource, TargetFileSource: IFileSource;
-                        var SourceFiles: TFiles; TargetPath: String;
-                        bShowDialog: Boolean); overload;
-    procedure MoveFiles(SourceFileSource, TargetFileSource: IFileSource;
-                        var SourceFiles: TFiles; TargetPath: String;
-                        bShowDialog: Boolean); overload;
-    procedure CopyFiles(sDestPath: String; bShowDialog: Boolean); overload; //  this is for F5 and Shift+F5
-    procedure MoveFiles(sDestPath: String; bShowDialog: Boolean); overload;
+    {en
+       Returns @true if copy operation has been successfully started.
+    }
+    function CopyFiles(SourceFileSource, TargetFileSource: IFileSource;
+                       var SourceFiles: TFiles; TargetPath: String;
+                       bShowDialog: Boolean): Boolean; overload;
+    {en
+       Returns @true if move operation has been successfully started.
+    }
+    function MoveFiles(SourceFileSource, TargetFileSource: IFileSource;
+                       var SourceFiles: TFiles; TargetPath: String;
+                       bShowDialog: Boolean): Boolean; overload;
+    function CopyFiles(sDestPath: String; bShowDialog: Boolean): Boolean; overload; //  this is for F5 and Shift+F5
+    function MoveFiles(sDestPath: String; bShowDialog: Boolean): Boolean; overload;
     procedure GetDestinationPathAndMask(TargetFileSource: IFileSource;
                                         EnteredPath: String; BaseDir: String;
                                         out DestPath, DestMask: String);
@@ -2301,9 +2307,9 @@ begin
   end;
 end;
 
-procedure TfrmMain.CopyFiles(SourceFileSource, TargetFileSource: IFileSource;
-                             var SourceFiles: TFiles; TargetPath: String;
-                             bShowDialog: Boolean);
+function TfrmMain.CopyFiles(SourceFileSource, TargetFileSource: IFileSource;
+                            var SourceFiles: TFiles; TargetPath: String;
+                            bShowDialog: Boolean): Boolean;
 var
   sDestination: String;
   sDstMaskTemp: String;
@@ -2316,6 +2322,7 @@ var
   OperationClass: TFileSourceOperationClass;
   OperationOptionsUIClass: TFileSourceOperationOptionsUIClass = nil;
 begin
+  Result := False;
   try
     if not ((fsoCopyOut in SourceFileSource.GetOperationsTypes) and
             (fsoCopyIn  in TargetFileSource.GetOperationsTypes)) then
@@ -2412,6 +2419,8 @@ begin
 
       ProgressDialog := TfrmFileOp.Create(OperationHandle);
       ProgressDialog.Show;
+
+      Result := True;
     end
     else
       msgWarning(rsMsgNotImplemented);
@@ -2424,9 +2433,9 @@ begin
   end;
 end;
 
-procedure TfrmMain.MoveFiles(SourceFileSource, TargetFileSource: IFileSource;
-                             var SourceFiles: TFiles; TargetPath: String;
-                             bShowDialog: Boolean);
+function TfrmMain.MoveFiles(SourceFileSource, TargetFileSource: IFileSource;
+                            var SourceFiles: TFiles; TargetPath: String;
+                            bShowDialog: Boolean): Boolean;
 var
   sDestination: String;
   sDstMaskTemp: String;
@@ -2437,6 +2446,7 @@ var
   MoveDialog: TfrmCopyDlg = nil;
   OperationStartingState: TOperationStartingState = ossAutoStart;
 begin
+  Result := False;
   try
     // Only allow moving within the same file source.
     if (SourceFileSource.IsInterface(TargetFileSource) or
@@ -2510,6 +2520,8 @@ begin
 
         ProgressDialog := TfrmFileOp.Create(OperationHandle);
         ProgressDialog.Show;
+
+        Result := True;
       end
       else
         msgWarning(rsMsgNotImplemented);
@@ -2527,34 +2539,42 @@ begin
   end;
 end;
 
-procedure TfrmMain.CopyFiles(sDestPath: String; bShowDialog: Boolean);
+function TfrmMain.CopyFiles(sDestPath: String; bShowDialog: Boolean): Boolean;
 var
   SourceFiles: TFiles = nil;
 begin
   SourceFiles := ActiveFrame.CloneSelectedFiles;
   if Assigned(SourceFiles) then
-  try
-    CopyFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
-              SourceFiles, sDestPath, bShowDialog);
-  finally
-    if Assigned(SourceFiles) then
-      FreeAndNil(SourceFiles);
-  end;
+  begin
+    try
+      Result := CopyFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
+                          SourceFiles, sDestPath, bShowDialog);
+    finally
+      if Assigned(SourceFiles) then
+        FreeAndNil(SourceFiles);
+    end;
+  end
+  else
+    Result := False;
 end;
 
-procedure TfrmMain.MoveFiles(sDestPath: String; bShowDialog: Boolean);
+function TfrmMain.MoveFiles(sDestPath: String; bShowDialog: Boolean): Boolean;
 var
   SourceFiles: TFiles = nil;
 begin
   SourceFiles := ActiveFrame.CloneSelectedFiles;
   if Assigned(SourceFiles) then
-  try
-    MoveFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
-              SourceFiles, sDestPath, bShowDialog);
-  finally
-    if Assigned(SourceFiles) then
-      FreeAndNil(SourceFiles);
-  end;
+  begin
+    try
+      Result := MoveFiles(ActiveFrame.FileSource, NotActiveFrame.FileSource,
+                          SourceFiles, sDestPath, bShowDialog);
+    finally
+      if Assigned(SourceFiles) then
+        FreeAndNil(SourceFiles);
+    end;
+  end
+  else
+    Result := False;
 end;
 
 procedure TfrmMain.GetDestinationPathAndMask(TargetFileSource: IFileSource;

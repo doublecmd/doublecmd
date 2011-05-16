@@ -1529,22 +1529,26 @@ end;
 
 procedure TActs.cm_Copy(param:string);
 begin
-  frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, True);
+  if frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, True) then
+    frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
 procedure TActs.cm_CopyNoAsk(param: string='');
 begin
-  frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, False);
+  if frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, False) then
+    frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
 procedure TActs.cm_Rename(param:string);
 begin
-  frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, True);
+  if frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, True) then
+    frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
 procedure TActs.cm_RenameNoAsk(param: string='');
 begin
-  frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, False);
+  if frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, False) then
+    frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
 procedure TActs.cm_MakeDir(param:string);

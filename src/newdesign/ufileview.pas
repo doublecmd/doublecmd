@@ -296,6 +296,7 @@ type
        (Usually it will be a different method of selecting than ActiveFile.)
     }
     function HasSelectedFiles: Boolean; virtual;
+    procedure UnselectAllFiles; virtual;
 
     {en
        Handles drag&drop operations onto the file view.
@@ -773,6 +774,14 @@ begin
       Exit(True);
   end;
   Result := False;
+end;
+
+procedure TFileView.UnselectAllFiles;
+var
+  i: Integer;
+begin
+  for i := 0 to FFiles.Count - 1 do
+    FFiles[i].Selected := False;
 end;
 
 function TFileView.IsActiveItemValid:Boolean;
