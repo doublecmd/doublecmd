@@ -888,7 +888,7 @@ begin
         else
         begin
           // Create target directory.
-          if mbForceDirectory(AbsoluteTargetFileName) then
+          if mbCreateDir(AbsoluteTargetFileName) then
           begin
             // Copy/Move all files inside.
             Result := ProcessNode(aNode, IncludeTrailingPathDelimiter(AbsoluteTargetFileName));
