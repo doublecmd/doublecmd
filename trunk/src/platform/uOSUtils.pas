@@ -103,7 +103,6 @@ function FileIsExeLib(const sFileName : String) : Boolean;
 }
 function FileIsReadOnly(iAttr: TFileAttrs): Boolean;
 function FileIsLinkToFolder(const FileName: UTF8String; out LinkTarget: UTF8String): Boolean;
-function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
 function ExecCmdFork(sCmdLine:String; bTerm : Boolean = False; sTerm : String = ''; bKeepTerminalOpen: Boolean = True):Boolean;
 {en
    Opens a file or URL in the user's preferred application
@@ -221,6 +220,11 @@ function mbFileCreate(const FileName: UTF8String): System.THandle; overload;
 function mbFileCreate(const FileName: UTF8String; Mode: Integer): System.THandle; overload;
 function mbFileAge(const FileName: UTF8String): uTypes.TFileTime;
 // On success returns True.
+function mbFileGetTime(const FileName: UTF8String;
+                       var ModificationTime: uTypes.TFileTime;
+                       var CreationTime    : uTypes.TFileTime;
+                       var LastAccessTime  : uTypes.TFileTime): Boolean;
+// On success returns True.
 function mbFileSetTime(const FileName: UTF8String;
                        ModificationTime: uTypes.TFileTime;
                        CreationTime    : uTypes.TFileTime = 0;
@@ -239,6 +243,7 @@ function mbFileSetAttr (const FileName: UTF8String; Attr: TFileAttrs) : LongInt;
    Same as mbFileGetAttr, but dereferences any encountered links.
 }
 function mbFileGetAttrNoLinks(const FileName: UTF8String): TFileAttrs;
+function mbFileCopyAttr(const sSrc, sDst: UTF8String; bDropReadOnlyFlag : Boolean): Boolean;
 // Returns True on success.
 function mbFileSetReadOnly(const FileName: UTF8String; ReadOnly: Boolean): Boolean;
 function mbDeleteFile(const FileName: UTF8String): Boolean;
@@ -466,73 +471,69 @@ begin
 end;
 {$ENDIF}
 
-function FileCopyAttr(const sSrc, sDst:String; bDropReadOnlyFlag : Boolean):Boolean;
+function mbFileCopyAttr(const sSrc, sDst: UTF8String; bDropReadOnlyFlag : Boolean): Boolean;
 {$IFDEF MSWINDOWS}
 var
-  iAttr : TFileAttrs;
-  ft : Windows.TFileTime;
-  fAcct : Windows.TFileTime;
-  fOpnt : Windows.TFileTime;
-  Handle: System.THandle;
+  Attr : TFileAttrs;
+  ModificationTime, CreationTime, LastAccessTime: uTypes.TFileTime;
 begin
-  iAttr := mbFileGetAttr(sSrc);
-  //---------------------------------------------------------
-  Handle:= mbFileOpen(sSrc, fmOpenRead or fmShareDenyNone);
-  GetFileTime(Handle,@fAcct,@fOpnt,@ft);
-  FileClose(Handle);
-  //---------------------------------------------------------
-  if bDropReadOnlyFlag and ((iAttr and faReadOnly) <> 0) then
-    iAttr := (iAttr and not faReadOnly);
-  Result := (mbFileSetAttr(sDst, iAttr) = 0);
-  //---------------------------------------------------------
-  Handle:= mbFileOpen(sDst, fmOpenReadWrite or fmShareExclusive);
-  Result := SetFileTime(Handle, @fAcct, @fOpnt, @ft);
-  FileClose(Handle);
+  Attr := mbFileGetAttr(sSrc);
+  if Attr <> faInvalidAttributes then
+  begin
+    if bDropReadOnlyFlag and ((Attr and faReadOnly) <> 0) then
+      Attr := (Attr and not faReadOnly);
+    Result := (mbFileSetAttr(sDst, Attr) = 0);
+  end
+  else
+    Result := False;
+
+  if mbFileGetTime(sSrc, ModificationTime, CreationTime, LastAccessTime) then
+    Result := mbFileSetTime(sDst, ModificationTime, CreationTime, LastAccessTime) and Result
+  else
+    Result := False;
 end;
 {$ELSE}  // *nix
 var
   StatInfo : BaseUnix.Stat;
-  utb : BaseUnix.PUTimBuf;
+  utb : BaseUnix.TUTimBuf;
   mode : TMode;
 begin
-  fpLStat(PChar(sSrc), StatInfo);
-
-  if FPS_ISLNK(StatInfo.st_mode) then
+  Result := fpLStat(PChar(sSrc), StatInfo) >= 0;
+  if Result then
   begin
-    // Can only set group/owner for links.
-    if fpLChown(PChar(sDst),StatInfo.st_uid, StatInfo.st_gid)=-1 then
+    if FPS_ISLNK(StatInfo.st_mode) then
     begin
-      // development messages
-      DCDebug(Format('chown (%s) failed',[sDst]));
-    end;
-  end
-  else
-  begin
-  // file time
-    new(utb);
-    utb^.actime:=StatInfo.st_atime;  // last access time
-    utb^.modtime:=StatInfo.st_mtime; // last modification time
-    fputime(PChar(sDst),utb);
-    dispose(utb);
+      // Only group/owner can be set for links.
+      if fpLChown(PChar(sDst),StatInfo.st_uid, StatInfo.st_gid)=-1 then
+      begin
+        DCDebug(Format('chown (%s) failed',[sDst]));
+        Result := False;
+      end;
+    end
+    else
+    begin
+    // file time
+      utb.actime  := StatInfo.st_atime;  // last access time
+      utb.modtime := StatInfo.st_mtime;  // last modification time
+      Result := (fputime(PChar(sDst), @utb) = 0) and Result;
 
-  // owner & group
-    if fpChown(PChar(sDst),StatInfo.st_uid, StatInfo.st_gid)=-1 then
-    begin
-      // development messages
-      DCDebug(Format('chown (%s) failed',[sDst]));
-    end;
-    // mod
-    mode := StatInfo.st_mode;
-    if bDropReadOnlyFlag then
-      mode := SetModeReadOnly(mode, False);
-    if fpChmod(PChar(sDst), mode) = -1 then
-    begin
-      // development messages
-      DCDebug(Format('chmod (%s) failed',[sDst]));
+    // owner & group
+      if fpChown(PChar(sDst),StatInfo.st_uid, StatInfo.st_gid)=-1 then
+      begin
+        DCDebug(Format('chown (%s) failed',[sDst]));
+        Result := False;
+      end;
+    // mode
+      mode := StatInfo.st_mode;
+      if bDropReadOnlyFlag then
+        mode := SetModeReadOnly(mode, False);
+      if fpChmod(PChar(sDst), mode) = -1 then
+      begin
+        DCDebug(Format('chmod (%s) failed',[sDst]));
+        Result := False;
+      end;
     end;
   end;
-
-  Result:=True;
 end;
 {$ENDIF}
 
@@ -1258,6 +1259,49 @@ begin
 end;
 {$ENDIF}
 
+function mbFileGetTime(const FileName: UTF8String;
+                       var ModificationTime: uTypes.TFileTime;
+                       var CreationTime    : uTypes.TFileTime;
+                       var LastAccessTime  : uTypes.TFileTime): Boolean;
+{$IFDEF MSWINDOWS}
+var
+  Handle: System.THandle;
+  wFileName: WideString;
+begin
+  wFileName:= UTF8Decode(FileName);
+  Handle := CreateFileW(PWChar(wFileName),
+                        FILE_READ_ATTRIBUTES,
+                        FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
+                        nil,
+                        OPEN_EXISTING,
+                        FILE_FLAG_BACKUP_SEMANTICS,  // needed for opening directories
+                        0);
+
+  if Handle <> INVALID_HANDLE_VALUE then
+    begin
+      Result := Windows.GetFileTime(Handle,
+                                    @CreationTime,
+                                    @LastAccessTime,
+                                    @ModificationTime);
+      CloseHandle(Handle);
+    end
+  else
+    Result := False;
+end;
+{$ELSE}
+var
+  StatInfo : BaseUnix.Stat;
+begin
+  Result := fpLStat(PChar(FileName), StatInfo) >= 0;
+  if Result then
+  begin
+    LastAccessTime   := StatInfo.st_atime;
+    ModificationTime := StatInfo.st_mtime;
+    CreationTime     := StatInfo.st_ctime;
+  end;
+end;
+{$ENDIF}
+
 function mbFileSetTime(const FileName: UTF8String;
                        ModificationTime: uTypes.TFileTime;
                        CreationTime    : uTypes.TFileTime = 0;
@@ -1273,7 +1317,7 @@ begin
   wFileName:= UTF8Decode(FileName);
   Handle := CreateFileW(PWChar(wFileName),
                         FILE_WRITE_ATTRIBUTES,
-                        FILE_SHARE_READ or FILE_SHARE_WRITE,
+                        FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE,
                         nil,
                         OPEN_EXISTING,
                         FILE_FLAG_BACKUP_SEMANTICS,  // needed for opening directories
