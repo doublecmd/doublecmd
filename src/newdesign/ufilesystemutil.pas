@@ -252,7 +252,7 @@ procedure FillAndCount(Files: TFiles; CountDirs: Boolean;
         end
         else
         begin
-          Inc(FilesSize, aFile.Size);
+          FilesSize:= FilesSize + aFile.Size;
           Inc(FilesCount);
         end;
       until FindNextEx(sr) <> 0;
@@ -286,7 +286,7 @@ begin
     else
     begin
       Inc(FilesCount);
-      Inc(FilesSize, aFile.Size); // in first level we know file size -> use it
+      FilesSize:= FilesSize + aFile.Size; // in first level we know file size -> use it
     end;
   end;
 end;
@@ -346,7 +346,8 @@ begin
   AddedNode.Data := TFileTreeNodeData.Create;
 
   Inc(FFilesCount);
-  Inc(FFilesSize, aFile.Size);
+  FFilesSize:= FFilesSize + aFile.Size;
+  CheckOperationState;
 end;
 
 procedure TFileSystemTreeBuilder.AddLink(aFile: TFile; CurrentNode: TFileTreeNode);
