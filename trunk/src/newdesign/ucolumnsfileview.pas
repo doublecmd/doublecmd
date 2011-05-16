@@ -342,6 +342,7 @@ type
     procedure SetFocus; override;
 
     procedure SetActiveFile(aFilePath: String); override;
+    procedure UnselectAllFiles; override;
 
     procedure UpdateColumnsView;
     procedure UpdateView; override;
@@ -2090,6 +2091,11 @@ begin
     else
       RequestedActiveFile := aFilePath;
   end;
+end;
+
+procedure TColumnsFileView.UnselectAllFiles;
+begin
+  UnMarkAll;
 end;
 
 procedure TColumnsFileView.dgPanelDblClick(Sender: TObject);
@@ -4291,4 +4297,4 @@ begin
 end;
 
 end.
-
+
