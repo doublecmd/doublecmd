@@ -337,6 +337,10 @@ procedure StrDisposeW(var pStr : PWideChar);
 function StrLCopyW(Dest, Source: PWideChar; MaxLen: SizeInt): PWideChar;
 function StrPCopyW(Dest: PWideChar; const Source: WideString): PWideChar;
 function StrPLCopyW(Dest: PWideChar; const Source: WideString; MaxLen: Cardinal): PWideChar;
+{en
+   Compares two strings taking into account the numbers.
+   Strings must have tailing zeros (#0).
+}
 function StrFloatCmpW(str1, str2: PWideChar; CaseSensitive: Boolean): PtrInt;
 
 {en
@@ -1346,11 +1350,21 @@ begin
     // compare string part
     while (true) do
     begin
-      if ((str1^ = #0) and (str2^ <> #0)) then
-        exit(-1);
+      if str1^ = #0 then
+      begin
+        if str2^ <> #0 then
+          exit(-1)
+        else
+          exit(0);
+      end;
 
-      if ((str2^ = #0) and (str1^ <> #0)) then
-        exit(+1);
+      if str2^ = #0 then
+      begin
+        if str1^ <> #0 then
+          exit(+1)
+        else
+          exit(0);
+      end;
 
       is_digit1 := is_digit(str1^);
       is_digit2 := is_digit(str2^);
