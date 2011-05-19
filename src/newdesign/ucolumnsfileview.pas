@@ -19,7 +19,8 @@ uses
   uXmlConfig,
   uClassesEx,
   uTypes,
-  uFileViewWorker
+  uFileViewWorker,
+  StringHashList
   ;
 
 //{$DEFINE timeFileView}
@@ -123,7 +124,8 @@ type
 
   private
     FColumnsSorting: TColumnsSortings;
-    FSelection: TStringListEx;
+    FSavedSelection: TStringListEx;
+    FCurrentSelection: TStringHashList;
     FLastActiveRow: Integer;    //<en Last active row
     FUpdatingGrid: Boolean;
     FLastMark: String;
@@ -563,7 +565,13 @@ end;
 procedure TColumnsFileView.MarkFile(AFile: TDisplayFile; bMarked: Boolean);
 begin
   if IsItemValid(AFile) then
+  begin
     AFile.Selected := bMarked;
+    if bMarked then
+      FCurrentSelection.Add(AFile.FSFile.Name)
+    else
+      FCurrentSelection.Remove(AFile.FSFile.Name);
+  end;
 end;
 
 procedure TColumnsFileView.MarkAllFiles(bMarked: Boolean);
@@ -1240,6 +1248,8 @@ end;
 
 procedure TColumnsFileView.AfterChangePath;
 begin
+  FCurrentSelection.Clear;
+
   inherited;
 
   FUpdatingGrid := True;
@@ -1754,12 +1764,12 @@ procedure TColumnsFileView.SaveSelection;
 var
   I: Integer;
 begin
-  FSelection.Clear;
+  FSavedSelection.Clear;
   for I := 0 to FFiles.Count - 1 do
     with FFiles[I] do
     begin
       if Selected then
-        FSelection.Add(FSFile.Name);
+        FSavedSelection.Add(FSFile.Name);
     end;
 end;
 
@@ -1769,7 +1779,7 @@ var
 begin
   for I := 0 to FFiles.Count - 1 do
     with FFiles[I] do
-    Selected:= (FSelection.IndexOf(FSFile.Name) >= 0);
+    Selected:= (FSavedSelection.IndexOf(FSFile.Name) >= 0);
   dgPanel.Invalidate;
 end;
 
@@ -1806,7 +1816,13 @@ begin
           begin
             if FFiles[I].FSFile.Name = '..' then Continue;
             if SearchTemplate.CheckFile(FFiles[I].FSFile) then
-              FFiles[I].Selected := bSelect;
+              begin
+                FFiles[I].Selected := bSelect;
+                if bSelect then
+                  FCurrentSelection.Add(FFiles[I].FSFile.Name)
+                else
+                  FCurrentSelection.Remove(FFiles[I].FSFile.Name);
+              end;
           end;
     end
   else
@@ -1814,7 +1830,13 @@ begin
       begin
         if FFiles[I].FSFile.Name = '..' then Continue;
         if MatchesMaskList(FFiles[I].FSFile.Name, sMask) then
-          FFiles[I].Selected := bSelect;
+          begin
+            FFiles[I].Selected := bSelect;
+            if bSelect then
+              FCurrentSelection.Add(FFiles[I].FSFile.Name)
+            else
+              FCurrentSelection.Remove(FFiles[I].FSFile.Name);
+          end;
       end;
 end;
 
@@ -2617,7 +2639,8 @@ begin
   FColumnsSorting := nil;
   FLastSelectionStartRow := -1;
   FLastMark := '*';
-  FSelection:= TStringListEx.Create;
+  FSavedSelection:= TStringListEx.Create;
+  FCurrentSelection := TStringHashList.Create(True);
   FUpdatingGrid := False;
 
   // -- other components
@@ -2769,9 +2792,10 @@ end;
 
 destructor TColumnsFileView.Destroy;
 begin
-  FreeThenNil(FSelection);
+  FreeThenNil(FSavedSelection);
   FreeThenNil(FColumnsSorting);
   inherited Destroy;
+  FreeAndNil(FCurrentSelection); // After inherited, because FCurrentSelection might be used through inherited Destroy.
 end;
 
 function TColumnsFileView.Clone(NewParent: TWinControl): TColumnsFileView;
@@ -2845,8 +2869,16 @@ begin
 end;
 
 procedure TColumnsFileView.AfterMakeFileList;
+var
+  i: Integer;
 begin
   inherited;
+
+  // Restore last selection on reload.
+  for I := 0 to FFiles.Count - 1 do
+    with FFiles[I] do
+      Selected := (FCurrentSelection.Find(FSFile.Name) >= 0);
+
   tmClearGrid.Enabled := False;
   DisplayFileListHasChanged;
   EnsureDisplayProperties; // After displaying.
@@ -3320,7 +3352,7 @@ begin
     if (param <> EmptyStr) or SaveDialog.Execute then
       try
         SaveSelection;
-        FSelection.SaveToFile(SaveDialog.FileName);
+        FSavedSelection.SaveToFile(SaveDialog.FileName);
       except
         on E: Exception do
           msgError(rsMsgErrSaveFile + '-' + E.Message);
@@ -3337,7 +3369,7 @@ begin
     OpenDialog.FileName:= param;
     if ((param <> EmptyStr) and mbFileExists(param)) or OpenDialog.Execute then
       try
-        FSelection.LoadFromFile(OpenDialog.FileName);
+        FSavedSelection.LoadFromFile(OpenDialog.FileName);
         RestoreSelection;
       except
         on E: Exception do
@@ -3348,7 +3380,7 @@ end;
 
 procedure TColumnsFileView.cm_LoadSelectionFromClip(param: string);
 begin
-  FSelection.Text:= Clipboard.AsText;
+  FSavedSelection.Text:= Clipboard.AsText;
   RestoreSelection;
 end;
 
