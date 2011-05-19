@@ -70,8 +70,9 @@ type
 
   end;
 
+procedure ShowOperationsViewer;
+
 var
-  frmViewOperations: TfrmViewOperations = nil;
   indexFocus: integer;
 
 implementation
@@ -84,6 +85,16 @@ uses
 
 const
   aRowHeight = 50;
+
+var
+  frmViewOperations: TfrmViewOperations = nil;
+
+procedure ShowOperationsViewer;
+begin
+  if not Assigned(frmViewOperations) then
+    frmViewOperations := TfrmViewOperations.Create(Application);
+  frmViewOperations.ShowOnTop;
+end;
 
 { TfrmViewOperations }
 

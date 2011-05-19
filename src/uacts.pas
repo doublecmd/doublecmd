@@ -257,6 +257,7 @@ const cf_Null=0;
    procedure cm_NetworkConnect(param: string='');
    procedure cm_NetworkDisconnect(param: string='');
    procedure cm_HorizontalFilePanels(param: string='');
+   procedure cm_OperationsViewer(param: string='');
    // Internal commands
    procedure cm_Int_RunCommandFromBarFile(param: string='');
 
@@ -289,7 +290,7 @@ uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
      uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation, uFindEx,
-     uTypes;
+     uTypes, fViewOperations;
 
 { TActs }
 
@@ -2883,6 +2884,11 @@ begin
   gHorizontalFilePanels := not gHorizontalFilePanels;
   frmMain.actHorizontalFilePanels.Checked := gHorizontalFilePanels;
   frmMain.UpdateWindowView;
+end;
+
+procedure TActs.cm_OperationsViewer(param: string='');
+begin
+  ShowOperationsViewer;
 end;
 
 procedure TActs.cm_Int_RunCommandFromBarFile(param: string='');

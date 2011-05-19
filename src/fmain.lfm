@@ -1560,8 +1560,7 @@ object frmMain: TfrmMain
         Caption = '-'
       end
       object mnuShowOperations: TMenuItem
-        Caption = 'Operations &Viewer'
-        OnClick = mnuShowOperationsClick
+        Action = actOperationsViewer
       end
     end
     object mnuConfig: TMenuItem
@@ -2242,6 +2241,11 @@ object frmMain: TfrmMain
     object actGoToLastFile: TAction
       Category = 'Commands'
       Caption = 'Place cursor on last file in list'
+      OnExecute = actExecute
+    end
+    object actOperationsViewer: TAction
+      Category = 'Show'
+      Caption = 'Operations &Viewer'
       OnExecute = actExecute
     end
   end
