@@ -1309,7 +1309,6 @@ object frmMain: TfrmMain
       end
       object mnuFilesCombine: TMenuItem
         Action = actFileLinker
-        Caption = 'Combine Files'
         OnClick = actExecute
       end
       object mnuCheckSumCalc: TMenuItem
@@ -1569,7 +1568,7 @@ object frmMain: TfrmMain
         Caption = '-'
       end
       object mnuShowOperations: TMenuItem
-        Caption = 'Operations viewer'
+        Caption = 'Operations &Viewer'
         OnClick = mnuShowOperationsClick
       end
     end
@@ -1689,7 +1688,7 @@ object frmMain: TfrmMain
     end
     object actShowSysFiles: TAction
       Category = 'File'
-      Caption = 'Show hidden/system files'
+      Caption = 'Show &Hidden/System Files'
       Checked = True
       HelpType = htKeyword
       OnExecute = actExecute
@@ -1720,13 +1719,13 @@ object frmMain: TfrmMain
     end
     object actSearch: TAction
       Category = 'Commands'
-      Caption = '&Search'
+      Caption = '&Search...'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actDirHotList: TAction
       Category = 'Commands'
-      Caption = 'Directory &hotlist'
+      Caption = 'Directory &Hotlist'
       HelpType = htKeyword
       OnExecute = actExecute
     end
@@ -1738,79 +1737,79 @@ object frmMain: TfrmMain
     end
     object actMarkInvert: TAction
       Category = 'Mark'
-      Caption = 'Invert Selections'
+      Caption = '&Invert Selection'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMarkUnmarkAll: TAction
       Category = 'Mark'
-      Caption = 'Unselect All'
+      Caption = '&Unselect All'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMarkPlus: TAction
       Category = 'Mark'
-      Caption = 'Select a group'
+      Caption = 'Select a &Group...'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMarkMinus: TAction
       Category = 'Mark'
-      Caption = 'Unselect a group'
+      Caption = 'Unselect a Gro&up...'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSymLink: TAction
       Category = 'File'
-      Caption = 'Create symbolic link...'
+      Caption = 'Create Symbolic &Link...'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actHardLink: TAction
       Category = 'File'
-      Caption = 'Create hard link...'
+      Caption = 'Create &Hard Link...'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actReverseOrder: TAction
       Category = 'Show'
-      Caption = 'Reverse order'
+      Caption = 'Re&verse Order'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSortByName: TAction
       Category = 'Show'
-      Caption = 'Sort by name'
+      Caption = 'Sort by &Name'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSortByExt: TAction
       Category = 'Show'
-      Caption = 'Sort by extension'
+      Caption = 'Sort by &Extension'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSortBySize: TAction
       Category = 'Show'
-      Caption = 'Sort by size'
+      Caption = 'Sort by &Size'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSortByDate: TAction
       Category = 'Show'
-      Caption = 'Sort by date'
+      Caption = 'Sort by &Date'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actSortByAttr: TAction
       Category = 'Show'
-      Caption = 'Sort by attrib'
+      Caption = 'Sort by &Attributes'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actMultiRename: TAction
       Category = 'File'
-      Caption = 'Multi Rename Tool'
+      Caption = 'Multi &Rename Tool'
       HelpType = htKeyword
       OnExecute = actExecute
     end
@@ -1846,48 +1845,48 @@ object frmMain: TfrmMain
     end
     object actRunTerm: TAction
       Category = 'Commands'
-      Caption = 'Run Term'
+      Caption = 'Run &Terminal'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actCalculateSpace: TAction
       Category = 'File'
-      Caption = 'Calculate &Occupied Space...'
+      Caption = 'Calculate &Occupied Space'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actFileProperties: TAction
       Category = 'File'
-      Caption = 'Show file properties'
+      Caption = 'Show &File Properties'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actFileLinker: TAction
       Category = 'File'
-      Caption = 'Link files'
+      Caption = 'Com&bine Files...'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actFileSpliter: TAction
       Category = 'File'
-      Caption = 'Split file'
+      Caption = 'Spl&it File...'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actNewTab: TAction
       Category = 'Tabs'
-      Caption = '&New tab'
+      Caption = '&New Tab'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actPackFiles: TAction
       Category = 'File'
-      Caption = 'Pack files...'
+      Caption = '&Pack Files...'
       OnExecute = actExecute
     end
     object actExtractFiles: TAction
       Category = 'File'
-      Caption = 'Extract files...'
+      Caption = '&Extract Files...'
       OnExecute = actExecute
     end
     object actOpenVirtualFileSystemList: TAction
@@ -1947,7 +1946,7 @@ object frmMain: TfrmMain
     end
     object actFileAssoc: TAction
       Category = 'Config'
-      Caption = 'File &associations...'
+      Caption = 'File &Associations...'
       OnExecute = actExecute
     end
     object actOpen: TAction
@@ -1997,17 +1996,17 @@ object frmMain: TfrmMain
     end
     object actMarkCurrentExtension: TAction
       Category = 'Mark'
-      Caption = 'Select all with same extension'
+      Caption = 'Select All with the Same E&xtension'
       OnExecute = actExecute
     end
     object actUnmarkCurrentExtension: TAction
       Category = 'Mark'
-      Caption = 'Unselect all with same extension'
+      Caption = 'Unselect All with the Same Ex&tension'
       OnExecute = actExecute
     end
     object actEditComment: TAction
       Category = 'File'
-      Caption = 'Edit comment...'
+      Caption = 'Edit Co&mment...'
       OnExecute = actExecute
     end
     object actKeyboard: TAction
@@ -2017,7 +2016,7 @@ object frmMain: TfrmMain
     end
     object actVisitHomePage: TAction
       Category = 'Help'
-      Caption = '&Visit Double Commander Web Site'
+      Caption = '&Visit Double Commander Website'
       OnExecute = actExecute
     end
     object actHelpIndex: TAction
@@ -2042,17 +2041,17 @@ object frmMain: TfrmMain
     end
     object actCountDirContent: TAction
       Category = 'Commands'
-      Caption = 'Sho&w occupied space'
+      Caption = 'Sho&w Occupied Space'
       OnExecute = actExecute
     end
     object actCheckSumVerify: TAction
       Category = 'File'
-      Caption = 'Verify check sum...'
+      Caption = '&Verify Checksum...'
       OnExecute = actExecute
     end
     object actCheckSumCalc: TAction
       Category = 'File'
-      Caption = 'Calculate check sum...'
+      Caption = 'Calculate Check&sum...'
       OnExecute = actExecute
     end
     object actClearLogFile: TAction
@@ -2107,23 +2106,23 @@ object frmMain: TfrmMain
     end
     object actSetFileProperties: TAction
       Category = 'File'
-      Caption = 'Change attributes'
+      Caption = 'Change &Attributes...'
       OnExecute = actExecute
     end
     object actOpenDirInNewTab: TAction
       Category = 'Tabs'
-      Caption = 'Open &folder in new tab'
+      Caption = 'Open &Folder in a New Tab'
       OnExecute = actExecute
     end
     object actRemoveTab: TAction
       Category = 'Tabs'
-      Caption = '&Remove tab'
+      Caption = '&Remove Tab'
       HelpType = htKeyword
       OnExecute = actExecute
     end
     object actRemoveAllTabs: TAction
       Category = 'Tabs'
-      Caption = 'Remove &all tabs'
+      Caption = 'Remove &All Tabs'
       OnExecute = actExecute
     end
     object actSetTabOptionNormal: TAction
@@ -2138,22 +2137,22 @@ object frmMain: TfrmMain
     end
     object actSetTabOptionPathResets: TAction
       Category = 'Tabs'
-      Caption = 'Locked, but &directory changes allowed'
+      Caption = 'Locked with &Directory Changes Allowed'
       OnExecute = actExecute
     end
     object actSetTabOptionDirsInNewTab: TAction
       Category = 'Tabs'
-      Caption = 'Directories are opened in new &tabs'
+      Caption = 'Locked with Directories Opened in New &Tabs'
       OnExecute = actExecute
     end
     object actNextTab: TAction
       Category = 'Tabs'
-      Caption = 'Switch to nex&t tab'
+      Caption = 'Switch to Nex&t Tab'
       OnExecute = actExecute
     end
     object actPrevTab: TAction
       Category = 'Tabs'
-      Caption = 'Switch to &previous tab'
+      Caption = 'Switch to &Previous Tab'
       OnExecute = actExecute
     end
     object actOpenBar: TAction
@@ -2163,12 +2162,12 @@ object frmMain: TfrmMain
     end
     object actQuickView: TAction
       Category = 'Show'
-      Caption = 'Quick View Panel'
+      Caption = '&Quick View Panel'
       OnExecute = actExecute
     end
     object actTestArchive: TAction
       Category = 'File'
-      Caption = 'Test Archive(s)'
+      Caption = '&Test Archive(s)'
       OnExecute = actExecute
     end
     object actSwitchIgnoreList: TAction
@@ -2178,27 +2177,27 @@ object frmMain: TfrmMain
     end
     object actRestoreSelection: TAction
       Category = 'Mark'
-      Caption = 'Restore Selection'
+      Caption = '&Restore Selection'
       OnExecute = actExecute
     end
     object actSaveSelection: TAction
       Category = 'Mark'
-      Caption = 'Save Selection'
+      Caption = 'Sa&ve Selection'
       OnExecute = actExecute
     end
     object actSaveSelectionToFile: TAction
       Category = 'Mark'
-      Caption = 'Save Selection To File'
+      Caption = 'Save S&election to File...'
       OnExecute = actExecute
     end
     object actLoadSelectionFromFile: TAction
       Category = 'Mark'
-      Caption = 'Load Selection From File'
+      Caption = '&Load Selection from File...'
       OnExecute = actExecute
     end
     object actLoadSelectionFromClip: TAction
       Category = 'Mark'
-      Caption = 'Load Selection From Clipboard'
+      Caption = 'Load Selection from Clip&board'
       OnExecute = actExecute
     end
     object actChangeDirToParent: TAction
@@ -2225,22 +2224,22 @@ object frmMain: TfrmMain
     end
     object actNetworkConnect: TAction
       Category = 'Network'
-      Caption = 'Network Connect...'
+      Caption = 'Network &Connect...'
       OnExecute = actExecute
     end
     object actNetworkQuickConnect: TAction
       Category = 'Network'
-      Caption = 'Network Quick Connect...'
+      Caption = 'Network &Quick Connect...'
       OnExecute = actExecute
     end
     object actNetworkDisconnect: TAction
       Category = 'Network'
-      Caption = 'Network Disconnect'
+      Caption = 'Network &Disconnect'
       OnExecute = actExecute
     end
     object actHorizontalFilePanels: TAction
       Category = 'Show'
-      Caption = 'Horizontal file panels'
+      Caption = '&Horizontal Panels Mode'
       OnExecute = actExecute
     end
     object actGoToFirstFile: TAction
