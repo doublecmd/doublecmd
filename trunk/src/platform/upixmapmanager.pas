@@ -1189,12 +1189,11 @@ begin
       slPixmapList.LoadFromFile(sFileName);
       for I:= 0 to slPixmapList.Count - 1 do
       begin
-        s:= slPixmapList.Strings[I];
-        s:=Trim(lowercase(s));
-        iekv:=Pos('=',s);
-        if iekv=0 then
+        s:= Trim(slPixmapList.Strings[I]);
+        iekv := Pos('=',s);
+        if iekv = 0 then
           Continue;
-        sPixMap:=Copy(s, iekv+1, length(s)-iekv);
+        sPixMap := Copy(s, iekv+1, length(s)-iekv);
 
         // Since DC 0.4.6 filename without path is treated as a MIME type
         // and it shouldn't have an extension. Cut any extension here.
@@ -1202,13 +1201,13 @@ begin
         if (GetPathType(sPixMap) = ptNone) and StrEnds(sPixMap, '.png') then
           Delete(sPixMap, Length(sPixMap) - 3, 4);
 
-        iPixMap:=CheckAddThemePixmap(sPixMap);
-        if iPixMap<0 then
-          Continue;
-
-        sExt:=Copy(s,1, iekv-1);
-        if FExtList.Find(sExt)<0 then
-          FExtList.Add(sExt, TObject(iPixMap));
+        iPixMap := CheckAddPixmap(sPixMap);
+        if iPixMap >= 0 then
+        begin
+          sExt := Copy(s, 1, iekv-1);
+          if FExtList.Find(sExt) < 0 then
+            FExtList.Add(sExt, TObject(iPixMap));
+        end;
       end;
     except
       on E: Exception do
