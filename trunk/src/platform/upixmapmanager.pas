@@ -1195,6 +1195,13 @@ begin
         if iekv=0 then
           Continue;
         sPixMap:=Copy(s, iekv+1, length(s)-iekv);
+
+        // Since DC 0.4.6 filename without path is treated as a MIME type
+        // and it shouldn't have an extension. Cut any extension here.
+        // Only '.png' were used in previous versions of pixmaps.txt.
+        if (GetPathType(sPixMap) = ptNone) and StrEnds(sPixMap, '.png') then
+          Delete(sPixMap, Length(sPixMap) - 3, 4);
+
         iPixMap:=CheckAddThemePixmap(sPixMap);
         if iPixMap<0 then
           Continue;
