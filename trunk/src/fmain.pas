@@ -246,7 +246,6 @@ type
     mi2080: TMenuItem;
     miCopyFullNamesToClip: TMenuItem;
     miCopyNamesToClip: TMenuItem;
-    miLine10: TMenuItem;
     mnuFileAssoc: TMenuItem;
     nbConsole: TPageControl;
     pgConsole: TTabSheet;
@@ -325,7 +324,6 @@ type
     mnuMarkUAll: TMenuItem;
     mnuMarkInvert: TMenuItem;
     miLine5: TMenuItem;
-    mnuMarkCmpDir: TMenuItem;
     mnuCmdSearch: TMenuItem;
     actionLst: TActionList;
     actExit: TAction;

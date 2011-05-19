@@ -1383,14 +1383,6 @@ object frmMain: TfrmMain
       object miLine5: TMenuItem
         Caption = '-'
       end
-      object mnuMarkCmpDir: TMenuItem
-        Caption = '&Compare Directories'
-        Enabled = False
-        ShortCut = 12337
-      end
-      object miLine10: TMenuItem
-        Caption = '-'
-      end
       object miCopyNamesToClip: TMenuItem
         Action = actCopyNamesToClip
         OnClick = actExecute
