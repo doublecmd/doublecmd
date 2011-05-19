@@ -76,7 +76,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion: String = '0.4.6.r3341';
+  hkVersion: String = '0.4.6.r3603';
   ConfigVersion = '1';
 
 var
@@ -393,6 +393,7 @@ begin
       AddHotKeyEx('Alt+Right','cm_ViewHistoryNext','','FrmMain','FrmMain');
       AddHotKeyEx('Alt+Down','cm_DirHistory','','FrmMain','FrmMain');
       AddHotKeyEx('Shift+Ctrl+H','cm_HorizontalFilePanels','','FrmMain','FrmMain');
+      AddHotKeyEx('Alt+V','cm_OperationsViewer','','FrmMain','FrmMain');
 
 //      AddHotKeyEx('','cm_','','FrmMain','FrmMain');
 

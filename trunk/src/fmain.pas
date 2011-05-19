@@ -80,6 +80,7 @@ type
     actHorizontalFilePanels: TAction;
     actGoToFirstFile: TAction;
     actGoToLastFile: TAction;
+    actOperationsViewer: TAction;
     actNetworkDisconnect: TAction;
     actNetworkQuickConnect: TAction;
     actNetworkConnect: TAction;
@@ -406,7 +407,6 @@ type
     procedure miLogMenuClick(Sender: TObject);
     procedure miTrayIconExitClick(Sender: TObject);
     procedure miTrayIconRestoreClick(Sender: TObject);
-    procedure mnuShowOperationsClick(Sender: TObject);
     procedure PanelButtonClick(Button: TSpeedButton; SourceFrame: TFileView;
                                PanelSelect: TFilePanelSelect);
     procedure DeleteClick(Sender: TObject);
@@ -795,10 +795,7 @@ end;
 
 procedure TfrmMain.AllOpPctClick(Sender: TObject);
 begin
-  if not Assigned(frmViewOperations) then
-    Application.CreateForm(TfrmViewOperations, frmViewOperations);
-
-  frmViewOperations.ShowOnTop;
+  ShowOperationsViewer;
 end;
 
 procedure TfrmMain.AllOpStartClick(Sender: TObject);
@@ -876,10 +873,7 @@ end;
 
 procedure TfrmMain.lblAllProgressPctClick(Sender: TObject);
 begin
-  if not Assigned(frmViewOperations) then
-    Application.CreateForm(TfrmViewOperations, frmViewOperations);
-
-  frmViewOperations.ShowOnTop;
+  ShowOperationsViewer;
 end;
 
 procedure TfrmMain.MainToolBarToolButtonDragDrop(Sender, Source: TObject; X,
@@ -1013,14 +1007,6 @@ end;
 procedure TfrmMain.miTrayIconRestoreClick(Sender: TObject);
 begin
   RestoreFromTray;
-end;
-
-procedure TfrmMain.mnuShowOperationsClick(Sender: TObject);
-begin
-  if not Assigned(frmViewOperations) then
-    Application.CreateForm(TfrmViewOperations, frmViewOperations);
-
-  frmViewOperations.ShowOnTop;
 end;
 
 procedure TfrmMain.PanelButtonClick(Button: TSpeedButton; SourceFrame: TFileView;
