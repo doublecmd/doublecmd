@@ -168,6 +168,11 @@ type
     FTryAskQuestionResult: Boolean;
 
     {en
+       Used to determine whether the operation has started or not.
+    }
+    FOperationInitialized : Boolean;
+
+    {en
        Last start time (when operation started or resumed after pause).
     }
     FStartTime: TDateTime;
@@ -417,6 +422,7 @@ begin
   FEventsLock := TCriticalSection.Create;
   FThread := nil;
   FConnection := nil;
+  FOperationInitialized := False;
 
 {$IFNDEF fsoSynchronizeEvents}
   FScheduledEventsListenersCalls := 0;
@@ -491,8 +497,6 @@ begin
 end;
 
 procedure TFileSourceOperation.Execute;
-var
-  initialized: Boolean = False;
 begin
   try
 {$IFDEF debugFileSourceOperation}
@@ -535,7 +539,7 @@ begin
       UpdateState(fsosStarting);
 
       Initialize;
-      initialized := True;
+      FOperationInitialized := True;
 
       UpdateStartTime(SysUtils.Now);
       UpdateState(fsosRunning);
@@ -558,7 +562,7 @@ begin
         end;
     end;
 
-    if initialized then
+    if FOperationInitialized then
       Finalize;
 
     UpdateProgress(1);
@@ -582,7 +586,7 @@ begin
   end;
 
   // It is best to reload after the operation and all events are finished.
-  if initialized then
+  if FOperationInitialized then
     ReloadFileSources;
 end;
 
@@ -673,7 +677,10 @@ begin
           RaiseAbortOperation;
 
         UpdateStartTime(SysUtils.Now);
-        UpdateState(fsosRunning);
+        if FOperationInitialized then
+          UpdateState(fsosRunning)
+        else
+          UpdateState(fsosStarting);
       end;
 
     fsosStopped:  // operation was asked to stop (via Stop function)
@@ -712,7 +719,7 @@ procedure TFileSourceOperation.Pause;
 begin
   FStateLock.Acquire;
   try
-    if FState in [fsosRunning, fsosWaitingForConnection] then
+    if FState in [fsosStarting, fsosRunning, fsosWaitingForConnection] then
       FState := fsosPausing
     else
       Exit;
