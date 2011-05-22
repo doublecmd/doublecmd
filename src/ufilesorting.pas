@@ -242,36 +242,26 @@ function ICompareByDirectory(item1, item2: TFile; bSortNegative: Boolean):Intege
 var
   IsDir1, IsDir2: Boolean;
 begin
-  Result:=0;
-
   IsDir1 := item1.IsDirectory or item1.IsLinkToDirectory;
   IsDir2 := item2.IsDirectory or item2.IsLinkToDirectory;
 
   if (not IsDir1) and (not IsDir2) then
-    Exit
+    Result := 0
   else if (not IsDir1) and IsDir2 then
-  begin
-    Result:=+1;
-  end
+    Result := 1
   else if IsDir1 and (not IsDir2) then
-  begin
-    Result:=-1;
-  end
-  // handle .. first
-  else if item1.Name='..' then
-  begin
-    Result:=-1;
-  end
-  else if item2.Name='..' then
-  begin
-    Result:=+1;
-  end;
+    Result := -1
+  // Put '..' first.
+  else if item1.Name = '..' then
+    Result := -1
+  else if item2.Name = '..' then
+    Result := 1
+  else
+    Result := 0;
 end;
 
 function ICompareByName(item1, item2: TFile; bSortNegative: Boolean):Integer;
 begin
-  Result := 0;
-
   Result := CompareStrings(item1.Name, item2.Name, gSortNatural, gSortCaseSensitive);
 
   if bSortNegative then
@@ -279,11 +269,7 @@ begin
 end;
 
 function ICompareByNameNoExt(item1, item2: TFile; bSortNegative: Boolean):Integer;
-var
-  name1, name2: string;
 begin
-  Result := 0;
-
   // Don't sort directories only by name.
   if item1.IsDirectory or item1.IsLinkToDirectory or
      item2.IsDirectory or item2.IsLinkToDirectory then
@@ -293,10 +279,7 @@ begin
   end
   else
   begin
-    name1 := item1.NameNoExt;
-    name2 := item2.NameNoExt;
-
-    Result := CompareStrings(name1, name2, gSortNatural, gSortCaseSensitive);
+    Result := CompareStrings(item1.NameNoExt, item2.NameNoExt, gSortNatural, gSortCaseSensitive);
 
     if bSortNegative then
       Result := -Result;
@@ -305,11 +288,6 @@ end;
 
 function ICompareByExt(item1, item2: TFile; bSortNegative: Boolean):Integer;
 begin
-  Result:=0;
-
-  if item1.Extension = item2.Extension then
-    Exit;
-
   Result := CompareStrings(item1.Extension, item2.Extension, gSortNatural, gSortCaseSensitive);
 
   if bSortNegative then
@@ -336,21 +314,21 @@ function ICompareByAttr(item1, item2: TFile; bSortNegative: Boolean):Integer;
 var
   Attr1, Attr2: TFileAttrs;
 begin
-  Result:=0;
-
-  Attr1 := (item1.Properties[fpAttributes] as TFileAttributesProperty).Value;
-  Attr2 := (item2.Properties[fpAttributes] as TFileAttributesProperty).Value;
+  Attr1 := item1.Attributes;
+  Attr2 := item2.Attributes;
 
   if Attr1 = Attr2 then
-    Exit;
-
-  if Attr1 > Attr2 then
-    Result := -1
+    Result := 0
   else
-    Result := +1;
+  begin
+    if Attr1 > Attr2 then
+      Result := -1
+    else
+      Result := +1;
 
-  if bSortNegative then
-    Result := -Result;
+    if bSortNegative then
+      Result := -Result;
+  end;
 end;
 
 function ICompareBySize(item1, item2: TFile; bSortNegative: Boolean):Integer;
@@ -358,21 +336,21 @@ var
   iSize1 : Int64;
   iSize2 : Int64;
 begin
-  Result := 0;
-
-  iSize1 := (item1.Properties[fpSize] as TFileSizeProperty).Value;
-  iSize2 := (item2.Properties[fpSize] as TFileSizeProperty).Value;
+  iSize1 := item1.Size;
+  iSize2 := item2.Size;
 
   if iSize1 = iSize2 then
-    Exit;
-
-  if iSize1 < iSize2 then
-    Result := -1
+    Result := 0
   else
-    Result := +1;
+  begin
+    if iSize1 < iSize2 then
+      Result := -1
+    else
+      Result := +1;
 
-  if bSortNegative then
-    Result := -Result;
+    if bSortNegative then
+      Result := -Result;
+  end;
 end;
 
 function ReverseSortDirection(SortDirection: TSortDirection): TSortDirection;
