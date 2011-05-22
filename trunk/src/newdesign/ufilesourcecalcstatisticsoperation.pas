@@ -25,6 +25,7 @@ type
     CompressedSize: Int64; // if fpCompressedSize supported
     OldestFile: TDateTime; // if fpModificationTime (or fpDateTime) supported
     NewestFile: TDateTime;
+    FilesPerSecond: Int64;
     // Maybe some other:
     // SystemFiles
     // ReadOnlyFiles
@@ -38,6 +39,7 @@ type
 
   private
     FStatistics: TFileSourceCalcStatisticsOperationStatistics;
+    FStatisticsAtStartTime: TFileSourceCalcStatisticsOperationStatistics;
     FStatisticsLock: TCriticalSection;             //<en For synchronizing statistics.
     FFileSource: IFileSource;
     FFiles: TFiles;
@@ -71,7 +73,7 @@ type
 implementation
 
 uses
-  uGlobs;
+  uGlobs, uDCUtils;
 
 constructor TFileSourceCalcStatisticsOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -123,7 +125,15 @@ procedure TFileSourceCalcStatisticsOperation.UpdateStatistics(
 begin
   FStatisticsLock.Acquire;
   try
-    // Cannot determine progress for this operation.
+    // Cannot determine progress or remaining time for this operation.
+    // Only calculate speed.
+
+    EstimateRemainingTime(FStatisticsAtStartTime.Files,
+                          NewStatistics.Files,
+                          0, // unknown
+                          StartTime,
+                          SysUtils.Now,
+                          NewStatistics.FilesPerSecond);
 
     FStatistics := NewStatistics;
 
@@ -134,7 +144,12 @@ end;
 
 procedure TFileSourceCalcStatisticsOperation.UpdateStatisticsAtStartTime;
 begin
-  // Empty, because we don't have any progress or remaining time.
+  FStatisticsLock.Acquire;
+  try
+    Self.FStatisticsAtStartTime := Self.FStatistics;
+  finally
+    FStatisticsLock.Release;
+  end;
 end;
 
 function TFileSourceCalcStatisticsOperation.RetrieveStatistics: TFileSourceCalcStatisticsOperationStatistics;

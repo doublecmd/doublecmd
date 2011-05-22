@@ -178,6 +178,7 @@ resourcestring
 
   // File operations dialog
   rsDlgSpeedTime = 'Speed %s/s, time remaining %s';
+  rsDlgSpeed = 'Speed %s/s';
   rsDlgDel = 'Delete file(s)';
   rsDlgWipe = 'Wipe file(s)';
   rsDlgSplit = 'Split';
@@ -188,7 +189,9 @@ resourcestring
   rsDlgExtract = 'Extracting...';
   rsDlgTest = 'Testing...';
   rsDlgDeleting = 'Deleting';
+  rsDlgCalculating = 'Calculating';
   rsDlgCheckSumCalc = 'Calculate check sum...';
+  rsDlgCalcStatistics = 'Calculate files and folders';
   rsDlgCheckSumVerify = 'Verify check sum...';
   rsDlgAllOpProgress = 'Progress of all operations %d %%';
   rsDlgAllOpComplete = 'All operations is complete';

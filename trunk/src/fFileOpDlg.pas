@@ -78,12 +78,14 @@ type
     procedure InitializeCombineOperation(Operation: TFileSourceOperation);
     procedure InitializeCalcChecksumOperation(Operation: TFileSourceOperation);
     procedure InitializeTestArchiveOperation(Operation: TFileSourceOperation);
+    procedure InitializeCalcStatisticsOperation(Operation: TFileSourceOperation);
     procedure UpdateCopyOperation(Operation: TFileSourceOperation);
     procedure UpdateMoveOperation(Operation: TFileSourceOperation);
     procedure UpdateDeleteOperation(Operation: TFileSourceOperation);
     procedure UpdateWipeOperation(Operation: TFileSourceOperation);
     procedure UpdateSplitOperation(Operation: TFileSourceOperation);
     procedure UpdateCombineOperation(Operation: TFileSourceOperation);
+    procedure UpdateCalcStatisticsOperation(Operation: TFileSourceOperation);
     procedure UpdateCalcChecksumOperation(Operation: TFileSourceOperation);
     procedure UpdateTestArchiveOperation(Operation: TFileSourceOperation);
 
@@ -114,6 +116,7 @@ uses
    uFileSourceSplitOperation,
    uFileSourceCombineOperation,
    uFileSourceCalcChecksumOperation,
+   uFileSourceCalcStatisticsOperation,
    uFileSourceTestArchiveOperation,
    uFileSourceOperationMessageBoxesUI
    ;
@@ -226,6 +229,8 @@ begin
         InitializeCalcChecksumOperation(Operation);
       fsoTestArchive:
         InitializeTestArchiveOperation(Operation);
+      fsoCalcStatistics:
+        InitializeCalcStatisticsOperation(Operation);
 
       else
         begin
@@ -339,6 +344,8 @@ begin
         UpdateCombineOperation(Operation);
       fsoCalcChecksum:
         UpdateCalcChecksumOperation(Operation);
+      fsoCalcStatistics:
+        UpdateCalcStatisticsOperation(Operation);
       fsoTestArchive:
         UpdateTestArchiveOperation(Operation);
 
@@ -436,10 +443,15 @@ begin
   if Operation.State <> fsosRunning then
     sEstimated := #32
   else
-  begin
-    sEstimated := FormatDateTime('HH:MM:SS', RemainingTime);
-    sEstimated := Format(rsDlgSpeedTime, [Speed, sEstimated]);
-  end;
+    begin
+      if RemainingTime > 0 then
+        begin
+          sEstimated := FormatDateTime('HH:MM:SS', RemainingTime);
+          sEstimated := Format(rsDlgSpeedTime, [Speed, sEstimated]);
+        end
+      else
+        sEstimated := Format(rsDlgSpeed, [Speed]);
+    end;
 
   lblEstimated.Caption := sEstimated;
 end;
@@ -461,6 +473,13 @@ begin
   Caption := rsDlgDel;
   InitializeControls([fodl_from_lbl, fodl_first_pb]);
   lblFrom.Caption := rsDlgDeleting;
+end;
+
+procedure TfrmFileOp.InitializeCalcStatisticsOperation(Operation: TFileSourceOperation);
+begin
+  Caption := rsDlgCalcStatistics;
+  InitializeControls([fodl_from_lbl]);
+  lblFrom.Caption := rsDlgCalculating;
 end;
 
 procedure TfrmFileOp.InitializeWipeOperation(Operation: TFileSourceOperation);
@@ -605,6 +624,21 @@ begin
     SetProgressBytes(pbFirst, CurrentFileDoneBytes, CurrentFileTotalBytes);
     SetProgressBytes(pbSecond, DoneBytes, TotalBytes);
     SetSpeedAndTime(Operation, RemainingTime, cnvFormatFileSize(BytesPerSecond, True) + 'B');
+  end;
+end;
+
+procedure TfrmFileOp.UpdateCalcStatisticsOperation(Operation: TFileSourceOperation);
+var
+  CalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
+  CalcStatisticsOperationStatistics: TFileSourceCalcStatisticsOperationStatistics;
+begin
+  CalcStatisticsOperation := Operation as TFileSourceCalcStatisticsOperation;
+  CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
+
+  with CalcStatisticsOperationStatistics do
+  begin
+    lblFileNameFrom.Caption := MinimizeFilePath(CurrentFile, lblFileNameFrom.Canvas, lblFileNameFrom.Width);
+    SetSpeedAndTime(Operation, 0, cnvFormatFileSize(FilesPerSecond, True));
   end;
 end;
 
