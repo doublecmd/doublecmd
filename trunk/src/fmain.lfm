@@ -82,6 +82,7 @@ object frmMain: TfrmMain
         OnResize = dskLeftResize
         OnToolButtonClick = dskToolButtonClick
         OnToolButtonMouseUp = dskToolButtonMouseUp
+        OnToolButtonDragDrop = dskLeftRightToolButtonDragDrop
         RadioToolBar = True
         GlyphSize = 16
       end
@@ -113,6 +114,7 @@ object frmMain: TfrmMain
         OnResize = dskRightResize
         OnToolButtonClick = dskToolButtonClick
         OnToolButtonMouseUp = dskToolButtonMouseUp
+        OnToolButtonDragDrop = dskLeftRightToolButtonDragDrop
         RadioToolBar = True
         GlyphSize = 16
       end
