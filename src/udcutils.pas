@@ -814,7 +814,6 @@ var
   i: Integer;
   aFile: TFile;
 begin
-  Result := False;
   for i := 0 to Files.Count - 1 do
   begin
     aFile := Files[i];
@@ -823,15 +822,16 @@ begin
     begin
       // Check if 'FileName' is in this directory or any of its subdirectories.
       if IsInPath(aFile.FullPath, FileName, True) then
-        Result := True;
+        Exit(True);
     end
     else
     begin
       // Item in the list is a file, only compare names.
       if aFile.FullPath = FileName then
-        Result := True;
+        Exit(True);
     end;
   end;
+  Result := False;
 end;
 
 function MatchesMaskListEx(const aFile: TFile; MaskList: TStringList): Boolean;
