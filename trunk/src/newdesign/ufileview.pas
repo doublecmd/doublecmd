@@ -464,7 +464,7 @@ begin
     FWorkersThread.Finish;
     DCDebug('Waiting for workers thread ', hexStr(FWorkersThread));
     TFunctionThread.Finalize(FWorkersThread);
-    FWorkersThread := nil;
+    DCDebug('Finalized workers thread ', hexStr(FWorkersThread));
   end;
 
   // Now all the workers can be safely freed.
@@ -811,6 +811,9 @@ function TFileView.Reload(const PathsToReload: TPathsArray = nil): Boolean;
 var
   i: Integer;
 begin
+  if csDestroying in ComponentState then
+    Exit(False);
+
   if Assigned(PathsToReload) then
   begin
     Result := False;
