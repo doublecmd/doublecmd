@@ -177,18 +177,21 @@ end;
 
 function TFileViewPage.IsActive: Boolean;
 begin
-  Result := (Notebook.PageIndex = PageIndex);
+  Result := Assigned(Notebook) and (Notebook.PageIndex = PageIndex);
 end;
 
 procedure TFileViewPage.MakeActive;
 var
   aFileView: TFileView;
 begin
-  Notebook.PageIndex := PageIndex;
+  if Assigned(Notebook) then
+  begin
+    Notebook.PageIndex := PageIndex;
 
-  aFileView := FileView;
-  if Assigned(aFileView) then
-    aFileView.SetFocus;
+    aFileView := FileView;
+    if Assigned(aFileView) then
+      aFileView.SetFocus;
+  end;
 end;
 
 procedure TFileViewPage.UpdateCaption(NewCaption: String);
