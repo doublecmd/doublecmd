@@ -391,6 +391,7 @@ type
       var Accept: Boolean);
     procedure dskLeftResize(Sender: TObject);
     procedure dskRightResize(Sender: TObject);
+    procedure dskLeftRightToolButtonDragDrop(Sender, Source: TObject; X, Y: Integer; NumberOfButton: Integer);
     procedure dskToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
     procedure lblAllProgressPctClick(Sender: TObject);
     procedure MainToolBarToolButtonDragDrop(Sender, Source: TObject; X,
@@ -864,6 +865,20 @@ procedure TfrmMain.dskRightResize(Sender: TObject);
 begin
   pnlDskRight.ClientHeight := dskRight.Height + pnlDskRight.BevelWidth * 2;
   pnlDiskRightInner.ClientHeight := dskRight.Height + pnlDiskRightInner.BevelWidth * 2;
+end;
+
+procedure TfrmMain.dskLeftRightToolButtonDragDrop(Sender, Source: TObject; X,
+  Y: Integer; NumberOfButton: Integer);
+var
+  TargetPath: String;
+begin
+  TargetPath := ((Sender as TSpeedButton).Parent as TKASToolBar).Commands[NumberOfButton];
+  case GetDropEffectByKeyAndMouse(GetKeyShiftState, mbLeft) of
+    DropCopyEffect:
+      Self.CopyFiles(TargetPath, gShowDialogOnDragDrop);
+    DropMoveEffect:
+      Self.MoveFiles(TargetPath, gShowDialogOnDragDrop);
+  end;
 end;
 
 procedure TfrmMain.dskToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
