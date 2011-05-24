@@ -754,7 +754,7 @@ begin
                 and ((gWatcherMode <> fswmWholeDrive) or
                       IsInPath(TargetWatchPath,
                                UTF8UpperCase(FOSWatchers[i].WatchPath + FCurrentEventData.FileName),
-                               False))
+                               False, False))
                 {$ENDIF}
                 then
                 begin
@@ -803,7 +803,7 @@ begin
   try
     for j := 0 to Watch.Observers.Count - 1 do
     begin
-      if IsInPath(Watch.Observers[j].TargetWatchPath, Path, False) then
+      if IsInPath(Watch.Observers[j].TargetWatchPath, Path, False, False) then
         Exit(True);
     end;
   finally

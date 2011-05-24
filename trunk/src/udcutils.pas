@@ -166,18 +166,23 @@ function ExpandAbsolutePath(const Path: String): String;
   @param(sPathToCheck
          Absolute path to file or directory to check.)
   @param(AllowSubDirs
-         If @true, allows the sPathToCheck to point to a file or directory in some subdirectory of sPath.
-         If @false, only allows the sPathToCheck to point directly to a file or directory in sPath.
+         If @true, allows the sPathToCheck to point to a file or directory in some subdirectory of sBasePath.
+         If @false, only allows the sPathToCheck to point directly to a file or directory in sBasePath.)
+  @param(AllowSame
+         If @true, returns @true if sBasePath = sPathToCheck.
+         If @false, returns @false if sBasePath = sPathToCheck.)
   @return(@true if sPathToCheck points to a directory or file in sBasePath.
           @false otherwise.)
 
   Examples:
-    IsInPath('/home', '/home/somedir/somefile', True) = True
-    IsInPath('/home', '/home/somedir/somefile', False) = False
-    IsInPath('/home', '/home/somedir/', False) = True
-    IsInPath('/home', '/home', False) = False
+    IsInPath('/home', '/home/somedir/somefile', True, False) = True
+    IsInPath('/home', '/home/somedir/somefile', False, False) = False
+    IsInPath('/home', '/home/somedir/', False, False) = True
+    IsInPath('/home', '/home', False, False) = False
+    IsInPath('/home', '/home', False, True) = True
 }
-function IsInPath(sBasePath : String; sPathToCheck : String; AllowSubDirs: Boolean) : Boolean;
+function IsInPath(sBasePath : String; sPathToCheck : String;
+                  AllowSubDirs : Boolean; AllowSame : Boolean) : Boolean;
 
 {en
   Checks if a filename matches any filename in the filelist or
@@ -773,41 +778,49 @@ begin
     end;
 end;
 
-function IsInPath(sBasePath : String; sPathToCheck : String; AllowSubDirs: Boolean) : Boolean;
+function IsInPath(sBasePath : String; sPathToCheck : String;
+                  AllowSubDirs : Boolean; AllowSame : Boolean) : Boolean;
 var
   BasePathLength, PathToCheckLength: Integer;
   DelimiterPos: Integer;
 begin
-  Result := False;
-
-  if sBasePath = '' then Exit;
+  if sBasePath = '' then Exit(False);
 
   sBasePath := IncludeTrailingPathDelimiter(sBasePath);
 
   BasePathLength := Length(sBasePath);
   PathToCheckLength := Length(sPathToCheck);
 
-  if (PathToCheckLength > BasePathLength) and
-     (CompareStr(Copy(sPathToCheck, 1, BasePathLength), sBasePath) = 0) then
+  if PathToCheckLength > BasePathLength then
   begin
-    if AllowSubDirs then
-      Result := True
-    else
+    if CompareStr(Copy(sPathToCheck, 1, BasePathLength), sBasePath) = 0 then
     begin
-      // Additionally check if the remaining path is a relative path.
+      if AllowSubDirs then
+        Result := True
+      else
+      begin
+        // Additionally check if the remaining path is a relative path.
 
-      // Look for a path delimiter in the middle of the filepath.
-      sPathToCheck := Copy(sPathToCheck, 1 + BasePathLength,
-                           PathToCheckLength - BasePathLength);
+        // Look for a path delimiter in the middle of the filepath.
+        sPathToCheck := Copy(sPathToCheck, 1 + BasePathLength,
+                             PathToCheckLength - BasePathLength);
 
-      DelimiterPos := Pos(DirectorySeparator, sPathToCheck);
+        DelimiterPos := Pos(DirectorySeparator, sPathToCheck);
 
-      // If no delimiter was found or it was found at then end (for example,
-      // directories may end with it), then the 'sPathToCheck' is in 'sBasePath'.
-      if (DelimiterPos = 0) or (DelimiterPos = PathToCheckLength - BasePathLength) then
-        Result := True;
-    end;
-  end;
+        // If no delimiter was found or it was found at then end (directories
+        // may end with it), then the 'sPathToCheck' is in 'sBasePath'.
+        Result := (DelimiterPos = 0) or (DelimiterPos = PathToCheckLength - BasePathLength);
+      end;
+    end
+    else
+      Result := False;
+  end
+  else
+    Result := AllowSame and
+      (((PathToCheckLength = BasePathLength) and
+        (CompareStr(sPathToCheck, sBasePath) = 0)) or
+       ((PathToCheckLength = BasePathLength - 1) and
+        (CompareStr(Copy(sBasePath, 1, PathToCheckLength), sPathToCheck) = 0)));
 end;
 
 function MatchesFileList(const Files: TFiles; FileName: String): Boolean;
@@ -822,7 +835,7 @@ begin
     if aFile.IsDirectory then
     begin
       // Check if 'FileName' is in this directory or any of its subdirectories.
-      if IsInPath(aFile.FullPath, FileName, True) then
+      if IsInPath(aFile.FullPath, FileName, True, True) then
         Exit(True);
     end
     else
@@ -869,7 +882,7 @@ var
   i: Integer;
   aFile: TFile;
 begin
-  if IsInPath(sNewRootPath, Files.Path, True) then
+  if IsInPath(sNewRootPath, Files.Path, True, True) then
   begin
     // Current path is a subpath of new root path.
 
@@ -902,7 +915,7 @@ function ExtractDirLevel(const sPrefix, sPath: String): String;
 var
   PrefixLength: Integer;
 begin
-  if IsInPath(sPrefix, sPath, True) then
+  if IsInPath(sPrefix, sPath, True, True) then
   begin
     PrefixLength := Length(sPrefix);
     Result := Copy(sPath, 1 + PrefixLength, Length(sPath) - PrefixLength)
