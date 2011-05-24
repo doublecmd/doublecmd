@@ -4159,7 +4159,7 @@ begin
     begin
       DrivePath := UTF8UpperCase(DrivesList[i]^.Path);
       DrivePathLen := UTF8Length(DrivePath);
-      if (DrivePathLen > LongestPathLen) and IsInPath(DrivePath, Path, True) then
+      if (DrivePathLen > LongestPathLen) and IsInPath(DrivePath, Path, True, True) then
       begin
         LongestPathLen := DrivePathLen;
         Result := i;

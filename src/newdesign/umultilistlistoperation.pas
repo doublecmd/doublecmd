@@ -48,14 +48,14 @@ begin
   CurrentPath := FileSource.GetRootDir;
 
   // Search for files in the given path.
-  while (Path <> CurrentPath) and IsInPath(CurrentPath, Path, True) do
+  while (Path <> CurrentPath) and IsInPath(CurrentPath, Path, True, False) do
   begin
     Found := False;
     for i := 0 to CurrentNode.SubNodesCount - 1 do
     begin
       if IsInPath(IncludeTrailingPathDelimiter(CurrentPath) +
                   CurrentNode.SubNodes[i].TheFile.Name,
-                  Path, True) then
+                  Path, True, False) then
       begin
         CurrentNode := CurrentNode.SubNodes[i];
         Found := True;

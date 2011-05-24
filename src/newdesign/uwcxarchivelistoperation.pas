@@ -54,7 +54,7 @@ begin
     begin
       CurrFileName := PathDelim + TWCXHeader(ArcFileList.Items[I]).FileName;
 
-      if not IsInPath(Path, CurrFileName, False) then
+      if not IsInPath(Path, CurrFileName, False, False) then
         Continue;
 
       aFile := TWcxArchiveFileSource.CreateFile(Path, TWCXHeader(ArcFileList.Items[I]));

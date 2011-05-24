@@ -54,7 +54,7 @@ begin
     begin
       CurrFileName := PathDelim + TArchiveItem(ArcFileList.Items[I]).FileName;
 
-      if not IsInPath(Path, CurrFileName, False) then
+      if not IsInPath(Path, CurrFileName, False, False) then
         Continue;
 
       aFile := TMultiArchiveFileSource.CreateFile(Path, TArchiveItem(ArcFileList.Items[I]));
