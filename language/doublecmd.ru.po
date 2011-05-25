@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-04-15 21:04+0300\n"
+"PO-Revision-Date: 2011-05-25 18:51+0300\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -222,11 +222,11 @@ msgstr ""
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBCHECKFREESPACE.CAPTION
 msgid "Check free space"
-msgstr ""
+msgstr "Проверять свободное место"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBCORRECTLINKS.CAPTION
 msgid "Correct links"
-msgstr ""
+msgstr "Исправлять ссылки"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
@@ -235,7 +235,7 @@ msgstr "Сбросить флаг \"Только для чтения\""
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBFOLLOWLINKS.CAPTION
 msgid "Follow links"
-msgstr ""
+msgstr "Следовать ссылкам"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLDIRECTORYEXISTS.CAPTION
 msgid "When directory exists"
@@ -362,7 +362,7 @@ msgstr ""
 
 #: TFRMATTRIBUTESEDIT.CBSYMLINK.CAPTION
 msgid "Symlink"
-msgstr ""
+msgstr "Ссылка"
 
 #: TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION"
@@ -442,7 +442,7 @@ msgstr "Для каждого файла создать отдельный MD5/S
 #: TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT
 msgctxt "TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT"
 msgid "MD5"
-msgstr ""
+msgstr "MD5"
 
 #: TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION
 msgctxt "TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION"
@@ -514,7 +514,7 @@ msgstr "Отмена"
 #: TFRMCONFIGTOOLBAR.BTNCLEARHOTKEY.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNCLEARHOTKEY.CAPTION"
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: TFRMCONFIGTOOLBAR.BTNCLONEBUTTON.CAPTION
 msgid "Clo&ne button"
@@ -1403,7 +1403,7 @@ msgstr "Из:"
 
 #: TFRMFILEEXECUTEYOURSELF.LBLPROMPT.CAPTION
 msgid "Click on Close when the temporary file can be deleted!"
-msgstr ""
+msgstr "Нажмите \"Закрыть\", когда временный файл можно будет удалить!"
 
 #: TFRMFILEOP.BTHOPEND.CAPTION
 msgid "End"
@@ -1788,7 +1788,7 @@ msgstr "Поиск файлов"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
-msgstr ""
+msgstr "Атрибуты"
 
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
@@ -2029,7 +2029,7 @@ msgstr "Сменить каталог"
 
 #: TFRMMAIN.ACTCHANGEDIRTOPARENT.CAPTION
 msgid "Change Directory To Parent"
-msgstr ""
+msgstr "Перейти в родительский каталог"
 
 #: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
 msgid "Change directory to root"
@@ -2986,11 +2986,11 @@ msgstr ""
 
 #: TFRMMODVIEW.FRMMODVIEW.CAPTION
 msgid "New Size"
-msgstr ""
+msgstr "Новый размер"
 
 #: TFRMMODVIEW.LBLHEIGHT.CAPTION
 msgid "Height :"
-msgstr ""
+msgstr "Высота:"
 
 #: TFRMMODVIEW.LBLPATH1.CAPTION
 msgctxt "TFRMMODVIEW.LBLPATH1.CAPTION"
@@ -3019,7 +3019,7 @@ msgstr ""
 
 #: TFRMMODVIEW.LBLWIDTH.CAPTION
 msgid "Width :"
-msgstr ""
+msgstr "Ширина:"
 
 #: TFRMMODVIEW.RBBMP.CAPTION
 msgid "BMP"
@@ -3043,7 +3043,7 @@ msgstr ""
 
 #: TFRMMODVIEW.TEHEIGHT.TEXT
 msgid "Height"
-msgstr ""
+msgstr "Высота"
 
 #: TFRMMODVIEW.TEQUALITY.TEXT
 msgid "80"
@@ -6616,7 +6616,7 @@ msgstr "Инструменты"
 
 #: ulng.rsopttooltips
 msgid "Tooltips"
-msgstr "Всплывающие подсказки"
+msgstr "Подсказки"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
