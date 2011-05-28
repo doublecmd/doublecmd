@@ -1805,14 +1805,13 @@ function SHGetMalloc;                   external shell32 name 'SHGetMalloc';
 function SHGetDesktopFolder;            external shell32 name 'SHGetDesktopFolder';
 
 { **** UBPFD *********** by delphibase.endimus.com ****
->> Вызывает диалог выбора иконки. Доработанная
+>> Calls icon selection dialog. Modified function for calling
+"Change icon" dialog.
 
-Функция вызова диалогового окно "Изменение иконки"
-
-Зависимости: Windows, SysUtils
-Автор:       Alex Sal'nikov, alex-co@narod.ru, Москва
-Copyright:   Доработка библиотеки JVCL
-Дата:        15 июля 2003 г.
+Dependencies: Windows, SysUtils
+Author:       Alex Sal'nikov, alex-co@narod.ru, Moscow
+Copyright:    Modified JVCL library
+Date:         15 july 2003 г.
 ***************************************************** }
 
 function SHChangeIconDialog(hOwner: THandle; var FileName: UTF8String; var IconIndex: Integer): Boolean;
