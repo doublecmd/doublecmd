@@ -1063,8 +1063,8 @@ object frmOptions: TfrmOptions
           TabOrder = 2
         end
         object btnSelEditFnt: TButton
-          AnchorSideTop.Control = edtEditorFont
-          AnchorSideBottom.Control = edtEditorFont
+          AnchorSideTop.Control = edtEditorFontSize
+          AnchorSideBottom.Control = edtEditorFontSize
           AnchorSideBottom.Side = asrBottom
           Left = 638
           Height = 21
@@ -1226,7 +1226,7 @@ object frmOptions: TfrmOptions
           Left = 6
           Height = 21
           Top = 236
-          Width = 571
+          Width = 568
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 10
           BorderSpacing.Right = 4
@@ -1236,10 +1236,10 @@ object frmOptions: TfrmOptions
           AnchorSideTop.Control = edtViewerBookFont
           AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = btnSelViewerBookFnt
-          Left = 581
+          Left = 578
           Height = 21
           Top = 236
-          Width = 53
+          Width = 56
           Anchors = [akTop, akRight]
           BorderSpacing.Right = 4
           MinValue = 6
@@ -1248,8 +1248,8 @@ object frmOptions: TfrmOptions
           Value = 18
         end
         object btnSelViewerBookFnt: TButton
-          AnchorSideTop.Control = edtViewerBookFont
-          AnchorSideBottom.Control = edtViewerBookFont
+          AnchorSideTop.Control = edtViewerBookFontSize
+          AnchorSideBottom.Control = edtViewerBookFontSize
           AnchorSideBottom.Side = asrBottom
           Left = 638
           Height = 21
