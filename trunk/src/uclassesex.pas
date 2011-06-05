@@ -102,7 +102,7 @@ uses
 
 constructor TFileStreamEx.Create(const AFileName: UTF8String; Mode: Word);
 begin
-  if Mode = fmCreate then
+  if (Mode and fmCreate) <> 0 then
     begin
       FHandle:= mbFileCreate(AFileName);
       if FHandle = feInvalidHandle then
