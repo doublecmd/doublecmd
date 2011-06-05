@@ -98,6 +98,7 @@ type
     procedure btnRenameTypeResize(Sender: TObject);
     procedure btnUpActClick(Sender: TObject);
     procedure edtIconFileNameChange(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure lbActionsSelectionChange(Sender: TObject; User: boolean);
@@ -139,14 +140,14 @@ implementation
 uses
   LCLType, uGlobsPaths, uGlobs, uPixMapManager, uLng, uOSUtils, uDCUtils;
 
+var
+  frmFileAssoc: TfrmFileAssoc = nil;
+
 procedure ShowFileAssocDlg;
 begin
-  with TfrmFileAssoc.Create(Application) do
-  try
-    ShowModal;
-  finally
-    Free;
-  end;
+  if not Assigned(frmFileAssoc) then
+    frmFileAssoc := TfrmFileAssoc.Create(Application);
+  frmFileAssoc.ShowOnTop;
 end;
 
 { TfrmFileAssoc }
@@ -566,6 +567,12 @@ procedure TfrmFileAssoc.edtIconFileNameChange(Sender: TObject);
 begin
   if not FUpdatingControls then
     SetIconFileName(edtIconFileName.Text);
+end;
+
+procedure TfrmFileAssoc.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  CloseAction := caFree;
+  frmFileAssoc := nil;
 end;
 
 procedure TfrmFileAssoc.btnDownActClick(Sender: TObject);
