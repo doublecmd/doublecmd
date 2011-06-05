@@ -412,7 +412,7 @@ end;
 function TfrmConfigToolBar.ktbBarLoadButtonGlyph(sIconFileName: String;
   iIconSize: Integer; clBackColor: TColor): TBitmap;
 begin
-  Result := PixMapManager.LoadBitmapEnhanced(sIconFileName, iIconSize, clBackColor);
+  Result := PixMapManager.LoadBitmapEnhanced(sIconFileName, iIconSize, True, clBackColor);
 
   if (sIconFileName = '-') then  // Paint 'separator' icon
     begin
@@ -662,7 +662,7 @@ begin
       kedtIconFileName.Text:= OpenDialog.FileName;
       edtToolTip.Text:= ExtractOnlyFileName(OpenDialog.FileName);
 
-      Bitmap := PixMapManager.LoadBitmapEnhanced(kedtIconFileName.Text, 32, Color);
+      Bitmap := PixMapManager.LoadBitmapEnhanced(kedtIconFileName.Text, 32, True, Color);
       sbIconExample.Glyph.Assign(Bitmap);
       FreeThenNil(Bitmap);
 
@@ -755,7 +755,7 @@ begin
     begin
       kedtIconFileName.Text := sFileName;
 
-      Bitmap := PixMapManager.LoadBitmapEnhanced(kedtIconFileName.Text, 32, Color);
+      Bitmap := PixMapManager.LoadBitmapEnhanced(kedtIconFileName.Text, 32, True, Color);
       sbIconExample.Glyph := Bitmap;
       FreeThenNil(Bitmap);
 

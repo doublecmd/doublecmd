@@ -127,7 +127,7 @@ type
     {en
        Same as LoadBitmap but displays a warning if pixmap file doesn't exist.
     }
-    function CheckLoadPixmap(const AIconName: String) : TBitmap;
+    function CheckLoadPixmapFromFile(const AIconName: String) : TBitmap;
     {en
        If path is absolute tries to load bitmap and add to storage.
        If path is relative it tries to load theme icon and add to storage.
@@ -150,6 +150,17 @@ type
     function LoadIconThemeBitmapLocked(AIconName: String; AIconSize: Integer): TBitmap;
 
   {$IF DEFINED(WINDOWS)}
+    {en
+       Checks if the AIconName points to an icon resource in a library, executable, etc.
+       @param(AIconName
+              Full path to the file with the icon with appended "," and icon index.)
+       @param(IconFile
+              Returns the full path to the file containing the icon resource.)
+       @param(IconIndex
+              Returns the index of the icon in the file.)
+       @returns(@true if AIconName points to an icon resource, @false otherwise.)
+    }
+    function GetIconResourceIndex(const IconPath: String; out IconFile: String; out IconIndex: PtrInt): Boolean;
     function GetSystemFolderIcon: PtrInt;
     function GetSystemExecutableIcon: PtrInt;
   {$ENDIF}
@@ -185,7 +196,7 @@ type
        @param(ABitmap receives a new bitmap object.)
        @returns(@true if bitmap has been loaded, @false otherwise.)
     }
-    function LoadBitmap(AIconFileName: String; out ABitmap: TBitmap): Boolean;
+    function LoadBitmapFromFile(AIconFileName: String; out ABitmap: TBitmap): Boolean;
     {en
        Loads a graphical file as a bitmap if filename is full path.
        Environment variables in the filename are supported.
@@ -193,9 +204,10 @@ type
        with the file (by extension, attributes, etc.).
        Loads an icon from a file's resources if filename ends with ",Nr" (on Windows).
        Loads a theme icon if filename is not a full path.
-       Performs resize of the bitmap to <iIconSize>x<iIconSize> if neccessary.
+       Performs resize of the bitmap to <iIconSize>x<iIconSize> if Stretch = @true.
+       If Stretch = @false then clBackColor is ignored.
     }
-    function LoadBitmapEnhanced(sFileName : String; iIconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
+    function LoadBitmapEnhanced(sFileName : String; iIconSize : Integer; Stretch: Boolean; clBackColor : TColor) : Graphics.TBitmap;
     {en
        Loads a theme icon as bitmap.
        @param(AIconName is a MIME type name.)
@@ -339,7 +351,7 @@ end;
 
 { TPixMapManager }
 
-function TPixMapManager.LoadBitmap(AIconFileName: String; out ABitmap: Graphics.TBitmap): Boolean;
+function TPixMapManager.LoadBitmapFromFile(AIconFileName: String; out ABitmap: Graphics.TBitmap): Boolean;
 var
   Picture: TPicture;
 begin
@@ -372,10 +384,9 @@ begin
   end;
 end;
 
-function TPixMapManager.LoadBitmapEnhanced(sFileName : String; iIconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
+function TPixMapManager.LoadBitmapEnhanced(sFileName : String; iIconSize : Integer; Stretch: Boolean; clBackColor : TColor) : Graphics.TBitmap;
 var
 {$IFDEF MSWINDOWS}
-  iPos,
   iIconIndex,
   iIconLarge,
   iIconSmall: Integer;
@@ -383,6 +394,7 @@ var
   phIconLarge,
   phIconSmall : HICON;
   Icon : TIcon = nil;
+  IconFileName: String;
 {$ENDIF}
   AFile: TFile;
   iIndex : PtrInt;
@@ -399,58 +411,37 @@ begin
 
   // If the name is not full path then treat it as MIME type.
   if GetPathType(sFileName) = ptNone then
-  begin
-    bmStandartBitmap := LoadIconThemeBitmap(sFileName, iIconSize);
-    if Assigned(bmStandartBitmap) then
-      Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True);
-    Exit;
-  end;
-
+    bmStandartBitmap := LoadIconThemeBitmap(sFileName, iIconSize)
+  else
 {$IFDEF MSWINDOWS}
-  iIconIndex := -1;
-  iPos :=Pos(',', sFileName);
-  if iPos <> 0 then
+  if GetIconResourceIndex(sFileName, IconFileName, iIconIndex) then
     begin
-      iIconIndex := StrToIntDef(Copy(sFileName, iPos + 1, Length(sFileName) - iPos), 0);
-      sFileName := Copy(sFileName, 1, iPos - 1);
-    end;
-
-  if FileIsExeLib(sFileName) then
-    begin
-      if iIconIndex < 0 then iIconIndex := 0;
-      ExtractIconExW(PWChar(UTF8Decode(sFileName)), iIconIndex, phIconLarge, phIconSmall, 1);
-      // Get system metrics
-      iIconSmall:= GetSystemMetrics(SM_CXSMICON);
-      iIconLarge:= GetSystemMetrics(SM_CXICON);
-      if (iIconSize = 16) and (iIconSmall = 16) then
-        phIcon:= phIconSmall    // Use small icon
-      else if (iIconSize = 32) and (iIconLarge = 32) then
-        phIcon:= phIconLarge;   // Use large icon
-
-      if phIcon <> INVALID_HANDLE_VALUE then // standart icon size
-        try
-          Result:= Graphics.TBitMap.Create;
-          Icon:= CreateIconFromHandle(phIcon);
-          Result.Assign(Icon);
-        finally
-          FreeThenNil(Icon);
-        end
-      else // non standart icon size
-        try
-          bmStandartBitmap := Graphics.TBitMap.Create;
-          if iIconSize > iIconSmall then
-            phicon := phIconLarge // Use large icon
+      if ExtractIconExW(PWChar(UTF8Decode(IconFileName)), iIconIndex, phIconLarge, phIconSmall, 1) = 2 then // if extracted both icons
+        begin
+          // Get system metrics
+          iIconSmall:= GetSystemMetrics(SM_CXSMICON);
+          iIconLarge:= GetSystemMetrics(SM_CXICON);
+          if (iIconSize = 16) and (iIconSmall = 16) then
+            phIcon:= phIconSmall    // Use small icon
+          else if (iIconSize = 32) and (iIconLarge = 32) then
+            phIcon:= phIconLarge    // Use large icon
+          else if iIconSize > iIconSmall then
+            phicon := phIconLarge   // Use large icon
           else
-            phicon := phIconSmall; // Use small icon
-          Icon:= CreateIconFromHandle(phIcon);
-          bmStandartBitmap.Assign(Icon);
-          Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True);
-        finally
-          FreeThenNil(Icon);
-        end;  // non standart size
-      DestroyIcon(phIconLarge);
-      DestroyIcon(phIconSmall);
-    end  // IsExecutable
+            phicon := phIconSmall;  // Use small icon
+
+          if phIcon <> INVALID_HANDLE_VALUE then
+            try
+              Icon:= CreateIconFromHandle(phIcon);
+              bmStandartBitmap := Graphics.TBitMap.Create;
+              bmStandartBitmap.Assign(Icon);
+            finally
+              FreeThenNil(Icon);
+            end;
+          DestroyIcon(phIconLarge);
+          DestroyIcon(phIconSmall);
+        end;
+    end  // GetIconResourceIndex
   else
 {$ENDIF}
     begin
@@ -468,7 +459,7 @@ begin
         end
         else // Try loading the standard way.
         {$ELSE}
-        if not LoadBitmap(sFileName, bmStandartBitmap) then
+        if not LoadBitmapFromFile(sFileName, bmStandartBitmap) then
           Exit;
         {$ENDIF}
       end
@@ -486,8 +477,12 @@ begin
               Exit(nil);
             end;
         end;
-      Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True);
-    end;  // IsExecutable else
+    end;
+
+  if Stretch and Assigned(bmStandartBitmap) then
+    Result := StretchBitmap(bmStandartBitmap, iIconSize, clBackColor, True)
+  else
+    Result := bmStandartBitmap;
 end;
 
 function TPixMapManager.LoadIconThemeBitmap(AIconName: String; AIconSize: Integer): Graphics.TBitmap;
@@ -500,14 +495,14 @@ begin
   end;
 end;
 
-function TPixMapManager.CheckLoadPixmap(const AIconName: String): Graphics.TBitmap;
+function TPixMapManager.CheckLoadPixmapFromFile(const AIconName: String): Graphics.TBitmap;
 begin
   if not mbFileExists(AIconName) then
     begin
       DCDebug(Format('Warning: pixmap [%s] not exists!',[AIconName]));
       Exit(nil);
     end;
-  LoadBitmap(AIconName, Result);
+  LoadBitmapFromFile(AIconName, Result);
 end;
 
 function TPixMapManager.CheckAddThemePixmap(const AIconName: String; AIconSize : Integer) : PtrInt;
@@ -538,6 +533,8 @@ begin
   if AIconSize = 0 then
     AIconSize := gIconsSize;
 
+  AIconName := ReplaceEnvVars(AIconName);
+
   if GetPathType(AIconName) = ptAbsolute then
     begin
       FPixmapsLock.Acquire;
@@ -546,12 +543,12 @@ begin
         fileIndex := FPixmapsFileNames.Find(AIconName);
         if fileIndex < 0 then
           begin
+        {$IFDEF LCLGTK2}
             if not mbFileExists(AIconName) then
               begin
                 DCDebug(Format('Warning: pixmap [%s] not exists!', [AIconName]));
                 Exit;
               end;
-        {$IFDEF LCLGTK2}
             pbPicture := gdk_pixbuf_new_from_file_at_size(PChar(AIconName), AIconSize, AIconSize, nil);
             if Assigned(pbPicture) then
               begin
@@ -561,7 +558,8 @@ begin
             else
               DCDebug(Format('Error: pixmap [%s] not loaded!', [AIconName]));
         {$ELSE}
-            if LoadBitmap(AIconName, bmpBitmap) then
+            bmpBitmap := LoadBitmapEnhanced(AIconName, AIconSize, False, clNone);
+            if Assigned(bmpBitmap) then
             begin
               // Shrink big bitmaps before putting them into PixmapManager,
               // to speed up later drawing.
@@ -950,20 +948,40 @@ begin
   {$ELSE}
   sIconFileName:= FIconTheme.FindIcon(AIconName, AIconSize);
   if sIconFileName <> EmptyStr then
-    Result := CheckLoadPixmap(sIconFileName);
+    Result := CheckLoadPixmapFromFile(sIconFileName);
   {$ENDIF}
   if not Assigned(Result) then
 {$ENDIF}
     begin
       sIconFileName:= FDCIconTheme.FindIcon(AIconName, AIconSize);
       if sIconFileName <> EmptyStr then
-        Result := CheckLoadPixmap(sIconFileName)
+        Result := CheckLoadPixmapFromFile(sIconFileName)
       else
         Result := nil;
     end;
 end;
 
 {$IFDEF WINDOWS}
+function TPixMapManager.GetIconResourceIndex(const IconPath: String; out IconFile: String; out IconIndex: PtrInt): Boolean;
+var
+  iPos, iIndex: Integer;
+begin
+  iPos := Pos(',', IconPath);
+  if iPos <> 0 then
+    begin
+      if TryStrToInt(Copy(IconPath, iPos + 1, Length(IconPath) - iPos), iIndex) and (iIndex >= 0) then
+        begin
+          IconIndex := iIndex;
+          IconFile := Copy(IconPath, 1, iPos - 1);
+          Result := FileIsExeLib(IconFile);
+        end
+      else
+        Result := False;
+    end
+  else
+    Result := False;
+end;
+
 function TPixMapManager.GetSystemFolderIcon: PtrInt;
 var
   FileInfo: TSHFileInfo;
@@ -1161,14 +1179,9 @@ begin
   { Load icons from doublecmd.ext }
   for I := 0 to gExts.Count - 1 do
     begin
-      gExts.Items[I].IconIndex:= FiDefaultIconID;
-      sPixMap := gExts.Items[I].Icon;
-      if mbFileExists(sPixMap) then
+      iPixMap:= CheckAddPixmap(gExts.Items[I].Icon, gIconsSize);
+      if iPixMap >= 0 then
         begin
-          iPixMap:= CheckAddPixmap(sPixMap, gIconsSize);
-          if iPixMap < 0 then Continue;
-          gExts.Items[I].IconIndex:= iPixMap;
-          //DCDebug('sPixMap = ',sPixMap, ' Index = ', IntToStr(iPixMap));
 
           // set pixmap index for all extensions
           for iekv := 0 to gExts.Items[I].Extensions.Count - 1 do
@@ -1177,7 +1190,11 @@ begin
               if FExtList.Find(sExt) < 0 then
                 FExtList.Add(sExt, TObject(iPixMap));
             end;
-        end;
+        end
+      else
+        iPixMap:= FiDefaultIconID;
+
+      gExts.Items[I].IconIndex:= iPixMap;
     end;
   {/ Load icons from doublecmd.ext }  
 
