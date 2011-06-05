@@ -1067,7 +1067,7 @@ object frmFindDlg: TfrmFindDlg
         OnClick = btnStartClick
         TabOrder = 0
       end
-      object btnSaveTemplate: TBitBtn
+      object btnSaveTemplate: TButton
         AnchorSideBottom.Side = asrBottom
         Left = 6
         Height = 31
