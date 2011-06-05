@@ -30,6 +30,12 @@ interface
 uses
   Classes, RtlConsts, SysUtils, IniFiles, IniPropStorage;
 
+{$IF (FPC_VERSION = 2) and (FPC_RELEASE < 5)}
+const
+  { TFileStream create mode }
+  fmCreate        = $FF00;
+{$ENDIF}
+
 type
   { TFileStreamEx class }
 
@@ -297,4 +303,4 @@ begin
     Result := Ident;
 end;
 
-end.
+end.
