@@ -41,7 +41,7 @@ type
     Bevel2: TBevel;
     btnAddAttribute: TButton;
     btnAttrsHelp: TButton;
-    btnSaveTemplate: TBitBtn;
+    btnSaveTemplate: TButton;
     btnClose: TButton;
     btnGoToPath: TButton;
     btnNewSearch: TButton;
