@@ -415,6 +415,7 @@ object frmFileAssoc: TfrmFileAssoc
           Width = 207
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 4
+          OnChange = edtIconFileNameChange
           TabOrder = 0
         end
       end

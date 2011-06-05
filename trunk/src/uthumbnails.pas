@@ -219,7 +219,7 @@ begin
           end;
         except
           // if can not load thumbnail then return default icon
-          Result:= PixMapManager.LoadBitmapEnhanced(sFullPathToFile, gIconsSize, FBackColor);
+          Result:= PixMapManager.LoadBitmapEnhanced(sFullPathToFile, gIconsSize, True, FBackColor);
           Exit;
         end;
       finally
@@ -236,7 +236,7 @@ begin
               Result:= CreatePreviewImage(Picture.Graphic);
             except
               // if can not load thumbnail then return default icon
-              Result:= PixMapManager.LoadBitmapEnhanced(sFullPathToFile, gIconsSize, FBackColor);
+              Result:= PixMapManager.LoadBitmapEnhanced(sFullPathToFile, gIconsSize, True, FBackColor);
               Exit;
             end;
           finally
@@ -253,7 +253,7 @@ begin
       else
         begin
           // load thumb for unknown file
-          Result:= PixMapManager.LoadBitmapEnhanced(sFullPathToFile, gIconsSize, FBackColor);
+          Result:= PixMapManager.LoadBitmapEnhanced(sFullPathToFile, gIconsSize, True, FBackColor);
           Exit;
         end;
       if not Assigned(Result) then Exit;
