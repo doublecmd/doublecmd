@@ -13,6 +13,8 @@
 
 unit uExts;
 
+{$mode objfpc}{$H+}
+
 interface
 
 uses
