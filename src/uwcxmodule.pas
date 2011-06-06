@@ -218,51 +218,43 @@ end;
 
 function TWCXModule.WcxProcessFile(hArcData: TArcHandle; Operation: LongInt;
   DestPath, DestName: UTF8String): LongInt;
-var
-  pwcDestPath: PWideChar;
-  pacDestPath: PAnsiChar;
 begin
   if Assigned(ProcessFileW) then
     begin
       if DestPath = EmptyStr then
-        pwcDestPath:= nil
+        Result:= ProcessFileW(hArcData, Operation, nil, PWideChar(UTF8Decode(DestName)))
       else
-        pwcDestPath:= PWideChar(UTF8Decode(DestPath));
-      Result:= ProcessFileW(hArcData, Operation, pwcDestPath, PWideChar(UTF8Decode(DestName)));
+        Result:= ProcessFileW(hArcData, Operation, PWideChar(UTF8Decode(DestPath)), PWideChar(UTF8Decode(DestName)));
     end
   else if Assigned(ProcessFile) then
     begin
       if DestPath = EmptyStr then
-        pacDestPath:= nil
+        Result:= ProcessFile(hArcData, Operation, nil, PAnsiChar(UTF8ToSys(DestName)))
       else
-        pacDestPath:= PAnsiChar(UTF8ToSys(DestPath));
-      Result:= ProcessFile(hArcData, Operation, pacDestPath, PAnsiChar(UTF8ToSys(DestName)));
+        Result:= ProcessFile(hArcData, Operation, PAnsiChar(UTF8ToSys(DestPath)), PAnsiChar(UTF8ToSys(DestName)));
     end;
 end;
 
 function TWCXModule.WcxPackFiles(PackedFile, SubPath, SrcPath,
   AddList: UTF8String; Flags: LongInt): LongInt;
-var
-  pwcSubPath: PWideChar;
-  pacSubPath: PAnsiChar;
 begin
   if Assigned(PackFilesW) then
     begin
       if SubPath = EmptyStr then
-        pwcSubPath:= nil
+        Result:= PackFilesW(PWideChar(UTF8Decode(PackedFile)), nil,
+                            PWideChar(UTF8Decode(SrcPath)), PWideChar(UTF8Decode(AddList)), Flags)
       else
-        pwcSubPath:= PWideChar(UTF8Decode(SubPath));
-      Result:= PackFilesW(PWideChar(UTF8Decode(PackedFile)), pwcSubPath,
-                          PWideChar(UTF8Decode(SrcPath)), PWideChar(UTF8Decode(AddList)), Flags);
+        Result:= PackFilesW(PWideChar(UTF8Decode(PackedFile)), PWideChar(UTF8Decode(SubPath)),
+                            PWideChar(UTF8Decode(SrcPath)), PWideChar(UTF8Decode(AddList)), Flags);
     end
   else if Assigned(PackFiles) then
     begin
       if SubPath = EmptyStr then
-        pacSubPath:= nil
+        Result:= PackFiles(PAnsiChar(UTF8ToSys(PackedFile)), nil,
+                           PAnsiChar(UTF8ToSys(SrcPath)), PAnsiChar(UTF8ToSys(AddList)), Flags)
       else
-        pacSubPath:= PAnsiChar(UTF8ToSys(SubPath));
-      Result:= PackFiles(PAnsiChar(UTF8ToSys(PackedFile)), pacSubPath,
-                         PAnsiChar(UTF8ToSys(SrcPath)), PAnsiChar(UTF8ToSys(AddList)), Flags);
+        Result:= PackFiles(PAnsiChar(UTF8ToSys(PackedFile)), PAnsiChar(UTF8ToSys(SubPath)),
+                           PAnsiChar(UTF8ToSys(SrcPath)), PAnsiChar(UTF8ToSys(AddList)), Flags);
     end;
 end;
 
