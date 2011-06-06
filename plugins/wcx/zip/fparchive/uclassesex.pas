@@ -118,7 +118,11 @@ constructor TFileStreamEx.Create(const AFileName: UTF8String; Mode: Word);
 var
   H: System.THandle;
 begin
+{$IF (FPC_VERSION > 2) or ((FPC_VERSION=2) and (FPC_RELEASE >= 5))}
+  if (Mode and fmCreate) <> 0 then
+{$ELSE}
   if Mode = fmCreate then
+{$ENDIF}
     begin
       H:= mbFileCreate(AFileName);
       if H = feInvalidHandle then
@@ -194,7 +198,7 @@ end;
 var
   Info: BaseUnix.Stat;
 begin
-  Result:= Cardinal(-1);
+  Result:= faInvalidAttributes;
   if fpLStat(FileName, @Info) >= 0 then
     Result:= Info.st_mode;
 end;
@@ -210,7 +214,7 @@ begin
 end;
 {$ELSE}
 begin
-  Result:= fpMkDir(PChar(NewDir), $FFF) = 0;
+  Result:= fpMkDir(PChar(NewDir), $1FF) = 0; // $1FF = &0777
 end;
 {$ENDIF}
 
@@ -233,7 +237,7 @@ end;
 function mbFileSize(const FileName: UTF8String): Int64;
 {$IFDEF MSWINDOWS}
 var
-  Handle: THandle;
+  Handle: System.THandle;
   FindData: TWin32FindDataW;
   wFileName: WideString;
 begin
