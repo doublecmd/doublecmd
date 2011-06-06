@@ -246,8 +246,10 @@ end;
 
 procedure TWLXModule.UnloadModule;
 begin
+{$IF DEFINED(LINUX) and ((FPC_VERSION > 2) or ((FPC_VERSION=2) and (FPC_RELEASE >= 5)))}
   if FModuleHandle <> 0 then
     FreeLibrary(FModuleHandle);
+{$ENDIF}
   FModuleHandle := 0;
   { Mandatory }
   ListLoad:=nil;
