@@ -150,8 +150,10 @@ begin
   if Assigned(SFinalize) then
     SFinalize(FPluginNr);
 
+{$IF (not DEFINED(LINUX)) or ((FPC_VERSION > 2) or ((FPC_VERSION=2) and (FPC_RELEASE >= 5)))}
   if FModuleHandle <> 0 then
     FreeLibrary(FModuleHandle);
+{$ENDIF}
   FModuleHandle := 0;
 
   SStartSearch := nil;
@@ -410,4 +412,4 @@ begin
 end;
 
 end.
-
+

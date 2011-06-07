@@ -525,7 +525,7 @@ end;
 
 procedure TWFXModule.UnloadModule;
 begin
-{$IF DEFINED(LINUX) and ((FPC_VERSION > 2) or ((FPC_VERSION=2) and (FPC_RELEASE >= 5)))}
+{$IF (not DEFINED(LINUX)) or ((FPC_VERSION > 2) or ((FPC_VERSION=2) and (FPC_RELEASE >= 5)))}
   if FModuleHandle <> 0 then
     FreeLibrary(FModuleHandle);
 {$ENDIF}
