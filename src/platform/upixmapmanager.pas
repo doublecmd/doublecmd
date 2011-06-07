@@ -979,7 +979,11 @@ begin
         Result := False;
     end
   else
-    Result := False;
+    begin
+      IconIndex := 0;
+      IconFile := IconPath;
+      Result := FileIsExeLib(IconFile);
+    end;
 end;
 
 function TPixMapManager.GetSystemFolderIcon: PtrInt;
