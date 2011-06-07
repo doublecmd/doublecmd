@@ -110,7 +110,7 @@ constructor TFileStreamEx.Create(const AFileName: UTF8String; Mode: Word);
 begin
   if (Mode and fmCreate) <> 0 then
     begin
-      FHandle:= mbFileCreate(AFileName);
+      FHandle:= mbFileCreate(AFileName, Mode);
       if FHandle = feInvalidHandle then
         raise EFCreateError.CreateFmt(SFCreateError, [AFileName])
       else
@@ -303,4 +303,4 @@ begin
     Result := Ident;
 end;
 
-end.
+end.
