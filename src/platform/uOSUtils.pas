@@ -215,9 +215,10 @@ function FormatTerminal(Command: String; bKeepTerminalOpen: Boolean): String;
 function ConsoleToUTF8(const Str: AnsiString): UTF8String;
 
 { File handling functions}
-function mbFileOpen(const FileName: UTF8String; Mode: Integer): System.THandle;
+function mbFileOpen(const FileName: UTF8String; Mode: Longint): System.THandle;
 function mbFileCreate(const FileName: UTF8String): System.THandle; overload;
-function mbFileCreate(const FileName: UTF8String; Mode: Integer): System.THandle; overload;
+function mbFileCreate(const FileName: UTF8String; ShareMode: Longint): System.THandle; overload;
+function mbFileCreate(const FileName: UTF8String; ShareMode: Longint; Rights: Longint): System.THandle; overload;
 function mbFileAge(const FileName: UTF8String): uTypes.TFileTime;
 // On success returns True.
 function mbFileGetTime(const FileName: UTF8String;
@@ -293,6 +294,26 @@ uses
   , BaseUnix, Unix, uMyUnix, dl
   {$ENDIF}
   ;
+
+{$IF DEFINED(MSWINDOWS)}
+const
+  AccessModes: array[0..2] of DWORD  = (
+                GENERIC_READ,
+                GENERIC_WRITE,
+                GENERIC_READ or GENERIC_WRITE);
+  ShareModes: array[0..4] of DWORD = (
+               0,
+               0,
+               FILE_SHARE_READ,
+               FILE_SHARE_WRITE,
+               FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE);
+{$ELSEIF DEFINED(UNIX)}
+const
+  AccessModes: array[0..2] of LongInt  = (
+                O_RdOnly,
+                O_WrOnly,
+                O_RdWr);
+{$ENDIF}
 
 {$IFDEF UNIX}
 type
@@ -1172,46 +1193,23 @@ begin
   {$ENDIF}
 end;
 
-function mbFileOpen(const FileName: UTF8String; Mode: Integer): System.THandle;
+function mbFileOpen(const FileName: UTF8String; Mode: Longint): System.THandle;
 {$IFDEF MSWINDOWS}
-const
-  AccessMode: array[0..2] of DWORD  = (
-                GENERIC_READ,
-                GENERIC_WRITE,
-                GENERIC_READ or GENERIC_WRITE);
-  ShareMode: array[0..4] of DWORD = (
-               0,
-               0,
-               FILE_SHARE_READ,
-               FILE_SHARE_WRITE,
-               FILE_SHARE_READ or FILE_SHARE_WRITE);
-var
-  wFileName: WideString;
 begin
-  wFileName:= UTF8Decode(FileName);
-  Result:= CreateFileW(PWChar(wFileName), AccessMode[Mode and 3],
-                       ShareMode[(Mode and $F0) shr 4], nil, OPEN_EXISTING,
+  Result:= CreateFileW(PWideChar(UTF8Decode(FileName)), AccessModes[Mode and 3],
+                       ShareModes[(Mode and $F0) shr 4], nil, OPEN_EXISTING,
                        FILE_ATTRIBUTE_NORMAL, 0);
 end;
 {$ELSE}
-const
-  AccessMode: array[0..2] of LongInt  = (
-                O_RdOnly,
-                O_WrOnly,
-                O_RdWr);
 begin
-  Result:= fpOpen(FileName, AccessMode[Mode and 3]);
+  Result:= fpOpen(FileName, AccessModes[Mode and 3]);
 end;
 {$ENDIF}
 
 function mbFileCreate(const FileName: UTF8String): System.THandle;
 {$IFDEF MSWINDOWS}
-var
-  wFileName: WideString;
 begin
-  wFileName:= UTF8Decode(FileName);
-  Result:= CreateFileW(PWChar(wFileName), GENERIC_READ or GENERIC_WRITE,
-                       0, nil, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+  Result := mbFileCreate(FileName, fmShareDenyWrite, 0);
 end;
 {$ELSE}
 begin
@@ -1219,14 +1217,26 @@ begin
 end;
 {$ENDIF}
 
-function mbFileCreate(const FileName: UTF8String; Mode: Integer): System.THandle;
+function mbFileCreate(const FileName: UTF8String; ShareMode: Longint): System.THandle;
 {$IFDEF MSWINDOWS}
 begin
-  Result:= mbFileCreate(FileName);
+  Result:= mbFileCreate(FileName, ShareMode, 0);
 end;
 {$ELSE}
 begin
-  Result:= fpOpen(FileName, O_Creat or O_RdWr or O_Trunc, Mode);
+  Result:= FileCreate(FileName, ShareMode, 438); // 438 = 666 octal
+end;
+{$ENDIF}
+
+function mbFileCreate(const FileName: UTF8String; ShareMode: Longint; Rights: Longint): System.THandle;
+{$IFDEF MSWINDOWS}
+begin
+  Result:= CreateFileW(PWideChar(UTF8Decode(FileName)), GENERIC_READ or GENERIC_WRITE,
+                       ShareModes[(ShareMode and $F0) shr 4], nil, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+end;
+{$ELSE}
+begin
+  Result:= FileCreate(FileName, ShareMode, Rights);
 end;
 {$ENDIF}
 
