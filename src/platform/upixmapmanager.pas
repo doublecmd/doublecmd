@@ -387,7 +387,7 @@ end;
 function TPixMapManager.LoadBitmapEnhanced(sFileName : String; iIconSize : Integer; Stretch: Boolean; clBackColor : TColor) : Graphics.TBitmap;
 var
 {$IFDEF MSWINDOWS}
-  iIconIndex,
+  iIconIndex: PtrInt;
   iIconLarge,
   iIconSmall: Integer;
   phIcon: HICON = INVALID_HANDLE_VALUE;
