@@ -1224,7 +1224,11 @@ begin
 end;
 {$ELSE}
 begin
+  {$IF (FPC_VERSION > 2) or ((FPC_VERSION = 2) and (FPC_RELEASE >= 5))}
   Result:= FileCreate(FileName, ShareMode, 438); // 438 = 666 octal
+  {$ELSE}
+  Result:= FileCreate(FileName, 438); // 438 = 666 octal
+  {$ENDIF}
 end;
 {$ENDIF}
 
@@ -1236,7 +1240,11 @@ begin
 end;
 {$ELSE}
 begin
+  {$IF (FPC_VERSION > 2) or ((FPC_VERSION = 2) and (FPC_RELEASE >= 5))}
   Result:= FileCreate(FileName, ShareMode, Rights);
+  {$ELSE}
+  Result:= FileCreate(FileName, Rights);
+  {$ENDIF}
 end;
 {$ENDIF}
 
@@ -1876,4 +1884,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.
