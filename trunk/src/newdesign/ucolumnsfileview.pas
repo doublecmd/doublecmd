@@ -1460,7 +1460,9 @@ begin
     with dgPanel.Columns.Items[x] do
     begin
       if not ((x = 0) and gAutoFillColumns and (gAutoSizeColumn = 0)) then
-        SizePriority:= 0;
+        SizePriority:= 0
+      else
+        SizePriority:= 1;
       Width:= ColumnsClass.GetColumnWidth(x);
       Title.Caption:= ColumnsClass.GetColumnTitle(x);
     end;
