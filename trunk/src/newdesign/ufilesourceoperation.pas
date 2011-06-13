@@ -508,7 +508,7 @@ begin
 
     try
       // Wait for manual start if not started automatically.
-      if GetDesiredState <> fsosRunning then
+      if GetDesiredState in [fsosNotStarted, fsosPaused] then
         DoPause;  // wait for start command
 
       // Check if wasn't aborted while paused.
