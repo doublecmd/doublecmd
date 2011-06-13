@@ -30,6 +30,9 @@ interface
 uses
   Classes, SysUtils;
 
+const
+  faInvalidAttributes: Cardinal = Cardinal(-1);
+
 type
   { TFileStreamEx class }
 
@@ -261,4 +264,4 @@ begin
 end;
 {$ENDIF}
 
-end.
+end.
