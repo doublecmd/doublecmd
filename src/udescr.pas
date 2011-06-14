@@ -107,7 +107,7 @@ type
     }
     procedure SaveDescription;
 
-    {$IF (FPC_VERSION > 2) or ((FPC_VERSION = 2) and (FPC_RELEASE >= 5))}
+    {$IF (FPC_VERSION > 2) or ((FPC_VERSION = 2) and (FPC_RELEASE >= 5)) or ((FPC_VERSION = 2) and (FPC_RELEASE = 4) and (FPC_PATCH >= 4))}
     function Find(const S: string; out Index: Integer): Boolean; override;
     {$ELSE}
     function Find(const S: string; var Index: Integer): Boolean; override;
@@ -160,7 +160,7 @@ begin
     end;
 end;
 
-{$IF (FPC_VERSION > 2) or ((FPC_VERSION = 2) and (FPC_RELEASE >= 5))}
+{$IF (FPC_VERSION > 2) or ((FPC_VERSION = 2) and (FPC_RELEASE >= 5)) or ((FPC_VERSION = 2) and (FPC_RELEASE = 4) and (FPC_PATCH >= 4))}
 function TDescription.Find(const S: string; out Index: Integer): Boolean;
 {$ELSE}
 function TDescription.Find(const S: string; var Index: Integer): Boolean;
@@ -407,4 +407,4 @@ begin
 end;
 
 end.
-
+
