@@ -14,7 +14,6 @@ lazbuild wcx\cpio\src\cpio.lpi %DC_ARCH%
 lazbuild wcx\deb\src\deb.lpi %DC_ARCH%
 lazbuild wcx\lzma\src\lzma.lpi %DC_ARCH%
 lazbuild wcx\rpm\src\rpm.lpi %DC_ARCH%
-lazbuild wcx\unbz2\src\unbz2.lpi %DC_ARCH%
 lazbuild wcx\unrar\src\unrar.lpi %DC_ARCH%
 lazbuild wcx\zip\src\zip.lpi %DC_ARCH%
 
@@ -45,11 +44,6 @@ popd
 pushd wcx\rpm\lib\
 strip --strip-all rpm.dll
 rename rpm.dll rpm.wcx
-popd
-
-pushd wcx\unbz2\lib\
-strip --strip-all unbz2.dll
-rename unbz2.dll unbz2.wcx
 popd
 
 pushd wcx\unrar\lib\

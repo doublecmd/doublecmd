@@ -49,7 +49,6 @@ mkdir -p $DC_INSTALL_DIR/plugins/wcx/deb
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/lzma
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/rpm
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/unrar
-mkdir -p $DC_INSTALL_DIR/plugins/wcx/unbz2
 mkdir -p $DC_INSTALL_DIR/plugins/wcx/zip
 # WDX plugins directories
 mkdir -p $DC_INSTALL_DIR/plugins/wdx
@@ -79,7 +78,6 @@ install -m 644 plugins/wcx/deb/lib/deb.wcx          $DC_INSTALL_DIR/plugins/wcx/
 install -m 644 plugins/wcx/lzma/lib/lzma.wcx        $DC_INSTALL_DIR/plugins/wcx/lzma/
 install -m 644 plugins/wcx/rpm/lib/rpm.wcx          $DC_INSTALL_DIR/plugins/wcx/rpm/
 install -m 644 plugins/wcx/unrar/lib/unrar.wcx      $DC_INSTALL_DIR/plugins/wcx/unrar/
-install -m 644 plugins/wcx/unbz2/lib/unbz2.wcx      $DC_INSTALL_DIR/plugins/wcx/unbz2/
 install -m 644 plugins/wcx/zip/lib/zip.wcx          $DC_INSTALL_DIR/plugins/wcx/zip/
 # WDX
 install -m 644 plugins/wdx/rpm_wdx/lib/rpm_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/rpm_wdx/

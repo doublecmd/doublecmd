@@ -14,7 +14,6 @@ $lazbuild wcx/cpio/src/cpio.lpi $DC_ARCH
 $lazbuild wcx/deb/src/deb.lpi $DC_ARCH
 $lazbuild wcx/lzma/src/lzma.lpi $DC_ARCH
 $lazbuild wcx/rpm/src/rpm.lpi $DC_ARCH
-$lazbuild wcx/unbz2/src/unbz2.lpi $DC_ARCH
 $lazbuild wcx/unrar/src/unrar.lpi $DC_ARCH
 $lazbuild wcx/zip/src/Zip.lpi $DC_ARCH
 
@@ -50,11 +49,6 @@ cd $pluginsdir
 cd wcx/rpm/lib/
 strip --strip-all librpm.so
 mv librpm.so rpm.wcx
-cd $pluginsdir
-
-cd wcx/unbz2/lib/
-strip --strip-all libunbz2.so
-mv libunbz2.so unbz2.wcx
 cd $pluginsdir
 
 cd wcx/unrar/lib/
