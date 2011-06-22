@@ -5565,6 +5565,14 @@ msgstr "Проп&устити усе"
 msgid "&Yes"
 msgstr "&Так"
 
+#: ulng.rsdlgcalcstatistics
+msgid "Calculate files and folders"
+msgstr ""
+
+#: ulng.rsdlgcalculating
+msgid "Calculating"
+msgstr ""
+
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate check sum..."
@@ -5628,6 +5636,10 @@ msgstr "В"
 #: ulng.rsdlgqueueout
 msgid "Out"
 msgstr "Із"
+
+#: ulng.rsdlgspeed
+msgid "Speed %s/s"
+msgstr ""
 
 #: ulng.rsdlgspeedtime
 #, fuzzy
@@ -6371,6 +6383,10 @@ msgstr "Видалити:"
 #: ulng.rsoptarchiveextractwithoutpath
 msgid "Extract without path:"
 msgstr "Розпакувати виключивши шляхи:"
+
+#: ulng.rsoptarchiveformmode
+msgid "Format parsing mode:"
+msgstr ""
 
 #: ulng.rsoptarchiveid
 #, fuzzy

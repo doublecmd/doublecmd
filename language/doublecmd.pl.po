@@ -5510,6 +5510,14 @@ msgstr "Pomiń &wszystko"
 msgid "&Yes"
 msgstr "&Tak"
 
+#: ulng.rsdlgcalcstatistics
+msgid "Calculate files and folders"
+msgstr ""
+
+#: ulng.rsdlgcalculating
+msgid "Calculating"
+msgstr ""
+
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate check sum..."
@@ -5571,6 +5579,10 @@ msgstr "Wejście"
 #: ulng.rsdlgqueueout
 msgid "Out"
 msgstr "Wyjście"
+
+#: ulng.rsdlgspeed
+msgid "Speed %s/s"
+msgstr ""
 
 #: ulng.rsdlgspeedtime
 #| msgid "Speed %s/s, remaining time %s"
@@ -6312,6 +6324,10 @@ msgstr "Usuń:"
 #: ulng.rsoptarchiveextractwithoutpath
 msgid "Extract without path:"
 msgstr "Rozpakuj bez ścieżki:"
+
+#: ulng.rsoptarchiveformmode
+msgid "Format parsing mode:"
+msgstr ""
 
 #: ulng.rsoptarchiveid
 msgctxt "ulng.rsoptarchiveid"

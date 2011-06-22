@@ -1906,7 +1906,6 @@ msgstr "Додати"
 msgid "Add manually"
 msgstr "Додати вручну"
 
-
 #: TFRMHOTDIR.BTNCANCEL.CAPTION
 msgctxt "TFRMHOTDIR.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -3491,7 +3490,6 @@ msgstr "Плоскі кнопки"
 msgid "Show free space indicator on drive label"
 msgstr "Показувати індикатор вільного місця на панелі дисків"
 
-
 #: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
 msgid "Horizontal lines"
 msgstr "Горизонтальні лінії"
@@ -3952,7 +3950,6 @@ msgstr "Розмір буфера (Кб):"
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
 msgstr "Формат дати і часу:"
-
 
 #: TFRMOPTIONS.LBLDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONS.LBLDESCRIPTION.CAPTION"
@@ -5365,7 +5362,6 @@ msgstr "0"
 
 #: TFRMVIEWOPERATIONS.LBLCURRENTOPERATION.CAPTION
 msgid "Current operation"
-
 msgstr "Поточна операція"
 
 #: TFRMVIEWOPERATIONS.LBLOPERATIONSCOUNT.CAPTION
@@ -5516,6 +5512,14 @@ msgstr "Проп&устити все"
 msgid "&Yes"
 msgstr "&Так"
 
+#: ulng.rsdlgcalcstatistics
+msgid "Calculate files and folders"
+msgstr ""
+
+#: ulng.rsdlgcalculating
+msgid "Calculating"
+msgstr ""
+
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
 msgid "Calculate check sum..."
@@ -5578,6 +5582,10 @@ msgstr "В"
 #: ulng.rsdlgqueueout
 msgid "Out"
 msgstr "Із"
+
+#: ulng.rsdlgspeed
+msgid "Speed %s/s"
+msgstr ""
 
 #: ulng.rsdlgspeedtime
 #, fuzzy
@@ -5757,7 +5765,6 @@ msgid "Type"
 msgstr "Тип"
 
 #: ulng.rsharderrcreate
-
 msgid "Error creating hardlink."
 msgstr "Помилка створення жорсткого посилання."
 
@@ -6323,6 +6330,10 @@ msgstr "Видалити:"
 msgid "Extract without path:"
 msgstr "Розпакувати без шляхів:"
 
+#: ulng.rsoptarchiveformmode
+msgid "Format parsing mode:"
+msgstr ""
+
 #: ulng.rsoptarchiveid
 #, fuzzy
 msgctxt "ulng.rsoptarchiveid"
@@ -6667,7 +6678,6 @@ msgstr "Файлів: %d, Каталогів: %d, Розмір: %s (%s байт)
 
 #: ulng.rsspliterrdirectory
 msgid "Unable to create target directory!"
-
 msgstr "Не можу створити каталог призначення!"
 
 #: ulng.rsspliterrfilesize
