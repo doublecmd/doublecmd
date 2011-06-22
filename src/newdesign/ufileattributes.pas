@@ -65,6 +65,25 @@ const // Unix attributes
   function WinSingleStrToFileAttr(sAttr: String): TFileAttrs;
   function UnixSingleStrToFileAttr(sAttr: String): TFileAttrs;
 
+  {en
+     Convert file attributes from string to number
+     @param(Attributes File attributes as string)
+     @returns(File attributes as number)
+  }
+  function StrToFileAttr(sAttr: String): TFileAttrs;
+  {en
+       Convert Windows file attributes from string to number
+       @param(Attributes File attributes as string)
+       @returns(File attributes as number)
+    }
+  function WinStrToFileAttr(sAttr: String): TFileAttrs;
+  {en
+       Convert Unix file attributes from string to number
+       @param(Attributes File attributes as string)
+       @returns(File attributes as number)
+    }
+  function UnixStrToFileAttr(sAttr: String): TFileAttrs;
+
 implementation
 
 uses
@@ -158,5 +177,60 @@ begin
   Result := 0;
 end;
 
+function StrToFileAttr(sAttr: String): TFileAttrs; inline;
+begin
+{$IF DEFINED(MSWINDOWS)}
+  Result := WinStrToFileAttr(sAttr);
+{$ELSEIF DEFINED(UNIX)}
+  Result := UnixStrToFileAttr(sAttr);
+{$ENDIF}
+end;
+
+function WinStrToFileAttr(sAttr: String): TFileAttrs;
+var
+  I: LongInt;
+begin
+  Result:= 0;
+  sAttr:= LowerCase(sAttr);
+
+  for I:= 1 to Length(sAttr) do
+  case sAttr[I] of
+    'd': Result := Result or FILE_ATTRIBUTE_DIRECTORY;
+    'l': Result := Result or FILE_ATTRIBUTE_REPARSE_POINT;
+    'r': Result := Result or FILE_ATTRIBUTE_READONLY;
+    'a': Result := Result or FILE_ATTRIBUTE_ARCHIVE;
+    'h': Result := Result or FILE_ATTRIBUTE_HIDDEN;
+    's': Result := Result or FILE_ATTRIBUTE_SYSTEM;
+  end;
+end;
+
+function UnixStrToFileAttr(sAttr: String): TFileAttrs;
+begin
+  Result:= 0;
+  if Length(sAttr) < 10 then Exit;
+  sAttr:= LowerCase(sAttr);
+
+  if sAttr[1]='d' then Result:= Result or S_IFDIR;
+  if sAttr[1]='l' then Result:= Result or S_IFLNK;
+  if sAttr[1]='s' then Result:= Result or S_IFSOCK;
+  if sAttr[1]='f' then Result:= Result or S_IFIFO;
+  if sAttr[1]='b' then Result:= Result or S_IFBLK;
+  if sAttr[1]='c' then Result:= Result or S_IFCHR;
+
+
+  if sAttr[2]='r' then Result:= Result or S_IRUSR;
+  if sAttr[3]='w' then Result:= Result or S_IWUSR;
+  if sAttr[4]='x' then Result:= Result or S_IXUSR;
+  if sAttr[5]='r' then Result:= Result or S_IRGRP;
+  if sAttr[6]='w' then Result:= Result or S_IWGRP;
+  if sAttr[7]='x' then Result:= Result or S_IXGRP;
+  if sAttr[8]='r' then Result:= Result or S_IROTH;
+  if sAttr[9]='w' then Result:= Result or S_IWOTH;
+  if sAttr[10]='x' then Result:= Result or S_IXOTH;
+
+  if sAttr[4]='s' then Result:= Result or S_ISUID;
+  if sAttr[7]='s' then Result:= Result or S_ISGID;
+end;
+
 end.
-
+

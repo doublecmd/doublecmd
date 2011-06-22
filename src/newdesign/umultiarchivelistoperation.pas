@@ -57,7 +57,8 @@ begin
       if not IsInPath(Path, CurrFileName, False, False) then
         Continue;
 
-      aFile := TMultiArchiveFileSource.CreateFile(Path, TArchiveItem(ArcFileList.Items[I]));
+      with FMultiArchiveFileSource.MultiArcItem do
+      aFile := TMultiArchiveFileSource.CreateFile(Path, TArchiveItem(ArcFileList.Items[I]), FFlags);
       FFiles.Add(AFile);
     end;
 end;

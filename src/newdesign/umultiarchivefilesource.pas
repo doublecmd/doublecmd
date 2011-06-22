@@ -64,7 +64,7 @@ type
                        aMultiArcItem: TMultiArcItem); reintroduce;
     destructor Destroy; override;
 
-    class function CreateFile(const APath: String; ArchiveItem: TArchiveItem): TFile; overload;
+    class function CreateFile(const APath: String; ArchiveItem: TArchiveItem; Flags: Integer): TFile; overload;
 
     // Retrieve operations permitted on the source.  = capabilities?
     function GetOperationsTypes: TFileSourceOperationTypes; override;
@@ -222,7 +222,7 @@ begin
     FreeAndNil(FArcFileList);
 end;
 
-class function TMultiArchiveFileSource.CreateFile(const APath: String; ArchiveItem: TArchiveItem): TFile;
+class function TMultiArchiveFileSource.CreateFile(const APath: String; ArchiveItem: TArchiveItem; Flags: Integer): TFile;
 begin
   Result := TFile.Create(APath);
 
@@ -233,8 +233,14 @@ begin
   }
     SizeProperty := TFileSizeProperty.Create(ArchiveItem.UnpSize);
     CompressedSizeProperty := TFileCompressedSizeProperty.Create(ArchiveItem.PackSize);
-    AttributesProperty := {TNtfsFileAttributesProperty or Unix?}
-                          TFileAttributesProperty.CreateOSAttributes(ArchiveItem.Attributes);
+
+    if (Flags and MAF_UNIX_ATTR) <> 0 then
+      AttributesProperty := TUnixFileAttributesProperty.Create(ArchiveItem.Attributes)
+    else if (Flags and MAF_WIN_ATTR) <> 0 then
+      AttributesProperty := TNtfsFileAttributesProperty.Create(ArchiveItem.Attributes)
+    else
+      AttributesProperty := TFileAttributesProperty.CreateOSAttributes(ArchiveItem.Attributes);
+
     ModificationTimeProperty := TFileModificationDateTimeProperty.Create(0);
     try
       with ArchiveItem do
@@ -517,7 +523,7 @@ begin
                 Inc(FilesCount);
                 Inc(FilesSize, aFile.Size);
               end;
-            aFile:= TMultiArchiveFileSource.CreateFile(ExtractFilePath(ArchiveItem.FileName), ArchiveItem);
+            aFile:= TMultiArchiveFileSource.CreateFile(ExtractFilePath(ArchiveItem.FileName), ArchiveItem, FMultiArcItem.FFlags);
             aFile.FullPath:= ExcludeFrontPathDelimiter(aFile.FullPath);
             NewFiles.Add(aFile);
           end;
