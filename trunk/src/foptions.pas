@@ -456,6 +456,7 @@ const
   stgArchiveIDPos                = 6;
   stgArchiveIDSeekRange          = 7;
   stgArchivePasswordQuery        = 8;
+  stgArchiveFormMode             = 9;
 
 const
   // Tools page: what tool is displayed in each row.
@@ -559,6 +560,7 @@ begin
   stgArchiverCommands.Cells[0, stgArchiveIDPos] := rsOptArchiveIDPos;
   stgArchiverCommands.Cells[0, stgArchiveIDSeekRange] := rsOptArchiveIDSeekRange;
   stgArchiverCommands.Cells[0, stgArchivePasswordQuery] := rsOptArchivePasswordQuery;
+  stgArchiverCommands.Cells[0, stgArchiveFormMode] := rsOptArchiveFormMode;
 
   // Create and fill options editor list
   CreateOptionsEditorList;
@@ -1075,6 +1077,7 @@ begin
     FIDPos:= Cells[1, stgArchiveIDPos];
     FIDSeekRange:= Cells[1, stgArchiveIDSeekRange];
     FPasswordQuery:= Cells[1, stgArchivePasswordQuery];
+    FFormMode:= StrToIntDef(Cells[1, stgArchiveFormMode], 0);
     FOutput:= chkMultiArcOutput.Checked;
     FDebug:= chkMultiArcDebug.Checked;
   end;
@@ -1469,6 +1472,7 @@ begin
       Cells[1, stgArchiveIDPos]:= EmptyStr;
       Cells[1, stgArchiveIDSeekRange]:= EmptyStr;
       Cells[1, stgArchivePasswordQuery]:= EmptyStr;
+      Cells[1, stgArchiveFormMode]:= EmptyStr;
       chkMultiArcOutput.Checked:= False;
       chkMultiArcDebug.Checked:= False;
       chkMultiArcEnabled.Checked:= False;
@@ -1495,6 +1499,7 @@ begin
       Cells[1, stgArchiveIDPos]:= FIDPos;
       Cells[1, stgArchiveIDSeekRange]:= FIDSeekRange;
       Cells[1, stgArchivePasswordQuery]:= FPasswordQuery;
+      Cells[1, stgArchiveFormMode]:= IntToStr(FFormMode);
       chkMultiArcOutput.Checked:= FOutput;
       chkMultiArcDebug.Checked:= FDebug;
       chkMultiArcEnabled.Checked:= FEnabled;
