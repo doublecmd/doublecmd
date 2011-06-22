@@ -58,7 +58,7 @@ begin
         Continue;
 
       with FMultiArchiveFileSource.MultiArcItem do
-      aFile := TMultiArchiveFileSource.CreateFile(Path, TArchiveItem(ArcFileList.Items[I]), FFlags);
+      aFile := TMultiArchiveFileSource.CreateFile(Path, TArchiveItem(ArcFileList.Items[I]), FFormMode);
       FFiles.Add(AFile);
     end;
 end;

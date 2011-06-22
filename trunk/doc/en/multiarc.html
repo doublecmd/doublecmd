@@ -361,11 +361,18 @@ p,ul,ol /* Paragraph Style */
 <p class=rvps3><span class=rvts23>Flags</span></p>
 <p class=rvps3><span class=rvts20>IgnoreErrors</span><span class=rvts21> if active - archiver commands exit code will be ignored. Use with caution.</span></p>
 <p class=rvps3><span class=rvts20>SkipEmpty</span><span class=rvts21> files with empty names will not be added to list</span></p>
-<p class=rvps3><span class=rvts20>UnixPath</span><span class=rvts21> if paths in output list in Unix format - activate this</span></p>
+<p class=rvps3><span class=rvts20>FormMode</span><span class=rvts21> format parsing mode, it is the sum of the following values:</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; 1 - use Unix path delimiter (/)</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; 2 - use Windows path delimiter (\)</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; 4 - use Unix file attributes</span></p>
+<p class=rvps2><span class=rvts18>&nbsp; 8 - use Windows file attributes</span></p>
 <p class=rvps3><span class=rvts20>Debug</span><span class=rvts21> if this flag activated - all archiving utility output will be written to log file, laying in same directory as multiarc.wcx and named "multiarc.%TYPENAME%.log" where %TYPENAME% is TypeName of corresponding archiver description. If some list files used in commands, those files also will be not removed after performing command. Look into %TEMP%/$mltwcx directory for those files. Activate this flag only if you going to track all activity. It is needed during writing new addons. Do not use it if you not need it! This log file can eat your free disk space very quick! =-) You warned.</span></p>
+<!--
 <p class=rvps2><span class=rvts20>SkipSfxHeader</span><span class=rvts21> default false. Determines whether to skip the SFX part of the archive during archive ID search. Example:</span></p>
 <p class=rvps2><span class=rvts21>7z SFX-Archive, the archive itself is located after the FSX part, so it can be skipped. SkipSfxHeader = 1. </span></p>
-<p class=rvps2><span class=rvts21>InnoSetup Installation. </span><span class=rvts20>ID</span><span class=rvts21> is in the SFX part of the file, so it is not necessary to skip it.SkipSfxHeader = 0.</span><span class=rvts11>&nbsp; </span></p>
+<p class=rvps2><span class=rvts21>InnoSetup Installation. </span><span class=rvts20>ID</span><span class=rvts21> is in the SFX part of the file, so it is not necessary to skip it.SkipSfxHeader = 0.</span>
+-->
+<span class=rvts11>&nbsp; </span></p>
 <p class=rvps9><span class=rvts15><br></span></p>
 	<p class="NAVBACK"><a href="#TOC">Top</a></p>
 <p><br></p>
@@ -469,7 +476,7 @@ p,ul,ol /* Paragraph Style */
 <p class=rvps2><span class=rvts11>"Executing command 'C:\Documents and Settings\ a(r)\ ?(r)c?(c) aa(r)"\7za.exe -r0 l D:\same path\7zSfx.7z' returned errorlevel -1. Possibly an error occurred. Archive listing wasn't retrieved."</span></p>
 <p class=rvps2><span class=rvts11>or like this: </span></p>
 <p class=rvps2><span class=rvts11>"Executed command 'C:\Documents and Settings\ a(r)\ ?(r)c?(c) aa(r)"\7za.exe -r0 l D:\same path\7zSfx.7z' returned errorlevel -1, which is higher than configured as normal for this command. Probably error occurred. Check your configuration, please..."</span></p>
-<p class=rvps2><span class=rvts11>Replace in Multiarc.ini on section appropriate archiver parameters </span><span class=rvts12>Extract</span><span class=rvts11>, </span><span class=rvts12>ExtractWithPath</span><span class=rvts11>, </span><span class=rvts12>Test</span><span class=rvts11>, </span><span class=rvts12>Delete</span><span class=rvts11>, </span><span class=rvts12>Add</span><span class=rvts11> from %P to %PA or %PQA.</span></p>
+<p class=rvps2><span class=rvts11>Replace in Multiarc.ini on section appropriate archiver parameters </span><span class=rvts12>Extract</span><span class=rvts11>, </span><span class=rvts12>ExtractWithoutPath</span><span class=rvts11>, </span><span class=rvts12>Test</span><span class=rvts11>, </span><span class=rvts12>Delete</span><span class=rvts11>, </span><span class=rvts12>Add</span><span class=rvts11> from %P to %PA or %PQA.</span></p>
 <p class=rvps9><span class=rvts15><br></span></p>
 	<p class="NAVBACK"><a href="#TOC">Top</a></p>
 <p><br></p>

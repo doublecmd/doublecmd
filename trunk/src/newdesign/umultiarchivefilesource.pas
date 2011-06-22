@@ -64,7 +64,7 @@ type
                        aMultiArcItem: TMultiArcItem); reintroduce;
     destructor Destroy; override;
 
-    class function CreateFile(const APath: String; ArchiveItem: TArchiveItem; Flags: Integer): TFile; overload;
+    class function CreateFile(const APath: String; ArchiveItem: TArchiveItem; FormMode: Integer): TFile; overload;
 
     // Retrieve operations permitted on the source.  = capabilities?
     function GetOperationsTypes: TFileSourceOperationTypes; override;
@@ -222,7 +222,7 @@ begin
     FreeAndNil(FArcFileList);
 end;
 
-class function TMultiArchiveFileSource.CreateFile(const APath: String; ArchiveItem: TArchiveItem; Flags: Integer): TFile;
+class function TMultiArchiveFileSource.CreateFile(const APath: String; ArchiveItem: TArchiveItem; FormMode: Integer): TFile;
 begin
   Result := TFile.Create(APath);
 
@@ -234,9 +234,9 @@ begin
     SizeProperty := TFileSizeProperty.Create(ArchiveItem.UnpSize);
     CompressedSizeProperty := TFileCompressedSizeProperty.Create(ArchiveItem.PackSize);
 
-    if (Flags and MAF_UNIX_ATTR) <> 0 then
+    if (FormMode and MAF_UNIX_ATTR) <> 0 then
       AttributesProperty := TUnixFileAttributesProperty.Create(ArchiveItem.Attributes)
-    else if (Flags and MAF_WIN_ATTR) <> 0 then
+    else if (FormMode and MAF_WIN_ATTR) <> 0 then
       AttributesProperty := TNtfsFileAttributesProperty.Create(ArchiveItem.Attributes)
     else
       AttributesProperty := TFileAttributesProperty.CreateOSAttributes(ArchiveItem.Attributes);
@@ -523,7 +523,7 @@ begin
                 Inc(FilesCount);
                 Inc(FilesSize, aFile.Size);
               end;
-            aFile:= TMultiArchiveFileSource.CreateFile(ExtractFilePath(ArchiveItem.FileName), ArchiveItem, FMultiArcItem.FFlags);
+            aFile:= TMultiArchiveFileSource.CreateFile(ExtractFilePath(ArchiveItem.FileName), ArchiveItem, FMultiArcItem.FFormMode);
             aFile.FullPath:= ExcludeFrontPathDelimiter(aFile.FullPath);
             NewFiles.Add(aFile);
           end;

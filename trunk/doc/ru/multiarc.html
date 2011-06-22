@@ -355,11 +355,17 @@ p,ul,ol /* Paragraph Style */
 <p class=rvps4><span class=rvts23>Флаги</span></p>
 <p class=rvps4><span class=rvts20>IgnoreErrors</span><span class=rvts21> если активен, код завершения архиватора игнорируется. Используйте с осторожностью. </span></p>
 <p class=rvps4><span class=rvts20>SkipEmpty</span><span class=rvts21> Файлы с пустыми именами не будут добавляться в список</span></p>
-<p class=rvps4><span class=rvts20>UnixPath</span><span class=rvts21> Если пути в выводе архиватора в формате Unix установите этот флаг.</span></p>
+<p class=rvps4><span class=rvts20>FormMode</span><span class=rvts21> режим разбора строки FormatN, определяется как сумма следующих параметров:</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; 1 - использовать Unix разделитель пути (/)</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; 2 - использовать Windows разделитель пути (\)</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; 4 - использовать Unix атрибуты файлов</span></p>
+<p class=rvps3><span class=rvts18>&nbsp; 8 - использовать Windows атрибуты файлов</span></p>
 <p class=rvps4><span class=rvts20>Debug</span><span class=rvts21> если этот флаг активен -- весь вывод утилиты архивирования будет записан в лог-файл, расположенный в той-же директории что и multiarc.wcx с именем "multiarc.%TYPENAME%.log" где %TYPENAME% это TypeName соответствующего описания архиватора. Если некоторый список файлов используется в командах, эти файлы также не будут удалены после выполнения команды. Ищите их в папке %TEMP%/$mltwcx. Устанавливайте этот флаг, только если вы выполняете запись всей активности. Это нужно во время написания нового addon-а. Не используйте его если вы не нуждаетесь в нем. Этот лог файл может "съесть" ваше свободное дисковое пространство очень быстро. =-) Вы предупреждены!.</span></p>
+<!--
 <p class=rvps4><span class=rvts20>SkipSfxHeader</span><span class=rvts21> по умолчанию false. Определяет нужно ли пропускать SFX-часть архива для поиска </span><span class=rvts20>ID</span><span class=rvts21> архива. Пример:</span></p>
 <p class=rvps4><span class=rvts21>7z SFX-архив, сам архив находится после SFX части, и поиск </span><span class=rvts20>ID</span><span class=rvts21> нужно начинать после пропуска этой части, SkipSfxHeader должно быть TRUE. 7z отличается от других архиваторов, тем что от версии к версии меняется размер SFX распаковщика, кроме того есть другие SFX части, не от авторов 7z. Размер этих частей различен, хотя ID архива находится на фиксированном месте. До этого флага, нужно было указывать список IDPos, но если требуемой позиции не удавалось найти, MultiArc не мог обработать такой архив.</span></p>
 <p class=rvps3><span class=rvts21>Инсталяция InnoSetup. </span><span class=rvts20>ID</span><span class=rvts21> находится в SFX части архива, пропуск делать не нужно. Искать нужно с начала файла, SkipSfxHeader должен быть False.</span></p>
+-->
 <p class=rvps3><span class=rvts20>;</span><span class=rvts21> признак комментария, эта строка будет проигнорирована. </span><span class=rvts12> </span></p>
 <p class=rvps3><span class=rvts12>Файл addon-а является секцией MultiArc.ini и предназначен для передачи другим пользователям MultiArc.&nbsp; </span></p>
 <p class=rvps2><span class=rvts11><br></span></p>
@@ -465,7 +471,7 @@ p,ul,ol /* Paragraph Style */
 <p class=rvps3><span class=rvts18>"Executing command 'C:\Documents and Settings\Ђ¤¬Ё­Ёбва в(r)а\ђ Ў(r)зЁ(c) бв(r)"\7za.exe -r0 l D:\Это тест русских имен TC\7zSfx.7z' returned errorlevel -1. Possibly an error occurred. Archive listing wasn't retrieved."</span></p>
 <p class=rvps3><span class=rvts18>либо такого: </span></p>
 <p class=rvps3><span class=rvts18>"Executed command 'C:\Documents and Settings\Ђ¤¬Ё­Ёбва в(r)а\ђ Ў(r)зЁ(c) бв(r)"\7za.exe -r0 l D:\Это тест русских имен TC\7zSfx.7z' returned errorlevel -1, which is higher than configured as normal for this command. Probably error occurred. Check your configuration, please..."</span></p>
-<p class=rvps3><span class=rvts18>Замените в Multiarc.ini в секции соответствующего архиватора параметры </span><span class=rvts25>Extract</span><span class=rvts18>, </span><span class=rvts25>ExtractWithPath</span><span class=rvts18>, </span><span class=rvts25>Test</span><span class=rvts18>, </span><span class=rvts25>Delete</span><span class=rvts18>, </span><span class=rvts25>Add</span><span class=rvts18> с %Р на %PA или %PQA.</span><span class=rvts12> </span></p>
+<p class=rvps3><span class=rvts18>Замените в Multiarc.ini в секции соответствующего архиватора параметры </span><span class=rvts25>Extract</span><span class=rvts18>, </span><span class=rvts25>ExtractWithoutPath</span><span class=rvts18>, </span><span class=rvts25>Test</span><span class=rvts18>, </span><span class=rvts25>Delete</span><span class=rvts18>, </span><span class=rvts25>Add</span><span class=rvts18> с %Р на %PA или %PQA.</span><span class=rvts12> </span></p>
 <p class=rvps2><span class=rvts11><br></span></p>
 	<p class="NAVBACK"><a href="#TOC">наверх</a></p>
 <p><br></p>

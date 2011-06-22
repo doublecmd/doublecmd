@@ -89,12 +89,12 @@ begin
   Result:= ConsoleToUTF8(Str);
   with FMultiArcItem do
   begin
-    if (FFlags and MAF_UNIX_PATH) <> 0 then
+    if (FFormMode and MAF_UNIX_PATH) <> 0 then
       begin
         for I:= 1 to Length(Str) do
           if Result[I] = '\' then Result[I]:= '/';
       end
-    else if (FFlags and MAF_WIN_PATH) <> 0 then
+    else if (FFormMode and MAF_WIN_PATH) <> 0 then
       begin
         for I:= 1 to Length(Str) do
           if Result[I] = '/' then Result[I]:= '\';
@@ -106,9 +106,9 @@ function TOutputParser.GetFileAttr(const Str: String): TFileAttrs;
 begin
   with FMultiArcItem do
   begin
-    if (FFlags and MAF_UNIX_ATTR) <> 0 then
+    if (FFormMode and MAF_UNIX_ATTR) <> 0 then
       Result:= UnixStrToFileAttr(Str)
-    else if (FFlags and MAF_WIN_ATTR) <> 0 then
+    else if (FFormMode and MAF_WIN_ATTR) <> 0 then
       Result:= WinStrToFileAttr(Str)
     else
       Result:= StrToFileAttr(Str);
