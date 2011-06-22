@@ -111,7 +111,7 @@ begin
     else if (FFlags and MAF_WIN_ATTR) <> 0 then
       Result:= WinStrToFileAttr(Str)
     else
-      StrToFileAttr(Str);
+      Result:= StrToFileAttr(Str);
   end;
 end;
 
