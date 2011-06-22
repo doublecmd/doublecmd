@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, contnrs, StringHashList, uOSUtils,
   uMultiArc, uFile, uFileSourceProperty, uFileSourceOperationTypes,
   uArchiveFileSource, uFileProperty, uFileSource, uFileSourceOperation,
-  uMultiArchiveUtil;
+  uMultiArchiveUtil, uTypes;
 
 type
 
@@ -37,7 +37,8 @@ type
     FArcFileList : TObjectList;
     FMultiArcItem: TMultiArcItem;
     FAllDirsList,
-    FExistsDirList : TStringHashList;
+    FExistsDirList: TStringHashList;
+    FDirectoryAttribute: TFileAttrs;
 
     function GetMultiArcItem: TMultiArcItem;
     procedure OnGetArchiveItem(ArchiveItem: TArchiveItem);
@@ -212,6 +213,16 @@ begin
 
   FOperationsClasses[fsoCopyIn]          := TMultiArchiveCopyInOperation.GetOperationClass;
   FOperationsClasses[fsoCopyOut]         := TMultiArchiveCopyOutOperation.GetOperationClass;
+
+  with FMultiArcItem do
+  begin
+    if (FFormMode and MAF_UNIX_ATTR) <> 0 then
+      FDirectoryAttribute:= S_IFDIR
+    else if (FFormMode and MAF_WIN_ATTR) <> 0 then
+      FDirectoryAttribute:= FILE_ATTRIBUTE_DIRECTORY
+    else
+      FDirectoryAttribute:= faFolder;
+  end;
 
   ReadArchive;
 end;
@@ -469,7 +480,7 @@ begin
         ArchiveItem:= TArchiveItem.Create;
         try
           ArchiveItem.FileName := FAllDirsList.List[I]^.Key;
-          ArchiveItem.Attributes := faFolder;
+          ArchiveItem.Attributes := FDirectoryAttribute;
           FArcFileList.Add(ArchiveItem);
         except
           FreeAndNil(ArchiveItem);
@@ -487,15 +498,7 @@ end;
 
 function TMultiArchiveFileSource.FileIsDirectory(ArchiveItem: TArchiveItem): Boolean;
 begin
-  with FMultiArcItem do
-  begin
-    if (FFormMode and MAF_UNIX_ATTR) <> 0 then
-      Result:= (ArchiveItem.Attributes and S_IFDIR <> 0)
-    else if (FFormMode and MAF_WIN_ATTR) <> 0 then
-      Result:= (ArchiveItem.Attributes and FILE_ATTRIBUTE_DIRECTORY <> 0)
-    else
-      Result:= FPS_ISDIR(ArchiveItem.Attributes);
-  end;
+  Result:= (ArchiveItem.Attributes and FDirectoryAttribute <> 0);
 end;
 
 procedure TMultiArchiveFileSource.DoReload(const PathsToReload: TPathsArray);
