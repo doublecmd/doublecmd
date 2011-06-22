@@ -44,6 +44,8 @@ type
 
     function ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
 
+    function FileIsDirectory(ArchiveItem: TArchiveItem): Boolean;
+
     function GetArcFileList: TObjectList;
 
   protected
@@ -109,7 +111,7 @@ type
 implementation
 
 uses
-  uDebug, uGlobs,
+  uDebug, uGlobs, uFileAttributes,
   FileUtil, uMasks, uDCUtils,
   uMultiArchiveListOperation,
   uMultiArchiveCopyInOperation,
@@ -298,7 +300,7 @@ begin
     for I := 0 to FArcFileList.Count - 1 do
     begin
       ArchiveItem := TArchiveItem(FArcFileList.Items[I]);
-      if FPS_ISDIR(ArchiveItem.Attributes) and (Length(ArchiveItem.FileName) > 0) then
+      if FileIsDirectory(ArchiveItem) and (Length(ArchiveItem.FileName) > 0) then
       begin
         if NewDir = IncludeTrailingPathDelimiter(GetRootDir() + ArchiveItem.FileName) then
           Exit(True);
@@ -405,7 +407,7 @@ var
   NameLength: Integer;
 begin
   // Some archivers end directories with path delimiter. Delete it if present.
-  if FPS_ISDIR(ArchiveItem.Attributes) then
+  if FileIsDirectory(ArchiveItem) then
     begin
       NameLength := Length(ArchiveItem.FileName);
       if (ArchiveItem.FileName[NameLength] = PathDelim) then
@@ -483,6 +485,19 @@ begin
   Result := True;
 end;
 
+function TMultiArchiveFileSource.FileIsDirectory(ArchiveItem: TArchiveItem): Boolean;
+begin
+  with FMultiArcItem do
+  begin
+    if (FFormMode and MAF_UNIX_ATTR) <> 0 then
+      Result:= (ArchiveItem.Attributes and S_IFDIR <> 0)
+    else if (FFormMode and MAF_WIN_ATTR) <> 0 then
+      Result:= (ArchiveItem.Attributes and FILE_ATTRIBUTE_DIRECTORY <> 0)
+    else
+      Result:= FPS_ISDIR(ArchiveItem.Attributes);
+  end;
+end;
+
 procedure TMultiArchiveFileSource.DoReload(const PathsToReload: TPathsArray);
 begin
   ReadArchive;
@@ -514,7 +529,7 @@ begin
         if  (aFile.FullPath = sFileName) or // Item in the list is a file, only compare names.
             (aFile.AttributesProperty.IsDirectory and IsInPath(aFile.FullPath, sFileName, True, False)) then // Check if 'FileName' is in this directory or any of its subdirectories.
           begin
-            if FPS_ISDIR(ArchiveItem.Attributes) then
+            if FileIsDirectory(ArchiveItem) then
               begin
                 if CountDirs then Inc(FilesCount);
               end
