@@ -5514,11 +5514,11 @@ msgstr "&Так"
 
 #: ulng.rsdlgcalcstatistics
 msgid "Calculate files and folders"
-msgstr ""
+msgstr "Підрахувати файли і папки"
 
 #: ulng.rsdlgcalculating
 msgid "Calculating"
-msgstr ""
+msgstr "Підрахунок"
 
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
@@ -5585,7 +5585,7 @@ msgstr "Із"
 
 #: ulng.rsdlgspeed
 msgid "Speed %s/s"
-msgstr ""
+msgstr "Швидкість %s/s"
 
 #: ulng.rsdlgspeedtime
 #, fuzzy
@@ -6330,9 +6330,10 @@ msgstr "Видалити:"
 msgid "Extract without path:"
 msgstr "Розпакувати без шляхів:"
 
+#, fuzzy
 #: ulng.rsoptarchiveformmode
 msgid "Format parsing mode:"
-msgstr ""
+msgstr "Синтаксичний аналіз:"
 
 #: ulng.rsoptarchiveid
 #, fuzzy
@@ -6668,6 +6669,7 @@ msgctxt "ulng.rssizeunitmbytes"
 msgid "Megabytes"
 msgstr "Мегабайти"
 
+
 #: ulng.rssizeunittbytes
 msgid "Terabytes"
 msgstr "Терабайти"
@@ -6759,4 +6761,3 @@ msgstr "Кодування"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s не знайдено!"
-
