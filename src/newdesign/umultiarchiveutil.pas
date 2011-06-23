@@ -18,6 +18,8 @@ const
 type
 
   TOnGetArchiveItem = procedure(ArchiveItem: TArchiveItem) of object;
+  TGetFileAttr = function(sAttr: String): TFileAttrs;
+  TGetFileName = function(const Str: String): UTF8String;
 
   TKeyPos = record
     Index,
@@ -49,9 +51,9 @@ type
     FFormatIndex: longint;
     FArchiveItem: TArchiveItem;
     FArchiveName: UTF8String;
+    FGetFileAttr: TGetFileAttr;
+    FGetFileName: TGetFileName;
   protected
-    function GetFileName(const Str: String): UTF8String;
-    function GetFileAttr(const Str: String): TFileAttrs;
     function FixPosition(const Str: String; Key: TKeyPos): LongInt;
     function KeyPos(Key: char; out Position: TKeyPos): boolean;
     function GetKeyValue(const str: String; Key: TKeyPos): UTF8String;
@@ -82,38 +84,25 @@ uses
   LCLProc, FileUtil, StrUtils, uClassesEx, uDCUtils, uOSUtils, uDateTimeUtils,
   uDebug, uFileAttributes;
 
-function TOutputParser.GetFileName(const Str: String): UTF8String;
+function GetUnixFileName(const Str: String): UTF8String;
 var
   I: Integer;
 begin
   Result:= ConsoleToUTF8(Str);
-  with FMultiArcItem do
-  begin
-    if (FFormMode and MAF_UNIX_PATH) <> 0 then
-      begin
-        for I:= 1 to Length(Str) do
-          if Result[I] = '\' then Result[I]:= '/';
-      end
-    else if (FFormMode and MAF_WIN_PATH) <> 0 then
-      begin
-        for I:= 1 to Length(Str) do
-          if Result[I] = '/' then Result[I]:= '\';
-      end;
-  end;
+  for I:= 1 to Length(Str) do
+    if Result[I] = '/' then Result[I]:= PathDelim;
 end;
 
-function TOutputParser.GetFileAttr(const Str: String): TFileAttrs;
+function GetWinFileName(const Str: String): UTF8String;
+var
+  I: Integer;
 begin
-  with FMultiArcItem do
-  begin
-    if (FFormMode and MAF_UNIX_ATTR) <> 0 then
-      Result:= UnixStrToFileAttr(Str)
-    else if (FFormMode and MAF_WIN_ATTR) <> 0 then
-      Result:= WinStrToFileAttr(Str)
-    else
-      Result:= StrToFileAttr(Str);
-  end;
+  Result:= ConsoleToUTF8(Str);
+  for I:= 1 to Length(Str) do
+    if Result[I] = '\' then Result[I]:= PathDelim;
 end;
+
+{ TOutputParser }
 
 function TOutputParser.FixPosition(const Str: String; Key: TKeyPos): LongInt;
 var
@@ -203,7 +192,7 @@ begin
       FArchiveItem := TArchiveItem.Create;
     // get all file properties
     if FNamePos.Index = FFormatIndex then
-      FArchiveItem.FileName := GetFileName(Trim(GetKeyValue(str, FNamePos)));
+      FArchiveItem.FileName := FGetFileName(Trim(GetKeyValue(str, FNamePos)));
     if FUnpSizePos.Index = FFormatIndex then
       FArchiveItem.UnpSize := StrToIntDef(Trim(GetKeyValue(str, FUnpSizePos)), 0);
     if FPackSizePos.Index = FFormatIndex then
@@ -225,7 +214,7 @@ begin
     if FSecPos.Index = FFormatIndex then
       FArchiveItem.Second := StrToIntDef(Trim(GetKeyValue(str, FSecPos)), 0);
     if FAttrPos.Index = FFormatIndex then
-      FArchiveItem.Attributes := GetFileAttr(GetKeyValue(str, FAttrPos));
+      FArchiveItem.Attributes := FGetFileAttr(GetKeyValue(str, FAttrPos));
 
     FFormatIndex := FFormatIndex + 1;
     if FFormatIndex >= FMultiArcItem.FFormat.Count then
@@ -264,6 +253,24 @@ begin
   FMultiArcItem := aMultiArcItem;
   FArchiveName:= anArchiveName;
   FExProcess := nil;
+
+  with FMultiArcItem do
+  begin
+    // Setup function to process file attributes
+    if (FFormMode and MAF_UNIX_ATTR) <> 0 then
+      FGetFileAttr:= @UnixStrToFileAttr
+    else if (FFormMode and MAF_WIN_ATTR) <> 0 then
+      FGetFileAttr:= @WinStrToFileAttr
+    else
+      FGetFileAttr:= @StrToFileAttr;
+    // Setup function to process file name
+    if ((FFormMode and MAF_UNIX_PATH) <> 0) and (PathDelim <> '/') then
+      FGetFileName:= @GetUnixFileName
+    else if ((FFormMode and MAF_WIN_PATH) <> 0) and (PathDelim <> '\') then
+      FGetFileName:= @GetWinFileName
+    else
+      FGetFileName:= @ConsoleToUTF8;
+  end;
 end;
 
 destructor TOutputParser.Destroy;
