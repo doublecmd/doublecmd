@@ -719,16 +719,33 @@ msgctxt "TFRMDIFFER.ACTCANCELCOMPARE.CAPTION"
 msgid "Cancel"
 msgstr "Скасувати"
 
+#: TFRMDIFFER.ACTCANCELCOMPARE.HINT
+msgctxt "TFRMDIFFER.ACTCANCELCOMPARE.HINT"
+msgid "Cancel"
+msgstr "Скасувати"
+
 #: TFRMDIFFER.ACTCLOSE.CAPTION
 msgctxt "TFRMDIFFER.ACTCLOSE.CAPTION"
 msgid "Close"
 msgstr "Закрити"
 
 #: TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION
+msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.CAPTION"
+msgid "Copy Block Right"
+msgstr "Копіювати блок вправо"
+
+#: TFRMDIFFER.ACTCOPYLEFTTORIGHT.HINT
+msgctxt "TFRMDIFFER.ACTCOPYLEFTTORIGHT.HINT"
 msgid "Copy Block Right"
 msgstr "Копіювати блок вправо"
 
 #: TFRMDIFFER.ACTCOPYRIGHTTOLEFT.CAPTION
+msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.CAPTION"
+msgid "Copy Block Left"
+msgstr "Копіювати блок вліво"
+
+#: TFRMDIFFER.ACTCOPYRIGHTTOLEFT.HINT
+msgctxt "TFRMDIFFER.ACTCOPYRIGHTTOLEFT.HINT"
 msgid "Copy Block Left"
 msgstr "Копіювати блок вліво"
 
@@ -767,6 +784,12 @@ msgid "Undo"
 msgstr "Вернути"
 
 #: TFRMDIFFER.ACTFIRSTDIFF.CAPTION
+msgctxt "TFRMDIFFER.ACTFIRSTDIFF.CAPTION"
+msgid "First Difference"
+msgstr "Перша відмінність"
+
+#: TFRMDIFFER.ACTFIRSTDIFF.HINT
+msgctxt "TFRMDIFFER.ACTFIRSTDIFF.HINT"
 msgid "First Difference"
 msgstr "Перша відмінність"
 
@@ -783,6 +806,12 @@ msgid "Keep Scrolling"
 msgstr "Одночасне прокручування"
 
 #: TFRMDIFFER.ACTLASTDIFF.CAPTION
+msgctxt "TFRMDIFFER.ACTLASTDIFF.CAPTION"
+msgid "Last Difference"
+msgstr "Остання відмінність"
+
+#: TFRMDIFFER.ACTLASTDIFF.HINT
+msgctxt "TFRMDIFFER.ACTLASTDIFF.HINT"
 msgid "Last Difference"
 msgstr "Остання відмінність"
 
@@ -791,6 +820,12 @@ msgid "Line Differences"
 msgstr "Відмінності в рядку"
 
 #: TFRMDIFFER.ACTNEXTDIFF.CAPTION
+msgctxt "TFRMDIFFER.ACTNEXTDIFF.CAPTION"
+msgid "Next Difference"
+msgstr "Наступна відмінність"
+
+#: TFRMDIFFER.ACTNEXTDIFF.HINT
+msgctxt "TFRMDIFFER.ACTNEXTDIFF.HINT"
 msgid "Next Difference"
 msgstr "Наступна відмінність"
 
@@ -807,6 +842,12 @@ msgid "Paint Background"
 msgstr "Зафарбовувати фон"
 
 #: TFRMDIFFER.ACTPREVDIFF.CAPTION
+msgctxt "TFRMDIFFER.ACTPREVDIFF.CAPTION"
+msgid "Previous Difference"
+msgstr "Попередня відмінність"
+
+#: TFRMDIFFER.ACTPREVDIFF.HINT
+msgctxt "TFRMDIFFER.ACTPREVDIFF.HINT"
 msgid "Previous Difference"
 msgstr "Попередня відмінність"
 
@@ -815,34 +856,90 @@ msgctxt "TFRMDIFFER.ACTRELOAD.CAPTION"
 msgid "Reload"
 msgstr "Перезавантажити"
 
+#: TFRMDIFFER.ACTRELOAD.HINT
+msgctxt "TFRMDIFFER.ACTRELOAD.HINT"
+msgid "Reload"
+msgstr "Перезавантажити"
+
 #: TFRMDIFFER.ACTSAVE.CAPTION
 msgctxt "TFRMDIFFER.ACTSAVE.CAPTION"
 msgid "Save"
 msgstr "Зберегти"
 
+#: TFRMDIFFER.ACTSAVE.HINT
+msgctxt "TFRMDIFFER.ACTSAVE.HINT"
+msgid "Save"
+msgstr "Зберегти"
+
 #: TFRMDIFFER.ACTSAVEAS.CAPTION
+msgctxt "TFRMDIFFER.ACTSAVEAS.CAPTION"
+msgid "Save as..."
+msgstr "Зберегти як..."
+
+#: TFRMDIFFER.ACTSAVEAS.HINT
+msgctxt "TFRMDIFFER.ACTSAVEAS.HINT"
 msgid "Save as..."
 msgstr "Зберегти як..."
 
 #: TFRMDIFFER.ACTSAVELEFT.CAPTION
+msgctxt "TFRMDIFFER.ACTSAVELEFT.CAPTION"
+msgid "Save Left"
+msgstr "Зберегти лівий"
+
+#: TFRMDIFFER.ACTSAVELEFT.HINT
+msgctxt "TFRMDIFFER.ACTSAVELEFT.HINT"
 msgid "Save Left"
 msgstr "Зберегти лівий"
 
 #: TFRMDIFFER.ACTSAVELEFTAS.CAPTION
+msgctxt "TFRMDIFFER.ACTSAVELEFTAS.CAPTION"
+msgid "Save Left As..."
+msgstr "Зберегти лівий як..."
+
+#: TFRMDIFFER.ACTSAVELEFTAS.HINT
+msgctxt "TFRMDIFFER.ACTSAVELEFTAS.HINT"
 msgid "Save Left As..."
 msgstr "Зберегти лівий як..."
 
 #: TFRMDIFFER.ACTSAVERIGHT.CAPTION
+msgctxt "TFRMDIFFER.ACTSAVERIGHT.CAPTION"
+msgid "Save Right"
+msgstr "Зберегти правий"
+
+#: TFRMDIFFER.ACTSAVERIGHT.HINT
+msgctxt "TFRMDIFFER.ACTSAVERIGHT.HINT"
 msgid "Save Right"
 msgstr "Зберегти правий"
 
 #: TFRMDIFFER.ACTSAVERIGHTAS.CAPTION
+msgctxt "TFRMDIFFER.ACTSAVERIGHTAS.CAPTION"
+msgid "Save Right As..."
+msgstr "Зберегти правий як..."
+
+#: TFRMDIFFER.ACTSAVERIGHTAS.HINT
+msgctxt "TFRMDIFFER.ACTSAVERIGHTAS.HINT"
 msgid "Save Right As..."
 msgstr "Зберегти правий як..."
 
 #: TFRMDIFFER.ACTSTARTCOMPARE.CAPTION
+msgctxt "TFRMDIFFER.ACTSTARTCOMPARE.CAPTION"
 msgid "Compare"
 msgstr "Порівняти"
+
+#: TFRMDIFFER.ACTSTARTCOMPARE.HINT
+msgctxt "TFRMDIFFER.ACTSTARTCOMPARE.HINT"
+msgid "Compare"
+msgstr "Порівняти"
+
+#: TFRMDIFFER.BTNLEFTENCODING.HINT
+msgctxt "TFRMDIFFER.BTNLEFTENCODING.HINT"
+msgid "Encoding"
+msgstr "Кодування"
+
+#: TFRMDIFFER.BTNRIGHTENCODING.HINT
+msgctxt "TFRMDIFFER.BTNRIGHTENCODING.HINT"
+msgid "Encoding"
+msgstr "Кодування"
 
 #: TFRMDIFFER.FRMDIFFER.CAPTION
 msgctxt "TFRMDIFFER.FRMDIFFER.CAPTION"
@@ -6327,10 +6424,10 @@ msgid "Delete:"
 msgstr "Видалити:"
 
 #: ulng.rsoptarchiveextractwithoutpath
+#, fuzzy
 msgid "Extract without path:"
 msgstr "Розпакувати без шляхів:"
 
-#, fuzzy
 #: ulng.rsoptarchiveformmode
 msgid "Format parsing mode:"
 msgstr "Синтаксичний аналіз:"
@@ -6669,7 +6766,6 @@ msgctxt "ulng.rssizeunitmbytes"
 msgid "Megabytes"
 msgstr "Мегабайти"
 
-
 #: ulng.rssizeunittbytes
 msgid "Terabytes"
 msgstr "Терабайти"
@@ -6761,3 +6857,4 @@ msgstr "Кодування"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s не знайдено!"
+
