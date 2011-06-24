@@ -12,6 +12,7 @@ object frmDiffer: TfrmDiffer
   OnDestroy = FormDestroy
   OnResize = FormResize
   SessionProperties = 'actAutoCompare.Checked;actIgnoreCase.Checked;actIgnoreWhiteSpace.Checked;actKeepScrolling.Checked;actLineDifferences.Checked;actPaintBackground.Checked;Height;Left;Top;Width;WindowState'
+  ShowHint = True
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.29'
   object ToolBar: TToolBar
@@ -23,6 +24,8 @@ object frmDiffer: TfrmDiffer
     ButtonHeight = 20
     ButtonWidth = 20
     Images = ImageList
+    ParentShowHint = False
+    ShowHint = True
     TabOrder = 0
     object btnSave: TToolButton
       Left = 21
@@ -122,21 +125,23 @@ object frmDiffer: TfrmDiffer
     TabOrder = 1
     object pnlLeftBox: TPanel
       Left = 0
-      Height = 23
+      Height = 22
       Top = 0
       Width = 379
       Align = alTop
       AutoSize = True
       BevelOuter = bvNone
-      ClientHeight = 23
+      ClientHeight = 22
       ClientWidth = 379
       FullRepaint = False
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 0
       object edtFileNameLeft: TFileNameEdit
         AnchorSideLeft.Control = btnLeftEncoding
         AnchorSideLeft.Side = asrBottom
         Left = 69
-        Height = 23
+        Height = 21
         Top = 0
         Width = 285
         OnAcceptFileName = edtFileNameLeftAcceptFileName
@@ -156,7 +161,8 @@ object frmDiffer: TfrmDiffer
         AnchorSideBottom.Control = edtFileNameLeft
         AnchorSideBottom.Side = asrBottom
         Left = 46
-        Height = 23
+        Height = 21
+        Hint = 'Encoding'
         Top = 0
         Width = 23
         Anchors = [akTop, akLeft, akBottom]
@@ -314,21 +320,23 @@ object frmDiffer: TfrmDiffer
     TabOrder = 3
     object pnlRightBox: TPanel
       Left = 0
-      Height = 23
+      Height = 22
       Top = 0
       Width = 376
       Align = alTop
       AutoSize = True
       BevelOuter = bvNone
-      ClientHeight = 23
+      ClientHeight = 22
       ClientWidth = 376
       FullRepaint = False
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 0
       object edtFileNameRight: TFileNameEdit
         AnchorSideLeft.Control = btnRightEncoding
         AnchorSideLeft.Side = asrBottom
         Left = 69
-        Height = 23
+        Height = 21
         Top = 0
         Width = 282
         OnAcceptFileName = edtFileNameRightAcceptFileName
@@ -348,7 +356,8 @@ object frmDiffer: TfrmDiffer
         AnchorSideBottom.Control = edtFileNameRight
         AnchorSideBottom.Side = asrBottom
         Left = 46
-        Height = 23
+        Height = 21
+        Hint = 'Encoding'
         Top = 0
         Width = 23
         Anchors = [akTop, akLeft, akBottom]
@@ -1523,36 +1532,43 @@ object frmDiffer: TfrmDiffer
     top = 136
     object actSave: TAction
       Caption = 'Save'
+      Hint = 'Save'
       ImageIndex = 0
       OnExecute = actSaveExecute
     end
     object actSaveAs: TAction
       Caption = 'Save as...'
+      Hint = 'Save as...'
       ImageIndex = 1
       OnExecute = actSaveAsExecute
     end
     object actStartCompare: TAction
       Caption = 'Compare'
+      Hint = 'Compare'
       ImageIndex = 2
       OnExecute = actStartCompareExecute
     end
     object actLastDiff: TAction
       Caption = 'Last Difference'
+      Hint = 'Last Difference'
       ImageIndex = 3
       OnExecute = actLastDiffExecute
     end
     object actNextDiff: TAction
       Caption = 'Next Difference'
+      Hint = 'Next Difference'
       ImageIndex = 4
       OnExecute = actNextDiffExecute
     end
     object actPrevDiff: TAction
       Caption = 'Previous Difference'
+      Hint = 'Previous Difference'
       ImageIndex = 5
       OnExecute = actPrevDiffExecute
     end
     object actFirstDiff: TAction
       Caption = 'First Difference'
+      Hint = 'First Difference'
       ImageIndex = 6
       OnExecute = actFirstDiffExecute
     end
@@ -1578,6 +1594,7 @@ object frmDiffer: TfrmDiffer
     end
     object actCancelCompare: TAction
       Caption = 'Cancel'
+      Hint = 'Cancel'
       ImageIndex = 7
       OnExecute = actCancelCompareExecute
     end
@@ -1596,26 +1613,31 @@ object frmDiffer: TfrmDiffer
     end
     object actCopyLeftToRight: TAction
       Caption = 'Copy Block Right'
+      Hint = 'Copy Block Right'
       ImageIndex = 21
       OnExecute = actCopyLeftToRightExecute
     end
     object actCopyRightToLeft: TAction
       Caption = 'Copy Block Left'
+      Hint = 'Copy Block Left'
       ImageIndex = 20
       OnExecute = actCopyRightToLeftExecute
     end
     object actSaveLeft: TAction
       Caption = 'Save Left'
+      Hint = 'Save Left'
       ImageIndex = 9
       OnExecute = actSaveLeftExecute
     end
     object actSaveRight: TAction
       Caption = 'Save Right'
+      Hint = 'Save Right'
       ImageIndex = 9
       OnExecute = actSaveRightExecute
     end
     object actReload: TAction
       Caption = 'Reload'
+      Hint = 'Reload'
       ImageIndex = 8
       OnExecute = actReloadExecute
     end
@@ -1678,11 +1700,13 @@ object frmDiffer: TfrmDiffer
     end
     object actSaveLeftAs: TAction
       Caption = 'Save Left As...'
+      Hint = 'Save Left As...'
       ImageIndex = 10
       OnExecute = actSaveLeftAsExecute
     end
     object actSaveRightAs: TAction
       Caption = 'Save Right As...'
+      Hint = 'Save Right As...'
       ImageIndex = 10
       OnExecute = actSaveRightAsExecute
     end
