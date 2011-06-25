@@ -2138,7 +2138,9 @@ msgid "Copy path to command line"
 msgstr "명령행에서 경로 복사"
 
 #: TFRMMAIN.ACTCALCULATESPACE.CAPTION
-msgid "Calculate &Occupied Space..."
+#, fuzzy
+#| msgid "Calculate &Occupied Space..."
+msgid "Calculate &Occupied Space"
 msgstr "차지하는 공간 계산 (&o)"
 
 #: TFRMMAIN.ACTCHANGEDIR.CAPTION
@@ -2154,13 +2156,17 @@ msgid "Change directory to root"
 msgstr "디렉터리를 루트로 바꾸기"
 
 #: TFRMMAIN.ACTCHECKSUMCALC.CAPTION
+#, fuzzy
+#| msgid "Calculate check sum..."
 msgctxt "TFRMMAIN.ACTCHECKSUMCALC.CAPTION"
-msgid "Calculate check sum..."
+msgid "Calculate Check&sum..."
 msgstr "체크섬 계산..."
 
 #: TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION
+#, fuzzy
+#| msgid "Verify check sum..."
 msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
-msgid "Verify check sum..."
+msgid "&Verify Checksum..."
 msgstr "체크섬 검사..."
 
 #: TFRMMAIN.ACTCLEARLOGFILE.CAPTION
@@ -2204,7 +2210,9 @@ msgid "&Copy"
 msgstr "복사 (&C)"
 
 #: TFRMMAIN.ACTCOUNTDIRCONTENT.CAPTION
-msgid "Sho&w occupied space"
+#, fuzzy
+#| msgid "Sho&w occupied space"
+msgid "Sho&w Occupied Space"
 msgstr "차지하는 공간 보이기 (&W)"
 
 #: TFRMMAIN.ACTCUTTOCLIPBOARD.CAPTION
@@ -2221,7 +2229,9 @@ msgid "Directory history"
 msgstr "디렉터리 히스토리"
 
 #: TFRMMAIN.ACTDIRHOTLIST.CAPTION
-msgid "Directory &hotlist"
+#, fuzzy
+#| msgid "Directory &hotlist"
+msgid "Directory &Hotlist"
 msgstr "디렉터리 즐겨찾기 (&H)"
 
 #: TFRMMAIN.ACTEDIT.CAPTION
@@ -2229,7 +2239,9 @@ msgid "Edit F4"
 msgstr "편집 F4"
 
 #: TFRMMAIN.ACTEDITCOMMENT.CAPTION
-msgid "Edit comment..."
+#, fuzzy
+#| msgid "Edit comment..."
+msgid "Edit Co&mment..."
 msgstr "주석 편집..."
 
 #: TFRMMAIN.ACTEDITNEW.CAPTION
@@ -2252,26 +2264,34 @@ msgid "E&xit"
 msgstr "종료"
 
 #: TFRMMAIN.ACTEXTRACTFILES.CAPTION
-msgid "Extract files..."
+#, fuzzy
+#| msgid "Extract files..."
+msgid "&Extract Files..."
 msgstr "파일 압축 풀기..."
 
 #: TFRMMAIN.ACTFILEASSOC.CAPTION
 #, fuzzy
-#| msgid "File associations..."
-msgid "File &associations..."
+#| msgid "File &associations..."
+msgid "File &Associations..."
 msgstr "파일 연결..."
 
 #: TFRMMAIN.ACTFILELINKER.CAPTION
-msgid "Link files"
+#, fuzzy
+#| msgid "Link files"
+msgid "Com&bine Files..."
 msgstr "파일 링크"
 
 #: TFRMMAIN.ACTFILEPROPERTIES.CAPTION
-msgid "Show file properties"
+#, fuzzy
+#| msgid "Show file properties"
+msgid "Show &File Properties"
 msgstr "파일 속성 보이기"
 
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
+#, fuzzy
+#| msgid "Split file"
 msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
-msgid "Split file"
+msgid "Spl&it File..."
 msgstr "파일 자르기"
 
 #: TFRMMAIN.ACTFOCUSCMDLINE.CAPTION
@@ -2289,9 +2309,9 @@ msgstr ""
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
 #, fuzzy
-#| msgid "Create link..."
+#| msgid "Create hard link..."
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
-msgid "Create hard link..."
+msgid "Create &Hard Link..."
 msgstr "하드 링크 만들기..."
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
@@ -2301,7 +2321,7 @@ msgid "&Contents"
 msgstr "컨텐츠"
 
 #: TFRMMAIN.ACTHORIZONTALFILEPANELS.CAPTION
-msgid "Horizontal file panels"
+msgid "&Horizontal Panels Mode"
 msgstr ""
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
@@ -2320,11 +2340,11 @@ msgid "Open left drive list"
 msgstr "왼쪽 드라이브 목록 열기"
 
 #: TFRMMAIN.ACTLOADSELECTIONFROMCLIP.CAPTION
-msgid "Load Selection From Clipboard"
+msgid "Load Selection from Clip&board"
 msgstr ""
 
 #: TFRMMAIN.ACTLOADSELECTIONFROMFILE.CAPTION
-msgid "Load Selection From File"
+msgid "&Load Selection from File..."
 msgstr ""
 
 #: TFRMMAIN.ACTMAKEDIR.CAPTION
@@ -2332,11 +2352,15 @@ msgid "MakeDir F7"
 msgstr "디렉터리 만들기 F7"
 
 #: TFRMMAIN.ACTMARKCURRENTEXTENSION.CAPTION
-msgid "Select all with same extension"
+#, fuzzy
+#| msgid "Select all with same extension"
+msgid "Select All with the Same E&xtension"
 msgstr "같은 확장자 전부 선택"
 
 #: TFRMMAIN.ACTMARKINVERT.CAPTION
-msgid "Invert Selections"
+#, fuzzy
+#| msgid "Invert Selections"
+msgid "&Invert Selection"
 msgstr "선택 반전"
 
 #: TFRMMAIN.ACTMARKMARKALL.CAPTION
@@ -2344,15 +2368,21 @@ msgid "&Select All"
 msgstr "전부 선택 (&S)"
 
 #: TFRMMAIN.ACTMARKMINUS.CAPTION
-msgid "Unselect a group"
+#, fuzzy
+#| msgid "Unselect a group"
+msgid "Unselect a Gro&up..."
 msgstr "그룹 선택 해제"
 
 #: TFRMMAIN.ACTMARKPLUS.CAPTION
-msgid "Select a group"
+#, fuzzy
+#| msgid "Select a group"
+msgid "Select a &Group..."
 msgstr "그룹 선택"
 
 #: TFRMMAIN.ACTMARKUNMARKALL.CAPTION
-msgid "Unselect All"
+#, fuzzy
+#| msgid "Unselect All"
+msgid "&Unselect All"
 msgstr "전부 선택 해제"
 
 #: TFRMMAIN.ACTMINIMIZE.CAPTION
@@ -2360,32 +2390,34 @@ msgid "Minimize window"
 msgstr "창 최소화"
 
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
+#, fuzzy
+#| msgid "Multi Rename Tool"
 msgctxt "TFRMMAIN.ACTMULTIRENAME.CAPTION"
-msgid "Multi Rename Tool"
+msgid "Multi &Rename Tool"
 msgstr "파일명 일괄 변경 도구"
 
 #: TFRMMAIN.ACTNETWORKCONNECT.CAPTION
-msgid "Network Connect..."
+msgid "Network &Connect..."
 msgstr ""
 
 #: TFRMMAIN.ACTNETWORKDISCONNECT.CAPTION
-msgid "Network Disconnect"
+msgid "Network &Disconnect"
 msgstr ""
 
 #: TFRMMAIN.ACTNETWORKQUICKCONNECT.CAPTION
-msgid "Network Quick Connect..."
+msgid "Network &Quick Connect..."
 msgstr ""
 
 #: TFRMMAIN.ACTNEWTAB.CAPTION
 #, fuzzy
-#| msgid "New tab"
-msgid "&New tab"
+#| msgid "&New tab"
+msgid "&New Tab"
 msgstr "새 탭"
 
 #: TFRMMAIN.ACTNEXTTAB.CAPTION
 #, fuzzy
-#| msgid "Switch to next tab"
-msgid "Switch to nex&t tab"
+#| msgid "Switch to nex&t tab"
+msgid "Switch to Nex&t Tab"
 msgstr "다음 탭으로 전환"
 
 #: TFRMMAIN.ACTOPEN.CAPTION
@@ -2403,12 +2435,16 @@ msgstr ""
 
 #: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
 #, fuzzy
-#| msgid "Open folder in new tab"
-msgid "Open &folder in new tab"
+#| msgid "Open &folder in new tab"
+msgid "Open &Folder in a New Tab"
 msgstr "새 탭에 폴더 열기"
 
 #: TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION
 msgid "Open &VFS List"
+msgstr ""
+
+#: TFRMMAIN.ACTOPERATIONSVIEWER.CAPTION
+msgid "Operations &Viewer"
 msgstr ""
 
 #: TFRMMAIN.ACTOPTIONS.CAPTION
@@ -2418,7 +2454,9 @@ msgid "&Options..."
 msgstr "옵션..."
 
 #: TFRMMAIN.ACTPACKFILES.CAPTION
-msgid "Pack files..."
+#, fuzzy
+#| msgid "Pack files..."
+msgid "&Pack Files..."
 msgstr "파일 압축..."
 
 #: TFRMMAIN.ACTPANELSSPLITTERPERPOS.CAPTION
@@ -2431,8 +2469,8 @@ msgstr "붙여넣기 (&P)"
 
 #: TFRMMAIN.ACTPREVTAB.CAPTION
 #, fuzzy
-#| msgid "Switch to previous tab"
-msgid "Switch to &previous tab"
+#| msgid "Switch to &previous tab"
+msgid "Switch to &Previous Tab"
 msgstr "이전 탭으로 전환"
 
 #: TFRMMAIN.ACTQUICKFILTER.CAPTION
@@ -2445,7 +2483,7 @@ msgid "Quick search"
 msgstr "빠른 찾기"
 
 #: TFRMMAIN.ACTQUICKVIEW.CAPTION
-msgid "Quick View Panel"
+msgid "&Quick View Panel"
 msgstr ""
 
 #: TFRMMAIN.ACTREFRESH.CAPTION
@@ -2454,14 +2492,14 @@ msgstr "새로 고침 (&R)"
 
 #: TFRMMAIN.ACTREMOVEALLTABS.CAPTION
 #, fuzzy
-#| msgid "Remove all tabs"
-msgid "Remove &all tabs"
+#| msgid "Remove &all tabs"
+msgid "Remove &All Tabs"
 msgstr "모든 탭 제거"
 
 #: TFRMMAIN.ACTREMOVETAB.CAPTION
 #, fuzzy
-#| msgid "Remove tab"
-msgid "&Remove tab"
+#| msgid "&Remove tab"
+msgid "&Remove Tab"
 msgstr "탭 제거"
 
 #: TFRMMAIN.ACTRENAME.CAPTION
@@ -2477,12 +2515,18 @@ msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
 msgid "Rename"
 msgstr "이름 바꾸기"
 
+#: TFRMMAIN.ACTRENAMETAB.CAPTION
+msgid "Re&name Tab"
+msgstr ""
+
 #: TFRMMAIN.ACTRESTORESELECTION.CAPTION
-msgid "Restore Selection"
+msgid "&Restore Selection"
 msgstr ""
 
 #: TFRMMAIN.ACTREVERSEORDER.CAPTION
-msgid "Reverse order"
+#, fuzzy
+#| msgid "Reverse order"
+msgid "Re&verse Order"
 msgstr "정렬 순서 반대로"
 
 #: TFRMMAIN.ACTRIGHTEQUALLEFT.CAPTION
@@ -2495,28 +2539,32 @@ msgid "Open right drive list"
 msgstr "오른쪽 드라이브 목록 열기"
 
 #: TFRMMAIN.ACTRUNTERM.CAPTION
-msgid "Run Term"
+#, fuzzy
+#| msgid "Run Term"
+msgid "Run &Terminal"
 msgstr "터미널 실행"
 
 #: TFRMMAIN.ACTSAVESELECTION.CAPTION
-msgid "Save Selection"
+msgid "Sa&ve Selection"
 msgstr ""
 
 #: TFRMMAIN.ACTSAVESELECTIONTOFILE.CAPTION
-msgid "Save Selection To File"
+msgid "Save S&election to File..."
 msgstr ""
 
 #: TFRMMAIN.ACTSEARCH.CAPTION
-msgid "&Search"
+#, fuzzy
+#| msgid "&Search"
+msgid "&Search..."
 msgstr "찾기 (&S)"
 
 #: TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
-msgid "Change attributes"
+msgid "Change &Attributes..."
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
-msgid "Directories are opened in new &tabs"
+msgid "Locked with Directories Opened in New &Tabs"
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
@@ -2528,7 +2576,7 @@ msgid "&Locked"
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION
-msgid "Locked, but &directory changes allowed"
+msgid "Locked with &Directory Changes Allowed"
 msgstr ""
 
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
@@ -2545,28 +2593,40 @@ msgid "Menu F9"
 msgstr "메뉴 F9"
 
 #: TFRMMAIN.ACTSHOWSYSFILES.CAPTION
+#, fuzzy
+#| msgid "Show hidden/system files"
 msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
-msgid "Show hidden/system files"
+msgid "Show &Hidden/System Files"
 msgstr "숨김/시스템 파일 보이기"
 
 #: TFRMMAIN.ACTSORTBYATTR.CAPTION
-msgid "Sort by attrib"
+#, fuzzy
+#| msgid "Sort by attrib"
+msgid "Sort by &Attributes"
 msgstr "속성순 정렬"
 
 #: TFRMMAIN.ACTSORTBYDATE.CAPTION
-msgid "Sort by date"
+#, fuzzy
+#| msgid "Sort by date"
+msgid "Sort by &Date"
 msgstr "시간순 정렬"
 
 #: TFRMMAIN.ACTSORTBYEXT.CAPTION
-msgid "Sort by extension"
+#, fuzzy
+#| msgid "Sort by extension"
+msgid "Sort by &Extension"
 msgstr "확장자순 정렬"
 
 #: TFRMMAIN.ACTSORTBYNAME.CAPTION
-msgid "Sort by name"
+#, fuzzy
+#| msgid "Sort by name"
+msgid "Sort by &Name"
 msgstr "파일명순 정렬"
 
 #: TFRMMAIN.ACTSORTBYSIZE.CAPTION
-msgid "Sort by size"
+#, fuzzy
+#| msgid "Sort by size"
+msgid "Sort by &Size"
 msgstr "파일 크기순 정렬"
 
 #: TFRMMAIN.ACTSWITCHIGNORELIST.CAPTION
@@ -2575,9 +2635,9 @@ msgstr ""
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
 #, fuzzy
-#| msgid "Create symlink..."
+#| msgid "Create symbolic link..."
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
-msgid "Create symbolic link..."
+msgid "Create Symbolic &Link..."
 msgstr "심벌 링크 만들기..."
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
@@ -2585,7 +2645,7 @@ msgid "Target &= Source"
 msgstr "대상 &= 원본"
 
 #: TFRMMAIN.ACTTESTARCHIVE.CAPTION
-msgid "Test Archive(s)"
+msgid "&Test Archive(s)"
 msgstr ""
 
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
@@ -2597,7 +2657,9 @@ msgid "Transfer dir under cursor to right window"
 msgstr "오른쪽 윈도에서 커서가 있는 디렉터리로 전송"
 
 #: TFRMMAIN.ACTUNMARKCURRENTEXTENSION.CAPTION
-msgid "Unselect all with same extension"
+#, fuzzy
+#| msgid "Unselect all with same extension"
+msgid "Unselect All with the Same Ex&tension"
 msgstr "같은 확장자 전부 선택 해제"
 
 #: TFRMMAIN.ACTVIEW.CAPTION
@@ -2618,8 +2680,8 @@ msgstr ""
 
 #: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
 #, fuzzy
-#| msgid "Visit Double Commander Web Site"
-msgid "&Visit Double Commander Web Site"
+#| msgid "&Visit Double Commander Web Site"
+msgid "&Visit Double Commander Website"
 msgstr "Double Commander 웹사이트 방문"
 
 #: TFRMMAIN.ACTWIPE.CAPTION
@@ -2796,11 +2858,6 @@ msgctxt "TFRMMAIN.MILINE1.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: TFRMMAIN.MILINE10.CAPTION
-msgctxt "TFRMMAIN.MILINE10.CAPTION"
-msgid "-"
-msgstr "-"
-
 #: TFRMMAIN.MILINE12.CAPTION
 msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
@@ -2967,10 +3024,6 @@ msgstr "설정 (&O)"
 msgid "&Files"
 msgstr "파일 (&F)"
 
-#: TFRMMAIN.MNUFILESCOMBINE.CAPTION
-msgid "Combine Files"
-msgstr "파일 합치기"
-
 #: TFRMMAIN.MNUHELP.CAPTION
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
@@ -2980,10 +3033,6 @@ msgstr "도움말 (&H)"
 msgid "&Mark"
 msgstr "선택 표시 (&M)"
 
-#: TFRMMAIN.MNUMARKCMPDIR.CAPTION
-msgid "&Compare Directories"
-msgstr "디렉터리 비교 (&C)"
-
 #: TFRMMAIN.MNUNETWORK.CAPTION
 msgid "Network"
 msgstr ""
@@ -2991,10 +3040,6 @@ msgstr ""
 #: TFRMMAIN.MNUSHOW.CAPTION
 msgid "&Show"
 msgstr "보여주기 (&S)"
-
-#: TFRMMAIN.MNUSHOWOPERATIONS.CAPTION
-msgid "Operations viewer"
-msgstr ""
 
 #: TFRMMAIN.MNUTABOPTIONS.CAPTION
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
@@ -6418,6 +6463,14 @@ msgstr "다음 볼륨의 위치를 선택해 주세요."
 #: ulng.rsmsgsetvolumelabel
 msgid "Set volume label"
 msgstr "볼륨 레이블 지정"
+
+#: ulng.rsmsgtabrenamecaption
+msgid "Rename tab"
+msgstr ""
+
+#: ulng.rsmsgtabrenameprompt
+msgid "New tab name:"
+msgstr ""
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"

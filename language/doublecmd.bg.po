@@ -2125,7 +2125,9 @@ msgid "Copy path to command line"
 msgstr "Преписване на пътя в реда управление"
 
 #: TFRMMAIN.ACTCALCULATESPACE.CAPTION
-msgid "Calculate &Occupied Space..."
+#, fuzzy
+#| msgid "Calculate &Occupied Space..."
+msgid "Calculate &Occupied Space"
 msgstr "Изчисляване на &заетото място..."
 
 #: TFRMMAIN.ACTCHANGEDIR.CAPTION
@@ -2141,13 +2143,17 @@ msgid "Change directory to root"
 msgstr "В основната папка"
 
 #: TFRMMAIN.ACTCHECKSUMCALC.CAPTION
+#, fuzzy
+#| msgid "Calculate check sum..."
 msgctxt "TFRMMAIN.ACTCHECKSUMCALC.CAPTION"
-msgid "Calculate check sum..."
+msgid "Calculate Check&sum..."
 msgstr "Изчисляване на проверочен сбор..."
 
 #: TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION
+#, fuzzy
+#| msgid "Verify check sum..."
 msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
-msgid "Verify check sum..."
+msgid "&Verify Checksum..."
 msgstr "Потвърждаване на проверочен сбор..."
 
 #: TFRMMAIN.ACTCLEARLOGFILE.CAPTION
@@ -2191,7 +2197,9 @@ msgid "&Copy"
 msgstr "Запомняне"
 
 #: TFRMMAIN.ACTCOUNTDIRCONTENT.CAPTION
-msgid "Sho&w occupied space"
+#, fuzzy
+#| msgid "Sho&w occupied space"
+msgid "Sho&w Occupied Space"
 msgstr "&Показване на заетото място"
 
 #: TFRMMAIN.ACTCUTTOCLIPBOARD.CAPTION
@@ -2208,7 +2216,9 @@ msgid "Directory history"
 msgstr "Дневник на папката"
 
 #: TFRMMAIN.ACTDIRHOTLIST.CAPTION
-msgid "Directory &hotlist"
+#, fuzzy
+#| msgid "Directory &hotlist"
+msgid "Directory &Hotlist"
 msgstr "&Бързодостъпни папки"
 
 #: TFRMMAIN.ACTEDIT.CAPTION
@@ -2216,7 +2226,9 @@ msgid "Edit F4"
 msgstr "Обработка F4"
 
 #: TFRMMAIN.ACTEDITCOMMENT.CAPTION
-msgid "Edit comment..."
+#, fuzzy
+#| msgid "Edit comment..."
+msgid "Edit Co&mment..."
 msgstr "Промяна на бележката..."
 
 #: TFRMMAIN.ACTEDITNEW.CAPTION
@@ -2238,25 +2250,34 @@ msgid "E&xit"
 msgstr "Из&ход"
 
 #: TFRMMAIN.ACTEXTRACTFILES.CAPTION
-msgid "Extract files..."
+#, fuzzy
+#| msgid "Extract files..."
+msgid "&Extract Files..."
 msgstr "Извличане на файлове..."
 
 #: TFRMMAIN.ACTFILEASSOC.CAPTION
-#| msgid "File associations..."
-msgid "File &associations..."
+#, fuzzy
+#| msgid "File &associations..."
+msgid "File &Associations..."
 msgstr "Файлови об&вързвания..."
 
 #: TFRMMAIN.ACTFILELINKER.CAPTION
-msgid "Link files"
+#, fuzzy
+#| msgid "Link files"
+msgid "Com&bine Files..."
 msgstr "Свързване на файлове"
 
 #: TFRMMAIN.ACTFILEPROPERTIES.CAPTION
-msgid "Show file properties"
+#, fuzzy
+#| msgid "Show file properties"
+msgid "Show &File Properties"
 msgstr "Показване на файловите свойства"
 
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
+#, fuzzy
+#| msgid "Split file"
 msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
-msgid "Split file"
+msgid "Spl&it File..."
 msgstr "Раздробяване на файл"
 
 #: TFRMMAIN.ACTFOCUSCMDLINE.CAPTION
@@ -2273,9 +2294,9 @@ msgstr ""
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
 #, fuzzy
-#| msgid "Create link..."
+#| msgid "Create hard link..."
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
-msgid "Create hard link..."
+msgid "Create &Hard Link..."
 msgstr "Създаване на връзка..."
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
@@ -2284,7 +2305,7 @@ msgid "&Contents"
 msgstr "Съ&държание"
 
 #: TFRMMAIN.ACTHORIZONTALFILEPANELS.CAPTION
-msgid "Horizontal file panels"
+msgid "&Horizontal Panels Mode"
 msgstr ""
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
@@ -2301,11 +2322,15 @@ msgid "Open left drive list"
 msgstr "Първо се отваря лявото крило"
 
 #: TFRMMAIN.ACTLOADSELECTIONFROMCLIP.CAPTION
-msgid "Load Selection From Clipboard"
+#, fuzzy
+#| msgid "Load Selection From Clipboard"
+msgid "Load Selection from Clip&board"
 msgstr "Зареждане на отбелязване"
 
 #: TFRMMAIN.ACTLOADSELECTIONFROMFILE.CAPTION
-msgid "Load Selection From File"
+#, fuzzy
+#| msgid "Load Selection From File"
+msgid "&Load Selection from File..."
 msgstr "Зареждане на отбелязване от файл"
 
 #: TFRMMAIN.ACTMAKEDIR.CAPTION
@@ -2313,11 +2338,15 @@ msgid "MakeDir F7"
 msgstr "Нова папка F7"
 
 #: TFRMMAIN.ACTMARKCURRENTEXTENSION.CAPTION
-msgid "Select all with same extension"
+#, fuzzy
+#| msgid "Select all with same extension"
+msgid "Select All with the Same E&xtension"
 msgstr "Избор на всички със същото разширение"
 
 #: TFRMMAIN.ACTMARKINVERT.CAPTION
-msgid "Invert Selections"
+#, fuzzy
+#| msgid "Invert Selections"
+msgid "&Invert Selection"
 msgstr "Обръщане на избора"
 
 #: TFRMMAIN.ACTMARKMARKALL.CAPTION
@@ -2325,15 +2354,21 @@ msgid "&Select All"
 msgstr "Избор на вси&чки"
 
 #: TFRMMAIN.ACTMARKMINUS.CAPTION
-msgid "Unselect a group"
+#, fuzzy
+#| msgid "Unselect a group"
+msgid "Unselect a Gro&up..."
 msgstr "Снемане на избора от група"
 
 #: TFRMMAIN.ACTMARKPLUS.CAPTION
-msgid "Select a group"
+#, fuzzy
+#| msgid "Select a group"
+msgid "Select a &Group..."
 msgstr "Избор на група"
 
 #: TFRMMAIN.ACTMARKUNMARKALL.CAPTION
-msgid "Unselect All"
+#, fuzzy
+#| msgid "Unselect All"
+msgid "&Unselect All"
 msgstr "Снемане на избора от всички"
 
 #: TFRMMAIN.ACTMINIMIZE.CAPTION
@@ -2341,29 +2376,39 @@ msgid "Minimize window"
 msgstr "Смаляване на прозореца"
 
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
-msgid "Multi Rename Tool"
+#, fuzzy
+#| msgid "Multi Rename Tool"
+msgid "Multi &Rename Tool"
 msgstr "Множествено преименуване"
 
 #: TFRMMAIN.ACTNETWORKCONNECT.CAPTION
-msgid "Network Connect..."
+#, fuzzy
+#| msgid "Network Connect..."
+msgid "Network &Connect..."
 msgstr "Закачане към мрежа..."
 
 #: TFRMMAIN.ACTNETWORKDISCONNECT.CAPTION
-msgid "Network Disconnect"
+#, fuzzy
+#| msgid "Network Disconnect"
+msgid "Network &Disconnect"
 msgstr "Разкачане от мрежа"
 
 #: TFRMMAIN.ACTNETWORKQUICKCONNECT.CAPTION
-msgid "Network Quick Connect..."
+#, fuzzy
+#| msgid "Network Quick Connect..."
+msgid "Network &Quick Connect..."
 msgstr "Бързо закачане към мрежа..."
 
 #: TFRMMAIN.ACTNEWTAB.CAPTION
-#| msgid "New tab"
-msgid "&New tab"
+#, fuzzy
+#| msgid "&New tab"
+msgid "&New Tab"
 msgstr "&Нов подпрозорец"
 
 #: TFRMMAIN.ACTNEXTTAB.CAPTION
-#| msgid "Switch to next tab"
-msgid "Switch to nex&t tab"
+#, fuzzy
+#| msgid "Switch to nex&t tab"
+msgid "Switch to Nex&t Tab"
 msgstr "Преминаване на следва&щия подпрозорец"
 
 #: TFRMMAIN.ACTOPEN.CAPTION
@@ -2380,8 +2425,9 @@ msgid "Open bar file"
 msgstr ""
 
 #: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
-#| msgid "Open folder in new tab"
-msgid "Open &folder in new tab"
+#, fuzzy
+#| msgid "Open &folder in new tab"
+msgid "Open &Folder in a New Tab"
 msgstr "Отваряне на &папката в нов подпрозорец"
 
 #: TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION
@@ -2390,13 +2436,19 @@ msgctxt "TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION"
 msgid "Open &VFS List"
 msgstr "Отваряне на &VFS списък"
 
+#: TFRMMAIN.ACTOPERATIONSVIEWER.CAPTION
+msgid "Operations &Viewer"
+msgstr ""
+
 #: TFRMMAIN.ACTOPTIONS.CAPTION
 #| msgid "Options..."
 msgid "&Options..."
 msgstr "Въз&можности..."
 
 #: TFRMMAIN.ACTPACKFILES.CAPTION
-msgid "Pack files..."
+#, fuzzy
+#| msgid "Pack files..."
+msgid "&Pack Files..."
 msgstr "Сбиване на файлове..."
 
 #: TFRMMAIN.ACTPANELSSPLITTERPERPOS.CAPTION
@@ -2408,8 +2460,9 @@ msgid "&Paste"
 msgstr "Поставяне"
 
 #: TFRMMAIN.ACTPREVTAB.CAPTION
-#| msgid "Switch to previous tab"
-msgid "Switch to &previous tab"
+#, fuzzy
+#| msgid "Switch to &previous tab"
+msgid "Switch to &Previous Tab"
 msgstr "Преминаване на пред&ходния подпрозорец"
 
 #: TFRMMAIN.ACTQUICKFILTER.CAPTION
@@ -2422,7 +2475,9 @@ msgid "Quick search"
 msgstr "Бързо търсене"
 
 #: TFRMMAIN.ACTQUICKVIEW.CAPTION
-msgid "Quick View Panel"
+#, fuzzy
+#| msgid "Quick View Panel"
+msgid "&Quick View Panel"
 msgstr "Крило за бърз преглед"
 
 #: TFRMMAIN.ACTREFRESH.CAPTION
@@ -2430,13 +2485,15 @@ msgid "&Refresh"
 msgstr "О&пресняване"
 
 #: TFRMMAIN.ACTREMOVEALLTABS.CAPTION
-#| msgid "Remove all tabs"
-msgid "Remove &all tabs"
+#, fuzzy
+#| msgid "Remove &all tabs"
+msgid "Remove &All Tabs"
 msgstr "Премахване на вси&чки подпрозорци"
 
 #: TFRMMAIN.ACTREMOVETAB.CAPTION
-#| msgid "Remove tab"
-msgid "&Remove tab"
+#, fuzzy
+#| msgid "&Remove tab"
+msgid "&Remove Tab"
 msgstr "Пре&махване на подпрозореца"
 
 #: TFRMMAIN.ACTRENAME.CAPTION
@@ -2452,12 +2509,20 @@ msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
 msgid "Rename"
 msgstr "Преименуване"
 
+#: TFRMMAIN.ACTRENAMETAB.CAPTION
+msgid "Re&name Tab"
+msgstr ""
+
 #: TFRMMAIN.ACTRESTORESELECTION.CAPTION
-msgid "Restore Selection"
+#, fuzzy
+#| msgid "Restore Selection"
+msgid "&Restore Selection"
 msgstr "Възстановяване на отбелязването"
 
 #: TFRMMAIN.ACTREVERSEORDER.CAPTION
-msgid "Reverse order"
+#, fuzzy
+#| msgid "Reverse order"
+msgid "Re&verse Order"
 msgstr "Обръщане на реда"
 
 #: TFRMMAIN.ACTRIGHTEQUALLEFT.CAPTION
@@ -2469,30 +2534,40 @@ msgid "Open right drive list"
 msgstr "Първо се отваря дясното крило"
 
 #: TFRMMAIN.ACTRUNTERM.CAPTION
-msgid "Run Term"
+#, fuzzy
+#| msgid "Run Term"
+msgid "Run &Terminal"
 msgstr "Терминал"
 
 #: TFRMMAIN.ACTSAVESELECTION.CAPTION
-msgid "Save Selection"
+#, fuzzy
+#| msgid "Save Selection"
+msgid "Sa&ve Selection"
 msgstr "Съхраняване на отбелязването"
 
 #: TFRMMAIN.ACTSAVESELECTIONTOFILE.CAPTION
-msgid "Save Selection To File"
+#, fuzzy
+#| msgid "Save Selection To File"
+msgid "Save S&election to File..."
 msgstr "Съхраняване на отбелязването във файл"
 
 #: TFRMMAIN.ACTSEARCH.CAPTION
-msgid "&Search"
+#, fuzzy
+#| msgid "&Search"
+msgid "&Search..."
 msgstr "&Търсене"
 
 #: TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION
 #, fuzzy
-#| msgid "Change file properties"
+#| msgid "Change attributes"
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
-msgid "Change attributes"
+msgid "Change &Attributes..."
 msgstr "Промяна на файловите свойства"
 
 #: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
-msgid "Directories are opened in new &tabs"
+#, fuzzy
+#| msgid "Directories are opened in new &tabs"
+msgid "Locked with Directories Opened in New &Tabs"
 msgstr "Папките се отварят в нови подпрозор&ци"
 
 #: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
@@ -2504,9 +2579,10 @@ msgid "&Locked"
 msgstr "&Заключен"
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION
-#| msgid "Locked, but directory changes allowed"
+#, fuzzy
+#| msgid "Locked, but &directory changes allowed"
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
-msgid "Locked, but &directory changes allowed"
+msgid "Locked with &Directory Changes Allowed"
 msgstr "Заключен, с разрешена смяна на &папката"
 
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
@@ -2523,28 +2599,40 @@ msgid "Menu F9"
 msgstr "Изборник F9"
 
 #: TFRMMAIN.ACTSHOWSYSFILES.CAPTION
+#, fuzzy
+#| msgid "Show hidden/system files"
 msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
-msgid "Show hidden/system files"
+msgid "Show &Hidden/System Files"
 msgstr "Показване на скрити/ системни файлове"
 
 #: TFRMMAIN.ACTSORTBYATTR.CAPTION
-msgid "Sort by attrib"
+#, fuzzy
+#| msgid "Sort by attrib"
+msgid "Sort by &Attributes"
 msgstr "Подреждане по принадлежности"
 
 #: TFRMMAIN.ACTSORTBYDATE.CAPTION
-msgid "Sort by date"
+#, fuzzy
+#| msgid "Sort by date"
+msgid "Sort by &Date"
 msgstr "Подреждане по дата"
 
 #: TFRMMAIN.ACTSORTBYEXT.CAPTION
-msgid "Sort by extension"
+#, fuzzy
+#| msgid "Sort by extension"
+msgid "Sort by &Extension"
 msgstr "Подреждане по разширение"
 
 #: TFRMMAIN.ACTSORTBYNAME.CAPTION
-msgid "Sort by name"
+#, fuzzy
+#| msgid "Sort by name"
+msgid "Sort by &Name"
 msgstr "Подреждане по име"
 
 #: TFRMMAIN.ACTSORTBYSIZE.CAPTION
-msgid "Sort by size"
+#, fuzzy
+#| msgid "Sort by size"
+msgid "Sort by &Size"
 msgstr "Подреждане по размер"
 
 #: TFRMMAIN.ACTSWITCHIGNORELIST.CAPTION
@@ -2553,9 +2641,9 @@ msgstr "Включване/ изключване на пренебрегване
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
 #, fuzzy
-#| msgid "Create symlink..."
+#| msgid "Create symbolic link..."
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
-msgid "Create symbolic link..."
+msgid "Create Symbolic &Link..."
 msgstr "Създаване на мека взръзка..."
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
@@ -2563,7 +2651,9 @@ msgid "Target &= Source"
 msgstr "Цел &= източник"
 
 #: TFRMMAIN.ACTTESTARCHIVE.CAPTION
-msgid "Test Archive(s)"
+#, fuzzy
+#| msgid "Test Archive(s)"
+msgid "&Test Archive(s)"
 msgstr "Проверка на архив(и)"
 
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
@@ -2575,7 +2665,9 @@ msgid "Transfer dir under cursor to right window"
 msgstr "Прехвърляне на папката под показалеца в десния прозорец"
 
 #: TFRMMAIN.ACTUNMARKCURRENTEXTENSION.CAPTION
-msgid "Unselect all with same extension"
+#, fuzzy
+#| msgid "Unselect all with same extension"
+msgid "Unselect All with the Same Ex&tension"
 msgstr "Снемане на избора на всички със същото разширение"
 
 #: TFRMMAIN.ACTVIEW.CAPTION
@@ -2595,8 +2687,9 @@ msgid "Go to previous entry in history"
 msgstr "Към предходната точка от дневника"
 
 #: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
-#| msgid "Visit Double Commander Web Site"
-msgid "&Visit Double Commander Web Site"
+#, fuzzy
+#| msgid "&Visit Double Commander Web Site"
+msgid "&Visit Double Commander Website"
 msgstr "&Посещаване на мрежовото място на  Double Commander"
 
 #: TFRMMAIN.ACTWIPE.CAPTION
@@ -2768,11 +2861,6 @@ msgctxt "TFRMMAIN.MILINE1.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: TFRMMAIN.MILINE10.CAPTION
-msgctxt "TFRMMAIN.MILINE10.CAPTION"
-msgid "-"
-msgstr "-"
-
 #: TFRMMAIN.MILINE12.CAPTION
 msgctxt "TFRMMAIN.MILINE12.CAPTION"
 msgid "-"
@@ -2937,10 +3025,6 @@ msgstr "&Настройка"
 msgid "&Files"
 msgstr "&Файлове"
 
-#: TFRMMAIN.MNUFILESCOMBINE.CAPTION
-msgid "Combine Files"
-msgstr "Сглобяване на файлове"
-
 #: TFRMMAIN.MNUHELP.CAPTION
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
@@ -2950,10 +3034,6 @@ msgstr "Помо&щ"
 msgid "&Mark"
 msgstr "&Избор"
 
-#: TFRMMAIN.MNUMARKCMPDIR.CAPTION
-msgid "&Compare Directories"
-msgstr "&Сравняване на папки"
-
 #: TFRMMAIN.MNUNETWORK.CAPTION
 msgid "Network"
 msgstr "Мрежа"
@@ -2961,10 +3041,6 @@ msgstr "Мрежа"
 #: TFRMMAIN.MNUSHOW.CAPTION
 msgid "&Show"
 msgstr "&Изглед"
-
-#: TFRMMAIN.MNUSHOWOPERATIONS.CAPTION
-msgid "Operations viewer"
-msgstr "Прозорец на действията"
 
 #: TFRMMAIN.MNUTABOPTIONS.CAPTION
 #| msgid "Options"
@@ -6382,6 +6458,14 @@ msgstr "Посочете местоположението на следващи�
 #: ulng.rsmsgsetvolumelabel
 msgid "Set volume label"
 msgstr "Слагане име на тома"
+
+#: ulng.rsmsgtabrenamecaption
+msgid "Rename tab"
+msgstr ""
+
+#: ulng.rsmsgtabrenameprompt
+msgid "New tab name:"
+msgstr ""
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
