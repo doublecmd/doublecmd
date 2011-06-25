@@ -1225,8 +1225,15 @@ var
   sCaption: UTF8String;
 begin
   with frmMain do
+  begin
+    sCaption:= ActiveNotebook.Page[ActiveNotebook.PageIndex].Caption;
+    if (Length(sCaption) > 0)  and (sCaption[1] = '*')  and
+       (ActiveNotebook.Page[ActiveNotebook.PageIndex].LockState <> tlsNormal) and
+       (tb_show_asterisk_for_locked in gDirTabOptions) then
+      UTF8Delete(sCaption, 1, 1);
     if InputQuery(rsMsgTabRenameCaption, rsMsgTabRenamePrompt, sCaption) then
       ActiveNotebook.Page[ActiveNotebook.PageIndex].UpdateCaption(sCaption);
+  end;
 end;
 
 procedure TActs.cm_RemoveTab(param:string);
