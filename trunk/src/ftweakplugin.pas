@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Plugin tweak window
 
-   Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -80,6 +80,7 @@ type
     procedure btnDefaultClick(Sender: TObject);
     procedure btnRemoveClick(Sender: TObject);
     procedure cbExtChange(Sender: TObject);
+    procedure cbPackerFlagsClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     FWCXPlugins: TWCXModuleList;
@@ -225,6 +226,26 @@ procedure TfrmTweakPlugin.cbExtChange(Sender: TObject);
 var
   iFlags: PtrInt;
 begin
+  iPrevIndex:= cbExt.ItemIndex;
+  iFlags:= PtrInt(cbExt.Items.Objects[cbExt.ItemIndex]);
+  lblFlagsValue.Caption:= '('+IntToStr(iFlags)+')';
+
+  cbPK_CAPS_NEW.Checked        := (iFlags and PK_CAPS_NEW) <> 0;
+  cbPK_CAPS_MODIFY.Checked     := (iFlags and PK_CAPS_MODIFY) <> 0;
+  cbPK_CAPS_MULTIPLE.Checked   := (iFlags and PK_CAPS_MULTIPLE) <> 0;
+  cbPK_CAPS_DELETE.Checked     := (iFlags and PK_CAPS_DELETE) <> 0;
+  cbPK_CAPS_OPTIONS.Checked    := (iFlags and PK_CAPS_OPTIONS) <> 0;
+  cbPK_CAPS_MEMPACK.Checked    := (iFlags and PK_CAPS_MEMPACK) <> 0;
+  cbPK_CAPS_BY_CONTENT.Checked := (iFlags and PK_CAPS_BY_CONTENT) <> 0;
+  cbPK_CAPS_SEARCHTEXT.Checked := (iFlags and PK_CAPS_SEARCHTEXT) <> 0;
+  cbPK_CAPS_HIDE.Checked       := (iFlags and PK_CAPS_HIDE) <> 0;
+  cbPK_CAPS_ENCRYPT.Checked    := (iFlags and PK_CAPS_ENCRYPT) <> 0;
+end;
+
+procedure TfrmTweakPlugin.cbPackerFlagsClick(Sender: TObject);
+var
+  iFlags: PtrInt;
+begin
   if iPrevIndex >= 0 then // save new flags
     begin
       iFlags:= 0;
@@ -249,22 +270,8 @@ begin
       if cbPK_CAPS_ENCRYPT.Checked then
         iFlags:= iFlags or PK_CAPS_ENCRYPT;
       cbExt.Items.Objects[iPrevIndex]:= TObject(iFlags);
+      lblFlagsValue.Caption:= '('+IntToStr(iFlags)+')';
     end;
-
-  iPrevIndex:= cbExt.ItemIndex;
-  iFlags:= PtrInt(cbExt.Items.Objects[cbExt.ItemIndex]);
-  lblFlagsValue.Caption:= '('+IntToStr(iFlags)+')';
-
-  cbPK_CAPS_NEW.Checked        := (iFlags and PK_CAPS_NEW) <> 0;
-  cbPK_CAPS_MODIFY.Checked     := (iFlags and PK_CAPS_MODIFY) <> 0;
-  cbPK_CAPS_MULTIPLE.Checked   := (iFlags and PK_CAPS_MULTIPLE) <> 0;
-  cbPK_CAPS_DELETE.Checked     := (iFlags and PK_CAPS_DELETE) <> 0;
-  cbPK_CAPS_OPTIONS.Checked    := (iFlags and PK_CAPS_OPTIONS) <> 0;
-  cbPK_CAPS_MEMPACK.Checked    := (iFlags and PK_CAPS_MEMPACK) <> 0;
-  cbPK_CAPS_BY_CONTENT.Checked := (iFlags and PK_CAPS_BY_CONTENT) <> 0;
-  cbPK_CAPS_SEARCHTEXT.Checked := (iFlags and PK_CAPS_SEARCHTEXT) <> 0;
-  cbPK_CAPS_HIDE.Checked       := (iFlags and PK_CAPS_HIDE) <> 0;
-  cbPK_CAPS_ENCRYPT.Checked    := (iFlags and PK_CAPS_ENCRYPT) <> 0;
 end;
 
 procedure TfrmTweakPlugin.FormCreate(Sender: TObject);
