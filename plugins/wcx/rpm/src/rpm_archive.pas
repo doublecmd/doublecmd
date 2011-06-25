@@ -86,7 +86,7 @@ end;
 
 function GetPackerCaps;
 begin
-  Result := PK_CAPS_OPTIONS or PK_CAPS_MULTIPLE;
+  Result := PK_CAPS_MULTIPLE;
 end;
 
 function OpenArchive;
