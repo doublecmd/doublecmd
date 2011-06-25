@@ -80,6 +80,7 @@ type
     actHorizontalFilePanels: TAction;
     actGoToFirstFile: TAction;
     actGoToLastFile: TAction;
+    actRenameTab: TAction;
     actOperationsViewer: TAction;
     actNetworkDisconnect: TAction;
     actNetworkQuickConnect: TAction;
@@ -154,6 +155,7 @@ type
     AllOpCancel: TMenuItem;
     AllOpStart: TMenuItem;
     AllOpPct: TMenuItem;
+    miRenameTab: TMenuItem;
     tbChangeDir: TMenuItem;
     mnuShowHorizontalFilePanels: TMenuItem;
     miLine20: TMenuItem;
@@ -3601,10 +3603,12 @@ procedure TfrmMain.UpdateWindowView;
 
     for I := 0 to NoteBook.PageCount - 1 do  //  change on all tabs
     begin
-      if NoteBook.Page[I].LockState <> tlsPathResets then
-        NoteBook.Page[I].UpdateCaption(GetLastDir(NoteBook.View[I].CurrentPath))
+      if NoteBook.Page[I].LockState = tlsNormal then
+        NoteBook.Page[I].UpdateCaption(GetLastDir(NoteBook.View[I].CurrentPath));
+      {
       else
         NoteBook.Page[I].UpdateCaption(GetLastDir(NoteBook.Page[I].LockPath));
+      }
       NoteBook.View[I].UpdateView;
     end;
   end;

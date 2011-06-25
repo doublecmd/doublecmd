@@ -2250,6 +2250,11 @@ object frmMain: TfrmMain
       Caption = 'Operations &Viewer'
       OnExecute = actExecute
     end
+    object actRenameTab: TAction
+      Category = 'Tabs'
+      Caption = 'Re&name Tab'
+      OnExecute = actExecute
+    end
   end
   object pmHotList: TPopupMenu
     left = 120
@@ -3398,6 +3403,9 @@ object frmMain: TfrmMain
     object miNewTab: TMenuItem
       Action = actNewTab
       OnClick = mnuTabMenuClick
+    end
+    object miRenameTab: TMenuItem
+      Action = actRenameTab
     end
     object miLine14: TMenuItem
       Caption = '-'
