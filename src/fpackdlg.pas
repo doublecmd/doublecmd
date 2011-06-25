@@ -66,6 +66,7 @@ type
     FExistsArchive : Boolean;
     FSourceFileSource: IFileSource;
     FCustomParams: UTF8String;
+    procedure SwitchOptions;
     procedure AddArchiveType(const FileExt, ArcType: UTF8String);
   public
     { public declarations }
@@ -86,7 +87,7 @@ implementation
 uses
   StrUtils, WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation, uLng, uOSUtils,
   uOperationsManager, fFileOpDlg, uArchiveFileSourceUtil, uMultiArchiveFileSource,
-  uWcxArchiveCopyInOperation, uMultiArchiveCopyInOperation;
+  uWcxArchiveCopyInOperation, uMultiArchiveCopyInOperation, uMasks;
 
 function ShowPackDlg(const SourceFileSource: IFileSource;
                      const TargetFileSource: IArchiveFileSource;
@@ -293,6 +294,7 @@ begin
     edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, GetSfxExt)
   else
     edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, ExtensionSeparator + FArchiveType);
+  SwitchOptions;
 end;
 
 procedure TfrmPackDlg.cbOtherPluginsChange(Sender: TObject);
@@ -310,6 +312,7 @@ begin
     end;
   FCustomParams:= EmptyStr;
   cbPackerList.Enabled := cbOtherPlugins.Checked;
+  SwitchOptions;
 end;
 
 procedure TfrmPackDlg.edtPackCmdAcceptDirectory(Sender: TObject; var Value: String);
@@ -326,6 +329,46 @@ begin
       cbOtherPlugins.Checked := False;
     end;
   FCustomParams:= EmptyStr;
+  SwitchOptions;
+end;
+
+procedure TfrmPackDlg.SwitchOptions; // Ugly but working
+var
+  I: LongInt;
+  sCmd: String;
+begin
+  // WCX plugins
+  for I:=0 to gWCXPlugins.Count - 1 do
+    if gWCXPlugins.Enabled[I] and (gWCXPlugins.Ext[I] = FArchiveType) then
+    begin
+      // If plugin supports packing with password
+      EnableControl(cbEncrypt, ((gWCXPlugins.Flags[I] and PK_CAPS_ENCRYPT) <> 0));
+      // Options that don't supported by plugins
+      EnableControl(cbMultivolume, False);
+      Exit;
+    end;
+
+  // MultiArc addons
+  for I := 0 to gMultiArcList.Count - 1 do
+    with gMultiArcList.Items[I] do
+    begin
+      if FEnabled and MatchesMaskList(FArchiveType, FExtension, ',') then
+      begin
+        // If addon supports create self extracting archive
+        EnableControl(cbCreateSFX, (Length(FAddSelfExtract) <> 0));
+
+        if cbCreateSFX.Enabled and cbCreateSFX.Checked then
+          sCmd:= FAddSelfExtract
+        else
+          sCmd:= FAdd;
+
+        // If addon supports create multi volume archive
+        EnableControl(cbMultivolume, (Pos('%V', sCmd) <> 0));
+        // If addon supports packing with password
+        EnableControl(cbEncrypt, (Pos('%W', sCmd) <> 0));
+        Exit;
+      end;
+    end;
 end;
 
 procedure TfrmPackDlg.AddArchiveType(const FileExt, ArcType: UTF8String);
