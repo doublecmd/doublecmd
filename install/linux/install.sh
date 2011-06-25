@@ -64,12 +64,13 @@ mkdir -p $DC_INSTALL_DIR/plugins/dsx/dsxlocate
 
 # Copy files
 cp -a doublecmd                    $DC_INSTALL_DIR/
-cp -a install/linux/doublecmd.ini  $DC_INSTALL_DIR/
+cp -a install/linux/doublecmd.xml  $DC_INSTALL_DIR/
 cp -a doublecmd.ext.example        $DC_INSTALL_DIR/
 cp -a editor.col                   $DC_INSTALL_DIR/
 cp -a twilight.col                 $DC_INSTALL_DIR/
 cp -a pixmaps.txt                  $DC_INSTALL_DIR/
 cp -a default.bar                  $DC_INSTALL_DIR/
+cp -a multiarc.ini                 $DC_INSTALL_DIR/
 
 # copy plugins
 # WCX
