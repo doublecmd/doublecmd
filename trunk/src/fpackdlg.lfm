@@ -17,7 +17,7 @@ object frmPackDlg: TfrmPackDlg
   Constraints.MinWidth = 482
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '0.9.31'
+  LCLVersion = '0.9.29'
   object lblPrompt: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -211,7 +211,9 @@ object frmPackDlg: TfrmPackDlg
       Top = 17
       Width = 260
       Caption = 'Recursively pack &subdirectories'
+      Checked = True
       Enabled = False
+      State = cbChecked
       TabOrder = 1
     end
     object cbMultivolume: TCheckBox
@@ -253,7 +255,7 @@ object frmPackDlg: TfrmPackDlg
       Top = 102
       Width = 260
       Caption = 'Create separate archives, o&ne per selected file/dir'
-      Enabled = False
+      OnChange = cbCreateSeparateArchivesChange
       TabOrder = 6
     end
   end
