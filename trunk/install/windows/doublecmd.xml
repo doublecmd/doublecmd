@@ -17,18 +17,6 @@
         <Color>16711680</Color>
         <Attributes/>
       </Filter>
-      <Filter>
-        <Name>SpecifiedExecutables</Name>
-        <FileMasks>*</FileMasks>
-        <Color>55758</Color>
-        <Attributes>-rwxrwxr*x</Attributes>
-      </Filter>
-      <Filter>
-        <Name>Executables</Name>
-        <FileMasks>*</FileMasks>
-        <Color>32768</Color>
-        <Attributes>-*x*</Attributes>
-      </Filter>
     </FileFilters>
   </Colors>
   <Plugins>
@@ -56,9 +44,14 @@
       </WcxPlugin>
       <WcxPlugin Enabled="True">
         <ArchiveExt>bz2</ArchiveExt>
-        <Path>%commander_path%\plugins\wcx\unbz2\unbz2.wcx</Path>
-        <Flags>0</Flags>
+        <Path>%commander_path%\plugins\wcx\zip\zip.wcx</Path>
+        <Flags>15</Flags>
       </WcxPlugin>
+      <WcxPlugin Enabled="True">
+        <ArchiveExt>tbz</ArchiveExt>
+        <Path>%commander_path%\plugins\wcx\zip\zip.wcx</Path>
+        <Flags>15</Flags>
+      </WcxPlugin>      
       <WcxPlugin Enabled="True">
         <ArchiveExt>rar</ArchiveExt>
         <Path>%commander_path%\plugins\wcx\unrar\unrar.wcx</Path>
