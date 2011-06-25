@@ -10,24 +10,23 @@ object frmTweakPlugin: TfrmTweakPlugin
   OnCreate = FormCreate
   Position = poScreenCenter
   ShowInTaskBar = stNever
-  LCLVersion = '0.9.31'
+  LCLVersion = '0.9.29'
   object nbTweakAll: TNotebook
     Left = 0
-    Height = 439
+    Height = 445
     Top = 0
     Width = 544
-    PageIndex = 0
     Align = alClient
+    PageIndex = 0
     TabOrder = 0
-    TabStop = True
     object pgTweakPacker: TPage
-      ClientWidth = 540
-      ClientHeight = 435
+      ClientWidth = 536
+      ClientHeight = 419
       object pnlTweak: TPanel
         Left = 6
-        Height = 423
+        Height = 407
         Top = 6
-        Width = 528
+        Width = 524
         Align = alClient
         AutoSize = True
         BorderSpacing.Around = 6
@@ -35,17 +34,17 @@ object frmTweakPlugin: TfrmTweakPlugin
         BorderStyle = bsSingle
         ChildSizing.LeftRightSpacing = 6
         ChildSizing.TopBottomSpacing = 6
-        ClientHeight = 421
-        ClientWidth = 526
+        ClientHeight = 403
+        ClientWidth = 520
         TabOrder = 0
         object lblFlagsValue: TLabel
           AnchorSideLeft.Control = lblFlags
           AnchorSideLeft.Side = asrCenter
           AnchorSideTop.Control = lblFlags
           AnchorSideTop.Side = asrBottom
-          Left = 28
+          Left = 21
           Height = 1
-          Top = 102
+          Top = 83
           Width = 1
           ParentColor = False
         end
@@ -53,9 +52,9 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideLeft.Control = pnlTweak
           AnchorSideTop.Control = pnlTweak
           Left = 6
-          Height = 20
+          Height = 14
           Top = 12
-          Width = 51
+          Width = 33
           BorderSpacing.Top = 12
           Caption = 'Plugin:'
           ParentColor = False
@@ -65,9 +64,9 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = edtPlugin
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 20
-          Top = 49
-          Width = 73
+          Height = 14
+          Top = 42
+          Width = 52
           BorderSpacing.Top = 12
           Caption = 'Extension:'
           ParentColor = False
@@ -77,9 +76,9 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = pnlPackerExtsButtons
           AnchorSideTop.Side = asrBottom
           Left = 6
-          Height = 20
-          Top = 82
-          Width = 44
+          Height = 14
+          Top = 69
+          Width = 30
           BorderSpacing.Top = 8
           Caption = 'Flags:'
           ParentColor = False
@@ -90,10 +89,10 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = pnlPackerExtsButtons
           AnchorSideRight.Side = asrBottom
-          Left = 91
-          Height = 29
-          Top = 8
-          Width = 429
+          Left = 70
+          Height = 21
+          Top = 9
+          Width = 444
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 0
         end
@@ -104,10 +103,10 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = pnlTweak
           AnchorSideRight.Side = asrBottom
-          Left = 91
-          Height = 29
-          Top = 45
-          Width = 429
+          Left = 70
+          Height = 23
+          Top = 38
+          Width = 444
           Anchors = [akTop, akLeft, akRight]
           AutoSize = True
           BorderSpacing.Left = 12
@@ -115,25 +114,25 @@ object frmTweakPlugin: TfrmTweakPlugin
           ChildSizing.EnlargeHorizontal = crsScaleChilds
           ChildSizing.ShrinkHorizontal = crsScaleChilds
           ChildSizing.Layout = cclTopToBottomThenLeftToRight
-          ClientHeight = 29
-          ClientWidth = 429
+          ClientHeight = 23
+          ClientWidth = 444
           TabOrder = 1
           object cbExt: TComboBox
             Left = 0
-            Height = 29
+            Height = 21
             Top = 0
-            Width = 121
+            Width = 132
             Constraints.MinWidth = 80
-            ItemHeight = 0
+            ItemHeight = 13
             OnChange = cbExtChange
             Style = csDropDownList
             TabOrder = 0
           end
           object btnRemove: TButton
-            Left = 121
-            Height = 29
+            Left = 132
+            Height = 23
             Top = 0
-            Width = 103
+            Width = 104
             AutoSize = True
             Caption = 'Remove'
             Constraints.MinWidth = 80
@@ -141,10 +140,10 @@ object frmTweakPlugin: TfrmTweakPlugin
             TabOrder = 1
           end
           object btnAdd: TButton
-            Left = 224
-            Height = 29
+            Left = 236
+            Height = 23
             Top = 0
-            Width = 103
+            Width = 104
             AutoSize = True
             Caption = 'Add new'
             Constraints.MinWidth = 80
@@ -152,10 +151,10 @@ object frmTweakPlugin: TfrmTweakPlugin
             TabOrder = 2
           end
           object btnChange: TButton
-            Left = 327
-            Height = 29
+            Left = 340
+            Height = 23
             Top = 0
-            Width = 102
+            Width = 104
             AutoSize = True
             Caption = 'Change'
             Constraints.MinWidth = 80
@@ -168,94 +167,104 @@ object frmTweakPlugin: TfrmTweakPlugin
           AnchorSideTop.Control = lblFlags
           AnchorSideRight.Control = pnlTweak
           AnchorSideRight.Side = asrBottom
-          Left = 91
-          Height = 275
-          Top = 82
-          Width = 296
+          Left = 70
+          Height = 199
+          Top = 69
+          Width = 203
           AutoSize = True
           BevelOuter = bvNone
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
-          ClientHeight = 275
-          ClientWidth = 296
+          ClientHeight = 199
+          ClientWidth = 203
           TabOrder = 2
           object cbPK_CAPS_NEW: TCheckBox
             Left = 0
-            Height = 24
+            Height = 17
             Top = 0
-            Width = 296
+            Width = 203
             Caption = 'Can create new archives'
+            OnClick = cbPackerFlagsClick
             TabOrder = 0
           end
           object cbPK_CAPS_MODIFY: TCheckBox
             Left = 0
-            Height = 24
-            Top = 24
-            Width = 296
+            Height = 17
+            Top = 17
+            Width = 203
             Caption = 'Can modify exisiting archives'
+            OnClick = cbPackerFlagsClick
             TabOrder = 1
           end
           object cbPK_CAPS_MULTIPLE: TCheckBox
             Left = 0
-            Height = 24
-            Top = 48
-            Width = 296
+            Height = 17
+            Top = 34
+            Width = 203
             Caption = 'Archive can contain multiple files'
+            OnClick = cbPackerFlagsClick
             TabOrder = 2
           end
           object cbPK_CAPS_DELETE: TCheckBox
             Left = 0
-            Height = 24
-            Top = 72
-            Width = 296
+            Height = 17
+            Top = 51
+            Width = 203
             Caption = 'Can delete files'
+            OnClick = cbPackerFlagsClick
             TabOrder = 3
           end
           object cbPK_CAPS_OPTIONS: TCheckBox
             Left = 0
-            Height = 24
-            Top = 96
-            Width = 296
+            Height = 17
+            Top = 68
+            Width = 203
             Caption = 'Supports the options dialogbox'
+            OnClick = cbPackerFlagsClick
             TabOrder = 4
           end
           object cbPK_CAPS_MEMPACK: TCheckBox
             Left = 0
-            Height = 24
-            Top = 120
-            Width = 296
+            Height = 17
+            Top = 85
+            Width = 203
             Caption = 'Supports packing in memory'
+            OnClick = cbPackerFlagsClick
             TabOrder = 5
           end
           object cbPK_CAPS_BY_CONTENT: TCheckBox
             Left = 0
-            Height = 24
-            Top = 144
-            Width = 296
+            Height = 17
+            Top = 102
+            Width = 203
             Caption = 'Detect archive type by content'
+            OnClick = cbPackerFlagsClick
             TabOrder = 6
           end
           object cbPK_CAPS_SEARCHTEXT: TCheckBox
             Left = 0
-            Height = 24
-            Top = 168
-            Width = 296
+            Height = 17
+            Top = 119
+            Width = 203
             Caption = 'Allow searching for text in archives'
+            OnClick = cbPackerFlagsClick
             TabOrder = 7
           end
           object cbPK_CAPS_HIDE: TCheckBox
             Left = 0
-            Height = 24
-            Top = 192
-            Width = 296
+            Height = 17
+            Top = 136
+            Width = 203
             Caption = 'Show as normal files (hide packer icon)'
+            OnClick = cbPackerFlagsClick
             TabOrder = 8
           end
           object cbPK_CAPS_ENCRYPT: TCheckBox
             Left = 0
-            Height = 24
-            Top = 216
-            Width = 296
+            Height = 17
+            Top = 153
+            Width = 203
             Caption = 'Supports encryption'
+            OnClick = cbPackerFlagsClick
             TabOrder = 9
           end
           object btnDefault: TButton
@@ -263,8 +272,8 @@ object frmTweakPlugin: TfrmTweakPlugin
             AnchorSideTop.Control = cbPK_CAPS_ENCRYPT
             AnchorSideTop.Side = asrBottom
             Left = 0
-            Height = 29
-            Top = 246
+            Height = 23
+            Top = 176
             Width = 100
             AutoSize = True
             BorderSpacing.Top = 6
@@ -290,8 +299,8 @@ object frmTweakPlugin: TfrmTweakPlugin
         BorderSpacing.Around = 6
         BevelOuter = bvNone
         BorderStyle = bsSingle
-        ClientHeight = 421
-        ClientWidth = 526
+        ClientHeight = 419
+        ClientWidth = 524
         TabOrder = 0
         object lblName: TLabel
           AnchorSideLeft.Control = lblPlugin1
@@ -406,13 +415,13 @@ object frmTweakPlugin: TfrmTweakPlugin
   end
   object pnlButtons: TPanel
     Left = 0
-    Height = 43
-    Top = 439
+    Height = 37
+    Top = 445
     Width = 544
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 43
+    ClientHeight = 37
     ClientWidth = 544
     TabOrder = 1
     object btnOK: TButton
@@ -420,7 +429,7 @@ object frmTweakPlugin: TfrmTweakPlugin
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = btnCancel
       Left = 329
-      Height = 29
+      Height = 23
       Top = 7
       Width = 100
       Anchors = [akTop, akRight]
@@ -439,7 +448,7 @@ object frmTweakPlugin: TfrmTweakPlugin
       AnchorSideBottom.Control = pnlButtons
       AnchorSideBottom.Side = asrBottom
       Left = 437
-      Height = 29
+      Height = 23
       Top = 7
       Width = 100
       Anchors = [akTop, akRight, akBottom]
