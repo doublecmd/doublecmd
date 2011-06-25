@@ -84,7 +84,7 @@ implementation
 {$R *.lfm}
 
 uses
-  WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation, uLng, uOSUtils,
+  StrUtils, WcxPlugin, uGlobs, uDCUtils, uFileSourceOperation, uLng, uOSUtils,
   uOperationsManager, fFileOpDlg, uArchiveFileSourceUtil, uMultiArchiveFileSource,
   uWcxArchiveCopyInOperation, uMultiArchiveCopyInOperation;
 
@@ -223,7 +223,7 @@ end;
 
 procedure TfrmPackDlg.FormShow(Sender: TObject);
 var
- I : Integer;
+ I, J : Integer;
  sExt : String;
 begin
   FArchiveTypeCount := 0;
@@ -235,14 +235,20 @@ begin
     begin
       if (gWCXPlugins.Flags[I] and PK_CAPS_NEW) = PK_CAPS_NEW then
         begin
-          AddArchiveType(sExt, gWCXPlugins.Ext[I]);
+          AddArchiveType(FArchiveType, gWCXPlugins.Ext[I]);
         end;
     end;
   // MultiArc addons
   for I:= 0 to gMultiArcList.Count - 1 do
     if gMultiArcList[I].FEnabled and (gMultiArcList[I].FAdd <> EmptyStr) then
     begin
-      AddArchiveType(sExt, gMultiArcList[I].FExtension);
+      J:= 1;
+      repeat
+        sExt:= ExtractDelimited(J, gMultiArcList[I].FExtension, [',']);
+        if Length(sExt) = 0 then Break;
+        AddArchiveType(FArchiveType, sExt);
+        Inc(J);
+      until False;
     end;
 
     if (rgPacker.Items.Count > 0) and (rgPacker.ItemIndex < 0) then
