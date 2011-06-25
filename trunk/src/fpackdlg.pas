@@ -393,20 +393,14 @@ var
   sCmd: String;
 begin
   // WCX plugins
-  for I:=0 to gWCXPlugins.Count - 1 do
+  for I:= 0 to gWCXPlugins.Count - 1 do
     if gWCXPlugins.Enabled[I] and (gWCXPlugins.Ext[I] = FArchiveType) then
     begin
       // If plugin supports packing with password
       EnableControl(cbEncrypt, ((gWCXPlugins.Flags[I] and PK_CAPS_ENCRYPT) <> 0));
       // If archive can contain multiple files
-      if ((gWCXPlugins.Flags[I] and PK_CAPS_MULTIPLE) <> 0) then
-        cbCreateSeparateArchives.Enabled:= True
-      else
-        begin
-          cbCreateSeparateArchives.Checked:= True;
-          cbCreateSeparateArchives.Enabled:= False;
-        end;
-
+      cbCreateSeparateArchives.Checked:= ((gWCXPlugins.Flags[I] and PK_CAPS_MULTIPLE) = 0);
+      cbCreateSeparateArchives.Enabled:= ((gWCXPlugins.Flags[I] and PK_CAPS_MULTIPLE) <> 0);
       // Options that supported by plugins
       EnableControl(cbStoredir, True);
       // Options that don't supported by plugins
@@ -421,6 +415,7 @@ begin
       if FEnabled and MatchesMaskList(FArchiveType, FExtension, ',') then
       begin
         // Archive can contain multiple files
+        cbCreateSeparateArchives.Checked:= False;
         cbCreateSeparateArchives.Enabled:= True;
         // If addon supports create self extracting archive
         EnableControl(cbCreateSFX, (Length(FAddSelfExtract) <> 0));
