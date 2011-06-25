@@ -173,6 +173,7 @@ const cf_Null=0;
    procedure cm_Wipe(param: string='');
    procedure cm_Exit(param: string='');
    procedure cm_NewTab(param: string='');
+   procedure cm_RenameTab(param: string='');
    procedure cm_RemoveTab(param: string='');
    procedure cm_RemoveAllTabs(param: string='');
    procedure cm_NextTab(param: string='');
@@ -1217,6 +1218,15 @@ end;
 procedure TActs.cm_NewTab(param:string);
 begin
   DoNewTab(frmMain.ActiveNotebook);
+end;
+
+procedure TActs.cm_RenameTab(param: string);
+var
+  sCaption: UTF8String;
+begin
+  with frmMain do
+    if InputQuery(rsMsgTabRenameCaption, rsMsgTabRenamePrompt, sCaption) then
+      ActiveNotebook.Page[ActiveNotebook.PageIndex].UpdateCaption(sCaption);
 end;
 
 procedure TActs.cm_RemoveTab(param:string);

@@ -109,6 +109,8 @@ resourcestring
   rsMsgFileOperationsActiveLong = 'Some file operations have not yet finished. Closing Double Commander may result in data loss.';
   rsMsgConfirmQuit = 'Are you sure you want to quit?';
   rsMsgCanNotCopyMoveItSelf = 'You can not copy/move a file "%s" to itself!';
+  rsMsgTabRenameCaption = 'Rename tab';
+  rsMsgTabRenamePrompt = 'New tab name:';
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuView = 'View';
