@@ -19,9 +19,9 @@ type
   TConfigurePacker = procedure (Parent: HWND;  DllInstance: THandle);stdcall;
   TSetChangeVolProc = procedure (hArcData: TArcHandle;  ChangeVolProc: tChangeVolProc);stdcall;
   TSetProcessDataProc = procedure (hArcData: TArcHandle;  ProcessDataProc: TProcessDataProc);stdcall;
-  TStartMemPack = function (Options: integer;  FileName: pchar): integer;stdcall;
-  TPackToMem = function (hMemPack: integer;  BufIn: pchar;  InLen: integer;  Taken: pinteger;  BufOut: pchar;  OutLen: integer;  Written: pinteger;  SeekBy: integer): integer;stdcall;
-  TDoneMemPack = function (hMemPack: integer): integer;stdcall;
+  TStartMemPack = function (Options: integer;  FileName: pchar): TArcHandle;stdcall;
+  TPackToMem = function (hMemPack: TArcHandle;  BufIn: PByte;  InLen: integer;  Taken: pinteger;  BufOut: PByte;  OutLen: integer;  Written: pinteger;  SeekBy: pinteger): integer;stdcall;
+  TDoneMemPack = function (hMemPack: TArcHandle): integer;stdcall;
   TCanYouHandleThisFile = function (FileName: pchar): boolean;stdcall;
   TPackSetDefaultParams = procedure (dps: pPackDefaultParamStruct);stdcall;
   TReadHeaderEx = function (hArcData: TArcHandle; var HeaderDataEx : THeaderDataEx): integer;stdcall;
@@ -34,11 +34,11 @@ type
   TSetProcessDataProcW = procedure (hArcData: TArcHandle; ProcessDataProc: TProcessDataProcW);stdcall;
   TPackFilesW = function (PackedFile, SubPath, SrcPath, AddList: PWideChar; Flags: integer): integer;stdcall;
   TDeleteFilesW = function (PackedFile, DeleteList: PWideChar): integer;stdcall;
-  TStartMemPackW = function (Options: integer;  FileName: PWideChar): integer;stdcall;
+  TStartMemPackW = function (Options: integer;  FileName: PWideChar): TArcHandle;stdcall;
   TCanYouHandleThisFileW = function (FileName: PWideChar): boolean;stdcall;
   TPkSetCryptCallbackW = procedure (PkCryptProc: TPkCryptProcW; CryptoNr, Flags: Integer); stdcall;
 
 implementation
 
 end.
-
+

@@ -116,6 +116,7 @@ Type
     function WcxPackFiles(PackedFile, SubPath, SrcPath, AddList: UTF8String; Flags: LongInt): LongInt;
     function WcxDeleteFiles(PackedFile, DeleteList: UTF8String): LongInt;
     function WcxCanYouHandleThisFile(FileName: UTF8String): Boolean;
+    function WcxStartMemPack(Options: LongInt;  FileName: UTF8String): TArcHandle;
     procedure WcxSetChangeVolProc(hArcData: TArcHandle; ChangeVolProcA: TChangeVolProc; ChangeVolProcW: TChangeVolProcW);
     procedure WcxSetProcessDataProc(hArcData: TArcHandle; ProcessDataProcA: TProcessDataProc; ProcessDataProcW: TProcessDataProcW);
     procedure WcxSetCryptCallback(CryptoNr, Flags: Integer; PkCryptProcA: TPkCryptProc; PkCryptProcW: TPkCryptProcW);
@@ -272,6 +273,14 @@ begin
     Result:= CanYouHandleThisFileW(PWideChar(UTF8Decode(FileName)))
   else if Assigned(CanYouHandleThisFile) then
     Result:= CanYouHandleThisFile(PAnsiChar(UTF8ToSys(FileName)));
+end;
+
+function TWCXModule.WcxStartMemPack(Options: LongInt; FileName: UTF8String): TArcHandle;
+begin
+  if Assigned(StartMemPackW) then
+    Result:= StartMemPackW(Options, PWideChar(UTF8Decode(FileName)))
+  else if Assigned(StartMemPack) then
+    Result:= StartMemPack(Options, PAnsiChar(UTF8ToSys(FileName)));
 end;
 
 procedure TWCXModule.WcxSetChangeVolProc(hArcData: TArcHandle;

@@ -129,6 +129,10 @@ function ExtractOnlyFileName(const FileName: string): string;
 }
 function ExtractOnlyFileExt(const FileName: string): string;
 {en
+   Remove file extension with the '.' from file name.
+}
+function RemoveFileExt(const FileName: UTF8String): UTF8String;
+{en
    Convert file size to string representation in floating format (Kb, Mb, Gb)
    @param(iSize File size)
    @param(ShortFormat If @true than short format is used,
@@ -616,17 +620,32 @@ end;
 
 function ExtractOnlyFileExt(const FileName: string): string;
 var
-  i : longint;
+  I : LongInt;
   EndSep : Set of Char;
 begin
   I := Length(FileName);
-  EndSep:=AllowDirectorySeparators+AllowDriveSeparators+[ExtensionSeparator];
+  EndSep:= AllowDirectorySeparators + AllowDriveSeparators + [ExtensionSeparator];
   while (I > 0) and not (FileName[I] in EndSep) do
     Dec(I);
   if (I > 0) and (FileName[I] = ExtensionSeparator) then
     Result := Copy(FileName, I + 1, MaxInt)
   else
     Result := '';
+end;
+
+function RemoveFileExt(const FileName: UTF8String): UTF8String;
+var
+  I : LongInt;
+  EndSep : Set of Char;
+begin
+  I := Length(FileName);
+  EndSep:= AllowDirectorySeparators + AllowDriveSeparators + [ExtensionSeparator];
+  while (I > 0) and not (FileName[I] in EndSep) do
+    Dec(I);
+  if (I > 0) and (FileName[I] = ExtensionSeparator) then
+    Result := Copy(FileName, 1, I - 1)
+  else
+    Result := FileName;
 end;
 
 function cnvFormatFileSize(iSize: Int64; ShortFormat: Boolean): String;

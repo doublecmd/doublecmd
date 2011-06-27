@@ -203,7 +203,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="114">
+    <Units Count="115">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -908,6 +908,11 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsColors"/>
       </Unit113>
+      <Unit114>
+        <Filename Value="platform\utarwriter.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uTarWriter"/>
+      </Unit114>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
