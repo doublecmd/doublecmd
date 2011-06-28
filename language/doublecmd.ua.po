@@ -2138,7 +2138,7 @@ msgstr "&Розрахувати контрольну суму..."
 #| msgid "Verify check sum..."
 msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
 msgid "&Verify Checksum..."
-msgstr "&Перевірити контрольну суму"
+msgstr "Перевірити контрол&ьну суму..."
 
 #: TFRMMAIN.ACTCLEARLOGFILE.CAPTION
 msgid "Clear log file"
@@ -2150,7 +2150,7 @@ msgstr "Очистити вікно звіту"
 
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
-msgstr "Порівняти з&а вмістом"
+msgstr "Порівняти за &вмістом"
 
 #: TFRMMAIN.ACTCONTEXTMENU.CAPTION
 msgid "Show context menu"
@@ -2166,7 +2166,7 @@ msgstr "Копіювати ім'я файла(ів) разом з повним �
 
 #: TFRMMAIN.ACTCOPYNAMESTOCLIP.CAPTION
 msgid "Copy &Filename(s) to Clipboard"
-msgstr "Копіювати &ім'я файла(ів) в буфер"
+msgstr "Копіювати ім'я файла(ів) в &буфер"
 
 #: TFRMMAIN.ACTCOPYNOASK.CAPTION
 msgid "Copy files without asking for confirmation"
@@ -2213,7 +2213,7 @@ msgstr "Редагувати F4"
 #, fuzzy
 #| msgid "Edit comment..."
 msgid "Edit Co&mment..."
-msgstr "Редагувати коментар..."
+msgstr "Редагувати &коментар..."
 
 #: TFRMMAIN.ACTEDITNEW.CAPTION
 msgid "Edit new file"
@@ -2236,7 +2236,7 @@ msgstr "Ви&хід"
 #, fuzzy
 #| msgid "Extract files..."
 msgid "&Extract Files..."
-msgstr "Розпакувати файли..."
+msgstr "Розпак&увати файли..."
 
 #: TFRMMAIN.ACTFILEASSOC.CAPTION
 #, fuzzy
@@ -2248,20 +2248,20 @@ msgstr "Асоціаці&ї з файлами..."
 #, fuzzy
 #| msgid "Link files"
 msgid "Com&bine Files..."
-msgstr "&Склеїти файли..."
+msgstr "Ск&леїти файли..."
 
 #: TFRMMAIN.ACTFILEPROPERTIES.CAPTION
 #, fuzzy
 #| msgid "Show file properties"
 msgid "Show &File Properties"
-msgstr "Властивості файлу"
+msgstr "Властивост&і файлу"
 
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
 #, fuzzy
 #| msgid "Split file"
 msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Spl&it File..."
-msgstr "Розрізати файл..."
+msgstr "Ро&зрізати файл..."
 
 #: TFRMMAIN.ACTFOCUSCMDLINE.CAPTION
 msgid "Focus command line"
@@ -2280,7 +2280,7 @@ msgstr "Помістити курсор на останній у списку ф
 #| msgid "Create hard link..."
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create &Hard Link..."
-msgstr "Створити жорстке посилання..."
+msgstr "Створити &жорстке посилання..."
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
 msgid "&Contents"
@@ -2290,7 +2290,7 @@ msgstr "&Довідка"
 #, fuzzy
 #| msgid "Horizontal file panels"
 msgid "&Horizontal Panels Mode"
-msgstr "Горизонтальне розміщення панелей"
+msgstr "&Горизонтальне розміщення панелей"
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
 msgid "&Keyboard"
@@ -2308,13 +2308,13 @@ msgstr "Відкрити список дисків зліва"
 #, fuzzy
 #| msgid "Load Selection From Clipboard"
 msgid "Load Selection from Clip&board"
-msgstr "Завантажити виділене з буферу"
+msgstr "Завантажити виділене з б&уферу"
 
 #: TFRMMAIN.ACTLOADSELECTIONFROMFILE.CAPTION
 #, fuzzy
 #| msgid "Load Selection From File"
 msgid "&Load Selection from File..."
-msgstr "Завантажити виділене з файлу"
+msgstr "Завантажити виділене з ф&айлу"
 
 #: TFRMMAIN.ACTMAKEDIR.CAPTION
 msgid "MakeDir F7"
@@ -2324,13 +2324,13 @@ msgstr "Каталог F7"
 #, fuzzy
 #| msgid "Select all with same extension"
 msgid "Select All with the Same E&xtension"
-msgstr "Виділити всі з такими ж розширеннями"
+msgstr "Виділити всі з такими ж роз&ширеннями"
 
 #: TFRMMAIN.ACTMARKINVERT.CAPTION
 #, fuzzy
 #| msgid "Invert Selections"
 msgid "&Invert Selection"
-msgstr "Інверсія виділення"
+msgstr "&Інверсія виділення"
 
 #: TFRMMAIN.ACTMARKMARKALL.CAPTION
 msgid "&Select All"
@@ -2340,19 +2340,19 @@ msgstr "&Виділити все"
 #, fuzzy
 #| msgid "Unselect a group"
 msgid "Unselect a Gro&up..."
-msgstr "Зняти виділення з групи"
+msgstr "Зняти виділення з г&рупи"
 
 #: TFRMMAIN.ACTMARKPLUS.CAPTION
 #, fuzzy
 #| msgid "Select a group"
 msgid "Select a &Group..."
-msgstr "Виділити групу"
+msgstr "Виділити &групу"
 
 #: TFRMMAIN.ACTMARKUNMARKALL.CAPTION
 #, fuzzy
 #| msgid "Unselect All"
 msgid "&Unselect All"
-msgstr "Зняти виділення з усіх"
+msgstr "Зняти виділення з у&сіх"
 
 #: TFRMMAIN.ACTMINIMIZE.CAPTION
 msgid "Minimize window"
@@ -2362,31 +2362,31 @@ msgstr "Згорнути"
 #, fuzzy
 #| msgid "Multi Rename Tool"
 msgid "Multi &Rename Tool"
-msgstr "Мультиперейменування"
+msgstr "&Мультиперейменування"
 
 #: TFRMMAIN.ACTNETWORKCONNECT.CAPTION
 #, fuzzy
 #| msgid "Network Connect..."
 msgid "Network &Connect..."
-msgstr "З'єднання з мережею..."
+msgstr "З'&єднання з мережею..."
 
 #: TFRMMAIN.ACTNETWORKDISCONNECT.CAPTION
 #, fuzzy
 #| msgid "Network Disconnect"
 msgid "Network &Disconnect"
-msgstr "Розірвати з'єднання"
+msgstr "Розірвати з'є&днання"
 
 #: TFRMMAIN.ACTNETWORKQUICKCONNECT.CAPTION
 #, fuzzy
 #| msgid "Network Quick Connect..."
 msgid "Network &Quick Connect..."
-msgstr "Нове з'єднання..."
+msgstr "Н&ове з'єднання..."
 
 #: TFRMMAIN.ACTNEWTAB.CAPTION
 #, fuzzy
 #| msgid "&New tab"
 msgid "&New Tab"
-msgstr "&Нова вкладка"
+msgstr "Н&ова вкладка"
 
 #: TFRMMAIN.ACTNEXTTAB.CAPTION
 #, fuzzy
@@ -2420,7 +2420,7 @@ msgstr "Відкрити сп&исок VFS"
 
 #: TFRMMAIN.ACTOPERATIONSVIEWER.CAPTION
 msgid "Operations &Viewer"
-msgstr ""
+msgstr "Показати &операції з &файлами"
 
 #: TFRMMAIN.ACTOPTIONS.CAPTION
 msgid "&Options..."
@@ -2430,7 +2430,7 @@ msgstr "&Основні..."
 #, fuzzy
 #| msgid "Pack files..."
 msgid "&Pack Files..."
-msgstr "Упакувати файли..."
+msgstr "У&пакувати файли..."
 
 #: TFRMMAIN.ACTPANELSSPLITTERPERPOS.CAPTION
 msgid "Set splitter position"
@@ -2459,7 +2459,7 @@ msgstr "Швидкий пошук"
 #, fuzzy
 #| msgid "Quick View Panel"
 msgid "&Quick View Panel"
-msgstr "Панель швидкого перегляду"
+msgstr "&Панель швидкого перегляду"
 
 #: TFRMMAIN.ACTREFRESH.CAPTION
 msgid "&Refresh"
@@ -2492,19 +2492,19 @@ msgstr "Перейменувати"
 
 #: TFRMMAIN.ACTRENAMETAB.CAPTION
 msgid "Re&name Tab"
-msgstr ""
+msgstr "Перей&менувати вкладку"
 
 #: TFRMMAIN.ACTRESTORESELECTION.CAPTION
 #, fuzzy
 #| msgid "Restore Selection"
 msgid "&Restore Selection"
-msgstr "Відновити виділення"
+msgstr "Ві&дновити виділення"
 
 #: TFRMMAIN.ACTREVERSEORDER.CAPTION
 #, fuzzy
 #| msgid "Reverse order"
 msgid "Re&verse Order"
-msgstr "Обернений п&орядок"
+msgstr "О&бернений порядок"
 
 #: TFRMMAIN.ACTRIGHTEQUALLEFT.CAPTION
 msgid "Right &= Left"
@@ -2524,32 +2524,32 @@ msgstr "Запуск &терміналу"
 #, fuzzy
 #| msgid "Save Selection"
 msgid "Sa&ve Selection"
-msgstr "Зберегти виділенння"
+msgstr "%Зберегти виділенння"
 
 #: TFRMMAIN.ACTSAVESELECTIONTOFILE.CAPTION
 #, fuzzy
 #| msgid "Save Selection To File"
 msgid "Save S&election to File..."
-msgstr "Зберегти виділення у файл"
+msgstr "Зберегти виділення у фай&л..."
 
 #: TFRMMAIN.ACTSEARCH.CAPTION
 #, fuzzy
 #| msgid "&Search"
 msgid "&Search..."
-msgstr "По&шук"
+msgstr "По&шук..."
 
 #: TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION
 #, fuzzy
 #| msgid "Change attributes"
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change &Attributes..."
-msgstr "Змінити атрибути"
+msgstr "Змінити &атрибути..."
 
 #: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
 #, fuzzy
 #| msgid "Directories are opened in new &tabs"
 msgid "Locked with Directories Opened in New &Tabs"
-msgstr "Відкривати каталоги у нових вкладках"
+msgstr "Забло&кувати і відкривати каталоги у нових вкладках"
 
 #: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
 msgid "&Normal"
@@ -2564,7 +2564,7 @@ msgstr "Заб&локувати"
 #| msgid "Locked, but &directory changes allowed"
 msgctxt "TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION"
 msgid "Locked with &Directory Changes Allowed"
-msgstr "Заблокувати, але дозволити зміну каталогу"
+msgstr "Заблоку&вати, але дозволити зміну каталогу"
 
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
 msgid "Show button menu"
@@ -2584,7 +2584,7 @@ msgstr "Меню F9"
 #| msgid "Show hidden/system files"
 msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
 msgid "Show &Hidden/System Files"
-msgstr "&Показувати приховані/системні файли"
+msgstr "Показувати при&ховані/системні файли"
 
 #: TFRMMAIN.ACTSORTBYATTR.CAPTION
 #, fuzzy
@@ -2596,25 +2596,25 @@ msgstr "Сортувати за &атрибутами"
 #, fuzzy
 #| msgid "Sort by date"
 msgid "Sort by &Date"
-msgstr "Сортувати за датою"
+msgstr "Сортувати за &датою"
 
 #: TFRMMAIN.ACTSORTBYEXT.CAPTION
 #, fuzzy
 #| msgid "Sort by extension"
 msgid "Sort by &Extension"
-msgstr "Сортувати за розширенням"
+msgstr "Сортувати за роз&ширенням"
 
 #: TFRMMAIN.ACTSORTBYNAME.CAPTION
 #, fuzzy
 #| msgid "Sort by name"
 msgid "Sort by &Name"
-msgstr "Сортувати за ім’ям"
+msgstr "Сортувати за &ім’ям"
 
 #: TFRMMAIN.ACTSORTBYSIZE.CAPTION
 #, fuzzy
 #| msgid "Sort by size"
 msgid "Sort by &Size"
-msgstr "Сортувати за розміром"
+msgstr "Сортувати за роз&міром"
 
 #: TFRMMAIN.ACTSWITCHIGNORELIST.CAPTION
 msgid "Enable/disable ignore list file to not show file names"
@@ -2625,7 +2625,7 @@ msgstr "Включити/виключити чорний список файлі
 #| msgid "Create symbolic link..."
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
 msgid "Create Symbolic &Link..."
-msgstr "Створити символічне посилання..."
+msgstr "Створити &символічне посилання..."
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
 msgid "Target &= Source"
@@ -2635,7 +2635,7 @@ msgstr "Ціль &= Джерелу"
 #, fuzzy
 #| msgid "Test Archive(s)"
 msgid "&Test Archive(s)"
-msgstr "Перевірити архів(и)"
+msgstr "Перевіри&ти архів(и)"
 
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
 msgid "Transfer dir under cursor to left window"
@@ -2649,7 +2649,7 @@ msgstr "Відкрити каталог під курсором на праві�
 #, fuzzy
 #| msgid "Unselect all with same extension"
 msgid "Unselect All with the Same Ex&tension"
-msgstr "Зняти виділення з усіх з таким же розширенням"
+msgstr "Зняти виділення з усіх з таким &же розширенням"
 
 #: TFRMMAIN.ACTVIEW.CAPTION
 msgid "View F3"
@@ -4715,6 +4715,7 @@ msgstr "Розпакувати і виконати"
 #: TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION
 msgctxt "TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
+
 msgstr "Властивості стисненого файлу"
 
 #: TFRMPACKINFODLG.LBLATTRIBUTES.CAPTION
@@ -6398,11 +6399,11 @@ msgstr "Встановити мітку диску"
 
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
-msgstr ""
+msgstr "Перейменування вкладки"
 
 #: ulng.rsmsgtabrenameprompt
 msgid "New tab name:"
-msgstr ""
+msgstr "Нове ім’я вкладки"
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
