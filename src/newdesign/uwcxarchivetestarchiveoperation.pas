@@ -172,6 +172,8 @@ begin
   FWcxArchiveFileSource := aSourceFileSource as IWcxArchiveFileSource;
 
   inherited Create(aSourceFileSource, theSourceFiles);
+
+  FNeedsConnection:= (FWcxArchiveFileSource.WcxModule.BackgroundFlags and BACKGROUND_UNPACK = 0);
 end;
 
 destructor TWcxArchiveTestArchiveOperation.Destroy;
