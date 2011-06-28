@@ -5,7 +5,7 @@ unit uWcxArchiveTestArchiveOperation;
 interface
 
 uses
-  Classes, SysUtils, uLog, uGlobs,
+  Classes, SysUtils, WcxPlugin, uLog, uGlobs,
   uFileSourceTestArchiveOperation,
   uFileSource,
   uFileSourceOperation,
@@ -13,6 +13,9 @@ uses
   uWcxArchiveFileSource;
 
 type
+
+  { TWcxArchiveTestArchiveOperation }
+
   TWcxArchiveTestArchiveOperation = class(TFileSourceTestArchiveOperation)
 
   private
@@ -24,6 +27,8 @@ type
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
   protected
+    procedure SetChangeVolProc(hArcData: TArcHandle);
+    procedure SetProcessDataProc(hArcData: TArcHandle);
 
   public
     constructor Create(aSourceFileSource: IFileSource;
@@ -41,17 +46,21 @@ type
 implementation
 
 uses
-  FileUtil, uOSUtils, uDCUtils, uShowMsg, WcxPlugin, uFileSourceOperationUI,
+  FileUtil, uOSUtils, uDCUtils, uShowMsg, uFileSourceOperationUI,
   uWCXmodule, uLng;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
 
 var
-  // WCX interface cannot discern different operations (for reporting progress),
-  // so this global variable is used to store currently running operation.
-  // (There may be other running concurrently, but only one may report progress.)
-  WcxTestArchiveOperation: TWcxArchiveTestArchiveOperation = nil;
+  // This global variable is used to store currently running operation
+  // for plugins that not supports background operations (see GetBackgroundFlags)
+  WcxTestArchiveOperationG: TWcxArchiveTestArchiveOperation = nil;
+
+threadvar
+  // This thread variable is used to store currently running operation
+  // for plugins that supports background operations (see GetBackgroundFlags)
+  WcxTestArchiveOperationT: TWcxArchiveTestArchiveOperation;
 
 function ChangeVolProc(var ArcName : UTF8String; Mode: LongInt): LongInt;
 begin
@@ -89,7 +98,8 @@ begin
     StrPLCopyW(ArcName, UTF8Decode(sArcName), MAX_PATH);
 end;
 
-function ProcessDataProc(FileName: UTF8String; Size: LongInt): LongInt;
+function ProcessDataProc(WcxTestArchiveOperation: TWcxArchiveTestArchiveOperation;
+                         FileName: UTF8String; Size: LongInt): LongInt;
 begin
   //DCDebug('Working ' + FileName + ' Size = ' + IntToStr(Size));
 
@@ -134,14 +144,24 @@ begin
   end;
 end;
 
-function ProcessDataProcA(FileName: PAnsiChar; Size: LongInt): LongInt; stdcall;
+function ProcessDataProcAG(FileName: PAnsiChar; Size: LongInt): LongInt; stdcall;
 begin
-  Result:= ProcessDataProc(SysToUTF8(StrPas(FileName)), Size);
+  Result:= ProcessDataProc(WcxTestArchiveOperationG, SysToUTF8(StrPas(FileName)), Size);
 end;
 
-function ProcessDataProcW(FileName: PWideChar; Size: LongInt): LongInt; stdcall;
+function ProcessDataProcWG(FileName: PWideChar; Size: LongInt): LongInt; stdcall;
 begin
-  Result:= ProcessDataProc(UTF8Encode(WideString(FileName)), Size);
+  Result:= ProcessDataProc(WcxTestArchiveOperationG, UTF8Encode(WideString(FileName)), Size);
+end;
+
+function ProcessDataProcAT(FileName: PAnsiChar; Size: LongInt): LongInt; stdcall;
+begin
+  Result:= ProcessDataProc(WcxTestArchiveOperationT, SysToUTF8(StrPas(FileName)), Size);
+end;
+
+function ProcessDataProcWT(FileName: PWideChar; Size: LongInt): LongInt; stdcall;
+begin
+  Result:= ProcessDataProc(WcxTestArchiveOperationT, UTF8Encode(WideString(FileName)), Size);
 end;
 
 // ----------------------------------------------------------------------------
@@ -162,12 +182,11 @@ end;
 
 procedure TWcxArchiveTestArchiveOperation.Initialize;
 begin
-  {$IFNDEF WcxAllowMultipleOperations}
-  if Assigned(WcxTestArchiveOperation) and (WcxTestArchiveOperation <> Self) then
-    raise Exception.Create('Another WCX test archive operation is already running');
-  {$ENDIF}
-
-  WcxTestArchiveOperation := Self;
+  // Is plugin allow multiple Operations?
+  if FNeedsConnection then
+    WcxTestArchiveOperationG := Self
+  else
+    WcxTestArchiveOperationT := Self;
 
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
@@ -199,19 +218,8 @@ begin
   ChangeFileListRoot(PathDelim, Files);
 
   try
-    {$IFDEF WcxAllowMultipleOperations}
-    // Operation allowed to run, but not to report progress.
-    if WcxCopyOutOperation <> Self then
-    begin
-      WcxModule.WcxSetChangeVolProc(ArcHandle, nil, nil);
-      WcxModule.WcxSetProcessDataProc(ArcHandle, nil, nil);
-    end
-    else
-    {$ENDIF}
-    begin
-      WcxModule.WcxSetChangeVolProc(ArcHandle, @ChangeVolProcA, @ChangeVolProcW);
-      WcxModule.WcxSetProcessDataProc(ArcHandle, @ProcessDataProcA, @ProcessDataProcW);
-    end;
+    SetChangeVolProc(ArcHandle);
+    SetProcessDataProc(ArcHandle);
 
     while (WcxModule.ReadWCXHeader(ArcHandle, Header) = E_SUCCESS) do
     try
@@ -317,9 +325,26 @@ begin
   end;
 end;
 
+procedure TWcxArchiveTestArchiveOperation.SetChangeVolProc(hArcData: TArcHandle);
+begin
+  with FWcxArchiveFileSource.WcxModule do
+  WcxSetChangeVolProc(hArcData, @ChangeVolProcA, @ChangeVolProcW);
+end;
+
+procedure TWcxArchiveTestArchiveOperation.SetProcessDataProc(hArcData: TArcHandle);
+begin
+  with FWcxArchiveFileSource.WcxModule do
+  begin
+    if FNeedsConnection then
+      WcxSetProcessDataProc(hArcData, @ProcessDataProcAG, @ProcessDataProcWG)
+    else
+      WcxSetProcessDataProc(hArcData, @ProcessDataProcAT, @ProcessDataProcWT);
+  end;
+end;
+
 class procedure TWcxArchiveTestArchiveOperation.ClearCurrentOperation;
 begin
-  WcxTestArchiveOperation := nil;
+  WcxTestArchiveOperationG := nil;
 end;
 
 end.

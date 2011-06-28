@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Archive File support - class for manage WCX plugins (Version 2.20)
 
-   Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -130,6 +130,8 @@ Type
     function GetPluginCapabilities: Integer;
 
     function IsLoaded: Boolean;
+
+    property BackgroundFlags: Integer read FBackgroundFlags write FBackgroundFlags;
   end;
 
   { TWCXModuleList }
