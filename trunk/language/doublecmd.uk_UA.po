@@ -4655,10 +4655,6 @@ msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "Так"
 
-#: TFRMPACKDLG.CAPTION
-msgid "Pack files"
-msgstr "Упакування файлів"
-
 #: TFRMPACKDLG.CBCREATESEPARATEARCHIVES.CAPTION
 msgid "Create separate archives, o&ne per selected file/dir"
 msgstr "Окремі архіви для кожн&ого вибраного файлу/каталогу"
@@ -4683,13 +4679,18 @@ msgstr "Багатото&мний архів"
 msgid "=>"
 msgstr "=>"
 
-#: TFRMPACKDLG.CBRECURSE.CAPTION
-msgid "Recursively pack &subdirectories"
-msgstr "Враховувати підкаталоги"
+#: TFRMPACKDLG.CBPUTINTARFIRST.CAPTION
+msgid "Put in the TAR archive first"
+msgstr ""
 
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
 msgstr "Зберігати шляхи"
+
+#: TFRMPACKDLG.FRMPACKDLG.CAPTION
+msgctxt "TFRMPACKDLG.FRMPACKDLG.CAPTION"
+msgid "Pack files"
+msgstr "Упакування файлів"
 
 #: TFRMPACKDLG.LBLPROMPT.CAPTION
 msgid "Pack file(s) to the file:"
@@ -4715,7 +4716,6 @@ msgstr "Розпакувати і виконати"
 #: TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION
 msgctxt "TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
-
 msgstr "Властивості стисненого файлу"
 
 #: TFRMPACKINFODLG.LBLATTRIBUTES.CAPTION
