@@ -5,7 +5,7 @@ unit uWcxArchiveCopyInOperation;
 interface
 
 uses
-  Classes, SysUtils, StringHashList, uLog, uGlobs,
+  Classes, SysUtils, StringHashList, WcxPlugin, uLog, uGlobs,
   uFileSourceCopyOperation,
   uFileSource,
   uFileSourceOperation,
@@ -30,12 +30,15 @@ type
       Convert TFiles into a string separated with #0 (format used by WCX).
     }
     function GetFileList(const theFiles: TFiles): String;
+    procedure SetTarBefore(const AValue: Boolean);
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
     procedure DeleteFiles(const aFiles: TFiles);
 
   protected
     function Tar: Boolean;
+    procedure SetChangeVolProc(hArcData: TArcHandle);
+    procedure SetProcessDataProc(hArcData: TArcHandle);
 
   public
     constructor Create(aSourceFileSource: IFileSource;
@@ -52,23 +55,27 @@ type
     class procedure ClearCurrentOperation;
 
     property PackingFlags: Integer read FPackingFlags write FPackingFlags;
-    property TarBefore: Boolean read FTarBefore write FTarBefore;
+    property TarBefore: Boolean read FTarBefore write SetTarBefore;
   end;
 
 implementation
 
 uses
-  LCLProc, FileUtil, uDCUtils, WcxPlugin, uWCXmodule, uLng, uShowMsg,
+  LCLProc, FileUtil, uDCUtils, uWCXmodule, uLng, uShowMsg,
   uFileSystemFileSource, uFileSourceOperationUI, uFileSystemUtil, uOSUtils, uTarWriter;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
 
 var
-  // WCX interface cannot discern different operations (for reporting progress),
-  // so this global variable is used to store currently running operation.
-  // (There may be other running concurrently, but only one may report progress.)
-  WcxCopyInOperation: TWcxArchiveCopyInOperation = nil;
+  // This global variable is used to store currently running operation
+  // for plugins that not supports background operations (see GetBackgroundFlags)
+  WcxCopyInOperationG: TWcxArchiveCopyInOperation = nil;
+
+threadvar
+  // This thread variable is used to store currently running operation
+  // for plugins that supports background operations (see GetBackgroundFlags)
+  WcxCopyInOperationT: TWcxArchiveCopyInOperation;
 
 function ChangeVolProc(var ArcName : UTF8String; Mode: LongInt): LongInt;
 begin
@@ -106,7 +113,8 @@ begin
     StrPLCopyW(ArcName, UTF8Decode(sArcName), MAX_PATH);
 end;
 
-function ProcessDataProc(FileName: UTF8String; Size: LongInt): LongInt;
+function ProcessDataProc(WcxCopyInOperation: TWcxArchiveCopyInOperation;
+                         FileName: UTF8String; Size: LongInt): LongInt;
 begin
   //DCDebug('Working ' + FileName + ' Size = ' + IntToStr(Size));
 
@@ -152,14 +160,24 @@ begin
   end;
 end;
 
-function ProcessDataProcA(FileName: PAnsiChar; Size: LongInt): LongInt; stdcall;
+function ProcessDataProcAG(FileName: PAnsiChar; Size: LongInt): LongInt; stdcall;
 begin
-  Result:= ProcessDataProc(SysToUTF8(StrPas(FileName)), Size);
+  Result:= ProcessDataProc(WcxCopyInOperationG, SysToUTF8(StrPas(FileName)), Size);
 end;
 
-function ProcessDataProcW(FileName: PWideChar; Size: LongInt): LongInt; stdcall;
+function ProcessDataProcWG(FileName: PWideChar; Size: LongInt): LongInt; stdcall;
 begin
-  Result:= ProcessDataProc(UTF8Encode(WideString(FileName)), Size);
+  Result:= ProcessDataProc(WcxCopyInOperationG, UTF8Encode(WideString(FileName)), Size);
+end;
+
+function ProcessDataProcAT(FileName: PAnsiChar; Size: LongInt): LongInt; stdcall;
+begin
+  Result:= ProcessDataProc(WcxCopyInOperationT, SysToUTF8(StrPas(FileName)), Size);
+end;
+
+function ProcessDataProcWT(FileName: PWideChar; Size: LongInt): LongInt; stdcall;
+begin
+  Result:= ProcessDataProc(WcxCopyInOperationT, UTF8Encode(WideString(FileName)), Size);
 end;
 
 // ----------------------------------------------------------------------------
@@ -175,6 +193,8 @@ begin
   FTarBefore:= False;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
+
+  FNeedsConnection:= (FWcxArchiveFileSource.WcxModule.BackgroundFlags and BACKGROUND_PACK = 0);
 end;
 
 destructor TWcxArchiveCopyInOperation.Destroy;
@@ -188,10 +208,11 @@ end;
 
 procedure TWcxArchiveCopyInOperation.Initialize;
 begin
-  if Assigned(WcxCopyInOperation) and (WcxCopyInOperation <> Self) then
-    raise Exception.Create('Another WCX copy operation is already running');
-
-  WcxCopyInOperation := Self;
+  // Is plugin allow multiple Operations?
+  if FNeedsConnection then
+    WcxCopyInOperationG := Self
+  else
+    WcxCopyInOperationT := Self;
 
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
@@ -223,8 +244,8 @@ begin
     UpdateStatistics(FStatistics);
   end;
 
-  WcxModule.WcxSetChangeVolProc(wcxInvalidHandle, @ChangeVolProcA, @ChangeVolProcW);
-  WcxModule.WcxSetProcessDataProc(wcxInvalidHandle, @ProcessDataProcA, @ProcessDataProcW);
+  SetChangeVolProc(wcxInvalidHandle);
+  SetProcessDataProc(wcxInvalidHandle);
 
   iResult := WcxModule.WcxPackFiles(
                FWcxArchiveFileSource.ArchiveFileName,
@@ -278,6 +299,18 @@ begin
   Result := Result + #0;
 end;
 
+procedure TWcxArchiveCopyInOperation.SetTarBefore(const AValue: Boolean);
+begin
+  with FWcxArchiveFileSource, FWcxArchiveFileSource.WcxModule do
+  begin
+    FTarBefore:= AValue;
+    if FTarBefore and Assigned(PackToMem) and (PluginCapabilities and PK_CAPS_MEMPACK <> 0) then
+      FNeedsConnection:= (BackgroundFlags and BACKGROUND_MEMPACK = 0)
+    else
+      FNeedsConnection:= (BackgroundFlags and BACKGROUND_PACK = 0);
+  end;
+end;
+
 procedure TWcxArchiveCopyInOperation.ShowError(sMessage: String; logOptions: TLogOptions);
 begin
   if not gSkipFileOpError then
@@ -326,9 +359,26 @@ begin
   end;
 end;
 
+procedure TWcxArchiveCopyInOperation.SetChangeVolProc(hArcData: TArcHandle);
+begin
+  with FWcxArchiveFileSource.WcxModule do
+  WcxSetChangeVolProc(hArcData, @ChangeVolProcA, @ChangeVolProcW);
+end;
+
+procedure TWcxArchiveCopyInOperation.SetProcessDataProc(hArcData: TArcHandle);
+begin
+  with FWcxArchiveFileSource.WcxModule do
+  begin
+    if FNeedsConnection then
+      WcxSetProcessDataProc(hArcData, @ProcessDataProcAG, @ProcessDataProcWG)
+    else
+      WcxSetProcessDataProc(hArcData, @ProcessDataProcAT, @ProcessDataProcWT);
+  end;
+end;
+
 class procedure TWcxArchiveCopyInOperation.ClearCurrentOperation;
 begin
-  WcxCopyInOperation := nil;
+  WcxCopyInOperationG := nil;
 end;
 
 function TWcxArchiveCopyInOperation.Tar: Boolean;
