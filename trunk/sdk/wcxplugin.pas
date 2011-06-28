@@ -59,6 +59,10 @@ const       {Error codes returned to calling application}
                               { open with Ctrl+PgDn, not Enter }
   PK_CAPS_ENCRYPT=    512;    { Plugin supports PK_PACK_ENCRYPT option }
 
+  BACKGROUND_UNPACK=1;        { Which operations are thread-safe? }
+  BACKGROUND_PACK=2;
+  BACKGROUND_MEMPACK=4;       { For tar.pluginext in background }
+
   {Flags for packing in memory}
   MEM_OPTIONS_WANTHEADERS=1;  {Return archive headers with packed data}
 
@@ -201,4 +205,4 @@ implementation
 
 end.
 
-
+
