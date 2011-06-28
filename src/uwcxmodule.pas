@@ -68,6 +68,7 @@ Type
   TWCXModule = class
   private
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
+    FBackgroundFlags: Integer;
 
   public
     // module's functions
@@ -90,6 +91,7 @@ Type
     CanYouHandleThisFile : TCanYouHandleThisFile;
     PackSetDefaultParams : TPackSetDefaultParams;
     PkSetCryptCallback : TPkSetCryptCallback;
+    GetBackgroundFlags: TGetBackgroundFlags;
     { Unicode }
     OpenArchiveW: TOpenArchiveW;
     ReadHeaderExW: TReadHeaderExW;
@@ -354,6 +356,7 @@ begin
   CanYouHandleThisFile:= TCanYouHandleThisFile(GetProcAddress(FModuleHandle,'CanYouHandleThisFile'));
   PackSetDefaultParams:= TPackSetDefaultParams(GetProcAddress(FModuleHandle,'PackSetDefaultParams'));
   PkSetCryptCallback:= TPkSetCryptCallback(GetProcAddress(FModuleHandle,'PkSetCryptCallback'));
+  GetBackgroundFlags:= TGetBackgroundFlags(GetProcAddress(FModuleHandle,'GetBackgroundFlags'));
   // Unicode
   OpenArchiveW:= TOpenArchiveW(GetProcAddress(FModuleHandle,'OpenArchiveW'));
   ReadHeaderExW:= TReadHeaderExW(GetProcAddress(FModuleHandle,'ReadHeaderExW'));
@@ -379,6 +382,11 @@ begin
         end;
       PackSetDefaultParams(@PackDefaultParamStruct);
     end;
+
+  if not Assigned(GetBackgroundFlags) then
+    FBackgroundFlags:= 0
+  else
+    FBackgroundFlags:= GetBackgroundFlags();
 
   // Dialog API
   if Assigned(SetDlgProc) then
@@ -432,6 +440,7 @@ begin
   CanYouHandleThisFile:= nil;
   PackSetDefaultParams:= nil;
   PkSetCryptCallback:= nil;
+  GetBackgroundFlags:= nil;
   // Unicode
   OpenArchiveW:= nil;
   ReadHeaderExW:= nil;
