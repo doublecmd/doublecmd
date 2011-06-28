@@ -121,15 +121,15 @@ type
                        UpdateStatisticsFunction: TUpdateStatisticsFunction
                        );
     constructor Create(ArchiveFileName: UTF8String;
-                       WcxModule: TWcxModule;
                        AskQuestionFunction: TAskQuestionFunction;
                        AbortOperationFunction: TAbortOperationFunction;
                        CheckOperationStateFunction: TCheckOperationStateFunction;
-                       UpdateStatisticsFunction: TUpdateStatisticsFunction
+                       UpdateStatisticsFunction: TUpdateStatisticsFunction;
+                       WcxModule: TWcxModule
                        );
     destructor Destroy; override;
 
-    procedure ProcessTree(var Files: TFiles; var Statistics: TFileSourceCopyOperationStatistics);
+    function ProcessTree(var Files: TFiles; var Statistics: TFileSourceCopyOperationStatistics): Boolean;
 
   end;
 
@@ -242,11 +242,11 @@ begin
 end;
 
 constructor TTarWriter.Create(ArchiveFileName: UTF8String;
-                              WcxModule: TWcxModule;
                               AskQuestionFunction: TAskQuestionFunction;
                               AbortOperationFunction: TAbortOperationFunction;
                               CheckOperationStateFunction: TCheckOperationStateFunction;
-                              UpdateStatisticsFunction: TUpdateStatisticsFunction);
+                              UpdateStatisticsFunction: TUpdateStatisticsFunction;
+                              WcxModule: TWcxModule);
 begin
   AskQuestion := AskQuestionFunction;
   AbortOperation := AbortOperationFunction;
@@ -703,13 +703,15 @@ begin
   end;
 end;
 
-procedure TTarWriter.ProcessTree(var Files: TFiles; var Statistics: TFileSourceCopyOperationStatistics);
+function TTarWriter.ProcessTree(var Files: TFiles;
+                                 var Statistics: TFileSourceCopyOperationStatistics): Boolean;
 var
   aFile: TFile;
   CurrentFileIndex: Integer;
   iTotalDiskSize, iFreeDiskSize: Int64;
 begin
   try
+    Result:= False;
     // Set base path
     FBasePath:= Files.Path;
     // Update progress
@@ -736,8 +738,22 @@ begin
       begin
         aFile := Files[CurrentFileIndex];
 
-        if aFile.IsLink or aFile.IsDirectory then
+        if aFile.IsDirectory or aFile.IsLinkToDirectory then
           AddFile(aFile.FullPath)
+        else if aFile.IsLink and not aFile.IsLinkToDirectory then
+          begin
+            // Add file record
+            AddFile(aFile.FullPath);
+            // Update progress
+            with Statistics do
+            begin
+              CurrentFileFrom := aFile.FullPath;
+              CurrentFileTotalBytes := aFile.Size;
+              CurrentFileDoneBytes := CurrentFileTotalBytes;
+              DoneBytes := DoneBytes + CurrentFileTotalBytes;
+            end;
+            UpdateStatistics(Statistics);
+          end
         else
           begin
             // Update progress
@@ -769,7 +785,9 @@ begin
           if (Statistics.DoneBytes <> Statistics.TotalBytes div 2) then
             // There was some error, because not all files has been archived.
             // Delete the not completed target file.
-            ;//mbDeleteFile(FArchiveFileName);
+            mbDeleteFile(FArchiveFileName)
+          else
+            Result:= True;
         end;
     end;
   except
@@ -778,11 +796,6 @@ begin
         ShowError(rsMsgLogError + rsMsgErrECreate + ': ' + FArchiveFileName);
       end;
   end;
-
-  // Fill file list with new data
-  Files.Clear;
-  Files.Path:= FTargetPath;
-  Files.Add(TFileSystemFileSource.CreateFileFromFile(FArchiveFileName));
 end;
 
 end.
