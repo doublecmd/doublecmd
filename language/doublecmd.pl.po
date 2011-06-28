@@ -4652,10 +4652,6 @@ msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "OK"
 
-#: TFRMPACKDLG.CAPTION
-msgid "Pack files"
-msgstr "Pakowanie plików"
-
 #: TFRMPACKDLG.CBCREATESEPARATEARCHIVES.CAPTION
 msgid "Create separate archives, o&ne per selected file/dir"
 msgstr "Utwórz oddzielne archiwa dla każdego z katalogów/plików"
@@ -4680,13 +4676,18 @@ msgstr "Wieloczęściowe archiwum dyskowe"
 msgid "=>"
 msgstr "=>"
 
-#: TFRMPACKDLG.CBRECURSE.CAPTION
-msgid "Recursively pack &subdirectories"
-msgstr "Archiwizowanie rekursywne (z podkatalogami)"
+#: TFRMPACKDLG.CBPUTINTARFIRST.CAPTION
+msgid "Put in the TAR archive first"
+msgstr ""
 
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
 msgstr "Przy archwizowaniu z podkatalogami zachowaj ścieżki"
+
+#: TFRMPACKDLG.FRMPACKDLG.CAPTION
+msgctxt "TFRMPACKDLG.FRMPACKDLG.CAPTION"
+msgid "Pack files"
+msgstr "Pakowanie plików"
 
 #: TFRMPACKDLG.LBLPROMPT.CAPTION
 msgid "Pack file(s) to the file:"

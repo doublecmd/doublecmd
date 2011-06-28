@@ -4711,10 +4711,6 @@ msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "Добре"
 
-#: TFRMPACKDLG.CAPTION
-msgid "Pack files"
-msgstr "Сбиване на файлове"
-
 #: TFRMPACKDLG.CBCREATESEPARATEARCHIVES.CAPTION
 msgid "Create separate archives, o&ne per selected file/dir"
 msgstr "Създаване на разделни сбивки, по &една на файл/папка"
@@ -4739,13 +4735,18 @@ msgstr "&Многотомова сбивка"
 msgid "=>"
 msgstr "=>"
 
-#: TFRMPACKDLG.CBRECURSE.CAPTION
-msgid "Recursively pack &subdirectories"
-msgstr "Вложено &сбиване на папките"
+#: TFRMPACKDLG.CBPUTINTARFIRST.CAPTION
+msgid "Put in the TAR archive first"
+msgstr ""
 
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
 msgstr "&Сбиване и на имената на пътищата (само вложено)"
+
+#: TFRMPACKDLG.FRMPACKDLG.CAPTION
+msgctxt "TFRMPACKDLG.FRMPACKDLG.CAPTION"
+msgid "Pack files"
+msgstr "Сбиване на файлове"
 
 #: TFRMPACKDLG.LBLPROMPT.CAPTION
 msgid "Pack file(s) to the file:"

@@ -4713,10 +4713,6 @@ msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "Oké"
 
-#: TFRMPACKDLG.CAPTION
-msgid "Pack files"
-msgstr "Fájlok tömörítése"
-
 #: TFRMPACKDLG.CBCREATESEPARATEARCHIVES.CAPTION
 msgid "Create separate archives, o&ne per selected file/dir"
 msgstr "Több archívum készítése kijelölt fájlonként/mappánként &egy"
@@ -4741,13 +4737,18 @@ msgstr "&Többlemezes archívum"
 msgid "=>"
 msgstr ""
 
-#: TFRMPACKDLG.CBRECURSE.CAPTION
-msgid "Recursively pack &subdirectories"
-msgstr "Alkönyvtárak betömörítése rekurzívan"
+#: TFRMPACKDLG.CBPUTINTARFIRST.CAPTION
+msgid "Put in the TAR archive first"
+msgstr ""
 
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
 msgstr "Elérési &utak tárolása az archívumban (csak a rekurzív)"
+
+#: TFRMPACKDLG.FRMPACKDLG.CAPTION
+msgctxt "TFRMPACKDLG.FRMPACKDLG.CAPTION"
+msgid "Pack files"
+msgstr "Fájlok tömörítése"
 
 #: TFRMPACKDLG.LBLPROMPT.CAPTION
 msgid "Pack file(s) to the file:"

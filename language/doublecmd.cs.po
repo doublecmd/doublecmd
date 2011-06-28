@@ -4744,10 +4744,6 @@ msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "OK"
 
-#: TFRMPACKDLG.CAPTION
-msgid "Pack files"
-msgstr "Komprimovat soubory"
-
 #: TFRMPACKDLG.CBCREATESEPARATEARCHIVES.CAPTION
 msgid "Create separate archives, o&ne per selected file/dir"
 msgstr "Create separate archives, o&ne per selected file/dir"
@@ -4772,13 +4768,18 @@ msgstr "&Vícesvazkový archív"
 msgid "=>"
 msgstr "=>"
 
-#: TFRMPACKDLG.CBRECURSE.CAPTION
-msgid "Recursively pack &subdirectories"
-msgstr "Recursively pack &podadresáře"
+#: TFRMPACKDLG.CBPUTINTARFIRST.CAPTION
+msgid "Put in the TAR archive first"
+msgstr ""
 
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
 msgstr "Kom&primovat s cestou (only recursed)"
+
+#: TFRMPACKDLG.FRMPACKDLG.CAPTION
+msgctxt "TFRMPACKDLG.FRMPACKDLG.CAPTION"
+msgid "Pack files"
+msgstr "Komprimovat soubory"
 
 #: TFRMPACKDLG.LBLPROMPT.CAPTION
 msgid "Pack file(s) to the file:"

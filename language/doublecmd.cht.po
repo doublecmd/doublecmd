@@ -4707,10 +4707,6 @@ msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "確定"
 
-#: TFRMPACKDLG.CAPTION
-msgid "Pack files"
-msgstr "壓縮檔案"
-
 #: TFRMPACKDLG.CBCREATESEPARATEARCHIVES.CAPTION
 msgid "Create separate archives, o&ne per selected file/dir"
 msgstr "為選擇的每個檔案/目錄建立單獨的壓縮檔案"
@@ -4735,13 +4731,18 @@ msgstr "多磁碟壓縮"
 msgid "=>"
 msgstr "=>"
 
-#: TFRMPACKDLG.CBRECURSE.CAPTION
-msgid "Recursively pack &subdirectories"
-msgstr "遞歸壓縮子目錄(&S)"
+#: TFRMPACKDLG.CBPUTINTARFIRST.CAPTION
+msgid "Put in the TAR archive first"
+msgstr ""
 
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
 msgstr "壓縮路徑名(僅有依賴時)(&P)"
+
+#: TFRMPACKDLG.FRMPACKDLG.CAPTION
+msgctxt "TFRMPACKDLG.FRMPACKDLG.CAPTION"
+msgid "Pack files"
+msgstr "壓縮檔案"
 
 #: TFRMPACKDLG.LBLPROMPT.CAPTION
 msgid "Pack file(s) to the file:"
