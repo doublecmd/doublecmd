@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.46 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2011-06-25 11:34+0100\n"
+"PO-Revision-Date: 2011-06-27 11:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2207,7 +2207,7 @@ msgstr "&Belegten Speicherplatz anzeigen"
 
 #: TFRMMAIN.ACTCUTTOCLIPBOARD.CAPTION
 msgid "Cu&t"
-msgstr "Ausschneiden"
+msgstr "A&usschneiden"
 
 #: TFRMMAIN.ACTDELETE.CAPTION
 msgid "Delete F8"
@@ -2222,7 +2222,7 @@ msgstr "Verzeichnisverlauf"
 #, fuzzy
 #| msgid "Directory &hotlist"
 msgid "Directory &Hotlist"
-msgstr "Verzeichnis-Favoriten"
+msgstr "Verzeic&hnis-Favoriten"
 
 #: TFRMMAIN.ACTEDIT.CAPTION
 msgid "Edit F4"
@@ -2232,7 +2232,7 @@ msgstr "Bearbeiten F4"
 #, fuzzy
 #| msgid "Edit comment..."
 msgid "Edit Co&mment..."
-msgstr "Kommentar bearbeiten"
+msgstr "Ko&mmentar bearbeiten"
 
 #: TFRMMAIN.ACTEDITNEW.CAPTION
 msgid "Edit new file"
@@ -2244,14 +2244,14 @@ msgstr "Pfad-Zeile über der Dateiliste bearbeiten"
 
 #: TFRMMAIN.ACTEXCHANGE.CAPTION
 msgid "Swap &Panels"
-msgstr "Panels tauschen"
+msgstr "&Panels tauschen"
 
 #: TFRMMAIN.ACTEXIT.CAPTION
 #, fuzzy
 #| msgid "Exit"
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"
-msgstr "Beenden"
+msgstr "&Beenden"
 
 #: TFRMMAIN.ACTEXTRACTFILES.CAPTION
 #, fuzzy
@@ -2263,13 +2263,13 @@ msgstr "E&ntpacke Dateien"
 #, fuzzy
 #| msgid "File &associations..."
 msgid "File &Associations..."
-msgstr "Dateiverknüpfungen"
+msgstr "Dateiverkn&üpfungen"
 
 #: TFRMMAIN.ACTFILELINKER.CAPTION
 #, fuzzy
 #| msgid "Link files"
 msgid "Com&bine Files..."
-msgstr "Ver&binde Datei(en)"
+msgstr "&Verbinde Datei(en)"
 
 #: TFRMMAIN.ACTFILEPROPERTIES.CAPTION
 #, fuzzy
@@ -2282,7 +2282,7 @@ msgstr "Dateiei&genschaften"
 #| msgid "Split file"
 msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Spl&it File..."
-msgstr "Tei&le Datei"
+msgstr "&Teile Datei"
 
 #: TFRMMAIN.ACTFOCUSCMDLINE.CAPTION
 msgid "Focus command line"
@@ -2301,25 +2301,25 @@ msgstr "Setze die Einfügemarke auf den letzten Eintrag der Liste"
 #| msgid "Create hard link..."
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create &Hard Link..."
-msgstr "Hardlink erstellen"
+msgstr "&Hardlink erstellen"
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
 #, fuzzy
 #| msgid "Contents"
 msgid "&Contents"
-msgstr "Inhalte"
+msgstr "&Inhalte"
 
 #: TFRMMAIN.ACTHORIZONTALFILEPANELS.CAPTION
 #, fuzzy
 #| msgid "Horizontal file panels"
 msgid "&Horizontal Panels Mode"
-msgstr "Horizontale Datei-Panel"
+msgstr "&Horizontale Datei-Panel"
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
 #, fuzzy
 #| msgid "Keyboard"
 msgid "&Keyboard"
-msgstr "Tastatur"
+msgstr "&Tastatur"
 
 #: TFRMMAIN.ACTLEFTEQUALRIGHT.CAPTION
 msgid "Left &= Right"
@@ -2327,19 +2327,19 @@ msgstr "Links &= Rechts"
 
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
-msgstr "Öffne linke Laufwerksliste"
+msgstr "Öffne &linke Laufwerksliste"
 
 #: TFRMMAIN.ACTLOADSELECTIONFROMCLIP.CAPTION
 #, fuzzy
 #| msgid "Load Selection From Clipboard"
 msgid "Load Selection from Clip&board"
-msgstr "Auswahl aus der Zwischenablage laden"
+msgstr "Auswahl aus der &Zwischenablage laden"
 
 #: TFRMMAIN.ACTLOADSELECTIONFROMFILE.CAPTION
 #, fuzzy
 #| msgid "Load Selection From File"
 msgid "&Load Selection from File..."
-msgstr "Auswahl aus Datei laden"
+msgstr "Auswah&l aus Datei laden"
 
 #: TFRMMAIN.ACTMAKEDIR.CAPTION
 msgid "MakeDir F7"
@@ -2349,35 +2349,35 @@ msgstr "Verzeichnis erstellen F7"
 #, fuzzy
 #| msgid "Select all with same extension"
 msgid "Select All with the Same E&xtension"
-msgstr "Alle mit gleicher Endung markieren"
+msgstr "Alle mit gleicher &Endung markieren"
 
 #: TFRMMAIN.ACTMARKINVERT.CAPTION
 #, fuzzy
 #| msgid "Invert Selections"
 msgid "&Invert Selection"
-msgstr "Auswahl umkehren"
+msgstr "Auswahl um&kehren"
 
 #: TFRMMAIN.ACTMARKMARKALL.CAPTION
 msgid "&Select All"
-msgstr "Alles markieren"
+msgstr "Alle&s markieren"
 
 #: TFRMMAIN.ACTMARKMINUS.CAPTION
 #, fuzzy
 #| msgid "Unselect a group"
 msgid "Unselect a Gro&up..."
-msgstr "Gruppe abwählen"
+msgstr "Gru&ppe abwählen"
 
 #: TFRMMAIN.ACTMARKPLUS.CAPTION
 #, fuzzy
 #| msgid "Select a group"
 msgid "Select a &Group..."
-msgstr "Gruppe wählen"
+msgstr "&Gruppe wählen"
 
 #: TFRMMAIN.ACTMARKUNMARKALL.CAPTION
 #, fuzzy
 #| msgid "Unselect All"
 msgid "&Unselect All"
-msgstr "Alles abwählen"
+msgstr "Alles a&bwählen"
 
 #: TFRMMAIN.ACTMINIMIZE.CAPTION
 msgid "Minimize window"
@@ -2387,25 +2387,25 @@ msgstr "Fenster minimieren"
 #, fuzzy
 #| msgid "Multi Rename Tool"
 msgid "Multi &Rename Tool"
-msgstr "Mehrfaches umbenennen"
+msgstr "Meh&rfaches umbenennen"
 
 #: TFRMMAIN.ACTNETWORKCONNECT.CAPTION
 #, fuzzy
 #| msgid "Network Connect..."
 msgid "Network &Connect..."
-msgstr "Netzwerk verbinden..."
+msgstr "Net&zwerk verbinden..."
 
 #: TFRMMAIN.ACTNETWORKDISCONNECT.CAPTION
 #, fuzzy
 #| msgid "Network Disconnect"
 msgid "Network &Disconnect"
-msgstr "Netzwerk trennen"
+msgstr "Netzwerk &trennen"
 
 #: TFRMMAIN.ACTNETWORKQUICKCONNECT.CAPTION
 #, fuzzy
 #| msgid "Network Quick Connect..."
 msgid "Network &Quick Connect..."
-msgstr "Netzwerk schnell verbinden..."
+msgstr "Netzwerk schnell &verbinden..."
 
 #: TFRMMAIN.ACTNEWTAB.CAPTION
 #, fuzzy
@@ -2417,7 +2417,7 @@ msgstr "Ne&uer Reiter"
 #, fuzzy
 #| msgid "Switch to nex&t tab"
 msgid "Switch to Nex&t Tab"
-msgstr "Zum nächsten Reiter wechseln"
+msgstr "Zum n&ächsten Reiter wechseln"
 
 #: TFRMMAIN.ACTOPEN.CAPTION
 msgctxt "TFRMMAIN.ACTOPEN.CAPTION"
@@ -2436,7 +2436,7 @@ msgstr "Leisten-Datei öffnen"
 #, fuzzy
 #| msgid "Open &folder in new tab"
 msgid "Open &Folder in a New Tab"
-msgstr "Verzeichnis in neuem Reiter öffnen"
+msgstr "Verzeichnis in neue&m Reiter öffnen"
 
 #: TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION
 #, fuzzy
@@ -2453,7 +2453,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Options..."
 msgid "&Options..."
-msgstr "Optionen..."
+msgstr "&Optionen..."
 
 #: TFRMMAIN.ACTPACKFILES.CAPTION
 #, fuzzy
@@ -2467,13 +2467,13 @@ msgstr "Position des Fenster-Teilers festlegen"
 
 #: TFRMMAIN.ACTPASTEFROMCLIPBOARD.CAPTION
 msgid "&Paste"
-msgstr "Einfügen"
+msgstr "Einf&ügen"
 
 #: TFRMMAIN.ACTPREVTAB.CAPTION
 #, fuzzy
 #| msgid "Switch to &previous tab"
 msgid "Switch to &Previous Tab"
-msgstr "Zum vorherigen Reiter wechseln"
+msgstr "Zum v&orherigen Reiter wechseln"
 
 #: TFRMMAIN.ACTQUICKFILTER.CAPTION
 msgid "Quick filter"
@@ -2488,17 +2488,17 @@ msgstr "Schnelle Suche"
 #, fuzzy
 #| msgid "Quick View Panel"
 msgid "&Quick View Panel"
-msgstr "Schnellbetrachter-Panel"
+msgstr "S&chnellbetrachter-Panel"
 
 #: TFRMMAIN.ACTREFRESH.CAPTION
 msgid "&Refresh"
-msgstr "Aktualisieren"
+msgstr "A&ktualisieren"
 
 #: TFRMMAIN.ACTREMOVEALLTABS.CAPTION
 #, fuzzy
 #| msgid "Remove &all tabs"
 msgid "Remove &All Tabs"
-msgstr "Alle Reiter entfernen"
+msgstr "Alle Reiter ent&fernen"
 
 #: TFRMMAIN.ACTREMOVETAB.CAPTION
 #, fuzzy
@@ -2521,23 +2521,23 @@ msgstr "Umbenennen"
 
 #: TFRMMAIN.ACTRENAMETAB.CAPTION
 msgid "Re&name Tab"
-msgstr ""
+msgstr "Reiter umbe&nennen"
 
 #: TFRMMAIN.ACTRESTORESELECTION.CAPTION
 #, fuzzy
 #| msgid "Restore Selection"
 msgid "&Restore Selection"
-msgstr "Auswahl wieder herstellen"
+msgstr "Auswahl w&ieder herstellen"
 
 #: TFRMMAIN.ACTREVERSEORDER.CAPTION
 #, fuzzy
 #| msgid "Reverse order"
 msgid "Re&verse Order"
-msgstr "Umgekehrt anordnen"
+msgstr "&Umgekehrt anordnen"
 
 #: TFRMMAIN.ACTRIGHTEQUALLEFT.CAPTION
 msgid "Right &= Left"
-msgstr "Rechts &= Links"
+msgstr "Rechts = L&inks"
 
 #: TFRMMAIN.ACTRIGHTOPENDRIVES.CAPTION
 msgid "Open right drive list"
@@ -2547,38 +2547,38 @@ msgstr "Öffne rechte Laufwerksliste"
 #, fuzzy
 #| msgid "Run Term"
 msgid "Run &Terminal"
-msgstr "Konsolen-Fenster öffnen"
+msgstr "Konsolen-Fens&ter öffnen"
 
 #: TFRMMAIN.ACTSAVESELECTION.CAPTION
 #, fuzzy
 #| msgid "Save Selection"
 msgid "Sa&ve Selection"
-msgstr "Auswahl speichern"
+msgstr "Auswahl speiche&rn"
 
 #: TFRMMAIN.ACTSAVESELECTIONTOFILE.CAPTION
 #, fuzzy
 #| msgid "Save Selection To File"
 msgid "Save S&election to File..."
-msgstr "Auswahl in Datei speichern"
+msgstr "Auswa&hl in Datei speichern"
 
 #: TFRMMAIN.ACTSEARCH.CAPTION
 #, fuzzy
 #| msgid "&Search"
 msgid "&Search..."
-msgstr "Suchen"
+msgstr "&Suchen"
 
 #: TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION
 #, fuzzy
 #| msgid "Change attributes"
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change &Attributes..."
-msgstr "Eigenschaften ändern"
+msgstr "Eigensch&aften ändern"
 
 #: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
 #, fuzzy
 #| msgid "Directories are opened in new &tabs"
 msgid "Locked with Directories Opened in New &Tabs"
-msgstr "Verzeichnisse in neuem Reiter öffnen"
+msgstr "Verzeichnisse in neuem Rei&ter öffnen"
 
 #: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
 msgid "&Normal"
@@ -2615,37 +2615,37 @@ msgstr "Menü F9"
 #| msgid "Show hidden/system files"
 msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
 msgid "Show &Hidden/System Files"
-msgstr "Zeige versteckte und Systemdateien"
+msgstr "&Zeige versteckte und Systemdateien"
 
 #: TFRMMAIN.ACTSORTBYATTR.CAPTION
 #, fuzzy
 #| msgid "Sort by attrib"
 msgid "Sort by &Attributes"
-msgstr "Nach Attributen sortieren"
+msgstr "Nach &Attributen sortieren"
 
 #: TFRMMAIN.ACTSORTBYDATE.CAPTION
 #, fuzzy
 #| msgid "Sort by date"
 msgid "Sort by &Date"
-msgstr "Nach Datum sortieren"
+msgstr "Nach &Datum sortieren"
 
 #: TFRMMAIN.ACTSORTBYEXT.CAPTION
 #, fuzzy
 #| msgid "Sort by extension"
 msgid "Sort by &Extension"
-msgstr "Nach Endung sortieren"
+msgstr "Nach &Endung sortieren"
 
 #: TFRMMAIN.ACTSORTBYNAME.CAPTION
 #, fuzzy
 #| msgid "Sort by name"
 msgid "Sort by &Name"
-msgstr "Nach Name sortieren"
+msgstr "Nach &Name sortieren"
 
 #: TFRMMAIN.ACTSORTBYSIZE.CAPTION
 #, fuzzy
 #| msgid "Sort by size"
 msgid "Sort by &Size"
-msgstr "Nach Grösse sortieren"
+msgstr "Nach &Grösse sortieren"
 
 #: TFRMMAIN.ACTSWITCHIGNORELIST.CAPTION
 msgid "Enable/disable ignore list file to not show file names"
@@ -2656,11 +2656,11 @@ msgstr "De-/Aktivieren der Dateiliste um Dateinamen nicht anzuzeigen"
 #| msgid "Create symbolic link..."
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
 msgid "Create Symbolic &Link..."
-msgstr "Erstelle symb. Link"
+msgstr "Erstelle symb. &Link"
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
 msgid "Target &= Source"
-msgstr "Ziel &= Quelle"
+msgstr "Ziel = &Quelle"
 
 #: TFRMMAIN.ACTTESTARCHIVE.CAPTION
 #, fuzzy
@@ -2680,7 +2680,7 @@ msgstr "Bewege &markierten Ordner in das rechte Fenster"
 #, fuzzy
 #| msgid "Unselect all with same extension"
 msgid "Unselect All with the Same Ex&tension"
-msgstr "Alle mit der gleichen Endung abwählen"
+msgstr "Alle mit der gleichen E&ndung abwählen"
 
 #: TFRMMAIN.ACTVIEW.CAPTION
 msgid "View F3"
@@ -5886,7 +5886,7 @@ msgstr "Geschwindigkeit %s/s, verbleibende Zeit %s"
 #| msgid "Split file"
 msgctxt "ulng.rsdlgsplit"
 msgid "Split"
-msgstr "Tei&le Datei"
+msgstr "&Teile Datei"
 
 #: ulng.rsdlgtest
 msgid "Testing..."
@@ -6500,11 +6500,11 @@ msgstr "Laufwerksbezeichnung angeben"
 
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
-msgstr ""
+msgstr "Reiter umbenennen"
 
 #: ulng.rsmsgtabrenameprompt
 msgid "New tab name:"
-msgstr ""
+msgstr "Neuer Reiter-Name"
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
