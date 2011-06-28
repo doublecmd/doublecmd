@@ -195,7 +195,7 @@ object frmPackDlg: TfrmPackDlg
     ClientWidth = 340
     Constraints.MinWidth = 340
     TabOrder = 1
-    object cbStoredir: TCheckBox
+    object cbStoreDir: TCheckBox
       Left = 0
       Height = 17
       Top = 0
@@ -205,48 +205,46 @@ object frmPackDlg: TfrmPackDlg
       State = cbChecked
       TabOrder = 0
     end
-    object cbRecurse: TCheckBox
+    object cbMultivolume: TCheckBox
       Left = 0
       Height = 17
       Top = 17
       Width = 260
-      Caption = 'Recursively pack &subdirectories'
-      Checked = True
-      Enabled = False
-      State = cbChecked
-      TabOrder = 1
-    end
-    object cbMultivolume: TCheckBox
-      Left = 0
-      Height = 17
-      Top = 34
-      Width = 260
       Caption = '&Multiple disk archive'
-      TabOrder = 2
+      TabOrder = 1
     end
     object cbMoveToArchive: TCheckBox
       Left = 0
       Height = 17
-      Top = 51
+      Top = 34
       Width = 260
       Caption = 'M&ove to archive'
-      TabOrder = 3
+      TabOrder = 2
     end
     object cbCreateSFX: TCheckBox
       Left = 0
       Height = 17
-      Top = 68
+      Top = 51
       Width = 260
       Caption = 'Create self e&xtracting archive'
-      OnChange = cbCreateSFXChange
-      TabOrder = 4
+      OnClick = cbCreateSFXClick
+      TabOrder = 3
     end
     object cbEncrypt: TCheckBox
       Left = 0
       Height = 17
-      Top = 85
+      Top = 68
       Width = 260
       Caption = 'Encr&ypt'
+      TabOrder = 4
+    end
+    object cbPutInTarFirst: TCheckBox
+      Left = 0
+      Height = 17
+      Top = 85
+      Width = 260
+      Caption = 'Put in the TAR archive first'
+      OnChange = cbPutInTarFirstChange
       TabOrder = 5
     end
     object cbCreateSeparateArchives: TCheckBox

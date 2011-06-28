@@ -47,24 +47,28 @@ type
     btnOk: TButton;
     cbPackerList: TComboBox;
     cbOtherPlugins: TCheckBox;
+    cbPutInTarFirst: TCheckBox;
     edtPackCmd: TDirectoryEdit;
     lblPrompt: TLabel;
-    cbRecurse: TCheckBox;
-    cbStoredir: TCheckBox;
+    cbStoreDir: TCheckBox;
     rgPacker: TRadioGroup;
     pnlOptions: TPanel;
     procedure btnConfigClick(Sender: TObject);
     procedure cbCreateSeparateArchivesChange(Sender: TObject);
-    procedure cbCreateSFXChange(Sender: TObject);
+    procedure cbCreateSFXClick(Sender: TObject);
     procedure cbOtherPluginsChange(Sender: TObject);
+    procedure cbPutInTarFirstChange(Sender: TObject);
     procedure edtPackCmdAcceptDirectory(Sender: TObject; var Value: String);
     procedure FormShow(Sender: TObject);
     procedure arbChange(Sender: TObject);
 
   private
+    FTarExt,
+    FArchiveExt,
     FArchiveName,
     FArchiveType: UTF8String;
     FArchiveTypeCount: Integer;
+    FTooManyFiles,
     FExistsArchive : Boolean;
     FSourceFileSource: IFileSource;
     FCustomParams: UTF8String;
@@ -117,7 +121,7 @@ var
           // Set flags according to user selection in the pack dialog.
           aFlags := 0;
           if cbMoveToArchive.Checked then aFlags := aFlags or PK_PACK_MOVE_FILES;
-          if cbStoredir.Checked then aFlags := aFlags or PK_PACK_SAVE_PATHS;
+          if cbStoreDir.Checked then aFlags := aFlags or PK_PACK_SAVE_PATHS;
           if cbEncrypt.Checked then aFlags := aFlags or PK_PACK_ENCRYPT;
 
           Operation := NewTargetFileSource.CreateCopyInOperation(
@@ -134,6 +138,7 @@ var
                   with Operation as TWcxArchiveCopyInOperation do
                   begin
                     PackingFlags := aFlags;
+                    TarBefore:= cbPutInTarFirst.Checked;
                   end;
                 end
               else if NewTargetFileSource.IsInterface(IMultiArchiveFileSource) then
@@ -146,6 +151,7 @@ var
                       VolumeSize:= InputBox(Caption, rsMsgVolumeSizeEnter, EmptyStr);
                     PackingFlags := aFlags;
                     CustomParams:= FCustomParams;
+                    TarBefore:= cbPutInTarFirst.Checked;
                   end;
                 end;
 
@@ -170,11 +176,21 @@ begin
           begin
             if Files.Count = 1 then // if one file selected
               begin
+                FTooManyFiles:= Files[0].IsDirectory;
                 FArchiveName:= Files[0].NameNoExt;
                 edtPackCmd.Text := TargetArchivePath + FArchiveName + ExtensionSeparator + FArchiveType;
               end
             else   // if some files selected
               begin
+                FTooManyFiles:= False;
+                for I:= 0 to Files.Count - 1 do
+                begin
+                  if Files[0].IsDirectory then
+                  begin
+                    FTooManyFiles:= True;
+                    Break;
+                  end;
+                end;
                 FArchiveName:= MakeFileName(Files.Path, 'archive');
                 edtPackCmd.Text := TargetArchivePath + FArchiveName + ExtensionSeparator + FArchiveType;
               end
@@ -213,7 +229,7 @@ begin
                       try
                         // Check if there is an ArchiveFileSource for possible archive.
                         aFile := SourceFileSource.CreateFileObject(ExtractFilePath(edtPackCmd.Text));
-                        aFile.Name := Files[I].Name + ExtensionSeparator + FArchiveType;
+                        aFile.Name := Files[I].Name + FTarExt + FArchiveExt;
                         NewTargetFileSource := GetArchiveFileSource(SourceFileSource, aFile, FArchiveType);
                       except
                         on e: EFileSourceException do
@@ -266,6 +282,9 @@ begin
       FreeAndNil(aFile);
   end;
 end;
+
+const
+  TAR_EXT = '.tar';
 
 { TfrmPackDlg }
 
@@ -338,18 +357,30 @@ end;
 procedure TfrmPackDlg.cbCreateSeparateArchivesChange(Sender: TObject);
 begin
   if cbCreateSeparateArchives.Checked then
-    edtPackCmd.Text:= ExtractFilePath(edtPackCmd.Text) + '*.*' + ExtensionSeparator + FArchiveType
+    edtPackCmd.Text:= ExtractFilePath(edtPackCmd.Text) + '*.*' + FTarExt + FArchiveExt
   else
-    edtPackCmd.Text:= ExtractFilePath(edtPackCmd.Text) + FArchiveName + ExtensionSeparator + FArchiveType;
+    edtPackCmd.Text:= ExtractFilePath(edtPackCmd.Text) + FArchiveName + FTarExt + FArchiveExt;
 end;
 
-procedure TfrmPackDlg.cbCreateSFXChange(Sender: TObject);
+procedure TfrmPackDlg.cbCreateSFXClick(Sender: TObject);
+var
+  State: Boolean;
 begin
-  if cbCreateSFX.Checked then
-    edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, GetSfxExt)
-  else
-    edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, ExtensionSeparator + FArchiveType);
-  SwitchOptions;
+  if cbCreateSFX.Tag = 0 then
+  begin
+    cbCreateSFX.Tag:= 1;
+    State:= cbCreateSFX.Checked;
+    if State then
+      FArchiveExt:= GetSfxExt
+    else
+      FArchiveExt:= ExtensionSeparator + FArchiveType;
+    edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, FArchiveExt);
+    // Switch archiver options
+    SwitchOptions;
+    // Restore check box state
+    cbCreateSFX.Checked:= State;
+    cbCreateSFX.Tag:= 0;
+  end;
 end;
 
 procedure TfrmPackDlg.cbOtherPluginsChange(Sender: TObject);
@@ -357,7 +388,8 @@ begin
   if cbOtherPlugins.Checked then
     begin
       FArchiveType:= cbPackerList.Text;
-      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, ExtensionSeparator + FArchiveType);
+      FArchiveExt:= ExtensionSeparator + FArchiveType;
+      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, FArchiveExt);
       rgPacker.ItemIndex := -1;
     end
   else
@@ -370,6 +402,20 @@ begin
   SwitchOptions;
 end;
 
+procedure TfrmPackDlg.cbPutInTarFirstChange(Sender: TObject);
+begin
+  if cbPutInTarFirst.Checked then
+    begin
+      FTarExt:= TAR_EXT;
+      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, TAR_EXT + FArchiveExt);
+    end
+  else
+    begin
+      FTarExt:= EmptyStr;
+      edtPackCmd.Text := StringReplace(edtPackCmd.Text, TAR_EXT + FArchiveExt, FArchiveExt, [rfIgnoreCase]);
+    end;
+end;
+
 procedure TfrmPackDlg.edtPackCmdAcceptDirectory(Sender: TObject; var Value: String);
 begin
   Value := IncludeTrailingPathDelimiter(Value) + ExtractFileName(edtPackCmd.Text);
@@ -380,7 +426,8 @@ begin
   if rgPacker.ItemIndex >= 0 then
     begin
       FArchiveType:= rgPacker.Items[rgPacker.ItemIndex];
-      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, ExtensionSeparator + FArchiveType);
+      FArchiveExt:= ExtensionSeparator + FArchiveType;
+      edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, FArchiveExt);
       cbOtherPlugins.Checked := False;
     end;
   FCustomParams:= EmptyStr;
@@ -392,17 +439,36 @@ var
   I: LongInt;
   sCmd: String;
 begin
+  // Reset some options
+  cbCreateSFX.Checked:= False;
+
   // WCX plugins
   for I:= 0 to gWCXPlugins.Count - 1 do
     if gWCXPlugins.Enabled[I] and (gWCXPlugins.Ext[I] = FArchiveType) then
     begin
       // If plugin supports packing with password
       EnableControl(cbEncrypt, ((gWCXPlugins.Flags[I] and PK_CAPS_ENCRYPT) <> 0));
-      // If archive can contain multiple files
-      cbCreateSeparateArchives.Checked:= ((gWCXPlugins.Flags[I] and PK_CAPS_MULTIPLE) = 0);
-      cbCreateSeparateArchives.Enabled:= ((gWCXPlugins.Flags[I] and PK_CAPS_MULTIPLE) <> 0);
+      // If archive can not contain multiple files
+      if ((gWCXPlugins.Flags[I] and PK_CAPS_MULTIPLE) = 0) then
+      begin
+        // If file list contain directory then
+        // put to the tar archive first is needed
+        if not FTooManyFiles then
+          cbCreateSeparateArchives.Checked:= True
+        else
+          begin
+            cbPutInTarFirst.Checked:= True;
+            EnableControl(cbPutInTarFirst, False);
+          end;
+      end
+      else
+        begin
+          cbPutInTarFirst.Checked:= False;
+          EnableControl(cbPutInTarFirst, True);
+          cbCreateSeparateArchives.Checked:= False;
+        end;
       // Options that supported by plugins
-      EnableControl(cbStoredir, True);
+      EnableControl(cbStoreDir, True);
       // Options that don't supported by plugins
       EnableControl(cbMultivolume, False);
       Exit;
@@ -416,7 +482,6 @@ begin
       begin
         // Archive can contain multiple files
         cbCreateSeparateArchives.Checked:= False;
-        cbCreateSeparateArchives.Enabled:= True;
         // If addon supports create self extracting archive
         EnableControl(cbCreateSFX, (Length(FAddSelfExtract) <> 0));
 
@@ -430,11 +495,11 @@ begin
         // If addon supports packing with password
         EnableControl(cbEncrypt, (Pos('%W', sCmd) <> 0));
 
+        // Options that supported by addons
+        EnableControl(cbPutInTarFirst, True);
         // Options that don't supported by addons
-        cbStoredir.Checked:= True;
-        cbRecurse.Checked:= True;
-        EnableControl(cbStoredir, False);
-        EnableControl(cbRecurse, False);
+        cbStoreDir.Checked:= True;
+        EnableControl(cbStoreDir, False);
 
         Exit;
       end;
