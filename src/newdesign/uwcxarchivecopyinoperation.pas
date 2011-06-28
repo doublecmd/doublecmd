@@ -13,6 +13,9 @@ uses
   uWcxArchiveFileSource;
 
 type
+
+  { TWcxArchiveCopyInOperation }
+
   TWcxArchiveCopyInOperation = class(TFileSourceCopyInOperation)
 
   private
@@ -20,6 +23,8 @@ type
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     FFullFilesTree: TFiles;
     FPackingFlags: Integer; // Packing flags passed to plugin
+    FTarBefore: Boolean;      // Create TAR archive first
+    FTarFileName: UTF8String; // Temporary TAR archive name
 
     {en
       Convert TFiles into a string separated with #0 (format used by WCX).
@@ -27,8 +32,10 @@ type
     function GetFileList(const theFiles: TFiles): String;
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
+    procedure DeleteFiles(const aFiles: TFiles);
 
   protected
+    function Tar: Boolean;
 
   public
     constructor Create(aSourceFileSource: IFileSource;
@@ -45,13 +52,14 @@ type
     class procedure ClearCurrentOperation;
 
     property PackingFlags: Integer read FPackingFlags write FPackingFlags;
+    property TarBefore: Boolean read FTarBefore write FTarBefore;
   end;
 
 implementation
 
 uses
   LCLProc, FileUtil, uDCUtils, WcxPlugin, uWCXmodule, uLng, uShowMsg,
-  uFileSourceOperationUI, uFileSystemUtil;
+  uFileSystemFileSource, uFileSourceOperationUI, uFileSystemUtil, uOSUtils, uTarWriter;
 
 // ----------------------------------------------------------------------------
 // WCX callbacks
@@ -138,6 +146,7 @@ begin
           end;
       end;
 
+      CurrentFileFrom:= FileName;
       WcxCopyInOperation.UpdateStatistics(WcxCopyInOperation.FStatistics);
     end;
   end;
@@ -163,6 +172,7 @@ begin
   FWcxArchiveFileSource := aTargetFileSource as IWcxArchiveFileSource;
   FFullFilesTree := nil;
   FPackingFlags := 0;
+  FTarBefore:= False;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
@@ -173,8 +183,7 @@ begin
 
   inherited Destroy;
 
-  if Assigned(FFullFilesTree) then
-    FreeAndNil(FFullFilesTree);
+  FreeAndNil(FFullFilesTree);
 end;
 
 procedure TWcxArchiveCopyInOperation.Initialize;
@@ -199,11 +208,20 @@ var
   WcxModule: TWcxModule;
   iResult: Longint;
 begin
+  // Put to TAR archive if needed
+  if FTarBefore and Tar then Exit;
+
   WcxModule := FWcxArchiveFileSource.WcxModule;
 
   sDestPath := ExcludeFrontPathDelimiter(TargetPath);
   sDestPath := ExcludeTrailingPathDelimiter(sDestPath);
   sDestPath := sDestPath;
+
+  with FStatistics do
+  begin
+    CurrentFileTo:= FWcxArchiveFileSource.ArchiveFileName;
+    UpdateStatistics(FStatistics);
+  end;
 
   WcxModule.WcxSetChangeVolProc(wcxInvalidHandle, @ChangeVolProcA, @ChangeVolProcW);
   WcxModule.WcxSetProcessDataProc(wcxInvalidHandle, @ProcessDataProcA, @ProcessDataProcW);
@@ -227,6 +245,9 @@ begin
     LogMessage(Format(rsMsgLogSuccess + rsMsgLogPack,
                       [FWcxArchiveFileSource.ArchiveFileName]), [log_arc_op], lmtSuccess);
   end;
+
+  // Delete temporary TAR archive if needed
+  if FTarBefore then mbDeleteFile(FTarFileName);
 end;
 
 procedure TWcxArchiveCopyInOperation.Finalize;
@@ -290,9 +311,73 @@ begin
   end;
 end;
 
+procedure TWcxArchiveCopyInOperation.DeleteFiles(const aFiles: TFiles);
+var
+  I: Integer;
+  aFile: TFile;
+begin
+  for I:= aFiles.Count - 1 downto 0 do
+  begin
+    aFile:= aFiles[I];
+    if aFile.IsDirectory then
+      mbRemoveDir(aFile.FullPath)
+    else
+      mbDeleteFile(aFile.FullPath);
+  end;
+end;
+
 class procedure TWcxArchiveCopyInOperation.ClearCurrentOperation;
 begin
   WcxCopyInOperation := nil;
+end;
+
+function TWcxArchiveCopyInOperation.Tar: Boolean;
+var
+  TarWriter: TTarWriter = nil;
+begin
+  with FWcxArchiveFileSource, FWcxArchiveFileSource.WcxModule do
+  begin
+    if Assigned(PackToMem) and (PluginCapabilities and PK_CAPS_MEMPACK <> 0) then
+      begin
+        FTarFileName:= ArchiveFileName;
+        TarWriter:= TTarWriter.Create(FTarFileName,
+                                      @AskQuestion,
+                                      @RaiseAbortOperation,
+                                      @CheckOperationState,
+                                      @UpdateStatistics,
+                                      WcxModule
+                                     );
+        Result:= True;
+      end
+    else
+      begin
+        FTarFileName:= RemoveFileExt(ArchiveFileName);
+        TarWriter:= TTarWriter.Create(FTarFileName,
+                                      @AskQuestion,
+                                      @RaiseAbortOperation,
+                                      @CheckOperationState,
+                                      @UpdateStatistics
+                                     );
+        Result:= False;
+      end;
+  end;
+
+  try
+    if TarWriter.ProcessTree(FFullFilesTree, FStatistics) then
+    begin
+      if Result and (PackingFlags and PK_PACK_MOVE_FILES <> 0) then
+        DeleteFiles(FFullFilesTree)
+      else
+        begin
+          // Fill file list with tar archive file
+          FFullFilesTree.Clear;
+          FFullFilesTree.Path:= ExtractFilePath(FTarFileName);
+          FFullFilesTree.Add(TFileSystemFileSource.CreateFileFromFile(FTarFileName));
+        end;
+    end;
+  finally
+    FreeAndNil(TarWriter);
+  end;
 end;
 
 end.

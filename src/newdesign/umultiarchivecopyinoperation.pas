@@ -21,21 +21,27 @@ type
   private
     FMultiArchiveFileSource: IMultiArchiveFileSource;
     FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
-    FFullFilesTree: TFiles;
+    FFullFilesTree,
+    FRemoveFilesTree: TFiles;
     FPackingFlags: Integer;
     FPassword: UTF8String;
     FVolumeSize: UTF8String;
     FCustomParams: UTF8String;
+    FCallResult,
+    FTarBefore: Boolean;      // Create TAR archive first
+    FTarFileName: UTF8String; // Temporary TAR archive name
 
     procedure ShowError(sMessage: String; logOptions: TLogOptions = []);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
     function CheckForErrors(const FileName: UTF8String; ExitStatus: LongInt): Boolean;
     procedure DeleteFile(const BasePath: UTF8String; aFile: TFile);
+    procedure DeleteFiles(const BasePath: UTF8String; aFiles: TFiles);
 
   protected
     FExProcess: TExProcess;
     FTempFile: UTF8String;
     FErrorLevel: LongInt;
+    function Tar: Boolean;
     procedure OnReadLn(str: string);
     procedure OperationProgressHandler;
     procedure UpdateProgress(SourceName, TargetName: UTF8String; IncSize: Int64);
@@ -58,13 +64,14 @@ type
     property Password: UTF8String read FPassword write FPassword;
     property VolumeSize: UTF8String read FVolumeSize write FVolumeSize;
     property CustomParams: UTF8String read FCustomParams write FCustomParams;
+    property TarBefore: Boolean read FTarBefore write FTarBefore;
   end;
 
 implementation
 
 uses
   LCLProc, uDCUtils, uMultiArc, uLng, WcxPlugin, uFileSourceOperationUI,
-  uFileSystemUtil, uMultiArchiveUtil, uOSUtils;
+  uFileSystemFileSource, uFileSystemUtil, uMultiArchiveUtil, uOSUtils, uTarWriter;
 
 constructor TMultiArchiveCopyInOperation.Create(aSourceFileSource: IFileSource;
                                               aTargetFileSource: IFileSource;
@@ -73,9 +80,11 @@ constructor TMultiArchiveCopyInOperation.Create(aSourceFileSource: IFileSource;
 begin
   FMultiArchiveFileSource := aTargetFileSource as IMultiArchiveFileSource;
   FFullFilesTree := nil;
+  FRemoveFilesTree := nil;
   FPackingFlags := 0;
   FPassword := EmptyStr;
   FVolumeSize := EmptyStr;
+  FTarBefore:= False;
 
   inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
@@ -84,8 +93,8 @@ destructor TMultiArchiveCopyInOperation.Destroy;
 begin
   inherited Destroy;
 
-  if Assigned(FFullFilesTree) then
-    FreeAndNil(FFullFilesTree);
+  FreeAndNil(FFullFilesTree);
+  FreeAndNil(FRemoveFilesTree);
 end;
 
 procedure TMultiArchiveCopyInOperation.Initialize;
@@ -125,6 +134,9 @@ var
   sReadyCommand,
   sCommandLine: UTF8String;
 begin
+  // Put to TAR archive if needed
+  if FTarBefore then Tar;
+
   MultiArcItem := FMultiArchiveFileSource.MultiArcItem;
 
   sDestPath := ExcludeFrontPathDelimiter(TargetPath);
@@ -197,13 +209,20 @@ begin
       // Check for errors.
       if CheckForErrors(FMultiArchiveFileSource.ArchiveFileName, FExProcess.ExitStatus) then
         begin
-           if (PackingFlags and PK_PACK_MOVE_FILES) <> 0 then
-             for I:= FFullFilesTree.Count - 1 downto 0 do
-               DeleteFile(sRootPath, FFullFilesTree[I]);
+          if (PackingFlags and PK_PACK_MOVE_FILES) <> 0 then
+            DeleteFiles(sRootPath, FFullFilesTree);
         end;
     end;
   // restore current path
   mbSetCurrentDir(sCurrPath);
+
+  // Delete temporary TAR archive if needed
+  if FTarBefore then
+  begin
+    mbDeleteFile(FTarFileName);
+    if FCallResult and (PackingFlags and PK_PACK_MOVE_FILES <> 0) then
+      DeleteFiles(EmptyStr, FRemoveFilesTree);
+  end;
 end;
 
 procedure TMultiArchiveCopyInOperation.Finalize;
@@ -262,6 +281,7 @@ begin
       LogMessage(Format(rsMsgLogSuccess + rsMsgLogPack,
                         [FileName]), [log_arc_op], lmtSuccess);
     end;
+  FCallResult:= Result;
 end;
 
 procedure TMultiArchiveCopyInOperation.DeleteFile(const BasePath: UTF8String; aFile: TFile);
@@ -270,6 +290,45 @@ begin
     mbRemoveDir(BasePath + aFile.FullPath)
   else
     mbDeleteFile(BasePath + aFile.FullPath);
+end;
+
+procedure TMultiArchiveCopyInOperation.DeleteFiles(const BasePath: UTF8String; aFiles: TFiles);
+var
+  I: Integer;
+  aFile: TFile;
+begin
+  for I:= aFiles.Count - 1 downto 0 do
+  begin
+    aFile:= aFiles[I];
+    if aFile.IsDirectory then
+      mbRemoveDir(BasePath + aFile.FullPath)
+    else
+      mbDeleteFile(BasePath + aFile.FullPath);
+  end;
+end;
+
+function TMultiArchiveCopyInOperation.Tar: Boolean;
+var
+  TarWriter: TTarWriter = nil;
+begin
+  FTarFileName:= RemoveFileExt(FMultiArchiveFileSource.ArchiveFileName);
+  TarWriter:= TTarWriter.Create(FTarFileName,
+                                @AskQuestion,
+                                @RaiseAbortOperation,
+                                @CheckOperationState,
+                                @UpdateStatistics
+                               );
+  try
+    if TarWriter.ProcessTree(FFullFilesTree, FStatistics) then
+    begin
+      // Fill file list with tar archive file
+      FRemoveFilesTree:= FFullFilesTree;
+      FFullFilesTree:= TFiles.Create(ExtractFilePath(FTarFileName));
+      FFullFilesTree.Add(TFileSystemFileSource.CreateFileFromFile(FTarFileName));
+    end;
+  finally
+    FreeAndNil(TarWriter);
+  end;
 end;
 
 procedure TMultiArchiveCopyInOperation.OnReadLn(str: string);
