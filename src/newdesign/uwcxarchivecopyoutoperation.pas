@@ -144,7 +144,7 @@ end;
 function ProcessDataProc(WcxCopyOutOperation: TWcxArchiveCopyOutOperation;
                          FileName: UTF8String; Size: LongInt): LongInt;
 begin
-  //DCDebug('Working ' + FileName + ' Size = ' + IntToStr(Size));
+  //DCDebug('Working (' + IntToStr(GetCurrentThreadId) + ') ' + FileName + ' Size = ' + IntToStr(Size));
 
   Result := 1;
 
@@ -183,6 +183,7 @@ begin
       end;
 
       WcxCopyOutOperation.UpdateStatistics(WcxCopyOutOperation.FStatistics);
+      WcxCopyOutOperation.CheckOperationState;
     end;
   end;
 end;

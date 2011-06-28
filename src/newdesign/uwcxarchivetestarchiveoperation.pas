@@ -101,7 +101,7 @@ end;
 function ProcessDataProc(WcxTestArchiveOperation: TWcxArchiveTestArchiveOperation;
                          FileName: UTF8String; Size: LongInt): LongInt;
 begin
-  //DCDebug('Working ' + FileName + ' Size = ' + IntToStr(Size));
+  //DCDebug('Working (' + IntToStr(GetCurrentThreadId) + ') ' + FileName + ' Size = ' + IntToStr(Size));
 
   Result := 1;
 
@@ -140,6 +140,7 @@ begin
       end;
 
       WcxTestArchiveOperation.UpdateStatistics(WcxTestArchiveOperation.FStatistics);
+      WcxTestArchiveOperation.CheckOperationState;
     end;
   end;
 end;
