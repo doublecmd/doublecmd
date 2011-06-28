@@ -116,7 +116,7 @@ end;
 function ProcessDataProc(WcxCopyInOperation: TWcxArchiveCopyInOperation;
                          FileName: UTF8String; Size: LongInt): LongInt;
 begin
-  //DCDebug('Working ' + FileName + ' Size = ' + IntToStr(Size));
+  //DCDebug('Working (' + IntToStr(GetCurrentThreadId) + ') ' + FileName + ' Size = ' + IntToStr(Size));
 
   Result := 1;
 
@@ -127,6 +127,8 @@ begin
 
     with WcxCopyInOperation.FStatistics do
     begin
+      CurrentFileFrom:= FileName;
+
       if Size >= 0 then
       begin
         CurrentFileDoneBytes := CurrentFileDoneBytes + Size;
@@ -154,8 +156,8 @@ begin
           end;
       end;
 
-      CurrentFileFrom:= FileName;
       WcxCopyInOperation.UpdateStatistics(WcxCopyInOperation.FStatistics);
+      WcxCopyInOperation.CheckOperationState;
     end;
   end;
 end;

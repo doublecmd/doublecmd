@@ -139,6 +139,7 @@ begin
       end;
 
       WcxDeleteOperation.UpdateStatistics(WcxDeleteOperation.FStatistics);
+      WcxDeleteOperation.CheckOperationState;
     end;
   end;
 end;
