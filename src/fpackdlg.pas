@@ -112,7 +112,7 @@ var
   aFile: TFile = nil;
   aFiles: TFiles = nil;
 
-  procedure Pack(var FilesToPack: TFiles);
+  procedure Pack(var FilesToPack: TFiles; StartingState: TOperationStartingState);
   begin
     with PackDialog do
     begin
@@ -156,7 +156,7 @@ var
                 end;
 
                 // Start operation.
-                OperationHandle := OperationsManager.AddOperation(Operation, ossQueueLast);
+                OperationHandle := OperationsManager.AddOperation(Operation, StartingState);
 
                 ProgressDialog := TfrmFileOp.Create(OperationHandle);
                 ProgressDialog.Show;
@@ -240,7 +240,7 @@ begin
                       end;
 
                       // Pack current item
-                      Pack(aFiles);
+                      Pack(aFiles, ossQueueLast);
                     finally
                       FreeAndNil(aFile);
                     end;
@@ -265,7 +265,7 @@ begin
                   end;
 
                   // Pack files
-                  Pack(Files);
+                  Pack(Files, ossAutoStart);
                 end;
             end;
 
