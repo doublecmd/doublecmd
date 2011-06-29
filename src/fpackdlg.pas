@@ -68,7 +68,6 @@ type
     FArchiveName,
     FArchiveType: UTF8String;
     FArchiveTypeCount: Integer;
-    FFileCount: Integer;
     FHasFolder,
     FExistsArchive : Boolean;
     FSourceFileSource: IFileSource;
@@ -175,8 +174,7 @@ begin
         FSourceFileSource:= SourceFileSource;
         if bNewArchive then  // create new archive
           begin
-            FFileCount:= Files.Count;
-            if FFileCount = 1 then // if one file selected
+            if Files.Count = 1 then // if one file selected
               begin
                 FHasFolder:= Files[0].IsDirectory;
                 FArchiveName:= Files[0].NameNoExt;
@@ -459,10 +457,7 @@ begin
         // If file list contain directory then
         // put to the tar archive first is needed
         if not FHasFolder then
-          begin
-            if FFileCount > 1 then
-              cbCreateSeparateArchives.Checked:= True;
-          end
+          cbCreateSeparateArchives.Checked:= True
         else
           begin
             cbPutInTarFirst.Checked:= True;
