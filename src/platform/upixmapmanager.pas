@@ -1415,8 +1415,11 @@ begin
     begin
       I:= gIconsSize div 2;
       Result:= DrawBitmap(FiEmblemLinkID, Canvas, X, Y + I, I, I);
-      if not AFile.FSFile.LinkProperty.IsValid then
-        Result:= DrawBitmap(FiEmblemUnreadableID, Canvas, X + I, Y + I, I, I);
+      if Assigned(AFile.FSFile.LinkProperty) then
+      begin
+        if not AFile.FSFile.LinkProperty.IsValid then
+          Result:= DrawBitmap(FiEmblemUnreadableID, Canvas, X + I, Y + I, I, I);
+      end;
     end
   {$IFDEF MSWINDOWS}
   else
