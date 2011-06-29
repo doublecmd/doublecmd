@@ -68,7 +68,8 @@ type
     FArchiveName,
     FArchiveType: UTF8String;
     FArchiveTypeCount: Integer;
-    FTooManyFiles,
+    FFileCount: Integer;
+    FHasFolder,
     FExistsArchive : Boolean;
     FSourceFileSource: IFileSource;
     FCustomParams: UTF8String;
@@ -174,20 +175,21 @@ begin
         FSourceFileSource:= SourceFileSource;
         if bNewArchive then  // create new archive
           begin
-            if Files.Count = 1 then // if one file selected
+            FFileCount:= Files.Count;
+            if FFileCount = 1 then // if one file selected
               begin
-                FTooManyFiles:= Files[0].IsDirectory;
+                FHasFolder:= Files[0].IsDirectory;
                 FArchiveName:= Files[0].NameNoExt;
                 edtPackCmd.Text := TargetArchivePath + FArchiveName + ExtensionSeparator + FArchiveType;
               end
             else   // if some files selected
               begin
-                FTooManyFiles:= False;
+                FHasFolder:= False;
                 for I:= 0 to Files.Count - 1 do
                 begin
-                  if Files[0].IsDirectory then
+                  if Files[I].IsDirectory then
                   begin
-                    FTooManyFiles:= True;
+                    FHasFolder:= True;
                     Break;
                   end;
                 end;
@@ -239,8 +241,11 @@ begin
                           end;
                       end;
 
-                      // Pack current item
-                      Pack(aFiles, ossQueueLast);
+                      // Pack current item, if files count > 1 then put to queue
+                      if (I > 0) then
+                        Pack(aFiles, ossQueueLast)
+                      else
+                        Pack(aFiles, ossAutoStart);
                     finally
                       FreeAndNil(aFile);
                     end;
@@ -453,8 +458,11 @@ begin
       begin
         // If file list contain directory then
         // put to the tar archive first is needed
-        if not FTooManyFiles then
-          cbCreateSeparateArchives.Checked:= True
+        if not FHasFolder then
+          begin
+            if FFileCount > 1 then
+              cbCreateSeparateArchives.Checked:= True;
+          end
         else
           begin
             cbPutInTarFirst.Checked:= True;
