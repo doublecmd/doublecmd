@@ -366,9 +366,9 @@ begin
   SynDiffEditLeft.TopLine := Line;
   if not actKeepScrolling.Checked then
   begin
-    SynDiffEditRight.CaretY := Line;
     SynDiffEditRight.TopLine := Line;
   end;
+  SynDiffEditRight.CaretY := Line;
 end;
 
 procedure TfrmDiffer.actOpenLeftExecute(Sender: TObject);
@@ -433,9 +433,9 @@ begin
   SynDiffEditLeft.TopLine := Line;
   if not actKeepScrolling.Checked then
   begin
-    SynDiffEditRight.CaretY := Line;
     SynDiffEditRight.TopLine := Line;
   end;
+  SynDiffEditRight.CaretY := Line;
 end;
 
 procedure TfrmDiffer.actReloadExecute(Sender: TObject);
@@ -547,7 +547,7 @@ var
   I, iStart,
   iFinish: Integer;
 begin
-  I := SynDiffEditLeft.TopLine - 1;
+  I := SynDiffEditLeft.CaretY - 1;
   iStart:= SynDiffEditLeft.DiffBegin(I);
   iFinish:= SynDiffEditLeft.DiffEnd(I);
   for I:= iStart to iFinish do
@@ -559,7 +559,7 @@ var
   I, iStart,
   iFinish: Integer;
 begin
-  I := SynDiffEditRight.TopLine - 1;
+  I := SynDiffEditRight.CaretY - 1;
   iStart:= SynDiffEditRight.DiffBegin(I);
   iFinish:= SynDiffEditRight.DiffEnd(I);
   for I:= iStart to iFinish do
@@ -618,9 +618,9 @@ begin
   SynDiffEditLeft.TopLine := Line;
   if not actKeepScrolling.Checked then
   begin
-    SynDiffEditRight.CaretY := Line;
     SynDiffEditRight.TopLine := Line;
   end;
+  SynDiffEditRight.CaretY := Line;
 end;
 
 procedure TfrmDiffer.actIgnoreCaseExecute(Sender: TObject);
@@ -646,9 +646,9 @@ begin
   SynDiffEditLeft.TopLine := Line;
   if not actKeepScrolling.Checked then
   begin
-    SynDiffEditRight.CaretY := Line;
     SynDiffEditRight.TopLine := Line;
   end;
+  SynDiffEditRight.CaretY := Line;
 end;
 
 procedure TfrmDiffer.actLineDifferencesExecute(Sender: TObject);
@@ -979,4 +979,4 @@ begin
 end;
 
 end.
-
+
