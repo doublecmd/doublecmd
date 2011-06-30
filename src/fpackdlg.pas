@@ -72,7 +72,7 @@ type
     FExistsArchive : Boolean;
     FSourceFileSource: IFileSource;
     FCustomParams: UTF8String;
-    procedure SwitchOptions;
+    procedure SwitchOptions(ArcTypeChange: Boolean);
     procedure AddArchiveType(const FileExt, ArcType: UTF8String);
   public
     { public declarations }
@@ -372,6 +372,7 @@ begin
   if cbCreateSFX.Tag = 0 then
   begin
     cbCreateSFX.Tag:= 1;
+    // Save check box state
     State:= cbCreateSFX.Checked;
     if State then
       FArchiveExt:= GetSfxExt
@@ -379,7 +380,7 @@ begin
       FArchiveExt:= ExtensionSeparator + FArchiveType;
     edtPackCmd.Text := ChangeFileExt(edtPackCmd.Text, FArchiveExt);
     // Switch archiver options
-    SwitchOptions;
+    SwitchOptions(False);
     // Restore check box state
     cbCreateSFX.Checked:= State;
     cbCreateSFX.Tag:= 0;
@@ -402,7 +403,7 @@ begin
     end;
   FCustomParams:= EmptyStr;
   cbPackerList.Enabled := cbOtherPlugins.Checked;
-  SwitchOptions;
+  SwitchOptions(True);
 end;
 
 procedure TfrmPackDlg.cbPutInTarFirstChange(Sender: TObject);
@@ -434,16 +435,19 @@ begin
       cbOtherPlugins.Checked := False;
     end;
   FCustomParams:= EmptyStr;
-  SwitchOptions;
+  SwitchOptions(True);
 end;
 
-procedure TfrmPackDlg.SwitchOptions; // Ugly but working
+procedure TfrmPackDlg.SwitchOptions(ArcTypeChange: Boolean); // Ugly but working
 var
   I: LongInt;
   sCmd: String;
 begin
-  // Reset some options
-  cbCreateSFX.Checked:= False;
+  if ArcTypeChange then
+  begin
+    // Reset some options
+    cbCreateSFX.Checked:= False;
+  end;
 
   // WCX plugins
   for I:= 0 to gWCXPlugins.Count - 1 do
@@ -503,7 +507,6 @@ begin
         // Options that don't supported by addons
         cbStoreDir.Checked:= True;
         EnableControl(cbStoreDir, False);
-
         Exit;
       end;
     end;
