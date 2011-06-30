@@ -465,7 +465,11 @@ var
   sName: UTF8String;
   SearchTemplate: TSearchTemplate;
 begin
-  if not InputQuery(rsFindSaveTemplateCaption, rsFindSaveTemplateTitle, sName) then Exit;
+  if not InputQuery(rsFindSaveTemplateCaption, rsFindSaveTemplateTitle, sName) then
+  begin
+    ModalResult:= mrCancel;
+    Exit;
+  end;
 
   SearchTemplate := gSearchTemplateList.TemplateByName[sName];
   if Assigned(SearchTemplate) then
