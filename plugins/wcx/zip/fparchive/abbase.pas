@@ -24,14 +24,14 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbBase.pas 3.05                             *}
+{* ABBREVIA: AbBase.pas                                  *}
 {*********************************************************}
 {* ABBREVIA: Base component class                        *}
 {*********************************************************}
 
-{$I AbDefine.inc}
-
 unit AbBase;
+
+{$I AbDefine.inc}
 
 interface
 
