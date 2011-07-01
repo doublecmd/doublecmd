@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbCabMak.pas 3.05                           *}
+{* ABBREVIA: AbCabMak.pas                                *}
 {*********************************************************}
 {* ABBREVIA: Cabinet builder component (VCL)             *}
 {*   See AbQCabMk.pas for the CLX header                 *}
@@ -37,7 +37,7 @@ unit AbCabMak;
 interface
 
 uses
-  SysUtils, Classes,
+  Classes,
   AbCBrows,
   AbArcTyp, AbCabTyp;
 
@@ -106,6 +106,7 @@ type
 implementation
 
 uses
+  SysUtils,
   AbExcept,
   AbUtils;
 

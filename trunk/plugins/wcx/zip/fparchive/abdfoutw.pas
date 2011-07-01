@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfOutW.pas 3.05                           *}
+{* ABBREVIA: AbDfOutW.pas                                *}
 {*********************************************************}
 {* Deflate output sliding window                         *}
 {*********************************************************}
@@ -36,7 +36,6 @@ unit AbDfOutW;
 interface
 
 uses
-  SysUtils,
   Classes,
   AbDfBase;
 
@@ -96,6 +95,9 @@ type
   end;
 
 implementation
+
+uses
+  SysUtils;
 
 {Notes:
         Meaning of the internal pointers:

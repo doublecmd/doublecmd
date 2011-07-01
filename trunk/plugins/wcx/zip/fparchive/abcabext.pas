@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbCabExt.pas 3.05                           *}
+{* ABBREVIA: AbCabExt.pas                                *}
 {*********************************************************}
 {* ABBREVIA: Cabinet file extractor component            *}
 {*********************************************************}
@@ -36,7 +36,7 @@ unit AbCabExt;
 interface
 
 uses
-  SysUtils, Classes,
+  Classes,
   AbCBrows, 
   AbArcTyp;
 

@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfPkMg.pas 3.05                           *}
+{* ABBREVIA: AbDfPkMg.pas                                *}
 {*********************************************************}
 {* Deflate package-merge algorithm                       *}
 {*********************************************************}
@@ -36,7 +36,6 @@ unit AbDfPkMg;
 interface
 
 uses
-  SysUtils,
   AbDfBase;
 
 procedure GenerateCodeLengths(aMaxCodeLen  : integer;

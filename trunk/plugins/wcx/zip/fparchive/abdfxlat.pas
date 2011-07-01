@@ -24,7 +24,7 @@
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDfXlat.pas 3.05                           *}
+{* ABBREVIA: AbDfXlat.pas                                *}
 {*********************************************************}
 {* Deflate length/dist to symbol translator              *}
 {*********************************************************}
@@ -36,8 +36,7 @@ unit AbDfXlat;
 interface
 
 uses
-  SysUtils,
-  Classes;
+  SysUtils;
 
 type
   TAbDfTranslator = class
