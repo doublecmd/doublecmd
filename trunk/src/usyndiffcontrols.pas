@@ -236,7 +236,7 @@ var
   Kind: TChangeKind;
   LineColor: TColor;
 begin
-  if Line >= DiffCount then Exit;
+  if Line > DiffCount then Exit;
 
   Kind:= DiffKind[Line - 1];
 
