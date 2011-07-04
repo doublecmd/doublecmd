@@ -343,34 +343,6 @@ begin
   //mnuEdit.Enabled := true;
 end;
 
-procedure TfrmDiffer.actNextDiffExecute(Sender: TObject);
-var
-  Line: Integer;
-  Kind: TChangeKind;
-begin
-  Line := SynDiffEditLeft.TopLine - 1;
-  if Line = SynDiffEditLeft.Lines.Count - 1 then Exit;
-  // Skip lines with current difference type
-  Kind := SynDiffEditLeft.DiffKind[Line];
-  while (Line < SynDiffEditLeft.Lines.Count - 1) and
-    (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
-  if SynDiffEditLeft.DiffKind[Line] = ckNone then
-  begin
-    // Skip unmodified lines
-    Kind := ckNone;
-    while (Line < SynDiffEditLeft.Lines.Count - 1) and
-      (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
-  end;
-  Inc(Line);
-  SynDiffEditLeft.CaretY := Line;
-  SynDiffEditLeft.TopLine := Line;
-  if not actKeepScrolling.Checked then
-  begin
-    SynDiffEditRight.TopLine := Line;
-  end;
-  SynDiffEditRight.CaretY := Line;
-end;
-
 procedure TfrmDiffer.actOpenLeftExecute(Sender: TObject);
 begin
   dmComData.OpenDialog.FileName:= edtFileNameLeft.Text;
@@ -407,35 +379,6 @@ begin
     end;
   SynDiffHighlighterLeft.UpdateColors;
   SynDiffHighlighterRight.UpdateColors;
-end;
-
-procedure TfrmDiffer.actPrevDiffExecute(Sender: TObject);
-var
-  Line: Integer;
-  Kind: TChangeKind;
-begin
-  Line := SynDiffEditLeft.TopLine - 1;
-  if Line = 0 then Exit;
-  // Skip lines with current difference type
-  Kind := SynDiffEditLeft.DiffKind[Line];
-  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
-  if SynDiffEditLeft.DiffKind[Line] = ckNone then
-  begin
-    // Skip unmodified lines
-    Kind := ckNone;
-    while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
-  end;
-  // Find top line of previous difference
-  Kind:= SynDiffEditLeft.DiffKind[Line];
-  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
-  if (Line <> 0) then Inc(Line, 2);
-  SynDiffEditLeft.CaretY := Line;
-  SynDiffEditLeft.TopLine := Line;
-  if not actKeepScrolling.Checked then
-  begin
-    SynDiffEditRight.TopLine := Line;
-  end;
-  SynDiffEditRight.CaretY := Line;
 end;
 
 procedure TfrmDiffer.actReloadExecute(Sender: TObject);
@@ -601,6 +544,63 @@ begin
   SynDiffEditActive.Undo;
 end;
 
+procedure TfrmDiffer.actNextDiffExecute(Sender: TObject);
+var
+  Line: Integer;
+  Kind: TChangeKind;
+begin
+  Line := SynDiffEditLeft.CaretY - 1;
+  if Line = SynDiffEditLeft.Lines.Count - 1 then Exit;
+  // Skip lines with current difference type
+  Kind := SynDiffEditLeft.DiffKind[Line];
+  while (Line < SynDiffEditLeft.Lines.Count - 1) and
+    (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
+  if SynDiffEditLeft.DiffKind[Line] = ckNone then
+  begin
+    // Skip unmodified lines
+    Kind := ckNone;
+    while (Line < SynDiffEditLeft.Lines.Count - 1) and
+      (SynDiffEditLeft.DiffKind[Line] = Kind) do Inc(Line);
+  end;
+  Inc(Line);
+  SynDiffEditLeft.CaretY := Line;
+  SynDiffEditLeft.TopLine := Line;
+  if not actKeepScrolling.Checked then
+  begin
+    SynDiffEditRight.TopLine := Line;
+    SynDiffEditRight.CaretY := Line;
+  end;
+end;
+
+procedure TfrmDiffer.actPrevDiffExecute(Sender: TObject);
+var
+  Line: Integer;
+  Kind: TChangeKind;
+begin
+  Line := SynDiffEditLeft.CaretY - 1;
+  if Line = 0 then Exit;
+  // Skip lines with current difference type
+  Kind := SynDiffEditLeft.DiffKind[Line];
+  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  if SynDiffEditLeft.DiffKind[Line] = ckNone then
+  begin
+    // Skip unmodified lines
+    Kind := ckNone;
+    while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  end;
+  // Find top line of previous difference
+  Kind:= SynDiffEditLeft.DiffKind[Line];
+  while (Line > 0) and (SynDiffEditLeft.DiffKind[Line] = Kind) do Dec(Line);
+  if (Line <> 0) then Inc(Line, 2);
+  SynDiffEditLeft.CaretY := Line;
+  SynDiffEditLeft.TopLine := Line;
+  if not actKeepScrolling.Checked then
+  begin
+    SynDiffEditRight.TopLine := Line;
+    SynDiffEditRight.CaretY := Line;
+  end;
+end;
+
 procedure TfrmDiffer.actFirstDiffExecute(Sender: TObject);
 var
   Line: Integer;
@@ -619,13 +619,8 @@ begin
   if not actKeepScrolling.Checked then
   begin
     SynDiffEditRight.TopLine := Line;
+    SynDiffEditRight.CaretY := Line;
   end;
-  SynDiffEditRight.CaretY := Line;
-end;
-
-procedure TfrmDiffer.actIgnoreCaseExecute(Sender: TObject);
-begin
-  if actAutoCompare.Checked then actStartCompare.Execute;
 end;
 
 procedure TfrmDiffer.actLastDiffExecute(Sender: TObject);
@@ -647,8 +642,13 @@ begin
   if not actKeepScrolling.Checked then
   begin
     SynDiffEditRight.TopLine := Line;
+    SynDiffEditRight.CaretY := Line;
   end;
-  SynDiffEditRight.CaretY := Line;
+end;
+
+procedure TfrmDiffer.actIgnoreCaseExecute(Sender: TObject);
+begin
+  if actAutoCompare.Checked then actStartCompare.Execute;
 end;
 
 procedure TfrmDiffer.actLineDifferencesExecute(Sender: TObject);
@@ -952,12 +952,13 @@ procedure TfrmDiffer.SynDiffEditLeftStatusChange(Sender: TObject;
   Changes: TSynStatusChanges);
 begin
   if (actKeepScrolling.Checked) and (ScrollLock = 0) and
-     ((scTopLine in Changes) or (scLeftChar in Changes)) then
+     ((scTopLine in Changes) or (scLeftChar in Changes) or (scCaretY in Changes)) then
     try
       Inc(ScrollLock);
       while (SynDiffEditRight.PaintLock <> 0) do Sleep(1);
       SynDiffEditRight.TopLine:= SynDiffEditLeft.TopLine;
       SynDiffEditRight.LeftChar:= SynDiffEditLeft.LeftChar;
+      SynDiffEditRight.CaretY:= SynDiffEditLeft.CaretY;
     finally
       Dec(ScrollLock);
     end;
@@ -967,16 +968,17 @@ procedure TfrmDiffer.SynDiffEditRightStatusChange(Sender: TObject;
   Changes: TSynStatusChanges);
 begin
   if (actKeepScrolling.Checked) and (ScrollLock = 0) and
-     ((scTopLine in Changes) or (scLeftChar in Changes)) then
+     ((scTopLine in Changes) or (scLeftChar in Changes) or (scCaretY in Changes)) then
     try
       Inc(ScrollLock);
       while (SynDiffEditLeft.PaintLock <> 0) do Sleep(1);
       SynDiffEditLeft.TopLine:= SynDiffEditRight.TopLine;
       SynDiffEditLeft.LeftChar:= SynDiffEditRight.LeftChar;
+      SynDiffEditLeft.CaretY:= SynDiffEditRight.CaretY;
     finally
       Dec(ScrollLock);
     end;
 end;
 
 end.
-
+
