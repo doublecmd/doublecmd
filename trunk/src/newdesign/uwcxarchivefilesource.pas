@@ -372,8 +372,11 @@ begin
 
   SetCryptCallback;
 
-  if not ReadArchive then
-    raise Exception.Create(GetErrorMsg(FOpenResult));
+  if mbFileExists(anArchiveFileName) then
+  begin
+    if not ReadArchive then
+      raise Exception.Create(GetErrorMsg(FOpenResult));
+  end;
 
   CreateConnections;
 end;
@@ -394,8 +397,11 @@ begin
 
   SetCryptCallback;
 
-  if not ReadArchive then
-    raise Exception.Create(GetErrorMsg(FOpenResult));
+  if mbFileExists(anArchiveFileName) then
+  begin
+    if not ReadArchive then
+      raise Exception.Create(GetErrorMsg(FOpenResult));
+  end;
 
   CreateConnections;
 end;
