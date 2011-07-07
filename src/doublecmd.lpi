@@ -203,7 +203,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="115">
+    <Units Count="116">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -913,6 +913,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uTarWriter"/>
       </Unit114>
+      <Unit115>
+        <Filename Value="uconvencoding.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uConvEncoding"/>
+      </Unit115>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
