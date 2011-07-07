@@ -182,7 +182,8 @@ implementation
 
 uses
   dmCommonData, dmHigh, SynEditHighlighter, SynEditTypes, LCLType, LConvEncoding,
-  uLng, uShowMsg, fEditSearch, uGlobsPaths, uGlobs, fEditorConf, uOSUtils, uClassesEx;
+  uLng, uShowMsg, fEditSearch, uGlobsPaths, uGlobs, fEditorConf, uOSUtils,
+  uClassesEx, uConvEncoding;
 
 procedure ShowEditor(const sFileName:String);
 var
@@ -303,7 +304,8 @@ begin
 
   // set up text encoding
   sOriginalText:= Editor.Lines.Text; // save original text
-  sEncodingIn:= GuessEncoding(sOriginalText); // try to guess encoding
+  // try to detect encoding by first 4 kb of text
+  sEncodingIn:= DetectEncoding(Copy(sOriginalText, 1, 4096));
   ChooseEncoding(miEncodingIn, sEncodingIn);
   sEncodingOut:= sEncodingIn; // by default
   ChooseEncoding(miEncodingOut, sEncodingOut);
