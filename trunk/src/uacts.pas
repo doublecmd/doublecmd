@@ -1016,7 +1016,14 @@ begin
     if gWFXPlugins.Count = 0 then Exit;
     FileSource:= TVfsFileSource.Create(gWFXPlugins);
     if Assigned(FileSource) then
-      ActiveFrame.AddFileSource(FileSource, FileSource.GetRootDir);
+    begin
+      if dskLeft.Name = param then
+        FrameLeft.AddFileSource(FileSource, FileSource.GetRootDir)
+      else if dskRight.Name = param then
+        FrameRight.AddFileSource(FileSource, FileSource.GetRootDir)
+      else
+        ActiveFrame.AddFileSource(FileSource, FileSource.GetRootDir)
+    end;
   end;
 end;
 
