@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    This unit contains class for working with file comments.
 
-   Copyright (C) 2008-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -206,7 +206,7 @@ begin
       if (sIndexString[iPosOfDivider] = cSearchChar) then
       begin // YES
         // found the sFileName in the sIndexString (no more, no less)
-        if mbCompareFileNames(sFileName, Copy(sIndexString, iFirstStringPos, iPosOfDivider-1)) then
+        if mbCompareFileNames(sFileName, Copy(sIndexString, iFirstStringPos, iPosOfDivider-iFirstStringPos)) then
         begin // YES
           Index := iIndex;
           Exit(True);
@@ -235,7 +235,7 @@ begin
   else
     begin
       iDescrStart:= Pos(#34#32, sLine);
-      Result:= Copy(sLine, iDescrStart+1, Length(sLine) - iDescrStart);
+      Result:= Copy(sLine, iDescrStart+2, Length(sLine) - iDescrStart);
     end;
 end;
 
