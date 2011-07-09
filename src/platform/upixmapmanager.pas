@@ -62,7 +62,8 @@ type
     bmDriveHardDisk,
     bmMediaFlash,
     bmMediaOptical,
-    bmDriveNetwork: TBitmap;
+    bmDriveNetwork,
+    bmDriveVirtual: TBitmap;
   end;
 
   { TPixMapManager }
@@ -268,6 +269,7 @@ type
     function GetIconByName(const AIconName: UTF8String): PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
+    function GetVirtualDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
     function GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;
     {en
        Returns default icon for a file.
@@ -1082,6 +1084,7 @@ begin
       if Assigned(bmMediaFlash) then FreeAndNil(bmMediaFlash);
       if Assigned(bmMediaOptical) then FreeAndNil(bmMediaOptical);
       if Assigned(bmDriveNetwork) then FreeAndNil(bmDriveNetwork);
+      if Assigned(bmDriveVirtual) then FreeAndNil(bmDriveVirtual);
     end;
 
   {$IF DEFINED(MSWINDOWS)}
@@ -1145,6 +1148,7 @@ begin
       bmMediaFlash := LoadIconThemeBitmapLocked('media-flash', iPixmapSize);
       bmMediaOptical := LoadIconThemeBitmapLocked('media-optical', iPixmapSize);
       bmDriveNetwork:= LoadIconThemeBitmapLocked('network-wired', iPixmapSize);
+      bmDriveVirtual:= LoadIconThemeBitmapLocked('folder-virtual', iPixmapSize);
     end;
 
   // load emblems
@@ -1764,6 +1768,36 @@ var
                    IsMediaAvailable: True; IsMediaEjectable: False; IsMounted: True);
 begin
   Result := GetBuiltInDriveIcon(@Drive, IconSize, clBackColor);
+end;
+
+function TPixMapManager.GetVirtualDriveIcon(IconSize: Integer;
+  clBackColor: TColor): Graphics.TBitmap;
+var
+  DriveIconListIndex: Integer;
+begin
+  case IconSize of
+  16: // Standart 16x16 icon size
+    DriveIconListIndex := 0;
+  22:  // Standart 22x22 icon size
+    DriveIconListIndex := 1;
+  32:  // Standart 32x32 icon size
+    DriveIconListIndex := 2;
+  else  // for non standart icon size use more large icon for stretch
+    DriveIconListIndex := 2;
+  end;
+  with FDriveIconList[DriveIconListIndex] do
+  begin
+    //  if need stretch icon
+    if (IconSize <> 16) and (IconSize <> 22) and (IconSize <> 32) then
+      begin
+        Result := StretchBitmap(bmDriveVirtual, IconSize, clBackColor, False);
+      end
+    else
+      begin
+        Result := Graphics.TBitmap.Create;
+        Result.Assign(bmDriveVirtual);
+      end;
+  end;
 end;
 
 function TPixMapManager.GetArchiveIcon(IconSize: Integer; clBackColor : TColor) : Graphics.TBitmap;

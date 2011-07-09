@@ -414,6 +414,7 @@ type
                                PanelSelect: TFilePanelSelect);
     procedure DeleteClick(Sender: TObject);
     procedure dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
+    procedure btnVirtualDriveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -522,6 +523,7 @@ type
     Draging : boolean;
 
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
+    procedure AddVirtualDriveButton(dskPanel: TKASToolBar);
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
     procedure HideToTray;
     procedure RestoreFromTray;
@@ -1552,6 +1554,11 @@ begin
     end;
 
   SetActiveFrame(PanelSelected);
+end;
+
+procedure TfrmMain.btnVirtualDriveClick(Sender: TObject);
+begin
+  Actions.cm_OpenVirtualFileSystemList(((Sender as TSpeedButton).Parent as TKASToolBar).Name);
 end;
 
 procedure TfrmMain.MainToolBarMouseUp(Sender: TObject; Button: TMouseButton;
@@ -3129,6 +3136,24 @@ begin
   end;
 end;
 
+procedure TfrmMain.AddVirtualDriveButton(dskPanel: TKASToolBar);
+const
+  btnCaption = ':' + PathDelim + PathDelim;
+var
+  btnIndex : Integer;
+  bmpBitmap: TBitmap = nil;
+begin
+  (*virtual drive button*)
+  bmpBitmap:= PixMapManager.GetVirtualDriveIcon(dskPanel.GlyphSize, clBtnFace);
+  btnIndex := dskPanel.AddButtonX(btnCaption, '', '', '', '', '', bmpBitmap);
+  dskPanel.Buttons[btnIndex].Caption:= btnCaption;
+  dskPanel.Buttons[btnIndex].Hint:= actOpenVirtualFileSystemList.Caption;
+  dskPanel.Buttons[btnIndex].GroupIndex := 0;
+  dskPanel.Buttons[btnIndex].Layout := blGlyphLeft;
+  dskPanel.Buttons[btnIndex].OnClick:= @btnVirtualDriveClick;
+  FreeAndNil(bmpBitmap);
+end;
+
 procedure TfrmMain.AddSpecialButtons(dskPanel: TKASToolBar);
 var
   btnIndex : Integer;
@@ -3172,7 +3197,11 @@ begin
     dskPanel.Buttons[I].Layout := blGlyphLeft;
   end; // for
 
-  if not gDriveMenuButton then  {Add special buttons}
+  // Add virtual drive button
+  AddVirtualDriveButton(dskPanel);
+
+  // Add special buttons
+  if not gDriveMenuButton then
     AddSpecialButtons(dskPanel);
 end;
 
