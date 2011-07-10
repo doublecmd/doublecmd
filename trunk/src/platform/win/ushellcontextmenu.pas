@@ -73,7 +73,7 @@ implementation
 
 uses
   LCLProc, Dialogs, uGlobs, uLng, uMyWindows, uShellExecute,
-  fMain;
+  fMain, uDCUtils;
 
 const
   USER_CMD_ID = $1000;
@@ -343,12 +343,12 @@ begin
                   InsertMenuItemEx(hActionsSubMenu,0, nil, 0, 0, MFT_SEPARATOR);
 
                 // now add VIEW item
-                sCmd:= '{!VIEWER} ' + aFile.Path + aFile.Name;
+                sCmd:= '{!VIEWER} ' + QuoteStr(aFile.FullPath);
                 I := sl.Add(sCmd);
                 InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(rsMnuView)), 1, I + USER_CMD_ID, MFT_STRING);
 
                 // now add EDIT item
-                sCmd:= '{!EDITOR} ' + aFile.Path + aFile.Name;
+                sCmd:= '{!EDITOR} ' + QuoteStr(aFile.FullPath);
                 I := sl.Add(sCmd);
                 InsertMenuItemEx(hActionsSubMenu,0, PWChar(UTF8Decode(rsMnuEdit)), 1, I + USER_CMD_ID, MFT_STRING);
               end;
@@ -509,4 +509,4 @@ begin
 end;
 
 end.
-
+
