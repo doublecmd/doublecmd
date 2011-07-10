@@ -354,14 +354,14 @@ begin
               // now add VIEW item
               mi:=TMenuItem.Create(miActions);
               mi.Caption:= rsMnuView;
-              mi.Hint:= '{!VIEWER} ' + aFile.Path + aFile.Name;
+              mi.Hint:= '{!VIEWER} ' + QuoteStr(aFile.FullPath);
               mi.OnClick:=Self.ContextMenuSelect; // handler
               miActions.Add(mi);
 
               // now add EDITconfigure item
               mi:=TMenuItem.Create(miActions);
               mi.Caption:= rsMnuEdit;
-              mi.Hint:= '{!EDITOR} ' + aFile.Path + aFile.Name;
+              mi.Hint:= '{!EDITOR} ' + QuoteStr(aFile.FullPath);
               mi.OnClick:=Self.ContextMenuSelect; // handler
               miActions.Add(mi);
             end;
