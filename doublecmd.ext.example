@@ -147,6 +147,11 @@ Open={!EDITOR} %p
 [sdw]
 Open=soffice %f
 
+# Open Document Format
+[odt|ods|odp]
+Name=Open Document Format
+View={!VIEWER} <?odt2txt %p?>
+
 # AbiWord
 [abw]
 Open=abiword %f
