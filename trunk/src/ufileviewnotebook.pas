@@ -5,7 +5,7 @@ unit uFileViewNotebook;
 interface
 
 uses
-  Classes, SysUtils, Controls, ExtCtrls,
+  Classes, SysUtils, Controls, ComCtrls, ExtCtrls {Lazarus < 31552},
   uFileView, uFilePanelSelect;
 
 type
