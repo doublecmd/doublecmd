@@ -203,8 +203,11 @@ type
 
     {en
        Must be called from the operation thread.
+       @param(DesiredStates
+              If desired state is one of these states the pause is executed.
+              Otherwise nothing happens.)
     }
-    procedure DoPause;
+    procedure DoPauseIfNeeded(DesiredStates: TFileSourceOperationStates);
     {en
        Must be called from the controller thread (GUI).
     }
@@ -507,9 +510,8 @@ begin
     FOperationResult := fsorAborted;
 
     try
-      // Wait for manual start if not started automatically.
-      if GetDesiredState in [fsosNotStarted, fsosPaused] then
-        DoPause;  // wait for start command
+      // Wait for start command if not started automatically.
+      DoPauseIfNeeded([fsosNotStarted, fsosPaused]);
 
       // Check if wasn't aborted while paused.
       CheckOperationState;
@@ -627,9 +629,16 @@ begin
   end;
 end;
 
-procedure TFileSourceOperation.DoPause;
+procedure TFileSourceOperation.DoPauseIfNeeded(DesiredStates: TFileSourceOperationStates);
 begin
-  RTLeventResetEvent(FPauseEvent);
+  FStateLock.Acquire;
+  try
+    if not (GetDesiredState in DesiredStates) then
+      Exit;
+    RTLeventResetEvent(FPauseEvent);
+  finally
+    FStateLock.Release;
+  end;
   RTLeventWaitFor(FPauseEvent); // wait indefinitely
 end;
 
@@ -670,7 +679,7 @@ begin
     fsosPaused:
       begin
         UpdateState(fsosPaused);
-        DoPause;
+        DoPauseIfNeeded([fsosPaused]);
 
         // Check if the operation was unpaused because it is being aborted.
         if GetDesiredState = fsosStopped then
