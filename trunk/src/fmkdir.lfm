@@ -1,7 +1,7 @@
 object frmMkDir: TfrmMkDir
   Left = 366
   Height = 120
-  Top = 546
+  Top = 429
   Width = 509
   ActiveControl = cbMkDir
   AutoSize = True
@@ -13,14 +13,14 @@ object frmMkDir: TfrmMkDir
   KeyPreview = True
   OnKeyPress = FormKeyPress
   Position = poScreenCenter
-  LCLVersion = '0.9.31'
+  LCLVersion = '0.9.30.1'
   object lblMakeDir: TLabel
     AnchorSideLeft.Control = cbMkDir
     AnchorSideTop.Control = Owner
     Left = 6
-    Height = 22
+    Height = 16
     Top = 6
-    Width = 177
+    Width = 164
     BorderSpacing.Top = 6
     Caption = 'Input new directory name:'
     ParentColor = False
@@ -32,17 +32,17 @@ object frmMkDir: TfrmMkDir
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 29
-    Top = 28
+    Height = 27
+    Top = 22
     Width = 497
     Anchors = [akTop, akLeft, akRight]
     AutoComplete = True
-    AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
+    AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactRetainPrefixCase, cbactSearchAscending]
     BorderSpacing.Left = 6
     BorderSpacing.Right = 6
     Constraints.MinWidth = 400
     DropDownCount = 5
-    ItemHeight = 21
+    ItemHeight = 0
     TabOrder = 0
   end
   object btnOK: TBitBtn
@@ -51,8 +51,8 @@ object frmMkDir: TfrmMkDir
     AnchorSideBottom.Control = btnCancel
     AnchorSideBottom.Side = asrBottom
     Left = 297
-    Height = 35
-    Top = 63
+    Height = 36
+    Top = 55
     Width = 100
     Anchors = [akTop, akRight, akBottom]
     AutoSize = True
@@ -73,8 +73,8 @@ object frmMkDir: TfrmMkDir
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 403
-    Height = 35
-    Top = 63
+    Height = 36
+    Top = 55
     Width = 100
     Anchors = [akTop, akRight]
     AutoSize = True
