@@ -435,6 +435,11 @@ msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "OK"
 
+#: TFRMCHECKSUMCALC.CAPTION
+msgctxt "TFRMCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr ""
+
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
 msgid "Create separate checksum file for each file"
 msgstr ""
@@ -442,11 +447,6 @@ msgstr ""
 #: TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT
 msgctxt "TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT"
 msgid "MD5"
-msgstr ""
-
-#: TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION
-msgctxt "TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION"
-msgid "Calculate check sum..."
 msgstr ""
 
 #: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
@@ -545,6 +545,11 @@ msgctxt "TFRMCONFIGTOOLBAR.BTNOPENFILE.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+#: TFRMCONFIGTOOLBAR.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.CAPTION"
+msgid "Change button bar"
+msgstr "Wijzig knoppenbalk"
+
 #: TFRMCONFIGTOOLBAR.CBFLATBUTTONS.CAPTION
 msgid "Flat b&uttons"
 msgstr ""
@@ -552,11 +557,6 @@ msgstr ""
 #: TFRMCONFIGTOOLBAR.CBISSEPARATOR.CAPTION
 msgid "S&eparator"
 msgstr ""
-
-#: TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION
-msgctxt "TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION"
-msgid "Change button bar"
-msgstr "Wijzig knoppenbalk"
 
 #: TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION
 msgid "Appearance"
@@ -941,8 +941,8 @@ msgctxt "TFRMDIFFER.BTNRIGHTENCODING.HINT"
 msgid "Encoding"
 msgstr ""
 
-#: TFRMDIFFER.FRMDIFFER.CAPTION
-msgctxt "TFRMDIFFER.FRMDIFFER.CAPTION"
+#: TFRMDIFFER.CAPTION
+msgctxt "TFRMDIFFER.CAPTION"
 msgid "Compare files"
 msgstr "Vergelijk bestanden"
 
@@ -1306,6 +1306,11 @@ msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "OK"
 
+#: TFRMEXTRACTDLG.CAPTION
+msgctxt "TFRMEXTRACTDLG.CAPTION"
+msgid "Unpack files"
+msgstr "Bestanden uitpakken"
+
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "&Pak paden uit indien opgeslagen met bestanden"
@@ -1321,11 +1326,6 @@ msgstr "Pak elk archief uit in &aparte subdir (naam van het archief)"
 #: TFRMEXTRACTDLG.CBOVERWRITE.CAPTION
 msgid "&Overwrite existing files"
 msgstr "&Overschrijf bestaande bestanden"
-
-#: TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION
-msgctxt "TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION"
-msgid "Unpack files"
-msgstr "Bestanden uitpakken"
 
 #: TFRMEXTRACTDLG.LBLEXTRACTTO.CAPTION
 #, fuzzy
@@ -1487,8 +1487,8 @@ msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
 msgid "&Close"
 msgstr "Sluit"
 
-#: TFRMFILEEXECUTEYOURSELF.FRMFILEEXECUTEYOURSELF.CAPTION
-msgctxt "TFRMFILEEXECUTEYOURSELF.FRMFILEEXECUTEYOURSELF.CAPTION"
+#: TFRMFILEEXECUTEYOURSELF.CAPTION
+msgctxt "TFRMFILEEXECUTEYOURSELF.CAPTION"
 msgid "Wait..."
 msgstr ""
 
@@ -1527,6 +1527,7 @@ msgid "Work in &background"
 msgstr ""
 
 #: TFRMFILEOP.CAPTION
+msgctxt "TFRMFILEOP.CAPTION"
 msgid "Process file(s)"
 msgstr "Proces bestand(en)"
 
@@ -1569,6 +1570,11 @@ msgstr "&OK"
 msgid "Skip"
 msgstr "Skip"
 
+#: TFRMFILEPROPERTIES.CAPTION
+msgctxt "TFRMFILEPROPERTIES.CAPTION"
+msgid "Properties"
+msgstr "Eigenschappen"
+
 #: TFRMFILEPROPERTIES.CBSGID.CAPTION
 msgctxt "TFRMFILEPROPERTIES.CBSGID.CAPTION"
 msgid "SGID"
@@ -1583,11 +1589,6 @@ msgstr "Sticky"
 msgctxt "TFRMFILEPROPERTIES.CBSUID.CAPTION"
 msgid "SUID"
 msgstr "SUID"
-
-#: TFRMFILEPROPERTIES.FRMFILEPROPERTIES.CAPTION
-msgctxt "TFRMFILEPROPERTIES.FRMFILEPROPERTIES.CAPTION"
-msgid "Properties"
-msgstr "Eigenschappen"
 
 #: TFRMFILEPROPERTIES.GBOWNER.CAPTION
 msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
@@ -1811,6 +1812,11 @@ msgstr "Bekijk"
 msgid "Feed to &listbox"
 msgstr "Voeg toe aan &listbox"
 
+#: TFRMFINDDLG.CAPTION
+msgctxt "TFRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "Vindt bestanden"
+
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sens&itive"
 msgstr "Hoofdletter gevoelig"
@@ -1885,11 +1891,6 @@ msgstr "*"
 msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
 msgid "Follow symlinks"
 msgstr ""
-
-#: TFRMFINDDLG.FRMFINDDLG.CAPTION
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Vindt bestanden"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
@@ -2062,8 +2063,8 @@ msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: TFRMLINKER.FRMLINKER.CAPTION
-msgctxt "TFRMLINKER.FRMLINKER.CAPTION"
+#: TFRMLINKER.CAPTION
+msgctxt "TFRMLINKER.CAPTION"
 msgid "Linker"
 msgstr "Linker"
 
@@ -2779,8 +2780,8 @@ msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
 msgid ".."
 msgstr ".."
 
-#: TFRMMAIN.FRMMAIN.CAPTION
-msgctxt "TFRMMAIN.FRMMAIN.CAPTION"
+#: TFRMMAIN.CAPTION
+msgctxt "TFRMMAIN.CAPTION"
 msgid "Double Commander"
 msgstr "Double Commander"
 
@@ -3143,7 +3144,8 @@ msgstr "..."
 msgid "Pr"
 msgstr ""
 
-#: TFRMMODVIEW.FRMMODVIEW.CAPTION
+#: TFRMMODVIEW.CAPTION
+msgctxt "TFRMMODVIEW.CAPTION"
 msgid "New Size"
 msgstr ""
 
@@ -3261,6 +3263,11 @@ msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
 msgid "&Save"
 msgstr "Opslaan"
 
+#: TFRMMULTIRENAME.CAPTION
+msgctxt "TFRMMULTIRENAME.CAPTION"
+msgid "MultiRename"
+msgstr "Meervoudig hernoemen"
+
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 #, fuzzy
 #| msgid "Log"
@@ -3300,11 +3307,6 @@ msgstr "1"
 #| msgid "[E]xtension"
 msgid "[E] Extension"
 msgstr "[E]xtentie"
-
-#: TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION
-msgctxt "TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION"
-msgid "MultiRename"
-msgstr "Meervoudig hernoemen"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
@@ -3649,6 +3651,11 @@ msgstr "..."
 #: TFRMOPTIONS.BTSETHOTKEY.CAPTION
 msgid "Set HotKey"
 msgstr "Zet Hot Key"
+
+#: TFRMOPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.CAPTION"
+msgid "Options"
+msgstr "Opties"
 
 #: TFRMOPTIONS.CBALWAYSSHOWTRAYICON.CAPTION
 msgid "Always show tray icon"
@@ -4013,11 +4020,6 @@ msgstr ""
 msgid "Search/Replace history"
 msgstr ""
 
-#: TFRMOPTIONS.FRMOPTIONS.CAPTION
-msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
-msgid "Options"
-msgstr "Opties"
-
 #: TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION
 msgctxt "TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION"
 msgid "Options"
@@ -4278,6 +4280,11 @@ msgstr "Aantal wissingen:"
 msgid "Categories:"
 msgstr "Kategoriën:"
 
+#: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
+msgctxt "TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION"
+msgid "Drive blacklist:"
+msgstr ""
+
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.HINT
 msgid "Here you can enter one or more drives, separated by \";\"."
 msgstr "Hier kun je één of meer drives ingeven, gescheiden door \";\"."
@@ -4354,24 +4361,19 @@ msgstr "Gebruikers home map"
 msgid "Use stream for search text in files"
 msgstr "Gebruik stream voor zoeken tekst in bestanden"
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
 msgid "Hotkey"
 msgstr ""
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION"
 msgid "Parameters"
 msgstr ""
 
-#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION"
 msgid "Tool"
-msgstr ""
-
-#: TFRMOPTIONS.SUBLABEL.CAPTION
-msgctxt "TFRMOPTIONS.SUBLABEL.CAPTION"
-msgid "Drive blacklist:"
 msgstr ""
 
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
@@ -4574,23 +4576,23 @@ msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "Viewer plug-ins laten formaten zoals plaatjes, rekenbladen en databases etc. zien in Viewer (F3, Ctrl+Q)"
 
-#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
 msgid "Active"
 msgstr "Aktief"
 
-#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION"
 msgid "Plugin"
 msgstr ""
 
-#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION"
 msgid "Registered for"
 msgstr "Geregisreerd voor"
 
-#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION"
 msgid "File name"
 msgstr "Bestandsnaam"
 
@@ -4704,6 +4706,11 @@ msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "OK"
 
+#: TFRMPACKDLG.CAPTION
+msgctxt "TFRMPACKDLG.CAPTION"
+msgid "Pack files"
+msgstr "Bestanden inpakken"
+
 #: TFRMPACKDLG.CBCREATESEPARATEARCHIVES.CAPTION
 msgid "Create separate archives, o&ne per selected file/dir"
 msgstr "Maak aparte archieven, één per geselecteerd bestand/dir"
@@ -4736,11 +4743,6 @@ msgstr ""
 msgid "Also &pack path names (only recursed)"
 msgstr "Ook padnamen toevoegen (alleen recursief)"
 
-#: TFRMPACKDLG.FRMPACKDLG.CAPTION
-msgctxt "TFRMPACKDLG.FRMPACKDLG.CAPTION"
-msgid "Pack files"
-msgstr "Bestanden inpakken"
-
 #: TFRMPACKDLG.LBLPROMPT.CAPTION
 msgid "Pack file(s) to the file:"
 msgstr "Inpakken bestand(en) naar bestand:"
@@ -4762,8 +4764,8 @@ msgstr "Alles uitpakken en uitvoeren"
 msgid "&Unpack and execute"
 msgstr "Uitpakken en uitvoeren"
 
-#: TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION
-msgctxt "TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION"
+#: TFRMPACKINFODLG.CAPTION
+msgctxt "TFRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
 msgstr "Eigenschappen van ingepakt bestand"
 
@@ -4813,6 +4815,11 @@ msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "OK"
 
+#: TFRMSETFILEPROPERTIES.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CAPTION"
+msgid "Change attributes"
+msgstr ""
+
 #: TFRMSETFILEPROPERTIES.CBSGID.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CBSGID.CAPTION"
 msgid "SGID"
@@ -4857,17 +4864,12 @@ msgid "Read only"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.CHKRECURSIVE.CAPTION
-msgid "Recursive"
+msgid "Including subfolders"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION"
 msgid "System"
-msgstr ""
-
-#: TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION
-msgctxt "TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION"
-msgid "Change attributes"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.GBTIMESAMP.CAPTION
@@ -4955,14 +4957,14 @@ msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
 msgid "OK"
 msgstr "OK"
 
+#: TFRMSPLITTER.CAPTION
+msgctxt "TFRMSPLITTER.CAPTION"
+msgid "Splitter"
+msgstr "Splitsen"
+
 #: TFRMSPLITTER.CMBXSIZE.TEXT
 msgid "1457664B - 3.5\""
 msgstr "1457664B - 3.5\""
-
-#: TFRMSPLITTER.FRMSPLITTER.CAPTION
-msgctxt "TFRMSPLITTER.FRMSPLITTER.CAPTION"
-msgid "Splitter"
-msgstr "Splitsen"
 
 #: TFRMSPLITTER.GRBXFILE.CAPTION
 msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
@@ -5058,6 +5060,7 @@ msgid "Remove"
 msgstr "Verwijder"
 
 #: TFRMTWEAKPLUGIN.CAPTION
+msgctxt "TFRMTWEAKPLUGIN.CAPTION"
 msgid "Tweak plugin"
 msgstr "Plug-ins aanpassen"
 
@@ -5270,6 +5273,11 @@ msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
 msgid "Zoom Out"
 msgstr ""
 
+#: TFRMVIEWER.CAPTION
+msgctxt "TFRMVIEWER.CAPTION"
+msgid "Viewer"
+msgstr "Viewer"
+
 #: TFRMVIEWER.CBSLIDESHOW.CAPTION
 msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
 msgid "Slide Show"
@@ -5283,11 +5291,6 @@ msgstr ""
 msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
 msgid "1"
 msgstr "1"
-
-#: TFRMVIEWER.FRMVIEWER.CAPTION
-msgctxt "TFRMVIEWER.FRMVIEWER.CAPTION"
-msgid "Viewer"
-msgstr "Viewer"
 
 #: TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION
 msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
@@ -5574,14 +5577,14 @@ msgctxt "TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION"
 msgid "Up"
 msgstr "Omhoog"
 
+#: TFRMVIEWOPERATIONS.CAPTION
+msgctxt "TFRMVIEWOPERATIONS.CAPTION"
+msgid "File operations"
+msgstr "Bestandshandelingen"
+
 #: TFRMVIEWOPERATIONS.CHKQUEUE.CAPTION
 msgid "Enable queue"
 msgstr ""
-
-#: TFRMVIEWOPERATIONS.FRMVIEWOPERATIONS.CAPTION
-msgctxt "TFRMVIEWOPERATIONS.FRMVIEWOPERATIONS.CAPTION"
-msgid "File operations"
-msgstr "Bestandshandelingen"
 
 #: TFRMVIEWOPERATIONS.GRPALLOPERATION.CAPTION
 msgid "Operations control"

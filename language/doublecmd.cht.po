@@ -435,6 +435,11 @@ msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "確定(&O)"
 
+#: TFRMCHECKSUMCALC.CAPTION
+msgctxt "TFRMCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr "計算校驗..."
+
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
 #, fuzzy
 #| msgid "Create separate MD5/SHA1 files for each file"
@@ -445,11 +450,6 @@ msgstr "為每個檔案建立單獨的MD5/SHA1檔案"
 msgctxt "TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT"
 msgid "MD5"
 msgstr ""
-
-#: TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION
-msgctxt "TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION"
-msgid "Calculate check sum..."
-msgstr "計算校驗..."
 
 #: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
 msgid "Save check sum file(s) to:"
@@ -547,6 +547,11 @@ msgctxt "TFRMCONFIGTOOLBAR.BTNOPENFILE.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+#: TFRMCONFIGTOOLBAR.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.CAPTION"
+msgid "Change button bar"
+msgstr "修改工具欄"
+
 #: TFRMCONFIGTOOLBAR.CBFLATBUTTONS.CAPTION
 msgid "Flat b&uttons"
 msgstr ""
@@ -554,11 +559,6 @@ msgstr ""
 #: TFRMCONFIGTOOLBAR.CBISSEPARATOR.CAPTION
 msgid "S&eparator"
 msgstr ""
-
-#: TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION
-msgctxt "TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION"
-msgid "Change button bar"
-msgstr "修改工具欄"
 
 #: TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION
 msgid "Appearance"
@@ -943,8 +943,8 @@ msgctxt "TFRMDIFFER.BTNRIGHTENCODING.HINT"
 msgid "Encoding"
 msgstr ""
 
-#: TFRMDIFFER.FRMDIFFER.CAPTION
-msgctxt "TFRMDIFFER.FRMDIFFER.CAPTION"
+#: TFRMDIFFER.CAPTION
+msgctxt "TFRMDIFFER.CAPTION"
 msgid "Compare files"
 msgstr "比較檔案"
 
@@ -1306,6 +1306,11 @@ msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "確定"
 
+#: TFRMEXTRACTDLG.CAPTION
+msgctxt "TFRMEXTRACTDLG.CAPTION"
+msgid "Unpack files"
+msgstr "解壓縮檔案"
+
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "如果目錄包含檔案就解壓縮檔案路徑"
@@ -1321,11 +1326,6 @@ msgstr "解壓縮每個檔案到子目錄(名稱用壓縮檔案名)"
 #: TFRMEXTRACTDLG.CBOVERWRITE.CAPTION
 msgid "&Overwrite existing files"
 msgstr "覆蓋已存在檔案(&O)"
-
-#: TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION
-msgctxt "TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION"
-msgid "Unpack files"
-msgstr "解壓縮檔案"
 
 #: TFRMEXTRACTDLG.LBLEXTRACTTO.CAPTION
 #, fuzzy
@@ -1487,8 +1487,8 @@ msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
 msgid "&Close"
 msgstr "關閉(&C)"
 
-#: TFRMFILEEXECUTEYOURSELF.FRMFILEEXECUTEYOURSELF.CAPTION
-msgctxt "TFRMFILEEXECUTEYOURSELF.FRMFILEEXECUTEYOURSELF.CAPTION"
+#: TFRMFILEEXECUTEYOURSELF.CAPTION
+msgctxt "TFRMFILEEXECUTEYOURSELF.CAPTION"
 msgid "Wait..."
 msgstr ""
 
@@ -1527,6 +1527,7 @@ msgid "Work in &background"
 msgstr ""
 
 #: TFRMFILEOP.CAPTION
+msgctxt "TFRMFILEOP.CAPTION"
 msgid "Process file(s)"
 msgstr "處理檔案:"
 
@@ -1569,6 +1570,11 @@ msgstr "確定(&O)"
 msgid "Skip"
 msgstr "跳過"
 
+#: TFRMFILEPROPERTIES.CAPTION
+msgctxt "TFRMFILEPROPERTIES.CAPTION"
+msgid "Properties"
+msgstr "屬性"
+
 #: TFRMFILEPROPERTIES.CBSGID.CAPTION
 msgctxt "TFRMFILEPROPERTIES.CBSGID.CAPTION"
 msgid "SGID"
@@ -1583,11 +1589,6 @@ msgstr "固定"
 msgctxt "TFRMFILEPROPERTIES.CBSUID.CAPTION"
 msgid "SUID"
 msgstr "SUID"
-
-#: TFRMFILEPROPERTIES.FRMFILEPROPERTIES.CAPTION
-msgctxt "TFRMFILEPROPERTIES.FRMFILEPROPERTIES.CAPTION"
-msgid "Properties"
-msgstr "屬性"
 
 #: TFRMFILEPROPERTIES.GBOWNER.CAPTION
 msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
@@ -1811,6 +1812,11 @@ msgstr "檢視(&V)"
 msgid "Feed to &listbox"
 msgstr "發給列表框(&L)"
 
+#: TFRMFINDDLG.CAPTION
+msgctxt "TFRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "查找檔案"
+
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sens&itive"
 msgstr "區分大小寫"
@@ -1884,11 +1890,6 @@ msgstr "*"
 #: TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION
 msgid "Follow symlinks"
 msgstr ""
-
-#: TFRMFINDDLG.FRMFINDDLG.CAPTION
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "查找檔案"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
@@ -2061,8 +2062,8 @@ msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
 msgstr "..."
 
-#: TFRMLINKER.FRMLINKER.CAPTION
-msgctxt "TFRMLINKER.FRMLINKER.CAPTION"
+#: TFRMLINKER.CAPTION
+msgctxt "TFRMLINKER.CAPTION"
 msgid "Linker"
 msgstr "捷徑程式"
 
@@ -2778,8 +2779,8 @@ msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
 msgid ".."
 msgstr ".."
 
-#: TFRMMAIN.FRMMAIN.CAPTION
-msgctxt "TFRMMAIN.FRMMAIN.CAPTION"
+#: TFRMMAIN.CAPTION
+msgctxt "TFRMMAIN.CAPTION"
 msgid "Double Commander"
 msgstr "Double Commander"
 
@@ -3140,7 +3141,8 @@ msgstr "..."
 msgid "Pr"
 msgstr ""
 
-#: TFRMMODVIEW.FRMMODVIEW.CAPTION
+#: TFRMMODVIEW.CAPTION
+msgctxt "TFRMMODVIEW.CAPTION"
 msgid "New Size"
 msgstr ""
 
@@ -3258,6 +3260,11 @@ msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
 msgid "&Save"
 msgstr "保存(&S)"
 
+#: TFRMMULTIRENAME.CAPTION
+msgctxt "TFRMMULTIRENAME.CAPTION"
+msgid "MultiRename"
+msgstr "多檔案改名"
+
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 #, fuzzy
 #| msgid "Log"
@@ -3297,11 +3304,6 @@ msgstr "1"
 #| msgid "[E]xtension"
 msgid "[E] Extension"
 msgstr "[E]xtension"
-
-#: TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION
-msgctxt "TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION"
-msgid "MultiRename"
-msgstr "多檔案改名"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
@@ -3645,6 +3647,11 @@ msgstr "..."
 #: TFRMOPTIONS.BTSETHOTKEY.CAPTION
 msgid "Set HotKey"
 msgstr "設置快捷鍵"
+
+#: TFRMOPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.CAPTION"
+msgid "Options"
+msgstr "選項"
 
 #: TFRMOPTIONS.CBALWAYSSHOWTRAYICON.CAPTION
 msgid "Always show tray icon"
@@ -4016,11 +4023,6 @@ msgstr ""
 msgid "Search/Replace history"
 msgstr ""
 
-#: TFRMOPTIONS.FRMOPTIONS.CAPTION
-msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
-msgid "Options"
-msgstr "選項"
-
 #: TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION
 msgctxt "TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION"
 msgid "Options"
@@ -4281,6 +4283,11 @@ msgstr "擦去數:"
 msgid "Categories:"
 msgstr "類別"
 
+#: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
+msgctxt "TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION"
+msgid "Drive blacklist:"
+msgstr ""
+
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.HINT
 msgid "Here you can enter one or more drives, separated by \";\"."
 msgstr "這裏輸入一個或多個驅動器,以分好分隔(;)"
@@ -4357,24 +4364,19 @@ msgstr "用戶主目錄"
 msgid "Use stream for search text in files"
 msgstr "使用 stream 搜索文字"
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
 msgid "Hotkey"
 msgstr ""
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION"
 msgid "Parameters"
 msgstr ""
 
-#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION"
 msgid "Tool"
-msgstr ""
-
-#: TFRMOPTIONS.SUBLABEL.CAPTION
-msgctxt "TFRMOPTIONS.SUBLABEL.CAPTION"
-msgid "Drive blacklist:"
 msgstr ""
 
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
@@ -4577,23 +4579,23 @@ msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "查看器插件允許查看圖片,電子表格,數據庫等格式(F3, Ctrl+Q)"
 
-#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
 msgid "Active"
 msgstr "啟動"
 
-#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION"
 msgid "Plugin"
 msgstr ""
 
-#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION"
 msgid "Registered for"
 msgstr "註冊給"
 
-#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION"
 msgid "File name"
 msgstr "檔案名"
 
@@ -4707,6 +4709,11 @@ msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "確定"
 
+#: TFRMPACKDLG.CAPTION
+msgctxt "TFRMPACKDLG.CAPTION"
+msgid "Pack files"
+msgstr "壓縮檔案"
+
 #: TFRMPACKDLG.CBCREATESEPARATEARCHIVES.CAPTION
 msgid "Create separate archives, o&ne per selected file/dir"
 msgstr "為選擇的每個檔案/目錄建立單獨的壓縮檔案"
@@ -4739,11 +4746,6 @@ msgstr ""
 msgid "Also &pack path names (only recursed)"
 msgstr "壓縮路徑名(僅有依賴時)(&P)"
 
-#: TFRMPACKDLG.FRMPACKDLG.CAPTION
-msgctxt "TFRMPACKDLG.FRMPACKDLG.CAPTION"
-msgid "Pack files"
-msgstr "壓縮檔案"
-
 #: TFRMPACKDLG.LBLPROMPT.CAPTION
 msgid "Pack file(s) to the file:"
 msgstr "壓縮到一個檔案"
@@ -4765,8 +4767,8 @@ msgstr "解開所有並執行(&A)"
 msgid "&Unpack and execute"
 msgstr "解壓縮並執行(&U)"
 
-#: TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION
-msgctxt "TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION"
+#: TFRMPACKINFODLG.CAPTION
+msgctxt "TFRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
 msgstr "壓縮檔案屬性"
 
@@ -4816,6 +4818,11 @@ msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "確定(&O)"
 
+#: TFRMSETFILEPROPERTIES.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CAPTION"
+msgid "Change attributes"
+msgstr ""
+
 #: TFRMSETFILEPROPERTIES.CBSGID.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CBSGID.CAPTION"
 msgid "SGID"
@@ -4860,17 +4867,12 @@ msgid "Read only"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.CHKRECURSIVE.CAPTION
-msgid "Recursive"
+msgid "Including subfolders"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION"
 msgid "System"
-msgstr ""
-
-#: TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION
-msgctxt "TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION"
-msgid "Change attributes"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.GBTIMESAMP.CAPTION
@@ -4958,14 +4960,14 @@ msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
 msgid "OK"
 msgstr "確定"
 
+#: TFRMSPLITTER.CAPTION
+msgctxt "TFRMSPLITTER.CAPTION"
+msgid "Splitter"
+msgstr "分割"
+
 #: TFRMSPLITTER.CMBXSIZE.TEXT
 msgid "1457664B - 3.5\""
 msgstr "1457664B - 3.5\""
-
-#: TFRMSPLITTER.FRMSPLITTER.CAPTION
-msgctxt "TFRMSPLITTER.FRMSPLITTER.CAPTION"
-msgid "Splitter"
-msgstr "分割"
 
 #: TFRMSPLITTER.GRBXFILE.CAPTION
 msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
@@ -5061,6 +5063,7 @@ msgid "Remove"
 msgstr "移除"
 
 #: TFRMTWEAKPLUGIN.CAPTION
+msgctxt "TFRMTWEAKPLUGIN.CAPTION"
 msgid "Tweak plugin"
 msgstr "Tweak插件"
 
@@ -5271,6 +5274,11 @@ msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
 msgid "Zoom Out"
 msgstr ""
 
+#: TFRMVIEWER.CAPTION
+msgctxt "TFRMVIEWER.CAPTION"
+msgid "Viewer"
+msgstr "查看器"
+
 #: TFRMVIEWER.CBSLIDESHOW.CAPTION
 msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
 msgid "Slide Show"
@@ -5284,11 +5292,6 @@ msgstr ""
 msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
 msgid "1"
 msgstr "1"
-
-#: TFRMVIEWER.FRMVIEWER.CAPTION
-msgctxt "TFRMVIEWER.FRMVIEWER.CAPTION"
-msgid "Viewer"
-msgstr "查看器"
 
 #: TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION
 msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
@@ -5574,14 +5577,14 @@ msgctxt "TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION"
 msgid "Up"
 msgstr "上"
 
+#: TFRMVIEWOPERATIONS.CAPTION
+msgctxt "TFRMVIEWOPERATIONS.CAPTION"
+msgid "File operations"
+msgstr "檔案操作"
+
 #: TFRMVIEWOPERATIONS.CHKQUEUE.CAPTION
 msgid "Enable queue"
 msgstr ""
-
-#: TFRMVIEWOPERATIONS.FRMVIEWOPERATIONS.CAPTION
-msgctxt "TFRMVIEWOPERATIONS.FRMVIEWOPERATIONS.CAPTION"
-msgid "File operations"
-msgstr "檔案操作"
 
 #: TFRMVIEWOPERATIONS.GRPALLOPERATION.CAPTION
 msgid "Operations control"

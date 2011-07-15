@@ -435,6 +435,11 @@ msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Oké"
 
+#: TFRMCHECKSUMCALC.CAPTION
+msgctxt "TFRMCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr "Ellenőrző összeg számítása"
+
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
 #, fuzzy
 #| msgid "Create separate MD5/SHA1 files for each file"
@@ -445,11 +450,6 @@ msgstr "Külön MD5/SHA1 fájlonként"
 msgctxt "TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT"
 msgid "MD5"
 msgstr ""
-
-#: TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION
-msgctxt "TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION"
-msgid "Calculate check sum..."
-msgstr "Ellenőrző összeg számítása"
 
 #: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
 msgid "Save check sum file(s) to:"
@@ -547,6 +547,11 @@ msgctxt "TFRMCONFIGTOOLBAR.BTNOPENFILE.CAPTION"
 msgid ">>"
 msgstr ""
 
+#: TFRMCONFIGTOOLBAR.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.CAPTION"
+msgid "Change button bar"
+msgstr "Gombsor megváltoztatása"
+
 #: TFRMCONFIGTOOLBAR.CBFLATBUTTONS.CAPTION
 msgid "Flat b&uttons"
 msgstr ""
@@ -554,11 +559,6 @@ msgstr ""
 #: TFRMCONFIGTOOLBAR.CBISSEPARATOR.CAPTION
 msgid "S&eparator"
 msgstr ""
-
-#: TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION
-msgctxt "TFRMCONFIGTOOLBAR.FRMCONFIGTOOLBAR.CAPTION"
-msgid "Change button bar"
-msgstr "Gombsor megváltoztatása"
 
 #: TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION
 msgid "Appearance"
@@ -943,8 +943,8 @@ msgctxt "TFRMDIFFER.BTNRIGHTENCODING.HINT"
 msgid "Encoding"
 msgstr ""
 
-#: TFRMDIFFER.FRMDIFFER.CAPTION
-msgctxt "TFRMDIFFER.FRMDIFFER.CAPTION"
+#: TFRMDIFFER.CAPTION
+msgctxt "TFRMDIFFER.CAPTION"
 msgid "Compare files"
 msgstr "Fájlok összehasonlítása"
 
@@ -1306,6 +1306,11 @@ msgctxt "TFRMEXTRACTDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "Oké"
 
+#: TFRMEXTRACTDLG.CAPTION
+msgctxt "TFRMEXTRACTDLG.CAPTION"
+msgid "Unpack files"
+msgstr "Fájlok kibontása"
+
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "Ú&tvonalak kibontása ha a fájlnév tartalmazza"
@@ -1321,11 +1326,6 @@ msgstr "Minden archívum kibontása külön &alkönyvtárakba (archívnév)"
 #: TFRMEXTRACTDLG.CBOVERWRITE.CAPTION
 msgid "&Overwrite existing files"
 msgstr "Létező fájlok &felülírása"
-
-#: TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION
-msgctxt "TFRMEXTRACTDLG.FRMEXTRACTDLG.CAPTION"
-msgid "Unpack files"
-msgstr "Fájlok kibontása"
 
 #: TFRMEXTRACTDLG.LBLEXTRACTTO.CAPTION
 #, fuzzy
@@ -1487,8 +1487,8 @@ msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
 msgid "&Close"
 msgstr "&Bezárás"
 
-#: TFRMFILEEXECUTEYOURSELF.FRMFILEEXECUTEYOURSELF.CAPTION
-msgctxt "TFRMFILEEXECUTEYOURSELF.FRMFILEEXECUTEYOURSELF.CAPTION"
+#: TFRMFILEEXECUTEYOURSELF.CAPTION
+msgctxt "TFRMFILEEXECUTEYOURSELF.CAPTION"
 msgid "Wait..."
 msgstr ""
 
@@ -1527,6 +1527,7 @@ msgid "Work in &background"
 msgstr ""
 
 #: TFRMFILEOP.CAPTION
+msgctxt "TFRMFILEOP.CAPTION"
 msgid "Process file(s)"
 msgstr "Fájl(ok) feldolgozása"
 
@@ -1566,6 +1567,11 @@ msgstr "&Oké"
 msgid "Skip"
 msgstr "Kihagy"
 
+#: TFRMFILEPROPERTIES.CAPTION
+msgctxt "TFRMFILEPROPERTIES.CAPTION"
+msgid "Properties"
+msgstr "Tulajdonságok"
+
 #: TFRMFILEPROPERTIES.CBSGID.CAPTION
 msgctxt "TFRMFILEPROPERTIES.CBSGID.CAPTION"
 msgid "SGID"
@@ -1580,11 +1586,6 @@ msgstr "Ragadós"
 msgctxt "TFRMFILEPROPERTIES.CBSUID.CAPTION"
 msgid "SUID"
 msgstr ""
-
-#: TFRMFILEPROPERTIES.FRMFILEPROPERTIES.CAPTION
-msgctxt "TFRMFILEPROPERTIES.FRMFILEPROPERTIES.CAPTION"
-msgid "Properties"
-msgstr "Tulajdonságok"
 
 #: TFRMFILEPROPERTIES.GBOWNER.CAPTION
 msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
@@ -1807,6 +1808,11 @@ msgstr "&Nézőke"
 msgid "Feed to &listbox"
 msgstr "&Ablakba"
 
+#: TFRMFINDDLG.CAPTION
+msgctxt "TFRMFINDDLG.CAPTION"
+msgid "Find files"
+msgstr "Fájlok keresése"
+
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 #, fuzzy
 #| msgid "Case sensitive"
@@ -1888,11 +1894,6 @@ msgstr ""
 #: TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION
 msgid "Follow symlinks"
 msgstr ""
-
-#: TFRMFINDDLG.FRMFINDDLG.CAPTION
-msgctxt "TFRMFINDDLG.FRMFINDDLG.CAPTION"
-msgid "Find files"
-msgstr "Fájlok keresése"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
@@ -2069,8 +2070,8 @@ msgctxt "TFRMLINKER.BTNSAVE.CAPTION"
 msgid "..."
 msgstr ""
 
-#: TFRMLINKER.FRMLINKER.CAPTION
-msgctxt "TFRMLINKER.FRMLINKER.CAPTION"
+#: TFRMLINKER.CAPTION
+msgctxt "TFRMLINKER.CAPTION"
 msgid "Linker"
 msgstr ""
 
@@ -2784,8 +2785,8 @@ msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
 msgid ".."
 msgstr ""
 
-#: TFRMMAIN.FRMMAIN.CAPTION
-msgctxt "TFRMMAIN.FRMMAIN.CAPTION"
+#: TFRMMAIN.CAPTION
+msgctxt "TFRMMAIN.CAPTION"
 msgid "Double Commander"
 msgstr ""
 
@@ -3146,7 +3147,8 @@ msgstr ""
 msgid "Pr"
 msgstr ""
 
-#: TFRMMODVIEW.FRMMODVIEW.CAPTION
+#: TFRMMODVIEW.CAPTION
+msgctxt "TFRMMODVIEW.CAPTION"
 msgid "New Size"
 msgstr ""
 
@@ -3264,6 +3266,11 @@ msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
 msgid "&Save"
 msgstr "Menté&s"
 
+#: TFRMMULTIRENAME.CAPTION
+msgctxt "TFRMMULTIRENAME.CAPTION"
+msgid "MultiRename"
+msgstr "Csoportos Átnevező"
+
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 #, fuzzy
 #| msgid "Log"
@@ -3303,11 +3310,6 @@ msgstr ""
 #| msgid "[E]xtension"
 msgid "[E] Extension"
 msgstr "Kit[E]rjesztés"
-
-#: TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION
-msgctxt "TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION"
-msgid "MultiRename"
-msgstr "Csoportos Átnevező"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
@@ -3652,6 +3654,11 @@ msgstr ""
 #: TFRMOPTIONS.BTSETHOTKEY.CAPTION
 msgid "Set HotKey"
 msgstr "Gyorsbillentyű beállítása"
+
+#: TFRMOPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.CAPTION"
+msgid "Options"
+msgstr "Opciók"
 
 #: TFRMOPTIONS.CBALWAYSSHOWTRAYICON.CAPTION
 msgid "Always show tray icon"
@@ -4021,11 +4028,6 @@ msgstr ""
 msgid "Search/Replace history"
 msgstr ""
 
-#: TFRMOPTIONS.FRMOPTIONS.CAPTION
-msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
-msgid "Options"
-msgstr "Opciók"
-
 #: TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION
 msgctxt "TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION"
 msgid "Options"
@@ -4287,6 +4289,11 @@ msgstr "Hányszoros legyen a végleges törlés:"
 msgid "Categories:"
 msgstr "Kategóriák:"
 
+#: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
+msgctxt "TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION"
+msgid "Drive blacklist:"
+msgstr ""
+
 #: TFRMOPTIONS.LEDDRIVEBLACKLIST.HINT
 msgid "Here you can enter one or more drives, separated by \";\"."
 msgstr "Itt megadhat egy vagy több meghajtót \";\"-vel elválasztva.\" "
@@ -4363,24 +4370,19 @@ msgstr "Felhasználó saját könyvtára"
 msgid "Use stream for search text in files"
 msgstr "Memóriafolyam használata fájlokban történő kereséskor"
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
 msgid "Hotkey"
 msgstr ""
 
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION"
 msgid "Parameters"
 msgstr ""
 
-#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION
+msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION"
 msgid "Tool"
-msgstr ""
-
-#: TFRMOPTIONS.SUBLABEL.CAPTION
-msgctxt "TFRMOPTIONS.SUBLABEL.CAPTION"
-msgid "Drive blacklist:"
 msgstr ""
 
 #: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
@@ -4583,23 +4585,23 @@ msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
 msgstr "A nézőke beépülők lehetővé teszik, hogy kép, táblázat, adatbázis, stb. formátumot is megtekinthessünk a Nézőkével. (F3, CTRL-Q)"
 
-#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
 msgid "Active"
 msgstr "Aktív"
 
-#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION"
 msgid "Plugin"
 msgstr ""
 
-#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION"
 msgid "Registered for"
 msgstr "Regisztrálva"
 
-#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION
-msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TGRIDCOLUMNTITLE.CAPTION"
+#: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION
+msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION"
 msgid "File name"
 msgstr "Fájlnév"
 
@@ -4713,6 +4715,11 @@ msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "Oké"
 
+#: TFRMPACKDLG.CAPTION
+msgctxt "TFRMPACKDLG.CAPTION"
+msgid "Pack files"
+msgstr "Fájlok tömörítése"
+
 #: TFRMPACKDLG.CBCREATESEPARATEARCHIVES.CAPTION
 msgid "Create separate archives, o&ne per selected file/dir"
 msgstr "Több archívum készítése kijelölt fájlonként/mappánként &egy"
@@ -4745,11 +4752,6 @@ msgstr ""
 msgid "Also &pack path names (only recursed)"
 msgstr "Elérési &utak tárolása az archívumban (csak a rekurzív)"
 
-#: TFRMPACKDLG.FRMPACKDLG.CAPTION
-msgctxt "TFRMPACKDLG.FRMPACKDLG.CAPTION"
-msgid "Pack files"
-msgstr "Fájlok tömörítése"
-
 #: TFRMPACKDLG.LBLPROMPT.CAPTION
 msgid "Pack file(s) to the file:"
 msgstr "Fájl(ok) becsomagolása a fájlba:"
@@ -4771,8 +4773,8 @@ msgstr "Mind kicsomagolása és végreh&ajtás"
 msgid "&Unpack and execute"
 msgstr "Kicsomagolás és &végrehajtás"
 
-#: TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION
-msgctxt "TFRMPACKINFODLG.FRMPACKINFODLG.CAPTION"
+#: TFRMPACKINFODLG.CAPTION
+msgctxt "TFRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
 msgstr "A tömörített fájl tulajdonságai"
 
@@ -4822,6 +4824,11 @@ msgctxt "TFRMSETFILEPROPERTIES.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Oké"
 
+#: TFRMSETFILEPROPERTIES.CAPTION
+msgctxt "TFRMSETFILEPROPERTIES.CAPTION"
+msgid "Change attributes"
+msgstr ""
+
 #: TFRMSETFILEPROPERTIES.CBSGID.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CBSGID.CAPTION"
 msgid "SGID"
@@ -4866,17 +4873,12 @@ msgid "Read only"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.CHKRECURSIVE.CAPTION
-msgid "Recursive"
+msgid "Including subfolders"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION"
 msgid "System"
-msgstr ""
-
-#: TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION
-msgctxt "TFRMSETFILEPROPERTIES.FRMSETFILEPROPERTIES.CAPTION"
-msgid "Change attributes"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.GBTIMESAMP.CAPTION
@@ -4964,14 +4966,14 @@ msgctxt "TFRMSPLITTER.BTNOK.CAPTION"
 msgid "OK"
 msgstr "Oké"
 
+#: TFRMSPLITTER.CAPTION
+msgctxt "TFRMSPLITTER.CAPTION"
+msgid "Splitter"
+msgstr "Vágó"
+
 #: TFRMSPLITTER.CMBXSIZE.TEXT
 msgid "1457664B - 3.5\""
 msgstr ""
-
-#: TFRMSPLITTER.FRMSPLITTER.CAPTION
-msgctxt "TFRMSPLITTER.FRMSPLITTER.CAPTION"
-msgid "Splitter"
-msgstr "Vágó"
 
 #: TFRMSPLITTER.GRBXFILE.CAPTION
 msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
@@ -5067,6 +5069,7 @@ msgid "Remove"
 msgstr "Eltávolít"
 
 #: TFRMTWEAKPLUGIN.CAPTION
+msgctxt "TFRMTWEAKPLUGIN.CAPTION"
 msgid "Tweak plugin"
 msgstr "Beépülő finomhangolása"
 
@@ -5277,6 +5280,11 @@ msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
 msgid "Zoom Out"
 msgstr ""
 
+#: TFRMVIEWER.CAPTION
+msgctxt "TFRMVIEWER.CAPTION"
+msgid "Viewer"
+msgstr "Nézőke"
+
 #: TFRMVIEWER.CBSLIDESHOW.CAPTION
 msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
 msgid "Slide Show"
@@ -5290,11 +5298,6 @@ msgstr ""
 msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
 msgid "1"
 msgstr ""
-
-#: TFRMVIEWER.FRMVIEWER.CAPTION
-msgctxt "TFRMVIEWER.FRMVIEWER.CAPTION"
-msgid "Viewer"
-msgstr "Nézőke"
 
 #: TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION
 msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
@@ -5580,14 +5583,14 @@ msgctxt "TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION"
 msgid "Up"
 msgstr "Fel"
 
+#: TFRMVIEWOPERATIONS.CAPTION
+msgctxt "TFRMVIEWOPERATIONS.CAPTION"
+msgid "File operations"
+msgstr "Fájlműveletek"
+
 #: TFRMVIEWOPERATIONS.CHKQUEUE.CAPTION
 msgid "Enable queue"
 msgstr ""
-
-#: TFRMVIEWOPERATIONS.FRMVIEWOPERATIONS.CAPTION
-msgctxt "TFRMVIEWOPERATIONS.FRMVIEWOPERATIONS.CAPTION"
-msgid "File operations"
-msgstr "Fájlműveletek"
 
 #: TFRMVIEWOPERATIONS.GRPALLOPERATION.CAPTION
 msgid "Operations control"
