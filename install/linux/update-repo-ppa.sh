@@ -38,6 +38,7 @@ update_doublecmd()
   # Remove help files
   rm -rf $DC_SOURCE_DIR/doc/en
   rm -rf $DC_SOURCE_DIR/doc/ru
+  rm -rf $DC_SOURCE_DIR/doc/uk
 
   # Prepare debian directory
   mkdir -p $DC_SOURCE_DIR/debian

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script updates Double Commander openSUSE Build Service (OBS) repository
+# This script updates Double Commander Open Build Service (OBS) repository
 
 # Set Double Commander version
 DC_VER=0.4.6
@@ -36,6 +36,7 @@ update_doublecmd()
   # Remove help files
   rm -rf $DC_SOURCE_DIR/doc/en
   rm -rf $DC_SOURCE_DIR/doc/ru
+  rm -rf $DC_SOURCE_DIR/doc/uk
 
   # Prepare doublecmd-*.spec file
   cp -a rpm/doublecmd-*.spec $DC_TEMP_DIR
