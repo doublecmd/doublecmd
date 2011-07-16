@@ -25,7 +25,8 @@ type
 implementation
 
 uses
-  LCLProc, uFile, uGlobs, Windows, JwaWinNetWk, uDCUtils;
+  LCLProc, uFile, uGlobs, Windows, JwaWinNetWk, uDCUtils, uShowMsg,
+  uFileSourceOperationUI, uOSUtils;
 
 type
   PNetResourceArray = ^TNetResource;
@@ -45,14 +46,14 @@ var
   nFileList: PNetResourceArray;
   dwResult: DWORD;
   dwCount, dwBufferSize: DWORD;
-  hEnum: THandle;
+  hEnum: THandle = INVALID_HANDLE_VALUE;
   lpBuffer: Pointer = nil;
   FilePath: UTF8String;
   FileName: WideString;
 begin
   FFiles.Clear;
   with FWinNetFileSource do
-  begin
+  try
     FillChar(nFile, SizeOf(TNetResource), #0);
     nFile.dwScope:= RESOURCE_GLOBALNET;
     nFile.dwType:= RESOURCETYPE_ANY;
@@ -66,43 +67,43 @@ begin
         2: // Workgroup/Domen
           nFile.lpRemoteName:= PWideChar(FileName);
         3: // Workstation/Server
-          nFile.lpRemoteName:= PWideChar('\\' + FileName);
+          begin
+            nFile.lpRemoteName:= PWideChar('\\' + FileName);
+            dwResult:= WNetAddConnection2W(nFile, nil, nil, CONNECT_INTERACTIVE);
+            if (dwResult <> NO_ERROR) then Exit;
+          end;
       end;
     end;
 
-    try
-      dwResult := WNetOpenEnumW(RESOURCE_GLOBALNET, RESOURCETYPE_ANY, 0, @nFile, hEnum);
-      if (dwResult <> NO_ERROR) then RaiseLastOSError;
-      dwBufferSize := 0;
-      dwCount := DWORD(-1);
-      // Query buffer size for all resources
-      dwResult:= WNetEnumResource(hEnum, dwCount, @nFile, dwBufferSize);
-      if (dwResult <> ERROR_MORE_DATA) then RaiseLastOSError;
-      dwCount := DWORD(-1);
-      // Allocate output buffer
-      GetMem(lpBuffer, dwBufferSize);
-      // Enumerate all resources
-      dwResult:= WNetEnumResource(hEnum, dwCount, lpBuffer, dwBufferSize);
-      if dwResult = ERROR_NO_MORE_ITEMS then Exit;
-      if (dwResult <> NO_ERROR) then RaiseLastOSError;
-      nFileList:= PNetResourceArray(lpBuffer);
-      for I := 0 to dwCount - 1 do
-      begin
-        aFile := TWinNetFileSource.CreateFile(Path);
-        aFile.FullPath:= UTF8Encode(WideString(nFileList^.lpRemoteName));
-        if nFileList^.dwDisplayType in [RESOURCEDISPLAYTYPE_DOMAIN, RESOURCEDISPLAYTYPE_GROUP, RESOURCEDISPLAYTYPE_SERVER] then
-          aFile.Attributes:= FILE_ATTRIBUTE_DIRECTORY;
-        FFiles.Add(aFile);
-        Inc(nFileList);
-      end;
+    dwResult := WNetOpenEnumW(RESOURCE_GLOBALNET, RESOURCETYPE_ANY, 0, @nFile, hEnum);
+    if (dwResult <> NO_ERROR) then Exit;
+    dwCount := DWORD(-1);
+    // 512 Kb must be enough
+    dwBufferSize:= $80000;
+    // Allocate output buffer
+    GetMem(lpBuffer, dwBufferSize);
+    // Enumerate all resources
+    dwResult:= WNetEnumResource(hEnum, dwCount, lpBuffer, dwBufferSize);
+    if dwResult = ERROR_NO_MORE_ITEMS then Exit;
+    if (dwResult <> NO_ERROR) then Exit;
+    nFileList:= PNetResourceArray(lpBuffer);
+    for I := 0 to dwCount - 1 do
+    begin
+      aFile := TWinNetFileSource.CreateFile(Path);
+      aFile.FullPath:= UTF8Encode(WideString(nFileList^.lpRemoteName));
+      if nFileList^.dwDisplayType in [RESOURCEDISPLAYTYPE_DOMAIN, RESOURCEDISPLAYTYPE_GROUP, RESOURCEDISPLAYTYPE_SERVER] then
+        aFile.Attributes:= FILE_ATTRIBUTE_DIRECTORY;
+      FFiles.Add(aFile);
+      Inc(nFileList);
+    end;
 
+  finally
+    if (hEnum <> INVALID_HANDLE_VALUE) then
       dwResult := WNetCloseEnum(hEnum);
-      if dwResult <> NO_ERROR then RaiseLastOSError;
-
-    finally
-      if Assigned(lpBuffer) then
-        FreeMem(lpBuffer);
-    end;
+    if (dwResult <> NO_ERROR) and (dwResult <> ERROR_NO_MORE_ITEMS) then
+      msgError(Thread, mbSysErrorMessage(dwResult));
+    if Assigned(lpBuffer) then
+      FreeMem(lpBuffer);
   end;
 end;
 
