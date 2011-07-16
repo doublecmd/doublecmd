@@ -53,6 +53,7 @@ Source: "doublecmd\default.bar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doublecmd\doublecmd.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doublecmd\editor.col"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doublecmd\pixmaps.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "doublecmd\multiarc.ini"; DestDir: "{app}"; Flags: ignoreversion
 Source: "doublecmd\doc\*"; DestDir: "{app}\doc"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doublecmd\language\*"; DestDir: "{app}\language"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "doublecmd\pixmaps\*"; DestDir: "{app}\pixmaps"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -69,4 +70,5 @@ Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Double Commander";
 
 [Run]
 Filename: "{app}\doublecmd.exe"; Description: "{cm:LaunchProgram,Double Commander}"; Flags: nowait postinstall skipifsilent
+
 
