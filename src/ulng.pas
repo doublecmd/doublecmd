@@ -142,6 +142,8 @@ resourcestring
   rsMsgErrTooManyFiles = 'Too many files to pack';
   rsMsgErrNotSupported = 'Function not supported!';
   rsMsgErrInvalidLink = 'Invalid link';
+  // Vfs
+  rsVfsNetwork = 'Network';
 
   // Buttons.
   rsDlgButtonOK = '&OK';

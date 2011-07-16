@@ -34,7 +34,7 @@ implementation
 
 uses
   LCLProc, fFileExecuteYourSelf, uGlobs, uShellExecute, uFindEx, uDebug,
-  uOSUtils, uShowMsg, uTypes, uLng, uDCUtils,
+  uOSUtils, uShowMsg, uTypes, uLng, uDCUtils, uVfsModule,
   uFileSourceOperation,
   uFileSourceSetFilePropertyOperation,
   uFileSourceExecuteOperation,
@@ -110,11 +110,24 @@ begin
             begin
               // change directory to new path (returned in Operation.SymLinkPath)
               DCDebug('Change directory to ', Operation.SymLinkPath);
-              aFileView.CurrentPath:= Operation.SymLinkPath;
+              with aFileView do
+              begin
+                if (FileSource.IsClass(TFileSystemFileSource)) or
+                   (mbSetCurrentDir(ExcludeTrailingPathDelimiter(Operation.SymLinkPath)) = False) then
+                  begin
+                    // Simply change path
+                    CurrentPath:= Operation.SymLinkPath;
+                  end
+                else
+                  begin
+                    // Get a new filesystem file source
+                    AddFileSource(TFileSystemFileSource.GetFileSource, Operation.SymLinkPath);
+                  end;
+              end;
             end;
-          end;
+          end; // case
           aFileView.Reload;
-        end;
+        end; // assigned
     finally
       FreeAndNil(aFileCopy);
       FreeAndNil(Operation);
@@ -124,6 +137,7 @@ end;
 function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean;
 var
   FileSource: IFileSource;
+  VfsModule: TVfsModule;
 begin
   Result := False;
 
@@ -137,6 +151,18 @@ begin
     FileSource := FileSourceManager.Find(TWfxPluginFileSource, 'wfx://' + aFile.Name);
     if not Assigned(FileSource) then
       FileSource := TWfxPluginFileSource.CreateByRootName(aFile.Name);
+
+    if not Assigned(FileSource) then
+    begin
+      // Check if there is a registered Vfs module by file system root name.
+      VfsModule:= gVfsModuleList.VfsModule[aFile.Name];
+      if Assigned(VfsModule) then
+      begin
+        FileSource := FileSourceManager.Find(VfsModule.FileSourceClass, aFile.Name);
+        if not Assigned(FileSource) then
+          FileSource := VfsModule.FileSourceClass.Create;
+      end;
+    end;
 
     if Assigned(FileSource) then
     begin
@@ -243,4 +269,4 @@ begin
 end;
 
 end.
-
+

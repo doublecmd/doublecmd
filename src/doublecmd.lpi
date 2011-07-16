@@ -203,7 +203,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="116">
+    <Units Count="120">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -314,6 +314,7 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmMkDir"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="fMkDir"/>
       </Unit14>
       <Unit15>
@@ -918,6 +919,26 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConvEncoding"/>
       </Unit115>
+      <Unit116>
+        <Filename Value="uvfsmodule.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uVfsModule"/>
+      </Unit116>
+      <Unit117>
+        <Filename Value="newdesign\uwinnetfilesource.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWinNetFileSource"/>
+      </Unit117>
+      <Unit118>
+        <Filename Value="newdesign\uwinnetlistoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWinNetListOperation"/>
+      </Unit118>
+      <Unit119>
+        <Filename Value="newdesign\uwinnetexecuteoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWinNetExecuteOperation"/>
+      </Unit119>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

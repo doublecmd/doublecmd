@@ -74,7 +74,7 @@ uses
   ExtDlgs, LCLProc, uShellContextMenu
   {$IF DEFINED(MSWINDOWS)}
   , Graphics, ComObj, fMain, uOSUtils, uFileSystemFileSource, uTotalCommander
-  , FileUtil, Windows, ShlObj, uShlObjAdditional
+  , FileUtil, Windows, ShlObj, uShlObjAdditional, uWinNetFileSource, uVfsModule, uLng
   {$ENDIF}
   {$IFDEF UNIX}
   , BaseUnix, fFileProperties
@@ -87,6 +87,7 @@ procedure MainFormCreate(MainForm : TCustomForm);
 {$IFDEF MSWINDOWS}
 begin
   CreateTotalCommanderWindow(MainForm.Handle);
+  RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
 end;
 {$ELSE}
 begin
