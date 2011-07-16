@@ -102,7 +102,12 @@
         <DetectString>EXT="DEB"</DetectString>
       </WdxPlugin>
     </WdxPlugins>
-    <WfxPlugins/>
+    <WfxPlugins>
+      <WfxPlugin Enabled="True">
+        <Name>FTP</Name>
+        <Path>%commander_path%/plugins/wfx/ftp/ftp.wfx</Path>
+      </WfxPlugin>
+    </WfxPlugins>
     <WlxPlugins>
       <WlxPlugin>
         <Name>wlxMplayer</Name>
