@@ -33,3 +33,6 @@ cp -r doc/en   $DC_HELP_INSTALL_DIR/
 
 # Copy Russian help files
 cp -r doc/ru   $DC_HELP_INSTALL_DIR/
+
+# Copy Ukrainian help files
+cp -r doc/uk   $DC_HELP_INSTALL_DIR/
