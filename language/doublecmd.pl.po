@@ -3012,6 +3012,7 @@ msgid "&Mark"
 msgstr "Zaznacz"
 
 #: TFRMMAIN.MNUNETWORK.CAPTION
+msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr "Sieć"
 
@@ -6938,6 +6939,11 @@ msgstr "Lister"
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
 msgstr "Proszę zgłosić ten błąd do systemu śledzenia błędów wraz z opisem wcześniejszych działań i następującym plikiem:%sWciśnij %s aby kontynuować lub %s aby zakończyć program."
+
+#: ulng.rsvfsnetwork
+msgctxt "ulng.rsvfsnetwork"
+msgid "Network"
+msgstr "Sieć"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."

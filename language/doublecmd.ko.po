@@ -3035,6 +3035,7 @@ msgid "&Mark"
 msgstr "선택 표시 (&M)"
 
 #: TFRMMAIN.MNUNETWORK.CAPTION
+msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr ""
 
@@ -7012,6 +7013,11 @@ msgstr "뷰어"
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
+msgstr ""
+
+#: ulng.rsvfsnetwork
+msgctxt "ulng.rsvfsnetwork"
+msgid "Network"
 msgstr ""
 
 #: ulng.rsviewabouttext
