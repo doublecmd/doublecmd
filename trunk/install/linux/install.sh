@@ -55,6 +55,9 @@ mkdir -p $DC_INSTALL_DIR/plugins/wdx
 mkdir -p $DC_INSTALL_DIR/plugins/wdx/scripts
 mkdir -p $DC_INSTALL_DIR/plugins/wdx/rpm_wdx
 mkdir -p $DC_INSTALL_DIR/plugins/wdx/deb_wdx
+# WFX plugins directories
+mkdir -p $DC_INSTALL_DIR/plugins/wfx
+mkdir -p $DC_INSTALL_DIR/plugins/wfx/ftp
 # WLX plugins directories
 mkdir -p $DC_INSTALL_DIR/plugins/wlx
 mkdir -p $DC_INSTALL_DIR/plugins/wlx/wlxmplayer
@@ -84,6 +87,8 @@ install -m 644 plugins/wcx/zip/lib/zip.wcx          $DC_INSTALL_DIR/plugins/wcx/
 install -m 644 plugins/wdx/rpm_wdx/lib/rpm_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/rpm_wdx/
 install -m 644 plugins/wdx/deb_wdx/lib/deb_wdx.wdx  $DC_INSTALL_DIR/plugins/wdx/deb_wdx/
 install -m 755 plugins/wdx/scripts/*                $DC_INSTALL_DIR/plugins/wdx/scripts/
+# WFX
+install -m 644 plugins/wfx/ftp/lib/ftp.wfx          $DC_INSTALL_DIR/plugins/wfx/ftp/
 # WLX
 install -m 644 plugins/wlx/WlxMplayer/lib/wlxmplayer.wlx  $DC_INSTALL_DIR/plugins/wlx/wlxmplayer/
 # DSX
