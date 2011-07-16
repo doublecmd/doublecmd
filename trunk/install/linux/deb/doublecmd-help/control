@@ -25,3 +25,13 @@ Description: Documentation for the Double Commander (Russian)
  designed for use with the external web browsers.
  .
  This package contains the documentation for the DC in Russian.
+
+Package: doublecmd-help-uk
+Architecture: all
+Depends: doublecmd-gtk | doublecmd-qt
+Suggests: www-browser
+Description: Documentation for the Double Commander (Ukrainian)
+ This package contains the documentation files for the Double Commander
+ designed for use with the external web browsers.
+ .
+ This package contains the documentation for the DC in Ukrainian.
