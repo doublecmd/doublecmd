@@ -291,7 +291,7 @@ uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
      uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
      uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation, uFindEx,
-     uTypes, fViewOperations;
+     uTypes, fViewOperations, uVfsModule;
 
 { TActs }
 
@@ -1013,7 +1013,7 @@ var
 begin
   with frmMain do
   begin
-    if gWFXPlugins.Count = 0 then Exit;
+    if (gWFXPlugins.Count = 0) and (gVfsModuleList.Count = 0) then Exit;
     FileSource:= TVfsFileSource.Create(gWFXPlugins);
     if Assigned(FileSource) then
     begin
