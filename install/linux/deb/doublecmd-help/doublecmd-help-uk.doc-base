@@ -1,0 +1,10 @@
+Document: doublecmd-help-uk
+Title: Documentation for the Double Commander (Ukrainian)
+Author: Rustem Rakhimov <dok_rust@bk.ru>, Максим aka Ma$terok
+Abstract: This manual describes how to use Double Commander.
+Section: File Management
+
+Format: HTML
+Index: /usr/share/doublecmd/doc/uk/index.html
+Files: /usr/share/doublecmd/doc/uk/*.html
+
