@@ -91,7 +91,7 @@ esac
 
 # Upload archives to PPA
 cd $DC_TEMP_DIR
-dput ppa:alexx2000/doublecmd $(find -name '*.changes')
+dput -U ppa:alexx2000/doublecmd $(find -name '*.changes')
 
 # Clean
 rm -rf $DC_TEMP_DIR
