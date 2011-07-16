@@ -115,7 +115,7 @@ var
 implementation
 
 uses
-  IniFiles, StrUtils, FtpUtils, FtpConfDlg;
+  IniFiles, StrUtils, FtpUtils, FtpConfDlg, syncobjs;
 
 var
   ActiveConnectionList, ConnectionList: TStringList;
@@ -127,6 +127,7 @@ var
   CryptProc: TCryptProc;
   CryptoNumber: Integer;
   HasDialogAPI: Boolean = False;
+  ListLock: TCriticalSection;
 
 const
   cAddConnection = '<Add connection>';
@@ -239,7 +240,8 @@ var
   sTemp: AnsiString;
 begin
   Result:= False;
-  if ActiveConnectionList.IndexOf(ConnectionName) < 0 then
+  I:= ActiveConnectionList.IndexOf(ConnectionName);
+  if I < 0 then
   begin
     // find in exists connection list
     I:= ConnectionList.IndexOf(ConnectionName);
@@ -284,7 +286,12 @@ begin
           Exit;
         end;
     end;
-  end;
+  end
+  else
+    begin
+      FtpSend:= TFTPSendEx(ActiveConnectionList.Objects[I]);
+      Result:= True;
+    end;
 end;
 
 function AddQuickConnection(const Connection: TConnection): Boolean;
@@ -570,30 +577,34 @@ begin
 
       if Length(sPath) <> 1 then
         sPath := sPath + '/';
-
-      if FtpSend.List(sPath, False) then
-        begin
-          if FtpSend.FtpList.Count > 0 then
-            begin
-              ListRec.FtpList:= TFTPListEx.Create;
-              ListRec.FtpList.Assign(FtpSend.FtpList); // save file list
-              Result := THandle(ListRec);
-              RemoteFindNext(Result, FindData);
-            end
-          else
-            begin
-              Result := THandle(-1);
-              Dispose(ListRec);
-              {$IFDEF MSWINDOWS}
-              SetLastError(ERROR_NO_MORE_FILES);
-              {$ENDIF}
-            end;
-        end
-      else
-        begin
-          Result := THandle(-1);
-          Dispose(ListRec);
-        end;
+      try
+        ListLock.Acquire;
+        if FtpSend.List(sPath, False) then
+          begin
+            if FtpSend.FtpList.Count > 0 then
+              begin
+                ListRec.FtpList:= TFTPListEx.Create;
+                ListRec.FtpList.Assign(FtpSend.FtpList); // save file list
+                Result := THandle(ListRec);
+                RemoteFindNext(Result, FindData);
+              end
+            else
+              begin
+                Result := THandle(-1);
+                Dispose(ListRec);
+                {$IFDEF MSWINDOWS}
+                SetLastError(ERROR_NO_MORE_FILES);
+                {$ENDIF}
+              end;
+          end
+        else
+          begin
+            Result := THandle(-1);
+            Dispose(ListRec);
+          end;
+      finally
+        ListLock.Release;
+      end;
     end;
 end;
 
@@ -643,7 +654,10 @@ begin
         else  // special item
           begin
             if (RemoteName + 1) = cAddConnection then
-              AddConnection
+              begin
+                AddConnection;
+                Result:= FS_EXEC_OK;
+              end
             else if (RemoteName + 1) = cQuickConnection then
               begin
                 if QuickConnection then
@@ -965,5 +979,11 @@ procedure TFTPSendEx.FTPStatus(Sender: TObject; Response: Boolean;
 begin
   LogProc(PluginNumber, msgtype_details, PAnsiChar(Value));
 end;
+
+initialization
+  ListLock := syncobjs.TCriticalSection.Create;
+
+finalization
+  FreeAndNil(ListLock);
 
 end.
