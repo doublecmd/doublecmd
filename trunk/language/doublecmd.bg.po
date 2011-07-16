@@ -3036,6 +3036,7 @@ msgid "&Mark"
 msgstr "&Избор"
 
 #: TFRMMAIN.MNUNETWORK.CAPTION
+msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr "Мрежа"
 
@@ -7010,6 +7011,11 @@ msgstr "Преглед"
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
 msgstr ""
+
+#: ulng.rsvfsnetwork
+msgctxt "ulng.rsvfsnetwork"
+msgid "Network"
+msgstr "Мрежа"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."

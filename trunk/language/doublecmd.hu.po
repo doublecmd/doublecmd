@@ -3023,6 +3023,7 @@ msgid "&Mark"
 msgstr "&Megjelölés"
 
 #: TFRMMAIN.MNUNETWORK.CAPTION
+msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr ""
 
@@ -7009,6 +7010,11 @@ msgstr "Nézőke"
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
+msgstr ""
+
+#: ulng.rsvfsnetwork
+msgctxt "ulng.rsvfsnetwork"
+msgid "Network"
 msgstr ""
 
 #: ulng.rsviewabouttext

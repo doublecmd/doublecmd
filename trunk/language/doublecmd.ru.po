@@ -3035,6 +3035,7 @@ msgid "&Mark"
 msgstr "&Выделение"
 
 #: TFRMMAIN.MNUNETWORK.CAPTION
+msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
 msgstr "Сеть"
 
@@ -6985,6 +6986,11 @@ msgstr "Внутренняя программа просмотра"
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
 msgstr "Пожалуйста сообщите о данной ошибке на багтрекер с описанием того что вы делали и следующим файлом:%sНажмите %s для продолжения работы или %s для выхода из программы."
+
+#: ulng.rsvfsnetwork
+msgctxt "ulng.rsvfsnetwork"
+msgid "Network"
+msgstr "Сеть"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
