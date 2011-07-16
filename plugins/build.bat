@@ -23,7 +23,6 @@ lazbuild wdx\deb_wdx\src\deb_wdx.lpi %DC_ARCH%
 
 rem WFX plugins
 lazbuild wfx\ftp\src\ftp.lpi %DC_ARCH%
-lazbuild wfx\network\src\network.lpi %DC_ARCH%
 
 rem Strip and rename WCX
 pushd wcx\cpio\lib\
@@ -71,11 +70,6 @@ rem Strip and rename WFX
 pushd wfx\ftp\lib\
 strip --strip-all ftp.dll
 rename ftp.dll ftp.wfx
-popd
-
-pushd wfx\network\lib\
-strip --strip-all network.dll
-rename network.dll network.wfx
 popd
 
 rem Return from plugins directory
