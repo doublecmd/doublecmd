@@ -61,6 +61,8 @@ uses
 
 function TWfxPluginCopyInOperation.UpdateProgress(SourceName,TargetName: UTF8String;
                                                   PercentDone: Integer): Integer;
+var
+  iTemp: Int64;
 begin
   Result := 0;
 
@@ -74,11 +76,14 @@ begin
     FStatistics.CurrentFileFrom:= SourceName;
     FStatistics.CurrentFileTo:= TargetName;
 
-    CurrentFileDoneBytes:= CurrentFileTotalBytes * PercentDone div 100;
-    DoneBytes := DoneBytes + CurrentFileDoneBytes;
+    iTemp:= CurrentFileTotalBytes * PercentDone div 100;
+    DoneBytes := DoneBytes + (iTemp - CurrentFileDoneBytes);
+    CurrentFileDoneBytes:= iTemp;
 
     UpdateStatistics(FStatistics);
   end;
+
+  CheckOperationState;
 end;
 
 constructor TWfxPluginCopyInOperation.Create(aSourceFileSource: IFileSource;
@@ -129,8 +134,7 @@ begin
                         @UpdateStatistics,
                         Thread,
                         wpohmCopyIn,
-                        TargetPath,
-                        FStatistics);
+                        TargetPath);
 
   FOperationHelper.RenameMask := RenameMask;
   FOperationHelper.FileExistsOption := FileExistsOption;
@@ -140,7 +144,7 @@ end;
 
 procedure TWfxPluginCopyInOperation.MainExecute;
 begin
-  FOperationHelper.ProcessFiles(FFullFilesTreeToCopy);
+  FOperationHelper.ProcessFiles(FFullFilesTreeToCopy, FStatistics);
 end;
 
 procedure TWfxPluginCopyInOperation.Finalize;

@@ -32,7 +32,6 @@ type
     FRootTargetPath: String;
     FRenameMask: String;
     FRenameNameMask, FRenameExtMask: String;
-    FStatistics: TFileSourceCopyOperationStatistics; // local copy of statistics
     FLogCaption: String;
     FRenamingFiles,
     FInternal: Boolean;
@@ -47,7 +46,7 @@ type
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
     function ProcessDirectory(aFile: TFile; AbsoluteTargetFileName: String): LongInt;
-    function ProcessFile(aFile: TFile; AbsoluteTargetFileName: String): LongInt;
+    function ProcessFile(aFile: TFile; AbsoluteTargetFileName: String; var Statistics: TFileSourceCopyOperationStatistics): LongInt;
 
     function FileExists(aFile: TFile;
                         AbsoluteTargetFileName: String;
@@ -61,13 +60,13 @@ type
                        UpdateStatisticsFunction: TUpdateStatisticsFunction;
                        OperationThread: TThread;
                        Mode: TWfxPluginOperationHelperMode;
-                       TargetPath: String;
-                       StartingStatistics: TFileSourceCopyOperationStatistics);
+                       TargetPath: String
+                       );
     destructor Destroy; override;
 
     procedure Initialize;
 
-    procedure ProcessFiles(aFiles: TFiles);
+    procedure ProcessFiles(aFiles: TFiles; var Statistics: TFileSourceCopyOperationStatistics);
 
     property FileExistsOption: TFileSourceOperationOptionFileExists read FFileExistsOption write FFileExistsOption;
     property RenameMask: String read FRenameMask write FRenameMask;
@@ -170,7 +169,7 @@ begin
 end;
 
 function TWfxPluginOperationHelper.ProcessFile(aFile: TFile;
-  AbsoluteTargetFileName: String): LongInt;
+  AbsoluteTargetFileName: String; var Statistics: TFileSourceCopyOperationStatistics): LongInt;
 var
   iFlags: Integer;
   RemoteInfo: TRemoteInfo;
@@ -180,7 +179,7 @@ var
 begin
   // If there will be an error the DoneBytes value
   // will be inconsistent, so remember it here.
-  OldDoneBytes := FStatistics.DoneBytes;
+  OldDoneBytes := Statistics.DoneBytes;
 
   with FWfxPluginFileSource do
   begin
@@ -219,11 +218,11 @@ begin
       end;
    end;
 
-  with FStatistics do
+  with Statistics do
   begin
     DoneFiles := DoneFiles + 1;
     DoneBytes := OldDoneBytes + (aFile.Properties[fpSize] as TFileSizeProperty).Value;
-    UpdateStatistics(FStatistics);
+    UpdateStatistics(Statistics);
   end;
 end;
 
@@ -283,8 +282,8 @@ constructor TWfxPluginOperationHelper.Create(FileSource: IFileSource;
                                              UpdateStatisticsFunction: TUpdateStatisticsFunction;
                                              OperationThread: TThread;
                                              Mode: TWfxPluginOperationHelperMode;
-                                             TargetPath: String;
-                                             StartingStatistics: TFileSourceCopyOperationStatistics);
+                                             TargetPath: String
+                                             );
 begin
   FWfxPluginFileSource:= FileSource as IWfxPluginFileSource;
   AskQuestion := AskQuestionFunction;
@@ -298,7 +297,6 @@ begin
   FFileExistsOption := fsoofeNone;
   FRootTargetPath := TargetPath;
   FRenameMask := '';
-  FStatistics := StartingStatistics;
   FRenamingFiles := False;
 
   inherited Create;
@@ -324,7 +322,7 @@ begin
   FRenamingFiles := (FRenameMask <> '*.*') and (FRenameMask <> '');
 end;
 
-procedure TWfxPluginOperationHelper.ProcessFiles(aFiles: TFiles);
+procedure TWfxPluginOperationHelper.ProcessFiles(aFiles: TFiles; var Statistics: TFileSourceCopyOperationStatistics);
 var
   I: Integer;
   iResult: LongInt;
@@ -343,7 +341,7 @@ begin
       //DCDebug('Source name == ' + aFile.FullPath);
       //DCDebug('Target name == ' + sTargetFile);
 
-      with FStatistics do
+      with Statistics do
       begin
         CurrentFileFrom := aFile.Path + aFile.Name;
         CurrentFileTo := sTargetFile;
@@ -351,10 +349,10 @@ begin
         CurrentFileDoneBytes := 0;
       end;
 
-      UpdateStatistics(FStatistics);
+      UpdateStatistics(Statistics);
 
       if not aFile.IsDirectory then
-        iResult := ProcessFile(aFile, sTargetFile)
+        iResult := ProcessFile(aFile, sTargetFile, Statistics)
       else
         iResult := ProcessDirectory(aFile, sTargetFile);
 
