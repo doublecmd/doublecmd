@@ -20,6 +20,8 @@ lazbuild wcx\zip\src\zip.lpi %DC_ARCH%
 rem WDX plugins
 lazbuild wdx\rpm_wdx\src\rpm_wdx.lpi %DC_ARCH%
 lazbuild wdx\deb_wdx\src\deb_wdx.lpi %DC_ARCH%
+lazbuild wdx\svn_wdx\src\svn_wdx.lpi %DC_ARCH%
+lazbuild wdx\xpi_wdx\src\xpi_wdx.lpi %DC_ARCH%
 
 rem WFX plugins
 lazbuild wfx\ftp\src\ftp.lpi %DC_ARCH%
@@ -56,6 +58,14 @@ popd
 
 pushd wdx\deb_wdx\lib\
 strip --strip-all deb_wdx.wdx
+popd
+
+pushd wdx\svn_wdx\lib\
+strip --strip-all svn_wdx.wdx
+popd
+
+pushd wdx\xpi_wdx\lib\
+strip --strip-all xpi_wdx.wdx
 popd
 
 rem Strip and rename WFX

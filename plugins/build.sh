@@ -20,6 +20,8 @@ $lazbuild wcx/zip/src/Zip.lpi $DC_ARCH
 # WDX plugins
 $lazbuild wdx/rpm_wdx/src/rpm_wdx.lpi $DC_ARCH
 $lazbuild wdx/deb_wdx/src/deb_wdx.lpi $DC_ARCH
+$lazbuild wdx/svn_wdx/src/svn_wdx.lpi $DC_ARCH
+$lazbuild wdx/xpi_wdx/src/xpi_wdx.lpi $DC_ARCH
 
 # WFX plugins
 $lazbuild wfx/ftp/src/ftp.lpi $DC_ARCH
@@ -62,6 +64,14 @@ cd $pluginsdir
 
 cd wdx/deb_wdx/lib/
 strip --strip-all deb_wdx.wdx
+cd $pluginsdir
+
+cd wdx/svn_wdx/lib/
+strip --strip-all svn_wdx.wdx
+cd $pluginsdir
+
+cd wdx/xpi_wdx/lib/
+strip --strip-all xpi_wdx.wdx
 cd $pluginsdir
 
 # Strip and rename WFX
