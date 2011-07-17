@@ -60,6 +60,8 @@ uses
 
 function TWfxPluginCopyOutOperation.UpdateProgress(SourceName, TargetName: UTF8String;
                                                    PercentDone: Integer): Integer;
+var
+  iTemp: Int64;
 begin
   Result := 0;
 
@@ -73,11 +75,14 @@ begin
     FStatistics.CurrentFileFrom:= SourceName;
     FStatistics.CurrentFileTo:= TargetName;
 
-    CurrentFileDoneBytes:= CurrentFileTotalBytes * PercentDone div 100;
-    DoneBytes := DoneBytes + CurrentFileDoneBytes;
+    iTemp:= CurrentFileTotalBytes * PercentDone div 100;
+    DoneBytes := DoneBytes + (iTemp - CurrentFileDoneBytes);
+    CurrentFileDoneBytes:= iTemp;
 
     UpdateStatistics(FStatistics);
   end;
+
+  CheckOperationState;
 end;
 
 constructor TWfxPluginCopyOutOperation.Create(aSourceFileSource: IFileSource;
@@ -128,8 +133,7 @@ begin
                         @UpdateStatistics,
                         Thread,
                         wpohmCopyOut,
-                        TargetPath,
-                        FStatistics);
+                        TargetPath);
 
   FOperationHelper.RenameMask := RenameMask;
   FOperationHelper.FileExistsOption := FileExistsOption;
@@ -139,7 +143,7 @@ end;
 
 procedure TWfxPluginCopyOutOperation.MainExecute;
 begin
-  FOperationHelper.ProcessFiles(FFullFilesTreeToCopy);
+  FOperationHelper.ProcessFiles(FFullFilesTreeToCopy, FStatistics);
 end;
 
 procedure TWfxPluginCopyOutOperation.Finalize;
