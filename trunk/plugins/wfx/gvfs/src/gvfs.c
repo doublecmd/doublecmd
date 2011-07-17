@@ -1273,7 +1273,7 @@ struct TVFSGlobs * NetworkConnect(gchar *ConnectionName)
       return globs;
     }
   }
-  return NULL;
+  return globs;
 }
 
 gboolean AddQuickConnection(PConnection Connection)
