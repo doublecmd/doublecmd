@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
+    <Version Value="9"/>
     <PathDelim Value="\"/>
-    <Version Value="7"/>
     <General>
+      <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <TargetFileExt Value=".exe"/>
-      <Icon Value="0"/>
-      <UseXPManifest Value="True"/>
-      <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
-      <ProjectVersion Value=""/>
+      <StringTable ProductVersion=""/>
     </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="default" Default="True"/>
+    </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
       <IgnoreBinaries Value="False"/>
@@ -25,126 +25,28 @@
         <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="8">
+    <Units Count="1">
       <Unit0>
         <Filename Value="deb_wdx.dpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="0"/>
-        <UsageCount Value="21"/>
-        <Loaded Value="True"/>
-        <SyntaxHighlighter Value="Delphi"/>
       </Unit0>
-      <Unit1>
-        <Filename Value="gzip.pas"/>
-        <UnitName Value="gzip"/>
-        <CursorPos X="30" Y="11"/>
-        <TopLine Value="1"/>
-        <UsageCount Value="10"/>
-        <SyntaxHighlighter Value="Delphi"/>
-      </Unit1>
-      <Unit2>
-        <Filename Value="debunpak.pas"/>
-        <UnitName Value="debunpak"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
-        <UsageCount Value="10"/>
-        <SyntaxHighlighter Value="Delphi"/>
-      </Unit2>
-      <Unit3>
-        <Filename Value="minigzip.pas"/>
-        <UnitName Value="minigzip"/>
-        <CursorPos X="25" Y="16"/>
-        <TopLine Value="1"/>
-        <UsageCount Value="10"/>
-        <SyntaxHighlighter Value="Delphi"/>
-      </Unit3>
-      <Unit4>
-        <Filename Value="UnTar.pas"/>
-        <UnitName Value="UnTar"/>
-        <CursorPos X="31" Y="109"/>
-        <TopLine Value="1"/>
-        <UsageCount Value="10"/>
-        <SyntaxHighlighter Value="Delphi"/>
-      </Unit4>
-      <Unit5>
-        <Filename Value="deb_wdx_intf.pas"/>
-        <UnitName Value="deb_wdx_intf"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="1"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-        <SyntaxHighlighter Value="Delphi"/>
-      </Unit5>
-      <Unit6>
-        <Filename Value="..\..\..\Alexx\Prog\FreePascal\FPC\2.2.2\src\rtl\objpas\sysutils\osutilsh.inc"/>
-        <CursorPos X="10" Y="32"/>
-        <TopLine Value="1"/>
-        <UsageCount Value="10"/>
-      </Unit6>
-      <Unit7>
-        <Filename Value="contplug.pas"/>
-        <UnitName Value="contplug"/>
-        <CursorPos X="32" Y="8"/>
-        <TopLine Value="1"/>
-        <UsageCount Value="10"/>
-        <SyntaxHighlighter Value="Delphi"/>
-      </Unit7>
     </Units>
-    <JumpHistory Count="9" HistoryIndex="8">
-      <Position1>
-        <Filename Value="deb_wdx_intf.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position1>
-      <Position2>
-        <Filename Value="deb_wdx.dpr"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position2>
-      <Position3>
-        <Filename Value="deb_wdx.dpr"/>
-        <Caret Line="26" Column="1" TopLine="1"/>
-      </Position3>
-      <Position4>
-        <Filename Value="deb_wdx.dpr"/>
-        <Caret Line="16" Column="9" TopLine="1"/>
-      </Position4>
-      <Position5>
-        <Filename Value="deb_wdx.dpr"/>
-        <Caret Line="7" Column="56" TopLine="1"/>
-      </Position5>
-      <Position6>
-        <Filename Value="deb_wdx_intf.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position6>
-      <Position7>
-        <Filename Value="deb_wdx_intf.pas"/>
-        <Caret Line="36" Column="49" TopLine="21"/>
-      </Position7>
-      <Position8>
-        <Filename Value="deb_wdx_intf.pas"/>
-        <Caret Line="36" Column="49" TopLine="1"/>
-      </Position8>
-      <Position9>
-        <Filename Value="deb_wdx.dpr"/>
-        <Caret Line="13" Column="32" TopLine="1"/>
-      </Position9>
-    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="8"/>
+    <Version Value="10"/>
     <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="..\lib\deb_wdx.wdx" ApplyConventions="False"/>
+    </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir)\"/>
-      <OtherUnitFiles Value="..\..\..\..\sdk\"/>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="..\..\..\..\sdk"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
         <SyntaxMode Value="Delphi"/>
         <CStyleOperator Value="False"/>
-        <UseAnsiStrings Value="True"/>
       </SyntaxOptions>
     </Parsing>
     <Linking>
@@ -154,6 +56,9 @@
       </Options>
     </Linking>
     <Other>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
       <ConfigFile>
         <CustomConfigFile Value="True"/>
         <ConfigFilePath Value="fpc-extra.cfg"/>

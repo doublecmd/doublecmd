@@ -1,19 +1,21 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
+    <Version Value="9"/>
     <PathDelim Value="\"/>
-    <Version Value="5"/>
     <General>
+      <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <IconPath Value=".\"/>
-      <TargetFileExt Value=".wcx"/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ResourceType Value="res"/>
     </General>
     <VersionInfo>
-      <ProjectVersion Value=""/>
       <Language Value=""/>
       <CharSet Value=""/>
+      <StringTable ProductVersion=""/>
     </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="default" Default="True"/>
+    </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
       <DestinationDirectory Value="$(TestDir)\publishedproject\"/>
@@ -28,63 +30,34 @@
         <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="4">
+    <Units Count="1">
       <Unit0>
         <Filename Value="deb.dpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="0"/>
-        <UsageCount Value="20"/>
-        <Loaded Value="True"/>
       </Unit0>
-      <Unit1>
-        <Filename Value="deb_io.pas"/>
-        <UnitName Value="deb_io"/>
-        <CursorPos X="9" Y="5"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="1"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-      </Unit1>
-      <Unit2>
-        <Filename Value="deb_archive.pas"/>
-        <UnitName Value="deb_archive"/>
-        <CursorPos X="9" Y="5"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="2"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-      </Unit2>
-      <Unit3>
-        <Filename Value="deb_def.pas"/>
-        <UnitName Value="deb_def"/>
-        <CursorPos X="1" Y="1"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="3"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-      </Unit3>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="5"/>
+    <Version Value="10"/>
     <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="..\lib\deb.wcx" ApplyConventions="False"/>
+    </Target>
     <SearchPaths>
-      <OtherUnitFiles Value="..\..\..\..\sdk\"/>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="..\..\..\..\sdk"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
-        <DelphiCompat Value="True"/>
+        <SyntaxMode Value="Delphi"/>
+        <UseAnsiStrings Value="False"/>
       </SyntaxOptions>
     </Parsing>
     <CodeGeneration>
       <Checks>
         <IOChecks Value="True"/>
       </Checks>
-      <Generate Value="Faster"/>
     </CodeGeneration>
     <Linking>
       <LinkSmart Value="True"/>
@@ -93,68 +66,11 @@
       </Options>
     </Linking>
     <Other>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
       <CustomOptions Value="-fPIC"/>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
-  <Debugging>
-    <BreakPoints Count="14">
-      <Item1>
-        <Source Value="..\..\DC\svn\doublecmd\plugins\DC\svn\doublecmd\mnt\X\linux\lazarus\lcl\include\imglist.inc"/>
-        <Line Value="435"/>
-      </Item1>
-      <Item2>
-        <Source Value="..\..\DC\svn\doublecmd\plugins\DC\svn\doublecmd\uvfsutil.pas"/>
-        <Line Value="98"/>
-      </Item2>
-      <Item3>
-        <Source Value="..\..\DC\svn\doublecmd\plugins\DC\svn\doublecmd\uarcthread.pas"/>
-        <Line Value="97"/>
-      </Item3>
-      <Item4>
-        <Source Value="..\..\DC\svn\doublecmd\plugins\DC\svn\doublecmd\ufileopthread.pas"/>
-        <Line Value="199"/>
-      </Item4>
-      <Item5>
-        <Source Value="..\..\DC\svn\doublecmd\plugins\DC\svn\doublecmd\ucopythread.pas"/>
-        <Line Value="75"/>
-      </Item5>
-      <Item6>
-        <Source Value="..\..\DC\svn\doublecmd\plugins\DC\svn\doublecmd\feditor.pas"/>
-        <Line Value="337"/>
-      </Item6>
-      <Item7>
-        <Source Value="..\..\DC\svn\doublecmd\plugins\DC\svn\doublecmd\ufindex.pas"/>
-        <Line Value="281"/>
-      </Item7>
-      <Item8>
-        <Source Value="..\..\DC\svn\doublecmd\plugins\DC\svn\doublecmd\ufilepanel.pas"/>
-        <Line Value="249"/>
-      </Item8>
-      <Item9>
-        <Source Value="..\..\DC\svn\doublecmd\plugins\DC\svn\doublecmd\ufilepanel.pas"/>
-        <Line Value="217"/>
-      </Item9>
-      <Item10>
-        <Source Value="..\..\DC\svn\doublecmd\plugins\DC\svn\doublecmd\uwcxmodule.pas"/>
-        <Line Value="465"/>
-      </Item10>
-      <Item11>
-        <Source Value="..\..\DC\svn\doublecmd\plugins\DC\svn\doublecmd\ufilepanel.pas"/>
-        <Line Value="365"/>
-      </Item11>
-      <Item12>
-        <Source Value="..\..\DC\svn\doublecmd\plugins\DC\svn\doublecmd\ufilepanel.pas"/>
-        <Line Value="361"/>
-      </Item12>
-      <Item13>
-        <Source Value="..\..\DC\svn\doublecmd\plugins\DC\svn\doublecmd\ufilepanel.pas"/>
-        <Line Value="250"/>
-      </Item13>
-      <Item14>
-        <Source Value="deb_archive.pas"/>
-        <Line Value="85"/>
-      </Item14>
-    </BreakPoints>
-  </Debugging>
 </CONFIG>

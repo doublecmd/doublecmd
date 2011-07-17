@@ -5,10 +5,6 @@ library lzma;
 uses
   lzmafunc;
 
-{$IFDEF WINDOWS}{$R lzma.rc}{$ENDIF}
-
-{$E wcx}
-
 exports
   { Mandatory }
   OpenArchive,

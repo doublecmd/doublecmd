@@ -31,8 +31,6 @@ exports
   }
   SetDlgProc;
 
-{$IFDEF WINDOWS}{$R ftp.rc}{$ENDIF}
-
 begin
 end.
 

@@ -14,7 +14,6 @@
       <Title Value="svn_wdx"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
-      <UseXPManifest Value="True"/>
     </General>
     <VersionInfo>
       <Language Value=""/>
@@ -61,10 +60,10 @@
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="9"/>
+    <Version Value="10"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="..\lib\svn_wdx"/>
+      <Filename Value="..\lib\svn_wdx.wdx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
