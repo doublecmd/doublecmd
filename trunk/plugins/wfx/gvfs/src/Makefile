@@ -12,11 +12,11 @@ VFS_OBJECTS=gvfs.o
 .c.o:
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 gio-2.0 --cflags` -c $<
 
-all shared static: libgvfs_plugin.wfx
+all shared static: gvfs.wfx
 
-libgvfs_plugin.wfx: $(VFS_OBJECTS)
-	$(CC) -shared -o ../lib/libgvfs_plugin.wfx $(VFS_OBJECTS) $(CFLAGS) `pkg-config glib-2.0 gio-2.0 --libs`
+gvfs.wfx: $(VFS_OBJECTS)
+	$(CC) -shared -o ../lib/gvfs.wfx $(VFS_OBJECTS) $(CFLAGS) `pkg-config glib-2.0 gio-2.0 --libs`
 
 clean: 
 	rm -f *.o *.d *.gch
-	rm -f ../lib/libgvfs_plugin.wfx
+	rm -f ../lib/gvfs.wfx
