@@ -1,4 +1,4 @@
-#!/usr/bin/lua
+-- This script reads file descriptions from descript.ion
 
 first=true;
 function ContentGetSupportedField(Index)

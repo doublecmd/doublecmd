@@ -1,5 +1,4 @@
-#!/usr/bin/lua
-
+-- Simple example of how to write wdx-scripts
 
 function ContentSetDefaultParams(IniFileName,PlugApiVerHi,PlugApiVerLow)
   --Initialization code here
