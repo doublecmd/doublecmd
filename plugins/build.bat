@@ -26,50 +26,41 @@ lazbuild wfx\ftp\src\ftp.lpi %DC_ARCH%
 
 rem Strip and rename WCX
 pushd wcx\cpio\lib\
-strip --strip-all cpio.dll
-rename cpio.dll cpio.wcx
+strip --strip-all cpio.wcx
 popd
 
 pushd wcx\deb\lib\
-strip --strip-all deb.dll
-rename deb.dll deb.wcx
+strip --strip-all deb.wcx
 popd
 
 pushd wcx\lzma\lib\
-strip --strip-all lzma.dll
-rename lzma.dll lzma.wcx
+strip --strip-all lzma.wcx
 popd
 
 pushd wcx\rpm\lib\
-strip --strip-all rpm.dll
-rename rpm.dll rpm.wcx
+strip --strip-all rpm.wcx
 popd
 
 pushd wcx\unrar\lib\
-strip --strip-all unrar.dll
-rename unrar.dll unrar.wcx
+strip --strip-all unrar.wcx
 popd
 
 pushd wcx\zip\lib\
-strip --strip-all zip.dll
-rename zip.dll zip.wcx
+strip --strip-all zip.wcx
 popd
 
 rem Strip and rename WDX
 pushd wdx\rpm_wdx\lib\
-strip --strip-all rpm_wdx.dll
-rename rpm_wdx.dll rpm_wdx.wdx
+strip --strip-all rpm_wdx.wdx
 popd
 
 pushd wdx\deb_wdx\lib\
-strip --strip-all deb_wdx.dll
-rename deb_wdx.dll deb_wdx.wdx
+strip --strip-all deb_wdx.wdx
 popd
 
 rem Strip and rename WFX
 pushd wfx\ftp\lib\
-strip --strip-all ftp.dll
-rename ftp.dll ftp.wfx
+strip --strip-all ftp.wfx
 popd
 
 rem Return from plugins directory

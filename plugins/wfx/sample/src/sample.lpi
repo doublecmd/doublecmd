@@ -1,17 +1,19 @@
 <?xml version="1.0"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="7"/>
+    <Version Value="9"/>
     <General>
+      <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <TargetFileExt Value=""/>
-      <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
-      <ProjectVersion Value=""/>
       <Language Value=""/>
       <CharSet Value=""/>
+      <StringTable ProductVersion=""/>
     </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="default" Default="True"/>
+    </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
       <IgnoreBinaries Value="False"/>
@@ -24,54 +26,29 @@
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="5">
+    <Units Count="1">
       <Unit0>
         <Filename Value="sample.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Sample"/>
-        <CursorPos X="40" Y="26"/>
-        <TopLine Value="22"/>
-        <EditorIndex Value="0"/>
-        <UsageCount Value="20"/>
-        <Loaded Value="True"/>
       </Unit0>
-      <Unit1>
-        <Filename Value="ufsplugin.pas"/>
-        <UnitName Value="ufsplugin"/>
-        <CursorPos X="1" Y="252"/>
-        <TopLine Value="238"/>
-        <UsageCount Value="10"/>
-      </Unit1>
-      <Unit2>
-        <Filename Value="uOSUtils.pas"/>
-        <UnitName Value="uOSUtils"/>
-        <CursorPos X="1" Y="64"/>
-        <TopLine Value="56"/>
-        <UsageCount Value="10"/>
-      </Unit2>
-      <Unit3>
-        <Filename Value="uwfxmodule.pas"/>
-        <UnitName Value="uWFXmodule"/>
-        <CursorPos X="3" Y="726"/>
-        <TopLine Value="694"/>
-        <UsageCount Value="10"/>
-      </Unit3>
-      <Unit4>
-        <Filename Value="PLUGIN_TYPES.pas"/>
-        <UnitName Value="PLUGIN_Types"/>
-        <CursorPos X="1" Y="149"/>
-        <TopLine Value="121"/>
-        <UsageCount Value="10"/>
-      </Unit4>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="8"/>
+    <Version Value="10"/>
+    <Target>
+      <Filename Value="../lib/sample.wfx" ApplyConventions="False"/>
+    </Target>
     <SearchPaths>
-      <OtherUnitFiles Value="../../../../sdk/"/>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../../../../sdk"/>
       <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <UseAnsiStrings Value="False"/>
+      </SyntaxOptions>
+    </Parsing>
     <Linking>
       <LinkSmart Value="True"/>
       <Options>
@@ -79,6 +56,9 @@
       </Options>
     </Linking>
     <Other>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
       <CustomOptions Value="-fPIC"/>
       <CompilerPath Value="$(CompPath)"/>
     </Other>

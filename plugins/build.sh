@@ -32,62 +32,51 @@ $lazbuild dsx/DSXLocate/src/DSXLocate.lpi $DC_ARCH
 
 # Strip and rename WCX
 cd wcx/cpio/lib/
-strip --strip-all libcpio.so
-mv libcpio.so cpio.wcx
+strip --strip-all cpio.wcx
 cd $pluginsdir
 
 cd wcx/deb/lib/
-strip --strip-all libdeb.so
-mv libdeb.so deb.wcx
+strip --strip-all deb.wcx
 cd $pluginsdir
 
 cd wcx/lzma/lib/
-strip --strip-all liblzma.so
-mv liblzma.so lzma.wcx
+strip --strip-all lzma.wcx
 cd $pluginsdir
 
 cd wcx/rpm/lib/
-strip --strip-all librpm.so
-mv librpm.so rpm.wcx
+strip --strip-all rpm.wcx
 cd $pluginsdir
 
 cd wcx/unrar/lib/
-strip --strip-all libunrar.so
-mv libunrar.so unrar.wcx
+strip --strip-all unrar.wcx
 cd $pluginsdir
 
 cd wcx/zip/lib/
-strip --strip-all libzip.so
-mv libzip.so zip.wcx
+strip --strip-all zip.wcx
 cd $pluginsdir
 
 # Strip and rename WDX
 cd wdx/rpm_wdx/lib/
-strip --strip-all librpm_wdx.so
-mv librpm_wdx.so rpm_wdx.wdx
+strip --strip-all rpm_wdx.wdx
 cd $pluginsdir
 
 cd wdx/deb_wdx/lib/
-strip --strip-all libdeb_wdx.so
-mv libdeb_wdx.so deb_wdx.wdx
+strip --strip-all deb_wdx.wdx
 cd $pluginsdir
 
 # Strip and rename WFX
 cd wfx/ftp/lib/
-strip --strip-all libftp.so
-mv libftp.so ftp.wfx
+strip --strip-all ftp.wfx
 cd $pluginsdir
 
 # Strip and rename WLX
 cd wlx/WlxMplayer/lib/
-strip --strip-all libwlxmplayer.so
-mv libwlxmplayer.so wlxmplayer.wlx
+strip --strip-all wlxmplayer.wlx
 cd $pluginsdir
 
 # Strip and rename DSX
 cd dsx/DSXLocate/lib/
-strip --strip-all libdsxlocate.so
-mv libdsxlocate.so dsxlocate.dsx
+strip --strip-all dsxlocate.dsx
 cd $pluginsdir
 
 # Return from plugins directory

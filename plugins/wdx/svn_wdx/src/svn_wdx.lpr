@@ -31,8 +31,6 @@ exports
   ContentGetSupportedField  name 'ContentGetSupportedField',
   ContentGetValue           name 'ContentGetValue';
 
-{$R *.res}
-
 begin
 end.
 

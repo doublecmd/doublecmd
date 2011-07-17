@@ -28,8 +28,6 @@ uses
   Classes, xpi_wdx_intf, xpi_def, xpi_io
   { you can add units after this };
 
-{$R xpi_wdx.res}
-
 exports
   ContentGetDetectString    name 'ContentGetDetectString',
   ContentGetSupportedField  name 'ContentGetSupportedField',

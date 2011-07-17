@@ -17,10 +17,6 @@ uses
   WdxPlugin,
   deb_wdx_intf in 'deb_wdx_intf.pas';
 
-{$E wdx}
-
-{$IFDEF WINDOWS}{$R deb_wdx.rc}{$ENDIF}
-
 exports
   ContentGetDetectString    name 'ContentGetDetectString',
   ContentGetSupportedField  name 'ContentGetSupportedField',
