@@ -4,4 +4,3 @@ doublecmd-qt: shlib-with-non-pic-code
 doublecmd-qt: shlib-with-executable-stack
 doublecmd-qt: shared-lib-without-dependency-information
 doublecmd-qt: extra-license-file
-doublecmd-qt: missing-dep-for-interpreter
