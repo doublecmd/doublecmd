@@ -26,7 +26,7 @@ implementation
 
 uses
   LCLProc, uFile, uGlobs, Windows, JwaWinNetWk, uDCUtils, uShowMsg,
-  uFileSourceOperationUI, uOSUtils;
+  uOSUtils;
 
 type
   PNetResourceArray = ^TNetResource;
@@ -62,17 +62,19 @@ begin
     if not IsPathAtRoot(Path) then
     begin
       FilePath:= ExcludeTrailingPathDelimiter(Path);
-      FileName:= UTF8Decode(ExtractFileName(FilePath));
-      case NumCountChars(PathDelim, FilePath) of
-        2: // Workgroup/Domen
+      // Workstation/Server
+      if Pos('\\', FilePath) = 1 then
+        begin
+          FileName:= UTF8Decode(FilePath);
           nFile.lpRemoteName:= PWideChar(FileName);
-        3: // Workstation/Server
-          begin
-            nFile.lpRemoteName:= PWideChar('\\' + FileName);
-            dwResult:= WNetAddConnection2W(nFile, nil, nil, CONNECT_INTERACTIVE);
-            if (dwResult <> NO_ERROR) then Exit;
-          end;
-      end;
+          dwResult:= WNetAddConnection2W(nFile, nil, nil, CONNECT_INTERACTIVE);
+          if (dwResult <> NO_ERROR) then Exit;
+        end
+      else // Domain/Workgroup
+        begin
+          FileName:= UTF8Decode(ExcludeFrontPathDelimiter(FilePath));
+          nFile.lpRemoteName:= PWideChar(FileName);
+        end;
     end;
 
     dwResult := WNetOpenEnumW(RESOURCE_GLOBALNET, RESOURCETYPE_ANY, 0, @nFile, hEnum);
@@ -91,8 +93,6 @@ begin
     begin
       aFile := TWinNetFileSource.CreateFile(Path);
       aFile.FullPath:= UTF8Encode(WideString(nFileList^.lpRemoteName));
-      if nFileList^.dwDisplayType in [RESOURCEDISPLAYTYPE_DOMAIN, RESOURCEDISPLAYTYPE_GROUP, RESOURCEDISPLAYTYPE_SERVER] then
-        aFile.Attributes:= FILE_ATTRIBUTE_DIRECTORY;
       FFiles.Add(aFile);
       Inc(nFileList);
     end;
