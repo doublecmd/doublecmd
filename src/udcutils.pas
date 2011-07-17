@@ -233,6 +233,10 @@ procedure ChangeFileListRoot(sNewRootPath: String; Files: TFiles);
 function ExtractDirLevel(const sPrefix, sPath: String): String;
 
 {en
+   Adds a path delimiter at the beginning of the string, if it not exists.
+}
+function IncludeFrontPathDelimiter(s: String): String;
+{en
    Removes a path delimiter at the beginning of the string, if it exists.
 }
 function ExcludeFrontPathDelimiter(s: String): String;
@@ -941,6 +945,14 @@ begin
   end
   else
     Result := sPath;
+end;
+
+function IncludeFrontPathDelimiter(s: String): String;
+begin
+  if (Length(s) > 0) and (s[1] = PathDelim) then
+    Result:= s
+  else
+    Result:= PathDelim + s;
 end;
 
 function ExcludeFrontPathDelimiter(s: String): String;

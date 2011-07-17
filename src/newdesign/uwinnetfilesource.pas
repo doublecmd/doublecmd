@@ -33,8 +33,7 @@ type
   public
     constructor Create; override;
 
-    function IsPathAtRoot(Path: String): Boolean; override;
-    function GetRootDir(sPath : String): String; override;
+    function GetParentDir(sPath : String): String; override;
 
     class function CreateFile(const APath: String): TFile; override;
 
@@ -54,16 +53,41 @@ implementation
 
 uses
   LCLProc, uWinNetListOperation, uWinNetExecuteOperation,
-  Windows, JwaWinNetWk, uVfsModule;
+  Windows, JwaWinNetWk, uVfsModule, uShowMsg, uOSUtils, uDCUtils;
 
-function TWinNetFileSource.IsPathAtRoot(Path: String): Boolean;
+function TWinNetFileSource.GetParentDir(sPath: String): String;
+var
+  nFile: TNetResourceW;
+  lpBuffer: array [0..4095] of Byte;
+  ParentPath: TNetResourceW absolute lpBuffer;
+  dwBufferSize: DWORD;
+  dwResult: DWORD;
+  FilePath: WideString;
 begin
-  Result:= (Path = GetRootDir)
-end;
-
-function TWinNetFileSource.GetRootDir(sPath: String): String;
-begin
-  Result:= '\\';
+  Result:= GetRootDir;
+  if Pos('\\', sPath) = 1 then
+  begin
+    FilePath:= UTF8Decode(ExcludeTrailingPathDelimiter(sPath));
+    FillByte(nFile, SizeOf(TNetResourceW), 0);
+    with nFile do
+    begin
+      dwScope := RESOURCE_GLOBALNET;
+      dwType := RESOURCETYPE_DISK;
+      dwDisplayType := RESOURCEDISPLAYTYPE_SERVER;
+      dwUsage := RESOURCEUSAGE_CONTAINER;
+      lpRemoteName := PWideChar(FilePath);
+      lpProvider := @FProviderName;
+    end;
+    dwBufferSize:= SizeOf(lpBuffer);
+    dwResult := WNetGetResourceParentW(nFile, @lpBuffer, dwBufferSize);
+    if dwResult <> NO_ERROR then
+      msgError(mbSysErrorMessage(GetLastError))
+    else
+      begin
+        FilePath:= WideString(ParentPath.lpRemoteName);
+        Result := IncludeFrontPathDelimiter(UTF8Encode(FilePath));
+      end;
+  end;
 end;
 
 class function TWinNetFileSource.CreateFile(const APath: String): TFile;
@@ -101,11 +125,11 @@ end;
 
 constructor TWinNetFileSource.Create;
 var
-  lpBufferSize: DWORD;
+  dwBufferSize: DWORD;
 begin
   inherited Create;
-  lpBufferSize:= MAX_PATH;
-  if WNetGetProviderNameW(WNNC_NET_LANMAN, @FProviderName, lpBufferSize) <> NO_ERROR then
+  dwBufferSize:= MAX_PATH;
+  if WNetGetProviderNameW(WNNC_NET_LANMAN, @FProviderName, dwBufferSize) <> NO_ERROR then
     RaiseLastOSError;
 end;
 
