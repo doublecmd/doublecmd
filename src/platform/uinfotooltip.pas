@@ -59,15 +59,16 @@ function GetFileInfoToolTip(aFileSource: IFileSource; const aFile: TFile): UTF8S
 
   function GetDefaultToolTip(const Hint: UTF8String): UTF8String;
   begin
+    Result:= Hint;
     if fpModificationTime in aFile.SupportedProperties then
       with (aFile.Properties[fpModificationTime] as TFileModificationDateTimeProperty) do
-      Result:= IfThen(Hint = EmptyStr, EmptyStr, Hint + LineEnding) + GetDescription + #58#32 +  AsString;
+      Result:= IfThen(Result = EmptyStr, EmptyStr, Result + LineEnding) + GetDescription + #58#32 +  AsString;
     if fpSize in aFile.SupportedProperties then
       with (aFile.Properties[fpSize] as TFileSizeProperty) do
-      Result:= IfThen(Hint = EmptyStr, EmptyStr, Hint + LineEnding) + GetDescription + #58#32 + AsString;
+      Result:= IfThen(Result = EmptyStr, EmptyStr, Result + LineEnding) + GetDescription + #58#32 + AsString;
     if fpCompressedSize in aFile.SupportedProperties then
       with (aFile.Properties[fpCompressedSize] as TFileCompressedSizeProperty) do
-      Result:= IfThen(Hint = EmptyStr, EmptyStr, Hint + LineEnding) + GetDescription + #58#32 + AsString;
+      Result:= IfThen(Result = EmptyStr, EmptyStr, Result + LineEnding) + GetDescription + #58#32 + AsString;
   end;
 
 begin
