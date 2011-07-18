@@ -77,7 +77,7 @@ begin
         end;
     end;
 
-    dwResult := WNetOpenEnumW(RESOURCE_GLOBALNET, RESOURCETYPE_ANY, 0, @nFile, hEnum);
+    dwResult := WNetOpenEnumW(RESOURCE_GLOBALNET, RESOURCETYPE_DISK, 0, @nFile, hEnum);
     if (dwResult <> NO_ERROR) then Exit;
     dwCount := DWORD(-1);
     // 512 Kb must be enough
