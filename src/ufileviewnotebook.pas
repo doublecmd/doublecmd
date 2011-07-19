@@ -429,13 +429,13 @@ end;
 
 procedure TFileViewNotebook.DragOverEvent(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
 var
-  TabIndex: Integer;
+  ATabIndex: Integer;
 begin
   if (Source is TFileViewNotebook) and (Sender is TFileViewNotebook) then
   begin
-    TabIndex := TabIndexAtClientPos(Classes.Point(X, Y));
-    Accept := (TabIndex <> -1) and
-              ((Source <> Sender) or (TabIndex <> FDraggedPageIndex));
+    ATabIndex := TabIndexAtClientPos(Classes.Point(X, Y));
+    Accept := (ATabIndex <> -1) and
+              ((Source <> Sender) or (ATabIndex <> FDraggedPageIndex));
   end
   else
     Accept := False;
@@ -444,19 +444,19 @@ end;
 procedure TFileViewNotebook.DragDropEvent(Sender, Source: TObject; X, Y: Integer);
 var
   SourceNotebook: TFileViewNotebook;
-  TabIndex: Integer;
+  ATabIndex: Integer;
   NewPage, DraggedPage: TFileViewPage;
 begin
   if (Source is TFileViewNotebook) and (Sender is TFileViewNotebook) then
   begin
-    TabIndex := TabIndexAtClientPos(Classes.Point(X, Y));
-    if TabIndex = -1 then
+    ATabIndex := TabIndexAtClientPos(Classes.Point(X, Y));
+    if ATabIndex = -1 then
       Exit;
 
     if Source = Sender then
     begin
       // Move within the same panel.
-      Pages.Move(FDraggedPageIndex, TabIndex);
+      Pages.Move(FDraggedPageIndex, ATabIndex);
     end
     else
     begin
@@ -465,7 +465,7 @@ begin
       DraggedPage := SourceNotebook.Page[SourceNotebook.FDraggedPageIndex];
 
       // Create a clone of the page in the panel.
-      NewPage := InsertPage(TabIndex, DraggedPage.Caption);
+      NewPage := InsertPage(ATabIndex, DraggedPage.Caption);
       DraggedPage.FileView.Clone(NewPage);
       NewPage.MakeActive;
 
