@@ -373,11 +373,11 @@ begin
     IconMinSize:= IniFile.ReadInteger(sIconDirName, 'MinSize', IconSize);
     IconThreshold:= IniFile.ReadInteger(sIconDirName, 'Threshold', 2);
 
-    if IconTypeStr = 'Fixed' then
+    if SameText(IconTypeStr, 'Fixed') then
       IconType:= itFixed
-    else if IconTypeStr = 'Scalable' then
+    else if SameText(IconTypeStr, 'Scalable') then
       IconType:= itScalable
-    else if IconTypeStr = 'Threshold' then
+    else if SameText(IconTypeStr, 'Threshold') then
       IconType:= itThreshold
     else
       begin
