@@ -452,6 +452,7 @@ end;
 destructor TFileView.Destroy;
 var
   i: Integer;
+  DbgWorkersThread: TFunctionThread;
 begin
   for i := 0 to FileSourcesCount - 1 do
     FHistory.FileSource[i].RemoveReloadEventListener(@ReloadEvent);
@@ -463,8 +464,9 @@ begin
     // Wait until all the workers finish.
     FWorkersThread.Finish;
     DCDebug('Waiting for workers thread ', hexStr(FWorkersThread));
+    DbgWorkersThread := FWorkersThread;
     TFunctionThread.Finalize(FWorkersThread);
-    DCDebug('Finalized workers thread ', hexStr(FWorkersThread));
+    DCDebug('Finalized workers thread   ', hexStr(DbgWorkersThread));
   end;
 
   // Now all the workers can be safely freed.
