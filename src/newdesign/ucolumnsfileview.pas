@@ -2873,13 +2873,25 @@ end;
 procedure TColumnsFileView.AfterMakeFileList;
 var
   i: Integer;
+  OldSelection: TStringHashList;
 begin
   inherited;
 
-  // Restore last selection on reload.
+  OldSelection := FCurrentSelection;
+  FCurrentSelection := TStringHashList.Create(True);
+
+  // Restore last selection on reload and remove not existing files from the selection.
   for I := 0 to FFiles.Count - 1 do
     with FFiles[I] do
-      Selected := (FCurrentSelection.Find(FSFile.Name) >= 0);
+    begin
+      if OldSelection.Find(FSFile.Name) >= 0 then
+      begin
+        Selected := True;
+        FCurrentSelection.Add(FSFile.Name);
+      end;
+    end;
+
+  OldSelection.Free;
 
   tmClearGrid.Enabled := False;
   DisplayFileListHasChanged;
