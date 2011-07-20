@@ -2806,6 +2806,8 @@ begin
 end;
 
 procedure TColumnsFileView.CloneTo(FileView: TFileView);
+var
+  i: Integer;
 begin
   if Assigned(FileView) then
   begin
@@ -2823,6 +2825,12 @@ begin
       end;
 
       FColumnsSorting := Self.FColumnsSorting.Clone;
+
+      for i := 0 to Self.FSavedSelection.Count - 1 do
+        FSavedSelection.Add(Self.FSavedSelection.Strings[i]);
+
+      for i := 0 to Self.FCurrentSelection.Count - 1 do
+        FCurrentSelection.Add(Self.FCurrentSelection.List[i]^.Key);
 
       ActiveColm := Self.ActiveColm;
       ActiveColmSlave := nil;    // set to nil because only used in preview?
