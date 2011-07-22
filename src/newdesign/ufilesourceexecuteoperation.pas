@@ -33,7 +33,7 @@ type
     FVerb: UTF8String;
 
   protected
-    FSymLinkPath: UTF8String;
+    FResultString: UTF8String;
     FExecuteOperationResult: TFileSourceExecuteOperationResult;
     function GetID: TFileSourceOperationType; override;
     procedure UpdateStatisticsAtStartTime; override;
@@ -57,7 +57,7 @@ type
 
     property CurrentPath: UTF8String read FCurrentPath;
     property ExecutableFile: TFile read FExecutableFile;
-    property SymLinkPath: UTF8String read FSymLinkPath write FSymLinkPath;
+    property ResultString: UTF8String read FResultString write FResultString;
     property AbsolutePath: UTF8String read FAbsolutePath;
     property RelativePath: UTF8String read FRelativePath;
     property Verb: UTF8String read FVerb;

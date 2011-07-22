@@ -93,7 +93,7 @@ begin
           case Operation.ExecuteOperationResult of
           fseorError:
             // Show error message
-            DCDebug('Execution error!');
+            msgError(Operation.ResultString);
           fseorYourSelf:
             begin
               // Copy out file to temp file system and execute
@@ -108,20 +108,20 @@ begin
             end;
           fseorSymLink:
             begin
-              // change directory to new path (returned in Operation.SymLinkPath)
-              DCDebug('Change directory to ', Operation.SymLinkPath);
+              // change directory to new path (returned in Operation.ResultString)
+              DCDebug('Change directory to ', Operation.ResultString);
               with aFileView do
               begin
                 if (FileSource.IsClass(TFileSystemFileSource)) or
-                   (mbSetCurrentDir(ExcludeTrailingPathDelimiter(Operation.SymLinkPath)) = False) then
+                   (mbSetCurrentDir(ExcludeTrailingPathDelimiter(Operation.ResultString)) = False) then
                   begin
                     // Simply change path
-                    CurrentPath:= Operation.SymLinkPath;
+                    CurrentPath:= Operation.ResultString;
                   end
                 else
                   begin
                     // Get a new filesystem file source
-                    AddFileSource(TFileSystemFileSource.GetFileSource, Operation.SymLinkPath);
+                    AddFileSource(TFileSystemFileSource.GetFileSource, Operation.ResultString);
                   end;
               end;
             end;

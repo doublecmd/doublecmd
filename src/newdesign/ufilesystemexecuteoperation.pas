@@ -60,7 +60,7 @@ end;
 procedure TFileSystemExecuteOperation.MainExecute;
 begin
   // if file is link to folder then return fseorSymLink
-  if FileIsLinkToFolder(AbsolutePath, FSymLinkPath) then
+  if FileIsLinkToFolder(AbsolutePath, FResultString) then
   begin
     FExecuteOperationResult:= fseorSymLink;
     Exit;
