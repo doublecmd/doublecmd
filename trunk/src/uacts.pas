@@ -2455,6 +2455,12 @@ var
 begin
   with frmMain do
   begin
+    if not (fsoCalcStatistics in ActiveFrame.FileSource.GetOperationsTypes) then
+      begin
+        msgWarning(rsMsgErrNotSupported);
+        Exit;
+      end;
+
     SelectedFiles := ActiveFrame.CloneSelectedFiles;
     try
       Operation := ActiveFrame.FileSource.CreateCalcStatisticsOperation(SelectedFiles);
