@@ -96,6 +96,7 @@ begin
 
   with Result do
   begin
+    AttributesProperty := TNtfsFileAttributesProperty.Create;
     CommentProperty:= TFileCommentProperty.Create;
   end;
 end;
@@ -118,7 +119,7 @@ end;
 function TWinNetFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
 begin
   Result := inherited GetSupportedFileProperties +
-            [fpComment];
+            [fpAttributes, fpComment];
 end;
 
 constructor TWinNetFileSource.Create;
