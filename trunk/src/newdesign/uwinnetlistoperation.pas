@@ -67,8 +67,6 @@ begin
         begin
           FileName:= UTF8Decode(FilePath);
           nFile.lpRemoteName:= PWideChar(FileName);
-          dwResult:= WNetAddConnection2W(nFile, nil, nil, CONNECT_INTERACTIVE);
-          if (dwResult <> NO_ERROR) then Exit;
         end
       else // Domain/Workgroup
         begin
@@ -77,7 +75,7 @@ begin
         end;
     end;
 
-    dwResult := WNetOpenEnumW(RESOURCE_GLOBALNET, RESOURCETYPE_DISK, 0, @nFile, hEnum);
+    dwResult := WNetOpenEnumW(RESOURCE_GLOBALNET, RESOURCETYPE_ANY, 0, @nFile, hEnum);
     if (dwResult <> NO_ERROR) then Exit;
     dwCount := DWORD(-1);
     // 512 Kb must be enough
@@ -93,6 +91,7 @@ begin
     begin
       aFile := TWinNetFileSource.CreateFile(Path);
       aFile.FullPath:= UTF8Encode(WideString(nFileList^.lpRemoteName));
+      aFile.CommentProperty.Value:= UTF8Encode(WideString(nFileList^.lpComment));
       FFiles.Add(aFile);
       Inc(nFileList);
     end;
