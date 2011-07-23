@@ -11,9 +11,11 @@ exports
   FsFindFirst,
   FsFindNext,
   FsFindClose,
+  FsRenMovFile,
   FsDeleteFile,
   FsMkDir,
-  FsRemoveDir;
+  FsRemoveDir,
+  FsGetDefRootName;
 
 begin
 end.
