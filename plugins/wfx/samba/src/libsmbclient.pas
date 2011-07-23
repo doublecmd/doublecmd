@@ -77,6 +77,7 @@ type
   smbc_rmdir_fn = function(durl: PAnsiChar): LongInt; cdecl;
   smbc_stat_fn = function(url: PAnsiChar; st: PStat): LongInt; cdecl;
   smbc_getxattr_fn = function(url, name: PAnsiChar; value: Pointer; size: size_t): LongInt; cdecl;
+  smbc_utimes_fn = function(url: PAnsiChar; tbuf: ptimeval): LongInt; cdecl;
 
 var
    smbc_init: smbc_init_fn;
@@ -94,6 +95,7 @@ var
    smbc_rmdir: smbc_rmdir_fn;
    smbc_stat: smbc_stat_fn;
    smbc_getxattr: smbc_getxattr_fn;
+   smbc_utimes: smbc_utimes_fn;
 
 function LoadSambaLibrary: Boolean;
 
@@ -126,6 +128,7 @@ begin
       @smbc_rename:= GetProcAddress(hSamba, 'smbc_rename');
       @smbc_stat:= GetProcAddress(hSamba, 'smbc_stat');
       @smbc_getxattr:= GetProcAddress(hSamba, 'smbc_getxattr');
+      @smbc_utimes:= GetProcAddress(hSamba, 'smbc_utimes');
     end;
   end;
   Result:= (hSamba <> 0);

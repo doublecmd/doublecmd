@@ -45,6 +45,8 @@ function FsDeleteFile(RemoteName: PAnsiChar): BOOL; stdcall;
 function FsMkDir(RemoteDir: PAnsiChar): BOOL; stdcall;
 function FsRemoveDir(RemoteName: PAnsiChar): BOOL; stdcall;
 
+function FsSetTime(RemoteName: PAnsiChar; CreationTime, LastAccessTime, LastWriteTime: PFileTime): BOOL; stdcall;
+
 procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
 
 implementation
@@ -435,6 +437,36 @@ var
 begin
   RemDir:= BuildNetworkPath(RemoteName);
   Result:= smbc_rmdir(PChar(RemDir)) = 0;
+end;
+
+function FsSetTime(RemoteName: PAnsiChar; CreationTime, LastAccessTime, LastWriteTime: PFileTime): BOOL; stdcall;
+var
+  FileName: String;
+  tbuf: array[0..1] of timeval;
+  FileInfo: BaseUnix.Stat;
+begin
+  FileName:= BuildNetworkPath(RemoteName);
+  if (LastAccessTime = nil) or (LastWriteTime = nil) then
+    begin
+      if smbc_stat(PChar(FileName), @FileInfo) < 0 then
+        Exit(False);
+
+      if (LastAccessTime = nil) then
+        tbuf[0].tv_sec:= FileInfo.st_atime
+      else
+        tbuf[0].tv_sec:= FileTimeToUnixTime(LastAccessTime^);
+
+      if (LastWriteTime = nil) then
+        tbuf[1].tv_sec:= FileInfo.st_mtime
+      else
+        tbuf[1].tv_sec:= FileTimeToUnixTime(LastWriteTime^);
+    end
+  else
+    begin
+      tbuf[0].tv_sec:= FileTimeToUnixTime(LastAccessTime^);
+      tbuf[1].tv_sec:= FileTimeToUnixTime(LastWriteTime^);
+    end;
+  Result:= (smbc_utimes(PChar(FileName), @tbuf) = 0);
 end;
 
 procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
