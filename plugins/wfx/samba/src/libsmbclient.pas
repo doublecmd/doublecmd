@@ -93,6 +93,8 @@ var
    smbc_stat: smbc_stat_fn;
    smbc_getxattr: smbc_getxattr_fn;
 
+function LoadSambaLibrary: Boolean;
+
 implementation
 
 uses dynlibs;
@@ -117,9 +119,6 @@ begin
   end;
   Result:= (hSamba <> 0);
 end;
-
-initialization
- LoadSambaLibrary;
 
 end.
 

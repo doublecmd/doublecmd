@@ -120,6 +120,11 @@ end;
 
 function FsInit(PluginNr: Integer; pProgressProc: tProgressProc; pLogProc: tLogProc; pRequestProc: tRequestProc): Integer; stdcall;
 begin
+  if not LoadSambaLibrary then
+  begin
+    pRequestProc(PluginNr, RT_MsgOK, nil, 'Can not load "libsmbclient" library!', nil, 0);
+    Exit(-1);
+  end;
   ProgressProc := pProgressProc;
   LogProc := pLogProc;
   RequestProc := pRequestProc;
