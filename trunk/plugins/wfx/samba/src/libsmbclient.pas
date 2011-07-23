@@ -113,6 +113,9 @@ begin
       @smbc_opendir:= GetProcAddress(hSamba, 'smbc_opendir');
       @smbc_readdir:= GetProcAddress(hSamba, 'smbc_readdir');
       @smbc_closedir:= GetProcAddress(hSamba, 'smbc_closedir');
+      @smbc_mkdir:= GetProcAddress(hSamba, 'smbc_mkdir');
+      @smbc_rmdir:= GetProcAddress(hSamba, 'smbc_rmdir');
+      @smbc_unlink:= GetProcAddress(hSamba, 'smbc_unlink');
       @smbc_stat:= GetProcAddress(hSamba, 'smbc_stat');
       @smbc_getxattr:= GetProcAddress(hSamba, 'smbc_getxattr');
     end;

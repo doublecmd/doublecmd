@@ -10,7 +10,10 @@ exports
   FsInit,
   FsFindFirst,
   FsFindNext,
-  FsFindClose;
+  FsFindClose,
+  FsDeleteFile,
+  FsMkDir,
+  FsRemoveDir;
 
 begin
 end.

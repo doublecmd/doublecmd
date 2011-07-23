@@ -1,3 +1,25 @@
+{
+   Double commander
+   -------------------------------------------------------------------------
+   WFX plugin for working with Common Internet File System (CIFS)
+
+   Copyright (C) 2011  Koblov Alexander (Alexx2000@mail.ru)
+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 3 of the License, or (at your option) any later version.
+
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with this library; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+}
+
 unit SmbFunc;
 
 {$mode objfpc}{$H+}
@@ -12,6 +34,11 @@ function FsInit(PluginNr: Integer; pProgressProc: TProgressProc; pLogProc: TLogP
 function FsFindFirst(Path: PAnsiChar; var FindData: TWin32FindData): THandle; stdcall;
 function FsFindNext(Hdl: THandle; var FindData: TWin32FindData): BOOL; stdcall;
 function FsFindClose(Hdl: THandle): Integer; stdcall;
+
+function FsDeleteFile(RemoteName: PAnsiChar): BOOL; stdcall;
+
+function FsMkDir(RemoteDir: PAnsiChar): BOOL; stdcall;
+function FsRemoveDir(RemoteName: PAnsiChar): BOOL; stdcall;
 
 implementation
 
@@ -103,18 +130,19 @@ var
 begin
   C:= 0;
   if Path = PathDelim then Exit('smb://');
-  Result := ExcludeTrailingPathDelimiter(Path);
-  for I := 1 to Length(Result) do
+  Result := Path;
+  // Don't check last symbol
+  for I := 1 to Length(Result) - 1 do
   begin
     if (Result[I] = PathDelim) then
       Inc(C);
   end;
   if (C < 2) then
-    Result:= 'smb:/' + Result + PathDelim
+    Result:= 'smb:/' + Result
   else
     begin
       I:= PosEx(PathDelim, Result, 2);
-      Result:= 'smb:/' + Copy(Result, I, MaxInt) + PathDelim;
+      Result:= 'smb:/' + Copy(Result, I, MaxInt);
     end;
 end;
 
@@ -158,7 +186,7 @@ begin
   else
     begin
       New(SambaHandle);
-      SambaHandle^.Path:= NetworkPath;
+      SambaHandle^.Path:= IncludeTrailingPathDelimiter(NetworkPath);
       SambaHandle^.Handle:= Handle;
       Result:= THandle(SambaHandle);
       FsFindNext(Result, FindData);
@@ -200,6 +228,30 @@ begin
   Result:= smbc_closedir(SambaHandle^.Handle);
   if Result < 0 then WriteError('smbc_closedir');
   Dispose(SambaHandle);
+end;
+
+function FsDeleteFile(RemoteName: PAnsiChar): BOOL; stdcall;
+var
+  FileName: String;
+begin
+  FileName:= BuildNetworkPath(RemoteName);
+  Result:= smbc_unlink(PChar(FileName)) = 0;
+end;
+
+function FsMkDir(RemoteDir: PAnsiChar): BOOL; stdcall;
+var
+  NewDir: String;
+begin
+  NewDir:= BuildNetworkPath(RemoteDir);
+  Result:= smbc_mkdir(PChar(NewDir), $1FF) = 0; // $1FF = &0777
+end;
+
+function FsRemoveDir(RemoteName: PAnsiChar): BOOL; stdcall;
+var
+  RemDir: String;
+begin
+  RemDir:= BuildNetworkPath(RemoteName);
+  Result:= smbc_rmdir(PChar(RemDir)) = 0;
 end;
 
 end.
