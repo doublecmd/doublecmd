@@ -269,7 +269,7 @@ begin
         fdOldFile:= smbc_open(PChar(OldFileName), O_RDONLY, 0);
         if (fdOldFile < 0) then Exit(FS_FILE_READERROR);
         // Open target file
-        fdNewFile:= smbc_open(PChar(NewFileName), O_CREAT or O_RDWR or O_TRUNC, 0);
+        fdNewFile:= smbc_open(PChar(NewFileName), O_CREAT or O_RDWR or O_TRUNC, RemoteInfo^.Attr);
         if (fdNewFile < 0) then Exit(FS_FILE_WRITEERROR);
         // Get source file size
         FileSize:= smbc_lseek(fdOldFile, 0, SEEK_END);
@@ -324,7 +324,7 @@ begin
     fdOldFile:= smbc_open(PChar(OldFileName), O_RDONLY, 0);
     if (fdOldFile < 0) then Exit(FS_FILE_READERROR);
     // Open target file
-    fdNewFile:= fpOpen(PChar(LocalName), O_CREAT or O_RDWR or O_TRUNC, 0);
+    fdNewFile:= fpOpen(PChar(LocalName), O_CREAT or O_RDWR or O_TRUNC, RemoteInfo^.Attr);
     if (fdNewFile < 0) then Exit(FS_FILE_WRITEERROR);
     // Get source file size
     FileSize:= smbc_lseek(fdOldFile, 0, SEEK_END);
