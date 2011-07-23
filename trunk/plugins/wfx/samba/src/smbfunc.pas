@@ -35,15 +35,22 @@ function FsFindFirst(Path: PAnsiChar; var FindData: TWin32FindData): THandle; st
 function FsFindNext(Hdl: THandle; var FindData: TWin32FindData): BOOL; stdcall;
 function FsFindClose(Hdl: THandle): Integer; stdcall;
 
+function FsRenMovFile(OldName, NewName: PAnsiChar; Move, OverWrite: BOOL;
+                      RemoteInfo: pRemoteInfo): Integer; stdcall;
 function FsDeleteFile(RemoteName: PAnsiChar): BOOL; stdcall;
 
 function FsMkDir(RemoteDir: PAnsiChar): BOOL; stdcall;
 function FsRemoveDir(RemoteName: PAnsiChar): BOOL; stdcall;
 
+procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
+
 implementation
 
 uses
   Unix, BaseUnix, UnixType, StrUtils, libsmbclient;
+
+const
+  SMB_BUFFER_SIZE = 524288;
 
 type
   PSambaHandle = ^TSambaHandle;
@@ -230,6 +237,70 @@ begin
   Dispose(SambaHandle);
 end;
 
+function FsRenMovFile(OldName, NewName: PAnsiChar; Move, OverWrite: BOOL;
+                      RemoteInfo: pRemoteInfo): Integer; stdcall;
+var
+  OldFileName,
+  NewFileName: String;
+  Buffer: Pointer = nil;
+  BufferSize: LongWord;
+  fdOldFile: LongInt;
+  fdNewFile: LongInt;
+  dwRead, dwWrite: LongWord;
+  FileSize: Int64;
+  Percent: LongInt;
+begin
+  OldFileName:= BuildNetworkPath(OldName);
+  NewFileName:= BuildNetworkPath(NewName);
+  if Move then
+    begin
+      if smbc_rename(PChar(OldFileName), PChar(NewFileName)) < 0 then
+        Exit(-1);
+    end
+  else
+    begin
+      BufferSize:= SMB_BUFFER_SIZE;
+      Buffer:= GetMem(BufferSize);
+      try
+        // Open source file
+        fdOldFile:= smbc_open(PChar(OldFileName), O_RDONLY, 0);
+        if (fdOldFile < 0) then Exit(FS_FILE_READERROR);
+        // Open target file
+        fdNewFile:= smbc_open(PChar(NewFileName), O_CREAT or O_RDWR or O_TRUNC, 0);
+        if (fdNewFile < 0) then Exit(FS_FILE_WRITEERROR);
+        // Get source file size
+        FileSize:= smbc_lseek(fdOldFile, 0, SEEK_END);
+        smbc_lseek(fdOldFile, 0, SEEK_SET);
+        dwWrite:= 0;
+        // Copy data
+        repeat
+          dwRead:= smbc_read(fdOldFile, Buffer, BufferSize);
+          if (fpgeterrno <> 0) then Exit(FS_FILE_READERROR);
+          if (dwRead > 0) then
+          begin
+            if smbc_write(fdNewFile, Buffer, dwRead) <> dwRead then
+              Exit(FS_FILE_WRITEERROR);
+            if (fpgeterrno <> 0) then Exit(FS_FILE_WRITEERROR);
+            Inc(dwWrite, dwRead);
+            // Calculate percent
+            Percent:= (dwWrite * 100) div FileSize;
+            // Update statistics
+            if ProgressProc(PluginNumber, PChar(OldFileName), PChar(NewFileName), Percent) = 1 then
+              Exit(FS_FILE_USERABORT);
+          end;
+        until (dwRead = 0);
+      finally
+        if Assigned(Buffer) then
+          FreeMem(Buffer);
+        if not (fdOldFile < 0) then
+          smbc_close(fdOldFile);
+        if not (fdNewFile < 0) then
+          smbc_close(fdNewFile);
+      end;
+    end;
+  Result:= FS_FILE_OK;
+end;
+
 function FsDeleteFile(RemoteName: PAnsiChar): BOOL; stdcall;
 var
   FileName: String;
@@ -252,6 +323,11 @@ var
 begin
   RemDir:= BuildNetworkPath(RemoteName);
   Result:= smbc_rmdir(PChar(RemDir)) = 0;
+end;
+
+procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
+begin
+  StrPLCopy(DefRootName, 'Windows Network', MaxLen);
 end;
 
 end.

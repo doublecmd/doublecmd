@@ -66,6 +66,7 @@ type
   smbc_open_fn = function(furl: PAnsiChar; flags: LongInt; mode: mode_t): LongInt; cdecl;
   smbc_read_fn = function(fd: LongInt; buf: Pointer; bufsize: size_t): ssize_t; cdecl;
   smbc_write_fn = function(fd: LongInt; buf: Pointer; bufsize: size_t): ssize_t; cdecl;
+  smbc_lseek_fn = function(fd: LongInt; offset: off_t; whence: LongInt): off_t; cdecl;
   smbc_close_fn = function(fd: LongInt): LongInt; cdecl;
   smbc_unlink_fn = function(furl: PAnsiChar): LongInt; cdecl;
   smbc_rename_fn = function(ourl: PAnsiChar; nurl: PAnsiChar): LongInt; cdecl;
@@ -82,6 +83,7 @@ var
    smbc_open: smbc_open_fn;
    smbc_read: smbc_read_fn;
    smbc_write: smbc_write_fn;
+   smbc_lseek: smbc_lseek_fn;
    smbc_close: smbc_close_fn;
    smbc_unlink: smbc_unlink_fn;
    smbc_rename: smbc_rename_fn;
@@ -115,7 +117,13 @@ begin
       @smbc_closedir:= GetProcAddress(hSamba, 'smbc_closedir');
       @smbc_mkdir:= GetProcAddress(hSamba, 'smbc_mkdir');
       @smbc_rmdir:= GetProcAddress(hSamba, 'smbc_rmdir');
+      @smbc_open:= GetProcAddress(hSamba, 'smbc_open');
+      @smbc_read:= GetProcAddress(hSamba, 'smbc_read');
+      @smbc_write:= GetProcAddress(hSamba, 'smbc_write');
+      @smbc_lseek:= GetProcAddress(hSamba, 'smbc_lseek');
+      @smbc_close:= GetProcAddress(hSamba, 'smbc_close');
       @smbc_unlink:= GetProcAddress(hSamba, 'smbc_unlink');
+      @smbc_rename:= GetProcAddress(hSamba, 'smbc_rename');
       @smbc_stat:= GetProcAddress(hSamba, 'smbc_stat');
       @smbc_getxattr:= GetProcAddress(hSamba, 'smbc_getxattr');
     end;
