@@ -25,6 +25,7 @@ $lazbuild wdx/xpi_wdx/src/xpi_wdx.lpi $DC_ARCH
 
 # WFX plugins
 $lazbuild wfx/ftp/src/ftp.lpi $DC_ARCH
+$lazbuild wfx/samba/src/samba.lpi $DC_ARCH
 
 # WLX plugins
 $lazbuild wlx/WlxMplayer/src/wlxMplayer.lpi $DC_ARCH
@@ -77,6 +78,10 @@ cd $pluginsdir
 # Strip and rename WFX
 cd wfx/ftp/lib/
 strip --strip-all ftp.wfx
+cd $pluginsdir
+
+cd wfx/samba/lib/
+strip --strip-all samba.wfx
 cd $pluginsdir
 
 # Strip and rename WLX
