@@ -2332,13 +2332,6 @@ var
 begin
   Result := False;
   try
-    if not ((fsoCopyOut in SourceFileSource.GetOperationsTypes) and
-            (fsoCopyIn  in TargetFileSource.GetOperationsTypes)) then
-    begin
-      msgWarning(rsMsgErrNotSupported);
-      Exit;
-    end;
-
     if SourceFiles.Count = 0 then
       Exit;
 
@@ -2358,18 +2351,23 @@ begin
       OperationType := fsoCopy;
       OperationClass := SourceFileSource.GetOperationClass(fsoCopy);
     end
-    else if TargetFileSource.IsClass(TFileSystemFileSource) then
+    else if TargetFileSource.IsClass(TFileSystemFileSource) and
+            (fsoCopyOut in SourceFileSource.GetOperationsTypes) then
     begin
       OperationType := fsoCopyOut;
       OperationClass := SourceFileSource.GetOperationClass(fsoCopyOut);
     end
-    else if SourceFileSource.IsClass(TFileSystemFileSource) then
+    else if SourceFileSource.IsClass(TFileSystemFileSource) and
+            (fsoCopyIn in TargetFileSource.GetOperationsTypes) then
     begin
       OperationType := fsoCopyIn;
       OperationClass := TargetFileSource.GetOperationClass(fsoCopyIn);
     end
     else
-      raise Exception.Create('Cannot determine copy operation');
+    begin
+      msgWarning(rsMsgErrNotSupported);
+      Exit;
+    end;
 
     if bShowDialog then
     begin
@@ -4676,4 +4674,4 @@ begin
 end;
 
 end.
-
+
