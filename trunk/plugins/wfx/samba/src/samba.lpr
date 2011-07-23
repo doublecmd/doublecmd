@@ -12,6 +12,8 @@ exports
   FsFindNext,
   FsFindClose,
   FsRenMovFile,
+  FsGetFile,
+  FsPutFile,
   FsDeleteFile,
   FsMkDir,
   FsRemoveDir,

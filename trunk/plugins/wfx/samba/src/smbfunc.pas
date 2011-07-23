@@ -37,6 +37,9 @@ function FsFindClose(Hdl: THandle): Integer; stdcall;
 
 function FsRenMovFile(OldName, NewName: PAnsiChar; Move, OverWrite: BOOL;
                       RemoteInfo: pRemoteInfo): Integer; stdcall;
+function FsGetFile(RemoteName, LocalName: PAnsiChar; CopyFlags: Integer;
+                   RemoteInfo: pRemoteInfo): Integer; stdcall;
+function FsPutFile(LocalName, RemoteName: PAnsiChar; CopyFlags: Integer): Integer; stdcall;
 function FsDeleteFile(RemoteName: PAnsiChar): BOOL; stdcall;
 
 function FsMkDir(RemoteDir: PAnsiChar): BOOL; stdcall;
@@ -219,7 +222,7 @@ begin
       begin
         FindData.dwFileAttributes:= FILE_ATTRIBUTE_UNIX_MODE;
         FindData.dwReserved0:= FileInfo.st_mode;
-        FindData.nFileSizeLow := (FileInfo.st_size and $FFFF);
+        FindData.nFileSizeLow := (FileInfo.st_size and MAXDWORD);
         FindData.nFileSizeHigh := (FileInfo.st_size shr $20);
         FindData.ftLastAccessTime:= UnixTimeToFileTime(FileInfo.st_atime);
         FindData.ftCreationTime:= UnixTimeToFileTime(FileInfo.st_ctime);
@@ -294,6 +297,115 @@ begin
           FreeMem(Buffer);
         if not (fdOldFile < 0) then
           smbc_close(fdOldFile);
+        if not (fdNewFile < 0) then
+          smbc_close(fdNewFile);
+      end;
+    end;
+  Result:= FS_FILE_OK;
+end;
+
+function FsGetFile(RemoteName, LocalName: PAnsiChar; CopyFlags: Integer;
+                   RemoteInfo: pRemoteInfo): Integer; stdcall;
+var
+  OldFileName: String;
+  Buffer: Pointer = nil;
+  BufferSize: LongWord;
+  fdOldFile: LongInt;
+  fdNewFile: LongInt;
+  dwRead, dwWrite: LongWord;
+  FileSize: Int64;
+  Percent: LongInt;
+begin
+  OldFileName:= BuildNetworkPath(RemoteName);
+  BufferSize:= SMB_BUFFER_SIZE;
+  Buffer:= GetMem(BufferSize);
+  try
+    // Open source file
+    fdOldFile:= smbc_open(PChar(OldFileName), O_RDONLY, 0);
+    if (fdOldFile < 0) then Exit(FS_FILE_READERROR);
+    // Open target file
+    fdNewFile:= fpOpen(PChar(LocalName), O_CREAT or O_RDWR or O_TRUNC, 0);
+    if (fdNewFile < 0) then Exit(FS_FILE_WRITEERROR);
+    // Get source file size
+    FileSize:= smbc_lseek(fdOldFile, 0, SEEK_END);
+    smbc_lseek(fdOldFile, 0, SEEK_SET);
+    dwWrite:= 0;
+    // Copy data
+    repeat
+      dwRead:= smbc_read(fdOldFile, Buffer, BufferSize);
+      if (fpgeterrno <> 0) then Exit(FS_FILE_READERROR);
+      if (dwRead > 0) then
+      begin
+        if fpWrite(fdNewFile, Buffer^, dwRead) <> dwRead then
+          Exit(FS_FILE_WRITEERROR);
+        if (fpgeterrno <> 0) then Exit(FS_FILE_WRITEERROR);
+        Inc(dwWrite, dwRead);
+        // Calculate percent
+        Percent:= (dwWrite * 100) div FileSize;
+        // Update statistics
+        if ProgressProc(PluginNumber, PChar(OldFileName), LocalName, Percent) = 1 then
+          Exit(FS_FILE_USERABORT);
+      end;
+    until (dwRead = 0);
+  finally
+    if Assigned(Buffer) then
+      FreeMem(Buffer);
+    if not (fdOldFile < 0) then
+      smbc_close(fdOldFile);
+    if not (fdNewFile < 0) then
+      fpClose(fdNewFile);
+  end;
+  Result:= FS_FILE_OK;
+end;
+
+function FsPutFile(LocalName, RemoteName: PAnsiChar; CopyFlags: Integer): Integer; stdcall;
+var
+  NewFileName: String;
+  Buffer: Pointer = nil;
+  BufferSize: LongWord;
+  fdOldFile: LongInt;
+  fdNewFile: LongInt;
+  dwRead, dwWrite: LongWord;
+  FileSize: Int64;
+  Percent: LongInt;
+begin
+  NewFileName:= BuildNetworkPath(RemoteName);
+    begin
+      BufferSize:= SMB_BUFFER_SIZE;
+      Buffer:= GetMem(BufferSize);
+      try
+        // Open source file
+        fdOldFile:= fpOpen(LocalName, O_RDONLY, 0);
+        if (fdOldFile < 0) then Exit(FS_FILE_READERROR);
+        // Open target file
+        fdNewFile:= smbc_open(PChar(NewFileName), O_CREAT or O_RDWR or O_TRUNC, 0);
+        if (fdNewFile < 0) then Exit(FS_FILE_WRITEERROR);
+        // Get source file size
+        FileSize:= fpLseek(fdOldFile, 0, SEEK_END);
+        fpLseek(fdOldFile, 0, SEEK_SET);
+        dwWrite:= 0;
+        // Copy data
+        repeat
+          dwRead:= fpRead(fdOldFile, Buffer^, BufferSize);
+          if (fpgeterrno <> 0) then Exit(FS_FILE_READERROR);
+          if (dwRead > 0) then
+          begin
+            if smbc_write(fdNewFile, Buffer, dwRead) <> dwRead then
+              Exit(FS_FILE_WRITEERROR);
+            if (fpgeterrno <> 0) then Exit(FS_FILE_WRITEERROR);
+            Inc(dwWrite, dwRead);
+            // Calculate percent
+            Percent:= (dwWrite * 100) div FileSize;
+            // Update statistics
+            if ProgressProc(PluginNumber, LocalName, PChar(NewFileName), Percent) = 1 then
+              Exit(FS_FILE_USERABORT);
+          end;
+        until (dwRead = 0);
+      finally
+        if Assigned(Buffer) then
+          FreeMem(Buffer);
+        if not (fdOldFile < 0) then
+          fpClose(fdOldFile);
         if not (fdNewFile < 0) then
           smbc_close(fdNewFile);
       end;
