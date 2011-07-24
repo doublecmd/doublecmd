@@ -408,23 +408,28 @@ end;
 constructor TWfxPluginFileSource.Create(aModuleFileName, aPluginRootName: UTF8String);
 begin
   inherited Create;
+  FPluginNumber:= -1;
+  FCallbackDataClass:= nil;
   FModuleFileName:= aModuleFileName;
   FPluginRootName:= aPluginRootName;
-  FCallbackDataClass:= TCallbackDataClass.Create(Self);
   FWfxModule:= TWfxModule.Create;
-  if FWfxModule.LoadModule(FModuleFileName) then
-    with FWfxModule do
-    begin
-      FPluginNumber:= WfxOperationList.AddObject(FPluginRootName, FCallbackDataClass);
-      FsInit(FPluginNumber, @MainProgressProcA, @MainLogProcA, @MainRequestProcA);
-      if Assigned(FsInitW) then
-        FsInitW(FPluginNumber, @MainProgressProcW, @MainLogProcW, @MainRequestProcW);
-      if Assigned(FsSetCryptCallback) then
-        FsSetCryptCallback(@CryptProcA, FPluginNumber, 0);
-      if Assigned(FsSetCryptCallbackW) then
-        FsSetCryptCallbackW(@CryptProcW, FPluginNumber, 0);
-      VFSInit(0);
-    end;
+
+  if not FWfxModule.LoadModule(FModuleFileName) then
+    raise EFileSourceException.Create('Cannot load WFX module ' + FModuleFileName);
+
+  with FWfxModule do
+  begin
+    FCallbackDataClass:= TCallbackDataClass.Create(Self);
+    FPluginNumber:= WfxOperationList.AddObject(FPluginRootName, FCallbackDataClass);
+    FsInit(FPluginNumber, @MainProgressProcA, @MainLogProcA, @MainRequestProcA);
+    if Assigned(FsInitW) then
+      FsInitW(FPluginNumber, @MainProgressProcW, @MainLogProcW, @MainRequestProcW);
+    if Assigned(FsSetCryptCallback) then
+      FsSetCryptCallback(@CryptProcA, FPluginNumber, 0);
+    if Assigned(FsSetCryptCallbackW) then
+      FsSetCryptCallbackW(@CryptProcW, FPluginNumber, 0);
+    VFSInit(0);
+  end;
 
   FOperationsClasses[fsoList]            := TWfxPluginListOperation.GetOperationClass;
   FOperationsClasses[fsoCopy]            := TWfxPluginCopyOperation.GetOperationClass;
@@ -439,7 +444,8 @@ end;
 
 destructor TWfxPluginFileSource.Destroy;
 begin
-  WfxOperationList.Objects[FPluginNumber]:= nil;
+  if (FPluginNumber >= 0) and (FPluginNumber < WfxOperationList.Count) then
+    WfxOperationList.Objects[FPluginNumber]:= nil;
   FreeThenNil(FCallbackDataClass);
   inherited Destroy;
 end;
@@ -774,4 +780,4 @@ finalization
   if Assigned(WfxOperationList) then
     FreeAndNil(WfxOperationList);
 
-end.
+end.
