@@ -19,6 +19,14 @@ const
   SMBC_FILE           = 8;
   SMBC_LINK           = 9;
 
+const
+  SMBC_DOS_MODE_READONLY       = $01;
+  SMBC_DOS_MODE_HIDDEN         = $02;
+  SMBC_DOS_MODE_SYSTEM         = $04;
+  SMBC_DOS_MODE_VOLUME_ID      = $08;
+  SMBC_DOS_MODE_DIRECTORY      = $10;
+  SMBC_DOS_MODE_ARCHIVE        = $20;
+
 type
   (**@ingroup structure
    * Structure that represents a directory entry.
@@ -77,6 +85,7 @@ type
   smbc_rmdir_fn = function(durl: PAnsiChar): LongInt; cdecl;
   smbc_stat_fn = function(url: PAnsiChar; st: PStat): LongInt; cdecl;
   smbc_getxattr_fn = function(url, name: PAnsiChar; value: Pointer; size: size_t): LongInt; cdecl;
+  smbc_setxattr_fn = function(url, name: PAnsiChar; value: Pointer; size: size_t; flags: LongInt): LongInt; cdecl;
   smbc_utimes_fn = function(url: PAnsiChar; tbuf: ptimeval): LongInt; cdecl;
 
 var
@@ -95,6 +104,7 @@ var
    smbc_rmdir: smbc_rmdir_fn;
    smbc_stat: smbc_stat_fn;
    smbc_getxattr: smbc_getxattr_fn;
+   smbc_setxattr: smbc_setxattr_fn;
    smbc_utimes: smbc_utimes_fn;
 
 function LoadSambaLibrary: Boolean;
@@ -128,6 +138,7 @@ begin
       @smbc_rename:= GetProcAddress(hSamba, 'smbc_rename');
       @smbc_stat:= GetProcAddress(hSamba, 'smbc_stat');
       @smbc_getxattr:= GetProcAddress(hSamba, 'smbc_getxattr');
+      @smbc_setxattr:= GetProcAddress(hSamba, 'smbc_setxattr');
       @smbc_utimes:= GetProcAddress(hSamba, 'smbc_utimes');
     end;
   end;

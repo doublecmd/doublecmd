@@ -45,6 +45,7 @@ function FsDeleteFile(RemoteName: PAnsiChar): BOOL; stdcall;
 function FsMkDir(RemoteDir: PAnsiChar): BOOL; stdcall;
 function FsRemoveDir(RemoteName: PAnsiChar): BOOL; stdcall;
 
+function FsSetAttr(RemoteName: PAnsiChar; NewAttr: Integer): BOOL; stdcall;
 function FsSetTime(RemoteName: PAnsiChar; CreationTime, LastAccessTime, LastWriteTime: PFileTime): BOOL; stdcall;
 
 procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
@@ -210,7 +211,7 @@ var
   dirent: psmbc_dirent;
   FileInfo: BaseUnix.Stat;
   SambaHandle: PSambaHandle absolute Hdl;
-  Mode: array[0..31] of Byte;
+  Mode: array[0..7] of Byte;
 begin
   Result:= True;
   dirent := smbc_readdir(SambaHandle^.Handle);
@@ -229,16 +230,16 @@ begin
         FindData.ftCreationTime:= UnixTimeToFileTime(FileInfo.st_ctime);
         FindData.ftLastWriteTime:= UnixTimeToFileTime(FileInfo.st_mtime);
       end;
-      if smbc_getxattr(PChar(SambaHandle^.Path + FindData.cFileName), 'system.dos_attr.mode', @Mode, 32) >= 0 then
+      if smbc_getxattr(PChar(SambaHandle^.Path + FindData.cFileName), 'system.dos_attr.mode', @Mode, SizeOf(Mode)) >= 0 then
       begin
         if (Mode[3] = 0) then
-          FindData.dwFileAttributes:= Mode[2] - 48
+          FindData.dwFileAttributes:= Mode[2] - SMBC_DOS_MODE_DIRECTORY - SMBC_DOS_MODE_ARCHIVE
         else
           case Mode[2] of
           48: FindData.dwFileAttributes:= 0;
-          49: FindData.dwFileAttributes:= Mode[3] - 48 + 16;
-          50: FindData.dwFileAttributes:= Mode[3] - 48 + 32;
-          51: FindData.dwFileAttributes:= Mode[3] - 48 + 48;
+          49: FindData.dwFileAttributes:= Mode[3] - SMBC_DOS_MODE_ARCHIVE;
+          50: FindData.dwFileAttributes:= Mode[3] - SMBC_DOS_MODE_DIRECTORY;
+          51: FindData.dwFileAttributes:= Mode[3];
           end;
       end;
   end;
@@ -448,6 +449,37 @@ var
 begin
   RemDir:= BuildNetworkPath(RemoteName);
   Result:= smbc_rmdir(PChar(RemDir)) = 0;
+end;
+
+function FsSetAttr(RemoteName: PAnsiChar; NewAttr: Integer): BOOL; stdcall;
+var
+  FileName: String;
+  Mode: array[0..7] of Byte;
+begin
+  Mode[0]:= 48;
+  Mode[1]:= 120;
+  FileName:= BuildNetworkPath(RemoteName);
+  if (NewAttr and SMBC_DOS_MODE_DIRECTORY <> 0) and (NewAttr and SMBC_DOS_MODE_ARCHIVE <> 0) then
+    begin
+      Mode[2]:= 51;
+      Mode[3]:= NewAttr;
+    end
+  else if (NewAttr and SMBC_DOS_MODE_ARCHIVE <> 0) then
+    begin
+      Mode[2]:= 50;
+      Mode[3]:= NewAttr + SMBC_DOS_MODE_DIRECTORY;
+    end
+  else if (NewAttr and SMBC_DOS_MODE_DIRECTORY <> 0) then
+    begin
+      Mode[2]:= 49;
+      Mode[3]:= NewAttr + SMBC_DOS_MODE_ARCHIVE;
+    end
+  else
+    begin
+      Mode[2]:= NewAttr + SMBC_DOS_MODE_DIRECTORY + SMBC_DOS_MODE_ARCHIVE;
+      Mode[3]:= 0;
+    end;
+  Result:= (smbc_setxattr(PChar(FileName), 'system.dos_attr.mode', @Mode, SizeOf(Mode), 0) >= 0);
 end;
 
 function FsSetTime(RemoteName: PAnsiChar; CreationTime, LastAccessTime, LastWriteTime: PFileTime): BOOL; stdcall;
