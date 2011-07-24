@@ -117,7 +117,7 @@ begin
     CurrentFileTo:= FMultiArchiveFileSource.ArchiveFileName;
   end;
 
-  FillAndCount(SourceFiles, False,
+  FillAndCount(SourceFiles, False, False,
                FFullFilesTree,
                FStatistics.TotalFiles,
                FStatistics.TotalBytes);     // gets full list of files (recursive)

@@ -18,7 +18,7 @@ type
   IWfxPluginFileSource = interface(IFileSource)
     ['{F1F728C6-F718-4B17-8DE2-BE0134134ED8}']
 
-    procedure FillAndCount(Files: TFiles; CountDirs: Boolean;
+    procedure FillAndCount(Files: TFiles; CountDirs: Boolean; ExcludeRootDir: Boolean;
                            out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
@@ -64,7 +64,7 @@ type
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetCurrentAddress: String; override;
   public
-    procedure FillAndCount(Files: TFiles; CountDirs: Boolean;
+    procedure FillAndCount(Files: TFiles; CountDirs: Boolean; ExcludeRootDir: Boolean;
                            out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
     function WfxCopyMove(sSourceFile, sTargetFile: UTF8String; Flags: LongInt;
                          RemoteInfo: PRemoteInfo; Internal, CopyMoveIn: Boolean): LongInt;
@@ -558,7 +558,7 @@ begin
 end;
 
 procedure TWfxPluginFileSource.FillAndCount(Files: TFiles; CountDirs: Boolean;
-  out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
+  ExcludeRootDir: Boolean; out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
 
   procedure FillAndCountRec(const srcPath: UTF8String);
   var
@@ -597,26 +597,37 @@ var
   I: Integer;
   aFile: TFile;
 begin
-  NewFiles := TFiles.Create(Files.Path);
   FilesCount:= 0;
   FilesSize:= 0;
-  for I := 0 to Files.Count - 1 do
+
+  if ExcludeRootDir then
   begin
-    aFile := Files[I];
+    if Files.Count <> 1 then
+      raise Exception.Create('Only a single directory can be set with ExcludeRootDir=True');
+    NewFiles := TFiles.Create(Files[0].FullPath);
+    FillAndCountRec(Files[0].FullPath + DirectorySeparator);
+  end
+  else
+  begin
+    NewFiles := TFiles.Create(Files.Path);
+    for I := 0 to Files.Count - 1 do
+    begin
+      aFile := Files[I];
 
-    NewFiles.Add(aFile.Clone);
+      NewFiles.Add(aFile.Clone);
 
-    if aFile.AttributesProperty.IsDirectory and (not aFile.LinkProperty.IsLinkToDirectory) then
-      begin
-        if CountDirs then
+      if aFile.AttributesProperty.IsDirectory and (not aFile.LinkProperty.IsLinkToDirectory) then
+        begin
+          if CountDirs then
+            Inc(FilesCount);
+          FillAndCountRec(aFile.Path + aFile.Name + DirectorySeparator);  // recursive browse child dir
+        end
+      else
+        begin
           Inc(FilesCount);
-        FillAndCountRec(aFile.Path + aFile.Name + DirectorySeparator);  // recursive browse child dir
-      end
-    else
-      begin
-        Inc(FilesCount);
-        Inc(FilesSize, aFile.Size); // in first level we know file size -> use it
-      end;
+          Inc(FilesSize, aFile.Size); // in first level we know file size -> use it
+        end;
+    end;
   end;
 end;
 

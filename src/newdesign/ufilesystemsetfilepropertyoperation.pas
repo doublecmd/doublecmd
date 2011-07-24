@@ -95,7 +95,7 @@ begin
     end
   else
     begin
-      FillAndCount(TargetFiles, True,
+      FillAndCount(TargetFiles, True, False,
                    FFullFilesTree,
                    FStatistics.TotalFiles,
                    TotalBytes);     // gets full list of files (recursive)

@@ -81,7 +81,7 @@ begin
   FStatistics := RetrieveStatistics;
   FStatistics.CurrentFileTo:= TargetFile;
 
-  FillAndCount(SourceFiles, False,
+  FillAndCount(SourceFiles, False, False,
                FFullFilesTreeToCombine,
                FStatistics.TotalFiles,
                FStatistics.TotalBytes); // count files

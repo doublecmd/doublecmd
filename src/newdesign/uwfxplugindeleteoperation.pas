@@ -74,7 +74,7 @@ begin
   // Get initialized statistics; then we change only what is needed.
   FStatistics := RetrieveStatistics;
 
-  FWfxPluginFileSource.FillAndCount(FilesToDelete, True,
+  FWfxPluginFileSource.FillAndCount(FilesToDelete, True, False,
                                     FFullFilesTreeToDelete,
                                     FStatistics.TotalFiles,
                                     FStatistics.TotalBytes);     // gets full list of files (recursive)
