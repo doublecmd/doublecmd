@@ -17,6 +17,7 @@ exports
   FsDeleteFile,
   FsMkDir,
   FsRemoveDir,
+  FsSetAttr,
   FsSetTime,
   FsGetDefRootName;
 
