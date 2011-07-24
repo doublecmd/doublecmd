@@ -1,9 +1,9 @@
 {==============================================================================|
-| Project : Ararat Synapse                                       | 001.002.000 |
+| Project : Ararat Synapse                                       | 001.002.001 |
 |==============================================================================|
 | Content: IP address support procedures and functions                         |
 |==============================================================================|
-| Copyright (c)2006-2009, Lukas Gebauer                                        |
+| Copyright (c)2006-2010, Lukas Gebauer                                        |
 | All rights reserved.                                                         |
 |                                                                              |
 | Redistribution and use in source and binary forms, with or without           |
@@ -33,7 +33,7 @@
 | DAMAGE.                                                                      |
 |==============================================================================|
 | The Initial Developer of the Original Code is Lukas Gebauer (Czech Republic).|
-| Portions created by Lukas Gebauer are Copyright (c) 2006-2008.               |
+| Portions created by Lukas Gebauer are Copyright (c) 2006-2010.               |
 | All Rights Reserved.                                                         |
 |==============================================================================|
 | Contributor(s):                                                              |
@@ -50,6 +50,12 @@
 {$Q-}
 {$R-}
 {$H+}
+
+{$IFDEF UNICODE}
+  {$WARN IMPLICIT_STRING_CAST OFF}
+  {$WARN IMPLICIT_STRING_CAST_LOSS OFF}
+  {$WARN SUSPICIOUS_TYPECAST OFF}
+{$ENDIF}
 
 unit synaip;
 
@@ -112,7 +118,7 @@ var
     // i.e. "$80"
     if Result then
       for n := 1 to length(Value) do
-        if not (Value[n] in ['0'..'9']) then
+        if not (AnsiChar(Value[n]) in ['0'..'9']) then
         begin
           Result := False;
           Break;
@@ -193,7 +199,7 @@ begin
   begin
     s := Fetch(Host, '.');
     i := StrToIntDef(s, 0);
-    Result := Result + Chr(i);
+    Result := Result + AnsiChar(i);
   end;
 end;
 
