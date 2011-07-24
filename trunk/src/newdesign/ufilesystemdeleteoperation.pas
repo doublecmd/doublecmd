@@ -103,7 +103,7 @@ begin
     end
   else
     begin
-      FillAndCount(FilesToDelete, True,
+      FillAndCount(FilesToDelete, True, False,
                    FFullFilesTreeToDelete,
                    FStatistics.TotalFiles,
                    FStatistics.TotalBytes);     // gets full list of files (recursive)

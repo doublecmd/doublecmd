@@ -106,7 +106,7 @@ begin
 
   case Mode of
     checksum_calc:
-      FillAndCount(Files, False,
+      FillAndCount(Files, False, False,
                    FFullFilesTree,
                    FStatistics.TotalFiles,
                    FStatistics.TotalBytes);     // gets full list of files (recursive)

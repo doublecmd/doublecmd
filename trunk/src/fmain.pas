@@ -2329,6 +2329,7 @@ var
   OperationStartingState: TOperationStartingState = ossAutoStart;
   OperationClass: TFileSourceOperationClass;
   OperationOptionsUIClass: TFileSourceOperationOptionsUIClass = nil;
+  ExcludeRootDir: Boolean = False;
 begin
   Result := False;
   try
@@ -2336,9 +2337,10 @@ begin
       Exit;
 
     if (SourceFiles.Count = 1) and
-       (not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory))
+       ((not (SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory)) or
+        (TargetPath = ''))
     then
-      sDestination := TargetPath + ExtractFileName(SourceFiles[0].Name)
+      sDestination := TargetPath + SourceFiles[0].Name
     else
       sDestination := TargetPath + '*.*';
 
@@ -2386,6 +2388,30 @@ begin
         sDestination := edtDst.Text;
       end;
 
+      // Check TargetPath before it is modified in GetDestinationPathAndMask.
+      if SourceFiles.Count = 1 then
+      begin
+        if SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory then
+        begin
+          if (Pos('*', sDestination) = 0) and (Pos('?', sDestination) = 0) and
+             (not StrEnds(sDestination, PathDelim)) then
+          begin
+            // Assume it is a path to a directory.
+            sDestination := IncludeTrailingPathDelimiter(sDestination) + '*.*';
+
+            if (SourceFiles.Path = TargetPath) or (TargetPath = '') then
+              ExcludeRootDir := True; // CopySamePanel
+          end;
+        end;
+        // else single file - leave unchanged
+      end
+      else
+      begin
+        if (Pos('*', sDestination) = 0) and (Pos('?', sDestination) = 0) then
+          // Assume it is a path to a directory.
+          sDestination := IncludeTrailingPathDelimiter(sDestination);
+      end;
+
       OperationStartingState := CopyDialog.OperationStartingState;
     end;
 
@@ -2394,10 +2420,14 @@ begin
 
     case OperationType of
       fsoCopy:
-        // Copy within the same file source.
-        Operation := SourceFileSource.CreateCopyOperation(
-                       SourceFiles,
-                       TargetPath) as TFileSourceCopyOperation;
+        begin
+          // Copy within the same file source.
+          Operation := SourceFileSource.CreateCopyOperation(
+                         SourceFiles,
+                         TargetPath) as TFileSourceCopyOperation;
+
+          Operation.ExcludeRootDir := ExcludeRootDir;
+        end;
       fsoCopyOut:
         // CopyOut to filesystem.
         Operation := SourceFileSource.CreateCopyOutOperation(
@@ -4674,4 +4704,4 @@ begin
 end;
 
 end.
-
+

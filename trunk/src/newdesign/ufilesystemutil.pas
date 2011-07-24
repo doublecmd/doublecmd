@@ -18,6 +18,7 @@ uses
                                      NameMask: String; ExtMask: String): String;
   procedure FillAndCount(Files: TFiles;
                          CountDirs: Boolean;
+                         ExcludeRootDir: Boolean;
                          out NewFiles: TFiles;
                          out FilesCount: Int64;
                          out FilesSize: Int64);
@@ -43,12 +44,15 @@ type
   TFileSystemOperationHelperMoveOrCopy
     = function(SourceFile: TFile; TargetFileName: String; bAppend: Boolean): Boolean of object;
 
+  { TFileSystemTreeBuilder }
+
   TFileSystemTreeBuilder = class
   private
     FFilesTree: TFileTree;
     FFilesCount: Int64;
     FDirectoriesCount: Int64;
     FFilesSize: Int64;
+    FExcludeRootDir: Boolean;
     FSymlinkOption: TFileSourceOperationOptionSymLink;
     FRecursive: Boolean;
 
@@ -73,6 +77,7 @@ type
     procedure BuildFromFiles(Files: TFiles);
     function ReleaseTree: TFileTree;
 
+    property ExcludeRootDir: Boolean read FExcludeRootDir write FExcludeRootDir;
     property Recursive: Boolean read FRecursive write FRecursive;
     property SymLinkOption: TFileSourceOperationOptionSymLink read FSymlinkOption write FSymlinkOption;
 
@@ -223,7 +228,7 @@ begin
           + ApplyRenameMask(aFile, NameMask, ExtMask);
 end;
 
-procedure FillAndCount(Files: TFiles; CountDirs: Boolean;
+procedure FillAndCount(Files: TFiles; CountDirs: Boolean; ExcludeRootDir: Boolean;
   out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
 
   procedure FillAndCountRec(const srcPath: String);
@@ -265,28 +270,39 @@ var
   i: Integer;
   aFile: TFile;
 begin
-  NewFiles := TFiles.Create(Files.Path);
   FilesCount:= 0;
   FilesSize:= 0;
-  for i := 0 to Files.Count - 1 do
+
+  if ExcludeRootDir then
   begin
-    aFile := Files[i];
-
-    // For process symlinks, read only files etc.
-    //CheckFile(aFile);
-
-    NewFiles.Add(aFile.Clone);
-
-    if aFile.IsDirectory and (not aFile.IsLinkToDirectory) then
+    if Files.Count <> 1 then
+      raise Exception.Create('Only a single directory can be set with ExcludeRootDir=True');
+    NewFiles := TFiles.Create(Files[0].FullPath);
+    FillAndCountRec(Files[0].FullPath + DirectorySeparator);
+  end
+  else
+  begin
+    NewFiles := TFiles.Create(Files.Path);
+    for i := 0 to Files.Count - 1 do
     begin
-      if CountDirs then
+      aFile := Files[i];
+
+      // For process symlinks, read only files etc.
+      //CheckFile(aFile);
+
+      NewFiles.Add(aFile.Clone);
+
+      if aFile.IsDirectory and (not aFile.IsLinkToDirectory) then
+      begin
+        if CountDirs then
+          Inc(FilesCount);
+        FillAndCountRec(aFile.Path + aFile.Name + DirectorySeparator);  // recursive browse child dir
+      end
+      else
+      begin
         Inc(FilesCount);
-      FillAndCountRec(aFile.Path + aFile.Name + DirectorySeparator);  // recursive browse child dir
-    end
-    else
-    begin
-      Inc(FilesCount);
-      FilesSize:= FilesSize + aFile.Size; // in first level we know file size -> use it
+        FilesSize:= FilesSize + aFile.Size; // in first level we know file size -> use it
+      end;
     end;
   end;
 end;
@@ -307,6 +323,7 @@ begin
   CheckOperationState := CheckOperationStateFunction;
 
   FFilesTree := nil;
+  FExcludeRootDir := False;
   FRecursive := True;
   FSymlinkOption := fsooslNone;
 end;
@@ -332,8 +349,17 @@ begin
   FFilesCount := 0;
   FDirectoriesCount := 0;
 
-  for i := 0 to Files.Count - 1 do
-    AddItem(Files[i].Clone, FFilesTree);
+  if ExcludeRootDir then
+  begin
+    for i := 0 to Files.Count - 1 do
+      if Files[i].IsDirectory then
+        AddFilesInDirectory(Files[i].FullPath + DirectorySeparator, FFilesTree);
+  end
+  else
+  begin
+    for i := 0 to Files.Count - 1 do
+      AddItem(Files[i].Clone, FFilesTree);
+  end;
 end;
 
 procedure TFileSystemTreeBuilder.AddFile(aFile: TFile; CurrentNode: TFileTreeNode);
