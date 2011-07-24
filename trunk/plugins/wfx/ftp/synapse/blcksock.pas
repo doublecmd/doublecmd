@@ -1,9 +1,9 @@
 {==============================================================================|
-| Project : Ararat Synapse                                       | 009.006.000 |
+| Project : Ararat Synapse                                       | 009.008.004 |
 |==============================================================================|
 | Content: Library base                                                        |
 |==============================================================================|
-| Copyright (c)1999-2008, Lukas Gebauer                                        |
+| Copyright (c)1999-2011, Lukas Gebauer                                        |
 | All rights reserved.                                                         |
 |                                                                              |
 | Redistribution and use in source and binary forms, with or without           |
@@ -33,7 +33,7 @@
 | DAMAGE.                                                                      |
 |==============================================================================|
 | The Initial Developer of the Original Code is Lukas Gebauer (Czech Republic).|
-| Portions created by Lukas Gebauer are Copyright (c)1999-2008.                |
+| Portions created by Lukas Gebauer are Copyright (c)1999-2011.                |
 | All Rights Reserved.                                                         |
 |==============================================================================|
 | Contributor(s):                                                              |
@@ -81,6 +81,18 @@ Core with implementation basic socket classes.
 {$Q-}
 {$H+}
 {$M+}
+
+//old Delphi does not have MSWINDOWS define.
+{$IFDEF WIN32}
+  {$IFNDEF MSWINDOWS}
+    {$DEFINE MSWINDOWS}
+  {$ENDIF}
+{$ENDIF}
+
+{$IFDEF UNICODE}
+  {$WARN IMPLICIT_STRING_CAST OFF}
+  {$WARN IMPLICIT_STRING_CAST_LOSS OFF}
+{$ENDIF}
 
 unit blcksock;
 
@@ -672,8 +684,8 @@ type
     {:Return value of protocol type for socket creation.}
     function GetSocketProtocol: integer; Virtual;
 
-    {:WSA structure with information about socket provider. On linux is this
-     structure simulated!}
+    {:WSA structure with information about socket provider. On non-windows 
+     platforms this structure is simulated!}
     property WSAData: TWSADATA read GetWsaData;
 
     {:Structure describing local socket side.}
@@ -1508,7 +1520,7 @@ var
   li: TLinger;
   x: integer;
   buf: TMemory;
-{$IFNDEF WIN32}
+{$IFNDEF MSWINDOWS}
   timeval: TTimeval;
 {$ENDIF}
 begin
@@ -1558,7 +1570,7 @@ begin
         synsock.SetSockOpt(FSocket, integer(SOL_SOCKET), integer(SO_RCVTIMEO),
           buf, SizeOf(Value.Value));
         {$ELSE}
-          {$IFDEF WIN32}
+          {$IFDEF MSWINDOWS}
         buf := @Value.Value;
         synsock.SetSockOpt(FSocket, integer(SOL_SOCKET), integer(SO_RCVTIMEO),
           buf, SizeOf(Value.Value));
@@ -1575,7 +1587,7 @@ begin
         {$IFDEF CIL}
         buf := System.BitConverter.GetBytes(value.Value);
         {$ELSE}
-          {$IFDEF WIN32}
+          {$IFDEF MSWINDOWS}
         buf := @Value.Value;
         synsock.SetSockOpt(FSocket, integer(SOL_SOCKET), integer(SO_SNDTIMEO),
           buf, SizeOf(Value.Value));
@@ -2014,11 +2026,12 @@ var
 {$ENDIF}
 begin
   b := true;
+  l := 0;
   if WithSize then
   begin
     l := Stream.Size - Stream.Position;;
-    if Indy then
-      l := SwapBytes(l);
+    if not Indy then
+      l := synsock.HToNL(l);
   end;
   repeat
     {$IFDEF CIL}
@@ -2189,7 +2202,7 @@ begin
   end
   else
   begin
-    {$IFDEF WIN32}
+    {$IFDEF MSWINDOWS}
     //not drain CPU on large downloads...
     Sleep(0);
     {$ENDIF}
@@ -3145,7 +3158,7 @@ end;
 
 function TSocksBlockSocket.SocksOpen: boolean;
 var
-  Buf: string;
+  Buf: AnsiString;
   n: integer;
 begin
   Result := False;
@@ -3175,8 +3188,8 @@ begin
           ;
         2:
           begin
-            Buf := #1 + char(Length(FSocksUsername)) + FSocksUsername
-              + char(Length(FSocksPassword)) + FSocksPassword;
+            Buf := #1 + AnsiChar(Length(FSocksUsername)) + FSocksUsername
+              + AnsiChar(Length(FSocksPassword)) + FSocksPassword;
             SendString(Buf);
             Buf := RecvBufferStr(2, FSocksTimeout);
             if Length(Buf) < 2 then
@@ -3199,14 +3212,14 @@ end;
 function TSocksBlockSocket.SocksRequest(Cmd: Byte;
   const IP, Port: string): Boolean;
 var
-  Buf: string;
+  Buf: AnsiString;
 begin
   FBypassFlag := True;
   try
     if FSocksType <> ST_Socks5 then
-      Buf := #4 + char(Cmd) + SocksCode(IP, Port)
+      Buf := #4 + AnsiChar(Cmd) + SocksCode(IP, Port)
     else
-      Buf := #5 + char(Cmd) + #0 + SocksCode(IP, Port);
+      Buf := #5 + AnsiChar(Cmd) + #0 + SocksCode(IP, Port);
     SendString(Buf);
     Result := FLastError = 0;
   finally
@@ -3216,7 +3229,7 @@ end;
 
 function TSocksBlockSocket.SocksResponse: Boolean;
 var
-  Buf, s: string;
+  Buf, s: AnsiString;
   x: integer;
 begin
   Result := False;
@@ -3249,7 +3262,7 @@ begin
             x := RecvByte(FSocksTimeout);
             if FLastError <> 0 then
               Exit;
-            s := char(x) + RecvBufferStr(x, FSocksTimeout);
+            s := AnsiChar(x) + RecvBufferStr(x, FSocksTimeout);
           end;
         4:
           s := RecvBufferStr(16, FSocksTimeout);
@@ -3304,10 +3317,10 @@ begin
         ip6 := StrToIP6(IP);
         Result := #4;
         for n := 0 to 15 do
-          Result := Result + char(ip6[n]);
+          Result := Result + AnsiChar(ip6[n]);
       end
       else
-        Result := #3 + char(Length(IP)) + IP;
+        Result := #3 + AnsiChar(Length(IP)) + IP;
     Result := Result + CodeInt(ResolvePort(Port));
   end;
 end;
