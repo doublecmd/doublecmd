@@ -526,7 +526,10 @@ begin
         if FtpList.Items[I].Directory then
           FindData.dwFileAttributes := FindData.dwFileAttributes or FILE_ATTRIBUTE_DIRECTORY
         else
-          FindData.nFileSizeLow := FtpList.Items[I].FileSize;
+          begin
+            FindData.nFileSizeLow := (FtpList.Items[I].FileSize and MAXDWORD);
+            FindData.nFileSizeHigh := (FtpList.Items[I].FileSize shr $20);
+          end;
         // set Unix permissions
         FindData.dwReserved0 := ModeStr2Mode(FtpList.Items[I].Permission);
         FindData.ftLastWriteTime := DateTimeToFileTime(FtpList.Items[I].FileTime);
