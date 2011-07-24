@@ -75,7 +75,7 @@ begin
 
   with Result do
   begin
-    AttributesProperty := TNtfsFileAttributesProperty.Create;
+    AttributesProperty := TFileAttributesProperty.CreateOSAttributes;
   end;
 end;
 
