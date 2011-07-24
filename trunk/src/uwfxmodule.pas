@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Virtual File System - class for manage WFX plugins (Version 1.3)
  
-   Copyright (C) 2007-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2011  Koblov Alexander (Alexx2000@mail.ru)
  
    Callback functions based on:
      Total Commander filesystem plugins debugger
@@ -27,7 +27,7 @@
 
 unit uWFXmodule;
 
-{$mode delphi}{$H+}
+{$mode objfpc}{$H+}
 
 interface
 
@@ -469,6 +469,17 @@ begin
   FsFindFirst := TFsFindFirst(GetProcAddress(FModuleHandle,'FsFindFirst'));
   FsFindNext := TFsFindNext(GetProcAddress(FModuleHandle,'FsFindNext'));
   FsFindClose := TFsFindClose(GetProcAddress(FModuleHandle,'FsFindClose'));
+
+  if (FsInit = nil) or (FsFindFirst = nil) or
+     (FsFindNext = nil) or (FsFindClose = nil) then
+  begin
+    FsInit:= nil;
+    FsFindFirst:= nil;
+    FsFindNext:= nil;
+    FsFindClose:= nil;
+    Exit(False);
+  end;
+
 { Optional }
   FsSetCryptCallback:= TFsSetCryptCallback(GetProcAddress(FModuleHandle,'FsSetCryptCallback'));
   FsGetDefRootName := TFsGetDefRootName(GetProcAddress(FModuleHandle,'FsGetDefRootName'));
@@ -598,13 +609,16 @@ var
 begin
     if Assigned(FsSetDefaultParams) then
     begin
-      GetMem(dps,SizeOf(tFsDefaultParamStruct));
-      dps.DefaultIniName:=gpCfgDir + WfxIniFileName;
-      dps.PluginInterfaceVersionHi:=1;
-      dps.PluginInterfaceVersionLow:=50;
-      dps.size:=SizeOf(tFsDefaultParamStruct);
+      GetMem(dps, SizeOf(tFsDefaultParamStruct));
+      with dps^ do
+      begin
+        DefaultIniName:= gpCfgDir + WfxIniFileName;
+        PluginInterfaceVersionHi:= 2;
+        PluginInterfaceVersionLow:= 0;
+        Size:= SizeOf(tFsDefaultParamStruct);
+      end;
       FsSetDefaultParams(dps);
-      FreeMem(dps,SizeOf(tFsDefaultParamStruct));
+      FreeMem(dps, SizeOf(tFsDefaultParamStruct));
     end;
 
   // Dialog API
@@ -674,7 +688,7 @@ end;
 
 function TWFXModuleList.GetAEnabled(Index: Integer): Boolean;
 begin
-  Result:= Boolean(Objects[Index]);
+  Result:= Boolean(PtrInt(Objects[Index]));
 end;
 
 function TWFXModuleList.GetAFileName(Index: Integer): String;
@@ -689,7 +703,7 @@ end;
 
 procedure TWFXModuleList.SetAEnabled(Index: Integer; const AValue: Boolean);
 begin
-  Objects[Index]:= TObject(AValue);
+  Objects[Index]:= TObject(PtrInt(AValue));
 end;
 
 procedure TWFXModuleList.SetAFileName(Index: Integer; const AValue: String);
