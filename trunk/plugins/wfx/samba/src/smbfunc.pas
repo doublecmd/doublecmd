@@ -210,6 +210,7 @@ var
   dirent: psmbc_dirent;
   FileInfo: BaseUnix.Stat;
   SambaHandle: PSambaHandle absolute Hdl;
+  Mode: array[0..31] of Byte;
 begin
   Result:= True;
   dirent := smbc_readdir(SambaHandle^.Handle);
@@ -222,13 +223,23 @@ begin
     begin
       if smbc_stat(PChar(SambaHandle^.Path + FindData.cFileName), @FileInfo) = 0 then
       begin
-        FindData.dwFileAttributes:= FILE_ATTRIBUTE_UNIX_MODE;
-        FindData.dwReserved0:= FileInfo.st_mode;
         FindData.nFileSizeLow := (FileInfo.st_size and MAXDWORD);
         FindData.nFileSizeHigh := (FileInfo.st_size shr $20);
         FindData.ftLastAccessTime:= UnixTimeToFileTime(FileInfo.st_atime);
         FindData.ftCreationTime:= UnixTimeToFileTime(FileInfo.st_ctime);
         FindData.ftLastWriteTime:= UnixTimeToFileTime(FileInfo.st_mtime);
+      end;
+      if smbc_getxattr(PChar(SambaHandle^.Path + FindData.cFileName), 'system.dos_attr.mode', @Mode, 32) >= 0 then
+      begin
+        if (Mode[3] = 0) then
+          FindData.dwFileAttributes:= Mode[2] - 48
+        else
+          case Mode[2] of
+          48: FindData.dwFileAttributes:= 0;
+          49: FindData.dwFileAttributes:= Mode[3] - 48 + 16;
+          50: FindData.dwFileAttributes:= Mode[3] - 48 + 32;
+          51: FindData.dwFileAttributes:= Mode[3] - 48 + 48;
+          end;
       end;
   end;
 end;
