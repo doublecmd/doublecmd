@@ -6,7 +6,10 @@ interface
 
 uses
   Classes, SysUtils, Controls, ComCtrls, ExtCtrls {Lazarus < 31552},
-  uFileView, uFilePanelSelect;
+  uFileView, uFilePanelSelect, uDCVersion;
+
+const
+  lazRevNewTabControl = '31767';
 
 type
 
@@ -75,7 +78,11 @@ type
 
   { TFileViewNotebook }
 
+  {$IF lazRevision >= lazRevNewTabControl}
+  TFileViewNotebook = class(TCustomTabControl)
+  {$ELSE}
   TFileViewNotebook = class(TCustomNotebook)
+  {$ENDIF}
   private
     FNotebookSide: TFilePanelSelect;
     FStartDrag: Boolean;
