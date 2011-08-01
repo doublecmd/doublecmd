@@ -42,7 +42,7 @@ type
     destructor Destroy; override;
 
     class function CreateFile(const APath: String): TFile; override;
-    class function CreateFile(const APath: String; SearchRecord: TSearchRecEx): TFile; overload;
+    class function CreateFile(const APath: String; pSearchRecord: PSearchRecEx): TFile; overload;
     {en
        Creates a file object using an existing file/directory as a template.
        All the properties will reflect the existing file.
@@ -138,6 +138,131 @@ uses
   uFileSystemCalcStatisticsOperation,
   uFileSystemSetFilePropertyOperation;
 
+{$IF DEFINED(MSWINDOWS)}
+
+procedure SetOwner(AFile: TFile);
+var
+  sUser, sGroup: String;
+begin
+  with AFile do
+  begin
+    OwnerProperty := TFileOwnerProperty.Create;
+    OwnerProperty.Owner := 0;
+    OwnerProperty.Group := 0;
+
+    if GetFileOwner(FullPath, sUser, sGroup) then
+    begin
+      OwnerProperty.OwnerStr := sUser;
+      OwnerProperty.GroupStr := sGroup;
+    end;
+  end;
+end;
+
+procedure FillFromFindData(
+  AFile: TFile;
+  AFilePath: String;
+  pFindData: PWIN32FINDDATAW);
+var
+  LinkAttrs: TFileAttrs;
+begin
+  with AFile do
+  begin
+    AttributesProperty := TNtfsFileAttributesProperty.Create(
+      pFindData^.dwFileAttributes);
+
+    SizeProperty := TFileSizeProperty.Create(
+      QWord(pFindData^.nFileSizeHigh) shl 32 + pFindData^.nFileSizeLow);
+
+    ModificationTimeProperty := TFileModificationDateTimeProperty.Create(
+      WinFileTimeToDateTime(pFindData^.ftLastWriteTime));
+
+    CreationTimeProperty := TFileCreationDateTimeProperty.Create(
+      WinFileTimeToDateTime(pFindData^.ftCreationTime));
+
+    LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
+      WinFileTimeToDateTime(pFindData^.ftLastAccessTime));
+
+    LinkProperty := TFileLinkProperty.Create;
+
+    if fpS_ISLNK(pFindData^.dwFileAttributes) then
+    begin
+      LinkAttrs := mbFileGetAttrNoLinks(AFilePath);
+      LinkProperty.LinkTo := ReadSymLink(AFilePath);
+      LinkProperty.IsValid := LinkAttrs <> faInvalidAttributes;
+      if LinkProperty.IsValid then
+        LinkProperty.IsLinkToDirectory := fpS_ISDIR(LinkAttrs)
+      else
+        // On Windows links to directories are marked with Directory flag on the link.
+        LinkProperty.IsLinkToDirectory := fpS_ISDIR(pFindData^.dwFileAttributes);
+    end;
+  end;
+end;
+
+{$ELSEIF DEFINED(UNIX)}
+
+procedure FillFromStat(
+  AFile: TFile;
+  AFilePath: String;
+  pStatInfo: BaseUnix.PStat);
+var
+  LinkStatInfo: BaseUnix.Stat;
+begin
+  with AFile do
+  begin
+    AttributesProperty := TUnixFileAttributesProperty.Create(pStatInfo^.st_mode);
+
+    if fpS_ISDIR(pStatInfo^.st_mode) then
+      // On Unix a size for directory entry on filesystem is returned in StatInfo.
+      // We don't want to use it.
+      SizeProperty := TFileSizeProperty.Create(0)
+    else
+      SizeProperty := TFileSizeProperty.Create(Int64(pStatInfo^.st_size));
+
+    ModificationTimeProperty := TFileModificationDateTimeProperty.Create(
+      FileTimeToDateTime(pStatInfo^.st_mtime));
+    CreationTimeProperty := TFileCreationDateTimeProperty.Create(
+      FileTimeToDateTime(pStatInfo^.st_ctime));
+    LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
+      FileTimeToDateTime(pStatInfo^.st_atime));
+
+    LinkProperty := TFileLinkProperty.Create;
+
+    if fpS_ISLNK(pStatInfo^.st_mode) then
+    begin
+      LinkProperty.LinkTo := ReadSymLink(AFilePath);
+      // Stat (as opposed to Lstat) will take info of the file that the link points to (recursively).
+      LinkProperty.IsValid := fpStat(PChar(UTF8ToSys(AFilePath)), LinkStatInfo) = 0;
+      if LinkProperty.IsValid then
+      begin
+        LinkProperty.IsLinkToDirectory := FPS_ISDIR(LinkStatInfo.st_mode);
+      end;
+    end;
+  end;
+end;
+
+{$ELSE}
+
+procedure FillFromSearchRecord(
+  AFile: TFile;
+  AFilePath: String;
+  pSearchRecord: PSearchRecEx;
+  PropertiesToSet: TFilePropertiesTypes = []);
+begin
+  with AFile do
+  begin
+    AttributesProperty := TFileAttributesProperty.Create(pSearchRecord^.Attr);
+    SizeProperty := TFileSizeProperty.Create(pSearchRecord^.Size);
+    ModificationTimeProperty := TFileModificationDateTimeProperty.Create(pSearchRecord^.Time);
+    CreationTimeProperty := TFileCreationDateTimeProperty.Create(pSearchRecord^.Time);
+    LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(pSearchRecord^.Time);
+    LinkProperty := TFileLinkProperty.Create;
+  end;
+end;
+
+{$ENDIF}
+
+// ----------------------------------------------------------------------------
+
 constructor TFileSystemFileSource.Create;
 begin
   inherited Create;
@@ -177,133 +302,90 @@ begin
     CreationTimeProperty := TFileCreationDateTimeProperty.Create;
     LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create;
     LinkProperty := TFileLinkProperty.Create;
+    OwnerProperty := TFileOwnerProperty.Create;
+    TypeProperty := TFileTypeProperty.Create;
+    CommentProperty := TFileCommentProperty.Create;
   end;
 end;
 
-class function TFileSystemFileSource.CreateFile(const APath: String; SearchRecord: TSearchRecEx): TFile;
-{$IF DEFINED(UNIX)}
-var
-  StatInfo: BaseUnix.Stat; //buffer for stat info
-  sFullPath: String;
-{$ENDIF}
-{$IF DEFINED(MSWINDOWS)}
-var
-  sUser, sGroup: String;
-{$ENDIF}
+class function TFileSystemFileSource.CreateFile(const APath: String; pSearchRecord: PSearchRecEx): TFile;
 begin
   Result := TFile.Create(APath);
 
-  with Result do
-  begin
 {$IF DEFINED(MSWINDOWS)}
 
-    AttributesProperty := TNtfsFileAttributesProperty.Create(SearchRecord.Attr);
-    SizeProperty := TFileSizeProperty.Create(SearchRecord.Size);
-    ModificationTimeProperty := TFileModificationDateTimeProperty.Create(
-                                  WinFileTimeToDateTime(SearchRecord.FindData.ftLastWriteTime));
-    CreationTimeProperty := TFileCreationDateTimeProperty.Create(
-                              WinFileTimeToDateTime(SearchRecord.FindData.ftCreationTime));
-    LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
-                                WinFileTimeToDateTime(SearchRecord.FindData.ftLastAccessTime));
-
-    LinkProperty := TFileLinkProperty.Create;
-
-    if AttributesProperty.IsLink then
-    begin
-      LinkProperty.IsLinkToDirectory := AttributesProperty.IsDirectory;
-      LinkProperty.LinkTo := ReadSymLink(Path + SearchRecord.Name);
-      LinkProperty.IsValid := mbFileSystemEntryExists(LinkProperty.LinkTo);
-    end;
-
-    {OwnerProperty := TFileOwnerProperty.Create;
-    OwnerProperty.Owner := 0;
-    OwnerProperty.Group := 0;
-    if GetFileOwner(Path + SearchRecord.Name, sUser, sGroup) then
-    begin
-      OwnerProperty.OwnerStr := sUser;
-      OwnerProperty.GroupStr := sGroup;
-    end;
-
-    TypeProperty := TFileTypeProperty.Create;
-    TypeProperty.Value := GetFileDescription(Path + SearchRecord.Name);}
+  FillFromFindData(Result,
+                   APath + pSearchRecord^.Name,
+                   @(pSearchRecord^.FindData));
 
 {$ELSEIF DEFINED(UNIX)}
 
-    StatInfo := PUnixFindData(SearchRecord.FindHandle)^.StatRec;
-
-    AttributesProperty := TUnixFileAttributesProperty.Create(StatInfo.st_mode);
-    if AttributesProperty.IsDirectory then
-      // On Unix a size for directory entry on filesystem is returned in StatInfo.
-      // We don't want to use it.
-      SizeProperty := TFileSizeProperty.Create(0)
-    else
-{$PUSH}{$R-}
-      SizeProperty := TFileSizeProperty.Create(StatInfo.st_size);
-
-    ModificationTimeProperty := TFileModificationDateTimeProperty.Create(
-                                  FileTimeToDateTime(StatInfo.st_mtime));
-    CreationTimeProperty := TFileCreationDateTimeProperty.Create(
-                              FileTimeToDateTime(StatInfo.st_ctime));
-    LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(
-                                FileTimeToDateTime(StatInfo.st_atime));
-{$POP}
-
-    LinkProperty := TFileLinkProperty.Create;
-
-    if AttributesProperty.IsLink then
-    begin
-      sFullPath := PUnixFindData(SearchRecord.FindHandle)^.sPath + SearchRecord.Name;
-
-      LinkProperty.LinkTo := ReadSymLink(sFullPath);
-      // Stat (as opposed to Lstat) will take info of the file that the link points to (recursively).
-      LinkProperty.IsValid := fpStat(PChar(UTF8ToSys(sFullPath)), StatInfo) = 0;
-      if LinkProperty.IsValid then
-      begin
-        LinkProperty.IsLinkToDirectory := FPS_ISDIR(StatInfo.st_mode);
-      end;
-    end;
-
-    {OwnerProperty := TFileOwnerProperty.Create;
-    OwnerProperty.Owner := StatInfo.st_uid;
-    OwnerProperty.Group := StatInfo.st_gid;
-    OwnerProperty.OwnerStr := UIDToStr(StatInfo.st_uid);
-    OwnerProperty.GroupStr := GIDToStr(StatInfo.st_gid);
-
-    TypeProperty := TFileTypeProperty.Create;}
+  FillFromStat(Result,
+               APath + pSearchRecord^.Name,
+               @(PUnixFindData(pSearchRecord^.FindHandle)^.StatRec));
 
 {$ELSE}
 
-    AttributesProperty := TFileAttributesProperty.Create(SearchRecord.Attributes);
-    SizeProperty := TFileSizeProperty.Create(SearchRecord.Size);
-    ModificationTimeProperty := TFileModificationDateTimeProperty.Create(SearchRecord.Time);
-    CreationTimeProperty := TFileCreationDateTimeProperty.Create(SearchRecord.Time);
-    LastAccessTimeProperty := TFileLastAccessDateTimeProperty.Create(SearchRecord.Time);
-    LinkProperty := TFileLinkProperty.Create;
+  FillFromSearchRecord(Result,
+                       APath + pSearchRecord^.Name,
+                       pSearchRecord);
 
 {$ENDIF}
 
-    // Set name after assigning Attributes property, because it is used to get extension.
-    Name := SearchRecord.Name;
-  end;
+  // Set name after assigning Attributes property, because it is used to get extension.
+  Result.Name := pSearchRecord^.Name;
 end;
 
 class function TFileSystemFileSource.CreateFileFromFile(const aFilePath: String): TFile;
 var
+{$IF DEFINED(MSWINDOWS)}
+  FindData: TWIN32FINDDATAW;
+  FindHandle: THandle;
+{$ELSEIF DEFINED(UNIX)}
+  StatInfo: BaseUnix.Stat;
+{$ELSE}
   SearchRecord: TSearchRecEx;
   FindResult: Longint;
+{$ENDIF}
 begin
   Result := nil;
+
+{$IF DEFINED(MSWINDOWS)}
+
+  FindHandle := FindFirstFileW(PWideChar(UTF8Decode(aFilePath)), @FindData);
+  if FindHandle = INVALID_HANDLE_VALUE then
+    raise EFileNotFound.Create(aFilePath);
+  Windows.FindClose(FindHandle);
+
+  Result := TFile.Create(ExtractFilePath(aFilePath));
+  FillFromFindData(Result, aFilePath, @FindData);
+
+{$ELSEIF DEFINED(UNIX)}
+
+  if fpLStat(AFilePath, StatInfo) = -1 then
+    raise EFileNotFound.Create(aFilePath);
+
+  Result := TFile.Create(ExtractFilePath(aFilePath));
+  FillFromStat(Result, aFilePath, @StatInfo);
+
+{$ELSE}
 
   FindResult := FindFirstEx(aFilePath, faAnyFile, SearchRecord);
   try
     if FindResult <> 0 then
       raise EFileNotFound.Create(aFilePath);
 
-    Result := CreateFile(ExtractFilePath(aFilePath), SearchRecord);
+    Result := TFile.Create(ExtractFilePath(aFilePath));
+    FillFromSearchRecord(Result, aFilePath, @SearchRecord);
 
   finally
     FindCloseEx(SearchRecord);
   end;
+
+{$ENDIF}
+
+  // Set name after assigning Attributes property, because it is used to get extension.
+  Result.FullPath := aFilePath;
 end;
 
 class function TFileSystemFileSource.CreateFilesFromFileList(
@@ -343,21 +425,6 @@ var
 {$ELSE}
   SearchRec: TSearchRecEx;
 {$ENDIF}
-
-{$IF DEFINED(MSWINDOWS)}
-  procedure SetOwnerProperty;
-  var
-    sUser, sGroup: String;
-  begin
-    if GetFileOwner(sFullPath, sUser, sGroup) then
-      with AFile do
-      begin
-        OwnerProperty.OwnerStr := sUser;
-        OwnerProperty.GroupStr := sGroup;
-      end;
-  end;
-{$ENDIF}
-
 begin
   AProps := AFile.AssignedProperties;
 
@@ -410,7 +477,7 @@ begin
 
     if fpLink in PropertiesToSet then
     begin
-      Attrs := TFileAttributesProperty(Properties[fpAttributes]).Value;
+      Attrs := Attributes;
 
       LinkProperty := TFileLinkProperty.Create;
 
@@ -429,10 +496,7 @@ begin
 
     if fpOwner in PropertiesToSet then
     begin
-      OwnerProperty := TFileOwnerProperty.Create;
-      OwnerProperty.Owner := 0;
-      OwnerProperty.Group := 0;
-      SetOwnerProperty;
+      SetOwner(AFile);
     end;
 
     if fpType in PropertiesToSet then
@@ -449,7 +513,7 @@ begin
          fpCreationTime,
          fpLastAccessTime,
          fpOwner] * PropertiesToSet <> []) or
-       ((uFileProperty.fpLink in PropertiesToSet) and (not (fpAttributes in AssignedProperties))) then
+       ((TFilePropertyType.fpLink in PropertiesToSet) and (not (fpAttributes in AssignedProperties))) then
     begin
       if fpLstat(sFullPath, StatInfo) = -1 then
         raise EFileNotFound.Create(sFullPath);
@@ -478,11 +542,11 @@ begin
           FileTimeToDateTime(StatInfo.st_atime));
     end;
 
-    if uFileProperty.fpLink in PropertiesToSet then
+    if TFilePropertyType.fpLink in PropertiesToSet then
     begin
-      LinkProperty := TFileLinkProperty.Create;
+      Attrs := Attributes;
 
-      Attrs := TFileAttributesProperty(Properties[fpAttributes]).Value;
+      LinkProperty := TFileLinkProperty.Create;
 
       if fpS_ISLNK(Attrs) then
       begin
@@ -537,10 +601,12 @@ begin
       TypeProperty := TFileTypeProperty.Create;
 
 {$ENDIF}
+
     if fpComment in PropertiesToSet then
     begin
       CommentProperty := TFileCommentProperty.Create;
-      if not Assigned(FDescr) then FDescr:= TDescription.Create(False);
+      if not Assigned(FDescr) then
+        FDescr := TDescription.Create(False);
       CommentProperty.Value := FDescr.ReadDescription(sFullPath);
     end;
   end;
@@ -638,7 +704,7 @@ begin
              fpModificationTime,
              fpCreationTime,
              fpLastAccessTime,
-             uFileProperty.fpLink
+             TFilePropertyType.fpLink
             ];
 end;
 

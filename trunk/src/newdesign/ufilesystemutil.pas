@@ -240,7 +240,7 @@ procedure FillAndCount(Files: TFiles; CountDirs: Boolean; ExcludeRootDir: Boolea
     begin
       repeat
         if (sr.Name='.') or (sr.Name='..') then Continue;
-        aFile := TFileSystemFileSource.CreateFile(srcPath, sr);
+        aFile := TFileSystemFileSource.CreateFile(srcPath, @sr);
 
         // For process symlinks, read only files etc.
   //      CheckFile(aFile);
@@ -506,7 +506,7 @@ begin
     repeat
       if (sr.Name = '.') or (sr.Name = '..') then Continue;
 
-      aFile := TFileSystemFileSource.CreateFile(srcPath, sr);
+      aFile := TFileSystemFileSource.CreateFile(srcPath, @sr);
       AddItem(aFile, CurrentNode);
     until FindNextEx(sr) <> 0;
   end;
