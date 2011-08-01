@@ -52,6 +52,7 @@ type
   PFileTime = ^TFileTime;
   PWinFileTime = ^TWinFileTime;
 
+  PSearchRecEx = ^TSearchRecEx;
   TSearchRecEx = Record
     Time : TFileTime;  // modification time
     Size : Int64;

@@ -62,7 +62,7 @@ begin
     if (sr.Name='..') and IsRootPath then
       Continue;
 
-    AFile := TFileSystemFileSource.CreateFile(Path, sr);
+    AFile := TFileSystemFileSource.CreateFile(Path, @sr);
     FFiles.Add(AFile);
 
   until FindNextEx(sr)<>0;

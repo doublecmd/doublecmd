@@ -164,7 +164,7 @@ begin
     repeat
       if (sr.Name='.') or (sr.Name='..') then Continue;
 
-      aFile := TFileSystemFileSource.CreateFile(srcPath, sr);
+      aFile := TFileSystemFileSource.CreateFile(srcPath, @sr);
       try
         ProcessFile(aFile);
       finally
@@ -197,4 +197,4 @@ begin
 end;
 
 end.
-
+
