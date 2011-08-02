@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, ComCtrls, ExtCtrls {Lazarus < 31552},
-  uFileView, uFilePanelSelect, uDCVersion;
+  uFileView, uFilePanelSelect, uDCVersion, LCLVersion;
 
 const
   lazRevNewTabControl = '31767';
@@ -78,7 +78,7 @@ type
 
   { TFileViewNotebook }
 
-  {$IF lazRevision >= lazRevNewTabControl}
+  {$IF (lcl_release >= 31) and (lazRevision >= lazRevNewTabControl)}
   TFileViewNotebook = class(TCustomTabControl)
   {$ELSE}
   TFileViewNotebook = class(TCustomNotebook)
