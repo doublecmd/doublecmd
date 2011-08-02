@@ -513,7 +513,7 @@ begin
          fpCreationTime,
          fpLastAccessTime,
          fpOwner] * PropertiesToSet <> []) or
-       ((TFilePropertyType.fpLink in PropertiesToSet) and (not (fpAttributes in AssignedProperties))) then
+       ((uFileProperty.fpLink in PropertiesToSet) and (not (fpAttributes in AssignedProperties))) then
     begin
       if fpLstat(sFullPath, StatInfo) = -1 then
         raise EFileNotFound.Create(sFullPath);
@@ -542,7 +542,7 @@ begin
           FileTimeToDateTime(StatInfo.st_atime));
     end;
 
-    if TFilePropertyType.fpLink in PropertiesToSet then
+    if uFileProperty.fpLink in PropertiesToSet then
     begin
       Attrs := Attributes;
 
@@ -704,7 +704,7 @@ begin
              fpModificationTime,
              fpCreationTime,
              fpLastAccessTime,
-             TFilePropertyType.fpLink
+             uFileProperty.fpLink
             ];
 end;
 
