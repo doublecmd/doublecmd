@@ -283,6 +283,7 @@ uses
   FileUtil, uDebug, uDCUtils, uGlobs
   {$IF DEFINED(MSWINDOWS)}
   , JwaWinCon, Windows, uNTFSLinks, uMyWindows, JwaWinNetWk, uShlObjAdditional
+  , shlobj
   {$ENDIF}
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, uMyUnix, dl
@@ -885,18 +886,32 @@ end;
 
 function GetAppConfigDir: String;
 {$IF DEFINED(MSWINDOWS)}
+const
+  SHGFP_TYPE_CURRENT = 0;
 var
-  iSize: Integer;
-  wDir: WideString;
+  wPath: array[0..MAX_PATH-1] of WideChar;
+  wUser: WideString;
+  dwLength: DWORD;
 begin
-  iSize:= GetEnvironmentVariableW('APPDATA', nil, 0);
-  if iSize > 0 then
+  if SUCCEEDED(SHGetFolderPathW(0, CSIDL_APPDATA or CSIDL_FLAG_CREATE, 0, SHGFP_TYPE_CURRENT, @wPath[0])) or
+     SUCCEEDED(SHGetFolderPathW(0, CSIDL_LOCAL_APPDATA or CSIDL_FLAG_CREATE, 0, SHGFP_TYPE_CURRENT, @wPath[0])) then
+  begin
+    Result := UTF8Encode(WideString(wPath));
+  end
+  else
+  begin
+    dwLength := UNLEN + 1;
+    SetLength(wUser, dwLength);
+    if GetUserNameW(PWideChar(wUser), @dwLength) then
     begin
-      SetLength(wDir, iSize);
-      GetEnvironmentVariableW('APPDATA', PWChar(wDir), iSize);
-    end;
-  Delete(wDir, iSize, 1);
-  Result:= UTF8Encode(wDir) + DirectorySeparator + ApplicationName;
+      SetLength(wUser, dwLength - 1);
+      Result := GetTempDir + UTF8Encode(wUser);
+    end
+    else
+      Result := EmptyStr;
+  end;
+  if Result <> '' then
+    Result := Result + DirectorySeparator + ApplicationName;
 end;
 {$ELSEIF DEFINED(DARWIN)}
 begin
