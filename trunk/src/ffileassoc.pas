@@ -98,6 +98,7 @@ type
     procedure btnRenameTypeResize(Sender: TObject);
     procedure btnUpActClick(Sender: TObject);
     procedure edtIconFileNameChange(Sender: TObject);
+    procedure fneCommandAcceptFileName(Sender: TObject; var Value: String);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -567,6 +568,13 @@ procedure TfrmFileAssoc.edtIconFileNameChange(Sender: TObject);
 begin
   if not FUpdatingControls then
     SetIconFileName(edtIconFileName.Text);
+end;
+
+procedure TfrmFileAssoc.fneCommandAcceptFileName(Sender: TObject;
+  var Value: String);
+begin
+  if Pos(#32, Value) <> 0 then
+    Value:= QuoteStr(Value);
 end;
 
 procedure TfrmFileAssoc.FormClose(Sender: TObject; var CloseAction: TCloseAction);
