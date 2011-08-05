@@ -573,8 +573,10 @@ end;
 procedure TfrmFileAssoc.fneCommandAcceptFileName(Sender: TObject;
   var Value: String);
 begin
-  if Pos(#32, Value) <> 0 then
-    Value:= QuoteStr(Value);
+  if Pos(#32, Value) = 0 then
+    Value:= Value + #32
+  else
+    Value:= QuoteStr(Value) + #32;
 end;
 
 procedure TfrmFileAssoc.FormClose(Sender: TObject; var CloseAction: TCloseAction);
