@@ -426,7 +426,6 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 17
       Top = 29
       Width = 55
-      AllowGrayed = True
       BorderSpacing.Bottom = 6
       Caption = 'System'
       OnClick = chkChangeAttrClick
@@ -438,7 +437,6 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 17
       Top = 6
       Width = 53
-      AllowGrayed = True
       Anchors = [akTop]
       Caption = 'Hidden'
       OnClick = chkChangeAttrClick
@@ -451,7 +449,6 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 17
       Top = 6
       Width = 56
-      AllowGrayed = True
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
       Caption = 'Archive'
@@ -466,7 +463,6 @@ object frmSetFileProperties: TfrmSetFileProperties
       Height = 17
       Top = 29
       Width = 68
-      AllowGrayed = True
       BorderSpacing.Top = 6
       BorderSpacing.Bottom = 6
       Caption = 'Read only'
