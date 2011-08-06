@@ -70,6 +70,7 @@ var
   LogProc: TLogProc;
   RequestProc: TRequestProc;
   PluginNumber: Integer;
+  Auth: Boolean = False;
   Abort: Boolean = False;
   NeedAuth: Boolean = False;
   UserName: array[0..MAX_PATH-1] of AnsiChar;
@@ -104,6 +105,8 @@ procedure smbc_get_auth_data(server, share: PAnsiChar;
                                   un: PAnsiChar; unlen: LongInt;
                                   pw: PAnsiChar; pwlen: LongInt); cdecl;
 begin
+  Auth:= True;
+
   if NeedAuth then
   begin
     Abort:= True;
@@ -159,6 +162,23 @@ begin
     end;
 end;
 
+function ForceAuth(Path: PAnsiChar): String;
+var
+  un: array[0..MAX_PATH-1] of AnsiChar;
+  pw: array[0..MAX_PATH-1] of AnsiChar;
+begin
+  // Use by default saved user name and password
+  StrLCopy(un, UserName, MAX_PATH);
+  StrLCopy(pw, Password, MAX_PATH);
+  // Query auth data
+  smbc_get_auth_data(nil, nil, nil, 0, un, MAX_PATH, pw, MAX_PATH);
+  if (Abort = False) and (un <> '') then
+  begin
+    Result:= BuildNetworkPath(Path);
+    Result:= 'smb://' + un + ':' + pw + '@' + Copy(Result, 7, MAX_PATH);
+  end;
+end;
+
 function FsInit(PluginNr: Integer; pProgressProc: tProgressProc; pLogProc: tLogProc; pRequestProc: tRequestProc): Integer; stdcall;
 begin
   if not LoadSambaLibrary then
@@ -188,8 +208,15 @@ begin
   Abort:= False;
   NetworkPath:= BuildNetworkPath(Path);
   repeat
+    Auth:= False;
     Handle:= smbc_opendir(PChar(NetworkPath));
     NeedAuth:= (Handle = -1);
+    // Sometimes smbc_get_auth_data don't called automatically
+    // so we call it manually
+    if NeedAuth and (Auth = False) then
+    begin
+      NetworkPath:= ForceAuth(Path);
+    end;
   until not NeedAuth or Abort;
   if Handle < 0 then
     begin
