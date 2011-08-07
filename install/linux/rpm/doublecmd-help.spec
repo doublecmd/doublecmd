@@ -4,7 +4,7 @@
 
 Name:		doublecmd-help-en
 Summary:	Documentation for the Double Commander (English)
-Version:	0.4.6
+Version:	0.5.5
 Release:	1
 Url:		http://doublecmd.sourceforge.net/
 License:	GPL

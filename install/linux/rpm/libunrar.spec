@@ -1,5 +1,5 @@
 Name:		libunrar
-Version:	4.0.4
+Version:	4.0.7
 Release:	1
 Summary:	Library for extract *.rar format archives
 Source:		http://www.rarlab.com/rar/unrarsrc-%{version}.tar.gz
