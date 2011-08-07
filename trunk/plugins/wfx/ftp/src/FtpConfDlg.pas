@@ -88,11 +88,6 @@ begin
             gConnection.MasterPassword:= Boolean(Data);
             if not gConnection.MasterPassword then
               DeletePassword(gConnection.ConnectionName);
-          end
-        else if DlgItemName = 'chkSendCommand' then
-          begin
-            SendDlgMsg(pDlg, 'cmbCommand', DM_ENABLE, wParam, 0);
-            SendDlgMsg(pDlg, 'edtInterval', DM_ENABLE, wParam, 0);
           end;
       DN_CLICK:
         if DlgItemName = 'btnAnonymous' then
