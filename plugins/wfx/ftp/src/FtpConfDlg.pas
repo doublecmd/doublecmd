@@ -63,7 +63,7 @@ begin
             begin
               SendDlgMsg(pDlg, 'chkMasterPassword', DM_SETCHECK, 1, 0);
               SendDlgMsg(pDlg, 'chkMasterPassword', DM_ENABLE, 0, 0);
-              SendDlgMsg(pDlg, 'edtPassword', DM_SHOWITEM, 0, 0);
+              //SendDlgMsg(pDlg, 'edtPassword', DM_SHOWITEM, 0, 0);
               SendDlgMsg(pDlg, 'btnChangePassword', DM_SHOWITEM, 1, 0);
             end
           else
@@ -180,4 +180,4 @@ begin
   end;
 end;
 
-end.
+end.
