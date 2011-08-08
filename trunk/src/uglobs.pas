@@ -26,7 +26,7 @@ interface
 
 uses
   Classes, Controls, Forms, uExts, uColorExt, Graphics, uClassesEx, uMultiArc,
-  uColumns, uhotkeymanger, uActs, uSearchTemplate, uFileSourceOperationOptions,
+  uColumns, uHotkeyManager, uActs, uSearchTemplate, uFileSourceOperationOptions,
   uWFXModule, uWCXModule, uWDXModule, uwlxmodule, udsxmodule, uXmlConfig,
   uInfoToolTip;
 
