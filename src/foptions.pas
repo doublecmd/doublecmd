@@ -438,7 +438,7 @@ implementation
 uses
   uLng, uGlobsPaths, uPixMapManager, fMain, LCLProc, LCLVersion,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
-  uhotkeymanger, uTypes, StrUtils, uFindEx, uKeyboard,
+  uHotkeyManager, uTypes, StrUtils, uFindEx, uKeyboard,
   fMaskInputDlg, uSearchTemplate, uMultiArc, uFile, uDebug,
   fOptionsPlugins, fOptionsToolTips, fOptionsColors;
 

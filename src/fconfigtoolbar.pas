@@ -148,7 +148,7 @@ implementation
 
 uses
   LCLProc, HelpIntfs, uClassesEx, uOSForms, uPixMapManager, uLng,
-  uGlobsPaths, uGlobs, uDCUtils, uOSUtils, uhotkeymanger, uKeyboard;
+  uGlobsPaths, uGlobs, uDCUtils, uOSUtils, uHotkeyManager, uKeyboard;
 
 function ShowConfigToolbar(const aBarFileName: UTF8String; iButtonIndex : Integer = -1): Boolean;
 begin
