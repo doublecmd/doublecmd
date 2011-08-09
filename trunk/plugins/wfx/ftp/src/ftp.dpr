@@ -29,7 +29,7 @@ exports
   FsNetworkManageConnection,
   FsNetworkOpenConnection,
   }
-  SetDlgProc;
+  ExtensionInitialize;
 
 begin
 end.

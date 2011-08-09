@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WCX plugin for working with *.zip, *.gz, *.tar, *.tgz archives
 
-   Copyright (C) 2007-2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -28,7 +28,7 @@ interface
 
 uses 
   Classes,
-  WcxPlugin, AbZipKit, AbArcTyp, AbZipTyp, DialogAPI,
+  WcxPlugin, AbZipKit, AbArcTyp, AbZipTyp, Extension,
   AbExcept, AbUtils, AbConst;
 
 type
@@ -72,8 +72,8 @@ function GetPackerCaps : Integer;stdcall;
 procedure ConfigurePacker (Parent: HWND;  DllInstance: THandle);stdcall;
 function CanYouHandleThisFile(FileName: PAnsiChar): Boolean; stdcall;
 function CanYouHandleThisFileW(FileName: PWideChar): Boolean; stdcall;
-{Dialog API function}
-procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
+{Extension API}
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); stdcall;
 
 const
   IniFileName = 'zip.ini';
@@ -81,11 +81,9 @@ const
 var
   gProcessDataProc : TProcessDataProc;
   gProcessDataProcW : TProcessDataProcW;
-  gSetDlgProcInfo: TSetDlgProcInfo;
+  gStartupInfo: TExtensionStartupInfo;
   gCompressionMethodToUse : TAbZipSupportedMethod;
   gDeflationOption : TAbZipDeflationOption;
-  gPluginDir: UTF8String;
-  gPluginConfDir: UTF8String;
   
 implementation
 
@@ -809,21 +807,14 @@ begin
   end;
 end;
 
-procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); stdcall;
 var
   gIni: TIniFile;
 begin
-  gSetDlgProcInfo:= SetDlgProcInfo;
-
-  gPluginDir := UTF8Encode(WideString(gSetDlgProcInfo.PluginDir));
-  gPluginConfDir := UTF8Encode(WideString(gSetDlgProcInfo.PluginConfDir));
-
-  // Clear so they are not used anymore.
-  gSetDlgProcInfo.PluginDir := nil;
-  gSetDlgProcInfo.PluginConfDir := nil;
+  gStartupInfo:= StartupInfo^;
 
   // load configuration from ini file
-  gIni:= TIniFile.Create(gPluginConfDir + IniFileName);
+  gIni:= TIniFile.Create(gStartupInfo.PluginConfDir + IniFileName);
   try
     LoadConfig;
   finally
@@ -890,16 +881,14 @@ end;
 procedure TAbZipKitEx.AbNeedPasswordEvent(Sender: TObject;
                                           var NewPassword: AnsiString);
 var
-  waNewPassword: array[0..MAX_PATH] of WideChar;
-  wsNewPassword: WideString;
+  aNewPassword: array[0..MAX_PATH-1] of AnsiChar;
   Result: Boolean;
 begin
-  wsNewPassword := UTF8Decode(NewPassword);
-  waNewPassword := Copy(wsNewPassword, 1, MAX_PATH);
-  Result:= gSetDlgProcInfo.InputBox('Zip', 'Please enter the password:', True, PWideChar(waNewPassword), MAX_PATH);
+  aNewPassword := Copy(NewPassword, 1, MAX_PATH);
+  Result:= gStartupInfo.InputBox('Zip', 'Please enter the password:', True, PAnsiChar(aNewPassword), MAX_PATH);
   if Result then
     begin
-      NewPassword := UTF8Encode(WideString(waNewPassword));
+      NewPassword := aNewPassword;
     end
   else
     begin
@@ -908,4 +897,4 @@ begin
 end;
 
 end.
-
+

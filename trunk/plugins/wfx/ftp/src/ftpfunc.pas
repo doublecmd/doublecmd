@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WFX plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -33,7 +33,7 @@ uses
   {$IFDEF MSWINDOWS}
   Windows,
   {$ENDIF}
-  WfxPlugin, FtpSend, DialogAPI;
+  WfxPlugin, FtpSend, Extension;
 
 type
 
@@ -101,15 +101,14 @@ function FsNetworkGetConnection(Index: LongInt; Connection: PAnsiChar; MaxLen: L
 function FsNetworkManageConnection(MainWin: HWND; Connection: PAnsiChar; Action: LongInt; MaxLen: LongInt): LongBool; stdcall;
 function FsNetworkOpenConnection(Connection: PAnsiChar; RootDir, RemotePath: PAnsiChar; MaxLen: LongInt): LongBool; stdcall;
 }
-{ Dialog API function }
-procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo); stdcall;
+{ Extension API }
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); stdcall;
 
 function ReadPassword(ConnectionName: UTF8String): AnsiString;
 function DeletePassword(ConnectionName: UTF8String): Boolean;
 
 var
-  gSetDlgProcInfo: TSetDlgProcInfo;
-  gPluginDir: UTF8String;
+  gStartupInfo: TExtensionStartupInfo;
   gConnection: TConnection;
 
 implementation
@@ -921,17 +920,10 @@ begin
 end;
 }
 
-procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);
-var
-  gIni: TIniFile;
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo);
 begin
-  gSetDlgProcInfo:= SetDlgProcInfo;
+  gStartupInfo:= StartupInfo^;
 
-  gPluginDir := UTF8Encode(WideString(gSetDlgProcInfo.PluginDir));
-
-  // Clear so they are not used anymore.
-  gSetDlgProcInfo.PluginDir := nil;
-  gSetDlgProcInfo.PluginConfDir := nil;
   HasDialogAPI:= True;
 end;
 

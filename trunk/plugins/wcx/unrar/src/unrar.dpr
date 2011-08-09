@@ -16,7 +16,7 @@ exports
   SetChangeVolProcW,
   SetProcessDataProc,
   SetProcessDataProcW,
-  SetDlgProc;
+  ExtensionInitialize;
 
 begin
   ModuleHandle := LoadLibrary(_unrar);

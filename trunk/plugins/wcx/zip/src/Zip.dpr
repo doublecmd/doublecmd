@@ -30,8 +30,8 @@ exports
   ConfigurePacker,
   CanYouHandleThisFile,
   CanYouHandleThisFileW,
-  { DialogAPI }
-  SetDlgProc;
+  { Extension API }
+  ExtensionInitialize;
 
 begin
 {$IFDEF UNIX}
