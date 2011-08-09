@@ -29,7 +29,7 @@ interface
 
 uses
   LCLType, Classes, Dialogs, dynlibs,
-  uWCXprototypes, WcxPlugin, DialogAPI, uClassesEx, uTypes, uXmlConfig;
+  uWCXprototypes, WcxPlugin, Extension, uClassesEx, uTypes, uXmlConfig;
 
 Type
   TWCXOperation = (OP_EXTRACT, OP_PACK, OP_DELETE);
@@ -103,8 +103,9 @@ Type
     StartMemPackW: TStartMemPackW;
     CanYouHandleThisFileW: TCanYouHandleThisFileW;
     PkSetCryptCallbackW : TPkSetCryptCallbackW;
-    { Dialog API }
-    SetDlgProc: TSetDlgProc;
+    { Extension API }
+    ExtensionInitialize: TExtensionInitializeProc;
+    ExtensionFinalize:   TExtensionFinalizeProc;
 
     constructor Create;
     destructor Destroy; override;
@@ -180,7 +181,13 @@ end;
 
 destructor TWCXModule.Destroy;
 begin
-  UnloadModule;
+  if IsLoaded then
+  begin
+    if Assigned(ExtensionFinalize) then
+      ExtensionFinalize(nil);
+    //------------------------------------------------------
+    UnloadModule;
+  end;
 end;
 
 function TWCXModule.OpenArchiveHandle(FileName: String; anOpenMode: Longint; out OpenResult: Longint): TArcHandle;
@@ -317,9 +324,7 @@ end;
 function TWCXModule.LoadModule(const sName:String):Boolean;
 var
   PackDefaultParamStruct : TPackDefaultParamStruct;
-  SetDlgProcInfo: TSetDlgProcInfo;
-  sPluginDir: WideString;
-  sPluginConfDir: WideString;
+  StartupInfo: TExtensionStartupInfo;
 begin
   FModuleHandle := mbLoadLibrary(sName);
   if FModuleHandle = 0 then
@@ -370,8 +375,9 @@ begin
   StartMemPackW:= TStartMemPackW(GetProcAddress(FModuleHandle,'StartMemPackW'));
   CanYouHandleThisFileW:= TCanYouHandleThisFileW(GetProcAddress(FModuleHandle,'CanYouHandleThisFileW'));
   PkSetCryptCallbackW:= TPkSetCryptCallbackW(GetProcAddress(FModuleHandle,'PkSetCryptCallbackW'));
-  // Dialog API function
-  SetDlgProc:= TSetDlgProc(GetProcAddress(FModuleHandle,'SetDlgProc'));
+  // Extension API
+  ExtensionInitialize:= TExtensionInitializeProc(GetProcAddress(FModuleHandle,'ExtensionInitialize'));
+  ExtensionFinalize:= TExtensionFinalizeProc(GetProcAddress(FModuleHandle,'ExtensionFinalize'));
 
   if Assigned(PackSetDefaultParams) then
     begin
@@ -390,16 +396,16 @@ begin
   else
     FBackgroundFlags:= GetBackgroundFlags();
 
-  // Dialog API
-  if Assigned(SetDlgProc) then
+  // Extension API
+  if Assigned(ExtensionInitialize) then
     begin
-      sPluginDir := UTF8Decode(ExtractFilePath(sName));
-      sPluginConfDir := UTF8Decode(gpCfgDir);
+      FillByte(StartupInfo, SizeOf(TStartupInfo), 0);
 
-      with SetDlgProcInfo do
+      with StartupInfo do
       begin
-        PluginDir:= PWideChar(sPluginDir);
-        PluginConfDir:= PWideChar(sPluginConfDir);
+        StructSize:= SizeOf(TExtensionStartupInfo);
+        PluginDir:= PAnsiChar(ExtractFilePath(sName));
+        PluginConfDir:= PAnsiChar(gpCfgDir);
         InputBox:= @fDialogBox.InputBox;
         MessageBox:= @fDialogBox.MessageBox;
         DialogBoxLFM:= @fDialogBox.DialogBoxLFM;
@@ -408,7 +414,7 @@ begin
         SendDlgMsg:= @fDialogBox.SendDlgMsg;
       end;
 
-      SetDlgProc(SetDlgProcInfo);
+      ExtensionInitialize(@StartupInfo);
     end;
 
   Result := True;
@@ -454,8 +460,9 @@ begin
   StartMemPackW:= nil;
   CanYouHandleThisFileW:= nil;
   PkSetCryptCallbackW:= nil;
-  // DialogAPI
-  SetDlgProc:= nil;
+  // Extension API
+  ExtensionInitialize:= nil;
+  ExtensionFinalize:= nil;
 end;
 
 function GetErrorMsg(iErrorMsg : Integer): String;

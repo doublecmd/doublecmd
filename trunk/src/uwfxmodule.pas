@@ -33,7 +33,7 @@ interface
 
 uses
   SysUtils, Classes, WfxPlugin, uWFXprototypes,
-  dynlibs, uClassesEx, DialogAPI, uTypes, uXmlConfig;
+  dynlibs, uClassesEx, Extension, uTypes, uXmlConfig;
 
 const
   WFX_SUCCESS      =  0;
@@ -124,8 +124,9 @@ type
     FsContentStopGetValueW: TFsContentStopGetValueW;
     FsContentSetValueW: TFsContentSetValueW;
     FsContentGetDefaultViewW: TFsContentGetDefaultViewW;
-    { Dialog API }
-    SetDlgProc: TSetDlgProc;
+    { Extension API }
+    ExtensionInitialize: TExtensionInitializeProc;
+    ExtensionFinalize:   TExtensionFinalizeProc;
   public
     function WfxFindFirst(Path: UTF8String; var FindData: TWfxFindData): THandle;
     function WfxFindNext(Hdl: THandle; var FindData: TWfxFindData): Boolean;
@@ -149,7 +150,6 @@ type
     function LoadModule(const sName: String):Boolean; {Load plugin}
     procedure UnloadModule;
     procedure VFSInit(Data: PtrInt);
-    procedure VFSDestroy;
 
     function VFSConfigure(Parent: THandle):Boolean;
     function VFSRootName: UTF8String;
@@ -445,14 +445,14 @@ end;
 destructor TWFXModule.Destroy;
 begin
   if IsLoaded then
-    begin
-      //TODO:Remove this and use VFSDestroy
-      //------------------------------------------------------
-      if Assigned(FsContentPluginUnloading) then
-        FsContentPluginUnloading;
-      //------------------------------------------------------
-      UnloadModule;
-    end;
+  begin
+    if Assigned(FsContentPluginUnloading) then
+      FsContentPluginUnloading;
+    if Assigned(ExtensionFinalize) then
+      ExtensionFinalize(nil);
+    //------------------------------------------------------
+    UnloadModule;
+  end;
 end;
 
 function TWFXModule.LoadModule(const sName: String): Boolean;
@@ -530,8 +530,9 @@ begin
   FsStatusInfoW := TFsStatusInfoW(GetProcAddress(FModuleHandle,'FsStatusInfoW'));
   FsExtractCustomIconW := TFsExtractCustomIconW(GetProcAddress(FModuleHandle,'FsExtractCustomIconW'));
   FsGetLocalNameW := TFsGetLocalNameW(GetProcAddress(FModuleHandle,'FsGetLocalNameW'));
-{ Dialog API }
-  SetDlgProc:= TSetDlgProc(GetProcAddress(FModuleHandle,'SetDlgProc'));
+  { Extension API }
+  ExtensionInitialize:= TExtensionInitializeProc(GetProcAddress(FModuleHandle,'ExtensionInitialize'));
+  ExtensionFinalize:= TExtensionFinalizeProc(GetProcAddress(FModuleHandle,'ExtensionFinalize'));
 end;
 
 procedure TWFXModule.UnloadModule;
@@ -596,16 +597,15 @@ begin
   FsStatusInfoW := nil;
   FsExtractCustomIconW := nil;
   FsGetLocalNameW := nil;
-{ Dialog API }
-  SetDlgProc:= nil;
+  // Extension API
+  ExtensionInitialize:= nil;
+  ExtensionFinalize:= nil;
 end;
 
 procedure TWFXModule.VFSInit(Data: PtrInt);
 var
-  dps: pFsDefaultParamStruct;
-  SetDlgProcInfo: TSetDlgProcInfo;
-  sPluginDir: WideString;
-  sPluginConfDir: WideString;
+  dps: PFsDefaultParamStruct;
+  StartupInfo: TExtensionStartupInfo;
 begin
     if Assigned(FsSetDefaultParams) then
     begin
@@ -621,16 +621,16 @@ begin
       FreeMem(dps, SizeOf(tFsDefaultParamStruct));
     end;
 
-  // Dialog API
-  if Assigned(SetDlgProc) then
+  // Extension API
+  if Assigned(ExtensionInitialize) then
     begin
-      sPluginDir := UTF8Decode(ExtractFilePath(FModuleFileName));
-      sPluginConfDir := UTF8Decode(gpCfgDir);
+      FillByte(StartupInfo, SizeOf(TStartupInfo), 0);
 
-      with SetDlgProcInfo do
+      with StartupInfo do
       begin
-        PluginDir:= PWideChar(sPluginDir);
-        PluginConfDir:= PWideChar(sPluginConfDir);
+        StructSize:= SizeOf(TExtensionStartupInfo);
+        PluginDir:= PAnsiChar(ExtractFilePath(FModuleFileName));
+        PluginConfDir:= PAnsiChar(gpCfgDir);
         InputBox:= @fDialogBox.InputBox;
         MessageBox:= @fDialogBox.MessageBox;
         DialogBoxLFM:= @fDialogBox.DialogBoxLFM;
@@ -639,15 +639,8 @@ begin
         SendDlgMsg:= @fDialogBox.SendDlgMsg;
       end;
 
-      SetDlgProc(SetDlgProcInfo);
+      ExtensionInitialize(@StartupInfo);
     end;
-end;
-
-procedure TWFXModule.VFSDestroy;
-begin
-  //TODO: need to invoke this func
-  if Assigned(FsContentPluginUnloading) then
-    FsContentPluginUnloading;
 end;
 
 function TWFXModule.VFSConfigure(Parent: THandle): Boolean;
