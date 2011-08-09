@@ -399,7 +399,7 @@ begin
   // Extension API
   if Assigned(ExtensionInitialize) then
     begin
-      FillByte(StartupInfo, SizeOf(TStartupInfo), 0);
+      FillByte(StartupInfo, SizeOf(TExtensionStartupInfo), 0);
 
       with StartupInfo do
       begin
