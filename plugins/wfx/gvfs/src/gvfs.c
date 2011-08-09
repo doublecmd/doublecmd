@@ -248,7 +248,7 @@ static void ask_password_cb (GMountOperation *op,
 
     if (flags & G_ASK_PASSWORD_NEED_USERNAME)
     {
-      if (gRequestProc(gPluginNumber, RT_UserName, message, NULL, username, MAX_PATH))
+      if (gRequestProc(gPluginNumber, RT_UserName, (char *)message, NULL, username, MAX_PATH))
       {
         g_mount_operation_set_username (op, username);
       }
@@ -260,7 +260,7 @@ static void ask_password_cb (GMountOperation *op,
     }
     if (flags & G_ASK_PASSWORD_NEED_DOMAIN)
     {
-      if (gRequestProc(gPluginNumber, RT_Other, message, "Domain:", domain, MAX_PATH))
+      if (gRequestProc(gPluginNumber, RT_Other, (char *)message, "Domain:", domain, MAX_PATH))
       {
         g_mount_operation_set_domain (op, domain);
       }
@@ -272,7 +272,7 @@ static void ask_password_cb (GMountOperation *op,
     }
     if (flags & G_ASK_PASSWORD_NEED_PASSWORD)
     {
-      if (gRequestProc(gPluginNumber, RT_Password, message, NULL, password, MAX_PATH))
+      if (gRequestProc(gPluginNumber, RT_Password, (char *)message, NULL, password, MAX_PATH))
       {
         g_mount_operation_set_password (op, password);
       }
