@@ -1345,6 +1345,11 @@ void AddConnection()
   gConnection = NewConnection();
   if (gRequestProc(gPluginNumber, RT_Other, "Network", "Connection name:", name, MAX_PATH))
   {
+    unsigned int i;
+    for(i = 0; i < strlen(name); i++)
+    {
+      if (name[i] == '/') name[i] = '_';
+    }
     gConnection->Name = strdup(name);
     if (AddQuickConnection(gConnection))
     {
