@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WFX plugin for working with File Transfer Protocol
 
-   Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -29,7 +29,7 @@ unit FtpConfDlg;
 interface
 
 uses
-  SysUtils, DialogAPI;
+  SysUtils, Extension;
 
 function ShowFtpConfDlg: Boolean;
   
@@ -38,26 +38,26 @@ implementation
 uses
   FtpFunc, FtpUtils;
 
-function DlgProc (pDlg: PtrUInt; DlgItemName: PChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
+function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
 var
  Data: PtrInt;
- wsText: WideString;
+ Text: UTF8String;
 begin
-  with gSetDlgProcInfo do
+  with gStartupInfo do
   begin
     case Msg of
       DN_INITDIALOG:
         begin
-          wsText:= gConnection.ConnectionName;
-          Data:= PtrInt(PWideChar(wsText));
+          Text:= gConnection.ConnectionName;
+          Data:= PtrInt(PAnsiChar(Text));
           SendDlgMsg(pDlg, 'edtName', DM_SETTEXT, Data, 0);
-          wsText:= gConnection.Host;
+          Text:= gConnection.Host;
           if gConnection.Port <> EmptyStr then
-            wsText:= wsText + ':' + gConnection.Port;
-          Data:= PtrInt(PWideChar(wsText));
+            Text:= Text + ':' + gConnection.Port;
+          Data:= PtrInt(PAnsiChar(Text));
           SendDlgMsg(pDlg, 'edtHost', DM_SETTEXT, Data, 0);
-          wsText:= gConnection.UserName;
-          Data:= PtrInt(PWideChar(wsText));
+          Text:= gConnection.UserName;
+          Data:= PtrInt(PAnsiChar(Text));
           SendDlgMsg(pDlg, 'edtUserName', DM_SETTEXT, Data, 0);
           if gConnection.MasterPassword then
             begin
@@ -68,15 +68,15 @@ begin
             end
           else
             begin
-              wsText:= gConnection.Password;
-              Data:= PtrInt(PWideChar(wsText));
+              Text:= gConnection.Password;
+              Data:= PtrInt(PAnsiChar(Text));
               SendDlgMsg(pDlg, 'edtPassword', DM_SETTEXT, Data, 0);
             end;
-          wsText:= gConnection.Path;
-          Data:= PtrInt(PWideChar(wsText));
+          Text:= gConnection.Path;
+          Data:= PtrInt(PAnsiChar(Text));
           SendDlgMsg(pDlg, 'edtRemoteDir', DM_SETTEXT, Data, 0);
-          wsText:= gConnection.InitCommands;
-          Data:= PtrInt(PWideChar(wsText));
+          Text:= gConnection.InitCommands;
+          Data:= PtrInt(PAnsiChar(Text));
           SendDlgMsg(pDlg, 'edtInitCommands', DM_SETTEXT, Data, 0);
           Data:= PtrInt(gConnection.PassiveMode);
           SendDlgMsg(pDlg, 'chkPassiveMode', DM_SETCHECK, Data, 0);
@@ -92,16 +92,16 @@ begin
       DN_CLICK:
         if DlgItemName = 'btnAnonymous' then
           begin
-            wsText:= 'anonymous';
-            Data:= PtrInt(PWideChar(wsText));
+            Text:= 'anonymous';
+            Data:= PtrInt(PAnsiChar(Text));
             SendDlgMsg(pDlg, 'edtUserName', DM_SETTEXT, Data, 0);
           end
         else if DlgItemName = 'btnChangePassword' then
           begin
-            wsText:= ReadPassword(gConnection.ConnectionName);
-            if wsText <> EmptyStr then
+            Text:= ReadPassword(gConnection.ConnectionName);
+            if Text <> EmptyStr then
               begin
-                Data:= PtrInt(PWideChar(wsText));
+                Data:= PtrInt(PAnsiChar(Text));
                 SendDlgMsg(pDlg, 'edtPassword', DM_SETTEXT, Data, 0);
                 SendDlgMsg(pDlg, 'edtPassword', DM_SHOWITEM, 1, 0);
                 SendDlgMsg(pDlg, 'btnChangePassword', DM_SHOWITEM, 0, 0);
@@ -112,26 +112,26 @@ begin
         else if DlgItemName = 'btnOK' then
           begin
             Data:= SendDlgMsg(pDlg, 'edtName', DM_GETTEXT, 0, 0);
-            wsText:= PWideChar(Data);
-            gConnection.ConnectionName:= wsText;
+            Text:= PAnsiChar(Data);
+            gConnection.ConnectionName:= Text;
             Data:= SendDlgMsg(pDlg, 'edtHost', DM_GETTEXT, 0, 0);
-            wsText:= PWideChar(Data);
-            gConnection.Host:= ExtractConnectionHost(wsText);
-            gConnection.Port:= ExtractConnectionPort(wsText);
+            Text:= PAnsiChar(Data);
+            gConnection.Host:= ExtractConnectionHost(Text);
+            gConnection.Port:= ExtractConnectionPort(Text);
             Data:= SendDlgMsg(pDlg, 'edtUserName', DM_GETTEXT, 0, 0);
-            wsText:= PWideChar(Data);
-            gConnection.UserName:= wsText;
+            Text:= PAnsiChar(Data);
+            gConnection.UserName:= Text;
             Data:= SendDlgMsg(pDlg, 'edtPassword', DM_GETTEXT, 0, 0);
-            wsText:= PWideChar(Data);
-            gConnection.Password:= wsText;
+            Text:= PAnsiChar(Data);
+            gConnection.Password:= Text;
             Data:= SendDlgMsg(pDlg, 'chkMasterPassword', DM_GETCHECK, 0, 0);
             gConnection.MasterPassword:= Boolean(Data);
             Data:= SendDlgMsg(pDlg, 'edtRemoteDir', DM_GETTEXT, 0, 0);
-            wsText:= PWideChar(Data);
-            gConnection.Path:= wsText;
+            Text:= PAnsiChar(Data);
+            gConnection.Path:= Text;
             Data:= SendDlgMsg(pDlg, 'edtInitCommands', DM_GETTEXT, 0, 0);
-            wsText:= PWideChar(Data);
-            gConnection.InitCommands:= wsText;
+            Text:= PAnsiChar(Data);
+            gConnection.InitCommands:= Text;
             Data:= SendDlgMsg(pDlg, 'chkPassiveMode', DM_GETCHECK, 0, 0);
             gConnection.PassiveMode:= Boolean(Data);
             // close dialog
@@ -164,7 +164,7 @@ begin
         ResData := LockResource(ResGlobal);
         ResSize := SizeofResource(HINSTANCE, ResHandle);
 
-        with gSetDlgProcInfo do
+        with gStartupInfo do
         begin
           Result := DialogBoxLRS(ResData, ResSize, @DlgProc);
         end;

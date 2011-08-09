@@ -4,7 +4,7 @@
    WCX plugin for unpacking RAR archives
    This is simple wrapper for unrar.dll or libunrar.so
 
-   Copyright (C) 2008  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -27,7 +27,7 @@ unit UnRARFunc;
 interface
 
 uses
-  WcxPlugin, DialogAPI;
+  WcxPlugin, Extension;
 
 const
   {$IFDEF MSWINDOWS}
@@ -181,7 +181,7 @@ procedure SetChangeVolProc(hArcData : TArcHandle; pChangeVolProc : TChangeVolPro
 procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW);stdcall;
 procedure SetProcessDataProc(hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);stdcall;
 procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);stdcall;
-procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); stdcall;
 
 implementation
 
@@ -215,7 +215,7 @@ var
   ProcessedFileName:  array [0..1023] of Char;
   ProcessedFileNameW: array [0..1023] of WideChar;
   ProcessedFileHostOS: RarHostSystem;
-  DlgProcInfo: TSetDlgProcInfo;
+  ExtensionStartupInfo: TExtensionStartupInfo;
 
 procedure StringToArrayA(src: AnsiString;
                          pDst: PAnsiChar;
@@ -335,8 +335,6 @@ begin
 end;
 
 function UnrarCallback(Msg: LongWord; UserData, P1, P2: PtrInt) : Integer;{$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-var
-  waPassword: array[0..255] of WideChar;
 begin
   Result := 0;
   case Msg of
@@ -378,11 +376,8 @@ begin
       // a password in single byte encoding. You need to copy a password
       // here.
       // P2 - contains the size of password buffer.
-      waPassword := WideString(PAnsiChar(P1));
-      if not DlgProcInfo.InputBox('Unrar', 'Please enter the password:', True, PWideChar(waPassword), P2) then
-        Result := -1
-      else
-        Move(PAnsiChar(AnsiString(WideString(waPassword)))^, Pointer(P1)^, P2);
+      if not ExtensionStartupInfo.InputBox('Unrar', 'Please enter the password:', True, PAnsiChar(P1), P2) then
+        Result := -1;
     end;
   end;
 end;
@@ -681,9 +676,9 @@ begin
   ProcessDataProcW := pProcessDataProc;
 end;
 
-procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); stdcall;
 begin
-  DlgProcInfo := SetDlgProcInfo;
+  ExtensionStartupInfo := StartupInfo^;
 end;
 
 finalization
