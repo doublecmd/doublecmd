@@ -1,4 +1,4 @@
-unit DialogAPI;
+unit Extension;
 
 interface
 
@@ -90,36 +90,50 @@ const
   ID_CLOSE      = 8;
   ID_HELP       = 9;
 
+const
+  EXT_MAX_PATH = 16384; // 16 Kb
+
 type
   { Dialog window callback function }
   TDlgProc = function(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
   { Definition of callback functions called by the DLL }
-  TInputBoxProc = function(Caption, Prompt: PWideChar; MaskInput: LongBool; Value: PWideChar; ValueMaxLen: Integer): LongBool; stdcall;
-  TMessageBoxProc = function(Text, Caption: PWideChar; Flags: Longint): Integer; stdcall;
+  TInputBoxProc = function(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; stdcall;
+  TMessageBoxProc = function(Text, Caption: PAnsiChar; Flags: Longint): Integer; stdcall;
   TDialogBoxLFMProc = function(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; stdcall;
   TDialogBoxLRSProc = function(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; stdcall;
-  TDialogBoxLFMFileProc = function(lfmFileName: PWideChar; DlgProc: TDlgProc): LongBool; stdcall;
+  TDialogBoxLFMFileProc = function(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool; stdcall;
 
 type
-  TSetDlgProcInfo = packed record
-    PluginDir: PWideChar;
-    PluginConfDir: PWideChar;
+  PExtensionStartupInfo = ^TExtensionStartupInfo;
+  TExtensionStartupInfo = record
+    // The size of the structure, in bytes
+    StructSize: LongWord;
+    // Directory where plugin is located (UTF-8 encoded)
+    PluginDir: array [0..Pred(EXT_MAX_PATH)] of AnsiChar;
+    // Directory where plugin configuration file must be located (UTF-8 encoded)
+    PluginConfDir: array [0..Pred(EXT_MAX_PATH)] of AnsiChar;
+    // Dialog API
     InputBox: TInputBoxProc;
     MessageBox: TMessageBoxProc;
     DialogBoxLFM: TDialogBoxLFMProc;
     DialogBoxLRS: TDialogBoxLRSProc;
     DialogBoxLFMFile: TDialogBoxLFMFileProc;
     SendDlgMsg: TDlgProc;
+    // Reserved for future API extension
+    Reserved: array [0..Pred(4096 * SizeOf(Pointer))] of Byte;
   end;
 
 type
-   TSetDlgProc = procedure(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
+  TExtensionInitializeProc = procedure(StartupInfo: PExtensionStartupInfo); stdcall;
+  TExtensionFinalizeProc   = procedure(Reserved: Pointer); stdcall;
 
 implementation
 
-{ Plugin must implement this function for working with Dialog API
+{ Plugin must implement this function for working with Extension API
 
-procedure SetDlgProc(var SetDlgProcInfo: TSetDlgProcInfo);stdcall;
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); stdcall;
+
+procedure ExtensionFinalize(Reserved: Pointer); stdcall;
 
 }
 
