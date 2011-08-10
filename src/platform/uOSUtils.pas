@@ -525,6 +525,19 @@ begin
     sCmdLine := FormatTerminal(sCmdLine, bKeepTerminalOpen);
 
   SplitCmdLine(sCmdLine, Command, Args);
+  {$IFDEF DARWIN}
+  // If we run application bundle (*.app) then
+  // execute it by 'open -a' command (see 'man open' for details)
+  if StrEnds(Command, '.app') then
+  begin
+    SetLength(Args, Length(Args) + 2);
+    for pid := High(Args) downto Low(Args) + 2 do
+      Args[pid]:= Args[pid - 2];
+    Args[0] := '-a';
+    Args[1] := Command;
+    Command := 'open';
+  end;
+  {$ENDIF}
   if Command = EmptyStr then Exit(False);
 
   pid := fpFork;
@@ -1851,4 +1864,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.
