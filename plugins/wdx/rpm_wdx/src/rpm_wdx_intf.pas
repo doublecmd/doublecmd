@@ -1,13 +1,14 @@
 unit rpm_wdx_intf;
 
-{$MODE Delphi}
+{$mode delphi}
+{$include calling.inc}
 
 interface
-procedure ContentGetDetectString(DetectString:pchar; maxlen:integer); stdcall;
+procedure ContentGetDetectString(DetectString:pchar; maxlen:integer); dcpcall;
 function ContentGetSupportedField(FieldIndex:integer; FieldName:pchar;
-  Units:pchar;maxlen:integer):integer; stdcall;
+  Units:pchar;maxlen:integer):integer; dcpcall;
 function ContentGetValue(FileName:pchar;FieldIndex,UnitIndex:integer;FieldValue:pbyte;
-  maxlen,flags:integer):integer; stdcall;
+  maxlen,flags:integer):integer; dcpcall;
 
 implementation
 
