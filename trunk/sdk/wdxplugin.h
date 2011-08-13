@@ -79,21 +79,21 @@ typedef struct {
 	WORD wSecond;
 } ttimeformat,*ptimeformat;
 
-int __stdcall ContentGetDetectString(char* DetectString,int maxlen);
-int __stdcall ContentGetSupportedField(int FieldIndex,char* FieldName,char* Units,int maxlen);
-int __stdcall ContentGetValue(char* FileName,int FieldIndex,int UnitIndex,void* FieldValue,int maxlen,int flags);
-int __stdcall ContentGetValueW(WCHAR* FileName,int FieldIndex,int UnitIndex,void* FieldValue,int maxlen,int flags);
+int DCPCALL ContentGetDetectString(char* DetectString,int maxlen);
+int DCPCALL ContentGetSupportedField(int FieldIndex,char* FieldName,char* Units,int maxlen);
+int DCPCALL ContentGetValue(char* FileName,int FieldIndex,int UnitIndex,void* FieldValue,int maxlen,int flags);
+int DCPCALL ContentGetValueW(WCHAR* FileName,int FieldIndex,int UnitIndex,void* FieldValue,int maxlen,int flags);
 
-void __stdcall ContentSetDefaultParams(ContentDefaultParamStruct* dps);
-void __stdcall ContentPluginUnloading(void);
-void __stdcall ContentStopGetValue(char* FileName);
-void __stdcall ContentStopGetValueW(WCHAR* FileName);
-int __stdcall ContentGetDefaultSortOrder(int FieldIndex);
-int __stdcall ContentGetSupportedFieldFlags(int FieldIndex);
-int __stdcall ContentSetValue(char* FileName,int FieldIndex,int UnitIndex,int FieldType,void* FieldValue,int flags);
-int __stdcall ContentSetValueW(WCHAR* FileName,int FieldIndex,int UnitIndex,int FieldType,void* FieldValue,int flags);
+void DCPCALL ContentSetDefaultParams(ContentDefaultParamStruct* dps);
+void DCPCALL ContentPluginUnloading(void);
+void DCPCALL ContentStopGetValue(char* FileName);
+void DCPCALL ContentStopGetValueW(WCHAR* FileName);
+int DCPCALL ContentGetDefaultSortOrder(int FieldIndex);
+int DCPCALL ContentGetSupportedFieldFlags(int FieldIndex);
+int DCPCALL ContentSetValue(char* FileName,int FieldIndex,int UnitIndex,int FieldType,void* FieldValue,int flags);
+int DCPCALL ContentSetValueW(WCHAR* FileName,int FieldIndex,int UnitIndex,int FieldType,void* FieldValue,int flags);
 
-int __stdcall ContentEditValue(HWND ParentWin,int FieldIndex,int UnitIndex,int FieldType,
+int DCPCALL ContentEditValue(HWND ParentWin,int FieldIndex,int UnitIndex,int FieldType,
                 void* FieldValue,int maxlen,int flags,char* langidentifier);
-void __stdcall ContentSendStateInformation(int state,char* path);
-void __stdcall ContentSendStateInformationW(int state,WCHAR* path);
+void DCPCALL ContentSendStateInformation(int state,char* path);
+void DCPCALL ContentSendStateInformationW(int state,WCHAR* path);

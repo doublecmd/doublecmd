@@ -90,24 +90,26 @@ type
 const
   wcxInvalidHandle = TArcHandle(-1);
 
+{ For compatibility with Delphi use $IFDEF's to set calling convention }
+
 type
   {Definition of callback functions called by the DLL}
   {Ask to swap disk for multi-volume archive}
   PChangeVolProc=^TChangeVolProc;
-  TChangeVolProc=function(ArcName:pchar;Mode:longint):longint; stdcall;
+  TChangeVolProc=function(ArcName:pchar;Mode:longint):longint; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   PChangeVolProcW=^TChangeVolProcW;
-  TChangeVolProcW=function(ArcName:pwidechar;Mode:longint):longint; stdcall;
+  TChangeVolProcW=function(ArcName:pwidechar;Mode:longint):longint; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   {Notify that data is processed - used for progress dialog}
   PProcessDataProc=^TProcessDataProc;
-  TProcessDataProc=function(FileName:pchar;Size:longint):longint; stdcall;
+  TProcessDataProc=function(FileName:pchar;Size:longint):longint; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   PProcessDataProcW=^TProcessDataProcW;
-  TProcessDataProcW=function(FileName:pwidechar;Size:longint):longint; stdcall;
+  TProcessDataProcW=function(FileName:pwidechar;Size:longint):longint; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   PPkCryptProc = ^TPkCryptProc;
   TPkCryptProc = function(CryptoNr: Integer; Mode: Integer; ArchiveName,
-                          Password: PAnsiChar; MaxLen: Integer): Integer; stdcall;
+                          Password: PAnsiChar; MaxLen: Integer): Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   PPkCryptProcW = ^TPkCryptProcW;
   TPkCryptProcW = function(CryptoNr: Integer; Mode: Integer; ArchiveName,
-                           Password: PWideChar; MaxLen: Integer): Integer; stdcall;
+                           Password: PWideChar; MaxLen: Integer): Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 type
   PHeaderData = ^THeaderData;

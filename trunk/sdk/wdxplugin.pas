@@ -78,27 +78,27 @@ type ttimeformat=record
 
 {
 
-procedure ContentGetDetectString(DetectString:pchar;maxlen:integer); stdcall;
+procedure ContentGetDetectString(DetectString:pchar;maxlen:integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 function ContentGetSupportedField(FieldIndex:integer;FieldName:pchar;
-         Units:pchar;maxlen:integer):integer; stdcall;
+         Units:pchar;maxlen:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 function ContentGetValue(FileName:pchar;FieldIndex,UnitIndex:integer;
-         FieldValue:pbyte; maxlen,flags:integer):integer; stdcall;
+         FieldValue:pbyte; maxlen,flags:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 function ContentGetValueW(FileName:pwidechar;FieldIndex,UnitIndex:integer;
-         FieldValue:pbyte; maxlen,flags:integer):integer; stdcall;
-procedure ContentSetDefaultParams(dps:pContentDefaultParamStruct); stdcall;
-procedure ContentPluginUnloading; stdcall;
-procedure ContentStopGetValue(FileName:pchar); stdcall;
-procedure ContentStopGetValueW(FileName:pwidechar); stdcall;
-function ContentGetDefaultSortOrder(FieldIndex:integer):integer; stdcall;
-function ContentGetSupportedFieldFlags(FieldIndex:integer):integer; stdcall;
+         FieldValue:pbyte; maxlen,flags:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+procedure ContentSetDefaultParams(dps:pContentDefaultParamStruct); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+procedure ContentPluginUnloading; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+procedure ContentStopGetValue(FileName:pchar); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+procedure ContentStopGetValueW(FileName:pwidechar); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+function ContentGetDefaultSortOrder(FieldIndex:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+function ContentGetSupportedFieldFlags(FieldIndex:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 function ContentSetValue(FileName:pchar;FieldIndex,UnitIndex,FieldType:integer;
-         FieldValue:pbyte;flags:integer):integer; stdcall;
+         FieldValue:pbyte;flags:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 function ContentSetValueW(FileName:pwidechar;FieldIndex,UnitIndex,FieldType:integer;
-         FieldValue:pbyte;flags:integer):integer; stdcall;
-procedure ContentSendStateInformation(state:integer;path:pchar); stdcall;
-procedure ContentSendStateInformationW(state:integer;path:pwidechar); stdcall;
+         FieldValue:pbyte;flags:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+procedure ContentSendStateInformation(state:integer;path:pchar); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+procedure ContentSendStateInformationW(state:integer;path:pwidechar); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 function ContentEditValue(handle:thandle;FieldIndex,UnitIndex,FieldType:integer;
-         FieldValue:pchar;maxlen:integer;flags:integer;langidentifier:pchar):integer; stdcall;
+         FieldValue:pchar;maxlen:integer;flags:integer;langidentifier:pchar):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 }
 

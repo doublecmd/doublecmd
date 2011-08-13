@@ -39,25 +39,25 @@ typedef struct {
 	char DefaultIniName[MAX_PATH];
 } ListDefaultParamStruct;
 
-HWND __stdcall ListLoad(HWND ParentWin,char* FileToLoad,int ShowFlags);
-HWND __stdcall ListLoadW(HWND ParentWin,WCHAR* FileToLoad,int ShowFlags);
-int __stdcall ListLoadNext(HWND ParentWin,HWND PluginWin,char* FileToLoad,int ShowFlags);
-int __stdcall ListLoadNextW(HWND ParentWin,HWND PluginWin,WCHAR* FileToLoad,int ShowFlags);
-void __stdcall ListCloseWindow(HWND ListWin);
-void __stdcall ListGetDetectString(char* DetectString,int maxlen);
-int __stdcall ListSearchText(HWND ListWin,char* SearchString,int SearchParameter);
-int __stdcall ListSearchTextW(HWND ListWin,WCHAR* SearchString,int SearchParameter);
+HWND DCPCALL ListLoad(HWND ParentWin,char* FileToLoad,int ShowFlags);
+HWND DCPCALL ListLoadW(HWND ParentWin,WCHAR* FileToLoad,int ShowFlags);
+int DCPCALL ListLoadNext(HWND ParentWin,HWND PluginWin,char* FileToLoad,int ShowFlags);
+int DCPCALL ListLoadNextW(HWND ParentWin,HWND PluginWin,WCHAR* FileToLoad,int ShowFlags);
+void DCPCALL ListCloseWindow(HWND ListWin);
+void DCPCALL ListGetDetectString(char* DetectString,int maxlen);
+int DCPCALL ListSearchText(HWND ListWin,char* SearchString,int SearchParameter);
+int DCPCALL ListSearchTextW(HWND ListWin,WCHAR* SearchString,int SearchParameter);
 
-int __stdcall ListSearchDialog(HWND ListWin,int FindNext);
-int __stdcall ListSendCommand(HWND ListWin,int Command,int Parameter);
-int __stdcall ListPrint(HWND ListWin,char* FileToPrint,char* DefPrinter,
+int DCPCALL ListSearchDialog(HWND ListWin,int FindNext);
+int DCPCALL ListSendCommand(HWND ListWin,int Command,int Parameter);
+int DCPCALL ListPrint(HWND ListWin,char* FileToPrint,char* DefPrinter,
                         int PrintFlags,RECT* Margins);
-int __stdcall ListPrintW(HWND ListWin,WCHAR* FileToPrint,WCHAR* DefPrinter,
+int DCPCALL ListPrintW(HWND ListWin,WCHAR* FileToPrint,WCHAR* DefPrinter,
                         int PrintFlags,RECT* Margins);
-int __stdcall ListNotificationReceived(HWND ListWin,int Message,WPARAM wParam,LPARAM lParam);
-void __stdcall ListSetDefaultParams(ListDefaultParamStruct* dps);
-HBITMAP __stdcall ListGetPreviewBitmap(char* FileToLoad,int width,int height,
+int DCPCALL ListNotificationReceived(HWND ListWin,int Message,WPARAM wParam,LPARAM lParam);
+void DCPCALL ListSetDefaultParams(ListDefaultParamStruct* dps);
+HBITMAP DCPCALL ListGetPreviewBitmap(char* FileToLoad,int width,int height,
 
     char* contentbuf,int contentbuflen);
-HBITMAP __stdcall ListGetPreviewBitmapW(WCHAR* FileToLoad,int width,int height,
+HBITMAP DCPCALL ListGetPreviewBitmapW(WCHAR* FileToLoad,int width,int height,
     char* contentbuf,int contentbuflen);

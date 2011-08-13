@@ -75,25 +75,25 @@ type HBITMAP = type THandle;
 
 {
 
-function ListLoad(ParentWin:thandle;FileToLoad:pchar;ShowFlags:integer):thandle; stdcall;
-function ListLoadW(ParentWin:thandle;FileToLoad:pwidechar;ShowFlags:integer):thandle; stdcall;
-function ListLoadNext(ParentWin,PluginWin:thandle;FileToLoad:pchar;ShowFlags:integer):integer; stdcall;
-function ListLoadNextW(ParentWin,PluginWin:thandle;FileToLoad:pwidechar;ShowFlags:integer):integer; stdcall;
-procedure ListCloseWindow(ListWin:thandle); stdcall;
-procedure ListGetDetectString(DetectString:pchar;maxlen:integer); stdcall;
-function ListSearchText(ListWin:thandle;SearchString:pchar; SearchParameter:integer):integer; stdcall;
-function ListSearchTextW(ListWin:thandle;SearchString:pwidechar; SearchParameter:integer):integer; stdcall;
-function ListSearchDialog(ListWin:thandle;FindNext:integer):integer; stdcall;
-function ListSendCommand(ListWin:thandle;Command,Parameter:integer):integer; stdcall;
-function ListPrint(ListWin:thandle;FileToPrint,DefPrinter:pchar; PrintFlags:integer;var Margins:trect):integer; stdcall;
-function ListPrintW(ListWin:thandle;FileToPrint,DefPrinter:pwidechar; PrintFlags:integer;var Margins:trect):integer; stdcall;
-function ListNotificationReceived(ListWin:thandle;Message,wParam,lParam:integer):integer; stdcall;
-procedure ListSetDefaultParams(dps:pListDefaultParamStruct); stdcall;
-function ListGetPreviewBitmap(FileToLoad:pchar;width,height:integer; contentbuf:pchar;contentbuflen:integer):hbitmap; stdcall;
-function ListGetPreviewBitmapW(FileToLoad:pwidechar;width,height:integer; contentbuf:pchar;contentbuflen:integer):hbitmap; stdcall;
+function ListLoad(ParentWin:thandle;FileToLoad:pchar;ShowFlags:integer):thandle; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+function ListLoadW(ParentWin:thandle;FileToLoad:pwidechar;ShowFlags:integer):thandle; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+function ListLoadNext(ParentWin,PluginWin:thandle;FileToLoad:pchar;ShowFlags:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+function ListLoadNextW(ParentWin,PluginWin:thandle;FileToLoad:pwidechar;ShowFlags:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+procedure ListCloseWindow(ListWin:thandle); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+procedure ListGetDetectString(DetectString:pchar;maxlen:integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+function ListSearchText(ListWin:thandle;SearchString:pchar; SearchParameter:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+function ListSearchTextW(ListWin:thandle;SearchString:pwidechar; SearchParameter:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+function ListSearchDialog(ListWin:thandle;FindNext:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+function ListSendCommand(ListWin:thandle;Command,Parameter:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+function ListPrint(ListWin:thandle;FileToPrint,DefPrinter:pchar; PrintFlags:integer;var Margins:trect):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+function ListPrintW(ListWin:thandle;FileToPrint,DefPrinter:pwidechar; PrintFlags:integer;var Margins:trect):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+function ListNotificationReceived(ListWin:thandle;Message,wParam,lParam:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+procedure ListSetDefaultParams(dps:pListDefaultParamStruct); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+function ListGetPreviewBitmap(FileToLoad:pchar;width,height:integer; contentbuf:pchar;contentbuflen:integer):hbitmap; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+function ListGetPreviewBitmapW(FileToLoad:pwidechar;width,height:integer; contentbuf:pchar;contentbuflen:integer):hbitmap; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 }
 
 implementation
 
-end.
+end.

@@ -9,10 +9,10 @@ type
 
   PDsxSearchRecord = ^TDsxSearchRecord;
   TDsxSearchRecord = record
-    StartPath: array[0..1024] of AnsiChar;
-    FileMask: array[0..1024] of AnsiChar;
+    StartPath: array[0..1023] of AnsiChar;
+    FileMask: array[0..1023] of AnsiChar;
     Attributes: Cardinal;
-    AttribStr: array[0..128] of AnsiChar;
+    AttribStr: array[0..127] of AnsiChar;
     CaseSensitive: Boolean;
     { Date/time search }
     IsDateFrom,
@@ -28,9 +28,9 @@ type
     FileSizeTo: Int64;
     { Find/replace text }
     IsFindText: Boolean;
-    FindText: array[0..1024] of AnsiChar;
+    FindText: array[0..1023] of AnsiChar;
     IsReplaceText: Boolean;
-    ReplaceText: array[0..1024] of AnsiChar;
+    ReplaceText: array[0..1023] of AnsiChar;
     NotContainingText: Boolean;
   end;
 
@@ -43,20 +43,22 @@ type
   end;
   PDsxDefaultParamStruct = ^TDsxDefaultParamStruct;
 
+  { For compatibility with Delphi use $IFDEF's to set calling convention }
+
   {Prototypes}
   {Callbacks procs}
-  TSAddFileProc = procedure(PluginNr: Integer; FoundFile: PChar); stdcall;
+  TSAddFileProc = procedure(PluginNr: Integer; FoundFile: PChar); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   //if FoundFile='' then searching is finished
 
   TSUpdateStatusProc = procedure(PluginNr: Integer; CurrentFile: PChar;
-    FilesScaned: Integer); stdcall;
+    FilesScaned: Integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
   {Mandatory (must be implemented)}
   TSInit = function(dps: PDsxDefaultParamStruct; pAddFileProc: TSAddFileProc;
-    pUpdateStatus: TSUpdateStatusProc): Integer; stdcall;
-  TSStartSearch = procedure(PluginNr: Integer; pSearchRec: PDsxSearchRecord); stdcall;
-  TSStopSearch = procedure(PluginNr: Integer); stdcall;
-  TSFinalize = procedure(PluginNr: Integer); stdcall;
+    pUpdateStatus: TSUpdateStatusProc): Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TSStartSearch = procedure(PluginNr: Integer; pSearchRec: PDsxSearchRecord); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TSStopSearch = procedure(PluginNr: Integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TSFinalize = procedure(PluginNr: Integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 implementation
 

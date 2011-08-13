@@ -6,38 +6,43 @@ interface
 
 uses
   LCLType, WcxPlugin;
+
+{$IFDEF MSWINDOWS}{$CALLING STDCALL}{$ELSE}{$CALLING CDECL}{$ENDIF}
+
 type
 { Mandatory }
-  TOpenArchive = function (var ArchiveData : tOpenArchiveData): TArcHandle;stdcall;
-  TReadHeader = function (hArcData: TArcHandle; var HeaderData : THeaderData): Integer;stdcall;
-  TProcessFile = function  (hArcData: TArcHandle;  Operation: Integer;  DestPath: PAnsiChar;  DestName: PAnsiChar): Integer;stdcall;
-  TCloseArchive = function (hArcData: TArcHandle): Integer;stdcall;
+  TOpenArchive = function (var ArchiveData : tOpenArchiveData): TArcHandle;
+  TReadHeader = function (hArcData: TArcHandle; var HeaderData : THeaderData): Integer;
+  TProcessFile = function  (hArcData: TArcHandle;  Operation: Integer;  DestPath: PAnsiChar;  DestName: PAnsiChar): Integer;
+  TCloseArchive = function (hArcData: TArcHandle): Integer;
 { Optional }
-  TPackFiles = function (PackedFile: PAnsiChar;  SubPath: PAnsiChar;  SrcPath: PAnsiChar;  AddList: PAnsiChar;  Flags: Integer): Integer;stdcall;
-  TDeleteFiles = function (PackedFile: PAnsiChar;  DeleteList: PAnsiChar): Integer;stdcall;
-  TGetPackerCaps = function () : Integer;stdcall;
-  TConfigurePacker = procedure (Parent: HWND;  DllInstance: THandle);stdcall;
-  TSetChangeVolProc = procedure (hArcData: TArcHandle;  ChangeVolProc: tChangeVolProc);stdcall;
-  TSetProcessDataProc = procedure (hArcData: TArcHandle;  ProcessDataProc: TProcessDataProc);stdcall;
-  TStartMemPack = function (Options: Integer;  FileName: PAnsiChar): TArcHandle;stdcall;
-  TPackToMem = function (hMemPack: TArcHandle;  BufIn: PByte;  InLen: Integer;  Taken: pInteger;  BufOut: PByte;  OutLen: Integer;  Written: pInteger;  SeekBy: pInteger): Integer;stdcall;
-  TDoneMemPack = function (hMemPack: TArcHandle): Integer;stdcall;
-  TCanYouHandleThisFile = function (FileName: PAnsiChar): boolean;stdcall;
-  TPackSetDefaultParams = procedure (dps: pPackDefaultParamStruct);stdcall;
-  TReadHeaderEx = function (hArcData: TArcHandle; var HeaderDataEx : THeaderDataEx): Integer;stdcall;
-  TPkSetCryptCallback = procedure (PkCryptProc: TPkCryptProc; CryptoNr, Flags: Integer); stdcall;
-  TGetBackgroundFlags = function(): Integer; stdcall;
+  TPackFiles = function (PackedFile: PAnsiChar;  SubPath: PAnsiChar;  SrcPath: PAnsiChar;  AddList: PAnsiChar;  Flags: Integer): Integer;
+  TDeleteFiles = function (PackedFile: PAnsiChar;  DeleteList: PAnsiChar): Integer;
+  TGetPackerCaps = function () : Integer;
+  TConfigurePacker = procedure (Parent: HWND;  DllInstance: THandle);
+  TSetChangeVolProc = procedure (hArcData: TArcHandle;  ChangeVolProc: tChangeVolProc);
+  TSetProcessDataProc = procedure (hArcData: TArcHandle;  ProcessDataProc: TProcessDataProc);
+  TStartMemPack = function (Options: Integer;  FileName: PAnsiChar): TArcHandle;
+  TPackToMem = function (hMemPack: TArcHandle;  BufIn: PByte;  InLen: Integer;  Taken: pInteger;  BufOut: PByte;  OutLen: Integer;  Written: pInteger;  SeekBy: pInteger): Integer;
+  TDoneMemPack = function (hMemPack: TArcHandle): Integer;
+  TCanYouHandleThisFile = function (FileName: PAnsiChar): boolean;
+  TPackSetDefaultParams = procedure (dps: pPackDefaultParamStruct);
+  TReadHeaderEx = function (hArcData: TArcHandle; var HeaderDataEx : THeaderDataEx): Integer;
+  TPkSetCryptCallback = procedure (PkCryptProc: TPkCryptProc; CryptoNr, Flags: Integer);
+  TGetBackgroundFlags = function(): Integer;
 { Unicode }
-  TOpenArchiveW = function (var ArchiveData : tOpenArchiveDataW): TArcHandle;stdcall;
-  TReadHeaderExW = function (hArcData: TArcHandle; var HeaderDataExW : THeaderDataExW): Integer;stdcall;
-  TProcessFileW = function  (hArcData: TArcHandle;  Operation: Integer; DestPath, DestName: PWideChar): Integer;stdcall;
-  TSetChangeVolProcW = procedure (hArcData: TArcHandle; ChangeVolProc: tChangeVolProcW);stdcall;
-  TSetProcessDataProcW = procedure (hArcData: TArcHandle; ProcessDataProc: TProcessDataProcW);stdcall;
-  TPackFilesW = function (PackedFile, SubPath, SrcPath, AddList: PWideChar; Flags: Integer): Integer;stdcall;
-  TDeleteFilesW = function (PackedFile, DeleteList: PWideChar): Integer;stdcall;
-  TStartMemPackW = function (Options: Integer;  FileName: PWideChar): TArcHandle;stdcall;
-  TCanYouHandleThisFileW = function (FileName: PWideChar): boolean;stdcall;
-  TPkSetCryptCallbackW = procedure (PkCryptProc: TPkCryptProcW; CryptoNr, Flags: Integer); stdcall;
+  TOpenArchiveW = function (var ArchiveData : tOpenArchiveDataW): TArcHandle;
+  TReadHeaderExW = function (hArcData: TArcHandle; var HeaderDataExW : THeaderDataExW): Integer;
+  TProcessFileW = function  (hArcData: TArcHandle;  Operation: Integer; DestPath, DestName: PWideChar): Integer;
+  TSetChangeVolProcW = procedure (hArcData: TArcHandle; ChangeVolProc: tChangeVolProcW);
+  TSetProcessDataProcW = procedure (hArcData: TArcHandle; ProcessDataProc: TProcessDataProcW);
+  TPackFilesW = function (PackedFile, SubPath, SrcPath, AddList: PWideChar; Flags: Integer): Integer;
+  TDeleteFilesW = function (PackedFile, DeleteList: PWideChar): Integer;
+  TStartMemPackW = function (Options: Integer;  FileName: PWideChar): TArcHandle;
+  TCanYouHandleThisFileW = function (FileName: PWideChar): boolean;
+  TPkSetCryptCallbackW = procedure (PkCryptProc: TPkCryptProcW; CryptoNr, Flags: Integer);
+
+{$CALLING DEFAULT}
 
 implementation
 

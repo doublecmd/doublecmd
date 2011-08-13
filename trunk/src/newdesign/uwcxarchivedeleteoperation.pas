@@ -1,6 +1,7 @@
 unit uWcxArchiveDeleteOperation;
 
 {$mode objfpc}{$H+}
+{$include calling.inc}
 
 interface
 
@@ -77,7 +78,7 @@ begin
   end;
 end;
 
-function ChangeVolProcA(ArcName : PAnsiChar; Mode: LongInt): LongInt; stdcall;
+function ChangeVolProcA(ArcName : PAnsiChar; Mode: LongInt): LongInt; dcpcall;
 var
   sArcName: UTF8String;
 begin
@@ -87,7 +88,7 @@ begin
     StrPLCopy(ArcName, UTF8ToSys(sArcName), MAX_PATH);
 end;
 
-function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; stdcall;
+function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; dcpcall;
 var
   sArcName: UTF8String;
 begin
@@ -144,12 +145,12 @@ begin
   end;
 end;
 
-function ProcessDataProcA(FileName: PAnsiChar; Size: LongInt): LongInt; stdcall;
+function ProcessDataProcA(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
 begin
   Result:= ProcessDataProc(SysToUTF8(StrPas(FileName)), Size);
 end;
 
-function ProcessDataProcW(FileName: PWideChar; Size: LongInt): LongInt; stdcall;
+function ProcessDataProcW(FileName: PWideChar; Size: LongInt): LongInt; dcpcall;
 begin
   Result:= ProcessDataProc(UTF8Encode(WideString(FileName)), Size);
 end;

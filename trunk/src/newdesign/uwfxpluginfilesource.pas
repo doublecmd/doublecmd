@@ -1,6 +1,7 @@
 unit uWfxPluginFileSource;
 
 {$mode objfpc}{$H+}
+{$include calling.inc}
 
 interface
 
@@ -138,7 +139,7 @@ begin
   Result:= CallbackDataClass.UpdateProgressFunction(SourceName, TargetName, PercentDone);
 end;
 
-function MainProgressProcA(PluginNr: Integer; SourceName, TargetName: PAnsiChar; PercentDone: Integer): Integer; stdcall;
+function MainProgressProcA(PluginNr: Integer; SourceName, TargetName: PAnsiChar; PercentDone: Integer): Integer; dcpcall;
 var
   sSourceName,
   sTargetName: UTF8String;
@@ -148,7 +149,7 @@ begin
   Result:= MainProgressProc(PluginNr, sSourceName, sTargetName, PercentDone);
 end;
 
-function MainProgressProcW(PluginNr: Integer; SourceName, TargetName: PWideChar; PercentDone: Integer): Integer; stdcall;
+function MainProgressProcW(PluginNr: Integer; SourceName, TargetName: PWideChar; PercentDone: Integer): Integer; dcpcall;
 var
   sSourceName,
   sTargetName: UTF8String;
@@ -209,12 +210,12 @@ Begin
   //DCDebug('MainLogProc ('+ sMsg + ',' + logString + ')');
 end;
 
-procedure MainLogProcA(PluginNr, MsgType: Integer; LogString: PAnsiChar); stdcall;
+procedure MainLogProcA(PluginNr, MsgType: Integer; LogString: PAnsiChar); dcpcall;
 begin
   MainLogProc(PluginNr, MsgType, SysToUTF8(StrPas(LogString)));
 end;
 
-procedure MainLogProcW(PluginNr, MsgType: Integer; LogString: PWideChar); stdcall;
+procedure MainLogProcW(PluginNr, MsgType: Integer; LogString: PWideChar); dcpcall;
 begin
   MainLogProc(PluginNr, MsgType, UTF8Encode(WideString(LogString)));
 end;
@@ -289,7 +290,7 @@ begin
   DCDebug('MainRequestProc ('+IntToStr(PluginNr)+','+sReq+','+CustomTitle+','+CustomText+','+ReturnedText+')', BoolToStr(Result, True));
 end;
 
-function MainRequestProcA(PluginNr, RequestType: Integer; CustomTitle, CustomText, ReturnedText: PAnsiChar; MaxLen: Integer): Bool; stdcall;
+function MainRequestProcA(PluginNr, RequestType: Integer; CustomTitle, CustomText, ReturnedText: PAnsiChar; MaxLen: Integer): Bool; dcpcall;
 var
   sCustomTitle,
   sCustomText,
@@ -306,7 +307,7 @@ begin
     end;
 end;
 
-function MainRequestProcW(PluginNr, RequestType: Integer; CustomTitle, CustomText, ReturnedText: PWideChar; MaxLen: Integer): Bool; stdcall;
+function MainRequestProcW(PluginNr, RequestType: Integer; CustomTitle, CustomText, ReturnedText: PWideChar; MaxLen: Integer): Bool; dcpcall;
 var
   sCustomTitle,
   sCustomText,
@@ -373,7 +374,7 @@ begin
   end;
 end;
 
-function CryptProcA(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName, Password: PAnsiChar; MaxLen: Integer): Integer; stdcall;
+function CryptProcA(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName, Password: PAnsiChar; MaxLen: Integer): Integer; dcpcall;
 var
   sConnectionName,
   sPassword: UTF8String;
@@ -388,7 +389,7 @@ begin
     end;
 end;
 
-function CryptProcW(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName, Password: PWideChar; MaxLen: Integer): Integer; stdcall;
+function CryptProcW(PluginNr, CryptoNumber: Integer; Mode: Integer; ConnectionName, Password: PWideChar; MaxLen: Integer): Integer; dcpcall;
 var
   sConnectionName,
   sPassword: UTF8String;
