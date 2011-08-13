@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WCX plugin for extract *.lzma archives
 
-   Copyright (C) 2009-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    Based on:
      LZMAAlone from Pascal LZMA SDK
@@ -26,6 +26,7 @@
 unit lzmafunc;
 
 {$mode delphi}{$H+}
+{$include calling.inc}
 
 interface
 
@@ -51,15 +52,15 @@ type
   end;
 
 { Mandatory functions }
-function OpenArchive (var ArchiveData: TOpenArchiveData): TArcHandle; stdcall;
-function ReadHeader (hArcData: TArcHandle; var HeaderData: THeaderData): Integer; stdcall;
-function ProcessFile (hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PChar): Integer; stdcall;
-function CloseArchive (hArcData: TArcHandle): Integer; stdcall;
-procedure SetChangeVolProc (hArcData: TArcHandle; pChangeVolProc: TChangeVolProc); stdcall;
-procedure SetProcessDataProc (hArcData: TArcHandle; pProcessDataProc: TProcessDataProc); stdcall;
+function OpenArchive (var ArchiveData: TOpenArchiveData): TArcHandle; dcpcall;
+function ReadHeader (hArcData: TArcHandle; var HeaderData: THeaderData): Integer; dcpcall;
+function ProcessFile (hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PChar): Integer; dcpcall;
+function CloseArchive (hArcData: TArcHandle): Integer; dcpcall;
+procedure SetChangeVolProc (hArcData: TArcHandle; pChangeVolProc: TChangeVolProc); dcpcall;
+procedure SetProcessDataProc (hArcData: TArcHandle; pProcessDataProc: TProcessDataProc); dcpcall;
 { Optional functions }
-function PackFiles(PackedFile: PChar;  SubPath: PChar;  SrcPath: PChar;  AddList: PChar;  Flags: Integer): Integer; stdcall;
-function GetPackerCaps: Integer; stdcall;
+function PackFiles(PackedFile: PChar;  SubPath: PChar;  SrcPath: PChar;  AddList: PChar;  Flags: Integer): Integer; dcpcall;
+function GetPackerCaps: Integer; dcpcall;
 
 implementation
 
@@ -346,4 +347,4 @@ begin
     end;
 end;
 
-end.
+end.
