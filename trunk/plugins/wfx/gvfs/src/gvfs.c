@@ -1516,7 +1516,7 @@ BOOL RemoteFindNext(HANDLE Hdl, WIN32_FIND_DATAA *FindData)
 
 // Export functions--------------------------------------------------------------------------------------
 
-int __stdcall FsInit(int PluginNr,tProgressProc pProgressProc,
+int DCPCALL FsInit(int PluginNr,tProgressProc pProgressProc,
                      tLogProc pLogProc,tRequestProc pRequestProc)
 {
   gProgressProc = pProgressProc;
@@ -1532,7 +1532,7 @@ int __stdcall FsInit(int PluginNr,tProgressProc pProgressProc,
   return 0;
 }
 
-HANDLE __stdcall FsFindFirst(char* Path,WIN32_FIND_DATAA *FindData)
+HANDLE DCPCALL FsFindFirst(char* Path,WIN32_FIND_DATAA *FindData)
 {
   PListRec ListRec = (PListRec) malloc(sizeof(TListRec));
   memset(ListRec, 0, sizeof(TListRec));
@@ -1565,7 +1565,7 @@ HANDLE __stdcall FsFindFirst(char* Path,WIN32_FIND_DATAA *FindData)
   }
 }
 
-BOOL __stdcall FsFindNext(HANDLE Hdl,WIN32_FIND_DATAA *FindData)
+BOOL DCPCALL FsFindNext(HANDLE Hdl,WIN32_FIND_DATAA *FindData)
 {
   PListRec ListRec = (PListRec) Hdl;
   memset(FindData, 0, sizeof(WIN32_FIND_DATAA));  
@@ -1579,7 +1579,7 @@ BOOL __stdcall FsFindNext(HANDLE Hdl,WIN32_FIND_DATAA *FindData)
   }
 }
 
-int __stdcall FsFindClose(HANDLE Hdl)
+int DCPCALL FsFindClose(HANDLE Hdl)
 {
   PListRec ListRec;
   GError *error;
@@ -1616,7 +1616,7 @@ int __stdcall FsFindClose(HANDLE Hdl)
   return FS_FILE_OK;
 }
 
-BOOL __stdcall FsMkDir(char* Path)
+BOOL DCPCALL FsMkDir(char* Path)
 {
   struct TVFSGlobs *globs;
   GFile *f;
@@ -1650,14 +1650,14 @@ BOOL __stdcall FsMkDir(char* Path)
   return TRUE;
 }
 
-BOOL __stdcall FsRemoveDir(char* RemoteName)
+BOOL DCPCALL FsRemoveDir(char* RemoteName)
 {
   struct TVFSGlobs *globs;
   globs = GetConnectionByPath(RemoteName);
   return (VFSRemove(globs, globs->RemotePath) == FS_FILE_OK);
 }
 
-int __stdcall FsRenMovFile(char* OldName,char* NewName,BOOL Move,
+int DCPCALL FsRenMovFile(char* OldName,char* NewName,BOOL Move,
                            BOOL OverWrite,RemoteInfoStruct* ri)
 {
   struct TVFSGlobs *globs;
@@ -1718,7 +1718,7 @@ int __stdcall FsRenMovFile(char* OldName,char* NewName,BOOL Move,
   return FS_FILE_OK;
 }
 
-int __stdcall FsGetFile(char* RemoteName,char* LocalName,int CopyFlags,
+int DCPCALL FsGetFile(char* RemoteName,char* LocalName,int CopyFlags,
                         RemoteInfoStruct* ri)
 {
   struct TVFSGlobs *globs;
@@ -1779,7 +1779,7 @@ int __stdcall FsGetFile(char* RemoteName,char* LocalName,int CopyFlags,
   return res;
 }
 
-int __stdcall FsPutFile(char* LocalName,char* RemoteName,int CopyFlags)
+int DCPCALL FsPutFile(char* LocalName,char* RemoteName,int CopyFlags)
 {
   struct TVFSGlobs *globs;
   GFile *src, *dst;
@@ -1840,7 +1840,7 @@ int __stdcall FsPutFile(char* LocalName,char* RemoteName,int CopyFlags)
   return res;
 }
 
-int __stdcall FsExecuteFile(HWND MainWin,char* RemoteName,char* Verb)
+int DCPCALL FsExecuteFile(HWND MainWin,char* RemoteName,char* Verb)
 {
    g_print("FsExecuteFile: Item = %s, Verb = %s\n", RemoteName + 1, Verb);
    if (strcmp(Verb,"open") == 0)
@@ -1893,7 +1893,7 @@ int __stdcall FsExecuteFile(HWND MainWin,char* RemoteName,char* Verb)
    return FS_EXEC_OK;
 }
 
-BOOL __stdcall FsDeleteFile(char* RemoteName)
+BOOL DCPCALL FsDeleteFile(char* RemoteName)
 {
   if (strrchr(RemoteName, 0x2f) == RemoteName) // root path
   {
@@ -1914,7 +1914,7 @@ BOOL __stdcall FsDeleteFile(char* RemoteName)
   return (VFSRemove(globs, globs->RemotePath) == FS_FILE_OK);
 }
 
-BOOL __stdcall FsSetTime(char* RemoteName,FILETIME *CreationTime,
+BOOL DCPCALL FsSetTime(char* RemoteName,FILETIME *CreationTime,
                          FILETIME *LastAccessTime,FILETIME *LastWriteTime)
 {
   struct TVFSGlobs *globs;
@@ -1971,7 +1971,7 @@ BOOL __stdcall FsSetTime(char* RemoteName,FILETIME *CreationTime,
   return TRUE;
 }
 
-BOOL __stdcall FsDisconnect(char *DisconnectRoot)
+BOOL DCPCALL FsDisconnect(char *DisconnectRoot)
 {
    struct TVFSGlobs *globs;
    g_print("FsDisconnect: DisconnectRoot == %s\n", DisconnectRoot);
@@ -1988,7 +1988,7 @@ BOOL __stdcall FsDisconnect(char *DisconnectRoot)
    return FALSE;
 }
 
-void __stdcall FsSetDefaultParams(FsDefaultParamStruct* dps)
+void DCPCALL FsSetDefaultParams(FsDefaultParamStruct* dps)
 {
   // use default location, but our own ini file name
   g_strlcpy(gDefaultIniName, dps->DefaultIniName, MAX_PATH - 1);
@@ -2002,7 +2002,7 @@ void __stdcall FsSetDefaultParams(FsDefaultParamStruct* dps)
   ReadConnectionList();
 }
 
-void __stdcall FsGetDefRootName(char* DefRootName,int maxlen)
+void DCPCALL FsGetDefRootName(char* DefRootName,int maxlen)
 {
   g_strlcpy(DefRootName, "Network", maxlen);
 }

@@ -29,26 +29,26 @@ interface
 uses
   Classes, SysUtils, WfxPlugin;
 
-function FsInit(PluginNr: Integer; pProgressProc: TProgressProc; pLogProc: TLogProc; pRequestProc: TRequestProc): Integer; stdcall;
+function FsInit(PluginNr: Integer; pProgressProc: TProgressProc; pLogProc: TLogProc; pRequestProc: TRequestProc): Integer; cdecl;
 
-function FsFindFirst(Path: PAnsiChar; var FindData: TWin32FindData): THandle; stdcall;
-function FsFindNext(Hdl: THandle; var FindData: TWin32FindData): BOOL; stdcall;
-function FsFindClose(Hdl: THandle): Integer; stdcall;
+function FsFindFirst(Path: PAnsiChar; var FindData: TWin32FindData): THandle; cdecl;
+function FsFindNext(Hdl: THandle; var FindData: TWin32FindData): BOOL; cdecl;
+function FsFindClose(Hdl: THandle): Integer; cdecl;
 
 function FsRenMovFile(OldName, NewName: PAnsiChar; Move, OverWrite: BOOL;
-                      RemoteInfo: pRemoteInfo): Integer; stdcall;
+                      RemoteInfo: pRemoteInfo): Integer; cdecl;
 function FsGetFile(RemoteName, LocalName: PAnsiChar; CopyFlags: Integer;
-                   RemoteInfo: pRemoteInfo): Integer; stdcall;
-function FsPutFile(LocalName, RemoteName: PAnsiChar; CopyFlags: Integer): Integer; stdcall;
-function FsDeleteFile(RemoteName: PAnsiChar): BOOL; stdcall;
+                   RemoteInfo: pRemoteInfo): Integer; cdecl;
+function FsPutFile(LocalName, RemoteName: PAnsiChar; CopyFlags: Integer): Integer; cdecl;
+function FsDeleteFile(RemoteName: PAnsiChar): BOOL; cdecl;
 
-function FsMkDir(RemoteDir: PAnsiChar): BOOL; stdcall;
-function FsRemoveDir(RemoteName: PAnsiChar): BOOL; stdcall;
+function FsMkDir(RemoteDir: PAnsiChar): BOOL; cdecl;
+function FsRemoveDir(RemoteName: PAnsiChar): BOOL; cdecl;
 
-function FsSetAttr(RemoteName: PAnsiChar; NewAttr: Integer): BOOL; stdcall;
-function FsSetTime(RemoteName: PAnsiChar; CreationTime, LastAccessTime, LastWriteTime: PFileTime): BOOL; stdcall;
+function FsSetAttr(RemoteName: PAnsiChar; NewAttr: Integer): BOOL; cdecl;
+function FsSetTime(RemoteName: PAnsiChar; CreationTime, LastAccessTime, LastWriteTime: PFileTime): BOOL; cdecl;
 
-procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
+procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); cdecl;
 
 implementation
 
@@ -179,7 +179,7 @@ begin
   end;
 end;
 
-function FsInit(PluginNr: Integer; pProgressProc: tProgressProc; pLogProc: tLogProc; pRequestProc: tRequestProc): Integer; stdcall;
+function FsInit(PluginNr: Integer; pProgressProc: tProgressProc; pLogProc: tLogProc; pRequestProc: tRequestProc): Integer; cdecl;
 begin
   if not LoadSambaLibrary then
   begin
@@ -197,7 +197,7 @@ begin
   if Result < 0 then WriteError('smbc_init');
 end;
 
-function FsFindFirst(Path: PAnsiChar; var FindData: TWin32FindData): THandle; stdcall;
+function FsFindFirst(Path: PAnsiChar; var FindData: TWin32FindData): THandle; cdecl;
 var
   NetworkPath: String;
   SambaHandle: PSambaHandle;
@@ -233,7 +233,7 @@ begin
     end;
 end;
 
-function FsFindNext(Hdl: THandle; var FindData: TWin32FindData): BOOL; stdcall;
+function FsFindNext(Hdl: THandle; var FindData: TWin32FindData): BOOL; cdecl;
 var
   dirent: psmbc_dirent;
   FileInfo: BaseUnix.Stat;
@@ -272,7 +272,7 @@ begin
   end;
 end;
 
-function FsFindClose(Hdl: THandle): Integer; stdcall;
+function FsFindClose(Hdl: THandle): Integer; cdecl;
 var
   SambaHandle: PSambaHandle absolute Hdl;
 begin
@@ -282,7 +282,7 @@ begin
 end;
 
 function FsRenMovFile(OldName, NewName: PAnsiChar; Move, OverWrite: BOOL;
-                      RemoteInfo: pRemoteInfo): Integer; stdcall;
+                      RemoteInfo: pRemoteInfo): Integer; cdecl;
 var
   OldFileName,
   NewFileName: String;
@@ -346,7 +346,7 @@ begin
 end;
 
 function FsGetFile(RemoteName, LocalName: PAnsiChar; CopyFlags: Integer;
-                   RemoteInfo: pRemoteInfo): Integer; stdcall;
+                   RemoteInfo: pRemoteInfo): Integer; cdecl;
 var
   OldFileName: String;
   Buffer: Pointer = nil;
@@ -399,7 +399,7 @@ begin
   Result:= FS_FILE_OK;
 end;
 
-function FsPutFile(LocalName, RemoteName: PAnsiChar; CopyFlags: Integer): Integer; stdcall;
+function FsPutFile(LocalName, RemoteName: PAnsiChar; CopyFlags: Integer): Integer; cdecl;
 var
   NewFileName: String;
   Buffer: Pointer = nil;
@@ -454,7 +454,7 @@ begin
   Result:= FS_FILE_OK;
 end;
 
-function FsDeleteFile(RemoteName: PAnsiChar): BOOL; stdcall;
+function FsDeleteFile(RemoteName: PAnsiChar): BOOL; cdecl;
 var
   FileName: String;
 begin
@@ -462,7 +462,7 @@ begin
   Result:= smbc_unlink(PChar(FileName)) = 0;
 end;
 
-function FsMkDir(RemoteDir: PAnsiChar): BOOL; stdcall;
+function FsMkDir(RemoteDir: PAnsiChar): BOOL; cdecl;
 var
   NewDir: String;
 begin
@@ -470,7 +470,7 @@ begin
   Result:= smbc_mkdir(PChar(NewDir), $1FF) = 0; // $1FF = &0777
 end;
 
-function FsRemoveDir(RemoteName: PAnsiChar): BOOL; stdcall;
+function FsRemoveDir(RemoteName: PAnsiChar): BOOL; cdecl;
 var
   RemDir: String;
 begin
@@ -478,7 +478,7 @@ begin
   Result:= smbc_rmdir(PChar(RemDir)) = 0;
 end;
 
-function FsSetAttr(RemoteName: PAnsiChar; NewAttr: Integer): BOOL; stdcall;
+function FsSetAttr(RemoteName: PAnsiChar; NewAttr: Integer): BOOL; cdecl;
 var
   FileName: String;
   Mode: array[0..7] of Byte;
@@ -509,7 +509,7 @@ begin
   Result:= (smbc_setxattr(PChar(FileName), 'system.dos_attr.mode', @Mode, SizeOf(Mode), 0) >= 0);
 end;
 
-function FsSetTime(RemoteName: PAnsiChar; CreationTime, LastAccessTime, LastWriteTime: PFileTime): BOOL; stdcall;
+function FsSetTime(RemoteName: PAnsiChar; CreationTime, LastAccessTime, LastWriteTime: PFileTime): BOOL; cdecl;
 var
   FileName: String;
   tbuf: array[0..1] of timeval;
@@ -539,7 +539,7 @@ begin
   Result:= (smbc_utimes(PChar(FileName), @tbuf) = 0);
 end;
 
-procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); stdcall;
+procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); cdecl;
 begin
   StrPLCopy(DefRootName, 'Windows Network', MaxLen);
 end;

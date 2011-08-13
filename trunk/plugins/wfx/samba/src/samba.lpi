@@ -52,8 +52,13 @@
       <OtherUnitFiles Value="../../../../sdk"/>
       <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
+    <Conditionals Value="if TargetOS = 'darwin' then
+begin
+  LinkerOptions += ' -no_order_inits';
+end;"/>
     <Linking>
       <Options>
+        <PassLinkerOptions Value="True"/>
         <ExecutableType Value="Library"/>
       </Options>
     </Linking>
