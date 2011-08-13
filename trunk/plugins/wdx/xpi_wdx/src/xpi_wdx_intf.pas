@@ -23,17 +23,18 @@
 unit xpi_wdx_intf;
 
 {$mode objfpc}{$H+}
+{$include calling.inc}
 
 interface
 
 uses
   Classes, SysUtils, WdxPlugin;
 
-procedure ContentGetDetectString(DetectString: PAnsiChar; MaxLen: Integer); stdcall;
+procedure ContentGetDetectString(DetectString: PAnsiChar; MaxLen: Integer); dcpcall;
 function ContentGetSupportedField(FieldIndex: Integer; FieldName: PAnsiChar;
-                                  Units: PAnsiChar; MaxLen: Integer): Integer; stdcall;
+                                  Units: PAnsiChar; MaxLen: Integer): Integer; dcpcall;
 function ContentGetValue(FileName: PAnsiChar; FieldIndex, UnitIndex: Integer;
-                         FieldValue: PByte; MaxLen, Flags: Integer): Integer; stdcall;
+                         FieldValue: PByte; MaxLen, Flags: Integer): Integer; dcpcall;
 
 implementation
 
@@ -78,13 +79,13 @@ begin
     end;
 end;
 
-procedure ContentGetDetectString(DetectString: PAnsiChar; MaxLen: Integer); stdcall;
+procedure ContentGetDetectString(DetectString: PAnsiChar; MaxLen: Integer); dcpcall;
 begin
   StrPLCopy(DetectString, 'EXT="XPI"', MaxLen)
 end;
 
 function ContentGetSupportedField(FieldIndex: Integer; FieldName: PAnsiChar;
-  Units: PAnsiChar; MaxLen: Integer): Integer; stdcall;
+  Units: PAnsiChar; MaxLen: Integer): Integer; dcpcall;
 var
   Field: AnsiString;
 begin
@@ -124,7 +125,7 @@ begin
 end;
 
 function ContentGetValue(FileName: PAnsiChar; FieldIndex, UnitIndex: Integer;
-  FieldValue: PByte; MaxLen, Flags: Integer): Integer; stdcall;
+  FieldValue: PByte; MaxLen, Flags: Integer): Integer; dcpcall;
 var
   Value : AnsiString;
 begin

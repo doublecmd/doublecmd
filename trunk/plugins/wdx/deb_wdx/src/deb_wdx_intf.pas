@@ -18,17 +18,18 @@
 unit deb_wdx_intf;
 
 {$mode delphi}{$H+}
+{$include calling.inc}
 
 interface
 
 uses
   Classes, WdxPlugin;
 
-procedure ContentGetDetectString(DetectString:pchar; maxlen:integer); stdcall;
+procedure ContentGetDetectString(DetectString:pchar; maxlen:integer); dcpcall;
 function ContentGetSupportedField(FieldIndex:integer;FieldName:pchar;
-  Units:pchar;maxlen:integer):integer; stdcall;
+  Units:pchar;maxlen:integer):integer; dcpcall;
 function ContentGetValue(FileName:pchar;FieldIndex,UnitIndex:integer;FieldValue:pbyte;
-  maxlen,flags:integer):integer; stdcall;
+  maxlen,flags:integer):integer; dcpcall;
   
 implementation
 
