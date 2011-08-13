@@ -76,7 +76,7 @@ type ttimeformat=record
 
 { Function prototypes: }
 
-{
+(*
 
 procedure ContentGetDetectString(DetectString:pchar;maxlen:integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 function ContentGetSupportedField(FieldIndex:integer;FieldName:pchar;
@@ -100,7 +100,7 @@ procedure ContentSendStateInformationW(state:integer;path:pwidechar); {$IFDEF MS
 function ContentEditValue(handle:thandle;FieldIndex,UnitIndex,FieldType:integer;
          FieldValue:pchar;maxlen:integer;flags:integer;langidentifier:pchar):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-}
+*)
 
 implementation
 end.
