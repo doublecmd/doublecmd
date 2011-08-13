@@ -4,7 +4,7 @@ ZVDateTimePickerPropEdit
 Author: Zoran Vučenović, January and February 2010
         Зоран Вученовић, јануар и фебруар 2010.
 
-Last change: April 2010
+Last change: April 2011
 
    This unit is part of ZVDateTimeCtrls package for Lazarus. It contains
 component and property editors for TZVDateTimePicker control.
@@ -29,11 +29,13 @@ unit ZVDateTimePickerPropEdit;
 {$mode objfpc}{$H+}
 
 interface
+// Nothing needs to be in interface section!
+
+implementation
 
 uses
-  Classes, SysUtils, FileUtil, LResources, Forms, Controls, Graphics, Dialogs,
-  Buttons, ButtonPanel, ZVDateTimePicker, DBZVDateTimePicker, StdCtrls, Math,
-  Menus, ComponentEditors, PropEdits;
+  Classes, SysUtils, Forms, Controls, ButtonPanel, ZVDateTimePicker,
+  DBZVDateTimePicker, StdCtrls, Math, Menus, ComponentEditors, PropEdits;
 
 type
     { TFormZVDateTimePickerEditor }
@@ -57,13 +59,13 @@ type
     procedure ZVDateTimePickersChange(Sender: TObject);
     procedure ZVDateTimePicker1Enter(Sender: TObject);
     procedure ZVDateTimePicker1Exit(Sender: TObject);
-    procedure FormShow(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
 
     procedure Initialize(const Caller: TZVDateTimePicker;
                                      const PropertyName, PropertyType: String);
     procedure UpdateMinMaxBounds;
   public
-    constructor Create(TheOwner: TComponent); override;
+    constructor CreateNew(AOwner: TComponent; Num: Integer = 0); override;
     destructor Destroy; override;
   end;
 
@@ -95,8 +97,6 @@ type
     procedure SetValue(const Value: string); override;
   end;
 
-implementation
-
 procedure RegPropEdits;
 begin
   RegisterPropertyEditor(TypeInfo(TTime), TZVDateTimePicker, 'Time', TZVDateTimePickerDateTimePropEditor);
@@ -116,7 +116,7 @@ var
 begin
   if Index = 0 then begin
     if GetComponent is TZVDateTimePicker then begin
-      F := TFormZVDateTimePickerEditor.Create(nil);
+      F := TFormZVDateTimePickerEditor.CreateNew(nil, 0);
       try
         DTPicker := TZVDateTimePicker(GetComponent);
         if DTPicker.Kind = dtkTime then
@@ -188,10 +188,11 @@ begin
   LabelNull.Hide;
 end;
 
-procedure TFormZVDateTimePickerEditor.FormShow(Sender: TObject);
+procedure TFormZVDateTimePickerEditor.FormActivate(Sender: TObject);
 var
   B: Boolean;
 begin
+  OnActivate := nil;
   B := False;
   if Prop = 'MAXDATE' then ZVDateTimePickerMax.SetFocus
   else if Prop = 'MINDATE' then ZVDateTimePickerMin.SetFocus
@@ -264,7 +265,6 @@ begin
     Label1.AnchorVerticalCenterTo(ZVDateTimePicker1);
     LabelNull.AnchorToNeighbour(akTop, 2, ZVDateTimePicker1);
     LabelNull.AnchorHorizontalCenterTo(ZVDateTimePicker1);
-    LabelNull.AnchorParallel(akLeft, 0, ZVDateTimePicker1);
 
     ButtonPanel.Spacing := 10;
     ButtonPanel.BorderSpacing.Around := 10;
@@ -295,11 +295,12 @@ begin
   ZVDateTimePicker1.MinDate := ZVDateTimePickerMin.Date;
 end;
 
-constructor TFormZVDateTimePickerEditor.Create(TheOwner: TComponent);
+constructor TFormZVDateTimePickerEditor.CreateNew(AOwner: TComponent;
+  Num: Integer);
 var
   I: Integer;
 begin
-  inherited Create(TheOwner);
+  inherited CreateNew(AOwner, Num);
 
   Hide;
   if Font.Size > 10 then
@@ -332,10 +333,11 @@ begin
   LabelMax.Parent := Self;
   LabelNull.Parent := Self;
   ButtonPanel.Parent := Self;
-  ZVDateTimePicker1.TabOrder := 1;
-  ButtonPanel.TabOrder := 2;
-  ZVDateTimePickerMin.TabOrder := 3;//4;
-  ZVDateTimePickerMax.TabOrder := 4;//5;
+
+  ButtonPanel.TabOrder := 0;
+  ZVDateTimePickerMin.TabOrder := 1;
+  ZVDateTimePickerMax.TabOrder := 2;
+  ZVDateTimePicker1.TabOrder := 3;
 
   for I := 0 to ControlCount - 1 do begin
     Controls[I].Anchors := [];
@@ -350,12 +352,14 @@ begin
   ZVDateTimePickerMax.OnChange := @ZVDateTimePickersChange;
   ZVDateTimePicker1.OnChange := @ZVDateTimePickersChange;
 
-  OnShow := @FormShow;
+  OnActivate := @FormActivate;
 end;
 
 destructor TFormZVDateTimePickerEditor.Destroy;
 begin
+  OnActivate := nil;
   OnShow := nil;
+
   ZVDateTimePicker1.OnChange := nil;
   ZVDateTimePickerMax.OnChange := nil;
   ZVDateTimePickerMin.OnChange := nil;
@@ -445,7 +449,7 @@ begin
     if not (GetComponent(I) is TZVDateTimePicker) then
       Exit;
 
-  F := TFormZVDateTimePickerEditor.Create(nil);
+  F := TFormZVDateTimePickerEditor.CreateNew(nil, 0);
   try
     F.Initialize(TZVDateTimePicker(GetComponent(0)), GetName, GetPropType^.Name);
     if F.ShowModal = mrOK then begin
