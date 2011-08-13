@@ -2,7 +2,8 @@ unit deb_archive;
 
 interface
 
-{$A-,I-}
+{$mode delphi}{$A-,I-}
+{$include calling.inc}
 
 uses
   Classes,
@@ -28,13 +29,13 @@ type
 var
   aList : TList;
 
-function  GetPackerCaps : Integer; stdcall;
-function  OpenArchive(var ArchiveData : TOpenArchiveData) : TArcHandle; stdcall;
-function  CloseArchive(hArcData : TArcHandle) : Integer; stdcall;
-function  ReadHeader(hArcData : TArcHandle; var HeaderData : THeaderData) : Integer; stdcall;
-function  ProcessFile(hArcData : TArcHandle; Operation : Integer; DestPath : PChar; DestName : PChar) : Integer; stdcall;
-procedure SetProcessDataProc(hArcData : TArcHandle; ProcessDataProc : TProcessDataProc); stdcall;
-procedure SetChangeVolProc(hArcData : TArcHandle; ChangeVolProc : TChangeVolProc); stdcall;
+function  GetPackerCaps : Integer; dcpcall;
+function  OpenArchive(var ArchiveData : TOpenArchiveData) : TArcHandle; dcpcall;
+function  CloseArchive(hArcData : TArcHandle) : Integer; dcpcall;
+function  ReadHeader(hArcData : TArcHandle; var HeaderData : THeaderData) : Integer; dcpcall;
+function  ProcessFile(hArcData : TArcHandle; Operation : Integer; DestPath : PChar; DestName : PChar) : Integer; dcpcall;
+procedure SetProcessDataProc(hArcData : TArcHandle; ProcessDataProc : TProcessDataProc); dcpcall;
+procedure SetChangeVolProc(hArcData : TArcHandle; ChangeVolProc : TChangeVolProc); dcpcall;
 
 implementation
 
@@ -94,7 +95,7 @@ begin
   else begin
     filename := String(ArchiveData.ArcName);
     arch := FileOpen(filename, fmOpenRead or fmShareDenyNone);
-    if arch = -1 then begin
+    if arch = THandle(-1) then begin
       fgError := True;
     end
     else begin

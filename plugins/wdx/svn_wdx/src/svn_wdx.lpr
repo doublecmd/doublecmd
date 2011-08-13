@@ -28,8 +28,8 @@ uses
   { you can add units after this };
 
 exports
-  ContentGetSupportedField  name 'ContentGetSupportedField',
-  ContentGetValue           name 'ContentGetValue';
+  ContentGetSupportedField,
+  ContentGetValue;
 
 begin
 end.

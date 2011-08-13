@@ -18,9 +18,9 @@ uses
   deb_wdx_intf in 'deb_wdx_intf.pas';
 
 exports
-  ContentGetDetectString    name 'ContentGetDetectString',
-  ContentGetSupportedField  name 'ContentGetSupportedField',
-  ContentGetValue           name 'ContentGetValue';
+  ContentGetDetectString,
+  ContentGetSupportedField,
+  ContentGetValue;
   
 begin
 end.

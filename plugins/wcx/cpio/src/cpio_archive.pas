@@ -20,11 +20,12 @@
 //                 work with names in archive started with
 //                 "./" or "/" (normal UNIX filenames form)
 
-
-{$A-,I-}
 unit cpio_archive;
 
 interface
+
+{$mode delphi}{$A-,I-}
+{$include calling.inc}
 
 uses
   Classes,
@@ -50,15 +51,15 @@ type
 var
   aList : TList;
 
-function  GetPackerCaps : Integer; stdcall;
+function  GetPackerCaps : Integer; dcpcall;
 
-function  OpenArchive(var ArchiveData : TOpenArchiveData) : TArcHandle; stdcall;
-function  CloseArchive(hArcData : TArcHandle) : Integer; stdcall;
-function  ReadHeader(hArcData : TArcHandle; var HeaderData : THeaderData) : Integer; stdcall;
-function  ProcessFile(hArcData : TArcHandle; Operation : Integer; DestPath : PChar; DestName : PChar) : Integer; stdcall;
-procedure SetProcessDataProc(hArcData : TArcHandle; ProcessDataProc : TProcessDataProc); stdcall;
-procedure SetChangeVolProc(hArcData : TArcHandle; ChangeVolProc : TChangeVolProc); stdcall;
-function  CanYouHandleThisFile(FileName: PAnsiChar): Boolean; stdcall;
+function  OpenArchive(var ArchiveData : TOpenArchiveData) : TArcHandle; dcpcall;
+function  CloseArchive(hArcData : TArcHandle) : Integer; dcpcall;
+function  ReadHeader(hArcData : TArcHandle; var HeaderData : THeaderData) : Integer; dcpcall;
+function  ProcessFile(hArcData : TArcHandle; Operation : Integer; DestPath : PChar; DestName : PChar) : Integer; dcpcall;
+procedure SetProcessDataProc(hArcData : TArcHandle; ProcessDataProc : TProcessDataProc); dcpcall;
+procedure SetChangeVolProc(hArcData : TArcHandle; ChangeVolProc : TChangeVolProc); dcpcall;
+function  CanYouHandleThisFile(FileName: PAnsiChar): Boolean; dcpcall;
 
 implementation
 
@@ -359,7 +360,7 @@ begin
   end;
 end;
 
-function CanYouHandleThisFile(FileName: PAnsiChar): Boolean; stdcall;
+function CanYouHandleThisFile;
 begin
   try
     Result:= IsCPIOArchive(StrPas(FileName));
