@@ -23,6 +23,7 @@
 unit FtpConfDlg;
 
 {$mode objfpc}{$H+}
+{$include calling.inc}
 
 {$R FtpConfDlg.lfm}
 
@@ -38,7 +39,7 @@ implementation
 uses
   FtpFunc, FtpUtils;
 
-function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
+function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 var
  Data: PtrInt;
  Text: UTF8String;
