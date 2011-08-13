@@ -80,6 +80,7 @@ end;"/>
     <Linking>
       <LinkSmart Value="True"/>
       <Options>
+        <PassLinkerOptions Value="True"/>
         <ExecutableType Value="Library"/>
       </Options>
     </Linking>
@@ -91,4 +92,4 @@ end;"/>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
-</CONFIG>
+</CONFIG>
