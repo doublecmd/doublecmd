@@ -28,20 +28,23 @@
 
 unit bz2func;
 
+{$mode delphi}
+{$include calling.inc}
+
 interface
 
 uses 
   WcxPlugin;
 
 { Mandatory functions }
-function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;stdcall;
-function ReadHeader (hArcData : TArcHandle; var HeaderData : THeaderData) : Integer;stdcall;
-function ProcessFile (hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PChar) : Integer;stdcall;
-function CloseArchive (hArcData : TArcHandle) : Integer;stdcall;
-procedure SetChangeVolProc (hArcData : TArcHandle; pChangeVolProc : TChangeVolProc);stdcall;
-procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);stdcall;
+function OpenArchive (var ArchiveData : tOpenArchiveData) : TArcHandle;dcpcall;
+function ReadHeader (hArcData : TArcHandle; var HeaderData : THeaderData) : Integer;dcpcall;
+function ProcessFile (hArcData : TArcHandle; Operation : Integer; DestPath, DestName : PChar) : Integer;dcpcall;
+function CloseArchive (hArcData : TArcHandle) : Integer;dcpcall;
+procedure SetChangeVolProc (hArcData : TArcHandle; pChangeVolProc : TChangeVolProc);dcpcall;
+procedure SetProcessDataProc (hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);dcpcall;
 { Optional functions }
-function CanYouHandleThisFile(FileName: PChar): Boolean;stdcall;
+function CanYouHandleThisFile(FileName: PChar): Boolean;dcpcall;
 
 implementation
 uses bzip2, SysUtils, Objects;
@@ -194,7 +197,7 @@ begin
     ProcessDataProc := nil;
 end;
 
-function CanYouHandleThisFile(FileName: PChar): Boolean;stdcall;
+function CanYouHandleThisFile(FileName: PChar): Boolean;dcpcall;
 var
   bz2bs : TBufStream;
   Buffer : array[1..5] of Char;

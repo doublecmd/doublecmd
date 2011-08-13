@@ -8,13 +8,13 @@ uses
 {$E wcx}
 
 exports
-  CloseArchive       name 'CloseArchive',
-  GetPackerCaps      name 'GetPackerCaps',
-  OpenArchive        name 'OpenArchive',
-  ProcessFile        name 'ProcessFile',
-  ReadHeader         name 'ReadHeader',
-  SetChangeVolProc   name 'SetChangeVolProc',
-  SetProcessDataProc name 'SetProcessDataProc';
+  CloseArchive,
+  GetPackerCaps,
+  OpenArchive,
+  ProcessFile,
+  ReadHeader,
+  SetChangeVolProc,
+  SetProcessDataProc;
   
 begin
 end.

@@ -38,15 +38,20 @@
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="10"/>
+    <Version Value="9"/>
     <PathDelim Value="\"/>
     <Target>
       <Filename Value="..\lib\unbz2.wcx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
+      <IncludeFiles Value="..\..\..\..\sdk"/>
       <OtherUnitFiles Value="..\bzip2;..\..\..\..\sdk"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
+    <Conditionals Value="if TargetOS = 'darwin' then
+begin
+  LinkerOptions += ' -no_order_inits';
+end;"/>
     <Parsing>
       <SyntaxOptions>
         <SyntaxMode Value="Delphi"/>
@@ -56,6 +61,7 @@
     <Linking>
       <LinkSmart Value="True"/>
       <Options>
+        <PassLinkerOptions Value="True"/>
         <ExecutableType Value="Library"/>
       </Options>
     </Linking>

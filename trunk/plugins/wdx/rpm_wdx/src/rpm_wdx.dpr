@@ -22,9 +22,9 @@ uses
 {$E wdx}
 
 exports
-  ContentGetDetectString    name 'ContentGetDetectString',
-  ContentGetSupportedField  name 'ContentGetSupportedField',
-  ContentGetValue           name 'ContentGetValue';
+  ContentGetDetectString,
+  ContentGetSupportedField,
+  ContentGetValue;
   
 begin
 end.

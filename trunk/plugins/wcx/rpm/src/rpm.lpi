@@ -34,14 +34,19 @@
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="10"/>
+    <Version Value="9"/>
     <Target>
       <Filename Value="../lib/rpm.wcx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
+      <IncludeFiles Value="../../../../sdk"/>
       <OtherUnitFiles Value="../../../../sdk"/>
       <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
+    <Conditionals Value="if TargetOS = 'darwin' then
+begin
+  LinkerOptions += ' -no_order_inits';
+end;"/>
     <Parsing>
       <SyntaxOptions>
         <SyntaxMode Value="Delphi"/>
@@ -51,6 +56,7 @@
     <Linking>
       <LinkSmart Value="True"/>
       <Options>
+        <PassLinkerOptions Value="True"/>
         <ExecutableType Value="Library"/>
       </Options>
     </Linking>
