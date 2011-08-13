@@ -26,6 +26,7 @@
 library DSXLocate;
 
 {$mode objfpc}{$H+}
+{$include calling.inc}
 
 uses
   Classes, SysUtils, DsxPlugin, un_process;
@@ -133,7 +134,7 @@ end;
 {Main --------------------------------------------------------------------------------}
 
 function Init(dps: PDsxDefaultParamStruct; pAddFileProc: TSAddFileProc;
-  pUpdateStatus: TSUpdateStatusProc): Integer; stdcall;
+  pUpdateStatus: TSUpdateStatusProc): Integer; dcpcall;
 var
   i: Integer;
 begin
@@ -145,18 +146,18 @@ begin
   Result := I;
 end;
 
-procedure StartSearch(FPluginNr: Integer; pSearchRecRec: PDsxSearchRecord); stdcall;
+procedure StartSearch(FPluginNr: Integer; pSearchRecRec: PDsxSearchRecord); dcpcall;
 begin
   TPlugInfo(List.Objects[FPluginNr]).SetDefs(pSearchRecRec);
   TPlugInfo(List.Objects[FPluginNr]).Start;
 end;
 
-procedure StopSearch(FPluginNr: Integer); stdcall;
+procedure StopSearch(FPluginNr: Integer); dcpcall;
 begin
   TPlugInfo(List.Objects[FPluginNr]).Stop;
 end;
 
-procedure Finalize(FPluginNr: Integer); stdcall;
+procedure Finalize(FPluginNr: Integer); dcpcall;
 begin
   if not Assigned(List) then
     exit;

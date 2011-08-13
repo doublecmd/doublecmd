@@ -39,15 +39,20 @@
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="10"/>
+    <Version Value="9"/>
     <PathDelim Value="\"/>
     <Target>
       <Filename Value="..\lib\wlxmplayer.wlx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
+      <IncludeFiles Value="..\..\..\..\sdk"/>
       <OtherUnitFiles Value="$(LazarusDir)\lcl\units\$(TargetCPU)-$(TargetOS)\$(LCLWidgetType);..\..\..\..\sdk"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
+    <Conditionals Value="if TargetOS = 'darwin' then
+begin
+  LinkerOptions += ' -no_order_inits';
+end;"/>
     <Parsing>
       <SyntaxOptions>
         <UseAnsiStrings Value="False"/>
@@ -56,6 +61,7 @@
     <Linking>
       <LinkSmart Value="True"/>
       <Options>
+        <PassLinkerOptions Value="True"/>
         <ExecutableType Value="Library"/>
       </Options>
     </Linking>

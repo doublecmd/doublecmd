@@ -1,6 +1,7 @@
 library SimpleWlx;
 
 {$mode objfpc}{$H+}
+{$include calling.inc}
 
 {$DEFINE GTK2}
 
@@ -57,7 +58,7 @@ begin
 end;
 
 
-function ListLoad(ParentWin:thandle;FileToLoad:pchar;ShowFlags:integer):thandle; stdcall;
+function ListLoad(ParentWin:thandle;FileToLoad:pchar;ShowFlags:integer):thandle; dcpcall;
 var GFix,GButton1,Gbutton2:PGtkWidget;
 
    lst:PGlist;
@@ -97,7 +98,7 @@ begin
 Result:=integer(GFix);
 end;
 
-procedure ListCloseWindow(ListWin:thandle); stdcall;
+procedure ListCloseWindow(ListWin:thandle); dcpcall;
  var Index:integer; s:string;
 begin
 
