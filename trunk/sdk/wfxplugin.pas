@@ -311,7 +311,7 @@ type
 
 { Function prototypes - the callback functions MUST be implemented exactly like this! }
 
-{
+(*
 
 function FsInit(PluginNr:integer;pProgressProc:tProgressProc;pLogProc:tLogProc;
 
@@ -417,7 +417,7 @@ function FsGetLocalName(RemoteName:pchar;maxlen:integer):bool; {$IFDEF MSWINDOWS
 
 function FsGetLocalNameW(RemoteName:pwidechar;maxlen:integer):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-}
+*)
 
 {****************************** content plugin part *****************************}
 
@@ -501,7 +501,7 @@ type ttimeformat=record
 
 { Function prototypes: }
 
-{
+(*
 
 procedure FsContentGetDetectString(DetectString:pchar;maxlen:integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
@@ -543,7 +543,7 @@ function FsContentGetDefaultViewW(ViewContents,ViewHeaders,ViewWidths,
 
   ViewOptions:pwidechar;maxlen:integer):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-}
+*)
 
 implementation
 

@@ -131,13 +131,13 @@ type
 
 implementation
 
-{ Plugin must implement this function for working with Extension API
+(* Plugin must implement this function for working with Extension API
 
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 procedure ExtensionFinalize(Reserved: Pointer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-}
+*)
 
 end.
 

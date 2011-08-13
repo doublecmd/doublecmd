@@ -73,7 +73,7 @@ type HBITMAP = type THandle;
 
 { Function prototypes: Functions need to be defined exactly like this!}
 
-{
+(*
 
 function ListLoad(ParentWin:thandle;FileToLoad:pchar;ShowFlags:integer):thandle; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 function ListLoadW(ParentWin:thandle;FileToLoad:pwidechar;ShowFlags:integer):thandle; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
@@ -92,7 +92,7 @@ procedure ListSetDefaultParams(dps:pListDefaultParamStruct); {$IFDEF MSWINDOWS}s
 function ListGetPreviewBitmap(FileToLoad:pchar;width,height:integer; contentbuf:pchar;contentbuflen:integer):hbitmap; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 function ListGetPreviewBitmapW(FileToLoad:pwidechar;width,height:integer; contentbuf:pchar;contentbuflen:integer):hbitmap; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-}
+*)
 
 implementation
 
