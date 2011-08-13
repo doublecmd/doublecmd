@@ -275,37 +275,39 @@ type
 
   pFsDefaultParamStruct=^tFsDefaultParamStruct;
 
+{ For compatibility with Delphi use $IFDEF's to set calling convention }
+
 { callback functions }
 
 type
 
   TProgressProc=function(PluginNr:integer;SourceName,
 
-    TargetName:pchar;PercentDone:integer):integer; stdcall;
+    TargetName:pchar;PercentDone:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   
   TProgressProcW=function(PluginNr:integer;SourceName,
 
-    TargetName:pwidechar;PercentDone:integer):integer; stdcall;  
+    TargetName:pwidechar;PercentDone:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-  TLogProc=procedure(PluginNr,MsgType:integer;LogString:pchar); stdcall;
+  TLogProc=procedure(PluginNr,MsgType:integer;LogString:pchar); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   
-  TLogProcW=procedure(PluginNr,MsgType:integer;LogString:pwidechar); stdcall;
+  TLogProcW=procedure(PluginNr,MsgType:integer;LogString:pwidechar); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
   TRequestProc=function(PluginNr,RequestType:integer;CustomTitle,CustomText,
 
-    ReturnedText:pchar;maxlen:integer):bool; stdcall;
+    ReturnedText:pchar;maxlen:integer):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
   
   TRequestProcW=function(PluginNr,RequestType:integer;CustomTitle,CustomText,
 
-    ReturnedText:pwidechar;maxlen:integer):bool; stdcall;
+    ReturnedText:pwidechar;maxlen:integer):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
   TCryptProc=function(PluginNr,CryptoNumber:integer;mode:integer;ConnectionName,
 
-    Password:pchar;maxlen:integer):integer; stdcall;
+    Password:pchar;maxlen:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
     
   TCryptProcW=function(PluginNr,CryptoNumber:integer;mode:integer;ConnectionName,
 
-    Password:pwidechar;maxlen:integer):integer; stdcall;
+    Password:pwidechar;maxlen:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 { Function prototypes - the callback functions MUST be implemented exactly like this! }
 
@@ -313,107 +315,107 @@ type
 
 function FsInit(PluginNr:integer;pProgressProc:tProgressProc;pLogProc:tLogProc;
 
-                pRequestProc:tRequestProc):integer; stdcall;
+                pRequestProc:tRequestProc):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsInitW(PluginNr:integer;pProgressProcW:tProgressProcW;pLogProcW:tLogProcW;
 
-                pRequestProcW:tRequestProcW):integer; stdcall;
+                pRequestProcW:tRequestProcW):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-procedure FsSetCryptCallback(CryptProc:TCryptProc;CryptoNr,Flags:integer); stdcall;
+procedure FsSetCryptCallback(CryptProc:TCryptProc;CryptoNr,Flags:integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-procedure FsSetCryptCallbackW(CryptProcW:TCryptProcW;CryptoNr,Flags:integer); stdcall;
+procedure FsSetCryptCallbackW(CryptProcW:TCryptProcW;CryptoNr,Flags:integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsFindFirst(path :pchar;var FindData:tWIN32FINDDATA):thandle; stdcall;
+function FsFindFirst(path :pchar;var FindData:tWIN32FINDDATA):thandle; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsFindFirstW(path :pwidechar;var FindData:tWIN32FINDDATAW):thandle; stdcall;
+function FsFindFirstW(path :pwidechar;var FindData:tWIN32FINDDATAW):thandle; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsFindNext(Hdl:thandle;var FindData:tWIN32FINDDATA):bool; stdcall;
+function FsFindNext(Hdl:thandle;var FindData:tWIN32FINDDATA):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsFindNextW(Hdl:thandle;var FindDataW:tWIN32FINDDATAW):bool; stdcall;
+function FsFindNextW(Hdl:thandle;var FindDataW:tWIN32FINDDATAW):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsFindClose(Hdl:thandle):integer; stdcall;
+function FsFindClose(Hdl:thandle):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsMkDir(RemoteDir:pchar):bool; stdcall;
+function FsMkDir(RemoteDir:pchar):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsMkDirW(RemoteDir:pwidechar):bool; stdcall;
+function FsMkDirW(RemoteDir:pwidechar):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsExecuteFile(MainWin:HWND;RemoteName,Verb:pchar):integer; stdcall;
+function FsExecuteFile(MainWin:HWND;RemoteName,Verb:pchar):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsExecuteFileW(MainWin:HWND;RemoteName,Verb:pwidechar):integer; stdcall;
+function FsExecuteFileW(MainWin:HWND;RemoteName,Verb:pwidechar):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsRenMovFile(OldName,NewName:pchar;Move,OverWrite:bool;
 
-  RemoteInfo:pRemoteInfo):integer; stdcall;
+  RemoteInfo:pRemoteInfo):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsRenMovFileW(OldName,NewName:pwidechar;Move,OverWrite:bool;
 
-  RemoteInfo:pRemoteInfo):integer; stdcall;
+  RemoteInfo:pRemoteInfo):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsGetFile(RemoteName,LocalName:pchar;CopyFlags:integer;
 
-  RemoteInfo:pRemoteInfo):integer; stdcall;
+  RemoteInfo:pRemoteInfo):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsGetFileW(RemoteName,LocalName:pwidechar;CopyFlags:integer;
 
-  RemoteInfo:pRemoteInfo):integer; stdcall;
+  RemoteInfo:pRemoteInfo):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsPutFile(LocalName,RemoteName:pchar;CopyFlags:integer):integer; stdcall;
+function FsPutFile(LocalName,RemoteName:pchar;CopyFlags:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsPutFileW(LocalName,RemoteName:pwidechar;CopyFlags:integer):integer; stdcall;
+function FsPutFileW(LocalName,RemoteName:pwidechar;CopyFlags:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsDeleteFile(RemoteName:pchar):bool; stdcall;
+function FsDeleteFile(RemoteName:pchar):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsDeleteFileW(RemoteName:pwidechar):bool; stdcall;
+function FsDeleteFileW(RemoteName:pwidechar):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsRemoveDir(RemoteName:pchar):bool; stdcall;
+function FsRemoveDir(RemoteName:pchar):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsRemoveDirW(RemoteName:pwidechar):bool; stdcall;
+function FsRemoveDirW(RemoteName:pwidechar):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsDisconnect(DisconnectRoot:pchar):bool; stdcall;
+function FsDisconnect(DisconnectRoot:pchar):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsDisconnectW(DisconnectRoot:pwidechar):bool; stdcall;
+function FsDisconnectW(DisconnectRoot:pwidechar):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsSetAttr(RemoteName:pchar;NewAttr:integer):bool; stdcall;
+function FsSetAttr(RemoteName:pchar;NewAttr:integer):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsSetAttrW(RemoteName:pwidechar;NewAttr:integer):bool; stdcall;
+function FsSetAttrW(RemoteName:pwidechar;NewAttr:integer):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsSetTime(RemoteName:pchar;CreationTime,LastAccessTime,
 
-  LastWriteTime:PFileTime):bool; stdcall;
+  LastWriteTime:PFileTime):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsSetTimeW(RemoteName:pwidechar;CreationTime,LastAccessTime,
 
-  LastWriteTime:PFileTime):bool; stdcall;
+  LastWriteTime:PFileTime):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-procedure FsStatusInfo(RemoteDir:pchar;InfoStartEnd,InfoOperation:integer); stdcall;
+procedure FsStatusInfo(RemoteDir:pchar;InfoStartEnd,InfoOperation:integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-procedure FsStatusInfoW(RemoteDir:pwidechar;InfoStartEnd,InfoOperation:integer); stdcall;
+procedure FsStatusInfoW(RemoteDir:pwidechar;InfoStartEnd,InfoOperation:integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-procedure FsGetDefRootName(DefRootName:pchar;maxlen:integer); stdcall;
+procedure FsGetDefRootName(DefRootName:pchar;maxlen:integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsExtractCustomIcon(RemoteName:pchar;ExtractFlags:integer;
 
-  var TheIcon:hicon):integer; stdcall;
+  var TheIcon:hicon):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsExtractCustomIconW(RemoteName:pwidechar;ExtractFlags:integer;
 
-  var TheIcon:hicon):integer; stdcall;
+  var TheIcon:hicon):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-procedure FsSetDefaultParams(dps:pFsDefaultParamStruct); stdcall;
+procedure FsSetDefaultParams(dps:pFsDefaultParamStruct); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsGetPreviewBitmap(RemoteName:pchar;width,height:integer,
 
-  var ReturnedBitmap:hbitmap):integer; stdcall;
+  var ReturnedBitmap:hbitmap):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsGetPreviewBitmapW(RemoteName:pwidechar;width,height:integer,
 
-  var ReturnedBitmap:hbitmap):integer; stdcall;
+  var ReturnedBitmap:hbitmap):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsLinksToLocalFiles:bool; stdcall;
+function FsLinksToLocalFiles:bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsGetLocalName(RemoteName:pchar;maxlen:integer):bool; stdcall;
+function FsGetLocalName(RemoteName:pchar;maxlen:integer):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsGetLocalNameW(RemoteName:pwidechar;maxlen:integer):bool; stdcall;
+function FsGetLocalNameW(RemoteName:pwidechar;maxlen:integer):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 }
 
@@ -501,45 +503,45 @@ type ttimeformat=record
 
 {
 
-procedure FsContentGetDetectString(DetectString:pchar;maxlen:integer); stdcall;
+procedure FsContentGetDetectString(DetectString:pchar;maxlen:integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsContentGetSupportedField(FieldIndex:integer;FieldName:pchar;
 
-  Units:pchar;maxlen:integer):integer; stdcall;
+  Units:pchar;maxlen:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsContentGetValue(FileName:pchar;FieldIndex,UnitIndex:integer;FieldValue:pbyte;
 
-  maxlen,flags:integer):integer; stdcall;
+  maxlen,flags:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsContentGetValueW(FileName:pwidechar;FieldIndex,UnitIndex:integer;FieldValue:pbyte;
 
-  maxlen,flags:integer):integer; stdcall;
+  maxlen,flags:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-procedure FsContentSetDefaultParams(dps:pContentDefaultParamStruct); stdcall;
+procedure FsContentSetDefaultParams(dps:pContentDefaultParamStruct); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-procedure FsContentStopGetValue(FileName:pchar); stdcall;
+procedure FsContentStopGetValue(FileName:pchar); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-procedure FsContentStopGetValueW(FileName:pwidechar); stdcall;
+procedure FsContentStopGetValueW(FileName:pwidechar); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsContentGetDefaultSortOrder(FieldIndex:integer):integer; stdcall;
+function FsContentGetDefaultSortOrder(FieldIndex:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
-function FsContentGetSupportedFieldFlags(FieldIndex:integer):integer; stdcall;
+function FsContentGetSupportedFieldFlags(FieldIndex:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsContentSetValue(FileName:pchar;FieldIndex,UnitIndex,FieldType:integer;
 
-  FieldValue:pbyte;flags:integer):integer; stdcall;
+  FieldValue:pbyte;flags:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsContentSetValueW(FileName:pwidechar;FieldIndex,UnitIndex,FieldType:integer;
 
-  FieldValue:pbyte;flags:integer):integer; stdcall;
+  FieldValue:pbyte;flags:integer):integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsContentGetDefaultView(ViewContents,ViewHeaders,ViewWidths,
 
-  ViewOptions:pchar;maxlen:integer):bool; stdcall;
+  ViewOptions:pchar;maxlen:integer):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 function FsContentGetDefaultViewW(ViewContents,ViewHeaders,ViewWidths,
 
-  ViewOptions:pwidechar;maxlen:integer):bool; stdcall;
+  ViewOptions:pwidechar;maxlen:integer):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 }
 

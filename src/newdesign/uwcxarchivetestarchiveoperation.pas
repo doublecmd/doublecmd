@@ -1,6 +1,7 @@
 unit uWcxArchiveTestArchiveOperation;
 
 {$mode objfpc}{$H+}
+{$include calling.inc}
 
 interface
 
@@ -78,7 +79,7 @@ begin
   end;
 end;
 
-function ChangeVolProcA(ArcName : PAnsiChar; Mode: LongInt): LongInt; stdcall;
+function ChangeVolProcA(ArcName : PAnsiChar; Mode: LongInt): LongInt; dcpcall;
 var
   sArcName: UTF8String;
 begin
@@ -88,7 +89,7 @@ begin
     StrPLCopy(ArcName, UTF8ToSys(sArcName), MAX_PATH);
 end;
 
-function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; stdcall;
+function ChangeVolProcW(ArcName : PWideChar; Mode: LongInt): LongInt; dcpcall;
 var
   sArcName: UTF8String;
 begin
@@ -145,22 +146,22 @@ begin
   end;
 end;
 
-function ProcessDataProcAG(FileName: PAnsiChar; Size: LongInt): LongInt; stdcall;
+function ProcessDataProcAG(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
 begin
   Result:= ProcessDataProc(WcxTestArchiveOperationG, SysToUTF8(StrPas(FileName)), Size);
 end;
 
-function ProcessDataProcWG(FileName: PWideChar; Size: LongInt): LongInt; stdcall;
+function ProcessDataProcWG(FileName: PWideChar; Size: LongInt): LongInt; dcpcall;
 begin
   Result:= ProcessDataProc(WcxTestArchiveOperationG, UTF8Encode(WideString(FileName)), Size);
 end;
 
-function ProcessDataProcAT(FileName: PAnsiChar; Size: LongInt): LongInt; stdcall;
+function ProcessDataProcAT(FileName: PAnsiChar; Size: LongInt): LongInt; dcpcall;
 begin
   Result:= ProcessDataProc(WcxTestArchiveOperationT, SysToUTF8(StrPas(FileName)), Size);
 end;
 
-function ProcessDataProcWT(FileName: PWideChar; Size: LongInt): LongInt; stdcall;
+function ProcessDataProcWT(FileName: PWideChar; Size: LongInt): LongInt; dcpcall;
 begin
   Result:= ProcessDataProc(WcxTestArchiveOperationT, UTF8Encode(WideString(FileName)), Size);
 end;

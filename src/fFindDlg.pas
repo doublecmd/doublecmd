@@ -25,6 +25,7 @@
 unit fFindDlg;
 
 {$mode objfpc}{$H+}
+{$include calling.inc}
 
 interface
 
@@ -202,7 +203,7 @@ const
   FileSizeUnitToComboIndex: array[TFileSizeUnit] of Integer = (0, 1, 2, 3, 4);
   ComboIndexToFileSizeUnit: array[0..4] of TFileSizeUnit = (suBytes, suKilo, suMega, suGiga, suTera);
 
-procedure SAddFileProc(PlugNr: Integer; FoundFile: PChar); stdcall;
+procedure SAddFileProc(PlugNr: Integer; FoundFile: PChar); dcpcall;
 var
   s: string;
 begin
@@ -218,7 +219,7 @@ begin
     end;
 end;
 
-procedure SUpdateStatusProc(PlugNr: Integer; CurrentFile: PChar; FilesScanned: Integer); stdcall;
+procedure SUpdateStatusProc(PlugNr: Integer; CurrentFile: PChar; FilesScanned: Integer); dcpcall;
 var
   sCurrentFile: String;
 begin

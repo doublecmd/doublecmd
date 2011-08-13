@@ -1,6 +1,7 @@
 unit uWcxArchiveFileSource;
 
 {$mode objfpc}{$H+}
+{$include calling.inc}
 
 interface
 
@@ -214,7 +215,7 @@ begin
   end;
 end;
 
-function CryptProcA(CryptoNumber: Integer; Mode: Integer; ArchiveName, Password: PAnsiChar; MaxLen: Integer): Integer; stdcall;
+function CryptProcA(CryptoNumber: Integer; Mode: Integer; ArchiveName, Password: PAnsiChar; MaxLen: Integer): Integer; dcpcall;
 var
   sArchiveName,
   sPassword: UTF8String;
@@ -229,7 +230,7 @@ begin
     end;
 end;
 
-function CryptProcW(CryptoNumber: Integer; Mode: Integer; ArchiveName, Password: PWideChar; MaxLen: Integer): Integer; stdcall;
+function CryptProcW(CryptoNumber: Integer; Mode: Integer; ArchiveName, Password: PWideChar; MaxLen: Integer): Integer; dcpcall;
 var
   sArchiveName,
   sPassword: UTF8String;

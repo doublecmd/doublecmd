@@ -23,6 +23,7 @@
 unit fDialogBox;
 
 {$mode objfpc}{$H+}
+{$include calling.inc}
 
 interface
 
@@ -82,19 +83,19 @@ type
     { public declarations }
   end; 
 
-function InputBox(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; stdcall;
-function MessageBox(Text, Caption: PAnsiChar; Flags: Longint): Integer; stdcall;
-function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; stdcall;
-function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; stdcall;
-function DialogBoxLFMFile(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool; stdcall;
-function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
+function InputBox(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; dcpcall;
+function MessageBox(Text, Caption: PAnsiChar; Flags: Longint): Integer; dcpcall;
+function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; dcpcall;
+function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; dcpcall;
+function DialogBoxLFMFile(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool; dcpcall;
+function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 
 implementation
 
 uses
   uShowMsg, uClassesEx, uDCUtils;
 
-function InputBox(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; stdcall;
+function InputBox(Caption, Prompt: PAnsiChar; MaskInput: LongBool; Value: PAnsiChar; ValueMaxLen: Integer): LongBool; dcpcall;
 var
   sValue: UTF8String;
 begin
@@ -107,7 +108,7 @@ begin
     end;
 end;
 
-function MessageBox(Text, Caption: PAnsiChar; Flags: Longint): Integer; stdcall;
+function MessageBox(Text, Caption: PAnsiChar; Flags: Longint): Integer; dcpcall;
 begin
   Result:= ShowMessageBox(Text, Caption, Flags);
 end;
@@ -158,7 +159,7 @@ begin
   end;
 end;
 
-function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool;stdcall;
+function DialogBoxLFM(LFMData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool;dcpcall;
 var
   DataString: UTF8String;
 begin
@@ -172,7 +173,7 @@ begin
     Result := False;
 end;
 
-function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; stdcall;
+function DialogBoxLRS(LRSData: Pointer; DataSize: LongWord; DlgProc: TDlgProc): LongBool; dcpcall;
 var
   DataString: UTF8String;
 begin
@@ -186,7 +187,7 @@ begin
     Result := False;
 end;
 
-function DialogBoxLFMFile(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool;stdcall;
+function DialogBoxLFMFile(lfmFileName: PAnsiChar; DlgProc: TDlgProc): LongBool;dcpcall;
 var
   lfmStringList: TStringListEx;
 begin
@@ -205,7 +206,7 @@ begin
     Result := False;
 end;
 
-function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt;stdcall;
+function SendDlgMsg(pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt;dcpcall;
 var
   DialogBox: TDialogBox;
   Control: TControl;

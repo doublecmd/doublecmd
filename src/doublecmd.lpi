@@ -948,7 +948,7 @@
       <Filename Value="..\doublecmd"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir)"/>
+      <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk"/>
       <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
       <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;newdesign;newdesign\fileproperties;frames"/>
       <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>

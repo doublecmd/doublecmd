@@ -1,3 +1,5 @@
+#include "common.h"
+
 /* dialog messages */
 #define DM_FIRST 0
 #define DM_CLOSE DM_FIRST+1 /* A signal that the dialog is about to close */
@@ -56,13 +58,13 @@
 #define EXT_MAX_PATH  16384 /* 16 Kb */
 
 /* Dialog window callback function */
-typedef intptr_t (__stdcall *tDlgProc)(uintptr_t pDlg, char* DlgItemName, intptr_t Msg, intptr_t wParam, intptr_t lParam);
+typedef intptr_t (DCPCALL *tDlgProc)(uintptr_t pDlg, char* DlgItemName, intptr_t Msg, intptr_t wParam, intptr_t lParam);
 /* Definition of callback functions called by the DLL */
-typedef BOOL (__stdcall *tInputBoxProc)(char* Caption, char* Prompt, BOOL MaskInput, char* Value, int ValueMaxLen);
-typedef int (__stdcall *tMessageBoxProc)(char* Text, char* Caption, long Flags);
-typedef BOOL (__stdcall *tDialogBoxLFMProc)(intptr_t LFMData, unsigned long DataSize, tDlgProc DlgProc);
-typedef BOOL (__stdcall *tDialogBoxLRSProc)(intptr_t LRSData, unsigned long DataSize, tDlgProc DlgProc);
-typedef BOOL (__stdcall *tDialogBoxLFMFileProc)(char* LFMFileName, tDlgProc DlgProc);
+typedef BOOL (DCPCALL *tInputBoxProc)(char* Caption, char* Prompt, BOOL MaskInput, char* Value, int ValueMaxLen);
+typedef int (DCPCALL *tMessageBoxProc)(char* Text, char* Caption, long Flags);
+typedef BOOL (DCPCALL *tDialogBoxLFMProc)(intptr_t LFMData, unsigned long DataSize, tDlgProc DlgProc);
+typedef BOOL (DCPCALL *tDialogBoxLRSProc)(intptr_t LRSData, unsigned long DataSize, tDlgProc DlgProc);
+typedef BOOL (DCPCALL *tDialogBoxLFMFileProc)(char* LFMFileName, tDlgProc DlgProc);
 
 
 #pragma pack(push)
@@ -81,13 +83,13 @@ unsigned char Reserved[4096 * sizeof(void *)];
 } tExtensionStartupInfo;
 #pragma pack(pop)
 
-typedef void (__stdcall tExtensionInitializeProc)(tExtensionStartupInfo* StartupInfo);
-typedef void (__stdcall tExtensionFinalizeProc)(void* Reserved);
+typedef void (DCPCALL tExtensionInitializeProc)(tExtensionStartupInfo* StartupInfo);
+typedef void (DCPCALL tExtensionFinalizeProc)(void* Reserved);
 
 /* Plugin must implement this function for working with Extension API
 
-void __stdcall ExtensionInitialize(tExtensionStartupInfo* StartupInfo);
+void DCPCALL ExtensionInitialize(tExtensionStartupInfo* StartupInfo);
 
-void __stdcall ExtensionFinalize(void* Reserved);
+void DCPCALL ExtensionFinalize(void* Reserved);
 
 */

@@ -1,7 +1,9 @@
 #ifdef __GNUC__
 
-#ifndef __stdcall
-#define __stdcall __attribute__((stdcall))
+#if defined(__WIN32__) || defined(_WIN32) || defined(_WIN64)
+  #define DCPCALL __attribute__((stdcall))
+#else
+  #define DCPCALL __attribute__((cdecl))
 #endif
 
 #define MAX_PATH 260
@@ -46,5 +48,13 @@ typedef struct _WIN32_FIND_DATAW {
 	WCHAR cFileName[MAX_PATH];
 	WCHAR cAlternateFileName[14];
 } WIN32_FIND_DATAW,*LPWIN32_FIND_DATAW;
+
+#else
+
+#if defined(_WIN32) || defined(_WIN64)
+  #define DCPCALL __stdcall
+#else
+  #define DCPCALL __cdecl
+#endif
 
 #endif

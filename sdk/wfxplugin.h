@@ -185,75 +185,75 @@ int size;
 } FsDefaultParamStruct;
 
 // callback functions
-typedef int (__stdcall *tProgressProc)(int PluginNr,char* SourceName,
+typedef int (DCPCALL *tProgressProc)(int PluginNr,char* SourceName,
              char* TargetName,int PercentDone);
-typedef int (__stdcall *tProgressProcW)(int PluginNr,WCHAR* SourceName,
+typedef int (DCPCALL *tProgressProcW)(int PluginNr,WCHAR* SourceName,
              WCHAR* TargetName,int PercentDone);
-typedef void (__stdcall *tLogProc)(int PluginNr,int MsgType,char* LogString);
-typedef void (__stdcall *tLogProcW)(int PluginNr,int MsgType,WCHAR* LogString);
+typedef void (DCPCALL *tLogProc)(int PluginNr,int MsgType,char* LogString);
+typedef void (DCPCALL *tLogProcW)(int PluginNr,int MsgType,WCHAR* LogString);
 
-typedef BOOL (__stdcall *tRequestProc)(int PluginNr,int RequestType,char* CustomTitle,
+typedef BOOL (DCPCALL *tRequestProc)(int PluginNr,int RequestType,char* CustomTitle,
               char* CustomText,char* ReturnedText,int maxlen);
-typedef BOOL (__stdcall *tRequestProcW)(int PluginNr,int RequestType,WCHAR* CustomTitle,
+typedef BOOL (DCPCALL *tRequestProcW)(int PluginNr,int RequestType,WCHAR* CustomTitle,
               WCHAR* CustomText,WCHAR* ReturnedText,int maxlen);
-typedef int (__stdcall *tCryptProc)(int PluginNr,int CryptoNr,int Mode,
+typedef int (DCPCALL *tCryptProc)(int PluginNr,int CryptoNr,int Mode,
 			  char* ConnectionName,char* Password,int maxlen);
-typedef int (__stdcall *tCryptProcW)(int PluginNr,int CryptoNr,int Mode,
+typedef int (DCPCALL *tCryptProcW)(int PluginNr,int CryptoNr,int Mode,
 			  WCHAR* ConnectionName,WCHAR* Password,int maxlen);
 
 // Function prototypes
-int __stdcall FsInit(int PluginNr,tProgressProc pProgressProc,
+int DCPCALL FsInit(int PluginNr,tProgressProc pProgressProc,
                      tLogProc pLogProc,tRequestProc pRequestProc);
-int __stdcall FsInitW(int PluginNr,tProgressProcW pProgressProcW,
+int DCPCALL FsInitW(int PluginNr,tProgressProcW pProgressProcW,
                      tLogProcW pLogProcW,tRequestProcW pRequestProcW);
-void __stdcall FsSetCryptCallback(tCryptProc pCryptProc,int CryptoNr,int Flags);
-void __stdcall FsSetCryptCallbackW(tCryptProcW pCryptProcW,int CryptoNr,int Flags);
-HANDLE __stdcall FsFindFirst(char* Path,WIN32_FIND_DATAA *FindData);
-HANDLE __stdcall FsFindFirstW(WCHAR* Path,WIN32_FIND_DATAW *FindData);
+void DCPCALL FsSetCryptCallback(tCryptProc pCryptProc,int CryptoNr,int Flags);
+void DCPCALL FsSetCryptCallbackW(tCryptProcW pCryptProcW,int CryptoNr,int Flags);
+HANDLE DCPCALL FsFindFirst(char* Path,WIN32_FIND_DATAA *FindData);
+HANDLE DCPCALL FsFindFirstW(WCHAR* Path,WIN32_FIND_DATAW *FindData);
 
-BOOL __stdcall FsFindNext(HANDLE Hdl,WIN32_FIND_DATAA *FindData);
-BOOL __stdcall FsFindNextW(HANDLE Hdl,WIN32_FIND_DATAW *FindData);
-int __stdcall FsFindClose(HANDLE Hdl);
-BOOL __stdcall FsMkDir(char* Path);
-BOOL __stdcall FsMkDirW(WCHAR* Path);
-int __stdcall FsExecuteFile(HWND MainWin,char* RemoteName,char* Verb);
-int __stdcall FsExecuteFileW(HWND MainWin,WCHAR* RemoteName,WCHAR* Verb);
-int __stdcall FsRenMovFile(char* OldName,char* NewName,BOOL Move,
+BOOL DCPCALL FsFindNext(HANDLE Hdl,WIN32_FIND_DATAA *FindData);
+BOOL DCPCALL FsFindNextW(HANDLE Hdl,WIN32_FIND_DATAW *FindData);
+int DCPCALL FsFindClose(HANDLE Hdl);
+BOOL DCPCALL FsMkDir(char* Path);
+BOOL DCPCALL FsMkDirW(WCHAR* Path);
+int DCPCALL FsExecuteFile(HWND MainWin,char* RemoteName,char* Verb);
+int DCPCALL FsExecuteFileW(HWND MainWin,WCHAR* RemoteName,WCHAR* Verb);
+int DCPCALL FsRenMovFile(char* OldName,char* NewName,BOOL Move,
                            BOOL OverWrite,RemoteInfoStruct* ri);
-int __stdcall FsRenMovFileW(WCHAR* OldName,WCHAR* NewName,BOOL Move,
+int DCPCALL FsRenMovFileW(WCHAR* OldName,WCHAR* NewName,BOOL Move,
                            BOOL OverWrite,RemoteInfoStruct* ri);
-int __stdcall FsGetFile(char* RemoteName,char* LocalName,int CopyFlags,
+int DCPCALL FsGetFile(char* RemoteName,char* LocalName,int CopyFlags,
                         RemoteInfoStruct* ri);
 
-int __stdcall FsGetFileW(WCHAR* RemoteName,WCHAR* LocalName,int CopyFlags,
+int DCPCALL FsGetFileW(WCHAR* RemoteName,WCHAR* LocalName,int CopyFlags,
                         RemoteInfoStruct* ri);
-int __stdcall FsPutFile(char* LocalName,char* RemoteName,int CopyFlags);
-int __stdcall FsPutFileW(WCHAR* LocalName,WCHAR* RemoteName,int CopyFlags);
-BOOL __stdcall FsDeleteFile(char* RemoteName);
-BOOL __stdcall FsDeleteFileW(WCHAR* RemoteName);
-BOOL __stdcall FsRemoveDir(char* RemoteName);
-BOOL __stdcall FsRemoveDirW(WCHAR* RemoteName);
-BOOL __stdcall FsDisconnect(char* DisconnectRoot);
-BOOL __stdcall FsDisconnectW(WCHAR* DisconnectRoot);
-BOOL __stdcall FsSetAttr(char* RemoteName,int NewAttr);
-BOOL __stdcall FsSetAttrW(WCHAR* RemoteName,int NewAttr);
-BOOL __stdcall FsSetTime(char* RemoteName,FILETIME *CreationTime,
+int DCPCALL FsPutFile(char* LocalName,char* RemoteName,int CopyFlags);
+int DCPCALL FsPutFileW(WCHAR* LocalName,WCHAR* RemoteName,int CopyFlags);
+BOOL DCPCALL FsDeleteFile(char* RemoteName);
+BOOL DCPCALL FsDeleteFileW(WCHAR* RemoteName);
+BOOL DCPCALL FsRemoveDir(char* RemoteName);
+BOOL DCPCALL FsRemoveDirW(WCHAR* RemoteName);
+BOOL DCPCALL FsDisconnect(char* DisconnectRoot);
+BOOL DCPCALL FsDisconnectW(WCHAR* DisconnectRoot);
+BOOL DCPCALL FsSetAttr(char* RemoteName,int NewAttr);
+BOOL DCPCALL FsSetAttrW(WCHAR* RemoteName,int NewAttr);
+BOOL DCPCALL FsSetTime(char* RemoteName,FILETIME *CreationTime,
 
       FILETIME *LastAccessTime,FILETIME *LastWriteTime);
-BOOL __stdcall FsSetTimeW(WCHAR* RemoteName,FILETIME *CreationTime,
+BOOL DCPCALL FsSetTimeW(WCHAR* RemoteName,FILETIME *CreationTime,
       FILETIME *LastAccessTime,FILETIME *LastWriteTime);
-void __stdcall FsStatusInfo(char* RemoteDir,int InfoStartEnd,int InfoOperation);
-void __stdcall FsStatusInfoW(WCHAR* RemoteDir,int InfoStartEnd,int InfoOperation);
-void __stdcall FsGetDefRootName(char* DefRootName,int maxlen);
-int __stdcall FsExtractCustomIcon(char* RemoteName,int ExtractFlags,HICON* TheIcon);
-int __stdcall FsExtractCustomIconW(WCHAR* RemoteName,int ExtractFlags,HICON* TheIcon);
-void __stdcall FsSetDefaultParams(FsDefaultParamStruct* dps);
+void DCPCALL FsStatusInfo(char* RemoteDir,int InfoStartEnd,int InfoOperation);
+void DCPCALL FsStatusInfoW(WCHAR* RemoteDir,int InfoStartEnd,int InfoOperation);
+void DCPCALL FsGetDefRootName(char* DefRootName,int maxlen);
+int DCPCALL FsExtractCustomIcon(char* RemoteName,int ExtractFlags,HICON* TheIcon);
+int DCPCALL FsExtractCustomIconW(WCHAR* RemoteName,int ExtractFlags,HICON* TheIcon);
+void DCPCALL FsSetDefaultParams(FsDefaultParamStruct* dps);
 
-int __stdcall FsGetPreviewBitmap(char* RemoteName,int width,int height,HBITMAP* ReturnedBitmap);
-int __stdcall FsGetPreviewBitmapW(WCHAR* RemoteName,int width,int height,HBITMAP* ReturnedBitmap);
-BOOL __stdcall FsLinksToLocalFiles(void);
-BOOL __stdcall FsGetLocalName(char* RemoteName,int maxlen);
-BOOL __stdcall FsGetLocalNameW(WCHAR* RemoteName,int maxlen);
+int DCPCALL FsGetPreviewBitmap(char* RemoteName,int width,int height,HBITMAP* ReturnedBitmap);
+int DCPCALL FsGetPreviewBitmapW(WCHAR* RemoteName,int width,int height,HBITMAP* ReturnedBitmap);
+BOOL DCPCALL FsLinksToLocalFiles(void);
+BOOL DCPCALL FsGetLocalName(char* RemoteName,int maxlen);
+BOOL DCPCALL FsGetLocalNameW(WCHAR* RemoteName,int maxlen);
 
 // ************************** content plugin extension ****************************
 
@@ -322,17 +322,17 @@ typedef struct {
 	WORD wSecond;
 } ttimeformat,*ptimeformat;
 
-int __stdcall FsContentGetSupportedField(int FieldIndex,char* FieldName,char* Units,int maxlen);
-int __stdcall FsContentGetValue(char* FileName,int FieldIndex,int UnitIndex,void* FieldValue,int maxlen,int flags);
-int __stdcall FsContentGetValueW(WCHAR* FileName,int FieldIndex,int UnitIndex,void* FieldValue,int maxlen,int flags);
+int DCPCALL FsContentGetSupportedField(int FieldIndex,char* FieldName,char* Units,int maxlen);
+int DCPCALL FsContentGetValue(char* FileName,int FieldIndex,int UnitIndex,void* FieldValue,int maxlen,int flags);
+int DCPCALL FsContentGetValueW(WCHAR* FileName,int FieldIndex,int UnitIndex,void* FieldValue,int maxlen,int flags);
 
-void __stdcall FsContentStopGetValue(char* FileName);
-void __stdcall FsContentStopGetValueW(WCHAR* FileName);
-int __stdcall FsContentGetDefaultSortOrder(int FieldIndex);
-void __stdcall FsContentPluginUnloading(void);
-int __stdcall FsContentGetSupportedFieldFlags(int FieldIndex);
-int __stdcall FsContentSetValue(char* FileName,int FieldIndex,int UnitIndex,int FieldType,void* FieldValue,int flags);
-int __stdcall FsContentSetValueW(WCHAR* FileName,int FieldIndex,int UnitIndex,int FieldType,void* FieldValue,int flags);
+void DCPCALL FsContentStopGetValue(char* FileName);
+void DCPCALL FsContentStopGetValueW(WCHAR* FileName);
+int DCPCALL FsContentGetDefaultSortOrder(int FieldIndex);
+void DCPCALL FsContentPluginUnloading(void);
+int DCPCALL FsContentGetSupportedFieldFlags(int FieldIndex);
+int DCPCALL FsContentSetValue(char* FileName,int FieldIndex,int UnitIndex,int FieldType,void* FieldValue,int flags);
+int DCPCALL FsContentSetValueW(WCHAR* FileName,int FieldIndex,int UnitIndex,int FieldType,void* FieldValue,int flags);
 
-BOOL __stdcall FsContentGetDefaultView(char* ViewContents,char* ViewHeaders,char* ViewWidths,char* ViewOptions,int maxlen);
-BOOL __stdcall FsContentGetDefaultViewW(WCHAR* ViewContents,WCHAR* ViewHeaders,WCHAR* ViewWidths,WCHAR* ViewOptions,int maxlen);
+BOOL DCPCALL FsContentGetDefaultView(char* ViewContents,char* ViewHeaders,char* ViewWidths,char* ViewOptions,int maxlen);
+BOOL DCPCALL FsContentGetDefaultViewW(WCHAR* ViewContents,WCHAR* ViewHeaders,WCHAR* ViewWidths,WCHAR* ViewOptions,int maxlen);
