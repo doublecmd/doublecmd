@@ -25,6 +25,7 @@
 library wlxMplayer;
 
 {$mode objfpc}{$H+}
+{$include calling.inc}
 
 {$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLQT))}
 {$DEFINE LCLGTK2}
@@ -249,7 +250,7 @@ end;
 
  var List:TStringList;
 
-function ListLoad(ParentWin: THandle; FileToLoad: PChar; ShowFlags: Integer): THandle; stdcall;
+function ListLoad(ParentWin: THandle; FileToLoad: PChar; ShowFlags: Integer): THandle; dcpcall;
 var
   pf: TExProcess;
   sPlayerPath: String;
@@ -289,7 +290,7 @@ begin
   p.Resume;
 end;
 
-procedure ListCloseWindow(ListWin:thandle); stdcall;
+procedure ListCloseWindow(ListWin:thandle); dcpcall;
  var Index:integer; s:string;
 begin
 
@@ -311,7 +312,7 @@ begin
 
 end;
 
-procedure ListGetDetectString(DetectString:pchar;maxlen:integer); stdcall;
+procedure ListGetDetectString(DetectString:pchar;maxlen:integer); dcpcall;
 begin
  StrLCopy (DetectString, 'EXT="AVI"|EXT="MKV"|EXT="FLV"|EXT="MPG"|EXT="MPEG"|EXT="MP4"|EXT=VOB', maxlen);
 end;
