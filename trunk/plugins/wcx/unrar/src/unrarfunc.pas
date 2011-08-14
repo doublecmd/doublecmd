@@ -24,6 +24,9 @@
 
 unit UnRARFunc;
 
+{$mode objfpc}{$H+}
+{$include calling.inc}
+
 interface
 
 uses
@@ -136,22 +139,26 @@ type
     Reserved: packed array [0..31] of LongWord;
   end;
 
-  TUnrarCallback = function(Msg: LongWord; UserData, P1, P2: PtrInt) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TUnrarChangeVolProc = function(ArcName: PChar; Mode: Integer): Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TUnrarProcessDataProc = function(BufAddr: Pointer; BufSize: Integer): Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  {$IFDEF MSWINDOWS}{$CALLING STDCALL}{$ELSE}{$CALLING CDECL}{$ENDIF}
 
-  TRAROpenArchive = function(var ArchiveData: RAROpenArchiveData) : TArcHandle; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TRAROpenArchiveEx = function(var ArchiveData: RAROpenArchiveDataEx) : TArcHandle; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TRARCloseArchive = function(hArcData: TArcHandle) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TRARReadHeader = function(hArcData: TArcHandle; var HeaderData: RARHeaderData) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TRARReadHeaderEx = function (hArcData: TArcHandle; var HeaderData: RARHeaderDataEx) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TRARProcessFile = function(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PAnsiChar) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TRARProcessFileW = function(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PRarUnicodeChar) : Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TRARSetCallback = procedure(hArcData: TArcHandle; UnrarCallback: TUnrarCallback; UserData: PtrInt); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TRARSetChangeVolProc = procedure(hArcData: TArcHandle; ChangeVolProc: TUnrarChangeVolProc); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TRARSetProcessDataProc = procedure(hArcData: TArcHandle; ProcessDataProc: TUnrarProcessDataProc); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TRARSetPassword = procedure(hArcData: TArcHandle; Password: PChar); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TRARGetDllVersion = function: Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TUnrarCallback = function(Msg: LongWord; UserData, P1, P2: PtrInt) : Integer;
+  TUnrarChangeVolProc = function(ArcName: PChar; Mode: Integer): Integer;
+  TUnrarProcessDataProc = function(BufAddr: Pointer; BufSize: Integer): Integer;
+
+  TRAROpenArchive = function(var ArchiveData: RAROpenArchiveData) : TArcHandle;
+  TRAROpenArchiveEx = function(var ArchiveData: RAROpenArchiveDataEx) : TArcHandle;
+  TRARCloseArchive = function(hArcData: TArcHandle) : Integer;
+  TRARReadHeader = function(hArcData: TArcHandle; var HeaderData: RARHeaderData) : Integer;
+  TRARReadHeaderEx = function (hArcData: TArcHandle; var HeaderData: RARHeaderDataEx) : Integer;
+  TRARProcessFile = function(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PAnsiChar) : Integer;
+  TRARProcessFileW = function(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PRarUnicodeChar) : Integer;
+  TRARSetCallback = procedure(hArcData: TArcHandle; UnrarCallback: TUnrarCallback; UserData: PtrInt);
+  TRARSetChangeVolProc = procedure(hArcData: TArcHandle; ChangeVolProc: TUnrarChangeVolProc);
+  TRARSetProcessDataProc = procedure(hArcData: TArcHandle; ProcessDataProc: TUnrarProcessDataProc);
+  TRARSetPassword = procedure(hArcData: TArcHandle; Password: PChar);
+  TRARGetDllVersion = function: Integer;
+
+  {$CALLING DEFAULT}
 
 var
   RAROpenArchive : TRAROpenArchive = nil;
@@ -169,19 +176,19 @@ var
 
   ModuleHandle : THandle = 0;
 
-function OpenArchive(var ArchiveData: TOpenArchiveData) : TArcHandle;stdcall;
-function OpenArchiveW(var ArchiveData: tOpenArchiveDataW) : TArcHandle;stdcall;
-function ReadHeader(hArcData: TArcHandle; var HeaderData: THeaderData) : Integer;stdcall;
-function ReadHeaderEx(hArcData: TArcHandle; var HeaderData: THeaderDataEx) : Integer;stdcall;
-function ReadHeaderExW(hArcData: TArcHandle; var HeaderData: THeaderDataExW) : Integer;stdcall;
-function ProcessFile(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PChar) : Integer;stdcall;
-function ProcessFileW(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PWideChar) : Integer;stdcall;
-function CloseArchive(hArcData: TArcHandle): Integer;stdcall;
-procedure SetChangeVolProc(hArcData : TArcHandle; pChangeVolProc : TChangeVolProc);stdcall;
-procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW);stdcall;
-procedure SetProcessDataProc(hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);stdcall;
-procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);stdcall;
-procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); stdcall;
+function OpenArchive(var ArchiveData: TOpenArchiveData) : TArcHandle;dcpcall;
+function OpenArchiveW(var ArchiveData: tOpenArchiveDataW) : TArcHandle;dcpcall;
+function ReadHeader(hArcData: TArcHandle; var HeaderData: THeaderData) : Integer;dcpcall;
+function ReadHeaderEx(hArcData: TArcHandle; var HeaderData: THeaderDataEx) : Integer;dcpcall;
+function ReadHeaderExW(hArcData: TArcHandle; var HeaderData: THeaderDataExW) : Integer;dcpcall;
+function ProcessFile(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PChar) : Integer;dcpcall;
+function ProcessFileW(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PWideChar) : Integer;dcpcall;
+function CloseArchive(hArcData: TArcHandle): Integer;dcpcall;
+procedure SetChangeVolProc(hArcData : TArcHandle; pChangeVolProc : TChangeVolProc);dcpcall;
+procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW);dcpcall;
+procedure SetProcessDataProc(hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);dcpcall;
+procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);dcpcall;
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
 
 implementation
 
@@ -334,7 +341,7 @@ begin
 {$ENDIF}
 end;
 
-function UnrarCallback(Msg: LongWord; UserData, P1, P2: PtrInt) : Integer;{$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+function UnrarCallback(Msg: LongWord; UserData, P1, P2: PtrInt) : Integer; dcpcall;
 begin
   Result := 0;
   case Msg of
@@ -382,7 +389,7 @@ begin
   end;
 end;
 
-function OpenArchive(var ArchiveData: TOpenArchiveData) : TArcHandle;stdcall;
+function OpenArchive(var ArchiveData: TOpenArchiveData) : TArcHandle;dcpcall;
 var
   RarArchiveData: RAROpenArchiveData;
 begin
@@ -410,7 +417,7 @@ begin
   end;
 end;
 
-function OpenArchiveW(var ArchiveData: tOpenArchiveDataW) : TArcHandle;stdcall;
+function OpenArchiveW(var ArchiveData: tOpenArchiveDataW) : TArcHandle;dcpcall;
 var
   RarArchiveData: RAROpenArchiveDataEx;
   RarArcName: TRarUnicodeString;
@@ -442,7 +449,7 @@ begin
   end;
 end;
 
-function ReadHeader(hArcData: TArcHandle; var HeaderData: THeaderData) : Integer;stdcall;
+function ReadHeader(hArcData: TArcHandle; var HeaderData: THeaderData) : Integer;dcpcall;
 var
   RarHeader: RARHeaderData;
 begin
@@ -493,7 +500,7 @@ begin
     Result := E_EREAD;
 end;
 
-function ReadHeaderEx(hArcData: TArcHandle; var HeaderData: THeaderDataEx) : Integer;stdcall;
+function ReadHeaderEx(hArcData: TArcHandle; var HeaderData: THeaderDataEx) : Integer;dcpcall;
 var
   RarHeader: RARHeaderDataEx;
 begin
@@ -546,7 +553,7 @@ begin
     Result := E_EREAD;
 end;
 
-function ReadHeaderExW(hArcData: TArcHandle; var HeaderData: THeaderDataExW) : Integer;stdcall;
+function ReadHeaderExW(hArcData: TArcHandle; var HeaderData: THeaderDataExW) : Integer;dcpcall;
 var
   RarHeader: RARHeaderDataEx;
 begin
@@ -598,7 +605,7 @@ begin
     Result := E_EREAD;
 end;
 
-function ProcessFile(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PChar) : Integer;stdcall;
+function ProcessFile(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PChar) : Integer;dcpcall;
 var
   pacDestPath: PAnsiChar = nil;
   pacDestName: PAnsiChar = nil;
@@ -624,7 +631,7 @@ begin
     Result := E_EREAD;
 end;
 
-function ProcessFileW(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PWideChar) : Integer;stdcall;
+function ProcessFileW(hArcData: TArcHandle; Operation: Integer; DestPath, DestName: PWideChar) : Integer;dcpcall;
 var
   pwcDestPath: PRarUnicodeChar = nil;
   pwcDestName: PRarUnicodeChar = nil;
@@ -648,7 +655,7 @@ begin
     Result := E_EREAD;
 end;
 
-function CloseArchive(hArcData: TArcHandle) : Integer;stdcall;
+function CloseArchive(hArcData: TArcHandle) : Integer;dcpcall;
 begin
   if Assigned(RARCloseArchive) then
     Result := RARCloseArchive(hArcData)
@@ -656,27 +663,27 @@ begin
     Result := E_ECLOSE;
 end;
 
-procedure SetChangeVolProc(hArcData : TArcHandle; pChangeVolProc : TChangeVolProc);stdcall;
+procedure SetChangeVolProc(hArcData : TArcHandle; pChangeVolProc : TChangeVolProc);dcpcall;
 begin
   ChangeVolProc := pChangeVolProc;
 end;
 
-procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW);stdcall;
+procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW);dcpcall;
 begin
   ChangeVolProcW := pChangeVolProc;
 end;
 
-procedure SetProcessDataProc(hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);stdcall;
+procedure SetProcessDataProc(hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);dcpcall;
 begin
   ProcessDataProc := pProcessDataProc;
 end;
 
-procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);stdcall;
+procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);dcpcall;
 begin
   ProcessDataProcW := pProcessDataProc;
 end;
 
-procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); stdcall;
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
 begin
   ExtensionStartupInfo := StartupInfo^;
 end;
