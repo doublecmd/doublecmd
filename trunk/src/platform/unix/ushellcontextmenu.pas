@@ -326,8 +326,8 @@ var
 begin
   FileNames := TStringList.Create;
   try
-    for i := 0 to Files.Count - 1 do
-      FileNames.Add(Files[i].Path + Files[i].Name);
+    for i := 0 to FFiles.Count - 1 do
+      FileNames.Add(FFiles[i].FullPath);
 
     DesktopEntries := GetDesktopEntries(FileNames);
 
