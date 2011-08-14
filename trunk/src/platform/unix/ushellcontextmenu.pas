@@ -48,6 +48,7 @@ type
     procedure DriveUnmountSelect(Sender: TObject);
     procedure DriveEjectSelect(Sender: TObject);
     procedure OpenWithMenuItemSelect(Sender: TObject);
+    function FillOpenWithSubMenu: Boolean;
   public
     constructor Create(Owner: TWinControl; ADrive: PDrive); reintroduce; overload;
     constructor Create(Owner: TWinControl; var Files : TFiles; Background: Boolean); reintroduce; overload;
@@ -60,7 +61,9 @@ uses
   LCLProc, Dialogs, IniFiles, Graphics, Unix, uTypes, uFindEx, uDCUtils,
   uOSUtils, uFileProcs, uShellExecute, uLng, uGlobs, uPixMapManager, uMyUnix,
   fMain, fFileProperties
-  {$IFDEF LINUX}
+  {$IF DEFINED(DARWIN)}
+  , MacOSAll
+  {$ELSEIF DEFINED(LINUX)}
   , uMimeActions, uUDisks
   {$ENDIF}
   ;
@@ -241,6 +244,136 @@ begin
   ExecCmdFork(ExecCmd);
 end;
 
+function TShellContextMenu.FillOpenWithSubMenu: Boolean;
+{$IF DEFINED(DARWIN)}
+var
+  I: CFIndex;
+  ImageIndex: PtrInt;
+  bmpTemp: TBitmap = nil;
+  mi, miOpenWith: TMenuItem;
+  ApplicationArrayRef: CFArrayRef = nil;
+  FileNameCFRef: CFStringRef = nil;
+  FileNameUrlRef: CFURLRef = nil;
+  ApplicationUrlRef: CFURLRef = nil;
+  ApplicationNameCFRef: CFStringRef = nil;
+  ApplicationCString: array[0..MAX_PATH-1] of Char;
+begin
+  Result:= False;
+  if (FFiles.Count <> 1) then Exit;
+  try
+    FileNameCFRef:= CFStringCreateWithFileSystemRepresentation(nil, PChar(FFiles[0].FullPath));
+    FileNameUrlRef:= CFURLCreateWithFileSystemPath(nil, FileNameCFRef, kCFURLPOSIXPathStyle, False);
+    ApplicationArrayRef:= LSCopyApplicationURLsForURL(FileNameUrlRef,  kLSRolesViewer or kLSRolesEditor or kLSRolesShell);
+    if Assigned(ApplicationArrayRef) and (CFArrayGetCount(ApplicationArrayRef) > 0) then
+    begin
+      Result:= True;
+      miOpenWith := TMenuItem.Create(Self);
+      miOpenWith.Caption := rsMnuOpenWith;
+      Self.Items.Add(miOpenWith);
+
+      for I:= 0 to CFArrayGetCount(ApplicationArrayRef) - 1 do
+      begin
+        ApplicationUrlRef:= CFURLRef(CFArrayGetValueAtIndex(ApplicationArrayRef, I));
+        if CFURLGetFileSystemRepresentation(ApplicationUrlRef,
+                                            True,
+                                            ApplicationCString,
+                                            SizeOf(ApplicationCString)) then
+        begin
+          mi := TMenuItem.Create(miOpenWith);
+          mi.Caption := ExtractOnlyFileName(ApplicationCString);
+          mi.Hint := ApplicationCString + #32 + QuoteStr(FFiles[0].FullPath);
+          ImageIndex:= PixMapManager.GetApplicationBundleIcon(ApplicationCString, -1);
+          if LSCopyDisplayNameForURL(ApplicationUrlRef, ApplicationNameCFRef) = noErr then
+          begin
+            if CFStringGetCString(ApplicationNameCFRef,
+                                  ApplicationCString,
+                                  SizeOf(ApplicationCString),
+                                  kCFStringEncodingUTF8) then
+              mi.Caption := ApplicationCString;
+            CFRelease(ApplicationNameCFRef);
+          end;
+          if ImageIndex >= 0 then
+            begin
+              bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
+              if Assigned(bmpTemp) then
+                begin
+                  mi.Bitmap.Assign(bmpTemp);
+                  FreeAndNil(bmpTemp);
+                end;
+            end;
+          mi.OnClick := Self.OpenWithMenuItemSelect;
+          miOpenWith.Add(mi);
+        end;
+      end;
+    end;
+  finally
+    if Assigned(FileNameCFRef) then
+      CFRelease(FileNameCFRef);
+    if Assigned(FileNameUrlRef) then
+      CFRelease(FileNameUrlRef);
+    if Assigned(ApplicationArrayRef) then
+      CFRelease(ApplicationArrayRef);
+  end;
+end;
+{$ELSEIF DEFINED(LINUX)}
+var
+  I: LongInt;
+  ImageIndex: PtrInt;
+  mi, miOpenWith: TMenuItem;
+  FileNames: TStringList;
+  DesktopEntries: TList = nil;
+  bmpTemp: TBitmap = nil;
+begin
+  FileNames := TStringList.Create;
+  try
+    for i := 0 to Files.Count - 1 do
+      FileNames.Add(Files[i].Path + Files[i].Name);
+
+    DesktopEntries := GetDesktopEntries(FileNames);
+
+    if Assigned(DesktopEntries) and (DesktopEntries.Count > 0) then
+    begin
+      Result := True;
+      miOpenWith := TMenuItem.Create(Self);
+      miOpenWith.Caption := rsMnuOpenWith;
+      Self.Items.Add(miOpenWith);
+
+      for i := 0 to DesktopEntries.Count - 1 do
+      begin
+        mi := TMenuItem.Create(miOpenWith);
+        mi.Caption := PDesktopFileEntry(DesktopEntries[i])^.DisplayName;
+        mi.Hint := PDesktopFileEntry(DesktopEntries[i])^.Exec;
+        ImageIndex:= PixMapManager.GetIconByName(PDesktopFileEntry(DesktopEntries[i])^.IconName);
+        if ImageIndex >= 0 then
+          begin
+            bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
+            if Assigned(bmpTemp) then
+              begin
+                mi.Bitmap.Assign(bmpTemp);
+                FreeAndNil(bmpTemp);
+              end;
+          end;
+        mi.OnClick := Self.OpenWithMenuItemSelect;
+        miOpenWith.Add(mi);
+      end;
+    end;
+
+  finally
+    FreeAndNil(FileNames);
+    if Assigned(DesktopEntries) then
+    begin
+      for i := 0 to DesktopEntries.Count - 1 do
+        Dispose(PDesktopFileEntry(DesktopEntries[i]));
+      FreeAndNil(DesktopEntries);
+    end;
+  end;
+end;
+{$ELSE}
+begin
+  Result:= False;
+end;
+{$ENDIF}
+
 constructor TShellContextMenu.Create(Owner: TWinControl; ADrive: PDrive);
 var
   mi: TMenuItem;
@@ -284,13 +417,9 @@ var
   aFile: TFile = nil;
   sl: TStringList = nil;
   I: Integer;
-  bmpTemp: TBitmap;
-  ImageIndex: PtrInt;
   sAct, sCmd: UTF8String;
   mi, miActions,
-  miOpenWith, miSortBy: TMenuItem;
-  FileNames: TStringList;
-  DesktopEntries: TList = nil;
+  miSortBy: TMenuItem;
   AddActionsMenu: Boolean = False;
   AddOpenWithMenu: Boolean = False;
 begin
@@ -328,7 +457,7 @@ begin
               for I:= 0 to sl.Count - 1 do
                 begin
                   sAct:= sl.Names[I];
-                  if (CompareText('OPEN', sAct) = 0) or (CompareText('VIEW', sAct) = 0) or (CompareText('EDIT', sAct) = 0) then Continue;
+                  if (SysUtils.CompareText('OPEN', sAct) = 0) or (SysUtils.CompareText('VIEW', sAct) = 0) or (SysUtils.CompareText('EDIT', sAct) = 0) then Continue;
                   sCmd:= sl.ValueFromIndex[I];
                   ReplaceExtCommand(sCmd, aFile, aFile.Path);
                   mi:= TMenuItem.Create(miActions);
@@ -377,52 +506,8 @@ begin
        { /Actions submenu }
       end; // if count = 1
 
-    {$IFDEF LINUX}
-    //  Open with ...
-    FileNames := TStringList.Create;
-    try
-      for i := 0 to Files.Count - 1 do
-        FileNames.Add(Files[i].Path + Files[i].Name);
-
-      DesktopEntries := GetDesktopEntries(FileNames);
-
-      if Assigned(DesktopEntries) and (DesktopEntries.Count > 0) then
-      begin
-        miOpenWith := TMenuItem.Create(Self);
-        miOpenWith.Caption := rsMnuOpenWith;
-        Self.Items.Add(miOpenWith);
-        AddOpenWithMenu := True;
-
-        for i := 0 to DesktopEntries.Count - 1 do
-        begin
-          mi := TMenuItem.Create(miOpenWith);
-          mi.Caption := PDesktopFileEntry(DesktopEntries[i])^.DisplayName;
-          mi.Hint := PDesktopFileEntry(DesktopEntries[i])^.Exec;
-          ImageIndex:= PixMapManager.GetIconByName(PDesktopFileEntry(DesktopEntries[i])^.IconName);
-          if ImageIndex >= 0 then
-            begin
-              bmpTemp:= PixMapManager.GetBitmap(ImageIndex);
-              if Assigned(bmpTemp) then
-                begin
-                  mi.Bitmap.Assign(bmpTemp);
-                  FreeAndNil(bmpTemp);
-                end;
-            end;
-          mi.OnClick := Self.OpenWithMenuItemSelect;
-          miOpenWith.Add(mi);
-        end;
-      end;
-
-    finally
-      FreeAndNil(FileNames);
-      if Assigned(DesktopEntries) then
-      begin
-        for i := 0 to DesktopEntries.Count - 1 do
-          Dispose(PDesktopFileEntry(DesktopEntries[i]));
-        FreeAndNil(DesktopEntries);
-      end;
-    end;
-    {$ENDIF}
+    // Add "Open with" submenu if needed
+    AddOpenWithMenu:= FillOpenWithSubMenu;
 
     // Add separator after actions and openwith menu.
     if AddActionsMenu or AddOpenWithMenu then
