@@ -182,8 +182,6 @@ type
        It is synchronized in GetIconByName->CheckAddPixmap.
     }
     function GetIconByDesktopFile(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
-  {$ELSEIF DEFINED(DARWIN)}
-    function GetApplicationBundleIcon(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
   {$ENDIF}
     function GetBuiltInDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 
@@ -265,6 +263,8 @@ type
               Whether the file is on a directly accessible file source.)
     }
     function GetIconOverlayByFile(AFile: TFile; DirectAccess: Boolean): PtrInt;
+    {$ELSEIF DEFINED(DARWIN)}
+    function GetApplicationBundleIcon(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
     {$ENDIF}
     function GetIconByName(const AIconName: UTF8String): PtrInt;
     function GetDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
