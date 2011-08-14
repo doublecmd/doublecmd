@@ -596,17 +596,24 @@ begin
 end;
 {$ELSEIF DEFINED(DARWIN)}
 var
-  theFileNameCFRef: CFStringRef;
-  theFileNameUrlRef: CFURLRef;
+  theFileNameCFRef: CFStringRef = nil;
+  theFileNameUrlRef: CFURLRef = nil;
   theFileNameFSRef: FSRef;
 begin
   Result:= False;
-  theFileNameCFRef:= CFStringCreateWithFileSystemRepresentation(nil, PAnsiChar(URL));
-  theFileNameUrlRef:= CFURLCreateWithFileSystemPath(nil, theFileNameCFRef, kCFURLPOSIXPathStyle, False);
-  if (CFURLGetFSRef(theFileNameUrlRef, theFileNameFSRef)) then
-    begin
-      Result:= (LSOpenFSRef(theFileNameFSRef, nil) = noErr);
-    end;
+  try
+    theFileNameCFRef:= CFStringCreateWithFileSystemRepresentation(nil, PAnsiChar(URL));
+    theFileNameUrlRef:= CFURLCreateWithFileSystemPath(nil, theFileNameCFRef, kCFURLPOSIXPathStyle, False);
+    if (CFURLGetFSRef(theFileNameUrlRef, theFileNameFSRef)) then
+      begin
+        Result:= (LSOpenFSRef(theFileNameFSRef, nil) = noErr);
+      end;
+  finally
+    if Assigned(theFileNameCFRef) then
+      CFRelease(theFileNameCFRef);
+    if Assigned(theFileNameUrlRef) then
+      CFRelease(theFileNameUrlRef);
+  end;
 end;
 {$ELSE}
 var
