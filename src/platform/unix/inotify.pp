@@ -96,7 +96,7 @@ begin
     I := I + 1;
   end;
   iPatch:= StrToIntDef(LeftStr(sRelease, I-1), 0);
-  Result:= (iVersion >= 2) and (iRelease >= 6) and (iPatch >= 13);
+  Result:= (iVersion > 2) or ((iVersion = 2) and (iRelease >= 6) and (iPatch >= 13));
 end;
 
 function inotify_init: LongInt;
