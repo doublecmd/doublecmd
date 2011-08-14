@@ -1249,7 +1249,7 @@ begin
     EnableWatcher(False);
     FHistory.Clear;
 
-    AfterChangePath;
+    if not (csDestroying in ComponentState) then AfterChangePath;
 
     {$IFDEF DEBUG_HISTORY}
     FHistory.DebugShow;
@@ -1594,4 +1594,4 @@ begin
 end;
 
 end.
-
+
