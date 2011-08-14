@@ -37,16 +37,20 @@
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="10"/>
+    <Version Value="9"/>
     <PathDelim Value="\"/>
     <Target>
       <Filename Value="..\lib\unrar.wcx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir)"/>
+      <IncludeFiles Value="$(ProjOutDir);..\..\..\..\sdk"/>
       <OtherUnitFiles Value="..\..\..\..\sdk"/>
       <UnitOutputDirectory Value="..\lib"/>
     </SearchPaths>
+    <Conditionals Value="if TargetOS = 'darwin' then
+begin
+  LinkerOptions += ' -no_order_inits';
+end;"/>
     <CodeGeneration>
       <Optimizations>
         <OptimizationLevel Value="2"/>
@@ -55,6 +59,7 @@
     <Linking>
       <LinkSmart Value="True"/>
       <Options>
+        <PassLinkerOptions Value="True"/>
         <ExecutableType Value="Library"/>
       </Options>
     </Linking>
@@ -70,4 +75,4 @@
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
-</CONFIG>
+</CONFIG>

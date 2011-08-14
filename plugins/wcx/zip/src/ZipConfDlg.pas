@@ -26,6 +26,7 @@
 unit ZipConfDlg;
 
 {$mode objfpc}{$H+}
+{$include calling.inc}
 
 {$R ZipConfDlg.lfm}
 
@@ -42,7 +43,7 @@ implementation
 
 uses ZipFunc, AbZipTyp, IniFiles;
 
-function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; stdcall;
+function DlgProc (pDlg: PtrUInt; DlgItemName: PAnsiChar; Msg, wParam, lParam: PtrInt): PtrInt; dcpcall;
 var
  iIndex: Integer;
 begin

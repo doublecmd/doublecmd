@@ -31,21 +31,26 @@
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="10"/>
+    <Version Value="9"/>
     <Target>
       <Filename Value="../lib/zip.wcx" ApplyConventions="False"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir)"/>
+      <IncludeFiles Value="$(ProjOutDir);../../../../sdk"/>
       <OtherUnitFiles Value="../fparchive;../../../../sdk"/>
       <UnitOutputDirectory Value="../lib"/>
     </SearchPaths>
+    <Conditionals Value="if TargetOS = 'darwin' then
+begin
+  LinkerOptions += ' -no_order_inits';
+end;"/>
     <Linking>
       <Debugging>
         <GenerateDebugInfo Value="True"/>
       </Debugging>
       <LinkSmart Value="True"/>
       <Options>
+        <PassLinkerOptions Value="True"/>
         <ExecutableType Value="Library"/>
       </Options>
     </Linking>
@@ -61,4 +66,4 @@
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
-</CONFIG>
+</CONFIG>
