@@ -3,7 +3,7 @@ library samba;
 {$mode objfpc}{$H+}
 
 uses
-  Classes, SmbFunc
+  Classes, SmbFunc, SmbAuthDlg
   { you can add units after this };
 
 exports
@@ -19,7 +19,8 @@ exports
   FsRemoveDir,
   FsSetAttr,
   FsSetTime,
-  FsGetDefRootName;
+  FsGetDefRootName,
+  ExtensionInitialize;
 
 begin
 end.

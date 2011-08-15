@@ -29,7 +29,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Types, Extension;
+  Types, Buttons, ExtCtrls, Extension;
 
 type
 
@@ -37,12 +37,14 @@ type
 
   TDialogBox = class(TForm)
     DialogButton: TButton;
+    DialogBitBtn: TBitBtn;
     DialogComboBox: TComboBox;
     DialogListBox: TListBox;
     DialogCheckBox: TCheckBox;    
     DialogGroupBox: TGroupBox;
     DialogLabel: TLabel;
     DialogEdit: TEdit;
+    DialogImage: TImage;
     // Dialog events
     procedure DialogBoxShow(Sender: TObject);
     // Button events

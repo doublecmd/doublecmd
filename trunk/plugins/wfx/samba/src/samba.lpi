@@ -34,12 +34,20 @@
         <LaunchingApplication PathPlusParams="/usr/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="1">
+    <Units Count="2">
       <Unit0>
         <Filename Value="samba.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="samba"/>
       </Unit0>
+      <Unit1>
+        <Filename Value="smbauthdlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DialogBox"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="SmbAuthDlg"/>
+      </Unit1>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
