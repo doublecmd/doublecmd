@@ -27,7 +27,7 @@ unit SmbFunc;
 interface
 
 uses
-  Classes, SysUtils, WfxPlugin;
+  Classes, SysUtils, WfxPlugin, Extension;
 
 function FsInit(PluginNr: Integer; pProgressProc: TProgressProc; pLogProc: TLogProc; pRequestProc: TRequestProc): Integer; cdecl;
 
@@ -50,10 +50,20 @@ function FsSetTime(RemoteName: PAnsiChar; CreationTime, LastAccessTime, LastWrit
 
 procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); cdecl;
 
+{ Extension API }
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); cdecl;
+
+var
+  Message:   AnsiString;
+  WorkGroup: array[0..MAX_PATH-1] of AnsiChar;
+  UserName:  array[0..MAX_PATH-1] of AnsiChar;
+  Password:  array[0..MAX_PATH-1] of AnsiChar;
+  ExtensionStartupInfo: TExtensionStartupInfo;
+
 implementation
 
 uses
-  Unix, BaseUnix, UnixType, StrUtils, libsmbclient;
+  Unix, BaseUnix, UnixType, StrUtils, SmbAuthDlg, libsmbclient;
 
 const
   SMB_BUFFER_SIZE = 524288;
@@ -73,8 +83,6 @@ var
   Auth: Boolean = False;
   Abort: Boolean = False;
   NeedAuth: Boolean = False;
-  UserName: array[0..MAX_PATH-1] of AnsiChar;
-  Password: array[0..MAX_PATH-1] of AnsiChar;
 
 function FileTimeToUnixTime(ft: TFileTime): time_t;
 var
@@ -111,26 +119,32 @@ begin
   begin
     Abort:= True;
 
-    // Query user name
-    if RequestProc(PluginNumber, RT_UserName, nil, nil, un, unlen) then
+    // Set query resource
+    if (server = nil) then
+      Message:= StrPas(share)
+    else
+      Message:= StrPas(server) + PathDelim + StrPas(share);
+
+    // Set authentication data
+    StrLCopy(WorkGroup, wg, wglen);
+    StrLCopy(UserName, un, unlen);
+    StrLCopy(Password, pw, pwlen);
+
+    // Query authentication data
+    if ShowSmbAuthDlg then
     begin
       Abort:= False;
-      // Save user name
-      StrLCopy(UserName, un, unlen);
-    end;
-
-    if Abort then Exit;
-
-    // Query password
-    if RequestProc(PluginNumber, RT_Password, nil, nil, pw, pwlen) then
-    begin
-      Abort:= False;
-      // Save password
-      StrLCopy(Password, pw, pwlen);
+      // Get authentication data
+      StrLCopy(wg, WorkGroup, wglen);
+      StrLCopy(un, UserName, unlen);
+      StrLCopy(pw, Password, pwlen);
     end;
   end
   else
     begin
+      // If has saved workgroup then use it
+      if StrLen(WorkGroup) <> 0 then
+        StrLCopy(wg, WorkGroup, wglen);
       // If has saved user name then use it
       if StrLen(UserName) <> 0 then
         StrLCopy(un, UserName, unlen);
@@ -167,15 +181,18 @@ var
   un: array[0..MAX_PATH-1] of AnsiChar;
   pw: array[0..MAX_PATH-1] of AnsiChar;
 begin
+  Result:= BuildNetworkPath(Path);
   // Use by default saved user name and password
   StrLCopy(un, UserName, MAX_PATH);
   StrLCopy(pw, Password, MAX_PATH);
   // Query auth data
-  smbc_get_auth_data(nil, nil, nil, 0, un, MAX_PATH, pw, MAX_PATH);
+  smbc_get_auth_data(nil, PAnsiChar(Result), WorkGroup, MAX_PATH, un, MAX_PATH, pw, MAX_PATH);
   if (Abort = False) and (un <> '') then
   begin
-    Result:= BuildNetworkPath(Path);
-    Result:= 'smb://' + un + ':' + pw + '@' + Copy(Result, 7, MAX_PATH);
+    if StrLen(WorkGroup) = 0 then
+      Result:= 'smb://' + un + ':' + pw + '@' + Copy(Result, 7, MAX_PATH)
+    else
+      Result:= 'smb://' + WorkGroup + ';' + un + ':' + pw + '@' + Copy(Result, 7, MAX_PATH);
   end;
 end;
 
@@ -190,6 +207,7 @@ begin
   LogProc := pLogProc;
   RequestProc := pRequestProc;
   PluginNumber := PluginNr;
+  FillChar(WorkGroup, SizeOf(WorkGroup), #0);
   FillChar(UserName, SizeOf(UserName), #0);
   FillChar(Password, SizeOf(Password), #0);
 
@@ -542,6 +560,11 @@ end;
 procedure FsGetDefRootName(DefRootName: PAnsiChar; MaxLen: Integer); cdecl;
 begin
   StrPLCopy(DefRootName, 'Windows Network', MaxLen);
+end;
+
+procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); cdecl;
+begin
+  ExtensionStartupInfo:= StartupInfo^;
 end;
 
 end.
