@@ -1405,7 +1405,7 @@ end;
 procedure TfrmViewer.FormCreate(Sender: TObject);
 begin
   InitPropStorage(Self);
-  HotMan.RegisterHotkeyManager(Self);
+  HotMan.Register(Self);
   FontOptionsToFont(gFonts[dcfViewer], ViewerControl.Font);
 
   FileList := TStringList.Create;
@@ -1621,7 +1621,7 @@ begin
      FreeAndNil(FModSizeDialog);
   if Assigned(FBitmapList) then
      FreeAndNil(FBitmapList);
-  HotMan.UnRegisterHotkeyManager(Self);
+  HotMan.UnRegister(Self);
 end;
 
 procedure TfrmViewer.miProcessClick(Sender: TObject);
