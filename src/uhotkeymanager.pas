@@ -31,7 +31,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, LCLProc, LCLType, LCLIntf, Forms, ActnList,
-  uClassesEx, fgl, contnrs, EpikTimer;
+  uClassesEx, fgl, contnrs;
 
 type
   generic THMObjectInstance<InstanceClass> = class
