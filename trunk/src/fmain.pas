@@ -755,7 +755,7 @@ begin
   if (HotMan.Forms.Count = 0) or (CompareText(HotMan.Version, hkVersion) <> 0) then
     LoadDefaultHotkeyBindings;
   // load shortcuts to action list for showing it in menu
-  HotMan.LoadShortCutToActionList(ActionLst, 'FrmMain');
+  HotMan.LoadShortCutToActionList(ActionLst, 'Main');
 
   for i:=0 to actionLst.ActionCount -1 do
     // Have to cast TContainedAction to TAction here, which may be unsafe.
@@ -4703,4 +4703,3 @@ begin
 end;
 
 end.
-

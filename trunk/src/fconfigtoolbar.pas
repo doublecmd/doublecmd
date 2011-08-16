@@ -205,7 +205,7 @@ var
   HMForm: THMForm;
   hotkey: THotkey;
 begin
-  HMForm := HotMan.Forms.Find('FrmMain');
+  HMForm := HotMan.Forms.Find('Main');
   if Assigned(HMForm) then
   begin
     for i:=0 to HMForm.Hotkeys.Count - 1 do
@@ -531,7 +531,7 @@ begin
   edtHotKeys.Text:= EmptyStr;
   btnClearHotKey.Enabled:= False;
   ktbBar.SetButtonX(LastToolButton, MiskX, EmptyStr);
-  HMForm := HotMan.Forms.Find('FrmMain');
+  HMForm := HotMan.Forms.Find('Main');
   if Assigned(HMForm) then
     HMForm.Hotkeys.Delete(GetHotKey(LastToolButton));
 end;
@@ -552,7 +552,7 @@ begin
   if Shortcut <> VK_UNKNOWN then
   begin
     // Find hotkey
-    HMForm := HotMan.Forms.Find('FrmMain');
+    HMForm := HotMan.Forms.Find('Main');
     if Assigned(HMForm) then
     begin
       hotkey := HMForm.Hotkeys.Find(Shortcut);
@@ -594,7 +594,7 @@ begin
       sShortCut := edtHotKeys.Text;
       shortCut := TextToShortCutEx(sShortCut);
 
-      HMForm := HotMan.Forms.FindOrCreate('FrmMain');
+      HMForm := HotMan.Forms.FindOrCreate('Main');
       hotkey := HMForm.Hotkeys.Find(shortcut);
       if not Assigned(hotkey) then
       begin

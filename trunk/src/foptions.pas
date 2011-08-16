@@ -590,7 +590,7 @@ end;
 procedure TfrmOptions.btSetHotKeyClick(Sender: TObject);
 var
   i: integer;
-  sForm, sOldCommand, sCommand: string;
+  sOldCommand, sCommand: string;
   lslHotKeys:TStringList;
   sShortCut, sParam: String;
   HMForm: THMForm;
@@ -630,9 +630,8 @@ begin
   sc := TextToShortCutEx(sShortCut);
   sParam := edtParam.Text;
   sCommand := stgCommands.Cells[stgCmdCommandIndex, stgCommands.Row];
-  sForm := 'Frm' + lbxCategories.Items[lbxCategories.ItemIndex];
 
-  HMForm := HotMan.Forms.FindOrCreate(sForm);
+  HMForm := HotMan.Forms.FindOrCreate(lbxCategories.Items[lbxCategories.ItemIndex]);
 
   // Check the form hotkey.
   hotkey := HMForm.Hotkeys.Find(sc);
@@ -875,7 +874,7 @@ begin
   btSetHotKey.Enabled := (edHotKey.Text <> '');
   lbPressedHotKeyCommand.Caption:='';
 
-  HMForm := HotMan.Forms.Find('Frm' + lbxCategories.Items[lbxCategories.ItemIndex]);
+  HMForm := HotMan.Forms.Find(lbxCategories.Items[lbxCategories.ItemIndex]);
   if Assigned(HMForm) then
   begin
     hotkey := HMForm.Hotkeys.Find(ShortCut);
@@ -963,8 +962,7 @@ begin
      stgHotkeys.RowCount := stgHotkeys.FixedRows;
      if aRow<1 then exit;
 
-     sForm := 'Frm' + lbxCategories.Items[lbxCategories.ItemIndex];
-     HMForm := HotMan.Forms.Find(sForm);
+     HMForm := HotMan.Forms.Find(lbxCategories.Items[lbxCategories.ItemIndex]);
      if Assigned(HMForm) then
      begin
        selcmd:=stgCommands.Cells[stgCmdCommandIndex,aRow];// get selected command
@@ -1158,9 +1156,9 @@ begin
     slFiltered:=TStringList.Create();
     slHotKey:=TStringList.Create();
     slTmp:=TStringList.Create();
-    sForm:='Frm' + lbxCategories.items.Strings[lbxCategories.ItemIndex];
+    sForm:=lbxCategories.items.Strings[lbxCategories.ItemIndex];
 
-    Actions.GetCommandsByCategory(lbxCategories.items.Strings[lbxCategories.ItemIndex],slAllCommands);
+    Actions.GetCommandsByCategory(sForm,slAllCommands);
     if lstFilter<>'' then // if filter not empty
     begin
       lstr:=edtFilter.Text;
@@ -1582,7 +1580,6 @@ end;
 
 procedure TfrmOptions.btClearHotKeyClick(Sender: TObject);
 var st:TStringList;
-    cat:string;
     i:integer;
     lstr: String;
     lslHotKeys: TStringList;
@@ -1596,10 +1593,9 @@ begin
  //TODO:New interface for hotkeys
 
  if lbxCategories.ItemIndex=-1 then exit;
- cat:=lbxCategories.Items[lbxCategories.ItemIndex];
  sShortCut := stgHotkeys.Cells[0, stgHotkeys.Row];
  shortcut := TextToShortCutEx(sShortCut);
- HMForm := HotMan.Forms.Find('Frm' + cat);
+ HMForm := HotMan.Forms.Find(lbxCategories.Items[lbxCategories.ItemIndex]);
  if Assigned(HMForm) then
  begin
    hotkey := HMForm.Hotkeys.Find(shortcut);

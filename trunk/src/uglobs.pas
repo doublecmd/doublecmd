@@ -327,7 +327,7 @@ var
 begin
   // Note: Update hkVersion if you change default hotkeys list
 
-  HMForm := HotMan.Forms.FindOrCreate('FrmMain');
+  HMForm := HotMan.Forms.FindOrCreate('Main');
   with HMForm.Hotkeys do
     begin
       AddIfNotExists('Alt+X','cm_Exit','');
@@ -400,7 +400,7 @@ begin
       AddIfNotExists('Alt+V','cm_OperationsViewer','');
     end;
 
-  HMForm := HotMan.Forms.FindOrCreate('FrmViewer');
+  HMForm := HotMan.Forms.FindOrCreate('Viewer');
   with HMForm.Hotkeys do
     begin
       AddIfNotExists('F1','cm_Viewer_About','');
