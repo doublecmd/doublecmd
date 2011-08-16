@@ -31,7 +31,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, LCLProc, LCLType, LCLIntf, Forms, ActnList,
-  uClassesEx, fgl, contnrs;
+  uClassesEx, fgl, contnrs, uXmlConfig;
 
 type
   generic THMObjectInstance<InstanceClass> = class
@@ -117,7 +117,7 @@ type
   THotKeyManager = class
   private
     FForms: THMForms;
-    FVersion: String;
+    FVersion: Integer;
     //---------------------
     //Hotkey Handler
     procedure KeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -128,6 +128,9 @@ type
     function RegisterForm(AFormName: String): THMForm;
     function RegisterControl(AFormName: String; AControlName: String): THMControl;
     //---------------------
+    procedure Save(Config: TXmlConfig; Root: TXmlNode);
+    procedure Load(Config: TXmlConfig; Root: TXmlNode);
+    procedure LoadIni(FileName: String);
   public
     constructor Create;
     destructor Destroy; override;
@@ -143,7 +146,7 @@ type
     procedure UnRegister(AControl: TWinControl);
     //---------------------
     property Forms: THMForms read FForms;
-    property Version: String read FVersion;
+    property Version: Integer read FVersion;
   end;
 
 //Helpers
@@ -156,7 +159,7 @@ function KeyToText(Akey: Word): String;
 implementation
 
 uses
-  uKeyboard, uGlobs, uOSUtils, uDebug, uActs;
+  uKeyboard, uGlobs, uDebug, uActs, uOSUtils, uDCVersion, XMLRead;
 
 const
   scWin = $1000;
@@ -507,43 +510,155 @@ end;
 
 procedure THotKeyManager.Save(FileName: String);
 var
-  i, j, k:  Integer;
-  ini:      TIniFileEx;
-  fst, cst: TStringList;
+  Config: TXmlConfig = nil;
 begin
-  {if FForms.Count > 0 then
-  begin
-    if mbFileExists(FileName) then
-      mbDeleteFile(FileName);
-    ini := TIniFileEx.Create(FileName);
-    ini.WriteString('Configuration', 'Version', hkVersion);
-    for i := 0 to FForms.Count - 1 do
-    begin
-      fst := TStringList(FHotList.Objects[i]);
-      if Assigned(fst) and (fst.Count > 0) then
-      begin
-        for j := 0 to fst.Count - 1 do
-        begin
-          cst := TStringList(fst.Objects[j]);
-          if Assigned(cst) and (cst.Count > 0) then
-          begin
-            for k := 0 to cst.Count - 1 do
-            begin
-              TH := THotkeyInfoClass(cst.Objects[k]);
-              ini.WriteString(FHotList[i], 'Command' + IntToStr(j), TH.ACommand);
-              ini.WriteString(FHotList[i], 'Param' + IntToStr(j), TH.AParams);
-              ini.WriteString(FHotList[i], 'Object' + IntToStr(j), Cst[k]);
-              ini.WriteString(FHotList[i], 'Form' + IntToStr(j), fst[j]);
-            end;
-          end;
-        end;
-      end;
-    end;
-    ini.Free;
-  end;}
+  try
+    Config := TXmlConfig.Create(FileName);
+    Config.SetAttr(Config.RootNode, 'DCVersion', dcVersion);
+    Save(Config, Config.RootNode);
+    Config.Save;
+  finally
+    Config.Free;
+  end;
 end;
 
 procedure THotKeyManager.Load(FileName: String);
+var
+  Config: TXmlConfig = nil;
+  NotAnXML: Boolean = False;
+begin
+  try
+    try
+      Config := TXmlConfig.Create(FileName);
+      Load(Config, Config.RootNode);
+    except
+      on EXMLReadError do
+        NotAnXML := True;
+    end;
+  finally
+    Config.Free;
+  end;
+
+  if NotAnXML then
+  begin
+    LoadIni(FileName);
+    // Immediately save as xml so that configuration isn't lost.
+    if mbRenameFile(FileName, FileName + '.ini.obsolete') then
+      Save(FileName);
+  end;
+end;
+
+procedure THotKeyManager.Save(Config: TXmlConfig; Root: TXmlNode);
+
+  procedure SaveHotkeys(Hotkeys: THotkeys; Node: TXmlNode);
+  var
+    i,j: Integer;
+    HotkeyNode: TXmlNode;
+  begin
+    for i := 0 to Hotkeys.Count - 1 do
+    begin
+      HotkeyNode := Config.AddNode(Node, 'Hotkey');
+
+      Config.SetAttr(HotkeyNode, 'Key', ShortCutToTextEx(Hotkeys[i].Shortcut));
+      Config.SetAttr(HotkeyNode, 'Command', Hotkeys[i].Command);
+      if Hotkeys[i].Params <> EmptyStr then
+        Config.SetAttr(HotkeyNode, 'Params', Hotkeys[i].Params);
+    end;
+  end;
+
+var
+  i, j: Integer;
+  FormNode, ControlNode: TXmlNode;
+  Form: THMForm;
+  Control: THMControl;
+begin
+  Root := Config.FindNode(Root, 'Hotkeys', True);
+  Config.ClearNode(Root);
+  Config.SetAttr(Root, 'Version', hkVersion);
+
+  for i := 0 to FForms.Count - 1 do
+  begin
+    Form := FForms[i];
+    FormNode := Config.AddNode(Root, 'Form');
+    Config.SetAttr(FormNode, 'Name', Form.Name);
+    SaveHotkeys(Form.Hotkeys, FormNode);
+
+    for j := 0 to Form.Controls.Count - 1 do
+    begin
+      Control := Form.Controls[j];
+      ControlNode := Config.AddNode(FormNode, 'Control');
+      Config.SetAttr(ControlNode, 'Name', Control.Name);
+      SaveHotkeys(Control.Hotkeys, ControlNode);
+    end;
+  end;
+end;
+
+procedure THotKeyManager.Load(Config: TXmlConfig; Root: TXmlNode);
+
+  procedure LoadHotkey(Hotkeys: THotkeys; Node: TXmlNode);
+  var
+    Shortcut, Command, Params: String;
+  begin
+    if (Config.TryGetAttr(Node, 'Key', Shortcut)) and
+       (Config.TryGetAttr(Node, 'Command', Command)) and
+       (Shortcut <> EmptyStr) and
+       (Command <> EmptyStr) then
+    begin
+      Params := Config.GetAttr(Node, 'Params', '');
+      Hotkeys.Add(Shortcut, Command, Params);
+    end;
+  end;
+
+var
+  FormNode, ControlNode, HotkeyNode: TXmlNode;
+  Form: THMForm;
+  Control: THMControl;
+  AName: String;
+begin
+  Root := Config.FindNode(Root, 'Hotkeys');
+  if Assigned(Root) then
+  begin
+    FVersion := Config.GetAttr(Root, 'Version', hkVersion);
+    FormNode := Root.FirstChild;
+    while Assigned(FormNode) do
+    begin
+      if (FormNode.CompareName('Form') = 0) and
+         (Config.TryGetAttr(FormNode, 'Name', AName)) and
+         (AName <> EmptyStr) then
+      begin
+        Form := FForms.FindOrCreate(AName);
+
+        ControlNode := FormNode.FirstChild;
+        while Assigned(ControlNode) do
+        begin
+          if ControlNode.CompareName('Hotkey') = 0 then
+            LoadHotkey(Form.Hotkeys, ControlNode)
+          else if (ControlNode.CompareName('Control') = 0) and
+                  (Config.TryGetAttr(ControlNode, 'Name', AName)) and
+                  (AName <> EmptyStr) then
+          begin
+            Control := Form.Controls.FindOrCreate(AName);
+
+            HotkeyNode := ControlNode.FirstChild;
+            while Assigned(HotkeyNode) do
+            begin
+              if HotkeyNode.CompareName('Hotkey') = 0 then
+                LoadHotkey(Control.Hotkeys, HotkeyNode);
+
+              HotkeyNode := HotkeyNode.NextSibling;
+            end;
+          end;
+
+          ControlNode := ControlNode.NextSibling;
+        end;
+      end;
+
+      FormNode := FormNode.NextSibling;
+    end;
+  end;
+end;
+
+procedure THotKeyManager.LoadIni(FileName: String);
 var
   st:       TStringList;
   ini:      TIniFileEx;
@@ -564,7 +679,6 @@ begin
 
   st       := TStringList.Create;
   ini      := TIniFileEx.Create(FileName);
-  FVersion := ini.ReadString('Configuration', 'Version', EmptyStr);
   ini.ReadSections(st);
 
   for i := 0 to st.Count - 1 do
