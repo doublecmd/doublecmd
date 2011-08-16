@@ -137,8 +137,8 @@ type
     procedure Save(FileName: String);
     procedure Load(FileName: String);
     //---------------------
-    function Register(AForm: TCustomForm): THMForm;
-    function Register(AControl: TWinControl): THMControl;
+    function Register(AForm: TCustomForm; AFormName: String): THMForm;
+    function Register(AControl: TWinControl; AControlName: String): THMControl;
     procedure UnRegister(AForm: TCustomForm);
     procedure UnRegister(AControl: TWinControl);
     //---------------------
@@ -553,6 +553,12 @@ var
   form:     THMForm;
   control:  THMControl;
   Command, Params, FormName, ControlName: String;
+
+  procedure RemoveFrmPrexif(var s: String);
+  begin
+    if SameText(Copy(s, 1, 3), 'Frm') then
+      Delete(s, 1, 3);
+  end;
 begin
   FForms.Clear;
 
@@ -572,6 +578,9 @@ begin
         Params      := ini.ReadString(shortcut, 'Param' + IntToStr(j), '');
         ControlName := ini.ReadString(shortcut, 'Object' + IntToStr(j), '');
         FormName    := ini.ReadString(shortcut, 'Form' + IntToStr(j), '');
+
+        RemoveFrmPrexif(FormName);
+        RemoveFrmPrexif(ControlName);
 
         form := FForms.FindOrCreate(FormName);
 
@@ -597,11 +606,11 @@ begin
   FreeAndNil(ini);
 end;
 
-function THotKeyManager.Register(AForm: TCustomForm): THMForm;
+function THotKeyManager.Register(AForm: TCustomForm; AFormName: String): THMForm;
 var
   formInstance: THMFormInstance;
 begin
-  Result := RegisterForm(AForm.Name);
+  Result := RegisterForm(AFormName);
   formInstance := Result.Find(AForm);
   if not Assigned(formInstance) then
   begin
@@ -615,7 +624,7 @@ begin
   end;
 end;
 
-function THotKeyManager.Register(AControl: TWinControl): THMControl;
+function THotKeyManager.Register(AControl: TWinControl; AControlName: String): THMControl;
 var
   ParentForm: TCustomForm;
   form: THMForm;
@@ -624,11 +633,17 @@ begin
   ParentForm := GetParentForm(AControl);
   if Assigned(ParentForm) then
   begin
-    form := Register(ParentForm);
-    Result := form.Controls.Find(AControl.Name);
+    form := FForms.Find(ParentForm);
+    if not Assigned(form) then
+    begin
+      DCDebug('HotMan: Failed registering ' + AControlName + ': Form ' +
+        ParentForm.ClassName + ':' + ParentForm.Name + ' not registered.');
+      Exit(nil);
+    end;
+    Result := form.Controls.Find(AControlName);
     if not Assigned(Result) then
     begin
-      Result := THMControl.Create(AControl.Name);
+      Result := THMControl.Create(AControlName);
       form.Controls.Add(Result);
     end;
 

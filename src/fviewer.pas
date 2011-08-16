@@ -1405,7 +1405,7 @@ end;
 procedure TfrmViewer.FormCreate(Sender: TObject);
 begin
   InitPropStorage(Self);
-  HotMan.Register(Self);
+  HotMan.Register(Self, 'Viewer');
   FontOptionsToFont(gFonts[dcfViewer], ViewerControl.Font);
 
   FileList := TStringList.Create;

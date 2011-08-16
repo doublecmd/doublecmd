@@ -703,6 +703,9 @@ begin
   HidingTrayIcon := False;
   FResizingFilePanels := False;
 
+  HotMan.Register(Self, 'Main');
+  HotMan.Register(edtCommand, 'CommandLine');
+
   nbLeft := CreateNotebook(pnlLeft, fpLeft);
   nbRight := CreateNotebook(pnlRight, fpRight);
 
@@ -733,12 +736,6 @@ begin
       end;
     end;
 
-  LoadWindowState;
-
-  // frost_asm begin
-    lastWindowState:=WindowState;
-  // frost_asm end
-
   // Initialize actions.
   actShowSysFiles.Checked := uGlobs.gShowSystemFiles;
   actHorizontalFilePanels.Checked := gHorizontalFilePanels;
@@ -754,11 +751,7 @@ begin
   btnRightRoot.Hint := btnLeftRoot.Hint;
   btnRightUp.Hint := btnLeftUp.Hint;
 
-
   { *HotKeys* }
-  HotMan.Register(Self);
-  HotMan.Register(edtCommand);
-
   if (HotMan.Forms.Count = 0) or (CompareText(HotMan.Version, hkVersion) <> 0) then
     LoadDefaultHotkeyBindings;
   // load shortcuts to action list for showing it in menu
@@ -768,6 +761,12 @@ begin
     // Have to cast TContainedAction to TAction here, which may be unsafe.
     Actions.AddAction(TAction(actionLst[i]));
   { *HotKeys* }
+
+  LoadWindowState;
+
+  // frost_asm begin
+    lastWindowState:=WindowState;
+  // frost_asm end
 
   UpdateWindowView;
   //DCDebug('frmMain.FormCreate Done');
