@@ -147,7 +147,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, HelpIntfs, uClassesEx, uOSForms, uPixMapManager, uLng,
+  LCLProc, LCLType, HelpIntfs, uClassesEx, uOSForms, uPixMapManager, uLng,
   uGlobsPaths, uGlobs, uDCUtils, uOSUtils, uHotkeyManager, uKeyboard;
 
 function ShowConfigToolbar(const aBarFileName: UTF8String; iButtonIndex : Integer = -1): Boolean;
@@ -201,23 +201,19 @@ end;
 
 procedure TfrmConfigToolBar.LoadHotKeyList;
 var
-  i,j: Integer;
-  lstl:TStringList;
+  i: Integer;
+  HMForm: THMForm;
+  hotkey: THotkey;
 begin
-  lstl:=TStringList.Create;
-  try
-    for i:=0 to HotMan.HotkeyList.Count - 1 do
+  HMForm := HotMan.Forms.Find('FrmMain');
+  if Assigned(HMForm) then
+  begin
+    for i:=0 to HMForm.Hotkeys.Count - 1 do
     begin
-      HotMan.GetControlsListBy(HotMan.HotkeyList[i],lstl);
-      for j:=0 to lstl.Count-1 do
-      begin
-        if Assigned(lstl.Objects[j]) then
-          if THotkeyInfoClass(lstl.Objects[j]).ACommand = cHotKeyCommand then
-            FHotKeyList.AddObject(HotMan.HotkeyList[i], lstl.Objects[j]);
-      end; // for j
-    end; // for i
-  finally
-    FreeAndNil(lstl);
+      hotkey := HMForm.Hotkeys[i];
+      if hotkey.Command = cHotKeyCommand then
+        FHotKeyList.AddObject(ShortCutToTextEx(hotkey.Shortcut), hotkey);
+    end;
   end;
 end;
 
@@ -272,7 +268,7 @@ begin
   sHotKey := ktbBar.GetButtonX(IndexButton, MiskX);
   for i:=0 to FHotKeyList.Count-1 do
     begin
-      if THotkeyInfoClass(FHotKeyList.Objects[i]).AParams = sHotKey then
+      if THotkey(FHotKeyList.Objects[i]).Params = sHotKey then
          Result := FHotKeyList.Strings[i];
     end;
 end;
@@ -529,30 +525,41 @@ begin
 end;
 
 procedure TfrmConfigToolBar.btnClearHotKeyClick(Sender: TObject);
+var
+  HMForm: THMForm;
 begin
   edtHotKeys.Text:= EmptyStr;
   btnClearHotKey.Enabled:= False;
   ktbBar.SetButtonX(LastToolButton, MiskX, EmptyStr);
-  HotMan.DeleteHotKey(GetHotKey(LastToolButton), 'FrmMain', 'FrmMain');
+  HMForm := HotMan.Forms.Find('FrmMain');
+  if Assigned(HMForm) then
+    HMForm.Hotkeys.Delete(GetHotKey(LastToolButton));
 end;
 
 procedure TfrmConfigToolBar.edtHotKeysKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
-  sCommand: String;
   sShortCut: String;
+  Shortcut: TShortCut;
+  HMForm: THMForm;
+  hotkey: THotkey;
 begin
-  sShortCut := ShortCutToTextEx(ShortCutEx(Key,GetKeyShiftStateEx));
+  Shortcut := KeyToShortCutEx(Key,GetKeyShiftStateEx);
+  sShortCut := ShortCutToTextEx(Shortcut);
   edtHotKeys.Text := sShortCut;
   Key := 0;
   HintWindow.Hide;
-  if Length(sShortCut) > 0 then
+  if Shortcut <> VK_UNKNOWN then
   begin
     // Find hotkey
-    sCommand:= HotMan.FindFirstCommand(sShortCut, 'FrmMain', 'FrmMain');
-    if Length(sCommand) > 0 then
+    HMForm := HotMan.Forms.Find('FrmMain');
+    if Assigned(HMForm) then
     begin
-      ShowHint(edtHotKeys, Format(rsOptHotkeysShortCutUsedText1, [sShortCut, sCommand]));
+      hotkey := HMForm.Hotkeys.Find(Shortcut);
+      if Assigned(hotkey) then
+      begin
+        ShowHint(edtHotKeys, Format(rsOptHotkeysShortCutUsedText1, [sShortCut, hotkey.Command]));
+      end;
     end;
   end;
   btnClearHotKey.Enabled:= Length(edtHotKeys.Text) <> 0;
@@ -566,16 +573,16 @@ end;
 
 procedure TfrmConfigToolBar.SetButtonHotKey;
 var
-  sShortCut, sOldCommand: String;
+  sShortCut: String;
+  shortcut: TShortCut;
   st: TStringList;
+  HMForm: THMForm;
+  hotkey: THotkey;
 
   //< local function for add hot key,
-  procedure AddHotKeyButton;
+  procedure AddHotKeyButton(Hotkeys: THotkeys);
   begin
-    HotMan.AddHotKeyEx(sShortCut,
-                       cHotKeyCommand,
-                       sShortCut,
-                       'FrmMain', 'FrmMain');
+    Hotkeys.Add(shortcut, cHotKeyCommand, sShortCut);
     ktbBar.SetButtonX(LastToolButton, MiskX, edtHotKeys.Text);
   end;
 
@@ -585,25 +592,29 @@ begin
    else
     begin
       sShortCut := edtHotKeys.Text;
-      sOldCommand := HotMan.FindFirstCommand(sShortCut, 'FrmMain', 'FrmMain');
-      if Length(sOldCommand) = 0 then
-        AddHotKeyButton
+      shortCut := TextToShortCutEx(sShortCut);
+
+      HMForm := HotMan.Forms.FindOrCreate('FrmMain');
+      hotkey := HMForm.Hotkeys.Find(shortcut);
+      if not Assigned(hotkey) then
+      begin
+        AddHotKeyButton(HMForm.Hotkeys);
+      end
       else
-        begin
-          if (sOldCommand = cHotKeyCommand) or
-             (MessageDlg(rsOptHotkeysShortCutUsed,
-                         Format(rsOptHotkeysShortCutUsedText1,
-                                [sShortCut, sOldCommand]) + LineEnding +
-                         Format(rsOptHotkeysShortCutUsedText2,
-                                [cHotKeyCommand]),
-                         mtConfirmation, mbYesNo, 0) = mrYes) then
-            begin
-              if HotMan.DeleteHotKey(sShortCut, 'FrmMain', 'FrmMain') then
-                begin
-                  AddHotKeyButton;
-                end;
-            end;
-        end // Shortcut already used
+      begin
+        // Shortcut already used.
+        if (hotkey.Command = cHotKeyCommand) or
+           (MessageDlg(rsOptHotkeysShortCutUsed,
+                       Format(rsOptHotkeysShortCutUsedText1,
+                              [sShortCut, hotkey.Command]) + LineEnding +
+                       Format(rsOptHotkeysShortCutUsedText2,
+                              [cHotKeyCommand]),
+                       mtConfirmation, mbYesNo, 0) = mrYes) then
+          begin
+            HMForm.Hotkeys.Delete(shortcut);
+            AddHotKeyButton(HMForm.Hotkeys);
+          end;
+      end;
     end  // Clear shortcut
 end;
 
