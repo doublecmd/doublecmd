@@ -33,7 +33,7 @@ interface
 uses
   SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, Spin, ColorBox,
-  EditBtn, Grids, uGlobs, fOptionsFrame;
+  EditBtn, Grids, uGlobs, fOptionsFrame, uHotkeyManager;
 
 type
 
@@ -414,9 +414,14 @@ type
     FUpdatingTools: Boolean;
 
     procedure DeleteHotkeyFromGrid(aHotkey: String);
+    procedure UpdateHotkeysForCommand(HMForm: THMForm; RowNr: Integer);
     procedure ShowExternalToolOptions(ExtTool: TExternalTool);
     procedure FillSCFilesList;
     procedure CreateOptionsEditorList;
+    {en
+       Return hotkeys assigned for command for the form and its controls.
+    }
+    procedure GetHotKeyList(HMForm: THMForm; Command: String; HotkeysList: TStringList);
   public
     procedure FillLngListBox;
     procedure FillFontLists;
@@ -427,8 +432,6 @@ type
     procedure LoadConfig;
     procedure SaveConfig;
     procedure FillCommandList(lstFilter:string);// fill stringgrid
-    // return assigned hotkey for command
-    function  getHotKeyListByCommand(command:string; const res:TStringList):integer;
   end;
 
 implementation
@@ -438,7 +441,7 @@ implementation
 uses
   uLng, uGlobsPaths, uPixMapManager, fMain, LCLProc, LCLVersion,
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
-  uHotkeyManager, uTypes, StrUtils, uFindEx, uKeyboard,
+  uTypes, StrUtils, uFindEx, uKeyboard,
   fMaskInputDlg, uSearchTemplate, uMultiArc, uFile, uDebug,
   fOptionsPlugins, fOptionsToolTips, fOptionsColors;
 
@@ -585,18 +588,21 @@ begin
 end;
 
 procedure TfrmOptions.btSetHotKeyClick(Sender: TObject);
-var i: integer;
-    st:TStringList;
-    sForm, sOldCommand, sCommand: string;
-    lslHotKeys:TStringList;
-    sShortCut, sParam: String;
-procedure lAddHotKey;
-//< local function for add hot key,
-begin
-    HotMan.AddHotKey(sShortCut,
-                     stgCommands.Cells[stgCmdCommandIndex,stgCommands.Row],
-                     sParam,
-                     sForm, sForm);
+var
+  i: integer;
+  sForm, sOldCommand, sCommand: string;
+  lslHotKeys:TStringList;
+  sShortCut, sParam: String;
+  HMForm: THMForm;
+  sc: TShortCut;
+  hotkey: THotkey;
+
+  procedure AddHotKey(hotkeys: THotkeys);
+  //< local function for add hot key,
+  begin
+    hotkeys.Add(sc,
+                stgCommands.Cells[stgCmdCommandIndex,stgCommands.Row],
+                sParam);
 
     stgHotkeys.RowCount := stgHotkeys.RowCount + 1;
     stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := sShortCut;
@@ -607,80 +613,60 @@ begin
     btSetHotKey.Enabled:=false;
     btClearHotKey.Enabled:=false;
 
-    // refresh selected cell with hotkey
-    lslHotKeys:=TStringList.Create;
-    // set new hotkey string to stringgrid
-    getHotKeyListByCommand(stgCommands.Cells[stgCmdCommandIndex,stgCommands.Row],lslHotKeys);
-    stgCommands.Cells[stgCmdHotkeysIndex, stgCommands.Row]:=StListToStr(';',lslHotKeys);
-    lslHotKeys.Free;
+    UpdateHotkeysForCommand(HMForm, stgCommands.Row);
 
     // Select the new shortcut in the hotkeys table.
     stgHotkeys.Row := stgHotkeys.Cols[0].IndexOf(sShortCut);
-end;
+  end;
+
 begin
 // ToDo: Black list HotKey which can't use
 //TODO: Realize full version of hotkey's using. Allow to bind hotkeys to any controls.
 
- if lbxCategories.ItemIndex=-1 then exit;
- if stgCommands.Row<1 then exit;
+  if lbxCategories.ItemIndex=-1 then exit;
+  if stgCommands.Row<1 then exit;
 
- sShortCut := edHotKey.Text;
- sParam := edtParam.Text;
- sCommand := stgCommands.Cells[stgCmdCommandIndex, stgCommands.Row];
+  sShortCut := edHotKey.Text;
+  sc := TextToShortCutEx(sShortCut);
+  sParam := edtParam.Text;
+  sCommand := stgCommands.Cells[stgCmdCommandIndex, stgCommands.Row];
+  sForm := 'Frm' + lbxCategories.Items[lbxCategories.ItemIndex];
 
- sForm := 'Frm'+ lbxCategories.Items[lbxCategories.ItemIndex];
-  i:=HotMan.GetHotKeyIndex(sShortCut);      // check if this shortcut exists at all
-  if i=-1 then
+  HMForm := HotMan.Forms.FindOrCreate(sForm);
+
+  // Check the form hotkey.
+  hotkey := HMForm.Hotkeys.Find(sc);
+  if not Assigned(hotkey) then
   begin
-   lAddHotKey;                             // if not, then save it
+    AddHotKey(HMForm.Hotkeys);
   end
   else
-   begin
-     st:=TStringList.Create;
-     HotMan.GetControlsListBy(sShortCut,st);   // if it exists, then set list of its forms and objects (categories)
+  begin
+    // Shortcut already used.
+    sOldCommand := hotkey.Command;
 
-     if st.IndexOf(sForm)>-1 then         // if exists list of forms then we should delete from it
-       begin
-          // Shortcut already used.
+    // Delete the old shortcut.
+    // If it was assigned to a different command then ask user for confirmation.
+    if (sOldCommand = sCommand) or
+       (MessageDlg(rsOptHotkeysShortCutUsed,                                     // delete command on assigned shortcut
+                   Format(rsOptHotkeysShortCutUsedText1,                         // if another was applied
+                          [sShortCut, sOldCommand]) + LineEnding +
+                   Format(rsOptHotkeysShortCutUsedText2,
+                          [sCommand]),
+                   mtConfirmation, mbYesNo, 0) = mrYes) then
+    begin
+      HMForm.Hotkeys.Remove(hotkey);
+      lbPressedHotKeyCommand.Caption:='';// clear message "used by ..."
+      // delete hotkey from hotkeylist
+      DeleteHotkeyFromGrid(sShortCut);
 
-          HotMan.GetCommandsListBy(sShortCut,st);       // get string of commands on this sgortcut
-          sOldCommand := Copy(st[0], pos('=',st[0]) + 1, Length(st[0]) - pos('=', st[0]));  // select command after '='
-
-          // Delete the old shortcut.
-          // If it was assigned to a different command then ask user for confirmation.
-          if (sOldCommand = sCommand) or
-             (MessageDlg(rsOptHotkeysShortCutUsed,                                     // delete command on assigned shortcut
-                         Format(rsOptHotkeysShortCutUsedText1,                         // if another was applied
-                                [sShortCut, sOldCommand]) + LineEnding +
-                         Format(rsOptHotkeysShortCutUsedText2,
-                                [sCommand]),
-                         mtConfirmation, mbYesNo, 0) = mrYes) then
-          begin
-            //**  delete hotkey
-            HotMan.DeleteHotKey(sShortCut,sForm,sForm);
-            lbPressedHotKeyCommand.Caption:='';// clear message "used by ..."
-            // delete hotkey from hotkeylist
-            DeleteHotkeyFromGrid(sShortCut);
-
-            // find row in stringgrid where need delete hotkey
-            i:=stgCommands.Cols[stgCmdCommandIndex].IndexOf(sOldCommand);
-            if i>0 then
-            begin
-             lslHotKeys:=TStringList.Create;
-             getHotKeyListByCommand(sOldCommand, lslHotKeys);
-             stgCommands.Cells[stgCmdHotkeysIndex,i]:=StListToStr(';',lslHotKeys);
-             lslHotKeys.Free;
-            end;
-            //** add
-            lAddHotKey;
-          end;
-       end // end if st.IndexOf('frmMain')>-1
-       else
-         begin // add hotkey
-         lAddHotKey;
-         end; //end else if st.IndexOf('frmMain')>-1
-     st.free;
-   end; //end else if i=-1; i:=HotMan.GetHotKeyIndex(sShortCut);
+      // find row in stringgrid where need delete hotkey
+      i := stgCommands.Cols[stgCmdCommandIndex].IndexOf(sOldCommand);
+      if i > 0 then
+        UpdateHotkeysForCommand(HMForm, i);
+      AddHotKey(HMForm.Hotkeys);
+    end;
+  end;
 end;
 
 procedure TfrmOptions.cbColorBoxChange(Sender: TObject);
@@ -878,34 +864,28 @@ end;
 
 procedure TfrmOptions.edHotKeyKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
-//<
 var
-  i: LongInt;
-  st: TStringList;
-  sShortCut: String;
-  vShortCut: TShortCut;
+  ShortCut: TShortCut;
+  HMForm: THMForm;
+  hotkey: THotkey;
 begin
-  vShortCut := ShortCutEx(Key,GetKeyShiftStateEx);
-  sShortCut := ShortCutToTextEx(vShortCut);
-  edHotKey.Text := sShortCut;
+  ShortCut := KeyToShortCutEx(Key,GetKeyShiftStateEx);
+  edHotKey.Text := ShortCutToTextEx(ShortCut);
   Key := 0;
   btSetHotKey.Enabled := (edHotKey.Text <> '');
   lbPressedHotKeyCommand.Caption:='';
 
-  // find hotkey
-  i:=HotMan.GetHotKeyIndex(sShortCut);
-  if i<>-1 then
+  HMForm := HotMan.Forms.Find('Frm' + lbxCategories.Items[lbxCategories.ItemIndex]);
+  if Assigned(HMForm) then
   begin
-   st:=TStringList.Create;
-   if HotMan.GetControlsListBy(sShortCut,st)>0 then
-   begin
-     HotMan.GetCommandsListBy(sShortCut,st);
-     lbPressedHotKeyCommand.Caption := rsOptHotkeysUsedBy + ' ' + st[0];
-     btClearHotKey.Enabled := (edHotKey.Text <> '');
-   end;
-   st.free;
+    hotkey := HMForm.Hotkeys.Find(ShortCut);
+    if Assigned(hotkey) then
+    begin
+      // Hotkey already used.
+      lbPressedHotKeyCommand.Caption := rsOptHotkeysUsedBy + ' ' + hotkey.Command;
+      btClearHotKey.Enabled := (edHotKey.Text <> '');
+    end;
   end;
-
 end;
 
 procedure TfrmOptions.FormDestroy(Sender: TObject);
@@ -971,6 +951,8 @@ procedure TfrmOptions.stgCommandsSelectCell(Sender: TObject; aCol,
 var st:TStringList;
     selcmd: String;
     i: Integer;
+    sForm: String;
+    HMForm: THMForm;
 begin
 
      // clears all controls
@@ -981,18 +963,23 @@ begin
      stgHotkeys.RowCount := stgHotkeys.FixedRows;
      if aRow<1 then exit;
 
-     selcmd:=stgCommands.Cells[stgCmdCommandIndex,aRow];// get selected command
-     if selcmd<>'' then
+     sForm := 'Frm' + lbxCategories.Items[lbxCategories.ItemIndex];
+     HMForm := HotMan.Forms.Find(sForm);
+     if Assigned(HMForm) then
      begin
-       st:=TStringList.Create;
-       getHotKeyListByCommand(selcmd,st);
-       stgHotkeys.RowCount := stgHotkeys.RowCount + st.Count;
-       for i := 0 to st.Count - 1 do
+       selcmd:=stgCommands.Cells[stgCmdCommandIndex,aRow];// get selected command
+       if selcmd<>'' then
        begin
-         stgHotkeys.Cells[0, stgHotkeys.FixedRows + i] := st.Strings[i];
-         stgHotkeys.Cells[1, stgHotkeys.FixedRows + i] := THotkeyInfoClass(st.Objects[i]).AParams;
+         st:=TStringList.Create;
+         GetHotKeyList(HMForm, selcmd, st);
+         stgHotkeys.RowCount := stgHotkeys.RowCount + st.Count;
+         for i := 0 to st.Count - 1 do
+         begin
+           stgHotkeys.Cells[0, stgHotkeys.FixedRows + i] := st.Strings[i];
+           stgHotkeys.Cells[1, stgHotkeys.FixedRows + i] := THotkey(st.Objects[i]).Params;
+         end;
+         st.Free;
        end;
-       st.Free;
      end;
 end;
 
@@ -1164,12 +1151,14 @@ var
    slTmp,slFiltered,slAllCommands,slComments,slHotKey:TStringList;
    lstr: String;
    i: Integer;
-
+   HMForm: THMForm;
+   sForm: String;
 begin
     slAllCommands:=TStringList.Create();
     slFiltered:=TStringList.Create();
     slHotKey:=TStringList.Create();
     slTmp:=TStringList.Create();
+    sForm:='Frm' + lbxCategories.items.Strings[lbxCategories.ItemIndex];
 
     Actions.GetCommandsByCategory(lbxCategories.items.Strings[lbxCategories.ItemIndex],slAllCommands);
     if lstFilter<>'' then // if filter not empty
@@ -1196,8 +1185,12 @@ begin
 
      slTmp.Clear;
      // getting list of assigned hot key
-     getHotKeyListByCommand(slFiltered.Strings[i],slTmp);
-     slHotKey.add(StListToStr(';',slTmp)); //add to hotkey list created string
+     HMForm := HotMan.Forms.Find(sForm);
+     if Assigned(HMForm) then
+     begin
+       GetHotKeyList(HMForm,slFiltered.Strings[i],slTmp);
+       slHotKey.add(StListToStr(';',slTmp)); //add to hotkey list created string
+     end;
     end;
     // add to list NAMES of columns
     slFiltered.Insert(0, rsOptHotkeysCommands);
@@ -1218,27 +1211,23 @@ begin
     slTmp.Free;
 end;
 
-function TfrmOptions.getHotKeyListByCommand(command: string; const res:TStringList):INTEGER;
-var
-  i,j: Integer;
-  lstl:TStringList;
-begin
-  lstl:=TStringList.Create;
-  try
-    for i:=0 to HotMan.HotkeyList.Count - 1 do
+procedure TfrmOptions.GetHotKeyList(HMForm: THMForm; Command: String; HotkeysList: TStringList);
+  procedure AddHotkeys(hotkeys: THotkeys);
+  var
+    i: Integer;
+  begin
+    for i := 0 to hotkeys.Count - 1 do
     begin
-      HotMan.GetControlsListBy(HotMan.HotkeyList[i],lstl);
-      for j:=0 to lstl.Count-1 do
-      begin
-        if Assigned(lstl.Objects[j]) then
-          if command = THotkeyInfoClass(lstl.Objects[j]).ACommand then
-            Res.AddObject(HotMan.HotkeyList[i], lstl.Objects[j]);
-      end; // for j
-    end; // for i
-  finally
-    FreeAndNil(lstl);
+      if hotkeys[i].Command = Command then
+        HotkeysList.AddObject(ShortCutToTextEx(hotkeys[i].Shortcut), hotkeys[i]);
+    end;
   end;
-  Result:=res.Count;
+var
+  i: Integer;
+begin
+  AddHotkeys(HMForm.Hotkeys);
+  for i := 0 to HMForm.Controls.Count - 1 do
+    AddHotkeys(HMForm.Controls[i].Hotkeys);
 end;
 
 procedure TfrmOptions.FillSCFilesList;
@@ -1598,6 +1587,9 @@ var st:TStringList;
     lstr: String;
     lslHotKeys: TStringList;
     sShortCut: String;
+    HMForm: THMForm;
+    hotkey: THotkey;
+    shortCut: TShortCut;
 begin
 
  //TODO: delete hotkey.
@@ -1606,42 +1598,25 @@ begin
  if lbxCategories.ItemIndex=-1 then exit;
  cat:=lbxCategories.Items[lbxCategories.ItemIndex];
  sShortCut := stgHotkeys.Cells[0, stgHotkeys.Row];
- if cat='Main' then
+ shortcut := TextToShortCutEx(sShortCut);
+ HMForm := HotMan.Forms.Find('Frm' + cat);
+ if Assigned(HMForm) then
  begin
-    i:=HotMan.GetHotKeyIndex(sShortCut);
-    if i=-1 then exit; // no hotkey in hotkey manager
+   hotkey := HMForm.Hotkeys.Find(shortcut);
+   if Assigned(hotkey) then
+   begin
+     HMForm.Hotkeys.Remove(hotkey);
+     edtParam.Text:='';
+     edHotKey.Text:='';
+     btClearHotKey.Enabled:=false;
+     btSetHotKey.Enabled:=false;
+     lbPressedHotKeyCommand.Caption:='';
 
-    st:=TStringList.Create;
-     if HotMan.GetControlsListBy(sShortCut,st)>0 then
-       begin
-         // get command assigned for sShortCut
-         HotMan.GetCommandsListBy(sShortCut,st);
+     // if hotkey in hotkeylist, delete him
+     DeleteHotkeyFromGrid(sShortCut);
 
-         HotMan.DeleteHotKey(sShortCut,frmMain);
-         edtParam.Text:='';
-         edHotKey.Text:='';
-         btClearHotKey.Enabled:=false;
-         btSetHotKey.Enabled:=false;
-         lbPressedHotKeyCommand.Caption:='';
-
-         // if hotkey in hotkeylist, delete him
-         DeleteHotkeyFromGrid(sShortCut);
-
-         // if exist assigned command for sShortCut then refresh stringgrid
-         if st.Count>0 then
-         begin
-              lstr:=copy(st[0],pos('=',st[0])+1,Length(st[0])-pos('=',st[0]));
-              i:=stgCommands.Cols[0].IndexOf(lstr);
-              if i>0 then
-              begin
-                   lslHotKeys:=TStringList.Create;
-                   getHotKeyListByCommand(stgCommands.Cells[stgCmdCommandIndex,i],lslHotKeys);
-                   stgCommands.Cells[2,i]:=StListToStr(';',lslHotKeys);
-                   lslHotKeys.Free;
-              end;
-         end;
-       end;
-    st.free;
+     UpdateHotkeysForCommand(HMForm, stgCommands.Row);
+   end;
  end;
 end;
 
@@ -2150,6 +2125,16 @@ begin
       stgHotkeys.DeleteColRow(False, i);
       Break;
     end;
+end;
+
+procedure TfrmOptions.UpdateHotkeysForCommand(HMForm: THMForm; RowNr: Integer);
+var
+  lslHotKeys:TStringList;
+begin
+  lslHotKeys:=TStringList.Create;
+  GetHotKeyList(HMForm, stgCommands.Cells[stgCmdCommandIndex,RowNr],lslHotKeys);
+  stgCommands.Cells[stgCmdHotkeysIndex,RowNr]:=StListToStr(';',lslHotKeys);
+  lslHotKeys.Free;
 end;
 
 procedure TfrmOptions.ShowExternalToolOptions(ExtTool: TExternalTool);

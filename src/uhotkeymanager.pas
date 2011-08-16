@@ -5,6 +5,7 @@
     Allow to set it's own bindings to each TWinControl on form.
 
     Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
+    Copyright (C) 2011  Przemyslaw Nagay (cobines@gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,105 +30,136 @@ unit uHotkeyManager;
 interface
 
 uses
-  Classes, SysUtils, Controls, LCLProc, LCLType, LCLIntf, Forms, ActnList, uClassesEx;
-
-const
-  scWin = $1000;
+  Classes, SysUtils, Controls, LCLProc, LCLType, LCLIntf, Forms, ActnList,
+  uClassesEx, fgl, contnrs, EpikTimer;
 
 type
-  { TObjInfoClass }
-  //Object information for forms and controls
-  TObjInfoClass = class
-    AKeyDownProc: TKeyEvent;
-    AObject:      TWinControl;
-    AChilds:      TStringList; //list of form's registered controls. For controls this is nil.
+  generic THMObjectInstance<InstanceClass> = class
+    Instance: InstanceClass;
+    KeyDownProc: TKeyEvent;
+  end;
+
+  THMFormInstance = specialize THMObjectInstance<TCustomForm>;
+  THMControlInstance = specialize THMObjectInstance<TWinControl>;
+
+  THotkey = class
+    Shortcut: TShortCut;
+    Command: String;
+    Params: String;
+  end;
+
+  TBaseHotkeysList = specialize TFPGObjectList<THotkey>;
+
+  { THotkeys }
+
+  THotkeys = class(TBaseHotkeysList)
+  public
+    function Add(Shortcut: TShortCut; Command, Params: String): THotkey; overload;
+    function Add(sShortcut: String; Command, Params: String): THotkey; overload;
+    function AddIfNotExists(sShortcut: String; Command, Params: String): THotkey; overload;
+    procedure Delete(Shortcut: TShortCut); overload;
+    procedure Delete(sShortcut: String); overload;
+    function Find(Shortcut: TShortCut): THotkey; overload;
+    function Find(sShortcut: String): THotkey; overload;
+  end;
+
+  { THMBaseObject }
+
+  generic THMBaseObject<InstanceClass, InstanceInfoClass> = class
+  private
+    FObjects: TFPObjectList;
+    FHotkeys: THotkeys;
+    FName: String;
+  public
+    constructor Create(AName: String); virtual;
+    destructor Destroy; override;
+    function Add(AInstanceInfo: InstanceInfoClass): Integer;
+    procedure Delete(AInstance: InstanceClass);
+    function Find(AInstance: InstanceClass): InstanceInfoClass;
+    property Hotkeys: THotkeys read FHotkeys;
+    property Name: String read FName;
+  end;
+
+  THMControl = specialize THMBaseObject<TWinControl, THMControlInstance>;
+  THMBaseControls = specialize TFPGObjectList<THMControl>;
+
+  { THMControls }
+
+  THMControls = class(THMBaseControls)
+    procedure Delete(AName: String); overload;
+    function Find(AName: String): THMControl;
+    function Find(AControl: TWinControl): THMControl;
+    function FindOrCreate(AName: String): THMControl;
+  end;
+
+  THMBaseForm = specialize THMBaseObject<TCustomForm, THMFormInstance>;
+
+  { THMForm }
+
+  THMForm = class(THMBaseForm)
+    Controls: THMControls;
+    constructor Create(AName: String); override;
     destructor Destroy; override;
   end;
+  TBaseForms = specialize TFPGObjectList<THMForm>;
 
-  //TODO: Всю тягомотину Hot->Forms->Controls->HotInfo выгести в отдельные классы
+  { THMForms }
 
-  THotkeyInfoClass = class
-    //AShortCut:TShortCut;
-     ACommand,
-     AParams,
-     AObjectName,
-     AObjectFormName :string;
+  THMForms = class(TBaseForms)
+    procedure Delete(AName: String); overload;
+    function Find(AName: String): THMForm;
+    function Find(AForm: TCustomForm): THMForm;
+    function FindOrCreate(AName: String): THMForm;
   end;
-
 
   { THotKeyManager }
 
   THotKeyManager = class
   private
-    //Main lists
-    FHotList:   TStringList;
-    FFormsList: TStringList;
-    FVersion:   String;
+    FForms: THMForms;
+    FVersion: String;
     //---------------------
     //Hotkey Handler
     procedure KeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
     //---------------------
     //This function is called from KeyDownHandler to find registered hotkey and execute assigned action
-    function HotKeyEvent(sShortcut: String; ObjInfo: TObjInfoClass): Boolean;
+    function HotKeyEvent(Shortcut: TShortCut; Hotkeys: THotkeys): Boolean;
     //---------------------
-    //Form registration
-    procedure RegisterManagerForF(AObject: TCustomForm);
-    //TWinControl Registration
-    procedure RegisterManagerForW(AObject: TWinControl);
-    //Unregistration procs
-    procedure UnRegisterManagerForF(AObject: TCustomForm);
-    procedure UnRegisterManagerForW(AObject: TWinControl);
+    function RegisterForm(AFormName: String): THMForm;
+    function RegisterControl(AFormName: String; AControlName: String): THMControl;
     //---------------------
   public
     constructor Create;
     destructor Destroy; override;
     //---------------------
-    procedure ClearHotKeys;
-    //---------------------
-    function AddHotKey(AHotKey, ACommand, AParams: String; AObject: TWinControl): Integer;
-    function AddHotKey(AHotKey, ACommand, AParams, AObjectName, AObjectFormName: String): Integer;
-     {en
-        Add hotkey if it does not exists
-     }
-    function AddHotKeyEx(AHotKey, ACommand, AParams, AObjectName, AObjectFormName: String): Integer;
-    function DeleteHotKey(AHotKey, AObjectName, AObjectFormName: String): Boolean;
-    function DeleteHotKey(AHotKey: String; AObject: TWinControl): Boolean;
-    function ReplaceHotkey(AOldHotkey, ANewHotKey: String): Integer;
-    //---------------------
-    //Index of hotkey in FHotList
-    function GetHotKeyIndex(Hotkey: String; FromI: Integer = 0): Integer;
-    function GetFormsListBy(Hotkey: String; List: TStringList): Integer;
-    function GetControlsListBy(Hotkey: String; List: TStringList): Integer;
-    function GetCommandsListBy(Hotkey: String; List: TStringList): Integer;
-     {en
-        Find first command for hotkey and object
-     }
-    function FindFirstCommand(const AHotKey, AObjectName, AObjectFormName: String): String;
-    //---------------------
-    procedure LoadShortCutToActionList(ActionList: TActionList);
+    procedure LoadShortCutToActionList(ActionList: TActionList; AFormName: String);
     //---------------------
     procedure Save(FileName: String);
     procedure Load(FileName: String);
     //---------------------
-    procedure RegisterHotkeyManager(AObject: TWinControl);
-    procedure UnRegisterHotkeyManager(AObject: TWinControl);
+    function Register(AForm: TCustomForm): THMForm;
+    function Register(AControl: TWinControl): THMControl;
+    procedure UnRegister(AForm: TCustomForm);
+    procedure UnRegister(AControl: TWinControl);
     //---------------------
+    property Forms: THMForms read FForms;
     property Version: String read FVersion;
-    property HotkeyList: TStringList read FHotList;
   end;
 
 //Helpers
 //------------------------------------------------------
-function ShortCutEx(Key: Word; Shift: TShiftState): TShortCut;
+function KeyToShortCutEx(Key: Word; Shift: TShiftState): TShortCut;
 function ShortCutToTextEx(ShortCut: TShortCut): String;
 function TextToShortCutEx(const ShortCutText: String): TShortCut;
 function KeyToText(Akey: Word): String;
 
-
 implementation
 
 uses
-  uKeyboard, uGlobs;
+  uKeyboard, uGlobs, uOSUtils, uDebug, uActs;
+
+const
+  scWin = $1000;
 
 { THotKeyManager }
 
@@ -171,7 +203,7 @@ begin
   end;
 
   // Get text for the key if anything left in the string.
-  if Copy(ShortCutText, StartPos, Length(ShortCutText) - StartPos + 1) <> '' then
+  if StartPos <= Length(ShortCutText) then
   begin
     { Copy range from table in ShortCutToText }
     for Key := $08 to $FF do
@@ -189,9 +221,8 @@ end;
 
 function KeyToText(Akey: Word): String;
 begin
-  Result := ShortCutToTextEx(ShortCutEx(AKey, GetKeyShiftStateEx));
+  Result := ShortCutToTextEx(KeyToShortCutEx(AKey, GetKeyShiftStateEx));
 end;
-
 
 function ShortCutToTextEx(ShortCut: TShortCut): String;
 var
@@ -209,7 +240,7 @@ begin
   Result := VirtualKeyToText(Byte(ShortCut and $FF), ShiftState);
 end;
 
-function ShortCutEx(Key: Word; Shift: TShiftState): TShortCut;
+function KeyToShortCutEx(Key: Word; Shift: TShiftState): TShortCut;
 begin
   Result := Key;
   if ssShift in Shift then
@@ -222,266 +253,256 @@ begin
     Inc(Result, scWin);
 end;
 
+{ THotkeys }
+
+function THotkeys.Add(Shortcut: TShortCut; Command, Params: String): THotkey;
+begin
+  Result          := THotkey.Create;
+  Result.Shortcut := Shortcut;
+  Result.Command  := Command;
+  Result.Params   := Params;
+  Add(Result);
+end;
+
+function THotkeys.Add(sShortcut: String; Command, Params: String): THotkey;
+begin
+  Result := Add(TextToShortCutEx(sShortcut), Command, Params);
+end;
+
+function THotkeys.AddIfNotExists(sShortcut: String; Command, Params: String): THotkey;
+var
+  Shortcut: TShortCut;
+begin
+  Shortcut := TextToShortCutEx(sShortcut);
+  Result := Find(Shortcut);
+  if not Assigned(Result) then
+    Result := Add(Shortcut, Command, Params);
+end;
+
+procedure THotkeys.Delete(Shortcut: TShortCut);
+var
+  i: Integer;
+begin
+  for i := 0 to Count - 1 do
+    if Items[i].ShortCut = Shortcut then
+    begin
+      Delete(i);
+      Exit;
+    end;
+end;
+
+procedure THotkeys.Delete(sShortcut: String);
+var
+  Shortcut: TShortCut;
+begin
+  Shortcut := TextToShortCutEx(sShortcut);
+  Delete(Shortcut);
+end;
+
+function THotkeys.Find(Shortcut: TShortCut): THotkey;
+var
+  i: Integer;
+begin
+  for i := 0 to Count - 1 do
+    if Items[i].ShortCut = Shortcut then
+      Exit(Items[i]);
+  Result := nil;
+end;
+
+function THotkeys.Find(sShortcut: String): THotkey;
+var
+  Shortcut: TShortCut;
+begin
+  Shortcut := TextToShortCutEx(sShortcut);
+  Result := Find(Shortcut);
+end;
+
+{ THMForm }
+
+constructor THMForm.Create(AName: String);
+begin
+  inherited;
+  Controls := THMControls.Create(True);
+end;
+
+destructor THMForm.Destroy;
+begin
+  inherited;
+  Controls.Free;
+end;
+
+{ THMBaseObject }
+
+constructor THMBaseObject.Create(AName: String);
+begin
+  FName    := AName;
+  FHotkeys := THotkeys.Create(True);
+  FObjects := TFPObjectList.Create(False);
+end;
+
+destructor THMBaseObject.Destroy;
+begin
+  inherited Destroy;
+  FHotkeys.Free;
+  FObjects.Free;
+end;
+
+function THMBaseObject.Add(AInstanceInfo: InstanceInfoClass): Integer;
+begin
+  Result := FObjects.Add(AInstanceInfo);
+end;
+
+procedure THMBaseObject.Delete(AInstance: InstanceClass);
+var
+  i: Integer;
+begin
+  for i := 0 to FObjects.Count - 1 do
+    if InstanceInfoClass(FObjects[i]).Instance = AInstance then
+    begin
+      FObjects.Delete(i);
+      Exit;
+    end;
+end;
+
+function THMBaseObject.Find(AInstance: InstanceClass): InstanceInfoClass;
+var
+  i: Integer;
+begin
+  for i := 0 to FObjects.Count - 1 do
+  begin
+    if InstanceInfoClass(FObjects[i]).Instance = AInstance then
+      Exit(InstanceInfoClass(FObjects[i]));
+  end;
+  Result := nil;
+end;
+
+{ THMControls }
+
+procedure THMControls.Delete(AName: String);
+var
+  i: Integer;
+begin
+  for i := 0 to Count - 1 do
+    if SameText(Items[i].Name, AName) then
+    begin
+      Delete(i);
+      Exit;
+    end;
+end;
+
+function THMControls.Find(AName: String): THMControl;
+var
+  i: Integer;
+begin
+  for i := 0 to Count - 1 do
+    if SameText(Items[i].Name, AName) then
+      Exit(Items[i]);
+  Result := nil;
+end;
+
+function THMControls.Find(AControl: TWinControl): THMControl;
+var
+  i: Integer;
+begin
+  for i := 0 to Count - 1 do
+  begin
+    if Assigned(Items[i].Find(AControl)) then
+      Exit(Items[i]);
+  end;
+  Result := nil;
+end;
+
+function THMControls.FindOrCreate(AName: String): THMControl;
+begin
+  Result := Find(AName);
+  if not Assigned(Result) then
+  begin
+    Result := THMControl.Create(AName);
+    Add(Result);
+  end;
+end;
+
+{ THMForms }
+
+procedure THMForms.Delete(AName: String);
+var
+  i: Integer;
+begin
+  for i := 0 to Count - 1 do
+    if SameText(Items[i].Name, AName) then
+    begin
+      Delete(i);
+      Exit;
+    end;
+end;
+
+function THMForms.Find(AName: String): THMForm;
+var
+  i: Integer;
+begin
+  for i := 0 to Count - 1 do
+  begin
+    if SameText(Items[i].Name, AName) then
+      Exit(Items[i]);
+  end;
+  Result := nil;
+end;
+
+function THMForms.Find(AForm: TCustomForm): THMForm;
+var
+  i: Integer;
+begin
+  for i := 0 to Count - 1 do
+  begin
+    if Assigned(Items[i].Find(AForm)) then
+      Exit(Items[i]);
+  end;
+  Result := nil;
+end;
+
+function THMForms.FindOrCreate(AName: String): THMForm;
+begin
+  Result := Find(AName);
+  if not Assigned(Result) then
+  begin
+    Result := THMForm.Create(AName);
+    Add(Result);
+  end;
+end;
+
+{ THotKeyManager }
+
 constructor THotKeyManager.Create;
 begin
-  FHotList   := TStringList.Create;
-  FFormsList := TStringList.Create;
+  FForms := THMForms.Create(True);
 end;
 
 destructor THotKeyManager.Destroy;
 begin
-  if Assigned(FHotList) then
-  begin
-    Self.ClearHotKeys;
-    FreeAndNil(FHotList);
-  end;
-  //---------------------
-
-  if Assigned(FFormsList) then
-  begin
-    while FFormsList.Count > 0 do
-    begin
-      if Assigned(FFormsList.Objects[0]) then
-      begin
-        TObjInfoClass(FFormsList.Objects[0]).Free;
-        FFormsList.Delete(0);
-      end;
-    end;
-    FreeAndNil(FFormsList);
-  end;
-
-  //---------------------
-
   inherited Destroy;
+  FForms.Free;
 end;
 
-procedure THotKeyManager.ClearHotKeys;
-begin
-  if not Assigned(FHotList) then
-    exit;
-  //hotkeys
-  while FHotList.Count > 0 do
-  begin
-    if Assigned(FHotList.Objects[0]) then
-    begin
-      //forms
-      while TStringList(FHotList.Objects[0]).Count > 0 do
-      begin
-        if Assigned(TStringList(FHotList.Objects[0]).Objects[0]) then
-        begin
-          //Controls
-          while TStringList(TStringList(FHotList.Objects[0]).Objects[0]).Count > 0 do
-          begin
-            if Assigned(TStringList(TStringList(FHotList.Objects[0]).Objects[0]).Objects[0]) then
-              TStringList(TStringList(FHotList.Objects[0]).Objects[0]).Objects[0].Free;
-            TStringList(TStringList(FHotList.Objects[0]).Objects[0]).Delete(0);
-          end;
-          TStringList(TStringList(FHotList.Objects[0]).Objects[0]).Free;
-        end;
-        TStringList(FHotList.Objects[0]).Delete(0);
-      end;
-      FHotList.Objects[0].Free;
-    end;
-    FHotList.Delete(0);
-  end;
-
-end;
-
-function THotKeyManager.AddHotKey(AHotKey, ACommand, AParams: String;
-  AObject: TWinControl): Integer;
+procedure THotKeyManager.LoadShortCutToActionList(ActionList: TActionList; AFormName: String);
 var
-  par:      TWinControl;
-  TH:       THotkeyInfoClass;
-  i, j, k:  Integer;
-  st:       TStringList;
-  shortCut: String;
+  form: THMForm;
+  i: Integer;
+  hotkey: THotkey;
+  action: TContainedAction;
 begin
-  shortCut := ShortCutToTextEx(TextToShortCutEx(AHotKey));
-  // Omit invalid shortcuts.
-  if shortCut <> '' then
+  // Only set shortcuts of hotkeys for the form itself.
+  form := FForms.Find(AFormName);
+  if Assigned(form) then
   begin
-    //Find control's parent form
-    par := AObject;
-    while Assigned(Par) and (not (par is TCustomForm)) do
-      Par := Par.Parent;
-
-    if par is TCustomForm then
+    for i := 0 to form.Hotkeys.Count - 1 do
     begin
-      i := FHotList.IndexOf(shortCut);
-      if i = -1 then
-        i := FHotList.AddObject(shortCut, TStringList.Create);
-      Result := i;
-      st := TStringList(FHotList.Objects[i]); //form list
-      //---------------------
-      //find form and add it in form list
-      j      := st.IndexOf(par.Name);
-      if j = -1 then
-        j := st.AddObject(par.Name, TStringList.Create);
-
-      st             := TStringList(st.Objects[j]); //controls list
-      k              := st.AddObject(AObject.Name, THotkeyInfoClass.Create);
-      TH             := THotkeyInfoClass(st.Objects[k]);
-      Th.ACommand    := ACommand;
-      TH.AParams     := AParams;
-      TH.AObjectName := AObject.Name;
-      TH.AObjectFormName := Par.Name;
+      hotkey := form.Hotkeys[i];
+      action := ActionList.ActionByName(
+        'act' + Copy(hotkey.Command, 4, Length(hotkey.Command) - 3));
+      if action is TAction then
+        (action as TAction).ShortCut := hotkey.Shortcut;
     end;
   end;
-end;
-
-function THotKeyManager.AddHotKey(AHotKey, ACommand, AParams, AObjectName,
-  AObjectFormName: String): Integer;
-var
-  tmp, k:   Integer;
-  TH:       THotkeyInfoClass;
-  shortCut: String;
-begin
-  shortCut := ShortCutToTextEx(TextToShortCutEx(AHotKey));
-  // Omit invalid shortcuts.
-  if shortCut <> '' then
-  begin
-    Th             := THotkeyInfoClass.Create;
-    th.ACommand    := ACommand;
-    th.AParams     := AParams;
-    th.AObjectName := AObjectName;
-    th.AObjectFormName := AObjectFormName;
-
-    tmp := FHotList.IndexOf(shortCut);
-    if tmp = -1 then
-      tmp := FHotList.AddObject(shortCut, TStringList.Create);
-
-    //find form and add it in form list
-    k := TStringList(FHotList.Objects[tmp]).IndexOf(th.AObjectFormName);
-    if k = -1 then
-      k := TStringList(FHotList.Objects[tmp]).AddObject(th.AObjectFormName, TStringList.Create);
-
-    TStringList(TStringList(FHotList.Objects[tmp]).Objects[k]).AddObject(th.AObjectName, th);
-    Result := tmp;
-  end
-  else
-    Result := -1;
-end;
-
-function THotKeyManager.AddHotKeyEx(AHotKey, ACommand, AParams, AObjectName,
-  AObjectFormName: String): Integer;
-var
-  tmp, k:   Integer;
-  TH:       THotkeyInfoClass;
-  shortCut: String;
-  st:       TStringList;
-begin
-  Result   := -1;
-  shortCut := ShortCutToTextEx(TextToShortCutEx(AHotKey));
-  // Omit invalid shortcuts.
-  if shortCut <> '' then
-  begin
-    Result := FHotList.IndexOf(shortCut);
-    if Result > -1 then
-    begin
-      tmp := Result;
-      st  := TStringList.Create;
-      GetFormsListBy(shortCut, st);
-      if st.IndexOf(AObjectFormName) > -1 then
-      begin
-        GetControlsListBy(shortCut, st);
-        if st.IndexOf(AObjectName) > -1 then
-        begin
-          st.Free;
-          Exit;
-        end;
-      end;
-      st.Free;
-    end
-    else
-      tmp := FHotList.AddObject(shortCut, TStringList.Create);
-
-    Th             := THotkeyInfoClass.Create;
-    th.ACommand    := ACommand;
-    th.AParams     := AParams;
-    th.AObjectName := AObjectName;
-    th.AObjectFormName := AObjectFormName;
-
-    //find form and add it in form list
-    k := TStringList(FHotList.Objects[tmp]).IndexOf(th.AObjectFormName);
-    if k = -1 then
-      k := TStringList(FHotList.Objects[tmp]).AddObject(th.AObjectFormName, TStringList.Create);
-
-    TStringList(TStringList(FHotList.Objects[tmp]).Objects[k]).AddObject(th.AObjectName, th);
-    Result := tmp;
-  end;
-end;
-
-function THotKeyManager.DeleteHotKey(AHotKey, AObjectName, AObjectFormName: String): Boolean;
-var
-  i, j, k: Integer;
-begin
-  Result := False;
-  i      := GetHotKeyIndex(ShortCutToTextEx(TextToShortCutEx(AHotKey)));
-  if i = -1 then
-    exit;
-  j := TStringList(FHotList.Objects[i]).IndexOf(AObjectFormName);
-  if j = -1 then
-    exit;
-  k := TStringList(TStringList(FHotList.Objects[i]).Objects[j]).IndexOf(AObjectName);
-  if k = -1 then
-    exit;
-  TStringList(TStringList(FHotList.Objects[i]).Objects[j]).Objects[k].Free;
-  TStringList(TStringList(FHotList.Objects[i]).Objects[j]).Delete(k);
-  Result := True;
-  //TODO: по идее необходимы проверки, типа последний ли это элемент, но особого влияния их отсутствие\наличие не создаст.
-end;
-
-function THotKeyManager.DeleteHotKey(AHotKey: String; AObject: TWinControl): Boolean;
-var
-  par:     TWinControl;
-  i, j, k: Integer;
-begin
-  Result := False;
-  par    := AObject;
-  while Assigned(Par) and (not (par is TCustomForm)) do
-    Par := Par.Parent;
-
-  if par is TCustomForm then
-  begin
-    i := GetHotKeyIndex(ShortCutToTextEx(TextToShortCutEx(AHotKey)));
-    if i = -1 then
-      exit;
-    j := TStringList(FHotList.Objects[i]).IndexOf(par.Name);
-    if j = -1 then
-      exit;
-    k := TStringList(TStringList(FHotList.Objects[i]).Objects[j]).IndexOf(AObject.Name);
-    if k = -1 then
-      exit;
-    TStringList(TStringList(FHotList.Objects[i]).Objects[j]).Objects[k].Free;
-    TStringList(TStringList(FHotList.Objects[i]).Objects[j]).Delete(k);
-    Result := True;
-  end;
-end;
-
-function THotKeyManager.ReplaceHotkey(AOldHotkey, ANewHotKey: String): Integer;
-begin
-  Result := GetHotKeyIndex(ShortCutToTextEx(TextToShortCutEx(AOldHotkey)));
-  FHotList.Strings[Result] := ShortCutToTextEx(TextToShortCutEx(ANewHotKey));
-end;
-
-procedure THotKeyManager.LoadShortCutToActionList(ActionList: TActionList);
-var
-  I:            Integer;
-  slActionList: TStringList;
-  sCmd:         String;
-begin
-  slActionList := TStringList.Create;
-  for I := 0 to HotkeyList.Count - 1 do
-  begin
-    if GetCommandsListBy(HotkeyList[I], slActionList) > 0 then
-    begin
-      sCmd := slActionList.ValueFromIndex[0]; // get first action
-      sCmd := 'act' + Copy(sCmd, 4, Length(sCmd) - 3);
-      if Assigned(ActionList.ActionByName(sCmd)) then
-        (ActionList.ActionByName(sCmd) as TAction).ShortCut := TextToShortCutEx(HotkeyList[I]);
-    end;
-  end;
-  FreeAndNil(slActionList);
 end;
 
 procedure THotKeyManager.Save(FileName: String);
@@ -489,15 +510,14 @@ var
   i, j, k:  Integer;
   ini:      TIniFileEx;
   fst, cst: TStringList;
-  TH:       THotkeyInfoClass;
 begin
-  if FHotList.Count > 0 then
+  {if FForms.Count > 0 then
   begin
-    if FileExists(FileName) then
-      DeleteFile(FileName);
+    if mbFileExists(FileName) then
+      mbDeleteFile(FileName);
     ini := TIniFileEx.Create(FileName);
     ini.WriteString('Configuration', 'Version', hkVersion);
-    for i := 0 to FHotList.Count - 1 do
+    for i := 0 to FForms.Count - 1 do
     begin
       fst := TStringList(FHotList.Objects[i]);
       if Assigned(fst) and (fst.Count > 0) then
@@ -520,19 +540,22 @@ begin
       end;
     end;
     ini.Free;
-  end;
+  end;}
 end;
 
 procedure THotKeyManager.Load(FileName: String);
 var
-  st:            TStringList;
-  ini:           TIniFileEx;
-  i, j, k, tmp:  Integer;
-  sec, shortCut: String;
-  Th:            THotkeyInfoClass;
+  st:       TStringList;
+  ini:      TIniFileEx;
+  i, j:     Integer;
+  shortCut: String;
+  hotkeys:  THotkeys;
+  form:     THMForm;
+  control:  THMControl;
+  Command, Params, FormName, ControlName: String;
 begin
-  //первый элемент листа контролов - сама форма
-  Self.ClearHotKeys;
+  FForms.Clear;
+
   st       := TStringList.Create;
   ini      := TIniFileEx.Create(FileName);
   FVersion := ini.ReadString('Configuration', 'Version', EmptyStr);
@@ -540,33 +563,30 @@ begin
 
   for i := 0 to st.Count - 1 do
   begin
-    sec := st[i];
-    j   := 0;
-    while ini.ValueExists(sec, 'Command' + IntToStr(j)) do
+    shortcut := st[i];
+    j := 0;
+    while ini.ValueExists(shortcut, 'Command' + IntToStr(j)) do
     begin
-      shortCut := ShortCutToTextEx(TextToShortCutEx(sec));
-      // Omit invalid shortcuts.
-      if shortCut <> '' then
       begin
-        Th := THotkeyInfoClass.Create;
-        if Assigned(th) then
-        begin
-          th.ACommand        := ini.ReadString(sec, 'Command' + IntToStr(j), '');
-          th.AParams         := ini.ReadString(sec, 'Param' + IntToStr(j), '');
-          th.AObjectName     := ini.ReadString(sec, 'Object' + IntToStr(j), '');
-          th.AObjectFormName := ini.ReadString(sec, 'Form' + IntToStr(j), '');
+        Command     := ini.ReadString(shortcut, 'Command' + IntToStr(j), '');
+        Params      := ini.ReadString(shortcut, 'Param' + IntToStr(j), '');
+        ControlName := ini.ReadString(shortcut, 'Object' + IntToStr(j), '');
+        FormName    := ini.ReadString(shortcut, 'Form' + IntToStr(j), '');
 
-          tmp := FHotList.IndexOf(shortCut);
-          if tmp = -1 then
-            tmp := FHotList.AddObject(shortCut, TStringList.Create);
-          k     := TStringList(FHotList.Objects[tmp]).IndexOf(th.AObjectFormName);
-          if k = -1 then
-            k := TStringList(FHotList.Objects[tmp]).AddObject(
-              th.AObjectFormName, TStringList.Create);
-          //TODO:Тут тоже по идее надо заменять если существует
-          TStringList(TStringList(FHotList.Objects[tmp]).Objects[k]).AddObject(
-            th.AObjectName, th);
+        form := FForms.FindOrCreate(FormName);
+
+        // Old config had FormName=ControlName for main form.
+        if SameText(FormName, ControlName) then
+        begin
+          hotkeys := form.Hotkeys;
+        end
+        else
+        begin
+          control := form.Controls.FindOrCreate(ControlName);
+          hotkeys := control.Hotkeys;
         end;
+
+        hotkeys.Add(shortcut, Command, Params);
       end;
 
       j := j + 1;
@@ -577,400 +597,195 @@ begin
   FreeAndNil(ini);
 end;
 
-procedure THotKeyManager.RegisterManagerForF(AObject: TCustomForm);
+function THotKeyManager.Register(AForm: TCustomForm): THMForm;
 var
-  T: TObjInfoClass;
+  formInstance: THMFormInstance;
 begin
-  AObject.KeyPreview := True;
-
-  t         := TObjInfoClass.Create;
-  t.AObject := AObject;
-  t.AChilds := TStringList.Create;
-  //Save sender's OnKeyDown proc
-  if Assigned(AObject.OnKeyDown) then
-    t.AKeyDownProc := AObject.OnKeyDown;
-
-  AObject.OnKeyDown := @KeyDownHandler;
-
-  FFormsList.AddObject(AObject.Name, T);
-end;
-
-procedure THotKeyManager.RegisterManagerForW(AObject: TWinControl);
-var
-  T:   TObjInfoClass;
-  Par: TWinControl;
-  i:   Integer;
-begin
-
-  t         := TObjInfoClass.Create;
-  t.AObject := AObject;
-  //Save sender's OnKeyDown proc
-  if Assigned(AObject.OnKeyDown) then
-    t.AKeyDownProc := AObject.OnKeyDown;
-  t.AChilds        := nil;
-
-  //find component's parent form
-  par := AObject;
-  while Assigned(Par) and (not (par is TCustomForm)) do
-    Par := Par.Parent;
-  if par is TCustomForm then
+  Result := RegisterForm(AForm.Name);
+  formInstance := Result.Find(AForm);
+  if not Assigned(formInstance) then
   begin
-    i := FFormsList.IndexOf(par.Name);
-    if i = -1 then
-    begin
-      {register form}
-      RegisterManagerForF(Par as TCustomForm);
-      i := FFormsList.IndexOf(par.Name);
-      if i = -1 then
-        exit;
-    end;
-    TObjInfoClass(FFormsList.Objects[i]).AChilds.AddObject(AObject.Name, T);
+    formInstance             := THMFormInstance.Create;
+    formInstance.Instance    := AForm;
+    formInstance.KeyDownProc := AForm.OnKeyDown;
+    Result.Add(formInstance);
+
+    AForm.OnKeyDown := @KeyDownHandler;
+    AForm.KeyPreview := True;
   end;
-
 end;
 
-procedure THotKeyManager.UnRegisterManagerForF(AObject: TCustomForm);
+function THotKeyManager.Register(AControl: TWinControl): THMControl;
 var
-  i: Integer;
-  T: TObjInfoClass;
+  ParentForm: TCustomForm;
+  form: THMForm;
+  controlInstance: THMControlInstance;
 begin
-
-  i := FFormsList.IndexOf(AObject.Name);
-  if i = -1 then
-    exit;
-
-  T := TObjInfoClass(FFormsList.Objects[i]);
-
-  if Assigned(T.AKeyDownProc) then
-    AObject.OnKeyDown := T.AKeyDownProc;
-
-  T.Free;
-  FFormsList.Delete(i);
-
-end;
-
-procedure THotKeyManager.UnRegisterManagerForW(AObject: TWinControl);
-var
-  i:   Integer;
-  par: TWinControl;
-  t:   TObjInfoClass;
-
-begin
-  if Assigned(AObject.OnKeyDown) then
+  ParentForm := GetParentForm(AControl);
+  if Assigned(ParentForm) then
   begin
-    //find parent form
-    par := AObject;
-    while Assigned(Par) and (not (par is TCustomForm)) do
-      Par := Par.Parent;
-    if par is TCustomForm then
+    form := Register(ParentForm);
+    Result := form.Controls.Find(AControl.Name);
+    if not Assigned(Result) then
     begin
-      i := FFormsList.IndexOf(par.Name);
-      if i = -1 then
-        exit;
-      t := TObjInfoClass(FFormsList.Objects[i]);
-      i := T.AChilds.IndexOf(AObject.Name);
-      if i = -1 then
-        exit;
-      TObjInfoClass(T.AChilds.Objects[i]).Free;
-      T.AChilds.Delete(i);
+      Result := THMControl.Create(AControl.Name);
+      form.Controls.Add(Result);
+    end;
+
+    controlInstance := Result.Find(AControl);
+    if not Assigned(controlInstance) then
+    begin
+      controlInstance             := THMControlInstance.Create;
+      controlInstance.Instance    := AControl;
+      controlInstance.KeyDownProc := AControl.OnKeyDown;
+      Result.Add(controlInstance);
+
+      //AControl.OnKeyDown := @KeyDownHandler;
     end;
   end;
 end;
 
-
-function THotKeyManager.HotKeyEvent(sShortcut: String; ObjInfo: TObjInfoClass): Boolean;
-var
-  hi, tmp: Integer;
-  par:     TWinControl;
-  TH:      THotkeyInfoClass;
-  st:      TStringList;
-
+function THotKeyManager.RegisterForm(AFormName: String): THMForm;
 begin
-
-  Result := False;
-
-  //HotKey index in list
-  hi := GetHotKeyIndex(sShortcut);
-  if hi = -1 then
-    exit;
-
-  //find parent form
-  par := ObjInfo.AObject;
-  while Assigned(Par) and (not (par is TCustomForm)) do
-    Par := Par.Parent;
-
-  if par is TCustomForm then
+  Result := FForms.Find(AFormName);
+  if not Assigned(Result) then
   begin
-    //form's list
-    //---------------------
-    if not Assigned(FHotList.Objects[hi]) then
-      exit;
-    st  := TStringList(FHotList.Objects[hi]);
-    tmp := st.IndexOf(Par.Name);
-    if tmp = -1 then
-      exit;
+    Result := THMForm.Create(AFormName);
+    FForms.Add(Result);
+  end;
+end;
 
-    //control's list
-    //---------------------
-    if not Assigned(st.Objects[tmp]) then
-      exit;
-    st  := TStringList(st.Objects[tmp]);
-    tmp := st.IndexOf(ObjInfo.AObject.Name);
-    if tmp = -1 then
-      exit;
-    TH := THotkeyInfoClass(st.Objects[tmp]);
+function THotKeyManager.RegisterControl(AFormName: String; AControlName: String): THMControl;
+var
+  form: THMForm;
+begin
+  form := RegisterForm(AFormName);
+  Result := form.Controls.Find(AControlName);
+  if not Assigned(Result) then
+  begin
+    Result := THMControl.Create(AControlName);
+    form.Controls.Add(Result);
+  end;
+end;
 
-    //---------------------
-           {if (TH.AObjectName=ObjInfo.AObject.Name) and
-           ((ObjInfo.AObject is TCustomForm) or (TH.AObjectFormName=Par.Name)) then}
-    if (CompareText(TH.AObjectName, ObjInfo.AObject.Name) = 0) then
+procedure THotKeyManager.UnRegister(AForm: TCustomForm);
+var
+  form: THMForm;
+  formInstance: THMFormInstance;
+begin
+  form := FForms.Find(AForm);
+  if Assigned(form) then
+  begin
+    formInstance := form.Find(AForm);
+    AForm.OnKeyDown := formInstance.KeyDownProc;
+    form.Delete(AForm);
+  end;
+end;
+
+procedure THotKeyManager.UnRegister(AControl: TWinControl);
+var
+  ParentForm: TCustomForm;
+  form: THMForm;
+  control: THMControl;
+begin
+  ParentForm := GetParentForm(AControl);
+  if Assigned(ParentForm) then
+  begin
+    form := FForms.Find(ParentForm);
+    if Assigned(form) then
     begin
-      // Check if the action is enabled.
-      if Actions.IsActionEnabled(Copy(TH.ACommand, 4, Length(TH.ACommand) - 3)) then
-      begin
-        Result := True;
-        Actions.Execute(TH.ACommand, TH.AParams);
-      end;
+      control := form.Controls.Find(AControl);
+      if Assigned(control) then
+        control.Delete(AControl);
     end;
   end;
-
 end;
 
-function THotKeyManager.GetHotKeyIndex(Hotkey: String; FromI: Integer = 0): Integer;
-  //------------------------------------------------------
-  function DoCompareText(const s1, s2: String): PtrInt;
-  begin
-    Result := CompareText(upcase(s1), upcase(s2));
-  end;
-  //---------------------
-begin
-  Result := FromI;
-  with FHotList do
-  begin
-    while (Result < Count) and (DoCompareText(Strings[Result], Hotkey) <> 0) do
-      Result := Result + 1;
-    if Result = Count then
-      Result := -1;
-  end;
-end;
-
-function THotKeyManager.GetFormsListBy(Hotkey: String; List: TStringList): Integer;
+function THotKeyManager.HotKeyEvent(Shortcut: TShortCut; Hotkeys: THotkeys): Boolean;
 var
-  i: Integer;
+  hotkey: THotkey;
 begin
-  i := GetHotKeyIndex(Hotkey);
-  if i = -1 then
-  begin
-    Result := 0;
-    Exit;
-  end
-  else
-  begin
-    List.Clear;
-    List.AddStrings(TStringList(FHotList.Objects[i]));
-    Result := list.Count;
-  end;
-end;
-
-function THotKeyManager.GetControlsListBy(Hotkey: String; List: TStringList): Integer;
-var
-  i, j: Integer;
-  st:   TStringList;
-begin
-  i := GetHotKeyIndex(Hotkey);
-  if i = -1 then
-  begin
-    Result := 0;
-    Exit;
-  end
-  else
-  begin
-    List.Clear;
-    //List.AddStrings(TStringList(FHotList.Objects[i]));
-    st := TStringList.Create;
-    for j := 0 to TStringList(FHotList.Objects[i]).Count - 1 do
-    begin
-      st.AddStrings(TStringList(TStringList(FHotList.Objects[i]).Objects[j]));
-    end;
-    List.AddStrings(st);
-    st.Free;
-    Result := list.Count;
-  end;
-end;
-
-function THotKeyManager.GetCommandsListBy(Hotkey: String; List: TStringList): Integer;
-var
-  i, j: Integer;
-  st:   TStringList;
-begin
-  i := GetHotKeyIndex(Hotkey);
-  if i = -1 then
-  begin
-    Result := 0;
-    Exit;
-  end
-  else
-  begin
-    st := TStringList.Create;
-    List.Clear;
-    if GetControlsListBy(Hotkey, st) > 0 then
-      for j := 0 to st.Count - 1 do
-      begin
-        if Assigned(st.Objects[j]) then
-          list.Add(st.Strings[j] + '=' + THotkeyInfoClass(st.Objects[j]).ACommand);
-      end;
-    st.Free;
-    Result := list.Count;
-  end;
-end;
-
-function THotKeyManager.FindFirstCommand(const AHotKey, AObjectName,
-  AObjectFormName: String): String;
-var
-  I:  Integer;
-  st: TStringList;
-begin
-  Result := EmptyStr;
-  // Find hotkey index
-  I      := GetHotKeyIndex(AHotkey);
-  if I >= 0 then
-  begin
-    st := TStringList(FHotList.Objects[I]);
-    // Find object name
-    I  := st.IndexOf(AObjectName);
-    if I >= 0 then
-    begin
-      st := TStringList(st.Objects[I]);
-      // Find control name
-      I  := st.IndexOf(AObjectFormName);
-      if (I >= 0) then
-      begin
-        // Find first command
-        if (st.Count > 0) and Assigned(st.Objects[0]) then
-        begin
-          Result := THotkeyInfoClass(st.Objects[0]).ACommand;
-        end;
-      end;
-    end;
-  end;
+  hotkey := Hotkeys.Find(Shortcut);
+  Result := Assigned(hotkey) and
+            Actions.IsActionEnabled(Copy(hotkey.Command, 4, Length(hotkey.Command) - 3)) and
+            (Actions.Execute(hotkey.Command, hotkey.Params) <> cf_Error);
 end;
 
 procedure THotKeyManager.KeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
 //------------------------------------------------------
-
-  function OrigControlKeyDown(ObjInfo: TObjInfoClass): Boolean;
-  begin
-    {Вызов оригинального KeyDown}
-    if Assigned(ObjInfo.AKeyDownProc) then
-    begin
-      ObjInfo.AKeyDownProc(Sender, Key, GetKeyShiftStateEx);
-      Result := True;
-    end
-    else
-      Result := False;
-  end;
-
-  function OrigFormKeyDown(ObjInfo: TObjInfoClass): Boolean;
-  begin
-    if Assigned(ObjInfo.AKeyDownProc) then
-    begin
-      ObjInfo.AKeyDownProc(Sender, Key, GetKeyShiftStateEx);
-      Result := True;
-    end
-    else
-      Result := False;
-  end;
-
 var
-  Sinfo:   TObjInfoClass;
-  i, j:    Integer;
-  Handled: Boolean;
-  sk:      String;
+  i:                 Integer;
+  shortcut:          TShortCut;
+  Form:              TCustomForm;
+  Control:           TWinControl;
+  HMForm:            THMForm;
+  HMControl:         THMControl;
+  HMFormInstance:    THMFormInstance;
+  HMControlInstance: THMControlInstance;
+  ShiftEx:           TShiftState;
+
+  function OrigKeyDown(AKeyDownProc: TKeyEvent): Boolean;
+  begin
+    if Assigned(AKeyDownProc) then
+    begin
+      AKeyDownProc(Sender, Key, ShiftEx);
+      Result := True;
+    end
+    else
+      Result := False;
+  end;
+
 begin
+  Form := GetParentForm(Sender as TWinControl);
+  HMForm := FForms.Find(Form);
+  if not Assigned(HMForm) then
+    Exit;
 
- {предварительная проверка - зарегистрирован ли хоткей вообще,
- чтобы не тратить время на вычисления  и вызов оригинальных обработчиков}
-  //if GetHotKeyIndex(KeyToText(Key))=-1 then exit;
-
-  Handled := False;
-  sk      := KeyToText(Key);
-
-  i := FFormsList.IndexOf((Sender as TWinControl).Name);
-  if i = -1 then
-    exit;
-  Sinfo := TObjInfoClass(FFormsList.Objects[i]);
+  ShiftEx := GetKeyShiftStateEx;
+  shortcut := KeyToShortCutEx(Key, ShiftEx);
+  Control := Form.ActiveControl;
 
   // Don't execute hotkeys that coincide with quick search/filter combination
   if not ((Shift <> []) and ((Shift = gQuickSearchMode) or (Shift = gQuickFilterMode)) and
     (Key in [VK_0..VK_9, VK_A..VK_Z])) then
 {$IFDEF MSWINDOWS}
     // Don't execute hotkeys with AltGr on Windows.
-    if not (GetKeyShiftStateEx = [ssAltGr]) then
+    if not (ShiftEx = [ssAltGr]) then
 {$ENDIF}
     begin
-      if (Assigned(Sinfo.AChilds)) and (Sinfo.AChilds.Count > 0) then
+      if Assigned(Control) then
       begin
-        for j := 0 to Sinfo.AChilds.Count - 1 do
-          if Assigned(Sinfo.AChilds.Objects[j]) then
-            if (TObjInfoClass(Sinfo.AChilds.Objects[j]).AObject as TWinControl).Focused then
+        for i := 0 to HMForm.Controls.Count - 1 do
+        begin
+          HMControl := HMForm.Controls[i];
+          HMControlInstance := HMControl.Find(Control);
+          if Assigned(HMControlInstance) then
+          begin
+            if HotKeyEvent(shortcut, HMControl.Hotkeys) then
             begin
-              Handled := HotKeyEvent(sk, TObjInfoClass(Sinfo.AChilds.Objects[j]));
-              if Handled then
-              begin
-                key := 0;
-                exit;
-              end
-              else
-                // Original OnKeyDown of the control
-                OrigControlKeyDown(TObjInfoClass(Sinfo.AChilds.Objects[j]));
-            end;
+              Key := VK_UNKNOWN;
+              Exit;
+            end
+            else
+              // Original OnKeyDown of the control
+              OrigKeyDown(HMControlInstance.KeyDownProc);
+          end;
+        end;
       end;
 
       // Hotkey for the whole form
-      Handled := HotKeyEvent(sk, Sinfo);
+      if HotKeyEvent(shortcut, HMForm.Hotkeys) then
+      begin
+        Key := VK_UNKNOWN;
+        Exit;
+      end;
     end;
 
-  if not Handled then
-    Handled := OrigFormKeyDown(Sinfo)
-  else
-    Key     := 0;
-end;
-
-procedure THotKeyManager.RegisterHotkeyManager(AObject: TWinControl);
-begin
-  if AObject is TCustomForm then
-    RegisterManagerForF(AObject as TCustomForm)
-  else
-  if AObject is TWinControl then
-    RegisterManagerForW(AObject);
-end;
-
-procedure THotKeyManager.UnRegisterHotkeyManager(AObject: TWinControl);
-begin
-  if AObject is TCustomForm then
-    UnRegisterManagerForF(AObject as TCustomForm)
-  else
-  if AObject is TWinControl then
-    UnRegisterManagerForW(AObject);
-end;
-
-{ TObjInfoClass }
-
-destructor TObjInfoClass.Destroy;
-begin
-  if Assigned(AChilds) then
+  if Key <> VK_UNKNOWN then
   begin
-    while AChilds.Count > 0 do
-    begin
-      if Assigned(AChilds.Objects[0]) then
-        AChilds.Objects[0].Free;
-      AChilds.Delete(0);
-    end;
-
-    FreeAndNil(AChilds);
+    HMFormInstance := HMForm.Find(Form);
+    OrigKeyDown(HMFormInstance.KeyDownProc);
   end;
-
-  inherited Destroy;
 end;
 
 end.

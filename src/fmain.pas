@@ -756,13 +756,13 @@ begin
 
 
   { *HotKeys* }
-  HotMan.RegisterHotkeyManager(Self);
-  HotMan.RegisterHotkeyManager(edtCommand);
+  HotMan.Register(Self);
+  HotMan.Register(edtCommand);
 
-  if (HotMan.HotkeyList.Count = 0) or (CompareText(HotMan.Version, hkVersion) <> 0) then
+  if (HotMan.Forms.Count = 0) or (CompareText(HotMan.Version, hkVersion) <> 0) then
     LoadDefaultHotkeyBindings;
   // load shortcuts to action list for showing it in menu
-  HotMan.LoadShortCutToActionList(ActionLst);
+  HotMan.LoadShortCutToActionList(ActionLst, 'FrmMain');
 
   for i:=0 to actionLst.ActionCount -1 do
     // Have to cast TContainedAction to TAction here, which may be unsafe.
