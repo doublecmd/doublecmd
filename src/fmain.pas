@@ -752,7 +752,7 @@ begin
   btnRightUp.Hint := btnLeftUp.Hint;
 
   { *HotKeys* }
-  if (HotMan.Forms.Count = 0) or (CompareText(HotMan.Version, hkVersion) <> 0) then
+  if (HotMan.Forms.Count = 0) or (HotMan.Version < hkVersion) then
     LoadDefaultHotkeyBindings;
   // load shortcuts to action list for showing it in menu
   HotMan.LoadShortCutToActionList(ActionLst, 'Main');
@@ -4703,3 +4703,4 @@ begin
 end;
 
 end.
+

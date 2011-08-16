@@ -76,7 +76,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion: String = '0.4.6.r3603';
+  hkVersion     = 1;
   ConfigVersion = '1';
 
 var
@@ -325,7 +325,7 @@ procedure LoadDefaultHotkeyBindings;
 var
   HMForm: THMForm;
 begin
-  // Note: Update hkVersion if you change default hotkeys list
+  // Note: Increase hkVersion if you change default hotkeys list
 
   HMForm := HotMan.Forms.FindOrCreate('Main');
   with HMForm.Hotkeys do
