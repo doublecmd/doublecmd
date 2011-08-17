@@ -501,8 +501,8 @@ begin
   Result := '';
   if Name <> '' then
   begin
-    if ssShift in ShiftState then Result := Result + MenuKeyCaps[mkcShift];
     if ssCtrl  in ShiftState then Result := Result + MenuKeyCaps[mkcCtrl];
+    if ssShift in ShiftState then Result := Result + MenuKeyCaps[mkcShift];
     if ssAlt   in ShiftState then Result := Result + MenuKeyCaps[mkcAlt];
     if ssSuper in ShiftState then Result := Result + MenuKeyCaps[mkcWin];
     Result := Result + Name;
