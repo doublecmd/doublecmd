@@ -1143,70 +1143,78 @@ begin
     lbxMultiArc.ItemIndex:= 0;
 end;
 
-procedure TfrmOptions.FillCommandList(lstFilter:string);
+procedure TfrmOptions.FillCommandList(lstFilter: String);
 //< fill stgCommands by commands and comments
 var
-   slTmp,slFiltered,slAllCommands,slComments,slHotKey:TStringList;
-   lstr: String;
-   i: Integer;
-   HMForm: THMForm;
-   sForm: String;
+  slTmp, slAllCommands, slComments, slHotKey: TStringList;
+  slFiltered: TStringList = nil;
+  lstr:   String;
+  i:      Integer;
+  HMForm: THMForm;
+  sForm:  String;
 begin
-    slAllCommands:=TStringList.Create();
-    slFiltered:=TStringList.Create();
-    slHotKey:=TStringList.Create();
-    slTmp:=TStringList.Create();
-    sForm:=lbxCategories.items.Strings[lbxCategories.ItemIndex];
+  slAllCommands := TStringList.Create;
+  slComments    := TStringList.Create;
+  slHotKey      := TStringList.Create;
+  slTmp         := TStringList.Create;
+  sForm         := lbxCategories.items.Strings[lbxCategories.ItemIndex];
+  HMForm        := HotMan.Forms.Find(sForm);
 
-    Actions.GetCommandsByCategory(sForm,slAllCommands);
-    if lstFilter<>'' then // if filter not empty
-    begin
-      lstr:=edtFilter.Text;
-      for i:=0 to slAllCommands.Count-1 do // for all command
+  Actions.GetCommandsByCategory(sForm, slAllCommands);
+  if lstFilter <> '' then // if filter not empty
+  begin
+    slFiltered := TStringList.Create;
+    lstr := UTF8LowerCase(edtFilter.Text);
+    for i := 0 to slAllCommands.Count - 1 do // for all command
       // if filtered text find in command or comment then add to filteredlist
-         if (UTF8Pos(UTF8LowerCase(lstr),UTF8LowerCase(slAllCommands.Strings[i]))<>0)
-         or (UTF8Pos(UTF8LowerCase(lstr),UTF8LowerCase(Actions.GetCommandCaption(slAllCommands.Strings[i])))<>0)
-             then  slFiltered.Add(slAllCommands[i]);
+      if (UTF8Pos(lstr, UTF8LowerCase(slAllCommands.Strings[i])) <> 0) or
+         (UTF8Pos(lstr, UTF8LowerCase(Actions.GetCommandCaption(slAllCommands.Strings[i]))) <> 0) then
+      begin
+        slFiltered.Add(slAllCommands[i]);
+      end;
+  end
+  else // filter empty -> assign all commands to filtered list
+  begin
+    slFiltered    := slAllCommands;
+    slAllCommands := nil;
+  end;
 
+  // sort filtered items
+  slFiltered.Sort;
+  for i := 0 to slFiltered.Count - 1 do
+  begin // for all filtered items do
+    // get comment for command and add to slComments list
+    slComments.Add(Actions.GetCommandCaption(slFiltered.Strings[i]));
+
+    // getting list of assigned hot key
+    if Assigned(HMForm) then
+    begin
+      slTmp.Clear;
+      GetHotKeyList(HMForm, slFiltered.Strings[i], slTmp);
+      slHotKey.Add(StListToStr(';', slTmp)); //add to hotkey list created string
     end
-    else // filter empty -> copy to filtered list all command
-        slFiltered.Assign(slAllCommands);
+    else
+      slHotKey.Add('');
+  end;
 
-    // sort filtered items
-    slFiltered.Sort;
-    slAllCommands.Clear;
-    slComments:=slAllCommands; // rename
-    for i:=0 to slFiltered.Count -1 do
-    begin // for all filtered items do
-     // get comment for command and add to slComments list
-     slComments.Add(Actions.GetCommandCaption(slFiltered.Strings[i]));
+  // add to list NAMES of columns
+  slFiltered.Insert(0, rsOptHotkeysCommands);
+  slComments.Insert(0, rsOptHotkeysComments);
+  slHotKey.Insert(0, rsOptHotkeysHotkeys);
+  //set stringgrid rows count
+  stgCommands.RowCount := slFiltered.Count;
+  // copy to string grid created lists
+  stgCommands.Cols[stgCmdCommandIndex].Assign(slFiltered);
+  stgCommands.Cols[stgCmdCommentIndex].Assign(slComments);
+  stgCommands.Cols[stgCmdHotkeysIndex].Assign(slHotKey);
 
-     slTmp.Clear;
-     // getting list of assigned hot key
-     HMForm := HotMan.Forms.Find(sForm);
-     if Assigned(HMForm) then
-     begin
-       GetHotKeyList(HMForm,slFiltered.Strings[i],slTmp);
-       slHotKey.add(StListToStr(';',slTmp)); //add to hotkey list created string
-     end;
-    end;
-    // add to list NAMES of columns
-    slFiltered.Insert(0, rsOptHotkeysCommands);
-    slComments.Insert(0, rsOptHotkeysComments);
-    slHotKey.Insert(0, rsOptHotkeysHotkeys);
-    //set stringgrid rows count
-    stgCommands.RowCount:=slFiltered.Count;
-    // copy to string grid created lists
-    stgCommands.Cols[stgCmdCommandIndex].Assign(slFiltered);
-    stgCommands.Cols[stgCmdCommentIndex].Assign(slAllCommands);
-    stgCommands.Cols[2].Assign(slHotKey);
+  stgCommands.Row := 0; // needs for call select function for refresh hotkeylist
 
-    stgCommands.Row:=0; // needs for call select function for refresh hotkeylist
-
-    slHotKey.Free;
-    slAllCommands.free;
-    slFiltered.free;
-    slTmp.Free;
+  slHotKey.Free;
+  slAllCommands.Free;
+  slComments.Free;
+  slFiltered.Free;
+  slTmp.Free;
 end;
 
 procedure TfrmOptions.GetHotKeyList(HMForm: THMForm; Command: String; HotkeysList: TStringList);
