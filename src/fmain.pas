@@ -646,7 +646,7 @@ uses
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource,
   uShellExecute, uActs, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
-  uFileSourceOperationOptionsUI, uDebug
+  uFileSourceOperationOptionsUI, uDebug, uHotkeyManager
   {$IFDEF LCLQT}
     , qtwidgets
   {$ENDIF}
@@ -688,6 +688,7 @@ procedure TfrmMain.FormCreate(Sender: TObject);
 var
   slCommandHistory: TStringListEx;
   I: Integer;
+  HMMainForm: THMForm;
 begin
   Application.OnException := @AppException;
   Application.OnActivate := @AppActivate;
@@ -703,7 +704,7 @@ begin
   HidingTrayIcon := False;
   FResizingFilePanels := False;
 
-  HotMan.Register(Self, 'Main');
+  HMMainForm := HotMan.Register(Self, 'Main');
   HotMan.Register(edtCommand, 'CommandLine');
 
   nbLeft := CreateNotebook(pnlLeft, fpLeft);
@@ -752,14 +753,15 @@ begin
   btnRightUp.Hint := btnLeftUp.Hint;
 
   { *HotKeys* }
+  for i:=0 to actionLst.ActionCount -1 do
+    if actionLst[i] is TAction then
+      Actions.AddAction(TAction(actionLst[i]));
+
   if (HotMan.Forms.Count = 0) or (HotMan.Version < hkVersion) then
     LoadDefaultHotkeyBindings;
-  // load shortcuts to action list for showing it in menu
-  HotMan.LoadShortCutToActionList(ActionLst, 'Main');
 
-  for i:=0 to actionLst.ActionCount -1 do
-    // Have to cast TContainedAction to TAction here, which may be unsafe.
-    Actions.AddAction(TAction(actionLst[i]));
+  // Assign correct action list to main form hotkeys.
+  HMMainForm.Hotkeys.ActionList := actionlst;
   { *HotKeys* }
 
   LoadWindowState;
