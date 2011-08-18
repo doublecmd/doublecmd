@@ -311,11 +311,11 @@ begin
     Clipboard.GetFormat(formatId, stream);
     stream.Seek(0, soFromBeginning);
 
-    PBuffer := AllocMem(stream.GetSize);
+    PBuffer := AllocMem(stream.Size);
     if PBuffer <> nil then
     begin
-      stream.Read(PBuffer^, stream.GetSize);
-      SetString(Result, PBuffer, stream.GetSize);
+      stream.Read(PBuffer^, stream.Size);
+      SetString(Result, PBuffer, stream.Size);
     end;
 
   finally
@@ -694,4 +694,4 @@ initialization
   RegisterUserFormats;
 
 end.
-
+
