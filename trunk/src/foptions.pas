@@ -1107,10 +1107,7 @@ procedure TfrmOptions.FillCommandsPage;
 begin
   actions.GetCategoriesList(lbxCategories.Items);
   if lbxCategories.Items.Count>0 then
-  begin
     lbxCategories.ItemIndex:=0;
-    lbxCategoriesSelectionChange(nil,false);
-  end;
   stgcommands.AutoSizeColumns;
 end;
 
