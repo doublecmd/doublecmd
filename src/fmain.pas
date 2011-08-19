@@ -760,8 +760,8 @@ begin
   if (HotMan.Forms.Count = 0) or (HotMan.Version < hkVersion) then
     LoadDefaultHotkeyBindings;
 
-  // Assign correct action list to main form hotkeys.
-  HMMainForm.Hotkeys.ActionList := actionlst;
+  // Register action list for main form hotkeys.
+  HMMainForm.RegisterActionList(actionlst);
   { *HotKeys* }
 
   LoadWindowState;
