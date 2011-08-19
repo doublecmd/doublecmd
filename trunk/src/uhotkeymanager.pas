@@ -50,33 +50,29 @@ type
 
   TBaseHotkeysList = specialize TFPGObjectList<THotkey>;
 
-  { TActionListFreeNotifier }
+  { TFreeNotifier }
 
-  TActionListFreeNotifier = class(TComponent)
+  TFreeNotifier = class(TComponent)
   private
-    FOwnerHotkeys: TObject;
+    FFreeEvent: TNotifyEvent;
   protected
-    constructor Create(OwnerHotkeys: TObject); reintroduce;
     procedure Notification(AComponent: TComponent;
       Operation: TOperation); override;
+  public
+    property OnFree: TNotifyEvent read FFreeEvent write FFreeEvent;
   end;
+
+  THotkeyOperation = (hopAdd, hopRemove, hopClear);
+  THotkeyEvent = procedure (hotkey: THotkey; operation: THotkeyOperation) of object;
 
   { THotkeys }
 
   THotkeys = class(TBaseHotkeysList)
   private
-    {en
-       Used for notifying when ActionList is destroyed.
-    }
-    FFreeNotificationComponent: TActionListFreeNotifier;
-    FActionList: TActionList;
-    function GetActionByCommand(Command: String): TAction;
-    procedure RemoveActionShortcut(hotkey: THotkey; AssignNextShortcut: Boolean);
-    procedure SetActionList(AValue: TActionList);
-    procedure SetActionShortcut(hotkey: THotkey);
+    FOnChange: THotkeyEvent;
+    procedure DoOnChange(hotkey: THotkey; operation: THotkeyOperation);
   public
     constructor Create(AFreeObjects: Boolean = True); reintroduce;
-    destructor Destroy; override;
     function Add(Shortcut: TShortCut; Command, Params: String): THotkey; overload;
     function Add(sShortcut: String; Command, Params: String): THotkey; overload;
     function AddIfNotExists(sShortcut: String; Command, Params: String): THotkey; overload;
@@ -86,7 +82,7 @@ type
     procedure Remove(var hotkey: THotkey); reintroduce;
     function Find(Shortcut: TShortCut): THotkey; overload;
     function Find(sShortcut: String): THotkey; overload;
-    property ActionList: TActionList read FActionList write SetActionList;
+    property OnChange: THotkeyEvent read FOnChange write FOnChange;
   end;
 
   { THMBaseObject }
@@ -119,13 +115,28 @@ type
   end;
 
   THMBaseForm = specialize THMBaseObject<TCustomForm, THMFormInstance>;
+  TActionLists = specialize TFPGObjectList<TActionList>;
 
   { THMForm }
 
   THMForm = class(THMBaseForm)
+  private
+    {en
+       Used for notifying when an ActionList is destroyed.
+    }
+    FFreeNotifier: TFreeNotifier;
+    FActionLists: TActionLists;
+    function GetActionByCommand(ActionList: TActionList; Command: String): TAction;
+    procedure OnActionListFree(Sender: TObject);
+    procedure OnHotkeyEvent(hotkey: THotkey; operation: THotkeyOperation);
+    procedure RemoveActionShortcut(hotkey: THotkey; AssignNextShortcut: Boolean);
+    procedure SetActionShortcut(hotkey: THotkey);
+  public
     Controls: THMControls;
     constructor Create(AName: String); override;
     destructor Destroy; override;
+    procedure RegisterActionList(ActionList: TActionList);
+    procedure UnregisterActionList(ActionList: TActionList);
   end;
   TBaseForms = specialize TFPGObjectList<THMForm>;
 
@@ -281,18 +292,12 @@ begin
     Inc(Result, scWin);
 end;
 
-{ TActionListFreeNotifier }
+{ TFreeNotifier }
 
-constructor TActionListFreeNotifier.Create(OwnerHotkeys: TObject);
+procedure TFreeNotifier.Notification(AComponent: TComponent; Operation: TOperation);
 begin
-  inherited Create(nil);
-  FOwnerHotkeys := OwnerHotkeys;
-end;
-
-procedure TActionListFreeNotifier.Notification(AComponent: TComponent; Operation: TOperation);
-begin
-  if Operation = opRemove then
-    (FOwnerHotkeys as THotkeys).ActionList := nil;
+  if (Operation = opRemove) and Assigned(FFreeEvent) then
+    FFreeEvent(AComponent);
   inherited Notification(AComponent, Operation);
 end;
 
@@ -300,15 +305,8 @@ end;
 
 constructor THotkeys.Create(AFreeObjects: Boolean);
 begin
-  FActionList := nil;
-  FFreeNotificationComponent := nil;
+  FOnChange := nil;
   inherited Create(AFreeObjects);
-end;
-
-destructor THotkeys.Destroy;
-begin
-  inherited Destroy;
-  FFreeNotificationComponent.Free;
 end;
 
 function THotkeys.Add(Shortcut: TShortCut; Command, Params: String): THotkey;
@@ -318,7 +316,7 @@ begin
   Result.Command  := Command;
   Result.Params   := Params;
   Add(Result);
-  SetActionShortcut(Result);
+  DoOnChange(Result, hopAdd);
 end;
 
 function THotkeys.Add(sShortcut: String; Command, Params: String): THotkey;
@@ -342,7 +340,7 @@ var
 begin
   for i := 0 to Count - 1 do
   begin
-    RemoveActionShortcut(Items[0], False);
+    DoOnChange(Items[0], hopClear);
     Delete(0);
   end;
 end;
@@ -354,7 +352,7 @@ begin
   for i := 0 to Count - 1 do
     if Items[i].ShortCut = Shortcut then
     begin
-      RemoveActionShortcut(Items[i], True);
+      DoOnChange(Items[i], hopRemove);
       Delete(i);
       Exit;
     end;
@@ -370,7 +368,7 @@ end;
 
 procedure THotkeys.Remove(var hotkey: THotkey);
 begin
-  RemoveActionShortcut(hotkey, True);
+  DoOnChange(hotkey, hopRemove);
   inherited Remove(hotkey);
   if FreeObjects then
     hotkey := nil;
@@ -394,96 +392,135 @@ begin
   Result := Find(Shortcut);
 end;
 
-function THotkeys.GetActionByCommand(Command: String): TAction;
-var
-  action: TContainedAction;
+procedure THotkeys.DoOnChange(hotkey: THotkey; operation: THotkeyOperation);
 begin
-  Result := nil;
-  if Assigned(FActionList) then
-  begin
-    action := FActionList.ActionByName('act' + Copy(Command, 4, Length(Command) - 3));
-    if action is TAction then
-      Result := action as TAction;
-  end;
-end;
-
-procedure THotkeys.RemoveActionShortcut(hotkey: THotkey; AssignNextShortcut: Boolean);
-var
-  action: TAction;
-  i: Integer;
-  newShortcut: TShortCut;
-begin
-  action := GetActionByCommand(hotkey.Command);
-  if Assigned(action) then
-  begin
-    if action.Shortcut = hotkey.Shortcut then
-    begin
-      newShortcut := VK_UNKNOWN;
-
-      if AssignNextShortcut then
-      begin
-        // Search for another possible hotkey assigned for the same command.
-        for i := 0 to Count - 1 do
-          if (Items[i].Command = hotkey.Command) and (Items[i] <> hotkey) then
-          begin
-            newShortcut := Items[i].Shortcut;
-            Break;
-          end;
-      end;
-
-      action.ShortCut := newShortcut;
-    end;
-  end;
-end;
-
-procedure THotkeys.SetActionList(AValue: TActionList);
-var
-  i: Integer;
-begin
-  if FActionList = AValue then
-    Exit;
-
-  if Assigned(FActionList) then
-    FActionList.RemoveFreeNotification(FFreeNotificationComponent);
-
-  FActionList := AValue;
-
-  if Assigned(FActionList) then
-  begin
-    if not Assigned(FFreeNotificationComponent) then
-      FFreeNotificationComponent := TActionListFreeNotifier.Create(Self);
-    FActionList.FreeNotification(FFreeNotificationComponent);
-
-    for i := 0 to Count - 1 do
-      SetActionShortcut(Items[i]);
-  end;
-end;
-
-procedure THotkeys.SetActionShortcut(hotkey: THotkey);
-var
-  action: TAction;
-begin
-  action := GetActionByCommand(hotkey.Command);
-  if Assigned(action) then
-  begin
-    // Don't override previous shortcut.
-    if action.Shortcut = VK_UNKNOWN then
-      action.ShortCut := hotkey.Shortcut;
-  end;
+  if Assigned(FOnChange) then
+    FOnChange(hotkey, operation);
 end;
 
 { THMForm }
 
 constructor THMForm.Create(AName: String);
 begin
+  FFreeNotifier := nil;
   inherited;
-  Controls := THMControls.Create(True);
+  Controls     := THMControls.Create(True);
+  FActionLists := TActionLists.Create(False);
 end;
 
 destructor THMForm.Destroy;
 begin
   inherited;
   Controls.Free;
+  FActionLists.Free;
+  FFreeNotifier.Free;
+end;
+
+procedure THMForm.RegisterActionList(ActionList: TActionList);
+var
+  i: Integer;
+begin
+  if FActionLists.IndexOf(ActionList) < 0 then
+  begin
+    FActionLists.Add(ActionList);
+
+    Hotkeys.OnChange := @OnHotkeyEvent;
+
+    if not Assigned(FFreeNotifier) then
+      FFreeNotifier := TFreeNotifier.Create(nil);
+    ActionList.FreeNotification(FFreeNotifier);
+
+    // Initialize actionlist with shortcuts.
+    for i := 0 to hotkeys.Count - 1 do
+      SetActionShortcut(hotkeys[i]);
+  end;
+end;
+
+procedure THMForm.UnregisterActionList(ActionList: TActionList);
+begin
+  if FActionLists.Remove(ActionList) >= 0 then
+    ActionList.RemoveFreeNotification(FFreeNotifier);
+end;
+
+function THMForm.GetActionByCommand(ActionList: TActionList; Command: String): TAction;
+var
+  action: TContainedAction;
+begin
+  action := ActionList.ActionByName('act' + Copy(Command, 4, Length(Command) - 3));
+  if action is TAction then
+    Result := action as TAction
+  else
+    Result := nil;
+end;
+
+procedure THMForm.OnActionListFree(Sender: TObject);
+var
+  actionList: TActionList;
+begin
+  actionList := Sender as TActionList;
+  if Assigned(actionList) then
+    UnregisterActionList(actionList);
+end;
+
+procedure THMForm.OnHotkeyEvent(hotkey: THotkey; operation: THotkeyOperation);
+begin
+  case operation of
+    hopAdd:
+      SetActionShortcut(hotkey);
+    hopRemove:
+      RemoveActionShortcut(hotkey, True);
+    hopClear:
+      RemoveActionShortcut(hotkey, False);
+  end;
+end;
+
+procedure THMForm.RemoveActionShortcut(hotkey: THotkey; AssignNextShortcut: Boolean);
+var
+  action: TAction;
+  i, j: Integer;
+  newShortcut: TShortCut;
+begin
+  for i := 0 to FActionLists.Count - 1 do
+  begin
+    action := GetActionByCommand(FActionLists[i], hotkey.Command);
+    if Assigned(action) then
+    begin
+      if action.Shortcut = hotkey.Shortcut then
+      begin
+        newShortcut := VK_UNKNOWN;
+
+        if AssignNextShortcut then
+        begin
+          // Search for another possible hotkey assigned for the same command.
+          for j := 0 to hotkeys.Count - 1 do
+            if (hotkeys[j].Command = hotkey.Command) and (hotkeys[j] <> hotkey) then
+            begin
+              newShortcut := hotkeys[j].Shortcut;
+              Break;
+            end;
+        end;
+
+        action.ShortCut := newShortcut;
+      end;
+    end;
+  end;
+end;
+
+procedure THMForm.SetActionShortcut(hotkey: THotkey);
+var
+  action: TAction;
+  i: Integer;
+begin
+  for i := 0 to FActionLists.Count - 1 do
+  begin
+    action := GetActionByCommand(FActionLists[i], hotkey.Command);
+    if Assigned(action) then
+    begin
+      // Don't override previous shortcut.
+      if action.Shortcut = VK_UNKNOWN then
+        action.ShortCut := hotkey.Shortcut;
+    end;
+  end;
 end;
 
 { THMBaseObject }
@@ -682,7 +719,7 @@ procedure THotKeyManager.Save(Config: TXmlConfig; Root: TXmlNode);
 
   procedure SaveHotkeys(Hotkeys: THotkeys; Node: TXmlNode);
   var
-    i,j: Integer;
+    i: Integer;
     HotkeyNode: TXmlNode;
   begin
     for i := 0 to Hotkeys.Count - 1 do
