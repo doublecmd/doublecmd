@@ -71,7 +71,7 @@ type
     FFreeNotificationComponent: TActionListFreeNotifier;
     FActionList: TActionList;
     function GetActionByCommand(Command: String): TAction;
-    procedure RemoveActionShortcut(hotkey: THotkey);
+    procedure RemoveActionShortcut(hotkey: THotkey; AssignNextShortcut: Boolean);
     procedure SetActionList(AValue: TActionList);
     procedure SetActionShortcut(hotkey: THotkey);
   public
@@ -80,6 +80,7 @@ type
     function Add(Shortcut: TShortCut; Command, Params: String): THotkey; overload;
     function Add(sShortcut: String; Command, Params: String): THotkey; overload;
     function AddIfNotExists(sShortcut: String; Command, Params: String): THotkey; overload;
+    procedure Clear;
     procedure Delete(Shortcut: TShortCut); overload;
     procedure Delete(sShortcut: String); overload;
     procedure Remove(var hotkey: THotkey); reintroduce;
@@ -144,6 +145,7 @@ type
     FForms: THMForms;
     FVersion: Integer;
     //---------------------
+    procedure ClearAllHotkeys;
     //Hotkey Handler
     procedure KeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
     //---------------------
@@ -334,6 +336,17 @@ begin
     Result := Add(Shortcut, Command, Params);
 end;
 
+procedure THotkeys.Clear;
+var
+  i: Integer;
+begin
+  for i := 0 to Count - 1 do
+  begin
+    RemoveActionShortcut(Items[0], False);
+    Delete(0);
+  end;
+end;
+
 procedure THotkeys.Delete(Shortcut: TShortCut);
 var
   i: Integer;
@@ -341,7 +354,7 @@ begin
   for i := 0 to Count - 1 do
     if Items[i].ShortCut = Shortcut then
     begin
-      RemoveActionShortcut(Items[i]);
+      RemoveActionShortcut(Items[i], True);
       Delete(i);
       Exit;
     end;
@@ -357,7 +370,7 @@ end;
 
 procedure THotkeys.Remove(var hotkey: THotkey);
 begin
-  RemoveActionShortcut(hotkey);
+  RemoveActionShortcut(hotkey, True);
   inherited Remove(hotkey);
   if FreeObjects then
     hotkey := nil;
@@ -394,7 +407,7 @@ begin
   end;
 end;
 
-procedure THotkeys.RemoveActionShortcut(hotkey: THotkey);
+procedure THotkeys.RemoveActionShortcut(hotkey: THotkey; AssignNextShortcut: Boolean);
 var
   action: TAction;
   i: Integer;
@@ -407,13 +420,16 @@ begin
     begin
       newShortcut := VK_UNKNOWN;
 
-      // Search for another possible hotkey assigned for the same command.
-      for i := 0 to Count - 1 do
-        if (Items[i].Command = hotkey.Command) and (Items[i] <> hotkey) then
-        begin
-          newShortcut := Items[i].Shortcut;
-          Break;
-        end;
+      if AssignNextShortcut then
+      begin
+        // Search for another possible hotkey assigned for the same command.
+        for i := 0 to Count - 1 do
+          if (Items[i].Command = hotkey.Command) and (Items[i] <> hotkey) then
+          begin
+            newShortcut := Items[i].Shortcut;
+            Break;
+          end;
+      end;
 
       action.ShortCut := newShortcut;
     end;
@@ -729,6 +745,8 @@ var
   Control: THMControl;
   AName: String;
 begin
+  ClearAllHotkeys;
+
   Root := Config.FindNode(Root, 'Hotkeys');
   if Assigned(Root) then
   begin
@@ -789,7 +807,7 @@ var
       Delete(s, 1, 3);
   end;
 begin
-  FForms.Clear;
+  ClearAllHotkeys;
 
   st       := TStringList.Create;
   ini      := TIniFileEx.Create(FileName);
@@ -952,6 +970,20 @@ begin
   Result := Assigned(hotkey) and
             Actions.IsActionEnabled(Copy(hotkey.Command, 4, Length(hotkey.Command) - 3)) and
             (Actions.Execute(hotkey.Command, hotkey.Params) <> cf_Error);
+end;
+
+procedure THotKeyManager.ClearAllHotkeys;
+var
+  i, j: Integer;
+  Form: THMForm;
+begin
+  for i := 0 to FForms.Count - 1 do
+  begin
+    Form := FForms[i];
+    Form.Hotkeys.Clear;
+    for j := 0 to Form.Controls.Count - 1 do
+      Form.Controls[j].Hotkeys.Clear;
+  end;
 end;
 
 procedure THotKeyManager.KeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
