@@ -889,7 +889,7 @@ var
 begin
   SetLength(Paths, 1);
   Paths[0] := PathToReload;
-  Reload(Paths);
+  Result := Reload(Paths);
 end;
 
 procedure TFileView.ReloadIfNeeded;
@@ -1594,4 +1594,4 @@ begin
 end;
 
 end.
-
+
