@@ -61,8 +61,11 @@ begin
 }
 //  with TfrmMkDir.Create(Application) do
  try
-  If (sPath <> '..') then cbMkDir.Text := sPath
-  else cbMkDir.Text := '';      // передаем имя из фокуса панели в строку ввода, если не фокус не в '..'
+  if (sPath <> '..') then
+    cbMkDir.Text := sPath
+  else
+    cbMkDir.Text := '';      // передаем имя из фокуса панели в строку ввода, если не фокус не в '..'
+  cbMkDir.SelectAll;
   Result:= (ShowModal = mrOK);  // отображение окна
   sPath:=cbMkDir.Text;
 {
