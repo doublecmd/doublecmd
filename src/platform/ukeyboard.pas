@@ -92,10 +92,14 @@ const
 
   {en
      Initializes keyboard module.
-     Should be called after Application.Initialize and with the main form created.
+     Should be called after Application.Initialize.
   }
   procedure InitializeKeyboard;
   procedure CleanupKeyboard;
+  {en
+     Should be called after main form has been created.
+  }
+  procedure HookKeyboardLayoutChanged;
 
   {en
      Should be called whenever a keyboard layout modification is detected.
@@ -173,10 +177,45 @@ var
   AltGrMask : Cardinal = 0;
 {$ENDIF}
 
+var
+  VKToCharArray: array[Low(Byte)..High(Byte)] of UTF8String;
 
 {$IF DEFINED(LCLGTK)}
 function XKeycodeToKeysym(para1:PDisplay; para2:TKeyCode; index:integer):TKeySym;cdecl;external libX11;
 {$ENDIF}
+
+procedure CacheVKToChar;
+var
+  Key: Byte;
+begin
+  for Key := Low(VKToCharArray) to High(VKToCharArray) do
+    case Key of
+      VK_BACK:
+        VKToCharArray[Key] := MenuKeyCaps[mkcBkSp];
+      VK_TAB:
+        VKToCharArray[Key] := MenuKeyCaps[mkcTab];
+      VK_RETURN:
+        VKToCharArray[Key] := MenuKeyCaps[mkcEnter];
+      VK_ESCAPE:
+        VKToCharArray[Key] := MenuKeyCaps[mkcEsc];
+      VK_SPACE..VK_DOWN:
+        VKToCharArray[Key] := MenuKeyCaps[TMenuKeyCap(Ord(mkcSpace) + Key - VK_SPACE)];
+      VK_INSERT:
+        VKToCharArray[Key] := MenuKeyCaps[mkcIns];
+      VK_DELETE:
+        VKToCharArray[Key] := MenuKeyCaps[mkcDel];
+      VK_0..VK_9:
+        VKToCharArray[Key] := Chr(Key - VK_0 + Ord('0'));
+      VK_A..VK_Z:
+        VKToCharArray[Key] := Chr(Key - VK_A + Ord('A'));
+      VK_NUMPAD0..VK_NUMPAD9:
+        VKToCharArray[Key] := Chr(Key - VK_NUMPAD0 + Ord('0'));
+      VK_F1..VK_F24:
+        VKToCharArray[Key] := 'F' + IntToStr(Key - VK_F1 + 1);
+    else
+      VKToCharArray[Key] := VirtualKeyToUTF8Char(Key, []);
+    end;
+end;
 
 {$IF DEFINED(UNIX) and DEFINED(LCLQT)}
 {en
@@ -471,32 +510,7 @@ begin
   else
 {$ENDIF}
 
-  case Key of
-    VK_BACK:
-      Name := MenuKeyCaps[mkcBkSp];
-    VK_TAB:
-      Name := MenuKeyCaps[mkcTab];
-    VK_RETURN:
-      Name := MenuKeyCaps[mkcEnter];
-    VK_ESCAPE:
-      Name := MenuKeyCaps[mkcEsc];
-    VK_SPACE..VK_DOWN:
-      Name := MenuKeyCaps[TMenuKeyCap(Ord(mkcSpace) + Key - VK_SPACE)];
-    VK_INSERT:
-      Name := MenuKeyCaps[mkcIns];
-    VK_DELETE:
-      Name := MenuKeyCaps[mkcDel];
-    VK_0..VK_9:
-      Name := Chr(Key - VK_0 + Ord('0'));
-    VK_A..VK_Z:
-      Name := Chr(Key - VK_A + Ord('A'));
-    VK_NUMPAD0..VK_NUMPAD9:
-      Name := Chr(Key - VK_NUMPAD0 + Ord('0'));
-    VK_F1..VK_F24:
-      Name := 'F' + IntToStr(Key - VK_F1 + 1);
-  else
-     Name := VirtualKeyToUTF8Char(Key, []);
-  end;
+  Name := VKToCharArray[Key];
 
   Result := '';
   if Name <> '' then
@@ -797,6 +811,7 @@ begin
 {$IF DEFINED(UNIX) and DEFINED(LCLQT)}
   UpdateModifiersMasks;
 {$ENDIF}
+  CacheVKToChar;
 end;
 
 {$IF DEFINED(UNIX) and DEFINED(LCLQT)}
@@ -935,7 +950,6 @@ end;
 procedure InitializeKeyboard;
 begin
   OnKeyboardLayoutChanged;
-  HookKeyboardLayoutChanged;
 end;
 
 procedure CleanupKeyboard;

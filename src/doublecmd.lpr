@@ -66,6 +66,9 @@ begin
   Application.Title:= 'Double Commander';
   Application.Initialize;
   uDCVersion.InitializeVersionInfo;
+  // Initializing keyboard module on GTK needs GTKProc.InitKeyboardTables
+  // which is called by Application.Initialize.
+  uKeyboard.InitializeKeyboard;
 
   // Use only current directory separator
   AllowDirectorySeparators:= [DirectorySeparator];
@@ -103,19 +106,17 @@ begin
        // Calculate buttons width of message dialogs
        InitDialogButtonWidth;
 
-       // Initializing keyboard module on GTK needs GTKProc.InitKeyboardTables
-       // which is called by Application.Initialize. On QT needs the handle
-       // of the main form created in Application.CreateForm above.
-       uKeyboard.InitializeKeyboard;
+       // Hooking on QT needs the handle of the main form which is created
+       // in Application.CreateForm above.
+       uKeyboard.HookKeyboardLayoutChanged;
 
        Application.Run;
-
-       uKeyboard.CleanupKeyboard;
      end
     else
      begin
        DCDebug('Another instance of DC is already running. Exiting.');
      end;
 
+  uKeyboard.CleanupKeyboard;
   DCDebug('Finished Double Commander');
 end.
