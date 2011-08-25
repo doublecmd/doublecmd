@@ -76,7 +76,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 1;
+  hkVersion     = 2;
   ConfigVersion = '1';
 
 var
