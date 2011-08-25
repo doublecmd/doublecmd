@@ -369,10 +369,13 @@ end;
 
 procedure THotkeys.Remove(var hotkey: THotkey);
 begin
-  DoOnChange(hotkey, hopRemove);
-  inherited Remove(hotkey);
-  if FreeObjects then
-    hotkey := nil;
+  if Assigned(hotkey) then
+  begin
+    DoOnChange(hotkey, hopRemove);
+    inherited Remove(hotkey);
+    if FreeObjects then
+      hotkey := nil;
+  end;
 end;
 
 function THotkeys.Find(Shortcut: TShortCut): THotkey;
