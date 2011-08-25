@@ -43,7 +43,7 @@ type
   THMControlInstance = specialize THMObjectInstance<TWinControl>;
 
   THotkey = class
-    Shortcut: TShortCut;
+    Shortcut: String;
     Command: String;
     Params: String;
   end;
@@ -73,16 +73,13 @@ type
     procedure DoOnChange(hotkey: THotkey; operation: THotkeyOperation);
   public
     constructor Create(AFreeObjects: Boolean = True); reintroduce;
-    function Add(Shortcut: TShortCut; Command, Params: String): THotkey; overload;
-    function Add(sShortcut: String; Command, Params: String): THotkey; overload;
-    function AddIfNotExists(sShortcut: String; Command, Params: String): THotkey; overload;
+    function Add(Shortcut: String; Command, Params: String): THotkey; overload;
+    function AddIfNotExists(Shortcut: String; Command, Params: String): THotkey; overload;
     procedure Clear;
-    procedure Delete(Shortcut: TShortCut); overload;
-    procedure Delete(sShortcut: String); overload;
+    procedure Delete(Shortcut: String); reintroduce;
     procedure Remove(var hotkey: THotkey); reintroduce;
-    function Find(Shortcut: TShortCut): THotkey; overload;
-    function Find(sShortcut: String): THotkey; overload;
-    function FindByContents(Hotkey: THotkey): THotkey; overload;
+    function Find(Shortcut: String): THotkey; overload;
+    function FindByContents(Hotkey: THotkey): THotkey;
     property OnChange: THotkeyEvent read FOnChange write FOnChange;
   end;
 
@@ -162,7 +159,7 @@ type
     procedure KeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
     //---------------------
     //This function is called from KeyDownHandler to find registered hotkey and execute assigned action
-    function HotKeyEvent(Shortcut: TShortCut; Hotkeys: THotkeys): Boolean;
+    function HotKeyEvent(Shortcut: String; Hotkeys: THotkeys): Boolean;
     //---------------------
     function RegisterForm(AFormName: String): THMForm;
     function RegisterControl(AFormName: String; AControlName: String): THMControl;
@@ -191,7 +188,6 @@ type
 function KeyToShortCutEx(Key: Word; Shift: TShiftState): TShortCut;
 function ShortCutToTextEx(ShortCut: TShortCut): String;
 function TextToShortCutEx(const ShortCutText: String): TShortCut;
-function KeyToText(Akey: Word): String;
 
 implementation
 
@@ -259,11 +255,6 @@ begin
   end;
 end;
 
-function KeyToText(Akey: Word): String;
-begin
-  Result := ShortCutToTextEx(KeyToShortCutEx(AKey, GetKeyShiftStateEx));
-end;
-
 function ShortCutToTextEx(ShortCut: TShortCut): String;
 var
   ShiftState: TShiftState = [];
@@ -310,7 +301,7 @@ begin
   inherited Create(AFreeObjects);
 end;
 
-function THotkeys.Add(Shortcut: TShortCut; Command, Params: String): THotkey;
+function THotkeys.Add(Shortcut: String; Command, Params: String): THotkey;
 begin
   Result          := THotkey.Create;
   Result.Shortcut := Shortcut;
@@ -320,16 +311,8 @@ begin
   DoOnChange(Result, hopAdd);
 end;
 
-function THotkeys.Add(sShortcut: String; Command, Params: String): THotkey;
+function THotkeys.AddIfNotExists(Shortcut: String; Command, Params: String): THotkey;
 begin
-  Result := Add(TextToShortCutEx(sShortcut), Command, Params);
-end;
-
-function THotkeys.AddIfNotExists(sShortcut: String; Command, Params: String): THotkey;
-var
-  Shortcut: TShortCut;
-begin
-  Shortcut := TextToShortCutEx(sShortcut);
   Result := Find(Shortcut);
   if not Assigned(Result) then
     Result := Add(Shortcut, Command, Params);
@@ -342,11 +325,11 @@ begin
   for i := 0 to Count - 1 do
   begin
     DoOnChange(Items[0], hopClear);
-    Delete(0);
+    inherited Delete(0);
   end;
 end;
 
-procedure THotkeys.Delete(Shortcut: TShortCut);
+procedure THotkeys.Delete(Shortcut: String);
 var
   i: Integer;
 begin
@@ -354,17 +337,9 @@ begin
     if Items[i].ShortCut = Shortcut then
     begin
       DoOnChange(Items[i], hopRemove);
-      Delete(i);
+      inherited Delete(i);
       Exit;
     end;
-end;
-
-procedure THotkeys.Delete(sShortcut: String);
-var
-  Shortcut: TShortCut;
-begin
-  Shortcut := TextToShortCutEx(sShortcut);
-  Delete(Shortcut);
 end;
 
 procedure THotkeys.Remove(var hotkey: THotkey);
@@ -378,7 +353,7 @@ begin
   end;
 end;
 
-function THotkeys.Find(Shortcut: TShortCut): THotkey;
+function THotkeys.Find(Shortcut: String): THotkey;
 var
   i: Integer;
 begin
@@ -386,14 +361,6 @@ begin
     if Items[i].ShortCut = Shortcut then
       Exit(Items[i]);
   Result := nil;
-end;
-
-function THotkeys.Find(sShortcut: String): THotkey;
-var
-  Shortcut: TShortCut;
-begin
-  Shortcut := TextToShortCutEx(sShortcut);
-  Result := Find(Shortcut);
 end;
 
 function THotkeys.FindByContents(Hotkey: THotkey): THotkey;
@@ -497,14 +464,15 @@ procedure THMForm.RemoveActionShortcut(hotkey: THotkey; AssignNextShortcut: Bool
 var
   action: TAction;
   i, j: Integer;
-  newShortcut: TShortCut;
+  shortcut, newShortcut: TShortCut;
 begin
+  shortcut := TextToShortCutEx(hotkey.Shortcut);
   for i := 0 to FActionLists.Count - 1 do
   begin
     action := GetActionByCommand(FActionLists[i], hotkey.Command);
     if Assigned(action) then
     begin
-      if action.Shortcut = hotkey.Shortcut then
+      if action.Shortcut = shortcut then
       begin
         newShortcut := VK_UNKNOWN;
 
@@ -514,7 +482,7 @@ begin
           for j := 0 to hotkeys.Count - 1 do
             if (hotkeys[j].Command = hotkey.Command) and (hotkeys[j] <> hotkey) then
             begin
-              newShortcut := hotkeys[j].Shortcut;
+              newShortcut := TextToShortCutEx(hotkeys[j].Shortcut);
               Break;
             end;
         end;
@@ -529,7 +497,9 @@ procedure THMForm.SetActionShortcut(hotkey: THotkey);
 var
   action: TAction;
   i: Integer;
+  shortcut: TShortCut;
 begin
+  shortcut := TextToShortCutEx(hotkey.Shortcut);
   for i := 0 to FActionLists.Count - 1 do
   begin
     action := GetActionByCommand(FActionLists[i], hotkey.Command);
@@ -537,7 +507,7 @@ begin
     begin
       // Don't override previous shortcut.
       if action.Shortcut = VK_UNKNOWN then
-        action.ShortCut := hotkey.Shortcut;
+        action.ShortCut := shortcut;
     end;
   end;
 end;
@@ -759,7 +729,7 @@ var
       begin
         HotkeyNode := Config.AddNode(Node, 'Hotkey');
 
-        Config.SetAttr(HotkeyNode, 'Key', ShortCutToTextEx(Hotkeys[i].Shortcut));
+        Config.SetAttr(HotkeyNode, 'Key', Hotkeys[i].Shortcut);
         Config.SetValue(HotkeyNode, 'Command', Hotkeys[i].Command);
         if Hotkeys[i].Params <> EmptyStr then
           Config.SetValue(HotkeyNode, 'Params', Hotkeys[i].Params);
@@ -1049,7 +1019,7 @@ begin
   end;
 end;
 
-function THotKeyManager.HotKeyEvent(Shortcut: TShortCut; Hotkeys: THotkeys): Boolean;
+function THotKeyManager.HotKeyEvent(Shortcut: String; Hotkeys: THotkeys): Boolean;
 var
   hotkey: THotkey;
 begin
@@ -1077,7 +1047,8 @@ procedure THotKeyManager.KeyDownHandler(Sender: TObject; var Key: Word; Shift: T
 //------------------------------------------------------
 var
   i:                 Integer;
-  shortcut:          TShortCut;
+  Shortcut:          TShortCut;
+  TextShortcut:      String;
   Form:              TCustomForm;
   Control:           TWinControl;
   HMForm:            THMForm;
@@ -1103,9 +1074,10 @@ begin
   if not Assigned(HMForm) then
     Exit;
 
-  ShiftEx := GetKeyShiftStateEx;
-  shortcut := KeyToShortCutEx(Key, ShiftEx);
-  Control := Form.ActiveControl;
+  ShiftEx      := GetKeyShiftStateEx;
+  Shortcut     := KeyToShortCutEx(Key, ShiftEx);
+  TextShortcut := ShortCutToTextEx(Shortcut);
+  Control      := Form.ActiveControl;
 
   // Don't execute hotkeys that coincide with quick search/filter combination
   if not ((Shift <> []) and ((Shift = gQuickSearchMode) or (Shift = gQuickFilterMode)) and
@@ -1123,7 +1095,7 @@ begin
           HMControlInstance := HMControl.Find(Control);
           if Assigned(HMControlInstance) then
           begin
-            if HotKeyEvent(shortcut, HMControl.Hotkeys) then
+            if HotKeyEvent(TextShortcut, HMControl.Hotkeys) then
             begin
               Key := VK_UNKNOWN;
               Exit;
@@ -1136,7 +1108,7 @@ begin
       end;
 
       // Hotkey for the whole form
-      if HotKeyEvent(shortcut, HMForm.Hotkeys) then
+      if HotKeyEvent(TextShortcut, HMForm.Hotkeys) then
       begin
         Key := VK_UNKNOWN;
         Exit;

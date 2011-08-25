@@ -627,22 +627,19 @@ var
   sShortCut, sParam: String;
   HMForm: THMForm;
   HMControl: THMControl;
-  sc: TShortCut;
   hotkey: THotkey;
   isFormHotkey: Boolean;
 
 begin
 // ToDo: Black list HotKey which can't use
-//TODO: Realize full version of hotkey's using. Allow to bind hotkeys to any controls.
 
   if lbxCategories.ItemIndex=-1 then exit;
   if stgCommands.Row<1 then exit;
 
   sShortCut := edHotKey.Text;
-  sc := TextToShortCutEx(sShortCut);
 
   // check for invalid hotkey
-  if sc = 0 then
+  if sShortCut = EmptyStr then
     exit;
 
   sParam := edtParam.Text;
@@ -670,7 +667,7 @@ begin
       continue;
 
     // delete previous hotkey if exists
-    hotkey := HMControl.Hotkeys.Find(sc);
+    hotkey := HMControl.Hotkeys.Find(sShortCut);
     if Assigned(hotkey) and (hotkey.Command = sCommand) then
       HMControl.Hotkeys.Remove(hotkey);
 
@@ -679,17 +676,17 @@ begin
     begin
       isFormHotkey := false;
 
-      HMControl.Hotkeys.Add(sc, sCommand, sParam);
+      HMControl.Hotkeys.Add(sShortCut, sCommand, sParam);
     end;
   end;
 
   // delete previous hotkey if exists
-  hotkey := HMForm.Hotkeys.Find(sc);
+  hotkey := HMForm.Hotkeys.Find(sShortCut);
   if Assigned(hotkey) and (hotkey.Command = sCommand) then
     HMForm.Hotkeys.Remove(hotkey);
 
   if isFormHotkey then
-    HMForm.Hotkeys.Add(sc, sCommand, sParam);
+    HMForm.Hotkeys.Add(sShortCut, sCommand, sParam);
 
   // refresh hotkey lists
   Self.UpdateHotkeys(HMForm);
@@ -896,7 +893,7 @@ procedure TfrmOptions.CheckHotKeyConflicts(DeleteConflicts: Boolean);
 var
   HMForm: THMForm;
   HMControl: THMControl;
-  ShortCut: TShortCut;
+  sShortCut: String;
   hotkey: THotkey;
   i, count: Integer;
   isFormHotKey: Boolean;
@@ -909,7 +906,7 @@ begin
   if not Assigned(HMForm) then
     Exit;
 
-  ShortCut := TextToShortCutEx(edHotKey.Text);
+  sShortCut := edHotKey.Text;
   sCommand := stgCommands.Cells[stgCmdCommandIndex, stgCommands.Row];
 
   count := 0;
@@ -926,7 +923,7 @@ begin
     if not Assigned(HMControl) then
       continue;
 
-    hotkey := HMControl.Hotkeys.Find(ShortCut);
+    hotkey := HMControl.Hotkeys.Find(sShortCut);
     if Assigned(hotkey) and (hotkey.command <> sCommand) then
     begin
       Inc(count);
@@ -940,7 +937,7 @@ begin
 
   if isFormHotKey then
   begin
-    hotkey := HMForm.Hotkeys.Find(ShortCut);
+    hotkey := HMForm.Hotkeys.Find(sShortCut);
     if Assigned(hotkey) and (hotkey.command <> sCommand) then
     begin
       Inc(count);
@@ -1330,7 +1327,6 @@ var
   HMForm: THMForm;
   HMControl: THMControl;
   iHotKey, iControl, iGrid: Integer;
-  shortCut: TShortCut;
   hotkey: THotkey;
   found: Boolean;
 begin
@@ -1354,7 +1350,7 @@ begin
       continue;
 
     stgHotkeys.RowCount := stgHotkeys.RowCount + 1;
-    stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := ShortCutToTextEx(hotkey.ShortCut);
+    stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := hotkey.ShortCut;
     stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := hotkey.Params;
   end;
 
@@ -1372,7 +1368,7 @@ begin
       found := false;
       for iGrid := stgHotkeys.FixedRows to stgHotkeys.RowCount - 1 do
       begin
-        if stgHotkeys.Cells[0, iGrid] = ShortCutToTextEx(hotkey.ShortCut) then
+        if stgHotkeys.Cells[0, iGrid] = hotkey.ShortCut then
         begin
           stgHotkeys.Cells[2, iGrid] := stgHotkeys.Cells[2, iGrid] + HMControl.Name + ';';
           found := true;
@@ -1384,7 +1380,7 @@ begin
       if not found then
       begin
         stgHotkeys.RowCount := stgHotkeys.RowCount + 1;
-        stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := ShortCutToTextEx(hotkey.ShortCut);
+        stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := hotkey.ShortCut;
         stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := hotkey.Params;
         stgHotkeys.Cells[2, stgHotkeys.RowCount - 1] := HMControl.Name + ';';
       end; { if }
@@ -1415,7 +1411,7 @@ procedure TfrmOptions.GetHotKeyList(HMForm: THMForm; Command: String; HotkeysLis
     for i := 0 to hotkeys.Count - 1 do
     begin
       if hotkeys[i].Command = Command then
-        HotkeysList.AddObject(ShortCutToTextEx(hotkeys[i].Shortcut), hotkeys[i]);
+        HotkeysList.AddObject(hotkeys[i].Shortcut, hotkeys[i]);
     end;
   end;
 var
@@ -1789,15 +1785,9 @@ var st:TStringList;
     HMForm: THMForm;
     HMControl: THMControl;
     hotkey: THotkey;
-    shortCut: TShortCut;
 begin
-
-  //TODO: delete hotkey.
-  //TODO:New interface for hotkeys
-
   if lbxCategories.ItemIndex=-1 then exit;
   sShortCut := stgHotkeys.Cells[0, stgHotkeys.Row];
-  shortcut := TextToShortCutEx(sShortCut);
   sCommand := stgCommands.Cells[stgCmdCommandIndex, stgCommands.Row];
   HMForm := HotMan.Forms.Find(lbxCategories.Items[lbxCategories.ItemIndex]);
   if Assigned(HMForm) then
@@ -1807,13 +1797,13 @@ begin
       HMControl := HMForm.Controls[i];
       if Assigned(HMControl) then
       begin
-        hotkey := HMControl.Hotkeys.Find(shortcut);
+        hotkey := HMControl.Hotkeys.Find(sShortCut);
         if Assigned(hotkey) and (hotkey.Command = sCommand) then
           HMControl.Hotkeys.Remove(hotkey);
       end;
     end;
 
-    hotkey := HMForm.Hotkeys.Find(shortcut);
+    hotkey := HMForm.Hotkeys.Find(sShortCut);
     if Assigned(hotkey) and (hotkey.Command = sCommand) then
       HMForm.Hotkeys.Remove(hotkey);
 

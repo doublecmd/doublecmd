@@ -212,7 +212,7 @@ begin
     begin
       hotkey := HMForm.Hotkeys[i];
       if hotkey.Command = cHotKeyCommand then
-        FHotKeyList.AddObject(ShortCutToTextEx(hotkey.Shortcut), hotkey);
+        FHotKeyList.AddObject(hotkey.Shortcut, hotkey);
     end;
   end;
 end;
@@ -555,7 +555,7 @@ begin
     HMForm := HotMan.Forms.Find('Main');
     if Assigned(HMForm) then
     begin
-      hotkey := HMForm.Hotkeys.Find(Shortcut);
+      hotkey := HMForm.Hotkeys.Find(sShortCut);
       if Assigned(hotkey) then
       begin
         ShowHint(edtHotKeys, Format(rsOptHotkeysShortCutUsedText1, [sShortCut, hotkey.Command]));
@@ -574,7 +574,6 @@ end;
 procedure TfrmConfigToolBar.SetButtonHotKey;
 var
   sShortCut: String;
-  shortcut: TShortCut;
   st: TStringList;
   HMForm: THMForm;
   hotkey: THotkey;
@@ -582,7 +581,7 @@ var
   //< local function for add hot key,
   procedure AddHotKeyButton(Hotkeys: THotkeys);
   begin
-    Hotkeys.Add(shortcut, cHotKeyCommand, sShortCut);
+    Hotkeys.Add(sShortCut, cHotKeyCommand, sShortCut);
     ktbBar.SetButtonX(LastToolButton, MiskX, edtHotKeys.Text);
   end;
 
@@ -592,10 +591,9 @@ begin
    else
     begin
       sShortCut := edtHotKeys.Text;
-      shortCut := TextToShortCutEx(sShortCut);
 
       HMForm := HotMan.Forms.FindOrCreate('Main');
-      hotkey := HMForm.Hotkeys.Find(shortcut);
+      hotkey := HMForm.Hotkeys.Find(sShortCut);
       if not Assigned(hotkey) then
       begin
         AddHotKeyButton(HMForm.Hotkeys);
@@ -611,7 +609,7 @@ begin
                               [cHotKeyCommand]),
                        mtConfirmation, mbYesNo, 0) = mrYes) then
           begin
-            HMForm.Hotkeys.Delete(shortcut);
+            HMForm.Hotkeys.Delete(sShortCut);
             AddHotKeyButton(HMForm.Hotkeys);
           end;
       end;
