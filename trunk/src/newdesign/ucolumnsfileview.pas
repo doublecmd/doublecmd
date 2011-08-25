@@ -1616,8 +1616,6 @@ end;
 
 procedure TColumnsFileView.ShowSearchPanel(Char : TUTF8Char);
 begin
-  frmMain.EnableHotkeys(False);
-
   edtSearch.Height   := pnAltSearch.Canvas.TextHeight('Wg') + 1
                       + GetSystemMetrics(SM_CYEDGE) * 2;
   pnAltSearch.Height := edtSearch.Height + GetSystemMetrics(SM_CYEDGE);
@@ -1641,8 +1639,6 @@ end;
 
 procedure TColumnsFileView.ShowFilterPanel(Char : TUTF8Char = #0);
 begin
-  frmMain.EnableHotkeys(False);
-
   FilterPanelVisible;
   edtFilter.SetFocus;
 
@@ -2649,6 +2645,8 @@ begin
 
   dgPanel:=TDrawGridEx.Create(Self, Self);
 
+  HotMan.Register(dgPanel, 'Files Panel');
+
   pnlHeader:=TPanel.Create(Self);
   pnlHeader.Parent:=Self;
   pnlHeader.Align:=alTop;
@@ -2705,6 +2703,8 @@ begin
   edtSearch.Left:=64;
   edtSearch.Top:=1;
 
+  HotMan.Register(edtSearch, 'Quick Search');
+
   // Create filter panel.
   pnlFilter := TPanel.Create(Self);
   pnlFilter.Parent := Self;
@@ -2721,6 +2721,8 @@ begin
   edtFilter.TabStop := False;
   edtfilter.BorderSpacing.Left := 64;
   edtFilter.Align := alLeft;
+
+  HotMan.Register(edtFilter, 'Quick Filter');
 
   btnCloseFilter := TButton.Create(pnlFilter);
   btnCloseFilter.Parent := pnlFilter;

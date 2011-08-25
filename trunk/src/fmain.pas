@@ -3933,8 +3933,6 @@ end;
 
 procedure TfrmMain.edtCommandEnter(Sender: TObject);
 begin
-  EnableHotkeys(False);
-
   // Which actions should be active in the command line.
   Actions.EnableAction('AddPathToCmdLine', True);
   Actions.EnableAction('AddFilenameToCmdLine', True);

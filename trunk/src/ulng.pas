@@ -372,9 +372,9 @@ resourcestring
   rsOptHotkeysHotkey = 'Hotkey';
   rsOptHotkeysParameters = 'Parameters';
   rsOptHotkeysShortCutUsed = 'Shortcut in use';
-  rsOptHotkeysShortCutUsedText1 = 'Shortcut %s is already used for %s.';
+  rsOptHotkeysShortCutUsedText1 = 'Shortcut %s is already used.';
   rsOptHotkeysShortCutUsedText2 = 'Change it to %s?';
-  rsOptHotkeysUsedBy = 'used by';
+  rsOptHotkeysUsedBy = 'used for %s in %s';
   // Plugins
   rsOptPluginsActive = 'Active';
   rsOptPluginsName = 'Name';
