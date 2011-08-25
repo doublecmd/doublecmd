@@ -82,6 +82,7 @@ type
     procedure Remove(var hotkey: THotkey); reintroduce;
     function Find(Shortcut: TShortCut): THotkey; overload;
     function Find(sShortcut: String): THotkey; overload;
+    function FindByContents(Hotkey: THotkey): THotkey; overload;
     property OnChange: THotkeyEvent read FOnChange write FOnChange;
   end;
 
@@ -390,6 +391,21 @@ var
 begin
   Shortcut := TextToShortCutEx(sShortcut);
   Result := Find(Shortcut);
+end;
+
+function THotkeys.FindByContents(Hotkey: THotkey): THotkey;
+var
+  i: Integer;
+begin
+  for i := 0 to Count - 1 do
+  begin
+    Result := Items[i];
+    if (Result.ShortCut = Hotkey.Shortcut) and
+       (Result.Command  = Hotkey.Command) and
+       (Result.Params   = Hotkey.Params) then
+      Exit;
+  end;
+  Result := nil;
 end;
 
 procedure THotkeys.DoOnChange(hotkey: THotkey; operation: THotkeyOperation);
@@ -717,69 +733,116 @@ end;
 
 procedure THotKeyManager.Save(Config: TXmlConfig; Root: TXmlNode);
 
-  procedure SaveHotkeys(Hotkeys: THotkeys; Node: TXmlNode);
+var
+  SavedHotkeys: THotkeys;
+
+  procedure SaveHotkeys(Form: THMForm; Hotkeys: THotkeys; ControlIndex: Integer; Node: TXmlNode);
   var
-    i: Integer;
-    HotkeyNode: TXmlNode;
+    i, j: Integer;
+    HotkeyNode, ControlNode: TXmlNode;
+    Control: THMControl;
+
+    procedure AddControl(AName: String);
+    begin
+      ControlNode := Config.AddNode(HotkeyNode, 'Control');
+      Config.SetContent(ControlNode, AName);
+    end;
+
   begin
     for i := 0 to Hotkeys.Count - 1 do
     begin
-      HotkeyNode := Config.AddNode(Node, 'Hotkey');
+      // Save Form's hotkeys and hotkeys which have not been saved yet.
+      if (ControlIndex < 0) or (not Assigned(SavedHotkeys.FindByContents(Hotkeys[i]))) then
+      begin
+        HotkeyNode := Config.AddNode(Node, 'Hotkey');
 
-      Config.SetAttr(HotkeyNode, 'Key', ShortCutToTextEx(Hotkeys[i].Shortcut));
-      Config.SetAttr(HotkeyNode, 'Command', Hotkeys[i].Command);
-      if Hotkeys[i].Params <> EmptyStr then
-        Config.SetAttr(HotkeyNode, 'Params', Hotkeys[i].Params);
+        Config.SetAttr(HotkeyNode, 'Key', ShortCutToTextEx(Hotkeys[i].Shortcut));
+        Config.SetValue(HotkeyNode, 'Command', Hotkeys[i].Command);
+        if Hotkeys[i].Params <> EmptyStr then
+          Config.SetValue(HotkeyNode, 'Params', Hotkeys[i].Params);
+
+        if ControlIndex >= 0 then
+          AddControl(Form.Controls[ControlIndex].Name);
+
+        // Search all successive controls for the same hotkey.
+        for j := Succ(ControlIndex) to Form.Controls.Count - 1 do
+        begin
+          Control := Form.Controls[j];
+          if Assigned(Control.Hotkeys.FindByContents(Hotkeys[i])) then
+            AddControl(Control.Name);
+        end;
+
+        SavedHotkeys.Add(Hotkeys[i]);
+      end;
     end;
   end;
 
 var
   i, j: Integer;
-  FormNode, ControlNode: TXmlNode;
+  FormNode: TXmlNode;
   Form: THMForm;
-  Control: THMControl;
 begin
   Root := Config.FindNode(Root, 'Hotkeys', True);
   Config.ClearNode(Root);
   Config.SetAttr(Root, 'Version', hkVersion);
 
-  for i := 0 to FForms.Count - 1 do
-  begin
-    Form := FForms[i];
-    FormNode := Config.AddNode(Root, 'Form');
-    Config.SetAttr(FormNode, 'Name', Form.Name);
-    SaveHotkeys(Form.Hotkeys, FormNode);
-
-    for j := 0 to Form.Controls.Count - 1 do
+  SavedHotkeys := THotkeys.Create(False);
+  try
+    for i := 0 to FForms.Count - 1 do
     begin
-      Control := Form.Controls[j];
-      ControlNode := Config.AddNode(FormNode, 'Control');
-      Config.SetAttr(ControlNode, 'Name', Control.Name);
-      SaveHotkeys(Control.Hotkeys, ControlNode);
+      Form := FForms[i];
+      FormNode := Config.AddNode(Root, 'Form');
+      Config.SetAttr(FormNode, 'Name', Form.Name);
+      SaveHotkeys(Form, Form.Hotkeys, -1, FormNode);
+
+      for j := 0 to Form.Controls.Count - 1 do
+        SaveHotkeys(Form, Form.Controls[j].Hotkeys, j, FormNode);
     end;
+  finally
+    SavedHotkeys.Free;
   end;
 end;
 
 procedure THotKeyManager.Load(Config: TXmlConfig; Root: TXmlNode);
+var
+  Form: THMForm;
 
   procedure LoadHotkey(Hotkeys: THotkeys; Node: TXmlNode);
   var
     Shortcut, Command, Params: String;
+    HMControl: THMControl;
+    IsFormHotkey: Boolean = True;
   begin
     if (Config.TryGetAttr(Node, 'Key', Shortcut)) and
-       (Config.TryGetAttr(Node, 'Command', Command)) and
+       (((FVersion <= 1) and Config.TryGetAttr(Node, 'Command', Command)) or
+        Config.TryGetValue(Node, 'Command', Command)) and
        (Shortcut <> EmptyStr) and
        (Command <> EmptyStr) then
     begin
-      Params := Config.GetAttr(Node, 'Params', '');
-      Hotkeys.Add(Shortcut, Command, Params);
+      if FVersion <= 1 then
+        Params := Config.GetAttr(Node, 'Params', '')
+      else
+        Params := Config.GetValue(Node, 'Params', '');
+
+      Node := Node.FirstChild;
+      while Assigned(Node) do
+      begin
+        if Node.CompareName('Control') = 0 then
+        begin
+          IsFormHotkey := False;
+          HMControl := Form.Controls.FindOrCreate(Config.GetContent(Node));
+          HMControl.Hotkeys.Add(Shortcut, Command, Params);
+        end;
+        Node := Node.NextSibling;
+      end;
+
+      if IsFormHotkey then
+        Hotkeys.Add(Shortcut, Command, Params)
     end;
   end;
 
 var
-  FormNode, ControlNode, HotkeyNode: TXmlNode;
-  Form: THMForm;
-  Control: THMControl;
+  FormNode, HotkeyNode: TXmlNode;
   AName: String;
 begin
   ClearAllHotkeys;
@@ -797,28 +860,12 @@ begin
       begin
         Form := FForms.FindOrCreate(AName);
 
-        ControlNode := FormNode.FirstChild;
-        while Assigned(ControlNode) do
+        HotkeyNode := FormNode.FirstChild;
+        while Assigned(HotkeyNode) do
         begin
-          if ControlNode.CompareName('Hotkey') = 0 then
-            LoadHotkey(Form.Hotkeys, ControlNode)
-          else if (ControlNode.CompareName('Control') = 0) and
-                  (Config.TryGetAttr(ControlNode, 'Name', AName)) and
-                  (AName <> EmptyStr) then
-          begin
-            Control := Form.Controls.FindOrCreate(AName);
-
-            HotkeyNode := ControlNode.FirstChild;
-            while Assigned(HotkeyNode) do
-            begin
-              if HotkeyNode.CompareName('Hotkey') = 0 then
-                LoadHotkey(Control.Hotkeys, HotkeyNode);
-
-              HotkeyNode := HotkeyNode.NextSibling;
-            end;
-          end;
-
-          ControlNode := ControlNode.NextSibling;
+          if HotkeyNode.CompareName('Hotkey') = 0 then
+            LoadHotkey(Form.Hotkeys, HotkeyNode);
+          HotkeyNode := HotkeyNode.NextSibling;
         end;
       end;
 
