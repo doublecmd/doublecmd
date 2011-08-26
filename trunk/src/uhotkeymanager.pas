@@ -312,10 +312,17 @@ begin
 end;
 
 function THotkeys.AddIfNotExists(Shortcut: String; Command, Params: String): THotkey;
+var
+  i: Integer;
 begin
-  Result := Find(Shortcut);
-  if not Assigned(Result) then
-    Result := Add(Shortcut, Command, Params);
+  // Check if the shortcut isn't already assigned to a different command
+  // or if a different shortcut isn't already assigned to the command.
+  for i := 0 to Count - 1 do
+  begin
+    if (Items[i].Shortcut = Shortcut) or (Items[i].Command = Command) then
+      Exit(nil);
+  end;
+  Result := Add(Shortcut, Command, Params);
 end;
 
 procedure THotkeys.Clear;
