@@ -180,6 +180,10 @@ resourcestring
   rsQuickFilterPanel = 'Filter:';
   rsSearchResult = 'Search result';
 
+  // Config toolbar dialog
+  rsCfgToolBarAddButton = '&Add button to end';
+  rsCfgToolBarInsertButton = '&Insert new button';
+
   // File operations dialog
   rsDlgSpeedTime = 'Speed %s/s, time remaining %s';
   rsDlgSpeed = 'Speed %s/s';
