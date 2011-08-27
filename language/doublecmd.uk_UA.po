@@ -501,6 +501,7 @@ msgid "Keep scrolling"
 msgstr "Одночасна прокрутка"
 
 #: TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION"
 msgid "&Insert new button"
 msgstr "В&ставити нову кнопку"
 
@@ -5519,6 +5520,15 @@ msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "Якщо файл існує"
 
+#: ulng.rscfgtoolbaraddbutton
+msgid "&Add button to end"
+msgstr ""
+
+#: ulng.rscfgtoolbarinsertbutton
+msgctxt "ulng.rscfgtoolbarinsertbutton"
+msgid "&Insert new button"
+msgstr "В&ставити нову кнопку"
+
 #: ulng.rscolattr
 msgid "Attr"
 msgstr "Атриб"
@@ -6638,7 +6648,9 @@ msgid "Shortcut in use"
 msgstr "Гаряча клавіша вже використовується"
 
 #: ulng.rsopthotkeysshortcutusedtext1
-msgid "Shortcut %s is already used for %s."
+#, fuzzy
+#| msgid "Shortcut %s is already used for %s."
+msgid "Shortcut %s is already used."
 msgstr "Горяча клавіша %s вже використана для %s."
 
 #: ulng.rsopthotkeysshortcutusedtext2
@@ -6646,7 +6658,9 @@ msgid "Change it to %s?"
 msgstr "Змінити на %s?"
 
 #: ulng.rsopthotkeysusedby
-msgid "used by"
+#, fuzzy
+#| msgid "used by"
+msgid "used for %s in %s"
 msgstr "використовується"
 
 #: ulng.rsopticons

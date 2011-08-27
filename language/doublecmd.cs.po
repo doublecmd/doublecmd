@@ -512,6 +512,7 @@ msgid "Keep scrolling"
 msgstr "Zachovat skrolování"
 
 #: TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION"
 msgid "&Insert new button"
 msgstr ""
 
@@ -5668,6 +5669,15 @@ msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr ""
 
+#: ulng.rscfgtoolbaraddbutton
+msgid "&Add button to end"
+msgstr ""
+
+#: ulng.rscfgtoolbarinsertbutton
+msgctxt "ulng.rscfgtoolbarinsertbutton"
+msgid "&Insert new button"
+msgstr ""
+
 #: ulng.rscolattr
 msgid "Attr"
 msgstr "Atr."
@@ -6796,7 +6806,7 @@ msgid "Shortcut in use"
 msgstr ""
 
 #: ulng.rsopthotkeysshortcutusedtext1
-msgid "Shortcut %s is already used for %s."
+msgid "Shortcut %s is already used."
 msgstr ""
 
 #: ulng.rsopthotkeysshortcutusedtext2
@@ -6804,7 +6814,7 @@ msgid "Change it to %s?"
 msgstr ""
 
 #: ulng.rsopthotkeysusedby
-msgid "used by"
+msgid "used for %s in %s"
 msgstr ""
 
 #: ulng.rsopticons
