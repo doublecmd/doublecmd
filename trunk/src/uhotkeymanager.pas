@@ -167,6 +167,8 @@ type
     procedure Save(Config: TXmlConfig; Root: TXmlNode);
     procedure Load(Config: TXmlConfig; Root: TXmlNode);
     procedure LoadIni(FileName: String);
+    //---------------------
+    function IsShortcutConflictingWithOS(Shortcut: String): Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -724,7 +726,15 @@ var
       end;
 
       if IsFormHotkey then
-        Hotkeys.Add(Shortcut, Command, Params)
+      begin
+        if (FVersion <= 2) and IsShortcutConflictingWithOS(Shortcut) then
+        begin
+          HMControl := Form.Controls.FindOrCreate('Files Panel');
+          HMControl.Hotkeys.AddIfNotExists(Shortcut, Command, Params);
+        end
+        else
+          Hotkeys.Add(Shortcut, Command, Params);
+      end;
     end;
   end;
 
@@ -766,6 +776,7 @@ var
   st:       TStringList;
   ini:      TIniFileEx;
   i, j:     Integer;
+  section:  String;
   shortCut: String;
   hotkeys:  THotkeys;
   form:     THMForm;
@@ -786,20 +797,24 @@ begin
 
   for i := 0 to st.Count - 1 do
   begin
-    shortcut := st[i];
+    section  := st[i];
+    shortCut := NormalizeModifiers(section);
     j := 0;
-    while ini.ValueExists(shortcut, 'Command' + IntToStr(j)) do
+    while ini.ValueExists(section, 'Command' + IntToStr(j)) do
     begin
       begin
-        Command     := ini.ReadString(shortcut, 'Command' + IntToStr(j), '');
-        Params      := ini.ReadString(shortcut, 'Param' + IntToStr(j), '');
-        ControlName := ini.ReadString(shortcut, 'Object' + IntToStr(j), '');
-        FormName    := ini.ReadString(shortcut, 'Form' + IntToStr(j), '');
+        Command     := ini.ReadString(section, 'Command' + IntToStr(j), '');
+        Params      := ini.ReadString(section, 'Param' + IntToStr(j), '');
+        ControlName := ini.ReadString(section, 'Object' + IntToStr(j), '');
+        FormName    := ini.ReadString(section, 'Form' + IntToStr(j), '');
 
         RemoveFrmPrexif(FormName);
         RemoveFrmPrexif(ControlName);
 
         form := FForms.FindOrCreate(FormName);
+
+        if IsShortcutConflictingWithOS(shortCut) then
+          ControlName := 'Files Panel';
 
         // Old config had FormName=ControlName for main form.
         if SameText(FormName, ControlName) then
@@ -812,7 +827,7 @@ begin
           hotkeys := control.Hotkeys;
         end;
 
-        hotkeys.Add(NormalizeModifiers(shortcut), Command, Params);
+        hotkeys.Add(shortcut, Command, Params);
       end;
 
       j := j + 1;
@@ -821,6 +836,25 @@ begin
 
   FreeAndNil(st);
   FreeAndNil(ini);
+end;
+
+function THotKeyManager.IsShortcutConflictingWithOS(Shortcut: String): Boolean;
+const
+  ConflictingShortcuts: array [0..29] of String =
+    ('Del', 'Shift+Del', 'Ctrl+A', 'Ctrl+C', 'Ctrl+V', 'Ctrl+X',
+     'Ctrl+Left', 'Ctrl+Right', 'Ctrl+Shift+C', 'Ctrl+Shift+X',
+     'Ctrl+Shift+Tab', 'Ctrl+Tab', 'Ctrl+Delete', 'Shift+Delete',
+     'Ctrl+Insert', 'Windows App Key', 'Left Arrow', 'Right Arrow',
+     'Ctrl+Home', 'Ctrl+End', 'Ctrl+Left Arrow', 'Ctrl+Right Arrow',
+     'Shift+Home', 'Shift+End', 'Shift+Left Arrow', 'Shift+Right Arrow',
+     'Backspace', 'Ctrl+Backspace', 'Space', 'Shift+Space');
+var
+  i: Integer;
+begin
+  for i := Low(ConflictingShortcuts) to High(ConflictingShortcuts) do
+    if Shortcut = ConflictingShortcuts[i] then
+      Exit(True);
+  Result := False;
 end;
 
 function THotKeyManager.Register(AForm: TCustomForm; AFormName: String): THMForm;
