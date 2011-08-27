@@ -709,6 +709,8 @@ var
       else
         Params := Config.GetValue(Node, 'Params', '');
 
+      Shortcut := NormalizeModifiers(Shortcut);
+
       Node := Node.FirstChild;
       while Assigned(Node) do
       begin
@@ -810,7 +812,7 @@ begin
           hotkeys := control.Hotkeys;
         end;
 
-        hotkeys.Add(shortcut, Command, Params);
+        hotkeys.Add(NormalizeModifiers(shortcut), Command, Params);
       end;
 
       j := j + 1;
