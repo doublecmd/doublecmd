@@ -485,7 +485,6 @@ type
     procedure FileViewReload(FileView: TFileView);
     procedure edtCommandKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure edtCommandEnter(Sender: TObject);
     procedure edtCommandExit(Sender: TObject);
     procedure tbChangeDirClick(Sender: TObject);
     procedure tbCopyClick(Sender: TObject);
@@ -705,7 +704,7 @@ begin
   FResizingFilePanels := False;
 
   HMMainForm := HotMan.Register(Self, 'Main');
-  HotMan.Register(edtCommand, 'CommandLine');
+  HotMan.Register(edtCommand, 'Command Line');
 
   nbLeft := CreateNotebook(pnlLeft, fpLeft);
   nbRight := CreateNotebook(pnlRight, fpRight);
@@ -3935,15 +3934,6 @@ begin
       else
         edtCommand.Tag:= 1;
     end;
-end;
-
-procedure TfrmMain.edtCommandEnter(Sender: TObject);
-begin
-  // Which actions should be active in the command line.
-  Actions.EnableAction('AddPathToCmdLine', True);
-  Actions.EnableAction('AddFilenameToCmdLine', True);
-  Actions.EnableAction('AddPathAndFilenameToCmdLine', True);
-  Actions.EnableAction('ShowCmdLineHistory', True);
 end;
 
 procedure TfrmMain.edtCommandExit(Sender: TObject);
