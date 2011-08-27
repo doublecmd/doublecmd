@@ -646,7 +646,7 @@ begin
   gDateTimeFormat := 'dd.mm.yy';
   gCutTextToColWidth := True;
   gShowSystemFiles := False;
-  gListFilesInThread := False;
+  gListFilesInThread := True;
   gLoadIconsSeparately := True;
   gDriveBlackList := '';
 
@@ -686,7 +686,7 @@ begin
   gMainMenu := True;
   gButtonBar := True;
   gToolBarFlat := True;
-  gToolBarButtonSize := 16;
+  gToolBarButtonSize := 24;
   gToolBarIconSize := 16;
   gToolBarSmallIcons := False;
   gDriveBar1 := True;
@@ -773,7 +773,7 @@ begin
   { Icons page }
   gShowIcons := sim_all_and_exe;
   gShowIconsNew := gShowIcons;
-  gIconOverlays := True;
+  gIconOverlays := False;
   gIconsSize := 16;
   gIconsSizeNew := gIconsSize;
   gCustomDriveIcons := False;
