@@ -430,7 +430,7 @@ constructor THMBaseObject.Create(AName: String);
 begin
   FName    := AName;
   FHotkeys := THotkeys.Create(True);
-  FObjects := TFPObjectList.Create(False);
+  FObjects := TFPObjectList.Create(True);
 end;
 
 destructor THMBaseObject.Destroy;
@@ -919,6 +919,7 @@ var
   ParentForm: TCustomForm;
   form: THMForm;
   control: THMControl;
+  i: Integer;
 begin
   ParentForm := GetParentForm(AControl);
   if Assigned(ParentForm) then
@@ -926,6 +927,18 @@ begin
     form := FForms.Find(ParentForm);
     if Assigned(form) then
     begin
+      control := form.Controls.Find(AControl);
+      if Assigned(control) then
+        control.Delete(AControl);
+    end;
+  end
+  else
+  begin
+    // control lost its parent, find through all forms
+    for i := 0 to FForms.Count - 1 do
+    begin
+      form := FForms[i];
+
       control := form.Controls.Find(AControl);
       if Assigned(control) then
         control.Delete(AControl);
