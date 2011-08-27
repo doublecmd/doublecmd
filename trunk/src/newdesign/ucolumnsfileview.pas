@@ -2796,6 +2796,13 @@ end;
 
 destructor TColumnsFileView.Destroy;
 begin
+  if Assigned(HotMan) then
+  begin
+    HotMan.UnRegister(edtFilter);
+    HotMan.UnRegister(edtSearch);
+    HotMan.UnRegister(dgPanel);
+  end;
+
   FreeThenNil(FSavedSelection);
   FreeThenNil(FColumnsSorting);
   inherited Destroy;

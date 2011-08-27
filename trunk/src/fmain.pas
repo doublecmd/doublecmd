@@ -1057,6 +1057,12 @@ var
 begin
   DCDebug('Destroying main form');
 
+  if Assigned(HotMan) then
+  begin
+    HotMan.UnRegister(edtCommand);
+    HotMan.UnRegister(Self);
+  end;
+
   TDriveWatcher.RemoveObserver(@OnDriveWatcherEvent);
   TDriveWatcher.Finalize;
   DCDebug('Drive watcher finished');
