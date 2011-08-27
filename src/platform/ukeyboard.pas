@@ -50,6 +50,16 @@ const
   {en Retrieves current modifiers state of the keyboard. }
   function GetKeyShiftStateEx: TShiftState;
 
+  function KeyToShortCutEx(Key: Word; Shift: TShiftState): TShortCut;
+  function ModifiersTextToShortcutEx(const ModifiersText: String; out ModLength: Integer): TShortCut;
+  {en Changes order of modifiers in text to always be the same. }
+  function NormalizeModifiers(ShortCutText: String): String;
+  function ShiftToShortcutEx(ShiftState: TShiftState): TShortCut;
+  function ShiftToTextEx(ShiftState: TShiftState): String;
+  function ShortcutToShiftEx(Shortcut: TShortCut): TShiftState;
+  function ShortCutToTextEx(ShortCut: TShortCut): String;
+  function TextToShortCutEx(const ShortCutText: String): TShortCut;
+
   {en
      Tries to translate virtual key (VK_..) into a valid UTF8 character,
      taking into account modifiers state.
@@ -129,6 +139,23 @@ uses
   , Forms  // for Application.MainForm
 {$ENDIF}
   ;
+
+const
+  scWin = $1000;
+
+type
+  TModifiersMap = record
+    Shift:    TShiftStateEnum;
+    Shortcut: TShortCut;
+    Text:     TMenuKeyCap;
+  end;
+
+const
+  ModifiersMap: array [0..3] of TModifiersMap =
+   ((Shift: ssCtrl;  Shortcut: scCtrl;  Text: mkcCtrl),
+    (Shift: ssShift; Shortcut: scShift; Text: mkcShift),
+    (Shift: ssAlt;   Shortcut: scAlt;   Text: mkcAlt),
+    (Shift: ssSuper; Shortcut: scWin;   Text: mkcWin));
 
 {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
 var
@@ -344,6 +371,126 @@ begin
     Include(Result,ssCaps);
 end;
 
+function KeyToShortCutEx(Key: Word; Shift: TShiftState): TShortCut;
+begin
+  Result := (Key and $FF) or ShiftToShortcutEx(Shift);
+end;
+
+function ModifiersTextToShortcutEx(const ModifiersText: String; out ModLength: Integer): TShortCut;
+var
+  StartPos: Integer;
+  i: Integer = 0;
+  Found: Boolean = True;
+
+  function CompareFront(const Front: String): Boolean;
+  begin
+    if (Front <> '') and (StartPos + length(Front) - 1 <= length(ModifiersText)) and
+      (AnsiStrLIComp(@ModifiersText[StartPos], PChar(Front), Length(Front)) = 0) then
+    begin
+      Result := True;
+      Inc(StartPos, length(Front));
+    end
+    else
+      Result := False;
+  end;
+
+begin
+  Result   := 0;
+  StartPos := 1;
+  while Found do
+  begin
+    Found := False;
+    for i := Low(ModifiersMap) to High(ModifiersMap) do
+    begin
+      if CompareFront(MenuKeyCaps[ModifiersMap[i].Text]) then
+      begin
+        Result := Result or ModifiersMap[i].Shortcut;
+        Found := True;
+        Break;
+      end;
+    end;
+  end;
+  ModLength := StartPos - 1;
+end;
+
+function NormalizeModifiers(ShortCutText: String): String;
+var
+  ModLength: Integer;
+  Shortcut:  TShortCut;
+begin
+  Shortcut := ModifiersTextToShortcutEx(ShortCutText, ModLength);
+  Result := ShiftToTextEx(ShortcutToShiftEx(Shortcut)) +
+            Copy(ShortCutText, ModLength + 1, MaxInt);
+end;
+
+function ShiftToShortcutEx(ShiftState: TShiftState): TShortCut;
+var
+  i: Integer;
+begin
+  Result := 0;
+  for i := Low(ModifiersMap) to High(ModifiersMap) do
+  begin
+    if ModifiersMap[i].Shift in ShiftState then
+      Inc(Result, ModifiersMap[i].Shortcut);
+  end;
+end;
+
+function ShiftToTextEx(ShiftState: TShiftState): String;
+var
+  i: Integer;
+begin
+  Result := EmptyStr;
+  for i := Low(ModifiersMap) to High(ModifiersMap) do
+  begin
+    if ModifiersMap[i].Shift in ShiftState then
+      Result := Result + MenuKeyCaps[ModifiersMap[i].Text];
+  end;
+end;
+
+function ShortcutToShiftEx(Shortcut: TShortCut): TShiftState;
+var
+  i: Integer;
+begin
+  Result := [];
+  for i := Low(ModifiersMap) to High(ModifiersMap) do
+  begin
+    if Shortcut and ModifiersMap[i].Shortcut <> 0 then
+      Include(Result, ModifiersMap[i].Shift);
+  end;
+end;
+
+function ShortCutToTextEx(ShortCut: TShortCut): String;
+begin
+  Result := VirtualKeyToText(Byte(ShortCut and $FF), ShortcutToShiftEx(ShortCut));
+end;
+
+function TextToShortCutEx(const ShortCutText: String): TShortCut;
+var
+  Key:       TShortCut;
+  Shift:     TShortCut;
+  Name:      String;
+  StartPos:  Integer;
+begin
+  Result := 0;
+  Shift  := ModifiersTextToShortcutEx(ShortCutText, StartPos);
+  Inc(StartPos);
+
+  // Get text for the key if anything left in the string.
+  if StartPos <= Length(ShortCutText) then
+  begin
+    { Copy range from table in ShortCutToText }
+    for Key := $08 to $FF do
+    begin
+      Name := VirtualKeyToText(Key);
+      if (Name <> '') and (length(Name) = length(ShortCutText) - StartPos + 1) and
+        (AnsiStrLIComp(@ShortCutText[StartPos], PChar(Name), length(Name)) = 0) then
+      begin
+        Exit(Key or Shift);
+      end;
+    end;
+  end;
+end;
+
 function VirtualKeyToUTF8Char(Key: Byte; ShiftState: TShiftState): TUTF8Char;
 
 {$IF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2) or DEFINED(LCLQT))}
@@ -512,15 +659,10 @@ begin
 
   Name := VKToCharArray[Key];
 
-  Result := '';
   if Name <> '' then
-  begin
-    if ssCtrl  in ShiftState then Result := Result + MenuKeyCaps[mkcCtrl];
-    if ssShift in ShiftState then Result := Result + MenuKeyCaps[mkcShift];
-    if ssAlt   in ShiftState then Result := Result + MenuKeyCaps[mkcAlt];
-    if ssSuper in ShiftState then Result := Result + MenuKeyCaps[mkcWin];
-    Result := Result + Name;
-  end;
+    Result := ShiftToTextEx(ShiftState) + Name
+  else
+    Result := '';
 end;
 
 {$IF DEFINED(UNIX) and (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}

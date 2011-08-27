@@ -183,106 +183,11 @@ type
     property Version: Integer read FVersion;
   end;
 
-//Helpers
-//------------------------------------------------------
-function KeyToShortCutEx(Key: Word; Shift: TShiftState): TShortCut;
-function ShortCutToTextEx(ShortCut: TShortCut): String;
-function TextToShortCutEx(const ShortCutText: String): TShortCut;
-
 implementation
 
 uses
   uKeyboard, uGlobs, uDebug, uActs, uOSUtils, uDCVersion, XMLRead;
 
-const
-  scWin = $1000;
-
-{ THotKeyManager }
-
-function TextToShortCutEx(const ShortCutText: String): TShortCut;
-
-  function CompareFront(var StartPos: Integer; const Front: String): Boolean;
-  begin
-    if (Front <> '') and (StartPos + length(Front) - 1 <= length(ShortCutText)) and
-      (AnsiStrLIComp(@ShortCutText[StartPos], PChar(Front), Length(Front)) = 0) then
-    begin
-      Result := True;
-      Inc(StartPos, length(Front));
-    end
-    else
-      Result := False;
-  end;
-
-var
-  Key:      TShortCut;
-  Shift:    TShortCut;
-  StartPos: Integer;
-  Name:     String;
-begin
-  Result   := 0;
-  Shift    := 0;
-  StartPos := 1;
-  while True do
-  begin
-    if CompareFront(StartPos, MenuKeyCaps[mkcShift]) then
-      Shift := Shift or scShift
-    else if CompareFront(StartPos, '^') then
-      Shift := Shift or scCtrl
-    else if CompareFront(StartPos, MenuKeyCaps[mkcCtrl]) then
-      Shift := Shift or scCtrl
-    else if CompareFront(StartPos, MenuKeyCaps[mkcAlt]) then
-      Shift := Shift or scAlt
-    else if CompareFront(StartPos, MenuKeyCaps[mkcWin]) then
-      Shift := Shift or scWin
-    else
-      Break;
-  end;
-
-  // Get text for the key if anything left in the string.
-  if StartPos <= Length(ShortCutText) then
-  begin
-    { Copy range from table in ShortCutToText }
-    for Key := $08 to $FF do
-    begin
-      Name := VirtualKeyToText(Key);
-      if (Name <> '') and (length(Name) = length(ShortCutText) - StartPos + 1) and
-        (AnsiStrLIComp(@ShortCutText[StartPos], PChar(Name), length(Name)) = 0) then
-      begin
-        Result := Key or Shift;
-        Exit;
-      end;
-    end;
-  end;
-end;
-
-function ShortCutToTextEx(ShortCut: TShortCut): String;
-var
-  ShiftState: TShiftState = [];
-begin
-  if ShortCut and scShift <> 0 then
-    Include(ShiftState, ssShift);
-  if ShortCut and scCtrl <> 0 then
-    Include(ShiftState, ssCtrl);
-  if ShortCut and scAlt <> 0 then
-    Include(ShiftState, ssAlt);
-  if ShortCut and scWin <> 0 then
-    Include(ShiftState, ssSuper);
-
-  Result := VirtualKeyToText(Byte(ShortCut and $FF), ShiftState);
-end;
-
-function KeyToShortCutEx(Key: Word; Shift: TShiftState): TShortCut;
-begin
-  Result := Key;
-  if ssShift in Shift then
-    Inc(Result, scShift);
-  if ssCtrl in Shift then
-    Inc(Result, scCtrl);
-  if ssAlt in Shift then
-    Inc(Result, scAlt);
-  if ssSuper in Shift then
-    Inc(Result, scWin);
-end;
 
 { TFreeNotifier }
 
