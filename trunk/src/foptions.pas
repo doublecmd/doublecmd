@@ -1075,7 +1075,6 @@ begin
   // check objects to which hotkey applies
   controlList := TStringList.Create();
   try
-    controlList := TStringList.Create;
     controlList.Delimiter := ';';
     controlList.StrictDelimiter := True;
     controlList.DelimitedText := stgHotkeys.Cells[2, aRow];
