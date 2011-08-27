@@ -499,6 +499,7 @@ msgid "Keep scrolling"
 msgstr "Continuar desplazamiento"
 
 #: TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION"
 msgid "&Insert new button"
 msgstr "&Insertar nuevo botón"
 
@@ -1027,7 +1028,6 @@ msgstr "Editar"
 msgctxt "TFRMDIFFER.MNUENCODING.CAPTION"
 msgid "Encoding"
 msgstr "Codificando"
-
 
 #: TFRMDIFFER.MNUFILE.CAPTION
 msgctxt "TFRMDIFFER.MNUFILE.CAPTION"
@@ -3752,7 +3752,6 @@ msgid "Log &successful operations"
 msgstr "Registrar operaciones exito&sas"
 
 #: TFRMOPTIONS.CBLOGVFS.CAPTION
-
 msgid "File system plugins"
 msgstr "Plugins de sistema de archivos"
 
@@ -4525,7 +4524,7 @@ msgstr "Trucar"
 #: TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
 msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr "A los plugins de búsqueda permitir el uso de algoritmos de busqueda alternativos o herramientas externas (como "\"locate\", etc.)"
+msgstr "A los plugins de búsqueda permitir el uso de algoritmos de busqueda alternativos o herramientas externas (como \"\"locate\", etc.)"
 
 #: TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
@@ -4832,7 +4831,7 @@ msgstr "Modificado:"
 #: TFRMSETFILEPROPERTIES.CHKREADONLY.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CHKREADONLY.CAPTION"
 msgid "Read only"
-msgstr ""
+msgstr "Sólo lectura"
 
 #: TFRMSETFILEPROPERTIES.CHKRECURSIVE.CAPTION
 msgid "Including subfolders"
@@ -5352,7 +5351,7 @@ msgstr "&Editar"
 #: TFRMVIEWER.MIENCODING.CAPTION
 msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
 msgid "En&coding"
-msgstr ""
+msgstr "&Codificando"
 
 #: TFRMVIEWER.MIEXIT.CAPTION
 msgctxt "TFRMVIEWER.MIEXIT.CAPTION"
@@ -5388,7 +5387,7 @@ msgstr ""
 #: TFRMVIEWER.MIMIRROR.CAPTION
 msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
 msgid "Mirror"
-msgstr ""
+msgstr "Espejo"
 
 #: TFRMVIEWER.MINEXT.CAPTION
 msgid "&Next"
@@ -5507,7 +5506,7 @@ msgstr "Pausa"
 #: TFRMVIEWOPERATIONS.BTNALLSTART.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNALLSTART.CAPTION"
 msgid "Start"
-msgstr ""
+msgstr "Comenzar"
 
 #: TFRMVIEWOPERATIONS.BTNCANCELCUROP.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNCANCELCUROP.CAPTION"
@@ -5594,6 +5593,15 @@ msgstr "para correr"
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "Cuando el archivo exista"
+
+#: ulng.rscfgtoolbaraddbutton
+msgid "&Add button to end"
+msgstr ""
+
+#: ulng.rscfgtoolbarinsertbutton
+msgctxt "ulng.rscfgtoolbarinsertbutton"
+msgid "&Insert new button"
+msgstr "&Insertar nuevo botón"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -6711,7 +6719,9 @@ msgid "Shortcut in use"
 msgstr "Atajo en uso"
 
 #: ulng.rsopthotkeysshortcutusedtext1
-msgid "Shortcut %s is already used for %s."
+#, fuzzy
+#| msgid "Shortcut %s is already used for %s."
+msgid "Shortcut %s is already used."
 msgstr "El atajo %s ya lo usa %s"
 
 #: ulng.rsopthotkeysshortcutusedtext2
@@ -6719,7 +6729,9 @@ msgid "Change it to %s?"
 msgstr "Cambiarlo a %s ?"
 
 #: ulng.rsopthotkeysusedby
-msgid "used by"
+#, fuzzy
+#| msgid "used by"
+msgid "used for %s in %s"
 msgstr "Usado por"
 
 #: ulng.rsopticons
@@ -6805,11 +6817,11 @@ msgstr "Información emergente"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
-msgstr "No se puede cambiar los derechos de acceso para \"%s\"
+msgstr "No se puede cambiar los derechos de acceso para \"%s\""
 
 #: ulng.rspropserrchown
 msgid "Can not change owner for \"%s\""
-msgstr "No se puede cambiar el propietario para \"%s\"
+msgstr "No se puede cambiar el propietario para \"%s\""
 
 #: ulng.rspropsfile
 msgctxt "ulng.rspropsfile"

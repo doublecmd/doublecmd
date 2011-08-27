@@ -498,6 +498,7 @@ msgid "Keep scrolling"
 msgstr "Kontynuuj przewijanie"
 
 #: TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION"
 msgid "&Insert new button"
 msgstr "Dodaj nowy przycisk"
 
@@ -5572,6 +5573,15 @@ msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr "Gdy plik istnieje"
 
+#: ulng.rscfgtoolbaraddbutton
+msgid "&Add button to end"
+msgstr ""
+
+#: ulng.rscfgtoolbarinsertbutton
+msgctxt "ulng.rscfgtoolbarinsertbutton"
+msgid "&Insert new button"
+msgstr "Dodaj nowy przycisk"
+
 #: ulng.rscolattr
 msgid "Attr"
 msgstr "Atr."
@@ -6686,7 +6696,9 @@ msgid "Shortcut in use"
 msgstr "Skrót jest używany"
 
 #: ulng.rsopthotkeysshortcutusedtext1
-msgid "Shortcut %s is already used for %s."
+#, fuzzy
+#| msgid "Shortcut %s is already used for %s."
+msgid "Shortcut %s is already used."
 msgstr "Skrót %s jest już użyty dla %s."
 
 #: ulng.rsopthotkeysshortcutusedtext2
@@ -6694,7 +6706,9 @@ msgid "Change it to %s?"
 msgstr "Zmienić na %s?"
 
 #: ulng.rsopthotkeysusedby
-msgid "used by"
+#, fuzzy
+#| msgid "used by"
+msgid "used for %s in %s"
 msgstr "używany przez"
 
 #: ulng.rsopticons
