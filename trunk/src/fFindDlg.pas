@@ -948,6 +948,8 @@ begin
     end;
   cmbReplaceText.Items.Assign(glsReplaceHistory);
 
+  cbFindText.Checked := False;
+
   cmbPlugin.Clear;
   for I:= 0 to DSXPlugins.Count-1 do
     begin
