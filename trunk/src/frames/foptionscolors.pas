@@ -504,7 +504,7 @@ begin
 end;
 
 initialization
-  RegisterOptionsEditor(4, TfrmOptionsColors);
+  RegisterOptionsEditor(optedColors, TfrmOptionsColors);
 
 end.
 

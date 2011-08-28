@@ -9,6 +9,28 @@ uses
 
 type
 
+  TOptionsEditorsType =
+    (optedLanguage = 0,
+     optedBehaviours,
+     optedTools,
+     optedFonts,
+     optedColors,
+     optedHotKeys,
+     optedPlugins,
+     optedLayout,
+     optedFileOperations,
+     optedFolderTabs,
+     optedLog,
+     optedConfiguration,
+     optedQuickSearchFilter,
+     optedColumns,
+     optedMisc,
+     optedAutoRefresh,
+     optedIcons,
+     optedIgnoreList,
+     optedArchivers,
+     optedTooltips);
+
   { TOptionsEditorClass }
 
   TOptionsEditorClass = class of TOptionsEditor;
@@ -30,7 +52,7 @@ type
   { TOptionsEditorRec }
 
   TOptionsEditorRec = class
-    PageIndex: LongInt;
+    OptionsEditorType: TOptionsEditorsType;
     OptionsEditorClass: TOptionsEditorClass;
   end;
 
@@ -42,7 +64,7 @@ type
 
   TOptionsEditorClassList = specialize TFPGObjectList<TOptionsEditorRec>;
 
-  procedure RegisterOptionsEditor(APageIndex: LongInt; AEditorClass: TOptionsEditorClass);
+  procedure RegisterOptionsEditor(AEditorType: TOptionsEditorsType; AEditorClass: TOptionsEditorClass);
 
 var
   OptionsEditorClassList: TOptionsEditorClassList = nil;
@@ -73,12 +95,12 @@ begin
   inherited Destroy;
 end;
 
-procedure RegisterOptionsEditor(APageIndex: LongInt; AEditorClass: TOptionsEditorClass);
+procedure RegisterOptionsEditor(AEditorType: TOptionsEditorsType; AEditorClass: TOptionsEditorClass);
 var
   OptionsEditorRec: TOptionsEditorRec;
 begin
   OptionsEditorRec:= TOptionsEditorRec.Create;
-  OptionsEditorRec.PageIndex:= APageIndex;
+  OptionsEditorRec.OptionsEditorType:= AEditorType;
   OptionsEditorRec.OptionsEditorClass:= AEditorClass;
   OptionsEditorClassList.Add(OptionsEditorRec);
 end;

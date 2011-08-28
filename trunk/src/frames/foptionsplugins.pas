@@ -614,7 +614,7 @@ begin
 end;
 
 initialization
-  RegisterOptionsEditor(6, TfrmOptionsPlugins);
+  RegisterOptionsEditor(optedPlugins, TfrmOptionsPlugins);
 
 end.
 

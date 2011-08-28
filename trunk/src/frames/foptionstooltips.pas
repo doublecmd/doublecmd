@@ -233,7 +233,7 @@ begin
 end;
 
 initialization
-  RegisterOptionsEditor(19, TfrmOptionsToolTips);
+  RegisterOptionsEditor(optedTooltips, TfrmOptionsToolTips);
 
 end.
 
