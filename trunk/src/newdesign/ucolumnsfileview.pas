@@ -1262,8 +1262,6 @@ end;
 
 procedure TColumnsFileView.ShowRenameFileEdit(const sFileName:String);
 begin
-  frmMain.EnableHotkeys(False);
-
   edtRename.Width := dgPanel.ColWidths[0]+dgPanel.ColWidths[1]-16;
   edtRename.Top := (dgPanel.CellRect(0,dgPanel.Row).Top-2);
   if gShowIcons <> sim_none then
@@ -1289,8 +1287,6 @@ end;
 
 procedure TColumnsFileView.ShowPathEdit;
 begin
-  frmMain.EnableHotkeys(False);
-
   with lblPath do
   begin
     edtPath.SetBounds(Left, Top, Width, Height);
@@ -2148,7 +2144,6 @@ begin
   SetActive(True);
 
   UpdateInfoPanel;
-  frmMain.EnableHotkeys(True);
 
   if Assigned(OnActivate) then
     OnActivate(Self);
