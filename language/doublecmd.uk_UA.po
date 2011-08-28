@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.4.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-06-28 17:09+0300\n"
+"PO-Revision-Date: 2011-08-27 20:50+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5522,7 +5522,7 @@ msgstr "Якщо файл існує"
 
 #: ulng.rscfgtoolbaraddbutton
 msgid "&Add button to end"
-msgstr ""
+msgstr "Додати кнопку в &кінець"
 
 #: ulng.rscfgtoolbarinsertbutton
 msgctxt "ulng.rscfgtoolbarinsertbutton"
@@ -6658,10 +6658,9 @@ msgid "Change it to %s?"
 msgstr "Змінити на %s?"
 
 #: ulng.rsopthotkeysusedby
-#, fuzzy
 #| msgid "used by"
 msgid "used for %s in %s"
-msgstr "використовується"
+msgstr "використовується для %s в %s"
 
 #: ulng.rsopticons
 msgid "Icons"
