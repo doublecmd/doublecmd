@@ -436,8 +436,9 @@ Otherwise enables button controls. *)
 procedure TfrmConfigToolBar.WakeSleepControls();
 var
   MakeEnabled: Boolean = True;
-  AddButtonName: String = rsCfgToolBarInsertButton;
+  AddButtonName: String;
 begin
+  AddButtonName := rsCfgToolBarInsertButton;  
   if (LastToolButton = -1) or (edtToolTip.Text='-') then
     begin
       MakeEnabled := False ;
