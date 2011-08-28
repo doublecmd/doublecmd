@@ -604,7 +604,6 @@ type
     procedure UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
     procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
     procedure ShowDrivesList(APanel: TFilePanelSelect);
-    procedure EnableHotkeys(Enable: Boolean);
     procedure ExecuteCommandLine(bRunInTerm: Boolean);
     procedure UpdatePrompt;
     procedure UpdateFreeSpace(Panel: TFilePanelSelect);
@@ -4424,27 +4423,6 @@ procedure TfrmMain.HideTrayIconDelayed(Data: PtrInt);
 begin
   MainTrayIcon.Visible := False;
   HidingTrayIcon := False;
-end;
-
-procedure TfrmMain.EnableHotkeys(Enable: Boolean);
-begin
-// KeyPreview should be always enabled.
-// We're enabling/disabling on a per-action level.
-
-  Actions.EnableAllActions(Enable);
-
-  // Actions that should always be enabled.
-  Actions.EnableAction('Exit', True);
-  Actions.EnableAction('Options', True);
-  Actions.EnableAction('FileAssoc', True);
-  Actions.EnableAction('HelpIndex', True);
-  Actions.EnableAction('Keyboard', True);
-  Actions.EnableAction('VisitHomePage', True);
-  Actions.EnableAction('About', True);
-  Actions.EnableAction('LeftOpenDrives', True);
-  Actions.EnableAction('RightOpenDrives', True);
-  Actions.EnableAction('RunTerm', True);
-  Actions.EnableAction('Minimize', True);
 end;
 
 procedure TfrmMain.ExecuteCommandLine(bRunInTerm: Boolean);
