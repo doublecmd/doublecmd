@@ -1447,7 +1447,7 @@ begin
   for I:= 0 to OptionsEditorClassList.Count - 1 do
   begin
     aOptionsEditor:= OptionsEditorClassList[I].OptionsEditorClass.Create(Self);
-    aOptionsEditor.Parent:= nbNotebook.Page[OptionsEditorClassList[I].PageIndex];
+    aOptionsEditor.Parent:= nbNotebook.Page[Integer(OptionsEditorClassList[I].OptionsEditorType)];
     FOptionsEditorList.Add(aOptionsEditor);
   end;
 end;
