@@ -31,6 +31,9 @@ type
      optedArchivers,
      optedTooltips);
 
+  TOptionsEditorSaveFlag = (oesfNeedsRestart);
+  TOptionsEditorSaveFlags = set of TOptionsEditorSaveFlag;
+
   { TOptionsEditorClass }
 
   TOptionsEditorClass = class of TOptionsEditor;
@@ -46,7 +49,7 @@ type
     destructor Destroy; override;
 
     procedure Load; virtual; abstract;
-    procedure Save; virtual; abstract;
+    function Save: TOptionsEditorSaveFlags; virtual; abstract;
   end;
 
   { TOptionsEditorRec }

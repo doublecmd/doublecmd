@@ -69,7 +69,7 @@ type
     procedure Done; override;
   public
     procedure Load; override;
-    procedure Save; override;
+    function Save: TOptionsEditorSaveFlags; override;
   end; 
 
 implementation
@@ -221,7 +221,7 @@ begin
     lsbCustomFields.Items.Add(FFileInfoToolTip.HintItemList[I].Name);
 end;
 
-procedure TfrmOptionsToolTips.Save;
+function TfrmOptionsToolTips.Save: TOptionsEditorSaveFlags;
 begin
   gShowToolTipMode:= []; // Reset tool tip show mode
   if rbToolTipAllFiles.Checked then
@@ -230,6 +230,7 @@ begin
     Include(gShowToolTipMode, stm_only_large_name);
 
   gFileInfoToolTip.Assign(FFileInfoToolTip);
+  Result := [];
 end;
 
 initialization

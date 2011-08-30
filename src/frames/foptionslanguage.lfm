@@ -1,0 +1,12 @@
+inherited frmOptionsLanguage: TfrmOptionsLanguage
+  Align = alClient
+  object lngList: TListBox[0]
+    Left = 0
+    Height = 240
+    Top = 0
+    Width = 320
+    Align = alClient
+    ItemHeight = 0
+    TabOrder = 0
+  end
+end
