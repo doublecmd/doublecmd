@@ -1,7 +1,6 @@
 inherited frmOptionsPlugins: TfrmOptionsPlugins
   Height = 376
   Width = 604
-  Align = alClient
   ClientHeight = 376
   ClientWidth = 604
   object pcPluginsTypes: TPageControl[0]

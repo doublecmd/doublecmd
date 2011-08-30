@@ -1,7 +1,6 @@
 inherited frmOptionsColors: TfrmOptionsColors
   Height = 359
   Width = 644
-  Align = alClient
   ClientHeight = 359
   ClientWidth = 644
   object pcColors: TPageControl[0]
