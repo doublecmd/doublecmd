@@ -63,14 +63,11 @@ type
     btnBackViewerColor: TButton;
     btnFontViewerColor: TButton;
     cbSortCaseSensitive: TCheckBox;
-    cbOnlyOnce: TCheckBox;
     cbDropReadOnlyFlag: TCheckBox;
     cbIconsShowOverlay: TCheckBox;
     cbIconsSize: TComboBox;
-    cbLynxLike: TCheckBox;
     cbRenameSelOnlyName: TCheckBox;
     cbShowCopyTabSelectPanel: TCheckBox;
-    cbShortFileSizeFormat: TCheckBox;
     cbTabsShowCloseButton: TCheckBox;
     cbFlatInterface: TCheckBox;
     cbFlatToolBar: TCheckBox;
@@ -81,13 +78,8 @@ type
     cbDirHistory: TCheckBox;
     cbCmdLineHistory: TCheckBox;
     cbFileMaskHistory: TCheckBox;
-    cbSelectionByMouse: TCheckBox;
     cbTabsOpenForeground: TCheckBox;
-    cbMinimizeToTray: TCheckBox;
-    cbDateTimeFormat: TComboBox;
     cbbFileSystem: TComboBox;
-    cbMouseMode: TComboBox;
-    cbCutTextToColWidth: TCheckBox;
     cbProcessComments: TCheckBox;
     cbTabsConfirmCloseAll: TCheckBox;
     cbTabsLockedAsterisk: TCheckBox;
@@ -95,16 +87,12 @@ type
     cbGridVertLine: TCheckBox;
     cbGridHorzLine: TCheckBox;
     cbShowWarningMessages: TCheckBox;
-    cbShowSystemFiles: TCheckBox;
     cbSpaceMovesDown: TCheckBox;
     cbDirBrackets: TCheckBox;
     cbTabsActivateOnClick: TCheckBox;
     cbDeleteToTrash: TCheckBox;
-    cbAlwaysShowTrayIcon: TCheckBox;
     cbSkipFileOpError: TCheckBox;
     cbShowDialogOnDragDrop: TCheckBox;
-    cbListFilesInThread: TCheckBox;
-    cbLoadIconsSeparately: TCheckBox;
     cbWatchExcludeDirs: TCheckBox;
     cbTabsOpenNearCurrent: TCheckBox;
     cbToolsRunInTerminal: TCheckBox;
@@ -123,10 +111,8 @@ type
     chkSearchReplaceHistory: TCheckBox;
     chkSaveConfiguration: TCheckBox;
     chkMultiArcEnabled: TCheckBox;
-    chkAutoFillColumns: TCheckBox;
     chkIgnoreEnable: TCheckBox;
     cmbTabsPosition: TComboBox;
-    cmbAutoSizeColumn: TComboBox;
     cbSortMethod: TComboBox;
     cbBackgroundColorViewerBook: TColorBox;
     cbFontColorViewerBook: TColorBox;
@@ -148,8 +134,6 @@ type
     edtCopyBufferSize: TEdit;
     edtEditorFontSize: TSpinEdit;
     edtMainFontSize: TSpinEdit;
-    edtRunTerm: TEdit;
-    edtRunInTerm: TEdit;
     edtMainFont: TEdit;
     edtEditorFont: TEdit;
     edtViewerFont: TEdit;
@@ -165,8 +149,6 @@ type
     gbLogFile: TGroupBox;
     gbLogFileOp: TGroupBox;
     gbLogFileStatus: TGroupBox;
-    gbMisc1: TGroupBox;
-    gbMisc2: TGroupBox;
     gbScreenLayout: TGroupBox;
     cbFlatDiskPanel: TCheckBox;
     cbShowMainToolBar: TCheckBox;
@@ -181,13 +163,10 @@ type
     cbTwoDiskPanels: TCheckBox;
     gbCopyBufferSize: TGroupBox;
     gbGeneralOptions: TGroupBox;
-    gbDateTimeFormat: TGroupBox;
     gbTabs: TGroupBox;
     gbFileSearch: TGroupBox;
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
-    gbMisc3: TGroupBox;
-    gbMisc4: TGroupBox;
     gbShowGrid: TGroupBox;
     gbExtended: TGroupBox;
     gbShowIconsMode: TGroupBox;
@@ -215,7 +194,6 @@ type
     lblDescription: TLabel;
     lblToolsPath: TLabel;
     lblToolsParameters: TLabel;
-    lblAutoSizeColumn: TLabel;
     lblQuickSearch: TLabel;
     lblQuickFilter: TLabel;
     lblSaveIn: TLabel;
@@ -232,9 +210,6 @@ type
     pgArchivers: TPage;
     pgIgnoreList: TPage;
     pnlArchiverCommands: TPanel;
-    rbScrollPageByPage: TRadioButton;
-    rbScrollLineByLine: TRadioButton;
-    rbScrollLineByLineCursor: TRadioButton;
     sbxMultiArc: TScrollBox;
     pnlQuickSearch: TPanel;
     pnlQuickFilter: TPanel;
@@ -251,12 +226,10 @@ type
     lblTabsPosition: TLabel;
     lbPressedHotKeyCommand: TLabel;
     lbFilter: TLabel;
-    ledDriveBlackList: TLabeledEdit;
     lbcategory: TLabel;
     lbcommands: TLabel;
     lblParam: TLabel;
     lblWipePassNumber: TLabel;
-    lblMouseMode: TLabel;
     lblConfigColumns: TLabel;
     lbtypes: TLabel;
     lbxCategories: TListBox;
@@ -266,7 +239,6 @@ type
     pgMisc: TPage;
     pnlButtons: TPanel;
     pgColumns: TPage;
-    gbScrolling: TGroupBox;
     rbCtrlAltLetterQS: TRadioButton;
     rbAltLetterQS: TRadioButton;
     rbNoneQS: TRadioButton;
@@ -275,14 +247,10 @@ type
     rbLetterQS: TRadioButton;
     ilTreeView: TImageList;
     lblChar: TLabel;
-    lblDateTimeExample: TLabel;
-    lblDateTimeFormat: TLabel;
     lblCopyBufferSize: TLabel;
     lblEditorFont: TLabel;
     lblHotKey: TLabel;
     lblMainFont: TLabel;
-    lblRunTerm: TLabel;
-    lblRunInTerm: TLabel;
     lblViewerFont: TLabel;
     cbLogArcOp: TCheckBox;
     cbLogCpMvLn: TCheckBox;
@@ -319,7 +287,6 @@ type
     rbUseMmapInSearch: TRadioButton;
     rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
-    seWheelScrollLines: TSpinEdit;
     edtViewerBookFontSize: TSpinEdit;
     seNumberColumnsViewer: TSpinEdit;
     splMultiArc: TSplitter;
@@ -348,7 +315,6 @@ type
     procedure btnMultiArcDeleteClick(Sender: TObject);
     procedure btnMultiArcRenameClick(Sender: TObject);
     procedure btnSelViewerBookFntClick(Sender: TObject);
-    procedure cbAlwaysShowTrayIconChange(Sender: TObject);
     procedure cbIconsSizeChange(Sender: TObject);
     procedure cbToolsKeepTerminalOpenChange(Sender: TObject);
     procedure cbToolsRunInTerminalChange(Sender: TObject);
@@ -372,7 +338,6 @@ type
     procedure btnEditColumnsSetClick(Sender: TObject);
     procedure btnNewColumnsSetClick(Sender: TObject);
     procedure cbColorBoxChange(Sender: TObject);
-    procedure cbDateTimeFormatChange(Sender: TObject);
     procedure cbShowDiskPanelChange(Sender: TObject);
     procedure cbTermWindowChange(Sender: TObject);
     procedure edtFilterChange(Sender: TObject);
@@ -394,7 +359,6 @@ type
     procedure lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
     procedure nbNotebookPageChanged(Sender: TObject);
     procedure pbViewerBookPaint(Sender: TObject);
-    procedure pgBehavResize(Sender: TObject);
     procedure rbIconsShowNoneChange(Sender: TObject);
     procedure rbQuickSearchFilterKeyChange(Sender: TObject);
     procedure seNumberColumnsViewerChange(Sender: TObject);
@@ -459,7 +423,8 @@ uses
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
   uTypes, StrUtils, uFindEx, uKeyboard,
   fMaskInputDlg, uSearchTemplate, uMultiArc, uFile, uDebug,
-  fOptionsPlugins, fOptionsToolTips, fOptionsColors, fOptionsLanguage;
+  fOptionsPlugins, fOptionsToolTips, fOptionsColors, fOptionsLanguage,
+  fOptionsBehaviour;
 
 const
   stgCmdCommandIndex = 0;
@@ -513,8 +478,6 @@ begin
   FUpdatingTools := False;
 
   // Localize some ComboBox
-  ParseLineToList(rsOptMouseSelectionButton, cbMouseMode.Items);
-  ParseLineToList(rsOptAutoSizeColumn, cmbAutoSizeColumn.Items);
   ParseLineToList(rsOptTabsPosition, cmbTabsPosition.Items);
   ParseLineToList(rsOptSortMethod, cbSortMethod.Items);
 
@@ -697,11 +660,6 @@ end;
 procedure TfrmOptions.cbColorBoxChange(Sender: TObject);
 begin
   pbViewerBook.Repaint;
-end;
-
-procedure TfrmOptions.cbDateTimeFormatChange(Sender: TObject);
-begin
-  lblDateTimeExample.Caption:= FormatDateTime(cbDateTimeFormat.Text, Now);
 end;
 
 procedure TfrmOptions.cbShowDiskPanelChange(Sender: TObject);
@@ -958,14 +916,6 @@ begin
   tvTreeView.Items.Item[Self.Tag].Selected:=true;
   nbNotebook.PageIndex := Self.Tag;
 
-end;
-
-procedure TfrmOptions.pgBehavResize(Sender: TObject);
-var
-  iWidth: Integer;
-begin
-  iWidth:= (pgBehav.Width div 2) - 26;
-  gbMisc2.Width:= iWidth;
 end;
 
 procedure TfrmOptions.rbIconsShowNoneChange(Sender: TObject);
@@ -1467,12 +1417,6 @@ begin
   end;
 end;
 
-procedure TfrmOptions.cbAlwaysShowTrayIconChange(Sender: TObject);
-begin
-  // Force minimizing to tray when tray icon is always shown.
-  cbMinimizeToTray.Enabled:= not cbAlwaysShowTrayIcon.Checked;
-end;
-
 procedure TfrmOptions.cbIconsSizeChange(Sender: TObject);
 var
   bmpTemp: TBitmap;
@@ -1850,43 +1794,6 @@ begin
   cbProgInMenuBar.Checked := gProgInMenuBar;
   cbPanelOfOperations.Checked := gPanelOfOp;
 
-  { Behaviours page }
-  edtRunInTerm.Text:= gRunInTerm;
-  edtRunTerm.Text:=gRunTerm;
-  cbOnlyOnce.Checked:= gOnlyOneAppInstance;
-  cbLynxLike.Checked:=gLynxLike;
-  cbShortFileSizeFormat.Checked:=gShortFileSizeFormat;
-
-  cbSelectionByMouse.Checked:=gMouseSelectionEnabled;
-  cbMouseMode.ItemIndex := gMouseSelectionButton;
-
-  chkAutoFillColumns.Checked:= gAutoFillColumns;
-  cmbAutoSizeColumn.ItemIndex:= gAutoSizeColumn;
-
-  case gScrollMode of
-    smLineByLineCursor:
-      rbScrollLineByLineCursor.Checked:= True;
-    smLineByLine:
-      rbScrollLineByLine.Checked:= True;
-    smPageByPage:
-      rbScrollPageByPage.Checked:= True;
-    else
-      rbScrollLineByLine.Checked:= True;
-  end;
-  seWheelScrollLines.Value:= gWheelScrollLines;
-
-  cbMinimizeToTray.Checked:= gMinimizeToTray;
-  cbMinimizeToTray.Enabled:= not gAlwaysShowTrayIcon;
-  cbAlwaysShowTrayIcon.Checked:= gAlwaysShowTrayIcon;
-  cbDateTimeFormat.Text:= gDateTimeFormat;
-  lblDateTimeExample.Caption:= FormatDateTime(gDateTimeFormat, Now);
-  cbRenameSelOnlyName.Checked:= gRenameSelOnlyName;
-  cbCutTextToColWidth.Checked:= gCutTextToColWidth;
-  ledDriveBlackList.Text:= gDriveBlackList;
-  cbShowSystemFiles.Checked:= gShowSystemFiles;
-  cbListFilesInThread.Checked:= gListFilesInThread;
-  cbLoadIconsSeparately.Checked:= gLoadIconsSeparately;
-
   { Tools page }
   tmpExternalTools := gExternalTools;
   seNumberColumnsViewer.Value := gColCount;
@@ -2054,37 +1961,6 @@ begin
   gProgInMenuBar := cbProgInMenuBar.Checked;
   gPanelOfOp := cbPanelOfOperations.Checked;
 
-  { Behaviour page }
-  gRunInTerm:=edtRunInTerm.Text;
-  gRunTerm:= edtRunTerm.Text;
-  gOnlyOneAppInstance:=cbOnlyOnce.Checked;
-  gLynxLike:=cbLynxLike.Checked;
-  gShortFileSizeFormat:=cbShortFileSizeFormat.Checked;
-
-  if rbScrollLineByLineCursor.Checked then
-    gScrollMode:= smLineByLineCursor
-  else if rbScrollLineByLine.Checked then
-    gScrollMode:= smLineByLine
-  else if rbScrollPageByPage.Checked then
-    gScrollMode:= smPageByPage;
-  gWheelScrollLines:= seWheelScrollLines.Value;
-
-  gMinimizeToTray:= cbMinimizeToTray.Checked;
-  gAlwaysShowTrayIcon:= cbAlwaysShowTrayIcon.Checked;
-  gDateTimeFormat := cbDateTimeFormat.Text;
-  gRenameSelOnlyName:= cbRenameSelOnlyName.Checked;
-  gCutTextToColWidth:= cbCutTextToColWidth.Checked;
-  gDriveBlackList:= ledDriveBlackList.Text;
-  gShowSystemFiles:= cbShowSystemFiles.Checked;
-  gListFilesInThread:= cbListFilesInThread.Checked;
-  gLoadIconsSeparately:= cbLoadIconsSeparately.Checked;
-  
-  gMouseSelectionEnabled := cbSelectionByMouse.Checked;
-  gMouseSelectionButton := cbMouseMode.ItemIndex;
-
-  gAutoFillColumns:= chkAutoFillColumns.Checked;
-  gAutoSizeColumn:= cmbAutoSizeColumn.ItemIndex;
-
   { Tools page }
   gExternalTools := tmpExternalTools;
   gColCount := seNumberColumnsViewer.Value;
@@ -2141,6 +2017,8 @@ begin
   gUseTrash:= cbDeleteToTrash.Checked;
   gShowDialogOnDragDrop := cbShowDialogOnDragDrop.Checked;
   gSaveThumb := cbSaveThubnails.Checked;
+  cbRenameSelOnlyName.Checked:= gRenameSelOnlyName;
+  gRenameSelOnlyName:= cbRenameSelOnlyName.Checked;
 
   { Log file }
   gLogFile := cbLogFile.Checked;

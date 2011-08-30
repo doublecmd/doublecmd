@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="121">
+    <Units Count="122">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -947,6 +947,13 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsLanguage"/>
       </Unit120>
+      <Unit121>
+        <Filename Value="frames\foptionsbehaviour.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsBehavior"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsBehaviour"/>
+      </Unit121>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
