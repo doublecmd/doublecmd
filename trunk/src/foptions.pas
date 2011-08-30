@@ -1420,6 +1420,7 @@ begin
   for I:= 0 to OptionsEditorClassList.Count - 1 do
   begin
     aOptionsEditor:= OptionsEditorClassList[I].OptionsEditorClass.Create(Self);
+    aOptionsEditor.Align := alClient;
     aOptionsEditor.Parent:= nbNotebook.Page[Integer(OptionsEditorClassList[I].OptionsEditorType)];
     FOptionsEditorList.Add(aOptionsEditor);
   end;

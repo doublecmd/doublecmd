@@ -1,7 +1,6 @@
 inherited frmOptionsToolTips: TfrmOptionsToolTips
   Height = 415
   Width = 599
-  Align = alClient
   AutoSize = True
   ClientHeight = 415
   ClientWidth = 599
