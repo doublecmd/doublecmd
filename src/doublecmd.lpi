@@ -10,6 +10,7 @@
       </Flags>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
+      <AutoCreateForms Value="False"/>
       <Title Value="Double Commander"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
