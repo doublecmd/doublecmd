@@ -284,7 +284,6 @@ type
     lblRunTerm: TLabel;
     lblRunInTerm: TLabel;
     lblViewerFont: TLabel;
-    lngList: TListBox;
     cbLogArcOp: TCheckBox;
     cbLogCpMvLn: TCheckBox;
     cbLogDelete: TCheckBox;
@@ -441,7 +440,6 @@ type
     }
     procedure FillHKControlList();
   public
-    procedure FillLngListBox;
     procedure FillFontLists;
     procedure FillColumnsList;
     procedure FillCommandsPage;
@@ -461,7 +459,7 @@ uses
   uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
   uTypes, StrUtils, uFindEx, uKeyboard,
   fMaskInputDlg, uSearchTemplate, uMultiArc, uFile, uDebug,
-  fOptionsPlugins, fOptionsToolTips, fOptionsColors;
+  fOptionsPlugins, fOptionsToolTips, fOptionsColors, fOptionsLanguage;
 
 const
   stgCmdCommandIndex = 0;
@@ -760,31 +758,6 @@ end;
 procedure TfrmOptions.edtViewerBookFontSizeChange(Sender: TObject);
 begin
   edtViewerBookFont.Font.Size := edtViewerBookFontSize.Value;
-end;
-
-procedure TfrmOptions.FillLngListBox;
-var
-  fr:TSearchRecEx;
-  iIndex:Integer;
-  sLangName : String;
-begin
-  lngList.Clear;
-  DCDebug('Language dir: ' + gpLngDir);
-  if FindFirstEx(gpLngDir+'*.po', faAnyFile, fr)<>0 then
-  begin
-    FindCloseEx(fr);
-    Exit;
-  end;
-  repeat
-    sLangName := GetLanguageName(gpLngDir + fr.Name);
-    lngList.Items.Add(Format('%s = (%s)', [fr.Name, sLangName]));
-  until FindNextEx(fr)<>0;
-  
-  FindCloseEx(fr);
-
-  iIndex:=lngList.Items.IndexOfName(gPOFileName + #32);
-  if iIndex>=0 then
-    lngList.Selected[iIndex]:=True;
 end;
 
 procedure TfrmOptions.btnOKClick(Sender: TObject);
@@ -2040,7 +2013,6 @@ begin
   memIgnoreList.Lines.Assign(glsIgnoreList);
   chkIgnoreEnableChange(chkIgnoreEnable);
 
-  FillLngListBox;
   FillFontLists;
 
   FillColumnsList;
@@ -2057,6 +2029,7 @@ end;
 procedure TfrmOptions.SaveConfig;
 var
   I: LongInt;
+  NeedsRestart: Boolean = False;
 begin
   { Layout page }
   gMainMenu := cbShowMainMenu.Checked;
@@ -2286,25 +2259,24 @@ begin
 
 //-------------------------------------------------
   if (gIconsSizeNew <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) or
-     (gShowIconsNew <> gShowIcons) or ((lngList.ItemIndex>-1) and
-     (Trim(gPOFileName) <> Trim(lngList.Items.Names[lngList.ItemIndex]))) then
+     (gShowIconsNew <> gShowIcons) then
     begin
       gIconsSizeNew:= StrToInt(Copy(cbIconsSize.Text, 1, 2)); // new file panel icons size
-      if lngList.ItemIndex > -1 then
-        gPOFileName:= Trim(lngList.Items.Names[lngList.ItemIndex]); // new language file
-      msgOk(rsMsgRestartForApplyChanges);
+      NeedsRestart := True;
     end;
-//-------------------------------------------------
-
-  frmMain.UpdateWindowView;
-  frmMain.Repaint; // for panels repaint
 
   {save hot keys file}
   gNameSCFile := lbSCFilesList.GetSelectedText;
 
   { Save options from frames }
   for I:= 0 to FOptionsEditorList.Count - 1 do
-    FOptionsEditorList[I].Save;
+    if oesfNeedsRestart in FOptionsEditorList[I].Save then
+      NeedsRestart := True;
+
+  if NeedsRestart then
+    msgOk(rsMsgRestartForApplyChanges);
+
+  frmMain.UpdateWindowView;
 end;
 
 procedure TfrmOptions.DeleteHotkeyFromGrid(aHotkey: String);

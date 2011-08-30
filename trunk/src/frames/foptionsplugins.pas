@@ -74,7 +74,7 @@ type
     procedure Done; override;
   public
     procedure Load; override;
-    procedure Save; override;
+    function Save: TOptionsEditorSaveFlags; override;
   end; 
 
 var
@@ -603,7 +603,7 @@ begin
   tmpWLXPlugins.Assign(gWLXPlugins);
 end;
 
-procedure TfrmOptionsPlugins.Save;
+function TfrmOptionsPlugins.Save: TOptionsEditorSaveFlags;
 begin
   { Set plugins lists }
   gDSXPlugins.Assign(tmpDSXPlugins);
@@ -611,6 +611,7 @@ begin
   gWDXPlugins.Assign(tmpWDXPlugins);
   gWFXPlugins.Assign(tmpWFXPlugins);
   gWLXPlugins.Assign(tmpWLXPlugins);
+  Result := [];
 end;
 
 initialization

@@ -100,7 +100,7 @@ type
     procedure Done; override;
   public
     procedure Load; override;
-    procedure Save; override;
+    function Save: TOptionsEditorSaveFlags; override;
   end; 
 
 implementation
@@ -490,7 +490,7 @@ begin
   tbInactivePanelBrightness.Position:= gInactivePanelBrightness;
 end;
 
-procedure TfrmOptionsColors.Save;
+function TfrmOptionsColors.Save: TOptionsEditorSaveFlags;
 begin
   gForeColor := cbTextColor.Selected;
   gBackColor := cbBackColor.Selected; // background color
@@ -501,6 +501,7 @@ begin
   gUseInvertedSelection := cbbUseInvertedSelection.Checked;
   gInactivePanelBrightness := tbInactivePanelBrightness.Position;
   gUseFrameCursor := cbbUseFrameCursor.Checked;
+  Result := [];
 end;
 
 initialization

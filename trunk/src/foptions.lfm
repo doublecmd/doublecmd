@@ -128,20 +128,9 @@ object frmOptions: TfrmOptions
       Top = 24
       Width = 709
       Align = alClient
-      PageIndex = 19
+      PageIndex = 0
       TabOrder = 0
       object pgLng: TPage
-        ClientWidth = 705
-        ClientHeight = 458
-        object lngList: TListBox
-          Left = 0
-          Height = 455
-          Top = 0
-          Width = 703
-          Align = alClient
-          ItemHeight = 0
-          TabOrder = 0
-        end
       end
       object pgBehav: TPage
         ClientWidth = 705

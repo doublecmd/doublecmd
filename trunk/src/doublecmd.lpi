@@ -203,7 +203,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="120">
+    <Units Count="121">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -939,6 +939,13 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWinNetExecuteOperation"/>
       </Unit119>
+      <Unit120>
+        <Filename Value="frames\foptionslanguage.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsLanguage"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsLanguage"/>
+      </Unit120>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
