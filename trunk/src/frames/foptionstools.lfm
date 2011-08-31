@@ -14,7 +14,6 @@ inherited frmOptionsTools: TfrmOptionsTools
     Columns = <    
       item
         Title.Caption = 'Tool'
-        Title.PrefixOption = poNone
         Width = 138
       end>
     ExtendedSelect = False
