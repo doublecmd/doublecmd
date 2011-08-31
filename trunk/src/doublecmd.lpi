@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="123">
+    <Units Count="124">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -961,6 +961,13 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsTools"/>
       </Unit122>
+      <Unit123>
+        <Filename Value="frames\foptionshotkeys.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsHotkeys"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsHotkeys"/>
+      </Unit123>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
