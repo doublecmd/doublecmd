@@ -114,8 +114,6 @@ type
     chkIgnoreEnable: TCheckBox;
     cmbTabsPosition: TComboBox;
     cbSortMethod: TComboBox;
-    cbBackgroundColorViewerBook: TColorBox;
-    cbFontColorViewerBook: TColorBox;
     dlgFnt: TFontDialog;
     edHotKey: TEdit;
     edtViewerBookFont: TEdit;
@@ -262,7 +260,6 @@ type
     cbLogSuccess: TCheckBox;
     nbNotebook: TNotebook;
     odOpenDialog: TOpenDialog;
-    optColorDialog: TColorDialog;
     pgQuickSearch: TPage;
     pgConfigStorage: TPage;
     pgLogFile: TPage;
@@ -306,28 +303,20 @@ type
     procedure btnAddSelClick(Sender: TObject);
     procedure btnAddSelWithPathClick(Sender: TObject);
     procedure btnAutoConfigClick(Sender: TObject);
-    procedure btnBackViewerColorClick(Sender: TObject);
     procedure btnConfigApplyClick(Sender: TObject);
     procedure btnConfigEditClick(Sender: TObject);
-    procedure btnFontViewerColorClick(Sender: TObject);
     procedure btnMultiArcAddClick(Sender: TObject);
     procedure btnMultiArcApplyClick(Sender: TObject);
     procedure btnMultiArcDeleteClick(Sender: TObject);
     procedure btnMultiArcRenameClick(Sender: TObject);
     procedure btnSelViewerBookFntClick(Sender: TObject);
     procedure cbIconsSizeChange(Sender: TObject);
-    procedure cbToolsKeepTerminalOpenChange(Sender: TObject);
-    procedure cbToolsRunInTerminalChange(Sender: TObject);
-    procedure cbToolsUseExternalProgramChange(Sender: TObject);
     procedure cbWatchExcludeDirsChange(Sender: TObject);
     procedure cgHKControlsItemClick(Sender: TObject; Index: integer);
     procedure chkIgnoreEnableChange(Sender: TObject);
     procedure chkMultiArcEnabledChange(Sender: TObject);
     procedure chkSaveConfigurationChange(Sender: TObject);
-    procedure edtToolsParametersChange(Sender: TObject);
     procedure edtViewerBookFontSizeChange(Sender: TObject);
-    procedure fneToolsPathAcceptFileName(Sender: TObject; var Value: String);
-    procedure fneToolsPathChange(Sender: TObject);
     procedure lbSCFilesListSelectionChange(Sender: TObject; User: boolean);
     procedure lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
     procedure OnAutoRefreshOptionChanged(Sender: TObject);
@@ -337,7 +326,6 @@ type
     procedure btnDelColumnsSetClick(Sender: TObject);
     procedure btnEditColumnsSetClick(Sender: TObject);
     procedure btnNewColumnsSetClick(Sender: TObject);
-    procedure cbColorBoxChange(Sender: TObject);
     procedure cbShowDiskPanelChange(Sender: TObject);
     procedure cbTermWindowChange(Sender: TObject);
     procedure edtFilterChange(Sender: TObject);
@@ -358,24 +346,18 @@ type
     procedure FormShow(Sender: TObject);
     procedure lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
     procedure nbNotebookPageChanged(Sender: TObject);
-    procedure pbViewerBookPaint(Sender: TObject);
     procedure rbIconsShowNoneChange(Sender: TObject);
     procedure rbQuickSearchFilterKeyChange(Sender: TObject);
-    procedure seNumberColumnsViewerChange(Sender: TObject);
     procedure stgArchiverCommandsPrepareCanvas(Sender: TObject; aCol,
       aRow: Integer; aState: TGridDrawState);
     procedure stgCommandsResize(Sender: TObject);
     procedure stgCommandsSelectCell(Sender: TObject; aCol, aRow: Integer;
       var CanSelect: Boolean);
     procedure stgHotkeysSelectCell(Sender: TObject; aCol, aRow: Integer; var CanSelect: Boolean);
-    procedure stgToolsSelectCell(Sender: TObject; aCol, aRow: Integer;
-      var CanSelect: Boolean);
     procedure tbArchiverAdditionalShow(Sender: TObject);
     procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
   private
     FOptionsEditorList: TOptionsEditorList;
-    tmpExternalTools: TExternalToolsOptions;
-    FUpdatingTools: Boolean;
 
     procedure DeleteHotkeyFromGrid(aHotkey: String);
     {en
@@ -383,7 +365,6 @@ type
     }
     procedure UpdateHotkeys(HMForm: THMForm);
     procedure UpdateHotkeysForCommand(HMForm: THMForm; RowNr: Integer);
-    procedure ShowExternalToolOptions(ExtTool: TExternalTool);
     procedure FillSCFilesList;
     procedure CreateOptionsEditorList;
     {en
@@ -424,7 +405,7 @@ uses
   uTypes, StrUtils, uFindEx, uKeyboard,
   fMaskInputDlg, uSearchTemplate, uMultiArc, uFile, uDebug,
   fOptionsPlugins, fOptionsToolTips, fOptionsColors, fOptionsLanguage,
-  fOptionsBehaviour;
+  fOptionsBehaviour, fOptionsTools;
 
 const
   stgCmdCommandIndex = 0;
@@ -441,10 +422,6 @@ const
   stgArchiveIDSeekRange          = 7;
   stgArchivePasswordQuery        = 8;
   stgArchiveFormMode             = 9;
-
-const
-  // Tools page: what tool is displayed in each row.
-  ExtToolFromRow: array[0..2] of TExternalTool = (etViewer, etEditor, etDiffer);
 
 function StListToStr(separator:string; const lStList:TStringList; duplicates: boolean = true):string;
 //< convert stringlist to string
@@ -475,8 +452,6 @@ end;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
-  FUpdatingTools := False;
-
   // Localize some ComboBox
   ParseLineToList(rsOptTabsPosition, cmbTabsPosition.Items);
   ParseLineToList(rsOptSortMethod, cbSortMethod.Items);
@@ -529,17 +504,6 @@ begin
   rbLetterQF.Caption        := rbLetterQS.Caption;
   rbNoneQF.Caption          := rbNoneQS.Caption;
 
-  // Disable focus rectangle on tools grid.
-  stgTools.FocusRectVisible := False;
-  // Localize tools names.
-  stgTools.Cells[0, stgTools.FixedRows + 0] := rsToolViewer;
-  stgTools.Cells[0, stgTools.FixedRows + 1] := rsToolEditor;
-  stgTools.Cells[0, stgTools.FixedRows + 2] := rsToolDiffer;
-  // Enable/disable tools controls.
-  FUpdatingTools := True;
-  cbToolsUseExternalProgramChange(nil);
-  FUpdatingTools := False;
-
   // Localize Hotkeys.
   // stgCommands is localized in FillCommandList.
   stgHotkeys.Columns.Items[0].Title.Caption := rsOptHotkeysHotkey;
@@ -576,7 +540,6 @@ begin
   nbNotebook.OnPageChanged := @nbNotebookPageChanged;
   {$endif}
 
-  gbViewerBookMode.Enabled := not (cbToolsUseExternalProgram.Checked);
   FillSCFilesList;
 end;
 
@@ -655,11 +618,6 @@ begin
 
   // Select the new shortcut in the hotkeys table.
   stgHotkeys.Row := stgHotkeys.Cols[0].IndexOf(sShortCut);
-end;
-
-procedure TfrmOptions.cbColorBoxChange(Sender: TObject);
-begin
-  pbViewerBook.Repaint;
 end;
 
 procedure TfrmOptions.cbShowDiskPanelChange(Sender: TObject);
@@ -933,11 +891,6 @@ begin
   rbLetterQS.Enabled        := not rbLetterQF.Checked;
 end;
 
-procedure TfrmOptions.seNumberColumnsViewerChange(Sender: TObject);
-begin
-  pbViewerBook.Repaint;
-end;
-
 procedure TfrmOptions.stgArchiverCommandsPrepareCanvas(Sender: TObject; aCol,
   aRow: Integer; aState: TGridDrawState);
 begin
@@ -1020,18 +973,6 @@ begin
   end;
 end;
 
-procedure TfrmOptions.stgToolsSelectCell(Sender: TObject; aCol, aRow: Integer;
-  var CanSelect: Boolean);
-begin
-  aRow := aRow - stgTools.FixedRows;
-  if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
-  begin
-    FUpdatingTools := True;
-    ShowExternalToolOptions(ExtToolFromRow[aRow]);
-    FUpdatingTools := False;
-  end;
-end;
-
 procedure TfrmOptions.tbArchiverAdditionalShow(Sender: TObject);
 var
   I, J: LongInt;
@@ -1043,15 +984,6 @@ begin
     if J > iWidth then iWidth:= J;
   end;
   stgArchiverCommands.ColWidths[0]:= iWidth + 12;
-end;
-
-procedure TfrmOptions.btnFontViewerColorClick(Sender: TObject);
-begin
-  optColorDialog.Color:= cbFontColorViewerBook.Selected;
-  if optColorDialog.Execute then
-  begin
-    SetColorInColorBox(cbFontColorViewerBook, optColorDialog.Color);
-  end;
 end;
 
 procedure TfrmOptions.btnMultiArcAddClick(Sender: TObject);
@@ -1393,30 +1325,6 @@ begin
   nbNotebook.Page[nbNotebook.PageIndex].Height := nbNotebook.Height - 8;
 end;
 
-procedure TfrmOptions.pbViewerBookPaint(Sender: TObject);
-var
-  i, numb, x, y: integer;
-  sStr: String;
-begin
-  sStr:= 'Text';
-  with pbViewerBook.Canvas do
-  begin
-    Font.Name := edtViewerBookFont.Text;
-    Font.Size := edtViewerBookFontSize.Value;
-    x:= TextWidth(sStr);
-    y:= TextHeight(sStr);
-    pbViewerBook.Width := (x + 10) * seNumberColumnsViewer.Value;
-    Brush.Color := cbBackgroundColorViewerBook.Selected;
-    Font.Color := cbFontColorViewerBook.Selected;
-    FillRect(0, 0, pbViewerBook.Width, pbViewerBook.Height);
-    for i:= 0 to seNumberColumnsViewer.Value - 1 do
-    begin
-      for numb:= 0 to 1 do
-      TextOut(i * (x + 5) + 5, y * numb + 4, sStr);
-    end;
-  end;
-end;
-
 procedure TfrmOptions.cbIconsSizeChange(Sender: TObject);
 var
   bmpTemp: TBitmap;
@@ -1430,54 +1338,6 @@ begin
   bmpTemp:= PixmapManager.GetDefaultDriveIcon(iSize, pnlIconExample.Color);
   imgIconExample.Picture.Bitmap.Assign(bmpTemp);
   FreeThenNil(bmpTemp);
-end;
-
-procedure TfrmOptions.cbToolsKeepTerminalOpenChange(Sender: TObject);
-var
-  aRow: Integer;
-begin
-  if not FUpdatingTools then
-  begin
-    aRow := stgTools.Row - stgTools.FixedRows;
-    if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
-      tmpExternalTools[ExtToolFromRow[aRow]].KeepTerminalOpen := cbToolsKeepTerminalOpen.Checked;
-  end;
-end;
-
-procedure TfrmOptions.cbToolsRunInTerminalChange(Sender: TObject);
-var
-  aRow: Integer;
-begin
-  cbToolsKeepTerminalOpen.Enabled := cbToolsRunInTerminal.Checked;
-
-  if not FUpdatingTools then
-  begin
-    aRow := stgTools.Row - stgTools.FixedRows;
-    if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
-      tmpExternalTools[ExtToolFromRow[aRow]].RunInTerminal := cbToolsRunInTerminal.Checked;
-  end;
-end;
-
-procedure TfrmOptions.cbToolsUseExternalProgramChange(Sender: TObject);
-var
-  aRow: Integer;
-begin
-  lblToolsPath.Enabled            := cbToolsUseExternalProgram.Checked;
-  fneToolsPath.Enabled            := cbToolsUseExternalProgram.Checked;
-  lblToolsParameters.Enabled      := cbToolsUseExternalProgram.Checked;
-  edtToolsParameters.Enabled      := cbToolsUseExternalProgram.Checked;
-  cbToolsRunInTerminal.Enabled    := cbToolsUseExternalProgram.Checked;
-  cbToolsKeepTerminalOpen.Enabled := cbToolsUseExternalProgram.Checked;
-  gbViewerBookMode.Enabled        := not (cbToolsUseExternalProgram.Checked);
-  lblBackgroundColorViewerBook.Enabled := not (cbToolsUseExternalProgram.Checked);
-  lblNumberColumnsViewer.Enabled  := not (cbToolsUseExternalProgram.Checked);
-  lblFontColorViewerBook.Enabled  := not (cbToolsUseExternalProgram.Checked);
-  if not FUpdatingTools then
-  begin
-    aRow := stgTools.Row - stgTools.FixedRows;
-    if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
-      tmpExternalTools[ExtToolFromRow[aRow]].Enabled := cbToolsUseExternalProgram.Checked;
-  end;
 end;
 
 procedure TfrmOptions.cbWatchExcludeDirsChange(Sender: TObject);
@@ -1511,37 +1371,6 @@ begin
   cbCmdLineHistory.Enabled:= chkSaveConfiguration.Checked;
   cbFileMaskHistory.Enabled:= chkSaveConfiguration.Checked;
   chkSearchReplaceHistory.Enabled:= chkSaveConfiguration.Checked;
-end;
-
-procedure TfrmOptions.edtToolsParametersChange(Sender: TObject);
-var
-  aRow: Integer;
-begin
-  if not FUpdatingTools then
-  begin
-    aRow := stgTools.Row - stgTools.FixedRows;
-    if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
-      tmpExternalTools[ExtToolFromRow[aRow]].Parameters := edtToolsParameters.Text;
-  end;
-end;
-
-procedure TfrmOptions.fneToolsPathAcceptFileName(Sender: TObject;
-  var Value: String);
-begin
-  Value:= SetCmdDirAsEnvVar(Value);
-end;
-
-procedure TfrmOptions.fneToolsPathChange(Sender: TObject);
-var
-  aRow: Integer;
-begin
-  if not FUpdatingTools then
-  begin
-    aRow := stgTools.Row - stgTools.FixedRows;
-    if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
-      // Use fneToolsPath.Caption because Filename is one letter behind when typing manually.
-      tmpExternalTools[ExtToolFromRow[aRow]].Path := fneToolsPath.Caption;
-  end;
 end;
 
 procedure TfrmOptions.lbSCFilesListSelectionChange(Sender: TObject;
@@ -1634,15 +1463,6 @@ procedure TfrmOptions.btnAutoConfigClick(Sender: TObject);
 begin
   gMultiArcList.AutoConfigure;
   lbxMultiArcSelectionChange(lbxMultiArc, True);
-end;
-
-procedure TfrmOptions.btnBackViewerColorClick(Sender: TObject);
-begin
-  optColorDialog.Color:= cbBackgroundColorViewerBook.Selected;
-  if optColorDialog.Execute then
-  begin
-    SetColorInColorBox(cbBackgroundColorViewerBook, optColorDialog.Color);
-  end;
 end;
 
 procedure TfrmOptions.btnConfigApplyClick(Sender: TObject);
@@ -1793,14 +1613,6 @@ begin
   cbFreespaceInd.Checked := gDriveInd;
   cbProgInMenuBar.Checked := gProgInMenuBar;
   cbPanelOfOperations.Checked := gPanelOfOp;
-
-  { Tools page }
-  tmpExternalTools := gExternalTools;
-  seNumberColumnsViewer.Value := gColCount;
-
-  { Colors }
-  SetColorInColorBox(cbBackgroundColorViewerBook,gBookBackgroundColor);
-  SetColorInColorBox(cbFontColorViewerBook,gBookFontColor);
 
   { File operations }
   edtCopyBufferSize.Text:= IntToStr(gCopyBlockSize div 1024);
@@ -1961,10 +1773,6 @@ begin
   gProgInMenuBar := cbProgInMenuBar.Checked;
   gPanelOfOp := cbPanelOfOperations.Checked;
 
-  { Tools page }
-  gExternalTools := tmpExternalTools;
-  gColCount := seNumberColumnsViewer.Value;
-
   { Fonts }
   with gFonts[dcfMain] do
   begin
@@ -2000,10 +1808,6 @@ begin
     Size  := edtViewerBookFontSize.Value;
     Style := edtViewerBookFont.Font.Style;
   end;
-
-  { Colors }
-  gBookBackgroundColor := cbBackgroundColorViewerBook.Selected;
-  gBookFontColor := cbFontColorViewerBook.Selected;
 
   { File operations }
   gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
@@ -2186,19 +1990,6 @@ begin
   GetHotKeyList(HMForm, stgCommands.Cells[stgCmdCommandIndex,RowNr],lslHotKeys);
   stgCommands.Cells[stgCmdHotkeysIndex,RowNr]:=StListToStr(';',lslHotKeys,false);
   lslHotKeys.Free;
-end;
-
-procedure TfrmOptions.ShowExternalToolOptions(ExtTool: TExternalTool);
-begin
-  with tmpExternalTools[ExtTool] do
-  begin
-    cbToolsUseExternalProgram.Checked := Enabled;
-    fneToolsPath.FileName             := Path;
-    edtToolsParameters.Text           := Parameters;
-    cbToolsRunInTerminal.Checked      := RunInTerminal;
-    cbToolsKeepTerminalOpen.Checked   := KeepTerminalOpen;
-  end;
-  gbViewerBookMode.Visible := (ExtTool = etViewer);
 end;
 
 end.
