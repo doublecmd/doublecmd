@@ -81,7 +81,6 @@ type
     cbProcessComments: TCheckBox;
     cbTabsConfirmCloseAll: TCheckBox;
     cbTabsLockedAsterisk: TCheckBox;
-    cbTermWindow: TCheckBox;
     cbGridVertLine: TCheckBox;
     cbGridHorzLine: TCheckBox;
     cbShowWarningMessages: TCheckBox;
@@ -96,10 +95,6 @@ type
     cbToolsRunInTerminal: TCheckBox;
     cbToolsKeepTerminalOpen: TCheckBox;
     cbToolsUseExternalProgram: TCheckBox;
-    cbFreespaceInd: TCheckBox;
-    cbProgInMenuBar: TCheckBox;
-    cbPanelOfOperations: TCheckBox;
-    cbShowDriveFreeSpace: TCheckBox;
     cbSaveThubnails: TCheckBox;
     cbShowMainMenu: TCheckBox;
     cbPartialNameSearch: TCheckBox;
@@ -304,8 +299,6 @@ type
     procedure btnDelColumnsSetClick(Sender: TObject);
     procedure btnEditColumnsSetClick(Sender: TObject);
     procedure btnNewColumnsSetClick(Sender: TObject);
-    procedure cbShowDiskPanelChange(Sender: TObject);
-    procedure cbTermWindowChange(Sender: TObject);
     procedure edtEditorFontSizeChange(Sender: TObject);
     procedure edtMainFontSizeChange(Sender: TObject);
     procedure edtViewerFontSizeChange(Sender: TObject);
@@ -348,7 +341,7 @@ uses
   uTypes, StrUtils, uFindEx, uKeyboard,
   fMaskInputDlg, uSearchTemplate, uMultiArc, uFile, uDebug,
   fOptionsPlugins, fOptionsToolTips, fOptionsColors, fOptionsLanguage,
-  fOptionsBehaviour, fOptionsTools, fOptionsHotkeys;
+  fOptionsBehaviour, fOptionsTools, fOptionsHotkeys, fOptionsLayout;
 
 const
   stgArchiveTitle                = 0;
@@ -446,27 +439,6 @@ begin
   nbNotebook.ShowTabs := False;
   nbNotebook.OnPageChanged := @nbNotebookPageChanged;
   {$endif}
-end;
-
-procedure TfrmOptions.cbShowDiskPanelChange(Sender: TObject);
-begin
-  cbTwoDiskPanels.Enabled := cbShowDiskPanel.Checked;
-  cbFlatDiskPanel.Enabled := cbShowDiskPanel.Checked;
-end;
-
-procedure TfrmOptions.cbTermWindowChange(Sender: TObject);
-begin
-  if cbTermWindow.Checked then
-    begin
-      cbShowCmdLine.Tag:= Integer(cbShowCmdLine.Checked);
-      cbShowCmdLine.Checked:= True;
-      cbShowCmdLine.Enabled:= False;
-    end
-  else
-    begin
-      cbShowCmdLine.Checked:= Boolean(cbShowCmdLine.Tag);
-      cbShowCmdLine.Enabled:= True;
-    end;
 end;
 
 procedure TfrmOptions.edtEditorFontSizeChange(Sender: TObject);
@@ -986,29 +958,6 @@ procedure TfrmOptions.LoadConfig;
 var
   I: LongInt;
 begin
-  { Layout page }
-  cbShowMainMenu.Checked := gMainMenu;
-  cbShowMainToolBar.Checked := gButtonBar;
-  cbFlatToolBar.Checked := gToolBarFlat;
-  cbShowDiskPanel.Checked := gDriveBar1;
-  cbTwoDiskPanels.Checked := gDriveBar2;
-  cbFlatDiskPanel.Checked := gDriveBarFlat;
-  cbShowDriveMenuButton.Checked := gDriveMenuButton;
-  cbShowTabs.Checked := gDirectoryTabs;
-  cbShowCurDir.Checked := gCurDir;
-  cbShowTabHeader.Checked := gTabHeader;
-  cbShowStatusBar.Checked := gStatusBar;
-  cbShowCmdLine.Checked := gCmdLine or gTermWindow;
-  cbShowCmdLine.Enabled:= not gTermWindow;
-  cbShowKeysPanel.Checked := gKeyButtons;
-  cbFlatInterface.Checked := gInterfaceFlat;
-  cbLogWindow.Checked := gLogWindow;
-  cbTermWindow.Checked := gTermWindow;
-  cbShowDriveFreeSpace.Checked := gDriveFreeSpace;
-  cbFreespaceInd.Checked := gDriveInd;
-  cbProgInMenuBar.Checked := gProgInMenuBar;
-  cbPanelOfOperations.Checked := gPanelOfOp;
-
   { File operations }
   edtCopyBufferSize.Text:= IntToStr(gCopyBlockSize div 1024);
   cbSkipFileOpError.Checked:= gSkipFileOpError;
@@ -1144,28 +1093,6 @@ var
   I: LongInt;
   NeedsRestart: Boolean = False;
 begin
-  { Layout page }
-  gMainMenu := cbShowMainMenu.Checked;
-  gButtonBar := cbShowMainToolBar.Checked;
-  gToolBarFlat := cbFlatToolBar.Checked;
-  gDriveBar1 := cbShowDiskPanel.Checked;
-  gDriveBar2 := cbTwoDiskPanels.Checked;
-  gDriveBarFlat := cbFlatDiskPanel.Checked;
-  gDriveMenuButton := cbShowDriveMenuButton.Checked;
-  gDirectoryTabs := cbShowTabs.Checked;
-  gCurDir := cbShowCurDir.Checked;
-  gTabHeader := cbShowTabHeader.Checked;
-  gStatusBar := cbShowStatusBar.Checked;
-  gCmdLine := cbShowCmdLine.Checked;
-  gKeyButtons := cbShowKeysPanel.Checked;
-  gInterfaceFlat := cbFlatInterface.Checked;
-  gLogWindow := cbLogWindow.Checked;
-  gTermWindow := cbTermWindow.Checked;
-  gDriveFreeSpace := cbShowDriveFreeSpace.Checked;
-  gDriveInd := cbFreespaceInd.Checked;
-  gProgInMenuBar := cbProgInMenuBar.Checked;
-  gPanelOfOp := cbPanelOfOperations.Checked;
-
   { Fonts }
   with gFonts[dcfMain] do
   begin
