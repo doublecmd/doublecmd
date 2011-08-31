@@ -173,17 +173,14 @@ inherited frmOptionsHotkeys: TfrmOptionsHotkeys
     Columns = <    
       item
         Title.Caption = 'Hotkey'
-        Title.PrefixOption = poNone
         Width = 87
       end    
       item
         Title.Caption = 'Parameters'
-        Title.PrefixOption = poNone
         Width = 87
       end    
       item
         Title.Caption = 'Controls'
-        Title.PrefixOption = poNone
         Width = 87
       end>
     FixedCols = 0
