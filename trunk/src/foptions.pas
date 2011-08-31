@@ -49,15 +49,10 @@ type
     btnAddSelWithPath: TButton;
     btnConfigApply: TBitBtn;
     btnConfigEdit: TBitBtn;
-    btnSelLogFnt: TButton;
-    btnSelEditFnt: TButton;
-    btnSelMainFnt: TButton;
-    btnSelViewFnt: TButton;
     btnNewColumnsSet: TButton;
     btnEditColumnsSet: TButton;
     btnDelColumnsSet: TButton;
     btnCopyColumnsSet: TButton;
-    btnSelViewerBookFnt: TButton;
     btnBackViewerColor: TButton;
     btnFontViewerColor: TButton;
     cbSortCaseSensitive: TCheckBox;
@@ -106,8 +101,6 @@ type
     chkIgnoreEnable: TCheckBox;
     cmbTabsPosition: TComboBox;
     cbSortMethod: TComboBox;
-    dlgFnt: TFontDialog;
-    edtViewerBookFont: TEdit;
     edtArchiveListEnd: TEdit;
     edtArchiveListStart: TEdit;
     edtArchiveAdd: TEdit;
@@ -115,18 +108,10 @@ type
     edtArchiveExtract: TEdit;
     edtArchiveList: TEdit;
     edtDescription: TEdit;
-    edtLogFont: TEdit;
     edtToolsParameters: TEdit;
     edtTabsLimitLength: TEdit;
     edtCopyBufferSize: TEdit;
-    edtEditorFontSize: TSpinEdit;
-    edtMainFontSize: TSpinEdit;
-    edtMainFont: TEdit;
-    edtEditorFont: TEdit;
-    edtViewerFont: TEdit;
-    edtViewerFontSize: TSpinEdit;
     cbLogFile: TCheckBox;
-    edtLogFontSize: TSpinEdit;
     fneArchiver: TFileNameEdit;
     fneToolsPath: TFileNameEdit;
     fneSaveIn: TFileNameEdit;
@@ -167,7 +152,6 @@ type
     lblNumberColumnsViewer: TLabel;
     lblFontColorViewerBook: TLabel;
     lblBackgroundColorViewerBook: TLabel;
-    lblViewerBookFont: TLabel;
     lblSortMethod: TLabel;
     lblArchiveListEnd: TLabel;
     lblArchiveListStart: TLabel;
@@ -183,7 +167,6 @@ type
     lblQuickSearch: TLabel;
     lblQuickFilter: TLabel;
     lblSaveIn: TLabel;
-    lblLogFont: TLabel;
     lbxMultiArc: TListBox;
     memArchiveListFormat: TMemo;
     memIgnoreList: TMemo;
@@ -226,9 +209,6 @@ type
     ilTreeView: TImageList;
     lblChar: TLabel;
     lblCopyBufferSize: TLabel;
-    lblEditorFont: TLabel;
-    lblMainFont: TLabel;
-    lblViewerFont: TLabel;
     cbLogArcOp: TCheckBox;
     cbLogCpMvLn: TCheckBox;
     cbLogDelete: TCheckBox;
@@ -263,7 +243,6 @@ type
     rbUseMmapInSearch: TRadioButton;
     rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
-    edtViewerBookFontSize: TSpinEdit;
     seNumberColumnsViewer: TSpinEdit;
     splMultiArc: TSplitter;
     splOptionsSplitter: TSplitter;
@@ -286,30 +265,20 @@ type
     procedure btnMultiArcApplyClick(Sender: TObject);
     procedure btnMultiArcDeleteClick(Sender: TObject);
     procedure btnMultiArcRenameClick(Sender: TObject);
-    procedure btnSelViewerBookFntClick(Sender: TObject);
     procedure cbIconsSizeChange(Sender: TObject);
     procedure cbWatchExcludeDirsChange(Sender: TObject);
     procedure chkIgnoreEnableChange(Sender: TObject);
     procedure chkMultiArcEnabledChange(Sender: TObject);
     procedure chkSaveConfigurationChange(Sender: TObject);
-    procedure edtViewerBookFontSizeChange(Sender: TObject);
     procedure lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
     procedure OnAutoRefreshOptionChanged(Sender: TObject);
     procedure btnCopyColumnsSetClick(Sender: TObject);
     procedure btnDelColumnsSetClick(Sender: TObject);
     procedure btnEditColumnsSetClick(Sender: TObject);
     procedure btnNewColumnsSetClick(Sender: TObject);
-    procedure edtEditorFontSizeChange(Sender: TObject);
-    procedure edtMainFontSizeChange(Sender: TObject);
-    procedure edtViewerFontSizeChange(Sender: TObject);
-    procedure edtLogFontSizeChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
-    procedure btnSelEditFntClick(Sender: TObject);
-    procedure btnSelMainFntClick(Sender: TObject);
-    procedure btnSelViewFntClick(Sender: TObject);
-    procedure btnSelLogFntClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure nbNotebookPageChanged(Sender: TObject);
@@ -323,7 +292,6 @@ type
     FOptionsEditorList: TOptionsEditorList;
     procedure CreateOptionsEditorList;
   public
-    procedure FillFontLists;
     procedure FillColumnsList;
     procedure FillIgnoreList(bWithFullPath: Boolean);
     procedure FillArchiverList;
@@ -341,7 +309,8 @@ uses
   uTypes, StrUtils, uFindEx, uKeyboard,
   fMaskInputDlg, uSearchTemplate, uMultiArc, uFile, uDebug,
   fOptionsPlugins, fOptionsToolTips, fOptionsColors, fOptionsLanguage,
-  fOptionsBehaviour, fOptionsTools, fOptionsHotkeys, fOptionsLayout;
+  fOptionsBehaviour, fOptionsTools, fOptionsHotkeys, fOptionsLayout,
+  fOptionsFonts;
 
 const
   stgArchiveTitle                = 0;
@@ -441,31 +410,6 @@ begin
   {$endif}
 end;
 
-procedure TfrmOptions.edtEditorFontSizeChange(Sender: TObject);
-begin
-  edtEditorFont.Font.Size := edtEditorFontSize.Value;
-end;
-
-procedure TfrmOptions.edtMainFontSizeChange(Sender: TObject);
-begin
-  edtMainFont.Font.Size := edtMainFontSize.Value;
-end;
-
-procedure TfrmOptions.edtViewerFontSizeChange(Sender: TObject);
-begin
-  edtViewerFont.Font.Size := edtViewerFontSize.Value;
-end;
-
-procedure TfrmOptions.edtLogFontSizeChange(Sender: TObject);
-begin
-  edtLogFont.Font.Size := edtLogFontSize.Value;
-end;
-
-procedure TfrmOptions.edtViewerBookFontSizeChange(Sender: TObject);
-begin
-  edtViewerBookFont.Font.Size := edtViewerBookFontSize.Value;
-end;
-
 procedure TfrmOptions.btnOKClick(Sender: TObject);
 begin
   // save all configuration
@@ -481,93 +425,6 @@ begin
   // write to config file
   SaveGlobs;
 end;
-
-procedure TfrmOptions.btnSelEditFntClick(Sender: TObject);
-begin
-  dlgFnt.Font.Name  := edtEditorFont.Text;
-  dlgFnt.Font.Size  := edtEditorFontSize.Value;
-  dlgFnt.Font.Style := edtEditorFont.Font.Style;
-  if dlgFnt.Execute then
-    begin
-      edtEditorFont.Text       := dlgFnt.Font.Name;
-      edtEditorFontSize.Value  := dlgFnt.Font.Size;
-      edtEditorFont.Font.Style := dlgFnt.Font.Style;
-    end;
-end;
-
-procedure TfrmOptions.btnSelMainFntClick(Sender: TObject);
-begin
-  dlgFnt.Font.Name  := edtMainFont.Text;
-  dlgFnt.Font.Size  := edtMainFontSize.Value;
-  dlgFnt.Font.Style := edtMainFont.Font.Style;
-  if dlgFnt.Execute then
-    begin
-      edtMainFont.Text       := dlgFnt.Font.Name;
-      edtMainFontSize.Value  := dlgFnt.Font.Size;
-      edtMainFont.Font.Style := dlgFnt.Font.Style;
-    end;
-end;
-
-procedure TfrmOptions.btnSelViewFntClick(Sender: TObject);
-begin
-  dlgFnt.Font.Name  := edtViewerFont.Text;
-  dlgFnt.Font.Size  := edtViewerFontSize.Value;
-  dlgFnt.Font.Style := edtViewerFont.Font.Style;
-  if dlgFnt.Execute then
-    begin
-      edtViewerFont.Text       := dlgFnt.Font.Name;
-      edtViewerFontSize.Value  := dlgFnt.Font.Size;
-      edtViewerFont.Font.Style := dlgFnt.Font.Style;
-    end;
-end;
-
-procedure TfrmOptions.btnSelLogFntClick(Sender: TObject);
-begin
-  dlgFnt.Font.Name  := edtLogFont.Text;
-  dlgFnt.Font.Size  := edtLogFontSize.Value;
-  dlgFnt.Font.Style := edtLogFont.Font.Style;
-  if dlgFnt.Execute then
-    begin
-      edtLogFont.Text       := dlgFnt.Font.Name;
-      edtLogFontSize.Value  := dlgFnt.Font.Size;
-      edtLogFont.Font.Style := dlgFnt.Font.Style;
-    end;
-end;
-
-procedure TfrmOptions.btnSelViewerBookFntClick(Sender: TObject);
-begin
-  dlgFnt.Font.Name  := edtViewerBookFont.Text;
-  dlgFnt.Font.Size  := edtViewerBookFontSize.Value;
-  dlgFnt.Font.Style := edtViewerBookFont.Font.Style;
-  if dlgFnt.Execute then
-    begin
-      edtViewerBookFont.Text       := dlgFnt.Font.Name;
-      edtViewerBookFontSize.Value  := dlgFnt.Font.Size;
-      edtViewerBookFont.Font.Style := dlgFnt.Font.Style;
-    end;
-end;
-
-procedure TfrmOptions.FillFontLists;
-begin
-  edtMainFont.Text   := gFonts[dcfMain].Name;
-  edtEditorFont.Text := gFonts[dcfEditor].Name;
-  edtViewerFont.Text := gFonts[dcfViewer].Name;
-  edtLogFont.Text    := gFonts[dcfLog].Name;
-  edtViewerBookFont.Text := gFonts[dcfViewerBook].Name;
-
-  edtMainFontSize.Value   := gFonts[dcfMain].Size;
-  edtEditorFontSize.Value := gFonts[dcfEditor].Size;
-  edtViewerFontSize.Value := gFonts[dcfViewer].Size;
-  edtLogFontSize.Value    := gFonts[dcfLog].Size;
-  edtViewerBookFontSize.Value := gFonts[dcfViewerBook].Size;
-
-  FontOptionsToFont(gFonts[dcfMain], edtMainFont.Font);
-  FontOptionsToFont(gFonts[dcfEditor], edtEditorFont.Font);
-  FontOptionsToFont(gFonts[dcfViewer], edtViewerFont.Font);
-  FontOptionsToFont(gFonts[dcfLog], edtLogFont.Font);
-  FontOptionsToFont(gFonts[dcfViewerBook], edtViewerBookFont.Font);
-end;
-
 
 procedure TfrmOptions.FormDestroy(Sender: TObject);
 begin
@@ -1077,8 +934,6 @@ begin
   memIgnoreList.Lines.Assign(glsIgnoreList);
   chkIgnoreEnableChange(chkIgnoreEnable);
 
-  FillFontLists;
-
   FillColumnsList;
   // fill archiver list
   FillArchiverList;
@@ -1093,42 +948,6 @@ var
   I: LongInt;
   NeedsRestart: Boolean = False;
 begin
-  { Fonts }
-  with gFonts[dcfMain] do
-  begin
-    Name  := edtMainFont.Text;
-    Size  := edtMainFontSize.Value;
-    Style := edtMainFont.Font.Style;
-  end;
-
-  with gFonts[dcfEditor] do
-  begin
-    Name  := edtEditorFont.Text;
-    Size  := edtEditorFontSize.Value;
-    Style := edtEditorFont.Font.Style;
-  end;
-
-  with gFonts[dcfViewer] do
-  begin
-    Name  := edtViewerFont.Text;
-    Size  := edtViewerFontSize.Value;
-    Style := edtViewerFont.Font.Style;
-  end;
-
-  with gFonts[dcfLog] do
-  begin
-    Name  := edtLogFont.Text;
-    Size  := edtLogFontSize.Value;
-    Style := edtLogFont.Font.Style;
-  end;
-
-  with gFonts[dcfViewerBook] do
-  begin
-    Name  := edtViewerBookFont.Text;
-    Size  := edtViewerBookFontSize.Value;
-    Style := edtViewerBookFont.Font.Style;
-  end;
-
   { File operations }
   gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
   gSkipFileOpError:= cbSkipFileOpError.Checked;
