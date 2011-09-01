@@ -1,0 +1,157 @@
+inherited frmOptionsConfiguration: TfrmOptionsConfiguration
+  Height = 339
+  Width = 594
+  ClientHeight = 339
+  ClientWidth = 594
+  object gbLocConfigFiles: TGroupBox[0]
+    Left = 10
+    Height = 114
+    Top = 6
+    Width = 566
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    Caption = 'Location of configuration files'
+    ChildSizing.LeftRightSpacing = 10
+    ChildSizing.TopBottomSpacing = 5
+    ChildSizing.VerticalSpacing = 5
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ClientHeight = 92
+    ClientWidth = 562
+    TabOrder = 0
+    object rbProgramDir: TRadioButton
+      Left = 10
+      Height = 25
+      Top = 5
+      Width = 268
+      Caption = 'Program directory (portable version)'
+      Checked = True
+      TabOrder = 0
+      TabStop = True
+    end
+    object rbUserHomeDir: TRadioButton
+      Left = 10
+      Height = 25
+      Top = 35
+      Width = 268
+      Caption = 'User home directory'
+      TabOrder = 1
+    end
+    object lblCmdLineConfigDir: TLabel
+      Left = 10
+      Height = 22
+      Top = 65
+      Width = 268
+      Caption = 'Set on command line'
+      ParentColor = False
+      Visible = False
+    end
+  end
+  object gbSaveOnExit: TGroupBox[1]
+    AnchorSideTop.Control = btnConfigEdit
+    AnchorSideTop.Side = asrBottom
+    Left = 10
+    Height = 165
+    Top = 162
+    Width = 562
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Top = 6
+    Caption = 'Save on exit'
+    ChildSizing.TopBottomSpacing = 5
+    ClientHeight = 143
+    ClientWidth = 558
+    TabOrder = 1
+    object cbDirHistory: TCheckBox
+      AnchorSideLeft.Control = chkSaveConfiguration
+      AnchorSideTop.Control = chkSearchReplaceHistory
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 25
+      Top = 59
+      Width = 136
+      BorderSpacing.Top = 2
+      Caption = 'Directory history'
+      TabOrder = 0
+    end
+    object cbCmdLineHistory: TCheckBox
+      AnchorSideLeft.Control = chkSaveConfiguration
+      AnchorSideTop.Control = cbDirHistory
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 25
+      Top = 86
+      Width = 175
+      BorderSpacing.Top = 2
+      Caption = 'Command line history'
+      TabOrder = 1
+    end
+    object cbFileMaskHistory: TCheckBox
+      AnchorSideLeft.Control = chkSaveConfiguration
+      AnchorSideTop.Control = cbCmdLineHistory
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 25
+      Top = 113
+      Width = 141
+      BorderSpacing.Top = 2
+      Caption = 'File mask history'
+      TabOrder = 2
+    end
+    object chkSaveConfiguration: TCheckBox
+      AnchorSideLeft.Control = gbSaveOnExit
+      AnchorSideTop.Control = gbSaveOnExit
+      Left = 10
+      Height = 25
+      Top = 5
+      Width = 153
+      BorderSpacing.Left = 10
+      Caption = 'Save configuration'
+      OnChange = chkSaveConfigurationChange
+      TabOrder = 3
+    end
+    object chkSearchReplaceHistory: TCheckBox
+      AnchorSideLeft.Control = chkSaveConfiguration
+      AnchorSideTop.Control = chkSaveConfiguration
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 25
+      Top = 32
+      Width = 184
+      BorderSpacing.Top = 2
+      Caption = 'Search/Replace history'
+      TabOrder = 4
+    end
+  end
+  object btnConfigEdit: TBitBtn[2]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbLocConfigFiles
+    AnchorSideTop.Side = asrBottom
+    Left = 10
+    Height = 30
+    Top = 126
+    Width = 116
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 6
+    Caption = 'Edit'
+    NumGlyphs = 0
+    OnClick = btnConfigEditClick
+    TabOrder = 2
+  end
+  object btnConfigApply: TBitBtn[3]
+    AnchorSideLeft.Control = btnConfigEdit
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = gbLocConfigFiles
+    AnchorSideTop.Side = asrBottom
+    Left = 136
+    Height = 30
+    Top = 126
+    Width = 116
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 6
+    Caption = 'Apply'
+    Enabled = False
+    NumGlyphs = 0
+    OnClick = btnConfigApplyClick
+    TabOrder = 3
+  end
+end

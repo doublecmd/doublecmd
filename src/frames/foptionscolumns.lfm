@@ -1,0 +1,121 @@
+inherited frmOptionsColumns: TfrmOptionsColumns
+  Height = 372
+  Width = 730
+  ClientHeight = 372
+  ClientWidth = 730
+  object lblConfigColumns: TLabel[0]
+    AnchorSideTop.Control = cbbFileSystem
+    AnchorSideTop.Side = asrCenter
+    Left = 7
+    Height = 22
+    Top = 3
+    Width = 229
+    Caption = 'Configure columns for file system:'
+    ParentColor = False
+  end
+  object cbbFileSystem: TComboBox[1]
+    AnchorSideLeft.Control = lblConfigColumns
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 240
+    Height = 29
+    Top = 0
+    Width = 484
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 4
+    BorderSpacing.Right = 6
+    ItemHeight = 21
+    ItemIndex = 0
+    Items.Strings = (
+      'General'
+    )
+    Style = csDropDownList
+    TabOrder = 0
+    Text = 'General'
+  end
+  object lstColumnsSets: TListBox[2]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = cbbFileSystem
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = pnlButtons
+    Left = 6
+    Height = 279
+    Top = 35
+    Width = 718
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 6
+    ItemHeight = 0
+    OnDblClick = btnEditColumnsSetClick
+    TabOrder = 1
+  end
+  object pnlButtons: TPanel[3]
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 7
+    Height = 46
+    Top = 320
+    Width = 717
+    Anchors = [akLeft, akRight, akBottom]
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 6
+    ClientHeight = 46
+    ClientWidth = 717
+    TabOrder = 2
+    object btnNewColumnsSet: TButton
+      AnchorSideLeft.Control = pnlButtons
+      Left = 7
+      Height = 32
+      Top = 7
+      Width = 118
+      BorderSpacing.Left = 6
+      Caption = '&New'
+      OnClick = btnNewColumnsSetClick
+      TabOrder = 0
+    end
+    object btnEditColumnsSet: TButton
+      AnchorSideLeft.Control = btnNewColumnsSet
+      AnchorSideLeft.Side = asrBottom
+      Left = 131
+      Height = 32
+      Top = 7
+      Width = 116
+      BorderSpacing.Left = 6
+      Caption = 'Edit'
+      OnClick = btnEditColumnsSetClick
+      TabOrder = 1
+    end
+    object btnDelColumnsSet: TButton
+      AnchorSideRight.Control = btnCopyColumnsSet
+      Left = 481
+      Height = 32
+      Top = 7
+      Width = 112
+      Anchors = [akTop, akRight]
+      BorderSpacing.Right = 6
+      Caption = 'Delete'
+      OnClick = btnDelColumnsSetClick
+      TabOrder = 2
+    end
+    object btnCopyColumnsSet: TButton
+      AnchorSideRight.Control = pnlButtons
+      AnchorSideRight.Side = asrBottom
+      Left = 599
+      Height = 32
+      Top = 7
+      Width = 111
+      Anchors = [akTop, akRight]
+      BorderSpacing.Right = 6
+      Caption = 'Copy'
+      OnClick = btnCopyColumnsSetClick
+      TabOrder = 3
+    end
+  end
+end
