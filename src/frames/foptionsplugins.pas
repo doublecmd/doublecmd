@@ -27,9 +27,8 @@ unit fOptionsPlugins;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, ComCtrls, StdCtrls, Grids,
-  Buttons, fOptionsFrame, uDSXModule, uWCXModule, uWDXModule,
-  uWFXmodule, uWLXModule;
+  Classes, SysUtils, ComCtrls, StdCtrls, Grids, Buttons,
+  fOptionsFrame, uDSXModule, uWCXModule, uWDXModule, uWFXmodule, uWLXModule;
 
 type
 
@@ -607,6 +606,18 @@ begin
   tmpWDXPlugins.Assign(gWDXPlugins);
   tmpWFXPlugins.Assign(gWFXPlugins);
   tmpWLXPlugins.Assign(gWLXPlugins);
+
+  // Update selected page.
+  if pcPluginsTypes.ActivePage = tsDSX then
+    tsDSXShow(Self)
+  else if pcPluginsTypes.ActivePage = tsWCX then
+    tsWCXShow(Self)
+  else if pcPluginsTypes.ActivePage = tsWDX then
+    tsWDXShow(Self)
+  else if pcPluginsTypes.ActivePage = tsWFX then
+    tsWFXShow(Self)
+  else if pcPluginsTypes.ActivePage = tsWLX then
+    tsWLXShow(Self);
 end;
 
 function TfrmOptionsPlugins.Save: TOptionsEditorSaveFlags;
