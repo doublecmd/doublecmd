@@ -62,6 +62,7 @@ implementation
 {$R *.lfm}
 
 uses
+  ExtCtrls {Lazarus < 31552},
   uDCUtils, uLng, uGlobs;
 
 { TfrmOptionsTabs }
