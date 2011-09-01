@@ -47,12 +47,6 @@ type
     btnMultiArcApply: TBitBtn;
     btnAddSel: TButton;
     btnAddSelWithPath: TButton;
-    btnConfigApply: TBitBtn;
-    btnConfigEdit: TBitBtn;
-    btnNewColumnsSet: TButton;
-    btnEditColumnsSet: TButton;
-    btnDelColumnsSet: TButton;
-    btnCopyColumnsSet: TButton;
     btnBackViewerColor: TButton;
     btnFontViewerColor: TButton;
     cbSortCaseSensitive: TCheckBox;
@@ -64,10 +58,6 @@ type
     cbFlatInterface: TCheckBox;
     cbFlatToolBar: TCheckBox;
     cbLogWindow: TCheckBox;
-    cbDirHistory: TCheckBox;
-    cbCmdLineHistory: TCheckBox;
-    cbFileMaskHistory: TCheckBox;
-    cbbFileSystem: TComboBox;
     cbProcessComments: TCheckBox;
     cbGridVertLine: TCheckBox;
     cbGridHorzLine: TCheckBox;
@@ -85,8 +75,6 @@ type
     cbShowMainMenu: TCheckBox;
     chkMultiArcDebug: TCheckBox;
     chkMultiArcOutput: TCheckBox;
-    chkSearchReplaceHistory: TCheckBox;
-    chkSaveConfiguration: TCheckBox;
     chkMultiArcEnabled: TCheckBox;
     chkIgnoreEnable: TCheckBox;
     cbSortMethod: TComboBox;
@@ -99,15 +87,10 @@ type
     edtDescription: TEdit;
     edtToolsParameters: TEdit;
     edtCopyBufferSize: TEdit;
-    cbLogFile: TCheckBox;
     fneArchiver: TFileNameEdit;
     fneToolsPath: TFileNameEdit;
     fneSaveIn: TFileNameEdit;
     gbArchiverOptions: TGroupBox;
-    fneLogFileName: TFileNameEdit;
-    gbLogFile: TGroupBox;
-    gbLogFileOp: TGroupBox;
-    gbLogFileStatus: TGroupBox;
     gbScreenLayout: TGroupBox;
     cbFlatDiskPanel: TCheckBox;
     cbShowMainToolBar: TCheckBox;
@@ -123,8 +106,6 @@ type
     gbCopyBufferSize: TGroupBox;
     gbGeneralOptions: TGroupBox;
     gbFileSearch: TGroupBox;
-    gbLocConfigFiles: TGroupBox;
-    gbSaveOnExit: TGroupBox;
     gbShowGrid: TGroupBox;
     gbExtended: TGroupBox;
     gbShowIconsMode: TGroupBox;
@@ -133,7 +114,6 @@ type
     gbSorting: TGroupBox;
     gbViewerExample: TGroupBox;
     gbViewerBookMode: TGroupBox;
-    lblCmdLineConfigDir: TLabel;
     lblNumberColumnsViewer: TLabel;
     lblFontColorViewerBook: TLabel;
     lblBackgroundColorViewerBook: TLabel;
@@ -169,23 +149,12 @@ type
     imgIconExample: TImage;
     lbcategory: TLabel;
     lblWipePassNumber: TLabel;
-    lblConfigColumns: TLabel;
-    lstColumnsSets: TListBox;
     pgIcons: TPage;
     pgAutoRefresh: TPage;
     pgMisc: TPage;
-    pnlButtons: TPanel;
     pgColumns: TPage;
     ilTreeView: TImageList;
     lblCopyBufferSize: TLabel;
-    cbLogArcOp: TCheckBox;
-    cbLogCpMvLn: TCheckBox;
-    cbLogDelete: TCheckBox;
-    cbLogErrors: TCheckBox;
-    cbLogDirOp: TCheckBox;
-    cbLogVFS: TCheckBox;
-    cbLogInfo: TCheckBox;
-    cbLogSuccess: TCheckBox;
     nbNotebook: TNotebook;
     odOpenDialog: TOpenDialog;
     pgQuickSearch: TPage;
@@ -207,8 +176,6 @@ type
     pgHotKey: TPage;
     pgLng: TPage;
     pgTools: TPage;
-    rbProgramDir: TRadioButton;
-    rbUserHomeDir: TRadioButton;
     rbUseMmapInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
     seNumberColumnsViewer: TSpinEdit;
@@ -227,8 +194,6 @@ type
     procedure btnAddSelClick(Sender: TObject);
     procedure btnAddSelWithPathClick(Sender: TObject);
     procedure btnAutoConfigClick(Sender: TObject);
-    procedure btnConfigApplyClick(Sender: TObject);
-    procedure btnConfigEditClick(Sender: TObject);
     procedure btnMultiArcAddClick(Sender: TObject);
     procedure btnMultiArcApplyClick(Sender: TObject);
     procedure btnMultiArcDeleteClick(Sender: TObject);
@@ -237,13 +202,8 @@ type
     procedure cbWatchExcludeDirsChange(Sender: TObject);
     procedure chkIgnoreEnableChange(Sender: TObject);
     procedure chkMultiArcEnabledChange(Sender: TObject);
-    procedure chkSaveConfigurationChange(Sender: TObject);
     procedure lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
     procedure OnAutoRefreshOptionChanged(Sender: TObject);
-    procedure btnCopyColumnsSetClick(Sender: TObject);
-    procedure btnDelColumnsSetClick(Sender: TObject);
-    procedure btnEditColumnsSetClick(Sender: TObject);
-    procedure btnNewColumnsSetClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
@@ -259,7 +219,6 @@ type
     FOptionsEditorList: TOptionsEditorList;
     procedure CreateOptionsEditorList;
   public
-    procedure FillColumnsList;
     procedure FillIgnoreList(bWithFullPath: Boolean);
     procedure FillArchiverList;
     procedure LoadConfig;
@@ -278,7 +237,7 @@ uses
   fOptionsPlugins, fOptionsToolTips, fOptionsColors, fOptionsLanguage,
   fOptionsBehaviour, fOptionsTools, fOptionsHotkeys, fOptionsLayout,
   fOptionsFonts, fOptionsFileOperations, fOptionsQuickSearchFilter,
-  fOptionsTabs;
+  fOptionsTabs, fOptionsLog, fOptionsConfiguration, fOptionsColumns;
 
 const
   stgArchiveTitle                = 0;
@@ -296,22 +255,6 @@ procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
   // Localize some ComboBox
   ParseLineToList(rsOptSortMethod, cbSortMethod.Items);
-
-  // Show configuration directory
-  if gpCmdLineCfgDir = '' then
-  begin
-    rbProgramDir.Caption:= rbProgramDir.Caption + ' - [' + IncludeTrailingPathDelimiter(gpGlobalCfgDir) + ']';
-    rbUserHomeDir.Caption:= rbUserHomeDir.Caption + ' - [' + IncludeTrailingPathDelimiter(GetAppConfigDir) + ']';
-  end
-  else
-  begin
-    rbProgramDir.Visible := False;
-    rbProgramDir.Enabled := False;
-    rbUserHomeDir.Visible := False;
-    rbUserHomeDir.Enabled := False;
-    lblCmdLineConfigDir.Visible := True;
-    lblCmdLineConfigDir.Caption := lblCmdLineConfigDir.Caption + ' - [' + IncludeTrailingPathDelimiter(gpCmdLineCfgDir) + ']';
-  end;
 
   // tvTreeView localization
   with tvTreeView.Items do
@@ -497,15 +440,6 @@ begin
     end;
 end;
 
-procedure TfrmOptions.FillColumnsList;
-begin
- lstColumnsSets.Clear;
- If ColSet.Items.Count>0 then
-   begin
-     lstColumnsSets.Items.AddStrings(ColSet.Items);
-   end;
-end;
-
 procedure TfrmOptions.FillIgnoreList(bWithFullPath: Boolean);
 var
   I: Integer;
@@ -592,14 +526,6 @@ begin
   FEnabled:= chkMultiArcEnabled.Checked;
 end;
 
-procedure TfrmOptions.chkSaveConfigurationChange(Sender: TObject);
-begin
-  cbDirHistory.Enabled:= chkSaveConfiguration.Checked;
-  cbCmdLineHistory.Enabled:= chkSaveConfiguration.Checked;
-  cbFileMaskHistory.Enabled:= chkSaveConfiguration.Checked;
-  chkSearchReplaceHistory.Enabled:= chkSaveConfiguration.Checked;
-end;
-
 procedure TfrmOptions.lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
 begin
   if lbxMultiArc.ItemIndex < 0 then
@@ -678,83 +604,6 @@ begin
   lbxMultiArcSelectionChange(lbxMultiArc, True);
 end;
 
-procedure TfrmOptions.btnConfigApplyClick(Sender: TObject);
-begin
-  gConfig.Load; // force reloading config from file
-  LoadGlobs;
-  LoadConfig;
-  btnConfigApply.Enabled:= False;
-end;
-
-procedure TfrmOptions.btnConfigEditClick(Sender: TObject);
-begin
-  if Assigned(gIni) then
-    ShowEditorByGlob(gpCfgDir + 'doublecmd.ini')
-  else
-    ShowEditorByGlob(gpCfgDir + 'doublecmd.xml');
-  btnConfigApply.Enabled:= True;
-end;
-
-procedure TfrmOptions.btnDelColumnsSetClick(Sender: TObject);
-begin
-  if lstColumnsSets.ItemIndex=-1 then exit;
-  if lstColumnsSets.Count=1 then exit;
-  ColSet.DeleteColumnSet(lstColumnsSets.Items[lstColumnsSets.ItemIndex]);
-  FillColumnsList;
-end;
-
-procedure TfrmOptions.btnEditColumnsSetClick(Sender: TObject);
-var
-  frmColumnsSetConf: TfColumnsSetConf;
-begin
-  //TODO: may be it would be better to show error message?
-  if lstColumnsSets.ItemIndex=-1 then exit;
-  
-  frmColumnsSetConf := TfColumnsSetConf.Create(nil);
-  try
-    {EDIT Set}
-    frmColumnsSetConf.edtNameofColumnsSet.Text:=lstColumnsSets.Items[lstColumnsSets.ItemIndex];
-    frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(lstColumnsSets.ItemIndex+1);
-    frmColumnsSetConf.Tag:=lstColumnsSets.ItemIndex;
-    frmColumnsSetConf.SetColumnsClass(ColSet.GetColumnSet(lstColumnsSets.Items[lstColumnsSets.ItemIndex]));
-    {EDIT Set}
-    frmColumnsSetConf.ShowModal;
-    FillColumnsList;
-  finally
-    FreeAndNil(frmColumnsSetConf);
-  end;
-end;
-
-procedure TfrmOptions.btnCopyColumnsSetClick(Sender: TObject);
-var
-  s: string;
-begin
-  if lstColumnsSets.ItemIndex <> -1 then
-  begin
-    s := lstColumnsSets.Items[lstColumnsSets.ItemIndex];
-    ColSet.CopyColumnSet(s, s + '_Copy');
-    FillColumnsList;
-  end;
-end;
-
-procedure TfrmOptions.btnNewColumnsSetClick(Sender: TObject);
-var
-  frmColumnsSetConf: TfColumnsSetConf;
-begin
-  frmColumnsSetConf := TfColumnsSetConf.Create(nil);
-  try
-    // Create new Set
-    frmColumnsSetConf.edtNameofColumnsSet.Text:='New Columns'+inttostr(ColSet.count);
-    frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(lstColumnsSets.Count+1);
-    frmColumnsSetConf.Tag:=-1;
-    frmColumnsSetConf.SetColumnsClass(nil);
-    frmColumnsSetConf.ShowModal;
-    FillColumnsList;
-  finally
-    FreeAndNil(frmColumnsSetConf);
-  end;
-end;
-
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
 begin
   //DebugLN('Page index == ' + IntToStr(Node.Index));
@@ -766,29 +615,6 @@ procedure TfrmOptions.LoadConfig;
 var
   I: LongInt;
 begin
-  { Log file }
-  cbLogFile.Checked := gLogFile;
-  fneLogFileName.FileName := gLogFileName;
-  cbLogCpMvLn.Checked := (log_cp_mv_ln in gLogOptions);
-  cbLogDelete.Checked := (log_delete in gLogOptions);
-  cbLogDirOp.Checked := (log_dir_op in gLogOptions);
-  cbLogArcOp.Checked := (log_arc_op in gLogOptions);
-  cbLogVFS.Checked := (log_vfs_op in gLogOptions);
-  cbLogSuccess.Checked := (log_success in gLogOptions);
-  cbLogErrors.Checked := (log_errors in gLogOptions);
-  cbLogInfo.Checked := (log_info in gLogOptions);
-
-  { Configuration storage }
-  if gUseConfigInProgramDirNew then
-    rbProgramDir.Checked := True
-  else
-    rbUserHomeDir.Checked := True;
-  chkSaveConfiguration.Checked:= gSaveConfiguration;
-  chkSearchReplaceHistory.Checked:= gSaveSearchReplaceHistory;
-  cbDirHistory.Checked := gSaveDirHistory;
-  cbCmdLineHistory.Checked := gSaveCmdLineHistory;
-  cbFileMaskHistory.Checked := gSaveFileMaskHistory;
-
   { Misc page }
   cbGridVertLine.Checked:= gGridVertLine;
   cbGridHorzLine.Checked:= gGridHorzLine;
@@ -824,7 +650,6 @@ begin
   memIgnoreList.Lines.Assign(glsIgnoreList);
   chkIgnoreEnableChange(chkIgnoreEnable);
 
-  FillColumnsList;
   // fill archiver list
   FillArchiverList;
 
@@ -838,35 +663,6 @@ var
   I: LongInt;
   NeedsRestart: Boolean = False;
 begin
-  { Log file }
-  gLogFile := cbLogFile.Checked;
-  gLogFileName := fneLogFileName.FileName;
-  gLogOptions := []; // Reset log options
-  if cbLogCpMvLn.Checked then
-    Include(gLogOptions, log_cp_mv_ln);
-  if cbLogDelete.Checked then
-    Include(gLogOptions, log_delete);
-  if cbLogDirOp.Checked then
-    Include(gLogOptions, log_dir_op);
-  if cbLogArcOp.Checked then
-    Include(gLogOptions, log_arc_op);
-  if cbLogVFS.Checked then
-    Include(gLogOptions, log_vfs_op);
-  if cbLogSuccess.Checked then
-    Include(gLogOptions, log_success);
-  if cbLogErrors.Checked then
-    Include(gLogOptions, log_errors);
-  if cbLogInfo.Checked then
-    Include(gLogOptions, log_info);
-    
-  { Configuration storage }
-  gUseConfigInProgramDirNew := rbProgramDir.Checked;
-  gSaveConfiguration := chkSaveConfiguration.Checked;
-  gSaveSearchReplaceHistory := chkSearchReplaceHistory.Checked;
-  gSaveDirHistory := cbDirHistory.Checked;
-  gSaveCmdLineHistory := cbCmdLineHistory.Checked;
-  gSaveFileMaskHistory := cbFileMaskHistory.Checked;
-
   { Misc page }
   gGridVertLine:= cbGridVertLine.Checked;
   gGridHorzLine:= cbGridHorzLine.Checked;
