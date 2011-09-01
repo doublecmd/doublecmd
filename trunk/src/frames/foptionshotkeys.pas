@@ -295,8 +295,11 @@ end;
 
 procedure TfrmOptionsHotkeys.lbSCFilesListSelectionChange(Sender: TObject; User: boolean);
 begin
-  HotMan.Load(gpCfgDir + lbSCFilesList.Items[lbSCFilesList.ItemIndex]);
-  FillCommandsPage;
+  if lbSCFilesList.ItemIndex >= 0 then
+  begin
+    HotMan.Load(gpCfgDir + lbSCFilesList.Items[lbSCFilesList.ItemIndex]);
+    FillCommandsPage;
+  end;
 end;
 
 procedure TfrmOptionsHotkeys.lbxCategoriesSelectionChange(Sender: TObject; User: boolean);
@@ -697,8 +700,9 @@ function TfrmOptionsHotkeys.Save: TOptionsEditorSaveFlags;
 begin
   Result := [];
 
-  {save hot keys file}
-  gNameSCFile := lbSCFilesList.Items[lbSCFilesList.ItemIndex];
+  // Save hotkeys file name.
+  if lbSCFilesList.ItemIndex >= 0 then
+    gNameSCFile := lbSCFilesList.Items[lbSCFilesList.ItemIndex];
 end;
 
 initialization
