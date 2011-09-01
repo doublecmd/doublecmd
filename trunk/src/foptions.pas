@@ -31,109 +31,31 @@ unit fOptions;
 interface
 
 uses
-  SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Buttons, Spin, ColorBox,
-  EditBtn, Grids, uGlobs, fOptionsFrame;
+  SysUtils, Classes, Controls, Forms, Dialogs, ExtCtrls, ComCtrls, Buttons,
+  uGlobs, fOptionsFrame;
 
 type
 
   { TfrmOptions }
 
   TfrmOptions = class(TForm)
-    btnAutoConfig: TBitBtn;
-    btnMultiArcAdd: TBitBtn;
-    btnMultiArcDelete: TBitBtn;
-    btnMultiArcRename: TBitBtn;
-    btnMultiArcApply: TBitBtn;
-    btnAddSel: TButton;
-    btnAddSelWithPath: TButton;
-    btnBackViewerColor: TButton;
-    btnFontViewerColor: TButton;
-    cbDropReadOnlyFlag: TCheckBox;
-    cbRenameSelOnlyName: TCheckBox;
-    cbShowCopyTabSelectPanel: TCheckBox;
-    cbFlatInterface: TCheckBox;
-    cbFlatToolBar: TCheckBox;
-    cbLogWindow: TCheckBox;
-    cbProcessComments: TCheckBox;
-    cbDeleteToTrash: TCheckBox;
-    cbSkipFileOpError: TCheckBox;
-    cbShowDialogOnDragDrop: TCheckBox;
-    cbToolsRunInTerminal: TCheckBox;
-    cbToolsKeepTerminalOpen: TCheckBox;
-    cbToolsUseExternalProgram: TCheckBox;
-    cbSaveThubnails: TCheckBox;
-    cbShowMainMenu: TCheckBox;
-    chkMultiArcDebug: TCheckBox;
-    chkMultiArcOutput: TCheckBox;
-    chkMultiArcEnabled: TCheckBox;
-    chkIgnoreEnable: TCheckBox;
-    edtArchiveListEnd: TEdit;
-    edtArchiveListStart: TEdit;
-    edtArchiveAdd: TEdit;
-    edtArchiveExtension: TEdit;
-    edtArchiveExtract: TEdit;
-    edtArchiveList: TEdit;
-    edtDescription: TEdit;
-    edtToolsParameters: TEdit;
-    edtCopyBufferSize: TEdit;
-    fneArchiver: TFileNameEdit;
-    fneToolsPath: TFileNameEdit;
-    fneSaveIn: TFileNameEdit;
-    gbArchiverOptions: TGroupBox;
-    gbScreenLayout: TGroupBox;
-    cbFlatDiskPanel: TCheckBox;
-    cbShowMainToolBar: TCheckBox;
-    cbShowCmdLine: TCheckBox;
-    cbShowCurDir: TCheckBox;
-    cbShowDiskPanel: TCheckBox;
-    cbShowDriveMenuButton: TCheckBox;
-    cbShowKeysPanel: TCheckBox;
-    cbShowStatusBar: TCheckBox;
-    cbShowTabHeader: TCheckBox;
-    cbShowTabs: TCheckBox;
-    cbTwoDiskPanels: TCheckBox;
-    gbCopyBufferSize: TGroupBox;
-    gbGeneralOptions: TGroupBox;
-    gbFileSearch: TGroupBox;
-    gbViewerExample: TGroupBox;
-    gbViewerBookMode: TGroupBox;
-    lblNumberColumnsViewer: TLabel;
-    lblFontColorViewerBook: TLabel;
-    lblBackgroundColorViewerBook: TLabel;
-    lblArchiveListEnd: TLabel;
-    lblArchiveListStart: TLabel;
-    lblArchiveAdd: TLabel;
-    lblArchiveExtension: TLabel;
-    lblArchiveExtract: TLabel;
-    lblArchiveList: TLabel;
-    lblArchiveListFormat: TLabel;
-    lblArchiver: TLabel;
-    lblDescription: TLabel;
-    lblToolsPath: TLabel;
-    lblToolsParameters: TLabel;
-    lblSaveIn: TLabel;
-    lbxMultiArc: TListBox;
-    memArchiveListFormat: TMemo;
-    memIgnoreList: TMemo;
+    Panel1: TPanel;
+    Panel3: TPanel;
+    pnlCaption: TPanel;
+    btnOK: TBitBtn;
+    btnApply: TBitBtn;
+    btnCancel: TBitBtn;
+    ilTreeView: TImageList;
+    tvTreeView: TTreeView;
+    nbNotebook: TNotebook;
+    splOptionsSplitter: TSplitter;
     pgToolTips: TPage;
-    pbViewerBook: TPaintBox;
-    pnlMultiArcButtons: TPanel;
-    pcArchiverCommands: TPageControl;
     pgArchivers: TPage;
     pgIgnoreList: TPage;
-    pnlArchiverCommands: TPanel;
-    sbxMultiArc: TScrollBox;
-    lbcategory: TLabel;
-    lblWipePassNumber: TLabel;
     pgIcons: TPage;
     pgAutoRefresh: TPage;
     pgMisc: TPage;
     pgColumns: TPage;
-    ilTreeView: TImageList;
-    lblCopyBufferSize: TLabel;
-    nbNotebook: TNotebook;
-    odOpenDialog: TOpenDialog;
     pgQuickSearch: TPage;
     pgConfigStorage: TPage;
     pgLogFile: TPage;
@@ -141,54 +63,23 @@ type
     pgFileOp: TPage;
     pgLayout: TPage;
     pgPlugins: TPage;
-    pnlCaption: TPanel;
-    Panel3: TPanel;
-    Panel1: TPanel;
-    btnOK: TBitBtn;
-    btnApply: TBitBtn;
-    btnCancel: TBitBtn;
     pgBehav: TPage;
     pgColor: TPage;
     pgFonts: TPage;
     pgHotKey: TPage;
     pgLng: TPage;
     pgTools: TPage;
-    rbUseMmapInSearch: TRadioButton;
-    seWipePassNumber: TSpinEdit;
-    seNumberColumnsViewer: TSpinEdit;
-    splMultiArc: TSplitter;
-    splOptionsSplitter: TSplitter;
-    stgTools: TStringGrid;
-    stgArchiverCommands: TStringGrid;
-    tbArchiverAdditional: TTabSheet;
-    tbArchiverGeneral: TTabSheet;
-    tvTreeView: TTreeView;
-    procedure btnAddSelClick(Sender: TObject);
-    procedure btnAddSelWithPathClick(Sender: TObject);
-    procedure btnAutoConfigClick(Sender: TObject);
-    procedure btnMultiArcAddClick(Sender: TObject);
-    procedure btnMultiArcApplyClick(Sender: TObject);
-    procedure btnMultiArcDeleteClick(Sender: TObject);
-    procedure btnMultiArcRenameClick(Sender: TObject);
-    procedure chkIgnoreEnableChange(Sender: TObject);
-    procedure chkMultiArcEnabledChange(Sender: TObject);
-    procedure lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
     procedure FormCreate(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure nbNotebookPageChanged(Sender: TObject);
-    procedure stgArchiverCommandsPrepareCanvas(Sender: TObject; aCol,
-      aRow: Integer; aState: TGridDrawState);
-    procedure tbArchiverAdditionalShow(Sender: TObject);
     procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
   private
     FOptionsEditorList: TOptionsEditorList;
     procedure CreateOptionsEditorList;
   public
-    procedure FillIgnoreList(bWithFullPath: Boolean);
-    procedure FillArchiverList;
     procedure LoadConfig;
     procedure SaveConfig;
   end;
@@ -198,27 +89,13 @@ implementation
 {$R *.lfm}
 
 uses
-  uLng, uGlobsPaths, uPixMapManager, fMain, LCLProc, LCLVersion,
-  uColorExt, uDCUtils, uOSUtils, fColumnsSetConf, uShowMsg, uShowForm,
-  uTypes, StrUtils, uFindEx, uKeyboard,
-  fMaskInputDlg, uSearchTemplate, uMultiArc, uFile, uDebug,
+  LCLProc, LCLVersion, uLng, fMain,
   fOptionsPlugins, fOptionsToolTips, fOptionsColors, fOptionsLanguage,
   fOptionsBehaviour, fOptionsTools, fOptionsHotkeys, fOptionsLayout,
   fOptionsFonts, fOptionsFileOperations, fOptionsQuickSearchFilter,
   fOptionsTabs, fOptionsLog, fOptionsConfiguration, fOptionsColumns,
-  fOptionsMisc, fOptionsAutoRefresh, fOptionsIcons;
-
-const
-  stgArchiveTitle                = 0;
-  stgArchiveDelete               = 1;
-  stgArchiveTest                 = 2;
-  stgArchiveExtractWithoutPath   = 3;
-  stgArchiveSelfExtract          = 4;
-  stgArchiveID                   = 5;
-  stgArchiveIDPos                = 6;
-  stgArchiveIDSeekRange          = 7;
-  stgArchivePasswordQuery        = 8;
-  stgArchiveFormMode             = 9;
+  fOptionsMisc, fOptionsAutoRefresh, fOptionsIcons, fOptionsIgnoreList,
+  fOptionsArchivers;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
@@ -247,19 +124,6 @@ begin
       Item[19].Text := rsOptTooltips;
     end;
   tvTreeView.Items.Item[0].Selected:= True;
-
-  // Localize additional archiver commands.
-  stgArchiverCommands.Cells[0, stgArchiveTitle] := rsOptArchiveParam;
-  stgArchiverCommands.Cells[1, stgArchiveTitle] := rsOptArchiveValue;
-  stgArchiverCommands.Cells[0, stgArchiveDelete] := rsOptArchiveDelete;
-  stgArchiverCommands.Cells[0, stgArchiveTest] := rsOptArchiveTest;
-  stgArchiverCommands.Cells[0, stgArchiveExtractWithoutPath] := rsOptArchiveExtractWithoutPath;
-  stgArchiverCommands.Cells[0, stgArchiveSelfExtract] := rsOptArchiveSelfExtract;
-  stgArchiverCommands.Cells[0, stgArchiveID] := rsOptArchiveID;
-  stgArchiverCommands.Cells[0, stgArchiveIDPos] := rsOptArchiveIDPos;
-  stgArchiverCommands.Cells[0, stgArchiveIDSeekRange] := rsOptArchiveIDSeekRange;
-  stgArchiverCommands.Cells[0, stgArchivePasswordQuery] := rsOptArchivePasswordQuery;
-  stgArchiverCommands.Cells[0, stgArchiveFormMode] := rsOptArchiveFormMode;
 
   // Create and fill options editor list
   CreateOptionsEditorList;
@@ -309,127 +173,6 @@ begin
 
 end;
 
-procedure TfrmOptions.stgArchiverCommandsPrepareCanvas(Sender: TObject; aCol,
-  aRow: Integer; aState: TGridDrawState);
-begin
-  if aRow = 0 then
-    stgArchiverCommands.Canvas.Brush.Color:= stgArchiverCommands.FixedColor
-  else
-    stgArchiverCommands.Canvas.Brush.Color:= stgArchiverCommands.Color;
-end;
-
-procedure TfrmOptions.tbArchiverAdditionalShow(Sender: TObject);
-var
-  I, J: LongInt;
-  iWidth: LongInt = 0;
-begin
-  for I:= 0 to stgArchiverCommands.RowCount - 1 do
-  begin
-    J:= stgArchiverCommands.Canvas.TextWidth(stgArchiverCommands.Cells[0, I]);
-    if J > iWidth then iWidth:= J;
-  end;
-  stgArchiverCommands.ColWidths[0]:= iWidth + 12;
-end;
-
-procedure TfrmOptions.btnMultiArcAddClick(Sender: TObject);
-var
-  sName: UTF8String;
-  MultiArcItem: TMultiArcItem;
-begin
-  if InputQuery(Caption, rsOptArchiveTypeName, sName) then
-    begin
-      MultiArcItem:= TMultiArcItem.Create;
-      lbxMultiArc.Items.AddObject(sName, MultiArcItem);
-      gMultiArcList.Add(sName, MultiArcItem);
-      lbxMultiArc.ItemIndex:= lbxMultiArc.Count - 1;
-      pcArchiverCommands.Enabled:= (lbxMultiArc.Count <> 0);
-      chkMultiArcEnabled.Enabled:= (lbxMultiArc.Count <> 0);
-    end;
-end;
-
-procedure TfrmOptions.btnMultiArcApplyClick(Sender: TObject);
-begin
-  if lbxMultiArc.ItemIndex < 0 then Exit;
-  with TMultiArcItem(lbxMultiArc.Items.Objects[lbxMultiArc.ItemIndex]), stgArchiverCommands do
-  begin
-    FDescription:= edtDescription.Text;
-    FArchiver:= fneArchiver.FileName;
-    FExtension:= edtArchiveExtension.Text;
-    FList:= edtArchiveList.Text;
-    FStart:= edtArchiveListStart.Text;
-    FEnd:= edtArchiveListEnd.Text;
-    FFormat.Assign(memArchiveListFormat.Lines);
-    FExtract:= edtArchiveExtract.Text;
-    FAdd:= edtArchiveAdd.Text;
-    FDelete:= Cells[1, stgArchiveDelete];
-    FTest:= Cells[1, stgArchiveTest];
-    FExtractWithoutPath:= Cells[1, stgArchiveExtractWithoutPath];
-    FAddSelfExtract:= Cells[1, stgArchiveSelfExtract];
-    FID:= Cells[1, stgArchiveID];
-    FIDPos:= Cells[1, stgArchiveIDPos];
-    FIDSeekRange:= Cells[1, stgArchiveIDSeekRange];
-    FPasswordQuery:= Cells[1, stgArchivePasswordQuery];
-    FFormMode:= StrToIntDef(Cells[1, stgArchiveFormMode], 0);
-    FOutput:= chkMultiArcOutput.Checked;
-    FDebug:= chkMultiArcDebug.Checked;
-  end;
-end;
-
-procedure TfrmOptions.btnMultiArcDeleteClick(Sender: TObject);
-var
-  I: Integer;
-begin
-  if lbxMultiArc.ItemIndex < 0 then Exit;
-  I:= lbxMultiArc.ItemIndex;
-  lbxMultiArc.Items.Delete(I);
-  gMultiArcList.Delete(I);
-  lbxMultiArc.ItemIndex:= lbxMultiArc.Count - 1;
-  pcArchiverCommands.Enabled:= (lbxMultiArc.Count <> 0);
-  chkMultiArcEnabled.Enabled:= (lbxMultiArc.Count <> 0);
-end;
-
-procedure TfrmOptions.btnMultiArcRenameClick(Sender: TObject);
-var
-  sNewName: UTF8String;
-begin
-  if lbxMultiArc.ItemIndex < 0 then Exit;
-  sNewName:= lbxMultiArc.Items[lbxMultiArc.ItemIndex];
-  if InputQuery(Caption, rsOptArchiveTypeName, sNewName) then
-    begin
-      lbxMultiArc.Items[lbxMultiArc.ItemIndex]:= sNewName;
-      gMultiArcList.Names[lbxMultiArc.ItemIndex]:= sNewName;
-    end;
-end;
-
-procedure TfrmOptions.FillIgnoreList(bWithFullPath: Boolean);
-var
-  I: Integer;
-  SelectedFiles: TFiles;
-begin
-  SelectedFiles := frmMain.ActiveFrame.CloneSelectedFiles;
-  try
-    for I:= 0 to SelectedFiles.Count - 1 do
-      if bWithFullPath then
-        memIgnoreList.Lines.Add(SelectedFiles[I].FullPath)
-      else
-        memIgnoreList.Lines.Add(SelectedFiles[I].Name);
-  finally
-    FreeAndNil(SelectedFiles);
-  end;
-end;
-
-procedure TfrmOptions.FillArchiverList;
-var
-  I: Integer;
-begin
-  for I:= 0 to gMultiArcList.Count - 1 do
-    lbxMultiArc.Items.AddObject(gMultiArcList.Names[I], gMultiArcList[I]);
-  pcArchiverCommands.Enabled:= (lbxMultiArc.Count <> 0);
-  chkMultiArcEnabled.Enabled:= (lbxMultiArc.Count <> 0);
-  if lbxMultiArc.Count > 0 then
-    lbxMultiArc.ItemIndex:= 0;
-end;
-
 procedure TfrmOptions.CreateOptionsEditorList;
 var
   I: LongInt;
@@ -452,93 +195,6 @@ begin
   nbNotebook.Page[nbNotebook.PageIndex].Height := nbNotebook.Height - 8;
 end;
 
-procedure TfrmOptions.chkIgnoreEnableChange(Sender: TObject);
-begin
-  memIgnoreList.Enabled:= chkIgnoreEnable.Checked;
-  fneSaveIn.Enabled:= chkIgnoreEnable.Checked;
-  btnAddSelWithPath.Enabled:= chkIgnoreEnable.Checked;
-  btnAddSel.Enabled:= chkIgnoreEnable.Checked;
-end;
-
-procedure TfrmOptions.chkMultiArcEnabledChange(Sender: TObject);
-begin
-  if lbxMultiArc.ItemIndex < 0 then Exit;
-  with TMultiArcItem(lbxMultiArc.Items.Objects[lbxMultiArc.ItemIndex]) do
-  FEnabled:= chkMultiArcEnabled.Checked;
-end;
-
-procedure TfrmOptions.lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
-begin
-  if lbxMultiArc.ItemIndex < 0 then
-  with stgArchiverCommands do
-    begin
-      edtDescription.Text:= EmptyStr;
-      fneArchiver.FileName:= EmptyStr;
-      edtArchiveExtension.Text:= EmptyStr;
-      edtArchiveList.Text:= EmptyStr;
-      edtArchiveListStart.Text:= EmptyStr;
-      edtArchiveListEnd.Text:= EmptyStr;
-      memArchiveListFormat.Lines.Clear;
-      edtArchiveExtract.Text:= EmptyStr;
-      edtArchiveAdd.Text:= EmptyStr;
-      Cells[1, stgArchiveDelete]:= EmptyStr;
-      Cells[1, stgArchiveTest]:= EmptyStr;
-      Cells[1, stgArchiveExtractWithoutPath]:= EmptyStr;
-      Cells[1, stgArchiveSelfExtract]:= EmptyStr;
-      Cells[1, stgArchiveID]:= EmptyStr;
-      Cells[1, stgArchiveIDPos]:= EmptyStr;
-      Cells[1, stgArchiveIDSeekRange]:= EmptyStr;
-      Cells[1, stgArchivePasswordQuery]:= EmptyStr;
-      Cells[1, stgArchiveFormMode]:= EmptyStr;
-      chkMultiArcOutput.Checked:= False;
-      chkMultiArcDebug.Checked:= False;
-      chkMultiArcEnabled.Checked:= False;
-      pcArchiverCommands.Enabled:= (lbxMultiArc.Count <> 0);
-      chkMultiArcEnabled.Enabled:= (lbxMultiArc.Count <> 0);
-    end
-  else
-    with TMultiArcItem(lbxMultiArc.Items.Objects[lbxMultiArc.ItemIndex]), stgArchiverCommands  do
-    begin
-      edtDescription.Text:= FDescription;
-      fneArchiver.FileName:= FArchiver;
-      edtArchiveExtension.Text:= FExtension;
-      edtArchiveList.Text:= FList;
-      edtArchiveListStart.Text:= FStart;
-      edtArchiveListEnd.Text:= FEnd;
-      memArchiveListFormat.Lines.Assign(FFormat);
-      edtArchiveExtract.Text:= FExtract;
-      edtArchiveAdd.Text:= FAdd;
-      Cells[1, stgArchiveDelete]:= FDelete;
-      Cells[1, stgArchiveTest]:= FTest;
-      Cells[1, stgArchiveExtractWithoutPath]:= FExtractWithoutPath;
-      Cells[1, stgArchiveSelfExtract]:= FAddSelfExtract;
-      Cells[1, stgArchiveID]:= FID;
-      Cells[1, stgArchiveIDPos]:= FIDPos;
-      Cells[1, stgArchiveIDSeekRange]:= FIDSeekRange;
-      Cells[1, stgArchivePasswordQuery]:= FPasswordQuery;
-      Cells[1, stgArchiveFormMode]:= IntToStr(FFormMode);
-      chkMultiArcOutput.Checked:= FOutput;
-      chkMultiArcDebug.Checked:= FDebug;
-      chkMultiArcEnabled.Checked:= FEnabled;
-  end;
-end;
-
-procedure TfrmOptions.btnAddSelClick(Sender: TObject);
-begin
-  FillIgnoreList(False);
-end;
-
-procedure TfrmOptions.btnAddSelWithPathClick(Sender: TObject);
-begin
-  FillIgnoreList(True);
-end;
-
-procedure TfrmOptions.btnAutoConfigClick(Sender: TObject);
-begin
-  gMultiArcList.AutoConfigure;
-  lbxMultiArcSelectionChange(lbxMultiArc, True);
-end;
-
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
 begin
   //DebugLN('Page index == ' + IntToStr(Node.Index));
@@ -550,15 +206,6 @@ procedure TfrmOptions.LoadConfig;
 var
   I: LongInt;
 begin
-  { Ignore list page }
-  chkIgnoreEnable.Checked:= gIgnoreListFileEnabled;
-  fneSaveIn.FileName:= gIgnoreListFile;
-  memIgnoreList.Lines.Assign(glsIgnoreList);
-  chkIgnoreEnableChange(chkIgnoreEnable);
-
-  // fill archiver list
-  FillArchiverList;
-
   { Load options to frames }
   for I:= 0 to FOptionsEditorList.Count - 1 do
     FOptionsEditorList[I].Load;
@@ -569,18 +216,13 @@ var
   I: LongInt;
   NeedsRestart: Boolean = False;
 begin
-  { Ignore list page }
-  gIgnoreListFileEnabled:= chkIgnoreEnable.Checked;
-  gIgnoreListFile:= fneSaveIn.FileName;
-  glsIgnoreList.Assign(memIgnoreList.Lines);
-
   { Save options from frames }
   for I:= 0 to FOptionsEditorList.Count - 1 do
     if oesfNeedsRestart in FOptionsEditorList[I].Save then
       NeedsRestart := True;
 
   if NeedsRestart then
-    msgOk(rsMsgRestartForApplyChanges);
+    MessageDlg(rsMsgRestartForApplyChanges, mtInformation, [mbOK], 0);
 
   frmMain.UpdateWindowView;
 end;
