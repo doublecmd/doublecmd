@@ -59,6 +59,7 @@ type
     procedure cbShowDiskPanelChange(Sender: TObject);
     procedure cbTermWindowChange(Sender: TObject);
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end;
@@ -68,7 +69,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs;
+  uGlobs, uLng;
 
 { TfrmOptionsLayout }
 
@@ -91,6 +92,11 @@ begin
       cbShowCmdLine.Checked:= Boolean(cbShowCmdLine.Tag);
       cbShowCmdLine.Enabled:= True;
     end;
+end;
+
+class function TfrmOptionsLayout.GetTitle: String;
+begin
+  Result := rsOptionsEditorLayout;
 end;
 
 procedure TfrmOptionsLayout.Load;

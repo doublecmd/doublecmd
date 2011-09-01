@@ -47,6 +47,7 @@ type
   private
     { private declarations }
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -56,7 +57,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs;
+  uGlobs, uLng;
 
 { TfrmOptionsAutoRefresh }
 
@@ -69,6 +70,11 @@ procedure TfrmOptionsAutoRefresh.OnAutoRefreshOptionChanged(Sender: TObject);
 begin
   gbAutoRefreshDisable.Enabled := cbWatchFileNameChange.Checked or
                                   cbWatchAttributesChange.Checked;
+end;
+
+class function TfrmOptionsAutoRefresh.GetTitle: String;
+begin
+  Result := rsOptionsEditorAutoRefresh;
 end;
 
 procedure TfrmOptionsAutoRefresh.Load;

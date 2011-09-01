@@ -9,7 +9,6 @@ object frmOptions: TfrmOptions
   ClientWidth = 886
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  OnShow = FormShow
   Position = poScreenCenter
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stNever
@@ -76,120 +75,45 @@ object frmOptions: TfrmOptions
     Left = 0
     Height = 514
     Top = 0
-    Width = 170
+    Width = 179
     Align = alLeft
-    DefaultItemHeight = 16
+    DefaultItemHeight = 24
     Images = ilTreeView
     ReadOnly = True
-    ScrollBars = ssNone
+    ScrollBars = ssAutoVertical
     TabOrder = 0
     OnChange = tvTreeViewChange
     Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips]
-    Items.Data = {
-      F9FFFFFF020014000000000000000000000000000000FFFFFFFF000000000000
-      000000080000004C616E6775616765010000000100000001000000FFFFFFFF00
-      0000000000000000090000004265686176696F72730200000002000000020000
-      00FFFFFFFF00000000000000000005000000546F6F6C73030000000300000003
-      000000FFFFFFFF00000000000000000005000000466F6E747304000000040000
-      0004000000FFFFFFFF00000000000000000006000000436F6C6F727305000000
-      0500000005000000FFFFFFFF00000000000000000008000000486F74206B6579
-      73060000000600000006000000FFFFFFFF00000000000000000007000000506C
-      7567696E73070000000700000007000000FFFFFFFF0000000000000000000600
-      00004C61796F7574080000000800000008000000FFFFFFFF0000000000000000
-      000F00000046696C65206F7065726174696F6E73090000000900000009000000
-      FFFFFFFF0000000000000000000B000000466F6C64657220746162730A000000
-      0A0000000A000000FFFFFFFF000000000000000000080000004C6F672066696C
-      650B0000000B0000000B000000FFFFFFFF0000000000000000000D000000436F
-      6E66696775726174696F6E0C0000000C0000000C000000FFFFFFFF0000000000
-      0000000013000000517569636B207365617263682F66696C7465720D0000000D
-      0000000D000000FFFFFFFF00000000000000000007000000436F6C756D6E730E
-      0000000E0000000E000000FFFFFFFF0000000000000000000D0000004D697363
-      656C6C616E656F75730F0000000F0000000F000000FFFFFFFF00000000000000
-      00000C0000004175746F2072656672657368100000001000000010000000FFFF
-      FFFF0000000000000000000500000049636F6E73110000001100000011000000
-      FFFFFFFF0000000000000000000B00000049676E6F7265206C69737412000000
-      1200000012000000FFFFFFFF0000000000000000000900000041726368697665
-      7273130000001300000013000000FFFFFFFF0000000000000000000800000054
-      6F6F6C74697073
-    }
   end
   object Panel3: TPanel
-    Left = 175
+    Left = 182
     Height = 514
     Top = 0
-    Width = 711
+    Width = 704
     Align = alClient
+    BevelOuter = bvNone
     ClientHeight = 514
-    ClientWidth = 711
+    ClientWidth = 704
     TabOrder = 2
-    object nbNotebook: TNotebook
-      Left = 1
-      Height = 489
-      Top = 24
-      Width = 709
-      Align = alClient
-      PageIndex = 0
-      TabOrder = 0
-      object pgLng: TPage
-      end
-      object pgBehav: TPage
-      end
-      object pgTools: TPage
-      end
-      object pgFonts: TPage
-      end
-      object pgColor: TPage
-      end
-      object pgHotKey: TPage
-      end
-      object pgPlugins: TPage
-      end
-      object pgLayout: TPage
-      end
-      object pgFileOp: TPage
-      end
-      object pgTabs: TPage
-      end
-      object pgLogFile: TPage
-      end
-      object pgConfigStorage: TPage
-      end
-      object pgQuickSearch: TPage
-      end
-      object pgColumns: TPage
-      end
-      object pgMisc: TPage
-      end
-      object pgAutoRefresh: TPage
-      end
-      object pgIcons: TPage
-      end
-      object pgIgnoreList: TPage
-      end
-      object pgArchivers: TPage
-      end
-      object pgToolTips: TPage
-      end
-    end
     object pnlCaption: TPanel
-      Left = 1
+      Left = 0
       Height = 23
-      Top = 1
-      Width = 709
+      Top = 0
+      Width = 704
       Align = alTop
       Color = clActiveCaption
       Font.Color = clCaptionText
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      TabOrder = 1
+      TabOrder = 0
     end
   end
   object splOptionsSplitter: TSplitter
-    Left = 170
+    Left = 179
     Height = 514
     Top = 0
-    Width = 5
+    Width = 3
   end
   object ilTreeView: TImageList
     left = 16

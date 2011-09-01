@@ -54,6 +54,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -63,7 +64,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs;
+  uGlobs, uLng;
 
 { TfrmOptionsQuickSearchFilter }
 
@@ -84,6 +85,11 @@ begin
   rbAltLetterQF.Caption     := rbAltLetterQS.Caption;
   rbLetterQF.Caption        := rbLetterQS.Caption;
   rbNoneQF.Caption          := rbNoneQS.Caption;
+end;
+
+class function TfrmOptionsQuickSearchFilter.GetTitle: String;
+begin
+  Result := rsOptionsEditorQuickSearch;
 end;
 
 procedure TfrmOptionsQuickSearchFilter.Load;

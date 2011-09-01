@@ -50,6 +50,7 @@ type
   private
     procedure FillColumnsList;
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -59,7 +60,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, fColumnsSetConf;
+  uGlobs, uLng, fColumnsSetConf;
 
 { TfrmOptionsColumns }
 
@@ -129,6 +130,11 @@ begin
    begin
      lstColumnsSets.Items.AddStrings(ColSet.Items);
    end;
+end;
+
+class function TfrmOptionsColumns.GetTitle: String;
+begin
+  Result := rsOptionsEditorColumns;
 end;
 
 procedure TfrmOptionsColumns.Load;

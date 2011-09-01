@@ -47,6 +47,7 @@ type
     procedure cbIconsSizeChange(Sender: TObject);
     procedure rbIconsShowNoneChange(Sender: TObject);
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -56,7 +57,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Graphics, uPixMapManager, uGlobs;
+  Graphics, uPixMapManager, uGlobs, uLng;
 
 { TfrmOptionsIcons }
 
@@ -78,6 +79,11 @@ end;
 procedure TfrmOptionsIcons.rbIconsShowNoneChange(Sender: TObject);
 begin
   cbIconsSize.Enabled := not rbIconsShowNone.Checked;
+end;
+
+class function TfrmOptionsIcons.GetTitle: String;
+begin
+  Result := rsOptionsEditorIcons;
 end;
 
 procedure TfrmOptionsIcons.Load;

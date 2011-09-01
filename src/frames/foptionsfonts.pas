@@ -67,6 +67,7 @@ type
     procedure edtLogFontSizeChange(Sender: TObject);
     procedure edtViewerBookFontSizeChange(Sender: TObject);
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -76,7 +77,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs;
+  uGlobs, uLng;
 
 { TfrmOptionsFonts }
 
@@ -168,6 +169,11 @@ end;
 procedure TfrmOptionsFonts.edtViewerBookFontSizeChange(Sender: TObject);
 begin
   edtViewerBookFont.Font.Size := edtViewerBookFontSize.Value;
+end;
+
+class function TfrmOptionsFonts.GetTitle: String;
+begin
+  Result := rsOptionsEditorFonts;
 end;
 
 procedure TfrmOptionsFonts.Load;

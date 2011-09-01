@@ -38,10 +38,8 @@ type
     lngList: TListBox;
   private
     procedure FillLngListBox;
-  protected
-    procedure Init; override;
-    procedure Done; override;
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end;
@@ -80,12 +78,9 @@ begin
     lngList.Selected[iIndex]:=True;
 end;
 
-procedure TfrmOptionsLanguage.Init;
+class function TfrmOptionsLanguage.GetTitle: String;
 begin
-end;
-
-procedure TfrmOptionsLanguage.Done;
-begin
+  Result := rsOptionsEditorLanguage;
 end;
 
 procedure TfrmOptionsLanguage.Load;

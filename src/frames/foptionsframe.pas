@@ -9,7 +9,7 @@ uses
 
 type
 
-  TOptionsEditorsType =
+  TOptionsEditorType =
     (optedLanguage = 0,
      optedBehaviours,
      optedTools,
@@ -34,10 +34,6 @@ type
   TOptionsEditorSaveFlag = (oesfNeedsRestart);
   TOptionsEditorSaveFlags = set of TOptionsEditorSaveFlag;
 
-  { TOptionsEditorClass }
-
-  TOptionsEditorClass = class of TOptionsEditor;
-
   { TOptionsEditor }
 
   TOptionsEditor = class(TFrame)
@@ -48,14 +44,19 @@ type
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
 
+    class function GetTitle: String; virtual; abstract;
     procedure Load; virtual; abstract;
     function Save: TOptionsEditorSaveFlags; virtual; abstract;
   end;
 
+  { TOptionsEditorClass }
+
+  TOptionsEditorClass = class of TOptionsEditor;
+
   { TOptionsEditorRec }
 
   TOptionsEditorRec = class
-    OptionsEditorType: TOptionsEditorsType;
+    OptionsEditorType: TOptionsEditorType;
     OptionsEditorClass: TOptionsEditorClass;
   end;
 
@@ -63,16 +64,40 @@ type
 
   TOptionsEditorList = specialize TFPGList<TOptionsEditor>;
 
+  { TBaseOptionsEditorClassList }
+
+  TBaseOptionsEditorClassList = specialize TFPGObjectList<TOptionsEditorRec>;
+
   { TOptionsEditorClassList }
 
-  TOptionsEditorClassList = specialize TFPGObjectList<TOptionsEditorRec>;
+  TOptionsEditorClassList = class(TBaseOptionsEditorClassList)
+  public
+    procedure Sort; overload;
+  end;
 
-  procedure RegisterOptionsEditor(AEditorType: TOptionsEditorsType; AEditorClass: TOptionsEditorClass);
+  procedure RegisterOptionsEditor(AEditorType: TOptionsEditorType; AEditorClass: TOptionsEditorClass);
 
 var
   OptionsEditorClassList: TOptionsEditorClassList = nil;
 
 implementation
+
+function CompareOptionsEditor(const Item1, Item2: TOptionsEditorRec): Integer;
+begin
+  if Item1.OptionsEditorType < Item2.OptionsEditorType then
+    Result := -1
+  else if Item1.OptionsEditorType > Item2.OptionsEditorType then
+    Result := 1
+  else
+    Result := 0;
+end;
+
+{ TOptionsEditorClassList }
+
+procedure TOptionsEditorClassList.Sort;
+begin
+  Sort(@CompareOptionsEditor);
+end;
 
 { TOptionsEditor }
 
@@ -98,7 +123,7 @@ begin
   inherited Destroy;
 end;
 
-procedure RegisterOptionsEditor(AEditorType: TOptionsEditorsType; AEditorClass: TOptionsEditorClass);
+procedure RegisterOptionsEditor(AEditorType: TOptionsEditorType; AEditorClass: TOptionsEditorClass);
 var
   OptionsEditorRec: TOptionsEditorRec;
 begin
@@ -106,6 +131,7 @@ begin
   OptionsEditorRec.OptionsEditorType:= AEditorType;
   OptionsEditorRec.OptionsEditorClass:= AEditorClass;
   OptionsEditorClassList.Add(OptionsEditorRec);
+  OptionsEditorClassList.Sort;
 end;
 
 initialization

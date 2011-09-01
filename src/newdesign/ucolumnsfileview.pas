@@ -2529,7 +2529,7 @@ begin
           end;
     1001: //All columns
           begin
-            Actions.cm_Options('13');
+            Actions.cm_Options('Columns');
             frmMain.ReLoadTabs(frmMain.LeftTabs);
             frmMain.ReLoadTabs(frmMain.RightTabs);
           end;

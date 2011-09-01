@@ -277,10 +277,11 @@ const cf_Null=0;
 
 implementation
 
-uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager,
+uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager, typinfo,
      fMain, fPackDlg, fFileOpDlg, fMkDir, fFileAssoc, fExtractDlg, fAbout,
      fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
+     fOptionsFrame,
      uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uGlobsPaths,
      uClassesEx, uShowForm, uShellExecute, uClipboard, uHash,
      uFilePanelSelect, uFile, uFileSystemFileSource, uQuickViewPanel,
@@ -1910,19 +1911,28 @@ begin
   end;
 end;
 
+// Parameter is name of TOptionsEditorType enum without the prefix.
 procedure TActs.cm_Options(param:string);
 var
-  Ind: Integer;
+  EditorType: TOptionsEditorType;
+  frmOptions: TfrmOptions = nil;
 begin
-  with TfrmOptions.Create(Application) do
-  begin
-    try
-      if TryStrToInt(param, Ind) then
-      Tag:= Ind; // else Tag:=0;
-      ShowModal;
-    finally
-      Free;
+  param := 'opted' + param;
+
+  for EditorType := Low(TOptionsEditorType) to High(TOptionsEditorType) do
+    if GetEnumName(TypeInfo(TOptionsEditorType), Integer(EditorType)) = param then
+    begin
+      frmOptions := TfrmOptions.Create(Application, EditorType);
+      Break;
     end;
+
+  if not Assigned(frmOptions) then
+    frmOptions := TfrmOptions.Create(Application);
+
+  try
+    frmOptions.ShowModal;
+  finally
+    frmOptions.Free;
   end;
 end;
 

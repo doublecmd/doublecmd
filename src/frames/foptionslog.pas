@@ -48,6 +48,7 @@ type
     gbLogFileOp: TGroupBox;
     gbLogFileStatus: TGroupBox;
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -57,9 +58,14 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs;
+  uGlobs, uLng;
 
 { TfrmOptionsLog }
+
+class function TfrmOptionsLog.GetTitle: String;
+begin
+  Result := rsOptionsEditorLog;
+end;
 
 procedure TfrmOptionsLog.Load;
 begin

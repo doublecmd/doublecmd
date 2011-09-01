@@ -52,6 +52,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -61,7 +62,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uGlobsPaths, uShowForm, uOSUtils;
+  uGlobs, uGlobsPaths, uShowForm, uOSUtils, uLng;
 
 { TfrmOptionsConfiguration }
 
@@ -106,6 +107,11 @@ begin
     lblCmdLineConfigDir.Visible := True;
     lblCmdLineConfigDir.Caption := lblCmdLineConfigDir.Caption + ' - [' + IncludeTrailingPathDelimiter(gpCmdLineCfgDir) + ']';
   end;
+end;
+
+class function TfrmOptionsConfiguration.GetTitle: String;
+begin
+  Result := rsOptionsEditorConfiguration;
 end;
 
 procedure TfrmOptionsConfiguration.Load;

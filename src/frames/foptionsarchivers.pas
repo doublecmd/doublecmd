@@ -85,6 +85,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -296,6 +297,11 @@ begin
   stgArchiverCommands.Cells[0, stgArchiveIDSeekRange] := rsOptArchiveIDSeekRange;
   stgArchiverCommands.Cells[0, stgArchivePasswordQuery] := rsOptArchivePasswordQuery;
   stgArchiverCommands.Cells[0, stgArchiveFormMode] := rsOptArchiveFormMode;
+end;
+
+class function TfrmOptionsArchivers.GetTitle: String;
+begin
+  Result := rsOptionsEditorArchivers;
 end;
 
 procedure TfrmOptionsArchivers.Load;
