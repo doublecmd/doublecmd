@@ -49,25 +49,16 @@ type
     btnAddSelWithPath: TButton;
     btnBackViewerColor: TButton;
     btnFontViewerColor: TButton;
-    cbSortCaseSensitive: TCheckBox;
     cbDropReadOnlyFlag: TCheckBox;
-    cbIconsShowOverlay: TCheckBox;
-    cbIconsSize: TComboBox;
     cbRenameSelOnlyName: TCheckBox;
     cbShowCopyTabSelectPanel: TCheckBox;
     cbFlatInterface: TCheckBox;
     cbFlatToolBar: TCheckBox;
     cbLogWindow: TCheckBox;
     cbProcessComments: TCheckBox;
-    cbGridVertLine: TCheckBox;
-    cbGridHorzLine: TCheckBox;
-    cbShowWarningMessages: TCheckBox;
-    cbSpaceMovesDown: TCheckBox;
-    cbDirBrackets: TCheckBox;
     cbDeleteToTrash: TCheckBox;
     cbSkipFileOpError: TCheckBox;
     cbShowDialogOnDragDrop: TCheckBox;
-    cbWatchExcludeDirs: TCheckBox;
     cbToolsRunInTerminal: TCheckBox;
     cbToolsKeepTerminalOpen: TCheckBox;
     cbToolsUseExternalProgram: TCheckBox;
@@ -77,7 +68,6 @@ type
     chkMultiArcOutput: TCheckBox;
     chkMultiArcEnabled: TCheckBox;
     chkIgnoreEnable: TCheckBox;
-    cbSortMethod: TComboBox;
     edtArchiveListEnd: TEdit;
     edtArchiveListStart: TEdit;
     edtArchiveAdd: TEdit;
@@ -106,18 +96,11 @@ type
     gbCopyBufferSize: TGroupBox;
     gbGeneralOptions: TGroupBox;
     gbFileSearch: TGroupBox;
-    gbShowGrid: TGroupBox;
-    gbExtended: TGroupBox;
-    gbShowIconsMode: TGroupBox;
-    gbAutoRefreshEnable: TGroupBox;
-    gbAutoRefreshDisable: TGroupBox;
-    gbSorting: TGroupBox;
     gbViewerExample: TGroupBox;
     gbViewerBookMode: TGroupBox;
     lblNumberColumnsViewer: TLabel;
     lblFontColorViewerBook: TLabel;
     lblBackgroundColorViewerBook: TLabel;
-    lblSortMethod: TLabel;
     lblArchiveListEnd: TLabel;
     lblArchiveListStart: TLabel;
     lblArchiveAdd: TLabel;
@@ -141,12 +124,6 @@ type
     pgIgnoreList: TPage;
     pnlArchiverCommands: TPanel;
     sbxMultiArc: TScrollBox;
-    rbIconsShowAllAndExe: TRadioButton;
-    rbIconsShowAll: TRadioButton;
-    rbIconsShowNone: TRadioButton;
-    rbIconsShowStandard: TRadioButton;
-    pnlIconExample: TPanel;
-    imgIconExample: TImage;
     lbcategory: TLabel;
     lblWipePassNumber: TLabel;
     pgIcons: TPage;
@@ -181,16 +158,11 @@ type
     seNumberColumnsViewer: TSpinEdit;
     splMultiArc: TSplitter;
     splOptionsSplitter: TSplitter;
-    gbIconsSize: TGroupBox;
     stgTools: TStringGrid;
     stgArchiverCommands: TStringGrid;
     tbArchiverAdditional: TTabSheet;
     tbArchiverGeneral: TTabSheet;
     tvTreeView: TTreeView;
-    cbWatchFileNameChange: TCheckBox;
-    edtWatchExcludeDirs: TEdit;
-    cbWatchOnlyForeground: TCheckBox;
-    cbWatchAttributesChange: TCheckBox;
     procedure btnAddSelClick(Sender: TObject);
     procedure btnAddSelWithPathClick(Sender: TObject);
     procedure btnAutoConfigClick(Sender: TObject);
@@ -198,19 +170,15 @@ type
     procedure btnMultiArcApplyClick(Sender: TObject);
     procedure btnMultiArcDeleteClick(Sender: TObject);
     procedure btnMultiArcRenameClick(Sender: TObject);
-    procedure cbIconsSizeChange(Sender: TObject);
-    procedure cbWatchExcludeDirsChange(Sender: TObject);
     procedure chkIgnoreEnableChange(Sender: TObject);
     procedure chkMultiArcEnabledChange(Sender: TObject);
     procedure lbxMultiArcSelectionChange(Sender: TObject; User: boolean);
-    procedure OnAutoRefreshOptionChanged(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure nbNotebookPageChanged(Sender: TObject);
-    procedure rbIconsShowNoneChange(Sender: TObject);
     procedure stgArchiverCommandsPrepareCanvas(Sender: TObject; aCol,
       aRow: Integer; aState: TGridDrawState);
     procedure tbArchiverAdditionalShow(Sender: TObject);
@@ -237,7 +205,8 @@ uses
   fOptionsPlugins, fOptionsToolTips, fOptionsColors, fOptionsLanguage,
   fOptionsBehaviour, fOptionsTools, fOptionsHotkeys, fOptionsLayout,
   fOptionsFonts, fOptionsFileOperations, fOptionsQuickSearchFilter,
-  fOptionsTabs, fOptionsLog, fOptionsConfiguration, fOptionsColumns;
+  fOptionsTabs, fOptionsLog, fOptionsConfiguration, fOptionsColumns,
+  fOptionsMisc, fOptionsAutoRefresh, fOptionsIcons;
 
 const
   stgArchiveTitle                = 0;
@@ -253,9 +222,6 @@ const
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
-  // Localize some ComboBox
-  ParseLineToList(rsOptSortMethod, cbSortMethod.Items);
-
   // tvTreeView localization
   with tvTreeView.Items do
     begin
@@ -341,11 +307,6 @@ begin
   tvTreeView.Items.Item[Self.Tag].Selected:=true;
   nbNotebook.PageIndex := Self.Tag;
 
-end;
-
-procedure TfrmOptions.rbIconsShowNoneChange(Sender: TObject);
-begin
-   cbIconsSize.Enabled := not rbIconsShowNone.Checked;
 end;
 
 procedure TfrmOptions.stgArchiverCommandsPrepareCanvas(Sender: TObject; aCol,
@@ -491,26 +452,6 @@ begin
   nbNotebook.Page[nbNotebook.PageIndex].Height := nbNotebook.Height - 8;
 end;
 
-procedure TfrmOptions.cbIconsSizeChange(Sender: TObject);
-var
-  bmpTemp: TBitmap;
-  iSize: Integer;
-begin
-  case cbIconsSize.ItemIndex of
-    0: iSize:= 16;
-    1: iSize:= 22;
-    2: iSize:= 32;
-  end;
-  bmpTemp:= PixmapManager.GetDefaultDriveIcon(iSize, pnlIconExample.Color);
-  imgIconExample.Picture.Bitmap.Assign(bmpTemp);
-  FreeThenNil(bmpTemp);
-end;
-
-procedure TfrmOptions.cbWatchExcludeDirsChange(Sender: TObject);
-begin
-  edtWatchExcludeDirs.Enabled := cbWatchExcludeDirs.Checked;
-end;
-
 procedure TfrmOptions.chkIgnoreEnableChange(Sender: TObject);
 begin
   memIgnoreList.Enabled:= chkIgnoreEnable.Checked;
@@ -582,12 +523,6 @@ begin
   end;
 end;
 
-procedure TfrmOptions.OnAutoRefreshOptionChanged(Sender: TObject);
-begin
-  gbAutoRefreshDisable.Enabled := cbWatchFileNameChange.Checked or
-                                  cbWatchAttributesChange.Checked;
-end;
-
 procedure TfrmOptions.btnAddSelClick(Sender: TObject);
 begin
   FillIgnoreList(False);
@@ -615,35 +550,6 @@ procedure TfrmOptions.LoadConfig;
 var
   I: LongInt;
 begin
-  { Misc page }
-  cbGridVertLine.Checked:= gGridVertLine;
-  cbGridHorzLine.Checked:= gGridHorzLine;
-  cbShowWarningMessages.Checked:= gShowWarningMessages;
-  cbSpaceMovesDown.Checked:= gSpaceMovesDown;
-  cbDirBrackets.Checked:= gDirBrackets;
-  cbSortCaseSensitive.Checked:= gSortCaseSensitive;
-  if gSortNatural then cbSortMethod.ItemIndex:= 1;
-
-  { Auto refresh }
-  cbWatchFileNameChange.Checked := (watch_file_name_change in gWatchDirs);
-  cbWatchAttributesChange.Checked := (watch_attributes_change in gWatchDirs);
-  cbWatchOnlyForeground.Checked := (watch_only_foreground in gWatchDirs);
-  cbWatchExcludeDirs.Checked := (watch_exclude_dirs in gWatchDirs);
-  edtWatchExcludeDirs.Text := gWatchDirsExclude;
-  OnAutoRefreshOptionChanged(nil);
-  cbWatchExcludeDirsChange(nil);
-
-  { Icons sizes in file panels }
-  case gShowIconsNew of
-    sim_none: rbIconsShowNone.Checked:= True;
-    sim_standart: rbIconsShowStandard.Checked:= True;
-    sim_all: rbIconsShowAll.Checked:= True;
-    sim_all_and_exe: rbIconsShowAllAndExe.Checked := True;
-  end;
-  cbIconsShowOverlay.Checked:= gIconOverlays;
-  cbIconsSize.Text := IntToStr(gIconsSizeNew) + 'x' + IntToStr(gIconsSizeNew);
-  cbIconsSizeChange(nil);
-
   { Ignore list page }
   chkIgnoreEnable.Checked:= gIgnoreListFileEnabled;
   fneSaveIn.FileName:= gIgnoreListFile;
@@ -663,50 +569,10 @@ var
   I: LongInt;
   NeedsRestart: Boolean = False;
 begin
-  { Misc page }
-  gGridVertLine:= cbGridVertLine.Checked;
-  gGridHorzLine:= cbGridHorzLine.Checked;
-  gShowWarningMessages:= cbShowWarningMessages.Checked;
-  gSpaceMovesDown:= cbSpaceMovesDown.Checked;
-  gDirBrackets:= cbDirBrackets.Checked;
-  gSortCaseSensitive:= cbSortCaseSensitive.Checked;
-  gSortNatural:= (cbSortMethod.ItemIndex = 1);
-
-  { Auto refresh }
-  gWatchDirs := []; // Reset watch options
-  if cbWatchFileNameChange.Checked then
-    Include(gWatchDirs, watch_file_name_change);
-  if cbWatchAttributesChange.Checked then
-    Include(gWatchDirs, watch_attributes_change);
-  if cbWatchOnlyForeground.Checked then
-    Include(gWatchDirs, watch_only_foreground);
-  if cbWatchExcludeDirs.Checked then
-    Include(gWatchDirs, watch_exclude_dirs);
-  gWatchDirsExclude:= edtWatchExcludeDirs.Text;
-
-  { Icons }
-  if rbIconsShowNone.Checked then
-    gShowIconsNew:= sim_none
-  else if rbIconsShowStandard.Checked then
-    gShowIconsNew:= sim_standart
-  else if rbIconsShowAll.Checked then
-    gShowIconsNew:= sim_all
-  else if rbIconsShowAllAndExe.Checked then
-    gShowIconsNew:= sim_all_and_exe;
-  gIconOverlays:= cbIconsShowOverlay.Checked;
-
   { Ignore list page }
   gIgnoreListFileEnabled:= chkIgnoreEnable.Checked;
   gIgnoreListFile:= fneSaveIn.FileName;
   glsIgnoreList.Assign(memIgnoreList.Lines);
-
-//-------------------------------------------------
-  if (gIconsSizeNew <> StrToInt(Copy(cbIconsSize.Text, 1, 2))) or
-     (gShowIconsNew <> gShowIcons) then
-    begin
-      gIconsSizeNew:= StrToInt(Copy(cbIconsSize.Text, 1, 2)); // new file panel icons size
-      NeedsRestart := True;
-    end;
 
   { Save options from frames }
   for I:= 0 to FOptionsEditorList.Count - 1 do

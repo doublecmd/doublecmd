@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="132">
+    <Units Count="135">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1024,6 +1024,27 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsColumns"/>
       </Unit131>
+      <Unit132>
+        <Filename Value="frames\foptionsmisc.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsMisc"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsMisc"/>
+      </Unit132>
+      <Unit133>
+        <Filename Value="frames\foptionsautorefresh.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsAutoRefresh"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsAutoRefresh"/>
+      </Unit133>
+      <Unit134>
+        <Filename Value="frames\foptionsicons.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsIcons"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsIcons"/>
+      </Unit134>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
