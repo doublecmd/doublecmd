@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="126">
+    <Units Count="129">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -982,6 +982,27 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsFonts"/>
       </Unit125>
+      <Unit126>
+        <Filename Value="frames\foptionsfileoperations.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsFileOperations"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsFileOperations"/>
+      </Unit126>
+      <Unit127>
+        <Filename Value="frames\foptionsquicksearchfilter.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsQuickSearchFilter"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsQuickSearchFilter"/>
+      </Unit127>
+      <Unit128>
+        <Filename Value="frames\foptionstabs.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsTabs"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsTabs"/>
+      </Unit128>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
