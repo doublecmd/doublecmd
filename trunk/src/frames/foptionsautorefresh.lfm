@@ -1,0 +1,105 @@
+inherited frmOptionsAutoRefresh: TfrmOptionsAutoRefresh
+  Height = 228
+  Width = 501
+  ClientHeight = 228
+  ClientWidth = 501
+  object gbAutoRefreshEnable: TGroupBox[0]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 10
+    Height = 85
+    Top = 5
+    Width = 481
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 5
+    BorderSpacing.Right = 10
+    Caption = 'Refresh file list'
+    ChildSizing.LeftRightSpacing = 10
+    ChildSizing.TopBottomSpacing = 5
+    ChildSizing.VerticalSpacing = 3
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ClientHeight = 63
+    ClientWidth = 477
+    TabOrder = 0
+    object cbWatchFileNameChange: TCheckBox
+      Left = 10
+      Height = 25
+      Top = 5
+      Width = 318
+      Caption = 'When files are &created, deleted or renamed'
+      OnChange = OnAutoRefreshOptionChanged
+      TabOrder = 0
+    end
+    object cbWatchAttributesChange: TCheckBox
+      Left = 10
+      Height = 25
+      Top = 33
+      Width = 318
+      Caption = 'When &size, date or attributes change'
+      OnChange = OnAutoRefreshOptionChanged
+      TabOrder = 1
+    end
+  end
+  object gbAutoRefreshDisable: TGroupBox[1]
+    AnchorSideLeft.Control = gbAutoRefreshEnable
+    AnchorSideTop.Control = gbAutoRefreshEnable
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = gbAutoRefreshEnable
+    AnchorSideRight.Side = asrBottom
+    Left = 10
+    Height = 121
+    Top = 94
+    Width = 481
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Top = 4
+    Caption = 'Disable auto-refresh'
+    ChildSizing.LeftRightSpacing = 10
+    ChildSizing.TopBottomSpacing = 5
+    ChildSizing.VerticalSpacing = 3
+    ClientHeight = 99
+    ClientWidth = 477
+    TabOrder = 1
+    object cbWatchOnlyForeground: TCheckBox
+      AnchorSideLeft.Control = gbAutoRefreshDisable
+      AnchorSideTop.Control = gbAutoRefreshDisable
+      Left = 10
+      Height = 25
+      Top = 5
+      Width = 288
+      Caption = 'When application is in the &background'
+      TabOrder = 0
+    end
+    object cbWatchExcludeDirs: TCheckBox
+      AnchorSideLeft.Control = cbWatchOnlyForeground
+      AnchorSideTop.Control = cbWatchOnlyForeground
+      AnchorSideTop.Side = asrBottom
+      Left = 10
+      Height = 25
+      Top = 33
+      Width = 350
+      Caption = 'For the following &paths and their subdirectories:'
+      OnChange = cbWatchExcludeDirsChange
+      TabOrder = 1
+    end
+    object edtWatchExcludeDirs: TEdit
+      AnchorSideLeft.Control = cbWatchExcludeDirs
+      AnchorSideTop.Control = cbWatchExcludeDirs
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbAutoRefreshDisable
+      AnchorSideRight.Side = asrBottom
+      Left = 30
+      Height = 29
+      Top = 61
+      Width = 437
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 20
+      BorderSpacing.Bottom = 15
+      TabOrder = 2
+    end
+  end
+end

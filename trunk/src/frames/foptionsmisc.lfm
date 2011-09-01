@@ -1,0 +1,166 @@
+inherited frmOptionsMisc: TfrmOptionsMisc
+  Height = 339
+  Width = 719
+  ClientHeight = 339
+  ClientWidth = 719
+  object gbShowGrid: TGroupBox[0]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 90
+    Top = 8
+    Width = 703
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 8
+    BorderSpacing.Right = 8
+    Caption = 'Show grid in file panel'
+    ChildSizing.LeftRightSpacing = 12
+    ChildSizing.TopBottomSpacing = 6
+    ClientHeight = 68
+    ClientWidth = 699
+    TabOrder = 0
+    object cbGridVertLine: TCheckBox
+      AnchorSideLeft.Control = gbShowGrid
+      AnchorSideTop.Control = gbShowGrid
+      Left = 12
+      Height = 25
+      Top = 6
+      Width = 114
+      Caption = 'Vertical lines'
+      TabOrder = 0
+    end
+    object cbGridHorzLine: TCheckBox
+      AnchorSideLeft.Control = gbShowGrid
+      AnchorSideTop.Control = cbGridVertLine
+      AnchorSideTop.Side = asrBottom
+      Left = 12
+      Height = 25
+      Top = 37
+      Width = 132
+      BorderSpacing.Top = 6
+      Caption = 'Horizontal lines'
+      TabOrder = 1
+    end
+  end
+  object gbExtended: TGroupBox[1]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbShowGrid
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 109
+    Top = 104
+    Width = 703
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 8
+    ChildSizing.LeftRightSpacing = 12
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ClientHeight = 87
+    ClientWidth = 699
+    TabOrder = 1
+    object cbShowWarningMessages: TCheckBox
+      Left = 12
+      Height = 25
+      Top = 6
+      Width = 587
+      Caption = 'Show warning messages ("OK" button only)'
+      TabOrder = 0
+    end
+    object cbSpaceMovesDown: TCheckBox
+      Left = 12
+      Height = 25
+      Top = 31
+      Width = 587
+      Caption = 'When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)'
+      TabOrder = 1
+    end
+    object cbDirBrackets: TCheckBox
+      Left = 12
+      Height = 25
+      Top = 56
+      Width = 587
+      Caption = 'Show square brackets around directories'
+      TabOrder = 2
+    end
+  end
+  object gbSorting: TGroupBox[2]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbExtended
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 98
+    Top = 219
+    Width = 703
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 8
+    Caption = 'Sorting'
+    ChildSizing.LeftRightSpacing = 12
+    ChildSizing.TopBottomSpacing = 8
+    ClientHeight = 76
+    ClientWidth = 699
+    TabOrder = 2
+    object cbSortCaseSensitive: TCheckBox
+      AnchorSideLeft.Control = gbSorting
+      AnchorSideTop.Control = gbSorting
+      AnchorSideRight.Control = gbSorting
+      AnchorSideRight.Side = asrBottom
+      Left = 12
+      Height = 25
+      Top = 8
+      Width = 675
+      Anchors = [akTop, akLeft, akRight]
+      Caption = 'Case-sensitive sorting'
+      TabOrder = 0
+    end
+    object lblSortMethod: TLabel
+      AnchorSideLeft.Control = gbSorting
+      AnchorSideTop.Control = cbSortMethod
+      AnchorSideTop.Side = asrCenter
+      Left = 12
+      Height = 22
+      Top = 42
+      Width = 88
+      BorderSpacing.Top = 6
+      Caption = 'Sort &method:'
+      ParentColor = False
+    end
+    object cbSortMethod: TComboBox
+      AnchorSideLeft.Control = lblSortMethod
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbSortCaseSensitive
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbSorting
+      AnchorSideRight.Side = asrBottom
+      Left = 106
+      Height = 29
+      Top = 39
+      Width = 581
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      ItemHeight = 21
+      ItemIndex = 0
+      Items.Strings = (
+        'Alphabetical, considering accents'
+        'Natural sorting: alphabetical and numbers'
+      )
+      Style = csDropDownList
+      TabOrder = 1
+      Text = 'Alphabetical, considering accents'
+    end
+  end
+end
