@@ -75,6 +75,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -263,6 +264,11 @@ begin
   cbToolsUseExternalProgramChange(nil);
   gbViewerBookMode.Enabled := not (cbToolsUseExternalProgram.Checked);
   FUpdatingTools := False;
+end;
+
+class function TfrmOptionsTools.GetTitle: String;
+begin
+  Result := rsOptionsEditorTools;
 end;
 
 procedure TfrmOptionsTools.Load;

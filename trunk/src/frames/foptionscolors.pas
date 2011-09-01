@@ -97,8 +97,8 @@ type
       ARect: TRect; State: TOwnerDrawState);
   protected
     procedure Init; override;
-    procedure Done; override;
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -472,9 +472,9 @@ begin
   lbCategoriesClick(lbCategories);
 end;
 
-procedure TfrmOptionsColors.Done;
+class function TfrmOptionsColors.GetTitle: String;
 begin
-
+  Result := rsOptionsEditorColors;
 end;
 
 procedure TfrmOptionsColors.Load;

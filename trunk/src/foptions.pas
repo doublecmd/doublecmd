@@ -32,9 +32,20 @@ interface
 
 uses
   SysUtils, Classes, Controls, Forms, Dialogs, ExtCtrls, ComCtrls, Buttons,
-  uGlobs, fOptionsFrame;
+  fgl, uGlobs, fOptionsFrame;
 
 type
+
+  { TOptionsEditorView }
+
+  TOptionsEditorView = class
+    EditorType: TOptionsEditorType;
+    EditorClass: TOptionsEditorClass;
+    Instance: TOptionsEditor;
+    TreeNode: TTreeNode;
+  end;
+
+  TOptionsEditorViews = specialize TFPGObjectList<TOptionsEditorView>;
 
   { TfrmOptions }
 
@@ -47,39 +58,20 @@ type
     btnCancel: TBitBtn;
     ilTreeView: TImageList;
     tvTreeView: TTreeView;
-    nbNotebook: TNotebook;
     splOptionsSplitter: TSplitter;
-    pgToolTips: TPage;
-    pgArchivers: TPage;
-    pgIgnoreList: TPage;
-    pgIcons: TPage;
-    pgAutoRefresh: TPage;
-    pgMisc: TPage;
-    pgColumns: TPage;
-    pgQuickSearch: TPage;
-    pgConfigStorage: TPage;
-    pgLogFile: TPage;
-    pgTabs: TPage;
-    pgFileOp: TPage;
-    pgLayout: TPage;
-    pgPlugins: TPage;
-    pgBehav: TPage;
-    pgColor: TPage;
-    pgFonts: TPage;
-    pgHotKey: TPage;
-    pgLng: TPage;
-    pgTools: TPage;
     procedure FormCreate(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure nbNotebookPageChanged(Sender: TObject);
     procedure tvTreeViewChange(Sender: TObject; Node: TTreeNode);
   private
-    FOptionsEditorList: TOptionsEditorList;
+    FOptionsEditorList: TOptionsEditorViews;
+    FOldEditor: TOptionsEditorView;
     procedure CreateOptionsEditorList;
+    procedure SelectEditor(EditorType: TOptionsEditorType);
   public
+    constructor Create(TheOwner: TComponent); override;
+    constructor Create(TheOwner: TComponent; EditorType: TOptionsEditorType); overload;
     procedure LoadConfig;
     procedure SaveConfig;
   end;
@@ -97,51 +89,14 @@ uses
   fOptionsMisc, fOptionsAutoRefresh, fOptionsIcons, fOptionsIgnoreList,
   fOptionsArchivers;
 
+const
+  TOptionsEditorsIcons: array[TOptionsEditorType] of Integer =
+    (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
+
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
-  // tvTreeView localization
-  with tvTreeView.Items do
-    begin
-      Item[0].Text := rsOptLanguage;
-      Item[1].Text := rsOptBehav;
-      Item[2].Text := rsOptTools;
-      Item[3].Text := rsOptFonts;
-      Item[4].Text := rsOptColors;
-      Item[5].Text := rsOptHotKeys;
-      Item[6].Text := rsOptPlugins;
-      Item[7].Text := rsOptLayout;
-      Item[8].Text := rsOptFileOp;
-      Item[9].Text := rsOptFolderTabs;
-      Item[10].Text := rsOptLog;
-      Item[11].Text := rsOptConfig;
-      Item[12].Text := rsOptQuickSearch;
-      Item[13].Text := rsOptColumns;
-      Item[14].Text := rsOptMiscellaneous;
-      Item[15].Text := rsOptAutoRefresh;
-      Item[16].Text := rsOptIcons;
-      Item[17].Text := rsOptIgnoreList;
-      Item[18].Text := rsOptArchivers;
-      Item[19].Text := rsOptTooltips;
-    end;
-  tvTreeView.Items.Item[0].Selected:= True;
-
-  // Create and fill options editor list
-  CreateOptionsEditorList;
-
-  // Load all configuration
-  LoadConfig;
-
   // Initialize property storage
   InitPropStorage(Self);
-  // Let not warning on which page save form
-  nbNotebook.PageIndex := 0;
-
-  // Below needed until after we switch to Lazarus 0.9.31.
-  nbNotebook.TabStop := True;
-  {$if (lcl_release) < 31}
-  nbNotebook.ShowTabs := False;
-  nbNotebook.OnPageChanged := @nbNotebookPageChanged;
-  {$endif}
 end;
 
 procedure TfrmOptions.btnOKClick(Sender: TObject);
@@ -165,41 +120,95 @@ begin
   FreeThenNil(FOptionsEditorList);
 end;
 
-procedure TfrmOptions.FormShow(Sender: TObject);
-begin
-//Load specified page or 0
-  tvTreeView.Items.Item[Self.Tag].Selected:=true;
-  nbNotebook.PageIndex := Self.Tag;
-
-end;
-
 procedure TfrmOptions.CreateOptionsEditorList;
 var
   I: LongInt;
   aOptionsEditor: TOptionsEditor;
+  aOptionsEditorClass: TOptionsEditorClass;
+  aOptionsEditorView: TOptionsEditorView;
+  TreeNode: TTreeNode;
+  IconIndex: Integer;
 begin
-  FOptionsEditorList:= TOptionsEditorList.Create;
+  FOptionsEditorList:= TOptionsEditorViews.Create;
   for I:= 0 to OptionsEditorClassList.Count - 1 do
   begin
-    aOptionsEditor:= OptionsEditorClassList[I].OptionsEditorClass.Create(Self);
-    aOptionsEditor.Align := alClient;
-    aOptionsEditor.Parent:= nbNotebook.Page[Integer(OptionsEditorClassList[I].OptionsEditorType)];
-    FOptionsEditorList.Add(aOptionsEditor);
+    aOptionsEditorClass := OptionsEditorClassList[I].OptionsEditorClass;
+
+    aOptionsEditorView := TOptionsEditorView.Create;
+    aOptionsEditorView.EditorClass := aOptionsEditorClass;
+    aOptionsEditorView.EditorType  := OptionsEditorClassList[I].OptionsEditorType;
+    aOptionsEditorView.Instance    := nil;
+
+    FOptionsEditorList.Add(aOptionsEditorView);
+
+    TreeNode := tvTreeView.Items.Add(nil, aOptionsEditorClass.GetTitle);
+    if Assigned(TreeNode) then
+    begin
+      IconIndex := TOptionsEditorsIcons[OptionsEditorClassList[I].OptionsEditorType];
+      TreeNode.ImageIndex    := IconIndex;
+      TreeNode.SelectedIndex := IconIndex;
+      TreeNode.StateIndex    := IconIndex;
+      TreeNode.Data          := aOptionsEditorView;
+    end;
+
+    aOptionsEditorView.TreeNode := TreeNode;
   end;
 end;
 
-procedure TfrmOptions.nbNotebookPageChanged(Sender: TObject);
-begin 
-  // temporally this is hack for bug http://www.freepascal.org/mantis/view.php?id=9635
-  nbNotebook.Page[nbNotebook.PageIndex].Height := nbNotebook.Height - 8;
-  nbNotebook.Page[nbNotebook.PageIndex].Height := nbNotebook.Height - 8;
+procedure TfrmOptions.SelectEditor(EditorType: TOptionsEditorType);
+var
+  I: Integer;
+begin
+  for I := 0 to FOptionsEditorList.Count - 1 do
+  begin
+    if (FOptionsEditorList[I].EditorType = EditorType) then
+      if Assigned(FOptionsEditorList[I].TreeNode) then
+      begin
+        FOptionsEditorList[I].TreeNode.Selected := True;
+        Break;
+      end;
+  end;
+end;
+
+constructor TfrmOptions.Create(TheOwner: TComponent);
+begin
+  Create(TheOwner, Low(TOptionsEditorType)); // Select first editor.
+end;
+
+constructor TfrmOptions.Create(TheOwner: TComponent; EditorType: TOptionsEditorType);
+begin
+  FOldEditor := nil;
+  inherited Create(TheOwner);
+  CreateOptionsEditorList;
+  SelectEditor(EditorType);
 end;
 
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
+var
+  SelectedEditorView: TOptionsEditorView;
 begin
-  //DebugLN('Page index == ' + IntToStr(Node.Index));
-  nbNotebook.PageIndex := tvTreeView.Selected.ImageIndex; // temporally image index
-  pnlCaption.Caption := tvTreeView.Selected.Text;
+  SelectedEditorView := TOptionsEditorView(Node.Data);
+
+  if Assigned(SelectedEditorView) and (FOldEditor <> SelectedEditorView) then
+  begin
+    if Assigned(FOldEditor) and Assigned(FOldEditor.Instance) then
+      FOldEditor.Instance.Visible := False;
+
+    if not Assigned(SelectedEditorView.Instance) then
+    begin
+      SelectedEditorView.Instance := SelectedEditorView.EditorClass.Create(Self);
+      SelectedEditorView.Instance.Align   := alClient;
+      SelectedEditorView.Instance.Visible := True;
+      SelectedEditorView.Instance.Parent  := Panel3;
+      SelectedEditorView.Instance.Load;
+    end;
+
+    SelectedEditorView.Instance.Visible := True;
+
+    FOldEditor := SelectedEditorView;
+
+    pnlCaption.Caption := SelectedEditorView.EditorClass.GetTitle;
+  end;
 end;
 
 procedure TfrmOptions.LoadConfig;
@@ -208,7 +217,10 @@ var
 begin
   { Load options to frames }
   for I:= 0 to FOptionsEditorList.Count - 1 do
-    FOptionsEditorList[I].Load;
+  begin
+    if Assigned(FOptionsEditorList[I].Instance) then
+      FOptionsEditorList[I].Instance.Load;
+  end;
 end;
 
 procedure TfrmOptions.SaveConfig;
@@ -218,8 +230,9 @@ var
 begin
   { Save options from frames }
   for I:= 0 to FOptionsEditorList.Count - 1 do
-    if oesfNeedsRestart in FOptionsEditorList[I].Save then
-      NeedsRestart := True;
+    if Assigned(FOptionsEditorList[I].Instance) then
+      if oesfNeedsRestart in FOptionsEditorList[I].Instance.Save then
+        NeedsRestart := True;
 
   if NeedsRestart then
     MessageDlg(rsMsgRestartForApplyChanges, mtInformation, [mbOK], 0);

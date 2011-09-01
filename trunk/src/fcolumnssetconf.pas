@@ -630,7 +630,7 @@ begin
     stgColumns.Cells[3,0]:= rsConfColAlign;
     stgColumns.Cells[4,0]:= rsConfColFieldCont;
     stgColumns.Cells[5,0]:= rsConfColMove;
-    stgColumns.Cells[6,0]:= rsOptColors;
+    stgColumns.Cells[6,0]:= rsOptionsEditorColors;
 
   LoadCustColumn(0);
 

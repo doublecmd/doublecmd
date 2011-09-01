@@ -74,6 +74,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end;
@@ -110,6 +111,11 @@ procedure TfrmOptionsBehavior.Init;
 begin
   ParseLineToList(rsOptMouseSelectionButton, cbMouseMode.Items);
   ParseLineToList(rsOptAutoSizeColumn, cmbAutoSizeColumn.Items);
+end;
+
+class function TfrmOptionsBehavior.GetTitle: String;
+begin
+  Result := rsOptionsEditorBehavior;
 end;
 
 procedure TfrmOptionsBehavior.Load;

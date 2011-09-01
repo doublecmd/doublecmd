@@ -100,6 +100,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end;
@@ -689,6 +690,11 @@ begin
   // stgCommands is localized in FillCommandList.
   stgHotkeys.Columns.Items[0].Title.Caption := rsOptHotkeysHotkey;
   stgHotkeys.Columns.Items[1].Title.Caption := rsOptHotkeysParameters;
+end;
+
+class function TfrmOptionsHotkeys.GetTitle: String;
+begin
+  Result := rsOptionsEditorHotKeys;
 end;
 
 procedure TfrmOptionsHotkeys.Load;

@@ -68,6 +68,7 @@ type
     procedure Init; override;
     procedure Done; override;
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -152,6 +153,11 @@ end;
 procedure TfrmOptionsToolTips.Done;
 begin
   FreeThenNil(FFileInfoToolTip);
+end;
+
+class function TfrmOptionsToolTips.GetTitle: String;
+begin
+  Result := rsOptionsEditorTooltips;
 end;
 
 procedure TfrmOptionsToolTips.btnDeleteFieldsClick(Sender: TObject);

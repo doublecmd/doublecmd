@@ -53,6 +53,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -71,6 +72,11 @@ procedure TfrmOptionsTabs.Init;
 begin
   ParseLineToList(rsOptTabsPosition, cmbTabsPosition.Items);
   FPageControl := TPageControl.Create(Self);
+end;
+
+class function TfrmOptionsTabs.GetTitle: String;
+begin
+  Result := rsOptionsEditorFolderTabs;
 end;
 
 procedure TfrmOptionsTabs.Load;

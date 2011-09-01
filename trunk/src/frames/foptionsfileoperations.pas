@@ -54,6 +54,7 @@ type
     rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -63,9 +64,14 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs;
+  uGlobs, uLng;
 
 { TfrmOptionsFileOperations }
+
+class function TfrmOptionsFileOperations.GetTitle: String;
+begin
+  Result := rsOptionsEditorFileOperations;
+end;
 
 procedure TfrmOptionsFileOperations.Load;
 begin

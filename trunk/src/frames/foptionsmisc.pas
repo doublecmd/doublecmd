@@ -48,6 +48,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -64,6 +65,11 @@ uses
 procedure TfrmOptionsMisc.Init;
 begin
   ParseLineToList(rsOptSortMethod, cbSortMethod.Items);
+end;
+
+class function TfrmOptionsMisc.GetTitle: String;
+begin
+  Result := rsOptionsEditorMiscellaneous;
 end;
 
 procedure TfrmOptionsMisc.Load;

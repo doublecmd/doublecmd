@@ -46,6 +46,7 @@ type
   private
     procedure FillIgnoreList(bWithFullPath: Boolean);
   public
+    class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   end; 
@@ -55,7 +56,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uFile, fMain;
+  uGlobs, uFile, uLng, fMain;
 
 { TfrmOptionsIgnoreList }
 
@@ -92,6 +93,11 @@ begin
   finally
     FreeAndNil(SelectedFiles);
   end;
+end;
+
+class function TfrmOptionsIgnoreList.GetTitle: String;
+begin
+  Result := rsOptionsEditorIgnoreList;
 end;
 
 procedure TfrmOptionsIgnoreList.Load;
