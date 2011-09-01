@@ -61,45 +61,34 @@ type
     cbIconsSize: TComboBox;
     cbRenameSelOnlyName: TCheckBox;
     cbShowCopyTabSelectPanel: TCheckBox;
-    cbTabsShowCloseButton: TCheckBox;
     cbFlatInterface: TCheckBox;
     cbFlatToolBar: TCheckBox;
-    cbTabsAlwaysVisible: TCheckBox;
-    cbTabsMultiLines: TCheckBox;
-    cbTabsLimitOption: TCheckBox;
     cbLogWindow: TCheckBox;
     cbDirHistory: TCheckBox;
     cbCmdLineHistory: TCheckBox;
     cbFileMaskHistory: TCheckBox;
-    cbTabsOpenForeground: TCheckBox;
     cbbFileSystem: TComboBox;
     cbProcessComments: TCheckBox;
-    cbTabsConfirmCloseAll: TCheckBox;
-    cbTabsLockedAsterisk: TCheckBox;
     cbGridVertLine: TCheckBox;
     cbGridHorzLine: TCheckBox;
     cbShowWarningMessages: TCheckBox;
     cbSpaceMovesDown: TCheckBox;
     cbDirBrackets: TCheckBox;
-    cbTabsActivateOnClick: TCheckBox;
     cbDeleteToTrash: TCheckBox;
     cbSkipFileOpError: TCheckBox;
     cbShowDialogOnDragDrop: TCheckBox;
     cbWatchExcludeDirs: TCheckBox;
-    cbTabsOpenNearCurrent: TCheckBox;
     cbToolsRunInTerminal: TCheckBox;
     cbToolsKeepTerminalOpen: TCheckBox;
     cbToolsUseExternalProgram: TCheckBox;
     cbSaveThubnails: TCheckBox;
     cbShowMainMenu: TCheckBox;
-    cbPartialNameSearch: TCheckBox;
     chkMultiArcDebug: TCheckBox;
     chkMultiArcOutput: TCheckBox;
     chkSearchReplaceHistory: TCheckBox;
     chkSaveConfiguration: TCheckBox;
     chkMultiArcEnabled: TCheckBox;
     chkIgnoreEnable: TCheckBox;
-    cmbTabsPosition: TComboBox;
     cbSortMethod: TComboBox;
     edtArchiveListEnd: TEdit;
     edtArchiveListStart: TEdit;
@@ -109,14 +98,12 @@ type
     edtArchiveList: TEdit;
     edtDescription: TEdit;
     edtToolsParameters: TEdit;
-    edtTabsLimitLength: TEdit;
     edtCopyBufferSize: TEdit;
     cbLogFile: TCheckBox;
     fneArchiver: TFileNameEdit;
     fneToolsPath: TFileNameEdit;
     fneSaveIn: TFileNameEdit;
     gbArchiverOptions: TGroupBox;
-    gbExactNameMatch: TGroupBox;
     fneLogFileName: TFileNameEdit;
     gbLogFile: TGroupBox;
     gbLogFileOp: TGroupBox;
@@ -135,7 +122,6 @@ type
     cbTwoDiskPanels: TCheckBox;
     gbCopyBufferSize: TGroupBox;
     gbGeneralOptions: TGroupBox;
-    gbTabs: TGroupBox;
     gbFileSearch: TGroupBox;
     gbLocConfigFiles: TGroupBox;
     gbSaveOnExit: TGroupBox;
@@ -147,7 +133,6 @@ type
     gbSorting: TGroupBox;
     gbViewerExample: TGroupBox;
     gbViewerBookMode: TGroupBox;
-    grpQuickSearchFilterKeys: TGroupBox;
     lblCmdLineConfigDir: TLabel;
     lblNumberColumnsViewer: TLabel;
     lblFontColorViewerBook: TLabel;
@@ -164,8 +149,6 @@ type
     lblDescription: TLabel;
     lblToolsPath: TLabel;
     lblToolsParameters: TLabel;
-    lblQuickSearch: TLabel;
-    lblQuickFilter: TLabel;
     lblSaveIn: TLabel;
     lbxMultiArc: TListBox;
     memArchiveListFormat: TMemo;
@@ -178,19 +161,12 @@ type
     pgIgnoreList: TPage;
     pnlArchiverCommands: TPanel;
     sbxMultiArc: TScrollBox;
-    pnlQuickSearch: TPanel;
-    pnlQuickFilter: TPanel;
-    rbAltLetterQF: TRadioButton;
-    rbCtrlAltLetterQF: TRadioButton;
-    rbLetterQF: TRadioButton;
-    rbNoneQF: TRadioButton;
     rbIconsShowAllAndExe: TRadioButton;
     rbIconsShowAll: TRadioButton;
     rbIconsShowNone: TRadioButton;
     rbIconsShowStandard: TRadioButton;
     pnlIconExample: TPanel;
     imgIconExample: TImage;
-    lblTabsPosition: TLabel;
     lbcategory: TLabel;
     lblWipePassNumber: TLabel;
     lblConfigColumns: TLabel;
@@ -200,14 +176,7 @@ type
     pgMisc: TPage;
     pnlButtons: TPanel;
     pgColumns: TPage;
-    rbCtrlAltLetterQS: TRadioButton;
-    rbAltLetterQS: TRadioButton;
-    rbNoneQS: TRadioButton;
-    cbExactBeginning: TCheckBox;
-    cbExactEnding: TCheckBox;
-    rbLetterQS: TRadioButton;
     ilTreeView: TImageList;
-    lblChar: TLabel;
     lblCopyBufferSize: TLabel;
     cbLogArcOp: TCheckBox;
     cbLogCpMvLn: TCheckBox;
@@ -241,7 +210,6 @@ type
     rbProgramDir: TRadioButton;
     rbUserHomeDir: TRadioButton;
     rbUseMmapInSearch: TRadioButton;
-    rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
     seNumberColumnsViewer: TSpinEdit;
     splMultiArc: TSplitter;
@@ -283,7 +251,6 @@ type
     procedure FormShow(Sender: TObject);
     procedure nbNotebookPageChanged(Sender: TObject);
     procedure rbIconsShowNoneChange(Sender: TObject);
-    procedure rbQuickSearchFilterKeyChange(Sender: TObject);
     procedure stgArchiverCommandsPrepareCanvas(Sender: TObject; aCol,
       aRow: Integer; aState: TGridDrawState);
     procedure tbArchiverAdditionalShow(Sender: TObject);
@@ -310,7 +277,8 @@ uses
   fMaskInputDlg, uSearchTemplate, uMultiArc, uFile, uDebug,
   fOptionsPlugins, fOptionsToolTips, fOptionsColors, fOptionsLanguage,
   fOptionsBehaviour, fOptionsTools, fOptionsHotkeys, fOptionsLayout,
-  fOptionsFonts;
+  fOptionsFonts, fOptionsFileOperations, fOptionsQuickSearchFilter,
+  fOptionsTabs;
 
 const
   stgArchiveTitle                = 0;
@@ -327,7 +295,6 @@ const
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
   // Localize some ComboBox
-  ParseLineToList(rsOptTabsPosition, cmbTabsPosition.Items);
   ParseLineToList(rsOptSortMethod, cbSortMethod.Items);
 
   // Show configuration directory
@@ -371,12 +338,6 @@ begin
       Item[19].Text := rsOptTooltips;
     end;
   tvTreeView.Items.Item[0].Selected:= True;
-
-  // Set QuickFilter radio buttons captions same as QuickSearch.
-  rbCtrlAltLetterQF.Caption := rbCtrlAltLetterQS.Caption;
-  rbAltLetterQF.Caption     := rbAltLetterQS.Caption;
-  rbLetterQF.Caption        := rbLetterQS.Caption;
-  rbNoneQF.Caption          := rbNoneQS.Caption;
 
   // Localize additional archiver commands.
   stgArchiverCommands.Cells[0, stgArchiveTitle] := rsOptArchiveParam;
@@ -442,16 +403,6 @@ end;
 procedure TfrmOptions.rbIconsShowNoneChange(Sender: TObject);
 begin
    cbIconsSize.Enabled := not rbIconsShowNone.Checked;
-end;
-
-procedure TfrmOptions.rbQuickSearchFilterKeyChange(Sender: TObject);
-begin
-  rbCtrlAltLetterQF.Enabled := not rbCtrlAltLetterQS.Checked;
-  rbAltLetterQF.Enabled     := not rbAltLetterQS.Checked;
-  rbLetterQF.Enabled        := not rbLetterQS.Checked;
-  rbCtrlAltLetterQS.Enabled := not rbCtrlAltLetterQF.Checked;
-  rbAltLetterQS.Enabled     := not rbAltLetterQF.Checked;
-  rbLetterQS.Enabled        := not rbLetterQF.Checked;
 end;
 
 procedure TfrmOptions.stgArchiverCommandsPrepareCanvas(Sender: TObject; aCol,
@@ -815,19 +766,6 @@ procedure TfrmOptions.LoadConfig;
 var
   I: LongInt;
 begin
-  { File operations }
-  edtCopyBufferSize.Text:= IntToStr(gCopyBlockSize div 1024);
-  cbSkipFileOpError.Checked:= gSkipFileOpError;
-  cbDropReadOnlyFlag.Checked := gDropReadOnlyFlag;
-  rbUseMmapInSearch.Checked := gUseMmapInSearch;
-  cbPartialNameSearch.Checked := gPartialNameSearch;
-  seWipePassNumber.Value:= gWipePassNumber;
-  cbProcessComments.Checked:= gProcessComments;
-  cbShowCopyTabSelectPanel.Checked:=gShowCopyTabSelectPanel;
-  cbDeleteToTrash.Checked:= gUseTrash;
-  cbShowDialogOnDragDrop.Checked := gShowDialogOnDragDrop;
-  cbSaveThubnails.Checked := gSaveThumb;
-
   { Log file }
   cbLogFile.Checked := gLogFile;
   fneLogFileName.FileName := gLogFileName;
@@ -840,27 +778,6 @@ begin
   cbLogErrors.Checked := (log_errors in gLogOptions);
   cbLogInfo.Checked := (log_info in gLogOptions);
 
-  { Folder tabs }
-  cbTabsAlwaysVisible.Checked := (tb_always_visible in gDirTabOptions) and gDirectoryTabs;
-  cbTabsLimitOption.Checked := tb_text_length_limit in gDirTabOptions;
-  cbTabsConfirmCloseAll.Checked:= tb_confirm_close_all in gDirTabOptions;
-  cbTabsOpenForeground.Checked:= tb_open_new_in_foreground in gDirTabOptions;
-  cbTabsOpenNearCurrent.Checked:= tb_open_new_near_current in gDirTabOptions;
-  cbTabsLockedAsterisk.Checked:= tb_show_asterisk_for_locked in gDirTabOptions;
-  cbTabsActivateOnClick.Checked:= tb_activate_panel_on_click in gDirTabOptions;
-  cbTabsMultiLines.Visible:= (nbcMultiline in pcArchiverCommands.GetCapabilities);
-  if cbTabsMultiLines.Visible then
-     cbTabsMultiLines.Checked:= tb_multiple_lines in gDirTabOptions;
-  cbTabsShowCloseButton.Visible:= (nbcShowCloseButtons in pcArchiverCommands.GetCapabilities);
-  if cbTabsShowCloseButton.Visible then
-    cbTabsShowCloseButton.Checked:= tb_show_close_button in gDirTabOptions;
-  edtTabsLimitLength.Text:= IntToStr(gDirTabLimit);
-  case gDirTabPosition of
-    tbpos_top:    cmbTabsPosition.ItemIndex := 0;
-    tbpos_bottom: cmbTabsPosition.ItemIndex := 1;
-    else          cmbTabsPosition.ItemIndex := 0;
-  end;
-
   { Configuration storage }
   if gUseConfigInProgramDirNew then
     rbProgramDir.Checked := True
@@ -871,33 +788,6 @@ begin
   cbDirHistory.Checked := gSaveDirHistory;
   cbCmdLineHistory.Checked := gSaveCmdLineHistory;
   cbFileMaskHistory.Checked := gSaveFileMaskHistory;
-  { Quick Search page}
-  if gQuickSearch then
-    begin
-      if (gQuickSearchMode = [ssCtrl, ssAlt]) then
-        rbCtrlAltLetterQS.Checked := True
-      else if (gQuickSearchMode = [ssAlt]) then
-        rbAltLetterQS.Checked := True
-      else if gQuickSearchMode = [] then
-        rbLetterQS.Checked := True;
-    end
-  else
-    rbNoneQS.Checked := True;
-
-  if gQuickFilter then
-    begin
-      if (gQuickFilterMode = [ssCtrl, ssAlt]) then
-        rbCtrlAltLetterQF.Checked := True
-      else if (gQuickFilterMode = [ssAlt]) then
-        rbAltLetterQF.Checked := True
-      else if gQuickFilterMode = [] then
-        rbLetterQF.Checked := True;
-    end
-  else
-    rbNoneQF.Checked := True;
-
-  cbExactBeginning.Checked := gQuickSearchMatchBeginning;
-  cbExactEnding.Checked := gQuickSearchMatchEnding;
 
   { Misc page }
   cbGridVertLine.Checked:= gGridVertLine;
@@ -948,21 +838,6 @@ var
   I: LongInt;
   NeedsRestart: Boolean = False;
 begin
-  { File operations }
-  gCopyBlockSize := StrToIntDef(edtCopyBufferSize.Text, gCopyBlockSize) * 1024;
-  gSkipFileOpError:= cbSkipFileOpError.Checked;
-  gDropReadOnlyFlag := cbDropReadOnlyFlag.Checked;
-  gUseMmapInSearch := rbUseMmapInSearch.Checked;
-  gPartialNameSearch := cbPartialNameSearch.Checked;
-  gWipePassNumber:= seWipePassNumber.Value;
-  gProcessComments:= cbProcessComments.Checked;
-  gShowCopyTabSelectPanel:=cbShowCopyTabSelectPanel.Checked;
-  gUseTrash:= cbDeleteToTrash.Checked;
-  gShowDialogOnDragDrop := cbShowDialogOnDragDrop.Checked;
-  gSaveThumb := cbSaveThubnails.Checked;
-  cbRenameSelOnlyName.Checked:= gRenameSelOnlyName;
-  gRenameSelOnlyName:= cbRenameSelOnlyName.Checked;
-
   { Log file }
   gLogFile := cbLogFile.Checked;
   gLogFileName := fneLogFileName.FileName;
@@ -984,34 +859,6 @@ begin
   if cbLogInfo.Checked then
     Include(gLogOptions, log_info);
     
-  { Folder tabs }
-  gDirTabOptions := [];  // Reset tab options
-  if cbTabsAlwaysVisible.Checked then
-    gDirTabOptions := gDirTabOptions + [tb_always_visible];
-  if cbTabsMultiLines.Checked then
-    gDirTabOptions := gDirTabOptions + [tb_multiple_lines];
-  if cbTabsLimitOption.Checked then
-    gDirTabOptions := gDirTabOptions + [tb_text_length_limit];
-  if cbTabsConfirmCloseAll.Checked then
-    gDirTabOptions := gDirTabOptions + [tb_confirm_close_all];
-  if cbTabsOpenForeground.Checked then
-    gDirTabOptions := gDirTabOptions + [tb_open_new_in_foreground];
-  if cbTabsOpenNearCurrent.Checked then
-    gDirTabOptions := gDirTabOptions + [tb_open_new_near_current];
-  if cbTabsLockedAsterisk.Checked then
-    gDirTabOptions := gDirTabOptions + [tb_show_asterisk_for_locked];
-  if cbTabsActivateOnClick.Checked then
-    gDirTabOptions := gDirTabOptions + [tb_activate_panel_on_click];
-  if cbTabsShowCloseButton.Checked then
-    gDirTabOptions := gDirTabOptions + [tb_show_close_button];
-
-  gDirTabLimit := StrToIntDef(edtTabsLimitLength.Text, 32);
-
-  case cmbTabsPosition.ItemIndex of
-    0: gDirTabPosition := tbpos_top;
-    1: gDirTabPosition := tbpos_bottom;
-  end;
-
   { Configuration storage }
   gUseConfigInProgramDirNew := rbProgramDir.Checked;
   gSaveConfiguration := chkSaveConfiguration.Checked;
@@ -1019,28 +866,6 @@ begin
   gSaveDirHistory := cbDirHistory.Checked;
   gSaveCmdLineHistory := cbCmdLineHistory.Checked;
   gSaveFileMaskHistory := cbFileMaskHistory.Checked;
-
-  { Quick Search page}
-  gQuickSearch := not rbNoneQS.Checked;
-  
-  if rbCtrlAltLetterQS.Checked then
-    gQuickSearchMode := [ssCtrl, ssAlt];
-  if rbAltLetterQS.Checked then
-    gQuickSearchMode := [ssAlt];
-  if rbLetterQS.Checked then
-    gQuickSearchMode := [];
-
-  gQuickFilter := not rbNoneQF.Checked;
-
-  if rbCtrlAltLetterQF.Checked then
-    gQuickFilterMode := [ssCtrl, ssAlt];
-  if rbAltLetterQF.Checked then
-    gQuickFilterMode := [ssAlt];
-  if rbLetterQF.Checked then
-    gQuickFilterMode := [];
-
-  gQuickSearchMatchBeginning := cbExactBeginning.Checked;
-  gQuickSearchMatchEnding := cbExactEnding.Checked;
 
   { Misc page }
   gGridVertLine:= cbGridVertLine.Checked;
