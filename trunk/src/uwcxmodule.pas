@@ -404,8 +404,8 @@ begin
       with StartupInfo do
       begin
         StructSize:= SizeOf(TExtensionStartupInfo);
-        PluginDir:= PAnsiChar(ExtractFilePath(sName));
-        PluginConfDir:= PAnsiChar(gpCfgDir);
+        PluginDir:= ExtractFilePath(sName);
+        PluginConfDir:= gpCfgDir;
         InputBox:= @fDialogBox.InputBox;
         MessageBox:= @fDialogBox.MessageBox;
         DialogBoxLFM:= @fDialogBox.DialogBoxLFM;
