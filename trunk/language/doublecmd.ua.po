@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.4.5 alpha\n"
+"Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: 2011-06-28 17:09+0300\n"
@@ -3442,846 +3442,270 @@ msgctxt "TFRMMULTIRENAME.N5.CAPTION"
 msgid "-"
 msgstr "-"
 
-#: TFRMOPTIONS.BTCLEARHOTKEY.CAPTION
-msgid "Clear HotKey"
-msgstr "Стерти ГарКлавішу"
-
-#: TFRMOPTIONS.BTNADDSEL.CAPTION
-msgid "&Add selected names"
-msgstr "&Додати виділені імена"
-
-#: TFRMOPTIONS.BTNADDSELWITHPATH.CAPTION
-msgid "Add selected names with &full path"
-msgstr "Додати виділені імена з &повними шляхами"
-
 #: TFRMOPTIONS.BTNAPPLY.CAPTION
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
 msgid "Apply"
 msgstr "Застосувати"
-
-#: TFRMOPTIONS.BTNAUTOCONFIG.CAPTION
-msgid "Auto Configure"
-msgstr "Автоналаштування"
-
-#: TFRMOPTIONS.BTNBACKVIEWERCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNBACKVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
 
 #: TFRMOPTIONS.BTNCANCEL.CAPTION
 msgctxt "TFRMOPTIONS.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION
-msgctxt "TFRMOPTIONS.BTNCONFIGAPPLY.CAPTION"
-msgid "Apply"
-msgstr "Застосувати"
-
-#: TFRMOPTIONS.BTNCONFIGEDIT.CAPTION
-msgctxt "TFRMOPTIONS.BTNCONFIGEDIT.CAPTION"
-msgid "Edit"
-msgstr "Редагувати"
-
-#: TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION
-msgctxt "TFRMOPTIONS.BTNCOPYCOLUMNSSET.CAPTION"
-msgid "Copy"
-msgstr "Копіювати"
-
-#: TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION
-msgctxt "TFRMOPTIONS.BTNDELCOLUMNSSET.CAPTION"
-msgid "Delete"
-msgstr "Видалити"
-
-#: TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION
-msgctxt "TFRMOPTIONS.BTNEDITCOLUMNSSET.CAPTION"
-msgid "Edit"
-msgstr "Редагувати"
-
-#: TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION
-msgctxt "TFRMOPTIONS.BTNFONTVIEWERCOLOR.CAPTION"
-msgid ">>"
-msgstr ">>"
-
-#: TFRMOPTIONS.BTNMULTIARCADD.CAPTION
-msgctxt "TFRMOPTIONS.BTNMULTIARCADD.CAPTION"
-msgid "Add"
-msgstr "Додати"
-
-#: TFRMOPTIONS.BTNMULTIARCAPPLY.CAPTION
-msgctxt "TFRMOPTIONS.BTNMULTIARCAPPLY.CAPTION"
-msgid "Apply"
-msgstr "Застосувати"
-
-#: TFRMOPTIONS.BTNMULTIARCDELETE.CAPTION
-msgctxt "TFRMOPTIONS.BTNMULTIARCDELETE.CAPTION"
-msgid "Delete"
-msgstr "Видалити"
-
-#: TFRMOPTIONS.BTNMULTIARCRENAME.CAPTION
-msgctxt "TFRMOPTIONS.BTNMULTIARCRENAME.CAPTION"
-msgid "Rename"
-msgstr "Перейменувати"
-
-#: TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION
-msgctxt "TFRMOPTIONS.BTNNEWCOLUMNSSET.CAPTION"
-msgid "&New"
-msgstr "&Створити"
-
 #: TFRMOPTIONS.BTNOK.CAPTION
 msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Так"
-
-#: TFRMOPTIONS.BTNSELEDITFNT.CAPTION
-msgctxt "TFRMOPTIONS.BTNSELEDITFNT.CAPTION"
-msgid "..."
-msgstr "..."
-
-#: TFRMOPTIONS.BTNSELLOGFNT.CAPTION
-msgctxt "TFRMOPTIONS.BTNSELLOGFNT.CAPTION"
-msgid "..."
-msgstr "..."
-
-#: TFRMOPTIONS.BTNSELMAINFNT.CAPTION
-msgctxt "TFRMOPTIONS.BTNSELMAINFNT.CAPTION"
-msgid "..."
-msgstr "..."
-
-#: TFRMOPTIONS.BTNSELVIEWERBOOKFNT.CAPTION
-msgctxt "TFRMOPTIONS.BTNSELVIEWERBOOKFNT.CAPTION"
-msgid "..."
-msgstr "..."
-
-#: TFRMOPTIONS.BTNSELVIEWFNT.CAPTION
-msgctxt "TFRMOPTIONS.BTNSELVIEWFNT.CAPTION"
-msgid "..."
-msgstr "..."
-
-#: TFRMOPTIONS.BTSETHOTKEY.CAPTION
-msgid "Set HotKey"
-msgstr "Задати ГарКлавішу"
 
 #: TFRMOPTIONS.CAPTION
 msgctxt "TFRMOPTIONS.CAPTION"
 msgid "Options"
 msgstr "Налаштування"
 
-#: TFRMOPTIONS.CBALWAYSSHOWTRAYICON.CAPTION
-msgid "Always show tray icon"
-msgstr "Завжди показувати іконку в треї"
+#: TFRMOPTIONSARCHIVERS.BTNAUTOCONFIG.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.BTNAUTOCONFIG.CAPTION"
+msgid "Auto Configure"
+msgstr "Автоналаштування"
 
-#: TFRMOPTIONS.CBBFILESYSTEM.TEXT
-msgctxt "TFRMOPTIONS.CBBFILESYSTEM.TEXT"
-msgid "General"
-msgstr "Основні"
+#: TFRMOPTIONSARCHIVERS.BTNMULTIARCADD.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCADD.CAPTION"
+msgid "Add"
+msgstr "Додати"
 
-#: TFRMOPTIONS.CBCMDLINEHISTORY.CAPTION
-msgid "Command line history"
-msgstr "Історія командного рядка"
+#: TFRMOPTIONSARCHIVERS.BTNMULTIARCAPPLY.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCAPPLY.CAPTION"
+msgid "Apply"
+msgstr "Застосувати"
 
-#: TFRMOPTIONS.CBCUTTEXTTOCOLWIDTH.CAPTION
-msgid "Cut text to column width"
-msgstr "Обрізати текст до ширини колонки"
-
-#: TFRMOPTIONS.CBDELETETOTRASH.CAPTION
-msgid "Delete to recycle bin (Shift key reverses this setting)"
-msgstr "F8/Del - видалення в Кошик (з Shift - на&завжди)"
-
-#: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
-msgid "Show square brackets around directories"
-msgstr "Показувати квадратні дужки навколо каталогів"
-
-#: TFRMOPTIONS.CBDIRHISTORY.CAPTION
-msgctxt "TFRMOPTIONS.CBDIRHISTORY.CAPTION"
-msgid "Directory history"
-msgstr "Історія каталогів"
-
-#: TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION
-msgctxt "TFRMOPTIONS.CBDROPREADONLYFLAG.CAPTION"
-msgid "Drop readonly flag"
-msgstr "Скинути прапорець \"Лише читання\""
-
-#: TFRMOPTIONS.CBEXACTBEGINNING.CAPTION
-msgid "&Beginning (name must start with first typed character)"
-msgstr "По&чаток (ім'я має починатись з набраних символів)"
-
-#: TFRMOPTIONS.CBEXACTENDING.CAPTION
-msgid "En&ding (last character before a typed dot . must match)"
-msgstr "Кі&нець (останні символи до набраної крапки '.' повинні співпадати)"
-
-#: TFRMOPTIONS.CBFILEMASKHISTORY.CAPTION
-msgid "File mask history"
-msgstr "Історія масок файлів"
-
-#: TFRMOPTIONS.CBFLATDISKPANEL.CAPTION
-msgctxt "TFRMOPTIONS.CBFLATDISKPANEL.CAPTION"
-msgid "Flat buttons"
-msgstr "Плоскі кнопки"
-
-#: TFRMOPTIONS.CBFLATINTERFACE.CAPTION
-msgid "Flat interface"
-msgstr "Плоский інтерфейс"
-
-#: TFRMOPTIONS.CBFLATTOOLBAR.CAPTION
-msgctxt "TFRMOPTIONS.CBFLATTOOLBAR.CAPTION"
-msgid "Flat buttons"
-msgstr "Плоскі кнопки"
-
-#: TFRMOPTIONS.CBFREESPACEIND.CAPTION
-msgid "Show free space indicator on drive label"
-msgstr "Показувати індикатор вільного місця на панелі дисків"
-
-#: TFRMOPTIONS.CBGRIDHORZLINE.CAPTION
-msgid "Horizontal lines"
-msgstr "Горизонтальні лінії"
-
-#: TFRMOPTIONS.CBGRIDVERTLINE.CAPTION
-msgid "Vertical lines"
-msgstr "Вертикальні лінії"
-
-#: TFRMOPTIONS.CBICONSSHOWOVERLAY.CAPTION
-msgctxt "TFRMOPTIONS.CBICONSSHOWOVERLAY.CAPTION"
-msgid "Show overlay i&cons, e.g. for links"
-msgstr "Показувати оверлейні &іконки (наприклад для ярликів)"
-
-#: TFRMOPTIONS.CBICONSSIZE.TEXT
-msgid "16x16"
-msgstr "16x16"
-
-#: TFRMOPTIONS.CBLISTFILESINTHREAD.CAPTION
-msgid "Load file list in separate thread"
-msgstr "Завантажувати список файлів в окремому потоці"
-
-#: TFRMOPTIONS.CBLOADICONSSEPARATELY.CAPTION
-msgid "Load icons after file list"
-msgstr "Завантажувати іконки після списку"
-
-#: TFRMOPTIONS.CBLOGARCOP.CAPTION
-msgid "Pack/Unpack"
-msgstr "Запакувати/Розпакувати"
-
-#: TFRMOPTIONS.CBLOGCPMVLN.CAPTION
-msgid "Copy/Move/Create link/symlink"
-msgstr "Копіювання/Переміщення/Створення посилань"
-
-#: TFRMOPTIONS.CBLOGDELETE.CAPTION
-msgctxt "TFRMOPTIONS.CBLOGDELETE.CAPTION"
+#: TFRMOPTIONSARCHIVERS.BTNMULTIARCDELETE.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCDELETE.CAPTION"
 msgid "Delete"
 msgstr "Видалити"
 
-#: TFRMOPTIONS.CBLOGDIROP.CAPTION
-msgid "Create/Delete directories"
-msgstr "Створення/Видалення каталогів"
+#: TFRMOPTIONSARCHIVERS.BTNMULTIARCRENAME.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCRENAME.CAPTION"
+msgid "Rename"
+msgstr "Перейменувати"
 
-#: TFRMOPTIONS.CBLOGERRORS.CAPTION
-msgid "Log &errors"
-msgstr "Звіт &помилок"
-
-#: TFRMOPTIONS.CBLOGFILE.CAPTION
-msgid "&Create a log file:"
-msgstr "&Створити файл звіту:"
-
-#: TFRMOPTIONS.CBLOGINFO.CAPTION
-msgid "Log information messages"
-msgstr "Звіт інформаційних повідомлень"
-
-#: TFRMOPTIONS.CBLOGSUCCESS.CAPTION
-msgid "Log &successful operations"
-msgstr "Звіт про ус&пішні операції"
-
-#: TFRMOPTIONS.CBLOGVFS.CAPTION
-msgid "File system plugins"
-msgstr "Плагіни файлової системи"
-
-#: TFRMOPTIONS.CBLOGWINDOW.CAPTION
-msgid "Show log window"
-msgstr "Показати вікно звіту"
-
-#: TFRMOPTIONS.CBLYNXLIKE.CAPTION
-msgid "Lynx-like movement"
-msgstr "Навігація в стилі Lynx"
-
-#: TFRMOPTIONS.CBMINIMIZETOTRAY.CAPTION
-msgid "Mo&ve icon to system tray when minimized"
-msgstr "Перемістити іконку в системний трей при згортанні"
-
-#: TFRMOPTIONS.CBONLYONCE.CAPTION
-msgid "Allow only one copy of DC at a time"
-msgstr "Не запускати більше однієї копії DC"
-
-#: TFRMOPTIONS.CBPANELOFOPERATIONS.CAPTION
-msgid "Show panel of operation in background"
-msgstr "Показувати панель операцій у фоні"
-
-#: TFRMOPTIONS.CBPARTIALNAMESEARCH.CAPTION
-msgid "Search for part of file name"
-msgstr "Шукати по частині назви файлу"
-
-#: TFRMOPTIONS.CBPROCESSCOMMENTS.CAPTION
-msgid "Process comments with files/folders"
-msgstr "Опрацьовувати коментарі з файлами/каталогами"
-
-#: TFRMOPTIONS.CBPROGINMENUBAR.CAPTION
-msgid "Show common progress in menu bar"
-msgstr "Показувати загальний прогрес в рядку меню"
-
-#: TFRMOPTIONS.CBRENAMESELONLYNAME.CAPTION
-msgid "Select only the file name when renaming (not the extension)"
-msgstr "При перейменуванні виділяти лише ім'я файлу (без розширення)"
-
-#: TFRMOPTIONS.CBSAVETHUBNAILS.CAPTION
-msgid "Save thubnails in cache"
-msgstr "Зберігати ескізи в кеш"
-
-#: TFRMOPTIONS.CBSELECTIONBYMOUSE.CAPTION
-msgid "Selection by mouse"
-msgstr "Виділення мишкою"
-
-#: TFRMOPTIONS.CBSHORTFILESIZEFORMAT.CAPTION
-msgid "Short file size format"
-msgstr "Короткий розмір файлу"
-
-#: TFRMOPTIONS.CBSHOWCMDLINE.CAPTION
-msgid "Show command &line"
-msgstr "Показувати &командний рядок"
-
-#: TFRMOPTIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION
-msgid "Show tab select panel in copy/move dialog"
-msgstr "Показувати панель вибору вкладок при перейменування/переміщенні"
-
-#: TFRMOPTIONS.CBSHOWCURDIR.CAPTION
-msgid "Show &current directory"
-msgstr "Показати по&точний каталог"
-
-#: TFRMOPTIONS.CBSHOWDIALOGONDRAGDROP.CAPTION
-msgid "Show confirmation dialog on drag&&drop operations"
-msgstr "Показувати діалог підтвердження при drag&&drop"
-
-#: TFRMOPTIONS.CBSHOWDISKPANEL.CAPTION
-msgid "Show &drive buttons"
-msgstr "Показувати кнопки &дисків"
-
-#: TFRMOPTIONS.CBSHOWDRIVEFREESPACE.CAPTION
-msgid "Show free space label"
-msgstr "Показати мітки вільного простору"
-
-#: TFRMOPTIONS.CBSHOWDRIVEMENUBUTTON.CAPTION
-msgid "Show d&rive menu button"
-msgstr "Показувати кнопку мен&ю дисків"
-
-#: TFRMOPTIONS.CBSHOWKEYSPANEL.CAPTION
-msgid "Show &function key buttons"
-msgstr "Показувати кнопки &функціональних клавіш"
-
-#: TFRMOPTIONS.CBSHOWMAINMENU.CAPTION
-msgid "Show main menu"
-msgstr "Показати головне меню"
-
-#: TFRMOPTIONS.CBSHOWMAINTOOLBAR.CAPTION
-msgid "Show &button bar"
-msgstr "Показувати &панель кнопок"
-
-#: TFRMOPTIONS.CBSHOWSTATUSBAR.CAPTION
-msgid "Show &status bar"
-msgstr "Показувати рядок стану"
-
-#: TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION
-msgctxt "TFRMOPTIONS.CBSHOWSYSTEMFILES.CAPTION"
-msgid "Show system and hidden files"
-msgstr "Показувати системні та приховані файли"
-
-#: TFRMOPTIONS.CBSHOWTABHEADER.CAPTION
-msgid "Show &tabstop header"
-msgstr "Показувати &заголовки табуляторів"
-
-#: TFRMOPTIONS.CBSHOWTABS.CAPTION
-msgid "Sho&w folder tabs"
-msgstr "Показувати вкл&адки"
-
-#: TFRMOPTIONS.CBSHOWWARNINGMESSAGES.CAPTION
-msgid "Show warning messages (\"OK\" button only)"
-msgstr "Показувати попередження (лише кнопка \"OK\")"
-
-#: TFRMOPTIONS.CBSKIPFILEOPERROR.CAPTION
-msgid "Skip file operations errors and write them to log window"
-msgstr "Пропускати помилки при файлових операціях і заносити їх у звіт"
-
-#: TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION
-msgctxt "TFRMOPTIONS.CBSORTCASESENSITIVE.CAPTION"
-msgid "Case-sensitive sorting"
-msgstr "Сортувати з врахуванням регістру"
-
-#: TFRMOPTIONS.CBSORTMETHOD.TEXT
-msgid "Alphabetical, considering accents"
-msgstr "Алфавітний, з врахуванням наголосів"
-
-#: TFRMOPTIONS.CBSPACEMOVESDOWN.CAPTION
-msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "При виділенні файлів пробілом переміщувати курсор на наступний файл (як в <INSERT>)"
-
-#: TFRMOPTIONS.CBTABSACTIVATEONCLICK.CAPTION
-msgid "Activate target &panel when clicking on one of its Tabs"
-msgstr "Робити &панель активною при клацанні по одній з її вкладок"
-
-#: TFRMOPTIONS.CBTABSALWAYSVISIBLE.CAPTION
-msgid "&Show tab header also when there is only one tab"
-msgstr "Показувати заголовок вкладки, нав&іть якщо вона одна"
-
-#: TFRMOPTIONS.CBTABSCONFIRMCLOSEALL.CAPTION
-msgid "&Confirm close all tabs"
-msgstr "Підтверд&жувати закриття всіх вкладок"
-
-#: TFRMOPTIONS.CBTABSLIMITOPTION.CAPTION
-msgid "&Limit tab title length to:"
-msgstr "&Обмежити розмір заголовка вкладки до:"
-
-#: TFRMOPTIONS.CBTABSLOCKEDASTERISK.CAPTION
-msgid "Show locked tabs &with an asterisk *"
-msgstr "Показувати заблоковані вкладки зі знаком зірочки *"
-
-#: TFRMOPTIONS.CBTABSMULTILINES.CAPTION
-msgid "&Tabs on multiple lines"
-msgstr "Розміщати вкладки в декі&лька рядів"
-
-#: TFRMOPTIONS.CBTABSOPENFOREGROUND.CAPTION
-msgid "Ctrl+&Up opens new tab in foreground"
-msgstr "Ctrl+&Up відкриває нову вкладку на передньому плані"
-
-#: TFRMOPTIONS.CBTABSOPENNEARCURRENT.CAPTION
-msgid "Open &new tabs near current tab"
-msgstr "Відкривати &нову вкладку поряд з поточною"
-
-#: TFRMOPTIONS.CBTABSSHOWCLOSEBUTTON.CAPTION
-msgid "Show tab close button"
-msgstr "Показувати кнопку закриття вкладки"
-
-#: TFRMOPTIONS.CBTERMWINDOW.CAPTION
-msgid "Show terminal window"
-msgstr "Показати вікно терміналу"
-
-#: TFRMOPTIONS.CBTOOLSKEEPTERMINALOPEN.CAPTION
-msgid "Keep terminal window open after executing program"
-msgstr "Тримати вікно терміналу відкритим після виконання програми"
-
-#: TFRMOPTIONS.CBTOOLSRUNINTERMINAL.CAPTION
-msgid "Execute in terminal"
-msgstr "Виконати у терміналі"
-
-#: TFRMOPTIONS.CBTOOLSUSEEXTERNALPROGRAM.CAPTION
-msgid "Use external program"
-msgstr "Використовувати зовнішню програму"
-
-#: TFRMOPTIONS.CBTWODISKPANELS.CAPTION
-msgid "Show two drive button bars (fixed width, above file windows)"
-msgstr "Показувати д&ві панелі кнопок дисків (фіксована довжина, над файловими панелями)"
-
-#: TFRMOPTIONS.CBWATCHATTRIBUTESCHANGE.CAPTION
-msgid "When &size, date or attributes change"
-msgstr "&Також оновлювати при зміні розміру, дати чи атрибутів"
-
-#: TFRMOPTIONS.CBWATCHEXCLUDEDIRS.CAPTION
-msgid "For the following &paths and their subdirectories:"
-msgstr "Для наступних шляхів і їх підкаталогів:"
-
-#: TFRMOPTIONS.CBWATCHFILENAMECHANGE.CAPTION
-msgid "When files are &created, deleted or renamed"
-msgstr "&Оновлювати при створенні, копіюванні чи видаленні файлів"
-
-#: TFRMOPTIONS.CBWATCHONLYFOREGROUND.CAPTION
-msgid "When application is in the &background"
-msgstr "Не реагувати на зміни якщо вікно у &фоні"
-
-#: TFRMOPTIONS.CHKAUTOFILLCOLUMNS.CAPTION
-msgid "Auto fill columns"
-msgstr "Розтягувати колонки на ширину панелі"
-
-#: TFRMOPTIONS.CHKIGNOREENABLE.CAPTION
-msgid "&Ignore (don't show) the following files and folders:"
-msgstr "&Ігнорувати (не показувати) такі файли і папки:"
-
-#: TFRMOPTIONS.CHKMULTIARCDEBUG.CAPTION
+#: TFRMOPTIONSARCHIVERS.CHKMULTIARCDEBUG.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCDEBUG.CAPTION"
 msgid "Debug mode"
 msgstr "Режим налагодження"
 
-#: TFRMOPTIONS.CHKMULTIARCENABLED.CAPTION
+#: TFRMOPTIONSARCHIVERS.CHKMULTIARCENABLED.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCENABLED.CAPTION"
 msgid "Enabled"
 msgstr "Ввімкнено"
 
-#: TFRMOPTIONS.CHKMULTIARCOUTPUT.CAPTION
-msgctxt "TFRMOPTIONS.CHKMULTIARCOUTPUT.CAPTION"
+#: TFRMOPTIONSARCHIVERS.CHKMULTIARCOUTPUT.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCOUTPUT.CAPTION"
 msgid "Show console output"
 msgstr "Показати вивід на консоль"
 
-#: TFRMOPTIONS.CHKSAVECONFIGURATION.CAPTION
-msgid "Save configuration"
-msgstr "Зберегти налаштування"
-
-#: TFRMOPTIONS.CHKSEARCHREPLACEHISTORY.CAPTION
-msgid "Search/Replace history"
-msgstr "Історія пошуку/заміни"
-
-#: TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION
-msgctxt "TFRMOPTIONS.GBARCHIVEROPTIONS.CAPTION"
+#: TFRMOPTIONSARCHIVERS.GBARCHIVEROPTIONS.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.GBARCHIVEROPTIONS.CAPTION"
 msgid "Options"
 msgstr "Налаштування"
 
-#: TFRMOPTIONS.GBAUTOREFRESHDISABLE.CAPTION
-msgid "Disable auto-refresh"
-msgstr "Відключити автооновлення"
-
-#: TFRMOPTIONS.GBAUTOREFRESHENABLE.CAPTION
-msgid "Refresh file list"
-msgstr "Оновлення списку файлів"
-
-#: TFRMOPTIONS.GBCOPYBUFFERSIZE.CAPTION
-msgid "&Buffer size for files:"
-msgstr "&Розмір буфера для файлів:"
-
-#: TFRMOPTIONS.GBDATETIMEFORMAT.CAPTION
-msgid "Date and time"
-msgstr "Дата і час"
-
-#: TFRMOPTIONS.GBEXACTNAMEMATCH.CAPTION
-msgid "Exact name match:"
-msgstr "Точне співпадіння імені:"
-
-#: TFRMOPTIONS.GBFILESEARCH.CAPTION
-msgid "File search"
-msgstr "Пошук файлів"
-
-#: TFRMOPTIONS.GBGENERALOPTIONS.CAPTION
-msgid "General options"
-msgstr "Основні налаштування"
-
-#: TFRMOPTIONS.GBICONSSIZE.CAPTION
-msgctxt "TFRMOPTIONS.GBICONSSIZE.CAPTION"
-msgid " Icon &size "
-msgstr "Розмір &іконок"
-
-#: TFRMOPTIONS.GBLOCCONFIGFILES.CAPTION
-msgid "Location of configuration files"
-msgstr "Розміщення файлів конфігурації"
-
-#: TFRMOPTIONS.GBLOGFILE.CAPTION
-msgid "File operation log file"
-msgstr "Звіт про операції з файлами"
-
-#: TFRMOPTIONS.GBLOGFILEOP.CAPTION
-msgid "Log operations:"
-msgstr "Підзвітні дії:"
-
-#: TFRMOPTIONS.GBLOGFILESTATUS.CAPTION
-msgid "Operation status:"
-msgstr "Статус операції:"
-
-#: TFRMOPTIONS.GBSAVEONEXIT.CAPTION
-msgid "Save on exit"
-msgstr "Зберігати при виході"
-
-#: TFRMOPTIONS.GBSCREENLAYOUT.CAPTION
-msgid " Screen layout "
-msgstr " Компоненти основного вікна "
-
-#: TFRMOPTIONS.GBSCROLLING.CAPTION
-msgctxt "TFRMOPTIONS.GBSCROLLING.CAPTION"
-msgid "Scrolling"
-msgstr "Прокрутка"
-
-#: TFRMOPTIONS.GBSHOWGRID.CAPTION
-msgid "Show grid in file panel"
-msgstr "Відображати сітку для панелей"
-
-#: TFRMOPTIONS.GBSHOWICONSMODE.CAPTION
-msgctxt "TFRMOPTIONS.GBSHOWICONSMODE.CAPTION"
-msgid " Show icons to the left of the filename "
-msgstr " Показ іконок зв’язаних з типом файлу "
-
-#: TFRMOPTIONS.GBSORTING.CAPTION
-msgid "Sorting"
-msgstr "Сортування"
-
-#: TFRMOPTIONS.GBTABS.CAPTION
-msgid "Folder tabs headers"
-msgstr "Заголовки вкладок"
-
-#: TFRMOPTIONS.GBVIEWERBOOKMODE.CAPTION
-msgid "Viewer Book Mode"
-msgstr "Режим перегляду книг"
-
-#: TFRMOPTIONS.GBVIEWEREXAMPLE.CAPTION
-msgctxt "TFRMOPTIONS.GBVIEWEREXAMPLE.CAPTION"
-msgid "Example"
-msgstr "Приклад"
-
-#: TFRMOPTIONS.GRPQUICKSEARCHFILTERKEYS.CAPTION
-msgid "Keys settings"
-msgstr "Налаштування клавіш"
-
-#: TFRMOPTIONS.LBCOMMANDS.CAPTION
-msgid "Commands:"
-msgstr "Команди:"
-
-#: TFRMOPTIONS.LBFILTER.CAPTION
-msgid "Filter"
-msgstr "Фільтр"
-
-#: TFRMOPTIONS.LBLARCHIVEADD.CAPTION
+#: TFRMOPTIONSARCHIVERS.LBLARCHIVEADD.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEADD.CAPTION"
 msgid "Add:"
 msgstr "Додати:"
 
-#: TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION
-msgctxt "TFRMOPTIONS.LBLARCHIVEEXTENSION.CAPTION"
+#: TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTENSION.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTENSION.CAPTION"
 msgid "Extension:"
 msgstr "Розширення:"
 
-#: TFRMOPTIONS.LBLARCHIVEEXTRACT.CAPTION
+#: TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTRACT.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTRACT.CAPTION"
 msgid "Extract:"
 msgstr "Розпакувати:"
 
-#: TFRMOPTIONS.LBLARCHIVELIST.CAPTION
+#: TFRMOPTIONSARCHIVERS.LBLARCHIVELIST.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELIST.CAPTION"
 msgid "List:"
 msgstr "Список:"
 
-#: TFRMOPTIONS.LBLARCHIVELISTEND.CAPTION
+#: TFRMOPTIONSARCHIVERS.LBLARCHIVELISTEND.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTEND.CAPTION"
 msgid "Listing finish (optional):"
 msgstr "Кінець списку (за бажанням)"
 
-#: TFRMOPTIONS.LBLARCHIVELISTFORMAT.CAPTION
+#: TFRMOPTIONSARCHIVERS.LBLARCHIVELISTFORMAT.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTFORMAT.CAPTION"
 msgid "Listing format:"
 msgstr "Формат списку:"
 
-#: TFRMOPTIONS.LBLARCHIVELISTSTART.CAPTION
+#: TFRMOPTIONSARCHIVERS.LBLARCHIVELISTSTART.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTSTART.CAPTION"
 msgid "Listing start (optional):"
 msgstr "Початок списку (за бажанням)"
 
-#: TFRMOPTIONS.LBLARCHIVER.CAPTION
+#: TFRMOPTIONSARCHIVERS.LBLARCHIVER.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVER.CAPTION"
 msgid "Archiver:"
 msgstr "Архіватор:"
 
-#: TFRMOPTIONS.LBLAUTOSIZECOLUMN.CAPTION
-msgid "Auto size column:"
-msgstr "Пристосовувати розмір:"
-
-#: TFRMOPTIONS.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION
-msgid "Background color in book viewer"
-msgstr "Колір фону в переглядачі книг"
-
-#: TFRMOPTIONS.LBLCHAR.CAPTION
-msgid "characters"
-msgstr "символів"
-
-#: TFRMOPTIONS.LBLCMDLINECONFIGDIR.CAPTION
-#, fuzzy
-msgid "Set on command line"
-msgstr "Встановити в командному рядку"
-
-#: TFRMOPTIONS.LBLCONFIGCOLUMNS.CAPTION
-msgid "Configure columns for file system:"
-msgstr "Налаштувати колонки для файлової системи:"
-
-#: TFRMOPTIONS.LBLCOPYBUFFERSIZE.CAPTION
-msgid "Buffer size (Kb):"
-msgstr "Розмір буфера (Кб):"
-
-#: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
-msgid "Date and time format:"
-msgstr "Формат дати і часу:"
-
-#: TFRMOPTIONS.LBLDESCRIPTION.CAPTION
-msgctxt "TFRMOPTIONS.LBLDESCRIPTION.CAPTION"
+#: TFRMOPTIONSARCHIVERS.LBLDESCRIPTION.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.LBLDESCRIPTION.CAPTION"
 msgid "Description:"
 msgstr "Опис:"
 
-#: TFRMOPTIONS.LBLEDITORFONT.CAPTION
-msgid "Editor font"
-msgstr "Шрифт редактора"
-
-#: TFRMOPTIONS.LBLFONTCOLORVIEWERBOOK.CAPTION
-msgid "Font color in book viewer"
-msgstr "Колір шрифту в переглядачі книг"
-
-#: TFRMOPTIONS.LBLHOTKEY.CAPTION
-msgctxt "TFRMOPTIONS.LBLHOTKEY.CAPTION"
-msgid "Hot Key:"
-msgstr "Гаряча клавіша:"
-
-#: TFRMOPTIONS.LBLLOGFONT.CAPTION
-msgid "Log font"
-msgstr "Шрифт логу"
-
-#: TFRMOPTIONS.LBLMAINFONT.CAPTION
-msgid "Main font"
-msgstr "Основний шрифт"
-
-#: TFRMOPTIONS.LBLMOUSEMODE.CAPTION
-msgid "Mode:"
-msgstr "Режим:"
-
-#: TFRMOPTIONS.LBLNUMBERCOLUMNSVIEWER.CAPTION
-msgid "Number of columns in book viewer"
-msgstr "К-сть стовпців у переглядачі книг"
-
-#: TFRMOPTIONS.LBLPARAM.CAPTION
-msgid "Param:"
-msgstr "Параметри:"
-
-#: TFRMOPTIONS.LBLQUICKFILTER.CAPTION
-msgid "Quick &filter:"
-msgstr "Швидкий &фільтр"
-
-#: TFRMOPTIONS.LBLQUICKSEARCH.CAPTION
-msgid "Quick &search:"
-msgstr "Швидкий &пошук"
-
-#: TFRMOPTIONS.LBLRUNINTERM.CAPTION
-msgid "Run in terminal:"
-msgstr "Запустити у терміналі:"
-
-#: TFRMOPTIONS.LBLRUNTERM.CAPTION
-msgid "Run terminal:"
-msgstr "Запуск терміналу:"
-
-#: TFRMOPTIONS.LBLSAVEIN.CAPTION
-msgid "&Save in:"
-msgstr "&Зберегти в:"
-
-#: TFRMOPTIONS.LBLSCFILES.CAPTION
-msgid "Shortcut files:"
-msgstr "Ярлики"
-
-#: TFRMOPTIONS.LBLSORTMETHOD.CAPTION
-msgid "Sort &method:"
-msgstr "&Метод сортування:"
-
-#: TFRMOPTIONS.LBLTABSPOSITION.CAPTION
-msgid "Tabs position:"
-msgstr "Положення вкладок"
-
-#: TFRMOPTIONS.LBLTOOLSPARAMETERS.CAPTION
-msgid "Additional parameters"
-msgstr "Додаткові параметри"
-
-#: TFRMOPTIONS.LBLTOOLSPATH.CAPTION
-msgid "Path to program to execute"
-msgstr "Шлях до зовнішньої програми"
-
-#: TFRMOPTIONS.LBLVIEWERBOOKFONT.CAPTION
-msgid "Viewer Book Font"
-msgstr "Шрифт переглядача книг"
-
-#: TFRMOPTIONS.LBLVIEWERFONT.CAPTION
-msgid "Viewer font"
-msgstr "Шрифт переглядача"
-
-#: TFRMOPTIONS.LBLWIPEPASSNUMBER.CAPTION
-msgid "Number of wipe pass:"
-msgstr "Кіл-ть проходів стирання:"
-
-#: TFRMOPTIONS.LBTYPES.CAPTION
-msgid "Categories:"
-msgstr "Категорії:"
-
-#: TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
-msgctxt "TFRMOPTIONS.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION"
-msgid "Drive blacklist:"
-msgstr "Чорний список дисків:"
-
-#: TFRMOPTIONS.LEDDRIVEBLACKLIST.HINT
-msgid "Here you can enter one or more drives, separated by \";\"."
-msgstr "Тут ви можете ввести один або декілька дисків, розділених \";\"."
-
-#: TFRMOPTIONS.RBALTLETTERQS.CAPTION
-msgid "Alt+Letters"
-msgstr "Alt+Буква"
-
-#: TFRMOPTIONS.RBCTRLALTLETTERQS.CAPTION
-msgid "Ctrl+Alt+Letters"
-msgstr "Ctrl+Alt+Буква"
-
-#: TFRMOPTIONS.RBICONSSHOWALL.CAPTION
-msgctxt "TFRMOPTIONS.RBICONSSHOWALL.CAPTION"
-msgid "&All"
-msgstr "&Усі"
-
-#: TFRMOPTIONS.RBICONSSHOWALLANDEXE.CAPTION
-msgctxt "TFRMOPTIONS.RBICONSSHOWALLANDEXE.CAPTION"
-msgid "All associated + &EXE/LNK (slow)"
-msgstr "Усі асоційовані + &EXE/LNK (повільно)"
-
-#: TFRMOPTIONS.RBICONSSHOWNONE.CAPTION
-msgctxt "TFRMOPTIONS.RBICONSSHOWNONE.CAPTION"
-msgid "&No icons"
-msgstr "&Без іконок"
-
-#: TFRMOPTIONS.RBICONSSHOWSTANDARD.CAPTION
-msgctxt "TFRMOPTIONS.RBICONSSHOWSTANDARD.CAPTION"
-msgid "&Only standard icons"
-msgstr "Лише &стандартні іконки"
-
-#: TFRMOPTIONS.RBLETTERQS.CAPTION
-msgid "Letter only"
-msgstr "Лише буква"
-
-#: TFRMOPTIONS.RBNONEQS.CAPTION
-msgid "Disabled"
-msgstr "Відключено"
-
-#: TFRMOPTIONS.RBPROGRAMDIR.CAPTION
-msgid "Program directory (portable version)"
-msgstr "Каталог програми (для переносної версії)"
-
-#: TFRMOPTIONS.RBSCROLLLINEBYLINE.CAPTION
-msgctxt "TFRMOPTIONS.RBSCROLLLINEBYLINE.CAPTION"
-msgid "Line by line"
-msgstr "По рядках"
-
-#: TFRMOPTIONS.RBSCROLLLINEBYLINECURSOR.CAPTION
-msgctxt "TFRMOPTIONS.RBSCROLLLINEBYLINECURSOR.CAPTION"
-msgid "Line by line with cursor movement"
-msgstr "По рядках з рухом курсора"
-
-#: TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION
-msgctxt "TFRMOPTIONS.RBSCROLLPAGEBYPAGE.CAPTION"
-msgid "Page by page"
-msgstr "Посторінково"
-
-#: TFRMOPTIONS.RBUSEMMAPINSEARCH.CAPTION
-msgid "Use memory mapping for search text in files"
-msgstr "Використати відображення в пам'ять при пошуку тексту у файлах"
-
-#: TFRMOPTIONS.RBUSERHOMEDIR.CAPTION
-msgid "User home directory"
-msgstr "Домашній каталог користувача"
-
-#: TFRMOPTIONS.RBUSESTREAMINSEARCH.CAPTION
-msgid "Use stream for search text in files"
-msgstr "Використати потік при пошуку тексту в файлах"
-
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
-msgid "Hotkey"
-msgstr "Гаряча клавіша"
-
-#: TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION"
-msgid "Parameters"
-msgstr "Параметри"
-
-#: TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION
-msgctxt "TFRMOPTIONS.STGTOOLS.COLUMNS[0].TITLE.CAPTION"
-msgid "Tool"
-msgstr "Інструмент"
-
-#: TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION
-msgctxt "TFRMOPTIONS.TBARCHIVERADDITIONAL.CAPTION"
+#: TFRMOPTIONSARCHIVERS.TBARCHIVERADDITIONAL.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.TBARCHIVERADDITIONAL.CAPTION"
 msgid "Additional"
 msgstr "Додатково"
 
-#: TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION
-msgctxt "TFRMOPTIONS.TBARCHIVERGENERAL.CAPTION"
+#: TFRMOPTIONSARCHIVERS.TBARCHIVERGENERAL.CAPTION
+msgctxt "TFRMOPTIONSARCHIVERS.TBARCHIVERGENERAL.CAPTION"
 msgid "General"
 msgstr "Основні"
+
+#: TFRMOPTIONSAUTOREFRESH.CBWATCHATTRIBUTESCHANGE.CAPTION
+msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHATTRIBUTESCHANGE.CAPTION"
+msgid "When &size, date or attributes change"
+msgstr "&Також оновлювати при зміні розміру, дати чи атрибутів"
+
+#: TFRMOPTIONSAUTOREFRESH.CBWATCHEXCLUDEDIRS.CAPTION
+msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHEXCLUDEDIRS.CAPTION"
+msgid "For the following &paths and their subdirectories:"
+msgstr "Для наступних шляхів і їх підкаталогів:"
+
+#: TFRMOPTIONSAUTOREFRESH.CBWATCHFILENAMECHANGE.CAPTION
+msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHFILENAMECHANGE.CAPTION"
+msgid "When files are &created, deleted or renamed"
+msgstr "&Оновлювати при створенні, копіюванні чи видаленні файлів"
+
+#: TFRMOPTIONSAUTOREFRESH.CBWATCHONLYFOREGROUND.CAPTION
+msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHONLYFOREGROUND.CAPTION"
+msgid "When application is in the &background"
+msgstr "Не реагувати на зміни якщо вікно у &фоні"
+
+#: TFRMOPTIONSAUTOREFRESH.GBAUTOREFRESHDISABLE.CAPTION
+msgctxt "TFRMOPTIONSAUTOREFRESH.GBAUTOREFRESHDISABLE.CAPTION"
+msgid "Disable auto-refresh"
+msgstr "Відключити автооновлення"
+
+#: TFRMOPTIONSAUTOREFRESH.GBAUTOREFRESHENABLE.CAPTION
+msgctxt "TFRMOPTIONSAUTOREFRESH.GBAUTOREFRESHENABLE.CAPTION"
+msgid "Refresh file list"
+msgstr "Оновлення списку файлів"
+
+#: TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
+msgid "Always show tray icon"
+msgstr "Завжди показувати іконку в треї"
+
+#: TFRMOPTIONSBEHAVIOR.CBCUTTEXTTOCOLWIDTH.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CBCUTTEXTTOCOLWIDTH.CAPTION"
+msgid "Cut text to column width"
+msgstr "Обрізати текст до ширини колонки"
+
+#: TFRMOPTIONSBEHAVIOR.CBLISTFILESINTHREAD.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CBLISTFILESINTHREAD.CAPTION"
+msgid "Load file list in separate thread"
+msgstr "Завантажувати список файлів в окремому потоці"
+
+#: TFRMOPTIONSBEHAVIOR.CBLOADICONSSEPARATELY.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CBLOADICONSSEPARATELY.CAPTION"
+msgid "Load icons after file list"
+msgstr "Завантажувати іконки після списку"
+
+#: TFRMOPTIONSBEHAVIOR.CBLYNXLIKE.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CBLYNXLIKE.CAPTION"
+msgid "Lynx-like movement"
+msgstr "Навігація в стилі Lynx"
+
+#: TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION"
+msgid "Mo&ve icon to system tray when minimized"
+msgstr "Перемістити іконку в системний трей при згортанні"
+
+#: TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION"
+msgid "Allow only one copy of DC at a time"
+msgstr "Не запускати більше однієї копії DC"
+
+#: TFRMOPTIONSBEHAVIOR.CBSELECTIONBYMOUSE.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CBSELECTIONBYMOUSE.CAPTION"
+msgid "Selection by mouse"
+msgstr "Виділення мишкою"
+
+#: TFRMOPTIONSBEHAVIOR.CBSHORTFILESIZEFORMAT.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CBSHORTFILESIZEFORMAT.CAPTION"
+msgid "Short file size format"
+msgstr "Короткий розмір файлу"
+
+#: TFRMOPTIONSBEHAVIOR.CBSHOWSYSTEMFILES.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CBSHOWSYSTEMFILES.CAPTION"
+msgid "Show system and hidden files"
+msgstr "Показувати системні та приховані файли"
+
+#: TFRMOPTIONSBEHAVIOR.CHKAUTOFILLCOLUMNS.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CHKAUTOFILLCOLUMNS.CAPTION"
+msgid "Auto fill columns"
+msgstr "Розтягувати колонки на ширину панелі"
+
+#: TFRMOPTIONSBEHAVIOR.GBDATETIMEFORMAT.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.GBDATETIMEFORMAT.CAPTION"
+msgid "Date and time"
+msgstr "Дата і час"
+
+#: TFRMOPTIONSBEHAVIOR.GBSCROLLING.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.GBSCROLLING.CAPTION"
+msgid "Scrolling"
+msgstr "Прокрутка"
+
+#: TFRMOPTIONSBEHAVIOR.LBLAUTOSIZECOLUMN.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.LBLAUTOSIZECOLUMN.CAPTION"
+msgid "Auto size column:"
+msgstr "Пристосовувати розмір:"
+
+#: TFRMOPTIONSBEHAVIOR.LBLDATETIMEFORMAT.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.LBLDATETIMEFORMAT.CAPTION"
+msgid "Date and time format:"
+msgstr "Формат дати і часу:"
+
+#: TFRMOPTIONSBEHAVIOR.LBLMOUSEMODE.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.LBLMOUSEMODE.CAPTION"
+msgid "Mode:"
+msgstr "Режим:"
+
+#: TFRMOPTIONSBEHAVIOR.LBLRUNINTERM.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.LBLRUNINTERM.CAPTION"
+msgid "Run in terminal:"
+msgstr "Запустити у терміналі:"
+
+#: TFRMOPTIONSBEHAVIOR.LBLRUNTERM.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.LBLRUNTERM.CAPTION"
+msgid "Run terminal:"
+msgstr "Запуск терміналу:"
+
+#: TFRMOPTIONSBEHAVIOR.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION"
+msgid "Drive blacklist:"
+msgstr "Чорний список дисків:"
+
+#: TFRMOPTIONSBEHAVIOR.LEDDRIVEBLACKLIST.HINT
+msgctxt "TFRMOPTIONSBEHAVIOR.LEDDRIVEBLACKLIST.HINT"
+msgid "Here you can enter one or more drives, separated by \";\"."
+msgstr "Тут ви можете ввести один або декілька дисків, розділених \";\"."
+
+#: TFRMOPTIONSBEHAVIOR.RBSCROLLLINEBYLINE.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.RBSCROLLLINEBYLINE.CAPTION"
+msgid "Line by line"
+msgstr "По рядках"
+
+#: TFRMOPTIONSBEHAVIOR.RBSCROLLLINEBYLINECURSOR.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.RBSCROLLLINEBYLINECURSOR.CAPTION"
+msgid "Line by line with cursor movement"
+msgstr "По рядках з рухом курсора"
+
+#: TFRMOPTIONSBEHAVIOR.RBSCROLLPAGEBYPAGE.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.RBSCROLLPAGEBYPAGE.CAPTION"
+msgid "Page by page"
+msgstr "Посторінково"
 
 #: TFRMOPTIONSCOLORS.BBTNADDCATEGORY.CAPTION
 msgctxt "TFRMOPTIONSCOLORS.BBTNADDCATEGORY.CAPTION"
@@ -4423,6 +3847,561 @@ msgctxt "TFRMOPTIONSCOLORS.TSFILETYPES.CAPTION"
 msgid "File types"
 msgstr "Типи файлів"
 
+#: TFRMOPTIONSCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONSCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION"
+msgid "Copy"
+msgstr "Копіювати"
+
+#: TFRMOPTIONSCOLUMNS.BTNDELCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONSCOLUMNS.BTNDELCOLUMNSSET.CAPTION"
+msgid "Delete"
+msgstr "Видалити"
+
+#: TFRMOPTIONSCOLUMNS.BTNEDITCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONSCOLUMNS.BTNEDITCOLUMNSSET.CAPTION"
+msgid "Edit"
+msgstr "Редагувати"
+
+#: TFRMOPTIONSCOLUMNS.BTNNEWCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONSCOLUMNS.BTNNEWCOLUMNSSET.CAPTION"
+msgid "&New"
+msgstr "&Створити"
+
+#: TFRMOPTIONSCOLUMNS.CBBFILESYSTEM.TEXT
+msgctxt "TFRMOPTIONSCOLUMNS.CBBFILESYSTEM.TEXT"
+msgid "General"
+msgstr "Основні"
+
+#: TFRMOPTIONSCOLUMNS.LBLCONFIGCOLUMNS.CAPTION
+msgctxt "TFRMOPTIONSCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
+msgid "Configure columns for file system:"
+msgstr "Налаштувати колонки для файлової системи:"
+
+#: TFRMOPTIONSCONFIGURATION.BTNCONFIGAPPLY.CAPTION
+msgctxt "TFRMOPTIONSCONFIGURATION.BTNCONFIGAPPLY.CAPTION"
+msgid "Apply"
+msgstr "Застосувати"
+
+#: TFRMOPTIONSCONFIGURATION.BTNCONFIGEDIT.CAPTION
+msgctxt "TFRMOPTIONSCONFIGURATION.BTNCONFIGEDIT.CAPTION"
+msgid "Edit"
+msgstr "Редагувати"
+
+#: TFRMOPTIONSCONFIGURATION.CBCMDLINEHISTORY.CAPTION
+msgctxt "TFRMOPTIONSCONFIGURATION.CBCMDLINEHISTORY.CAPTION"
+msgid "Command line history"
+msgstr "Історія командного рядка"
+
+#: TFRMOPTIONSCONFIGURATION.CBDIRHISTORY.CAPTION
+msgctxt "TFRMOPTIONSCONFIGURATION.CBDIRHISTORY.CAPTION"
+msgid "Directory history"
+msgstr "Історія каталогів"
+
+#: TFRMOPTIONSCONFIGURATION.CBFILEMASKHISTORY.CAPTION
+msgctxt "TFRMOPTIONSCONFIGURATION.CBFILEMASKHISTORY.CAPTION"
+msgid "File mask history"
+msgstr "Історія масок файлів"
+
+#: TFRMOPTIONSCONFIGURATION.CHKSAVECONFIGURATION.CAPTION
+msgctxt "TFRMOPTIONSCONFIGURATION.CHKSAVECONFIGURATION.CAPTION"
+msgid "Save configuration"
+msgstr "Зберегти налаштування"
+
+#: TFRMOPTIONSCONFIGURATION.CHKSEARCHREPLACEHISTORY.CAPTION
+msgctxt "TFRMOPTIONSCONFIGURATION.CHKSEARCHREPLACEHISTORY.CAPTION"
+msgid "Search/Replace history"
+msgstr "Історія пошуку/заміни"
+
+#: TFRMOPTIONSCONFIGURATION.GBLOCCONFIGFILES.CAPTION
+msgctxt "TFRMOPTIONSCONFIGURATION.GBLOCCONFIGFILES.CAPTION"
+msgid "Location of configuration files"
+msgstr "Розміщення файлів конфігурації"
+
+#: TFRMOPTIONSCONFIGURATION.GBSAVEONEXIT.CAPTION
+msgctxt "TFRMOPTIONSCONFIGURATION.GBSAVEONEXIT.CAPTION"
+msgid "Save on exit"
+msgstr "Зберігати при виході"
+
+#: TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION
+#, fuzzy
+msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
+msgid "Set on command line"
+msgstr "Встановити в командному рядку"
+
+#: TFRMOPTIONSCONFIGURATION.RBPROGRAMDIR.CAPTION
+msgctxt "TFRMOPTIONSCONFIGURATION.RBPROGRAMDIR.CAPTION"
+msgid "Program directory (portable version)"
+msgstr "Каталог програми (для переносної версії)"
+
+#: TFRMOPTIONSCONFIGURATION.RBUSERHOMEDIR.CAPTION
+msgctxt "TFRMOPTIONSCONFIGURATION.RBUSERHOMEDIR.CAPTION"
+msgid "User home directory"
+msgstr "Домашній каталог користувача"
+
+#: TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION
+msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
+msgid "Delete to recycle bin (Shift key reverses this setting)"
+msgstr "F8/Del - видалення в Кошик (з Shift - на&завжди)"
+
+#: TFRMOPTIONSFILEOPERATIONS.CBDROPREADONLYFLAG.CAPTION
+msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDROPREADONLYFLAG.CAPTION"
+msgid "Drop readonly flag"
+msgstr "Скинути прапорець \"Лише читання\""
+
+#: TFRMOPTIONSFILEOPERATIONS.CBPARTIALNAMESEARCH.CAPTION
+msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPARTIALNAMESEARCH.CAPTION"
+msgid "Search for part of file name"
+msgstr "Шукати по частині назви файлу"
+
+#: TFRMOPTIONSFILEOPERATIONS.CBPROCESSCOMMENTS.CAPTION
+msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPROCESSCOMMENTS.CAPTION"
+msgid "Process comments with files/folders"
+msgstr "Опрацьовувати коментарі з файлами/каталогами"
+
+#: TFRMOPTIONSFILEOPERATIONS.CBRENAMESELONLYNAME.CAPTION
+msgctxt "TFRMOPTIONSFILEOPERATIONS.CBRENAMESELONLYNAME.CAPTION"
+msgid "Select only the file name when renaming (not the extension)"
+msgstr "При перейменуванні виділяти лише ім'я файлу (без розширення)"
+
+#: TFRMOPTIONSFILEOPERATIONS.CBSAVETHUMBNAILS.CAPTION
+msgid "Save thumbnails in cache"
+msgstr ""
+
+#: TFRMOPTIONSFILEOPERATIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION
+msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION"
+msgid "Show tab select panel in copy/move dialog"
+msgstr "Показувати панель вибору вкладок при перейменування/переміщенні"
+
+#: TFRMOPTIONSFILEOPERATIONS.CBSHOWDIALOGONDRAGDROP.CAPTION
+msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSHOWDIALOGONDRAGDROP.CAPTION"
+msgid "Show confirmation dialog on drag&&drop operations"
+msgstr "Показувати діалог підтвердження при drag&&drop"
+
+#: TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION
+msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
+msgid "Skip file operations errors and write them to log window"
+msgstr "Пропускати помилки при файлових операціях і заносити їх у звіт"
+
+#: TFRMOPTIONSFILEOPERATIONS.GBCOPYBUFFERSIZE.CAPTION
+msgctxt "TFRMOPTIONSFILEOPERATIONS.GBCOPYBUFFERSIZE.CAPTION"
+msgid "&Buffer size for files:"
+msgstr "&Розмір буфера для файлів:"
+
+#: TFRMOPTIONSFILEOPERATIONS.GBFILESEARCH.CAPTION
+msgctxt "TFRMOPTIONSFILEOPERATIONS.GBFILESEARCH.CAPTION"
+msgid "File search"
+msgstr "Пошук файлів"
+
+#: TFRMOPTIONSFILEOPERATIONS.GBGENERALOPTIONS.CAPTION
+msgctxt "TFRMOPTIONSFILEOPERATIONS.GBGENERALOPTIONS.CAPTION"
+msgid "General options"
+msgstr "Основні налаштування"
+
+#: TFRMOPTIONSFILEOPERATIONS.LBLCOPYBUFFERSIZE.CAPTION
+msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLCOPYBUFFERSIZE.CAPTION"
+msgid "Buffer size (Kb):"
+msgstr "Розмір буфера (Кб):"
+
+#: TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION
+msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION"
+msgid "Number of wipe pass:"
+msgstr "Кіл-ть проходів стирання:"
+
+#: TFRMOPTIONSFILEOPERATIONS.RBUSEMMAPINSEARCH.CAPTION
+msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSEMMAPINSEARCH.CAPTION"
+msgid "Use memory mapping for search text in files"
+msgstr "Використати відображення в пам'ять при пошуку тексту у файлах"
+
+#: TFRMOPTIONSFILEOPERATIONS.RBUSESTREAMINSEARCH.CAPTION
+msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSESTREAMINSEARCH.CAPTION"
+msgid "Use stream for search text in files"
+msgstr "Використати потік при пошуку тексту в файлах"
+
+#: TFRMOPTIONSFONTS.BTNSELEDITFNT.CAPTION
+msgctxt "TFRMOPTIONSFONTS.BTNSELEDITFNT.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: TFRMOPTIONSFONTS.BTNSELLOGFNT.CAPTION
+msgctxt "TFRMOPTIONSFONTS.BTNSELLOGFNT.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: TFRMOPTIONSFONTS.BTNSELMAINFNT.CAPTION
+msgctxt "TFRMOPTIONSFONTS.BTNSELMAINFNT.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: TFRMOPTIONSFONTS.BTNSELVIEWERBOOKFNT.CAPTION
+msgctxt "TFRMOPTIONSFONTS.BTNSELVIEWERBOOKFNT.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: TFRMOPTIONSFONTS.BTNSELVIEWFNT.CAPTION
+msgctxt "TFRMOPTIONSFONTS.BTNSELVIEWFNT.CAPTION"
+msgid "..."
+msgstr "..."
+
+#: TFRMOPTIONSFONTS.LBLEDITORFONT.CAPTION
+msgctxt "TFRMOPTIONSFONTS.LBLEDITORFONT.CAPTION"
+msgid "Editor font"
+msgstr "Шрифт редактора"
+
+#: TFRMOPTIONSFONTS.LBLLOGFONT.CAPTION
+msgctxt "TFRMOPTIONSFONTS.LBLLOGFONT.CAPTION"
+msgid "Log font"
+msgstr "Шрифт логу"
+
+#: TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION
+msgctxt "TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION"
+msgid "Main font"
+msgstr "Основний шрифт"
+
+#: TFRMOPTIONSFONTS.LBLVIEWERBOOKFONT.CAPTION
+msgctxt "TFRMOPTIONSFONTS.LBLVIEWERBOOKFONT.CAPTION"
+msgid "Viewer Book Font"
+msgstr "Шрифт переглядача книг"
+
+#: TFRMOPTIONSFONTS.LBLVIEWERFONT.CAPTION
+msgctxt "TFRMOPTIONSFONTS.LBLVIEWERFONT.CAPTION"
+msgid "Viewer font"
+msgstr "Шрифт переглядача"
+
+#: TFRMOPTIONSHOTKEYS.BTCLEARHOTKEY.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.BTCLEARHOTKEY.CAPTION"
+msgid "Clear HotKey"
+msgstr "Стерти ГарКлавішу"
+
+#: TFRMOPTIONSHOTKEYS.BTSETHOTKEY.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.BTSETHOTKEY.CAPTION"
+msgid "Set HotKey"
+msgstr "Задати ГарКлавішу"
+
+#: TFRMOPTIONSHOTKEYS.CGHKCONTROLS.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.CGHKCONTROLS.CAPTION"
+msgid "Only for these controls"
+msgstr ""
+
+#: TFRMOPTIONSHOTKEYS.LBCOMMANDS.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.LBCOMMANDS.CAPTION"
+msgid "Commands:"
+msgstr "Команди:"
+
+#: TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION"
+msgid "Filter"
+msgstr "Фільтр"
+
+#: TFRMOPTIONSHOTKEYS.LBLHOTKEY.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.LBLHOTKEY.CAPTION"
+msgid "Hot Key:"
+msgstr "Гаряча клавіша:"
+
+#: TFRMOPTIONSHOTKEYS.LBLPARAM.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.LBLPARAM.CAPTION"
+msgid "Param:"
+msgstr "Параметри:"
+
+#: TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
+msgid "Shortcut files:"
+msgstr "Ярлики"
+
+#: TFRMOPTIONSHOTKEYS.LBTYPES.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.LBTYPES.CAPTION"
+msgid "Categories:"
+msgstr "Категорії:"
+
+#: TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
+msgid "Hotkey"
+msgstr "Гаряча клавіша"
+
+#: TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION"
+msgid "Parameters"
+msgstr "Параметри"
+
+#: TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION"
+msgid "Controls"
+msgstr ""
+
+#: TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION
+msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
+msgid "Show overlay i&cons, e.g. for links"
+msgstr "Показувати оверлейні &іконки (наприклад для ярликів)"
+
+#: TFRMOPTIONSICONS.CBICONSSIZE.TEXT
+msgctxt "TFRMOPTIONSICONS.CBICONSSIZE.TEXT"
+msgid "16x16"
+msgstr "16x16"
+
+#: TFRMOPTIONSICONS.GBICONSSIZE.CAPTION
+msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
+msgid " Icon &size "
+msgstr "Розмір &іконок"
+
+#: TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION
+msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
+msgid " Show icons to the left of the filename "
+msgstr " Показ іконок зв’язаних з типом файлу "
+
+#: TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION
+msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALL.CAPTION"
+msgid "&All"
+msgstr "&Усі"
+
+#: TFRMOPTIONSICONS.RBICONSSHOWALLANDEXE.CAPTION
+msgctxt "TFRMOPTIONSICONS.RBICONSSHOWALLANDEXE.CAPTION"
+msgid "All associated + &EXE/LNK (slow)"
+msgstr "Усі асоційовані + &EXE/LNK (повільно)"
+
+#: TFRMOPTIONSICONS.RBICONSSHOWNONE.CAPTION
+msgctxt "TFRMOPTIONSICONS.RBICONSSHOWNONE.CAPTION"
+msgid "&No icons"
+msgstr "&Без іконок"
+
+#: TFRMOPTIONSICONS.RBICONSSHOWSTANDARD.CAPTION
+msgctxt "TFRMOPTIONSICONS.RBICONSSHOWSTANDARD.CAPTION"
+msgid "&Only standard icons"
+msgstr "Лише &стандартні іконки"
+
+#: TFRMOPTIONSIGNORELIST.BTNADDSEL.CAPTION
+msgctxt "TFRMOPTIONSIGNORELIST.BTNADDSEL.CAPTION"
+msgid "&Add selected names"
+msgstr "&Додати виділені імена"
+
+#: TFRMOPTIONSIGNORELIST.BTNADDSELWITHPATH.CAPTION
+msgctxt "TFRMOPTIONSIGNORELIST.BTNADDSELWITHPATH.CAPTION"
+msgid "Add selected names with &full path"
+msgstr "Додати виділені імена з &повними шляхами"
+
+#: TFRMOPTIONSIGNORELIST.CHKIGNOREENABLE.CAPTION
+msgctxt "TFRMOPTIONSIGNORELIST.CHKIGNOREENABLE.CAPTION"
+msgid "&Ignore (don't show) the following files and folders:"
+msgstr "&Ігнорувати (не показувати) такі файли і папки:"
+
+#: TFRMOPTIONSIGNORELIST.LBLSAVEIN.CAPTION
+msgctxt "TFRMOPTIONSIGNORELIST.LBLSAVEIN.CAPTION"
+msgid "&Save in:"
+msgstr "&Зберегти в:"
+
+#: TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
+msgid "Flat buttons"
+msgstr "Плоскі кнопки"
+
+#: TFRMOPTIONSLAYOUT.CBFLATINTERFACE.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBFLATINTERFACE.CAPTION"
+msgid "Flat interface"
+msgstr "Плоский інтерфейс"
+
+#: TFRMOPTIONSLAYOUT.CBFLATTOOLBAR.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBFLATTOOLBAR.CAPTION"
+msgid "Flat buttons"
+msgstr "Плоскі кнопки"
+
+#: TFRMOPTIONSLAYOUT.CBFREESPACEIND.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBFREESPACEIND.CAPTION"
+msgid "Show free space indicator on drive label"
+msgstr "Показувати індикатор вільного місця на панелі дисків"
+
+#: TFRMOPTIONSLAYOUT.CBLOGWINDOW.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBLOGWINDOW.CAPTION"
+msgid "Show log window"
+msgstr "Показати вікно звіту"
+
+#: TFRMOPTIONSLAYOUT.CBPANELOFOPERATIONS.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBPANELOFOPERATIONS.CAPTION"
+msgid "Show panel of operation in background"
+msgstr "Показувати панель операцій у фоні"
+
+#: TFRMOPTIONSLAYOUT.CBPROGINMENUBAR.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBPROGINMENUBAR.CAPTION"
+msgid "Show common progress in menu bar"
+msgstr "Показувати загальний прогрес в рядку меню"
+
+#: TFRMOPTIONSLAYOUT.CBSHOWCMDLINE.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCMDLINE.CAPTION"
+msgid "Show command &line"
+msgstr "Показувати &командний рядок"
+
+#: TFRMOPTIONSLAYOUT.CBSHOWCURDIR.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBSHOWCURDIR.CAPTION"
+msgid "Show &current directory"
+msgstr "Показати по&точний каталог"
+
+#: TFRMOPTIONSLAYOUT.CBSHOWDISKPANEL.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDISKPANEL.CAPTION"
+msgid "Show &drive buttons"
+msgstr "Показувати кнопки &дисків"
+
+#: TFRMOPTIONSLAYOUT.CBSHOWDRIVEFREESPACE.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDRIVEFREESPACE.CAPTION"
+msgid "Show free space label"
+msgstr "Показати мітки вільного простору"
+
+#: TFRMOPTIONSLAYOUT.CBSHOWDRIVEMENUBUTTON.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDRIVEMENUBUTTON.CAPTION"
+msgid "Show d&rive menu button"
+msgstr "Показувати кнопку мен&ю дисків"
+
+#: TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION"
+msgid "Show &function key buttons"
+msgstr "Показувати кнопки &функціональних клавіш"
+
+#: TFRMOPTIONSLAYOUT.CBSHOWMAINMENU.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINMENU.CAPTION"
+msgid "Show main menu"
+msgstr "Показати головне меню"
+
+#: TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION"
+msgid "Show &button bar"
+msgstr "Показувати &панель кнопок"
+
+#: TFRMOPTIONSLAYOUT.CBSHOWSTATUSBAR.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBSHOWSTATUSBAR.CAPTION"
+msgid "Show &status bar"
+msgstr "Показувати рядок стану"
+
+#: TFRMOPTIONSLAYOUT.CBSHOWTABHEADER.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBSHOWTABHEADER.CAPTION"
+msgid "Show &tabstop header"
+msgstr "Показувати &заголовки табуляторів"
+
+#: TFRMOPTIONSLAYOUT.CBSHOWTABS.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBSHOWTABS.CAPTION"
+msgid "Sho&w folder tabs"
+msgstr "Показувати вкл&адки"
+
+#: TFRMOPTIONSLAYOUT.CBTERMWINDOW.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBTERMWINDOW.CAPTION"
+msgid "Show terminal window"
+msgstr "Показати вікно терміналу"
+
+#: TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION"
+msgid "Show two drive button bars (fixed width, above file windows)"
+msgstr "Показувати д&ві панелі кнопок дисків (фіксована довжина, над файловими панелями)"
+
+#: TFRMOPTIONSLAYOUT.GBSCREENLAYOUT.CAPTION
+msgctxt "TFRMOPTIONSLAYOUT.GBSCREENLAYOUT.CAPTION"
+msgid " Screen layout "
+msgstr " Компоненти основного вікна "
+
+#: TFRMOPTIONSLOG.CBLOGARCOP.CAPTION
+msgctxt "TFRMOPTIONSLOG.CBLOGARCOP.CAPTION"
+msgid "Pack/Unpack"
+msgstr "Запакувати/Розпакувати"
+
+#: TFRMOPTIONSLOG.CBLOGCPMVLN.CAPTION
+msgctxt "TFRMOPTIONSLOG.CBLOGCPMVLN.CAPTION"
+msgid "Copy/Move/Create link/symlink"
+msgstr "Копіювання/Переміщення/Створення посилань"
+
+#: TFRMOPTIONSLOG.CBLOGDELETE.CAPTION
+msgctxt "TFRMOPTIONSLOG.CBLOGDELETE.CAPTION"
+msgid "Delete"
+msgstr "Видалити"
+
+#: TFRMOPTIONSLOG.CBLOGDIROP.CAPTION
+msgctxt "TFRMOPTIONSLOG.CBLOGDIROP.CAPTION"
+msgid "Create/Delete directories"
+msgstr "Створення/Видалення каталогів"
+
+#: TFRMOPTIONSLOG.CBLOGERRORS.CAPTION
+msgctxt "TFRMOPTIONSLOG.CBLOGERRORS.CAPTION"
+msgid "Log &errors"
+msgstr "Звіт &помилок"
+
+#: TFRMOPTIONSLOG.CBLOGFILE.CAPTION
+msgctxt "TFRMOPTIONSLOG.CBLOGFILE.CAPTION"
+msgid "&Create a log file:"
+msgstr "&Створити файл звіту:"
+
+#: TFRMOPTIONSLOG.CBLOGINFO.CAPTION
+msgctxt "TFRMOPTIONSLOG.CBLOGINFO.CAPTION"
+msgid "Log information messages"
+msgstr "Звіт інформаційних повідомлень"
+
+#: TFRMOPTIONSLOG.CBLOGSUCCESS.CAPTION
+msgctxt "TFRMOPTIONSLOG.CBLOGSUCCESS.CAPTION"
+msgid "Log &successful operations"
+msgstr "Звіт про ус&пішні операції"
+
+#: TFRMOPTIONSLOG.CBLOGVFS.CAPTION
+msgctxt "TFRMOPTIONSLOG.CBLOGVFS.CAPTION"
+msgid "File system plugins"
+msgstr "Плагіни файлової системи"
+
+#: TFRMOPTIONSLOG.GBLOGFILE.CAPTION
+msgctxt "TFRMOPTIONSLOG.GBLOGFILE.CAPTION"
+msgid "File operation log file"
+msgstr "Звіт про операції з файлами"
+
+#: TFRMOPTIONSLOG.GBLOGFILEOP.CAPTION
+msgctxt "TFRMOPTIONSLOG.GBLOGFILEOP.CAPTION"
+msgid "Log operations:"
+msgstr "Підзвітні дії:"
+
+#: TFRMOPTIONSLOG.GBLOGFILESTATUS.CAPTION
+msgctxt "TFRMOPTIONSLOG.GBLOGFILESTATUS.CAPTION"
+msgid "Operation status:"
+msgstr "Статус операції:"
+
+#: TFRMOPTIONSMISC.CBDIRBRACKETS.CAPTION
+msgctxt "TFRMOPTIONSMISC.CBDIRBRACKETS.CAPTION"
+msgid "Show square brackets around directories"
+msgstr "Показувати квадратні дужки навколо каталогів"
+
+#: TFRMOPTIONSMISC.CBGRIDHORZLINE.CAPTION
+msgctxt "TFRMOPTIONSMISC.CBGRIDHORZLINE.CAPTION"
+msgid "Horizontal lines"
+msgstr "Горизонтальні лінії"
+
+#: TFRMOPTIONSMISC.CBGRIDVERTLINE.CAPTION
+msgctxt "TFRMOPTIONSMISC.CBGRIDVERTLINE.CAPTION"
+msgid "Vertical lines"
+msgstr "Вертикальні лінії"
+
+#: TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION
+msgctxt "TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION"
+msgid "Show warning messages (\"OK\" button only)"
+msgstr "Показувати попередження (лише кнопка \"OK\")"
+
+#: TFRMOPTIONSMISC.CBSORTCASESENSITIVE.CAPTION
+msgctxt "TFRMOPTIONSMISC.CBSORTCASESENSITIVE.CAPTION"
+msgid "Case-sensitive sorting"
+msgstr "Сортувати з врахуванням регістру"
+
+#: TFRMOPTIONSMISC.CBSORTMETHOD.TEXT
+msgctxt "TFRMOPTIONSMISC.CBSORTMETHOD.TEXT"
+msgid "Alphabetical, considering accents"
+msgstr "Алфавітний, з врахуванням наголосів"
+
+#: TFRMOPTIONSMISC.CBSPACEMOVESDOWN.CAPTION
+msgctxt "TFRMOPTIONSMISC.CBSPACEMOVESDOWN.CAPTION"
+msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr "При виділенні файлів пробілом переміщувати курсор на наступний файл (як в <INSERT>)"
+
+#: TFRMOPTIONSMISC.GBSHOWGRID.CAPTION
+msgctxt "TFRMOPTIONSMISC.GBSHOWGRID.CAPTION"
+msgid "Show grid in file panel"
+msgstr "Відображати сітку для панелей"
+
+#: TFRMOPTIONSMISC.GBSORTING.CAPTION
+msgctxt "TFRMOPTIONSMISC.GBSORTING.CAPTION"
+msgid "Sorting"
+msgstr "Сортування"
+
+#: TFRMOPTIONSMISC.LBLSORTMETHOD.CAPTION
+msgctxt "TFRMOPTIONSMISC.LBLSORTMETHOD.CAPTION"
+msgid "Sort &method:"
+msgstr "&Метод сортування:"
+
 #: TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
 msgid "Add"
@@ -4517,6 +4496,181 @@ msgstr "Плагіни файлової системи (.WFX)"
 msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
 msgid "Viewer plugins (.WLX)"
 msgstr "Плагіни перегляду (.WLX)"
+
+#: TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTBEGINNING.CAPTION
+msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTBEGINNING.CAPTION"
+msgid "&Beginning (name must start with first typed character)"
+msgstr "По&чаток (ім'я має починатись з набраних символів)"
+
+#: TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTENDING.CAPTION
+msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTENDING.CAPTION"
+msgid "En&ding (last character before a typed dot . must match)"
+msgstr "Кі&нець (останні символи до набраної крапки '.' повинні співпадати)"
+
+#: TFRMOPTIONSQUICKSEARCHFILTER.GBEXACTNAMEMATCH.CAPTION
+msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.GBEXACTNAMEMATCH.CAPTION"
+msgid "Exact name match:"
+msgstr "Точне співпадіння імені:"
+
+#: TFRMOPTIONSQUICKSEARCHFILTER.GRPQUICKSEARCHFILTERKEYS.CAPTION
+msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.GRPQUICKSEARCHFILTERKEYS.CAPTION"
+msgid "Keys settings"
+msgstr "Налаштування клавіш"
+
+#: TFRMOPTIONSQUICKSEARCHFILTER.LBLQUICKFILTER.CAPTION
+msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.LBLQUICKFILTER.CAPTION"
+msgid "Quick &filter:"
+msgstr "Швидкий &фільтр"
+
+#: TFRMOPTIONSQUICKSEARCHFILTER.LBLQUICKSEARCH.CAPTION
+msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.LBLQUICKSEARCH.CAPTION"
+msgid "Quick &search:"
+msgstr "Швидкий &пошук"
+
+#: TFRMOPTIONSQUICKSEARCHFILTER.RBALTLETTERQS.CAPTION
+msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.RBALTLETTERQS.CAPTION"
+msgid "Alt+Letters"
+msgstr "Alt+Буква"
+
+#: TFRMOPTIONSQUICKSEARCHFILTER.RBCTRLALTLETTERQS.CAPTION
+msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.RBCTRLALTLETTERQS.CAPTION"
+msgid "Ctrl+Alt+Letters"
+msgstr "Ctrl+Alt+Буква"
+
+#: TFRMOPTIONSQUICKSEARCHFILTER.RBLETTERQS.CAPTION
+msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.RBLETTERQS.CAPTION"
+msgid "Letter only"
+msgstr "Лише буква"
+
+#: TFRMOPTIONSQUICKSEARCHFILTER.RBNONEQS.CAPTION
+msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.RBNONEQS.CAPTION"
+msgid "Disabled"
+msgstr "Відключено"
+
+#: TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION
+msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
+msgid "Activate target &panel when clicking on one of its Tabs"
+msgstr "Робити &панель активною при клацанні по одній з її вкладок"
+
+#: TFRMOPTIONSTABS.CBTABSALWAYSVISIBLE.CAPTION
+msgctxt "TFRMOPTIONSTABS.CBTABSALWAYSVISIBLE.CAPTION"
+msgid "&Show tab header also when there is only one tab"
+msgstr "Показувати заголовок вкладки, нав&іть якщо вона одна"
+
+#: TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION
+msgctxt "TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION"
+msgid "&Confirm close all tabs"
+msgstr "Підтверд&жувати закриття всіх вкладок"
+
+#: TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION
+msgctxt "TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION"
+msgid "&Limit tab title length to:"
+msgstr "&Обмежити розмір заголовка вкладки до:"
+
+#: TFRMOPTIONSTABS.CBTABSLOCKEDASTERISK.CAPTION
+msgctxt "TFRMOPTIONSTABS.CBTABSLOCKEDASTERISK.CAPTION"
+msgid "Show locked tabs &with an asterisk *"
+msgstr "Показувати заблоковані вкладки зі знаком зірочки *"
+
+#: TFRMOPTIONSTABS.CBTABSMULTILINES.CAPTION
+msgctxt "TFRMOPTIONSTABS.CBTABSMULTILINES.CAPTION"
+msgid "&Tabs on multiple lines"
+msgstr "Розміщати вкладки в декі&лька рядів"
+
+#: TFRMOPTIONSTABS.CBTABSOPENFOREGROUND.CAPTION
+msgctxt "TFRMOPTIONSTABS.CBTABSOPENFOREGROUND.CAPTION"
+msgid "Ctrl+&Up opens new tab in foreground"
+msgstr "Ctrl+&Up відкриває нову вкладку на передньому плані"
+
+#: TFRMOPTIONSTABS.CBTABSOPENNEARCURRENT.CAPTION
+msgctxt "TFRMOPTIONSTABS.CBTABSOPENNEARCURRENT.CAPTION"
+msgid "Open &new tabs near current tab"
+msgstr "Відкривати &нову вкладку поряд з поточною"
+
+#: TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION
+msgctxt "TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION"
+msgid "Show tab close button"
+msgstr "Показувати кнопку закриття вкладки"
+
+#: TFRMOPTIONSTABS.GBTABS.CAPTION
+msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
+msgid "Folder tabs headers"
+msgstr "Заголовки вкладок"
+
+#: TFRMOPTIONSTABS.LBLCHAR.CAPTION
+msgctxt "TFRMOPTIONSTABS.LBLCHAR.CAPTION"
+msgid "characters"
+msgstr "символів"
+
+#: TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION
+msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
+msgid "Tabs position:"
+msgstr "Положення вкладок"
+
+#: TFRMOPTIONSTOOLS.BTNBACKVIEWERCOLOR.CAPTION
+msgctxt "TFRMOPTIONSTOOLS.BTNBACKVIEWERCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSTOOLS.BTNFONTVIEWERCOLOR.CAPTION
+msgctxt "TFRMOPTIONSTOOLS.BTNFONTVIEWERCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSTOOLS.CBTOOLSKEEPTERMINALOPEN.CAPTION
+msgctxt "TFRMOPTIONSTOOLS.CBTOOLSKEEPTERMINALOPEN.CAPTION"
+msgid "Keep terminal window open after executing program"
+msgstr "Тримати вікно терміналу відкритим після виконання програми"
+
+#: TFRMOPTIONSTOOLS.CBTOOLSRUNINTERMINAL.CAPTION
+msgctxt "TFRMOPTIONSTOOLS.CBTOOLSRUNINTERMINAL.CAPTION"
+msgid "Execute in terminal"
+msgstr "Виконати у терміналі"
+
+#: TFRMOPTIONSTOOLS.CBTOOLSUSEEXTERNALPROGRAM.CAPTION
+msgctxt "TFRMOPTIONSTOOLS.CBTOOLSUSEEXTERNALPROGRAM.CAPTION"
+msgid "Use external program"
+msgstr "Використовувати зовнішню програму"
+
+#: TFRMOPTIONSTOOLS.GBVIEWERBOOKMODE.CAPTION
+msgctxt "TFRMOPTIONSTOOLS.GBVIEWERBOOKMODE.CAPTION"
+msgid "Viewer Book Mode"
+msgstr "Режим перегляду книг"
+
+#: TFRMOPTIONSTOOLS.GBVIEWEREXAMPLE.CAPTION
+msgctxt "TFRMOPTIONSTOOLS.GBVIEWEREXAMPLE.CAPTION"
+msgid "Example"
+msgstr "Приклад"
+
+#: TFRMOPTIONSTOOLS.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION
+msgctxt "TFRMOPTIONSTOOLS.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION"
+msgid "Background color in book viewer"
+msgstr "Колір фону в переглядачі книг"
+
+#: TFRMOPTIONSTOOLS.LBLFONTCOLORVIEWERBOOK.CAPTION
+msgctxt "TFRMOPTIONSTOOLS.LBLFONTCOLORVIEWERBOOK.CAPTION"
+msgid "Font color in book viewer"
+msgstr "Колір шрифту в переглядачі книг"
+
+#: TFRMOPTIONSTOOLS.LBLNUMBERCOLUMNSVIEWER.CAPTION
+msgctxt "TFRMOPTIONSTOOLS.LBLNUMBERCOLUMNSVIEWER.CAPTION"
+msgid "Number of columns in book viewer"
+msgstr "К-сть стовпців у переглядачі книг"
+
+#: TFRMOPTIONSTOOLS.LBLTOOLSPARAMETERS.CAPTION
+msgctxt "TFRMOPTIONSTOOLS.LBLTOOLSPARAMETERS.CAPTION"
+msgid "Additional parameters"
+msgstr "Додаткові параметри"
+
+#: TFRMOPTIONSTOOLS.LBLTOOLSPATH.CAPTION
+msgctxt "TFRMOPTIONSTOOLS.LBLTOOLSPATH.CAPTION"
+msgid "Path to program to execute"
+msgstr "Шлях до зовнішньої програми"
+
+#: TFRMOPTIONSTOOLS.STGTOOLS.COLUMNS[0].TITLE.CAPTION
+msgctxt "TFRMOPTIONSTOOLS.STGTOOLS.COLUMNS[0].TITLE.CAPTION"
+msgid "Tool"
+msgstr "Інструмент"
 
 #: TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION"
@@ -6515,10 +6669,6 @@ msgstr "Параметр"
 msgid "Password query string:"
 msgstr "Рядок запиту пароля:"
 
-#: ulng.rsoptarchivers
-msgid "Archivers"
-msgstr "Архіватори"
-
 #: ulng.rsoptarchiveselfextract
 msgctxt "ulng.rsoptarchiveselfextract"
 msgid "Create self extracting archive:"
@@ -6541,29 +6691,9 @@ msgstr "Значення"
 msgid "Associate plugin \"%s\" with:"
 msgstr "Асоціювати плагін \"%s\" з:"
 
-#: ulng.rsoptautorefresh
-msgid "Auto refresh"
-msgstr "Автооновлення"
-
 #: ulng.rsoptautosizecolumn
 msgid "First;Last;"
 msgstr "Першої колонки;Останньої колонки;"
-
-#: ulng.rsoptbehav
-msgid "Behaviors"
-msgstr "Поведінка"
-
-#: ulng.rsoptcolors
-msgid "Colors"
-msgstr "Кольори"
-
-#: ulng.rsoptcolumns
-msgid "Columns"
-msgstr "Колонки"
-
-#: ulng.rsoptconfig
-msgid "Configuration"
-msgstr "Конфігурація"
 
 #: ulng.rsoptdisable
 msgid "Disable"
@@ -6593,33 +6723,6 @@ msgstr "Відмітка + Курсор"
 #: ulng.rsoptexampletext
 msgid "Text"
 msgstr "Текст"
-
-#: ulng.rsoptfileop
-msgctxt "ulng.rsoptfileop"
-msgid "File operations"
-msgstr "Операції з файлами"
-
-#: ulng.rsoptfilepanels
-msgctxt "ulng.rsoptfilepanels"
-msgid "File panels"
-msgstr "Файлові панелі"
-
-#: ulng.rsoptfiletypes
-msgctxt "ulng.rsoptfiletypes"
-msgid "File types"
-msgstr "Типи файлів"
-
-#: ulng.rsoptfoldertabs
-msgid "Folder tabs"
-msgstr "Вкладки каталогів"
-
-#: ulng.rsoptfonts
-msgid "Fonts"
-msgstr "Шрифти"
-
-#: ulng.rsopthotkeys
-msgid "Hot keys"
-msgstr "Гарячі клавіші"
 
 #: ulng.rsopthotkeyscommands
 msgid "Commands"
@@ -6663,30 +6766,115 @@ msgstr "Змінити на %s?"
 msgid "used for %s in %s"
 msgstr "використовується"
 
-#: ulng.rsopticons
+#: ulng.rsoptionseditorarchivers
+msgctxt "ulng.rsoptionseditorarchivers"
+msgid "Archivers"
+msgstr "Архіватори"
+
+#: ulng.rsoptionseditorautorefresh
+msgctxt "ulng.rsoptionseditorautorefresh"
+msgid "Auto refresh"
+msgstr "Автооновлення"
+
+#: ulng.rsoptionseditorbehavior
+msgctxt "ulng.rsoptionseditorbehavior"
+msgid "Behaviors"
+msgstr "Поведінка"
+
+#: ulng.rsoptionseditorcolors
+msgctxt "ulng.rsoptionseditorcolors"
+msgid "Colors"
+msgstr "Кольори"
+
+#: ulng.rsoptionseditorcolumns
+msgctxt "ulng.rsoptionseditorcolumns"
+msgid "Columns"
+msgstr "Колонки"
+
+#: ulng.rsoptionseditorconfiguration
+msgctxt "ulng.rsoptionseditorconfiguration"
+msgid "Configuration"
+msgstr "Конфігурація"
+
+#: ulng.rsoptionseditorfileoperations
+msgctxt "ulng.rsoptionseditorfileoperations"
+msgid "File operations"
+msgstr "Операції з файлами"
+
+#: ulng.rsoptionseditorfilepanels
+msgctxt "ulng.rsoptionseditorfilepanels"
+msgid "File panels"
+msgstr "Файлові панелі"
+
+#: ulng.rsoptionseditorfiletypes
+msgctxt "ulng.rsoptionseditorfiletypes"
+msgid "File types"
+msgstr "Типи файлів"
+
+#: ulng.rsoptionseditorfoldertabs
+msgctxt "ulng.rsoptionseditorfoldertabs"
+msgid "Folder tabs"
+msgstr "Вкладки каталогів"
+
+#: ulng.rsoptionseditorfonts
+msgctxt "ulng.rsoptionseditorfonts"
+msgid "Fonts"
+msgstr "Шрифти"
+
+#: ulng.rsoptionseditorhotkeys
+msgctxt "ulng.rsoptionseditorhotkeys"
+msgid "Hot keys"
+msgstr "Гарячі клавіші"
+
+#: ulng.rsoptionseditoricons
+msgctxt "ulng.rsoptionseditoricons"
 msgid "Icons"
 msgstr "Іконки"
 
-#: ulng.rsoptignorelist
+#: ulng.rsoptionseditorignorelist
+msgctxt "ulng.rsoptionseditorignorelist"
 msgid "Ignore list"
 msgstr "Чорний список"
 
-#: ulng.rsoptlanguage
+#: ulng.rsoptionseditorlanguage
+msgctxt "ulng.rsoptionseditorlanguage"
 msgid "Language"
 msgstr "Мова"
 
-#: ulng.rsoptlayout
+#: ulng.rsoptionseditorlayout
+msgctxt "ulng.rsoptionseditorlayout"
 msgid "Layout"
 msgstr "Вигляд вікна"
 
-#: ulng.rsoptlog
-msgctxt "ulng.rsoptlog"
+#: ulng.rsoptionseditorlog
+msgctxt "ulng.rsoptionseditorlog"
 msgid "Log"
 msgstr "Звіт"
 
-#: ulng.rsoptmiscellaneous
+#: ulng.rsoptionseditormiscellaneous
+msgctxt "ulng.rsoptionseditormiscellaneous"
 msgid "Miscellaneous"
 msgstr "Різне"
+
+#: ulng.rsoptionseditorplugins
+msgctxt "ulng.rsoptionseditorplugins"
+msgid "Plugins"
+msgstr "Плагіни"
+
+#: ulng.rsoptionseditorquicksearch
+msgctxt "ulng.rsoptionseditorquicksearch"
+msgid "Quick search/filter"
+msgstr "Швидкий пошук/фільтр"
+
+#: ulng.rsoptionseditortools
+msgctxt "ulng.rsoptionseditortools"
+msgid "Tools"
+msgstr "Інструменти"
+
+#: ulng.rsoptionseditortooltips
+msgctxt "ulng.rsoptionseditortooltips"
+msgid "Tooltips"
+msgstr "Підказки"
 
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
@@ -6695,11 +6883,6 @@ msgstr "Ліва кнопка;Права кнопка;"
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
 msgstr "Плагін %s вже призначено для наступних розширень:"
-
-#: ulng.rsoptplugins
-msgctxt "ulng.rsoptplugins"
-msgid "Plugins"
-msgstr "Плагіни"
 
 #: ulng.rsoptpluginsactive
 msgctxt "ulng.rsoptpluginsactive"
@@ -6721,11 +6904,6 @@ msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"
 msgstr "Асоціації з"
 
-#: ulng.rsoptquicksearch
-msgctxt "ulng.rsoptquicksearch"
-msgid "Quick search/filter"
-msgstr "Швидкий пошук/фільтр"
-
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
 msgstr "За абеткою, з урахуванням наголосів; Природне сортування: по алфавіту і цифрах"
@@ -6733,14 +6911,6 @@ msgstr "За абеткою, з урахуванням наголосів; Пр�
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
 msgstr "Зверху;Знизу"
-
-#: ulng.rsopttools
-msgid "Tools"
-msgstr "Інструменти"
-
-#: ulng.rsopttooltips
-msgid "Tooltips"
-msgstr "Підказки"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
