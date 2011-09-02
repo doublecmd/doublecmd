@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.5.5 alpha\n"
+"Project-Id-Version: Double Commander 0.3.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
 "PO-Revision-Date: \n"
@@ -128,7 +128,7 @@ msgstr "Usar fuente y color de usuario"
 #: TFCOLUMNSSETCONF.CTEXTLABEL.CAPTION
 msgctxt "TFCOLUMNSSETCONF.CTEXTLABEL.CAPTION"
 msgid "Text Color:"
-msgstr "Color de texto:"
+msgstr "Texto:"
 
 #: TFCOLUMNSSETCONF.LABEL3.CAPTION
 msgid "Font:"
@@ -151,7 +151,7 @@ msgstr "Configurar vista no.:"
 #: TFCOLUMNSSETCONF.LBLCURSORCOLOR.CAPTION
 msgctxt "TFCOLUMNSSETCONF.LBLCURSORCOLOR.CAPTION"
 msgid "Cursor Color:"
-msgstr "Color de cursor:"
+msgstr "Cursor:"
 
 #: TFCOLUMNSSETCONF.LBLCURSORTEXT.CAPTION
 msgctxt "TFCOLUMNSSETCONF.LBLCURSORTEXT.CAPTION"
@@ -161,7 +161,7 @@ msgstr "Texto de cursor:"
 #: TFCOLUMNSSETCONF.LBLMARKCOLOR.CAPTION
 msgctxt "TFCOLUMNSSETCONF.LBLMARKCOLOR.CAPTION"
 msgid "Mark Color:"
-msgstr "Color de la selección:"
+msgstr "Selección:"
 
 #: TFCOLUMNSSETCONF.LBLNAME.CAPTION
 msgctxt "TFCOLUMNSSETCONF.LBLNAME.CAPTION"
@@ -363,7 +363,7 @@ msgstr "SUID"
 
 #: TFRMATTRIBUTESEDIT.CBSYMLINK.CAPTION
 msgid "Symlink"
-msgstr "Enlace Simbólico"
+msgstr "Enlace simbólico"
 
 #: TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION"
@@ -1525,7 +1525,7 @@ msgstr "A la cola"
 
 #: TFRMFILEOP.BTNWORKINBACKGROUND.CAPTION
 msgid "Work in &background"
-msgstr "Trabajar en segundo plano"
+msgstr "Segundo plano"
 
 #: TFRMFILEOP.CAPTION
 msgctxt "TFRMFILEOP.CAPTION"
@@ -2692,7 +2692,7 @@ msgstr "*"
 
 #: TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.HINT
 msgid "Directory hotlist"
-msgstr ""
+msgstr "Marcadores"
 
 #: TFRMMAIN.BTNLEFTEQUALRIGHT.CAPTION
 msgid "<"
@@ -3335,7 +3335,7 @@ msgstr "Número inicial"
 #: TFRMMULTIRENAME.LBWIDTH.CAPTION
 msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
 msgid "Width"
-msgstr "Anchura"
+msgstr "Dígitos"
 
 #: TFRMMULTIRENAME.LSVWFILE.COLUMNS[0].CAPTION
 msgid "Old File Name"
@@ -3523,7 +3523,7 @@ msgstr "Aplicar"
 
 #: TFRMOPTIONS.BTNAUTOCONFIG.CAPTION
 msgid "Auto Configure"
-msgstr "Configuración auto."
+msgstr "Autoconfig."
 
 #: TFRMOPTIONS.BTNBACKVIEWERCOLOR.CAPTION
 msgctxt "TFRMOPTIONS.BTNBACKVIEWERCOLOR.CAPTION"
@@ -3644,11 +3644,11 @@ msgstr "Historia de comandos"
 
 #: TFRMOPTIONS.CBCUTTEXTTOCOLWIDTH.CAPTION
 msgid "Cut text to column width"
-msgstr "Ajustar texto a ancho de columna"
+msgstr "Ajustar texto al ancho de columna"
 
 #: TFRMOPTIONS.CBDELETETOTRASH.CAPTION
 msgid "Delete to recycle bin (Shift key reverses this setting)"
-msgstr "Se manda a la papelera (la tecla mayúscula invierte esta selección)"
+msgstr "Se tira a la papelera (la tecla mayúscula invierte esta selección)"
 
 #: TFRMOPTIONS.CBDIRBRACKETS.CAPTION
 msgid "Show square brackets around directories"
@@ -3754,7 +3754,7 @@ msgstr "Registrar operaciones exito&sas"
 #: TFRMOPTIONS.CBLOGVFS.CAPTION
 
 msgid "File system plugins"
-msgstr "Complementos de sistema de archivos"
+msgstr "Sistema de archivos"
 
 #: TFRMOPTIONS.CBLOGWINDOW.CAPTION
 msgid "Show log window"
@@ -4155,7 +4155,7 @@ msgstr "Tamaño de buffer (Kb)"
 
 #: TFRMOPTIONS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
-msgstr "Formato de fecha y hora:"
+msgstr "Formato:"
 
 #: TFRMOPTIONS.LBLDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONS.LBLDESCRIPTION.CAPTION"
@@ -4440,7 +4440,7 @@ msgstr "Ejemplo"
 #: TFRMOPTIONSCOLORS.GBFILETYPESCOLORS.CAPTION
 msgctxt "TFRMOPTIONSCOLORS.GBFILETYPESCOLORS.CAPTION"
 msgid "File types colors"
-msgstr "Colores de tipos de archivos"
+msgstr "Colores para los tipos de archivos"
 
 #: TFRMOPTIONSCOLORS.LBLBACKGROUND2.CAPTION
 msgctxt "TFRMOPTIONSCOLORS.LBLBACKGROUND2.CAPTION"
@@ -4450,22 +4450,22 @@ msgstr "Fondo 2:"
 #: TFRMOPTIONSCOLORS.LBLCATEGORYATTR.CAPTION
 msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYATTR.CAPTION"
 msgid "Category attributes:"
-msgstr "Atributos de categoría:"
+msgstr "Atributos:"
 
 #: TFRMOPTIONSCOLORS.LBLCATEGORYCOLOR.CAPTION
 msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYCOLOR.CAPTION"
 msgid "Category color:"
-msgstr "Color de categoría:"
+msgstr "Color:"
 
 #: TFRMOPTIONSCOLORS.LBLCATEGORYMASK.CAPTION
 msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYMASK.CAPTION"
 msgid "Category mask:"
-msgstr "Máscara de categoría:"
+msgstr "Máscara:"
 
 #: TFRMOPTIONSCOLORS.LBLCATEGORYNAME.CAPTION
 msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYNAME.CAPTION"
 msgid "Category name:"
-msgstr "Nombre de categoría:"
+msgstr "Categoría:"
 
 #: TFRMOPTIONSCOLORS.LBLCURSORCOLOR.CAPTION
 msgctxt "TFRMOPTIONSCOLORS.LBLCURSORCOLOR.CAPTION"
@@ -4505,7 +4505,7 @@ msgstr "Añadir"
 #: TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
 msgid "Configure"
-msgstr "configurar"
+msgstr "Configurar"
 
 #: TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
@@ -4520,32 +4520,32 @@ msgstr "Eliminar"
 #: TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION"
 msgid "Tweak"
-msgstr "Trucar"
+msgstr "Ajustar"
 
 #: TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
 msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr "A los complementos de búsqueda permitir el uso de algoritmos de busqueda alternativos o herramientas externas (como "\"locate\", etc.)"
+msgstr "Los complementos 'Búsqueda' permiten hacer uso de algoritmos de búsqueda alternativos o herramientas externas (como \"locate\", etc.)"
 
 #: TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
 msgid "Packer plugins are used to work with archives."
-msgstr "Los complementos de compresores son usados para trabajar con archivos."
+msgstr "Los complementos 'Compresores' trabajan sobre archivos."
 
 #: TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
 msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgstr "A los complementos de contenido permitir mostrar detalles extendidos del archivo como las etiquetas mp3 o en lista de archivo los atributos de imagen, o usarlos con las herramientas de busqueda o de renombrado múltiple"
+msgstr "Los complementos 'Contenido' permiten mostrar detalles extendidos del archivo: etiquetas mp3, atributos de imagen (en lista de archivo); o pueden usarse con las herramientas de búsqueda o de renombrado múltiple"
 
 #: TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
 msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr "A los complementos de sistema de archivos permitir acceder a discos inaccesibles por el sistema operativo o a aparatos externos como Palm/PocketPC."
+msgstr "Los complementos 'Sistema de archivos' permiten acceder a discos inaccesibles por el sistema operativo o a aparatos externos como Palm/PocketPC."
 
 #: TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr "A los complementos de visionado permitir mostrar fomatos de archivo como imágenes, hojas de datos, bases de datos, etc. en Ver (F3, Ctrl+A)"
+msgstr "Los complementos 'Visionado' (Lister) permiten mostrar fomatos de archivo como imágenes, hojas de datos, bases de datos, etc. en Ver (F3, Ctrl+A)"
 
 #: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
@@ -4570,27 +4570,27 @@ msgstr "Nombre de archivo"
 #: TFRMOPTIONSPLUGINS.TSDSX.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
 msgid "Search plugins (.DSX)"
-msgstr "Complementos de búsqueda (.DSX)"
+msgstr "Búsqueda (.DSX)"
 
 #: TFRMOPTIONSPLUGINS.TSWCX.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.TSWCX.CAPTION"
 msgid "Packer plugins (.WCX)"
-msgstr "Complementos de compresores (.WCX)"
+msgstr "Compresores (.WCX)"
 
 #: TFRMOPTIONSPLUGINS.TSWDX.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.TSWDX.CAPTION"
 msgid "Content plugins (.WDX)"
-msgstr "Complementos de contenido(.WDX)"
+msgstr "Contenido(.WDX)"
 
 #: TFRMOPTIONSPLUGINS.TSWFX.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.TSWFX.CAPTION"
 msgid "File system plugins (.WFX)"
-msgstr "Complementos del sistema de archivos (.WFX)"
+msgstr "Sistema de archivos (.WFX)"
 
 #: TFRMOPTIONSPLUGINS.TSWLX.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
 msgid "Viewer plugins (.WLX)"
-msgstr "Complementos de visionado (.WLX)"
+msgstr "Visionado (Lister) (.WLX)"
 
 #: TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION"
@@ -4630,17 +4630,17 @@ msgstr "Mostrar información emergente"
 #: TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
 msgid "Category hint:"
-msgstr "Atributos de categoría:"
+msgstr "Info. mostrada:"
 
 #: TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION"
 msgid "Category mask:"
-msgstr "Máscara de categoría:"
+msgstr "Máscara:"
 
 #: TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
 msgid "Category name:"
-msgstr "Nombre de categoría:"
+msgstr "Categoría:"
 
 #: TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
@@ -4655,7 +4655,7 @@ msgstr "No mostrar"
 #: TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
 msgid "Show tool tip for files in file panel if truncated"
-msgstr "Mostrar información emergente para los archivos si el panel se corta"
+msgstr "Si el panel se corta, mostrar información emergente"
 
 #: TFRMPACKDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
@@ -5033,7 +5033,7 @@ msgstr "Eliminar"
 #: TFRMTWEAKPLUGIN.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.CAPTION"
 msgid "Tweak plugin"
-msgstr "Trucar complemento"
+msgstr "Ajustar complemento"
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_BY_CONTENT.CAPTION
 msgid "Detect archive type by content"
@@ -5057,7 +5057,7 @@ msgstr "Soporta compresión en memoria"
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_MODIFY.CAPTION
 msgid "Can modify exisiting archives"
-msgstr "Pude modificar los archivos existentes"
+msgstr "Puede modificar los archivos existentes"
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_MULTIPLE.CAPTION
 msgid "Archive can contain multiple files"
@@ -5073,7 +5073,7 @@ msgstr "Soporta la ventana de diálogo con opciones"
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_SEARCHTEXT.CAPTION
 msgid "Allow searching for text in archives"
-msgstr ""
+msgstr "Permitir buscar texto en archivos"
 
 #: TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION"
@@ -5091,7 +5091,7 @@ msgstr "Extensión:"
 
 #: TFRMTWEAKPLUGIN.LBLFLAGS.CAPTION
 msgid "Flags:"
-msgstr "Banderas:"
+msgstr "Opciones:"
 
 #: TFRMTWEAKPLUGIN.LBLNAME.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.LBLNAME.CAPTION"
@@ -5146,7 +5146,7 @@ msgstr "Borrar"
 #: TFRMVIEWER.BTNFULLSCREEN.HINT
 msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
 msgid "Full Screen"
-msgstr ""
+msgstr "Pantalla completa"
 
 #: TFRMVIEWER.BTNGIFMOVE.CAPTION
 msgctxt "TFRMVIEWER.BTNGIFMOVE.CAPTION"
@@ -5170,7 +5170,7 @@ msgstr "Espejo"
 #: TFRMVIEWER.BTNMOVEFILE.HINT
 msgctxt "TFRMVIEWER.BTNMOVEFILE.HINT"
 msgid "Move"
-msgstr ""
+msgstr "Mover"
 
 #: TFRMVIEWER.BTNMOVEFILE1.HINT
 msgctxt "TFRMVIEWER.BTNMOVEFILE1.HINT"
@@ -5227,7 +5227,7 @@ msgstr "Recargar"
 #: TFRMVIEWER.BTNRESIZE.HINT
 msgctxt "TFRMVIEWER.BTNRESIZE.HINT"
 msgid "Resize"
-msgstr ""
+msgstr "Redimensionar"
 
 #: TFRMVIEWER.BTNUNDO.HINT
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
@@ -5256,7 +5256,7 @@ msgstr "Diapositivas"
 
 #: TFRMVIEWER.COMBOBOXPAINT.TEXT
 msgid "Pen"
-msgstr ""
+msgstr "Lápiz"
 
 #: TFRMVIEWER.COMBOBOXWIDTH.TEXT
 msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
@@ -5352,7 +5352,7 @@ msgstr "&Editar"
 #: TFRMVIEWER.MIENCODING.CAPTION
 msgctxt "TFRMVIEWER.MIENCODING.CAPTION"
 msgid "En&coding"
-msgstr ""
+msgstr "Codificar"
 
 #: TFRMVIEWER.MIEXIT.CAPTION
 msgctxt "TFRMVIEWER.MIEXIT.CAPTION"
@@ -5367,7 +5367,7 @@ msgstr "&Archivo"
 #: TFRMVIEWER.MIFULLSCREEN.CAPTION
 msgctxt "TFRMVIEWER.MIFULLSCREEN.CAPTION"
 msgid "Full Screen"
-msgstr ""
+msgstr "Pantalla Completa"
 
 #: TFRMVIEWER.MIGRAPHICS.CAPTION
 msgid "Graphics"
@@ -5383,12 +5383,12 @@ msgstr "&Imagen"
 
 #: TFRMVIEWER.MILOOKBOOK.CAPTION
 msgid "Show as B&ook"
-msgstr ""
+msgstr "Mostrar como Libro"
 
 #: TFRMVIEWER.MIMIRROR.CAPTION
 msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
 msgid "Mirror"
-msgstr ""
+msgstr "Espejo"
 
 #: TFRMVIEWER.MINEXT.CAPTION
 msgid "&Next"
@@ -5497,7 +5497,7 @@ msgstr "Cancelar"
 
 #: TFRMVIEWOPERATIONS.BTNALLINQUEUE.CAPTION
 msgid "Queue In"
-msgstr "Poner en cola"
+msgstr "A la cola"
 
 #: TFRMVIEWOPERATIONS.BTNALLPAUSE.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNALLPAUSE.CAPTION"
@@ -5507,7 +5507,7 @@ msgstr "Pausa"
 #: TFRMVIEWOPERATIONS.BTNALLSTART.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNALLSTART.CAPTION"
 msgid "Start"
-msgstr ""
+msgstr "Comenzar"
 
 #: TFRMVIEWOPERATIONS.BTNCANCELCUROP.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNCANCELCUROP.CAPTION"
@@ -5541,7 +5541,7 @@ msgstr "Comenzar"
 
 #: TFRMVIEWOPERATIONS.BTNSTARTQUEUE.CAPTION
 msgid "Start queue"
-msgstr "Inic.cola"
+msgstr "Iniciar cola"
 
 #: TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION"
@@ -5597,7 +5597,7 @@ msgstr "Cuando el archivo exista"
 
 #: ulng.rscolattr
 msgid "Attr"
-msgstr "Atrib"
+msgstr "Atributos"
 
 #: ulng.rscoldate
 msgid "Date"
@@ -5631,7 +5631,7 @@ msgstr "Texto"
 
 #: ulng.rsconfcolconfig
 msgid "Config"
-msgstr ""
+msgstr "Config."
 
 #: ulng.rsconfcoldelete
 msgctxt "ulng.rsconfcoldelete"
@@ -5645,7 +5645,7 @@ msgstr "Contenidos de campos"
 #: ulng.rsconfcolmove
 msgctxt "ulng.rsconfcolmove"
 msgid "Move"
-msgstr ""
+msgstr "Mover"
 
 #: ulng.rsconfcolwidth
 msgctxt "ulng.rsconfcolwidth"
@@ -5798,11 +5798,11 @@ msgstr "Fuera"
 
 #: ulng.rsdlgspeed
 msgid "Speed %s/s"
-msgstr "Velocidad %s/s"
+msgstr "Vel.: %s/s"
 
 #: ulng.rsdlgspeedtime
 msgid "Speed %s/s, time remaining s%"
-msgstr "Velocidad %s/s, tiempo restante s%"
+msgstr "Vel.: %s/s, queda: s%"
 
 #: ulng.rsdlgsplit
 #, fuzzy
@@ -5911,7 +5911,7 @@ msgstr " %s de %s bytes libres"
 
 #: ulng.rsfreemsgshort
 msgid "%s bytes free"
-msgstr ""
+msgstr "%s bytes libres"
 
 #: ulng.rsfuncatime
 msgid "Access date/time"
@@ -5928,11 +5928,11 @@ msgstr "Comentario"
 
 #: ulng.rsfuncctime
 msgid "Creation date/time"
-msgstr ""
+msgstr "Fecha de creación"
 
 #: ulng.rsfuncext
 msgid "Extension"
-msgstr ""
+msgstr "Extensión"
 
 #: ulng.rsfuncgroup
 msgctxt "ulng.rsfuncgroup"
@@ -6096,11 +6096,11 @@ msgstr "¿Borrar \"%s\"?"
 
 #: ulng.rsmsgdelselt
 msgid "Delete selected \"%s\" into trash can?"
-msgstr "¿Echar \"%s\" a la papelera?"
+msgstr "¿Tirar \"%s\" a la papelera?"
 
 #: ulng.rsmsgdeltotrashforce
 msgid "Can not delete \"%s\" to trash! Delete directly?"
-msgstr "¡No puedo echar \"%s\" a la paelera!¿Lo borro directamente?"
+msgstr "¡No puedo tirar \"%s\" a la papelera!¿Lo borro directamente?"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
@@ -6172,7 +6172,7 @@ msgstr "¡No se puede crear la carpeta %s!"
 
 #: ulng.rsmsgerrinvalidlink
 msgid "Invalid link"
-msgstr ""
+msgstr "Enlace Inválido"
 
 #: ulng.rsmsgerrnofiles
 msgid "No files found"
@@ -6467,7 +6467,7 @@ msgstr "¿Destruyo \"%s\"?"
 #, fuzzy
 #| msgid "No change;UPPERCASE;lowercase;First Char Big;"
 msgid "No change;UPPERCASE;lowercase;First char uppercase;First Char Of Every Word Uppercase;"
-msgstr "Sin cambios;MAYÚSCULAS;minúsculas;Primera Mayúscula;"
+msgstr "Sin cambios;MAYÚSCULAS;minúsculas;Primer caracter en Mayúsculas; Primero de cada palabra en Mayúsculas"
 
 #: ulng.rsoperaborted
 msgid "Aborted"
@@ -6475,7 +6475,7 @@ msgstr "Abortado"
 
 #: ulng.rsoperautostart
 msgid "Auto-started"
-msgstr "Arrancado automático"
+msgstr "Autoarrancado"
 
 #: ulng.rsoperfinished
 msgid "Finished"
@@ -6536,11 +6536,11 @@ msgstr "Parando"
 
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
-msgstr "Espèrando para acceder al archivo"
+msgstr "Esperando para acceder al archivo"
 
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
-msgstr "Esperando por la respuesta del usuario"
+msgstr "Esperando su respuesta"
 
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
@@ -6572,7 +6572,7 @@ msgstr "Rango de búsqueda ID:"
 
 #: ulng.rsoptarchiveparam
 msgid "Parameter"
-msgstr "Parametro"
+msgstr "Parámetro"
 
 #: ulng.rsoptarchivepasswordquery
 msgid "Password query string:"
@@ -6590,7 +6590,7 @@ msgstr "Crear archivo autoextraible:"
 #: ulng.rsoptarchivetest
 msgctxt "ulng.rsoptarchivetest"
 msgid "Test:"
-msgstr ""
+msgstr "Comprobar:"
 
 #: ulng.rsoptarchivetypename
 msgid "Archive type name:"
@@ -6635,7 +6635,7 @@ msgstr "Deshabilitado"
 #: ulng.rsoptenable
 msgctxt "ulng.rsoptenable"
 msgid "Enable"
-msgstr "Registro"
+msgstr "Habilitado"
 
 #: ulng.rsoptenterext
 msgid "Enter extension"
@@ -6835,11 +6835,11 @@ msgstr "Socket"
 
 #: ulng.rspropsspblkdev
 msgid "Special block device"
-msgstr "archivo de bloques especial"
+msgstr "Archivo de bloques especial"
 
 #: ulng.rspropsspchrdev
 msgid "Special character device"
-msgstr "archivo de carácter especial"
+msgstr "Archivo de carácter especial"
 
 #: ulng.rspropssymlink
 msgid "Symbolic link"
@@ -6965,7 +6965,7 @@ msgstr "Visor"
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
-msgstr "Por favor, informe de este error al trazador de errores con una descripción de lo que estaba haciendo: %sPress %s para continuar o %s para abortar el programa."
+msgstr "Por favor, informe de este error al trazador de errores con una descripción de lo que estaba haciendo: %sPulse %s para continuar o %s para abortar el programa."
 
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
