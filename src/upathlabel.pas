@@ -102,19 +102,24 @@ begin
 end;
 
 procedure TPathLabel.Paint;
+var
+  TextTop: Integer;
 begin
   Canvas.Brush.Color := Color;
   Canvas.Font.Color  := Font.Color;
 
+  // Center vertically.
+  TextTop := (Height - Canvas.TextHeight(Text)) div 2;
+
   Canvas.FillRect(0, 0, Width, Height); // background
-  Canvas.TextOut(LeftSpacing, 0, Text); // path
+  Canvas.TextOut(LeftSpacing, TextTop, Text); // path
 
   // Highlight part of the path if mouse is over it.
   if FHighlightStartPos <> -1 then
   begin
     Canvas.Brush.Color := Font.Color;  // reverse colors
     Canvas.Font.Color  := Color;
-    Canvas.TextOut(FHighlightStartPos, 0, FHighlightText);
+    Canvas.TextOut(FHighlightStartPos, TextTop, FHighlightText);
   end;
 end;
 
