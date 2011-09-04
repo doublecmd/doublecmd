@@ -1,4 +1,76 @@
-﻿17.05.2009 ADD: Feature Request [2777123] Show occupied space
+﻿03.09.2011 FIX: Delete HotDir with item index = 0
+02.09.2011 FIX: Access violation error with some wcx and wfx plugins
+--------------------------------------------------------------------------------
+28.08.2011 Release Double Commander 0.5.0 beta
+--------------------------------------------------------------------------------
+21.08.2010 Release Double Commander 0.4.5.2 beta
+--------------------------------------------------------------------------------
+15.08.2010 FIX: Use case insensitive compare for verify checksum operation
+20.04.2010 FIX: Bug [2989234] Does not work with icloud
+10.04.2010 ADD: Korean language file by Lee, Cheon-Pung
+02.03.2010 UPD: Use Escape key to leave editing command line and focus files panel when command line is empty [2961106].
+01.03.2010 UPD: Ukrainian language file by Ma$terok
+01.03.2010 UPD: Polish language file by Krzysztof Modelski
+01.03.2010 FIX: Sorting files by size if size > 4GB (bug [2960850]).
+25.02.2010 FIX: Bug [2957145] Directory hotlist hotkey issue
+25.02.2010 FIX: Bug [2957145] Directory hotlist hotkey issue
+25.02.2010 FIX: Bug [2957159] File type color dialog color selection
+24.02.2010 ADD: Polish language file by Krzysztof Modelski
+24.02.2010 FIX: Get content plugin name
+24.02.2010 FIX: ContentGetDetectString function
+23.02.2010 FIX: Cross compiling unrar plugin from Linux 32 to 64
+--------------------------------------------------------------------------------
+22.02.2010 Release Double Commander 0.4.5.1 beta
+--------------------------------------------------------------------------------
+22.02.2010 UPD: Better error message when error in CopyFile.
+22.02.2010 FIX: Crash in CopyFile when cannot read file.
+21.02.2010 FIX: Bug [2955066] Split file
+19.02.2010 FIX: Unneeded separator in Actions submenu if no actions were added.
+19.02.2010 FIX: Some fixes for bug [2954358] error with write permissions
+17.02.2010 UPD: Ukrainian language file by Ma$terok
+17.02.2010 UPD: English help files by Rod J
+14.02.2010 ADD: File search in multiply directories
+13.02.2010 FIX: Hangs on load string from incorrect language file
+13.02.2010 UPD: Czech language from Petr Stasiak
+12.02.2010 FIX: Bug [2947859] "terminal window size+Apply in preferences".
+11.02.2010 FIX: "Open with" under Windows
+11.02.2010 UPD: Language files.
+11.02.2010 FIX: Changed '=' TargetEqualSource to '>' RightEqualLeft and '<' LeftEqualRight (bug [2947845]).
+10.02.2010 FIX: Bug [2947846] '..' item always becomes current if going up inside an archive
+10.02.2010 FIX: Crash in drag&drop on Windows Vista/7.
+07.02.2010 FIX: Create directory on empty disk
+02.02.2010 FIX: Bug [2944649] Copy files
+02.02.2010 FIX: Check if application is active instead of checking main form's focus if FileWatcher should not work when application is in the background. This fixes the issue where refreshing file list is not working even when DC is active.
+29.01.2010 FIX: Don't execute hotkeys that coincide with quick search combination
+27.01.2010 FIX: Drive panel alignment
+27.01.2010 FIX: Encoding in Zip archives
+27.01.2010 FIX: Rar stores file name in OEM encoding (from RAR documentation)
+26.01.2010 FIX: Find files in hidden directories
+26.01.2010 FIX: Find hidden folders
+25.01.2010 FIX: Don't copy last LineEnding when copy file names to clipboard
+24.01.2010 FIX: Bug [2938523] Console
+23.01.2010 FIX: Case insensitive file search for non ACSII file names
+23.01.2010 FIX: Debian package: Section name
+23.01.2010 FIX: Debian package: add "Maintainer" and "Depends" fields
+22.01.2010 FIX: Debian package architecture for Linux 64 bit
+21.01.2010 FIX: Add Wfx plugins from options dialog
+20.01.2010 FIX: Stretch bitmaps from file associations manager
+19.01.2010 UPD: File properties dialog interface alignment
+19.01.2010 UPD: Options dialog interface alignment
+19.01.2010 FIX: Unpack multivolume archives
+16.01.2010 FIX: Show only actions names in "Actions submenu"
+16.01.2010 FIX: Incorrect save/load search/replace history
+16.01.2010 UPD: Use new icon in About window.
+15.01.2010 FIX: Case insensitive quick search for non ASCII symbols
+15.01.2010 FIX: Viewer/editor  window getting bigger every time it is opened (bug [2924166]).
+15.01.2010 FIX: Error when can not read/write file description
+15.01.2010 FIX: Delete to trash with file paths containing spaces. Fix reading error from gvfs-trash.
+13.01.2010 FIX: Skip all files in move operation
+13.01.2010 FIX: Bug [2930960] doublecmd.sh
+--------------------------------------------------------------------------------
+10.01.2009 Release Double Commander 0.4.5 beta
+--------------------------------------------------------------------------------
+17.05.2009 ADD: Feature Request [2777123] Show occupied space
 14.03.2009 FIX: Bug [ 2650798 ] WCX plugins not work property...
 --------------------------------------------------------------------------------
 28.02.2009 Release Double Commander 0.4 beta
