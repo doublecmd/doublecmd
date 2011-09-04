@@ -790,8 +790,10 @@ begin
       end;
     end;
 
-    // copy file attributes
-    Result := mbFileCopyAttr(SourceFile.FullPath, TargetFileName, FDropReadOnlyAttribute);
+    // Copy file attributes
+    // TODO: May be is better to show error dialog when can not copy
+    // attributes, with buttons like: Ignore, Ignore All, Cancel
+    mbFileCopyAttr(SourceFile.FullPath, TargetFileName, FDropReadOnlyAttribute);
 
   except
     on EFCreateError do
