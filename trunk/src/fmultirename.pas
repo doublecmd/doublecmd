@@ -213,7 +213,7 @@ implementation
 
 uses
   LCLProc, FileUtil, uDebug, uLng, uGlobs, uFileProcs, uDCUtils, uOSUtils,
-  uShowMsg, uFileSourceUtil, uFileProperty, uFileFunctions;
+  fSelectTextRange, uShowMsg, uFileSourceUtil, uFileProperty, uFileFunctions;
 
 const
   sPresetsSection = 'MultiRenamePresets';
@@ -692,19 +692,23 @@ begin
 end;
 
 procedure TfrmMultiRename.NameXClick(Sender: TObject);
+var
+  iSelStart, iSelFinish: LongInt;
 begin
-  InsertMask('[N1]',ppNameMenu.Tag);
+  if ShowSelectTextRangeDlg(Caption, FFiles[0].NameNoExt, iSelStart, iSelFinish) then
+  begin
+    InsertMask('[N' + IntToStr(iSelStart) + ']', ppNameMenu.Tag);
+  end;
 end;
 
 procedure TfrmMultiRename.NameXXClick(Sender: TObject);
 var
-  c,i:integer;
+  iSelStart, iSelFinish: LongInt;
 begin
-  i:=0;
-  for c:=0 to lsvwFile.Items.Count-1 do
-    if i < UTF8Length(ChangeFileExt(lsvwFile.Items[c].Caption,'')) then
-      i:= UTF8Length(ChangeFileExt(lsvwFile.Items[c].Caption,''));
-  InsertMask('[N1:'+inttostr(i)+']',ppNameMenu.Tag);
+  if ShowSelectTextRangeDlg(Caption, FFiles[0].NameNoExt, iSelStart, iSelFinish) then
+  begin
+    InsertMask('[N' + IntToStr(iSelStart) + ':' + IntToStr(iSelFinish) + ']', ppNameMenu.Tag);
+  end;
 end;
 
 procedure TfrmMultiRename.ExtensionClick(Sender: TObject);
@@ -713,24 +717,23 @@ begin
 end;
 
 procedure TfrmMultiRename.ExtensionXClick(Sender: TObject);
+var
+  iSelStart, iSelFinish: LongInt;
 begin
-  InsertMask('[E1]',ppNameMenu.Tag);
+  if ShowSelectTextRangeDlg(Caption, FFiles[0].Extension, iSelStart, iSelFinish) then
+  begin
+    InsertMask('[E' + IntToStr(iSelStart) + ']', ppNameMenu.Tag);
+  end;
 end;
 
 procedure TfrmMultiRename.ExtensionXXClick(Sender: TObject);
 var
-  c,i:integer;
-  sTmp:string;
+  iSelStart, iSelFinish: LongInt;
 begin
-  i:=0;
-  for c:=0 to lsvwFile.Items.Count-1 do
+  if ShowSelectTextRangeDlg(Caption, FFiles[0].Extension, iSelStart, iSelFinish) then
   begin
-    sTmp:=ExtractFileExt(lsvwFile.Items[c].Caption);
-    delete(sTmp,1,1);
-    if i<UTF8Length(sTmp) then
-      i:=UTF8Length(sTmp);
+    InsertMask('[E' + IntToStr(iSelStart) + ':' + IntToStr(iSelFinish) + ']', ppNameMenu.Tag);
   end;
-  InsertMask('[E1:'+inttostr(i)+']',ppNameMenu.Tag);
 end;
 
 procedure TfrmMultiRename.miPluginClick(Sender: TObject);

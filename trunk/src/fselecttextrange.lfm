@@ -1,0 +1,57 @@
+object frmSelectTextRange: TfrmSelectTextRange
+  Left = 326
+  Height = 112
+  Top = 236
+  Width = 320
+  BorderStyle = bsDialog
+  ChildSizing.LeftRightSpacing = 10
+  ClientHeight = 112
+  ClientWidth = 320
+  Position = poOwnerFormCenter
+  LCLVersion = '0.9.31'
+  object edtSelectText: TEdit
+    AnchorSideLeft.Control = lblSelectText
+    AnchorSideTop.Control = lblSelectText
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Side = asrBottom
+    Left = 10
+    Height = 23
+    Top = 32
+    Width = 300
+    AutoSelect = False
+    BorderSpacing.Top = 6
+    Constraints.MinWidth = 300
+    OnExit = edtSelectTextExit
+    TabOrder = 0
+  end
+  object lblSelectText: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 10
+    Height = 16
+    Top = 10
+    Width = 158
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 10
+    Caption = 'Select the characters to insert:'
+    ParentColor = False
+  end
+  object btpPanel: TButtonPanel
+    Left = 10
+    Height = 34
+    Top = 72
+    Width = 300
+    OKButton.Name = 'OKButton'
+    OKButton.Caption = '&ОК'
+    HelpButton.Name = 'HelpButton'
+    HelpButton.Caption = '&Справка'
+    CloseButton.Name = 'CloseButton'
+    CloseButton.Caption = '&Закрыть'
+    CancelButton.Name = 'CancelButton'
+    CancelButton.Caption = 'Отмена'
+    TabOrder = 1
+    ShowButtons = [pbOK, pbCancel]
+  end
+end
