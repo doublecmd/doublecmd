@@ -662,7 +662,7 @@ begin
       iFrom := StrToIntDef(Copy(sFormatStr, 2, iSemiColon - 2), 1);
       iTo   := StrToIntDef(Copy(sFormatStr, iSemiColon + 1, MaxInt), MaxInt);
     end;
-    Result := Copy(sOrig, iFrom, iTo - iFrom + 1);
+    Result := UTF8Copy(sOrig, iFrom, iTo - iFrom + 1);
   end;
 end;
 
