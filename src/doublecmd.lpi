@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="137">
+    <Units Count="138">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -363,6 +363,7 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmMultiRename"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="fMultiRename"/>
       </Unit20>
       <Unit21>
@@ -1059,6 +1060,13 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsArchivers"/>
       </Unit136>
+      <Unit137>
+        <Filename Value="fselecttextrange.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmSelectTextRange"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fSelectTextRange"/>
+      </Unit137>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
