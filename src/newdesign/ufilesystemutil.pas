@@ -777,6 +777,8 @@ begin
         CheckOperationState; // check pause and stop
       end;//while
 
+      Result:= True;
+
     finally
       if Assigned(SourceFileStream) then
         FreeAndNil(SourceFileStream);
