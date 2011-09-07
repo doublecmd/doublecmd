@@ -1,6 +1,6 @@
 # Needs to be linked with GLib2.
 
-CPPFLAGS = -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include # -g3
+CPPFLAGS = -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include `getconf LFS_CFLAGS` # -g3
 
 OS_TARGET = linux
 
