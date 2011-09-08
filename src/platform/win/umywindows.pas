@@ -133,8 +133,6 @@ implementation
 uses
   ShellAPI, MMSystem, JwaWinNetWk, uShlObjAdditional;
 
-function mciSendCommand(IDDevice: MCIDEVICEID; uMsg: UINT; fdwCommand: DWORD; dwParam: DWORD_PTR): MCIERROR; stdcall; external 'winmm.dll' name 'mciSendCommandA';
-
 function GetMenuItemText(hMenu: HMENU; uItem: UINT; fByPosition: LongBool): WideString;
 var
   miiw: TMenuItemInfoW;
@@ -307,6 +305,8 @@ type
     lpstrElementName: LPCTSTR;
     lpstrAlias: LPCTSTR;
   end;
+
+function mciSendCommand(IDDevice: MCIDEVICEID; uMsg: UINT; fdwCommand: DWORD; dwParam: DWORD_PTR): MCIERROR; stdcall; external 'winmm.dll' name 'mciSendCommandA';
 
 (* Close CD/DVD *)
 
