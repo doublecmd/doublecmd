@@ -590,8 +590,8 @@ type
     procedure LoadTabsXml(ANoteBook: TFileViewNotebook);
     procedure SaveTabsIni(ANoteBook: TFileViewNotebook);
     procedure SaveTabsXml(ANoteBook: TFileViewNotebook);
-    function ExecCmd(Cmd:string; param:string='') : Boolean;
-    function ExecCmdEx(Sender: TObject; NumberOfButton:Integer) : Boolean;
+    function ExecCmd(Cmd: String; Param: String=''; StartPath: String='') : Boolean;
+    function ExecuteToolButton(Sender: TObject; NumberOfButton:Integer) : Boolean;
     procedure ToggleConsole;
     procedure UpdateWindowView;
     procedure MinimizeWindow;
@@ -1605,7 +1605,7 @@ procedure TfrmMain.MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : 
 begin
   if not Draging then
     begin
-      ExecCmdEx(Sender, NumberOfButton);
+      ExecuteToolButton(Sender, NumberOfButton);
       DCDebug(MainToolBar.Commands[NumberOfButton]);
     end;
   Draging := false;
@@ -1872,7 +1872,7 @@ end;
 procedure TfrmMain.pmButtonMenuMenuButtonClick(Sender: TObject;
   NumberOfButton: Integer);
 begin
-    ExecCmdEx(Sender, NumberOfButton);
+  ExecuteToolButton(Sender, NumberOfButton);
 end;
 
 procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
@@ -2737,6 +2737,7 @@ begin
   if I >= 0 then
   begin
     sDir:= MainToolBar.GetButtonX(I, PathX);
+    ReplaceExtCommand(sDir, FrameLeft, FrameRight, ActiveFrame);
     tbChangeDir.Caption := 'CD ' + sDir;
     if sDir <> '' then
       tbChangeDir.Visible:= true;
@@ -3557,48 +3558,56 @@ end;
 
 (* Execute internal or external command *)
 
-function TfrmMain.ExecCmd(Cmd: string; param:string=''): Boolean;
+function TfrmMain.ExecCmd(Cmd: String; Param: String=''; StartPath: String=''): Boolean;
 begin
+  Cmd       := NormalizePathDelimiters(Cmd);
+  Param     := NormalizePathDelimiters(Param);
+  Param     := ReplaceEnvVars(Param);
+  ReplaceExtCommand(Param, FrameLeft, FrameRight, ActiveFrame);
+
   if Actions.Execute(Cmd, Param) <> uActs.cf_Error then
     Result:= True
   else
-    Result:= ExecCmdFork(Format('"%s" %s', [Cmd, Param]));
+  begin
+    StartPath := NormalizePathDelimiters(StartPath);
+    StartPath := ReplaceEnvVars(StartPath);
+    ReplaceExtCommand(StartPath, FrameLeft, FrameRight, ActiveFrame);
+
+    // Only add a space after command if there are parameters.
+    if Length(Param) > 0 then
+      Param := ' ' + Param;
+    if StartPath <> '' then
+      mbSetCurrentDir(StartPath);
+    Result:= ExecCmdFork(Format('"%s"%s', [Cmd, Param]));
+  end;
 end;
 
-function TfrmMain.ExecCmdEx(Sender: TObject; NumberOfButton: Integer): Boolean;
+function TfrmMain.ExecuteToolButton(Sender: TObject; NumberOfButton: Integer): Boolean;
 var
   Cmd, Param, Path: String;
 begin
   if Sender is TKASToolBar then
+  begin
     with Sender as TKASToolBar do
     begin
       Cmd:= GetButtonX(NumberOfButton, CmdX);
       Param:= GetButtonX(NumberOfButton, ParamX);
       Path:= GetButtonX(NumberOfButton, PathX);
     end;
-  if Sender is TKASBarMenu then
+  end
+  else if Sender is TKASBarMenu then
+  begin
     with Sender as TKASBarMenu do
     begin
       Cmd:= BarFile.GetButtonX(NumberOfButton, CmdX);
       Param:= BarFile.GetButtonX(NumberOfButton, ParamX);
       Path:= BarFile.GetButtonX(NumberOfButton, PathX);
     end;
-  Param:= ReplaceEnvVars(Param);
-  if Actions.Execute(Cmd, Param) <> uActs.cf_Error then
-    Result:= True
+  end
   else
-    begin
-      Cmd:= mbExpandFileName(Cmd);
-      Path:= ReplaceEnvVars(Path);
-      ReplaceExtCommand(Param, FrameLeft, FrameRight, ActiveFrame);
-      ReplaceExtCommand(Path, FrameLeft, FrameRight, ActiveFrame);
-      if Path <> '' then
-        mbSetCurrentDir(Path);
-      // Only add a space after command if there are parameters.
-      if Length(Param) > 0 then
-        Param := ' ' + Param;
-      Result:= ExecCmdFork(Format('"%s"%s', [Cmd, Param]));
-    end;
+    raise Exception.Create('Invalid Sender object');
+
+  Result := ExecCmd(Cmd, Param, Path);
 end;
 
 procedure TfrmMain.ToggleConsole;
@@ -3947,12 +3956,15 @@ end;
 procedure TfrmMain.tbChangeDirClick(Sender: TObject);
 var
   I: Integer;
+  sDir: String;
 begin
   I:= pmToolBar.Tag;
   if I < 0 then
     Exit;
 
-  Actions.cm_ChangeDir(MainToolBar.GetButtonX(I, PathX));
+  sDir := MainToolBar.GetButtonX(I, PathX);
+  ReplaceExtCommand(sDir, FrameLeft, FrameRight, ActiveFrame);
+  Actions.cm_ChangeDir(sDir);
 end;
 
 procedure TfrmMain.tbCopyClick(Sender: TObject);
