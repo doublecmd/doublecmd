@@ -20,6 +20,9 @@ type
     function GetArcFileList: TObjectList;
     function GetMultiArcItem: TMultiArcItem;
 
+    function FileIsLink(ArchiveItem: TArchiveItem): Boolean;
+    function FileIsDirectory(ArchiveItem: TArchiveItem): Boolean;
+
     procedure FillAndCount(const FileMask: UTF8String; Files: TFiles;
                            CountDirs: Boolean;
                            out NewFiles: TFiles;
@@ -38,6 +41,7 @@ type
     FMultiArcItem: TMultiArcItem;
     FAllDirsList,
     FExistsDirList: TStringHashList;
+    FLinkAttribute,
     FDirectoryAttribute: TFileAttrs;
 
     function GetMultiArcItem: TMultiArcItem;
@@ -45,6 +49,7 @@ type
 
     function ReadArchive(bCanYouHandleThisFile : Boolean = False): Boolean;
 
+    function FileIsLink(ArchiveItem: TArchiveItem): Boolean;
     function FileIsDirectory(ArchiveItem: TArchiveItem): Boolean;
 
     function GetArcFileList: TObjectList;
@@ -93,6 +98,8 @@ type
 
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation; override;
 
+    function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; override;
+
     class function CreateByArchiveSign(anArchiveFileSource: IFileSource;
                                        anArchiveFileName: String): IMultiArchiveFileSource;
     class function CreateByArchiveType(anArchiveFileSource: IFileSource;
@@ -119,7 +126,8 @@ uses
   uMultiArchiveCopyOutOperation,
   uMultiArchiveDeleteOperation,
   uMultiArchiveExecuteOperation,
-  uMultiArchiveTestArchiveOperation
+  uMultiArchiveTestArchiveOperation,
+  uMultiArchiveCalcStatisticsOperation
   ;
 
 class function TMultiArchiveFileSource.CreateByArchiveSign(anArchiveFileSource: IFileSource;
@@ -217,11 +225,20 @@ begin
   with FMultiArcItem do
   begin
     if (FFormMode and MAF_UNIX_ATTR) <> 0 then
-      FDirectoryAttribute:= S_IFDIR
+      begin
+        FLinkAttribute:= S_IFLNK;
+        FDirectoryAttribute:= S_IFDIR;
+      end
     else if (FFormMode and MAF_WIN_ATTR) <> 0 then
-      FDirectoryAttribute:= FILE_ATTRIBUTE_DIRECTORY
+      begin
+        FLinkAttribute:= FILE_ATTRIBUTE_REPARSE_POINT;
+        FDirectoryAttribute:= FILE_ATTRIBUTE_DIRECTORY;
+      end
     else
-      FDirectoryAttribute:= faFolder;
+      begin
+        FLinkAttribute:= faSymLink;
+        FDirectoryAttribute:= faFolder;
+      end;
   end;
 
   ReadArchive;
@@ -273,7 +290,7 @@ function TMultiArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
   Result := [fsoExecute];
   if FMultiArcItem.FList <> EmptyStr then
-    Result := Result + [fsoList];
+    Result := Result + [fsoList, fsoCalcStatistics];
   if FMultiArcItem.FAdd <> EmptyStr then
     Result := Result + [fsoCopyIn];
   if FMultiArcItem.FExtract <> EmptyStr then
@@ -390,6 +407,15 @@ begin
   Result:=  TMultiArchiveTestArchiveOperation.Create(SourceFileSource, theSourceFiles);
 end;
 
+function TMultiArchiveFileSource.CreateCalcStatisticsOperation(
+  var theFiles: TFiles): TFileSourceOperation;
+var
+  TargetFileSource: IFileSource;
+begin
+  TargetFileSource := Self;
+  Result := TMultiArchiveCalcStatisticsOperation.Create(TargetFileSource, theFiles);
+end;
+
 procedure TMultiArchiveFileSource.OnGetArchiveItem(ArchiveItem: TArchiveItem);
 
   procedure CollectDirs(Path: PAnsiChar; var DirsList: TStringHashList);
@@ -494,6 +520,11 @@ begin
   end;
 
   Result := True;
+end;
+
+function TMultiArchiveFileSource.FileIsLink(ArchiveItem: TArchiveItem): Boolean;
+begin
+  Result:= (ArchiveItem.Attributes and FLinkAttribute <> 0);
 end;
 
 function TMultiArchiveFileSource.FileIsDirectory(ArchiveItem: TArchiveItem): Boolean;

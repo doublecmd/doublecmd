@@ -30,7 +30,7 @@
       <Item1 Name="Debug" Default="True"/>
       <Item2 Name="Debug + HeapTrc">
         <CompilerOptions>
-          <Version Value="10"/>
+          <Version Value="9"/>
           <PathDelim Value="\"/>
           <Target>
             <Filename Value="..\doublecmd"/>
@@ -79,7 +79,7 @@
       </Item2>
       <Item3 Name="NoDebug Full Optimizations">
         <CompilerOptions>
-          <Version Value="10"/>
+          <Version Value="9"/>
           <PathDelim Value="\"/>
           <Target>
             <Filename Value="..\doublecmd"/>
@@ -123,7 +123,7 @@
       </Item3>
       <Item4 Name="Nightly">
         <CompilerOptions>
-          <Version Value="10"/>
+          <Version Value="9"/>
           <PathDelim Value="\"/>
           <Target>
             <Filename Value="..\doublecmd"/>
@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="138">
+    <Units Count="140">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1067,10 +1067,20 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fSelectTextRange"/>
       </Unit137>
+      <Unit138>
+        <Filename Value="newdesign\umultiarchivecalcstatisticsoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMultiArchiveCalcStatisticsOperation"/>
+      </Unit138>
+      <Unit139>
+        <Filename Value="newdesign\uwcxarchivecalcstatisticsoperation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWcxArchiveCalcStatisticsOperation"/>
+      </Unit139>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="10"/>
+    <Version Value="9"/>
     <PathDelim Value="\"/>
     <Target>
       <Filename Value="..\doublecmd"/>
