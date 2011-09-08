@@ -298,6 +298,16 @@ begin
     st2:= mbGetVolumeLabel(sDrv, FALSE);
 end;
 
+type
+  // mmsystem unit has incorrect definition
+  MCI_OPEN_PARMS = packed record
+    dwCallback: DWORD_PTR;
+    wDeviceID: MCIDEVICEID;
+    lpstrDeviceType: LPCTSTR;
+    lpstrElementName: LPCTSTR;
+    lpstrAlias: LPCTSTR;
+  end;
+
 (* Close CD/DVD *)
 
 procedure mbCloseCD(const sDrv: UTF8String);
@@ -306,7 +316,7 @@ var
 begin
   FillChar(OpenParms, SizeOf(OpenParms), 0);
   OpenParms.lpstrDeviceType:= 'CDAudio';
-  OpenParms.lpstrElementName:= PChar(ExtractFileDrive(sDrv));
+  OpenParms.lpstrElementName:= PAnsiChar(ExtractFileDrive(sDrv));
   mciSendCommand(0, MCI_OPEN, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
   mciSendCommand(OpenParms.wDeviceID, MCI_SET, MCI_SET_DOOR_CLOSED, 0);
   mciSendCommand(OpenParms.wDeviceID, MCI_CLOSE, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD_PTR(@OpenParms));
