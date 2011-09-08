@@ -103,6 +103,7 @@ type
     function CreateExecuteOperation(var ExecutableFile: TFile;
                                     BasePath, Verb: String): TFileSourceOperation; override;
     function CreateTestArchiveOperation(var theSourceFiles: TFiles): TFileSourceOperation; override;
+    function CreateCalcStatisticsOperation(var theFiles: TFiles): TFileSourceOperation; override;
 
     class function CreateByArchiveSign(anArchiveFileSource: IFileSource;
                                        anArchiveFileName: String): IWcxArchiveFileSource;
@@ -150,7 +151,8 @@ uses
   uWcxArchiveCopyOutOperation,
   uWcxArchiveDeleteOperation,
   uWcxArchiveExecuteOperation,
-  uWcxArchiveTestArchiveOperation;
+  uWcxArchiveTestArchiveOperation,
+  uWcxArchiveCalcStatisticsOperation;
 
 const
   connCopyIn      = 0;
@@ -456,7 +458,7 @@ end;
 
 function TWcxArchiveFileSource.GetOperationsTypes: TFileSourceOperationTypes;
 begin
-  Result := [fsoList, fsoCopyOut, fsoTestArchive, fsoExecute]; // by default
+  Result := [fsoList, fsoCopyOut, fsoTestArchive, fsoExecute, fsoCalcStatistics]; // by default
   with FWcxModule do
   begin
     if (((FPluginCapabilities and PK_CAPS_NEW) <> 0) or ((FPluginCapabilities and PK_CAPS_MODIFY) <> 0)) and
@@ -599,6 +601,15 @@ var
 begin
   SourceFileSource := Self;
   Result:=  TWcxArchiveTestArchiveOperation.Create(SourceFileSource, theSourceFiles);
+end;
+
+function TWcxArchiveFileSource.CreateCalcStatisticsOperation(
+  var theFiles: TFiles): TFileSourceOperation;
+var
+  TargetFileSource: IFileSource;
+begin
+  TargetFileSource := Self;
+  Result := TWcxArchiveCalcStatisticsOperation.Create(TargetFileSource, theFiles);
 end;
 
 function TWcxArchiveFileSource.ReadArchive: Boolean;
