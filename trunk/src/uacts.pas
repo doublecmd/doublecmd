@@ -2947,24 +2947,7 @@ begin
       Res := -1;
   end;
   FindCloseEx(SR);
-  if sCmd <> '' then
-    begin
-      sParam:= ReplaceEnvVars(sParam);
-      if Actions.Execute(sCmd, sParam) = uActs.cf_Error then
-          //Result:= True
-          //  else
-        begin
-          sCmd:= mbExpandFileName(sCmd);
-          sPath:= ReplaceEnvVars(sPath);
-          if sPath <> '' then
-            mbSetCurrentDir(sPath);
-          // Only add a space after command if there are parameters.
-          if Length(sParam) > 0 then
-            sParam := ' ' + sParam;
-          //Result:= ExecCmdFork(Format('"%s"%s', [sCmd, sParam]));
-          ExecCmdFork(Format('"%s"%s', [sCmd, sParam]));
-        end;
-    end;
+  frmMain.ExecCmd(sCmd, sParam, sPath);
 end;
 
 procedure TActs.GetCommandFromBar (const cFilename, cParam: string; var Com, Par, Pat:string);
@@ -3006,4 +2989,4 @@ begin
 end;
 
 end.
-
+
