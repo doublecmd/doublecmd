@@ -180,6 +180,12 @@ function FindMountPointPath(const FileName: UTF8String): UTF8String;
 function GetDefaultAppCmd(const FileName: UTF8String): UTF8String;
 function GetFileMimeType(const FileName: UTF8String): UTF8String;
 
+{en
+   Fix separators in case they are broken UTF-8 characters
+   (FPC takes only first byte as it doesn't support Unicode).
+}
+procedure FixDateTimeSeparators;
+
 {$IF DEFINED(BSD) AND NOT DEFINED(DARWIN)}
 const
   MNT_WAIT = 1; // synchronously wait for I/O to complete
@@ -399,6 +405,24 @@ begin
   Result:= EmptyStr;
 end;
 {$ENDIF}
+
+procedure FixDateTimeSeparators;
+var
+  TimeEnv: String;
+begin
+  TimeEnv := GetEnvironmentVariable('LC_TIME');
+  if TimeEnv = EmptyStr then
+    TimeEnv := GetEnvironmentVariable('LC_ALL');
+  if TimeEnv = EmptyStr then
+    TimeEnv := GetEnvironmentVariable('LANG');
+  if TimeEnv <> EmptyStr then
+  begin
+    if Ord(DateSeparator) > $7F then
+      DateSeparator := '/';
+    if Ord(TimeSeparator) > $7F then
+      TimeSeparator := ':';
+  end;
+end;
 
 end.
 
