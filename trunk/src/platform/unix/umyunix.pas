@@ -417,10 +417,14 @@ begin
     TimeEnv := GetEnvironmentVariable('LANG');
   if TimeEnv <> EmptyStr then
   begin
-    if Ord(DateSeparator) > $7F then
-      DateSeparator := '/';
-    if Ord(TimeSeparator) > $7F then
-      TimeSeparator := ':';
+    TimeEnv := upcase(TimeEnv);
+    if StrEnds(TimeEnv, 'UTF-8') or StrEnds(TimeEnv, 'UTF8') then
+    begin
+      if Ord(DateSeparator) > $7F then
+        DateSeparator := '/';
+      if Ord(TimeSeparator) > $7F then
+        TimeSeparator := ':';
+    end;
   end;
 end;
 
