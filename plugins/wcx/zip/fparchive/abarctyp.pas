@@ -349,8 +349,6 @@ type
       virtual; abstract;
     procedure SaveArchive;
       virtual; abstract;
-    procedure TestItemAt(Index : Integer);
-      virtual; abstract;
 
   protected {virtual methods}
     procedure DoProcessItemFailure(Item : TAbArchiveItem;
@@ -431,6 +429,8 @@ type
     procedure Save;
       virtual;
     procedure TagItems(const FileMask : string);
+    procedure TestItemAt(Index : Integer);
+      virtual; abstract;
     procedure TestTaggedItems;
     procedure UnTagItems(const FileMask : string);
 

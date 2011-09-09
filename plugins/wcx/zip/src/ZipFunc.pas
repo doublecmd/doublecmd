@@ -381,8 +381,16 @@ begin
     case Operation of
     PK_TEST:
       begin
-        Arc.TagItems(Arc.Items[Arc.Tag].FileName);
-        Arc.TestTaggedItems;
+        Arc.TestItemAt(Arc.Tag);
+
+        // Show progress and ask if aborting.
+        if Assigned(Arc.FProcessDataProc) then
+        begin
+          if Arc.FProcessDataProc(PChar(Arc.Items[Arc.Tag].FileName),
+                                  Arc.Items[Arc.Tag].UncompressedSize) = 0
+          then
+            Arc.FOperationResult := E_EABORTED;
+        end;
       end;
 
     PK_EXTRACT:
@@ -417,7 +425,6 @@ begin
   end;
 
   Result:= Arc.FOperationResult;
-  Arc.UnTagItems(Arc.Items[Arc.Tag].FileName);
   Arc.Tag := Arc.Tag + 1;
 end;
 
@@ -434,8 +441,16 @@ begin
     case Operation of
     PK_TEST:
       begin
-        Arc.TagItems(Arc.Items[Arc.Tag].FileName);
-        Arc.TestTaggedItems;
+        Arc.TestItemAt(Arc.Tag);
+
+        // Show progress and ask if aborting.
+        if Assigned(Arc.FProcessDataProcW) then
+        begin
+          if Arc.FProcessDataProcW(PWideChar(UTF8Decode(Arc.Items[Arc.Tag].FileName)),
+                                   Arc.Items[Arc.Tag].UncompressedSize) = 0
+          then
+            Arc.FOperationResult := E_EABORTED;
+        end;
       end;
 
     PK_EXTRACT:
@@ -471,7 +486,6 @@ begin
   end;
 
   Result:= Arc.FOperationResult;
-  Arc.UnTagItems(Arc.Items[Arc.Tag].FileName);
   Arc.Tag := Arc.Tag + 1;
 end;
 
@@ -900,4 +914,4 @@ begin
 end;
 
 end.
-
+
