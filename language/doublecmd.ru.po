@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-08-27 19:23+0300\n"
-"Last-Translator: Alexander Koblov <<Alexx2000@mail.ru>>\n"
+"PO-Revision-Date: 2011-09-10 15:20+0300\n"
+"Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -2714,7 +2714,7 @@ msgstr ""
 
 #: TFRMMAIN.BTNLEFTUP.HINT
 msgid "Go to parent directory"
-msgstr "Перейти в вышестоящий диалог"
+msgstr "Перейти в вышестоящий каталог"
 
 #: TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.CAPTION
 msgctxt "TFRMMAIN.BTNRIGHTDIRECTORYHOTLIST.CAPTION"
