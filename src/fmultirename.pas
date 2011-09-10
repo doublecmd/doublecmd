@@ -19,7 +19,7 @@ interface
 
 uses
   SysUtils, Classes, Graphics, Forms, StdCtrls, ComCtrls, Menus, SynRegExpr,
-  uClassesEx, uFile, uFileSource, StringHashList, uXmlConfig;
+  uClassesEx, uFile, uFileSource, StringHashList, Grids, uXmlConfig;
 
 type
 
@@ -50,8 +50,8 @@ type
     cbUseSubs: TCheckBox;
     cmbExtensionStyle: TComboBox;
     cbPresets: TComboBox;
+    StringGrid: TStringGrid;
     gbPresets: TGroupBox;
-    lsvwFile: TListView;
     gbMaska: TGroupBox;
     lbName: TLabel;
     lbExt: TLabel;
@@ -112,6 +112,7 @@ type
     procedure btnDeletePresetClick(Sender: TObject);
     procedure cbRegExpChange(Sender: TObject);
     procedure cmbNameStyleChange(Sender: TObject);
+    procedure StringGridTopLeftChanged(Sender: TObject);
     procedure edPocChange(Sender: TObject);
     procedure edIntervalChange(Sender: TObject);
     procedure btnRenameClick(Sender: TObject);
@@ -163,8 +164,8 @@ type
     {InsertMask is for write key symbols from buttons}
     procedure InsertMask(const Mask:string;edChoose:Tedit);
     procedure InsertMask(const Mask:string;editNr:PtrInt);
-    {Main function for write into lsvwFile}
-    procedure FreshText;
+    {Get new file name for file with ItemIndex}
+    function FreshText(ItemIndex: Integer): UTF8String;
     {Executes the main operation of renaming files}
     procedure RenameFiles;
     {Changes first char to uppercase and the rest to lowercase}
@@ -242,7 +243,7 @@ end;
 
 destructor TfrmMultiRename.Destroy;
 begin
-  inherited;
+  inherited Destroy;
   ClearPresetsList;
   FreeAndNil(FPresets);
   if Assigned(FFiles) then
@@ -263,16 +264,8 @@ begin
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item1_Width';
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item2_Width';
 
-  // Fill the files list.
-  for i := 0 to FFiles.Count - 1 do
-  with lsvwFile.Items do
-  begin
-    Add;
-    Item[i].Data:= FFiles.Items[i];
-    Item[i].Caption := FFiles.Items[i].Name;
-    Item[i].SubItems.Add('');
-    Item[i].SubItems.Add(ExcludeTrailingBackslash(FFiles.Items[i].Path));
-  end;
+  // Set row count
+  StringGrid.RowCount:= FFiles.Count + 1;
 
   // Set default values for controls.
   btnRestoreClick(nil);
@@ -286,7 +279,7 @@ end;
 
 procedure TfrmMultiRename.FormShow(Sender: TObject);
 begin
-  with lsvwFile.Columns do
+  with StringGrid.Columns do
   begin
     Items[0].Width:= StrToIntDef(IniPropStorage.StoredValue['lsvwFile_Columns.Item0_Width'], Items[0].Width);
     Items[1].Width:= StrToIntDef(IniPropStorage.StoredValue['lsvwFile_Columns.Item1_Width'], Items[1].Width);
@@ -299,7 +292,7 @@ begin
   SavePresets;
 
   CloseAction:= caFree;
-  with lsvwFile.Columns do
+  with StringGrid.Columns do
   begin
     IniPropStorage.StoredValue['lsvwFile_Columns.Item0_Width']:= IntToStr(Items[0].Width);
     IniPropStorage.StoredValue['lsvwFile_Columns.Item1_Width']:= IntToStr(Items[1].Width);
@@ -387,64 +380,70 @@ begin
   InsertMask('[Y]',ppNameMenu.Tag);
 end;
 
-procedure TfrmMultiRename.FreshText;
+function TfrmMultiRename.FreshText(ItemIndex: Integer): UTF8String;
 var
   bError: Boolean;
-  c:integer;
-  sTmpAll,sTmpName,sTmpExt:string;
+  sTmpName, sTmpExt: UTF8String;
 begin
   bError:= False;
-  for c:=0 to lsvwFile.Items.Count-1 do
-  begin
-    //use mask
-    sTmpName:=sReplace(edName.Text,c);
-    sTmpExt:=sReplace(edExt.Text,c);
 
-    //join
-    sTmpAll := sTmpName;
-    if sTmpExt <> '' then
-      sTmpAll := sTmpAll + '.' + sTmpExt;
+  // Use mask
+  sTmpName:=sReplace(edName.Text, ItemIndex);
+  sTmpExt:=sReplace(edExt.Text, ItemIndex);
 
-    //find and replace
-    if cbRegExp.Checked and (edFind.Text <> '') then
-      try
-        sTmpAll:= ReplaceRegExpr(edFind.Text, sTmpAll, edReplace.Text, cbUseSubs.Checked);
-      except
-        sTmpAll:= rsMsgErrRegExpSyntax;
-        bError:= True;
-      end
-    else
-      sTmpAll:=StringReplace(sTmpAll,edFind.Text,edReplace.Text,[rfReplaceAll,rfIgnoreCase]);
+  // Join
+  Result := sTmpName;
+  if sTmpExt <> '' then
+    Result := Result + '.' + sTmpExt;
 
-    //file name style
-    sTmpName := ExtractOnlyFileName(sTmpAll);
-    sTmpExt  := ExtractFileExt(sTmpAll);
+  // Find and replace
+  if cbRegExp.Checked and (edFind.Text <> '') then
+    try
+      Result:= ReplaceRegExpr(edFind.Text, Result, edReplace.Text, cbUseSubs.Checked);
+    except
+      Result:= rsMsgErrRegExpSyntax;
+      bError:= True;
+    end
+  else
+    Result:=StringReplace(Result,edFind.Text,edReplace.Text,[rfReplaceAll,rfIgnoreCase]);
 
-    sTmpName := ApplyStyle(sTmpName, cmbNameStyle.ItemIndex);
-    sTmpExt  := ApplyStyle(sTmpExt, cmbExtensionStyle.ItemIndex);
+  // File name style
+  sTmpName := ExtractOnlyFileName(Result);
+  sTmpExt  := ExtractFileExt(Result);
 
-    sTmpAll := sTmpName + sTmpExt;
+  sTmpName := ApplyStyle(sTmpName, cmbNameStyle.ItemIndex);
+  sTmpExt  := ApplyStyle(sTmpExt, cmbExtensionStyle.ItemIndex);
 
-    //save new name file
-    lsvwFile.Items[c].SubItems.Strings[0]:=sTmpAll;
-  end;
+  Result := sTmpName + sTmpExt;
 
   btnRename.Enabled:= not bError;
   if bError then
-  begin
-    edFind.Color := clRed;
-    edFind.Font.Color := clWhite;
-  end
+    begin
+      edFind.Color := clRed;
+      edFind.Font.Color := clWhite;
+    end
   else
-  begin
-    edFind.Color := clWindow;
-    edFind.Font.Color := clWindowText;
-  end;
+    begin
+      edFind.Color := clWindow;
+      edFind.Font.Color := clWindowText;
+    end;
 end;
 
 procedure TfrmMultiRename.cmbNameStyleChange(Sender: TObject);
 begin
-  FreshText;
+  StringGridTopLeftChanged(StringGrid);
+end;
+
+procedure TfrmMultiRename.StringGridTopLeftChanged(Sender: TObject);
+var
+  I: Integer;
+begin
+  for I:= StringGrid.TopRow to StringGrid.TopRow + StringGrid.VisibleRowCount - 1 do
+  begin
+    StringGrid.Cells[0, I]:= FFiles[I - 1].Name;
+    StringGrid.Cells[1, I]:= FreshText(I - 1);
+    StringGrid.Cells[2, I]:= FFiles[I - 1].Path;
+  end;
 end;
 
 procedure TfrmMultiRename.cbRegExpChange(Sender: TObject);
@@ -457,7 +456,7 @@ begin
       cbUseSubs.Checked:= False;
     end;
   cbUseSubs.Enabled:= cbRegExp.Checked;
-  FreshText;
+  StringGridTopLeftChanged(StringGrid);
 end;
 
 procedure TfrmMultiRename.btnLoadPresetClick(Sender: TObject);
@@ -509,7 +508,7 @@ begin
        Text:='1';
        SelectAll;
     end;
-  FreshText;
+  StringGridTopLeftChanged(StringGrid);
 end;
 
 procedure TfrmMultiRename.edIntervalChange(Sender: TObject);
@@ -523,7 +522,7 @@ begin
        Text:='1';
        SelectAll;
     end;
-  FreshText;
+  StringGridTopLeftChanged(StringGrid);
 end;
 
 procedure TfrmMultiRename.InsertMask(const Mask:string;edChoose:Tedit);
@@ -569,10 +568,10 @@ begin
   cmbxWidth.ItemIndex:=0;
   cbLog.Checked:=False;
   edFile.Enabled:=cbLog.Checked;
-  if (lsvwFile.Items.Count > 0) and (lsvwFile.Items[0].SubItems.Count > 1) then
-    edFile.Text:=IncludeTrailingBackslash(lsvwFile.Items.Item[0].SubItems[1])+'default.log'
+  if (FFiles.Count > 0) then
+    edFile.Text:= FFiles[0].Path + 'default.log'
   else
-    edFile.Text:='default.log';
+    edFile.Text:= 'default.log';
   edFile.SelStart:= UTF8Length(edFile.Text);
   cbPresets.Text:='';
   FLastPreset:='';
@@ -777,15 +776,16 @@ end;
 
 procedure TfrmMultiRename.RenameFiles;
 var
-  hFile: Integer;
+  hFile: THandle;
   c: Integer;
-  sResult: String;
+  sNewName,
+  sResult: UTF8String;
 begin
   try
     if cbLog.Checked then
     begin
-      if edFile.Text='' then
-        edFile.Text:=lsvwFile.Items.Item[0].SubItems[1]+ PathDelim+'default.log';
+      if edFile.Text = EmptyStr then
+        edFile.Text:= FFiles[0].Path + 'default.log';
       mbForceDirectory(ExtractFileDir(edFile.Text));
 
       if mbFileExists(edFile.Text) then
@@ -798,29 +798,29 @@ begin
           hFile:= mbFileCreate(edFile.Text);
         end;
     end;
-    for c:=0 to lsvwFile.Items.Count-1 do
-      with lsvwFile.Items do
-      begin
-        if RenameFile(FFileSource, TFile(Item[c].Data), Item[c].SubItems[0], True) = True then
+    for c:= 0 to FFiles.Count - 1 do
+    begin
+      sResult:= FFiles[c].Name;
+      sNewName:= FreshText(c);
+      if RenameFile(FFileSource, FFiles[c], sNewName, True) = True then
         begin
-          Item[c].Caption          := Item[c].SubItems[0]; // write the new name to table
-          TFile(Item[c].Data).Name := Item[c].SubItems[0]; // and to the file object
-          sResult := 'OK    ';
+          FFiles[c].Name := sNewName; // Write new name to the file object
+          sResult := 'OK    ' + sResult + ' -> ' + sNewName;
         end
-        else
+      else
         begin
-          sResult := 'FAILED';
+          sResult := 'FAILED' + sResult + ' -> ' + sNewName;
         end;
 
-        if cbLog.Checked then
-          FileWriteLn(hFile, sResult + ' ' + item[c].Caption+' -> '+Item[c].SubItems[0]);
-      end;
+      if cbLog.Checked then
+        FileWriteLn(hFile, sResult);
+    end;
   finally
     if cbLog.Checked then
       FileClose(hFile);
   end;
 
-  FreshText;
+  StringGridTopLeftChanged(StringGrid);
 end;
 
 function TfrmMultiRename.FirstCharToUppercaseUTF8(InputString: String): String;
@@ -1098,7 +1098,7 @@ begin
 
     FLastPreset := PresetName;
 
-    FreshText;
+    StringGridTopLeftChanged(StringGrid);
   end;
 end;
 
