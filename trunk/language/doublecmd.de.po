@@ -3297,11 +3297,6 @@ msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
 msgid "&Save"
 msgstr "&Speichern"
 
-#: TFRMMULTIRENAME.CAPTION
-msgctxt "TFRMMULTIRENAME.CAPTION"
-msgid "MultiRename"
-msgstr "Mehrfaches Umbenennen"
-
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 #, fuzzy
 #| msgid "Log"
@@ -3341,6 +3336,11 @@ msgstr "1"
 #| msgid "[E]xtension"
 msgid "[E] Extension"
 msgstr "[E]ndung"
+
+#: TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION
+msgctxt "TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION"
+msgid "MultiRename"
+msgstr "Mehrfaches Umbenennen"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
@@ -3398,19 +3398,6 @@ msgstr "Starten bei"
 msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
 msgid "Width"
 msgstr "Breite"
-
-#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[0].CAPTION
-msgid "Old File Name"
-msgstr "Vorheriger Dateiname"
-
-#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[1].CAPTION
-msgid "New File Name"
-msgstr "Neuer Dateiname"
-
-#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION
-msgctxt "TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION"
-msgid "File Path"
-msgstr "Dateipfad"
 
 #: TFRMMULTIRENAME.MICOUNTER.CAPTION
 #, fuzzy
@@ -3565,6 +3552,21 @@ msgstr "-"
 msgctxt "TFRMMULTIRENAME.N5.CAPTION"
 msgid "-"
 msgstr "-"
+
+#: TFRMMULTIRENAME.STRINGGRID.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+msgid "Old File Name"
+msgstr "Vorheriger Dateiname"
+
+#: TFRMMULTIRENAME.STRINGGRID.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
+msgid "New File Name"
+msgstr "Neuer Dateiname"
+
+#: TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
+msgid "File Path"
+msgstr "Dateipfad"
 
 #: TFRMOPTIONS.BTNAPPLY.CAPTION
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"

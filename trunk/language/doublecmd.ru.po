@@ -3224,11 +3224,6 @@ msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
 msgid "&Save"
 msgstr "&Сохранить"
 
-#: TFRMMULTIRENAME.CAPTION
-msgctxt "TFRMMULTIRENAME.CAPTION"
-msgid "MultiRename"
-msgstr "Групповое переименование"
-
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 #| msgid "Log"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
@@ -3264,6 +3259,11 @@ msgstr ""
 #| msgid "[E]xtension"
 msgid "[E] Extension"
 msgstr "[E] Расширение"
+
+#: TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION
+msgctxt "TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION"
+msgid "MultiRename"
+msgstr "Групповое переименование"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
@@ -3317,19 +3317,6 @@ msgstr "Нач. знач."
 msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
 msgid "Width"
 msgstr "Ширина"
-
-#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[0].CAPTION
-msgid "Old File Name"
-msgstr "Старое имя"
-
-#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[1].CAPTION
-msgid "New File Name"
-msgstr "Новое имя"
-
-#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION
-msgctxt "TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION"
-msgid "File Path"
-msgstr "Путь файла"
 
 #: TFRMMULTIRENAME.MICOUNTER.CAPTION
 #| msgid "[C]ounter"
@@ -3472,6 +3459,21 @@ msgstr ""
 msgctxt "TFRMMULTIRENAME.N5.CAPTION"
 msgid "-"
 msgstr ""
+
+#: TFRMMULTIRENAME.STRINGGRID.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+msgid "Old File Name"
+msgstr "Старое имя"
+
+#: TFRMMULTIRENAME.STRINGGRID.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
+msgid "New File Name"
+msgstr "Новое имя"
+
+#: TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
+msgid "File Path"
+msgstr "Путь файла"
 
 #: TFRMOPTIONS.BTNAPPLY.CAPTION
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
