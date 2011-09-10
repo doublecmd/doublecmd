@@ -38,6 +38,7 @@ type
     DeviceIsDrive,
     DeviceIsSystemInternal,
     DeviceIsPartition,
+    DeviceIsPartitionTable, // Does the device have a partition table
     DeviceIsMounted,
     DeviceIsRemovable,   // If contains removable media.
     DeviceIsOpticalDisc, // If is an optical drive and optical disk is inserted.
@@ -47,11 +48,13 @@ type
     DriveConnectionInterface,
     DriveMedia: UTF8String; // Type of media currently in the drive.
     DriveMediaCompatibility: TStringArray; // Possible media types.
+    DriveCanDetach: Boolean; // Hot-plugged device (USB, Firewire, etc.)
     IdUsage,
     IdType,
     IdVersion,
     IdUuid,
-    IdLabel: UTF8String;
+    IdLabel,
+    PartitionSlave: UTF8String; // Owner device if this is a partition
   end;
 
   TUDisksDevicesInfos = array of TUDisksDeviceInfo;
@@ -70,7 +73,8 @@ function DeviceFileToUDisksObjectPath(const DeviceFile: UTF8String): UTF8String;
 
 function GetObjectProperty(const ObjectPath: UTF8String;
                            const PropertyName: UTF8String;
-                           out Value: UTF8String): Boolean;
+                           out Value: UTF8String;
+                           IsPropertyAnObjectPath: Boolean = False): Boolean;
 function GetObjectProperty(const ObjectPath: UTF8String;
                            const PropertyName: UTF8String;
                            out Value: Boolean): Boolean;
@@ -385,7 +389,8 @@ end;
 
 function GetObjectProperty(const ObjectPath: UTF8String;
                            const PropertyName: UTF8String;
-                           out Value: UTF8String): Boolean;
+                           out Value: UTF8String;
+                           IsPropertyAnObjectPath: Boolean): Boolean;
 var
   reply: PDBusMessage;
   itVariant: DBusMessageIter;
@@ -394,7 +399,10 @@ begin
   Result := Invoke_GetProperty(ObjectPath, PropertyName, reply, @itVariant);
   if Result then
   begin
-    Result := GetBasicVal(@itVariant, DBUS_TYPE_STRING, @StringPtr);
+    if IsPropertyAnObjectPath then
+      Result := GetBasicVal(@itVariant, DBUS_TYPE_OBJECT_PATH, @StringPtr)
+    else
+      Result := GetBasicVal(@itVariant, DBUS_TYPE_STRING, @StringPtr);
     if Result and Assigned(StringPtr) then
       Value := StrPas(StringPtr);
     dbus_message_unref(reply);
@@ -448,10 +456,14 @@ begin
       GetObjectProperty(ObjectPath, 'DeviceIsDrive', DeviceIsDrive) and
       GetObjectProperty(ObjectPath, 'DeviceIsSystemInternal', DeviceIsSystemInternal) and
       GetObjectProperty(ObjectPath, 'DeviceIsPartition', DeviceIsPartition) and
+      GetObjectProperty(ObjectPath, 'DeviceIsPartitionTable', DeviceIsPartitionTable) and
       GetObjectProperty(ObjectPath, 'DeviceIsMounted', DeviceIsMounted) and
       GetObjectProperty(ObjectPath, 'DeviceIsRemovable', DeviceIsRemovable) and
       GetObjectProperty(ObjectPath, 'DeviceIsOpticalDisc', DeviceIsOpticalDisc) and
       GetObjectProperty(ObjectPath, 'DeviceIsMediaAvailable', DeviceIsMediaAvailable);
+
+    if Result and DeviceIsPartition then
+      Result := GetObjectProperty(ObjectPath, 'PartitionSlave', PartitionSlave, True);
 
     if Result and DeviceIsMounted then
       Result := GetObjectProperty(ObjectPath, 'DeviceMountPaths', DeviceMountPaths);
@@ -461,7 +473,8 @@ begin
       Result := GetObjectProperty(ObjectPath, 'DriveIsMediaEjectable', DriveIsMediaEjectable) and
                 GetObjectProperty(ObjectPath, 'DriveConnectionInterface', DriveConnectionInterface) and
                 GetObjectProperty(ObjectPath, 'DriveMedia', DriveMedia) and
-                GetObjectProperty(ObjectPath, 'DriveMediaCompatibility', DriveMediaCompatibility);
+                GetObjectProperty(ObjectPath, 'DriveMediaCompatibility', DriveMediaCompatibility) and
+                GetObjectProperty(ObjectPath, 'DriveCanDetach', DriveCanDetach);
     end;
 
     if Result then

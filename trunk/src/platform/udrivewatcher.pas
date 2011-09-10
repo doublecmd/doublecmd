@@ -287,18 +287,28 @@ function UDisksGetDeviceInfo(const DeviceObjectPath: UTF8String;
 var
   i: Integer;
 begin
-  for i := Low(Devices) to High(Devices) do
+  if Assigned(Devices) then
   begin
-    if Devices[i].DeviceObjectPath = DeviceObjectPath then
+    for i := Low(Devices) to High(Devices) do
     begin
-      DeviceInfo := Devices[i];
-      Exit(True);
+      if Devices[i].DeviceObjectPath = DeviceObjectPath then
+      begin
+        DeviceInfo := Devices[i];
+        Exit(True);
+      end;
     end;
+    Result := False;
+  end
+  else
+  begin
+    // Devices not supplied, retrieve info from UDisks.
+    Result := uUDisks.GetDeviceInfo(DeviceObjectPath, DeviceInfo);
   end;
-  Result := False;
 end;
 
-procedure UDisksDeviceToDrive(const DeviceInfo: TUDisksDeviceInfo; out Drive: PDrive);
+procedure UDisksDeviceToDrive(const Devices: TUDisksDevicesInfos; const DeviceInfo: TUDisksDeviceInfo; out Drive: PDrive);
+var
+  OwnerDevice: TUDisksDeviceInfo;
 begin
   New(Drive);
   with DeviceInfo do
@@ -307,7 +317,10 @@ begin
     if DeviceIsMounted and (Length(DeviceMountPaths) > 0) then
     begin
       Drive^.Path := DeviceMountPaths[0];
-      Drive^.DisplayName := ExtractFileName(Drive^.Path);
+      if Drive^.Path <> PathDelim then
+        Drive^.DisplayName := ExtractFileName(Drive^.Path)
+      else
+        Drive^.DisplayName := PathDelim;
     end
     else
     begin
@@ -317,18 +330,27 @@ begin
     Drive^.DriveLabel := IdLabel;
 
     if DeviceIsPartition then
-      Drive^.DriveType := dtHardDisk
-    else if DeviceIsDrive then
+    begin
+      if UDisksGetDeviceInfo(PartitionSlave, Devices, OwnerDevice) and
+         OwnerDevice.DeviceIsRemovable then
       begin
-        if BeginsWithString(['flash'], DriveMediaCompatibility) then
-          Drive^.DriveType := dtFlash
-        else if BeginsWithString(['floppy'], DriveMediaCompatibility) then
-          Drive^.DriveType := dtFloppy
-        else if BeginsWithString(['optical'], DriveMediaCompatibility) then
-          Drive^.DriveType := dtOptical
-        else
-          Drive^.DriveType := dtUnknown;
+        // Removable partition usually means pen-drive type.
+        Drive^.DriveType := dtFlash;
       end
+      else
+        Drive^.DriveType := dtHardDisk;
+    end
+    else if DeviceIsDrive then
+    begin
+      if BeginsWithString(['flash'], DriveMediaCompatibility) then
+        Drive^.DriveType := dtFlash
+      else if BeginsWithString(['floppy'], DriveMediaCompatibility) then
+        Drive^.DriveType := dtFloppy
+      else if BeginsWithString(['optical'], DriveMediaCompatibility) then
+        Drive^.DriveType := dtOptical
+      else
+        Drive^.DriveType := dtUnknown;
+    end
     else
       Drive^.DriveType := dtUnknown;
 
@@ -631,6 +653,18 @@ var
     end;
   end;
 
+  function IsDeviceMountedAtRoot(const UDisksDevice: TUDisksDeviceInfo): Boolean;
+  var
+    i: Integer;
+  begin
+    if UDisksDevice.DeviceIsMounted then
+    begin
+      for i := Low(UDisksDevice.DeviceMountPaths) to High(UDisksDevice.DeviceMountPaths) do
+        if UDisksDevice.DeviceMountPaths[i] = PathDelim then
+          Exit(True);
+    end;
+    Result := False;
+  end;
 
 const
   MntEntFileList: array[1..2] of PChar = (_PATH_FSTAB, _PATH_MOUNTED);
@@ -702,7 +736,7 @@ begin
               if CanAddDevice(DeviceFile, MountPoint) and
                  UDisksGetDeviceInfo(UDisksDeviceObject, UDisksDevices, UDisksDevice) then
               begin
-                UDisksDeviceToDrive(UDisksDevice, Drive);
+                UDisksDeviceToDrive(UDisksDevices, UDisksDevice, Drive);
                 Drive^.Path := MountPoint;
                 if MountPoint <> PathDelim then
                   Drive^.DisplayName := ExtractFileName(MountPoint)
@@ -774,6 +808,36 @@ begin
       end;
       endmntent(fstab);
     end;
+
+    if HaveUDisksDevices then
+    begin
+      for i := Low(UDisksDevices) to High(UDisksDevices) do
+      begin
+        // Add drives not having a partition table which are usually devices
+        // with removable media like CDROM, floppy - they can be mounted.
+        // Don't add drives with partition table because they cannot be mounted.
+        // Add devices reported as "filesystem" and partitions.
+        if (UDisksDevices[i].DeviceIsDrive and not UDisksDevices[i].DeviceIsPartitionTable) or
+           (UDisksDevices[i].IdUsage = 'filesystem') or
+           (UDisksDevices[i].DeviceIsPartition) then
+        begin
+          if (AddedDevices.IndexOf(UDisksDevices[i].DeviceFile) < 0) and
+             (not IsDeviceMountedAtRoot(UDisksDevices[i])) then
+          begin
+            UDisksDeviceToDrive(UDisksDevices, UDisksDevices[i], Drive);
+            Result.Add(Drive);
+            Drive := nil;
+            AddedDevices.Add(UDisksDevices[i].DeviceFile);
+            AddedMountPoints.Add(EmptyStr);
+
+            {$IFDEF DEBUG}
+            DCDebug('Adding UDisks drive "' + UDisksDevices[i].DeviceFile + '"');
+            {$ENDIF}
+          end;
+        end;
+      end;
+    end;
+
   finally
     if Assigned(AddedDevices) then
       AddedDevices.Free;
@@ -945,7 +1009,7 @@ var
   DeviceInfo: TUDisksDeviceInfo;
 begin
   if uUDisks.GetDeviceInfo(ObjectPath, DeviceInfo) then
-    UDisksDeviceToDrive(DeviceInfo, ADrive);
+    UDisksDeviceToDrive(nil, DeviceInfo, ADrive);
   try
     case Reason of
       UDisks_DeviceAdded:
@@ -1081,4 +1145,4 @@ end;
 {$ENDIF}
 
 end.
-
+
