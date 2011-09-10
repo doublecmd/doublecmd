@@ -76,7 +76,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 3;
+  hkVersion     = 4;
   ConfigVersion = '1';
 
 var
@@ -372,8 +372,12 @@ begin
       AddIfNotExists('Ctrl+Enter','cm_AddFilenameToCmdLine','');
       AddIfNotExists('Ctrl+PgDn','cm_OpenArchive','');
       AddIfNotExists('Ctrl+PgUp','cm_ChangeDirToParent','');
+      AddIfNotExists('Ctrl+Shift+C','cm_CopyFullNamesToClip','');
       AddIfNotExists('Ctrl+Shift+H','cm_HorizontalFilePanels','');
+      AddIfNotExists('Ctrl+Shift+X','cm_CopyNamesToClip','');
       AddIfNotExists('Ctrl+Shift+Enter','cm_AddPathAndFilenameToCmdLine','');
+      AddIfNotExists('Ctrl+Shift+Tab','cm_PrevTab','');
+      AddIfNotExists('Ctrl+Tab','cm_NextTab','');
       AddIfNotExists('Ctrl+Up','cm_OpenDirInNewTab','');
       AddIfNotExists('Ctrl+\','cm_ChangeDirToRoot','');
       AddIfNotExists('Shift+F2','cm_FocusCmdLine','');
@@ -410,10 +414,6 @@ begin
       AddIfNotExists('Ctrl+X','cm_CutToClipboard','');
       AddIfNotExists('Ctrl+Left','cm_TransferLeft','');
       AddIfNotExists('Ctrl+Right','cm_TransferRight','');
-      AddIfNotExists('Ctrl+Shift+C','cm_CopyFullNamesToClip','');
-      AddIfNotExists('Ctrl+Shift+X','cm_CopyNamesToClip','');
-      AddIfNotExists('Ctrl+Shift+Tab','cm_PrevTab','');
-      AddIfNotExists('Ctrl+Tab','cm_NextTab','');
     end;
 
   HMForm := HotMan.Forms.FindOrCreate('Viewer');
@@ -1948,4 +1948,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.

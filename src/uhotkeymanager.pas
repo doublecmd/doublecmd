@@ -727,7 +727,7 @@ var
 
       if IsFormHotkey then
       begin
-        if (FVersion <= 2) and IsShortcutConflictingWithOS(Shortcut) then
+        if (FVersion <= 3) and IsShortcutConflictingWithOS(Shortcut) then
         begin
           HMControl := Form.Controls.FindOrCreate('Files Panel');
           HMControl.Hotkeys.AddIfNotExists(Shortcut, Command, Params);
@@ -840,14 +840,35 @@ end;
 
 function THotKeyManager.IsShortcutConflictingWithOS(Shortcut: String): Boolean;
 const
-  ConflictingShortcuts: array [0..29] of String =
-    ('Del', 'Shift+Del', 'Ctrl+A', 'Ctrl+C', 'Ctrl+V', 'Ctrl+X',
-     'Ctrl+Left', 'Ctrl+Right', 'Ctrl+Shift+C', 'Ctrl+Shift+X',
-     'Ctrl+Shift+Tab', 'Ctrl+Tab', 'Ctrl+Delete', 'Shift+Delete',
-     'Ctrl+Insert', 'Windows App Key', 'Left Arrow', 'Right Arrow',
-     'Ctrl+Home', 'Ctrl+End', 'Ctrl+Left Arrow', 'Ctrl+Right Arrow',
-     'Shift+Home', 'Shift+End', 'Shift+Left Arrow', 'Shift+Right Arrow',
-     'Backspace', 'Ctrl+Backspace', 'Space', 'Shift+Space');
+  ConflictingShortcuts: array [0..27] of String =
+    (SmkcBkSp,                           // Delete previous character
+     SmkcDel,                            // Delete next character
+     SmkcLeft,                           // Move cursor left
+     SmkcRight,                          // Move cursor right
+     SmkcSpace,                          // Space
+     SmkcWin,                            // Context menu
+     SmkcShift + 'F10',                  // Context menu
+     SmkcShift + SmkcDel,                // Cut text
+     SmkcShift + SmkcIns,                // Paste text
+     SmkcShift + SmkcHome,               // Select to beginning
+     SmkcShift + SmkcEnd,                // Select to end
+     SmkcShift + SmkcLeft,               // Select previous character
+     SmkcShift + SmkcRight,              // Select next character
+     SmkcCtrl + 'A',                     // Select all
+     SmkcCtrl + 'C',                     // Copy text
+     SmkcCtrl + 'V',                     // Paste text
+     SmkcCtrl + 'X',                     // Cut text
+     SmkcCtrl + 'Z',                     // Undo
+     SmkcCtrl + SmkcBkSp,                // Delete previous word
+     SmkcCtrl + SmkcDel,                 // Delete next word
+     SmkcCtrl + SmkcIns,                 // Copy text
+     SmkcCtrl + SmkcHome,                // Move to beginning
+     SmkcCtrl + SmkcEnd,                 // Move to end
+     SmkcCtrl + SmkcLeft,                // Move to beginning of word
+     SmkcCtrl + SmkcRight,               // Move to end of word
+     SmkcCtrl + SmkcShift + 'Z',         // Redo
+     SmkcCtrl + SmkcShift + SmkcLeft,    // Select to beginning of word
+     SmkcCtrl + SmkcShift + SmkcRight);  // Select to end of word
 var
   i: Integer;
 begin
@@ -1084,4 +1105,4 @@ begin
 end;
 
 end.
-
+
