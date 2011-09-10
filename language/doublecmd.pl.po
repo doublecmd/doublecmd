@@ -1876,7 +1876,7 @@ msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
 msgid "Follow symlinks"
 msgstr ""
 "Podążaj za \n"
-"linkami symbolicznymi"
+"linkami symbolicznymi\n"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
@@ -3206,11 +3206,6 @@ msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
 msgid "&Save"
 msgstr "Zapisz"
 
-#: TFRMMULTIRENAME.CAPTION
-msgctxt "TFRMMULTIRENAME.CAPTION"
-msgid "MultiRename"
-msgstr "Wielokrotna zmiana nazwy"
-
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 #| msgid "Log"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
@@ -3244,6 +3239,11 @@ msgstr "1"
 #| msgid "[E]xtension"
 msgid "[E] Extension"
 msgstr "[E] Rozszerzenie"
+
+#: TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION
+msgctxt "TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION"
+msgid "MultiRename"
+msgstr "Wielokrotna zmiana nazwy"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
@@ -3293,19 +3293,6 @@ msgstr "Start"
 msgctxt "TFRMMULTIRENAME.LBWIDTH.CAPTION"
 msgid "Width"
 msgstr "Cyfry"
-
-#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[0].CAPTION
-msgid "Old File Name"
-msgstr "Stara nazwa pliku"
-
-#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[1].CAPTION
-msgid "New File Name"
-msgstr "Nowa nazwa pliku"
-
-#: TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION
-msgctxt "TFRMMULTIRENAME.LSVWFILE.COLUMNS[2].CAPTION"
-msgid "File Path"
-msgstr "Ścieżka"
 
 #: TFRMMULTIRENAME.MICOUNTER.CAPTION
 #| msgid "[C]ounter"
@@ -3448,6 +3435,21 @@ msgstr "-"
 msgctxt "TFRMMULTIRENAME.N5.CAPTION"
 msgid "-"
 msgstr "-"
+
+#: TFRMMULTIRENAME.STRINGGRID.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+msgid "Old File Name"
+msgstr "Stara nazwa pliku"
+
+#: TFRMMULTIRENAME.STRINGGRID.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
+msgid "New File Name"
+msgstr "Nowa nazwa pliku"
+
+#: TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
+msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
+msgid "File Path"
+msgstr "Ścieżka"
 
 #: TFRMOPTIONS.BTNAPPLY.CAPTION
 msgctxt "TFRMOPTIONS.BTNAPPLY.CAPTION"
