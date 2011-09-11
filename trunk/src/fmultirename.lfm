@@ -369,10 +369,10 @@ object frmMultiRename: TfrmMultiRename
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = btnRestore
     AnchorSideRight.Control = btnClose
-    Left = 460
+    Left = 480
     Height = 32
     Top = 366
-    Width = 192
+    Width = 172
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Left = 6
     BorderSpacing.InnerBorder = 4
@@ -453,7 +453,7 @@ object frmMultiRename: TfrmMultiRename
     Left = 354
     Height = 32
     Top = 366
-    Width = 100
+    Width = 120
     BorderSpacing.InnerBorder = 4
     Caption = 'Reset all'
     OnClick = btnRestoreClick
@@ -566,7 +566,7 @@ object frmMultiRename: TfrmMultiRename
       end>
     ExtendedSelect = False
     FixedCols = 0
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll]
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goSmoothScroll]
     RowCount = 1
     TabOrder = 8
     TitleStyle = tsNative
