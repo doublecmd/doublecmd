@@ -335,7 +335,7 @@ begin
          OwnerDevice.DeviceIsRemovable then
       begin
         // Removable partition usually means pen-drive type.
-        Drive^.DriveType := dtFlash;
+        Drive^.DriveType := dtRemovable;
       end
       else
         Drive^.DriveType := dtHardDisk;
