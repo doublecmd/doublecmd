@@ -31,7 +31,7 @@ unit uMyUnix;
 interface
 
 uses
-  Classes, SysUtils, BaseUnix;
+  Classes, SysUtils, BaseUnix, uDrive;
 
 const
   libc = 'c';
@@ -161,6 +161,7 @@ function fpCloseDir(__dirp: pDir): cInt; cdecl; external libc name 'closedir';
 function fpReadDir(__dirp: pDir): pDirent; inline;
 function fpCloseDir(__dirp: pDir): cInt; inline;
 {$ENDIF}
+function fpSystemStatus(Command: string): cint;
 
 function LinuxToWinAttr(pFileName: PChar; const srInfo: BaseUnix.Stat): Longint;
 function GetDesktopEnvironment: Cardinal;
@@ -185,6 +186,10 @@ function GetFileMimeType(const FileName: UTF8String): UTF8String;
    (FPC takes only first byte as it doesn't support Unicode).
 }
 procedure FixDateTimeSeparators;
+
+function MountDrive(const Drive: TDrive): Boolean;
+function UnmountDrive(const Drive: TDrive): Boolean;
+function EjectDrive(const Drive: TDrive): Boolean;
 
 {$IF DEFINED(BSD) AND NOT DEFINED(DARWIN)}
 const
@@ -214,12 +219,12 @@ procedure endfsent(); cdecl; external libc name 'endfsent';
 implementation
 
 uses
-  URIParser, uClassesEx, uDCUtils
+  URIParser, Unix, uClassesEx, uDCUtils
 {$IF (NOT DEFINED(FPC_USE_LIBC)) or (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
   , SysCall
 {$ENDIF}
 {$IFDEF LINUX}
-  , uMimeActions
+  , uMimeActions, uUDisks
 {$ENDIF}
   ;
 
@@ -256,6 +261,26 @@ begin
 end;
 
 {$ENDIF}
+
+function fpSystemStatus(Command: string): cint;
+begin
+  Result := fpSystem(Command);
+  if wifexited(Result) then
+    Result := wexitStatus(Result);
+end;
+
+{$IFDEF LINUX}
+
+var
+  HavePMount: Boolean = False;
+
+procedure CheckPMount;
+begin
+  HavePMount := (fpSystemStatus('pmount --version') = 0) and
+                (fpSystemStatus('pumount --version') = 0);
+end;
+
+{$ENDIF LINUX}
 
 function LinuxToWinAttr(pFileName: PChar; const srInfo: BaseUnix.Stat): Longint;
 begin
@@ -427,6 +452,43 @@ begin
     end;
   end;
 end;
+
+function MountDrive(const Drive: TDrive): Boolean;
+begin
+  Result := fpSystemStatus('mount ' + Drive.DeviceId) = 0;
+{$IFDEF LINUX}
+  if not Result and HavePMount then
+    Result := fpSystemStatus('pmount ' + Drive.DeviceId) = 0;
+{$ENDIF}
+end;
+
+function UnmountDrive(const Drive: TDrive): Boolean;
+begin
+{$IFDEF LINUX}
+  Result := False;
+  if uUDisks.Initialize then
+  begin
+    Result := uUDisks.Unmount(DeviceFileToUDisksObjectPath(Drive.DeviceId), nil);
+    uUDisks.Finalize;
+  end;
+  if not Result and HavePMount then
+    Result := fpSystemStatus('pumount ' + Drive.DeviceId) = 0;
+  if not Result then
+{$ENDIF}
+  Result := fpSystemStatus('umount ' + Drive.Path) = 0;
+end;
+
+function EjectDrive(const Drive: TDrive): Boolean;
+begin
+  Result := fpSystemStatus('eject ' + Drive.DeviceId) = 0;
+end;
+
+{$IFDEF LINUX}
+
+initialization
+  CheckPMount;
+
+{$ENDIF}
 
 end.
 
