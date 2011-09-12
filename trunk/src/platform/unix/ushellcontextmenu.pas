@@ -58,13 +58,13 @@ type
 implementation
 
 uses
-  LCLProc, Dialogs, IniFiles, Graphics, Unix, uTypes, uFindEx, uDCUtils,
+  LCLProc, Dialogs, IniFiles, Graphics, uTypes, uFindEx, uDCUtils,
   uOSUtils, uFileProcs, uShellExecute, uLng, uGlobs, uPixMapManager, uMyUnix,
   fMain, fFileProperties
   {$IF DEFINED(DARWIN)}
   , MacOSAll
   {$ELSEIF DEFINED(LINUX)}
-  , uMimeActions, uUDisks
+  , uMimeActions
   {$ENDIF}
   ;
 
@@ -213,27 +213,17 @@ end;
 
 procedure TShellContextMenu.DriveMountSelect(Sender: TObject);
 begin
-  fpSystem('mount ' + FDrive.DeviceId);
+  MountDrive(FDrive);
 end;
 
 procedure TShellContextMenu.DriveUnmountSelect(Sender: TObject);
-var
-  Succeeded: Boolean = False;
 begin
-{$IFDEF LINUX}
-  if uUDisks.Initialize then
-  begin
-    Succeeded := uUDisks.Unmount(DeviceFileToUDisksObjectPath(FDrive.DeviceId), nil);
-    uUDisks.Finalize;
-  end;
-{$ENDIF}
-  if not Succeeded then
-    fpSystem('umount ' + FDrive.Path);
+  UnmountDrive(FDrive);
 end;
 
 procedure TShellContextMenu.DriveEjectSelect(Sender: TObject);
 begin
-  fpSystem('eject ' + FDrive.DeviceId);
+  EjectDrive(FDrive);
 end;
 
 procedure TShellContextMenu.OpenWithMenuItemSelect(Sender: TObject);
