@@ -816,10 +816,9 @@ begin
         // Add drives not having a partition table which are usually devices
         // with removable media like CDROM, floppy - they can be mounted.
         // Don't add drives with partition table because they cannot be mounted.
-        // Add devices reported as "filesystem" and partitions.
+        // Add devices reported as "filesystem".
         if (UDisksDevices[i].DeviceIsDrive and not UDisksDevices[i].DeviceIsPartitionTable) or
-           (UDisksDevices[i].IdUsage = 'filesystem') or
-           (UDisksDevices[i].DeviceIsPartition) then
+           (UDisksDevices[i].IdUsage = 'filesystem') then
         begin
           if (AddedDevices.IndexOf(UDisksDevices[i].DeviceFile) < 0) and
              (not IsDeviceMountedAtRoot(UDisksDevices[i])) then
