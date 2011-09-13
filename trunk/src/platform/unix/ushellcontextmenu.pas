@@ -213,17 +213,17 @@ end;
 
 procedure TShellContextMenu.DriveMountSelect(Sender: TObject);
 begin
-  MountDrive(FDrive);
+  MountDrive(@FDrive);
 end;
 
 procedure TShellContextMenu.DriveUnmountSelect(Sender: TObject);
 begin
-  UnmountDrive(FDrive);
+  UnmountDrive(@FDrive);
 end;
 
 procedure TShellContextMenu.DriveEjectSelect(Sender: TObject);
 begin
-  EjectDrive(FDrive);
+  EjectDrive(@FDrive);
 end;
 
 procedure TShellContextMenu.OpenWithMenuItemSelect(Sender: TObject);
