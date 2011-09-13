@@ -1774,7 +1774,8 @@ end;
 function TPixMapManager.GetDefaultDriveIcon(IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 var
   Drive: TDrive = (DisplayName: ''; Path: ''; DriveLabel: ''; DeviceId: ''; DriveType: dtHardDisk;
-                   IsMediaAvailable: True; IsMediaEjectable: False; IsMounted: True);
+                   IsMediaAvailable: True; IsMediaEjectable: False; IsMediaRemovable: False;
+                   IsMounted: True);
 begin
   Result := GetBuiltInDriveIcon(@Drive, IconSize, clBackColor);
 end;

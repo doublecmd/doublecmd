@@ -52,6 +52,7 @@ type
     DriveType : TDriveType;
     IsMediaAvailable: Boolean; //<en Is media available in a drive with removable media.
     IsMediaEjectable: Boolean; //<en Can eject media by a command.
+    IsMediaRemovable: Boolean; //<en If the drive has removable media.
     IsMounted: Boolean;        //<en Is the drive mounted.
   end;
   PDrive = ^TDrive;

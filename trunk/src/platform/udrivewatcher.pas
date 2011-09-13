@@ -356,6 +356,7 @@ begin
 
     Drive^.IsMediaAvailable := DeviceIsMediaAvailable;
     Drive^.IsMediaEjectable := DeviceIsDrive and DriveIsMediaEjectable;
+    Drive^.IsMediaRemovable := DeviceIsRemovable;
     Drive^.IsMounted := DeviceIsMounted;
   end;
 end;
@@ -388,6 +389,7 @@ begin
       DisplayName := Path;
       IsMediaAvailable := True;
       IsMediaEjectable := False;
+      IsMediaRemovable := False;
       IsMounted := True;
 
       case WinDriveType of
@@ -398,6 +400,7 @@ begin
             else
               DriveType := dtFlash;
             IsMediaEjectable := True;
+            IsMediaRemovable := True;
           end;
         DRIVE_FIXED:
           DriveType := dtHardDisk;
@@ -407,6 +410,7 @@ begin
           begin
             DriveType := dtOptical;
             IsMediaEjectable := True;
+            IsMediaRemovable := True;
           end;
         DRIVE_RAMDISK:
           DriveType := dtRamDisk;
@@ -522,6 +526,7 @@ begin
                 DriveLabel:= volNameAsCString;
                 IsMediaAvailable:= True;
                 IsMediaEjectable:= False;
+                IsMediaRemovable:= False;
                 IsMounted:= True;
               end;
               Result.Add(Drive);
@@ -779,6 +784,7 @@ begin
 
                 IsMediaAvailable:= True;
                 IsMediaEjectable:= (DriveType = dtOptical);
+                IsMediaRemovable:= DriveType in [dtFloppy, dtOptical, dtFlash];
                 IsMounted:= False; // Checked via mtab below.
               end;
             end
@@ -930,6 +936,7 @@ begin
       DriveType := dtype;
       IsMediaAvailable := false;
       IsMediaEjectable := false;
+      IsMediaRemovable := false;
       IsMounted := false;
     end; { with }
 
@@ -983,6 +990,7 @@ begin
       DriveType := dtype;
       IsMediaAvailable := true;
       IsMediaEjectable := false;
+      IsMediaRemovable := false;
       IsMounted := true;
     end; { with }
   end; { for }

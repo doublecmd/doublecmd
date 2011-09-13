@@ -276,8 +276,8 @@ var
 
 procedure CheckPMount;
 begin
-  HavePMount := (fpSystemStatus('pmount --version') = 0) and
-                (fpSystemStatus('pumount --version') = 0);
+  HavePMount := (fpSystemStatus('pmount --version > nul') = 0) and
+                (fpSystemStatus('pumount --version > nul') = 0);
 end;
 
 {$ENDIF LINUX}
@@ -455,27 +455,42 @@ end;
 
 function MountDrive(const Drive: TDrive): Boolean;
 begin
-  Result := fpSystemStatus('mount ' + Drive.DeviceId) = 0;
-{$IFDEF LINUX}
-  if not Result and HavePMount then
-    Result := fpSystemStatus('pmount ' + Drive.DeviceId) = 0;
+  if not Drive.IsMounted then
+  begin
+{$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+    Result := False;
+    // If Path is not empty "mount" can mount it because it has a destination path from fstab.
+    if Drive.Path <> EmptyStr then
 {$ENDIF}
+      Result := fpSystemStatus('mount ' + Drive.DeviceId) = 0;
+{$IFDEF LINUX}
+    if not Result and HavePMount and Drive.IsMediaRemovable then
+      Result := fpSystemStatus('pmount ' + Drive.DeviceId) = 0;
+{$ENDIF}
+  end
+  else
+    Result := True;
 end;
 
 function UnmountDrive(const Drive: TDrive): Boolean;
 begin
-{$IFDEF LINUX}
-  Result := False;
-  if uUDisks.Initialize then
+  if Drive.IsMounted then
   begin
-    Result := uUDisks.Unmount(DeviceFileToUDisksObjectPath(Drive.DeviceId), nil);
-    uUDisks.Finalize;
-  end;
-  if not Result and HavePMount then
-    Result := fpSystemStatus('pumount ' + Drive.DeviceId) = 0;
-  if not Result then
+{$IFDEF LINUX}
+    Result := False;
+    if uUDisks.Initialize then
+    begin
+      Result := uUDisks.Unmount(DeviceFileToUDisksObjectPath(Drive.DeviceId), nil);
+      uUDisks.Finalize;
+    end;
+    if not Result and HavePMount and Drive.IsMediaRemovable then
+      Result := fpSystemStatus('pumount ' + Drive.DeviceId) = 0;
+    if not Result then
 {$ENDIF}
-  Result := fpSystemStatus('umount ' + Drive.Path) = 0;
+    Result := fpSystemStatus('umount ' + Drive.Path) = 0;
+  end
+  else
+    Result := True;
 end;
 
 function EjectDrive(const Drive: TDrive): Boolean;
