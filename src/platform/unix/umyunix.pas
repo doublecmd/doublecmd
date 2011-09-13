@@ -187,9 +187,9 @@ function GetFileMimeType(const FileName: UTF8String): UTF8String;
 }
 procedure FixDateTimeSeparators;
 
-function MountDrive(const Drive: TDrive): Boolean;
-function UnmountDrive(const Drive: TDrive): Boolean;
-function EjectDrive(const Drive: TDrive): Boolean;
+function MountDrive(Drive: PDrive): Boolean;
+function UnmountDrive(Drive: PDrive): Boolean;
+function EjectDrive(Drive: PDrive): Boolean;
 
 {$IF DEFINED(BSD) AND NOT DEFINED(DARWIN)}
 const
@@ -453,49 +453,60 @@ begin
   end;
 end;
 
-function MountDrive(const Drive: TDrive): Boolean;
+function MountDrive(Drive: PDrive): Boolean;
+{$IFDEF LINUX}
+var
+  MountPath: UTF8String;
+{$ENDIF}
 begin
-  if not Drive.IsMounted then
+  if not Drive^.IsMounted then
   begin
 {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
     Result := False;
     // If Path is not empty "mount" can mount it because it has a destination path from fstab.
-    if Drive.Path <> EmptyStr then
+    if Drive^.Path <> EmptyStr then
 {$ENDIF}
-      Result := fpSystemStatus('mount ' + Drive.DeviceId) = 0;
+      Result := fpSystemStatus('mount ' + Drive^.DeviceId) = 0;
 {$IFDEF LINUX}
-    if not Result and HavePMount and Drive.IsMediaRemovable then
-      Result := fpSystemStatus('pmount ' + Drive.DeviceId) = 0;
+    if not Result and uUDisks.Initialize then
+    begin
+      Result := uUDisks.Mount(DeviceFileToUDisksObjectPath(Drive^.DeviceId), EmptyStr, nil, MountPath);
+      if Result then
+        Drive^.Path := MountPath;
+      uUDisks.Finalize;
+    end;
+    if not Result and HavePMount and Drive^.IsMediaRemovable then
+      Result := fpSystemStatus('pmount ' + Drive^.DeviceId) = 0;
 {$ENDIF}
   end
   else
     Result := True;
 end;
 
-function UnmountDrive(const Drive: TDrive): Boolean;
+function UnmountDrive(Drive: PDrive): Boolean;
 begin
-  if Drive.IsMounted then
+  if Drive^.IsMounted then
   begin
 {$IFDEF LINUX}
     Result := False;
     if uUDisks.Initialize then
     begin
-      Result := uUDisks.Unmount(DeviceFileToUDisksObjectPath(Drive.DeviceId), nil);
+      Result := uUDisks.Unmount(DeviceFileToUDisksObjectPath(Drive^.DeviceId), nil);
       uUDisks.Finalize;
     end;
-    if not Result and HavePMount and Drive.IsMediaRemovable then
-      Result := fpSystemStatus('pumount ' + Drive.DeviceId) = 0;
+    if not Result and HavePMount and Drive^.IsMediaRemovable then
+      Result := fpSystemStatus('pumount ' + Drive^.DeviceId) = 0;
     if not Result then
 {$ENDIF}
-    Result := fpSystemStatus('umount ' + Drive.Path) = 0;
+    Result := fpSystemStatus('umount ' + Drive^.Path) = 0;
   end
   else
     Result := True;
 end;
 
-function EjectDrive(const Drive: TDrive): Boolean;
+function EjectDrive(Drive: PDrive): Boolean;
 begin
-  Result := fpSystemStatus('eject ' + Drive.DeviceId) = 0;
+  Result := fpSystemStatus('eject ' + Drive^.DeviceId) = 0;
 end;
 
 {$IFDEF LINUX}

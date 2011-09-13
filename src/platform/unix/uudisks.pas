@@ -84,6 +84,10 @@ function GetObjectProperty(const ObjectPath: UTF8String;
 function GetDeviceInfo(const ObjectPath: UTF8String; out Info: TUDisksDeviceInfo): Boolean;
 function EnumerateDevices(out DevicesList: TStringArray): Boolean;
 function EnumerateDevices(out DevicesInfos: TUDisksDevicesInfos): Boolean;
+function Mount(const ObjectPath: UTF8String;
+               const FileSystemType: UTF8String;
+               const Options: TStringArray;
+               out MountPath: UTF8String): Boolean;
 function Unmount(const ObjectPath: UTF8String; const Options: TStringArray): Boolean;
 function Initialize: Boolean;
 procedure Finalize;
@@ -515,6 +519,65 @@ begin
       if not GetDeviceInfo(DevicesList[i], DevicesInfos[i]) then
         Exit(False);
     end;
+  end;
+end;
+
+function Mount(const ObjectPath: UTF8String;
+               const FileSystemType: UTF8String;
+               const Options: TStringArray;
+               out MountPath: UTF8String): Boolean;
+var
+  message, reply: PDBusMessage;
+  argsIter, arrayIter, replyIter: DBusMessageIter;
+  optsPChar: PChar;
+  i: Integer;
+  StringPtr: PChar;
+begin
+  message := dbus_message_new_method_call(UDisksAddress,
+                                          PChar(ObjectPath),
+                                          UDisksDeviceInterface,
+                                          'FilesystemMount');
+  if not Assigned(message) then
+  begin
+    Print('Cannot create message "FilesystemMount"');
+    Result := False;
+  end
+  else
+  begin
+    dbus_message_iter_init_append(message, @argsIter);
+    optsPChar := PChar(FileSystemType);
+    Result := (dbus_message_iter_append_basic(@argsIter, DBUS_TYPE_STRING, @optsPChar) <> 0) and
+              (dbus_message_iter_open_container(@argsIter, DBUS_TYPE_ARRAY, PChar(DBUS_TYPE_STRING_AS_STRING), @arrayIter) <> 0);
+    if Result then
+    begin
+      for i := Low(Options) to High(Options) do
+      begin
+        optsPChar := PChar(Options[i]);
+        if dbus_message_iter_append_basic(@arrayIter, DBUS_TYPE_STRING, @optsPChar) = 0 then
+        begin
+          Result := False;
+          Break;
+        end;
+      end;
+
+      if dbus_message_iter_close_container(@argsIter, @arrayIter) = 0 then
+        Result := False;
+    end;
+
+    if not Result then
+    begin
+      Print('Cannot append arguments');
+    end
+    else if SendWithReply(message, reply, DBUS_TYPE_STRING, @replyIter) then
+    begin
+      Result := GetBasicVal(@replyIter, DBUS_TYPE_STRING, @StringPtr) and Assigned(StringPtr);
+      if Result then
+        MountPath := StrPas(StringPtr);
+      dbus_message_unref(reply);
+    end
+    else
+      Result := False;
+    dbus_message_unref(message);
   end;
 end;
 
