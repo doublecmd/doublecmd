@@ -52,6 +52,7 @@ object frmEditor: TfrmEditor
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   ParentFont = False
+  Position = poDefault
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.27'
