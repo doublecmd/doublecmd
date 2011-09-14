@@ -27,7 +27,7 @@ unit uOSUtils;
 interface
 
 uses
-    SysUtils, Classes, LCLType, uClassesEx, uTypes
+    SysUtils, Classes, LCLType, uClassesEx, uTypes, uDrive
     {$IF DEFINED(UNIX)}
     , uFileAttributes
       {$IFDEF DARWIN}
@@ -178,7 +178,7 @@ function GetTempName(PathPrefix: String): String;
 }
 function GetSfxExt: String;
 
-function IsAvailable(Path : String; TryMount: Boolean = True) : Boolean;
+function IsAvailable(Drive: PDrive; TryMount: Boolean = True) : Boolean;
 
 (* File mapping/unmapping routines *)
 {en
@@ -1002,13 +1002,13 @@ begin
 end;
 {$ENDIF}
 
-function IsAvailable(Path: String; TryMount: Boolean): Boolean;
+function IsAvailable(Drive: PDrive; TryMount: Boolean): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 var
   Drv: String;
   DriveLabel: String;
 begin
-  Drv:= ExtractFileDrive(Path) + PathDelim;
+  Drv:= ExtractFileDrive(Drive^.Path) + PathDelim;
 
   { Close CD/DVD }
   if (GetDriveType(PChar(Drv)) = DRIVE_CDROM) and
@@ -1037,7 +1037,7 @@ begin
   pme:= getmntent(mtab);
   while (pme <> nil) do
   begin
-    if pme.mnt_dir = Path then
+    if pme.mnt_dir = Drive^.Path then
     begin
       Result:= True;
       Break;
@@ -1045,6 +1045,9 @@ begin
     pme:= getmntent(mtab);
   end;
   endmntent(mtab);
+
+  if not Result and TryMount then
+    Result := MountDrive(Drive);
 end;
 {$ELSE}
 begin
