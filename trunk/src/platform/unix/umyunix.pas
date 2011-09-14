@@ -276,8 +276,8 @@ var
 
 procedure CheckPMount;
 begin
-  HavePMount := (fpSystemStatus('pmount --version > nul') = 0) and
-                (fpSystemStatus('pumount --version > nul') = 0);
+  HavePMount := (fpSystemStatus('pmount --version > /dev/null') = 0) and
+                (fpSystemStatus('pumount --version > /dev/null') = 0);
 end;
 
 {$ENDIF LINUX}
