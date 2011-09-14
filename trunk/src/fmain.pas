@@ -536,7 +536,7 @@ type
       APanel: TFilePanelSelect);
     procedure DriveListClose(Sender: TObject);
     procedure SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);
-    procedure SetPanelDrive(aPanel: TFilePanelSelect; aPath: UTF8String);
+    procedure SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive);
     procedure OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
     procedure AppActivate(Sender: TObject);
     procedure AppException(Sender: TObject; E: Exception);
@@ -1534,6 +1534,7 @@ procedure TfrmMain.dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
 var
   dskPanel : TKASToolBar;
   FileView : TFileView;
+  DriveNr  : Integer;
 begin
   dskPanel := (Sender as TKASToolBar);
 
@@ -1555,7 +1556,9 @@ begin
     end
   else
     begin
-      SetPanelDrive(PanelSelected, dskPanel.Commands[NumberOfButton]);
+      DriveNr := dskPanel.Buttons[NumberOfButton].Tag;
+      if (Tag >= 0) and (Tag < DrivesList.Count) then
+        SetPanelDrive(PanelSelected, DrivesList[DriveNr]);
     end;
 
   SetActiveFrame(PanelSelected);
@@ -4547,7 +4550,7 @@ end;
 procedure TfrmMain.DriveListDriveSelected(Sender: TObject; ADriveIndex: Integer;
   APanel: TFilePanelSelect);
 begin
-  SetPanelDrive(APanel, DrivesList.Items[ADriveIndex]^.Path);
+  SetPanelDrive(APanel, DrivesList.Items[ADriveIndex]);
 end;
 
 procedure TfrmMain.DriveListClose(Sender: TObject);
@@ -4639,11 +4642,11 @@ begin
   end;
 end;
 
-procedure TfrmMain.SetPanelDrive(aPanel: TFilePanelSelect; aPath: UTF8String);
+procedure TfrmMain.SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive);
 var
   aFileView, OtherFileView: TFileView;
 begin
-  if IsAvailable(aPath) then
+  if IsAvailable(Drive, True) then
   begin
     case aPanel of
       fpLeft:
@@ -4661,13 +4664,15 @@ begin
     // Copy path opened in the other panel if the file source and drive match
     // and that path is not already opened in this panel.
     if OtherFileView.FileSource.IsClass(TFileSystemFileSource) and
-       (OtherFileView.FileSource.GetRootDir(OtherFileView.CurrentPath) = aPath) and
+       (OtherFileView.FileSource.GetRootDir(OtherFileView.CurrentPath) = Drive^.Path) and
        (OtherFileView.CurrentPath <> aFileView.CurrentPath) then
     begin
-      aPath := OtherFileView.CurrentPath;
+      SetFileSystemPath(aFileView, OtherFileView.CurrentPath);
+    end
+    else
+    begin
+      SetFileSystemPath(aFileView, Drive^.Path);
     end;
-
-    SetFileSystemPath(aFileView, aPath);
   end
   else
   begin

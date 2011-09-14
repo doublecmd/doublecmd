@@ -534,37 +534,36 @@ procedure TDrivesListPopup.UpdateCells;
 var
   I, RowNr : Integer;
   FreeSize, TotalSize: Int64;
+  Drive: PDrive;
 begin
   for I := 0 to FDrivesList.Count - 1 do
     begin
-      with FDrivesList[I]^ do
+      Drive := FDrivesList[I];
+      RowNr := LowestRow + I;
+
+      if Length(Drive^.DisplayName) > 0 then
       begin
-        RowNr := LowestRow + I;
+        Cells[1, RowNr] := Drive^.DisplayName;
+        FShortCuts[I] := UTF8Copy(Drive^.DisplayName, 1, 1);
+      end
+      else
+      begin
+        Cells[1, RowNr] := Drive^.Path;
+        FShortCuts[I] := '';
+      end;
 
-        if Length(DisplayName) > 0 then
-        begin
-          Cells[1, RowNr] := DisplayName;
-          FShortCuts[I] := UTF8Copy(DisplayName, 1, 1);
-        end
-        else
-        begin
-          Cells[1, RowNr] := Path;
-          FShortCuts[I] := '';
-        end;
+      Cells[2, RowNr] := Drive^.DriveLabel;
 
-        Cells[2, RowNr] := DriveLabel;
-
-        // Display free space only for some drives
-        // (removable, network, etc. may be slow).
-        if (DriveType in [dtHardDisk, dtOptical, dtRamDisk]) and
-           IsAvailable(Path, False) and
-           GetDiskFreeSpace(Path, FreeSize, TotalSize) then
-        begin
-          Cells[3, LowestRow + I] :=
-            Format('%s/%s', [cnvFormatFileSize(FreeSize, True),
-                             cnvFormatFileSize(TotalSize, True)])
-        end;
-      end;  // with
+      // Display free space only for some drives
+      // (removable, network, etc. may be slow).
+      if (Drive^.DriveType in [dtHardDisk, dtOptical, dtRamDisk]) and
+         IsAvailable(Drive, False) and
+         GetDiskFreeSpace(Drive^.Path, FreeSize, TotalSize) then
+      begin
+        Cells[3, LowestRow + I] :=
+          Format('%s/%s', [cnvFormatFileSize(FreeSize, True),
+                           cnvFormatFileSize(TotalSize, True)])
+      end;
     end; // for
 end;
 
@@ -596,4 +595,4 @@ begin
 end;
 
 end.
-
+
