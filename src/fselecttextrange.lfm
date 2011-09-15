@@ -44,13 +44,13 @@ object frmSelectTextRange: TfrmSelectTextRange
     Top = 72
     Width = 300
     OKButton.Name = 'OKButton'
-    OKButton.Caption = '&ОК'
+    OKButton.Caption = '&OK'
     HelpButton.Name = 'HelpButton'
-    HelpButton.Caption = '&Справка'
+    HelpButton.Caption = '&Help'
     CloseButton.Name = 'CloseButton'
-    CloseButton.Caption = '&Закрыть'
+    CloseButton.Caption = '&Close'
     CancelButton.Name = 'CancelButton'
-    CancelButton.Caption = 'Отмена'
+    CancelButton.Caption = 'Cancel'
     TabOrder = 1
     ShowButtons = [pbOK, pbCancel]
   end
