@@ -421,10 +421,6 @@ msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Írás"
 
-#: TFRMCALENDAR.CAPTION
-msgid "Calendar"
-msgstr ""
-
 #: TFRMCHECKSUMCALC.BTNCANCEL.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -464,41 +460,6 @@ msgstr "&Bezárás"
 msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
 msgid "Verify check sum..."
 msgstr "Ellenőrző összeg vizsgálata..."
-
-#: TFRMCOLUMSPROPS.BITBTN1.CAPTION
-msgid "&ОК"
-msgstr ""
-
-#: TFRMCOMPAREFILES.BTNCLOSE.CAPTION
-msgctxt "TFRMCOMPAREFILES.BTNCLOSE.CAPTION"
-msgid "Close"
-msgstr "Bezárás"
-
-#: TFRMCOMPAREFILES.BTNCOMPARE.CAPTION
-msgctxt "TFRMCOMPAREFILES.BTNCOMPARE.CAPTION"
-msgid "Compare files"
-msgstr "Fájlok összehasonlítása"
-
-#: TFRMCOMPAREFILES.BTNNEXTDIFF.CAPTION
-msgid "Next difference"
-msgstr "Következő eltérés"
-
-#: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
-msgid "Previous difference"
-msgstr "Előző eltérés"
-
-#: TFRMCOMPAREFILES.CAPTION
-msgctxt "TFRMCOMPAREFILES.CAPTION"
-msgid "Compare files"
-msgstr "Fájlok összehasonlítása"
-
-#: TFRMCOMPAREFILES.CHBBINMODE.CAPTION
-msgid "Binary mode"
-msgstr "Bináris mód"
-
-#: TFRMCOMPAREFILES.CHBKEEPSCROLLING.CAPTION
-msgid "Keep scrolling"
-msgstr "Folyamatos görgetés"
 
 #: TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION"
@@ -3220,15 +3181,6 @@ msgctxt "TFRMMODVIEW.TEWIDTH.TEXT"
 msgid "Width"
 msgstr "Szélesség"
 
-#: TFRMMOVEDLG.LBLFILETYPE.CAPTION
-msgctxt "TFRMMOVEDLG.LBLFILETYPE.CAPTION"
-msgid "Only type:"
-msgstr "Csak típus:"
-
-#: TFRMMOVEDLG.LBLMOVESRC.CAPTION
-msgid "Move %s:"
-msgstr "%s áthelyezése:"
-
 #: TFRMMULTIRENAME.BTNCLOSE.CAPTION
 msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
 msgid "&Close"
@@ -4977,6 +4929,30 @@ msgstr "Tömörítő:"
 #: TFRMPACKINFODLG.LBLTIME.CAPTION
 msgid "Time:"
 msgstr "Idő:"
+
+#: TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION
+msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: TFRMSELECTTEXTRANGE.BTPPANEL.CLOSEBUTTON.CAPTION
+msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CLOSEBUTTON.CAPTION"
+msgid "&Close"
+msgstr "&Bezárás"
+
+#: TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION
+msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION"
+msgid "&Help"
+msgstr "&Súgó"
+
+#: TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION
+msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION"
+msgid "&OK"
+msgstr "&Oké"
+
+#: TFRMSELECTTEXTRANGE.LBLSELECTTEXT.CAPTION
+msgid "Select the characters to insert:"
+msgstr ""
 
 #: TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
