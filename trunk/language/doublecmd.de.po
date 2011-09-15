@@ -423,10 +423,6 @@ msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Schreiben"
 
-#: TFRMCALENDAR.CAPTION
-msgid "Calendar"
-msgstr "Kalender"
-
 #: TFRMCHECKSUMCALC.BTNCANCEL.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -466,41 +462,6 @@ msgstr "S&chliessen"
 msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
 msgid "Verify check sum..."
 msgstr "Verifiziere Prüfsumme..."
-
-#: TFRMCOLUMSPROPS.BITBTN1.CAPTION
-msgid "&ОК"
-msgstr "&OK"
-
-#: TFRMCOMPAREFILES.BTNCLOSE.CAPTION
-msgctxt "TFRMCOMPAREFILES.BTNCLOSE.CAPTION"
-msgid "Close"
-msgstr "Schliessen"
-
-#: TFRMCOMPAREFILES.BTNCOMPARE.CAPTION
-msgctxt "TFRMCOMPAREFILES.BTNCOMPARE.CAPTION"
-msgid "Compare files"
-msgstr "Vergleiche Dateien"
-
-#: TFRMCOMPAREFILES.BTNNEXTDIFF.CAPTION
-msgid "Next difference"
-msgstr "Nächster Unterschied"
-
-#: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
-msgid "Previous difference"
-msgstr "Vorheriger Unterschied"
-
-#: TFRMCOMPAREFILES.CAPTION
-msgctxt "TFRMCOMPAREFILES.CAPTION"
-msgid "Compare files"
-msgstr "Vergleiche Dateien"
-
-#: TFRMCOMPAREFILES.CHBBINMODE.CAPTION
-msgid "Binary mode"
-msgstr "Binär-Modus"
-
-#: TFRMCOMPAREFILES.CHBKEEPSCROLLING.CAPTION
-msgid "Keep scrolling"
-msgstr "Scrollen fortsetzen"
 
 #: TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION"
@@ -3249,15 +3210,6 @@ msgctxt "TFRMMODVIEW.TEWIDTH.TEXT"
 msgid "Width"
 msgstr "Breite"
 
-#: TFRMMOVEDLG.LBLFILETYPE.CAPTION
-msgctxt "TFRMMOVEDLG.LBLFILETYPE.CAPTION"
-msgid "Only type:"
-msgstr "Nur diese Typen"
-
-#: TFRMMOVEDLG.LBLMOVESRC.CAPTION
-msgid "Move %s:"
-msgstr "Verschiebe %s"
-
 #: TFRMMULTIRENAME.BTNCLOSE.CAPTION
 msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
 msgid "&Close"
@@ -5010,6 +4962,32 @@ msgstr "Packer:"
 #: TFRMPACKINFODLG.LBLTIME.CAPTION
 msgid "Time:"
 msgstr "Zeit:"
+
+#: TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION
+msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
+msgid "Cancel"
+msgstr "Abbruch"
+
+#: TFRMSELECTTEXTRANGE.BTPPANEL.CLOSEBUTTON.CAPTION
+msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CLOSEBUTTON.CAPTION"
+msgid "&Close"
+msgstr "S&chliessen"
+
+#: TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION
+msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION"
+msgid "&Help"
+msgstr "&Hilfe"
+
+#: TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION
+#, fuzzy
+#| msgid "&ОК"
+msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION"
+msgid "&OK"
+msgstr "&OK"
+
+#: TFRMSELECTTEXTRANGE.LBLSELECTTEXT.CAPTION
+msgid "Select the characters to insert:"
+msgstr ""
 
 #: TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"

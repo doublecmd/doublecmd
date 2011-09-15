@@ -422,10 +422,6 @@ msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
 msgid "Write"
 msgstr "Запис"
 
-#: TFRMCALENDAR.CAPTION
-msgid "Calendar"
-msgstr "Календар"
-
 #: TFRMCHECKSUMCALC.BTNCANCEL.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNCANCEL.CAPTION"
 msgid "Cancel"
@@ -463,42 +459,6 @@ msgstr "&Закрити"
 msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
 msgid "Verify check sum..."
 msgstr "Перевірити контрольну суму..."
-
-#: TFRMCOLUMSPROPS.BITBTN1.CAPTION
-msgctxt "TFRMCOLUMSPROPS.BITBTN1.CAPTION"
-msgid "&ОК"
-msgstr "&Так"
-
-#: TFRMCOMPAREFILES.BTNCLOSE.CAPTION
-msgctxt "TFRMCOMPAREFILES.BTNCLOSE.CAPTION"
-msgid "Close"
-msgstr "Закрити"
-
-#: TFRMCOMPAREFILES.BTNCOMPARE.CAPTION
-msgctxt "TFRMCOMPAREFILES.BTNCOMPARE.CAPTION"
-msgid "Compare files"
-msgstr "Порівняти файли"
-
-#: TFRMCOMPAREFILES.BTNNEXTDIFF.CAPTION
-msgid "Next difference"
-msgstr "Наступна відмінність"
-
-#: TFRMCOMPAREFILES.BTNPREVDIFF.CAPTION
-msgid "Previous difference"
-msgstr "Попередня відмінність"
-
-#: TFRMCOMPAREFILES.CAPTION
-msgctxt "TFRMCOMPAREFILES.CAPTION"
-msgid "Compare files"
-msgstr "Порівняти файли"
-
-#: TFRMCOMPAREFILES.CHBBINMODE.CAPTION
-msgid "Binary mode"
-msgstr "Двійковий режим"
-
-#: TFRMCOMPAREFILES.CHBKEEPSCROLLING.CAPTION
-msgid "Keep scrolling"
-msgstr "Одночасна прокрутка"
 
 #: TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION"
@@ -3167,15 +3127,6 @@ msgctxt "TFRMMODVIEW.TEWIDTH.TEXT"
 msgid "Width"
 msgstr "Ширина"
 
-#: TFRMMOVEDLG.LBLFILETYPE.CAPTION
-msgctxt "TFRMMOVEDLG.LBLFILETYPE.CAPTION"
-msgid "Only type:"
-msgstr "Тільки типу:"
-
-#: TFRMMOVEDLG.LBLMOVESRC.CAPTION
-msgid "Move %s:"
-msgstr "Перемістити %s:"
-
 #: TFRMMULTIRENAME.BTNCLOSE.CAPTION
 msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
 msgid "&Close"
@@ -4860,6 +4811,32 @@ msgstr "Пакувальник:"
 #: TFRMPACKINFODLG.LBLTIME.CAPTION
 msgid "Time:"
 msgstr "Час:"
+
+#: TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION
+msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: TFRMSELECTTEXTRANGE.BTPPANEL.CLOSEBUTTON.CAPTION
+msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CLOSEBUTTON.CAPTION"
+msgid "&Close"
+msgstr "&Закрити"
+
+#: TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION
+msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.HELPBUTTON.CAPTION"
+msgid "&Help"
+msgstr "&Допомога"
+
+#: TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION
+#, fuzzy
+#| msgid "&ОК"
+msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION"
+msgid "&OK"
+msgstr "&Так"
+
+#: TFRMSELECTTEXTRANGE.LBLSELECTTEXT.CAPTION
+msgid "Select the characters to insert:"
+msgstr ""
 
 #: TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
