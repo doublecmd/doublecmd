@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-09-02 23:40+0300\n"
+"PO-Revision-Date: 2011-09-15 22:49+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2355,7 +2355,7 @@ msgstr "Відкрити сп&исок VFS"
 
 #: TFRMMAIN.ACTOPERATIONSVIEWER.CAPTION
 msgid "Operations &Viewer"
-msgstr "Показати &операції з &файлами"
+msgstr "Показати операції з &файлами"
 
 #: TFRMMAIN.ACTOPTIONS.CAPTION
 msgid "&Options..."
@@ -4032,6 +4032,7 @@ msgid "Set HotKey"
 msgstr "Задати ГарКлавішу"
 
 #: TFRMOPTIONSHOTKEYS.CGHKCONTROLS.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSHOTKEYS.CGHKCONTROLS.CAPTION"
 msgid "Only for these controls"
 msgstr "Тільки для цих елементів керування"
@@ -4047,6 +4048,7 @@ msgid "Filter"
 msgstr "Фільтр"
 
 #: TFRMOPTIONSHOTKEYS.LBLHOTKEY.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSHOTKEYS.LBLHOTKEY.CAPTION"
 msgid "Hot Key:"
 msgstr "Гаряча клавіша:"
@@ -4067,6 +4069,7 @@ msgid "Categories:"
 msgstr "Категорії:"
 
 #: TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
 msgid "Hotkey"
 msgstr "Гаряча клавіша"
@@ -4836,7 +4839,7 @@ msgstr "&Так"
 
 #: TFRMSELECTTEXTRANGE.LBLSELECTTEXT.CAPTION
 msgid "Select the characters to insert:"
-msgstr ""
+msgstr "Виберіть символи для вставки:"
 
 #: TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
@@ -6732,10 +6735,9 @@ msgid "Shortcut in use"
 msgstr "Гаряча клавіша вже використовується"
 
 #: ulng.rsopthotkeysshortcutusedtext1
-#, fuzzy
 #| msgid "Shortcut %s is already used for %s."
 msgid "Shortcut %s is already used."
-msgstr "Горяча клавіша %s вже використана для %s."
+msgstr "Гаряча клавіша %s вже використовується для %s."
 
 #: ulng.rsopthotkeysshortcutusedtext2
 msgid "Change it to %s?"
