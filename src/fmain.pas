@@ -912,15 +912,7 @@ begin
               Cmd:= MainToolBar.GetButtonX(NumberOfButton, CmdX);
               Path:= MainToolBar.GetButtonX(NumberOfButton, PathX);
               Param:= QuoteStr(aFile.FullPath);
-              if Actions.Execute(Cmd, Param) = uActs.cf_Error then
-                begin
-                  Cmd:= mbExpandFileName(Cmd);
-                  Path:= ReplaceEnvVars(Path);
-                  ReplaceExtCommand(Path, FrameLeft, FrameRight, ActiveFrame);
-                  if Length(Path) <> 0 then
-                    mbSetCurrentDir(Path);
-                  ExecCmdFork(Format('"%s" %s', [Cmd, Param]));
-                end;
+              ExecCmd(Cmd, Param, Path);
             end;
         finally
           FreeAndNil(aFile);
@@ -2740,7 +2732,7 @@ begin
   if I >= 0 then
   begin
     sDir:= MainToolBar.GetButtonX(I, PathX);
-    ReplaceExtCommand(sDir, FrameLeft, FrameRight, ActiveFrame);
+    sDir:= PrepareParameter(sDir, FrameLeft, FrameRight, ActiveFrame, [ppoNormalizePathDelims]);
     tbChangeDir.Caption := 'CD ' + sDir;
     if sDir <> '' then
       tbChangeDir.Visible:= true;
@@ -3563,18 +3555,14 @@ end;
 
 function TfrmMain.ExecCmd(Cmd: String; Param: String=''; StartPath: String=''): Boolean;
 begin
-  Cmd       := NormalizePathDelimiters(Cmd);
-  Param     := NormalizePathDelimiters(Param);
-  Param     := ReplaceEnvVars(Param);
-  ReplaceExtCommand(Param, FrameLeft, FrameRight, ActiveFrame);
+  Cmd   := ReplaceEnvVars(Cmd); // For Command only replace environment variables.
+  Param := PrepareParameter(Param, FrameLeft, FrameRight, ActiveFrame);
 
   if Actions.Execute(Cmd, Param) <> uActs.cf_Error then
     Result:= True
   else
   begin
-    StartPath := NormalizePathDelimiters(StartPath);
-    StartPath := ReplaceEnvVars(StartPath);
-    ReplaceExtCommand(StartPath, FrameLeft, FrameRight, ActiveFrame);
+    StartPath := PrepareParameter(StartPath, FrameLeft, FrameRight, ActiveFrame, [ppoNormalizePathDelims]);
 
     // Only add a space after command if there are parameters.
     if Length(Param) > 0 then
@@ -3966,7 +3954,7 @@ begin
     Exit;
 
   sDir := MainToolBar.GetButtonX(I, PathX);
-  ReplaceExtCommand(sDir, FrameLeft, FrameRight, ActiveFrame);
+  sDir := PrepareParameter(sDir, FrameLeft, FrameRight, ActiveFrame, [ppoNormalizePathDelims]);
   Actions.cm_ChangeDir(sDir);
 end;
 
@@ -4054,6 +4042,8 @@ begin
       edtCommand.Items.Delete(edtCommand.Items.Count-1);
   end;
   edtCommand.DroppedDown:= False;
+
+  sCmd:= ReplaceEnvVars(sCmd);
 
   if (fspDirectAccess in ActiveFrame.FileSource.GetProperties) then
     begin
@@ -4694,4 +4684,4 @@ begin
 end;
 
 end.
-
+

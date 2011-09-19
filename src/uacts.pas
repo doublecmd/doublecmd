@@ -1407,7 +1407,7 @@ begin
 
         if (sViewCmd<>'') then
           begin
-            ReplaceExtCommand(sViewCmd, aFile);
+            sViewCmd := PrepareParameter(sViewCmd, aFile);
             ProcessExtCommand(sViewCmd, ActiveFrame.CurrentPath);
             // TODO:
             // If TempFileSource is used, create a wait thread that will
@@ -1531,7 +1531,7 @@ begin
 
         if (sEditCmd <> '') then
           begin
-            ReplaceExtCommand(sEditCmd, aFile);
+            sEditCmd := PrepareParameter(sEditCmd, aFile);
             ProcessExtCommand(sEditCmd, aFile.Path);
           end
         else
@@ -2989,4 +2989,4 @@ begin
 end;
 
 end.
-
+

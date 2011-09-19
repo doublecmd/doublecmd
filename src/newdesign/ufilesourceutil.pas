@@ -73,7 +73,7 @@ begin
         end;
       end;
 *)
-      ReplaceExtCommand(sOpenCmd, aFile, aFileView.CurrentPath);
+      sOpenCmd := PrepareParameter(sOpenCmd, aFile);
       if ProcessExtCommand(sOpenCmd, aFileView.CurrentPath) then
         Exit;
     end;

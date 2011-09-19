@@ -29,12 +29,29 @@ interface
 uses
   Classes, SysUtils, uFile, uFileView;
 
-procedure ReplaceExtCommand(var sCmd: String;
-                            leftPanel: TFileView;
-                            rightPanel: TFileView;
-                            activePanel: TFileView); overload;
+type
+  TPrepareParameterOption = (ppoNormalizePathDelims);
+  TPrepareParameterOptions = set of TPrepareParameterOption;
 
-procedure ReplaceExtCommand(var sCmd:String; aFile: TFile; ActiveDir: String=''); overload;
+function PrepareParameter(sParam: String;
+                          leftPanel: TFileView;
+                          rightPanel: TFileView;
+                          activePanel: TFileView;
+                          options: TPrepareParameterOptions = []): String; overload;
+function PrepareParameter(sParam: String;
+                          aFile: TFile;
+                          options: TPrepareParameterOptions = []): String; overload;
+{en
+   Replace variable parameters that depend on files in panels.
+}
+function ReplaceVarParams(sSourceStr: String;
+                          leftPanel: TFileView;
+                          rightPanel: TFileView;
+                          activePanel: TFileView): String; overload;
+{en
+   Replace variable parameters that depend on the file in active dir.
+}
+function ReplaceVarParams(sSourceStr: String; aFile: TFile): String; overload;
 function ProcessExtCommand(sCmd:String; ActiveDir: String): Boolean;
 function ShellExecuteEx(sCmd, sFileName, sActiveDir: String): Boolean;
 
@@ -43,6 +60,30 @@ implementation
 uses
   Process, UTF8Process, uDCUtils, uShowForm, uGlobs, uOSUtils,
   uFileSystemFileSource;
+
+function PrepareParameter(sParam: String;
+                          leftPanel: TFileView;
+                          rightPanel: TFileView;
+                          activePanel: TFileView;
+                          options: TPrepareParameterOptions = []): String;
+begin
+  Result := sParam;
+  if ppoNormalizePathDelims in Options then
+    Result := NormalizePathDelimiters(Result);
+  Result := ReplaceEnvVars(Result);
+  Result := ReplaceVarParams(Result, leftPanel, rightPanel, activePanel);
+  Result := Trim(Result);
+end;
+
+function PrepareParameter(sParam: String; aFile: TFile; options: TPrepareParameterOptions = []): String;
+begin
+  Result := sParam;
+  if ppoNormalizePathDelims in Options then
+    Result := NormalizePathDelimiters(Result);
+  Result := ReplaceEnvVars(Result);
+  Result := ReplaceVarParams(Result, aFile);
+  Result := Trim(Result);
+end;
 
 (*
   Functions (without parameters they give output for all selected files):
@@ -86,10 +127,10 @@ uses
          - if only 1 file selected      : -first <file_1>
          - if 2 (or more) files selected: -first <file_1> -second <file_2>
 *)
-procedure ReplaceExtCommand(var sCmd: String;
-                            leftPanel: TFileView;
-                            rightPanel: TFileView;
-                            activePanel: TFileView);
+function ReplaceVarParams(sSourceStr: String;
+                          leftPanel: TFileView;
+                          rightPanel: TFileView;
+                          activePanel: TFileView): String;
 type
   TFunctType = (ftNone, ftName, ftDir, ftPath, ftSingleDir);
   TStatePos = (spNone, spPercent, spFunction, spPrefix, spPostfix,
@@ -170,7 +211,7 @@ var
   begin
     // Copy [parseStartIndex .. limit - 1].
     if limit > parseStartIndex then
-      sOutput := sOutput + Copy(sCmd, parseStartIndex, limit - parseStartIndex);
+      sOutput := sOutput + Copy(sSourceStr, parseStartIndex, limit - parseStartIndex);
     parseStartIndex := index;
   end;
 
@@ -213,7 +254,7 @@ var
       state.pos := spComplete
     else
     begin
-      state.sFileIndex := state.sFileIndex + sCmd[index];
+      state.sFileIndex := state.sFileIndex + sSourceStr[index];
       state.pos := spIndex;
     end;
   end;
@@ -251,18 +292,18 @@ begin
 
     ResetState(state);
 
-    while index <= Length(sCmd) do
+    while index <= Length(sSourceStr) do
     begin
       case state.pos of
         spNone:
-          if sCmd[index] = '%' then
+          if sSourceStr[index] = '%' then
           begin
             state.pos := spPercent;
             state.functStartIndex := index;
           end;
 
         spPercent:
-          case sCmd[index] of
+          case sSourceStr[index] of
             'f':
               begin
                 state.funct := ftName;
@@ -288,7 +329,7 @@ begin
           end;
 
         spFunction:
-          case sCmd[index] of
+          case sSourceStr[index] of
             'l':
               begin
                 state.files := leftFiles;
@@ -328,7 +369,7 @@ begin
           end;
 
         spSide:
-          case sCmd[index] of
+          case sSourceStr[index] of
             '0'..'9':
               ProcessNumber;
             '{':
@@ -338,7 +379,7 @@ begin
           end;
 
         spIndex:
-          case sCmd[index] of
+          case sSourceStr[index] of
             '0'..'9':
               ProcessNumber;
             '{':
@@ -348,7 +389,7 @@ begin
           end;
 
         spPrefix, spPostfix:
-          case sCmd[index] of
+          case sSourceStr[index] of
             '}':
               begin
                 if state.pos = spPostfix then
@@ -363,15 +404,15 @@ begin
               begin
                 case state.pos of
                   spPrefix:
-                    state.prefix := state.prefix + sCmd[index];
+                    state.prefix := state.prefix + sSourceStr[index];
                   spPostfix:
-                    state.postfix := state.postfix + sCmd[index];
+                    state.postfix := state.postfix + sSourceStr[index];
                 end;
               end;
           end;
 
         spGotPrefix:
-          case sCmd[index] of
+          case sSourceStr[index] of
             '{':
               ProcessOpenBracket;
             else
@@ -392,7 +433,7 @@ begin
     else
       AddParsedText(index);
 
-    sCmd := sOutput;
+    Result := sOutput;
 
   finally
     if Assigned(leftFiles) then
@@ -402,16 +443,11 @@ begin
   end;
 end;
 
-procedure ReplaceExtCommand(var sCmd:String; aFile: TFile; ActiveDir: String);
+function ReplaceVarParams(sSourceStr: String; aFile: TFile): String;
 begin
-  with aFile do
-  begin
-    sCmd:= GetCmdDirFromEnvVar(sCmd);
-    sCmd:= StringReplace(sCmd,'%f',QuoteStr(Name),[rfReplaceAll]);
-    sCmd:= StringReplace(sCmd,'%d',QuoteStr(Path),[rfReplaceAll]);
-    sCmd:= StringReplace(sCmd,'%p',QuoteStr(Path + Name),[rfReplaceAll]);
-    sCmd:= Trim(sCmd);
-  end;
+  Result := StringReplace(sSourceStr,'%f',QuoteStr(aFile.Name),[rfReplaceAll]);
+  Result := StringReplace(Result    ,'%d',QuoteStr(aFile.Path),[rfReplaceAll]);
+  Result := StringReplace(Result    ,'%p',QuoteStr(aFile.FullPath),[rfReplaceAll]);
 end;
 
 function ProcessExtCommand(sCmd:String; ActiveDir: String): Boolean;
@@ -487,7 +523,7 @@ begin
     sCommand:= gExts.GetExtActionCmd(aFile, sCmd);
     if sCommand <> '' then
       begin
-        ReplaceExtCommand(sCommand, aFile, sActiveDir);
+        sCommand := PrepareParameter(sCommand, aFile);
         Result:= ProcessExtCommand(sCommand, sActiveDir);
       end;
 
