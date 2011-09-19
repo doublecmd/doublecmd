@@ -449,7 +449,7 @@ begin
                   sAct:= sl.Names[I];
                   if (SysUtils.CompareText('OPEN', sAct) = 0) or (SysUtils.CompareText('VIEW', sAct) = 0) or (SysUtils.CompareText('EDIT', sAct) = 0) then Continue;
                   sCmd:= sl.ValueFromIndex[I];
-                  ReplaceExtCommand(sCmd, aFile, aFile.Path);
+                  sCmd:= PrepareParameter(sCmd, aFile);
                   mi:= TMenuItem.Create(miActions);
                   mi.Caption:= sAct;
                   mi.Hint:= sCmd;

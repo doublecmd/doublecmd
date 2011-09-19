@@ -473,7 +473,7 @@ begin
           else
             begin
               sCmd:= Copy(sCmd, Pos('=', sCmd) + 1, Length(sCmd));
-              ReplaceExtCommand(sCmd, aFile, aFile.Path);
+              sCmd:= PrepareParameter(sCmd, aFile);
               try
                 with frmMain.ActiveFrame do
                 begin
@@ -509,4 +509,4 @@ begin
 end;
 
 end.
-
+

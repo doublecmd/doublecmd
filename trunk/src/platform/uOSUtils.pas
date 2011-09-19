@@ -581,6 +581,7 @@ begin
     
   SplitCmdLine(sCmdLine, sFileName, sParams);
   DCDebug('File: ' + sFileName + ' Params: ' + sParams + ' WorkDir: ' + wWorkDir);
+  sFileName:= NormalizePathDelimiters(sFileName);
   wFileName:= UTF8Decode(sFileName);
   wParams:= UTF8Decode(sParams);
   Result := (ShellExecuteW(0, 'open', PWChar(wFileName), PWChar(wParams), PWChar(wWorkDir), SW_SHOW) > 32);
@@ -1874,4 +1875,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.
