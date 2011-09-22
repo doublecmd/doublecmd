@@ -82,10 +82,9 @@ object frmOptions: TfrmOptions
     Images = OptionsEditorsImageList
     ReadOnly = True
     ScrollBars = ssAutoBoth
-    ShowButtons = False
     TabOrder = 0
     OnChange = tvTreeViewChange
-    Options = [tvoAutoExpand, tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowLines, tvoShowRoot, tvoToolTips]
+    Options = [tvoAutoExpand, tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips]
   end
   object Panel3: TPanel
     Left = 182

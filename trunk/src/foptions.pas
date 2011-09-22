@@ -213,7 +213,9 @@ begin
     end;
 
     if Assigned(SelectedEditorView.Instance) then
-      SelectedEditorView.Instance.Visible := True;
+      SelectedEditorView.Instance.Visible := True
+    else if Node.HasChildren then
+      Node.GetFirstChild.Selected := True;
 
     FOldEditor := SelectedEditorView;
 
