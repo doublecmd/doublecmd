@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Controls, ExtCtrls, ComCtrls, contnrs, fgl,
   uFile, uDisplayFile, uFileSource, uMethodsList, uDragDropEx, uXmlConfig,
   uClassesEx, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
-  uFunctionThread, uFileSystemWatcher;
+  uFunctionThread, uFileSystemWatcher, fQuickSearch;
 
 type
 
@@ -79,6 +79,7 @@ type
     }
     FRequestedActiveFile: String;
     FFileFilter: String;
+    FFilterOptions: TQuickSearchOptions;
     FWatchPath: String;
 
     FMethods: TMethodsList;
@@ -96,10 +97,10 @@ type
     function GetCurrentPathIndex: Integer;
     function GetFileSource(Index: Integer): IFileSource;
     function GetFileSourcesCount: Integer;
+    function GetFiltered: Boolean;
     function GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
     function GetPathsCount(FileSourceIndex: Integer): Integer;
     function GetWatcherActive: Boolean;
-    procedure SetFileFilter(const NewFilter: String);
     {en
        Assigns the built lists to the file view and displays new the file list.
     }
@@ -310,11 +311,15 @@ type
     procedure GoToPrevHistory;
     procedure GoToNextHistory;
 
+    procedure SetFileFilter(const NewFilter: String; NewFilterOptions: TQuickSearchOptions);
+
     property CurrentAddress: String read GetCurrentAddress;
     property CurrentFileSourceIndex: Integer read GetCurrentFileSourceIndex;
     property CurrentPath: String read GetCurrentPath write SetCurrentPath;
     property CurrentPathIndex: Integer read GetCurrentPathIndex;
-    property FileFilter: String read FFileFilter write SetFileFilter;
+    property FileFilter: String read FFileFilter;
+    property FilterOptions: TQuickSearchOptions read FFilterOptions;
+    property Filtered: Boolean read GetFiltered;
     property FileSource: IFileSource read GetCurrentFileSource;
     property FileSources[Index: Integer]: IFileSource read GetFileSource;
     property FileSourcesCount: Integer read GetFileSourcesCount;
@@ -427,6 +432,7 @@ begin
   FLastActiveFile := '';
   FRequestedActiveFile := '';
   FFileFilter := '';
+  FFilterOptions := gQuickSearchOptions;
   FFiles := nil;
   FHashedFiles := nil;
   FFileSourceFiles := nil;
@@ -522,7 +528,6 @@ begin
     AFileView.FSortings := CloneSortings(Self.FSortings);
     AFileView.FLastActiveFile := Self.FLastActiveFile;
     AFileView.FRequestedActiveFile := Self.FRequestedActiveFile;
-    AFileView.FFileFilter := Self.FFileFilter;
     AFileView.FReloadNeeded := Self.FReloadNeeded;
 
     if Assigned(Self.FFileSourceFiles) then
@@ -681,6 +686,7 @@ begin
     FileSource,
     FileSourcesCount,
     FileFilter,
+    FilterOptions,
     CurrentPath,
     Sorting,
     AThread,
@@ -1293,6 +1299,11 @@ begin
   Result := FHistory.Count;
 end;
 
+function TFileView.GetFiltered: Boolean;
+begin
+  Result := Self.FileFilter <> EmptyStr;
+end;
+
 function TFileView.GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
 begin
   with FHistory do
@@ -1320,9 +1331,15 @@ begin
   Result := FWatchPath <> EmptyStr;
 end;
 
-procedure TFileView.SetFileFilter(const NewFilter: String);
+procedure TFileView.SetFileFilter(const NewFilter: String; NewFilterOptions: TQuickSearchOptions);
 begin
+  // do not reload if filter has not changed
+  if (FFileFilter = NewFilter) and (FFilterOptions = NewFilterOptions) then
+    Exit;
+
   FFileFilter := NewFilter;
+  FFilterOptions := NewFilterOptions;
+
   ReDisplayFileList;
 end;
 
@@ -1524,7 +1541,7 @@ begin
   // relatively short time, so the user usually won't notice it and it is
   // a bit faster this way.
   TFileListBuilder.MakeDisplayFileList(
-    FileSource, FFileSourceFiles, FFiles, FileFilter);
+    FileSource, FFileSourceFiles, FFiles, FileFilter, FFilterOptions);
   HashFileList;
   AfterMakeFileList;
 end;

@@ -193,4 +193,95 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
       end
     end
   end
+  object rgpSearchItems: TRadioGroup[2]
+    AnchorSideLeft.Control = gbExactNameMatch
+    AnchorSideTop.Control = gbExactNameMatch
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = gbExactNameMatch
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 81
+    Top = 196
+    Width = 690
+    Anchors = [akTop, akLeft, akRight]
+    AutoFill = True
+    AutoSize = True
+    Caption = 'Search for these items:'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 63
+    ClientWidth = 686
+    Items.Strings = (
+      'Files'
+      'Directories'
+      'Files and Directories'
+    )
+    TabOrder = 2
+  end
+  object rgpSearchCase: TRadioGroup[3]
+    AnchorSideLeft.Control = rgpSearchItems
+    AnchorSideTop.Control = rgpSearchItems
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = rgpSearchItems
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 64
+    Top = 277
+    Width = 690
+    Anchors = [akTop, akLeft, akRight]
+    AutoFill = True
+    AutoSize = True
+    Caption = 'Search case:'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 46
+    ClientWidth = 686
+    Items.Strings = (
+      'Sensitive'
+      'Insensitive'
+    )
+    TabOrder = 3
+  end
+  object cgpOptions: TCheckGroup[4]
+    AnchorSideLeft.Control = rgpSearchCase
+    AnchorSideTop.Control = rgpSearchCase
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = rgpSearchCase
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 47
+    Top = 341
+    Width = 690
+    Anchors = [akTop, akLeft, akRight]
+    AutoFill = True
+    AutoSize = True
+    Caption = 'Options:'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    Items.Strings = (
+      'Hide filter panel when not focused'
+    )
+    TabOrder = 4
+    Data = {
+      0100000002
+    }
+  end
 end

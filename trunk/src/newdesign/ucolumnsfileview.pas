@@ -20,6 +20,7 @@ uses
   uClassesEx,
   uTypes,
   uFileViewWorker,
+  fQuickSearch,
   StringHashList
   ;
 
@@ -131,19 +132,14 @@ type
     FLastMark: String;
     FLastSelectionStartRow: Integer;
     FLastSelectionState: Boolean;
-    FSearchDirect,
-    FNext,
-    FPrevious : Boolean;
 
     pnlFooter: TPanel;
     lblInfo: TLabel;
+    lblFilter: TLabel;
     pnlHeader: TPanel;
     pmColumnsMenu: TPopupMenu;
-    pnAltSearch: TPanel;
-    pnlFilter: TPanel;
-    edtSearch: TEdit;
-    edtFilter: TEdit;
-    btnCloseFilter: TButton;
+    pmOperationsCancel: TPopupMenu;
+    quickSearch: TfrmQuickSearch;
     edtPath: TEdit;
     edtRename: TEdit;
     lblPath: TPathLabel;
@@ -232,11 +228,11 @@ type
 
     procedure ShowRenameFileEdit(const sFileName:String);
     procedure ShowPathEdit;
-    procedure ShowSearchPanel(Char : TUTF8Char = #0);
-    procedure CloseSearchPanel;
-    procedure ShowFilterPanel(Char : TUTF8Char = #0);
-    procedure FilterPanelVisible;
-    procedure CloseFilterPanel;
+    {en
+       Search and position in a file that matches name taking into account
+       passed options
+    }
+    procedure SearchFile(SearchTerm: UTF8String; SearchOptions: TQuickSearchOptions; SearchDirection: TQuickSearchDirection = qsdNone);
 
     procedure CalculateSpaceOfAllDirectories;
     procedure CalculateSpace(AFile: TDisplayFile);
@@ -247,19 +243,15 @@ type
     // -- Events --------------------------------------------------------------
 
     procedure edtPathExit(Sender: TObject);
-    procedure edtSearchExit(Sender: TObject);
     procedure edtRenameExit(Sender: TObject);
-    procedure edtFilterEnter(Sender: TObject);
-    procedure edtFilterExit(Sender: TObject);
 
-    procedure edtSearchChange(Sender: TObject);
-    procedure edtSearchKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edtPathKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edtRenameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure edtFilterChange(Sender: TObject);
-    procedure edtFilterKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 
-    procedure btnCloseFilterClick(Sender: TObject);
+    procedure quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; ASearchOptions: TQuickSearchOptions; ASearchDirection: TQuickSearchDirection);
+    procedure quickSearchChangeFilter(Sender: TObject; AFilterText: UTF8String; AFilterOptions: TQuickSearchOptions);
+    procedure quickSearchExecute(Sender: TObject);
+    procedure quickSearchHide(Sender: TObject);
 
     procedure dgPanelEnter(Sender: TObject);
     procedure dgPanelExit(Sender: TObject);
@@ -292,10 +284,12 @@ type
     procedure tmContextMenuTimer(Sender: TObject);
     procedure tmClearGridTimer(Sender: TObject);
     procedure lblPathClick(Sender: TObject);
+    procedure lblFilterClick(Sender: TObject);
     procedure lblPathMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure pnlHeaderResize(Sender: TObject);
     procedure ColumnsMenuClick(Sender: TObject);
+    procedure OperationsCancelClick(Sender: TObject);
 
     procedure UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
 
@@ -401,6 +395,10 @@ uses
   , GTK2Globals  // for DblClickTime
 {$ENDIF}
   ;
+
+const
+  CANCEL_FILTER = 0;
+  CANCEL_OPERATION = 1;
 
 {$IFDEF timeFileView}
 var
@@ -1194,58 +1192,6 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.edtSearchKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  case Key of
-    VK_DOWN:
-      begin
-        fSearchDirect := True;
-        fNext := True;
-        Key := 0;
-        edtSearchChange(Sender);
-      end;
-
-    VK_UP:
-      begin
-        fSearchDirect := False;
-        fPrevious := True;
-        Key := 0;
-        edtSearchChange(Sender);
-      end;
-
-    VK_TAB:
-      begin
-        CloseSearchPanel;
-        SetFocus;
-        Key := 0;
-      end;
-
-    VK_ESCAPE:
-      begin
-        Key := 0;
-        CloseSearchPanel;
-        SetFocus;
-      end;
-
-    VK_RETURN,
-    VK_SELECT:
-      begin
-        Key := 0;
-        CloseSearchPanel;
-        SetFocus;
-
-        {LaBero begin}
-        {en
-            Execute/open selected file/directory
-            if the user press ENTER during QuickSearch
-        }
-        ChooseFile(GetActiveDisplayFile);
-        {LaBero end}
-      end;
-  end;
-end;
-
 procedure TColumnsFileView.AfterChangePath;
 begin
   FCurrentSelection.Clear;
@@ -1477,13 +1423,6 @@ begin
   edtPath.Visible := False;
 end;
 
-procedure TColumnsFileView.edtSearchExit(Sender: TObject);
-begin
-  // sometimes must be search panel closed this way
-  CloseSearchPanel;
-  RedrawGrid;
-end;
-
 procedure TColumnsFileView.edtRenameExit(Sender: TObject);
 begin
   edtRename.Visible := False;
@@ -1493,160 +1432,110 @@ begin
   dgPanelEnter(dgPanel);
 end;
 
-procedure TColumnsFileView.edtFilterEnter(Sender: TObject);
-begin
-  SetActive(True);
-end;
-
-procedure TColumnsFileView.edtFilterExit(Sender: TObject);
-begin
-  if edtFilter.Text = '' then
-    pnlFilter.Visible := False;
-
-  SetActive(False);
-end;
-
-procedure TColumnsFileView.edtSearchChange(Sender: TObject);
+procedure TColumnsFileView.SearchFile(SearchTerm: UTF8String; SearchOptions: TQuickSearchOptions; SearchDirection: TQuickSearchDirection);
 var
-  I, iPos, iEnd : Integer;
+  I, StartPos : Integer;
   Result : Boolean;
+  sFileName,
   sSearchName,
   sSearchNameNoExt,
   sSearchExt : UTF8String;
-begin
-  if (edtSearch.Text='') or IsEmpty then Exit;
-  //DCDebug('edtSearchChange: '+ edtSearch.Text);
 
-  sSearchName := UTF8LowerCase(edtSearch.Text);
+  procedure CheckOutOfBounds(var RowIndex: Integer);
+  begin
+    if RowIndex < 0 then
+      RowIndex := Max(FFiles.Count - 1, 0);
+
+    if RowIndex >= FFiles.Count then
+      RowIndex := 0;
+  end;
+begin
+  if FFiles.Count = 0 then
+    Exit;
+
+  //DCDebug('edtSearchChange: '+ SearchTerm);
+
+  if SearchOptions.SearchCase = qscInsensitive then
+    sSearchName := UTF8LowerCase(SearchTerm)
+  else
+    sSearchName := SearchTerm;
 
   if Pos('.', sSearchName) <> 0 then
-    begin
-      sSearchNameNoExt := ExtractOnlyFileName(sSearchName);
-      sSearchExt := ExtractFileExt(sSearchName);
-      if not gQuickSearchMatchBeginning then
-        sSearchNameNoExt := '*' + sSearchNameNoExt;
-      if not gQuickSearchMatchEnding then
-        sSearchNameNoExt := sSearchNameNoExt + '*';
-      sSearchName := sSearchNameNoExt + sSearchExt + '*';
-    end
+  begin
+    sSearchNameNoExt := ExtractOnlyFileName(sSearchName);
+    sSearchExt := ExtractFileExt(sSearchName);
+    if not (qsmBeginning in SearchOptions.Match) then
+      sSearchNameNoExt := '*' + sSearchNameNoExt;
+    if not (qsmEnding in SearchOptions.Match) then
+      sSearchNameNoExt := sSearchNameNoExt + '*';
+    sSearchName := sSearchNameNoExt + sSearchExt + '*';
+  end
   else
-    begin
-      if not gQuickSearchMatchBeginning then
-        sSearchName := '*' + sSearchName;
-      sSearchName := sSearchName + '*';
-    end;
+  begin
+    if not (qsmBeginning in SearchOptions.Match) then
+      sSearchName := '*' + sSearchName;
+    sSearchName := sSearchName + '*';
+  end;
 
   DCDebug('sSearchName = ', sSearchName);
 
-  I := dgPanel.Row; // start search from current cursor position
-  iPos := I;        // save cursor position
-  if not (fNext or fPrevious) then fSearchDirect := True;
-  if fSearchDirect then
-    begin
-      if fNext then
-        I := I + 1; // begin search from next file
-      iEnd := dgPanel.RowCount;
-    end
-  else
-    begin
-      if fPrevious then
-        I := I - 1; // begin search from previous file
-      iEnd := dgPanel.FixedRows - 1;
-    end;
+  StartPos := dgPanel.Row - dgPanel.FixedRows; // start search from current cursor position
+  case SearchDirection of
+    qsdFirst:
+      StartPos := 0; // begin search from first file
+    qsdLast:
+      StartPos := FFiles.Count - 1; // begin search from last file
+    qsdNext:
+      StartPos := StartPos + 1; // begin search from next file
+    qsdPrevious:
+      StartPos := StartPos - 1; // begin search from previous file
+  end;
+
+  CheckOutOfBounds(StartPos);
+  I := StartPos;
 
   try
-    while I <> iEnd do
+    repeat
+      Result := True;
+
+      sFileName := FFiles[I].FSFile.Name;
+
+      if SearchOptions.SearchCase = qscInsensitive then
+        sFileName := UTF8LowerCase(sFileName);
+
+      if (SearchOptions.Items = qsiFiles) and
+         (FFiles[I].FSFile.IsDirectory or
+          FFiles[I].FSFile.IsLinkToDirectory) then
+        Result := False;
+
+      if (SearchOptions.Items = qsiDirectories) and
+         not FFiles[I].FSFile.IsDirectory and
+         not FFiles[I].FSFile.IsLinkToDirectory then
+        Result := False;
+
+      if not MatchesMask(sFileName, sSearchName, SearchOptions.SearchCase = qscSensitive) then
+        Result := False;
+
+      if Result then
       begin
-        Result := MatchesMask(UTF8LowerCase(FFiles[I - dgPanel.FixedRows].FSFile.Name), sSearchName);
+        dgPanel.Row := I + dgPanel.FixedRows;
+        MakeVisible(dgPanel.Row);
+        Exit;
+      end;
 
-        if Result then
-          begin
-            dgPanel.Row := I;
-            MakeVisible(I);
-            Exit;
-          end;
+      // check next file depending on search direction
+      if SearchDirection in [qsdNone, qsdFirst, qsdNext] then
+        Inc(I)
+      else
+        Dec(I);
 
-        if fSearchDirect then
-          Inc(I)
-        else
-          Dec(I);
+      CheckOutOfBounds(I);
+    until I = StartPos;
 
-        // if not Next or Previous then search from beginning of list
-        // to cursor position
-        if (not(fNext or fPrevious)) and (I = iEnd) then
-          begin
-            I := dgPanel.FixedRows;
-            iEnd := iPos;
-            iPos := I;
-          end;
-      end; // while
   except
     on EConvertError do; // bypass
     else
       raise;
-  end;
-
-  fNext := False;
-  fPrevious := False;
-end;
-
-procedure TColumnsFileView.CloseSearchPanel;
-begin
-  pnAltSearch.Visible:=False;
-  edtSearch.Text:='';
-  SetActive(False);
-end;
-
-procedure TColumnsFileView.FilterPanelVisible;
-begin
-  pnlFilter.Visible := True;
-  edtFilter.Width := pnlFilter.Width div 2;
-end;
-
-procedure TColumnsFileView.CloseFilterPanel;
-begin
-  edtFilter.Text := '';      // Automatically triggers edtFilterChange.
-  pnlFilter.Visible := False;
-  SetFocus;
-end;
-
-procedure TColumnsFileView.ShowSearchPanel(Char : TUTF8Char);
-begin
-  edtSearch.Height   := pnAltSearch.Canvas.TextHeight('Wg') + 1
-                      + GetSystemMetrics(SM_CYEDGE) * 2;
-  pnAltSearch.Height := edtSearch.Height + GetSystemMetrics(SM_CYEDGE);
-  pnAltSearch.Width  := dgPanel.Width div 2;
-  edtSearch.Width    := pnAltSearch.Width - edtSearch.Left
-                      - GetSystemMetrics(SM_CXEDGE);
-
-  pnAltSearch.Top  := pnlFooter.Top + pnlFooter.Height - pnAltSearch.Height;
-  pnAltSearch.Left := dgPanel.Left;
-
-  pnAltSearch.Visible := True;
-  edtSearch.SetFocus;
-  edtSearch.Tag := 0; // save current search position
-  fSearchDirect := True; // set search direction
-  fNext := False;
-  fPrevious := False;
-  edtSearch.Text := Char;
-  edtSearch.SelStart := UTF8Length(edtSearch.Text) + 1;
-  SetActive(True);
-end;
-
-procedure TColumnsFileView.ShowFilterPanel(Char : TUTF8Char = #0);
-begin
-  FilterPanelVisible;
-  edtFilter.SetFocus;
-
-  if Char <> #0 then
-  begin
-    edtFilter.Text := Char;
-    edtFilter.SelStart := UTF8Length(edtFilter.Text) + 1;
-    edtFilter.SelLength := 0;
-  end
-  else
-  begin
-    edtFilter.SelectAll;
   end;
 end;
 
@@ -1977,53 +1866,41 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.edtFilterChange(Sender: TObject);
+procedure TColumnsFileView.quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; ASearchOptions: TQuickSearchOptions; ASearchDirection: TQuickSearchDirection);
 begin
-  FileFilter := edtFilter.Text;
+  SetActive(True);
+
+  SearchFile(ASearchText, ASearchOptions, ASearchDirection);
 end;
 
-procedure TColumnsFileView.edtFilterKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-var
-  iRow: LongInt;
+procedure TColumnsFileView.quickSearchChangeFilter(Sender: TObject; AFilterText: UTF8String; AFilterOptions: TQuickSearchOptions);
 begin
-  case Key of
-    VK_TAB, VK_RETURN, VK_SELECT:
-      begin
-        SetFocus;
-        Key := 0;
-      end;
+  SetActive(True);
 
-    VK_ESCAPE:  // Close panel and remove filter with Escape.
-      begin
-        CloseFilterPanel;
-        Key := 0;
-      end;
+  // position in file before filtering, otherwise position could be lost if
+  // current file is filtered out causing jumps
+  SearchFile(AFilterText, AFilterOptions);
 
-    VK_UP:
-      begin
-        iRow:= dgPanel.Row - 1;
-        if iRow < dgPanel.FixedRows then
-          dgPanel.Row:= dgPanel.RowCount - 1
-        else
-          dgPanel.Row:= iRow;
-        Key := 0;
-      end;
+  SetFileFilter(AFilterText, AFilterOptions);
 
-    VK_DOWN:
-      begin
-        iRow:= dgPanel.Row + 1;
-        if iRow < dgPanel.RowCount then
-          dgPanel.Row:= iRow
-        else
-          dgPanel.Row:= dgPanel.FixedRows;
-        Key := 0;
-      end;
-  end;
+  lblFilter.Caption := Format('(%s: %s)', [rsFilterStatus, AFilterText]);
+  lblFilter.Visible := Filtered;
+
+  // force update
+  UpdateView;
 end;
 
-procedure TColumnsFileView.btnCloseFilterClick(Sender: TObject);
+procedure TColumnsFileView.quickSearchExecute(Sender: TObject);
 begin
-  CloseFilterPanel;
+  SetActive(True);
+
+  ChooseFile(GetActiveDisplayFile);
+end;
+
+procedure TColumnsFileView.quickSearchHide(Sender: TObject);
+begin
+  if Self.CanFocus then
+    dgPanel.SetFocus;
 end;
 
 procedure TColumnsFileView.MakeVisible(iRow:Integer);
@@ -2217,54 +2094,14 @@ end;
 procedure TColumnsFileView.dgPanelKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 
-  function CheckSearchOrFilter(ModifierKeys: TShiftState;
-                               SearchOrFilterEnabled: Boolean;
-                               SearchOrFilterMode: TShiftState;
-                               out UTF8Char: TUTF8Char): Boolean;
-  begin
-    Result := False;
-
-    // used for quick search/filter by Ctrl+Alt+Letter and Alt+Letter
-    if SearchOrFilterEnabled then
-    begin
-      if ((SearchOrFilterMode <> []) and
-          // Check only Ctrl and Alt.
-         (ModifierKeys * [ssCtrl, ssAlt] = SearchOrFilterMode))
-  {$IFDEF MSWINDOWS}
-      // Entering international characters with Ctrl+Alt on Windows.
-      or ((SearchOrFilterMode = []) and
-         (ModifierKeys * [ssCtrl, ssAlt] = [ssCtrl, ssAlt]) and
-         (ModifierKeys - [ssCtrl, ssAlt, ssShift, ssCaps] = []))
-  {$ENDIF}
-      then
-      begin
-        UTF8Char := VirtualKeyToUTF8Char(Key, ModifierKeys - SearchOrFilterMode);
-        Result := UTF8Char <> '';
-      end;
-    end;
-  end;
-
 var
-  ModifierKeys: TShiftState;
   ScreenPoint: TPoint;
-  UTF8Char: TUTF8Char;
   aFile: TDisplayFile;
+  mi: TMenuItem;
 begin
-  ModifierKeys := GetKeyShiftStateEx;
-
-  if CheckSearchOrFilter(ModifierKeys, gQuickSearch, gQuickSearchMode, UTF8Char) then
-  begin
-    ShowSearchPanel(UTF8Char);
-    Key := 0;
+  // check if ShiftState is equal to quick search / filter modes
+  if quickSearch.CheckSearchOrFilter(Key) then
     Exit;
-  end;
-
-  if CheckSearchOrFilter(ModifierKeys, gQuickFilter, gQuickFilterMode, UTF8Char) then
-  begin
-    ShowFilterPanel(UTF8Char);
-    Key := 0;
-    Exit;
-  end;
 
   case Key of
     VK_APPS:
@@ -2444,12 +2281,44 @@ begin
       end;
 
     VK_ESCAPE:
-      if GetCurrentWorkType <> fvwtNone then
       begin
-        StopWorkers;
-        Key := 0;
+        if Filtered and (GetCurrentWorkType <> fvwtNone) then
+        begin
+          pmOperationsCancel.Items.Clear;
+
+          mi := TMenuItem.Create(pmOperationsCancel);
+          mi.Tag := CANCEL_FILTER;
+          mi.Caption := rsCancelFilter;
+          mi.OnClick := @OperationsCancelClick;
+          pmOperationsCancel.Items.Add(mi);
+
+          mi := TMenuItem.Create(pmOperationsCancel);
+          mi.Tag := CANCEL_OPERATION;
+          mi.Caption := rsCancelOperation;
+          mi.OnClick := @OperationsCancelClick;
+          pmOperationsCancel.Items.Add(mi);
+
+          pmOperationsCancel.PopUp;
+
+          Key := 0;
+        end
+        else if Filtered then
+        begin
+          quickSearch.Finalize;
+          Key := 0;
+        end
+        else if GetCurrentWorkType <> fvwtNone then
+        begin
+          StopWorkers;
+          Key := 0;
+        end;
       end;
   end;
+end;
+
+procedure TColumnsFileView.lblFilterClick(Sender: TObject);
+begin
+  quickSearch.Initialize(qsFilter);
 end;
 
 procedure TColumnsFileView.lblPathClick(Sender: TObject);
@@ -2539,6 +2408,19 @@ begin
       ActiveColm:=ColSet.Items[(Sender as TMenuItem).Tag];
       UpdateColumnsView;
     end;
+  end;
+end;
+
+procedure TColumnsFileView.OperationsCancelClick(Sender: TObject);
+begin
+  if not Assigned(Sender) or not (Sender is TMenuItem) then
+    Exit;
+
+  case (Sender as TMenuItem).Tag of
+    CANCEL_FILTER:
+      quickSearch.Finalize;
+    CANCEL_OPERATION:
+      StopWorkers;
   end;
 end;
 
@@ -2679,51 +2561,23 @@ begin
   lblInfo.Height := lblInfo.Canvas.TextHeight('Wg');
   lblInfo.Align := alClient;
 
+  lblFilter := TLabel.Create(pnlFooter);
+  lblFilter.Parent := pnlFooter;
+  lblFilter.Align := alRight;
+  lblFilter.Caption := EmptyStr;
+  lblFilter.Visible := False;
+
   edtRename:=TEdit.Create(dgPanel);
   edtRename.Parent:=dgPanel;
   edtRename.Visible:=False;
   edtRename.TabStop:=False;
   edtRename.AutoSize:=False;
 
-  // now create search panel
-  pnAltSearch:=TPanel.Create(Self);
-  pnAltSearch.Parent:=Self;
-  pnAltSearch.Caption:=rsQuickSearchPanel;
-  pnAltSearch.Alignment:=taLeftJustify;
-  pnAltSearch.Visible := False;
-
-  edtSearch:=TEdit.Create(pnAltSearch);
-  edtSearch.Parent:=pnAltSearch;
-  edtSearch.TabStop:=False;
-  edtSearch.Left:=64;
-  edtSearch.Top:=1;
-
-  HotMan.Register(edtSearch, 'Quick Search');
-
-  // Create filter panel.
-  pnlFilter := TPanel.Create(Self);
-  pnlFilter.Parent := Self;
-  pnlFilter.Visible := False;
-  pnlFilter.Align := alBottom;
-  pnlFilter.AutoSize := True;
-  pnlFilter.Caption := rsQuickFilterPanel;
-  pnlFilter.Alignment := taLeftJustify;
-  pnlFilter.BevelWidth := 1;
-  pnlFilter.BevelInner := bvSpace;
-
-  edtFilter := TEdit.Create(pnlFilter);
-  edtFilter.Parent := pnlFilter;
-  edtFilter.TabStop := False;
-  edtfilter.BorderSpacing.Left := 64;
-  edtFilter.Align := alLeft;
-
-  HotMan.Register(edtFilter, 'Quick Filter');
-
-  btnCloseFilter := TButton.Create(pnlFilter);
-  btnCloseFilter.Parent := pnlFilter;
-  btnCloseFilter.Align := alRight;
-  btnCloseFilter.Caption := 'x';
-  btnCloseFilter.AutoSize := True;
+  // now create search frame
+  quickSearch := TfrmQuickSearch.Create(Self);
+  quickSearch.Parent := Self;
+  quickSearch.Visible := False;
+  quickSearch.Align := alBottom;
 
   tmContextMenu:= TTimer.Create(Self);
   tmContextMenu.Enabled:= False;
@@ -2763,14 +2617,10 @@ begin
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
   dgpanel.OnResize:= @dgPanelResize;
 
-  edtSearch.OnChange := @edtSearchChange;
-  edtSearch.OnKeyDown := @edtSearchKeyDown;
-  edtSearch.OnExit := @edtSearchExit;
-
-  edtFilter.OnChange := @edtFilterChange;
-  edtFilter.OnKeyDown := @edtFilterKeyDown;
-  edtFilter.OnEnter := @edtFilterEnter;
-  edtFilter.OnExit := @edtFilterExit;
+  quickSearch.OnChangeSearch := @quickSearchChangeSearch;
+  quickSearch.OnChangeFilter := @quickSearchChangeFilter;
+  quickSearch.OnExecute := @quickSearchExecute;
+  quickSearch.OnHide := @quickSearchHide;
 
   edtPath.OnKeyDown := @edtPathKeyDown;
   edtPath.OnExit := @edtPathExit;
@@ -2778,25 +2628,24 @@ begin
   edtRename.OnKeyDown := @edtRenameKeyDown;
   edtRename.OnExit := @edtRenameExit;
 
-  btnCloseFilter.OnClick := @btnCloseFilterClick;
-
   pnlHeader.OnResize := @pnlHeaderResize;
+
+  lblFilter.OnClick := @lblFilterClick;
 
   lblPath.OnClick := @lblPathClick;
   lblPath.OnMouseUp := @lblPathMouseUp;
 
   pmColumnsMenu := TPopupMenu.Create(Self);
   pmColumnsMenu.Parent := Self;
+
+  pmOperationsCancel := TPopupMenu.Create(Self);
+  pmOperationsCancel.Parent := Self;
 end;
 
 destructor TColumnsFileView.Destroy;
 begin
   if Assigned(HotMan) then
-  begin
-    HotMan.UnRegister(edtFilter);
-    HotMan.UnRegister(edtSearch);
     HotMan.UnRegister(dgPanel);
-  end;
 
   FreeThenNil(FSavedSelection);
   FreeThenNil(FColumnsSorting);
@@ -2821,12 +2670,6 @@ begin
     begin
       FLastMark := Self.FLastMark;
       FLastSelectionStartRow := Self.FLastSelectionStartRow;
-
-      if Self.FileFilter <> '' then
-      begin
-        edtFilter.Text := Self.FileFilter; // will trigger assiging to FileFilter
-        FilterPanelVisible;
-      end;
 
       FColumnsSorting := Self.FColumnsSorting.Clone;
 
@@ -3231,49 +3074,10 @@ begin
 end;
 
 procedure TColumnsFileView.UTF8KeyPressEvent(Sender: TObject; var UTF8Key: TUTF8Char);
-
-
-  function CheckSearchOrFilter(ModifierKeys: TShiftState;
-                               SearchOrFilterEnabled: Boolean;
-                               SearchOrFilterMode: TShiftState): Boolean;
-  begin
-    if SearchOrFilterEnabled and (SearchOrFilterMode = []) and
-       // Check only ssCtrl and ssAlt.
-       (ModifierKeys * [ssCtrl, ssAlt] = SearchOrFilterMode) then
-      begin
-        // Make upper case if either caps-lock is toggled or shift pressed.
-        if (ssCaps in ModifierKeys) xor (ssShift in ModifierKeys) then
-          UTF8Key := UTF8UpperCase(UTF8Key)
-        else
-          UTF8Key := UTF8LowerCase(UTF8Key);
-
-        Result := True;
-      end
-    else
-      Result := False;
-  end;
-
-var
-  ModifierKeys: TShiftState;
 begin
-  // quick search by Letter only
-
-  // Check for certain Ascii keys.
-  if (Length(UTF8Key) = 1) and ((Ord(UTF8Key[1]) <= 32) or
-     (UTF8Key[1] in ['+','-','*','/','\'])) then Exit;
-
-  ModifierKeys := GetKeyShiftStateEx;
-
-  if CheckSearchOrFilter(ModifierKeys, gQuickSearch, gQuickSearchMode) then
-  begin
-    ShowSearchPanel(UTF8Key);
-    UTF8Key := '';
-  end
-  else if CheckSearchOrFilter(ModifierKeys, gQuickFilter, gQuickFilterMode) then
-  begin
-    ShowFilterPanel(UTF8Key);
-    UTF8Key := '';
-  end
+  // check if ShiftState is equal to quick search / filter modes
+  if quickSearch.CheckSearchOrFilter(UTF8Key) then
+    Exit;
 end;
 
 procedure TColumnsFileView.DoDragDropOperation(Operation: TDragDropOperation;
@@ -3410,14 +3214,36 @@ begin
   RestoreSelection;
 end;
 
+{
+  Parameters:
+  "togglefilter"     - toggle between quick search and quick filter
+  "matchbeginning"   - toggle match beginning option
+  "matchending"      - toggle match ending option
+  "casesensitivity"  - toggle case sensitive searching
+  "filesdirectories" - toggle betwen files, directories and both
+}
 procedure TColumnsFileView.cm_QuickSearch(param: string='');
 begin
-  ShowSearchPanel;
+  if param = EmptyStr then
+    quickSearch.Initialize(qsSearch)
+  else
+    quickSearch.ToggleOption(param);
 end;
 
+{
+  Parameters:
+  "togglefilter"     - toggle between quick search and quick filter
+  "matchbeginning"   - toggle match beginning option
+  "matchending"      - toggle match ending option
+  "casesensitivity"  - toggle case sensitive searching
+  "filesdirectories" - toggle betwen files, directories and both
+}
 procedure TColumnsFileView.cm_QuickFilter(param: string='');
 begin
-  ShowFilterPanel;
+  if param = EmptyStr then
+    quickSearch.Initialize(qsFilter)
+  else
+    quickSearch.ToggleOption(param);
 end;
 
 procedure TColumnsFileView.cm_Open(param: string='');

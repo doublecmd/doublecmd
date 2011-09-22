@@ -176,8 +176,6 @@ resourcestring
   rsMsgLogExtract = 'Extract file %s';
   rsMsgLogTest = 'Test file integrity %s';
 
-  rsQuickSearchPanel = 'Find:';
-  rsQuickFilterPanel = 'Filter:';
   rsSearchResult = 'Search result';
 
   // Config toolbar dialog
@@ -222,6 +220,13 @@ resourcestring
   rsColSize = 'Size';
   rsColDate = 'Date';
   rsColAttr = 'Attr';
+
+  // Filter status in file panel
+  rsFilterStatus = 'FILTER';
+
+  // Cancel operations in file panel
+  rsCancelFilter = 'Cancel Quick Filter';
+  rsCancelOperation = 'Cancel Current Operation';
 
   // File function names
   rsFuncName = 'Name';

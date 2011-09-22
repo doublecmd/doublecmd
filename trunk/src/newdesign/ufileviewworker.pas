@@ -8,7 +8,8 @@ uses
   Classes, SysUtils, contnrs, syncobjs,
   uDisplayFile, uFile, uFileSource, uFileSorting, uFileProperty,
   uFileSourceOperation,
-  uFileSourceListOperation;
+  uFileSourceListOperation,
+  fQuickSearch;
 
 type
   TFileViewWorkType = (fvwtNone,
@@ -86,6 +87,7 @@ type
     FFileSource: IFileSource;
     FFileSourcesCount: Integer;
     FFileFilter: String;
+    FFilterOptions: TQuickSearchOptions;
     FCurrentPath: String;
     FSortings: TFileSortings;
     FFilePropertiesNeeded: TFilePropertiesTypes;
@@ -107,6 +109,7 @@ type
     constructor Create(AFileSource: IFileSource;
                        AFileSourcesCount: Integer;
                        const AFileFilter: String;
+                       const AFilterOptions: TQuickSearchOptions;
                        const ACurrentPath: String;
                        const ASorting: TFileSortings;
                        AThread: TThread;
@@ -122,7 +125,8 @@ type
     class procedure MakeDisplayFileList(aFileSource: IFileSource;
                                         aFileSourceFiles: TFiles;
                                         aFiles: TDisplayFiles;
-                                        aFileFilter: String);
+                                        aFileFilter: String;
+                                        aFilterOptions: TQuickSearchOptions);
   end;
 
   { TFilePropertiesRetriever }
@@ -318,6 +322,7 @@ end;
 constructor TFileListBuilder.Create(AFileSource: IFileSource;
                                     AFileSourcesCount: Integer;
                                     const AFileFilter: String;
+                                    const AFilterOptions: TQuickSearchOptions;
                                     const ACurrentPath: String;
                                     const ASorting: TFileSortings;
                                     AThread: TThread;
@@ -335,6 +340,7 @@ begin
   FFileSource           := AFileSource;
   FFileSourcesCount     := AFileSourcesCount;
   FFileFilter           := AFileFilter;
+  FFilterOptions        := AFilterOptions;
   FCurrentPath          := ACurrentPath;
   FSortings             := CloneSortings(ASorting);
   FFilePropertiesNeeded := AFilePropertiesNeeded;
@@ -439,7 +445,7 @@ begin
 
     // Make display file list from file source file list.
     FTmpDisplayFiles := TDisplayFiles.Create;
-    MakeDisplayFileList(FFileSource, FTmpFileSourceFiles, FTmpDisplayFiles, FFileFilter);
+    MakeDisplayFileList(FFileSource, FTmpFileSourceFiles, FTmpDisplayFiles, FFileFilter, FFilterOptions);
 
     {$IFDEF timeFileView}
     DCDebug('Made disp. list: ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
@@ -469,14 +475,17 @@ class procedure TFileListBuilder.MakeDisplayFileList(
                   aFileSource: IFileSource;
                   aFileSourceFiles: TFiles;
                   aFiles: TDisplayFiles;
-                  aFileFilter: String);
+                  aFileFilter: String;
+                  aFilterOptions: TQuickSearchOptions);
 var
   AFile: TDisplayFile;
   i: Integer;
   invalidFilter: Boolean = False;
+  sFileName,
   sFilterNameNoExt,
   sFilterExt,
   localFilter: String;
+  filter: Boolean;
 begin
   aFiles.Clear;
 
@@ -490,15 +499,15 @@ begin
         begin
           sFilterNameNoExt := ExtractOnlyFileName(localFilter);
           sFilterExt := ExtractFileExt(localFilter);
-          if not gQuickSearchMatchBeginning then
+          if not (qsmBeginning in aFilterOptions.Match) then
             sFilterNameNoExt := '*' + sFilterNameNoExt;
-          if not gQuickSearchMatchEnding then
+          if not (qsmEnding in aFilterOptions.Match) then
             sFilterNameNoExt := sFilterNameNoExt + '*';
           localFilter := sFilterNameNoExt + sFilterExt + '*';
         end
       else
         begin
-          if not gQuickSearchMatchBeginning then
+          if not (qsmBeginning in aFilterOptions.Match) then
             localFilter := '*' + localFilter;
           localFilter := localFilter + '*';
         end;
@@ -522,16 +531,34 @@ begin
       if (aFileFilter <> EmptyStr) and (invalidFilter = False) then
       begin
         try
-          if (aFileSourceFiles[i].Name <> '..') and
-             (aFileSourceFiles[i].Name <> '.') and
+          filter := True;
 
-             // Don't filter directories.
-             not (aFileSourceFiles[i].IsDirectory or
-                  aFileSourceFiles[i].IsLinkToDirectory) and
+          if (aFileSourceFiles[i].Name = '..') or
+             (aFileSourceFiles[i].Name = '.') then
+            filter := False;
 
-             not MatchesMask(UTF8LowerCase(aFileSourceFiles[i].Name),
-                             UTF8LowerCase(localFilter))
+          if (aFilterOptions.Items = qsiFiles) and
+             (aFileSourceFiles[i].IsDirectory or
+              aFileSourceFiles[i].IsLinkToDirectory) then
+            filter := False;
+
+          if (aFilterOptions.Items = qsiDirectories) and
+             not aFileSourceFiles[i].IsDirectory and
+             not aFileSourceFiles[i].IsLinkToDirectory then
+            filter := False;
+
+          if aFilterOptions.SearchCase = qscSensitive then
+            sFileName := aFileSourceFiles[i].Name
+          else
+            sFileName := UTF8LowerCase(aFileSourceFiles[i].Name);
+
+          if MatchesMask(sFileName,
+                         localFilter,
+                         aFilterOptions.SearchCase = qscSensitive)
           then
+            filter := False;
+
+          if filter then
             Continue;
 
         except
