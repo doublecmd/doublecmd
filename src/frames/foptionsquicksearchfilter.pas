@@ -36,12 +36,15 @@ type
   TfrmOptionsQuickSearchFilter = class(TOptionsEditor)
     cbExactBeginning: TCheckBox;
     cbExactEnding: TCheckBox;
+    cgpOptions: TCheckGroup;
     gbExactNameMatch: TGroupBox;
     grpQuickSearchFilterKeys: TGroupBox;
     lblQuickFilter: TLabel;
     lblQuickSearch: TLabel;
     pnlQuickFilter: TPanel;
     pnlQuickSearch: TPanel;
+    rgpSearchCase: TRadioGroup;
+    rgpSearchItems: TRadioGroup;
     rbAltLetterQF: TRadioButton;
     rbAltLetterQS: TRadioButton;
     rbCtrlAltLetterQF: TRadioButton;
@@ -64,7 +67,10 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uLng;
+  uGlobs, uLng, fQuickSearch;
+
+const
+  OPTION_AUTOHIDE_POSITION = 0;
 
 { TfrmOptionsQuickSearchFilter }
 
@@ -118,8 +124,11 @@ begin
   else
     rbNoneQF.Checked := True;
 
-  cbExactBeginning.Checked := gQuickSearchMatchBeginning;
-  cbExactEnding.Checked := gQuickSearchMatchEnding;
+  cbExactBeginning.Checked := qsmBeginning in gQuickSearchOptions.Match;
+  cbExactEnding.Checked := qsmEnding in gQuickSearchOptions.Match;
+  rgpSearchItems.ItemIndex := Integer(gQuickSearchOptions.Items);
+  rgpSearchCase.ItemIndex := Integer(gQuickSearchOptions.SearchCase);
+  cgpOptions.Checked[OPTION_AUTOHIDE_POSITION] := gQuickFilterAutoHide;
 end;
 
 function TfrmOptionsQuickSearchFilter.Save: TOptionsEditorSaveFlags;
@@ -144,8 +153,19 @@ begin
   if rbLetterQF.Checked then
     gQuickFilterMode := [];
 
-  gQuickSearchMatchBeginning := cbExactBeginning.Checked;
-  gQuickSearchMatchEnding := cbExactEnding.Checked;
+  if cbExactBeginning.Checked then
+    Include(gQuickSearchOptions.Match, qsmBeginning)
+  else
+    Exclude(gQuickSearchOptions.Match, qsmBeginning);
+
+  if cbExactEnding.Checked then
+    Include(gQuickSearchOptions.Match, qsmEnding)
+  else
+    Exclude(gQuickSearchOptions.Match, qsmEnding);
+
+  gQuickSearchOptions.Items := TQuickSearchItems(rgpSearchItems.ItemIndex);
+  gQuickSearchOptions.SearchCase := TQuickSearchCase(rgpSearchCase.ItemIndex);
+  gQuickFilterAutoHide := cgpOptions.Checked[OPTION_AUTOHIDE_POSITION];
 end;
 
 initialization

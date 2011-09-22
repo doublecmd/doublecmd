@@ -28,7 +28,7 @@ uses
   Classes, Controls, Forms, uExts, uColorExt, Graphics, uClassesEx, uMultiArc,
   uColumns, uHotkeyManager, uActs, uSearchTemplate, uFileSourceOperationOptions,
   uWFXModule, uWCXModule, uWDXModule, uwlxmodule, udsxmodule, uXmlConfig,
-  uInfoToolTip;
+  uInfoToolTip, fQuickSearch;
 
 type
   { Log options }
@@ -232,10 +232,10 @@ var
   {  Quick Search page}
   gQuickSearch : Boolean;
   gQuickSearchMode : TShiftState;
-  gQuickSearchMatchBeginning,
-  gQuickSearchMatchEnding : Boolean;
   gQuickFilter : Boolean;
   gQuickFilterMode : TShiftState;
+  gQuickSearchOptions: TQuickSearchOptions;
+  gQuickFilterAutoHide: Boolean;
 
   { Misc page }
   gGridVertLine,
@@ -752,10 +752,12 @@ begin
   { Quick Search/Filter page }
   gQuickSearch := True;
   gQuickSearchMode := [ssCtrl, ssAlt];
-  gQuickSearchMatchBeginning := True;
-  gQuickSearchMatchEnding := True;
   gQuickFilter := False;
   gQuickFilterMode := [];
+  gQuickSearchOptions.Match := [qsmBeginning, qsmEnding];
+  gQuickSearchOptions.Items := qsiFilesAndDirectories;
+  gQuickSearchOptions.SearchCase := qscInsensitive;
+  gQuickFilterAutoHide := True;
 
   { Miscellaneous page }
   gGridVertLine := False;
@@ -1174,12 +1176,18 @@ begin
   gSaveCmdLineHistory := gIni.ReadBool('Configuration', 'SaveCmdLineHistory', True);
   gSaveFileMaskHistory := gIni.ReadBool('Configuration', 'SaveFileMaskHistory', True);
   { Quick Search page}
-  gQuickSearch := gIni.ReadBool('Configuration', 'QuickSearch', True);
+  gQuickSearch := gIni.ReadBool('Configuration', 'QuickSearch', gQuickSearch);
   gQuickSearchMode := TShiftState(gIni.ReadInteger('Configuration', 'QuickSearchMode', Integer(gQuickSearchMode)));
-  gQuickSearchMatchBeginning := gIni.ReadBool('Configuration', 'QuickSearchMatchBeginning', True);
-  gQuickSearchMatchEnding := gIni.ReadBool('Configuration', 'QuickSearchMatchEnding', True);
   gQuickFilter := gIni.ReadBool('Configuration', 'QuickFilter', gQuickFilter);
   gQuickFilterMode := TShiftState(gIni.ReadInteger('Configuration', 'QuickFilterMode', Integer(gQuickFilterMode)));
+  if gIni.ReadBool('Configuration', 'QuickSearchMatchBeginning', qsmBeginning in gQuickSearchOptions.Match) then
+    Include(gQuickSearchOptions.Match, qsmBeginning)
+  else
+    Exclude(gQuickSearchOptions.Match, qsmBeginning);
+  if gIni.ReadBool('Configuration', 'QuickSearchMatchEnding', qsmEnding in gQuickSearchOptions.Match) then
+    Include(gQuickSearchOptions.Match, qsmEnding)
+  else
+    Exclude(gQuickSearchOptions.Match, qsmEnding);
   { Misc page }
   gGridVertLine:= gIni.ReadBool('Configuration', 'GridVertLine', False);
   gGridHorzLine:= gIni.ReadBool('Configuration', 'GridHorzLine', False);
@@ -1344,8 +1352,8 @@ begin
   { Quick Search page}
   gIni.WriteBool('Configuration', 'QuickSearch', gQuickSearch);
   gIni.WriteInteger('Configuration', 'QuickSearchMode', Integer(gQuickSearchMode));
-  gIni.WriteBool('Configuration', 'QuickSearchMatchBeginning', gQuickSearchMatchBeginning);
-  gIni.WriteBool('Configuration', 'QuickSearchMatchEnding', gQuickSearchMatchEnding);
+  gIni.WriteBool('Configuration', 'QuickSearchMatchBeginning', qsmBeginning in gQuickSearchOptions.Match);
+  gIni.WriteBool('Configuration', 'QuickSearchMatchEnding', qsmEnding in gQuickSearchOptions.Match);
   gIni.WriteBool('Configuration', 'QuickFilter', gQuickFilter);
   gIni.WriteInteger('Configuration', 'QuickFilterMode', Integer(gQuickFilterMode));
   { Misc page }
@@ -1579,14 +1587,23 @@ begin
     begin
       gQuickSearch := GetAttr(Node, 'Enabled', gQuickSearch);
       gQuickSearchMode := TShiftState(GetValue(Node, 'Mode', Integer(gQuickSearchMode)));
-      gQuickSearchMatchBeginning := GetValue(Node, 'MatchBeginning', gQuickSearchMatchBeginning);
-      gQuickSearchMatchEnding := GetValue(Node, 'MatchEnding', gQuickSearchMatchEnding);
+      if GetValue(Node, 'MatchBeginning', qsmBeginning in gQuickSearchOptions.Match) then
+        Include(gQuickSearchOptions.Match, qsmBeginning)
+      else
+        Exclude(gQuickSearchOptions.Match, qsmBeginning);
+      if GetValue(Node, 'MatchEnding', qsmEnding in gQuickSearchOptions.Match) then
+        Include(gQuickSearchOptions.Match, qsmEnding)
+      else
+        Exclude(gQuickSearchOptions.Match, qsmEnding);
+      gQuickSearchOptions.SearchCase := TQuickSearchCase(GetValue(Node, 'Case', Integer(gQuickSearchOptions.SearchCase)));
+      gQuickSearchOptions.Items := TQuickSearchItems(GetValue(Node, 'Items', Integer(gQuickSearchOptions.Items)));
     end;
     Node := Root.FindNode('QuickFilter');
     if Assigned(Node) then
     begin
       gQuickFilter := GetAttr(Node, 'Enabled', gQuickFilter);
       gQuickFilterMode := TShiftState(GetValue(Node, 'Mode', Integer(gQuickFilterMode)));
+      gQuickFilterAutoHide := GetValue(Node, 'AutoHide', gQuickFilterAutoHide);
     end;
 
     { Miscellaneous page }
@@ -1838,11 +1855,14 @@ begin
     Node := FindNode(Root, 'QuickSearch', True);
     SetAttr(Node, 'Enabled', gQuickSearch);
     SetValue(Node, 'Mode', Integer(gQuickSearchMode));
-    SetValue(Node, 'MatchBeginning', gQuickSearchMatchBeginning);
-    SetValue(Node, 'MatchEnding', gQuickSearchMatchEnding);
+    SetValue(Node, 'MatchBeginning', qsmBeginning in gQuickSearchOptions.Match);
+    SetValue(Node, 'MatchEnding', qsmEnding in gQuickSearchOptions.Match);
+    SetValue(Node, 'Case', Integer(gQuickSearchOptions.SearchCase));
+    SetValue(Node, 'Items', Integer(gQuickSearchOptions.Items));
     Node := FindNode(Root, 'QuickFilter', True);
     SetAttr(Node, 'Enabled', gQuickFilter);
     SetValue(Node, 'Mode', Integer(gQuickFilterMode));
+    SetValue(Node, 'AutoHide', gQuickFilterAutoHide);
 
     { Misc page }
     Node := FindNode(Root, 'Miscellaneous', True);

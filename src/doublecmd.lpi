@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="140">
+    <Units Count="141">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1077,6 +1077,13 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWcxArchiveCalcStatisticsOperation"/>
       </Unit139>
+      <Unit140>
+        <Filename Value="frames\fquicksearch.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmQuickSearch"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fQuickSearch"/>
+      </Unit140>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

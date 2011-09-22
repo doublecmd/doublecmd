@@ -46,8 +46,9 @@ type
   TMask = class
   private
     FMask: TMaskString;
+    FCaseSensitive: Boolean;
   public
-    constructor Create(const AValue: String);
+    constructor Create(const AValue: String; CaseSensitive: Boolean = False);
 
     function Matches(const AFileName: String): Boolean;
   end;
@@ -76,16 +77,16 @@ type
     property Items[Index: Integer]: TMask read GetItem;
   end;
 
-function MatchesMask(const FileName, Mask: String): Boolean;
+function MatchesMask(const FileName, Mask: String; CaseSensitive: Boolean = False): Boolean;
 function MatchesMaskList(const FileName, Mask: String; Separator: Char = ';'): Boolean;
 
 implementation
 
-function MatchesMask(const FileName, Mask: String): Boolean;
+function MatchesMask(const FileName, Mask: String; CaseSensitive: Boolean = False): Boolean;
 var
   AMask: TMask;
 begin
-  AMask := TMask.Create(Mask);
+  AMask := TMask.Create(Mask, CaseSensitive);
   try
     Result := AMask.Matches(FileName);
   finally
@@ -107,7 +108,7 @@ end;
 
 { TMask }
 
-constructor TMask.Create(const AValue: String);
+constructor TMask.Create(const AValue: String; CaseSensitive: Boolean = False);
 var
   I: Integer;
   SkipAnyText: Boolean;
@@ -149,7 +150,10 @@ var
     with FMask.Chars[High(FMask.Chars)] do
     begin
       CharType := mcChar;
-      CharValue := UpCase(AValue[I]);
+      CharValue := AValue[I];
+
+      if not FCaseSensitive then
+        CharValue := upCase(CharValue);
     end;
 
     Inc(FMask.MinLength);
@@ -163,6 +167,8 @@ begin
   FMask.MinLength := 0;
   FMask.MaxLength := 0;
   SkipAnyText := False;
+
+  FCaseSensitive := CaseSensitive;
 
   I := 1;
   while I <= Length(AValue) do
@@ -233,7 +239,11 @@ begin
 
   if (L < FMask.MinLength) or (L > FMask.MaxLength) then Exit;
 
-  S := UpperCase(AFileName);
+  S := AFileName;
+
+  if not FCaseSensitive then
+    S := UpperCase(S);
+
   Result := MatchToEnd(0, 1);
 end;
 
