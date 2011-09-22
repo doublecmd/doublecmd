@@ -24,13 +24,13 @@
       <UseVersionInfo Value="True"/>
       <MinorVersionNr Value="5"/>
       <RevisionNr Value="5"/>
-      <StringTable ProductName="Double Commander" InternalName="DOUBLECMD" LegalCopyright="Copyright (C) 2006-2011  Koblov Alexander" ProductVersion="" FileDescription="Double Commander is a cross platform open source file manager with two panels side by side"/>
+      <StringTable FileDescription="Double Commander is a cross platform open source file manager with two panels side by side" InternalName="DOUBLECMD" LegalCopyright="Copyright (C) 2006-2011  Koblov Alexander" ProductName="Double Commander" ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="4">
       <Item1 Name="Debug" Default="True"/>
       <Item2 Name="Debug + HeapTrc">
         <CompilerOptions>
-          <Version Value="10"/>
+          <Version Value="9"/>
           <PathDelim Value="\"/>
           <Target>
             <Filename Value="..\doublecmd"/>
@@ -60,7 +60,6 @@
           <Linking>
             <Debugging>
               <GenerateDebugInfo Value="True"/>
-              <DebugInfoType Value="dsStabs"/>
               <UseHeaptrc Value="True"/>
             </Debugging>
           </Linking>
@@ -80,7 +79,7 @@
       </Item2>
       <Item3 Name="NoDebug Full Optimizations">
         <CompilerOptions>
-          <Version Value="10"/>
+          <Version Value="9"/>
           <PathDelim Value="\"/>
           <Target>
             <Filename Value="..\doublecmd"/>
@@ -106,7 +105,6 @@
           </CodeGeneration>
           <Linking>
             <Debugging>
-              <DebugInfoType Value="dsAuto"/>
               <UseLineInfoUnit Value="False"/>
             </Debugging>
           </Linking>
@@ -125,7 +123,7 @@
       </Item3>
       <Item4 Name="Nightly">
         <CompilerOptions>
-          <Version Value="10"/>
+          <Version Value="9"/>
           <PathDelim Value="\"/>
           <Target>
             <Filename Value="..\doublecmd"/>
@@ -152,9 +150,8 @@
           </CodeGeneration>
           <Linking>
             <Debugging>
-              <GenerateDebugInfo Value="True"/>
-              <DebugInfoType Value="dsDwarf2Set"/>
               <UseLineInfoUnit Value="False"/>
+              <GenerateDwarf Value="True"/>
             </Debugging>
           </Linking>
           <Other>
@@ -193,7 +190,7 @@
       </Item3>
       <Item4>
         <PackageName Value="KASComp"/>
-        <MinVersion Build="1" Major="1" Valid="True" Release="1"/>
+        <MinVersion Major="1" Release="1" Build="1" Valid="True"/>
       </Item4>
       <Item5>
         <PackageName Value="LCL"/>
@@ -1095,7 +1092,7 @@
     </Units>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="10"/>
+    <Version Value="9"/>
     <PathDelim Value="\"/>
     <Target>
       <Filename Value="..\doublecmd"/>
@@ -1125,7 +1122,6 @@
     <Linking>
       <Debugging>
         <GenerateDebugInfo Value="True"/>
-        <DebugInfoType Value="dsStabs"/>
       </Debugging>
     </Linking>
     <Other>
