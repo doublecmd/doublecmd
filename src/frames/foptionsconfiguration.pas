@@ -52,6 +52,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -91,6 +92,16 @@ begin
   chkSearchReplaceHistory.Enabled:= chkSaveConfiguration.Checked;
 end;
 
+class function TfrmOptionsConfiguration.GetIconIndex: Integer;
+begin
+  Result := 11;
+end;
+
+class function TfrmOptionsConfiguration.GetTitle: String;
+begin
+  Result := rsOptionsEditorConfiguration;
+end;
+
 procedure TfrmOptionsConfiguration.Init;
 begin
   if gpCmdLineCfgDir = '' then
@@ -107,11 +118,6 @@ begin
     lblCmdLineConfigDir.Visible := True;
     lblCmdLineConfigDir.Caption := lblCmdLineConfigDir.Caption + ' - [' + IncludeTrailingPathDelimiter(gpCmdLineCfgDir) + ']';
   end;
-end;
-
-class function TfrmOptionsConfiguration.GetTitle: String;
-begin
-  Result := rsOptionsEditorConfiguration;
 end;
 
 procedure TfrmOptionsConfiguration.Load;
@@ -138,9 +144,6 @@ begin
   gSaveCmdLineHistory := cbCmdLineHistory.Checked;
   gSaveFileMaskHistory := cbFileMaskHistory.Checked;
 end;
-
-initialization
-  RegisterOptionsEditor(optedConfiguration, TfrmOptionsConfiguration);
 
 end.
 

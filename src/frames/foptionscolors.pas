@@ -98,6 +98,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -445,6 +446,16 @@ begin
    end;
 end;
 
+class function TfrmOptionsColors.GetIconIndex: Integer;
+begin
+  Result := 21;
+end;
+
+class function TfrmOptionsColors.GetTitle: String;
+begin
+  Result := rsOptionsEditorColors;
+end;
+
 procedure TfrmOptionsColors.Init;
 var
   sCategoryName : String;
@@ -470,11 +481,6 @@ begin
         bbtnApplyCategory.Enabled := False;
       end;
   lbCategoriesClick(lbCategories);
-end;
-
-class function TfrmOptionsColors.GetTitle: String;
-begin
-  Result := rsOptionsEditorColors;
 end;
 
 procedure TfrmOptionsColors.Load;
@@ -503,9 +509,6 @@ begin
   gUseFrameCursor := cbbUseFrameCursor.Checked;
   Result := [];
 end;
-
-initialization
-  RegisterOptionsEditor(optedColors, TfrmOptionsColors);
 
 end.
 

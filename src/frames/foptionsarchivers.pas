@@ -85,6 +85,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -283,6 +284,16 @@ begin
     lbxMultiArc.ItemIndex:= 0;
 end;
 
+class function TfrmOptionsArchivers.GetIconIndex: Integer;
+begin
+  Result := 18;
+end;
+
+class function TfrmOptionsArchivers.GetTitle: String;
+begin
+  Result := rsOptionsEditorArchivers;
+end;
+
 procedure TfrmOptionsArchivers.Init;
 begin
   // Localize additional archiver commands.
@@ -299,11 +310,6 @@ begin
   stgArchiverCommands.Cells[0, stgArchiveFormMode] := rsOptArchiveFormMode;
 end;
 
-class function TfrmOptionsArchivers.GetTitle: String;
-begin
-  Result := rsOptionsEditorArchivers;
-end;
-
 procedure TfrmOptionsArchivers.Load;
 begin
   FillArchiverList;
@@ -313,9 +319,6 @@ function TfrmOptionsArchivers.Save: TOptionsEditorSaveFlags;
 begin
   Result := [];
 end;
-
-initialization
-  RegisterOptionsEditor(optedArchivers, TfrmOptionsArchivers);
 
 end.
 

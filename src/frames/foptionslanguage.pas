@@ -39,6 +39,7 @@ type
   private
     procedure FillLngListBox;
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -78,6 +79,11 @@ begin
     lngList.Selected[iIndex]:=True;
 end;
 
+class function TfrmOptionsLanguage.GetIconIndex: Integer;
+begin
+  Result := 0;
+end;
+
 class function TfrmOptionsLanguage.GetTitle: String;
 begin
   Result := rsOptionsEditorLanguage;
@@ -101,9 +107,6 @@ begin
     gPOFileName := SelectedPOFileName;
   end;
 end;
-
-initialization
-  RegisterOptionsEditor(optedLanguage, TfrmOptionsLanguage);
 
 end.
 

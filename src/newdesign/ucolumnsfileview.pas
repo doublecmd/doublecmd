@@ -2398,7 +2398,7 @@ begin
           end;
     1001: //All columns
           begin
-            Actions.cm_Options('Columns');
+            Actions.cm_Options('TfrmOptionsColumns');
             frmMain.ReLoadTabs(frmMain.LeftTabs);
             frmMain.ReLoadTabs(frmMain.RightTabs);
           end;

@@ -72,6 +72,7 @@ type
     procedure Init; override;
     procedure Done; override;
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -568,6 +569,16 @@ begin
     end;
 end;
 
+class function TfrmOptionsPlugins.GetIconIndex: Integer;
+begin
+  Result := 6;
+end;
+
+class function TfrmOptionsPlugins.GetTitle: String;
+begin
+  Result := rsOptionsEditorPlugins;
+end;
+
 procedure TfrmOptionsPlugins.Init;
 begin
   // Localize plugins.
@@ -591,11 +602,6 @@ begin
   FreeThenNil(tmpWDXPlugins);
   FreeThenNil(tmpWFXPlugins);
   FreeThenNil(tmpWLXPlugins);
-end;
-
-class function TfrmOptionsPlugins.GetTitle: String;
-begin
-  Result := rsOptionsEditorPlugins;
 end;
 
 procedure TfrmOptionsPlugins.Load;
@@ -630,9 +636,6 @@ begin
   gWLXPlugins.Assign(tmpWLXPlugins);
   Result := [];
 end;
-
-initialization
-  RegisterOptionsEditor(optedPlugins, TfrmOptionsPlugins);
 
 end.
 

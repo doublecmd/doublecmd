@@ -46,6 +46,7 @@ type
   private
     procedure FillIgnoreList(bWithFullPath: Boolean);
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -95,6 +96,11 @@ begin
   end;
 end;
 
+class function TfrmOptionsIgnoreList.GetIconIndex: Integer;
+begin
+  Result := 17;
+end;
+
 class function TfrmOptionsIgnoreList.GetTitle: String;
 begin
   Result := rsOptionsEditorIgnoreList;
@@ -116,9 +122,6 @@ begin
   gIgnoreListFile:= fneSaveIn.FileName;
   glsIgnoreList.Assign(memIgnoreList.Lines);
 end;
-
-initialization
-  RegisterOptionsEditor(optedIgnoreList, TfrmOptionsIgnoreList);
 
 end.
 

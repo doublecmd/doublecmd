@@ -48,6 +48,7 @@ type
     gbLogFileOp: TGroupBox;
     gbLogFileStatus: TGroupBox;
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -61,6 +62,11 @@ uses
   uGlobs, uLng;
 
 { TfrmOptionsLog }
+
+class function TfrmOptionsLog.GetIconIndex: Integer;
+begin
+  Result := 10;
+end;
 
 class function TfrmOptionsLog.GetTitle: String;
 begin
@@ -105,9 +111,6 @@ begin
   if cbLogInfo.Checked then
     Include(gLogOptions, log_info);
 end;
-
-initialization
-  RegisterOptionsEditor(optedLog, TfrmOptionsLog);
 
 end.
 

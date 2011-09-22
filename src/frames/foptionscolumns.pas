@@ -50,6 +50,7 @@ type
   private
     procedure FillColumnsList;
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -132,6 +133,11 @@ begin
    end;
 end;
 
+class function TfrmOptionsColumns.GetIconIndex: Integer;
+begin
+  Result := 13;
+end;
+
 class function TfrmOptionsColumns.GetTitle: String;
 begin
   Result := rsOptionsEditorColumns;
@@ -146,9 +152,6 @@ function TfrmOptionsColumns.Save: TOptionsEditorSaveFlags;
 begin
   Result := [];
 end;
-
-initialization
-  RegisterOptionsEditor(optedColumns, TfrmOptionsColumns);
 
 end.
 

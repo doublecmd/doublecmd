@@ -20,7 +20,7 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
 
-unit fOptionsBehaviour;
+unit fOptionsBehavior;
 
 {$mode objfpc}{$H+}
 
@@ -74,6 +74,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -107,15 +108,20 @@ begin
   lblDateTimeExample.Caption:= FormatDateTime(cbDateTimeFormat.Text, Now);
 end;
 
-procedure TfrmOptionsBehavior.Init;
+class function TfrmOptionsBehavior.GetIconIndex: Integer;
 begin
-  ParseLineToList(rsOptMouseSelectionButton, cbMouseMode.Items);
-  ParseLineToList(rsOptAutoSizeColumn, cmbAutoSizeColumn.Items);
+  Result := 1;
 end;
 
 class function TfrmOptionsBehavior.GetTitle: String;
 begin
   Result := rsOptionsEditorBehavior;
+end;
+
+procedure TfrmOptionsBehavior.Init;
+begin
+  ParseLineToList(rsOptMouseSelectionButton, cbMouseMode.Items);
+  ParseLineToList(rsOptAutoSizeColumn, cmbAutoSizeColumn.Items);
 end;
 
 procedure TfrmOptionsBehavior.Load;
@@ -189,9 +195,6 @@ begin
   gAutoFillColumns:= chkAutoFillColumns.Checked;
   gAutoSizeColumn:= cmbAutoSizeColumn.ItemIndex;
 end;
-
-initialization
-  RegisterOptionsEditor(optedBehaviours, TfrmOptionsBehavior);
 
 end.
 
