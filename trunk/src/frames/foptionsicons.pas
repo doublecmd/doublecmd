@@ -47,6 +47,7 @@ type
     procedure cbIconsSizeChange(Sender: TObject);
     procedure rbIconsShowNoneChange(Sender: TObject);
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -79,6 +80,11 @@ end;
 procedure TfrmOptionsIcons.rbIconsShowNoneChange(Sender: TObject);
 begin
   cbIconsSize.Enabled := not rbIconsShowNone.Checked;
+end;
+
+class function TfrmOptionsIcons.GetIconIndex: Integer;
+begin
+  Result := 16;
 end;
 
 class function TfrmOptionsIcons.GetTitle: String;
@@ -133,9 +139,6 @@ begin
   gShowIconsNew := SelectedShowIcons;
   gIconOverlays := cbIconsShowOverlay.Checked;
 end;
-
-initialization
-  RegisterOptionsEditor(optedIcons, TfrmOptionsIcons);
 
 end.
 

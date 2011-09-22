@@ -48,6 +48,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -65,6 +66,11 @@ uses
 procedure TfrmOptionsMisc.Init;
 begin
   ParseLineToList(rsOptSortMethod, cbSortMethod.Items);
+end;
+
+class function TfrmOptionsMisc.GetIconIndex: Integer;
+begin
+  Result := 14;
 end;
 
 class function TfrmOptionsMisc.GetTitle: String;
@@ -95,9 +101,6 @@ begin
   gSortCaseSensitive:= cbSortCaseSensitive.Checked;
   gSortNatural:= (cbSortMethod.ItemIndex = 1);
 end;
-
-initialization
-  RegisterOptionsEditor(optedMisc, TfrmOptionsMisc);
 
 end.
 

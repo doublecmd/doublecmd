@@ -54,6 +54,7 @@ type
     rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -67,6 +68,11 @@ uses
   uGlobs, uLng;
 
 { TfrmOptionsFileOperations }
+
+class function TfrmOptionsFileOperations.GetIconIndex: Integer;
+begin
+  Result := 8;
+end;
 
 class function TfrmOptionsFileOperations.GetTitle: String;
 begin
@@ -106,9 +112,6 @@ begin
   gSaveThumb              := cbSaveThumbnails.Checked;
   gRenameSelOnlyName      := cbRenameSelOnlyName.Checked;
 end;
-
-initialization
-  RegisterOptionsEditor(optedFileOperations, TfrmOptionsFileOperations);
 
 end.
 

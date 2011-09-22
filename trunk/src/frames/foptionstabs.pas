@@ -53,6 +53,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -72,6 +73,11 @@ procedure TfrmOptionsTabs.Init;
 begin
   ParseLineToList(rsOptTabsPosition, cmbTabsPosition.Items);
   FPageControl := TPageControl.Create(Self);
+end;
+
+class function TfrmOptionsTabs.GetIconIndex: Integer;
+begin
+  Result := 9;
 end;
 
 class function TfrmOptionsTabs.GetTitle: String;
@@ -133,9 +139,6 @@ begin
     1: gDirTabPosition := tbpos_bottom;
   end;
 end;
-
-initialization
-  RegisterOptionsEditor(optedFolderTabs, TfrmOptionsTabs);
 
 end.
 

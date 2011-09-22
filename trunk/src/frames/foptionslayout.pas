@@ -59,6 +59,7 @@ type
     procedure cbShowDiskPanelChange(Sender: TObject);
     procedure cbTermWindowChange(Sender: TObject);
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -92,6 +93,11 @@ begin
       cbShowCmdLine.Checked:= Boolean(cbShowCmdLine.Tag);
       cbShowCmdLine.Enabled:= True;
     end;
+end;
+
+class function TfrmOptionsLayout.GetIconIndex: Integer;
+begin
+  Result := 7;
 end;
 
 class function TfrmOptionsLayout.GetTitle: String;
@@ -149,9 +155,6 @@ begin
   gProgInMenuBar := cbProgInMenuBar.Checked;
   gPanelOfOp := cbPanelOfOperations.Checked;
 end;
-
-initialization
-  RegisterOptionsEditor(optedLayout, TfrmOptionsLayout);
 
 end.
 

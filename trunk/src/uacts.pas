@@ -1911,23 +1911,15 @@ begin
   end;
 end;
 
-// Parameter is name of TOptionsEditorType enum without the prefix.
+// Parameter is name of TOptionsEditorClass.
 procedure TActs.cm_Options(param:string);
 var
-  EditorType: TOptionsEditorType;
   frmOptions: TfrmOptions = nil;
 begin
-  param := 'opted' + param;
-
-  for EditorType := Low(TOptionsEditorType) to High(TOptionsEditorType) do
-    if GetEnumName(TypeInfo(TOptionsEditorType), Integer(EditorType)) = param then
-    begin
-      frmOptions := TfrmOptions.Create(Application, EditorType);
-      Break;
-    end;
-
-  if not Assigned(frmOptions) then
-    frmOptions := TfrmOptions.Create(Application);
+  if param = '' then
+    frmOptions := TfrmOptions.Create(Application)
+  else
+    frmOptions := TfrmOptions.Create(Application, param);
 
   try
     frmOptions.ShowModal;

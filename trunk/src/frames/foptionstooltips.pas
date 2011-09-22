@@ -68,6 +68,7 @@ type
     procedure Init; override;
     procedure Done; override;
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -145,6 +146,16 @@ begin
   edtFieldsList.Text:= EmptyStr;
 end;
 
+class function TfrmOptionsToolTips.GetIconIndex: Integer;
+begin
+  Result := 19;
+end;
+
+class function TfrmOptionsToolTips.GetTitle: String;
+begin
+  Result := rsOptionsEditorTooltips;
+end;
+
 procedure TfrmOptionsToolTips.Init;
 begin
   FFileInfoToolTip:= TFileInfoToolTip.Create;
@@ -153,11 +164,6 @@ end;
 procedure TfrmOptionsToolTips.Done;
 begin
   FreeThenNil(FFileInfoToolTip);
-end;
-
-class function TfrmOptionsToolTips.GetTitle: String;
-begin
-  Result := rsOptionsEditorTooltips;
 end;
 
 procedure TfrmOptionsToolTips.btnDeleteFieldsClick(Sender: TObject);
@@ -238,9 +244,6 @@ begin
   gFileInfoToolTip.Assign(FFileInfoToolTip);
   Result := [];
 end;
-
-initialization
-  RegisterOptionsEditor(optedTooltips, TfrmOptionsToolTips);
 
 end.
 

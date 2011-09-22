@@ -100,6 +100,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -684,17 +685,22 @@ begin
   stgCommands.AutoSizeColumns;
 end;
 
+class function TfrmOptionsHotkeys.GetIconIndex: Integer;
+begin
+  Result := 5;
+end;
+
+class function TfrmOptionsHotkeys.GetTitle: String;
+begin
+  Result := rsOptionsEditorHotKeys;
+end;
+
 procedure TfrmOptionsHotkeys.Init;
 begin
   // Localize Hotkeys.
   // stgCommands is localized in FillCommandList.
   stgHotkeys.Columns.Items[0].Title.Caption := rsOptHotkeysHotkey;
   stgHotkeys.Columns.Items[1].Title.Caption := rsOptHotkeysParameters;
-end;
-
-class function TfrmOptionsHotkeys.GetTitle: String;
-begin
-  Result := rsOptionsEditorHotKeys;
 end;
 
 procedure TfrmOptionsHotkeys.Load;
@@ -710,9 +716,6 @@ begin
   if lbSCFilesList.ItemIndex >= 0 then
     gNameSCFile := lbSCFilesList.Items[lbSCFilesList.ItemIndex];
 end;
-
-initialization
-  RegisterOptionsEditor(optedHotKeys, TfrmOptionsHotkeys);
 
 end.
 

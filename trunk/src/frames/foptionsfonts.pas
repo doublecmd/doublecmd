@@ -67,6 +67,7 @@ type
     procedure edtLogFontSizeChange(Sender: TObject);
     procedure edtViewerBookFontSizeChange(Sender: TObject);
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -171,6 +172,11 @@ begin
   edtViewerBookFont.Font.Size := edtViewerBookFontSize.Value;
 end;
 
+class function TfrmOptionsFonts.GetIconIndex: Integer;
+begin
+  Result := 3;
+end;
+
 class function TfrmOptionsFonts.GetTitle: String;
 begin
   Result := rsOptionsEditorFonts;
@@ -236,9 +242,6 @@ begin
     Style := edtViewerBookFont.Font.Style;
   end;
 end;
-
-initialization
-  RegisterOptionsEditor(optedFonts, TfrmOptionsFonts);
 
 end.
 

@@ -8,31 +8,10 @@ uses
   Classes, SysUtils, Forms, fgl;
 
 type
-
-  TOptionsEditorType =
-    (optedLanguage = 0,
-     optedBehaviours,
-     optedTools,
-     optedFonts,
-     optedColors,
-     optedHotKeys,
-     optedPlugins,
-     optedLayout,
-     optedFileOperations,
-     optedFolderTabs,
-     optedLog,
-     optedConfiguration,
-     optedQuickSearchFilter,
-     optedColumns,
-     optedMisc,
-     optedAutoRefresh,
-     optedIcons,
-     optedIgnoreList,
-     optedArchivers,
-     optedTooltips);
-
   TOptionsEditorSaveFlag = (oesfNeedsRestart);
   TOptionsEditorSaveFlags = set of TOptionsEditorSaveFlag;
+
+  TOptionsEditorClassList = class;
 
   { TOptionsEditor }
 
@@ -44,9 +23,11 @@ type
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
 
+    class function GetIconIndex: Integer; virtual; abstract;
     class function GetTitle: String; virtual; abstract;
-    procedure Load; virtual; abstract;
-    function Save: TOptionsEditorSaveFlags; virtual; abstract;
+
+    procedure Load; virtual;
+    function Save: TOptionsEditorSaveFlags; virtual;
   end;
 
   { TOptionsEditorClass }
@@ -56,13 +37,17 @@ type
   { TOptionsEditorRec }
 
   TOptionsEditorRec = class
-    OptionsEditorType: TOptionsEditorType;
-    OptionsEditorClass: TOptionsEditorClass;
+  private
+    FChildren: TOptionsEditorClassList;
+    FEditorClass: TOptionsEditorClass;
+    function GetChildren: TOptionsEditorClassList;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    function HasChildren: Boolean;
+    property Children: TOptionsEditorClassList read GetChildren;
+    property EditorClass: TOptionsEditorClass read FEditorClass write FEditorClass;
   end;
-
-  { TOptionsEditorList }
-
-  TOptionsEditorList = specialize TFPGList<TOptionsEditor>;
 
   { TBaseOptionsEditorClassList }
 
@@ -72,43 +57,81 @@ type
 
   TOptionsEditorClassList = class(TBaseOptionsEditorClassList)
   public
-    procedure Sort; overload;
+    function Add(Editor: TOptionsEditorClass): TOptionsEditorRec; overload;
   end;
-
-  procedure RegisterOptionsEditor(AEditorType: TOptionsEditorType; AEditorClass: TOptionsEditorClass);
 
 var
   OptionsEditorClassList: TOptionsEditorClassList = nil;
 
 implementation
 
-function CompareOptionsEditor(const Item1, Item2: TOptionsEditorRec): Integer;
+uses
+  fOptionsArchivers,
+  fOptionsAutoRefresh,
+  fOptionsBehavior,
+  fOptionsColors,
+  fOptionsColumns,
+  fOptionsConfiguration,
+  fOptionsFileOperations,
+  fOptionsFonts,
+  fOptionsGroups,
+  fOptionsHotkeys,
+  fOptionsIcons,
+  fOptionsIgnoreList,
+  fOptionsLanguage,
+  fOptionsLayout,
+  fOptionsLog,
+  fOptionsMisc,
+  fOptionsPlugins,
+  fOptionsQuickSearchFilter,
+  fOptionsTabs,
+  fOptionsTools,
+  fOptionsToolTips;
+
+{ TOptionsEditorRec }
+
+function TOptionsEditorRec.GetChildren: TOptionsEditorClassList;
 begin
-  if Item1.OptionsEditorType < Item2.OptionsEditorType then
-    Result := -1
-  else if Item1.OptionsEditorType > Item2.OptionsEditorType then
-    Result := 1
-  else
-    Result := 0;
+  if not Assigned(FChildren) then
+    FChildren := TOptionsEditorClassList.Create;
+  Result := FChildren;
+end;
+
+constructor TOptionsEditorRec.Create;
+begin
+  FChildren := nil;
+end;
+
+destructor TOptionsEditorRec.Destroy;
+begin
+  inherited Destroy;
+  FreeAndNil(FChildren);
+end;
+
+function TOptionsEditorRec.HasChildren: Boolean;
+begin
+  Result := Assigned(FChildren) and (FChildren.Count > 0);
 end;
 
 { TOptionsEditorClassList }
 
-procedure TOptionsEditorClassList.Sort;
+function TOptionsEditorClassList.Add(Editor: TOptionsEditorClass): TOptionsEditorRec;
 begin
-  Sort(@CompareOptionsEditor);
+  Result := TOptionsEditorRec.Create;
+  Add(Result);
+  Result.EditorClass:= Editor;
 end;
 
 { TOptionsEditor }
 
 procedure TOptionsEditor.Init;
 begin
-
+  // Empty.
 end;
 
 procedure TOptionsEditor.Done;
 begin
-
+  // Empty.
 end;
 
 constructor TOptionsEditor.Create(TheOwner: TComponent);
@@ -123,19 +146,47 @@ begin
   inherited Destroy;
 end;
 
-procedure RegisterOptionsEditor(AEditorType: TOptionsEditorType; AEditorClass: TOptionsEditorClass);
-var
-  OptionsEditorRec: TOptionsEditorRec;
+procedure TOptionsEditor.Load;
 begin
-  OptionsEditorRec:= TOptionsEditorRec.Create;
-  OptionsEditorRec.OptionsEditorType:= AEditorType;
-  OptionsEditorRec.OptionsEditorClass:= AEditorClass;
-  OptionsEditorClassList.Add(OptionsEditorRec);
-  OptionsEditorClassList.Sort;
+  // Empty.
+end;
+
+function TOptionsEditor.Save: TOptionsEditorSaveFlags;
+begin
+  Result := [];
+end;
+
+procedure MakeEditorsClassList;
+var
+  Main: TOptionsEditorClassList absolute OptionsEditorClassList;
+  Colors: TOptionsEditorRec;
+begin
+  Main.Add(TfrmOptionsLanguage);
+  Main.Add(TfrmOptionsBehavior);
+  Main.Add(TfrmOptionsTools);
+  Main.Add(TfrmOptionsFonts);
+  Colors := Main.Add(TOptionsColorsGroup);
+  Colors.Children.Add(TfrmOptionsColors);
+  Main.Add(TfrmOptionsHotkeys);
+  Main.Add(TfrmOptionsPlugins);
+  Main.Add(TfrmOptionsLayout);
+  Main.Add(TfrmOptionsFileOperations);
+  Main.Add(TfrmOptionsTabs);
+  Main.Add(TfrmOptionsLog);
+  Main.Add(TfrmOptionsConfiguration);
+  Main.Add(TfrmOptionsQuickSearchFilter);
+  Main.Add(TfrmOptionsColumns);
+  Main.Add(TfrmOptionsMisc);
+  Main.Add(TfrmOptionsAutoRefresh);
+  Main.Add(TfrmOptionsIcons);
+  Main.Add(TfrmOptionsIgnoreList);
+  Main.Add(TfrmOptionsArchivers);
+  Main.Add(TfrmOptionsToolTips);
 end;
 
 initialization
   OptionsEditorClassList:= TOptionsEditorClassList.Create;
+  MakeEditorsClassList;
 
 finalization
   if Assigned(OptionsEditorClassList) then

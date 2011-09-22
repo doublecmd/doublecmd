@@ -57,6 +57,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -84,6 +85,16 @@ begin
   rbLetterQS.Enabled        := not rbLetterQF.Checked;
 end;
 
+class function TfrmOptionsQuickSearchFilter.GetIconIndex: Integer;
+begin
+  Result := 12;
+end;
+
+class function TfrmOptionsQuickSearchFilter.GetTitle: String;
+begin
+  Result := rsOptionsEditorQuickSearch;
+end;
+
 procedure TfrmOptionsQuickSearchFilter.Init;
 begin
   // Set QuickFilter radio buttons captions same as QuickSearch.
@@ -91,11 +102,6 @@ begin
   rbAltLetterQF.Caption     := rbAltLetterQS.Caption;
   rbLetterQF.Caption        := rbLetterQS.Caption;
   rbNoneQF.Caption          := rbNoneQS.Caption;
-end;
-
-class function TfrmOptionsQuickSearchFilter.GetTitle: String;
-begin
-  Result := rsOptionsEditorQuickSearch;
 end;
 
 procedure TfrmOptionsQuickSearchFilter.Load;
@@ -167,9 +173,6 @@ begin
   gQuickSearchOptions.SearchCase := TQuickSearchCase(rgpSearchCase.ItemIndex);
   gQuickFilterAutoHide := cgpOptions.Checked[OPTION_AUTOHIDE_POSITION];
 end;
-
-initialization
-  RegisterOptionsEditor(optedQuickSearchFilter, TfrmOptionsQuickSearchFilter);
 
 end.
 

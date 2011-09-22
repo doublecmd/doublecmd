@@ -39,7 +39,6 @@ type
   { TOptionsEditorView }
 
   TOptionsEditorView = class
-    EditorType: TOptionsEditorType;
     EditorClass: TOptionsEditorClass;
     Instance: TOptionsEditor;
     TreeNode: TTreeNode;
@@ -50,13 +49,13 @@ type
   { TfrmOptions }
 
   TfrmOptions = class(TForm)
+    OptionsEditorsImageList: TImageList;
     Panel1: TPanel;
     Panel3: TPanel;
     pnlCaption: TPanel;
     btnOK: TBitBtn;
     btnApply: TBitBtn;
     btnCancel: TBitBtn;
-    ilTreeView: TImageList;
     tvTreeView: TTreeView;
     splOptionsSplitter: TSplitter;
     procedure FormCreate(Sender: TObject);
@@ -68,10 +67,11 @@ type
     FOptionsEditorList: TOptionsEditorViews;
     FOldEditor: TOptionsEditorView;
     procedure CreateOptionsEditorList;
-    procedure SelectEditor(EditorType: TOptionsEditorType);
+    procedure SelectEditor(EditorClassName: String);
   public
     constructor Create(TheOwner: TComponent); override;
-    constructor Create(TheOwner: TComponent; EditorType: TOptionsEditorType); overload;
+    constructor Create(TheOwner: TComponent; EditorClass: TOptionsEditorClass); overload;
+    constructor Create(TheOwner: TComponent; EditorClassName: String); overload;
     procedure LoadConfig;
     procedure SaveConfig;
   end;
@@ -81,17 +81,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, LCLVersion, uLng, fMain,
-  fOptionsPlugins, fOptionsToolTips, fOptionsColors, fOptionsLanguage,
-  fOptionsBehaviour, fOptionsTools, fOptionsHotkeys, fOptionsLayout,
-  fOptionsFonts, fOptionsFileOperations, fOptionsQuickSearchFilter,
-  fOptionsTabs, fOptionsLog, fOptionsConfiguration, fOptionsColumns,
-  fOptionsMisc, fOptionsAutoRefresh, fOptionsIcons, fOptionsIgnoreList,
-  fOptionsArchivers;
-
-const
-  TOptionsEditorsIcons: array[TOptionsEditorType] of Integer =
-    (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
+  LCLProc, uLng, fMain;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
@@ -121,47 +111,51 @@ begin
 end;
 
 procedure TfrmOptions.CreateOptionsEditorList;
-var
-  I: LongInt;
-  aOptionsEditor: TOptionsEditor;
-  aOptionsEditorClass: TOptionsEditorClass;
-  aOptionsEditorView: TOptionsEditorView;
-  TreeNode: TTreeNode;
-  IconIndex: Integer;
+  procedure AddEditors(EditorClassList: TOptionsEditorClassList; RootNode: TTreeNode);
+  var
+    I: LongInt;
+    aOptionsEditorClass: TOptionsEditorClass;
+    aOptionsEditorView: TOptionsEditorView;
+    TreeNode: TTreeNode;
+    IconIndex: Integer;
+  begin
+    for I:= 0 to EditorClassList.Count - 1 do
+    begin
+      aOptionsEditorClass := EditorClassList[I].EditorClass;
+
+      aOptionsEditorView := TOptionsEditorView.Create;
+      aOptionsEditorView.EditorClass := aOptionsEditorClass;
+      aOptionsEditorView.Instance    := nil;
+      FOptionsEditorList.Add(aOptionsEditorView);
+
+      TreeNode := tvTreeView.Items.AddChild(RootNode, aOptionsEditorClass.GetTitle);
+      if Assigned(TreeNode) then
+      begin
+        IconIndex := aOptionsEditorClass.GetIconIndex;
+        TreeNode.ImageIndex    := IconIndex;
+        TreeNode.SelectedIndex := IconIndex;
+        TreeNode.StateIndex    := IconIndex;
+        TreeNode.Data          := aOptionsEditorView;
+      end;
+
+      aOptionsEditorView.TreeNode := TreeNode;
+
+      if EditorClassList[I].HasChildren then
+        AddEditors(EditorClassList[I].Children, TreeNode);
+    end;
+  end;
 begin
   FOptionsEditorList:= TOptionsEditorViews.Create;
-  for I:= 0 to OptionsEditorClassList.Count - 1 do
-  begin
-    aOptionsEditorClass := OptionsEditorClassList[I].OptionsEditorClass;
-
-    aOptionsEditorView := TOptionsEditorView.Create;
-    aOptionsEditorView.EditorClass := aOptionsEditorClass;
-    aOptionsEditorView.EditorType  := OptionsEditorClassList[I].OptionsEditorType;
-    aOptionsEditorView.Instance    := nil;
-
-    FOptionsEditorList.Add(aOptionsEditorView);
-
-    TreeNode := tvTreeView.Items.Add(nil, aOptionsEditorClass.GetTitle);
-    if Assigned(TreeNode) then
-    begin
-      IconIndex := TOptionsEditorsIcons[OptionsEditorClassList[I].OptionsEditorType];
-      TreeNode.ImageIndex    := IconIndex;
-      TreeNode.SelectedIndex := IconIndex;
-      TreeNode.StateIndex    := IconIndex;
-      TreeNode.Data          := aOptionsEditorView;
-    end;
-
-    aOptionsEditorView.TreeNode := TreeNode;
-  end;
+  AddEditors(OptionsEditorClassList, nil);
 end;
 
-procedure TfrmOptions.SelectEditor(EditorType: TOptionsEditorType);
+procedure TfrmOptions.SelectEditor(EditorClassName: String);
 var
   I: Integer;
 begin
   for I := 0 to FOptionsEditorList.Count - 1 do
   begin
-    if (FOptionsEditorList[I].EditorType = EditorType) then
+    if (FOptionsEditorList[I].EditorClass.ClassName = EditorClassName) then
       if Assigned(FOptionsEditorList[I].TreeNode) then
       begin
         FOptionsEditorList[I].TreeNode.Selected := True;
@@ -172,15 +166,26 @@ end;
 
 constructor TfrmOptions.Create(TheOwner: TComponent);
 begin
-  Create(TheOwner, Low(TOptionsEditorType)); // Select first editor.
+  if OptionsEditorClassList.Count > 0 then
+    Create(TheOwner, OptionsEditorClassList[0].EditorClass) // Select first editor.
+  else
+    Create(TheOwner, nil);
 end;
 
-constructor TfrmOptions.Create(TheOwner: TComponent; EditorType: TOptionsEditorType);
+constructor TfrmOptions.Create(TheOwner: TComponent; EditorClass: TOptionsEditorClass);
+begin
+  if Assigned(EditorClass) then
+    Create(TheOwner, EditorClass.ClassName)
+  else
+    Create(TheOwner, '');
+end;
+
+constructor TfrmOptions.Create(TheOwner: TComponent; EditorClassName: String);
 begin
   FOldEditor := nil;
   inherited Create(TheOwner);
   CreateOptionsEditorList;
-  SelectEditor(EditorType);
+  SelectEditor(EditorClassName);
 end;
 
 procedure TfrmOptions.tvTreeViewChange(Sender: TObject; Node: TTreeNode);
@@ -194,16 +199,21 @@ begin
     if Assigned(FOldEditor) and Assigned(FOldEditor.Instance) then
       FOldEditor.Instance.Visible := False;
 
-    if not Assigned(SelectedEditorView.Instance) then
+    // Don't create editors for groups, they don't show anything anyway.
+    if not Assigned(SelectedEditorView.Instance) and not Node.HasChildren then
     begin
-      SelectedEditorView.Instance := SelectedEditorView.EditorClass.Create(Self);
-      SelectedEditorView.Instance.Align   := alClient;
-      SelectedEditorView.Instance.Visible := True;
-      SelectedEditorView.Instance.Parent  := Panel3;
-      SelectedEditorView.Instance.Load;
+      if Assigned(SelectedEditorView.EditorClass) then
+      begin
+        SelectedEditorView.Instance := SelectedEditorView.EditorClass.Create(Self);
+        SelectedEditorView.Instance.Align   := alClient;
+        SelectedEditorView.Instance.Visible := True;
+        SelectedEditorView.Instance.Parent  := Panel3;
+        SelectedEditorView.Instance.Load;
+      end;
     end;
 
-    SelectedEditorView.Instance.Visible := True;
+    if Assigned(SelectedEditorView.Instance) then
+      SelectedEditorView.Instance.Visible := True;
 
     FOldEditor := SelectedEditorView;
 

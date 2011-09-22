@@ -75,6 +75,7 @@ type
   protected
     procedure Init; override;
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -248,6 +249,16 @@ begin
   gbViewerBookMode.Visible := (ExtTool = etViewer);
 end;
 
+class function TfrmOptionsTools.GetIconIndex: Integer;
+begin
+  Result := 2;
+end;
+
+class function TfrmOptionsTools.GetTitle: String;
+begin
+  Result := rsOptionsEditorTools;
+end;
+
 procedure TfrmOptionsTools.Init;
 begin
   FUpdatingTools := False;
@@ -266,11 +277,6 @@ begin
   FUpdatingTools := False;
 end;
 
-class function TfrmOptionsTools.GetTitle: String;
-begin
-  Result := rsOptionsEditorTools;
-end;
-
 procedure TfrmOptionsTools.Load;
 begin
   tmpExternalTools := gExternalTools;
@@ -287,9 +293,6 @@ begin
   gBookBackgroundColor := cbBackgroundColorViewerBook.Selected;
   gBookFontColor := cbFontColorViewerBook.Selected;
 end;
-
-initialization
-  RegisterOptionsEditor(optedTools, TfrmOptionsTools);
 
 end.
 

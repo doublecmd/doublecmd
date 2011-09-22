@@ -44,9 +44,8 @@ type
     gbAutoRefreshEnable: TGroupBox;
     procedure cbWatchExcludeDirsChange(Sender: TObject);
     procedure OnAutoRefreshOptionChanged(Sender: TObject);
-  private
-    { private declarations }
   public
+    class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
@@ -70,6 +69,11 @@ procedure TfrmOptionsAutoRefresh.OnAutoRefreshOptionChanged(Sender: TObject);
 begin
   gbAutoRefreshDisable.Enabled := cbWatchFileNameChange.Checked or
                                   cbWatchAttributesChange.Checked;
+end;
+
+class function TfrmOptionsAutoRefresh.GetIconIndex: Integer;
+begin
+  Result := 15;
 end;
 
 class function TfrmOptionsAutoRefresh.GetTitle: String;
@@ -103,9 +107,6 @@ begin
     Include(gWatchDirs, watch_exclude_dirs);
   gWatchDirsExclude:= edtWatchExcludeDirs.Text;
 end;
-
-initialization
-  RegisterOptionsEditor(optedAutoRefresh, TfrmOptionsAutoRefresh);
 
 end.
 
