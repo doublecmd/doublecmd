@@ -71,7 +71,7 @@ procedure TfrmOptionsConfiguration.btnConfigApplyClick(Sender: TObject);
 begin
   gConfig.Load; // force reloading config from file
   LoadGlobs;
-  //TODO: Options.LoadConfig;
+  OptionsDialog.LoadSettings;
   btnConfigApply.Enabled:= False;
 end;
 
