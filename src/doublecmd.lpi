@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="142">
+    <Units Count="143">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -905,11 +905,11 @@
         <UnitName Value="fOptionsPlugins"/>
       </Unit112>
       <Unit113>
-        <Filename Value="frames\foptionscolors.pas"/>
+        <Filename Value="frames\foptionsfiletypescolors.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmOptionsColors"/>
+        <ComponentName Value="frmOptionsFileTypesColors"/>
         <ResourceBaseClass Value="Frame"/>
-        <UnitName Value="fOptionsColors"/>
+        <UnitName Value="fOptionsFileTypesColors"/>
       </Unit113>
       <Unit114>
         <Filename Value="platform\utarwriter.pas"/>
@@ -1089,6 +1089,13 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="fOptionsGroups"/>
       </Unit141>
+      <Unit142>
+        <Filename Value="frames\foptionsfilepanelscolors.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsFilePanelsColors"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsFilePanelsColors"/>
+      </Unit142>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

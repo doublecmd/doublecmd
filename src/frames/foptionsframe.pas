@@ -69,10 +69,11 @@ uses
   fOptionsArchivers,
   fOptionsAutoRefresh,
   fOptionsBehavior,
-  fOptionsColors,
   fOptionsColumns,
   fOptionsConfiguration,
   fOptionsFileOperations,
+  fOptionsFilePanelsColors,
+  fOptionsFileTypesColors,
   fOptionsFonts,
   fOptionsGroups,
   fOptionsHotkeys,
@@ -166,7 +167,8 @@ begin
   Main.Add(TfrmOptionsTools);
   Main.Add(TfrmOptionsFonts);
   Colors := Main.Add(TOptionsColorsGroup);
-  Colors.Children.Add(TfrmOptionsColors);
+  Colors.Children.Add(TfrmOptionsFilePanelsColors);
+  Colors.Children.Add(TfrmOptionsFileTypesColors);
   Main.Add(TfrmOptionsHotkeys);
   Main.Add(TfrmOptionsPlugins);
   Main.Add(TfrmOptionsLayout);
