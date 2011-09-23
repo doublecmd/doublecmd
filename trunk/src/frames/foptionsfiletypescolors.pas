@@ -107,7 +107,7 @@ end;
 
 procedure TfrmOptionsFileTypesColors.btnSearchTemplateClick(Sender: TObject);
 var
-  sMask: UTF8String;
+  sMask: UTF8String = '';
   bTemplate: Boolean;
 begin
   if ShowMaskInputDlg(rsMarkPlus, rsMaskInput, glsMaskHistory, sMask) then
@@ -211,7 +211,7 @@ begin
      else
        Canvas.Font.Color:= gCursorText;
 
-     Canvas.TextOut(ARect.Left+2,ARect.Top+1,Items[Index]);
+     Canvas.TextOut(ARect.Left+2,ARect.Top,Items[Index]);
    end;
 end;
 
@@ -230,6 +230,9 @@ var
   sCategoryName : String;
   I : Integer;
 begin
+  lbCategories.Canvas.Font := lbCategories.Font;
+  lbCategories.ItemHeight := lbCategories.Canvas.TextHeight('Wg');
+
   lbCategories.Clear;
 
   { File lbtypes category color }
