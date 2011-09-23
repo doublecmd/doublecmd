@@ -48,7 +48,7 @@ type
 
   { TfrmOptions }
 
-  TfrmOptions = class(TForm)
+  TfrmOptions = class(TForm, IOptionsDialog)
     OptionsEditorsImageList: TImageList;
     Panel1: TPanel;
     Panel3: TPanel;
@@ -67,6 +67,7 @@ type
     FOptionsEditorList: TOptionsEditorViews;
     FOldEditor: TOptionsEditorView;
     procedure CreateOptionsEditorList;
+    procedure LoadSettings;
     procedure SelectEditor(EditorClassName: String);
   public
     constructor Create(TheOwner: TComponent); override;
@@ -149,6 +150,11 @@ begin
   AddEditors(OptionsEditorClassList, nil);
 end;
 
+procedure TfrmOptions.LoadSettings;
+begin
+  LoadConfig;
+end;
+
 procedure TfrmOptions.SelectEditor(EditorClassName: String);
 var
   I: Integer;
@@ -207,7 +213,7 @@ begin
         SelectedEditorView.Instance := SelectedEditorView.EditorClass.Create(Self);
         SelectedEditorView.Instance.Align   := alClient;
         SelectedEditorView.Instance.Visible := False;
-        SelectedEditorView.Instance.Init(Panel3, [oeifLoad]);
+        SelectedEditorView.Instance.Init(Panel3, Self, [oeifLoad]);
       end;
     end;
 

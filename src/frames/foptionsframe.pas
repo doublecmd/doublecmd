@@ -15,14 +15,26 @@ type
 
   TOptionsEditorClassList = class;
 
+  { IOptionsDialog }
+
+  {$interfaces corba}
+  IOptionsDialog = interface
+    ['{E62AAF5E-74ED-49AB-93F2-DBE210BF6723}']
+    procedure LoadSettings;
+  end;
+  {$interfaces default}
+
   { TOptionsEditor }
 
   TOptionsEditor = class(TFrame)
+  private
+    FOptionsDialog: IOptionsDialog;
   protected
     procedure Init; virtual;
     procedure Done; virtual;
     procedure Load; virtual;
     function  Save: TOptionsEditorSaveFlags; virtual;
+    property OptionsDialog: IOptionsDialog read FOptionsDialog;
   public
     destructor Destroy; override;
 
@@ -31,7 +43,9 @@ type
 
     procedure LoadSettings;
     function  SaveSettings: TOptionsEditorSaveFlags;
-    procedure Init(AParent: TWinControl; Flags: TOptionsEditorInitFlags);
+    procedure Init(AParent: TWinControl;
+                   AOptionsDialog: IOptionsDialog;
+                   Flags: TOptionsEditorInitFlags);
   end;
 
   { TOptionsEditorClass }
@@ -170,11 +184,14 @@ begin
   Result := [];
 end;
 
-procedure TOptionsEditor.Init(AParent: TWinControl; Flags: TOptionsEditorInitFlags);
+procedure TOptionsEditor.Init(AParent: TWinControl;
+                              AOptionsDialog: IOptionsDialog;
+                              Flags: TOptionsEditorInitFlags);
 begin
   DisableAutoSizing;
   try
     Parent := AParent;
+    FOptionsDialog := AOptionsDialog;
     Init;
     if oeifLoad in Flags then
       LoadSettings;
