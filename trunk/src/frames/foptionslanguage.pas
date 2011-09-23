@@ -38,11 +38,12 @@ type
     lngList: TListBox;
   private
     procedure FillLngListBox;
+  protected
+    procedure Load; override;
+    function Save: TOptionsEditorSaveFlags; override;
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
-    procedure Load; override;
-    function Save: TOptionsEditorSaveFlags; override;
   end;
 
 implementation

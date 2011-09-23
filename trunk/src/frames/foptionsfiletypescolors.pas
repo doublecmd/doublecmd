@@ -59,12 +59,14 @@ type
     procedure btnCategoryColorClick(Sender: TObject);
     procedure lbCategoriesDrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; State: TOwnerDrawState);
+  protected
+    procedure Init; override;
+    procedure Load; override;
+    function Save: TOptionsEditorSaveFlags; override;
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
-    procedure Load; override;
-    function Save: TOptionsEditorSaveFlags; override;
-  end; 
+  end;
 
 implementation
 
@@ -215,6 +217,12 @@ begin
    end;
 end;
 
+procedure TfrmOptionsFileTypesColors.Init;
+begin
+  lbCategories.Canvas.Font := lbCategories.Font;
+  lbCategories.ItemHeight := lbCategories.Canvas.TextHeight('Wg');
+end;
+
 class function TfrmOptionsFileTypesColors.GetIconIndex: Integer;
 begin
   Result := 21;
@@ -230,9 +238,6 @@ var
   sCategoryName : String;
   I : Integer;
 begin
-  lbCategories.Canvas.Font := lbCategories.Font;
-  lbCategories.ItemHeight := lbCategories.Canvas.TextHeight('Wg');
-
   lbCategories.Clear;
 
   { File lbtypes category color }

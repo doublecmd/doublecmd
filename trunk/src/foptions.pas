@@ -206,9 +206,8 @@ begin
       begin
         SelectedEditorView.Instance := SelectedEditorView.EditorClass.Create(Self);
         SelectedEditorView.Instance.Align   := alClient;
-        SelectedEditorView.Instance.Visible := True;
-        SelectedEditorView.Instance.Parent  := Panel3;
-        SelectedEditorView.Instance.Load;
+        SelectedEditorView.Instance.Visible := False;
+        SelectedEditorView.Instance.Init(Panel3, [oeifLoad]);
       end;
     end;
 
@@ -231,7 +230,7 @@ begin
   for I:= 0 to FOptionsEditorList.Count - 1 do
   begin
     if Assigned(FOptionsEditorList[I].Instance) then
-      FOptionsEditorList[I].Instance.Load;
+      FOptionsEditorList[I].Instance.LoadSettings;
   end;
 end;
 
@@ -243,7 +242,7 @@ begin
   { Save options from frames }
   for I:= 0 to FOptionsEditorList.Count - 1 do
     if Assigned(FOptionsEditorList[I].Instance) then
-      if oesfNeedsRestart in FOptionsEditorList[I].Instance.Save then
+      if oesfNeedsRestart in FOptionsEditorList[I].Instance.SaveSettings then
         NeedsRestart := True;
 
   if NeedsRestart then

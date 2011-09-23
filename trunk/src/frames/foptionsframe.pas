@@ -5,9 +5,11 @@ unit fOptionsFrame;
 interface
 
 uses
-  Classes, SysUtils, Forms, fgl;
+  Classes, SysUtils, Forms, Controls, fgl;
 
 type
+  TOptionsEditorInitFlag = (oeifLoad);
+  TOptionsEditorInitFlags = set of TOptionsEditorInitFlag;
   TOptionsEditorSaveFlag = (oesfNeedsRestart);
   TOptionsEditorSaveFlags = set of TOptionsEditorSaveFlag;
 
@@ -19,15 +21,17 @@ type
   protected
     procedure Init; virtual;
     procedure Done; virtual;
+    procedure Load; virtual;
+    function  Save: TOptionsEditorSaveFlags; virtual;
   public
-    constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
 
     class function GetIconIndex: Integer; virtual; abstract;
     class function GetTitle: String; virtual; abstract;
 
-    procedure Load; virtual;
-    function Save: TOptionsEditorSaveFlags; virtual;
+    procedure LoadSettings;
+    function  SaveSettings: TOptionsEditorSaveFlags;
+    procedure Init(AParent: TWinControl; Flags: TOptionsEditorInitFlags);
   end;
 
   { TOptionsEditorClass }
@@ -135,16 +139,25 @@ begin
   // Empty.
 end;
 
-constructor TOptionsEditor.Create(TheOwner: TComponent);
-begin
-  inherited Create(TheOwner);
-  Init;
-end;
-
 destructor TOptionsEditor.Destroy;
 begin
   Done;
   inherited Destroy;
+end;
+
+procedure TOptionsEditor.LoadSettings;
+begin
+  DisableAutoSizing;
+  try
+    Load;
+  finally
+    EnableAutoSizing;
+  end;
+end;
+
+function TOptionsEditor.SaveSettings: TOptionsEditorSaveFlags;
+begin
+  Result := Save;
 end;
 
 procedure TOptionsEditor.Load;
@@ -155,6 +168,19 @@ end;
 function TOptionsEditor.Save: TOptionsEditorSaveFlags;
 begin
   Result := [];
+end;
+
+procedure TOptionsEditor.Init(AParent: TWinControl; Flags: TOptionsEditorInitFlags);
+begin
+  DisableAutoSizing;
+  try
+    Parent := AParent;
+    Init;
+    if oeifLoad in Flags then
+      LoadSettings;
+  finally
+    EnableAutoSizing;
+  end;
 end;
 
 procedure MakeEditorsClassList;
