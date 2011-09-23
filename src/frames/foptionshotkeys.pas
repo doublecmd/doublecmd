@@ -99,11 +99,11 @@ type
     procedure FillCommandsPage;
   protected
     procedure Init; override;
+    procedure Load; override;
+    function Save: TOptionsEditorSaveFlags; override;
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
-    procedure Load; override;
-    function Save: TOptionsEditorSaveFlags; override;
   end;
 
 implementation
