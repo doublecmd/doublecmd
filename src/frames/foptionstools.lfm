@@ -1,158 +1,28 @@
-inherited frmOptionsTools: TfrmOptionsTools
+inherited frmOptionsViewer: TfrmOptionsViewer
   Height = 417
-  Width = 957
   ClientHeight = 417
-  ClientWidth = 957
-  object stgTools: TStringGrid[0]
-    Left = 0
-    Height = 417
-    Top = 0
-    Width = 142
-    Align = alLeft
-    AutoFillColumns = True
-    ColCount = 1
-    Columns = <    
-      item
-        Title.Caption = 'Tool'
-        Width = 138
-      end>
-    ExtendedSelect = False
-    FixedCols = 0
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goRowSelect, goThumbTracking]
-    RowCount = 4
-    TabOrder = 0
-    OnSelectCell = stgToolsSelectCell
-    ColWidths = (
-      138
-    )
-    Cells = (
-      3
-      0
-      1
-      'Viewer'
-      0
-      2
-      'Editor'
-      0
-      3
-      'Differ'
-    )
+  inherited cbToolsUseExternalProgram: TCheckBox
+    TabOrder = 5
   end
-  object edtToolsParameters: TEdit[1]
-    AnchorSideLeft.Control = lblToolsParameters
-    AnchorSideTop.Control = lblToolsParameters
+  object gbViewerBookMode: TGroupBox[7]
+    AnchorSideLeft.Control = fneToolsPath
+    AnchorSideTop.Control = cbToolsKeepTerminalOpen
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = fneToolsPath
     AnchorSideRight.Side = asrBottom
-    Left = 148
-    Height = 29
-    Top = 143
-    Width = 769
-    Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Top = 4
-    OnChange = edtToolsParametersChange
-    TabOrder = 3
-  end
-  object fneToolsPath: TFileNameEdit[2]
-    AnchorSideLeft.Control = lblToolsPath
-    AnchorSideTop.Control = lblToolsPath
-    AnchorSideTop.Side = asrBottom
-    Left = 148
-    Height = 29
-    Top = 78
-    Width = 769
-    OnAcceptFileName = fneToolsPathAcceptFileName
-    DialogOptions = []
-    FilterIndex = 0
-    HideDirectories = False
-    ButtonWidth = 23
-    NumGlyphs = 0
-    Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Top = 4
-    MaxLength = 0
-    TabOrder = 2
-    OnChange = fneToolsPathChange
-  end
-  object lblToolsPath: TLabel[3]
-    AnchorSideLeft.Control = cbToolsUseExternalProgram
-    AnchorSideTop.Control = cbToolsUseExternalProgram
-    AnchorSideTop.Side = asrBottom
-    Left = 148
-    Height = 22
-    Top = 52
-    Width = 182
-    BorderSpacing.Top = 15
-    Caption = 'Path to program to execute'
-    ParentColor = False
-  end
-  object lblToolsParameters: TLabel[4]
-    AnchorSideLeft.Control = cbToolsUseExternalProgram
-    AnchorSideTop.Control = fneToolsPath
-    AnchorSideTop.Side = asrBottom
-    Left = 148
-    Height = 22
-    Top = 117
-    Width = 150
-    BorderSpacing.Top = 10
-    Caption = 'Additional parameters'
-    ParentColor = False
-  end
-  object cbToolsKeepTerminalOpen: TCheckBox[5]
-    AnchorSideLeft.Control = cbToolsRunInTerminal
-    AnchorSideTop.Control = cbToolsRunInTerminal
-    AnchorSideTop.Side = asrBottom
-    Left = 163
-    Height = 25
-    Top = 211
-    Width = 381
-    BorderSpacing.Left = 15
-    BorderSpacing.Top = 2
-    Caption = 'Keep terminal window open after executing program'
-    OnChange = cbToolsKeepTerminalOpenChange
-    TabOrder = 5
-  end
-  object cbToolsRunInTerminal: TCheckBox[6]
-    AnchorSideLeft.Control = edtToolsParameters
-    AnchorSideTop.Control = edtToolsParameters
-    AnchorSideTop.Side = asrBottom
-    Left = 148
-    Height = 25
-    Top = 184
-    Width = 158
-    BorderSpacing.Top = 12
-    Caption = 'Execute in terminal'
-    OnChange = cbToolsRunInTerminalChange
-    TabOrder = 4
-  end
-  object cbToolsUseExternalProgram: TCheckBox[7]
-    Left = 148
-    Height = 25
-    Top = 12
-    Width = 171
-    BorderSpacing.Top = 12
-    Caption = 'Use external program'
-    OnChange = cbToolsUseExternalProgramChange
-    TabOrder = 1
-  end
-  object gbViewerBookMode: TGroupBox[8]
-    AnchorSideTop.Control = cbToolsKeepTerminalOpen
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Side = asrBottom
-    Left = 146
+    Left = 8
     Height = 117
-    Top = 248
-    Width = 801
+    Top = 244
+    Width = 554
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 12
-    BorderSpacing.Right = 10
     BorderSpacing.Bottom = 10
     Caption = 'Viewer Book Mode'
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 95
-    ClientWidth = 797
-    TabOrder = 6
-    Visible = False
+    ClientWidth = 550
+    TabOrder = 0
     object lblBackgroundColorViewerBook: TLabel
       AnchorSideTop.Control = cbBackgroundColorViewerBook
       AnchorSideTop.Side = asrCenter
@@ -197,7 +67,7 @@ inherited frmOptionsTools: TfrmOptionsTools
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = seNumberColumnsViewer
       AnchorSideBottom.Side = asrBottom
-      Left = 673
+      Left = 426
       Height = 81
       Top = 6
       Width = 119
@@ -236,7 +106,7 @@ inherited frmOptionsTools: TfrmOptionsTools
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = cbFontColorViewerBook
       AnchorSideBottom.Side = asrBottom
-      Left = 644
+      Left = 397
       Height = 22
       Top = 31
       Width = 24
@@ -252,7 +122,7 @@ inherited frmOptionsTools: TfrmOptionsTools
       AnchorSideRight.Control = gbViewerExample
       AnchorSideBottom.Control = cbBackgroundColorViewerBook
       AnchorSideBottom.Side = asrBottom
-      Left = 644
+      Left = 397
       Height = 22
       Top = 4
       Width = 24
@@ -272,7 +142,7 @@ inherited frmOptionsTools: TfrmOptionsTools
       Left = 241
       Height = 22
       Top = 31
-      Width = 399
+      Width = 152
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 5
@@ -299,7 +169,7 @@ inherited frmOptionsTools: TfrmOptionsTools
       Left = 241
       Height = 22
       Top = 4
-      Width = 399
+      Width = 152
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 14
@@ -308,7 +178,7 @@ inherited frmOptionsTools: TfrmOptionsTools
       TabOrder = 5
     end
   end
-  object optColorDialog: TColorDialog[9]
+  object optColorDialog: TColorDialog[8]
     Color = clBlack
     CustomColors.Strings = (
       'ColorA=000000'

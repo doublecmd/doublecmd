@@ -348,6 +348,7 @@ resourcestring
   rsOptionsEditorIgnoreList = 'Ignore list';
   rsOptionsEditorArchivers = 'Archivers';
   rsOptionsEditorTooltips = 'Tooltips';
+  rsOptionsEditorTerminal = 'Terminal';
   //-------------------------------
   rsOptArchiveParam = 'Parameter';
   rsOptArchiveValue = 'Value';

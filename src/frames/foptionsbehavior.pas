@@ -49,8 +49,6 @@ type
     cbShowSystemFiles: TCheckBox;
     chkAutoFillColumns: TCheckBox;
     cmbAutoSizeColumn: TComboBox;
-    edtRunTerm: TEdit;
-    edtRunInTerm: TEdit;
     gbDateTimeFormat: TGroupBox;
     gbMisc1: TGroupBox;
     gbMisc2: TGroupBox;
@@ -61,8 +59,6 @@ type
     lblDateTimeExample: TLabel;
     lblDateTimeFormat: TLabel;
     lblMouseMode: TLabel;
-    lblRunTerm: TLabel;
-    lblRunInTerm: TLabel;
     ledDriveBlackList: TLabeledEdit;
     rbScrollPageByPage: TRadioButton;
     rbScrollLineByLine: TRadioButton;
@@ -126,8 +122,6 @@ end;
 
 procedure TfrmOptionsBehavior.Load;
 begin
-  edtRunInTerm.Text:= gRunInTerm;
-  edtRunTerm.Text:=gRunTerm;
   cbOnlyOnce.Checked:= gOnlyOneAppInstance;
   cbLynxLike.Checked:=gLynxLike;
   cbShortFileSizeFormat.Checked:=gShortFileSizeFormat;
@@ -166,8 +160,6 @@ function TfrmOptionsBehavior.Save: TOptionsEditorSaveFlags;
 begin
   Result := [];
 
-  gRunInTerm:=edtRunInTerm.Text;
-  gRunTerm:= edtRunTerm.Text;
   gOnlyOneAppInstance:=cbOnlyOnce.Checked;
   gLynxLike:=cbLynxLike.Checked;
   gShortFileSizeFormat:=cbShortFileSizeFormat.Checked;

@@ -27,51 +27,33 @@ unit fOptionsTools;
 interface
 
 uses
-  Classes, SysUtils, Grids, StdCtrls, EditBtn, Spin, ExtCtrls, ColorBox,
-  Dialogs, fOptionsFrame, uGlobs;
+  Classes, SysUtils, StdCtrls, Spin, ExtCtrls, ColorBox, Dialogs,
+  fOptionsFrame, fOptionsToolBase;
 
 type
 
-  { TfrmOptionsTools }
+  { TfrmOptionsViewer }
 
-  TfrmOptionsTools = class(TOptionsEditor)
+  TfrmOptionsViewer = class(TfrmOptionsToolBase)
     btnBackViewerColor: TButton;
     btnFontViewerColor: TButton;
     cbBackgroundColorViewerBook: TColorBox;
     cbFontColorViewerBook: TColorBox;
-    cbToolsKeepTerminalOpen: TCheckBox;
-    cbToolsRunInTerminal: TCheckBox;
-    cbToolsUseExternalProgram: TCheckBox;
-    edtToolsParameters: TEdit;
-    fneToolsPath: TFileNameEdit;
     gbViewerBookMode: TGroupBox;
     gbViewerExample: TGroupBox;
     lblBackgroundColorViewerBook: TLabel;
     lblFontColorViewerBook: TLabel;
     lblNumberColumnsViewer: TLabel;
-    lblToolsParameters: TLabel;
-    lblToolsPath: TLabel;
     optColorDialog: TColorDialog;
     pbViewerBook: TPaintBox;
     seNumberColumnsViewer: TSpinEdit;
-    stgTools: TStringGrid;
     procedure btnBackViewerColorClick(Sender: TObject);
     procedure btnFontViewerColorClick(Sender: TObject);
-    procedure stgToolsSelectCell(Sender: TObject; aCol, aRow: Integer;
-      var CanSelect: Boolean);
-    procedure edtToolsParametersChange(Sender: TObject);
-    procedure fneToolsPathAcceptFileName(Sender: TObject; var Value: String);
-    procedure fneToolsPathChange(Sender: TObject);
     procedure cbColorBoxChange(Sender: TObject);
-    procedure cbToolsKeepTerminalOpenChange(Sender: TObject);
-    procedure cbToolsRunInTerminalChange(Sender: TObject);
-    procedure cbToolsUseExternalProgramChange(Sender: TObject);
     procedure seNumberColumnsViewerChange(Sender: TObject);
     procedure pbViewerBookPaint(Sender: TObject);
   private
-    tmpExternalTools: TExternalToolsOptions;
-    FUpdatingTools: Boolean;
-    procedure ShowExternalToolOptions(ExtTool: TExternalTool);
+    procedure UseExternalProgramChanged(Sender: TObject);
   protected
     procedure Init; override;
     procedure Load; override;
@@ -81,20 +63,38 @@ type
     class function GetTitle: String; override;
   end;
 
+  { TfrmOptionsDiffer }
+
+  TfrmOptionsDiffer = class(TfrmOptionsToolBase)
+  protected
+    procedure Init; override;
+  public
+    constructor Create(TheOwner: TComponent); override;
+    class function GetIconIndex: Integer; override;
+    class function GetTitle: String; override;
+  end;
+
+  { TfrmOptionsEditor }
+
+  TfrmOptionsEditor = class(TfrmOptionsToolBase)
+  protected
+    procedure Init; override;
+  public
+    constructor Create(TheOwner: TComponent); override;
+    class function GetIconIndex: Integer; override;
+    class function GetTitle: String; override;
+  end;
+
 implementation
 
 {$R *.lfm}
 
 uses
-  uDCUtils, uLng;
+  uDCUtils, uGlobs, uLng;
 
-const
-  // Tools page: what tool is displayed in each row.
-  ExtToolFromRow: array[0..2] of TExternalTool = (etViewer, etEditor, etDiffer);
+{ TfrmOptionsViewer }
 
-{ TfrmOptionsTools }
-
-procedure TfrmOptionsTools.btnBackViewerColorClick(Sender: TObject);
+procedure TfrmOptionsViewer.btnBackViewerColorClick(Sender: TObject);
 begin
   optColorDialog.Color:= cbBackgroundColorViewerBook.Selected;
   if optColorDialog.Execute then
@@ -103,7 +103,7 @@ begin
   end;
 end;
 
-procedure TfrmOptionsTools.btnFontViewerColorClick(Sender: TObject);
+procedure TfrmOptionsViewer.btnFontViewerColorClick(Sender: TObject);
 begin
   optColorDialog.Color:= cbFontColorViewerBook.Selected;
   if optColorDialog.Execute then
@@ -112,107 +112,17 @@ begin
   end;
 end;
 
-procedure TfrmOptionsTools.stgToolsSelectCell(Sender: TObject; aCol, aRow: Integer; var CanSelect: Boolean);
-begin
-  aRow := aRow - stgTools.FixedRows;
-  if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
-  begin
-    FUpdatingTools := True;
-    ShowExternalToolOptions(ExtToolFromRow[aRow]);
-    FUpdatingTools := False;
-  end;
-end;
-
-procedure TfrmOptionsTools.edtToolsParametersChange(Sender: TObject);
-var
-  aRow: Integer;
-begin
-  if not FUpdatingTools then
-  begin
-    aRow := stgTools.Row - stgTools.FixedRows;
-    if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
-      tmpExternalTools[ExtToolFromRow[aRow]].Parameters := edtToolsParameters.Text;
-  end;
-
-end;
-
-procedure TfrmOptionsTools.fneToolsPathAcceptFileName(Sender: TObject; var Value: String);
-begin
-  Value:= SetCmdDirAsEnvVar(Value);
-end;
-
-procedure TfrmOptionsTools.fneToolsPathChange(Sender: TObject);
-var
-  aRow: Integer;
-begin
-  if not FUpdatingTools then
-  begin
-    aRow := stgTools.Row - stgTools.FixedRows;
-    if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
-      // Use fneToolsPath.Caption because Filename is one letter behind when typing manually.
-      tmpExternalTools[ExtToolFromRow[aRow]].Path := fneToolsPath.Caption;
-  end;
-end;
-
-procedure TfrmOptionsTools.cbColorBoxChange(Sender: TObject);
+procedure TfrmOptionsViewer.cbColorBoxChange(Sender: TObject);
 begin
   pbViewerBook.Repaint;
 end;
 
-procedure TfrmOptionsTools.cbToolsKeepTerminalOpenChange(Sender: TObject);
-var
-  aRow: Integer;
-begin
-  if not FUpdatingTools then
-  begin
-    aRow := stgTools.Row - stgTools.FixedRows;
-    if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
-      tmpExternalTools[ExtToolFromRow[aRow]].KeepTerminalOpen := cbToolsKeepTerminalOpen.Checked;
-  end;
-end;
-
-procedure TfrmOptionsTools.cbToolsRunInTerminalChange(Sender: TObject);
-var
-  aRow: Integer;
-begin
-  cbToolsKeepTerminalOpen.Enabled := cbToolsRunInTerminal.Checked;
-
-  if not FUpdatingTools then
-  begin
-    aRow := stgTools.Row - stgTools.FixedRows;
-    if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
-      tmpExternalTools[ExtToolFromRow[aRow]].RunInTerminal := cbToolsRunInTerminal.Checked;
-  end;
-end;
-
-procedure TfrmOptionsTools.cbToolsUseExternalProgramChange(Sender: TObject);
-var
-  aRow: Integer;
-begin
-  lblToolsPath.Enabled            := cbToolsUseExternalProgram.Checked;
-  fneToolsPath.Enabled            := cbToolsUseExternalProgram.Checked;
-  lblToolsParameters.Enabled      := cbToolsUseExternalProgram.Checked;
-  edtToolsParameters.Enabled      := cbToolsUseExternalProgram.Checked;
-  cbToolsRunInTerminal.Enabled    := cbToolsUseExternalProgram.Checked;
-  cbToolsKeepTerminalOpen.Enabled := cbToolsUseExternalProgram.Checked;
-  gbViewerBookMode.Enabled        := not (cbToolsUseExternalProgram.Checked);
-  lblBackgroundColorViewerBook.Enabled := not (cbToolsUseExternalProgram.Checked);
-  lblNumberColumnsViewer.Enabled  := not (cbToolsUseExternalProgram.Checked);
-  lblFontColorViewerBook.Enabled  := not (cbToolsUseExternalProgram.Checked);
-  if not FUpdatingTools then
-  begin
-    aRow := stgTools.Row - stgTools.FixedRows;
-    if (aRow >= 0) and (aRow < SizeOf(ExtToolFromRow)) then
-      tmpExternalTools[ExtToolFromRow[aRow]].Enabled := cbToolsUseExternalProgram.Checked;
-  end;
-end;
-
-procedure TfrmOptionsTools.seNumberColumnsViewerChange(Sender: TObject);
+procedure TfrmOptionsViewer.seNumberColumnsViewerChange(Sender: TObject);
 begin
   pbViewerBook.Repaint;
 end;
 
-procedure TfrmOptionsTools.pbViewerBookPaint(Sender: TObject);
+procedure TfrmOptionsViewer.pbViewerBookPaint(Sender: TObject);
 var
   i, numb, x, y: integer;
   sStr: String;
@@ -236,62 +146,94 @@ begin
   end;
 end;
 
-procedure TfrmOptionsTools.ShowExternalToolOptions(ExtTool: TExternalTool);
+procedure TfrmOptionsViewer.UseExternalProgramChanged(Sender: TObject);
 begin
-  with tmpExternalTools[ExtTool] do
-  begin
-    cbToolsUseExternalProgram.Checked := Enabled;
-    fneToolsPath.FileName             := Path;
-    edtToolsParameters.Text           := Parameters;
-    cbToolsRunInTerminal.Checked      := RunInTerminal;
-    cbToolsKeepTerminalOpen.Checked   := KeepTerminalOpen;
-  end;
-  gbViewerBookMode.Visible := (ExtTool = etViewer);
+  gbViewerBookMode.Enabled        := not (cbToolsUseExternalProgram.Checked);
+  lblBackgroundColorViewerBook.Enabled := not (cbToolsUseExternalProgram.Checked);
+  lblNumberColumnsViewer.Enabled  := not (cbToolsUseExternalProgram.Checked);
+  lblFontColorViewerBook.Enabled  := not (cbToolsUseExternalProgram.Checked);
 end;
 
-class function TfrmOptionsTools.GetIconIndex: Integer;
+class function TfrmOptionsViewer.GetIconIndex: Integer;
 begin
-  Result := 2;
+  Result := 22;
 end;
 
-class function TfrmOptionsTools.GetTitle: String;
+class function TfrmOptionsViewer.GetTitle: String;
 begin
-  Result := rsOptionsEditorTools;
+  Result := rsToolViewer;
 end;
 
-procedure TfrmOptionsTools.Init;
+procedure TfrmOptionsViewer.Init;
 begin
-  FUpdatingTools := False;
-
-  // Disable focus rectangle on tools grid.
-  stgTools.FocusRectVisible := False;
-  // Localize tools names.
-  stgTools.Cells[0, stgTools.FixedRows + 0] := rsToolViewer;
-  stgTools.Cells[0, stgTools.FixedRows + 1] := rsToolEditor;
-  stgTools.Cells[0, stgTools.FixedRows + 2] := rsToolDiffer;
-
-  // Enable/disable tools controls.
-  FUpdatingTools := True;
-  cbToolsUseExternalProgramChange(nil);
+  ExternalTool := etViewer;
+  OnUseExternalProgramChange := @UseExternalProgramChanged;
   gbViewerBookMode.Enabled := not (cbToolsUseExternalProgram.Checked);
-  FUpdatingTools := False;
+  inherited Init;
 end;
 
-procedure TfrmOptionsTools.Load;
+procedure TfrmOptionsViewer.Load;
 begin
-  tmpExternalTools := gExternalTools;
+  inherited;
   seNumberColumnsViewer.Value := gColCount;
   SetColorInColorBox(cbBackgroundColorViewerBook,gBookBackgroundColor);
   SetColorInColorBox(cbFontColorViewerBook,gBookFontColor);
 end;
 
-function TfrmOptionsTools.Save: TOptionsEditorSaveFlags;
+function TfrmOptionsViewer.Save: TOptionsEditorSaveFlags;
 begin
-  Result := [];
-  gExternalTools := tmpExternalTools;
+  Result := inherited;
   gColCount := seNumberColumnsViewer.Value;
   gBookBackgroundColor := cbBackgroundColorViewerBook.Selected;
   gBookFontColor := cbFontColorViewerBook.Selected;
+end;
+
+{ TfrmOptionsEditor }
+
+procedure TfrmOptionsEditor.Init;
+begin
+  ExternalTool := etEditor;
+  inherited Init;
+end;
+
+constructor TfrmOptionsEditor.Create(TheOwner: TComponent);
+begin
+  inherited Create(TheOwner);
+  Name := 'frmOptionsEditor';
+end;
+
+class function TfrmOptionsEditor.GetIconIndex: Integer;
+begin
+  Result := 10;
+end;
+
+class function TfrmOptionsEditor.GetTitle: String;
+begin
+  Result := rsToolEditor;
+end;
+
+{ TfrmOptionsDiffer }
+
+procedure TfrmOptionsDiffer.Init;
+begin
+  ExternalTool := etDiffer;
+  inherited Init;
+end;
+
+constructor TfrmOptionsDiffer.Create(TheOwner: TComponent);
+begin
+  inherited Create(TheOwner);
+  Name := 'frmOptionsDiffer';
+end;
+
+class function TfrmOptionsDiffer.GetIconIndex: Integer;
+begin
+  Result := 25;
+end;
+
+class function TfrmOptionsDiffer.GetTitle: String;
+begin
+  Result := rsToolDiffer;
 end;
 
 end.
