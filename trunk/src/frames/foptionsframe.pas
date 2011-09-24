@@ -104,6 +104,7 @@ uses
   fOptionsPlugins,
   fOptionsQuickSearchFilter,
   fOptionsTabs,
+  fOptionsTerminal,
   fOptionsTools,
   fOptionsToolTips;
 
@@ -203,11 +204,15 @@ end;
 procedure MakeEditorsClassList;
 var
   Main: TOptionsEditorClassList absolute OptionsEditorClassList;
-  Colors: TOptionsEditorRec;
+  Colors, Tools: TOptionsEditorRec;
 begin
   Main.Add(TfrmOptionsLanguage);
   Main.Add(TfrmOptionsBehavior);
-  Main.Add(TfrmOptionsTools);
+  Tools := Main.Add(TOptionsToolsGroup);
+  Tools.Children.Add(TfrmOptionsViewer);
+  Tools.Children.Add(TfrmOptionsEditor);
+  Tools.Children.Add(TfrmOptionsDiffer);
+  Tools.Children.Add(TfrmOptionsTerminal);
   Main.Add(TfrmOptionsFonts);
   Colors := Main.Add(TOptionsColorsGroup);
   Colors.Children.Add(TfrmOptionsFilePanelsColors);

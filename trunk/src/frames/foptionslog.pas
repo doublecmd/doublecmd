@@ -66,7 +66,7 @@ uses
 
 class function TfrmOptionsLog.GetIconIndex: Integer;
 begin
-  Result := 10;
+  Result := 23;
 end;
 
 class function TfrmOptionsLog.GetTitle: String;

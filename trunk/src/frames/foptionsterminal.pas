@@ -1,7 +1,7 @@
 {
    Double Commander
    -------------------------------------------------------------------------
-   Options groups
+   Terminal options page
 
    Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
 
@@ -20,34 +20,28 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
 
-unit fOptionsGroups;
+unit fOptionsTerminal;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, SysUtils, Graphics,
-  fOptionsFrame;
+  Classes, SysUtils,
+  fOptionsFrame, StdCtrls;
 
 type
 
-  { TOptionsGroup }
+  { TfrmOptionsTerminal }
 
-  TOptionsGroup = class(TOptionsEditor)
-  end;
-
-  { TOptionsColorsGroup }
-
-  TOptionsColorsGroup = class(TOptionsGroup)
-  public
-    class function GetIconIndex: Integer; override;
-    class function GetTitle: String; override;
-  end;
-
-  { TOptionsToolsGroup }
-
-  TOptionsToolsGroup = class(TOptionsGroup)
+  TfrmOptionsTerminal = class(TOptionsEditor)
+    edtRunInTerm: TEdit;
+    edtRunTerm: TEdit;
+    lblRunInTerm: TLabel;
+    lblRunTerm: TLabel;
+  protected
+    procedure Load; override;
+    function Save: TOptionsEditorSaveFlags; override;
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
@@ -55,31 +49,34 @@ type
 
 implementation
 
+{$R *.lfm}
+
 uses
-  uLng;
+  uGlobs, uLng;
 
-{ TOptionsToolsGroup }
+{ TfrmOptionsTerminal }
 
-class function TOptionsToolsGroup.GetIconIndex: Integer;
+procedure TfrmOptionsTerminal.Load;
 begin
-  Result := 2;
+  edtRunInTerm.Text := gRunInTerm;
+  edtRunTerm.Text   := gRunTerm;
 end;
 
-class function TOptionsToolsGroup.GetTitle: String;
+function TfrmOptionsTerminal.Save: TOptionsEditorSaveFlags;
 begin
-  Result := rsOptionsEditorTools;
+  gRunInTerm := edtRunInTerm.Text;
+  gRunTerm   := edtRunTerm.Text;
+  Result := [];
 end;
 
-{ TOptionsColorsGroup }
-
-class function TOptionsColorsGroup.GetIconIndex: Integer;
+class function TfrmOptionsTerminal.GetIconIndex: Integer;
 begin
-  Result := 4;
+  Result := 24;
 end;
 
-class function TOptionsColorsGroup.GetTitle: String;
+class function TfrmOptionsTerminal.GetTitle: String;
 begin
-  Result := rsOptionsEditorColors;
+  Result := rsOptionsEditorTerminal;
 end;
 
 end.
