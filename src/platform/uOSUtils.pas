@@ -44,7 +44,6 @@ const
   RunInTerm = 'cmd.exe /K'; // default run in terminal command
   fmtRunInTerm = '%s "%s"';
   fmtRunInShell = '%s /C "%s"';
-  ShieldChar = '/';
   MonoSpaceFont = 'Fixedsys';
   {$ELSE}
   faFolder = S_IFDIR;
@@ -53,7 +52,6 @@ const
   RunInTerm = 'xterm -e sh -c'; // default run in terminal command
   fmtRunInTerm = '%s ''%s ; echo -n Press ENTER to exit... ; read a''';
   fmtRunInShell = '%s -c ''%s''';
-  ShieldChar = '\';
   MonoSpaceFont = 'Monospace';
   {$ENDIF}
 
