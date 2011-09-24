@@ -39,7 +39,6 @@ uses
 const
   {$IFDEF MSWINDOWS}
   faFolder = faDirectory;
-  faSymLink   = $00000400;
   RunTerm = 'cmd.exe';  // default terminal
   RunInTerm = 'cmd.exe /K'; // default run in terminal command
   fmtRunInTerm = '%s "%s"';
@@ -47,7 +46,6 @@ const
   MonoSpaceFont = 'Fixedsys';
   {$ELSE}
   faFolder = S_IFDIR;
-  faSymLink   = $00000040;
   RunTerm = 'xterm';  // default terminal
   RunInTerm = 'xterm -e sh -c'; // default run in terminal command
   fmtRunInTerm = '%s ''%s ; echo -n Press ENTER to exit... ; read a''';
