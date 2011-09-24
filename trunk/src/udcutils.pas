@@ -1097,14 +1097,14 @@ function EscapeDoubleQuotes(const Str: String): String;
 begin
   // Double quotes are weak quotes and a few special characters are allowed
   // which need to be escaped.
-  Result := EscapeString(Str, DoubleQuotesSpecialChars, ShieldChar);
+  Result := EscapeString(Str, DoubleQuotesSpecialChars, '\');
 end;
 
 function EscapeNoQuotes(const Str: String): String;
 begin
   // When neither single nor double quotes are used several special characters
   // need to be escaped with backslash (single character quote).
-  Result := EscapeString(Str, NoQuotesSpecialChars, ShieldChar);
+  Result := EscapeString(Str, NoQuotesSpecialChars, '\');
 end;
 
 // Helper for RemoveQuotation and SplitCmdLine.
