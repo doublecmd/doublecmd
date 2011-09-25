@@ -56,6 +56,7 @@ type
     btnOK: TBitBtn;
     btnApply: TBitBtn;
     btnCancel: TBitBtn;
+    sboxOptionsEditor: TScrollBox;
     tvTreeView: TTreeView;
     splOptionsSplitter: TSplitter;
     procedure FormCreate(Sender: TObject);
@@ -213,7 +214,7 @@ begin
         SelectedEditorView.Instance := SelectedEditorView.EditorClass.Create(Self);
         SelectedEditorView.Instance.Align   := alClient;
         SelectedEditorView.Instance.Visible := False;
-        SelectedEditorView.Instance.Init(Panel3, Self, [oeifLoad]);
+        SelectedEditorView.Instance.Init(sboxOptionsEditor, Self, [oeifLoad]);
       end;
     end;
 
