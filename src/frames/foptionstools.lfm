@@ -1,9 +1,8 @@
 inherited frmOptionsViewer: TfrmOptionsViewer
-  Height = 417
-  ClientHeight = 417
-  inherited cbToolsUseExternalProgram: TCheckBox
-    TabOrder = 5
-  end
+  Height = 513
+  Width = 586
+  ClientHeight = 513
+  ClientWidth = 586
   object gbViewerBookMode: TGroupBox[7]
     AnchorSideLeft.Control = fneToolsPath
     AnchorSideTop.Control = cbToolsKeepTerminalOpen
@@ -11,25 +10,25 @@ inherited frmOptionsViewer: TfrmOptionsViewer
     AnchorSideRight.Control = fneToolsPath
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 117
+    Height = 260
     Top = 244
-    Width = 554
+    Width = 551
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 12
     BorderSpacing.Bottom = 10
     Caption = 'Viewer Book Mode'
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 95
-    ClientWidth = 550
-    TabOrder = 0
+    ClientHeight = 238
+    ClientWidth = 547
+    TabOrder = 5
     object lblBackgroundColorViewerBook: TLabel
       AnchorSideTop.Control = cbBackgroundColorViewerBook
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = cbBackgroundColorViewerBook
       Left = 8
       Height = 22
-      Top = 4
+      Top = 8
       Width = 219
       Caption = 'Background color in book viewer'
       ParentColor = False
@@ -38,9 +37,9 @@ inherited frmOptionsViewer: TfrmOptionsViewer
       AnchorSideLeft.Control = cbFontColorViewerBook
       AnchorSideTop.Control = cbFontColorViewerBook
       AnchorSideTop.Side = asrBottom
-      Left = 241
+      Left = 247
       Height = 29
-      Top = 58
+      Top = 62
       Width = 36
       BorderSpacing.Top = 5
       MaxValue = 3
@@ -55,46 +54,37 @@ inherited frmOptionsViewer: TfrmOptionsViewer
       AnchorSideTop.Side = asrCenter
       Left = 8
       Height = 22
-      Top = 61
+      Top = 65
       Width = 235
       Caption = 'Number of columns in book viewer'
       ParentColor = False
     end
     object gbViewerExample: TGroupBox
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = gbViewerBookMode
+      AnchorSideLeft.Control = gbViewerBookMode
+      AnchorSideTop.Control = lblNumberColumnsViewer
+      AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = gbViewerBookMode
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = seNumberColumnsViewer
       AnchorSideBottom.Side = asrBottom
-      Left = 426
-      Height = 81
-      Top = 6
-      Width = 119
-      Anchors = [akTop, akRight, akBottom]
+      Left = 8
+      Height = 137
+      Top = 95
+      Width = 531
+      Anchors = [akTop, akLeft, akRight]
       AutoSize = True
-      BorderSpacing.Left = 5
-      BorderSpacing.Right = 5
+      BorderSpacing.Around = 8
       Caption = 'Example'
-      ClientHeight = 59
-      ClientWidth = 115
+      ClientHeight = 115
+      ClientWidth = 527
       TabOrder = 1
       object pbViewerBook: TPaintBox
-        AnchorSideLeft.Control = gbViewerExample
-        AnchorSideTop.Control = gbViewerExample
-        AnchorSideRight.Control = gbViewerExample
-        AnchorSideRight.Side = asrBottom
-        AnchorSideBottom.Control = gbViewerExample
-        AnchorSideBottom.Side = asrBottom
         Left = 5
-        Height = 49
+        Height = 105
         Top = 5
-        Width = 105
-        Anchors = [akTop, akLeft, akBottom]
-        BorderSpacing.Left = 5
-        BorderSpacing.Top = 5
-        BorderSpacing.Right = 5
-        BorderSpacing.Bottom = 5
+        Width = 517
+        Align = alClient
+        BorderSpacing.Around = 5
         OnPaint = pbViewerBookPaint
       end
     end
@@ -106,9 +96,9 @@ inherited frmOptionsViewer: TfrmOptionsViewer
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = cbFontColorViewerBook
       AnchorSideBottom.Side = asrBottom
-      Left = 397
+      Left = 507
       Height = 22
-      Top = 31
+      Top = 35
       Width = 24
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Left = 4
@@ -119,12 +109,11 @@ inherited frmOptionsViewer: TfrmOptionsViewer
     object btnBackViewerColor: TButton
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = cbBackgroundColorViewerBook
-      AnchorSideRight.Control = gbViewerExample
       AnchorSideBottom.Control = cbBackgroundColorViewerBook
       AnchorSideBottom.Side = asrBottom
-      Left = 397
+      Left = 507
       Height = 22
-      Top = 4
+      Top = 8
       Width = 24
       Anchors = [akTop, akRight, akBottom]
       BorderSpacing.Left = 4
@@ -139,10 +128,10 @@ inherited frmOptionsViewer: TfrmOptionsViewer
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = cbBackgroundColorViewerBook
       AnchorSideRight.Side = asrBottom
-      Left = 241
+      Left = 247
       Height = 22
-      Top = 31
-      Width = 152
+      Top = 35
+      Width = 256
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 5
@@ -156,7 +145,7 @@ inherited frmOptionsViewer: TfrmOptionsViewer
       AnchorSideTop.Side = asrCenter
       Left = 8
       Height = 22
-      Top = 31
+      Top = 35
       Width = 168
       BorderSpacing.Top = 10
       Caption = 'Font color in book viewer'
@@ -166,13 +155,13 @@ inherited frmOptionsViewer: TfrmOptionsViewer
       AnchorSideLeft.Control = lblBackgroundColorViewerBook
       AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = btnBackViewerColor
-      Left = 241
+      Left = 247
       Height = 22
-      Top = 4
-      Width = 152
+      Top = 8
+      Width = 256
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames]
       Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Left = 14
+      BorderSpacing.Left = 20
       ItemHeight = 16
       OnChange = cbColorBoxChange
       TabOrder = 5

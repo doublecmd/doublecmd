@@ -27,7 +27,7 @@ unit fOptionsTools;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, Spin, ExtCtrls, ColorBox, Dialogs,
+  Classes, SysUtils, StdCtrls, Spin, ExtCtrls, ColorBox, Dialogs, Types,
   fOptionsFrame, fOptionsToolBase;
 
 type
@@ -53,6 +53,7 @@ type
     procedure seNumberColumnsViewerChange(Sender: TObject);
     procedure pbViewerBookPaint(Sender: TObject);
   private
+    FPreviewTextSize: TSize;
     procedure UseExternalProgramChanged(Sender: TObject);
   protected
     procedure Init; override;
@@ -92,6 +93,9 @@ implementation
 uses
   uDCUtils, uGlobs, uLng;
 
+const
+  ViewerBookPreviewText = 'Text';
+
 { TfrmOptionsViewer }
 
 procedure TfrmOptionsViewer.btnBackViewerColorClick(Sender: TObject);
@@ -124,24 +128,18 @@ end;
 
 procedure TfrmOptionsViewer.pbViewerBookPaint(Sender: TObject);
 var
-  i, numb, x, y: integer;
-  sStr: String;
+  i, numb: integer;
 begin
-  sStr:= 'Text';
   with pbViewerBook.Canvas do
   begin
-    Font.Name := gFonts[dcfViewerBook].Name;
-    Font.Size := gFonts[dcfViewerBook].Size;
-    x:= TextWidth(sStr);
-    y:= TextHeight(sStr);
-    pbViewerBook.Width := (x + 10) * seNumberColumnsViewer.Value;
     Brush.Color := cbBackgroundColorViewerBook.Selected;
     Font.Color := cbFontColorViewerBook.Selected;
     FillRect(0, 0, pbViewerBook.Width, pbViewerBook.Height);
     for i:= 0 to seNumberColumnsViewer.Value - 1 do
     begin
       for numb:= 0 to 1 do
-        TextOut(i * (x + 5) + 5, y * numb + 4, sStr);
+        TextOut(i * (FPreviewTextSize.cx + 5) + 5,
+                FPreviewTextSize.cy * numb + 4, ViewerBookPreviewText);
     end;
   end;
 end;
@@ -169,7 +167,13 @@ begin
   ExternalTool := etViewer;
   OnUseExternalProgramChange := @UseExternalProgramChanged;
   gbViewerBookMode.Enabled := not (cbToolsUseExternalProgram.Checked);
+  pbViewerBook.Font.Name := gFonts[dcfViewerBook].Name;
+  pbViewerBook.Font.Size := gFonts[dcfViewerBook].Size;
+  pbViewerBook.Font.Style := gFonts[dcfViewerBook].Style;
+
   inherited Init;
+
+  FPreviewTextSize := pbViewerBook.Canvas.TextExtent(ViewerBookPreviewText);
 end;
 
 procedure TfrmOptionsViewer.Load;
