@@ -1,0 +1,14 @@
+inherited frmOptionsKeyboard: TfrmOptionsKeyboard
+  Width = 425
+  ClientWidth = 425
+  object cbLynxLike: TCheckBox[0]
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 25
+    Top = 8
+    Width = 409
+    Caption = 'Left, Right arrows change directory (Lynx-like movement)'
+    TabOrder = 0
+  end
+end

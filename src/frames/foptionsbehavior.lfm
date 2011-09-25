@@ -1,24 +1,20 @@
 inherited frmOptionsBehavior: TfrmOptionsBehavior
-  Height = 501
-  Width = 825
-  ClientHeight = 501
-  ClientWidth = 825
-  OnResize = FrameResize
-  DesignTop = 2
+  Height = 636
+  Width = 663
+  ClientHeight = 636
+  ClientWidth = 663
   object gbMisc1: TGroupBox[0]
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = gbMisc2
     Left = 8
-    Height = 183
+    Height = 152
     Top = 8
-    Width = 446
+    Width = 643
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Right = 6
     ChildSizing.LeftRightSpacing = 8
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 161
-    ClientWidth = 442
+    ClientHeight = 130
+    ClientWidth = 639
     TabOrder = 0
     object cbOnlyOnce: TCheckBox
       AnchorSideLeft.Control = gbMisc1
@@ -28,13 +24,13 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Left = 8
       Height = 25
       Top = 6
-      Width = 426
+      Width = 623
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       Caption = 'Allow only one copy of DC at a time'
       TabOrder = 0
     end
-    object cbLynxLike: TCheckBox
+    object cbShortFileSizeFormat: TCheckBox
       AnchorSideLeft.Control = gbMisc1
       AnchorSideTop.Control = cbOnlyOnce
       AnchorSideTop.Side = asrBottom
@@ -43,26 +39,11 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Left = 8
       Height = 25
       Top = 37
-      Width = 426
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Top = 6
-      Caption = 'Lynx-like movement'
-      TabOrder = 1
-    end
-    object cbShortFileSizeFormat: TCheckBox
-      AnchorSideLeft.Control = gbMisc1
-      AnchorSideTop.Control = cbLynxLike
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = gbMisc1
-      AnchorSideRight.Side = asrBottom
-      Left = 8
-      Height = 25
-      Top = 68
-      Width = 426
+      Width = 623
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       Caption = 'Short file size format'
-      TabOrder = 2
+      TabOrder = 1
     end
     object cbMinimizeToTray: TCheckBox
       AnchorSideLeft.Control = gbMisc1
@@ -72,12 +53,12 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       AnchorSideRight.Side = asrBottom
       Left = 8
       Height = 25
-      Top = 99
-      Width = 426
+      Top = 68
+      Width = 623
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       Caption = 'Mo&ve icon to system tray when minimized'
-      TabOrder = 3
+      TabOrder = 2
     end
     object cbAlwaysShowTrayIcon: TCheckBox
       AnchorSideLeft.Control = gbMisc1
@@ -87,86 +68,40 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       AnchorSideRight.Side = asrBottom
       Left = 8
       Height = 25
-      Top = 130
-      Width = 426
+      Top = 99
+      Width = 623
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       Caption = 'Always show tray icon'
       OnChange = cbAlwaysShowTrayIconChange
-      TabOrder = 4
+      TabOrder = 3
     end
   end
   object gbMisc2: TGroupBox[1]
-    AnchorSideLeft.Side = asrBottom
+    AnchorSideLeft.Control = gbMisc1
     AnchorSideTop.Control = gbMisc1
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = gbMisc1
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = gbMisc1
-    AnchorSideBottom.Side = asrBottom
-    Left = 460
-    Height = 183
-    Top = 8
-    Width = 355
-    Anchors = [akTop, akRight, akBottom]
-    ClientHeight = 161
-    ClientWidth = 351
+    Left = 8
+    Height = 169
+    Top = 160
+    Width = 643
+    Anchors = [akTop, akLeft, akRight]
+    ClientHeight = 147
+    ClientWidth = 639
     TabOrder = 1
-    object lblMouseMode: TLabel
-      AnchorSideTop.Control = cbMouseMode
-      AnchorSideTop.Side = asrCenter
-      Left = 14
-      Height = 22
-      Top = 44
-      Width = 43
-      Caption = 'Mode:'
-      ParentColor = False
-    end
-    object cbSelectionByMouse: TCheckBox
-      AnchorSideLeft.Control = gbMisc2
-      AnchorSideTop.Control = gbMisc2
-      AnchorSideRight.Control = gbMisc2
-      AnchorSideRight.Side = asrBottom
-      Left = 6
-      Height = 25
-      Top = 6
-      Width = 339
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Left = 6
-      BorderSpacing.Top = 6
-      BorderSpacing.Right = 6
-      Caption = 'Selection by mouse'
-      TabOrder = 0
-    end
-    object cbMouseMode: TComboBox
-      AnchorSideLeft.Control = cmbAutoSizeColumn
-      AnchorSideTop.Control = cbSelectionByMouse
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = gbMisc2
-      AnchorSideRight.Side = asrBottom
-      Left = 138
-      Height = 29
-      Top = 41
-      Width = 195
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Top = 10
-      BorderSpacing.Right = 18
-      ItemHeight = 21
-      Style = csDropDownList
-      TabOrder = 1
-    end
     object chkAutoFillColumns: TCheckBox
-      AnchorSideLeft.Control = cbSelectionByMouse
-      AnchorSideTop.Control = cbMouseMode
       AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = cbSelectionByMouse
       AnchorSideRight.Side = asrBottom
       Left = 6
       Height = 25
-      Top = 78
-      Width = 339
+      Top = 4
+      Width = 627
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 8
       Caption = 'Auto fill columns'
-      TabOrder = 2
+      TabOrder = 0
     end
     object lblAutoSizeColumn: TLabel
       AnchorSideLeft.Control = chkAutoFillColumns
@@ -174,7 +109,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       AnchorSideTop.Side = asrCenter
       Left = 6
       Height = 22
-      Top = 116
+      Top = 42
       Width = 120
       BorderSpacing.Top = 6
       Caption = 'Auto size column:'
@@ -189,8 +124,8 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       AnchorSideRight.Side = asrBottom
       Left = 138
       Height = 29
-      Top = 113
-      Width = 195
+      Top = 39
+      Width = 483
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 12
       BorderSpacing.Top = 10
@@ -201,26 +136,50 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
         'Last'
       )
       Style = csDropDownList
-      TabOrder = 3
+      TabOrder = 1
+    end
+    object ledDriveBlackList: TLabeledEdit
+      AnchorSideRight.Side = asrBottom
+      Left = 6
+      Height = 29
+      Hint = 'Here you can enter one or more drives, separated by ";".'
+      Top = 101
+      Width = 619
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 10
+      BorderSpacing.Right = 10
+      EditLabel.AnchorSideLeft.Control = ledDriveBlackList
+      EditLabel.AnchorSideRight.Control = ledDriveBlackList
+      EditLabel.AnchorSideRight.Side = asrBottom
+      EditLabel.AnchorSideBottom.Control = ledDriveBlackList
+      EditLabel.Left = 6
+      EditLabel.Height = 22
+      EditLabel.Top = 76
+      EditLabel.Width = 619
+      EditLabel.Caption = 'Drive blacklist:'
+      EditLabel.ParentColor = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 2
     end
   end
   object gbDateTimeFormat: TGroupBox[2]
-    AnchorSideLeft.Control = gbMisc1
-    AnchorSideTop.Control = gbMisc1
+    AnchorSideLeft.Control = gbMisc2
+    AnchorSideTop.Control = gbMisc2
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = gbMisc1
+    AnchorSideRight.Control = gbMisc2
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 135
-    Top = 197
-    Width = 446
+    Height = 122
+    Top = 335
+    Width = 643
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     Caption = 'Date and time'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 113
-    ClientWidth = 442
+    ClientHeight = 100
+    ClientWidth = 639
     TabOrder = 2
     object lblDateTimeFormat: TLabel
       AnchorSideLeft.Control = gbDateTimeFormat
@@ -229,7 +188,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Left = 8
       Height = 22
       Top = 6
-      Width = 428
+      Width = 625
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 8
       Caption = 'Date and time format:'
@@ -258,7 +217,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Left = 8
       Height = 29
       Top = 34
-      Width = 426
+      Width = 623
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 8
       BorderSpacing.Top = 6
@@ -278,89 +237,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       TabOrder = 0
     end
   end
-  object gbScrolling: TGroupBox[3]
-    AnchorSideLeft.Control = gbMisc2
-    AnchorSideTop.Control = gbMisc2
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = gbMisc2
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = gbDateTimeFormat
-    AnchorSideBottom.Side = asrBottom
-    Left = 460
-    Height = 135
-    Top = 197
-    Width = 355
-    Anchors = [akTop, akLeft, akRight, akBottom]
-    BorderSpacing.Top = 6
-    Caption = 'Scrolling'
-    ChildSizing.LeftRightSpacing = 6
-    ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 113
-    ClientWidth = 351
-    TabOrder = 3
-    object rbScrollLineByLineCursor: TRadioButton
-      AnchorSideLeft.Control = gbScrolling
-      AnchorSideTop.Control = gbScrolling
-      AnchorSideRight.Control = gbScrolling
-      AnchorSideRight.Side = asrBottom
-      Left = 6
-      Height = 25
-      Top = 6
-      Width = 339
-      Anchors = [akTop, akLeft, akRight]
-      Caption = 'Line by line with cursor movement'
-      Checked = True
-      TabOrder = 0
-      TabStop = True
-    end
-    object rbScrollLineByLine: TRadioButton
-      AnchorSideLeft.Control = gbScrolling
-      AnchorSideTop.Control = seWheelScrollLines
-      AnchorSideTop.Side = asrCenter
-      Left = 6
-      Height = 25
-      Top = 37
-      Width = 106
-      BorderSpacing.Right = 6
-      Caption = 'Line by line'
-      TabOrder = 1
-    end
-    object rbScrollPageByPage: TRadioButton
-      AnchorSideLeft.Control = gbScrolling
-      AnchorSideTop.Control = seWheelScrollLines
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = gbScrolling
-      AnchorSideRight.Side = asrBottom
-      Left = 6
-      Height = 25
-      Top = 68
-      Width = 339
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Top = 4
-      Caption = 'Page by page'
-      TabOrder = 2
-    end
-    object seWheelScrollLines: TSpinEdit
-      AnchorSideLeft.Control = rbScrollLineByLine
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = rbScrollLineByLineCursor
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = gbScrolling
-      AnchorSideRight.Side = asrBottom
-      Left = 130
-      Height = 29
-      Top = 35
-      Width = 203
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Left = 18
-      BorderSpacing.Top = 4
-      BorderSpacing.Right = 18
-      MinValue = 1
-      TabOrder = 3
-      Value = 1
-    end
-  end
-  object gbMisc3: TGroupBox[4]
+  object gbMisc3: TGroupBox[3]
     AnchorSideLeft.Control = gbDateTimeFormat
     AnchorSideTop.Control = gbDateTimeFormat
     AnchorSideTop.Side = asrBottom
@@ -368,16 +245,16 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
     AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 152
-    Top = 338
-    Width = 446
+    Top = 463
+    Width = 643
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 6
     ChildSizing.LeftRightSpacing = 8
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 130
-    ClientWidth = 442
-    TabOrder = 4
+    ClientWidth = 639
+    TabOrder = 3
     object cbCutTextToColWidth: TCheckBox
       AnchorSideLeft.Control = gbMisc3
       AnchorSideTop.Control = gbMisc3
@@ -386,7 +263,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Left = 8
       Height = 25
       Top = 6
-      Width = 426
+      Width = 623
       Anchors = [akTop, akLeft, akRight]
       Caption = 'Cut text to column width'
       TabOrder = 0
@@ -400,7 +277,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Left = 8
       Height = 25
       Top = 37
-      Width = 426
+      Width = 623
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       Caption = 'Show system and hidden files'
@@ -415,7 +292,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Left = 8
       Height = 25
       Top = 68
-      Width = 426
+      Width = 623
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       Caption = 'Load file list in separate thread'
@@ -430,55 +307,11 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Left = 8
       Height = 25
       Top = 99
-      Width = 426
+      Width = 623
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       Caption = 'Load icons after file list'
       TabOrder = 3
-    end
-  end
-  object gbMisc4: TGroupBox[5]
-    AnchorSideLeft.Control = gbScrolling
-    AnchorSideTop.Control = gbScrolling
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = gbScrolling
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = gbMisc3
-    AnchorSideBottom.Side = asrBottom
-    Left = 460
-    Height = 152
-    Top = 338
-    Width = 355
-    Anchors = [akTop, akLeft, akRight, akBottom]
-    BorderSpacing.Top = 6
-    ClientHeight = 130
-    ClientWidth = 351
-    TabOrder = 5
-    object ledDriveBlackList: TLabeledEdit
-      AnchorSideLeft.Control = gbMisc4
-      AnchorSideRight.Control = gbMisc4
-      AnchorSideRight.Side = asrBottom
-      Left = 10
-      Height = 29
-      Hint = 'Here you can enter one or more drives, separated by ";".'
-      Top = 24
-      Width = 331
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Left = 10
-      BorderSpacing.Right = 10
-      EditLabel.AnchorSideLeft.Control = ledDriveBlackList
-      EditLabel.AnchorSideRight.Control = ledDriveBlackList
-      EditLabel.AnchorSideRight.Side = asrBottom
-      EditLabel.AnchorSideBottom.Control = ledDriveBlackList
-      EditLabel.Left = 10
-      EditLabel.Height = 22
-      EditLabel.Top = -1
-      EditLabel.Width = 331
-      EditLabel.Caption = 'Drive blacklist:'
-      EditLabel.ParentColor = False
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 0
     end
   end
 end

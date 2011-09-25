@@ -1,0 +1,137 @@
+inherited frmOptionsMouse: TfrmOptionsMouse
+  Height = 253
+  Width = 426
+  ClientHeight = 253
+  ClientWidth = 426
+  object gbScrolling: TGroupBox[0]
+    AnchorSideLeft.Control = gbSelection
+    AnchorSideTop.Control = gbSelection
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = gbSelection
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 130
+    Top = 112
+    Width = 414
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 6
+    Caption = 'Scrolling'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ClientHeight = 108
+    ClientWidth = 410
+    TabOrder = 0
+    object rbScrollLineByLineCursor: TRadioButton
+      AnchorSideLeft.Control = gbScrolling
+      AnchorSideTop.Control = gbScrolling
+      AnchorSideRight.Control = gbScrolling
+      AnchorSideRight.Side = asrBottom
+      Left = 6
+      Height = 25
+      Top = 6
+      Width = 398
+      Anchors = [akTop, akLeft, akRight]
+      Caption = 'Line by line with cursor movement'
+      Checked = True
+      TabOrder = 0
+      TabStop = True
+    end
+    object rbScrollLineByLine: TRadioButton
+      AnchorSideLeft.Control = gbScrolling
+      AnchorSideTop.Control = seWheelScrollLines
+      AnchorSideTop.Side = asrCenter
+      Left = 6
+      Height = 25
+      Top = 37
+      Width = 106
+      BorderSpacing.Right = 6
+      Caption = 'Line by line'
+      TabOrder = 1
+    end
+    object rbScrollPageByPage: TRadioButton
+      AnchorSideLeft.Control = gbScrolling
+      AnchorSideTop.Control = seWheelScrollLines
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbScrolling
+      AnchorSideRight.Side = asrBottom
+      Left = 6
+      Height = 25
+      Top = 68
+      Width = 398
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 4
+      Caption = 'Page by page'
+      TabOrder = 2
+    end
+    object seWheelScrollLines: TSpinEdit
+      AnchorSideLeft.Control = rbScrollLineByLine
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = rbScrollLineByLineCursor
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbScrolling
+      AnchorSideRight.Side = asrBottom
+      Left = 130
+      Height = 29
+      Top = 35
+      Width = 262
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 18
+      BorderSpacing.Top = 4
+      BorderSpacing.Right = 18
+      MinValue = 1
+      TabOrder = 3
+      Value = 1
+    end
+  end
+  object gbSelection: TGroupBox[1]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 100
+    Top = 6
+    Width = 414
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Around = 6
+    BorderSpacing.InnerBorder = 6
+    Caption = 'Selection'
+    ClientHeight = 78
+    ClientWidth = 410
+    TabOrder = 1
+    object cbSelectionByMouse: TCheckBox
+      AnchorSideRight.Side = asrBottom
+      Left = 6
+      Height = 25
+      Top = 6
+      Width = 159
+      BorderSpacing.Around = 6
+      Caption = 'Selection by mouse'
+      TabOrder = 0
+    end
+    object lblMouseMode: TLabel
+      AnchorSideTop.Side = asrCenter
+      Left = 32
+      Height = 22
+      Top = 38
+      Width = 43
+      Caption = 'Mode:'
+      ParentColor = False
+    end
+    object cbMouseMode: TComboBox
+      AnchorSideTop.Control = cbSelectionByMouse
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Side = asrBottom
+      Left = 150
+      Height = 29
+      Top = 37
+      Width = 242
+      Anchors = [akTop, akLeft, akRight]
+      ItemHeight = 21
+      Style = csDropDownList
+      TabOrder = 1
+    end
+  end
+end

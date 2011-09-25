@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="145">
+    <Units Count="147">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1110,6 +1110,20 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsTerminal"/>
       </Unit144>
+      <Unit145>
+        <Filename Value="frames\foptionsmouse.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsMouse"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsMouse"/>
+      </Unit145>
+      <Unit146>
+        <Filename Value="frames\foptionskeyboard.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsKeyboard"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsKeyboard"/>
+      </Unit146>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

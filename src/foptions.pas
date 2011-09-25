@@ -205,10 +205,10 @@ begin
     if Assigned(FOldEditor) and Assigned(FOldEditor.Instance) then
       FOldEditor.Instance.Visible := False;
 
-    // Don't create editors for groups, they don't show anything anyway.
-    if not Assigned(SelectedEditorView.Instance) and not Node.HasChildren then
+    if not Assigned(SelectedEditorView.Instance) then
     begin
-      if Assigned(SelectedEditorView.EditorClass) then
+      if Assigned(SelectedEditorView.EditorClass) and
+         not SelectedEditorView.EditorClass.IsEmpty then
       begin
         SelectedEditorView.Instance := SelectedEditorView.EditorClass.Create(Self);
         SelectedEditorView.Instance.Align   := alClient;
