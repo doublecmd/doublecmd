@@ -1,7 +1,7 @@
 {
    Double Commander
    -------------------------------------------------------------------------
-   Options groups
+   Keyboard options page
 
    Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
 
@@ -20,36 +20,25 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
 
-unit fOptionsGroups;
+unit fOptionsKeyboard;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, SysUtils, Graphics,
+  Classes, SysUtils, StdCtrls,
   fOptionsFrame;
 
 type
 
-  { TOptionsGroup }
+  { TfrmOptionsKeyboard }
 
-  TOptionsGroup = class(TOptionsEditor)
-  public
-    class function IsEmpty: Boolean; override;
-  end;
-
-  { TOptionsColorsGroup }
-
-  TOptionsColorsGroup = class(TOptionsGroup)
-  public
-    class function GetIconIndex: Integer; override;
-    class function GetTitle: String; override;
-  end;
-
-  { TOptionsToolsGroup }
-
-  TOptionsToolsGroup = class(TOptionsGroup)
+  TfrmOptionsKeyboard = class(TOptionsEditor)
+    cbLynxLike: TCheckBox;
+  protected
+    procedure Load; override;
+    function Save: TOptionsEditorSaveFlags; override;
   public
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
@@ -57,38 +46,32 @@ type
 
 implementation
 
+{$R *.lfm}
+
 uses
-  uLng;
+  uGlobs, uLng;
 
-{ TOptionsGroup }
+{ TfrmOptionsKeyboard }
 
-class function TOptionsGroup.IsEmpty: Boolean;
+procedure TfrmOptionsKeyboard.Load;
 begin
-  Result := True;
+  cbLynxLike.Checked := gLynxLike;
 end;
 
-{ TOptionsToolsGroup }
-
-class function TOptionsToolsGroup.GetIconIndex: Integer;
+function TfrmOptionsKeyboard.Save: TOptionsEditorSaveFlags;
 begin
-  Result := 2;
+  gLynxLike := cbLynxLike.Checked;
+  Result := [];
 end;
 
-class function TOptionsToolsGroup.GetTitle: String;
+class function TfrmOptionsKeyboard.GetIconIndex: Integer;
 begin
-  Result := rsOptionsEditorTools;
+  Result := 26;
 end;
 
-{ TOptionsColorsGroup }
-
-class function TOptionsColorsGroup.GetIconIndex: Integer;
+class function TfrmOptionsKeyboard.GetTitle: String;
 begin
-  Result := 4;
-end;
-
-class function TOptionsColorsGroup.GetTitle: String;
-begin
-  Result := rsOptionsEditorColors;
+  Result := rsOptionsEditorKeyboard;
 end;
 
 end.

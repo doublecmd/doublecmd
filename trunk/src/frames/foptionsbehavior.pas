@@ -40,11 +40,8 @@ type
     cbDateTimeFormat: TComboBox;
     cbListFilesInThread: TCheckBox;
     cbLoadIconsSeparately: TCheckBox;
-    cbLynxLike: TCheckBox;
     cbMinimizeToTray: TCheckBox;
-    cbMouseMode: TComboBox;
     cbOnlyOnce: TCheckBox;
-    cbSelectionByMouse: TCheckBox;
     cbShortFileSizeFormat: TCheckBox;
     cbShowSystemFiles: TCheckBox;
     chkAutoFillColumns: TCheckBox;
@@ -53,18 +50,10 @@ type
     gbMisc1: TGroupBox;
     gbMisc2: TGroupBox;
     gbMisc3: TGroupBox;
-    gbMisc4: TGroupBox;
-    gbScrolling: TGroupBox;
     lblAutoSizeColumn: TLabel;
     lblDateTimeExample: TLabel;
     lblDateTimeFormat: TLabel;
-    lblMouseMode: TLabel;
     ledDriveBlackList: TLabeledEdit;
-    rbScrollPageByPage: TRadioButton;
-    rbScrollLineByLine: TRadioButton;
-    rbScrollLineByLineCursor: TRadioButton;
-    seWheelScrollLines: TSpinEdit;
-    procedure FrameResize(Sender: TObject);
     procedure cbAlwaysShowTrayIconChange(Sender: TObject);
     procedure cbDateTimeFormatChange(Sender: TObject);
   protected
@@ -84,14 +73,6 @@ uses
   uGlobs, uDCUtils, uLng;
 
 { TfrmOptionsBehavior }
-
-procedure TfrmOptionsBehavior.FrameResize(Sender: TObject);
-var
-  iWidth: Integer;
-begin
-  iWidth:= Width div 2 - 26;
-  gbMisc2.Width:= iWidth;
-end;
 
 procedure TfrmOptionsBehavior.cbAlwaysShowTrayIconChange(Sender: TObject);
 begin
@@ -116,33 +97,16 @@ end;
 
 procedure TfrmOptionsBehavior.Init;
 begin
-  ParseLineToList(rsOptMouseSelectionButton, cbMouseMode.Items);
   ParseLineToList(rsOptAutoSizeColumn, cmbAutoSizeColumn.Items);
 end;
 
 procedure TfrmOptionsBehavior.Load;
 begin
   cbOnlyOnce.Checked:= gOnlyOneAppInstance;
-  cbLynxLike.Checked:=gLynxLike;
   cbShortFileSizeFormat.Checked:=gShortFileSizeFormat;
-
-  cbSelectionByMouse.Checked:=gMouseSelectionEnabled;
-  cbMouseMode.ItemIndex := gMouseSelectionButton;
 
   chkAutoFillColumns.Checked:= gAutoFillColumns;
   cmbAutoSizeColumn.ItemIndex:= gAutoSizeColumn;
-
-  case gScrollMode of
-    smLineByLineCursor:
-      rbScrollLineByLineCursor.Checked:= True;
-    smLineByLine:
-      rbScrollLineByLine.Checked:= True;
-    smPageByPage:
-      rbScrollPageByPage.Checked:= True;
-    else
-      rbScrollLineByLine.Checked:= True;
-  end;
-  seWheelScrollLines.Value:= gWheelScrollLines;
 
   cbMinimizeToTray.Checked:= gMinimizeToTray;
   cbMinimizeToTray.Enabled:= not gAlwaysShowTrayIcon;
@@ -161,16 +125,7 @@ begin
   Result := [];
 
   gOnlyOneAppInstance:=cbOnlyOnce.Checked;
-  gLynxLike:=cbLynxLike.Checked;
   gShortFileSizeFormat:=cbShortFileSizeFormat.Checked;
-
-  if rbScrollLineByLineCursor.Checked then
-    gScrollMode:= smLineByLineCursor
-  else if rbScrollLineByLine.Checked then
-    gScrollMode:= smLineByLine
-  else if rbScrollPageByPage.Checked then
-    gScrollMode:= smPageByPage;
-  gWheelScrollLines:= seWheelScrollLines.Value;
 
   gMinimizeToTray:= cbMinimizeToTray.Checked;
   gAlwaysShowTrayIcon:= cbAlwaysShowTrayIcon.Checked;
@@ -180,9 +135,6 @@ begin
   gShowSystemFiles:= cbShowSystemFiles.Checked;
   gListFilesInThread:= cbListFilesInThread.Checked;
   gLoadIconsSeparately:= cbLoadIconsSeparately.Checked;
-
-  gMouseSelectionEnabled := cbSelectionByMouse.Checked;
-  gMouseSelectionButton := cbMouseMode.ItemIndex;
 
   gAutoFillColumns:= chkAutoFillColumns.Checked;
   gAutoSizeColumn:= cmbAutoSizeColumn.ItemIndex;

@@ -40,6 +40,7 @@ type
 
     class function GetIconIndex: Integer; virtual; abstract;
     class function GetTitle: String; virtual; abstract;
+    class function IsEmpty: Boolean; virtual;
 
     procedure LoadSettings;
     function  SaveSettings: TOptionsEditorSaveFlags;
@@ -62,6 +63,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+    function Add(Editor: TOptionsEditorClass): TOptionsEditorRec;
     function HasChildren: Boolean;
     property Children: TOptionsEditorClassList read GetChildren;
     property EditorClass: TOptionsEditorClass read FEditorClass write FEditorClass;
@@ -97,10 +99,12 @@ uses
   fOptionsHotkeys,
   fOptionsIcons,
   fOptionsIgnoreList,
+  fOptionsKeyboard,
   fOptionsLanguage,
   fOptionsLayout,
   fOptionsLog,
   fOptionsMisc,
+  fOptionsMouse,
   fOptionsPlugins,
   fOptionsQuickSearchFilter,
   fOptionsTabs,
@@ -126,6 +130,11 @@ destructor TOptionsEditorRec.Destroy;
 begin
   inherited Destroy;
   FreeAndNil(FChildren);
+end;
+
+function TOptionsEditorRec.Add(Editor: TOptionsEditorClass): TOptionsEditorRec;
+begin
+  Result := Children.Add(Editor);
 end;
 
 function TOptionsEditorRec.HasChildren: Boolean;
@@ -158,6 +167,11 @@ destructor TOptionsEditor.Destroy;
 begin
   Done;
   inherited Destroy;
+end;
+
+class function TOptionsEditor.IsEmpty: Boolean;
+begin
+  Result := False;
 end;
 
 procedure TOptionsEditor.LoadSettings;
@@ -204,20 +218,22 @@ end;
 procedure MakeEditorsClassList;
 var
   Main: TOptionsEditorClassList absolute OptionsEditorClassList;
-  Colors, Tools: TOptionsEditorRec;
+  Colors, Keyboard, Tools: TOptionsEditorRec;
 begin
   Main.Add(TfrmOptionsLanguage);
   Main.Add(TfrmOptionsBehavior);
   Tools := Main.Add(TOptionsToolsGroup);
-  Tools.Children.Add(TfrmOptionsViewer);
-  Tools.Children.Add(TfrmOptionsEditor);
-  Tools.Children.Add(TfrmOptionsDiffer);
-  Tools.Children.Add(TfrmOptionsTerminal);
+  Tools.Add(TfrmOptionsViewer);
+  Tools.Add(TfrmOptionsEditor);
+  Tools.Add(TfrmOptionsDiffer);
+  Tools.Add(TfrmOptionsTerminal);
   Main.Add(TfrmOptionsFonts);
   Colors := Main.Add(TOptionsColorsGroup);
-  Colors.Children.Add(TfrmOptionsFilePanelsColors);
-  Colors.Children.Add(TfrmOptionsFileTypesColors);
-  Main.Add(TfrmOptionsHotkeys);
+  Colors.Add(TfrmOptionsFilePanelsColors);
+  Colors.Add(TfrmOptionsFileTypesColors);
+  Keyboard := Main.Add(TfrmOptionsKeyboard);
+  Keyboard.Add(TfrmOptionsHotkeys);
+  Main.Add(TfrmOptionsMouse);
   Main.Add(TfrmOptionsPlugins);
   Main.Add(TfrmOptionsLayout);
   Main.Add(TfrmOptionsFileOperations);
