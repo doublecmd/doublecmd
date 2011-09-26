@@ -76,7 +76,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 4;
+  hkVersion     = 5;
   ConfigVersion = '1';
 
 var
@@ -380,6 +380,7 @@ begin
       AddIfNotExists('Ctrl+Tab','cm_NextTab','');
       AddIfNotExists('Ctrl+Up','cm_OpenDirInNewTab','');
       AddIfNotExists('Ctrl+\','cm_ChangeDirToRoot','');
+      AddIfNotExists('Ctrl+.','cm_ShowSysFiles','');
       AddIfNotExists('Shift+F2','cm_FocusCmdLine','');
       AddIfNotExists('Shift+F4','cm_EditNew','');
       AddIfNotExists('Shift+F5','cm_CopySamePanel','');
@@ -1968,4 +1969,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.
