@@ -436,9 +436,11 @@ end;
 
 procedure TfrmMultiRename.StringGridTopLeftChanged(Sender: TObject);
 var
-  I: Integer;
+  I, iRowCount: Integer;
 begin
-  for I:= StringGrid.TopRow to StringGrid.TopRow + StringGrid.VisibleRowCount - 1 do
+  iRowCount:= StringGrid.TopRow + StringGrid.VisibleRowCount;
+  if iRowCount > FFiles.Count then iRowCount:= FFiles.Count;
+  for I:= StringGrid.TopRow to iRowCount do
   begin
     StringGrid.Cells[0, I]:= FFiles[I - 1].Name;
     StringGrid.Cells[1, I]:= FreshText(I - 1);
