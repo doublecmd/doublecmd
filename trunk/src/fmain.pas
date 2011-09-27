@@ -2732,7 +2732,7 @@ begin
   if I >= 0 then
   begin
     sDir:= MainToolBar.GetButtonX(I, PathX);
-    sDir:= PrepareParameter(sDir, FrameLeft, FrameRight, ActiveFrame, [ppoNormalizePathDelims]);
+    sDir:= PrepareParameter(sDir, FrameLeft, FrameRight, ActiveFrame, [ppoNormalizePathDelims, ppoReplaceTilde]);
     tbChangeDir.Caption := 'CD ' + sDir;
     if sDir <> '' then
       tbChangeDir.Visible:= true;
@@ -3555,14 +3555,15 @@ end;
 
 function TfrmMain.ExecCmd(Cmd: String; Param: String=''; StartPath: String=''): Boolean;
 begin
-  Cmd   := ReplaceEnvVars(Cmd); // For Command only replace environment variables.
+  // For Command only replace environment variables and tilde.
+  Cmd   := ReplaceEnvVars(ReplaceTilde(Cmd));
   Param := PrepareParameter(Param, FrameLeft, FrameRight, ActiveFrame);
 
   if Actions.Execute(Cmd, Param) <> uActs.cf_Error then
     Result:= True
   else
   begin
-    StartPath := PrepareParameter(StartPath, FrameLeft, FrameRight, ActiveFrame, [ppoNormalizePathDelims]);
+    StartPath := PrepareParameter(StartPath, FrameLeft, FrameRight, ActiveFrame, [ppoNormalizePathDelims, ppoReplaceTilde]);
 
     // Only add a space after command if there are parameters.
     if Length(Param) > 0 then
@@ -3954,7 +3955,7 @@ begin
     Exit;
 
   sDir := MainToolBar.GetButtonX(I, PathX);
-  sDir := PrepareParameter(sDir, FrameLeft, FrameRight, ActiveFrame, [ppoNormalizePathDelims]);
+  sDir := PrepareParameter(sDir, FrameLeft, FrameRight, ActiveFrame, [ppoNormalizePathDelims, ppoReplaceTilde]);
   Actions.cm_ChangeDir(sDir);
 end;
 
@@ -4056,8 +4057,7 @@ begin
             begin
               sDir:= Trim(RemoveQuotation(Copy(sCmd, iIndex + 3, Length(sCmd))));
               sDir:= IncludeTrailingBackslash(sDir);
-              if Pos('~' + PathDelim, sDir) = 1 then
-                sDir:= StringReplace(sDir, '~' + PathDelim, GetHomeDir, []);
+              sDir:= ReplaceTilde(sDir);
             end;
           logWrite('Chdir to: ' + sDir);
           if not mbSetCurrentDir(sDir) then
@@ -4684,4 +4684,4 @@ begin
 end;
 
 end.
-
+
