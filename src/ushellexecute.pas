@@ -30,7 +30,7 @@ uses
   Classes, SysUtils, uFile, uFileView;
 
 type
-  TPrepareParameterOption = (ppoNormalizePathDelims);
+  TPrepareParameterOption = (ppoNormalizePathDelims, ppoReplaceTilde);
   TPrepareParameterOptions = set of TPrepareParameterOption;
 
 function PrepareParameter(sParam: String;
@@ -70,6 +70,8 @@ begin
   Result := sParam;
   if ppoNormalizePathDelims in Options then
     Result := NormalizePathDelimiters(Result);
+  if ppoReplaceTilde in Options then
+    Result := ReplaceTilde(Result);
   Result := ReplaceEnvVars(Result);
   Result := ReplaceVarParams(Result, leftPanel, rightPanel, activePanel);
   Result := Trim(Result);
@@ -80,6 +82,8 @@ begin
   Result := sParam;
   if ppoNormalizePathDelims in Options then
     Result := NormalizePathDelimiters(Result);
+  if ppoReplaceTilde in Options then
+    Result := ReplaceTilde(Result);
   Result := ReplaceEnvVars(Result);
   Result := ReplaceVarParams(Result, aFile);
   Result := Trim(Result);
@@ -539,4 +543,4 @@ begin
 end;
 
 end.
-
+

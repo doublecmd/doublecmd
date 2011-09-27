@@ -1741,6 +1741,7 @@ begin
       begin
         Key := 0; // catch the enter
         NewPath:= NormalizePathDelimiters(edtPath.Text);
+        NewPath:= ReplaceEnvVars(ReplaceTilde(NewPath));
         if not mbFileExists(NewPath) then
           CurrentPath := NewPath
         else
@@ -4181,4 +4182,4 @@ begin
 end;
 
 end.
-
+

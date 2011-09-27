@@ -64,6 +64,10 @@ function NormalizePathDelimiters(const Path: String): String;
 }
 function ReplaceEnvVars(const sText: String): String;
 {en
+   Replaces tilde ~ at the beginning of the string with home directory.
+}
+function ReplaceTilde(const Path: String): String;
+{en
    Expands the file name with environment variables by replacing them by absolute path.
    @param(sFileName File name to expand.)
    @returns(Absolute file name.)
@@ -458,6 +462,16 @@ begin
 
   Result := StringReplace(Result, EnvVarCommanderPath, ExcludeTrailingPathDelimiter(gpExePath), [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, EnvVarConfigPath, ExcludeTrailingPathDelimiter(gpCfgDir), [rfReplaceAll, rfIgnoreCase]);
+end;
+
+function ReplaceTilde(const Path: String): String;
+begin
+{$IFDEF UNIX}
+  if StrBegins(Path, '~') and ((Length(Path) = 1) or (Path[2] = PathDelim)) then
+    Result := GetHomeDir + Copy(Path, 2, MaxInt)
+  else
+{$ENDIF}
+    Result := Path;
 end;
 
 function mbExpandFileName(const sFileName: UTF8String): UTF8String;
