@@ -125,6 +125,11 @@ function GetFileOwner(const sPath: String; out sUser, sGroup: String): Boolean;
    @param(sPath Absolute path to the file.)
 }
 function GetFileDescription(const sPath: String): String;
+{en
+   Retrieves file system name of the volume that sRootPath points to.
+   @param(sRootPath Root directory of the volume, for example C:\)
+}
+function mbGetFileSystem(const sRootPath: String): String;
 
 procedure InitErrorMode;
 
@@ -518,6 +523,22 @@ begin
   FillChar(SFI, SizeOf(SFI), 0);
   if SHGetFileInfoW(PWideChar(UTF8Decode(sPath)), 0, SFI, SizeOf(SFI), SHGFI_TYPENAME) <> 0 then
     Result := UTF8Encode(WideString(SFI.szTypeName))
+  else
+    Result := EmptyStr;
+end;
+
+function mbGetFileSystem(const sRootPath: String): String;
+var
+  Buf: array [0..MAX_PATH] of WideChar;
+  NotUsed: DWORD;
+begin
+  // Available since Windows XP.
+  if ((Win32MajorVersion > 5) or ((Win32MajorVersion = 5) and (Win32MinorVersion >= 1))) and
+     GetVolumeInformationW(PWideChar(UTF8Decode(sRootPath)), nil, 0, nil,
+                           NotUsed, NotUsed, Buf, SizeOf(Buf)) then
+  begin
+    Result:= UTF8Encode(WideString(Buf));
+  end
   else
     Result := EmptyStr;
 end;
