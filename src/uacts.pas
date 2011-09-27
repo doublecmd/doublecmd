@@ -292,7 +292,7 @@ uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager, typi
      uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
      uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation, uFindEx,
-     uTypes, fViewOperations, uVfsModule;
+     uTypes, fViewOperations, uVfsModule, uMultiListFileSource;
 
 { TActs }
 
@@ -633,8 +633,14 @@ begin
       for I := 0 to SelectedFiles.Count - 1 do
       begin
         if FullNames then
-          PathToAdd := FileView.CurrentAddress
-                     + FileView.CurrentPath
+        begin
+          // Workaround for not fully implemented TMultiListFileSource.
+          if not FileView.FileSource.IsClass(TMultiListFileSource) then
+            PathToAdd := FileView.CurrentAddress
+          else
+            PathToAdd := '';
+          PathToAdd := PathToAdd + SelectedFiles[I].Path;
+        end
         else
           PathToAdd := '';
 
