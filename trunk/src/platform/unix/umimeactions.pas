@@ -206,7 +206,7 @@ end;
 
 procedure ReadMimeAppsList(const mimeType: String; out Added, Removed: TStringList);
 const
-  mimeApps1 = '.local/share/applications/mimeapps.list';
+  mimeApps1 = '/.local/share/applications/mimeapps.list';
   mimeApps2 = '/usr/share/applications/mimeapps.list';
 var
   I: LongInt;

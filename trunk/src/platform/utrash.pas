@@ -114,7 +114,7 @@ begin
     trashDir := Format('/Volumes/%s/.Trashes/%d/', [StrPas(dirList[1]), FpGetuid]);
   end { if }
   else
-    trashDir := GetHomeDir + '.Trash/';
+    trashDir := GetHomeDir + '/.Trash/';
 
   // check if trash folder exists (e.g. network drives don't have one)
   if not FileExists(trashDir) then
