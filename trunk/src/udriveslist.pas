@@ -155,7 +155,7 @@ begin
   ScrollBars := ssAutoVertical;
   Visible := False;
 
-  ColCount := 4;
+  ColCount := 5;
   RowCount := 0 + DummyRows;
   FixedCols := 0;
   FixedRows := 0;
@@ -178,7 +178,7 @@ procedure TDrivesListPopup.UpdateDrivesList(ADrivesList: TDrivesList);
 begin
   FDrivesList := ADrivesList;
 
-  ColCount := 4;
+  ColCount := 5;
   RowCount := LowestRow + ADrivesList.Count;
   Clean;
   SetLength(FShortCuts, ADrivesList.Count);
@@ -227,7 +227,7 @@ procedure TDrivesListPopup.PrepareCanvasEvent(Sender: TObject; aCol, aRow: Integ
 var
   ts: TTextStyle;
 begin
-  if aCol = 3 then
+  if aCol = 4 then
   begin
     // Right-align free space text in third column.
     ts := Canvas.TextStyle;
@@ -553,6 +553,7 @@ begin
       end;
 
       Cells[2, RowNr] := Drive^.DriveLabel;
+      Cells[3, RowNr] := Drive^.FileSystem;
 
       // Display free space only for some drives
       // (removable, network, etc. may be slow).
@@ -560,7 +561,7 @@ begin
          IsAvailable(Drive, False) and
          GetDiskFreeSpace(Drive^.Path, FreeSize, TotalSize) then
       begin
-        Cells[3, LowestRow + I] :=
+        Cells[4, RowNr] :=
           Format('%s/%s', [cnvFormatFileSize(FreeSize, True),
                            cnvFormatFileSize(TotalSize, True)])
       end;

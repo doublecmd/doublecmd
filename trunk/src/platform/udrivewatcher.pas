@@ -328,6 +328,7 @@ begin
       Drive^.DisplayName := ExtractFileName(DeviceFile);
     end;
     Drive^.DriveLabel := IdLabel;
+    Drive^.FileSystem := IdType;
 
     if DeviceIsPartition then
     begin
@@ -387,6 +388,8 @@ begin
       DeviceId := EmptyStr;
       Path := DrivePath;
       DisplayName := Path;
+      DriveLabel := EmptyStr;
+      FileSystem := EmptyStr;
       IsMediaAvailable := True;
       IsMediaEjectable := False;
       IsMediaRemovable := False;
@@ -421,16 +424,18 @@ begin
       if IsMediaAvailable then
       begin
         case DriveType of
-          dtFloppy:
-            DriveLabel := EmptyStr;
+          dtFloppy: ; // Don't retrieve, it's slow.
+          dtHardDisk:
+            begin
+              DriveLabel := mbGetVolumeLabel(Path, True);
+              FileSystem := mbGetFileSystem(DrivePath);
+            end;
           dtNetwork:
             DriveLabel := mbGetRemoteFileName(Path);
           else
             DriveLabel := mbGetVolumeLabel(Path, True);
         end;
-      end
-      else
-        DriveLabel := EmptyStr;
+      end;
     end;
   end;
 end;
@@ -524,6 +529,20 @@ begin
                 DisplayName:= volNameAsCString;
                 Path:= '/Volumes/' + volNameAsCString;
                 DriveLabel:= volNameAsCString;
+                case kFSVolInfoFSInfo.filesystemID of
+                  18771: FileSystem := 'FAT';
+                  else
+                  case kFSVolInfoFSInfo.signature of
+                    $4147: FileSystem := 'ISO9660';
+                    $4242: FileSystem := 'HighSierra';
+                    $4244: FileSystem := 'HFS'; // kHFSSigWord
+                    $482B: FileSystem := 'HFS+'; // kHFSPlusSigWord
+                    $4A48: FileSystem := 'AudioCD';
+                    $4B48: FileSystem := 'UFS';
+                    $4E4A: FileSystem := 'NFS';
+                    $D2D7: FileSystem := 'MFS'; // old flat file system
+                  end;
+                end;
                 IsMediaAvailable:= True;
                 IsMediaEjectable:= False;
                 IsMediaRemovable:= False;
@@ -770,6 +789,7 @@ begin
                 else
                   DisplayName := PathDelim;
                 DriveLabel := Path;
+                FileSystem := StrPas(pme^.mnt_type);
 
                 if IsPartOfString(['ISO9660', 'CDROM', 'CDRW', 'DVD'], UpperCase(pme^.mnt_type)) then
                   DriveType := dtOptical else
@@ -793,7 +813,11 @@ begin
             begin
               ExistingDrive := GetDrive(Result, DeviceFile, MountPoint);
               if Assigned(ExistingDrive) then
+              begin
                 ExistingDrive^.IsMounted := True;
+                if ExistingDrive^.FileSystem = EmptyStr then
+                  ExistingDrive^.FileSystem := StrPas(pme^.mnt_type);
+              end;
             end;
           end;
 
@@ -932,6 +956,7 @@ begin
       else
         DisplayName := ExtractFileName(Path);
       DriveLabel := EmptyStr;
+      FileSystem := fstab^.fs_vfstype;
       DeviceId := fstab^.fs_spec;
       DriveType := dtype;
       IsMediaAvailable := false;
@@ -986,6 +1011,7 @@ begin
       else
         DisplayName := ExtractFileName(Path);
       DriveLabel := EmptyStr;
+      FileSystem := fs.fstypename;
       DeviceId := fs.mnfromname;
       DriveType := dtype;
       IsMediaAvailable := true;
@@ -1152,4 +1178,4 @@ end;
 {$ENDIF}
 
 end.
-
+
