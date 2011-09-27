@@ -246,6 +246,8 @@ function IncludeFrontPathDelimiter(s: String): String;
 function ExcludeFrontPathDelimiter(s: String): String;
 {en
    Removes a path delimiter at the ending of the string, if it exists.
+   Doesn't remove path delimiter if it is the only character in the path (root dir),
+   so it is safer to use than ExcludeTrailingPathDelimiter, especially on Unix.
 }
 function ExcludeBackPathDelimiter(const Path: UTF8String): UTF8String;
 
