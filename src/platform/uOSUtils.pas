@@ -851,11 +851,11 @@ begin
       GetEnvironmentVariableW('USERPROFILE', PWChar(wHomeDir), iSize);
     end;
   Delete(wHomeDir, iSize, 1);
-  Result:= UTF8Encode(wHomeDir) + DirectorySeparator;
+  Result:= ExcludeBackPathDelimiter(UTF8Encode(wHomeDir));
 end;
 {$ELSE}
 begin
-  Result:= GetEnvironmentVariable('HOME')+DirectorySeparator;
+  Result:= ExcludeBackPathDelimiter(GetEnvironmentVariable('HOME'));
 end;
 {$ENDIF}
 
@@ -932,7 +932,7 @@ begin
 end;
 {$ELSEIF DEFINED(DARWIN)}
 begin
-  Result:= GetHomeDir + 'Library/Preferences/' + ApplicationName;
+  Result:= GetHomeDir + '/Library/Preferences/' + ApplicationName;
 end;
 {$ELSE}
 var
@@ -958,7 +958,7 @@ begin
 end;
 {$ELSEIF DEFINED(DARWIN)}
 begin
-  Result:= GetHomeDir + 'Library/Caches/' + ApplicationName;
+  Result:= GetHomeDir + '/Library/Caches/' + ApplicationName;
 end;
 {$ELSE}
 var
@@ -968,7 +968,7 @@ begin
   if (uinfo <> nil) and (uinfo^.pw_dir <> '') then
     Result:= uinfo^.pw_dir + '/.cache/' + ApplicationName
   else
-    Result:= GetHomeDir + '.cache/' + ApplicationName;
+    Result:= GetHomeDir + '/.cache/' + ApplicationName;
 end;
 {$ENDIF}
 
@@ -1871,4 +1871,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.
