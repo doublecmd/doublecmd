@@ -77,7 +77,11 @@ type
 const
   { Default hotkey list version number }
   hkVersion     = 5;
-  ConfigVersion = '1';
+
+  // History
+  // 2   - removed Layout/SmallIcons
+  //       renamed Layout/SmallIconSize to Layout/IconSize
+  ConfigVersion = '2';
 
 var
   { For localization }
@@ -1503,6 +1507,7 @@ begin
         gToolBarFlat := GetValue(SubNode, 'FlatIcons', gToolBarFlat);
         gToolBarButtonSize := GetValue(SubNode, 'ButtonHeight', gToolBarButtonSize);
         gToolBarIconSize := GetValue(SubNode, 'SmallIconSize', gToolBarIconSize);
+        gToolBarIconSize := GetValue(SubNode, 'IconSize', gToolBarIconSize);
       end;
       gDriveBar1 := GetValue(Node, 'DriveBar1', gDriveBar1);
       gDriveBar2 := GetValue(Node, 'DriveBar2', gDriveBar2);
@@ -1785,7 +1790,9 @@ begin
     SetAttr(SubNode, 'Enabled', gButtonBar);
     SetValue(SubNode, 'FlatIcons', gToolBarFlat);
     SetValue(SubNode, 'ButtonHeight', gToolBarButtonSize);
-    SetValue(SubNode, 'SmallIconSize', gToolBarIconSize);
+    DeleteNode(SubNode, 'SmallIcons'); // Old value
+    DeleteNode(SubNode, 'SmallIconSize'); // Old value
+    SetValue(SubNode, 'IconSize', gToolBarIconSize);
     SetValue(Node, 'DriveBar1', gDriveBar1);
     SetValue(Node, 'DriveBar2', gDriveBar2);
     SetValue(Node, 'DriveBarFlat', gDriveBarFlat);
