@@ -336,6 +336,7 @@ resourcestring
   rsOptionsEditorColors = 'Colors';
   rsOptionsEditorColumns = 'Columns';
   rsOptionsEditorConfiguration = 'Configuration';
+  rsOptionsEditorDragAndDrop = 'Drag & drop';
   rsOptionsEditorFileOperations = 'File operations';
   rsOptionsEditorFilePanels = 'File panels';
   rsOptionsEditorFileTypes = 'File types';

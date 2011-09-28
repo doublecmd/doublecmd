@@ -46,7 +46,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     AnchorSideRight.Control = gbFileSearch
     AnchorSideRight.Side = asrBottom
     Left = 10
-    Height = 304
+    Height = 273
     Top = 198
     Width = 706
     Anchors = [akTop, akLeft, akRight]
@@ -54,7 +54,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     BorderSpacing.Top = 6
     Caption = 'General options'
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 282
+    ClientHeight = 251
     ClientWidth = 702
     TabOrder = 1
     object lblWipePassNumber: TLabel
@@ -157,29 +157,17 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       Caption = 'Skip file operations errors and write them to log window'
       TabOrder = 6
     end
-    object cbShowDialogOnDragDrop: TCheckBox
+    object cbSaveThumbnails: TCheckBox
       AnchorSideLeft.Control = cbSkipFileOpError
       AnchorSideTop.Control = cbSkipFileOpError
       AnchorSideTop.Side = asrBottom
       Left = 14
       Height = 25
       Top = 220
-      Width = 371
-      BorderSpacing.Top = 6
-      Caption = 'Show confirmation dialog on drag&&drop operations'
-      TabOrder = 7
-    end
-    object cbSaveThumbnails: TCheckBox
-      AnchorSideLeft.Control = cbShowDialogOnDragDrop
-      AnchorSideTop.Control = cbShowDialogOnDragDrop
-      AnchorSideTop.Side = asrBottom
-      Left = 14
-      Height = 25
-      Top = 251
       Width = 201
       BorderSpacing.Top = 6
       Caption = 'Save thumbnails in cache'
-      TabOrder = 8
+      TabOrder = 7
     end
   end
   object gbFileSearch: TGroupBox[2]
