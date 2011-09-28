@@ -42,7 +42,6 @@ type
     cbRenameSelOnlyName: TCheckBox;
     cbSaveThumbnails: TCheckBox;
     cbShowCopyTabSelectPanel: TCheckBox;
-    cbShowDialogOnDragDrop: TCheckBox;
     cbSkipFileOpError: TCheckBox;
     edtCopyBufferSize: TEdit;
     gbCopyBufferSize: TGroupBox;
@@ -91,7 +90,6 @@ begin
   cbProcessComments.Checked        := gProcessComments;
   cbShowCopyTabSelectPanel.Checked := gShowCopyTabSelectPanel;
   cbDeleteToTrash.Checked          := gUseTrash;
-  cbShowDialogOnDragDrop.Checked   := gShowDialogOnDragDrop;
   cbSaveThumbnails.Checked          := gSaveThumb;
   cbRenameSelOnlyName.Checked := gRenameSelOnlyName;
 end;
@@ -109,7 +107,6 @@ begin
   gProcessComments        := cbProcessComments.Checked;
   gShowCopyTabSelectPanel := cbShowCopyTabSelectPanel.Checked;
   gUseTrash               := cbDeleteToTrash.Checked;
-  gShowDialogOnDragDrop   := cbShowDialogOnDragDrop.Checked;
   gSaveThumb              := cbSaveThumbnails.Checked;
   gRenameSelOnlyName      := cbRenameSelOnlyName.Checked;
 end;

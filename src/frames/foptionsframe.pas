@@ -91,6 +91,7 @@ uses
   fOptionsBehavior,
   fOptionsColumns,
   fOptionsConfiguration,
+  fOptionsDragDrop,
   fOptionsFileOperations,
   fOptionsFilePanelsColors,
   fOptionsFileTypesColors,
@@ -218,7 +219,10 @@ end;
 procedure MakeEditorsClassList;
 var
   Main: TOptionsEditorClassList absolute OptionsEditorClassList;
-  Colors, Keyboard, Tools: TOptionsEditorRec;
+  Colors,
+  Keyboard,
+  Mouse,
+  Tools: TOptionsEditorRec;
 begin
   Main.Add(TfrmOptionsLanguage);
   Main.Add(TfrmOptionsBehavior);
@@ -233,7 +237,8 @@ begin
   Colors.Add(TfrmOptionsFileTypesColors);
   Keyboard := Main.Add(TfrmOptionsKeyboard);
   Keyboard.Add(TfrmOptionsHotkeys);
-  Main.Add(TfrmOptionsMouse);
+  Mouse := Main.Add(TfrmOptionsMouse);
+  Mouse.Add(TfrmOptionsDragDrop);
   Main.Add(TfrmOptionsPlugins);
   Main.Add(TfrmOptionsLayout);
   Main.Add(TfrmOptionsFileOperations);

@@ -1,0 +1,12 @@
+inherited frmOptionsDragDrop: TfrmOptionsDragDrop
+  Width = 454
+  ClientWidth = 454
+  object cbShowConfirmationDialog: TCheckBox[0]
+    Left = 8
+    Height = 25
+    Top = 8
+    Width = 269
+    Caption = 'Show confirmation dialog after drop'
+    TabOrder = 0
+  end
+end

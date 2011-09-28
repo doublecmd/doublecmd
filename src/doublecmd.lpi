@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="147">
+    <Units Count="148">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -215,6 +215,7 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmConfigToolBar"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="fConfigToolBar"/>
       </Unit1>
       <Unit2>
@@ -1124,6 +1125,13 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsKeyboard"/>
       </Unit146>
+      <Unit147>
+        <Filename Value="frames\foptionsdragdrop.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsDragDrop"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsDragDrop"/>
+      </Unit147>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

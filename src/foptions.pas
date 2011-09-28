@@ -130,7 +130,8 @@ procedure TfrmOptions.CreateOptionsEditorList;
       aOptionsEditorView.Instance    := nil;
       FOptionsEditorList.Add(aOptionsEditorView);
 
-      TreeNode := tvTreeView.Items.AddChild(RootNode, aOptionsEditorClass.GetTitle);
+      TreeNode := tvTreeView.Items.AddChild(RootNode,
+        StringReplace(aOptionsEditorClass.GetTitle, '&', '&&', [rfReplaceAll]));
       if Assigned(TreeNode) then
       begin
         IconIndex := aOptionsEditorClass.GetIconIndex;
