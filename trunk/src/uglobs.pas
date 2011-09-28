@@ -126,7 +126,6 @@ var
   { Toolbar }
   gToolBarButtonSize,
   gToolBarIconSize: Integer;
-  gToolBarSmallIcons: Boolean;
 
   gDirSortFirst:Boolean; // if directories are shown as first in panels
   gDirHistoryCount:Integer; // how many history we remember
@@ -689,7 +688,6 @@ begin
   gToolBarFlat := True;
   gToolBarButtonSize := 24;
   gToolBarIconSize := 16;
-  gToolBarSmallIcons := False;
   gDriveBar1 := True;
   gDriveBar2 := True;
   gDriveBarFlat := True;
@@ -1081,7 +1079,6 @@ begin
   gToolBarFlat := gIni.ReadBool('ButtonBar', 'FlatIcons', True);
   gToolBarButtonSize := gIni.ReadInteger('ButtonBar', 'ButtonHeight', 16);
   gToolBarIconSize := gIni.ReadInteger('ButtonBar', 'SmallIconSize', 16);
-  gToolBarSmallIcons:= gIni.ReadBool('ButtonBar', 'SmallIcons', False);
   gDriveBar1 := gIni.ReadBool('Layout', 'DriveBar1', True);
   gDriveBar2 := gIni.ReadBool('Layout', 'DriveBar2', True);
   gDriveBarFlat := gIni.ReadBool('Layout', 'DriveBarFlat', True);
@@ -1253,7 +1250,6 @@ begin
   gIni.WriteBool('ButtonBar', 'FlatIcons', gToolBarFlat);
   gIni.WriteInteger('ButtonBar', 'ButtonHeight', gToolBarButtonSize);
   gIni.WriteInteger('ButtonBar', 'SmallIconSize', gToolBarIconSize);
-  gIni.WriteBool('ButtonBar', 'SmallIcons', gToolBarSmallIcons);
   gIni.WriteBool('Layout', 'DriveBar1', gDriveBar1);
   gIni.WriteBool('Layout', 'DriveBar2', gDriveBar2);
   gIni.WriteBool('Layout', 'DriveBarFlat', gDriveBarFlat);
@@ -1507,7 +1503,6 @@ begin
         gToolBarFlat := GetValue(SubNode, 'FlatIcons', gToolBarFlat);
         gToolBarButtonSize := GetValue(SubNode, 'ButtonHeight', gToolBarButtonSize);
         gToolBarIconSize := GetValue(SubNode, 'SmallIconSize', gToolBarIconSize);
-        gToolBarSmallIcons := GetValue(SubNode, 'SmallIcons', gToolBarSmallIcons);
       end;
       gDriveBar1 := GetValue(Node, 'DriveBar1', gDriveBar1);
       gDriveBar2 := GetValue(Node, 'DriveBar2', gDriveBar2);
@@ -1791,7 +1786,6 @@ begin
     SetValue(SubNode, 'FlatIcons', gToolBarFlat);
     SetValue(SubNode, 'ButtonHeight', gToolBarButtonSize);
     SetValue(SubNode, 'SmallIconSize', gToolBarIconSize);
-    SetValue(SubNode, 'SmallIcons', gToolBarSmallIcons);
     SetValue(Node, 'DriveBar1', gDriveBar1);
     SetValue(Node, 'DriveBar2', gDriveBar2);
     SetValue(Node, 'DriveBarFlat', gDriveBarFlat);

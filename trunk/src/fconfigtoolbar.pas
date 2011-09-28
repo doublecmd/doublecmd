@@ -384,8 +384,6 @@ begin
   gToolBarFlat:= cbFlatButtons.Checked;
   gToolBarButtonSize:= trbBarSize.Position*2;
   gToolBarIconSize:= trbIconSize.Position*2;
-  { TODO : Maybe we should get rid of gToolBarSmallIcons, it's useless now. }
-  gToolBarSmallIcons:= (gToolBarButtonSize<>gToolBarIconSize);
 
   try
     IniBarFile:= TIniFileEx.Create(FBarFileName);
