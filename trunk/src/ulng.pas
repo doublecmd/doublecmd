@@ -316,6 +316,10 @@ resourcestring
   // MultiRename dialog
   rsMulRenFileNameStyleList = 'No change;UPPERCASE;lowercase;First char uppercase;' +
                               'First Char Of Every Word Uppercase;';
+  // Drive status
+  rsDriveNoMedia = '<no media>';
+  rsDriveNoLabel = '<no label>';
+
   // Edit
   rsEditNewFile = 'new.txt';
   rsEditNewOpen = 'Open file';
