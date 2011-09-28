@@ -552,7 +552,7 @@ begin
         FShortCuts[I] := '';
       end;
 
-      Cells[2, RowNr] := Drive^.DriveLabel;
+      Cells[2, RowNr] := GetDriveLabelOrStatus(Drive);
       Cells[3, RowNr] := Drive^.FileSystem;
 
       // Display free space only for some drives
@@ -596,4 +596,4 @@ begin
 end;
 
 end.
-
+

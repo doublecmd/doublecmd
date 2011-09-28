@@ -77,10 +77,25 @@ type
     property Count: Integer read GetCount;
   end;
 
+{en
+   Returns drive label or status description.
+}
+function GetDriveLabelOrStatus(Drive: PDrive): String;
+
 implementation
 
 uses
-  SysUtils;
+  SysUtils, uLng;
+
+function GetDriveLabelOrStatus(Drive: PDrive): String;
+begin
+  if Drive^.DriveLabel <> EmptyStr then
+    Result := Drive^.DriveLabel
+  else if not Drive^.IsMediaAvailable then
+    Result := rsDriveNoMedia
+  else
+    Result := rsDriveNoLabel;
+end;
 
 { TDrivesList }
 
