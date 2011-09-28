@@ -279,7 +279,7 @@ begin
     edtToolTip.Text:= '-'
   else if edtToolTip.Text= '-' then
     edtToolTip.Text:= EmptyStr;
-  if LastToolButton > -1 then
+  if (LastToolButton >= 0) and (LastToolButton < ktbBar.ButtonCount) then
     if (ktbBar.Buttons[LastToolButton].Down = True) and (kedtIconFileName.Caption = '') then
         ktbBar.Buttons[LastToolButton].Glyph.Assign(ktbBarLoadButtonGlyph(edtToolTip.Text, ktbBar.GlyphSize, Color));
 end;
@@ -299,6 +299,7 @@ begin
   OpenDialog.Filter:= '*.bar|*.bar';
   if OpenDialog.Execute then
     begin
+      LastToolButton := -1;
       try
         IniBarFile:= TIniFileEx.Create(OpenDialog.FileName);
         ktbBar.LoadFromIniFile(IniBarFile);
@@ -642,7 +643,6 @@ begin
    if (LastToolButton >= 0) and (ktbBar.ButtonCount > 0) then
       begin
         ktbBar.RemoveButton(LastToolButton);
-        ClearControls;
 
         if ktbBar.ButtonCount>0 then
         begin
@@ -654,8 +654,13 @@ begin
           LoadButton(LastToolButton);
         end
         else
+        begin
           LastToolButton := -1;
-      end;
+          ClearControls;
+        end;
+      end
+   else
+     LastToolButton := -1;
   WakeSleepControls;
 end;
 
