@@ -324,7 +324,7 @@ implementation
 uses
    LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils,
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
-   uDefaultPlugins;
+   uDefaultPlugins, Lua;
 
 var
   // Double Commander version
@@ -807,7 +807,7 @@ begin
   gViewerMode:= 0;
 
   { - Other - }
-  gLuaLib := '/usr/lib/liblua5.1.so';
+  gLuaLib := LuaDLL;
   gNameSCFile := 'shortcuts.scf';
   gLastUsedPacker := 'zip';
 
