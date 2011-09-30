@@ -1,4 +1,16 @@
-﻿03.09.2011 FIX: Delete HotDir with item index = 0
+﻿30.09.2011 FIX: Bug [3415942] Editor->Search&Replace field order is bad...
+28.09.2011 FIX: List index out of bounds on deleting separator from toolbar (bug [3415074]).
+27.09.2011 FIX: Copying full paths of filenames from search result.
+22.09.2011 UPD: Czech language file from Martin Štrobl.
+10.09.2011 UPD: Russian language file
+09.09.2011 FIX: [Zip plugin] Slow opening of big archives; speed up test operation.
+09.09.2011 FIX: Force date, time separators to /, : in case they are UTF-8 characters in current locale (Unix).
+08.09.2011 FIX: Try to fix bug [3404533]
+07.09.2011 UPD: Traditional Chinese language file by mlance_2
+07.09.2011 FIX: Build libmime with large file support (bug [3403818]).
+06.09.2011 FIX: Multi rename files with not ASCII names and using range
+04.09.2011 FIX: Move files when can not copy attributes (e.g. move files from NTFS to EXT3 file system under Linux)
+03.09.2011 FIX: Delete HotDir with item index = 0
 02.09.2011 FIX: Access violation error with some wcx and wfx plugins
 --------------------------------------------------------------------------------
 28.08.2011 Release Double Commander 0.5.0 beta
