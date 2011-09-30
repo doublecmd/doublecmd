@@ -31,18 +31,22 @@ type
   Plua_State = ^lua_State;
 
 const
-{$IFDEF MSWINDOWS}
-  LuaDLL = 'lua5.1.dll';
-{$ENDIF}
-{$IFDEF UNIX}
-{$IFDEF DARWIN}
-  LuaDLL = 'lua5.1.dylib';
-{$ELSE}
-  LuaDLL = 'lua5.1.so';
-{$ENDIF}
-{$ENDIF}
-{$IFDEF MACOS}
-  SDLgfxLibName = 'lua5.1';
+{$IF DEFINED(MSWINDOWS)}
+      LuaDLL = 'lua5.1.dll';
+{$ELSEIF DEFINED(UNIX)}
+  {$IFDEF DARWIN}
+    {$IF DEFINED(STATIC)}
+      LuaDLL = 'lua5.1.dylib';
+    {$ELSEIF DEFINED(DINAMIC)}
+      LuaDLL = 'liblua5.1.dylib';
+    {$ENDIF}
+  {$ELSE}
+    {$IF DEFINED(STATIC)}
+      LuaDLL = 'lua5.1.so';
+    {$ELSEIF DEFINED(DINAMIC)}
+      LuaDLL = 'liblua5.1.so.0';
+    {$ENDIF}
+  {$ENDIF}
 {$ENDIF}
 
 (* formats for Lua numbers *)
@@ -1142,7 +1146,6 @@ uses
  function LoadLuaLib(filename:string):boolean;
   begin
    result:=false;
-   if not FileExists(FileName) then exit;
    LuaLibD:=LoadLibrary(FileName);
    result:= (LuaLibD<>0);
    if LuaLibD=0 then exit;
