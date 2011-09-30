@@ -19,7 +19,7 @@ unit fAbout;
 interface
 
 uses
-  Graphics, Forms, Controls, StdCtrls, ExtCtrls, Buttons
+  Graphics, Forms, Controls, StdCtrls, ExtCtrls, Buttons,
   SysUtils, Classes, LCLType;
 
 type
