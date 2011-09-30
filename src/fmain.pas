@@ -46,7 +46,7 @@ uses
   uCmdBox, uFilePanelSelect,
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
   uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, uClassesEx,
-  uXmlConfig, uDrive, uDriveWatcher;
+  uXmlConfig, uDrive, uDriveWatcher, uDCVersion;
 
 const
   cHistoryFile='cmdhistory.txt';
@@ -682,6 +682,10 @@ procedure TfrmMain.FormCreate(Sender: TObject);
     Result.OnDblClick := @pnlLeftRightDblClick;
     {$ENDIF}
   end;
+  function GenerateTitle():String;
+  begin
+    Result := Format('%s %s build %s; %s', ['Double Commander', dcVersion, dcRevision, dcBuildDate]);
+  end;
 
 var
   slCommandHistory: TStringListEx;
@@ -690,6 +694,9 @@ var
 begin
   Application.OnException := @AppException;
   Application.OnActivate := @AppActivate;
+
+  //Caption of main window
+  Self.Caption := GenerateTitle();
 
   InitPropStorage(Self);
 
