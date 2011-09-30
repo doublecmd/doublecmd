@@ -7,7 +7,6 @@ object frmEditSearchReplace: TfrmEditSearchReplace
   AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
-  Caption = 'frmEditSearchReplace'
   ChildSizing.TopBottomSpacing = 6
   ClientHeight = 222
   ClientWidth = 409
@@ -15,7 +14,7 @@ object frmEditSearchReplace: TfrmEditSearchReplace
   OnShow = FormShow
   Position = poOwnerFormCenter
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.27'
+  LCLVersion = '0.9.29'
   object lblSearchFor: TLabel
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = cbSearchText
@@ -74,14 +73,14 @@ object frmEditSearchReplace: TfrmEditSearchReplace
     Caption = 'Option'
     ClientHeight = 95
     ClientWidth = 193
-    TabOrder = 1
+    TabOrder = 2
     object cbSearchCaseSensitive: TCheckBox
       AnchorSideLeft.Control = gbSearchOptions
       AnchorSideTop.Control = gbSearchOptions
       Left = 8
       Height = 17
       Top = 2
-      Width = 90
+      Width = 93
       BorderSpacing.Left = 8
       BorderSpacing.Top = 2
       Caption = 'C&ase sensitivity'
@@ -94,7 +93,7 @@ object frmEditSearchReplace: TfrmEditSearchReplace
       Left = 8
       Height = 17
       Top = 21
-      Width = 102
+      Width = 103
       BorderSpacing.Left = 8
       BorderSpacing.Top = 2
       Caption = '&Whole words only'
@@ -107,7 +106,7 @@ object frmEditSearchReplace: TfrmEditSearchReplace
       Left = 8
       Height = 17
       Top = 40
-      Width = 102
+      Width = 105
       BorderSpacing.Left = 8
       BorderSpacing.Top = 2
       Caption = 'Selected &text only'
@@ -120,7 +119,7 @@ object frmEditSearchReplace: TfrmEditSearchReplace
       Left = 8
       Height = 17
       Top = 59
-      Width = 102
+      Width = 104
       BorderSpacing.Left = 8
       BorderSpacing.Top = 2
       Caption = 'Search from &caret'
@@ -133,7 +132,7 @@ object frmEditSearchReplace: TfrmEditSearchReplace
       Left = 8
       Height = 17
       Top = 78
-      Width = 113
+      Width = 115
       BorderSpacing.Left = 8
       BorderSpacing.Top = 2
       Caption = '&Regular expressions'
@@ -171,7 +170,7 @@ object frmEditSearchReplace: TfrmEditSearchReplace
       '&Forward'
       '&Backward'
     )
-    TabOrder = 2
+    TabOrder = 3
   end
   object cbReplaceText: TComboBox
     AnchorSideLeft.Control = lblReplaceWith
@@ -189,7 +188,7 @@ object frmEditSearchReplace: TfrmEditSearchReplace
     BorderSpacing.Top = 6
     BorderSpacing.Right = 8
     ItemHeight = 13
-    TabOrder = 3
+    TabOrder = 1
   end
   object btnOK: TBitBtn
     AnchorSideTop.Control = gbSearchOptions
