@@ -1,6 +1,7 @@
 ﻿--------------------------------------------------------------------------------
-01.10.2011 Release Double Commander 0.5.1 beta
+xx.10.2011 Release Double Commander 0.5.1 beta
 --------------------------------------------------------------------------------
+01.10.2011 FIX: Bug [3402974] Problems with SAMBA resources with authorization
 30.09.2011 FIX: Bug [3416235] Incorrect default path to Lua library
 30.09.2011 FIX: Bug [3411184] Can not extract empty folder from archive
 30.09.2011 FIX: Bug [3415942] Editor->Search&Replace field order is bad...
