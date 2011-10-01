@@ -80,7 +80,10 @@ type
     // CheckBox events
     procedure CheckBoxChange(Sender: TObject);
   private
-    fDlgProc: TDlgProc;
+    FDlgProc: TDlgProc;
+    FResult: LongBool;
+  protected
+    procedure ShowDialogBox;
   public
     { public declarations }
   end; 
@@ -152,8 +155,9 @@ begin
   try
     with Dialog do
     begin
-      fDlgProc:= DlgProc;
-      Result:= (ShowModal = mrOK);
+      FDlgProc:= DlgProc;
+      TThread.Synchronize(nil, @ShowDialogBox);
+      Result:= FResult;
     end;
   finally
     if Assigned(Dialog) then
@@ -487,7 +491,12 @@ begin
   end;
 end;
 
-{ TDialog }
+{ TDialogBox }
+
+procedure TDialogBox.ShowDialogBox;
+begin
+  FResult:= (ShowModal = mrOK);
+end;
 
 procedure TDialogBox.DialogBoxShow(Sender: TObject);
 begin
@@ -682,4 +691,4 @@ initialization
   {.$I fdialogbox.lrs}
 
 end.
-
+
