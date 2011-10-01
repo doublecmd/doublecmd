@@ -59,14 +59,20 @@ cp -r uk   %{buildroot}/%{_datadir}/doublecmd/doc
 
 %files
 %defattr(-,root,root)
+%{_datadir}/doublecmd
+%{_datadir}/doublecmd/doc
 %doc %{_datadir}/doublecmd/doc/en
 
 %files -n doublecmd-help-ru
 %defattr(-,root,root)
+%{_datadir}/doublecmd
+%{_datadir}/doublecmd/doc
 %doc %{_datadir}/doublecmd/doc/ru
 
 %files -n doublecmd-help-uk
 %defattr(-,root,root)
+%{_datadir}/doublecmd
+%{_datadir}/doublecmd/doc
 %doc %{_datadir}/doublecmd/doc/uk
 
 %changelog
