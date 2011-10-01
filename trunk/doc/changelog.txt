@@ -1,4 +1,9 @@
-﻿30.09.2011 FIX: Bug [3415942] Editor->Search&Replace field order is bad...
+﻿--------------------------------------------------------------------------------
+01.10.2011 Release Double Commander 0.5.1 beta
+--------------------------------------------------------------------------------
+30.09.2011 FIX: Bug [3416235] Incorrect default path to Lua library
+30.09.2011 FIX: Bug [3411184] Can not extract empty folder from archive
+30.09.2011 FIX: Bug [3415942] Editor->Search&Replace field order is bad...
 28.09.2011 FIX: List index out of bounds on deleting separator from toolbar (bug [3415074]).
 27.09.2011 FIX: Copying full paths of filenames from search result.
 22.09.2011 UPD: Czech language file from Martin Štrobl.
