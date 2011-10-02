@@ -1,7 +1,7 @@
 inherited frmOptionsBehavior: TfrmOptionsBehavior
-  Height = 378
+  Height = 352
   Width = 666
-  ClientHeight = 378
+  ClientHeight = 352
   ClientWidth = 666
   object gbMisc1: TGroupBox[0]
     AnchorSideTop.Side = asrBottom
@@ -69,33 +69,41 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
     AnchorSideRight.Control = gbMisc1
     AnchorSideRight.Side = asrBottom
     Left = 8
-    Height = 97
+    Height = 89
     Top = 129
     Width = 646
     Anchors = [akTop, akLeft, akRight]
-    ClientHeight = 75
+    AutoSize = True
+    ClientHeight = 67
     ClientWidth = 642
     TabOrder = 1
-    object ledDriveBlackList: TLabeledEdit
+    object lblDrivesBlackList: TLabel
+      AnchorSideLeft.Control = gbMisc2
+      AnchorSideTop.Control = gbMisc2
+      Left = 8
+      Height = 22
+      Top = 2
+      Width = 102
+      BorderSpacing.Left = 8
+      BorderSpacing.Top = 2
+      Caption = 'Drives blacklist'
+      ParentColor = False
+    end
+    object edtDrivesBlackList: TEdit
+      AnchorSideLeft.Control = lblDrivesBlackList
+      AnchorSideTop.Control = lblDrivesBlackList
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbMisc2
       AnchorSideRight.Side = asrBottom
       Left = 8
       Height = 29
-      Hint = 'Here you can enter one or more drives, separated by ";".'
-      Top = 28
-      Width = 622
+      Hint = 'Here you can enter one or more drives or mount points, separated by ";".'
+      Top = 30
+      Width = 626
       Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Left = 10
-      BorderSpacing.Right = 10
-      EditLabel.AnchorSideLeft.Control = ledDriveBlackList
-      EditLabel.AnchorSideRight.Control = ledDriveBlackList
-      EditLabel.AnchorSideRight.Side = asrBottom
-      EditLabel.AnchorSideBottom.Control = ledDriveBlackList
-      EditLabel.Left = 8
-      EditLabel.Height = 22
-      EditLabel.Top = 3
-      EditLabel.Width = 622
-      EditLabel.Caption = 'Drive blacklist:'
-      EditLabel.ParentColor = False
+      BorderSpacing.Top = 6
+      BorderSpacing.Right = 8
+      BorderSpacing.Bottom = 8
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
@@ -107,7 +115,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
     AnchorSideRight.Side = asrBottom
     Left = 8
     Height = 121
-    Top = 232
+    Top = 224
     Width = 646
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
