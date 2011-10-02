@@ -334,12 +334,14 @@ resourcestring
   rsOptionsEditorAutoRefresh = 'Auto refresh';
   rsOptionsEditorBehavior = 'Behaviors';
   rsOptionsEditorColors = 'Colors';
-  rsOptionsEditorColumns = 'Columns';
+  rsOptionsEditorColumnsView = 'Columns';
+  rsOptionsEditorCustomColumns = 'Custom columns';
   rsOptionsEditorConfiguration = 'Configuration';
   rsOptionsEditorDragAndDrop = 'Drag & drop';
   rsOptionsEditorFileOperations = 'File operations';
   rsOptionsEditorFilePanels = 'File panels';
   rsOptionsEditorFileTypes = 'File types';
+  rsOptionsEditorFilesViews = 'Files views';
   rsOptionsEditorFolderTabs = 'Folder tabs';
   rsOptionsEditorFonts = 'Fonts';
   rsOptionsEditorHotKeys = 'Hot keys';

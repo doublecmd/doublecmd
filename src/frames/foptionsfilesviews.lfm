@@ -1,0 +1,197 @@
+inherited frmOptionsFilesViews: TfrmOptionsFilesViews
+  Height = 319
+  Width = 613
+  ClientHeight = 319
+  ClientWidth = 613
+  object gbSorting: TGroupBox[0]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 98
+    Top = 6
+    Width = 601
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Around = 6
+    Caption = 'Sorting'
+    ChildSizing.LeftRightSpacing = 12
+    ChildSizing.TopBottomSpacing = 8
+    ClientHeight = 76
+    ClientWidth = 597
+    TabOrder = 0
+    object cbSortCaseSensitive: TCheckBox
+      AnchorSideLeft.Control = gbSorting
+      AnchorSideTop.Control = gbSorting
+      AnchorSideRight.Control = gbSorting
+      AnchorSideRight.Side = asrBottom
+      Left = 12
+      Height = 25
+      Top = 8
+      Width = 573
+      Anchors = [akTop, akLeft, akRight]
+      Caption = 'Case-sensitive sorting'
+      TabOrder = 0
+    end
+    object lblSortMethod: TLabel
+      AnchorSideLeft.Control = gbSorting
+      AnchorSideTop.Control = cbSortMethod
+      AnchorSideTop.Side = asrCenter
+      Left = 12
+      Height = 22
+      Top = 42
+      Width = 88
+      BorderSpacing.Top = 6
+      Caption = 'Sort &method:'
+      ParentColor = False
+    end
+    object cbSortMethod: TComboBox
+      AnchorSideLeft.Control = lblSortMethod
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbSortCaseSensitive
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbSorting
+      AnchorSideRight.Side = asrBottom
+      Left = 106
+      Height = 29
+      Top = 39
+      Width = 479
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      ItemHeight = 21
+      ItemIndex = 0
+      Items.Strings = (
+        'Alphabetical, considering accents'
+        'Natural sorting: alphabetical and numbers'
+      )
+      Style = csDropDownList
+      TabOrder = 1
+      Text = 'Alphabetical, considering accents'
+    end
+  end
+  object gbMisc: TGroupBox[1]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbFormatting
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 84
+    Top = 215
+    Width = 601
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Around = 6
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 62
+    ClientWidth = 597
+    TabOrder = 1
+    object cbSpaceMovesDown: TCheckBox
+      Left = 6
+      Height = 25
+      Top = 6
+      Width = 587
+      Caption = 'When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)'
+      TabOrder = 0
+    end
+    object cbDirBrackets: TCheckBox
+      Left = 6
+      Height = 25
+      Top = 31
+      Width = 587
+      Caption = 'Show square brackets around directories'
+      TabOrder = 1
+    end
+  end
+  object gbFormatting: TGroupBox[2]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbSorting
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 99
+    Top = 110
+    Width = 601
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Around = 6
+    Caption = 'Formatting'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ClientHeight = 77
+    ClientWidth = 597
+    TabOrder = 2
+    object lblDateTimeFormat: TLabel
+      AnchorSideLeft.Control = gbFormatting
+      AnchorSideTop.Control = cbDateTimeFormat
+      AnchorSideTop.Side = asrCenter
+      Left = 8
+      Height = 22
+      Top = 9
+      Width = 148
+      BorderSpacing.Left = 8
+      Caption = 'Date and time format:'
+      ParentColor = False
+    end
+    object lblDateTimeExample: TLabel
+      AnchorSideTop.Control = cbDateTimeFormat
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = gbFormatting
+      AnchorSideRight.Side = asrBottom
+      Left = 590
+      Height = 1
+      Top = 20
+      Width = 1
+      Anchors = [akTop, akRight]
+      BorderSpacing.Top = 6
+      BorderSpacing.Right = 6
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object cbDateTimeFormat: TComboBox
+      AnchorSideLeft.Control = lblDateTimeFormat
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = gbFormatting
+      AnchorSideRight.Control = lblDateTimeExample
+      Left = 164
+      Height = 29
+      Top = 6
+      Width = 418
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 8
+      BorderSpacing.Top = 6
+      BorderSpacing.Right = 8
+      ItemHeight = 21
+      Items.Strings = (
+        'yyyy.mm.dd hh:mm:ss'
+        'yyyy.mm.dd hh:mm'
+        'yy.mm.dd hh:mm'
+        'dd.mm.yyyy hh:mm:ss'
+        'dd.mm.yyyy hh:mm'
+        'dd.mm.yy hh:mm'
+        'dd.mm.yyyy'
+        'dd.mm.yy'
+      )
+      OnChange = cbDateTimeFormatChange
+      TabOrder = 0
+    end
+    object cbShortFileSizeFormat: TCheckBox
+      AnchorSideLeft.Control = gbFormatting
+      AnchorSideTop.Control = cbDateTimeFormat
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 25
+      Top = 41
+      Width = 167
+      BorderSpacing.Top = 6
+      Caption = 'Short file size format'
+      TabOrder = 1
+    end
+  end
+end

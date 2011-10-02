@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="148">
+    <Units Count="150">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1020,11 +1020,11 @@
         <UnitName Value="fOptionsConfiguration"/>
       </Unit130>
       <Unit131>
-        <Filename Value="frames\foptionscolumns.pas"/>
+        <Filename Value="frames\foptionscustomcolumns.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmOptionsColumns"/>
+        <ComponentName Value="frmOptionsCustomColumns"/>
         <ResourceBaseClass Value="Frame"/>
-        <UnitName Value="fOptionsColumns"/>
+        <UnitName Value="fOptionsCustomColumns"/>
       </Unit131>
       <Unit132>
         <Filename Value="frames\foptionsmisc.pas"/>
@@ -1132,6 +1132,20 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsDragDrop"/>
       </Unit147>
+      <Unit148>
+        <Filename Value="frames\foptionsfilesviews.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsFilesViews"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsFilesViews"/>
+      </Unit148>
+      <Unit149>
+        <Filename Value="frames\foptionscolumnsview.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsColumnsView"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsColumnsView"/>
+      </Unit149>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

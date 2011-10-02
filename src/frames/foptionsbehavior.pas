@@ -36,28 +36,17 @@ type
 
   TfrmOptionsBehavior = class(TOptionsEditor)
     cbAlwaysShowTrayIcon: TCheckBox;
-    cbCutTextToColWidth: TCheckBox;
-    cbDateTimeFormat: TComboBox;
     cbListFilesInThread: TCheckBox;
     cbLoadIconsSeparately: TCheckBox;
     cbMinimizeToTray: TCheckBox;
     cbOnlyOnce: TCheckBox;
-    cbShortFileSizeFormat: TCheckBox;
     cbShowSystemFiles: TCheckBox;
-    chkAutoFillColumns: TCheckBox;
-    cmbAutoSizeColumn: TComboBox;
-    gbDateTimeFormat: TGroupBox;
     gbMisc1: TGroupBox;
     gbMisc2: TGroupBox;
     gbMisc3: TGroupBox;
-    lblAutoSizeColumn: TLabel;
-    lblDateTimeExample: TLabel;
-    lblDateTimeFormat: TLabel;
     ledDriveBlackList: TLabeledEdit;
     procedure cbAlwaysShowTrayIconChange(Sender: TObject);
-    procedure cbDateTimeFormatChange(Sender: TObject);
   protected
-    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
@@ -80,11 +69,6 @@ begin
   cbMinimizeToTray.Enabled:= not cbAlwaysShowTrayIcon.Checked;
 end;
 
-procedure TfrmOptionsBehavior.cbDateTimeFormatChange(Sender: TObject);
-begin
-  lblDateTimeExample.Caption:= FormatDateTime(cbDateTimeFormat.Text, Now);
-end;
-
 class function TfrmOptionsBehavior.GetIconIndex: Integer;
 begin
   Result := 1;
@@ -95,25 +79,12 @@ begin
   Result := rsOptionsEditorBehavior;
 end;
 
-procedure TfrmOptionsBehavior.Init;
-begin
-  ParseLineToList(rsOptAutoSizeColumn, cmbAutoSizeColumn.Items);
-end;
-
 procedure TfrmOptionsBehavior.Load;
 begin
   cbOnlyOnce.Checked:= gOnlyOneAppInstance;
-  cbShortFileSizeFormat.Checked:=gShortFileSizeFormat;
-
-  chkAutoFillColumns.Checked:= gAutoFillColumns;
-  cmbAutoSizeColumn.ItemIndex:= gAutoSizeColumn;
-
   cbMinimizeToTray.Checked:= gMinimizeToTray;
   cbMinimizeToTray.Enabled:= not gAlwaysShowTrayIcon;
   cbAlwaysShowTrayIcon.Checked:= gAlwaysShowTrayIcon;
-  cbDateTimeFormat.Text:= gDateTimeFormat;
-  lblDateTimeExample.Caption:= FormatDateTime(gDateTimeFormat, Now);
-  cbCutTextToColWidth.Checked:= gCutTextToColWidth;
   ledDriveBlackList.Text:= gDriveBlackList;
   cbShowSystemFiles.Checked:= gShowSystemFiles;
   cbListFilesInThread.Checked:= gListFilesInThread;
@@ -125,19 +96,12 @@ begin
   Result := [];
 
   gOnlyOneAppInstance:=cbOnlyOnce.Checked;
-  gShortFileSizeFormat:=cbShortFileSizeFormat.Checked;
-
   gMinimizeToTray:= cbMinimizeToTray.Checked;
   gAlwaysShowTrayIcon:= cbAlwaysShowTrayIcon.Checked;
-  gDateTimeFormat := cbDateTimeFormat.Text;
-  gCutTextToColWidth:= cbCutTextToColWidth.Checked;
   gDriveBlackList:= ledDriveBlackList.Text;
   gShowSystemFiles:= cbShowSystemFiles.Checked;
   gListFilesInThread:= cbListFilesInThread.Checked;
   gLoadIconsSeparately:= cbLoadIconsSeparately.Checked;
-
-  gAutoFillColumns:= chkAutoFillColumns.Checked;
-  gAutoSizeColumn:= cmbAutoSizeColumn.ItemIndex;
 end;
 
 end.

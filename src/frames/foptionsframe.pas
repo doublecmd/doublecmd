@@ -89,12 +89,14 @@ uses
   fOptionsArchivers,
   fOptionsAutoRefresh,
   fOptionsBehavior,
-  fOptionsColumns,
+  fOptionsColumnsView,
   fOptionsConfiguration,
+  fOptionsCustomColumns,
   fOptionsDragDrop,
   fOptionsFileOperations,
   fOptionsFilePanelsColors,
   fOptionsFileTypesColors,
+  fOptionsFilesViews,
   fOptionsFonts,
   fOptionsGroups,
   fOptionsHotkeys,
@@ -220,6 +222,8 @@ procedure MakeEditorsClassList;
 var
   Main: TOptionsEditorClassList absolute OptionsEditorClassList;
   Colors,
+  ColumnsView,
+  FilesViews,
   Keyboard,
   Mouse,
   Tools: TOptionsEditorRec;
@@ -239,6 +243,9 @@ begin
   Keyboard.Add(TfrmOptionsHotkeys);
   Mouse := Main.Add(TfrmOptionsMouse);
   Mouse.Add(TfrmOptionsDragDrop);
+  FilesViews := Main.Add(TfrmOptionsFilesViews);
+  ColumnsView := FilesViews.Add(TfrmOptionsColumnsView);
+  ColumnsView.Add(TfrmOptionsCustomColumns);
   Main.Add(TfrmOptionsPlugins);
   Main.Add(TfrmOptionsLayout);
   Main.Add(TfrmOptionsFileOperations);
@@ -246,7 +253,6 @@ begin
   Main.Add(TfrmOptionsLog);
   Main.Add(TfrmOptionsConfiguration);
   Main.Add(TfrmOptionsQuickSearchFilter);
-  Main.Add(TfrmOptionsColumns);
   Main.Add(TfrmOptionsMisc);
   Main.Add(TfrmOptionsAutoRefresh);
   Main.Add(TfrmOptionsIcons);
