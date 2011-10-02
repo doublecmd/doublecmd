@@ -41,10 +41,11 @@ type
     cbMinimizeToTray: TCheckBox;
     cbOnlyOnce: TCheckBox;
     cbShowSystemFiles: TCheckBox;
+    edtDrivesBlackList: TEdit;
     gbMisc1: TGroupBox;
     gbMisc2: TGroupBox;
     gbMisc3: TGroupBox;
-    ledDriveBlackList: TLabeledEdit;
+    lblDrivesBlackList: TLabel;
     procedure cbAlwaysShowTrayIconChange(Sender: TObject);
   protected
     procedure Load; override;
@@ -85,7 +86,7 @@ begin
   cbMinimizeToTray.Checked:= gMinimizeToTray;
   cbMinimizeToTray.Enabled:= not gAlwaysShowTrayIcon;
   cbAlwaysShowTrayIcon.Checked:= gAlwaysShowTrayIcon;
-  ledDriveBlackList.Text:= gDriveBlackList;
+  edtDrivesBlackList.Text:= gDriveBlackList;
   cbShowSystemFiles.Checked:= gShowSystemFiles;
   cbListFilesInThread.Checked:= gListFilesInThread;
   cbLoadIconsSeparately.Checked:= gLoadIconsSeparately;
@@ -98,7 +99,7 @@ begin
   gOnlyOneAppInstance:=cbOnlyOnce.Checked;
   gMinimizeToTray:= cbMinimizeToTray.Checked;
   gAlwaysShowTrayIcon:= cbAlwaysShowTrayIcon.Checked;
-  gDriveBlackList:= ledDriveBlackList.Text;
+  gDriveBlackList:= edtDrivesBlackList.Text;
   gShowSystemFiles:= cbShowSystemFiles.Checked;
   gListFilesInThread:= cbListFilesInThread.Checked;
   gLoadIconsSeparately:= cbLoadIconsSeparately.Checked;
