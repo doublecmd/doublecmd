@@ -638,7 +638,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLIntf, Dialogs, uGlobs, uLng, fConfigToolBar, uMasks, fCopyMoveDlg, uQuickViewPanel,
+  LCLIntf, LCLVersion, Dialogs, uGlobs, uLng, fConfigToolBar, uMasks, fCopyMoveDlg, uQuickViewPanel,
   uShowMsg, fHotDir, uDCUtils, uLog, uGlobsPaths, LCLProc, uOSUtils, uOSForms, uPixMapManager,
   uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
@@ -677,7 +677,11 @@ procedure TfrmMain.FormCreate(Sender: TObject);
     Result.OnCloseTabClicked := @NotebookCloseTabClicked;
     Result.OnMouseDown := @nbPageMouseDown;
     Result.OnMouseUp := @nbPageMouseUp;
+    {$IF DECLARED(lcl_fullversion) and (lcl_fullversion >= 093100) and (lazRevision >= lazRevOnPageChangedRemoved)}
+    Result.OnChange := @nbPageChanged;
+    {$ELSE}
     Result.OnPageChanged := @nbPageChanged;
+    {$ENDIF}
     {$IF DEFINED(LCLGTK2)}
     Result.OnDblClick := @pnlLeftRightDblClick;
     {$ENDIF}

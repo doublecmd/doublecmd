@@ -10,6 +10,7 @@ uses
 
 const
   lazRevNewTabControl = '31767';
+  lazRevOnPageChangedRemoved = '32622';
 
 type
 
@@ -125,6 +126,9 @@ type
 
   published
     property OnDblClick;
+    {$IF DECLARED(lcl_fullversion) and (lcl_fullversion >= 093100) and (lazRevision >= lazRevOnPageChangedRemoved)}
+    property OnChange;
+    {$ENDIF}
     property OnMouseDown;
     property OnMouseUp;
   end;
