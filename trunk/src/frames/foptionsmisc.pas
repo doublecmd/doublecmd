@@ -34,19 +34,9 @@ type
   { TfrmOptionsMisc }
 
   TfrmOptionsMisc = class(TOptionsEditor)
-    cbDirBrackets: TCheckBox;
-    cbGridHorzLine: TCheckBox;
-    cbGridVertLine: TCheckBox;
     cbShowWarningMessages: TCheckBox;
-    cbSortCaseSensitive: TCheckBox;
-    cbSortMethod: TComboBox;
-    cbSpaceMovesDown: TCheckBox;
     gbExtended: TGroupBox;
-    gbShowGrid: TGroupBox;
-    gbSorting: TGroupBox;
-    lblSortMethod: TLabel;
   protected
-    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
@@ -63,11 +53,6 @@ uses
 
 { TfrmOptionsMisc }
 
-procedure TfrmOptionsMisc.Init;
-begin
-  ParseLineToList(rsOptSortMethod, cbSortMethod.Items);
-end;
-
 class function TfrmOptionsMisc.GetIconIndex: Integer;
 begin
   Result := 14;
@@ -80,26 +65,14 @@ end;
 
 procedure TfrmOptionsMisc.Load;
 begin
-  cbGridVertLine.Checked:= gGridVertLine;
-  cbGridHorzLine.Checked:= gGridHorzLine;
   cbShowWarningMessages.Checked:= gShowWarningMessages;
-  cbSpaceMovesDown.Checked:= gSpaceMovesDown;
-  cbDirBrackets.Checked:= gDirBrackets;
-  cbSortCaseSensitive.Checked:= gSortCaseSensitive;
-  if gSortNatural then cbSortMethod.ItemIndex:= 1;
 end;
 
 function TfrmOptionsMisc.Save: TOptionsEditorSaveFlags;
 begin
   Result := [];
 
-  gGridVertLine:= cbGridVertLine.Checked;
-  gGridHorzLine:= cbGridHorzLine.Checked;
   gShowWarningMessages:= cbShowWarningMessages.Checked;
-  gSpaceMovesDown:= cbSpaceMovesDown.Checked;
-  gDirBrackets:= cbDirBrackets.Checked;
-  gSortCaseSensitive:= cbSortCaseSensitive.Checked;
-  gSortNatural:= (cbSortMethod.ItemIndex = 1);
 end;
 
 end.

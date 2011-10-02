@@ -2399,7 +2399,7 @@ begin
           end;
     1001: //All columns
           begin
-            Actions.cm_Options('TfrmOptionsColumns');
+            Actions.cm_Options('TfrmOptionsCustomColumns');
             frmMain.ReLoadTabs(frmMain.LeftTabs);
             frmMain.ReLoadTabs(frmMain.RightTabs);
           end;
@@ -4182,4 +4182,4 @@ begin
 end;
 
 end.
-
+

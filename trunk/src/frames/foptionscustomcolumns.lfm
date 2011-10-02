@@ -1,4 +1,4 @@
-inherited frmOptionsColumns: TfrmOptionsColumns
+inherited frmOptionsCustomColumns: TfrmOptionsCustomColumns
   Height = 372
   Width = 730
   ClientHeight = 372

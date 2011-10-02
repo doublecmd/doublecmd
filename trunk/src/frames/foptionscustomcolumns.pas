@@ -1,7 +1,7 @@
 {
    Double Commander
    -------------------------------------------------------------------------
-   Columns options page
+   Custom columns options page
 
    Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
 
@@ -20,7 +20,7 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
 
-unit fOptionsColumns;
+unit fOptionsCustomColumns;
 
 {$mode objfpc}{$H+}
 
@@ -32,9 +32,9 @@ uses
 
 type
 
-  { TfrmOptionsColumns }
+  { TfrmOptionsCustomColumns }
 
-  TfrmOptionsColumns = class(TOptionsEditor)
+  TfrmOptionsCustomColumns = class(TOptionsEditor)
     btnCopyColumnsSet: TButton;
     btnDelColumnsSet: TButton;
     btnEditColumnsSet: TButton;
@@ -64,9 +64,9 @@ implementation
 uses
   uGlobs, uLng, fColumnsSetConf;
 
-{ TfrmOptionsColumns }
+{ TfrmOptionsCustomColumns }
 
-procedure TfrmOptionsColumns.btnCopyColumnsSetClick(Sender: TObject);
+procedure TfrmOptionsCustomColumns.btnCopyColumnsSetClick(Sender: TObject);
 var
   s: string;
 begin
@@ -78,7 +78,7 @@ begin
   end;
 end;
 
-procedure TfrmOptionsColumns.btnDelColumnsSetClick(Sender: TObject);
+procedure TfrmOptionsCustomColumns.btnDelColumnsSetClick(Sender: TObject);
 begin
   if lstColumnsSets.ItemIndex=-1 then exit;
   if lstColumnsSets.Count=1 then exit;
@@ -86,7 +86,7 @@ begin
   FillColumnsList;
 end;
 
-procedure TfrmOptionsColumns.btnEditColumnsSetClick(Sender: TObject);
+procedure TfrmOptionsCustomColumns.btnEditColumnsSetClick(Sender: TObject);
 var
   frmColumnsSetConf: TfColumnsSetConf;
 begin
@@ -107,7 +107,7 @@ begin
   end;
 end;
 
-procedure TfrmOptionsColumns.btnNewColumnsSetClick(Sender: TObject);
+procedure TfrmOptionsCustomColumns.btnNewColumnsSetClick(Sender: TObject);
 var
   frmColumnsSetConf: TfColumnsSetConf;
 begin
@@ -125,7 +125,7 @@ begin
   end;
 end;
 
-procedure TfrmOptionsColumns.FillColumnsList;
+procedure TfrmOptionsCustomColumns.FillColumnsList;
 begin
  lstColumnsSets.Clear;
  If ColSet.Items.Count>0 then
@@ -134,22 +134,22 @@ begin
    end;
 end;
 
-class function TfrmOptionsColumns.GetIconIndex: Integer;
+class function TfrmOptionsCustomColumns.GetIconIndex: Integer;
 begin
-  Result := 13;
+  Result := 30;
 end;
 
-class function TfrmOptionsColumns.GetTitle: String;
+class function TfrmOptionsCustomColumns.GetTitle: String;
 begin
-  Result := rsOptionsEditorColumns;
+  Result := rsOptionsEditorCustomColumns;
 end;
 
-procedure TfrmOptionsColumns.Load;
+procedure TfrmOptionsCustomColumns.Load;
 begin
   FillColumnsList;
 end;
 
-function TfrmOptionsColumns.Save: TOptionsEditorSaveFlags;
+function TfrmOptionsCustomColumns.Save: TOptionsEditorSaveFlags;
 begin
   Result := [];
 end;
