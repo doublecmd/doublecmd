@@ -2006,8 +2006,7 @@ begin
 
   // If on a file/directory then choose it.
   if (Point.Y >=  dgPanel.GetHeaderHeight) and
-     (Point.Y <   dgPanel.GridHeight) and
-     (not IsEmpty) then
+     (Point.Y <   dgPanel.GridHeight) then
   begin
     ChooseFile(GetActiveDisplayFile);
   end;
@@ -2177,8 +2176,7 @@ begin
     VK_RIGHT:
       if (Shift = []) and gLynxLike then
       begin
-        if Assigned(GetActiveDisplayFile) then
-          ChooseFile(GetActiveDisplayFile, True);
+        ChooseFile(GetActiveDisplayFile, True);
         Key := 0;
       end;
 
@@ -3249,8 +3247,7 @@ end;
 
 procedure TColumnsFileView.cm_Open(param: string='');
 begin
-  if Assigned(GetActiveDisplayFile) then
-    ChooseFile(GetActiveDisplayFile);
+  ChooseFile(GetActiveDisplayFile);
 end;
 
 procedure TColumnsFileView.cm_CountDirContent(param: string='');
