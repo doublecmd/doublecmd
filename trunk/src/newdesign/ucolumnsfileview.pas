@@ -3391,6 +3391,17 @@ procedure TDrawGridEx.UpdateView;
     Result := MaxFontHeight;
   end;
 
+  function CalculateTabHeaderHeight: Integer;
+  var
+    OldFont: TFont;
+  begin
+    OldFont     := Canvas.Font;
+    Canvas.Font := Font;
+    SetCanvasFont(GetColumnFont(0, True));
+    Result      := Canvas.TextHeight('Wg');
+    Canvas.Font := OldFont;
+  end;
+
 var
   TabHeaderHeight: Integer;
   TempRowHeight: Integer;
@@ -3413,7 +3424,7 @@ begin
 
     FixedRows := 1;
 
-    TabHeaderHeight := Max(gIconsSize, Canvas.TextHeight('Wg'));
+    TabHeaderHeight := Max(gIconsSize, CalculateTabHeaderHeight);
     if not gInterfaceFlat then
     begin
       TabHeaderHeight := TabHeaderHeight + 2;
@@ -3489,7 +3500,7 @@ var
       PixMapManager.DrawBitmap(
           PixMapManager.GetIconBySortingDirection(SortingDirection),
           Canvas,
-          aRect.Left, aRect.Top);
+          aRect.Left, aRect.Top + (RowHeights[aRow] - gIconsSize) div 2);
     end;
 
     TitleX := max(TitleX, 4);
@@ -4179,4 +4190,4 @@ begin
 end;
 
 end.
-
+
