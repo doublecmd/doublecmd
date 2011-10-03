@@ -726,23 +726,26 @@ procedure TFileView.ChooseFile(const AFile: TDisplayFile; FolderMode: Boolean = 
 var
   FSFile: TFile;
 begin
-  FSFile := AFile.FSFile.Clone;
-  try
-    if FSFile.Name = '..' then
-      ChangePathToParent(True)
-    else if FSFile.IsLinkToDirectory then
-      ChooseSymbolicLink(Self, FSFile)
-    else if FSFile.IsDirectory then
-      ChangePathToChild(FSFile)
-    else if not FolderMode then
-      try
-        uFileSourceUtil.ChooseFile(Self, FSFile);
-      except
-        on e: Exception do
-          MessageDlg('Error', e.Message, mtError, [mbOK], 0);
-      end;
-  finally
-    FSFile.Free;
+  if Assigned(AFile) then
+  begin
+    FSFile := AFile.FSFile.Clone;
+    try
+      if FSFile.Name = '..' then
+        ChangePathToParent(True)
+      else if FSFile.IsLinkToDirectory then
+        ChooseSymbolicLink(Self, FSFile)
+      else if FSFile.IsDirectory then
+        ChangePathToChild(FSFile)
+      else if not FolderMode then
+        try
+          uFileSourceUtil.ChooseFile(Self, FSFile);
+        except
+          on e: Exception do
+            MessageDlg('Error', e.Message, mtError, [mbOK], 0);
+        end;
+    finally
+      FSFile.Free;
+    end;
   end;
 end;
 
