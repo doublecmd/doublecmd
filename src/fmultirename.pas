@@ -19,7 +19,7 @@ interface
 
 uses
   SysUtils, Classes, Graphics, Forms, StdCtrls, ComCtrls, Menus, SynRegExpr,
-  uClassesEx, uFile, uFileSource, StringHashList, Grids, uXmlConfig;
+  uClassesEx, uFile, uFileSource, StringHashList, Grids, ExtCtrls, uXmlConfig;
 
 type
 
@@ -50,6 +50,11 @@ type
     cbUseSubs: TCheckBox;
     cmbExtensionStyle: TComboBox;
     cbPresets: TComboBox;
+    miDay2: TMenuItem;
+    miHour1: TMenuItem;
+    miMinute1: TMenuItem;
+    miSecond1: TMenuItem;
+    pnlOptions: TPanel;
     StringGrid: TStringGrid;
     gbPresets: TGroupBox;
     gbMaska: TGroupBox;
@@ -266,6 +271,8 @@ begin
 
   // Set row count
   StringGrid.RowCount:= FFiles.Count + 1;
+
+  StringGrid.FocusRectVisible := False;
 
   // Set default values for controls.
   btnRestoreClick(nil);
