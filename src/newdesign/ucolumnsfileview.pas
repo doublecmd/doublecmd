@@ -127,6 +127,8 @@ type
     FColumnsSorting: TColumnsSortings;
     FSavedSelection: TStringListEx;
     FCurrentSelection: TStringHashList;
+    FFileNameColumn: Integer;
+    FExtensionColumn: Integer;
     FLastActiveRow: Integer;    //<en Last active row
     FUpdatingGrid: Boolean;
     FLastMark: String;
@@ -1207,28 +1209,41 @@ begin
 end;
 
 procedure TColumnsFileView.ShowRenameFileEdit(const sFileName:String);
+var
+  ALeft, ATop, AWidth, AHeight: Integer;
 begin
-  edtRename.Width := dgPanel.ColWidths[0]+dgPanel.ColWidths[1]-16;
-  edtRename.Top := (dgPanel.CellRect(0,dgPanel.Row).Top-2);
-  if gShowIcons <> sim_none then
-    edtRename.Left:= gIconsSize + 3
-  else
-    edtRename.Left:= 2;
-  edtRename.Height:=dgpanel.DefaultRowHeight+4;
-  edtRename.Hint:=sFileName;
-  edtRename.Text:=ExtractFileName(sFileName);
-  edtRename.Visible:=True;
-  edtRename.SetFocus;
-  if gRenameSelOnlyName then
-    begin
-      {$IFDEF LCLGTK2}
-      edtRename.SelStart:=1;
-      {$ENDIF}
-      edtRename.SelStart:=0;
-      edtRename.SelLength:= UTF8Length(edtRename.Text)-UTF8Length(ExtractFileExt(edtRename.Text));
-    end
-  else
-    edtRename.SelectAll;
+  if FFileNameColumn <> -1 then
+  begin
+    edtRename.Font.Name  := GetColumnsClass.GetColumnFontName(FFileNameColumn);
+    edtRename.Font.Size  := GetColumnsClass.GetColumnFontSize(FFileNameColumn);
+    edtRename.Font.Style := GetColumnsClass.GetColumnFontStyle(FFileNameColumn);
+
+    ATop := dgPanel.CellRect(FFileNameColumn, dgPanel.Row).Top - 2;
+    ALeft := dgPanel.CellRect(FFileNameColumn, dgPanel.Row).Left;
+    if gShowIcons <> sim_none then
+      Inc(ALeft, gIconsSize + 2);
+    AWidth := dgPanel.ColWidths[FFileNameColumn] - ALeft;
+    if Succ(FFileNameColumn) = FExtensionColumn then
+      Inc(AWidth, dgPanel.ColWidths[FExtensionColumn]);
+    AHeight := dgPanel.RowHeights[dgPanel.Row] + 4;
+
+    edtRename.SetBounds(ALeft, ATop, AWidth, AHeight);
+
+    edtRename.Hint:=sFileName;
+    edtRename.Text:=ExtractFileName(sFileName);
+    edtRename.Visible:=True;
+    edtRename.SetFocus;
+    if gRenameSelOnlyName then
+      begin
+        {$IFDEF LCLGTK2}
+        edtRename.SelStart:=1;
+        {$ENDIF}
+        edtRename.SelStart:=0;
+        edtRename.SelLength:= UTF8Length(edtRename.Text)-UTF8Length(ExtractFileExt(edtRename.Text));
+      end
+    else
+      edtRename.SelectAll;
+  end;
 end;
 
 procedure TColumnsFileView.ShowPathEdit;
@@ -1348,6 +1363,8 @@ begin
             ];
 
   ColumnsClass := GetColumnsClass;
+  FFileNameColumn := -1;
+  FExtensionColumn := -1;
 
   // Scan through all columns.
   for i := 0 to ColumnsClass.Count - 1 do
@@ -1361,6 +1378,10 @@ begin
       begin
         // Add file properties needed to display the function.
         Result := Result + TFileFunctionToProperty[FileFunctionsUsed[j]];
+        if (FFileNameColumn = -1) and (FileFunctionsUsed[j] in [fsfName, fsfNameNoExtension]) then
+          FFileNameColumn := i;
+        if (FExtensionColumn = -1) and (FileFunctionsUsed[j] in [fsfExtension]) then
+          FExtensionColumn := i;
       end;
     end;
   end;
@@ -2516,6 +2537,8 @@ begin
   FSavedSelection:= TStringListEx.Create;
   FCurrentSelection := TStringHashList.Create(True);
   FUpdatingGrid := False;
+  FFileNameColumn := -1;
+  FExtensionColumn := -1;
 
   // -- other components
 
@@ -4190,4 +4213,4 @@ begin
 end;
 
 end.
-
+
