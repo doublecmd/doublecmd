@@ -42,8 +42,8 @@ while [ "$1" != "--" ]; do
         -S) shift;CK_SLACKWARE=1;;
         -P) shift;CK_PORTABLE=1;;
         -H) shift;CK_HELP=1;;
-        --cpu) shift;CPU_TARGET=$(eval echo $1);shift;;
-        --ws) shift;lcl=$(eval echo $1);shift;;
+        --cpu) shift;export CPU_TARGET=$(eval echo $1);shift;;
+        --ws) shift;export lcl=$(eval echo $1);shift;;
   esac
 done
 
@@ -85,8 +85,8 @@ if [ "$CPU_TARGET" = "x86_64" ]
 fi
 
 # Copy libraries
-cp -a linux/lib/$CPU_TARGET/*.so         $BUILD_DC_TMP_DIR/
-cp -a linux/lib/$CPU_TARGET/$lcl/*.so    $BUILD_DC_TMP_DIR/
+cp -a linux/lib/$CPU_TARGET/*.so*         $BUILD_DC_TMP_DIR/
+cp -a linux/lib/$CPU_TARGET/$lcl/*.so*    $BUILD_DC_TMP_DIR/
 
 cd $BUILD_DC_TMP_DIR
 
@@ -115,6 +115,7 @@ if [ "$CK_PORTABLE" ]; then
   # Create *.tar.bz2 package
   mkdir -p $BUILD_PACK_DIR
   install/linux/install.sh --portable-prefix=$BUILD_PACK_DIR
+  cp -r doc/en   $BUILD_PACK_DIR/doublecmd/doc
   cd $BUILD_PACK_DIR
   sed -i -e 's/<UseConfigInProgramDir>False/<UseConfigInProgramDir>True/' doublecmd/doublecmd.xml
   tar -cvjf $PACK_DIR/doublecmd-$DC_VER-1.$lcl.$CPU_TARGET.tar.bz2 doublecmd
