@@ -16,16 +16,16 @@
 export lazbuild=$(which lazbuild)
 
 # Set up widgetset: gtk or gtk2 or qt
+# Set up processor architecture: i386 or x86_64
 if [ $2 ]
   then export lcl=$2
 fi
-if [ $lcl ]
-  then export DC_ARCH=$(echo "--widgetset=$lcl $DC_ARCH")
-fi
-
-# Set up processor architecture
-if [ $CPU_TARGET ] 
-  then export DC_ARCH=$(echo "--cpu=$CPU_TARGET $DC_ARCH")
+if [ $lcl ] && [ $CPU_TARGET ]
+  then export DC_ARCH=$(echo "--widgetset=$lcl")" "$(echo "--cpu=$CPU_TARGET")
+elif [ $lcl ]
+  then export DC_ARCH=$(echo "--widgetset=$lcl")
+elif [ $CPU_TARGET ]
+  then export DC_ARCH=$(echo "--cpu=$CPU_TARGET")
 fi
 
 build_default()

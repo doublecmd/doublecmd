@@ -100,7 +100,7 @@ if [ -z $CK_PORTABLE ]
   then
     # Copy libraries
     install -d                $DC_INSTALL_PREFIX/$OS_LIB_DIR
-    install -m 644 *.so       $DC_INSTALL_PREFIX/$OS_LIB_DIR
+    install -m 644 *.so*      $DC_INSTALL_PREFIX/$OS_LIB_DIR
     # Create directory for platform independed files
     install -d                $DC_INSTALL_PREFIX/usr/share/doublecmd
     # Copy documentation
@@ -130,7 +130,7 @@ if [ -z $CK_PORTABLE ]
     cp -r language $DC_INSTALL_DIR/
     cp -r pixmaps  $DC_INSTALL_DIR/
     # Copy libraries
-    cp -a *.so     $DC_INSTALL_DIR/
+    install -m 644 *.so*    $DC_INSTALL_DIR/
     # Copy DC icon
-    cp -a doublecmd.png $DC_INSTALL_DIR/doublecmd.png
+    cp -a doublecmd.png     $DC_INSTALL_DIR/doublecmd.png
 fi
