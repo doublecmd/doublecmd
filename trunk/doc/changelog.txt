@@ -1,6 +1,8 @@
 ﻿--------------------------------------------------------------------------------
-xx.10.2011 Release Double Commander 0.5.1 beta
+08.10.2011 Release Double Commander 0.5.1 beta
 --------------------------------------------------------------------------------
+08.10.2011 FIX: Access violation when open archive with symbolic links
+05.10.2011 FIX: Bug [3417849] Typo in options section: thubnails->thumbnails.
 01.10.2011 FIX: Bug [3402974] Problems with SAMBA resources with authorization
 30.09.2011 FIX: Bug [3416235] Incorrect default path to Lua library
 30.09.2011 FIX: Bug [3411184] Can not extract empty folder from archive
@@ -11,7 +13,7 @@ xx.10.2011 Release Double Commander 0.5.1 beta
 10.09.2011 UPD: Russian language file
 09.09.2011 FIX: [Zip plugin] Slow opening of big archives; speed up test operation.
 09.09.2011 FIX: Force date, time separators to /, : in case they are UTF-8 characters in current locale (Unix).
-08.09.2011 FIX: Try to fix bug [3404533]
+08.09.2011 FIX: Try to fix access violation when accessing empty DVD drive (bug [3404533])
 07.09.2011 UPD: Traditional Chinese language file by mlance_2
 07.09.2011 FIX: Build libmime with large file support (bug [3403818]).
 06.09.2011 FIX: Multi rename files with not ASCII names and using range
