@@ -17,8 +17,10 @@ DC_REVISION=$(svnversion -n ../../)
 # Set distribution
 if [ -z $2 ]
    then
+       export ORIG=1
        export DIST=lucid
    else
+       export ORIG=0
        export DIST=$2
 fi
 
@@ -40,6 +42,11 @@ update_doublecmd()
   rm -rf $DC_SOURCE_DIR/doc/ru
   rm -rf $DC_SOURCE_DIR/doc/uk
 
+  # Create doublecmd-x.x.x.orig.tar.gz
+  pushd $DC_SOURCE_DIR/..
+  tar -cvzf $DC_TEMP_DIR/doublecmd_$DC_VER.orig.tar.gz doublecmd-$DC_VER
+  popd
+
   # Prepare debian directory
   mkdir -p $DC_SOURCE_DIR/debian
   cp -r $DC_SOURCE_DIR/install/linux/deb/doublecmd/* $DC_SOURCE_DIR/debian
@@ -49,9 +56,14 @@ update_doublecmd()
   dch -m -D $DIST -v $DC_VER-$DC_REVISION~$DIST "Update to revision $DC_REVISION"
   popd
 
-  # Create archive with source code and upload it to PPA
+  # Create archive with source code
   pushd $DC_SOURCE_DIR
-  debuild -S -sa
+  if [ $ORIG = '1' ]
+    then
+        debuild -S -sa
+    else
+        debuild -S -sd
+  fi
   popd
 }
 
@@ -63,6 +75,11 @@ update_doublecmd_help()
   # Remove text files
   rm -f $DC_HELP_DIR/*.txt
 
+  # Create doublecmd-help-x.x.x.orig.tar.gz
+  pushd $DC_HELP_DIR/..
+  tar -cvzf $DC_TEMP_DIR/doublecmd-help_$DC_VER.orig.tar.gz doublecmd-help-$DC_VER
+  popd
+
   # Prepare debian directory
   svn export deb/doublecmd-help $DC_HELP_DIR/debian
 
@@ -73,7 +90,12 @@ update_doublecmd_help()
 
   # Create archive with source code
   pushd $DC_HELP_DIR
-  debuild -S -sa
+  if [ $ORIG = '1' ]
+    then
+        debuild -S -sa
+    else
+        debuild -S -sd
+  fi
   popd
 }
 
