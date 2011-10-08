@@ -16,15 +16,6 @@ DC_HELP_DIR=$DC_TEMP_DIR/doublecmd-help-$DC_VER
 # DC revision number
 DC_REVISION=$(svnversion -n ../../)
 
-# If second parameter is not null then
-# create archive with original source (*.orig.tar.gz)
-if [ -z $2 ]
-   then
-       export ORIG=1
-   else
-       export ORIG=0
-fi
-
 # Recreate temp directory
 rm -rf $DC_TEMP_DIR
 mkdir -p $DC_TEMP_DIR
@@ -62,7 +53,7 @@ update_doublecmd()
 
     # Create archive with source code
     pushd $DC_SOURCE_DIR
-    if [ $ORIG = '1' ] && [ $DIST = ${DISTRO[0]} ]
+    if [ $DIST = ${DISTRO[0]} ]
       then
           debuild -S -sa
       else
@@ -98,7 +89,7 @@ update_doublecmd_help()
 
     # Create archive with source code
     pushd $DC_HELP_DIR
-    if [ $ORIG = '1' ] && [ $DIST = ${DISTRO[0]} ]
+    if [ $DIST = ${DISTRO[0]} ]
       then
           debuild -S -sa
       else
@@ -122,7 +113,7 @@ esac
 
 # Upload archives to PPA
 cd $DC_TEMP_DIR
-dput -U ppa:alexx2000/doublecmd $(find -name '*.changes')
+dput -U ppa:alexx2000/doublecmd $(ls -xrt --file-type *.changes)
 
 # Clean
 rm -rf $DC_TEMP_DIR
