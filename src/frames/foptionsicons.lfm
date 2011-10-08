@@ -18,6 +18,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
     BorderSpacing.Left = 10
     BorderSpacing.Top = 6
     BorderSpacing.Right = 10
+    BorderSpacing.Bottom = 6
     Caption = ' Icon &size '
     ChildSizing.TopBottomSpacing = 8
     ClientHeight = 64

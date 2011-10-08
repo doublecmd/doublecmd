@@ -1,25 +1,32 @@
 inherited frmOptionsLog: TfrmOptionsLog
-  Height = 351
+  Height = 369
   Width = 394
-  ClientHeight = 351
+  ClientHeight = 369
   ClientWidth = 394
   object gbLogFile: TGroupBox[0]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 10
-    Height = 66
-    Top = 8
-    Width = 366
+    Left = 6
+    Height = 59
+    Top = 6
+    Width = 382
     Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
     Caption = 'File operation log file'
-    ClientHeight = 44
-    ClientWidth = 362
+    ClientHeight = 37
+    ClientWidth = 378
     TabOrder = 0
     object cbLogFile: TCheckBox
       AnchorSideTop.Control = fneLogFileName
       AnchorSideTop.Side = asrCenter
       Left = 10
       Height = 25
-      Top = 4
+      Top = 6
       Width = 136
       Caption = '&Create a log file:'
       TabOrder = 0
@@ -27,10 +34,11 @@ inherited frmOptionsLog: TfrmOptionsLog
     object fneLogFileName: TFileNameEdit
       AnchorSideLeft.Control = cbLogFile
       AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = gbLogFile
       Left = 152
       Height = 29
-      Top = 2
-      Width = 136
+      Top = 4
+      Width = 200
       DialogOptions = []
       FilterIndex = 0
       HideDirectories = False
@@ -38,31 +46,38 @@ inherited frmOptionsLog: TfrmOptionsLog
       NumGlyphs = 1
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 6
+      BorderSpacing.Top = 4
+      BorderSpacing.Bottom = 4
       MaxLength = 0
       TabOrder = 1
     end
   end
   object gbLogFileOp: TGroupBox[1]
+    AnchorSideLeft.Control = gbLogFile
     AnchorSideTop.Control = gbLogFile
     AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = gbLogFile
     AnchorSideRight.Side = asrBottom
-    Left = 10
-    Height = 147
-    Top = 80
-    Width = 366
+    Left = 6
+    Height = 163
+    Top = 69
+    Width = 382
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Top = 6
-    Caption = 'Log operations:'
+    BorderSpacing.Top = 4
+    Caption = 'Log operations'
     ChildSizing.LeftRightSpacing = 10
+    ChildSizing.TopBottomSpacing = 4
+    ChildSizing.VerticalSpacing = 2
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ClientHeight = 125
-    ClientWidth = 362
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 141
+    ClientWidth = 378
     TabOrder = 1
     object cbLogCpMvLn: TCheckBox
       Left = 10
       Height = 25
-      Top = 0
+      Top = 4
       Width = 242
       Caption = 'Copy/Move/Create link/symlink'
       TabOrder = 0
@@ -70,7 +85,7 @@ inherited frmOptionsLog: TfrmOptionsLog
     object cbLogDelete: TCheckBox
       Left = 10
       Height = 25
-      Top = 25
+      Top = 31
       Width = 242
       Caption = 'Delete'
       TabOrder = 1
@@ -78,7 +93,7 @@ inherited frmOptionsLog: TfrmOptionsLog
     object cbLogDirOp: TCheckBox
       Left = 10
       Height = 25
-      Top = 50
+      Top = 58
       Width = 242
       Caption = 'Create/Delete directories'
       TabOrder = 2
@@ -86,7 +101,7 @@ inherited frmOptionsLog: TfrmOptionsLog
     object cbLogArcOp: TCheckBox
       Left = 10
       Height = 25
-      Top = 75
+      Top = 85
       Width = 242
       Caption = 'Pack/Unpack'
       TabOrder = 3
@@ -94,33 +109,38 @@ inherited frmOptionsLog: TfrmOptionsLog
     object cbLogVFS: TCheckBox
       Left = 10
       Height = 25
-      Top = 100
+      Top = 112
       Width = 242
       Caption = 'File system plugins'
       TabOrder = 4
     end
   end
   object gbLogFileStatus: TGroupBox[2]
+    AnchorSideLeft.Control = gbLogFileOp
     AnchorSideTop.Control = gbLogFileOp
     AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = gbLogFileOp
     AnchorSideRight.Side = asrBottom
-    Left = 10
-    Height = 97
-    Top = 233
-    Width = 366
+    Left = 6
+    Height = 109
+    Top = 236
+    Width = 382
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Top = 6
-    Caption = 'Operation status:'
+    BorderSpacing.Top = 4
+    BorderSpacing.Bottom = 6
+    Caption = 'Operation status'
     ChildSizing.LeftRightSpacing = 10
+    ChildSizing.TopBottomSpacing = 4
+    ChildSizing.VerticalSpacing = 2
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ClientHeight = 75
-    ClientWidth = 362
+    ClientHeight = 87
+    ClientWidth = 378
     TabOrder = 2
     object cbLogSuccess: TCheckBox
       Left = 10
       Height = 25
-      Top = 0
+      Top = 4
       Width = 204
       Caption = 'Log &successful operations'
       TabOrder = 0
@@ -128,7 +148,7 @@ inherited frmOptionsLog: TfrmOptionsLog
     object cbLogErrors: TCheckBox
       Left = 10
       Height = 25
-      Top = 25
+      Top = 31
       Width = 204
       Caption = 'Log &errors'
       TabOrder = 1
@@ -136,7 +156,7 @@ inherited frmOptionsLog: TfrmOptionsLog
     object cbLogInfo: TCheckBox
       Left = 10
       Height = 25
-      Top = 50
+      Top = 58
       Width = 204
       Caption = 'Log information messages'
       TabOrder = 2

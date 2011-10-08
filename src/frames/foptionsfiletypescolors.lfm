@@ -11,6 +11,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
     Top = 6
     Width = 743
     Anchors = [akTop, akLeft, akRight, akBottom]
+    AutoSize = True
     BorderSpacing.Left = 8
     BorderSpacing.Top = 6
     BorderSpacing.Right = 8
@@ -109,6 +110,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
       Top = 278
       Width = 110
       Anchors = [akTop, akRight]
+      BorderSpacing.Left = 6
       BorderSpacing.Top = 12
       BorderSpacing.Right = 6
       Caption = 'Add'

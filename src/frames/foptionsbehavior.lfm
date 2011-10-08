@@ -4,17 +4,23 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
   ClientHeight = 352
   ClientWidth = 666
   object gbMisc1: TGroupBox[0]
-    AnchorSideTop.Side = asrBottom
-    Left = 8
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
     Height = 121
-    Top = 8
-    Width = 646
+    Top = 6
+    Width = 654
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
     ChildSizing.LeftRightSpacing = 8
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 99
-    ClientWidth = 642
+    ClientWidth = 650
     TabOrder = 0
     object cbOnlyOnce: TCheckBox
       AnchorSideLeft.Control = gbMisc1
@@ -24,7 +30,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Left = 8
       Height = 25
       Top = 6
-      Width = 626
+      Width = 634
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       Caption = 'Allow only one copy of DC at a time'
@@ -39,7 +45,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Left = 8
       Height = 25
       Top = 37
-      Width = 626
+      Width = 634
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       Caption = 'Mo&ve icon to system tray when minimized'
@@ -54,7 +60,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Left = 8
       Height = 25
       Top = 68
-      Width = 626
+      Width = 634
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       Caption = 'Always show tray icon'
@@ -68,14 +74,14 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = gbMisc1
     AnchorSideRight.Side = asrBottom
-    Left = 8
+    Left = 6
     Height = 89
-    Top = 129
-    Width = 646
+    Top = 127
+    Width = 654
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     ClientHeight = 67
-    ClientWidth = 642
+    ClientWidth = 650
     TabOrder = 1
     object lblDrivesBlackList: TLabel
       AnchorSideLeft.Control = gbMisc2
@@ -99,7 +105,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Height = 29
       Hint = 'Here you can enter one or more drives or mount points, separated by ";".'
       Top = 30
-      Width = 626
+      Width = 634
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       BorderSpacing.Right = 8
@@ -110,20 +116,22 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
     end
   end
   object gbMisc3: TGroupBox[2]
+    AnchorSideLeft.Control = gbMisc2
     AnchorSideTop.Control = gbMisc2
     AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = gbMisc2
     AnchorSideRight.Side = asrBottom
-    Left = 8
+    Left = 6
     Height = 121
-    Top = 224
-    Width = 646
+    Top = 216
+    Width = 654
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Top = 6
+    BorderSpacing.Bottom = 6
     ChildSizing.LeftRightSpacing = 8
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 99
-    ClientWidth = 642
+    ClientWidth = 650
     TabOrder = 2
     object cbShowSystemFiles: TCheckBox
       AnchorSideLeft.Control = gbMisc3
@@ -133,7 +141,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Left = 8
       Height = 25
       Top = 6
-      Width = 626
+      Width = 634
       Anchors = [akTop, akLeft, akRight]
       Caption = 'Show system and hidden files'
       TabOrder = 0
@@ -147,7 +155,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Left = 8
       Height = 25
       Top = 37
-      Width = 626
+      Width = 634
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       Caption = 'Load file list in separate thread'
@@ -162,7 +170,7 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       Left = 8
       Height = 25
       Top = 68
-      Width = 626
+      Width = 634
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       Caption = 'Load icons after file list'

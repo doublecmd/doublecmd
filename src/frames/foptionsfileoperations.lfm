@@ -4,38 +4,45 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
   ClientHeight = 515
   ClientWidth = 734
   object gbCopyBufferSize: TGroupBox[0]
-    Left = 10
-    Height = 59
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 67
     Top = 6
-    Width = 706
+    Width = 722
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
     Caption = '&Buffer size for files:'
-    ChildSizing.LeftRightSpacing = 14
-    ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 37
-    ClientWidth = 702
+    ClientHeight = 45
+    ClientWidth = 718
     TabOrder = 0
     object lblCopyBufferSize: TLabel
+      AnchorSideLeft.Control = gbCopyBufferSize
       AnchorSideTop.Control = edtCopyBufferSize
       AnchorSideTop.Side = asrCenter
-      Left = 14
+      Left = 8
       Height = 22
-      Top = 3
+      Top = 11
       Width = 110
+      BorderSpacing.Left = 8
       Caption = 'Buffer size (Kb):'
       ParentColor = False
     end
     object edtCopyBufferSize: TEdit
-      AnchorSideRight.Control = gbCopyBufferSize
-      AnchorSideRight.Side = asrBottom
+      AnchorSideLeft.Control = lblCopyBufferSize
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = gbCopyBufferSize
       AnchorSideBottom.Side = asrCenter
-      Left = 596
+      Left = 126
       Height = 29
-      Top = 0
-      Width = 80
-      Anchors = [akRight]
-      BorderSpacing.Right = 26
+      Top = 8
+      Width = 152
+      BorderSpacing.Around = 8
       TabOrder = 0
     end
   end
@@ -45,17 +52,18 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = gbFileSearch
     AnchorSideRight.Side = asrBottom
-    Left = 10
+    Left = 6
     Height = 273
-    Top = 198
-    Width = 706
+    Top = 206
+    Width = 722
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 6
+    BorderSpacing.Bottom = 6
     Caption = 'General options'
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 251
-    ClientWidth = 702
+    ClientWidth = 718
     TabOrder = 1
     object lblWipePassNumber: TLabel
       AnchorSideLeft.Control = gbGeneralOptions
@@ -63,10 +71,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       Left = 14
       Height = 22
       Top = 6
-      Width = 148
+      Width = 163
       BorderSpacing.Left = 14
       BorderSpacing.Top = 6
-      Caption = 'Number of wipe pass:'
+      Caption = 'Number of wipe passes:'
       ParentColor = False
     end
     object cbDropReadOnlyFlag: TCheckBox
@@ -83,16 +91,15 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       TabOrder = 1
     end
     object seWipePassNumber: TSpinEdit
+      AnchorSideLeft.Control = lblWipePassNumber
+      AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = lblWipePassNumber
       AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Control = gbGeneralOptions
-      AnchorSideRight.Side = asrBottom
-      Left = 626
+      Left = 187
       Height = 29
       Top = 3
-      Width = 50
-      Anchors = [akTop, akRight]
-      BorderSpacing.Right = 26
+      Width = 98
+      BorderSpacing.Left = 10
       TabOrder = 0
     end
     object cbProcessComments: TCheckBox
@@ -109,9 +116,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       TabOrder = 2
     end
     object cbRenameSelOnlyName: TCheckBox
+      AnchorSideLeft.Control = gbGeneralOptions
       AnchorSideTop.Control = cbProcessComments
       AnchorSideTop.Side = asrBottom
-      Left = 13
+      Left = 14
       Height = 25
       Top = 96
       Width = 434
@@ -121,9 +129,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       TabOrder = 3
     end
     object cbShowCopyTabSelectPanel: TCheckBox
+      AnchorSideLeft.Control = gbGeneralOptions
       AnchorSideTop.Control = cbRenameSelOnlyName
       AnchorSideTop.Side = asrBottom
-      Left = 13
+      Left = 14
       Height = 25
       Top = 127
       Width = 316
@@ -176,21 +185,23 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = gbCopyBufferSize
     AnchorSideRight.Side = asrBottom
-    Left = 10
+    Left = 6
     Height = 121
-    Top = 71
-    Width = 706
+    Top = 79
+    Width = 722
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 6
     Caption = 'File search'
-    ChildSizing.LeftRightSpacing = 14
+    ChildSizing.LeftRightSpacing = 10
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 99
-    ClientWidth = 702
+    ClientWidth = 718
     TabOrder = 2
     object rbUseMmapInSearch: TRadioButton
-      Left = 14
+      AnchorSideLeft.Control = gbFileSearch
+      AnchorSideTop.Control = gbFileSearch
+      Left = 10
       Height = 25
       Top = 6
       Width = 323
@@ -198,9 +209,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       TabOrder = 0
     end
     object rbUseStreamInSearch: TRadioButton
+      AnchorSideLeft.Control = rbUseMmapInSearch
       AnchorSideTop.Control = rbUseMmapInSearch
       AnchorSideTop.Side = asrBottom
-      Left = 14
+      Left = 10
       Height = 25
       Top = 37
       Width = 251
@@ -211,9 +223,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       TabStop = True
     end
     object cbPartialNameSearch: TCheckBox
+      AnchorSideLeft.Control = rbUseStreamInSearch
       AnchorSideTop.Control = rbUseStreamInSearch
       AnchorSideTop.Side = asrBottom
-      Left = 14
+      Left = 10
       Height = 25
       Top = 68
       Width = 211

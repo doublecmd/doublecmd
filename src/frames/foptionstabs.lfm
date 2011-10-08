@@ -5,27 +5,30 @@ inherited frmOptionsTabs: TfrmOptionsTabs
   ClientWidth = 673
   object gbTabs: TGroupBox[0]
     AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 10
-    Height = 347
+    Left = 6
+    Height = 342
     Top = 6
-    Width = 653
+    Width = 661
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Left = 10
-    BorderSpacing.Right = 10
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 6
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 6
     Caption = 'Folder tabs headers'
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 325
-    ClientWidth = 649
+    ClientHeight = 320
+    ClientWidth = 657
     TabOrder = 0
     object lblChar: TLabel
       AnchorSideLeft.Control = edtTabsLimitLength
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = edtTabsLimitLength
       AnchorSideTop.Side = asrCenter
-      Left = 460
+      Left = 280
       Height = 22
       Top = 69
       Width = 70
@@ -35,14 +38,14 @@ inherited frmOptionsTabs: TfrmOptionsTabs
     end
     object lblTabsPosition: TLabel
       AnchorSideLeft.Control = cbTabsActivateOnClick
-      AnchorSideTop.Control = cbTabsActivateOnClick
-      AnchorSideTop.Side = asrBottom
+      AnchorSideTop.Control = cmbTabsPosition
+      AnchorSideTop.Side = asrCenter
       Left = 12
       Height = 22
-      Top = 293
-      Width = 95
+      Top = 288
+      Width = 91
       BorderSpacing.Top = 14
-      Caption = 'Tabs position:'
+      Caption = 'Tabs position'
       ParentColor = False
     end
     object cbTabsAlwaysVisible: TCheckBox
@@ -76,20 +79,20 @@ inherited frmOptionsTabs: TfrmOptionsTabs
       Left = 12
       Height = 25
       Top = 68
-      Width = 186
+      Width = 182
       BorderSpacing.Top = 6
-      Caption = '&Limit tab title length to:'
+      Caption = '&Limit tab title length to'
       TabOrder = 2
     end
     object edtTabsLimitLength: TEdit
+      AnchorSideLeft.Control = cbTabsLimitOption
+      AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = cbTabsLimitOption
       AnchorSideTop.Side = asrCenter
-      AnchorSideRight.Side = asrBottom
-      Left = 413
+      Left = 194
       Height = 29
       Top = 66
-      Width = 41
-      Anchors = [akTop, akRight]
+      Width = 80
       TabOrder = 3
     end
     object cbTabsOpenForeground: TCheckBox
@@ -155,13 +158,15 @@ inherited frmOptionsTabs: TfrmOptionsTabs
     object cmbTabsPosition: TComboBox
       AnchorSideLeft.Control = lblTabsPosition
       AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = lblTabsPosition
-      AnchorSideTop.Side = asrCenter
-      Left = 113
+      AnchorSideTop.Control = cbTabsActivateOnClick
+      AnchorSideTop.Side = asrBottom
+      Left = 109
       Height = 29
-      Top = 290
+      Top = 285
       Width = 100
       BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      BorderSpacing.Bottom = 6
       ItemHeight = 21
       Items.Strings = (
         'Top'
