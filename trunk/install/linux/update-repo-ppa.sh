@@ -39,13 +39,13 @@ update_doublecmd()
   tar -cvzf $DC_TEMP_DIR/doublecmd_$DC_VER.orig.tar.gz doublecmd-$DC_VER
   popd
 
+  # Prepare debian directory
+  mkdir -p $DC_SOURCE_DIR/debian
+  cp -r $DC_SOURCE_DIR/install/linux/deb/doublecmd/* $DC_SOURCE_DIR/debian
+
   # Create source package for each distro
   for DIST in "${DISTRO[@]}"
   do
-    # Prepare debian directory
-    mkdir -p $DC_SOURCE_DIR/debian
-    cp -r $DC_SOURCE_DIR/install/linux/deb/doublecmd/* $DC_SOURCE_DIR/debian
-
     # Update changelog file
     pushd $DC_SOURCE_DIR/debian
     dch -m -D $DIST -v $DC_VER-$DC_REVISION~$DIST "Update to revision $DC_REVISION"
@@ -84,7 +84,7 @@ update_doublecmd_help()
   do
     # Update changelog file
     pushd $DC_HELP_DIR/debian
-    dch -m -v $DC_VER-$DC_REVISION~$DIST "Update to revision $DC_REVISION"
+    dch -m -D $DIST -v $DC_VER-$DC_REVISION~$DIST "Update to revision $DC_REVISION"
     popd
 
     # Create archive with source code
