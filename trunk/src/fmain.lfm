@@ -1225,9 +1225,10 @@ object frmMain: TfrmMain
       Height = 20
       Top = 0
       Width = 95
-      Action = actDelete
+      Caption = 'Delete F8'
       Flat = True
       NumGlyphs = 0
+      OnClick = btnF8Click
     end
     object btnF9: TSpeedButton
       Left = 570
