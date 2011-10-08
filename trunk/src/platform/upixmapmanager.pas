@@ -1483,7 +1483,7 @@ begin
     begin
       if not gIconOverlays then
       begin
-        if LinkProperty.IsValid then
+        if (LinkProperty = nil) or LinkProperty.IsValid then
           Result := FiDirLinkIconID
         else
           Result := FiDirLinkBrokenIconID;
@@ -1530,7 +1530,7 @@ begin
     begin
       if IsLink and not gIconOverlays then
       begin
-        if LinkProperty.IsValid then
+        if (LinkProperty = nil) or LinkProperty.IsValid then
           Exit(FiLinkIconID)
         else
           Exit(FiLinkBrokenIconID);
