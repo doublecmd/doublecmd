@@ -384,6 +384,7 @@ type
     procedure AllOpPauseClick(Sender: TObject);
     procedure AllOpPctClick(Sender: TObject);
     procedure AllOpStartClick(Sender: TObject);
+    procedure btnF8Click(Sender: TObject);
     procedure btnLeftClick(Sender: TObject);
     procedure btnLeftDirectoryHotlistClick(Sender: TObject);
     procedure btnRightClick(Sender: TObject);
@@ -816,6 +817,14 @@ end;
 procedure TfrmMain.AllOpStartClick(Sender: TObject);
 begin
    OperationsManager.StartRunning;
+end;
+
+procedure TfrmMain.btnF8Click(Sender: TObject);
+begin
+  if GetKeyShiftStateEx * KeyModifiers = [ssShift] then
+    Actions.cm_Delete('recyclesettingrev')
+  else
+    Actions.cm_Delete('');
 end;
 
 procedure TfrmMain.btnLeftDirectoryHotlistClick(Sender: TObject);

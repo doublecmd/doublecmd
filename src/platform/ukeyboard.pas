@@ -46,6 +46,7 @@ const
     SmkcDown, SmkcIns, SmkcDel, SmkcShift, SmkcCtrl, SmkcAlt,
     SmkcWin);
 
+  KeyModifiers: TShiftState = [ssShift, ssAlt, ssCtrl, ssMeta, ssSuper, ssHyper, ssAltGr];
 
   {en Retrieves current modifiers state of the keyboard. }
   function GetKeyShiftStateEx: TShiftState;
