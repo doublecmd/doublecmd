@@ -11,15 +11,17 @@ inherited frmOptionsMouse: TfrmOptionsMouse
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 130
+    Height = 121
     Top = 112
     Width = 414
     Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
     BorderSpacing.Top = 6
+    BorderSpacing.Bottom = 6
     Caption = 'Scrolling'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 108
+    ClientHeight = 99
     ClientWidth = 410
     TabOrder = 0
     object rbScrollLineByLineCursor: TRadioButton
@@ -74,11 +76,11 @@ inherited frmOptionsMouse: TfrmOptionsMouse
       Left = 130
       Height = 29
       Top = 35
-      Width = 262
+      Width = 272
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 18
       BorderSpacing.Top = 4
-      BorderSpacing.Right = 18
+      BorderSpacing.Right = 8
       MinValue = 1
       TabOrder = 3
       Value = 1
@@ -112,23 +114,30 @@ inherited frmOptionsMouse: TfrmOptionsMouse
       TabOrder = 0
     end
     object lblMouseMode: TLabel
+      AnchorSideLeft.Control = cbSelectionByMouse
+      AnchorSideTop.Control = cbMouseMode
       AnchorSideTop.Side = asrCenter
-      Left = 32
+      Left = 6
       Height = 22
-      Top = 38
+      Top = 40
       Width = 43
       Caption = 'Mode:'
       ParentColor = False
     end
     object cbMouseMode: TComboBox
+      AnchorSideLeft.Control = lblMouseMode
+      AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = cbSelectionByMouse
       AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = gbSelection
       AnchorSideRight.Side = asrBottom
-      Left = 150
+      Left = 57
       Height = 29
       Top = 37
-      Width = 242
+      Width = 345
       Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 8
+      BorderSpacing.Right = 8
       ItemHeight = 21
       Style = csDropDownList
       TabOrder = 1

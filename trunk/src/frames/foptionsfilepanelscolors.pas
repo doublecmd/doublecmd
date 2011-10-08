@@ -69,6 +69,7 @@ type
     procedure cbColorBoxChange(Sender: TObject);
     procedure pbExamplePaint(Sender: TObject);
   protected
+    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
@@ -81,7 +82,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Graphics, uLng, uGlobs, uDCUtils;
+  Graphics, Types, uLng, uGlobs, uDCUtils;
 
 { TfrmOptionsFilePanelsColors }
 
@@ -313,6 +314,36 @@ begin
     Rect.Top := Rect.Bottom;
     Rect.Bottom := h * (I + 1);
   end; // for
+end;
+
+procedure TfrmOptionsFilePanelsColors.Init;
+  procedure CalcMaxSize(var MaxSize: TSize; Text: String);
+  var
+    TextSize: TSize;
+  begin
+    TextSize := Canvas.TextExtent(Text);
+    if TextSize.cx > MaxSize.cx then
+      MaxSize.cx := TextSize.cx;
+    if TextSize.cy > MaxSize.cy then
+      MaxSize.cy := TextSize.cy;
+  end;
+var
+  TextSize: TSize = (cx: 0; cy: 0);
+begin
+  with gFonts[dcfMain] do
+  begin
+    Canvas.Font.Style := Style;
+    Canvas.Font.Size  := Size;
+    Canvas.Font.Name  := Name;
+  end;
+
+  CalcMaxSize(TextSize, rsOptExampleMark);
+  CalcMaxSize(TextSize, rsOptExampleText);
+  CalcMaxSize(TextSize, rsOptExampleCursor);
+  CalcMaxSize(TextSize, rsOptExampleMarkCursor);
+
+  pbExample.Constraints.MinWidth  := TextSize.cx + 20;
+  pbExample.Constraints.MinHeight := (TextSize.cy + 4) * 6;
 end;
 
 end.

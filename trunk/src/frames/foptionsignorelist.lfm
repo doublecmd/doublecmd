@@ -100,7 +100,7 @@ inherited frmOptionsIgnoreList: TfrmOptionsIgnoreList
     Left = 72
     Height = 29
     Top = 245
-    Width = 594
+    Width = 536
     DialogOptions = []
     FilterIndex = 0
     HideDirectories = False

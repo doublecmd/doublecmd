@@ -10,12 +10,12 @@ inherited frmOptionsAutoRefresh: TfrmOptionsAutoRefresh
     AnchorSideRight.Side = asrBottom
     Left = 10
     Height = 85
-    Top = 5
+    Top = 6
     Width = 481
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Left = 10
-    BorderSpacing.Top = 5
+    BorderSpacing.Top = 6
     BorderSpacing.Right = 10
     Caption = 'Refresh file list'
     ChildSizing.LeftRightSpacing = 10
@@ -52,13 +52,13 @@ inherited frmOptionsAutoRefresh: TfrmOptionsAutoRefresh
     AnchorSideRight.Side = asrBottom
     Left = 10
     Height = 121
-    Top = 94
+    Top = 95
     Width = 481
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 4
+    BorderSpacing.Bottom = 6
     Caption = 'Disable auto-refresh'
-    ChildSizing.LeftRightSpacing = 10
     ChildSizing.TopBottomSpacing = 5
     ChildSizing.VerticalSpacing = 3
     ClientHeight = 99
@@ -71,6 +71,7 @@ inherited frmOptionsAutoRefresh: TfrmOptionsAutoRefresh
       Height = 25
       Top = 5
       Width = 288
+      BorderSpacing.Left = 10
       Caption = 'When application is in the &background'
       TabOrder = 0
     end
@@ -95,9 +96,10 @@ inherited frmOptionsAutoRefresh: TfrmOptionsAutoRefresh
       Left = 30
       Height = 29
       Top = 61
-      Width = 437
+      Width = 439
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 20
+      BorderSpacing.Right = 8
       BorderSpacing.Bottom = 15
       TabOrder = 2
     end
