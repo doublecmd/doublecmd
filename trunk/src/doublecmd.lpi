@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="150">
+    <Units Count="151">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1146,6 +1146,13 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsColumnsView"/>
       </Unit149>
+      <Unit150>
+        <Filename Value="foptionsdriveslistbutton.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmOptionsDrivesListButton"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fOptionsDrivesListButton"/>
+      </Unit150>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

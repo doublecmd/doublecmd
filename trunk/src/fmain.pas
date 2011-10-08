@@ -3241,7 +3241,7 @@ begin
   AddVirtualDriveButton(dskPanel);
 
   // Add special buttons
-  if not gDriveMenuButton then
+  if not gDrivesListButton then
     AddSpecialButtons(dskPanel);
 end;
 
@@ -3707,7 +3707,7 @@ procedure TfrmMain.UpdateWindowView;
 
   procedure AnchorFreeSpace(LeftControl, RightControl: TControl; ExcludeVert: Boolean);
   begin
-    if gDriveMenuButton then
+    if gDrivesListButton then
     begin
       AnchorHorizontalBetween(LeftControl, btnLeftDrive, btnLeftDirectoryHotlist);
       AnchorHorizontalBetween(RightControl, btnRightDrive, btnRightDirectoryHotlist);
@@ -3781,6 +3781,8 @@ begin
     UpdateDriveButtonSelection(btnRightDrive, FrameRight);
     (*/ Disk Panels *)
 
+    FDrivesListPopup.UpdateView;
+
     (*Main menu*)
     Actions.DoShowMainMenu(gMainMenu);
 
@@ -3802,37 +3804,37 @@ begin
         end;
       end;
 
-    btnLeftDrive.Visible := gDriveMenuButton;
+    btnLeftDrive.Visible := gDrivesListButton;
     btnLeftDrive.Flat := gInterfaceFlat;
-    btnLeftRoot.Visible := gDriveMenuButton;
+    btnLeftRoot.Visible := gDrivesListButton;
     btnLeftRoot.Flat := gInterfaceFlat;
-    btnLeftUp.Visible := gDriveMenuButton;
+    btnLeftUp.Visible := gDrivesListButton;
     btnLeftUp.Flat := gInterfaceFlat;
-    btnLeftHome.Visible := gDriveMenuButton;
+    btnLeftHome.Visible := gDrivesListButton;
     btnLeftHome.Flat := gInterfaceFlat;
-    btnLeftDirectoryHotlist.Visible := gDriveMenuButton;
+    btnLeftDirectoryHotlist.Visible := gDrivesListButton;
     btnLeftDirectoryHotlist.Flat := gInterfaceFlat;
-    btnLeftEqualRight.Visible := gDriveMenuButton;
+    btnLeftEqualRight.Visible := gDrivesListButton;
     btnLeftEqualRight.Flat:= gInterfaceFlat;
     lblLeftDriveInfo.Visible:= gDriveFreeSpace;
     pbxLeftDrive.Visible := gDriveInd;
-    pnlLeftTools.Visible:= gDriveMenuButton or gDriveFreeSpace or gDriveInd;
+    pnlLeftTools.Visible:= gDrivesListButton or gDriveFreeSpace or gDriveInd;
 
-    btnRightDrive.Visible := gDriveMenuButton;
+    btnRightDrive.Visible := gDrivesListButton;
     btnRightDrive.Flat := gInterfaceFlat;
-    btnRightRoot.Visible := gDriveMenuButton;
+    btnRightRoot.Visible := gDrivesListButton;
     btnRightRoot.Flat := gInterfaceFlat;
-    btnRightUp.Visible := gDriveMenuButton;
+    btnRightUp.Visible := gDrivesListButton;
     btnRightUp.Flat := gInterfaceFlat;
-    btnRightHome.Visible := gDriveMenuButton;;
+    btnRightHome.Visible := gDrivesListButton;;
     btnRightHome.Flat := gInterfaceFlat;
-    btnRightDirectoryHotlist.Visible := gDriveMenuButton;
+    btnRightDirectoryHotlist.Visible := gDrivesListButton;
     btnRightDirectoryHotlist.Flat := gInterfaceFlat;
-    btnRightEqualLeft.Visible := gDriveMenuButton;
+    btnRightEqualLeft.Visible := gDrivesListButton;
     btnRightEqualLeft.Flat:= gInterfaceFlat;
     lblRightDriveInfo.Visible:= gDriveFreeSpace;
     pbxRightDrive.Visible := gDriveInd;
-    pnlRightTools.Visible:= gDriveMenuButton or gDriveFreeSpace or gDriveInd;
+    pnlRightTools.Visible:= gDrivesListButton or gDriveFreeSpace or gDriveInd;
 
     // Free space indicator.
     if gDriveFreeSpace then
@@ -4260,7 +4262,7 @@ var
   DriveIndex: Integer;
   Drive: PDrive;
 begin
-  if not gDriveMenuButton then
+  if not gDrivesListButton then
     Exit;
 
   DriveIndex := FindMatchingDrive(FileView.CurrentPath);

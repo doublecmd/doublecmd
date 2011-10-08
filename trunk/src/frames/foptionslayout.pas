@@ -46,7 +46,7 @@ type
     cbShowCurDir: TCheckBox;
     cbShowDiskPanel: TCheckBox;
     cbShowDriveFreeSpace: TCheckBox;
-    cbShowDriveMenuButton: TCheckBox;
+    cbShowDrivesListButton: TCheckBox;
     cbShowKeysPanel: TCheckBox;
     cbShowMainMenu: TCheckBox;
     cbShowMainToolBar: TCheckBox;
@@ -114,7 +114,7 @@ begin
   cbShowDiskPanel.Checked := gDriveBar1;
   cbTwoDiskPanels.Checked := gDriveBar2;
   cbFlatDiskPanel.Checked := gDriveBarFlat;
-  cbShowDriveMenuButton.Checked := gDriveMenuButton;
+  cbShowDrivesListButton.Checked := gDrivesListButton;
   cbShowTabs.Checked := gDirectoryTabs;
   cbShowCurDir.Checked := gCurDir;
   cbShowTabHeader.Checked := gTabHeader;
@@ -141,7 +141,7 @@ begin
   gDriveBar1 := cbShowDiskPanel.Checked;
   gDriveBar2 := cbTwoDiskPanels.Checked;
   gDriveBarFlat := cbFlatDiskPanel.Checked;
-  gDriveMenuButton := cbShowDriveMenuButton.Checked;
+  gDrivesListButton := cbShowDrivesListButton.Checked;
   gDirectoryTabs := cbShowTabs.Checked;
   gCurDir := cbShowCurDir.Checked;
   gTabHeader := cbShowTabHeader.Checked;

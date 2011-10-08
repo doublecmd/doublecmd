@@ -93,6 +93,7 @@ uses
   fOptionsConfiguration,
   fOptionsCustomColumns,
   fOptionsDragDrop,
+  fOptionsDrivesListButton,
   fOptionsFileOperations,
   fOptionsFilePanelsColors,
   fOptionsFileTypesColors,
@@ -225,6 +226,7 @@ var
   ColumnsView,
   FilesViews,
   Keyboard,
+  Layout,
   Mouse,
   Tools: TOptionsEditorRec;
 begin
@@ -247,7 +249,8 @@ begin
   ColumnsView := FilesViews.Add(TfrmOptionsColumnsView);
   ColumnsView.Add(TfrmOptionsCustomColumns);
   Main.Add(TfrmOptionsPlugins);
-  Main.Add(TfrmOptionsLayout);
+  Layout := Main.Add(TfrmOptionsLayout);
+  Layout.Add(TfrmOptionsDrivesListButton);
   Main.Add(TfrmOptionsFileOperations);
   Main.Add(TfrmOptionsTabs);
   Main.Add(TfrmOptionsLog);
