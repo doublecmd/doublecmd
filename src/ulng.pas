@@ -338,6 +338,7 @@ resourcestring
   rsOptionsEditorCustomColumns = 'Custom columns';
   rsOptionsEditorConfiguration = 'Configuration';
   rsOptionsEditorDragAndDrop = 'Drag & drop';
+  rsOptionsEditorDrivesListButton = 'Drives list button';
   rsOptionsEditorFileOperations = 'File operations';
   rsOptionsEditorFilePanels = 'File panels';
   rsOptionsEditorFileTypes = 'File types';

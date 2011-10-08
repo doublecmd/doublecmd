@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Control that shows drives list and allows selecting a drive.
 
-   Copyright (C) 2009-2010  Przemyslaw Nagay (cobines@gmail.com)
+   Copyright (C) 2009-2011  Przemyslaw Nagay (cobines@gmail.com)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -33,6 +33,8 @@ uses
 type
   TDriveSelected = procedure (Sender: TObject; ADriveIndex: Integer;
     APanel: TFilePanelSelect) of object;
+
+  { TDrivesListPopup }
 
   TDrivesListPopup = class(TStringGrid)
   private
@@ -95,6 +97,7 @@ type
     constructor Create(AOwner: TComponent; AParent: TWinControl); reintroduce;
 
     procedure UpdateDrivesList(ADrivesList: TDrivesList);
+    procedure UpdateView;
 
     {en
        Shows the drive list.
@@ -121,7 +124,7 @@ implementation
 
 uses
   StdCtrls, Graphics, LCLProc,
-  uPixMapManager, uOSUtils, uDCUtils, uOSForms;
+  uPixMapManager, uOSUtils, uDCUtils, uOSForms, uGlobs;
 
 const
   DriveIconSize = 16;
@@ -155,7 +158,8 @@ begin
   ScrollBars := ssAutoVertical;
   Visible := False;
 
-  ColCount := 5;
+  while Columns.Count < 5 do
+    Columns.Add;
   RowCount := 0 + DummyRows;
   FixedCols := 0;
   FixedRows := 0;
@@ -178,7 +182,6 @@ procedure TDrivesListPopup.UpdateDrivesList(ADrivesList: TDrivesList);
 begin
   FDrivesList := ADrivesList;
 
-  ColCount := 5;
   RowCount := LowestRow + ADrivesList.Count;
   Clean;
   SetLength(FShortCuts, ADrivesList.Count);
@@ -189,6 +192,13 @@ begin
     UpdateCells;
     UpdateSize;
   end;
+end;
+
+procedure TDrivesListPopup.UpdateView;
+begin
+  Columns.Items[2].Visible := dlbShowLabel in gDrivesListButtonOptions;
+  Columns.Items[3].Visible := dlbShowFileSystem in gDrivesListButtonOptions;
+  Columns.Items[4].Visible := dlbShowFreeSpace in gDrivesListButtonOptions;
 end;
 
 procedure TDrivesListPopup.Show(AtPoint: TPoint; APanel: TFilePanelSelect;

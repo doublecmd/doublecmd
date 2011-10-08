@@ -74,6 +74,9 @@ type
   // fswmWholeDrive    - watch whole drives instead of single directories to omit problems with deleting watched directories
   TWatcherMode = (fswmPreventDelete, fswmAllowDelete, fswmWholeDrive);
 
+  TDrivesListButtonOption = (dlbShowLabel, dlbShowFileSystem, dlbShowFreeSpace);
+  TDrivesListButtonOptions = set of TDrivesListButtonOption;
+
 const
   { Default hotkey list version number }
   hkVersion     = 5;
@@ -82,7 +85,9 @@ const
   // History:
   // 2   - removed Layout/SmallIcons
   //       renamed Layout/SmallIconSize to Layout/IconSize
-  ConfigVersion = 2;
+  // 3   - Layout/DriveMenuButton -> Layout/DrivesListButton and added subnodes:
+  //         ShowLabel, ShowFileSystem, ShowFreeSpace
+  ConfigVersion = 3;
 
 var
   { For localization }
@@ -112,7 +117,7 @@ var
   gDriveBar1,
   gDriveBar2,
   gDriveBarFlat,
-  gDriveMenuButton,
+  gDrivesListButton,
   gDirectoryTabs,
   gCurDir,
   gTabHeader,
@@ -127,6 +132,7 @@ var
   gProgInMenuBar,
   gPanelOfOp,
   gHorizontalFilePanels: Boolean;
+  gDrivesListButtonOptions: TDrivesListButtonOptions;
 
   { Toolbar }
   gToolBarButtonSize,
@@ -696,7 +702,7 @@ begin
   gDriveBar1 := True;
   gDriveBar2 := True;
   gDriveBarFlat := True;
-  gDriveMenuButton := True;
+  gDrivesListButton := True;
   gDirectoryTabs := True;
   gCurDir := True;
   gTabHeader := True;
@@ -711,6 +717,7 @@ begin
   gProgInMenuBar := False;
   gPanelOfOp := True;
   gHorizontalFilePanels := False;
+  gDrivesListButtonOptions := [dlbShowLabel, dlbShowFileSystem, dlbShowFreeSpace];
 
   { File operations page }
   gCopyBlockSize := 524288;
@@ -1087,7 +1094,7 @@ begin
   gDriveBar1 := gIni.ReadBool('Layout', 'DriveBar1', True);
   gDriveBar2 := gIni.ReadBool('Layout', 'DriveBar2', True);
   gDriveBarFlat := gIni.ReadBool('Layout', 'DriveBarFlat', True);
-  gDriveMenuButton := gIni.ReadBool('Layout', 'DriveMenuButton', True);
+  gDrivesListButton := gIni.ReadBool('Layout', 'DriveMenuButton', True);
   gDirectoryTabs := gIni.ReadBool('Layout', 'DirectoryTabs', True);
   gCurDir := gIni.ReadBool('Layout', 'CurDir', True);
   gTabHeader := gIni.ReadBool('Layout', 'TabHeader', True);
@@ -1258,7 +1265,7 @@ begin
   gIni.WriteBool('Layout', 'DriveBar1', gDriveBar1);
   gIni.WriteBool('Layout', 'DriveBar2', gDriveBar2);
   gIni.WriteBool('Layout', 'DriveBarFlat', gDriveBarFlat);
-  gIni.WriteBool('Layout', 'DriveMenuButton', gDriveMenuButton);
+  gIni.WriteBool('Layout', 'DriveMenuButton', gDrivesListButton);
   gIni.WriteBool('Layout', 'DirectoryTabs', gDirectoryTabs);
   gIni.WriteBool('Layout', 'CurDir', gCurDir);
   gIni.WriteBool('Layout', 'TabHeader', gTabHeader);
@@ -1419,6 +1426,18 @@ procedure LoadXmlConfig;
       gConfig.GetFont(Node, '', FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style),
                                 FontOptions.Name, FontOptions.Size, Integer(FontOptions.Style));
   end;
+  procedure LoadOption(Node: TXmlNode; var Options: TDrivesListButtonOptions; Option: TDrivesListButtonOption; AName: String);
+  var
+    Value: Boolean;
+  begin
+    if gConfig.TryGetValue(Node, AName, Value) then
+    begin
+      if Value then
+        Include(Options, Option)
+      else
+        Exclude(Options, Option);
+    end;
+  end;
 var
   Root, Node, SubNode: TXmlNode;
   LoadedConfigVersion: Integer;
@@ -1517,7 +1536,19 @@ begin
       gDriveBar1 := GetValue(Node, 'DriveBar1', gDriveBar1);
       gDriveBar2 := GetValue(Node, 'DriveBar2', gDriveBar2);
       gDriveBarFlat := GetValue(Node, 'DriveBarFlat', gDriveBarFlat);
-      gDriveMenuButton := GetValue(Node, 'DriveMenuButton', gDriveMenuButton);
+      if LoadedConfigVersion < 3 then
+        gDrivesListButton := GetValue(Node, 'DriveMenuButton', gDrivesListButton)
+      else
+      begin
+        SubNode := Node.FindNode('DrivesListButton');
+        if Assigned(SubNode) then
+        begin
+          gDrivesListButton := GetAttr(SubNode, 'Enabled', gDrivesListButton);
+          LoadOption(SubNode, gDrivesListButtonOptions, dlbShowLabel, 'ShowLabel');
+          LoadOption(SubNode, gDrivesListButtonOptions, dlbShowFileSystem, 'ShowFileSystem');
+          LoadOption(SubNode, gDrivesListButtonOptions, dlbShowFreeSpace, 'ShowFreeSpace');
+        end;
+      end;
       gDirectoryTabs := GetValue(Node, 'DirectoryTabs', gDirectoryTabs);
       gCurDir := GetValue(Node, 'CurrentDirectory', gCurDir);
       gTabHeader := GetValue(Node, 'TabHeader', gTabHeader);
@@ -1800,7 +1831,11 @@ begin
     SetValue(Node, 'DriveBar1', gDriveBar1);
     SetValue(Node, 'DriveBar2', gDriveBar2);
     SetValue(Node, 'DriveBarFlat', gDriveBarFlat);
-    SetValue(Node, 'DriveMenuButton', gDriveMenuButton);
+    SubNode := FindNode(Node, 'DrivesListButton', True);
+    SetAttr(SubNode, 'Enabled', gDrivesListButton);
+    SetValue(SubNode, 'ShowLabel', dlbShowLabel in gDrivesListButtonOptions);
+    SetValue(SubNode, 'ShowFileSystem', dlbShowFileSystem in gDrivesListButtonOptions);
+    SetValue(SubNode, 'ShowFreeSpace', dlbShowFreeSpace in gDrivesListButtonOptions);
     SetValue(Node, 'DirectoryTabs', gDirectoryTabs);
     SetValue(Node, 'CurrentDirectory', gCurDir);
     SetValue(Node, 'TabHeader', gTabHeader);
