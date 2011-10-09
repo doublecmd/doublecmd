@@ -8,22 +8,20 @@ inherited frmOptionsAutoRefresh: TfrmOptionsAutoRefresh
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 10
+    Left = 6
     Height = 85
     Top = 6
-    Width = 481
+    Width = 489
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Left = 10
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 10
+    BorderSpacing.Around = 6
     Caption = 'Refresh file list'
     ChildSizing.LeftRightSpacing = 10
     ChildSizing.TopBottomSpacing = 5
     ChildSizing.VerticalSpacing = 3
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 63
-    ClientWidth = 477
+    ClientWidth = 485
     TabOrder = 0
     object cbWatchFileNameChange: TCheckBox
       Left = 10
@@ -45,24 +43,23 @@ inherited frmOptionsAutoRefresh: TfrmOptionsAutoRefresh
     end
   end
   object gbAutoRefreshDisable: TGroupBox[1]
-    AnchorSideLeft.Control = gbAutoRefreshEnable
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = gbAutoRefreshEnable
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = gbAutoRefreshEnable
+    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 10
+    Left = 6
     Height = 121
-    Top = 95
-    Width = 481
+    Top = 97
+    Width = 489
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Top = 4
-    BorderSpacing.Bottom = 6
+    BorderSpacing.Around = 6
     Caption = 'Disable auto-refresh'
     ChildSizing.TopBottomSpacing = 5
     ChildSizing.VerticalSpacing = 3
     ClientHeight = 99
-    ClientWidth = 477
+    ClientWidth = 485
     TabOrder = 1
     object cbWatchOnlyForeground: TCheckBox
       AnchorSideLeft.Control = gbAutoRefreshDisable
@@ -96,7 +93,7 @@ inherited frmOptionsAutoRefresh: TfrmOptionsAutoRefresh
       Left = 30
       Height = 29
       Top = 61
-      Width = 439
+      Width = 447
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 20
       BorderSpacing.Right = 8
