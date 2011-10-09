@@ -37,18 +37,24 @@ uses
     ;
     
 const
-  {$IFDEF MSWINDOWS}
+  {$IF DEFINED(MSWINDOWS)}
   faFolder = faDirectory;
   RunTerm = 'cmd.exe';  // default terminal
   RunInTerm = 'cmd.exe /K'; // default run in terminal command
   fmtRunInTerm = '%s "%s"';
   fmtRunInShell = '%s /C "%s"';
   MonoSpaceFont = 'Fixedsys';
-  {$ELSE}
+  {$ELSEIF DEFINED(UNIX)}
   faFolder = S_IFDIR;
+  {$IFDEF DARWIN)}
+  RunTerm = '/Applications/Utilities/Terminal.app';  // default terminal
+  RunInTerm = ''; // default run in terminal command
+  fmtRunInTerm = '';
+  {$ELSE}
   RunTerm = 'xterm';  // default terminal
   RunInTerm = 'xterm -e sh -c'; // default run in terminal command
   fmtRunInTerm = '%s ''%s ; echo -n Press ENTER to exit... ; read a''';
+  {$ENDIF}
   fmtRunInShell = '%s -c ''%s''';
   MonoSpaceFont = 'Monospace';
   {$ENDIF}
@@ -1871,4 +1877,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.
