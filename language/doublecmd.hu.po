@@ -252,6 +252,15 @@ msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION"
 msgid "Only type:"
 msgstr "Csak típus:"
 
+#: TFRMABOUT.BTNCLOSE.CAPTION
+msgctxt "TFRMABOUT.BTNCLOSE.CAPTION"
+msgid "&Close"
+msgstr "&Bezárás"
+
+#: TFRMABOUT.BTNCOPYTOCLIPBOARD.CAPTION
+msgid "Copy to clipboard"
+msgstr ""
+
 #: TFRMABOUT.CAPTION
 msgctxt "TFRMABOUT.CAPTION"
 msgid "About"
@@ -288,13 +297,10 @@ msgid "Double Commander"
 msgstr ""
 
 #: TFRMABOUT.LBLVERSION.CAPTION
-msgid "Version %s"
+#, fuzzy
+#| msgid "Version %s"
+msgid "Version"
 msgstr "%s verzió"
-
-#: TFRMABOUT.OKBUTTON.CAPTION
-msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
-msgid "OK"
-msgstr "Oké"
 
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
@@ -523,6 +529,7 @@ msgid "S&eparator"
 msgstr ""
 
 #: TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION
+msgctxt "TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION"
 msgid "Appearance"
 msgstr "Megjelenés"
 
@@ -1203,10 +1210,6 @@ msgstr "Mégsem"
 msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&Oké"
-
-#: TFRMEDITSEARCHREPLACE.CAPTION
-msgid "frmEditSearchReplace"
-msgstr ""
 
 #: TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
@@ -2182,6 +2185,7 @@ msgid "Cu&t"
 msgstr "&Kivágás"
 
 #: TFRMMAIN.ACTDELETE.CAPTION
+msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
 msgid "Delete F8"
 msgstr "Törlés F8"
 
@@ -2670,6 +2674,11 @@ msgstr ""
 #: TFRMMAIN.BTNF10.CAPTION
 msgid "Exit F10"
 msgstr ""
+
+#: TFRMMAIN.BTNF8.CAPTION
+msgctxt "TFRMMAIN.BTNF8.CAPTION"
+msgid "Delete F8"
+msgstr "Törlés F8"
 
 #: TFRMMAIN.BTNF9.CAPTION
 msgid "Terminal F9"
@@ -3650,11 +3659,6 @@ msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
 msgid "Always show tray icon"
 msgstr ""
 
-#: TFRMOPTIONSBEHAVIOR.CBCUTTEXTTOCOLWIDTH.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.CBCUTTEXTTOCOLWIDTH.CAPTION"
-msgid "Cut text to column width"
-msgstr "Szöveg vágása az oszlop szélességéhez"
-
 #: TFRMOPTIONSBEHAVIOR.CBLISTFILESINTHREAD.CAPTION
 msgctxt "TFRMOPTIONSBEHAVIOR.CBLISTFILESINTHREAD.CAPTION"
 msgid "Load file list in separate thread"
@@ -3664,13 +3668,6 @@ msgstr ""
 msgctxt "TFRMOPTIONSBEHAVIOR.CBLOADICONSSEPARATELY.CAPTION"
 msgid "Load icons after file list"
 msgstr ""
-
-#: TFRMOPTIONSBEHAVIOR.CBLYNXLIKE.CAPTION
-#, fuzzy
-#| msgid "Lynx like movement"
-msgctxt "TFRMOPTIONSBEHAVIOR.CBLYNXLIKE.CAPTION"
-msgid "Lynx-like movement"
-msgstr "Mozgás mint a Lynx-ben"
 
 #: TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION
 msgctxt "TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION"
@@ -3682,18 +3679,6 @@ msgctxt "TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION"
 msgid "Allow only one copy of DC at a time"
 msgstr ""
 
-#: TFRMOPTIONSBEHAVIOR.CBSELECTIONBYMOUSE.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.CBSELECTIONBYMOUSE.CAPTION"
-msgid "Selection by mouse"
-msgstr "Kijelölés egérrel"
-
-#: TFRMOPTIONSBEHAVIOR.CBSHORTFILESIZEFORMAT.CAPTION
-#, fuzzy
-#| msgid "Short Filesize format"
-msgctxt "TFRMOPTIONSBEHAVIOR.CBSHORTFILESIZEFORMAT.CAPTION"
-msgid "Short file size format"
-msgstr "Rövid fájlméret formátum"
-
 #: TFRMOPTIONSBEHAVIOR.CBSHOWSYSTEMFILES.CAPTION
 #, fuzzy
 #| msgid "Show hidden/system files"
@@ -3701,240 +3686,46 @@ msgctxt "TFRMOPTIONSBEHAVIOR.CBSHOWSYSTEMFILES.CAPTION"
 msgid "Show system and hidden files"
 msgstr "Rejtett/rendszer fájlok megjelenítése"
 
-#: TFRMOPTIONSBEHAVIOR.CHKAUTOFILLCOLUMNS.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.CHKAUTOFILLCOLUMNS.CAPTION"
+#: TFRMOPTIONSBEHAVIOR.EDTDRIVESBLACKLIST.HINT
+msgid "Here you can enter one or more drives or mount points, separated by \";\"."
+msgstr ""
+
+#: TFRMOPTIONSBEHAVIOR.LBLDRIVESBLACKLIST.CAPTION
+msgid "Drives blacklist"
+msgstr ""
+
+#: TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION
+msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
+msgid "Cut text to column width"
+msgstr "Szöveg vágása az oszlop szélességéhez"
+
+#: TFRMOPTIONSCOLUMNSVIEW.CBGRIDHORZLINE.CAPTION
+msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBGRIDHORZLINE.CAPTION"
+msgid "Horizontal lines"
+msgstr "Vízszintes vonalak"
+
+#: TFRMOPTIONSCOLUMNSVIEW.CBGRIDVERTLINE.CAPTION
+msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBGRIDVERTLINE.CAPTION"
+msgid "Vertical lines"
+msgstr "Függőleges vonalak"
+
+#: TFRMOPTIONSCOLUMNSVIEW.CHKAUTOFILLCOLUMNS.CAPTION
+msgctxt "TFRMOPTIONSCOLUMNSVIEW.CHKAUTOFILLCOLUMNS.CAPTION"
 msgid "Auto fill columns"
 msgstr ""
 
-#: TFRMOPTIONSBEHAVIOR.GBDATETIMEFORMAT.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.GBDATETIMEFORMAT.CAPTION"
-msgid "Date and time"
-msgstr "Dátum és idő"
+#: TFRMOPTIONSCOLUMNSVIEW.GBSHOWGRID.CAPTION
+msgid "Show grid"
+msgstr ""
 
-#: TFRMOPTIONSBEHAVIOR.GBSCROLLING.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.GBSCROLLING.CAPTION"
-msgid "Scrolling"
-msgstr "Görgetés"
+#: TFRMOPTIONSCOLUMNSVIEW.GRPAUTOSIZECOLUMNS.CAPTION
+msgid "Auto-size columns"
+msgstr ""
 
-#: TFRMOPTIONSBEHAVIOR.LBLAUTOSIZECOLUMN.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.LBLAUTOSIZECOLUMN.CAPTION"
+#: TFRMOPTIONSCOLUMNSVIEW.LBLAUTOSIZECOLUMN.CAPTION
+msgctxt "TFRMOPTIONSCOLUMNSVIEW.LBLAUTOSIZECOLUMN.CAPTION"
 msgid "Auto size column:"
 msgstr ""
-
-#: TFRMOPTIONSBEHAVIOR.LBLDATETIMEFORMAT.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.LBLDATETIMEFORMAT.CAPTION"
-msgid "Date and time format:"
-msgstr "Dátum és idő formátum:"
-
-#: TFRMOPTIONSBEHAVIOR.LBLMOUSEMODE.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.LBLMOUSEMODE.CAPTION"
-msgid "Mode:"
-msgstr "Mód:"
-
-#: TFRMOPTIONSBEHAVIOR.LBLRUNINTERM.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.LBLRUNINTERM.CAPTION"
-msgid "Run in terminal:"
-msgstr "Futtatás terminálban:"
-
-#: TFRMOPTIONSBEHAVIOR.LBLRUNTERM.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.LBLRUNTERM.CAPTION"
-msgid "Run terminal:"
-msgstr "Terminál indítása"
-
-#: TFRMOPTIONSBEHAVIOR.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.LEDDRIVEBLACKLIST.EDITLABEL.CAPTION"
-msgid "Drive blacklist:"
-msgstr ""
-
-#: TFRMOPTIONSBEHAVIOR.LEDDRIVEBLACKLIST.HINT
-msgctxt "TFRMOPTIONSBEHAVIOR.LEDDRIVEBLACKLIST.HINT"
-msgid "Here you can enter one or more drives, separated by \";\"."
-msgstr "Itt megadhat egy vagy több meghajtót \";\"-vel elválasztva.\" "
-
-#: TFRMOPTIONSBEHAVIOR.RBSCROLLLINEBYLINE.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.RBSCROLLLINEBYLINE.CAPTION"
-msgid "Line by line"
-msgstr "Sorról sorra"
-
-#: TFRMOPTIONSBEHAVIOR.RBSCROLLLINEBYLINECURSOR.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.RBSCROLLLINEBYLINECURSOR.CAPTION"
-msgid "Line by line with cursor movement"
-msgstr "Sorról sorra kurzormozgással"
-
-#: TFRMOPTIONSBEHAVIOR.RBSCROLLPAGEBYPAGE.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.RBSCROLLPAGEBYPAGE.CAPTION"
-msgid "Page by page"
-msgstr "Oldalról oldalra"
-
-#: TFRMOPTIONSCOLORS.BBTNADDCATEGORY.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.BBTNADDCATEGORY.CAPTION"
-msgid "Add"
-msgstr "Hozzáadás"
-
-#: TFRMOPTIONSCOLORS.BBTNAPPLYCATEGORY.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.BBTNAPPLYCATEGORY.CAPTION"
-msgid "Apply"
-msgstr "Alkalmaz"
-
-#: TFRMOPTIONSCOLORS.BBTNDELETECATEGORY.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.BBTNDELETECATEGORY.CAPTION"
-msgid "Delete"
-msgstr "Törlés"
-
-#: TFRMOPTIONSCOLORS.BTNBACKCOLOR.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.BTNBACKCOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: TFRMOPTIONSCOLORS.BTNBACKCOLOR2.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.BTNBACKCOLOR2.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: TFRMOPTIONSCOLORS.BTNCATEGORYCOLOR.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.BTNCATEGORYCOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: TFRMOPTIONSCOLORS.BTNCURSORCOLOR.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.BTNCURSORCOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: TFRMOPTIONSCOLORS.BTNCURSORTEXT.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.BTNCURSORTEXT.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: TFRMOPTIONSCOLORS.BTNFORECOLOR.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.BTNFORECOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: TFRMOPTIONSCOLORS.BTNMARKCOLOR.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.BTNMARKCOLOR.CAPTION"
-msgid ">>"
-msgstr ""
-
-#: TFRMOPTIONSCOLORS.BTNSEARCHTEMPLATE.HINT
-msgctxt "TFRMOPTIONSCOLORS.BTNSEARCHTEMPLATE.HINT"
-msgid "Template..."
-msgstr "Sablon..."
-
-#: TFRMOPTIONSCOLORS.CBACKGRNDLABEL.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.CBACKGRNDLABEL.CAPTION"
-msgid "BackGround:"
-msgstr "Háttér:"
-
-#: TFRMOPTIONSCOLORS.CBBUSEFRAMECURSOR.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
-msgid "Use Frame Cursor"
-msgstr ""
-
-#: TFRMOPTIONSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
-msgid "Use Inverted Selection"
-msgstr "Fordított kijelölés használata"
-
-#: TFRMOPTIONSCOLORS.CTEXTLABEL.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.CTEXTLABEL.CAPTION"
-msgid "Text Color:"
-msgstr "Szövegszín"
-
-#: TFRMOPTIONSCOLORS.GBEXAMPLE.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.GBEXAMPLE.CAPTION"
-msgid "Example"
-msgstr "Példa"
-
-#: TFRMOPTIONSCOLORS.GBFILETYPESCOLORS.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.GBFILETYPESCOLORS.CAPTION"
-msgid "File types colors"
-msgstr "Fájltípus színek"
-
-#: TFRMOPTIONSCOLORS.LBLBACKGROUND2.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.LBLBACKGROUND2.CAPTION"
-msgid "Background 2:"
-msgstr "Háttér 2:"
-
-#: TFRMOPTIONSCOLORS.LBLCATEGORYATTR.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYATTR.CAPTION"
-msgid "Category attributes:"
-msgstr "Attribútum kategória:"
-
-#: TFRMOPTIONSCOLORS.LBLCATEGORYCOLOR.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYCOLOR.CAPTION"
-msgid "Category color:"
-msgstr "Szín kategória:"
-
-#: TFRMOPTIONSCOLORS.LBLCATEGORYMASK.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYMASK.CAPTION"
-msgid "Category mask:"
-msgstr "Maszk kategória:"
-
-#: TFRMOPTIONSCOLORS.LBLCATEGORYNAME.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.LBLCATEGORYNAME.CAPTION"
-msgid "Category name:"
-msgstr "Név kategória:"
-
-#: TFRMOPTIONSCOLORS.LBLCURSORCOLOR.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.LBLCURSORCOLOR.CAPTION"
-msgid "Cursor Color:"
-msgstr "Kurzorszín:"
-
-#: TFRMOPTIONSCOLORS.LBLCURSORTEXT.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.LBLCURSORTEXT.CAPTION"
-msgid "Cursor Text:"
-msgstr "Kurzor szöveg:"
-
-#: TFRMOPTIONSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
-msgid "Brightness level of inactive panel"
-msgstr ""
-
-#: TFRMOPTIONSCOLORS.LBLMARKCOLOR.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.LBLMARKCOLOR.CAPTION"
-msgid "Mark Color:"
-msgstr "Jelölő szín:"
-
-#: TFRMOPTIONSCOLORS.TSFILEPANELS.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.TSFILEPANELS.CAPTION"
-msgid "File panels"
-msgstr "Fájl panelek"
-
-#: TFRMOPTIONSCOLORS.TSFILETYPES.CAPTION
-msgctxt "TFRMOPTIONSCOLORS.TSFILETYPES.CAPTION"
-msgid "File types"
-msgstr "Fájltípusok"
-
-#: TFRMOPTIONSCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION
-msgctxt "TFRMOPTIONSCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION"
-msgid "Copy"
-msgstr "Másolás"
-
-#: TFRMOPTIONSCOLUMNS.BTNDELCOLUMNSSET.CAPTION
-msgctxt "TFRMOPTIONSCOLUMNS.BTNDELCOLUMNSSET.CAPTION"
-msgid "Delete"
-msgstr "Törlés"
-
-#: TFRMOPTIONSCOLUMNS.BTNEDITCOLUMNSSET.CAPTION
-msgctxt "TFRMOPTIONSCOLUMNS.BTNEDITCOLUMNSSET.CAPTION"
-msgid "Edit"
-msgstr "Szerkesztés"
-
-#: TFRMOPTIONSCOLUMNS.BTNNEWCOLUMNSSET.CAPTION
-msgctxt "TFRMOPTIONSCOLUMNS.BTNNEWCOLUMNSSET.CAPTION"
-msgid "&New"
-msgstr "Ú&j"
-
-#: TFRMOPTIONSCOLUMNS.CBBFILESYSTEM.TEXT
-msgctxt "TFRMOPTIONSCOLUMNS.CBBFILESYSTEM.TEXT"
-msgid "General"
-msgstr "Általános"
-
-#: TFRMOPTIONSCOLUMNS.LBLCONFIGCOLUMNS.CAPTION
-msgctxt "TFRMOPTIONSCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
-msgid "Configure columns for file system:"
-msgstr "Fájlrendszer oszlopok beállítása:"
 
 #: TFRMOPTIONSCONFIGURATION.BTNCONFIGAPPLY.CAPTION
 msgctxt "TFRMOPTIONSCONFIGURATION.BTNCONFIGAPPLY.CAPTION"
@@ -3996,6 +3787,40 @@ msgctxt "TFRMOPTIONSCONFIGURATION.RBUSERHOMEDIR.CAPTION"
 msgid "User home directory"
 msgstr "Felhasználó saját könyvtára"
 
+#: TFRMOPTIONSCUSTOMCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION"
+msgid "Copy"
+msgstr "Másolás"
+
+#: TFRMOPTIONSCUSTOMCOLUMNS.BTNDELCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNDELCOLUMNSSET.CAPTION"
+msgid "Delete"
+msgstr "Törlés"
+
+#: TFRMOPTIONSCUSTOMCOLUMNS.BTNEDITCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNEDITCOLUMNSSET.CAPTION"
+msgid "Edit"
+msgstr "Szerkesztés"
+
+#: TFRMOPTIONSCUSTOMCOLUMNS.BTNNEWCOLUMNSSET.CAPTION
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNNEWCOLUMNSSET.CAPTION"
+msgid "&New"
+msgstr "Ú&j"
+
+#: TFRMOPTIONSCUSTOMCOLUMNS.CBBFILESYSTEM.TEXT
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.CBBFILESYSTEM.TEXT"
+msgid "General"
+msgstr "Általános"
+
+#: TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION
+msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
+msgid "Configure columns for file system:"
+msgstr "Fájlrendszer oszlopok beállítása:"
+
+#: TFRMOPTIONSDRAGDROP.CBSHOWCONFIRMATIONDIALOG.CAPTION
+msgid "Show confirmation dialog after drop"
+msgstr ""
+
 #: TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION
 #, fuzzy
 #| msgid "&F8/Del deletes to recycle bin (Shift=directly)"
@@ -4034,11 +3859,6 @@ msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION"
 msgid "Show tab select panel in copy/move dialog"
 msgstr ""
 
-#: TFRMOPTIONSFILEOPERATIONS.CBSHOWDIALOGONDRAGDROP.CAPTION
-msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSHOWDIALOGONDRAGDROP.CAPTION"
-msgid "Show confirmation dialog on drag&&drop operations"
-msgstr "Megerősítő kérdés a fogd és vidd műveleteknél"
-
 #: TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "Skip file operations errors and write them to log window"
@@ -4065,8 +3885,10 @@ msgid "Buffer size (Kb):"
 msgstr "Pufferméret (Kb):"
 
 #: TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION
+#, fuzzy
+#| msgid "Number of wipe pass"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION"
-msgid "Number of wipe pass:"
+msgid "Number of wipe passes:"
 msgstr "Hányszoros legyen a végleges törlés:"
 
 #: TFRMOPTIONSFILEOPERATIONS.RBUSEMMAPINSEARCH.CAPTION
@@ -4078,6 +3900,186 @@ msgstr "Memory mapping használata fájlokban történő kereséskor"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.RBUSESTREAMINSEARCH.CAPTION"
 msgid "Use stream for search text in files"
 msgstr "Memóriafolyam használata fájlokban történő kereséskor"
+
+#: TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR2.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNBACKCOLOR2.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORCOLOR.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORTEXT.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNCURSORTEXT.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSFILEPANELSCOLORS.BTNFORECOLOR.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNFORECOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSFILEPANELSCOLORS.CBBUSEFRAMECURSOR.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
+msgid "Use Frame Cursor"
+msgstr ""
+
+#: TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
+msgid "Use Inverted Selection"
+msgstr "Fordított kijelölés használata"
+
+#: TFRMOPTIONSFILEPANELSCOLORS.GBEXAMPLE.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.GBEXAMPLE.CAPTION"
+msgid "Example"
+msgstr "Példa"
+
+#: TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR.CAPTION
+#, fuzzy
+#| msgid "BackGround:"
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR.CAPTION"
+msgid "Background:"
+msgstr "Háttér:"
+
+#: TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR2.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR2.CAPTION"
+msgid "Background 2:"
+msgstr "Háttér 2:"
+
+#: TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORCOLOR.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORCOLOR.CAPTION"
+msgid "Cursor Color:"
+msgstr "Kurzorszín:"
+
+#: TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORTEXT.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLCURSORTEXT.CAPTION"
+msgid "Cursor Text:"
+msgstr "Kurzor szöveg:"
+
+#: TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
+msgid "Brightness level of inactive panel"
+msgstr ""
+
+#: TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
+msgid "Mark Color:"
+msgstr "Jelölő szín:"
+
+#: TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
+msgid "Text Color:"
+msgstr "Szövegszín"
+
+#: TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION"
+msgid "Show square brackets around directories"
+msgstr "Szögletes zárójel a könyvtárnevek körül"
+
+#: TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION
+#, fuzzy
+#| msgid "Short Filesize format"
+msgctxt "TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION"
+msgid "Short file size format"
+msgstr "Rövid fájlméret formátum"
+
+#: TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION
+#, fuzzy
+#| msgid "Case sensitive sorting"
+msgctxt "TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION"
+msgid "Case-sensitive sorting"
+msgstr "Kis/nagybetűk megkülönböztetése rendezésnél"
+
+#: TFRMOPTIONSFILESVIEWS.CBSORTMETHOD.TEXT
+msgctxt "TFRMOPTIONSFILESVIEWS.CBSORTMETHOD.TEXT"
+msgid "Alphabetical, considering accents"
+msgstr ""
+
+#: TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION"
+msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
+msgstr "Szóközzel történő kijelöléskor automatikus léptetés (mint <INSERT> estén)"
+
+#: TFRMOPTIONSFILESVIEWS.GBFORMATTING.CAPTION
+msgid "Formatting"
+msgstr ""
+
+#: TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION"
+msgid "Sorting"
+msgstr ""
+
+#: TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
+msgid "Date and time format:"
+msgstr "Dátum és idő formátum:"
+
+#: TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION"
+msgid "Sort &method:"
+msgstr ""
+
+#: TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION
+msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
+msgid "Add"
+msgstr "Hozzáadás"
+
+#: TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION
+msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
+msgid "Apply"
+msgstr "Alkalmaz"
+
+#: TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION
+msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION
+msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
+msgid "Delete"
+msgstr "Törlés"
+
+#: TFRMOPTIONSFILETYPESCOLORS.BTNSEARCHTEMPLATE.HINT
+msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNSEARCHTEMPLATE.HINT"
+msgid "Template..."
+msgstr "Sablon..."
+
+#: TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION
+msgctxt "TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION"
+msgid "File types colors"
+msgstr "Fájltípus színek"
+
+#: TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION
+msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION"
+msgid "Category attributes:"
+msgstr "Attribútum kategória:"
+
+#: TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYCOLOR.CAPTION
+msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYCOLOR.CAPTION"
+msgid "Category color:"
+msgstr "Szín kategória:"
+
+#: TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYMASK.CAPTION
+msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYMASK.CAPTION"
+msgid "Category mask:"
+msgstr "Maszk kategória:"
+
+#: TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYNAME.CAPTION
+msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYNAME.CAPTION"
+msgid "Category name:"
+msgstr "Név kategória:"
 
 #: TFRMOPTIONSFONTS.BTNSELEDITFNT.CAPTION
 msgctxt "TFRMOPTIONSFONTS.BTNSELEDITFNT.CAPTION"
@@ -4249,6 +4251,10 @@ msgctxt "TFRMOPTIONSIGNORELIST.LBLSAVEIN.CAPTION"
 msgid "&Save in:"
 msgstr ""
 
+#: TFRMOPTIONSKEYBOARD.CBLYNXLIKE.CAPTION
+msgid "Left, Right arrows change directory (Lynx-like movement)"
+msgstr ""
+
 #: TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
 msgid "Flat buttons"
@@ -4304,10 +4310,9 @@ msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDRIVEFREESPACE.CAPTION"
 msgid "Show free space label"
 msgstr ""
 
-#: TFRMOPTIONSLAYOUT.CBSHOWDRIVEMENUBUTTON.CAPTION
-msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDRIVEMENUBUTTON.CAPTION"
-msgid "Show d&rive menu button"
-msgstr "Meg&hajtómenü gomb megjelenítése"
+#: TFRMOPTIONSLAYOUT.CBSHOWDRIVESLISTBUTTON.CAPTION
+msgid "Show d&rives list button"
+msgstr ""
 
 #: TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION"
@@ -4405,65 +4410,50 @@ msgid "File operation log file"
 msgstr "Fájlműveletek naplófájlja"
 
 #: TFRMOPTIONSLOG.GBLOGFILEOP.CAPTION
+#, fuzzy
+#| msgid "Log operations:"
 msgctxt "TFRMOPTIONSLOG.GBLOGFILEOP.CAPTION"
-msgid "Log operations:"
+msgid "Log operations"
 msgstr "Naplózási műveletek:"
 
 #: TFRMOPTIONSLOG.GBLOGFILESTATUS.CAPTION
+#, fuzzy
+#| msgid "Operation status:"
 msgctxt "TFRMOPTIONSLOG.GBLOGFILESTATUS.CAPTION"
-msgid "Operation status:"
+msgid "Operation status"
 msgstr "Művelet állapota:"
-
-#: TFRMOPTIONSMISC.CBDIRBRACKETS.CAPTION
-msgctxt "TFRMOPTIONSMISC.CBDIRBRACKETS.CAPTION"
-msgid "Show square brackets around directories"
-msgstr "Szögletes zárójel a könyvtárnevek körül"
-
-#: TFRMOPTIONSMISC.CBGRIDHORZLINE.CAPTION
-msgctxt "TFRMOPTIONSMISC.CBGRIDHORZLINE.CAPTION"
-msgid "Horizontal lines"
-msgstr "Vízszintes vonalak"
-
-#: TFRMOPTIONSMISC.CBGRIDVERTLINE.CAPTION
-msgctxt "TFRMOPTIONSMISC.CBGRIDVERTLINE.CAPTION"
-msgid "Vertical lines"
-msgstr "Függőleges vonalak"
 
 #: TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION
 msgctxt "TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION"
 msgid "Show warning messages (\"OK\" button only)"
 msgstr "Figyelmeztető üzenetek megjelenítése (csak \"OK\" gomb)"
 
-#: TFRMOPTIONSMISC.CBSORTCASESENSITIVE.CAPTION
-#, fuzzy
-#| msgid "Case sensitive sorting"
-msgctxt "TFRMOPTIONSMISC.CBSORTCASESENSITIVE.CAPTION"
-msgid "Case-sensitive sorting"
-msgstr "Kis/nagybetűk megkülönböztetése rendezésnél"
-
-#: TFRMOPTIONSMISC.CBSORTMETHOD.TEXT
-msgctxt "TFRMOPTIONSMISC.CBSORTMETHOD.TEXT"
-msgid "Alphabetical, considering accents"
+#: TFRMOPTIONSMOUSE.CBSELECTIONBYMOUSE.CAPTION
+msgid "Selection by mouse"
 msgstr ""
 
-#: TFRMOPTIONSMISC.CBSPACEMOVESDOWN.CAPTION
-msgctxt "TFRMOPTIONSMISC.CBSPACEMOVESDOWN.CAPTION"
-msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "Szóközzel történő kijelöléskor automatikus léptetés (mint <INSERT> estén)"
-
-#: TFRMOPTIONSMISC.GBSHOWGRID.CAPTION
-msgctxt "TFRMOPTIONSMISC.GBSHOWGRID.CAPTION"
-msgid "Show grid in file panel"
-msgstr "Rácsok megjelenítése a fájlpanelen"
-
-#: TFRMOPTIONSMISC.GBSORTING.CAPTION
-msgctxt "TFRMOPTIONSMISC.GBSORTING.CAPTION"
-msgid "Sorting"
+#: TFRMOPTIONSMOUSE.GBSCROLLING.CAPTION
+msgid "Scrolling"
 msgstr ""
 
-#: TFRMOPTIONSMISC.LBLSORTMETHOD.CAPTION
-msgctxt "TFRMOPTIONSMISC.LBLSORTMETHOD.CAPTION"
-msgid "Sort &method:"
+#: TFRMOPTIONSMOUSE.GBSELECTION.CAPTION
+msgid "Selection"
+msgstr ""
+
+#: TFRMOPTIONSMOUSE.LBLMOUSEMODE.CAPTION
+msgid "Mode:"
+msgstr ""
+
+#: TFRMOPTIONSMOUSE.RBSCROLLLINEBYLINE.CAPTION
+msgid "Line by line"
+msgstr ""
+
+#: TFRMOPTIONSMOUSE.RBSCROLLLINEBYLINECURSOR.CAPTION
+msgid "Line by line with cursor movement"
+msgstr ""
+
+#: TFRMOPTIONSMOUSE.RBSCROLLPAGEBYPAGE.CAPTION
+msgid "Page by page"
 msgstr ""
 
 #: TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION
@@ -4571,11 +4561,16 @@ msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTENDING.CAPTION"
 msgid "En&ding (last character before a typed dot . must match)"
 msgstr "&Végződés (a . előtti utolsó karakterrel kell egyeznie)"
 
+#: TFRMOPTIONSQUICKSEARCHFILTER.CGPOPTIONS.CAPTION
+msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CGPOPTIONS.CAPTION"
+msgid "Options"
+msgstr "Opciók"
+
 #: TFRMOPTIONSQUICKSEARCHFILTER.GBEXACTNAMEMATCH.CAPTION
 #, fuzzy
-#| msgid "Exact &name match:"
+#| msgid "Exact name match:"
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.GBEXACTNAMEMATCH.CAPTION"
-msgid "Exact name match:"
+msgid "Exact name match"
 msgstr "Teljes &név egyezés:"
 
 #: TFRMOPTIONSQUICKSEARCHFILTER.GRPQUICKSEARCHFILTERKEYS.CAPTION
@@ -4621,6 +4616,14 @@ msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.RBNONEQS.CAPTION"
 msgid "Disabled"
 msgstr "Le&tiltva"
 
+#: TFRMOPTIONSQUICKSEARCHFILTER.RGPSEARCHCASE.CAPTION
+msgid "Search case"
+msgstr ""
+
+#: TFRMOPTIONSQUICKSEARCHFILTER.RGPSEARCHITEMS.CAPTION
+msgid "Search for these items"
+msgstr ""
+
 #: TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
 msgid "Activate target &panel when clicking on one of its Tabs"
@@ -4637,8 +4640,10 @@ msgid "&Confirm close all tabs"
 msgstr "M&inden fül bezárásának megerősítése"
 
 #: TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION
+#, fuzzy
+#| msgid "&Limit tab title length to:"
 msgctxt "TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION"
-msgid "&Limit tab title length to:"
+msgid "&Limit tab title length to"
 msgstr "Fül címének maximá&lis hossza:"
 
 #: TFRMOPTIONSTABS.CBTABSLOCKEDASTERISK.CAPTION
@@ -4678,72 +4683,40 @@ msgstr "karakterek"
 
 #: TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
-msgid "Tabs position:"
+msgid "Tabs position"
 msgstr ""
 
-#: TFRMOPTIONSTOOLS.BTNBACKVIEWERCOLOR.CAPTION
-msgctxt "TFRMOPTIONSTOOLS.BTNBACKVIEWERCOLOR.CAPTION"
-msgid ">>"
+#: TFRMOPTIONSTERMINAL.LBLRUNINTERM.CAPTION
+msgid "Run in terminal:"
 msgstr ""
 
-#: TFRMOPTIONSTOOLS.BTNFONTVIEWERCOLOR.CAPTION
-msgctxt "TFRMOPTIONSTOOLS.BTNFONTVIEWERCOLOR.CAPTION"
-msgid ">>"
+#: TFRMOPTIONSTERMINAL.LBLRUNTERM.CAPTION
+msgid "Run terminal:"
 msgstr ""
 
-#: TFRMOPTIONSTOOLS.CBTOOLSKEEPTERMINALOPEN.CAPTION
-msgctxt "TFRMOPTIONSTOOLS.CBTOOLSKEEPTERMINALOPEN.CAPTION"
+#: TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION
+msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION"
 msgid "Keep terminal window open after executing program"
 msgstr ""
 
-#: TFRMOPTIONSTOOLS.CBTOOLSRUNINTERMINAL.CAPTION
-msgctxt "TFRMOPTIONSTOOLS.CBTOOLSRUNINTERMINAL.CAPTION"
+#: TFRMOPTIONSTOOLBASE.CBTOOLSRUNINTERMINAL.CAPTION
+msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSRUNINTERMINAL.CAPTION"
 msgid "Execute in terminal"
 msgstr ""
 
-#: TFRMOPTIONSTOOLS.CBTOOLSUSEEXTERNALPROGRAM.CAPTION
-msgctxt "TFRMOPTIONSTOOLS.CBTOOLSUSEEXTERNALPROGRAM.CAPTION"
+#: TFRMOPTIONSTOOLBASE.CBTOOLSUSEEXTERNALPROGRAM.CAPTION
+msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSUSEEXTERNALPROGRAM.CAPTION"
 msgid "Use external program"
 msgstr ""
 
-#: TFRMOPTIONSTOOLS.GBVIEWERBOOKMODE.CAPTION
-msgctxt "TFRMOPTIONSTOOLS.GBVIEWERBOOKMODE.CAPTION"
-msgid "Viewer Book Mode"
-msgstr ""
-
-#: TFRMOPTIONSTOOLS.GBVIEWEREXAMPLE.CAPTION
-msgctxt "TFRMOPTIONSTOOLS.GBVIEWEREXAMPLE.CAPTION"
-msgid "Example"
-msgstr "Példa"
-
-#: TFRMOPTIONSTOOLS.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION
-msgctxt "TFRMOPTIONSTOOLS.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION"
-msgid "Background color in book viewer"
-msgstr ""
-
-#: TFRMOPTIONSTOOLS.LBLFONTCOLORVIEWERBOOK.CAPTION
-msgctxt "TFRMOPTIONSTOOLS.LBLFONTCOLORVIEWERBOOK.CAPTION"
-msgid "Font color in book viewer"
-msgstr ""
-
-#: TFRMOPTIONSTOOLS.LBLNUMBERCOLUMNSVIEWER.CAPTION
-msgctxt "TFRMOPTIONSTOOLS.LBLNUMBERCOLUMNSVIEWER.CAPTION"
-msgid "Number of columns in book viewer"
-msgstr ""
-
-#: TFRMOPTIONSTOOLS.LBLTOOLSPARAMETERS.CAPTION
-msgctxt "TFRMOPTIONSTOOLS.LBLTOOLSPARAMETERS.CAPTION"
+#: TFRMOPTIONSTOOLBASE.LBLTOOLSPARAMETERS.CAPTION
+msgctxt "TFRMOPTIONSTOOLBASE.LBLTOOLSPARAMETERS.CAPTION"
 msgid "Additional parameters"
 msgstr ""
 
-#: TFRMOPTIONSTOOLS.LBLTOOLSPATH.CAPTION
-msgctxt "TFRMOPTIONSTOOLS.LBLTOOLSPATH.CAPTION"
+#: TFRMOPTIONSTOOLBASE.LBLTOOLSPATH.CAPTION
+msgctxt "TFRMOPTIONSTOOLBASE.LBLTOOLSPATH.CAPTION"
 msgid "Path to program to execute"
-msgstr ""
-
-#: TFRMOPTIONSTOOLS.STGTOOLS.COLUMNS[0].TITLE.CAPTION
-msgctxt "TFRMOPTIONSTOOLS.STGTOOLS.COLUMNS[0].TITLE.CAPTION"
-msgid "Tool"
 msgstr ""
 
 #: TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION
@@ -4809,6 +4782,41 @@ msgstr ""
 #: TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
 msgid "Show tool tip for files in file panel if truncated"
+msgstr ""
+
+#: TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION
+msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSVIEWER.BTNFONTVIEWERCOLOR.CAPTION
+msgctxt "TFRMOPTIONSVIEWER.BTNFONTVIEWERCOLOR.CAPTION"
+msgid ">>"
+msgstr ""
+
+#: TFRMOPTIONSVIEWER.GBVIEWERBOOKMODE.CAPTION
+msgctxt "TFRMOPTIONSVIEWER.GBVIEWERBOOKMODE.CAPTION"
+msgid "Viewer Book Mode"
+msgstr ""
+
+#: TFRMOPTIONSVIEWER.GBVIEWEREXAMPLE.CAPTION
+msgctxt "TFRMOPTIONSVIEWER.GBVIEWEREXAMPLE.CAPTION"
+msgid "Example"
+msgstr "Példa"
+
+#: TFRMOPTIONSVIEWER.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION
+msgctxt "TFRMOPTIONSVIEWER.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION"
+msgid "Background color in book viewer"
+msgstr ""
+
+#: TFRMOPTIONSVIEWER.LBLFONTCOLORVIEWERBOOK.CAPTION
+msgctxt "TFRMOPTIONSVIEWER.LBLFONTCOLORVIEWERBOOK.CAPTION"
+msgid "Font color in book viewer"
+msgstr ""
+
+#: TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION
+msgctxt "TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION"
+msgid "Number of columns in book viewer"
 msgstr ""
 
 #: TFRMPACKDLG.BTNCANCEL.CAPTION
@@ -5770,6 +5778,14 @@ msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
 msgstr ""
 
+#: ulng.rscancelfilter
+msgid "Cancel Quick Filter"
+msgstr ""
+
+#: ulng.rscanceloperation
+msgid "Cancel Current Operation"
+msgstr ""
+
 #: ulng.rscfgtoolbaraddbutton
 msgid "&Add button to end"
 msgstr ""
@@ -6011,6 +6027,14 @@ msgstr ""
 msgid "Wipe file(s)"
 msgstr ""
 
+#: ulng.rsdrivenolabel
+msgid "<no label>"
+msgstr ""
+
+#: ulng.rsdrivenomedia
+msgid "<no media>"
+msgstr ""
+
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
 msgstr "Double Commander belső szerkesztője"
@@ -6043,6 +6067,10 @@ msgstr "&Előre"
 #: ulng.rseditsearchreplace
 msgid "Replace"
 msgstr "Csere"
+
+#: ulng.rsfilterstatus
+msgid "FILTER"
+msgstr ""
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
@@ -6882,8 +6910,8 @@ msgctxt "ulng.rsoptionseditorcolors"
 msgid "Colors"
 msgstr "Színek"
 
-#: ulng.rsoptionseditorcolumns
-msgctxt "ulng.rsoptionseditorcolumns"
+#: ulng.rsoptionseditorcolumnsview
+msgctxt "ulng.rsoptionseditorcolumnsview"
 msgid "Columns"
 msgstr "Oszlopok"
 
@@ -6891,6 +6919,18 @@ msgstr "Oszlopok"
 msgctxt "ulng.rsoptionseditorconfiguration"
 msgid "Configuration"
 msgstr "Beállítás"
+
+#: ulng.rsoptionseditorcustomcolumns
+msgid "Custom columns"
+msgstr ""
+
+#: ulng.rsoptionseditordraganddrop
+msgid "Drag & drop"
+msgstr ""
+
+#: ulng.rsoptionseditordriveslistbutton
+msgid "Drives list button"
+msgstr ""
 
 #: ulng.rsoptionseditorfileoperations
 msgctxt "ulng.rsoptionseditorfileoperations"
@@ -6901,6 +6941,10 @@ msgstr "Fájlműveletek"
 msgctxt "ulng.rsoptionseditorfilepanels"
 msgid "File panels"
 msgstr "Fájl panelek"
+
+#: ulng.rsoptionseditorfilesviews
+msgid "Files views"
+msgstr ""
 
 #: ulng.rsoptionseditorfiletypes
 msgctxt "ulng.rsoptionseditorfiletypes"
@@ -6932,6 +6976,10 @@ msgctxt "ulng.rsoptionseditorignorelist"
 msgid "Ignore list"
 msgstr ""
 
+#: ulng.rsoptionseditorkeyboard
+msgid "Keys"
+msgstr ""
+
 #: ulng.rsoptionseditorlanguage
 msgctxt "ulng.rsoptionseditorlanguage"
 msgid "Language"
@@ -6952,6 +7000,10 @@ msgctxt "ulng.rsoptionseditormiscellaneous"
 msgid "Miscellaneous"
 msgstr "Egyéb"
 
+#: ulng.rsoptionseditormouse
+msgid "Mouse"
+msgstr ""
+
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
 msgid "Plugins"
@@ -6963,6 +7015,10 @@ msgstr "Beépülők"
 msgctxt "ulng.rsoptionseditorquicksearch"
 msgid "Quick search/filter"
 msgstr "Gyorskeresés"
+
+#: ulng.rsoptionseditorterminal
+msgid "Terminal"
+msgstr ""
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
@@ -7059,14 +7115,6 @@ msgstr "Ismeretlen típus"
 #: ulng.rspropsyes
 msgid "Yes (%s)"
 msgstr "Igen (%s)"
-
-#: ulng.rsquickfilterpanel
-msgid "Filter:"
-msgstr ""
-
-#: ulng.rsquicksearchpanel
-msgid "Find:"
-msgstr "Keresés:"
 
 #: ulng.rssearchresult
 msgid "Search result"
