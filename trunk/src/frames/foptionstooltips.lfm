@@ -8,25 +8,22 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 8
+    Left = 6
     Height = 347
     Top = 6
-    Width = 583
+    Width = 587
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Left = 8
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 8
-    BorderSpacing.Bottom = 8
+    BorderSpacing.Around = 6
     Caption = 'Custom fields by file type'
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 325
-    ClientWidth = 579
+    ClientWidth = 583
     TabOrder = 0
     object btnAddFields: TBitBtn
       AnchorSideTop.Control = btnApplyFields
       AnchorSideRight.Control = btnDeleteFields
-      Left = 229
+      Left = 233
       Height = 32
       Top = 287
       Width = 110
@@ -40,7 +37,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
     object btnDeleteFields: TBitBtn
       AnchorSideTop.Control = btnApplyFields
       AnchorSideRight.Control = btnApplyFields
-      Left = 345
+      Left = 349
       Height = 32
       Top = 287
       Width = 110
@@ -59,7 +56,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       Left = 12
       Height = 142
       Top = 6
-      Width = 559
+      Width = 563
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       BorderSpacing.Right = 8
@@ -72,7 +69,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = pnlEdit
       AnchorSideRight.Side = asrBottom
-      Left = 461
+      Left = 465
       Height = 32
       Top = 287
       Width = 110
@@ -92,14 +89,14 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
       Left = 12
       Height = 121
       Top = 154
-      Width = 559
+      Width = 563
       Anchors = [akTop, akLeft, akRight]
       AutoSize = True
       BorderSpacing.Top = 6
       BevelOuter = bvNone
       ChildSizing.TopBottomSpacing = 6
       ClientHeight = 121
-      ClientWidth = 559
+      ClientWidth = 563
       Enabled = False
       TabOrder = 4
       object lblFieldsName: TLabel
@@ -138,7 +135,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         Left = 151
         Height = 29
         Top = 12
-        Width = 408
+        Width = 412
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 12
         TabOrder = 0
@@ -151,7 +148,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         Left = 151
         Height = 29
         Top = 49
-        Width = 379
+        Width = 383
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 8
         BorderSpacing.Right = 6
@@ -165,7 +162,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         Left = 151
         Height = 29
         Top = 86
-        Width = 374
+        Width = 378
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 8
         BorderSpacing.Right = 6
@@ -177,7 +174,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = edtFieldsMask
         AnchorSideBottom.Side = asrBottom
-        Left = 536
+        Left = 540
         Height = 29
         Hint = 'Template...'
         Top = 49
@@ -232,7 +229,7 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = edtFieldsList
         AnchorSideBottom.Side = asrBottom
-        Left = 531
+        Left = 535
         Height = 29
         Top = 86
         Width = 28
@@ -250,21 +247,18 @@ inherited frmOptionsToolTips: TfrmOptionsToolTips
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 8
+    Left = 6
     Height = 113
-    Top = 361
-    Width = 583
+    Top = 359
+    Width = 587
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Left = 8
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 8
-    BorderSpacing.Bottom = 6
+    BorderSpacing.Around = 6
     Caption = 'Show tool tip'
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 91
-    ClientWidth = 579
+    ClientWidth = 583
     TabOrder = 1
     object rbToolTipAllFiles: TRadioButton
       AnchorSideLeft.Control = gbShowToolTip

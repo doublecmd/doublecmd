@@ -1,6 +1,8 @@
 inherited frmOptionsConfiguration: TfrmOptionsConfiguration
   Height = 339
   Width = 594
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 6
   ClientHeight = 339
   ClientWidth = 594
   object gbLocConfigFiles: TGroupBox[0]
@@ -14,9 +16,6 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     Width = 582
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Left = 6
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 6
     Caption = 'Location of configuration files'
     ChildSizing.LeftRightSpacing = 10
     ChildSizing.TopBottomSpacing = 5
@@ -58,10 +57,10 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     end
   end
   object gbSaveOnExit: TGroupBox[1]
-    AnchorSideLeft.Control = gbLocConfigFiles
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = btnConfigEdit
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = gbLocConfigFiles
+    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 165
@@ -70,7 +69,6 @@ inherited frmOptionsConfiguration: TfrmOptionsConfiguration
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 6
-    BorderSpacing.Bottom = 6
     Caption = 'Save on exit'
     ChildSizing.TopBottomSpacing = 5
     ClientHeight = 143

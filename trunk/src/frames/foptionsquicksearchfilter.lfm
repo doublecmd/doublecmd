@@ -1,13 +1,15 @@
 inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
   Height = 538
   Width = 702
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 6
   ClientHeight = 538
   ClientWidth = 702
   object gbExactNameMatch: TGroupBox[0]
-    AnchorSideLeft.Control = grpQuickSearchFilterKeys
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = grpQuickSearchFilterKeys
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = grpQuickSearchFilterKeys
+    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
     Left = 6
@@ -61,9 +63,6 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     Width = 690
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Left = 6
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 6
     Caption = 'Keys settings'
     ChildSizing.LeftRightSpacing = 10
     ChildSizing.TopBottomSpacing = 6
@@ -196,10 +195,10 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     end
   end
   object rgpSearchItems: TRadioGroup[2]
-    AnchorSideLeft.Control = gbExactNameMatch
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = gbExactNameMatch
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = gbExactNameMatch
+    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 109
@@ -227,10 +226,10 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     TabOrder = 2
   end
   object rgpSearchCase: TRadioGroup[3]
-    AnchorSideLeft.Control = rgpSearchItems
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = rgpSearchItems
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = rgpSearchItems
+    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 84
@@ -257,10 +256,10 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     TabOrder = 3
   end
   object cgpOptions: TCheckGroup[4]
-    AnchorSideLeft.Control = rgpSearchCase
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = rgpSearchCase
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = rgpSearchCase
+    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 59
@@ -269,7 +268,6 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     Anchors = [akTop, akLeft, akRight]
     AutoFill = True
     AutoSize = True
-    BorderSpacing.Bottom = 6
     Caption = 'Options'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6

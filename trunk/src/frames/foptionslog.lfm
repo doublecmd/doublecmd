@@ -1,6 +1,8 @@
 inherited frmOptionsLog: TfrmOptionsLog
   Height = 369
   Width = 394
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 6
   ClientHeight = 369
   ClientWidth = 394
   object gbLogFile: TGroupBox[0]
@@ -14,9 +16,6 @@ inherited frmOptionsLog: TfrmOptionsLog
     Width = 382
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Left = 6
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 6
     Caption = 'File operation log file'
     ClientHeight = 37
     ClientWidth = 378
@@ -53,10 +52,10 @@ inherited frmOptionsLog: TfrmOptionsLog
     end
   end
   object gbLogFileOp: TGroupBox[1]
-    AnchorSideLeft.Control = gbLogFile
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = gbLogFile
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = gbLogFile
+    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 163
@@ -116,10 +115,10 @@ inherited frmOptionsLog: TfrmOptionsLog
     end
   end
   object gbLogFileStatus: TGroupBox[2]
-    AnchorSideLeft.Control = gbLogFileOp
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = gbLogFileOp
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = gbLogFileOp
+    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 109
@@ -128,7 +127,6 @@ inherited frmOptionsLog: TfrmOptionsLog
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Top = 4
-    BorderSpacing.Bottom = 6
     Caption = 'Operation status'
     ChildSizing.LeftRightSpacing = 10
     ChildSizing.TopBottomSpacing = 4

@@ -119,6 +119,7 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       TabOrder = 14
     end
     object cbFlatDiskPanel: TCheckBox
+      AnchorSideLeft.Control = cbTwoDiskPanels
       AnchorSideTop.Control = cbTwoDiskPanels
       AnchorSideTop.Side = asrBottom
       Left = 28
@@ -131,12 +132,14 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       TabOrder = 5
     end
     object cbTwoDiskPanels: TCheckBox
+      AnchorSideLeft.Control = cbShowDiskPanel
       AnchorSideTop.Control = cbShowDiskPanel
       AnchorSideTop.Side = asrBottom
       Left = 28
       Height = 25
       Top = 114
       Width = 437
+      BorderSpacing.Left = 16
       BorderSpacing.Top = 2
       Caption = 'Show two drive button bars (fixed width, above file windows)'
       Enabled = False
@@ -165,12 +168,14 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       TabOrder = 15
     end
     object cbFlatToolBar: TCheckBox
+      AnchorSideLeft.Control = cbShowMainToolBar
       AnchorSideTop.Control = cbShowMainToolBar
       AnchorSideTop.Side = asrBottom
       Left = 28
       Height = 25
       Top = 60
       Width = 109
+      BorderSpacing.Left = 16
       BorderSpacing.Top = 2
       Caption = 'Flat buttons'
       TabOrder = 2

@@ -9,20 +9,17 @@ inherited frmOptionsIcons: TfrmOptionsIcons
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 10
+    Left = 6
     Height = 86
     Top = 201
-    Width = 458
+    Width = 466
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Left = 10
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 10
-    BorderSpacing.Bottom = 6
+    BorderSpacing.Around = 6
     Caption = ' Icon &size '
     ChildSizing.TopBottomSpacing = 8
     ClientHeight = 64
-    ClientWidth = 454
+    ClientWidth = 462
     TabOrder = 0
     object cbIconsSize: TComboBox
       AnchorSideLeft.Control = gbIconsSize
@@ -51,7 +48,7 @@ inherited frmOptionsIcons: TfrmOptionsIcons
       AnchorSideTop.Control = gbIconsSize
       AnchorSideRight.Control = gbIconsSize
       AnchorSideRight.Side = asrBottom
-      Left = 396
+      Left = 404
       Height = 48
       Top = 8
       Width = 48
@@ -76,19 +73,17 @@ inherited frmOptionsIcons: TfrmOptionsIcons
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 10
+    Left = 6
     Height = 189
     Top = 6
-    Width = 458
+    Width = 466
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Left = 10
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 10
+    BorderSpacing.Around = 6
     Caption = ' Show icons to the left of the filename '
     ChildSizing.TopBottomSpacing = 8
     ClientHeight = 167
-    ClientWidth = 454
+    ClientWidth = 462
     TabOrder = 1
     object rbIconsShowAll: TRadioButton
       AnchorSideLeft.Control = gbShowIconsMode

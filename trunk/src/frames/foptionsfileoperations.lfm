@@ -14,9 +14,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     Width = 722
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Left = 6
-    BorderSpacing.Top = 6
-    BorderSpacing.Right = 6
+    BorderSpacing.Around = 6
     Caption = '&Buffer size for files:'
     ClientHeight = 45
     ClientWidth = 718
@@ -47,10 +45,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     end
   end
   object gbGeneralOptions: TGroupBox[1]
-    AnchorSideLeft.Control = gbFileSearch
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = gbFileSearch
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = gbFileSearch
+    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 273
@@ -58,8 +56,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     Width = 722
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Top = 6
-    BorderSpacing.Bottom = 6
+    BorderSpacing.Around = 6
     Caption = 'General options'
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 251
@@ -180,10 +177,10 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     end
   end
   object gbFileSearch: TGroupBox[2]
-    AnchorSideLeft.Control = gbCopyBufferSize
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = gbCopyBufferSize
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = gbCopyBufferSize
+    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 121
@@ -191,7 +188,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
     Width = 722
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
-    BorderSpacing.Top = 6
+    BorderSpacing.Around = 6
     Caption = 'File search'
     ChildSizing.LeftRightSpacing = 10
     ChildSizing.TopBottomSpacing = 6
