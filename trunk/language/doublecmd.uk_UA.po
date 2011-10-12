@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-09-15 22:49+0300\n"
+"PO-Revision-Date: 2011-10-10 23:38+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -260,7 +260,7 @@ msgstr "&Закрити"
 
 #: TFRMABOUT.BTNCOPYTOCLIPBOARD.CAPTION
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Копіювати в буфер"
 
 #: TFRMABOUT.CAPTION
 msgctxt "TFRMABOUT.CAPTION"
@@ -298,10 +298,8 @@ msgid "Double Commander"
 msgstr "Double Commander"
 
 #: TFRMABOUT.LBLVERSION.CAPTION
-#, fuzzy
-#| msgid "Version %s"
 msgid "Version"
-msgstr "Версія %s"
+msgstr "Версія"
 
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
@@ -1864,11 +1862,11 @@ msgstr "Кодування:"
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "&File mask"
-msgstr "&Маска файлу"
+msgstr "По &масці файлу"
 
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "&Directory"
-msgstr "В &каталозі:"
+msgstr "Шукати в &каталозі:"
 
 #: TFRMFINDDLG.LBLFOUND.CAPTION
 msgctxt "TFRMFINDDLG.LBLFOUND.CAPTION"
@@ -3586,11 +3584,11 @@ msgstr "Показувати системні та приховані файли
 
 #: TFRMOPTIONSBEHAVIOR.EDTDRIVESBLACKLIST.HINT
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
-msgstr ""
+msgstr "Тут ви можете ввести один або декілька дисків, розділених \";\"."
 
 #: TFRMOPTIONSBEHAVIOR.LBLDRIVESBLACKLIST.CAPTION
 msgid "Drives blacklist"
-msgstr ""
+msgstr "Чорний список дисків"
 
 #: TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
@@ -3614,11 +3612,11 @@ msgstr "Розтягувати колонки на ширину панелі"
 
 #: TFRMOPTIONSCOLUMNSVIEW.GBSHOWGRID.CAPTION
 msgid "Show grid"
-msgstr ""
+msgstr "Показати сітку"
 
 #: TFRMOPTIONSCOLUMNSVIEW.GRPAUTOSIZECOLUMNS.CAPTION
 msgid "Auto-size columns"
-msgstr ""
+msgstr "Автоматична зміна розмірів колонок"
 
 #: TFRMOPTIONSCOLUMNSVIEW.LBLAUTOSIZECOLUMN.CAPTION
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.LBLAUTOSIZECOLUMN.CAPTION"
@@ -3718,7 +3716,7 @@ msgstr "Налаштувати колонки для файлової систе
 
 #: TFRMOPTIONSDRAGDROP.CBSHOWCONFIRMATIONDIALOG.CAPTION
 msgid "Show confirmation dialog after drop"
-msgstr ""
+msgstr "Показувати діалог підтвердження при перетягуванні"
 
 #: TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION"
@@ -3906,7 +3904,7 @@ msgstr "При виділенні файлів пробілом переміщу
 
 #: TFRMOPTIONSFILESVIEWS.GBFORMATTING.CAPTION
 msgid "Formatting"
-msgstr ""
+msgstr "Форматування"
 
 #: TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION"
@@ -4149,7 +4147,7 @@ msgstr "&Зберегти в:"
 
 #: TFRMOPTIONSKEYBOARD.CBLYNXLIKE.CAPTION
 msgid "Left, Right arrows change directory (Lynx-like movement)"
-msgstr ""
+msgstr "Зміна каталогу стрілками Вліво, Вправо (Навігація в стилі Lynx)"
 
 #: TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
@@ -4208,7 +4206,7 @@ msgstr "Показати мітки вільного простору"
 
 #: TFRMOPTIONSLAYOUT.CBSHOWDRIVESLISTBUTTON.CAPTION
 msgid "Show d&rives list button"
-msgstr ""
+msgstr "Показувати кнопки мен&ю дисків"
 
 #: TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION"
@@ -4326,31 +4324,31 @@ msgstr "Показувати попередження (лише кнопка \"O
 
 #: TFRMOPTIONSMOUSE.CBSELECTIONBYMOUSE.CAPTION
 msgid "Selection by mouse"
-msgstr ""
+msgstr "Виділення мишкою"
 
 #: TFRMOPTIONSMOUSE.GBSCROLLING.CAPTION
 msgid "Scrolling"
-msgstr ""
+msgstr "Прокрутка"
 
 #: TFRMOPTIONSMOUSE.GBSELECTION.CAPTION
 msgid "Selection"
-msgstr ""
+msgstr "Виділення"
 
 #: TFRMOPTIONSMOUSE.LBLMOUSEMODE.CAPTION
 msgid "Mode:"
-msgstr ""
+msgstr "Режим:"
 
 #: TFRMOPTIONSMOUSE.RBSCROLLLINEBYLINE.CAPTION
 msgid "Line by line"
-msgstr ""
+msgstr "Через рядків"
 
 #: TFRMOPTIONSMOUSE.RBSCROLLLINEBYLINECURSOR.CAPTION
 msgid "Line by line with cursor movement"
-msgstr ""
+msgstr "Рядок за рядком з рухом курсора"
 
 #: TFRMOPTIONSMOUSE.RBSCROLLPAGEBYPAGE.CAPTION
 msgid "Page by page"
-msgstr ""
+msgstr "Посторінково"
 
 #: TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
@@ -4505,12 +4503,14 @@ msgid "Disabled"
 msgstr "Відключено"
 
 #: TFRMOPTIONSQUICKSEARCHFILTER.RGPSEARCHCASE.CAPTION
+#, fuzzy
 msgid "Search case"
-msgstr ""
+msgstr "Регістр при пошуку"
 
 #: TFRMOPTIONSQUICKSEARCHFILTER.RGPSEARCHITEMS.CAPTION
+#, fuzzy
 msgid "Search for these items"
-msgstr ""
+msgstr "Критерії пошуку"
 
 #: TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
@@ -4528,11 +4528,10 @@ msgid "&Confirm close all tabs"
 msgstr "Підтверд&жувати закриття всіх вкладок"
 
 #: TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION
-#, fuzzy
 #| msgid "&Limit tab title length to:"
 msgctxt "TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION"
 msgid "&Limit tab title length to"
-msgstr "&Обмежити розмір заголовка вкладки до:"
+msgstr "&Обмежити розмір заголовка вкладки до"
 
 #: TFRMOPTIONSTABS.CBTABSLOCKEDASTERISK.CAPTION
 msgctxt "TFRMOPTIONSTABS.CBTABSLOCKEDASTERISK.CAPTION"
@@ -4578,11 +4577,11 @@ msgstr "Положення вкладок"
 
 #: TFRMOPTIONSTERMINAL.LBLRUNINTERM.CAPTION
 msgid "Run in terminal:"
-msgstr ""
+msgstr "Запустити у терміналі:"
 
 #: TFRMOPTIONSTERMINAL.LBLRUNTERM.CAPTION
 msgid "Run terminal:"
-msgstr ""
+msgstr "Запустити термінал"
 
 #: TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION"
@@ -5674,11 +5673,11 @@ msgstr "Якщо файл існує"
 
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
-msgstr ""
+msgstr "Скасувати швидкий фільтр"
 
 #: ulng.rscanceloperation
 msgid "Cancel Current Operation"
-msgstr ""
+msgstr "Скасувати поточну операцію"
 
 #: ulng.rscfgtoolbaraddbutton
 msgid "&Add button to end"
@@ -5918,12 +5917,14 @@ msgid "Wipe file(s)"
 msgstr "Стерти файл(и)"
 
 #: ulng.rsdrivenolabel
+#, fuzzy
 msgid "<no label>"
-msgstr ""
+msgstr "<no label>"
 
 #: ulng.rsdrivenomedia
+#, fuzzy
 msgid "<no media>"
-msgstr ""
+msgstr "<no media>"
 
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
@@ -5960,7 +5961,7 @@ msgstr "Замінити"
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
-msgstr ""
+msgstr "Фільтр"
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
@@ -6814,15 +6815,15 @@ msgstr "Конфігурація"
 
 #: ulng.rsoptionseditorcustomcolumns
 msgid "Custom columns"
-msgstr ""
+msgstr "Набір колонок"
 
 #: ulng.rsoptionseditordraganddrop
 msgid "Drag & drop"
-msgstr ""
+msgstr "Перетягування"
 
 #: ulng.rsoptionseditordriveslistbutton
 msgid "Drives list button"
-msgstr ""
+msgstr "Кнопки дисків"
 
 #: ulng.rsoptionseditorfileoperations
 msgctxt "ulng.rsoptionseditorfileoperations"
@@ -6836,7 +6837,7 @@ msgstr "Файлові панелі"
 
 #: ulng.rsoptionseditorfilesviews
 msgid "Files views"
-msgstr ""
+msgstr "Перегляд файлів"
 
 #: ulng.rsoptionseditorfiletypes
 msgctxt "ulng.rsoptionseditorfiletypes"
@@ -6870,7 +6871,7 @@ msgstr "Чорний список"
 
 #: ulng.rsoptionseditorkeyboard
 msgid "Keys"
-msgstr ""
+msgstr "Клавіатура"
 
 #: ulng.rsoptionseditorlanguage
 msgctxt "ulng.rsoptionseditorlanguage"
@@ -6894,7 +6895,7 @@ msgstr "Різне"
 
 #: ulng.rsoptionseditormouse
 msgid "Mouse"
-msgstr ""
+msgstr "Миша"
 
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
@@ -6908,7 +6909,7 @@ msgstr "Швидкий пошук/фільтр"
 
 #: ulng.rsoptionseditorterminal
 msgid "Terminal"
-msgstr ""
+msgstr "Термінал"
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
