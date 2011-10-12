@@ -296,10 +296,8 @@ msgid "Double Commander"
 msgstr ""
 
 #: TFRMABOUT.LBLVERSION.CAPTION
-#, fuzzy
-#| msgid "Version %s"
 msgid "Version"
-msgstr "Версия %s"
+msgstr "Версия"
 
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
