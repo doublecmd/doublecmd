@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.5.5 alpha\n"
+"Project-Id-Version: Double Commander 0.5.5 alpha"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2011-08-27 11:34+0100\n"
+"PO-Revision-Date: 2011-10-15 11:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
-"Language-Team: \n"
+"Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -259,7 +259,7 @@ msgstr "S&chliessen"
 
 #: TFRMABOUT.BTNCOPYTOCLIPBOARD.CAPTION
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "In die Zwischenablage kopieren"
 
 #: TFRMABOUT.CAPTION
 msgctxt "TFRMABOUT.CAPTION"
@@ -300,9 +300,7 @@ msgstr "Double Commander"
 #, fuzzy
 #| msgid "Version %s"
 msgid "Version"
-msgstr ""
-"Version %s,\n"
-"deutsch by Vacon\n"
+msgstr "Version"
 
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
@@ -792,7 +790,7 @@ msgstr "Letzter Unterschied"
 
 #: TFRMDIFFER.ACTLINEDIFFERENCES.CAPTION
 msgid "Line Differences"
-msgstr ""
+msgstr "Zeilenunterschied"
 
 #: TFRMDIFFER.ACTNEXTDIFF.CAPTION
 msgctxt "TFRMDIFFER.ACTNEXTDIFF.CAPTION"
@@ -2414,7 +2412,7 @@ msgstr "Öffne &VFS-Liste"
 
 #: TFRMMAIN.ACTOPERATIONSVIEWER.CAPTION
 msgid "Operations &Viewer"
-msgstr ""
+msgstr "Ablauf-Betrachter"
 
 #: TFRMMAIN.ACTOPTIONS.CAPTION
 #, fuzzy
@@ -3719,11 +3717,11 @@ msgstr "Zeige versteckte und Systemdateien"
 
 #: TFRMOPTIONSBEHAVIOR.EDTDRIVESBLACKLIST.HINT
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
-msgstr ""
+msgstr "Hier können ein oder mehrere Laufwerke oder Mount_Points angegeben werden, die so getrennt werden müssen \";\"."
 
 #: TFRMOPTIONSBEHAVIOR.LBLDRIVESBLACKLIST.CAPTION
 msgid "Drives blacklist"
-msgstr ""
+msgstr "Ausschlussliste für Laufwerke"
 
 #: TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
@@ -3747,11 +3745,11 @@ msgstr "Spalten automatisch füllen"
 
 #: TFRMOPTIONSCOLUMNSVIEW.GBSHOWGRID.CAPTION
 msgid "Show grid"
-msgstr ""
+msgstr "Zeige Gitterstruktur zur Orientierung"
 
 #: TFRMOPTIONSCOLUMNSVIEW.GRPAUTOSIZECOLUMNS.CAPTION
 msgid "Auto-size columns"
-msgstr ""
+msgstr "Grösse der Spalten automatisch einstellen"
 
 #: TFRMOPTIONSCOLUMNSVIEW.LBLAUTOSIZECOLUMN.CAPTION
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.LBLAUTOSIZECOLUMN.CAPTION"
@@ -3850,7 +3848,7 @@ msgstr "Bearbeite Spalten für Dateisystem"
 
 #: TFRMOPTIONSDRAGDROP.CBSHOWCONFIRMATIONDIALOG.CAPTION
 msgid "Show confirmation dialog after drop"
-msgstr ""
+msgstr "Zeige Bestätigungsdialog nach dem Ziehen und Ablegen von Dateien"
 
 #: TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION
 #, fuzzy
@@ -3883,7 +3881,7 @@ msgstr "Nur den Dateinamen bearbeiten (nicht die Endung)"
 
 #: TFRMOPTIONSFILEOPERATIONS.CBSAVETHUMBNAILS.CAPTION
 msgid "Save thumbnails in cache"
-msgstr ""
+msgstr "Speichern von Bildvorschauen im Cache"
 
 #: TFRMOPTIONSFILEOPERATIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION"
@@ -4045,7 +4043,7 @@ msgstr "Wenn Dateien mit der <Leertaste> ausgewählt werden, zur nächsten Datei
 
 #: TFRMOPTIONSFILESVIEWS.GBFORMATTING.CAPTION
 msgid "Formatting"
-msgstr ""
+msgstr "Format"
 
 #: TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION"
@@ -4175,7 +4173,7 @@ msgstr "Tastaturkürzel erstellen"
 #: TFRMOPTIONSHOTKEYS.CGHKCONTROLS.CAPTION
 msgctxt "TFRMOPTIONSHOTKEYS.CGHKCONTROLS.CAPTION"
 msgid "Only for these controls"
-msgstr ""
+msgstr "Nur für diese Steuerungs-Elemente"
 
 #: TFRMOPTIONSHOTKEYS.LBCOMMANDS.CAPTION
 msgctxt "TFRMOPTIONSHOTKEYS.LBCOMMANDS.CAPTION"
@@ -4220,7 +4218,7 @@ msgstr "Parameter"
 #: TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION"
 msgid "Controls"
-msgstr ""
+msgstr "Steuerungs-Elemente"
 
 #: TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
@@ -4284,7 +4282,7 @@ msgstr "&Speichern in:"
 
 #: TFRMOPTIONSKEYBOARD.CBLYNXLIKE.CAPTION
 msgid "Left, Right arrows change directory (Lynx-like movement)"
-msgstr ""
+msgstr "Pfeil nach links, bzw. rechts wechselt das Verzeichnis (Lynx-artiges Navigieren)"
 
 #: TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
@@ -4345,7 +4343,7 @@ msgstr "Zeige 'freien Speicher' von 'Gesamt-Speicherplatz' über den Panels"
 
 #: TFRMOPTIONSLAYOUT.CBSHOWDRIVESLISTBUTTON.CAPTION
 msgid "Show d&rives list button"
-msgstr ""
+msgstr "Zeige Schalter für &die Laufwerks-Liste"
 
 #: TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION"
@@ -4463,31 +4461,31 @@ msgstr "Warnungen anzeigen (nur mit \"OK\" Schalter)"
 
 #: TFRMOPTIONSMOUSE.CBSELECTIONBYMOUSE.CAPTION
 msgid "Selection by mouse"
-msgstr ""
+msgstr "Auswahl mit der Maus"
 
 #: TFRMOPTIONSMOUSE.GBSCROLLING.CAPTION
 msgid "Scrolling"
-msgstr ""
+msgstr "Bewegen durch die Seite (scrollen)"
 
 #: TFRMOPTIONSMOUSE.GBSELECTION.CAPTION
 msgid "Selection"
-msgstr ""
+msgstr "Auswahl"
 
 #: TFRMOPTIONSMOUSE.LBLMOUSEMODE.CAPTION
 msgid "Mode:"
-msgstr ""
+msgstr "Modus"
 
 #: TFRMOPTIONSMOUSE.RBSCROLLLINEBYLINE.CAPTION
 msgid "Line by line"
-msgstr ""
+msgstr "Zeile für Zeile"
 
 #: TFRMOPTIONSMOUSE.RBSCROLLLINEBYLINECURSOR.CAPTION
 msgid "Line by line with cursor movement"
-msgstr ""
+msgstr "Zeile für Zeile mit Bewegen der Zeilenmarkierung"
 
 #: TFRMOPTIONSMOUSE.RBSCROLLPAGEBYPAGE.CAPTION
 msgid "Page by page"
-msgstr ""
+msgstr "Seite für Seite"
 
 #: TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
@@ -4651,11 +4649,11 @@ msgstr "Nicht verfügbar"
 
 #: TFRMOPTIONSQUICKSEARCHFILTER.RGPSEARCHCASE.CAPTION
 msgid "Search case"
-msgstr ""
+msgstr "Suche Merkmal"
 
 #: TFRMOPTIONSQUICKSEARCHFILTER.RGPSEARCHITEMS.CAPTION
 msgid "Search for these items"
-msgstr ""
+msgstr "Suche nach diesen Einträgen"
 
 #: TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
@@ -4723,11 +4721,11 @@ msgstr "Reiter-Position"
 
 #: TFRMOPTIONSTERMINAL.LBLRUNINTERM.CAPTION
 msgid "Run in terminal:"
-msgstr ""
+msgstr "Im Befehlszeilen-Fenster ausführen:"
 
 #: TFRMOPTIONSTERMINAL.LBLRUNTERM.CAPTION
 msgid "Run terminal:"
-msgstr ""
+msgstr "Diesen Befehls-Interpreter benutzen:"
 
 #: TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION"
@@ -4905,7 +4903,7 @@ msgstr "=>"
 
 #: TFRMPACKDLG.CBPUTINTARFIRST.CAPTION
 msgid "Put in the TAR archive first"
-msgstr ""
+msgstr "Zuerst in einem TAR-Archiv zusammenfassen"
 
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
@@ -4997,7 +4995,7 @@ msgstr "&OK"
 
 #: TFRMSELECTTEXTRANGE.LBLSELECTTEXT.CAPTION
 msgid "Select the characters to insert:"
-msgstr ""
+msgstr "Zeichen zum Einfügen auswählen:"
 
 #: TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
@@ -5830,11 +5828,11 @@ msgstr "Wenn Datei vorhanden"
 
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
-msgstr ""
+msgstr "Schnell-Filter abbrechen"
 
 #: ulng.rscanceloperation
 msgid "Cancel Current Operation"
-msgstr ""
+msgstr "Aktuellen Vorgang abbrechen"
 
 #: ulng.rscfgtoolbaraddbutton
 msgid "&Add button to end"
@@ -6077,11 +6075,11 @@ msgstr "Datei(en) durch überschreiben löschen (nicht wiederherstellbar)"
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
-msgstr ""
+msgstr "<keine Bezeichnung>"
 
 #: ulng.rsdrivenomedia
 msgid "<no media>"
-msgstr ""
+msgstr "<kein Medium>"
 
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
@@ -6975,15 +6973,15 @@ msgstr "Einstellungen"
 
 #: ulng.rsoptionseditorcustomcolumns
 msgid "Custom columns"
-msgstr ""
+msgstr "Benutzerdefinierte Spalten"
 
 #: ulng.rsoptionseditordraganddrop
 msgid "Drag & drop"
-msgstr ""
+msgstr "Drag & Drop (ziehen und ablegen)"
 
 #: ulng.rsoptionseditordriveslistbutton
 msgid "Drives list button"
-msgstr ""
+msgstr "Schalter für die Laufwerks-Liste"
 
 #: ulng.rsoptionseditorfileoperations
 msgctxt "ulng.rsoptionseditorfileoperations"
@@ -6997,7 +6995,7 @@ msgstr "Dateifenster"
 
 #: ulng.rsoptionseditorfilesviews
 msgid "Files views"
-msgstr ""
+msgstr "Datei-Ansicht"
 
 #: ulng.rsoptionseditorfiletypes
 msgctxt "ulng.rsoptionseditorfiletypes"
@@ -7031,7 +7029,7 @@ msgstr "Ausschluss-Liste"
 
 #: ulng.rsoptionseditorkeyboard
 msgid "Keys"
-msgstr ""
+msgstr "Tasten"
 
 #: ulng.rsoptionseditorlanguage
 msgctxt "ulng.rsoptionseditorlanguage"
@@ -7055,7 +7053,7 @@ msgstr "Verschiedenes"
 
 #: ulng.rsoptionseditormouse
 msgid "Mouse"
-msgstr ""
+msgstr "Maus"
 
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
@@ -7071,7 +7069,7 @@ msgstr "Schnelle Suche"
 
 #: ulng.rsoptionseditorterminal
 msgid "Terminal"
-msgstr ""
+msgstr "Befehlszeilen-Interpreter"
 
 #: ulng.rsoptionseditortools
 msgctxt "ulng.rsoptionseditortools"
