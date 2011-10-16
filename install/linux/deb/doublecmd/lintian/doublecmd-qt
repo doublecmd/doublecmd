@@ -1,7 +1,4 @@
-doublecmd-qt: symlink-should-be-relative
-doublecmd-qt: binary-without-manpage
 doublecmd-qt: shlib-with-non-pic-code
 doublecmd-qt: shlib-with-executable-stack
 doublecmd-qt: library-not-linked-against-libc
 doublecmd-qt: shared-lib-without-dependency-information
-doublecmd-qt: extra-license-file
