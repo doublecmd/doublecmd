@@ -103,6 +103,9 @@ if [ -z $CK_PORTABLE ]
     install -m 644 *.so*      $DC_INSTALL_PREFIX/$OS_LIB_DIR
     # Create directory for platform independed files
     install -d                $DC_INSTALL_PREFIX/usr/share/doublecmd
+    # Copy man files
+    install -d -m 755                      $DC_INSTALL_PREFIX/usr/share/man/man1
+    install -c -m 644 install/linux/*.1    $DC_INSTALL_PREFIX/usr/share/man/man1
     # Copy documentation
     install -d                $DC_INSTALL_PREFIX/usr/share/doublecmd/doc
     install -m 644 doc/*.txt  $DC_INSTALL_PREFIX/usr/share/doublecmd/doc
