@@ -443,24 +443,28 @@ end;
 
 function ReplaceEnvVars(const sText: String): String;
 var
-  I, X: Integer;
-  EnvVarList: TStringList;
+  I, X,
+  EqualPos: Integer;
+  EnvVar, EnvName,
+  EnvValue: String;
 begin
-  if sText = EmptyStr then Exit(EmptyStr);
   Result:= sText;
+  if sText = EmptyStr then Exit;
   X:= GetEnvironmentVariableCount;
   if X = 0 then Exit;
-  EnvVarList:= TStringList.Create;
   for I:= 1 to X do
-    begin
-      EnvVarList.Add(mbGetEnvironmentString(I));
-      {$IFDEF UNIX}
-      Result:= StringReplace(Result, '$'+EnvVarList.Names[I-1], EnvVarList.ValueFromIndex[I-1], [rfReplaceAll, rfIgnoreCase]);
-      {$ELSE}
-      Result:= StringReplace(Result, '%'+EnvVarList.Names[I-1]+'%', EnvVarList.ValueFromIndex[I-1], [rfReplaceAll, rfIgnoreCase]);
-      {$ENDIF}
-    end;
-  FreeAndNil(EnvVarList);
+  begin
+    EnvVar:= mbGetEnvironmentString(I);
+    EqualPos:= PosEx('=', EnvVar, 2);
+    if EqualPos = 0 then Continue;
+    EnvName:= Copy(EnvVar, 1, EqualPos - 1);
+    EnvValue:= Copy(EnvVar, EqualPos + 1, MaxInt);
+    {$IFDEF UNIX}
+    Result:= StringReplace(Result, '$' + EnvName, EnvValue, [rfReplaceAll, rfIgnoreCase]);
+    {$ELSE}
+    Result:= StringReplace(Result, '%' + EnvName + '%', EnvValue, [rfReplaceAll, rfIgnoreCase]);
+    {$ENDIF}
+  end;
 
   Result := StringReplace(Result, EnvVarCommanderPath, ExcludeTrailingPathDelimiter(gpExePath), [rfReplaceAll, rfIgnoreCase]);
   Result := StringReplace(Result, EnvVarConfigPath, ExcludeTrailingPathDelimiter(gpCfgDir), [rfReplaceAll, rfIgnoreCase]);
