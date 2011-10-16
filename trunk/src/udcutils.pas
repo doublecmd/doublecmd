@@ -1398,6 +1398,7 @@ var
   number_result: ptrint = 0;
   number1_size: ptrint = 0;
   number2_size: ptrint = 0;
+  str_cmp: function(const s1, s2: WideString): PtrInt;
 
   function is_digit(c: widechar): boolean; inline;
   begin
@@ -1410,6 +1411,12 @@ var
   end;
 
 begin
+  // Set up compare function
+  if CaseSensitive then
+    str_cmp:= WideStringManager.CompareWideStringProc
+  else
+    str_cmp:= WideStringManager.CompareTextWideStringProc;
+
   while (true) do
   begin
     // compare string part
@@ -1442,10 +1449,7 @@ begin
       if (is_digit2 and not is_digit1) then
         exit(+1);
 
-      if CaseSensitive then
-        string_result:= WideCompareStr(str1^, str2^)
-      else
-        string_result:= WideCompareText(str1^, str2^);
+      string_result:= str_cmp(str1^, str2^);
 
       if (string_result <> 0) then exit(string_result);
 
