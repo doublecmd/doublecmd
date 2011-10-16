@@ -76,6 +76,7 @@ binary-arch: build install
 	for pkg in `dh_listpackages` ; do \
 	  install -d     $(CURDIR)/debian/$$pkg/usr/share/lintian/overrides ; \
 	  install -m 644 $(CURDIR)/debian/lintian/$$pkg $(CURDIR)/debian/$$pkg/usr/share/lintian/overrides ; \
+	  rm -f $(CURDIR)/debian/$$pkg/usr/share/doublecmd/doc/COPYING*.txt ; \
 	  find $(CURDIR)/debian/$$pkg/usr/share/ -type f | xargs chmod a-x ; \
 	done
 
