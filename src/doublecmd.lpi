@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="151">
+    <Units Count="152">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1153,6 +1153,11 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsDrivesListButton"/>
       </Unit150>
+      <Unit151>
+        <Filename Value="platform\unix\uoverlayscrollbarfix.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uOverlayScrollBarFix"/>
+      </Unit151>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
