@@ -206,49 +206,42 @@ end;
 function TfrmQuickSearch.CheckSearchOrFilter(var Key: Word): Boolean;
 var
   ModifierKeys: TShiftState;
-  SearchOrFilterEnabled: Boolean;
-  SearchOrFilterMode: TShiftState;
+  SearchOrFilterModifiers: TShiftState;
   SearchMode: TQuickSearchMode;
   UTF8Char: TUTF8Char;
+  KeyTypingModifier: TKeyTypingModifier;
 begin
   Result := False;
 
   ModifierKeys := GetKeyShiftStateEx;
-  for SearchMode in TQuickSearchMode do
-  begin
-    case SearchMode of
-      qsSearch:
-      begin
-        SearchOrFilterEnabled := gQuickSearch;
-        SearchOrFilterMode := gQuickSearchMode;
-      end;
-      qsFilter:
-      begin
-        SearchOrFilterEnabled := gQuickFilter;
-        SearchOrFilterMode := gQuickFilterMode;
-      end;
-    end;
 
-    // used for quick search/filter by Ctrl+Alt+Letter and Alt+Letter
-    if SearchOrFilterEnabled then
+  for KeyTypingModifier in TKeyTypingModifier do
+  begin
+    if gKeyTyping[KeyTypingModifier] in [ktaQuickSearch, ktaQuickFilter] then
     begin
-      if ((SearchOrFilterMode <> []) and
-          // Check only Ctrl and Alt.
-         (ModifierKeys * [ssCtrl, ssAlt] = SearchOrFilterMode))
+      SearchOrFilterModifiers := TKeyTypingModifierToShift[KeyTypingModifier];
+      if ((SearchOrFilterModifiers <> []) and
+         (ModifierKeys * KeyModifiersShortcutNoText = SearchOrFilterModifiers))
 {$IFDEF MSWINDOWS}
       // Entering international characters with Ctrl+Alt on Windows.
-      or ((SearchOrFilterMode = []) and
-         (ModifierKeys * [ssCtrl, ssAlt] = [ssCtrl, ssAlt]) and
-         (ModifierKeys - [ssCtrl, ssAlt, ssShift, ssCaps] = []))
+      or ((SearchOrFilterModifiers = []) and
+         (ModifierKeys * KeyModifiersShortcutNoText = [ssCtrl, ssAlt]))
 {$ENDIF}
       then
       begin
-        UTF8Char := VirtualKeyToUTF8Char(Key, ModifierKeys - SearchOrFilterMode);
-        Result := UTF8Char <> '';
+        UTF8Char := VirtualKeyToUTF8Char(Key, ModifierKeys - SearchOrFilterModifiers);
+        Result := (UTF8Char <> '') and
+                  (not ((Length(UTF8Char) = 1) and (UTF8Char[1] in [#0..#31])));
 
         if Result then
         begin
           Key := 0;
+          case gKeyTyping[KeyTypingModifier] of
+            ktaQuickSearch:
+              SearchMode := qsSearch;
+            ktaQuickFilter:
+              SearchMode := qsFilter;
+          end;
           Self.Initialize(SearchMode, UTF8Char);
         end;
 
@@ -261,35 +254,18 @@ end;
 function TfrmQuickSearch.CheckSearchOrFilter(var UTF8Key: TUTF8Char): Boolean;
 var
   ModifierKeys: TShiftState;
-  SearchOrFilterEnabled: Boolean;
-  SearchOrFilterMode: TShiftState;
   SearchMode: TQuickSearchMode;
 begin
   Result := False;
 
   // Check for certain Ascii keys.
-  if (Length(UTF8Key) = 1) and ((Ord(UTF8Key[1]) <= 32) or
-     (UTF8Key[1] in ['+','-','*','/','\'])) then Exit;
+  if (Length(UTF8Key) = 1) and (UTF8Key[1] in [#0..#32,'+','-','*']) then
+    Exit;
 
   ModifierKeys := GetKeyShiftStateEx;
-  for SearchMode in TQuickSearchMode do
+  if gKeyTyping[ktmNone] in [ktaQuickSearch, ktaQuickFilter] then
   begin
-    case SearchMode of
-      qsSearch:
-      begin
-        SearchOrFilterEnabled := gQuickSearch;
-        SearchOrFilterMode := gQuickSearchMode;
-      end;
-      qsFilter:
-      begin
-        SearchOrFilterEnabled := gQuickFilter;
-        SearchOrFilterMode := gQuickFilterMode;
-      end;
-    end;
-
-    if SearchOrFilterEnabled and (SearchOrFilterMode = []) and
-       // Check only ssCtrl and ssAlt.
-       (ModifierKeys * [ssCtrl, ssAlt] = SearchOrFilterMode) then
+    if ModifierKeys * KeyModifiersShortcutNoText = TKeyTypingModifierToShift[ktmNone] then
       begin
         // Make upper case if either caps-lock is toggled or shift pressed.
         if (ssCaps in ModifierKeys) xor (ssShift in ModifierKeys) then
@@ -297,13 +273,20 @@ begin
         else
           UTF8Key := UTF8LowerCase(UTF8Key);
 
+        case gKeyTyping[ktmNone] of
+          ktaQuickSearch:
+            SearchMode := qsSearch;
+          ktaQuickFilter:
+            SearchMode := qsFilter;
+        end;
+
         Self.Initialize(SearchMode, UTF8Key);
         UTF8Key := '';
 
         Result := True;
 
         Exit;
-      end
+      end;
   end;
 end;
 

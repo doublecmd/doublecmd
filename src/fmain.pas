@@ -522,7 +522,9 @@ type
     NumberOfMoveButton, NumberOfNewMoveButton: integer;
     Draging : boolean;
 
+    procedure CheckCommandLine(ShiftEx: TShiftState; var Key: Word);
     function ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
+    procedure TypeInCommandLine(Str: String);
     procedure AddVirtualDriveButton(dskPanel: TKASToolBar);
     procedure AddSpecialButtons(dskPanel: TKASToolBar);
     procedure HideToTray;
@@ -821,7 +823,7 @@ end;
 
 procedure TfrmMain.btnF8Click(Sender: TObject);
 begin
-  if GetKeyShiftStateEx * KeyModifiers = [ssShift] then
+  if GetKeyShiftStateEx * KeyModifiersShortcut = [ssShift] then
     Actions.cm_Delete('recyclesettingrev')
   else
     Actions.cm_Delete('');
@@ -1295,31 +1297,25 @@ begin
     Exit;
   end;
 
-  if (edtCommand.Tag = 0) then
-    begin
-      // quick search by Letter only
+  if (edtCommand.Tag = 0) and
+     // Check for certain Ascii keys.
+     (not ((Length(UTF8Key) = 1) and (UTF8Key[1] in ['-', '*', '+', #0..#32]))) then
+  begin
+    ModifierKeys := GetKeyShiftStateEx;
 
-      // Check for certain Ascii keys.
-      if (Length(UTF8Key) = 1) and ((Ord(UTF8Key[1]) <= 32) or
-         (UTF8Key[1] in ['+','-','*','/','\'])) then Exit;
-
-      ModifierKeys := GetKeyShiftStateEx;
-
-      if ((gQuickSearch and (gQuickSearchMode = [])) or
-          (gQuickFilter and (gQuickFilterMode = []))) and
-         // Check only ssCtrl and ssAlt.
-         (ModifierKeys * [ssCtrl, ssAlt] = []) then
-        begin
-          // Let the panel receive this message.
-        end
-      else
-        begin
-          Actions.cm_FocusCmdLine();
-          edtCommand.Text := edtCommand.Text + UTF8Key;
-          edtCommand.SelStart := UTF8Length(edtCommand.Text) + 1;
-          UTF8Key := '';
-        end;
-    end
+    if (gKeyTyping[ktmNone] = ktaCommandLine)
+{$IFDEF MSWINDOWS}
+       // Allow entering international characters with Ctrl+Alt on Windows,
+       // if there is no action for Ctrl+Alt and command line typing has no modifiers.
+       or ((ModifierKeys * KeyModifiersShortcutNoText = [ssCtrl, ssAlt]) and
+           (gKeyTyping[ktmCtrlAlt] = ktaNone))
+{$ENDIF}
+      then
+      begin
+        TypeInCommandLine(UTF8Key);
+        UTF8Key := '';
+      end;
+  end
 end;
 
 procedure TfrmMain.FormWindowStateChange(Sender: TObject);
@@ -1891,6 +1887,8 @@ begin
 end;
 
 procedure TfrmMain.FormKeyPress(Sender: TObject; var Key: Char);
+var
+  ModifierKeys: TShiftState;
 begin
   // Either left or right panel has to be focused.
   if not FrameLeft.Focused and
@@ -1899,23 +1897,15 @@ begin
     Exit;
   end;
 
-  if gCmdLine then  // If command line is enabled
-  begin
-    case Key of
-      #32..#254:
-      begin
-        if (Key in ['-', '*', '+', ' ']) and (Trim(edtCommand.Text) = '') then
-          Exit;
+  ModifierKeys := GetKeyShiftStateEx;
 
-        if (edtCommand.Tag = 0) then
-        begin
-          edtCommand.SetFocus; // handle first char of command line specially
-          edtCommand.Text := edtCommand.Text + Key;
-          edtCommand.SelStart := UTF8Length(edtCommand.Text) + 1;
-          Key := #0;
-        end;
-      end;
-    end;
+  if gCmdLine and  // If command line is enabled
+     (GetKeyTypingAction(ModifierKeys) = ktaCommandLine) and
+     (edtCommand.Tag = 0) and
+     not ((Key in ['-', '*', '+', #0..#32]) and (Trim(edtCommand.Text) = '')) then
+  begin
+    TypeInCommandLine(Key);
+    Key := #0;
   end;
 end;
 
@@ -2685,6 +2675,7 @@ end;
 procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
+  ShiftEx : TShiftState;
   CmdText : UTF8String;
 begin
   // Either left or right panel has to be focused.
@@ -2694,9 +2685,11 @@ begin
     Exit;
   end;
 
+  ShiftEx := GetKeyShiftStateEx;
+
   case Key of
     VK_BACK:
-      if edtCommand.Text <> '' then
+      if (GetKeyTypingAction(ShiftEx) = ktaCommandLine) and (edtCommand.Text <> '') then
       begin
         // Delete last character.
         CmdText := edtCommand.Text;
@@ -2709,19 +2702,29 @@ begin
       end;
 
     VK_ESCAPE:
-      if edtCommand.Text <> '' then
+      if IsCommandLineVisible and
+         (GetKeyTypingAction(ShiftEx) = ktaCommandLine) and
+         (edtCommand.Text <> '') then
       begin
         edtCommand.Text := '';
         Key := 0;
       end;
 
     VK_RETURN, VK_SELECT:
-      if IsCommandLineVisible and (edtCommand.Text <> '') and
-         (Shift - [ssCaps, ssShift] = []) then
+      if IsCommandLineVisible and
+         (GetKeyTypingAction(ShiftEx) = ktaCommandLine) and
+         (edtCommand.Text <> '') then
       begin
         // execute command line (in terminal with Shift)
         ExecuteCommandLine(Shift = [ssShift]);
-        Key:=0;
+        Key := 0;
+      end;
+
+    VK_SPACE:
+      if (GetKeyTypingAction(ShiftEx) = ktaCommandLine) and (edtCommand.Text <> '') then
+      begin
+        TypeInCommandLine(' ');
+        Key := 0;
       end;
 
     VK_TAB:
@@ -2735,6 +2738,8 @@ begin
         Key := 0;
       end;
   end;
+
+  CheckCommandLine(ShiftEx, Key);
 end;
 
 procedure TfrmMain.pmToolBarPopup(Sender: TObject);
@@ -3956,6 +3961,8 @@ begin
       else
         edtCommand.Tag:= 1;
     end;
+
+  CheckCommandLine(GetKeyShiftStateEx, Key);
 end;
 
 procedure TfrmMain.edtCommandExit(Sender: TObject);
@@ -4048,6 +4055,41 @@ begin
   end;
 end;
 
+procedure TfrmMain.CheckCommandLine(ShiftEx: TShiftState; var Key: Word);
+var
+  ModifierKeys: TShiftState;
+  UTF8Char: TUTF8Char;
+  KeyTypingModifier: TKeyTypingModifier;
+begin
+  for KeyTypingModifier in TKeyTypingModifier do
+  begin
+    if gKeyTyping[KeyTypingModifier] = ktaCommandLine then
+    begin
+      ModifierKeys := TKeyTypingModifierToShift[KeyTypingModifier];
+      if ((ModifierKeys <> []) and
+         (ShiftEx * KeyModifiersShortcutNoText = ModifierKeys))
+{$IFDEF MSWINDOWS}
+      // Allow entering international characters with Ctrl+Alt on Windows,
+      // if there is no action for Ctrl+Alt and command line typing has no modifiers.
+      or ((ShiftEx * KeyModifiersShortcutNoText = [ssCtrl, ssAlt]) and
+          (gKeyTyping[ktmCtrlAlt] = ktaNone) and
+          (gKeyTyping[ktmNone] = ktaCommandLine))
+{$ENDIF}
+      then
+      begin
+        UTF8Char := VirtualKeyToUTF8Char(Key, ShiftEx - ModifierKeys);
+        if (UTF8Char <> '') and
+           (not ((Length(UTF8Char) = 1) and (UTF8Char[1] in [#0..#31]))) then
+        begin
+          TypeInCommandLine(UTF8Char);
+          Key := 0;
+        end;
+      end;
+      Break;
+    end;
+  end;
+end;
+
 function TfrmMain.ExecuteCommandFromEdit(sCmd: String; bRunInTerm: Boolean): Boolean;
 var
   iIndex: Integer;
@@ -4123,6 +4165,13 @@ begin
           FreeThenNil(Operation);
         end;
     end;
+end;
+
+procedure TfrmMain.TypeInCommandLine(Str: String);
+begin
+  Actions.cm_FocusCmdLine();
+  edtCommand.Text := edtCommand.Text + Str;
+  edtCommand.SelStart := UTF8Length(edtCommand.Text) + 1;
 end;
 
 //LaBero begin

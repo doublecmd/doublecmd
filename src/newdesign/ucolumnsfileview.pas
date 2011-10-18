@@ -2114,7 +2114,6 @@ end;
 
 procedure TColumnsFileView.dgPanelKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
-
 var
   ScreenPoint: TPoint;
   aFile: TDisplayFile;
@@ -2224,12 +2223,10 @@ begin
       end;
 
     VK_SPACE:
-      if (Shift = []) and
-         ((not frmMain.IsCommandLineVisible) or (frmMain.edtCommand.Text = '')) then
       begin
-        if not IsEmpty then
+        aFile := GetActiveDisplayFile;
+        if Assigned(aFile) then
         begin
-          aFile := GetActiveDisplayFile;
           if IsItemValid(aFile) then
           begin
             if (aFile.FSFile.IsDirectory or
@@ -2247,25 +2244,19 @@ begin
 
           dgPanel.Invalidate;
           MakeSelectedVisible;
+          Key := 0;
         end;
-        Key := 0;
       end;
 
     VK_BACK:
-      if (Shift = []) and
-         ((not frmMain.IsCommandLineVisible) or (frmMain.edtCommand.Text = '')) then
       begin
-        if (frmMain.edtCommand.Tag = 0) then
-        begin
-          ChangePathToParent(True);
-          RedrawGrid;
-        end;
+        ChangePathToParent(True);
         Key := 0;
       end;
 
     VK_RETURN, VK_SELECT:
       begin
-        if (Shift=[]) or (Shift=[ssCaps]) then // 21.05.2009 - не учитываем CapsLock при перемещении по панелям
+        if (Shift * KeyModifiersShortcut = []) then
         begin
           // Only if there are items in the panel.
           if not IsEmpty then
@@ -2275,7 +2266,7 @@ begin
           end;
         end
         // execute active file in terminal (Shift+Enter)
-        else if Shift=[ssShift] then
+        else if (Shift * KeyModifiersShortcut = [ssShift]) then
         begin
           if IsActiveItemValid then
           begin

@@ -38,24 +38,9 @@ type
     cbExactEnding: TCheckBox;
     cgpOptions: TCheckGroup;
     gbExactNameMatch: TGroupBox;
-    grpQuickSearchFilterKeys: TGroupBox;
-    lblQuickFilter: TLabel;
-    lblQuickSearch: TLabel;
-    pnlQuickFilter: TPanel;
-    pnlQuickSearch: TPanel;
     rgpSearchCase: TRadioGroup;
     rgpSearchItems: TRadioGroup;
-    rbAltLetterQF: TRadioButton;
-    rbAltLetterQS: TRadioButton;
-    rbCtrlAltLetterQF: TRadioButton;
-    rbCtrlAltLetterQS: TRadioButton;
-    rbLetterQF: TRadioButton;
-    rbLetterQS: TRadioButton;
-    rbNoneQF: TRadioButton;
-    rbNoneQS: TRadioButton;
-    procedure rbQuickSearchFilterKeyChange(Sender: TObject);
   protected
-    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
@@ -75,16 +60,6 @@ const
 
 { TfrmOptionsQuickSearchFilter }
 
-procedure TfrmOptionsQuickSearchFilter.rbQuickSearchFilterKeyChange(Sender: TObject);
-begin
-  rbCtrlAltLetterQF.Enabled := not rbCtrlAltLetterQS.Checked;
-  rbAltLetterQF.Enabled     := not rbAltLetterQS.Checked;
-  rbLetterQF.Enabled        := not rbLetterQS.Checked;
-  rbCtrlAltLetterQS.Enabled := not rbCtrlAltLetterQF.Checked;
-  rbAltLetterQS.Enabled     := not rbAltLetterQF.Checked;
-  rbLetterQS.Enabled        := not rbLetterQF.Checked;
-end;
-
 class function TfrmOptionsQuickSearchFilter.GetIconIndex: Integer;
 begin
   Result := 12;
@@ -95,41 +70,8 @@ begin
   Result := rsOptionsEditorQuickSearch;
 end;
 
-procedure TfrmOptionsQuickSearchFilter.Init;
-begin
-  // Set QuickFilter radio buttons captions same as QuickSearch.
-  rbCtrlAltLetterQF.Caption := rbCtrlAltLetterQS.Caption;
-  rbAltLetterQF.Caption     := rbAltLetterQS.Caption;
-  rbLetterQF.Caption        := rbLetterQS.Caption;
-  rbNoneQF.Caption          := rbNoneQS.Caption;
-end;
-
 procedure TfrmOptionsQuickSearchFilter.Load;
 begin
-  if gQuickSearch then
-    begin
-      if (gQuickSearchMode = [ssCtrl, ssAlt]) then
-        rbCtrlAltLetterQS.Checked := True
-      else if (gQuickSearchMode = [ssAlt]) then
-        rbAltLetterQS.Checked := True
-      else if gQuickSearchMode = [] then
-        rbLetterQS.Checked := True;
-    end
-  else
-    rbNoneQS.Checked := True;
-
-  if gQuickFilter then
-    begin
-      if (gQuickFilterMode = [ssCtrl, ssAlt]) then
-        rbCtrlAltLetterQF.Checked := True
-      else if (gQuickFilterMode = [ssAlt]) then
-        rbAltLetterQF.Checked := True
-      else if gQuickFilterMode = [] then
-        rbLetterQF.Checked := True;
-    end
-  else
-    rbNoneQF.Checked := True;
-
   cbExactBeginning.Checked := qsmBeginning in gQuickSearchOptions.Match;
   cbExactEnding.Checked := qsmEnding in gQuickSearchOptions.Match;
   rgpSearchItems.ItemIndex := Integer(gQuickSearchOptions.Items);
@@ -140,24 +82,6 @@ end;
 function TfrmOptionsQuickSearchFilter.Save: TOptionsEditorSaveFlags;
 begin
   Result := [];
-
-  gQuickSearch := not rbNoneQS.Checked;
-
-  if rbCtrlAltLetterQS.Checked then
-    gQuickSearchMode := [ssCtrl, ssAlt];
-  if rbAltLetterQS.Checked then
-    gQuickSearchMode := [ssAlt];
-  if rbLetterQS.Checked then
-    gQuickSearchMode := [];
-
-  gQuickFilter := not rbNoneQF.Checked;
-
-  if rbCtrlAltLetterQF.Checked then
-    gQuickFilterMode := [ssCtrl, ssAlt];
-  if rbAltLetterQF.Checked then
-    gQuickFilterMode := [ssAlt];
-  if rbLetterQF.Checked then
-    gQuickFilterMode := [];
 
   if cbExactBeginning.Checked then
     Include(gQuickSearchOptions.Match, qsmBeginning)
