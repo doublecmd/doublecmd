@@ -384,13 +384,13 @@ begin
     begin
       ExtCommand := Exts.Items[lbFileTypes.ItemIndex];
       lbExts.Items.Assign(ExtCommand.Extensions);
-      lbExts.ItemIndex := 0;
+      if lbExts.Count > 0 then lbExts.ItemIndex := 0;
       lbActions.Items.Clear;
       for I := 0 to ExtCommand.Actions.Count - 1 do
-        begin
-          lbActions.Items.AddObject(ExtCommand.Actions.Names[I], ExtCommand.Actions);
-        end;
-      lbActions.ItemIndex := 0;
+      begin
+        lbActions.Items.AddObject(ExtCommand.Actions.Names[I], ExtCommand.Actions);
+      end;
+      if lbActions.Count > 0 then lbActions.ItemIndex := 0;
 
       bmpTemp := PixMapManager.LoadBitmapEnhanced(ExtCommand.Icon, 32, True, sbtnIcon.Color);
       try
