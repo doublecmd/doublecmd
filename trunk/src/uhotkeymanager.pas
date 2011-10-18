@@ -1061,13 +1061,16 @@ begin
   TextShortcut := ShortCutToTextEx(Shortcut);
   Control      := Form.ActiveControl;
 
-  // Don't execute hotkeys that coincide with quick search/filter combination
-  if not ((Shift <> []) and ((Shift = gQuickSearchMode) or (Shift = gQuickFilterMode)) and
-    (Key in [VK_0..VK_9, VK_A..VK_Z])) then
+  // Don't execute hotkeys that coincide with key typing actions.
+  if not (((GetKeyTypingAction(ShiftEx) <> ktaNone)
 {$IFDEF MSWINDOWS}
-    // Don't execute hotkeys with AltGr on Windows.
-    if not (ShiftEx = [ssAltGr]) then
+      // Don't execute hotkeys with Ctrl+Alt = AltGr on Windows.
+      or ((ShiftEx * KeyModifiersShortcutNoText = [ssCtrl, ssAlt]) and
+          (gKeyTyping[ktmNone] <> ktaNone))
+      // Don't execute hotkeys with AltGr on Windows.
+      or (ShiftEx = [ssAltGr])
 {$ENDIF}
+      ) and (Key in [VK_0..VK_9, VK_A..VK_Z])) then
     begin
       if Assigned(Control) then
       begin
@@ -1105,4 +1108,4 @@ begin
 end;
 
 end.
-
+

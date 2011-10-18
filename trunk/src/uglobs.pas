@@ -77,6 +77,9 @@ type
   TDrivesListButtonOption = (dlbShowLabel, dlbShowFileSystem, dlbShowFreeSpace);
   TDrivesListButtonOptions = set of TDrivesListButtonOption;
 
+  TKeyTypingModifier = (ktmNone, ktmAlt, ktmCtrlAlt);
+  TKeyTypingAction = (ktaNone, ktaCommandLine, ktaQuickSearch, ktaQuickFilter);
+
 const
   { Default hotkey list version number }
   hkVersion     = 5;
@@ -87,7 +90,12 @@ const
   //       renamed Layout/SmallIconSize to Layout/IconSize
   // 3   - Layout/DriveMenuButton -> Layout/DrivesListButton and added subnodes:
   //         ShowLabel, ShowFileSystem, ShowFreeSpace
-  ConfigVersion = 3;
+  // 4   - changed QuickSearch/Enabled, QuickSearch/Mode and same for QuickFilter
+  //       to Keyboard/Typing.
+  ConfigVersion = 4;
+
+  TKeyTypingModifierToShift: array[TKeyTypingModifier] of TShiftState =
+    ([], [ssAlt], [ssCtrl, ssAlt]);
 
 var
   { For localization }
@@ -203,7 +211,10 @@ var
   gIconsSize,
   gIconsSizeNew : Integer;
   gCustomDriveIcons : Boolean; // for use custom drive icons under windows
-  
+
+  { Keys page }
+  gKeyTyping: array[TKeyTypingModifier] of TKeyTypingAction;
+
   { File operations page }
 
   gCopyBlockSize : Integer;
@@ -239,11 +250,7 @@ var
   gSaveCmdLineHistory,
   gSaveFileMaskHistory : Boolean;
   
-  {  Quick Search page}
-  gQuickSearch : Boolean;
-  gQuickSearchMode : TShiftState;
-  gQuickFilter : Boolean;
-  gQuickFilterMode : TShiftState;
+  { Quick Search page }
   gQuickSearchOptions: TQuickSearchOptions;
   gQuickFilterAutoHide: Boolean;
 
@@ -316,6 +323,7 @@ function InitPropStorage(Owner: TComponent): TIniPropStorageEx;
 procedure FontToFontOptions(Font: TFont; out Options: TDCFontOptions);
 procedure FontOptionsToFont(Options: TDCFontOptions; Font: TFont);
 
+function GetKeyTypingAction(ShiftStateEx: TShiftState): TKeyTypingAction;
 function IsFileSystemWatcher: Boolean;
 
 const
@@ -330,7 +338,11 @@ implementation
 uses
    LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils,
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
-   uDefaultPlugins, Lua;
+   uDefaultPlugins, Lua, uKeyboard;
+
+const
+  TKeyTypingModifierToNodeName: array[TKeyTypingModifier] of String =
+    ('NoModifier', 'Alt', 'CtrlAlt');
 
 var
   // Double Commander version
@@ -467,6 +479,33 @@ begin
     Font.Name  := Name;
     Font.Size  := Size;
     Font.Style := Style;
+  end;
+end;
+
+procedure OldKeysToNew(ActionEnabled: Boolean; ShiftState: TShiftState; Action: TKeyTypingAction);
+var
+  Modifier: TKeyTypingModifier;
+begin
+  if ActionEnabled then
+  begin
+    for Modifier in TKeyTypingModifier do
+    begin
+      if TKeyTypingModifierToShift[Modifier] = ShiftState then
+        gKeyTyping[Modifier] := Action
+      else if gKeyTyping[Modifier] = Action then
+        gKeyTyping[Modifier] := ktaNone;
+    end;
+  end
+  else
+  begin
+    for Modifier in TKeyTypingModifier do
+    begin
+      if gKeyTyping[Modifier] = Action then
+      begin
+        gKeyTyping[Modifier] := ktaNone;
+        Break;
+      end;
+    end;
   end;
 end;
 
@@ -719,6 +758,11 @@ begin
   gHorizontalFilePanels := False;
   gDrivesListButtonOptions := [dlbShowLabel, dlbShowFileSystem, dlbShowFreeSpace];
 
+  { Keys page }
+  gKeyTyping[ktmNone]    := ktaCommandLine;
+  gKeyTyping[ktmAlt]     := ktaNone;
+  gKeyTyping[ktmCtrlAlt] := ktaQuickSearch;
+
   { File operations page }
   gCopyBlockSize := 524288;
   gUseMmapInSearch := False;
@@ -761,10 +805,6 @@ begin
   gSaveFileMaskHistory := True;
 
   { Quick Search/Filter page }
-  gQuickSearch := True;
-  gQuickSearchMode := [ssCtrl, ssAlt];
-  gQuickFilter := False;
-  gQuickFilterMode := [];
   gQuickSearchOptions.Match := [qsmBeginning, qsmEnding];
   gQuickSearchOptions.Items := qsiFilesAndDirectories;
   gQuickSearchOptions.SearchCase := qscInsensitive;
@@ -1084,6 +1124,11 @@ begin
 end;
 
 procedure LoadIniConfig;
+var
+  oldQuickSearch: Boolean = True;
+  oldQuickFilter: Boolean = False;
+  oldQuickSearchMode: TShiftState = [ssCtrl, ssAlt];
+  oldQuickFilterMode: TShiftState = [];
 begin
   { Layout page }
 
@@ -1186,10 +1231,12 @@ begin
   gSaveCmdLineHistory := gIni.ReadBool('Configuration', 'SaveCmdLineHistory', True);
   gSaveFileMaskHistory := gIni.ReadBool('Configuration', 'SaveFileMaskHistory', True);
   { Quick Search page}
-  gQuickSearch := gIni.ReadBool('Configuration', 'QuickSearch', gQuickSearch);
-  gQuickSearchMode := TShiftState(gIni.ReadInteger('Configuration', 'QuickSearchMode', Integer(gQuickSearchMode)));
-  gQuickFilter := gIni.ReadBool('Configuration', 'QuickFilter', gQuickFilter);
-  gQuickFilterMode := TShiftState(gIni.ReadInteger('Configuration', 'QuickFilterMode', Integer(gQuickFilterMode)));
+  oldQuickSearch := gIni.ReadBool('Configuration', 'QuickSearch', oldQuickSearch);
+  oldQuickSearchMode := TShiftState(gIni.ReadInteger('Configuration', 'QuickSearchMode', Integer(oldQuickSearchMode)));
+  OldKeysToNew(oldQuickSearch, oldQuickSearchMode, ktaQuickSearch);
+  oldQuickFilter := gIni.ReadBool('Configuration', 'QuickFilter', oldQuickFilter);
+  oldQuickFilterMode := TShiftState(gIni.ReadInteger('Configuration', 'QuickFilterMode', Integer(oldQuickFilterMode)));
+  OldKeysToNew(oldQuickFilter, oldQuickFilterMode, ktaQuickFilter);
   if gIni.ReadBool('Configuration', 'QuickSearchMatchBeginning', qsmBeginning in gQuickSearchOptions.Match) then
     Include(gQuickSearchOptions.Match, qsmBeginning)
   else
@@ -1359,12 +1406,8 @@ begin
   gIni.WriteBool('Configuration', 'SaveCmdLineHistory', gSaveCmdLineHistory);
   gIni.WriteBool('Configuration', 'SaveFileMaskHistory', gSaveFileMaskHistory);
   { Quick Search page}
-  gIni.WriteBool('Configuration', 'QuickSearch', gQuickSearch);
-  gIni.WriteInteger('Configuration', 'QuickSearchMode', Integer(gQuickSearchMode));
   gIni.WriteBool('Configuration', 'QuickSearchMatchBeginning', qsmBeginning in gQuickSearchOptions.Match);
   gIni.WriteBool('Configuration', 'QuickSearchMatchEnding', qsmEnding in gQuickSearchOptions.Match);
-  gIni.WriteBool('Configuration', 'QuickFilter', gQuickFilter);
-  gIni.WriteInteger('Configuration', 'QuickFilterMode', Integer(gQuickFilterMode));
   { Misc page }
   gIni.WriteBool('Configuration', 'GridVertLine', gGridVertLine);
   gIni.WriteBool('Configuration', 'GridHorzLine', gGridHorzLine);
@@ -1441,6 +1484,11 @@ procedure LoadXmlConfig;
 var
   Root, Node, SubNode: TXmlNode;
   LoadedConfigVersion: Integer;
+  oldQuickSearch: Boolean = True;
+  oldQuickFilter: Boolean = False;
+  oldQuickSearchMode: TShiftState = [ssCtrl, ssAlt];
+  oldQuickFilterMode: TShiftState = [];
+  KeyTypingModifier: TKeyTypingModifier;
 begin
   with gConfig do
   begin
@@ -1565,6 +1613,19 @@ begin
       gHorizontalFilePanels := GetValue(Node, 'HorizontalFilePanels', gHorizontalFilePanels);
     end;
 
+    { Keys page }
+    Node := Root.FindNode('Keyboard');
+    if Assigned(Node) then
+    begin
+      SubNode := Node.FindNode('Typing/Actions');
+      if Assigned(SubNode) then
+      begin
+        for KeyTypingModifier in TKeyTypingModifier do
+          gKeyTyping[KeyTypingModifier] := TKeyTypingAction(GetValue(SubNode,
+            TKeyTypingModifierToNodeName[KeyTypingModifier], Integer(gKeyTyping[KeyTypingModifier])));
+      end;
+    end;
+
     { File operations page }
     Node := Root.FindNode('FileOperations');
     if Assigned(Node) then
@@ -1622,8 +1683,12 @@ begin
     Node := Root.FindNode('QuickSearch');
     if Assigned(Node) then
     begin
-      gQuickSearch := GetAttr(Node, 'Enabled', gQuickSearch);
-      gQuickSearchMode := TShiftState(GetValue(Node, 'Mode', Integer(gQuickSearchMode)));
+      if LoadedConfigVersion < 4 then
+      begin
+        oldQuickSearch := GetAttr(Node, 'Enabled', oldQuickSearch);
+        oldQuickSearchMode := TShiftState(GetValue(Node, 'Mode', Integer(oldQuickSearchMode)));
+        OldKeysToNew(oldQuickSearch, oldQuickSearchMode, ktaQuickSearch);
+      end;
       if GetValue(Node, 'MatchBeginning', qsmBeginning in gQuickSearchOptions.Match) then
         Include(gQuickSearchOptions.Match, qsmBeginning)
       else
@@ -1638,8 +1703,12 @@ begin
     Node := Root.FindNode('QuickFilter');
     if Assigned(Node) then
     begin
-      gQuickFilter := GetAttr(Node, 'Enabled', gQuickFilter);
-      gQuickFilterMode := TShiftState(GetValue(Node, 'Mode', Integer(gQuickFilterMode)));
+      if LoadedConfigVersion < 4 then
+      begin
+        oldQuickFilter := GetAttr(Node, 'Enabled', oldQuickFilter);
+        oldQuickFilterMode := TShiftState(GetValue(Node, 'Mode', Integer(oldQuickFilterMode)));
+        OldKeysToNew(oldQuickFilter, oldQuickFilterMode, ktaQuickFilter);
+      end;
       gQuickFilterAutoHide := GetValue(Node, 'AutoHide', gQuickFilterAutoHide);
     end;
 
@@ -1751,6 +1820,7 @@ procedure SaveXmlConfig;
 var
   I: Integer;
   Root, Node, SubNode: TXmlNode;
+  KeyTypingModifier: TKeyTypingModifier;
 begin
   with gConfig do
   begin
@@ -1851,6 +1921,13 @@ begin
     SetValue(Node, 'PanelOfOperationsInBackground', gPanelOfOp);
     SetValue(Node, 'HorizontalFilePanels', gHorizontalFilePanels);
 
+    { Keys page }
+    Node := FindNode(Root, 'Keyboard', True);
+    SubNode := FindNode(Node, 'Typing/Actions', True);
+    for KeyTypingModifier in TKeyTypingModifier do
+      SetValue(SubNode, TKeyTypingModifierToNodeName[KeyTypingModifier],
+        Integer(gKeyTyping[KeyTypingModifier]));
+
     { File operations page }
     Node := FindNode(Root, 'FileOperations', True);
     SetValue(Node, 'BufferSize', gCopyBlockSize);
@@ -1894,15 +1971,11 @@ begin
 
     { Quick Search/Filter page }
     Node := FindNode(Root, 'QuickSearch', True);
-    SetAttr(Node, 'Enabled', gQuickSearch);
-    SetValue(Node, 'Mode', Integer(gQuickSearchMode));
     SetValue(Node, 'MatchBeginning', qsmBeginning in gQuickSearchOptions.Match);
     SetValue(Node, 'MatchEnding', qsmEnding in gQuickSearchOptions.Match);
     SetValue(Node, 'Case', Integer(gQuickSearchOptions.SearchCase));
     SetValue(Node, 'Items', Integer(gQuickSearchOptions.Items));
     Node := FindNode(Root, 'QuickFilter', True);
-    SetAttr(Node, 'Enabled', gQuickFilter);
-    SetValue(Node, 'Mode', Integer(gQuickFilterMode));
     SetValue(Node, 'AutoHide', gQuickFilterAutoHide);
 
     { Misc page }
@@ -1998,6 +2071,16 @@ begin
   end;
 
   Result := True;
+end;
+
+function GetKeyTypingAction(ShiftStateEx: TShiftState): TKeyTypingAction;
+var
+  Modifier: TKeyTypingModifier;
+begin
+  for Modifier in TKeyTypingModifier do
+    if ShiftStateEx * KeyModifiersShortcutNoText = TKeyTypingModifierToShift[Modifier] then
+      Exit(gKeyTyping[Modifier]);
+  Result := ktaNone;
 end;
 
 function IsFileSystemWatcher: Boolean;

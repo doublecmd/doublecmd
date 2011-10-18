@@ -1,20 +1,19 @@
 inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
-  Height = 538
+  Height = 354
   Width = 702
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
-  ClientHeight = 538
+  ClientHeight = 354
   ClientWidth = 702
   object gbExactNameMatch: TGroupBox[0]
     AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = grpQuickSearchFilterKeys
-    AnchorSideTop.Side = asrBottom
+    AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
     Left = 6
     Height = 84
-    Top = 178
+    Top = 6
     Width = 690
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -23,7 +22,7 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     ChildSizing.VerticalSpacing = 4
     ClientHeight = 62
     ClientWidth = 686
-    TabOrder = 1
+    TabOrder = 0
     object cbExactBeginning: TCheckBox
       AnchorSideLeft.Control = gbExactNameMatch
       AnchorSideTop.Control = gbExactNameMatch
@@ -52,149 +51,7 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
       TabOrder = 1
     end
   end
-  object grpQuickSearchFilterKeys: TGroupBox[1]
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = Owner
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 6
-    Height = 172
-    Top = 6
-    Width = 690
-    Anchors = [akTop, akLeft, akRight]
-    AutoSize = True
-    Caption = 'Keys settings'
-    ChildSizing.LeftRightSpacing = 10
-    ChildSizing.TopBottomSpacing = 6
-    ChildSizing.HorizontalSpacing = 6
-    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-    ChildSizing.EnlargeVertical = crsHomogenousSpaceResize
-    ChildSizing.ShrinkHorizontal = crsHomogenousSpaceResize
-    ChildSizing.ShrinkVertical = crsHomogenousSpaceResize
-    ChildSizing.Layout = cclTopToBottomThenLeftToRight
-    ClientHeight = 150
-    ClientWidth = 686
-    TabOrder = 0
-    object pnlQuickSearch: TPanel
-      Left = 10
-      Height = 138
-      Top = 6
-      Width = 358
-      BevelOuter = bvNone
-      ChildSizing.TopBottomSpacing = 4
-      ChildSizing.VerticalSpacing = 2
-      ChildSizing.ShrinkHorizontal = crsHomogenousSpaceResize
-      ChildSizing.Layout = cclLeftToRightThenTopToBottom
-      ClientHeight = 138
-      ClientWidth = 358
-      TabOrder = 0
-      object lblQuickSearch: TLabel
-        Left = 0
-        Height = 22
-        Top = 4
-        Width = 133
-        Caption = 'Quick &search:'
-        FocusControl = rbNoneQS
-        ParentColor = False
-      end
-      object rbCtrlAltLetterQS: TRadioButton
-        Left = 0
-        Height = 25
-        Top = 28
-        Width = 133
-        Caption = 'Ctrl+Alt+Letters'
-        Checked = True
-        OnChange = rbQuickSearchFilterKeyChange
-        TabOrder = 0
-        TabStop = True
-      end
-      object rbAltLetterQS: TRadioButton
-        Left = 0
-        Height = 25
-        Top = 55
-        Width = 133
-        Caption = 'Alt+Letters'
-        OnChange = rbQuickSearchFilterKeyChange
-        TabOrder = 1
-      end
-      object rbLetterQS: TRadioButton
-        Left = 0
-        Height = 25
-        Top = 82
-        Width = 133
-        Caption = 'Letter only'
-        OnChange = rbQuickSearchFilterKeyChange
-        TabOrder = 2
-      end
-      object rbNoneQS: TRadioButton
-        Left = 0
-        Height = 25
-        Top = 109
-        Width = 133
-        Caption = 'Disabled'
-        OnChange = rbQuickSearchFilterKeyChange
-        TabOrder = 3
-      end
-    end
-    object pnlQuickFilter: TPanel
-      Left = 374
-      Height = 138
-      Top = 6
-      Width = 302
-      BevelOuter = bvNone
-      ChildSizing.TopBottomSpacing = 4
-      ChildSizing.VerticalSpacing = 2
-      ChildSizing.ShrinkHorizontal = crsHomogenousSpaceResize
-      ChildSizing.Layout = cclLeftToRightThenTopToBottom
-      ClientHeight = 138
-      ClientWidth = 302
-      TabOrder = 1
-      object lblQuickFilter: TLabel
-        Left = 0
-        Height = 22
-        Top = 4
-        Width = 78
-        Caption = 'Quick &filter:'
-        FocusControl = rbNoneQF
-        ParentColor = False
-      end
-      object rbCtrlAltLetterQF: TRadioButton
-        Left = 0
-        Height = 25
-        Top = 28
-        Width = 78
-        Checked = True
-        OnChange = rbQuickSearchFilterKeyChange
-        TabOrder = 0
-        TabStop = True
-      end
-      object rbAltLetterQF: TRadioButton
-        Left = 0
-        Height = 25
-        Top = 55
-        Width = 78
-        OnChange = rbQuickSearchFilterKeyChange
-        TabOrder = 1
-      end
-      object rbLetterQF: TRadioButton
-        Left = 0
-        Height = 25
-        Top = 82
-        Width = 78
-        OnChange = rbQuickSearchFilterKeyChange
-        TabOrder = 2
-      end
-      object rbNoneQF: TRadioButton
-        Left = 0
-        Height = 25
-        Top = 109
-        Width = 78
-        OnChange = rbQuickSearchFilterKeyChange
-        TabOrder = 3
-      end
-    end
-  end
-  object rgpSearchItems: TRadioGroup[2]
+  object rgpSearchItems: TRadioGroup[1]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = gbExactNameMatch
     AnchorSideTop.Side = asrBottom
@@ -202,7 +59,7 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 109
-    Top = 262
+    Top = 90
     Width = 690
     Anchors = [akTop, akLeft, akRight]
     AutoFill = True
@@ -223,9 +80,9 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
       'Directories'
       'Files and Directories'
     )
-    TabOrder = 2
+    TabOrder = 1
   end
-  object rgpSearchCase: TRadioGroup[3]
+  object rgpSearchCase: TRadioGroup[2]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = rgpSearchItems
     AnchorSideTop.Side = asrBottom
@@ -233,7 +90,7 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 84
-    Top = 371
+    Top = 199
     Width = 690
     Anchors = [akTop, akLeft, akRight]
     AutoFill = True
@@ -253,9 +110,9 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
       'Sensitive'
       'Insensitive'
     )
-    TabOrder = 3
+    TabOrder = 2
   end
-  object cgpOptions: TCheckGroup[4]
+  object cgpOptions: TCheckGroup[3]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = rgpSearchCase
     AnchorSideTop.Side = asrBottom
@@ -263,7 +120,7 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 59
-    Top = 455
+    Top = 283
     Width = 690
     Anchors = [akTop, akLeft, akRight]
     AutoFill = True
@@ -280,7 +137,7 @@ inherited frmOptionsQuickSearchFilter: TfrmOptionsQuickSearchFilter
     Items.Strings = (
       'Hide filter panel when not focused'
     )
-    TabOrder = 4
+    TabOrder = 3
     Data = {
       0100000002
     }

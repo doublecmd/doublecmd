@@ -1,14 +1,123 @@
 inherited frmOptionsKeyboard: TfrmOptionsKeyboard
-  Width = 425
-  ClientWidth = 425
-  object cbLynxLike: TCheckBox[0]
+  Height = 223
+  Width = 429
+  ChildSizing.LeftRightSpacing = 6
+  ChildSizing.TopBottomSpacing = 6
+  ClientHeight = 223
+  ClientWidth = 429
+  object gbTyping: TGroupBox[0]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 6
+    Height = 132
+    Top = 6
+    Width = 417
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = True
+    Caption = 'Typing'
+    ChildSizing.LeftRightSpacing = 8
+    ChildSizing.TopBottomSpacing = 8
+    ChildSizing.VerticalSpacing = 12
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 110
+    ClientWidth = 413
+    TabOrder = 0
+    object lblNoModifier: TLabel
+      Left = 8
+      Height = 22
+      Top = 8
+      Width = 106
+      Caption = 'Letters'
+      ParentColor = False
+    end
+    object cbNoModifier: TComboBox
+      AnchorSideLeft.Control = lblNoModifier
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblNoModifier
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = gbTyping
+      AnchorSideRight.Side = asrBottom
+      Left = 124
+      Height = 29
+      Top = 5
+      Width = 281
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 10
+      ItemHeight = 21
+      Items.Strings = (
+        'None'
+        'Command Line'
+        'Quick Search'
+        'Quick Filter'
+      )
+      Style = csDropDownList
+      TabOrder = 0
+    end
+    object lblAlt: TLabel
+      Left = 8
+      Height = 22
+      Top = 42
+      Width = 106
+      Caption = 'Alt+Letters'
+      ParentColor = False
+    end
+    object lblCtrlAlt: TLabel
+      Left = 8
+      Height = 22
+      Top = 76
+      Width = 106
+      Caption = 'Ctrl+Alt+Letters'
+      ParentColor = False
+    end
+    object cbAlt: TComboBox
+      AnchorSideLeft.Control = lblAlt
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblAlt
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = gbTyping
+      AnchorSideRight.Side = asrBottom
+      Left = 124
+      Height = 29
+      Top = 39
+      Width = 281
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 10
+      ItemHeight = 21
+      Style = csDropDownList
+      TabOrder = 1
+    end
+    object cbCtrlAlt: TComboBox
+      AnchorSideLeft.Control = lblCtrlAlt
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblCtrlAlt
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = gbTyping
+      AnchorSideRight.Side = asrBottom
+      Left = 124
+      Height = 29
+      Top = 73
+      Width = 281
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 10
+      ItemHeight = 21
+      Style = csDropDownList
+      TabOrder = 2
+    end
+  end
+  object cbLynxLike: TCheckBox[1]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = gbTyping
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Side = asrBottom
-    Left = 8
+    Left = 6
     Height = 25
-    Top = 8
+    Top = 146
     Width = 409
+    BorderSpacing.Top = 8
     Caption = 'Left, Right arrows change directory (Lynx-like movement)'
-    TabOrder = 0
+    TabOrder = 1
   end
 end

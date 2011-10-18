@@ -46,7 +46,12 @@ const
     SmkcDown, SmkcIns, SmkcDel, SmkcShift, SmkcCtrl, SmkcAlt,
     SmkcWin);
 
-  KeyModifiers: TShiftState = [ssShift, ssAlt, ssCtrl, ssMeta, ssSuper, ssHyper, ssAltGr];
+  // Modifiers that can be used for shortcuts (non-toggable).
+  KeyModifiersShortcut = [ssShift, ssAlt, ssCtrl, ssMeta, ssSuper, ssHyper, ssAltGr];
+  // Modifiers that change meaning of entered text (case, non-ASCII characters).
+  KeyModifiersText = [ssShift, ssAltGr, ssCaps];
+  // Modifiers that can be used for shortcuts without taking into account text modifiers.
+  KeyModifiersShortcutNoText = KeyModifiersShortcut - KeyModifiersText;
 
   {en Retrieves current modifiers state of the keyboard. }
   function GetKeyShiftStateEx: TShiftState;

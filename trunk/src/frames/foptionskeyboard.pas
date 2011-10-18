@@ -36,7 +36,15 @@ type
 
   TfrmOptionsKeyboard = class(TOptionsEditor)
     cbLynxLike: TCheckBox;
+    cbNoModifier: TComboBox;
+    cbAlt: TComboBox;
+    cbCtrlAlt: TComboBox;
+    gbTyping: TGroupBox;
+    lblNoModifier: TLabel;
+    lblAlt: TLabel;
+    lblCtrlAlt: TLabel;
   protected
+    procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
@@ -51,15 +59,66 @@ implementation
 uses
   uGlobs, uLng;
 
+const
+  KeyAction_None        = 0;
+  KeyAction_CommandLine = 1;
+  KeyAction_QuickSearch = 2;
+  KeyAction_QuickFilter = 3;
+
 { TfrmOptionsKeyboard }
 
-procedure TfrmOptionsKeyboard.Load;
+procedure TfrmOptionsKeyboard.Init;
 begin
+  // Copy localized strings to each combo box.
+  cbAlt.Items.Assign(cbNoModifier.Items);
+  cbCtrlAlt.Items.Assign(cbNoModifier.Items);
+end;
+
+procedure TfrmOptionsKeyboard.Load;
+  procedure SetAction(ComboBox: TComboBox; KeyTypingAction: TKeyTypingAction);
+  begin
+    case KeyTypingAction of
+      ktaNone:
+        ComboBox.ItemIndex := KeyAction_None;
+      ktaCommandLine:
+        ComboBox.ItemIndex := KeyAction_CommandLine;
+      ktaQuickSearch:
+        ComboBox.ItemIndex := KeyAction_QuickSearch;
+      ktaQuickFilter:
+        ComboBox.ItemIndex := KeyAction_QuickFilter;
+      else
+        raise Exception.Create('Unknown TKeyTypingMode');
+    end;
+  end;
+begin
+  SetAction(cbNoModifier, gKeyTyping[ktmNone]);
+  SetAction(cbAlt, gKeyTyping[ktmAlt]);
+  SetAction(cbCtrlAlt, gKeyTyping[ktmCtrlAlt]);
+
   cbLynxLike.Checked := gLynxLike;
 end;
 
 function TfrmOptionsKeyboard.Save: TOptionsEditorSaveFlags;
+  function GetAction(ComboBox: TComboBox): TKeyTypingAction;
+  begin
+    case ComboBox.ItemIndex of
+      KeyAction_None:
+        Result := ktaNone;
+      KeyAction_CommandLine:
+        Result := ktaCommandLine;
+      KeyAction_QuickSearch:
+        Result := ktaQuickSearch;
+      KeyAction_QuickFilter:
+        Result := ktaQuickFilter;
+      else
+        raise Exception.Create('Unknown action selected');
+    end;
+  end;
 begin
+  gKeyTyping[ktmNone]    := GetAction(cbNoModifier);
+  gKeyTyping[ktmAlt]     := GetAction(cbAlt);
+  gKeyTyping[ktmCtrlAlt] := GetAction(cbCtrlAlt);
+
   gLynxLike := cbLynxLike.Checked;
   Result := [];
 end;
