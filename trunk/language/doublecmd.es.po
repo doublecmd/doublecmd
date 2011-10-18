@@ -297,10 +297,8 @@ msgid "Double Commander"
 msgstr "Double Commander"
 
 #: TFRMABOUT.LBLVERSION.CAPTION
-#, fuzzy
-#| msgid "Version %s"
 msgid "Version"
-msgstr "Versión %s"
+msgstr "Versión"
 
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
@@ -4212,6 +4210,29 @@ msgstr "Guardar en:"
 msgid "Left, Right arrows change directory (Lynx-like movement)"
 msgstr ""
 
+#: TFRMOPTIONSKEYBOARD.GBTYPING.CAPTION
+msgid "Typing"
+msgstr ""
+
+#: TFRMOPTIONSKEYBOARD.LBLALT.CAPTION
+#, fuzzy
+#| msgid "Al&t+Letters"
+msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
+msgid "Alt+Letters"
+msgstr "Al&t+Letras"
+
+#: TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION
+#, fuzzy
+#| msgid "&Ctrl+Alt+Letters"
+msgctxt "TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION"
+msgid "Ctrl+Alt+Letters"
+msgstr "&Ctrl+Alt+Letras"
+
+#: TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION
+msgctxt "TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION"
+msgid "Letters"
+msgstr ""
+
 #: TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
 msgid "Flat buttons"
@@ -4529,49 +4550,6 @@ msgstr "Opciones"
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.GBEXACTNAMEMATCH.CAPTION"
 msgid "Exact name match"
 msgstr "Coincidencia exacta de &nombre:"
-
-#: TFRMOPTIONSQUICKSEARCHFILTER.GRPQUICKSEARCHFILTERKEYS.CAPTION
-msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.GRPQUICKSEARCHFILTERKEYS.CAPTION"
-msgid "Keys settings"
-msgstr "Configuración de teclas"
-
-#: TFRMOPTIONSQUICKSEARCHFILTER.LBLQUICKFILTER.CAPTION
-msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.LBLQUICKFILTER.CAPTION"
-msgid "Quick &filter:"
-msgstr "&Filtro rápido:"
-
-#: TFRMOPTIONSQUICKSEARCHFILTER.LBLQUICKSEARCH.CAPTION
-msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.LBLQUICKSEARCH.CAPTION"
-msgid "Quick &search:"
-msgstr "Búsqueda rápida:"
-
-#: TFRMOPTIONSQUICKSEARCHFILTER.RBALTLETTERQS.CAPTION
-#, fuzzy
-#| msgid "Al&t+Letters"
-msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.RBALTLETTERQS.CAPTION"
-msgid "Alt+Letters"
-msgstr "Al&t+Letras"
-
-#: TFRMOPTIONSQUICKSEARCHFILTER.RBCTRLALTLETTERQS.CAPTION
-#, fuzzy
-#| msgid "&Ctrl+Alt+Letters"
-msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.RBCTRLALTLETTERQS.CAPTION"
-msgid "Ctrl+Alt+Letters"
-msgstr "&Ctrl+Alt+Letras"
-
-#: TFRMOPTIONSQUICKSEARCHFILTER.RBLETTERQS.CAPTION
-#, fuzzy
-#| msgid "L&etter only"
-msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.RBLETTERQS.CAPTION"
-msgid "Letter only"
-msgstr "Sólo L&etra"
-
-#: TFRMOPTIONSQUICKSEARCHFILTER.RBNONEQS.CAPTION
-#, fuzzy
-#| msgid "Di&sabled"
-msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.RBNONEQS.CAPTION"
-msgid "Disabled"
-msgstr "De&shabilitado"
 
 #: TFRMOPTIONSQUICKSEARCHFILTER.RGPSEARCHCASE.CAPTION
 msgid "Search case"
