@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-07-21 13:32+0800\n"
+"PO-Revision-Date: 2011-10-17 13:41+0800\n"
 "Last-Translator: Lance <l381@ms5.hinet.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -99,7 +99,7 @@ msgstr "->"
 #: TFCOLUMNSSETCONF.BTNOK.CAPTION
 msgctxt "TFCOLUMNSSETCONF.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "確定(&O)"
+msgstr "確定 &O"
 
 #: TFCOLUMNSSETCONF.BTNPREV.CAPTION
 msgid "<-"
@@ -107,7 +107,7 @@ msgstr "<-"
 
 #: TFCOLUMNSSETCONF.CAPTION
 msgid "Configure custom columns view"
-msgstr "配置自定義列檢視"
+msgstr "設置自行定義列檢視"
 
 #: TFCOLUMNSSETCONF.CBACKGRNDLABEL.CAPTION
 msgctxt "TFCOLUMNSSETCONF.CBACKGRNDLABEL.CAPTION"
@@ -116,7 +116,7 @@ msgstr "背景色:"
 
 #: TFCOLUMNSSETCONF.CBCURSORBORDER.CAPTION
 msgid "Cursor border"
-msgstr "游標框"
+msgstr "遊標框"
 
 #: TFCOLUMNSSETCONF.CBOVERCOLOR.CAPTION
 msgid "Allow Overcolor"
@@ -124,7 +124,7 @@ msgstr "允許著色過濃"
 
 #: TFCOLUMNSSETCONF.CHKUSECUSTOMVIEW.CAPTION
 msgid "Use custom font and color"
-msgstr "使用自定義字體和顏色"
+msgstr "使用自行定義字體和顏色"
 
 #: TFCOLUMNSSETCONF.CTEXTLABEL.CAPTION
 msgctxt "TFCOLUMNSSETCONF.CTEXTLABEL.CAPTION"
@@ -147,7 +147,7 @@ msgstr "背景色2:"
 
 #: TFCOLUMNSSETCONF.LBLCONFIGVIEWNR.CAPTION
 msgid "Configure view nr:"
-msgstr "配置檢視:"
+msgstr "設置檢視:"
 
 #: TFCOLUMNSSETCONF.LBLCURSORCOLOR.CAPTION
 msgctxt "TFCOLUMNSSETCONF.LBLCURSORCOLOR.CAPTION"
@@ -180,7 +180,7 @@ msgstr "增加列"
 
 #: TFCOLUMNSSETCONF.PNLCUSTHEAD.CAPTION
 msgid "Customize column:"
-msgstr "自定義列:"
+msgstr "自行定義列:"
 
 #: TFCOLUMNSSETCONF.PNLPREVIEWHEAD.CAPTION
 msgctxt "TFCOLUMNSSETCONF.PNLPREVIEWHEAD.CAPTION"
@@ -190,45 +190,45 @@ msgstr "預覽"
 #: TFCOLUMNSSETCONF.RESBACK.CAPTION
 msgctxt "TFCOLUMNSSETCONF.RESBACK.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr ""
 
 #: TFCOLUMNSSETCONF.RESBACK2.CAPTION
 msgctxt "TFCOLUMNSSETCONF.RESBACK2.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr ""
 
 #: TFCOLUMNSSETCONF.RESCURCOL.CAPTION
 msgctxt "TFCOLUMNSSETCONF.RESCURCOL.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr ""
 
 #: TFCOLUMNSSETCONF.RESCURTEXT.CAPTION
 msgctxt "TFCOLUMNSSETCONF.RESCURTEXT.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr ""
 
 #: TFCOLUMNSSETCONF.RESFONT.CAPTION
 msgctxt "TFCOLUMNSSETCONF.RESFONT.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr ""
 
 #: TFCOLUMNSSETCONF.RESMARK.CAPTION
 msgctxt "TFCOLUMNSSETCONF.RESMARK.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr ""
 
 #: TFCOLUMNSSETCONF.RESTEXT.CAPTION
 msgctxt "TFCOLUMNSSETCONF.RESTEXT.CAPTION"
 msgid "R"
-msgstr "R"
+msgstr ""
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBCHECKFREESPACE.CAPTION
 msgid "Check free space"
-msgstr ""
+msgstr "檢查可用空間"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBCORRECTLINKS.CAPTION
 msgid "Correct links"
-msgstr ""
+msgstr "正確連接"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBDROPREADONLYFLAG.CAPTION"
@@ -237,16 +237,16 @@ msgstr "丟棄唯讀標誌"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.CBFOLLOWLINKS.CAPTION
 msgid "Follow links"
-msgstr ""
+msgstr "同上連接"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLDIRECTORYEXISTS.CAPTION
 msgid "When directory exists"
-msgstr ""
+msgstr "當目錄存在時"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
-msgstr ""
+msgstr "當檔案存在時"
 
 #: TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION
 msgctxt "TFILESYSTEMCOPYMOVEOPERATIONOPTIONSUI.LBLFILETYPE.CAPTION"
@@ -256,7 +256,7 @@ msgstr "只有類型:"
 #: TFRMABOUT.BTNCLOSE.CAPTION
 msgctxt "TFRMABOUT.BTNCLOSE.CAPTION"
 msgid "&Close"
-msgstr "關閉(&C)"
+msgstr "關閉 &C"
 
 #: TFRMABOUT.BTNCOPYTOCLIPBOARD.CAPTION
 msgid "Copy to clipboard"
@@ -277,7 +277,7 @@ msgstr "Free Pascal"
 
 #: TFRMABOUT.LBLHOMEPAGE.CAPTION
 msgid "Home Page:"
-msgstr "主頁:"
+msgstr "首頁:"
 
 #: TFRMABOUT.LBLHOMEPAGEADDRESS.CAPTION
 msgid "http://doublecmd.sourceforge.net"
@@ -304,7 +304,7 @@ msgstr "版本"
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr ""
+msgstr "取消 &C"
 
 #: TFRMATTRIBUTESEDIT.BTNOK.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.BTNOK.CAPTION"
@@ -313,20 +313,20 @@ msgstr "確定(&O)"
 
 #: TFRMATTRIBUTESEDIT.BTNRESET.CAPTION
 msgid "&Reset"
-msgstr ""
+msgstr "重新啟動 &R"
 
 #: TFRMATTRIBUTESEDIT.CAPTION
 msgid "Choose attributes"
-msgstr ""
+msgstr "選擇屬性"
 
 #: TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBARCHIVE.CAPTION"
 msgid "Archive"
-msgstr ""
+msgstr "縮壓"
 
 #: TFRMATTRIBUTESEDIT.CBCOMPRESSED.CAPTION
 msgid "Compressed"
-msgstr ""
+msgstr "縮壓比"
 
 #: TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBDIRECTORY.CAPTION"
@@ -335,17 +335,17 @@ msgstr "目錄"
 
 #: TFRMATTRIBUTESEDIT.CBENCRYPTED.CAPTION
 msgid "Encrypted"
-msgstr ""
+msgstr "加密"
 
 #: TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBHIDDEN.CAPTION"
 msgid "Hidden"
-msgstr ""
+msgstr "隱藏"
 
 #: TFRMATTRIBUTESEDIT.CBREADONLY.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBREADONLY.CAPTION"
 msgid "Read only"
-msgstr ""
+msgstr "唯讀"
 
 #: TFRMATTRIBUTESEDIT.CBSGID.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBSGID.CAPTION"
@@ -368,12 +368,12 @@ msgstr "SUID"
 
 #: TFRMATTRIBUTESEDIT.CBSYMLINK.CAPTION
 msgid "Symlink"
-msgstr ""
+msgstr "符號捷徑"
 
 #: TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.CBSYSTEM.CAPTION"
 msgid "System"
-msgstr ""
+msgstr "系統"
 
 #: TFRMATTRIBUTESEDIT.CBTEMPORARY.CAPTION
 msgid "Temporary"
@@ -381,11 +381,11 @@ msgstr ""
 
 #: TFRMATTRIBUTESEDIT.GBNTFSATTRIBUTES.CAPTION
 msgid "NTFS attributes"
-msgstr ""
+msgstr "NTFS 屬性"
 
 #: TFRMATTRIBUTESEDIT.GBWINGENERAL.CAPTION
 msgid "General attributes"
-msgstr ""
+msgstr "一般屬性"
 
 #: TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION"
@@ -395,7 +395,7 @@ msgstr "Bits:"
 #: TFRMATTRIBUTESEDIT.LBLATTRGROUPSTR.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.LBLATTRGROUPSTR.CAPTION"
 msgid "Group"
-msgstr "組"
+msgstr "群組"
 
 #: TFRMATTRIBUTESEDIT.LBLATTROTHERSTR.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.LBLATTROTHERSTR.CAPTION"
@@ -419,7 +419,7 @@ msgstr "讀"
 
 #: TFRMATTRIBUTESEDIT.LBLTEXTATTRS.CAPTION
 msgid "As text:"
-msgstr ""
+msgstr "當成文字檔:"
 
 #: TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.LBLWRITE.CAPTION"
@@ -434,7 +434,7 @@ msgstr "取消"
 #: TFRMCHECKSUMCALC.BTNOK.CAPTION
 msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "確定(&O)"
+msgstr "確定&O"
 
 #: TFRMCHECKSUMCALC.CAPTION
 msgctxt "TFRMCHECKSUMCALC.CAPTION"
@@ -445,7 +445,7 @@ msgstr "計算校驗..."
 #, fuzzy
 #| msgid "Create separate MD5/SHA1 files for each file"
 msgid "Create separate checksum file for each file"
-msgstr "為每個檔案建立單獨的MD5/SHA1檔案"
+msgstr "為每個檔案建立單獨的 MD5/SHA1 檔案"
 
 #: TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT
 msgctxt "TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT"
@@ -454,12 +454,12 @@ msgstr ""
 
 #: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
 msgid "Save check sum file(s) to:"
-msgstr "保存校驗檔案到:"
+msgstr "儲存校驗檔案到:"
 
 #: TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION
 msgctxt "TFRMCHECKSUMVERIFY.BTNCLOSE.CAPTION"
 msgid "&Close"
-msgstr "關閉(&C)"
+msgstr "關閉 &C"
 
 #: TFRMCHECKSUMVERIFY.CAPTION
 msgctxt "TFRMCHECKSUMVERIFY.CAPTION"
@@ -469,11 +469,11 @@ msgstr "驗證校驗..."
 #: TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNAPPENDBUTTON.CAPTION"
 msgid "&Insert new button"
-msgstr ""
+msgstr "插入新按鈕 &I"
 
 #: TFRMCONFIGTOOLBAR.BTNAPPENDMORE.CAPTION
 msgid "A&ppend >>"
-msgstr ""
+msgstr "新增 &p>>"
 
 #: TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNCANCEL.CAPTION"
@@ -492,12 +492,12 @@ msgstr ""
 #: TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNDELETEBUTTON.CAPTION"
 msgid "&Delete"
-msgstr "刪除(&D)"
+msgstr "刪除 &D"
 
 #: TFRMCONFIGTOOLBAR.BTNHELP.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNHELP.CAPTION"
 msgid "&Help"
-msgstr "幫助(&H)"
+msgstr "幫助 &H"
 
 #: TFRMCONFIGTOOLBAR.BTNOK.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.BTNOK.CAPTION"
@@ -521,20 +521,19 @@ msgstr "修改工具欄"
 
 #: TFRMCONFIGTOOLBAR.CBFLATBUTTONS.CAPTION
 msgid "Flat b&uttons"
-msgstr ""
+msgstr "寬的按鈕 &u"
 
 #: TFRMCONFIGTOOLBAR.CBISSEPARATOR.CAPTION
 msgid "S&eparator"
-msgstr ""
+msgstr "分隔 &e"
 
 #: TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION
-msgctxt "TFRMCONFIGTOOLBAR.GBGROUPBOX.CAPTION"
 msgid "Appearance"
 msgstr "外觀"
 
 #: TFRMCONFIGTOOLBAR.LBLBARSIZE.CAPTION
 msgid "Ba&r size:"
-msgstr ""
+msgstr "欄大小 &r:"
 
 #: TFRMCONFIGTOOLBAR.LBLBARSIZEVALUE.CAPTION
 msgid "36"
@@ -542,25 +541,25 @@ msgstr ""
 
 #: TFRMCONFIGTOOLBAR.LBLBUTTONBAR.CAPTION
 msgid "&Button bar:"
-msgstr "按鈕欄(&B)"
+msgstr "按鈕欄(&B):"
 
 #: TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.LBLCOMMAND.CAPTION"
 msgid "&Command:"
-msgstr "命令(&C)"
+msgstr "命令(&C):"
 
 #: TFRMCONFIGTOOLBAR.LBLHOTKEYS.CAPTION
 msgctxt "TFRMCONFIGTOOLBAR.LBLHOTKEYS.CAPTION"
 msgid "Hot Key:"
-msgstr "快捷鍵:"
+msgstr "快速鍵:"
 
 #: TFRMCONFIGTOOLBAR.LBLICONFILE.CAPTION
 msgid "Icon &file:"
-msgstr "圖標檔案(&F)"
+msgstr "圖示檔案 &f:"
 
 #: TFRMCONFIGTOOLBAR.LBLICONSIZE.CAPTION
 msgid "Ic&on size:"
-msgstr ""
+msgstr "圖示大小 &o:"
 
 #: TFRMCONFIGTOOLBAR.LBLICONSIZEVALUE.CAPTION
 msgid "32"
@@ -568,26 +567,26 @@ msgstr ""
 
 #: TFRMCONFIGTOOLBAR.LBLPARAMETERS.CAPTION
 msgid "&Parameters:"
-msgstr "參數(&P)"
+msgstr "參數 &P:"
 
 #: TFRMCONFIGTOOLBAR.LBLSTARTPATH.CAPTION
 msgid "&Start path:"
-msgstr "開始路徑(&S)"
+msgstr "開始路徑 &S:"
 
 #: TFRMCONFIGTOOLBAR.LBLTOOLTIP.CAPTION
 msgid "&Tooltip:"
-msgstr "工具提示(&T)"
+msgstr "工具提示 &T:"
 
 #: TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION
 #, fuzzy
 #| msgid "Add S&ubbar >>"
 msgctxt "TFRMCONFIGTOOLBAR.MIADDSUBBAR.CAPTION"
 msgid "S&ubbar >>"
-msgstr "增加子欄"
+msgstr "增加子欄 &u>>"
 
 #: TFRMCONFIGTOOLBAR.MIADDSUBMENU.CAPTION
 msgid "Sub&menu >>"
-msgstr ""
+msgstr "增加子目錄 &m>>"
 
 #: TFRMCONNECTIONMANAGER.BTNADD.CAPTION
 msgctxt "TFRMCONNECTIONMANAGER.BTNADD.CAPTION"
@@ -601,7 +600,7 @@ msgstr "取消"
 
 #: TFRMCONNECTIONMANAGER.BTNCONNECT.CAPTION
 msgid "Connect"
-msgstr ""
+msgstr "連線"
 
 #: TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION
 msgctxt "TFRMCONNECTIONMANAGER.BTNDELETE.CAPTION"
@@ -615,11 +614,11 @@ msgstr "編輯"
 
 #: TFRMCONNECTIONMANAGER.CAPTION
 msgid "Connection manager"
-msgstr ""
+msgstr "連線管理"
 
 #: TFRMCONNECTIONMANAGER.GBCONNECTTO.CAPTION
 msgid "Connect to:"
-msgstr ""
+msgstr "連線到:"
 
 #: TFRMCOPYDLG.BTNCANCEL.CAPTION
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
@@ -628,11 +627,11 @@ msgstr "取消"
 
 #: TFRMCOPYDLG.BTNOPTIONS.CAPTION
 msgid "O&ptions"
-msgstr ""
+msgstr "操作 &p"
 
 #: TFRMCOPYDLG.BTNSAVEOPTIONS.CAPTION
 msgid "Save these options as default"
-msgstr ""
+msgstr "現有操作值儲存成預設值"
 
 #: TFRMCOPYDLG.CAPTION
 msgctxt "TFRMCOPYDLG.CAPTION"
@@ -651,15 +650,15 @@ msgstr "取消"
 #: TFRMDESCREDIT.BTNOK.CAPTION
 msgctxt "TFRMDESCREDIT.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "確定(&O)"
+msgstr "確定 &O"
 
 #: TFRMDESCREDIT.CAPTION
 msgid "File/folder comment"
-msgstr "檔案/檔案夾備註"
+msgstr "檔案/檔案夾註解"
 
 #: TFRMDESCREDIT.LBLEDITCOMMENTFOR.CAPTION
 msgid "Edit comment for:"
-msgstr "編輯備註:"
+msgstr "編輯註解:"
 
 #: TFRMDESCREDIT.LBLENCODING.CAPTION
 msgctxt "TFRMDESCREDIT.LBLENCODING.CAPTION"
@@ -678,7 +677,7 @@ msgstr "關於"
 
 #: TFRMDIFFER.ACTAUTOCOMPARE.CAPTION
 msgid "Auto Compare"
-msgstr ""
+msgstr "自動比較"
 
 #: TFRMDIFFER.ACTBINARYCOMPARE.CAPTION
 msgid "Binary Mode"
@@ -746,170 +745,170 @@ msgstr "重做"
 
 #: TFRMDIFFER.ACTEDITSELECTALL.CAPTION
 msgid "Select &All"
-msgstr ""
+msgstr "全選 &A"
 
 #: TFRMDIFFER.ACTEDITUNDO.CAPTION
 msgctxt "TFRMDIFFER.ACTEDITUNDO.CAPTION"
 msgid "Undo"
-msgstr "撤銷"
+msgstr "回復"
 
 #: TFRMDIFFER.ACTFIRSTDIFF.CAPTION
 msgctxt "TFRMDIFFER.ACTFIRSTDIFF.CAPTION"
 msgid "First Difference"
-msgstr ""
+msgstr "第一個不同點"
 
 #: TFRMDIFFER.ACTFIRSTDIFF.HINT
 msgctxt "TFRMDIFFER.ACTFIRSTDIFF.HINT"
 msgid "First Difference"
-msgstr ""
+msgstr "第一個不同點"
 
 #: TFRMDIFFER.ACTIGNORECASE.CAPTION
 msgid "Ignore Case"
-msgstr ""
+msgstr "忽略大小寫"
 
 #: TFRMDIFFER.ACTIGNOREWHITESPACE.CAPTION
 msgid "Ignore Blanks"
-msgstr ""
+msgstr "忽略空白"
 
 #: TFRMDIFFER.ACTKEEPSCROLLING.CAPTION
 msgid "Keep Scrolling"
-msgstr ""
+msgstr "保持滾軸"
 
 #: TFRMDIFFER.ACTLASTDIFF.CAPTION
 msgctxt "TFRMDIFFER.ACTLASTDIFF.CAPTION"
 msgid "Last Difference"
-msgstr ""
+msgstr "最後一個不同點"
 
 #: TFRMDIFFER.ACTLASTDIFF.HINT
 msgctxt "TFRMDIFFER.ACTLASTDIFF.HINT"
 msgid "Last Difference"
-msgstr ""
+msgstr "最後一個不同點"
 
 #: TFRMDIFFER.ACTLINEDIFFERENCES.CAPTION
 msgid "Line Differences"
-msgstr ""
+msgstr "行的不同點"
 
 #: TFRMDIFFER.ACTNEXTDIFF.CAPTION
 msgctxt "TFRMDIFFER.ACTNEXTDIFF.CAPTION"
 msgid "Next Difference"
-msgstr ""
+msgstr "下一個不同點"
 
 #: TFRMDIFFER.ACTNEXTDIFF.HINT
 msgctxt "TFRMDIFFER.ACTNEXTDIFF.HINT"
 msgid "Next Difference"
-msgstr ""
+msgstr "下一個不同點"
 
 #: TFRMDIFFER.ACTOPENLEFT.CAPTION
 msgid "Open Left..."
-msgstr ""
+msgstr "打開左邊..."
 
 #: TFRMDIFFER.ACTOPENRIGHT.CAPTION
 msgid "Open Right..."
-msgstr ""
+msgstr "打開右邊..."
 
 #: TFRMDIFFER.ACTPAINTBACKGROUND.CAPTION
 msgid "Paint Background"
-msgstr ""
+msgstr "畫圖背景"
 
 #: TFRMDIFFER.ACTPREVDIFF.CAPTION
 msgctxt "TFRMDIFFER.ACTPREVDIFF.CAPTION"
 msgid "Previous Difference"
-msgstr ""
+msgstr "前一個不同點"
 
 #: TFRMDIFFER.ACTPREVDIFF.HINT
 msgctxt "TFRMDIFFER.ACTPREVDIFF.HINT"
 msgid "Previous Difference"
-msgstr ""
+msgstr "前一個不同點"
 
 #: TFRMDIFFER.ACTRELOAD.CAPTION
 msgctxt "TFRMDIFFER.ACTRELOAD.CAPTION"
 msgid "Reload"
-msgstr ""
+msgstr "重新載入"
 
 #: TFRMDIFFER.ACTRELOAD.HINT
 msgctxt "TFRMDIFFER.ACTRELOAD.HINT"
 msgid "Reload"
-msgstr ""
+msgstr "重新載入"
 
 #: TFRMDIFFER.ACTSAVE.CAPTION
 msgctxt "TFRMDIFFER.ACTSAVE.CAPTION"
 msgid "Save"
-msgstr ""
+msgstr "儲存"
 
 #: TFRMDIFFER.ACTSAVE.HINT
 msgctxt "TFRMDIFFER.ACTSAVE.HINT"
 msgid "Save"
-msgstr ""
+msgstr "儲存"
 
 #: TFRMDIFFER.ACTSAVEAS.CAPTION
 msgctxt "TFRMDIFFER.ACTSAVEAS.CAPTION"
 msgid "Save as..."
-msgstr ""
+msgstr "儲存成..."
 
 #: TFRMDIFFER.ACTSAVEAS.HINT
 msgctxt "TFRMDIFFER.ACTSAVEAS.HINT"
 msgid "Save as..."
-msgstr ""
+msgstr "儲存成..."
 
 #: TFRMDIFFER.ACTSAVELEFT.CAPTION
 msgctxt "TFRMDIFFER.ACTSAVELEFT.CAPTION"
 msgid "Save Left"
-msgstr ""
+msgstr "儲存左邊"
 
 #: TFRMDIFFER.ACTSAVELEFT.HINT
 msgctxt "TFRMDIFFER.ACTSAVELEFT.HINT"
 msgid "Save Left"
-msgstr ""
+msgstr "儲存左邊"
 
 #: TFRMDIFFER.ACTSAVELEFTAS.CAPTION
 msgctxt "TFRMDIFFER.ACTSAVELEFTAS.CAPTION"
 msgid "Save Left As..."
-msgstr ""
+msgstr "儲存左邊成..."
 
 #: TFRMDIFFER.ACTSAVELEFTAS.HINT
 msgctxt "TFRMDIFFER.ACTSAVELEFTAS.HINT"
 msgid "Save Left As..."
-msgstr ""
+msgstr "儲存左邊成..."
 
 #: TFRMDIFFER.ACTSAVERIGHT.CAPTION
 msgctxt "TFRMDIFFER.ACTSAVERIGHT.CAPTION"
 msgid "Save Right"
-msgstr ""
+msgstr "儲存右邊"
 
 #: TFRMDIFFER.ACTSAVERIGHT.HINT
 msgctxt "TFRMDIFFER.ACTSAVERIGHT.HINT"
 msgid "Save Right"
-msgstr ""
+msgstr "儲存右邊"
 
 #: TFRMDIFFER.ACTSAVERIGHTAS.CAPTION
 msgctxt "TFRMDIFFER.ACTSAVERIGHTAS.CAPTION"
 msgid "Save Right As..."
-msgstr ""
+msgstr "儲存右邊成..."
 
 #: TFRMDIFFER.ACTSAVERIGHTAS.HINT
 msgctxt "TFRMDIFFER.ACTSAVERIGHTAS.HINT"
 msgid "Save Right As..."
-msgstr ""
+msgstr "儲存右邊成..."
 
 #: TFRMDIFFER.ACTSTARTCOMPARE.CAPTION
 msgctxt "TFRMDIFFER.ACTSTARTCOMPARE.CAPTION"
 msgid "Compare"
-msgstr ""
+msgstr "比較"
 
 #: TFRMDIFFER.ACTSTARTCOMPARE.HINT
 msgctxt "TFRMDIFFER.ACTSTARTCOMPARE.HINT"
 msgid "Compare"
-msgstr ""
+msgstr "比較"
 
 #: TFRMDIFFER.BTNLEFTENCODING.HINT
 msgctxt "TFRMDIFFER.BTNLEFTENCODING.HINT"
 msgid "Encoding"
-msgstr ""
+msgstr "編碼"
 
 #: TFRMDIFFER.BTNRIGHTENCODING.HINT
 msgctxt "TFRMDIFFER.BTNRIGHTENCODING.HINT"
 msgid "Encoding"
-msgstr ""
+msgstr "編碼"
 
 #: TFRMDIFFER.CAPTION
 msgctxt "TFRMDIFFER.CAPTION"
@@ -968,11 +967,11 @@ msgstr "-"
 
 #: TFRMDIFFER.MIENCODINGLEFT.CAPTION
 msgid "Left"
-msgstr ""
+msgstr "左邊"
 
 #: TFRMDIFFER.MIENCODINGRIGHT.CAPTION
 msgid "Right"
-msgstr ""
+msgstr "右邊"
 
 #: TFRMDIFFER.MISEPARATOR1.CAPTION
 msgctxt "TFRMDIFFER.MISEPARATOR1.CAPTION"
@@ -986,7 +985,7 @@ msgstr "-"
 
 #: TFRMDIFFER.MNUACTIONS.CAPTION
 msgid "&Actions"
-msgstr ""
+msgstr "動作 &A"
 
 #: TFRMDIFFER.MNUEDIT.CAPTION
 msgctxt "TFRMDIFFER.MNUEDIT.CAPTION"
@@ -996,7 +995,7 @@ msgstr "編輯"
 #: TFRMDIFFER.MNUENCODING.CAPTION
 msgctxt "TFRMDIFFER.MNUENCODING.CAPTION"
 msgid "Encoding"
-msgstr ""
+msgstr "編碼"
 
 #: TFRMDIFFER.MNUFILE.CAPTION
 msgctxt "TFRMDIFFER.MNUFILE.CAPTION"
@@ -1006,7 +1005,7 @@ msgstr "檔案"
 #: TFRMDIFFER.MNUOPTIONS.CAPTION
 msgctxt "TFRMDIFFER.MNUOPTIONS.CAPTION"
 msgid "&Options"
-msgstr ""
+msgstr "選項 &O"
 
 #: TFRMEDITOR.ACTABOUT.CAPTION
 msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
@@ -1015,7 +1014,7 @@ msgstr "關於"
 
 #: TFRMEDITOR.ACTCONFHIGH.CAPTION
 msgid "&Configuration"
-msgstr "配置(&C)"
+msgstr "設置 &C"
 
 #: TFRMEDITOR.ACTEDITCOPY.CAPTION
 msgctxt "TFRMEDITOR.ACTEDITCOPY.CAPTION"
@@ -1034,11 +1033,11 @@ msgstr "刪除"
 
 #: TFRMEDITOR.ACTEDITFIND.CAPTION
 msgid "&Find"
-msgstr "查找(&F)"
+msgstr "尋找 &F"
 
 #: TFRMEDITOR.ACTEDITFINDNEXT.CAPTION
 msgid "Find next"
-msgstr "查找下一個"
+msgstr "尋找下一個"
 
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
@@ -1052,48 +1051,48 @@ msgstr "重做"
 
 #: TFRMEDITOR.ACTEDITRPLC.CAPTION
 msgid "&Replace"
-msgstr "替換(&R)"
+msgstr "替換 &R"
 
 #: TFRMEDITOR.ACTEDITSELECTALL.CAPTION
 msgid "Select&All"
-msgstr "取消(&A)"
+msgstr "取消 &A"
 
 #: TFRMEDITOR.ACTEDITUNDO.CAPTION
 msgctxt "TFRMEDITOR.ACTEDITUNDO.CAPTION"
 msgid "Undo"
-msgstr "撤銷"
+msgstr "回復"
 
 #: TFRMEDITOR.ACTFILECLOSE.CAPTION
 msgctxt "TFRMEDITOR.ACTFILECLOSE.CAPTION"
 msgid "&Close"
-msgstr "關閉(&C)"
+msgstr "關閉 &C"
 
 #: TFRMEDITOR.ACTFILEEXIT.CAPTION
 msgctxt "TFRMEDITOR.ACTFILEEXIT.CAPTION"
 msgid "E&xit"
-msgstr "退出(&X)"
+msgstr "退出 &x"
 
 #: TFRMEDITOR.ACTFILENEW.CAPTION
 msgctxt "TFRMEDITOR.ACTFILENEW.CAPTION"
 msgid "&New"
-msgstr "新建(&N)"
+msgstr "新建 &N"
 
 #: TFRMEDITOR.ACTFILEOPEN.CAPTION
 msgid "&Open"
-msgstr "打開(&O)"
+msgstr "打開 &O"
 
 #: TFRMEDITOR.ACTFILESAVE.CAPTION
 msgctxt "TFRMEDITOR.ACTFILESAVE.CAPTION"
 msgid "&Save"
-msgstr "保存(&S)"
+msgstr "儲存 &S"
 
 #: TFRMEDITOR.ACTFILESAVEAS.CAPTION
 msgid "Save &As.."
-msgstr "另存為(A)..."
+msgstr "另存為 &A..."
 
 #: TFRMEDITOR.ACTSAVEALL.CAPTION
 msgid "Sa&ve All"
-msgstr "全部保存(&V)"
+msgstr "全部儲存 &v"
 
 #: TFRMEDITOR.CAPTION
 msgctxt "TFRMEDITOR.CAPTION"
@@ -1103,7 +1102,7 @@ msgstr "編輯器"
 #: TFRMEDITOR.HELP1.CAPTION
 msgctxt "TFRMEDITOR.HELP1.CAPTION"
 msgid "&Help"
-msgstr "幫助(&H)"
+msgstr "幫助 &H"
 
 #: TFRMEDITOR.MIDIV.CAPTION
 msgctxt "TFRMEDITOR.MIDIV.CAPTION"
@@ -1113,12 +1112,12 @@ msgstr "-"
 #: TFRMEDITOR.MIEDIT.CAPTION
 msgctxt "TFRMEDITOR.MIEDIT.CAPTION"
 msgid "&Edit"
-msgstr "編輯(&E)"
+msgstr "編輯 &E"
 
 #: TFRMEDITOR.MIENCODING.CAPTION
 msgctxt "TFRMEDITOR.MIENCODING.CAPTION"
 msgid "En&coding"
-msgstr "編碼(&C)"
+msgstr "編碼 &C"
 
 #: TFRMEDITOR.MIENCODINGIN.CAPTION
 msgid "Open as"
@@ -1126,12 +1125,12 @@ msgstr "打開為"
 
 #: TFRMEDITOR.MIENCODINGOUT.CAPTION
 msgid "Save as"
-msgstr "保存為"
+msgstr "另存為"
 
 #: TFRMEDITOR.MIFILE.CAPTION
 msgctxt "TFRMEDITOR.MIFILE.CAPTION"
 msgid "&File"
-msgstr "檔案(&F)"
+msgstr "檔案 &F"
 
 #: TFRMEDITOR.MIHIGHLIGHT.CAPTION
 msgid "Syntax highlight"
@@ -1170,27 +1169,27 @@ msgstr "取消"
 #: TFRMEDITORCONF.BTNOK.CAPTION
 msgctxt "TFRMEDITORCONF.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "確定(&O)"
+msgstr "確定 &O"
 
 #: TFRMEDITORCONF.CAPTION
 msgid "Editor configuration"
-msgstr "編輯器配置"
+msgstr "編輯器設置"
 
 #: TFRMEDITORCONF.CBBOLD.CAPTION
 msgid "&Bold"
-msgstr "粗體(&B)"
+msgstr "粗體 &B"
 
 #: TFRMEDITORCONF.CBITALIC.CAPTION
 msgid "&Italic"
-msgstr "斜體(&I)"
+msgstr "斜體 &I"
 
 #: TFRMEDITORCONF.CBSTRIKEOUT.CAPTION
 msgid "&StrikeOut"
-msgstr "刪除線(&S)"
+msgstr "刪除線 &S"
 
 #: TFRMEDITORCONF.CBUNDERLINE.CAPTION
 msgid "&Underline"
-msgstr "下劃線(&U)"
+msgstr "下底線 &U"
 
 #: TFRMEDITORCONF.LBPREDEFINED.CAPTION
 msgid "Predefined"
@@ -1208,32 +1207,32 @@ msgstr "取消"
 #: TFRMEDITSEARCHREPLACE.BTNOK.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "確定(&O)"
+msgstr "確定 &O"
 
 #: TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHCASESENSITIVE.CAPTION"
 msgid "C&ase sensitivity"
-msgstr "大小寫敏感(&A)"
+msgstr "大小寫敏感度 &a"
 
 #: TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHFROMCURSOR.CAPTION"
 msgid "Search from &caret"
-msgstr "從托字元找起(&C)"
+msgstr "從托字元找起 &c"
 
 #: TFRMEDITSEARCHREPLACE.CBSEARCHREGEXP.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHREGEXP.CAPTION"
 msgid "&Regular expressions"
-msgstr "正則表達式(&R)"
+msgstr "正則表達式 &R"
 
 #: TFRMEDITSEARCHREPLACE.CBSEARCHSELECTEDONLY.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHSELECTEDONLY.CAPTION"
 msgid "Selected &text only"
-msgstr "僅選擇文字(&T)"
+msgstr "僅選擇文字 &t"
 
 #: TFRMEDITSEARCHREPLACE.CBSEARCHWHOLEWORDS.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.CBSEARCHWHOLEWORDS.CAPTION"
 msgid "&Whole words only"
-msgstr "僅整個詞(&W)"
+msgstr "僅整個詞 &W"
 
 #: TFRMEDITSEARCHREPLACE.GBSEARCHOPTIONS.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.GBSEARCHOPTIONS.CAPTION"
@@ -1243,12 +1242,12 @@ msgstr "選項"
 #: TFRMEDITSEARCHREPLACE.LBLREPLACEWITH.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.LBLREPLACEWITH.CAPTION"
 msgid "&Replace with:"
-msgstr "替換(&R):"
+msgstr "替換 &R:"
 
 #: TFRMEDITSEARCHREPLACE.LBLSEARCHFOR.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.LBLSEARCHFOR.CAPTION"
 msgid "&Search for:"
-msgstr "查找(&S):"
+msgstr "尋找 &S:"
 
 #: TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION
 msgctxt "TFRMEDITSEARCHREPLACE.RGSEARCHDIRECTION.CAPTION"
@@ -1285,27 +1284,25 @@ msgstr "*.*"
 
 #: TFRMEXTRACTDLG.CBINSEPARATEFOLDER.CAPTION
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
-msgstr "解壓縮每個檔案到子目錄(名稱用壓縮檔案名)"
+msgstr "解壓縮每個檔案到子目錄(名稱用壓縮檔案名稱)"
 
 #: TFRMEXTRACTDLG.CBOVERWRITE.CAPTION
 msgid "&Overwrite existing files"
-msgstr "覆蓋已存在檔案(&O)"
+msgstr "覆蓋已存在檔案 &O"
 
 #: TFRMEXTRACTDLG.LBLEXTRACTTO.CAPTION
-#, fuzzy
 #| msgid "Unpack file to:"
 msgid "To the directory:"
-msgstr "解壓縮到"
+msgstr "轉到目錄 :"
 
 #: TFRMEXTRACTDLG.LBLFILEMASK.CAPTION
-#, fuzzy
 #| msgid "&Files to unpack:"
 msgid "Extract files matching file mask:"
-msgstr "解壓縮(&F)"
+msgstr "符合檔案過瀘的解壓縮 :"
 
 #: TFRMEXTRACTDLG.LBLPASSWORD.CAPTION
 msgid "Password for encrypted files:"
-msgstr ""
+msgstr "加密檔案的密碼:"
 
 #: TFRMFILEASSOC.BTNADDACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNADDACT.CAPTION"
@@ -1335,7 +1332,7 @@ msgstr "向下"
 #: TFRMFILEASSOC.BTNOK.CAPTION
 msgctxt "TFRMFILEASSOC.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "確定(&O)"
+msgstr "確定 &O"
 
 #: TFRMFILEASSOC.BTNREMOVEACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVEACT.CAPTION"
@@ -1360,7 +1357,7 @@ msgstr "移除"
 #: TFRMFILEASSOC.BTNRENAMETYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
 msgid "Rename"
-msgstr "改名"
+msgstr "重新命名"
 
 #: TFRMFILEASSOC.BTNUPACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
@@ -1387,7 +1384,7 @@ msgstr "檔案類型"
 
 #: TFRMFILEASSOC.GBICON.CAPTION
 msgid "Icon"
-msgstr "圖標"
+msgstr "圖示"
 
 #: TFRMFILEASSOC.LBLACTION.CAPTION
 msgid "Action:"
@@ -1396,7 +1393,7 @@ msgstr "動作:"
 #: TFRMFILEASSOC.LBLCOMMAND.CAPTION
 msgctxt "TFRMFILEASSOC.LBLCOMMAND.CAPTION"
 msgid "&Command:"
-msgstr "命令(&C)"
+msgstr "命令 &C"
 
 #: TFRMFILEASSOC.MIEDIT.CAPTION
 msgctxt "TFRMFILEASSOC.MIEDIT.CAPTION"
@@ -1410,7 +1407,7 @@ msgstr "編輯器中編輯"
 #: TFRMFILEASSOC.MIFILENAME.CAPTION
 msgctxt "TFRMFILEASSOC.MIFILENAME.CAPTION"
 msgid "File name"
-msgstr "檔案名"
+msgstr "檔案名稱"
 
 #: TFRMFILEASSOC.MIFILEPATH.CAPTION
 msgid "File path"
@@ -1431,11 +1428,11 @@ msgstr "打開"
 
 #: TFRMFILEASSOC.MISHELL.CAPTION
 msgid "Run in terminal"
-msgstr "在終端運行"
+msgstr "在命令列執行"
 
 #: TFRMFILEASSOC.MIVFS.CAPTION
 msgid "Open in VFS"
-msgstr "在VFS中打開"
+msgstr "在虛擬檔案系統中(VFS)打開"
 
 #: TFRMFILEASSOC.MIVIEW.CAPTION
 msgctxt "TFRMFILEASSOC.MIVIEW.CAPTION"
@@ -1444,21 +1441,21 @@ msgstr "檢視"
 
 #: TFRMFILEASSOC.MIVIEWER.CAPTION
 msgid "Open in Viewer"
-msgstr "在查看器中打開"
+msgstr "在檢視器中打開"
 
 #: TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION
 msgctxt "TFRMFILEEXECUTEYOURSELF.BTNCLOSE.CAPTION"
 msgid "&Close"
-msgstr "關閉(&C)"
+msgstr "關閉 &C"
 
 #: TFRMFILEEXECUTEYOURSELF.CAPTION
 msgctxt "TFRMFILEEXECUTEYOURSELF.CAPTION"
 msgid "Wait..."
-msgstr ""
+msgstr "等待..."
 
 #: TFRMFILEEXECUTEYOURSELF.LBLFILENAME.CAPTION
 msgid "File name:"
-msgstr ""
+msgstr "檔案名稱:"
 
 #: TFRMFILEEXECUTEYOURSELF.LBLFROMPATH.CAPTION
 msgctxt "TFRMFILEEXECUTEYOURSELF.LBLFROMPATH.CAPTION"
@@ -1467,11 +1464,11 @@ msgstr "從:"
 
 #: TFRMFILEEXECUTEYOURSELF.LBLPROMPT.CAPTION
 msgid "Click on Close when the temporary file can be deleted!"
-msgstr ""
+msgstr "關閉時暫時檔案會被刪除！"
 
 #: TFRMFILEOP.BTHOPEND.CAPTION
 msgid "End"
-msgstr ""
+msgstr "結束"
 
 #: TFRMFILEOP.BTNCANCEL.CAPTION
 msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
@@ -1480,27 +1477,27 @@ msgstr "取消"
 
 #: TFRMFILEOP.BTNOPHOME.CAPTION
 msgid "Home"
-msgstr ""
+msgstr "Home 頭"
 
 #: TFRMFILEOP.BTNTOQUEUE.CAPTION
 msgid "To Queue"
-msgstr ""
+msgstr "到佇列"
 
 #: TFRMFILEOP.BTNWORKINBACKGROUND.CAPTION
 msgid "Work in &background"
-msgstr ""
+msgstr "在背景中執行(&b)"
 
 #: TFRMFILEOP.CAPTION
 msgctxt "TFRMFILEOP.CAPTION"
 msgid "Process file(s)"
-msgstr "處理檔案:"
+msgstr "處理檔案"
 
 #: TFRMFILEOP.LBLFILENAMEFROM.CAPTION
 #, fuzzy
 #| msgid "File name"
 msgctxt "TFRMFILEOP.LBLFILENAMEFROM.CAPTION"
 msgid "File name from"
-msgstr "檔案名"
+msgstr "檔案命名為"
 
 #: TFRMFILEOP.LBLFILENAMETO.CAPTION
 msgid "File name to"
@@ -1518,7 +1515,7 @@ msgstr "到:"
 #: TFRMFILEPROPERTIES.BTNALL.CAPTION
 msgctxt "TFRMFILEPROPERTIES.BTNALL.CAPTION"
 msgid "&All"
-msgstr "全部(&A)"
+msgstr "全部 &A"
 
 #: TFRMFILEPROPERTIES.BTNCLOSE.CAPTION
 msgctxt "TFRMFILEPROPERTIES.BTNCLOSE.CAPTION"
@@ -1528,7 +1525,7 @@ msgstr "關閉"
 #: TFRMFILEPROPERTIES.BTNOK.CAPTION
 msgctxt "TFRMFILEPROPERTIES.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "確定(&O)"
+msgstr "確定 &O"
 
 #: TFRMFILEPROPERTIES.BTNSKIP.CAPTION
 msgid "Skip"
@@ -1557,7 +1554,7 @@ msgstr "SUID"
 #: TFRMFILEPROPERTIES.GBOWNER.CAPTION
 msgctxt "TFRMFILEPROPERTIES.GBOWNER.CAPTION"
 msgid "Owner"
-msgstr "所有者"
+msgstr "擁有者"
 
 #: TFRMFILEPROPERTIES.LBLATTRBITSSTR.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLATTRBITSSTR.CAPTION"
@@ -1567,7 +1564,7 @@ msgstr "Bits:"
 #: TFRMFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION"
 msgid "Group"
-msgstr "組"
+msgstr "群組"
 
 #: TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLATTROTHERSTR.CAPTION"
@@ -1577,7 +1574,7 @@ msgstr "其他"
 #: TFRMFILEPROPERTIES.LBLATTROWNERSTR.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLATTROWNERSTR.CAPTION"
 msgid "Owner"
-msgstr "所有者"
+msgstr "擁有者"
 
 #: TFRMFILEPROPERTIES.LBLATTRTEXT.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXT.CAPTION"
@@ -1585,11 +1582,10 @@ msgid "-----------"
 msgstr "-----------"
 
 #: TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION
-#, fuzzy
 #| msgid "Representation in text:"
 msgctxt "TFRMFILEPROPERTIES.LBLATTRTEXTSTR.CAPTION"
 msgid "Text:"
-msgstr "文字中再現:"
+msgstr "文字:"
 
 #: TFRMFILEPROPERTIES.LBLEXEC.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLEXEC.CAPTION"
@@ -1599,7 +1595,7 @@ msgstr "執行"
 #: TFRMFILEPROPERTIES.LBLFILE.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLFILE.CAPTION"
 msgid "File name"
-msgstr "檔案名"
+msgstr "檔案名稱"
 
 #: TFRMFILEPROPERTIES.LBLFILENAME.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLFILENAME.CAPTION"
@@ -1614,7 +1610,7 @@ msgstr "名稱:"
 #: TFRMFILEPROPERTIES.LBLFILESTR.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLFILESTR.CAPTION"
 msgid "File name"
-msgstr "檔案名"
+msgstr "檔案名稱"
 
 #: TFRMFILEPROPERTIES.LBLFOLDER.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLFOLDER.CAPTION"
@@ -1628,7 +1624,7 @@ msgstr "路徑:"
 #: TFRMFILEPROPERTIES.LBLGROUPSTR.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLGROUPSTR.CAPTION"
 msgid "Group"
-msgstr "組"
+msgstr "群組"
 
 #: TFRMFILEPROPERTIES.LBLLASTACCESS.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLLASTACCESS.CAPTION"
@@ -1637,7 +1633,7 @@ msgstr "???"
 
 #: TFRMFILEPROPERTIES.LBLLASTACCESSSTR.CAPTION
 msgid "Last access:"
-msgstr "上次訪問:"
+msgstr "上次存取:"
 
 #: TFRMFILEPROPERTIES.LBLLASTMODIF.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLLASTMODIF.CAPTION"
@@ -1665,7 +1661,7 @@ msgstr "8進制:"
 #: TFRMFILEPROPERTIES.LBLOWNERSTR.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLOWNERSTR.CAPTION"
 msgid "Owner"
-msgstr "所有者"
+msgstr "擁有者"
 
 #: TFRMFILEPROPERTIES.LBLREAD.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLREAD.CAPTION"
@@ -1688,10 +1684,9 @@ msgid "???"
 msgstr "???"
 
 #: TFRMFILEPROPERTIES.LBLSYMLINKSTR.CAPTION
-#, fuzzy
 #| msgid "Symlink:"
 msgid "Symlink to:"
-msgstr "符號捷徑:"
+msgstr "連接到 :"
 
 #: TFRMFILEPROPERTIES.LBLTYPE.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLTYPE.CAPTION"
@@ -1701,7 +1696,7 @@ msgstr "???"
 #: TFRMFILEPROPERTIES.LBLTYPESTR.CAPTION
 #, fuzzy
 msgid "Type:"
-msgstr "類型:"
+msgstr "類別："
 
 #: TFRMFILEPROPERTIES.LBLWRITE.CAPTION
 msgctxt "TFRMFILEPROPERTIES.LBLWRITE.CAPTION"
@@ -1720,7 +1715,7 @@ msgstr "屬性"
 
 #: TFRMFINDDLG.BTNADDATTRIBUTE.CAPTION
 msgid "&Add"
-msgstr ""
+msgstr "新增 &A"
 
 #: TFRMFINDDLG.BTNATTRSHELP.CAPTION
 msgctxt "TFRMFINDDLG.BTNATTRSHELP.CAPTION"
@@ -1743,7 +1738,7 @@ msgstr "搜索(&N)"
 #: TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION
 msgctxt "TFRMFINDDLG.BTNSAVETEMPLATE.CAPTION"
 msgid "Save"
-msgstr ""
+msgstr "儲存"
 
 #: TFRMFINDDLG.BTNSEARCHDELETE.CAPTION
 msgctxt "TFRMFINDDLG.BTNSEARCHDELETE.CAPTION"
@@ -1756,7 +1751,7 @@ msgstr "載入(&O)"
 
 #: TFRMFINDDLG.BTNSEARCHSAVE.CAPTION
 msgid "S&ave"
-msgstr "保存(&A)"
+msgstr "儲存(&A)"
 
 #: TFRMFINDDLG.BTNSTART.CAPTION
 msgid "&Start"
@@ -1779,7 +1774,7 @@ msgstr "發給列表框(&L)"
 #: TFRMFINDDLG.CAPTION
 msgctxt "TFRMFINDDLG.CAPTION"
 msgid "Find files"
-msgstr "查找檔案"
+msgstr "尋找檔案"
 
 #: TFRMFINDDLG.CBCASESENS.CAPTION
 msgid "Case sens&itive"
@@ -1794,26 +1789,24 @@ msgid "Date To:"
 msgstr "結束日期:"
 
 #: TFRMFINDDLG.CBFILESIZEFROM.CAPTION
-#, fuzzy
 #| msgid "File Size From:"
 msgid "Size from:"
-msgstr "最小:"
+msgstr ""
 
 #: TFRMFINDDLG.CBFILESIZETO.CAPTION
-#, fuzzy
 #| msgid "File Size To:"
 msgid "Size to:"
-msgstr "最大:"
+msgstr ""
 
 #: TFRMFINDDLG.CBFINDTEXT.CAPTION
 msgctxt "TFRMFINDDLG.CBFINDTEXT.CAPTION"
 msgid "Find &text in file"
-msgstr "在檔案中查找"
+msgstr "在檔案中尋找"
 
 #: TFRMFINDDLG.CBNOTCONTAININGTEXT.CAPTION
 msgctxt "TFRMFINDDLG.CBNOTCONTAININGTEXT.CAPTION"
 msgid "Find files N&OT containing the text"
-msgstr "查找不包含這些文字的檔案"
+msgstr "尋找不包含這些文字的檔案"
 
 #: TFRMFINDDLG.CBNOTOLDERTHAN.CAPTION
 msgid "Not older than:"
@@ -1829,10 +1822,9 @@ msgid "&Regular expressions"
 msgstr "正則表達式(&R)"
 
 #: TFRMFINDDLG.CBREPLACETEXT.CAPTION
-#, fuzzy
 #| msgid "Re&place text"
 msgid "Re&place by"
-msgstr "替換文字"
+msgstr ""
 
 #: TFRMFINDDLG.CBTIMEFROM.CAPTION
 msgid "Time from:"
@@ -1852,16 +1844,17 @@ msgid "*"
 msgstr "*"
 
 #: TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION
+#, fuzzy
 msgid "Follow symlinks"
-msgstr ""
+msgstr "同上連接"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
-msgstr ""
+msgstr "屬性 &A"
 
 #: TFRMFINDDLG.GBFINDDATA.CAPTION
 msgid "Find Data"
-msgstr "查找數據"
+msgstr "尋找數據"
 
 #: TFRMFINDDLG.GBFINDOPTIONS.CAPTION
 msgctxt "TFRMFINDDLG.GBFINDOPTIONS.CAPTION"
@@ -1879,7 +1872,7 @@ msgstr "編碼:"
 
 #: TFRMFINDDLG.LBLFINDFILEMASK.CAPTION
 msgid "&File mask"
-msgstr "檔案名偽裝"
+msgstr "檔案名稱偽裝"
 
 #: TFRMFINDDLG.LBLFINDPATHSTART.CAPTION
 msgid "&Directory"
@@ -1903,7 +1896,7 @@ msgstr "歷史搜索(&P):"
 
 #: TFRMFINDDLG.MIREMOVEFROMLLIST.CAPTION
 msgid "Remove from list"
-msgstr ""
+msgstr "從清單中移除(_R)"
 
 #: TFRMFINDDLG.MISHOWALLFOUND.CAPTION
 msgid "Show all found items"
@@ -1919,11 +1912,11 @@ msgstr "高級"
 
 #: TFRMFINDDLG.TSLOADSAVE.CAPTION
 msgid "Load/Save"
-msgstr "載入/保存"
+msgstr "載入/儲存"
 
 #: TFRMFINDDLG.TSRESULTS.CAPTION
 msgid "Results"
-msgstr ""
+msgstr "結果"
 
 #: TFRMFINDDLG.TSSTANDARD.CAPTION
 msgid "Standard"
@@ -1937,16 +1930,16 @@ msgstr "取消"
 #: TFRMFINDVIEW.BTNFIND.CAPTION
 msgctxt "TFRMFINDVIEW.BTNFIND.CAPTION"
 msgid "Find"
-msgstr "查找"
+msgstr "尋找"
 
 #: TFRMFINDVIEW.CAPTION
 msgctxt "TFRMFINDVIEW.CAPTION"
 msgid "Find"
-msgstr "查找"
+msgstr "尋找"
 
 #: TFRMFINDVIEW.CBCASESENS.CAPTION
 msgid "Case sensitive"
-msgstr ""
+msgstr "區分大小寫"
 
 #: TFRMHARDLINK.BTNCANCEL.CAPTION
 msgctxt "TFRMHARDLINK.BTNCANCEL.CAPTION"
@@ -1959,10 +1952,9 @@ msgid "&OK"
 msgstr "確定(&O)"
 
 #: TFRMHARDLINK.CAPTION
-#, fuzzy
 #| msgid "Create hardlink"
 msgid "Create hard link"
-msgstr "建立硬捷徑"
+msgstr "建立 硬/符號捷徑"
 
 #: TFRMHARDLINK.LBLEXISTINGFILE.CAPTION
 #, fuzzy
@@ -2014,7 +2006,7 @@ msgstr "常用目錄列表"
 #| msgid "Exit"
 msgctxt "TFRMLINKER.BTNEXIT.CAPTION"
 msgid "Cancel"
-msgstr "退出"
+msgstr "取消"
 
 #: TFRMLINKER.BTNOK.CAPTION
 msgctxt "TFRMLINKER.BTNOK.CAPTION"
@@ -2033,7 +2025,7 @@ msgstr "捷徑程式"
 
 #: TFRMLINKER.GBSAVETO.CAPTION
 msgid "Save to..."
-msgstr "保存到..."
+msgstr "儲存到..."
 
 #: TFRMLINKER.GRBXCONTROL.CAPTION
 msgid "Item"
@@ -2042,7 +2034,7 @@ msgstr "條目"
 #: TFRMLINKER.LBLFILENAME.CAPTION
 msgctxt "TFRMLINKER.LBLFILENAME.CAPTION"
 msgid "File name"
-msgstr "檔案名"
+msgstr "檔案名稱"
 
 #: TFRMLINKER.SPBTNDEL.CAPTION
 msgctxt "TFRMLINKER.SPBTNDEL.CAPTION"
@@ -2075,55 +2067,52 @@ msgid "Up"
 msgstr "上"
 
 #: TFRMMAIN.ACTABOUT.CAPTION
-#, fuzzy
 #| msgid "About"
 msgctxt "TFRMMAIN.ACTABOUT.CAPTION"
 msgid "&About"
-msgstr "關於"
+msgstr "關於 &A"
 
 #: TFRMMAIN.ACTADDFILENAMETOCMDLINE.CAPTION
 msgid "Add file name to command line"
-msgstr "增加檔案名到命令行"
+msgstr "增加檔案名稱到命令行"
 
 #: TFRMMAIN.ACTADDPATHANDFILENAMETOCMDLINE.CAPTION
 msgid "Add path and file name to command line"
-msgstr "增加路徑和檔案名到命令行"
+msgstr "增加路徑和檔案名稱到命令行"
 
 #: TFRMMAIN.ACTADDPATHTOCMDLINE.CAPTION
 msgid "Copy path to command line"
 msgstr "複製路徑到命令行"
 
 #: TFRMMAIN.ACTCALCULATESPACE.CAPTION
-#, fuzzy
 #| msgid "Calculate &Occupied Space..."
 msgid "Calculate &Occupied Space"
-msgstr "計算已用空間..."
+msgstr ""
 
 #: TFRMMAIN.ACTCHANGEDIR.CAPTION
 msgid "Change directory"
 msgstr "切換目錄"
 
 #: TFRMMAIN.ACTCHANGEDIRTOPARENT.CAPTION
+#, fuzzy
 msgid "Change Directory To Parent"
-msgstr ""
+msgstr "轉到上一層目錄"
 
 #: TFRMMAIN.ACTCHANGEDIRTOROOT.CAPTION
 msgid "Change directory to root"
 msgstr "切換到根目錄"
 
 #: TFRMMAIN.ACTCHECKSUMCALC.CAPTION
-#, fuzzy
 #| msgid "Calculate check sum..."
 msgctxt "TFRMMAIN.ACTCHECKSUMCALC.CAPTION"
 msgid "Calculate Check&sum..."
-msgstr "計算校驗..."
+msgstr "計算校驗... &s"
 
 #: TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION
-#, fuzzy
 #| msgid "Verify check sum..."
 msgctxt "TFRMMAIN.ACTCHECKSUMVERIFY.CAPTION"
 msgid "&Verify Checksum..."
-msgstr "驗證校驗..."
+msgstr "驗證檢查碼錯誤 &V"
 
 #: TFRMMAIN.ACTCLEARLOGFILE.CAPTION
 msgid "Clear log file"
@@ -2131,7 +2120,7 @@ msgstr "清除記錄檔案"
 
 #: TFRMMAIN.ACTCLEARLOGWINDOW.CAPTION
 msgid "Clear log window"
-msgstr "清除記錄窗口"
+msgstr "清除記錄視窗"
 
 #: TFRMMAIN.ACTCOMPARECONTENTS.CAPTION
 msgid "Compare by &Contents"
@@ -2147,11 +2136,11 @@ msgstr "複製 F5"
 
 #: TFRMMAIN.ACTCOPYFULLNAMESTOCLIP.CAPTION
 msgid "Copy Filename(s) with Full &Path"
-msgstr "複製包含完整路徑的檔案名"
+msgstr "複製包含完整路徑的檔案名稱"
 
 #: TFRMMAIN.ACTCOPYNAMESTOCLIP.CAPTION
 msgid "Copy &Filename(s) to Clipboard"
-msgstr "複製檔案名到剪貼簿"
+msgstr "複製檔案名稱到剪貼簿 (&F)"
 
 #: TFRMMAIN.ACTCOPYNOASK.CAPTION
 msgid "Copy files without asking for confirmation"
@@ -2163,17 +2152,16 @@ msgstr "複製到同面板下"
 
 #: TFRMMAIN.ACTCOPYTOCLIPBOARD.CAPTION
 msgid "&Copy"
-msgstr "複製"
+msgstr "複製 (&C)"
 
 #: TFRMMAIN.ACTCOUNTDIRCONTENT.CAPTION
-#, fuzzy
 #| msgid "Sho&w occupied space"
 msgid "Sho&w Occupied Space"
-msgstr "顯示占用空間(&W)"
+msgstr ""
 
 #: TFRMMAIN.ACTCUTTOCLIPBOARD.CAPTION
 msgid "Cu&t"
-msgstr "剪下"
+msgstr "剪下(&t)"
 
 #: TFRMMAIN.ACTDELETE.CAPTION
 msgctxt "TFRMMAIN.ACTDELETE.CAPTION"
@@ -2186,20 +2174,18 @@ msgid "Directory history"
 msgstr "歷史瀏覽目錄"
 
 #: TFRMMAIN.ACTDIRHOTLIST.CAPTION
-#, fuzzy
 #| msgid "Directory &hotlist"
 msgid "Directory &Hotlist"
-msgstr "常用目錄列表"
+msgstr "常用目錄列表 &H"
 
 #: TFRMMAIN.ACTEDIT.CAPTION
 msgid "Edit F4"
 msgstr "編輯 F4"
 
 #: TFRMMAIN.ACTEDITCOMMENT.CAPTION
-#, fuzzy
 #| msgid "Edit comment..."
 msgid "Edit Co&mment..."
-msgstr "編輯備註..."
+msgstr "編輯註解... &m"
 
 #: TFRMMAIN.ACTEDITNEW.CAPTION
 msgid "Edit new file"
@@ -2214,42 +2200,36 @@ msgid "Swap &Panels"
 msgstr "交換面板(&P)"
 
 #: TFRMMAIN.ACTEXIT.CAPTION
-#, fuzzy
 #| msgid "Exit"
 msgctxt "TFRMMAIN.ACTEXIT.CAPTION"
 msgid "E&xit"
-msgstr "退出"
+msgstr "離開 &x"
 
 #: TFRMMAIN.ACTEXTRACTFILES.CAPTION
-#, fuzzy
 #| msgid "Extract files..."
 msgid "&Extract Files..."
-msgstr "解壓縮檔案"
+msgstr "解壓縮檔案 ... &E"
 
 #: TFRMMAIN.ACTFILEASSOC.CAPTION
-#, fuzzy
 #| msgid "File &associations..."
 msgid "File &Associations..."
-msgstr "檔案關聯..."
+msgstr "檔案關聯 ... &A"
 
 #: TFRMMAIN.ACTFILELINKER.CAPTION
-#, fuzzy
 #| msgid "Link files"
 msgid "Com&bine Files..."
-msgstr "捷徑檔案"
+msgstr "合併檔案 ... &b"
 
 #: TFRMMAIN.ACTFILEPROPERTIES.CAPTION
-#, fuzzy
 #| msgid "Show file properties"
 msgid "Show &File Properties"
-msgstr "顯示檔案屬性"
+msgstr "顯示檔案屬性 &F"
 
 #: TFRMMAIN.ACTFILESPLITER.CAPTION
-#, fuzzy
 #| msgid "Split file"
 msgctxt "TFRMMAIN.ACTFILESPLITER.CAPTION"
 msgid "Spl&it File..."
-msgstr "分割檔案"
+msgstr "分割檔案 ... &i"
 
 #: TFRMMAIN.ACTFOCUSCMDLINE.CAPTION
 msgid "Focus command line"
@@ -2264,43 +2244,40 @@ msgid "Place cursor on last file in list"
 msgstr ""
 
 #: TFRMMAIN.ACTHARDLINK.CAPTION
-#, fuzzy
 #| msgid "Create hard link..."
 msgctxt "TFRMMAIN.ACTHARDLINK.CAPTION"
 msgid "Create &Hard Link..."
-msgstr "建立硬捷徑"
+msgstr "建立 硬/符號捷徑 ... &H"
 
 #: TFRMMAIN.ACTHELPINDEX.CAPTION
-#, fuzzy
 #| msgid "Contents"
 msgid "&Contents"
-msgstr "內容"
+msgstr "內容 &C"
 
 #: TFRMMAIN.ACTHORIZONTALFILEPANELS.CAPTION
 msgid "&Horizontal Panels Mode"
-msgstr ""
+msgstr "水平面版模式 &H"
 
 #: TFRMMAIN.ACTKEYBOARD.CAPTION
-#, fuzzy
 #| msgid "Keyboard"
 msgid "&Keyboard"
-msgstr "快捷鍵列表"
+msgstr "鍵盤設置 &K"
 
 #: TFRMMAIN.ACTLEFTEQUALRIGHT.CAPTION
 msgid "Left &= Right"
-msgstr "左 &= 右"
+msgstr "左邊 &= 右邊"
 
 #: TFRMMAIN.ACTLEFTOPENDRIVES.CAPTION
 msgid "Open left drive list"
-msgstr "左驅動器列表"
+msgstr "打開左邊磁碟清單"
 
 #: TFRMMAIN.ACTLOADSELECTIONFROMCLIP.CAPTION
 msgid "Load Selection from Clip&board"
-msgstr ""
+msgstr "從剪貼簿中載入所選擇的資料 (&b)..."
 
 #: TFRMMAIN.ACTLOADSELECTIONFROMFILE.CAPTION
 msgid "&Load Selection from File..."
-msgstr ""
+msgstr "從檔案中載入所選擇的資料 (&L)..."
 
 #: TFRMMAIN.ACTMAKEDIR.CAPTION
 msgid "MakeDir F7"
@@ -2310,69 +2287,63 @@ msgstr "建立目錄 F7"
 #, fuzzy
 #| msgid "Select all with same extension"
 msgid "Select All with the Same E&xtension"
-msgstr "選擇所有相同副檔名"
+msgstr "選擇所有相同副檔名(&x)"
 
 #: TFRMMAIN.ACTMARKINVERT.CAPTION
-#, fuzzy
 #| msgid "Invert Selections"
 msgid "&Invert Selection"
-msgstr "反向選擇"
+msgstr ""
 
 #: TFRMMAIN.ACTMARKMARKALL.CAPTION
 msgid "&Select All"
-msgstr "全部選中(&S)"
+msgstr "全選(&S)"
 
 #: TFRMMAIN.ACTMARKMINUS.CAPTION
-#, fuzzy
 #| msgid "Unselect a group"
 msgid "Unselect a Gro&up..."
-msgstr "取消選擇組"
+msgstr "取消所選群組... &u"
 
 #: TFRMMAIN.ACTMARKPLUS.CAPTION
-#, fuzzy
 #| msgid "Select a group"
 msgid "Select a &Group..."
-msgstr "選擇一組"
+msgstr "選擇群組 &G"
 
 #: TFRMMAIN.ACTMARKUNMARKALL.CAPTION
-#, fuzzy
 #| msgid "Unselect All"
 msgid "&Unselect All"
-msgstr "全部不選"
+msgstr "取消所選全部"
 
 #: TFRMMAIN.ACTMINIMIZE.CAPTION
 msgid "Minimize window"
-msgstr "最小化窗口"
+msgstr "最小化視窗"
 
 #: TFRMMAIN.ACTMULTIRENAME.CAPTION
-#, fuzzy
 #| msgid "Multi Rename Tool"
 msgid "Multi &Rename Tool"
-msgstr "多檔案改名工具"
+msgstr "多重命名工具"
 
 #: TFRMMAIN.ACTNETWORKCONNECT.CAPTION
 msgid "Network &Connect..."
-msgstr ""
+msgstr "連結網路 &C..."
 
 #: TFRMMAIN.ACTNETWORKDISCONNECT.CAPTION
 msgid "Network &Disconnect"
-msgstr ""
+msgstr "中斷連結網路 &D..."
 
 #: TFRMMAIN.ACTNETWORKQUICKCONNECT.CAPTION
 msgid "Network &Quick Connect..."
-msgstr ""
+msgstr "快速連結網路 &Q"
 
 #: TFRMMAIN.ACTNEWTAB.CAPTION
-#, fuzzy
 #| msgid "&New tab"
 msgid "&New Tab"
-msgstr "新建標籤頁"
+msgstr "新分頁 &N"
 
 #: TFRMMAIN.ACTNEXTTAB.CAPTION
 #, fuzzy
 #| msgid "Switch to nex&t tab"
 msgid "Switch to Nex&t Tab"
-msgstr "切換到下一標籤"
+msgstr "空格符轉為定位(Tab)字符"
 
 #: TFRMMAIN.ACTOPEN.CAPTION
 msgctxt "TFRMMAIN.ACTOPEN.CAPTION"
@@ -2385,27 +2356,26 @@ msgstr "嘗試打開壓縮檔"
 
 #: TFRMMAIN.ACTOPENBAR.CAPTION
 msgid "Open bar file"
-msgstr ""
+msgstr "打開 bar 檔"
 
 #: TFRMMAIN.ACTOPENDIRINNEWTAB.CAPTION
 #, fuzzy
 #| msgid "Open &folder in new tab"
 msgid "Open &Folder in a New Tab"
-msgstr "新標籤頁打開檔案夾"
+msgstr "在新標簽中建立連接"
 
 #: TFRMMAIN.ACTOPENVIRTUALFILESYSTEMLIST.CAPTION
 msgid "Open &VFS List"
-msgstr ""
+msgstr "打開虛擬檔案系統清單 &V"
 
 #: TFRMMAIN.ACTOPERATIONSVIEWER.CAPTION
 msgid "Operations &Viewer"
-msgstr ""
+msgstr "操作檢視器 &V"
 
 #: TFRMMAIN.ACTOPTIONS.CAPTION
-#, fuzzy
 #| msgid "Options..."
 msgid "&Options..."
-msgstr "選項..."
+msgstr "選項 &O..."
 
 #: TFRMMAIN.ACTPACKFILES.CAPTION
 #, fuzzy
@@ -2419,17 +2389,17 @@ msgstr "設置分隔位置"
 
 #: TFRMMAIN.ACTPASTEFROMCLIPBOARD.CAPTION
 msgid "&Paste"
-msgstr "貼上"
+msgstr "貼上 &P"
 
 #: TFRMMAIN.ACTPREVTAB.CAPTION
 #, fuzzy
 #| msgid "Switch to &previous tab"
 msgid "Switch to &Previous Tab"
-msgstr "切換到上一標籤"
+msgstr "跳到前一次開啟的視窗"
 
 #: TFRMMAIN.ACTQUICKFILTER.CAPTION
 msgid "Quick filter"
-msgstr ""
+msgstr "快速篩選器"
 
 #: TFRMMAIN.ACTQUICKSEARCH.CAPTION
 msgctxt "TFRMMAIN.ACTQUICKSEARCH.CAPTION"
@@ -2438,99 +2408,98 @@ msgstr "快速搜索"
 
 #: TFRMMAIN.ACTQUICKVIEW.CAPTION
 msgid "&Quick View Panel"
-msgstr ""
+msgstr "快速檢視面版 &Q"
 
 #: TFRMMAIN.ACTREFRESH.CAPTION
 msgid "&Refresh"
-msgstr "刷新(&R)"
+msgstr "更新(&R)"
 
 #: TFRMMAIN.ACTREMOVEALLTABS.CAPTION
-#, fuzzy
 #| msgid "Remove &all tabs"
 msgid "Remove &All Tabs"
-msgstr "移除所有標籤"
+msgstr "移除所有非作用中分頁"
 
 #: TFRMMAIN.ACTREMOVETAB.CAPTION
-#, fuzzy
 #| msgid "&Remove tab"
 msgid "&Remove Tab"
-msgstr "刪除標籤頁"
+msgstr "關閉分頁 &R"
 
 #: TFRMMAIN.ACTRENAME.CAPTION
 msgid "Move F6"
-msgstr "改名 F6"
+msgstr "重新命名/移動 F6"
 
 #: TFRMMAIN.ACTRENAMENOASK.CAPTION
 msgid "Move/Rename files without asking for confirmation"
-msgstr "無需確認移動或重命名"
+msgstr "當移動或重新命名時無需確認"
 
 #: TFRMMAIN.ACTRENAMEONLY.CAPTION
 msgctxt "TFRMMAIN.ACTRENAMEONLY.CAPTION"
 msgid "Rename"
-msgstr "改名"
+msgstr "重新命名"
 
 #: TFRMMAIN.ACTRENAMETAB.CAPTION
 msgid "Re&name Tab"
-msgstr ""
+msgstr "重新命名分頁 &n"
 
 #: TFRMMAIN.ACTRESTORESELECTION.CAPTION
 msgid "&Restore Selection"
-msgstr ""
+msgstr "回復所選的"
 
 #: TFRMMAIN.ACTREVERSEORDER.CAPTION
-#, fuzzy
 #| msgid "Reverse order"
 msgid "Re&verse Order"
-msgstr "反序排列"
+msgstr ""
 
 #: TFRMMAIN.ACTRIGHTEQUALLEFT.CAPTION
 msgid "Right &= Left"
-msgstr "右 &= 左"
+msgstr "右邊 &= 左邊"
 
 #: TFRMMAIN.ACTRIGHTOPENDRIVES.CAPTION
 msgid "Open right drive list"
-msgstr "右驅動器列表"
+msgstr "打開右邊磁碟清單"
 
 #: TFRMMAIN.ACTRUNTERM.CAPTION
 #, fuzzy
 #| msgid "Run Term"
 msgid "Run &Terminal"
-msgstr "運行終端"
+msgstr "開啟命令列:"
 
 #: TFRMMAIN.ACTSAVESELECTION.CAPTION
 msgid "Sa&ve Selection"
-msgstr ""
+msgstr "儲存所選的 &v"
 
 #: TFRMMAIN.ACTSAVESELECTIONTOFILE.CAPTION
 msgid "Save S&election to File..."
-msgstr ""
+msgstr "儲存所選的成為檔案 &e..."
 
 #: TFRMMAIN.ACTSEARCH.CAPTION
 #, fuzzy
 #| msgid "&Search"
 msgid "&Search..."
-msgstr "搜索(&S)"
+msgstr "查找(&S)"
 
 #: TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION
+#, fuzzy
 msgctxt "TFRMMAIN.ACTSETFILEPROPERTIES.CAPTION"
 msgid "Change &Attributes..."
-msgstr ""
+msgstr "改變文件屬性"
 
 #: TFRMMAIN.ACTSETTABOPTIONDIRSINNEWTAB.CAPTION
 msgid "Locked with Directories Opened in New &Tabs"
 msgstr ""
 
 #: TFRMMAIN.ACTSETTABOPTIONNORMAL.CAPTION
+#, fuzzy
 msgid "&Normal"
-msgstr ""
+msgstr "普通(&N)"
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHLOCKED.CAPTION
 msgid "&Locked"
-msgstr ""
+msgstr "已鎖定 &L"
 
 #: TFRMMAIN.ACTSETTABOPTIONPATHRESETS.CAPTION
 msgid "Locked with &Directory Changes Allowed"
-msgstr ""
+msgstr "鎖定時仍可以改變目錄 &D"
 
 #: TFRMMAIN.ACTSHOWBUTTONMENU.CAPTION
 msgid "Show button menu"
@@ -2546,52 +2515,45 @@ msgid "Menu F9"
 msgstr "目錄 F9"
 
 #: TFRMMAIN.ACTSHOWSYSFILES.CAPTION
-#, fuzzy
 #| msgid "Show hidden/system files"
 msgctxt "TFRMMAIN.ACTSHOWSYSFILES.CAPTION"
 msgid "Show &Hidden/System Files"
-msgstr "顯示隱藏/系統檔案"
+msgstr "顯示/隱藏系統檔案"
 
 #: TFRMMAIN.ACTSORTBYATTR.CAPTION
-#, fuzzy
 #| msgid "Sort by attrib"
 msgid "Sort by &Attributes"
-msgstr "按屬性排序"
+msgstr "按屬性排序 &A"
 
 #: TFRMMAIN.ACTSORTBYDATE.CAPTION
-#, fuzzy
 #| msgid "Sort by date"
 msgid "Sort by &Date"
-msgstr "按日期排序"
+msgstr "按日期排序 &D"
 
 #: TFRMMAIN.ACTSORTBYEXT.CAPTION
-#, fuzzy
 #| msgid "Sort by extension"
 msgid "Sort by &Extension"
-msgstr "按副檔名排序"
+msgstr "依副檔名排序 &E"
 
 #: TFRMMAIN.ACTSORTBYNAME.CAPTION
-#, fuzzy
 #| msgid "Sort by name"
 msgid "Sort by &Name"
-msgstr "按檔案名排序"
+msgstr "依檔名排序 &N"
 
 #: TFRMMAIN.ACTSORTBYSIZE.CAPTION
-#, fuzzy
 #| msgid "Sort by size"
 msgid "Sort by &Size"
-msgstr "按大小排序"
+msgstr "按大小排序 &S"
 
 #: TFRMMAIN.ACTSWITCHIGNORELIST.CAPTION
 msgid "Enable/disable ignore list file to not show file names"
-msgstr ""
+msgstr "啟用/停用 忽略清單檔案不顯示檔案名稱"
 
 #: TFRMMAIN.ACTSYMLINK.CAPTION
-#, fuzzy
 #| msgid "Create symbolic link..."
 msgctxt "TFRMMAIN.ACTSYMLINK.CAPTION"
 msgid "Create Symbolic &Link..."
-msgstr "建立符號捷徑"
+msgstr "建立符號連接 ... &L"
 
 #: TFRMMAIN.ACTTARGETEQUALSOURCE.CAPTION
 msgid "Target &= Source"
@@ -2599,15 +2561,15 @@ msgstr "目標 &= 源"
 
 #: TFRMMAIN.ACTTESTARCHIVE.CAPTION
 msgid "&Test Archive(s)"
-msgstr ""
+msgstr "壓縮測試 &T"
 
 #: TFRMMAIN.ACTTRANSFERLEFT.CAPTION
 msgid "Transfer dir under cursor to left window"
-msgstr "傳輸當前行到左窗口"
+msgstr "傳輸當前行到左視窗"
 
 #: TFRMMAIN.ACTTRANSFERRIGHT.CAPTION
 msgid "Transfer dir under cursor to right window"
-msgstr "傳輸當前行到右窗口"
+msgstr "傳輸當前行到右視窗"
 
 #: TFRMMAIN.ACTUNMARKCURRENTEXTENSION.CAPTION
 #, fuzzy
@@ -2632,10 +2594,9 @@ msgid "Go to previous entry in history"
 msgstr ""
 
 #: TFRMMAIN.ACTVISITHOMEPAGE.CAPTION
-#, fuzzy
 #| msgid "&Visit Double Commander Web Site"
 msgid "&Visit Double Commander Website"
-msgstr "訪問 Double Commander 網站"
+msgstr "到 Double Commander 網站 &V"
 
 #: TFRMMAIN.ACTWIPE.CAPTION
 msgid "Wipe"
@@ -2662,11 +2623,11 @@ msgstr ""
 #: TFRMMAIN.ALLOPSTART.CAPTION
 msgctxt "TFRMMAIN.ALLOPSTART.CAPTION"
 msgid "Start"
-msgstr ""
+msgstr "開始"
 
 #: TFRMMAIN.BTNF10.CAPTION
 msgid "Exit F10"
-msgstr ""
+msgstr "離開 F10"
 
 #: TFRMMAIN.BTNF8.CAPTION
 msgctxt "TFRMMAIN.BTNF8.CAPTION"
@@ -2675,7 +2636,7 @@ msgstr "刪除 F8"
 
 #: TFRMMAIN.BTNF9.CAPTION
 msgid "Terminal F9"
-msgstr "終端 F9"
+msgstr "命令列 F9"
 
 #: TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION
 msgctxt "TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.CAPTION"
@@ -2950,14 +2911,13 @@ msgstr "建立符號捷徑"
 
 #: TFRMMAIN.MITABOPTIONS.CAPTION
 msgid "Tab options"
-msgstr ""
+msgstr "分頁選項"
 
 #: TFRMMAIN.MITRAYICONEXIT.CAPTION
-#, fuzzy
 #| msgid "Exit"
 msgctxt "TFRMMAIN.MITRAYICONEXIT.CAPTION"
 msgid "E&xit"
-msgstr "退出"
+msgstr "離開 &x"
 
 #: TFRMMAIN.MITRAYICONRESTORE.CAPTION
 msgid "Restore"
@@ -2965,48 +2925,48 @@ msgstr "還原"
 
 #: TFRMMAIN.MNUCMD.CAPTION
 msgid "&Commands"
-msgstr "命令(&C)"
+msgstr "命令 &C"
 
 #: TFRMMAIN.MNUCONFIG.CAPTION
 msgid "C&onfiguration"
-msgstr "配置(&O)"
+msgstr "設置 &o"
 
 #: TFRMMAIN.MNUFILES.CAPTION
-#, fuzzy
 #| msgid "Files"
 msgid "&Files"
-msgstr "檔案(&F)"
+msgstr "檔案 &F"
 
 #: TFRMMAIN.MNUHELP.CAPTION
 msgctxt "TFRMMAIN.MNUHELP.CAPTION"
 msgid "&Help"
-msgstr "幫助(&H)"
+msgstr "幫助 &H"
 
 #: TFRMMAIN.MNUMARK.CAPTION
 msgid "&Mark"
-msgstr "標記(&M)"
+msgstr "標記 &M"
 
 #: TFRMMAIN.MNUNETWORK.CAPTION
 msgctxt "TFRMMAIN.MNUNETWORK.CAPTION"
 msgid "Network"
-msgstr ""
+msgstr "網路"
 
 #: TFRMMAIN.MNUSHOW.CAPTION
 msgid "&Show"
-msgstr "顯示(&S)"
+msgstr "顯示 &S"
 
 #: TFRMMAIN.MNUTABOPTIONS.CAPTION
 msgctxt "TFRMMAIN.MNUTABOPTIONS.CAPTION"
 msgid "&Options"
-msgstr ""
+msgstr "選項 &O"
 
 #: TFRMMAIN.MNUTABS.CAPTION
 msgid "&Tabs"
-msgstr "標籤(&T)"
+msgstr "分頁 &T"
 
 #: TFRMMAIN.TBCHANGEDIR.CAPTION
+#, fuzzy
 msgid "CD"
-msgstr ""
+msgstr "CD"
 
 #: TFRMMAIN.TBCOPY.CAPTION
 msgctxt "TFRMMAIN.TBCOPY.CAPTION"
@@ -3045,16 +3005,16 @@ msgstr "取消"
 
 #: TFRMMASKINPUTDLG.BTNDEFINETEMPLATE.CAPTION
 msgid "Define..."
-msgstr ""
+msgstr "定義 ..."
 
 #: TFRMMASKINPUTDLG.BTNOK.CAPTION
 msgctxt "TFRMMASKINPUTDLG.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "確定(&O)"
+msgstr "確定 &O"
 
 #: TFRMMASKINPUTDLG.LBLSEARCHTEMPLATE.CAPTION
 msgid "Or select predefined selection type:"
-msgstr ""
+msgstr "或選擇預先定義好的類型 :"
 
 #: TFRMMKDIR.BTNCANCEL.CAPTION
 msgctxt "TFRMMKDIR.BTNCANCEL.CAPTION"
@@ -3064,7 +3024,7 @@ msgstr "取消"
 #: TFRMMKDIR.BTNOK.CAPTION
 msgctxt "TFRMMKDIR.BTNOK.CAPTION"
 msgid "&OK"
-msgstr "確定(&O)"
+msgstr "確定 &O"
 
 #: TFRMMKDIR.CAPTION
 msgid "Create new directory"
@@ -3081,7 +3041,7 @@ msgstr "取消"
 
 #: TFRMMODVIEW.BTNOK.CAPTION
 msgid "Ok"
-msgstr ""
+msgstr "確定"
 
 #: TFRMMODVIEW.BTNPATH1.CAPTION
 msgctxt "TFRMMODVIEW.BTNPATH1.CAPTION"
@@ -3115,11 +3075,11 @@ msgstr ""
 #: TFRMMODVIEW.CAPTION
 msgctxt "TFRMMODVIEW.CAPTION"
 msgid "New Size"
-msgstr ""
+msgstr "新的大小"
 
 #: TFRMMODVIEW.LBLHEIGHT.CAPTION
 msgid "Height :"
-msgstr ""
+msgstr "高 :"
 
 #: TFRMMODVIEW.LBLPATH1.CAPTION
 msgctxt "TFRMMODVIEW.LBLPATH1.CAPTION"
@@ -3148,35 +3108,39 @@ msgstr ""
 
 #: TFRMMODVIEW.LBLWIDTH.CAPTION
 msgid "Width :"
-msgstr ""
+msgstr "寬 :"
 
 #: TFRMMODVIEW.RBBMP.CAPTION
+#, fuzzy
 msgid "BMP"
-msgstr ""
+msgstr "BMP 圖片格式"
 
 #: TFRMMODVIEW.RBICO.CAPTION
 msgid "ICO"
-msgstr ""
+msgstr "ICO 圖片格式"
 
 #: TFRMMODVIEW.RBJPG.CAPTION
 msgid "JPG"
-msgstr ""
+msgstr "JPG 圖片檔案"
 
 #: TFRMMODVIEW.RBPNG.CAPTION
+#, fuzzy
 msgid "PNG"
-msgstr ""
+msgstr "PNG 圖片格式"
 
 #: TFRMMODVIEW.RBPNM.CAPTION
 msgid "PNM"
 msgstr ""
 
 #: TFRMMODVIEW.TEHEIGHT.TEXT
+#, fuzzy
 msgid "Height"
-msgstr ""
+msgstr "高度"
 
 #: TFRMMODVIEW.TEQUALITY.TEXT
+#, fuzzy
 msgid "80"
-msgstr ""
+msgstr "&20/80"
 
 #: TFRMMODVIEW.TEWIDTH.TEXT
 msgctxt "TFRMMODVIEW.TEWIDTH.TEXT"
@@ -3186,12 +3150,12 @@ msgstr "寬度"
 #: TFRMMULTIRENAME.BTNCLOSE.CAPTION
 msgctxt "TFRMMULTIRENAME.BTNCLOSE.CAPTION"
 msgid "&Close"
-msgstr "關閉(&C)"
+msgstr "關閉 &C"
 
 #: TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION
 msgctxt "TFRMMULTIRENAME.BTNDELETEPRESET.CAPTION"
 msgid "&Delete"
-msgstr "刪除(&D)"
+msgstr "刪除 &D"
 
 #: TFRMMULTIRENAME.BTNEXTMENU.CAPTION
 msgctxt "TFRMMULTIRENAME.BTNEXTMENU.CAPTION"
@@ -3200,7 +3164,7 @@ msgstr "..."
 
 #: TFRMMULTIRENAME.BTNLOADPRESET.CAPTION
 msgid "&Load"
-msgstr "載入(&L)"
+msgstr "載入 &L"
 
 #: TFRMMULTIRENAME.BTNNAMEMENU.CAPTION
 msgctxt "TFRMMULTIRENAME.BTNNAMEMENU.CAPTION"
@@ -3209,38 +3173,37 @@ msgstr "..."
 
 #: TFRMMULTIRENAME.BTNRENAME.CAPTION
 msgid "&Rename"
-msgstr "更名(&R)"
+msgstr "重新命名 &R"
 
 #: TFRMMULTIRENAME.BTNRESTORE.CAPTION
 #, fuzzy
 #| msgid "Restore All"
 msgid "Reset all"
-msgstr "全部重設"
+msgstr "全部重置"
 
 #: TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION
 msgctxt "TFRMMULTIRENAME.BTNSAVEPRESET.CAPTION"
 msgid "&Save"
-msgstr "保存(&S)"
+msgstr "儲存 &S"
 
 #: TFRMMULTIRENAME.CBLOG.CAPTION
 #, fuzzy
 #| msgid "Log"
 msgctxt "TFRMMULTIRENAME.CBLOG.CAPTION"
 msgid "Enable"
-msgstr "記錄"
+msgstr "啟用"
 
 #: TFRMMULTIRENAME.CBREGEXP.CAPTION
 #, fuzzy
 #| msgid "&Regular expressions"
 msgctxt "TFRMMULTIRENAME.CBREGEXP.CAPTION"
 msgid "Regular e&xpressions"
-msgstr "正則表達式(&R)"
+msgstr "使用正規表示式(&X)"
 
 #: TFRMMULTIRENAME.CBUSESUBS.CAPTION
-#, fuzzy
 #| msgid "Use substitution"
 msgid "&Use substitution"
-msgstr "使用替代"
+msgstr ""
 
 #: TFRMMULTIRENAME.CMBXWIDTH.TEXT
 msgid "01"
@@ -3257,15 +3220,14 @@ msgid "1"
 msgstr "1"
 
 #: TFRMMULTIRENAME.EXTENSION.CAPTION
-#, fuzzy
 #| msgid "[E]xtension"
 msgid "[E] Extension"
-msgstr "[E]xtension"
+msgstr "[E] 副檔名"
 
 #: TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION
 msgctxt "TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION"
 msgid "MultiRename"
-msgstr "多檔案改名"
+msgstr "多檔案重新命名"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
@@ -3273,7 +3235,7 @@ msgstr "數量"
 
 #: TFRMMULTIRENAME.GBFINDREPLACE.CAPTION
 msgid "Find && Replace"
-msgstr "查找 && 替換"
+msgstr "尋找 && 替換"
 
 #: TFRMMULTIRENAME.GBLOG.CAPTION
 msgid "Log Result"
@@ -3293,26 +3255,23 @@ msgid "&Extension"
 msgstr "副檔名"
 
 #: TFRMMULTIRENAME.LBFIND.CAPTION
-#, fuzzy
 #| msgid "Find..."
 msgid "&Find..."
-msgstr "查找..."
+msgstr "尋找 &F..."
 
 #: TFRMMULTIRENAME.LBINTERVAL.CAPTION
 msgid "Interval"
 msgstr "間隔"
 
 #: TFRMMULTIRENAME.LBNAME.CAPTION
-#, fuzzy
 #| msgid "File Name"
 msgid "File &Name"
-msgstr "檔案主名"
+msgstr "檔案名稱 &N"
 
 #: TFRMMULTIRENAME.LBREPLACE.CAPTION
-#, fuzzy
 #| msgid "Replace..."
 msgid "Re&place..."
-msgstr "替換..."
+msgstr "替代 &p..."
 
 #: TFRMMULTIRENAME.LBSTNB.CAPTION
 msgid "Start Number"
@@ -3324,20 +3283,18 @@ msgid "Width"
 msgstr "寬度"
 
 #: TFRMMULTIRENAME.MICOUNTER.CAPTION
-#, fuzzy
 #| msgid "[C]ounter"
 msgid "[C] Counter"
-msgstr "[C]ounter"
+msgstr "[C] 計數器"
 
 #: TFRMMULTIRENAME.MIDAY.CAPTION
-#, fuzzy
 #| msgid "[D]ay"
 msgid "[D] Day"
-msgstr "[D]ay"
+msgstr "[D] 日"
 
 #: TFRMMULTIRENAME.MIDAY1.CAPTION
 msgid "[DD] Day (2 digits)"
-msgstr ""
+msgstr "[DD] 日 (2位數)"
 
 #: TFRMMULTIRENAME.MIDAY2.CAPTION
 msgid "[DDD] Day of the week (short, e.g., \"mon\")"
@@ -3348,46 +3305,41 @@ msgid "[DDDD] Day of the week (long, e.g., \"monday\")"
 msgstr ""
 
 #: TFRMMULTIRENAME.MIEXTENSIONX.CAPTION
-#, fuzzy
 #| msgid "[Ex]xtension"
 msgid "[Ex] Character at position x"
-msgstr "[Ex]xtension"
+msgstr ""
 
 #: TFRMMULTIRENAME.MIEXTENSIONXX.CAPTION
-#, fuzzy
 #| msgid "[Ex:x]xtension"
 msgid "[Ex:y] Characters from position x to y"
-msgstr "[Ex:x]xtension"
+msgstr ""
 
 #: TFRMMULTIRENAME.MIHOUR.CAPTION
-#, fuzzy
 #| msgid "[h]our"
 msgid "[h] Hour"
-msgstr "[H]our"
+msgstr "[h] 小時"
 
 #: TFRMMULTIRENAME.MIHOUR1.CAPTION
 msgid "[hh] Hour (2 digits)"
-msgstr ""
+msgstr "[hh] 小時 (2位數)"
 
 #: TFRMMULTIRENAME.MIMINUTE.CAPTION
-#, fuzzy
 #| msgid "Mi[n]ute"
 msgid "[n] Minute"
-msgstr "[Mi]nute"
+msgstr "[n] 分"
 
 #: TFRMMULTIRENAME.MIMINUTE1.CAPTION
 msgid "[nn] Minute (2 digits)"
-msgstr ""
+msgstr "[nn] 分 (2位數)"
 
 #: TFRMMULTIRENAME.MIMONTH.CAPTION
-#, fuzzy
 #| msgid "[M]onth"
 msgid "[M] Month"
-msgstr "[Mo]nth"
+msgstr "[M] 月"
 
 #: TFRMMULTIRENAME.MIMONTH1.CAPTION
 msgid "[MM] Month (2 digits)"
-msgstr ""
+msgstr "[MM] 月 (2位數)"
 
 #: TFRMMULTIRENAME.MIMONTH2.CAPTION
 msgid "[MMM] Month name (short, e.g., \"jan\")"
@@ -3398,22 +3350,19 @@ msgid "[MMMM] Month name (long, e.g. \"january\")"
 msgstr ""
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
-#, fuzzy
 #| msgid "[N]ame"
 msgid "[N] Name"
-msgstr "[N]ame"
+msgstr "[N] 名稱 :"
 
 #: TFRMMULTIRENAME.MINAMEX.CAPTION
-#, fuzzy
 #| msgid "[Nx]ame"
 msgid "[Nx] Character at position x"
-msgstr "[Nx]ame"
+msgstr ""
 
 #: TFRMMULTIRENAME.MINAMEXX.CAPTION
-#, fuzzy
 #| msgid "[Nx:x]ame"
 msgid "[Nx:y] Characters from position x to y"
-msgstr "[Nx:x]ame"
+msgstr ""
 
 #: TFRMMULTIRENAME.MINEXT.CAPTION
 msgid "Time..."
@@ -3428,29 +3377,28 @@ msgid "Name..."
 msgstr "名稱..."
 
 #: TFRMMULTIRENAME.MIPLUGIN.CAPTION
+#, fuzzy
 msgctxt "TFRMMULTIRENAME.MIPLUGIN.CAPTION"
 msgid "Plugin"
-msgstr ""
+msgstr "插件"
 
 #: TFRMMULTIRENAME.MISECOND.CAPTION
-#, fuzzy
 #| msgid "[s]econd"
 msgid "[s] Second"
-msgstr "[S]econd"
+msgstr "[s] 秒"
 
 #: TFRMMULTIRENAME.MISECOND1.CAPTION
 msgid "[ss] Second (2 digits)"
-msgstr ""
+msgstr "[ss] 秒 (2位數)"
 
 #: TFRMMULTIRENAME.MIYEAR.CAPTION
-#, fuzzy
 #| msgid "[Y] Year"
 msgid "[Y] Year (2 digits)"
-msgstr "[Y]ear"
+msgstr "[Y] 年 (2位數)"
 
 #: TFRMMULTIRENAME.MIYEAR1.CAPTION
 msgid "[YYYY] Year (4 digits)"
-msgstr ""
+msgstr "[YYYY] 年 (4位數)"
 
 #: TFRMMULTIRENAME.N1.CAPTION
 msgctxt "TFRMMULTIRENAME.N1.CAPTION"
@@ -3480,12 +3428,12 @@ msgstr "-"
 #: TFRMMULTIRENAME.STRINGGRID.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION
 msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
 msgid "Old File Name"
-msgstr ""
+msgstr "舊檔名"
 
 #: TFRMMULTIRENAME.STRINGGRID.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION
 msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
 msgid "New File Name"
-msgstr ""
+msgstr "新檔名"
 
 #: TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION
 msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
@@ -3515,7 +3463,7 @@ msgstr "選項"
 #: TFRMOPTIONSARCHIVERS.BTNAUTOCONFIG.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.BTNAUTOCONFIG.CAPTION"
 msgid "Auto Configure"
-msgstr ""
+msgstr "自動設置"
 
 #: TFRMOPTIONSARCHIVERS.BTNMULTIARCADD.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCADD.CAPTION"
@@ -3535,22 +3483,23 @@ msgstr "刪除"
 #: TFRMOPTIONSARCHIVERS.BTNMULTIARCRENAME.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.BTNMULTIARCRENAME.CAPTION"
 msgid "Rename"
-msgstr "改名"
+msgstr "重新命名"
 
 #: TFRMOPTIONSARCHIVERS.CHKMULTIARCDEBUG.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCDEBUG.CAPTION"
 msgid "Debug mode"
-msgstr ""
+msgstr "除錯模式"
 
 #: TFRMOPTIONSARCHIVERS.CHKMULTIARCENABLED.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCENABLED.CAPTION"
 msgid "Enabled"
-msgstr ""
+msgstr "已啟用"
 
 #: TFRMOPTIONSARCHIVERS.CHKMULTIARCOUTPUT.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCOUTPUT.CAPTION"
 msgid "Show console output"
-msgstr ""
+msgstr "顯示命令列結果"
 
 #: TFRMOPTIONSARCHIVERS.GBARCHIVEROPTIONS.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.GBARCHIVEROPTIONS.CAPTION"
@@ -3560,22 +3509,22 @@ msgstr "選項"
 #: TFRMOPTIONSARCHIVERS.LBLARCHIVEADD.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEADD.CAPTION"
 msgid "Add:"
-msgstr ""
+msgstr "新增 :"
 
 #: TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTENSION.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTENSION.CAPTION"
 msgid "Extension:"
-msgstr "副檔名："
+msgstr "副檔名:"
 
 #: TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTRACT.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVEEXTRACT.CAPTION"
 msgid "Extract:"
-msgstr ""
+msgstr "解壓縮 :"
 
 #: TFRMOPTIONSARCHIVERS.LBLARCHIVELIST.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELIST.CAPTION"
 msgid "List:"
-msgstr ""
+msgstr "清單 :"
 
 #: TFRMOPTIONSARCHIVERS.LBLARCHIVELISTEND.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTEND.CAPTION"
@@ -3585,12 +3534,12 @@ msgstr ""
 #: TFRMOPTIONSARCHIVERS.LBLARCHIVELISTFORMAT.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTFORMAT.CAPTION"
 msgid "Listing format:"
-msgstr ""
+msgstr "清單格式"
 
 #: TFRMOPTIONSARCHIVERS.LBLARCHIVELISTSTART.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVELISTSTART.CAPTION"
 msgid "Listing start (optional):"
-msgstr ""
+msgstr "清單開始 (選項) :"
 
 #: TFRMOPTIONSARCHIVERS.LBLARCHIVER.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.LBLARCHIVER.CAPTION"
@@ -3600,12 +3549,12 @@ msgstr ""
 #: TFRMOPTIONSARCHIVERS.LBLDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.LBLDESCRIPTION.CAPTION"
 msgid "Description:"
-msgstr "備註："
+msgstr "註解:"
 
 #: TFRMOPTIONSARCHIVERS.TBARCHIVERADDITIONAL.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.TBARCHIVERADDITIONAL.CAPTION"
 msgid "Additional"
-msgstr ""
+msgstr "額外"
 
 #: TFRMOPTIONSARCHIVERS.TBARCHIVERGENERAL.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.TBARCHIVERGENERAL.CAPTION"
@@ -3613,11 +3562,10 @@ msgid "General"
 msgstr "一般"
 
 #: TFRMOPTIONSAUTOREFRESH.CBWATCHATTRIBUTESCHANGE.CAPTION
-#, fuzzy
 #| msgid "Also when &size, date, or attributes change"
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHATTRIBUTESCHANGE.CAPTION"
 msgid "When &size, date or attributes change"
-msgstr "當大小,日期或其他屬性改變時(&S)"
+msgstr "當大小,日期或其他屬性改變時 &s"
 
 #: TFRMOPTIONSAUTOREFRESH.CBWATCHEXCLUDEDIRS.CAPTION
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHEXCLUDEDIRS.CAPTION"
@@ -3625,33 +3573,31 @@ msgid "For the following &paths and their subdirectories:"
 msgstr ""
 
 #: TFRMOPTIONSAUTOREFRESH.CBWATCHFILENAMECHANGE.CAPTION
-#, fuzzy
 #| msgid "Refresh when files are &created, deleted and renamed"
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHFILENAMECHANGE.CAPTION"
 msgid "When files are &created, deleted or renamed"
-msgstr "當檔案建立,刪除,重命名時刷新(&C)"
+msgstr "當檔案建立,刪除,重新命名時更新 &c"
 
 #: TFRMOPTIONSAUTOREFRESH.CBWATCHONLYFOREGROUND.CAPTION
-#, fuzzy
 #| msgid "Don't &react to updates while in the background"
 msgctxt "TFRMOPTIONSAUTOREFRESH.CBWATCHONLYFOREGROUND.CAPTION"
 msgid "When application is in the &background"
-msgstr "不對後台更新作反應"
+msgstr ""
 
 #: TFRMOPTIONSAUTOREFRESH.GBAUTOREFRESHDISABLE.CAPTION
 msgctxt "TFRMOPTIONSAUTOREFRESH.GBAUTOREFRESHDISABLE.CAPTION"
 msgid "Disable auto-refresh"
-msgstr ""
+msgstr "取消自動更新"
 
 #: TFRMOPTIONSAUTOREFRESH.GBAUTOREFRESHENABLE.CAPTION
 msgctxt "TFRMOPTIONSAUTOREFRESH.GBAUTOREFRESHENABLE.CAPTION"
 msgid "Refresh file list"
-msgstr ""
+msgstr "更新檔案清單"
 
 #: TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION
 msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
 msgid "Always show tray icon"
-msgstr "始終顯示托盤圖標"
+msgstr "始終顯示托盤圖示"
 
 #: TFRMOPTIONSBEHAVIOR.CBLISTFILESINTHREAD.CAPTION
 msgctxt "TFRMOPTIONSBEHAVIOR.CBLISTFILESINTHREAD.CAPTION"
@@ -3661,12 +3607,12 @@ msgstr ""
 #: TFRMOPTIONSBEHAVIOR.CBLOADICONSSEPARATELY.CAPTION
 msgctxt "TFRMOPTIONSBEHAVIOR.CBLOADICONSSEPARATELY.CAPTION"
 msgid "Load icons after file list"
-msgstr ""
+msgstr "在檔案清單後載入圖示"
 
 #: TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION
 msgctxt "TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION"
 msgid "Mo&ve icon to system tray when minimized"
-msgstr "最小化到系統欄圖標(&V)"
+msgstr "最小化到系統欄圖示(&V)"
 
 #: TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION
 msgctxt "TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION"
@@ -3674,19 +3620,20 @@ msgid "Allow only one copy of DC at a time"
 msgstr ""
 
 #: TFRMOPTIONSBEHAVIOR.CBSHOWSYSTEMFILES.CAPTION
-#, fuzzy
 #| msgid "Show hidden/system files"
 msgctxt "TFRMOPTIONSBEHAVIOR.CBSHOWSYSTEMFILES.CAPTION"
 msgid "Show system and hidden files"
-msgstr "顯示隱藏/系統檔案"
+msgstr "顯示系統及隱藏檔案"
 
 #: TFRMOPTIONSBEHAVIOR.EDTDRIVESBLACKLIST.HINT
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
-msgstr ""
+msgstr "這裏輸入一個或多個磁碟,以分好分隔(;)"
+
 
 #: TFRMOPTIONSBEHAVIOR.LBLDRIVESBLACKLIST.CAPTION
 msgid "Drives blacklist"
-msgstr ""
+msgstr "磁碟清單 : "
+
 
 #: TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
@@ -3706,7 +3653,7 @@ msgstr "垂直列"
 #: TFRMOPTIONSCOLUMNSVIEW.CHKAUTOFILLCOLUMNS.CAPTION
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CHKAUTOFILLCOLUMNS.CAPTION"
 msgid "Auto fill columns"
-msgstr ""
+msgstr "自動填滿欄位"
 
 #: TFRMOPTIONSCOLUMNSVIEW.GBSHOWGRID.CAPTION
 msgid "Show grid"
@@ -3719,7 +3666,7 @@ msgstr ""
 #: TFRMOPTIONSCOLUMNSVIEW.LBLAUTOSIZECOLUMN.CAPTION
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.LBLAUTOSIZECOLUMN.CAPTION"
 msgid "Auto size column:"
-msgstr ""
+msgstr "自動大小列 :"
 
 #: TFRMOPTIONSCONFIGURATION.BTNCONFIGAPPLY.CAPTION
 msgctxt "TFRMOPTIONSCONFIGURATION.BTNCONFIGAPPLY.CAPTION"
@@ -3749,27 +3696,29 @@ msgstr "檔案偽裝歷史"
 #: TFRMOPTIONSCONFIGURATION.CHKSAVECONFIGURATION.CAPTION
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSAVECONFIGURATION.CAPTION"
 msgid "Save configuration"
-msgstr ""
+msgstr "儲存設置"
 
 #: TFRMOPTIONSCONFIGURATION.CHKSEARCHREPLACEHISTORY.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSCONFIGURATION.CHKSEARCHREPLACEHISTORY.CAPTION"
 msgid "Search/Replace history"
-msgstr ""
+msgstr "清除快速連接欄曆史(&Q)"
 
 #: TFRMOPTIONSCONFIGURATION.GBLOCCONFIGFILES.CAPTION
 msgctxt "TFRMOPTIONSCONFIGURATION.GBLOCCONFIGFILES.CAPTION"
 msgid "Location of configuration files"
-msgstr "本地化配置檔案"
+msgstr "本地化設置檔案"
 
 #: TFRMOPTIONSCONFIGURATION.GBSAVEONEXIT.CAPTION
 msgctxt "TFRMOPTIONSCONFIGURATION.GBSAVEONEXIT.CAPTION"
 msgid "Save on exit"
-msgstr "保存並退出"
+msgstr "儲存並退出"
 
 #: TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSCONFIGURATION.LBLCMDLINECONFIGDIR.CAPTION"
 msgid "Set on command line"
-msgstr ""
+msgstr "顯示歷史命令"
 
 #: TFRMOPTIONSCONFIGURATION.RBPROGRAMDIR.CAPTION
 msgctxt "TFRMOPTIONSCONFIGURATION.RBPROGRAMDIR.CAPTION"
@@ -3779,7 +3728,7 @@ msgstr "程式目錄(便攜版)"
 #: TFRMOPTIONSCONFIGURATION.RBUSERHOMEDIR.CAPTION
 msgctxt "TFRMOPTIONSCONFIGURATION.RBUSERHOMEDIR.CAPTION"
 msgid "User home directory"
-msgstr "用戶主目錄"
+msgstr "使用者主目錄"
 
 #: TFRMOPTIONSCUSTOMCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION"
@@ -3799,7 +3748,7 @@ msgstr "編輯"
 #: TFRMOPTIONSCUSTOMCOLUMNS.BTNNEWCOLUMNSSET.CAPTION
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.BTNNEWCOLUMNSSET.CAPTION"
 msgid "&New"
-msgstr "新建(&N)"
+msgstr "新建 &N"
 
 #: TFRMOPTIONSCUSTOMCOLUMNS.CBBFILESYSTEM.TEXT
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.CBBFILESYSTEM.TEXT"
@@ -3809,11 +3758,11 @@ msgstr "一般"
 #: TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION
 msgctxt "TFRMOPTIONSCUSTOMCOLUMNS.LBLCONFIGCOLUMNS.CAPTION"
 msgid "Configure columns for file system:"
-msgstr "為檔案系統配置列"
+msgstr "為檔案系統設置列"
 
 #: TFRMOPTIONSDRAGDROP.CBSHOWCONFIRMATIONDIALOG.CAPTION
 msgid "Show confirmation dialog after drop"
-msgstr ""
+msgstr "拖拽操作時顯示確認對話框"
 
 #: TFRMOPTIONSFILEOPERATIONS.CBDELETETOTRASH.CAPTION
 #, fuzzy
@@ -3835,28 +3784,29 @@ msgstr ""
 #: TFRMOPTIONSFILEOPERATIONS.CBPROCESSCOMMENTS.CAPTION
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBPROCESSCOMMENTS.CAPTION"
 msgid "Process comments with files/folders"
-msgstr "檔案/檔案夾的備註一起處理"
+msgstr "檔案/檔案夾的註解一起處理"
 
 #: TFRMOPTIONSFILEOPERATIONS.CBRENAMESELONLYNAME.CAPTION
 #, fuzzy
 #| msgid "Select only the file name then renaming (not the extension)"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBRENAMESELONLYNAME.CAPTION"
 msgid "Select only the file name when renaming (not the extension)"
-msgstr "僅選擇檔案名然後改名(不包含副檔名)"
+msgstr "重新命名時僅選擇檔名(不包含副檔名)"
 
 #: TFRMOPTIONSFILEOPERATIONS.CBSAVETHUMBNAILS.CAPTION
+#, fuzzy
 msgid "Save thumbnails in cache"
-msgstr ""
+msgstr "使用「好友狀態捕捉」儲存離線訊息"
 
 #: TFRMOPTIONSFILEOPERATIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSHOWCOPYTABSELECTPANEL.CAPTION"
 msgid "Show tab select panel in copy/move dialog"
-msgstr "在複製/移動對話框中顯示標籤頁"
+msgstr "在複製/移動對話框中顯示分頁"
 
 #: TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION
 msgctxt "TFRMOPTIONSFILEOPERATIONS.CBSKIPFILEOPERROR.CAPTION"
 msgid "Skip file operations errors and write them to log window"
-msgstr "略過操作有錯誤的檔案,只是把錯誤寫到記錄窗口"
+msgstr "略過操作有錯誤的檔案,只是把錯誤寫到記錄視窗"
 
 #: TFRMOPTIONSFILEOPERATIONS.GBCOPYBUFFERSIZE.CAPTION
 msgctxt "TFRMOPTIONSFILEOPERATIONS.GBCOPYBUFFERSIZE.CAPTION"
@@ -3880,7 +3830,7 @@ msgstr "緩沖區大小(Kb):"
 
 #: TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION
 #, fuzzy
-#| msgid "Number of wipe pass"
+#| msgid "Number of wipe pass:"
 msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION"
 msgid "Number of wipe passes:"
 msgstr "擦去數:"
@@ -3926,9 +3876,10 @@ msgid ">>"
 msgstr ">>"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.CBBUSEFRAMECURSOR.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
 msgid "Use Frame Cursor"
-msgstr ""
+msgstr "光標閃爍間隔時間"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
@@ -3941,11 +3892,8 @@ msgid "Example"
 msgstr "例如"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR.CAPTION
-#, fuzzy
-#| msgid "BackGround:"
-msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR.CAPTION"
 msgid "Background:"
-msgstr "背景色:"
+msgstr ""
 
 #: TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR2.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR2.CAPTION"
@@ -3983,18 +3931,14 @@ msgid "Show square brackets around directories"
 msgstr "用括號框住目錄"
 
 #: TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION
-#, fuzzy
-#| msgid "Short Filesize format"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION"
 msgid "Short file size format"
-msgstr "短檔案尺寸格式"
+msgstr "短檔案大小格式"
 
 #: TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION
-#, fuzzy
-#| msgid "Case sensitive sorting"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION"
 msgid "Case-sensitive sorting"
-msgstr "大小寫敏感排序"
+msgstr "區分大小寫排序"
 
 #: TFRMOPTIONSFILESVIEWS.CBSORTMETHOD.TEXT
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSORTMETHOD.TEXT"
@@ -4004,16 +3948,17 @@ msgstr ""
 #: TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION"
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
-msgstr "當用<SPACEBAR> 選擇檔案後, 移動到下一個檔案 (就像執行<INSERT>)"
+msgstr "當用 <SPACEBAR> 選擇檔案後, 移動到下一個檔案 (就像執行<INSERT>)"
 
 #: TFRMOPTIONSFILESVIEWS.GBFORMATTING.CAPTION
 msgid "Formatting"
 msgstr ""
 
 #: TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION"
 msgid "Sorting"
-msgstr ""
+msgstr "正在排序"
 
 #: TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
@@ -4021,9 +3966,10 @@ msgid "Date and time format:"
 msgstr "日期時間格式:"
 
 #: TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION"
 msgid "Sort &method:"
-msgstr ""
+msgstr "X 輸入法"
 
 #: TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -4048,7 +3994,7 @@ msgstr "刪除"
 #: TFRMOPTIONSFILETYPESCOLORS.BTNSEARCHTEMPLATE.HINT
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNSEARCHTEMPLATE.HINT"
 msgid "Template..."
-msgstr "模板..."
+msgstr "範本..."
 
 #: TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION"
@@ -4108,7 +4054,7 @@ msgstr "編輯器字體"
 #: TFRMOPTIONSFONTS.LBLLOGFONT.CAPTION
 msgctxt "TFRMOPTIONSFONTS.LBLLOGFONT.CAPTION"
 msgid "Log font"
-msgstr ""
+msgstr "日誌字型"
 
 #: TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION
 msgctxt "TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION"
@@ -4116,14 +4062,15 @@ msgid "Main font"
 msgstr "主字體"
 
 #: TFRMOPTIONSFONTS.LBLVIEWERBOOKFONT.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERBOOKFONT.CAPTION"
 msgid "Viewer Book Font"
-msgstr ""
+msgstr "改變字型設定"
 
 #: TFRMOPTIONSFONTS.LBLVIEWERFONT.CAPTION
 msgctxt "TFRMOPTIONSFONTS.LBLVIEWERFONT.CAPTION"
 msgid "Viewer font"
-msgstr "查看器字體"
+msgstr "檢視器字體"
 
 #: TFRMOPTIONSHOTKEYS.BTCLEARHOTKEY.CAPTION
 msgctxt "TFRMOPTIONSHOTKEYS.BTCLEARHOTKEY.CAPTION"
@@ -4136,9 +4083,10 @@ msgid "Set HotKey"
 msgstr "設置快捷鍵"
 
 #: TFRMOPTIONSHOTKEYS.CGHKCONTROLS.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSHOTKEYS.CGHKCONTROLS.CAPTION"
 msgid "Only for these controls"
-msgstr ""
+msgstr "      --fuzzy                 等於 --only-fuzzy --clear-fuzzy"
 
 #: TFRMOPTIONSHOTKEYS.LBCOMMANDS.CAPTION
 msgctxt "TFRMOPTIONSHOTKEYS.LBCOMMANDS.CAPTION"
@@ -4161,9 +4109,10 @@ msgid "Param:"
 msgstr "參數:"
 
 #: TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
 msgid "Shortcut files:"
-msgstr ""
+msgstr "第 %d 個文件處理中(共有 %d 個)... "
 
 #: TFRMOPTIONSHOTKEYS.LBTYPES.CAPTION
 msgctxt "TFRMOPTIONSHOTKEYS.LBTYPES.CAPTION"
@@ -4171,19 +4120,22 @@ msgid "Categories:"
 msgstr "類別"
 
 #: TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
 msgid "Hotkey"
-msgstr ""
+msgstr "熱鍵"
 
 #: TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[1].TITLE.CAPTION"
 msgid "Parameters"
-msgstr ""
+msgstr "參數"
 
 #: TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[2].TITLE.CAPTION"
 msgid "Controls"
-msgstr ""
+msgstr "控制"
 
 #: TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION
 msgctxt "TFRMOPTIONSICONS.CBICONSSHOWOVERLAY.CAPTION"
@@ -4196,9 +4148,10 @@ msgid "16x16"
 msgstr "16x16"
 
 #: TFRMOPTIONSICONS.GBICONSSIZE.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSICONS.GBICONSSIZE.CAPTION"
 msgid " Icon &size "
-msgstr ""
+msgstr "圖標大小"
 
 #: TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION
 msgctxt "TFRMOPTIONSICONS.GBSHOWICONSMODE.CAPTION"
@@ -4216,19 +4169,22 @@ msgid "All associated + &EXE/LNK (slow)"
 msgstr ""
 
 #: TFRMOPTIONSICONS.RBICONSSHOWNONE.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWNONE.CAPTION"
 msgid "&No icons"
-msgstr ""
+msgstr "顯示圖標"
 
 #: TFRMOPTIONSICONS.RBICONSSHOWSTANDARD.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSICONS.RBICONSSHOWSTANDARD.CAPTION"
 msgid "&Only standard icons"
-msgstr ""
+msgstr "標准流輸出"
 
 #: TFRMOPTIONSIGNORELIST.BTNADDSEL.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSIGNORELIST.BTNADDSEL.CAPTION"
 msgid "&Add selected names"
-msgstr ""
+msgstr "將選中的文件夾添加到書簽"
 
 #: TFRMOPTIONSIGNORELIST.BTNADDSELWITHPATH.CAPTION
 msgctxt "TFRMOPTIONSIGNORELIST.BTNADDSELWITHPATH.CAPTION"
@@ -4238,12 +4194,13 @@ msgstr ""
 #: TFRMOPTIONSIGNORELIST.CHKIGNOREENABLE.CAPTION
 msgctxt "TFRMOPTIONSIGNORELIST.CHKIGNOREENABLE.CAPTION"
 msgid "&Ignore (don't show) the following files and folders:"
-msgstr ""
+msgstr "忽略(不顯示)以下檔案及資料夾 &I:"
 
 #: TFRMOPTIONSIGNORELIST.LBLSAVEIN.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSIGNORELIST.LBLSAVEIN.CAPTION"
 msgid "&Save in:"
-msgstr ""
+msgstr "保存於文件夾(_F)："
 
 #: TFRMOPTIONSKEYBOARD.CBLYNXLIKE.CAPTION
 msgid "Left, Right arrows change directory (Lynx-like movement)"
@@ -4258,17 +4215,16 @@ msgstr ""
 #| msgid "Al&t+Letters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
 msgid "Alt+Letters"
-msgstr "Alt+字母(&T)"
+msgstr "Alt"
 
 #: TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION
 #, fuzzy
 #| msgid "&Ctrl+Alt+Letters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION"
 msgid "Ctrl+Alt+Letters"
-msgstr "Ctrl+Alt+字母(&C)"
+msgstr "Alt"
 
 #: TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION
-msgctxt "TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION"
 msgid "Letters"
 msgstr ""
 
@@ -4298,9 +4254,10 @@ msgid "Show log window"
 msgstr "記錄窗"
 
 #: TFRMOPTIONSLAYOUT.CBPANELOFOPERATIONS.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSLAYOUT.CBPANELOFOPERATIONS.CAPTION"
 msgid "Show panel of operation in background"
-msgstr ""
+msgstr "檔案面板顯示柵格"
 
 #: TFRMOPTIONSLAYOUT.CBPROGINMENUBAR.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBPROGINMENUBAR.CAPTION"
@@ -4320,12 +4277,13 @@ msgstr "顯示當前目錄(&C)"
 #: TFRMOPTIONSLAYOUT.CBSHOWDISKPANEL.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDISKPANEL.CAPTION"
 msgid "Show &drive buttons"
-msgstr "顯示驅動器欄(&D)"
+msgstr "顯示磁碟欄(&D)"
 
 #: TFRMOPTIONSLAYOUT.CBSHOWDRIVEFREESPACE.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDRIVEFREESPACE.CAPTION"
 msgid "Show free space label"
-msgstr ""
+msgstr "KP_Space"
 
 #: TFRMOPTIONSLAYOUT.CBSHOWDRIVESLISTBUTTON.CAPTION
 msgid "Show d&rives list button"
@@ -4337,9 +4295,10 @@ msgid "Show &function key buttons"
 msgstr "顯示功能鍵按鈕(&F)"
 
 #: TFRMOPTIONSLAYOUT.CBSHOWMAINMENU.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINMENU.CAPTION"
 msgid "Show main menu"
-msgstr ""
+msgstr "顯示調試菜單(&S)"
 
 #: TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION"
@@ -4354,17 +4313,17 @@ msgstr "顯示狀態欄(&S)"
 #: TFRMOPTIONSLAYOUT.CBSHOWTABHEADER.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWTABHEADER.CAPTION"
 msgid "Show &tabstop header"
-msgstr "顯示標籤頁頭"
+msgstr "顯示分頁頭"
 
 #: TFRMOPTIONSLAYOUT.CBSHOWTABS.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWTABS.CAPTION"
 msgid "Sho&w folder tabs"
-msgstr "顯示檔案夾標籤頁(&W)"
+msgstr "顯示檔案夾分頁(&W)"
 
 #: TFRMOPTIONSLAYOUT.CBTERMWINDOW.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBTERMWINDOW.CAPTION"
 msgid "Show terminal window"
-msgstr "顯示終端窗口"
+msgstr "顯示命令列視窗"
 
 #: TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBTWODISKPANELS.CAPTION"
@@ -4374,7 +4333,7 @@ msgstr "顯示2個驅動按鈕欄"
 #: TFRMOPTIONSLAYOUT.GBSCREENLAYOUT.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.GBSCREENLAYOUT.CAPTION"
 msgid " Screen layout "
-msgstr "螢幕布局"
+msgstr "螢幕佈置"
 
 #: TFRMOPTIONSLOG.CBLOGARCOP.CAPTION
 msgctxt "TFRMOPTIONSLOG.CBLOGARCOP.CAPTION"
@@ -4409,7 +4368,7 @@ msgstr "建立記錄檔案(&C):"
 #: TFRMOPTIONSLOG.CBLOGINFO.CAPTION
 msgctxt "TFRMOPTIONSLOG.CBLOGINFO.CAPTION"
 msgid "Log information messages"
-msgstr "記錄信息"
+msgstr "記錄資訊"
 
 #: TFRMOPTIONSLOG.CBLOGSUCCESS.CAPTION
 msgctxt "TFRMOPTIONSLOG.CBLOGSUCCESS.CAPTION"
@@ -4443,35 +4402,41 @@ msgstr "操作狀態"
 #: TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION
 msgctxt "TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION"
 msgid "Show warning messages (\"OK\" button only)"
-msgstr "顯示所有警告信息(僅有「確定」按鈕)"
+msgstr "顯示所有警告資訊(僅有「確定」按鈕)"
 
 #: TFRMOPTIONSMOUSE.CBSELECTIONBYMOUSE.CAPTION
+msgctxt "TFRMOPTIONSMOUSE.CBSELECTIONBYMOUSE.CAPTION"
 msgid "Selection by mouse"
-msgstr ""
+msgstr "由遊標所選"
 
 #: TFRMOPTIONSMOUSE.GBSCROLLING.CAPTION
+msgctxt "TFRMOPTIONSMOUSE.GBSCROLLING.CAPTION"
 msgid "Scrolling"
-msgstr ""
+msgstr "滾動"
 
 #: TFRMOPTIONSMOUSE.GBSELECTION.CAPTION
 msgid "Selection"
 msgstr ""
 
 #: TFRMOPTIONSMOUSE.LBLMOUSEMODE.CAPTION
+msgctxt "TFRMOPTIONSMOUSE.LBLMOUSEMODE.CAPTION"
 msgid "Mode:"
-msgstr ""
+msgstr "模式:"
 
 #: TFRMOPTIONSMOUSE.RBSCROLLLINEBYLINE.CAPTION
+msgctxt "TFRMOPTIONSMOUSE.RBSCROLLLINEBYLINE.CAPTION"
 msgid "Line by line"
-msgstr ""
+msgstr "一行行"
 
 #: TFRMOPTIONSMOUSE.RBSCROLLLINEBYLINECURSOR.CAPTION
+msgctxt "TFRMOPTIONSMOUSE.RBSCROLLLINEBYLINECURSOR.CAPTION"
 msgid "Line by line with cursor movement"
-msgstr ""
+msgstr "一行行移動"
 
 #: TFRMOPTIONSMOUSE.RBSCROLLPAGEBYPAGE.CAPTION
+msgctxt "TFRMOPTIONSMOUSE.RBSCROLLPAGEBYPAGE.CAPTION"
 msgid "Page by page"
-msgstr ""
+msgstr "一頁頁"
 
 #: TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.BTNADDPLUGIN.CAPTION"
@@ -4481,12 +4446,12 @@ msgstr "增加"
 #: TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.BTNCONFIGPLUGIN.CAPTION"
 msgid "Configure"
-msgstr "配置"
+msgstr "設置"
 
 #: TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.BTNENABLEPLUGIN.CAPTION"
 msgid "Enable"
-msgstr "允許"
+msgstr "啟用"
 
 #: TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.BTNREMOVEPLUGIN.CAPTION"
@@ -4511,17 +4476,17 @@ msgstr "壓縮工具插件可以處理壓縮檔案"
 #: TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
 msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgstr "內容插件可以顯示檔案副檔名信息——像mp3 tags或圖片屬性,或者在搜索和改名工具中使用"
+msgstr "內容插件可以顯示檔案副檔名資訊——像mp3 tags或圖片屬性,或者在搜索和重新命名工具中使用"
 
 #: TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
 msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr "檔案系統插件允許訪問操作系統能訪問的磁碟或像Palm/PocketPC這樣的副檔名設備."
+msgstr "允許檔案系統插件存取及操作磁碟或像Palm/PocketPC這樣的外部設備."
 
 #: TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr "查看器插件允許查看圖片,電子表格,數據庫等格式(F3, Ctrl+Q)"
+msgstr "允許檢視器插件查看圖片,電子表格,數據庫等格式(F3, Ctrl+Q)"
 
 #: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
@@ -4531,7 +4496,7 @@ msgstr "啟動"
 #: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION"
 msgid "Plugin"
-msgstr ""
+msgstr "插件"
 
 #: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION"
@@ -4541,7 +4506,7 @@ msgstr "註冊給"
 #: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[3].TITLE.CAPTION"
 msgid "File name"
-msgstr "檔案名"
+msgstr "檔案名稱"
 
 #: TFRMOPTIONSPLUGINS.TSDSX.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
@@ -4566,7 +4531,7 @@ msgstr "檔案系統插件(.WFX)"
 #: TFRMOPTIONSPLUGINS.TSWLX.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
 msgid "Viewer plugins (.WLX)"
-msgstr "查看器插件 (.WLX)"
+msgstr "檢視器插件 (.WLX)"
 
 #: TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTBEGINNING.CAPTION
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTBEGINNING.CAPTION"
@@ -4588,7 +4553,7 @@ msgstr "選項"
 #| msgid "Exact name match:"
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.GBEXACTNAMEMATCH.CAPTION"
 msgid "Exact name match"
-msgstr "副檔名匹配(&N)"
+msgstr "匹配以下所有"
 
 #: TFRMOPTIONSQUICKSEARCHFILTER.RGPSEARCHCASE.CAPTION
 msgid "Search case"
@@ -4601,39 +4566,39 @@ msgstr ""
 #: TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION
 msgctxt "TFRMOPTIONSTABS.CBTABSACTIVATEONCLICK.CAPTION"
 msgid "Activate target &panel when clicking on one of its Tabs"
-msgstr "點擊目標面板的一個標籤頁後啟動這個目標面板"
+msgstr "點擊目標面板的一個分頁後啟動這個目標面板"
 
 #: TFRMOPTIONSTABS.CBTABSALWAYSVISIBLE.CAPTION
 msgctxt "TFRMOPTIONSTABS.CBTABSALWAYSVISIBLE.CAPTION"
 msgid "&Show tab header also when there is only one tab"
-msgstr "總是顯示標籤頁"
+msgstr "總是顯示分頁"
 
 #: TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION
 msgctxt "TFRMOPTIONSTABS.CBTABSCONFIRMCLOSEALL.CAPTION"
 msgid "&Confirm close all tabs"
-msgstr "關閉所有標籤時需確認"
+msgstr "關閉所有分頁時需確認"
 
 #: TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION
 #, fuzzy
 #| msgid "&Limit tab title length to:"
 msgctxt "TFRMOPTIONSTABS.CBTABSLIMITOPTION.CAPTION"
 msgid "&Limit tab title length to"
-msgstr "限制標籤頁標題長度為:"
+msgstr "限制分頁標題長度為:"
 
 #: TFRMOPTIONSTABS.CBTABSLOCKEDASTERISK.CAPTION
 msgctxt "TFRMOPTIONSTABS.CBTABSLOCKEDASTERISK.CAPTION"
 msgid "Show locked tabs &with an asterisk *"
-msgstr "鎖定的標籤頁顯示星號 *"
+msgstr "鎖定的分頁顯示星號 *"
 
 #: TFRMOPTIONSTABS.CBTABSMULTILINES.CAPTION
 msgctxt "TFRMOPTIONSTABS.CBTABSMULTILINES.CAPTION"
 msgid "&Tabs on multiple lines"
-msgstr "在多行上顯示標籤頁(&T)"
+msgstr "在多行上顯示分頁(&T)"
 
 #: TFRMOPTIONSTABS.CBTABSOPENFOREGROUND.CAPTION
 msgctxt "TFRMOPTIONSTABS.CBTABSOPENFOREGROUND.CAPTION"
 msgid "Ctrl+&Up opens new tab in foreground"
-msgstr "Ctrl+&Up 前台打開新標籤頁"
+msgstr "Ctrl+&Up 前台打開新分頁"
 
 #: TFRMOPTIONSTABS.CBTABSOPENNEARCURRENT.CAPTION
 msgctxt "TFRMOPTIONSTABS.CBTABSOPENNEARCURRENT.CAPTION"
@@ -4643,12 +4608,12 @@ msgstr ""
 #: TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION
 msgctxt "TFRMOPTIONSTABS.CBTABSSHOWCLOSEBUTTON.CAPTION"
 msgid "Show tab close button"
-msgstr "標籤頁顯示關閉按鈕"
+msgstr "分頁顯示關閉按鈕"
 
 #: TFRMOPTIONSTABS.GBTABS.CAPTION
 msgctxt "TFRMOPTIONSTABS.GBTABS.CAPTION"
 msgid "Folder tabs headers"
-msgstr "檔案夾標籤頁頭"
+msgstr "檔案夾分頁頭"
 
 #: TFRMOPTIONSTABS.LBLCHAR.CAPTION
 msgctxt "TFRMOPTIONSTABS.LBLCHAR.CAPTION"
@@ -4656,17 +4621,21 @@ msgid "characters"
 msgstr "字元"
 
 #: TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION
+#, fuzzy
+#| msgid "Tabs position:"
 msgctxt "TFRMOPTIONSTABS.LBLTABSPOSITION.CAPTION"
 msgid "Tabs position"
-msgstr ""
+msgstr "跳到文件位置(&O)..."
 
 #: TFRMOPTIONSTERMINAL.LBLRUNINTERM.CAPTION
+msgctxt "TFRMOPTIONSTERMINAL.LBLRUNINTERM.CAPTION"
 msgid "Run in terminal:"
-msgstr ""
+msgstr "在命令列中執行:"
 
 #: TFRMOPTIONSTERMINAL.LBLRUNTERM.CAPTION
+msgctxt "TFRMOPTIONSTERMINAL.LBLRUNTERM.CAPTION"
 msgid "Run terminal:"
-msgstr ""
+msgstr "開啟命令列:"
 
 #: TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSKEEPTERMINALOPEN.CAPTION"
@@ -4674,24 +4643,26 @@ msgid "Keep terminal window open after executing program"
 msgstr ""
 
 #: TFRMOPTIONSTOOLBASE.CBTOOLSRUNINTERMINAL.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSRUNINTERMINAL.CAPTION"
 msgid "Execute in terminal"
-msgstr ""
+msgstr "在命令列執行"
 
 #: TFRMOPTIONSTOOLBASE.CBTOOLSUSEEXTERNALPROGRAM.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSTOOLBASE.CBTOOLSUSEEXTERNALPROGRAM.CAPTION"
 msgid "Use external program"
-msgstr ""
+msgstr "使用自定義程序(&U)"
 
 #: TFRMOPTIONSTOOLBASE.LBLTOOLSPARAMETERS.CAPTION
 msgctxt "TFRMOPTIONSTOOLBASE.LBLTOOLSPARAMETERS.CAPTION"
 msgid "Additional parameters"
-msgstr ""
+msgstr "額外參數"
 
 #: TFRMOPTIONSTOOLBASE.LBLTOOLSPATH.CAPTION
 msgctxt "TFRMOPTIONSTOOLBASE.LBLTOOLSPATH.CAPTION"
 msgid "Path to program to execute"
-msgstr ""
+msgstr "執行程式的路徑"
 
 #: TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNADDFIELDS.CAPTION"
@@ -4716,7 +4687,7 @@ msgstr ">>"
 #: TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT
 msgctxt "TFRMOPTIONSTOOLTIPS.BTNFIELDSSEARCHTEMPLATE.HINT"
 msgid "Template..."
-msgstr "模板..."
+msgstr "範本..."
 
 #: TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.GBCUSTOMFIELDS.CAPTION"
@@ -4726,12 +4697,13 @@ msgstr ""
 #: TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION"
 msgid "Show tool tip"
-msgstr ""
+msgstr "顯示工具提示"
 
 #: TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
 msgid "Category hint:"
-msgstr ""
+msgstr "類型提示"
 
 #: TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION"
@@ -4749,9 +4721,10 @@ msgid "Show tool tip for all files in file panel"
 msgstr ""
 
 #: TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
 msgid "Don't show"
-msgstr ""
+msgstr "不要顯示"
 
 #: TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
@@ -4769,9 +4742,10 @@ msgid ">>"
 msgstr ">>"
 
 #: TFRMOPTIONSVIEWER.GBVIEWERBOOKMODE.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSVIEWER.GBVIEWERBOOKMODE.CAPTION"
 msgid "Viewer Book Mode"
-msgstr ""
+msgstr "固定寬度模式(&F)"
 
 #: TFRMOPTIONSVIEWER.GBVIEWEREXAMPLE.CAPTION
 msgctxt "TFRMOPTIONSVIEWER.GBVIEWEREXAMPLE.CAPTION"
@@ -4801,7 +4775,7 @@ msgstr "取消"
 #: TFRMPACKDLG.BTNCONFIG.CAPTION
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "&Configure"
-msgstr "配置(&C)"
+msgstr "設置 &C"
 
 #: TFRMPACKDLG.BTNHELP.CAPTION
 msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
@@ -4820,7 +4794,7 @@ msgstr "壓縮檔案"
 
 #: TFRMPACKDLG.CBCREATESEPARATEARCHIVES.CAPTION
 msgid "Create separate archives, o&ne per selected file/dir"
-msgstr "為選擇的每個檔案/目錄建立單獨的壓縮檔案"
+msgstr "為選擇的每個檔案/目錄建立單獨的壓縮檔案 &n"
 
 #: TFRMPACKDLG.CBCREATESFX.CAPTION
 msgid "Create self e&xtracting archive"
@@ -4928,15 +4902,14 @@ msgid "&Help"
 msgstr "幫助(&H)"
 
 #: TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION
-#, fuzzy
 #| msgid "&ОК"
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION"
 msgid "&OK"
-msgstr "確定(&O)"
+msgstr "確定 &O "
 
 #: TFRMSELECTTEXTRANGE.LBLSELECTTEXT.CAPTION
 msgid "Select the characters to insert:"
-msgstr ""
+msgstr "選鐸要插入的字元 :"
 
 #: TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.BTNCANCEL.CAPTION"
@@ -4949,9 +4922,10 @@ msgid "&OK"
 msgstr "確定(&O)"
 
 #: TFRMSETFILEPROPERTIES.CAPTION
+#, fuzzy
 msgctxt "TFRMSETFILEPROPERTIES.CAPTION"
 msgid "Change attributes"
-msgstr ""
+msgstr "變更檔案屬性"
 
 #: TFRMSETFILEPROPERTIES.CBSGID.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CBSGID.CAPTION"
@@ -4969,9 +4943,10 @@ msgid "SUID"
 msgstr "SUID"
 
 #: TFRMSETFILEPROPERTIES.CHKARCHIVE.CAPTION
+#, fuzzy
 msgctxt "TFRMSETFILEPROPERTIES.CHKARCHIVE.CAPTION"
 msgid "Archive"
-msgstr ""
+msgstr "縮壓"
 
 #: TFRMSETFILEPROPERTIES.CHKCREATIONTIME.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.CHKCREATIONTIME.CAPTION"
@@ -4979,31 +4954,35 @@ msgid "Created:"
 msgstr "建立日期:"
 
 #: TFRMSETFILEPROPERTIES.CHKHIDDEN.CAPTION
+#, fuzzy
 msgctxt "TFRMSETFILEPROPERTIES.CHKHIDDEN.CAPTION"
 msgid "Hidden"
-msgstr ""
+msgstr "隱藏"
 
 #: TFRMSETFILEPROPERTIES.CHKLASTACCESSTIME.CAPTION
 msgid "Accessed:"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.CHKLASTWRITETIME.CAPTION
+#, fuzzy
 msgid "Modified:"
-msgstr ""
+msgstr "修改日期"
 
 #: TFRMSETFILEPROPERTIES.CHKREADONLY.CAPTION
+#, fuzzy
 msgctxt "TFRMSETFILEPROPERTIES.CHKREADONLY.CAPTION"
 msgid "Read only"
-msgstr ""
+msgstr "唯讀"
 
 #: TFRMSETFILEPROPERTIES.CHKRECURSIVE.CAPTION
 msgid "Including subfolders"
 msgstr ""
 
 #: TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION
+#, fuzzy
 msgctxt "TFRMSETFILEPROPERTIES.CHKSYSTEM.CAPTION"
 msgid "System"
-msgstr ""
+msgstr "系統"
 
 #: TFRMSETFILEPROPERTIES.GBTIMESAMP.CAPTION
 msgid "Timestamp properties"
@@ -5027,7 +5006,7 @@ msgstr "Bits:"
 #: TFRMSETFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.LBLATTRGROUPSTR.CAPTION"
 msgid "Group"
-msgstr "組"
+msgstr "群組"
 
 #: TFRMSETFILEPROPERTIES.LBLATTRINFO.CAPTION
 msgid "(gray field means unchanged value)"
@@ -5041,7 +5020,7 @@ msgstr "其他"
 #: TFRMSETFILEPROPERTIES.LBLATTROWNERSTR.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.LBLATTROWNERSTR.CAPTION"
 msgid "Owner"
-msgstr "所有者"
+msgstr "擁有者"
 
 #: TFRMSETFILEPROPERTIES.LBLATTRTEXT.CAPTION
 msgctxt "TFRMSETFILEPROPERTIES.LBLATTRTEXT.CAPTION"
@@ -5078,7 +5057,7 @@ msgstr "寫"
 #| msgid "Exit"
 msgctxt "TFRMSPLITTER.BTNCANCEL.CAPTION"
 msgid "Cancel"
-msgstr "退出"
+msgstr "取消"
 
 #: TFRMSPLITTER.BTNFTCHOICE.CAPTION
 msgctxt "TFRMSPLITTER.BTNFTCHOICE.CAPTION"
@@ -5102,13 +5081,12 @@ msgstr "1457664B - 3.5\""
 #: TFRMSPLITTER.GRBXFILE.CAPTION
 msgctxt "TFRMSPLITTER.GRBXFILE.CAPTION"
 msgid "File name"
-msgstr "檔案名"
+msgstr "檔案名稱"
 
 #: TFRMSPLITTER.GRBXSIZE.CAPTION
-#, fuzzy
 #| msgid "File size"
 msgid "Size and number of parts"
-msgstr "檔案大小"
+msgstr ""
 
 #: TFRMSPLITTER.LBDIRTARGET.CAPTION
 msgid "Directory target"
@@ -5148,13 +5126,11 @@ msgid "&OK"
 msgstr "確定(&O)"
 
 #: TFRMSYMLINK.CAPTION
-#, fuzzy
 #| msgid "Create symlink"
 msgid "Create symbolic link"
-msgstr "建立符號捷徑"
+msgstr "建立連接符號"
 
 #: TFRMSYMLINK.LBLEXISTINGFILE.CAPTION
-#, fuzzy
 #| msgid "Existing destination (where will link point)"
 msgctxt "TFRMSYMLINK.LBLEXISTINGFILE.CAPTION"
 msgid "Destination that the link will point to"
@@ -5211,7 +5187,7 @@ msgstr "支持加密"
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_HIDE.CAPTION
 msgid "Show as normal files (hide packer icon)"
-msgstr "顯示為普通檔案(隱藏 packer 圖標)"
+msgstr "顯示為普通檔案(隱藏 packer 圖示)"
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_MEMPACK.CAPTION
 msgid "Supports packing in memory"
@@ -5240,16 +5216,16 @@ msgstr "允許在壓縮檔中搜索文字"
 #: TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.LBLDESCRIPTION.CAPTION"
 msgid "Description:"
-msgstr "備註："
+msgstr "註解:"
 
 #: TFRMTWEAKPLUGIN.LBLDETECTSTR.CAPTION
 msgid "Detect string:"
-msgstr "檢測字元串："
+msgstr "檢測字元串:"
 
 #: TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.LBLEXTENSION.CAPTION"
 msgid "Extension:"
-msgstr "副檔名："
+msgstr "副檔名:"
 
 #: TFRMTWEAKPLUGIN.LBLFLAGS.CAPTION
 msgid "Flags:"
@@ -5263,12 +5239,12 @@ msgstr "名稱:"
 #: TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION"
 msgid "Plugin:"
-msgstr "插件："
+msgstr "插件:"
 
 #: TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "Plugin:"
-msgstr "插件："
+msgstr "插件:"
 
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
@@ -5291,8 +5267,9 @@ msgid "Copy"
 msgstr "複製"
 
 #: TFRMVIEWER.BTNCUTTUIMAGE.HINT
+#, fuzzy
 msgid "Crop"
-msgstr ""
+msgstr "裁剪"
 
 #: TFRMVIEWER.BTNDELETEFILE.HINT
 msgctxt "TFRMVIEWER.BTNDELETEFILE.HINT"
@@ -5307,7 +5284,7 @@ msgstr "刪除"
 #: TFRMVIEWER.BTNFULLSCREEN.HINT
 msgctxt "TFRMVIEWER.BTNFULLSCREEN.HINT"
 msgid "Full Screen"
-msgstr ""
+msgstr "全螢幕"
 
 #: TFRMVIEWER.BTNGIFMOVE.CAPTION
 msgctxt "TFRMVIEWER.BTNGIFMOVE.CAPTION"
@@ -5319,14 +5296,15 @@ msgid "S"
 msgstr ""
 
 #: TFRMVIEWER.BTNHIGHTLIGHT.HINT
+#, fuzzy
 msgctxt "TFRMVIEWER.BTNHIGHTLIGHT.HINT"
 msgid "Highlight"
-msgstr ""
+msgstr "突出顯示匹配項"
 
 #: TFRMVIEWER.BTNMIRROR.HINT
 msgctxt "TFRMVIEWER.BTNMIRROR.HINT"
 msgid "Mirror"
-msgstr ""
+msgstr "鏡像"
 
 #: TFRMVIEWER.BTNMOVEFILE.HINT
 msgctxt "TFRMVIEWER.BTNMOVEFILE.HINT"
@@ -5341,12 +5319,12 @@ msgstr "移動"
 #: TFRMVIEWER.BTNNEXT.HINT
 msgctxt "TFRMVIEWER.BTNNEXT.HINT"
 msgid "Next"
-msgstr ""
+msgstr "下一個"
 
 #: TFRMVIEWER.BTNNEXT1.HINT
 msgctxt "TFRMVIEWER.BTNNEXT1.HINT"
 msgid "Next"
-msgstr ""
+msgstr "下一個"
 
 #: TFRMVIEWER.BTNNEXTGIFFRAME.CAPTION
 msgid "||>"
@@ -5355,17 +5333,19 @@ msgstr ""
 #: TFRMVIEWER.BTNPAINT.HINT
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
-msgstr ""
+msgstr "畫圖"
 
 #: TFRMVIEWER.BTNPREV.HINT
+#, fuzzy
 msgctxt "TFRMVIEWER.BTNPREV.HINT"
 msgid "Previous"
-msgstr ""
+msgstr "上一項"
 
 #: TFRMVIEWER.BTNPREV1.HINT
+#, fuzzy
 msgctxt "TFRMVIEWER.BTNPREV1.HINT"
 msgid "Previous"
-msgstr ""
+msgstr "上一項"
 
 #: TFRMVIEWER.BTNPREVGIFFRAME.CAPTION
 msgid "<||"
@@ -5373,41 +5353,41 @@ msgstr ""
 
 #: TFRMVIEWER.BTNREDEYE.HINT
 msgid "Red Eyes"
-msgstr ""
+msgstr "紅眼"
 
 #: TFRMVIEWER.BTNRELOAD.HINT
 msgctxt "TFRMVIEWER.BTNRELOAD.HINT"
 msgid "Reload"
-msgstr ""
+msgstr "重新載入"
 
 #: TFRMVIEWER.BTNRELOAD1.HINT
 msgctxt "TFRMVIEWER.BTNRELOAD1.HINT"
 msgid "Reload"
-msgstr ""
+msgstr "重新載入"
 
 #: TFRMVIEWER.BTNRESIZE.HINT
 msgid "Resize"
-msgstr ""
+msgstr "重新定義大小"
 
 #: TFRMVIEWER.BTNUNDO.HINT
 msgctxt "TFRMVIEWER.BTNUNDO.HINT"
 msgid "Undo"
-msgstr "撤銷"
+msgstr "回復"
 
 #: TFRMVIEWER.BTNZOOMIN.HINT
 msgctxt "TFRMVIEWER.BTNZOOMIN.HINT"
 msgid "Zoom In"
-msgstr ""
+msgstr "放大"
 
 #: TFRMVIEWER.BTNZOOMOUT.HINT
 msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
 msgid "Zoom Out"
-msgstr ""
+msgstr "縮小"
 
 #: TFRMVIEWER.CAPTION
 msgctxt "TFRMVIEWER.CAPTION"
 msgid "Viewer"
-msgstr "查看器"
+msgstr "檢視器"
 
 #: TFRMVIEWER.CBSLIDESHOW.CAPTION
 msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
@@ -5424,14 +5404,15 @@ msgid "1"
 msgstr "1"
 
 #: TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION
+#, fuzzy
 msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
 msgid "Highlight"
-msgstr ""
+msgstr "語法高亮"
 
 #: TFRMVIEWER.GBOXPAINT.CAPTION
 msgctxt "TFRMVIEWER.GBOXPAINT.CAPTION"
 msgid "Paint"
-msgstr ""
+msgstr "畫圖"
 
 #: TFRMVIEWER.GBOXSLIDESHOW.CAPTION
 msgctxt "TFRMVIEWER.GBOXSLIDESHOW.CAPTION"
@@ -5468,7 +5449,7 @@ msgstr "關於"
 
 #: TFRMVIEWER.MIABOUT2.CAPTION
 msgid "About Viewer..."
-msgstr "關於查看器"
+msgstr "關於檢視器"
 
 #: TFRMVIEWER.MIBIN.CAPTION
 msgid "Show as &Bin"
@@ -5527,7 +5508,7 @@ msgstr "檔案(&F)"
 #: TFRMVIEWER.MIFULLSCREEN.CAPTION
 msgctxt "TFRMVIEWER.MIFULLSCREEN.CAPTION"
 msgid "Full Screen"
-msgstr ""
+msgstr "全螢幕"
 
 #: TFRMVIEWER.MIGRAPHICS.CAPTION
 msgid "Graphics"
@@ -5542,13 +5523,14 @@ msgid "&Image"
 msgstr "圖片(&I)"
 
 #: TFRMVIEWER.MILOOKBOOK.CAPTION
+#, fuzzy
 msgid "Show as B&ook"
-msgstr ""
+msgstr "顯示為文字"
 
 #: TFRMVIEWER.MIMIRROR.CAPTION
 msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
 msgid "Mirror"
-msgstr ""
+msgstr "鏡像"
 
 #: TFRMVIEWER.MINEXT.CAPTION
 msgid "&Next"
@@ -5570,20 +5552,21 @@ msgstr "預覽"
 
 #: TFRMVIEWER.MIPRINT.CAPTION
 msgid "Print..."
-msgstr ""
+msgstr "列印..."
 
 #: TFRMVIEWER.MIROTATE.CAPTION
+#, fuzzy
 msgid "Rotate"
-msgstr ""
+msgstr "旋轉"
 
 #: TFRMVIEWER.MISAVE.CAPTION
 msgctxt "TFRMVIEWER.MISAVE.CAPTION"
 msgid "Save"
-msgstr ""
+msgstr "儲存"
 
 #: TFRMVIEWER.MISAVEAS.CAPTION
 msgid "Save As..."
-msgstr ""
+msgstr "另存為..."
 
 #: TFRMVIEWER.MISCREENSHOT.CAPTION
 msgid "Screenshot"
@@ -5600,7 +5583,7 @@ msgstr "搜索下一個"
 
 #: TFRMVIEWER.MISEARCHPREV.CAPTION
 msgid "Search prev"
-msgstr ""
+msgstr "搜索上一個"
 
 #: TFRMVIEWER.MISELECTALL.CAPTION
 msgctxt "TFRMVIEWER.MISELECTALL.CAPTION"
@@ -5632,12 +5615,12 @@ msgstr "顯示為換行文字"
 #: TFRMVIEWER.MIZOOMIN.CAPTION
 msgctxt "TFRMVIEWER.MIZOOMIN.CAPTION"
 msgid "Zoom In"
-msgstr ""
+msgstr "放大"
 
 #: TFRMVIEWER.MIZOOMOUT.CAPTION
 msgctxt "TFRMVIEWER.MIZOOMOUT.CAPTION"
 msgid "Zoom Out"
-msgstr ""
+msgstr "縮小"
 
 #: TFRMVIEWER.PMICOPY.CAPTION
 msgctxt "TFRMVIEWER.PMICOPY.CAPTION"
@@ -5656,17 +5639,17 @@ msgstr "取消"
 
 #: TFRMVIEWOPERATIONS.BTNALLINQUEUE.CAPTION
 msgid "Queue In"
-msgstr ""
+msgstr "放大"
 
 #: TFRMVIEWOPERATIONS.BTNALLPAUSE.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNALLPAUSE.CAPTION"
 msgid "Pause"
-msgstr ""
+msgstr "暫停"
 
 #: TFRMVIEWOPERATIONS.BTNALLSTART.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNALLSTART.CAPTION"
 msgid "Start"
-msgstr ""
+msgstr "開始"
 
 #: TFRMVIEWOPERATIONS.BTNCANCELCUROP.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNCANCELCUROP.CAPTION"
@@ -5676,7 +5659,7 @@ msgstr "取消"
 #: TFRMVIEWOPERATIONS.BTNCUROPQUEUEINOUT.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNCUROPQUEUEINOUT.CAPTION"
 msgid "In"
-msgstr ""
+msgstr "放大"
 
 #: TFRMVIEWOPERATIONS.BTNDNCUROP.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNDNCUROP.CAPTION"
@@ -5686,21 +5669,21 @@ msgstr "下"
 #: TFRMVIEWOPERATIONS.BTNRUNALLPAUSE.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLPAUSE.CAPTION"
 msgid "Pause"
-msgstr ""
+msgstr "暫停"
 
 #: TFRMVIEWOPERATIONS.BTNRUNALLSTART.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNRUNALLSTART.CAPTION"
 msgid "Start"
-msgstr ""
+msgstr "開始"
 
 #: TFRMVIEWOPERATIONS.BTNSTARTPAUSECUROP.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNSTARTPAUSECUROP.CAPTION"
 msgid "Start"
-msgstr ""
+msgstr "開始"
 
 #: TFRMVIEWOPERATIONS.BTNSTARTQUEUE.CAPTION
 msgid "Start queue"
-msgstr ""
+msgstr "開始佇列"
 
 #: TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.BTNUPCUROP.CAPTION"
@@ -5714,19 +5697,20 @@ msgstr "檔案操作"
 
 #: TFRMVIEWOPERATIONS.CHKQUEUE.CAPTION
 msgid "Enable queue"
-msgstr ""
+msgstr "啟用佇列"
 
 #: TFRMVIEWOPERATIONS.GRPALLOPERATION.CAPTION
 msgid "Operations control"
-msgstr ""
+msgstr "操作控制"
 
 #: TFRMVIEWOPERATIONS.LBLALL.CAPTION
 msgid "for all"
 msgstr ""
 
 #: TFRMVIEWOPERATIONS.LBLALLPROGRESS.CAPTION
+#, fuzzy
 msgid "Progress"
-msgstr ""
+msgstr "進度"
 
 #: TFRMVIEWOPERATIONS.LBLCOUNT.CAPTION
 msgctxt "TFRMVIEWOPERATIONS.LBLCOUNT.CAPTION"
@@ -5735,24 +5719,25 @@ msgstr "0"
 
 #: TFRMVIEWOPERATIONS.LBLCURRENTOPERATION.CAPTION
 msgid "Current operation"
-msgstr ""
+msgstr "目前的操作"
 
 #: TFRMVIEWOPERATIONS.LBLOPERATIONSCOUNT.CAPTION
 msgid "Active operations:"
-msgstr ""
+msgstr "操作啟動"
 
 #: TFRMVIEWOPERATIONS.LBLQUEUE.CAPTION
 msgid "Queue:"
-msgstr ""
+msgstr "佇列 :"
 
 #: TFRMVIEWOPERATIONS.LBLRUNNING.CAPTION
 msgid "for running"
-msgstr ""
+msgstr "執行時"
 
 #: TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION
+#, fuzzy
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
 msgid "When file exists"
-msgstr ""
+msgstr "當檔案存在時"
 
 #: ulng.rscancelfilter
 msgid "Cancel Quick Filter"
@@ -5764,12 +5749,13 @@ msgstr ""
 
 #: ulng.rscfgtoolbaraddbutton
 msgid "&Add button to end"
-msgstr ""
+msgstr "在最後加入新按鈕"
 
 #: ulng.rscfgtoolbarinsertbutton
+#, fuzzy
 msgctxt "ulng.rscfgtoolbarinsertbutton"
 msgid "&Insert new button"
-msgstr ""
+msgstr "插入新按鈕 &I"
 
 #: ulng.rscolattr
 msgid "Attr"
@@ -5807,7 +5793,7 @@ msgstr "標題"
 
 #: ulng.rsconfcolconfig
 msgid "Config"
-msgstr "配置"
+msgstr "設置"
 
 #: ulng.rsconfcoldelete
 msgctxt "ulng.rsconfcoldelete"
@@ -5830,11 +5816,11 @@ msgstr "寬度"
 
 #: ulng.rsconfcustheader
 msgid "Customize column"
-msgstr "自定義列"
+msgstr "自行定義列"
 
 #: ulng.rscopynametemplate
 msgid "Copy (%d) %s"
-msgstr ""
+msgstr "複製 (%d)  %s"
 
 #: ulng.rsdlgallopcomplete
 msgid "All operations is complete"
@@ -5846,15 +5832,15 @@ msgstr ""
 
 #: ulng.rsdlgbuttonabort
 msgid "Ab&ort"
-msgstr ""
+msgstr "放棄(&o)"
 
 #: ulng.rsdlgbuttonall
 msgid "A&ll"
-msgstr "全部"
+msgstr "全部(&l)"
 
 #: ulng.rsdlgbuttonappend
 msgid "A&ppend"
-msgstr "增加(&A)"
+msgstr "增加(&p)"
 
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"
@@ -5863,7 +5849,7 @@ msgstr "取消(&C)"
 
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
-msgstr ""
+msgstr "複製到 &I"
 
 #: ulng.rsdlgbuttonno
 msgid "&No"
@@ -5871,7 +5857,7 @@ msgstr "否(&N)"
 
 #: ulng.rsdlgbuttonnone
 msgid "Non&e"
-msgstr "無(&N)"
+msgstr "無(&e)"
 
 #: ulng.rsdlgbuttonok
 msgctxt "ulng.rsdlgbuttonok"
@@ -5904,11 +5890,11 @@ msgstr "是(&Y)"
 
 #: ulng.rsdlgcalcstatistics
 msgid "Calculate files and folders"
-msgstr ""
+msgstr "計算全部檔案及目錄"
 
 #: ulng.rsdlgcalculating
 msgid "Calculating"
-msgstr ""
+msgstr "計算中"
 
 #: ulng.rsdlgchecksumcalc
 msgctxt "ulng.rsdlgchecksumcalc"
@@ -5935,7 +5921,7 @@ msgstr "刪除檔案"
 
 #: ulng.rsdlgdeleting
 msgid "Deleting"
-msgstr ""
+msgstr "刪除中"
 
 #: ulng.rsdlgextract
 msgid "Extracting..."
@@ -5952,12 +5938,12 @@ msgstr ""
 #: ulng.rsdlgoppause
 msgctxt "ulng.rsdlgoppause"
 msgid "Pause"
-msgstr ""
+msgstr "暫停"
 
 #: ulng.rsdlgopstart
 msgctxt "ulng.rsdlgopstart"
 msgid "Start"
-msgstr ""
+msgstr "開始"
 
 #: ulng.rsdlgpack
 msgid "Packing..."
@@ -5966,7 +5952,7 @@ msgstr "壓縮..."
 #: ulng.rsdlgqueuein
 msgctxt "ulng.rsdlgqueuein"
 msgid "In"
-msgstr ""
+msgstr "放大"
 
 #: ulng.rsdlgqueueout
 msgid "Out"
@@ -5974,28 +5960,26 @@ msgstr ""
 
 #: ulng.rsdlgspeed
 msgid "Speed %s/s"
-msgstr ""
+msgstr "速度 %s/s"
 
 #: ulng.rsdlgspeedtime
-#, fuzzy
 #| msgid "Speed %s/s, remaining time %s"
 msgid "Speed %s/s, time remaining %s"
-msgstr "速度 %s/秒, 剩餘時間 %s"
+msgstr "速度 %s/s, 剩餘時間 %s"
 
 #: ulng.rsdlgsplit
-#, fuzzy
 #| msgid "Split file"
 msgctxt "ulng.rsdlgsplit"
 msgid "Split"
-msgstr "分割檔案"
+msgstr "分割"
 
 #: ulng.rsdlgtest
 msgid "Testing..."
-msgstr ""
+msgstr "測試..."
 
 #: ulng.rsdlgunknownoperation
 msgid "Unknown operation"
-msgstr ""
+msgstr "未知操作"
 
 #: ulng.rsdlgwipe
 msgid "Wipe file(s)"
@@ -6011,7 +5995,7 @@ msgstr ""
 
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
-msgstr "Double Commander內部編輯器。"
+msgstr "Double Commander 內部編輯器。"
 
 #: ulng.rseditnewfile
 msgid "new.txt"
@@ -6019,7 +6003,7 @@ msgstr "new.txt"
 
 #: ulng.rseditnewfilename
 msgid "Filename:"
-msgstr "檔案名:"
+msgstr "檔案名稱:"
 
 #: ulng.rseditnewopen
 msgid "Open file"
@@ -6027,7 +6011,7 @@ msgstr "打開檔案"
 
 #: ulng.rseditsearchback
 msgid "&Backward"
-msgstr "後退(&B)"
+msgstr "下一個(&B)"
 
 #: ulng.rseditsearchcaption
 msgctxt "ulng.rseditsearchcaption"
@@ -6036,7 +6020,7 @@ msgstr "搜索"
 
 #: ulng.rseditsearchfrw
 msgid "&Forward"
-msgstr "往前(&F)"
+msgstr "前一個(&F)"
 
 #: ulng.rseditsearchreplace
 msgid "Replace"
@@ -6048,15 +6032,15 @@ msgstr ""
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
-msgstr ""
+msgstr "定義範本"
 
 #: ulng.rsfinddepth
 msgid "%s level(s)"
-msgstr "%s級"
+msgstr "%s 級"
 
 #: ulng.rsfinddepthall
 msgid "all (unlimited depth)"
-msgstr "所有(不限深度)"
+msgstr "所有(不限層次)"
 
 #: ulng.rsfinddepthcurdir
 msgid "current dir only"
@@ -6072,11 +6056,11 @@ msgstr "找到: %d"
 
 #: ulng.rsfindsavetemplatecaption
 msgid "Save search template"
-msgstr "保存搜索模板"
+msgstr "儲存搜索範本"
 
 #: ulng.rsfindsavetemplatetitle
 msgid "Template name:"
-msgstr "模板名:"
+msgstr "範本名:"
 
 #: ulng.rsfindscanned
 msgid "Scanned: %d"
@@ -6089,7 +6073,7 @@ msgstr "掃描"
 #: ulng.rsfindsearchfiles
 msgctxt "ulng.rsfindsearchfiles"
 msgid "Find files"
-msgstr "查找檔案"
+msgstr "尋找檔案"
 
 #: ulng.rsfindwherebeg
 msgid "Begin at"
@@ -6101,11 +6085,11 @@ msgstr "可用 %s 總容量 %s bytes"
 
 #: ulng.rsfreemsgshort
 msgid "%s bytes free"
-msgstr ""
+msgstr "%s bytes 可用"
 
 #: ulng.rsfuncatime
 msgid "Access date/time"
-msgstr ""
+msgstr "存取日期/時間"
 
 #: ulng.rsfuncattr
 msgctxt "ulng.rsfuncattr"
@@ -6114,28 +6098,29 @@ msgstr "屬性"
 
 #: ulng.rsfunccomment
 msgid "Comment"
-msgstr ""
+msgstr "解註"
 
 #: ulng.rsfuncctime
 msgid "Creation date/time"
-msgstr ""
+msgstr "建立日期/時間"
 
 #: ulng.rsfuncext
 msgid "Extension"
-msgstr ""
+msgstr "延伸檔名"
 
 #: ulng.rsfuncgroup
 msgctxt "ulng.rsfuncgroup"
 msgid "Group"
-msgstr "組"
+msgstr "群組"
 
 #: ulng.rsfunclinkto
 msgid "Link to"
 msgstr ""
 
 #: ulng.rsfuncmtime
+#, fuzzy
 msgid "Modification date/time"
-msgstr ""
+msgstr "日期/時間格式"
 
 #: ulng.rsfuncname
 msgctxt "ulng.rsfuncname"
@@ -6144,12 +6129,12 @@ msgstr "名稱"
 
 #: ulng.rsfuncnamenoext
 msgid "Name without extension"
-msgstr ""
+msgstr "檔名不含延伸檔名"
 
 #: ulng.rsfuncowner
 msgctxt "ulng.rsfuncowner"
 msgid "Owner"
-msgstr "所有者"
+msgstr "擁有者"
 
 #: ulng.rsfuncpath
 msgctxt "ulng.rsfuncpath"
@@ -6163,7 +6148,7 @@ msgstr "大小"
 
 #: ulng.rsfunctype
 msgid "Type"
-msgstr ""
+msgstr "類型"
 
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
@@ -6187,11 +6172,11 @@ msgstr "輸入偽裝"
 
 #: ulng.rsmenuconfigurecustomcolumns
 msgid "Configure custom columns"
-msgstr "配置自定義列"
+msgstr "設置自行定義列"
 
 #: ulng.rsmenuconfigurethiscustomcolumn
 msgid "Configure this custom columns view"
-msgstr "配置這個自定義列檢視"
+msgstr "設置這個自行定義列檢視"
 
 #: ulng.rsmnuactions
 msgctxt "ulng.rsmnuactions"
@@ -6212,26 +6197,26 @@ msgid "Mount"
 msgstr "解掛"
 
 #: ulng.rsmnunew
+#, fuzzy
 msgid "New"
-msgstr ""
+msgstr "新增"
 
 #: ulng.rsmnunomedia
 msgid "No media available"
-msgstr ""
+msgstr "沒有可用的媒體"
 
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
-msgstr ""
+msgstr "打開..."
 
 #: ulng.rsmnusortby
 msgid "Sort by"
-msgstr ""
+msgstr "依...排序"
 
 #: ulng.rsmnuumount
-#, fuzzy
 #| msgid "Umount"
 msgid "Unmount"
-msgstr "掛載"
+msgstr "卸載"
 
 #: ulng.rsmnuview
 msgctxt "ulng.rsmnuview"
@@ -6240,7 +6225,7 @@ msgstr "檢視"
 
 #: ulng.rsmsgaccount
 msgid "Account:"
-msgstr ""
+msgstr "帳號 :"
 
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
@@ -6248,7 +6233,7 @@ msgstr ""
 
 #: ulng.rsmsgcannotcopymoveitself
 msgid "You can not copy/move a file \"%s\" to itself!"
-msgstr ""
+msgstr "你不能複製/移動 \"%s\" 檔案給自己"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -6256,27 +6241,27 @@ msgstr "無法轉到目錄 [%s]!"
 
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
-msgstr "移除所有非活動標籤嗎?"
+msgstr "關閉所有非作用中分頁嗎?"
 
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
-msgstr "這個標籤頁 (%s) 已鎖定! 仍要關閉嗎?"
+msgstr "這個分頁 (%s) 已鎖定! 仍要關閉嗎?"
 
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
-msgstr ""
+msgstr "你確定要退出？"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
-msgstr "複製 %d 選中的檔案/目錄嗎?"
+msgstr "複製 %d 被選擇的檔案/目錄嗎?"
 
 #: ulng.rsmsgcpsel
 msgid "Copy selected \"%s\"?"
-msgstr "複製選中的 \"%s\" 嗎?"
+msgstr "複製所選的 \"%s\" 嗎?"
 
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
-msgstr "刪除 %d 選中的檔案/目錄嗎?"
+msgstr "刪除 %d 所選的檔案/目錄嗎?"
 
 #: ulng.rsmsgdelfldrt
 msgid "Delete %d selected files/directories into trash can?"
@@ -6284,7 +6269,7 @@ msgstr "刪除選擇的 %d 個檔案/目錄到垃圾筒嗎?"
 
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"%s\"?"
-msgstr "刪除選中的 \"%s\"?"
+msgstr "刪除所選的 \"%s\"?"
 
 #: ulng.rsmsgdelselt
 msgid "Delete selected \"%s\" into trash can?"
@@ -6292,7 +6277,7 @@ msgstr "刪除選擇的\"%s\"到垃圾筒嗎?"
 
 #: ulng.rsmsgdeltotrashforce
 msgid "Can not delete \"%s\" to trash! Delete directly?"
-msgstr ""
+msgstr "不能移到 \"%s\" 垃圾筒！直接刪除嗎？"
 
 #: ulng.rsmsgdisknotavail
 msgid "Disk is not available"
@@ -6316,15 +6301,15 @@ msgstr "數據損壞"
 
 #: ulng.rsmsgerrcannotconnect
 msgid "Can not connect to server: \"%s\""
-msgstr ""
+msgstr "不能連接到伺服器: \"%s\" "
 
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
-msgstr ""
+msgstr "不能複製檔案 %s 到 %s"
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
-msgstr ""
+msgstr "日期 %s 不被支援"
 
 #: ulng.rsmsgerrdirexists
 msgid "Directory %s exists!"
@@ -6332,7 +6317,7 @@ msgstr "目錄 %s 已存在!"
 
 #: ulng.rsmsgerreaborted
 msgid "Function aborted by user"
-msgstr "用戶中止執行"
+msgstr "使用者中止執行"
 
 #: ulng.rsmsgerreclose
 msgid "Error closing file"
@@ -6364,7 +6349,7 @@ msgstr "不能建立目錄 %s!"
 
 #: ulng.rsmsgerrinvalidlink
 msgid "Invalid link"
-msgstr ""
+msgstr "無效連接"
 
 #: ulng.rsmsgerrnofiles
 msgid "No files found"
@@ -6388,15 +6373,15 @@ msgstr "不能重命名檔案 %s 為 %s"
 
 #: ulng.rsmsgerrsavefile
 msgid "Cannot save file"
-msgstr ""
+msgstr "不能儲存檔案"
 
 #: ulng.rsmsgerrsetattribute
 msgid "Can not set attributes for \"%s\""
-msgstr ""
+msgstr "不能對 \"%s\" 設定屬性"
 
 #: ulng.rsmsgerrsetdatetime
 msgid "Can not set date/time for \"%s\""
-msgstr ""
+msgstr "不能對 \"%s\" 設定日期及時間"
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
@@ -6412,7 +6397,7 @@ msgstr "位置的壓縮格式"
 
 #: ulng.rsmsgfilechangedsave
 msgid "File %s changed, save?"
-msgstr "檔案 %s 已修改, 是否保存?"
+msgstr "檔案 %s 已修改, 是否儲存?"
 
 #: ulng.rsmsgfileexistsrwrt
 msgid "File %s exists, overwrite?"
@@ -6420,7 +6405,7 @@ msgstr "檔案 %s 已存在, 是否覆蓋?"
 
 #: ulng.rsmsgfileoperationsactive
 msgid "File operations active"
-msgstr ""
+msgstr "檔案操作啟動"
 
 #: ulng.rsmsgfileoperationsactivelong
 msgid "Some file operations have not yet finished. Closing Double Commander may result in data loss."
@@ -6428,11 +6413,11 @@ msgstr ""
 
 #: ulng.rsmsgfilereadonly
 msgid "File %s is marked as read-only. Delete it?"
-msgstr ""
+msgstr "被標示 %s 檔案為唯讀。刪除嗎？"
 
 #: ulng.rsmsgfilesizetoobig
 msgid "The file size of \"%s\" is too big for destination file system!"
-msgstr ""
+msgstr "目標檔案系統的 \"%s\" 檔案太大"
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
@@ -6444,7 +6429,7 @@ msgstr "允許符號捷徑\"%s\"嗎?"
 
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
-msgstr "無效的檔案名"
+msgstr "無效的檔案名稱"
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
@@ -6452,7 +6437,7 @@ msgstr "無效的選擇."
 
 #: ulng.rsmsgloadingfilelist
 msgid "Loading file list..."
-msgstr ""
+msgstr "載入檔案清單..."
 
 #: ulng.rsmsglogcopy
 msgid "Copy file %s"
@@ -6472,7 +6457,7 @@ msgstr "解開檔案 %s"
 
 #: ulng.rsmsgloginfo
 msgid "Info: "
-msgstr "信息:"
+msgstr "資訊:"
 
 #: ulng.rsmsgloglink
 msgid "Create link %s"
@@ -6492,7 +6477,7 @@ msgstr "壓縮到 %s"
 
 #: ulng.rsmsglogrmdir
 msgid "Remove directory %s"
-msgstr "移除目錄 %s"
+msgstr "關閉目錄 %s"
 
 #: ulng.rsmsglogsuccess
 msgid "Done: "
@@ -6520,11 +6505,11 @@ msgstr "輸入名稱和路徑(格式名稱=路徑)"
 
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
-msgstr ""
+msgstr "主要密碼"
 
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
-msgstr ""
+msgstr "請輸入主要密碼:"
 
 #: ulng.rsmsgnewfile
 msgid "New file"
@@ -6556,28 +6541,28 @@ msgstr "未實現."
 
 #: ulng.rsmsgpassword
 msgid "Password:"
-msgstr ""
+msgstr "密碼:"
 
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
-msgstr ""
+msgstr "請輸入密碼"
 
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
-msgstr ""
+msgstr "密碼 (Firewall):"
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
-msgstr "增加(&A) %s"
+msgstr "增加 &A %s"
 
 #: ulng.rsmsgpopuphotcnf
 msgctxt "ulng.rsmsgpopuphotcnf"
 msgid "&Configure"
-msgstr "配置(&C)"
+msgstr "設置 &C"
 
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"
-msgstr "刪除(&D) %s"
+msgstr "刪除 &D %s"
 
 #: ulng.rsmsgpresetalreadyexists
 msgid "Preset \"%s\" already exists. Overwrite?"
@@ -6585,19 +6570,19 @@ msgstr "預設 \"%s\" 已存在. 是否覆蓋?"
 
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
-msgstr "重命名/移動 %d 選中的檔案/目錄嗎?"
+msgstr "重新命名/移動 %d 所選的檔案/目錄嗎?"
 
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"%s\"?"
-msgstr "重命名/移動選中的 \"%s\" 嗎?"
+msgstr "重新命名/移動所選的 \"%s\" 嗎?"
 
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
-msgstr "請重啟Double Commander,使修改生效"
+msgstr "請重新啟動 Double Commander ，使修改生效"
 
 #: ulng.rsmsgselected
 msgid "Selected %s of %s in %d of %d files"
-msgstr "選中 %s 總大小 %s, 選中 %d 總檔案數 %d files"
+msgstr "所選 %s 總大小 %s, 所選 %d 總檔案數 %d files"
 
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only check sum files!"
@@ -6613,31 +6598,32 @@ msgstr "設置卷標"
 
 #: ulng.rsmsgtabrenamecaption
 msgid "Rename tab"
-msgstr ""
+msgstr "重新命名分頁"
 
 #: ulng.rsmsgtabrenameprompt
 msgid "New tab name:"
-msgstr ""
+msgstr "新分頁名稱:"
 
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
-msgstr ""
+msgstr "目標路徑:"
 
 #: ulng.rsmsgtoomanyfilesselected
 msgid "Too many files selected."
 msgstr "選擇了太多檔案."
 
 #: ulng.rsmsgurl
+#, fuzzy
 msgid "URL:"
-msgstr ""
+msgstr "URL"
 
 #: ulng.rsmsgusername
 msgid "User name:"
-msgstr ""
+msgstr "使用者名稱:"
 
 #: ulng.rsmsgusernamefirewall
 msgid "User name (Firewall):"
-msgstr ""
+msgstr "使用者名稱 (Firewall)"
 
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
@@ -6645,7 +6631,7 @@ msgstr "卷標:"
 
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
-msgstr ""
+msgstr "請輸入卷的大小"
 
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
@@ -6653,7 +6639,7 @@ msgstr "消除選擇的 %d 個檔案/目錄?"
 
 #: ulng.rsmsgwipesel
 msgid "Wipe selected \"%s\"?"
-msgstr "消除選中的 \"%s\"嗎?"
+msgstr "消除所選的 \"%s\"嗎?"
 
 #: ulng.rsmulrenfilenamestylelist
 #, fuzzy
@@ -6663,85 +6649,85 @@ msgstr "不修改;大寫;小寫;首字大寫;"
 
 #: ulng.rsoperaborted
 msgid "Aborted"
-msgstr ""
+msgstr "放棄"
 
 #: ulng.rsoperautostart
 msgid "Auto-started"
-msgstr ""
+msgstr "自動開始"
 
 #: ulng.rsoperfinished
 msgid "Finished"
-msgstr ""
+msgstr "已結束"
 
 #: ulng.rsopermanualstart
 msgid "Manually started"
-msgstr ""
+msgstr "手動開始"
 
 #: ulng.rsopernotstarted
 msgid "Not started"
-msgstr ""
+msgstr "沒有開始"
 
 #: ulng.rsoperpaused
 msgid "Paused"
-msgstr ""
+msgstr "暫停"
 
 #: ulng.rsoperpausing
 msgid "Pausing"
-msgstr ""
+msgstr "暫停中"
 
 #: ulng.rsoperqueue
 msgid "Queued"
-msgstr ""
+msgstr "佇列中"
 
 #: ulng.rsoperrunning
 msgid "Running"
-msgstr ""
+msgstr "執行中"
 
 #: ulng.rsoperstarting
 msgid "Starting"
-msgstr ""
+msgstr "開始中"
 
 #: ulng.rsoperstartstateautostart
 msgctxt "ulng.rsoperstartstateautostart"
 msgid "Start"
-msgstr ""
+msgstr "開始"
 
 #: ulng.rsoperstartstatemanualstart
 msgid "Manual start"
-msgstr ""
+msgstr "手動開始"
 
 #: ulng.rsoperstartstatequeuefirst
 msgid "Queue as first"
-msgstr ""
+msgstr "第一個佇列"
 
 #: ulng.rsoperstartstatequeuelast
 msgid "Queue as last"
-msgstr ""
+msgstr "最後一個佇列"
 
 #: ulng.rsoperstopped
 msgid "Stopped"
-msgstr ""
+msgstr "停止"
 
 #: ulng.rsoperstopping
 msgid "Stopping"
-msgstr ""
+msgstr "停止中"
 
 #: ulng.rsoperwaitingforconnection
 msgid "Waiting for access to file source"
-msgstr ""
+msgstr "等待存取原始檔"
 
 #: ulng.rsoperwaitingforfeedback
 msgid "Waiting for user response"
-msgstr ""
+msgstr "等待使用者回應"
 
 #: ulng.rsoptarchivedelete
 msgctxt "ulng.rsoptarchivedelete"
 msgid "Delete:"
-msgstr ""
+msgstr "刪除:"
 
 #: ulng.rsoptarchiveextractwithoutpath
 msgid "Extract without path:"
-msgstr ""
+msgstr "不含路徑的解壓縮"
 
 #: ulng.rsoptarchiveformmode
 msgid "Format parsing mode:"
@@ -6755,7 +6741,7 @@ msgstr ""
 #: ulng.rsoptarchiveidpos
 msgctxt "ulng.rsoptarchiveidpos"
 msgid "ID Position:"
-msgstr ""
+msgstr "ID 位置 :"
 
 #: ulng.rsoptarchiveidseekrange
 msgctxt "ulng.rsoptarchiveidseekrange"
@@ -6764,29 +6750,30 @@ msgstr ""
 
 #: ulng.rsoptarchiveparam
 msgid "Parameter"
-msgstr ""
+msgstr "參數"
 
 #: ulng.rsoptarchivepasswordquery
 msgid "Password query string:"
-msgstr ""
+msgstr "密碼詢問字串 :"
 
 #: ulng.rsoptarchiveselfextract
 msgctxt "ulng.rsoptarchiveselfextract"
 msgid "Create self extracting archive:"
-msgstr ""
+msgstr "建立自解壓檔案 :"
 
 #: ulng.rsoptarchivetest
 msgctxt "ulng.rsoptarchivetest"
 msgid "Test:"
-msgstr ""
+msgstr "測試 :"
 
 #: ulng.rsoptarchivetypename
 msgid "Archive type name:"
-msgstr ""
+msgstr "壓縮類型名稱 :"
 
 #: ulng.rsoptarchivevalue
+#, fuzzy
 msgid "Value"
-msgstr ""
+msgstr "值"
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
@@ -6794,16 +6781,16 @@ msgstr " \"%s\" 相關插件:"
 
 #: ulng.rsoptautosizecolumn
 msgid "First;Last;"
-msgstr ""
+msgstr "第一個;最後一個;"
 
 #: ulng.rsoptdisable
 msgid "Disable"
-msgstr "禁止"
+msgstr "停用"
 
 #: ulng.rsoptenable
 msgctxt "ulng.rsoptenable"
 msgid "Enable"
-msgstr "允許"
+msgstr "啟用"
 
 #: ulng.rsoptenterext
 msgid "Enter extension"
@@ -6811,7 +6798,7 @@ msgstr "輸入副檔名"
 
 #: ulng.rsoptexamplecursor
 msgid "Cursor"
-msgstr ""
+msgstr "閃爍遊標"
 
 #: ulng.rsoptexamplemark
 msgid "Mark"
@@ -6819,7 +6806,7 @@ msgstr "標記"
 
 #: ulng.rsoptexamplemarkcursor
 msgid "Mark + Cursor"
-msgstr ""
+msgstr "反白 + 閃爍遊標"
 
 #: ulng.rsoptexampletext
 msgid "Text"
@@ -6827,37 +6814,38 @@ msgstr "文字"
 
 #: ulng.rsopthotkeyscommands
 msgid "Commands"
-msgstr ""
+msgstr "命令列"
 
 #: ulng.rsopthotkeyscomments
+#, fuzzy
 msgid "Comments"
-msgstr ""
+msgstr "註解"
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"
 msgid "Hotkey"
-msgstr ""
+msgstr "快速鍵"
 
 #: ulng.rsopthotkeyshotkeys
 msgid "Hotkeys"
-msgstr ""
+msgstr "快速鍵"
 
 #: ulng.rsopthotkeysparameters
 msgctxt "ulng.rsopthotkeysparameters"
 msgid "Parameters"
-msgstr ""
+msgstr "參數"
 
 #: ulng.rsopthotkeysshortcutused
 msgid "Shortcut in use"
-msgstr ""
+msgstr "快捷鏈使用中"
 
 #: ulng.rsopthotkeysshortcutusedtext1
 msgid "Shortcut %s is already used."
-msgstr ""
+msgstr "快捷鏈 %s 已被使用"
 
 #: ulng.rsopthotkeysshortcutusedtext2
 msgid "Change it to %s?"
-msgstr ""
+msgstr "把它改成 %s?"
 
 #: ulng.rsopthotkeysusedby
 msgid "used for %s in %s"
@@ -6866,12 +6854,12 @@ msgstr ""
 #: ulng.rsoptionseditorarchivers
 msgctxt "ulng.rsoptionseditorarchivers"
 msgid "Archivers"
-msgstr ""
+msgstr "壓縮工具"
 
 #: ulng.rsoptionseditorautorefresh
 msgctxt "ulng.rsoptionseditorautorefresh"
 msgid "Auto refresh"
-msgstr "自動刷新"
+msgstr "自動更新"
 
 #: ulng.rsoptionseditorbehavior
 msgctxt "ulng.rsoptionseditorbehavior"
@@ -6891,7 +6879,7 @@ msgstr "列"
 #: ulng.rsoptionseditorconfiguration
 msgctxt "ulng.rsoptionseditorconfiguration"
 msgid "Configuration"
-msgstr "配置"
+msgstr "設置"
 
 #: ulng.rsoptionseditorcustomcolumns
 msgid "Custom columns"
@@ -6937,17 +6925,17 @@ msgstr "字體"
 #: ulng.rsoptionseditorhotkeys
 msgctxt "ulng.rsoptionseditorhotkeys"
 msgid "Hot keys"
-msgstr "快捷鍵"
+msgstr "快速鍵"
 
 #: ulng.rsoptionseditoricons
 msgctxt "ulng.rsoptionseditoricons"
 msgid "Icons"
-msgstr ""
+msgstr "圖示"
 
 #: ulng.rsoptionseditorignorelist
 msgctxt "ulng.rsoptionseditorignorelist"
 msgid "Ignore list"
-msgstr ""
+msgstr "忽略清單"
 
 #: ulng.rsoptionseditorkeyboard
 msgid "Keys"
@@ -6961,7 +6949,7 @@ msgstr "語言"
 #: ulng.rsoptionseditorlayout
 msgctxt "ulng.rsoptionseditorlayout"
 msgid "Layout"
-msgstr "布局"
+msgstr "佈置"
 
 #: ulng.rsoptionseditorlog
 msgctxt "ulng.rsoptionseditorlog"
@@ -6983,11 +6971,10 @@ msgid "Plugins"
 msgstr "插件"
 
 #: ulng.rsoptionseditorquicksearch
-#, fuzzy
 #| msgid "Quick search"
 msgctxt "ulng.rsoptionseditorquicksearch"
 msgid "Quick search/filter"
-msgstr "快速搜索"
+msgstr "快速尋找/篩選"
 
 #: ulng.rsoptionseditorterminal
 msgid "Terminal"
@@ -7001,7 +6988,7 @@ msgstr "工具欄"
 #: ulng.rsoptionseditortooltips
 msgctxt "ulng.rsoptionseditortooltips"
 msgid "Tooltips"
-msgstr ""
+msgstr "提示工具"
 
 #: ulng.rsoptmouseselectionbutton
 msgid "Left button;Right button;"
@@ -7009,7 +6996,7 @@ msgstr "左按鈕;右按鈕;"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
-msgstr ""
+msgstr "插件 %s 已分配給以下副檔名："
 
 #: ulng.rsoptpluginsactive
 msgctxt "ulng.rsoptpluginsactive"
@@ -7019,12 +7006,12 @@ msgstr "啟動"
 #: ulng.rsoptpluginsfilename
 msgctxt "ulng.rsoptpluginsfilename"
 msgid "File name"
-msgstr "檔案名"
+msgstr "檔案名稱"
 
 #: ulng.rsoptpluginsname
 msgctxt "ulng.rsoptpluginsname"
 msgid "Name"
-msgstr "名稱"
+msgstr "檔案名稱"
 
 #: ulng.rsoptpluginsregisteredfor
 msgctxt "ulng.rsoptpluginsregisteredfor"
@@ -7037,15 +7024,15 @@ msgstr ""
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
-msgstr ""
+msgstr "上;下;"
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
-msgstr ""
+msgstr "\"%s\" 不能改變存取權利"
 
 #: ulng.rspropserrchown
 msgid "Can not change owner for \"%s\""
-msgstr ""
+msgstr "\"%s\" 不能改變擁有者"
 
 #: ulng.rspropsfile
 msgctxt "ulng.rspropsfile"
@@ -7071,7 +7058,7 @@ msgstr "Socket"
 
 #: ulng.rspropsspblkdev
 msgid "Special block device"
-msgstr "特殊塊設備"
+msgstr "特殊設備"
 
 #: ulng.rspropsspchrdev
 msgid "Special character device"
@@ -7090,8 +7077,9 @@ msgid "Yes (%s)"
 msgstr "是 (%s)"
 
 #: ulng.rssearchresult
+#, fuzzy
 msgid "Search result"
-msgstr ""
+msgstr "記錄結果"
 
 #: ulng.rsselectdir
 msgid "Select a directory"
@@ -7142,7 +7130,7 @@ msgstr ""
 
 #: ulng.rssplitseldir
 msgid "Select directory:"
-msgstr "選中的目錄:"
+msgstr "選擇的目錄:"
 
 #: ulng.rssymerrcreate
 msgid "Error creating symlink."
@@ -7155,27 +7143,27 @@ msgstr "天"
 
 #: ulng.rstimeunithour
 msgid "Hour(s)"
-msgstr ""
+msgstr "小時"
 
 #: ulng.rstimeunitminute
 msgid "Minute(s)"
-msgstr ""
+msgstr "分"
 
 #: ulng.rstimeunitmonth
 msgid "Month(s)"
-msgstr ""
+msgstr "月"
 
 #: ulng.rstimeunitsecond
 msgid "Second(s)"
-msgstr ""
+msgstr "秒"
 
 #: ulng.rstimeunitweek
 msgid "Week(s)"
-msgstr ""
+msgstr "週"
 
 #: ulng.rstimeunityear
 msgid "Year(s)"
-msgstr ""
+msgstr "年"
 
 #: ulng.rstooldiffer
 msgid "Differ"
@@ -7189,7 +7177,7 @@ msgstr "編輯器"
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
 msgid "Viewer"
-msgstr "查看器"
+msgstr "檢視器"
 
 #: ulng.rsunhandledexceptionmessage
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
@@ -7198,18 +7186,18 @@ msgstr ""
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
-msgstr ""
+msgstr "網路"
 
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
-msgstr "Double Commander查看器"
+msgstr "Double Commander 檢視器"
 
 #: ulng.rsviewencoding
 msgctxt "ulng.rsviewencoding"
 msgid "Encoding"
-msgstr ""
+msgstr "編碼中"
 
 #: ulng.rsviewnotfound
 msgid "%s not found!"
-msgstr ""
+msgstr "%s 沒有找到"
 

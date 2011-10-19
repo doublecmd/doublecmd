@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.9.27 beta\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-07-21 14:44+0800\n"
+"PO-Revision-Date: 2011-10-17 14:44+0800\n"
 "Last-Translator: Lance <l381@ms5.hinet.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "無法找到 HTML 瀏覽器"
 
 #: lclstrconsts.hhshelpnohtmlbrowserfoundpleasedefineoneinhelpconfigurehe
 msgid "No HTML Browser found.%sPlease define one in Help -> Configure Help -> Viewers"
-msgstr "沒有找到 HTML 瀏覽器。%s請在 幫助-> 配置幫助 -> 檢視器 中定義一個"
+msgstr "沒有找到 HTML 瀏覽器。%s請在 幫助-> 設置幫助 -> 檢視器 中定義一個"
 
 #: lclstrconsts.hhshelpthehelpdatabasewasunabletofindfile
 msgid "The help database %s%s%s was unable to find file %s%s%s."
@@ -88,7 +88,7 @@ msgstr "刪除"
 
 #: lclstrconsts.ifsvk_down
 msgid "Down"
-msgstr ""
+msgstr "下"
 
 #: lclstrconsts.ifsvk_end
 msgid "End"
@@ -121,7 +121,7 @@ msgstr ""
 #: lclstrconsts.ifsvk_insert
 msgctxt "lclstrconsts.ifsvk_insert"
 msgid "Insert"
-msgstr ""
+msgstr "插入"
 
 #: lclstrconsts.ifsvk_junja
 msgid "Junja"
@@ -159,7 +159,7 @@ msgstr "模式更改"
 #: lclstrconsts.ifsvk_next
 msgctxt "lclstrconsts.ifsvk_next"
 msgid "Next"
-msgstr ""
+msgstr "下一個"
 
 #: lclstrconsts.ifsvk_nonconvert
 msgid "Nonconvert"
@@ -184,7 +184,7 @@ msgstr "列印"
 #: lclstrconsts.ifsvk_prior
 msgctxt "lclstrconsts.ifsvk_prior"
 msgid "Prior"
-msgstr ""
+msgstr "優先"
 
 #: lclstrconsts.ifsvk_rbutton
 msgid "Mouse Button Right"
@@ -249,7 +249,7 @@ msgstr "3D光線"
 
 #: lclstrconsts.rsacontrolcannothaveitselfasparent
 msgid "A control can't have itself as parent"
-msgstr "控制不能把自己設為父節點"
+msgstr "控制點不能把自己設為父節點"
 
 #: lclstrconsts.rsactivebordercolorcaption
 msgid "Active Border"
@@ -265,7 +265,7 @@ msgstr "所有檔案 (%s)|%s|%s"
 
 #: lclstrconsts.rsappworkspacecolorcaption
 msgid "Application Workspace"
-msgstr "引用程式工作區"
+msgstr "程式工作區"
 
 #: lclstrconsts.rsaquacolorcaption
 msgid "Aqua"
@@ -285,7 +285,7 @@ msgstr "黑白位圖"
 
 #: lclstrconsts.rsblackcolorcaption
 msgid "Black"
-msgstr "黑"
+msgstr "黑色"
 
 #: lclstrconsts.rsblank
 msgid "Blank"
@@ -293,7 +293,7 @@ msgstr "空白"
 
 #: lclstrconsts.rsbluecolorcaption
 msgid "Blue"
-msgstr "藍"
+msgstr "藍色"
 
 #: lclstrconsts.rsbtnfacecolorcaption
 msgid "Button Face"
@@ -313,7 +313,7 @@ msgstr "按鈕文字"
 
 #: lclstrconsts.rscalculator
 msgid "Calculator"
-msgstr "計算器"
+msgstr "計算機"
 
 #: lclstrconsts.rscancelrecordhint
 msgctxt "lclstrconsts.rscancelrecordhint"
@@ -358,7 +358,7 @@ msgstr "預設值"
 
 #: lclstrconsts.rsdefaultfileinfovalue
 msgid "permissions user group size date time"
-msgstr "權限 用戶 組 大小 日期 時間"
+msgstr "權限 用戶 群組 大小 日期 時間"
 
 #: lclstrconsts.rsdeleterecord
 msgid "Delete record?"
@@ -375,7 +375,7 @@ msgstr "方向"
 
 #: lclstrconsts.rsdirectory
 msgid "&Directory"
-msgstr "目錄(&D)"
+msgstr "目錄 &D"
 
 #: lclstrconsts.rsdocking
 msgid "Docking"
@@ -383,7 +383,7 @@ msgstr "停靠"
 
 #: lclstrconsts.rsduplicateiconformat
 msgid "Duplicate icon format."
-msgstr "同樣的圖標格式."
+msgstr "同樣的圖示格式."
 
 #: lclstrconsts.rseditrecordhint
 msgid "Edit"
@@ -484,15 +484,15 @@ msgstr "檔案資訊"
 
 #: lclstrconsts.rsfind
 msgid "Find"
-msgstr "查找"
+msgstr "尋找"
 
 #: lclstrconsts.rsfindmore
 msgid "Find more"
-msgstr "查找更多"
+msgstr "尋找更多"
 
 #: lclstrconsts.rsfirstrecordhint
 msgid "First"
-msgstr ""
+msgstr "第一個"
 
 #: lclstrconsts.rsfixedcolstoobig
 msgid "FixedCols can't be >= ColCount"
@@ -504,11 +504,11 @@ msgstr "FixedRows 不能 >= RowCount"
 
 #: lclstrconsts.rsformcolorcaption
 msgid "Form"
-msgstr "窗體"
+msgstr ""
 
 #: lclstrconsts.rsformstreamingerror
 msgid "Form streaming \"%s\" error: %s"
-msgstr "窗體流 \"%s\" 錯誤: %s"
+msgstr ""
 
 #: lclstrconsts.rsforward
 msgid "Forward"
@@ -540,7 +540,7 @@ msgstr "非作用中標題顏色漸變"
 
 #: lclstrconsts.rsgraycolorcaption
 msgid "Gray"
-msgstr "灰"
+msgstr "灰色"
 
 #: lclstrconsts.rsgraytextcolorcaption
 msgid "Gray Text"
@@ -548,7 +548,7 @@ msgstr "灰色文字"
 
 #: lclstrconsts.rsgreencolorcaption
 msgid "Green"
-msgstr "綠"
+msgstr "綠色"
 
 #: lclstrconsts.rsgridfiledoesnotexists
 msgid "Grid file doesn't exists"
@@ -696,35 +696,35 @@ msgstr ""
 
 #: lclstrconsts.rsicns
 msgid "OSX Icon Resource"
-msgstr "OSX 圖標資源"
+msgstr "OSX 圖示資源"
 
 #: lclstrconsts.rsicon
 msgid "Icon"
-msgstr "圖標"
+msgstr "圖示"
 
 #: lclstrconsts.rsiconimageempty
 msgid "Icon image cannot be empty"
-msgstr "圖標圖像不能為空"
+msgstr "圖示圖像不能為空"
 
 #: lclstrconsts.rsiconimageformat
 msgid "Icon image must have the same format"
-msgstr "圖標圖像必須有相同的格式"
+msgstr "圖示圖像必須有相同的格式"
 
 #: lclstrconsts.rsiconimageformatchange
 msgid "Cannot change format of icon image"
-msgstr "不能改變圖標圖像的格式"
+msgstr "不能改變圖示圖像的格式"
 
 #: lclstrconsts.rsiconimagesize
 msgid "Icon image must have the same size"
-msgstr "圖標圖像必須有同樣的大小"
+msgstr "圖示圖像必須有同樣的大小"
 
 #: lclstrconsts.rsiconimagesizechange
 msgid "Cannot change size of icon image"
-msgstr "不能改變圖標圖像的大小"
+msgstr "不能改變圖示圖像的大小"
 
 #: lclstrconsts.rsiconnocurrent
 msgid "Icon has no current image"
-msgstr "圖標有不正確的圖像"
+msgstr "圖示有不正確的圖像"
 
 #: lclstrconsts.rsinactivebordercolorcaption
 msgid "Inactive Border"
@@ -750,11 +750,11 @@ msgstr "單元格索引超過範圍[列=%d 行=%d]"
 
 #: lclstrconsts.rsinfobkcolorcaption
 msgid "Info Background"
-msgstr "info底色"
+msgstr "資訊底色"
 
 #: lclstrconsts.rsinfotextcolorcaption
 msgid "Info Text"
-msgstr "info文字"
+msgstr "資訊文字"
 
 #: lclstrconsts.rsinsertrecordhint
 msgctxt "lclstrconsts.rsinsertrecordhint"
@@ -807,7 +807,7 @@ msgstr "列表必須為空"
 
 #: lclstrconsts.rsmarooncolorcaption
 msgid "Maroon"
-msgstr "栗"
+msgstr ""
 
 #: lclstrconsts.rsmbabort
 msgid "Abort"
@@ -815,7 +815,7 @@ msgstr "中止"
 
 #: lclstrconsts.rsmball
 msgid "&All"
-msgstr "所有(&A)"
+msgstr "所有 &A"
 
 #: lclstrconsts.rsmbcancel
 msgctxt "lclstrconsts.rsmbcancel"
@@ -824,19 +824,19 @@ msgstr "取消"
 
 #: lclstrconsts.rsmbclose
 msgid "&Close"
-msgstr "關閉(&C)"
+msgstr "關閉 &C"
 
 #: lclstrconsts.rsmbhelp
 msgid "&Help"
-msgstr "幫助(&H)"
+msgstr "幫助 &H"
 
 #: lclstrconsts.rsmbignore
 msgid "&Ignore"
-msgstr "忽略(&I)"
+msgstr "忽略 &I"
 
 #: lclstrconsts.rsmbno
 msgid "&No"
-msgstr "否(&N)"
+msgstr "否 &N"
 
 #: lclstrconsts.rsmbnotoall
 msgid "No to all"
@@ -844,39 +844,39 @@ msgstr "全部選否"
 
 #: lclstrconsts.rsmbok
 msgid "&OK"
-msgstr "確定(&O)"
+msgstr "確定 &O"
 
 #: lclstrconsts.rsmbopen
 msgid "&Open"
-msgstr ""
+msgstr "打開 &O"
 
 #: lclstrconsts.rsmbretry
 msgid "&Retry"
-msgstr "重試(&R)"
+msgstr "重試 &R"
 
 #: lclstrconsts.rsmbsave
 msgid "&Save"
-msgstr ""
+msgstr "儲存 &S"
 
 #: lclstrconsts.rsmbunlock
 msgid "&Unlock"
-msgstr ""
+msgstr "解開/不鎖定 &U"
 
 #: lclstrconsts.rsmbyes
 msgid "&Yes"
-msgstr "是(&Y)"
+msgstr "是 &Y"
 
 #: lclstrconsts.rsmbyestoall
 msgid "Yes to &All"
-msgstr "全部選是(&A)"
+msgstr "全部選是 &A"
 
 #: lclstrconsts.rsmedgraycolorcaption
 msgid "Medium Gray"
-msgstr "中灰"
+msgstr "中灰色"
 
 #: lclstrconsts.rsmenubarcolorcaption
 msgid "Menu Bar"
-msgstr "目錄條"
+msgstr "目錄欄"
 
 #: lclstrconsts.rsmenucolorcaption
 msgctxt "lclstrconsts.rsmenucolorcaption"
@@ -897,7 +897,7 @@ msgstr "已更改"
 
 #: lclstrconsts.rsmoneygreencolorcaption
 msgid "Money Green"
-msgstr "錢青"
+msgstr "錢青色"
 
 #: lclstrconsts.rsmtauthentication
 msgid "Authentication"
@@ -926,7 +926,7 @@ msgstr "警告"
 
 #: lclstrconsts.rsnavycolorcaption
 msgid "Navy"
-msgstr "深藍"
+msgstr "深藍色"
 
 #: lclstrconsts.rsnextrecordhint
 msgctxt "lclstrconsts.rsnextrecordhint"
@@ -947,7 +947,7 @@ msgstr "沒有視窗部件集合對象，請檢查單元 \"interfaces\" 是否�
 
 #: lclstrconsts.rsolivecolorcaption
 msgid "Olive"
-msgstr "橄欖"
+msgstr "橄欖色"
 
 #: lclstrconsts.rspickdate
 msgid "Select a date"
@@ -975,7 +975,7 @@ msgstr "便攜位圖"
 
 #: lclstrconsts.rspostrecordhint
 msgid "Post"
-msgstr "提交"
+msgstr "張貼"
 
 #: lclstrconsts.rspressoktoignoreandriskdatacorruptionpresscanceltok
 #, fuzzy
@@ -994,7 +994,7 @@ msgstr "屬性 %s 不存在"
 
 #: lclstrconsts.rspurplecolorcaption
 msgid "Purple"
-msgstr "紫"
+msgstr "紫色"
 
 #: lclstrconsts.rsrasterimageendupdate
 msgid "Endupdate while no update in progress"
@@ -1010,7 +1010,7 @@ msgstr ""
 
 #: lclstrconsts.rsredcolorcaption
 msgid "Red"
-msgstr "紅"
+msgstr "紅色"
 
 #: lclstrconsts.rsrefreshrecordshint
 msgid "Refresh"
@@ -1031,11 +1031,11 @@ msgstr "未找到資源 %s"
 
 #: lclstrconsts.rsscrollbarcolorcaption
 msgid "ScrollBar"
-msgstr "滾動條"
+msgstr "滾動欄"
 
 #: lclstrconsts.rsscrollbaroutofrange
 msgid "ScrollBar property out of range"
-msgstr "滾動條屬性超出範圍"
+msgstr "滾動欄屬性超出範圍"
 
 #: lclstrconsts.rsselectcolortitle
 msgid "Select color"
@@ -1047,7 +1047,7 @@ msgstr "選擇字體"
 
 #: lclstrconsts.rssilvercolorcaption
 msgid "Silver"
-msgstr "銀"
+msgstr "銀色"
 
 #: lclstrconsts.rssize
 msgid "  size "
@@ -1055,11 +1055,11 @@ msgstr "大小"
 
 #: lclstrconsts.rsskybluecolorcaption
 msgid "Sky Blue"
-msgstr "天藍"
+msgstr "天藍色"
 
 #: lclstrconsts.rstealcolorcaption
 msgid "Teal"
-msgstr "青"
+msgstr "青色"
 
 #: lclstrconsts.rstext
 msgid "Text"
@@ -1079,11 +1079,11 @@ msgstr "未知圖形檔案副檔名"
 
 #: lclstrconsts.rsunsupportedbitmapformat
 msgid "Unsupported bitmap format."
-msgstr "未支持的位圖格式"
+msgstr "未支援的圖檔格式"
 
 #: lclstrconsts.rsunsupportedclipboardformat
 msgid "Unsupported clipboard format: %s"
-msgstr "未支持的剪貼板格式: %s"
+msgstr "未支援的剪貼格式: %s"
 
 #: lclstrconsts.rswarningunreleaseddcsdump
 msgid " WARNING: There are %d unreleased DCs, a detailed dump follows:"
@@ -1107,7 +1107,7 @@ msgstr ""
 
 #: lclstrconsts.rswhitecolorcaption
 msgid "White"
-msgstr "白"
+msgstr "白色"
 
 #: lclstrconsts.rswholewordsonly
 msgid "Whole words only"
@@ -1135,7 +1135,7 @@ msgstr "視窗文字"
 
 #: lclstrconsts.rsyellowcolorcaption
 msgid "Yellow"
-msgstr "黃"
+msgstr "黃色"
 
 #: lclstrconsts.scannotfocus
 msgid "Cannot focus a disabled or invisible window"
@@ -1147,7 +1147,7 @@ msgstr "重複的目錄"
 
 #: lclstrconsts.sinvalidactioncreation
 msgid "Invalid action creation"
-msgstr "無效建立行為"
+msgstr "無效的建立動作"
 
 #: lclstrconsts.sinvalidactionenumeration
 msgid "Invalid action enumeration"
@@ -1224,4 +1224,3 @@ msgstr "錯誤的標識符：期望 %s 但是找到了 %s"
 #: lclstrconsts.sparwrongtokentype
 msgid "Wrong token type: %s expected but %s found"
 msgstr "錯誤的標識符類型：期望 %s 但是找到了 %s"
-
