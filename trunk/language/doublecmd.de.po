@@ -4284,7 +4284,7 @@ msgstr "Pfeil nach links, bzw. rechts wechselt das Verzeichnis (Lynx-artiges Nav
 
 #: TFRMOPTIONSKEYBOARD.GBTYPING.CAPTION
 msgid "Typing"
-msgstr ""
+msgstr "Schreiben"
 
 #: TFRMOPTIONSKEYBOARD.LBLALT.CAPTION
 #, fuzzy
@@ -4302,7 +4302,7 @@ msgstr "&Strg+Alt+Buchstabe"
 
 #: TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION
 msgid "Letters"
-msgstr ""
+msgstr "Buchstaben"
 
 #: TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
@@ -4363,7 +4363,7 @@ msgstr "Zeige 'freien Speicher' von 'Gesamt-Speicherplatz' über den Panels"
 
 #: TFRMOPTIONSLAYOUT.CBSHOWDRIVESLISTBUTTON.CAPTION
 msgid "Show d&rives list button"
-msgstr "Zeige Schalter für &die Laufwerks-Liste"
+msgstr "Zeige Schalter für &das Laufwerks-Drop-down-Menü"
 
 #: TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWKEYSPANEL.CAPTION"
@@ -4626,7 +4626,7 @@ msgstr "Exakter &Name"
 
 #: TFRMOPTIONSQUICKSEARCHFILTER.RGPSEARCHCASE.CAPTION
 msgid "Search case"
-msgstr "Suche Merkmal"
+msgstr "Suche Schreibweise"
 
 #: TFRMOPTIONSQUICKSEARCHFILTER.RGPSEARCHITEMS.CAPTION
 msgid "Search for these items"
@@ -6958,7 +6958,7 @@ msgstr "Drag & Drop (ziehen und ablegen)"
 
 #: ulng.rsoptionseditordriveslistbutton
 msgid "Drives list button"
-msgstr "Schalter für die Laufwerks-Liste"
+msgstr "Schalter für das Laufwerks-Drop-down-Menü"
 
 #: ulng.rsoptionseditorfileoperations
 msgctxt "ulng.rsoptionseditorfileoperations"
