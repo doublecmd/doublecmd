@@ -83,7 +83,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, uLng, fMain;
+  LCLProc, LCLVersion, uLng, fMain;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
@@ -131,7 +131,12 @@ procedure TfrmOptions.CreateOptionsEditorList;
       FOptionsEditorList.Add(aOptionsEditorView);
 
       TreeNode := tvTreeView.Items.AddChild(RootNode,
-        StringReplace(aOptionsEditorClass.GetTitle, '&', '&&', [rfReplaceAll]));
+{$IF lcl_fullversion >= 093100}
+        aOptionsEditorClass.GetTitle
+{$ELSE}
+        StringReplace(aOptionsEditorClass.GetTitle, '&', '&&', [rfReplaceAll])
+{$ENDIF}
+        );
       if Assigned(TreeNode) then
       begin
         IconIndex := aOptionsEditorClass.GetIconIndex;
