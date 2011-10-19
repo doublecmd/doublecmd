@@ -34,19 +34,11 @@ uses
 }
 
 const
-  TPM_RETURNCMD = $100;
-  CSIDL_DRIVES                        = $0011;
   { NewMenu Object (Creates a "New" context menu for a Shell item) }
   CLSID_NewMenu: TGUID = '{D969A300-E7FF-11d0-A93B-00A0C90F2719}';
-  { GetCommandString uFlags }
-  GCS_VERBA            = $00000000;
-const
-   // QueryContextMenu uFlags
-   CMF_EXPLORE             = $00000004;
-   CMF_CANRENAME           = $00000010;
-   CMF_FINDHACK            = $00000080;
-   CMF_EXTENDEDVERBS       = $00000100; //Rarely used verbs
 
+   // QueryContextMenu uFlags
+   CMF_FINDHACK            = $00000080;
 
    SEE_MASK_UNICODE           = $00004000; //Correction
    SEE_MASK_HMONITOR          = $00200000;
@@ -62,55 +54,7 @@ const
 // CMIC_MASK_HASLINKNAME  = SEE_MASK_HASLINKNAME; ??
 // CMIC_MASK_FLAG_SEP_VDM = SEE_MASK_FLAG_SEPVDM; ??
 // CMIC_MASK_HASTITLE     = SEE_MASK_HASTITLE;    ??
-   CMIC_MASK_PTINVOKE     = $20000000; // Shell 4+
 
-type
-   //Shell 4+ version appends a ptInvoke field
-   TCMInvokeCommandInfoEx4 = packed record
-      cbSize,
-      fMask        : DWORD;
-      hwnd         : HWND;
-      lpVerb,
-      lpParameters,
-      lpDirectory  : LPCSTR;
-      nShow        : Integer;
-      dwHotKey     : DWORD;
-      hIcon        : THandle;
-      lpTitle      : LPCSTR;
-      lpVerbW,
-      lpParametersW,
-      lpDirectoryW,
-      lpTitleW     : LPCWSTR;
-      ptInvoke     : TPoint;  // Point where it's invoked
-   end; { TCMInvokeCommandInfoEx4 }
-   PCMInvokeCommandInfoEx4 = ^TCMInvokeCommandInfoEx4;
-
-{ IPersistFolder2 Interface }
-//Shell 4+ only
-{
-   The IPersistFolder2 interface is used by the Shell 4+ file system implementation
-   of IShellFolder::BindToObject when it is initializing a shell folder object.
-
-   IPersistFolder2::GetCurFolder
-   Parameters:
-   ppidl --
-}
-const
-   IID_IPersistFolder2 : TGUID = (
-   D1:$1AC3D9F0; D2:$175C; D3:$11D1; D4:($95,$BE,$00,$60,$97,$97,$EA,$4F));
-   SID_IPersistFolder  = '{000214EA-0000-0000-C000-000000000046}';
-   SID_IPersistFolder2 = '{1AC3D9F0-175C-11D1-95BE-00609797EA4F}';
-
-type
-   IPersistFolder = interface(IPersist)
-    [SID_IPersistFolder]
-    function Initialize(pidl: PItemIDList): HResult; stdcall;
-  end;
-
-   IPersistFolder2 = interface(IPersistFolder)
-      [SID_IPersistFolder2]
-      function GetCurFolder(var ppidl: PItemIDList) : HResult; stdcall;
-   end; { IPersistFolder2 }
 
 { IPersistFolder3 Interface }
 {
@@ -279,10 +223,6 @@ type
       function GetPriority(var IPriority : Integer) : HResult; stdcall;
    end; { IShellIconOverlayIdentifier }
 
-const
-   ISIOI_ICONFILE  = $00000001; // path is returned through pwszIconFile
-   ISIOI_ICONINDEX = $00000002; // icon index in pwszIconFile is returned through Index
-
 { IShellIconOverlay Interface }
 {
    Used to return the icon overlay index or its icon index for an IShellFolder object,
@@ -317,9 +257,6 @@ type
       function GetOverlayIconIndex(pidl : PItemIDList; var IconIndex : Integer) : HResult; stdcall;
    end; { IShellIconOverlay }
 
-const
-   OI_ASYNC = $FFFFEEEE;
-
 { SHGetIconOverlayIndex }
 {
    This function takes the path and icon/res id to the icon and converts it into
@@ -332,13 +269,7 @@ const
    and slow files, pass NULL as the file name, then the IDO_SHGIOI_* flags as the
    icon index.
 }
-   IDO_SHGIOI_SHARE    = $0FFFFFFF;
-   IDO_SHGIOI_LINK     = $0FFFFFFE;
-   IDO_SHGIOI_SLOWFILE = $0FFFFFFD;
-
-function SHGetIconOverlayIndexA(pszIconPath : PANSIChar; iIconIndex : Integer) : Integer; stdcall;
-function SHGetIconOverlayIndexW(pszIconPath : PWideChar; iIconIndex : Integer) : Integer; stdcall;
-function SHGetIconOverlayIndex (pszIconPath : PChar;     iIconIndex : Integer) : Integer; stdcall;
+function SHGetIconOverlayIndex (pszIconPath : PChar; iIconIndex : Integer) : Integer; stdcall;
 
 { IShellLinkDataList Interface }
 // Shell 4+ only
@@ -364,13 +295,6 @@ const
 
 // Also defined in ShlWAPI.h
 type
-   TDataBlockHeader = packed record
-      cbSize,              // Size of this extra data block
-      dwSignature : DWORD; // signature of this extra data block
-   end; { TDataBlockHeader }
-   PDataBlockHeader = ^TDataBlockHeader;
-   PDBList          = PDataBlockHeader;
-
    TNTConsoleProps = packed record
       dbh                     : TDataBlockHeader;
       wFillAttribute,                   // fill attribute for console
@@ -396,9 +320,6 @@ type
    end; { TNTConsoleProps }
    PNTConsoleProps = ^TNTConsoleProps;
 
-const
-   NT_CONSOLE_PROPS_SIG = $A0000002;
-
    //This is an FE Console property
 type
    TNTFEConsoleProps = packed record
@@ -406,9 +327,6 @@ type
       uCodePage : UInt;
    end; { TNTFEConsoleProps }
    PTNTFEConsoleProps = ^TNTFEConsoleProps;
-
-const
-   NT_FE_CONSOLE_PROPS_SIG = $A0000004;
 
 //Shell 5+ only
 type
@@ -418,12 +336,6 @@ type
       szwDarwinID : array [1..MAX_PATH] of WideChar; // UNICODE Darwin ID associated with link
    end; { TExpDarwinLink }
    PExpDarwinLink = ^TExpDarwinLink;
-
-const
-   EXP_DARWIN_ID_SIG = $A0000006;
-   EXP_LOGO3_ID_SIG  = $A0000007;
-
-   EXP_SPECIAL_FOLDER_SIG = $A0000005; // LPEXP_SPECIAL_FOLDER
 
 type
    TExpSpecialFolder = packed record
@@ -441,10 +353,6 @@ type
       swzTarget   : array [1..MAX_PATH] of WideChar; // UNICODE target name w/EXP_SZ in it
    end; { TExpSzLink }
    PExpSzLink = ^TExpSzLink;
-
-const
-   EXP_SZ_LINK_SIG = $A0000001; // LPEXP_SZ_LINK (target)
-   EXP_SZ_ICON_SIG = $A0000007; // LPEXP_SZ_LINK (icon)
 
 const
    IID_IShellLinkDataList : TGUID = (
@@ -474,18 +382,6 @@ type
       function ResolveShellLink(punk : IUnknown; hWndOwner : HWND; fFlags : DWord) : HResult; stdcall;
    end; { IResolveShellLink }
 
-{ IShellLink Interface }
-const
-   // IShellLink.Resolve fFlags
-   SLR_NOUPDATE   = $0008;
-   SLR_NOSEARCH   = $0010; // don't execute the search heuristics
-   SLR_NOTRACK    = $0020; // don't use NT5 object ID to track the link
-   SLR_NOLINKINFO = $0040; // don't use the net and volume relative info
-   SLR_INVOKE_MSI = $0080; // if we have a darwin link, then call msi to fault in the applicaion
-
-   // IShellLink::GetPath fFlags
-   SLGP_RAWPATH   = $0004;
-
 { IURLSearchHook Interface }
 const
    IID_IURLSearchHook : TGUID = (
@@ -500,12 +396,6 @@ type
 
 { Shell File Operations }
 const
-   FOF_NOCOPYSECURITYATTRIBS = $0800; // dont copy NT file Security Attributes
-   FOF_NORECURSION           = $1000; // don't recurse into directories.
-   //Shell 5+
-   FOF_NO_CONNECTED_ELEMENTS = $2000; // don't operate on connected file elements.
-   FOF_WANTNUKEWARNING       = $4000; // during delete operation, warn if nuking instead of recycling (partially overrides FOF_NOCONFIRMATION)
-
 { IShellBrowser/IShellView/IShellFolder interfaces }
 //Shell 4+
    // The resource id of the offline cursor
@@ -535,34 +425,6 @@ const
    SBO_NOBROWSERPAGES = 1;
 
 { ICommDlgBrowser2 Interface }
-{
-   [Member functions]
-   ICommDlgBrowser2::Notify
-   Called when the view wants to notify common dialog when an event occurs.
-   CDB2N_CONTEXTMENU_START indicates the context menu has started.
-   CDB2N_CONTEXTMENU_DONE  indicates the context menu has completed.
-
-   ICommDlgBrowser2::GetDefaultMenuText
-   Called when the view wants to get the default context menu text.
-   pszText points to buffer and cchMax specifies the size of the
-   buffer in characters.  The browser on return has filled the buffer
-   with the default context menu text.  The Shell will call this method
-   with at least a buffer size of MAX_PATH.  The browser should return
-   S_OK if it returned a new default menu text, S_FALSE to let the view
-   to use the normal default menu text.
-
-   ICommDlgBrowser2::GetViewFlags
-   Called when the view wants to determine  if special customization needs to
-   be done for the common dialog browser. For example View calls this function to
-   determine if all files(hidden and system) need to be shown.
-   If the GetViewFlags returns a DWORD with
-   CDB2GVF_SHOWALLFILES flag set then it will show all the files.
-}
-   CDB2N_CONTEXTMENU_DONE  = $00000001;
-   CDB2N_CONTEXTMENU_START = $00000002;
-
-   //GetViewFlags
-   CDB2GVF_SHOWALLFILES    = $00000001;
 (*
 const
    IID_ICommDlgBrowser2 : TGUID = (
@@ -589,47 +451,17 @@ const
    { IShellView select item flags }
    SVSI_TRANSLATEPT   = $0020;
 
-function SHCreateDirectoryExA(hWndOwner : HWND; pszPath : PANSIChar; var sa : TSecurityAttributes) : Integer; stdcall;
-function SHCreateDirectoryExW(hWndOwner : HWND; pszPath : PWideChar; var sa : TSecurityAttributes) : Integer; stdcall;
 function SHCreateDirectoryEx (hWndOwner : HWND; pszPath : PChar    ; var sa : TSecurityAttributes) : Integer; stdcall;
 
 const
    //Object identifiers in the explorer's name space (ItemID and IDList)
-   CSIDL_INTERNET          = $0001;  // Internet Explorer desktop icon
-   CSIDL_LOCAL_APPDATA     = $001c; // <user name>\Local Settings\Application Data (non roaming)
-   CSIDL_ALTSTARTUP        = $001d; // non localized startup
-   CSIDL_COMMON_ALTSTARTUP = $001e; // non localized common startup
-   CSIDL_COMMON_FAVORITES  = $001f;
-   CSIDL_INTERNET_CACHE    = $0020; // C:\Windows\Temporary Internet Files
-   CSIDL_COOKIES           = $0021; // C:\Windows\Cookies
-   CSIDL_HISTORY           = $0022; // C:\Windows\History (URL History Folder)
-   CSIDL_COMMON_APPDATA    = $0023; // All Users\Application Data
-   CSIDL_WINDOWS           = $0024; // GetWindowsDirectory()or SYSROOT
-   CSIDL_SYSTEM            = $0025; // GetSystemDirectory()
-   CSIDL_PROGRAM_FILES     = $0026; // C:\Program Files
-   CSIDL_MYPICTURES        = $0027; // My Pictures
-   CSIDL_PROFILE           = $0028; // USERPROFILE
-   CSIDL_SYSTEMX86         = $0029; // Get the x86 system directory on RISC
-   CSIDL_PROGRAM_FILESX86  = $002a; // x86 Program Files directory on RISC
-   CSIDL_PROGRAM_FILES_COMMON    = $002b; // C:\Program Files\Common
-   CSIDL_PROGRAM_FILES_COMMONX86 = $002c; // x86 Program Files\Common on RISC
-   CSIDL_COMMON_TEMPLATES        = $002d; // All Users\Templates
-   CSIDL_COMMON_DOCUMENTS        = $002e; // All Users\Documents
-   CSIDL_COMMON_ADMINTOOLS       = $002f; // All Users\Start Menu\Programs\Administrative Tools
-   CSIDL_ADMINTOOLS              = $0030; // <user name>\Start Menu\Programs\Administrative Tools
-
-   CSIDL_FLAG_CREATE       = $8000; // combine with CSIDL_ value to force create on SHGetSpecialFolderLocation()
-   CSIDL_FLAG_DONT_VERIFY  = $4000; // combine with CSIDL_ value to return an unverified folder path
    CSIDL_FLAG_PFTI_TRACKTARGET = CSIDL_FLAG_DONT_VERIFY;
-   CSIDL_FLAG_MASK         = $FF00; // mask for all possible flag values
 (*
    What about C:\Windows\Subscriptions ? (Subscription Folder)
    What about C:\Windows\Downloaded Program Files ? (ActiveX Cache Folder)
 *)
 
 //Shell 4+ only
-   function SHGetSpecialFolderPathA(hWndOwner : HWND; lpszPath : PANSIChar; csidl : Integer; fCreate : BOOL) : BOOL; stdcall;
-   function SHGetSpecialFolderPathW(hWndOwner : HWND; lpszPath : PWideChar; csidl : Integer; fCreate : BOOL) : BOOL; stdcall;
    function SHGetSpecialFolderPath (hWndOwner : HWND; lpszPath : PChar;     csidl : Integer; fCreate : BOOL) : BOOL; stdcall;
 
 //Shell 5+ only
@@ -637,29 +469,14 @@ const
    SHGFP_TYPE_CURRENT = 0; // current value for user, verify it exists
    SHGFP_TYPE_DEFAULT = 1; // default value, may not exist
 
-   function SHGetFolderPathA(hWndOwner : HWND; csidl : Integer; hToken : THandle; dwReserved : DWORD; lpszPath : PANSIChar) : HResult; stdcall;
-   function SHGetFolderPathW(hWndOwner : HWND; csidl : Integer; hToken : THandle; dwReserved : DWORD; lpszPath : PWideChar) : HResult; stdcall;
    function SHGetFolderPath (hWndOwner : HWND; csidl : Integer; hToken : THandle; dwReserved : DWORD; lpszPath : PChar    ) : HResult; stdcall;
    function SHGetFolderLocation(hWndOwner : HWND; csidl : Integer; hToken : THandle; dwReserved : DWORD; var pidl : PItemIDList) : HResult; stdcall;
 
 const
 { SHBrowseForFolder API }
    { Browsing for directory }
-   {
-   BIF_STATUSTEXT        = $0004;
-   The top of the dialog has 2 lines of text for BROWSEINFO.lpszTitle
-   and one line if this flag is set.  Passing the message
-   BFFM_SETSTATUSTEXTA to the hwnd can set the rest of the text.
-   This is not used with BIF_USENEWUI and BROWSEINFO.lpszTitle then
-   gets all three lines of text.
-   }
-   BIF_EDITBOX           = $0010; // Add an editbox to the dialog.  Always on with BIF_USENEWUI.
-   BIF_VALIDATE          = $0020; // insist on valid result (or CANCEL)
    BIF_USENEWUI          = $0040; // Use the new dialog layout with the ability to resize.
                                   // Caller needs to call OleInitialize() before using this API.
-   BIF_BROWSEINCLUDEURLS = $0080; // Allow URLs to be displayed or entered. (Requires BIF_USENEWUI)
-
-   BIF_SHAREABLE         = $8000; // sharable resources displayed (remote shares, requires BIF_USENEWUI)
 
    { message from browser }
    BFFM_VALIDATEFAILEDA   = 3;   // lParam:szPath ret:1(cont),0(EndDialog)
@@ -752,39 +569,10 @@ type
 {
    IShellFolder2::EnumSearches member returns an IEnumExtraSearch object.
 }
-type
-   TExtraSearch = packed record
-      guidSearch : TGUID;
-(*
-   //This is the Sep 1998 declaration
-      wszMenuText,
-      wszHelpText : Array[1..MAX_PATH] of WideChar;
-      wszUrl      : Array[1..2084] of WideChar;
-      wszIcon,    // "name.dll,#" where # is icon index in the file name.dll
-      wszGreyIcon,
-      wszClrIcon  : Array[1..MAX_PATH+10] of WideChar;
-*)
-   //This is the Jul 1999 declaration
-      wszFriendlyName : array [1..80] of WideChar;
-      wszUrl          : array [1..2084] of WideChar;
-   end; { TExtraSearch}
-   PExtraSearch = ^TExtraSearch;
-
-// typedef struct IEnumExtraSearch      *LPENUMEXTRASEARCH;
-
 const
    IID_IEnumExtraSearch : TGUID = (
    D1:$0E700BE1; D2:$9DB6; D3:$11D1; D4:($A1,$CE,$00,$C0,$4F,$D7,$5D,$13));
    SID_IEnumExtraSearch = '{0E700BE1-9DB6-11d1-A1CE-00C04FD75D13}';
-
-type
-   IEnumExtraSearch = interface(IUnknown)
-      [SID_IEnumExtraSearch]
-      function Next(celt : ULONG; var rgelt : TExtraSearch; var celtFetched : ULONG) : HResult; stdcall;
-      function Skip(celt : ULONG) : HResult; stdcall;
-      function Reset : HResult; stdcall;
-      function Clone(out ppenum: IEnumExtraSearch) : HResult; stdcall;
-   end; { IEnumExtraSearch }
 
 { IShellFolder2 Interface }
 {
@@ -817,13 +605,6 @@ const
    SHCOLSTATE_EXTENDED    = $00000040; // provided by a handler, not the folder
    SHCOLSTATE_SECONDARYUI = $00000080; // not displayed in context menu, but listed in the "More..." dialog
    SHCOLSTATE_HIDDEN      = $00000100; // not displayed in the UI
-
-type
-   TSHColumnID = packed record
-      fmtid : TGUID;
-      pid   : DWORD;
-   end; { TSHColumnID }
-   PSHColumnID = ^TSHColumnID;
 
 const
    IID_IShellFolder2 : TGUID = (
@@ -864,17 +645,6 @@ type
 const
    IID_ITaskbarList : TGUID = (
    D1:$56FDF342; D2:$FD6D; D3:$11D0; D4:($95,$8A,$00,$60,$97,$C9,$A0,$90));
-   SID_ITaskbarList = '{56FDF342-FD6D-11d0-958A-006097C9A090}';
-
-type
-   ITaskbarList = interface(IUnknown)
-      [SID_ITaskbarList]
-      function HrInit : HResult; stdcall;
-      function AddTab(hWndOwner : HWND) : HResult; stdcall;
-      function DeleteTab(hWndOwner : HWND) : HResult; stdcall;
-      function ActivateTab(hWndOwner : HWND) : HResult; stdcall;
-      function SetActiveAlt(hWndOwner : HWND) : HResult; stdcall;
-   end; { ITaskbarList }
 
 { IInputObjectSite/IInputObject interfaces }
 {
@@ -986,14 +756,6 @@ type
 }
 
 const
-   // flags for RemoveToolbar
-   DWFRF_NORMAL           = $0000;
-   DWFRF_DELETECONFIGDATA = $0001;
-
-   // flags for AddToolbar
-   DWFAF_HIDDEN           = $0001; // add hidden
-
-const
    IID_IDockingWindowFrame : TGUID = (
    D1:$47D2657A; D2:$7B27; D3:$11D0; D4:($8C,$A9,$00,$A0,$C9,$2D,$BF,$E8));
    SID_IDockingWindowFrame = '{47D2657A-7B27-11D0-8CA9-00A0C92DBFE8}';
@@ -1049,16 +811,6 @@ type
    field in the DESKBANDINFO structure and the given viewmode.
 }
 
-const
-   // Mask values for DESKBANDINFO
-   DBIM_MINSIZE   = $0001;
-   DBIM_MAXSIZE   = $0002;
-   DBIM_INTEGRAL  = $0004;
-   DBIM_ACTUAL    = $0008;
-   DBIM_TITLE     = $0010;
-   DBIM_MODEFLAGS = $0020;
-   DBIM_BKCOLOR   = $0040;
-
 type
    TDeskbandInfo = packed record
       dwMask      : DWORD;
@@ -1073,19 +825,6 @@ type
    PDeskbandInfo = ^TDeskbandInfo;
 
 const
-   // DESKBANDINFO dwModeFlags values
-   DBIMF_NORMAL         = $0000;
-   DBIMF_VARIABLEHEIGHT = $0008;
-   DBIMF_DEBOSSED       = $0020;
-   DBIMF_BKCOLOR        = $0040;
-
-   // GetBandInfo view mode values
-   DBIF_VIEWMODE_NORMAL      = $0000;
-   DBIF_VIEWMODE_VERTICAL    = $0001;
-   DBIF_VIEWMODE_FLOATING    = $0002;
-   DBIF_VIEWMODE_TRANSPARENT = $0004;
-
-const
    IID_IDeskBand : TGUID = (
    D1:$EB0FE172; D2:$1A3A; D3:$11D0; D4:($89,$B3,$00,$A0,$C9,$0A,$90,$AC));
    SID_IDeskBand = '{EB0FE172-1A3A-11D0-89B3-00A0C90A90AC}';
@@ -1095,15 +834,6 @@ type
       [SID_IDeskBand]
       function GetBandInfo(dwBandID, dwViewMode : DWORD; pdbi : PDeskbandInfo) : HResult; stdcall;
    end; { IDeskBand }
-
-const
-   // Command Target IDs
-    DBID_BANDINFOCHANGED = 0;
-    DBID_SHOWONLY        = 1;
-    DBID_MAXIMIZEBAND    = 2; // Maximize the specified band (VT_UI4 == dwID)
-    DBID_PUSHCHEVRON     = 3;
-    DBID_DELAYINIT       = 4; // Note: _bandsite_ calls _band_ with this code
-    DBID_FINISHINIT      = 5; // Note: _bandsite_ calls _band_ with this code
 
 { IRunnableTask Interface }
 //Shell 4+ only
@@ -1174,20 +904,6 @@ type
    If dwRecClrDepth contains a recommended Colour depth
    If *phBmpthumbnail is non NULL, then it contains the destination bitmap that should be used.
 }
-
-const
-   //MISSING VALUES
-// IEI_PRIORITY_MAX     = ITSAT_MAX_PRIORITY;     // 99? FF00? FFFF?
-// IEI_PRIORITY_MIN     = ITSAT_MIN_PRIORITY;     // 01?
-// IEIT_PRIORITY_NORMAL = ITSAT_DEFAULT_PRIORITY; // 01?
-
-   IEIFLAG_ASYNC    = $0001; // ask the extractor if it supports ASYNC extract (free threaded)
-   IEIFLAG_CACHE    = $0002; // returned from the extractor if it does NOT cache the thumbnail
-   IEIFLAG_ASPECT   = $0004; // passed to the extractor to beg it to render to the aspect ratio of the supplied rect
-   IEIFLAG_OFFLINE  = $0008; // if the extractor shouldn't hit the net to get any content neede for the rendering
-   IEIFLAG_GLEAM    = $0010; // does the image have a gleam ? this will be returned if it does
-   IEIFLAG_SCREEN   = $0020; // render as if for the screen  (this is exlusive with IEIFLAG_ASPECT )
-   IEIFLAG_ORIGSIZE = $0040; // render to the approx size passed, but crop if neccessary
 
 const
    IID_IExtractImage : TGUID = (
@@ -1267,9 +983,6 @@ type
    PCompStateInfo = ^TCompStateInfo;
 
 const
-// COMPONENT_TOP = $7fffffff; // Sep 1998 value
-   COMPONENT_TOP = $3fffffff; // izOrder value meaning component is at the top
-
    // iCompType values
    COMP_TYPE_HTMLDOC = 0;
    COMP_TYPE_PICTURE = 1;
@@ -1335,24 +1048,12 @@ type
    PIE5Component = ^TIE5Component;
 
 const
-   // Defines for dwCurItemState
-   IS_NORMAL             = $00000001;
-   IS_FULLSCREEN         = $00000002;
-   IS_SPLIT              = $00000004;
    // The set of IS_* state bits which define the "size" of the component
    // These bits are mutually exclusive
    IS_VALIDSIZESTATEBITS = IS_NORMAL or IS_SPLIT or IS_FULLSCREEN;
-   // All of the currently defined IS_* bits
-   IS_VALIDSTATEBITS     = IS_NORMAL or IS_SPLIT or IS_FULLSCREEN or $80000000 or $40000000;
 
    // Flags for IActiveDesktop::ApplyChanges
-   AD_APPLY_SAVE             = $00000001;
-   AD_APPLY_HTMLGEN          = $00000002;
-   AD_APPLY_REFRESH          = $00000004;
    AD_APPLY_ALL              = AD_APPLY_SAVE or AD_APPLY_HTMLGEN or AD_APPLY_REFRESH;
-   AD_APPLY_FORCE            = $00000008;
-   AD_APPLY_BUFFERED_REFRESH = $00000010;
-   AD_APPLY_DYNAMICREFRESH   = $00000020;
 
    // Flags for IActiveDesktop::GetWallpaperOptions
    //           IActiveDesktop::SetWallpaperOptions
@@ -1362,22 +1063,6 @@ const
    WPSTYLE_MAX     = 3;
 
    // Flags for IActiveDesktop::ModifyComponent
-   COMP_ELEM_TYPE          = $00000001;
-   COMP_ELEM_CHECKED       = $00000002;
-   COMP_ELEM_DIRTY         = $00000004;
-   COMP_ELEM_NOSCROLL      = $00000008;
-   COMP_ELEM_POS_LEFT      = $00000010;
-   COMP_ELEM_POS_TOP       = $00000020;
-   COMP_ELEM_SIZE_WIDTH    = $00000040;
-   COMP_ELEM_SIZE_HEIGHT   = $00000080;
-   COMP_ELEM_POS_ZINDEX    = $00000100;
-   COMP_ELEM_SOURCE        = $00000200;
-   COMP_ELEM_FRIENDLYNAME  = $00000400;
-   COMP_ELEM_SUBSCRIBEDURL = $00000800;
-   COMP_ELEM_ORIGINAL_CSI  = $00001000;
-   COMP_ELEM_RESTORED_CSI  = $00002000;
-   COMP_ELEM_CURITEMSTATE  = $00004000;
-
    COMP_ELEM_ALL = COMP_ELEM_TYPE or COMP_ELEM_CHECKED or COMP_ELEM_DIRTY or
                    COMP_ELEM_NOSCROLL or COMP_ELEM_POS_LEFT or COMP_ELEM_SIZE_WIDTH  or
                    COMP_ELEM_SIZE_HEIGHT or COMP_ELEM_POS_ZINDEX or COMP_ELEM_SOURCE or
@@ -1389,13 +1074,6 @@ const
    DTI_ADDUI_DEFAULT       = $00000000;
    DTI_ADDUI_DISPSUBWIZARD = $00000001;
    DTI_ADDUI_POSITIONITEM  = $00000002;
-
-   // Flags for IActiveDesktop::AddUrl
-   ADDURL_SILENT           = $0001;
-
-   // Default positions for ADI
-   COMPONENT_DEFAULT_LEFT  = $FFFF;
-   COMPONENT_DEFAULT_TOP   = $FFFF;
 
 { IActiveDesktop Interface }
 const
@@ -1428,10 +1106,6 @@ type
    end; { IActiveDesktop }
 
 //Shell 5+ only
-const
-   MAX_COLUMN_NAME_LEN =  80;
-   MAX_COLUMN_DESC_LEN = 128;
-
 type
    TSHColumnInit = packed record
       dwFlags,                                      // initialization flags
@@ -1457,9 +1131,6 @@ type
       wszDescription : array [1..MAX_COLUMN_DESC_LEN] of WideChar; // OUT full description of this column
    end; { TSHColumnInfo }
    PSHColumnInfo = ^TSHColumnInfo;
-
-const
-   SHCDF_UPDATEITEM = $00000001; // this flag is a hint that the file has changed since the last call to GetItemData
 
 type
    TSHColumnData = packed record
@@ -1505,56 +1176,11 @@ const
    //FILEDESCRIPTOR.dwFlags flags
    FD_PROGRESSUI        = $4000; // Show Progress UI w/Drag and Drop
 
-{ format of CF_FILEGROUPDESCRIPTOR }
 type
-
-  TFileDescriptorA = record
-    dwFlags: DWORD;
-    clsid: TCLSID;
-    sizel: TSize;
-    pointl: TPoint;
-    dwFileAttributes: DWORD;
-    ftCreationTime: TFileTime;
-    ftLastAccessTime: TFileTime;
-    ftLastWriteTime: TFileTime;
-    nFileSizeHigh: DWORD;
-    nFileSizeLow: DWORD;
-    cFileName: array[0..MAX_PATH-1] of AnsiChar;
-  end;
-
-  TFileDescriptorW = record
-    dwFlags: DWORD;
-    clsid: TCLSID;
-    sizel: TSize;
-    pointl: TPoint;
-    dwFileAttributes: DWORD;
-    ftCreationTime: TFileTime;
-    ftLastAccessTime: TFileTime;
-    ftLastWriteTime: TFileTime;
-    nFileSizeHigh: DWORD;
-    nFileSizeLow: DWORD;
-    cFileName: array[0..MAX_PATH-1] of WideChar;
-  end;
   TFileDescriptor = TFileDescriptorA;
-
-  TFileGroupDescriptorA = record
-    cItems: UINT;
-    fgd: array[0..0] of TFileDescriptorA;
-  end;
-
-   TFileGroupDescriptorW = packed record { fgd }
-      cItems : UINT;
-      fgd    : array[0..0] of TFileDescriptorW;
-   end; { TFileGroupDescriptorW }
-   
-   TFileGroupDescriptor  = TFileGroupDescriptorA;
-   PFileGroupDescriptorA = ^TFileGroupDescriptorA;
-   PFileGroupDescriptorW = ^TFileGroupDescriptorW;
+  TFileGroupDescriptor  = TFileGroupDescriptorA;
 
 const
-   //File System Notification flags
-   SHCNE_EXTENDED_EVENT      = $04000000; //Shell 4+ THIS IS A CORRECTION
-
    //Shell 4+ only
    SHCNEE_ORDERCHANGED  = $00000002;  //dwItem2 is the PIDL of the changed folder
    SHCNEE_MSI_CHANGE    = $00000004;  //dwItem2 is the product code
@@ -1585,32 +1211,10 @@ type
       function OnChange(lEvent : LongInt {LONG}; pidl1, pidl2 : PItemIDList) : HResult; stdcall;
    end; { IShellChangeNotify }
 
-{ IQueryInfo Interface }
-
-const
-  QITIPF_DEFAULT       = $00000000;
-  QITIPF_USENAME       = $00000001;
-  QITIPF_LINKNOTARGET  = $00000002;
-  QITIPF_LINKUSETARGET = $00000004;
-  QITIPF_USESLOWTIP    = $00000008;
-
 const
    IID_IQueryInfo : TGUID = (
    D1:$00021500; D2:$0000; D3:$0000; D4:($C0,$00,$00,$00,$00,$00,$00,$46));
-   SID_IQueryInfo = '{00021500-0000-0000-C000-000000000046}';
 
-type
-   IQueryInfo = interface(IUnknown)
-      [SID_IQueryInfo]
-      function GetInfoTip(dwFlags : DWORD; var pwszTip : PWideChar) : HResult; stdcall;
-      function GetInfoFlags(var dwFlags : DWORD) : HResult; stdcall;
-   end; { IQueryInfo }
-
-const
-   QIF_CACHED           = $00000001;
-   QIF_DONTEXPANDFOLDER = $00000002;
-
-const
    // PROPIDs for Internet Shortcuts (FMTID_Intshcut)
    // to be used with IPropertySetStorage/IPropertyStorage.
    // The known property ids and their variant types are:
@@ -1674,30 +1278,6 @@ type
    end; { TShellFlagState }
    PShellFlagState = ^TShellFlagState;
 
-const
-   SSF_SHOWALLOBJECTS        = $00000001;
-   SSF_SHOWEXTENSIONS        = $00000002;
-   SSF_SHOWCOMPCOLOR         = $00000008;
-   SSF_SHOWSYSFILES          = $00000020;
-   SSF_DOUBLECLICKINWEBVIEW  = $00000080;
-   SSF_SHOWATTRIBCOL         = $00000100;
-   SSF_DESKTOPHTML           = $00000200;
-   SSF_WIN95CLASSIC          = $00000400;
-   SSF_DONTPRETTYPATH        = $00000800;
-   SSF_SHOWINFOTIP           = $00002000;
-   SSF_MAPNETDRVBUTTON       = $00001000;
-   SSF_NOCONFIRMRECYCLE      = $00008000;
-   SSF_HIDEICONS             = $00004000;
-
-{
-   Use dwMask to specify the bits you are interested in
-   and they will be filled out in the lpsfs structure.
-
-   When these settings change, a WM_SETTINGCHANGE message is sent
-   with the string lParam value of "ShellState".
-}
-   procedure SHGetSettings(lpsfs : PShellFlagState; dwMask : DWORD); stdcall;
-
 { SoftwareUpdateMessageBox }
 // From URLMon.h
 type
@@ -1754,9 +1334,6 @@ type
 }
 function SoftwareUpdateMessageBox(hWndOwner : HWND; szDistUnit : PWideChar; dwFlags : DWORD; psdi : PSoftDistInfo) : DWORD; stdcall;
 
-function SHGetMalloc(var ppMalloc: IMalloc): HResult; stdcall;
-function SHGetDesktopFolder(var ppshf: IShellFolder): HResult; stdcall;
-
 function SHChangeIconDialog(hOwner: THandle; var FileName: UTF8String; var IconIndex: Integer): Boolean;
 function SHGetOverlayIconIndex(const sFilePath, sFileName: UTF8String): Integer;
 function SHGetInfoTip(const sFilePath, sFileName: UTF8String): UTF8String;
@@ -1779,30 +1356,13 @@ uses
 const
    shell32 = 'Shell32.dll'; //from ShellAPI, ShlObj
 
-function SHGetIconOverlayIndexA; external shell32 name 'SHGetIconOverlayIndexA';
-function SHGetIconOverlayIndexW; external shell32 name 'SHGetIconOverlayIndexW';
-function SHGetIconOverlayIndex ; external shell32 name 'SHGetIconOverlayIndexA';
-
-function SHCreateDirectoryExA; external shell32 name 'SHCreateDirectoryExA';
-function SHCreateDirectoryExW; external shell32 name 'SHCreateDirectoryExW';
+function SHGetIconOverlayIndex; external shell32 name 'SHGetIconOverlayIndexA';
 function SHCreateDirectoryEx ; external shell32 name 'SHCreateDirectoryExA';
-
-function SHGetSpecialFolderPathA; external shell32 name 'SHGetSpecialFolderPathA';
-function SHGetSpecialFolderPathW; external shell32 name 'SHGetSpecialFolderPathW';
 function SHGetSpecialFolderPath;  external shell32 name 'SHGetSpecialFolderPathA';
-
-function SHGetFolderPathA; external shell32 name 'SHGetFolderPathA';
-function SHGetFolderPathW; external shell32 name 'SHGetFolderPathW';
 function SHGetFolderPath;  external shell32 name 'SHGetFolderPathA';
-
 function SHGetFolderLocation; external shell32 name 'SHGetFolderLocation';
 
-procedure SHGetSettings; external shell32 name 'SHGetSettings';
-
 function SoftwareUpdateMessageBox; external shell32 name 'SoftwareUpdateMessageBox';
-
-function SHGetMalloc;                   external shell32 name 'SHGetMalloc';
-function SHGetDesktopFolder;            external shell32 name 'SHGetDesktopFolder';
 
 { **** UBPFD *********** by delphibase.endimus.com ****
 >> Calls icon selection dialog. Modified function for calling
