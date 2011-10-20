@@ -1617,7 +1617,7 @@ begin
     Node := Root.FindNode('Keyboard');
     if Assigned(Node) then
     begin
-      SubNode := Node.FindNode('Typing/Actions');
+      SubNode := FindNode(Node, 'Typing/Actions');
       if Assigned(SubNode) then
       begin
         for KeyTypingModifier in TKeyTypingModifier do
