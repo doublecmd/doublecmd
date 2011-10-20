@@ -85,6 +85,9 @@ implementation
 uses
   LCLProc, LCLVersion, uLng, fMain;
 
+var
+  LastOpenedEditor: TOptionsEditorClass = nil;
+
 procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
   // Initialize property storage
@@ -179,10 +182,9 @@ end;
 
 constructor TfrmOptions.Create(TheOwner: TComponent);
 begin
-  if OptionsEditorClassList.Count > 0 then
-    Create(TheOwner, OptionsEditorClassList[0].EditorClass) // Select first editor.
-  else
-    Create(TheOwner, nil);
+  if not Assigned(LastOpenedEditor) and (OptionsEditorClassList.Count > 0) then
+    LastOpenedEditor := OptionsEditorClassList[0].EditorClass; // Select first editor.
+  Create(TheOwner, LastOpenedEditor);
 end;
 
 constructor TfrmOptions.Create(TheOwner: TComponent; EditorClass: TOptionsEditorClass);
@@ -230,6 +232,7 @@ begin
       Node.GetFirstChild.Selected := True;
 
     FOldEditor := SelectedEditorView;
+    LastOpenedEditor := SelectedEditorView.EditorClass;
 
     pnlCaption.Caption := SelectedEditorView.EditorClass.GetTitle;
   end;
