@@ -386,8 +386,8 @@ resourcestring
   rsOptExampleCursor = 'Cursor';
   rsOptExampleMarkCursor = 'Mark + Cursor';
   // Hotkeys
-  rsOptHotkeysCommands = 'Commands';
-  rsOptHotkeysComments = 'Comments';
+  rsOptHotkeysCommand = 'Command';
+  rsOptHotkeysComment = 'Comment';
   rsOptHotkeysHotkeys = 'Hotkeys';
   rsOptHotkeysHotkey = 'Hotkey';
   rsOptHotkeysParameters = 'Parameters';
