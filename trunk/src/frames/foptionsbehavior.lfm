@@ -1,9 +1,9 @@
 inherited frmOptionsBehavior: TfrmOptionsBehavior
-  Height = 352
+  Height = 227
   Width = 666
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
-  ClientHeight = 352
+  ClientHeight = 227
   ClientWidth = 666
   object gbMisc1: TGroupBox[0]
     AnchorSideLeft.Control = Owner
@@ -112,67 +112,6 @@ inherited frmOptionsBehavior: TfrmOptionsBehavior
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
-    end
-  end
-  object gbMisc3: TGroupBox[2]
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = gbMisc2
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 6
-    Height = 121
-    Top = 216
-    Width = 654
-    Anchors = [akTop, akLeft, akRight]
-    AutoSize = True
-    ChildSizing.LeftRightSpacing = 8
-    ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 99
-    ClientWidth = 650
-    TabOrder = 2
-    object cbShowSystemFiles: TCheckBox
-      AnchorSideLeft.Control = gbMisc3
-      AnchorSideTop.Control = gbMisc3
-      AnchorSideRight.Control = gbMisc3
-      AnchorSideRight.Side = asrBottom
-      Left = 8
-      Height = 25
-      Top = 6
-      Width = 634
-      Anchors = [akTop, akLeft, akRight]
-      Caption = 'Show system and hidden files'
-      TabOrder = 0
-    end
-    object cbListFilesInThread: TCheckBox
-      AnchorSideLeft.Control = cbShowSystemFiles
-      AnchorSideTop.Control = cbShowSystemFiles
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = gbMisc3
-      AnchorSideRight.Side = asrBottom
-      Left = 8
-      Height = 25
-      Top = 37
-      Width = 634
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Top = 6
-      Caption = 'Load file list in separate thread'
-      TabOrder = 1
-    end
-    object cbLoadIconsSeparately: TCheckBox
-      AnchorSideLeft.Control = cbListFilesInThread
-      AnchorSideTop.Control = cbListFilesInThread
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = gbMisc3
-      AnchorSideRight.Side = asrBottom
-      Left = 8
-      Height = 25
-      Top = 68
-      Width = 634
-      Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Top = 6
-      Caption = 'Load icons after file list'
-      TabOrder = 2
     end
   end
 end

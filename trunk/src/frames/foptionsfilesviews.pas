@@ -37,7 +37,10 @@ type
   TfrmOptionsFilesViews = class(TOptionsEditor)
     cbDateTimeFormat: TComboBox;
     cbDirBrackets: TCheckBox;
+    cbListFilesInThread: TCheckBox;
+    cbLoadIconsSeparately: TCheckBox;
     cbShortFileSizeFormat: TCheckBox;
+    cbShowSystemFiles: TCheckBox;
     cbSortCaseSensitive: TCheckBox;
     cbSortMethod: TComboBox;
     cbSpaceMovesDown: TCheckBox;
@@ -85,6 +88,9 @@ begin
   lblDateTimeExample.Caption:= FormatDateTime(cbDateTimeFormat.Text, Now);
   cbSpaceMovesDown.Checked := gSpaceMovesDown;
   cbDirBrackets.Checked := gDirBrackets;
+  cbShowSystemFiles.Checked:= gShowSystemFiles;
+  cbListFilesInThread.Checked:= gListFilesInThread;
+  cbLoadIconsSeparately.Checked:= gLoadIconsSeparately;
 end;
 
 function TfrmOptionsFilesViews.Save: TOptionsEditorSaveFlags;
@@ -95,6 +101,9 @@ begin
   gDateTimeFormat := cbDateTimeFormat.Text;
   gSpaceMovesDown := cbSpaceMovesDown.Checked;
   gDirBrackets := cbDirBrackets.Checked;
+  gShowSystemFiles:= cbShowSystemFiles.Checked;
+  gListFilesInThread:= cbListFilesInThread.Checked;
+  gLoadIconsSeparately:= cbLoadIconsSeparately.Checked;
 
   Result := [];
 end;

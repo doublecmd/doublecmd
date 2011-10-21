@@ -1,8 +1,8 @@
 inherited frmOptionsFilesViews: TfrmOptionsFilesViews
-  Height = 319
-  Width = 613
-  ClientHeight = 319
-  ClientWidth = 613
+  Height = 403
+  Width = 616
+  ClientHeight = 403
+  ClientWidth = 616
   object gbSorting: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -11,7 +11,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     Left = 6
     Height = 98
     Top = 6
-    Width = 601
+    Width = 604
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Around = 6
@@ -19,7 +19,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
     ClientHeight = 76
-    ClientWidth = 597
+    ClientWidth = 600
     TabOrder = 0
     object cbSortCaseSensitive: TCheckBox
       AnchorSideLeft.Control = gbSorting
@@ -29,7 +29,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Left = 12
       Height = 25
       Top = 8
-      Width = 573
+      Width = 576
       Anchors = [akTop, akLeft, akRight]
       Caption = 'Case-sensitive sorting'
       TabOrder = 0
@@ -56,7 +56,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Left = 106
       Height = 29
       Top = 39
-      Width = 479
+      Width = 482
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 6
       BorderSpacing.Top = 6
@@ -78,18 +78,19 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 84
+    Height = 175
     Top = 215
-    Width = 601
+    Width = 604
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     BorderSpacing.Around = 6
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
+    ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 62
-    ClientWidth = 597
+    ClientHeight = 153
+    ClientWidth = 600
     TabOrder = 1
     object cbSpaceMovesDown: TCheckBox
       Left = 6
@@ -102,10 +103,34 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     object cbDirBrackets: TCheckBox
       Left = 6
       Height = 25
-      Top = 31
+      Top = 35
       Width = 587
       Caption = 'Show square brackets around directories'
       TabOrder = 1
+    end
+    object cbShowSystemFiles: TCheckBox
+      Left = 6
+      Height = 25
+      Top = 64
+      Width = 587
+      Caption = 'Show system and hidden files'
+      TabOrder = 2
+    end
+    object cbListFilesInThread: TCheckBox
+      Left = 6
+      Height = 25
+      Top = 93
+      Width = 587
+      Caption = 'Load file list in separate thread'
+      TabOrder = 3
+    end
+    object cbLoadIconsSeparately: TCheckBox
+      Left = 6
+      Height = 25
+      Top = 122
+      Width = 587
+      Caption = 'Load icons after file list'
+      TabOrder = 4
     end
   end
   object gbFormatting: TGroupBox[2]
@@ -117,14 +142,14 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     Left = 6
     Height = 99
     Top = 110
-    Width = 601
+    Width = 604
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Around = 6
     Caption = 'Formatting'
     ChildSizing.LeftRightSpacing = 6
     ChildSizing.TopBottomSpacing = 6
     ClientHeight = 77
-    ClientWidth = 597
+    ClientWidth = 600
     TabOrder = 2
     object lblDateTimeFormat: TLabel
       AnchorSideLeft.Control = gbFormatting
@@ -143,7 +168,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbFormatting
       AnchorSideRight.Side = asrBottom
-      Left = 590
+      Left = 593
       Height = 1
       Top = 20
       Width = 1
@@ -162,7 +187,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Left = 164
       Height = 29
       Top = 6
-      Width = 418
+      Width = 421
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 8
       BorderSpacing.Top = 6

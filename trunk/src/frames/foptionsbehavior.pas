@@ -36,15 +36,11 @@ type
 
   TfrmOptionsBehavior = class(TOptionsEditor)
     cbAlwaysShowTrayIcon: TCheckBox;
-    cbListFilesInThread: TCheckBox;
-    cbLoadIconsSeparately: TCheckBox;
     cbMinimizeToTray: TCheckBox;
     cbOnlyOnce: TCheckBox;
-    cbShowSystemFiles: TCheckBox;
     edtDrivesBlackList: TEdit;
     gbMisc1: TGroupBox;
     gbMisc2: TGroupBox;
-    gbMisc3: TGroupBox;
     lblDrivesBlackList: TLabel;
     procedure cbAlwaysShowTrayIconChange(Sender: TObject);
   protected
@@ -87,9 +83,6 @@ begin
   cbMinimizeToTray.Enabled:= not gAlwaysShowTrayIcon;
   cbAlwaysShowTrayIcon.Checked:= gAlwaysShowTrayIcon;
   edtDrivesBlackList.Text:= gDriveBlackList;
-  cbShowSystemFiles.Checked:= gShowSystemFiles;
-  cbListFilesInThread.Checked:= gListFilesInThread;
-  cbLoadIconsSeparately.Checked:= gLoadIconsSeparately;
 end;
 
 function TfrmOptionsBehavior.Save: TOptionsEditorSaveFlags;
@@ -100,9 +93,6 @@ begin
   gMinimizeToTray:= cbMinimizeToTray.Checked;
   gAlwaysShowTrayIcon:= cbAlwaysShowTrayIcon.Checked;
   gDriveBlackList:= edtDrivesBlackList.Text;
-  gShowSystemFiles:= cbShowSystemFiles.Checked;
-  gListFilesInThread:= cbListFilesInThread.Checked;
-  gLoadIconsSeparately:= cbLoadIconsSeparately.Checked;
 end;
 
 end.
