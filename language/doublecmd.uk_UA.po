@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-10-10 23:38+0300\n"
+"PO-Revision-Date: 2011-10-19 18:59+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3059,7 +3059,6 @@ msgid "..."
 msgstr "..."
 
 #: TFRMMODVIEW.BTNPROPORTION.CAPTION
-#, fuzzy
 msgid "Pr"
 msgstr "Pr"
 
@@ -4150,8 +4149,9 @@ msgid "Left, Right arrows change directory (Lynx-like movement)"
 msgstr "Зміна каталогу стрілками Вліво, Вправо (Навігація в стилі Lynx)"
 
 #: TFRMOPTIONSKEYBOARD.GBTYPING.CAPTION
+#, fuzzy
 msgid "Typing"
-msgstr ""
+msgstr "Введення"
 
 #: TFRMOPTIONSKEYBOARD.LBLALT.CAPTION
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
@@ -4164,9 +4164,10 @@ msgid "Ctrl+Alt+Letters"
 msgstr "Ctrl+Alt+Буква"
 
 #: TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION
+#, fuzzy
 msgctxt "TFRMOPTIONSKEYBOARD.LBLNOMODIFIER.CAPTION"
 msgid "Letters"
-msgstr ""
+msgstr "Листи"
 
 #: TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBFLATDISKPANEL.CAPTION"
@@ -4323,18 +4324,16 @@ msgid "File operation log file"
 msgstr "Звіт про операції з файлами"
 
 #: TFRMOPTIONSLOG.GBLOGFILEOP.CAPTION
-#, fuzzy
 #| msgid "Log operations:"
 msgctxt "TFRMOPTIONSLOG.GBLOGFILEOP.CAPTION"
 msgid "Log operations"
-msgstr "Підзвітні дії:"
+msgstr "Підзвітні дії"
 
 #: TFRMOPTIONSLOG.GBLOGFILESTATUS.CAPTION
-#, fuzzy
 #| msgid "Operation status:"
 msgctxt "TFRMOPTIONSLOG.GBLOGFILESTATUS.CAPTION"
 msgid "Operation status"
-msgstr "Статус операції:"
+msgstr "Статус операції"
 
 #: TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION
 msgctxt "TFRMOPTIONSMISC.CBSHOWWARNINGMESSAGES.CAPTION"
@@ -4480,11 +4479,10 @@ msgid "Options"
 msgstr "Налаштування"
 
 #: TFRMOPTIONSQUICKSEARCHFILTER.GBEXACTNAMEMATCH.CAPTION
-#, fuzzy
 #| msgid "Exact name match:"
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.GBEXACTNAMEMATCH.CAPTION"
 msgid "Exact name match"
-msgstr "Точне співпадіння імені:"
+msgstr "Точне співпадіння імені"
 
 #: TFRMOPTIONSQUICKSEARCHFILTER.RGPSEARCHCASE.CAPTION
 #, fuzzy
@@ -5211,7 +5209,6 @@ msgid "||"
 msgstr "||"
 
 #: TFRMVIEWER.BTNGIFTOBMP.CAPTION
-#, fuzzy
 msgid "S"
 msgstr "S"
 
@@ -5828,7 +5825,7 @@ msgstr "Об’єднати"
 #: ulng.rsdlgcp
 msgctxt "ulng.rsdlgcp"
 msgid "Copy file(s)"
-msgstr "Копіювати файл(и)"
+msgstr "Копіювання файлу(ів)"
 
 #: ulng.rsdlgdel
 msgid "Delete file(s)"
@@ -5845,7 +5842,7 @@ msgstr "Розпакування..."
 #: ulng.rsdlgmv
 msgctxt "ulng.rsdlgmv"
 msgid "Move file(s)"
-msgstr "Перемістити файл(и)"
+msgstr "Переміщення файлу(ів)"
 
 #: ulng.rsdlgopcaption
 msgid "Caption of operation"
@@ -6647,7 +6644,6 @@ msgid "Format parsing mode:"
 msgstr "Синтаксичний аналіз:"
 
 #: ulng.rsoptarchiveid
-#, fuzzy
 msgctxt "ulng.rsoptarchiveid"
 msgid "ID:"
 msgstr "ID:"
