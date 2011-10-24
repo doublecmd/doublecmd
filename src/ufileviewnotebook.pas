@@ -28,7 +28,7 @@ type
   private
     FLockState: TTabLockState;
     FLockPath: String;          //<en Path on which tab is locked
-    {$IFDEF LCLQT}
+    {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
     FSettingCaption: Boolean;
     {$ENDIF}
     FOnActivate: TNotifyEvent;
@@ -54,7 +54,7 @@ type
 
     procedure DoActivate;
 
-  {$IFDEF LCLQT}
+  {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
   protected
     procedure RealSetText(const AValue: TCaption); override;
   {$ENDIF}
@@ -62,7 +62,7 @@ type
   public
     constructor Create(TheOwner: TComponent); override;
 
-    {$IFDEF LCLQT}
+    {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
     function HandleObjectShouldBeVisible: boolean; override;
     {$ENDIF}
     function IsActive: Boolean;
@@ -141,7 +141,7 @@ uses
   {$IF DEFINED(LCLGTK2)}
   , GTK2Globals // for DblClickTime
   {$ENDIF}
-  {$IFDEF LCLQT}
+  {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
   , qt4, qtwidgets
   {$ENDIF}
   ;
@@ -151,13 +151,13 @@ uses
 constructor TFileViewPage.Create(TheOwner: TComponent);
 begin
   FLockState := tlsNormal;
-  {$IFDEF LCLQT}
+  {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
   FSettingCaption := False;
   {$ENDIF}
   inherited Create(TheOwner);
 end;
 
-{$IFDEF LCLQT}
+{$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
 // On QT after handle is created but before the widget is visible
 // setting caption fails unless the notebook and all its parents are
 // set as Visible and the current page is the one of which we set caption.
