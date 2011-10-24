@@ -1474,8 +1474,6 @@ begin
   if FFiles.Count = 0 then
     Exit;
 
-  //DCDebug('edtSearchChange: '+ SearchTerm);
-
   if SearchOptions.SearchCase = qscInsensitive then
     sSearchName := UTF8LowerCase(SearchTerm)
   else
@@ -1497,8 +1495,6 @@ begin
       sSearchName := '*' + sSearchName;
     sSearchName := sSearchName + '*';
   end;
-
-  DCDebug('sSearchName = ', sSearchName);
 
   StartPos := dgPanel.Row - dgPanel.FixedRows; // start search from current cursor position
   case SearchDirection of
