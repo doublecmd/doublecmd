@@ -1297,9 +1297,8 @@ begin
     Exit;
   end;
 
-  if (edtCommand.Tag = 0) and
-     // Check for certain Ascii keys.
-     (not ((Length(UTF8Key) = 1) and (UTF8Key[1] in ['-', '*', '+', #0..#32]))) then
+  // Check for certain Ascii keys.
+  if (not ((Length(UTF8Key) = 1) and (UTF8Key[1] in ['-', '*', '+', #0..#32]))) then
   begin
     ModifierKeys := GetKeyShiftStateEx;
 
@@ -1901,7 +1900,6 @@ begin
 
   if gCmdLine and  // If command line is enabled
      (GetKeyTypingAction(ModifierKeys) = ktaCommandLine) and
-     (edtCommand.Tag = 0) and
      not ((Key in ['-', '*', '+', #0..#32]) and (Trim(edtCommand.Text) = '')) then
   begin
     TypeInCommandLine(Key);
@@ -3887,7 +3885,7 @@ begin
 
     // Command line
     pnlCommand.Visible := gCmdLine;
-    edtCommand.Tag := 0;
+
     // Align command line and terminal window
     pnlCommand.Top := -Height;
     ConsoleSplitter.Top:= -Height;
@@ -3939,7 +3937,7 @@ begin
 
       VK_RETURN, VK_SELECT:
         begin
-          if (Shift * [ssCtrl, ssAlt, ssMeta, ssAltGr] = []) then
+          if (Shift * KeyModifiersShortcutNoText = []) then
           begin
             ExecuteCommandLine(ssShift in Shift);
             Key := 0;
@@ -3957,9 +3955,6 @@ begin
           if gTermWindow and Assigned(Cons) then
             Cons.Terminal.SendBreak_pty();
         end;
-
-      else
-        edtCommand.Tag:= 1;
     end;
 
   CheckCommandLine(GetKeyShiftStateEx, Key);
@@ -3967,8 +3962,6 @@ end;
 
 procedure TfrmMain.edtCommandExit(Sender: TObject);
 begin
-  edtCommand.Tag:= 0;
-
   // Hide command line if it was temporarily shown.
   if (not gCmdLine) and IsCommandLineVisible then
     pnlCommand.Hide;
