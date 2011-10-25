@@ -1703,8 +1703,25 @@ end;
 function TfrmViewer.CheckGraphics(const sFileName:String):Boolean;
 var
   sExt: String;
+{$IFDEF LCLGTK2}
+  fsBitmap: TFileStreamEx = nil;
+{$ENDIF}
 begin
   sExt:= LowerCase(ExtractFileExt(sFileName));
+  {$IFDEF LCLGTK2}
+  // TImage crash on displaying monochrome bitmap on Linux/GTK2
+  // See details at http://bugs.freepascal.org/view.php?id=12362
+  if (sExt = '.bmp') then
+  try
+    fsBitmap:= TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
+    // Get the number of bits per pixel from bitmap header
+    fsBitmap.Seek($1C, soFromBeginning);
+    // Don't open monochrome bitmap as image
+    if (fsBitmap.ReadWord = 1) then Exit(False);
+  finally
+    fsBitmap.Free;
+  end;
+  {$ENDIF}
   Result:=(sExt='.bmp') or (sExt='.xpm') or (sExt='.png') or
        (sExt='.jpg') or (sExt='.jpeg') or (sExt='.ico') or (sExt='.icns') or
        (sExt='.ddw') or (sExt='.tga') or (sExt='.cur') or (sExt='.gif');
