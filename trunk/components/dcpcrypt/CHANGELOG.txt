@@ -1,0 +1,32 @@
+
+Change in v2.0.4.1 by Graeme Geldenhuys (2010)
+
+ * Version number bumped to v2.0.4.1
+
+ * More fixes for 64-bit support
+
+ * Removed a lot of compiler warnings - tested with FPC 2.4.1
+
+
+Change in v2.0.4 by Graeme Geldenhuys (2009)
+ 
+ * Version number bumped to v2.0.4
+
+ * Split the Lazarus package into two separate packages
+   - one is runtime only package and GUI toolkit independent.
+   - one is Lazarus design-time only package which installs
+     components in component palette.
+     
+ * Updated code to be compilable with FPC 2.4.0-rc1
+ 
+ * Updated code to be compilable with 64-bit FPC 2.4.0-rc1.
+   - Tested under 32-bit & 64-bit Linux on x86 systems.
+
+   
+Changes since DCPCrypt v2 Beta 3:
+
+ * Ported DCPCrypt to Lazarus by Barko in 2006
+
+
+ -=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+

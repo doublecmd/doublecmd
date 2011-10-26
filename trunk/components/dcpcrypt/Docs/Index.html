@@ -1,0 +1,270 @@
+<html>
+  <head>
+    <title>DCPcrypt v2: Users Guide - Index</title>
+  </head>
+  <body>
+    <p align="center"><font size="+2"><b>DCPcrypt Cryptographic Component Library v2 Beta 3</b></font><br>
+      <font size="+1">Copyright &copy; 1999-2002 David Barton<br>
+      <a href="http://www.cityinthesky.co.uk/">http://www.cityinthesky.co.uk/</a><br>
+      <a href="mailto:crypto@cityinthesky.co.uk">crypto@cityinthesky.co.uk</a></font>
+    <p><font size="+2">Introduction</font>
+    <p>DCPcrypt is a collection of cryptographic components for the Borland Delphi(tm), C++ Builder(tm) and Kylix(tm) programming languages. The supported versions are Delphi 4, 5, 6 and 7, C++ Builder (3?), 4, 5, 6 and Kylix 1 (untested) and 2.
+    <p>The idea behind DCPcrypt is that it should be possible to "drop in" any algorithm implementation to replace another with minimum or no code changes. To aid in this goal all cryptographic components are descended from one of several base classes, TDCP_cipher for encryption algorithms and TDCP_hash for message digest algorithms.
+    <p>
+    <table>
+      <tr>
+        <td valign="center"><a href="http://www.opensource.org/docs/definition.php"><img src="osi-certified-120x100.png" border="0"></a></td>
+        <td valign="center">
+          <p>DCPcrypt is open source software (released under the <a href="MIT_license.txt">MIT license</a>) and as such there is no charge for inclusion in other software. However, I am currently a student and if you are making money from my software I would really appreciate a donation of some sort, whether financial or a license for the software you develop (<em>or if anyone wants to sponsor a Mathematical Modelling (Masters) student for their final year...</em>). Please note THIS IS NOT COMPULSORY IN ANY WAY. See <a href="http://www.cityinthesky.co.uk/cryptography.html">http://www.cityinthesky.co.uk/cryptography.html</a> for details on donations.
+          <p>This software is OSI Certified Open Source Software. OSI Certified is a certification mark of the <a href="http://www.opensource.org/">Open Source Initiative</a>.
+          <p>If you maintain a website then a link to my page at <a href="http://www.cityinthesky.co.uk/">http://www.cityinthesky.co.uk/</a> would be great!
+        </td>
+      </tr>
+    </table>
+    <p>&nbsp;
+    <p><font size="+2">What's New</font>
+    <p>Changes since DCPcrypt v2 Beta 2:
+    <ul>
+      <li>Corrected C++ Builder compilation problem.
+    </ul>
+    <p>Changes since DCPcrypt v2 Beta 1:
+    <ul>
+      <li>Renamed source code files for hashes and ciphers to DCPxxx.pas
+      <li>Change the format of Cipher.InitStr so that the hash algorithm used to generate the key is explicitly specified. In order to get the same functionality as before, use TDCP_sha1. e.g. Cipher.InitStr('Hello World',TDCP_sha1);
+      <li>Block ciphers are now inherited from an intermediate component that implements the block size specific chaining mode encryption routines.
+      <li>Remove the internal component registration, it was more hassle than it was worth. If there is a demand for this to be put back then I might...     
+      <li>Added the full range of operation modes for Haval. By changing the defines at the top of DCPhaval.pas you can specify the number of passes and the output hash size.
+      <li>Added the Tiger hash algorithm (192bit digest).
+      <li>Changed the name of the file containing TDCP_ripemd160 for consistency to DCPripemd160 from DCPrmd160.
+      <li>GOST no longer appears on the component palette pending verifying what the actual standard is (the code is still included however).
+      <li>Added the RipeMD-128 hash algorithm (128bit digest).
+      <li>Added the Serpent block cipher (AES finalist).
+      <li>Added the SHA-256,384,512 hash algorithms (256, 384, 512bit digest respectively).
+      <li>Added CTR chaining mode to all block ciphers.
+    </ul>
+    <p>&nbsp;
+    <p><font size="+2">Installation</font>
+    <p>
+    <table>
+      <tr>
+        <td width="120">Delphi</td>
+        <td>Open the appropriate package, DCPdelphiX.dpk where X is your version of Delphi (either 4, 5 or 6). Then press the install button.</td>
+      </tr>
+      <tr>
+        <td width="120">C++ Builder</td>
+        <td>Create a new design time package and add all the .pas files from the DCPcrypt2.zip archive including all those in the Ciphers and Hashes subdirectories. Then press the install button.</td>
+      </tr>
+      <tr>
+        <td width="120">Kylix</td>
+        <td>Open the DCPkylix.dpk package and then press the install button (note: Kylix 1 users may need to create a new package as with C++ Builder as this is a Kylix 2 package).</td>
+      </tr>
+    <table>
+    <p>You may need to add the directory containing DCPcrypt (and the Ciphers and Hashes subdirectories) to your library search path (found under Environment Options).
+    <p>Once installed you will find two extra pages of components on your component palette, namely DCPciphers and DCPhashes. You can now place these components onto the form of your application to start using the algorithms.
+    <p>&nbsp;
+    <p><font size="+2">Usage</font>
+    <p>Please note that an appreciation of the basic principles of encryption/decryption and key management is needed to ensure the correct usage of the ciphers implemented within this package. A good introduction on this subject is provided by Bruce Schneier's "Applied Cryptography" (ISBN: 0-471-11709-9) also see the NIST publication SP800-38A for information on the block cipher chaining modes.
+    <ul>
+      <li><a href="Ciphers.html">Ciphers</a> - the basic building block of DCPcrypt, the TDCP_cipher component.
+      <li><a href="BlockCiphers.html">Block Ciphers</a> - the base of all block ciphers, the TDCP_blockcipher component.
+      <li><a href="Hashes.html">Hashes</a> - the base of all hash algorithms, the TDCP_hash component.
+    </ul>
+    <p>DCPcrypt v2 contains the following ciphers and hash algorithms:
+    <p>
+    <table bgcolor="#FFFFCC" align="center">
+      <tr>
+        <td colspan="4" align="center"><font size="+1"><b>Ciphers</b></font></td>
+      </tr>
+      <tr>
+        <td><b>Name</b></td>
+        <td><b>Patents</b></td>
+        <td><b>Block Size</b></td>
+        <td><b>Max Key Size*</b></td>
+      </tr>
+      <tr>
+        <td>Blowfish</td>
+        <td>None</td>
+        <td>64 bits</td>
+        <td>448 bits</td>
+      </tr>
+      <tr>
+        <td>Cast-128</td>
+        <td>None</td>
+        <td>64 bits</td>
+        <td>128 bits</td>
+      </tr>
+      <tr>
+        <td>Cast-256</td>
+        <td>Patented?</td>
+        <td>128 bits</td>
+        <td>256 bits</td>
+      </tr>
+      <tr>
+        <td>DES</td>
+        <td>None</td>
+        <td>64 bits**</td>
+        <td>64 bits</td>
+      </tr>
+      <tr>
+        <td>3DES</td>
+        <td>None</td>
+        <td>64 bits</td>
+        <td>192 bits</td>
+      </tr>
+      <tr>
+        <td>Ice</td>
+        <td>None?</td>
+        <td>64 bits</td>
+        <td>64 bits</td>
+      </tr>
+      <tr>
+        <td>Thin Ice</td>
+        <td>None?</td>
+        <td>64 bits</td>
+        <td>64 bits</td>
+      </tr>
+      <tr>
+        <td>Ice 2</td>
+        <td>None?</td>
+        <td>64 bits</td>
+        <td>128 bits</td>
+      </tr>
+      <tr>
+        <td>IDEA</td>
+        <td>Free for non-commercial use</td>
+        <td>64 bits</td>
+        <td>128 bits</td>
+      </tr>
+      <tr>
+        <td>MARS</td>
+        <td>Patented?</td>
+        <td>128 bits</td>
+        <td>1248 bits</td>
+      </tr>
+      <tr>
+        <td>Misty1</td>
+        <td>Free for non-commercial use</td>
+        <td>64 bits</td>
+        <td>128 bits</td>
+      </tr>
+      <tr>
+        <td>RC2</td>
+        <td>None</td>
+        <td>64 bits</td>
+        <td>1024 bits</td>
+      </tr>
+      <tr>
+        <td>RC4</td>
+        <td>None</td>
+        <td>N/A</td>
+        <td>2048 bits</td>
+      </tr>
+      <tr>
+        <td>RC5</td>
+        <td>Patented</td>
+        <td>64 bits</td>
+        <td>2048 bits</td>
+      </tr>
+      <tr>
+        <td>RC6</td>
+        <td>Patented</td>
+        <td>128 bits</td>
+        <td>2048 bits</td>
+      </tr>
+      <tr>
+        <td>Rijndael (AES)</td>
+        <td>None</td>
+        <td>128 bits</td>
+        <td>256 bits</td>
+      </tr>
+      <tr>
+        <td>Serpent</td>
+        <td>None</td>
+        <td>128 bits</td>
+        <td>256 bits</td>
+      </tr>
+      <tr>
+        <td>TEA</td>
+        <td>None</td>
+        <td>64 bits</td>
+        <td>128 bits</td>
+      </tr>
+      <tr>
+        <td>Twofish</td>
+        <td>None</td>
+        <td>128 bits</td>
+        <td>256 bits</td>
+      </tr>
+    </table>
+    <p>* although the quoted maximum key size may extremely large it doen't mean that the algorithm is secure to the same level.<br>
+       ** a 64bit key is used for DES then every 8th bit is discarded (parity) so the effective size is 56 bits.
+    <p>
+    <table bgcolor="#FFFFCC" align="center">
+      <tr>
+        <td colspan="3" align="center"><font size="+1"><b>Hash Algorithms</b><font></td>
+      </tr>
+      <tr>
+        <td><b>Name</b></td>
+        <td><b>Patents</b></td>
+        <td><b>Digest Size</b></td>
+      </tr>
+      <tr>
+        <td>Haval</td>
+        <td>None</td>
+        <td>128, 160, 192, 224, 256 bits*</td>
+      </tr>
+      <tr>
+        <td>MD4</td>
+        <td>None</td>
+        <td>128 bits</td>
+      </tr>
+      <tr>
+        <td>MD5</td>
+        <td>None</td>
+        <td>128 bits</td>
+      </tr>
+      <tr>
+        <td>RipeMD-128</td>
+        <td>None</td>
+        <td>128 bits</td>
+      </tr>
+      <tr>
+        <td>RipeMD-160</td>
+        <td>None</td>
+        <td>160 bits</td>
+      </tr>
+      <tr>
+        <td>SHA-1</td>
+        <td>None</td>
+        <td>160 bits</td>
+      </tr>
+      <tr>
+        <td>SHA-256</td>
+        <td>None</td>
+        <td>256 bits</td>
+      </tr>
+      <tr>
+        <td>SHA-384</td>
+        <td>None</td>
+        <td>384 bits</td>
+      </tr>
+      <tr>
+        <td>SHA-512</td>
+        <td>None</td>
+        <td>512 bits</td>
+      </tr>
+      <tr>
+        <td>Tiger</td>
+        <td>None</td>
+        <td>192 bits</td>
+      </tr>
+    </table>
+    <p>* The different digest sizes of Haval can be accessed by uncommenting the $defines at the start of DCPhaval.pas.  
+    <p>&nbsp;
+    <p><font size="+2">Contact</font>
+    <p>I appreciate knowing what DCPcrypt is being used for and also if you have any queries or bug reports please email me at <a href="mailto:crypto@cityinthesky.co.uk">crypto@cityinthesky.co.uk</a>. 
+    <p>&nbsp;
+    <p><em>DCPcrypt is copyrighted &copy; 1999-2003 David Barton.<br>
+       All trademarks are property of their respective owners.</em>
+  </body>
+</html>

@@ -101,17 +101,8 @@ object frmCheckSumCalc: TfrmCheckSumCalc
     Width = 132
     BorderSpacing.Top = 6
     ItemHeight = 13
-    ItemIndex = 0
-    Items.Strings = (
-      'MD5'
-      'SHA1'
-      'SHA256'
-      'SHA384'
-      'SHA512'
-    )
     OnChange = cmbHashAlgorithmChange
     Style = csDropDownList
     TabOrder = 4
-    Text = 'MD5'
   end
 end
