@@ -4,7 +4,7 @@
     General Hash Unit: This unit defines the common types, functions,
     and procedures
 
-    Copyright (C) 2009-2010  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2009-2011  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,20 +28,21 @@ unit uHash;
 interface
 
 uses
-  Classes, SysUtils, md5, sha, crc;
+  Classes, SysUtils, DCPcrypt2, crc;
 
 type
-  THashAlgorithm = (HASH_MD5, HASH_SHA1, HASH_SHA256, HASH_SHA384, HASH_SHA512);
-  THashContext = record
-    HashContext: Pointer;
-    HashAlgorithm: THashAlgorithm;
-  end;
+  THashContext   = TDCP_hash;
+  THashAlgorithm = (HASH_HAVAL, HASH_MD4, HASH_MD5, HASH_RIPEMD128, HASH_RIPEMD160,
+                    HASH_SHA1, HASH_SHA256, HASH_SHA384, HASH_SHA512, HASH_TIGER);
 
 var
-  HashFileExt: array[THashAlgorithm] of String = ('md5', 'sha', 'sha256', 'sha384', 'sha512');
+  HashFileExt: array[THashAlgorithm] of String = (
+                 'haval', 'md4', 'md5', 'ripemd128', 'ripemd160',
+                 'sha', 'sha256', 'sha384', 'sha512', 'tiger'
+               );
 
 procedure HashInit(out Context: THashContext; const Algorithm: THashAlgorithm);
-procedure HashUpdate(var Context: THashContext; var Buf; const BufLen: PtrUInt);
+procedure HashUpdate(var Context: THashContext; const Buffer; BufLen: LongWord);
 procedure HashFinal(var Context: THashContext; out Hash: String);
 
 function HashString(const Line: String; IgnoreCase, IgnoreWhiteSpace: Boolean): Pointer;
@@ -52,87 +53,45 @@ function FileExtToHashAlg(const FileExt: String): THashAlgorithm;
 
 implementation
 
+uses
+  DCPhaval, DCPmd4, DCPmd5, DCPripemd128, DCPripemd160, DCPsha1, DCPsha256,
+  DCPsha512, DCPtiger;
+
 procedure HashInit(out Context: THashContext; const Algorithm: THashAlgorithm);
 begin
   case Algorithm of
-    HASH_MD5:
-      begin
-        GetMem(Context.HashContext, SizeOf(TMD5Context));
-        MD5Init(PMD5Context(Context.HashContext)^);
-        Context.HashAlgorithm:= Algorithm;
-      end;
-    HASH_SHA1:
-      begin
-        GetMem(Context.HashContext, SizeOf(TSHA1Context));
-        SHA1Init(PSHA1Context(Context.HashContext)^);
-        Context.HashAlgorithm:= Algorithm;
-      end;
-    HASH_SHA256:
-      begin
-        GetMem(Context.HashContext, SizeOf(TSHA256Context));
-        SHA256Init(PSHA256Context(Context.HashContext)^);
-        Context.HashAlgorithm:= Algorithm;
-      end;
-    HASH_SHA384:
-      begin
-        GetMem(Context.HashContext, SizeOf(TSHA384Context));
-        SHA384Init(PSHA384Context(Context.HashContext)^);
-        Context.HashAlgorithm:= Algorithm;
-      end;
-    HASH_SHA512:
-      begin
-        GetMem(Context.HashContext, SizeOf(TSHA512Context));
-        SHA512Init(PSHA512Context(Context.HashContext)^);
-        Context.HashAlgorithm:= Algorithm;
-      end;
+    HASH_HAVAL:      Context:= TDCP_haval.Create(nil);
+    HASH_MD4:        Context:= TDCP_md4.Create(nil);
+    HASH_MD5:        Context:= TDCP_md5.Create(nil);
+    HASH_RIPEMD128:  Context:= TDCP_ripemd128.Create(nil);
+    HASH_RIPEMD160:  Context:= TDCP_ripemd160.Create(nil);
+    HASH_SHA1:       Context:= TDCP_sha1.Create(nil);
+    HASH_SHA256:     Context:= TDCP_sha256.Create(nil);
+    HASH_SHA384:     Context:= TDCP_sha384.Create(nil);
+    HASH_SHA512:     Context:= TDCP_sha512.Create(nil);
+    HASH_TIGER:      Context:= TDCP_tiger.Create(nil);
   end;
+  Context.Init;
 end;
 
-procedure HashUpdate(var Context: THashContext; var Buf; const BufLen: PtrUInt);
+procedure HashUpdate(var Context: THashContext; const Buffer; BufLen: LongWord);
 begin
-  case Context.HashAlgorithm of
-    HASH_MD5:
-      MD5Update(PMD5Context(Context.HashContext)^, Buf, BufLen);
-    HASH_SHA1:
-      SHA1Update(PSHA1Context(Context.HashContext)^, Buf, BufLen);
-    HASH_SHA256:
-      SHA256Update(PSHA256Context(Context.HashContext)^, Buf, BufLen);
-    HASH_SHA384:
-      SHA384Update(PSHA384Context(Context.HashContext)^, Buf, BufLen);
-    HASH_SHA512:
-      SHA512Update(PSHA512Context(Context.HashContext)^, Buf, BufLen);
-  end;
+  Context.Update(Buffer, BufLen);
 end;
 
 procedure HashFinal(var Context: THashContext; out Hash: String);
+var
+  I, HashSize: LongWord;
+  Digest: array of Byte;
 begin
-  case Context.HashAlgorithm of
-    HASH_MD5:
-      begin
-        MD5Final(PMD5Context(Context.HashContext)^, Hash);
-        FreeMem(Context.HashContext, SizeOf(TMD5Context));
-      end;
-    HASH_SHA1:
-      begin
-        SHA1Final(PSHA1Context(Context.HashContext)^, Hash);
-        FreeMem(Context.HashContext, SizeOf(TSHA1Context));
-      end;
-    HASH_SHA256:
-      begin
-        SHA256Final(PSHA256Context(Context.HashContext)^, Hash);
-        FreeMem(Context.HashContext, SizeOf(TSHA256Context));
-      end;
-    HASH_SHA384:
-      begin
-        SHA384Final(PSHA384Context(Context.HashContext)^, Hash);
-        FreeMem(Context.HashContext, SizeOf(TSHA384Context));
-      end;
-    HASH_SHA512:
-      begin
-        SHA512Final(PSHA512Context(Context.HashContext)^, Hash);
-        FreeMem(Context.HashContext, SizeOf(TSHA512Context));
-      end;
-  end;
+  Hash:= EmptyStr;
+  HashSize:= Context.HashSize div 8;
+  SetLength(Digest, HashSize);
+  Context.Final(Pointer(Digest)^);
+  for I := 0 to HashSize - 1 do
+    Hash := Hash + HexStr(Digest[I], 2);
+  Hash := LowerCase(Hash);
+  FreeAndNil(Context);
 end;
 
 function HashString(const Line: String; IgnoreCase, IgnoreWhiteSpace: Boolean): Pointer;

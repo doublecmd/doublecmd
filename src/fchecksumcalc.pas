@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    Calculate check sum dialog
 
-   Copyright (C) 2009-2010  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -98,7 +98,14 @@ begin
 end;
 
 procedure TfrmCheckSumCalc.FormCreate(Sender: TObject);
+var
+  I: THashAlgorithm;
 begin
+  for I:= Low(HashFileExt) to High(HashFileExt) do
+  begin
+    cmbHashAlgorithm.Items.Add(UpperCase(HashFileExt[I]));
+  end;
+  cmbHashAlgorithm.ItemIndex:= 0;
   InitPropStorage(Self);
 end;
 

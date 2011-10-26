@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <title>DCPcrypt v2: Users Guide - Block Ciphers</title>
+  </head>
+  <body>
+    <p align="center"><font size="+2"><b>DCPcrypt Cryptographic Component Library v2</b></font><br>
+      <font size="+1">Copyright &copy; 1999-2002 David Barton<br>
+      <a href="http://www.cityinthesky.co.uk/">http://www.cityinthesky.co.uk/</a><br>
+      <a href="mailto:crypto@cityinthesky.co.uk">crypto@cityinthesky.co.uk</a></font>
+    <p><font size="+2">Block Ciphers - TDCP_blockcipher</font>
+    <p>All block ciphers are inherited from the TDCP_blockcipher component via either the TDCP_blockcipher64 and TDCP_blockcipher128 components (the latter implement the block size specific code).
+    <p>The TDCP_blockcipher component extends the TDCP_cipher component to provide chaining mode functions. Functions available are:
+    <pre>
+      property <a href="Ciphers.html#Initialized">Initialized</a>: boolean;
+      property <a href="Ciphers.html#Id">Id</a>: integer;
+      property <a href="Ciphers.html#Algorithm">Algorithm</a>: string;
+      property <a href="Ciphers.html#MaxKeySize">MaxKeySize</a>: integer;
+      property <a href="#BlockSize">BlockSize</a>: integer;
+      property <a href="#CipherMode">CipherMode</a>: TDCP_ciphermode;
+  
+      class function <a href="Ciphers.html#SelfTest">SelfTest</a>: boolean;
+ 
+      procedure <a href="#SetIV">SetIV</a>(const Value);
+      procedure <a href="#GetIV">GetIV</a>(var Value);
+ 
+      procedure <a href="Ciphers.html#Init">Init</a>(const Key; Size: longword; InitVector: pointer); 
+      procedure <a href="Ciphers.html#InitStr">InitStr</a>(const Key: string; HashType: TDCP_hashclass);
+      procedure <a href="Ciphers.html#Burn">Burn</a>; 
+      procedure <a href="Ciphers.html#Reset">Reset</a>;
+      procedure <a href="Ciphers.html#Encrypt">Encrypt</a>(const Indata; var Outdata; Size: longword); 
+      procedure <a href="Ciphers.html#Decrypt">Decrypt</a>(const Indata; var Outdata; Size: longword); 
+      function <a href="Ciphers.html#EncryptStream">EncryptStream</a>(InStream, OutStream: TStream; Size: longword): longword;
+      function <a href="Ciphers.html#DecryptStream">DecryptStream</a>(InStream, OutStream: TStream; Size: longword): longword;
+      function <a href="Ciphers.html#EncryptString">EncryptString</a>(const Str: string): string; 
+      function <a href="Ciphers.html#DecryptString">DecryptString</a>(const Str: string): string; 
+      procedure <a href="#EncryptECB">EncryptECB</a>(const Indata; var Outdata);
+      procedure <a href="#DecryptECB">DecryptECB</a>(const Indata; var Outdata);
+      procedure <a href="#EncryptCBC">EncryptCBC</a>(const Indata; var Outdata; Size: longword);
+      procedure <a href="#DecryptCBC">DecryptCBC</a>(const Indata; var Outdata; Size: longword);
+      procedure <a href="#EncryptCFB8bit">EncryptCFB8bit</a>(const Indata; var Outdata; Size: longword);
+      procedure <a href="#DecryptCFB8bit">DecryptCFB8bit</a>(const Indata; var Outdata; Size: longword);
+      procedure <a href="#EncryptCFBblock">EncryptCFBblock</a>(const Indata; var Outdata; Size: longword);
+      procedure <a href="#DecryptCFBblock">DecryptCFBblock</a>(const Indata; var Outdata; Size: longword);
+      procedure <a href="#EncryptOFB">EncryptOFB</a>(const Indata; var Outdata; Size: longword);
+      procedure <a href="#DecryptOFB">DecryptOFB</a>(const Indata; var Outdata; Size: longword);
+      procedure <a href="#EncryptCTR">EncryptCTR</a>(const Indata; var Outdata; Size: longword);
+      procedure <a href="#DecryptCTR">DecryptCTR</a>(const Indata; var Outdata; Size: longword);
+    </pre>
+    <hr>
+    <p><font size="+2">Function descriptions</font>
+    <p><font size="+1"><a name="BlockSize">property BlockSize: integer;</a></font>
+    <p>This contains the block size of the cipher in BITS.
+    <p><font size="+1"><a name="CipherMode">property CipherMode: TDCP_ciphermode;</a></font>
+    <p>This is the current chaining mode used when <a href="Ciphers.html#Encrypt">Encrypt</a> is called. The available modes are:
+    <ul>
+      <li>cmCBC - Cipher block chaining.
+      <li>cmCFB8bit - 8bit cipher feedback.
+      <li>cmCFBblock - Cipher feedback (using the block size of the algorithm).
+      <li>cmOFB - Output feedback.
+      <li>cmCTR - Counter.
+    </ul>
+    <p>Each chaining mode has it's own pro's and cons. See any good book on cryptography or the NIST publication SP800-38A for details on each.
+    <p><font size="+1"><a name="SetIV">procedure SetIV(const Value);</a></font>
+    <p>Use this procedure to set the current chaining mode information to Value. This variable should be the same size as the block size. When <a href="Ciphers.html#Reset">Reset</a> is called subsequent to this, the chaining information will be set back to Value.
+    <p><font size="+1"><a name="GetIV">procedure GetIV(var Value);</a></font>
+    <p>This returns in Value the current chaining mode information, to get the initial chaining mode information you need to call <a href="Ciphers.html#Reset">Reset</a> before calling GetIV. The variable passed in Value must be at least the same size as the block size otherwise you will get a buffer overflow.
+    <p><font size="+1"><a name="EncryptCBC">procedure EncryptCBC(const Indata; var Outdata; Size: longword);</a></font><br>
+       <font size="+1"><a name="DecryptCBC">procedure DecryptCBC(const Indata; var Outdata; Size: longword);</a></font><br>
+       <font size="+1"><a name="EncryptCFB8bit">procedure EncryptCFB8bit(const Indata; var Outdata; Size: longword);</a></font><br>
+       <font size="+1"><a name="DecryptCFB8bit">procedure DecryptCFB8bit(const Indata; var Outdata; Size: longword);</a></font><br>
+       <font size="+1"><a name="EncryptCFBblock">procedure EncryptCFBblock(const Indata; var Outdata; Size: longword);</a></font><br>
+       <font size="+1"><a name="DecryptCFBblock">procedure DecryptCFBblock(const Indata; var Outdata; Size: longword);</a></font><br>
+       <font size="+1"><a name="EncryptOFB">procedure EncryptOFB(const Indata; var Outdata; Size: longword);</a></font><br>
+       <font size="+1"><a name="DecryptOFB">procedure DecryptOFB(const Indata; var Outdata; Size: longword);</a></font><br>
+       <font size="+1"><a name="EncryptCTR">procedure EncryptCTR(const Indata; var Outdata; Size: longword);</a></font><br>
+       <font size="+1"><a name="DecryptCTR">procedure DecryptCTR(const Indata; var Outdata; Size: longword);</a></font>
+    <p>These procedures encrypt/decrypt Size bytes of data from Indata and places the result in Outdata. These all employ chaining mode methods of encryption/decryption and so may need to be used inconjunction with <a href="Ciphers.html#Reset">Reset</a>. The CBC method uses short block encryption as specified in Bruce Schneier's "Applied Cryptography" for data blocks that are not multiples of the block size.
+    <p>&nbsp;
+    <p><a href="Index.html">Index</a>, <a href="Ciphers.html">Ciphers</a>, <a href="Hashes.html">Hashes</a>
+    <p>&nbsp;
+    <p><em>DCPcrypt is copyrighted &copy; 1999-2002 David Barton.<br>
+       All trademarks are property of their respective owners.</em>
+  </body>
+</html>

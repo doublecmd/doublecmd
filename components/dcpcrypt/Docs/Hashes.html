@@ -1,0 +1,107 @@
+<html>
+  <head>
+    <title>DCPcrypt v2: Users Guide - Hash Algorithms</title>
+  </head>
+  <body>
+    <p align="center"><font size="+2"><b>DCPcrypt Cryptographic Component Library v2</b></font><br>
+      <font size="+1">Copyright &copy; 1999-2002 David Barton<br>
+      <a href="http://www.cityinthesky.co.uk/">http://www.cityinthesky.co.uk/</a><br>
+      <a href="mailto:crypto@cityinthesky.co.uk">crypto@cityinthesky.co.uk</a></font>
+    <p><font size="+2">Hash Algorithms - TDCP_hash</font>
+    <p>All hashes are derived from the TDCP_hash component. It provides a range of functions to allow the hashing of virtually every type of data.
+    <p>Functions available are:
+    <pre>
+      property <a href="#Initialized">Initialized</a>: boolean;
+      property <a href="#Id">Id: integer</a>;
+      property <a href="#Algorithm">Algorithm</a>: string;
+      property <a href="#HashSize">HashSize</a>: integer;
+  
+      class function <a href="#SelfTest">SelfTest</a>: boolean; 
+  
+      procedure <a href="#Init">Init</a>; 
+      procedure <a href="#Final">Final</a>(var Digest); 
+      procedure <a href="#Burn">Burn</a>; 
+  
+      procedure <a href="#Update">Update</a>(const Buffer; Size: longword); 
+      procedure <a href="#UpdateStream">UpdateStream</a>(Stream: TStream; Size: longword);
+      procedure <a href="#UpdateStr">UpdateStr</a>(const Str: string);
+    </pre>
+    <p>Example usage:
+    <ul>
+      <li><a href="#Example1">Example 1</a> - File hashing.
+    </ul>
+    <hr>
+    <p><font size="+1"><a name="Initialized">property Initialized: boolean;</a></font>
+    <p>This is set to true after <a href="#Init">Init</a> has been called.
+    <p><font size="+1"><a name="Id">property Id: integer;</a></font>
+    <p>Every algorithm I implement gets given a unique ID number so that if I use several different algorithms within a program I can determine which one was used. This is a purely arbitrary numbering system. 
+    <p><font size="+1"><a name="Algorithm">property Algorithm: string;</a></font>
+    <p>This is the name of the algorithm implemented in the component.
+    <p><font size="+1"><a name="HashSize">property HashSize: integer;</a></font>
+    <p>This is the size of the output of the hash algorithm in BITS.
+    <p><font size="+1"><a name="SelfTest">class function SelfTest: boolean;</a></font>
+    <p>In order to test whether the implementations have all been compiled correctly you can call the SelfTest function. This compares the results of several hash operations with known results for the algorithms (so called test vectors). If all the tests are passed then true is returned. If ANY of the tests are failed then false is returned. You may want to run this function for all the components when you first install the DCPcrypt package and again if you modify any of the source files, you don't need to run this everytime your program is run. Note: this only performs a selection of tests, it is not exhaustive.
+    <p><font size="+1"><a name="Init">procedure Init;</a></font>
+    <p>Call this procedure to initialize the hash algorithm, this must be called before using the <a href="#Update">Update</a> procedure.
+    <p><font size="+1"><a name="Final">procedure Final(var Digest);</a></font>
+    <p>This procedure returns the final message digest (hash) in Digest. This variable must be the same size as the hash size. This procedure also calls <a href="#Burn">Burn</a> to clear any stored information.
+    <p><font size="+1"><a name="Burn">procedure Burn;</a></font>
+    <p>Call this procedure if you want to abort the hashing operation (normally <a href="#Final">Final</a> is used). This clears all information stored within the hash. Before the hash can be used again <a href="#Init">Init</a> must be called.
+    <p><font size="+1"><a name="Update">procedure Update(const Buffer; Size: longword);</a></font>
+    <p>This procedure hashes Size bytes of Buffer. To get the hash result call <a href="#Final">Final</a>.
+    <p>Update example:
+    <pre>
+  <b>procedure</b> HashBuffer(<b>const</b> Buffer; Size: <b>longint</b>; <b>var</b> Output);
+  <b>var</b>
+    Hash: TDCP_ripemd160;
+  <b>begin</b>
+    Hash:= TDCP_ripemd160.Create(<b>nil</b>);
+    Hash.Init;
+    Hash.Update(Buffer,Size);
+    Hash.Final(Output);
+    Hash.Free;
+  <b>end</b>;
+    </pre>    
+    <p><font size="+1"><a name="UpdateStream">procedure UpdateStream(Stream: TStream; Size: longword);</a></font>
+    <p>This procedure hashes Size bytes from Stream. To get the hash result call <a href="#Final">Final</a>.
+    <p><font size="+1"><a name="UpdateStr">procedure UpdateStr(const Str: string);</a></font>
+    <p>This procedure hashes the string Str. To get the hash result call <a href="#Final">Final</a>.
+    <hr>
+    <p><font size="+2"><a name="Example1">Example 1 - File hashing</a></font>
+    <p>This example shows how you can hash the contents of a file
+    <pre>
+  <b>procedure</b> TForm1.Button1Click(Sender: TObject);
+  <b>var</b>
+    Hash: TDCP_ripemd160;
+    Digest: <b>array</b>[0..19] <b>of</b> <b>byte</b>;  <em>// RipeMD-160 produces a 160bit digest (20bytes)</em>
+    Source: TFileStream;
+    i: <b>integer</b>;
+    s: string;
+  <b>begin</b>
+    Source:= <b>nil</b>;
+    <b>try</b>
+      Source:= TFileStream.Create(Edit1.Text,fmOpenRead);  <em>// open the file specified by Edit1</em>
+    <b>except</b>
+      MessageDlg('Unable to open file',mtError,[mbOK],0);
+    <b>end</b>;
+    <b>if</b> Source <> <b>nil then</b>
+    <b>begin</b>
+      Hash:= TDCP_ripemd160.Create(Self);          <em>// create the hash</em>
+      Hash.Init;                                   <em>// initialize it</em>
+      Hash.UpdateStream(Source,Source.Size);       <em>// hash the stream contents</em>
+      Hash.Final(Digest);                          <em>// produce the digest</em>
+      Source.Free;
+      s:= '';
+      <b>for</b> i:= 0 <b>to</b> 19 <b>do</b>
+        s:= s + IntToHex(Digest[i],2);
+      Edit2.Text:= s;                              <em>// display the digest</em>
+    <b>end</b>;
+  <b>end</b>;
+    </pre>
+    <p>&nbsp;
+    <p><a href="Index.html">Index</a>, <a href="Ciphers.html">Ciphers</a>, <a href="BlockCiphers.html">Block Ciphers</a>
+    <p>&nbsp;
+    <p><em>DCPcrypt is copyrighted &copy; 1999-2002 David Barton.<br>
+       All trademarks are property of their respective owners.</em>
+  </body>
+</html>

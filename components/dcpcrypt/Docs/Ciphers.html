@@ -1,0 +1,273 @@
+<html>
+  <head>
+    <title>DCPcrypt v2: Users Guide - Ciphers</title>
+  </head>
+  <body>
+    <p align="center"><font size="+2"><b>DCPcrypt Cryptographic Component Library v2</b></font><br>
+      <font size="+1">Copyright &copy; 1999-2002 David Barton<br>
+      <a href="http://www.cityinthesky.co.uk/">http://www.cityinthesky.co.uk/</a><br>
+      <a href="mailto:crypto@cityinthesky.co.uk">crypto@cityinthesky.co.uk</a></font>
+    <p><font size="+2">Ciphers - TDCP_cipher</font>
+    <p>All ciphers are inherited from the TDCP_cipher component either directly for stream ciphers (such as RC4) or via the TDCP_blockcipher component.
+    <p>The TDCP_cipher component implements key initialisation features and the basic encryption/decryption interface. Functions available are:
+    <pre>
+      property <a href="#Initialized">Initialized</a>: boolean;
+      property <a href="#Id">Id</a>: integer;
+      property <a href="#Algorithm">Algorithm</a>: string;
+      property <a href="#MaxKeySize">MaxKeySize</a>: integer;
+  
+      class function <a href="#SelfTest">SelfTest</a>: boolean;
+  
+      procedure <a href="#Init">Init</a>(const Key; Size: longword; InitVector: pointer); 
+      procedure <a href="#InitStr">InitStr</a>(const Key: string; HashType: TDCP_hashclass);
+      procedure <a href="#Burn">Burn</a>; 
+      procedure <a href="#Reset">Reset</a>;
+      procedure <a href="#Encrypt">Encrypt</a>(const Indata; var Outdata; Size: longword); 
+      procedure <a href="#Decrypt">Decrypt</a>(const Indata; var Outdata; Size: longword); 
+      function <a href="#EncryptStream">EncryptStream</a>(InStream, OutStream: TStream; Size: longword): longword;
+      function <a href="#DecryptStream">DecryptStream</a>(InStream, OutStream: TStream; Size: longword): longword;
+      function <a href="#EncryptString">EncryptString</a>(const Str: string): string; 
+      function <a href="#DecryptString">DecryptString</a>(const Str: string): string; 
+    </pre>
+    <p>Example usage:
+    <ul>
+      <li><a href="#Example1">Example 1</a> - String encryption.
+      <li><a href="#Example2">Example 2</a> - File encryption.
+      <li><a href="#Example3">Example 3</a> - General encryption.
+    </ul>
+    <hr>
+    <p><font size="+2">Function descriptions</font>
+    <p><font size="+1"><a name="Initialized">property Initialized: boolean;</a></font>
+    <p>Once key initialization has been performed this property is set to true, otherwise it is set to false. Calling <a href="#Burn">Burn</a> will immediately set this to false.
+    <p><font size="+1"><a name="Id">property Id: integer;</a></font>
+    <p>Every algorithm I implement gets given a unique ID number so that if I use several different algorithms within a program I can determine which one was used. This is a purely arbitrary numbering system. 
+    <p><font size="+1"><a name="Algorithm">property Algorithm: string;</a></font>
+    <p>This contains the name of the algorithm implemented within the component.      
+    <p><font size="+1"><a name="MaxKeySize">property MaxKeySize: integer;</a></font>
+    <p>This is the maximum size of key you can pass to the cipher (in bits!).
+    <p><font size="+1"><a name="SelfTest">class function SelfTest: boolean;</a></font>
+    <p>In order to test whether the implementations have all been compiled correctly you can call the SelfTest function. This compares the results of several encryption/decryption operations with known results for the algorithms (so called test vectors). If all the tests are passed then true is returned. If ANY of the tests are failed then false is returned. You may want to run this function for all the components when you first install the DCPcrypt package and again if you modify any of the source files, you don't need to run this everytime your program is run. Note: this only performs a selection of tests, it is not exhaustive.
+    <p><font size="+1"><a name="Init">procedure Init(const Key; Size: longword; InitVector: pointer);</a></font>
+    <p>This procedure initializes the cipher with the keying material supplied in Key. The Size of the keying material is specified in <b>BITS</b>. The InitVector is a pointer to chaining information (only used for block ciphers). The variable that this points to should be equal to the block size of the algorithm. If <em>nil</em> is specified then (if necessary) an initialization vector is automatically generated from the key. Note: the method for generating automatic IVs is different from DCPcrypt v1.31, if this is a problem uncomment the DCPcrypt v1.31 compatibility mode line in DCPcrypt2.pas.
+    <p>Init example: use the hash of a string to initialize the cipher
+    <pre>
+  <b>procedure</b> TForm1.Button1Click(Sender: TObject);
+  <b>var</b>
+    Cipher: TDCP_rc4;
+    Hash: TDCP_sha1;
+    Digest: <b>array</b>[0..19] <b>of byte</b>;  <em>// SHA-1 produces a 160bit (20byte) output</em>
+  <b>begin</b>
+    Hash:= TDCP_sha1.Create(Self);
+    Hash.Init;                     <em>// initialize the hash</em>
+    Hash.UpdateStr(Edit1.Text);    <em>// generate a hash of Edit1.Text</em>
+    Hash.Final(Digest);            <em>// save the hash in Digest</em>
+    Hash.Free;
+    Cipher:= TDCP_rc4.Create(Self);
+    Cipher.Init(Digest,Sizeof(Digest)*8,<b>nil</b>);  <em>// remember size is in BITS (hence sizeof*8)</em>
+    ...
+    </pre>
+    <p><font size="+1"><a name="InitStr">procedure InitStr(const Key: string; HashType: TDCP_hashclass);</a></font>
+    <p>This procedure initializes the cipher with a hash of the key string using the specified hash type (in a way similar to the example above). To replicate the behaviour from DCPcrypt v2 Beta 1 use Cipher.InitStr(KeyStr,TDCP_sha1).
+    <p>InitStr example: prompt the user for a passphrase to initialize the cipher
+    <pre>
+  <b>procedure</b> TForm1.Button1Click(Sender: TObject);
+  <b>var</b>
+    Cipher: TDCP_rc4;
+  <b>begin</b>
+    Cipher:= TDCP_rc4.Create(Self);
+    Cipher.InitStr(InputBox('Passphrase','Enter a passphrase',''),TDCP_sha1); <em>// prompt for a passphrase</em>
+    ...
+    </pre>
+    <p><font size="+1"><a name="Burn">procedure Burn;</a></font>
+    <p>Once you have finished encrypting/decrypting all your data call Burn to erase all keying information. This is automatically called once the cipher is freed, however it is a good habit to call this procedure explicitly.
+    <p><font size="+1"><a name="Reset">procedure Reset;</a></font>
+    <p>Stream ciphers (and block ciphers in chaining modes) generally store chaining information that is dependant on the information already encrypted. Consequently decrypting a block of information immediately after encrypting it won't result in the original information because when you called the decrypt procedure the chaining information was different from when you called the encrypt procedure. Hence use Reset to restore the chaining information to it's original state.
+    <p>Remember that calling <a href="#EncryptString">EncryptString</a>, <a href="#DecryptString">DecryptString</a>, <a href="#EncryptStream">EncryptStream</a> and <a href="#DecryptStream">DecryptStream</a> will also affect the chaining information.
+    <p>Reset example: encrypting and decrypting
+    <pre>
+  <b>function</b> TestCipher: <b>boolean</b>;
+  <b>const</b>
+    InData: <b>array</b>[0..9] <b>of byte</b>= ($01,$23,$45,$56,$67,$78,$89,$10,$AB,$FF);
+  <b>var</b>
+    Cipher: TDCP_rc4;
+    Data: <b>array</b>[0..9] <b>of byte</b>;
+  <b>begin</b>
+    Cipher:= TDCP_rc4.Create(<b>nil</b>);
+    Cipher.InitStr('Hello World',TDCP_sha1);   <em>// initialize the cipher</em>
+    Cipher.Encrypt(InData,Data,Sizeof(Data));  <em>// encrypt some known data</em>
+    Cipher.Decrypt(Data,Data,Sizeof(Data));    <em>// now decrypt it</em>
+    Cipher.Burn;                               <em>// clear keying information</em>
+    Cipher.Free;
+    Result:= CompareMem(@InData,@Data,Sizeof(Data));  <em>// compare input and output</em>
+  <b>end</b>;
+    </pre>
+    The above will ALWAYS result in false due to the chaining information.
+    <pre>
+  <b>function</b> TestCipher: <b>boolean</b>;
+  <b>const</b>
+    InData: <b>array</b>[0..9] <b>of byte</b>= ($01,$23,$45,$56,$67,$78,$89,$10,$AB,$FF);
+  <b>var</b>
+    Cipher: TDCP_rc4;
+    Data: <b>array</b>[0..9] <b>of byte</b>;
+  <b>begin</b>
+    Cipher:= TDCP_rc4.Create(<b>nil</b>);
+    Cipher.InitStr('Hello World',TDCP_sha1);   <em>// initialize the cipher</em>
+    Cipher.Encrypt(InData,Data,Sizeof(Data));  <em>// encrypt some known data</em>
+    Cipher.Reset;                              <em><b>// reset chaining information</b></em>
+    Cipher.Decrypt(Data,Data,Sizeof(Data));    <em>// now decrypt it</em>
+    Cipher.Burn;                               <em>// clear keying information</em>
+    Cipher.Free;
+    Result:= CompareMem(@InData,@Data,Sizeof(Data));  <em>// compare input and output</em>
+  <b>end</b>;
+    </pre>
+    The above <em>should</em> always return true.
+    <p><font size="+1"><a name="Encrypt">procedure Encrypt(const Indata; var Outdata; Size: longword);</a></font>
+    <p>Encrypt Size bytes from Indata and place it in Outdata. Block ciphers encrypt the data using the method specified by the <a href="BlockCiphers.html#CipherMode">CipherMode</a> property. Also see the notes on <a href="#Reset">Reset</a>.
+    <p><font size="+1"><a name="Decrypt">procedure Decrypt(const Indata; var Outdata; Size: longword);</a></font>
+    <p>Decrypt Size bytes from Indata and place it in Outdata. Block ciphers decrypt the data using the method specified by the <a href="BlockCiphers.html#CipherMode">CipherMode</a> property. Also see the notes on <a href="#Reset">Reset</a>.
+    <p><font size="+1"><a name="EncryptStream">function EncryptStream(InStream, OutStream: TStream; Size: longword): longword;</a></font>
+    <p>Encrypt Size bytes from the InStream and place it in the OutStream, returns the number of bytes read from the InStream. Encryption is done by calling the <a href="#Encrypt">Encrypt</a> procedure. Also see the notes on <a href="#Reset">Reset</a>.
+    <p><font size="+1"><a name="DecryptStream">function DecryptStream(InStream, OutStream: TStream; Size: longword): longword;</a></font>
+    <p>Decrypt Size bytes from the InStream and place it in the OutStream, returns the number of bytes read from the InStream. Decryption is done by calling the <a href="#Decrypt">Decrypt</a> procedure. Also see the notes on <a href="#Reset">Reset</a>.
+    <p><font size="+1"><a name="EncryptString">function EncryptString(const Str: string): string;</a></font>
+    <p>Encrypt the string Str then Base64 encode it and return the result. For stream ciphers the <a href="#Encrypt">Encrypt</a> procedure is called to do the encryption, for block ciphers the <a href="BlockCiphers.html#EncryptCFB8bit">CFB8bit</a> method is always used. Base64 encoding is used to ensure that the output string doesn't contain non-printing characters.
+    <p><font size="+1"><a name="DecryptString">function DecryptString(const Str: string): string;</a></font>
+    <p>Base64 decode the string then decrypt it and return the result. For stream ciphers the <a href="#Decrypt">Decrypt</a> procedure is called to do the decryption, for block ciphers the <a href="BlockCiphers.html#DecryptCFB8bit">CFB8bit</a> method is always used.
+    <hr>
+    <p><font size="+2"><a name="Example1">Example 1: String encryption</a></font>
+    <p>This example shows how you can encrypt the contents of a TMemo and leave the contents printable.
+    <pre>
+  <b>procedure</b> TForm1.btnEncryptClick(Sender: TObject);
+  <b>var</b>
+    i: <b>integer</b>;
+    Cipher: TDCP_rc4;
+    KeyStr: string;
+  <b>begin</b>
+    KeyStr:= '';
+    <b>if</b> InputQuery('Passphrase','Enter passphrase',KeyStr) <b>then</b>  <em>// get the passphrase</em>
+    <b>begin</b>
+      Cipher:= TDCP_rc4.Create(Self);
+      Cipher.InitStr(KeyStr,TDCP_sha1);         <em>// initialize the cipher with a hash of the passphrase</em>
+      <b>for</b> i:= 0 <b>to</b> Memo1.Lines.Count-1 <b>do</b>       <em>// encrypt the contents of the memo</em>
+        Memo1.Lines[i]:= Cipher.EncryptString(Memo1.Lines[i]);
+      Cipher.Burn;
+      Cipher.Free;
+    <b>end</b>;
+  <b>end</b>;
+  
+  <b>procedure</b> TForm1.btnDecryptClick(Sender: TObject);
+  <b>var</b>
+    i: <b>integer</b>;
+    Cipher: TDCP_rc4;
+    KeyStr: string;
+  <b>begin</b>
+    KeyStr:= '';
+    <b>if</b> InputQuery('Passphrase','Enter passphrase',KeyStr) <b>then</b>  <em>// get the passphrase</em>
+    <b>begin</b>
+      Cipher:= TDCP_rc4.Create(Self);
+      Cipher.InitStr(KeyStr,TDCP_sha1);         <em>// initialize the cipher with a hash of the passphrase</em>
+      <b>for</b> i:= 0 <b>to</b> Memo1.Lines.Count-1 <b>do</b>       <em>// decrypt the contents of the memo</em>
+        Memo1.Lines[i]:= Cipher.DecryptString(Memo1.Lines[i]);
+      Cipher.Burn;
+      Cipher.Free;
+    <b>end</b>;
+  <b>end</b>;
+    </pre>
+    <hr>
+    <p><font size="+2"><a name="Example2">Example 2: File encryption</a></font>
+    <p>This example shows how you can encrypt the contents of a file, takes the input and output file names from two edit boxes: boxInputFile and boxOutputFile.
+    <pre>
+  <b>procedure</b> TForm1.btnEncryptClick(Sender: TObject);
+  <b>var</b>
+    Cipher: TDCP_rc4;
+    KeyStr: string;
+    Source, Dest: TFileStream;
+  <b>begin</b>
+    KeyStr:= '';
+    <b>if</b> InputQuery('Passphrase','Enter passphrase',KeyStr) <b>then</b>  <em>// get the passphrase</em>
+    <b>begin</b>
+      <b>try</b>
+        Source:= TFileStream.Create(boxInputFile.Text,fmOpenRead);
+        Dest:= TFileStream.Create(boxOutputFile.Text,fmCreate);
+        Cipher:= TDCP_rc4.Create(Self);
+        Cipher.InitStr(KeyStr,TDCP_sha1);              <em>// initialize the cipher with a hash of the passphrase</em>
+        Cipher.EncryptStream(Source,Dest,Source.Size); <em>// encrypt the contents of the file</em>
+        Cipher.Burn;
+        Cipher.Free;
+        Dest.Free;
+        Source.Free;
+        MessageDlg('File encrypted',mtInformation,[mbOK],0);
+      <b>except</b>
+        MessageDlg('File IO error',mtError,[mbOK],0);
+      <b>end</b>;
+    <b>end</b>;
+  <b>end</b>;
+  
+  <b>procedure</b> TForm1.btnDecryptClick(Sender: TObject);
+  <b>var</b>
+    Cipher: TDCP_rc4;
+    KeyStr: string;
+    Source, Dest: TFileStream;
+  <b>begin</b>
+    KeyStr:= '';
+    <b>if</b> InputQuery('Passphrase','Enter passphrase',KeyStr) <b>then</b>  <em>// get the passphrase</em>
+    <b>begin</b>
+      <b>try</b>
+        Source:= TFileStream.Create(boxInputFile.Text,fmOpenRead);
+        Dest:= TFileStream.Create(boxOutputFile.Text,fmCreate);
+        Cipher:= TDCP_rc4.Create(Self);
+        Cipher.InitStr(KeyStr,TDCP_sha1);              <em>// initialize the cipher with a hash of the passphrase</em>
+        Cipher.DecryptStream(Source,Dest,Source.Size); <em>// decrypt the contents of the file</em>
+        Cipher.Burn;
+        Cipher.Free;
+        Dest.Free;
+        Source.Free;
+        MessageDlg('File decrypted',mtInformation,[mbOK],0);
+      <b>except</b>
+        MessageDlg('File IO error',mtError,[mbOK],0);
+      <b>end</b>;
+    <b>end</b>;
+  <b>end</b>;
+    </pre>
+    <hr>
+    <p><font size="+2"><a name="Example3">Example 3: General encryption</a></font>
+    <p>This hypothetical example shows how you might encrypt a packet of information before transmission across a network.
+    <pre>
+  <b>type</b>
+    TSomePacket= <b>record</b>
+      Date: <b>double</b>;
+      ToUserID: <b>integer</b>;
+      FromUserID: <b>integer</b>;
+      MsgLen: <b>integer</b>;
+      Msg: string;
+    <b>end</b>;
+    
+  <b>procedure</b> EncryptPacket(Cipher: TDCP_cipher; <b>var</b> Packet: TSomePacket);
+  <em>// encrypt the information packet with the cipher
+  // if the cipher isn't initialized then prompt for passphrase</em>
+  <b>begin</b>
+    <b>if</b> Cipher= <b>nil then</b>
+      <b>raise</b> Exception.Create('Cipher hasn''t been created!')
+    <b>else
+    begin</b>
+      <b>if not</b> Cipher.Initialized <b>then</b>        <em>// check the cipher has been initialized</em>
+        Cipher.InitStr(InputBox('Passphrase','Enter passphrase',''),TDCP_sha1);
+      <b>if</b> Cipher <b>is</b> TDCP_blockcipher <b>then</b>    <em>// if a block cipher use CFB 8bit as encrypting small packets</em>
+        TDCP_blockcipher(Cipher).CipherMode:= cmCFB8bit; 
+      <em>// encrypt the record part by part, could do this in one go if it was a packed record</em>
+      Cipher.Encrypt(Packet.Date,Packet.Date,Sizeof(Packet.Date));  
+      Cipher.Encrypt(Packet.ToUserID,Packet.ToUserID,Sizeof(Packet.ToUserID));
+      Cipher.Encrypt(Packet.FromUserID,Packet.FromUserID,Sizeof(Packet.FromUserID));
+      Cipher.Encrypt(Packet.MsgLen,Packet.MsgLen,Sizeof(Packet.MsgLen));
+      Cipher.Encrypt(Packet.Msg[1],Packet.Msg[1],Length(Packet.Msg));  <em>// slightly different for strings</em>
+      <em>// don't bother resetting the cipher, instead keep the chaining information</em>
+    <b>end</b>;  
+  <b>end</b>;
+    </pre>
+    <p>&nbsp;
+    <p><a href="Index.html">Index</a>, <a href="BlockCiphers.html">Block Ciphers</a>, <a href="Hashes.html">Hashes</a>
+    <p>&nbsp;
+    <p><em>DCPcrypt is copyrighted &copy; 1999-2002 David Barton.<br>
+       All trademarks are property of their respective owners.</em>
+  </body>
+</html>
