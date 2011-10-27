@@ -39,11 +39,6 @@ uses
   Windows, SysUtils;
 
 type
-  int64rec = packed record
-    lo: LongWord;
-    hi: LongInt;
-  end;
-  
    TReparsePointType = (
     slUnknown,
     slJunction,
@@ -98,6 +93,14 @@ implementation
 
 uses
   LCLProc, uDebug;
+
+//-------------------------------------------------------------
+
+type
+  int64rec = packed record
+    lo: LongWord;
+    hi: LongInt;
+  end;
 
 //-------------------------------------------------------------
 

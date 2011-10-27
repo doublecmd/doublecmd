@@ -220,7 +220,8 @@ begin
     CreationTime:= WfxFileTimeToDateTime(FindData.ftCreationTime);
     LastAccessTime:= WfxFileTimeToDateTime(FindData.ftLastAccessTime);
     LastWriteTime:= WfxFileTimeToDateTime(FindData.ftLastWriteTime);
-    FileSize:= (Int64(FindData.nFileSizeHigh) * MAXDWORD) + FindData.nFileSizeLow;
+    Int64Rec(FileSize).Lo:= FindData.nFileSizeLow;
+    Int64Rec(FileSize).Hi:= FindData.nFileSizeHigh;
     Reserved0:= FindData.dwReserved0;
     Reserved1:= FindData.dwReserved1;
     FileName:= SysToUTF8(FindData.cFileName);
@@ -236,7 +237,8 @@ begin
     CreationTime:= WfxFileTimeToDateTime(FindData.ftCreationTime);
     LastAccessTime:= WfxFileTimeToDateTime(FindData.ftLastAccessTime);
     LastWriteTime:= WfxFileTimeToDateTime(FindData.ftLastWriteTime);
-    FileSize:= (Int64(FindData.nFileSizeHigh) * MAXDWORD) + FindData.nFileSizeLow;
+    Int64Rec(FileSize).Lo:= FindData.nFileSizeLow;
+    Int64Rec(FileSize).Hi:= FindData.nFileSizeHigh;
     Reserved0:= FindData.dwReserved0;
     Reserved1:= FindData.dwReserved1;
     FileName:= UTF8Encode(WideString(FindData.cFileName));

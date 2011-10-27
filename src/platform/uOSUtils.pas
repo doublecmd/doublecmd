@@ -1634,12 +1634,15 @@ var
 begin
   Result:= 0;
   wFileName:= UTF8Decode(FileName);
-  Handle := FindFirstFileW(PWChar(wFileName), FindData);
+  Handle := FindFirstFileW(PWideChar(wFileName), FindData);
   if Handle <> INVALID_HANDLE_VALUE then
     begin
       Windows.FindClose(Handle);
       if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) = 0 then
-        Result:= (Int64(FindData.nFileSizeHigh) * MAXDWORD)+FindData.nFileSizeLow;
+      begin
+        Int64Rec(Result).Lo:= FindData.nFileSizeLow;
+        Int64Rec(Result).Hi:= FindData.nFileSizeHigh;
+      end;
     end;
 end;
 {$ELSE}
