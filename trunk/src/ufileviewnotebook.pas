@@ -54,7 +54,7 @@ type
 
     procedure DoActivate;
 
-  {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
+  {$IF (DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)) or DEFINED(MSWINDOWS)}
   protected
     procedure RealSetText(const AValue: TCaption); override;
   {$ENDIF}
@@ -144,6 +144,9 @@ uses
   {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
   , qt4, qtwidgets
   {$ENDIF}
+  {$IF DEFINED(MSWINDOWS)}
+  , win32proc
+  {$ENDIF}
   ;
 
 // -- TFileViewPage -----------------------------------------------------------
@@ -177,12 +180,22 @@ begin
               inherited;
   end;
 end;
+{$ENDIF}
 
+{$IF (DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)) or DEFINED(MSWINDOWS)}
 procedure TFileViewPage.RealSetText(const AValue: TCaption);
 begin
+  {$IF DEFINED(LCLQT)}
   FSettingCaption := True;
+  {$ENDIF}
   inherited;
+  {$IF DEFINED(MSWINDOWS)}
+  if HandleAllocated then
+    LCLControlSizeNeedsUpdate(Parent, True);
+  {$ENDIF}
+  {$IF DEFINED(LCLQT)}
   FSettingCaption := False;
+  {$ENDIF}
 end;
 {$ENDIF}
 
