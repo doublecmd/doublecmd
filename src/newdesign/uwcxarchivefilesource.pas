@@ -318,7 +318,8 @@ begin
   // Check if there is a registered plugin for the extension of the archive file name.
   for i := 0 to gWCXPlugins.Count - 1 do
   begin
-    if SameText(anArchiveType, gWCXPlugins.Ext[i]) and (gWCXPlugins.Enabled[i]) then
+    if SameText(anArchiveType, gWCXPlugins.Ext[i]) and (gWCXPlugins.Enabled[i]) and
+       ((gWCXPlugins.Flags[I] and PK_CAPS_HIDE) <> PK_CAPS_HIDE) then
     begin
       ModuleFileName := GetCmdDirFromEnvVar(gWCXPlugins.FileName[I]);
 
