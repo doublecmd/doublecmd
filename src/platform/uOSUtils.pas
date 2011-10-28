@@ -586,7 +586,7 @@ begin
   sFileName:= NormalizePathDelimiters(sFileName);
   wFileName:= UTF8Decode(sFileName);
   wParams:= UTF8Decode(sParams);
-  Result := (ShellExecuteW(0, 'open', PWChar(wFileName), PWChar(wParams), PWChar(wWorkDir), SW_SHOW) > 32);
+  Result := (ShellExecuteW(0, nil, PWChar(wFileName), PWChar(wParams), PWChar(wWorkDir), SW_SHOW) > 32);
 end;
 {$ENDIF}
 
