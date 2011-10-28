@@ -395,6 +395,8 @@ resourcestring
   rsOptHotkeysShortCutUsedText1 = 'Shortcut %s is already used.';
   rsOptHotkeysShortCutUsedText2 = 'Change it to %s?';
   rsOptHotkeysUsedBy = 'used for %s in %s';
+  rsHotkeyCategoryMain = 'Main';
+  rsHotkeyCategoryViewer = 'Viewer';
   // Plugins
   rsOptPluginsActive = 'Active';
   rsOptPluginsName = 'Name';

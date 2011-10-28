@@ -46,7 +46,7 @@ uses
   uCmdBox, uFilePanelSelect,
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
   uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, uClassesEx,
-  uXmlConfig, uDrive, uDriveWatcher, uDCVersion;
+  uXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands;
 
 const
   cHistoryFile='cmdhistory.txt';
@@ -55,7 +55,7 @@ type
 
   { TfrmMain }
 
-  TfrmMain = class(TForm)
+  TfrmMain = class(TForm, IFormCommands)
     actExtractFiles: TAction;
     actAddPathToCmdLine: TAction;
     actFileAssoc: TAction;
@@ -502,6 +502,7 @@ type
     HidingTrayIcon: Boolean; // @true if the icon is in the process of hiding
     nbLeft, nbRight: TFileViewNotebook;
     cmdConsole: TCmdBox;
+    FCommands: TMainCommands;
     {en
        Used to pass drag&drop parameters to pmDropMenu. Single variable
        can be used, because the user can do only one menu popup at a time. }
@@ -545,6 +546,7 @@ type
     procedure AppException(Sender: TObject; E: Exception);
 
   public
+    constructor Create(TheOwner: TComponent); override;
     Function ActiveFrame: TFileView;  // get Active frame
     Function NotActiveFrame: TFileView; // get NotActive frame :)
     function ActiveNotebook: TFileViewNotebook;
@@ -626,7 +628,14 @@ type
     procedure DoDragDropOperation(Operation: TDragDropOperation;
                                   var DropParams: TDropParams);
 
-  published
+    {$IF FPC_FULLVERSION < 020501}
+    // "implements" does not work in FPC < 2.5.1
+    function ExecuteCommand(Command: string; Param: String=''): TCommandFuncResult;
+    function GetCommandCaption(Command: String): String;
+    procedure GetCommandsList(List: TStrings);
+    {$ENDIF}
+
+    property Commands: TMainCommands read FCommands{$IF FPC_FULLVERSION >= 020501} implements IFormCommands{$ENDIF};
     property SelectedPanel: TFilePanelSelect read PanelSelected;
     property LeftTabs: TFileViewNotebook read nbLeft;
     property RightTabs: TFileViewNotebook read nbRight;
@@ -646,12 +655,15 @@ uses
   uDragDropEx, uKeyboard, uFileSystemFileSource, fViewOperations,
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource,
-  uShellExecute, uActs, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
+  uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
   uFileSourceOperationOptionsUI, uDebug, uHotkeyManager
   {$IFDEF LCLQT}
     , qtwidgets
   {$ENDIF}
   ;
+
+const
+  HotkeysCategory = 'Main';
 
 {$IF DEFINED(LCLGTK2) or DEFINED(LCLQT)}
 var
@@ -696,7 +708,6 @@ procedure TfrmMain.FormCreate(Sender: TObject);
 
 var
   slCommandHistory: TStringListEx;
-  I: Integer;
   HMMainForm: THMForm;
 begin
   Application.OnException := @AppException;
@@ -716,7 +727,7 @@ begin
   HidingTrayIcon := False;
   FResizingFilePanels := False;
 
-  HMMainForm := HotMan.Register(Self, 'Main');
+  HMMainForm := HotMan.Register(Self, HotkeysCategory);
   HotMan.Register(edtCommand, 'Command Line');
 
   nbLeft := CreateNotebook(pnlLeft, fpLeft);
@@ -765,10 +776,6 @@ begin
   btnRightUp.Hint := btnLeftUp.Hint;
 
   { *HotKeys* }
-  for i:=0 to actionLst.ActionCount -1 do
-    if actionLst[i] is TAction then
-      Actions.AddAction(TAction(actionLst[i]));
-
   if (HotMan.Forms.Count = 0) or (HotMan.Version < hkVersion) then
     LoadDefaultHotkeyBindings;
 
@@ -798,7 +805,7 @@ var
 begin
   cmd := (Sender as TAction).Name;
   cmd := 'cm_' + Copy(cmd, 4, Length(cmd) - 3);
-  Actions.Execute(cmd);
+  Commands.Commands.ExecuteCommand(cmd, '');
 end;
 
 procedure TfrmMain.AllOpCancelClick(Sender: TObject);
@@ -824,9 +831,9 @@ end;
 procedure TfrmMain.btnF8Click(Sender: TObject);
 begin
   if GetKeyShiftStateEx * KeyModifiersShortcut = [ssShift] then
-    Actions.cm_Delete('recyclesettingrev')
+    Commands.cm_Delete('recyclesettingrev')
   else
-    Actions.cm_Delete('');
+    Commands.cm_Delete('');
 end;
 
 procedure TfrmMain.btnLeftDirectoryHotlistClick(Sender: TObject);
@@ -1024,7 +1031,7 @@ begin
     1:
       seLogWindow.SelectAll;
     2:
-      Actions.cm_ClearLogWindow();
+      Commands.cm_ClearLogWindow();
     3:
       ShowLogWindow(False);
   end;
@@ -1286,6 +1293,23 @@ begin
   end;
 end;
 
+{$IF FPC_FULLVERSION < 020501}
+function TfrmMain.ExecuteCommand(Command: string; Param: String): TCommandFuncResult;
+begin
+  Result := Commands.Commands.ExecuteCommand(Command, Param);
+end;
+
+function TfrmMain.GetCommandCaption(Command: String): String;
+begin
+  Result := Commands.Commands.GetCommandCaption(Command);
+end;
+
+procedure TfrmMain.GetCommandsList(List: TStrings);
+begin
+  Commands.Commands.GetCommandsList(List);
+end;
+{$ENDIF}
+
 procedure TfrmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
 var
   ModifierKeys: TShiftState;
@@ -1350,7 +1374,7 @@ begin
   MainSplitterLeftMouseBtnDown:=false;
   MainSplitter.ParentColor:=true;
   // Set splitter to 50/50
-  Actions.cm_PanelsSplitterPerPos('50');
+  Commands.cm_PanelsSplitterPerPos('50');
 end;
 
 procedure TfrmMain.MainSplitterMouseDown(Sender: TObject; Button: TMouseButton;
@@ -1475,8 +1499,7 @@ begin
       SetActiveFrame(fpRight)
   else if Sender = lblLeftDriveInfo then
       SetActiveFrame(fpLeft);
-  Actions.cm_DirHotList('');
-//  actDirHotList.Execute;
+  Commands.cm_DirHotList('');
 end;
 
 procedure TfrmMain.MainToolBarDragDrop(Sender, Source: TObject; X, Y: Integer);
@@ -1573,7 +1596,7 @@ end;
 
 procedure TfrmMain.btnVirtualDriveClick(Sender: TObject);
 begin
-  Actions.cm_OpenVirtualFileSystemList(((Sender as TSpeedButton).Parent as TKASToolBar).Name);
+  Commands.cm_OpenVirtualFileSystemList(((Sender as TSpeedButton).Parent as TKASToolBar).Name);
 end;
 
 procedure TfrmMain.MainToolBarMouseUp(Sender: TObject; Button: TMouseButton;
@@ -1714,7 +1737,7 @@ procedure TfrmMain.mnuSplitterPercentClick(Sender: TObject);
 begin
   with (Sender as TMenuItem) do
   begin
-    Actions.cm_PanelsSplitterPerPos(inttostr(Tag));
+    Commands.cm_PanelsSplitterPerPos(IntToStr(Tag));
   end;
 end;
 
@@ -1730,7 +1753,7 @@ begin
   // pmTabMenu.Tag stores tab page nr where the menu was activated.
 
   if MenuItem = miRemoveTab then
-    Actions.DoRemoveTab(NoteBook, pmTabMenu.Tag)
+    Commands.DoRemoveTab(NoteBook, pmTabMenu.Tag)
   else if MenuItem = miTabOptionNormal then
     NoteBook.Page[pmTabMenu.Tag].LockState := tlsNormal
   else if MenuItem = miTabOptionPathLocked then
@@ -1744,7 +1767,7 @@ begin
     Cmd:= MenuItem.Action.Name;
     Cmd:= 'cm_' + Copy(Cmd, 4, Length(Cmd) - 3);
 
-    Actions.Execute(Cmd, NoteBook.Name);
+    Commands.Commands.ExecuteCommand(Cmd, NoteBook.Name);
   end;
 end;
 
@@ -1805,7 +1828,7 @@ begin
   end;
   end;
   if Assigned(QuickViewPanel) then
-    Actions.cm_QuickView('Close');
+    Commands.cm_QuickView('Close');
 end;
 
 procedure TfrmMain.nbPageMouseUp(Sender: TObject; Button: TMouseButton;
@@ -1824,7 +1847,7 @@ begin
         TabNr := NoteBook.TabIndexAtClientPos(Point(X, Y));
         if TabNr <> -1 then
         begin
-          Actions.DoRemoveTab(NoteBook, TabNr);
+          Commands.DoRemoveTab(NoteBook, TabNr);
         end;
       end;
 
@@ -1970,6 +1993,12 @@ procedure TfrmMain.AppException(Sender: TObject; E: Exception);
 begin
   WriteExceptionToErrorFile;
   ShowExceptionDialog;
+end;
+
+constructor TfrmMain.Create(TheOwner: TComponent);
+begin
+  inherited Create(TheOwner);
+  FCommands := TMainCommands.Create(Self, actionLst);
 end;
 
 Function TfrmMain.GetFileDlgStr(sLngOne, sLngMulti: String; Files: TFiles):String;
@@ -2798,13 +2827,13 @@ begin
   begin
     APanel := Sender as TPanel;
     if APanel = pnlLeft then
-      Actions.DoNewTab(nbLeft)
+      Commands.DoNewTab(nbLeft)
     else if APanel = pnlRight then
-      Actions.DoNewTab(nbRight);
+      Commands.DoNewTab(nbRight);
   end;
   {$IF DEFINED(LCLGTK2)}
   if Sender is TFileViewNotebook then
-    Actions.DoNewTab(Sender as TFileViewNotebook);
+    Commands.DoNewTab(Sender as TFileViewNotebook);
   {$ENDIF}
 end;
 
@@ -3582,7 +3611,7 @@ begin
   Cmd   := ReplaceEnvVars(ReplaceTilde(Cmd));
   Param := PrepareParameter(Param, FrameLeft, FrameRight, ActiveFrame);
 
-  if Actions.Execute(Cmd, Param) <> uActs.cf_Error then
+  if Commands.Commands.ExecuteCommand(Cmd, Param) = cfrSuccess then
     Result:= True
   else
   begin
@@ -3796,7 +3825,7 @@ begin
     FDrivesListPopup.UpdateView;
 
     (*Main menu*)
-    Actions.DoShowMainMenu(gMainMenu);
+    Commands.DoShowMainMenu(gMainMenu);
 
     (*Tool Bar*)
     MainToolBar.Visible:= gButtonBar;
@@ -3937,7 +3966,7 @@ begin
 
       VK_RETURN, VK_SELECT:
         begin
-          if (Shift * KeyModifiersShortcutNoText = []) then
+          if (Shift * [ssCtrl, ssAlt, ssMeta, ssAltGr] = []) then
           begin
             ExecuteCommandLine(ssShift in Shift);
             Key := 0;
@@ -3978,7 +4007,7 @@ begin
 
   sDir := MainToolBar.GetButtonX(I, PathX);
   sDir := PrepareParameter(sDir, FrameLeft, FrameRight, ActiveFrame, [ppoNormalizePathDelims, ppoReplaceTilde]);
-  Actions.cm_ChangeDir(sDir);
+  Commands.cm_ChangeDir(sDir);
 end;
 
 procedure TfrmMain.tbCopyClick(Sender: TObject);
@@ -4162,7 +4191,7 @@ end;
 
 procedure TfrmMain.TypeInCommandLine(Str: String);
 begin
-  Actions.cm_FocusCmdLine();
+  Commands.cm_FocusCmdLine();
   edtCommand.Text := edtCommand.Text + Str;
   edtCommand.SelStart := UTF8Length(edtCommand.Text) + 1;
 end;
@@ -4746,6 +4775,9 @@ begin
   if Assigned(FrameRight) then
     FrameRight.ReloadIfNeeded;
 end;
+
+initialization
+  TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
 

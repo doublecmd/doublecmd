@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, ExtCtrls, ComCtrls, contnrs, fgl,
-  uFile, uDisplayFile, uFileSource, uMethodsList, uDragDropEx, uXmlConfig,
+  uFile, uDisplayFile, uFileSource, uFormCommands, uDragDropEx, uXmlConfig,
   uClassesEx, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
   uFunctionThread, uFileSystemWatcher, fQuickSearch;
 
@@ -82,7 +82,7 @@ type
     FFilterOptions: TQuickSearchOptions;
     FWatchPath: String;
 
-    FMethods: TMethodsList;
+    FMethods: TFormCommands;
 
     FOnBeforeChangePath : TOnBeforeChangePath;
     FOnAfterChangePath : TOnAfterChangePath;
@@ -385,7 +385,7 @@ implementation
 
 uses
   Dialogs, LCLProc, Forms, strutils,
-  uActs, uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
+  uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
   uDCUtils, uGlobs, uFileViewNotebook;
 
 const
@@ -426,7 +426,7 @@ begin
   FOnReload := nil;
   FSortings := nil;
   FFilePropertiesNeeded := [];
-  FMethods := TMethodsList.Create(Self);
+  FMethods := TFormCommands.Create(Self);
   FHistory := TFileViewHistory.Create;
   FActive := False;
   FLastActiveFile := '';
@@ -503,7 +503,6 @@ begin
 
   inherited;
 
-  FreeAndNil(FMethods);
   FreeAndNil(FHistory);
 end;
 
@@ -1167,15 +1166,8 @@ begin
 end;
 
 procedure TFileView.ExecuteCommand(CommandName: String; Parameter: String);
-var
-  Method: TMethod;
 begin
-  Method := FMethods.GetMethod(CommandName);
-  if Assigned(Method.Code) then
-  begin
-    // Command is supported - execute it.
-    TCommandFunc(Method)(Parameter);
-  end;
+  FMethods.ExecuteCommand(CommandName, Parameter);
 end;
 
 procedure TFileView.AddFileSource(aFileSource: IFileSource; aPath: String);

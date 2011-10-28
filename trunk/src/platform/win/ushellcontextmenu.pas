@@ -73,7 +73,7 @@ implementation
 
 uses
   LCLProc, Dialogs, uGlobs, uLng, uMyWindows, uShellExecute,
-  fMain, uDCUtils;
+  fMain, uDCUtils, uFormCommands;
 
 const
   USER_CMD_ID = $1000;
@@ -262,11 +262,14 @@ var
   bHandled : Boolean = False;
   ZVerb: array[0..255] of char;
   sVerb : String;
+  FormCommands: IFormCommands;
 begin
   try
     try
       if Assigned(FShellMenu1) then
       try
+        FormCommands := frmMain as IFormCommands;
+
         aFile := FFiles[0];
         if FBackground then // Add "Background" context menu specific items
           begin
@@ -275,36 +278,36 @@ begin
             // Add commands to root of context menu
             sCmd:= 'cm_Refresh';
             I:= sl.Add(sCmd);
-            sAct:= Actions.GetCommandCaption(sCmd);
+            sAct:= FormCommands.GetCommandCaption(sCmd);
             InsertMenuItemEx(FShellMenu, 0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
 
             // Add "Sort by" submenu
             hActionsSubMenu := CreatePopupMenu;
             sCmd:= 'cm_ReverseOrder';
             I:= sl.Add(sCmd);
-            sAct:= Actions.GetCommandCaption(sCmd);
+            sAct:= FormCommands.GetCommandCaption(sCmd);
             InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
             // Add separator
             InsertMenuItemEx(hActionsSubMenu, 0, nil, 0, 0, MFT_SEPARATOR);
             sCmd:= 'cm_SortByAttr';
             I:= sl.Add(sCmd);
-            sAct:= Actions.GetCommandCaption(sCmd);
+            sAct:= FormCommands.GetCommandCaption(sCmd);
             InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
             sCmd:= 'cm_SortByDate';
             I:= sl.Add(sCmd);
-            sAct:= Actions.GetCommandCaption(sCmd);
+            sAct:= FormCommands.GetCommandCaption(sCmd);
             InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
             sCmd:= 'cm_SortBySize';
             I:= sl.Add(sCmd);
-            sAct:= Actions.GetCommandCaption(sCmd);
+            sAct:= FormCommands.GetCommandCaption(sCmd);
             InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
             sCmd:= 'cm_SortByExt';
             I:= sl.Add(sCmd);
-            sAct:= Actions.GetCommandCaption(sCmd);
+            sAct:= FormCommands.GetCommandCaption(sCmd);
             InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
             sCmd:= 'cm_SortByName';
             I:= sl.Add(sCmd);
-            sAct:= Actions.GetCommandCaption(sCmd);
+            sAct:= FormCommands.GetCommandCaption(sCmd);
             InsertMenuItemEx(hActionsSubMenu,0, PWideChar(UTF8Decode(sAct)), 0, I + USER_CMD_ID, MFT_STRING);
             // Add submenu to context menu
             InsertMenuItemEx(FShellMenu, hActionsSubMenu, PWideChar(UTF8Decode(rsMnuSortBy)), 1, 333, MFT_STRING);
@@ -314,7 +317,7 @@ begin
             // Add commands to root of context menu
             sCmd:= 'cm_PasteFromClipboard';
             I:= sl.Add(sCmd);
-            sAct:= Actions.GetCommandCaption(sCmd);
+            sAct:= FormCommands.GetCommandCaption(sCmd);
             InsertMenuItemEx(FShellMenu, 0, PWideChar(UTF8Decode(sAct)), 3, I + USER_CMD_ID, MFT_STRING);
             // Add menu separator
             InsertMenuItemEx(FShellMenu, 0, nil, 4, 0, MFT_SEPARATOR);
@@ -384,9 +387,9 @@ begin
               if SameText(sVerb, sCmdVerbDelete) then
                 begin
                   if ssShift in GetKeyShiftState then
-                    Actions.cm_Delete('recyclesettingrev')
+                    frmMain.Commands.cm_Delete('recyclesettingrev')
                   else
-                    Actions.cm_Delete('recyclesetting');
+                    frmMain.Commands.cm_Delete('recyclesetting');
                   bHandled := True;
                 end
               else if SameText(sVerb, sCmdVerbRename) then
@@ -467,7 +470,7 @@ begin
           sCmd:= sl.Strings[cmd - USER_CMD_ID];
           if FBackground then
             begin
-              Actions.Execute(sCmd);
+              FormCommands.ExecuteCommand(sCmd);
               bHandled:= True;
             end
           else
