@@ -28,7 +28,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus,
-  StdCtrls, Buttons, KASToolBar, ExtCtrls, ComCtrls, KASBarFiles;
+  StdCtrls, Buttons, KASToolBar, ExtCtrls, ComCtrls, KASBarFiles,
+  uFormCommands;
 
 type
 
@@ -121,6 +122,7 @@ type
     ToolButtonMouseX, ToolButtonMouseY, ToolDragButtonNumber: integer; // For dragging
     HintWindow: THintWindow;
     FHotKeyList: TStringList;
+    FFormCommands: IFormCommands;
     procedure FillActionLists;
     procedure WakeSleepControls();
     procedure ClearControls;
@@ -148,7 +150,7 @@ implementation
 
 uses
   LCLProc, LCLType, HelpIntfs, uClassesEx, uOSForms, uPixMapManager, uLng,
-  uGlobsPaths, uGlobs, uDCUtils, uOSUtils, uHotkeyManager, uKeyboard;
+  uGlobsPaths, uGlobs, uDCUtils, uOSUtils, uHotkeyManager, uKeyboard, fMain;
 
 function ShowConfigToolbar(const aBarFileName: UTF8String; iButtonIndex : Integer = -1): Boolean;
 begin
@@ -176,6 +178,7 @@ begin
   HintWindow:= THintWindow.Create(Self);
   HintWindow.AutoHide:= True;
   inherited Create(TheOwner);
+  FFormCommands := frmMain as IFormCommands;
 end;
 
 destructor TfrmConfigToolBar.Destroy;
@@ -186,16 +189,8 @@ begin
 end;
 
 procedure TfrmConfigToolBar.FillActionLists;
-var
-  I: integer;
-  sItem: String;
 begin
-  for I:= 0 to Actions.CommandList.Count - 1 do
-    begin
-      sItem:= Actions.CommandList.Strings[I];
-      if (NumCountChars('_', sItem) = 1) then
-        cbCommand.Items.Add(sItem);
-    end;
+  FFormCommands.GetCommandsList(cbCommand.Items);
   cbCommand.Sorted:= True;
 end;
 
@@ -372,7 +367,7 @@ end;
 
 procedure TfrmConfigToolBar.cbCommandSelect(Sender: TObject);
 begin
-  edtToolTip.Text := Actions.GetCommandCaption(cbCommand.Items[cbCommand.ItemIndex]);
+  edtToolTip.Text := FFormCommands.GetCommandCaption(cbCommand.Items[cbCommand.ItemIndex]);
 end;
 
 procedure TfrmConfigToolBar.btnOKClick(Sender: TObject);
@@ -574,7 +569,6 @@ end;
 procedure TfrmConfigToolBar.SetButtonHotKey;
 var
   sShortCut: String;
-  st: TStringList;
   HMForm: THMForm;
   hotkey: THotkey;
 
@@ -742,7 +736,7 @@ begin
     begin
       cbCommand.Text:= cOpenBar;
       edtParams.Text:= SetCmdDirAsEnvVar(sFileName);
-      edtToolTip.Text:= Actions.GetCommandCaption(cOpenBar);
+      edtToolTip.Text:= FFormCommands.GetCommandCaption(cOpenBar);
     end;
 end;
 
@@ -754,7 +748,7 @@ begin
     begin
       cbCommand.Text:= cShowButtonMenu;
       edtParams.Text:= SetCmdDirAsEnvVar(sFileName);
-      edtToolTip.Text:= Actions.GetCommandCaption(cShowButtonMenu);
+      edtToolTip.Text:= FFormCommands.GetCommandCaption(cShowButtonMenu);
     end;
 end;
 
@@ -851,7 +845,7 @@ begin
               IniBarFile.WriteInteger('ButtonBar', 'ButtonCount', 1);
               IniBarFile.WriteString('ButtonBar', 'cmd1', cOpenBar);
               IniBarFile.WriteString('ButtonBar', 'param1', SetCmdDirAsEnvVar(FBarFileName));
-              IniBarFile.WriteString('ButtonBar', 'menu1', Actions.GetCommandCaption(cOpenBar));
+              IniBarFile.WriteString('ButtonBar', 'menu1', FFormCommands.GetCommandCaption(cOpenBar));
               IniBarFile.WriteString('ButtonBar', 'button1', 'go-up');
             end;
         finally

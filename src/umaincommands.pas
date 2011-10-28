@@ -1,7 +1,7 @@
 {
    Double Commander
    -------------------------------------------------------------------------
-   This unit contains all DC actions
+   This unit contains DC actions of the main form
 
    Copyright (C) 2008  Dmitry Kolomiets (B4rr4cuda@rambler.ru)
    Copyright (C) 2008-2009  Koblov Alexander (Alexx2000@mail.ru)
@@ -21,84 +21,37 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
 
-unit uActs;
+unit uMainCommands;
 
-{$mode objfpc}{$H+}{$M+}
+{$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, SysUtils, Dialogs, StringHashList, ActnList,
-  uFileView, uFileViewNotebook, uFileSourceOperation, uFileFunctions,
-  fViewer;
-  
-  
-const cf_Null=0;
-      cf_Error=-1;
+  Classes, SysUtils, ActnList, uFileView, uFileViewNotebook, uFileSourceOperation,
+  uFileFunctions, uFormCommands;
 
-  type
+type
 
-  TCommandFunc = procedure(param: string) of object;
+  { TMainCommands }
 
-  PActionState = ^TActionState;
-  TActionState = record
-    Enabled: Boolean;  //<en Whether the action is enabled (through hotkeys).
-    Action: TAction;   //<en If a TAction is assigned to a named action,
-                       //    it is cached here.
-  end;
-
-  { TActs }
-
-  TActs=class
+  TMainCommands = class(TComponent{$IF FPC_FULLVERSION >= 020501}, IFormCommands{$ENDIF})
   private
-   FCmdList:TStrings;
-   function GetList:TStrings;
-   procedure EnableAction(ActionState: PActionState; Enabled: Boolean);
-   class function Methods(AClass:TClass) : TStringList;
+   FCommands: TFormCommands;
 
-   procedure ShowException(e: Exception);
-
+   // Filters out commands.
+   function CommandsFilter(Command: String): Boolean;
    procedure OnCalcStatisticsStateChanged(Operation: TFileSourceOperation;
                                           State: TFileSourceOperationState);
    procedure OnCalcChecksumStateChanged(Operation: TFileSourceOperation;
                                         State: TFileSourceOperationState);
    procedure GetCommandFromBar (const cFilename, cParam: string;
                                 var Com, Par, Pat:string);
-  public
-   FActionsState: TStringHashList;
-   constructor Create;
-   destructor Destroy;override;
-   function Execute(Cmd: string; param:string =''): integer;
-   function GetIndex(Cmd: string): integer;
-   function GetCategoriesList(const List:TStrings):integer;
-   function GetCommandsByCategory(Category:string; const List:TStrings):integer;
-   function GetCommandCaption(sCommand: String; bAmpersand: Boolean = False): UTF8String;
 
-   {en
-      Adds a named action to a list of possible actions.
-      @param(ActionName
-             Name of the action _without_ any prefixes ('cm_' or 'act').)
-   }
-   procedure AddAction(ActionName: String);
-   {en
-      Adds a TAction to a list of possible actions.
-   }
-   procedure AddAction(Action: TAction);
-   {en
-      Enables/disables an action.
-      @param(ActionName
-             Name of the action _without_ any prefixes ('cm_' or 'act').)
-      @param(Enable
-             Whether to enable or disable the action.)
-   }
-   procedure EnableAction(ActionName: String; Enable: Boolean);
-   {en
-      Checks if the action is enabled.
-      @param(ActionName
-             Name of the action _without_ any prefixes ('cm_' or 'act').)
-   }
-   function  IsActionEnabled(ActionName: String): Boolean;
-   procedure EnableAllActions(Enable: Boolean);
+  public
+   constructor Create(TheOwner: TComponent; ActionList: TActionList = nil); reintroduce;
+
+   property Commands: TFormCommands read FCommands{$IF FPC_FULLVERSION >= 020501} implements IFormCommands{$ENDIF};
 
    //---------------------
    // The Do... functions are cm_... functions' counterparts which are to be
@@ -115,24 +68,15 @@ const cf_Null=0;
    procedure DoShowMainMenu(bShow: Boolean);
    //---------------------
 
-  published
-
+ published
    //--------------------------------------------------------------------------
-   // The cm_... functions are 'user' functions which can be assigned to toolbar
-   // button, hotkey, menu item, scripts, etc. Those functions take a string
-   // parameter(s) set by the user.
-   //
-   //--------------------------------------------------------------------------
-   // Only published functions and procedures can by found by MethodAddress
-   //--------------------------------------------------------------------------
-   //
    // All commands can be split into three groups:
-   // 1. Global commands intended for the main application (cm_VisitHomePage,
+   // 1. Commands intended for the application (cm_VisitHomePage,
    //    cm_About, cm_Exit, ...).
    //
    // 2. Commands intended for file views (cm_QuickSearch, cm_EditPath, etc.).
    //    Those commands are simply redirected to the currently active file view by calling:
-   //       frmMain.ActiveFrame.ExecuteCommand(CommandName, param);
+   //       frmMain.ActiveFrame.ExecuteCommand(CommandName, Param);
    //    If they are supported by the given file view they are executed there.
    //
    //    If in future there will be a need to pass specific parameters to the
@@ -143,141 +87,130 @@ const cf_Null=0;
    // 3. Commands intended for file sources (cm_Copy, cm_Rename, cm_MakeDir).
    //    The file operations will mostly work only for non-virtual file sources.
    //
-   procedure cm_AddPathToCmdLine(param: string='');
-   procedure cm_AddFilenameToCmdLine(param: string='');
-   procedure cm_AddPathAndFilenameToCmdLine(param: string='');
-   procedure cm_ContextMenu(param: string='');
-   procedure cm_CopyFullNamesToClip(param: string='');
-   procedure cm_Exchange(param:string='');
-   procedure cm_OpenArchive(param:string='');
-   procedure cm_TestArchive(param:string='');
-   procedure cm_OpenDirInNewTab(param:string='');
-   procedure cm_Open(param:string='');
-   procedure cm_OpenVirtualFileSystemList(param:string='');
-   procedure cm_TargetEqualSource(param:string='');
-   procedure cm_LeftEqualRight(param:string='');
-   procedure cm_RightEqualLeft(param:string='');
-   procedure cm_PackFiles(param: string='');
-   procedure cm_ExtractFiles(param: string='');
-   procedure cm_QuickSearch(param: string='');
-   procedure cm_QuickFilter(param: string='');
-   procedure cm_LeftOpenDrives(param:string='');
-   procedure cm_RightOpenDrives(param: string='');
-   procedure cm_OpenBar(param: string='');
-   procedure cm_ShowButtonMenu(param: string='');
-   procedure cm_TransferLeft(param: string='');
-   procedure cm_TransferRight(param: string='');
-   procedure cm_GoToFirstFile(param: string='');
-   procedure cm_GoToLastFile(param: string='');
-   procedure cm_Minimize(param: string='');
-   procedure cm_Wipe(param: string='');
-   procedure cm_Exit(param: string='');
-   procedure cm_NewTab(param: string='');
-   procedure cm_RenameTab(param: string='');
-   procedure cm_RemoveTab(param: string='');
-   procedure cm_RemoveAllTabs(param: string='');
-   procedure cm_NextTab(param: string='');
-   procedure cm_PrevTab(param: string='');
-   procedure cm_SetTabOptionNormal(param: string='');
-   procedure cm_SetTabOptionPathLocked(param: string='');
-   procedure cm_SetTabOptionPathResets(param: string='');
-   procedure cm_SetTabOptionDirsInNewTab(param: string='');
-   procedure cm_Copy(param: string='');
-   procedure cm_CopyNoAsk(param: string='');
-   procedure cm_Delete(param: string='');
-   procedure cm_CheckSumCalc(param:string);
-   procedure cm_CheckSumVerify(param:string);
-   procedure cm_Edit(param: string='');
-   procedure cm_EditPath(param: string='');
-   procedure cm_MakeDir(param: string='');
-   procedure cm_Rename(param: string='');
-   procedure cm_RenameNoAsk(param: string='');
-   procedure cm_View(param: string='');
-   procedure cm_QuickView(param: string='');
-   procedure cm_CopyNamesToClip(param: string='');
-   procedure cm_FocusCmdLine(param: string='');
-   procedure cm_FileAssoc(param: string='');
-   procedure cm_HelpIndex(param: string='');
-   procedure cm_Keyboard(param: string='');
-   procedure cm_VisitHomePage(param: string='');
-   procedure cm_About(param: string='');
-   procedure cm_ShowSysFiles(param: string='');
-   procedure cm_SwitchIgnoreList(param: string='');
-   procedure cm_Options(param: string='');
-   procedure cm_CompareContents(param: string='');
-   procedure cm_Refresh(param: string='');
-   procedure cm_ShowMainMenu(param: string='');
-   procedure cm_DirHotList(param: string='');
-   procedure cm_MarkInvert(param: string='');
-   procedure cm_MarkMarkAll(param: string='');
-   procedure cm_MarkUnmarkAll(param: string='');
-   procedure cm_MarkPlus(param: string='');
-   procedure cm_MarkMinus(param: string='');
-   procedure cm_MarkCurrentExtension(param: string='');
-   procedure cm_UnmarkCurrentExtension(param: string='');
-   procedure cm_SaveSelection(param: string='');
-   procedure cm_RestoreSelection(param: string='');
-   procedure cm_SaveSelectionToFile(param: string='');
-   procedure cm_LoadSelectionFromFile(param: string='');
-   procedure cm_LoadSelectionFromClip(param: string='');
-   procedure cm_Search(param: string='');
-   procedure cm_HardLink(param: string='');
-   procedure cm_MultiRename(param: string='');
-   procedure cm_ReverseOrder(param: string='');
-   procedure cm_SortByAttr(param: string='');
-   procedure cm_SortByDate(param: string='');
-   procedure cm_SortByExt(param: string='');
-   procedure cm_SortByName(param: string='');
-   procedure cm_SortBySize(param: string='');
-   procedure cm_SymLink(param: string='');
-   procedure cm_CopySamePanel(param: string='');
-   procedure cm_DirHistory(param: string='');
-   procedure cm_ViewHistory(param: string='');
-   procedure cm_ViewHistoryPrev(param: string='');
-   procedure cm_ViewHistoryNext(param: string='');
-   procedure cm_EditNew(param: string='');
-   procedure cm_RenameOnly(param: string='');
-   procedure cm_RunTerm(param: string='');
-   procedure cm_ShowCmdLineHistory(param: string='');
-   procedure cm_CalculateSpace(param: string='');
-   procedure cm_CountDirContent(param: string='');
-   procedure cm_SetFileProperties(param: string='');
-   procedure cm_FileProperties(param: string='');
-   procedure cm_FileLinker(param: string='');
-   procedure cm_FileSpliter(param: string='');
-   procedure cm_PanelsSplitterPerPos(param: string='');
-   procedure cm_EditComment(param: string='');
-   procedure cm_CopyToClipboard(param: string='');
-   procedure cm_CutToClipboard(param: string='');
-   procedure cm_PasteFromClipboard(param: string='');
-   procedure cm_ChangeDirToRoot(param: string='');
-   procedure cm_ChangeDirToParent(param: string='');
-   procedure cm_ChangeDir(param: string='');
-   procedure cm_ClearLogWindow(param: string='');
-   procedure cm_ClearLogFile(param: string='');
-   procedure cm_NetworkConnect(param: string='');
-   procedure cm_NetworkDisconnect(param: string='');
-   procedure cm_HorizontalFilePanels(param: string='');
-   procedure cm_OperationsViewer(param: string='');
+   procedure cm_AddPathToCmdLine(Param: String='');
+   procedure cm_AddFilenameToCmdLine(Param: String='');
+   procedure cm_AddPathAndFilenameToCmdLine(Param: String='');
+   procedure cm_ContextMenu(Param: String='');
+   procedure cm_CopyFullNamesToClip(Param: String='');
+   procedure cm_Exchange(Param: String='');
+   procedure cm_OpenArchive(Param: String='');
+   procedure cm_TestArchive(Param: String='');
+   procedure cm_OpenDirInNewTab(Param: String='');
+   procedure cm_Open(Param: String='');
+   procedure cm_OpenVirtualFileSystemList(Param: String='');
+   procedure cm_TargetEqualSource(Param: String='');
+   procedure cm_LeftEqualRight(Param: String='');
+   procedure cm_RightEqualLeft(Param: String='');
+   procedure cm_PackFiles(Param: String='');
+   procedure cm_ExtractFiles(Param: String='');
+   procedure cm_QuickSearch(Param: String='');
+   procedure cm_QuickFilter(Param: String='');
+   procedure cm_LeftOpenDrives(Param: String='');
+   procedure cm_RightOpenDrives(Param: String='');
+   procedure cm_OpenBar(Param: String='');
+   procedure cm_ShowButtonMenu(Param: String='');
+   procedure cm_TransferLeft(Param: String='');
+   procedure cm_TransferRight(Param: String='');
+   procedure cm_GoToFirstFile(Param: String='');
+   procedure cm_GoToLastFile(Param: String='');
+   procedure cm_Minimize(Param: String='');
+   procedure cm_Wipe(Param: String='');
+   procedure cm_Exit(Param: String='');
+   procedure cm_NewTab(Param: String='');
+   procedure cm_RenameTab(Param: String='');
+   procedure cm_RemoveTab(Param: String='');
+   procedure cm_RemoveAllTabs(Param: String='');
+   procedure cm_NextTab(Param: String='');
+   procedure cm_PrevTab(Param: String='');
+   procedure cm_SetTabOptionNormal(Param: String='');
+   procedure cm_SetTabOptionPathLocked(Param: String='');
+   procedure cm_SetTabOptionPathResets(Param: String='');
+   procedure cm_SetTabOptionDirsInNewTab(Param: String='');
+   procedure cm_Copy(Param: String='');
+   procedure cm_CopyNoAsk(Param: String='');
+   procedure cm_Delete(Param: String='');
+   procedure cm_CheckSumCalc(Param: String='');
+   procedure cm_CheckSumVerify(Param: String='');
+   procedure cm_Edit(Param: String='');
+   procedure cm_EditPath(Param: String='');
+   procedure cm_MakeDir(Param: String='');
+   procedure cm_Rename(Param: String='');
+   procedure cm_RenameNoAsk(Param: String='');
+   procedure cm_View(Param: String='');
+   procedure cm_QuickView(Param: String='');
+   procedure cm_CopyNamesToClip(Param: String='');
+   procedure cm_FocusCmdLine(Param: String='');
+   procedure cm_FileAssoc(Param: String='');
+   procedure cm_HelpIndex(Param: String='');
+   procedure cm_Keyboard(Param: String='');
+   procedure cm_VisitHomePage(Param: String='');
+   procedure cm_About(Param: String='');
+   procedure cm_ShowSysFiles(Param: String='');
+   procedure cm_SwitchIgnoreList(Param: String='');
+   procedure cm_Options(Param: String='');
+   procedure cm_CompareContents(Param: String='');
+   procedure cm_Refresh(Param: String='');
+   procedure cm_ShowMainMenu(Param: String='');
+   procedure cm_DirHotList(Param: String='');
+   procedure cm_MarkInvert(Param: String='');
+   procedure cm_MarkMarkAll(Param: String='');
+   procedure cm_MarkUnmarkAll(Param: String='');
+   procedure cm_MarkPlus(Param: String='');
+   procedure cm_MarkMinus(Param: String='');
+   procedure cm_MarkCurrentExtension(Param: String='');
+   procedure cm_UnmarkCurrentExtension(Param: String='');
+   procedure cm_SaveSelection(Param: String='');
+   procedure cm_RestoreSelection(Param: String='');
+   procedure cm_SaveSelectionToFile(Param: String='');
+   procedure cm_LoadSelectionFromFile(Param: String='');
+   procedure cm_LoadSelectionFromClip(Param: String='');
+   procedure cm_Search(Param: String='');
+   procedure cm_HardLink(Param: String='');
+   procedure cm_MultiRename(Param: String='');
+   procedure cm_ReverseOrder(Param: String='');
+   procedure cm_SortByAttr(Param: String='');
+   procedure cm_SortByDate(Param: String='');
+   procedure cm_SortByExt(Param: String='');
+   procedure cm_SortByName(Param: String='');
+   procedure cm_SortBySize(Param: String='');
+   procedure cm_SymLink(Param: String='');
+   procedure cm_CopySamePanel(Param: String='');
+   procedure cm_DirHistory(Param: String='');
+   procedure cm_ViewHistory(Param: String='');
+   procedure cm_ViewHistoryPrev(Param: String='');
+   procedure cm_ViewHistoryNext(Param: String='');
+   procedure cm_EditNew(Param: String='');
+   procedure cm_RenameOnly(Param: String='');
+   procedure cm_RunTerm(Param: String='');
+   procedure cm_ShowCmdLineHistory(Param: String='');
+   procedure cm_CalculateSpace(Param: String='');
+   procedure cm_CountDirContent(Param: String='');
+   procedure cm_SetFileProperties(Param: String='');
+   procedure cm_FileProperties(Param: String='');
+   procedure cm_FileLinker(Param: String='');
+   procedure cm_FileSpliter(Param: String='');
+   procedure cm_PanelsSplitterPerPos(Param: String='');
+   procedure cm_EditComment(Param: String='');
+   procedure cm_CopyToClipboard(Param: String='');
+   procedure cm_CutToClipboard(Param: String='');
+   procedure cm_PasteFromClipboard(Param: String='');
+   procedure cm_ChangeDirToRoot(Param: String='');
+   procedure cm_ChangeDirToParent(Param: String='');
+   procedure cm_ChangeDir(Param: String='');
+   procedure cm_ClearLogWindow(Param: String='');
+   procedure cm_ClearLogFile(Param: String='');
+   procedure cm_NetworkConnect(Param: String='');
+   procedure cm_NetworkDisconnect(Param: String='');
+   procedure cm_HorizontalFilePanels(Param: String='');
+   procedure cm_OperationsViewer(Param: String='');
+
    // Internal commands
-   procedure cm_Int_RunCommandFromBarFile(param: string='');
-
-   // Viewer
-   procedure cm_Viewer_About(param: string='');
-   procedure cm_Viewer_DeleteFile(param: string='');
-   procedure cm_Viewer_NextFile(param: string='');
-
-   //---------------------
-   {   procedure SomeFunction (param:string; var Result:integer);
-   procedure SomeProcedure(param:string);
-   procedure Mess(param:string);}
-   //---------------------
-   property CommandList:TStrings read FCmdList; //be careful with these list's objects.
+   procedure cm_Int_RunCommandFromBarFile(Param: String='');
   end;
 
 implementation
 
-uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager, typinfo,
+uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager, typinfo,
      fMain, fPackDlg, fFileOpDlg, fMkDir, fFileAssoc, fExtractDlg, fAbout,
      fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
@@ -292,292 +225,25 @@ uses Forms, Controls, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager, typi
      uVfsFileSource, uFileSourceUtil, uArchiveFileSourceUtil,
      uTempFileSystemFileSource, uFileProperty, uFileSourceSetFilePropertyOperation,
      uFileSorting, uShellContextMenu, uTrash, uFileSystemCopyOperation, uFindEx,
-     uTypes, fViewOperations, uVfsModule, uMultiListFileSource;
+     uTypes, fViewOperations, uVfsModule, uMultiListFileSource, uExceptions;
 
-{ TActs }
+{ TMainCommands }
 
-class function TActs.Methods(AClass:TClass): TStringList;
-//------------------------------------------------------
-    type
-       pmethodnamerec = ^tmethodnamerec;
-       tmethodnamerec = packed record
-          name : pshortstring;
-          addr : pointer;
-       end;
-
-       tmethodnametable = packed record
-         count : dword;
-         entries : tmethodnamerec; // first entry
-         // subsequent tmethodnamerec records follow
-       end;
-
-       pmethodnametable =  ^tmethodnametable;
-
-var
- methodtable : pmethodnametable;
- i : dword;
- vmt : tclass;
- pentry: pmethodnamerec;
-
+constructor TMainCommands.Create(TheOwner: TComponent; ActionList: TActionList = nil);
 begin
-   Result:=TStringList.Create;
-   vmt:=AClass;
-   while assigned(vmt) do
-     begin
-        methodtable:=pmethodnametable((Pointer(vmt)+vmtMethodTable)^);
-        if assigned(methodtable) then
-        begin
-          pentry := @methodtable^.entries;
-          for i:=0 to methodtable^.count-1 do
-            Result.AddObject(pentry[i].name^,Tobject(AClass));
-        end;
-        vmt:=pclass(pointer(vmt)+vmtParent)^;
-     end;
-end;
-//------------------------------------------------------
-
-
-function TActs.GetList: TStrings;
-begin
-  Result:=Methods(Self.ClassType);
+  inherited Create(TheOwner);
+  FCommands := TFormCommands.Create(Self, ActionList);
+  FCommands.FilterFunc := @CommandsFilter;
 end;
 
-
-constructor TActs.Create;
-var
-  i: Integer;
+function TMainCommands.CommandsFilter(Command: String): Boolean;
 begin
-  FCmdList:=GetList;
-  FActionsState:=TStringHashList.Create(False); // not case-sensitive
-
-  for i:=0 to FCmdList.Count - 1 do
-    AddAction(Copy(FCmdList.Strings[i], 4,
-                   Length(FCmdList.Strings[i]) - 3));
-end;
-
-destructor TActs.Destroy;
-var
-  i: Integer;
-begin
-  if Assigned(FCmdList) then FreeAndNil(FCmdList);
-  if Assigned(FActionsState) then
-  begin
-    for i := 0 to FActionsState.Count - 1 do
-      if Assigned(FActionsState.List[i]^.Data) then
-        Dispose(PActionState(FActionsState.List[i]^.Data));
-
-    FreeAndNil(FActionsState);
-  end;
-  inherited Destroy;
-end;
-
-function TActs.Execute(Cmd: string; param:string =''): integer;
-var t:TMethod; ind:integer;
-begin
-    Result:=cf_Error;
-    ind:={FCmdList.IndexOf(cmd);}GetIndex(Cmd);
-    if ind=-1 then exit;
-    if not Assigned(FCmdList.Objects[ind]) then exit;
-    t.Data:=TClass(FCmdList.Objects[ind]).ClassInfo;
-    t.Code:=TClass(FCmdList.Objects[ind]).MethodAddress(cmd);
-    if Assigned(t.code) then
-    begin
-     Result:=cf_Null;
-        TCommandFunc(t)(param);
-  end;
-end;
-
-
-function TActs.GetIndex(Cmd: string): integer;
-//------------------------------------------------------
-    Function DoCompareText(const s1,s2 : string) : PtrInt;
-      begin
-        result:=CompareText(upcase(s1),upcase(s2));
-      end;
-    //---------------------
-begin
-  Result:=0;
-  with FCmdList do
-  begin
-    While (Result<Count) and (DoCompareText(Strings[Result],Cmd)<>0) do Result:=Result+1;
-    if Result=Count then Result:=-1;
-  end;
-end;
-
-function TActs.GetCategoriesList(const List: TStrings): integer;
-var s:string; i,p:integer;
-begin
-  List.Clear;
-  for i:=0 to CommandList.Count-1 do
-    begin
-     s:=CommandList[i];
-     //find forms
-     if Pos('cm_',s)>0 then
-       begin
-         s:=copy(s,4,length(s)-3);
-         p:=pos('_',s);
-         if p>0 then
-           begin
-             s:=copy(s,1,p-1);
-             if list.IndexOf(s)=-1 then
-               List.Add(s);
-           end
-         else
-           begin
-            if list.IndexOf('Main')=-1 then
-              List.Add('Main');
-           end;
-       end;
-    end;
-  result:=List.Count;
-end;
-
-function TActs.GetCommandsByCategory(Category: string; const List: TStrings
-  ): integer;
-var i:integer; s:string;
-begin
-  List.Clear;
-  if Category='Main' then
-    begin
-    for i:=0 to CommandList.Count-1 do
-      begin
-       s:=CommandList[i];
-       delete(s,1,3);
-       if pos('_',s)=0 then
-         List.Add(CommandList[i]);
-      end;
-    end
-  else
-    begin
-      s:='cm_'+Category+'_';
-      for i:=0 to CommandList.Count-1 do
-       if pos(s,CommandList[i])>0 then
-         List.Add(CommandList[i]);
-    end;
-
-  Result:=List.Count;
-end;
-
-function TActs.GetCommandCaption(sCommand: String; bAmpersand: Boolean): UTF8String;
-//< find Comment for command
-// command=caption of action assigned to command
-var
-  myAct: TContainedAction;
-  lstr: String;
-begin
-  Result:= '';
-  with frmMain.actionLst do
-  begin
-    lstr:= Copy(sCommand, 4, Length(sCommand) - 3);// get action name
-    myAct:= ActionByName('act' + lstr); // get action
-    if (myAct <> nil) and (myAct is TAction) then // if action exist and action is TAction. its Need?
-      begin
-        lstr:= (myAct as TAction).Caption; //copy caption
-        if not bAmpersand then
-          while pos('&', lstr) <> 0 do Delete(lstr, Pos('&', lstr), 1); //delete all ampersand
-        Result:= lstr;
-      end;
-  end;
-end;
-
-procedure TActs.AddAction(ActionName: String);
-var
-  ActionState: PActionState;
-begin
-  if FActionsState.Find(ActionName) = -1 then
-  begin
-    New(ActionState);
-
-    if Assigned(ActionState) then
-    try
-      ActionState^.Enabled := True;
-      ActionState^.Action := nil;
-
-      FActionsState.Add(ActionName, ActionState);
-    except
-      Dispose(ActionState);
-    end;
-  end;
-end;
-
-procedure TActs.AddAction(Action: TAction);
-var
-  ActionState: PActionState;
-  ActionNameWithoutPrefix: string;
-  Index: Integer;
-begin
-  ActionNameWithoutPrefix := Copy(Action.Name, 4, Length(Action.Name) - 3);
-
-  Index := FActionsState.Find(ActionNameWithoutPrefix);
-  if Index = -1 then
-  begin
-    New(ActionState);
-
-    if Assigned(ActionState) then
-    try
-      ActionState^.Enabled := True;
-      ActionState^.Action := Action;
-
-      FActionsState.Add(ActionNameWithoutPrefix, ActionState);
-    except
-      Dispose(ActionState);
-    end;
-  end
-  else
-  begin
-    // Action already exists. Update TAction reference.
-    PActionState(FActionsState.List[Index]^.Data)^.Action := Action;
-  end;
-end;
-
-procedure TActs.EnableAction(ActionState: PActionState; Enabled: Boolean);
-begin
-  if Assigned(ActionState) then
-  begin
-    ActionState^.Enabled := Enabled;
-    if Assigned(ActionState^.Action) then
-      ActionState^.Action.Enabled := Enabled;
-  end;
-end;
-
-procedure TActs.EnableAction(ActionName: String; Enable: Boolean);
-var
-  ActionState: PActionState;
-begin
-  ActionState := FActionsState[ActionName];
-  if Assigned(ActionState) then
-    EnableAction(ActionState, Enable)
-  else
-    raise Exception.Create('Invalid Action Name: ' + ActionName);
-end;
-
-function TActs.IsActionEnabled(ActionName: String): Boolean;
-var
-  ActionState: PActionState;
-begin
-  ActionState := FActionsState[ActionName];
-  if Assigned(ActionState) then
-    Result := ActionState^.Enabled
-  else
-    raise Exception.Create('Invalid Action Name: ' + ActionName);
-end;
-
-procedure TActs.EnableAllActions(Enable: Boolean);
-var
-  i: Integer;
-begin
-  for i := 0 to FActionsState.Count - 1 do
-    EnableAction(PActionState(FActionsState.List[i]^.Data), Enable);
-end;
-
-procedure TActs.ShowException(e: Exception);
-begin
-  MessageDlg(Application.Title, rsMsgLogError + LineEnding + e.Message, mtError, [mbOK], 0);
+  Result := Command = 'cm_Int_RunCommandFromBarFile';
 end;
 
 //------------------------------------------------------
 
-procedure TActs.OnCalcStatisticsStateChanged(Operation: TFileSourceOperation;
+procedure TMainCommands.OnCalcStatisticsStateChanged(Operation: TFileSourceOperation;
                                              State: TFileSourceOperationState);
 var
   CalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
@@ -594,7 +260,7 @@ begin
   end;
 end;
 
-procedure TActs.OnCalcChecksumStateChanged(Operation: TFileSourceOperation;
+procedure TMainCommands.OnCalcChecksumStateChanged(Operation: TFileSourceOperation;
                                            State: TFileSourceOperationState);
 var
   CalcChecksumOperation: TFileSourceCalcChecksumOperation;
@@ -609,7 +275,7 @@ end;
 
 //------------------------------------------------------
 
-procedure TActs.DoRemoveTab(Notebook: TFileViewNotebook; PageIndex: Integer);
+procedure TMainCommands.DoRemoveTab(Notebook: TFileViewNotebook; PageIndex: Integer);
 begin
   with frmMain do
   begin
@@ -618,7 +284,7 @@ begin
   end;
 end;
 
-procedure TActs.DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
+procedure TMainCommands.DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
 var
   I: Integer;
   sl: TStringList = nil;
@@ -659,7 +325,7 @@ begin
   end;
 end;
 
-procedure TActs.DoNewTab(Notebook: TFileViewNotebook);
+procedure TMainCommands.DoNewTab(Notebook: TFileViewNotebook);
 var
   NewPage: TFileViewPage;
 begin
@@ -672,7 +338,7 @@ begin
   NewPage.UpdateCaption(GetLastDir(ExcludeTrailingPathDelimiter(NewPage.FileView.CurrentPath)));
 end;
 
-procedure TActs.DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean);
+procedure TMainCommands.DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean);
 var
   aFile: TFile = nil;
   aFiles: TFiles = nil;
@@ -719,7 +385,7 @@ begin
   end;
 end;
 
-procedure TActs.DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage);
+procedure TMainCommands.DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage);
 var
   aFile: TFile;
   NewPath: String;
@@ -759,7 +425,7 @@ begin
   end;
 end;
 
-procedure TActs.DoSortByFunctions(View: TFileView; FileFunctions: TFileFunctions);
+procedure TMainCommands.DoSortByFunctions(View: TFileView; FileFunctions: TFileFunctions);
 var
   NewSorting: TFileSortings = nil;
   CurrentSorting: TFileSortings;
@@ -794,7 +460,7 @@ begin
   View.Sorting := NewSorting;
 end;
 
-procedure TActs.DoShowMainMenu(bShow: Boolean);
+procedure TMainCommands.DoShowMainMenu(bShow: Boolean);
 begin
   gMainMenu := bShow;
 
@@ -819,7 +485,7 @@ end;
 //Published methods
 //------------------------------------------------------
 
-procedure TActs.cm_AddPathToCmdLine(param:string);
+procedure TMainCommands.cm_AddPathToCmdLine(Param: String='');
 var
   OldPosition: Integer;
   AddedString: String;
@@ -833,7 +499,7 @@ begin
     end;
 end;
 
-procedure TActs.cm_AddFilenameToCmdLine(param: string='');
+procedure TMainCommands.cm_AddFilenameToCmdLine(Param: String='');
 var
   AddedString: String;
   OldPosition: Integer;
@@ -854,7 +520,7 @@ begin
     end;
 end;
 
-procedure TActs.cm_AddPathAndFilenameToCmdLine(param: string='');
+procedure TMainCommands.cm_AddPathAndFilenameToCmdLine(Param: String='');
 var
   AddedString: String;
   OldPosition: Integer;
@@ -879,24 +545,24 @@ begin
     end;
 end;
 
-procedure TActs.cm_ContextMenu(param:string);
+procedure TMainCommands.cm_ContextMenu(Param: String='');
 begin
   // Let file view handle displaying context menu at appropriate position.
   frmMain.ActiveFrame.ExecuteCommand('cm_ContextMenu', '');
 end;
 
-procedure TActs.cm_CopyFullNamesToClip(param:string);
+procedure TMainCommands.cm_CopyFullNamesToClip(Param: String='');
 begin
   DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, True);
 end;
 
-procedure TActs.cm_CopyNamesToClip(param:string);
+procedure TMainCommands.cm_CopyNamesToClip(Param: String='');
 begin
   DoCopySelectedFileNamesToClipboard(frmMain.ActiveFrame, False);
 end;
 
 //------------------------------------------------------
-procedure TActs.cm_Exchange(param:string);
+procedure TMainCommands.cm_Exchange(Param: String='');
 var
   sDir: String;
 begin
@@ -905,7 +571,7 @@ begin
   FrmMain.NotActiveFrame.CurrentPath:= sDir;
 end;
 
-procedure TActs.cm_OpenDirInNewTab(param:string);
+procedure TMainCommands.cm_OpenDirInNewTab(Param: String='');
 var
   NewPage: TFileViewPage;
   NewPath: String;
@@ -932,7 +598,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_TargetEqualSource(param:string);
+procedure TMainCommands.cm_TargetEqualSource(Param: String='');
 begin
   with frmMain do
   begin
@@ -943,7 +609,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_LeftEqualRight(param: string);
+procedure TMainCommands.cm_LeftEqualRight(Param: String='');
 begin
   with frmMain do
   begin
@@ -957,7 +623,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_RightEqualLeft(param: string);
+procedure TMainCommands.cm_RightEqualLeft(Param: String='');
 begin
   with frmMain do
   begin
@@ -971,7 +637,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_OpenArchive(param:string);
+procedure TMainCommands.cm_OpenArchive(Param: String='');
 var
   aFile: TFile;
 begin
@@ -993,7 +659,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_TestArchive(param: string);
+procedure TMainCommands.cm_TestArchive(Param: String='');
 var
   SelectedFiles: TFiles;
 begin
@@ -1009,12 +675,12 @@ begin
   end;
 end;
 
-procedure TActs.cm_Open(param:string);
+procedure TMainCommands.cm_Open(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_Open', param);
 end;
 
-procedure TActs.cm_OpenVirtualFileSystemList(param:string);
+procedure TMainCommands.cm_OpenVirtualFileSystemList(Param: String='');
 var
   FileSource: IFileSource;
 begin
@@ -1036,7 +702,7 @@ end;
 
 //------------------------------------------------------
 (* Pack files in archive by creating a new archive *)
-procedure TActs.cm_PackFiles(param:string);
+procedure TMainCommands.cm_PackFiles(Param: String='');
 var
   SelectedFiles: TFiles;
 begin
@@ -1059,7 +725,7 @@ begin
 end;
 
 // This command is needed for extracting whole archive by Alt+F9 (without opening it).
-procedure TActs.cm_ExtractFiles(param:string);
+procedure TMainCommands.cm_ExtractFiles(Param: String='');
 var
   SelectedFiles: TFiles;
 begin
@@ -1081,27 +747,27 @@ begin
   end;
 end;
 
-procedure TActs.cm_QuickSearch(param:string);
+procedure TMainCommands.cm_QuickSearch(Param: String='');
 begin
   FrmMain.ActiveFrame.ExecuteCommand('cm_QuickSearch', param);
 end;
 
-procedure TActs.cm_QuickFilter(param: string='');
+procedure TMainCommands.cm_QuickFilter(Param: String='');
 begin
   FrmMain.ActiveFrame.ExecuteCommand('cm_QuickFilter', param);
 end;
 
-procedure TActs.cm_LeftOpenDrives(param:string);
+procedure TMainCommands.cm_LeftOpenDrives(Param: String='');
 begin
   frmMain.ShowDrivesList(fpLeft);
 end;
 
-procedure TActs.cm_RightOpenDrives(param:string);
+procedure TMainCommands.cm_RightOpenDrives(Param: String='');
 begin
   frmMain.ShowDrivesList(fpRight);
 end;
 
-procedure TActs.cm_OpenBar(param: string);
+procedure TMainCommands.cm_OpenBar(Param: String='');
 var
   sFileName: UTF8String;
   IniFile: TIniFileEx = nil;
@@ -1122,7 +788,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_ShowButtonMenu(param:string);
+procedure TMainCommands.cm_ShowButtonMenu(Param: String='');
 var
   Point: TPoint;
   sFileName: UTF8String;
@@ -1146,36 +812,36 @@ begin
   end;
 end;
 
-procedure TActs.cm_TransferLeft(param:string);
+procedure TMainCommands.cm_TransferLeft(Param: String='');
 begin
   if (frmMain.SelectedPanel = fpRight) then
     DoTransferPath(frmMain.RightTabs.ActivePage,
                    frmMain.LeftTabs.ActivePage);
 end;
 
-procedure TActs.cm_TransferRight(param:string);
+procedure TMainCommands.cm_TransferRight(Param: String='');
 begin
   if (frmMain.SelectedPanel = fpLeft) then
     DoTransferPath(frmMain.LeftTabs.ActivePage,
                    frmMain.RightTabs.ActivePage);
 end;
 
-procedure TActs.cm_GoToFirstFile(param: string);
+procedure TMainCommands.cm_GoToFirstFile(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_GoToFirstFile', '');
 end;
 
-procedure TActs.cm_GoToLastFile(param: string);
+procedure TMainCommands.cm_GoToLastFile(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_GoToLastFile', '');
 end;
 
-procedure TActs.cm_Minimize(param:string);
+procedure TMainCommands.cm_Minimize(Param: String='');
 begin
   FrmMain.MinimizeWindow;
 end;
 
-procedure TActs.cm_Wipe(param:string);
+procedure TMainCommands.cm_Wipe(Param: String='');
 var
   theFilesToWipe: TFiles;
   Operation: TFileSourceOperation;
@@ -1224,17 +890,17 @@ begin
   end;
 end;
 
-procedure TActs.cm_Exit(param:string);
+procedure TMainCommands.cm_Exit(Param: String='');
 begin
   frmMain.Close; // application.Terminate not save settings.
 end;
 
-procedure TActs.cm_NewTab(param:string);
+procedure TMainCommands.cm_NewTab(Param: String='');
 begin
   DoNewTab(frmMain.ActiveNotebook);
 end;
 
-procedure TActs.cm_RenameTab(param: string);
+procedure TMainCommands.cm_RenameTab(Param: String='');
 var
   sCaption: UTF8String;
 begin
@@ -1250,13 +916,13 @@ begin
   end;
 end;
 
-procedure TActs.cm_RemoveTab(param:string);
+procedure TMainCommands.cm_RemoveTab(Param: String='');
 begin
   with frmMain do
     DoRemoveTab(ActiveNotebook, ActiveNotebook.PageIndex);
 end;
 
-procedure TActs.cm_RemoveAllTabs(param: string);
+procedure TMainCommands.cm_RemoveAllTabs(Param: String='');
 var
   I: Integer;
   ANotebook: TFileViewNotebook;
@@ -1284,35 +950,35 @@ begin
   end;
 end;
 
-procedure TActs.cm_NextTab(param: string);
+procedure TMainCommands.cm_NextTab(Param: String='');
 begin
   frmMain.ActiveNotebook.ActivateNextTab;
 end;
 
-procedure TActs.cm_PrevTab(param: string);
+procedure TMainCommands.cm_PrevTab(Param: String='');
 begin
   frmMain.ActiveNotebook.ActivatePrevTab;
 end;
 
-procedure TActs.cm_SetTabOptionNormal(param: string='');
+procedure TMainCommands.cm_SetTabOptionNormal(Param: String='');
 begin
   with frmMain.ActiveNotebook.ActivePage do
     LockState := tlsNormal;
 end;
 
-procedure TActs.cm_SetTabOptionPathLocked(param: string='');
+procedure TMainCommands.cm_SetTabOptionPathLocked(Param: String='');
 begin
   with frmMain.ActiveNotebook.ActivePage do
     LockState := tlsPathLocked;
 end;
 
-procedure TActs.cm_SetTabOptionPathResets(param: string='');
+procedure TMainCommands.cm_SetTabOptionPathResets(Param: String='');
 begin
   with frmMain.ActiveNotebook.ActivePage do
     LockState := tlsPathResets;
 end;
 
-procedure TActs.cm_SetTabOptionDirsInNewTab(param: string='');
+procedure TMainCommands.cm_SetTabOptionDirsInNewTab(Param: String='');
 begin
   with frmMain.ActiveNotebook.ActivePage do
     LockState := tlsDirsInNewTab;
@@ -1320,7 +986,7 @@ end;
 
 //------------------------------------------------------
 
-procedure TActs.cm_View(param:string);
+procedure TMainCommands.cm_View(Param: String='');
 var
   sl: TStringList = nil;
   i, n: Integer;
@@ -1480,7 +1146,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_QuickView(param: string);
+procedure TMainCommands.cm_QuickView(Param: String='');
 begin
   with frmMain do
   begin
@@ -1495,7 +1161,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_Edit(param:string);
+procedure TMainCommands.cm_Edit(Param: String='');
 var
   i: Integer;
   sEditCmd: String;
@@ -1554,36 +1220,36 @@ begin
   end;
 end;
 
-procedure TActs.cm_EditPath(param: string);
+procedure TMainCommands.cm_EditPath(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_EditPath', param);
 end;
 
-procedure TActs.cm_Copy(param:string);
+procedure TMainCommands.cm_Copy(Param: String='');
 begin
   if frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, True) then
     frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
-procedure TActs.cm_CopyNoAsk(param: string='');
+procedure TMainCommands.cm_CopyNoAsk(Param: String='');
 begin
   if frmMain.CopyFiles(frmMain.NotActiveFrame.CurrentPath, False) then
     frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
-procedure TActs.cm_Rename(param:string);
+procedure TMainCommands.cm_Rename(Param: String='');
 begin
   if frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, True) then
     frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
-procedure TActs.cm_RenameNoAsk(param: string='');
+procedure TMainCommands.cm_RenameNoAsk(Param: String='');
 begin
   if frmMain.MoveFiles(frmMain.NotActiveFrame.CurrentPath, False) then
     frmMain.ActiveFrame.UnselectAllFiles;
 end;
 
-procedure TActs.cm_MakeDir(param:string);
+procedure TMainCommands.cm_MakeDir(Param: String='');
 var
   sPath: UTF8String;
   ActiveFile: TFile = nil;
@@ -1631,7 +1297,7 @@ end;
 // "recyclesetting"    - if gUseTrash then delete to trash, otherwise delete directly
 // "recyclesettingrev" - if gUseTrash then delete directly, otherwise delete to trash
 // no parameter        - depends on gUseTrash
-procedure TActs.cm_Delete(param:string);
+procedure TMainCommands.cm_Delete(Param: String='');
 var
   theFilesToDelete: TFiles;
   // 12.05.2009 - if delete to trash, then show another messages
@@ -1713,7 +1379,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_CheckSumCalc(param:string);
+procedure TMainCommands.cm_CheckSumCalc(Param: String='');
 var
   I: Integer;
   bSeparateFile: Boolean;
@@ -1789,7 +1455,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_CheckSumVerify(param:string);
+procedure TMainCommands.cm_CheckSumVerify(Param: String='');
 var
   I: Integer;
   SelectedFiles: TFiles;
@@ -1852,7 +1518,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_FocusCmdLine(param:string);
+procedure TMainCommands.cm_FocusCmdLine(Param: String='');
 begin
   if frmMain.edtCommand.Visible then
   begin
@@ -1866,34 +1532,34 @@ begin
   end;
 end;
 
-procedure TActs.cm_FileAssoc(param:string);
+procedure TMainCommands.cm_FileAssoc(Param: String='');
 begin
   ShowFileAssocDlg;
 end;
 
-procedure TActs.cm_HelpIndex(param: string='');
+procedure TMainCommands.cm_HelpIndex(Param: String='');
 begin
   ShowHelpOrErrorForKeyword('', '/index.html');
 end;
 
-procedure TActs.cm_Keyboard(param: string='');
+procedure TMainCommands.cm_Keyboard(Param: String='');
 begin
   ShowHelpOrErrorForKeyword('', '/shortcuts.html');
 end;
 
-procedure TActs.cm_VisitHomePage(param: string='');
+procedure TMainCommands.cm_VisitHomePage(Param: String='');
 var
   ErrMsg: String;
 begin
   dmHelpMgr.HTMLHelpDatabase.ShowURL('http://doublecmd.sourceforge.net','Double Commander Web Site', ErrMsg);
 end;
 
-procedure TActs.cm_About(param:string);
+procedure TMainCommands.cm_About(Param: String='');
 begin
   ShowAboutBox;
 end;
 
-procedure TActs.cm_ShowSysFiles(param:string);
+procedure TMainCommands.cm_ShowSysFiles(Param: String='');
 begin
   with frmMain do
   begin
@@ -1905,7 +1571,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_SwitchIgnoreList(param: string);
+procedure TMainCommands.cm_SwitchIgnoreList(Param: String='');
 begin
   with frmMain do
   begin
@@ -1918,7 +1584,7 @@ begin
 end;
 
 // Parameter is name of TOptionsEditorClass.
-procedure TActs.cm_Options(param:string);
+procedure TMainCommands.cm_Options(Param: String='');
 var
   frmOptions: TfrmOptions = nil;
 begin
@@ -1934,7 +1600,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_CompareContents(param:string);
+procedure TMainCommands.cm_CompareContents(Param: String='');
 var
   FilesToCompare: TStringList = nil;
   DirsToCompare: TStringList = nil;
@@ -2073,81 +1739,81 @@ begin
   end;
 end;
 
-procedure TActs.cm_ShowMainMenu(param:string);
+procedure TMainCommands.cm_ShowMainMenu(Param: String='');
 begin
   DoShowMainMenu(not gMainMenu);
 end;
 
-procedure TActs.cm_Refresh(param:string);
+procedure TMainCommands.cm_Refresh(Param: String='');
 begin
   frmMain.ActiveFrame.Reload;
 end;
 
 //------------------------------------------------------
-  
-procedure TActs.cm_MarkInvert(param:string);
+
+procedure TMainCommands.cm_MarkInvert(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_MarkInvert', param);
 end;
 
-procedure TActs.cm_MarkMarkAll(param:string);
+procedure TMainCommands.cm_MarkMarkAll(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_MarkMarkAll', param);
 end;
 
-procedure TActs.cm_MarkUnmarkAll(param:string);
+procedure TMainCommands.cm_MarkUnmarkAll(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_MarkUnmarkAll', param);
 end;
 
-procedure TActs.cm_MarkPlus(param:string);
+procedure TMainCommands.cm_MarkPlus(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_MarkPlus', param);
 end;
 
-procedure TActs.cm_MarkMinus(param:string);
+procedure TMainCommands.cm_MarkMinus(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_MarkMinus', param);
 end;
 
-procedure TActs.cm_MarkCurrentExtension(param: string);
+procedure TMainCommands.cm_MarkCurrentExtension(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_MarkCurrentExtension', param);
 end;
 
-procedure TActs.cm_UnmarkCurrentExtension(param: string);
+procedure TMainCommands.cm_UnmarkCurrentExtension(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_UnmarkCurrentExtension', param);
 end;
 
-procedure TActs.cm_SaveSelection(param: string);
+procedure TMainCommands.cm_SaveSelection(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_SaveSelection', param);
 end;
 
-procedure TActs.cm_RestoreSelection(param: string);
+procedure TMainCommands.cm_RestoreSelection(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_RestoreSelection', param);
 end;
 
-procedure TActs.cm_SaveSelectionToFile(param: string);
+procedure TMainCommands.cm_SaveSelectionToFile(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_SaveSelectionToFile', param);
 end;
 
-procedure TActs.cm_LoadSelectionFromFile(param: string);
+procedure TMainCommands.cm_LoadSelectionFromFile(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_LoadSelectionFromFile', param);
 end;
 
-procedure TActs.cm_LoadSelectionFromClip(param: string);
+procedure TMainCommands.cm_LoadSelectionFromClip(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_LoadSelectionFromClip', param);
 end;
 
 //------------------------------------------------------
 
-procedure TActs.cm_DirHotList(param:string);
+procedure TMainCommands.cm_DirHotList(Param: String='');
 var
   p:TPoint;
 begin
@@ -2156,7 +1822,7 @@ begin
   frmMain.pmHotList.Popup(p.X,p.Y);
 end;
 
-procedure TActs.cm_Search(param:string);
+procedure TMainCommands.cm_Search(Param: String='');
 begin
   ShowFindDlg(frmMain.ActiveFrame.CurrentPath);
 end;
@@ -2164,7 +1830,7 @@ end;
 
 //------------------------------------------------------
 
-procedure TActs.cm_SymLink(param:string);
+procedure TMainCommands.cm_SymLink(Param: String='');
 var
   sExistingFile, sLinkToCreate: String;
   SelectedFiles: TFiles;
@@ -2215,7 +1881,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_HardLink(param:string);
+procedure TMainCommands.cm_HardLink(Param: String='');
 var
   sExistingFile, sLinkToCreate: String;
   SelectedFiles: TFiles;
@@ -2266,13 +1932,13 @@ begin
 end;
 
 // Uses to change sort direction when columns header is disabled
-procedure TActs.cm_ReverseOrder(param:string);
+procedure TMainCommands.cm_ReverseOrder(Param: String='');
 begin
   with frmMain.ActiveFrame do
     Sorting := ReverseSortDirection(Sorting);
 end;
 
-procedure TActs.cm_SortByName(param:string);
+procedure TMainCommands.cm_SortByName(Param: String='');
 var
   FileFunctions: TFileFunctions = nil;
 begin
@@ -2281,7 +1947,7 @@ begin
   DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
-procedure TActs.cm_SortByExt(param:string);
+procedure TMainCommands.cm_SortByExt(Param: String='');
 var
   FileFunctions: TFileFunctions = nil;
 begin
@@ -2289,7 +1955,7 @@ begin
   DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
-procedure TActs.cm_SortBySize(param:string);
+procedure TMainCommands.cm_SortBySize(Param: String='');
 var
   FileFunctions: TFileFunctions = nil;
 begin
@@ -2297,7 +1963,7 @@ begin
   DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
-procedure TActs.cm_SortByDate(param:string);
+procedure TMainCommands.cm_SortByDate(Param: String='');
 var
   FileFunctions: TFileFunctions = nil;
 begin
@@ -2305,7 +1971,7 @@ begin
   DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
-procedure TActs.cm_SortByAttr(param:string);
+procedure TMainCommands.cm_SortByAttr(Param: String='');
 var
   FileFunctions: TFileFunctions = nil;
 begin
@@ -2313,7 +1979,7 @@ begin
   DoSortByFunctions(frmMain.ActiveFrame, FileFunctions);
 end;
 
-procedure TActs.cm_MultiRename(param:string);
+procedure TMainCommands.cm_MultiRename(Param: String='');
 var
   aFiles: TFiles;
 begin
@@ -2340,17 +2006,17 @@ end;
 
 //------------------------------------------------------
 
-procedure TActs.cm_CopySamePanel(param:string);
+procedure TMainCommands.cm_CopySamePanel(Param: String='');
 begin
   frmMain.CopyFiles('', True);
 end;
 
-procedure TActs.cm_RenameOnly(param:string);
+procedure TMainCommands.cm_RenameOnly(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_RenameOnly', param);
 end;
 
-procedure TActs.cm_EditNew(param:string);
+procedure TMainCommands.cm_EditNew(Param: String='');
 var
   sNewFile: String;
   hFile: Integer = 0;
@@ -2401,7 +2067,7 @@ begin
 end;
 
 // Shows recently visited directories (global).
-procedure TActs.cm_DirHistory(param:string);
+procedure TMainCommands.cm_DirHistory(Param: String='');
 var
   p:TPoint;
 begin
@@ -2411,12 +2077,12 @@ begin
 end;
 
 // Shows browser-like history for active file view.
-procedure TActs.cm_ViewHistory(param:string);
+procedure TMainCommands.cm_ViewHistory(Param: String='');
 begin
   frmMain.ShowFileViewHistory;
 end;
 
-procedure TActs.cm_ViewHistoryPrev(param: string='');
+procedure TMainCommands.cm_ViewHistoryPrev(Param: String='');
 begin
   with frmMain do
   begin
@@ -2424,7 +2090,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_ViewHistoryNext(param: string='');
+procedure TMainCommands.cm_ViewHistoryNext(Param: String='');
 begin
   with frmMain do
   begin
@@ -2432,7 +2098,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_ShowCmdLineHistory(param:string);
+procedure TMainCommands.cm_ShowCmdLineHistory(Param: String='');
 begin
   with frmMain do
   begin
@@ -2445,7 +2111,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_RunTerm(param:string);
+procedure TMainCommands.cm_RunTerm(Param: String='');
 begin
   if not frmMain.edtCommand.Focused then
     begin
@@ -2454,7 +2120,7 @@ begin
     end;
 end;
 
-procedure TActs.cm_CalculateSpace(param:string);
+procedure TMainCommands.cm_CalculateSpace(Param: String='');
 var
   SelectedFiles: TFiles;
   Operation: TFileSourceOperation;
@@ -2483,12 +2149,12 @@ begin
   end;
 end;
 
-procedure TActs.cm_CountDirContent(param: string);
+procedure TMainCommands.cm_CountDirContent(Param: String='');
 begin
   frmMain.ActiveFrame.ExecuteCommand('cm_CountDirContent', param);
 end;
 
-procedure TActs.cm_SetFileProperties(param: string);
+procedure TMainCommands.cm_SetFileProperties(Param: String='');
 var
   ActiveFile: TFile = nil;
   SelectedFiles: TFiles = nil;
@@ -2544,7 +2210,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_FileProperties(param:string);
+procedure TMainCommands.cm_FileProperties(Param: String='');
 var
   SelectedFiles: TFiles;
   Operation: TFileSourceExecuteOperation;
@@ -2588,7 +2254,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_FileLinker(param:string);
+procedure TMainCommands.cm_FileLinker(Param: String='');
 var
   I: Integer;
   aSelectedFiles: TFiles = nil;
@@ -2625,9 +2291,8 @@ begin
   end; // with
 end;
 
-procedure TActs.cm_FileSpliter(param:string);
+procedure TMainCommands.cm_FileSpliter(Param: String='');
 var
-  I: Integer;
   aFile: TFile = nil;
 begin
   with frmMain, frmMain.ActiveFrame do
@@ -2650,7 +2315,7 @@ begin
   end; // with
 end;
 
-procedure TActs.cm_PanelsSplitterPerPos(param: string);
+procedure TMainCommands.cm_PanelsSplitterPerPos(Param: String='');
 var i:integer;
 begin
   with frmMain do
@@ -2665,7 +2330,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_EditComment(param: string);
+procedure TMainCommands.cm_EditComment(Param: String='');
 var
   aFile: TFile;
 begin
@@ -2748,17 +2413,17 @@ begin
     msgWarning(rsMsgErrNotSupported);
 end;
 
-procedure TActs.cm_CopyToClipboard(param: string='');
+procedure TMainCommands.cm_CopyToClipboard(Param: String='');
 begin
   SendToClipboard(ClipboardCopy);
 end;
 
-procedure TActs.cm_CutToClipboard(param: string='');
+procedure TMainCommands.cm_CutToClipboard(Param: String='');
 begin
   SendToClipboard(ClipboardCut);
 end;
 
-procedure TActs.cm_PasteFromClipboard(param: string='');
+procedure TMainCommands.cm_PasteFromClipboard(Param: String='');
 var
   ClipboardOp: TClipboardOperation;
   filenamesList: TStringList;
@@ -2868,7 +2533,7 @@ begin
   end;
 end;
 
-procedure TActs.cm_ChangeDirToRoot(param: string='');
+procedure TMainCommands.cm_ChangeDirToRoot(Param: String='');
 begin
   with frmMain.ActiveFrame do
   begin
@@ -2876,36 +2541,36 @@ begin
   end;
 end;
 
-procedure TActs.cm_ChangeDirToParent(param: string='');
+procedure TMainCommands.cm_ChangeDirToParent(Param: String='');
 begin
   frmMain.ActiveFrame.ChangePathToParent(True);
 end;
 
 // Parameters:
 // Full path to a directory.
-procedure TActs.cm_ChangeDir(param: string='');
+procedure TMainCommands.cm_ChangeDir(Param: String='');
 begin
   FrmMain.ActiveFrame.CurrentPath := ReplaceEnvVars(param);
 end;
 
-procedure TActs.cm_ClearLogWindow(param: string);
+procedure TMainCommands.cm_ClearLogWindow(Param: String='');
 begin
   frmMain.seLogWindow.Lines.Clear;
 end;
 
-procedure TActs.cm_ClearLogFile(param: string);
+procedure TMainCommands.cm_ClearLogFile(Param: String='');
 begin
   mbDeleteFile(gLogFileName);
 end;
 
-procedure TActs.cm_NetworkConnect(param: string);
+procedure TMainCommands.cm_NetworkConnect(Param: String='');
 begin
   {
   ShowConnectionManager(frmMain.ActiveFrame);
   }
 end;
 
-procedure TActs.cm_NetworkDisconnect(param: string);
+procedure TMainCommands.cm_NetworkDisconnect(Param: String='');
 begin
   {
   if frmMain.ActiveFrame.FileSource.IsClass(TWfxPluginFileSource) then
@@ -2917,22 +2582,22 @@ begin
   }
 end;
 
-procedure TActs.cm_HorizontalFilePanels(param: string='');
+procedure TMainCommands.cm_HorizontalFilePanels(Param: String='');
 begin
   gHorizontalFilePanels := not gHorizontalFilePanels;
   frmMain.actHorizontalFilePanels.Checked := gHorizontalFilePanels;
   frmMain.UpdateWindowView;
 end;
 
-procedure TActs.cm_OperationsViewer(param: string='');
+procedure TMainCommands.cm_OperationsViewer(Param: String='');
 begin
   ShowOperationsViewer;
 end;
 
-procedure TActs.cm_Int_RunCommandFromBarFile(param: string='');
+procedure TMainCommands.cm_Int_RunCommandFromBarFile(Param: String='');
 var
   SR : TSearchRecEx;
-  Res, i : Integer;
+  Res : Integer;
   sCmd, sParam, sPath : string;
 begin
   Res := FindFirstEx(gpCfgDir + '*.bar', faAnyFile, SR);
@@ -2948,7 +2613,7 @@ begin
   frmMain.ExecCmd(sCmd, sParam, sPath);
 end;
 
-procedure TActs.GetCommandFromBar (const cFilename, cParam: string; var Com, Par, Pat:string);
+procedure TMainCommands.GetCommandFromBar (const cFilename, cParam: string; var Com, Par, Pat:string);
 var
   i, BtnCount: integer;
   IniFile: TIniFileEx=nil;
@@ -2966,24 +2631,6 @@ begin
          end;
     end;
   FreeThenNil(IniFile);
-end;
-
-procedure TActs.cm_Viewer_DeleteFile(param: string='');
-begin
-  if Assigned(frmViewer) then
-    frmViewer.btnDeleteFileClick(frmViewer);
-end;
-
-procedure TActs.cm_Viewer_NextFile(param: string='');
-begin
-  if Assigned(frmViewer) then
-    frmViewer.miNextClick (frmViewer);
-end;
-
-procedure TActs.cm_Viewer_About(param: string='');
-begin
-  if Assigned(frmViewer) then
-    frmViewer.miAbout2Click(frmViewer);
 end;
 
 end.

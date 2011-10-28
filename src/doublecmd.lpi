@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="152">
+    <Units Count="153">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -584,9 +584,9 @@
         <UnitName Value="uFilePanelSelect"/>
       </Unit55>
       <Unit56>
-        <Filename Value="newdesign\umethodslist.pas"/>
+        <Filename Value="uformcommands.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uMethodsList"/>
+        <UnitName Value="uFormCommands"/>
       </Unit56>
       <Unit57>
         <Filename Value="newdesign\ufilesourcedeleteoperation.pas"/>
@@ -1158,6 +1158,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uOverlayScrollBarFix"/>
       </Unit151>
+      <Unit152>
+        <Filename Value="umaincommands.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMainCommands"/>
+      </Unit152>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

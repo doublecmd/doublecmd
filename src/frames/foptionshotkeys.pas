@@ -28,9 +28,11 @@ interface
 
 uses
   Classes, SysUtils, ExtCtrls, StdCtrls, Grids,
-  fOptionsFrame, uHotkeyManager;
+  fOptionsFrame, uHotkeyManager, fgl;
 
 type
+
+  TStringMap = specialize TFPGMap<String, String>;
 
   { TfrmOptionsHotkeys }
 
@@ -69,6 +71,7 @@ type
   private
     FHotkeysAutoColWidths: array of Integer;
     FHotkeysAutoGridWidth: Integer;
+    FHotkeysCategories: TStringList; // Untranslated
     procedure AutoSizeCommandsGrid;
     procedure AutoSizeHotkeysGrid;
     procedure DeleteHotkeyFromGrid(aHotkey: String);
@@ -102,11 +105,17 @@ type
     }
     procedure FillCommandList(Filter: String);
     procedure FillCategoriesList;
+    {en
+       Retrieves untranslated category.
+    }
+    function GetSelectedCategory: String;
   protected
     procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
+    constructor Create(TheOwner: TComponent); override;
+    destructor Destroy; override;
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
   end;
@@ -116,8 +125,8 @@ implementation
 {$R *.lfm}
 
 uses
-  Controls, Dialogs, LCLProc,
-  uFindEx, uGlobs, uGlobsPaths, uLng, uTypes, uKeyboard;
+  Forms, Controls, Dialogs, LCLProc, {fMain,}
+  uFindEx, uGlobs, uGlobsPaths, uLng, uTypes, uKeyboard, uFormCommands;
 
 const
   stgCmdCommandIndex = 0;
@@ -151,6 +160,11 @@ begin
   end;
 end;
 
+function CompareCategories(List: TStringList; Index1, Index2: Integer): Integer;
+begin
+  Result := UTF8CompareText(List.Strings[Index1], List.Strings[Index2]);
+end;
+
 { TfrmOptionsHotkeys }
 
 procedure TfrmOptionsHotkeys.btClearHotKeyClick(Sender: TObject);
@@ -165,7 +179,7 @@ begin
   if lbxCategories.ItemIndex=-1 then Exit;
   sShortCut := stgHotkeys.Cells[0, stgHotkeys.Row];
   sCommand := stgCommands.Cells[stgCmdCommandIndex, stgCommands.Row];
-  HMForm := HotMan.Forms.Find(lbxCategories.Items[lbxCategories.ItemIndex]);
+  HMForm := HotMan.Forms.Find(GetSelectedCategory);
   if Assigned(HMForm) then
   begin
     for i := 0 to HMForm.Controls.Count - 1 do
@@ -227,7 +241,7 @@ begin
       Exit;
   end;
 
-  HMForm := HotMan.Forms.FindOrCreate(lbxCategories.Items[lbxCategories.ItemIndex]);
+  HMForm := HotMan.Forms.FindOrCreate(GetSelectedCategory);
   isFormHotkey := true;
   for i := 0 to Self.cgHKControls.Items.Count - 1 do
   begin
@@ -340,7 +354,7 @@ begin
   if aRow<1 then
     Exit;
 
-  HMForm := HotMan.Forms.Find(lbxCategories.Items[lbxCategories.ItemIndex]);
+  HMForm := HotMan.Forms.Find(GetSelectedCategory);
   if not Assigned(HMForm) then
     Exit;
 
@@ -398,9 +412,11 @@ procedure TfrmOptionsHotkeys.AutoSizeCommandsGrid;
 begin
   with stgCommands do
   begin
+    BeginUpdate;
     AutoSizeColumns;
     if ClientWidth > GridWidth then
       ColWidths[stgCmdCommentIndex] := ColWidths[stgCmdCommentIndex] + (ClientWidth - GridWidth);
+    EndUpdate;
   end;
 end;
 
@@ -411,10 +427,13 @@ var
 begin
   with stgHotkeys do
   begin
-    if ClientWidth > FHotkeysAutoGridWidth then
-      Diff := (ClientWidth - FHotkeysAutoGridWidth) div 3;
-    for i := 0 to ColCount - 1 do
-      ColWidths[i] := FHotkeysAutoColWidths[i] + Diff;
+    if Length(FHotkeysAutoColWidths) = ColCount then
+    begin
+      if ClientWidth > FHotkeysAutoGridWidth then
+        Diff := (ClientWidth - FHotkeysAutoGridWidth) div 3;
+      for i := 0 to ColCount - 1 do
+        ColWidths[i] := FHotkeysAutoColWidths[i] + Diff;
+    end;
   end;
 end;
 
@@ -506,7 +525,7 @@ begin
   lblHotKeyConflict.Caption := EmptyStr;
   lblHotKeyConflict.Hint := EmptyStr;
 
-  HMForm := HotMan.Forms.Find(lbxCategories.Items[lbxCategories.ItemIndex]);
+  HMForm := HotMan.Forms.Find(GetSelectedCategory);
   if not Assigned(HMForm) then
     Exit;
 
@@ -578,54 +597,59 @@ begin
   if Self.lbxCategories.ItemIndex = -1 then
     Exit;
 
-  HMForm := HotMan.Forms.Find(lbxCategories.Items[lbxCategories.ItemIndex]);
+  HMForm := HotMan.Forms.Find(GetSelectedCategory);
   if not Assigned(HMForm) then
     Exit;
 
-  // add hotkeys from form
-  for iHotKey := 0 to HMForm.Hotkeys.Count - 1 do
-  begin
-    hotkey := HMForm.Hotkeys[iHotKey];
-    if hotkey.Command <> sCommand then
-      continue;
-
-    stgHotkeys.RowCount := stgHotkeys.RowCount + 1;
-    stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := hotkey.ShortCut;
-    stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := hotkey.Params;
-  end;
-
-  // add hotkeys from controls
-  for iControl := 0 to HMForm.Controls.Count - 1  do
-  begin
-    HMControl := HMForm.Controls[iControl];
-    for iHotKey := 0 to HMControl.Hotkeys.Count - 1 do
+  stgHotkeys.BeginUpdate;
+  try
+    // add hotkeys from form
+    for iHotKey := 0 to HMForm.Hotkeys.Count - 1 do
     begin
-      hotkey := HMControl.Hotkeys[iHotKey];
+      hotkey := HMForm.Hotkeys[iHotKey];
       if hotkey.Command <> sCommand then
         continue;
 
-      // search for hotkey in grid and add control name to list
-      found := false;
-      for iGrid := stgHotkeys.FixedRows to stgHotkeys.RowCount - 1 do
+      stgHotkeys.RowCount := stgHotkeys.RowCount + 1;
+      stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := hotkey.ShortCut;
+      stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := hotkey.Params;
+    end;
+
+    // add hotkeys from controls
+    for iControl := 0 to HMForm.Controls.Count - 1  do
+    begin
+      HMControl := HMForm.Controls[iControl];
+      for iHotKey := 0 to HMControl.Hotkeys.Count - 1 do
       begin
-        if stgHotkeys.Cells[0, iGrid] = hotkey.ShortCut then
+        hotkey := HMControl.Hotkeys[iHotKey];
+        if hotkey.Command <> sCommand then
+          continue;
+
+        // search for hotkey in grid and add control name to list
+        found := false;
+        for iGrid := stgHotkeys.FixedRows to stgHotkeys.RowCount - 1 do
         begin
-          stgHotkeys.Cells[2, iGrid] := stgHotkeys.Cells[2, iGrid] + HMControl.Name + ';';
-          found := true;
-          break;
+          if stgHotkeys.Cells[0, iGrid] = hotkey.ShortCut then
+          begin
+            stgHotkeys.Cells[2, iGrid] := stgHotkeys.Cells[2, iGrid] + HMControl.Name + ';';
+            found := true;
+            break;
+          end; { if }
+        end; { for }
+
+        // add new row for hotkey
+        if not found then
+        begin
+          stgHotkeys.RowCount := stgHotkeys.RowCount + 1;
+          stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := hotkey.ShortCut;
+          stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := hotkey.Params;
+          stgHotkeys.Cells[2, stgHotkeys.RowCount - 1] := HMControl.Name + ';';
         end; { if }
       end; { for }
-
-      // add new row for hotkey
-      if not found then
-      begin
-        stgHotkeys.RowCount := stgHotkeys.RowCount + 1;
-        stgHotkeys.Cells[0, stgHotkeys.RowCount - 1] := hotkey.ShortCut;
-        stgHotkeys.Cells[1, stgHotkeys.RowCount - 1] := hotkey.Params;
-        stgHotkeys.Cells[2, stgHotkeys.RowCount - 1] := HMControl.Name + ';';
-      end; { if }
     end; { for }
-  end; { for }
+  finally
+    stgHotkeys.EndUpdate;
+  end;
 
   stgHotkeys.AutoSizeColumns;
   SetLength(FHotkeysAutoColWidths, stgHotkeys.ColCount);
@@ -643,7 +667,7 @@ var
 begin
   ControlsList := TStringList.Create;
   try
-    HMForm := HotMan.Forms.Find(lbxCategories.items.Strings[lbxCategories.ItemIndex]);
+    HMForm := HotMan.Forms.Find(GetSelectedCategory);
     if Assigned(HMForm) then
     begin
       for i := 0 to HMForm.Controls.Count - 1 do
@@ -666,15 +690,45 @@ var
   i:      Integer;
   HMForm: THMForm;
   sForm:  String;
+  CommandsFormClass: TComponentClass;
+  CommandsForm: TComponent = nil;
+  CommandsFormCreated: Boolean = False;
+  CommandsIntf: IFormCommands;
 begin
+  sForm := GetSelectedCategory;
+  CommandsFormClass := TFormCommands.GetCommandsForm(sForm);
+  if not Assigned(CommandsFormClass) or
+     not Supports(CommandsFormClass, IFormCommands) then
+  begin
+    stgCommands.Clean;
+    Exit;
+  end;
+
+  // Find an instance of the form to retrieve action list (for comments).
+  for i := 0 to Screen.CustomFormCount - 1 do
+    if Screen.CustomForms[i].ClassType = CommandsFormClass then
+    begin
+      CommandsForm := Screen.CustomForms[i];
+      Break;
+    end;
+
+  // If not found create an instance temporarily.
+  if not Assigned(CommandsForm) then
+  begin
+    CommandsForm := CommandsFormClass.Create(Application);
+    CommandsFormCreated := True;
+  end;
+
+  CommandsIntf := CommandsForm as IFormCommands;
+
   slAllCommands := TStringList.Create;
   slComments    := TStringList.Create;
   slHotKey      := TStringList.Create;
   slTmp         := TStringList.Create;
-  sForm         := lbxCategories.items.Strings[lbxCategories.ItemIndex];
   HMForm        := HotMan.Forms.Find(sForm);
 
-  Actions.GetCommandsByCategory(sForm, slAllCommands);
+  CommandsIntf.GetCommandsList(slAllCommands);
+
   if Filter <> '' then // if filter not empty
   begin
     slFiltered := TStringList.Create;
@@ -682,7 +736,7 @@ begin
     for i := 0 to slAllCommands.Count - 1 do // for all command
       // if filtered text find in command or comment then add to filteredlist
       if (UTF8Pos(lstr, UTF8LowerCase(slAllCommands.Strings[i])) <> 0) or
-         (UTF8Pos(lstr, UTF8LowerCase(Actions.GetCommandCaption(slAllCommands.Strings[i]))) <> 0) then
+         (UTF8Pos(lstr, UTF8LowerCase(CommandsIntf.GetCommandCaption(slAllCommands.Strings[i]))) <> 0) then
       begin
         slFiltered.Add(slAllCommands[i]);
       end;
@@ -698,7 +752,7 @@ begin
   for i := 0 to slFiltered.Count - 1 do
   begin // for all filtered items do
     // get comment for command and add to slComments list
-    slComments.Add(Actions.GetCommandCaption(slFiltered.Strings[i]));
+    slComments.Add(CommandsIntf.GetCommandCaption(slFiltered.Strings[i]));
 
     // getting list of assigned hot key
     if Assigned(HMForm) then
@@ -718,9 +772,12 @@ begin
   //set stringgrid rows count
   stgCommands.RowCount := slFiltered.Count;
   // copy to string grid created lists
+  stgCommands.BeginUpdate;
+  stgCommands.Clean;
   stgCommands.Cols[stgCmdCommandIndex].Assign(slFiltered);
   stgCommands.Cols[stgCmdHotkeysIndex].Assign(slHotKey);
   stgCommands.Cols[stgCmdCommentIndex].Assign(slComments);
+  stgCommands.EndUpdate;
   AutoSizeCommandsGrid;
 
   stgCommands.Row := 0; // needs for call select function for refresh hotkeylist
@@ -730,13 +787,67 @@ begin
   slComments.Free;
   slFiltered.Free;
   slTmp.Free;
+
+  if CommandsFormCreated then
+    CommandsForm.Free;
 end;
 
 procedure TfrmOptionsHotkeys.FillCategoriesList;
+var
+  i, MainIndex, Diff: Integer;
+  Translated: TStringList;
 begin
-  Actions.GetCategoriesList(lbxCategories.Items);
-  if lbxCategories.Items.Count>0 then
-    lbxCategories.ItemIndex:=0;
+  Translated := TStringList.Create;
+  try
+    TFormCommands.GetCategoriesList(FHotkeysCategories, Translated);
+
+    if FHotkeysCategories.Count > 0 then
+    begin
+      // Remove Main category so that it can be put to the top after sorting the rest.
+      MainIndex := FHotkeysCategories.IndexOf('Main');
+      if (MainIndex >= 0) and (Translated[MainIndex] = rsHotkeyCategoryMain) then
+      begin
+        FHotkeysCategories.Delete(MainIndex);
+        Translated.Delete(MainIndex);
+        Diff := 1; // Account for Main category being at the top.
+      end
+      else
+      begin
+        MainIndex := -1;
+        Diff := 0;
+      end;
+
+      // Assign indexes to FHotkeysCategories (untranslated).
+      for i := 0 to Translated.Count - 1 do
+        Translated.Objects[i] := TObject(i + Diff);
+
+      Translated.CustomSort(@CompareCategories);
+
+      if MainIndex >= 0 then
+      begin
+        FHotkeysCategories.InsertObject(0, 'Main', TObject(0));
+        Translated.InsertObject(0, rsHotkeyCategoryMain, TObject(0));
+      end;
+
+      lbxCategories.Items.Assign(Translated);
+      lbxCategories.ItemIndex := 0;
+    end
+    else
+      lbxCategories.Items.Clear;
+  finally
+    Translated.Free;
+  end;
+end;
+
+function TfrmOptionsHotkeys.GetSelectedCategory: String;
+var
+  Index: Integer;
+begin
+  Index := lbxCategories.ItemIndex;
+  if (Index >= 0) and (Index < FHotkeysCategories.Count) then
+    Result := FHotkeysCategories[PtrUInt(lbxCategories.Items.Objects[Index])]
+  else
+    Result := EmptyStr;
 end;
 
 class function TfrmOptionsHotkeys.GetIconIndex: Integer;
@@ -771,6 +882,18 @@ begin
   // Save hotkeys file name.
   if lbSCFilesList.ItemIndex >= 0 then
     gNameSCFile := lbSCFilesList.Items[lbSCFilesList.ItemIndex];
+end;
+
+constructor TfrmOptionsHotkeys.Create(TheOwner: TComponent);
+begin
+  inherited Create(TheOwner);
+  FHotkeysCategories := TStringList.Create;
+end;
+
+destructor TfrmOptionsHotkeys.Destroy;
+begin
+  inherited Destroy;
+  FHotkeysCategories.Free;
 end;
 
 end.

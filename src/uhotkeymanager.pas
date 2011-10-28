@@ -159,7 +159,7 @@ type
     procedure KeyDownHandler(Sender: TObject; var Key: Word; Shift: TShiftState);
     //---------------------
     //This function is called from KeyDownHandler to find registered hotkey and execute assigned action
-    function HotKeyEvent(Shortcut: String; Hotkeys: THotkeys): Boolean;
+    function HotKeyEvent(Form: TCustomForm; Shortcut: String; Hotkeys: THotkeys): Boolean;
     //---------------------
     function RegisterForm(AFormName: String): THMForm;
     function RegisterControl(AFormName: String; AControlName: String): THMControl;
@@ -188,7 +188,7 @@ type
 implementation
 
 uses
-  uKeyboard, uGlobs, uDebug, uActs, uOSUtils, uDCVersion, XMLRead;
+  uKeyboard, uGlobs, uDebug, uOSUtils, uDCVersion, XMLRead, uFormCommands;
 
 
 { TFreeNotifier }
@@ -1001,14 +1001,20 @@ begin
   end;
 end;
 
-function THotKeyManager.HotKeyEvent(Shortcut: String; Hotkeys: THotkeys): Boolean;
+function THotKeyManager.HotKeyEvent(Form: TCustomForm; Shortcut: String; Hotkeys: THotkeys): Boolean;
 var
   hotkey: THotkey;
+  FormCommands: IFormCommands;
 begin
   hotkey := Hotkeys.Find(Shortcut);
-  Result := Assigned(hotkey) and
-            Actions.IsActionEnabled(Copy(hotkey.Command, 4, Length(hotkey.Command) - 3)) and
-            (Actions.Execute(hotkey.Command, hotkey.Params) <> cf_Error);
+  if Assigned(hotkey) then
+  begin
+    FormCommands := Form as IFormCommands;
+    Result := Assigned(FormCommands) and
+              (FormCommands.ExecuteCommand(hotkey.Command, hotkey.Params) = cfrSuccess);
+  end
+  else
+    Result := False;
 end;
 
 procedure THotKeyManager.ClearAllHotkeys;
@@ -1080,7 +1086,7 @@ begin
           HMControlInstance := HMControl.Find(Control);
           if Assigned(HMControlInstance) then
           begin
-            if HotKeyEvent(TextShortcut, HMControl.Hotkeys) then
+            if HotKeyEvent(Form, TextShortcut, HMControl.Hotkeys) then
             begin
               Key := VK_UNKNOWN;
               Exit;
@@ -1093,7 +1099,7 @@ begin
       end;
 
       // Hotkey for the whole form
-      if HotKeyEvent(TextShortcut, HMForm.Hotkeys) then
+      if HotKeyEvent(Form, TextShortcut, HMForm.Hotkeys) then
       begin
         Key := VK_UNKNOWN;
         Exit;

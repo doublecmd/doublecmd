@@ -11,6 +11,7 @@ function ExceptionToString: String;
 procedure WriteExceptionToFile(const aFileName: UTF8String; const ExceptionText: String = '');
 procedure WriteExceptionToErrorFile(const ExceptionText: String = ''); inline;
 procedure ShowExceptionDialog(const ExceptionText: String = '');
+procedure ShowException(e: Exception);
 {en
    Log exception to file, show on console and show message dialog.
    Can be called from other threads.
@@ -161,6 +162,11 @@ begin
       Halt;
     end;
   end;
+end;
+
+procedure ShowException(e: Exception);
+begin
+  MessageDlg(Application.Title, rsMsgLogError + LineEnding + e.Message, mtError, [mbOK], 0);
 end;
 
 procedure HandleException(e: Exception; AThread: TThread);

@@ -26,7 +26,7 @@ interface
 
 uses
   Classes, Controls, Forms, uExts, uColorExt, Graphics, uClassesEx, uMultiArc,
-  uColumns, uHotkeyManager, uActs, uSearchTemplate, uFileSourceOperationOptions,
+  uColumns, uHotkeyManager, uSearchTemplate, uFileSourceOperationOptions,
   uWFXModule, uWCXModule, uWDXModule, uwlxmodule, udsxmodule, uXmlConfig,
   uInfoToolTip, fQuickSearch;
 
@@ -275,9 +275,6 @@ var
   HotMan:THotKeyManager;
   gNameSCFile: string;
   
-  {Actions}
-  Actions:TActs;
-
   {Copy/Move operation options}
   gOperationOptionSymLinks: TFileSourceOperationOptionSymLink;
   gOperationOptionCorrectLinks: Boolean;
@@ -631,7 +628,6 @@ begin
   gMultiArcList := TMultiArcList.Create;
   ColSet := TPanelColumnsList.Create;
   HotMan := THotKeyManager.Create;
-  Actions := TActs.Create;
 end;
 
 procedure DestroyGlobs;
@@ -656,7 +652,6 @@ begin
   FreeThenNil(gWLXPlugins);
   FreeThenNil(ColSet);
   FreeThenNil(HotMan);
-  FreeThenNil(Actions);
 end;
 
 procedure SetDefaultConfigGlobs;

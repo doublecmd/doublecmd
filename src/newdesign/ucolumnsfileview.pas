@@ -684,12 +684,12 @@ begin
   case Button of
     mbExtra1:
       begin
-        Actions.cm_ViewHistoryPrev();
+        GoToPrevHistory;
         Exit;
       end;
     mbExtra2:
       begin
-        Actions.cm_ViewHistoryNext();
+        GoToNextHistory;
         Exit;
       end;
   end;
@@ -889,7 +889,7 @@ begin
       else if ((gMouseSelectionButton<>1) or not gMouseSelectionEnabled) then
         begin
           Background:= not (Sender as TDrawGridEx).MouseOnGrid(X, Y);
-          Actions.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y, Background);
+          frmMain.Commands.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y, Background);
         end
       else if (gMouseSelectionEnabled and (gMouseSelectionButton = 1)) then
         begin
@@ -899,7 +899,7 @@ begin
   { Open folder in new tab on middle click }
   else if (Button = mbMiddle) and (Y > dgPanel.GetHeaderHeight) then
     begin
-      Actions.cm_OpenDirInNewTab();
+      frmMain.Commands.cm_OpenDirInNewTab();
     end;
 end;
 
@@ -1171,7 +1171,7 @@ begin
   // show context menu
   MousePoint:= dgPanel.ScreenToClient(Mouse.CursorPos);
   Background:= not dgPanel.MouseOnGrid(MousePoint.x, MousePoint.y);
-  Actions.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y, Background);
+  frmMain.Commands.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y, Background);
   if not Background then
   begin
     // get current row
@@ -2348,7 +2348,7 @@ begin
     SetActiveFile(dirNameToSelect);
   end
   else
-    Actions.cm_ViewHistory('');
+    frmMain.Commands.cm_ViewHistory('');
 end;
 
 procedure TColumnsFileView.lblPathMouseUp(Sender: TObject; Button: TMouseButton;
@@ -2358,7 +2358,7 @@ begin
     mbMiddle:
       begin
         SetFocus;
-        Actions.cm_DirHotList('');
+        frmMain.Commands.cm_DirHotList('');
       end;
 
     mbRight:
@@ -2405,7 +2405,7 @@ begin
           end;
     1001: //All columns
           begin
-            Actions.cm_Options('TfrmOptionsCustomColumns');
+            frmMain.Commands.cm_Options('TfrmOptionsCustomColumns');
             frmMain.ReLoadTabs(frmMain.LeftTabs);
             frmMain.ReLoadTabs(frmMain.RightTabs);
           end;
@@ -3293,7 +3293,7 @@ begin
   Point.X := Rect.Left + ((Rect.Right - Rect.Left) div 2);
   Point.Y := Rect.Top + ((Rect.Bottom - Rect.Top) div 2);
   Point := dgPanel.ClientToScreen(Point);
-  Actions.DoContextMenu(Self, Point.X, Point.Y, False);
+  frmMain.Commands.DoContextMenu(Self, Point.X, Point.Y, False);
 end;
 
 procedure TColumnsFileView.cm_EditPath(param: string);

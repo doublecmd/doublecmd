@@ -2268,7 +2268,7 @@ object frmViewer: TfrmViewer
     object miAbout: TMenuItem
       Caption = 'About'
       object miAbout2: TMenuItem
-        Caption = 'About Viewer...'
+        Action = actAbout
         OnClick = miAbout2Click
       end
     end
@@ -2298,5 +2298,14 @@ object frmViewer: TfrmViewer
     OnTimer = TimerViewerTimer
     left = 224
     top = 64
+  end
+  object actionList: TActionList
+    left = 365
+    top = 66
+    object actAbout: TAction
+      Caption = 'About Viewer...'
+      Hint = 'Displays the About message'
+      OnExecute = miAbout2Click
+    end
   end
 end

@@ -39,15 +39,16 @@ interface
 uses
   SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, ComCtrls,
   LCLProc, Menus, Dialogs, ExtDlgs, StdCtrls, Buttons, ColorBox, Spin,
-  Grids, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
-  uFileSource, fModView, uOSUtils, Types, uThumbnails;
-
+  Grids, ActnList, viewercontrol, GifAnim, fFindView, WLXPlugin, uWLXModule,
+  uFileSource, fModView, uOSUtils, Types, uThumbnails, uFormCommands;
 
 type
 
   { TfrmViewer }
 
-  TfrmViewer = class(TForm)
+  TfrmViewer = class(TForm, IFormCommands)
+    actAbout: TAction;
+    actionList: TActionList;
     btnCopyFile1: TSpeedButton;
     btnDeleteFile1: TSpeedButton;
     btnMoveFile1: TSpeedButton;
@@ -237,6 +238,7 @@ type
     FModSizeDialog: TfrmModView;
     FThumbnailManager: TThumbnailManager;
     FBitmapList: TBitmapList;
+    FCommands: TFormCommands;
 
     //---------------------
     WlxPlugins:TWLXModuleList;
@@ -259,19 +261,30 @@ type
     procedure SaveImageAs (Var sExt: String; senderSave: boolean; Quality: integer);
     procedure CreatePreview(FullPathToFile:string; index:integer; delete: boolean = false);
 
+    {$IF FPC_FULLVERSION >= 020501}
+    property Commands: TFormCommands read FCommands implements IFormCommands;
+    {$ENDIF}
+
   public
-    constructor Create(TheOwner: TComponent; aFileSource: IFileSource); reintroduce;
+    constructor Create(TheOwner: TComponent; aFileSource: IFileSource); overload;
+    constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
     procedure LoadFile(const aFileName: UTF8String);
     procedure LoadNextFile(const aFileName: UTF8String);
     procedure LoadFile(iIndex:Integer);
     procedure ExitPluginMode;
+
+    {$IF FPC_FULLVERSION < 020501}
+    // "implements" does not work in FPC < 2.5.1
+    function ExecuteCommand(Command: string; Param: String=''): TCommandFuncResult;
+    function GetCommandCaption(Command: String): String;
+    procedure GetCommandsList(List: TStrings);
+    {$ENDIF}
+
     property QuickView: Boolean read bQuickView write bQuickView;
-
+  published
+    procedure cm_About(Param: String='');
   end;
-
-var
-  frmViewer: TfrmViewer;
 
 procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource = nil);
 
@@ -281,9 +294,11 @@ implementation
 
 uses
   FileUtil, IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx,
-  uFindMmap, uDCUtils, LCLIntf, uDebug;
+  uFindMmap, uDCUtils, LCLIntf, uDebug, uHotkeyManager;
 
 const
+  HotkeysCategory = 'Viewer';
+
   // Status bar panels indexes.
   sbpFileName             = 0;
   sbpFileNr               = 1;
@@ -331,6 +346,12 @@ begin
   FLastSearchPos := -1;
   FThumbnailManager:= nil;
   FBitmapList:= TBitmapList.Create(True);
+  FCommands := TFormCommands.Create(Self, actionList);
+end;
+
+constructor TfrmViewer.Create(TheOwner: TComponent);
+begin
+  Create(TheOwner, nil);
 end;
 
 destructor TfrmViewer.Destroy;
@@ -981,6 +1002,28 @@ begin
     end;
 end;
 
+{$IF FPC_FULLVERSION < 020501}
+function TfrmViewer.ExecuteCommand(Command: string; Param: String): TCommandFuncResult;
+begin
+  Result := FCommands.ExecuteCommand(Command, Param);
+end;
+
+function TfrmViewer.GetCommandCaption(Command: String): String;
+begin
+  Result := FCommands.GetCommandCaption(Command);
+end;
+
+procedure TfrmViewer.GetCommandsList(List: TStrings);
+begin
+  FCommands.GetCommandsList(List);
+end;
+{$ENDIF}
+
+procedure TfrmViewer.cm_About(Param: String);
+begin
+  miAbout2Click(Self);
+end;
+
 procedure TfrmViewer.miPluginsClick(Sender: TObject);
 begin
   bPlugin:= CheckPlugins(FileList.Strings[iActiveFile], True);
@@ -1249,7 +1292,6 @@ begin
      begin
        ExitPluginMode;
      end;
-  frmViewer := nil;
 end;
 
 procedure TfrmViewer.frmViewerKeyDown(Sender: TObject; var Key: Word;
@@ -1403,9 +1445,13 @@ begin
 end;
 
 procedure TfrmViewer.FormCreate(Sender: TObject);
+var
+  HMViewer: THMForm;
 begin
   InitPropStorage(Self);
-  HotMan.Register(Self, 'Viewer');
+  HMViewer := HotMan.Register(Self, HotkeysCategory);
+  HMViewer.RegisterActionList(actionList);
+
   FontOptionsToFont(gFonts[dcfViewer], ViewerControl.Font);
 
   FileList := TStringList.Create;
@@ -2120,6 +2166,9 @@ begin
     PanelEditImage.Visible:= not bQuickView;
   end;
 end;
+
+initialization
+  TFormCommands.RegisterCommandsForm(TfrmViewer, HotkeysCategory, @rsHotkeyCategoryViewer);
 
 end.
 
