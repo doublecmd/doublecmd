@@ -42,7 +42,7 @@
       <WcxPlugin Enabled="True">
         <ArchiveExt>lzma</ArchiveExt>
         <Path>%commander_path%/plugins/wcx/lzma/lzma.wcx</Path>
-        <Flags>65</Flags>
+        <Flags>1</Flags>
       </WcxPlugin>                  
       <WcxPlugin Enabled="True">
         <ArchiveExt>tar</ArchiveExt>

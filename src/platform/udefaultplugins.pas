@@ -30,9 +30,9 @@ begin
 
   I:= gWCXPlugins.IndexOfName('lzma');
   if I < 0 then
-    gWCXPlugins.Add('lzma', 65, Folder + 'lzma' + PathDelim + 'lzma.wcx')
+    gWCXPlugins.Add('lzma', 1, Folder + 'lzma' + PathDelim + 'lzma.wcx')
   else
-    gWCXPlugins.Flags[I]:= 65;
+    gWCXPlugins.Flags[I]:= 1;
 
   I:= gWCXPlugins.IndexOfName('tar');
   if I < 0 then
