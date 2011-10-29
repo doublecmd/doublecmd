@@ -327,7 +327,10 @@ begin
     Hotkeys.OnChange := @OnHotkeyEvent;
 
     if not Assigned(FFreeNotifier) then
+    begin
       FFreeNotifier := TFreeNotifier.Create(nil);
+      FFreeNotifier.OnFree := @OnActionListFree;
+    end;
     ActionList.FreeNotification(FFreeNotifier);
 
     // Initialize actionlist with shortcuts.
@@ -354,12 +357,9 @@ begin
 end;
 
 procedure THMForm.OnActionListFree(Sender: TObject);
-var
-  actionList: TActionList;
 begin
-  actionList := Sender as TActionList;
-  if Assigned(actionList) then
-    UnregisterActionList(actionList);
+  if Sender is TActionList then
+    UnregisterActionList(Sender as TActionList);
 end;
 
 procedure THMForm.OnHotkeyEvent(hotkey: THotkey; operation: THotkeyOperation);
