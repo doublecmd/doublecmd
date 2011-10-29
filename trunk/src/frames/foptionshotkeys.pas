@@ -28,11 +28,9 @@ interface
 
 uses
   Classes, SysUtils, ExtCtrls, StdCtrls, Grids,
-  fOptionsFrame, uHotkeyManager, fgl;
+  fOptionsFrame, uHotkeyManager;
 
 type
-
-  TStringMap = specialize TFPGMap<String, String>;
 
   { TfrmOptionsHotkeys }
 
@@ -125,7 +123,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Forms, Controls, Dialogs, LCLProc, {fMain,}
+  Forms, Controls, Dialogs, LCLProc,
   uFindEx, uGlobs, uGlobsPaths, uLng, uTypes, uKeyboard, uFormCommands;
 
 const
@@ -412,11 +410,9 @@ procedure TfrmOptionsHotkeys.AutoSizeCommandsGrid;
 begin
   with stgCommands do
   begin
-    BeginUpdate;
     AutoSizeColumns;
     if ClientWidth > GridWidth then
       ColWidths[stgCmdCommentIndex] := ColWidths[stgCmdCommentIndex] + (ClientWidth - GridWidth);
-    EndUpdate;
   end;
 end;
 
