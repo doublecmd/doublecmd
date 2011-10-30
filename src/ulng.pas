@@ -111,6 +111,8 @@ resourcestring
   rsMsgCanNotCopyMoveItSelf = 'You can not copy/move a file "%s" to itself!';
   rsMsgTabRenameCaption = 'Rename tab';
   rsMsgTabRenamePrompt = 'New tab name:';
+  rsMsgErrCreateFileDirectoryExists = 'There already exists a directory named "%s".';
+
   // for context menu
   rsMnuActions = 'Actions';
   rsMnuView = 'View';
