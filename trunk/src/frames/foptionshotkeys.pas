@@ -123,7 +123,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Forms, Controls, Dialogs, LCLProc,
+  Forms, Controls, Dialogs, LCLProc, LCLVersion,
   uFindEx, uGlobs, uGlobsPaths, uLng, uTypes, uKeyboard, uFormCommands;
 
 const
@@ -160,7 +160,11 @@ end;
 
 function CompareCategories(List: TStringList; Index1, Index2: Integer): Integer;
 begin
+{$IF LCL_FULLVERSION >= 093100}
   Result := UTF8CompareText(List.Strings[Index1], List.Strings[Index2]);
+{$ELSE}
+  Result := WideCompareText(UTF8Decode(List.Strings[Index1]), UTF8Decode(List.Strings[Index2]));
+{$ENDIF}
 end;
 
 { TfrmOptionsHotkeys }
