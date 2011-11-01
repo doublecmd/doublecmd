@@ -3367,7 +3367,7 @@ msgid "[MMM] Month name (short, e.g., \"jan\")"
 msgstr ""
 
 #: TFRMMULTIRENAME.MIMONTH3.CAPTION
-msgid "[MMMM] Month name (long, e.g. \"january\")"
+msgid "[MMMM] Month name (long, e.g., \"january\")"
 msgstr ""
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
@@ -5233,6 +5233,15 @@ msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "Plugin:"
 msgstr "Complemento:"
 
+#: TFRMVIEWER.ACTABOUT.CAPTION
+msgctxt "TFRMVIEWER.ACTABOUT.CAPTION"
+msgid "About Viewer..."
+msgstr "Acerca del Visor..."
+
+#: TFRMVIEWER.ACTABOUT.HINT
+msgid "Displays the About message"
+msgstr ""
+
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
 msgid "- 90"
@@ -5430,10 +5439,6 @@ msgstr ""
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
 msgstr "Acerca de"
-
-#: TFRMVIEWER.MIABOUT2.CAPTION
-msgid "About Viewer..."
-msgstr "Acerca del Visor..."
 
 #: TFRMVIEWER.MIBIN.CAPTION
 msgid "Show as &Bin"
@@ -6079,6 +6084,7 @@ msgid "Attributes"
 msgstr "Atributos"
 
 #: ulng.rsfunccomment
+msgctxt "ulng.rsfunccomment"
 msgid "Comment"
 msgstr "Comentario"
 
@@ -6134,6 +6140,15 @@ msgstr "Tipo"
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Error creando el enlace hard"
+
+#: ulng.rshotkeycategorymain
+msgid "Main"
+msgstr ""
+
+#: ulng.rshotkeycategoryviewer
+msgctxt "ulng.rshotkeycategoryviewer"
+msgid "Viewer"
+msgstr "Visor"
 
 #: ulng.rslinkmsgok
 msgid "Linker complete"
@@ -6285,6 +6300,10 @@ msgstr "No puedo conectar con el servidor: \"%s\""
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
 msgstr "No puedo copiar el archivo %s a %s"
+
+#: ulng.rsmsgerrcreatefiledirectoryexists
+msgid "There already exists a directory named \"%s\"."
+msgstr ""
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
@@ -6789,12 +6808,13 @@ msgstr "Marca + Cursor"
 msgid "Text"
 msgstr "Texto"
 
-#: ulng.rsopthotkeyscommands
-msgid "Commands"
+#: ulng.rsopthotkeyscommand
+msgid "Command"
 msgstr "Comandos"
 
-#: ulng.rsopthotkeyscomments
-msgid "Comments"
+#: ulng.rsopthotkeyscomment
+msgctxt "ulng.rsopthotkeyscomment"
+msgid "Comment"
 msgstr "Comentarios"
 
 #: ulng.rsopthotkeyshotkey

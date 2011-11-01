@@ -3427,7 +3427,9 @@ msgid "[MMM] Month name (short, e.g., \"jan\")"
 msgstr "[MMM] Monatsname (kurz, z. B. \"Jan\")"
 
 #: TFRMMULTIRENAME.MIMONTH3.CAPTION
-msgid "[MMMM] Month name (long, e.g. \"january\")"
+#, fuzzy
+#| msgid "[MMMM] Month name (long, e.g. \"january\")"
+msgid "[MMMM] Month name (long, e.g., \"january\")"
 msgstr "[MMMM] Monatsname (lang, z. B. \"Januar\")"
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
@@ -5312,6 +5314,15 @@ msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "Plugin:"
 msgstr ""
 
+#: TFRMVIEWER.ACTABOUT.CAPTION
+msgctxt "TFRMVIEWER.ACTABOUT.CAPTION"
+msgid "About Viewer..."
+msgstr "Über den Be&trachter"
+
+#: TFRMVIEWER.ACTABOUT.HINT
+msgid "Displays the About message"
+msgstr ""
+
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
 msgid "- 90"
@@ -5511,10 +5522,6 @@ msgstr ""
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
 msgstr "&Über"
-
-#: TFRMVIEWER.MIABOUT2.CAPTION
-msgid "About Viewer..."
-msgstr "Über den Be&trachter"
 
 #: TFRMVIEWER.MIBIN.CAPTION
 msgid "Show as &Bin"
@@ -6162,6 +6169,7 @@ msgid "Attributes"
 msgstr "Attribute"
 
 #: ulng.rsfunccomment
+msgctxt "ulng.rsfunccomment"
 msgid "Comment"
 msgstr "Kommentar"
 
@@ -6217,6 +6225,15 @@ msgstr "Typ"
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Fehler beim Erstellen des Hardlink."
+
+#: ulng.rshotkeycategorymain
+msgid "Main"
+msgstr ""
+
+#: ulng.rshotkeycategoryviewer
+msgctxt "ulng.rshotkeycategoryviewer"
+msgid "Viewer"
+msgstr "Schnellansicht"
 
 #: ulng.rslinkmsgok
 msgid "Linker complete"
@@ -6370,6 +6387,10 @@ msgstr "Kann nicht mit dem Server \"%s\" verbinden"
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
 msgstr "Kann die Datei %s nicht zu %s kopieren"
+
+#: ulng.rsmsgerrcreatefiledirectoryexists
+msgid "There already exists a directory named \"%s\"."
+msgstr ""
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
@@ -6876,12 +6897,13 @@ msgstr "Einfügemarke + Zeiger"
 msgid "Text"
 msgstr ""
 
-#: ulng.rsopthotkeyscommands
-msgid "Commands"
+#: ulng.rsopthotkeyscommand
+msgid "Command"
 msgstr "Befehle"
 
-#: ulng.rsopthotkeyscomments
-msgid "Comments"
+#: ulng.rsopthotkeyscomment
+msgctxt "ulng.rsopthotkeyscomment"
+msgid "Comment"
 msgstr "Kommentare"
 
 #: ulng.rsopthotkeyshotkey

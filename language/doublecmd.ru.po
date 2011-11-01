@@ -3340,7 +3340,9 @@ msgid "[MMM] Month name (short, e.g., \"jan\")"
 msgstr "[MMM] Наименование месяца (краткий, т.е., \"янв\")"
 
 #: TFRMMULTIRENAME.MIMONTH3.CAPTION
-msgid "[MMMM] Month name (long, e.g. \"january\")"
+#, fuzzy
+#| msgid "[MMMM] Month name (long, e.g. \"january\")"
+msgid "[MMMM] Month name (long, e.g., \"january\")"
 msgstr "[MMM] Наименование месяца (полный, т.е., \"Январь\")"
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
@@ -5189,6 +5191,15 @@ msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "Plugin:"
 msgstr "Плагин:"
 
+#: TFRMVIEWER.ACTABOUT.CAPTION
+msgctxt "TFRMVIEWER.ACTABOUT.CAPTION"
+msgid "About Viewer..."
+msgstr "О просмотрщике..."
+
+#: TFRMVIEWER.ACTABOUT.HINT
+msgid "Displays the About message"
+msgstr ""
+
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
 msgid "- 90"
@@ -5386,10 +5397,6 @@ msgstr ""
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
 msgstr "О программе..."
-
-#: TFRMVIEWER.MIABOUT2.CAPTION
-msgid "About Viewer..."
-msgstr "О просмотрщике..."
 
 #: TFRMVIEWER.MIBIN.CAPTION
 msgid "Show as &Bin"
@@ -6033,6 +6040,7 @@ msgid "Attributes"
 msgstr "Атрибуты"
 
 #: ulng.rsfunccomment
+msgctxt "ulng.rsfunccomment"
 msgid "Comment"
 msgstr "Комментарий"
 
@@ -6088,6 +6096,15 @@ msgstr "Тип"
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Ошибка создания жёсткой ссылки."
+
+#: ulng.rshotkeycategorymain
+msgid "Main"
+msgstr ""
+
+#: ulng.rshotkeycategoryviewer
+msgctxt "ulng.rshotkeycategoryviewer"
+msgid "Viewer"
+msgstr "Внутренняя программа просмотра"
 
 #: ulng.rslinkmsgok
 msgid "Linker complete"
@@ -6240,6 +6257,10 @@ msgstr "Не могу соединиться с сервером: \"%s\""
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
 msgstr "Не могу копировать файл из %s в %s"
+
+#: ulng.rsmsgerrcreatefiledirectoryexists
+msgid "There already exists a directory named \"%s\"."
+msgstr ""
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
@@ -6746,13 +6767,14 @@ msgstr "Выделение + Курсор"
 msgid "Text"
 msgstr "Текст"
 
-#: ulng.rsopthotkeyscommands
-msgid "Commands"
+#: ulng.rsopthotkeyscommand
+msgid "Command"
 msgstr "Команда"
 
-#: ulng.rsopthotkeyscomments
-msgid "Comments"
-msgstr "Описание"
+#: ulng.rsopthotkeyscomment
+msgctxt "ulng.rsopthotkeyscomment"
+msgid "Comment"
+msgstr "Комментарий"
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"

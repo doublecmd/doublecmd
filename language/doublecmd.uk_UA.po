@@ -3313,7 +3313,9 @@ msgid "[MMM] Month name (short, e.g., \"jan\")"
 msgstr "[MMM] Назва місяця (коротко, \"jan\")"
 
 #: TFRMMULTIRENAME.MIMONTH3.CAPTION
-msgid "[MMMM] Month name (long, e.g. \"january\")"
+#, fuzzy
+#| msgid "[MMMM] Month name (long, e.g. \"january\")"
+msgid "[MMMM] Month name (long, e.g., \"january\")"
 msgstr "[MMMM] Назва місяця (довга, \"january\")"
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
@@ -5163,6 +5165,15 @@ msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "Plugin:"
 msgstr "Плагін:"
 
+#: TFRMVIEWER.ACTABOUT.CAPTION
+msgctxt "TFRMVIEWER.ACTABOUT.CAPTION"
+msgid "About Viewer..."
+msgstr "Про переглядач..."
+
+#: TFRMVIEWER.ACTABOUT.HINT
+msgid "Displays the About message"
+msgstr ""
+
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
 msgid "- 90"
@@ -5360,10 +5371,6 @@ msgstr "на 90° праворуч"
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
 msgstr "Про програму..."
-
-#: TFRMVIEWER.MIABOUT2.CAPTION
-msgid "About Viewer..."
-msgstr "Про переглядач..."
 
 #: TFRMVIEWER.MIBIN.CAPTION
 msgid "Show as &Bin"
@@ -6013,6 +6020,7 @@ msgid "Attributes"
 msgstr "Атрибути"
 
 #: ulng.rsfunccomment
+msgctxt "ulng.rsfunccomment"
 msgid "Comment"
 msgstr "Коментар"
 
@@ -6068,6 +6076,15 @@ msgstr "Тип"
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Помилка створення жорсткого посилання."
+
+#: ulng.rshotkeycategorymain
+msgid "Main"
+msgstr ""
+
+#: ulng.rshotkeycategoryviewer
+msgctxt "ulng.rshotkeycategoryviewer"
+msgid "Viewer"
+msgstr "Переглядач"
 
 #: ulng.rslinkmsgok
 msgid "Linker complete"
@@ -6219,6 +6236,10 @@ msgstr "Неможливо з'єднатися з серевером: \"%s\""
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
 msgstr "Помилка при копіюванні файлу %s в %s"
+
+#: ulng.rsmsgerrcreatefiledirectoryexists
+msgid "There already exists a directory named \"%s\"."
+msgstr ""
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
@@ -6723,13 +6744,14 @@ msgstr "Відмітка + Курсор"
 msgid "Text"
 msgstr "Текст"
 
-#: ulng.rsopthotkeyscommands
-msgid "Commands"
+#: ulng.rsopthotkeyscommand
+msgid "Command"
 msgstr "Команди"
 
-#: ulng.rsopthotkeyscomments
-msgid "Comments"
-msgstr "Коментарі"
+#: ulng.rsopthotkeyscomment
+msgctxt "ulng.rsopthotkeyscomment"
+msgid "Comment"
+msgstr "Коментар"
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"
