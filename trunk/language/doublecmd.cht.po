@@ -3346,7 +3346,7 @@ msgid "[MMM] Month name (short, e.g., \"jan\")"
 msgstr ""
 
 #: TFRMMULTIRENAME.MIMONTH3.CAPTION
-msgid "[MMMM] Month name (long, e.g. \"january\")"
+msgid "[MMMM] Month name (long, e.g., \"january\")"
 msgstr ""
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
@@ -3629,11 +3629,9 @@ msgstr "顯示系統及隱藏檔案"
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
 msgstr "這裏輸入一個或多個磁碟,以分好分隔(;)"
 
-
 #: TFRMOPTIONSBEHAVIOR.LBLDRIVESBLACKLIST.CAPTION
 msgid "Drives blacklist"
 msgstr "磁碟清單 : "
-
 
 #: TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION
 msgctxt "TFRMOPTIONSCOLUMNSVIEW.CBCUTTEXTTOCOLWIDTH.CAPTION"
@@ -5246,6 +5244,15 @@ msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "Plugin:"
 msgstr "插件:"
 
+#: TFRMVIEWER.ACTABOUT.CAPTION
+msgctxt "TFRMVIEWER.ACTABOUT.CAPTION"
+msgid "About Viewer..."
+msgstr "關於檢視器"
+
+#: TFRMVIEWER.ACTABOUT.HINT
+msgid "Displays the About message"
+msgstr ""
+
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
 msgid "- 90"
@@ -5446,10 +5453,6 @@ msgstr ""
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
 msgstr "關於"
-
-#: TFRMVIEWER.MIABOUT2.CAPTION
-msgid "About Viewer..."
-msgstr "關於檢視器"
 
 #: TFRMVIEWER.MIBIN.CAPTION
 msgid "Show as &Bin"
@@ -6097,6 +6100,7 @@ msgid "Attributes"
 msgstr "屬性"
 
 #: ulng.rsfunccomment
+msgctxt "ulng.rsfunccomment"
 msgid "Comment"
 msgstr "解註"
 
@@ -6153,6 +6157,15 @@ msgstr "類型"
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "建立硬捷徑出現錯誤."
+
+#: ulng.rshotkeycategorymain
+msgid "Main"
+msgstr ""
+
+#: ulng.rshotkeycategoryviewer
+msgctxt "ulng.rshotkeycategoryviewer"
+msgid "Viewer"
+msgstr "檢視器"
 
 #: ulng.rslinkmsgok
 msgid "Linker complete"
@@ -6306,6 +6319,10 @@ msgstr "不能連接到伺服器: \"%s\" "
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
 msgstr "不能複製檔案 %s 到 %s"
+
+#: ulng.rsmsgerrcreatefiledirectoryexists
+msgid "There already exists a directory named \"%s\"."
+msgstr ""
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
@@ -6812,14 +6829,14 @@ msgstr "反白 + 閃爍遊標"
 msgid "Text"
 msgstr "文字"
 
-#: ulng.rsopthotkeyscommands
-msgid "Commands"
-msgstr "命令列"
+#: ulng.rsopthotkeyscommand
+msgid "Command"
+msgstr ""
 
-#: ulng.rsopthotkeyscomments
-#, fuzzy
-msgid "Comments"
-msgstr "註解"
+#: ulng.rsopthotkeyscomment
+msgctxt "ulng.rsopthotkeyscomment"
+msgid "Comment"
+msgstr "解註"
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"

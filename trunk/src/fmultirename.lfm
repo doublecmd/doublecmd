@@ -663,7 +663,7 @@ object frmMultiRename: TfrmMultiRename
         OnClick = miMonth2Click
       end
       object miMonth3: TMenuItem
-        Caption = '[MMMM] Month name (long, e.g. "january")'
+        Caption = '[MMMM] Month name (long, e.g., "january")'
         OnClick = miMonth3Click
       end
       object miDay: TMenuItem

@@ -3425,7 +3425,7 @@ msgid "[MMM] Month name (short, e.g., \"jan\")"
 msgstr ""
 
 #: TFRMMULTIRENAME.MIMONTH3.CAPTION
-msgid "[MMMM] Month name (long, e.g. \"january\")"
+msgid "[MMMM] Month name (long, e.g., \"january\")"
 msgstr ""
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
@@ -5308,6 +5308,15 @@ msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "Plugin:"
 msgstr "Zásuvný modul:"
 
+#: TFRMVIEWER.ACTABOUT.CAPTION
+msgctxt "TFRMVIEWER.ACTABOUT.CAPTION"
+msgid "About Viewer..."
+msgstr "O prohlížeči..."
+
+#: TFRMVIEWER.ACTABOUT.HINT
+msgid "Displays the About message"
+msgstr ""
+
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
 msgid "- 90"
@@ -5505,10 +5514,6 @@ msgstr ""
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
 msgstr "O programu"
-
-#: TFRMVIEWER.MIABOUT2.CAPTION
-msgid "About Viewer..."
-msgstr "O prohlížeči..."
 
 #: TFRMVIEWER.MIBIN.CAPTION
 msgid "Show as &Bin"
@@ -6156,6 +6161,7 @@ msgid "Attributes"
 msgstr "Atributy"
 
 #: ulng.rsfunccomment
+msgctxt "ulng.rsfunccomment"
 msgid "Comment"
 msgstr ""
 
@@ -6211,6 +6217,15 @@ msgstr ""
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Chyba při vytváření hardlinku."
+
+#: ulng.rshotkeycategorymain
+msgid "Main"
+msgstr ""
+
+#: ulng.rshotkeycategoryviewer
+msgctxt "ulng.rshotkeycategoryviewer"
+msgid "Viewer"
+msgstr "Prohlížeč"
 
 #: ulng.rslinkmsgok
 msgid "Linker complete"
@@ -6364,6 +6379,10 @@ msgstr ""
 
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
+msgstr ""
+
+#: ulng.rsmsgerrcreatefiledirectoryexists
+msgid "There already exists a directory named \"%s\"."
 msgstr ""
 
 #: ulng.rsmsgerrdatenotsupported
@@ -6873,12 +6892,13 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-#: ulng.rsopthotkeyscommands
-msgid "Commands"
+#: ulng.rsopthotkeyscommand
+msgid "Command"
 msgstr ""
 
-#: ulng.rsopthotkeyscomments
-msgid "Comments"
+#: ulng.rsopthotkeyscomment
+msgctxt "ulng.rsopthotkeyscomment"
+msgid "Comment"
 msgstr ""
 
 #: ulng.rsopthotkeyshotkey

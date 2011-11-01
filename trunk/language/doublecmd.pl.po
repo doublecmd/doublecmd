@@ -3249,7 +3249,9 @@ msgid "[MMM] Month name (short, e.g., \"jan\")"
 msgstr "[MMM] Nazwa miesiąca (krótka, np. \"sty\")"
 
 #: TFRMMULTIRENAME.MIMONTH3.CAPTION
-msgid "[MMMM] Month name (long, e.g. \"january\")"
+#, fuzzy
+#| msgid "[MMMM] Month name (long, e.g. \"january\")"
+msgid "[MMMM] Month name (long, e.g., \"january\")"
 msgstr "[MMMM] Nazwa miesiąca (długa, np. \"styczeń\")"
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
@@ -5073,6 +5075,15 @@ msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "Plugin:"
 msgstr "Wtyczki:"
 
+#: TFRMVIEWER.ACTABOUT.CAPTION
+msgctxt "TFRMVIEWER.ACTABOUT.CAPTION"
+msgid "About Viewer..."
+msgstr "O listerze"
+
+#: TFRMVIEWER.ACTABOUT.HINT
+msgid "Displays the About message"
+msgstr ""
+
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
 msgid "- 90"
@@ -5270,10 +5281,6 @@ msgstr "+ 90"
 msgctxt "TFRMVIEWER.MIABOUT.CAPTION"
 msgid "About"
 msgstr "O programie"
-
-#: TFRMVIEWER.MIABOUT2.CAPTION
-msgid "About Viewer..."
-msgstr "O listerze"
 
 #: TFRMVIEWER.MIBIN.CAPTION
 msgid "Show as &Bin"
@@ -5915,6 +5922,7 @@ msgid "Attributes"
 msgstr "Atrybuty"
 
 #: ulng.rsfunccomment
+msgctxt "ulng.rsfunccomment"
 msgid "Comment"
 msgstr "Komentarz"
 
@@ -5970,6 +5978,15 @@ msgstr "Typ"
 #: ulng.rsharderrcreate
 msgid "Error creating hardlink."
 msgstr "Błąd podczas tworzenia twardego linku."
+
+#: ulng.rshotkeycategorymain
+msgid "Main"
+msgstr ""
+
+#: ulng.rshotkeycategoryviewer
+msgctxt "ulng.rshotkeycategoryviewer"
+msgid "Viewer"
+msgstr "Lister"
 
 #: ulng.rslinkmsgok
 msgid "Linker complete"
@@ -6121,6 +6138,10 @@ msgstr "Nie można połączyć z serwerem: \"%s\""
 #: ulng.rsmsgerrcannotcopyfile
 msgid "Cannot copy file %s to %s"
 msgstr "Nie można skopiować pliku %s do %s"
+
+#: ulng.rsmsgerrcreatefiledirectoryexists
+msgid "There already exists a directory named \"%s\"."
+msgstr ""
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
@@ -6623,13 +6644,14 @@ msgstr "Zaznaczenie pod kursorem"
 msgid "Text"
 msgstr "Tekst"
 
-#: ulng.rsopthotkeyscommands
-msgid "Commands"
-msgstr "Polecenia"
+#: ulng.rsopthotkeyscommand
+msgid "Command"
+msgstr ""
 
-#: ulng.rsopthotkeyscomments
-msgid "Comments"
-msgstr "Komentarze"
+#: ulng.rsopthotkeyscomment
+msgctxt "ulng.rsopthotkeyscomment"
+msgid "Comment"
+msgstr "Komentarz"
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"
@@ -6897,6 +6919,105 @@ msgstr "Wybierz katalog"
 msgid "Bytes"
 msgstr "Bajty"
 
+#~ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
+#~ msgid "OK"
+#~ msgstr "OK"
+#~ msgid "frmEditSearchReplace"
+#~ msgstr "frmEditSearchReplace"
+#~ msgctxt "TFRMOPTIONSBEHAVIOR.CBLYNXLIKE.CAPTION"
+#~ msgid "Lynx-like movement"
+#~ msgstr "Nawigacja w stylu Lynksa"
+#~ msgctxt "TFRMOPTIONSBEHAVIOR.GBDATETIMEFORMAT.CAPTION"
+#~ msgid "Date and time"
+#~ msgstr "Data i czas"
+#~ msgctxt "TFRMOPTIONSCOLORS.BBTNADDCATEGORY.CAPTION"
+#~ msgid "Add"
+#~ msgstr "Dodaj"
+#~ msgctxt "TFRMOPTIONSCOLORS.BBTNAPPLYCATEGORY.CAPTION"
+#~ msgid "Apply"
+#~ msgstr "Zastosuj"
+#~ msgctxt "TFRMOPTIONSCOLORS.BBTNDELETECATEGORY.CAPTION"
+#~ msgid "Delete"
+#~ msgstr "Usuń"
+#~ msgctxt "TFRMOPTIONSCOLORS.BTNBACKCOLOR.CAPTION"
+#~ msgid ">>"
+#~ msgstr ">>"
+#~ msgctxt "TFRMOPTIONSCOLORS.BTNBACKCOLOR2.CAPTION"
+#~ msgid ">>"
+#~ msgstr ">>"
+#~ msgctxt "TFRMOPTIONSCOLORS.BTNCATEGORYCOLOR.CAPTION"
+#~ msgid ">>"
+#~ msgstr ">>"
+#~ msgctxt "TFRMOPTIONSCOLORS.BTNCURSORCOLOR.CAPTION"
+#~ msgid ">>"
+#~ msgstr ">>"
+#~ msgctxt "TFRMOPTIONSCOLORS.BTNCURSORTEXT.CAPTION"
+#~ msgid ">>"
+#~ msgstr ">>"
+#~ msgctxt "TFRMOPTIONSCOLORS.BTNFORECOLOR.CAPTION"
+#~ msgid ">>"
+#~ msgstr ">>"
+#~ msgctxt "TFRMOPTIONSCOLORS.BTNMARKCOLOR.CAPTION"
+#~ msgid ">>"
+#~ msgstr ">>"
+#~ msgctxt "TFRMOPTIONSCOLORS.CBACKGRNDLABEL.CAPTION"
+#~ msgid "BackGround:"
+#~ msgstr "Tło:"
+#~ msgctxt "TFRMOPTIONSCOLORS.CTEXTLABEL.CAPTION"
+#~ msgid "Text Color:"
+#~ msgstr "Kolor tekstu:"
+#~ msgctxt "TFRMOPTIONSCOLORS.LBLBACKGROUND2.CAPTION"
+#~ msgid "Background 2:"
+#~ msgstr "Tło 2:"
+#~ msgctxt "TFRMOPTIONSCOLORS.LBLCURSORCOLOR.CAPTION"
+#~ msgid "Cursor Color:"
+#~ msgstr "Kursor"
+#~ msgctxt "TFRMOPTIONSCOLORS.LBLCURSORTEXT.CAPTION"
+#~ msgid "Cursor Text:"
+#~ msgstr "Tekst pod kursorem:"
+#~ msgctxt "TFRMOPTIONSCOLORS.LBLMARKCOLOR.CAPTION"
+#~ msgid "Mark Color:"
+#~ msgstr "Kolor zaznaczania:"
+#~ msgctxt "TFRMOPTIONSCOLORS.TSFILEPANELS.CAPTION"
+#~ msgid "File panels"
+#~ msgstr "Okna główne"
+#~ msgctxt "TFRMOPTIONSCOLORS.TSFILETYPES.CAPTION"
+#~ msgid "File types"
+#~ msgstr "Typy plików"
+#~ msgctxt "TFRMOPTIONSCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION"
+#~ msgid "Copy"
+#~ msgstr "Kopiuj"
+#~ msgctxt "TFRMOPTIONSCOLUMNS.BTNDELCOLUMNSSET.CAPTION"
+#~ msgid "Delete"
+#~ msgstr "Usuń"
+#~ msgctxt "TFRMOPTIONSCOLUMNS.BTNEDITCOLUMNSSET.CAPTION"
+#~ msgid "Edit"
+#~ msgstr "Edytuj"
+#~ msgctxt "TFRMOPTIONSCOLUMNS.BTNNEWCOLUMNSSET.CAPTION"
+#~ msgid "&New"
+#~ msgstr "Utwórz"
+#~ msgctxt "TFRMOPTIONSCOLUMNS.CBBFILESYSTEM.TEXT"
+#~ msgid "General"
+#~ msgstr "Ogólne"
+#~ msgctxt "TFRMOPTIONSMISC.GBSHOWGRID.CAPTION"
+#~ msgid "Show grid in file panel"
+#~ msgstr "Pokaż siatkę w oknach"
+#~ msgctxt "TFRMOPTIONSTOOLS.BTNBACKVIEWERCOLOR.CAPTION"
+#~ msgid ">>"
+#~ msgstr ">>"
+#~ msgctxt "TFRMOPTIONSTOOLS.BTNFONTVIEWERCOLOR.CAPTION"
+#~ msgid ">>"
+#~ msgstr ">>"
+#~ msgctxt "TFRMOPTIONSTOOLS.GBVIEWEREXAMPLE.CAPTION"
+#~ msgid "Example"
+#~ msgstr "Przykład"
+#~ msgctxt "TFRMOPTIONSTOOLS.STGTOOLS.COLUMNS[0].TITLE.CAPTION"
+#~ msgid "Tool"
+#~ msgstr "Narzędzie"
+#~ msgid "Filter:"
+#~ msgstr "Filtr:"
+#~ msgid "Find:"
+#~ msgstr "Znajdź:"
 #: ulng.rssizeunitgbytes
 msgctxt "ulng.rssizeunitgbytes"
 msgid "Gigabytes"
@@ -7009,136 +7130,3 @@ msgstr "Kodowanie"
 msgid "%s not found!"
 msgstr "%s nie znaleziony!"
 
-#~ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
-
-#~ msgid "OK"
-#~ msgstr "OK"
-
-#~ msgid "frmEditSearchReplace"
-#~ msgstr "frmEditSearchReplace"
-#~ msgctxt "TFRMOPTIONSBEHAVIOR.CBLYNXLIKE.CAPTION"
-
-#~ msgid "Lynx-like movement"
-#~ msgstr "Nawigacja w stylu Lynksa"
-#~ msgctxt "TFRMOPTIONSBEHAVIOR.GBDATETIMEFORMAT.CAPTION"
-
-#~ msgid "Date and time"
-#~ msgstr "Data i czas"
-#~ msgctxt "TFRMOPTIONSCOLORS.BBTNADDCATEGORY.CAPTION"
-
-#~ msgid "Add"
-#~ msgstr "Dodaj"
-#~ msgctxt "TFRMOPTIONSCOLORS.BBTNAPPLYCATEGORY.CAPTION"
-
-#~ msgid "Apply"
-#~ msgstr "Zastosuj"
-#~ msgctxt "TFRMOPTIONSCOLORS.BBTNDELETECATEGORY.CAPTION"
-
-#~ msgid "Delete"
-#~ msgstr "Usuń"
-#~ msgctxt "TFRMOPTIONSCOLORS.BTNBACKCOLOR.CAPTION"
-
-#~ msgid ">>"
-#~ msgstr ">>"
-#~ msgctxt "TFRMOPTIONSCOLORS.BTNBACKCOLOR2.CAPTION"
-
-#~ msgid ">>"
-#~ msgstr ">>"
-#~ msgctxt "TFRMOPTIONSCOLORS.BTNCATEGORYCOLOR.CAPTION"
-
-#~ msgid ">>"
-#~ msgstr ">>"
-#~ msgctxt "TFRMOPTIONSCOLORS.BTNCURSORCOLOR.CAPTION"
-
-#~ msgid ">>"
-#~ msgstr ">>"
-#~ msgctxt "TFRMOPTIONSCOLORS.BTNCURSORTEXT.CAPTION"
-
-#~ msgid ">>"
-#~ msgstr ">>"
-#~ msgctxt "TFRMOPTIONSCOLORS.BTNFORECOLOR.CAPTION"
-
-#~ msgid ">>"
-#~ msgstr ">>"
-#~ msgctxt "TFRMOPTIONSCOLORS.BTNMARKCOLOR.CAPTION"
-
-#~ msgid ">>"
-#~ msgstr ">>"
-#~ msgctxt "TFRMOPTIONSCOLORS.CBACKGRNDLABEL.CAPTION"
-
-#~ msgid "BackGround:"
-#~ msgstr "Tło:"
-#~ msgctxt "TFRMOPTIONSCOLORS.CTEXTLABEL.CAPTION"
-
-#~ msgid "Text Color:"
-#~ msgstr "Kolor tekstu:"
-#~ msgctxt "TFRMOPTIONSCOLORS.LBLBACKGROUND2.CAPTION"
-
-#~ msgid "Background 2:"
-#~ msgstr "Tło 2:"
-#~ msgctxt "TFRMOPTIONSCOLORS.LBLCURSORCOLOR.CAPTION"
-
-#~ msgid "Cursor Color:"
-#~ msgstr "Kursor"
-#~ msgctxt "TFRMOPTIONSCOLORS.LBLCURSORTEXT.CAPTION"
-
-#~ msgid "Cursor Text:"
-#~ msgstr "Tekst pod kursorem:"
-#~ msgctxt "TFRMOPTIONSCOLORS.LBLMARKCOLOR.CAPTION"
-
-#~ msgid "Mark Color:"
-#~ msgstr "Kolor zaznaczania:"
-#~ msgctxt "TFRMOPTIONSCOLORS.TSFILEPANELS.CAPTION"
-
-#~ msgid "File panels"
-#~ msgstr "Okna główne"
-#~ msgctxt "TFRMOPTIONSCOLORS.TSFILETYPES.CAPTION"
-
-#~ msgid "File types"
-#~ msgstr "Typy plików"
-#~ msgctxt "TFRMOPTIONSCOLUMNS.BTNCOPYCOLUMNSSET.CAPTION"
-
-#~ msgid "Copy"
-#~ msgstr "Kopiuj"
-#~ msgctxt "TFRMOPTIONSCOLUMNS.BTNDELCOLUMNSSET.CAPTION"
-
-#~ msgid "Delete"
-#~ msgstr "Usuń"
-#~ msgctxt "TFRMOPTIONSCOLUMNS.BTNEDITCOLUMNSSET.CAPTION"
-
-#~ msgid "Edit"
-#~ msgstr "Edytuj"
-#~ msgctxt "TFRMOPTIONSCOLUMNS.BTNNEWCOLUMNSSET.CAPTION"
-
-#~ msgid "&New"
-#~ msgstr "Utwórz"
-#~ msgctxt "TFRMOPTIONSCOLUMNS.CBBFILESYSTEM.TEXT"
-
-#~ msgid "General"
-#~ msgstr "Ogólne"
-#~ msgctxt "TFRMOPTIONSMISC.GBSHOWGRID.CAPTION"
-
-#~ msgid "Show grid in file panel"
-#~ msgstr "Pokaż siatkę w oknach"
-#~ msgctxt "TFRMOPTIONSTOOLS.BTNBACKVIEWERCOLOR.CAPTION"
-
-#~ msgid ">>"
-#~ msgstr ">>"
-#~ msgctxt "TFRMOPTIONSTOOLS.BTNFONTVIEWERCOLOR.CAPTION"
-
-#~ msgid ">>"
-#~ msgstr ">>"
-#~ msgctxt "TFRMOPTIONSTOOLS.GBVIEWEREXAMPLE.CAPTION"
-
-#~ msgid "Example"
-#~ msgstr "Przykład"
-#~ msgctxt "TFRMOPTIONSTOOLS.STGTOOLS.COLUMNS[0].TITLE.CAPTION"
-
-#~ msgid "Tool"
-#~ msgstr "Narzędzie"
-
-#~ msgid "Filter:"
-#~ msgstr "Filtr:"
-
-#~ msgid "Find:"
-#~ msgstr "Znajdź:"
