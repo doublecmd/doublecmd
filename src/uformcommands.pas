@@ -32,8 +32,7 @@ uses
 type
   TCommandFuncResult = (cfrSuccess, cfrDisabled, cfrNotFound);
   TCommandFunc = procedure(Param: String) of object;
-
-type
+  TCommandCaptionType = (cctShort, cctLong);
 
   {
     The commands are 'user' functions which can be assigned to toolbar
@@ -48,8 +47,8 @@ type
   // commands with parameters.
   IFormCommands = interface
     ['{0464B1C0-BA98-4258-A286-F0F726FF66C4}']
-    function ExecuteCommand(Cmd: String; Param: String=''): TCommandFuncResult;
-    function GetCommandCaption(Cmd: String): String;
+    function ExecuteCommand(Command: String; Param: String=''): TCommandFuncResult;
+    function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType = cctShort): String;
     procedure GetCommandsList(List: TStrings);
   end;
   {$interfaces default}
@@ -90,7 +89,7 @@ type
        @param(ActionList
               Optional. If contains actions corresponding to commands names
               (but prefixed with "act" instead of "cm_") then actions hints or
-              captions will be used as comments for the commands.)
+              captions will be used as descriptions for the commands.)
     }
     constructor Create(TheOwner: TComponent; ActionList: TActionList = nil); reintroduce;
     destructor Destroy; override;
@@ -106,7 +105,7 @@ type
     }
     procedure EnableCommand(Command: String; Enable: Boolean);
 
-    function GetCommandCaption(Command: String): String;
+    function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
     function GetCommandName(Index: Integer): String;
     function GetCommandRec(Command: String): PCommandRec;
     procedure GetCommandsList(List: TStrings);
@@ -189,20 +188,20 @@ begin
     raise Exception.Create('Invalid command name: ' + Command);
 end;
 
-function TFormCommands.GetCommandCaption(Command: String): String;
+function TFormCommands.GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
 var
   CommandRec: PCommandRec;
 begin
-  Result:= '';
   CommandRec := GetCommandRec(Command);
   if Assigned(CommandRec) and Assigned(CommandRec^.Action) then
   begin
-    if CommandRec^.Action.Hint <> EmptyStr then
+    if (CaptionType = cctLong) and (CommandRec^.Action.Hint <> EmptyStr) then
       Result := CommandRec^.Action.Hint
     else
-      Result := CommandRec^.Action.Caption;
-    Result := StringReplace(Result, '&', '', [rfReplaceAll]);
-  end;
+      Result := StringReplace(CommandRec^.Action.Caption, '&', '', [rfReplaceAll]);
+  end
+  else
+    Result:= '';
 end;
 
 function TFormCommands.GetCommandName(Index: Integer): String;

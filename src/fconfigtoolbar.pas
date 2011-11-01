@@ -367,7 +367,7 @@ end;
 
 procedure TfrmConfigToolBar.cbCommandSelect(Sender: TObject);
 begin
-  edtToolTip.Text := FFormCommands.GetCommandCaption(cbCommand.Items[cbCommand.ItemIndex]);
+  edtToolTip.Text := FFormCommands.GetCommandCaption(cbCommand.Items[cbCommand.ItemIndex], cctLong);
 end;
 
 procedure TfrmConfigToolBar.btnOKClick(Sender: TObject);
@@ -736,7 +736,7 @@ begin
     begin
       cbCommand.Text:= cOpenBar;
       edtParams.Text:= SetCmdDirAsEnvVar(sFileName);
-      edtToolTip.Text:= FFormCommands.GetCommandCaption(cOpenBar);
+      edtToolTip.Text:= FFormCommands.GetCommandCaption(cOpenBar, cctLong);
     end;
 end;
 
@@ -748,7 +748,7 @@ begin
     begin
       cbCommand.Text:= cShowButtonMenu;
       edtParams.Text:= SetCmdDirAsEnvVar(sFileName);
-      edtToolTip.Text:= FFormCommands.GetCommandCaption(cShowButtonMenu);
+      edtToolTip.Text:= FFormCommands.GetCommandCaption(cShowButtonMenu, cctLong);
     end;
 end;
 
@@ -845,7 +845,7 @@ begin
               IniBarFile.WriteInteger('ButtonBar', 'ButtonCount', 1);
               IniBarFile.WriteString('ButtonBar', 'cmd1', cOpenBar);
               IniBarFile.WriteString('ButtonBar', 'param1', SetCmdDirAsEnvVar(FBarFileName));
-              IniBarFile.WriteString('ButtonBar', 'menu1', FFormCommands.GetCommandCaption(cOpenBar));
+              IniBarFile.WriteString('ButtonBar', 'menu1', FFormCommands.GetCommandCaption(cOpenBar, cctLong));
               IniBarFile.WriteString('ButtonBar', 'button1', 'go-up');
             end;
         finally

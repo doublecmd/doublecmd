@@ -631,7 +631,7 @@ type
     {$IF FPC_FULLVERSION < 020501}
     // "implements" does not work in FPC < 2.5.1
     function ExecuteCommand(Command: string; Param: String=''): TCommandFuncResult;
-    function GetCommandCaption(Command: String): String;
+    function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
     procedure GetCommandsList(List: TStrings);
     {$ENDIF}
 
@@ -1299,9 +1299,9 @@ begin
   Result := Commands.Commands.ExecuteCommand(Command, Param);
 end;
 
-function TfrmMain.GetCommandCaption(Command: String): String;
+function TfrmMain.GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
 begin
-  Result := Commands.Commands.GetCommandCaption(Command);
+  Result := Commands.Commands.GetCommandCaption(Command, CaptionType);
 end;
 
 procedure TfrmMain.GetCommandsList(List: TStrings);
