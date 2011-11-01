@@ -15,6 +15,8 @@ uses
 
 type
 
+  { TFileSystemDeleteOperation }
+
   TFileSystemDeleteOperation = class(TFileSourceDeleteOperation)
 
   private
@@ -28,6 +30,8 @@ type
     FRecycle: Boolean;
     FDeleteReadOnly,
     FDeleteDirectly: TFileSourceOperationOptionGeneral;
+
+    function DeleteSubDirectory(const aFile: TFile): Boolean;
 
   protected
     function ProcessFile(aFile: TFile): Boolean;
@@ -54,7 +58,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng, uFileProcs, uFileSystemUtil, uTrash;
+  uOSUtils, uLng, uFileProcs, uFileSystemUtil, uTrash, uFileSourceOperation;
 
 constructor TFileSystemDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);
@@ -141,6 +145,34 @@ end;
 
 procedure TFileSystemDeleteOperation.Finalize;
 begin
+end;
+
+function TFileSystemDeleteOperation.DeleteSubDirectory(const aFile: TFile): Boolean;
+var
+  DeleteOperation: TFileSystemDeleteOperation = nil;
+  aFiles: TFiles = nil;
+begin
+  Result := False;
+  aFiles := TFiles.Create(aFile.Path);
+  try
+    aFiles.Add(aFile.Clone);
+
+    DeleteOperation := TFileSystemDeleteOperation.Create(FileSource, aFiles);
+    // It has already been asked what to do with read-only before calling this function.
+    DeleteOperation.DeleteReadOnly := fsoogYes;
+    DeleteOperation.SymLinkOption := fsooslDontFollow;
+    DeleteOperation.AssignThread(Thread);
+    DeleteOperation.ParentOperation := Self;
+    DeleteOperation.Execute;
+    Result := DeleteOperation.Result = fsorFinished;
+
+    if DeleteOperation.Result = fsorAborted then
+      RaiseAbortOperation;
+
+  finally
+    aFiles.Free;
+    DeleteOperation.Free;
+  end;
 end;
 
 function TFileSystemDeleteOperation.ProcessFile(aFile: TFile): Boolean;
@@ -231,8 +263,7 @@ begin
             begin
               if aFile.IsDirectory then // directory
                 begin
-                  DelTree(FileName);
-                  Result := True;
+                  Result := DeleteSubDirectory(aFile);
                 end
               else  // files and other stuff
                 begin

@@ -199,6 +199,7 @@ type
 
     procedure UpdateState(NewState: TFileSourceOperationState);
     function GetState: TFileSourceOperationState;
+    function GetUserInterface: TFileSourceOperationUI;
     procedure UpdateStartTime(NewStartTime: TDateTime);
 
     {en
@@ -233,6 +234,11 @@ type
        in the operation's constructor.
     }
     FNeedsConnection: Boolean;
+    {en
+       So that when operation runs another operation the inner operation can
+       access some inheritable properties, like user interface.
+    }
+    FParentOperation: TFileSourceOperation;
 
     procedure UpdateProgress(NewProgress: Double);
     function GetDesiredState: TFileSourceOperationState;
@@ -303,6 +309,7 @@ type
 
     class procedure RaiseAbortOperation;
 
+    property ParentOperation: TFileSourceOperation read FParentOperation write FParentOperation;
     property Thread: TThread read FThread;
 
   public
@@ -426,6 +433,7 @@ begin
   FThread := nil;
   FConnection := nil;
   FOperationInitialized := False;
+  FParentOperation := nil;
 
 {$IFNDEF fsoSynchronizeEvents}
   FScheduledEventsListenersCalls := 0;
@@ -626,6 +634,20 @@ begin
     Result := FState;
   finally
     FStateLock.Release;
+  end;
+end;
+
+function TFileSourceOperation.GetUserInterface: TFileSourceOperationUI;
+begin
+  if Assigned(ParentOperation) then
+    Result := ParentOperation.GetUserInterface
+  else
+  begin
+    if FUserInterfaces.Count > 0 then
+      // Get the UI that was most recently added.
+      Result := PUserInterfacesEntry(FUserInterfaces.Last)^.UserInterface
+    else
+      Result := nil;
   end;
 end;
 
@@ -893,7 +915,7 @@ begin
     // call event listeners directly, because they may update the GUI.
 {$IFDEF fsoSynchronizeEvents}
     // Call listeners through Synchronize.
-    TThread.Synchronize(FThread, @CallEventsListeners)
+    TThread.Synchronize(Thread, @CallEventsListeners)
 {$ELSE}
     // Schedule listeners through asynchronous message queue.
     GuiMessageQueue.QueueMethod(@CallEventsListeners, Pointer(PtrUInt(NewState)))
@@ -1089,7 +1111,7 @@ begin
   begin
     while True do
     begin
-      TThread.Synchronize(FThread, @TryAskQuestion);
+      TThread.Synchronize(Thread, @TryAskQuestion);
 
       // Check result of TryAskQuestion.
       if FTryAskQuestionResult = False then
@@ -1146,35 +1168,31 @@ end;
 
 procedure TFileSourceOperation.TryAskQuestion;
 var
-  Entry: PUserInterfacesEntry;
+  UI: TFileSourceOperationUI;
 begin
   // This is run from GUI thread.
 
   FTryAskQuestionResult := False; // We have no answer yet.
 
-  if FUserInterfaces.Count > 0 then
+  UI := GetUserInterface;
+
+  if Assigned(UI) then
   begin
-    // Get the UI that was most recently added.
-    Entry := PUserInterfacesEntry(FUserInterfaces.Last);
+    FUIResponse := UI.AskQuestion(
+                      FUIMessage,
+                      FUIQuestion,
+                      FUIPossibleResponses,
+                      FUIDefaultOKResponse,
+                      FUIDefaultCancelResponse);
 
-    if Assigned(Entry) then
-    begin
-      FUIResponse := Entry^.UserInterface.AskQuestion(
-                        FUIMessage,
-                        FUIQuestion,
-                        FUIPossibleResponses,
-                        FUIDefaultOKResponse,
-                        FUIDefaultCancelResponse);
-
-      FTryAskQuestionResult := True;  // We do have an answer now.
-    end;
+    FTryAskQuestionResult := True;  // We do have an answer now.
   end;
   // else We have no UIs assigned - cannot ask question.
 end;
 
 procedure TFileSourceOperation.ReloadFileSources;
 begin
-  TThread.Synchronize(FThread, @DoReloadFileSources); // Calls virtual function
+  TThread.Synchronize(Thread, @DoReloadFileSources); // Calls virtual function
 end;
 
 procedure TFileSourceOperation.DoReloadFileSources;
