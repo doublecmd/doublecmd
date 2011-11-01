@@ -129,7 +129,7 @@ uses
 const
   stgCmdCommandIndex = 0;
   stgCmdHotkeysIndex = 1;
-  stgCmdCommentIndex = 2;
+  stgCmdDescriptionIndex = 2;
 
 function StListToStr(separator:string; const lStList:TStringList; duplicates: boolean = true):string;
 //< convert stringlist to string
@@ -416,7 +416,7 @@ begin
   begin
     AutoSizeColumns;
     if ClientWidth > GridWidth then
-      ColWidths[stgCmdCommentIndex] := ColWidths[stgCmdCommentIndex] + (ClientWidth - GridWidth);
+      ColWidths[stgCmdDescriptionIndex] := ColWidths[stgCmdDescriptionIndex] + (ClientWidth - GridWidth);
   end;
 end;
 
@@ -682,9 +682,9 @@ begin
 end;
 
 procedure TfrmOptionsHotkeys.FillCommandList(Filter: String);
-//< fill stgCommands by commands and comments
+//< fill stgCommands with commands and descriptions
 var
-  slTmp, slAllCommands, slComments, slHotKey: TStringList;
+  slTmp, slAllCommands, slDescriptions, slHotKey: TStringList;
   slFiltered: TStringList = nil;
   lstr:   String;
   i:      Integer;
@@ -704,7 +704,7 @@ begin
     Exit;
   end;
 
-  // Find an instance of the form to retrieve action list (for comments).
+  // Find an instance of the form to retrieve action list (for descriptions).
   for i := 0 to Screen.CustomFormCount - 1 do
     if Screen.CustomForms[i].ClassType = CommandsFormClass then
     begin
@@ -721,11 +721,11 @@ begin
 
   CommandsIntf := CommandsForm as IFormCommands;
 
-  slAllCommands := TStringList.Create;
-  slComments    := TStringList.Create;
-  slHotKey      := TStringList.Create;
-  slTmp         := TStringList.Create;
-  HMForm        := HotMan.Forms.Find(sForm);
+  slAllCommands  := TStringList.Create;
+  slDescriptions := TStringList.Create;
+  slHotKey       := TStringList.Create;
+  slTmp          := TStringList.Create;
+  HMForm         := HotMan.Forms.Find(sForm);
 
   CommandsIntf.GetCommandsList(slAllCommands);
 
@@ -734,9 +734,9 @@ begin
     slFiltered := TStringList.Create;
     lstr := UTF8LowerCase(Filter);
     for i := 0 to slAllCommands.Count - 1 do // for all command
-      // if filtered text find in command or comment then add to filteredlist
+      // if filtered text find in command or description then add to filteredlist
       if (UTF8Pos(lstr, UTF8LowerCase(slAllCommands.Strings[i])) <> 0) or
-         (UTF8Pos(lstr, UTF8LowerCase(CommandsIntf.GetCommandCaption(slAllCommands.Strings[i]))) <> 0) then
+         (UTF8Pos(lstr, UTF8LowerCase(CommandsIntf.GetCommandCaption(slAllCommands.Strings[i], cctLong))) <> 0) then
       begin
         slFiltered.Add(slAllCommands[i]);
       end;
@@ -751,8 +751,8 @@ begin
   slFiltered.Sort;
   for i := 0 to slFiltered.Count - 1 do
   begin // for all filtered items do
-    // get comment for command and add to slComments list
-    slComments.Add(CommandsIntf.GetCommandCaption(slFiltered.Strings[i]));
+    // get description for command and add to slDescriptions list
+    slDescriptions.Add(CommandsIntf.GetCommandCaption(slFiltered.Strings[i], cctLong));
 
     // getting list of assigned hot key
     if Assigned(HMForm) then
@@ -767,7 +767,7 @@ begin
 
   // add to list NAMES of columns
   slFiltered.Insert(0, rsOptHotkeysCommand);
-  slComments.Insert(0, rsOptHotkeysComment);
+  slDescriptions.Insert(0, rsOptHotkeysDescription);
   slHotKey.Insert(0, rsOptHotkeysHotkeys);
   //set stringgrid rows count
   stgCommands.RowCount := slFiltered.Count;
@@ -776,7 +776,7 @@ begin
   stgCommands.Clean;
   stgCommands.Cols[stgCmdCommandIndex].Assign(slFiltered);
   stgCommands.Cols[stgCmdHotkeysIndex].Assign(slHotKey);
-  stgCommands.Cols[stgCmdCommentIndex].Assign(slComments);
+  stgCommands.Cols[stgCmdDescriptionIndex].Assign(slDescriptions);
   stgCommands.EndUpdate;
   AutoSizeCommandsGrid;
 
@@ -784,7 +784,7 @@ begin
 
   slHotKey.Free;
   slAllCommands.Free;
-  slComments.Free;
+  slDescriptions.Free;
   slFiltered.Free;
   slTmp.Free;
 
