@@ -5172,7 +5172,7 @@ msgstr "Про переглядач..."
 
 #: TFRMVIEWER.ACTABOUT.HINT
 msgid "Displays the About message"
-msgstr ""
+msgstr "Відображає інформаційне повідомлення"
 
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
@@ -6079,7 +6079,7 @@ msgstr "Помилка створення жорсткого посилання.
 
 #: ulng.rshotkeycategorymain
 msgid "Main"
-msgstr ""
+msgstr "Основний"
 
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
@@ -6239,7 +6239,7 @@ msgstr "Помилка при копіюванні файлу %s в %s"
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
 msgid "There already exists a directory named \"%s\"."
-msgstr ""
+msgstr "Там вже існує каталог з ім'ям \"%s\"."
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
