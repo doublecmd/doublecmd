@@ -2866,39 +2866,35 @@ var
   pbxDrive: TPaintBox absolute Sender;
   indexColor: Int64;
   i: Integer;
+  AColor: TColor;
+  ARect: TRect;
 begin
   indexColor:= pbxDrive.Tag;
   if indexColor <> -1 then
+  begin
+    pbxDrive.Canvas.Brush.Color:= clGray;
+    pbxDrive.Canvas.FillRect(2, 0, pbxDrive.Width - 2, pbxDrive.Height - 1);
+
+    ARect:= Rect(3, 1, pbxDrive.Width - 3, pbxDrive.Height - 2);
+    pbxDrive.Canvas.GradientFill(ARect, clSilver, clWhite, gdVertical);
+
+    for i:= 0 to IndexColor - 2 do
     begin
-      if IndexColor<=50 then pbxDrive.Canvas.Brush.Color := RGB (0+5*(IndexColor),255,0)
-                        else pbxDrive.Canvas.Brush.Color := RGB (255,255-5*(IndexColor-50),0);
+      if i <= 50 then
+        pbxDrive.Canvas.Brush.Color:= RGB(0 + 5 * i, 255, 0)
+      else
+        pbxDrive.Canvas.Brush.Color:= RGB(255, 255 - 5 * (i - 50), 0);
 
-      pbxDrive.Canvas.FillRect (
-                                 2,
-                                 0,
-                                 pbxDrive.Width-2,
-                                 pbxDrive.Height-1);
+      AColor:= DarkColor(pbxDrive.Canvas.Brush.Color, 50);
 
-      pbxDrive.Canvas.Brush.Color := clBtnFace;
+      ARect:= Rect(3 + i * (pbxDrive.Width - 4) div 100, 1,
+                   4 + (i + 1) * (pbxDrive.Width - 4) div 100,
+                   pbxDrive.Height - 2);
 
-      pbxDrive.Canvas.FillRect(
-                                3,
-                                1,
-                                pbxDrive.Width-3,
-                                pbxDrive.Height-2);
-
-      for i:=0 to  IndexColor-2 do
-        begin
-          if i<=50 then pbxDrive.Canvas.Brush.Color := RGB (0+5*i,255,0)
-                   else pbxDrive.Canvas.Brush.Color := RGB (255,255-5*(i-50),0);
-
-          pbxDrive.Canvas.FillRect(
-                                    4+i*(pbxDrive.Width-4) div 100,
-                                    2,
-                                    4+(i+1)*(pbxDrive.Width-4) div 100,
-                                    pbxDrive.Height-3);
-        end;
+      pbxDrive.Canvas.GradientFill(ARect, pbxDrive.Canvas.Brush.Color,
+                                   AColor, gdVertical);
     end;
+  end;
 end;
 
 procedure TfrmMain.sboxOperationsMouseDown(Sender: TObject;
@@ -4780,4 +4776,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+
