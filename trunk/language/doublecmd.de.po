@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2011-10-15 11:34+0100\n"
+"PO-Revision-Date: 2011-11-02 11:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -5321,7 +5321,7 @@ msgstr "Über den Be&trachter"
 
 #: TFRMVIEWER.ACTABOUT.HINT
 msgid "Displays the About message"
-msgstr ""
+msgstr "Zeigt den 'Über'-Dialog"
 
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
@@ -6228,7 +6228,7 @@ msgstr "Fehler beim Erstellen des Hardlink."
 
 #: ulng.rshotkeycategorymain
 msgid "Main"
-msgstr ""
+msgstr "Haupt-Fenster"
 
 #: ulng.rshotkeycategoryviewer
 msgctxt "ulng.rshotkeycategoryviewer"
@@ -6390,7 +6390,7 @@ msgstr "Kann die Datei %s nicht zu %s kopieren"
 
 #: ulng.rsmsgerrcreatefiledirectoryexists
 msgid "There already exists a directory named \"%s\"."
-msgstr ""
+msgstr "Ein Verzeichnis mit Namen \"%s\" besteht bereits."
 
 #: ulng.rsmsgerrdatenotsupported
 msgid "Date %s is not supported"
