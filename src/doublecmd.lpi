@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="153">
+    <Units Count="154">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1163,6 +1163,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMainCommands"/>
       </Unit152>
+      <Unit153>
+        <Filename Value="newdesign\ubrieffileview.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uBriefFileView"/>
+      </Unit153>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

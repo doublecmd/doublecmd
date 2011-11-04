@@ -43,7 +43,7 @@ uses
   Graphics, Forms, Menus, Controls, StdCtrls, ExtCtrls, ActnList,
   Buttons, SysUtils, Classes, SynEdit, LCLType, ComCtrls,
   KASToolBar, KASBarMenu, KASBarFiles,
-  uCmdBox, uFilePanelSelect,
+  uCmdBox, uFilePanelSelect, uBriefFileView,
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
   uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, uClassesEx,
   uXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands;
@@ -3298,6 +3298,8 @@ begin
 
   if sType = 'columns' then
     Result := TColumnsFileView.Create(Page, AConfig, ANode)
+  else if sType = 'brief' then
+    Result := TBriefFileView.Create(Page, AConfig, ANode)
   else
     raise Exception.Create('Invalid file view type');
 end;
@@ -4776,4 +4778,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+
