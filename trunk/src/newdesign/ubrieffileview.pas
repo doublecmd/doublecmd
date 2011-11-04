@@ -28,6 +28,7 @@ type
     procedure Resize; override;
     procedure RowHeightsChanged; override;
     procedure ColWidthsChanged;  override;
+    procedure KeyDown(var Key : Word; Shift : TShiftState); override;
   public
     constructor Create(AOwner: TComponent; AParent: TWinControl); reintroduce;
 
@@ -208,6 +209,39 @@ procedure TBriefDrawGrid.ColWidthsChanged;
 begin
   inherited ColWidthsChanged;
   CalculateColRowCount;
+end;
+
+procedure TBriefDrawGrid.KeyDown(var Key: Word; Shift: TShiftState);
+begin
+  case Key of
+    VK_UP, VK_DOWN:
+      begin
+        if (CellToIndex(Col, Row) >= BriefView.FFiles.Count - 1) and
+           (Key = VK_DOWN) then
+          begin
+            Key:= 0;
+          end
+        else if ((Row = RowCount-1) and (Key = VK_DOWN)) then
+          begin
+            if (Col < ColCount - 1) then
+            begin
+              Row:= 0;
+              Col:= Col + 1;
+            end;
+            Key:= 0;
+          end
+        else if (Row = FixedRows) and (Key = VK_UP) then
+          begin
+            if (Col > 0) then
+            begin
+              Row:= RowCount - 1;
+              Col:= Col - 1;
+            end;
+            Key:= 0;
+          end;
+      end;
+  end;
+  inherited KeyDown(Key, Shift);
 end;
 
 constructor TBriefDrawGrid.Create(AOwner: TComponent; AParent: TWinControl);
