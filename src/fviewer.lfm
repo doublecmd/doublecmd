@@ -114,6 +114,8 @@ object frmViewer: TfrmViewer
       OnPositionChanged = ViewerPositionChanged
       OnMouseUp = ViewerControlMouseUp
       Align = alClient
+      Color = clWindow
+      Font.Color = clWindowText
     end
   end
   object pnlImage: TPanel
