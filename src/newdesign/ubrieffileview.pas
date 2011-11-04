@@ -20,7 +20,7 @@ type
   TBriefDrawGrid = class(TDrawGrid)
   private
     BriefView: TBriefFileView;
-    procedure CalculateColsAndRows;
+    procedure CalculateColRowCount;
     function  CellToIndex(ACol, ARow: Integer): Integer;
     procedure IndexToCell(Index: Integer; out ACol, ARow: Integer);
   protected
@@ -53,6 +53,8 @@ type
 
       function DimColor(AColor: TColor): TColor;
 
+      procedure dgPanelEnter(Sender: TObject);
+      procedure dgPanelExit(Sender: TObject);
       procedure dgPanelDblClick(Sender: TObject);
       procedure dgPanelTopLeftChanged(Sender: TObject);
    protected
@@ -103,28 +105,25 @@ uses
 
 { TBriefDrawGrid }
 
-procedure TBriefDrawGrid.CalculateColsAndRows;
+procedure TBriefDrawGrid.CalculateColRowCount;
 var
-     glw, bw : integer;
+  glw, bw: Integer;
 begin
-     if (csDesigning in ComponentState) then Exit;
+  if (csDesigning in ComponentState) then Exit;
 
-     if not Assigned(BriefView) then Exit;
+  if not Assigned(BriefView.FFiles) then Exit;
 
-     glw := Max(GridLineWidth,1);
-     bw  := Max(BorderWidth,1);
+  glw := Max(GridLineWidth, 1);
+  bw  := Max(BorderWidth, 1);
 
-
-     if DefaultRowHeight > 0 then begin
-               RowCount := (Height - GetSystemMetrics(SM_CYHSCROLL)
-                                   - glw - (2 * bw))
-                                  div (DefaultRowHeight + glw);
-               ColCount := (BriefView.FFiles.Count+ RowCount - 1)
-                                      div RowCount;
-     end;
-     Invalidate;
+  if DefaultRowHeight > 0 then
+  begin
+    RowCount := (Height - GetSystemMetrics(SM_CYHSCROLL) -
+                 glw - (2 * bw)) div (DefaultRowHeight + glw);
+    ColCount := (BriefView.FFiles.Count + RowCount - 1) div RowCount;
+  end;
+  Invalidate;
 end;
-
 
 function TBriefDrawGrid.CellToIndex(ACol, ARow: Integer): Integer;
 begin
@@ -196,23 +195,25 @@ end;
 procedure TBriefDrawGrid.Resize;
 begin
   inherited Resize;
-//  CalculateColsAndRows;
+  CalculateColRowCount;
 end;
 
 procedure TBriefDrawGrid.RowHeightsChanged;
 begin
   inherited RowHeightsChanged;
-  CalculateColsAndRows;
+  CalculateColRowCount;
 end;
 
 procedure TBriefDrawGrid.ColWidthsChanged;
 begin
   inherited ColWidthsChanged;
-  CalculateColsAndRows;
+  CalculateColRowCount;
 end;
 
 constructor TBriefDrawGrid.Create(AOwner: TComponent; AParent: TWinControl);
 begin
+  BriefView := AParent as TBriefFileView;
+
   inherited Create(AOwner);
 
   // Workaround for Lazarus issue 18832.
@@ -227,7 +228,6 @@ begin
   DefaultColWidth:= 200;
 
   Self.Parent := AParent;
-  BriefView := AParent as TBriefFileView;
 
   DoubleBuffered := True;
   Align := alClient;
@@ -312,7 +312,7 @@ var
 
     // Set up default background color first.
     if (gdSelected in aState) and BriefView.Active and (not gUseFrameCursor) then
-      BackgroundColor := gBackColor
+      BackgroundColor := gCursorColor
     else
       begin
         // Alternate rows background color.
@@ -546,6 +546,16 @@ begin
     Result := AColor;
 end;
 
+procedure TBriefFileView.dgPanelEnter(Sender: TObject);
+begin
+  SetActive(True);
+end;
+
+procedure TBriefFileView.dgPanelExit(Sender: TObject);
+begin
+  SetActive(False);
+end;
+
 procedure TBriefFileView.dgPanelDblClick(Sender: TObject);
 var
   Point : TPoint;
@@ -583,6 +593,8 @@ begin
 
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
   dgPanel.OnDblClick:=@dgPanelDblClick;
+  dgPanel.OnEnter:=@dgPanelEnter;
+  dgPanel.OnExit:=@dgPanelExit;
 end;
 
 procedure TBriefFileView.BeforeMakeFileList;
@@ -593,7 +605,7 @@ end;
 procedure TBriefFileView.AfterMakeFileList;
 begin
   inherited AfterMakeFileList;
-  dgPanel.CalculateColsAndRows;
+  dgPanel.CalculateColRowCount;
   EnsureDisplayProperties;
 end;
 
