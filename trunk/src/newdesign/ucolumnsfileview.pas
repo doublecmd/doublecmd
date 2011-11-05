@@ -2079,7 +2079,7 @@ begin
 
     SetColumnsWidths;
 
-    dgPanel.FocusRectVisible := ColumnsClass.GetCursorBorder;
+    dgPanel.FocusRectVisible := ColumnsClass.GetCursorBorder and not gUseFrameCursor;
     dgPanel.FocusColor := ColumnsClass.GetCursorBorderColor;
 
     OldFilePropertiesNeeded := FilePropertiesNeeded;
