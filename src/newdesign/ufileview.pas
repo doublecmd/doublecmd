@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Controls, ExtCtrls, ComCtrls, contnrs, fgl,
   uFile, uDisplayFile, uFileSource, uFormCommands, uDragDropEx, uXmlConfig,
   uClassesEx, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
-  uFunctionThread, uFileSystemWatcher, fQuickSearch;
+  uFunctionThread, uFileSystemWatcher, fQuickSearch, StringHashList;
 
 type
 
@@ -40,6 +40,9 @@ type
      Base class for any view of a file or files.
      There should always be at least one file displayed on the view.
   }
+
+  { TFileView }
+
   TFileView = class(TWinControl)
   private
     {en
@@ -118,6 +121,8 @@ type
   protected
     FFiles: TDisplayFiles;      //<en List of displayed files
     FFileSourceFiles: TFiles;   //<en List of files from file source
+    FSavedSelection: TStringListEx;
+    FCurrentSelection: TStringHashList;
 
     {en
        Initializes parts of the view common to all creation methods.
@@ -130,6 +135,14 @@ type
     procedure SetCurrentPath(NewPath: String); virtual;
     function GetActiveDisplayFile: TDisplayFile; virtual; abstract;
     function GetWorkersThread: TFunctionThread;
+
+    procedure SaveSelection; virtual;
+    procedure RestoreSelection; virtual;
+
+    procedure MarkFile(AFile: TDisplayFile; bMarked: Boolean);
+    procedure MarkAllFiles(bMarked: Boolean);
+    procedure MarkGroup(const sMask: String; bSelect: Boolean);
+
     {en
        This function should set active file by reference of TFile
        or at least by all the properties of the given TFile,
@@ -384,9 +397,9 @@ type
 implementation
 
 uses
-  Dialogs, LCLProc, Forms, strutils,
+  Dialogs, LCLProc, Forms, StrUtils, uMasks,
   uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
-  uDCUtils, uGlobs, uFileViewNotebook;
+  uDCUtils, uGlobs, uFileViewNotebook, uSearchTemplate;
 
 const
   MinimumReloadInterval  = 1000; // 1 second
@@ -428,6 +441,8 @@ begin
   FFilePropertiesNeeded := [];
   FMethods := TFormCommands.Create(Self);
   FHistory := TFileViewHistory.Create;
+  FSavedSelection:= TStringListEx.Create;
+  FCurrentSelection := TStringHashList.Create(True);
   FActive := False;
   FLastActiveFile := '';
   FRequestedActiveFile := '';
@@ -501,9 +516,11 @@ begin
   if Assigned(FHashedFiles) then
     FreeAndNil(FHashedFiles);
 
-  inherited;
+  inherited Destroy;
 
   FreeAndNil(FHistory);
+  FreeThenNil(FSavedSelection);
+  FreeAndNil(FCurrentSelection); // After inherited, because FCurrentSelection might be used through inherited Destroy.
 end;
 
 function TFileView.Clone(NewParent: TWinControl): TFileView;
@@ -513,6 +530,8 @@ begin
 end;
 
 procedure TFileView.CloneTo(AFileView: TFileView);
+var
+  I: Integer;
 begin
   if Assigned(AFileView) then
   begin
@@ -522,6 +541,12 @@ begin
     AFileView.OnAfterChangePath := Self.OnAfterChangePath;
     AFileView.OnActivate := Self.OnActivate;
     AFileView.OnReload := Self.OnReload;
+
+    for I := 0 to FSavedSelection.Count - 1 do
+      AFileView.FSavedSelection.Add(FSavedSelection.Strings[I]);
+
+    for i := 0 to FCurrentSelection.Count - 1 do
+      AFileView.FCurrentSelection.Add(FCurrentSelection.List[i]^.Key);
 
     AFileView.FHistory.Assign(Self.FHistory);
     AFileView.FSortings := CloneSortings(Self.FSortings);
@@ -645,6 +670,85 @@ begin
   Result := FWorkersThread;
 end;
 
+procedure TFileView.SaveSelection;
+var
+  I: Integer;
+begin
+  FSavedSelection.Clear;
+  for I := 0 to FFiles.Count - 1 do
+    with FFiles[I] do
+    begin
+      if Selected then
+        FSavedSelection.Add(FSFile.Name);
+    end;
+end;
+
+procedure TFileView.RestoreSelection;
+var
+  I: Integer;
+begin
+  for I := 0 to FFiles.Count - 1 do
+    with FFiles[I] do
+    Selected:= (FSavedSelection.IndexOf(FSFile.Name) >= 0);
+end;
+
+procedure TFileView.MarkFile(AFile: TDisplayFile; bMarked: Boolean);
+begin
+  if IsItemValid(AFile) then
+  begin
+    AFile.Selected := bMarked;
+    if bMarked then
+      FCurrentSelection.Add(AFile.FSFile.Name)
+    else
+      FCurrentSelection.Remove(AFile.FSFile.Name);
+  end;
+end;
+
+procedure TFileView.MarkAllFiles(bMarked: Boolean);
+var
+  i: Integer;
+begin
+  for i := 0 to FFiles.Count - 1 do
+    MarkFile(FFiles[i], bMarked);
+end;
+
+procedure TFileView.MarkGroup(const sMask: String; bSelect: Boolean);
+var
+  I: Integer;
+  SearchTemplate: TSearchTemplate = nil;
+begin
+  if IsMaskSearchTemplate(sMask) then
+    begin
+      SearchTemplate:= gSearchTemplateList.TemplateByName[sMask];
+      if Assigned(SearchTemplate) then
+        for I := 0 to FFiles.Count - 1 do
+          begin
+            if FFiles[I].FSFile.Name = '..' then Continue;
+            if SearchTemplate.CheckFile(FFiles[I].FSFile) then
+              begin
+                FFiles[I].Selected := bSelect;
+                if bSelect then
+                  FCurrentSelection.Add(FFiles[I].FSFile.Name)
+                else
+                  FCurrentSelection.Remove(FFiles[I].FSFile.Name);
+              end;
+          end;
+    end
+  else
+    for I := 0 to FFiles.Count - 1 do
+      begin
+        if FFiles[I].FSFile.Name = '..' then Continue;
+        if MatchesMaskList(FFiles[I].FSFile.Name, sMask) then
+          begin
+            FFiles[I].Selected := bSelect;
+            if bSelect then
+              FCurrentSelection.Add(FFiles[I].FSFile.Name)
+            else
+              FCurrentSelection.Remove(FFiles[I].FSFile.Name);
+          end;
+      end;
+end;
+
 procedure TFileView.SetActiveFile(const aFile: TFile);
 begin
 end;
@@ -714,7 +818,25 @@ begin
 end;
 
 procedure TFileView.AfterMakeFileList;
+var
+  I: Integer;
+  OldSelection: TStringHashList;
 begin
+  OldSelection := FCurrentSelection;
+  FCurrentSelection := TStringHashList.Create(True);
+
+  // Restore last selection on reload and remove not existing files from the selection.
+  for I := 0 to FFiles.Count - 1 do
+    with FFiles[I] do
+    begin
+      if OldSelection.Find(FSFile.Name) >= 0 then
+      begin
+        Selected := True;
+        FCurrentSelection.Add(FSFile.Name);
+      end;
+    end;
+
+  OldSelection.Free;
 end;
 
 procedure TFileView.BeforeMakeFileList;
@@ -1122,6 +1244,8 @@ begin
   FLoadFilesStartTime := 0;
   FLoadFilesFinishTime := 0;
   FLoadFilesNoDelayCount := 0;
+
+  FCurrentSelection.Clear;
 
   if Assigned(OnAfterChangePath) then
     OnAfterChangePath(Self);

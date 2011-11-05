@@ -20,8 +20,7 @@ uses
   uClassesEx,
   uTypes,
   uFileViewWorker,
-  fQuickSearch,
-  StringHashList
+  fQuickSearch
   ;
 
 //{$DEFINE timeFileView}
@@ -125,8 +124,6 @@ type
 
   private
     FColumnsSorting: TColumnsSortings;
-    FSavedSelection: TStringListEx;
-    FCurrentSelection: TStringHashList;
     FFileNameColumn: Integer;
     FExtensionColumn: Integer;
     FLastActiveRow: Integer;    //<en Last active row
@@ -184,10 +181,7 @@ type
     procedure MakeSelectedVisible;
     procedure SelectFile(AFile: TDisplayFile);
     procedure SelectRange(iRow: PtrInt);
-    procedure MarkFile(AFile: TDisplayFile; bMarked: Boolean);
-    procedure MarkAllFiles(bMarked: Boolean);
     procedure InvertFileSelection(AFile: TDisplayFile);
-    procedure MarkGroup(const sMask: String; bSelect: Boolean);
     procedure InvertAll;
     procedure MarkAll;
     procedure UnMarkAll;
@@ -195,8 +189,7 @@ type
     procedure MarkPlus;
     procedure MarkShiftPlus;
     procedure MarkShiftMinus;
-    procedure SaveSelection;
-    procedure RestoreSelection;
+    procedure RestoreSelection; override;
 
     {en
        Updates GUI after the display file list has changed.
@@ -560,26 +553,6 @@ procedure TColumnsFileView.SelectFile(AFile: TDisplayFile);
 begin
   InvertFileSelection(AFile);
   UpdateInfoPanel;
-end;
-
-procedure TColumnsFileView.MarkFile(AFile: TDisplayFile; bMarked: Boolean);
-begin
-  if IsItemValid(AFile) then
-  begin
-    AFile.Selected := bMarked;
-    if bMarked then
-      FCurrentSelection.Add(AFile.FSFile.Name)
-    else
-      FCurrentSelection.Remove(AFile.FSFile.Name);
-  end;
-end;
-
-procedure TColumnsFileView.MarkAllFiles(bMarked: Boolean);
-var
-  i: Integer;
-begin
-  for i := 0 to FFiles.Count - 1 do
-    MarkFile(FFiles[i], bMarked);
 end;
 
 procedure TColumnsFileView.InvertFileSelection(AFile: TDisplayFile);
@@ -1201,9 +1174,7 @@ end;
 
 procedure TColumnsFileView.AfterChangePath;
 begin
-  FCurrentSelection.Clear;
-
-  inherited;
+  inherited AfterChangePath;
 
   FUpdatingGrid := True;
   dgPanel.Row := 0;
@@ -1665,26 +1636,11 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.SaveSelection;
-var
-  I: Integer;
-begin
-  FSavedSelection.Clear;
-  for I := 0 to FFiles.Count - 1 do
-    with FFiles[I] do
-    begin
-      if Selected then
-        FSavedSelection.Add(FSFile.Name);
-    end;
-end;
-
 procedure TColumnsFileView.RestoreSelection;
 var
   I: Integer;
 begin
-  for I := 0 to FFiles.Count - 1 do
-    with FFiles[I] do
-    Selected:= (FSavedSelection.IndexOf(FSFile.Name) >= 0);
+  inherited RestoreSelection;
   dgPanel.Invalidate;
 end;
 
@@ -1706,43 +1662,6 @@ begin
   MarkAllFiles(False);
   UpdateInfoPanel;
   dgPanel.Invalidate;
-end;
-
-procedure TColumnsFileView.MarkGroup(const sMask: String; bSelect: Boolean);
-var
-  I: Integer;
-  SearchTemplate: TSearchTemplate = nil;
-begin
-  if IsMaskSearchTemplate(sMask) then
-    begin
-      SearchTemplate:= gSearchTemplateList.TemplateByName[sMask];
-      if Assigned(SearchTemplate) then
-        for I := 0 to FFiles.Count - 1 do
-          begin
-            if FFiles[I].FSFile.Name = '..' then Continue;
-            if SearchTemplate.CheckFile(FFiles[I].FSFile) then
-              begin
-                FFiles[I].Selected := bSelect;
-                if bSelect then
-                  FCurrentSelection.Add(FFiles[I].FSFile.Name)
-                else
-                  FCurrentSelection.Remove(FFiles[I].FSFile.Name);
-              end;
-          end;
-    end
-  else
-    for I := 0 to FFiles.Count - 1 do
-      begin
-        if FFiles[I].FSFile.Name = '..' then Continue;
-        if MatchesMaskList(FFiles[I].FSFile.Name, sMask) then
-          begin
-            FFiles[I].Selected := bSelect;
-            if bSelect then
-              FCurrentSelection.Add(FFiles[I].FSFile.Name)
-            else
-              FCurrentSelection.Remove(FFiles[I].FSFile.Name);
-          end;
-      end;
 end;
 
 procedure TColumnsFileView.edtPathKeyDown(Sender: TObject; var Key: Word;
@@ -2526,8 +2445,6 @@ begin
   FColumnsSorting := nil;
   FLastSelectionStartRow := -1;
   FLastMark := '*';
-  FSavedSelection:= TStringListEx.Create;
-  FCurrentSelection := TStringHashList.Create(True);
   FUpdatingGrid := False;
   FFileNameColumn := -1;
   FExtensionColumn := -1;
@@ -2661,10 +2578,8 @@ begin
   if Assigned(HotMan) then
     HotMan.UnRegister(dgPanel);
 
-  FreeThenNil(FSavedSelection);
   FreeThenNil(FColumnsSorting);
   inherited Destroy;
-  FreeAndNil(FCurrentSelection); // After inherited, because FCurrentSelection might be used through inherited Destroy.
 end;
 
 function TColumnsFileView.Clone(NewParent: TWinControl): TColumnsFileView;
@@ -2686,12 +2601,6 @@ begin
       FLastSelectionStartRow := Self.FLastSelectionStartRow;
 
       FColumnsSorting := Self.FColumnsSorting.Clone;
-
-      for i := 0 to Self.FSavedSelection.Count - 1 do
-        FSavedSelection.Add(Self.FSavedSelection.Strings[i]);
-
-      for i := 0 to Self.FCurrentSelection.Count - 1 do
-        FCurrentSelection.Add(Self.FCurrentSelection.List[i]^.Key);
 
       ActiveColm := Self.ActiveColm;
       ActiveColmSlave := nil;    // set to nil because only used in preview?
@@ -2740,27 +2649,8 @@ begin
 end;
 
 procedure TColumnsFileView.AfterMakeFileList;
-var
-  i: Integer;
-  OldSelection: TStringHashList;
 begin
   inherited;
-
-  OldSelection := FCurrentSelection;
-  FCurrentSelection := TStringHashList.Create(True);
-
-  // Restore last selection on reload and remove not existing files from the selection.
-  for I := 0 to FFiles.Count - 1 do
-    with FFiles[I] do
-    begin
-      if OldSelection.Find(FSFile.Name) >= 0 then
-      begin
-        Selected := True;
-        FCurrentSelection.Add(FSFile.Name);
-      end;
-    end;
-
-  OldSelection.Free;
 
   tmClearGrid.Enabled := False;
   DisplayFileListHasChanged;
