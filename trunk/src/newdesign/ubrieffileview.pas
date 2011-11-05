@@ -5,7 +5,7 @@ unit uBriefFileView;
 interface
 
 uses
-  Grids, uFileView, uFileSource, Graphics,
+  LMessages, Grids, uFileView, uFileSource, Graphics,
   Classes, SysUtils, Controls, ExtCtrls, ComCtrls, contnrs, fgl,
   uFile, uDisplayFile, uFormCommands, uDragDropEx, uXmlConfig,
   uClassesEx, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
@@ -28,6 +28,10 @@ type
     procedure Resize; override;
     procedure RowHeightsChanged; override;
     procedure ColWidthsChanged;  override;
+    function MouseOnGrid(X, Y: LongInt): Boolean;
+    function  DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): Boolean; override;
+    function  DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean; override;
+    procedure MouseDown(Button: TMouseButton; Shift:TShiftState; X,Y:Integer); override;
     procedure KeyDown(var Key : Word; Shift : TShiftState); override;
   public
     constructor Create(AOwner: TComponent; AParent: TWinControl); reintroduce;
@@ -211,6 +215,42 @@ begin
   CalculateColRowCount;
 end;
 
+function TBriefDrawGrid.MouseOnGrid(X, Y: LongInt): Boolean;
+var
+  bTemp: Boolean;
+  iRow, iCol: LongInt;
+begin
+  bTemp:= AllowOutboundEvents;
+  AllowOutboundEvents:= False;
+  MouseToCell(X, Y, iCol, iRow);
+  AllowOutboundEvents:= bTemp;
+  Result:= not (CellToIndex(iCol, iRow) < 0);
+end;
+
+function TBriefDrawGrid.DoMouseWheelDown(Shift: TShiftState; MousePos: TPoint): Boolean;
+begin
+  Result:= inherited DoMouseWheelDown(Shift, MousePos);
+  Result:= Perform(LM_HSCROLL, SB_PAGERIGHT, 0) = 0;
+end;
+
+function TBriefDrawGrid.DoMouseWheelUp(Shift: TShiftState; MousePos: TPoint): Boolean;
+begin
+  Result:= inherited DoMouseWheelUp(Shift, MousePos);
+  Result:= Perform(LM_HSCROLL, SB_PAGELEFT, 0) = 0;
+end;
+
+procedure TBriefDrawGrid.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  if MouseOnGrid(X, Y) then
+    inherited MouseDown(Button, Shift, X, Y)
+  else
+    begin
+      if Assigned(OnMouseDown) then
+        OnMouseDown(Self, Button, Shift, X, Y);
+    end;
+end;
+
 procedure TBriefDrawGrid.KeyDown(var Key: Word; Shift: TShiftState);
 begin
   case Key of
@@ -265,6 +305,7 @@ begin
 
   DoubleBuffered := True;
   Align := alClient;
+  MouseWheelOption:= mwGrid;
   Options := [goTabs, goThumbTracking, goSmoothScroll];
   TabStop := False;
 
