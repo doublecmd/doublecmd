@@ -15,6 +15,25 @@ type
 
   TBriefFileView = class;
 
+  { TBriefHeaderControl }
+
+  TBriefHeaderControl = class(THeaderControl)
+  private
+    FDown: Boolean;
+    FMouseInControl: Boolean;
+    FSelectedSection: Integer;
+    procedure UpdateState;
+  protected
+    procedure Click; override;
+    procedure MouseEnter; override;
+    procedure MouseLeave; override;
+    procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
+                        X, Y: Integer); override;
+    procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
+    procedure MouseUp(Button: TMouseButton; Shift: TShiftState;
+                      X, Y: Integer); override;
+  end;
+
   { TBriefDrawGrid }
 
   TBriefDrawGrid = class(TDrawGrid)
@@ -44,6 +63,7 @@ type
 
   TBriefFileView = class (TFileView)
     private
+      TabHeader: THeaderControl;
       dgPanel: TBriefDrawGrid;
 
       function GetVisibleFilesIndexes: TRange;
@@ -62,12 +82,15 @@ type
       procedure dgPanelExit(Sender: TObject);
       procedure dgPanelDblClick(Sender: TObject);
       procedure dgPanelTopLeftChanged(Sender: TObject);
+      procedure TabHeaderSectionClick(HeaderControl: TCustomHeaderControl;
+                                      Section: THeaderSection);
    protected
       procedure CreateDefault(AOwner: TWinControl); override;
       procedure BeforeMakeFileList; override;
       procedure AfterMakeFileList; override;
       procedure AfterChangePath; override;
       function GetActiveDisplayFile: TDisplayFile; override;
+      procedure Resize; override;
   public
     constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode); override;
     destructor Destroy; override;
@@ -107,6 +130,97 @@ uses
   , GTK2Globals  // for DblClickTime
 {$ENDIF}
   ;
+
+{ TBriefHeaderControl }
+
+procedure TBriefHeaderControl.UpdateState;
+var
+  i, Index: Integer;
+  MaxState: THeaderSectionState;
+  P: TPoint;
+begin
+  MaxState := hsNormal;
+  if Enabled then
+    if FDown then
+    begin
+      MaxState := hsPressed;
+      Index := FSelectedSection;
+    end else if FMouseInControl then
+    begin
+      MaxState := hsHot;
+      P := ScreenToClient(Mouse.CursorPos);
+      Index := GetSectionAt(P);
+    end;
+
+  for i := 0 to Sections.Count - 1 do
+    if (i <> Index) then
+      Sections[i].State := hsNormal
+    else
+      Sections[i].State := MaxState;
+end;
+
+procedure TBriefHeaderControl.Click;
+var
+  Index: Integer;
+begin
+  if FDown then
+  begin
+    inherited Click;
+    Index := GetSectionAt(ScreenToClient(Mouse.CursorPos));
+    if Index <> -1 then
+      SectionClick(Sections[Index]);
+  end;
+end;
+
+procedure TBriefHeaderControl.MouseEnter;
+begin
+  inherited MouseEnter;
+  if not (csDesigning in ComponentState) then
+  begin
+    FMouseInControl := True;
+    UpdateState;
+  end;
+end;
+
+procedure TBriefHeaderControl.MouseLeave;
+begin
+  inherited MouseLeave;
+  if not (csDesigning in ComponentState) then
+  begin
+    FMouseInControl := False;
+    FDown := False;
+    UpdateState;
+  end;
+end;
+
+procedure TBriefHeaderControl.MouseDown(Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  if not (csDesigning in ComponentState) then
+  begin
+    FDown:= True;
+    FSelectedSection:=GetSectionAt(Point(X, Y));
+    UpdateState;
+  end;
+end;
+
+procedure TBriefHeaderControl.MouseMove(Shift: TShiftState; X, Y: Integer);
+begin
+  if not (csDesigning in ComponentState) then
+  begin
+    UpdateState;
+  end;
+end;
+
+procedure TBriefHeaderControl.MouseUp(Button: TMouseButton; Shift: TShiftState;
+  X, Y: Integer);
+begin
+  if not (csDesigning in ComponentState) then
+  begin
+    FDown:= False;
+    UpdateState;
+  end;
+end;
 
 { TBriefDrawGrid }
 
@@ -660,11 +774,27 @@ begin
   EnsureDisplayProperties;
 end;
 
+procedure TBriefFileView.TabHeaderSectionClick(
+  HeaderControl: TCustomHeaderControl; Section: THeaderSection);
+begin
+
+end;
+
 procedure TBriefFileView.CreateDefault(AOwner: TWinControl);
 begin
   inherited CreateDefault(AOwner);
   dgPanel:= TBriefDrawGrid.Create(Self, Self);
-  self.Align:= alClient;
+  Align:= alClient;
+
+  TabHeader:= TBriefHeaderControl.Create(Self);
+  TabHeader.Parent:= Self;
+  TabHeader.Align:= alTop;
+  TabHeader.Sections.Add.Text:= rsColName;
+  TabHeader.Sections.Add.Text:= rsColExt;
+  TabHeader.Sections.Add.Text:= rsColSize;
+  TabHeader.Sections.Add.Text:= rsColDate;
+  TabHeader.Sections.Add.Text:= rsColAttr;
+  TabHeader.OnSectionClick:= @TabHeaderSectionClick;
 
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
   dgPanel.OnDblClick:=@dgPanelDblClick;
@@ -707,6 +837,21 @@ begin
   begin
     Idx:= dgPanel.CellToIndex(dgPanel.Col, dgPanel.Row);
     if (Idx >= 0) then Result:= FFiles[Idx]
+  end;
+end;
+
+procedure TBriefFileView.Resize;
+var
+  I: Integer;
+  AWidth: Integer;
+begin
+  inherited Resize;
+
+  if Assigned(TabHeader) then
+  begin
+    AWidth:= Width div TabHeader.Sections.Count;
+    for I:= 0 to TabHeader.Sections.Count - 1 do
+      TabHeader.Sections[I].Width:= AWidth;
   end;
 end;
 
