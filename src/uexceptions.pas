@@ -22,7 +22,7 @@ implementation
 
 uses
   Forms, Controls, Dialogs, LCLProc, LCLStrConsts, syncobjs,
-  uDebug, uLng, uGlobs, uDCVersion;
+  uDebug, uLng, uGlobs, uDCVersion, uOSUtils;
 
 type
   THandleException = class
@@ -69,10 +69,10 @@ procedure WriteExceptionToFile(const aFileName: UTF8String; const ExceptionText:
 var
   f: System.Text;
 begin
-  if aFileName <> EmptyStr then
+  if (aFileName <> EmptyStr) and not mbDirectoryExists(aFileName) then
   begin
     AssignFile(f, aFileName);
-    if not FileExists(aFileName) then
+    if not mbFileExists(aFileName) then
       Rewrite(f)
     else
       Append(f);

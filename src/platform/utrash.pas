@@ -37,12 +37,15 @@ function mbCheckTrash(sPath: UTF8String): Boolean;
 implementation
 
 uses
+  uOSUtils,
   {$IF DEFINED(MSWINDOWS)}
-  Windows, ShellApi, Win32Int, InterfaceBase, uMyWindows, uOSUtils
+  Windows, ShellApi, Win32Int, InterfaceBase, uMyWindows
   {$ELSEIF DEFINED(UNIX)}
-  BaseUnix, uMyUnix, uDCUtils
+  BaseUnix, uMyUnix, uDCUtils, FileUtil
     {$IFDEF DARWIN}
-    , MacOSAll, DynLibs, StrUtils, uOSUtils
+    , MacOSAll, DynLibs, StrUtils
+    {$ELSE}
+    , uFileProcs
     {$ENDIF}
   {$ENDIF};
 
@@ -117,17 +120,17 @@ begin
     trashDir := GetHomeDir + '/.Trash/';
 
   // check if trash folder exists (e.g. network drives don't have one)
-  if not FileExists(trashDir) then
+  if not mbDirectoryExists(trashDir) then
   begin
     Result := false;
     Exit;
   end; { if }
 
   newFileName := trashDir + ExtractFileName(FileName);
-  if FileExists(newFileName) then
+  if mbFileSystemEntryExists(newFileName) then
     newFileName := Format('%s %s', [newFileName, FormatDateTime('hh-nn-ss', Time)]);
 
-  Result := RenameFile(FileName, newFileName);
+  Result := mbRenameFile(FileName, newFileName);
 end;
 {$ELSEIF DEFINED(UNIX)}
 // This implementation is based on FreeDesktop.org "Trash Specification"
@@ -151,7 +154,7 @@ var
     hFile: THandle;
   begin
     Result:= False;
-    hFile:= FileCreate(sTrashInfoFile);
+    hFile:= mbFileCreate(sTrashInfoFile);
     if hFile <> feInvalidHandle then
     begin
       sTemp:= '[Trash Info]' + LineEnding;
@@ -171,8 +174,8 @@ var
     Result:= False;
     if CreateTrashInfoFile then
     begin
-      Result:= (fpRename(FileName, sTrashDataFile) >= 0);
-      if not Result then DeleteFile(sTrashInfoFile);
+      Result:= (fpRename(UTF8ToSys(FileName), sTrashDataFile) >= 0);
+      if not Result then mbDeleteFile(sTrashInfoFile);
     end;
   end;
 
@@ -182,20 +185,20 @@ begin
   sNow:= IntToStr(Trunc(dtNow * 86400000)); // The time in milliseconds
   sFileName:= ExtractOnlyFileName(FileName) + '_' + sNow + ExtractFileExt(FileName);
   // Get user home directory
-  sHomeDir:= GetEnvironmentVariable('HOME');
+  sHomeDir:= GetHomeDir;
   // Check if file in home directory
-  if (fpLStat(PChar(sHomeDir), st1) >= 0)
-     and (fpLStat(PChar(FileName), st2) >= 0)
+  if (fpLStat(PChar(UTF8ToSys(sHomeDir)), st1) >= 0)
+     and (fpLStat(PChar(UTF8ToSys(FileName)), st2) >= 0)
      and (st1.st_dev = st2.st_dev) then
   begin
     // Get $XDG_DATA_HOME directory
-    sTemp:= GetEnvironmentVariable('XDG_DATA_HOME');
+    sTemp:= mbGetEnvironmentVariable('XDG_DATA_HOME');
     if (Length(sTemp) = 0) then
       sTemp:= sHomeDir + '/.local/share/Trash'
     else
       sTemp:= IncludeTrailingPathDelimiter(sTemp) + 'Trash';
     // Create destination directories if needed
-    if (ForceDirectories(sTemp + PathDelim + trashFiles) and ForceDirectories(sTemp + PathDelim + trashInfo)) then
+    if (mbForceDirectory(sTemp + PathDelim + trashFiles) and mbForceDirectory(sTemp + PathDelim + trashInfo)) then
     begin
       sTrashInfoFile:= sTemp + PathDelim + trashInfo + PathDelim + sFileName + trashExt;
       sTrashDataFile:= sTemp + PathDelim + trashFiles + PathDelim + sFileName;
@@ -208,12 +211,12 @@ begin
   sTopDir:= FindMountPointPath(FileName);
   // Try to use "$topdir/.Trash/$uid" directory
   sTemp:= sTopDir + trashFolder;
-  if (fpLStat(PChar(sTemp), st1) >= 0)
+  if (fpLStat(PChar(UTF8ToSys(sTemp)), st1) >= 0)
      and fpS_ISDIR(st1.st_mode) and not fpS_ISLNK(st1.st_mode) then
     begin
       sTemp:= sTemp + PathDelim + sUserID;
       // Create destination directories if needed
-      if (ForceDirectories(sTemp + PathDelim + trashFiles) and ForceDirectories(sTemp + PathDelim + trashInfo)) then
+      if mbForceDirectory(sTemp + PathDelim + trashFiles) and mbForceDirectory(sTemp + PathDelim + trashInfo) then
       begin
         sTrashInfoFile:= sTemp + PathDelim + trashInfo + PathDelim + sFileName + trashExt;
         sTrashDataFile:= sTemp + PathDelim + trashFiles + PathDelim + sFileName;
@@ -223,11 +226,11 @@ begin
     end;
   // Try to use "$topdir/.Trash-$uid" directory
   sTemp:= sTopDir + trashFolder + '-' + sUserID;
-  if ((fpLStat(PChar(sTemp), st1) >= 0) and fpS_ISDIR(st1.st_mode)
-     and not fpS_ISLNK(st1.st_mode)) or CreateDir(sTemp) then
+  if ((fpLStat(PChar(UTF8ToSys(sTemp)), st1) >= 0) and fpS_ISDIR(st1.st_mode)
+     and not fpS_ISLNK(st1.st_mode)) or mbCreateDir(sTemp) then
     begin
       // Create destination directories if needed
-      if (ForceDirectories(sTemp + PathDelim + trashFiles) and ForceDirectories(sTemp + PathDelim + trashInfo)) then
+      if mbForceDirectory(sTemp + PathDelim + trashFiles) and mbForceDirectory(sTemp + PathDelim + trashInfo) then
       begin
         sTrashInfoFile:= sTemp + PathDelim + trashInfo + PathDelim + sFileName + trashExt;
         sTrashDataFile:= sTemp + PathDelim + trashFiles + PathDelim + sFileName;

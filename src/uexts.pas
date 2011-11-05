@@ -143,7 +143,7 @@ const
 implementation
 
 uses
-  SysUtils, uLog, uClassesEx;
+  SysUtils, uLog, uClassesEx, uOSUtils;
 
 constructor TExtAction.Create;
 begin
@@ -280,7 +280,7 @@ var
 begin
   extFile := TStringListEx.Create;
 
-  if FileExists(sName) then
+  if mbFileExists(sName) then
   begin
     extFile.LoadFromFile(sName);
 
@@ -380,7 +380,7 @@ begin
         end;
       end;
 
-  end // FileExists
+  end // mbFileExists
   else
   begin
     iCount := Count - 1;

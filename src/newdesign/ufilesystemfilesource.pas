@@ -362,7 +362,7 @@ begin
 
 {$ELSEIF DEFINED(UNIX)}
 
-  if fpLStat(AFilePath, StatInfo) = -1 then
+  if fpLStat(UTF8ToSys(AFilePath), StatInfo) = -1 then
     raise EFileNotFound.Create(aFilePath);
 
   Result := TFile.Create(ExtractFilePath(aFilePath));
@@ -515,7 +515,7 @@ begin
          fpOwner] * PropertiesToSet <> []) or
        ((uFileProperty.fpLink in PropertiesToSet) and (not (fpAttributes in AssignedProperties))) then
     begin
-      if fpLstat(sFullPath, StatInfo) = -1 then
+      if fpLstat(UTF8ToSys(sFullPath), StatInfo) = -1 then
         raise EFileNotFound.Create(sFullPath);
 
       if not (fpAttributes in AssignedProperties) then
@@ -863,4 +863,4 @@ begin
 end;
 
 end.
-
+

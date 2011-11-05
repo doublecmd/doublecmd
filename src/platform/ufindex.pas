@@ -56,7 +56,7 @@ implementation
 uses
   LCLProc, uDebug
   {$IFDEF UNIX}
-  , uMyUnix, Unix
+  , uMyUnix, Unix, FileUtil, uOSUtils
   {$ELSE}
   , Windows
   {$ENDIF};
@@ -85,9 +85,9 @@ begin
   UnixFindData:= PUnixFindData(SearchRec.FindHandle);
   if UnixFindData = nil then Exit;
   if not Assigned(UnixFindData^.Mask) or
-     UnixFindData^.Mask.Matches(UTF8UpperCase(SearchRec.Name)) then
+     UnixFindData^.Mask.Matches(SearchRec.Name) then
     begin
-      if fpLStat(UnixFindData^.sPath + SearchRec.Name, @UnixFindData^.StatRec) >= 0 then
+      if fpLStat(UTF8ToSys(UnixFindData^.sPath + SearchRec.Name), @UnixFindData^.StatRec) >= 0 then
       begin
         with UnixFindData^.StatRec do
         begin
@@ -133,7 +133,7 @@ begin
   begin
     sPath:= ExtractFileDir(Path);
     if sPath = '' then
-      GetDir(0, sPath);
+      sPath := mbGetCurrentDir;
     sPath:= IncludeTrailingBackSlash(sPath);
 
     // Assignment of SearchRec.Name also needed if the path points to a specific
@@ -147,15 +147,15 @@ begin
         // If searching for single specific file, just check if it exists and exit.
         if (Pos('?', SearchRec.Name) = 0) and (Pos('*', SearchRec.Name) = 0) then
           begin
-            if FileExists(Path) and (mbFindMatchingFile(SearchRec) = 0) then
+            if FileExists(UTF8ToSys(Path)) and (mbFindMatchingFile(SearchRec) = 0) then
               Exit(0)
             else
               Exit(-1);
           end;
-        Mask := TMask.Create(UTF8UpperCase(SearchRec.Name));
+        Mask := TMask.Create(SearchRec.Name);
       end;
 
-    DirPtr:= fpOpenDir(PChar(sPath));
+    DirPtr:= fpOpenDir(PChar(UTF8ToSys(sPath)));
   end;
   Result:= FindNextEx(SearchRec);
 end;
@@ -182,7 +182,7 @@ begin
   PtrDirEnt:= fpReadDir(UnixFindData^.DirPtr);
   while PtrDirEnt <> nil do
   begin
-    SearchRec.Name:= PtrDirEnt^.d_name;
+    SearchRec.Name:= SysToUTF8(PtrDirEnt^.d_name);
     Result:= mbFindMatchingFile(SearchRec);
     if Result = 0 then // if found then exit
       Exit

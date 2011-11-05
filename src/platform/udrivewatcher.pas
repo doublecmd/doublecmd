@@ -54,10 +54,10 @@ uses
   {$IFDEF UNIX}
   Unix, uMyUnix, uDebug
    {$IFDEF BSD}
-   , BSD, BaseUnix, StrUtils
+   , BSD, BaseUnix, StrUtils, FileUtil
    {$ENDIF}
    {$IFDEF LINUX}
-   , uUDisks, uFileSystemWatcher, uDCUtils
+   , uUDisks, uFileSystemWatcher, uDCUtils, FileUtil
    {$ENDIF}
    {$IFDEF DARWIN}
    , MacOSAll
@@ -724,7 +724,7 @@ begin
         if CheckMountEntry(pme) then
         begin
           DeviceFile := StrPas(pme^.mnt_fsname);
-          MountPoint := StrPas(pme^.mnt_dir);
+          MountPoint := SysToUTF8(StrPas(pme^.mnt_dir));
           if MountPoint <> PathDelim then
             MountPoint := ExcludeTrailingPathDelimiter(MountPoint);
 
@@ -791,13 +791,13 @@ begin
                 DriveLabel := Path;
                 FileSystem := StrPas(pme^.mnt_type);
 
-                if IsPartOfString(['ISO9660', 'CDROM', 'CDRW', 'DVD'], UpperCase(pme^.mnt_type)) then
+                if IsPartOfString(['ISO9660', 'CDROM', 'CDRW', 'DVD'], UpperCase(FileSystem)) then
                   DriveType := dtOptical else
-                if IsPartOfString(['FLOPPY'], UpperCase(pme^.mnt_type)) then
+                if IsPartOfString(['FLOPPY'], UpperCase(FileSystem)) then
                   DriveType := dtFloppy else
-                if IsPartOfString(['ZIP', 'USB', 'CAMERA'], UpperCase(pme^.mnt_type)) then
+                if IsPartOfString(['ZIP', 'USB', 'CAMERA'], UpperCase(FileSystem)) then
                   DriveType := dtFlash else
-                if IsPartOfString(['NFS', 'SMB', 'NETW', 'CIFS'], UpperCase(pme^.mnt_type)) then
+                if IsPartOfString(['NFS', 'SMB', 'NETW', 'CIFS'], UpperCase(FileSystem)) then
                   DriveType := dtNetwork
                 else
                   DriveType := dtHardDisk;
@@ -950,7 +950,7 @@ begin
 
     with drive^ do
     begin
-      Path := fstab^.fs_file;
+      Path := SysToUTF8(fstab^.fs_file);
       if Path = '/' then
         DisplayName := Path
       else
@@ -1005,7 +1005,7 @@ begin
 
     with drive^ do
     begin
-      Path := fs.mountpoint;
+      Path := SysToUTF8(fs.mountpoint);
       if Path = '/' then
         DisplayName := Path
       else
@@ -1178,4 +1178,4 @@ end;
 {$ENDIF}
 
 end.
-
+

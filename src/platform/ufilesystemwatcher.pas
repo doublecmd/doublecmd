@@ -1290,7 +1290,7 @@ begin
   if wfAttributesChange in FWatchFilter then
     hNotifyFilter := hNotifyFilter or NOTE_ATTRIB or NOTE_REVOKE;
 
-  FHandle := fpOpen(PChar(FWatchPath), O_RDONLY);
+  FHandle := fpOpen(PChar(UTF8ToSys(FWatchPath)), O_RDONLY);
   if FHandle < 0 then
   begin
     FHandle := feInvalidHandle;
@@ -1390,4 +1390,4 @@ finalization
   TFileSystemWatcher.DestroyFileSystemWatcher;
 
 end.
-
+
