@@ -1028,13 +1028,18 @@ begin
 end;
 
 procedure TColumnsFileView.dgPanelEndDrag(Sender, Target: TObject; X, Y: Integer);
+  procedure ClearDropNode(aFileView: TFileView);
+  begin
+    if aFileView is TColumnsFileView then
+      TColumnsFileView(aFileView).dgPanel.ChangeDropRowIndex(-1);
+  end;
 begin
   // If cancelled by the user, DragManager does not send drag-leave event
   // to the target, so we must clear the DropRow in both panels.
-{
-  frmMain.FrameLeft.dgPanel.ChangeDropRowIndex(-1);
-  frmMain.FrameRight.dgPanel.ChangeDropRowIndex(-1);
-}
+
+  ClearDropNode(frmMain.FrameLeft);
+  ClearDropNode(frmMain.FrameRight);
+
   if uDragDropEx.TransformDragging = False then
     dgPanel.ClearMouseButtonAfterDrag;
 end;
