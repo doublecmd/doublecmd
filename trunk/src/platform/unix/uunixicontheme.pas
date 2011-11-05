@@ -53,7 +53,7 @@ var
 begin
   Result:= EmptyStr;
   for I:= Low(kdeConfig) to High(kdeConfig) do
-    if (Result = EmptyStr) and FileExists(GetHomeDir + kdeConfig[I]) then
+    if (Result = EmptyStr) and mbFileExists(GetHomeDir + kdeConfig[I]) then
       try
         iniCfg:= TIniFile.Create(GetHomeDir + kdeConfig[I]);
         Result:= iniCfg.ReadString('Icons', 'Theme', EmptyStr);
@@ -61,9 +61,9 @@ begin
         if Assigned(iniCfg) then
           iniCfg.Free;
       end;
-  if (Result = EmptyStr) and DirectoryExists('/usr/share/icons/default.kde4') then
+  if (Result = EmptyStr) and mbDirectoryExists('/usr/share/icons/default.kde4') then
     Result:= 'default.kde4'
-  else if (Result = EmptyStr) and DirectoryExists('/usr/share/icons/default.kde') then
+  else if (Result = EmptyStr) and mbDirectoryExists('/usr/share/icons/default.kde') then
     Result:= 'default.kde';
 end;
 
@@ -77,7 +77,7 @@ var
 begin
   Result:= EmptyStr;
   xmlCfg:= nil;
-  if FileExists(GetHomeDir + gnomeConfig) then
+  if mbFileExists(GetHomeDir + gnomeConfig) then
     try
       ReadXMLFile(xmlCfg, GetHomeDir + gnomeConfig);
       for I := 0 to xmlCfg.DocumentElement.ChildNodes.Count -1 do
@@ -108,7 +108,7 @@ var
 begin
   Result:= EmptyStr;
   xmlCfg:= nil;
-  if FileExists(GetHomeDir + xfceConfig) then
+  if mbFileExists(GetHomeDir + xfceConfig) then
     try
       ReadXMLFile(xmlCfg, GetHomeDir + xfceConfig);
       for J := 0 to xmlCfg.DocumentElement.ChildNodes.Count -1 do
@@ -143,13 +143,13 @@ var
   lxdeConfig: array[1..2] of String = (lxdeConfig1, lxdeConfig2);
 begin
   Result:= EmptyStr;
-  DesktopSession:= GetEnvironmentVariable('DESKTOP_SESSION');
+  DesktopSession:= mbGetEnvironmentVariable('DESKTOP_SESSION');
   if Length(DesktopSession) <> 0 then
   begin
     lxdeConfig[1]:= GetHomeDir + Format(lxdeConfig[1], [DesktopSession]);
     lxdeConfig[2]:= Format(lxdeConfig[2], [DesktopSession]);
     for I:= Low(lxdeConfig) to High(lxdeConfig) do
-    if (Length(Result) = 0) and FileExists(lxdeConfig[I]) then
+    if (Length(Result) = 0) and mbFileExists(lxdeConfig[I]) then
     try
       iniCfg:= TIniFile.Create(lxdeConfig[I]);
       Result:= iniCfg.ReadString('GTK', 'sNet/IconThemeName', EmptyStr);

@@ -219,7 +219,7 @@ procedure endfsent(); cdecl; external libc name 'endfsent';
 implementation
 
 uses
-  URIParser, Unix, uClassesEx, uDCUtils
+  URIParser, Unix, FileUtil, uClassesEx, uDCUtils, uOSUtils
 {$IF (NOT DEFINED(FPC_USE_LIBC)) or (DEFINED(BSD) AND NOT DEFINED(DARWIN))}
   , SysCall
 {$ENDIF}
@@ -264,7 +264,7 @@ end;
 
 function fpSystemStatus(Command: string): cint;
 begin
-  Result := fpSystem(Command);
+  Result := fpSystem(UTF8ToSys(Command));
   if wifexited(Result) then
     Result := wexitStatus(Result);
 end;
@@ -330,7 +330,7 @@ begin
     begin
       LinkTarget:= iniDesktop.ReadString('Desktop Entry', 'URL', EmptyStr);
       if not URIToFilename(LinkTarget, LinkTarget) then Exit;
-      if fpLStat(PAnsiChar(LinkTarget), StatInfo) <> 0 then Exit;
+      if fpLStat(PAnsiChar(UTF8ToSys(LinkTarget)), StatInfo) <> 0 then Exit;
       Result:= FPS_ISDIR(StatInfo.st_mode);
     end;
   finally
@@ -346,8 +346,8 @@ var
   fsExeScr : TFileStreamEx = nil;
 begin
   // First check FileName is not a directory and then check if executable
-  Result:= (fpStat(FileName, Info) <> -1) and FPS_ISREG(Info.st_mode) and
-           (BaseUnix.fpAccess(FileName, BaseUnix.X_OK) = 0);
+  Result:= (fpStat(UTF8ToSys(FileName), Info) <> -1) and FPS_ISREG(Info.st_mode) and
+           (BaseUnix.fpAccess(UTF8ToSys(FileName), BaseUnix.X_OK) = 0);
   if Result and (Info.st_size >= SizeOf(dwSign)) then
   try
     fsExeScr := TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
@@ -370,7 +370,7 @@ begin
   // Set root directory as mount point by default
   Result:= PathDelim;
   // Get stat info for original file
-  if (fpLStat(PChar(FileName), recStat) < 0) then Exit;
+  if (fpLStat(PChar(UTF8ToSys(FileName)), recStat) < 0) then Exit;
   // Save device ID of original file
   st_dev:= recStat.st_dev;
   J:= Length(FileName);
@@ -383,11 +383,11 @@ begin
       else
         sTemp:= Copy(FileName, 1, I - 1);
       // Stat for current directory
-      if (fpLStat(PChar(sTemp), recStat) < 0) then Continue;
+      if (fpLStat(PChar(UTF8ToSys(sTemp)), recStat) < 0) then Continue;
       // If it is a link then checking link destination
       if fpS_ISLNK(recStat.st_mode) then
       begin
-        sTemp:= fpReadLink(sTemp);
+        sTemp:= ReadSymLink(sTemp);
         Result:= FindMountPointPath(sTemp);
         Exit;
       end;

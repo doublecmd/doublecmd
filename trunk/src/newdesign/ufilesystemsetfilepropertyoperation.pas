@@ -49,7 +49,7 @@ uses
   {$IF DEFINED(MSWINDOWS)}
     , LCLProc
   {$ELSEIF DEFINED(UNIX)}
-    , BaseUnix
+    , BaseUnix, FileUtil
   {$ENDIF}
   ;
 
@@ -264,11 +264,11 @@ begin
     Exit(sfprSkipped);
 
 {$IFDEF UNIX}
-  if fpLstat(OldName, OldFileStat) <> 0 then
+  if fpLstat(UTF8ToSys(OldName), OldFileStat) <> 0 then
     Exit(sfprError);
 
   // Check if target file exists.
-  if fpLstat(NewName, NewFileStat) = 0 then
+  if fpLstat(UTF8ToSys(NewName), NewFileStat) = 0 then
   begin
     // Check if source and target are the same files (same inode and same device).
     if (OldFileStat.st_ino = NewFileStat.st_ino) and
@@ -291,15 +291,15 @@ begin
       begin
         tmpFileName := GetTempName(OldName);
 
-        if FpRename(OldName, tmpFileName) = 0 then
+        if FpRename(UTF8ToSys(OldName), UTF8ToSys(tmpFileName)) = 0 then
         begin
-          if fpLstat(NewName, NewFileStat) = 0 then
+          if fpLstat(UTF8ToSys(NewName), NewFileStat) = 0 then
           begin
             // We have renamed the old file but the new file name still exists,
             // so this wasn't a single file on a case-insensitive filesystem
             // accessible by two names that differ by case.
 
-            FpRename(tmpFileName, OldName);  // Restore old file.
+            FpRename(UTF8ToSys(tmpFileName), UTF8ToSys(OldName));  // Restore old file.
 {$IFDEF DARWIN}
             // If it was a directory with multiple hard links then fall through
             // to asking for overwrite and unlinking source link.
@@ -307,13 +307,13 @@ begin
 {$ENDIF}
             Exit(sfprError);
           end
-          else if FpRename(tmpFileName, NewName) = 0 then
+          else if FpRename(UTF8ToSys(tmpFileName), UTF8ToSys(NewName)) = 0 then
           begin
             Exit(sfprSuccess);
           end
           else
           begin
-            FpRename(tmpFileName, OldName);  // Restore old file.
+            FpRename(UTF8ToSys(tmpFileName), UTF8ToSys(OldName));  // Restore old file.
             Exit(sfprError);
           end;
         end
@@ -332,7 +332,7 @@ begin
       end;
 
       // Multiple links - simply unlink the source file.
-      if fpUnLink(OldName) = 0 then
+      if fpUnLink(UTF8ToSys(OldName)) = 0 then
         Result := sfprSuccess
       else
         Result := sfprError;
@@ -351,7 +351,7 @@ begin
     end;
   end;
 
-  if FpRename(OldName, NewName) = 0 then
+  if FpRename(UTF8ToSys(OldName), UTF8ToSys(NewName)) = 0 then
 
 {$ELSE}
 

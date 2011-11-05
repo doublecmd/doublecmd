@@ -136,7 +136,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, StrUtils, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
+  LCLType, FileUtil, StrUtils, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
   uDefaultFilePropertyFormatter, uMyUnix, uFileAttributes,
   uFileSourceOperationTypes, uFileSystemFileSource, uOperationsManager,
   uFileSourceOperationOptions;
@@ -256,14 +256,14 @@ begin
   Result:= True;
   if not fFiles[iCurrent].IsLink then
   begin
-    if fpchmod(PChar(fFiles[iCurrent].FullPath), GetModeFromForm) <> 0 then
+    if fpchmod(PAnsiChar(UTF8ToSys(fFiles[iCurrent].FullPath)), GetModeFromForm) <> 0 then
       begin
         if MessageDlg(Caption, Format(rsPropsErrChMod, [fFiles[iCurrent].Name]), mtError, mbOKCancel, 0) = mrCancel then
           Exit(False);
       end;
   end;
   if not bPerm then Exit;
-  if fplchown(PChar(fFiles[iCurrent].FullPath), StrToUID(cbxUsers.Text),
+  if fplchown(PChar(UTF8ToSys(fFiles[iCurrent].FullPath)), StrToUID(cbxUsers.Text),
               StrToGID(cbxGroups.Text)) <> 0 then
     begin
       if MessageDlg(Caption, Format(rsPropsErrChOwn, [fFiles[iCurrent].Name]), mtError, mbOKCancel, 0) = mrCancel then
@@ -323,7 +323,7 @@ begin
       lblLastModif.Caption:='';
 
     // Chown
-    if isFileSystem and (fpLStat(PChar(FullPath), sb) = 0) then
+    if isFileSystem and (fpLStat(PChar(UTF8ToSys(FullPath)), sb) = 0) then
     begin
       iMyUID:= fpGetUID; //get user's UID
       bPerm:= (iMyUID = sb.st_uid);
