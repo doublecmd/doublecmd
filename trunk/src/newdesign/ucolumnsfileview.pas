@@ -128,7 +128,6 @@ type
     FExtensionColumn: Integer;
     FLastActiveRow: Integer;    //<en Last active row
     FUpdatingGrid: Boolean;
-    FLastMark: String;
     FLastSelectionStartRow: Integer;
     FLastSelectionState: Boolean;
 
@@ -179,16 +178,15 @@ type
 
     procedure MakeVisible(iRow: Integer);
     procedure MakeSelectedVisible;
-    procedure SelectFile(AFile: TDisplayFile);
+    procedure SelectFile(AFile: TDisplayFile); override;
     procedure SelectRange(iRow: PtrInt);
-    procedure InvertFileSelection(AFile: TDisplayFile);
-    procedure InvertAll;
+    procedure InvertAll; override;
     procedure MarkAll;
     procedure UnMarkAll;
-    procedure MarkMinus;
-    procedure MarkPlus;
-    procedure MarkShiftPlus;
-    procedure MarkShiftMinus;
+    function MarkMinus: Boolean; override;
+    function MarkPlus: Boolean; override;
+    function MarkShiftPlus: Boolean; override;
+    function MarkShiftMinus: Boolean; override;
     procedure RestoreSelection; override;
 
     {en
@@ -551,22 +549,13 @@ end;
 
 procedure TColumnsFileView.SelectFile(AFile: TDisplayFile);
 begin
-  InvertFileSelection(AFile);
+  inherited SelectFile(AFile);
   UpdateInfoPanel;
 end;
 
-procedure TColumnsFileView.InvertFileSelection(AFile: TDisplayFile);
-begin
-  if Assigned(AFile) then
-    MarkFile(AFile, not AFile.Selected);
-end;
-
 procedure TColumnsFileView.InvertAll;
-var
-  i:Integer;
 begin
-  for i := 0 to FFiles.Count-1 do
-    InvertFileSelection(FFiles[i]);
+  inherited InvertAll;
 
   UpdateInfoPanel;
   dgPanel.Invalidate;
@@ -1593,44 +1582,41 @@ begin
   dgPanel.Invalidate;
 end;
 
-procedure TColumnsFileView.MarkPlus;
-var
-  s: String;
+function TColumnsFileView.MarkMinus: Boolean;
 begin
-  if IsEmpty then Exit;
-  s := FLastMark;
-  if not ShowMaskInputDlg(rsMarkPlus, rsMaskInput, glsMaskHistory, s) then Exit;
-  FLastMark := s;
-  MarkGroup(s, True);
-  UpdateInfoPanel;
-  dgPanel.Invalidate;
-end;
-
-procedure TColumnsFileView.MarkShiftPlus;
-var
-  sGroup: String;
-begin
-  if IsActiveItemValid then
+  Result:= inherited MarkMinus;
+  if Result then
   begin
-    sGroup := GetActiveDisplayFile.FSFile.Extension;
-    if sGroup <> '' then
-      sGroup := '.' + sGroup;
-    MarkGroup('*' + sGroup, True);
     UpdateInfoPanel;
     dgPanel.Invalidate;
   end;
 end;
 
-procedure TColumnsFileView.MarkShiftMinus;
-var
-  sGroup: String;
+function TColumnsFileView.MarkPlus: Boolean;
 begin
-  if IsActiveItemValid then
+  Result:= inherited MarkPlus;
+  if Result then
   begin
-    sGroup := GetActiveDisplayFile.FSFile.Extension;
-    if sGroup <> '' then
-      sGroup := '.' + sGroup;
-    MarkGroup('*' + sGroup, False);
+    UpdateInfoPanel;
+    dgPanel.Invalidate;
+  end;
+end;
+
+function TColumnsFileView.MarkShiftPlus: Boolean;
+begin
+  Result:= inherited MarkShiftPlus;
+  if Result then
+  begin
+    UpdateInfoPanel;
+    dgPanel.Invalidate;
+  end;
+end;
+
+function TColumnsFileView.MarkShiftMinus: Boolean;
+begin
+  Result:= inherited MarkShiftMinus;
+  if Result then
+  begin
     UpdateInfoPanel;
     dgPanel.Invalidate;
   end;
@@ -1641,19 +1627,6 @@ var
   I: Integer;
 begin
   inherited RestoreSelection;
-  dgPanel.Invalidate;
-end;
-
-procedure TColumnsFileView.MarkMinus;
-var
-  s: String;
-begin
-  if IsEmpty then Exit;
-  s := FLastMark;
-  if not ShowMaskInputDlg(rsMarkMinus, rsMaskInput, glsMaskHistory, s) then Exit;
-  FLastMark := s;
-  MarkGroup(s, False);
-  UpdateInfoPanel;
   dgPanel.Invalidate;
 end;
 
@@ -2444,7 +2417,6 @@ begin
   isSlave := False;
   FColumnsSorting := nil;
   FLastSelectionStartRow := -1;
-  FLastMark := '*';
   FUpdatingGrid := False;
   FFileNameColumn := -1;
   FExtensionColumn := -1;
@@ -2597,7 +2569,6 @@ begin
 
     with FileView as TColumnsFileView do
     begin
-      FLastMark := Self.FLastMark;
       FLastSelectionStartRow := Self.FLastSelectionStartRow;
 
       FColumnsSorting := Self.FColumnsSorting.Clone;
