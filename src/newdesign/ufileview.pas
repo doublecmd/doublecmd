@@ -84,6 +84,7 @@ type
     FFileFilter: String;
     FFilterOptions: TQuickSearchOptions;
     FWatchPath: String;
+    FLastMark: String;
 
     FMethods: TFormCommands;
 
@@ -139,9 +140,16 @@ type
     procedure SaveSelection; virtual;
     procedure RestoreSelection; virtual;
 
+    procedure SelectFile(AFile: TDisplayFile); virtual;
+    procedure InvertFileSelection(AFile: TDisplayFile);
+    procedure InvertAll; virtual;
     procedure MarkFile(AFile: TDisplayFile; bMarked: Boolean);
     procedure MarkAllFiles(bMarked: Boolean);
     procedure MarkGroup(const sMask: String; bSelect: Boolean);
+    function MarkMinus: Boolean; virtual;
+    function MarkPlus: Boolean; virtual;
+    function MarkShiftPlus: Boolean; virtual;
+    function MarkShiftMinus: Boolean; virtual;
 
     {en
        This function should set active file by reference of TFile
@@ -397,7 +405,7 @@ type
 implementation
 
 uses
-  Dialogs, LCLProc, Forms, StrUtils, uMasks,
+  Dialogs, LCLProc, Forms, StrUtils, uMasks, fMaskInputDlg,
   uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
   uDCUtils, uGlobs, uFileViewNotebook, uSearchTemplate;
 
@@ -446,6 +454,7 @@ begin
   FActive := False;
   FLastActiveFile := '';
   FRequestedActiveFile := '';
+  FLastMark := '*';
   FFileFilter := '';
   FFilterOptions := gQuickSearchOptions;
   FFiles := nil;
@@ -535,6 +544,7 @@ var
 begin
   if Assigned(AFileView) then
   begin
+    AFileView.FLastMark := FLastMark;
     // FFileSource should have been passed to FileView constructor already.
     // FMethods are created in FileView constructor.
     AFileView.OnBeforeChangePath := Self.OnBeforeChangePath;
@@ -692,6 +702,25 @@ begin
     Selected:= (FSavedSelection.IndexOf(FSFile.Name) >= 0);
 end;
 
+procedure TFileView.SelectFile(AFile: TDisplayFile);
+begin
+  InvertFileSelection(AFile);
+end;
+
+procedure TFileView.InvertFileSelection(AFile: TDisplayFile);
+begin
+  if Assigned(AFile) then
+    MarkFile(AFile, not AFile.Selected);
+end;
+
+procedure TFileView.InvertAll;
+var
+  i:Integer;
+begin
+  for i := 0 to FFiles.Count-1 do
+    InvertFileSelection(FFiles[i]);
+end;
+
 procedure TFileView.MarkFile(AFile: TDisplayFile; bMarked: Boolean);
 begin
   if IsItemValid(AFile) then
@@ -747,6 +776,58 @@ begin
               FCurrentSelection.Remove(FFiles[I].FSFile.Name);
           end;
       end;
+end;
+
+function TFileView.MarkMinus: Boolean;
+var
+  s: String;
+begin
+  Result:= True;
+  if IsEmpty then Exit(False);
+  s := FLastMark;
+  if not ShowMaskInputDlg(rsMarkMinus, rsMaskInput, glsMaskHistory, s) then Exit(False);
+  FLastMark := s;
+  MarkGroup(s, False);
+end;
+
+function TFileView.MarkPlus: Boolean;
+var
+  s: String;
+begin
+  Result:= True;
+  if IsEmpty then Exit(False);
+  s := FLastMark;
+  if not ShowMaskInputDlg(rsMarkPlus, rsMaskInput, glsMaskHistory, s) then Exit(False);
+  FLastMark := s;
+  MarkGroup(s, True);
+end;
+
+function TFileView.MarkShiftPlus: Boolean;
+var
+  sGroup: String;
+begin
+  Result:= IsActiveItemValid;
+  if Result then
+  begin
+    sGroup := GetActiveDisplayFile.FSFile.Extension;
+    if sGroup <> '' then
+      sGroup := '.' + sGroup;
+    MarkGroup('*' + sGroup, True);
+  end;
+end;
+
+function TFileView.MarkShiftMinus: Boolean;
+var
+  sGroup: String;
+begin
+  Result:= IsActiveItemValid;
+  if Result then
+  begin
+    sGroup := GetActiveDisplayFile.FSFile.Extension;
+    if sGroup <> '' then
+      sGroup := '.' + sGroup;
+    MarkGroup('*' + sGroup, False);
+   end;
 end;
 
 procedure TFileView.SetActiveFile(const aFile: TFile);
