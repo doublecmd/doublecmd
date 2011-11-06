@@ -20,7 +20,8 @@ uses
   uClassesEx,
   uTypes,
   uFileViewWorker,
-  fQuickSearch
+  fQuickSearch,
+  uFileViewHeader
   ;
 
 //{$DEFINE timeFileView}
@@ -134,14 +135,11 @@ type
     pnlFooter: TPanel;
     lblInfo: TLabel;
     lblFilter: TLabel;
-    pnlHeader: TPanel;
+    pnlHeader: TFileViewHeader;
     pmColumnsMenu: TPopupMenu;
     pmOperationsCancel: TPopupMenu;
     quickSearch: TfrmQuickSearch;
-    edtPath: TEdit;
     edtRename: TEdit;
-    lblPath: TPathLabel;
-    lblAddress: TPathLabel;
     dgPanel: TDrawGridEx;
     tmContextMenu: TTimer;
     tmClearGrid: TTimer;
@@ -164,8 +162,6 @@ type
     function SetActiveFileNow(aFilePath: String): Boolean;
     function StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
 
-    procedure UpdateAddressLabel;
-    procedure UpdatePathLabel;
     procedure UpdateInfoPanel;
     procedure UpdateColCount(NewColCount: Integer);
     procedure SetRowCount(Count: Integer);
@@ -220,7 +216,6 @@ type
     function GetFilePropertiesNeeded: TFilePropertiesTypes;
 
     procedure ShowRenameFileEdit(const sFileName:String);
-    procedure ShowPathEdit;
     {en
        Search and position in a file that matches name taking into account
        passed options
@@ -235,10 +230,8 @@ type
 
     // -- Events --------------------------------------------------------------
 
-    procedure edtPathExit(Sender: TObject);
     procedure edtRenameExit(Sender: TObject);
 
-    procedure edtPathKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edtRenameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 
     procedure quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; ASearchOptions: TQuickSearchOptions; ASearchDirection: TQuickSearchDirection);
@@ -276,11 +269,7 @@ type
     procedure dgPanelResize(Sender: TObject);
     procedure tmContextMenuTimer(Sender: TObject);
     procedure tmClearGridTimer(Sender: TObject);
-    procedure lblPathClick(Sender: TObject);
     procedure lblFilterClick(Sender: TObject);
-    procedure lblPathMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure pnlHeaderResize(Sender: TObject);
     procedure ColumnsMenuClick(Sender: TObject);
     procedure OperationsCancelClick(Sender: TObject);
 
@@ -414,8 +403,7 @@ procedure TColumnsFileView.SetActive(bActive: Boolean);
 begin
   inherited SetActive(bActive);
 
-  lblAddress.SetActive(bActive);
-  lblPath.SetActive(bActive);
+  pnlHeader.SetActive(bActive);
 
   dgPanel.Color := DimColor(gBackColor);
 end;
@@ -1170,7 +1158,7 @@ begin
   FUpdatingGrid := False;
 
   MakeFileSourceFileList;
-  UpdatePathLabel;
+  pnlHeader.UpdatePathLabel;
 end;
 
 procedure TColumnsFileView.ShowRenameFileEdit(const sFileName:String);
@@ -1209,36 +1197,6 @@ begin
     else
       edtRename.SelectAll;
   end;
-end;
-
-procedure TColumnsFileView.ShowPathEdit;
-begin
-  with lblPath do
-  begin
-    edtPath.SetBounds(Left, Top, Width, Height);
-    edtPath.Text := CurrentPath;
-    edtPath.Visible := True;
-    edtPath.SetFocus;
-  end;
-end;
-
-procedure TColumnsFileView.UpdateAddressLabel;
-begin
-  if CurrentAddress = '' then
-  begin
-    lblAddress.Visible := False;
-  end
-  else
-  begin
-    lblAddress.Top:= 0;
-    lblAddress.Visible := True;
-    lblAddress.Caption := CurrentAddress;
-  end;
-end;
-
-procedure TColumnsFileView.UpdatePathLabel;
-begin
-  lblPath.Caption := MinimizeFilePath(CurrentPath, lblPath.Canvas, lblPath.Width);
 end;
 
 function TColumnsFileView.PrepareSortings: TFileSortings;
@@ -1402,11 +1360,6 @@ begin
     Result := ModColor(AColor, gInactivePanelBrightness)
   else
     Result := AColor;
-end;
-
-procedure TColumnsFileView.edtPathExit(Sender: TObject);
-begin
-  edtPath.Visible := False;
 end;
 
 procedure TColumnsFileView.edtRenameExit(Sender: TObject);
@@ -1633,45 +1586,6 @@ begin
   MarkAllFiles(False);
   UpdateInfoPanel;
   dgPanel.Invalidate;
-end;
-
-procedure TColumnsFileView.edtPathKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-var
-  NewPath: UTF8String;
-begin
-  case Key of
-    VK_ESCAPE:
-      begin
-        Key := 0;
-        edtPath.Visible:=False;
-        SetFocus;
-      end;
-
-    VK_RETURN,
-    VK_SELECT:
-      begin
-        Key := 0; // catch the enter
-        NewPath:= NormalizePathDelimiters(edtPath.Text);
-        NewPath:= ReplaceEnvVars(ReplaceTilde(NewPath));
-        if not mbFileExists(NewPath) then
-          CurrentPath := NewPath
-        else
-          begin
-            CurrentPath := ExtractFileDir(NewPath);
-            SetActiveFile(ExtractFileName(NewPath));
-          end;
-        edtPath.Visible := False;
-        SetFocus;
-      end;
-
-{$IFDEF LCLGTK2}
-    // Workaround for GTK2 - up and down arrows moving through controls.
-    VK_UP,
-    VK_DOWN:
-      Key := 0;
-{$ENDIF}
-  end;
 end;
 
 procedure TColumnsFileView.edtRenameKeyDown(Sender: TObject; var Key: Word;
@@ -2223,52 +2137,6 @@ begin
   quickSearch.Initialize(qsFilter);
 end;
 
-procedure TColumnsFileView.lblPathClick(Sender: TObject);
-var
-  walkPath, dirNameToSelect: UTF8String;
-begin
-  SetFocus;
-
-  if lblPath.SelectedDir <> '' then
-  begin
-    // User clicked on a subdirectory of the path.
-    walkPath := CurrentPath;
-    CurrentPath := lblPath.SelectedDir;
-
-    while (Length(walkPath) > Length(lblPath.SelectedDir) + 1) do
-    begin
-      dirNameToSelect := ExtractFileName(ExcludeTrailingPathDelimiter(walkPath));
-      walkPath := FileSource.GetParentDir(walkPath);
-    end;
-    SetActiveFile(dirNameToSelect);
-  end
-  else
-    frmMain.Commands.cm_ViewHistory('');
-end;
-
-procedure TColumnsFileView.lblPathMouseUp(Sender: TObject; Button: TMouseButton;
-                                          Shift: TShiftState; X, Y: Integer);
-begin
-  case Button of
-    mbMiddle:
-      begin
-        SetFocus;
-        frmMain.Commands.cm_DirHotList('');
-      end;
-
-    mbRight:
-      begin
-        ShowPathEdit;
-      end;
-  end;
-end;
-
-procedure TColumnsFileView.pnlHeaderResize(Sender: TObject);
-begin
-  UpdateAddressLabel;
-  UpdatePathLabel;
-end;
-
 procedure TColumnsFileView.ColumnsMenuClick(Sender: TObject);
 var
   frmColumnsSetConf: TfColumnsSetConf;
@@ -2425,29 +2293,7 @@ begin
 
   HotMan.Register(dgPanel, 'Files Panel');
 
-  pnlHeader:=TPanel.Create(Self);
-  pnlHeader.Parent:=Self;
-  pnlHeader.Align:=alTop;
-  pnlHeader.BevelInner:=bvNone;
-  pnlHeader.BevelOuter:=bvNone;
-  pnlHeader.AutoSize := True;
-
-  lblAddress := TPathLabel.Create(pnlHeader, False);
-  lblAddress.Parent := pnlHeader;
-  lblAddress.BorderSpacing.Bottom := 1;
-
-  lblPath := TPathLabel.Create(pnlHeader, True);
-  lblPath.Parent := pnlHeader;
-
-  // Display path below address.
-  // For correct alignment, first put path at the top, then address at the top.
-  lblPath.Align := alTop;
-  lblAddress.Align := alTop;
-
-  edtPath:=TEdit.Create(lblPath);
-  edtPath.Parent:=pnlHeader;
-  edtPath.Visible:=False;
-  edtPath.TabStop:=False;
+  pnlHeader:=TFileViewHeader.Create(Self, Self);
 
   pnlFooter:=TPanel.Create(Self);
   pnlFooter.Parent:=Self;
@@ -2523,18 +2369,10 @@ begin
   quickSearch.OnExecute := @quickSearchExecute;
   quickSearch.OnHide := @quickSearchHide;
 
-  edtPath.OnKeyDown := @edtPathKeyDown;
-  edtPath.OnExit := @edtPathExit;
-
   edtRename.OnKeyDown := @edtRenameKeyDown;
   edtRename.OnExit := @edtRenameExit;
 
-  pnlHeader.OnResize := @pnlHeaderResize;
-
   lblFilter.OnClick := @lblFilterClick;
-
-  lblPath.OnClick := @lblPathClick;
-  lblPath.OnMouseUp := @lblPathMouseUp;
 
   pmColumnsMenu := TPopupMenu.Create(Self);
   pmColumnsMenu.Parent := Self;
@@ -2584,7 +2422,7 @@ begin
   dgPanel.Row := 0;
   FUpdatingGrid := False;
 
-  UpdateAddressLabel;
+  pnlHeader.UpdateAddressLabel;
 end;
 
 procedure TColumnsFileView.RemoveCurrentFileSource;
@@ -2598,7 +2436,7 @@ begin
 
   SetActiveFile(FocusedFile);
 
-  UpdateAddressLabel;
+  pnlHeader.UpdateAddressLabel;
 end;
 
 procedure TColumnsFileView.BeforeMakeFileList;
@@ -2826,8 +2664,8 @@ begin
   GridVertLine:= gGridVertLine;
   GridHorzLine:= gGridHorzLine;
 
-  UpdateAddressLabel;
-  UpdatePathLabel;
+  pnlHeader.UpdateAddressLabel;
+  pnlHeader.UpdatePathLabel;
   dgPanel.UpdateView;
   UpdateColumnsView;
 
@@ -3139,7 +2977,7 @@ begin
         if aFile.IsNameValid then
           ShowRenameFileEdit(CurrentPath + aFile.Name)
         else
-          ShowPathEdit;
+          pnlHeader.ShowPathEdit;
       finally
         FreeAndNil(aFile);
       end;
@@ -3160,7 +2998,7 @@ end;
 
 procedure TColumnsFileView.cm_EditPath(param: string);
 begin
-  ShowPathEdit;
+  pnlHeader.ShowPathEdit;
 end;
 
 procedure TColumnsFileView.cm_GoToFirstFile(param: string);

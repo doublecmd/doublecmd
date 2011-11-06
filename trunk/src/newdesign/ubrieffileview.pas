@@ -9,30 +9,11 @@ uses
   Classes, SysUtils, Controls, ExtCtrls, ComCtrls, contnrs, fgl,
   uFile, uDisplayFile, uFormCommands, uDragDropEx, uXmlConfig,
   uClassesEx, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
-  uFunctionThread, uFileSystemWatcher, fQuickSearch, uTypes;
+  uFunctionThread, uFileSystemWatcher, fQuickSearch, uTypes, uFileViewHeader;
 
 type
 
   TBriefFileView = class;
-
-  { TBriefHeaderControl }
-
-  TBriefHeaderControl = class(THeaderControl)
-  private
-    FDown: Boolean;
-    FMouseInControl: Boolean;
-    FSelectedSection: Integer;
-    procedure UpdateState;
-  protected
-    procedure Click; override;
-    procedure MouseEnter; override;
-    procedure MouseLeave; override;
-    procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
-                        X, Y: Integer); override;
-    procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
-    procedure MouseUp(Button: TMouseButton; Shift: TShiftState;
-                      X, Y: Integer); override;
-  end;
 
   { TBriefDrawGrid }
 
@@ -130,97 +111,6 @@ uses
   , GTK2Globals  // for DblClickTime
 {$ENDIF}
   ;
-
-{ TBriefHeaderControl }
-
-procedure TBriefHeaderControl.UpdateState;
-var
-  i, Index: Integer;
-  MaxState: THeaderSectionState;
-  P: TPoint;
-begin
-  MaxState := hsNormal;
-  if Enabled then
-    if FDown then
-    begin
-      MaxState := hsPressed;
-      Index := FSelectedSection;
-    end else if FMouseInControl then
-    begin
-      MaxState := hsHot;
-      P := ScreenToClient(Mouse.CursorPos);
-      Index := GetSectionAt(P);
-    end;
-
-  for i := 0 to Sections.Count - 1 do
-    if (i <> Index) then
-      Sections[i].State := hsNormal
-    else
-      Sections[i].State := MaxState;
-end;
-
-procedure TBriefHeaderControl.Click;
-var
-  Index: Integer;
-begin
-  if FDown then
-  begin
-    inherited Click;
-    Index := GetSectionAt(ScreenToClient(Mouse.CursorPos));
-    if Index <> -1 then
-      SectionClick(Sections[Index]);
-  end;
-end;
-
-procedure TBriefHeaderControl.MouseEnter;
-begin
-  inherited MouseEnter;
-  if not (csDesigning in ComponentState) then
-  begin
-    FMouseInControl := True;
-    UpdateState;
-  end;
-end;
-
-procedure TBriefHeaderControl.MouseLeave;
-begin
-  inherited MouseLeave;
-  if not (csDesigning in ComponentState) then
-  begin
-    FMouseInControl := False;
-    FDown := False;
-    UpdateState;
-  end;
-end;
-
-procedure TBriefHeaderControl.MouseDown(Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  if not (csDesigning in ComponentState) then
-  begin
-    FDown:= True;
-    FSelectedSection:=GetSectionAt(Point(X, Y));
-    UpdateState;
-  end;
-end;
-
-procedure TBriefHeaderControl.MouseMove(Shift: TShiftState; X, Y: Integer);
-begin
-  if not (csDesigning in ComponentState) then
-  begin
-    UpdateState;
-  end;
-end;
-
-procedure TBriefHeaderControl.MouseUp(Button: TMouseButton; Shift: TShiftState;
-  X, Y: Integer);
-begin
-  if not (csDesigning in ComponentState) then
-  begin
-    FDown:= False;
-    UpdateState;
-  end;
-end;
 
 { TBriefDrawGrid }
 

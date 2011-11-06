@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="154">
+    <Units Count="155">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -837,7 +837,7 @@
         <UnitName Value="uCmdLineParams"/>
       </Unit101>
       <Unit102>
-        <Filename Value="uPathLabel.pas"/>
+        <Filename Value="upathlabel.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uPathLabel"/>
       </Unit102>
@@ -1168,6 +1168,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uBriefFileView"/>
       </Unit153>
+      <Unit154>
+        <Filename Value="newdesign\ufileviewheader.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uFileViewHeader"/>
+      </Unit154>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
