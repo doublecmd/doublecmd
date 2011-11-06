@@ -58,7 +58,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng, uFileProcs, uFileSystemUtil, uTrash, uFileSourceOperation;
+  uOSUtils, uLng, uFileSystemUtil, uTrash, uFileSourceOperation;
 
 constructor TFileSystemDeleteOperation.Create(aTargetFileSource: IFileSource;
                                               var theFilesToDelete: TFiles);

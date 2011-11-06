@@ -8,7 +8,6 @@ uses
   Classes, SysUtils,
   uFileSourceSplitOperation,
   uFileSource,
-  uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFile,
   uGlobs, uLog, uClassesEx;
@@ -45,7 +44,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng, uFindEx, uFileSystemUtil, LCLProc, uTypes;
+  uOSUtils, uLng, LCLProc;
 
 constructor TFileSystemSplitOperation.Create(aFileSource: IFileSource;
                                                var aSourceFile: TFile;
@@ -324,4 +323,4 @@ begin
 end;
 
 end.
-
+

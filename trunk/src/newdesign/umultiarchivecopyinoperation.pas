@@ -311,6 +311,7 @@ function TMultiArchiveCopyInOperation.Tar: Boolean;
 var
   TarWriter: TTarWriter = nil;
 begin
+  Result:= False;
   FTarFileName:= RemoveFileExt(FMultiArchiveFileSource.ArchiveFileName);
   TarWriter:= TTarWriter.Create(FTarFileName,
                                 @AskQuestion,
@@ -325,6 +326,7 @@ begin
       FRemoveFilesTree:= FFullFilesTree;
       FFullFilesTree:= TFiles.Create(ExtractFilePath(FTarFileName));
       FFullFilesTree.Add(TFileSystemFileSource.CreateFileFromFile(FTarFileName));
+      Result:= True;
     end;
   finally
     FreeAndNil(TarWriter);

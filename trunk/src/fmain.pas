@@ -1505,8 +1505,6 @@ end;
 procedure TfrmMain.MainToolBarDragDrop(Sender, Source: TObject; X, Y: Integer);
 var
   aFile: TFile;
-  Cmd,Param,Path : string;
-  TargetControl: TControl;
 begin
   if not (Source is TSpeedButton) and not Draging and (ssShift in GetKeyShiftState) then
     begin
@@ -4644,7 +4642,6 @@ procedure TfrmMain.AllProgressOnUpdateTimer(Sender: TObject);
 var
   Pct: string;
   i, AllProgressPoint: integer;
-  Operation: TFileSourceOperation;
   visiblePanel: boolean;
 begin
   // Hide progress bar if there are no operations

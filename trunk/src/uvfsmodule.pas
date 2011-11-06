@@ -39,9 +39,6 @@ var
 
 implementation
 
-uses
-  uGlobs;
-
 procedure RegisterVirtualFileSource(AName: UTF8String; AFileSourceClass: TFileSourceClass);
 var
   VfsModule: TVfsModule;
@@ -78,4 +75,4 @@ finalization
   FreeAndNil(gVfsModuleList);
 
 end.
-
+

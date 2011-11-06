@@ -31,7 +31,7 @@ interface
 
 uses
   Graphics, SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls,
-  ExtCtrls, Menus, EditBtn, Spin, MaskEdit, Buttons, ZVDateTimePicker,
+  ExtCtrls, Menus, EditBtn, Spin, Buttons, ZVDateTimePicker,
   fAttributesEdit, uDsxModule, DsxPlugin, uFindThread, uFindFiles;
 
 type
@@ -542,8 +542,6 @@ begin
 end;
 
 procedure TfrmFindDlg.FillFindOptions(var FindOptions: TSearchTemplateRec);
-var
-  dtTemp: TDateTime;
 begin
   with FindOptions do
   begin
@@ -1016,8 +1014,6 @@ begin
 end;
 
 procedure TfrmFindDlg.miShowAllFoundClick(Sender: TObject);
-var
-  i:Integer;
 begin
   lsFoundedFiles.Clear;
   lsFoundedFiles.Items.AddStrings(FoundedStringCopy);
@@ -1100,4 +1096,4 @@ end;
 finalization
   if Assigned(frmFindDlg) then
     FreeAndNil(frmFindDlg);
-end.
+end.

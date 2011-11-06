@@ -67,7 +67,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uDCUtils, uLng;
+  uDCUtils;
 
 { TfrmOptionsToolBase }
 
@@ -143,4 +143,4 @@ begin
 end;
 
 end.
-
+

@@ -17,7 +17,7 @@ unit fSplitter;
 interface
 
 uses
-  SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls, ComCtrls,
+  SysUtils, Classes, Controls, Forms, Dialogs, StdCtrls,
   uFileSource,
   uFile;
 
@@ -65,7 +65,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, uLng, uClassesEx, uOSUtils, uFileProcs, uOperationsManager,
+  LCLProc, uLng, uOSUtils, uFileProcs, uOperationsManager,
   uFileSourceSplitOperation, fFileOpDlg, uShowMsg;
 
 function ShowSplitterFileForm(aFileSource: IFileSource; var aFile: TFile; const TargetPath: UTF8String): Boolean;

@@ -340,7 +340,6 @@ procedure TfrmFileAssoc.lbFileTypesDrawItem(Control: TWinControl;
   Index: Integer; ARect: TRect; State: TOwnerDrawState);
 var
   iTextTop: Integer;
-  ExtAction: TExtAction;
   MR: TRect;
 begin
   with (Control as TListBox) do
@@ -349,8 +348,6 @@ begin
     MR.Top:= ARect.Top + 1;
     MR.Right:= ARect.Right - 1;
     MR.Bottom:= ARect.Bottom - 1;
-
-    ExtAction:= Exts.Items[Index];
 
     if odSelected in State then
       begin
@@ -751,4 +748,4 @@ begin
 end;
 
 end.
-
+

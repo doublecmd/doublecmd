@@ -17,7 +17,7 @@ unit fLinker;
 interface
 
 uses
-  SysUtils, Classes, Forms, Dialogs, StdCtrls, ComCtrls,
+  SysUtils, Classes, Forms, Dialogs, StdCtrls,
   uFileSource,
   uFile;
 
@@ -55,7 +55,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLProc, Controls, uLng, uFileProcs, uOperationsManager,
+  LCLProc, Controls, uFileProcs, uOperationsManager,
   uFileSourceCombineOperation, fFileOpDlg;
 
 function ShowLinkerFilesForm(aFileSource: IFileSource; aFiles: TFiles; TargetPath: UTF8String): Boolean;

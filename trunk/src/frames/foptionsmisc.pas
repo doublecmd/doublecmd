@@ -49,7 +49,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uDCUtils, uLng;
+  uGlobs, uLng;
 
 { TfrmOptionsMisc }
 
@@ -76,4 +76,4 @@ begin
 end;
 
 end.
-
+

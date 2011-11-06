@@ -7,7 +7,6 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, StdCtrls, ExtCtrls,
   uFileSourceOperationOptionsUI,
-  uFileSourceOperation,
   uFileSystemCopyOperation,
   uFileSystemMoveOperation;
 
@@ -202,4 +201,4 @@ begin
 end;
 
 end.
-
+

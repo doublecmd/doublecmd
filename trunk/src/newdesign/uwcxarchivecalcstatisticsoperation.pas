@@ -35,7 +35,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng, uWcxModule, uDCUtils;
+  uOSUtils, uWcxModule, uDCUtils;
 
 constructor TWcxArchiveCalcStatisticsOperation.Create(
                 aTargetFileSource: IFileSource;
@@ -130,4 +130,4 @@ begin
 end;
 
 end.
-
+

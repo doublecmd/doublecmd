@@ -215,7 +215,7 @@ implementation
 {$R *.lfm}
 
 uses
-  StrUtils, uLng, uFileSystemFileSource, uOSUtils, uDCUtils,
+  uLng, uFileSystemFileSource, uOSUtils, uDCUtils,
   uFileFunctions;
 
 const
