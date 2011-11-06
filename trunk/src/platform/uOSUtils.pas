@@ -1827,10 +1827,28 @@ function mbGetEnvironmentVariable(const sName: UTF8String): UTF8String;
 {$IFDEF MSWINDOWS}
 var
   wsName: WideString;
-  buf: array[0..1023] of WideChar;
+  smallBuf: array[0..1023] of WideChar;
+  largeBuf: PWideChar;
+  dwResult: DWORD;
 begin
-  wsName:= UTF8Decode(sName);
-  Result:= GetEnvironmentVariableW(PWideChar(wsName), @buf[0], 1023);
+  Result := EmptyStr;
+  wsName := UTF8Decode(sName);
+  dwResult := GetEnvironmentVariableW(PWideChar(wsName), @smallBuf[0], Length(smallBuf));
+  if dwResult > Length(smallBuf) then
+  begin
+    // Buffer not large enough.
+    largeBuf := GetMem(SizeOf(WideChar) * dwResult);
+    if Assigned(largeBuf) then
+    try
+      dwResult := GetEnvironmentVariableW(PWideChar(wsName), largeBuf, dwResult);
+      if dwResult > 0 then
+        Result := UTF8Encode(WideString(largeBuf));
+    finally
+      FreeMem(largeBuf);
+    end;
+  end
+  else if dwResult > 0 then
+    Result := UTF8Encode(WideString(smallBuf));
 end;
 {$ELSE}
 begin
@@ -1897,4 +1915,4 @@ begin
 {$ENDIF}
 end;
 
-end.
+end.
