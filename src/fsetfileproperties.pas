@@ -27,7 +27,7 @@ unit fSetFileProperties;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, ExtCtrls, ComCtrls, StdCtrls, Buttons,
+  Classes, SysUtils, Forms, Controls, ExtCtrls, StdCtrls, Buttons,
   EditBtn, uFileSourceSetFilePropertyOperation, uTypes, ZVDateTimePicker;
 
 type

@@ -370,7 +370,7 @@ implementation
 
 uses
   LCLProc, uMasks, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
-  uDCUtils, uOSUtils, math, fMain, fMaskInputDlg, uSearchTemplate,
+  uDCUtils, uOSUtils, math, fMain,
   uInfoToolTip, dmCommonData,
   uFileSourceProperty,
   uFileSourceOperationTypes,
@@ -1623,8 +1623,6 @@ begin
 end;
 
 procedure TColumnsFileView.RestoreSelection;
-var
-  I: Integer;
 begin
   inherited RestoreSelection;
   dgPanel.Invalidate;
@@ -2560,8 +2558,6 @@ begin
 end;
 
 procedure TColumnsFileView.CloneTo(FileView: TFileView);
-var
-  i: Integer;
 begin
   if Assigned(FileView) then
   begin

@@ -8,7 +8,6 @@ uses
   Classes, SysUtils,
   uFileSourceCombineOperation,
   uFileSource,
-  uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFile,
   uGlobs, uLog, uClassesEx;
@@ -46,7 +45,7 @@ type
 implementation
 
 uses
-  uOSUtils, uLng, uFindEx, uFileSystemUtil, LCLProc, uTypes;
+  uOSUtils, uLng, uFileSystemUtil, LCLProc;
 
 constructor TFileSystemCombineOperation.Create(aFileSource: IFileSource;
                                                var theSourceFiles: TFiles;
@@ -315,4 +314,4 @@ begin
 end;
 
 end.
-
+

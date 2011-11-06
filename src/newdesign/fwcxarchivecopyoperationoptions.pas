@@ -7,7 +7,6 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, StdCtrls, ExtCtrls,
   uFileSourceOperationOptionsUI,
-  uFileSourceOperation,
   uWcxArchiveCopyInOperation,
   uWcxArchiveCopyOutOperation;
 
@@ -89,4 +88,4 @@ begin
 end;
 
 end.
-
+

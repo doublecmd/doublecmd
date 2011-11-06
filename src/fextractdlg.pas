@@ -93,7 +93,6 @@ var
   ArchiveFileSource: IArchiveFileSource;
   extractDialog: TfrmExtractDlg;
   Result: boolean;
-  sTmpPath: string;
 begin
   if not TargetFileSource.IsClass(TFileSystemFileSource) then
   begin
@@ -238,7 +237,6 @@ end;
 procedure TfrmExtractDlg.ExtractArchive(ArchiveFileSource: IArchiveFileSource;
                                         TargetFileSource: IFileSource; const TargetPath: UTF8String);
 var
-  I: integer;
   FilesToExtract: TFiles;
   Operation: TFileSourceOperation;
   OperationHandle: TOperationHandle;
@@ -311,4 +309,4 @@ begin
 end;
 
 end.
-
+

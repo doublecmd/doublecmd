@@ -91,7 +91,7 @@ type
 implementation
 
 uses
-  SynEditTypes, Graphics;
+  Graphics;
 
 { TSynDiffHighlighter }
 
@@ -354,4 +354,4 @@ begin
 end;
 
 end.
-
+

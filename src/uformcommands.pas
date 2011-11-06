@@ -120,7 +120,7 @@ type
 implementation
 
 uses
-  uDCUtils, uLng;
+  uDCUtils;
 
 type
   TCommandsFormRec = record
@@ -326,4 +326,4 @@ begin
 end;
 
 end.
-
+

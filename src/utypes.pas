@@ -78,41 +78,8 @@ type
 {$endif}
   end;
 
-// what is showed in panel
-  TPanelMode= (pmDirectory, pmArchive, pmVFS);
-
 // plugin types
   TPluginType = (ptDSX, ptWCX, ptWDX, ptWFX, ptWLX);
-
-  //base structure for storing file informations
-  TFileRecItem = record
-//      iType       : Integer;
-      bIsLink     : Boolean;
-      bLinkIsDir  : Boolean;
-      sLinkTo     : AnsiString;
-      sName       : AnsiString;
-      sNameNoExt  : AnsiString;
-      sExt        : AnsiString;
-      iSize       : Int64;
-      fTimeI      : Double;
-      sTime       : AnsiString;
-      bExecutable : Boolean;
-      sModeStr    : String[11];
-      iMode       : Cardinal; // from stats
-      bSysFile    : Boolean;
-      iIconID     : Integer; // index ICO in imagelist
-      sOwner      : AnsiString;
-      sGroup      : AnsiString;
-{mate}
-      iOwner      : Cardinal;
-      iGroup      : Cardinal;
-{/mate}
-      sPath       : AnsiString; // used only in block operation
-      bSelected   : Boolean;
-      iDirSize    : Int64;
-  end;
-
-  PFileRecItem=^TFileRecItem;
 
   TRange = record
     First: Integer;

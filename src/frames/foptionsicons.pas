@@ -109,7 +109,6 @@ function TfrmOptionsIcons.Save: TOptionsEditorSaveFlags;
 var
   SelectedShowIcons: TShowIconsMode = sim_none;
   SelectedIconsSize: Integer;
-  iSize: Integer;
 begin
   Result := [];
 
@@ -141,4 +140,4 @@ begin
 end;
 
 end.
-
+

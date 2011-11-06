@@ -27,7 +27,7 @@ unit fOptionsBehavior;
 interface
 
 uses
-  Classes, SysUtils, StdCtrls, ExtCtrls, Spin,
+  Classes, SysUtils, StdCtrls, ExtCtrls,
   fOptionsFrame;
 
 type
@@ -56,7 +56,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uDCUtils, uLng;
+  uGlobs, uLng;
 
 { TfrmOptionsBehavior }
 
@@ -96,4 +96,4 @@ begin
 end;
 
 end.
-
+

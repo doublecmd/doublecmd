@@ -25,7 +25,7 @@ var
 implementation
 
 uses
-  Menus, fMain, uWfxPluginFileSource;
+  Menus, fMain;
 
 function NewFileSourceRecord(FileSource: IFileSource): PFileSourceRecord;
 begin
@@ -41,7 +41,6 @@ end;
 
 procedure AddNetworkConnection(const ConnectionName: UTF8String; FileSource: IFileSource);
 var
-  I: Integer;
   miTemp: TMenuItem;
 begin
   WfxConnectionList.AddObject(ConnectionName, TObject(NewFileSourceRecord(FileSource)));
@@ -74,4 +73,4 @@ finalization
     FreeAndNil(WfxConnectionList);
 
 end.
-
+

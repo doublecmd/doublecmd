@@ -25,7 +25,7 @@ type
 implementation
 
 uses
-  LCLProc, uFile, uGlobs, Windows, JwaWinNetWk, uDCUtils, uShowMsg,
+  LCLProc, uFile, Windows, JwaWinNetWk, uDCUtils, uShowMsg,
   uOSUtils;
 
 type

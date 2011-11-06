@@ -18,7 +18,7 @@ unit fMultiRename;
 interface
 
 uses
-  SysUtils, Classes, Graphics, Forms, StdCtrls, ComCtrls, Menus, SynRegExpr,
+  SysUtils, Classes, Graphics, Forms, StdCtrls, Menus, SynRegExpr,
   uClassesEx, uFile, uFileSource, StringHashList, Grids, ExtCtrls, uXmlConfig;
 
 type
@@ -256,8 +256,6 @@ begin
 end;
 
 procedure TfrmMultiRename.FormCreate(Sender: TObject);
-var
-  i: Integer;
 begin
   // Localize File name style ComboBox
   ParseLineToList(rsMulRenFileNameStyleList, cmbNameStyle.Items);
