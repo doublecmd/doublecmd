@@ -20,7 +20,7 @@ type
   TBriefDrawGrid = class(TDrawGrid)
   private
     BriefView: TBriefFileView;
-    procedure CalculateColRowCount;
+    procedure CalculateColRowCount(Data: PtrInt);
     function  CellToIndex(ACol, ARow: Integer): Integer;
     procedure IndexToCell(Index: Integer; out ACol, ARow: Integer);
   protected
@@ -44,6 +44,7 @@ type
 
   TBriefFileView = class (TFileView)
     private
+      pnlHeader: TFileViewHeader;
       TabHeader: THeaderControl;
       dgPanel: TBriefDrawGrid;
 
@@ -91,7 +92,7 @@ type
 implementation
 
 uses
-  LCLIntf, LCLType,
+  LCLIntf, LCLType, Forms,
   LCLProc, uMasks, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
   uDCUtils, uOSUtils, math, fMain, fMaskInputDlg, uSearchTemplate,
   uInfoToolTip, dmCommonData,
@@ -114,7 +115,7 @@ uses
 
 { TBriefDrawGrid }
 
-procedure TBriefDrawGrid.CalculateColRowCount;
+procedure TBriefDrawGrid.CalculateColRowCount(Data: PtrInt);
 var
   glw, bw: Integer;
 begin
@@ -129,6 +130,7 @@ begin
   begin
     RowCount := (Height - GetSystemMetrics(SM_CYHSCROLL) -
                  glw - (2 * bw)) div (DefaultRowHeight + glw);
+    if RowCount > 0 then
     ColCount := (BriefView.FFiles.Count + RowCount - 1) div RowCount;
   end;
   Invalidate;
@@ -204,19 +206,19 @@ end;
 procedure TBriefDrawGrid.Resize;
 begin
   inherited Resize;
-  CalculateColRowCount;
+  Application.QueueAsyncCall(@CalculateColRowCount, 0);
 end;
 
 procedure TBriefDrawGrid.RowHeightsChanged;
 begin
   inherited RowHeightsChanged;
-  CalculateColRowCount;
+  Application.QueueAsyncCall(@CalculateColRowCount, 0);
 end;
 
 procedure TBriefDrawGrid.ColWidthsChanged;
 begin
   inherited ColWidthsChanged;
-  CalculateColRowCount;
+  Application.QueueAsyncCall(@CalculateColRowCount, 0);
 end;
 
 function TBriefDrawGrid.MouseOnGrid(X, Y: LongInt): Boolean;
@@ -628,6 +630,7 @@ end;
 procedure TBriefFileView.dgPanelEnter(Sender: TObject);
 begin
   SetActive(True);
+  pnlHeader.SetActive(True);
 end;
 
 procedure TBriefFileView.dgPanelExit(Sender: TObject);
@@ -674,6 +677,9 @@ procedure TBriefFileView.CreateDefault(AOwner: TWinControl);
 begin
   inherited CreateDefault(AOwner);
   dgPanel:= TBriefDrawGrid.Create(Self, Self);
+
+  HotMan.Register(dgPanel, 'Files Panel');
+
   Align:= alClient;
 
   TabHeader:= TBriefHeaderControl.Create(Self);
@@ -685,6 +691,8 @@ begin
   TabHeader.Sections.Add.Text:= rsColDate;
   TabHeader.Sections.Add.Text:= rsColAttr;
   TabHeader.OnSectionClick:= @TabHeaderSectionClick;
+
+  pnlHeader:= TFileViewHeader.Create(Self, Self);
 
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
   dgPanel.OnDblClick:=@dgPanelDblClick;
@@ -700,14 +708,12 @@ end;
 procedure TBriefFileView.AfterMakeFileList;
 begin
   inherited AfterMakeFileList;
-  dgPanel.CalculateColRowCount;
+  dgPanel.CalculateColRowCount(0);
   EnsureDisplayProperties;
 end;
 
 procedure TBriefFileView.AfterChangePath;
 begin
-//  FCurrentSelection.Clear;
-
   inherited AfterChangePath;
 
 //  FUpdatingGrid := True;
@@ -715,7 +721,7 @@ begin
 //  FUpdatingGrid := False;
 
   MakeFileSourceFileList;
-//  UpdatePathLabel;
+  pnlHeader.UpdatePathLabel;
 end;
 
 function TBriefFileView.GetActiveDisplayFile: TDisplayFile;
@@ -763,7 +769,9 @@ end;
 
 destructor TBriefFileView.Destroy;
 begin
-  FreeAndNil(dgPanel);
+  if Assigned(HotMan) then
+    HotMan.UnRegister(dgPanel);
+
   inherited Destroy;
 end;
 
