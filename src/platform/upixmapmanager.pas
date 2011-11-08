@@ -312,30 +312,35 @@ begin
   if (iIconSize <> bmBitmap.Height) or (iIconSize <> bmBitmap.Width) then
   begin
     Result := Graphics.TBitMap.Create;
-    Result.SetSize(iIconSize, iIconSize);
-    if bmBitmap.RawImage.Description.AlphaPrec <> 0 then // if bitmap has alpha channel
-      Stretch(bmBitmap, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width)
-    else
-      with Result do
-      begin
-        Canvas.Brush.Color := clBackColor;
-        Canvas.FillRect(Canvas.ClipRect);
-        Canvas.StretchDraw(Canvas.ClipRect, bmBitmap);
-        { For drawing color transparent bitmaps }
-        memstream := TMemoryStream.Create;
-        try
-          SaveToStream(memstream);
-          memstream.position := 0;
-          LoadFromStream(memstream);
-        finally
-          memstream.free;
-        end;
-        Transparent := True;
-        if bmBitmap.RawImage.Description.MaskBitsPerPixel = 0 then
-          TransparentColor := clBackColor;
-      end; //  with
-    if bFreeAtEnd then
-      FreeAndNil(bmBitmap);
+    try
+      Result.SetSize(iIconSize, iIconSize);
+      if bmBitmap.RawImage.Description.AlphaPrec <> 0 then // if bitmap has alpha channel
+        Stretch(bmBitmap, Result, ResampleFilters[2].Filter, ResampleFilters[2].Width)
+      else
+        with Result do
+        begin
+          Canvas.Brush.Color := clBackColor;
+          Canvas.FillRect(Canvas.ClipRect);
+          Canvas.StretchDraw(Canvas.ClipRect, bmBitmap);
+          { For drawing color transparent bitmaps }
+          memstream := TMemoryStream.Create;
+          try
+            SaveToStream(memstream);
+            memstream.position := 0;
+            LoadFromStream(memstream);
+          finally
+            memstream.free;
+          end;
+          Transparent := True;
+          if bmBitmap.RawImage.Description.MaskBitsPerPixel = 0 then
+            TransparentColor := clBackColor;
+        end; //  with
+      if bFreeAtEnd then
+        FreeAndNil(bmBitmap);
+    except
+      FreeAndNil(Result);
+      raise;
+    end;
   end
   else // Don't need to stretch.
   begin
@@ -347,7 +352,12 @@ begin
     else
     begin
       Result := Graphics.TBitMap.Create;
-      Result.Assign(bmBitmap);
+      try
+        Result.Assign(bmBitmap);
+      except
+        FreeAndNil(Result);
+        raise;
+      end;
     end;
   end;
 end;
@@ -359,14 +369,13 @@ var
   Picture: TPicture;
 begin
   Result:= False;
-  ABitmap:= nil;
+  Picture := TPicture.Create;
   try
-    Picture := TPicture.Create;
-    try
-      Picture.LoadFromFile(AIconFileName);
-      //Picture.Graphic.Transparent := True;
+    Picture.LoadFromFile(AIconFileName);
+    //Picture.Graphic.Transparent := True;
 
-      ABitmap := Graphics.TBitmap.Create;
+    ABitmap := Graphics.TBitmap.Create;
+    try
       ABitmap.Assign(Picture.Bitmap);
 
       // if unsupported BitsPerPixel then exit
@@ -374,16 +383,15 @@ begin
         raise EInvalidGraphic.Create('Unsupported bits per pixel');
 
       Result:= True;
-    finally
-      FreeAndNil(Picture);
-    end;
-  except
-    on e: Exception do
+    except
+      on E: Exception do
       begin
-        if Assigned(ABitmap) then
-          FreeAndNil(ABitmap);
+        FreeAndNil(ABitmap);
         DCDebug(Format('Error: Cannot load pixmap [%s] : %s',[AIconFileName, e.Message]));
       end;
+    end;
+  finally
+    FreeAndNil(Picture);
   end;
 end;
 
@@ -394,8 +402,8 @@ var
   iIconLarge,
   iIconSmall: Integer;
   phIcon: HICON = INVALID_HANDLE_VALUE;
-  phIconLarge,
-  phIconSmall : HICON;
+  phIconLarge : HICON = 0;
+  phIconSmall : HICON = 0;
   Icon : TIcon = nil;
   IconFileName: String;
 {$ENDIF}
@@ -472,9 +480,12 @@ begin
           if mbFileSystemEntryExists(sFileName) then
             begin
               AFile := TFileSystemFileSource.CreateFileFromFile(sFileName);
-              iIndex := GetIconByFile(AFile, True, True);
-              bmStandartBitmap := GetBitmap(iIndex);
-              FreeAndNil(AFile);
+              try
+                iIndex := GetIconByFile(AFile, True, True);
+                bmStandartBitmap := GetBitmap(iIndex);
+              finally
+                FreeAndNil(AFile);
+              end;
             end
           else  // file not found
             begin
@@ -817,11 +828,11 @@ var
   iniDesktop: TIniFileEx = nil;
   sIconName: UTF8String;
 begin
+  iniDesktop:= TIniFileEx.Create(sFileName, fmOpenRead);
   try
-    iniDesktop:= TIniFileEx.Create(sFileName, fmOpenRead);
     sIconName:= iniDesktop.ReadString('Desktop Entry', 'Icon', EmptyStr);
   finally
-    FreeThenNil(iniDesktop);
+    FreeAndNil(iniDesktop);
   end;
 
   {
