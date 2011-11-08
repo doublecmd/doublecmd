@@ -36,7 +36,8 @@ uses
   uUniqueInstance,
   uDCVersion,
   uCmdLineParams,
-  uDebug
+  uDebug,
+  uOSUtils
   {$IFDEF MSWINDOWS}
   , uMyWindows
   {$ENDIF}
@@ -82,6 +83,7 @@ begin
   {$IFDEF UNIX}
   uMyUnix.FixDateTimeSeparators;
   {$ENDIF}
+  FixDateNamesToUTF8;
 
   DCDebug('Double Commander ' + dcVersion);
   DCDebug('Revision: ' + dcRevision);

@@ -279,6 +279,7 @@ function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
 
 procedure FixFormIcon(Handle: LCLType.HWND);
 procedure HideConsoleWindow;
+procedure FixDateNamesToUTF8;
 
 implementation
 
@@ -1913,6 +1914,20 @@ begin
 {$IFDEF WINDOWS}
   if isConsole then ShowWindow(GetConsoleWindow, SW_HIDE);
 {$ENDIF}
+end;
+
+procedure FixDateNamesToUTF8;
+var
+  i: Integer;
+begin
+  for i := Low(ShortMonthNames) to High(ShortMonthNames) do
+    ShortMonthNames[i] := SysToUTF8(ShortMonthNames[i]);
+  for i := Low(ShortDayNames) to High(ShortDayNames) do
+    ShortDayNames[i] := SysToUTF8(ShortDayNames[i]);
+  for i := Low(LongMonthNames) to High(LongMonthNames) do
+    LongMonthNames[i] := SysToUTF8(LongMonthNames[i]);
+  for i := Low(LongDayNames) to High(LongDayNames) do
+    LongDayNames[i] := SysToUTF8(LongDayNames[i]);
 end;
 
 end.
