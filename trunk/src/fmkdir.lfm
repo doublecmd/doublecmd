@@ -12,7 +12,7 @@ object frmMkDir: TfrmMkDir
   ClientWidth = 509
   KeyPreview = True
   OnKeyPress = FormKeyPress
-  Position = poScreenCenter
+  Position = poMainFormCenter
   LCLVersion = '0.9.30.1'
   object lblMakeDir: TLabel
     AnchorSideLeft.Control = cbMkDir
@@ -64,7 +64,6 @@ object frmMkDir: TfrmMkDir
     Kind = bkOK
     ModalResult = 1
     NumGlyphs = 0
-    OnClick = ButtonsClick
     TabOrder = 1
   end
   object btnCancel: TBitBtn
@@ -88,7 +87,6 @@ object frmMkDir: TfrmMkDir
     Kind = bkCancel
     ModalResult = 2
     NumGlyphs = 0
-    OnClick = ButtonsClick
     TabOrder = 2
   end
 end
