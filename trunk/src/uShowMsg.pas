@@ -140,7 +140,7 @@ var
 begin
   FMessage := sMsg;
 
-  SetLength(FButtons, SizeOf(Buttons));
+  SetLength(FButtons, Length(Buttons));
   for I := Low(Buttons) to High(Buttons) do
     FButtons[I] := Buttons[I];
 
@@ -194,6 +194,7 @@ procedure SetMsgBoxParams(var frmMsg : TfrmMsg; const sMsg: UTF8String;
 var
   iIndex:Integer;
 begin
+  Assert(Assigned(frmMsg));
   frmMsg.Position:=poScreenCenter;
   frmMsg.BorderStyle := bsSingle;
   frmMsg.BorderIcons := [biSystemMenu, biMinimize];
@@ -258,6 +259,8 @@ begin
     if (frmMsg.iSelected)=-1 then
       Result:=mmrNone
     else
+      { TODO : not safe code because of direct typecast from one enumeration to another,
+               better to use array lookup }
       Result:=TMyMsgResult(Buttons[frmMsg.iSelected]);
   finally
     frmMsg.Free;
@@ -271,8 +274,8 @@ var
   DialogMainThread : TDialogMainThread;
 begin
   Result := mmrNone;
+  DialogMainThread := TDialogMainThread.Create(Thread);
   try
-    DialogMainThread := TDialogMainThread.Create(Thread);
     Result := DialogMainThread.ShowMsgBox(sMsg, Buttons, ButDefault, ButEscape);
   finally
     DialogMainThread.Free;
@@ -362,8 +365,8 @@ var
   DialogMainThread : TDialogMainThread;
 begin
   Result:= 0;
+  DialogMainThread:= TDialogMainThread.Create(Thread);
   try
-    DialogMainThread:= TDialogMainThread.Create(Thread);
     Result:= DialogMainThread.ShowMessageBox(AText, ACaption, Flags);
   finally
     DialogMainThread.Free;
@@ -382,8 +385,8 @@ var
   DialogMainThread : TDialogMainThread;
 begin
   Result := False;
+  DialogMainThread:= TDialogMainThread.Create(Thread);
   try
-    DialogMainThread:= TDialogMainThread.Create(Thread);
     Result:= DialogMainThread.ShowInputQuery(ACaption, APrompt, MaskInput, Value);
   finally
     DialogMainThread.Free;
@@ -411,10 +414,9 @@ var
   bbtnOK,
   bbtnCancel : TBitBtn;
 begin
-  Result := False;
   frmDialog := TForm.CreateNew(nil, 0);
   with frmDialog do
-    begin
+    try
       BorderStyle := bsDialog;
       Position := poScreenCenter;
       AutoSize := True;
@@ -464,15 +466,15 @@ begin
           AnchorToNeighbour(akTop, 18, cbValue);
           AnchorToNeighbour(akRight, 6, bbtnCancel);
         end;
-      ShowModal;
-      if ModalResult = mrOK then
+      Result := (ShowModal = mrOK);
+      if Result then
         begin
           if slValueList.IndexOf(cbValue.Text) < 0 then
             slValueList.Add(cbValue.Text);
           sValue := cbValue.Text;
-          Result := True;
         end;
-      Free;
+    finally
+      FreeAndNil(frmDialog);
     end; // with frmDialog
 end;
 
@@ -510,4 +512,4 @@ begin
   end;
 end;
 
-end.
+end.
