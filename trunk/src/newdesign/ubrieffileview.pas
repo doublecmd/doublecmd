@@ -77,6 +77,9 @@ type
     constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode); override;
     destructor Destroy; override;
 
+    procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
+    procedure RemoveCurrentFileSource; override;
+
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
 
     procedure UpdateView; override;
@@ -260,6 +263,10 @@ end;
 procedure TBriefDrawGrid.KeyDown(var Key: Word; Shift: TShiftState);
 begin
   case Key of
+    VK_RIGHT:
+      begin
+        if (CellToIndex(Col + 1, Row) < 0) then Key:= 0;
+      end;
     VK_UP, VK_DOWN:
       begin
         if (CellToIndex(Col, Row) >= BriefView.FFiles.Count - 1) and
@@ -773,6 +780,26 @@ begin
     HotMan.UnRegister(dgPanel);
 
   inherited Destroy;
+end;
+
+procedure TBriefFileView.AddFileSource(aFileSource: IFileSource; aPath: String);
+begin
+  inherited AddFileSource(aFileSource, aPath);
+  pnlHeader.UpdateAddressLabel;
+end;
+
+procedure TBriefFileView.RemoveCurrentFileSource;
+var
+  FocusedFile: String;
+begin
+  // Temporary. Do this by remembering the file name in a list?
+  FocusedFile := ExtractFileName(FileSource.CurrentAddress);
+
+  inherited RemoveCurrentFileSource;
+
+  SetActiveFile(FocusedFile);
+
+  pnlHeader.UpdateAddressLabel;
 end;
 
 procedure TBriefFileView.SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode);
