@@ -72,6 +72,8 @@ uses
   ;
 
 const
+  // A custom version of InterfaceBase.LCLPlatformDirNames
+  // because we make slight changes to names.
   LCLPlatform: array[TLCLPlatform] of string = (
       'gtk1',
       'gtk2',
@@ -82,8 +84,9 @@ const
       'fpGUI',
       'NoGUI',
       'cocoa'
-{$if (lcl_release) > 30}
+{$if lcl_fullversion >= 093100}
       , 'android'
+      , 'customdrawn'
 {$endif}
     );
 
