@@ -163,9 +163,8 @@ type
     function StartDragEx(MouseButton: TMouseButton; ScreenStartPoint: TPoint): Boolean;
 
     procedure UpdateInfoPanel;
-    procedure UpdateColCount(NewColCount: Integer);
     procedure SetRowCount(Count: Integer);
-    procedure SetColumnsWidths;
+    procedure SetColumns;
     procedure RedrawGrid;
     {en
        Redraw row containing DisplayFile if it is visible.
@@ -359,7 +358,7 @@ implementation
 
 uses
   LCLProc, uMasks, Clipbrd, uLng, uShowMsg, uGlobs, uPixmapManager, uDebug,
-  uDCUtils, uOSUtils, math, fMain,
+  uDCUtils, uOSUtils, math, fMain, fOptions,
   uInfoToolTip, dmCommonData,
   uFileSourceProperty,
   uFileSourceOperationTypes,
@@ -1310,22 +1309,6 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.UpdateColCount(NewColCount: Integer);
-var
-  i: Integer;
-begin
-  if dgPanel.Columns.Count <> NewColCount then
-  begin
-  while dgPanel.Columns.Count < NewColCount do
-    dgPanel.Columns.Add;
-    while dgPanel.Columns.Count > NewColCount do
-      dgPanel.Columns.Delete(0);
-  for i := 0 to FFiles.Count - 1 do
-    while FFiles[i].DisplayStrings.Count < NewColCount do
-      FFiles[i].DisplayStrings.Add(EmptyStr);
-  end;
-end;
-
 procedure TColumnsFileView.SetRowCount(Count: Integer);
 begin
   FUpdatingGrid := True;
@@ -1333,17 +1316,17 @@ begin
   FUpdatingGrid := False;
 end;
 
-procedure TColumnsFileView.SetColumnsWidths;
+procedure TColumnsFileView.SetColumns;
 var
   x: Integer;
   ColumnsClass: TPanelColumnsClass;
 begin
-  //  setup column widths
   ColumnsClass := GetColumnsClass;
 
-  UpdateColCount(ColumnsClass.ColumnsCount);
+  dgPanel.Columns.Clear;
   for x:= 0 to ColumnsClass.ColumnsCount - 1 do
-    with dgPanel.Columns.Items[x] do
+  begin
+    with dgPanel.Columns.Add do
     begin
       if not ((x = 0) and gAutoFillColumns and (gAutoSizeColumn = 0)) then
         SizePriority:= 0
@@ -1352,6 +1335,7 @@ begin
       Width:= ColumnsClass.GetColumnWidth(x);
       Title.Caption:= ColumnsClass.GetColumnTitle(x);
     end;
+  end;
 end;
 
 function TColumnsFileView.DimColor(AColor: TColor): TColor;
@@ -1884,7 +1868,7 @@ begin
   // Set name in case a different set was loaded.
   ActiveColm := ColumnsClass.Name;
 
-  SetColumnsWidths;
+  SetColumns;
 
   dgPanel.FocusRectVisible := ColumnsClass.GetCursorBorder and not gUseFrameCursor;
   dgPanel.FocusColor := ColumnsClass.GetCursorBorderColor;
@@ -2136,6 +2120,7 @@ end;
 procedure TColumnsFileView.ColumnsMenuClick(Sender: TObject);
 var
   frmColumnsSetConf: TfColumnsSetConf;
+  frmOptions: TfrmOptions = nil;
   Index: Integer;
 begin
   Case (Sender as TMenuItem).Tag of
@@ -2143,36 +2128,37 @@ begin
           begin
             frmColumnsSetConf := TfColumnsSetConf.Create(nil);
             try
-            {EDIT Set}
-            frmColumnsSetConf.edtNameofColumnsSet.Text:=ColSet.GetColumnSet(ActiveColm).CurrentColumnsSetName;
-            Index:=ColSet.Items.IndexOf(ActiveColm);
-            frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1 + Index);
-            frmColumnsSetConf.Tag:=Index;
-            frmColumnsSetConf.SetColumnsClass(GetColumnsClass);
-            {EDIT Set}
-            if frmColumnsSetConf.ShowModal = mrOK then
-            begin
-              // Force saving changes to config file.
-              SaveGlobs;
-            end;
+              {EDIT Set}
+              frmColumnsSetConf.edtNameofColumnsSet.Text:=ColSet.GetColumnSet(ActiveColm).CurrentColumnsSetName;
+              Index:=ColSet.Items.IndexOf(ActiveColm);
+              frmColumnsSetConf.lbNrOfColumnsSet.Caption:=IntToStr(1 + Index);
+              frmColumnsSetConf.Tag:=Index;
+              frmColumnsSetConf.SetColumnsClass(GetColumnsClass);
+              {EDIT Set}
+              if frmColumnsSetConf.ShowModal = mrOK then
+              begin
+                // Force saving changes to config file.
+                SaveGlobs;
+                UpdateView;
+              end;
             finally
               FreeAndNil(frmColumnsSetConf);
             end;
-
-            frmMain.ReLoadTabs(frmMain.LeftTabs);
-            frmMain.ReLoadTabs(frmMain.RightTabs);
           end;
     1001: //All columns
           begin
-            frmMain.Commands.cm_Options('TfrmOptionsCustomColumns');
-            frmMain.ReLoadTabs(frmMain.LeftTabs);
-            frmMain.ReLoadTabs(frmMain.RightTabs);
+            frmOptions := TfrmOptions.Create(Application, 'TfrmOptionsCustomColumns');
+            try
+              if frmOptions.ShowModal = mrOK then
+                UpdateView;
+            finally
+              frmOptions.Free;
+            end;
           end;
-
   else
     begin
       ActiveColm:=ColSet.Items[(Sender as TMenuItem).Tag];
-      UpdateColumnsView;
+      UpdateView;
     end;
   end;
 end;
