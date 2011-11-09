@@ -41,7 +41,7 @@ type
     FStatus: TLabel;
     FFound: TLabel;
     FCurrent: TLabel;
-    FCurrentFile:String;
+    FCurrentDir:String;
     FFilesScanned:Integer;
     FFilesFound:Integer;
     FFoundFile:String;
@@ -151,13 +151,8 @@ procedure TFindThread.UpDateProgress;
 begin
   FStatus.Caption:= Format(rsFindScanned, [FFilesScanned]);
   FFound.Caption := Format(rsFindFound, [FFilesFound]);
-
-  if FCurrentFile = '' then
-    FCurrent.Caption := ''
-  else
-    FCurrent.Caption:=rsFindScanning + ': ' + FCurrentFile;
+  FCurrent.Caption:= rsFindScanning + ': ' + FCurrentDir;
 end;
-
 
 function TFindThread.FindInFile(const sFileName:UTF8String;
                                 sData: String; bCase:Boolean): Boolean;
@@ -338,22 +333,19 @@ begin
 
   Inc(FCurrentDepth);
 
-  // if regular expression then search all files
-  if FSearchTemplate.RegExp or (Pos(';', FSearchTemplate.FilesMasks) <> 0) then
-    Path := sNewDir + PathDelim + '*'
-  else
-    Path := sNewDir + PathDelim + FFileChecks.FilesMasks;
+  // Search all files to display statistics
+  Path := sNewDir + PathDelim + '*';
 
   if FindFirstEx(Path, faAnyFile, sr) = 0 then
   repeat
     if (sr.Name='.') or (sr.Name='..') then Continue;
 
-    FCurrentFile:=sNewDir + PathDelim + sr.Name;
+    FCurrentDir:= sNewDir;
     Synchronize(@UpDateProgress);
 
     if CheckFile(sNewDir, sr) then
     begin
-      FFoundFile := FCurrentFile;
+      FFoundFile := sNewDir + PathDelim + sr.Name;
       Synchronize(@AddFile);
       FFilesFound := FFilesFound + 1;
     end;
@@ -361,7 +353,6 @@ begin
     inc(FFilesScanned);
   until (FindNextEx(sr)<>0) or Terminated;
   FindCloseEx(sr);
-  FCurrentFile := '';
   Synchronize(@UpDateProgress);
 
   { Search in sub folders }
