@@ -1323,18 +1323,25 @@ var
 begin
   ColumnsClass := GetColumnsClass;
 
-  dgPanel.Columns.Clear;
-  for x:= 0 to ColumnsClass.ColumnsCount - 1 do
-  begin
-    with dgPanel.Columns.Add do
+  dgPanel.Columns.BeginUpdate;
+  try
+    dgPanel.Columns.Clear;
+    for x:= 0 to ColumnsClass.ColumnsCount - 1 do
     begin
-      if not ((x = 0) and gAutoFillColumns and (gAutoSizeColumn = 0)) then
-        SizePriority:= 0
-      else
-        SizePriority:= 1;
-      Width:= ColumnsClass.GetColumnWidth(x);
-      Title.Caption:= ColumnsClass.GetColumnTitle(x);
+      with dgPanel.Columns.Add do
+      begin
+        // SizePriority = 0 means don't modify Width with AutoFill.
+        // Last column is always modified if all columns have SizePriority = 0.
+        if (x = 0) and (gAutoSizeColumn = 0) then
+          SizePriority := 1
+        else
+          SizePriority := 0;
+        Width:= ColumnsClass.GetColumnWidth(x);
+        Title.Caption:= ColumnsClass.GetColumnTitle(x);
+      end;
     end;
+  finally
+    dgPanel.Columns.EndUpdate;
   end;
 end;
 
