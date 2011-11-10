@@ -2628,6 +2628,11 @@ end;
 procedure TColumnsFileView.WorkerFinished(const Worker: TFileViewWorker);
 begin
   inherited;
+  if Worker is TCalculateSpaceWorker then
+  begin
+    TFileSorter.Sort(FFileSourceFiles, Sorting);
+    ReDisplayFileList;
+  end;
   dgPanel.Cursor := crDefault;
   UpdateInfoPanel;
 end;
