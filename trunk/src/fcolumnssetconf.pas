@@ -208,6 +208,7 @@ type
     IndexRaw: Integer;
     Showed: boolean;
     ColumnClassOwnership: Boolean;
+    FUpdating: Boolean;
   end;
 
 implementation
@@ -228,6 +229,7 @@ begin
 
   IndexRaw:=Index;
 
+  FUpdating := True;
   UpdateColorsPanelHeader(IndexRaw);
   edtFont.Text:=ColumnClass.GetColumnFontName(IndexRaw);
   sneFontSize.Value:=ColumnClass.GetColumnFontSize(IndexRaw);
@@ -238,19 +240,23 @@ begin
   SetColorInColorBox(cbCursorColor, ColumnClass.GetColumnCursorColor(IndexRaw));
   SetColorInColorBox(cbCursorText, ColumnClass.GetColumnCursorText(IndexRaw));
   cbOvercolor.Checked:=ColumnClass.GetColumnOvercolor(IndexRaw);
+  FUpdating := False;
 end;
 
 procedure TfColumnsSetConf.EditorSaveResult(Sender: TObject);
 begin
-  if Sender is TSpinEdit then
-   stgColumns.Cells[2,(Sender as TSpinEdit).Tag]:=inttostr(updWidth.Value);
-  if Sender is TComboBox then
-   stgColumns.Cells[3,(Sender as TComboBox).Tag]:=(Sender as TComboBox).Text;
-  if Sender is TEdit then
-   stgColumns.Cells[4,(Sender as TEdit).Tag]:=(Sender as TEdit).Text;
+  if not FUpdating then
+  begin
+    if Sender is TSpinEdit then
+     stgColumns.Cells[2,(Sender as TSpinEdit).Tag]:=inttostr(updWidth.Value);
+    if Sender is TComboBox then
+     stgColumns.Cells[3,(Sender as TComboBox).Tag]:=(Sender as TComboBox).Text;
+    if Sender is TEdit then
+     stgColumns.Cells[4,(Sender as TEdit).Tag]:=(Sender as TEdit).Text;
 
-  UpdateColumnClass;
-  UpdateColorsPanelHeader(IndexRaw);
+    UpdateColumnClass;
+    UpdateColorsPanelHeader(IndexRaw);
+  end;
 end;
 
 { TfColumnsSetConf }
@@ -475,6 +481,8 @@ end;
 
 procedure TfColumnsSetConf.FormCreate(Sender: TObject);
 begin
+  FUpdating := False;
+
   ColumnClass:=TPanelColumnsClass.Create;
   ColumnClassOwnership := True;
 
@@ -619,9 +627,11 @@ begin
 
     PreviewPan.UpdateColumnsView;
 
+    FUpdating := True;
     chkUseCustomView.Checked:= ColumnClass.CustomView;
     cbCursorBorder.Checked := ColumnClass.GetCursorBorder;
     SetColorInColorBox(cbCursorBorderColor, ColumnClass.GetCursorBorderColor);
+    FUpdating := False;
 
     // Localize StringGrid header
     stgColumns.Cells[0,0]:= rsConfColDelete;
