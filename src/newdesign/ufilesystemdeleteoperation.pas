@@ -31,10 +31,11 @@ type
     FDeleteReadOnly,
     FDeleteDirectly: TFileSourceOperationOptionGeneral;
 
-    function DeleteSubDirectory(const aFile: TFile): Boolean;
+    procedure DeleteSubDirectory(const aFile: TFile);
 
   protected
-    function ProcessFile(aFile: TFile): Boolean;
+    procedure ProcessFile(aFile: TFile);
+    procedure ProcessList(aFiles: TFiles);
     function ShowError(sMessage: String): TFileSourceOperationUIResponse;
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
@@ -118,73 +119,56 @@ begin
 end;
 
 procedure TFileSystemDeleteOperation.MainExecute;
-var
-  aFile: TFile;
-  CurrentFileIndex: Integer;
 begin
-  for CurrentFileIndex := FFullFilesTreeToDelete.Count - 1 downto 0 do
-  begin
-    aFile := FFullFilesTreeToDelete[CurrentFileIndex];
-
-    FStatistics.CurrentFile := aFile.Path + aFile.Name;
-    UpdateStatistics(FStatistics);
-
-    ProcessFile(aFile);
-
-    with FStatistics do
-    begin
-      DoneFiles := DoneFiles + 1;
-      DoneBytes := DoneBytes + aFile.Size;
-
-      UpdateStatistics(FStatistics);
-    end;
-
-    CheckOperationState;
-  end;
+  ProcessList(FFullFilesTreeToDelete);
 end;
 
 procedure TFileSystemDeleteOperation.Finalize;
 begin
 end;
 
-function TFileSystemDeleteOperation.DeleteSubDirectory(const aFile: TFile): Boolean;
+procedure TFileSystemDeleteOperation.DeleteSubDirectory(const aFile: TFile);
 var
-  DeleteOperation: TFileSystemDeleteOperation = nil;
-  aFiles: TFiles = nil;
+  RootFiles: TFiles = nil;
+  SubFiles: TFiles = nil;
+  FilesCount, BytesCount: Int64;
 begin
-  Result := False;
-  aFiles := TFiles.Create(aFile.Path);
+  RootFiles := TFiles.Create(aFile.Path);
   try
-    aFiles.Add(aFile.Clone);
+    RootFiles.Add(aFile.Clone);
+    // Only count statistics for subfiles because statistics for the root dir
+    // have already been counted.
+    FillAndCount(RootFiles, True, True, SubFiles, FilesCount, BytesCount);
 
-    DeleteOperation := TFileSystemDeleteOperation.Create(FileSource, aFiles);
-    // It has already been asked what to do with read-only before calling this function.
-    DeleteOperation.DeleteReadOnly := fsoogYes;
-    DeleteOperation.SymLinkOption := fsooslDontFollow;
-    DeleteOperation.AssignThread(Thread);
-    DeleteOperation.ParentOperation := Self;
-    DeleteOperation.Execute;
-    Result := DeleteOperation.Result = fsorFinished;
+    FStatistics.TotalFiles := FStatistics.TotalFiles + FilesCount;
+    FStatistics.TotalBytes := FStatistics.TotalBytes + BytesCount;
 
-    if DeleteOperation.Result = fsorAborted then
-      RaiseAbortOperation;
+    // Only now insert root directory.
+    SubFiles.Insert(aFile.Clone, 0);
+
+    // This function will only be called if deleting to trash failed
+    // so we can assume Recycle is True. Turn off temporarily as we delete this subdirectory.
+    FRecycle := False;
+
+    ProcessList(SubFiles);
 
   finally
-    aFiles.Free;
-    DeleteOperation.Free;
+    RootFiles.Free;
+    SubFiles.Free;
+    FRecycle := True;
   end;
 end;
 
-function TFileSystemDeleteOperation.ProcessFile(aFile: TFile): Boolean;
+procedure TFileSystemDeleteOperation.ProcessFile(aFile: TFile);
 var
   FileName: String;
   bRetry: Boolean;
   RemoveDirectly: TFileSourceOperationOptionGeneral = fsoogNone;
   sMessage, sQuestion: String;
   logOptions: TLogOptions;
+  DeleteResult: Boolean;
 begin
-  Result := False;
-  FileName := aFile.Path + aFile.Name;
+  FileName := aFile.FullPath;
 
   if FileIsReadOnly(aFile.Attributes) then
   begin
@@ -219,18 +203,18 @@ begin
 
       if aFile.IsDirectory then // directory
       begin
-        Result := mbRemoveDir(FileName);
+        DeleteResult := mbRemoveDir(FileName);
       end
       else
       begin // files and other stuff
-        Result := mbDeleteFile(FileName);
+        DeleteResult := mbDeleteFile(FileName);
       end;
     end
     else
     begin
       // Delete to trash (one function for file and folder)
-      Result:= mbDeleteToTrash(FileName);
-      if not Result then
+      DeleteResult:= mbDeleteToTrash(FileName);
+      if not DeleteResult then
         begin
           case FDeleteDirectly of
             fsoogNone:
@@ -263,17 +247,19 @@ begin
             begin
               if aFile.IsDirectory then // directory
                 begin
-                  Result := DeleteSubDirectory(aFile);
+                  DeleteSubDirectory(aFile);
+                  // This directory has already been processed.
+                  Exit;
                 end
               else  // files and other stuff
                 begin
-                  Result := mbDeleteFile(FileName);
+                  DeleteResult := mbDeleteFile(FileName);
                 end;
             end;
         end;
     end;
 
-    if Result then
+    if DeleteResult then
     begin // success
       // process comments if need
       if gProcessComments then
@@ -320,6 +306,31 @@ begin
       end;
     end;
   until bRetry = False;
+end;
+
+procedure TFileSystemDeleteOperation.ProcessList(aFiles: TFiles);
+var
+  aFile: TFile;
+  CurrentFileIndex: Integer;
+begin
+  for CurrentFileIndex := aFiles.Count - 1 downto 0 do
+  begin
+    aFile := aFiles[CurrentFileIndex];
+
+    FStatistics.CurrentFile := aFile.FullPath;
+    UpdateStatistics(FStatistics);
+
+    ProcessFile(aFile);
+
+    with FStatistics do
+    begin
+      DoneFiles := DoneFiles + 1;
+      DoneBytes := DoneBytes + aFile.Size;
+    end;
+    UpdateStatistics(FStatistics);
+
+    CheckOperationState;
+  end;
 end;
 
 function TFileSystemDeleteOperation.ShowError(sMessage: String): TFileSourceOperationUIResponse;
