@@ -2303,7 +2303,7 @@ begin
   // Hot dirs are only supported by filesystem.
   aPath := (Sender as TMenuItem).Hint;
   aPath := mbExpandFileName(aPath);
-  SetFileSystemPath(ActiveFrame, aPath);
+  ChooseFileSource(ActiveFrame, aPath);
 end;
 
 procedure TfrmMain.ViewHistorySelected(Sender: TObject);

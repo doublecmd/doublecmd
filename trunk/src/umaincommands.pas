@@ -347,7 +347,7 @@ begin
   // Temporarily work for Filesystem only.
   with frmMain do
   begin
-    if not (Panel.FileSource.IsClass(TFileSystemFileSource)) then
+    if not (fspDirectAccess in Panel.FileSource.Properties) then
     begin
       msgWarning(rsMsgErrNotSupported);
       Exit;
