@@ -4703,7 +4703,7 @@ begin
   begin
     for i := FileSourcesCount - 1 downto 0 do
     begin
-      if FileSources[i].IsClass(TFileSystemFileSource) then
+      if (FileSources[i].ClassName = TFileSystemFileSource.ClassName) then
       begin
         CurrentPath := aPath;
         Break;
