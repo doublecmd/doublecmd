@@ -187,7 +187,7 @@ type
 
     function Equals(aFileSource: IFileSource): Boolean; overload;
     function IsInterface(InterfaceGuid: TGuid): Boolean;
-    function IsClass(aClassType: TClass): Boolean; virtual;
+    function IsClass(aClassType: TClass): Boolean;
     function GetClassName: String; // For debugging purposes.
     function GetRefCount: Integer; // For debugging purposes.
 
