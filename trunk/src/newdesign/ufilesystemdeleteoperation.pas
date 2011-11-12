@@ -280,7 +280,7 @@ begin
       begin
         logOptions := [log_dir_op, log_delete];
         sMessage := Format(rsMsgLogError + rsMsgLogRmDir, [FileName]);
-        sQuestion := Format(rsMsgNotDelete, [FileName]);
+        sQuestion := Format(rsMsgCannotDeleteDirectory, [FileName]);
       end
       else
       begin
