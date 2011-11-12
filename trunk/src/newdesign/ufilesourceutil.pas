@@ -21,7 +21,9 @@ procedure ChooseFile(aFileView: TFileView; aFile: TFile);
    @returns @true if the file matched any rules and a new file source was created,
             @false otherwise, which means no action was taken.
 }
-function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean;
+function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean; overload;
+
+function ChooseFileSource(aFileView: TFileView; const Path: UTF8String): Boolean; overload;
 
 function ChooseArchive(aFileView: TFileView; aFile: TFile; bForce: Boolean = False): Boolean;
 
@@ -170,6 +172,23 @@ begin
       Exit(True);
     end;
   end;
+end;
+
+function ChooseFileSource(aFileView: TFileView; const Path: UTF8String): Boolean;
+var
+  aFileSource: TFileSource;
+begin
+  Result:= True;
+  aFileSource:= gVfsModuleList.GetFileSource(Path);
+  if Assigned(aFileSource) then
+    aFileView.AddFileSource(aFileSource, Path)
+  else
+    begin
+      if mbDirectoryExists(Path) then
+        Result:= mbSetCurrentDir(Path);
+      if Result then
+        aFileView.CurrentPath:= Path;
+    end;
 end;
 
 function ChooseArchive(aFileView: TFileView; aFile: TFile; bForce: Boolean): Boolean;

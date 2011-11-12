@@ -239,6 +239,11 @@ type
     function GetOperationClass(OperationType: TFileSourceOperationType): TFileSourceOperationClass;
 
     {en
+       Returns @true if the given path is supported by the file source,
+       @false otherwise.
+    }
+    class function IsSupportedPath(const Path: String): Boolean; virtual;
+    {en
        Returns @true if the given path is the root path of the file source,
        @false otherwise.
     }
@@ -668,6 +673,11 @@ begin
   Result := FOperationsClasses[OperationType];
 end;
 
+class function TFileSource.IsSupportedPath(const Path: String): Boolean;
+begin
+  Result:= True;
+end;
+
 function TFileSource.GetConnection(Operation: TFileSourceOperation): TFileSourceConnection;
 begin
   // By default connections are not supported.
@@ -911,4 +921,4 @@ finalization
   FreeAndNil(FileSourceManager);
 
 end.
-
+

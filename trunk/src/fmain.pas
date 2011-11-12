@@ -656,7 +656,7 @@ uses
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
-  uFileSourceOperationOptionsUI, uDebug, uHotkeyManager
+  uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil
   {$IFDEF LCLQT}
     , qtwidgets
   {$ENDIF}
@@ -4141,16 +4141,16 @@ begin
               sDir:= IncludeTrailingBackslash(sDir);
               sDir:= ReplaceTilde(sDir);
             end;
-          logWrite('Chdir to: ' + sDir);
-          if not mbSetCurrentDir(sDir) then
+
+          // Choose FileSource by path
+          ChooseFileSource(ActiveFrame, sDir);
+
+          if not SameText(ActiveFrame.CurrentPath, sDir) then
             begin
               msgWarning(Format(rsMsgChDirFailed, [sDir]));
             end
           else
             begin
-              sDir := mbGetCurrentDir;
-              ActiveFrame.CurrentPath := sDir;
-              DCDebug(sDir);
               if gTermWindow and Assigned(Cons) then
                 Cons.Terminal.SetCurrentDir(sDir);
             end;

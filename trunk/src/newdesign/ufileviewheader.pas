@@ -56,7 +56,7 @@ type
 implementation
 
 uses
-  LCLType, uDCUtils, uOSUtils, fMain;
+  LCLType, uDCUtils, uOSUtils, fMain, uFileSourceUtil;
 
 { TFileViewHeader }
 
@@ -85,10 +85,10 @@ begin
         NewPath:= NormalizePathDelimiters(FPathEdit.Text);
         NewPath:= ReplaceEnvVars(ReplaceTilde(NewPath));
         if not mbFileExists(NewPath) then
-          FFileView.CurrentPath := NewPath
+          ChooseFileSource(FFileView, NewPath)
         else
           begin
-            FFileView.CurrentPath := ExtractFileDir(NewPath);
+            ChooseFileSource(FFileView, ExtractFileDir(NewPath));
             FFileView.SetActiveFile(ExtractFileName(NewPath));
           end;
         FPathEdit.Visible := False;
