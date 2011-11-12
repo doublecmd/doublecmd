@@ -30,6 +30,7 @@ uses
   LResources;
 resourcestring
   rsMsgNotDelete = 'Can not delete file %s';
+  rsMsgCannotDeleteDirectory = 'Cannot delete directory %s';
   rsMsgErrRename = 'Cannot rename file %s to %s';
   rsMsgErrCannotCopyFile = 'Cannot copy file %s to %s';
   rsMsgFileExistsRwrt = 'File %s exists, overwrite?';
