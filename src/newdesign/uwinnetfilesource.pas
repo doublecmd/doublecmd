@@ -35,6 +35,8 @@ type
   public
     constructor Create; override;
 
+    function IsClass(aClassType: TClass): Boolean; override;
+
     class function IsSupportedPath(const Path: String): Boolean; override;
 
     function GetParentDir(sPath : String): String; override;
@@ -138,6 +140,11 @@ begin
   dwBufferSize:= MAX_PATH;
   if WNetGetProviderNameW(WNNC_NET_LANMAN, @FProviderName, dwBufferSize) <> NO_ERROR then
     RaiseLastOSError;
+end;
+
+function TWinNetFileSource.IsClass(aClassType: TClass): Boolean;
+begin
+  Result:= SameText(ClassName, aClassType.ClassName);
 end;
 
 class function TWinNetFileSource.IsSupportedPath(const Path: String): Boolean;
