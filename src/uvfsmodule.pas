@@ -26,6 +26,7 @@ type
     function GetVfsModule(const S: String): TVfsModule;
   public
     destructor Destroy; override;
+    function GetFileSource(const Path: UTF8String): TFileSource;
     property VfsModule[const S: String]: TVfsModule read GetVfsModule;
   end;
 
@@ -68,6 +69,22 @@ begin
   inherited Destroy;
 end;
 
+function TVfsModuleList.GetFileSource(const Path: UTF8String): TFileSource;
+var
+  I: Integer;
+begin
+  Result:= nil;
+  for I:= 0 to Count - 1 do
+  with TVfsModule(Objects[I]) do
+  begin
+    if FileSourceClass.IsSupportedPath(Path) then
+    begin
+      Result:= FileSourceClass.Create;
+      Break;
+    end;
+  end;
+end;
+
 initialization
   gVfsModuleList := TVfsModuleList.Create;
 
@@ -75,4 +92,4 @@ finalization
   FreeAndNil(gVfsModuleList);
 
 end.
-
+

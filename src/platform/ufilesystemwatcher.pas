@@ -941,12 +941,13 @@ begin
   if (aWatchPath = '') or (aWatcherEvent = nil) then
     Exit(False);
 
-{$IFDEF UNIX}
   if aWatchPath <> PathDelim then
-{$ENDIF}
     aWatchPath := ExcludeTrailingPathDelimiter(aWatchPath);
 
   {$IFDEF MSWINDOWS}
+  // Special check for network path
+  if (Pos(PathDelim, aWatchPath) = 1) and (NumCountChars(PathDelim, aWatchPath) < 3) then
+    Exit(False);
   if gWatcherMode = fswmWholeDrive then
   begin
     RegisteredPath := aWatchPath;
@@ -1390,4 +1391,4 @@ finalization
   TFileSystemWatcher.DestroyFileSystemWatcher;
 
 end.
-
+

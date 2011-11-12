@@ -92,6 +92,8 @@ begin
       aFile := TWinNetFileSource.CreateFile(Path);
       aFile.FullPath:= UTF8Encode(WideString(nFileList^.lpRemoteName));
       aFile.CommentProperty.Value:= UTF8Encode(WideString(nFileList^.lpComment));
+      if nFileList^.dwDisplayType = RESOURCEDISPLAYTYPE_SHARE then
+        aFile.Attributes:= faFolder;
       FFiles.Add(aFile);
       Inc(nFileList);
     end;
