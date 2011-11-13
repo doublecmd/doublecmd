@@ -6270,6 +6270,10 @@ msgstr ""
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr ""
 
+#: ulng.rsmsgcannotdeletedirectory
+msgid "Cannot delete directory %s"
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Váltás ide: [%s] meghiúsult!"
@@ -6582,12 +6586,20 @@ msgstr "Nincs leprogramozva."
 msgid "Password:"
 msgstr ""
 
+#: ulng.rsmsgpassworddiff
+msgid "Passwords are different!"
+msgstr ""
+
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
 msgstr ""
 
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
+msgstr ""
+
+#: ulng.rsmsgpasswordverify
+msgid "Please re-enter the password for verification:"
 msgstr ""
 
 #: ulng.rsmsgpopuphotadd
@@ -6853,9 +6865,8 @@ msgstr "Szöveg"
 msgid "Command"
 msgstr ""
 
-#: ulng.rsopthotkeyscomment
-msgctxt "ulng.rsopthotkeyscomment"
-msgid "Comment"
+#: ulng.rsopthotkeysdescription
+msgid "Description"
 msgstr ""
 
 #: ulng.rsopthotkeyshotkey

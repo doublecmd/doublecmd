@@ -6248,6 +6248,10 @@ msgstr ""
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "你不能複製/移動 \"%s\" 檔案給自己"
 
+#: ulng.rsmsgcannotdeletedirectory
+msgid "Cannot delete directory %s"
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "無法轉到目錄 [%s]!"
@@ -6560,6 +6564,10 @@ msgstr "未實現."
 msgid "Password:"
 msgstr "密碼:"
 
+#: ulng.rsmsgpassworddiff
+msgid "Passwords are different!"
+msgstr ""
+
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
 msgstr "請輸入密碼"
@@ -6567,6 +6575,10 @@ msgstr "請輸入密碼"
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
 msgstr "密碼 (Firewall):"
+
+#: ulng.rsmsgpasswordverify
+msgid "Please re-enter the password for verification:"
+msgstr ""
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -6833,10 +6845,9 @@ msgstr "文字"
 msgid "Command"
 msgstr ""
 
-#: ulng.rsopthotkeyscomment
-msgctxt "ulng.rsopthotkeyscomment"
-msgid "Comment"
-msgstr "解註"
+#: ulng.rsopthotkeysdescription
+msgid "Description"
+msgstr ""
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"

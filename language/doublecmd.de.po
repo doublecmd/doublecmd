@@ -1,7 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Double Commander 0.5.5 alpha"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
 "PO-Revision-Date: 2011-11-02 11:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
@@ -6316,6 +6315,10 @@ msgstr "Zusätzliche Parameter für die Befehlszeile des Packers:"
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Die Datei \"%s\" kann nicht über sich selbst kopiert / verschoben werden!"
 
+#: ulng.rsmsgcannotdeletedirectory
+msgid "Cannot delete directory %s"
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Verzeichniswechsel nach [%s] fehlgeschlagen"
@@ -6628,6 +6631,10 @@ msgstr "Nicht möglich."
 msgid "Password:"
 msgstr "Passwort"
 
+#: ulng.rsmsgpassworddiff
+msgid "Passwords are different!"
+msgstr ""
+
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
 msgstr "Bitte Passwort eingeben:"
@@ -6635,6 +6642,10 @@ msgstr "Bitte Passwort eingeben:"
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
 msgstr "Passwort (Firewall):"
+
+#: ulng.rsmsgpasswordverify
+msgid "Please re-enter the password for verification:"
+msgstr ""
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -6901,10 +6912,9 @@ msgstr ""
 msgid "Command"
 msgstr "Befehle"
 
-#: ulng.rsopthotkeyscomment
-msgctxt "ulng.rsopthotkeyscomment"
-msgid "Comment"
-msgstr "Kommentare"
+#: ulng.rsopthotkeysdescription
+msgid "Description"
+msgstr ""
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"

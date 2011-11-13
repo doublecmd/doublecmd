@@ -1833,7 +1833,7 @@ msgctxt "TFRMFINDDLG.CMBFOLLOWSYMLINKS.CAPTION"
 msgid "Follow symlinks"
 msgstr ""
 "Podążaj za \n"
-"linkami symbolicznymi"
+"linkami symbolicznymi\n"
 
 #: TFRMFINDDLG.GBATTRIBUTES.CAPTION
 msgid "&Attributes"
@@ -6067,6 +6067,10 @@ msgstr "Dodatkowe parametry linii komend archiwizera:"
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Nie można skopiować/przenieść pliku \"%s\" do niego samego!"
 
+#: ulng.rsmsgcannotdeletedirectory
+msgid "Cannot delete directory %s"
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Nieudane przejście do katalogu [%s] !"
@@ -6379,6 +6383,10 @@ msgstr "Nie zaimplementowo."
 msgid "Password:"
 msgstr "Hasło:"
 
+#: ulng.rsmsgpassworddiff
+msgid "Passwords are different!"
+msgstr ""
+
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
 msgstr "Proszę wprowadzić hasło:"
@@ -6386,6 +6394,10 @@ msgstr "Proszę wprowadzić hasło:"
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
 msgstr "Hasło (Firewall):"
+
+#: ulng.rsmsgpasswordverify
+msgid "Please re-enter the password for verification:"
+msgstr ""
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -6648,10 +6660,9 @@ msgstr "Tekst"
 msgid "Command"
 msgstr ""
 
-#: ulng.rsopthotkeyscomment
-msgctxt "ulng.rsopthotkeyscomment"
-msgid "Comment"
-msgstr "Komentarz"
+#: ulng.rsopthotkeysdescription
+msgid "Description"
+msgstr ""
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"
@@ -6915,10 +6926,6 @@ msgstr "Wynik wyszukiwania"
 msgid "Select a directory"
 msgstr "Wybierz katalog"
 
-#: ulng.rssizeunitbytes
-msgid "Bytes"
-msgstr "Bajty"
-
 #~ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 #~ msgid "OK"
 #~ msgstr "OK"
@@ -7018,6 +7025,10 @@ msgstr "Bajty"
 #~ msgstr "Filtr:"
 #~ msgid "Find:"
 #~ msgstr "Znajdź:"
+#: ulng.rssizeunitbytes
+msgid "Bytes"
+msgstr "Bajty"
+
 #: ulng.rssizeunitgbytes
 msgctxt "ulng.rssizeunitgbytes"
 msgid "Gigabytes"
