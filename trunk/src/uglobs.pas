@@ -147,6 +147,7 @@ var
   gToolBarIconSize: Integer;
 
   gDirSortFirst:Boolean; // if directories are shown as first in panels
+  gRepeatPassword:Boolean;  // repeat password when packing files
   gDirHistoryCount:Integer; // how many history we remember
   gShowSystemFiles:Boolean;
   gRunInTerm: String;
@@ -877,6 +878,7 @@ begin
   { - Not in config - }
   gHelpLang := '';
   gDirSortFirst := True;
+  gRepeatPassword := True;
   gDirHistoryCount := 30;
   gFirstTextSearch := True;
   gErrorFile := gpCfgDir + ExtractOnlyFileName(Application.ExeName) + '.err';

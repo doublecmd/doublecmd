@@ -113,6 +113,9 @@ var
   aFiles: TFiles = nil;
 
   procedure Pack(var FilesToPack: TFiles; StartingState: TOperationStartingState);
+  var
+    sPassword,
+    sPasswordTmp: UTF8String;
   begin
     with PackDialog do
     begin
@@ -146,7 +149,21 @@ var
                   with Operation as TMultiArchiveCopyInOperation do
                   begin
                     if cbEncrypt.Checked then
-                      Password:= InputBox(Caption, rsMsgPasswordEnter, EmptyStr);
+                      repeat
+                        if not InputQuery(Caption, rsMsgPasswordEnter, True, sPassword) then
+                          Exit;
+                        if gRepeatPassword then
+                          begin
+                            if not InputQuery(Caption, rsMsgPasswordVerify, True, sPasswordTmp) then
+                              Exit;
+                          end
+                        else
+                          sPasswordTmp:= sPassword;
+                        if sPassword <> sPasswordTmp then
+                          ShowMessage(rsMsgPasswordDiff)
+                        else
+                          Password:= sPassword;
+                      until sPassword = sPasswordTmp;
                     if cbMultivolume.Checked then
                       VolumeSize:= InputBox(Caption, rsMsgVolumeSizeEnter, EmptyStr);
                     PackingFlags := aFlags;

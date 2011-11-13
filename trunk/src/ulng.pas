@@ -93,6 +93,8 @@ resourcestring
   rsMsgMasterPassword = 'Master Password';
   rsMsgMasterPasswordEnter = 'Please enter the master password:';
   rsMsgPasswordEnter = 'Please enter the password:';
+  rsMsgPasswordVerify = 'Please re-enter the password for verification:';
+  rsMsgPasswordDiff = 'Passwords are different!';
   rsMsgUserName = 'User name:';
   rsMsgPassword = 'Password:';
   rsMsgAccount = 'Account:';
