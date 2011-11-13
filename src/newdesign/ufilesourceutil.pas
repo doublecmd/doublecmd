@@ -23,7 +23,7 @@ procedure ChooseFile(aFileView: TFileView; aFile: TFile);
 }
 function ChooseFileSource(aFileView: TFileView; aFile: TFile): Boolean; overload;
 
-function ChooseFileSource(aFileView: TFileView; const Path: UTF8String): Boolean; overload;
+function ChooseFileSource(aFileView: TFileView; const aPath: UTF8String): Boolean; overload;
 
 function ChooseArchive(aFileView: TFileView; aFile: TFile; bForce: Boolean = False): Boolean;
 
@@ -174,20 +174,45 @@ begin
   end;
 end;
 
-function ChooseFileSource(aFileView: TFileView; const Path: UTF8String): Boolean;
+function ChooseFileSource(aFileView: TFileView; const aPath: UTF8String): Boolean;
 var
-  aFileSource: TFileSource;
+  I: Integer;
+  aFileSourceClass: TFileSourceClass;
 begin
   Result:= True;
-  aFileSource:= gVfsModuleList.GetFileSource(Path);
-  if Assigned(aFileSource) then
-    aFileView.AddFileSource(aFileSource, Path)
-  else
+  aFileSourceClass:= gVfsModuleList.GetFileSource(aPath);
+  if Assigned(aFileSourceClass) then
     begin
-      if mbDirectoryExists(Path) then
-        Result:= mbSetCurrentDir(Path);
-      if Result then
-        aFileView.CurrentPath:= Path;
+      // If found FileSource is same as current then simply change path
+      if aFileSourceClass.ClassNameIs(aFileView.FileSource.ClassName) then
+        aFileView.CurrentPath := aPath
+      else
+        aFileView.AddFileSource(aFileSourceClass.Create, aPath);
+    end
+  else
+    // Search for filesystem file source in this view, and remove others.
+    with aFileView do
+    begin
+      for I := FileSourcesCount - 1 downto 0 do
+      begin
+        // Search FileSource with same class name, we can not use "is"
+        // operator because it also works for descendant classes
+        if TFileSystemFileSource.ClassNameIs(FileSources[I].ClassName) then
+        begin
+          CurrentPath := aPath;
+          Break;
+        end
+        else
+          RemoveCurrentFileSource;
+      end;
+
+      if FileSourcesCount = 0 then
+      begin
+        // If not found, get a new filesystem file source.
+        AddFileSource(TFileSystemFileSource.GetFileSource, aPath);
+      end;
+
+      Result:= mbSetCurrentDir(aPath);
     end;
 end;
 
