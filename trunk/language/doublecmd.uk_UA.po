@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-10-19 18:59+0300\n"
+"PO-Revision-Date: 2011-11-13 17:56+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2257,13 +2257,13 @@ msgstr "Відкрити список дисків зліва"
 #, fuzzy
 #| msgid "Load Selection From Clipboard"
 msgid "Load Selection from Clip&board"
-msgstr "Завантажити виділене з б&уферу"
+msgstr "Завантажити виділенння з б&уферу"
 
 #: TFRMMAIN.ACTLOADSELECTIONFROMFILE.CAPTION
 #, fuzzy
 #| msgid "Load Selection From File"
 msgid "&Load Selection from File..."
-msgstr "Завантажити виділене з ф&айлу..."
+msgstr "Завантажити виділенння з ф&айлу..."
 
 #: TFRMMAIN.ACTMAKEDIR.CAPTION
 msgid "MakeDir F7"
@@ -3842,7 +3842,6 @@ msgid "Example"
 msgstr "Приклад"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR.CAPTION
-#, fuzzy
 #| msgid "BackGround:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLBACKGROUNDCOLOR.CAPTION"
 msgid "Background:"
@@ -6167,7 +6166,7 @@ msgstr "Ви не можете скопіювати/перемістити фа�
 
 #: ulng.rsmsgcannotdeletedirectory
 msgid "Cannot delete directory %s"
-msgstr ""
+msgstr "Не вдається видалити каталог %s"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -6483,7 +6482,7 @@ msgstr "Пароль:"
 
 #: ulng.rsmsgpassworddiff
 msgid "Passwords are different!"
-msgstr ""
+msgstr "Паролі відрізняються!"
 
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
@@ -6495,7 +6494,7 @@ msgstr "Пароль (Фаєрвол):"
 
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
-msgstr ""
+msgstr "Будь ласка, ще раз введіть пароль для перевірки:"
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -6762,7 +6761,7 @@ msgstr "Команди"
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
-msgstr ""
+msgstr "Опис"
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"
