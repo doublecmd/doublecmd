@@ -83,6 +83,8 @@ resourcestring
   rsMsgInvalidSelection = 'Invalid selection.';
   rsMsgNotImplemented = 'Not implemented.';
   rsMsgInvalidFilename = 'Invalid filename';
+  rsMsgInvalidPath = 'Invalid path';
+  rsMsgInvalidPathLong = 'Path %s contains forbidden characters.';
   rsMsgSelectOnlyCheckSumFiles = 'Please select only check sum files!';
   rsMsgPresetAlreadyExists = 'Preset "%s" already exists. Overwrite?';
   rsMsgManualAddHotDir = 'Manually add hot path';

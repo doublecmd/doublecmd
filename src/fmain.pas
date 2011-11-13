@@ -581,7 +581,8 @@ type
                        bShowDialog: Boolean): Boolean; overload;
     function CopyFiles(sDestPath: String; bShowDialog: Boolean): Boolean; overload; //  this is for F5 and Shift+F5
     function MoveFiles(sDestPath: String; bShowDialog: Boolean): Boolean; overload;
-    procedure GetDestinationPathAndMask(TargetFileSource: IFileSource;
+    procedure GetDestinationPathAndMask(SourceFiles: TFiles;
+                                        TargetFileSource: IFileSource;
                                         EnteredPath: String; BaseDir: String;
                                         out DestPath, DestMask: String);
     procedure SetActiveFrame(panel: TFilePanelSelect);
@@ -2364,7 +2365,6 @@ var
   OperationStartingState: TOperationStartingState = ossAutoStart;
   OperationClass: TFileSourceOperationClass;
   OperationOptionsUIClass: TFileSourceOperationOptionsUIClass = nil;
-  ExcludeRootDir: Boolean = False;
 begin
   Result := False;
   try
@@ -2412,46 +2412,30 @@ begin
         OperationOptionsUIClass := OperationClass.GetOptionsUIClass;
 
       CopyDialog := TfrmCopyDlg.Create(Application, cmdtCopy, OperationOptionsUIClass);
-      with CopyDialog do
-      begin
-        edtDst.Text := sDestination;
-        lblCopySrc.Caption := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr, SourceFiles);
+      CopyDialog.edtDst.Text := sDestination;
+      CopyDialog.lblCopySrc.Caption := GetFileDlgStr(rsMsgCpSel, rsMsgCpFlDr, SourceFiles);
 
-        if ShowModal = mrCancel then
+      while True do
+      begin
+        if CopyDialog.ShowModal = mrCancel then
           Exit;
 
-        sDestination := edtDst.Text;
+        sDestination := CopyDialog.edtDst.Text;
+        OperationStartingState := CopyDialog.OperationStartingState;
+
+        GetDestinationPathAndMask(SourceFiles, TargetFileSource, sDestination,
+                                  SourceFiles.Path, TargetPath, sDstMaskTemp);
+
+        if HasPathInvalidCharacters(TargetPath) then
+          MessageDlg(rsMsgInvalidPath, Format(rsMsgInvalidPathLong, [TargetPath]),
+            mtWarning, [mbOK], 0)
+        else
+          Break;
       end;
-
-      // Check TargetPath before it is modified in GetDestinationPathAndMask.
-      if SourceFiles.Count = 1 then
-      begin
-        if SourceFiles[0].IsDirectory or SourceFiles[0].IsLinkToDirectory then
-        begin
-          if (Pos('*', sDestination) = 0) and (Pos('?', sDestination) = 0) and
-             (not StrEnds(sDestination, PathDelim)) then
-          begin
-            // Assume it is a path to a directory.
-            sDestination := IncludeTrailingPathDelimiter(sDestination) + '*.*';
-
-            if (SourceFiles.Path = TargetPath) or (TargetPath = '') then
-              ExcludeRootDir := True; // CopySamePanel
-          end;
-        end;
-        // else single file - leave unchanged
-      end
-      else
-      begin
-        if (Pos('*', sDestination) = 0) and (Pos('?', sDestination) = 0) then
-          // Assume it is a path to a directory.
-          sDestination := IncludeTrailingPathDelimiter(sDestination);
-      end;
-
-      OperationStartingState := CopyDialog.OperationStartingState;
-    end;
-
-    GetDestinationPathAndMask(TargetFileSource, sDestination,
-                              SourceFiles.Path, TargetPath, sDstMaskTemp);
+    end
+    else
+      GetDestinationPathAndMask(SourceFiles, TargetFileSource, sDestination,
+                                SourceFiles.Path, TargetPath, sDstMaskTemp);
 
     case OperationType of
       fsoCopy:
@@ -2460,8 +2444,6 @@ begin
           Operation := SourceFileSource.CreateCopyOperation(
                          SourceFiles,
                          TargetPath) as TFileSourceCopyOperation;
-
-          Operation.ExcludeRootDir := ExcludeRootDir;
         end;
       fsoCopyOut:
         // CopyOut to filesystem.
@@ -2555,23 +2537,32 @@ begin
     begin
       MoveDialog := TfrmCopyDlg.Create(Application, cmdtMove,
         SourceFileSource.GetOperationClass(fsoMove).GetOptionsUIClass);
+      MoveDialog.edtDst.Text := sDestination;
+      MoveDialog.lblCopySrc.Caption := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr, SourceFiles);
 
-      with MoveDialog do
+      while True do
       begin
-        edtDst.Text := sDestination;
-        lblCopySrc.Caption := GetFileDlgStr(rsMsgRenSel, rsMsgRenFlDr, SourceFiles);
-
-        if ShowModal = mrCancel then
+        if MoveDialog.ShowModal = mrCancel then
           Exit;
 
-        sDestination := edtDst.Text;
+        sDestination := MoveDialog.edtDst.Text;
+        OperationStartingState := MoveDialog.OperationStartingState;
+
+        GetDestinationPathAndMask(SourceFiles, TargetFileSource, sDestination,
+                                  SourceFiles.Path, TargetPath, sDstMaskTemp);
+
+        if HasPathInvalidCharacters(TargetPath) then
+          MessageDlg(rsMsgInvalidPath, Format(rsMsgInvalidPathLong, [TargetPath]),
+            mtWarning, [mbOK], 0)
+        else
+          Break;
       end;
 
       OperationStartingState := MoveDialog.OperationStartingState;
-    end;
-
-    GetDestinationPathAndMask(TargetFileSource, sDestination,
-                              SourceFiles.Path, TargetPath, sDstMaskTemp);
+    end
+    else
+      GetDestinationPathAndMask(SourceFiles, TargetFileSource, sDestination,
+                                SourceFiles.Path, TargetPath, sDstMaskTemp);
 
     if bMove then
     begin
@@ -2648,7 +2639,8 @@ begin
     Result := False;
 end;
 
-procedure TfrmMain.GetDestinationPathAndMask(TargetFileSource: IFileSource;
+procedure TfrmMain.GetDestinationPathAndMask(SourceFiles: TFiles;
+                                             TargetFileSource: IFileSource;
                                              EnteredPath: String; BaseDir: String;
                                              out DestPath, DestMask: String);
 var
@@ -2668,20 +2660,15 @@ begin
   AbsolutePath := NormalizePathDelimiters(AbsolutePath);  // normalize path delimiters
   AbsolutePath := ExpandAbsolutePath(AbsolutePath);
 
-  if (TargetFileSource.IsClass(TFileSystemFileSource)) and
-     (AbsolutePath[Length(AbsolutePath)] = PathDelim) then
-  begin
-    // If the entered path ends with a path delimiter
-    // treat it as a path to a not yet existing directory
-    // which should be created.
-    DestPath := AbsolutePath;
-    DestMask := '*.*';
-  end
-  else if (TargetFileSource.IsClass(TFileSystemFileSource)) and
-          mbDirectoryExists(AbsolutePath) then
+  // If the entered path ends with a path delimiter
+  // treat it as a path to a not yet existing directory
+  // which should be created.
+  if (AbsolutePath[Length(AbsolutePath)] = PathDelim) or
+     ((TargetFileSource.IsClass(TFileSystemFileSource)) and
+      mbDirectoryExists(AbsolutePath)) then
   begin
     // Destination is a directory.
-    DestPath := IncludeTrailingPathDelimiter(AbsolutePath);
+    DestPath := AbsolutePath;
     DestMask := '*.*';
   end
   else
@@ -2690,9 +2677,16 @@ begin
     DestPath := ExtractFilePath(AbsolutePath);
     DestMask := ExtractFileName(AbsolutePath);
 
+    if (SourceFiles.Count > 1) and not ContainsWildcards(DestMask) then
+    begin
+      // Assume it is a path to a directory because cannot put multiple
+      // files/directories into one file.
+      DestPath := AbsolutePath;
+      DestMask := '*.*';
+    end
     // For convenience, treat '*' as "whole file name".
     // To remove extension '*.' can be used.
-    if DestMask = '*' then
+    else if DestMask = '*' then
       DestMask := '*.*';
   end;
 end;

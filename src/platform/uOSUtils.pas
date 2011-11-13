@@ -276,6 +276,7 @@ function mbGetEnvironmentVariable(const sName: UTF8String): UTF8String;
 function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
 function mbLoadLibrary(const Name: UTF8String): TLibHandle;
 function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
+function HasPathInvalidCharacters(Path: UTF8String): Boolean;
 
 procedure FixFormIcon(Handle: LCLType.HWND);
 procedure HideConsoleWindow;
@@ -1897,6 +1898,11 @@ begin
 {$ELSE}
             SysToUTF8(SysErrorMessage(ErrorCode));
 {$ENDIF}
+end;
+
+function HasPathInvalidCharacters(Path: UTF8String): Boolean;
+begin
+  Result := ContainsOneOf(Path, '*?');
 end;
 
 procedure FixFormIcon(Handle: LCLType.HWND);

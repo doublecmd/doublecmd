@@ -52,6 +52,12 @@ const
 type
   TPathType = ( ptNone, ptRelative, ptAbsolute );
 
+{en
+   Checks if StringToCheck contains any of the single characters in
+   PossibleCharacters. Only ASCII can be searched.
+}
+function ContainsOneOf(StringToCheck: UTF8String; PossibleCharacters: String): Boolean;
+
 function GetCmdDirFromEnvVar(const sPath : String) : String;
 function SetCmdDirAsEnvVar(const sPath : String) : String;
 {en
@@ -136,6 +142,7 @@ function ExtractOnlyFileExt(const FileName: string): string;
    Remove file extension with the '.' from file name.
 }
 function RemoveFileExt(const FileName: UTF8String): UTF8String;
+function ContainsWildcards(const Path: UTF8String): Boolean;
 {en
    Convert file size to string representation in floating format (Kb, Mb, Gb)
    @param(iSize File size)
@@ -677,6 +684,11 @@ begin
     Result := Copy(FileName, 1, I - 1)
   else
     Result := FileName;
+end;
+
+function ContainsWildcards(const Path: UTF8String): Boolean;
+begin
+  Result := ContainsOneOf(Path, '*?');
 end;
 
 function cnvFormatFileSize(iSize: Int64; ShortFormat: Boolean): String;
@@ -1577,6 +1589,22 @@ begin
   if Length(SourceString) > 0 then
     SourceString := SourceString + Separator;
   SourceString := SourceString + StringToAdd;
+end;
+
+function ContainsOneOf(StringToCheck: UTF8String; PossibleCharacters: String): Boolean;
+var
+  i, j: SizeInt;
+  pc : PChar;
+begin
+  pc := @StringToCheck[1];
+  for i := 1 to Length(StringToCheck) do
+  begin
+    for j := 1 to Length(PossibleCharacters) do
+      if pc^ = PossibleCharacters[j] then
+        Exit(True);
+    Inc(pc);
+  end;
+  Result := False;
 end;
 
 function OctToDec(Value: String): LongInt;

@@ -44,33 +44,6 @@ type
     FSourceFiles: TFiles;
     FTargetPath: String;
     FRenameMask: String;
-    {en
-       If ExcludeRootDir is @true then only the contents of a directory are copied,
-       not the directory itself. SourceFiles should only contain directories,
-       any files will be omitted. For example for the following structure:
-       /
-       |rootdir
-         |file1
-         |file2
-       |targetdir
-
-       SourceFiles[0] = /rootdir
-       TargetPath     = /targetdir
-
-       With ExcludeRootDir = @false will create:
-       /
-       |targetdir
-         |rootdir
-           |file1
-           |file2
-
-       With ExcludeRootDir = @true will create:
-       /
-       |targetdir
-         |file1
-         |file2
-    }
-    FExcludeRootDir: Boolean;
 
   protected
     function GetID: TFileSourceOperationType; override;
@@ -102,7 +75,6 @@ type
 
     function RetrieveStatistics: TFileSourceCopyOperationStatistics;
 
-    property ExcludeRootDir: Boolean read FExcludeRootDir write FExcludeRootDir;
     property RenameMask: String read FRenameMask write FRenameMask;
   end;
 
