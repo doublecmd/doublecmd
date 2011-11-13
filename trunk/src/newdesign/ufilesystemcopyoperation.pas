@@ -133,7 +133,6 @@ begin
                         @AskQuestion,
                         @CheckOperationState);
   try
-    TreeBuilder.ExcludeRootDir := Self.ExcludeRootDir;
     TreeBuilder.SymLinkOption  := Self.SymLinkOption;
 
     TreeBuilder.BuildFromFiles(SourceFiles);

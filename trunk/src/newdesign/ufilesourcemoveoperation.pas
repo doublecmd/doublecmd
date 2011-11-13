@@ -97,7 +97,7 @@ begin
   FFileSource := aFileSource;
   FSourceFiles := theSourceFiles;
   theSourceFiles := nil;
-  FTargetPath := aTargetPath;
+  FTargetPath := IncludeTrailingPathDelimiter(aTargetPath);
 
   FRenameMask := '';
 end;

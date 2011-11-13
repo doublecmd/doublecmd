@@ -34,6 +34,7 @@ type
     FRenameNameMask, FRenameExtMask: String;
     FLogCaption: String;
     FRenamingFiles,
+    FRenamingRootDir,
     FInternal: Boolean;
     FFileExistsOption: TFileSourceOperationOptionFileExists;
 
@@ -298,6 +299,7 @@ begin
   FRootTargetPath := TargetPath;
   FRenameMask := '';
   FRenamingFiles := False;
+  FRenamingRootDir := False;
 
   inherited Create;
 end;
@@ -319,7 +321,6 @@ begin
   end;
 
   SplitFileMask(FRenameMask, FRenameNameMask, FRenameExtMask);
-  FRenamingFiles := (FRenameMask <> '*.*') and (FRenameMask <> '');
 end;
 
 procedure TWfxPluginOperationHelper.ProcessFiles(aFiles: TFiles; var Statistics: TFileSourceCopyOperationStatistics);
@@ -329,6 +330,21 @@ var
   sTargetFile : UTF8String;
   aFile: TFile;
 begin
+  FRenamingFiles := (FRenameMask <> '*.*') and (FRenameMask <> '');
+
+  // If there is a single root dir and rename mask doesn't have wildcards
+  // treat is as a rename of the root dir.
+  if (aFiles.Count = 1) and FRenamingFiles then
+  begin
+    aFile := aFiles[0];
+    if (aFile.IsDirectory or aFile.IsLinkToDirectory) and
+       not ContainsWildcards(FRenameMask) then
+    begin
+      FRenamingFiles := False;
+      FRenamingRootDir := True;
+    end;
+  end;
+
   for I:= 0 to aFiles.Count - 1 do
     with FWfxPluginFileSource do
     begin
@@ -336,7 +352,11 @@ begin
 
       // Filenames must be relative to the current directory.
       sTargetFile := FRootTargetPath + ExtractDirLevel(aFiles.Path, aFile.Path);
-      sTargetFile := sTargetFile + ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask);
+
+      if FRenamingRootDir then
+        sTargetFile := sTargetFile + FRenameMask
+      else
+        sTargetFile := sTargetFile + ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask);
 
       //DCDebug('Source name == ' + aFile.FullPath);
       //DCDebug('Target name == ' + sTargetFile);

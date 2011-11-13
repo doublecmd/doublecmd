@@ -14,8 +14,6 @@ uses
 
   procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
   function ApplyRenameMask(aFile: TFile; NameMask: String; ExtMask: String): String;
-  function GetAbsoluteTargetFileName(aFile: TFile; SourcePath: String; TargetPath: String;
-                                     NameMask: String; ExtMask: String): String;
   procedure FillAndCount(Files: TFiles;
                          CountDirs: Boolean;
                          ExcludeRootDir: Boolean;
@@ -101,6 +99,8 @@ type
     FDescription: TDescription;
     FLogCaption: String;
     FRenamingFiles: Boolean;
+    FRenamingRootDir: Boolean;
+    FRootDir: TFile;
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
     FAutoRenameItSelf: Boolean;
@@ -221,13 +221,6 @@ begin
   end;
 end;
 
-function GetAbsoluteTargetFileName(aFile: TFile; SourcePath: String; TargetPath: String;
-                                   NameMask: String; ExtMask: String): String;
-begin
-  Result := TargetPath + ExtractDirLevel(SourcePath, aFile.Path)
-          + ApplyRenameMask(aFile, NameMask, ExtMask);
-end;
-
 procedure FillAndCount(Files: TFiles; CountDirs: Boolean; ExcludeRootDir: Boolean;
   out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
 
@@ -241,9 +234,6 @@ procedure FillAndCount(Files: TFiles; CountDirs: Boolean; ExcludeRootDir: Boolea
       repeat
         if (sr.Name='.') or (sr.Name='..') then Continue;
         aFile := TFileSystemFileSource.CreateFile(srcPath, @sr);
-
-        // For process symlinks, read only files etc.
-  //      CheckFile(aFile);
 
         NewFiles.Add(aFile);
         if aFile.IsLink then
@@ -286,9 +276,6 @@ begin
     for i := 0 to Files.Count - 1 do
     begin
       aFile := Files[i];
-
-      // For process symlinks, read only files etc.
-      //CheckFile(aFile);
 
       NewFiles.Add(aFile.Clone);
 
@@ -556,6 +543,8 @@ begin
   FRenameMask := '';
   FStatistics := StartingStatistics;
   FRenamingFiles := False;
+  FRenamingRootDir := False;
+  FRootDir := nil;
 
   if gProcessComments then
     FDescription := TDescription.Create(True)
@@ -601,8 +590,6 @@ procedure TFileSystemOperationHelper.Initialize;
 begin
   SplitFileMask(FRenameMask, FRenameNameMask, FRenameExtMask);
 
-  FRenamingFiles := (FRenameMask <> '*.*') and (FRenameMask <> '');
-
   // Create destination path if it doesn't exist.
   if not mbDirectoryExists(FRootTargetPath) then
     if not mbForceDirectory(FRootTargetPath) then
@@ -610,7 +597,25 @@ begin
 end;
 
 procedure TFileSystemOperationHelper.ProcessTree(aFileTree: TFileTree);
+var
+  aFile: TFile;
 begin
+  FRenamingFiles := (FRenameMask <> '*.*') and (FRenameMask <> '');
+
+  // If there is a single root dir and rename mask doesn't have wildcards
+  // treat is as a rename of the root dir.
+  if (aFileTree.SubNodesCount = 1) and FRenamingFiles then
+  begin
+    aFile := aFileTree.SubNodes[0].TheFile;
+    if (aFile.IsDirectory or aFile.IsLinkToDirectory) and
+       not ContainsWildcards(FRenameMask) then
+    begin
+      FRenamingFiles := False;
+      FRenamingRootDir := True;
+      FRootDir := aFile;
+    end;
+  end;
+
   ProcessNode(aFileTree, FRootTargetPath);
 end;
 
@@ -842,7 +847,12 @@ begin
     CurrentSubNode := aFileTreeNode.SubNodes[CurrentFileIndex];
     aFile := CurrentSubNode.TheFile;
 
-    TargetName := CurrentTargetPath + ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask);
+    if FRenamingRootDir and (aFile = FRootDir) then
+      TargetName := CurrentTargetPath + FRenameMask
+    else if FRenamingFiles then
+      TargetName := CurrentTargetPath + ApplyRenameMask(aFile, FRenameNameMask, FRenameExtMask)
+    else
+      TargetName := CurrentTargetPath + aFile.Name;
 
     with FStatistics do
     begin
