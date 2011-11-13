@@ -6229,6 +6229,10 @@ msgstr "Parámetros adicionales para la línea de comandos:"
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "No se puede copiar/mover un archivo \"%s\" dentro él mismo"
 
+#: ulng.rsmsgcannotdeletedirectory
+msgid "Cannot delete directory %s"
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Imposible cambiar a [%s]!"
@@ -6541,6 +6545,10 @@ msgstr "No implementado"
 msgid "Password:"
 msgstr "Contraseña:"
 
+#: ulng.rsmsgpassworddiff
+msgid "Passwords are different!"
+msgstr ""
+
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
 msgstr "Por favor, introduzca la contraseña:"
@@ -6548,6 +6556,10 @@ msgstr "Por favor, introduzca la contraseña:"
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
 msgstr "Contraseña (Firewall):"
+
+#: ulng.rsmsgpasswordverify
+msgid "Please re-enter the password for verification:"
+msgstr ""
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -6812,10 +6824,9 @@ msgstr "Texto"
 msgid "Command"
 msgstr "Comandos"
 
-#: ulng.rsopthotkeyscomment
-msgctxt "ulng.rsopthotkeyscomment"
-msgid "Comment"
-msgstr "Comentarios"
+#: ulng.rsopthotkeysdescription
+msgid "Description"
+msgstr ""
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"

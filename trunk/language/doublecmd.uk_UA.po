@@ -6165,6 +6165,10 @@ msgstr "Додаткові параметри для командного ряд
 msgid "You can not copy/move a file \"%s\" to itself!"
 msgstr "Ви не можете скопіювати/перемістити файл \"%s\" в самого себе!"
 
+#: ulng.rsmsgcannotdeletedirectory
+msgid "Cannot delete directory %s"
+msgstr ""
+
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
 msgstr "Перехід в каталог [%s] не вдався!"
@@ -6477,6 +6481,10 @@ msgstr "Не реалізовано"
 msgid "Password:"
 msgstr "Пароль:"
 
+#: ulng.rsmsgpassworddiff
+msgid "Passwords are different!"
+msgstr ""
+
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
 msgstr "Будь-ласка, введіть пароль:"
@@ -6484,6 +6492,10 @@ msgstr "Будь-ласка, введіть пароль:"
 #: ulng.rsmsgpasswordfirewall
 msgid "Password (Firewall):"
 msgstr "Пароль (Фаєрвол):"
+
+#: ulng.rsmsgpasswordverify
+msgid "Please re-enter the password for verification:"
+msgstr ""
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -6748,10 +6760,9 @@ msgstr "Текст"
 msgid "Command"
 msgstr "Команди"
 
-#: ulng.rsopthotkeyscomment
-msgctxt "ulng.rsopthotkeyscomment"
-msgid "Comment"
-msgstr "Коментар"
+#: ulng.rsopthotkeysdescription
+msgid "Description"
+msgstr ""
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"
