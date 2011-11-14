@@ -2870,7 +2870,7 @@ begin
     ARect:= Rect(3, 1, pbxDrive.Width - 3, pbxDrive.Height - 2);
     pbxDrive.Canvas.GradientFill(ARect, clSilver, clWhite, gdVertical);
 
-    for i:= 0 to IndexColor - 2 do
+    for i:= 0 to IndexColor - 1 do
     begin
       if i <= 50 then
         pbxDrive.Canvas.Brush.Color:= RGB(0 + 5 * i, 255, 0)
@@ -2879,8 +2879,8 @@ begin
 
       AColor:= DarkColor(pbxDrive.Canvas.Brush.Color, 50);
 
-      ARect:= Rect(3 + i * (pbxDrive.Width - 4) div 100, 1,
-                   4 + (i + 1) * (pbxDrive.Width - 4) div 100,
+      ARect:= Rect(3 + i * (pbxDrive.Width - 6) div 100, 1,
+                   3 + (i + 1) * (pbxDrive.Width - 6) div 100,
                    pbxDrive.Height - 2);
 
       pbxDrive.Canvas.GradientFill(ARect, pbxDrive.Canvas.Brush.Color,
