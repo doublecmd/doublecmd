@@ -11,6 +11,7 @@ object frmCopyDlg: TfrmCopyDlg
   Caption = 'Copy file(s)'
   ClientHeight = 263
   ClientWidth = 602
+  KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnKeyPress = frmCopyDlgKeyPress
