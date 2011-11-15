@@ -470,9 +470,17 @@ begin
 end;
 
 procedure TKASToolBar.ToolButtonClick(Sender: TObject);
+var
+  Button: TSpeedButton;
 begin
+  Button := Sender as TSpeedButton;
+
+  // Do not allow depressing down buttons.
+  if FRadioToolBar and not Button.Down then
+    Button.Down := True;
+
   if Assigned(FOnToolButtonClick) then
-     FOnToolButtonClick(Self, (Sender as TSpeedButton).Tag);
+     FOnToolButtonClick(Self, Button.Tag);
 end;
 
 procedure TKASToolBar.ToolButtonMouseDown(Sender: TObject; Button: TMouseButton; Shift:TShiftState; X,Y:Integer);
