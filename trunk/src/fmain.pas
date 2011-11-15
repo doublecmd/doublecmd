@@ -840,7 +840,8 @@ end;
 procedure TfrmMain.btnLeftDirectoryHotlistClick(Sender: TObject);
 Var P:TPoint;
 begin
-  SetActiveFrame(fpLeft);
+  if tb_activate_panel_on_click in gDirTabOptions then
+    SetActiveFrame(fpLeft);
   CreatePopUpHotDir;// TODO: i thing in future this must call on create or change
   p := Classes.Point(btnLeftDirectoryHotlist.Left,btnLeftDirectoryHotlist.Height);
   p := pnlLeftTools.ClientToScreen(p);
@@ -855,7 +856,8 @@ end;
 procedure TfrmMain.btnRightDirectoryHotlistClick(Sender: TObject);
 Var P:TPoint;
 begin
-  SetActiveFrame(fpRight);
+  if tb_activate_panel_on_click in gDirTabOptions then
+    SetActiveFrame(fpRight);
   CreatePopUpHotDir;// TODO: i thing in future this must call on create or change
   p := Classes.Point(btnRightDirectoryHotlist.Left,btnRightDirectoryHotlist.Height);
   p := pnlRightTools.ClientToScreen(p);
@@ -1068,7 +1070,8 @@ begin
       SetFileSystemPath(SourceFrame, GetHomeDir);
   end;
 
-  SetActiveFrame(PanelSelect);
+  if tb_activate_panel_on_click in gDirTabOptions then
+    SetActiveFrame(PanelSelect);
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
@@ -1496,10 +1499,13 @@ end;
 
 procedure TfrmMain.lblDriveInfoDblClick(Sender: TObject);
 begin
-  if Sender = lblRightDriveInfo then
+  if tb_activate_panel_on_click in gDirTabOptions then
+  begin
+    if Sender = lblRightDriveInfo then
       SetActiveFrame(fpRight)
-  else if Sender = lblLeftDriveInfo then
+    else if Sender = lblLeftDriveInfo then
       SetActiveFrame(fpLeft);
+  end;
   Commands.cm_DirHotList('');
 end;
 
@@ -1587,11 +1593,12 @@ begin
   else
     begin
       DriveNr := dskButton.Tag;
-      if (DriveNr >= 0) and (DriveNr < DrivesList.Count) and
+      if (DriveNr >= 0) and (DriveNr < DrivesList.Count) then
         SetPanelDrive(PanelSelected, DrivesList[DriveNr]);
     end;
 
-  SetActiveFrame(PanelSelected);
+  if tb_activate_panel_on_click in gDirTabOptions then
+    SetActiveFrame(PanelSelected);
 end;
 
 procedure TfrmMain.btnVirtualDriveClick(Sender: TObject);
@@ -4399,6 +4406,9 @@ var
   p: TPoint;
   ADriveIndex: Integer;
 begin
+  if tb_activate_panel_on_click in gDirTabOptions then
+    SetActiveFrame(APanel);
+
   case APanel of
     fpLeft:
       begin
@@ -4632,8 +4642,7 @@ end;
 
 procedure TfrmMain.DriveListClose(Sender: TObject);
 begin
-  if Sender is TDrivesListPopup then
-    SetActiveFrame(TDrivesListPopup(Sender).Panel);
+  SetActiveFrame(SelectedPanel);
 end;
 
 procedure TfrmMain.AllProgressOnUpdateTimer(Sender: TObject);
