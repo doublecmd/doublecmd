@@ -2015,6 +2015,7 @@ begin
       end;
 
     VK_SPACE:
+      if Shift * KeyModifiersShortcut = [] then
       begin
         aFile := GetActiveDisplayFile;
         if Assigned(aFile) then
