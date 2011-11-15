@@ -1562,6 +1562,7 @@ end;
 procedure TfrmMain.dskToolButtonClick(Sender: TObject; NumberOfButton: Integer);
 var
   dskPanel : TKASToolBar;
+  dskButton: TSpeedButton;
   FileView : TFileView;
   DriveNr  : Integer;
 begin
@@ -1577,16 +1578,16 @@ begin
       FileView := FrameRight;
       PanelSelected := fpRight;
     end;
-    
-  if dskPanel.Buttons[NumberOfButton].GroupIndex = 0 then
+
+  dskButton := dskPanel.Buttons[NumberOfButton];
+  if dskButton.GroupIndex = 0 then
     begin
-      // Command := dskPanel.Commands[NumberOfButton];
-      PanelButtonClick(dskPanel.Buttons[NumberOfButton], FileView, PanelSelected)
+      PanelButtonClick(dskButton, FileView, PanelSelected)
     end
   else
     begin
-      DriveNr := dskPanel.Buttons[NumberOfButton].Tag;
-      if (Tag >= 0) and (Tag < DrivesList.Count) then
+      DriveNr := dskButton.Tag;
+      if (DriveNr >= 0) and (DriveNr < DrivesList.Count) and
         SetPanelDrive(PanelSelected, DrivesList[DriveNr]);
     end;
 
@@ -4754,6 +4755,14 @@ begin
   else
   begin
     msgWarning(rsMsgDiskNotAvail);
+
+    // Restore previous selected button.
+    case aPanel of
+      fpLeft:
+        UpdateSelectedDrive(LeftTabs);
+      fpRight:
+        UpdateSelectedDrive(RightTabs);
+    end;
   end;
 end;
 
