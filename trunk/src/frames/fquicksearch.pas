@@ -57,6 +57,7 @@ type
     Active: Boolean;
     FilterOptions: TQuickSearchOptions;
     FilterText: String;
+    Finalizing: Boolean;
     {en
        Loads control states from options values
     }
@@ -64,6 +65,7 @@ type
     procedure PushFilter;
     procedure PopFilter;
     procedure ClearFilter;
+    procedure CancelFilter;
   public
     OnChangeSearch: TOnChangeSearch;
     OnChangeFilter: TOnChangeFilter;
@@ -127,6 +129,7 @@ begin
 
   FilterOptions := gQuickSearchOptions;
   FilterText := EmptyStr;
+  Finalizing := False;
 
   HotMan.Register(Self.edtSearch, 'Quick Search');
 end;
@@ -332,6 +335,16 @@ begin
     Self.OnChangeFilter(Self, EmptyStr, FilterOptions);
 end;
 
+procedure TfrmQuickSearch.CancelFilter;
+begin
+  Finalize;
+  {$IFDEF LCLGTK2}
+  // On GTK2 OnExit for frame is not called when it is hidden,
+  // but only when a control from outside of frame gains focus.
+  FrameExit(nil);
+  {$ENDIF}
+end;
+
 procedure TfrmQuickSearch.edtSearchChange(Sender: TObject);
 begin
   case Self.Mode of
@@ -346,7 +359,7 @@ end;
 
 procedure TfrmQuickSearch.btnCancelClick(Sender: TObject);
 begin
-  Finalize;
+  CancelFilter;
 end;
 
 procedure TfrmQuickSearch.edtSearchKeyDown(Sender: TObject; var Key: Word;
@@ -397,7 +410,7 @@ begin
       if Assigned(Self.OnExecute) then
         Self.OnExecute(Self);
 
-      Finalize;
+      CancelFilter;
     end;
 
     VK_TAB:
@@ -411,22 +424,29 @@ begin
     begin
       Key := 0;
 
-      Finalize;
+      CancelFilter;
     end;
   end;
 end;
 
 procedure TfrmQuickSearch.FrameExit(Sender: TObject);
 begin
-  Self.Active := False;
+  if not Finalizing then
+  begin
+    Finalizing := True;
 
-  if (Mode = qsFilter) and (edtSearch.Text <> EmptyStr) then
-    Self.Visible := not gQuickFilterAutoHide
-  else
-    Finalize;
+    Self.Active := False;
 
-  if Assigned(Self.OnHide) then
-    Self.OnHide(Self);
+    if (Mode = qsFilter) and (edtSearch.Text <> EmptyStr) then
+      Self.Visible := not gQuickFilterAutoHide
+    else
+      Finalize;
+
+    if Assigned(Self.OnHide) then
+      Self.OnHide(Self);
+
+    Finalizing := False;
+  end;
 end;
 
 procedure TfrmQuickSearch.sbCaseSensitiveClick(Sender: TObject);
@@ -507,4 +527,4 @@ begin
 end;
 
 end.
-
+
