@@ -867,16 +867,16 @@ var
   pt: TPoint;
 begin
   if Button = mbRight then
-    with Sender as TSpeedButton do
-    begin
-      if (Tag >= 0) and (Tag < DrivesList.Count) then
-        begin
-          pt.X := X;
-          pt.Y := Y;
-          pt := ClientToScreen(pt);
-          ShowDriveContextMenu(Parent, DrivesList[Tag], pt.X, pt.Y, nil);
-        end;
-    end;
+      with Sender as TSpeedButton do
+      begin
+        if (Tag >= 0) and (Tag < DrivesList.Count) then
+          begin
+            pt.X := X;
+            pt.Y := Y;
+            pt := ClientToScreen(pt);
+            ShowDriveContextMenu(Parent, DrivesList[Tag], pt.X, pt.Y, nil);
+          end;
+      end;
 end;
 
 procedure TfrmMain.ConsoleSplitterCanResize(Sender: TObject;
@@ -4089,12 +4089,15 @@ begin
 {$ENDIF}
       then
       begin
-        UTF8Char := VirtualKeyToUTF8Char(Key, ShiftEx - ModifierKeys);
-        if (UTF8Char <> '') and
-           (not ((Length(UTF8Char) = 1) and (UTF8Char[1] in [#0..#31]))) then
+        if (Key <> VK_SPACE) or (edtCommand.Text <> '') then
         begin
-          TypeInCommandLine(UTF8Char);
-          Key := 0;
+          UTF8Char := VirtualKeyToUTF8Char(Key, ShiftEx - ModifierKeys);
+          if (UTF8Char <> '') and
+             (not ((Length(UTF8Char) = 1) and (UTF8Char[1] in [#0..#31]))) then
+          begin
+            TypeInCommandLine(UTF8Char);
+            Key := 0;
+          end;
         end;
       end;
       Break;

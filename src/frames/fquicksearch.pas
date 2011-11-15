@@ -232,20 +232,23 @@ begin
 {$ENDIF}
       then
       begin
-        UTF8Char := VirtualKeyToUTF8Char(Key, ModifierKeys - SearchOrFilterModifiers);
-        Result := (UTF8Char <> '') and
-                  (not ((Length(UTF8Char) = 1) and (UTF8Char[1] in [#0..#31])));
-
-        if Result then
+        if (Key <> VK_SPACE) or (edtSearch.Text <> '') then
         begin
-          Key := 0;
-          case gKeyTyping[KeyTypingModifier] of
-            ktaQuickSearch:
-              SearchMode := qsSearch;
-            ktaQuickFilter:
-              SearchMode := qsFilter;
+          UTF8Char := VirtualKeyToUTF8Char(Key, ModifierKeys - SearchOrFilterModifiers);
+          Result := (UTF8Char <> '') and
+                    (not ((Length(UTF8Char) = 1) and (UTF8Char[1] in [#0..#31])));
+
+          if Result then
+          begin
+            Key := 0;
+            case gKeyTyping[KeyTypingModifier] of
+              ktaQuickSearch:
+                SearchMode := qsSearch;
+              ktaQuickFilter:
+                SearchMode := qsFilter;
+            end;
+            Self.Initialize(SearchMode, UTF8Char);
           end;
-          Self.Initialize(SearchMode, UTF8Char);
         end;
 
         Exit;
@@ -527,4 +530,4 @@ begin
 end;
 
 end.
-
+
