@@ -399,7 +399,7 @@ procedure Register;
 implementation
 
 uses
-  LCLType, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding, UnicodeUtils, LCLIntf
+  LCLType, LCLVersion, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding, UnicodeUtils, LCLIntf
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix
   {$ELSEIF DEFINED(WINDOWS)}
@@ -489,6 +489,10 @@ begin
 
   Canvas.Font := Self.Font;
   Canvas.Brush.Color := Self.Color;
+  {$IF DEFINED(LCLQT) and (LCL_FULLVERSION < 093100)}
+  Canrvas.Brush.Style := bsSolid;
+  Canrvas.FillRect(ClientRect);
+  {$ENDIF}
   Canvas.Brush.Style := bsClear;
   FTextHeight := Canvas.TextHeight('Wg') + 2;
 
