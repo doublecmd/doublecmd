@@ -1357,12 +1357,12 @@ msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
 msgid "Remove"
 msgstr "Odstrani"
 
+# ???
 #: TFRMFILEASSOC.BTNRENAMETYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNRENAMETYPE.CAPTION"
 msgid "Rename"
 msgstr "Preimenuj"
 
-# ???
 #: TFRMFILEASSOC.BTNUPACT.CAPTION
 msgctxt "TFRMFILEASSOC.BTNUPACT.CAPTION"
 msgid "Up"
@@ -3902,12 +3902,12 @@ msgctxt "TFRMOPTIONSFONTS.LBLEDITORFONT.CAPTION"
 msgid "Editor font"
 msgstr "Pisava urejevalnika"
 
+# ???
 #: TFRMOPTIONSFONTS.LBLLOGFONT.CAPTION
 msgctxt "TFRMOPTIONSFONTS.LBLLOGFONT.CAPTION"
 msgid "Log font"
 msgstr "Pisava dnevnika"
 
-# ???
 #: TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION
 msgctxt "TFRMOPTIONSFONTS.LBLMAINFONT.CAPTION"
 msgid "Main font"
@@ -4619,11 +4619,11 @@ msgstr "=>"
 msgid "Put in the TAR archive first"
 msgstr "Najprej vstavi v arhiv TAR"
 
+# ??? Arhivirnik = packer
 #: TFRMPACKDLG.CBSTOREDIR.CAPTION
 msgid "Also &pack path names (only recursed)"
 msgstr "Zapakiraj tudi imena &poti (le pri več ravneh map)"
 
-# ??? Arhivirnik = packer
 #: TFRMPACKDLG.LBLPROMPT.CAPTION
 msgid "Pack file(s) to the file:"
 msgstr "Zapakiraj datoteke v arhiv:"
@@ -4645,12 +4645,12 @@ msgstr "Odpakiraj &vse in izvedi"
 msgid "&Unpack and execute"
 msgstr "Odpakiraj &in izvedi"
 
+# ???
 #: TFRMPACKINFODLG.CAPTION
 msgctxt "TFRMPACKINFODLG.CAPTION"
 msgid "Properties of packed file"
 msgstr "Lastnosti arhiva"
 
-# ???
 #: TFRMPACKINFODLG.LBLATTRIBUTES.CAPTION
 msgid "Attributes:"
 msgstr "Atributi:"
@@ -5858,6 +5858,7 @@ msgstr "Preiskano: %d"
 msgid "Scanning"
 msgstr "Preiskovanje"
 
+# multiple
 #: ulng.rsfindsearchfiles
 msgctxt "ulng.rsfindsearchfiles"
 msgid "Find files"
@@ -5868,7 +5869,6 @@ msgstr "Najdi datoteke"
 msgid "Begin at"
 msgstr "Začni pri"
 
-# multiple
 #: ulng.rsfreemsg
 msgid "Free %s from %s bytes"
 msgstr "Sprosti %s od %s bajtov"
@@ -6052,6 +6052,7 @@ msgstr "Zavihek (%s) je zaklenjen! Ali naj se vseeno zapre?"
 msgid "Are you sure you want to quit?"
 msgstr "Ali ste prepričani, da želite končati?"
 
+# multiple
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
 msgstr "Kopiraj izbrano v:"
@@ -6061,7 +6062,6 @@ msgstr "Kopiraj izbrano v:"
 msgid "Copy selected \"%s\"?"
 msgstr "Kopiraj \"%s\" v:"
 
-# multiple
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
 msgstr "Ali naj se izbrani predmeti izbrišejo (%d predmetov)?"
@@ -6238,6 +6238,14 @@ msgstr "Ali naj se sledi simbolni povezavi \"%s\"?"
 msgid "Invalid filename"
 msgstr "Neveljavno ime datoteke"
 
+#: ulng.rsmsginvalidpath
+msgid "Invalid path"
+msgstr ""
+
+#: ulng.rsmsginvalidpathlong
+msgid "Path %s contains forbidden characters."
+msgstr ""
+
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
 msgstr "Neveljaven izbor."
@@ -6375,11 +6383,11 @@ msgctxt "ulng.rsmsgpopuphotcnf"
 msgid "&Configure"
 msgstr "&Nastavitve"
 
+# multiple
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"
 msgstr "&Izbriši %s"
 
-# multiple
 #: ulng.rsmsgpresetalreadyexists
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Shranjen predmet \"%s\" že obstaja. Ali naj se prepiše?"
@@ -6388,11 +6396,11 @@ msgstr "Shranjen predmet \"%s\" že obstaja. Ali naj se prepiše?"
 msgid "Rename/move %d selected files/directories?"
 msgstr "Ali naj se izbrani predmeti preimenujejo oziroma premaknejo (%d)?"
 
+# double multiple
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"%s\"?"
 msgstr "Ali naj se predmet \"%s\" preimenuje oziroma premakne?"
 
-# double multiple
 #: ulng.rsmsgrestartforapplychanges
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Za uveljavitev sprememb je treba program ponovno zagnati."
@@ -6441,11 +6449,11 @@ msgstr "Uporabniško ime:"
 msgid "User name (Firewall):"
 msgstr "Uporabniško ime (požarni zid):"
 
+# multiple
 #: ulng.rsmsgvolumelabel
 msgid "Volume label:"
 msgstr "Oznaka dela arhiva:"
 
-# multiple
 #: ulng.rsmsgvolumesizeenter
 msgid "Please enter the volume size:"
 msgstr "Velikost dela arhiva:"
@@ -6909,12 +6917,12 @@ msgctxt "ulng.rssizeunitkbytes"
 msgid "Kilobytes"
 msgstr "Kilobajti"
 
+# multiple + window to small
 #: ulng.rssizeunitmbytes
 msgctxt "ulng.rssizeunitmbytes"
 msgid "Megabytes"
 msgstr "Megabajti"
 
-# multiple + window to small
 #: ulng.rssizeunittbytes
 msgid "Terabytes"
 msgstr "Terabajti"
@@ -7003,13 +7011,13 @@ msgstr "Omrežje"
 msgid "Internal Viewer of Double Commander."
 msgstr "Notranji pregledovalnik programa Double Commander."
 
+#~ msgid "Comments"
+#~ msgstr "Opombe"
 #: ulng.rsviewencoding
 msgctxt "ulng.rsviewencoding"
 msgid "Encoding"
 msgstr "Nabor znakov"
 
-#~ msgid "Comments"
-#~ msgstr "Opombe"
 #: ulng.rsviewnotfound
 msgid "%s not found!"
 msgstr "%s ni mogoče najti!"

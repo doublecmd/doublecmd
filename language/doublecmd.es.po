@@ -6433,6 +6433,14 @@ msgstr "¿Sigo el enlace duro \"%s\"?"
 msgid "Invalid filename"
 msgstr "Nombre no válido"
 
+#: ulng.rsmsginvalidpath
+msgid "Invalid path"
+msgstr ""
+
+#: ulng.rsmsginvalidpathlong
+msgid "Path %s contains forbidden characters."
+msgstr ""
+
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
 msgstr "Selección no válida"

@@ -6271,6 +6271,14 @@ msgstr "Iść za linkiem \"%s\"?"
 msgid "Invalid filename"
 msgstr "Błądna nazwa pliku"
 
+#: ulng.rsmsginvalidpath
+msgid "Invalid path"
+msgstr ""
+
+#: ulng.rsmsginvalidpathlong
+msgid "Path %s contains forbidden characters."
+msgstr ""
+
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
 msgstr "Błędny wybór."
@@ -6922,10 +6930,6 @@ msgstr "Tak (%s)"
 msgid "Search result"
 msgstr "Wynik wyszukiwania"
 
-#: ulng.rsselectdir
-msgid "Select a directory"
-msgstr "Wybierz katalog"
-
 #~ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 #~ msgid "OK"
 #~ msgstr "OK"
@@ -7025,6 +7029,10 @@ msgstr "Wybierz katalog"
 #~ msgstr "Filtr:"
 #~ msgid "Find:"
 #~ msgstr "Znajdź:"
+#: ulng.rsselectdir
+msgid "Select a directory"
+msgstr "Wybierz katalog"
+
 #: ulng.rssizeunitbytes
 msgid "Bytes"
 msgstr "Bajty"

@@ -6368,6 +6368,14 @@ msgstr "Прямувати за посиланням \"%s\"?"
 msgid "Invalid filename"
 msgstr "Некоректне ім'я файлу"
 
+#: ulng.rsmsginvalidpath
+msgid "Invalid path"
+msgstr ""
+
+#: ulng.rsmsginvalidpathlong
+msgid "Path %s contains forbidden characters."
+msgstr ""
+
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
 msgstr "Некоректне виділення."
