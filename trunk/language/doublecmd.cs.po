@@ -6513,6 +6513,14 @@ msgstr "Follow symbolický odkaz \"%s\"?"
 msgid "Invalid filename"
 msgstr "Nesprávné jméno souboru"
 
+#: ulng.rsmsginvalidpath
+msgid "Invalid path"
+msgstr ""
+
+#: ulng.rsmsginvalidpathlong
+msgid "Path %s contains forbidden characters."
+msgstr ""
+
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
 msgstr "Nesprávný výběr."

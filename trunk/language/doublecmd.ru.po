@@ -6390,6 +6390,14 @@ msgstr "Следовать ссылке \"%s\"?"
 msgid "Invalid filename"
 msgstr "Некорректное имя файла"
 
+#: ulng.rsmsginvalidpath
+msgid "Invalid path"
+msgstr ""
+
+#: ulng.rsmsginvalidpathlong
+msgid "Path %s contains forbidden characters."
+msgstr ""
+
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
 msgstr "Некорректное выделение."

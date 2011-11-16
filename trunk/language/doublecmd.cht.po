@@ -6452,6 +6452,14 @@ msgstr "允許符號捷徑\"%s\"嗎?"
 msgid "Invalid filename"
 msgstr "無效的檔案名稱"
 
+#: ulng.rsmsginvalidpath
+msgid "Invalid path"
+msgstr ""
+
+#: ulng.rsmsginvalidpathlong
+msgid "Path %s contains forbidden characters."
+msgstr ""
+
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
 msgstr "無效的選擇."

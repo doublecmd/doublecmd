@@ -6519,6 +6519,14 @@ msgstr "Sym-Link \"%s\" folgen?"
 msgid "Invalid filename"
 msgstr "Ungültiger Dateiname"
 
+#: ulng.rsmsginvalidpath
+msgid "Invalid path"
+msgstr ""
+
+#: ulng.rsmsginvalidpathlong
+msgid "Path %s contains forbidden characters."
+msgstr ""
+
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
 msgstr "Ungültige Auswahl"
