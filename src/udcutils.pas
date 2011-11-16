@@ -408,12 +408,19 @@ function EstimateRemainingTime(StartValue, CurrentValue, EndValue: Int64;
 
 function ModColor(AColor: TColor; APercent: Byte) : TColor;
 {en
-   Makes a color more darker
+   Makes a color some darker
    @param(AColor Source color)
    @param(APercent The percentage of brightness decrease)
-   @returns(New more darker color)
+   @returns(New some darker color)
 }
 function DarkColor(AColor: TColor; APercent: Byte): TColor;
+{en
+   Makes a color some lighter
+   @param(AColor Source color)
+   @param(APercent The percentage of brightness increase)
+   @returns(New some lighter color)
+}
+function LightColor(AColor: TColor; APercent: Byte): TColor;
 procedure SetColorInColorBox(const lcbColorBox: TColorBox; const lColor: TColor);
 procedure UpdateColor(Control: TControl; Checked: Boolean);
 procedure EnableControl(Control:  TControl; Enabled: Boolean);
@@ -1665,6 +1672,17 @@ begin
   R:= R - MulDiv(R, APercent, 100);
   G:= G - MulDiv(G, APercent, 100);
   B:= B - MulDiv(B, APercent, 100);
+  Result:= RGBToColor(R, G, B);
+end;
+
+function LightColor(AColor: TColor; APercent: Byte): TColor;
+var
+  R, G, B: Byte;
+begin
+  RedGreenBlue(ColorToRGB(AColor), R, G, B);
+  R:= R + MulDiv(255 - R, APercent, 100);
+  G:= G + MulDiv(255 - G, APercent, 100);
+  B:= B + MulDiv(255 - B, APercent, 100);
   Result:= RGBToColor(R, G, B);
 end;
 

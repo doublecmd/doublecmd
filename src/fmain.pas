@@ -2973,81 +2973,119 @@ var
   Operation: TFileSourceOperation;
   OperationHandle: TOperationHandle;
   StartingState: TOperationStartingState;
-  i, textHeight: Integer;
+  I: Integer;
   OutString: String;
+  ARect: TRect;
+  HeightSbox: Integer;
+  AStart, AStop: TColor;
 begin
   if OperationsManager.OperationsCount > 0 then
-    begin
-      // Calculate text height
-      textHeight:= sboxOperations.Canvas.TextHeight('Pg');
-      // Calculate item width
-      if (sboxOperations.Width / OperationsManager.OperationsCount) < 120 then
-        widthOfItem := Round(sboxOperations.Width / OperationsManager.OperationsCount)
-      else
-        widthOfItem := 120;
+  begin
+    HeightSbox:= sboxOperations.Height;
 
-    for i := 0 to OperationsManager.OperationsCount - 1 do
+    ARect:= sboxOperations.ClientRect;
+
+    sboxOperations.Canvas.Pen.Color:= cl3DDkShadow;
+    sboxOperations.Canvas.Rectangle(ARect);
+
+    Inc(ARect.Left);
+    Inc(ARect.Top);
+    Dec(ARect.Right, 2);
+    Dec(ARect.Bottom);
+
+    sboxOperations.Canvas.GradientFill(ARect, LightColor(clBtnHiLight, 20),
+                                       clBtnFace, gdVertical);
+
+    // Calculate item width
+    if (sboxOperations.Width / OperationsManager.OperationsCount) < 120 then
+      widthOfItem := Round(sboxOperations.Width / OperationsManager.OperationsCount)
+    else
+      widthOfItem := 120;
+
+    for I := 0 to OperationsManager.OperationsCount - 1 do
     begin
-      if (i=ItemEnd) and (PressLMB) or (i=IndexFocus) and (PressLMB) then
+      if (I = ItemEnd) and (PressLMB) or (I = IndexFocus) and (PressLMB) then
         begin
+          sboxOperations.Canvas.Pen.Color := cl3DDkShadow;
           sboxOperations.Canvas.Brush.Color := clMenuHighlight;
-          sboxOperations.Canvas.Rectangle(10 + (widthOfItem * i), 5,  widthOfItem-10 + (widthOfItem * i),  sboxOperations.Height - 8);
-          if IndexFocus<>ItemEnd then  OutString:= 'Move here' else  OutString:= 'Move from';
-          if i= IndexFocus then OutString:= 'Move from';
-          sboxOperations.Canvas.TextOut(18 + (widthOfItem * i), 7, OutString);
+          sboxOperations.Canvas.Brush.Style:= bsSolid;
+          // TODO: Localize strings
+          sboxOperations.Canvas.Rectangle(10 + (widthOfItem * I), 3, widthOfItem - 10 + (widthOfItem * I), sboxOperations.Height - 7);
+          if IndexFocus <> ItemEnd then OutString:= 'Move here' else OutString:= 'Move from';
+          if I = IndexFocus then OutString:= 'Move from';
+          sboxOperations.Canvas.Brush.Style:= bsClear;
+          sboxOperations.Canvas.TextOut(18 + (widthOfItem * I), 7, OutString);
         end
       else
-      begin
-      Operation := OperationsManager.GetOperationByIndex(i);
-      if Assigned(Operation) then
-      begin
-      OperationHandle := OperationsManager.GetHandleById(i);
-      case Operation.ID of
-        fsoCopy, fsoCopyIn, fsoCopyOut:
-          OutString := 'Copying';
-        fsoMove:
-          OutString := 'Moving';
-        fsoDelete:
-          OutString := 'Delete';
-        fsoWipe:
-          OutString := 'Erasing';
-        fsoCalcChecksum:
-          OutString := 'Counting';
-        else
-          OutString := 'Unknown';
-      end;
+        begin
+          Operation := OperationsManager.GetOperationByIndex(I);
+          if Assigned(Operation) then
+          begin
+            OperationHandle := OperationsManager.GetHandleById(I);
+            StartingState := OperationsManager.GetStartingState(OperationHandle);
 
-      OutString := IntToStr(OperationHandle) + ': '
-                 + OutString + ' - '
-                 + FloatToStrF(Operation.Progress * 100, ffFixed, 0, 0) + ' %';
+            // set progress bar color by operation state
 
-      StartingState := OperationsManager.GetStartingState(OperationHandle);
-      if OperationsManager.GetFormCreate (OperationHandle) = True  then
-         sboxOperations.Canvas.Brush.Color := clBtnShadow
-      else
-         sboxOperations.Canvas.Brush.Color := Canvas.Brush.Color;
-      // Draw border
-      sboxOperations.Canvas.Rectangle(0 + (widthOfItem * i), 0,  widthOfItem + (widthOfItem * i),  sboxOperations.Height - 4);
-      // Draw output string
-      sboxOperations.Canvas.TextOut(3 + (widthOfItem * i), 2, OutString);
+            // If it is stopped then it should be red
+            AStart:= RGB(255, 153, 149);
+            AStop:=  RGB(255, 110, 103);
 
-      // set progress bar color by operation state
+            // Orange if in queue
+            if (StartingState in [ossQueueIn, ossQueueFirst, ossQueueLast]) then
+            begin
+              AStart:= RGB(255, 202, 100);
+              AStop:=  RGB(255, 153, 4);
+            end;
 
-      sboxOperations.Canvas.Brush.Color := clRed; // If it is stopped then it should be red
+            // Green if running
+            if Operation.State = fsosRunning then
+            begin
+              AStart:= RGB(203, 233, 171);
+              AStop:=  RGB(146, 208, 80);
+            end;
 
-      if (StartingState in [ossQueueIn, ossQueueFirst, ossQueueLast]) then     // Yellow if in queue
-        sboxOperations.Canvas.Brush.Color := clYellow;
-      if Operation.State = fsosRunning then             //Blue if running
-        sboxOperations.Canvas.Brush.Color := clHighlight;
-      // Draw progress bar
-      sboxOperations.Canvas.FillRect(
-        3 + (widthOfItem * i),
-        2 + textHeight,
-        Round(5 + (widthOfItem * i) + (widthOfItem - 10) * Operation.Progress),
-        10 + textHeight);
+            case Operation.ID of
+            fsoCopy, fsoCopyIn, fsoCopyOut:
+              OutString := 'Copying';
+            fsoMove:
+              OutString := 'Moving';
+            fsoDelete:
+              OutString := 'Delete';
+            fsoWipe:
+              OutString := 'Erasing';
+            fsoCalcChecksum:
+              OutString := 'Counting';
+            else
+              OutString := 'Unknown';
+            end;
+
+          OutString := IntToStr(OperationHandle) + ': '
+                       + OutString + ' - '
+                       + FloatToStrF(Operation.Progress * 100, ffFixed, 0, 0) + ' %';
+
+          if OperationsManager.GetFormCreate (OperationHandle) = True then
+            sboxOperations.Canvas.Pen.Color := clMenuHighlight
+          else
+            sboxOperations.Canvas.Pen.Color := LightColor(cl3DDkShadow, 40);
+
+          sboxOperations.Canvas.Brush.Style:= bsClear;
+          // Draw border
+          sboxOperations.Canvas.Rectangle(2 + (widthOfItem * I), 2, widthOfItem + (widthOfItem * I), HeightSbox - 6);
+
+          // Draw progress bar
+          ARect.TopLeft.x:= 3 + (widthOfItem * I);
+          ARect.TopLeft.y:= 3;
+
+          ARect.BottomRight.x:= Round(5 + (widthOfItem * I) + (widthOfItem - 10) * Operation.Progress);
+          ARect.BottomRight.y:= HeightSbox - 7;
+
+          sboxOperations.Canvas.GradientFill(ARect, AStart, AStop, gdVertical);
+
+          // Draw output string
+          sboxOperations.Canvas.TextOut(3 + (widthOfItem * I), 2, OutString);
+        end;
       end;
     end;
-      end;
   end;
 end;
 
