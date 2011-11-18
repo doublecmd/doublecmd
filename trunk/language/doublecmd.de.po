@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2011-11-02 11:34+0100\n"
+"PO-Revision-Date: 2011-11-17 11:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -6317,7 +6317,7 @@ msgstr "Die Datei \"%s\" kann nicht über sich selbst kopiert / verschoben werde
 
 #: ulng.rsmsgcannotdeletedirectory
 msgid "Cannot delete directory %s"
-msgstr ""
+msgstr "Kann Verzeichnis %s nicht löschen."
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -6521,11 +6521,11 @@ msgstr "Ungültiger Dateiname"
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"
-msgstr ""
+msgstr "Ungültiger Pfad"
 
 #: ulng.rsmsginvalidpathlong
 msgid "Path %s contains forbidden characters."
-msgstr ""
+msgstr "Pfad %s enthält ungültige Zeichen."
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
@@ -6641,7 +6641,7 @@ msgstr "Passwort"
 
 #: ulng.rsmsgpassworddiff
 msgid "Passwords are different!"
-msgstr ""
+msgstr "Die zwei Passwort-Eingaben stimmen nicht überein!"
 
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
@@ -6653,7 +6653,7 @@ msgstr "Passwort (Firewall):"
 
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
-msgstr ""
+msgstr "Bitte das Passwort zum Verifizieren erneut eingeben!"
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
@@ -6922,7 +6922,7 @@ msgstr "Befehle"
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
-msgstr ""
+msgstr "Beschreibung"
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"
