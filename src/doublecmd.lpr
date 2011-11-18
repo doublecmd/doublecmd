@@ -4,6 +4,9 @@ program doublecmd;
 
 {.$APPTYPE GUI}
 uses
+  {$IFDEF WIN64}
+  uExceptionHandlerFix,
+  {$ENDIF}
   {$IFDEF UNIX}
   cthreads,
   //cwstring,
