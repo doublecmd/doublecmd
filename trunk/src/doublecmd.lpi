@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="155">
+    <Units Count="156">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1173,6 +1173,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uFileViewHeader"/>
       </Unit154>
+      <Unit155>
+        <Filename Value="platform\win\uexceptionhandlerfix.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uExceptionHandlerFix"/>
+      </Unit155>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
