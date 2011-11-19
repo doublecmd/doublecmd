@@ -7,23 +7,25 @@ interface
 uses
   Classes, SysUtils; 
 
-{en
-  Convert from OEM to System encoding, if needed
-}
-function OEMToSys(Source: String): String;
-function SysToOEM(Source: String): String;
+var
 
-{en
-  Convert from Ansi to System encoding, if needed
-}
-function AnsiToSys(Source: String): String;
-function SysToAnsi(Source: String): String;
+  {en
+    Convert from OEM to System encoding, if needed
+  }
+  OEMToSys: function (const Source: String): String;
+  SysToOEM: function (const Source: String): String;
 
-{en
-  Convert from Utf8 to System encoding, if needed
-}
-function Utf8ToSys(Source: String): String;
-function SysToUtf8(Source: String): String;
+  {en
+    Convert from Ansi to System encoding, if needed
+  }
+  AnsiToSys: function (const Source: String): String;
+  SysToAnsi: function (const Source: String): String;
+
+  {en
+    Convert from Utf8 to System encoding, if needed
+  }
+  Utf8ToSys: function (const Source: String): String;
+  SysToUtf8: function (const Source: String): String;
 
 {$IFDEF UNIX}
 function GetSystemEncoding(out Language, Encoding: String): Boolean;
@@ -39,9 +41,46 @@ uses
   {$ENDIF}
   ;
 
-{$IFDEF UNIX}
+function Dummy(const Source: String): String;
+begin
+  Result:= Source;
+end;
+
+function Ansi2UTF8(const Source: String): String;
+begin
+  Result:= UTF8Encode(Source);
+end;
+
+function UTF82Ansi(const Source: String): String;
+begin
+  Result:= UTF8Decode(Source);
+end;
+
+{$IF DEFINED(MSWINDOWS)}
+
+function OEM2Ansi(const Source: String): String;
 var
-  IsInitIconv: Boolean = False;
+  Dst: PAnsiChar;
+begin
+  Result:= Source;
+  Dst:= AllocMem((Length(Result) + 1) * SizeOf(AnsiChar));
+  if OEMToChar(PAnsiChar(Result), Dst) then
+    Result:= StrPas(Dst);
+  FreeMem(Dst);
+end;
+
+function Ansi2OEM(const Source: String): String;
+var
+  Dst: PAnsiChar;
+begin
+  Result := Source;
+  Dst := AllocMem((Length(Result) + 1) * SizeOf(AnsiChar));
+  if CharToOEM(PAnsiChar(Result), Dst) then
+    Result := StrPas(Dst);
+  FreeMem(Dst);
+end;
+
+{$ELSEIF DEFINED(UNIX)}
 
 function GetSystemEncoding(out Language, Encoding: String): Boolean;
 var
@@ -67,135 +106,88 @@ begin
   if Length(Encoding) = 0 then
     Encoding:= 'UTF-8';
 end;
-{$ENDIF}
 
-{ -------------------------------------------------------------------------- }
-
-function OEMToSys(Source: String): String;
-{$IFDEF MSWINDOWS}
 var
-  Dst: PAnsiChar;
-begin
-  Result:= Source;
-  Dst:= AllocMem((Length(Result) + 1) * SizeOf(AnsiChar));
-  if OEMToChar(PAnsiChar(Result), Dst) then
-    Result:= StrPas(Dst);
-  FreeMem(Dst);
-end;
-{$ELSE}
-var
+  OEM,          // OEM Encoding
+  ANSI: String; // ANSI Encoding
   Language, Encoding: String;
+
+function OEM2Sys(const Source: String): String;
 begin
   Result:= Source;
-  if GetSystemEncoding(Language, Encoding) then
-    begin
-      if (Language = 'be') or (Language = 'ru') or (Language = 'uk') then
-        if IsInitIconv then
-          begin
-            Iconvert(Source, Result, 'CP866', Encoding);
-          end;
-   end;
+  Iconvert(Source, Result, OEM, Encoding);
 end;
-{$ENDIF}
 
-function SysToOEM(Source: String): String;
-{$IFDEF MSWINDOWS}
-var
-  Dst: PAnsiChar;
-begin
-  Result := Source;
-  Dst := AllocMem((Length(Result) + 1) * SizeOf(AnsiChar));
-  if CharToOEM(PAnsiChar(Result), Dst) then
-    Result := StrPas(Dst);
-  FreeMem(Dst);
-end;
-{$ELSE}
-var
-  Language, Encoding: String;
+function Sys2OEM(const Source: String): String;
 begin
   Result:= Source;
-  if GetSystemEncoding(Language, Encoding) then
-    begin
-      if (Language = 'be') or (Language = 'ru') or (Language = 'uk') then
-        if IsInitIconv then
-          begin
-            Iconvert(Source, Result, Encoding, 'CP866');
-          end;
-   end;
+  Iconvert(Source, Result, Encoding, OEM);
 end;
-{$ENDIF}
 
-{ -------------------------------------------------------------------------- }
-
-function AnsiToSys(Source: String): String;
-{$IFDEF MSWINDOWS}
+function Ansi2Sys(const Source: String): String;
 begin
   Result:= Source;
+  Iconvert(Source, Result, ANSI, Encoding);
 end;
-{$ELSE}
-var
-  Language, Encoding: String;
+
+function Sys2Ansi(const Source: String): String;
 begin
   Result:= Source;
-  if GetSystemEncoding(Language, Encoding) then
-    begin
-      if (Language = 'be') or (Language = 'bg') or (Language = 'ru') or (Language = 'uk') then
-        if IsInitIconv then
-          begin
-            Iconvert(Source, Result, 'CP1251', Encoding);
-          end;
-   end;
+  Iconvert(Source, Result, Encoding, ANSI);
 end;
+
 {$ENDIF}
 
-function SysToAnsi(Source: String): String;
-{$IFDEF MSWINDOWS}
-begin
-  Result:= Source;
-end;
-{$ELSE}
-var
-  Language, Encoding: String;
-begin
-  Result:= Source;
-  if GetSystemEncoding(Language, Encoding) then
-    begin
-      if (Language = 'be') or (Language = 'bg') or (Language = 'ru') or (Language = 'uk') then
-        if IsInitIconv then
-          begin
-            Iconvert(Source, Result, Encoding, 'CP1251');
-          end;
-   end;
-end;
-{$ENDIF}
-
-function Utf8ToSys(Source: String): String;
-begin
-{$IFDEF MSWINDOWS}
-  Result := Utf8ToAnsi(Source);
-{$ELSE}
-  Result := Source;
-{$ENDIF}
-end;
-
-function SysToUtf8(Source: String): String;
-begin
-{$IFDEF MSWINDOWS}
-  Result := AnsiToUtf8(Source);
-{$ELSE}
-  Result := Source;
-{$ENDIF}
-end;
-
-{$IFDEF UNIX}
-var
-  sError: String;
-
+{$IF DEFINED(MSWINDOWS)}
 initialization
+  OEMToSys:=  @OEM2Ansi;
+  SysToOEM:=  @Ansi2OEM;
+  AnsiToSys:= @Dummy;
+  SysToAnsi:= @Dummy;
+  Utf8ToSys:= @UTF82Ansi;
+  SysToUtf8:= @Ansi2UTF8;
+{$ELSEIF DEFINED(UNIX)}
+var
+  Error: String;
+initialization
+  OEMToSys:=  @Dummy;
+  SysToOEM:=  @Dummy;
+  AnsiToSys:= @Dummy;
+  SysToAnsi:= @Dummy;
+  Utf8ToSys:= @Dummy;
+  SysToUtf8:= @Dummy;
 
-  IsInitIconv:= InitIconv(sError);
-  if not IsInitIconv then
-    WriteLn(sError);
+  // Try to get system encoding and initialize Iconv library
+  if not (GetSystemEncoding(Language, Encoding) and InitIconv(Error)) then
+    WriteLn(Error)
+  else
+    begin
+      if (Language = 'be') or (Language = 'ru') or (Language = 'uk') then
+      begin
+        OEM:= 'CP866';
+        OEMToSys:= @OEM2Sys;
+        SysToOEM:= @Sys2OEM;
+      end;
+      if (Language = 'be') or (Language = 'bg') or (Language = 'ru') or (Language = 'uk') then
+      begin
+        ANSI:= 'CP1251';
+        AnsiToSys:= @Ansi2Sys;
+        SysToAnsi:= @Sys2Ansi;
+      end;
+      if not ((Encoding = 'UTF8') or (Encoding = 'UTF-8')) then
+      begin
+        Utf8ToSys:= @UTF82Ansi;
+        SysToUtf8:= @Ansi2UTF8;
+      end;
+    end;
+{$ELSE}
+initialization
+  OEMToSys:=  @Dummy;
+  SysToOEM:=  @Dummy;
+  AnsiToSys:= @Dummy;
+  SysToAnsi:= @Dummy;
+  Utf8ToSys:= @Dummy;
+  SysToUtf8:= @Dummy;
 {$ENDIF}
 
 end.
