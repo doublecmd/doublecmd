@@ -1259,181 +1259,144 @@ object frmMain: TfrmMain
       Caption = '&Files'
       object mnuFilesSymLink: TMenuItem
         Action = actSymLink
-        OnClick = actExecute
       end
       object mnuFilesHardLink: TMenuItem
         Action = actHardLink
-        OnClick = actExecute
       end
       object miLine1: TMenuItem
         Caption = '-'
       end
       object mnuSetFileProperties: TMenuItem
         Action = actSetFileProperties
-        OnClick = actExecute
       end
       object mnuFilesProperties: TMenuItem
         Action = actFileProperties
-        OnClick = actExecute
       end
       object miEditComment: TMenuItem
         Action = actEditComment
-        OnClick = actExecute
       end
       object mnuFilesSpace: TMenuItem
         Action = actCalculateSpace
-        OnClick = actExecute
       end
       object mnuFilesCmpCnt: TMenuItem
         Action = actCompareContents
-        OnClick = actExecute
       end
       object miMultiRename: TMenuItem
         Action = actMultiRename
-        OnClick = actExecute
       end
       object miLine2: TMenuItem
         Caption = '-'
       end
       object mnuPackFiles: TMenuItem
         Action = actPackFiles
-        OnClick = actExecute
       end
       object mnuExtractFiles: TMenuItem
         Action = actExtractFiles
-        OnClick = actExecute
       end
       object mnuTestArchive: TMenuItem
         Action = actTestArchive
-        OnClick = actExecute
       end
       object mnuFilesSplit: TMenuItem
         Action = actFileSpliter
-        OnClick = actExecute
       end
       object mnuFilesCombine: TMenuItem
         Action = actFileLinker
-        OnClick = actExecute
       end
       object mnuCheckSumCalc: TMenuItem
         Action = actCheckSumCalc
-        OnClick = actExecute
       end
       object mnuCheckSumVerify: TMenuItem
         Action = actCheckSumVerify
-        OnClick = actExecute
       end
       object miLine4: TMenuItem
         Caption = '-'
       end
       object miExit: TMenuItem
         Action = actExit
-        OnClick = actExecute
       end
     end
     object mnuMark: TMenuItem
       Caption = '&Mark'
       object mnuMarkSGroup: TMenuItem
         Action = actMarkPlus
-        OnClick = actExecute
       end
       object mnuMarkUGroup: TMenuItem
         Action = actMarkMinus
-        OnClick = actExecute
       end
       object mnuMarkSAll: TMenuItem
         Action = actMarkMarkAll
-        OnClick = actExecute
       end
       object mnuMarkUAll: TMenuItem
         Action = actMarkUnmarkAll
-        OnClick = actExecute
       end
       object mnuMarkInvert: TMenuItem
         Action = actMarkInvert
-        OnClick = actExecute
       end
       object mnuMarkCurrentExtension: TMenuItem
         Action = actMarkCurrentExtension
-        OnClick = actExecute
       end
       object mnuUnmarkCurrentExtension: TMenuItem
         Action = actUnmarkCurrentExtension
-        OnClick = actExecute
       end
       object miLine47: TMenuItem
         Caption = '-'
       end
       object mnuSaveSelection: TMenuItem
         Action = actSaveSelection
-        OnClick = actExecute
       end
       object mnuRestoreSelection: TMenuItem
         Action = actRestoreSelection
-        OnClick = actExecute
       end
       object mnuSaveSelectionToFile: TMenuItem
         Action = actSaveSelectionToFile
-        OnClick = actExecute
       end
       object mnuLoadSelectionFromFile: TMenuItem
         Action = actLoadSelectionFromFile
-        OnClick = actExecute
       end
       object mnuLoadSelectionFromClip: TMenuItem
         Action = actLoadSelectionFromClip
-        OnClick = actExecute
       end
       object miLine5: TMenuItem
         Caption = '-'
       end
       object miCopyNamesToClip: TMenuItem
         Action = actCopyNamesToClip
-        OnClick = actExecute
       end
       object miCopyFullNamesToClip: TMenuItem
         Action = actCopyFullNamesToClip
-        OnClick = actExecute
       end
     end
     object mnuCmd: TMenuItem
       Caption = '&Commands'
       object mnuCmdSearch: TMenuItem
         Action = actSearch
-        OnClick = actExecute
       end
       object mnuCmdDirHotlist: TMenuItem
         Action = actDirHotList
-        OnClick = actExecute
       end
       object miLine6: TMenuItem
         Caption = '-'
       end
       object miRunTerm: TMenuItem
         Action = actRunTerm
-        OnClick = actExecute
       end
       object miLine9: TMenuItem
         Caption = '-'
       end
       object mnuOpenVFSList: TMenuItem
         Action = actOpenVirtualFileSystemList
-        OnClick = actExecute
       end
       object mnuCmdSwapSourceTarget: TMenuItem
         Action = actExchange
-        OnClick = actExecute
       end
       object mnuCmdTargetIsSource: TMenuItem
         Action = actTargetEqualSource
-        OnClick = actExecute
       end
       object miLine22: TMenuItem
         Caption = '-'
       end
       object mnuCountDirContent: TMenuItem
         Action = actCountDirContent
-        OnClick = actExecute
       end
     end
     object mnuNetwork: TMenuItem
@@ -1441,37 +1404,30 @@ object frmMain: TfrmMain
       Visible = False
       object miNetworkConnect: TMenuItem
         Action = actNetworkConnect
-        OnClick = actExecute
       end
       object miNetworkQuickConnect: TMenuItem
         Action = actNetworkQuickConnect
-        OnClick = actExecute
       end
       object miNetworkDisconnect: TMenuItem
         Action = actNetworkDisconnect
-        OnClick = actExecute
       end
     end
     object mnuTabs: TMenuItem
       Caption = '&Tabs'
       object mnuNewTab: TMenuItem
         Action = actNewTab
-        OnClick = actExecute
       end
       object mnuOpenDirInNewTab: TMenuItem
         Action = actOpenDirInNewTab
-        OnClick = actExecute
       end
       object miLine15: TMenuItem
         Caption = '-'
       end
       object mnuRemoveTab: TMenuItem
         Action = actRemoveTab
-        OnClick = actExecute
       end
       object mnuRemoveAllTabs: TMenuItem
         Action = actRemoveAllTabs
-        OnClick = actExecute
       end
       object miLine16: TMenuItem
         Caption = '-'
@@ -1480,19 +1436,15 @@ object frmMain: TfrmMain
         Caption = '&Options'
         object mnuTabOptionNormal: TMenuItem
           Action = actSetTabOptionNormal
-          OnClick = actExecute
         end
         object mnuTabOptionPathLocked: TMenuItem
           Action = actSetTabOptionPathLocked
-          OnClick = actExecute
         end
         object mnuTabOptionPathResets: TMenuItem
           Action = actSetTabOptionPathResets
-          OnClick = actExecute
         end
         object mnuTabOptionDirsInNewTabs: TMenuItem
           Action = actSetTabOptionDirsInNewTab
-          OnClick = actExecute
         end
       end
       object miLine17: TMenuItem
@@ -1500,59 +1452,48 @@ object frmMain: TfrmMain
       end
       object mnuNextTab: TMenuItem
         Action = actNextTab
-        OnClick = actExecute
       end
       object mnuPrevTab: TMenuItem
         Action = actPrevTab
-        OnClick = actExecute
       end
     end
     object mnuShow: TMenuItem
       Caption = '&Show'
       object mnuQuickView: TMenuItem
         Action = actQuickView
-        OnClick = actExecute
       end
       object miLine32: TMenuItem
         Caption = '-'
       end
       object mnuShowName: TMenuItem
         Action = actSortByName
-        OnClick = actExecute
       end
       object mnuShowExtension: TMenuItem
         Action = actSortByExt
-        OnClick = actExecute
       end
       object mnuShowSize: TMenuItem
         Action = actSortBySize
-        OnClick = actExecute
       end
       object mnuShowTime: TMenuItem
         Action = actSortByDate
-        OnClick = actExecute
       end
       object mnuShowAttrib: TMenuItem
         Action = actSortByAttr
-        OnClick = actExecute
       end
       object miLine7: TMenuItem
         Caption = '-'
       end
       object mnuShowReverse: TMenuItem
         Action = actReverseOrder
-        OnClick = actExecute
       end
       object mnuShowReread: TMenuItem
         Action = actRefresh
-        OnClick = actExecute
       end
       object miLine3: TMenuItem
         Caption = '-'
       end
       object mnuFilesShwSysFiles: TMenuItem
         Action = actShowSysFiles
-        OnClick = actExecute
       end
       object miLine20: TMenuItem
         Caption = '-'
@@ -1571,33 +1512,27 @@ object frmMain: TfrmMain
       Caption = 'C&onfiguration'
       object mnuConfigOptions: TMenuItem
         Action = actOptions
-        OnClick = actExecute
       end
       object mnuFileAssoc: TMenuItem
         Action = actFileAssoc
-        OnClick = actExecute
       end
     end
     object mnuHelp: TMenuItem
       Caption = '&Help'
       object mnuHelpIndex: TMenuItem
         Action = actHelpIndex
-        OnClick = actExecute
       end
       object mnuHelpKeyboard: TMenuItem
         Action = actKeyboard
-        OnClick = actExecute
       end
       object mnuHelpVisitHomePage: TMenuItem
         Action = actVisitHomePage
-        OnClick = actExecute
       end
       object miLine18: TMenuItem
         Caption = '-'
       end
       object mnuHelpAbout: TMenuItem
         Action = actAbout
-        OnClick = actExecute
       end
     end
     object AllOpPct: TMenuItem
