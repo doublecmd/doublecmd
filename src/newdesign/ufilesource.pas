@@ -224,7 +224,7 @@ type
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; virtual;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; virtual;
     function CreateSplitOperation(var aSourceFile: TFile;
-                                    aTargetPath: String): TFileSourceOperation;
+                                    aTargetPath: String): TFileSourceOperation; virtual;
     function CreateCombineOperation(var theSourceFiles: TFiles;
                                     aTargetFile: String): TFileSourceOperation; virtual;
     function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; virtual;
