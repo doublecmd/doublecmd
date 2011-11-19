@@ -2143,14 +2143,17 @@ object frmMain: TfrmMain
     object actViewHistory: TAction
       Category = 'Commands'
       Caption = 'Show history of visited paths for active view'
+      OnExecute = actExecute
     end
     object actViewHistoryPrev: TAction
       Category = 'Commands'
       Caption = 'Go to previous entry in history'
+      OnExecute = actExecute
     end
     object actViewHistoryNext: TAction
       Category = 'Commands'
       Caption = 'Go to next entry in history'
+      OnExecute = actExecute
     end
     object actNetworkConnect: TAction
       Category = 'Network'
