@@ -60,7 +60,7 @@ type
     function CreateDeleteOperation(var FilesToDelete: TFiles): TFileSourceOperation; override;
     function CreateWipeOperation(var FilesToWipe: TFiles): TFileSourceOperation; override;
     function CreateSplitOperation(var aSourceFile: TFile;
-                                  aTargetPath: String): TFileSourceOperation;
+                                  aTargetPath: String): TFileSourceOperation; override;
     function CreateCombineOperation(var SourceFiles: TFiles;
                                     aTargetFile: String): TFileSourceOperation; override;
     function CreateCreateDirectoryOperation(BasePath: String; DirectoryPath: String): TFileSourceOperation; override;
