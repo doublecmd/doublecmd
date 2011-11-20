@@ -982,6 +982,7 @@ begin
          end;
        ActivePlugin:= I;
        WlxPlugins.GetWlxModule(ActivePlugin).ResizeWindow(pnlLister.ClientRect);
+       miPrint.Enabled:= WlxPlugins.GetWlxModule(ActivePlugin).CanPrint;
        Exit;
      end
    else  I:= I + 1;
@@ -1000,6 +1001,7 @@ begin
       WlxPlugins.GetWLxModule(ActivePlugin).CallListCloseWindow;
       WlxPlugins.GetWLxModule(ActivePlugin).UnloadModule;
     end;
+  miPrint.Enabled:= False;
 end;
 
 {$IF FPC_FULLVERSION < 020501}

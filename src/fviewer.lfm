@@ -2108,6 +2108,7 @@ object frmViewer: TfrmViewer
       end
       object miPrint: TMenuItem
         Caption = 'Print...'
+        Enabled = False
         ShortCut = 16464
         OnClick = miPrintClick
       end

@@ -8,7 +8,7 @@
 
    contributors:
 
-   Copyright (C) 2009  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2009-2011  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@
 unit uwlxmodule; 
 
 {$mode objfpc}{$H+}
+
 interface
 
 uses
@@ -79,7 +80,8 @@ type
         FModuleHandle:TLibHandle;  // Handle to .DLL or .so
         FForce:boolean;
         FParser:TParserControl;
-        FPluginWindow:THandle;
+        FPluginWindow: HWND;
+        function GetCanPrint: Boolean;
         function GIsLoaded:boolean;
       public
         Name:string;
@@ -93,7 +95,7 @@ type
         function LoadModule:Boolean;
         procedure UnloadModule;
         //---------------------
-        function CallListLoad(ParentWin:HWND; FileToLoad:string; ShowFlags:integer):THandle;
+        function CallListLoad(ParentWin:HWND; FileToLoad:string; ShowFlags:integer): HWND;
         function CallListLoadNext(ParentWin: HWND; FileToLoad: string; ShowFlags: integer): integer;
         function CallListGetDetectString:string;
         procedure CallListSetDefaultParams;
@@ -113,7 +115,8 @@ type
         property IsLoaded:boolean read GIsLoaded;
         property ModuleHandle:TLibHandle read FModuleHandle write FModuleHandle;
         property Force:boolean read FForce write FForce;
-        property PluginWindow:THandle read FPluginWindow;
+        property PluginWindow: HWND read FPluginWindow;
+        property CanPrint: Boolean read GetCanPrint;
       end;
 
       { TWLXModuleList }
@@ -202,9 +205,14 @@ begin
   Result:=FModuleHandle<>0;
 end;
 
+function TWLXModule.GetCanPrint: Boolean;
+begin
+  Result:= Assigned(ListPrint) or Assigned(ListPrintW);
+end;
+
 constructor TWLXModule.Create;
 begin
-FParser:=TParserControl.Create;
+  FParser:=TParserControl.Create;
 end;
 
 destructor TWLXModule.Destroy;
@@ -273,10 +281,10 @@ begin
 end;
 
 function TWLXModule.CallListLoad(ParentWin: HWND; FileToLoad: string;
-  ShowFlags: integer): THandle;
+  ShowFlags: integer): HWND;
 begin
   {$IFDEF LCLQT}
-  ParentWin:= PtrInt(TQtWidget(ParentWin).GetContainerWidget);
+  ParentWin:= HWND(TQtWidget(ParentWin).GetContainerWidget);
   {$ENDIF}
 
   if Assigned(ListLoadW) then
@@ -293,7 +301,7 @@ function TWLXModule.CallListLoadNext(ParentWin: HWND;
   FileToLoad: string; ShowFlags: integer): integer;
 begin
   {$IFDEF LCLQT}
-  ParentWin:= PtrInt(TQtWidget(ParentWin).GetContainerWidget);
+  ParentWin:= HWND(TQtWidget(ParentWin).GetContainerWidget);
   {$ENDIF}
 
   if Assigned(ListLoadNextW) then
