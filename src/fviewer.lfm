@@ -2272,7 +2272,6 @@ object frmViewer: TfrmViewer
       Caption = 'About'
       object miAbout2: TMenuItem
         Action = actAbout
-        OnClick = miAbout2Click
       end
     end
   end
