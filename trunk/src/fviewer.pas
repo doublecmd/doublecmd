@@ -48,6 +48,7 @@ type
 
   TfrmViewer = class(TForm, IFormCommands)
     actAbout: TAction;
+    actReload: TAction;
     actionList: TActionList;
     btnCopyFile1: TSpeedButton;
     btnDeleteFile1: TSpeedButton;
@@ -64,6 +65,7 @@ type
     gboxView: TGroupBox;
     gboxSlideShow: TGroupBox;
     GifAnim: TGifAnim;
+    miReload: TMenuItem;
     miLookBook: TMenuItem;
     miDiv4: TMenuItem;
     miPreview: TMenuItem;
@@ -148,6 +150,7 @@ type
     miCopyToClipboard: TMenuItem;
     TimerViewer: TTimer;
     ViewerControl: TViewerControl;
+    procedure actExecute(Sender: TObject);
     procedure btnCopyMoveFileClick(Sender: TObject);
     procedure btnCutTuImageClick(Sender: TObject);
     procedure btnDeleteFileClick(Sender: TObject);
@@ -159,7 +162,6 @@ type
     procedure btnPrevClick(Sender: TObject);
     procedure btnPrevGifFrameClick(Sender: TObject);
     procedure btnRedEyeClick(Sender: TObject);
-    procedure btnReloadClick(Sender: TObject);
     procedure btnResizeClick(Sender: TObject);
     procedure btnUndoClick(Sender: TObject);
     procedure DrawPreviewDrawCell(Sender: TObject; aCol, aRow: Integer;
@@ -261,9 +263,7 @@ type
     procedure SaveImageAs (Var sExt: String; senderSave: boolean; Quality: integer);
     procedure CreatePreview(FullPathToFile:string; index:integer; delete: boolean = false);
 
-    {$IF FPC_FULLVERSION >= 020501}
-    property Commands: TFormCommands read FCommands implements IFormCommands;
-    {$ENDIF}
+    property Commands: TFormCommands read FCommands{$IF FPC_FULLVERSION >= 020501} implements IFormCommands{$ENDIF};
 
   public
     constructor Create(TheOwner: TComponent; aFileSource: IFileSource); overload;
@@ -284,6 +284,7 @@ type
     property QuickView: Boolean read bQuickView write bQuickView;
   published
     procedure cm_About(Param: String='');
+    procedure cm_Reload(Param: String='');
   end;
 
 procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource = nil);
@@ -1026,6 +1027,11 @@ begin
   miAbout2Click(Self);
 end;
 
+procedure TfrmViewer.cm_Reload(Param: String);
+begin
+  LoadFile(iActiveFile);
+end;
+
 procedure TfrmViewer.miPluginsClick(Sender: TObject);
 begin
   bPlugin:= CheckPlugins(FileList.Strings[iActiveFile], True);
@@ -1536,6 +1542,15 @@ begin
      Exit;
 end;
 
+procedure TfrmViewer.actExecute(Sender: TObject);
+var
+  cmd: string;
+begin
+  cmd := (Sender as TAction).Name;
+  cmd := 'cm_' + Copy(cmd, 4, Length(cmd) - 3);
+  Commands.ExecuteCommand(cmd, '');
+end;
+
 procedure TfrmViewer.btnFullScreenClick(Sender: TObject);
 begin
   miFullScreenClick(Sender);
@@ -1627,11 +1642,6 @@ end;
 procedure TfrmViewer.btnRedEyeClick(Sender: TObject);
 begin
   RedEyes;
-end;
-
-procedure TfrmViewer.btnReloadClick(Sender: TObject);
-begin
-   LoadFile (iActiveFile);
 end;
 
 procedure TfrmViewer.btnResizeClick(Sender: TObject);

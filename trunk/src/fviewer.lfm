@@ -911,9 +911,9 @@ object frmViewer: TfrmViewer
       object btnReload: TSpeedButton
         Left = 1
         Height = 46
-        Hint = 'Reload'
         Top = 1
         Width = 48
+        Action = actReload
         Align = alLeft
         BorderSpacing.Bottom = 2
         Glyph.Data = {
@@ -982,7 +982,7 @@ object frmViewer: TfrmViewer
           FF00FFFFFF00FFFFFF00
         }
         NumGlyphs = 0
-        OnClick = btnReloadClick
+        ShowCaption = False
       end
       object btnPaint: TSpeedButton
         Left = 462
@@ -1599,9 +1599,9 @@ object frmViewer: TfrmViewer
         AnchorSideBottom.Control = btnPrev1
         Left = 1
         Height = 28
-        Hint = 'Reload'
         Top = 1
         Width = 32
+        Action = actReload
         Align = alLeft
         Glyph.Data = {
           C6070000424DC607000000000000360000002800000016000000160000000100
@@ -1669,7 +1669,7 @@ object frmViewer: TfrmViewer
           FF00FFFFFF00FFFFFF00
         }
         NumGlyphs = 0
-        OnClick = btnReloadClick
+        ShowCaption = False
       end
       object btnPrev1: TSpeedButton
         Left = 33
@@ -2112,6 +2112,9 @@ object frmViewer: TfrmViewer
         ShortCut = 16464
         OnClick = miPrintClick
       end
+      object miReload: TMenuItem
+        Action = actReload
+      end
       object miSeparator: TMenuItem
         Caption = '-'
       end
@@ -2305,9 +2308,16 @@ object frmViewer: TfrmViewer
     left = 365
     top = 66
     object actAbout: TAction
+      Category = 'Help'
       Caption = 'About Viewer...'
       Hint = 'Displays the About message'
       OnExecute = miAbout2Click
+    end
+    object actReload: TAction
+      Category = 'File'
+      Caption = 'Reload'
+      Hint = 'Reload current file'
+      OnExecute = actExecute
     end
   end
 end

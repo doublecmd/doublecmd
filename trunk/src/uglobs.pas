@@ -82,7 +82,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 5;
+  hkVersion     = 6;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -440,8 +440,8 @@ begin
   HMForm := HotMan.Forms.FindOrCreate('Viewer');
   with HMForm.Hotkeys do
     begin
-      AddIfNotExists('F1','cm_Viewer_About','');
-      AddIfNotExists('F1','cm_Viewer_DeleteFile','');
+      AddIfNotExists('F1','cm_About','');
+      AddIfNotExists('F2','cm_Reload','');
     end;
 end;
 
