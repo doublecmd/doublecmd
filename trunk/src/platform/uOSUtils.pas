@@ -43,6 +43,7 @@ const
   RunInTerm = 'cmd.exe /K'; // default run in terminal command
   fmtRunInTerm = '%s "%s"';
   fmtRunInShell = '%s /C "%s"';
+  fmtCommandPath = '%s>';
   MonoSpaceFont = 'Fixedsys';
   {$ELSEIF DEFINED(UNIX)}
   faFolder = S_IFDIR;
@@ -56,6 +57,7 @@ const
   fmtRunInTerm = '%s ''%s ; echo -n Press ENTER to exit... ; read a''';
   {$ENDIF}
   fmtRunInShell = '%s -c ''%s''';
+  fmtCommandPath = '[%s]$:';
   MonoSpaceFont = 'Monospace';
   {$ENDIF}
 
