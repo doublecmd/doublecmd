@@ -4582,6 +4582,8 @@ end;
 procedure TfrmMain.UpdatePrompt;
 const
   PTLen = 40;
+var
+  st: UTF8String;
 begin
   if (fsoExecute in ActiveFrame.FileSource.GetOperationsTypes) then
   begin
@@ -4589,13 +4591,15 @@ begin
     begin
       Visible := True;
       AutoSize := False;
-      if Length(ActiveFrame.CurrentPath) > PTLen then
-        Caption := '[' + Copy(ActiveFrame.CurrentPath,
-                              Length(ActiveFrame.CurrentPath) - PTLen,
-                              PTLen) + ']$:'
+      if UTF8Length(ActiveFrame.CurrentPath) > PTLen
+      then
+        st:= UTF8Copy(ActiveFrame.CurrentPath,
+                              UTF8Length(ActiveFrame.CurrentPath) - PTLen,
+                              PTLen)
       else
-        Caption := '[' + ActiveFrame.CurrentPath + ']$:';
-
+        st:= ActiveFrame.CurrentPath;
+      //
+      Caption := Format(fmtCommandPath, [st]);
       AutoSize := True;
       Left := 1;
     end;
