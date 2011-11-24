@@ -34,13 +34,18 @@ type
   TUpdateStatisticsFunction = procedure(var NewStatistics: TFileSourceCopyOperationStatistics) of object;
 
   TFileSystemOperationTargetExistsResult =
-    (fsoterNotExists, fsoterDeleted, fsoterAddToTarget, fsoterSkip);
+    (fsoterNotExists, fsoterDeleted, fsoterAddToTarget, fsoterResume,
+     fsoterSkip);
 
   TFileSystemOperationHelperMode =
     (fsohmCopy, fsohmMove);
 
+  TFileSystemOperationHelperCopyMode =
+    (fsohcmDefault, fsohcmAppend, fsohcmResume);
+
   TFileSystemOperationHelperMoveOrCopy
-    = function(SourceFile: TFile; TargetFileName: String; bAppend: Boolean): Boolean of object;
+    = function(SourceFile: TFile; TargetFileName: String;
+               Mode: TFileSystemOperationHelperCopyMode): Boolean of object;
 
   { TFileSystemTreeBuilder }
 
@@ -118,8 +123,8 @@ type
     procedure ShowError(sMessage: String);
     procedure LogMessage(sMessage: String; logOptions: TLogOptions; logMsgType: TLogMsgType);
 
-    function CopyFile(SourceFile: TFile; TargetFileName: String; bAppend: Boolean): Boolean;
-    function MoveFile(SourceFile: TFile; TargetFileName: String; bAppend: Boolean): Boolean;
+    function CopyFile(SourceFile: TFile; TargetFileName: String; Mode: TFileSystemOperationHelperCopyMode): Boolean;
+    function MoveFile(SourceFile: TFile; TargetFileName: String; Mode: TFileSystemOperationHelperCopyMode): Boolean;
 
     function ProcessNode(aFileTreeNode: TFileTreeNode; CurrentTargetPath: String): Boolean;
     function ProcessDirectory(aNode: TFileTreeNode; AbsoluteTargetFileName: String): Boolean;
@@ -624,13 +629,14 @@ end;
 function TFileSystemOperationHelper.CopyFile(
            SourceFile: TFile;
            TargetFileName: String;
-           bAppend: Boolean): Boolean;
+           Mode: TFileSystemOperationHelperCopyMode): Boolean;
 var
   SourceFileStream, TargetFileStream: TFileStreamEx;
   iTotalDiskSize, iFreeDiskSize: Int64;
   bRetryRead, bRetryWrite: Boolean;
   BytesRead, BytesToRead, BytesWrittenTry, BytesWritten: Int64;
   TotalBytesToRead: Int64 = 0;
+  NewPos: Int64;
 begin
   Result := False;
 
@@ -674,17 +680,26 @@ begin
   try
     try
       SourceFileStream := TFileStreamEx.Create(SourceFile.FullPath, fmOpenRead or fmShareDenyNone);
-      if bAppend then
+      case Mode of
+      fsohcmAppend:
         begin
           TargetFileStream := TFileStreamEx.Create(TargetFileName, fmOpenReadWrite);
           TargetFileStream.Seek(0, soFromEnd); // seek to end
+          TotalBytesToRead := SourceFileStream.Size;
+        end;
+      fsohcmResume:
+        begin
+          TargetFileStream := TFileStreamEx.Create(TargetFileName, fmOpenReadWrite);
+          NewPos := TargetFileStream.Seek(0, soFromEnd);
+          SourceFileStream.Seek(NewPos, soFromBeginning);
+          TotalBytesToRead := SourceFileStream.Size - NewPos;
         end
       else
         begin
           TargetFileStream := TFileStreamEx.Create(TargetFileName, fmCreate);
+          TotalBytesToRead := SourceFileStream.Size;
         end;
-
-      TotalBytesToRead := SourceFileStream.Size;
+      end;
 
       while TotalBytesToRead > 0 do
       begin
@@ -791,9 +806,15 @@ begin
       begin
         FreeAndNil(TargetFileStream);
         if TotalBytesToRead > 0 then
+        begin
           // There was some error, because not all of the file has been copied.
-          // Delete the not completed target file.
-          mbDeleteFile(TargetFileName);
+          // Ask if delete the not completed target file.
+          case AskQuestion('', rsMsgDeletePartiallyCopied,
+                           [fsourYes, fsourNo], fsourYes, fsourNo) of
+            fsourYes:
+              mbDeleteFile(TargetFileName);
+          end; // case
+        end;
       end;
     end;
 
@@ -818,11 +839,13 @@ begin
   end;
 end;
 
-function TFileSystemOperationHelper.MoveFile(SourceFile: TFile; TargetFileName: String; bAppend: Boolean): Boolean;
+function TFileSystemOperationHelper.MoveFile(SourceFile: TFile; TargetFileName: String;
+  Mode: TFileSystemOperationHelperCopyMode): Boolean;
 begin
-  if bAppend or (not mbRenameFile(SourceFile.FullPath, TargetFileName)) then
+  if (Mode in [fsohcmAppend, fsohcmResume]) or
+     (not mbRenameFile(SourceFile.FullPath, TargetFileName)) then
   begin
-    if CopyFile(SourceFile, TargetFileName, bAppend) then
+    if CopyFile(SourceFile, TargetFileName, Mode) then
       Result := mbDeleteFile(SourceFile.FullPath)
     else
       Result := False;
@@ -1062,10 +1085,13 @@ begin
         Result := False;
 
       fsoterDeleted, fsoterNotExists:
-        Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, False);
+        Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, fsohcmDefault);
 
       fsoterAddToTarget:
-        Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, True);
+        Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, fsohcmAppend);
+
+      fsoterResume:
+        Result := MoveOrCopy(aNode.TheFile, AbsoluteTargetFileName, fsohcmResume);
 
       else
         raise Exception.Create('Invalid TargetExists result');
@@ -1145,6 +1171,10 @@ var
       fsoofeAppend:
         begin
           Exit(fsoterAddToTarget);
+        end;
+      fsoofeResume:
+        begin
+          Exit(fsoterResume);
         end;
       else
         raise Exception.Create('Invalid file exists option');
@@ -1281,8 +1311,9 @@ function TFileSystemOperationHelper.FileExists(
              AbsoluteTargetFileName: String;
              AllowAppend: Boolean): TFileSourceOperationOptionFileExists;
 const
-  Responses: array[0..5] of TFileSourceOperationUIResponse
-    = (fsourOverwrite, fsourSkip, fsourAppend, fsourOverwriteAll, fsourSkipAll, fsourCancel);
+  Responses: array[0..6] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourAppend, fsourOverwriteAll, fsourSkipAll,
+       fsourResume, fsourCancel);
   ResponsesNoAppend: array[0..4] of TFileSourceOperationUIResponse
     = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll, fsourCancel);
 var
@@ -1306,6 +1337,10 @@ begin
             begin
               //FFileExistsOption := fsoofeAppend; - for AppendAll
               Result := fsoofeAppend;
+            end;
+          fsourResume:
+            begin
+              Result := fsoofeResume;
             end;
           fsourOverwriteAll:
             begin

@@ -13,7 +13,7 @@ type
     (fsooslNone, fsooslFollow, fsooslDontFollow);
 
   TFileSourceOperationOptionFileExists =
-    (fsoofeNone, fsoofeSkip, fsoofeOverwrite, fsoofeOverwriteOlder, fsoofeAppend);
+    (fsoofeNone, fsoofeSkip, fsoofeOverwrite, fsoofeOverwriteOlder, fsoofeAppend, fsoofeResume);
 
   TFileSourceOperationOptionDirectoryExists =
     (fsoodeNone, fsoodeSkip, fsoodeDelete, fsoodeCopyInto);
