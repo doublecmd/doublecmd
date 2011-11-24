@@ -117,6 +117,7 @@ resourcestring
   rsMsgTabRenameCaption = 'Rename tab';
   rsMsgTabRenamePrompt = 'New tab name:';
   rsMsgErrCreateFileDirectoryExists = 'There already exists a directory named "%s".';
+  rsMsgDeletePartiallyCopied = 'Delete the partially copied file ?';
 
   // for context menu
   rsMnuActions = 'Actions';
@@ -159,6 +160,7 @@ resourcestring
   rsDlgButtonCancel = '&Cancel';
   rsDlgButtonNone = 'Non&e';
   rsDlgButtonAppend = 'A&ppend';
+  rsDlgButtonResume = '&Resume';
   rsDlgButtonCopyInto = 'Copy &Into';
   rsDlgButtonOverwrite = '&Overwrite';
   rsDlgButtonOverwriteAll = 'Overwrite &All';

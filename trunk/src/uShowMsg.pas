@@ -22,11 +22,11 @@ uses
 
 type
   TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
-                mmrAppend, mmrCopyInto, mmrOverwrite, mmrOverwriteAll,
+                mmrAppend, mmrResume, mmrCopyInto, mmrOverwrite, mmrOverwriteAll,
                 mmrSkip, mmrSkipAll, mmrAll, mmrRetry, mmrAbort);
 
   TMyMsgButton=(msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone,
-                msmbAppend, msmbCopyInto, msmbOverwrite, msmbOverwriteAll,
+                msmbAppend, msmbResume, msmbCopyInto, msmbOverwrite, msmbOverwriteAll,
                 msmbSkip, msmbSkipAll, msmbAll, msmbRetry, msmbAbort);
 
 
@@ -486,6 +486,7 @@ begin
   cLngButton[msmbCancel]       := rsDlgButtonCancel;
   cLngButton[msmbNone]         := rsDlgButtonNone;
   cLngButton[msmbAppend]       := rsDlgButtonAppend;
+  cLngButton[msmbResume]       := rsDlgButtonResume;
   cLngButton[msmbCopyInto]     := rsDlgButtonCopyInto;
   cLngButton[msmbOverwrite]    := rsDlgButtonOverwrite;
   cLngButton[msmbOverwriteAll] := rsDlgButtonOverwriteAll;
