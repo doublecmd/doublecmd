@@ -77,9 +77,9 @@ uses
   {$IF DEFINED(MSWINDOWS)}
   ,Windows, JwaWinNT, JwaWinBase, uDCUtils, uGlobs, uOSUtils
   {$ELSEIF DEFINED(LINUX)}
-  ,inotify, BaseUnix
+  ,inotify, BaseUnix, FileUtil
   {$ELSEIF DEFINED(BSD)}
-  ,BSD, Unix, BaseUnix, UnixType
+  ,BSD, Unix, BaseUnix, UnixType, FileUtil
   {$ENDIF};
 
 {$IF DEFINED(MSWINDOWS)}
@@ -1274,7 +1274,7 @@ begin
   if wfAttributesChange in FWatchFilter then
     hNotifyFilter := hNotifyFilter or IN_ATTRIB;
 
-  FHandle := inotify_add_watch(FNotifyHandle, PChar(FWatchPath), hNotifyFilter);
+  FHandle := inotify_add_watch(FNotifyHandle, PChar(UTF8ToSys(FWatchPath)), hNotifyFilter);
   if FHandle < 0 then
   begin
     FHandle := feInvalidHandle;
