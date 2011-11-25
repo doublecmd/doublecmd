@@ -529,10 +529,10 @@ begin
                 DisplayName:= volNameAsCString;
                 Path:= '/Volumes/' + volNameAsCString;
                 DriveLabel:= volNameAsCString;
-                case kFSVolInfoFSInfo.filesystemID of
+                case volumeInfo.filesystemID of
                   18771: FileSystem := 'FAT';
                   else
-                  case kFSVolInfoFSInfo.signature of
+                  case volumeInfo.signature of
                     $4147: FileSystem := 'ISO9660';
                     $4242: FileSystem := 'HighSierra';
                     $4244: FileSystem := 'HFS'; // kHFSSigWord
@@ -1178,4 +1178,4 @@ end;
 {$ENDIF}
 
 end.
-
+
