@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -73,7 +73,7 @@ implementation
 uses
   ExtDlgs, LCLProc, uShellContextMenu
   {$IF DEFINED(MSWINDOWS)}
-  , Graphics, ComObj, fMain, uOSUtils, uFileSystemFileSource, uTotalCommander
+  , Graphics, ComObj, fMain, uOSUtils, uFileSystemFileSource, uTotalCommander, InterfaceBase
   , FileUtil, Windows, ShlObj, uShlObjAdditional, uWinNetFileSource, uVfsModule, uLng
   {$ENDIF}
   {$IFDEF UNIX}
@@ -83,10 +83,32 @@ uses
 var
   ShellContextMenu : TShellContextMenu = nil;
 
+{$IFDEF MSWINDOWS}
+procedure ActivateHandler(Self, Sender: TObject);
+var
+  ModalForm: TCustomForm;
+begin
+  ModalForm:= Screen.GetCurrentModalForm;
+  // If modal form exists then activate it
+  if (ModalForm <> nil) then ModalForm.BringToFront;
+end;
+{$ENDIF}
+
 procedure MainFormCreate(MainForm : TCustomForm);
 {$IFDEF MSWINDOWS}
+var
+  Handler: TMethod;
 begin
+  Handler.Code:= @ActivateHandler;
+  Handler.Data:= MainForm;
+  // Setup application OnActivate handler
+  Application.AddOnActivateHandler(TNotifyEvent(Handler), True);
+  // Disable application button on taskbar
+  with Widgetset do
+  SetWindowLong(AppHandle, GWL_EXSTYLE, GetWindowLong(AppHandle, GWL_EXSTYLE) or WS_EX_TOOLWINDOW);
+  // Emulate Total Commander window
   CreateTotalCommanderWindow(MainForm.Handle);
+  // Register network file source
   RegisterVirtualFileSource(rsVfsNetwork, TWinNetFileSource);
 end;
 {$ELSE}
