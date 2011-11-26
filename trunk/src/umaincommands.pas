@@ -1593,11 +1593,7 @@ begin
   else
     frmOptions := TfrmOptions.Create(Application, param);
 
-  try
-    frmOptions.ShowModal;
-  finally
-    frmOptions.Free;
-  end;
+  frmOptions.Show;
 end;
 
 procedure TMainCommands.cm_CompareContents(Param: String='');

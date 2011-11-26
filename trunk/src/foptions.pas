@@ -59,6 +59,7 @@ type
     sboxOptionsEditor: TScrollBox;
     tvTreeView: TTreeView;
     splOptionsSplitter: TSplitter;
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
@@ -92,6 +93,11 @@ procedure TfrmOptions.FormCreate(Sender: TObject);
 begin
   // Initialize property storage
   InitPropStorage(Self);
+end;
+
+procedure TfrmOptions.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  CloseAction:= caFree;
 end;
 
 procedure TfrmOptions.btnOKClick(Sender: TObject);
