@@ -59,6 +59,7 @@ type
     sboxOptionsEditor: TScrollBox;
     tvTreeView: TTreeView;
     splOptionsSplitter: TSplitter;
+    procedure btnCancelClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
@@ -100,12 +101,20 @@ begin
   CloseAction:= caFree;
 end;
 
+procedure TfrmOptions.btnCancelClick(Sender: TObject);
+begin
+  // close window
+  Close;
+end;
+
 procedure TfrmOptions.btnOKClick(Sender: TObject);
 begin
   // save all configuration
   SaveConfig;
   // write to config file
   SaveGlobs;
+  // close window
+  Close;
 end;
 
 procedure TfrmOptions.btnApplyClick(Sender: TObject);

@@ -54,6 +54,7 @@ object frmOptions: TfrmOptions
       Kind = bkCancel
       ModalResult = 2
       NumGlyphs = 0
+      OnClick = btnCancelClick
       TabOrder = 1
     end
     object btnApply: TBitBtn
