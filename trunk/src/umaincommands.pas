@@ -1346,8 +1346,8 @@ begin
       if theFilesToDelete.Count = 0 then
         Exit;
 
-      if not msgYesNo(frmMain.GetFileDlgStr(MsgDelSel, MsgDelFlDr, theFilesToDelete)) then
-        Exit;
+      if QuestionDlg('', frmMain.GetFileDlgStr(MsgDelSel,MsgDelFlDr,theFilesToDelete),
+         mtConfirmation, [mrYes, mrNo], 0) <> mrYes then Exit;
 
       Operation := FileSource.CreateDeleteOperation(theFilesToDelete);
 
