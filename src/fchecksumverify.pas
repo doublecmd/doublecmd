@@ -37,6 +37,7 @@ type
   TfrmCheckSumVerify = class(TForm)
     btnClose: TBitBtn;
     mmCheckSumVerify: TMemo;
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
   private
     { private declarations }
   public
@@ -52,12 +53,17 @@ implementation
 procedure ShowVerifyCheckSum(const VerifyResult: TStringList);
 begin
   with TfrmCheckSumVerify.Create(Application) do
-  try
+  begin
     mmCheckSumVerify.Lines.Assign(VerifyResult);
-    ShowModal;
-  finally
-    Free;
+    Show;
   end;
+end;
+
+{ TfrmCheckSumVerify }
+
+procedure TfrmCheckSumVerify.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  CloseAction:= caFree;
 end;
 
 end.

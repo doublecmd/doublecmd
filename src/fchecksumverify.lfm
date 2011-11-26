@@ -6,8 +6,12 @@ object frmCheckSumVerify: TfrmCheckSumVerify
   Caption = 'Verify check sum...'
   ClientHeight = 300
   ClientWidth = 400
+  Constraints.MinHeight = 200
+  Constraints.MinWidth = 300
+  OnClose = FormClose
   Position = poScreenCenter
-  LCLVersion = '0.9.27'
+  ShowInTaskBar = stAlways
+  LCLVersion = '0.9.29'
   object mmCheckSumVerify: TMemo
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
