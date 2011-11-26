@@ -1585,15 +1585,23 @@ end;
 
 // Parameter is name of TOptionsEditorClass.
 procedure TMainCommands.cm_Options(Param: String='');
-var
-  frmOptions: TfrmOptions = nil;
 begin
-  if param = '' then
-    frmOptions := TfrmOptions.Create(Application)
+  if Assigned(frmOptions) then
+    begin
+      if frmOptions.WindowState = wsMinimized then
+        frmOptions.WindowState:= wsNormal
+      else
+        frmOptions.BringToFront;
+    end
   else
-    frmOptions := TfrmOptions.Create(Application, param);
+    begin
+      if param = '' then
+        frmOptions := TfrmOptions.Create(Application)
+      else
+        frmOptions := TfrmOptions.Create(Application, param);
 
-  frmOptions.Show;
+      frmOptions.Show;
+  end;
 end;
 
 procedure TMainCommands.cm_CompareContents(Param: String='');

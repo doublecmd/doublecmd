@@ -80,6 +80,9 @@ type
     procedure SaveConfig;
   end;
 
+var
+  frmOptions: TfrmOptions = nil;
+
 implementation
 
 {$R *.lfm}
@@ -99,6 +102,7 @@ end;
 procedure TfrmOptions.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CloseAction:= caFree;
+  frmOptions:= nil;
 end;
 
 procedure TfrmOptions.btnCancelClick(Sender: TObject);
