@@ -4793,8 +4793,8 @@ begin
     // Copy path opened in the other panel if the file source and drive match
     // and that path is not already opened in this panel.
     if OtherFileView.FileSource.IsClass(TFileSystemFileSource) and
-       (OtherFileView.FileSource.GetRootDir(OtherFileView.CurrentPath) = Drive^.Path) and
-       (OtherFileView.CurrentPath <> aFileView.CurrentPath) then
+       mbCompareFileNames(OtherFileView.FileSource.GetRootDir(OtherFileView.CurrentPath), Drive^.Path) and
+       not mbCompareFileNames(OtherFileView.CurrentPath, aFileView.CurrentPath) then
     begin
       SetFileSystemPath(aFileView, OtherFileView.CurrentPath);
     end
