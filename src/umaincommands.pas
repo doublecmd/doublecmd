@@ -393,7 +393,18 @@ begin
   aFile := SourcePage.FileView.CloneActiveFile;
   if Assigned(aFile) then
   try
-    if aFile.IsDirectory then
+    if (fspLinksToLocalFiles in SourcePage.FileView.FileSource.GetProperties) and
+       (SourcePage.FileView.FileSource.GetLocalName(aFile)) then
+      begin
+        if aFile.IsDirectory then
+          ChooseFileSource(TargetPage.FileView, aFile.FullPath)
+        else if not ChooseFileSource(TargetPage.FileView, aFile) then
+          begin
+            ChooseFileSource(TargetPage.FileView, aFile.Path);
+            TargetPage.FileView.SetActiveFile(aFile.Name);
+          end;
+      end
+    else if aFile.IsDirectory then
     begin
       if aFile.Name = '..' then
       begin
