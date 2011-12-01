@@ -77,6 +77,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
+    OnExit = edtMainFontExit
     TabOrder = 2
   end
   object btnSelEditFnt: TButton[6]
@@ -107,6 +108,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
+    OnExit = edtEditorFontExit
     TabOrder = 4
   end
   object edtEditorFontSize: TSpinEdit[8]
@@ -153,6 +155,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
+    OnExit = edtViewerFontExit
     TabOrder = 7
   end
   object edtViewerFontSize: TSpinEdit[11]
@@ -195,6 +198,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
+    OnExit = edtLogFontExit
     TabOrder = 9
   end
   object btnSelLogFnt: TButton[14]
@@ -253,6 +257,7 @@ inherited frmOptionsFonts: TfrmOptionsFonts
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
     BorderSpacing.Right = 4
+    OnExit = edtViewerBookFontExit
     TabOrder = 12
   end
   object edtViewerBookFontSize: TSpinEdit[18]
