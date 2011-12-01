@@ -63,11 +63,15 @@ type
       State: TDragState; var Accept: Boolean);
     procedure lbCategoriesDrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; State: TOwnerDrawState);
+
+    procedure Clear;
   protected
     procedure Init; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
+    destructor Destroy; override;
+
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
   end;
@@ -223,14 +227,30 @@ procedure TfrmOptionsFileTypesColors.lbCategoriesDrawItem(Control: TWinControl;
 begin
   with (Control as TListBox) do
    begin
-     Canvas.FillRect(ARect);
      if (not Selected[Index]) and Assigned(Items.Objects[Index]) then
-       Canvas.Font.Color:= TMaskItem(Items.Objects[Index]).cColor
+       begin
+         Canvas.Brush.Color:= gBackColor;
+         Canvas.Font.Color:= TMaskItem(Items.Objects[Index]).cColor;
+       end
      else
-       Canvas.Font.Color:= gCursorText;
+       begin
+         Canvas.Brush.Color:= gCursorColor;
+         Canvas.Font.Color:= gCursorText;
+       end;
 
+     Canvas.FillRect(ARect);
      Canvas.TextOut(ARect.Left+2,ARect.Top,Items[Index]);
    end;
+end;
+
+procedure TfrmOptionsFileTypesColors.Clear;
+var
+  i: Integer;
+begin
+  for i := lbCategories.Count - 1 downto 0 do
+    lbCategories.Items.Objects[i].Free;
+
+  lbCategories.Clear;
 end;
 
 procedure TfrmOptionsFileTypesColors.Init;
@@ -254,7 +274,8 @@ var
   I : Integer;
   MaskItem: TMaskItem;
 begin
-  lbCategories.Clear;
+  Clear;
+  lbCategories.Color:= gBackColor;
 
   { File lbtypes category color }
   for I := 0 to gColorExt.Count - 1 do
@@ -304,6 +325,12 @@ begin
         raise;
       end;
     end;
+end;
+
+destructor TfrmOptionsFileTypesColors.Destroy;
+begin
+  Clear;
+  inherited;
 end;
 
 end.
