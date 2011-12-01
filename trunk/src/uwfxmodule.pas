@@ -267,7 +267,11 @@ begin
           FindData:= LoadWfxFindData(FindDataA);
       end;
   except
-    Result:= wfxInvalidHandle;
+    on E: Exception do
+    begin
+      Result:= wfxInvalidHandle;
+      DCDebug(ClassName + '.WfxFindFirst(). Error: ' + E.Message);
+    end;
   end;
 end;
 
@@ -441,7 +445,7 @@ end;
 
 constructor TWFXModule.Create;
 begin
-
+  inherited;
 end;
 
 destructor TWFXModule.Destroy;
@@ -455,13 +459,15 @@ begin
     //------------------------------------------------------
     UnloadModule;
   end;
+  inherited;
 end;
 
 function TWFXModule.LoadModule(const sName: String): Boolean;
 begin
   FModuleHandle := mbLoadLibrary(sName);
   Result := (FModuleHandle <> 0);
-  if  FModuleHandle = 0 then Exit(False);
+  if not Result then
+    Exit;
 
   DCDebug('WFX module loaded ' + sName + ' at ' + hexStr(Pointer(FModuleHandle)));
 
@@ -606,21 +612,16 @@ end;
 
 procedure TWFXModule.VFSInit(Data: PtrInt);
 var
-  dps: PFsDefaultParamStruct;
+  dps: tFsDefaultParamStruct;
   StartupInfo: TExtensionStartupInfo;
 begin
     if Assigned(FsSetDefaultParams) then
     begin
-      GetMem(dps, SizeOf(tFsDefaultParamStruct));
-      with dps^ do
-      begin
-        DefaultIniName:= gpCfgDir + WfxIniFileName;
-        PluginInterfaceVersionHi:= 2;
-        PluginInterfaceVersionLow:= 0;
-        Size:= SizeOf(tFsDefaultParamStruct);
-      end;
-      FsSetDefaultParams(dps);
-      FreeMem(dps, SizeOf(tFsDefaultParamStruct));
+      dps.DefaultIniName := gpCfgDir + WfxIniFileName;
+      dps.PluginInterfaceVersionHi:= 2;
+      dps.PluginInterfaceVersionLow:= 0;
+      dps.Size:= SizeOf(dps);
+      FsSetDefaultParams(@dps);
     end;
 
   // Extension API
@@ -655,8 +656,12 @@ begin
     Result:= (WfxExecuteFile(Parent, RemoteName, 'properties') = FS_EXEC_OK);
     WFXStatusInfo(PathDelim, FS_STATUS_END, FS_STATUS_OP_EXEC);
   except
-    Result:= False;
-  end;	
+    on E: Exception do
+    begin
+      Result:= False;
+      DCDebug(ClassName + '.VFSConfigure(). Error: ' + E.Message);
+    end;
+  end;
 end;
 
 function TWFXModule.VFSRootName: UTF8String;
@@ -665,13 +670,16 @@ var
 begin
   Result:= EmptyStr;
   if Assigned(FsGetDefRootName) then
+  begin
+    pcRootName:= GetMem(MAX_PATH);
+    Assert(Assigned(pcRootName));
     try
-      pcRootName:= GetMem(MAX_PATH);
       FsGetDefRootName(pcRootName, MAX_PATH);
       Result := StrPas(pcRootName);
     finally
       FreeMem(pcRootName);
     end;
+  end;
 end;
 
 function TWFXModule.IsLoaded: Boolean;
@@ -718,19 +726,20 @@ procedure TWFXModuleList.Load(Ini: TIniFileEx);
 var
   I: Integer;
   sCurrPlugin: String;
+  LEnabled: Boolean;
 begin
   Ini.ReadSectionRaw('FileSystemPlugins', Self);
   for I:= 0 to Count - 1 do
-    if Pos('#', Name[I]) = 0 then
-      begin
-        Enabled[I]:= True;
-      end
-    else
-      begin
-        sCurrPlugin:= Name[I];
-        Name[I]:= Copy(sCurrPlugin, 2, Length(sCurrPlugin) - 1);
-        Enabled[I]:= False;
-      end;
+  begin
+    sCurrPlugin := Name[I];
+    if (sCurrPlugin = '') then
+      Continue;
+
+    LEnabled := (sCurrPlugin[1] <> '#');
+    Enabled[I]:= LEnabled;
+    if not LEnabled then
+      Name[I]:= Copy(sCurrPlugin, 2, MaxInt);
+  end;
 end;
 
 procedure TWFXModuleList.Load(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -765,19 +774,18 @@ end;
 procedure TWFXModuleList.Save(Ini: TIniFileEx);
 var
  I: Integer;
+ LName: String;
 begin
   Ini.EraseSection('FileSystemPlugins');
   for I := 0 to Count - 1 do
-    begin
-      if Enabled[I] then
-        begin
-          Ini.WriteString('FileSystemPlugins', Name[I], FileName[I])
-        end
-      else
-        begin
-          Ini.WriteString('FileSystemPlugins', '#' + Name[I], FileName[I]);
-        end;
-    end;
+  begin
+    if Enabled[I] then
+      LName := Name[I]
+    else
+      LName := '#' + Name[I];
+
+    Ini.WriteString('FileSystemPlugins', LName, FileName[I]);
+  end;
 end;
 
 procedure TWFXModuleList.Save(AConfig: TXmlConfig; ANode: TXmlNode);
@@ -803,15 +811,10 @@ end;
 
 function TWFXModuleList.FindFirstEnabledByName(Name: String): Integer;
 begin
-  Result:=0;
-  while Result < Count do
-  begin
+  for Result := 0 to Count - 1 do
     if Enabled[Result] and (DoCompareText(Names[Result], Name) = 0) then
-       Exit
-    else
-      Result := Result + 1;
-  end;
-  if Result=Count then Result:=-1;
+      Exit;
+  Result := -1;
 end;
 
 end.

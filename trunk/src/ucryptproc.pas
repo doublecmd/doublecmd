@@ -90,14 +90,15 @@ begin
   try
     StringStream:= TStringStream.Create(EmptyStr);
     Base64EncodingStream:= TBase64EncodingStream.Create(StringStream);
-
     BlowFishEncryptStream:= TBlowFishEncryptStream.Create(BlowFishKeyRec.bBlowFishKey, BlowFishKeyRec.dwSize, Base64EncodingStream);
+
     BlowFishEncryptStream.Write(PAnsiChar(Data)^, Length(Data));
     BlowFishEncryptStream.Flush;
+    Base64EncodingStream.Flush;
+    Result:= StringStream.DataString;
   finally
     FreeThenNil(BlowFishEncryptStream);
     FreeThenNil(Base64EncodingStream);
-    Result:= StringStream.DataString;
     FreeThenNil(StringStream);
   end;
 end;
