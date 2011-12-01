@@ -51,12 +51,16 @@ type
     lblCategoryColor: TLabel;
     lblCategoryMask: TLabel;
     lblCategoryName: TLabel;
+
     procedure lbCategoriesClick(Sender: TObject);
     procedure btnSearchTemplateClick(Sender: TObject);
     procedure btnAddCategoryClick(Sender: TObject);
     procedure btnApplyCategoryClick(Sender: TObject);
     procedure btnDeleteCategoryClick(Sender: TObject);
     procedure btnCategoryColorClick(Sender: TObject);
+    procedure lbCategoriesDragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure lbCategoriesDragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
     procedure lbCategoriesDrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; State: TOwnerDrawState);
   protected
@@ -82,28 +86,24 @@ var
   MaskItem : TMaskItem;
   bEnabled: Boolean;
 begin
-  if (lbCategories.Count > 0) and (Assigned(lbCategories.Items.Objects[lbCategories.ItemIndex])) then
+  if (lbCategories.ItemIndex <> -1) then
     begin
-      edtCategoryName.Text := lbCategories.Items[lbCategories.ItemIndex];
       MaskItem := TMaskItem(lbCategories.Items.Objects[lbCategories.ItemIndex]);
 
+      edtCategoryName.Text := MaskItem.sName;
       edtCategoryMask.Text := MaskItem.sExt;
       SetColorInColorBox(cbCategoryColor, MaskItem.cColor);
-      bEnabled:= Pos('>', MaskItem.sExt) <> 1;
+      bEnabled:= (MaskItem.sExt = '') or (MaskItem.sExt[1] <> '>');
       edtCategoryMask.Enabled:= bEnabled;
       edtCategoryAttr.Enabled:= bEnabled;
       edtCategoryAttr.Text := MaskItem.sModeStr;
     end
   else
     begin
-      if lbCategories.Count = 0 then
-        edtCategoryName.Text := ''
-      else
-        edtCategoryName.Text := lbCategories.Items[lbCategories.ItemIndex];
-      edtCategoryMask.Text := '*';
+      edtCategoryName.Text := '';
+      edtCategoryMask.Text := '';
       edtCategoryAttr.Text := '';
       cbCategoryColor.ItemIndex := -1;
-      cbCategoryColor.Selected := clWindow;
     end;
 end;
 
@@ -125,6 +125,7 @@ end;
 procedure TfrmOptionsFileTypesColors.btnAddCategoryClick(Sender: TObject);
 var
   iIndex : Integer;
+  MaskItem: TMaskItem;
 begin
   if lbCategories.Count = 0 then
     begin
@@ -136,12 +137,25 @@ begin
       btnDeleteCategory.Enabled := True;
       btnApplyCategory.Enabled := True;
     end;
-  iIndex := lbCategories.Items.AddObject('', nil);
-  lbCategories.ItemIndex := iIndex;
-  edtCategoryName.Text := '';
-  edtCategoryMask.Text := '*';
-  edtCategoryAttr.Text := '';
-  cbCategoryColor.ItemIndex := -1;
+
+  MaskItem := TMaskItem.Create;
+  try
+   edtCategoryName.Text := 'New';
+   edtCategoryMask.Text := '*';
+   edtCategoryAttr.Text := '';
+   cbCategoryColor.ItemIndex := -1;
+
+   MaskItem.sName:= edtCategoryName.Text;
+   MaskItem.sExt:= edtCategoryMask.Text;
+   MaskItem.sModeStr:= edtCategoryAttr.Text;
+   MaskItem.cColor:= clBlack;
+   iIndex := lbCategories.Items.AddObject(MaskItem.sName, MaskItem);
+  except
+    FreeAndNil(MaskItem);
+    raise;
+  end;
+  lbCategories.ItemIndex:= iIndex;
+  edtCategoryName.SetFocus;
 end;
 
 procedure TfrmOptionsFileTypesColors.btnApplyCategoryClick(Sender: TObject);
@@ -149,50 +163,30 @@ var
   MaskItem : TMaskItem;
   I, iCount : Integer;
 begin
-  if btnDeleteCategory.Tag = 0 then // if we add or change category
-    begin
-      lbCategories.Items[lbCategories.ItemIndex] := edtCategoryName.Text;
-      MaskItem := TMaskItem.Create;
-      MaskItem.sName := edtCategoryName.Text;
-      MaskItem.cColor := cbCategoryColor.Selected;
-      if edtCategoryMask.Text = '' then
-        edtCategoryMask.Text := '*'; // because we load colors from ini by mask
-      MaskItem.sExt := edtCategoryMask.Text;
-      MaskItem.sModeStr := edtCategoryAttr.Text;
-      lbCategories.Items.Objects[lbCategories.ItemIndex] := MaskItem;
-      if lbCategories.ItemIndex >= gColorExt.MaskItemList.Count then
-        gColorExt.MaskItemList.Add(MaskItem)
-      else
-        begin
-          TMaskItem(gColorExt.MaskItemList.Items[lbCategories.ItemIndex]).Free;
-          gColorExt.MaskItemList.Items[lbCategories.ItemIndex] := MaskItem;
-        end;
+  if (lbCategories.ItemIndex <> -1) then
+  begin
+    lbCategories.Items[lbCategories.ItemIndex] := edtCategoryName.Text;
+    if edtCategoryMask.Text = '' then
+      edtCategoryMask.Text := '*'; // because we load colors from ini by mask
+    MaskItem := TMaskItem(lbCategories.Items.Objects[lbCategories.ItemIndex]);
 
-    end
-  else  // if we delete category
-    begin
-      iCount := gColorExt.MaskItemList.Count - 1;
-      for I := iCount downto 0 do  // delete old categories
-        begin
-          gColorExt.MaskItemList.Delete(I);
-        end;
-      iCount := lbCategories.Count;
-      for I := 0 to iCount - 1 do  //write new categories
-        begin
-          gColorExt.MaskItemList.Add(lbCategories.Items.Objects[I]);
-        end;
-    end; // delete category
-
-    btnDeleteCategory.Tag := 0;
+    MaskItem.sName := edtCategoryName.Text;
+    MaskItem.cColor := cbCategoryColor.Selected;
+    MaskItem.sExt := edtCategoryMask.Text;
+    MaskItem.sModeStr := edtCategoryAttr.Text;
+  end;
 end;
 
 procedure TfrmOptionsFileTypesColors.btnDeleteCategoryClick(Sender: TObject);
 begin
-  lbCategories.Items.Delete(lbCategories.ItemIndex);
-  btnDeleteCategory.Tag := 1; // show that we delete category
-  if lbCategories.Count > 0 then
-    lbCategories.ItemIndex := 0;
-  lbCategoriesClick(lbCategories);
+  if (lbCategories.ItemIndex <> -1) then
+  begin
+    lbCategories.Items.Objects[lbCategories.ItemIndex].Free;
+    lbCategories.Items.Delete(lbCategories.ItemIndex);
+    if lbCategories.Count > 0 then
+      lbCategories.ItemIndex := 0;
+    lbCategoriesClick(lbCategories);
+  end;
 end;
 
 procedure TfrmOptionsFileTypesColors.btnCategoryColorClick(Sender: TObject);
@@ -200,6 +194,28 @@ begin
   optColorDialog.Color:= cbCategoryColor.Selected;
   if optColorDialog.Execute then
     SetColorInColorBox(cbCategoryColor, optColorDialog.Color);
+end;
+
+procedure TfrmOptionsFileTypesColors.lbCategoriesDragDrop(Sender,
+  Source: TObject; X, Y: Integer);
+var
+  SrcIndex, DestIndex: Integer;
+begin
+  SrcIndex := lbCategories.ItemIndex;
+  if SrcIndex = -1 then
+    Exit;
+  DestIndex := lbCategories.GetIndexAtY(Y);
+  if (DestIndex < 0) or (DestIndex >= lbCategories.Count) then
+    DestIndex := lbCategories.Count - 1;
+
+  lbCategories.Items.Move(SrcIndex, DestIndex);
+  lbCategories.ItemIndex := DestIndex;
+end;
+
+procedure TfrmOptionsFileTypesColors.lbCategoriesDragOver(Sender,
+  Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
+begin
+  Accept := (Source = lbCategories) and (lbCategories.ItemIndex <> -1);
 end;
 
 procedure TfrmOptionsFileTypesColors.lbCategoriesDrawItem(Control: TWinControl;
@@ -235,16 +251,22 @@ end;
 
 procedure TfrmOptionsFileTypesColors.Load;
 var
-  sCategoryName : String;
   I : Integer;
+  MaskItem: TMaskItem;
 begin
   lbCategories.Clear;
 
   { File lbtypes category color }
-  for I := 0 to gColorExt.MaskItemList.Count - 1 do
+  for I := 0 to gColorExt.Count - 1 do
     begin
-      sCategoryName := TMaskItem(gColorExt.MaskItemList.Items[I]).sName;
-      lbCategories.Items.AddObject(sCategoryName,TMaskItem(gColorExt.MaskItemList.Items[I]));
+      MaskItem := TMaskItem.Create;
+      try
+       MaskItem.Assign(gColorExt[I]);
+       lbCategories.Items.AddObject(MaskItem.sName, MaskItem);
+      except
+        FreeAndNil(MaskItem);
+        raise;
+      end;
     end; // for
 
     if lbCategories.Count > 0 then
@@ -263,8 +285,25 @@ begin
 end;
 
 function TfrmOptionsFileTypesColors.Save: TOptionsEditorSaveFlags;
+var
+  i: Integer;
+  MaskItem: TMaskItem;
 begin
   Result := [];
+  gColorExt.Clear;
+
+  for I := 0 to lbCategories.Count - 1 do  //write new categories
+    if Assigned(lbCategories.Items.Objects[I]) then
+    begin
+      MaskItem := TMaskItem.Create;
+      try
+       MaskItem.Assign(TMaskItem(lbCategories.Items.Objects[I]));
+       gColorExt.Add(MaskItem);
+      except
+        FreeAndNil(MaskItem);
+        raise;
+      end;
+    end;
 end;
 
 end.

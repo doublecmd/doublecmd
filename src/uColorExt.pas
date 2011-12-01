@@ -35,10 +35,13 @@ type
   { TMaskItem }
 
   TMaskItem = class
+  public
     sExt: String;
     sModeStr: String;
     cColor: TColor;
     sName: String;
+
+    procedure Assign(ASource: TMaskItem);
   end;
 
   { TColorExt }
@@ -46,12 +49,17 @@ type
   TColorExt = class
   private
     fOldCount: Integer;
-  protected
     lslist: TList;
+
+    function GetCount: Integer;
+    function GetItems(const Index: Integer): TMaskItem;
   public
     constructor Create;
     destructor Destroy; override;
+
     procedure Clear;
+    procedure Add(AItem: TMaskItem);
+
     function GetColorByExt(const sExt: String): TColor;
     function GetColorByAttr(const sModeStr: String): TColor;
     function GetColorBy(const AFile: TFile): TColor;
@@ -59,13 +67,36 @@ type
     procedure SaveIni;
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode);
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode);
-    property  MaskItemList: TList read lslist;
+
+    property Count: Integer read GetCount;
+    property Items[const Index: Integer]: TMaskItem read GetItems; default;
   end;
 
 implementation
 
 uses
   SysUtils, uDebug, uGlobs, uMasks, uFileProperty;
+
+{ TMaskItem }
+
+procedure TMaskItem.Assign(ASource: TMaskItem);
+begin
+  Assert(Assigned(ASource));
+  sExt := ASource.sExt;
+  sModeStr := ASource.sModeStr;
+  cColor := ASource.cColor;
+  sName := ASource.sName;
+end;
+
+function TColorExt.GetCount: Integer;
+begin
+  Result := lslist.Count;
+end;
+
+function TColorExt.GetItems(const Index: Integer): TMaskItem;
+begin
+  Result := TMaskItem(lslist[Index]);
+end;
 
 constructor TColorExt.Create;
 begin
@@ -75,11 +106,9 @@ end;
 
 destructor TColorExt.Destroy;
 begin
-  if assigned(lsList) then
-    begin
-      Clear;
-      FreeAndNil(lsList);
-    end;
+  Clear;
+  FreeAndNil(lsList);
+  inherited;
 end;
 
 procedure TColorExt.Clear;
@@ -89,6 +118,11 @@ begin
       TMaskItem(lslist[0]).Free;
       lslist.Delete(0);
     end;
+end;
+
+procedure TColorExt.Add(AItem: TMaskItem);
+begin
+  lslist.Add(AItem);
 end;
 
 function TColorExt.GetColorByExt(const sExt: String): TColor;
