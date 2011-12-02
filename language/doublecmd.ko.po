@@ -4055,8 +4055,10 @@ msgid "Template..."
 msgstr "템플릿..."
 
 #: TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION
+#, fuzzy
+#| msgid "File types colors"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION"
-msgid "File types colors"
+msgid "File types colors (sort by drag&&drop)"
 msgstr "파일 형식 색상"
 
 #: TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION
