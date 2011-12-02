@@ -16,7 +16,7 @@ inherited frmOptionsFileTypesColors: TfrmOptionsFileTypesColors
     BorderSpacing.Top = 6
     BorderSpacing.Right = 8
     BorderSpacing.Bottom = 8
-    Caption = 'File types colors'
+    Caption = 'File types colors (sort by drag&&drop)'
     ClientHeight = 324
     ClientWidth = 739
     TabOrder = 0
