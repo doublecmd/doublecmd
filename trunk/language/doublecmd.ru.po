@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-09-30 18:27+0300\n"
+"PO-Revision-Date: 2011-12-02 21:46+0400\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3979,8 +3979,8 @@ msgstr "Шаблон..."
 
 #: TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION"
-msgid "File types colors"
-msgstr "Цвета по типу"
+msgid "File types colors (sort by drag&&drop)"
+msgstr "Цвета по типу (сортировка перетаскиванием)"
 
 #: TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION"

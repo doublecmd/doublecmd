@@ -3840,7 +3840,7 @@ msgid "Template..."
 msgstr ""
 
 #: TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION
-msgid "File types colors"
+msgid "File types colors (sort by drag&&drop)"
 msgstr ""
 
 #: TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION

@@ -3878,8 +3878,10 @@ msgid "Template..."
 msgstr "Szablon..."
 
 #: TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION
+#, fuzzy
+#| msgid "File types colors"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION"
-msgid "File types colors"
+msgid "File types colors (sort by drag&&drop)"
 msgstr "Kolor typu plików"
 
 #: TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION
@@ -6926,10 +6928,6 @@ msgstr "Nieznany typ"
 msgid "Yes (%s)"
 msgstr "Tak (%s)"
 
-#: ulng.rssearchresult
-msgid "Search result"
-msgstr "Wynik wyszukiwania"
-
 #~ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 #~ msgid "OK"
 #~ msgstr "OK"
@@ -7029,6 +7027,10 @@ msgstr "Wynik wyszukiwania"
 #~ msgstr "Filtr:"
 #~ msgid "Find:"
 #~ msgstr "Znajdź:"
+#: ulng.rssearchresult
+msgid "Search result"
+msgstr "Wynik wyszukiwania"
+
 #: ulng.rsselectdir
 msgid "Select a directory"
 msgstr "Wybierz katalog"
