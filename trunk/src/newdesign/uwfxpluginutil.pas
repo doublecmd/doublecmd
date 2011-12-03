@@ -124,7 +124,7 @@ begin
   end
   else
   begin
-    if AskQuestion(sMessage, '', [fsourSkip, fsourCancel],
+    if AskQuestion(sMessage, '', [fsourSkip, fsourAbort],
                    fsourSkip, fsourAbort) = fsourAbort then
     begin
       AbortOperation;

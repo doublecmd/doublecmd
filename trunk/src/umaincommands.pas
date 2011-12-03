@@ -1010,6 +1010,7 @@ var
   TempFileSource: ITempFileSystemFileSource = nil;
   Operation: TFileSourceOperation;
   aFileSource: IFileSource;
+  UI: TFileSourceOperationMessageBoxesUI = nil;
 begin
   with frmMain do
   try
@@ -1062,8 +1063,16 @@ begin
 
       if Assigned(Operation) then
       begin
-        Operation.Execute;
-        FreeAndNil(Operation);
+        // Call directly - not through operations manager.
+        UI := TFileSourceOperationMessageBoxesUI.Create;
+        try
+          Operation.AddUserInterface(UI);
+          Operation.Execute;
+          if Operation.Result = fsorAborted then Exit;
+        finally
+          FreeAndNil(Operation);
+          FreeAndNil(UI);
+        end;
 
         aFileSource := TempFileSource;
         ChangeFileListRoot(TempFileSource.FileSystemRoot, SelectedFiles);
