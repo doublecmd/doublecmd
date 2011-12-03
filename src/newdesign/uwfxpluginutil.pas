@@ -201,8 +201,6 @@ begin
       Result := WfxCopyMove(aFile.Path + aFile.Name, AbsoluteTargetFileName, iFlags, @RemoteInfo, FInternal, bCopyMoveIn);
 
       case Result of
-      FS_FILE_OK:
-        ;
       FS_FILE_EXISTS, // The file already exists, and resume isn't supported
       FS_FILE_EXISTSRESUMEALLOWED: // The file already exists, and resume is supported
         begin
@@ -217,12 +215,7 @@ begin
             raise Exception.Create('Invalid file exists option');
           end;
           Result := WfxCopyMove(aFile.Path + aFile.Name, AbsoluteTargetFileName, iFlags, @RemoteInfo, FInternal, bCopyMoveIn);
-          { TODO : result not checked }
         end;
-      FS_FILE_READERROR:  {Happends on F3 on connection name}
-        raise Exception.Create('Error reading file');
-      else
-        raise Exception.Create('Not handled error'); {should be revised}
       end;
    end;
 
