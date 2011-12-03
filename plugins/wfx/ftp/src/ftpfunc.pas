@@ -464,6 +464,7 @@ var
   sConnName: AnsiString;
 begin
   Result := False;
+  if (ExtractFileDir(sPath) = PathDelim) then Exit;
   sConnName := ExtractConnectionName(sPath);
   RemotePath := ExtractRemoteFileName(sPath);
   Index:= ActiveConnectionList.IndexOf(sConnName);
@@ -689,6 +690,7 @@ end;
 function FsRenMovFile(OldName, NewName: PAnsiChar; Move, OverWrite: BOOL;
   RemoteInfo: pRemoteInfo): Integer; dcpcall;
 var
+  I: Integer;
   FtpSend: TFTPSendEx;
   sRemotePath, sOldName, sNewName: AnsiString;
 begin
@@ -697,16 +699,29 @@ begin
     Result := FS_FILE_NOTSUPPORTED;
     Exit;
   end;
-  if GetConnectionByPath(OldName, FtpSend, sOldName) then
-  begin
-    sNewName := ExtractRemoteFileName(NewName);
-    ProgressProc(PluginNumber, OldName, NewName, 0);
-    if FtpSend.RenameFile(sOldName, sNewName) then
-      begin
-        ProgressProc(PluginNumber, OldName, NewName, 100);
-        Result := FS_FILE_OK;
-      end;
-  end;
+
+  if (ExtractFileDir(OldName) = PathDelim) and (AnsiChar(OldName[1]) <> '<') then
+    begin
+      I:= ConnectionList.IndexOf(OldName + 1);
+      if I < 0 then
+        Result:= FS_FILE_NOTFOUND
+      else
+        begin
+          TConnection(ConnectionList.Objects[I]).ConnectionName:= ExtractFileName(NewName);
+          WriteConnectionList;
+          Result:= FS_FILE_OK;
+        end;
+    end
+  else if GetConnectionByPath(OldName, FtpSend, sOldName) then
+    begin
+      sNewName := ExtractRemoteFileName(NewName);
+      ProgressProc(PluginNumber, OldName, NewName, 0);
+      if FtpSend.RenameFile(sOldName, sNewName) then
+        begin
+          ProgressProc(PluginNumber, OldName, NewName, 100);
+          Result := FS_FILE_OK;
+        end;
+    end;
 end;
 
 function FsGetFile(RemoteName, LocalName: PAnsiChar; CopyFlags: Integer;
