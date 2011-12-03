@@ -368,6 +368,12 @@ procedure TfrmViewer.LoadFile(const aFileName: UTF8String);
 var
   i: Integer;
 begin
+  if not mbFileExists(aFileName) then
+  begin
+    ShowMessage(rsMsgErrNoFiles);
+    Exit;
+  end;
+
   FLastSearchPos := -1;
   Caption := aFileName;
 
