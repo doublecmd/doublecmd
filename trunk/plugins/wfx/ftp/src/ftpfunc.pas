@@ -570,15 +570,13 @@ begin
     end
   else
     begin
-      if not GetConnectionByPath(Path, FtpSend, sPath) then
+      if not GetConnectionByPath(IncludeTrailingPathDelimiter(Path), FtpSend, sPath) then
         begin
           Result := THandle(-1);
           Dispose(ListRec);
           Exit;
         end;
 
-      if Length(sPath) <> 1 then
-        sPath := sPath + '/';
       try
         ListLock.Acquire;
         if FtpSend.List(sPath, False) then
