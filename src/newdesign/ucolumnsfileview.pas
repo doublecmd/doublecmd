@@ -3355,7 +3355,7 @@ var
           else
             begin
               BackgroundColor := ColumnsSet.GetColumnMarkColor(ACol);
-              Canvas.Font.Color := TextColor;
+              Canvas.Font.Color := ColumnsSet.GetColumnBackground(ACol);
             end;
           //------------------------------------------------------
         end
@@ -3895,4 +3895,4 @@ begin
 end;
 
 end.
-
+
