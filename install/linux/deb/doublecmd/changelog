@@ -1,5 +1,5 @@
-doublecmd (0.4.6-2844~lucid) lucid; urgency=low
+doublecmd (0.5.2-1) unstable; urgency=low
 
   * Initial release (Closes: #2931241)
 
- -- Alexander Koblov <Alexx2000@mail.ru>  Thu, 30 May 2010 21:04:07 -0500
+ -- Alexander Koblov <Alexx2000@mail.ru> Sun, 04 Dec 2011 16:48:10 +0400
