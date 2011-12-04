@@ -218,17 +218,14 @@ begin
 end;
 
 function ShowPasswordDialog(out Password: AnsiString): Boolean;
-var
-  pcTemp: PAnsiChar;
 begin
-  Result:= False;
-  GetMem(pcTemp, MAX_PATH);
-  if RequestProc(PluginNumber, RT_Password, nil, nil, pcTemp, MAX_PATH) then
-    begin
-      Password:= pcTemp;
-      Result:= True;
-    end;
-  FreeMem(pcTemp);
+  SetLength(Password, MAX_PATH);
+  Password[1] := #0;
+  Result := RequestProc(PluginNumber, RT_Password, nil, nil, PChar(Password), MAX_PATH);
+  if Result then
+    Password:= PChar(Password) // truncate to #0
+  else
+    Password := '';
 end;
 
 function FtpConnect(const ConnectionName: AnsiString; out FtpSend: TFTPSendEx): Boolean;
