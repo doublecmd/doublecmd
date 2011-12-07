@@ -85,7 +85,6 @@ const
       'NoGUI',
       'cocoa'
 {$if lcl_fullversion >= 093100}
-      , 'android'
       , 'customdrawn'
 {$endif}
     );
