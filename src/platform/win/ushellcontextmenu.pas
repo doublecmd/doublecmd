@@ -322,7 +322,7 @@ begin
             // Add menu separator
             InsertMenuItemEx(FShellMenu, 0, nil, 4, 0, MFT_SEPARATOR);
           end
-        else if (FFiles.Count = 1) then  // Add "Actions" submenu
+        else  // Add "Actions" submenu
           begin
             hActionsSubMenu := CreatePopupMenu;
 
@@ -339,7 +339,7 @@ begin
                   end;
               end;
 
-            if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+            if (FFiles.Count = 1) and not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
               begin
                 // Add separator if needed.
                 if GetMenuItemCount(hActionsSubMenu) > 0 then
@@ -476,7 +476,7 @@ begin
           else
             begin
               sCmd:= Copy(sCmd, Pos('=', sCmd) + 1, Length(sCmd));
-              sCmd:= PrepareParameter(sCmd, aFile);
+              sCmd:= PrepareParameter(sCmd, frmMain.FrameLeft, frmMain.FrameRight, frmMain.ActiveFrame);
               try
                 with frmMain.ActiveFrame do
                 begin
