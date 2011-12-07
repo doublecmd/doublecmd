@@ -14,6 +14,66 @@ object frmOptions: TfrmOptions
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.30'
+  object tvTreeView: TTreeView
+    Left = 0
+    Height = 160
+    Top = 0
+    Width = 193
+    Align = alLeft
+    AutoExpand = True
+    DefaultItemHeight = 24
+    Images = OptionsEditorsImageList
+    ReadOnly = True
+    ScrollBars = ssAutoBoth
+    TabOrder = 0
+    OnChange = tvTreeViewChange
+    Options = [tvoAutoExpand, tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips]
+  end
+  object Panel3: TPanel
+    Left = 196
+    Height = 160
+    Top = 0
+    Width = 321
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 160
+    ClientWidth = 321
+    TabOrder = 1
+    object pnlCaption: TPanel
+      Left = 0
+      Height = 23
+      Top = 0
+      Width = 321
+      Align = alTop
+      Color = clActiveCaption
+      Font.Color = clCaptionText
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 0
+    end
+    object sboxOptionsEditor: TScrollBox
+      Left = 0
+      Height = 137
+      Top = 23
+      Width = 321
+      HorzScrollBar.Page = 321
+      HorzScrollBar.Smooth = True
+      HorzScrollBar.Tracking = True
+      VertScrollBar.Page = 137
+      VertScrollBar.Smooth = True
+      VertScrollBar.Tracking = True
+      Align = alClient
+      BorderStyle = bsNone
+      TabOrder = 1
+    end
+  end
+  object splOptionsSplitter: TSplitter
+    Left = 193
+    Height = 160
+    Top = 0
+    Width = 3
+  end
   object Panel1: TPanel
     Left = 0
     Height = 43
@@ -23,7 +83,7 @@ object frmOptions: TfrmOptions
     ClientHeight = 43
     ClientWidth = 517
     FullRepaint = False
-    TabOrder = 1
+    TabOrder = 2
     object btnOK: TBitBtn
       AnchorSideRight.Control = btnCancel
       Left = 198
@@ -72,66 +132,6 @@ object frmOptions: TfrmOptions
       OnClick = btnApplyClick
       TabOrder = 2
     end
-  end
-  object tvTreeView: TTreeView
-    Left = 0
-    Height = 160
-    Top = 0
-    Width = 193
-    Align = alLeft
-    AutoExpand = True
-    DefaultItemHeight = 24
-    Images = OptionsEditorsImageList
-    ReadOnly = True
-    ScrollBars = ssAutoBoth
-    TabOrder = 0
-    OnChange = tvTreeViewChange
-    Options = [tvoAutoExpand, tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips]
-  end
-  object Panel3: TPanel
-    Left = 196
-    Height = 160
-    Top = 0
-    Width = 321
-    Align = alClient
-    BevelOuter = bvNone
-    ClientHeight = 160
-    ClientWidth = 321
-    TabOrder = 2
-    object pnlCaption: TPanel
-      Left = 0
-      Height = 23
-      Top = 0
-      Width = 321
-      Align = alTop
-      Color = clActiveCaption
-      Font.Color = clCaptionText
-      Font.Style = [fsBold]
-      ParentColor = False
-      ParentFont = False
-      TabOrder = 0
-    end
-    object sboxOptionsEditor: TScrollBox
-      Left = 0
-      Height = 137
-      Top = 23
-      Width = 321
-      HorzScrollBar.Page = 321
-      HorzScrollBar.Smooth = True
-      HorzScrollBar.Tracking = True
-      VertScrollBar.Page = 137
-      VertScrollBar.Smooth = True
-      VertScrollBar.Tracking = True
-      Align = alClient
-      BorderStyle = bsNone
-      TabOrder = 1
-    end
-  end
-  object splOptionsSplitter: TSplitter
-    Left = 193
-    Height = 160
-    Top = 0
-    Width = 3
   end
   object OptionsEditorsImageList: TImageList
     left = 72
