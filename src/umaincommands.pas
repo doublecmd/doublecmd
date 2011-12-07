@@ -63,7 +63,7 @@ type
    procedure DoCopySelectedFileNamesToClipboard(FileView: TFileView; FullNames: Boolean);
    procedure DoNewTab(Notebook: TFileViewNotebook);
    procedure DoContextMenu(Panel: TFileView; X, Y: Integer; Background: Boolean);
-   procedure DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage);
+   procedure DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage; FromActivePanel: Boolean);
    procedure DoSortByFunctions(View: TFileView; FileFunctions: TFileFunctions);
    procedure DoShowMainMenu(bShow: Boolean);
    //---------------------
@@ -385,54 +385,61 @@ begin
   end;
 end;
 
-procedure TMainCommands.DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage);
+procedure TMainCommands.DoTransferPath(SourcePage: TFileViewPage; TargetPage: TFileViewPage; FromActivePanel: Boolean);
 var
   aFile: TFile;
   NewPath: String;
 begin
-  aFile := SourcePage.FileView.CloneActiveFile;
-  if Assigned(aFile) then
-  try
-    if (fspLinksToLocalFiles in SourcePage.FileView.FileSource.GetProperties) and
-       (SourcePage.FileView.FileSource.GetLocalName(aFile)) then
+  if FromActivePanel then
+  begin
+    aFile := SourcePage.FileView.CloneActiveFile;
+    if Assigned(aFile) then
+    try
+      if (fspLinksToLocalFiles in SourcePage.FileView.FileSource.GetProperties) and
+         (SourcePage.FileView.FileSource.GetLocalName(aFile)) then
+        begin
+          if aFile.IsDirectory then
+            ChooseFileSource(TargetPage.FileView, aFile.FullPath)
+          else if not ChooseFileSource(TargetPage.FileView, aFile) then
+            begin
+              ChooseFileSource(TargetPage.FileView, aFile.Path);
+              TargetPage.FileView.SetActiveFile(aFile.Name);
+            end;
+        end
+      else if aFile.IsDirectory then
       begin
-        if aFile.IsDirectory then
-          ChooseFileSource(TargetPage.FileView, aFile.FullPath)
-        else if not ChooseFileSource(TargetPage.FileView, aFile) then
-          begin
-            ChooseFileSource(TargetPage.FileView, aFile.Path);
-            TargetPage.FileView.SetActiveFile(aFile.Name);
-          end;
-      end
-    else if aFile.IsDirectory then
-    begin
-      if aFile.Name = '..' then
-      begin
-        NewPath := GetParentDir(SourcePage.FileView.CurrentPath)
+        if aFile.Name = '..' then
+        begin
+          NewPath := GetParentDir(SourcePage.FileView.CurrentPath)
+        end
+        else
+        begin
+          // Change to a subdirectory.
+          NewPath := aFile.FullPath;
+        end;
+
+        if NewPath <> EmptyStr then
+          TargetPage.FileView.AddFileSource(SourcePage.FileView.FileSource, NewPath);
       end
       else
       begin
-        // Change to a subdirectory.
-        NewPath := aFile.FullPath;
+        // Change file source, if the file under cursor can be opened as another file source.
+        try
+          if not ChooseFileSource(TargetPage.FileView, aFile) then
+            TargetPage.FileView.AddFileSource(SourcePage.FileView.FileSource,
+                                              SourcePage.FileView.CurrentPath);
+        except
+          on e: EFileSourceException do
+            MessageDlg('Error', e.Message, mtError, [mbOK], 0);
+        end;
       end;
-
-      if NewPath <> EmptyStr then
-        TargetPage.FileView.AddFileSource(SourcePage.FileView.FileSource, NewPath);
-    end
-    else
-    begin
-      // Change file source, if the file under cursor can be opened as another file source.
-      try
-        if not ChooseFileSource(TargetPage.FileView, aFile) then
-          TargetPage.FileView.AddFileSource(SourcePage.FileView.FileSource,
-                                            SourcePage.FileView.CurrentPath);
-      except
-        on e: EFileSourceException do
-          MessageDlg('Error', e.Message, mtError, [mbOK], 0);
-      end;
+    finally
+      FreeAndNil(aFile);
     end;
-  finally
-    FreeAndNil(aFile);
+  end
+  else
+  begin
+    TargetPage.FileView.AddFileSource(SourcePage.FileView.FileSource, SourcePage.FileView.CurrentPath);
   end;
 end;
 
@@ -825,16 +832,16 @@ end;
 
 procedure TMainCommands.cm_TransferLeft(Param: String='');
 begin
-  if (frmMain.SelectedPanel = fpRight) then
-    DoTransferPath(frmMain.RightTabs.ActivePage,
-                   frmMain.LeftTabs.ActivePage);
+  DoTransferPath(frmMain.RightTabs.ActivePage,
+                 frmMain.LeftTabs.ActivePage,
+                 frmMain.SelectedPanel = fpRight);
 end;
 
 procedure TMainCommands.cm_TransferRight(Param: String='');
 begin
-  if (frmMain.SelectedPanel = fpLeft) then
-    DoTransferPath(frmMain.LeftTabs.ActivePage,
-                   frmMain.RightTabs.ActivePage);
+  DoTransferPath(frmMain.LeftTabs.ActivePage,
+                 frmMain.RightTabs.ActivePage,
+                 frmMain.SelectedPanel = fpLeft);
 end;
 
 procedure TMainCommands.cm_GoToFirstFile(Param: String='');
