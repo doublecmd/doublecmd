@@ -195,7 +195,7 @@ uses
   LCLProc, LCLType, LConvEncoding, StrUtils, HelpIntfs, fViewer, fMain,
   uLng, uGlobs, uShowForm, uOSUtils, uSearchTemplate, uDCUtils,
   uSearchResultFileSource, uFile, uFileSystemFileSource,
-  uFileViewNotebook, uFileView, uColumnsFileView;
+  uFileViewNotebook, uFileView, uColumnsFileView, uKeyboard;
 
 const
   TimeUnitToComboIndex: array[TTimeUnit] of Integer = (0, 1, 2, 3, 4, 5, 6);
@@ -887,6 +887,7 @@ procedure TfrmFindDlg.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftS
 begin
   case Key of
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+    // On LCLGTK2 default button on Enter does not work.
     VK_RETURN, VK_SELECT:
       begin
         Key := 0;
@@ -906,11 +907,18 @@ begin
       end;
     VK_1..VK_4:
       begin
-        if Shift = [ssAlt] then
+        if Shift * KeyModifiersShortcut = [ssAlt] then
           begin
             pgcSearch.PageIndex := Key - VK_1;
             Key := 0;
           end;
+      end;
+    VK_TAB:
+      begin
+        if Shift * KeyModifiersShortcut = [ssCtrl] then
+          pgcSearch.SelectNextPage(True)
+        else if Shift * KeyModifiersShortcut = [ssCtrl, ssShift] then
+          pgcSearch.SelectNextPage(False);
       end;
   end;
 end;
