@@ -45,7 +45,6 @@ type
     procedure btnStartModeClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure frmCopyDlgKeyPress(Sender: TObject; var Key: Char);
     procedure frmCopyDlgShow(Sender: TObject);
     procedure miAutoStartClick(Sender: TObject);
     procedure miManualStartClick(Sender: TObject);
@@ -233,20 +232,6 @@ begin
   FOperationStartingState := ossQueueLast;
 end;
 
-procedure TfrmCopyDlg.frmCopyDlgKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key=#27 then
-  begin
-    ModalResult:=mrCancel;
-    Key := #0;
-  end
-  else if Key=#13 then
-  begin
-    ModalResult:=mrOK;
-    Key:=#0;
-  end;
-end;
-
 procedure TfrmCopyDlg.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -258,6 +243,14 @@ begin
       if key=vk_0 then
         TButton(pnlSelector.Controls[9]).Click;
     end;
+
+  case Key of
+    VK_ESCAPE: // Must handle before drag manager. Lazarus bug 0020676.
+      begin
+        ModalResult := mrCancel;
+        Key := 0;
+      end;
+  end;
 end;
 
 procedure TfrmCopyDlg.btnCancelMouseUp(Sender: TObject; Button: TMouseButton;

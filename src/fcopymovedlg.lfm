@@ -14,7 +14,6 @@ object frmCopyDlg: TfrmCopyDlg
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  OnKeyPress = frmCopyDlgKeyPress
   OnShow = frmCopyDlgShow
   Position = poScreenCenter
   LCLVersion = '0.9.31'
