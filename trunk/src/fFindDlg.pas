@@ -916,9 +916,15 @@ begin
     VK_TAB:
       begin
         if Shift * KeyModifiersShortcut = [ssCtrl] then
-          pgcSearch.SelectNextPage(True)
+        begin
+          pgcSearch.SelectNextPage(True);
+          Key := 0;
+        end
         else if Shift * KeyModifiersShortcut = [ssCtrl, ssShift] then
+        begin
           pgcSearch.SelectNextPage(False);
+          Key := 0;
+        end;
       end;
   end;
 end;
