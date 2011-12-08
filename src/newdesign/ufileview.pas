@@ -407,7 +407,7 @@ implementation
 uses
   Dialogs, LCLProc, Forms, StrUtils, uMasks, fMaskInputDlg,
   uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
-  uDCUtils, uGlobs, uFileViewNotebook, uSearchTemplate;
+  uDCUtils, uGlobs, uFileViewNotebook, uSearchTemplate, uOSUtils;
 
 const
   MinimumReloadInterval  = 1000; // 1 second
@@ -942,6 +942,8 @@ begin
         try
           uFileSourceUtil.ChooseFile(Self, FSFile);
         except
+          on e: EInvalidCommandLine do
+            MessageDlg(rsMsgInvalidCommandLine, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
           on e: Exception do
             MessageDlg('Error', e.Message, mtError, [mbOK], 0);
         end;

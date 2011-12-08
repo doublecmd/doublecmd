@@ -71,6 +71,11 @@ type
     MappedFile : Pointer;
   end;
 
+  EInvalidCommandLine = class(Exception);
+  EInvalidQuoting = class(EInvalidCommandLine)
+    constructor Create; reintroduce;
+  end;
+
 const
   faInvalidAttributes: TFileAttrs = TFileAttrs(-1);
 
@@ -287,7 +292,7 @@ procedure FixDateNamesToUTF8;
 implementation
 
 uses
-  FileUtil, uDebug, uDCUtils, uGlobs
+  FileUtil, uDebug, uDCUtils, uGlobs, uLng
   {$IF DEFINED(MSWINDOWS)}
   , JwaWinCon, Windows, uNTFSLinks, uMyWindows, JwaWinNetWk, uShlObjAdditional
   , shlobj
@@ -1936,6 +1941,13 @@ begin
     LongMonthNames[i] := SysToUTF8(LongMonthNames[i]);
   for i := Low(LongDayNames) to High(LongDayNames) do
     LongDayNames[i] := SysToUTF8(LongDayNames[i]);
+end;
+
+{ EInvalidQuoting }
+
+constructor EInvalidQuoting.Create;
+begin
+  inherited Create(rsMsgInvalidQuoting);
 end;
 
 end.

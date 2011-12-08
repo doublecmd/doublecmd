@@ -1236,7 +1236,7 @@ begin
         end;
     end;
   if QuoteChar <> #0 then
-    raise Exception.Create('Invalid quoting');
+    raise EInvalidQuoting.Create;
   if CurrentArg <> '' then
     AddArgument;
   if (not bSplitArgs) then
@@ -1281,6 +1281,8 @@ begin
   if Pos('"', sCmdLine) = 1 then
     begin
       iPos := CharPos('"', sCmdLine, 2);
+      if iPos = 0 then
+        raise EInvalidQuoting.Create;
       sCmd := Copy(sCmdLine, 2, iPos - 2);
       sParams := Copy(sCmdLine, iPos + 2, Length(sCmdLine) - iPos + 1)
     end
