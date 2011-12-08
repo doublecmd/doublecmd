@@ -45,8 +45,8 @@ Function ShowViewerByGlobList(const FilesToView: TStringList;
 implementation
 
 uses
-  SysUtils, Process, UTF8Process, LCLProc, uGlobs, uOSUtils, fEditor, fViewer,
-  uDCUtils, uTempFileSystemFileSource;
+  SysUtils, Process, UTF8Process, LCLProc, Dialogs, Forms,
+  uGlobs, uOSUtils, fEditor, fViewer, uDCUtils, uTempFileSystemFileSource, uLng;
 
 function RunExtTool(const ExtTool: TExternalToolOptions; sFileName: String): String;
 begin
@@ -60,10 +60,19 @@ end;
 function ShowEditorByGlob(sFileName:String):Boolean;
 begin
   if gExternalTools[etEditor].Enabled then
-    RunExtTool(gExternalTools[etEditor], sFileName)
+  begin
+    try
+      RunExtTool(gExternalTools[etEditor], sFileName);
+    except
+      on e: EInvalidCommandLine do
+        MessageDlg(rsToolErrorOpeningEditor,
+          rsMsgInvalidCommandLine + ' (' + rsToolEditor + '):' + LineEnding + e.Message,
+          mtError, [mbOK], 0);
+    end;
+  end
   else
     ShowEditor(sFileName);
-  Result:=True;   
+  Result:=True;
 end;
 
 function ShowViewerByGlob(sFileName:String):Boolean;
@@ -71,7 +80,16 @@ var
   sl:TStringList;
 begin
   if gExternalTools[etViewer].Enabled then
-    RunExtTool(gExternalTools[etViewer], sFileName)
+  begin
+    try
+      RunExtTool(gExternalTools[etViewer], sFileName);
+    except
+      on e: EInvalidCommandLine do
+        MessageDlg(rsToolErrorOpeningViewer,
+          rsMsgInvalidCommandLine + ' (' + rsToolViewer + '):' + LineEnding + e.Message,
+          mtError, [mbOK], 0);
+    end;
+  end
   else
   begin
     sl:=TStringList.Create;

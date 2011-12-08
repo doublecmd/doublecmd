@@ -1091,73 +1091,80 @@ begin
       end;
     end;
 
-    sl := TStringList.Create;
-    for i := 0 to SelectedFiles.Count - 1 do
-    begin
-      aFile := SelectedFiles[i];
-
-      if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+    try
+      sl := TStringList.Create;
+      for i := 0 to SelectedFiles.Count - 1 do
       begin
-        if (log_info in gLogOptions) then
-          logWrite('View.Add: ' + aFile.FullPath, lmtInfo);
+        aFile := SelectedFiles[i];
 
-        //now test if exists View command in doublecmd.ext :)
-        sViewCmd:= gExts.GetExtActionCmd(aFile, 'view');
+        if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+        begin
+          if (log_info in gLogOptions) then
+            logWrite('View.Add: ' + aFile.FullPath, lmtInfo);
 
-        if (sViewCmd<>'') then
-          begin
-            sViewCmd := PrepareParameter(sViewCmd, aFile);
-            ProcessExtCommand(sViewCmd, ActiveFrame.CurrentPath);
-            // TODO:
-            // If TempFileSource is used, create a wait thread that will
-            // keep the TempFileSource alive until the command is finished.
-          end
-        else
-          begin
-            sl.Add(aFile.FullPath);
-          end;
-      end; // if selected
-    end; // for
+          //now test if exists View command in doublecmd.ext :)
+          sViewCmd:= gExts.GetExtActionCmd(aFile, 'view');
 
-    // If only one file was selected then add all files in panel to the list.
-    // Works only for directly accessible files and only when using internal viewer.
-    if (sl.Count=1) and
-       (not gExternalTools[etViewer].Enabled) and
-       ([fspDirectAccess, fspLinksToLocalFiles] * ActiveFrame.FileSource.Properties <> []) then
-      begin
-        AllFiles := ActiveFrame.CloneFiles;
-
-        if (fspLinksToLocalFiles in ActiveFrame.FileSource.Properties) then
-          begin
-            for I := 0 to AllFiles.Count - 1 do
-              begin
-                aFile := AllFiles[I];
-                ActiveFrame.FileSource.GetLocalName(aFile);
-              end;
-          end;
-
-        n:=0;
-        for i := 0 to AllFiles.Count - 1 do
-          begin
-            aFile := AllFiles[i];
-            if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
-              begin
-                if n>0 then sl.Add(aFile.FullPath);
-                if aFile.Name = ActiveFile.Name then n:=i;
-              end;
-          end;
-
-        for i:=0 to n-1 do
-          begin
-            aFile := AllFiles[i];
-            if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+          if (sViewCmd<>'') then
+            begin
+              sViewCmd := PrepareParameter(sViewCmd, aFile);
+              ProcessExtCommand(sViewCmd, ActiveFrame.CurrentPath);
+              // TODO:
+              // If TempFileSource is used, create a wait thread that will
+              // keep the TempFileSource alive until the command is finished.
+            end
+          else
+            begin
               sl.Add(aFile.FullPath);
-          end;
-      end;
+            end;
+        end; // if selected
+      end; // for
 
-    // if sl has files then view it
-    if sl.Count > 0 then
-      ShowViewerByGlobList(sl, aFileSource);
+      // If only one file was selected then add all files in panel to the list.
+      // Works only for directly accessible files and only when using internal viewer.
+      if (sl.Count=1) and
+         (not gExternalTools[etViewer].Enabled) and
+         ([fspDirectAccess, fspLinksToLocalFiles] * ActiveFrame.FileSource.Properties <> []) then
+        begin
+          AllFiles := ActiveFrame.CloneFiles;
+
+          if (fspLinksToLocalFiles in ActiveFrame.FileSource.Properties) then
+            begin
+              for I := 0 to AllFiles.Count - 1 do
+                begin
+                  aFile := AllFiles[I];
+                  ActiveFrame.FileSource.GetLocalName(aFile);
+                end;
+            end;
+
+          n:=0;
+          for i := 0 to AllFiles.Count - 1 do
+            begin
+              aFile := AllFiles[i];
+              if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+                begin
+                  if n>0 then sl.Add(aFile.FullPath);
+                  if aFile.Name = ActiveFile.Name then n:=i;
+                end;
+            end;
+
+          for i:=0 to n-1 do
+            begin
+              aFile := AllFiles[i];
+              if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+                sl.Add(aFile.FullPath);
+            end;
+        end;
+
+      // if sl has files then view it
+      if sl.Count > 0 then
+        ShowViewerByGlobList(sl, aFileSource);
+    except
+      on e: EInvalidCommandLine do
+        MessageDlg(rsToolErrorOpeningViewer,
+          rsMsgInvalidCommandLine + ' (' + rsToolViewer + '):' + LineEnding + e.Message,
+          mtError, [mbOK], 0);
+    end;
 
   finally
     if Assigned(sl) then
@@ -1218,27 +1225,35 @@ begin
         SelectedFiles := ActiveFrame.CloneSelectedFiles;
       end;
 
-    for i := 0 to SelectedFiles.Count - 1 do
-    begin
-      aFile := SelectedFiles[i];
-
-      // For now we only process one file.
-      if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+    try
+      for i := 0 to SelectedFiles.Count - 1 do
       begin
-        //now test if exists View command in doublecmd.ext :)
-        sEditCmd:= gExts.GetExtActionCmd(aFile, 'edit');
+        aFile := SelectedFiles[i];
 
-        if (sEditCmd <> '') then
-          begin
-            sEditCmd := PrepareParameter(sEditCmd, aFile);
-            ProcessExtCommand(sEditCmd, aFile.Path);
-          end
-        else
-          begin
-            ShowEditorByGlob(aFile.FullPath);
-          end;
-        Break;
+        // For now we only process one file.
+        if not (aFile.IsDirectory or aFile.IsLinkToDirectory) then
+        begin
+          //now test if exists View command in doublecmd.ext :)
+          sEditCmd:= gExts.GetExtActionCmd(aFile, 'edit');
+
+          if (sEditCmd <> '') then
+            begin
+              sEditCmd := PrepareParameter(sEditCmd, aFile);
+              ProcessExtCommand(sEditCmd, aFile.Path);
+            end
+          else
+            begin
+              ShowEditorByGlob(aFile.FullPath);
+            end;
+          Break;
+        end;
       end;
+
+    except
+      on e: EInvalidCommandLine do
+        MessageDlg(rsToolErrorOpeningEditor,
+          rsMsgInvalidCommandLine + ' (' + rsToolEditor + '):' + LineEnding + e.Message,
+          mtError, [mbOK], 0);
     end;
 
   finally
@@ -1656,7 +1671,14 @@ var
         sCommand := sCommand + ' ' + Parameters;
       for i := 0 to CompareList.Count - 1 do
         sCommand := sCommand + ' ' + QuoteStr(CompareList.Strings[i]);
-      ExecCmdFork(sCommand, RunInTerminal, '', KeepTerminalOpen);
+      try
+        ExecCmdFork(sCommand, RunInTerminal, '', KeepTerminalOpen);
+      except
+        on e: EInvalidCommandLine do
+          MessageDlg(rsToolErrorOpeningDiffer,
+            rsMsgInvalidCommandLine + ' (' + rsToolDiffer + '):' + LineEnding + e.Message,
+            mtError, [mbOK], 0);
+      end;
     end;
   end;
 
@@ -2153,7 +2175,14 @@ begin
   if not frmMain.edtCommand.Focused then
     begin
       mbSetCurrentDir(frmMain.ActiveFrame.CurrentPath);
-      ExecCmdFork(gRunTerm);
+      try
+        ExecCmdFork(gRunTerm);
+      except
+        on e: EInvalidCommandLine do
+          MessageDlg(rsToolErrorOpeningTerminal,
+            rsMsgInvalidCommandLine + ' (' + rsToolTerminal + '):' + LineEnding + e.Message,
+            mtError, [mbOK], 0);
+      end;
     end;
 end;
 

@@ -118,6 +118,9 @@ resourcestring
   rsMsgTabRenamePrompt = 'New tab name:';
   rsMsgErrCreateFileDirectoryExists = 'There already exists a directory named "%s".';
   rsMsgDeletePartiallyCopied = 'Delete the partially copied file ?';
+  rsMsgInvalidCommandLine = 'Error in command line';
+  rsMsgInvalidQuoting = 'Invalid quoting';
+  rsMsgErrorInContextMenuCommand = 'Error in context menu command';
 
   // for context menu
   rsMnuActions = 'Actions';
@@ -257,6 +260,11 @@ resourcestring
   rsToolViewer = 'Viewer';
   rsToolEditor = 'Editor';
   rsToolDiffer = 'Differ';
+  rsToolTerminal = 'Terminal';
+  rsToolErrorOpeningViewer = 'Error opening viewer';
+  rsToolErrorOpeningEditor = 'Error opening editor';
+  rsToolErrorOpeningDiffer = 'Error opening differ';
+  rsToolErrorOpeningTerminal = 'Error opening terminal';
   // Configure custom columns dialog
   rsConfColDelete = 'Delete';
   rsConfColCaption = 'Caption';

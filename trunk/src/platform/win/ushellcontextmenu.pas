@@ -73,7 +73,7 @@ implementation
 
 uses
   LCLProc, Dialogs, uGlobs, uLng, uMyWindows, uShellExecute,
-  fMain, uDCUtils, uFormCommands;
+  fMain, uDCUtils, uFormCommands, uOSUtils;
 
 const
   USER_CMD_ID = $1000;
@@ -489,8 +489,13 @@ begin
                        Exit;
                   end;
                   *)
-                  if not ProcessExtCommand(sCmd, CurrentPath) then
-                    frmMain.ExecCmd(sCmd);
+                  try
+                    if not ProcessExtCommand(sCmd, CurrentPath) then
+                      frmMain.ExecCmd(sCmd);
+                  except
+                    on e: EInvalidCommandLine do
+                      MessageDlg(rsMsgErrorInContextMenuCommand, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
+                  end;
                 end;
               finally
                 bHandled:= True;

@@ -3658,7 +3658,16 @@ begin
       Param := ' ' + Param;
     if StartPath <> '' then
       mbSetCurrentDir(StartPath);
-    Result:= ExecCmdFork(Format('"%s"%s', [Cmd, Param]));
+
+    try
+      Result:= ExecCmdFork(Format('"%s"%s', [Cmd, Param]));
+    except
+      on e: EInvalidCommandLine do
+      begin
+        MessageDlg(rsMsgInvalidCommandLine, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
+        Result := False;
+      end;
+    end;
   end;
 end;
 
@@ -4202,10 +4211,18 @@ begin
         begin
           if gTermWindow and Assigned(Cons) then
             Cons.Terminal.Write_pty(sCmd + #13)
-          else if bRunInTerm then
-            ExecCmdFork(sCmd, True, gRunInTerm)
           else
-            ExecCmdFork(sCmd);
+          begin
+            try
+              if bRunInTerm then
+                ExecCmdFork(sCmd, True, gRunInTerm)
+              else
+                ExecCmdFork(sCmd);
+            except
+              on e: EInvalidCommandLine do
+                MessageDlg(rsMsgInvalidCommandLine, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
+            end;
+          end;
         end;
     end
   else

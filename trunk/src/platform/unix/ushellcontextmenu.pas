@@ -185,8 +185,13 @@ begin
     if SameText(sCmd, sCmdVerbProperties) then
       ShowFileProperties(FileSource, FFiles);
 
-    if not ProcessExtCommand(sCmd, CurrentPath) then
-      frmMain.ExecCmd(sCmd);
+    try
+      if not ProcessExtCommand(sCmd, CurrentPath) then
+        frmMain.ExecCmd(sCmd);
+    except
+      on e: EInvalidCommandLine do
+        MessageDlg(rsMsgErrorInContextMenuCommand, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
+    end;
   end;
 end;
 
@@ -231,7 +236,12 @@ var
   ExecCmd: String;
 begin
   ExecCmd := (Sender as TMenuItem).Hint;
-  ExecCmdFork(ExecCmd);
+  try
+    ExecCmdFork(ExecCmd);
+  except
+    on e: EInvalidCommandLine do
+      MessageDlg(rsMsgErrorInContextMenuCommand, rsMsgInvalidCommandLine + ': ' + e.Message, mtError, [mbOK], 0);
+  end;
 end;
 
 function TShellContextMenu.FillOpenWithSubMenu: Boolean;
