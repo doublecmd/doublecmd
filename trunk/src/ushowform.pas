@@ -36,28 +36,31 @@ type
     destructor Destroy; override;
   end;
 
-Function ShowEditorByGlob(sFileName:String):Boolean;
-Function ShowViewerByGlob(sFileName:String):Boolean;
-Function ShowViewerByGlobList(const FilesToView: TStringList;
-                              const aFileSource: IFileSource):Boolean;
+procedure ShowEditorByGlob(sFileName:String);
+procedure ShowViewerByGlob(sFileName:String);
+procedure ShowViewerByGlobList(const FilesToView: TStringList;
+                               const aFileSource: IFileSource);
 
 
 implementation
 
 uses
-  SysUtils, Process, UTF8Process, LCLProc, Dialogs, Forms,
-  uGlobs, uOSUtils, fEditor, fViewer, uDCUtils, uTempFileSystemFileSource, uLng;
+  SysUtils, Process, UTF8Process, Dialogs,
+  uGlobs, uOSUtils, fEditor, fViewer, uDCUtils, uTempFileSystemFileSource, uLng,
+  uDebug;
 
-function RunExtTool(const ExtTool: TExternalToolOptions; sFileName: String): String;
+procedure RunExtTool(const ExtTool: TExternalToolOptions; sFileName: String);
+var
+  CommandLine: String;
 begin
-  Result := QuoteStr(ReplaceEnvVars(ExtTool.Path));
+  CommandLine := QuoteStr(ReplaceEnvVars(ExtTool.Path));
   if ExtTool.Parameters <> EmptyStr then
-    Result := Result + ' ' + ExtTool.Parameters;
-  Result := Result + ' ' + QuoteStr(sFileName);
-  ExecCmdFork(Result, ExtTool.RunInTerminal, '', ExtTool.KeepTerminalOpen);
+    CommandLine := CommandLine + ' ' + ExtTool.Parameters;
+  CommandLine := CommandLine + ' ' + QuoteStr(sFileName);
+  ExecCmdFork(CommandLine, ExtTool.RunInTerminal, '', ExtTool.KeepTerminalOpen);
 end;
 
-function ShowEditorByGlob(sFileName:String):Boolean;
+procedure ShowEditorByGlob(sFileName:String);
 begin
   if gExternalTools[etEditor].Enabled then
   begin
@@ -72,10 +75,9 @@ begin
   end
   else
     ShowEditor(sFileName);
-  Result:=True;
 end;
 
-function ShowViewerByGlob(sFileName:String):Boolean;
+procedure ShowViewerByGlob(sFileName:String);
 var
   sl:TStringList;
 begin
@@ -100,18 +102,17 @@ begin
       FreeAndNil(sl);
     end;
   end;
-  Result:=True;
 end;
 
-function ShowViewerByGlobList(const FilesToView : TStringList;
-                              const aFileSource: IFileSource):Boolean;
+procedure ShowViewerByGlobList(const FilesToView : TStringList;
+                               const aFileSource: IFileSource);
 var
   I : Integer;
   WaitThread : TWaitThread;
 begin
   if gExternalTools[etViewer].Enabled then
   begin
-    DebugLN('ShowViewerByGlobList - Use ExtView ');
+    DCDebug('ShowViewerByGlobList - Use ExtView');
     if aFileSource.IsClass(TTempFileSystemFileSource) then
       begin
         WaitThread := TWaitThread.Create(FilesToView, aFileSource);
@@ -127,7 +128,6 @@ begin
   end // gUseExtView
   else
     ShowViewer(FilesToView, aFileSource);
-  Result:=True;
 end;
 
 { TWaitThread }
