@@ -193,9 +193,6 @@ type
     }
     function GetLinesTillEnd(FromPosition: PtrInt; out LastLineReached: Boolean): Integer;
 
-    function ConvertToUTF8(const sText: AnsiString): UTF8String;
-    function ConvertFromUTF8(const sText: AnsiString): UTF8String;
-
     function GetBomLength: Integer;
 
     procedure UpdateLimits;
@@ -363,6 +360,9 @@ type
 
     function IsVisible(const aPosition: PtrInt): Boolean; overload;
     procedure MakeVisible(const aPosition: PtrInt);
+
+    function ConvertToUTF8(const sText: AnsiString): UTF8String;
+    function ConvertFromUTF8(const sText: UTF8String): AnsiString;
 
     function DetectEncoding: TViewerEncoding;
 
@@ -2604,7 +2604,7 @@ begin
   end;
 end;
 
-function TViewerControl.ConvertFromUTF8(const sText: AnsiString): UTF8String;
+function TViewerControl.ConvertFromUTF8(const sText: UTF8String): AnsiString;
 begin
   if FEncoding = veAutoDetect then
     FEncoding := DetectEncoding;  // Force detect encoding.
