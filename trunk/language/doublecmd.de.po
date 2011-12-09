@@ -5324,6 +5324,15 @@ msgstr "Über den Be&trachter"
 msgid "Displays the About message"
 msgstr "Zeigt den 'Über'-Dialog"
 
+#: TFRMVIEWER.ACTRELOAD.CAPTION
+msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
+msgid "Reload"
+msgstr "Neu laden"
+
+#: TFRMVIEWER.ACTRELOAD.HINT
+msgid "Reload current file"
+msgstr ""
+
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
 msgid "- 90"
@@ -5429,16 +5438,6 @@ msgstr ""
 #: TFRMVIEWER.BTNREDEYE.HINT
 msgid "Red Eyes"
 msgstr "Rote Augen"
-
-#: TFRMVIEWER.BTNRELOAD.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD.HINT"
-msgid "Reload"
-msgstr "Neu laden"
-
-#: TFRMVIEWER.BTNRELOAD1.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD1.HINT"
-msgid "Reload"
-msgstr "Neu laden"
 
 #: TFRMVIEWER.BTNRESIZE.HINT
 msgctxt "TFRMVIEWER.BTNRESIZE.HINT"
@@ -5943,6 +5942,10 @@ msgstr "&Überschreiben"
 msgid "Overwrite &All"
 msgstr "Alle &vorhandenen Dateien überschreiben"
 
+#: ulng.rsdlgbuttonresume
+msgid "&Resume"
+msgstr ""
+
 #: ulng.rsdlgbuttonretry
 msgid "Re&try"
 msgstr "&Wiederholen"
@@ -6345,6 +6348,10 @@ msgstr "%d markierte Datei(en) / Verzeichnis(se) kopieren?"
 msgid "Copy selected \"%s\"?"
 msgstr "Markierte \"%s\" kopieren?"
 
+#: ulng.rsmsgdeletepartiallycopied
+msgid "Delete the partially copied file ?"
+msgstr ""
+
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
 msgstr "Löschen von %d Dateien / Verzeichnissen?"
@@ -6453,6 +6460,10 @@ msgstr "Nicht genügend Arbeitsspeicher"
 msgid "Function not supported!"
 msgstr "Funktion wird nicht unterstützt!"
 
+#: ulng.rsmsgerrorincontextmenucommand
+msgid "Error in context menu command"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "Syntax-fehler im regulären Ausdruck!"
@@ -6517,6 +6528,10 @@ msgstr "Verzeichnis besteht bereits. Soll es überschrieben werden"
 msgid "Follow symlink \"%s\"?"
 msgstr "Sym-Link \"%s\" folgen?"
 
+#: ulng.rsmsginvalidcommandline
+msgid "Error in command line"
+msgstr ""
+
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "Ungültiger Dateiname"
@@ -6528,6 +6543,10 @@ msgstr "Ungültiger Pfad"
 #: ulng.rsmsginvalidpathlong
 msgid "Path %s contains forbidden characters."
 msgstr "Pfad %s enthält ungültige Zeichen."
+
+#: ulng.rsmsginvalidquoting
+msgid "Invalid quoting"
+msgstr ""
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
@@ -7087,6 +7106,7 @@ msgid "Quick search/filter"
 msgstr "Schnelle Suche"
 
 #: ulng.rsoptionseditorterminal
+msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"
 msgstr "Befehlszeilen-Interpreter"
 
@@ -7282,6 +7302,27 @@ msgstr "Vergleichsprogramm"
 msgctxt "ulng.rstooleditor"
 msgid "Editor"
 msgstr "Text-Editor"
+
+#: ulng.rstoolerroropeningdiffer
+msgid "Error opening differ"
+msgstr ""
+
+#: ulng.rstoolerroropeningeditor
+msgid "Error opening editor"
+msgstr ""
+
+#: ulng.rstoolerroropeningterminal
+msgid "Error opening terminal"
+msgstr ""
+
+#: ulng.rstoolerroropeningviewer
+msgid "Error opening viewer"
+msgstr ""
+
+#: ulng.rstoolterminal
+msgctxt "ulng.rstoolterminal"
+msgid "Terminal"
+msgstr "Befehlszeilen-Interpreter"
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"

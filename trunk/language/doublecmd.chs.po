@@ -5294,6 +5294,15 @@ msgstr "关于查看器"
 msgid "Displays the About message"
 msgstr ""
 
+#: TFRMVIEWER.ACTRELOAD.CAPTION
+msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
+msgid "Reload"
+msgstr ""
+
+#: TFRMVIEWER.ACTRELOAD.HINT
+msgid "Reload current file"
+msgstr ""
+
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
 msgid "- 90"
@@ -5398,16 +5407,6 @@ msgstr ""
 
 #: TFRMVIEWER.BTNREDEYE.HINT
 msgid "Red Eyes"
-msgstr ""
-
-#: TFRMVIEWER.BTNRELOAD.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD.HINT"
-msgid "Reload"
-msgstr ""
-
-#: TFRMVIEWER.BTNRELOAD1.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD1.HINT"
-msgid "Reload"
 msgstr ""
 
 #: TFRMVIEWER.BTNRESIZE.HINT
@@ -5909,6 +5908,10 @@ msgstr "覆盖(&R)"
 msgid "Overwrite &All"
 msgstr "覆盖全部(&A)"
 
+#: ulng.rsdlgbuttonresume
+msgid "&Resume"
+msgstr ""
+
 #: ulng.rsdlgbuttonretry
 msgid "Re&try"
 msgstr ""
@@ -6311,6 +6314,10 @@ msgstr "复制 %d 选中的文件/目录吗?"
 msgid "Copy selected \"%s\"?"
 msgstr "复制选中的 \"%s\" 吗?"
 
+#: ulng.rsmsgdeletepartiallycopied
+msgid "Delete the partially copied file ?"
+msgstr ""
+
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
 msgstr "删除 %d 选中的文件/目录吗?"
@@ -6419,6 +6426,10 @@ msgstr "内存不足"
 msgid "Function not supported!"
 msgstr "不支持的功能!"
 
+#: ulng.rsmsgerrorincontextmenucommand
+msgid "Error in context menu command"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "正则表达式语法错误！"
@@ -6483,6 +6494,10 @@ msgstr "文件夹%s已存在, 覆盖吗?"
 msgid "Follow symlink \"%s\"?"
 msgstr "允许符号链接\"%s\"吗?"
 
+#: ulng.rsmsginvalidcommandline
+msgid "Error in command line"
+msgstr ""
+
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "无效的文件名"
@@ -6493,6 +6508,10 @@ msgstr ""
 
 #: ulng.rsmsginvalidpathlong
 msgid "Path %s contains forbidden characters."
+msgstr ""
+
+#: ulng.rsmsginvalidquoting
+msgid "Invalid quoting"
 msgstr ""
 
 #: ulng.rsmsginvalidselection
@@ -7047,6 +7066,7 @@ msgid "Quick search/filter"
 msgstr "快速搜索"
 
 #: ulng.rsoptionseditorterminal
+msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"
 msgstr ""
 
@@ -7242,6 +7262,27 @@ msgstr ""
 msgctxt "ulng.rstooleditor"
 msgid "Editor"
 msgstr "编辑器"
+
+#: ulng.rstoolerroropeningdiffer
+msgid "Error opening differ"
+msgstr ""
+
+#: ulng.rstoolerroropeningeditor
+msgid "Error opening editor"
+msgstr ""
+
+#: ulng.rstoolerroropeningterminal
+msgid "Error opening terminal"
+msgstr ""
+
+#: ulng.rstoolerroropeningviewer
+msgid "Error opening viewer"
+msgstr ""
+
+#: ulng.rstoolterminal
+msgctxt "ulng.rstoolterminal"
+msgid "Terminal"
+msgstr ""
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"

@@ -5200,6 +5200,15 @@ msgstr "О просмотрщике..."
 msgid "Displays the About message"
 msgstr ""
 
+#: TFRMVIEWER.ACTRELOAD.CAPTION
+msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
+msgid "Reload"
+msgstr "Перезагрузить"
+
+#: TFRMVIEWER.ACTRELOAD.HINT
+msgid "Reload current file"
+msgstr "Перезагрузить текущий файл"
+
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
 msgid "- 90"
@@ -5305,16 +5314,6 @@ msgstr ""
 #: TFRMVIEWER.BTNREDEYE.HINT
 msgid "Red Eyes"
 msgstr "Красные глаза"
-
-#: TFRMVIEWER.BTNRELOAD.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD.HINT"
-msgid "Reload"
-msgstr "Перезагрузить"
-
-#: TFRMVIEWER.BTNRELOAD1.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD1.HINT"
-msgid "Reload"
-msgstr "Перезагрузить"
 
 #: TFRMVIEWER.BTNRESIZE.HINT
 msgctxt "TFRMVIEWER.BTNRESIZE.HINT"
@@ -5816,6 +5815,10 @@ msgstr "&Переписать"
 msgid "Overwrite &All"
 msgstr "Переписать &все"
 
+#: ulng.rsdlgbuttonresume
+msgid "&Resume"
+msgstr "Продолжить"
+
 #: ulng.rsdlgbuttonretry
 msgid "Re&try"
 msgstr "Повторить"
@@ -6214,6 +6217,10 @@ msgstr "Копировать %d выбранных файлов/каталого
 msgid "Copy selected \"%s\"?"
 msgstr "Копировать выделенное \"%s\"?"
 
+#: ulng.rsmsgdeletepartiallycopied
+msgid "Delete the partially copied file ?"
+msgstr "Удалить частично скопированный файл?"
+
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
 msgstr "Удалить %d выбранных файлов/каталогов?"
@@ -6322,6 +6329,10 @@ msgstr "Недостаточно памяти"
 msgid "Function not supported!"
 msgstr "Функция не поддерживается!"
 
+#: ulng.rsmsgerrorincontextmenucommand
+msgid "Error in context menu command"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "Ошибка синтаксиса в регулярном выражении!"
@@ -6386,6 +6397,10 @@ msgstr "Каталог %s существует, переписать?"
 msgid "Follow symlink \"%s\"?"
 msgstr "Следовать ссылке \"%s\"?"
 
+#: ulng.rsmsginvalidcommandline
+msgid "Error in command line"
+msgstr "Ошибка в командной строке"
+
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "Некорректное имя файла"
@@ -6396,6 +6411,10 @@ msgstr ""
 
 #: ulng.rsmsginvalidpathlong
 msgid "Path %s contains forbidden characters."
+msgstr ""
+
+#: ulng.rsmsginvalidquoting
+msgid "Invalid quoting"
 msgstr ""
 
 #: ulng.rsmsginvalidselection
@@ -6954,6 +6973,7 @@ msgid "Quick search/filter"
 msgstr "Быстрый поиск/фильтр"
 
 #: ulng.rsoptionseditorterminal
+msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"
 msgstr ""
 
@@ -7149,6 +7169,27 @@ msgstr ""
 msgctxt "ulng.rstooleditor"
 msgid "Editor"
 msgstr "Редактор"
+
+#: ulng.rstoolerroropeningdiffer
+msgid "Error opening differ"
+msgstr ""
+
+#: ulng.rstoolerroropeningeditor
+msgid "Error opening editor"
+msgstr ""
+
+#: ulng.rstoolerroropeningterminal
+msgid "Error opening terminal"
+msgstr ""
+
+#: ulng.rstoolerroropeningviewer
+msgid "Error opening viewer"
+msgstr ""
+
+#: ulng.rstoolterminal
+msgctxt "ulng.rstoolterminal"
+msgid "Terminal"
+msgstr ""
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"

@@ -5175,6 +5175,15 @@ msgstr "Про переглядач..."
 msgid "Displays the About message"
 msgstr "Відображає інформаційне повідомлення"
 
+#: TFRMVIEWER.ACTRELOAD.CAPTION
+msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
+msgid "Reload"
+msgstr "Перезавантажити"
+
+#: TFRMVIEWER.ACTRELOAD.HINT
+msgid "Reload current file"
+msgstr ""
+
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
 msgid "- 90"
@@ -5280,16 +5289,6 @@ msgstr "<||"
 #: TFRMVIEWER.BTNREDEYE.HINT
 msgid "Red Eyes"
 msgstr "Червоні очі"
-
-#: TFRMVIEWER.BTNRELOAD.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD.HINT"
-msgid "Reload"
-msgstr "Перезавантажити"
-
-#: TFRMVIEWER.BTNRELOAD1.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD1.HINT"
-msgid "Reload"
-msgstr "Перезавантажити"
 
 #: TFRMVIEWER.BTNRESIZE.HINT
 msgctxt "TFRMVIEWER.BTNRESIZE.HINT"
@@ -5792,6 +5791,10 @@ msgstr "&Перезаписати"
 msgid "Overwrite &All"
 msgstr "Пере&записати все"
 
+#: ulng.rsdlgbuttonresume
+msgid "&Resume"
+msgstr ""
+
 #: ulng.rsdlgbuttonretry
 msgid "Re&try"
 msgstr "Повтор&ити"
@@ -6194,6 +6197,10 @@ msgstr "Копіювати %d обраних файлів/каталогів?"
 msgid "Copy selected \"%s\"?"
 msgstr "Копіювати виділене \"%s\"?"
 
+#: ulng.rsmsgdeletepartiallycopied
+msgid "Delete the partially copied file ?"
+msgstr ""
+
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
 msgstr "Видалити %d обраних файлів/каталогів?"
@@ -6302,6 +6309,10 @@ msgstr "Недостатньо пам'яті"
 msgid "Function not supported!"
 msgstr "Функція не підтримується!"
 
+#: ulng.rsmsgerrorincontextmenucommand
+msgid "Error in context menu command"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "Синтаксична помилка в регулярному виразі!"
@@ -6366,6 +6377,10 @@ msgstr "Каталог %s існує, перезаписати?"
 msgid "Follow symlink \"%s\"?"
 msgstr "Прямувати за посиланням \"%s\"?"
 
+#: ulng.rsmsginvalidcommandline
+msgid "Error in command line"
+msgstr ""
+
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "Некоректне ім'я файлу"
@@ -6377,6 +6392,10 @@ msgstr "Некоректний шлях"
 #: ulng.rsmsginvalidpathlong
 msgid "Path %s contains forbidden characters."
 msgstr "Шлях %s містить недопустимі символи."
+
+#: ulng.rsmsginvalidquoting
+msgid "Invalid quoting"
+msgstr ""
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
@@ -6930,6 +6949,7 @@ msgid "Quick search/filter"
 msgstr "Швидкий пошук/фільтр"
 
 #: ulng.rsoptionseditorterminal
+msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"
 msgstr "Термінал"
 
@@ -7125,6 +7145,27 @@ msgstr "Порівнювач"
 msgctxt "ulng.rstooleditor"
 msgid "Editor"
 msgstr "Редактор"
+
+#: ulng.rstoolerroropeningdiffer
+msgid "Error opening differ"
+msgstr ""
+
+#: ulng.rstoolerroropeningeditor
+msgid "Error opening editor"
+msgstr ""
+
+#: ulng.rstoolerroropeningterminal
+msgid "Error opening terminal"
+msgstr ""
+
+#: ulng.rstoolerroropeningviewer
+msgid "Error opening viewer"
+msgstr ""
+
+#: ulng.rstoolterminal
+msgctxt "ulng.rstoolterminal"
+msgid "Terminal"
+msgstr "Термінал"
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"

@@ -5086,6 +5086,15 @@ msgstr "O listerze"
 msgid "Displays the About message"
 msgstr ""
 
+#: TFRMVIEWER.ACTRELOAD.CAPTION
+msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
+msgid "Reload"
+msgstr "Wczytaj ponownie"
+
+#: TFRMVIEWER.ACTRELOAD.HINT
+msgid "Reload current file"
+msgstr ""
+
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
 msgid "- 90"
@@ -5191,16 +5200,6 @@ msgstr "<||"
 #: TFRMVIEWER.BTNREDEYE.HINT
 msgid "Red Eyes"
 msgstr "Czerwone oczy"
-
-#: TFRMVIEWER.BTNRELOAD.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD.HINT"
-msgid "Reload"
-msgstr "Wczytaj ponownie"
-
-#: TFRMVIEWER.BTNRELOAD1.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD1.HINT"
-msgid "Reload"
-msgstr "Wczytaj ponownie"
 
 #: TFRMVIEWER.BTNRESIZE.HINT
 msgctxt "TFRMVIEWER.BTNRESIZE.HINT"
@@ -5701,6 +5700,10 @@ msgstr "&Zastąp"
 msgid "Overwrite &All"
 msgstr "Zastąp wszystko"
 
+#: ulng.rsdlgbuttonresume
+msgid "&Resume"
+msgstr ""
+
 #: ulng.rsdlgbuttonretry
 msgid "Re&try"
 msgstr "Ponów"
@@ -6097,6 +6100,10 @@ msgstr "Skopiować %d wybranych plików/katalogów?"
 msgid "Copy selected \"%s\"?"
 msgstr "Skopiować wybrane \"%s\"?"
 
+#: ulng.rsmsgdeletepartiallycopied
+msgid "Delete the partially copied file ?"
+msgstr ""
+
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
 msgstr "Usunąć %d wybranych plików/katalogów?"
@@ -6205,6 +6212,10 @@ msgstr "Za mało pamięci"
 msgid "Function not supported!"
 msgstr "Funkcja niewspierana!"
 
+#: ulng.rsmsgerrorincontextmenucommand
+msgid "Error in context menu command"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "Błąd składni w wyrażeniu regularnym!"
@@ -6269,6 +6280,10 @@ msgstr "katalog o nazwie %s istnieje, zastąpić?"
 msgid "Follow symlink \"%s\"?"
 msgstr "Iść za linkiem \"%s\"?"
 
+#: ulng.rsmsginvalidcommandline
+msgid "Error in command line"
+msgstr ""
+
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "Błądna nazwa pliku"
@@ -6279,6 +6294,10 @@ msgstr ""
 
 #: ulng.rsmsginvalidpathlong
 msgid "Path %s contains forbidden characters."
+msgstr ""
+
+#: ulng.rsmsginvalidquoting
+msgid "Invalid quoting"
 msgstr ""
 
 #: ulng.rsmsginvalidselection
@@ -6829,6 +6848,7 @@ msgid "Quick search/filter"
 msgstr "Szybkie wyszukiwanie/filtr"
 
 #: ulng.rsoptionseditorterminal
+msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"
 msgstr "Terminal"
 
@@ -6923,10 +6943,6 @@ msgstr "Link symboliczny"
 #: ulng.rspropsunknowntype
 msgid "Unknown type"
 msgstr "Nieznany typ"
-
-#: ulng.rspropsyes
-msgid "Yes (%s)"
-msgstr "Tak (%s)"
 
 #~ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 #~ msgid "OK"
@@ -7027,6 +7043,10 @@ msgstr "Tak (%s)"
 #~ msgstr "Filtr:"
 #~ msgid "Find:"
 #~ msgstr "Znajdź:"
+#: ulng.rspropsyes
+msgid "Yes (%s)"
+msgstr "Tak (%s)"
+
 #: ulng.rssearchresult
 msgid "Search result"
 msgstr "Wynik wyszukiwania"
@@ -7123,6 +7143,27 @@ msgstr "Różnice"
 msgctxt "ulng.rstooleditor"
 msgid "Editor"
 msgstr "Edytor"
+
+#: ulng.rstoolerroropeningdiffer
+msgid "Error opening differ"
+msgstr ""
+
+#: ulng.rstoolerroropeningeditor
+msgid "Error opening editor"
+msgstr ""
+
+#: ulng.rstoolerroropeningterminal
+msgid "Error opening terminal"
+msgstr ""
+
+#: ulng.rstoolerroropeningviewer
+msgid "Error opening viewer"
+msgstr ""
+
+#: ulng.rstoolterminal
+msgctxt "ulng.rstoolterminal"
+msgid "Terminal"
+msgstr "Terminal"
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
