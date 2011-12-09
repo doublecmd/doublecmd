@@ -2079,8 +2079,8 @@ begin
       end;
 
       PAdr := PosMem(ViewerControl.GetDataAdr, ViewerControl.FileSize,
-                     FLastSearchPos, sSearchText, FFindDialog.cbCaseSens.Checked,
-                     bSearchBackwards);
+                     FLastSearchPos, ViewerControl.ConvertFromUTF8(sSearchText),
+                     FFindDialog.cbCaseSens.Checked, bSearchBackwards);
 
       if (PAdr <> Pointer(-1)) then
         begin
