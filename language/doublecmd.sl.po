@@ -1347,12 +1347,12 @@ msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
 msgid "Remove"
 msgstr "Odstrani"
 
+# ???
 #: TFRMFILEASSOC.BTNREMOVEICON.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVEICON.CAPTION"
 msgid "X"
 msgstr "X"
 
-# ???
 #: TFRMFILEASSOC.BTNREMOVETYPE.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVETYPE.CAPTION"
 msgid "Remove"
@@ -3894,12 +3894,12 @@ msgctxt "TFRMOPTIONSFONTS.BTNSELVIEWERBOOKFNT.CAPTION"
 msgid "..."
 msgstr "..."
 
+# ???
 #: TFRMOPTIONSFONTS.BTNSELVIEWFNT.CAPTION
 msgctxt "TFRMOPTIONSFONTS.BTNSELVIEWFNT.CAPTION"
 msgid "..."
 msgstr "..."
 
-# ???
 #: TFRMOPTIONSFONTS.LBLEDITORFONT.CAPTION
 msgctxt "TFRMOPTIONSFONTS.LBLEDITORFONT.CAPTION"
 msgid "Editor font"
@@ -4613,11 +4613,11 @@ msgstr "Pre&makni v arhiv"
 msgid "&Multiple disk archive"
 msgstr "Ustvari arhiv v več &delih"
 
+# ??? Arhivirnik = packer
 #: TFRMPACKDLG.CBOTHERPLUGINS.CAPTION
 msgid "=>"
 msgstr "=>"
 
-# ??? Arhivirnik = packer
 #: TFRMPACKDLG.CBPUTINTARFIRST.CAPTION
 msgid "Put in the TAR archive first"
 msgstr "Najprej vstavi v arhiv TAR"
@@ -4639,11 +4639,11 @@ msgctxt "TFRMPACKINFODLG.BTNCLOSE.CAPTION"
 msgid "Close"
 msgstr "Zapri"
 
+# ???
 #: TFRMPACKINFODLG.BTNUNPACKALLANDEXEC.CAPTION
 msgid "Unpack &all and execute"
 msgstr "Odpakiraj &vse in izvedi"
 
-# ???
 #: TFRMPACKINFODLG.BTNUNPACKANDEXEC.CAPTION
 msgid "&Unpack and execute"
 msgstr "Odpakiraj &in izvedi"
@@ -5046,6 +5046,15 @@ msgstr "O pregledovalniku ..."
 msgid "Displays the About message"
 msgstr "Prikaže pogovorno okno podrobnosti"
 
+#: TFRMVIEWER.ACTRELOAD.CAPTION
+msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
+msgid "Reload"
+msgstr "Ponovno naloži"
+
+#: TFRMVIEWER.ACTRELOAD.HINT
+msgid "Reload current file"
+msgstr ""
+
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
 msgid "- 90"
@@ -5151,16 +5160,6 @@ msgstr "<||"
 #: TFRMVIEWER.BTNREDEYE.HINT
 msgid "Red Eyes"
 msgstr "Rdeče oči"
-
-#: TFRMVIEWER.BTNRELOAD.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD.HINT"
-msgid "Reload"
-msgstr "Ponovno naloži"
-
-#: TFRMVIEWER.BTNRELOAD1.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD1.HINT"
-msgid "Reload"
-msgstr "Ponovno naloži"
 
 #: TFRMVIEWER.BTNRESIZE.HINT
 msgctxt "TFRMVIEWER.BTNRESIZE.HINT"
@@ -5662,6 +5661,10 @@ msgstr "&Prepiši"
 msgid "Overwrite &All"
 msgstr "Prepiši &vse"
 
+#: ulng.rsdlgbuttonresume
+msgid "&Resume"
+msgstr ""
+
 #: ulng.rsdlgbuttonretry
 msgid "Re&try"
 msgstr "Poskusi &znova"
@@ -5851,6 +5854,7 @@ msgstr "Shrani predlogo iskanja"
 msgid "Template name:"
 msgstr "Ime predloge:"
 
+# multiple
 #: ulng.rsfindscanned
 msgctxt "ulng.rsfindscanned"
 msgid "Scanned: %d"
@@ -5861,7 +5865,6 @@ msgstr "Preiskano: %d"
 msgid "Scanning"
 msgstr "Preiskovanje"
 
-# multiple
 #: ulng.rsfindsearchfiles
 msgctxt "ulng.rsfindsearchfiles"
 msgid "Find files"
@@ -6046,6 +6049,7 @@ msgstr "Ukaz chdir v [%s] je spodletel!"
 msgid "Remove all inactive tabs?"
 msgstr "Ali naj se odstranijo vsi nedejavni zavihke?"
 
+# multiple
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Zavihek (%s) je zaklenjen! Ali naj se vseeno zapre?"
@@ -6055,7 +6059,6 @@ msgstr "Zavihek (%s) je zaklenjen! Ali naj se vseeno zapre?"
 msgid "Are you sure you want to quit?"
 msgstr "Ali ste prepričani, da želite končati?"
 
-# multiple
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
 msgstr "Kopiraj izbrano v:"
@@ -6063,6 +6066,10 @@ msgstr "Kopiraj izbrano v:"
 #: ulng.rsmsgcpsel
 msgid "Copy selected \"%s\"?"
 msgstr "Kopiraj \"%s\" v:"
+
+#: ulng.rsmsgdeletepartiallycopied
+msgid "Delete the partially copied file ?"
+msgstr ""
 
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
@@ -6172,6 +6179,10 @@ msgstr "Ni dovolj pomnilnika"
 msgid "Function not supported!"
 msgstr "Funkcija ni podprta!"
 
+#: ulng.rsmsgerrorincontextmenucommand
+msgid "Error in context menu command"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "Napaka skladnje logičnega izraza!"
@@ -6236,6 +6247,10 @@ msgstr "Mapa %s že obstaja. Ali naj se prepiše?"
 msgid "Follow symlink \"%s\"?"
 msgstr "Ali naj se sledi simbolni povezavi \"%s\"?"
 
+#: ulng.rsmsginvalidcommandline
+msgid "Error in command line"
+msgstr ""
+
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "Neveljavno ime datoteke"
@@ -6246,6 +6261,10 @@ msgstr ""
 
 #: ulng.rsmsginvalidpathlong
 msgid "Path %s contains forbidden characters."
+msgstr ""
+
+#: ulng.rsmsginvalidquoting
+msgid "Invalid quoting"
 msgstr ""
 
 #: ulng.rsmsginvalidselection
@@ -6376,11 +6395,11 @@ msgstr "Geslo (požarni zid):"
 msgid "Please re-enter the password for verification:"
 msgstr ""
 
+# multiple
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
 msgstr "&Dodaj %s"
 
-# multiple
 #: ulng.rsmsgpopuphotcnf
 msgctxt "ulng.rsmsgpopuphotcnf"
 msgid "&Configure"
@@ -6390,11 +6409,11 @@ msgstr "&Nastavitve"
 msgid "&Delete %s"
 msgstr "&Izbriši %s"
 
+# double multiple
 #: ulng.rsmsgpresetalreadyexists
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Shranjen predmet \"%s\" že obstaja. Ali naj se prepiše?"
 
-# double multiple
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
 msgstr "Ali naj se izbrani predmeti preimenujejo oziroma premaknejo (%d)?"
@@ -6443,11 +6462,11 @@ msgstr "Izbranih je preveč datotek."
 msgid "URL:"
 msgstr "Naslov URL:"
 
+# multiple
 #: ulng.rsmsgusername
 msgid "User name:"
 msgstr "Uporabniško ime:"
 
-# multiple
 #: ulng.rsmsgusernamefirewall
 msgid "User name (Firewall):"
 msgstr "Uporabniško ime (požarni zid):"
@@ -6798,6 +6817,7 @@ msgid "Quick search/filter"
 msgstr "Hitro iskanje/Filtriranje"
 
 #: ulng.rsoptionseditorterminal
+msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"
 msgstr "Terminal"
 
@@ -6909,12 +6929,12 @@ msgstr "Izbor mape"
 msgid "Bytes"
 msgstr "Bajti"
 
+# multiple + window to small
 #: ulng.rssizeunitgbytes
 msgctxt "ulng.rssizeunitgbytes"
 msgid "Gigabytes"
 msgstr "Gigabajti"
 
-# multiple + window to small
 #: ulng.rssizeunitkbytes
 msgctxt "ulng.rssizeunitkbytes"
 msgid "Kilobytes"
@@ -6995,6 +7015,27 @@ msgctxt "ulng.rstooleditor"
 msgid "Editor"
 msgstr "Urejevalnik"
 
+#: ulng.rstoolerroropeningdiffer
+msgid "Error opening differ"
+msgstr ""
+
+#: ulng.rstoolerroropeningeditor
+msgid "Error opening editor"
+msgstr ""
+
+#: ulng.rstoolerroropeningterminal
+msgid "Error opening terminal"
+msgstr ""
+
+#: ulng.rstoolerroropeningviewer
+msgid "Error opening viewer"
+msgstr ""
+
+#: ulng.rstoolterminal
+msgctxt "ulng.rstoolterminal"
+msgid "Terminal"
+msgstr "Terminal"
+
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
 msgid "Viewer"
@@ -7004,13 +7045,13 @@ msgstr "Pregledovalnik"
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
 msgstr "Pošljite poročilo napake s podrobnim opisom in datoteko: %s. Pritisnite %s za nadaljevanje ali pa %s za končanje programa."
 
+#~ msgid "Comments"
+#~ msgstr "Opombe"
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
 msgid "Network"
 msgstr "Omrežje"
 
-#~ msgid "Comments"
-#~ msgstr "Opombe"
 #: ulng.rsviewabouttext
 msgid "Internal Viewer of Double Commander."
 msgstr "Notranji pregledovalnik programa Double Commander."

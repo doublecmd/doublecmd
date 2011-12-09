@@ -5276,6 +5276,15 @@ msgstr "About Viewer..."
 msgid "Displays the About message"
 msgstr ""
 
+#: TFRMVIEWER.ACTRELOAD.CAPTION
+msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
+msgid "Reload"
+msgstr ""
+
+#: TFRMVIEWER.ACTRELOAD.HINT
+msgid "Reload current file"
+msgstr ""
+
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
 msgid "- 90"
@@ -5380,16 +5389,6 @@ msgstr ""
 
 #: TFRMVIEWER.BTNREDEYE.HINT
 msgid "Red Eyes"
-msgstr ""
-
-#: TFRMVIEWER.BTNRELOAD.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD.HINT"
-msgid "Reload"
-msgstr ""
-
-#: TFRMVIEWER.BTNRELOAD1.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD1.HINT"
-msgid "Reload"
 msgstr ""
 
 #: TFRMVIEWER.BTNRESIZE.HINT
@@ -5891,6 +5890,10 @@ msgstr "Overschrijven"
 msgid "Overwrite &All"
 msgstr "Overschrijven &Alles'"
 
+#: ulng.rsdlgbuttonresume
+msgid "&Resume"
+msgstr ""
+
 #: ulng.rsdlgbuttonretry
 msgid "Re&try"
 msgstr ""
@@ -6293,6 +6296,10 @@ msgstr "Kopiëer %d geselecteerde bestanden/mappen?"
 msgid "Copy selected \"%s\"?"
 msgstr "Kopiëer geselecteerde \"%s\"?"
 
+#: ulng.rsmsgdeletepartiallycopied
+msgid "Delete the partially copied file ?"
+msgstr ""
+
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
 msgstr "Verwijder %d geselecteerde bestanden/mappen?"
@@ -6401,6 +6408,10 @@ msgstr "Niet genoeg geheugen"
 msgid "Function not supported!"
 msgstr "Functie niet ondersteund"
 
+#: ulng.rsmsgerrorincontextmenucommand
+msgid "Error in context menu command"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr ""
@@ -6465,6 +6476,10 @@ msgstr "Map %s bestaat, overshrijven?"
 msgid "Follow symlink \"%s\"?"
 msgstr "Volg symlink \"%s\"?"
 
+#: ulng.rsmsginvalidcommandline
+msgid "Error in command line"
+msgstr ""
+
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr ""
@@ -6475,6 +6490,10 @@ msgstr ""
 
 #: ulng.rsmsginvalidpathlong
 msgid "Path %s contains forbidden characters."
+msgstr ""
+
+#: ulng.rsmsginvalidquoting
+msgid "Invalid quoting"
 msgstr ""
 
 #: ulng.rsmsginvalidselection
@@ -7029,6 +7048,7 @@ msgid "Quick search/filter"
 msgstr "Snel zoeken"
 
 #: ulng.rsoptionseditorterminal
+msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"
 msgstr ""
 
@@ -7224,6 +7244,27 @@ msgstr ""
 msgctxt "ulng.rstooleditor"
 msgid "Editor"
 msgstr "Editor"
+
+#: ulng.rstoolerroropeningdiffer
+msgid "Error opening differ"
+msgstr ""
+
+#: ulng.rstoolerroropeningeditor
+msgid "Error opening editor"
+msgstr ""
+
+#: ulng.rstoolerroropeningterminal
+msgid "Error opening terminal"
+msgstr ""
+
+#: ulng.rstoolerroropeningviewer
+msgid "Error opening viewer"
+msgstr ""
+
+#: ulng.rstoolterminal
+msgctxt "ulng.rstoolterminal"
+msgid "Terminal"
+msgstr ""
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"

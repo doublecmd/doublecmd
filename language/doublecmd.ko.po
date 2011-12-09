@@ -5285,6 +5285,15 @@ msgstr "뷰어 정보..."
 msgid "Displays the About message"
 msgstr ""
 
+#: TFRMVIEWER.ACTRELOAD.CAPTION
+msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
+msgid "Reload"
+msgstr ""
+
+#: TFRMVIEWER.ACTRELOAD.HINT
+msgid "Reload current file"
+msgstr ""
+
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
 msgid "- 90"
@@ -5389,16 +5398,6 @@ msgstr ""
 
 #: TFRMVIEWER.BTNREDEYE.HINT
 msgid "Red Eyes"
-msgstr ""
-
-#: TFRMVIEWER.BTNRELOAD.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD.HINT"
-msgid "Reload"
-msgstr ""
-
-#: TFRMVIEWER.BTNRELOAD1.HINT
-msgctxt "TFRMVIEWER.BTNRELOAD1.HINT"
-msgid "Reload"
 msgstr ""
 
 #: TFRMVIEWER.BTNRESIZE.HINT
@@ -5902,6 +5901,10 @@ msgstr "덮어쓰기 (&R)"
 msgid "Overwrite &All"
 msgstr "전부 덮어쓰기 (&A)"
 
+#: ulng.rsdlgbuttonresume
+msgid "&Resume"
+msgstr ""
+
 #: ulng.rsdlgbuttonretry
 msgid "Re&try"
 msgstr "다시 시도 (&T)"
@@ -6306,6 +6309,10 @@ msgstr "선택한 파일/디렉터리 %d 개를 복사할까요?"
 msgid "Copy selected \"%s\"?"
 msgstr "선택한 \"%s\"를(을) 복사할까요?"
 
+#: ulng.rsmsgdeletepartiallycopied
+msgid "Delete the partially copied file ?"
+msgstr ""
+
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
 msgstr "선택한 파일/디렉터리 %d 개를 지울까요?"
@@ -6414,6 +6421,10 @@ msgstr "메모리 부족"
 msgid "Function not supported!"
 msgstr "지원되지 않는 기능!"
 
+#: ulng.rsmsgerrorincontextmenucommand
+msgid "Error in context menu command"
+msgstr ""
+
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
 msgstr "정규 표현식 구문 오류!"
@@ -6478,6 +6489,10 @@ msgstr "%s 폴더가 존재합니다. 덮어쓸까요?"
 msgid "Follow symlink \"%s\"?"
 msgstr "심벌 링크 \"%s\"를 추적할까요?"
 
+#: ulng.rsmsginvalidcommandline
+msgid "Error in command line"
+msgstr ""
+
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
 msgstr "잘못된 파일명"
@@ -6488,6 +6503,10 @@ msgstr ""
 
 #: ulng.rsmsginvalidpathlong
 msgid "Path %s contains forbidden characters."
+msgstr ""
+
+#: ulng.rsmsginvalidquoting
+msgid "Invalid quoting"
 msgstr ""
 
 #: ulng.rsmsginvalidselection
@@ -7042,6 +7061,7 @@ msgid "Quick search/filter"
 msgstr "빠른 찾기"
 
 #: ulng.rsoptionseditorterminal
+msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"
 msgstr ""
 
@@ -7237,6 +7257,27 @@ msgstr ""
 msgctxt "ulng.rstooleditor"
 msgid "Editor"
 msgstr "편집기"
+
+#: ulng.rstoolerroropeningdiffer
+msgid "Error opening differ"
+msgstr ""
+
+#: ulng.rstoolerroropeningeditor
+msgid "Error opening editor"
+msgstr ""
+
+#: ulng.rstoolerroropeningterminal
+msgid "Error opening terminal"
+msgstr ""
+
+#: ulng.rstoolerroropeningviewer
+msgid "Error opening viewer"
+msgstr ""
+
+#: ulng.rstoolterminal
+msgctxt "ulng.rstoolterminal"
+msgid "Terminal"
+msgstr ""
 
 #: ulng.rstoolviewer
 msgctxt "ulng.rstoolviewer"
