@@ -440,7 +440,6 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure MainToolBarToolButtonClick(Sender: TObject; NumberOfButton : Integer);
     procedure frmMainClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure frmMainAfterShow(Data: PtrInt);
     procedure frmMainShow(Sender: TObject);
     procedure mnuDropClick(Sender: TObject);
     procedure mnuSplitterPercentClick(Sender: TObject);
@@ -1672,16 +1671,11 @@ begin
   Application.Terminate;
 end;
 
-procedure TfrmMain.frmMainAfterShow(Data: PtrInt);
-begin
-  ActiveFrame.SetFocus;
-  HiddenToTray := False;
-end;
-
 procedure TfrmMain.frmMainShow(Sender: TObject);
 begin
   DCDebug('frmMain.frmMainShow');
-  Application.QueueAsyncCall(@frmMainAfterShow, 0);
+  ActiveControl:= ActiveFrame;
+  HiddenToTray := False;
 end;
 
 procedure TfrmMain.mnuDropClick(Sender: TObject);
@@ -4851,4 +4845,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+
