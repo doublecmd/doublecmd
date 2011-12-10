@@ -9,7 +9,9 @@ object frmFileProperties: TfrmFileProperties
   ClientWidth = 458
   Constraints.MinHeight = 432
   Constraints.MinWidth = 458
+  KeyPreview = True
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   Position = poScreenCenter
   LCLVersion = '0.9.31'
   object btnClose: TBitBtn

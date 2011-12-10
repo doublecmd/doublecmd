@@ -104,6 +104,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnSkipClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure tmUpdateFolderSizeTimer(Sender: TObject);
     procedure FileSourceOperationStateChangedNotify(Operation: TFileSourceOperation;
                                                                State: TFileSourceOperationState);
@@ -139,7 +140,7 @@ uses
   LCLType, FileUtil, StrUtils, uLng, BaseUnix, uUsersGroups, uDCUtils, uOSUtils,
   uDefaultFilePropertyFormatter, uMyUnix, uFileAttributes,
   uFileSourceOperationTypes, uFileSystemFileSource, uOperationsManager,
-  uFileSourceOperationOptions;
+  uFileSourceOperationOptions, uKeyboard;
 
 procedure ShowFileProperties(aFileSource: IFileSource; const aFiles: TFiles);
 begin
@@ -413,6 +414,26 @@ begin
     Close
   else
     ShowFile(iCurrent);
+end;
+
+procedure TfrmFileProperties.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case Key of
+    VK_TAB:
+      begin
+        if Shift * KeyModifiersShortcut = [ssCtrl] then
+        begin
+          pcPageControl.SelectNextPage(True);
+          Key := 0;
+        end
+        else if Shift * KeyModifiersShortcut = [ssCtrl, ssShift] then
+        begin
+          pcPageControl.SelectNextPage(False);
+          Key := 0;
+        end;
+      end;
+  end;
 end;
 
 procedure TfrmFileProperties.tmUpdateFolderSizeTimer(Sender: TObject);
