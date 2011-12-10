@@ -71,6 +71,8 @@ type
 
   TPtrIntList = specialize TFPGList<PtrInt>;
 
+  TGuessEncodingEvent = function(const s: string): string;
+
 type
   // If additional encodings are added they should be also supported by:
   // - GetNextCharAsAscii
@@ -161,6 +163,7 @@ type
     FUpdateScrollBarPos: Boolean; // used to block updating of scrollbar
     FScrollBarPosition:  Integer;  // for updating vertical scrollbar based on Position
     FColCount:           Integer;
+    FOnGuessEncoding:    TGuessEncodingEvent;
 
     function GetPercent: Integer;
     procedure SetPercent(const AValue: Integer);
@@ -375,6 +378,7 @@ type
     property SelectionEnd: PtrInt Read FBlockEnd Write SetBlockEnd;
     property EncodingName: string Read GetEncodingName Write SetEncodingName;
     property ColCount: Integer Read FColCount Write SetColCount;
+    property OnGuessEncoding: TGuessEncodingEvent Read FOnGuessEncoding Write FOnGuessEncoding;
 
   published
     property ViewerMode: TViewerMode Read FViewerMode Write SetViewerMode default vmWrap;
@@ -468,6 +472,7 @@ begin
   FScrollBarPosition  := 0;
 
   FOnPositionChanged := nil;
+  FOnGuessEncoding   := nil;
 
   OnResize := @ViewerResize;
 end;
@@ -2735,7 +2740,11 @@ begin
       DetectStringLength := FFileSize;
 
     SetString(DetectString, PAnsiChar(FMappedFile), DetectStringLength);
-    DetectedEncodingName := LConvEncoding.GuessEncoding(DetectString);
+
+    if Assigned(FOnGuessEncoding) then
+      DetectedEncodingName := FOnGuessEncoding(DetectString)
+    else
+      DetectedEncodingName := LConvEncoding.GuessEncoding(DetectString);
 
     if DetectedEncodingName <> '' then
     begin
