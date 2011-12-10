@@ -20,6 +20,8 @@
 
 unit nsCodingStateMachine;
 
+{$R-}
+
 interface
 
 uses
