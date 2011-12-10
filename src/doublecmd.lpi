@@ -1187,9 +1187,9 @@
       <Filename Value="..\doublecmd"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk"/>
+      <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\components\chsdet\src\mbclass;..\components\chsdet\src\stat"/>
       <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
-      <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;newdesign;newdesign\fileproperties;frames;..\components\dcpcrypt;..\components\dcpcrypt\Hashes"/>
+      <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;newdesign;newdesign\fileproperties;frames;..\components\dcpcrypt;..\components\dcpcrypt\Hashes;..\components\chsdet\src;..\components\chsdet\src\sbseq"/>
       <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
       <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
     </SearchPaths>
