@@ -1193,6 +1193,10 @@
       <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
       <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
     </SearchPaths>
+    <Conditionals Value="if TargetOS = 'darwin' then begin
+  UsageCustomOptions += ' -k-macosx_version_min -k10.5';
+  UsageCustomOptions += ' -XR/Developer/SDKs/MacOSX10.5.sdk/';
+end;"/>
     <Parsing>
       <SyntaxOptions>
         <IncludeAssertionCode Value="True"/>
