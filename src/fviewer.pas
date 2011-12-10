@@ -295,7 +295,7 @@ implementation
 
 uses
   FileUtil, IntfGraphics, uLng, uShowMsg, uGlobs, LCLType, LConvEncoding, uClassesEx,
-  uFindMmap, uDCUtils, LCLIntf, uDebug, uHotkeyManager;
+  uFindMmap, uDCUtils, LCLIntf, uDebug, uHotkeyManager, uConvEncoding;
 
 const
   HotkeysCategory = 'Viewer';
@@ -1465,6 +1465,8 @@ begin
   InitPropStorage(Self);
   HMViewer := HotMan.Register(Self, HotkeysCategory);
   HMViewer.RegisterActionList(actionList);
+
+  ViewerControl.OnGuessEncoding:= @DetectEncoding;
 
   FontOptionsToFont(gFonts[dcfViewer], ViewerControl.Font);
 
