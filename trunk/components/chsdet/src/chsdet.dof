@@ -1,0 +1,161 @@
+[FileVersion]
+Version=6.0
+
+[Compiler]
+A=8
+B=0
+C=1
+D=1
+E=0
+F=0
+G=1
+H=1
+I=1
+J=1
+K=0
+L=1
+M=0
+N=1
+O=1
+P=1
+Q=0
+R=0
+S=0
+T=0
+U=1
+V=1
+W=0
+X=1
+Y=2
+Z=1
+ShowHints=1
+ShowWarnings=1
+UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+
+[Linker]
+MapFile=0
+OutputObjs=0
+ConsoleApp=1
+DebugInfo=0
+RemoteSymbols=0
+MinStackSize=16384
+MaxStackSize=1048576
+ImageBase=4194304
+ExeDescription=
+
+[Directories]
+OutputDir=..\
+UnitOutputDir=..\dcu
+PackageDLLOutputDir=
+PackageDCPOutputDir=
+SearchPath=.\mbclass;.\sbseq;.\stat
+Packages=VCL50;VCLX50;VCLSMP50;QRPT50;VCLDB50;VCLIE50;INETDB50;INET50;NMFAST50;dclocx50;dclaxserver50;DJCL50;JVAPPFRMD5R;JVCORED5R;JVBANDSD5R;JVDLGSD5R;JVCMPD5R;JVCRYPTD5R;JVCTRLSD5R;JVCUSTOMD5R;JVDOCKINGD5R;JVDOTNETCTRLSD5R;JVEDID5R;JVGLOBUSD5R;JVHMID5R;JVINSPECTORD5R;JVINTERPRETERD5R;JVJANSD5R;JVMANAGEDTHREADSD5R;JVMMD5R;JVNETD5R;JVSTDCTRLSD5R;JVPAGECOMPSD5R;JVPLUGIND5R;JVPRINTPREVIEWD5R;JVSYSTEMD5R;JVTIMEFRAMEWORKD5R;JVUIBD5R;JVVALIDATORSD5R;JVWIZARDD5R;JVXPCTRLSD5R;vcl
+Conditionals=
+DebugSourceDirs=
+UsePackages=0
+
+[Parameters]
+RunParams=
+HostApplication=
+Launcher=
+UseLauncher=0
+DebugCWD=
+
+[Language]
+ActiveLang=
+ProjectLang=$00000407
+
+[Version Info]
+IncludeVerInfo=1
+AutoIncBuild=0
+MajorVer=0
+MinorVer=2
+Release=6
+Build=2
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=1
+Locale=2057
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=Charset detector
+FileVersion=0.2.6.2
+InternalName=
+LegalCopyright=Nick Yakowlew, ya_nick@users.sourceforge.net
+LegalTrademarks=
+OriginalFilename=chsdet.dll
+ProductName=Charset detector
+ProductVersion=0.2
+Comments=LGPL Licence
+
+[Excluded Packages]
+E:\Data\Yan\Delphi\log4delphi\bin\log4delphi_D6.bpl=Log4Delphi 0.5
+c:\program files\borland\delphi6\Bin\DCLNMF60.bpl=NetMasters Fastnet Tools
+C:\PROGRAM FILES\BORLAND\DELPHI6\PROJECTS\BPL\TBX_D6.BPL=Toolbar2000 -- TBX Extensions (Alex Denisov)
+C:\PROGRAM FILES\BORLAND\DELPHI6\PROJECTS\BPL\TB2K_D6.BPL=Toolbar2000 Components (Jordan Russell)
+C:\PROGRAM FILES\BORLAND\DELPHI6\PROJECTS\BPL\TBXDSGN_D6.BPL=Toolbar2000 -- TBX Extensions Design Package (Alex Denisov)
+C:\PROGRAM FILES\BORLAND\DELPHI6\PROJECTS\BPL\TB2KDSGN_D6.BPL=Toolbar2000 Design Package (Jordan Russell)
+c:\program files\borland\delphi6\Projects\Bpl\IEDcomp.bpl=Internet EDiting components
+C:\PROGRAM FILES\BORLAND\DELPHI6\PROJECTS\BPL\TNTUNICODEVCL_D60.BPL=Tnt Unicode Controls
+c:\program files\borland\delphi6\Projects\Bpl\SmpltCP.bpl=(untitled)
+c:\program files\borland\delphi6\Projects\Bpl\devFileMonitorPkg.bpl=(untitled)
+c:\program files\borland\delphi6\Bin\dclsoap60.bpl=Borland SOAP Components
+c:\program files\borland\delphi6\Projects\Bpl\SpTBXLibDsgn_d6.bpl=Toolbar2000 -- SpTBXLib Design Package
+c:\program files\borland\delphi6\Projects\Bpl\LSFindReplaceDialogW_6.bpl=LS Find/Replace Dialog for Wide Strings
+c:\program files\borland\delphi6\Projects\Bpl\Unicode6.bpl=Unicode components
+c:\program files\borland\delphi6\Projects\Bpl\credit.bpl=(untitled)
+c:\program files\borland\delphi6\Projects\Bpl\pActivePorts.bpl=LGM ActivePorts Component
+c:\program files\borland\delphi6\Projects\Bpl\USE.bpl=Unicode Syntax Edit control
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvAppFrmD6D.bpl=JVCL Application and Form Components
+C:\PROGRAM FILES\BORLAND\DELPHI6\PROJECTS\BPL\JVCORED6D.BPL=JVCL Core Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvCmpD6D.bpl=JVCL Non-Visual Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvCryptD6D.bpl=JVCL Encryption and Compression Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvCtrlsD6D.bpl=JVCL Visual Controls
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvCustomD6D.bpl=JVCL Custom Controls
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvDlgsD6D.bpl=JVCL Dialog Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvDockingD6D.bpl=JVCL Docking Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvGlobusD6D.bpl=JVCL Globus Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvHMID6D.bpl=JVCL HMI Controls design time unit
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvJansD6D.bpl=JVCL Jans Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvManagedThreadsD6D.bpl=JVCL Managed Threads
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvMMD6D.bpl=JVCL Multimedia and Image Components
+C:\PROGRAM FILES\BORLAND\DELPHI6\PROJECTS\BPL\JVSTDCTRLSD6D.BPL=JVCL Standard Controls
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvPageCompsD6D.bpl=JVCL Page Style Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvPluginD6D.bpl=JVCL Plugin Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvSystemD6D.bpl=JVCL System Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvTimeFrameworkD6D.bpl=JVCL Time Framework
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvValidatorsD6D.bpl=JVCL Validators and Error Provider Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvXPCtrlsD6D.bpl=JVCL XP Controls
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvBandsD6D.bpl=JVCL Band Objects
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvBDED6D.bpl=JVCL BDE Components
+C:\PROGRAM FILES\BORLAND\DELPHI6\PROJECTS\BPL\JVDBD6D.BPL=JVCL Database Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvDotNetCtrlsD6D.bpl=JVCL DotNet Controls
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvEDID6D.bpl=JVCL EDI Components Designtime Package
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvInspectorD6D.bpl=JVCL Inspector Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvInterpreterD6D.bpl=JVCL Interpreter Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvNetD6D.bpl=JVCL Network Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvPrintPreviewD6D.bpl=JVCL Print Preview Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvUIBD6D.bpl=JVCL Unified Interbase Components
+C:\Program Files\Borland\Delphi6\Projects\Bpl\JvWizardD6D.bpl=JVCL Wizard Design Time Package
+c:\program files\borland\delphi6\Projects\Bpl\components.bpl=Components for tsWebEditor
+c:\program files\borland\delphi6\Projects\Bpl\CoolTrayIcon_D6plus.bpl=CoolTrayIcon and Friends
+C:\PROGRAM FILES\BORLAND\DELPHI6\BIN\DCLBDE60.BPL=Borland BDE DB Components
+C:\PROGRAM FILES\BORLAND\DELPHI6\BIN\DBX60.BPL=Borland SQL Explorer UI Package
+c:\program files\borland\delphi6\Projects\Bpl\ClassBrowsing.bpl=ClassBrowsing components
+c:\program files\borland\delphi6\Bin\dclqrt60.bpl=QuickReport Components
+c:\program files\borland\delphi6\Bin\dclcds60.bpl=Borland Base Cached ClientDataset Component
+C:\PROGRAM FILES\BORLAND\DELPHI6\BIN\DCLMID60.BPL=Borland MyBase DataAccess Components
+c:\program files\borland\delphi6\Bin\dclbdecds60.bpl=Borland Local BDE ClientDataset Components
+c:\program files\borland\delphi6\Bin\dcltee60.bpl=TeeChart Components
+c:\program files\borland\delphi6\Bin\dcltqr60.bpl=TeeChart for QuickReport Components
+c:\program files\borland\delphi6\Bin\dclib60.bpl=InterBase Data Access Components
+c:\program files\borland\delphi6\Bin\dcldbxcds60.bpl=Borland Local DBX ClientDataset Components
+c:\program files\borland\delphi6\Bin\DBWEBXPRT.BPL=Borland Web Wizard Package
+c:\program files\borland\delphi6\Projects\Bpl\prgInternet6.bpl=Progsan Internet Components
+c:\program files\borland\delphi6\Projects\Bpl\Comps_D6.bpl=(untitled)
+c:\program files\borland\delphi6\Projects\Bpl\SynEdit_D6.bpl=SynEdit component suite
+c:\program files\borland\delphi6\Projects\Bpl\DevCpp.bpl=Dev-c++ components
