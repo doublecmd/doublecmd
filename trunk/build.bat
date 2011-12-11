@@ -35,7 +35,7 @@ rem Build Dwarf LineInfo Extractor
 fpc src\extractdwrflnfo.lpr
 
 rem Extract debug line info  
-src\extractdwrflnfo doublecmd.exe
+src\extractdwrflnfo doublecmd.dbg
 
 rem Strip debug info  
 strip --strip-all doublecmd.exe

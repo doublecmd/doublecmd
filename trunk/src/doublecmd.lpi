@@ -152,6 +152,7 @@
             <Debugging>
               <UseLineInfoUnit Value="False"/>
               <GenerateDwarf Value="True"/>
+              <UseExternalDbgSyms Value="True"/>
             </Debugging>
           </Linking>
           <Other>

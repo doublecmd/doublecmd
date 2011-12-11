@@ -48,7 +48,7 @@ build_nightly()
   
   # Extract debug line info
   chmod a+x src/extractdwrflnfo
-  src/extractdwrflnfo doublecmd
+  src/extractdwrflnfo doublecmd.dbg
   
   # Strip debug info
   strip --strip-all doublecmd
