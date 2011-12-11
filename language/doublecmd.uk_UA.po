@@ -3972,7 +3972,7 @@ msgstr "Шаблон..."
 #| msgid "File types colors"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION"
 msgid "File types colors (sort by drag&&drop)"
-msgstr "Кольори за типом файлу"
+msgstr "Кольори за типом файлу ()"
 
 #: TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION"
@@ -5203,7 +5203,7 @@ msgstr "Перезавантажити"
 
 #: TFRMVIEWER.ACTRELOAD.HINT
 msgid "Reload current file"
-msgstr ""
+msgstr "Перезавантажити поточний файл"
 
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
@@ -5814,7 +5814,7 @@ msgstr "Пере&записати все"
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
-msgstr ""
+msgstr "&Підсумок"
 
 #: ulng.rsdlgbuttonretry
 msgid "Re&try"
@@ -6220,7 +6220,7 @@ msgstr "Копіювати виділене \"%s\"?"
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
-msgstr ""
+msgstr "Видалити частково скопійований файл?"
 
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
@@ -6332,7 +6332,7 @@ msgstr "Функція не підтримується!"
 
 #: ulng.rsmsgerrorincontextmenucommand
 msgid "Error in context menu command"
-msgstr ""
+msgstr "Помилка в команді контекстного меню"
 
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
@@ -6400,7 +6400,7 @@ msgstr "Прямувати за посиланням \"%s\"?"
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
-msgstr ""
+msgstr "Помилка в командному рядку"
 
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
@@ -6416,7 +6416,7 @@ msgstr "Шлях %s містить недопустимі символи."
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
-msgstr ""
+msgstr "Недопустиме значення в лапках"
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
@@ -7169,19 +7169,19 @@ msgstr "Редактор"
 
 #: ulng.rstoolerroropeningdiffer
 msgid "Error opening differ"
-msgstr ""
+msgstr "Помилка відкриття порівнювача"
 
 #: ulng.rstoolerroropeningeditor
 msgid "Error opening editor"
-msgstr ""
+msgstr "Помилка відкриття редактора"
 
 #: ulng.rstoolerroropeningterminal
 msgid "Error opening terminal"
-msgstr ""
+msgstr "Помилка відкриття терміналу"
 
 #: ulng.rstoolerroropeningviewer
 msgid "Error opening viewer"
-msgstr ""
+msgstr "Помилка відкриття переглядача"
 
 #: ulng.rstoolterminal
 msgctxt "ulng.rstoolterminal"
