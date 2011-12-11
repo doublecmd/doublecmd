@@ -35,6 +35,9 @@ type
     actEditPaste: TAction;
     actEditDelete: TAction;
     actEditFindNext: TAction;
+    actEditLineEndCrLf: TAction;
+    actEditLineEndCr: TAction;
+    actEditLineEndLf: TAction;
     ilImageList: TImageList;
     MainMenu1: TMainMenu;
     ActListEdit: TActionList;
@@ -45,6 +48,11 @@ type
     actFileSaveAs: TAction;
     actFileNew: TAction;
     actFileExit: TAction;
+    miEditLineEndCr: TMenuItem;
+    miEditLineEndLf: TMenuItem;
+    miEditLineEndCrLf: TMenuItem;
+    miLineEndType: TMenuItem;
+    N5: TMenuItem;
     miEncodingOut: TMenuItem;
     miEncodingIn: TMenuItem;
     miEncoding: TMenuItem;
@@ -103,6 +111,9 @@ type
     tbConfig: TToolButton;
     tbHelp: TToolButton;
     procedure actEditFindNextExecute(Sender: TObject);
+    procedure actEditLineEndCrExecute(Sender: TObject);
+    procedure actEditLineEndCrLfExecute(Sender: TObject);
+    procedure actEditLineEndLfExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actEditDeleteExecute(Sender: TObject);
     procedure actEditRedoExecute(Sender: TObject);
@@ -181,9 +192,9 @@ implementation
 {$R *.lfm}
 
 uses
-  dmCommonData, dmHigh, SynEditHighlighter, SynEditTypes, LCLType, LConvEncoding,
-  uLng, uShowMsg, fEditSearch, uGlobsPaths, uGlobs, fEditorConf, uOSUtils,
-  uClassesEx, uConvEncoding;
+  dmCommonData, dmHigh, SynEditHighlighter, SynEditTypes, SynEditLines, LCLType,
+  LConvEncoding, uLng, uShowMsg, fEditSearch, uGlobsPaths, uGlobs, fEditorConf,
+  uOSUtils, uClassesEx, uConvEncoding, uSynEditFiler;
 
 procedure ShowEditor(const sFileName:String);
 var
@@ -276,19 +287,52 @@ begin
     end;
 end;
 
+procedure TfrmEditor.actEditLineEndCrExecute(Sender: TObject);
+begin
+  with (Editor.Lines as TSynEditLines) do
+  FileWriteLineEndType:= sfleCr;
+end;
+
+procedure TfrmEditor.actEditLineEndCrLfExecute(Sender: TObject);
+begin
+  with (Editor.Lines as TSynEditLines) do
+  FileWriteLineEndType:= sfleCrLf;
+end;
+
+procedure TfrmEditor.actEditLineEndLfExecute(Sender: TObject);
+begin
+  with (Editor.Lines as TSynEditLines) do
+  FileWriteLineEndType:= sfleLf;
+end;
+
 function TfrmEditor.OpenFile(const sFileName: String): Boolean;
 var
   h: TSynCustomHighlighter;
-  fsFileStream: TFileStreamEx;
+  Reader: TSynEditFileReader;
 begin
   Result := False;
   try
-    fsFileStream:= TFileStreamEx.Create(sFileName, fmOpenRead or fmShareDenyNone);
+    Reader := TSynEditFileReader.Create(sFileName);
     try
-      Editor.Lines.LoadFromStream(fsFileStream);
+      Editor.Lines.BeginUpdate;
+      try
+        Editor.Lines.Clear;
+        while not Reader.EOF do
+          Editor.Lines.Add(Reader.ReadLine);
+      finally
+        Editor.Lines.EndUpdate;
+      end;
     finally
-      fsFileStream.Free;
+      with (Editor.Lines as TSynEditLines) do
+      FileWriteLineEndType:= Reader.LineEndType;
+      case Reader.LineEndType of
+        sfleCrLf: actEditLineEndCrLf.Checked:= True;
+        sfleCr:   actEditLineEndCr.Checked:= True;
+        sfleLf:   actEditLineEndLf.Checked:= True;
+      end;
+      Reader.Free;
     end;
+    Result := True;
   except
     on EFCreateError do
       begin
@@ -320,40 +364,41 @@ begin
   bChanged:=False;
   bNoname:=False;
   UpdateStatus;
-  Result := True;
 end;
 
 function TfrmEditor.SaveFile(const sFileName: String): Boolean;
 var
-  slStringList: TStringListEx;
+  I: Integer;
+  Writer: TSynEditFileWriter;
 begin
   Result := False;
-  slStringList:= TStringListEx.Create;
+  // restore encoding
+  Editor.Lines.Text:= ConvertEncoding(Editor.Lines.Text, EncodingUTF8, sEncodingOut);
   try
-    // restore encoding
-    slStringList.Text:= ConvertEncoding(Editor.Lines.Text, EncodingUTF8, sEncodingOut);
+    // save to file
+    Writer := TSynEditFileWriter.Create(sFileName);
     try
-      // save to file
-      slStringList.SaveToFile(sFileName);
-      Editor.Modified:= False; // needed for the undo stack
-      Editor.MarkTextAsSaved;
-    except
-      on e: EFCreateError do
-        begin
-          msgWarning(rsMsgErrSaveFile + ' ' + sFileName);
-          Exit;
-        end;
-      on EFOpenError do
-        begin
-          msgWarning(rsMsgErrSaveFile + ' ' + sFileName);
-          Exit;
-        end;
+      with (Editor.Lines as TSynEditLines) do
+      Writer.LineEndType := FileWriteLineEndType;
+      for I := 0 to Editor.Lines.Count - 1 do
+        Writer.WriteLine(Editor.Lines[I]);
+    finally
+      Writer.Free;
     end;
-
+    Editor.Modified:= False; // needed for the undo stack
+    Editor.MarkTextAsSaved;
     Result := True;
-
-  finally
-    slStringList.Free;
+  except
+    on e: EFCreateError do
+      begin
+        msgWarning(rsMsgErrSaveFile + ' ' + sFileName);
+        Exit;
+      end;
+    on EFOpenError do
+      begin
+        msgWarning(rsMsgErrSaveFile + ' ' + sFileName);
+        Exit;
+      end;
   end;
 end;
 

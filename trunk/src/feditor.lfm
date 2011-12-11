@@ -1125,6 +1125,24 @@ object frmEditor: TfrmEditor
         }
         OnClick = actEditRplcExecute
       end
+      object N5: TMenuItem
+        Caption = '-'
+      end
+      object miLineEndType: TMenuItem
+        Caption = 'End Of Line'
+        object miEditLineEndCrLf: TMenuItem
+          Action = actEditLineEndCrLf
+          AutoCheck = True
+        end
+        object miEditLineEndLf: TMenuItem
+          Action = actEditLineEndLf
+          AutoCheck = True
+        end
+        object miEditLineEndCr: TMenuItem
+          Action = actEditLineEndCr
+          AutoCheck = True
+        end
+      end
     end
     object miEncoding: TMenuItem
       Caption = 'En&coding'
@@ -1348,6 +1366,27 @@ object frmEditor: TfrmEditor
       DisableIfNoHandler = True
       OnExecute = actEditFindNextExecute
       ShortCut = 114
+    end
+    object actEditLineEndCr: TAction
+      Category = 'Edit'
+      AutoCheck = True
+      Caption = 'Mac (CR)'
+      GroupIndex = 1
+      OnExecute = actEditLineEndCrExecute
+    end
+    object actEditLineEndLf: TAction
+      Category = 'Edit'
+      AutoCheck = True
+      Caption = 'Unix (LF)'
+      GroupIndex = 1
+      OnExecute = actEditLineEndLfExecute
+    end
+    object actEditLineEndCrLf: TAction
+      Category = 'Edit'
+      AutoCheck = True
+      Caption = 'Windows (CRLF)'
+      GroupIndex = 1
+      OnExecute = actEditLineEndCrLfExecute
     end
   end
   object pmContextMenu: TPopupMenu
