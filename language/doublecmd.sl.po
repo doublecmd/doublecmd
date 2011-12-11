@@ -1044,6 +1044,18 @@ msgstr "&Najdi"
 msgid "Find next"
 msgstr "Najdi naslednje"
 
+#: TFRMEDITOR.ACTEDITLINEENDCR.CAPTION
+msgid "Mac (CR)"
+msgstr ""
+
+#: TFRMEDITOR.ACTEDITLINEENDCRLF.CAPTION
+msgid "Windows (CRLF)"
+msgstr ""
+
+#: TFRMEDITOR.ACTEDITLINEENDLF.CAPTION
+msgid "Unix (LF)"
+msgstr ""
+
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
 msgid "Paste"
@@ -1099,8 +1111,8 @@ msgstr "Shrani &kot ..."
 msgid "Sa&ve All"
 msgstr "Shra&ni vse"
 
-#: TFRMEDITOR.CAPTION
-msgctxt "TFRMEDITOR.CAPTION"
+#: TFRMEDITOR.FRMEDITOR.CAPTION
+msgctxt "TFRMEDITOR.FRMEDITOR.CAPTION"
 msgid "Editor"
 msgstr "Urejevalnik"
 
@@ -1141,6 +1153,10 @@ msgstr "&Datoteka"
 msgid "Syntax highlight"
 msgstr "Poudarjanje skladnje"
 
+#: TFRMEDITOR.MILINEENDTYPE.CAPTION
+msgid "End Of Line"
+msgstr ""
+
 #: TFRMEDITOR.MISEPARATOR1.CAPTION
 msgctxt "TFRMEDITOR.MISEPARATOR1.CAPTION"
 msgid "-"
@@ -1163,6 +1179,11 @@ msgstr "-"
 
 #: TFRMEDITOR.N4.CAPTION
 msgctxt "TFRMEDITOR.N4.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMEDITOR.N5.CAPTION
+msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
 
@@ -1303,6 +1324,7 @@ msgstr "V mapo:"
 msgid "Extract files matching file mask:"
 msgstr "Odpakiraj datoteke, ki so skladne z masko:"
 
+# ???
 #: TFRMEXTRACTDLG.LBLPASSWORD.CAPTION
 msgid "Password for encrypted files:"
 msgstr "Geslo šifriranih datotek:"
@@ -1347,7 +1369,6 @@ msgctxt "TFRMFILEASSOC.BTNREMOVEEXT.CAPTION"
 msgid "Remove"
 msgstr "Odstrani"
 
-# ???
 #: TFRMFILEASSOC.BTNREMOVEICON.CAPTION
 msgctxt "TFRMFILEASSOC.BTNREMOVEICON.CAPTION"
 msgid "X"
@@ -3850,6 +3871,7 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNSEARCHTEMPLATE.HINT"
 msgid "Template..."
 msgstr "Predloga ..."
 
+# ???
 #: TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION
 #, fuzzy
 #| msgid "File types colors"
@@ -3894,7 +3916,6 @@ msgctxt "TFRMOPTIONSFONTS.BTNSELVIEWERBOOKFNT.CAPTION"
 msgid "..."
 msgstr "..."
 
-# ???
 #: TFRMOPTIONSFONTS.BTNSELVIEWFNT.CAPTION
 msgctxt "TFRMOPTIONSFONTS.BTNSELVIEWFNT.CAPTION"
 msgid "..."
@@ -4573,6 +4594,7 @@ msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Prekliči"
 
+# ??? Arhivirnik = packer
 #: TFRMPACKDLG.BTNCONFIG.CAPTION
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "&Configure"
@@ -4601,6 +4623,7 @@ msgstr "Ustvari ločen arhiv za vsako izbrano datoteko oziroma mapo"
 msgid "Create self e&xtracting archive"
 msgstr "Ustvari arhiv za samodejno odpakiranje"
 
+# ???
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
 msgid "Encr&ypt"
 msgstr "&Šifriraj arhiv z geslom"
@@ -4613,7 +4636,6 @@ msgstr "Pre&makni v arhiv"
 msgid "&Multiple disk archive"
 msgstr "Ustvari arhiv v več &delih"
 
-# ??? Arhivirnik = packer
 #: TFRMPACKDLG.CBOTHERPLUGINS.CAPTION
 msgid "=>"
 msgstr "=>"
@@ -4639,7 +4661,6 @@ msgctxt "TFRMPACKINFODLG.BTNCLOSE.CAPTION"
 msgid "Close"
 msgstr "Zapri"
 
-# ???
 #: TFRMPACKINFODLG.BTNUNPACKALLANDEXEC.CAPTION
 msgid "Unpack &all and execute"
 msgstr "Odpakiraj &vse in izvedi"
@@ -5817,10 +5838,12 @@ msgstr "&Naprej"
 msgid "Replace"
 msgstr "Zamenjaj"
 
+# multiple
 #: ulng.rsfilterstatus
 msgid "FILTER"
 msgstr "Filter"
 
+# multiple
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
 msgstr "Določitev predloge"
@@ -5854,13 +5877,11 @@ msgstr "Shrani predlogo iskanja"
 msgid "Template name:"
 msgstr "Ime predloge:"
 
-# multiple
 #: ulng.rsfindscanned
 msgctxt "ulng.rsfindscanned"
 msgid "Scanned: %d"
 msgstr "Preiskano: %d"
 
-# multiple
 #: ulng.rsfindscanning
 msgid "Scanning"
 msgstr "Preiskovanje"
@@ -6012,10 +6033,12 @@ msgstr "Nosilec ni na voljo"
 msgid "Open with ..."
 msgstr "Odpri z ..."
 
+# multiple
 #: ulng.rsmnusortby
 msgid "Sort by"
 msgstr "Razvrsti po"
 
+# multiple
 #: ulng.rsmnuumount
 msgid "Unmount"
 msgstr "Odklopi"
@@ -6049,12 +6072,10 @@ msgstr "Ukaz chdir v [%s] je spodletel!"
 msgid "Remove all inactive tabs?"
 msgstr "Ali naj se odstranijo vsi nedejavni zavihke?"
 
-# multiple
 #: ulng.rsmsgcloselockedtab
 msgid "This tab (%s) is locked! Close anyway?"
 msgstr "Zavihek (%s) je zaklenjen! Ali naj se vseeno zapre?"
 
-# multiple
 #: ulng.rsmsgconfirmquit
 msgid "Are you sure you want to quit?"
 msgstr "Ali ste prepričani, da želite končati?"
@@ -6359,6 +6380,7 @@ msgstr "Odpakiran bo naslednji del arhiva"
 msgid "No files selected."
 msgstr "Ni izbranih datotek."
 
+# multiple
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
 msgstr "Ni dovolj prostora na ciljnem pogonu. Ali naj se opravilo vseeno nadaljuje?"
@@ -6371,6 +6393,7 @@ msgstr "Ni dovolj prostora na ciljnem pogonu. Ali naj se prostor ponovno izraču
 msgid "Can not delete file %s"
 msgstr "Ni mogoče izbrisati datoteke %s"
 
+# double multiple
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "Ni podprto."
@@ -6395,7 +6418,6 @@ msgstr "Geslo (požarni zid):"
 msgid "Please re-enter the password for verification:"
 msgstr ""
 
-# multiple
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
 msgstr "&Dodaj %s"
@@ -6409,7 +6431,6 @@ msgstr "&Nastavitve"
 msgid "&Delete %s"
 msgstr "&Izbriši %s"
 
-# double multiple
 #: ulng.rsmsgpresetalreadyexists
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Shranjen predmet \"%s\" že obstaja. Ali naj se prepiše?"
@@ -6426,6 +6447,7 @@ msgstr "Ali naj se predmet \"%s\" preimenuje oziroma premakne?"
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Za uveljavitev sprememb je treba program ponovno zagnati."
 
+# multiple
 #: ulng.rsmsgselected
 msgid "Selected %s of %s in %d of %d files"
 msgstr "Izbrano: %s od %s v %d od %d datotekah"
@@ -6462,7 +6484,6 @@ msgstr "Izbranih je preveč datotek."
 msgid "URL:"
 msgstr "Naslov URL:"
 
-# multiple
 #: ulng.rsmsgusername
 msgid "User name:"
 msgstr "Uporabniško ime:"
@@ -6893,6 +6914,7 @@ msgstr "Imenovan cevovod"
 msgid "No"
 msgstr "Ne"
 
+# multiple + window to small
 #: ulng.rspropssocket
 msgid "Socket"
 msgstr "Vtič"
@@ -6929,7 +6951,6 @@ msgstr "Izbor mape"
 msgid "Bytes"
 msgstr "Bajti"
 
-# multiple + window to small
 #: ulng.rssizeunitgbytes
 msgctxt "ulng.rssizeunitgbytes"
 msgid "Gigabytes"
@@ -7006,6 +7027,8 @@ msgstr "tedni"
 msgid "Year(s)"
 msgstr "leta"
 
+#~ msgid "Comments"
+#~ msgstr "Opombe"
 #: ulng.rstooldiffer
 msgid "Differ"
 msgstr "Primerjalnik"
@@ -7045,8 +7068,6 @@ msgstr "Pregledovalnik"
 msgid "Please report this error to the bug tracker with a description of what you were doing and the following file:%sPress %s to continue or %s to abort the program."
 msgstr "Pošljite poročilo napake s podrobnim opisom in datoteko: %s. Pritisnite %s za nadaljevanje ali pa %s za končanje programa."
 
-#~ msgid "Comments"
-#~ msgstr "Opombe"
 #: ulng.rsvfsnetwork
 msgctxt "ulng.rsvfsnetwork"
 msgid "Network"

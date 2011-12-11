@@ -1034,6 +1034,18 @@ msgstr "Znajdź"
 msgid "Find next"
 msgstr "Znajdź następny"
 
+#: TFRMEDITOR.ACTEDITLINEENDCR.CAPTION
+msgid "Mac (CR)"
+msgstr ""
+
+#: TFRMEDITOR.ACTEDITLINEENDCRLF.CAPTION
+msgid "Windows (CRLF)"
+msgstr ""
+
+#: TFRMEDITOR.ACTEDITLINEENDLF.CAPTION
+msgid "Unix (LF)"
+msgstr ""
+
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
 msgid "Paste"
@@ -1089,8 +1101,8 @@ msgstr "Zapisz jako"
 msgid "Sa&ve All"
 msgstr "Zapisz wszystko"
 
-#: TFRMEDITOR.CAPTION
-msgctxt "TFRMEDITOR.CAPTION"
+#: TFRMEDITOR.FRMEDITOR.CAPTION
+msgctxt "TFRMEDITOR.FRMEDITOR.CAPTION"
 msgid "Editor"
 msgstr "Edytor"
 
@@ -1131,6 +1143,10 @@ msgstr "Plik"
 msgid "Syntax highlight"
 msgstr "Kolorowanie składni"
 
+#: TFRMEDITOR.MILINEENDTYPE.CAPTION
+msgid "End Of Line"
+msgstr ""
+
 #: TFRMEDITOR.MISEPARATOR1.CAPTION
 msgctxt "TFRMEDITOR.MISEPARATOR1.CAPTION"
 msgid "-"
@@ -1153,6 +1169,11 @@ msgstr "-"
 
 #: TFRMEDITOR.N4.CAPTION
 msgctxt "TFRMEDITOR.N4.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMEDITOR.N5.CAPTION
+msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
 
@@ -6906,44 +6927,6 @@ msgstr "Nie można zmienić praw dostępu dla \"%s\""
 msgid "Can not change owner for \"%s\""
 msgstr "Nie można zmienić właściciela dla \"%s\""
 
-#: ulng.rspropsfile
-msgctxt "ulng.rspropsfile"
-msgid "File"
-msgstr "Plik"
-
-#: ulng.rspropsfolder
-msgctxt "ulng.rspropsfolder"
-msgid "Directory"
-msgstr "Katalog"
-
-#: ulng.rspropsnmdpipe
-msgid "Named pipe"
-msgstr "Nazwany strumień"
-
-#: ulng.rspropsno
-msgid "No"
-msgstr "Nie"
-
-#: ulng.rspropssocket
-msgid "Socket"
-msgstr "Socket"
-
-#: ulng.rspropsspblkdev
-msgid "Special block device"
-msgstr "Specjalne urządzenie blokowe"
-
-#: ulng.rspropsspchrdev
-msgid "Special character device"
-msgstr "Specjalne urządzenie wirtualne"
-
-#: ulng.rspropssymlink
-msgid "Symbolic link"
-msgstr "Link symboliczny"
-
-#: ulng.rspropsunknowntype
-msgid "Unknown type"
-msgstr "Nieznany typ"
-
 #~ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 #~ msgid "OK"
 #~ msgstr "OK"
@@ -7043,6 +7026,44 @@ msgstr "Nieznany typ"
 #~ msgstr "Filtr:"
 #~ msgid "Find:"
 #~ msgstr "Znajdź:"
+#: ulng.rspropsfile
+msgctxt "ulng.rspropsfile"
+msgid "File"
+msgstr "Plik"
+
+#: ulng.rspropsfolder
+msgctxt "ulng.rspropsfolder"
+msgid "Directory"
+msgstr "Katalog"
+
+#: ulng.rspropsnmdpipe
+msgid "Named pipe"
+msgstr "Nazwany strumień"
+
+#: ulng.rspropsno
+msgid "No"
+msgstr "Nie"
+
+#: ulng.rspropssocket
+msgid "Socket"
+msgstr "Socket"
+
+#: ulng.rspropsspblkdev
+msgid "Special block device"
+msgstr "Specjalne urządzenie blokowe"
+
+#: ulng.rspropsspchrdev
+msgid "Special character device"
+msgstr "Specjalne urządzenie wirtualne"
+
+#: ulng.rspropssymlink
+msgid "Symbolic link"
+msgstr "Link symboliczny"
+
+#: ulng.rspropsunknowntype
+msgid "Unknown type"
+msgstr "Nieznany typ"
+
 #: ulng.rspropsyes
 msgid "Yes (%s)"
 msgstr "Tak (%s)"

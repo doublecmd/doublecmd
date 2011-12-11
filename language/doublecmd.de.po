@@ -1042,6 +1042,18 @@ msgstr "&Suchen"
 msgid "Find next"
 msgstr "Finde nächste"
 
+#: TFRMEDITOR.ACTEDITLINEENDCR.CAPTION
+msgid "Mac (CR)"
+msgstr ""
+
+#: TFRMEDITOR.ACTEDITLINEENDCRLF.CAPTION
+msgid "Windows (CRLF)"
+msgstr ""
+
+#: TFRMEDITOR.ACTEDITLINEENDLF.CAPTION
+msgid "Unix (LF)"
+msgstr ""
+
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
 msgid "Paste"
@@ -1097,10 +1109,10 @@ msgstr "Speichern &unter..."
 msgid "Sa&ve All"
 msgstr "Alles &speichern"
 
-#: TFRMEDITOR.CAPTION
-msgctxt "TFRMEDITOR.CAPTION"
+#: TFRMEDITOR.FRMEDITOR.CAPTION
+msgctxt "TFRMEDITOR.FRMEDITOR.CAPTION"
 msgid "Editor"
-msgstr "Editor"
+msgstr "Text-Editor"
 
 #: TFRMEDITOR.HELP1.CAPTION
 msgctxt "TFRMEDITOR.HELP1.CAPTION"
@@ -1139,6 +1151,10 @@ msgstr "&Datei"
 msgid "Syntax highlight"
 msgstr "S&yntax hervorheben"
 
+#: TFRMEDITOR.MILINEENDTYPE.CAPTION
+msgid "End Of Line"
+msgstr ""
+
 #: TFRMEDITOR.MISEPARATOR1.CAPTION
 msgctxt "TFRMEDITOR.MISEPARATOR1.CAPTION"
 msgid "-"
@@ -1161,6 +1177,11 @@ msgstr "-"
 
 #: TFRMEDITOR.N4.CAPTION
 msgctxt "TFRMEDITOR.N4.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMEDITOR.N5.CAPTION
+msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
 

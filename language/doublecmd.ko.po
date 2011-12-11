@@ -1042,6 +1042,18 @@ msgstr "찾기 (&F)"
 msgid "Find next"
 msgstr "다음 찾기"
 
+#: TFRMEDITOR.ACTEDITLINEENDCR.CAPTION
+msgid "Mac (CR)"
+msgstr ""
+
+#: TFRMEDITOR.ACTEDITLINEENDCRLF.CAPTION
+msgid "Windows (CRLF)"
+msgstr ""
+
+#: TFRMEDITOR.ACTEDITLINEENDLF.CAPTION
+msgid "Unix (LF)"
+msgstr ""
+
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
 msgid "Paste"
@@ -1097,8 +1109,8 @@ msgstr "다른 이름으로 저장... (&A)"
 msgid "Sa&ve All"
 msgstr "전부 저장 (&V)"
 
-#: TFRMEDITOR.CAPTION
-msgctxt "TFRMEDITOR.CAPTION"
+#: TFRMEDITOR.FRMEDITOR.CAPTION
+msgctxt "TFRMEDITOR.FRMEDITOR.CAPTION"
 msgid "Editor"
 msgstr "편집기"
 
@@ -1139,6 +1151,10 @@ msgstr "파일 (&F)"
 msgid "Syntax highlight"
 msgstr "구문 강조"
 
+#: TFRMEDITOR.MILINEENDTYPE.CAPTION
+msgid "End Of Line"
+msgstr ""
+
 #: TFRMEDITOR.MISEPARATOR1.CAPTION
 msgctxt "TFRMEDITOR.MISEPARATOR1.CAPTION"
 msgid "-"
@@ -1161,6 +1177,11 @@ msgstr "-"
 
 #: TFRMEDITOR.N4.CAPTION
 msgctxt "TFRMEDITOR.N4.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMEDITOR.N5.CAPTION
+msgctxt "TFRMEDITOR.N5.CAPTION"
 msgid "-"
 msgstr "-"
 
