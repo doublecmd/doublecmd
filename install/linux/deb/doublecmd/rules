@@ -5,7 +5,7 @@
 # This special exception was added by Craig Small in version 0.37 of dh-make.
 
 # Uncomment this to turn on verbose mode.
-export DH_VERBOSE=1
+# export DH_VERBOSE=1
 
 configure: configure-stamp
 configure-stamp:
@@ -55,16 +55,6 @@ install: build
 
 # Build architecture-independent files here.
 binary-indep: build install
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs -i
-	dh_installdocs -i
-	dh_install -i
-	dh_compress -i
-	dh_installdeb -i
-	dh_gencontrol -i
-	dh_md5sums -i
-	dh_builddeb -i
 
 # Build architecture-dependent files here.
 binary-arch: build install
