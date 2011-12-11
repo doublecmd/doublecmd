@@ -204,7 +204,7 @@
         <PackageName Value="viewerpackage"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="156">
+    <Units Count="157">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1178,6 +1178,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uExceptionHandlerFix"/>
       </Unit155>
+      <Unit156>
+        <Filename Value="usyneditfiler.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uSynEditFiler"/>
+      </Unit156>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
