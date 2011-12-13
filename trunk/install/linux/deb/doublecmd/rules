@@ -25,12 +25,12 @@ build-stamp: configure-stamp
 	dh_testdir
 
 	# Build GTK2 version
-	./build.sh all gtk2
+	./build.sh beta gtk2
 	./install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-gtk	
 	./clean.sh	
 
 	# Build Qt4 version
-	./build.sh all qt
+	./build.sh beta qt
 	./install/linux/install.sh --install-prefix=$(CURDIR)/debian/doublecmd-qt	
 	./clean.sh	
 	
