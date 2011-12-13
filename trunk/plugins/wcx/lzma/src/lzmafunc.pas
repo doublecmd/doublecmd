@@ -85,9 +85,6 @@ type
 { TLzmaHandle }
 
 function TLzmaHandle.Open(const FileName: String): LongInt;
-var
-  I: Integer;
-  v: Byte;
 begin
   Result:= E_SUCCESS;
   try
@@ -100,13 +97,9 @@ begin
   if Result <> E_SUCCESS then Exit;
   if inStream.Read(Properties, PropertiesSize) <> PropertiesSize then
     Exit(E_BAD_DATA);
-  outSize:= 0;
-  for I:= 0 to 7 do begin
-    v:= {shortint}(ReadByte(inStream));
-    if v < 0 then
-      Exit(E_EREAD);
-    outSize := outSize or v shl (8 * I);
-  end;
+  outSize := LEtoN(inStream.ReadQWord);
+  if (outSize = DWORD(-1)) then
+     outSize := 0;
 end;
 
 destructor TLzmaHandle.Destroy;
@@ -277,7 +270,6 @@ var
   outStream: TBufferedFS = nil;
   encoder: TLZMAEncoder = nil;
   filesize: Int64;
-  I: Integer;
   sInputFileName: String;
 begin
   Result:= E_SUCCESS;
@@ -318,16 +310,17 @@ begin
       else
         fileSize:= inStream.Size;
     end;
-    for I:= 0 to 7 do
-      WriteByte(outStream, (fileSize shr (8 * I)) and $FF);
+    outStream.WriteQWord(NtoLE(fileSize));
     encoder.Code(inStream, outStream, -1, -1);
   finally
-    if Assigned(encoder) then
-      FreeAndNil(encoder);
-    if Assigned(outStream) then
-      FreeAndNil(outStream);
-    if Assigned(inStream) then
-      FreeAndNil(inStream);
+    FreeAndNil(encoder);
+    {$IFDEF CPU64}
+    outStream.Flush;
+    FileClose(outStream.Handle);
+    {$ELSE}
+    FreeAndNil(outStream);
+    {$ENDIF}
+    FreeAndNil(inStream);
   end;
 end;
 
@@ -347,4 +340,4 @@ begin
     end;
 end;
 
-end.
+end.
