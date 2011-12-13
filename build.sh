@@ -35,13 +35,13 @@ build_default()
   strip --strip-all doublecmd
 }
 
-build_nightly()
+build_beta()
 {
   components/build.sh
   plugins/build.sh
   
   # Build Double Commander
-  $lazbuild src/doublecmd.lpi --bm=nightly $DC_ARCH
+  $lazbuild src/doublecmd.lpi --bm=beta $DC_ARCH
   
   # Build Dwarf LineInfo Extractor
   fpc src/extractdwrflnfo.lpr
@@ -65,7 +65,7 @@ build_all()
 case $1 in
   components)  components/build.sh;;
      plugins)  plugins/build.sh;;
-     nightly)  build_nightly;;
+        beta)  build_beta;;
          all)  build_all;;
            *)  build_default;;
 esac
