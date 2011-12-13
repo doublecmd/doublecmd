@@ -660,7 +660,7 @@ begin
       DE_KDE:
         sCmdLine:= 'kioclient exec ' + QuoteStr(URL);
       DE_GNOME:
-        sCmdLine:= 'gnome-open ' + QuoteStr(URL);
+        sCmdLine:= 'gvfs-open ' + QuoteStr(URL);
       DE_XFCE:
         sCmdLine:= 'exo-open ' + QuoteStr(URL);
       end; // case
