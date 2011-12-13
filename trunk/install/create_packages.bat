@@ -9,7 +9,7 @@ rem Path to Inno Setup compiler
 set ISCC_EXE="c:\Program Files\Inno Setup 5\ISCC.exe"
 
 rem The new package will be created from here
-set BUILD_PACK_DIR=%TEMP%\doublecmd-%DATE%
+set BUILD_PACK_DIR=%TEMP%\doublecmd-%DATE: =%
 
 rem The new package will be saved here
 set PACK_DIR=%CD%\windows\release
