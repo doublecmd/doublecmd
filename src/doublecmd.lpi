@@ -26,7 +26,7 @@
       <RevisionNr Value="5"/>
       <StringTable FileDescription="Double Commander is a cross platform open source file manager with two panels side by side" InternalName="DOUBLECMD" LegalCopyright="Copyright (C) 2006-2011  Koblov Alexander" ProductName="Double Commander" ProductVersion=""/>
     </VersionInfo>
-    <BuildModes Count="4">
+    <BuildModes Count="5">
       <Item1 Name="Debug" Default="True"/>
       <Item2 Name="Debug + HeapTrc">
         <CompilerOptions>
@@ -165,6 +165,59 @@
           </Other>
         </CompilerOptions>
       </Item4>
+      <Item5 Name="Beta">
+        <CompilerOptions>
+          <Version Value="9"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="..\doublecmd"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\components\chsdet\src\mbclass;..\components\chsdet\src\stat"/>
+            <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;newdesign;newdesign\fileproperties;frames;..\components\dcpcrypt;..\components\dcpcrypt\Hashes;..\components\chsdet\src;..\components\chsdet\src\sbseq"/>
+            <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
+            <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <IOChecks Value="True"/>
+            </Checks>
+            <Optimizations>
+              <VariablesInRegisters Value="True"/>
+              <OptimizationLevel Value="2"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <UseLineInfoUnit Value="False"/>
+              <GenerateDwarf Value="True"/>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CompilerMessages>
+              <UseMsgFile Value="True"/>
+            </CompilerMessages>
+            <CustomOptions Value="-dNIGHTLY_BUILD"/>
+            <CompilerPath Value="$(CompPath)"/>
+            <ExecuteBefore>
+              <Command Value="_getsvnrev.cmd $(LazarusDir)"/>
+              <CompileReasons Run="False"/>
+            </ExecuteBefore>
+          </Other>
+        </CompilerOptions>
+      </Item5>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>

@@ -31,6 +31,7 @@ xcopy /E pixmaps  %DC_INSTALL_DIR%\pixmaps\
 rem Copy files
 copy doc\*.txt                      %DC_INSTALL_DIR%\doc\
 copy doublecmd.exe                  %DC_INSTALL_DIR%\
+copy doublecmd.zdli                 %DC_INSTALL_DIR%\
 copy install\windows\doublecmd.xml  %DC_INSTALL_DIR%\
 copy doublecmd.ext.example          %DC_INSTALL_DIR%\
 copy editor.col                     %DC_INSTALL_DIR%\

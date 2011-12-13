@@ -20,16 +20,16 @@ if not "%CPU_TARGET%" == "" (
 
 if "%1"=="components" components\build.bat
 if "%1"=="plugins" plugins\build.bat
-if "%1"=="nightly" goto nightly
+if "%1"=="beta" goto beta
 if "%1"=="all" goto all
 goto default
 
-:nightly
+:beta
 call components\build.bat
 call plugins\build.bat
 
 rem Build Double Commander  
-lazbuild src\doublecmd.lpi --bm=nightly %DC_ARCH%
+lazbuild src\doublecmd.lpi --bm=beta %DC_ARCH%
   
 rem Build Dwarf LineInfo Extractor
 fpc src\extractdwrflnfo.lpr

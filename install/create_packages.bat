@@ -49,7 +49,7 @@ copy windows\lib\%CPU_TARGET%\*.dll    %BUILD_DC_TMP_DIR%\
 cd /D %BUILD_DC_TMP_DIR%
 
 rem Build all components of Double Commander
-call build.bat all
+call build.bat beta
 
 rem Prepare install files
 call %BUILD_DC_TMP_DIR%\install\windows\install.bat
