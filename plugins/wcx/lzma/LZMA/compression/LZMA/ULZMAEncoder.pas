@@ -1171,7 +1171,7 @@ var i:integer;
 begin
 properties[0] := (_posStateBits * 5 + _numLiteralPosStateBits) * 9 + _numLiteralContextBits;
 for i := 0 to 3 do
-    properties[1 + i] := (_dictionarySize shr (8 * i));
+    properties[1 + i] := byte(_dictionarySize shr (8 * i));
 outStream.write(properties, kPropSize);
 end;
 

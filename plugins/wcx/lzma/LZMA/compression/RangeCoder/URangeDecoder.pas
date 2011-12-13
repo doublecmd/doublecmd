@@ -54,8 +54,8 @@ begin
 result:=0;
 for i := numTotalBits downto 1 do begin
     range:=range shr 1;
-    t := ((Code - Range) shr 31);
-    Code := Code - Range and (t - 1);
+    t := (cardinal(Code - Range) shr 31);
+    Code := integer(Code - Range and (t - 1));
     result := (result shl 1) or (1 - t);
     if ((Range and kTopMask) = 0) then begin
        Code := (Code shl 8) or ReadByte(stream);
@@ -68,7 +68,7 @@ function TRangeDecoder.DecodeBit(var probs: array of smallint;const index:intege
 var prob,newbound:integer;
 begin
 prob:=probs[index];
-newbound:=(Range shr kNumBitModelTotalBits) * prob;
+newbound:= integer((Range shr kNumBitModelTotalBits) * prob);
 if (integer((integer(Code) xor integer($80000000))) < integer((integer(newBound) xor integer($80000000)))) then begin
    Range := newBound;
    probs[index] := (prob + ((kBitModelTotal - prob) shr kNumMoveBits));
@@ -78,8 +78,8 @@ if (integer((integer(Code) xor integer($80000000))) < integer((integer(newBound)
       end;
    result:=0;
    end else begin
-       Range := Range - newBound;
-       Code := Code - newBound;
+       Range := integer(Range - newBound);
+       Code := integer(Code - newBound);
        probs[index] := (prob - ((prob) shr kNumMoveBits));
        if ((Range and kTopMask) = 0) then begin
           Code := (Code shl 8) or ReadByte(stream);

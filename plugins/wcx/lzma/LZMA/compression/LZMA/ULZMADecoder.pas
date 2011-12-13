@@ -150,7 +150,7 @@ symbol := 1;
 repeat
   symbol := (symbol shl 1) or rangeDecoder.DecodeBit(m_Decoders, symbol);
   until not (symbol < $100);
-result:=symbol;
+result:= byte(symbol);
 end;
 
 function TLZMADecoder2.DecodeWithMatchByte(const rangeDecoder:TRangeDecoder;matchByte:byte):byte;
@@ -161,7 +161,7 @@ begin
 symbol := 1;
 repeat
   matchBit := (matchByte shr 7) and 1;
-  matchByte := matchByte shl 1;
+  matchByte := byte(matchByte shl 1);
   bit := rangeDecoder.DecodeBit(m_Decoders, ((1 + matchBit) shl 8) + symbol);
   symbol := (symbol shl 1) or bit;
   if (matchBit <> bit) then begin
@@ -171,7 +171,7 @@ repeat
      break;
      end;
   until not (symbol < $100);
-result:=symbol;
+result:= byte(symbol);
 end;
 
 procedure TLZMALiteralDecoder._Create(const numPosBits, numPrevBits:integer);

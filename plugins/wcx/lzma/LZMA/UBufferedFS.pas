@@ -20,12 +20,13 @@ type TBFSMode=(BFMRead,BFMWrite);
          bufferdirty:boolean;
          Mode:TBFSMode;
          procedure Init;
-         procedure Flush;
+
          procedure ReadBuffer;
        public
          constructor Create(const FileName: string; Mode: Word); overload;
          constructor Create(const FileName: string; Mode: Word; Rights: Cardinal); overload;
          destructor Destroy; override;
+         procedure Flush;
          function Read(var Buffer; Count: Longint): Longint; override;
          function Write(const Buffer; Count: Longint): Longint; override;
          function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
@@ -60,20 +61,20 @@ end;
 
 constructor TBufferedFS.Create(const FileName: string; Mode: Word);
 begin
-inherited;
+inherited Create(FileName, Mode);
 init;
 end;
 
 constructor TBufferedFS.Create(const FileName: string; Mode: Word; Rights: Cardinal);
 begin
-inherited;
+inherited Create(FileName, Mode, Rights);
 init;
 end;
 
 destructor TBufferedFS.Destroy;
 begin
 flush;
-inherited;
+inherited Destroy;
 end;
 
 procedure TBufferedFS.ReadBuffer;

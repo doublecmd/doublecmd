@@ -83,7 +83,7 @@ if (LowHi <> 0) or (Low < int64($FF000000)) then begin
    position := position + cacheSize;
    temp := cache;
    repeat
-     WriteByte(stream,temp + LowHi);
+     WriteByte(stream,byte(temp + LowHi));
      temp := $FF;
      dec(cacheSize);
      until(cacheSize = 0);
@@ -123,13 +123,13 @@ procedure TRangeEncoder.Encode(var probs: array of smallint;const index,symbol:i
 var prob,newbound:integer;
 begin
 prob := probs[index];
-newBound := (Range shr kNumBitModelTotalBits) * prob;
+newBound := integer((Range shr kNumBitModelTotalBits) * prob);
 if (symbol = 0) then begin
    Range := newBound;
    probs[index] := (prob + ((kBitModelTotal - prob) shr kNumMoveBits));
    end else begin
        Low := Low + (newBound and int64($FFFFFFFF));
-       Range := Range - newBound;
+       Range := integer(Range - newBound);
        probs[index] := (prob - ((prob) shr kNumMoveBits));
        end;
 if ((Range and kTopMask) = 0) then begin
