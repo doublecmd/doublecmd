@@ -8,9 +8,9 @@ fi
 # Determine library directory
 if [ "$CPU_TARGET" = "x86_64" ] && [ ! -f "/etc/debian_version" ]
    then
-       OS_LIB_DIR=usr/lib64
+       LIB_SUFFIX=64
    else
-       OS_LIB_DIR=usr/lib
+       LIB_SUFFIX=
 fi
 
 # Parse input parameters
@@ -21,7 +21,7 @@ for A
 do
   case "$A" in
        --)
-            DC_INSTALL_DIR=/$OS_LIB_DIR/doublecmd
+            DC_INSTALL_DIR=/usr/lib$LIB_SUFFIX/doublecmd
             ;;
         -P|--portable-prefix)
             shift
@@ -32,7 +32,7 @@ do
         -I|--install-prefix)
             shift
             DC_INSTALL_PREFIX=$(eval echo $1)
-            DC_INSTALL_DIR=$DC_INSTALL_PREFIX/$OS_LIB_DIR/doublecmd
+            DC_INSTALL_DIR=$DC_INSTALL_PREFIX/usr/lib$LIB_SUFFIX/doublecmd
             break
             ;;
   esac
@@ -100,8 +100,8 @@ install -m 644 plugins/dsx/DSXLocate/lib/dsxlocate.dsx  $DC_INSTALL_DIR/plugins/
 if [ -z $CK_PORTABLE ]
   then
     # Copy libraries
-    install -d                $DC_INSTALL_PREFIX/$OS_LIB_DIR
-    install -m 644 *.so*      $DC_INSTALL_PREFIX/$OS_LIB_DIR
+    install -d                $DC_INSTALL_PREFIX/usr/lib$LIB_SUFFIX
+    install -m 644 *.so*      $DC_INSTALL_PREFIX/usr/lib$LIB_SUFFIX
     # Create directory for platform independed files
     install -d                $DC_INSTALL_PREFIX/usr/share/doublecmd
     # Copy man files
@@ -121,7 +121,7 @@ if [ -z $CK_PORTABLE ]
     install -d $DC_INSTALL_PREFIX/usr/bin
     install -d $DC_INSTALL_PREFIX/usr/share/pixmaps
     install -d $DC_INSTALL_PREFIX/usr/share/applications
-    ln -sf  ../$OS_LIB_DIR/doublecmd/doublecmd $DC_INSTALL_PREFIX/usr/bin/doublecmd
+    ln -sf  ../lib$LIB_SUFFIX/doublecmd/doublecmd $DC_INSTALL_PREFIX/usr/bin/doublecmd
     install -m 644 doublecmd.png $DC_INSTALL_PREFIX/usr/share/pixmaps/doublecmd.png
     install -m 644 install/linux/doublecmd.desktop $DC_INSTALL_PREFIX/usr/share/applications/doublecmd.desktop
   else
