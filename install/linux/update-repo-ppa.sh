@@ -5,7 +5,7 @@
 # Set Double Commander version
 DC_VER=0.5.5
 # Set Ubuntu series
-DISTRO=( lucid maverick natty )
+DISTRO=( lucid maverick natty oneiric )
 
 # Temp directory
 DC_TEMP_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
