@@ -118,7 +118,7 @@ if [ "$CK_PORTABLE" ]; then
   cp -r doc/en   $BUILD_PACK_DIR/doublecmd/doc
   cd $BUILD_PACK_DIR
   sed -i -e 's/<UseConfigInProgramDir>False/<UseConfigInProgramDir>True/' doublecmd/doublecmd.xml
-  tar -cvjf $PACK_DIR/doublecmd-$DC_VER-1.$lcl.$CPU_TARGET.tar.bz2 doublecmd
+  tar -cJvf $PACK_DIR/doublecmd-$DC_VER.$lcl.$CPU_TARGET.tar.xz doublecmd
 fi
 
 if [ "$CK_HELP" ]; then
@@ -131,7 +131,7 @@ if [ "$CK_HELP" ]; then
   for HELP_LANG in `ls`
     do
       cd $BUILD_PACK_DIR/doublecmd
-      tar -cvjf $PACK_DIR/doublecmd-help-$HELP_LANG-$DC_VER.noarch.tar.bz2 doc/$HELP_LANG
+      tar -cJvf $PACK_DIR/doublecmd-help-$HELP_LANG-$DC_VER.noarch.tar.xz doc/$HELP_LANG
     done
 fi
 
