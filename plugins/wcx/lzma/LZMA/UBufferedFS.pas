@@ -27,6 +27,10 @@ type TBFSMode=(BFMRead,BFMWrite);
          constructor Create(const FileName: string; Mode: Word; Rights: Cardinal); overload;
          destructor Destroy; override;
          procedure Flush;
+         {$IF (FPC_VERSION <= 2) and (FPC_RELEASE <= 4) and (FPC_PATCH <= 0)}
+         function ReadQWord: QWord;
+         procedure WriteQWord(q: QWord);
+         {$ENDIF}
          function Read(var Buffer; Count: Longint): Longint; override;
          function Write(const Buffer; Count: Longint): Longint; override;
          function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
@@ -83,6 +87,21 @@ flush;
 bytesinbuffer:=inherited Read(membuffer,buffersize);
 bufferpos:=0;
 end;
+
+{$IF (FPC_VERSION <= 2) and (FPC_RELEASE <= 4) and (FPC_PATCH <= 0)}
+function TBufferedFS.ReadQWord: QWord;
+var
+  q: QWord;
+begin
+  ReadBuffer(q, SizeOf(QWord));
+  ReadQWord:= q;
+end;
+
+procedure TBufferedFS.WriteQWord(q: QWord);
+begin
+  WriteBuffer(q, SizeOf(QWord));
+end;
+{$ENDIF}
 
 function TBufferedFS.Read(var Buffer; Count: Longint): Longint;
 var p:PByteArray;
