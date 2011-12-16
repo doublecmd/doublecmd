@@ -135,12 +135,12 @@ begin
     Result := Result + '.tar';
 end;
 
-
 {
   Create file list like "filename1;filename2;filename3"
   from file list like "filename1#0filename2#0filename3#0#0"
 }
 
+(*
 function MakeFileList(FileList : PAnsiChar) : UTF8String;
 var
   FileName: AnsiString;
@@ -172,6 +172,7 @@ begin
     Inc(FileList, Length(FileName) + 1);
   end;
 end;
+*)
 
 procedure StringToArrayW(src: WideString;
                          pDst: PWideChar;
@@ -538,6 +539,8 @@ end;
 function PackFiles(PackedFile: PChar;  SubPath: PChar;  SrcPath: PChar;  AddList: PChar;  Flags: Integer): Integer;dcpcall;
 var
   Arc : TAbZipKitEx;
+  FilePath: AnsiString;
+  FileName: AnsiString;
   sPassword: AnsiString;
 begin
   try
@@ -564,7 +567,16 @@ begin
       Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
 
       Arc.BaseDirectory := SrcPath;
-      Arc.AddEntries(MakeFileList(AddList), SubPath);
+
+      FilePath:= AnsiString(SubPath);
+      while True do
+      begin
+        FileName := AnsiString(AddList);
+        Arc.ZipArchive.AddEntry(FileName, FilePath);
+        if (AddList + Length(FileName) + 1)^ = #0 then
+          Break;
+        Inc(AddList, Length(FileName) + 1);
+      end;
 
       Arc.Save;
       Arc.CloseArchive;
@@ -599,6 +611,8 @@ end;
 function PackFilesW(PackedFile: PWideChar;  SubPath: PWideChar;  SrcPath: PWideChar;  AddList: PWideChar;  Flags: Integer): Integer;dcpcall;
 var
   Arc : TAbZipKitEx;
+  FilePath: UTF8String;
+  FileName: WideString;
   sPassword: AnsiString;
   sPackedFile: UTF8String;
 begin
@@ -628,7 +642,16 @@ begin
       Arc.OnArchiveProgress := @Arc.AbArchiveProgressEvent;
 
       Arc.BaseDirectory := UTF8Encode(WideString(SrcPath));
-      Arc.AddEntries(MakeFileListW(AddList), UTF8Encode(WideString(SubPath)));
+
+      FilePath:= UTF8Encode(WideString(SubPath));
+      while True do
+      begin
+        FileName := WideString(AddList);
+        Arc.ZipArchive.AddEntry(UTF8Encode(FileName), FilePath);
+        if (AddList + Length(FileName) + 1)^ = #0 then
+          Break;
+        Inc(AddList, Length(FileName) + 1);
+      end;
 
       Arc.Save;
       Arc.CloseArchive;
@@ -914,4 +937,4 @@ begin
 end;
 
 end.
-
+
