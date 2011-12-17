@@ -194,7 +194,7 @@ Description: Lazarus Components Library - Command Line build tools
 
 Package: lcl-units
 Architecture: i386 powerpc sparc amd64 armel
-Depends: ${misc:Depends}, ${shlibs:Depends}, fp-utils, lcl-gtk | lcl-qt
+Depends: ${misc:Depends}, ${shlibs:Depends}, ${fpc-abi:Depends}, fp-utils, lcl-gtk | lcl-qt
 Recommends: lazarus-ide, fpc
 Suggests: gdb
 Provides: lcl-${source:Upstream-Version}, lcl-gtk
@@ -221,7 +221,7 @@ Description: Lazarus Components Library - Backend independent components
 
 Package: lcl-nogui
 Architecture: i386 powerpc sparc amd64 armel
-Depends: ${misc:Depends}, ${shlibs:Depends}, fp-units-rtl, fp-units-base, fp-units-fcl
+Depends: ${misc:Depends}, ${shlibs:Depends}, ${fpc-abi:Depends}, fp-units-rtl, fp-units-base, fp-units-fcl
 Recommends: lazarus-ide, fpc
 Suggests: gdb
 Breaks: lazarus-ide (<= 0.9.28.2-2)
@@ -248,7 +248,7 @@ Description: Lazarus Components Library - No GUI backend
 
 Package: lcl-gtk2
 Architecture: i386 powerpc sparc amd64 armel
-Depends: ${misc:Depends}, ${shlibs:Depends}, fp-units-rtl, fp-units-base, fp-units-fcl, fp-units-gtk2
+Depends: ${misc:Depends}, ${shlibs:Depends}, ${fpc-abi:Depends}, fp-units-rtl, fp-units-base, fp-units-fcl, fp-units-gtk2
 Recommends: lazarus-ide, fpc
 Suggests: gdb
 Provides: lcl-gtk
@@ -275,7 +275,7 @@ Description: Lazarus Components Library - GTK+ backend
 
 Package: lcl-qt4
 Architecture: i386 powerpc sparc amd64 armel
-Depends: ${misc:Depends}, ${shlibs:Depends}, fp-units-rtl, fp-units-base, fp-units-fcl, libqt4pas-dev
+Depends: ${misc:Depends}, ${shlibs:Depends}, ${fpc-abi:Depends}, fp-units-rtl, fp-units-base, fp-units-fcl, libqt4pas-dev
 Recommends: lazarus-ide, fpc
 Suggests: gdb
 Provides: lcl-qt
