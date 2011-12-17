@@ -209,6 +209,10 @@
             <CompilerMessages>
               <UseMsgFile Value="True"/>
             </CompilerMessages>
+            <ConfigFile>
+              <CustomConfigFile Value="True"/>
+              <ConfigFilePath Value="fpc-extra.cfg"/>
+            </ConfigFile>
             <CustomOptions Value="-dNIGHTLY_BUILD"/>
             <CompilerPath Value="$(CompPath)"/>
             <ExecuteBefore>
