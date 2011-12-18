@@ -30,7 +30,7 @@ interface
 uses
    Classes, SysUtils, BaseUnix,
    ExtCtrls, LCLProc, cwstring,
-   LCLType, Graphics, TermInfo, termio, uTerminal, uOSUtils;
+   LCLType, Graphics, termio, uTerminal, uOSUtils;
 
 {$IF NOT DEFINED(DARWIN)}
 {$LINKLIB util} // under Linux and BSD forkpty is situated in libutil.so library
