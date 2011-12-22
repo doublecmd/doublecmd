@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2011-12-14 13:58+0100\n"
+"PO-Revision-Date: 2011-12-15 07:08+0100\n"
 "Last-Translator: Jiří Hajda <robie@centrum.cz>\n"
 "Language-Team: pestasoft.com <info@pestasoft.com>\n"
 "MIME-Version: 1.0\n"
@@ -272,7 +272,7 @@ msgstr "O programu"
 
 #: TFRMABOUT.LBLBUILD.CAPTION
 msgid "Build"
-msgstr "Build"
+msgstr "Sestavení"
 
 #: TFRMABOUT.LBLFREEPASCALVER.CAPTION
 msgid "Free Pascal"
@@ -388,7 +388,7 @@ msgstr "Atributy NTFS"
 
 #: TFRMATTRIBUTESEDIT.GBWINGENERAL.CAPTION
 msgid "General attributes"
-msgstr "Obecné vlastnosti"
+msgstr "Obecné atributy"
 
 #: TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION"
@@ -439,20 +439,15 @@ msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
-#: TFRMCHECKSUMCALC.CAPTION
-msgctxt "TFRMCHECKSUMCALC.CAPTION"
-msgid "Calculate check sum..."
-msgstr "Výpočet kontrolního součtu..."
-
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
 #| msgid "Create separate MD5 files for each file"
 msgid "Create separate checksum file for each file"
 msgstr "Vytvořit samostatný kontrolní součet pro každý soubor"
 
-#: TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT
-msgctxt "TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT"
-msgid "MD5"
-msgstr "MD5"
+#: TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION
+msgctxt "TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr "Výpočet kontrolního součtu..."
 
 #: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
 msgid "Save check sum file(s) to:"
@@ -738,7 +733,7 @@ msgstr "Vymazat"
 #: TFRMDIFFER.ACTEDITPASTE.CAPTION
 msgctxt "TFRMDIFFER.ACTEDITPASTE.CAPTION"
 msgid "Paste"
-msgstr "Vložiit"
+msgstr "Vložit"
 
 #: TFRMDIFFER.ACTEDITREDO.CAPTION
 msgctxt "TFRMDIFFER.ACTEDITREDO.CAPTION"
@@ -1057,7 +1052,7 @@ msgstr "Unix (LF)"
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
 msgid "Paste"
-msgstr "Vložiit"
+msgstr "Vložit"
 
 #: TFRMEDITOR.ACTEDITREDO.CAPTION
 msgctxt "TFRMEDITOR.ACTEDITREDO.CAPTION"
@@ -1149,7 +1144,7 @@ msgstr "&Soubor"
 
 #: TFRMEDITOR.MIHIGHLIGHT.CAPTION
 msgid "Syntax highlight"
-msgstr "Zvýrazňování synaxe"
+msgstr "Zvýrazňování syntaxe"
 
 #: TFRMEDITOR.MILINEENDTYPE.CAPTION
 msgid "End Of Line"
@@ -1858,7 +1853,7 @@ msgstr "Čas do:"
 
 #: TFRMFINDDLG.CBUSEPLUGIN.CAPTION
 msgid "&Use search plugin:"
-msgstr "Použit vyhledávací zásuvný modul:"
+msgstr "Použit vyhledávací doplněk:"
 
 #: TFRMFINDDLG.CMBFINDFILEMASK.TEXT
 msgctxt "TFRMFINDDLG.CMBFINDFILEMASK.TEXT"
@@ -1934,7 +1929,7 @@ msgstr "Rozšířené"
 
 #: TFRMFINDDLG.TSLOADSAVE.CAPTION
 msgid "Load/Save"
-msgstr "Načist/uložit"
+msgstr "Načíst/uložit"
 
 #: TFRMFINDDLG.TSRESULTS.CAPTION
 msgid "Results"
@@ -2406,7 +2401,7 @@ msgstr "Nastavit pozici dělící čáry"
 
 #: TFRMMAIN.ACTPASTEFROMCLIPBOARD.CAPTION
 msgid "&Paste"
-msgstr "Vložiit"
+msgstr "Vložit"
 
 #: TFRMMAIN.ACTPREVTAB.CAPTION
 #| msgid "Switch to &previous tab"
@@ -2658,7 +2653,7 @@ msgstr "*"
 
 #: TFRMMAIN.BTNLEFTDIRECTORYHOTLIST.HINT
 msgid "Directory hotlist"
-msgstr "Hotlist adresářů"
+msgstr "Rychlé adresáře"
 
 #: TFRMMAIN.BTNLEFTEQUALRIGHT.CAPTION
 msgid "<"
@@ -3004,7 +2999,7 @@ msgstr "Upravit"
 #: TFRMMAIN.TBPASTE.CAPTION
 msgctxt "TFRMMAIN.TBPASTE.CAPTION"
 msgid "Paste"
-msgstr "Vložiit"
+msgstr "Vložit"
 
 #: TFRMMAIN.TBSEPARATOR.CAPTION
 msgctxt "TFRMMAIN.TBSEPARATOR.CAPTION"
@@ -3385,7 +3380,7 @@ msgstr "Název..."
 #: TFRMMULTIRENAME.MIPLUGIN.CAPTION
 msgctxt "TFRMMULTIRENAME.MIPLUGIN.CAPTION"
 msgid "Plugin"
-msgstr "Zásuvný modul"
+msgstr "Doplněk"
 
 #: TFRMMULTIRENAME.MISECOND.CAPTION
 #| msgid "[s]econd"
@@ -3460,8 +3455,8 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
-#: TFRMOPTIONS.CAPTION
-msgctxt "TFRMOPTIONS.CAPTION"
+#: TFRMOPTIONS.FRMOPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
 msgid "Options"
 msgstr "Nastavení"
 
@@ -3503,7 +3498,7 @@ msgstr "Povoleno"
 #: TFRMOPTIONSARCHIVERS.CHKMULTIARCOUTPUT.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.CHKMULTIARCOUTPUT.CAPTION"
 msgid "Show console output"
-msgstr "Ukázat výstup konsoly"
+msgstr "Ukázat výstup konzoly"
 
 #: TFRMOPTIONSARCHIVERS.GBARCHIVEROPTIONS.CAPTION
 msgctxt "TFRMOPTIONSARCHIVERS.GBARCHIVEROPTIONS.CAPTION"
@@ -3603,16 +3598,6 @@ msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
 msgid "Always show tray icon"
 msgstr "Vždy zobrazit ikonu v oznam. oblasti"
 
-#: TFRMOPTIONSBEHAVIOR.CBLISTFILESINTHREAD.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.CBLISTFILESINTHREAD.CAPTION"
-msgid "Load file list in separate thread"
-msgstr "Načíst seznam soubor v odděleném vlákně"
-
-#: TFRMOPTIONSBEHAVIOR.CBLOADICONSSEPARATELY.CAPTION
-msgctxt "TFRMOPTIONSBEHAVIOR.CBLOADICONSSEPARATELY.CAPTION"
-msgid "Load icons after file list"
-msgstr "Načíst ikony po seznam souborů"
-
 #: TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION
 msgctxt "TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION"
 msgid "Mo&ve icon to system tray when minimized"
@@ -3622,12 +3607,6 @@ msgstr "Přesunout do oznamo&vací oblasti pokud je minimalizováno"
 msgctxt "TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION"
 msgid "Allow only one copy of DC at a time"
 msgstr "Povolit pouze jednu kopii DC ve stejný čas"
-
-#: TFRMOPTIONSBEHAVIOR.CBSHOWSYSTEMFILES.CAPTION
-#| msgid "Show hidden/system files"
-msgctxt "TFRMOPTIONSBEHAVIOR.CBSHOWSYSTEMFILES.CAPTION"
-msgid "Show system and hidden files"
-msgstr "Ukázat systémové a skryté soubory"
 
 #: TFRMOPTIONSBEHAVIOR.EDTDRIVESBLACKLIST.HINT
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
@@ -3823,7 +3802,7 @@ msgstr "Hlavní volby"
 #: TFRMOPTIONSFILEOPERATIONS.LBLCOPYBUFFERSIZE.CAPTION
 msgctxt "TFRMOPTIONSFILEOPERATIONS.LBLCOPYBUFFERSIZE.CAPTION"
 msgid "Buffer size (Kb):"
-msgstr "Velikost buferu (Kb):"
+msgstr "Velikost vyrovnávací paměti (Kb):"
 
 #: TFRMOPTIONSFILEOPERATIONS.LBLWIPEPASSNUMBER.CAPTION
 #| msgid "Number of wipe pass"
@@ -3927,11 +3906,26 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION"
 msgid "Show square brackets around directories"
 msgstr "Názvy adresářů v hranatých závorkách"
 
+#: TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
+msgid "Load file list in separate thread"
+msgstr "Načíst seznam soubor v odděleném vlákně"
+
+#: TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
+msgid "Load icons after file list"
+msgstr "Načíst ikony po seznam souborů"
+
 #: TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION
 #| msgid "Short Filesize format"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION"
 msgid "Short file size format"
 msgstr "Krátký formát velikosti souborů"
+
+#: TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
+msgid "Show system and hidden files"
+msgstr "Ukázat systémové a skryté soubory"
 
 #: TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION
 #| msgid "Case sensitive sorting"
@@ -4017,7 +4011,7 @@ msgstr "Maska kategorie:"
 #: TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYNAME.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYNAME.CAPTION"
 msgid "Category name:"
-msgstr "Název kategore:"
+msgstr "Název kategorie:"
 
 #: TFRMOPTIONSFONTS.BTNSELEDITFNT.CAPTION
 msgctxt "TFRMOPTIONSFONTS.BTNSELEDITFNT.CAPTION"
@@ -4084,15 +4078,20 @@ msgctxt "TFRMOPTIONSHOTKEYS.CGHKCONTROLS.CAPTION"
 msgid "Only for these controls"
 msgstr "Pouze pro tyto prvky"
 
-#: TFRMOPTIONSHOTKEYS.LBCOMMANDS.CAPTION
-msgctxt "TFRMOPTIONSHOTKEYS.LBCOMMANDS.CAPTION"
-msgid "Commands:"
-msgstr "Příkazy:"
-
 #: TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION
 msgctxt "TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION"
 msgid "Filter"
 msgstr "Filtr"
+
+#: TFRMOPTIONSHOTKEYS.LBLCATEGORIES.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.LBLCATEGORIES.CAPTION"
+msgid "Categories:"
+msgstr "Kategorie:"
+
+#: TFRMOPTIONSHOTKEYS.LBLCOMMANDS.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.LBLCOMMANDS.CAPTION"
+msgid "Commands:"
+msgstr "Příkazy:"
 
 #: TFRMOPTIONSHOTKEYS.LBLHOTKEY.CAPTION
 msgctxt "TFRMOPTIONSHOTKEYS.LBLHOTKEY.CAPTION"
@@ -4108,11 +4107,6 @@ msgstr "Parametr:"
 msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
 msgid "Shortcut files:"
 msgstr "Soubory zástupců:"
-
-#: TFRMOPTIONSHOTKEYS.LBTYPES.CAPTION
-msgctxt "TFRMOPTIONSHOTKEYS.LBTYPES.CAPTION"
-msgid "Categories:"
-msgstr "Kategorie:"
 
 #: TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
@@ -4191,7 +4185,7 @@ msgstr "&Uložit v:"
 
 #: TFRMOPTIONSKEYBOARD.CBLYNXLIKE.CAPTION
 msgid "Left, Right arrows change directory (Lynx-like movement)"
-msgstr "Šipky vlevo, vpravo mění adresář (jako pohyb v Lynxu)"
+msgstr "Šipky vlevo a vpravo mění adresář (jako pohyb v Lynxu)"
 
 #: TFRMOPTIONSKEYBOARD.GBTYPING.CAPTION
 msgid "Typing"
@@ -4201,7 +4195,7 @@ msgstr "Psaní"
 #| msgid "Al&t+Letters"
 msgctxt "TFRMOPTIONSKEYBOARD.LBLALT.CAPTION"
 msgid "Alt+Letters"
-msgstr "Alt+Písmenko"
+msgstr "Alt+Písmena"
 
 #: TFRMOPTIONSKEYBOARD.LBLCTRLALT.CAPTION
 #| msgid "&Ctrl+Alt+Letters"
@@ -4262,7 +4256,7 @@ msgstr "Zobrazit &aktuální adresář"
 #: TFRMOPTIONSLAYOUT.CBSHOWDISKPANEL.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDISKPANEL.CAPTION"
 msgid "Show &drive buttons"
-msgstr "Zobrazit &tlačitka disků"
+msgstr "Zobrazit &tlačítka disků"
 
 #: TFRMOPTIONSLAYOUT.CBSHOWDRIVEFREESPACE.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWDRIVEFREESPACE.CAPTION"
@@ -4286,7 +4280,7 @@ msgstr "Ukázat hlavní nabídku"
 #: TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION"
 msgid "Show &button bar"
-msgstr "Zobrazit &tlačitkovou lištu"
+msgstr "Zobrazit &tlačítkovou lištu"
 
 #: TFRMOPTIONSLAYOUT.CBSHOWSTATUSBAR.CAPTION
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWSTATUSBAR.CAPTION"
@@ -4361,7 +4355,7 @@ msgstr "Záznam &dokončených operací"
 #: TFRMOPTIONSLOG.CBLOGVFS.CAPTION
 msgctxt "TFRMOPTIONSLOG.CBLOGVFS.CAPTION"
 msgid "File system plugins"
-msgstr "Pluginy souborového systému"
+msgstr "Doplňky souborového systému"
 
 #: TFRMOPTIONSLOG.GBLOGFILE.CAPTION
 msgctxt "TFRMOPTIONSLOG.GBLOGFILE.CAPTION"
@@ -4436,32 +4430,32 @@ msgstr "Smazat"
 #: TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.BTNTWEAKPLUGIN.CAPTION"
 msgid "Tweak"
-msgstr "Ladění"
+msgstr "Vylepšení"
 
 #: TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.LBLDSXDESCRIPTION.CAPTION"
 msgid "Search plugins allow to use alternative search algorithms or external tools (like \"locate\", etc.)"
-msgstr "Vyhledávací pluginy umožňují použití při hledání alternativních vyhledávacích algoritmů nebo externích nástrojů (např. \"najít \", atd.)"
+msgstr "Vyhledávací doplňky umožňují použití při hledání alternativních vyhledávacích algoritmů nebo externích nástrojů (např. \"najít \", atd.)"
 
 #: TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.LBLWCXDESCRIPTION.CAPTION"
 msgid "Packer plugins are used to work with archives."
-msgstr "Komprimační zásuvný modul pro práci s archívy."
+msgstr "Komprimační doplňky pro práci s archívy."
 
 #: TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.LBLWDXDESCRIPTION.CAPTION"
 msgid "Content plugins allow to display extended file details like mp3 tags or image attributes in file lists, or use them in search and multi-rename tool"
-msgstr "Obsahové zásuvné moduly umožňují zobrazit rozšířené informace jako jsou MP3 značky nebo atributy obrázků v seznamu souborů, nebo je používat k vyhledávání a s nástrojem hromadné přejmenování"
+msgstr "Obsahové doplňky umožňují zobrazit rozšířené informace jako jsou MP3 značky nebo atributy obrázků v seznamu souborů, nebo je používat při vyhledávání a s nástrojem hromadné přejmenování"
 
 #: TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.LBLWFXDESCRIPTION.CAPTION"
 msgid "File system plugins allow access to disks inaccessible by operating system or to external devices like Palm/PocketPC."
-msgstr "Zásuvné moduly souborovýcch systémů umožní přístup na běžně nedostupná média jako jsou například externí zařízení (Palm/PocketPC)."
+msgstr "Doplňky souborových systémů umožní přístup na běžně nedostupná média jako jsou například externí zařízení (Palm/PocketPC)."
 
 #: TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.LBLWLXDESCRIPTION.CAPTION"
 msgid "Viewer plugins allow to display file formats like images, spreadsheets, databases etc. in Viewer (F3, Ctrl+Q)"
-msgstr "Zobrazovací zásuvné moduly umožňují prohlížení souborů jako jsou například obrázky, databáze a podobně v prohlížeči (F3, nebo Ctrl+Q)"
+msgstr "Zobrazovací doplňky umožňují prohlížení souborů jako jsou například obrázky, databáze a podobně v prohlížeči (F3, nebo Ctrl+Q)"
 
 #: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[0].TITLE.CAPTION"
@@ -4471,7 +4465,7 @@ msgstr "Aktivní"
 #: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[1].TITLE.CAPTION"
 msgid "Plugin"
-msgstr "Zásuvný modul"
+msgstr "Doplněk"
 
 #: TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.STGPLUGINS.COLUMNS[2].TITLE.CAPTION"
@@ -4486,27 +4480,27 @@ msgstr "Název souboru"
 #: TFRMOPTIONSPLUGINS.TSDSX.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.TSDSX.CAPTION"
 msgid "Search plugins (.DSX)"
-msgstr "Vyhledávací pluginy (.DSX)"
+msgstr "Vyhledávací doplňky (.DSX)"
 
 #: TFRMOPTIONSPLUGINS.TSWCX.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.TSWCX.CAPTION"
 msgid "Packer plugins (.WCX)"
-msgstr "Komprimační pluginy (.WCX)"
+msgstr "Komprimační doplňky (.WCX)"
 
 #: TFRMOPTIONSPLUGINS.TSWDX.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.TSWDX.CAPTION"
 msgid "Content plugins (.WDX)"
-msgstr "Obsahové pluginy (.WDX)"
+msgstr "Obsahové doplňky (.WDX)"
 
 #: TFRMOPTIONSPLUGINS.TSWFX.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.TSWFX.CAPTION"
 msgid "File system plugins (.WFX)"
-msgstr "Pluginy souborových systémů (.WFX)"
+msgstr "Doplňky souborových systémů (.WFX)"
 
 #: TFRMOPTIONSPLUGINS.TSWLX.CAPTION
 msgctxt "TFRMOPTIONSPLUGINS.TSWLX.CAPTION"
 msgid "Viewer plugins (.WLX)"
-msgstr "Zobrazovací pluginy (.WLX)"
+msgstr "Zobrazovací doplňky (.WLX)"
 
 #: TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTBEGINNING.CAPTION
 msgctxt "TFRMOPTIONSQUICKSEARCHFILTER.CBEXACTBEGINNING.CAPTION"
@@ -4680,7 +4674,7 @@ msgstr "Maska kategorie:"
 #: TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSNAME.CAPTION"
 msgid "Category name:"
-msgstr "Název kategore:"
+msgstr "Název kategorie:"
 
 #: TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
@@ -4923,7 +4917,7 @@ msgstr "Skryté"
 
 #: TFRMSETFILEPROPERTIES.CHKLASTACCESSTIME.CAPTION
 msgid "Accessed:"
-msgstr "Přistupován:"
+msgstr "Zpřístupněno:"
 
 #: TFRMSETFILEPROPERTIES.CHKLASTWRITETIME.CAPTION
 msgid "Modified:"
@@ -5129,11 +5123,11 @@ msgstr "Odstranit"
 #: TFRMTWEAKPLUGIN.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.CAPTION"
 msgid "Tweak plugin"
-msgstr "Vylepšovací plugin"
+msgstr "Vylepšovací doplněk"
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_BY_CONTENT.CAPTION
 msgid "Detect archive type by content"
-msgstr "Detekovat typ archívu podle obsahu"
+msgstr "Zjišťuje typ archívu podle obsahu"
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_DELETE.CAPTION
 msgid "Can delete files"
@@ -5145,7 +5139,7 @@ msgstr "Podporuje kódování"
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_HIDE.CAPTION
 msgid "Show as normal files (hide packer icon)"
-msgstr "Zobrazit jako normální soubory (skrýt ikonu kompresoru)"
+msgstr "Zobrazen jako normální soubory (skrýt ikonu komprimátoru)"
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_MEMPACK.CAPTION
 msgid "Supports packing in memory"
@@ -5153,7 +5147,7 @@ msgstr "Podporuje komprimaci v paměti"
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_MODIFY.CAPTION
 msgid "Can modify exisiting archives"
-msgstr "Můžete měnit stávající archívy"
+msgstr "Může měnit stávající archívy"
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_MULTIPLE.CAPTION
 msgid "Archive can contain multiple files"
@@ -5161,7 +5155,7 @@ msgstr "Archiv může obsahovat více souborů"
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_NEW.CAPTION
 msgid "Can create new archives"
-msgstr "Můžete vytvářet nové archívy"
+msgstr "Může vytvářet nové archívy"
 
 #: TFRMTWEAKPLUGIN.CBPK_CAPS_OPTIONS.CAPTION
 msgid "Supports the options dialogbox"
@@ -5197,12 +5191,12 @@ msgstr "Jméno:"
 #: TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN.CAPTION"
 msgid "Plugin:"
-msgstr "Zásuvný modul:"
+msgstr "Doplněk:"
 
 #: TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION
 msgctxt "TFRMTWEAKPLUGIN.LBLPLUGIN1.CAPTION"
 msgid "Plugin:"
-msgstr "Zásuvný modul:"
+msgstr "Doplněk:"
 
 #: TFRMVIEWER.ACTABOUT.CAPTION
 msgctxt "TFRMVIEWER.ACTABOUT.CAPTION"
@@ -5497,7 +5491,7 @@ msgstr "&Další"
 #: TFRMVIEWER.MIPLUGINS.CAPTION
 msgctxt "TFRMVIEWER.MIPLUGINS.CAPTION"
 msgid "Plugins"
-msgstr "Zásuvné moduly"
+msgstr "Doplňky"
 
 #: TFRMVIEWER.MIPREV.CAPTION
 msgid "&Previous"
@@ -5523,7 +5517,7 @@ msgstr "Uložit"
 
 #: TFRMVIEWER.MISAVEAS.CAPTION
 msgid "Save As..."
-msgstr "Uloži jako..."
+msgstr "Uložit jako..."
 
 #: TFRMVIEWER.MISCREENSHOT.CAPTION
 msgctxt "TFRMVIEWER.MISCREENSHOT.CAPTION"
@@ -6224,7 +6218,7 @@ msgstr "Opravdu chcete skončit?"
 
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
-msgstr "Kopírovat %d vvybraných souborů/adresářů?"
+msgstr "Kopírovat %d vybraných souborů/adresářů?"
 
 #: ulng.rsmsgcpsel
 msgid "Copy selected \"%s\"?"
@@ -6368,7 +6362,7 @@ msgstr "Nelze nastavit datum/čas pro \"%s\""
 
 #: ulng.rsmsgerrsmallbuf
 msgid "Buffer too small"
-msgstr "Buffer je příliš malý"
+msgstr "Vyrovnávací paměť je příliš malá"
 
 #: ulng.rsmsgerrtoomanyfiles
 msgid "Too many files to pack"
@@ -6781,7 +6775,7 @@ msgstr "Hodnota"
 
 #: ulng.rsoptassocpluginwith
 msgid "Associate plugin \"%s\" with:"
-msgstr "Asociovat plugin \"%s\" s:"
+msgstr "Asociovat doplněk \"%s\" s:"
 
 #: ulng.rsoptautosizecolumn
 msgid "First;Last;"
@@ -6971,7 +6965,7 @@ msgstr "Myš"
 #: ulng.rsoptionseditorplugins
 msgctxt "ulng.rsoptionseditorplugins"
 msgid "Plugins"
-msgstr "Zásuvné moduly"
+msgstr "Doplňky"
 
 #: ulng.rsoptionseditorquicksearch
 #| msgid "Quick search"
@@ -7000,7 +6994,7 @@ msgstr "Levé tlačítko;Pravé tlačítko;"
 
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
-msgstr "Plugin %s již je přiřazen pro následující rozšíření:"
+msgstr "Doplněk %s již je přiřazen pro následující rozšíření:"
 
 #: ulng.rsoptpluginsactive
 msgctxt "ulng.rsoptpluginsactive"
