@@ -1,5 +1,5 @@
 ?package(doublecmd-gtk):needs="X11"\
 	section="Applications/File Management"\
-	icon="/usr/share/pixmaps/doublecmd.png"\
+	icon="/usr/share/pixmaps/doublecmd.xpm"\
 	title="Double Commander"\
 	command="/usr/bin/doublecmd"

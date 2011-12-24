@@ -46,7 +46,7 @@ install/linux/install.sh --install-prefix=%{buildroot}
 %{_bindir}/%{doublecmd}
 %{_datadir}/%{doublecmd}
 %{_datadir}/man/man1/%{doublecmd}.*
-%{_datadir}/pixmaps/%{doublecmd}.png
+%{_datadir}/pixmaps/%{doublecmd}.*
 %{_datadir}/applications/%{doublecmd}.desktop
 
 %changelog
