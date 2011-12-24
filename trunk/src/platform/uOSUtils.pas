@@ -112,7 +112,7 @@ function ExecCmdFork(sCmdLine:String; bTerm : Boolean = False; sTerm : String = 
    @param(URL File name or URL)
    @returns(The function returns @true if successful, @false otherwise)
 }
-function ShellExecute(URL: String): Boolean;
+function ShellExecute(URL: UTF8String): Boolean;
 function GetDiskFreeSpace(const Path : String; out FreeSize, TotalSize : Int64) : Boolean;
 {en
    Get maximum file size for a mounted file system
@@ -299,6 +299,9 @@ uses
   {$ENDIF}
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix, uMyUnix, dl
+    {$IF NOT DEFINED(DARWIN)}
+  , uGio
+    {$ENDIF}
   {$ENDIF}
   ;
 
@@ -600,7 +603,7 @@ begin
 end;
 {$ENDIF}
 
-function ShellExecute(URL: String): Boolean;
+function ShellExecute(URL: UTF8String): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 begin
   Result:= ExecCmdFork(Format('"%s"', [URL]));
@@ -631,7 +634,7 @@ end;
 {$ELSE}
 var
   DesktopEnv: Cardinal;
-  sCmdLine: String;
+  sCmdLine: UTF8String;
 begin
   Result:= False;
   sCmdLine:= EmptyStr;
@@ -644,9 +647,11 @@ begin
   else
     begin
       DesktopEnv:= GetDesktopEnvironment;
-      case DesktopEnv of
-      DE_UNKNOWN,
-      DE_LXDE:
+      if (DesktopEnv = DE_KDE) and (FindDefaultExecutablePath('kioclient') <> EmptyStr) then
+        sCmdLine:= 'kioclient exec ' + QuoteStr(URL) // Under KDE use "kioclient" to open files
+      else if HasGio then
+        Result:= GioOpen(URL) // Under GNOME, Xfce, Unity and LXDE use "GIO" to open files
+      else
         begin
           if GetPathType(URL) = ptAbsolute then
             sCmdLine:= URL
@@ -657,13 +662,6 @@ begin
             end;
           sCmdLine:= GetDefaultAppCmd(sCmdLine);
         end;
-      DE_KDE:
-        sCmdLine:= 'kioclient exec ' + QuoteStr(URL);
-      DE_GNOME:
-        sCmdLine:= 'gvfs-open ' + QuoteStr(URL);
-      DE_XFCE:
-        sCmdLine:= 'exo-open ' + QuoteStr(URL);
-      end; // case
     end;
   if Length(sCmdLine) <> 0 then
     Result:= ExecCmdFork(sCmdLine);
@@ -1950,4 +1948,4 @@ begin
   inherited Create(rsMsgInvalidQuoting);
 end;
 
-end.
+end.
