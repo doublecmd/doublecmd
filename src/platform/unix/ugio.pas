@@ -48,7 +48,10 @@ type
     prev: PGList;
   end;
 
-function Launch(const Path: UTF8String): Boolean;
+function GioOpen(const Uri: UTF8String): Boolean;
+
+var
+  HasGio: Boolean = False;
 
 implementation
 
@@ -71,7 +74,7 @@ var
   g_app_info_launch: function(AAppInfo: PGAppInfo; files: PGList; launch_context: PGAppLaunchContext): gboolean; cdecl;
   g_app_info_launch_uris: function(AAppInfo: PGAppInfo; uris: PGList; launch_context: PGAppLaunchContext): gboolean; cdecl;
 
-function Launch(const Path: UTF8String): Boolean;
+function GioOpen(const Uri: UTF8String): Boolean;
 var
   AFile: PGFile;
   AFileList: TGList;
@@ -80,8 +83,8 @@ begin
   Result:= False;
   AFileList.next:= nil;
   AFileList.prev:= nil;
-  if (hgiolib = 0) then Exit;
-  AFile:= g_file_new_for_commandline_arg(Pgchar(Path));
+  if not HasGio then Exit;
+  AFile:= g_file_new_for_commandline_arg(Pgchar(Uri));
   try
     AppInfo:= g_file_query_default_handler(AFile, nil);
     if (AppInfo = nil) then Exit;
@@ -92,7 +95,7 @@ begin
       end
     else
       begin
-        AFileList.data:= Pgchar(Path);
+        AFileList.data:= Pgchar(Uri);
         Result:= g_app_info_launch_uris (AppInfo, @AFileList, nil);
       end;
     g_object_unref(AppInfo);
@@ -109,7 +112,8 @@ initialization
     @g_object_unref:= GetProcedureAddress(hgobjectlib, 'g_object_unref');
     // Load GIO library
     hgiolib:= LoadLibrary(giolib);
-    if hgiolib <> 0 then
+    HasGio:= (hgiolib <> 0);
+    if HasGio then
     begin
       @g_file_is_native:= GetProcedureAddress(hgiolib, 'g_file_is_native');
       @g_file_new_for_commandline_arg:= GetProcedureAddress(hgiolib, 'g_file_new_for_commandline_arg');
