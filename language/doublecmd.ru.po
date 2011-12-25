@@ -5815,6 +5815,10 @@ msgstr "&Отмена"
 msgid "Copy &Into"
 msgstr "Копировать в"
 
+#: ulng.rsdlgbuttoncopyintoall
+msgid "Copy Into &All"
+msgstr ""
+
 #: ulng.rsdlgbuttonno
 msgid "&No"
 msgstr "&Нет"

@@ -5700,6 +5700,10 @@ msgstr "&Anuluj"
 msgid "Copy &Into"
 msgstr "Kopiuj do"
 
+#: ulng.rsdlgbuttoncopyintoall
+msgid "Copy Into &All"
+msgstr ""
+
 #: ulng.rsdlgbuttonno
 msgid "&No"
 msgstr "&Nie"
@@ -6919,14 +6923,6 @@ msgstr "Alfabetycznie, uwzględniając akcenty;Naturalne sortowanie: alfabetyczn
 msgid "Top;Bottom;"
 msgstr "Góra;Dół;"
 
-#: ulng.rspropserrchmod
-msgid "Can not change access rights for \"%s\""
-msgstr "Nie można zmienić praw dostępu dla \"%s\""
-
-#: ulng.rspropserrchown
-msgid "Can not change owner for \"%s\""
-msgstr "Nie można zmienić właściciela dla \"%s\""
-
 #~ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 #~ msgid "OK"
 #~ msgstr "OK"
@@ -7026,6 +7022,14 @@ msgstr "Nie można zmienić właściciela dla \"%s\""
 #~ msgstr "Filtr:"
 #~ msgid "Find:"
 #~ msgstr "Znajdź:"
+#: ulng.rspropserrchmod
+msgid "Can not change access rights for \"%s\""
+msgstr "Nie można zmienić praw dostępu dla \"%s\""
+
+#: ulng.rspropserrchown
+msgid "Can not change owner for \"%s\""
+msgstr "Nie można zmienić właściciela dla \"%s\""
+
 #: ulng.rspropsfile
 msgctxt "ulng.rspropsfile"
 msgid "File"

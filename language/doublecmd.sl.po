@@ -1316,6 +1316,7 @@ msgstr "Odpakiraj vsak arhiv v &ločeno podrejeno mapo (z imenom vsakega arhiva)
 msgid "&Overwrite existing files"
 msgstr "&Prepiši obstoječe datoteke"
 
+# ???
 #: TFRMEXTRACTDLG.LBLEXTRACTTO.CAPTION
 msgid "To the directory:"
 msgstr "V mapo:"
@@ -1324,7 +1325,6 @@ msgstr "V mapo:"
 msgid "Extract files matching file mask:"
 msgstr "Odpakiraj datoteke, ki so skladne z masko:"
 
-# ???
 #: TFRMEXTRACTDLG.LBLPASSWORD.CAPTION
 msgid "Password for encrypted files:"
 msgstr "Geslo šifriranih datotek:"
@@ -3861,6 +3861,7 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+# ???
 #: TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
 msgid "Delete"
@@ -3871,7 +3872,6 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNSEARCHTEMPLATE.HINT"
 msgid "Template..."
 msgstr "Predloga ..."
 
-# ???
 #: TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION
 #, fuzzy
 #| msgid "File types colors"
@@ -4585,6 +4585,7 @@ msgstr "Barva ozadja v bralnem pregledovalniku"
 msgid "Font color in book viewer"
 msgstr "Barva pisave v bralnem pregledovalniku"
 
+# ??? Arhivirnik = packer
 #: TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION
 msgid "Number of columns in book viewer"
 msgstr "Število stolpcev v bralnem pregledovalniku"
@@ -4594,7 +4595,6 @@ msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Prekliči"
 
-# ??? Arhivirnik = packer
 #: TFRMPACKDLG.BTNCONFIG.CAPTION
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "&Configure"
@@ -4615,6 +4615,7 @@ msgctxt "TFRMPACKDLG.CAPTION"
 msgid "Pack files"
 msgstr "Zapakiraj datoteke"
 
+# ???
 #: TFRMPACKDLG.CBCREATESEPARATEARCHIVES.CAPTION
 msgid "Create separate archives, o&ne per selected file/dir"
 msgstr "Ustvari ločen arhiv za vsako izbrano datoteko oziroma mapo"
@@ -4623,7 +4624,6 @@ msgstr "Ustvari ločen arhiv za vsako izbrano datoteko oziroma mapo"
 msgid "Create self e&xtracting archive"
 msgstr "Ustvari arhiv za samodejno odpakiranje"
 
-# ???
 #: TFRMPACKDLG.CBENCRYPT.CAPTION
 msgid "Encr&ypt"
 msgstr "&Šifriraj arhiv z geslom"
@@ -5661,6 +5661,10 @@ msgstr "&Prekliči"
 msgid "Copy &Into"
 msgstr "Kopiraj &v"
 
+#: ulng.rsdlgbuttoncopyintoall
+msgid "Copy Into &All"
+msgstr ""
+
 #: ulng.rsdlgbuttonno
 msgid "&No"
 msgstr "&Ne"
@@ -5830,20 +5834,20 @@ msgctxt "ulng.rseditsearchcaption"
 msgid "Search"
 msgstr "Poišči"
 
+# multiple
 #: ulng.rseditsearchfrw
 msgid "&Forward"
 msgstr "&Naprej"
 
+# multiple
 #: ulng.rseditsearchreplace
 msgid "Replace"
 msgstr "Zamenjaj"
 
-# multiple
 #: ulng.rsfilterstatus
 msgid "FILTER"
 msgstr "Filter"
 
-# multiple
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
 msgstr "Določitev predloge"
@@ -6025,20 +6029,20 @@ msgstr "Priklopi"
 msgid "New"
 msgstr "Novo"
 
+# multiple
 #: ulng.rsmnunomedia
 msgid "No media available"
 msgstr "Nosilec ni na voljo"
 
+# multiple
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr "Odpri z ..."
 
-# multiple
 #: ulng.rsmnusortby
 msgid "Sort by"
 msgstr "Razvrsti po"
 
-# multiple
 #: ulng.rsmnuumount
 msgid "Unmount"
 msgstr "Odklopi"
@@ -6372,6 +6376,7 @@ msgstr "Vnesite glavno geslo:"
 msgid "New file"
 msgstr "Nova datoteka"
 
+# multiple
 #: ulng.rsmsgnextvolunpack
 msgid "Next volume will be unpacked"
 msgstr "Odpakiran bo naslednji del arhiva"
@@ -6380,11 +6385,11 @@ msgstr "Odpakiran bo naslednji del arhiva"
 msgid "No files selected."
 msgstr "Ni izbranih datotek."
 
-# multiple
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
 msgstr "Ni dovolj prostora na ciljnem pogonu. Ali naj se opravilo vseeno nadaljuje?"
 
+# double multiple
 #: ulng.rsmsgnofreespaceretry
 msgid "No enough free space on target drive, Retry?"
 msgstr "Ni dovolj prostora na ciljnem pogonu. Ali naj se prostor ponovno izračuna?"
@@ -6393,7 +6398,6 @@ msgstr "Ni dovolj prostora na ciljnem pogonu. Ali naj se prostor ponovno izraču
 msgid "Can not delete file %s"
 msgstr "Ni mogoče izbrisati datoteke %s"
 
-# double multiple
 #: ulng.rsmsgnotimplemented
 msgid "Not implemented."
 msgstr "Ni podprto."
@@ -6439,6 +6443,7 @@ msgstr "Shranjen predmet \"%s\" že obstaja. Ali naj se prepiše?"
 msgid "Rename/move %d selected files/directories?"
 msgstr "Ali naj se izbrani predmeti preimenujejo oziroma premaknejo (%d)?"
 
+# multiple
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"%s\"?"
 msgstr "Ali naj se predmet \"%s\" preimenuje oziroma premakne?"
@@ -6447,7 +6452,6 @@ msgstr "Ali naj se predmet \"%s\" preimenuje oziroma premakne?"
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Za uveljavitev sprememb je treba program ponovno zagnati."
 
-# multiple
 #: ulng.rsmsgselected
 msgid "Selected %s of %s in %d of %d files"
 msgstr "Izbrano: %s od %s v %d od %d datotekah"
@@ -6906,6 +6910,7 @@ msgctxt "ulng.rspropsfolder"
 msgid "Directory"
 msgstr "Mapa"
 
+# multiple + window to small
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"
 msgstr "Imenovan cevovod"
@@ -6914,7 +6919,6 @@ msgstr "Imenovan cevovod"
 msgid "No"
 msgstr "Ne"
 
-# multiple + window to small
 #: ulng.rspropssocket
 msgid "Socket"
 msgstr "Vtič"
@@ -7019,6 +7023,8 @@ msgstr "meseci"
 msgid "Second(s)"
 msgstr "sekunde"
 
+#~ msgid "Comments"
+#~ msgstr "Opombe"
 #: ulng.rstimeunitweek
 msgid "Week(s)"
 msgstr "tedni"
@@ -7027,8 +7033,6 @@ msgstr "tedni"
 msgid "Year(s)"
 msgstr "leta"
 
-#~ msgid "Comments"
-#~ msgstr "Opombe"
 #: ulng.rstooldiffer
 msgid "Differ"
 msgstr "Primerjalnik"

@@ -5942,6 +5942,10 @@ msgstr "&Abbruch"
 msgid "Copy &Into"
 msgstr "H&inein kopieren"
 
+#: ulng.rsdlgbuttoncopyintoall
+msgid "Copy Into &All"
+msgstr ""
+
 #: ulng.rsdlgbuttonno
 msgid "&No"
 msgstr "&Nein"

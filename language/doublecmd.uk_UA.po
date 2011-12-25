@@ -5791,6 +5791,10 @@ msgstr "&Скасувати"
 msgid "Copy &Into"
 msgstr "&Копіювати в"
 
+#: ulng.rsdlgbuttoncopyintoall
+msgid "Copy Into &All"
+msgstr ""
+
 #: ulng.rsdlgbuttonno
 msgid "&No"
 msgstr "&Ні"
