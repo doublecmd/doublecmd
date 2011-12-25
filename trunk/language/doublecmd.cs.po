@@ -439,15 +439,19 @@ msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
+#: TFRMCHECKSUMCALC.CAPTION
+msgctxt "TFRMCHECKSUMCALC.CAPTION"
+msgid "Calculate check sum..."
+msgstr "Výpočet kontrolního součtu..."
+
 #: TFRMCHECKSUMCALC.CBSEPARATEFILE.CAPTION
 #| msgid "Create separate MD5 files for each file"
 msgid "Create separate checksum file for each file"
 msgstr "Vytvořit samostatný kontrolní součet pro každý soubor"
 
-#: TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION
-msgctxt "TFRMCHECKSUMCALC.FRMCHECKSUMCALC.CAPTION"
-msgid "Calculate check sum..."
-msgstr "Výpočet kontrolního součtu..."
+#: TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT
+msgid "MD5"
+msgstr ""
 
 #: TFRMCHECKSUMCALC.LBLSAVETO.CAPTION
 msgid "Save check sum file(s) to:"
@@ -3455,8 +3459,8 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "&OK"
 
-#: TFRMOPTIONS.FRMOPTIONS.CAPTION
-msgctxt "TFRMOPTIONS.FRMOPTIONS.CAPTION"
+#: TFRMOPTIONS.CAPTION
+msgctxt "TFRMOPTIONS.CAPTION"
 msgid "Options"
 msgstr "Nastavení"
 
@@ -3598,6 +3602,16 @@ msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
 msgid "Always show tray icon"
 msgstr "Vždy zobrazit ikonu v oznam. oblasti"
 
+#: TFRMOPTIONSBEHAVIOR.CBLISTFILESINTHREAD.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CBLISTFILESINTHREAD.CAPTION"
+msgid "Load file list in separate thread"
+msgstr "Načíst seznam soubor v odděleném vlákně"
+
+#: TFRMOPTIONSBEHAVIOR.CBLOADICONSSEPARATELY.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CBLOADICONSSEPARATELY.CAPTION"
+msgid "Load icons after file list"
+msgstr "Načíst ikony po seznam souborů"
+
 #: TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION
 msgctxt "TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION"
 msgid "Mo&ve icon to system tray when minimized"
@@ -3607,6 +3621,11 @@ msgstr "Přesunout do oznamo&vací oblasti pokud je minimalizováno"
 msgctxt "TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION"
 msgid "Allow only one copy of DC at a time"
 msgstr "Povolit pouze jednu kopii DC ve stejný čas"
+
+#: TFRMOPTIONSBEHAVIOR.CBSHOWSYSTEMFILES.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CBSHOWSYSTEMFILES.CAPTION"
+msgid "Show system and hidden files"
+msgstr "Ukázat systémové a skryté soubory"
 
 #: TFRMOPTIONSBEHAVIOR.EDTDRIVESBLACKLIST.HINT
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
@@ -3906,26 +3925,11 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION"
 msgid "Show square brackets around directories"
 msgstr "Názvy adresářů v hranatých závorkách"
 
-#: TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION
-msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
-msgid "Load file list in separate thread"
-msgstr "Načíst seznam soubor v odděleném vlákně"
-
-#: TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION
-msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
-msgid "Load icons after file list"
-msgstr "Načíst ikony po seznam souborů"
-
 #: TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION
 #| msgid "Short Filesize format"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION"
 msgid "Short file size format"
 msgstr "Krátký formát velikosti souborů"
-
-#: TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
-msgid "Show system and hidden files"
-msgstr "Ukázat systémové a skryté soubory"
 
 #: TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION
 #| msgid "Case sensitive sorting"
@@ -4078,20 +4082,15 @@ msgctxt "TFRMOPTIONSHOTKEYS.CGHKCONTROLS.CAPTION"
 msgid "Only for these controls"
 msgstr "Pouze pro tyto prvky"
 
+#: TFRMOPTIONSHOTKEYS.LBCOMMANDS.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.LBCOMMANDS.CAPTION"
+msgid "Commands:"
+msgstr "Příkazy:"
+
 #: TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION
 msgctxt "TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION"
 msgid "Filter"
 msgstr "Filtr"
-
-#: TFRMOPTIONSHOTKEYS.LBLCATEGORIES.CAPTION
-msgctxt "TFRMOPTIONSHOTKEYS.LBLCATEGORIES.CAPTION"
-msgid "Categories:"
-msgstr "Kategorie:"
-
-#: TFRMOPTIONSHOTKEYS.LBLCOMMANDS.CAPTION
-msgctxt "TFRMOPTIONSHOTKEYS.LBLCOMMANDS.CAPTION"
-msgid "Commands:"
-msgstr "Příkazy:"
 
 #: TFRMOPTIONSHOTKEYS.LBLHOTKEY.CAPTION
 msgctxt "TFRMOPTIONSHOTKEYS.LBLHOTKEY.CAPTION"
@@ -4107,6 +4106,11 @@ msgstr "Parametr:"
 msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
 msgid "Shortcut files:"
 msgstr "Soubory zástupců:"
+
+#: TFRMOPTIONSHOTKEYS.LBTYPES.CAPTION
+msgctxt "TFRMOPTIONSHOTKEYS.LBTYPES.CAPTION"
+msgid "Categories:"
+msgstr "Kategorie:"
 
 #: TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION
 msgctxt "TFRMOPTIONSHOTKEYS.STGHOTKEYS.COLUMNS[0].TITLE.CAPTION"
@@ -5799,6 +5803,10 @@ msgstr "&Zrušit"
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
 msgstr "Kopírovat &do"
+
+#: ulng.rsdlgbuttoncopyintoall
+msgid "Copy Into &All"
+msgstr ""
 
 #: ulng.rsdlgbuttonno
 msgid "&No"

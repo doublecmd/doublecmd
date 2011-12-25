@@ -5876,6 +5876,10 @@ msgstr "取消(&C)"
 msgid "Copy &Into"
 msgstr "複製到 &I"
 
+#: ulng.rsdlgbuttoncopyintoall
+msgid "Copy Into &All"
+msgstr ""
+
 #: ulng.rsdlgbuttonno
 msgid "&No"
 msgstr "否(&N)"

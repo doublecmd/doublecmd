@@ -5858,6 +5858,10 @@ msgstr "&Cancelar"
 msgid "Copy &Into"
 msgstr "Copiar en"
 
+#: ulng.rsdlgbuttoncopyintoall
+msgid "Copy Into &All"
+msgstr ""
+
 #: ulng.rsdlgbuttonno
 msgid "&No"
 msgstr "&No"
