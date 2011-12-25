@@ -22,12 +22,12 @@ uses
 
 type
   TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
-                mmrAppend, mmrResume, mmrCopyInto, mmrOverwrite, mmrOverwriteAll,
-                mmrSkip, mmrSkipAll, mmrAll, mmrRetry, mmrAbort);
+                mmrAppend, mmrResume, mmrCopyInto, mmrCopyIntoAll, mmrOverwrite,
+                mmrOverwriteAll, mmrSkip, mmrSkipAll, mmrAll, mmrRetry, mmrAbort);
 
   TMyMsgButton=(msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone,
-                msmbAppend, msmbResume, msmbCopyInto, msmbOverwrite, msmbOverwriteAll,
-                msmbSkip, msmbSkipAll, msmbAll, msmbRetry, msmbAbort);
+                msmbAppend, msmbResume, msmbCopyInto, msmbCopyIntoAll, msmbOverwrite,
+                msmbOverwriteAll, msmbSkip, msmbSkipAll, msmbAll, msmbRetry, msmbAbort);
 
 
   { TDialogMainThread }
@@ -488,6 +488,7 @@ begin
   cLngButton[msmbAppend]       := rsDlgButtonAppend;
   cLngButton[msmbResume]       := rsDlgButtonResume;
   cLngButton[msmbCopyInto]     := rsDlgButtonCopyInto;
+  cLngButton[msmbCopyIntoAll]  := rsDlgButtonCopyIntoAll;
   cLngButton[msmbOverwrite]    := rsDlgButtonOverwrite;
   cLngButton[msmbOverwriteAll] := rsDlgButtonOverwriteAll;
   cLngButton[msmbSkip]         := rsDlgButtonSkip;
