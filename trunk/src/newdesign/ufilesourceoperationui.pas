@@ -19,6 +19,7 @@ type
      fsourAppend,      // for files
      fsourResume,      // for files
      fsourCopyInto,    // for directories
+     fsourCopyIntoAll, // for directories
      fsourOverwrite,
      fsourOverwriteAll,
      fsourSkip,

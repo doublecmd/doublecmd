@@ -165,6 +165,7 @@ resourcestring
   rsDlgButtonAppend = 'A&ppend';
   rsDlgButtonResume = '&Resume';
   rsDlgButtonCopyInto = 'Copy &Into';
+  rsDlgButtonCopyIntoAll = 'Copy Into &All';
   rsDlgButtonOverwrite = '&Overwrite';
   rsDlgButtonOverwriteAll = 'Overwrite &All';
   rsDlgButtonSkip = '&Skip';
