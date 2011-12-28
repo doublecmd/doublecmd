@@ -20,6 +20,8 @@
 
 unit CharDistribution;
 
+{$R-}
+
 interface
 
 uses
