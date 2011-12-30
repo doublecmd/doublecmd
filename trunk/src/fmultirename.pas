@@ -261,16 +261,15 @@ begin
   ParseLineToList(rsMulRenFileNameStyleList, cmbNameStyle.Items);
   ParseLineToList(rsMulRenFileNameStyleList, cmbExtensionStyle.Items);
 
+  // Set row count
+  StringGrid.RowCount:= FFiles.Count + 1;
+  StringGrid.FocusRectVisible := False;
+
   // Initialize property storage
   IniPropStorage:= InitPropStorage(Self);
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item0_Width';
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item1_Width';
   IniPropStorage.StoredValues.Add.DisplayName:= 'lsvwFile_Columns.Item2_Width';
-
-  // Set row count
-  StringGrid.RowCount:= FFiles.Count + 1;
-
-  StringGrid.FocusRectVisible := False;
 
   // Set default values for controls.
   btnRestoreClick(nil);
@@ -1189,4 +1188,4 @@ begin
 end;
 
 end.
-
+
