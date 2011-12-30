@@ -1302,8 +1302,10 @@ begin
      w := Width div FColCount
   else
      w := 0;
-  if (ViewerMode = vmText) and (FHPosition>0) then scrollTab:= -FHPosition*canvas.TextWidth('W')-5
-    else scrollTab:=0;
+  if (ViewerMode = vmText) and (FHPosition>0) then
+    scrollTab := -FHPosition * Canvas.TextWidth('W')
+  else
+    scrollTab :=0;
   for xIndex := 0 to FColCount-1 do
     begin
       for yIndex := 0 to GetClientHeightInLines - 1 do
@@ -1315,7 +1317,7 @@ begin
         i := CalcTextLineLength(iPos, FHighLimit, DataLength);
         if i > FHLowEnd then FHLowEnd:=i;
         if DataLength > 0 then
-          OutText(5 + scrollTab+xIndex*w, yIndex * FTextHeight, LineStart, DataLength)
+          OutText(scrollTab+xIndex*w, yIndex * FTextHeight, LineStart, DataLength)
       end;
     end;
 end;
