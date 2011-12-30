@@ -2849,7 +2849,9 @@ end;
 procedure TViewerControl.ViewerResize(Sender: TObject);
 begin
   UpdateScrollbars;
-  Position := Position; // Force recalculating position.
+  // Force recalculating position.
+  SetPosition(FPosition);
+  SetHPosition(FHPosition);
 end;
 
 procedure TViewerControl.ReReadFile;
