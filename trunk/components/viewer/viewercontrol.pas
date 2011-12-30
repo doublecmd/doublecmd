@@ -2380,7 +2380,7 @@ begin
     Exit;
   Clipboard.Clear;   // prevent multiple formats in Clipboard (specially synedit)
   SetString(sText, GetDataAdr + FBlockBeg, FBlockEnd - FBlockBeg);
-  Clipboard.AsText := sText;
+  Clipboard.AsText := ConvertToUTF8(sText);
 end;
 
 function TViewerControl.GetNextCharAsAscii(const iPosition: PtrInt; out CharLenInBytes: Integer): Cardinal;
