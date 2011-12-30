@@ -31,7 +31,7 @@
 
    contributors:
 
-   Copyright (C) 2006-2008 Alexander Koblov (Alexx2000@mail.ru)
+   Copyright (C) 2006-2011 Alexander Koblov (Alexx2000@mail.ru)
 
 
    TODO:
@@ -43,14 +43,12 @@
 
    b) Searching in Unicode encodings and case-insensitive searching.
 
-   c) Add horizontal scrollbar.
-
-   d) Selecting text does not work well with composed Unicode characters
+   c) Selecting text does not work well with composed Unicode characters
       (characters that are composed of multiple Unicode characters).
 
-   e) Drawing/selecting text does not work correctly with RTL (right to left) text.
+   d) Drawing/selecting text does not work correctly with RTL (right to left) text.
 
-   f) FTextHeight is unreliable with complex unicode characters. It should be
+   e) FTextHeight is unreliable with complex unicode characters. It should be
       calculated based on currently displayed text (get max from each line's height).
 
 }
@@ -146,8 +144,11 @@ type
     FMappingHandle:      THandle;
     FMappedFile:         Pointer;
     FPosition:           PtrInt;
-    FLowLimit:           PtrInt;  // Lowest possible value for Position
-    FHighLimit:          PtrInt;  // Position cannot reach this value
+    FHPosition:          Integer;  // Tab for text during horizontal scroll
+    FHLowEnd:            Integer;  // End for HPosition (string with max char)
+    FVisibleOffset:      PtrInt;   // Offset in symbols for current line (see IsVisible and MakeVisible)
+    FLowLimit:           PtrInt;   // Lowest possible value for Position
+    FHighLimit:          PtrInt;   // Position cannot reach this value
     FBOMLength:          Integer;
     FLineList:           TPtrIntList;
     FBlockBeg:           PtrInt;
@@ -162,6 +163,7 @@ type
     FOnPositionChanged:  TNotifyEvent;
     FUpdateScrollBarPos: Boolean; // used to block updating of scrollbar
     FScrollBarPosition:  Integer;  // for updating vertical scrollbar based on Position
+    FHScrollBarPosition: Integer;  // for updating horizontal scrollbar based on HPosition
     FColCount:           Integer;
     FOnGuessEncoding:    TGuessEncodingEvent;
 
@@ -170,7 +172,9 @@ type
     procedure SetBlockBegin(const AValue: PtrInt);
     procedure SetBlockEnd(const AValue: PtrInt);
     procedure SetPosition(Value: PtrInt);
+    procedure SetHPosition(Value: Integer);
     procedure SetPosition(Value: PtrInt; Force: Boolean); overload;
+    procedure SetHPosition(Value: Integer; Force: Boolean); overload;
     procedure SetEncoding(AEncoding: TViewerEncoding);
     function GetEncodingName: string;
     procedure SetEncodingName(AEncodingName: string);
@@ -349,11 +353,17 @@ type
        @returns(@true if the text was scrolled.)
     }
     function Scroll(iLines: Integer): Boolean;
+    function HScroll(iSymbols: Integer): Boolean;
 
     procedure PageUp;
     procedure PageDown;
     procedure GoHome;
     procedure GoEnd;
+
+    procedure HPageUp;
+    procedure HPageDown;
+    procedure HGoHome;
+    procedure HGoEnd;
 
     function GetDataAdr: Pointer;
 
@@ -413,7 +423,7 @@ uses
 const
   //cTextWidth      = 80;  // wrap on 80 chars
   cBinWidth       = 80;
-  cMaxTextWidth   = 300; // maximum of chars on one line unwrapped text
+  cMaxTextWidth   = 65535; // maximum of chars on one line unwrapped text
   cHexWidth       = 16;
   cTabSpaces      = 8;   // tab stop - allow to set in settings
   cHexOffsetWidth = 8;
@@ -443,6 +453,8 @@ begin
   FFileHandle := 0;
   FMappingHandle := 0;
   FPosition := 0;
+  FHPosition := 0;
+  FHLowEnd := 0;
   FLowLimit := 0;
   FHighLimit := 0;
   FBOMLength := 0;
@@ -459,9 +471,8 @@ begin
   FScrollBarVert.TabStop  := False;
   FScrollBarVert.PageSize := 0;
 
-  // Disabled for now.
   FScrollBarHorz          := TScrollBar.Create(Self);
-  //FScrollBarHorz.Parent   := Self;
+  FScrollBarHorz.Parent   := Self;
   FScrollBarHorz.Kind     := sbHorizontal;
   FScrollBarHorz.Align    := alBottom;
   FScrollBarHorz.OnScroll := @ScrollBarHorzScroll;
@@ -470,6 +481,7 @@ begin
 
   FUpdateScrollBarPos := True;
   FScrollBarPosition  := 0;
+  FHScrollBarPosition := 0;
 
   FOnPositionChanged := nil;
   FOnGuessEncoding   := nil;
@@ -580,6 +592,21 @@ begin
   Result := ScrollPosition(aPosition, iLines);
   if aPosition <> FPosition then
     SetPosition(aPosition);
+end;
+
+function TViewerControl.HScroll(iSymbols: Integer): Boolean;
+var
+  newPos: integer;
+begin
+  newPos := FHPosition;
+  if (FHLowEnd - FTextWidth) > 0 then
+    begin
+      newPos := newPos+ iSymbols;
+      if newPos < 0 then newPos := 0;
+      if newPos > FHLowEnd-FTextWidth then newPos := FHLowEnd-FTextWidth;
+    end;
+  if newPos <> FHPosition then
+    SetHPosition(newPos);
 end;
 
 function TViewerControl.GetText(const StartPos, Len: PtrInt; const Xoffset: Integer): string;
@@ -1071,6 +1098,16 @@ begin
   Scroll(-H);
 end;
 
+procedure TViewerControl.HPageUp;
+var
+  H: Integer;
+begin
+  H := FHPosition - FTextWidth;
+  if H <= 0 then
+    H := FHPosition else H:= FTextWidth;
+  HScroll(-H);
+end;
+
 procedure TViewerControl.PageDown;
 var
   H: Integer;
@@ -1081,6 +1118,15 @@ begin
   Scroll(H);
 end;
 
+procedure TViewerControl.HPageDown;
+var
+  H: Integer;
+begin
+  H := FHLowEnd - FHPosition;
+  if H > FTextWidth then H := FTextWidth ;
+  HScroll(H);
+end;
+
 procedure TViewerControl.GoHome;
 begin
   Position := FLowLimit;
@@ -1089,6 +1135,16 @@ end;
 procedure TViewerControl.GoEnd;
 begin
   Position := FHighLimit;
+end;
+
+procedure TViewerControl.HGoHome;
+begin
+  HScroll (-FHPosition);
+end;
+
+procedure TViewerControl.HGoEnd;
+begin
+  HScroll (FHLowEnd-FHPosition);
 end;
 
 procedure TViewerControl.SetFileName(const sFileName: UTF8String);
@@ -1235,7 +1291,7 @@ end;
 
 procedure TViewerControl.WriteText;
 var
-  yIndex, xIndex, w: Integer;
+  yIndex, xIndex, w, scrollTab, i: Integer;
   LineStart, iPos: PtrInt;
   DataLength: PtrInt;
 begin
@@ -1244,6 +1300,8 @@ begin
      w := Width div FColCount
   else
      w := 0;
+  if (ViewerMode = vmText) and (FHPosition>0) then scrollTab:= -FHPosition*canvas.TextWidth('W')-5
+    else scrollTab:=0;
   for xIndex := 0 to FColCount-1 do
     begin
       for yIndex := 0 to GetClientHeightInLines - 1 do
@@ -1252,9 +1310,10 @@ begin
           Break;
         AddLineOffset(iPos);
         LineStart := iPos;
-        CalcTextLineLength(iPos, FHighLimit, DataLength);
+        i := CalcTextLineLength(iPos, FHighLimit, DataLength);
+        if i > FHLowEnd then FHLowEnd:=i;
         if DataLength > 0 then
-          OutText(xIndex*w, yIndex * FTextHeight, LineStart, DataLength);
+          OutText(5 + scrollTab+xIndex*w, yIndex * FTextHeight, LineStart, DataLength)
       end;
     end;
 end;
@@ -1310,6 +1369,30 @@ end;
 procedure TViewerControl.SetPosition(Value: PtrInt);
 begin
   SetPosition(Value, False);
+end;
+
+procedure TViewerControl.SetHPosition(Value: Integer);
+begin
+  SetHPosition(Value, False);
+end;
+
+procedure TViewerControl.SetHPosition(Value: Integer; Force: Boolean);
+begin
+  if not IsFileOpen then
+    Exit;
+
+  FHPosition := Value;
+    // Set new scroll position.
+    if FHPosition>0 then FHScrollBarPosition := FHPosition * 100 div (FHLowEnd-FTextWidth)
+      else FHScrollBarPosition:=0;
+  // Update scrollbar position.
+  if FUpdateScrollBarPos then
+  begin
+    if FScrollBarHorz.Position <> FHScrollBarPosition then
+      FScrollBarHorz.Position := FHScrollBarPosition;
+  end;
+  // else the scrollbar position will be updated in ScrollBarVertScroll
+  Invalidate;
 end;
 
 procedure TViewerControl.SetPosition(Value: PtrInt; Force: Boolean);
@@ -2207,6 +2290,12 @@ var
           Inc(len); // Assume there is one character after conversion
                     // (otherwise use Inc(len, UTF8Length(s))).
 
+      if len <= FHPosition then
+        begin
+          i := i + CharLenInBytes;
+          Continue;
+        end;
+
         charWidth := Canvas.TextWidth(s);
         if px + charWidth > x then
         begin
@@ -2633,10 +2722,27 @@ begin
 end;
 
 function TViewerControl.IsVisible(const aPosition: PtrInt): Boolean;
+var
+  StartPos: PtrInt;
+  CharLenInBytes: Integer;
 begin
   if IsFileOpen and (FLineList.Count > 0) then
-    Result := (aPosition >= FLineList.Items[0]) and
-              (aPosition <= FLineList.Items[FLineList.Count - 1])
+    begin
+      FVisibleOffset:= 0;
+      StartPos:= GetStartOfLine(aPosition);
+      // Calculate horizontal offset in symbols
+      while (StartPos < aPosition) do
+      begin
+        GetNextCharAsAscii(StartPos, CharLenInBytes);
+        Inc(StartPos, CharLenInBytes);
+        Inc(FVisibleOffset);
+      end;
+
+      Result := (aPosition >= FLineList.Items[0]) and
+                (aPosition <= FLineList.Items[FLineList.Count - 1]) and
+                (FVisibleOffset >= FHPosition) and
+                (FVisibleOffset <= FHPosition + FTextWidth);
+    end
   else
     Result := False;
 end;
@@ -2644,7 +2750,16 @@ end;
 procedure TViewerControl.MakeVisible(const aPosition: PtrInt);
 begin
   if not IsVisible(aPosition) then
-    Position := aPosition;
+  begin
+    SetPosition(aPosition);
+    Scroll(-4);
+    if (FVisibleOffset < FHPosition) or
+       (FVisibleOffset > FHPosition + FTextWidth) then
+    begin
+      SetHPosition(FVisibleOffset);
+      HScroll(-1);
+    end;
+  end;
 end;
 
 procedure TViewerControl.ScrollBarVertScroll(Sender: TObject;
@@ -2685,6 +2800,35 @@ end;
 procedure TViewerControl.ScrollBarHorzScroll(Sender: TObject;
   ScrollCode: TScrollCode; var ScrollPos: Integer);
 begin
+  FUpdateScrollBarPos := False;
+  case ScrollCode of
+    scLineUp:     HScroll(-1);
+    scLineDown:   HScroll(1);
+    scPageUp:     HPageUp;
+    scPageDown:   HPageDown;
+    scTop:        HGoHome;
+    scBottom:     HGoEnd;
+    scTrack,
+    scPosition:
+      begin
+        // This check helps avoiding loops if changing ScrollPos below
+        // triggers another scPosition message.
+        if (ScrollCode = scTrack) or (ScrollPos <> FHScrollBarPosition) then
+        begin
+          if ScrollPos = 0 then
+            HGoHome
+          else if ScrollPos = 100 then
+            HGoEnd
+            else
+         HScroll((FHLowEnd - FTextWidth) * ScrollPos div 100 - FHPosition);
+        end;
+      end;
+    scEndScroll:
+      begin
+      end;
+  end;
+  ScrollPos := FHScrollBarPosition;
+  FUpdateScrollBarPos := True;
 end;
 
 procedure TViewerControl.UpdateScrollbars;
@@ -2699,6 +2843,7 @@ begin
     else
       FScrollBarVert.PageSize := 1;
   end;
+  FScrollBarHorz.Visible:= (FViewerMode = vmText);
 end;
 
 procedure TViewerControl.ViewerResize(Sender: TObject);

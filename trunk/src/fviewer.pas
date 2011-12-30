@@ -2087,14 +2087,10 @@ begin
       if (PAdr <> Pointer(-1)) then
         begin
           FLastSearchPos := PAdr - ViewerControl.GetDataAdr;
-          // text found, show it in ViewerControl if not visible
-          if not ViewerControl.IsVisible(FLastSearchPos) then
-            begin
-              ViewerControl.Position:=FLastSearchPos;
-              ViewerControl.Scroll(-4);
-            end;
+          // Text found, show it in ViewerControl if not visible
+          ViewerControl.MakeVisible(FLastSearchPos);
           // Select found text.
-          ViewerControl.SelectText(FLastSearchPos, FLastSearchPos + UTF8Length(sSearchText));
+          ViewerControl.SelectText(FLastSearchPos, FLastSearchPos + Length(sSearchText));
         end
       else
         begin
