@@ -2020,7 +2020,8 @@ procedure TfrmViewer.DoSearch(bQuickSearch: Boolean; bSearchBackwards: Boolean);
 var
   PAdr: PChar;
   iSizeData: Integer;
-  sSearchText: UTF8String;
+  sSearchTextU: UTF8String;
+  sSearchTextA: AnsiString;
 begin
   // in first use create dialog
   if not Assigned(FFindDialog) then
@@ -2038,7 +2039,7 @@ begin
       FFindDialog.cbDataToFind.Items.Assign(glsSearchHistory);
       if FFindDialog.ShowModal <> mrOK then Exit;
       if FFindDialog.cbDataToFind.Text = '' then Exit;
-      sSearchText:= FFindDialog.cbDataToFind.Text;
+      sSearchTextU:= FFindDialog.cbDataToFind.Text;
       // Save search history
       glsSearchHistory.Assign(FFindDialog.cbDataToFind.Items);
       gFirstTextSearch:= False;
@@ -2052,7 +2053,7 @@ begin
             Exit;
         end;
       if glsSearchHistory.Count > 0 then
-        sSearchText:= glsSearchHistory[0];
+        sSearchTextU:= glsSearchHistory[0];
     end;
 
   if bPlugin then
@@ -2060,7 +2061,7 @@ begin
       iSizeData:= 0;
       if FFindDialog.cbCaseSens.Checked then
         iSizeData:= lcs_matchcase;
-      WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchText(sSearchText, iSizeData);
+      WlxPlugins.GetWLxModule(ActivePlugin).CallListSearchText(sSearchTextU, iSizeData);
     end
   else
     begin
@@ -2080,8 +2081,9 @@ begin
           FLastSearchPos := FLastSearchPos - 1;
       end;
 
+      sSearchTextA:= ViewerControl.ConvertFromUTF8(sSearchTextU);
       PAdr := PosMem(ViewerControl.GetDataAdr, ViewerControl.FileSize,
-                     FLastSearchPos, ViewerControl.ConvertFromUTF8(sSearchText),
+                     FLastSearchPos, sSearchTextA,
                      FFindDialog.cbCaseSens.Checked, bSearchBackwards);
 
       if (PAdr <> Pointer(-1)) then
@@ -2090,11 +2092,11 @@ begin
           // Text found, show it in ViewerControl if not visible
           ViewerControl.MakeVisible(FLastSearchPos);
           // Select found text.
-          ViewerControl.SelectText(FLastSearchPos, FLastSearchPos + Length(sSearchText));
+          ViewerControl.SelectText(FLastSearchPos, FLastSearchPos + Length(sSearchTextA));
         end
       else
         begin
-          msgOK(Format(rsViewNotFound, ['"' + sSearchText + '"']));
+          msgOK(Format(rsViewNotFound, ['"' + sSearchTextU + '"']));
           FLastSearchPos := -1;
         end;
     end;
