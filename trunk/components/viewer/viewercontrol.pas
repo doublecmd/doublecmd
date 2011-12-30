@@ -1382,9 +1382,14 @@ begin
     Exit;
 
   FHPosition := Value;
-    // Set new scroll position.
-    if FHPosition>0 then FHScrollBarPosition := FHPosition * 100 div (FHLowEnd-FTextWidth)
-      else FHScrollBarPosition:=0;
+  // Set new scroll position.
+  if (FHLowEnd - FTextWidth) > 0 then
+  begin
+    if FHPosition > 0 then
+      FHScrollBarPosition := FHPosition * 100 div (FHLowEnd - FTextWidth)
+    else
+      FHScrollBarPosition := 0;
+  end;
   // Update scrollbar position.
   if FUpdateScrollBarPos then
   begin
@@ -2753,6 +2758,9 @@ begin
   begin
     SetPosition(aPosition);
     Scroll(-4);
+
+    Update;
+
     if (FVisibleOffset < FHPosition) or
        (FVisibleOffset > FHPosition + FTextWidth) then
     begin
