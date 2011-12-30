@@ -541,6 +541,7 @@ begin
 
     FViewerMode := Value;
 
+    FHPosition := 0;
     FBOMLength := GetBomLength;
     UpdateLimits;
 
@@ -552,6 +553,7 @@ begin
 
     // Force recalculating position.
     SetPosition(FPosition, True);
+    SetHPosition(FHPosition, True);
 
     UpdateScrollbars;
     Invalidate;
