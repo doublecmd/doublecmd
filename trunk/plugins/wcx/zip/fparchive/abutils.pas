@@ -455,7 +455,7 @@ begin
     end;
 {$ENDIF LINUX}
 {$IFDEF MSWINDOWS}
-  Result := CopyFile(PChar(Source), PChar(Destination), FailIfExists);
+  Result := CopyFileW(PWideChar(UTF8Decode(Source)), PWideChar(UTF8Decode(Destination)), FailIfExists);
 {$ENDIF MSWINDOWS}
 end;
 { -------------------------------------------------------------------------- }
@@ -1856,4 +1856,4 @@ begin
 end;
 {$ENDIF}
 
-end.
+end.
