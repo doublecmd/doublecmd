@@ -5196,6 +5196,64 @@ msgstr "Про переглядач..."
 msgid "Displays the About message"
 msgstr "Відображає інформаційне повідомлення"
 
+#: TFRMVIEWER.ACTCOPYFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
+msgid "Copy File"
+msgstr ""
+
+#: TFRMVIEWER.ACTCOPYFILE.HINT
+msgctxt "TFRMVIEWER.ACTCOPYFILE.HINT"
+msgid "Copy File"
+msgstr ""
+
+#: TFRMVIEWER.ACTDELETEFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTDELETEFILE.CAPTION"
+msgid "Delete File"
+msgstr ""
+
+#: TFRMVIEWER.ACTDELETEFILE.HINT
+msgctxt "TFRMVIEWER.ACTDELETEFILE.HINT"
+msgid "Delete File"
+msgstr ""
+
+#: TFRMVIEWER.ACTLOADNEXTFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.CAPTION"
+msgid "&Next"
+msgstr "На&ступний"
+
+#: TFRMVIEWER.ACTLOADNEXTFILE.HINT
+msgid "Load Next File"
+msgstr ""
+
+#: TFRMVIEWER.ACTLOADPREVFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTLOADPREVFILE.CAPTION"
+msgid "&Previous"
+msgstr "&Попередній"
+
+#: TFRMVIEWER.ACTLOADPREVFILE.HINT
+msgid "Load Previous File"
+msgstr ""
+
+#: TFRMVIEWER.ACTMIRROR.CAPTION
+msgctxt "TFRMVIEWER.ACTMIRROR.CAPTION"
+msgid "Mirror"
+msgstr "Дзеркально"
+
+#: TFRMVIEWER.ACTMIRROR.HINT
+msgctxt "TFRMVIEWER.ACTMIRROR.HINT"
+msgid "Mirror"
+msgstr "Дзеркально"
+
+#: TFRMVIEWER.ACTMOVEFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTMOVEFILE.CAPTION"
+msgid "Move File"
+msgstr ""
+
+#: TFRMVIEWER.ACTMOVEFILE.HINT
+msgctxt "TFRMVIEWER.ACTMOVEFILE.HINT"
+msgid "Move File"
+msgstr ""
+
 #: TFRMVIEWER.ACTRELOAD.CAPTION
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
 msgid "Reload"
@@ -5204,6 +5262,54 @@ msgstr "Перезавантажити"
 #: TFRMVIEWER.ACTRELOAD.HINT
 msgid "Reload current file"
 msgstr "Перезавантажити поточний файл"
+
+#: TFRMVIEWER.ACTROTATE180.CAPTION
+msgctxt "TFRMVIEWER.ACTROTATE180.CAPTION"
+msgid "Rotate 180"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE180.HINT
+msgctxt "TFRMVIEWER.ACTROTATE180.HINT"
+msgid "Rotate 180"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE270.CAPTION
+msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
+msgid "Rotate 270"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE270.HINT
+msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
+msgid "Rotate 270"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE90.CAPTION
+msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
+msgid "Rotate 90"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE90.HINT
+msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
+msgid "Rotate 90"
+msgstr ""
+
+#: TFRMVIEWER.ACTSAVEAS.CAPTION
+msgctxt "TFRMVIEWER.ACTSAVEAS.CAPTION"
+msgid "Save As..."
+msgstr "Зберегти як..."
+
+#: TFRMVIEWER.ACTSAVEAS.HINT
+msgid "Save File As..."
+msgstr ""
+
+#: TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION
+msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
+msgid "Stretch"
+msgstr "Розтягнути"
+
+#: TFRMVIEWER.ACTSTRETCHIMAGE.HINT
+msgid "Stretch Image"
+msgstr ""
 
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
@@ -5274,16 +5380,6 @@ msgctxt "TFRMVIEWER.BTNMOVEFILE1.HINT"
 msgid "Move"
 msgstr "Перемістити"
 
-#: TFRMVIEWER.BTNNEXT.HINT
-msgctxt "TFRMVIEWER.BTNNEXT.HINT"
-msgid "Next"
-msgstr "Наступний"
-
-#: TFRMVIEWER.BTNNEXT1.HINT
-msgctxt "TFRMVIEWER.BTNNEXT1.HINT"
-msgid "Next"
-msgstr "Наступний"
-
 #: TFRMVIEWER.BTNNEXTGIFFRAME.CAPTION
 msgid "||>"
 msgstr "||>"
@@ -5292,16 +5388,6 @@ msgstr "||>"
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
 msgstr "Малювати"
-
-#: TFRMVIEWER.BTNPREV.HINT
-msgctxt "TFRMVIEWER.BTNPREV.HINT"
-msgid "Previous"
-msgstr "Попередній"
-
-#: TFRMVIEWER.BTNPREV1.HINT
-msgctxt "TFRMVIEWER.BTNPREV1.HINT"
-msgid "Previous"
-msgstr "Попередній"
 
 #: TFRMVIEWER.BTNPREVGIFFRAME.CAPTION
 msgid "<||"
@@ -5331,11 +5417,6 @@ msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
 msgid "Zoom Out"
 msgstr "Зменшити"
 
-#: TFRMVIEWER.CAPTION
-msgctxt "TFRMVIEWER.CAPTION"
-msgid "Viewer"
-msgstr "Переглядач"
-
 #: TFRMVIEWER.CBSLIDESHOW.CAPTION
 msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
 msgid "Slide Show"
@@ -5349,6 +5430,11 @@ msgstr "Ручка"
 msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
 msgid "1"
 msgstr "1"
+
+#: TFRMVIEWER.FRMVIEWER.CAPTION
+msgctxt "TFRMVIEWER.FRMVIEWER.CAPTION"
+msgid "Viewer"
+msgstr "Переглядач"
 
 #: TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION
 msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
@@ -5474,18 +5560,10 @@ msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
 msgid "Mirror"
 msgstr "Дзеркально"
 
-#: TFRMVIEWER.MINEXT.CAPTION
-msgid "&Next"
-msgstr "На&ступний"
-
 #: TFRMVIEWER.MIPLUGINS.CAPTION
 msgctxt "TFRMVIEWER.MIPLUGINS.CAPTION"
 msgid "Plugins"
 msgstr "Плагіни"
-
-#: TFRMVIEWER.MIPREV.CAPTION
-msgid "&Previous"
-msgstr "&Попередній"
 
 #: TFRMVIEWER.MIPREVIEW.CAPTION
 msgctxt "TFRMVIEWER.MIPREVIEW.CAPTION"
@@ -5507,6 +5585,7 @@ msgid "Save"
 msgstr "Зберегти"
 
 #: TFRMVIEWER.MISAVEAS.CAPTION
+msgctxt "TFRMVIEWER.MISAVEAS.CAPTION"
 msgid "Save As..."
 msgstr "Зберегти як..."
 
@@ -5539,6 +5618,7 @@ msgid "-"
 msgstr "-"
 
 #: TFRMVIEWER.MISTRETCH.CAPTION
+msgctxt "TFRMVIEWER.MISTRETCH.CAPTION"
 msgid "Stretch"
 msgstr "Розтягнути"
 

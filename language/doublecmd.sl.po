@@ -1312,11 +1312,11 @@ msgstr "*.*"
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
 msgstr "Odpakiraj vsak arhiv v &ločeno podrejeno mapo (z imenom vsakega arhiva)"
 
+# ???
 #: TFRMEXTRACTDLG.CBOVERWRITE.CAPTION
 msgid "&Overwrite existing files"
 msgstr "&Prepiši obstoječe datoteke"
 
-# ???
 #: TFRMEXTRACTDLG.LBLEXTRACTTO.CAPTION
 msgid "To the directory:"
 msgstr "V mapo:"
@@ -3856,12 +3856,12 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
 msgid "Apply"
 msgstr "Uveljavi"
 
+# ???
 #: TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
-# ???
 #: TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNDELETECATEGORY.CAPTION"
 msgid "Delete"
@@ -4581,11 +4581,11 @@ msgstr "Primer"
 msgid "Background color in book viewer"
 msgstr "Barva ozadja v bralnem pregledovalniku"
 
+# ??? Arhivirnik = packer
 #: TFRMOPTIONSVIEWER.LBLFONTCOLORVIEWERBOOK.CAPTION
 msgid "Font color in book viewer"
 msgstr "Barva pisave v bralnem pregledovalniku"
 
-# ??? Arhivirnik = packer
 #: TFRMOPTIONSVIEWER.LBLNUMBERCOLUMNSVIEWER.CAPTION
 msgid "Number of columns in book viewer"
 msgstr "Število stolpcev v bralnem pregledovalniku"
@@ -4610,12 +4610,12 @@ msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "V redu"
 
+# ???
 #: TFRMPACKDLG.CAPTION
 msgctxt "TFRMPACKDLG.CAPTION"
 msgid "Pack files"
 msgstr "Zapakiraj datoteke"
 
-# ???
 #: TFRMPACKDLG.CBCREATESEPARATEARCHIVES.CAPTION
 msgid "Create separate archives, o&ne per selected file/dir"
 msgstr "Ustvari ločen arhiv za vsako izbrano datoteko oziroma mapo"
@@ -5067,6 +5067,64 @@ msgstr "O pregledovalniku ..."
 msgid "Displays the About message"
 msgstr "Prikaže pogovorno okno podrobnosti"
 
+#: TFRMVIEWER.ACTCOPYFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
+msgid "Copy File"
+msgstr ""
+
+#: TFRMVIEWER.ACTCOPYFILE.HINT
+msgctxt "TFRMVIEWER.ACTCOPYFILE.HINT"
+msgid "Copy File"
+msgstr ""
+
+#: TFRMVIEWER.ACTDELETEFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTDELETEFILE.CAPTION"
+msgid "Delete File"
+msgstr ""
+
+#: TFRMVIEWER.ACTDELETEFILE.HINT
+msgctxt "TFRMVIEWER.ACTDELETEFILE.HINT"
+msgid "Delete File"
+msgstr ""
+
+#: TFRMVIEWER.ACTLOADNEXTFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.CAPTION"
+msgid "&Next"
+msgstr "&Naslednji"
+
+#: TFRMVIEWER.ACTLOADNEXTFILE.HINT
+msgid "Load Next File"
+msgstr ""
+
+#: TFRMVIEWER.ACTLOADPREVFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTLOADPREVFILE.CAPTION"
+msgid "&Previous"
+msgstr "&Predhodni"
+
+#: TFRMVIEWER.ACTLOADPREVFILE.HINT
+msgid "Load Previous File"
+msgstr ""
+
+#: TFRMVIEWER.ACTMIRROR.CAPTION
+msgctxt "TFRMVIEWER.ACTMIRROR.CAPTION"
+msgid "Mirror"
+msgstr "Zrcaljenje"
+
+#: TFRMVIEWER.ACTMIRROR.HINT
+msgctxt "TFRMVIEWER.ACTMIRROR.HINT"
+msgid "Mirror"
+msgstr "Zrcaljenje"
+
+#: TFRMVIEWER.ACTMOVEFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTMOVEFILE.CAPTION"
+msgid "Move File"
+msgstr ""
+
+#: TFRMVIEWER.ACTMOVEFILE.HINT
+msgctxt "TFRMVIEWER.ACTMOVEFILE.HINT"
+msgid "Move File"
+msgstr ""
+
 #: TFRMVIEWER.ACTRELOAD.CAPTION
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
 msgid "Reload"
@@ -5074,6 +5132,54 @@ msgstr "Ponovno naloži"
 
 #: TFRMVIEWER.ACTRELOAD.HINT
 msgid "Reload current file"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE180.CAPTION
+msgctxt "TFRMVIEWER.ACTROTATE180.CAPTION"
+msgid "Rotate 180"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE180.HINT
+msgctxt "TFRMVIEWER.ACTROTATE180.HINT"
+msgid "Rotate 180"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE270.CAPTION
+msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
+msgid "Rotate 270"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE270.HINT
+msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
+msgid "Rotate 270"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE90.CAPTION
+msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
+msgid "Rotate 90"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE90.HINT
+msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
+msgid "Rotate 90"
+msgstr ""
+
+#: TFRMVIEWER.ACTSAVEAS.CAPTION
+msgctxt "TFRMVIEWER.ACTSAVEAS.CAPTION"
+msgid "Save As..."
+msgstr "Shrani kot ..."
+
+#: TFRMVIEWER.ACTSAVEAS.HINT
+msgid "Save File As..."
+msgstr ""
+
+#: TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION
+msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
+msgid "Stretch"
+msgstr "Raztegni"
+
+#: TFRMVIEWER.ACTSTRETCHIMAGE.HINT
+msgid "Stretch Image"
 msgstr ""
 
 #: TFRMVIEWER.BTN270.HINT
@@ -5145,16 +5251,6 @@ msgctxt "TFRMVIEWER.BTNMOVEFILE1.HINT"
 msgid "Move"
 msgstr "Premakni"
 
-#: TFRMVIEWER.BTNNEXT.HINT
-msgctxt "TFRMVIEWER.BTNNEXT.HINT"
-msgid "Next"
-msgstr "Naslednje"
-
-#: TFRMVIEWER.BTNNEXT1.HINT
-msgctxt "TFRMVIEWER.BTNNEXT1.HINT"
-msgid "Next"
-msgstr "Naslednje"
-
 #: TFRMVIEWER.BTNNEXTGIFFRAME.CAPTION
 msgid "||>"
 msgstr "||>"
@@ -5163,16 +5259,6 @@ msgstr "||>"
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
 msgstr "Risanje"
-
-#: TFRMVIEWER.BTNPREV.HINT
-msgctxt "TFRMVIEWER.BTNPREV.HINT"
-msgid "Previous"
-msgstr "Predhodno"
-
-#: TFRMVIEWER.BTNPREV1.HINT
-msgctxt "TFRMVIEWER.BTNPREV1.HINT"
-msgid "Previous"
-msgstr "Predhodno"
 
 #: TFRMVIEWER.BTNPREVGIFFRAME.CAPTION
 msgid "<||"
@@ -5202,11 +5288,6 @@ msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
 msgid "Zoom Out"
 msgstr "Oddalji"
 
-#: TFRMVIEWER.CAPTION
-msgctxt "TFRMVIEWER.CAPTION"
-msgid "Viewer"
-msgstr "Pregledovalnik"
-
 #: TFRMVIEWER.CBSLIDESHOW.CAPTION
 msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
 msgid "Slide Show"
@@ -5220,6 +5301,11 @@ msgstr "Pisalo"
 msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
 msgid "1"
 msgstr "1"
+
+#: TFRMVIEWER.FRMVIEWER.CAPTION
+msgctxt "TFRMVIEWER.FRMVIEWER.CAPTION"
+msgid "Viewer"
+msgstr "Pregledovalnik"
 
 #: TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION
 msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
@@ -5344,18 +5430,10 @@ msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
 msgid "Mirror"
 msgstr "Zrcaljenje"
 
-#: TFRMVIEWER.MINEXT.CAPTION
-msgid "&Next"
-msgstr "&Naslednji"
-
 #: TFRMVIEWER.MIPLUGINS.CAPTION
 msgctxt "TFRMVIEWER.MIPLUGINS.CAPTION"
 msgid "Plugins"
 msgstr "Vstavki"
-
-#: TFRMVIEWER.MIPREV.CAPTION
-msgid "&Previous"
-msgstr "&Predhodni"
 
 #: TFRMVIEWER.MIPREVIEW.CAPTION
 msgctxt "TFRMVIEWER.MIPREVIEW.CAPTION"
@@ -5377,6 +5455,7 @@ msgid "Save"
 msgstr "Shrani"
 
 #: TFRMVIEWER.MISAVEAS.CAPTION
+msgctxt "TFRMVIEWER.MISAVEAS.CAPTION"
 msgid "Save As..."
 msgstr "Shrani kot ..."
 
@@ -5409,6 +5488,7 @@ msgid "-"
 msgstr "-"
 
 #: TFRMVIEWER.MISTRETCH.CAPTION
+msgctxt "TFRMVIEWER.MISTRETCH.CAPTION"
 msgid "Stretch"
 msgstr "Raztegni"
 
@@ -5829,6 +5909,7 @@ msgstr "Odpri datoteko"
 msgid "&Backward"
 msgstr "&Nazaj"
 
+# multiple
 #: ulng.rseditsearchcaption
 msgctxt "ulng.rseditsearchcaption"
 msgid "Search"
@@ -5839,7 +5920,6 @@ msgstr "Poišči"
 msgid "&Forward"
 msgstr "&Naprej"
 
-# multiple
 #: ulng.rseditsearchreplace
 msgid "Replace"
 msgstr "Zamenjaj"
@@ -6025,6 +6105,7 @@ msgstr "Izvrzi"
 msgid "Mount"
 msgstr "Priklopi"
 
+# multiple
 #: ulng.rsmnunew
 msgid "New"
 msgstr "Novo"
@@ -6034,7 +6115,6 @@ msgstr "Novo"
 msgid "No media available"
 msgstr "Nosilec ni na voljo"
 
-# multiple
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr "Odpri z ..."
@@ -6372,11 +6452,11 @@ msgstr "Glavno geslo"
 msgid "Please enter the master password:"
 msgstr "Vnesite glavno geslo:"
 
+# multiple
 #: ulng.rsmsgnewfile
 msgid "New file"
 msgstr "Nova datoteka"
 
-# multiple
 #: ulng.rsmsgnextvolunpack
 msgid "Next volume will be unpacked"
 msgstr "Odpakiran bo naslednji del arhiva"
@@ -6385,11 +6465,11 @@ msgstr "Odpakiran bo naslednji del arhiva"
 msgid "No files selected."
 msgstr "Ni izbranih datotek."
 
+# double multiple
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
 msgstr "Ni dovolj prostora na ciljnem pogonu. Ali naj se opravilo vseeno nadaljuje?"
 
-# double multiple
 #: ulng.rsmsgnofreespaceretry
 msgid "No enough free space on target drive, Retry?"
 msgstr "Ni dovolj prostora na ciljnem pogonu. Ali naj se prostor ponovno izračuna?"
@@ -6439,11 +6519,11 @@ msgstr "&Izbriši %s"
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Shranjen predmet \"%s\" že obstaja. Ali naj se prepiše?"
 
+# multiple
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
 msgstr "Ali naj se izbrani predmeti preimenujejo oziroma premaknejo (%d)?"
 
-# multiple
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"%s\"?"
 msgstr "Ali naj se predmet \"%s\" preimenuje oziroma premakne?"
@@ -6905,12 +6985,12 @@ msgctxt "ulng.rspropsfile"
 msgid "File"
 msgstr "Datoteka"
 
+# multiple + window to small
 #: ulng.rspropsfolder
 msgctxt "ulng.rspropsfolder"
 msgid "Directory"
 msgstr "Mapa"
 
-# multiple + window to small
 #: ulng.rspropsnmdpipe
 msgid "Named pipe"
 msgstr "Imenovan cevovod"
@@ -7019,12 +7099,12 @@ msgstr "minute"
 msgid "Month(s)"
 msgstr "meseci"
 
+#~ msgid "Comments"
+#~ msgstr "Opombe"
 #: ulng.rstimeunitsecond
 msgid "Second(s)"
 msgstr "sekunde"
 
-#~ msgid "Comments"
-#~ msgstr "Opombe"
 #: ulng.rstimeunitweek
 msgid "Week(s)"
 msgstr "tedni"

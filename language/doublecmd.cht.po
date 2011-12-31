@@ -5276,6 +5276,64 @@ msgstr "關於檢視器"
 msgid "Displays the About message"
 msgstr ""
 
+#: TFRMVIEWER.ACTCOPYFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
+msgid "Copy File"
+msgstr ""
+
+#: TFRMVIEWER.ACTCOPYFILE.HINT
+msgctxt "TFRMVIEWER.ACTCOPYFILE.HINT"
+msgid "Copy File"
+msgstr ""
+
+#: TFRMVIEWER.ACTDELETEFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTDELETEFILE.CAPTION"
+msgid "Delete File"
+msgstr ""
+
+#: TFRMVIEWER.ACTDELETEFILE.HINT
+msgctxt "TFRMVIEWER.ACTDELETEFILE.HINT"
+msgid "Delete File"
+msgstr ""
+
+#: TFRMVIEWER.ACTLOADNEXTFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.CAPTION"
+msgid "&Next"
+msgstr "向後(&N)"
+
+#: TFRMVIEWER.ACTLOADNEXTFILE.HINT
+msgid "Load Next File"
+msgstr ""
+
+#: TFRMVIEWER.ACTLOADPREVFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTLOADPREVFILE.CAPTION"
+msgid "&Previous"
+msgstr "向前(&P)"
+
+#: TFRMVIEWER.ACTLOADPREVFILE.HINT
+msgid "Load Previous File"
+msgstr ""
+
+#: TFRMVIEWER.ACTMIRROR.CAPTION
+msgctxt "TFRMVIEWER.ACTMIRROR.CAPTION"
+msgid "Mirror"
+msgstr "鏡像"
+
+#: TFRMVIEWER.ACTMIRROR.HINT
+msgctxt "TFRMVIEWER.ACTMIRROR.HINT"
+msgid "Mirror"
+msgstr "鏡像"
+
+#: TFRMVIEWER.ACTMOVEFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTMOVEFILE.CAPTION"
+msgid "Move File"
+msgstr ""
+
+#: TFRMVIEWER.ACTMOVEFILE.HINT
+msgctxt "TFRMVIEWER.ACTMOVEFILE.HINT"
+msgid "Move File"
+msgstr ""
+
 #: TFRMVIEWER.ACTRELOAD.CAPTION
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
 msgid "Reload"
@@ -5283,6 +5341,54 @@ msgstr "重新載入"
 
 #: TFRMVIEWER.ACTRELOAD.HINT
 msgid "Reload current file"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE180.CAPTION
+msgctxt "TFRMVIEWER.ACTROTATE180.CAPTION"
+msgid "Rotate 180"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE180.HINT
+msgctxt "TFRMVIEWER.ACTROTATE180.HINT"
+msgid "Rotate 180"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE270.CAPTION
+msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
+msgid "Rotate 270"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE270.HINT
+msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
+msgid "Rotate 270"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE90.CAPTION
+msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
+msgid "Rotate 90"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE90.HINT
+msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
+msgid "Rotate 90"
+msgstr ""
+
+#: TFRMVIEWER.ACTSAVEAS.CAPTION
+msgctxt "TFRMVIEWER.ACTSAVEAS.CAPTION"
+msgid "Save As..."
+msgstr "另存為..."
+
+#: TFRMVIEWER.ACTSAVEAS.HINT
+msgid "Save File As..."
+msgstr ""
+
+#: TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION
+msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
+msgid "Stretch"
+msgstr "展開"
+
+#: TFRMVIEWER.ACTSTRETCHIMAGE.HINT
+msgid "Stretch Image"
 msgstr ""
 
 #: TFRMVIEWER.BTN270.HINT
@@ -5355,16 +5461,6 @@ msgctxt "TFRMVIEWER.BTNMOVEFILE1.HINT"
 msgid "Move"
 msgstr "移動"
 
-#: TFRMVIEWER.BTNNEXT.HINT
-msgctxt "TFRMVIEWER.BTNNEXT.HINT"
-msgid "Next"
-msgstr "下一個"
-
-#: TFRMVIEWER.BTNNEXT1.HINT
-msgctxt "TFRMVIEWER.BTNNEXT1.HINT"
-msgid "Next"
-msgstr "下一個"
-
 #: TFRMVIEWER.BTNNEXTGIFFRAME.CAPTION
 msgid "||>"
 msgstr ""
@@ -5373,18 +5469,6 @@ msgstr ""
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
 msgstr "畫圖"
-
-#: TFRMVIEWER.BTNPREV.HINT
-#, fuzzy
-msgctxt "TFRMVIEWER.BTNPREV.HINT"
-msgid "Previous"
-msgstr "上一項"
-
-#: TFRMVIEWER.BTNPREV1.HINT
-#, fuzzy
-msgctxt "TFRMVIEWER.BTNPREV1.HINT"
-msgid "Previous"
-msgstr "上一項"
 
 #: TFRMVIEWER.BTNPREVGIFFRAME.CAPTION
 msgid "<||"
@@ -5413,11 +5497,6 @@ msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
 msgid "Zoom Out"
 msgstr "縮小"
 
-#: TFRMVIEWER.CAPTION
-msgctxt "TFRMVIEWER.CAPTION"
-msgid "Viewer"
-msgstr "檢視器"
-
 #: TFRMVIEWER.CBSLIDESHOW.CAPTION
 msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
 msgid "Slide Show"
@@ -5431,6 +5510,11 @@ msgstr ""
 msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
 msgid "1"
 msgstr "1"
+
+#: TFRMVIEWER.FRMVIEWER.CAPTION
+msgctxt "TFRMVIEWER.FRMVIEWER.CAPTION"
+msgid "Viewer"
+msgstr "檢視器"
 
 #: TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION
 #, fuzzy
@@ -5557,18 +5641,10 @@ msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
 msgid "Mirror"
 msgstr "鏡像"
 
-#: TFRMVIEWER.MINEXT.CAPTION
-msgid "&Next"
-msgstr "向後(&N)"
-
 #: TFRMVIEWER.MIPLUGINS.CAPTION
 msgctxt "TFRMVIEWER.MIPLUGINS.CAPTION"
 msgid "Plugins"
 msgstr "插件"
-
-#: TFRMVIEWER.MIPREV.CAPTION
-msgid "&Previous"
-msgstr "向前(&P)"
 
 #: TFRMVIEWER.MIPREVIEW.CAPTION
 msgctxt "TFRMVIEWER.MIPREVIEW.CAPTION"
@@ -5590,6 +5666,7 @@ msgid "Save"
 msgstr "儲存"
 
 #: TFRMVIEWER.MISAVEAS.CAPTION
+msgctxt "TFRMVIEWER.MISAVEAS.CAPTION"
 msgid "Save As..."
 msgstr "另存為..."
 
@@ -5621,6 +5698,7 @@ msgid "-"
 msgstr "-"
 
 #: TFRMVIEWER.MISTRETCH.CAPTION
+msgctxt "TFRMVIEWER.MISTRETCH.CAPTION"
 msgid "Stretch"
 msgstr "展開"
 
