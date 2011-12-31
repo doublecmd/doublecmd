@@ -88,6 +88,7 @@ type
     function GetChangePath: String;
     function GetEnvVar: String;
     function LoadBtnIcon(IconPath: String): TBitMap;
+    procedure DrawLinkIcon(Image: TBitMap);
     function GetButton(Index: Integer): TSpeedButton;
     function GetCommand(Index: Integer): String;
     procedure SetButtonHeight(const AValue: Integer);
@@ -380,10 +381,28 @@ begin
         Bitmap := FOnLoadButtonGlyph(Value, FGlyphSize, Color)
       else
         Bitmap := LoadBtnIcon(Value);
+      if FBarFile.GetButtonX(Index, CmdX)= 'cm_ShowButtonMenu' then DrawLinkIcon(Bitmap);
       Buttons[Index].Glyph.Assign(Bitmap);
       if Assigned(Bitmap) then
         FreeAndNil(Bitmap);
     end;
+end;
+
+procedure TKASToolBar.DrawLinkIcon(Image: TBitMap);
+var
+  sizeLink : Integer;
+  bmLinkIcon : TBitmap;
+begin
+  if (Image = nil) or (FOnLoadButtonGlyph = nil) then Exit;
+  sizeLink := FGlyphSize div 2;
+  bmLinkIcon:= FOnLoadButtonGlyph('emblem-symbolic-link', sizeLink, clBtnFace);
+  if Assigned(bmLinkIcon) then
+  begin
+    Image.Canvas.Draw(FGlyphSize-sizeLink+2,FGlyphSize-sizeLink+2, bmLinkIcon);
+    Image.TransparentColor:= clBtnFace;
+    Image.Transparent:= True;
+    bmLinkIcon.Free;
+  end;
 end;
 
 function TKASToolBar.LoadBtnIcon(IconPath: String): TBitMap;
@@ -758,6 +777,7 @@ begin
   else
     Bitmap:= LoadBtnIcon(sBitmap);
 
+  if sCommand = 'cm_ShowButtonMenu' then DrawLinkIcon(Bitmap);
   Result:= InsertButton(InsertAt, sCaption, sCommand, sHint, Bitmap);
 
   if Assigned(Bitmap) then
