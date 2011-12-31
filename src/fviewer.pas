@@ -48,6 +48,17 @@ type
 
   TfrmViewer = class(TForm, IFormCommands)
     actAbout: TAction;
+    actCopyFile: TAction;
+    actDeleteFile: TAction;
+    actMirror: TAction;
+    actRotate270: TAction;
+    actRotate180: TAction;
+    actRotate90: TAction;
+    actSaveAs: TAction;
+    actStretchImage: TAction;
+    actMoveFile: TAction;
+    actLoadPrevFile: TAction;
+    actLoadNextFile: TAction;
     actReload: TAction;
     actionList: TActionList;
     btnCopyFile1: TSpeedButton;
@@ -157,9 +168,7 @@ type
     procedure btnFullScreenClick(Sender: TObject);
     procedure btnGifMoveClick(Sender: TObject);
     procedure btnGifToBmpClick(Sender: TObject);
-    procedure btnNextClick(Sender: TObject);
     procedure btnPaintHightlight(Sender: TObject);
-    procedure btnPrevClick(Sender: TObject);
     procedure btnPrevGifFrameClick(Sender: TObject);
     procedure btnRedEyeClick(Sender: TObject);
     procedure btnResizeClick(Sender: TObject);
@@ -205,8 +214,6 @@ type
     procedure frmViewerKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure miExitClick(Sender: TObject);
-    procedure miNextClick(Sender: TObject);
-    procedure miPrevClick(Sender: TObject);
     procedure miStretchClick(Sender: TObject);
     procedure miTextClick(Sender: TObject);
     procedure miAbout2Click(Sender: TObject);
@@ -283,8 +290,20 @@ type
 
     property QuickView: Boolean read bQuickView write bQuickView;
   published
+    // Commands for hotkey manager
     procedure cm_About(Param: String='');
     procedure cm_Reload(Param: String='');
+    procedure cm_LoadNextFile(Param: String='');
+    procedure cm_LoadPrevFile(Param: String='');
+    procedure cm_MoveFile(Param: String='');
+    procedure cm_CopyFile(Param: String='');
+    procedure cm_DeleteFile(Param: String='');
+    procedure cm_StretchImage(Param: String='');
+    procedure cm_SaveAs(Param: String='');
+    procedure cm_Rotate90(Param: String='');
+    procedure cm_Rotate180(Param: String='');
+    procedure cm_Rotate270(Param: String='');
+    procedure cm_Mirror(Param: String='');
   end;
 
 procedure ShowViewer(const FilesToView:TStringList; const aFileSource: IFileSource = nil);
@@ -437,12 +456,12 @@ begin
     case Key of
       'N', 'n':
         begin
-          miNextClick(Sender);
+          cm_LoadNextFile();
           Key := #0;
         end;
       'P', 'p':
         begin
-          miPrevClick(Sender);
+          cm_LoadPrevFile();
           Key := #0;
         end;
       '1':
@@ -1011,33 +1030,6 @@ begin
   miPrint.Enabled:= False;
 end;
 
-{$IF FPC_FULLVERSION < 020501}
-function TfrmViewer.ExecuteCommand(Command: string; Param: String): TCommandFuncResult;
-begin
-  Result := FCommands.ExecuteCommand(Command, Param);
-end;
-
-function TfrmViewer.GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
-begin
-  Result := FCommands.GetCommandCaption(Command, CaptionType);
-end;
-
-procedure TfrmViewer.GetCommandsList(List: TStrings);
-begin
-  FCommands.GetCommandsList(List);
-end;
-{$ENDIF}
-
-procedure TfrmViewer.cm_About(Param: String);
-begin
-  miAbout2Click(Self);
-end;
-
-procedure TfrmViewer.cm_Reload(Param: String);
-begin
-  LoadFile(iActiveFile);
-end;
-
 procedure TfrmViewer.miPluginsClick(Sender: TObject);
 begin
   bPlugin:= CheckPlugins(FileList.Strings[iActiveFile], True);
@@ -1267,7 +1259,7 @@ begin
   i_timer:=i_timer+1;
   if (cbSlideShow.Checked) and (i_timer=60*seTimeShow.Value) then
     begin
-     miNextClick(Sender);
+     cm_LoadNextFile();
      i_timer:=0;
     end;
   if i_timer=180 then
@@ -1341,59 +1333,6 @@ end;
 procedure TfrmViewer.miExitClick(Sender: TObject);
 begin
   Close;
-end;
-
-procedure TfrmViewer.miNextClick(Sender: TObject);
-var
-  I: Integer;
-begin
-  I:= iActiveFile + 1;
-  if I >= FileList.Count then
-    I:= 0;
-
-  if bPlugin then
-    begin
-      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
-        Exit;
-    end;
-  ExitPluginMode;
-  if pnlPreview.Visible then
-    begin
-      if DrawPreview.Col = DrawPreview.ColCount-1 then
-        begin
-          DrawPreview.Col:=0;
-          DrawPreview.Row:= DrawPreview.Row+1;
-        end
-      else
-        DrawPreview.Col:=DrawPreview.Col+1
-    end
-  else LoadFile(I);
-end;
-
-procedure TfrmViewer.miPrevClick(Sender: TObject);
-var
-  I: Integer;
-begin
-  I:= iActiveFile - 1;
-  if I < 0 then
-    I:= FileList.Count - 1;
-
-  if bPlugin then
-    begin
-      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
-        Exit;
-    end;
-  if pnlPreview.Visible then
-    begin
-      if DrawPreview.Col = 0  then
-        begin
-          DrawPreview.Col:=DrawPreview.ColCount-1;
-          DrawPreview.Row:= DrawPreview.Row-1;
-        end
-      else
-        DrawPreview.Col:=DrawPreview.Col-1
-    end
-  else LoadFile(I);
 end;
 
 procedure TfrmViewer.miStretchClick(Sender: TObject);
@@ -1582,11 +1521,6 @@ begin
   miSaveAsClick(sender);
 end;
 
-procedure TfrmViewer.btnNextClick(Sender: TObject);
-begin
-  miNextClick (Sender);
-end;
-
 procedure TfrmViewer.btnPaintHightlight(Sender: TObject);
 var
   bmp: TCustomBitmap = nil;
@@ -1634,11 +1568,6 @@ begin
     end;
   ImgEdit:= True;
   CreateTmp;
-end;
-
-procedure TfrmViewer.btnPrevClick(Sender: TObject);
-begin
-  miPrevClick (Sender);
 end;
 
 procedure TfrmViewer.btnPrevGifFrameClick(Sender: TObject);
@@ -2183,6 +2112,133 @@ begin
   begin
     PanelEditImage.Visible:= not bQuickView;
   end;
+end;
+
+// Commands for hotkey manager
+
+{$IF FPC_FULLVERSION < 020501}
+function TfrmViewer.ExecuteCommand(Command: string; Param: String): TCommandFuncResult;
+begin
+  Result := FCommands.ExecuteCommand(Command, Param);
+end;
+
+function TfrmViewer.GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
+begin
+  Result := FCommands.GetCommandCaption(Command, CaptionType);
+end;
+
+procedure TfrmViewer.GetCommandsList(List: TStrings);
+begin
+  FCommands.GetCommandsList(List);
+end;
+{$ENDIF}
+
+procedure TfrmViewer.cm_About(Param: String='');
+begin
+  miAbout2Click(Self);
+end;
+
+procedure TfrmViewer.cm_Reload(Param: String='');
+begin
+  LoadFile(iActiveFile);
+end;
+
+procedure TfrmViewer.cm_LoadNextFile(Param: String='');
+var
+  I: Integer;
+begin
+  I:= iActiveFile + 1;
+  if I >= FileList.Count then
+    I:= 0;
+
+  if bPlugin then
+    begin
+      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
+        Exit;
+    end;
+  ExitPluginMode;
+  if pnlPreview.Visible then
+    begin
+      if DrawPreview.Col = DrawPreview.ColCount-1 then
+        begin
+          DrawPreview.Col:=0;
+          DrawPreview.Row:= DrawPreview.Row+1;
+        end
+      else
+        DrawPreview.Col:=DrawPreview.Col+1
+    end
+  else LoadFile(I);
+end;
+
+procedure TfrmViewer.cm_LoadPrevFile(Param: String='');
+var
+  I: Integer;
+begin
+  I:= iActiveFile - 1;
+  if I < 0 then
+    I:= FileList.Count - 1;
+
+  if bPlugin then
+    begin
+      if WlxPlugins.GetWlxModule(ActivePlugin).CallListLoadNext(pnlLister.Handle, FileList[I], 0) <> LISTPLUGIN_ERROR then
+        Exit;
+    end;
+  if pnlPreview.Visible then
+    begin
+      if DrawPreview.Col = 0  then
+        begin
+          DrawPreview.Col:=DrawPreview.ColCount-1;
+          DrawPreview.Row:= DrawPreview.Row-1;
+        end
+      else
+        DrawPreview.Col:=DrawPreview.Col-1
+    end
+  else LoadFile(I);
+end;
+
+procedure TfrmViewer.cm_MoveFile(Param: String='');
+begin
+  btnCopyMoveFileClick(btnMoveFile);
+end;
+
+procedure TfrmViewer.cm_CopyFile(Param: String='');
+begin
+  btnCopyMoveFileClick(Self);
+end;
+
+procedure TfrmViewer.cm_DeleteFile(Param: String='');
+begin
+  btnDeleteFileClick(Self);
+end;
+
+procedure TfrmViewer.cm_StretchImage(Param: String='');
+begin
+  if bImage then miStretchClick(Self);
+end;
+
+procedure TfrmViewer.cm_SaveAs(Param: String='');
+begin
+  if bAnimation or bImage then miSaveAsClick(Self);
+end;
+
+procedure TfrmViewer.cm_Rotate90(Param: String='');
+begin
+  if bImage then miRotateClick(mi90);
+end;
+
+procedure TfrmViewer.cm_Rotate180(Param: String='');
+begin
+  if bImage then miRotateClick(mi180);
+end;
+
+procedure TfrmViewer.cm_Rotate270(Param: String='');
+begin
+  if bImage then miRotateClick(mi270);
+end;
+
+procedure TfrmViewer.cm_Mirror(Param: String='');
+begin
+  if bImage then miRotateClick(miMirror);
 end;
 
 initialization
