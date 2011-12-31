@@ -860,31 +860,29 @@ var
   sTemp,
   sIconName: UTF8String;
 begin
+  Result:= iDefaultIcon;
   slInfoFile:= TStringListEx.Create;
   try
-    slInfoFile.LoadFromFile(sFileName + '/Contents/Info.plist');
-    sTemp:= slInfoFile.Text;
-    I:= Pos('CFBundleIconFile', sTemp);
-    if I <= 0 then
-      Exit(iDefaultIcon)
-    else
-      begin
-        I:= PosEx('<string>', sTemp, I) + 8;
-        J:= PosEx('</string>', sTemp, I);
-        sIconName:= Copy(sTemp, I, J - I);
-        if not StrEnds(sIconName, '.icns') then
-          sIconName:= sIconName + '.icns';
-        sIconName:= sFileName + '/Contents/Resources/' + sIconName;
-      end;
+    try
+      slInfoFile.LoadFromFile(sFileName + '/Contents/Info.plist');
+      sTemp:= slInfoFile.Text;
+      I:= Pos('CFBundleIconFile', sTemp);
+      if I <= 0 then Exit;
+      I:= PosEx('<string>', sTemp, I) + 8;
+      J:= PosEx('</string>', sTemp, I);
+      sIconName:= Copy(sTemp, I, J - I);
+      if not StrEnds(sIconName, '.icns') then
+        sIconName:= sIconName + '.icns';
+      sIconName:= sFileName + '/Contents/Resources/' + sIconName;
+    except
+      Exit;
+    end;
   finally
-    FreeThenNil(slInfoFile);
+    slInfoFile.Free;
   end;
 
   I:= GetIconByName(sIconName);
-  if I < 0 then
-    Result:= iDefaultIcon
-  else
-    Result:= I;
+  if I >= 0 then Result:= I;
 end;
 
 {$ENDIF} // Unix
@@ -1863,4 +1861,4 @@ finalization
   end;
 
 end.
-
+
