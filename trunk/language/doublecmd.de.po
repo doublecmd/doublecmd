@@ -5345,6 +5345,64 @@ msgstr "Über den Be&trachter"
 msgid "Displays the About message"
 msgstr "Zeigt den 'Über'-Dialog"
 
+#: TFRMVIEWER.ACTCOPYFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
+msgid "Copy File"
+msgstr ""
+
+#: TFRMVIEWER.ACTCOPYFILE.HINT
+msgctxt "TFRMVIEWER.ACTCOPYFILE.HINT"
+msgid "Copy File"
+msgstr ""
+
+#: TFRMVIEWER.ACTDELETEFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTDELETEFILE.CAPTION"
+msgid "Delete File"
+msgstr ""
+
+#: TFRMVIEWER.ACTDELETEFILE.HINT
+msgctxt "TFRMVIEWER.ACTDELETEFILE.HINT"
+msgid "Delete File"
+msgstr ""
+
+#: TFRMVIEWER.ACTLOADNEXTFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.CAPTION"
+msgid "&Next"
+msgstr "&Nächste"
+
+#: TFRMVIEWER.ACTLOADNEXTFILE.HINT
+msgid "Load Next File"
+msgstr ""
+
+#: TFRMVIEWER.ACTLOADPREVFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTLOADPREVFILE.CAPTION"
+msgid "&Previous"
+msgstr "&Vorherige"
+
+#: TFRMVIEWER.ACTLOADPREVFILE.HINT
+msgid "Load Previous File"
+msgstr ""
+
+#: TFRMVIEWER.ACTMIRROR.CAPTION
+msgctxt "TFRMVIEWER.ACTMIRROR.CAPTION"
+msgid "Mirror"
+msgstr "Spiegeln"
+
+#: TFRMVIEWER.ACTMIRROR.HINT
+msgctxt "TFRMVIEWER.ACTMIRROR.HINT"
+msgid "Mirror"
+msgstr "Spiegeln"
+
+#: TFRMVIEWER.ACTMOVEFILE.CAPTION
+msgctxt "TFRMVIEWER.ACTMOVEFILE.CAPTION"
+msgid "Move File"
+msgstr ""
+
+#: TFRMVIEWER.ACTMOVEFILE.HINT
+msgctxt "TFRMVIEWER.ACTMOVEFILE.HINT"
+msgid "Move File"
+msgstr ""
+
 #: TFRMVIEWER.ACTRELOAD.CAPTION
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
 msgid "Reload"
@@ -5352,6 +5410,54 @@ msgstr "Neu laden"
 
 #: TFRMVIEWER.ACTRELOAD.HINT
 msgid "Reload current file"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE180.CAPTION
+msgctxt "TFRMVIEWER.ACTROTATE180.CAPTION"
+msgid "Rotate 180"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE180.HINT
+msgctxt "TFRMVIEWER.ACTROTATE180.HINT"
+msgid "Rotate 180"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE270.CAPTION
+msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
+msgid "Rotate 270"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE270.HINT
+msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
+msgid "Rotate 270"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE90.CAPTION
+msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
+msgid "Rotate 90"
+msgstr ""
+
+#: TFRMVIEWER.ACTROTATE90.HINT
+msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
+msgid "Rotate 90"
+msgstr ""
+
+#: TFRMVIEWER.ACTSAVEAS.CAPTION
+msgctxt "TFRMVIEWER.ACTSAVEAS.CAPTION"
+msgid "Save As..."
+msgstr "Speichern als ..."
+
+#: TFRMVIEWER.ACTSAVEAS.HINT
+msgid "Save File As..."
+msgstr ""
+
+#: TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION
+msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
+msgid "Stretch"
+msgstr "Strecken"
+
+#: TFRMVIEWER.ACTSTRETCHIMAGE.HINT
+msgid "Stretch Image"
 msgstr ""
 
 #: TFRMVIEWER.BTN270.HINT
@@ -5423,16 +5529,6 @@ msgctxt "TFRMVIEWER.BTNMOVEFILE1.HINT"
 msgid "Move"
 msgstr "Verschieben"
 
-#: TFRMVIEWER.BTNNEXT.HINT
-msgctxt "TFRMVIEWER.BTNNEXT.HINT"
-msgid "Next"
-msgstr "Nächste"
-
-#: TFRMVIEWER.BTNNEXT1.HINT
-msgctxt "TFRMVIEWER.BTNNEXT1.HINT"
-msgid "Next"
-msgstr "Nächste"
-
 #: TFRMVIEWER.BTNNEXTGIFFRAME.CAPTION
 msgid "||>"
 msgstr ""
@@ -5441,16 +5537,6 @@ msgstr ""
 msgctxt "TFRMVIEWER.BTNPAINT.HINT"
 msgid "Paint"
 msgstr "Malen"
-
-#: TFRMVIEWER.BTNPREV.HINT
-msgctxt "TFRMVIEWER.BTNPREV.HINT"
-msgid "Previous"
-msgstr "Vorherige"
-
-#: TFRMVIEWER.BTNPREV1.HINT
-msgctxt "TFRMVIEWER.BTNPREV1.HINT"
-msgid "Previous"
-msgstr "Vorherige"
 
 #: TFRMVIEWER.BTNPREVGIFFRAME.CAPTION
 msgid "<||"
@@ -5482,11 +5568,6 @@ msgctxt "TFRMVIEWER.BTNZOOMOUT.HINT"
 msgid "Zoom Out"
 msgstr "Kleiner darstellen"
 
-#: TFRMVIEWER.CAPTION
-msgctxt "TFRMVIEWER.CAPTION"
-msgid "Viewer"
-msgstr "Betrachter"
-
 #: TFRMVIEWER.CBSLIDESHOW.CAPTION
 msgctxt "TFRMVIEWER.CBSLIDESHOW.CAPTION"
 msgid "Slide Show"
@@ -5500,6 +5581,11 @@ msgstr "Stift"
 msgctxt "TFRMVIEWER.COMBOBOXWIDTH.TEXT"
 msgid "1"
 msgstr "1"
+
+#: TFRMVIEWER.FRMVIEWER.CAPTION
+msgctxt "TFRMVIEWER.FRMVIEWER.CAPTION"
+msgid "Viewer"
+msgstr "Schnellansicht"
 
 #: TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION
 msgctxt "TFRMVIEWER.GBOXHIGHTLIGHT.CAPTION"
@@ -5624,18 +5710,10 @@ msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
 msgid "Mirror"
 msgstr "Spiegeln"
 
-#: TFRMVIEWER.MINEXT.CAPTION
-msgid "&Next"
-msgstr "&Nächste"
-
 #: TFRMVIEWER.MIPLUGINS.CAPTION
 msgctxt "TFRMVIEWER.MIPLUGINS.CAPTION"
 msgid "Plugins"
 msgstr "Plugins"
-
-#: TFRMVIEWER.MIPREV.CAPTION
-msgid "&Previous"
-msgstr "&Vorherige"
 
 #: TFRMVIEWER.MIPREVIEW.CAPTION
 msgctxt "TFRMVIEWER.MIPREVIEW.CAPTION"
@@ -5656,6 +5734,7 @@ msgid "Save"
 msgstr "Speichern"
 
 #: TFRMVIEWER.MISAVEAS.CAPTION
+msgctxt "TFRMVIEWER.MISAVEAS.CAPTION"
 msgid "Save As..."
 msgstr "Speichern als ..."
 
@@ -5690,6 +5769,7 @@ msgid "-"
 msgstr "-"
 
 #: TFRMVIEWER.MISTRETCH.CAPTION
+msgctxt "TFRMVIEWER.MISTRETCH.CAPTION"
 msgid "Stretch"
 msgstr "Strecken"
 
