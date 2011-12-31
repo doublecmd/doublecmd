@@ -445,6 +445,10 @@ begin
       AddIfNotExists('N','cm_LoadNextFile','');
       AddIfNotExists('P','cm_LoadPrevFile','');
     end;
+
+  if not mbFileExists(gpCfgDir + gNameSCFile) then
+    gNameSCFile := 'shortcuts.scf';
+  HotMan.Save(gpCfgDir + gNameSCFile);
 end;
 
 function InitPropStorage(Owner: TComponent): TIniPropStorageEx;
