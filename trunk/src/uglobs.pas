@@ -82,7 +82,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 6;
+  hkVersion     = 7;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -442,6 +442,8 @@ begin
     begin
       AddIfNotExists('F1','cm_About','');
       AddIfNotExists('F2','cm_Reload','');
+      AddIfNotExists('N','cm_LoadNextFile','');
+      AddIfNotExists('P','cm_LoadPrevFile','');
     end;
 end;
 

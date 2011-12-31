@@ -1,12 +1,12 @@
 object frmViewer: TfrmViewer
-  Left = 100
+  Left = 292
   Height = 480
-  Top = 100
+  Top = 46
   Width = 640
   HorzScrollBar.Page = 951
   VertScrollBar.Page = 491
   Caption = 'Viewer'
-  ClientHeight = 454
+  ClientHeight = 460
   ClientWidth = 640
   Constraints.MinHeight = 100
   Constraints.MinWidth = 200
@@ -59,10 +59,10 @@ object frmViewer: TfrmViewer
   Position = poDefault
   SessionProperties = 'Height;Width;Left;Top;WindowState'
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.31'
+  LCLVersion = '0.9.30.3'
   object pnlLister: TPanel
     Left = 179
-    Height = 428
+    Height = 437
     Top = 0
     Width = 461
     Align = alClient
@@ -73,8 +73,8 @@ object frmViewer: TfrmViewer
   end
   object Status: TStatusBar
     Left = 0
-    Height = 26
-    Top = 428
+    Height = 23
+    Top = 437
     Width = 640
     Panels = <    
       item
@@ -96,18 +96,18 @@ object frmViewer: TfrmViewer
   end
   object pnlText: TPanel
     Left = 179
-    Height = 428
+    Height = 437
     Top = 0
     Width = 461
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 428
+    ClientHeight = 437
     ClientWidth = 461
     TabOrder = 2
     Visible = False
     object ViewerControl: TViewerControl
       Left = 0
-      Height = 428
+      Height = 437
       Top = 0
       Width = 461
       ViewerMode = vmText
@@ -120,24 +120,24 @@ object frmViewer: TfrmViewer
   end
   object pnlImage: TPanel
     Left = 179
-    Height = 428
+    Height = 437
     Top = 0
     Width = 461
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 428
+    ClientHeight = 437
     ClientWidth = 461
     TabOrder = 3
     Visible = False
     OnResize = pnlImageResize
     object sboxImage: TScrollBox
       Left = 0
-      Height = 378
+      Height = 387
       Top = 50
       Width = 461
       Align = alClient
-      ClientHeight = 360
-      ClientWidth = 443
+      ClientHeight = 366
+      ClientWidth = 440
       Color = clWhite
       ParentColor = False
       TabOrder = 0
@@ -187,15 +187,15 @@ object frmViewer: TfrmViewer
         Left = 435
         Height = 47
         Top = 1
-        Width = 98
+        Width = 91
         Align = alLeft
         AutoSize = True
         BorderSpacing.Left = 5
         BorderSpacing.Bottom = 1
         Caption = 'Highlight'
         ChildSizing.LeftRightSpacing = 4
-        ClientHeight = 25
-        ClientWidth = 94
+        ClientHeight = 29
+        ClientWidth = 87
         TabOrder = 0
         Visible = False
         object lblHightlight: TLabel
@@ -203,9 +203,9 @@ object frmViewer: TfrmViewer
           AnchorSideTop.Control = btnCutTuImage
           AnchorSideTop.Side = asrCenter
           Left = 6
-          Height = 22
-          Top = 1
-          Width = 26
+          Height = 14
+          Top = 5
+          Width = 19
           BorderSpacing.Left = 6
           Caption = '0x0'
           ParentColor = False
@@ -214,7 +214,7 @@ object frmViewer: TfrmViewer
           AnchorSideLeft.Control = lblHightlight
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = gboxHightlight
-          Left = 37
+          Left = 30
           Height = 24
           Hint = 'Crop'
           Top = 0
@@ -264,7 +264,7 @@ object frmViewer: TfrmViewer
           AnchorSideLeft.Control = btnCutTuImage
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = gboxHightlight
-          Left = 66
+          Left = 59
           Height = 24
           Hint = 'Red Eyes'
           Top = 0
@@ -321,7 +321,7 @@ object frmViewer: TfrmViewer
         Caption = 'Paint'
         ChildSizing.LeftRightSpacing = 2
         ChildSizing.TopBottomSpacing = 2
-        ClientHeight = 25
+        ClientHeight = 29
         ClientWidth = 199
         TabOrder = 1
         Visible = False
@@ -345,7 +345,7 @@ object frmViewer: TfrmViewer
           Left = 2
           Height = 22
           Hint = 'Undo'
-          Top = 5
+          Top = 1
           Width = 24
           AutoSize = True
           Glyph.Data = {
@@ -392,11 +392,11 @@ object frmViewer: TfrmViewer
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = gboxPaint
           Left = 36
-          Height = 29
+          Height = 21
           Top = 2
           Width = 63
           BorderSpacing.Left = 10
-          ItemHeight = 21
+          ItemHeight = 13
           ItemIndex = 0
           Items.Strings = (
             'Pen'
@@ -412,11 +412,11 @@ object frmViewer: TfrmViewer
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = gboxPaint
           Left = 105
-          Height = 29
+          Height = 21
           Top = 2
           Width = 47
           BorderSpacing.Left = 6
-          ItemHeight = 21
+          ItemHeight = 13
           ItemIndex = 0
           Items.Strings = (
             '1'
@@ -539,13 +539,13 @@ object frmViewer: TfrmViewer
         ChildSizing.LeftRightSpacing = 2
         ChildSizing.TopBottomSpacing = 2
         ChildSizing.ControlsPerLine = 1
-        ClientHeight = 25
+        ClientHeight = 29
         ClientWidth = 174
         TabOrder = 2
         object btn270: TSpeedButton
           AnchorSideLeft.Side = asrBottom
           Left = 72
-          Height = 18
+          Height = 22
           Hint = '- 90'
           Top = -1
           Width = 32
@@ -594,7 +594,7 @@ object frmViewer: TfrmViewer
         object btn90: TSpeedButton
           AnchorSideLeft.Side = asrBottom
           Left = 104
-          Height = 18
+          Height = 22
           Hint = '+ 90'
           Top = -1
           Width = 32
@@ -644,7 +644,7 @@ object frmViewer: TfrmViewer
           AnchorSideLeft.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 136
-          Height = 18
+          Height = 22
           Hint = 'Mirror'
           Top = -1
           Width = 35
@@ -692,7 +692,7 @@ object frmViewer: TfrmViewer
         end
         object btnZoomIn: TSpeedButton
           Left = 4
-          Height = 18
+          Height = 22
           Hint = 'Zoom In'
           Top = -1
           Width = 28
@@ -741,7 +741,7 @@ object frmViewer: TfrmViewer
         object btnZoomOut: TSpeedButton
           AnchorSideLeft.Side = asrBottom
           Left = 34
-          Height = 18
+          Height = 22
           Hint = 'Zoom Out'
           Top = -1
           Width = 28
@@ -790,7 +790,7 @@ object frmViewer: TfrmViewer
         object btnGifMove: TSpeedButton
           AnchorSideLeft.Side = asrBottom
           Left = 4
-          Height = 18
+          Height = 22
           Top = -1
           Width = 32
           Anchors = [akTop, akLeft, akRight, akBottom]
@@ -1142,16 +1142,16 @@ object frmViewer: TfrmViewer
       end
       object gboxSlideShow: TGroupBox
         AnchorSideRight.Control = btnFullScreen
-        Left = 297
+        Left = 331
         Height = 48
         Top = 1
-        Width = 158
+        Width = 124
         Align = alRight
         AutoSize = True
         BorderSpacing.Right = 6
         Caption = 'Slide Show'
-        ClientHeight = 26
-        ClientWidth = 154
+        ClientHeight = 30
+        ClientWidth = 120
         TabOrder = 3
         Visible = False
         object seTimeShow: TSpinEdit
@@ -1160,8 +1160,8 @@ object frmViewer: TfrmViewer
           AnchorSideRight.Control = gboxSlideShow
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Side = asrBottom
-          Left = 107
-          Height = 29
+          Left = 73
+          Height = 21
           Top = 0
           Width = 43
           Anchors = [akTop, akRight]
@@ -1177,9 +1177,9 @@ object frmViewer: TfrmViewer
           AnchorSideRight.Control = seTimeShow
           AnchorSideBottom.Side = asrBottom
           Left = 0
-          Height = 25
+          Height = 17
           Top = 2
-          Width = 103
+          Width = 69
           Anchors = [akTop, akRight]
           BorderSpacing.Top = 10
           BorderSpacing.Right = 4
@@ -1190,9 +1190,9 @@ object frmViewer: TfrmViewer
       object btnPrev: TSpeedButton
         Left = 49
         Height = 48
-        Hint = 'Previous'
         Top = 1
         Width = 32
+        Action = actLoadPrevFile
         Align = alLeft
         Glyph.Data = {
           C6070000424DC607000000000000360000002800000016000000160000000100
@@ -1260,14 +1260,14 @@ object frmViewer: TfrmViewer
           FF00FFFFFF00FFFFFF00
         }
         NumGlyphs = 0
-        OnClick = btnPrevClick
+        ShowCaption = False
       end
       object btnNext: TSpeedButton
         Left = 81
         Height = 48
-        Hint = 'Next'
         Top = 1
         Width = 32
+        Action = actLoadNextFile
         Align = alLeft
         Glyph.Data = {
           C6070000424DC607000000000000360000002800000016000000160000000100
@@ -1335,7 +1335,7 @@ object frmViewer: TfrmViewer
           FF00FFFFFF00FFFFFF00
         }
         NumGlyphs = 0
-        OnClick = btnNextClick
+        ShowCaption = False
       end
       object btnCopyFile: TSpeedButton
         Left = 113
@@ -1566,7 +1566,7 @@ object frmViewer: TfrmViewer
   end
   object Splitter: TSplitter
     Left = 170
-    Height = 428
+    Height = 437
     Top = 0
     Width = 9
     AutoSnap = False
@@ -1576,12 +1576,12 @@ object frmViewer: TfrmViewer
   end
   object pnlPreview: TPanel
     Left = 0
-    Height = 428
+    Height = 437
     Top = 0
     Width = 170
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 428
+    ClientHeight = 437
     ClientWidth = 170
     TabOrder = 5
     Visible = False
@@ -1674,9 +1674,9 @@ object frmViewer: TfrmViewer
       object btnPrev1: TSpeedButton
         Left = 33
         Height = 28
-        Hint = 'Previous'
         Top = 1
         Width = 24
+        Action = actLoadPrevFile
         Align = alLeft
         Glyph.Data = {
           C6070000424DC607000000000000360000002800000016000000160000000100
@@ -1744,14 +1744,14 @@ object frmViewer: TfrmViewer
           FF00FFFFFF00FFFFFF00
         }
         NumGlyphs = 0
-        OnClick = btnPrevClick
+        ShowCaption = False
       end
       object btnNext1: TSpeedButton
         Left = 57
         Height = 28
-        Hint = 'Next'
         Top = 1
         Width = 24
+        Action = actLoadNextFile
         Align = alLeft
         Glyph.Data = {
           C6070000424DC607000000000000360000002800000016000000160000000100
@@ -1819,7 +1819,7 @@ object frmViewer: TfrmViewer
           FF00FFFFFF00FFFFFF00
         }
         NumGlyphs = 0
-        OnClick = btnNextClick
+        ShowCaption = False
       end
       object btnCopyFile1: TSpeedButton
         Left = 81
@@ -2049,7 +2049,7 @@ object frmViewer: TfrmViewer
     end
     object DrawPreview: TDrawGrid
       Left = 0
-      Height = 398
+      Height = 407
       Top = 30
       Width = 170
       Align = alClient
@@ -2089,14 +2089,10 @@ object frmViewer: TfrmViewer
     object miFile: TMenuItem
       Caption = '&File'
       object miPrev: TMenuItem
-        Caption = '&Previous'
-        ShortCut = 80
-        OnClick = miPrevClick
+        Action = actLoadPrevFile
       end
       object miNext: TMenuItem
-        Caption = '&Next'
-        ShortCut = 78
-        OnClick = miNextClick
+        Action = actLoadNextFile
       end
       object miSave: TMenuItem
         Caption = 'Save'
@@ -2294,6 +2290,7 @@ object frmViewer: TfrmViewer
     end
   end
   object SavePictureDialog: TSavePictureDialog
+    Title = 'Сохранить файл как'
     left = 304
     top = 64
   end
@@ -2305,8 +2302,8 @@ object frmViewer: TfrmViewer
     top = 64
   end
   object actionList: TActionList
-    left = 365
-    top = 66
+    left = 376
+    top = 64
     object actAbout: TAction
       Category = 'Help'
       Caption = 'About Viewer...'
@@ -2317,6 +2314,72 @@ object frmViewer: TfrmViewer
       Category = 'File'
       Caption = 'Reload'
       Hint = 'Reload current file'
+      OnExecute = actExecute
+    end
+    object actLoadNextFile: TAction
+      Category = 'File'
+      Caption = '&Next'
+      Hint = 'Load Next File'
+      OnExecute = actExecute
+    end
+    object actLoadPrevFile: TAction
+      Category = 'File'
+      Caption = '&Previous'
+      Hint = 'Load Previous File'
+      OnExecute = actExecute
+    end
+    object actMoveFile: TAction
+      Category = 'File'
+      Caption = 'Move File'
+      Hint = 'Move File'
+      OnExecute = actExecute
+    end
+    object actCopyFile: TAction
+      Category = 'File'
+      Caption = 'Copy File'
+      Hint = 'Copy File'
+      OnExecute = actExecute
+    end
+    object actDeleteFile: TAction
+      Category = 'File'
+      Caption = 'Delete File'
+      Hint = 'Delete File'
+      OnExecute = actExecute
+    end
+    object actStretchImage: TAction
+      Category = 'Image'
+      Caption = 'Stretch'
+      Hint = 'Stretch Image'
+      OnExecute = actExecute
+    end
+    object actSaveAs: TAction
+      Category = 'File'
+      Caption = 'Save As...'
+      Hint = 'Save File As...'
+      OnExecute = actExecute
+    end
+    object actRotate90: TAction
+      Category = 'Image'
+      Caption = 'Rotate 90'
+      Hint = 'Rotate 90'
+      OnExecute = actExecute
+    end
+    object actRotate180: TAction
+      Category = 'Image'
+      Caption = 'Rotate 180'
+      Hint = 'Rotate 180'
+      OnExecute = actExecute
+    end
+    object actRotate270: TAction
+      Category = 'Image'
+      Caption = 'Rotate 270'
+      Hint = 'Rotate 270'
+      OnExecute = actExecute
+    end
+    object actMirror: TAction
+      Category = 'Image'
+      Caption = 'Mirror'
+      Hint = 'Mirror'
       OnExecute = actExecute
     end
   end
