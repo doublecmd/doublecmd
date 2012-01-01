@@ -184,6 +184,10 @@ type
     }
     function GetIconByDesktopFile(sFileName: UTF8String; iDefaultIcon: PtrInt): PtrInt;
   {$ENDIF}
+  {$IF DEFINED(DARWIN)}
+    function GetSystemFolderIcon: PtrInt;
+    function GetMimeIcon(AFileExt: String; AIconSize: Integer): PtrInt;
+  {$ENDIF}
     function GetBuiltInDriveIcon(Drive : PDrive; IconSize : Integer; clBackColor : TColor) : Graphics.TBitmap;
 
   public
@@ -296,6 +300,9 @@ uses
     , CommCtrl, ShellAPI, Windows, uIcoFiles, uGdiPlus, IntfGraphics, uShlObjAdditional
   {$ELSE}
     , StrUtils, uTypes
+  {$ENDIF}
+  {$IFDEF DARWIN}
+    , CocoaAll, MacOSAll
   {$ENDIF}
   ;
 
@@ -974,6 +981,58 @@ begin
     end;
 end;
 
+{$IFDEF DARWIN}
+function TPixMapManager.GetSystemFolderIcon: PtrInt;
+var
+  FileType: UTF8String;
+begin
+  FileType:= NSFileTypeForHFSTypeCode(kGenericFolderIcon).UTF8String;
+  Result:= GetMimeIcon(FileType, gIconsSize);
+end;
+
+function TPixMapManager.GetMimeIcon(AFileExt: String; AIconSize: Integer): PtrInt;
+var
+  I: Integer;
+  nImage: NSImage;
+  nData: NSData;
+  nRepresentations: NSArray;
+  nImageRep: NSImageRep;
+  WorkStream: TMemoryStream;
+  tfBitmap: TTiffImage;
+  bmBitmap: TBitmap;
+begin
+  Result:= -1;
+  nImage:= NSWorkspace.sharedWorkspace.iconForFileType(NSSTR(PChar(AFileExt)));
+  nRepresentations:= nImage.Representations;
+  if AIconSize = 22 then AIconSize:= 32;
+  for I:= 0 to nRepresentations.Count - 1 do
+  begin
+    nImageRep:= NSImageRep(nRepresentations.objectAtIndex(I));
+    if (AIconSize <> nImageRep.Size.Width) then
+      nImage.removeRepresentation(nImageRep);
+  end;
+  if nImage.Representations.Count = 0 then Exit;
+  nData:= nImage.TIFFRepresentation;
+  tfBitmap:= TTiffImage.Create;
+  WorkStream := TMemoryStream.Create;
+  try
+    WorkStream.Write(nData.Bytes^, nData.Length);
+    WorkStream.Position := 0;
+    tfBitmap.LoadFromStream(WorkStream);
+    bmBitmap:= TBitmap.Create;
+    try
+      bmBitmap.Assign(tfBitmap);
+      Result:= FPixmapList.Add(bmBitmap);
+    except
+      bmBitmap.Free;
+    end;
+  finally
+    tfBitmap.Free;
+    WorkStream.free;
+  end;
+end;
+{$ENDIF}
+
 {$IFDEF WINDOWS}
 function TPixMapManager.GetIconResourceIndex(const IconPath: String; out IconFile: String; out IconIndex: PtrInt): Boolean;
 var
@@ -1174,7 +1233,7 @@ begin
 
   // add some standard icons
   FiDefaultIconID:=CheckAddThemePixmap('unknown');
-  {$IFDEF MSWINDOWS}
+  {$IF DEFINED(MSWINDOWS) or DEFINED(DARWIN)}
   FiDirIconID := -1;
   if gShowIcons > sim_standart then
     FiDirIconID := GetSystemFolderIcon;
@@ -1583,7 +1642,7 @@ begin
         if gShowIcons <= sim_standart then
           Exit(FiDefaultIconID);
 
-        {$IF DEFINED(UNIX) AND NOT DEFINED(DARWIN)}
+        {$IF DEFINED(UNIX)}
 
         if LoadIcon = False then
           Exit(-1);
@@ -1861,4 +1920,4 @@ finalization
   end;
 
 end.
-
+
