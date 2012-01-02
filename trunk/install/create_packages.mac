@@ -1,0 +1,55 @@
+#!/bin/sh
+
+# Set Double Commander version
+DC_VER=0.5.5
+
+# The new package will be saved here
+PACK_DIR=$(pwd)/darwin/release
+
+# Temp dir for creating *.dmg package
+BUILD_PACK_DIR=/var/tmp/doublecmd-$(date +%y.%m.%d)
+
+# Create temp dir for building
+BUILD_DC_TMP_DIR=/var/tmp/doublecmd-$DC_VER
+
+# DC revision number
+DC_REVISION=$(svnversion -n ../)
+
+# Export from SVN
+rm -rf $BUILD_DC_TMP_DIR
+svn export ../ $BUILD_DC_TMP_DIR
+
+# Save revision number
+mkdir $BUILD_DC_TMP_DIR/.svn
+cp -a ../.svn/entries $BUILD_DC_TMP_DIR/.svn/
+
+# Set widgetset
+if [ -z $lcl ]; then
+   export lcl=carbon
+fi
+
+# Set processor architecture
+if [ -z $CPU_TARGET ]; then
+   export CPU_TARGET=$(fpc -iTP)
+fi
+
+# Copy libraries
+cp -a darwin/lib/$CPU_TARGET/*.dylib         $BUILD_DC_TMP_DIR/
+cp -a darwin/lib/$CPU_TARGET/$lcl/*.dylib    $BUILD_DC_TMP_DIR/
+
+cd $BUILD_DC_TMP_DIR
+
+# Build all components of Double Commander
+./build.sh all
+
+# Create *.dmg package
+mkdir -p $BUILD_PACK_DIR
+install/darwin/install.sh $BUILD_PACK_DIR
+cd $BUILD_PACK_DIR
+sed -i -e 's/<UseConfigInProgramDir>False/<UseConfigInProgramDir>True/' doublecmd.app/doublecmd.xml
+mv doublecmd.app 'Double Commander.app'
+hdiutil create -anyowners -volname "Double Commander" -imagekey zlib-level=9 -format UDZO -srcfolder 'Double Commander.app' $PACK_DIR/doublecmd-$DC_VER-$DC_REVISION.$lcl.$CPU_TARGET.dmg
+
+# Clean DC build dir
+rm -rf $BUILD_DC_TMP_DIR
+rm -rf $BUILD_PACK_DIR
