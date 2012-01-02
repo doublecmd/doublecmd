@@ -31,6 +31,7 @@
 unit uPixMapManager;
 
 {$mode objfpc}{$H+}
+{$modeswitch objectivec1}
 
 interface
 
