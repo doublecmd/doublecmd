@@ -42,10 +42,13 @@ type
     Bevel2: TBevel;
     btnAddAttribute: TButton;
     btnAttrsHelp: TButton;
-    btnSaveTemplate: TButton;
     btnClose: TButton;
     btnGoToPath: TButton;
     btnNewSearch: TButton;
+    btnSaveTemplate: TButton;
+    btnSearchDelete: TButton;
+    btnSearchLoad: TButton;
+    btnSearchSave: TButton;
     btnStart: TButton;
     btnStop: TButton;
     btnView: TButton;
@@ -74,15 +77,12 @@ type
     edtFindPathStart: TDirectoryEdit;
     edtAttrib: TEdit;
     gbAttributes: TGroupBox;
-    btnSearchDelete: TButton;
-    btnSearchLoad: TButton;
     gbFindOptions: TGroupBox;
     lblCurrent: TLabel;
     lblFound: TLabel;
     lblStatus: TLabel;
     lblTemplateHeader: TLabel;
     lbSearchTemplates: TListBox;
-    btnSearchSave: TButton;
     lblSearchContents: TPanel;
     lblSearchDepth: TLabel;
     lblEncoding: TLabel;
@@ -90,10 +90,15 @@ type
     CheksPanel: TPanel;
     miShowAllFound: TMenuItem;
     miRemoveFromLlist: TMenuItem;
+    pnlLoadSaveBottomButtons: TPanel;
+    pnlLoadSaveBottom: TPanel;
+    pnlRightButtons: TPanel;
+    pnlButtons: TPanel;
+    pnlResultsBottomButtons: TPanel;
     pnlMainButtons: TPanel;
     pnlResults: TPanel;
     pnlStatus: TPanel;
-    pnlResultsButtons: TPanel;
+    pnlResultsBottom: TPanel;
     seNotOlderThan: TSpinEdit;
     seFileSizeFrom: TSpinEdit;
     seFileSizeTo: TSpinEdit;
@@ -398,7 +403,8 @@ begin
   with SearchTemplate.SearchRecord do
   begin
     cmbFindFileMask.Text:= FilesMasks;
-    edtFindPathStart.Text:= StartPath;
+    if (StartPath <> '') then
+      edtFindPathStart.Text:= StartPath;
     if (SearchDepth + 1 >= 0) and (SearchDepth + 1 < cbSearchDepth.Items.Count) then
       cbSearchDepth.ItemIndex:= SearchDepth + 1
     else
