@@ -31,7 +31,10 @@
 unit uPixMapManager;
 
 {$mode objfpc}{$H+}
+
+{$IFDEF DARWIN}
 {$modeswitch objectivec1}
+{$ENDIF}
 
 interface
 
