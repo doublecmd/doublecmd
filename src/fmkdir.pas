@@ -5,17 +5,19 @@ unit fMkDir;
 interface
 
 uses
-  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons;
+  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls;
 
 type
 
   { TfrmMkDir }
 
   TfrmMkDir = class(TForm)
-    cbMkDir: TComboBox;
-    btnOK: TBitBtn;
     btnCancel: TBitBtn;
+    btnOK: TBitBtn;
+    cbMkDir: TComboBox;
     lblMakeDir: TLabel;
+    pnlButtons: TPanel;
+    pnlBottom: TPanel;
 
     procedure FormKeyPress(Sender: TObject; var Key: Char);
   public
