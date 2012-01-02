@@ -1,5 +1,7 @@
 unit DsxPlugin;
 
+{$include calling.inc}
+
 interface
 
 uses
@@ -47,18 +49,18 @@ type
 
   {Prototypes}
   {Callbacks procs}
-  TSAddFileProc = procedure(PluginNr: Integer; FoundFile: PChar); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+  TSAddFileProc = procedure(PluginNr: Integer; FoundFile: PChar); dcpcall;
   //if FoundFile='' then searching is finished
 
   TSUpdateStatusProc = procedure(PluginNr: Integer; CurrentFile: PChar;
-    FilesScaned: Integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+    FilesScaned: Integer); dcpcall;
 
   {Mandatory (must be implemented)}
   TSInit = function(dps: PDsxDefaultParamStruct; pAddFileProc: TSAddFileProc;
-    pUpdateStatus: TSUpdateStatusProc): Integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TSStartSearch = procedure(PluginNr: Integer; pSearchRec: PDsxSearchRecord); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TSStopSearch = procedure(PluginNr: Integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
-  TSFinalize = procedure(PluginNr: Integer); {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+    pUpdateStatus: TSUpdateStatusProc): Integer; dcpcall;
+  TSStartSearch = procedure(PluginNr: Integer; pSearchRec: PDsxSearchRecord); dcpcall;
+  TSStopSearch = procedure(PluginNr: Integer); dcpcall;
+  TSFinalize = procedure(PluginNr: Integer); dcpcall;
 
 implementation
 

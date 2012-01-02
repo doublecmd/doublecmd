@@ -119,6 +119,7 @@ type
     ZVDateTo: TZVDateTimePicker;
     ZVTimeFrom: TZVDateTimePicker;
     ZVTimeTo: TZVDateTimePicker;
+
     procedure btnAddAttributeClick(Sender: TObject);
     procedure btnAttrsHelpClick(Sender: TObject);
     procedure btnSearchDeleteClick(Sender: TObject);
@@ -150,9 +151,9 @@ type
     procedure btnCloseClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure frmFindDlgClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure frmFindDlgClose(Sender: TObject; var {%H-}CloseAction: TCloseAction);
     procedure frmFindDlgShow(Sender: TObject);
-    procedure lbSearchTemplatesSelectionChange(Sender: TObject; User: boolean);
+    procedure lbSearchTemplatesSelectionChange(Sender: TObject; {%H-}User: boolean);
     procedure lsFoundedFilesDblClick(Sender: TObject);
     procedure lsFoundedFilesKeyDown(Sender: TObject;
       var Key: Word; Shift: TShiftState);
@@ -168,25 +169,25 @@ type
     procedure ZVTimeFromChange(Sender: TObject);
     procedure ZVTimeToChange(Sender: TObject);
   private
-    { Private declarations }
     FFindThread:TFindThread;
     DsxPlugins: TDSXModuleList;
     FSearchingActive: Boolean;
     FFrmAttributesEdit: TfrmAttributesEdit;
+
     procedure StopSearch;
     procedure AfterSearchStopped;
-    procedure FillFindOptions(var FindOptions: TSearchTemplateRec);
+    procedure FillFindOptions(out FindOptions: TSearchTemplateRec);
     procedure FindOptionsToDSXSearchRec(const AFindOptions: TSearchTemplateRec;
-                                        var SRec: TDsxSearchRecord);
+                                        out SRec: TDsxSearchRecord);
     procedure OnAddAttribute(Sender: TObject);
     procedure FoundedStringCopyChanged(Sender: TObject);
   public
-    { Public declarations }
+    class function Instance: TfrmFindDlg;
+  public
     procedure ThreadTerminate(Sender:TObject);
   end;
 
 var
-  frmFindDlg: TfrmFindDlg = nil;
   FoundedStringCopy: TStringlist = nil;
 
 procedure ShowFindDlg(const sActPath: UTF8String);
@@ -208,14 +209,17 @@ const
   FileSizeUnitToComboIndex: array[TFileSizeUnit] of Integer = (0, 1, 2, 3, 4);
   ComboIndexToFileSizeUnit: array[0..4] of TFileSizeUnit = (suBytes, suKilo, suMega, suGiga, suTera);
 
-procedure SAddFileProc(PlugNr: Integer; FoundFile: PChar); dcpcall;
+var
+  GfrmFindDlgInstance: TfrmFindDlg = nil;
+
+procedure SAddFileProc({%H-}PlugNr: Integer; FoundFile: PChar); dcpcall;
 var
   s: string;
 begin
   s := string(FoundFile);
   if s='' then
     begin
-      frmFindDlg.AfterSearchStopped;
+      TfrmFindDlg.Instance.AfterSearchStopped;
     end
   else
     begin
@@ -224,58 +228,50 @@ begin
     end;
 end;
 
-procedure SUpdateStatusProc(PlugNr: Integer; CurrentFile: PChar; FilesScanned: Integer); dcpcall;
+procedure SUpdateStatusProc({%H-}PlugNr: Integer; CurrentFile: PChar; FilesScanned: Integer); dcpcall;
 var
   sCurrentFile: String;
 begin
   sCurrentFile := String(CurrentFile);
-  frmFindDlg.lblStatus.Caption:=Format(rsFindScanned,[FilesScanned]);
+  TfrmFindDlg.Instance.lblStatus.Caption:=Format(rsFindScanned,[FilesScanned]);
   if sCurrentFile = '' then
-    frmFindDlg.lblCurrent.Caption := ''
+    TfrmFindDlg.Instance.lblCurrent.Caption := ''
   else
-    frmFindDlg.lblCurrent.Caption:=rsFindScanning + ': ' + sCurrentFile;
+    TfrmFindDlg.Instance.lblCurrent.Caption:=rsFindScanning + ': ' + sCurrentFile;
   Application.ProcessMessages;
 end;
 
 procedure ShowFindDlg(const sActPath: UTF8String);
 begin
-  if not Assigned(frmFindDlg) then
-    frmFindDlg:= TfrmFindDlg.Create(nil);
-
-  if Assigned(frmFindDlg) then
-    with frmFindDlg do
-    begin
-      // Prepare window for search files
-      Caption := rsFindSearchFiles;
-      edtFindPathStart.Enabled:= True;
-      edtFindPathStart.Text := sActPath;
-      btnSaveTemplate.Visible:= False;
-      btnStart.Visible:= True;
-      Show;
-      BringToFront;
-    end;
+  with TfrmFindDlg.Instance do
+  begin
+    // Prepare window for search files
+    Caption := rsFindSearchFiles;
+    edtFindPathStart.Enabled:= True;
+    edtFindPathStart.Text := sActPath;
+    btnSaveTemplate.Visible:= False;
+    btnStart.Visible:= True;
+    Show;
+    BringToFront;
+  end;
 end;
 
 function ShowDefineTemplateDlg(out TemplateName: UTF8String): Boolean;
 begin
-  if not Assigned(frmFindDlg) then
-    frmFindDlg:= TfrmFindDlg.Create(nil);
-
-  if Assigned(frmFindDlg) then
-    with frmFindDlg do
+  with TfrmFindDlg.Instance do
+  begin
+    // Prepare window for define search template
+    Caption := rsFindDefineTemplate;
+    edtFindPathStart.Enabled:= False;
+    edtFindPathStart.Text:= EmptyStr;
+    btnSaveTemplate.Visible:= True;
+    btnStart.Visible:= False;
+    Result:= (ShowModal = mrOK);
+    if Result and (lbSearchTemplates.Count > 0) then
     begin
-      // Prepare window for define search template
-      Caption := rsFindDefineTemplate;
-      edtFindPathStart.Enabled:= False;
-      edtFindPathStart.Text:= EmptyStr;
-      btnSaveTemplate.Visible:= True;
-      btnStart.Visible:= False;
-      Result:= (ShowModal = mrOK);
-      if Result and (lbSearchTemplates.Count > 0) then
-      begin
-        TemplateName:= lbSearchTemplates.Items[lbSearchTemplates.Count - 1];
-      end;
+      TemplateName:= lbSearchTemplates.Items[lbSearchTemplates.Count - 1];
     end;
+  end;
 end;
 
 procedure TfrmFindDlg.FormCreate(Sender: TObject);
@@ -472,6 +468,7 @@ var
   sName: UTF8String;
   SearchTemplate: TSearchTemplate;
 begin
+  sName := '';
   if not InputQuery(rsFindSaveTemplateCaption, rsFindSaveTemplateTitle, sName) then
   begin
     ModalResult:= mrCancel;
@@ -547,7 +544,7 @@ begin
   end;
 end;
 
-procedure TfrmFindDlg.FillFindOptions(var FindOptions: TSearchTemplateRec);
+procedure TfrmFindDlg.FillFindOptions(out FindOptions: TSearchTemplateRec);
 begin
   with FindOptions do
   begin
@@ -615,11 +612,11 @@ end;
 
 procedure TfrmFindDlg.FindOptionsToDSXSearchRec(
   const AFindOptions: TSearchTemplateRec;
-  var SRec: TDsxSearchRecord);
+  out SRec: TDsxSearchRecord);
 begin
   with AFindOptions do
   begin
-    FillByte(SRec, SizeOf(TDsxSearchRecord), 0);
+    FillByte(SRec{%H-}, SizeOf(SRec), 0);
 
     SRec.StartPath:= Copy(StartPath, 1, SizeOf(SRec.StartPath));
 
@@ -672,6 +669,13 @@ begin
       FFindThread := nil;
     end;
   end;
+end;
+
+class function TfrmFindDlg.Instance: TfrmFindDlg;
+begin
+  if not Assigned(GfrmFindDlgInstance) then
+    GfrmFindDlgInstance := TfrmFindDlg.Create(nil);
+  Result := GfrmFindDlgInstance;
 end;
 
 procedure TfrmFindDlg.AfterSearchStopped;
@@ -757,7 +761,7 @@ begin
           Found := lblFound;
           OnTerminate := @ThreadTerminate; // will update the buttons after search is finished
         end;
-        FFindThread.Resume;
+        FFindThread.Start;
       end;
   except
     StopSearch;
@@ -1114,6 +1118,6 @@ begin
 end;
 
 finalization
-  if Assigned(frmFindDlg) then
-    FreeAndNil(frmFindDlg);
+  FreeAndNil(GfrmFindDlgInstance);
+
 end.
