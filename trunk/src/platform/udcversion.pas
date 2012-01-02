@@ -323,6 +323,7 @@ begin
 
   if GetVersionEx(@osvi) then
   begin
+    ZeroMemory(@si, SizeOf(si));
     TryGetNativeSystemInfo(si);
 
     case osvi.dwPlatformId of
