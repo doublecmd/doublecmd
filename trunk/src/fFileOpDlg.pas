@@ -30,19 +30,23 @@ type
   { TfrmFileOp }
 
   TfrmFileOp = class(TForm)
+    bthOpEnd: TBitBtn;
+    btnCancel: TBitBtn;
+    btnOpHome: TBitBtn;
     btnPauseStart: TBitBtn;
+    btnToQueue: TBitBtn;
     btnWorkInBackground: TButton;
+    lblEstimated: TLabel;
+    lblFileNameFrom: TLabel;
+    lblFileNameTo: TLabel;
     lblFrom: TLabel;
     lblTo: TLabel;
-    lblFileNameTo: TLabel;
-    pbSecond: TKASProgressBar;
     pbFirst: TKASProgressBar;
-    lblFileNameFrom: TLabel;
-    lblEstimated: TLabel;
-    btnCancel: TBitBtn;
-    btnToQueue: TSpeedButton;
-    btnOpHome: TSpeedButton;
-    bthOpEnd: TSpeedButton;
+    pbSecond: TKASProgressBar;
+    pnlButtons: TPanel;
+    pnlClient: TPanel;
+    pnlFrom: TPanel;
+    pnlTo: TPanel;
     procedure bthOpEndClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure btnOpHomeClick(Sender: TObject);
@@ -170,7 +174,6 @@ procedure TfrmFileOp.btnToQueueClick(Sender: TObject);
 var
 Operation: TFileSourceOperation;
 begin
-
   Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
   if Assigned(Operation) then
   begin
@@ -376,9 +379,11 @@ end;
 procedure TfrmFileOp.InitializeControls(FileOpDlgLook: TFileOpDlgLook);
 begin
   lblFrom.Visible         := fodl_from_lbl in FileOpDlgLook;
-  lblFileNameFrom.Visible := fodl_from_lbl in FileOpDlgLook;
+  lblFileNameFrom.Visible := lblFrom.Visible;
+
   lblTo.Visible           := fodl_to_lbl in FileOpDlgLook;
-  lblFileNameTo.Visible   := fodl_to_lbl in FileOpDlgLook;
+  lblFileNameTo.Visible   := lblTo.Visible;
+
   pbFirst.Visible         := fodl_first_pb in FileOpDlgLook;
   pbSecond.Visible        := fodl_second_pb in FileOpDlgLook;
 
