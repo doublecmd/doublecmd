@@ -75,6 +75,15 @@ type
     constructor Create(AFreeObjects: Boolean = True); reintroduce;
     function Add(Shortcut: String; Command, Params: String): THotkey; overload;
     function AddIfNotExists(Shortcut: String; Command, Params: String): THotkey; overload;
+    {en
+       Adds multiple shortcuts to the same command.
+       @param(ShortcutsWithParams
+              Array of shortcuts with their respective parameters:
+                [Shortcut1, Param1, Shortcut2, Param2, ...])
+       @param(Command
+              Command to which the shortcuts should be added.)
+    }
+    procedure AddIfNotExists(ShortcutsWithParams: array of String; Command: String);
     procedure Clear;
     procedure Delete(Shortcut: String); reintroduce;
     procedure Remove(var hotkey: THotkey); reintroduce;
@@ -230,6 +239,35 @@ begin
       Exit(nil);
   end;
   Result := Add(Shortcut, Command, Params);
+end;
+
+procedure THotkeys.AddIfNotExists(ShortcutsWithParams: array of String; Command: String);
+var
+  i, j: Integer;
+  AddShortcut: array of Boolean;
+  NrOfShortcuts: Integer;
+begin
+  Assert(Length(ShortcutsWithParams) mod 2 = 0);
+
+  NrOfShortcuts := Length(ShortcutsWithParams) div 2;
+  SetLength(AddShortcut, NrOfShortcuts);
+  for j := 0 to NrOfShortcuts - 1 do
+    AddShortcut[j] := True;
+
+  // Check if the shortcut isn't already assigned to a different command
+  // or if a different shortcut isn't already assigned to the command.
+  for i := 0 to Count - 1 do
+  begin
+    for j := 0 to NrOfShortcuts - 1 do
+      if Items[i].Shortcut = ShortcutsWithParams[j*2] then
+        AddShortcut[j] := False;
+    if Items[i].Command = Command then
+      Exit;
+  end;
+
+  for j := 0 to NrOfShortcuts - 1 do
+    if AddShortcut[j] then
+      Add(ShortcutsWithParams[j*2], Command, ShortcutsWithParams[j*2 + 1]);
 end;
 
 procedure THotkeys.Clear;

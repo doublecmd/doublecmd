@@ -357,6 +357,8 @@ begin
   // Shortcuts that can conflict with default OS shortcuts for some controls
   // should be put only to Files Panel.
   // For a list of such possible shortcuts see THotKeyManager.IsShortcutConflictingWithOS.
+  // If adding multiple shortcuts for the same command use:
+  //  AddIfNotExists([Shortcut1, Param1, Shortcut2, Param2, ...], Command);
 
   HMForm := HotMan.Forms.FindOrCreate('Main');
   with HMForm.Hotkeys do
@@ -368,7 +370,8 @@ begin
       AddIfNotExists('F5','cm_Copy','');
       AddIfNotExists('F6','cm_Rename','');
       AddIfNotExists('F7','cm_MakeDir','');
-      AddIfNotExists('F8','cm_Delete','');
+      AddIfNotExists(['F8','',
+                      'Shift+F8','recyclesettingrev'], 'cm_Delete');
       AddIfNotExists('F9','cm_RunTerm','');
       AddIfNotExists('Ctrl+7','cm_ShowCmdLineHistory','');
       AddIfNotExists('Ctrl+D','cm_DirHotList','');
@@ -405,7 +408,6 @@ begin
       AddIfNotExists('Shift+F4','cm_EditNew','');
       AddIfNotExists('Shift+F5','cm_CopySamePanel','');
       AddIfNotExists('Shift+F6','cm_RenameOnly','');
-      AddIfNotExists('Shift+F8','cm_Delete','recyclesettingrev');
       AddIfNotExists('Shift+F10','cm_ContextMenu','');
       AddIfNotExists('Alt+V','cm_OperationsViewer','');
       AddIfNotExists('Alt+X','cm_Exit','');
@@ -427,8 +429,8 @@ begin
   HMControl := HMForm.Controls.FindOrCreate('Files Panel');
   with HMControl.Hotkeys do
     begin
-      AddIfNotExists('Del','cm_Delete','');
-      AddIfNotExists('Shift+Del','cm_Delete','recyclesettingrev');
+      AddIfNotExists(['Del','',
+                      'Shift+Del','recyclesettingrev'], 'cm_Delete');
       AddIfNotExists('Ctrl+A','cm_MarkMarkAll','');
       AddIfNotExists('Ctrl+C','cm_CopyToClipboard','');
       AddIfNotExists('Ctrl+V','cm_PasteFromClipboard','');
