@@ -13,6 +13,8 @@ type
   TOptionsEditorSaveFlag = (oesfNeedsRestart);
   TOptionsEditorSaveFlags = set of TOptionsEditorSaveFlag;
 
+  TOptionsEditor = class;
+  TOptionsEditorClass = class of TOptionsEditor;
   TOptionsEditorClassList = class;
 
   { IOptionsDialog }
@@ -21,6 +23,7 @@ type
   IOptionsDialog = interface
     ['{E62AAF5E-74ED-49AB-93F2-DBE210BF6723}']
     procedure LoadSettings;
+    function GetEditor(EditorClass: TOptionsEditorClass): TOptionsEditor;
   end;
   {$interfaces default}
 
@@ -48,10 +51,6 @@ type
                    AOptionsDialog: IOptionsDialog;
                    Flags: TOptionsEditorInitFlags);
   end;
-
-  { TOptionsEditorClass }
-
-  TOptionsEditorClass = class of TOptionsEditor;
 
   { TOptionsEditorRec }
 

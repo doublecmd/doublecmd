@@ -52,10 +52,14 @@ type
     rbUseMmapInSearch: TRadioButton;
     rbUseStreamInSearch: TRadioButton;
     seWipePassNumber: TSpinEdit;
+    procedure cbDeleteToTrashChange(Sender: TObject);
+  private
+    FLoading: Boolean;
   protected
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
+    constructor Create(TheOwner: TComponent); override;
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
   end;
@@ -65,7 +69,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uGlobs, uLng;
+  uGlobs, uLng, fOptionsHotkeys;
 
 { TfrmOptionsFileOperations }
 
@@ -79,8 +83,22 @@ begin
   Result := rsOptionsEditorFileOperations;
 end;
 
+procedure TfrmOptionsFileOperations.cbDeleteToTrashChange(Sender: TObject);
+var
+  HotkeysEditor: TOptionsEditor;
+begin
+  if not FLoading then
+  begin
+    HotkeysEditor := OptionsDialog.GetEditor(TfrmOptionsHotkeys);
+    if Assigned(HotkeysEditor) then
+      (HotkeysEditor as TfrmOptionsHotkeys).AddDeleteWithShiftHotkey;
+  end;
+end;
+
 procedure TfrmOptionsFileOperations.Load;
 begin
+  FLoading := True;
+
   edtCopyBufferSize.Text           := IntToStr(gCopyBlockSize div 1024);
   cbSkipFileOpError.Checked        := gSkipFileOpError;
   cbDropReadOnlyFlag.Checked       := gDropReadOnlyFlag;
@@ -90,8 +108,10 @@ begin
   cbProcessComments.Checked        := gProcessComments;
   cbShowCopyTabSelectPanel.Checked := gShowCopyTabSelectPanel;
   cbDeleteToTrash.Checked          := gUseTrash;
-  cbSaveThumbnails.Checked          := gSaveThumb;
-  cbRenameSelOnlyName.Checked := gRenameSelOnlyName;
+  cbSaveThumbnails.Checked         := gSaveThumb;
+  cbRenameSelOnlyName.Checked      := gRenameSelOnlyName;
+
+  FLoading := False;
 end;
 
 function TfrmOptionsFileOperations.Save: TOptionsEditorSaveFlags;
@@ -109,6 +129,12 @@ begin
   gUseTrash               := cbDeleteToTrash.Checked;
   gSaveThumb              := cbSaveThumbnails.Checked;
   gRenameSelOnlyName      := cbRenameSelOnlyName.Checked;
+end;
+
+constructor TfrmOptionsFileOperations.Create(TheOwner: TComponent);
+begin
+  inherited Create(TheOwner);
+  FLoading := False;
 end;
 
 end.
