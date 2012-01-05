@@ -69,7 +69,9 @@ type
   private
     FOptionsEditorList: TOptionsEditorViews;
     FOldEditor: TOptionsEditorView;
+    function CreateEditor(EditorClass: TOptionsEditorClass): TOptionsEditor;
     procedure CreateOptionsEditorList;
+    function GetEditor(EditorClass: TOptionsEditorClass): TOptionsEditor;
     procedure LoadSettings;
     procedure SelectEditor(EditorClassName: String);
   public
@@ -179,6 +181,23 @@ begin
   AddEditors(OptionsEditorClassList, nil);
 end;
 
+function TfrmOptions.GetEditor(EditorClass: TOptionsEditorClass): TOptionsEditor;
+var
+  I: Integer;
+begin
+  for I := 0 to FOptionsEditorList.Count - 1 do
+  begin
+    if FOptionsEditorList[I].EditorClass = EditorClass then
+    begin
+      if not Assigned(FOptionsEditorList[I].Instance) then
+        FOptionsEditorList[I].Instance := CreateEditor(FOptionsEditorList[I].EditorClass);
+      Result := FOptionsEditorList[I].Instance;
+      Exit;
+    end;
+  end;
+  Result := nil;
+end;
+
 procedure TfrmOptions.LoadSettings;
 begin
   LoadConfig;
@@ -234,16 +253,7 @@ begin
       FOldEditor.Instance.Visible := False;
 
     if not Assigned(SelectedEditorView.Instance) then
-    begin
-      if Assigned(SelectedEditorView.EditorClass) and
-         not SelectedEditorView.EditorClass.IsEmpty then
-      begin
-        SelectedEditorView.Instance := SelectedEditorView.EditorClass.Create(Self);
-        SelectedEditorView.Instance.Align   := alClient;
-        SelectedEditorView.Instance.Visible := False;
-        SelectedEditorView.Instance.Init(sboxOptionsEditor, Self, [oeifLoad]);
-      end;
-    end;
+      SelectedEditorView.Instance := CreateEditor(SelectedEditorView.EditorClass);
 
     if Assigned(SelectedEditorView.Instance) then
       SelectedEditorView.Instance.Visible := True
@@ -255,6 +265,19 @@ begin
 
     pnlCaption.Caption := SelectedEditorView.EditorClass.GetTitle;
   end;
+end;
+
+function TfrmOptions.CreateEditor(EditorClass: TOptionsEditorClass): TOptionsEditor;
+begin
+  if Assigned(EditorClass) and not EditorClass.IsEmpty then
+  begin
+    Result := EditorClass.Create(Self);
+    Result.Align   := alClient;
+    Result.Visible := False;
+    Result.Init(sboxOptionsEditor, Self, [oeifLoad]);
+  end
+  else
+    Result := nil;
 end;
 
 procedure TfrmOptions.LoadConfig;

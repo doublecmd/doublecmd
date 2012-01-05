@@ -114,6 +114,7 @@ type
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
+    procedure AddDeleteWithShiftHotkey;
     class function GetIconIndex: Integer; override;
     class function GetTitle: String; override;
   end;
@@ -894,6 +895,83 @@ destructor TfrmOptionsHotkeys.Destroy;
 begin
   inherited Destroy;
   FHotkeysCategories.Free;
+end;
+
+procedure TfrmOptionsHotkeys.AddDeleteWithShiftHotkey;
+  procedure AddShiftShortcut(Hotkeys: THotkeys);
+  var
+    i, j: Integer;
+    Shortcut: TShortCut;
+    ShiftState: TShiftState;
+    TextShortcut: String;
+    NewParams: String;
+  begin
+    for i := 0 to Hotkeys.Count - 1 do
+    begin
+      if Hotkeys[i].Command = 'cm_Delete' then
+      begin
+        if (Hotkeys[i].Params = '') or (Hotkeys[i].Params = 'recyclesetting') then
+          NewParams := 'recyclesettingrev'
+        else if Hotkeys[i].Params = 'recyclesettingrev' then
+          NewParams := 'recyclesetting'
+        else
+        begin
+          MessageDlg(rsOptHotkeysCannotAddShortcut,
+                     Format(rsOptHotkeysDeleteShortcutWrongParams, [Hotkeys[i].Shortcut]),
+                     mtWarning, [mbOK], 0);
+          Exit;
+        end;
+
+        Shortcut := TextToShortCutEx(Hotkeys[i].Shortcut);
+        ShiftState := ShortcutToShiftEx(Shortcut);
+        if ssShift in ShiftState then
+          ShiftState := ShiftState - [ssShift]
+        else
+          ShiftState := ShiftState + [ssShift];
+        ShortCut := KeyToShortCutEx(Shortcut, ShiftState);
+        TextShortcut := ShortCutToTextEx(Shortcut);
+
+        for j := 0 to Hotkeys.Count - 1 do
+        begin
+          if Hotkeys[j].Shortcut = TextShortcut then
+          begin
+            if Hotkeys[j].Command <> Hotkeys[i].Command then
+            begin
+              MessageDlg(rsOptHotkeysCannotAddShortcut,
+                         Format(rsOptHotkeysDeleteShortcutAlreadyAssigned, [TextShortcut]),
+                         mtWarning, [mbOK], 0);
+            end;
+            // Else already exists and we don't need to add it.
+            Exit;
+          end;
+        end;
+
+        if QuestionDlg(rsOptHotkeysAddDeleteShortcut,
+                       Format(rsOptHotkeysAddDeleteShortcutLong, [TextShortcut]),
+                       mtConfirmation, [mrYes, rsOptHotkeysAddShortcutButton, 'isdefault', mrCancel], 0) = mrYes then
+        begin
+          Hotkeys.Add(TextShortcut, Hotkeys[i].Command, NewParams);
+        end;
+
+        Exit;
+      end;
+    end;
+  end;
+
+var
+  HMForm: THMForm;
+  I: Integer;
+begin
+  HMForm := HotMan.Forms.Find('Main');
+  if Assigned(HMForm) then
+  begin
+    AddShiftShortcut(HMForm.Hotkeys);
+    for I := 0 to HMForm.Controls.Count - 1 do
+      AddShiftShortcut(HMForm.Controls[i].Hotkeys);
+    // Refresh hotkeys list.
+    if stgCommands.Cells[stgCmdCommandIndex, stgCommands.Row] = 'cm_Delete' then
+      Self.FillHotkeyList('cm_Delete');
+  end;
 end;
 
 end.

@@ -149,6 +149,7 @@ inherited frmOptionsFileOperations: TfrmOptionsFileOperations
       BorderSpacing.Left = 14
       BorderSpacing.Top = 6
       Caption = 'Delete to recycle bin (Shift key reverses this setting)'
+      OnChange = cbDeleteToTrashChange
       TabOrder = 5
     end
     object cbSkipFileOpError: TCheckBox

@@ -404,6 +404,15 @@ resourcestring
   rsOptExampleCursor = 'Cursor';
   rsOptExampleMarkCursor = 'Mark + Cursor';
   // Hotkeys
+  rsOptHotkeysAddDeleteShortcut = 'Add shortcut to delete file';
+  rsOptHotkeysAddDeleteShortcutLong =
+    'Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting.';
+  rsOptHotkeysAddShortcutButton = 'Add shortcut';
+  rsOptHotkeysCannotAddShortcut = 'Cannot add shortcut';
+  rsOptHotkeysDeleteShortcutWrongParams =
+    'Current shortcut %s for cm_Delete has parameters that don''t depend on this setting, so the setting will have no effect.';
+  rsOptHotkeysDeleteShortcutAlreadyAssigned =
+    'Shortcut %s for cm_Delete is already assigned, so it cannot be used to reverse this setting.';
   rsOptHotkeysCommand = 'Command';
   rsOptHotkeysDescription = 'Description';
   rsOptHotkeysHotkeys = 'Hotkeys';
