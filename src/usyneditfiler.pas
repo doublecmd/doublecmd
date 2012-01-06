@@ -60,7 +60,7 @@ type
     fFileSize: TStreamSeekType;
     procedure FillBuffer;
   public
-    constructor Create(const FileName: string);
+    constructor Create(const aFileName: UTF8String);
     function EOF: boolean;
     function ReadLine: string;
   end;
@@ -120,10 +120,10 @@ begin
   end;
 end;
 
-constructor TSynEditFileReader.Create(const FileName: string);
+constructor TSynEditFileReader.Create(const aFileName: UTF8String);
 begin
   inherited Create;
-  fFiler := TFileStreamEx.Create(FileName, fmOpenRead or fmShareDenyNone);
+  fFiler := TFileStreamEx.Create(aFileName, fmOpenRead or fmShareDenyNone);
   fFileSize := fFiler.Size;
   fFiler.Seek(0, soFromBeginning);
 end;
