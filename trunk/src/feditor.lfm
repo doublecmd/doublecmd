@@ -5,8 +5,8 @@ object frmEditor: TfrmEditor
   Width = 640
   ActiveControl = Editor
   Caption = 'Editor'
-  ClientHeight = 469
-  ClientWidth = 719
+  ClientHeight = 460
+  ClientWidth = 640
   Icon.Data = {
     7E04000000000100010010100000010020006804000016000000280000001000
     0000200000000100200000000000000000000000000000000000000000000000
@@ -51,15 +51,15 @@ object frmEditor: TfrmEditor
   OnClose = frmEditorClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  ParentFont = False
   Position = poDefault
   SessionProperties = 'Height;Width;WindowState;Left;Top'
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.27'
+  LCLVersion = '0.9.30.2'
   object StatusBar: TStatusBar
+    Left = 0
     Height = 23
-    Top = 177
-    Width = 342
+    Top = 437
+    Width = 640
     Panels = <    
       item
         Width = 50
@@ -75,18 +75,19 @@ object frmEditor: TfrmEditor
       end>
     SimplePanel = False
   end
-  object Editor: TSynEdit
-    Height = 151
+  inline Editor: TSynEdit
+    Left = 0
+    Height = 411
     Top = 26
-    Width = 342
+    Width = 640
     Align = alClient
     Anchors = [akTop]
     Font.Color = clBlack
     Font.Height = 13
     Font.Name = 'adobe-courier'
     Font.Pitch = fpFixed
+    Font.Quality = fqNonAntialiased
     ParentColor = False
-    ParentCtl3D = False
     ParentFont = False
     PopupMenu = pmContextMenu
     TabOrder = 0
@@ -94,341 +95,618 @@ object frmEditor: TfrmEditor
     OnKeyPress = EditorKeyPress
     OnKeyUp = EditorKeyUp
     BookMarkOptions.Xoffset = 48
-    BookMarkOptions.OnChange = nil
-    Gutter.AutoSize = True
-    Gutter.ShowLineNumbers = True
-    Gutter.Width = 24
-    Gutter.ShowCodeFolding = True
+    Gutter.Width = 61
+    Gutter.MouseActions = <    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbLeft
+        ClickCount = ccAny
+        ClickDir = cdDown
+        Command = 13
+        MoveCaret = False
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbRight
+        ClickCount = ccSingle
+        ClickDir = cdUp
+        Command = 12
+        MoveCaret = False
+        Option = 0
+        Priority = 0
+      end>
+    RightGutter.Width = 0
+    RightGutter.MouseActions = <    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbLeft
+        ClickCount = ccAny
+        ClickDir = cdDown
+        Command = 13
+        MoveCaret = False
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbRight
+        ClickCount = ccSingle
+        ClickDir = cdUp
+        Command = 12
+        MoveCaret = False
+        Option = 0
+        Priority = 0
+      end>
     Keystrokes = <    
       item
-        Command = 3
+        Command = ecUp
         ShortCut = 38
       end    
       item
-        Command = 103
+        Command = ecSelUp
         ShortCut = 8230
       end    
       item
-        Command = 211
+        Command = ecScrollUp
         ShortCut = 16422
       end    
       item
-        Command = 4
+        Command = ecDown
         ShortCut = 40
       end    
       item
-        Command = 104
+        Command = ecSelDown
         ShortCut = 8232
       end    
       item
-        Command = 212
+        Command = ecScrollDown
         ShortCut = 16424
       end    
       item
-        Command = 1
+        Command = ecLeft
         ShortCut = 37
       end    
       item
-        Command = 101
+        Command = ecSelLeft
         ShortCut = 8229
       end    
       item
-        Command = 5
+        Command = ecWordLeft
         ShortCut = 16421
       end    
       item
-        Command = 105
+        Command = ecSelWordLeft
         ShortCut = 24613
       end    
       item
-        Command = 2
+        Command = ecRight
         ShortCut = 39
       end    
       item
-        Command = 102
+        Command = ecSelRight
         ShortCut = 8231
       end    
       item
-        Command = 6
+        Command = ecWordRight
         ShortCut = 16423
       end    
       item
-        Command = 106
+        Command = ecSelWordRight
         ShortCut = 24615
       end    
       item
-        Command = 10
+        Command = ecPageDown
         ShortCut = 34
       end    
       item
-        Command = 110
+        Command = ecSelPageDown
         ShortCut = 8226
       end    
       item
-        Command = 14
+        Command = ecPageBottom
         ShortCut = 16418
       end    
       item
-        Command = 114
+        Command = ecSelPageBottom
         ShortCut = 24610
       end    
       item
-        Command = 9
+        Command = ecPageUp
         ShortCut = 33
       end    
       item
-        Command = 109
+        Command = ecSelPageUp
         ShortCut = 8225
       end    
       item
-        Command = 13
+        Command = ecPageTop
         ShortCut = 16417
       end    
       item
-        Command = 113
+        Command = ecSelPageTop
         ShortCut = 24609
       end    
       item
-        Command = 7
+        Command = ecLineStart
         ShortCut = 36
       end    
       item
-        Command = 107
+        Command = ecSelLineStart
         ShortCut = 8228
       end    
       item
-        Command = 15
+        Command = ecEditorTop
         ShortCut = 16420
       end    
       item
-        Command = 115
+        Command = ecSelEditorTop
         ShortCut = 24612
       end    
       item
-        Command = 8
+        Command = ecLineEnd
         ShortCut = 35
       end    
       item
-        Command = 108
+        Command = ecSelLineEnd
         ShortCut = 8227
       end    
       item
-        Command = 16
+        Command = ecEditorBottom
         ShortCut = 16419
       end    
       item
-        Command = 116
+        Command = ecSelEditorBottom
         ShortCut = 24611
       end    
       item
-        Command = 223
+        Command = ecToggleMode
         ShortCut = 45
       end    
       item
-        Command = 201
+        Command = ecCopy
         ShortCut = 16429
       end    
       item
-        Command = 604
+        Command = ecPaste
         ShortCut = 8237
       end    
       item
-        Command = 502
+        Command = ecDeleteChar
         ShortCut = 46
       end    
       item
-        Command = 603
+        Command = ecCut
         ShortCut = 8238
       end    
       item
-        Command = 501
+        Command = ecDeleteLastChar
         ShortCut = 8
       end    
       item
-        Command = 501
+        Command = ecDeleteLastChar
         ShortCut = 8200
       end    
       item
-        Command = 504
+        Command = ecDeleteLastWord
         ShortCut = 16392
       end    
       item
-        Command = 601
+        Command = ecUndo
         ShortCut = 32776
       end    
       item
-        Command = 602
+        Command = ecRedo
         ShortCut = 40968
       end    
       item
-        Command = 509
+        Command = ecLineBreak
         ShortCut = 13
       end    
       item
-        Command = 199
+        Command = ecSelectAll
         ShortCut = 16449
       end    
       item
-        Command = 201
+        Command = ecCopy
         ShortCut = 16451
       end    
       item
-        Command = 610
+        Command = ecBlockIndent
         ShortCut = 24649
       end    
       item
-        Command = 509
+        Command = ecLineBreak
         ShortCut = 16461
       end    
       item
-        Command = 510
+        Command = ecInsertLine
         ShortCut = 16462
       end    
       item
-        Command = 503
+        Command = ecDeleteWord
         ShortCut = 16468
       end    
       item
-        Command = 611
+        Command = ecBlockUnindent
         ShortCut = 24661
       end    
       item
-        Command = 604
+        Command = ecPaste
         ShortCut = 16470
       end    
       item
-        Command = 603
+        Command = ecCut
         ShortCut = 16472
       end    
       item
-        Command = 507
+        Command = ecDeleteLine
         ShortCut = 16473
       end    
       item
-        Command = 506
+        Command = ecDeleteEOL
         ShortCut = 24665
       end    
       item
-        Command = 601
+        Command = ecUndo
         ShortCut = 16474
       end    
       item
-        Command = 602
+        Command = ecRedo
         ShortCut = 24666
       end    
       item
-        Command = 301
+        Command = ecGotoMarker0
         ShortCut = 16432
       end    
       item
-        Command = 302
+        Command = ecGotoMarker1
         ShortCut = 16433
       end    
       item
-        Command = 303
+        Command = ecGotoMarker2
         ShortCut = 16434
       end    
       item
-        Command = 304
+        Command = ecGotoMarker3
         ShortCut = 16435
       end    
       item
-        Command = 305
+        Command = ecGotoMarker4
         ShortCut = 16436
       end    
       item
-        Command = 306
+        Command = ecGotoMarker5
         ShortCut = 16437
       end    
       item
-        Command = 307
+        Command = ecGotoMarker6
         ShortCut = 16438
       end    
       item
-        Command = 308
+        Command = ecGotoMarker7
         ShortCut = 16439
       end    
       item
-        Command = 309
+        Command = ecGotoMarker8
         ShortCut = 16440
       end    
       item
-        Command = 310
+        Command = ecGotoMarker9
         ShortCut = 16441
       end    
       item
-        Command = 351
+        Command = ecSetMarker0
         ShortCut = 24624
       end    
       item
-        Command = 352
+        Command = ecSetMarker1
         ShortCut = 24625
       end    
       item
-        Command = 353
+        Command = ecSetMarker2
         ShortCut = 24626
       end    
       item
-        Command = 354
+        Command = ecSetMarker3
         ShortCut = 24627
       end    
       item
-        Command = 355
+        Command = ecSetMarker4
         ShortCut = 24628
       end    
       item
-        Command = 356
+        Command = ecSetMarker5
         ShortCut = 24629
       end    
       item
-        Command = 357
+        Command = ecSetMarker6
         ShortCut = 24630
       end    
       item
-        Command = 358
+        Command = ecSetMarker7
         ShortCut = 24631
       end    
       item
-        Command = 359
+        Command = ecSetMarker8
         ShortCut = 24632
       end    
       item
-        Command = 360
+        Command = ecSetMarker9
         ShortCut = 24633
       end    
       item
-        Command = 231
+        Command = ecNormalSelect
         ShortCut = 24654
       end    
       item
-        Command = 232
+        Command = ecColumnSelect
         ShortCut = 24643
       end    
       item
-        Command = 233
+        Command = ecLineSelect
         ShortCut = 24652
       end    
       item
-        Command = 612
+        Command = ecTab
         ShortCut = 9
       end    
       item
-        Command = 613
+        Command = ecShiftTab
         ShortCut = 8201
       end    
       item
-        Command = 250
+        Command = ecMatchBracket
         ShortCut = 24642
       end>
-    SelectedColor.OnChange = nil
+    MouseActions = <    
+      item
+        Shift = []
+        ShiftMask = [ssShift, ssAlt]
+        Button = mbLeft
+        ClickCount = ccSingle
+        ClickDir = cdDown
+        Command = 1
+        MoveCaret = True
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = [ssShift]
+        ShiftMask = [ssShift, ssAlt]
+        Button = mbLeft
+        ClickCount = ccSingle
+        ClickDir = cdDown
+        Command = 1
+        MoveCaret = True
+        Option = 1
+        Priority = 0
+      end    
+      item
+        Shift = [ssAlt]
+        ShiftMask = [ssShift, ssAlt]
+        Button = mbLeft
+        ClickCount = ccSingle
+        ClickDir = cdDown
+        Command = 3
+        MoveCaret = True
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = [ssShift, ssAlt]
+        ShiftMask = [ssShift, ssAlt]
+        Button = mbLeft
+        ClickCount = ccSingle
+        ClickDir = cdDown
+        Command = 3
+        MoveCaret = True
+        Option = 1
+        Priority = 0
+      end    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbRight
+        ClickCount = ccSingle
+        ClickDir = cdUp
+        Command = 12
+        MoveCaret = False
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbLeft
+        ClickCount = ccDouble
+        ClickDir = cdDown
+        Command = 6
+        MoveCaret = True
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbLeft
+        ClickCount = ccTriple
+        ClickDir = cdDown
+        Command = 7
+        MoveCaret = True
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbLeft
+        ClickCount = ccQuad
+        ClickDir = cdDown
+        Command = 8
+        MoveCaret = True
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbMiddle
+        ClickCount = ccSingle
+        ClickDir = cdDown
+        Command = 10
+        MoveCaret = True
+        Option = 0
+        Priority = 0
+      end    
+      item
+        Shift = [ssCtrl]
+        ShiftMask = [ssShift, ssAlt, ssCtrl]
+        Button = mbLeft
+        ClickCount = ccSingle
+        ClickDir = cdUp
+        Command = 11
+        MoveCaret = False
+        Option = 0
+        Priority = 0
+      end>
+    MouseSelActions = <    
+      item
+        Shift = []
+        ShiftMask = []
+        Button = mbLeft
+        ClickCount = ccSingle
+        ClickDir = cdDown
+        Command = 9
+        MoveCaret = False
+        Option = 0
+        Priority = 0
+      end>
+    BracketHighlightStyle = sbhsBoth
     OnChange = EditorChange
     OnReplaceText = EditorReplaceText
     OnStatusChange = EditorStatusChange
+    inline SynLeftGutterPartList1: TSynGutterPartList
+      object SynGutterMarks1: TSynGutterMarks
+        Width = 24
+      end
+      object SynGutterLineNumber1: TSynGutterLineNumber
+        Width = 21
+        MouseActions = <>
+        MarkupInfo.Background = clBtnFace
+        MarkupInfo.Foreground = clNone
+        DigitCount = 2
+        ShowOnlyLineNumbersMultiplesOf = 1
+        ZeroStart = False
+        LeadingZeros = False
+      end
+      object SynGutterChanges1: TSynGutterChanges
+        Width = 4
+        ModifiedColor = 59900
+        SavedColor = clGreen
+      end
+      object SynGutterSeparator1: TSynGutterSeparator
+        Width = 2
+      end
+      object SynGutterCodeFolding1: TSynGutterCodeFolding
+        MouseActions = <        
+          item
+            Shift = []
+            ShiftMask = []
+            Button = mbRight
+            ClickCount = ccSingle
+            ClickDir = cdUp
+            Command = 16
+            MoveCaret = False
+            Option = 0
+            Priority = 0
+          end        
+          item
+            Shift = []
+            ShiftMask = [ssShift]
+            Button = mbMiddle
+            ClickCount = ccAny
+            ClickDir = cdDown
+            Command = 14
+            MoveCaret = False
+            Option = 0
+            Priority = 0
+          end        
+          item
+            Shift = [ssShift]
+            ShiftMask = [ssShift]
+            Button = mbMiddle
+            ClickCount = ccAny
+            ClickDir = cdDown
+            Command = 14
+            MoveCaret = False
+            Option = 1
+            Priority = 0
+          end        
+          item
+            Shift = []
+            ShiftMask = []
+            Button = mbLeft
+            ClickCount = ccAny
+            ClickDir = cdDown
+            Command = 0
+            MoveCaret = False
+            Option = 0
+            Priority = 0
+          end>
+        MarkupInfo.Background = clNone
+        MarkupInfo.Foreground = clGray
+        MouseActionsExpanded = <        
+          item
+            Shift = []
+            ShiftMask = []
+            Button = mbLeft
+            ClickCount = ccAny
+            ClickDir = cdDown
+            Command = 14
+            MoveCaret = False
+            Option = 0
+            Priority = 0
+          end>
+        MouseActionsCollapsed = <        
+          item
+            Shift = [ssCtrl]
+            ShiftMask = [ssCtrl]
+            Button = mbLeft
+            ClickCount = ccAny
+            ClickDir = cdDown
+            Command = 15
+            MoveCaret = False
+            Option = 0
+            Priority = 0
+          end        
+          item
+            Shift = []
+            ShiftMask = [ssCtrl]
+            Button = mbLeft
+            ClickCount = ccAny
+            ClickDir = cdDown
+            Command = 15
+            MoveCaret = False
+            Option = 1
+            Priority = 0
+          end>
+      end
+    end
   end
   object tbToolBar: TToolBar
+    Left = 0
     Height = 26
-    Width = 342
+    Top = 0
+    Width = 640
     Images = ilImageList
+    ParentShowHint = False
+    ShowHint = True
     TabOrder = 1
     object tbNew: TToolButton
       Left = 1
@@ -448,53 +726,53 @@ object frmEditor: TfrmEditor
     object tbSeparator1: TToolButton
       Left = 70
       Top = 2
-      Width = 6
+      Width = 8
       Style = tbsSeparator
     end
     object tbCut: TToolButton
-      Left = 76
+      Left = 78
       Top = 2
       Action = actEditCut
     end
     object tbCopy: TToolButton
-      Left = 99
+      Left = 101
       Top = 2
       Action = actEditCopy
     end
     object tbPaste: TToolButton
-      Left = 122
+      Left = 124
       Top = 2
       Action = actEditPaste
     end
     object tbSeparator2: TToolButton
-      Left = 145
+      Left = 147
       Top = 2
-      Width = 6
+      Width = 8
       Style = tbsSeparator
     end
     object tbUndo: TToolButton
-      Left = 151
+      Left = 155
       Top = 2
       Action = actEditUndo
     end
     object tbRedo: TToolButton
-      Left = 174
+      Left = 178
       Top = 2
       Action = actEditRedo
     end
     object tbSeparator3: TToolButton
-      Left = 197
+      Left = 201
       Top = 2
-      Width = 6
+      Width = 8
       Style = tbsSeparator
     end
     object tbConfig: TToolButton
-      Left = 203
+      Left = 209
       Top = 2
       Action = actConfHigh
     end
     object tbHelp: TToolButton
-      Left = 226
+      Left = 232
       Top = 2
       Action = actAbout
     end
@@ -1207,16 +1485,16 @@ object frmEditor: TfrmEditor
     object actAbout: TAction
       Category = 'Help'
       Caption = 'About'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'About'
       ImageIndex = 13
       OnExecute = actAboutExecute
     end
     object actFileOpen: TAction
       Category = 'File'
       Caption = '&Open'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'Open'
       ImageIndex = 1
       OnExecute = actFileOpenExecute
       ShortCut = 16463
@@ -1224,14 +1502,14 @@ object frmEditor: TfrmEditor
     object actFileClose: TAction
       Category = 'File'
       Caption = '&Close'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'Close'
     end
     object actFileSave: TAction
       Category = 'File'
       Caption = '&Save'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'Save'
       ImageIndex = 2
       OnExecute = actFileSaveExecute
       SecondaryShortCuts.Strings = (
@@ -1242,16 +1520,16 @@ object frmEditor: TfrmEditor
     object actFileSaveAs: TAction
       Category = 'File'
       Caption = 'Save &As..'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'Save As'
       ImageIndex = 3
       OnExecute = actFileSaveAsExecute
     end
     object actFileNew: TAction
       Category = 'File'
       Caption = '&New'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'New'
       ImageIndex = 0
       OnExecute = actFileNewExecute
       ShortCut = 16462
@@ -1259,8 +1537,8 @@ object frmEditor: TfrmEditor
     object actFileExit: TAction
       Category = 'File'
       Caption = 'E&xit'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'Exit'
       ImageIndex = 12
       OnExecute = actFileExitExecute
       ShortCut = 16472
@@ -1268,15 +1546,15 @@ object frmEditor: TfrmEditor
     object actSaveAll: TAction
       Category = 'File'
       Caption = 'Sa&ve All'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'Save All'
       ShortCut = 24659
     end
     object actEditFind: TAction
       Category = 'Edit'
       Caption = '&Find'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'Find'
       ImageIndex = 10
       OnExecute = actEditFindExecute
       ShortCut = 16454
@@ -1284,8 +1562,8 @@ object frmEditor: TfrmEditor
     object actEditRplc: TAction
       Category = 'Edit'
       Caption = '&Replace'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'Replace'
       ImageIndex = 11
       OnExecute = actEditRplcExecute
       ShortCut = 16466
@@ -1293,16 +1571,16 @@ object frmEditor: TfrmEditor
     object actConfHigh: TAction
       Category = 'File'
       Caption = '&Configuration'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'Configuration'
       ImageIndex = 4
       OnExecute = actConfHighExecute
     end
     object actEditCut: TAction
       Category = 'Edit'
       Caption = 'Cut'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'Cut'
       ImageIndex = 5
       OnExecute = actEditCutExecute
       ShortCut = 16472
@@ -1310,8 +1588,8 @@ object frmEditor: TfrmEditor
     object actEditCopy: TAction
       Category = 'Edit'
       Caption = 'Copy'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'Copy'
       ImageIndex = 6
       OnExecute = actEditCopyExecute
       ShortCut = 16451
@@ -1319,8 +1597,8 @@ object frmEditor: TfrmEditor
     object actEditPaste: TAction
       Category = 'Edit'
       Caption = 'Paste'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'Paste'
       ImageIndex = 7
       OnExecute = actEditPasteExecute
       ShortCut = 16470
@@ -1328,8 +1606,8 @@ object frmEditor: TfrmEditor
     object actEditUndo: TAction
       Category = 'Edit'
       Caption = 'Undo'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'Undo'
       ImageIndex = 8
       OnExecute = actEditUndoExecute
       ShortCut = 16474
@@ -1337,8 +1615,8 @@ object frmEditor: TfrmEditor
     object actEditRedo: TAction
       Category = 'Edit'
       Caption = 'Redo'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'Redo'
       ImageIndex = 9
       OnExecute = actEditRedoExecute
       ShortCut = 24666
@@ -1346,8 +1624,8 @@ object frmEditor: TfrmEditor
     object actEditSelectAll: TAction
       Category = 'Edit'
       Caption = 'Select&All'
-      DisableIfNoHandler = True
       HelpType = htKeyword
+      Hint = 'Select All'
       ImageIndex = 15
       OnExecute = actEditSelectAllExecute
       ShortCut = 16449
@@ -1355,7 +1633,7 @@ object frmEditor: TfrmEditor
     object actEditDelete: TAction
       Category = 'Edit'
       Caption = 'Delete'
-      DisableIfNoHandler = True
+      Hint = 'Delete'
       ImageIndex = 14
       OnExecute = actEditDeleteExecute
       ShortCut = 46
@@ -1363,7 +1641,7 @@ object frmEditor: TfrmEditor
     object actEditFindNext: TAction
       Category = 'Edit'
       Caption = 'Find next'
-      DisableIfNoHandler = True
+      Hint = 'Find next'
       OnExecute = actEditFindNextExecute
       ShortCut = 114
     end
@@ -1372,6 +1650,7 @@ object frmEditor: TfrmEditor
       AutoCheck = True
       Caption = 'Mac (CR)'
       GroupIndex = 1
+      Hint = 'Mac (CR)'
       OnExecute = actEditLineEndCrExecute
     end
     object actEditLineEndLf: TAction
@@ -1379,6 +1658,7 @@ object frmEditor: TfrmEditor
       AutoCheck = True
       Caption = 'Unix (LF)'
       GroupIndex = 1
+      Hint = 'Unix (LF)'
       OnExecute = actEditLineEndLfExecute
     end
     object actEditLineEndCrLf: TAction
@@ -1386,6 +1666,7 @@ object frmEditor: TfrmEditor
       AutoCheck = True
       Caption = 'Windows (CRLF)'
       GroupIndex = 1
+      Hint = 'Windows (CRLF)'
       OnExecute = actEditLineEndCrLfExecute
     end
   end
@@ -1395,6 +1676,42 @@ object frmEditor: TfrmEditor
     top = 32
     object miUndoContext: TMenuItem
       Action = actEditUndo
+      Bitmap.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000064000000640000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000066DBEAFF11A6C2FF0000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000043C4DBFF43C5D8FF0000000000000000000000000000
+        00000000000000000000000000000000000000A0C4FF00000000000000000000
+        000000000000000000000EAACBFF5DDAE9FF23A6C0FF00000000000000000000
+        000000000000000000000000000000A0C4FF00A0C4FF00000000000000000000
+        0000000000000000000002ACC8FF88E7F2FF11A2C2FF00000000000000000000
+        0000000000000000000000A0C4FF76EDFBFF00A0C4FF00000000000000000000
+        00000000000000A0C4FF6DE6F5FF76E2EFFF19A3C1FF00000000000000000000
+        00000000000000A0C4FF76EDFBFF76EDFBFF00A0C4FF00A0C4FF00A0C4FF00A0
+        C4FF01A9C4FF6EE1EEFF0FC9DFFF69E4F2FF1AA4C0FF00000000000000000000
+        000000A0C4FF76EDFBFF04C3DAFF76EDFBFF69EAF9FF69EAF9FF69EAF9FF69EA
+        F9FF05DDF7FF0AC8DFFF07C2D8FF6FDCEBFF1BA3BFFF000000000000000000A0
+        C4FF79EDFBFF32E2F8FF2CDFF4FF04C0D6FF04C0D6FF04C0D6FF1DD2E8FF1DD2
+        E8FF1DD2E8FF0BC8DFFF6AE5F3FF1BABC5FF15A0BCFF0000000000A0C4FFADF3
+        FBFF2FE0F6FF32E2F8FF32E2F7FF32E2F7FF2FE0F5FF29DBF1FF1DD2E8FF1DD2
+        E8FF1DD2E8FF36D9ECFF40CDE1FF16A1BDFF00000000000000000000000000A0
+        C4FFADF3FBFF2FE0F6FF32E2F7FF29DBF1FF2FE0F5FF29DBF1FF16CDE3FF36D9
+        ECFF69E7F6FF41CEE3FF13A3C1FF000000000000000000000000000000000000
+        000000A0C4FFADF3FBFF31E1F6FF20E3FAFF73ECFAFF6FEBFAFF6EE8F7FF6CE8
+        F7FF14A1BCFF14A3C1FF00000000000000000000000000000000000000000000
+        00000000000000A0C4FFADF3FBFF25E4FBFF00A0C4FF00A0C4FF13A1BEFF159F
+        BBFF1BA1BBFF0000000000000000000000000000000000000000000000000000
+        0000000000000000000000A0C4FFADF3FBFF00A0C4FF00000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000000000000A0C4FF00A0C4FF00000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        00000000000000000000000000000000000000A0C4FF00000000000000000000
+        0000000000000000000000000000000000000000000000000000
+      }
       OnClick = actEditUndoExecute
     end
     object miSeparator1: TMenuItem
@@ -1402,18 +1719,162 @@ object frmEditor: TfrmEditor
     end
     object miCutContext: TMenuItem
       Action = actEditCut
+      Bitmap.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000064000000640000000000000000000000000000000000
+        00000E0EAAFF1010ABFF1616ABFF000000000000000000000000000000000000
+        0000000000000D0DAAFF0B0BAAFF0B0BA9FF0000000000000000000000001313
+        ABFF2727DBFF1F1FD0FF1D1DCEFF0707A8FF0000000000000000000000000000
+        00000808AAFF2222D4FF1D1DCFFF1D1DCEFF1313ABFF00000000000000000D0D
+        ABFF1D1DCFFF000000000B0BB5FF2121D3FF0C0CAAFF00000000000000000909
+        AAFF2323D6FF0D0DB8FF000000001F1FD1FF1111ABFF00000000000000001414
+        ABFF2323D5FF00000000000000001D1DCEFF0A0AA9FF00000000000000000303
+        A8FF1A1BCAFF00000000000000002020D1FF1414ABFF00000000000000000000
+        00000606A8FF1F1FD0FF0303A8FF1415C0FF0101A6FF00000000000000001C1D
+        CDFF1315C0FF0303A8FF1D1DCDFF0606A7FF0000000000000000000000000000
+        0000000000000707A9FF2020D2FF1E1ECEFF0E0FB7FF0205A4FF0304A8FF1A1A
+        C9FF2020D1FF1F1FCBFF0A0AA9FF000000000000000000000000000000000000
+        000000000000000000001818AEFF1616ABFF0606A6FF454AA3FF0202A6FF191A
+        C7FF1717ADFF1818AEFF00000000000000000000000000000000000000000000
+        000000000000000000000000000000000000848989FFC3C6C5FFAFB2B3FF2C2F
+        9CFF000000000000000000000000000000000000000000000000000000000000
+        00000000000000000000000000008A8F8DFFB7BBBAFFE6E8E7FFA7ACAAFF8B90
+        8EFF878C8AFF0000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000888D8BFFDFE1E1FFF5F6F5FF979C9AFFA5A9
+        A8FF888D8BFF0000000000000000000000000000000000000000000000000000
+        000000000000000000008A8F8DFFB2B6B5FFF7F7F7FF888D8BFF9CA09FFFB3B6
+        B5FFB5BAB8FF888D8BFF00000000000000000000000000000000000000000000
+        00000000000000000000888D8BFFD9DCDBFFEFF0EFFF8E9391FF898E8CFFB3B8
+        B6FFCBCECDFF888D8BFF00000000000000000000000000000000000000000000
+        0000000000008A8F8DFFB0B5B3FFF6F7F7FF888D8BFF00000000000000008B90
+        8EFFC9CECCFFABAFAEFF888D8BFF000000000000000000000000000000000000
+        000000000000888D8BFFD0D4D2FFEFF0EFFF8F9492FF00000000000000000000
+        0000A7ACAAFFC3C8C6FF8A8F8DFF000000000000000000000000000000000000
+        0000000000008B908EFFF7F7F7FF888D8BFF0000000000000000000000000000
+        00008D9190FFD0D3D2FF8C918FFF000000000000000000000000000000000000
+        00000000000000000000888D8BFF909593FF0000000000000000000000000000
+        0000888D8BFF8C918FFF00000000000000000000000000000000
+      }
       OnClick = actEditCutExecute
     end
     object miCopyContext: TMenuItem
       Action = actEditCopy
+      Bitmap.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000064000000640000000000000000000000000000000000
+        00000000000000000000898E8CFF868B89FF858A88FF858A88FF858A88FF858A
+        88FF858A88FF858A88FF858A88FF000000000000000000000000000000000000
+        00000000000000000000868B89FFF4F4F4FFF6F7F7FFF5F6F6FFFBFCFCFFFBFB
+        FBFFD4D4D4FF969A98FFE2E4E3FF858A88FF0000000000000000000000000000
+        00000000000000000000868B89FFF9FAFAFFEFF0F0FFEFF0F0FFEFF0F0FFFAFA
+        FAFFFAFAFAFF959A98FFFAFAFAFFE2E3E3FF858A88FF858A88FF000000000000
+        00000000000000000000868B89FFFDFEFEFFEFF0F0FFEFF0F0FFEFF0F0FFEFF0
+        F0FFFAFAFAFF959A98FFFAFAFAFFF7F8F8FFE2E4E3FF858A88FF000000000000
+        00000000000000000000878C8AFFFFFFFFFFEFF0F0FFEFF0F0FFEFF0F0FFEFF0
+        F0FFEFF0F0FF898E8CFF898E8CFF898E8CFF898E8CFF858A88FF000000000000
+        00000000000000000000878C8AFFFFFFFFFFEFF0F0FFC6C7C7FFC6C7C7FFC6C7
+        C7FFC6C7C7FFC6C7C7FFEEEEEEFFF6F7F7FFC3C4C3FF858A88FF000000000000
+        00000000000000000000868B89FFFFFFFFFFEFF0F0FFEFF0F0FFEFF0F0FFEFF0
+        F0FFEFF0F0FFEFF0F0FFEFF0F0FFFAFAFAFFF3F3F3FF858A88FF000000000000
+        00000000000000000000878C8AFFFFFFFFFFEFF0F0FFC6C7C7FFC6C7C7FFC6C7
+        C7FFC6C7C7FFC6C7C7FFEFF0F0FFEFF0F0FFFFFFFFFF858A88FF000000000000
+        00000000000000000000868B89FFFFFFFFFFEFF0F0FFEFF0F0FFEFF0F0FFEFF0
+        F0FFEFF0F0FFEFF0F0FFEFF0F0FFEFF0F0FFFFFFFFFF858A88FF000000000000
+        00000000000000000000878C8AFFFFFFFFFFEFF0F0FFC6C7C7FFC6C7C7FFC6C7
+        C7FFC6C7C7FFC6C7C7FFC6C7C7FFEFF0F0FFFFFFFFFF858A88FF000000000000
+        00000000000000000000868B89FFFFFFFFFFEFF0F0FFEFF0F0FFEFF0F0FFEFF0
+        F0FFEFF0F0FFEFF0F0FFEFF0F0FFEFF0F0FFFFFFFFFF858A88FF000000000000
+        00000000000000000000878C8AFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF858A88FF000000000000
+        00000000000000000000979B9AFF858A88FF858A88FF858A88FF858A88FF858A
+        88FF858A88FF858A88FF858A88FF858A88FF858A88FF8A8F8DFF000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000
+      }
       OnClick = actEditCopyExecute
     end
     object miPasteContext: TMenuItem
       Action = actEditPaste
+      Bitmap.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000064000000640000000000000000000000000000000000
+        000001436CFF01446CFF01446CFF01446CFF01446CFF01446CFF01446CFF0144
+        6CFF01446CFF01446CFF01446CFF01436BFF0000000000000000000000000143
+        6CFF237FBAFF3B7DA7FF646F73FF686C6AFF686C6AFF686C6AFF686C6AFF686C
+        6AFF3D7CA3FF3D7CA3FF3D7CA3FF227BB3FF01436BFF00000000000000000245
+        6EFF2687C5FF636D70FFEDEEEDFFFEFEFEFFFEFEFEFFFEFEFEFFEEEFEFFFFDFE
+        FEFF646967FF2787C5FF2787C5FF2787C5FF00426AFF00000000000000000245
+        6EFF2687C5FF646866FFFFFFFFFFE4E7E7FFD5D8D8FFBEC2C1FFB4B7B7FFFFFF
+        FFFFFFFFFFFF646967FF2787C5FF2886C2FF00426AFF00000000000000000245
+        6EFF2687C5FF646866FFFFFFFFFFE7E9E9FFE5E7E7FFD6D9D9FFB6B9B9FFFFFF
+        FFFFFFFFFFFFFFFFFFFF646967FF2886C2FF00426AFF00000000000000000246
+        6EFF2687C5FF646866FFFFFFFFFFEAECECFFE8EAEAFFE6E8E8FFCBCECDFFB6BA
+        B9FFB5B9B8FFFFFFFFFF646967FF2886C2FF00426AFF00000000000000000246
+        6EFF2687C5FF646866FFFFFFFFFFEDEEEEFFEBECECFFE9EBEBFFE7E9E9FFD8DA
+        DAFFCACDCCFFFFFFFFFF646967FF2886C2FF00426AFF00000000000000000246
+        6EFF2687C5FF646866FFFFFFFFFFEFF0F0FFEEEFEFFFECEDEDFFEAEBEBFFE8EA
+        EAFFD9DBDBFFFFFFFFFF646967FF2886C2FF00426AFF00000000000000000246
+        6EFF2687C5FF646866FFFFFFFFFFEFF0F0FFB5B5B3FFB5B5B3FFB4B4B2FFB2B2
+        B1FFE8EAEAFFFFFFFFFF646967FF2886C2FF00426AFF00000000000000000246
+        6FFF2687C5FF646866FFFFFFFFFFEFF0F0FFEFF0F0FFEFF0F0FFEFF0F0FFEDEF
+        EFFFEBEDEDFFFFFFFFFF646967FF2886C2FF00426AFF00000000000000000246
+        6FFF2687C5FF646866FFFFFFFFFFEFF0F0FFB5B5B3FFB5B5B3FFB5B5B3FFB5B5
+        B3FFEEEFEFFFFFFFFFFF646967FF2886C2FF00426AFF00000000000000000246
+        6FFF2788C6FF646866FFFFFFFFFFEFF0F0FFEFF0F0FFEFF0F0FFEFF0F0FFEFF0
+        F0FFEFF0F0FFFFFFFFFF646967FF2886C2FF00426AFF00000000000000000246
+        6FFF2788C6FF646F71FFF1F1F1FFE0E0E0FFBBBBBBFFBBBBBBFFBBBBBBFFBBBB
+        BBFFE0E0E0FFF2F2F2FF646D6EFF2787C5FF00426AFF00000000000000000144
+        6DFF2484C0FF3E7EA4FF646D70FF5E5E5EFF7C7F7FFF7D8080FF7D8080FF7B7E
+        7EFF5E5E5EFF646C6EFF407CA1FF237FB9FF01436CFF00000000000000000000
+        000001446DFF01446CFF03446BFF5B5C5CFF899595FF8A9797FF8A9797FF8995
+        95FF5B5C5CFF03446BFF01446CFF01446CFF0000000000000000000000000000
+        00000000000000000000000000005E5F5FFF5C5C5CFF5C5C5CFF5C5C5CFF5C5C
+        5CFF5E5F5FFF0000000000000000000000000000000000000000
+      }
       OnClick = actEditPasteExecute
     end
     object miDeleteContext: TMenuItem
       Action = actEditDelete
+      Bitmap.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000064000000640000000000000000000000000000008C90
+        8FFF919493FFADB0AFFF0000000000000000909492FF9DA09FFF989C9AFF0000
+        000000000000000000007B7E7DFF989B9AFF0000000000000000000000008C90
+        8FFFFAFAFAFF949897FF999C9BFF999C9BFF969A98FFEDEEEEFF949997FF9B9E
+        9DFF989B9AFF8B8E8DFFFFFFFFFF8F9392FF0000000000000000000000008C90
+        8FFF858988FFF6F6F6FF999C9BFFABADACFF838885FFDEDFDEFF9C9F9EFFCCCE
+        CDFF989B9AFFEBEBEBFF969998FF000000000000000000000000000000000000
+        0000858988FFC9CBCAFF838885FFC4C4C4FF838885FFCACCCBFF9B9D9CFFC0C0
+        C0FF7C807FFFE2E3E3FF8B8E8DFF000000000000000000000000000000000000
+        0000727675FFC7C9C8FF797E7BFF9E9F9EFF8E8F8FFFADAEADFF8C8D8CFFAEAF
+        AEFF7C807FFFB7B8B7FF767978FF000000000000000000000000000000000000
+        00006A6E6DFFCCCDCDFF656968FFAAACABFF6C6F6EFFAEB0AFFF6B6E6DFFB0B2
+        B1FF6E7271FFB2B3B3FF6C706FFF000000000000000000000000874920FF874A
+        20FF874A20FF874A20FF874A20FF874A20FF874A20FF874A20FF874A20FF874A
+        20FF874A20FF874A20FF874A20FF874A20FF874A20FF874920FF874A20FFDDBB
+        9CFFCF9F72FFCF9F72FFCF9F72FFCF9F72FFCF9F72FFCF9F72FFCF9F72FFCF9F
+        72FFCF9F72FFCF9F72FFCF9F72FFCF9F72FFDDBB9CFF874A20FF874A20FFDDBB
+        9CFFDDBB9CFFDDBB9CFFDDBB9CFFDDBB9CFFDDBB9CFFDDBB9CFFDDBB9CFFDDBB
+        9CFFDDBB9CFFDDBB9CFFDDBB9CFFDDBB9CFFDDBB9CFF874A20FF874A20FFDDBB
+        9CFFCA8A58FFCA8A58FFCA8A58FFCA8A58FFCA8A58FFCA8A58FFCA8A58FFCA8A
+        58FFCA8A58FFCA8A58FFCA8A58FFCA8A58FFDDBB9CFF874A20FF874A20FFDDBB
+        9CFF86522CFF86512BFF86512BFF86512BFF86512BFF86512BFF86522CFF8652
+        2CFF86522CFF86522CFF86522CFF86522CFFDDBB9CFF874A20FF874A20FFDDBB
+        9CFF6A5B4EFFC9C9C9FF9C9C9CFF9C9C9CFF9C9C9CFF9B9B9BFF9B9B9BFF9B9B
+        9BFF9B9B9BFF9B9B9BFF9B9B9BFF6A5B4EFFDDBB9CFF874A20FF874A20FFDDBB
+        9CFF777C7AFFD9D9D9FFBDBDBDFFBDBDBDFFBDBDBDFFBDBDBDFFBCBCBCFFBCBC
+        BCFFBCBCBCFFBFBFBFFFC0C0C0FF777C7AFFDDBB9CFF874A20FF00000000874A
+        20FF858A88FFE7E7E7FFD7D7D7FFD6D6D6FFD6D6D6FFD6D6D6FFD6D6D6FFD5D5
+        D5FFD5D5D5FFDADADAFFDCDCDCFF858A88FF874A20FF00000000000000000000
+        0000858A88FFF1F1F1FFEBEBEBFFEBEBEBFFEBEBEBFFEAEAEAFFEAEAEAFFEAEA
+        EAFFEAEAEAFFEAEAEAFFE9E9E9FF858A88FF0000000000000000000000000000
+        00008F9391FF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A
+        88FF858A88FF858A88FF858A88FF8F9391FF0000000000000000
+      }
       OnClick = actEditDeleteExecute
     end
     object miSeparator2: TMenuItem
@@ -1421,6 +1882,42 @@ object frmEditor: TfrmEditor
     end
     object miSelectAllContext: TMenuItem
       Action = actEditSelectAll
+      Bitmap.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        200000000000000400006400000064000000000000000000000000000000898E
+        8CFF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A
+        88FF858A88FF858A88FF858A88FF858A88FF8A8F8DFF0000000000000000858A
+        88FFF8F8F8FFF8F8F8FFF8F8F8FFF8F8F8FFF8F8F8FFF8F8F8FF000000FFF8F8
+        F8FF000000FFF8F8F8FFF8F8F8FFF8F8F8FF888D8BFF0000000000000000858A
+        88FFF9F9F9FFDBC3ADFFDCC4AEFFDDC5AFFFDEC6B0FFDFC7B1FFE0C8B2FF0000
+        00FFF7F7F7FFF9F9F9FFF8F8F8FFF7F7F7FF888D8BFF0000000000000000858A
+        88FFF9F9F9FFDBC3ADFFB09882FFB09882FFB09882FFB09882FFE0C8B2FF0000
+        00FFF7F7F7FFF8F8F8FFF7F7F7FFF7F7F7FF888D8BFF0000000000000000858A
+        88FFFAFAFAFFDBC3ADFFDCC4AEFFDDC5AFFFDEC6B0FFDFC7B1FFE0C8B2FF0000
+        00FFF5F5F5FFF6F6F6FFF6F6F6FFF7F7F7FF888D8BFF0000000000000000858A
+        88FFFBFBFBFFDBC3ADFFDCC4AEFFDDC5AFFFDEC6B0FFDEC6B0FF000000FFE0C8
+        B2FF000000FFE1C9B3FFF4F4F4FFF7F7F7FF888D8BFF0000000000000000858A
+        88FFFBFBFBFFDAC2ACFFAF9781FFAF9781FFAF9781FFAF9781FFAF9781FFAF97
+        81FFAF9781FFE0C8B2FFF2F2F2FFF7F7F7FF888D8BFF0000000000000000858A
+        88FFFCFCFCFFDAC2ACFFDBC3ADFFDCC4AEFFDDC5AFFFDDC5AFFFDEC6B0FFDEC6
+        B0FFDFC7B1FFDFC7B1FFF0F0F0FFF8F8F8FF888D8BFF0000000000000000858A
+        88FFFCFCFCFFDAC2ACFFDAC2ACFFDBC3ADFFDCC4AEFFDDC5AFFFDDC5AFFFDEC6
+        B0FFDEC6B0FFDEC6B0FFEEEEEEFFF8F8F8FF888D8BFF0000000000000000858A
+        88FFFCFCFCFFD9C1ABFFAF9781FFAF9781FFAF9781FFAF9781FFDCC4AEFFAF97
+        81FFAF9781FFDDC5AFFFECECECFFF8F8F8FF888D8BFF0000000000000000858A
+        88FFFDFDFDFFD8C0AAFFAF9781FFAF9781FFAF9781FFAF9781FFDBC3ADFFDCC4
+        AEFFDCC4AEFFDCC4AEFFEBEBEBFFF8F8F8FF888D8BFF0000000000000000858A
+        88FFFDFDFDFFD8C0AAFFAF9781FFAF9781FFAF9781FFAF9781FFDBC3ADFFDBC3
+        ADFFDBC3ADFFDBC3ADFFDBC3ADFFF8F8F8FF888D8BFF0000000000000000858A
+        88FFFEFEFEFFD7BFA9FFAF9781FFAF9781FFAF9781FFAF9781FFDAC2ACFFAF97
+        81FFAF9781FFAF9781FFDAC2ACFFF8F8F8FF888D8BFF0000000000000000858A
+        88FFFDFDFDFFD6BEA8FFD7BFA9FFD7BFA9FFD8C0AAFFD8C0AAFFD9C1ABFFD9C1
+        ABFFD9C1ABFFD9C1ABFFD9C1ABFFF8F8F8FF888D8BFF0000000000000000858A
+        88FFFDFDFDFFFEFEFEFFFEFEFEFFFDFDFDFFFDFDFDFFFCFCFCFFFCFCFCFFFBFB
+        FBFFFBFBFBFFFAFAFAFFFAFAFAFFF9F9F9FF888D8BFF0000000000000000898D
+        8BFF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A88FF858A
+        88FF858A88FF858A88FF858A88FF858A88FF898E8CFF00000000
+      }
       OnClick = actEditSelectAllExecute
     end
   end

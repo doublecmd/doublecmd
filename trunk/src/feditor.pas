@@ -20,7 +20,7 @@ interface
 
 uses
   SysUtils, Classes, Controls, Forms, ActnList, Menus, SynEdit,
-  ComCtrls, SynEditSearch;
+  ComCtrls, SynEditSearch, uDebug;
 
 type
 
@@ -152,6 +152,7 @@ type
     bSearchSelectionOnly:Boolean;
     bSearchWholeWords:Boolean;
     bSearchRegExp:Boolean;
+    FFileName: UTF8String;
     sSearchText, sReplaceText:String;
     sEncodingIn,
     sEncodingOut,
@@ -162,7 +163,8 @@ type
        Saves editor content to a file.
        @returns(@true if successful)
     }
-    function SaveFile(const sFileName: String): Boolean;
+    function SaveFile(const aFileName: UTF8String): Boolean;
+    procedure SetFileName(const AValue: UTF8String);
 
   public
     { Public declarations }
@@ -175,14 +177,16 @@ type
        Opens a file.
        @returns(@true if successful)
     }
-    function OpenFile(const sFileName: String): Boolean;
+    function OpenFile(const aFileName: UTF8String): Boolean;
     procedure UpdateStatus;
     procedure SetEncodingIn(Sender:TObject);
     procedure SetEncodingOut(Sender:TObject);
     procedure SetHighLighter(Sender:TObject);
     procedure UpdateHighlighterStatus;
     procedure DoSearchReplaceText(AReplace: boolean; ABackwards: boolean);
-    procedure ShowSearchReplaceDialog(AReplace: boolean);    
+    procedure ShowSearchReplaceDialog(AReplace: boolean);
+
+    property FileName: UTF8String read FFileName write SetFileName;
   end;
 
   procedure ShowEditor(const sFileName:String);
@@ -305,14 +309,14 @@ begin
   FileWriteLineEndType:= sfleLf;
 end;
 
-function TfrmEditor.OpenFile(const sFileName: String): Boolean;
+function TfrmEditor.OpenFile(const aFileName: UTF8String): Boolean;
 var
   h: TSynCustomHighlighter;
   Reader: TSynEditFileReader;
 begin
   Result := False;
   try
-    Reader := TSynEditFileReader.Create(sFileName);
+    Reader := TSynEditFileReader.Create(aFileName);
     try
       Editor.Lines.BeginUpdate;
       try
@@ -334,78 +338,86 @@ begin
     end;
     Result := True;
   except
-    on EFCreateError do
+    on E: EFCreateError do
       begin
-        msgWarning(rsMsgErrECreate + ' ' + sFileName);
+        DCDebug(E.Message);
+        msgWarning(rsMsgErrECreate + ' ' + aFileName);
         Exit;
       end;
-    on EFOpenError do
+    on E: EFOpenError do
       begin
-        msgWarning(rsMsgErrEOpen + ' ' + sFileName);
+        DCDebug(E.Message);
+        msgWarning(rsMsgErrEOpen + ' ' + aFileName);
         Exit;
       end;
   end;
 
   // set up text encoding
-  sOriginalText:= Editor.Lines.Text; // save original text
+  sOriginalText := Editor.Lines.Text; // save original text
   // try to detect encoding by first 4 kb of text
-  sEncodingIn:= DetectEncoding(Copy(sOriginalText, 1, 4096));
+  sEncodingIn := DetectEncoding(Copy(sOriginalText, 1, 4096));
   ChooseEncoding(miEncodingIn, sEncodingIn);
-  sEncodingOut:= sEncodingIn; // by default
+  sEncodingOut := sEncodingIn; // by default
   ChooseEncoding(miEncodingOut, sEncodingOut);
   if sEncodingIn <> EncodingUTF8 then
-    Editor.Lines.Text:= ConvertEncoding(sOriginalText, sEncodingIn, EncodingUTF8);
+    Editor.Lines.Text := ConvertEncoding(sOriginalText, sEncodingIn, EncodingUTF8);
   // set up highlighter
-  h:= dmHighl.GetHighlighterByExt(ExtractFileExt(sFileName));
+  h := dmHighl.GetHighlighterByExt(ExtractFileExt(aFileName));
   SetupColorOfHighlighter(h);
-  Editor.Highlighter:=h;
+  Editor.Highlighter := h;
   UpdateHighlighterStatus;
-  Caption:=sFileName;
-  bChanged:=False;
-  bNoname:=False;
+  FileName := aFileName;
+  bChanged := False;
+  bNoname := False;
   UpdateStatus;
 end;
 
-function TfrmEditor.SaveFile(const sFileName: String): Boolean;
+function TfrmEditor.SaveFile(const aFileName: UTF8String): Boolean;
 var
   I: Integer;
   Writer: TSynEditFileWriter;
 begin
   Result := False;
-  // restore encoding
-  Editor.Lines.Text:= ConvertEncoding(Editor.Lines.Text, EncodingUTF8, sEncodingOut);
   try
-    // save to file
-    Writer := TSynEditFileWriter.Create(sFileName);
+    Writer := TSynEditFileWriter.Create(aFileName);
     try
-      with (Editor.Lines as TSynEditLines) do
-      Writer.LineEndType := FileWriteLineEndType;
+      Writer.LineEndType := (Editor.Lines as TSynEditLines).FileWriteLineEndType;
       for I := 0 to Editor.Lines.Count - 1 do
-        Writer.WriteLine(Editor.Lines[I]);
+        Writer.WriteLine(ConvertEncoding(Editor.Lines[I], EncodingUTF8, sEncodingOut));
     finally
       Writer.Free;
     end;
+
     Editor.Modified:= False; // needed for the undo stack
     Editor.MarkTextAsSaved;
     Result := True;
   except
     on e: EFCreateError do
-      begin
-        msgWarning(rsMsgErrSaveFile + ' ' + sFileName);
-        Exit;
-      end;
-    on EFOpenError do
-      begin
-        msgWarning(rsMsgErrSaveFile + ' ' + sFileName);
-        Exit;
-      end;
+    begin
+      DCDebug(e.Message);
+      msgWarning(rsMsgErrSaveFile + ' ' + aFileName);
+    end;
+    on e: EFOpenError do
+    begin
+      DCDebug(e.Message);
+      msgWarning(rsMsgErrSaveFile + ' ' + aFileName);
+    end;
   end;
+end;
+
+procedure TfrmEditor.SetFileName(const AValue: UTF8String);
+begin
+  if FFileName = AValue then
+    Exit;
+
+  FFileName := AValue;
+  Caption := FFileName;
 end;
 
 procedure TfrmEditor.actFileNewExecute(Sender: TObject);
 begin
   inherited;
-  Caption := rsMsgNewFile;
+  FileName := rsMsgNewFile;
   Editor.Lines.Clear;
   bChanged:=False;
   bNoname:=True;
@@ -644,7 +656,7 @@ begin
     actFileSaveAs.Execute
   else
   begin
-    SaveFile(Caption);
+    SaveFile(FileName);
     bChanged:=False;
     UpdateStatus;
   end;
@@ -652,16 +664,18 @@ end;
 
 procedure TfrmEditor.actFileSaveAsExecute(Sender: TObject);
 begin
-  dmComData.SaveDialog.FileName:=Caption;
+  dmComData.SaveDialog.FileName := FileName;
   dmComData.SaveDialog.Filter:='*.*'; // rewrite for highlighter
-  if not dmComData.SaveDialog.Execute then Exit;
-  SaveFile(dmComData.SaveDialog.FileName);
+  if not dmComData.SaveDialog.Execute then
+    Exit;
+
+  FileName := dmComData.SaveDialog.FileName;
+  SaveFile(FileName);
   bChanged:=False;
   bNoname:=False;
-  Caption:=dmComData.SaveDialog.FileName;
 
   UpdateStatus;
-  Editor.Highlighter:= dmHighl.GetHighlighterByExt(ExtractFileExt(dmComData.SaveDialog.FileName));
+  Editor.Highlighter:= dmHighl.GetHighlighterByExt(ExtractFileExt(FileName));
   UpdateHighlighterStatus;
 end;
 
@@ -712,7 +726,7 @@ begin
   inherited;
   CanClose:=False;
   if bChanged then
-    case msgYesNoCancel(Format(rsMsgFileChangedSave,[Caption])) of
+    case msgYesNoCancel(Format(rsMsgFileChangedSave,[FileName])) of
       mmrYes: actFileSave.Execute;
       mmrNo: bChanged:=False;
     else
