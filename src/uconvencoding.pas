@@ -61,7 +61,15 @@ begin
           Result:= CharsetInfo.Name;
           // When unknown encoding then use system encoding
           if SupportedEncodings.IndexOf(Result) < 0 then
+          begin
             Result:= GetDefaultTextEncoding;
+            if NormalizeEncoding(Result) = EncodingUTF8 then begin
+              // the system encoding is UTF-8, but it is not UTF-8
+              // use ISO-8859-1 instead. This encoding has a full 1:1 mapping to unicode,
+              // so no character is lost during conversions.
+              Result:= 'ISO-8859-1';
+            end;
+          end;
         end;
     end;
   finally
@@ -155,13 +163,6 @@ begin
 
   // Try to detect encoding
   Result:= MyDetectCodePageType(s);
-
-  if NormalizeEncoding(Result) = EncodingUTF8 then begin
-    // the system encoding is UTF-8, but it is not UTF-8
-    // use ISO-8859-1 instead. This encoding has a full 1:1 mapping to unicode,
-    // so no character is lost during conversions.
-    Result:= 'ISO-8859-1';
-  end;
 end;
 
 initialization
