@@ -92,9 +92,16 @@ type
                      veCp1257,
                      veCp1258,
                      veCp437,
+                     veCp850,
+                     veCp852,
                      veCp866,
                      veCp874,
+                     veCp932,
+                     veCp936,
+                     veCp949,
+                     veCp950,
                      veIso88591,
+                     veIso88592,
                      veKoi8,
                      veUcs2le,
                      veUcs2be,
@@ -119,9 +126,16 @@ const
                     'CP1257',
                     'CP1258',
                     'CP437',
+                    'CP850',
+                    'CP852',
                     'CP866',
                     'CP874',
+                    'CP932',
+                    'CP936',
+                    'CP949',
+                    'CP950',
                     'ISO-8859-1',
+                    'ISO-8859-2',
                     'KOI-8',
                     'UCS-2LE',
                     'UCS-2BE',
@@ -2419,8 +2433,9 @@ begin
       end;
 
     veAnsi,
-    veCp1250..veCp874,
+    veCp1250..veCp950,
     veIso88591,
+    veIso88592,
     veKoi8:
       if iPosition < FHighLimit then
       begin
@@ -2540,8 +2555,9 @@ begin
       end;
 
     veAnsi,
-    veCp1250..veCp874,
+    veCp1250..veCp950,
     veIso88591,
+    veIso88592,
     veKoi8:
       if iPosition > FLowLimit then
       begin
@@ -2647,8 +2663,9 @@ begin
                                             FHighLimit - iPosition,
                                             InvalidCharLen);
     veAnsi,
-    veCp1250..veCp874,
+    veCp1250..veCp950,
     veIso88591,
+    veIso88592,
     veKoi8:
       CharLenInBytes := 1;
     veUcs2be, veUcs2le:
@@ -3040,8 +3057,9 @@ procedure TViewerControl.UpdateSelection;
         end;
 
       veAnsi,
-      veCp1250..veCp874,
+      veCp1250..veCp950,
       veIso88591,
+      veIso88592,
       veKoi8:
         ; // any position allowed
 
