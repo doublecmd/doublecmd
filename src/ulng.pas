@@ -432,6 +432,7 @@ resourcestring
   rsOptPluginAlreadyAssigned = 'Plugin %s is already assigned for the following extensions:';
   //-------------------------------
   rsOptSortMethod = 'Alphabetical, considering accents;Natural sorting: alphabetical and numbers';
+  rsOptSortCaseSens = 'not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)';
 
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';

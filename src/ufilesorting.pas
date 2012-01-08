@@ -262,7 +262,7 @@ end;
 
 function ICompareByName(item1, item2: TFile; bSortNegative: Boolean):Integer;
 begin
-  Result := CompareStrings(item1.Name, item2.Name, gSortNatural, gSortCaseSensitive);
+  Result := CompareStrings(item1.Name, item2.Name, gSortNatural, gSortCaseSensitivity);
 
   if bSortNegative then
     Result := -Result;
@@ -279,7 +279,7 @@ begin
   end
   else
   begin
-    Result := CompareStrings(item1.NameNoExt, item2.NameNoExt, gSortNatural, gSortCaseSensitive);
+    Result := CompareStrings(item1.NameNoExt, item2.NameNoExt, gSortNatural, gSortCaseSensitivity);
 
     if bSortNegative then
       Result := -Result;
@@ -288,7 +288,7 @@ end;
 
 function ICompareByExt(item1, item2: TFile; bSortNegative: Boolean):Integer;
 begin
-  Result := CompareStrings(item1.Extension, item2.Extension, gSortNatural, gSortCaseSensitive);
+  Result := CompareStrings(item1.Extension, item2.Extension, gSortNatural, gSortCaseSensitivity);
 
   if bSortNegative then
     Result := -Result;
