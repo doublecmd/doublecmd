@@ -88,7 +88,10 @@ begin
     cstLocale:       cbCaseSensitivity.ItemIndex := 1;
     cstCharValue:    cbCaseSensitivity.ItemIndex := 2;
   end;
-  if gSortNatural then cbSortMethod.ItemIndex:= 1;
+  if not gSortNatural then
+    cbSortMethod.ItemIndex:= 0
+  else
+    cbSortMethod.ItemIndex:= 1;
   cbShortFileSizeFormat.Checked :=gShortFileSizeFormat;
   cbDateTimeFormat.Text := gDateTimeFormat;
   lblDateTimeExample.Caption:= FormatDateTime(cbDateTimeFormat.Text, Now);
