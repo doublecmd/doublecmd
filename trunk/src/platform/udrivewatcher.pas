@@ -368,8 +368,9 @@ class function TDriveWatcher.GetDrivesList: TDrivesList;
 var
   Drive : PDrive;
   DriveNum: Integer;
-  DriveBits: set of 0..25;
+  DriveBits: DWORD;
   WinDriveType: UINT;
+  DriveLetter: Char;
   DrivePath: String;
 begin
   Result := TDrivesList.Create;
@@ -377,8 +378,11 @@ begin
   DWORD(DriveBits) := GetLogicalDrives;
   for DriveNum := 0 to 25 do
   begin
-    if not (DriveNum in DriveBits) then Continue;
-    DrivePath := Char(DriveNum + Ord('a')) + ':\';
+    if ((DriveBits shr DriveNum) and $1) = 0 then
+      Continue;
+
+    DriveLetter := Char(DriveNum + Ord('a'));
+    DrivePath := DriveLetter + ':\';
     WinDriveType := GetDriveType(PChar(DrivePath));
     if WinDriveType = DRIVE_NO_ROOT_DIR then Continue;
     New(Drive);
@@ -387,7 +391,7 @@ begin
     begin
       DeviceId := EmptyStr;
       Path := DrivePath;
-      DisplayName := Path;
+      DisplayName := DriveLetter;
       DriveLabel := EmptyStr;
       FileSystem := EmptyStr;
       IsMediaAvailable := True;
@@ -398,7 +402,7 @@ begin
       case WinDriveType of
         DRIVE_REMOVABLE:
           begin
-            if Path[1] in ['a'..'b'] then
+            if DriveLetter in ['a', 'b'] then
               DriveType := dtFloppy
             else
               DriveType := dtFlash;
