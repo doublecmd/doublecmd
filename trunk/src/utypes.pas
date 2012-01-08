@@ -86,6 +86,15 @@ type
     Last: Integer;
   end;
 
+  TCaseSensitivity = (
+    cstNotSensitive,
+    // According to locale collation specs. Usually it means linguistic sorting
+    // of character case "aAbBcC" taking numbers into consideration (aa1, aa2, aa10, aA1, aA2, aA10, ...).
+    cstLocale,
+    // Depending on character value, direct comparison of bytes, so usually ABCabc.
+    // Might not work correctly for Unicode, just for Ansi.
+    cstCharValue);
+
 implementation
 
 end.

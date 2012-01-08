@@ -41,12 +41,13 @@ type
     cbLoadIconsSeparately: TCheckBox;
     cbShortFileSizeFormat: TCheckBox;
     cbShowSystemFiles: TCheckBox;
-    cbSortCaseSensitive: TCheckBox;
     cbSortMethod: TComboBox;
     cbSpaceMovesDown: TCheckBox;
+    cbCaseSensitivity: TComboBox;
     gbFormatting: TGroupBox;
     gbSorting: TGroupBox;
     gbMisc: TGroupBox;
+    lblCaseSensitivity: TLabel;
     lblDateTimeExample: TLabel;
     lblDateTimeFormat: TLabel;
     lblSortMethod: TLabel;
@@ -65,7 +66,7 @@ implementation
 {$R *.lfm}
 
 uses
-  uDCUtils, uGlobs, uLng;
+  uDCUtils, uGlobs, uLng, uTypes;
 
 { TfrmOptionsFilesViews }
 
@@ -77,11 +78,16 @@ end;
 procedure TfrmOptionsFilesViews.Init;
 begin
   ParseLineToList(rsOptSortMethod, cbSortMethod.Items);
+  ParseLineToList(rsOptSortCaseSens, cbCaseSensitivity.Items);
 end;
 
 procedure TfrmOptionsFilesViews.Load;
 begin
-  cbSortCaseSensitive.Checked := gSortCaseSensitive;
+  case gSortCaseSensitivity of
+    cstNotSensitive: cbCaseSensitivity.ItemIndex := 0;
+    cstLocale:       cbCaseSensitivity.ItemIndex := 1;
+    cstCharValue:    cbCaseSensitivity.ItemIndex := 2;
+  end;
   if gSortNatural then cbSortMethod.ItemIndex:= 1;
   cbShortFileSizeFormat.Checked :=gShortFileSizeFormat;
   cbDateTimeFormat.Text := gDateTimeFormat;
@@ -95,7 +101,11 @@ end;
 
 function TfrmOptionsFilesViews.Save: TOptionsEditorSaveFlags;
 begin
-  gSortCaseSensitive := cbSortCaseSensitive.Checked;
+  case cbCaseSensitivity.ItemIndex of
+    0: gSortCaseSensitivity := cstNotSensitive;
+    1: gSortCaseSensitivity := cstLocale;
+    2: gSortCaseSensitivity := cstCharValue;
+  end;
   gSortNatural := (cbSortMethod.ItemIndex = 1);
   gShortFileSizeFormat := cbShortFileSizeFormat.Checked;
   gDateTimeFormat := cbDateTimeFormat.Text;

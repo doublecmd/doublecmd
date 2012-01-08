@@ -28,7 +28,7 @@ uses
   Classes, Controls, Forms, uExts, uColorExt, Graphics, uClassesEx, uMultiArc,
   uColumns, uHotkeyManager, uSearchTemplate, uFileSourceOperationOptions,
   uWFXModule, uWCXModule, uWDXModule, uwlxmodule, udsxmodule, uXmlConfig,
-  uInfoToolTip, fQuickSearch;
+  uInfoToolTip, fQuickSearch, uTypes;
 
 type
   { Log options }
@@ -92,7 +92,9 @@ const
   //         ShowLabel, ShowFileSystem, ShowFreeSpace
   // 4   - changed QuickSearch/Enabled, QuickSearch/Mode and same for QuickFilter
   //       to Keyboard/Typing.
-  ConfigVersion = 4;
+  // 5   - changed Behaviours/SortCaseSensitive to FilesViews/Sorting/CaseSensitivity
+  //       changed Behaviours/SortNatural to FilesViews/Sorting/NaturalSorting
+  ConfigVersion = 5;
 
   TKeyTypingModifierToShift: array[TKeyTypingModifier] of TShiftState =
     ([], [ssAlt], [ssCtrl, ssAlt]);
@@ -152,7 +154,7 @@ var
   gShowSystemFiles:Boolean;
   gRunInTerm: String;
   gRunTerm: String;
-  gSortCaseSensitive,
+  gSortCaseSensitivity: TCaseSensitivity;
   gSortNatural:Boolean;
   gLynxLike:Boolean;
   gFirstTextSearch: Boolean;
@@ -686,7 +688,7 @@ begin
   gRunTerm := RunTerm;
   gOnlyOneAppInstance := False;
   gLynxLike := True;
-  gSortCaseSensitive := False;
+  gSortCaseSensitivity := cstNotSensitive;
   gSortNatural := False;
   gShortFileSizeFormat := True;
   gMinimizeToTray := False;
@@ -1159,7 +1161,10 @@ begin
   gPOFileName := gIni.ReadString('Configuration', 'Language', '?');
   gRunInTerm := gIni.ReadString('Configuration', 'RunInTerm', RunInTerm);
   gOnlyOneAppInstance:= gIni.ReadBool('Configuration', 'OnlyOnce', False);
-  gSortCaseSensitive := gIni.ReadBool('Configuration', 'CaseSensitiveSort', False);
+  if gIni.ReadBool('Configuration', 'CaseSensitiveSort', False) = False then
+    gSortCaseSensitivity := cstNotSensitive
+  else
+    gSortCaseSensitivity := cstLocale;
   gLynxLike := gIni.ReadBool('Configuration', 'LynxLike', True);
   gShortFileSizeFormat := gIni.ReadBool('Configuration', 'ShortFileSizeFormat', True);
   gScrollMode := TScrollMode(gIni.ReadInteger('Configuration', 'ScrollMode', Integer(gScrollMode)));
@@ -1332,7 +1337,10 @@ begin
   gIni.WriteString('Configuration', 'Language', gPOFileName);
   gIni.WriteString('Configuration', 'RunInTerm', gRunInTerm);
   gIni.WriteBool('Configuration', 'OnlyOnce', gOnlyOneAppInstance);
-  gIni.WriteBool('Configuration', 'CaseSensitiveSort', gSortCaseSensitive);
+  if gSortCaseSensitivity = cstNotSensitive then
+    gIni.WriteBool('Configuration', 'CaseSensitiveSort', False)
+  else
+    gIni.WriteBool('Configuration', 'CaseSensitiveSort', True);
   gIni.WriteBool('Configuration', 'LynxLike', gLynxLike);
 
   gIni.WriteBool('Configuration', 'ShortFileSizeFormat', gShortFileSizeFormat);
@@ -1514,8 +1522,14 @@ begin
       gRunTerm := GetValue(Node, 'RunTerminal', gRunTerm);
       gOnlyOneAppInstance := GetValue(Node, 'OnlyOneAppInstance', gOnlyOneAppInstance);
       gLynxLike := GetValue(Node, 'LynxLike', gLynxLike);
-      gSortCaseSensitive := GetValue(Node, 'SortCaseSensitive', gSortCaseSensitive);
-      gSortNatural := GetValue(Node, 'SortNatural', gSortNatural);
+      if LoadedConfigVersion < 5 then
+      begin
+        if GetValue(Node, 'SortCaseSensitive', False) = False then
+          gSortCaseSensitivity := cstNotSensitive
+        else
+          gSortCaseSensitivity := cstLocale;
+        gSortNatural := GetValue(Node, 'SortNatural', gSortNatural);
+      end;
       gShortFileSizeFormat := GetValue(Node, 'ShortFileSizeFormat', gShortFileSizeFormat);
       gMinimizeToTray := GetValue(Node, 'MinimizeToTray', gMinimizeToTray);
       gAlwaysShowTrayIcon := GetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
@@ -1616,6 +1630,18 @@ begin
       gProgInMenuBar := GetValue(Node, 'ProgressInMenuBar', gProgInMenuBar);
       gPanelOfOp := GetValue(Node, 'PanelOfOperationsInBackground', gPanelOfOp);
       gHorizontalFilePanels := GetValue(Node, 'HorizontalFilePanels', gHorizontalFilePanels);
+    end;
+
+    { Files views }
+    Node := Root.FindNode('FilesViews');
+    if Assigned(Node) then
+    begin
+      SubNode := Node.FindNode('Sorting');
+      if Assigned(SubNode) then
+      begin
+        gSortCaseSensitivity := TCaseSensitivity(GetValue(SubNode, 'CaseSensitivity', Integer(gSortCaseSensitivity)));
+        gSortNatural := GetValue(SubNode, 'NaturalSorting', gSortNatural);
+      end;
     end;
 
     { Keys page }
@@ -1841,12 +1867,11 @@ begin
 
     { Behaviours page }
     Node := FindNode(Root, 'Behaviours', True);
+    ClearNode(Node);
     SetValue(Node, 'RunInTerminal', gRunInTerm);
     SetValue(Node, 'RunTerminal', gRunTerm);
     SetValue(Node, 'OnlyOneAppInstance', gOnlyOneAppInstance);
     SetValue(Node, 'LynxLike', gLynxLike);
-    SetValue(Node, 'SortCaseSensitive', gSortCaseSensitive);
-    SetValue(Node, 'SortNatural', gSortNatural);
     SetValue(Node, 'ShortFileSizeFormat', gShortFileSizeFormat);
     SetValue(Node, 'MinimizeToTray', gMinimizeToTray);
     SetValue(Node, 'AlwaysShowTrayIcon', gAlwaysShowTrayIcon);
@@ -1925,6 +1950,12 @@ begin
     SetValue(Node, 'ProgressInMenuBar', gProgInMenuBar);
     SetValue(Node, 'PanelOfOperationsInBackground', gPanelOfOp);
     SetValue(Node, 'HorizontalFilePanels', gHorizontalFilePanels);
+
+    { Files views }
+    Node := FindNode(Root, 'FilesViews', True);
+    SubNode := FindNode(Node, 'Sorting', True);
+    SetValue(SubNode, 'CaseSensitivity', Integer(gSortCaseSensitivity));
+    SetValue(SubNode, 'NaturalSorting', gSortNatural);
 
     { Keys page }
     Node := FindNode(Root, 'Keyboard', True);

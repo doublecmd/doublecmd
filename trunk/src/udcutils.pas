@@ -35,11 +35,7 @@ unit uDCUtils;
 interface
 
 uses
-  Classes, SysUtils, Graphics, Controls, StdCtrls, ColorBox, uFile
-  {$IF DEFINED(UNIX)}
-  , uTypes
-  {$ENDIF}
-  ;
+  Classes, SysUtils, Graphics, Controls, StdCtrls, ColorBox, uFile, uTypes;
 
 const
 {$IF DEFINED(UNIX)}
@@ -354,7 +350,7 @@ procedure SplitCmdLine(sCmdLine : String; var sCmd, sParams : String);
 }
 function TrimRightLineEnding(const sText: UTF8String; TextLineBreakStyle: TTextLineBreakStyle): UTF8String;
 function mbCompareText(const s1, s2: UTF8String): PtrInt;
-function CompareStrings(const s1, s2: UTF8String; Natural, CaseSensitive: Boolean): PtrInt;
+function CompareStrings(const s1, s2: UTF8String; Natural: Boolean; CaseSensitivity: TCaseSensitivity): PtrInt;
 
 procedure ParseLineToList(sLine: String; ssItems: TStrings);
 procedure InsertFirstItem(sLine: String; comboBox: TCustomComboBox);
@@ -368,7 +364,7 @@ function StrPLCopyW(Dest: PWideChar; const Source: WideString; MaxLen: Cardinal)
    Compares two strings taking into account the numbers.
    Strings must have tailing zeros (#0).
 }
-function StrFloatCmpW(str1, str2: PWideChar; CaseSensitive: Boolean): PtrInt;
+function StrFloatCmpW(str1, str2: PWideChar; CaseSensitivity: TCaseSensitivity): PtrInt;
 
 {en
    Checks if a string begins with another string.
@@ -1320,16 +1316,22 @@ begin
   Result:= WideCompareText(UTF8Decode(s1), UTF8Decode(s2));
 end;
 
-function CompareStrings(const s1, s2: UTF8String; Natural, CaseSensitive: Boolean): PtrInt; inline;
+function CompareStrings(const s1, s2: UTF8String; Natural: Boolean; CaseSensitivity: TCaseSensitivity): PtrInt; inline;
 begin
   if Natural then
-    Result:= StrFloatCmpW(PWideChar(UTF8Decode(s1)), PWideChar(UTF8Decode(s2)), CaseSensitive)
+    Result:= StrFloatCmpW(PWideChar(UTF8Decode(s1)), PWideChar(UTF8Decode(s2)), CaseSensitivity)
   else
     begin
-      if CaseSensitive then
-        Result:= WideCompareStr(UTF8Decode(s1), UTF8Decode(s2))
-      else
-        Result:= WideCompareText(UTF8Decode(s1), UTF8Decode(s2));
+      case CaseSensitivity of
+        cstNotSensitive:
+          Result := WideCompareText(UTF8Decode(s1), UTF8Decode(s2));
+        cstLocale:
+          Result := WideCompareStr(UTF8Decode(s1), UTF8Decode(s2));
+        cstCharValue:
+          Result := SysUtils.CompareStr(S1, S2);
+        else
+          raise Exception.Create('Invalid CaseSensitivity parameter');
+      end;
     end;
 end;
 
@@ -1419,7 +1421,23 @@ begin
   Result := StrLCopyW(Dest, PWideChar(Source), MaxLen);
 end;
 
-function StrFloatCmpW(str1, str2: PWideChar; CaseSensitive: Boolean): PtrInt;
+function WideStrComp(const Str1, Str2 : WideString): PtrInt;
+ var
+  counter: SizeInt = 0;
+  pstr1, pstr2: PWideChar;
+ Begin
+   pstr1 := PWideChar(Str1);
+   pstr2 := PWideChar(Str2);
+   While pstr1[counter] = pstr2[counter] do
+   Begin
+     if (pstr2[counter] = #0) or (pstr1[counter] = #0) then
+        break;
+     Inc(counter);
+   end;
+   Result := ord(pstr1[counter]) - ord(pstr2[counter]);
+ end;
+
+function StrFloatCmpW(str1, str2: PWideChar; CaseSensitivity: TCaseSensitivity): PtrInt;
 var
   is_digit1, is_digit2: boolean;
   string_result: ptrint = 0;
@@ -1440,10 +1458,13 @@ var
 
 begin
   // Set up compare function
-  if CaseSensitive then
-    str_cmp:= WideStringManager.CompareWideStringProc
-  else
-    str_cmp:= WideStringManager.CompareTextWideStringProc;
+  case CaseSensitivity of
+    cstNotSensitive: str_cmp:= WideStringManager.CompareTextWideStringProc;
+    cstLocale:       str_cmp:= WideStringManager.CompareWideStringProc;
+    cstCharValue:    str_cmp:= @WideStrComp;
+    else
+      raise Exception.Create('Invalid CaseSensitivity parameter');
+  end;
 
   while (true) do
   begin

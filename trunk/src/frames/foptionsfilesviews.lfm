@@ -18,57 +18,71 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     Caption = 'Sorting'
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 8
+    ChildSizing.HorizontalSpacing = 6
+    ChildSizing.VerticalSpacing = 12
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ClientHeight = 76
     ClientWidth = 600
     TabOrder = 0
-    object cbSortCaseSensitive: TCheckBox
-      AnchorSideLeft.Control = gbSorting
-      AnchorSideTop.Control = gbSorting
-      AnchorSideRight.Control = gbSorting
-      AnchorSideRight.Side = asrBottom
-      Left = 12
-      Height = 25
-      Top = 8
-      Width = 576
-      Anchors = [akTop, akLeft, akRight]
-      Caption = 'Case-sensitive sorting'
-      TabOrder = 0
-    end
     object lblSortMethod: TLabel
-      AnchorSideLeft.Control = gbSorting
-      AnchorSideTop.Control = cbSortMethod
       AnchorSideTop.Side = asrCenter
       Left = 12
       Height = 22
-      Top = 42
-      Width = 88
-      BorderSpacing.Top = 6
+      Top = 8
+      Width = 108
       Caption = 'Sort &method:'
       ParentColor = False
     end
     object cbSortMethod: TComboBox
       AnchorSideLeft.Control = lblSortMethod
       AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = cbSortCaseSensitive
-      AnchorSideTop.Side = asrBottom
+      AnchorSideTop.Control = lblSortMethod
+      AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbSorting
       AnchorSideRight.Side = asrBottom
-      Left = 106
+      Left = 130
       Height = 29
-      Top = 39
-      Width = 482
+      Top = 5
+      Width = 458
       Anchors = [akTop, akLeft, akRight]
-      BorderSpacing.Left = 6
-      BorderSpacing.Top = 6
+      BorderSpacing.Left = 10
       ItemHeight = 21
-      ItemIndex = 0
       Items.Strings = (
         'Alphabetical, considering accents'
         'Natural sorting: alphabetical and numbers'
       )
       Style = csDropDownList
+      TabOrder = 0
+    end
+    object lblCaseSensitivity: TLabel
+      Left = 12
+      Height = 22
+      Top = 42
+      Width = 108
+      Caption = 'Case sensitivity:'
+      ParentColor = False
+    end
+    object cbCaseSensitivity: TComboBox
+      AnchorSideLeft.Control = lblCaseSensitivity
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblCaseSensitivity
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = gbSorting
+      AnchorSideRight.Side = asrBottom
+      Left = 130
+      Height = 29
+      Top = 39
+      Width = 458
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 10
+      ItemHeight = 21
+      Items.Strings = (
+        'not case sensitive'
+        'according to locale settings (aAbBcC)'
+        'first upper then lower case (ABCabc)'
+      )
+      Style = csDropDownList
       TabOrder = 1
-      Text = 'Alphabetical, considering accents'
     end
   end
   object gbMisc: TGroupBox[1]
@@ -78,7 +92,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 175
+    Height = 185
     Top = 215
     Width = 604
     Anchors = [akTop, akLeft, akRight]
@@ -89,46 +103,46 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     ChildSizing.VerticalSpacing = 4
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 153
+    ClientHeight = 163
     ClientWidth = 600
     TabOrder = 1
     object cbSpaceMovesDown: TCheckBox
       Left = 6
-      Height = 25
+      Height = 27
       Top = 6
-      Width = 587
+      Width = 589
       Caption = 'When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)'
       TabOrder = 0
     end
     object cbDirBrackets: TCheckBox
       Left = 6
-      Height = 25
-      Top = 35
-      Width = 587
+      Height = 27
+      Top = 37
+      Width = 589
       Caption = 'Show square brackets around directories'
       TabOrder = 1
     end
     object cbShowSystemFiles: TCheckBox
       Left = 6
-      Height = 25
-      Top = 64
-      Width = 587
+      Height = 27
+      Top = 68
+      Width = 589
       Caption = 'Show system and hidden files'
       TabOrder = 2
     end
     object cbListFilesInThread: TCheckBox
       Left = 6
-      Height = 25
-      Top = 93
-      Width = 587
+      Height = 27
+      Top = 99
+      Width = 589
       Caption = 'Load file list in separate thread'
       TabOrder = 3
     end
     object cbLoadIconsSeparately: TCheckBox
       Left = 6
-      Height = 25
-      Top = 122
-      Width = 587
+      Height = 27
+      Top = 130
+      Width = 589
       Caption = 'Load icons after file list'
       TabOrder = 4
     end
@@ -211,9 +225,9 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideTop.Control = cbDateTimeFormat
       AnchorSideTop.Side = asrBottom
       Left = 6
-      Height = 25
+      Height = 27
       Top = 41
-      Width = 167
+      Width = 169
       BorderSpacing.Top = 6
       Caption = 'Short file size format'
       TabOrder = 1
