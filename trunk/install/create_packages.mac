@@ -33,6 +33,9 @@ if [ -z $CPU_TARGET ]; then
    export CPU_TARGET=$(fpc -iTP)
 fi
 
+# Copy 7-Zip executable
+cp -a darwin/lib/$CPU_TARGET/7za             $BUILD_DC_TMP_DIR/
+
 # Copy libraries
 cp -a darwin/lib/$CPU_TARGET/*.dylib         $BUILD_DC_TMP_DIR/
 cp -a darwin/lib/$CPU_TARGET/$lcl/*.dylib    $BUILD_DC_TMP_DIR/
@@ -40,13 +43,14 @@ cp -a darwin/lib/$CPU_TARGET/$lcl/*.dylib    $BUILD_DC_TMP_DIR/
 cd $BUILD_DC_TMP_DIR
 
 # Build all components of Double Commander
-./build.sh all
+./build.sh beta
 
 # Create *.dmg package
 mkdir -p $BUILD_PACK_DIR
 install/darwin/install.sh $BUILD_PACK_DIR
 cd $BUILD_PACK_DIR
-sed -i -e 's/<UseConfigInProgramDir>False/<UseConfigInProgramDir>True/' doublecmd.app/doublecmd.xml
+sed -e 's/<UseConfigInProgramDir>False/<UseConfigInProgramDir>True/' -i '' doublecmd.app/Contents/MacOS/doublecmd.xml
+sed -e 's/Archiver=7za/Archiver=%commander_path%\/7za/' -i '' doublecmd.app/Contents/MacOS/multiarc.ini
 mv doublecmd.app 'Double Commander.app'
 hdiutil create -anyowners -volname "Double Commander" -imagekey zlib-level=9 -format UDZO -srcfolder 'Double Commander.app' $PACK_DIR/doublecmd-$DC_VER-$DC_REVISION.$lcl.$CPU_TARGET.dmg
 

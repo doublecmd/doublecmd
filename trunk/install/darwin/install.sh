@@ -39,6 +39,7 @@ cp -a twilight.col                 $DC_INSTALL_DIR/
 cp -a pixmaps.txt                  $DC_INSTALL_DIR/
 cp -a default.bar                  $DC_INSTALL_DIR/
 cp -a multiarc.ini                 $DC_INSTALL_DIR/
+cp -a 7za                          $DC_INSTALL_DIR/
 
 # Copy plugins
 
