@@ -53,7 +53,7 @@ begin
   gpCacheDir := GetAppCacheDir;
 
   // set up environment variables
-  mbSetEnvironmentVariable('commander_path', ExcludeTrailingBackslash(gpExePath));
+  mbSetEnvironmentVariable('COMMANDER_PATH', ExcludeTrailingBackslash(gpExePath));
 end;
 
 end.
