@@ -1,7 +1,7 @@
 library unrar;
 
 uses
-  DynLibs, UnRARFunc;
+  SysUtils, DynLibs, UnRARFunc;
 
 exports
   OpenArchive,
@@ -20,6 +20,8 @@ exports
 
 begin
   ModuleHandle := LoadLibrary(_unrar);
+  if ModuleHandle = 0 then
+    ModuleHandle := LoadLibrary(GetEnvironmentVariable('COMMANDER_PATH') + PathDelim + _unrar);
   if ModuleHandle > 0 then
     begin
       RAROpenArchive := TRAROpenArchive(GetProcAddress(ModuleHandle, 'RAROpenArchive'));
