@@ -33,10 +33,13 @@ uses
   WcxPlugin, Extension;
 
 const
-  {$IFDEF MSWINDOWS}
+  {$IF DEFINED(MSWINDOWS)}
   // libunrar must be built with sizeof(wchar_t) = 2 (default on Windows)
   _unrar = 'unrar.dll';
-  {$ELSE UNIX}
+  {$ELSEIF DEFINED(DARWIN)}
+  // libunrar must be built with sizeof(wchar_t) = 4 (default on Unix)
+  _unrar = 'libunrar.dylib';
+  {$ELSEIF DEFINED(UNIX)}
   // libunrar must be built with sizeof(wchar_t) = 4 (default on Unix)
   _unrar = 'libunrar.so';
   {$ENDIF}
