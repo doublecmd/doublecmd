@@ -412,9 +412,11 @@ var
   begin
     case state.funct of
       ftArchiverLongName:
-        Result := BuildName(mbExpandFileName(Archiver));
+        // TProcess arguments must be enclosed with double quotes and not escaped.
+        Result := '"' + mbExpandFileName(Archiver) + '"';
       ftArchiverShortName:
-        Result := BuildName(mbFileNameToSysEnc(mbExpandFileName(Archiver)));
+        // TProcess arguments must be enclosed with double quotes and not escaped.
+        Result := '"' + mbFileNameToSysEnc(mbExpandFileName(Archiver)) + '"';
       ftArchiveLongName:
         Result := BuildName(anArchiveName);
       ftArchiveShortName:
@@ -646,4 +648,4 @@ begin
 end;
 
 end.
-
+
