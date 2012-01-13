@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-11-17 19:36+0300\n"
+"PO-Revision-Date: 2012-01-13 00:13+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1038,15 +1038,15 @@ msgstr "Знайти наступний"
 
 #: TFRMEDITOR.ACTEDITLINEENDCR.CAPTION
 msgid "Mac (CR)"
-msgstr ""
+msgstr "Mac (CR)"
 
 #: TFRMEDITOR.ACTEDITLINEENDCRLF.CAPTION
 msgid "Windows (CRLF)"
-msgstr ""
+msgstr "Windows (CRLF)"
 
 #: TFRMEDITOR.ACTEDITLINEENDLF.CAPTION
 msgid "Unix (LF)"
-msgstr ""
+msgstr "Unix (LF)"
 
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
@@ -1147,7 +1147,7 @@ msgstr "&Підсвітка синтаксису"
 
 #: TFRMEDITOR.MILINEENDTYPE.CAPTION
 msgid "End Of Line"
-msgstr ""
+msgstr "Кінець рядка"
 
 #: TFRMEDITOR.MISEPARATOR1.CAPTION
 msgctxt "TFRMEDITOR.MISEPARATOR1.CAPTION"
@@ -3334,10 +3334,9 @@ msgid "[MMM] Month name (short, e.g., \"jan\")"
 msgstr "[MMM] Назва місяця (коротко, \"jan\")"
 
 #: TFRMMULTIRENAME.MIMONTH3.CAPTION
-#, fuzzy
 #| msgid "[MMMM] Month name (long, e.g. \"january\")"
 msgid "[MMMM] Month name (long, e.g., \"january\")"
-msgstr "[MMMM] Назва місяця (довга, \"january\")"
+msgstr "[MMMM] Назва місяця (довга, \"грудень\")"
 
 #: TFRMMULTIRENAME.MINAME.CAPTION
 msgid "[N] Name"
@@ -3972,7 +3971,7 @@ msgstr "Шаблон..."
 #| msgid "File types colors"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION"
 msgid "File types colors (sort by drag&&drop)"
-msgstr "Кольори за типом файлу ()"
+msgstr "Кольори за типом файлу (сортувати перетягуванням)"
 
 #: TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION"
@@ -4919,7 +4918,6 @@ msgid "Read only"
 msgstr "Лише читання"
 
 #: TFRMSETFILEPROPERTIES.CHKRECURSIVE.CAPTION
-#, fuzzy
 #| msgid "Recursive"
 msgid "Including subfolders"
 msgstr "Рекурсивно"
@@ -5199,22 +5197,22 @@ msgstr "Відображає інформаційне повідомлення"
 #: TFRMVIEWER.ACTCOPYFILE.CAPTION
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"
-msgstr ""
+msgstr "Копіювати файл"
 
 #: TFRMVIEWER.ACTCOPYFILE.HINT
 msgctxt "TFRMVIEWER.ACTCOPYFILE.HINT"
 msgid "Copy File"
-msgstr ""
+msgstr "Копіювати файл"
 
 #: TFRMVIEWER.ACTDELETEFILE.CAPTION
 msgctxt "TFRMVIEWER.ACTDELETEFILE.CAPTION"
 msgid "Delete File"
-msgstr ""
+msgstr "Видалити файл"
 
 #: TFRMVIEWER.ACTDELETEFILE.HINT
 msgctxt "TFRMVIEWER.ACTDELETEFILE.HINT"
 msgid "Delete File"
-msgstr ""
+msgstr "Видалити файл"
 
 #: TFRMVIEWER.ACTLOADNEXTFILE.CAPTION
 msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.CAPTION"
@@ -5223,7 +5221,7 @@ msgstr "На&ступний"
 
 #: TFRMVIEWER.ACTLOADNEXTFILE.HINT
 msgid "Load Next File"
-msgstr ""
+msgstr "Завантажити наступний"
 
 #: TFRMVIEWER.ACTLOADPREVFILE.CAPTION
 msgctxt "TFRMVIEWER.ACTLOADPREVFILE.CAPTION"
@@ -5232,7 +5230,7 @@ msgstr "&Попередній"
 
 #: TFRMVIEWER.ACTLOADPREVFILE.HINT
 msgid "Load Previous File"
-msgstr ""
+msgstr "Завантажити попередній"
 
 #: TFRMVIEWER.ACTMIRROR.CAPTION
 msgctxt "TFRMVIEWER.ACTMIRROR.CAPTION"
@@ -5247,12 +5245,12 @@ msgstr "Дзеркально"
 #: TFRMVIEWER.ACTMOVEFILE.CAPTION
 msgctxt "TFRMVIEWER.ACTMOVEFILE.CAPTION"
 msgid "Move File"
-msgstr ""
+msgstr "Перемістити файл"
 
 #: TFRMVIEWER.ACTMOVEFILE.HINT
 msgctxt "TFRMVIEWER.ACTMOVEFILE.HINT"
 msgid "Move File"
-msgstr ""
+msgstr "Перемістити файл"
 
 #: TFRMVIEWER.ACTRELOAD.CAPTION
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
@@ -5266,32 +5264,32 @@ msgstr "Перезавантажити поточний файл"
 #: TFRMVIEWER.ACTROTATE180.CAPTION
 msgctxt "TFRMVIEWER.ACTROTATE180.CAPTION"
 msgid "Rotate 180"
-msgstr ""
+msgstr "Повернути на 180"
 
 #: TFRMVIEWER.ACTROTATE180.HINT
 msgctxt "TFRMVIEWER.ACTROTATE180.HINT"
 msgid "Rotate 180"
-msgstr ""
+msgstr "Повернути на 180"
 
 #: TFRMVIEWER.ACTROTATE270.CAPTION
 msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
 msgid "Rotate 270"
-msgstr ""
+msgstr "Повернути на 270"
 
 #: TFRMVIEWER.ACTROTATE270.HINT
 msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
 msgid "Rotate 270"
-msgstr ""
+msgstr "Повернути на 270"
 
 #: TFRMVIEWER.ACTROTATE90.CAPTION
 msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
 msgid "Rotate 90"
-msgstr ""
+msgstr "Повернути на 90"
 
 #: TFRMVIEWER.ACTROTATE90.HINT
 msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
 msgid "Rotate 90"
-msgstr ""
+msgstr "Повернути на 90"
 
 #: TFRMVIEWER.ACTSAVEAS.CAPTION
 msgctxt "TFRMVIEWER.ACTSAVEAS.CAPTION"
@@ -5300,7 +5298,7 @@ msgstr "Зберегти як..."
 
 #: TFRMVIEWER.ACTSAVEAS.HINT
 msgid "Save File As..."
-msgstr ""
+msgstr "Зберегти як..."
 
 #: TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -5309,7 +5307,7 @@ msgstr "Розтягнути"
 
 #: TFRMVIEWER.ACTSTRETCHIMAGE.HINT
 msgid "Stretch Image"
-msgstr ""
+msgstr "Розтягнути зображення"
 
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
@@ -5872,8 +5870,9 @@ msgid "Copy &Into"
 msgstr "&Копіювати в"
 
 #: ulng.rsdlgbuttoncopyintoall
+#, fuzzy
 msgid "Copy Into &All"
-msgstr ""
+msgstr "Копіюв&ати у всі"
 
 #: ulng.rsdlgbuttonno
 msgid "&No"
