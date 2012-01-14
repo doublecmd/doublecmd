@@ -1250,7 +1250,7 @@ begin
   begin
     // Currently saves only FileSystem.
 
-    if FHistory.FileSource[i].IsInterface(IFileSystemFileSource) then
+    if TFileSystemFileSource.ClassNameIs(FHistory.FileSource[i].ClassName) then
     begin
       EntryNode := AConfig.AddNode(HistoryNode, 'Entry');
       if FHistory.CurrentFileSourceIndex = i then
