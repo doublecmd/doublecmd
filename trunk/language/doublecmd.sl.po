@@ -1308,11 +1308,11 @@ msgstr "&Odpakiraj poti datotek, če to se shranjene v arhivu"
 msgid "*.*"
 msgstr "*.*"
 
+# ???
 #: TFRMEXTRACTDLG.CBINSEPARATEFOLDER.CAPTION
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
 msgstr "Odpakiraj vsak arhiv v &ločeno podrejeno mapo (z imenom vsakega arhiva)"
 
-# ???
 #: TFRMEXTRACTDLG.CBOVERWRITE.CAPTION
 msgid "&Overwrite existing files"
 msgstr "&Prepiši obstoječe datoteke"
@@ -3851,12 +3851,12 @@ msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
 msgid "Add"
 msgstr "Dodaj"
 
+# ???
 #: TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
 msgid "Apply"
 msgstr "Uveljavi"
 
-# ???
 #: TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNCATEGORYCOLOR.CAPTION"
 msgid ">>"
@@ -4577,11 +4577,11 @@ msgctxt "TFRMOPTIONSVIEWER.GBVIEWEREXAMPLE.CAPTION"
 msgid "Example"
 msgstr "Primer"
 
+# ??? Arhivirnik = packer
 #: TFRMOPTIONSVIEWER.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION
 msgid "Background color in book viewer"
 msgstr "Barva ozadja v bralnem pregledovalniku"
 
-# ??? Arhivirnik = packer
 #: TFRMOPTIONSVIEWER.LBLFONTCOLORVIEWERBOOK.CAPTION
 msgid "Font color in book viewer"
 msgstr "Barva pisave v bralnem pregledovalniku"
@@ -4605,12 +4605,12 @@ msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
 msgid "Help"
 msgstr "Pomoč"
 
+# ???
 #: TFRMPACKDLG.BTNOK.CAPTION
 msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
 msgid "OK"
 msgstr "V redu"
 
-# ???
 #: TFRMPACKDLG.CAPTION
 msgctxt "TFRMPACKDLG.CAPTION"
 msgid "Pack files"
@@ -5905,6 +5905,7 @@ msgstr "Ime datoteke:"
 msgid "Open file"
 msgstr "Odpri datoteko"
 
+# multiple
 #: ulng.rseditsearchback
 msgid "&Backward"
 msgstr "&Nazaj"
@@ -5915,7 +5916,6 @@ msgctxt "ulng.rseditsearchcaption"
 msgid "Search"
 msgstr "Poišči"
 
-# multiple
 #: ulng.rseditsearchfrw
 msgid "&Forward"
 msgstr "&Naprej"
@@ -6101,6 +6101,7 @@ msgstr "Uredi"
 msgid "Eject"
 msgstr "Izvrzi"
 
+# multiple
 #: ulng.rsmnumount
 msgid "Mount"
 msgstr "Priklopi"
@@ -6110,7 +6111,6 @@ msgstr "Priklopi"
 msgid "New"
 msgstr "Novo"
 
-# multiple
 #: ulng.rsmnunomedia
 msgid "No media available"
 msgstr "Nosilec ni na voljo"
@@ -6448,11 +6448,11 @@ msgstr "Vnos imena in poti (zapis v obliki ime=pot)"
 msgid "Master Password"
 msgstr "Glavno geslo"
 
+# multiple
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
 msgstr "Vnesite glavno geslo:"
 
-# multiple
 #: ulng.rsmsgnewfile
 msgid "New file"
 msgstr "Nova datoteka"
@@ -6461,11 +6461,11 @@ msgstr "Nova datoteka"
 msgid "Next volume will be unpacked"
 msgstr "Odpakiran bo naslednji del arhiva"
 
+# double multiple
 #: ulng.rsmsgnofilesselected
 msgid "No files selected."
 msgstr "Ni izbranih datotek."
 
-# double multiple
 #: ulng.rsmsgnofreespacecont
 msgid "No enough free space on target drive, Continue?"
 msgstr "Ni dovolj prostora na ciljnem pogonu. Ali naj se opravilo vseeno nadaljuje?"
@@ -6515,11 +6515,11 @@ msgstr "&Nastavitve"
 msgid "&Delete %s"
 msgstr "&Izbriši %s"
 
+# multiple
 #: ulng.rsmsgpresetalreadyexists
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Shranjen predmet \"%s\" že obstaja. Ali naj se prepiše?"
 
-# multiple
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
 msgstr "Ali naj se izbrani predmeti preimenujejo oziroma premaknejo (%d)?"
@@ -6760,9 +6760,33 @@ msgstr "Označeno in v žarišču"
 msgid "Text"
 msgstr "Besedilo"
 
+#: ulng.rsopthotkeysadddeleteshortcut
+msgid "Add shortcut to delete file"
+msgstr ""
+
+#: ulng.rsopthotkeysadddeleteshortcutlong
+msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
+msgstr ""
+
+#: ulng.rsopthotkeysaddshortcutbutton
+msgid "Add shortcut"
+msgstr ""
+
+#: ulng.rsopthotkeyscannotaddshortcut
+msgid "Cannot add shortcut"
+msgstr ""
+
 #: ulng.rsopthotkeyscommand
 msgid "Command"
 msgstr "Ukaz"
+
+#: ulng.rsopthotkeysdeleteshortcutalreadyassigned
+msgid "Shortcut %s for cm_Delete is already assigned, so it cannot be used to reverse this setting."
+msgstr ""
+
+#: ulng.rsopthotkeysdeleteshortcutwrongparams
+msgid "Current shortcut %s for cm_Delete has parameters that don't depend on this setting, so the setting will have no effect."
+msgstr ""
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
@@ -6964,6 +6988,10 @@ msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"
 msgstr "Vpisano za"
 
+#: ulng.rsoptsortcasesens
+msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
+msgstr ""
+
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
 msgstr "Abecedno, upoštevajoč znakovne naglase;Naravno, številčno in abecedno"
@@ -6980,12 +7008,12 @@ msgstr "Ni mogoče spremeniti dovoljenj dostopa za \"%s\""
 msgid "Can not change owner for \"%s\""
 msgstr "Lastnika \"%s\" ni mogoče spremeniti."
 
+# multiple + window to small
 #: ulng.rspropsfile
 msgctxt "ulng.rspropsfile"
 msgid "File"
 msgstr "Datoteka"
 
-# multiple + window to small
 #: ulng.rspropsfolder
 msgctxt "ulng.rspropsfolder"
 msgid "Directory"
@@ -7095,12 +7123,12 @@ msgstr "ure"
 msgid "Minute(s)"
 msgstr "minute"
 
+#~ msgid "Comments"
+#~ msgstr "Opombe"
 #: ulng.rstimeunitmonth
 msgid "Month(s)"
 msgstr "meseci"
 
-#~ msgid "Comments"
-#~ msgstr "Opombe"
 #: ulng.rstimeunitsecond
 msgid "Second(s)"
 msgstr "sekunde"
