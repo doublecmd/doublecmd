@@ -141,11 +141,26 @@ begin
           (NewProperties[fpAttributes] as TUnixFileAttributesProperty).Value:= GetModeFromForm;
       end;
     if chkCreationTime.Checked then
-      (NewProperties[fpCreationTime] as TFileCreationDateTimeProperty).Value:= ZVCreationDateTime.DateTime;
+      (NewProperties[fpCreationTime] as TFileCreationDateTimeProperty).Value:= ZVCreationDateTime.DateTime
+    else
+      begin
+        NewProperties[fpCreationTime].Free;
+        NewProperties[fpCreationTime]:= nil;
+      end;
     if chkLastWriteTime.Checked then
-      (NewProperties[fpModificationTime] as TFileModificationDateTimeProperty).Value:= ZVLastWriteDateTime.DateTime;
+      (NewProperties[fpModificationTime] as TFileModificationDateTimeProperty).Value:= ZVLastWriteDateTime.DateTime
+    else
+      begin
+        NewProperties[fpModificationTime].Free;
+        NewProperties[fpModificationTime]:= nil;
+      end;
     if chkLastAccessTime.Checked then
-      (NewProperties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value:= ZVLastAccessDateTime.DateTime;
+      (NewProperties[fpLastAccessTime] as TFileLastAccessDateTimeProperty).Value:= ZVLastAccessDateTime.DateTime
+    else
+      begin
+        NewProperties[fpLastAccessTime].Free;
+        NewProperties[fpLastAccessTime]:= nil;
+      end;
     Recursive:= chkRecursive.Checked;
   end;
 end;
@@ -338,4 +353,4 @@ begin
 end;
 
 end.
-
+
