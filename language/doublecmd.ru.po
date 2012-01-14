@@ -6911,9 +6911,33 @@ msgstr "Выделение + Курсор"
 msgid "Text"
 msgstr "Текст"
 
+#: ulng.rsopthotkeysadddeleteshortcut
+msgid "Add shortcut to delete file"
+msgstr ""
+
+#: ulng.rsopthotkeysadddeleteshortcutlong
+msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
+msgstr ""
+
+#: ulng.rsopthotkeysaddshortcutbutton
+msgid "Add shortcut"
+msgstr ""
+
+#: ulng.rsopthotkeyscannotaddshortcut
+msgid "Cannot add shortcut"
+msgstr ""
+
 #: ulng.rsopthotkeyscommand
 msgid "Command"
 msgstr "Команда"
+
+#: ulng.rsopthotkeysdeleteshortcutalreadyassigned
+msgid "Shortcut %s for cm_Delete is already assigned, so it cannot be used to reverse this setting."
+msgstr ""
+
+#: ulng.rsopthotkeysdeleteshortcutwrongparams
+msgid "Current shortcut %s for cm_Delete has parameters that don't depend on this setting, so the setting will have no effect."
+msgstr ""
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
@@ -7119,6 +7143,10 @@ msgstr "Имя"
 msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"
 msgstr "Ассоциация"
+
+#: ulng.rsoptsortcasesens
+msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
+msgstr ""
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
