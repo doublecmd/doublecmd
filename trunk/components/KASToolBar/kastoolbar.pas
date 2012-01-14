@@ -392,12 +392,25 @@ procedure TKASToolBar.DrawLinkIcon(Image: TBitMap);
 var
   sizeLink : Integer;
   bmLinkIcon : TBitmap;
+{$IFDEF LCLGTK2}
+  bmTempIcon : TBitmap;
+{$ENDIF}
 begin
   if (Image = nil) or (FOnLoadButtonGlyph = nil) then Exit;
   sizeLink := FGlyphSize div 2;
   bmLinkIcon:= FOnLoadButtonGlyph('emblem-symbolic-link', sizeLink, clBtnFace);
   if Assigned(bmLinkIcon) then
   begin
+{$IFDEF LCLGTK2} // Under GTK2 can not draw over alpha transparent pixels
+    bmTempIcon := TBitmap.Create;
+    bmTempIcon.Assign(Image);
+    Image.FreeImage;
+    Image.SetSize(FGlyphSize, FGlyphSize);
+    Image.Canvas.Brush.Color := clBtnFace;
+    Image.Canvas.FillRect(0, 0, FGlyphSize, FGlyphSize);
+    Image.Canvas.Draw(0, 0, bmTempIcon);
+    bmTempIcon.Free;
+{$ENDIF}
     Image.Canvas.Draw(FGlyphSize-sizeLink+2,FGlyphSize-sizeLink+2, bmLinkIcon);
     Image.TransparentColor:= clBtnFace;
     Image.Transparent:= True;
@@ -877,4 +890,4 @@ begin
 end;
 
 end.
-
+
