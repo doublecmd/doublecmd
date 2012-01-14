@@ -107,10 +107,10 @@ var
   EndPos: LongInt;
   i: LongInt;
 begin
-  l:=length(s);
-  if l=0 then begin
-    Result:='';
-    exit;
+  l:= Length(s);
+  if l = 0 then begin
+    Result:= GetDefaultTextEncoding;
+    Exit;
   end;
 
   // try UTF-8 BOM (Byte Order Mark)
@@ -172,4 +172,4 @@ initialization
 finalization
   FreeAndNil(SupportedEncodings);
 
-end.
+end.
