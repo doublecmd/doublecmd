@@ -427,7 +427,8 @@ procedure Register;
 implementation
 
 uses
-  LCLType, LCLVersion, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding, UnicodeUtils, LCLIntf
+  LCLType, LCLVersion, Graphics, Forms, LCLProc, Clipbrd, LConvEncoding,
+  UnicodeUtils, LCLIntf
   {$IF DEFINED(UNIX)}
   , BaseUnix, Unix
   {$ELSEIF DEFINED(WINDOWS)}
@@ -1497,10 +1498,13 @@ end;
 
 function TViewerControl.GetClientHeightInLines: Integer;
 begin
- // TODO: Take horizontal scrollbar into account
+  if FViewerMode <> vmText then
+    Result:= 0
+  else // Take horizontal scrollbar into account
+    Result:= GetSystemMetrics(SM_CYHSCROLL);
 
   if FTextHeight > 0 then
-    Result := (ClientRect.Bottom - ClientRect.Top) div FTextHeight
+    Result := (ClientRect.Bottom - ClientRect.Top - Result) div FTextHeight
              // or Self.Height div FTextHeight?
   else
     Result := 0;
