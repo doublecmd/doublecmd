@@ -41,18 +41,17 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
     end
     object tsWFX: TTabSheet
       Caption = 'File system plugins (.WFX)'
-      ChildSizing.LeftRightSpacing = 239
       ClientHeight = 58
-      ClientWidth = 747
+      ClientWidth = 596
       OnShow = tsWFXShow
       object lblWFXDescription: TLabel
         AnchorSideTop.Control = tsWFX
         AnchorSideRight.Control = tsWFX
         AnchorSideRight.Side = asrBottom
         Left = 10
-        Height = 27
+        Height = 14
         Top = 12
-        Width = 498
+        Width = 576
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 10
         BorderSpacing.Top = 12
@@ -65,7 +64,7 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
     object tsWDX: TTabSheet
       Caption = 'Content plugins (.WDX)'
       ClientHeight = 58
-      ClientWidth = 747
+      ClientWidth = 596
       OnShow = tsWDXShow
       object lblWDXDescription: TLabel
         AnchorSideLeft.Control = tsWDX
@@ -73,9 +72,9 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
         AnchorSideRight.Control = tsWDX
         AnchorSideRight.Side = asrBottom
         Left = 10
-        Height = 14
+        Height = 27
         Top = 12
-        Width = 727
+        Width = 576
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 10
         BorderSpacing.Top = 12
@@ -88,7 +87,7 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
     object tsDSX: TTabSheet
       Caption = 'Search plugins (.DSX)'
       ClientHeight = 58
-      ClientWidth = 747
+      ClientWidth = 596
       OnShow = tsDSXShow
       object lblDSXDescription: TLabel
         AnchorSideLeft.Control = tsDSX
@@ -98,7 +97,7 @@ inherited frmOptionsPlugins: TfrmOptionsPlugins
         Left = 10
         Height = 14
         Top = 12
-        Width = 727
+        Width = 576
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 10
         BorderSpacing.Top = 12
