@@ -3,6 +3,10 @@
   <Configuration Save="True">
     <UseConfigInProgramDir>False</UseConfigInProgramDir>
   </Configuration>
+  <Behaviours>
+    <ListFilesInThread>False</ListFilesInThread>
+    <LoadIconsSeparately>True</LoadIconsSeparately>
+  </Behaviours>
   <Colors>
     <FileFilters>
       <Filter>
@@ -31,6 +35,10 @@
       </Filter>
     </FileFilters>
   </Colors>
+  <Icons>
+    <Size>32</Size>
+    <ShowOverlays>True</ShowOverlays>
+  </Icons>
   <Plugins>
     <DsxPlugins/>
     <WcxPlugins>
