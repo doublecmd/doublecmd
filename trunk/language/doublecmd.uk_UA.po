@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-01-13 00:13+0300\n"
+"PO-Revision-Date: 2012-01-14 19:24+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3902,20 +3902,25 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION"
 msgid "Show square brackets around directories"
 msgstr "Показувати квадратні дужки навколо каталогів"
 
+#: TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
+msgid "Load file list in separate thread"
+msgstr "Завантажувати список файлів в окремому потоці"
+
+#: TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
+msgid "Load icons after file list"
+msgstr "Завантажувати іконки після списку"
+
 #: TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION"
 msgid "Short file size format"
 msgstr "Короткий розмір файлу"
 
-#: TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION"
-msgid "Case-sensitive sorting"
-msgstr "Сортувати з врахуванням регістру"
-
-#: TFRMOPTIONSFILESVIEWS.CBSORTMETHOD.TEXT
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSORTMETHOD.TEXT"
-msgid "Alphabetical, considering accents"
-msgstr "Алфавітний, з врахуванням наголосів"
+#: TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
+msgid "Show system and hidden files"
+msgstr "Показувати системні та приховані файли"
 
 #: TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION"
@@ -3931,10 +3936,18 @@ msgctxt "TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION"
 msgid "Sorting"
 msgstr "Сортування"
 
+#: TFRMOPTIONSFILESVIEWS.LBLCASESENSITIVITY.CAPTION
+msgid "Case sensitivity:"
+msgstr ""
+
 #: TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
 msgid "Date and time format:"
 msgstr "Формат дати і часу:"
+
+#: TFRMOPTIONSFILESVIEWS.LBLSORTFOLDERMODE.CAPTION
+msgid "Sorting directories:"
+msgstr ""
 
 #: TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION"
@@ -6889,32 +6902,38 @@ msgid "Text"
 msgstr "Текст"
 
 #: ulng.rsopthotkeysadddeleteshortcut
+#, fuzzy
 msgid "Add shortcut to delete file"
-msgstr ""
+msgstr "Додати ярлик для видалення файлів"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
+#, fuzzy
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr ""
+msgstr "Ярлик %s  для cm_Delete буде зареєстровано, тому його можна використовувати, щоб змінити це налаштування."
 
 #: ulng.rsopthotkeysaddshortcutbutton
+#, fuzzy
 msgid "Add shortcut"
-msgstr ""
+msgstr "Додати ярлик"
 
 #: ulng.rsopthotkeyscannotaddshortcut
+#, fuzzy
 msgid "Cannot add shortcut"
-msgstr ""
+msgstr "Помилка додавання ярлика"
 
 #: ulng.rsopthotkeyscommand
 msgid "Command"
 msgstr "Команди"
 
 #: ulng.rsopthotkeysdeleteshortcutalreadyassigned
+#, fuzzy
 msgid "Shortcut %s for cm_Delete is already assigned, so it cannot be used to reverse this setting."
-msgstr ""
+msgstr "Ярлик %s для cm_Delete вже призначено, тому він не може використовуватися, щоб змінити це налаштування."
 
 #: ulng.rsopthotkeysdeleteshortcutwrongparams
+#, fuzzy
 msgid "Current shortcut %s for cm_Delete has parameters that don't depend on this setting, so the setting will have no effect."
-msgstr ""
+msgstr "Поточний %s  для cm_Delete має параметри, які не залежать від цих налаштувань, так що налаштування будуть мати ніякого ефекту."
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
@@ -7121,6 +7140,10 @@ msgstr "Асоціації з"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
+msgstr "не чутливі до регістру; залежно від налаштувань локалі (aAbBcC); спочатку верхній а потім нижній регістр (ABCabc)"
+
+#: ulng.rsoptsortfoldermode
+msgid "sort by name and show first;sort like files and show first;sort like files"
 msgstr ""
 
 #: ulng.rsoptsortmethod

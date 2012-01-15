@@ -4037,6 +4037,16 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION"
 msgid "Show square brackets around directories"
 msgstr "Zeige eckige Klammern um Verzeichnisse"
 
+#: TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
+msgid "Load file list in separate thread"
+msgstr "Datei(en) in eigenem Prozess starten"
+
+#: TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
+msgid "Load icons after file list"
+msgstr "Icons nach Dateiliste laden"
+
 #: TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION
 #, fuzzy
 #| msgid "Short Filesize format"
@@ -4044,17 +4054,12 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION"
 msgid "Short file size format"
 msgstr "Kurzes Dateigrössenformat"
 
-#: TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION
+#: TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION
 #, fuzzy
-#| msgid "Case sensitive sorting"
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION"
-msgid "Case-sensitive sorting"
-msgstr "Sortieren nach Gross- / Kleinschreibung"
-
-#: TFRMOPTIONSFILESVIEWS.CBSORTMETHOD.TEXT
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSORTMETHOD.TEXT"
-msgid "Alphabetical, considering accents"
-msgstr "Alphabetisch, unter Berücksichtigung von Akzenten"
+#| msgid "Show hidden/system files"
+msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
+msgid "Show system and hidden files"
+msgstr "Zeige versteckte und Systemdateien"
 
 #: TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION"
@@ -4070,10 +4075,18 @@ msgctxt "TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION"
 msgid "Sorting"
 msgstr "Sortierung"
 
+#: TFRMOPTIONSFILESVIEWS.LBLCASESENSITIVITY.CAPTION
+msgid "Case sensitivity:"
+msgstr ""
+
 #: TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
 msgid "Date and time format:"
 msgstr "Datums- und Zeitformat"
+
+#: TFRMOPTIONSFILESVIEWS.LBLSORTFOLDERMODE.CAPTION
+msgid "Sorting directories:"
+msgstr ""
 
 #: TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION"
@@ -7279,6 +7292,10 @@ msgstr "Registriert für"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
+msgstr ""
+
+#: ulng.rsoptsortfoldermode
+msgid "sort by name and show first;sort like files and show first;sort like files"
 msgstr ""
 
 #: ulng.rsoptsortmethod

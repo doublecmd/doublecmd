@@ -3925,22 +3925,26 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION"
 msgid "Show square brackets around directories"
 msgstr "Názvy adresářů v hranatých závorkách"
 
+#: TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
+msgid "Load file list in separate thread"
+msgstr "Načíst seznam soubor v odděleném vlákně"
+
+#: TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
+msgid "Load icons after file list"
+msgstr "Načíst ikony po seznam souborů"
+
 #: TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION
 #| msgid "Short Filesize format"
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION"
 msgid "Short file size format"
 msgstr "Krátký formát velikosti souborů"
 
-#: TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION
-#| msgid "Case sensitive sorting"
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION"
-msgid "Case-sensitive sorting"
-msgstr "Řazení rozlišuje velká/malá"
-
-#: TFRMOPTIONSFILESVIEWS.CBSORTMETHOD.TEXT
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSORTMETHOD.TEXT"
-msgid "Alphabetical, considering accents"
-msgstr "Abecedně, s respektováním diakritiky"
+#: TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
+msgid "Show system and hidden files"
+msgstr "Ukázat systémové a skryté soubory"
 
 #: TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION"
@@ -3956,10 +3960,18 @@ msgctxt "TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION"
 msgid "Sorting"
 msgstr "Řazení"
 
+#: TFRMOPTIONSFILESVIEWS.LBLCASESENSITIVITY.CAPTION
+msgid "Case sensitivity:"
+msgstr ""
+
 #: TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
 msgid "Date and time format:"
 msgstr "Formát data a času:"
+
+#: TFRMOPTIONSFILESVIEWS.LBLSORTFOLDERMODE.CAPTION
+msgid "Sorting directories:"
+msgstr ""
 
 #: TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION"
@@ -7130,6 +7142,10 @@ msgstr "Registrováno pro"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
+msgstr ""
+
+#: ulng.rsoptsortfoldermode
+msgid "sort by name and show first;sort like files and show first;sort like files"
 msgstr ""
 
 #: ulng.rsoptsortmethod

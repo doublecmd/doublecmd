@@ -3539,6 +3539,7 @@ msgid "Allow only one copy of DC at a time"
 msgstr ""
 
 #: TFRMOPTIONSBEHAVIOR.CBSHOWSYSTEMFILES.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CBSHOWSYSTEMFILES.CAPTION"
 msgid "Show system and hidden files"
 msgstr ""
 
@@ -3803,16 +3804,23 @@ msgstr ""
 msgid "Show square brackets around directories"
 msgstr ""
 
+#: TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
+msgid "Load file list in separate thread"
+msgstr ""
+
+#: TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
+msgid "Load icons after file list"
+msgstr ""
+
 #: TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION
 msgid "Short file size format"
 msgstr ""
 
-#: TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION
-msgid "Case-sensitive sorting"
-msgstr ""
-
-#: TFRMOPTIONSFILESVIEWS.CBSORTMETHOD.TEXT
-msgid "Alphabetical, considering accents"
+#: TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
+msgid "Show system and hidden files"
 msgstr ""
 
 #: TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION
@@ -3827,8 +3835,16 @@ msgstr ""
 msgid "Sorting"
 msgstr ""
 
+#: TFRMOPTIONSFILESVIEWS.LBLCASESENSITIVITY.CAPTION
+msgid "Case sensitivity:"
+msgstr ""
+
 #: TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
+msgstr ""
+
+#: TFRMOPTIONSFILESVIEWS.LBLSORTFOLDERMODE.CAPTION
+msgid "Sorting directories:"
 msgstr ""
 
 #: TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION
@@ -6968,6 +6984,10 @@ msgstr ""
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
+msgstr ""
+
+#: ulng.rsoptsortfoldermode
+msgid "sort by name and show first;sort like files and show first;sort like files"
 msgstr ""
 
 #: ulng.rsoptsortmethod
