@@ -7,7 +7,7 @@
    
    contributors:
 
-   Copyright (C) 2008-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2008-2012  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -201,6 +201,7 @@ type
     updMove: TUpDown;
     btnCfg: TButton;
 
+    ColPrm: TColPrm;
     // Make a custom TColumnsFileViewPreview = class(TColumnsFileView).
     PreviewPan: TColumnsFileView;
     ColumnClass:TPanelColumnsClass;
@@ -228,6 +229,7 @@ begin
   if (Index>=stgColumns.RowCount-1) or (Index<0) then exit;
 
   IndexRaw:=Index;
+  ColPrm:= TColPrm(stgColumns.Objects[6, IndexRaw + 1]);
 
   FUpdating := True;
   UpdateColorsPanelHeader(IndexRaw);
@@ -481,6 +483,7 @@ end;
 
 procedure TfColumnsSetConf.FormCreate(Sender: TObject);
 begin
+  ColPrm:= nil;
   FUpdating := False;
 
   ColumnClass:=TPanelColumnsClass.Create;
@@ -827,43 +830,64 @@ end;
 
 procedure TfColumnsSetConf.cbBackColor2Change(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6,IndexRaw+1]).Background2:= (Sender as TColorBox).Selected;
-  EditorSaveResult(nil);
+  if Assigned(ColPrm) then
+  begin
+    ColPrm.Background2:= (Sender as TColorBox).Selected;
+    EditorSaveResult(nil);
+  end;
 end;
 
 procedure TfColumnsSetConf.cbBackColorChange(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6,IndexRaw+1]).Background:= (Sender as TColorBox).Selected;
-  EditorSaveResult(nil);
+  if Assigned(ColPrm) then
+  begin
+    ColPrm.Background:= (Sender as TColorBox).Selected;
+    EditorSaveResult(nil);
+  end;
 end;
 
 procedure TfColumnsSetConf.cbCursorColorChange(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6,IndexRaw+1]).CursorColor:= (Sender as TColorBox).Selected;
-  EditorSaveResult(nil);
+  if Assigned(ColPrm) then
+  begin
+    ColPrm.CursorColor:= (Sender as TColorBox).Selected;
+    EditorSaveResult(nil);
+  end;
 end;
 
 procedure TfColumnsSetConf.cbCursorTextChange(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6,IndexRaw+1]).CursorText:= (Sender as TColorBox).Selected;
-  EditorSaveResult(nil);
+  if Assigned(ColPrm) then
+  begin
+    ColPrm.CursorText:= (Sender as TColorBox).Selected;
+    EditorSaveResult(nil);
+  end;
 end;
 
 procedure TfColumnsSetConf.cbMarkColorChange(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6,IndexRaw+1]).MarkColor:= (Sender as TColorBox).Selected;
-  EditorSaveResult(nil);
+  if Assigned(ColPrm) then
+  begin
+    ColPrm.MarkColor:= (Sender as TColorBox).Selected;
+    EditorSaveResult(nil);
+  end;
 end;
 
 procedure TfColumnsSetConf.cbTextColorChange(Sender: TObject);
 begin
-  TColPrm(stgColumns.Objects[6,IndexRaw+1]).TextColor:= (Sender as TColorBox).Selected;
-  EditorSaveResult(nil);
+  if Assigned(ColPrm) then
+  begin
+    ColPrm.TextColor:= (Sender as TColorBox).Selected;
+    EditorSaveResult(nil);
+  end;
 end;
 
 procedure TfColumnsSetConf.cbCursorBorderColorChange(Sender: TObject);
 begin
-  EditorSaveResult(nil);
+  if Assigned(ColPrm) then
+  begin
+    EditorSaveResult(nil);
+  end;
 end;
 
 procedure TfColumnsSetConf.btnCancelClick(Sender: TObject);
