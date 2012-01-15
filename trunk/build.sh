@@ -32,7 +32,7 @@ build_default()
 {
   $lazbuild src/doublecmd.lpi $DC_ARCH
   
-  strip --strip-all doublecmd
+  strip doublecmd
 }
 
 build_beta()
