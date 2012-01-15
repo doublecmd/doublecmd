@@ -433,6 +433,7 @@ resourcestring
   //-------------------------------
   rsOptSortMethod = 'Alphabetical, considering accents;Natural sorting: alphabetical and numbers';
   rsOptSortCaseSens = 'not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)';
+  rsOptSortFolderMode = 'sort by name and show first;sort like files and show first;sort like files';
 
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';

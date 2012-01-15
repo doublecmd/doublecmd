@@ -50,6 +50,8 @@ type
   { Show tooltip mode }
   TShowToolTipMode = set of (stm_show_for_all, stm_only_large_name);
   TScrollMode = (smLineByLineCursor, smLineByLine, smPageByPage);
+  { Sorting directories mode }
+  TSortFolderMode = (sfmSortNameShowFirst, sfmSortLikeFileShowFirst, sfmSortLikeFile);
 
   TExternalTool = (etViewer, etEditor, etDiffer);
   TExternalToolOptions = record
@@ -148,14 +150,14 @@ var
   gToolBarButtonSize,
   gToolBarIconSize: Integer;
 
-  gDirSortFirst:Boolean; // if directories are shown as first in panels
   gRepeatPassword:Boolean;  // repeat password when packing files
   gDirHistoryCount:Integer; // how many history we remember
   gShowSystemFiles:Boolean;
   gRunInTerm: String;
   gRunTerm: String;
   gSortCaseSensitivity: TCaseSensitivity;
-  gSortNatural:Boolean;
+  gSortNatural: Boolean;
+  gSortFolderMode: TSortFolderMode;
   gLynxLike:Boolean;
   gFirstTextSearch: Boolean;
 
@@ -690,6 +692,7 @@ begin
   gLynxLike := True;
   gSortCaseSensitivity := cstNotSensitive;
   gSortNatural := False;
+  gSortFolderMode := sfmSortNameShowFirst;
   gShortFileSizeFormat := True;
   gMinimizeToTray := False;
   gAlwaysShowTrayIcon := False;
@@ -887,7 +890,6 @@ procedure SetDefaultNonConfigGlobs;
 begin
   { - Not in config - }
   gHelpLang := '';
-  gDirSortFirst := True;
   gRepeatPassword := True;
   gDirHistoryCount := 30;
   gFirstTextSearch := True;
@@ -1641,6 +1643,7 @@ begin
       begin
         gSortCaseSensitivity := TCaseSensitivity(GetValue(SubNode, 'CaseSensitivity', Integer(gSortCaseSensitivity)));
         gSortNatural := GetValue(SubNode, 'NaturalSorting', gSortNatural);
+        gSortFolderMode:= TSortFolderMode(GetValue(SubNode, 'SortFolderMode', Integer(gSortFolderMode)));
       end;
     end;
 
@@ -1956,6 +1959,7 @@ begin
     SubNode := FindNode(Node, 'Sorting', True);
     SetValue(SubNode, 'CaseSensitivity', Integer(gSortCaseSensitivity));
     SetValue(SubNode, 'NaturalSorting', gSortNatural);
+    SetValue(SubNode, 'SortFolderMode', Integer(gSortFolderMode));
 
     { Keys page }
     Node := FindNode(Root, 'Keyboard', True);
@@ -2128,4 +2132,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.
