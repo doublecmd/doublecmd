@@ -529,7 +529,9 @@ begin
   else
     Canvas.Brush.Color := Gutter.Color;
   DC := Canvas.Handle;
+  {$PUSH}{$R-}
   LCLIntf.SetBkColor(DC, Canvas.Brush.Color);
+  {$POP}
   FTextDrawer.BeginDrawing(DC);
   try
     if MarkupInfo.Background <> clNone then
@@ -577,4 +579,4 @@ begin
 end;
 
 end.
-
+
