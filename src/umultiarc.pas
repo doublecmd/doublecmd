@@ -197,7 +197,8 @@ begin
   for I:= 0 to Count - 1 do
   begin
     ExePath:= Items[I].FArchiver;
-    ExePath:= FindDefaultExecutablePath(ExePath);
+    if not mbFileExists(ReplaceEnvVars(ExePath)) then
+      ExePath:= FindDefaultExecutablePath(ExePath);
     if ExePath = EmptyStr then
       Items[I].FEnabled:= False
     else
@@ -554,4 +555,4 @@ begin
 end;
 
 end.
-
+
