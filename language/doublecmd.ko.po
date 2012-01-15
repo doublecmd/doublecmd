@@ -4007,6 +4007,16 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION"
 msgid "Show square brackets around directories"
 msgstr "디렉터리 이름 양 옆에 대괄호 [] 보이기"
 
+#: TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
+msgid "Load file list in separate thread"
+msgstr ""
+
+#: TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
+msgid "Load icons after file list"
+msgstr ""
+
 #: TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION
 #, fuzzy
 #| msgid "Short Filesize format"
@@ -4014,17 +4024,12 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION"
 msgid "Short file size format"
 msgstr "짧은 파일 크기 형식"
 
-#: TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION
+#: TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION
 #, fuzzy
-#| msgid "Case sensitive sorting"
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION"
-msgid "Case-sensitive sorting"
-msgstr "대/소문자를 구분하여 정렬"
-
-#: TFRMOPTIONSFILESVIEWS.CBSORTMETHOD.TEXT
-msgctxt "TFRMOPTIONSFILESVIEWS.CBSORTMETHOD.TEXT"
-msgid "Alphabetical, considering accents"
-msgstr ""
+#| msgid "Show hidden/system files"
+msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
+msgid "Show system and hidden files"
+msgstr "숨김/시스템 파일 보이기"
 
 #: TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION"
@@ -4040,10 +4045,18 @@ msgctxt "TFRMOPTIONSFILESVIEWS.GBSORTING.CAPTION"
 msgid "Sorting"
 msgstr ""
 
+#: TFRMOPTIONSFILESVIEWS.LBLCASESENSITIVITY.CAPTION
+msgid "Case sensitivity:"
+msgstr ""
+
 #: TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
 msgid "Date and time format:"
 msgstr "날짜 및 시간 형식:"
+
+#: TFRMOPTIONSFILESVIEWS.LBLSORTFOLDERMODE.CAPTION
+msgid "Sorting directories:"
+msgstr ""
 
 #: TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION"
@@ -7233,6 +7246,10 @@ msgstr "등록"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
+msgstr ""
+
+#: ulng.rsoptsortfoldermode
+msgid "sort by name and show first;sort like files and show first;sort like files"
 msgstr ""
 
 #: ulng.rsoptsortmethod

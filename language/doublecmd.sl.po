@@ -1304,11 +1304,11 @@ msgstr "Odpakiraj datoteke"
 msgid "&Unpack path names if stored with files"
 msgstr "&Odpakiraj poti datotek, če to se shranjene v arhivu"
 
+# ???
 #: TFRMEXTRACTDLG.CBFILEMASK.TEXT
 msgid "*.*"
 msgstr "*.*"
 
-# ???
 #: TFRMEXTRACTDLG.CBINSEPARATEFOLDER.CAPTION
 msgid "Unpack each archive to a &separate subdir (name of the archive)"
 msgstr "Odpakiraj vsak arhiv v &ločeno podrejeno mapo (z imenom vsakega arhiva)"
@@ -3550,6 +3550,7 @@ msgid "Allow only one copy of DC at a time"
 msgstr "Dovoli le en zagnan primerek programa"
 
 #: TFRMOPTIONSBEHAVIOR.CBSHOWSYSTEMFILES.CAPTION
+msgctxt "TFRMOPTIONSBEHAVIOR.CBSHOWSYSTEMFILES.CAPTION"
 msgid "Show system and hidden files"
 msgstr "Pokaže skrite in sistemske datoteke"
 
@@ -3814,17 +3815,24 @@ msgstr "Barva besedila:"
 msgid "Show square brackets around directories"
 msgstr "Izpiši oglate oklepaje okoli imena mape v seznamu okna"
 
+#: TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
+msgid "Load file list in separate thread"
+msgstr "Naloži seznam datotek v ločeni niti"
+
+#: TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBLOADICONSSEPARATELY.CAPTION"
+msgid "Load icons after file list"
+msgstr "Naloži ikone za seznamom datotek"
+
 #: TFRMOPTIONSFILESVIEWS.CBSHORTFILESIZEFORMAT.CAPTION
 msgid "Short file size format"
 msgstr "Uporabi kratko obliko zapisa velikosti datotek"
 
-#: TFRMOPTIONSFILESVIEWS.CBSORTCASESENSITIVE.CAPTION
-msgid "Case-sensitive sorting"
-msgstr "Razvrščanje z upoštevanjem velikosti črk"
-
-#: TFRMOPTIONSFILESVIEWS.CBSORTMETHOD.TEXT
-msgid "Alphabetical, considering accents"
-msgstr "Abecedno, upoštevajoč znakovne naglase"
+#: TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION
+msgctxt "TFRMOPTIONSFILESVIEWS.CBSHOWSYSTEMFILES.CAPTION"
+msgid "Show system and hidden files"
+msgstr "Pokaže skrite in sistemske datoteke"
 
 #: TFRMOPTIONSFILESVIEWS.CBSPACEMOVESDOWN.CAPTION
 msgid "When selecting files with <SPACEBAR>, move down to next file (as with <INSERT>)"
@@ -3838,20 +3846,28 @@ msgstr "Oblikovanje"
 msgid "Sorting"
 msgstr "Razvrščanje"
 
+#: TFRMOPTIONSFILESVIEWS.LBLCASESENSITIVITY.CAPTION
+msgid "Case sensitivity:"
+msgstr ""
+
 #: TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
 msgstr "Zapis datuma in časa"
+
+#: TFRMOPTIONSFILESVIEWS.LBLSORTFOLDERMODE.CAPTION
+msgid "Sorting directories:"
+msgstr ""
 
 #: TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION
 msgid "Sort &method:"
 msgstr "&Način razvrščanja:"
 
+# ???
 #: TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
 msgid "Add"
 msgstr "Dodaj"
 
-# ???
 #: TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNAPPLYCATEGORY.CAPTION"
 msgid "Apply"
@@ -4572,12 +4588,12 @@ msgstr ">>"
 msgid "Viewer Book Mode"
 msgstr "Način bralnega pregledovalnika"
 
+# ??? Arhivirnik = packer
 #: TFRMOPTIONSVIEWER.GBVIEWEREXAMPLE.CAPTION
 msgctxt "TFRMOPTIONSVIEWER.GBVIEWEREXAMPLE.CAPTION"
 msgid "Example"
 msgstr "Primer"
 
-# ??? Arhivirnik = packer
 #: TFRMOPTIONSVIEWER.LBLBACKGROUNDCOLORVIEWERBOOK.CAPTION
 msgid "Background color in book viewer"
 msgstr "Barva ozadja v bralnem pregledovalniku"
@@ -4600,12 +4616,12 @@ msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "&Configure"
 msgstr "&Nastavitve"
 
+# ???
 #: TFRMPACKDLG.BTNHELP.CAPTION
 msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
 msgid "Help"
 msgstr "Pomoč"
 
-# ???
 #: TFRMPACKDLG.BTNOK.CAPTION
 msgctxt "TFRMPACKDLG.BTNOK.CAPTION"
 msgid "OK"
@@ -5901,6 +5917,7 @@ msgstr "nova_datoteka.txt"
 msgid "Filename:"
 msgstr "Ime datoteke:"
 
+# multiple
 #: ulng.rseditnewopen
 msgid "Open file"
 msgstr "Odpri datoteko"
@@ -5910,7 +5927,6 @@ msgstr "Odpri datoteko"
 msgid "&Backward"
 msgstr "&Nazaj"
 
-# multiple
 #: ulng.rseditsearchcaption
 msgctxt "ulng.rseditsearchcaption"
 msgid "Search"
@@ -6097,6 +6113,7 @@ msgctxt "ulng.rsmnuedit"
 msgid "Edit"
 msgstr "Uredi"
 
+# multiple
 #: ulng.rsmnueject
 msgid "Eject"
 msgstr "Izvrzi"
@@ -6106,7 +6123,6 @@ msgstr "Izvrzi"
 msgid "Mount"
 msgstr "Priklopi"
 
-# multiple
 #: ulng.rsmnunew
 msgid "New"
 msgstr "Novo"
@@ -6444,11 +6460,11 @@ msgstr "Ročno urejanje hitre, pogosto uporabljene poti"
 msgid "Enter name and path (format name=path):"
 msgstr "Vnos imena in poti (zapis v obliki ime=pot)"
 
+# multiple
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
 msgstr "Glavno geslo"
 
-# multiple
 #: ulng.rsmsgmasterpasswordenter
 msgid "Please enter the master password:"
 msgstr "Vnesite glavno geslo:"
@@ -6457,11 +6473,11 @@ msgstr "Vnesite glavno geslo:"
 msgid "New file"
 msgstr "Nova datoteka"
 
+# double multiple
 #: ulng.rsmsgnextvolunpack
 msgid "Next volume will be unpacked"
 msgstr "Odpakiran bo naslednji del arhiva"
 
-# double multiple
 #: ulng.rsmsgnofilesselected
 msgid "No files selected."
 msgstr "Ni izbranih datotek."
@@ -6511,11 +6527,11 @@ msgctxt "ulng.rsmsgpopuphotcnf"
 msgid "&Configure"
 msgstr "&Nastavitve"
 
+# multiple
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"
 msgstr "&Izbriši %s"
 
-# multiple
 #: ulng.rsmsgpresetalreadyexists
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Shranjen predmet \"%s\" že obstaja. Ali naj se prepiše?"
@@ -6992,6 +7008,10 @@ msgstr "Vpisano za"
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
 msgstr ""
 
+#: ulng.rsoptsortfoldermode
+msgid "sort by name and show first;sort like files and show first;sort like files"
+msgstr ""
+
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
 msgstr "Abecedno, upoštevajoč znakovne naglase;Naravno, številčno in abecedno"
@@ -7004,11 +7024,11 @@ msgstr "Zgoraj;Spodaj;"
 msgid "Can not change access rights for \"%s\""
 msgstr "Ni mogoče spremeniti dovoljenj dostopa za \"%s\""
 
+# multiple + window to small
 #: ulng.rspropserrchown
 msgid "Can not change owner for \"%s\""
 msgstr "Lastnika \"%s\" ni mogoče spremeniti."
 
-# multiple + window to small
 #: ulng.rspropsfile
 msgctxt "ulng.rspropsfile"
 msgid "File"
@@ -7119,12 +7139,12 @@ msgstr "dni"
 msgid "Hour(s)"
 msgstr "ure"
 
+#~ msgid "Comments"
+#~ msgstr "Opombe"
 #: ulng.rstimeunitminute
 msgid "Minute(s)"
 msgstr "minute"
 
-#~ msgid "Comments"
-#~ msgstr "Opombe"
 #: ulng.rstimeunitmonth
 msgid "Month(s)"
 msgstr "meseci"
