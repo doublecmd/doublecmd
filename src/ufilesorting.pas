@@ -256,8 +256,10 @@ begin
     Result := -1
   else if item2.Name = '..' then
     Result := 1
+  else if (gSortFolderMode <> sfmSortNameShowFirst) then
+    Result := 0
   else
-    Result := 0;
+    Result := CompareStrings(item1.Name, item2.Name, gSortNatural, gSortCaseSensitivity);
 end;
 
 function ICompareByName(item1, item2: TFile; bSortNegative: Boolean):Integer;
@@ -470,7 +472,7 @@ begin
   if item1 = item2 then Exit;
 
   // Put directories first.
-  if gDirSortFirst then
+  if (gSortFolderMode <> sfmSortLikeFile) then
   begin
     Result := ICompareByDirectory(TFile(item1), TFile(item2), False); // Ascending
     if Result <> 0 then Exit;

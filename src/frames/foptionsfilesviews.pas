@@ -44,9 +44,11 @@ type
     cbSortMethod: TComboBox;
     cbSpaceMovesDown: TCheckBox;
     cbCaseSensitivity: TComboBox;
+    cbSortFolderMode: TComboBox;
     gbFormatting: TGroupBox;
     gbSorting: TGroupBox;
     gbMisc: TGroupBox;
+    lblSortFolderMode: TLabel;
     lblCaseSensitivity: TLabel;
     lblDateTimeExample: TLabel;
     lblDateTimeFormat: TLabel;
@@ -79,6 +81,7 @@ procedure TfrmOptionsFilesViews.Init;
 begin
   ParseLineToList(rsOptSortMethod, cbSortMethod.Items);
   ParseLineToList(rsOptSortCaseSens, cbCaseSensitivity.Items);
+  ParseLineToList(rsOptSortFolderMode, cbSortFolderMode.Items);
 end;
 
 procedure TfrmOptionsFilesViews.Load;
@@ -92,6 +95,11 @@ begin
     cbSortMethod.ItemIndex:= 0
   else
     cbSortMethod.ItemIndex:= 1;
+  case gSortFolderMode of
+    sfmSortNameShowFirst:      cbSortFolderMode.ItemIndex := 0;
+    sfmSortLikeFileShowFirst:  cbSortFolderMode.ItemIndex := 1;
+    sfmSortLikeFile:           cbSortFolderMode.ItemIndex := 2;
+  end;
   cbShortFileSizeFormat.Checked :=gShortFileSizeFormat;
   cbDateTimeFormat.Text := gDateTimeFormat;
   lblDateTimeExample.Caption:= FormatDateTime(cbDateTimeFormat.Text, Now);
@@ -110,6 +118,11 @@ begin
     2: gSortCaseSensitivity := cstCharValue;
   end;
   gSortNatural := (cbSortMethod.ItemIndex = 1);
+  case cbSortFolderMode.ItemIndex of
+    0: gSortFolderMode := sfmSortNameShowFirst;
+    1: gSortFolderMode := sfmSortLikeFileShowFirst;
+    2: gSortFolderMode := sfmSortLikeFile;
+  end;
   gShortFileSizeFormat := cbShortFileSizeFormat.Checked;
   gDateTimeFormat := cbDateTimeFormat.Text;
   gSpaceMovesDown := cbSpaceMovesDown.Checked;
