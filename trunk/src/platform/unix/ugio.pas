@@ -32,13 +32,14 @@ uses
   Classes, SysUtils;
 
 type
-  gpointer  = pointer;
-  gboolean  = longbool;
-  Pgchar    = PChar;
-  PGFile    = type Pointer;
-  PGAppInfo = type Pointer;
-  PGCancellable = type Pointer;
-  PGAppLaunchContext = type Pointer;
+  gpointer           = pointer;
+  gboolean           = longbool;
+  Pgchar             = PChar;
+  PGFile             = Pointer;
+  PGAppInfo          = Pointer;
+  PGCancellable      = Pointer;
+  PGAppLaunchContext = Pointer;
+  PPGError           = Pointer;
 
 type
   PGList = ^TGList;
@@ -70,9 +71,9 @@ var
   g_object_unref: procedure(anObject: gpointer); cdecl;
   g_file_is_native: function(AFile: PGFile): gboolean; cdecl;
   g_file_new_for_commandline_arg: function(arg: Pgchar): PGFile; cdecl;
-  g_file_query_default_handler: function(AFile: PGFile; cancellable: PGCancellable): PGAppInfo; cdecl;
-  g_app_info_launch: function(AAppInfo: PGAppInfo; files: PGList; launch_context: PGAppLaunchContext): gboolean; cdecl;
-  g_app_info_launch_uris: function(AAppInfo: PGAppInfo; uris: PGList; launch_context: PGAppLaunchContext): gboolean; cdecl;
+  g_file_query_default_handler: function(AFile: PGFile; cancellable: PGCancellable; error: PPGError): PGAppInfo; cdecl;
+  g_app_info_launch: function(AAppInfo: PGAppInfo; files: PGList; launch_context: PGAppLaunchContext; error: PPGError): gboolean; cdecl;
+  g_app_info_launch_uris: function(AAppInfo: PGAppInfo; uris: PGList; launch_context: PGAppLaunchContext; error: PPGError): gboolean; cdecl;
 
 function GioOpen(const Uri: UTF8String): Boolean;
 var
@@ -86,17 +87,17 @@ begin
   if not HasGio then Exit;
   AFile:= g_file_new_for_commandline_arg(Pgchar(Uri));
   try
-    AppInfo:= g_file_query_default_handler(AFile, nil);
+    AppInfo:= g_file_query_default_handler(AFile, nil, nil);
     if (AppInfo = nil) then Exit;
     if g_file_is_native(AFile) then
       begin
         AFileList.data:= AFile;
-        Result:= g_app_info_launch (AppInfo, @AFileList, nil);
+        Result:= g_app_info_launch (AppInfo, @AFileList, nil, nil);
       end
     else
       begin
         AFileList.data:= Pgchar(Uri);
-        Result:= g_app_info_launch_uris (AppInfo, @AFileList, nil);
+        Result:= g_app_info_launch_uris (AppInfo, @AFileList, nil, nil);
       end;
     g_object_unref(AppInfo);
   finally
