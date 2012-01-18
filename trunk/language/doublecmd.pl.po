@@ -6049,6 +6049,10 @@ msgctxt "ulng.rsfunccomment"
 msgid "Comment"
 msgstr "Komentarz"
 
+#: ulng.rsfunccompressedsize
+msgid "Compressed size"
+msgstr ""
+
 #: ulng.rsfuncctime
 msgid "Creation date/time"
 msgstr "Data/czas utworzenia"
@@ -7027,11 +7031,6 @@ msgctxt "ulng.rsoptpluginsname"
 msgid "Name"
 msgstr "Nazwa"
 
-#: ulng.rsoptpluginsregisteredfor
-msgctxt "ulng.rsoptpluginsregisteredfor"
-msgid "Registered for"
-msgstr "Skojarzenia"
-
 #~ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 #~ msgid "OK"
 #~ msgstr "OK"
@@ -7131,6 +7130,11 @@ msgstr "Skojarzenia"
 #~ msgstr "Filtr:"
 #~ msgid "Find:"
 #~ msgstr "Znajdź:"
+#: ulng.rsoptpluginsregisteredfor
+msgctxt "ulng.rsoptpluginsregisteredfor"
+msgid "Registered for"
+msgstr "Skojarzenia"
+
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
 msgstr ""

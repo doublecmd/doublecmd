@@ -1300,11 +1300,11 @@ msgctxt "TFRMEXTRACTDLG.CAPTION"
 msgid "Unpack files"
 msgstr "Odpakiraj datoteke"
 
+# ???
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "&Odpakiraj poti datotek, če to se shranjene v arhivu"
 
-# ???
 #: TFRMEXTRACTDLG.CBFILEMASK.TEXT
 msgid "*.*"
 msgstr "*.*"
@@ -3858,11 +3858,11 @@ msgstr "Zapis datuma in časa"
 msgid "Sorting directories:"
 msgstr ""
 
+# ???
 #: TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION
 msgid "Sort &method:"
 msgstr "&Način razvrščanja:"
 
-# ???
 #: TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
 msgid "Add"
@@ -4584,11 +4584,11 @@ msgctxt "TFRMOPTIONSVIEWER.BTNFONTVIEWERCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+# ??? Arhivirnik = packer
 #: TFRMOPTIONSVIEWER.GBVIEWERBOOKMODE.CAPTION
 msgid "Viewer Book Mode"
 msgstr "Način bralnega pregledovalnika"
 
-# ??? Arhivirnik = packer
 #: TFRMOPTIONSVIEWER.GBVIEWEREXAMPLE.CAPTION
 msgctxt "TFRMOPTIONSVIEWER.GBVIEWEREXAMPLE.CAPTION"
 msgid "Example"
@@ -4611,12 +4611,12 @@ msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Prekliči"
 
+# ???
 #: TFRMPACKDLG.BTNCONFIG.CAPTION
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "&Configure"
 msgstr "&Nastavitve"
 
-# ???
 #: TFRMPACKDLG.BTNHELP.CAPTION
 msgctxt "TFRMPACKDLG.BTNHELP.CAPTION"
 msgid "Help"
@@ -5913,6 +5913,7 @@ msgstr "Notranji urejevalnik programa Double Commander"
 msgid "new.txt"
 msgstr "nova_datoteka.txt"
 
+# multiple
 #: ulng.rseditnewfilename
 msgid "Filename:"
 msgstr "Ime datoteke:"
@@ -5922,7 +5923,6 @@ msgstr "Ime datoteke:"
 msgid "Open file"
 msgstr "Odpri datoteko"
 
-# multiple
 #: ulng.rseditsearchback
 msgid "&Backward"
 msgstr "&Nazaj"
@@ -6017,6 +6017,10 @@ msgctxt "ulng.rsfunccomment"
 msgid "Comment"
 msgstr "Opomba"
 
+#: ulng.rsfunccompressedsize
+msgid "Compressed size"
+msgstr ""
+
 #: ulng.rsfuncctime
 msgid "Creation date/time"
 msgstr "Datum in čas ustvarjanja"
@@ -6108,6 +6112,7 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Dejanja"
 
+# multiple
 #: ulng.rsmnuedit
 msgctxt "ulng.rsmnuedit"
 msgid "Edit"
@@ -6118,7 +6123,6 @@ msgstr "Uredi"
 msgid "Eject"
 msgstr "Izvrzi"
 
-# multiple
 #: ulng.rsmnumount
 msgid "Mount"
 msgstr "Priklopi"
@@ -6456,11 +6460,11 @@ msgstr "Ročno dodajanje hitre, pogosto uporabljene poti"
 msgid "Manualy edit hot path"
 msgstr "Ročno urejanje hitre, pogosto uporabljene poti"
 
+# multiple
 #: ulng.rsmsgmanualhotdirquery
 msgid "Enter name and path (format name=path):"
 msgstr "Vnos imena in poti (zapis v obliki ime=pot)"
 
-# multiple
 #: ulng.rsmsgmasterpassword
 msgid "Master Password"
 msgstr "Glavno geslo"
@@ -6469,11 +6473,11 @@ msgstr "Glavno geslo"
 msgid "Please enter the master password:"
 msgstr "Vnesite glavno geslo:"
 
+# double multiple
 #: ulng.rsmsgnewfile
 msgid "New file"
 msgstr "Nova datoteka"
 
-# double multiple
 #: ulng.rsmsgnextvolunpack
 msgid "Next volume will be unpacked"
 msgstr "Odpakiran bo naslednji del arhiva"
@@ -6522,12 +6526,12 @@ msgstr ""
 msgid "&Add %s"
 msgstr "&Dodaj %s"
 
+# multiple
 #: ulng.rsmsgpopuphotcnf
 msgctxt "ulng.rsmsgpopuphotcnf"
 msgid "&Configure"
 msgstr "&Nastavitve"
 
-# multiple
 #: ulng.rsmsgpopuphotdelete
 msgid "&Delete %s"
 msgstr "&Izbriši %s"
@@ -7020,11 +7024,11 @@ msgstr "Abecedno, upoštevajoč znakovne naglase;Naravno, številčno in abecedn
 msgid "Top;Bottom;"
 msgstr "Zgoraj;Spodaj;"
 
+# multiple + window to small
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
 msgstr "Ni mogoče spremeniti dovoljenj dostopa za \"%s\""
 
-# multiple + window to small
 #: ulng.rspropserrchown
 msgid "Can not change owner for \"%s\""
 msgstr "Lastnika \"%s\" ni mogoče spremeniti."
@@ -7135,12 +7139,12 @@ msgctxt "ulng.rstimeunitday"
 msgid "Day(s)"
 msgstr "dni"
 
+#~ msgid "Comments"
+#~ msgstr "Opombe"
 #: ulng.rstimeunithour
 msgid "Hour(s)"
 msgstr "ure"
 
-#~ msgid "Comments"
-#~ msgstr "Opombe"
 #: ulng.rstimeunitminute
 msgid "Minute(s)"
 msgstr "minute"

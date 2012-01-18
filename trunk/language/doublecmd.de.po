@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2011-11-17 11:34+0100\n"
+"PO-Revision-Date: 2012-01-16 14:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1112,7 +1112,7 @@ msgstr "Alles &speichern"
 #: TFRMEDITOR.FRMEDITOR.CAPTION
 msgctxt "TFRMEDITOR.FRMEDITOR.CAPTION"
 msgid "Editor"
-msgstr "Text-Editor"
+msgstr "Editor"
 
 #: TFRMEDITOR.HELP1.CAPTION
 msgctxt "TFRMEDITOR.HELP1.CAPTION"
@@ -1153,7 +1153,7 @@ msgstr "S&yntax hervorheben"
 
 #: TFRMEDITOR.MILINEENDTYPE.CAPTION
 msgid "End Of Line"
-msgstr ""
+msgstr "Zeilenende"
 
 #: TFRMEDITOR.MISEPARATOR1.CAPTION
 msgctxt "TFRMEDITOR.MISEPARATOR1.CAPTION"
@@ -4077,7 +4077,7 @@ msgstr "Sortierung"
 
 #: TFRMOPTIONSFILESVIEWS.LBLCASESENSITIVITY.CAPTION
 msgid "Case sensitivity:"
-msgstr ""
+msgstr "Schreibweise beachten:"
 
 #: TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
@@ -4086,7 +4086,7 @@ msgstr "Datums- und Zeitformat"
 
 #: TFRMOPTIONSFILESVIEWS.LBLSORTFOLDERMODE.CAPTION
 msgid "Sorting directories:"
-msgstr ""
+msgstr "Sortierung von Verzeichnissen:"
 
 #: TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION"
@@ -4123,7 +4123,7 @@ msgstr "Vorlage..."
 #| msgid "File types colors"
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION"
 msgid "File types colors (sort by drag&&drop)"
-msgstr "Dateitypfarben"
+msgstr "Dateitypfarben (durch \"Ziehen und Loslassen\" anordnen)"
 
 #: TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION"
@@ -5361,22 +5361,22 @@ msgstr "Zeigt den 'Über'-Dialog"
 #: TFRMVIEWER.ACTCOPYFILE.CAPTION
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"
-msgstr ""
+msgstr "Datei kopieren"
 
 #: TFRMVIEWER.ACTCOPYFILE.HINT
 msgctxt "TFRMVIEWER.ACTCOPYFILE.HINT"
 msgid "Copy File"
-msgstr ""
+msgstr "Datei kopieren"
 
 #: TFRMVIEWER.ACTDELETEFILE.CAPTION
 msgctxt "TFRMVIEWER.ACTDELETEFILE.CAPTION"
 msgid "Delete File"
-msgstr ""
+msgstr "Datei löschen"
 
 #: TFRMVIEWER.ACTDELETEFILE.HINT
 msgctxt "TFRMVIEWER.ACTDELETEFILE.HINT"
 msgid "Delete File"
-msgstr ""
+msgstr "Datei löschen"
 
 #: TFRMVIEWER.ACTLOADNEXTFILE.CAPTION
 msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.CAPTION"
@@ -5385,7 +5385,7 @@ msgstr "&Nächste"
 
 #: TFRMVIEWER.ACTLOADNEXTFILE.HINT
 msgid "Load Next File"
-msgstr ""
+msgstr "Nächste Datei laden"
 
 #: TFRMVIEWER.ACTLOADPREVFILE.CAPTION
 msgctxt "TFRMVIEWER.ACTLOADPREVFILE.CAPTION"
@@ -5394,7 +5394,7 @@ msgstr "&Vorherige"
 
 #: TFRMVIEWER.ACTLOADPREVFILE.HINT
 msgid "Load Previous File"
-msgstr ""
+msgstr "Vorherige Datei laden"
 
 #: TFRMVIEWER.ACTMIRROR.CAPTION
 msgctxt "TFRMVIEWER.ACTMIRROR.CAPTION"
@@ -5409,12 +5409,12 @@ msgstr "Spiegeln"
 #: TFRMVIEWER.ACTMOVEFILE.CAPTION
 msgctxt "TFRMVIEWER.ACTMOVEFILE.CAPTION"
 msgid "Move File"
-msgstr ""
+msgstr "Datei verschieben"
 
 #: TFRMVIEWER.ACTMOVEFILE.HINT
 msgctxt "TFRMVIEWER.ACTMOVEFILE.HINT"
 msgid "Move File"
-msgstr ""
+msgstr "Datei verschieben"
 
 #: TFRMVIEWER.ACTRELOAD.CAPTION
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
@@ -5423,37 +5423,37 @@ msgstr "Neu laden"
 
 #: TFRMVIEWER.ACTRELOAD.HINT
 msgid "Reload current file"
-msgstr ""
+msgstr "Aktuelle Datei neu laden"
 
 #: TFRMVIEWER.ACTROTATE180.CAPTION
 msgctxt "TFRMVIEWER.ACTROTATE180.CAPTION"
 msgid "Rotate 180"
-msgstr ""
+msgstr "Um 180 Grad drehen"
 
 #: TFRMVIEWER.ACTROTATE180.HINT
 msgctxt "TFRMVIEWER.ACTROTATE180.HINT"
 msgid "Rotate 180"
-msgstr ""
+msgstr "Um 180 Grad drehen"
 
 #: TFRMVIEWER.ACTROTATE270.CAPTION
 msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
 msgid "Rotate 270"
-msgstr ""
+msgstr "Um 270 Grad drehen"
 
 #: TFRMVIEWER.ACTROTATE270.HINT
 msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
 msgid "Rotate 270"
-msgstr ""
+msgstr "Um 270 Grad drhen"
 
 #: TFRMVIEWER.ACTROTATE90.CAPTION
 msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
 msgid "Rotate 90"
-msgstr ""
+msgstr "Um 90 Grad drehen"
 
 #: TFRMVIEWER.ACTROTATE90.HINT
 msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
 msgid "Rotate 90"
-msgstr ""
+msgstr "Um 90 Grad drehen"
 
 #: TFRMVIEWER.ACTSAVEAS.CAPTION
 msgctxt "TFRMVIEWER.ACTSAVEAS.CAPTION"
@@ -5471,7 +5471,7 @@ msgstr "Strecken"
 
 #: TFRMVIEWER.ACTSTRETCHIMAGE.HINT
 msgid "Stretch Image"
-msgstr ""
+msgstr "Bild strecken"
 
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
@@ -6037,7 +6037,7 @@ msgstr "H&inein kopieren"
 
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
-msgstr ""
+msgstr "In &alle einfügen"
 
 #: ulng.rsdlgbuttonno
 msgid "&No"
@@ -6062,7 +6062,7 @@ msgstr "Alle &vorhandenen Dateien überschreiben"
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
-msgstr ""
+msgstr "Fo&rtsetzen"
 
 #: ulng.rsdlgbuttonretry
 msgid "Re&try"
@@ -6295,6 +6295,10 @@ msgctxt "ulng.rsfunccomment"
 msgid "Comment"
 msgstr "Kommentar"
 
+#: ulng.rsfunccompressedsize
+msgid "Compressed size"
+msgstr ""
+
 #: ulng.rsfuncctime
 msgid "Creation date/time"
 msgstr "Datum / Zeit der Erstellung"
@@ -6468,7 +6472,7 @@ msgstr "Markierte \"%s\" kopieren?"
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
-msgstr ""
+msgstr "Teilweise kopierte Datei löschen?"
 
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
@@ -6580,7 +6584,7 @@ msgstr "Funktion wird nicht unterstützt!"
 
 #: ulng.rsmsgerrorincontextmenucommand
 msgid "Error in context menu command"
-msgstr ""
+msgstr "Fehler im Befehl des Kontextmenü"
 
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
@@ -6648,7 +6652,7 @@ msgstr "Sym-Link \"%s\" folgen?"
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
-msgstr ""
+msgstr "Fehler in der Befehlszeile"
 
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
@@ -6664,7 +6668,7 @@ msgstr "Pfad %s enthält ungültige Zeichen."
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
-msgstr ""
+msgstr "Ungültiges Zitat"
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
@@ -7057,15 +7061,15 @@ msgstr ""
 
 #: ulng.rsopthotkeysadddeleteshortcut
 msgid "Add shortcut to delete file"
-msgstr ""
+msgstr "Tastaturkürzel zum Löschen von Dateien hinzufügen"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr ""
+msgstr "Tastaturkürzel %s für cm_delete wird registriert, damit die Änderung rückgängig gemacht werden kann."
 
 #: ulng.rsopthotkeysaddshortcutbutton
 msgid "Add shortcut"
-msgstr ""
+msgstr "Tastaturkürzel erstellen"
 
 #: ulng.rsopthotkeyscannotaddshortcut
 msgid "Cannot add shortcut"
@@ -7077,11 +7081,11 @@ msgstr "Befehle"
 
 #: ulng.rsopthotkeysdeleteshortcutalreadyassigned
 msgid "Shortcut %s for cm_Delete is already assigned, so it cannot be used to reverse this setting."
-msgstr ""
+msgstr "Tastaturkürzel %s für cm_Delete ist bereits zugeordnet, deshalb kann es nicht verwendet werden um die Einstellung zurückzusetzen."
 
 #: ulng.rsopthotkeysdeleteshortcutwrongparams
 msgid "Current shortcut %s for cm_Delete has parameters that don't depend on this setting, so the setting will have no effect."
-msgstr ""
+msgstr "Das aktuelle Tataturkürzel %s für cm_Delete hat Parameter die nicht von dieser Einstellung abhängig sind, deshalb wird diese Einstellung keinen Effekt haben."
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
@@ -7292,11 +7296,11 @@ msgstr "Registriert für"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
-msgstr ""
+msgstr "Nicht abhängig von der Schreibweise; abhängig von den lokalen Einstellungen (aAbBcC); erst GrOß, dann klein (ABCabc)"
 
 #: ulng.rsoptsortfoldermode
 msgid "sort by name and show first;sort like files and show first;sort like files"
-msgstr ""
+msgstr "Nach Namen sortieren und ersten anzeigen; wie Dateien sortieren und erste anzeigen; wie Dateien sortieren"
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
@@ -7455,19 +7459,19 @@ msgstr "Text-Editor"
 
 #: ulng.rstoolerroropeningdiffer
 msgid "Error opening differ"
-msgstr ""
+msgstr "Fehler beim Öffnen des Vergleichers"
 
 #: ulng.rstoolerroropeningeditor
 msgid "Error opening editor"
-msgstr ""
+msgstr "Fehler beim Öffnen des Editors"
 
 #: ulng.rstoolerroropeningterminal
 msgid "Error opening terminal"
-msgstr ""
+msgstr "Fehler beim starten des Befehlszeilen-Interpreters"
 
 #: ulng.rstoolerroropeningviewer
 msgid "Error opening viewer"
-msgstr ""
+msgstr "Fehler beim Öffnen des Betrachters"
 
 #: ulng.rstoolterminal
 msgctxt "ulng.rstoolterminal"
