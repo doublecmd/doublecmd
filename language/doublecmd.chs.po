@@ -6261,6 +6261,10 @@ msgctxt "ulng.rsfunccomment"
 msgid "Comment"
 msgstr ""
 
+#: ulng.rsfunccompressedsize
+msgid "Compressed size"
+msgstr ""
+
 #: ulng.rsfuncctime
 msgid "Creation date/time"
 msgstr ""
