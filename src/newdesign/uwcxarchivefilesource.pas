@@ -287,6 +287,11 @@ begin
                   bFound:= True;
                   Break;
                 end;
+            end
+          else if ((gWCXPlugins.Flags[I] and PK_CAPS_HIDE) = PK_CAPS_HIDE) then
+            begin
+              bFound:= SameText(ExtractOnlyFileExt(anArchiveFileName), gWCXPlugins.Ext[I]);
+              if bFound then Break;
             end;
           WcxPlugin.UnloadModule;
         end;
