@@ -256,6 +256,7 @@ resourcestring
   rsFuncNameNoExt = 'Name without extension';
   rsFuncType = 'Type';
   rsFuncComment = 'Comment';
+  rsFuncCompressedSize = 'Compressed size';
 
   // Tools
   rsToolViewer = 'Viewer';

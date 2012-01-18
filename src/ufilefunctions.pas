@@ -44,6 +44,7 @@ type
                    fsfNameNoExtension,
                    fsfType,
                    fsfComment,
+                   fsfCompressedSize,
                    fsfInvalid);
 
   TFileFunctions = array of TFileFunction;
@@ -63,6 +64,7 @@ type
                'GETFILENAMENOEXT',
                'GETFILETYPE',
                'GETFILECOMMENT',
+               'GETFILECOMPRESSEDSIZE',
                ''                 // fsfInvalid
                );
 
@@ -82,6 +84,7 @@ type
                [fpName],
                [fpType],
                [fpComment],
+               [fpCompressedSize],
                [] { invalid });
 
   function FormatFileFunction(FuncS: string; AFile: TFile; const AFileSource: IFileSource): string;
@@ -253,6 +256,16 @@ begin
       fsfComment:
         if fpComment in AFile.SupportedProperties then
           Result := AFile.CommentProperty.Format(DefaultFilePropertyFormatter);
+
+      fsfCompressedSize:
+        begin
+          if (AFile.IsDirectory or AFile.IsLinkToDirectory) and
+            ((not (fpCompressedSize in AFile.SupportedProperties)) or (AFile.CompressedSize = 0))
+          then
+            Result := '<DIR>'
+          else if fpCompressedSize in AFile.SupportedProperties then
+            Result := AFile.Properties[fpCompressedSize].Format(DefaultFilePropertyFormatter);
+        end;
     end;
   end
   //------------------------------------------------------
@@ -395,6 +408,7 @@ begin
     Add(TFileFunctionStrings[fsfNameNoExtension] + '=' + rsFuncNameNoExt);
     Add(TFileFunctionStrings[fsfType] + '=' + rsFuncType);
     Add(TFileFunctionStrings[fsfComment] + '=' + rsFuncComment);
+    Add(TFileFunctionStrings[fsfCompressedSize] + '=' + rsFuncCompressedSize);
   end;
 end;
 

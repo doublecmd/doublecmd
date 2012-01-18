@@ -130,6 +130,11 @@ function GetFileDescription(const sPath: String): String;
    @param(sRootPath Root directory of the volume, for example C:\)
 }
 function mbGetFileSystem(const sRootPath: String): String;
+{en
+   Retrieves the actual number of bytes of disk storage used to store a specified file.
+   @param(FileName The name of the file.)
+}
+function mbGetCompressedFileSize(const FileName: UTF8String): Int64;
 
 procedure InitErrorMode;
 
@@ -543,6 +548,11 @@ begin
   end
   else
     Result := EmptyStr;
+end;
+
+function mbGetCompressedFileSize(const FileName: UTF8String): Int64;
+begin
+  Int64Rec(Result).Lo:= GetCompressedFileSizeW(PWideChar(UTF8Decode(FileName)), @Int64Rec(Result).Hi);
 end;
 
 procedure InitErrorMode;
