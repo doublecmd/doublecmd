@@ -52,15 +52,24 @@ uses
 function mbDeleteToTrash(const FileName: UTF8String): Boolean;
 {$IF DEFINED(MSWINDOWS)}
 var
-  wFileName: WideString;
+  wsFileName: WideString;
   FileOp: TSHFileOpStructW;
+  dwFileAttributes: LongWord;
 begin
-  wFileName:= UTF8Decode(FileName);
-  wFileName:= wFileName + #0;
+  wsFileName:= UTF8Decode(FileName);
+  // Windows before Vista don't move symlink into recycle bin
+  // correctly, so we return False in that case
+  if (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion < 6) then
+  begin
+    dwFileAttributes:= GetFileAttributesW(PWideChar(wsFileName));
+    if FPS_ISLNK(dwFileAttributes) and FPS_ISDIR(dwFileAttributes) then
+      Exit(False);
+  end;
+  wsFileName:= wsFileName + #0;
   FillChar(FileOp, SizeOf(FileOp), 0);
   FileOp.Wnd := TWin32Widgetset(Widgetset).AppHandle;
   FileOp.wFunc := FO_DELETE;
-  FileOp.pFrom := PWideChar(wFileName);
+  FileOp.pFrom := PWideChar(wsFileName);
   // Move without question
   FileOp.fFlags := FOF_ALLOWUNDO or FOF_NOERRORUI or FOF_SILENT or FOF_NOCONFIRMATION;
   Result := (SHFileOperationW(@FileOp) = 0) and (not FileOp.fAnyOperationsAborted);
