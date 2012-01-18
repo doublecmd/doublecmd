@@ -505,6 +505,12 @@ begin
       TypeProperty.Value := GetFileDescription(sFullPath);
     end;
 
+    if fpCompressedSize in PropertiesToSet then
+    begin
+      CompressedSizeProperty := TFileCompressedSizeProperty.Create;
+      CompressedSizeProperty.Value := mbGetCompressedFileSize(sFullPath);
+    end;
+
 {$ELSEIF DEFINED(UNIX)}
 
     if ([fpAttributes,
@@ -713,7 +719,11 @@ begin
   Result := inherited GetRetrievableFileProperties
           + [fpOwner,
              fpType,
-             fpComment];
+             fpComment
+             {$IF DEFINED(MSWINDOWS)}
+             , fpCompressedSize
+             {$ENDIF}
+             ];
 end;
 
 function TFileSystemFileSource.CreateListOperation(TargetPath: String): TFileSourceOperation;
