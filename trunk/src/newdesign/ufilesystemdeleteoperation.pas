@@ -245,7 +245,11 @@ begin
           end;
           if RemoveDirectly = fsoogYes then
             begin
-              if aFile.IsDirectory then // directory
+              if aFile.IsLinkToDirectory then
+                begin
+                  DeleteResult := mbRemoveDir(FileName);
+                end
+              else if aFile.IsDirectory then // directory
                 begin
                   DeleteSubDirectory(aFile);
                   // This directory has already been processed.
