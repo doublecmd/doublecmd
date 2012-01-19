@@ -1,15 +1,15 @@
 # Slovenian translations for double-commander.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
-# This file is distributed under the same license as the package.
+# This file is distributed under the same license as the double-commander package.
 #
-# Matej Urbančič <mateju@svn.gnome.org>, 2011.
+# Matej Urbančič <mateju@svn.gnome.org>, 2011 - 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: double-commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-17 23:08+0300\n"
-"PO-Revision-Date: 2011-11-09 20:03+0100\n"
+"PO-Revision-Date: 2012-01-19 20:10+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -278,7 +278,7 @@ msgstr "O programu"
 
 #: TFRMABOUT.LBLBUILD.CAPTION
 msgid "Build"
-msgstr "Izgradi"
+msgstr "Izgradnja"
 
 #: TFRMABOUT.LBLFREEPASCALVER.CAPTION
 msgid "Free Pascal"
@@ -399,7 +399,7 @@ msgstr "Splošni atributi"
 #: TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.LBLATTRBITSSTR.CAPTION"
 msgid "Bits:"
-msgstr "Biti"
+msgstr "Biti:"
 
 #: TFRMATTRIBUTESEDIT.LBLATTRGROUPSTR.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.LBLATTRGROUPSTR.CAPTION"
@@ -1046,15 +1046,15 @@ msgstr "Najdi naslednje"
 
 #: TFRMEDITOR.ACTEDITLINEENDCR.CAPTION
 msgid "Mac (CR)"
-msgstr ""
+msgstr "Mac (CR)"
 
 #: TFRMEDITOR.ACTEDITLINEENDCRLF.CAPTION
 msgid "Windows (CRLF)"
-msgstr ""
+msgstr "Windows (CRLF)"
 
 #: TFRMEDITOR.ACTEDITLINEENDLF.CAPTION
 msgid "Unix (LF)"
-msgstr ""
+msgstr "Unix (LF)"
 
 #: TFRMEDITOR.ACTEDITPASTE.CAPTION
 msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
@@ -1155,7 +1155,7 @@ msgstr "Poudarjanje skladnje"
 
 #: TFRMEDITOR.MILINEENDTYPE.CAPTION
 msgid "End Of Line"
-msgstr ""
+msgstr "Konec vrstice"
 
 #: TFRMEDITOR.MISEPARATOR1.CAPTION
 msgctxt "TFRMEDITOR.MISEPARATOR1.CAPTION"
@@ -1300,7 +1300,6 @@ msgctxt "TFRMEXTRACTDLG.CAPTION"
 msgid "Unpack files"
 msgstr "Odpakiraj datoteke"
 
-# ???
 #: TFRMEXTRACTDLG.CBEXTRACTPATH.CAPTION
 msgid "&Unpack path names if stored with files"
 msgstr "&Odpakiraj poti datotek, če to se shranjene v arhivu"
@@ -3848,7 +3847,7 @@ msgstr "Razvrščanje"
 
 #: TFRMOPTIONSFILESVIEWS.LBLCASESENSITIVITY.CAPTION
 msgid "Case sensitivity:"
-msgstr ""
+msgstr "Upoštevanje velikosti črk:"
 
 #: TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION
 msgid "Date and time format:"
@@ -3856,9 +3855,8 @@ msgstr "Zapis datuma in časa"
 
 #: TFRMOPTIONSFILESVIEWS.LBLSORTFOLDERMODE.CAPTION
 msgid "Sorting directories:"
-msgstr ""
+msgstr "Razvrščanje map:"
 
-# ???
 #: TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION
 msgid "Sort &method:"
 msgstr "&Način razvrščanja:"
@@ -3889,10 +3887,9 @@ msgid "Template..."
 msgstr "Predloga ..."
 
 #: TFRMOPTIONSFILETYPESCOLORS.GBFILETYPESCOLORS.CAPTION
-#, fuzzy
 #| msgid "File types colors"
 msgid "File types colors (sort by drag&&drop)"
-msgstr "Barve vrst datotek"
+msgstr "Barve vrst datotek (razvrščanje z vlečenjem)"
 
 #: TFRMOPTIONSFILETYPESCOLORS.LBLCATEGORYATTR.CAPTION
 msgid "Category attributes:"
@@ -4584,7 +4581,6 @@ msgctxt "TFRMOPTIONSVIEWER.BTNFONTVIEWERCOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
-# ??? Arhivirnik = packer
 #: TFRMOPTIONSVIEWER.GBVIEWERBOOKMODE.CAPTION
 msgid "Viewer Book Mode"
 msgstr "Način bralnega pregledovalnika"
@@ -4611,7 +4607,6 @@ msgctxt "TFRMPACKDLG.BTNCANCEL.CAPTION"
 msgid "Cancel"
 msgstr "Prekliči"
 
-# ???
 #: TFRMPACKDLG.BTNCONFIG.CAPTION
 msgctxt "TFRMPACKDLG.BTNCONFIG.CAPTION"
 msgid "&Configure"
@@ -4696,7 +4691,7 @@ msgstr "Atributi:"
 
 #: TFRMPACKINFODLG.LBLCOMPRESSIONRATIO.CAPTION
 msgid "Compression ratio:"
-msgstr "Raven stiskanja pakiranja:"
+msgstr "Raven stiskanja:"
 
 #: TFRMPACKINFODLG.LBLDATE.CAPTION
 msgid "Date:"
@@ -5086,40 +5081,40 @@ msgstr "Prikaže pogovorno okno podrobnosti"
 #: TFRMVIEWER.ACTCOPYFILE.CAPTION
 msgctxt "TFRMVIEWER.ACTCOPYFILE.CAPTION"
 msgid "Copy File"
-msgstr ""
+msgstr "Kopiraj datoteko"
 
 #: TFRMVIEWER.ACTCOPYFILE.HINT
 msgctxt "TFRMVIEWER.ACTCOPYFILE.HINT"
 msgid "Copy File"
-msgstr ""
+msgstr "Kopiranje datoteke"
 
 #: TFRMVIEWER.ACTDELETEFILE.CAPTION
 msgctxt "TFRMVIEWER.ACTDELETEFILE.CAPTION"
 msgid "Delete File"
-msgstr ""
+msgstr "Izbriši datoteko"
 
 #: TFRMVIEWER.ACTDELETEFILE.HINT
 msgctxt "TFRMVIEWER.ACTDELETEFILE.HINT"
 msgid "Delete File"
-msgstr ""
+msgstr "Brisanje datoteke"
 
 #: TFRMVIEWER.ACTLOADNEXTFILE.CAPTION
 msgctxt "TFRMVIEWER.ACTLOADNEXTFILE.CAPTION"
 msgid "&Next"
-msgstr "&Naslednji"
+msgstr "&Naslednja"
 
 #: TFRMVIEWER.ACTLOADNEXTFILE.HINT
 msgid "Load Next File"
-msgstr ""
+msgstr "Naloži naslednjo datoteko"
 
 #: TFRMVIEWER.ACTLOADPREVFILE.CAPTION
 msgctxt "TFRMVIEWER.ACTLOADPREVFILE.CAPTION"
 msgid "&Previous"
-msgstr "&Predhodni"
+msgstr "&Predhodna"
 
 #: TFRMVIEWER.ACTLOADPREVFILE.HINT
 msgid "Load Previous File"
-msgstr ""
+msgstr "Naloži predhodno datoteko"
 
 #: TFRMVIEWER.ACTMIRROR.CAPTION
 msgctxt "TFRMVIEWER.ACTMIRROR.CAPTION"
@@ -5134,12 +5129,12 @@ msgstr "Zrcaljenje"
 #: TFRMVIEWER.ACTMOVEFILE.CAPTION
 msgctxt "TFRMVIEWER.ACTMOVEFILE.CAPTION"
 msgid "Move File"
-msgstr ""
+msgstr "Premakni datoteko"
 
 #: TFRMVIEWER.ACTMOVEFILE.HINT
 msgctxt "TFRMVIEWER.ACTMOVEFILE.HINT"
 msgid "Move File"
-msgstr ""
+msgstr "Premakni datoteko"
 
 #: TFRMVIEWER.ACTRELOAD.CAPTION
 msgctxt "TFRMVIEWER.ACTRELOAD.CAPTION"
@@ -5148,37 +5143,37 @@ msgstr "Ponovno naloži"
 
 #: TFRMVIEWER.ACTRELOAD.HINT
 msgid "Reload current file"
-msgstr ""
+msgstr "Ponovno naloži trenutno datoteko"
 
 #: TFRMVIEWER.ACTROTATE180.CAPTION
 msgctxt "TFRMVIEWER.ACTROTATE180.CAPTION"
 msgid "Rotate 180"
-msgstr ""
+msgstr "Zavrti 180"
 
 #: TFRMVIEWER.ACTROTATE180.HINT
 msgctxt "TFRMVIEWER.ACTROTATE180.HINT"
 msgid "Rotate 180"
-msgstr ""
+msgstr "Zavrti za 180"
 
 #: TFRMVIEWER.ACTROTATE270.CAPTION
 msgctxt "TFRMVIEWER.ACTROTATE270.CAPTION"
 msgid "Rotate 270"
-msgstr ""
+msgstr "Zavrti 270"
 
 #: TFRMVIEWER.ACTROTATE270.HINT
 msgctxt "TFRMVIEWER.ACTROTATE270.HINT"
 msgid "Rotate 270"
-msgstr ""
+msgstr "Zavrti za 270"
 
 #: TFRMVIEWER.ACTROTATE90.CAPTION
 msgctxt "TFRMVIEWER.ACTROTATE90.CAPTION"
 msgid "Rotate 90"
-msgstr ""
+msgstr "Zavrti 90"
 
 #: TFRMVIEWER.ACTROTATE90.HINT
 msgctxt "TFRMVIEWER.ACTROTATE90.HINT"
 msgid "Rotate 90"
-msgstr ""
+msgstr "Zavrti za 90"
 
 #: TFRMVIEWER.ACTSAVEAS.CAPTION
 msgctxt "TFRMVIEWER.ACTSAVEAS.CAPTION"
@@ -5187,7 +5182,7 @@ msgstr "Shrani kot ..."
 
 #: TFRMVIEWER.ACTSAVEAS.HINT
 msgid "Save File As..."
-msgstr ""
+msgstr "Shrani datoteko kot ..."
 
 #: TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -5196,7 +5191,7 @@ msgstr "Raztegni"
 
 #: TFRMVIEWER.ACTSTRETCHIMAGE.HINT
 msgid "Stretch Image"
-msgstr ""
+msgstr "Raztegni sliko"
 
 #: TFRMVIEWER.BTN270.HINT
 msgctxt "TFRMVIEWER.BTN270.HINT"
@@ -5439,7 +5434,7 @@ msgstr "&Slika"
 
 #: TFRMVIEWER.MILOOKBOOK.CAPTION
 msgid "Show as B&ook"
-msgstr "Pokaži &knjigo"
+msgstr "Pokaži v &bralnem pogledu"
 
 #: TFRMVIEWER.MIMIRROR.CAPTION
 msgctxt "TFRMVIEWER.MIMIRROR.CAPTION"
@@ -5759,7 +5754,7 @@ msgstr "Kopiraj &v"
 
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
-msgstr ""
+msgstr "Kopiraj v &vse"
 
 #: ulng.rsdlgbuttonno
 msgid "&No"
@@ -5784,7 +5779,7 @@ msgstr "Prepiši &vse"
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
-msgstr ""
+msgstr "&Nadaljuj"
 
 #: ulng.rsdlgbuttonretry
 msgid "Re&try"
@@ -5913,7 +5908,6 @@ msgstr "Notranji urejevalnik programa Double Commander"
 msgid "new.txt"
 msgstr "nova_datoteka.txt"
 
-# multiple
 #: ulng.rseditnewfilename
 msgid "Filename:"
 msgstr "Ime datoteke:"
@@ -5995,6 +5989,7 @@ msgstr "Najdi datoteke"
 msgid "Begin at"
 msgstr "Začni pri"
 
+# multiple
 #: ulng.rsfreemsg
 msgid "Free %s from %s bytes"
 msgstr "Sprosti %s od %s bajtov"
@@ -6019,7 +6014,7 @@ msgstr "Opomba"
 
 #: ulng.rsfunccompressedsize
 msgid "Compressed size"
-msgstr ""
+msgstr "Stisnjena velikost"
 
 #: ulng.rsfuncctime
 msgid "Creation date/time"
@@ -6112,13 +6107,11 @@ msgctxt "ulng.rsmnuactions"
 msgid "Actions"
 msgstr "Dejanja"
 
-# multiple
 #: ulng.rsmnuedit
 msgctxt "ulng.rsmnuedit"
 msgid "Edit"
 msgstr "Uredi"
 
-# multiple
 #: ulng.rsmnueject
 msgid "Eject"
 msgstr "Izvrzi"
@@ -6150,7 +6143,7 @@ msgstr "Odklopi"
 #: ulng.rsmnuview
 msgctxt "ulng.rsmnuview"
 msgid "View"
-msgstr "Pogled"
+msgstr "Poglej"
 
 #: ulng.rsmsgaccount
 msgid "Account:"
@@ -6166,7 +6159,7 @@ msgstr "Datoteke \"%s\" ni mogoče kopirati oziroma premakniti samo vase!"
 
 #: ulng.rsmsgcannotdeletedirectory
 msgid "Cannot delete directory %s"
-msgstr ""
+msgstr "Ni mogoče izbrisati mape %s"
 
 #: ulng.rsmsgchdirfailed
 msgid "ChDir to [%s] failed!"
@@ -6184,22 +6177,24 @@ msgstr "Zavihek (%s) je zaklenjen! Ali naj se vseeno zapre?"
 msgid "Are you sure you want to quit?"
 msgstr "Ali ste prepričani, da želite končati?"
 
+# multiple
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
-msgstr "Kopiraj izbrano v:"
+msgstr "Ali naj se kopira %d izbranih datotek ali map?"
 
 #: ulng.rsmsgcpsel
 msgid "Copy selected \"%s\"?"
-msgstr "Kopiraj \"%s\" v:"
+msgstr "Ali naj se kopira \"%s\"?"
 
 #: ulng.rsmsgdeletepartiallycopied
 msgid "Delete the partially copied file ?"
-msgstr ""
+msgstr "Ali naj se delno kopirana datoteka izbriše?"
 
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
 msgstr "Ali naj se izbrani predmeti izbrišejo (%d predmetov)?"
 
+# multiple
 #: ulng.rsmsgdelfldrt
 msgid "Delete %d selected files/directories into trash can?"
 msgstr "Ali naj se izbrani predmeti premaknejo v smeti (%d predmetov)?"
@@ -6306,7 +6301,7 @@ msgstr "Funkcija ni podprta!"
 
 #: ulng.rsmsgerrorincontextmenucommand
 msgid "Error in context menu command"
-msgstr ""
+msgstr "Napaka v ukazu vsebinskega menija"
 
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
@@ -6374,7 +6369,7 @@ msgstr "Ali naj se sledi simbolni povezavi \"%s\"?"
 
 #: ulng.rsmsginvalidcommandline
 msgid "Error in command line"
-msgstr ""
+msgstr "Napaka v ukazni vrstici"
 
 #: ulng.rsmsginvalidfilename
 msgid "Invalid filename"
@@ -6382,15 +6377,15 @@ msgstr "Neveljavno ime datoteke"
 
 #: ulng.rsmsginvalidpath
 msgid "Invalid path"
-msgstr ""
+msgstr "Neveljavna pot"
 
 #: ulng.rsmsginvalidpathlong
 msgid "Path %s contains forbidden characters."
-msgstr ""
+msgstr "Pot %s vsebuje nedovoljene znake."
 
 #: ulng.rsmsginvalidquoting
 msgid "Invalid quoting"
-msgstr ""
+msgstr "Neveljavno navajanje"
 
 #: ulng.rsmsginvalidselection
 msgid "Invalid selection."
@@ -6460,7 +6455,6 @@ msgstr "Ročno dodajanje hitre, pogosto uporabljene poti"
 msgid "Manualy edit hot path"
 msgstr "Ročno urejanje hitre, pogosto uporabljene poti"
 
-# multiple
 #: ulng.rsmsgmanualhotdirquery
 msgid "Enter name and path (format name=path):"
 msgstr "Vnos imena in poti (zapis v obliki ime=pot)"
@@ -6473,7 +6467,6 @@ msgstr "Glavno geslo"
 msgid "Please enter the master password:"
 msgstr "Vnesite glavno geslo:"
 
-# double multiple
 #: ulng.rsmsgnewfile
 msgid "New file"
 msgstr "Nova datoteka"
@@ -6508,7 +6501,7 @@ msgstr "Geslo:"
 
 #: ulng.rsmsgpassworddiff
 msgid "Passwords are different!"
-msgstr ""
+msgstr "Gesli sta različni!"
 
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
@@ -6520,13 +6513,12 @@ msgstr "Geslo (požarni zid):"
 
 #: ulng.rsmsgpasswordverify
 msgid "Please re-enter the password for verification:"
-msgstr ""
+msgstr "Ponovno vnesite geslo za overitev:"
 
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
 msgstr "&Dodaj %s"
 
-# multiple
 #: ulng.rsmsgpopuphotcnf
 msgctxt "ulng.rsmsgpopuphotcnf"
 msgid "&Configure"
@@ -6540,9 +6532,10 @@ msgstr "&Izbriši %s"
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Shranjen predmet \"%s\" že obstaja. Ali naj se prepiše?"
 
+# multiple
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
-msgstr "Ali naj se izbrani predmeti preimenujejo oziroma premaknejo (%d)?"
+msgstr "Ali naj se izbrani predmeti preimenujejo oziroma premaknejo (%d predmetov)?"
 
 #: ulng.rsmsgrensel
 msgid "Rename/move selected \"%s\"?"
@@ -6552,6 +6545,7 @@ msgstr "Ali naj se predmet \"%s\" preimenuje oziroma premakne?"
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Za uveljavitev sprememb je treba program ponovno zagnati."
 
+# double multiple
 #: ulng.rsmsgselected
 msgid "Selected %s of %s in %d of %d files"
 msgstr "Izbrano: %s od %s v %d od %d datotekah"
@@ -6604,6 +6598,7 @@ msgstr "Oznaka dela arhiva:"
 msgid "Please enter the volume size:"
 msgstr "Velikost dela arhiva:"
 
+# multiple
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
 msgstr "Ali naj se varno izbriše %d izbranih datotek oziroma map?"
@@ -6782,19 +6777,19 @@ msgstr "Besedilo"
 
 #: ulng.rsopthotkeysadddeleteshortcut
 msgid "Add shortcut to delete file"
-msgstr ""
+msgstr "Dodaj bližnjico za brisanje datotek"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr ""
+msgstr "Bližnjica %s za ukaz cm_Delete bo vpisana, zato jo bo mogoče uporabiti za povrnitev te nastavitve."
 
 #: ulng.rsopthotkeysaddshortcutbutton
 msgid "Add shortcut"
-msgstr ""
+msgstr "Dodaj bližnjico"
 
 #: ulng.rsopthotkeyscannotaddshortcut
 msgid "Cannot add shortcut"
-msgstr ""
+msgstr "Bližnjice ni mogoče dodati"
 
 #: ulng.rsopthotkeyscommand
 msgid "Command"
@@ -6802,15 +6797,15 @@ msgstr "Ukaz"
 
 #: ulng.rsopthotkeysdeleteshortcutalreadyassigned
 msgid "Shortcut %s for cm_Delete is already assigned, so it cannot be used to reverse this setting."
-msgstr ""
+msgstr "Tipkovna bližnjica %s za ukaz cm_Delete je že določena, zato je ni mogoče uporabiti kot povratno nastavitev."
 
 #: ulng.rsopthotkeysdeleteshortcutwrongparams
 msgid "Current shortcut %s for cm_Delete has parameters that don't depend on this setting, so the setting will have no effect."
-msgstr ""
+msgstr "Trenutna tipkovna bližnjica %s za ukaz cm_Delete ima določene parametre, ki niso odvisni od nastavitve, zato nastavitev ne bo učinkovala."
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
-msgstr ""
+msgstr "Opis"
 
 #: ulng.rsopthotkeyshotkey
 msgctxt "ulng.rsopthotkeyshotkey"
@@ -7010,11 +7005,11 @@ msgstr "Vpisano za"
 
 #: ulng.rsoptsortcasesens
 msgid "not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)"
-msgstr ""
+msgstr "ne upošteva velikosti črk;upošteva glede na jezikovno nastavitev sistema (aAbBcC);najprej velike, nato male črke (ABCabc)"
 
 #: ulng.rsoptsortfoldermode
 msgid "sort by name and show first;sort like files and show first;sort like files"
-msgstr ""
+msgstr "razvrsti po imenu in najprej pokaži; razvrsti kot datoteke in najprej pokaži; razvrsti kot datoteke"
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
@@ -7024,7 +7019,6 @@ msgstr "Abecedno, upoštevajoč znakovne naglase;Naravno, številčno in abecedn
 msgid "Top;Bottom;"
 msgstr "Zgoraj;Spodaj;"
 
-# multiple + window to small
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
 msgstr "Ni mogoče spremeniti dovoljenj dostopa za \"%s\""
@@ -7106,6 +7100,7 @@ msgstr "Megabajti"
 msgid "Terabytes"
 msgstr "Terabajti"
 
+# multiple + window to small
 #: ulng.rsspacemsg
 msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
 msgstr "Datoteke: %d, Mape: %d, Velikost: %s (%s bajtov)"
@@ -7139,8 +7134,6 @@ msgctxt "ulng.rstimeunitday"
 msgid "Day(s)"
 msgstr "dni"
 
-#~ msgid "Comments"
-#~ msgstr "Opombe"
 #: ulng.rstimeunithour
 msgid "Hour(s)"
 msgstr "ure"
@@ -7176,19 +7169,19 @@ msgstr "Urejevalnik"
 
 #: ulng.rstoolerroropeningdiffer
 msgid "Error opening differ"
-msgstr ""
+msgstr "Napaka med odpiranjem primerjalnika"
 
 #: ulng.rstoolerroropeningeditor
 msgid "Error opening editor"
-msgstr ""
+msgstr "Napaka odpiranja urejevalnika"
 
 #: ulng.rstoolerroropeningterminal
 msgid "Error opening terminal"
-msgstr ""
+msgstr "Napaka odpiranja terminala"
 
 #: ulng.rstoolerroropeningviewer
 msgid "Error opening viewer"
-msgstr ""
+msgstr "Napaka odpiranja pregledovalnika"
 
 #: ulng.rstoolterminal
 msgctxt "ulng.rstoolterminal"
@@ -7222,3 +7215,5 @@ msgstr "Nabor znakov"
 msgid "%s not found!"
 msgstr "%s ni mogoče najti!"
 
+#~ msgid "Comments"
+#~ msgstr "Opombe"
