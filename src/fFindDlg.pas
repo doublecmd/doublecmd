@@ -173,6 +173,7 @@ type
     DsxPlugins: TDSXModuleList;
     FSearchingActive: Boolean;
     FFrmAttributesEdit: TfrmAttributesEdit;
+    FLastLoadedTemplateName: UTF8String;
 
     procedure StopSearch;
     procedure AfterSearchStopped;
@@ -184,6 +185,8 @@ type
   public
     class function Instance: TfrmFindDlg;
   public
+    procedure ClearFilter;
+
     procedure ThreadTerminate(Sender:TObject);
   end;
 
@@ -246,6 +249,7 @@ begin
   with TfrmFindDlg.Instance do
   begin
     // Prepare window for search files
+    ClearFilter;
     Caption := rsFindSearchFiles;
     edtFindPathStart.Enabled:= True;
     edtFindPathStart.Text := sActPath;
@@ -278,6 +282,7 @@ procedure TfrmFindDlg.FormCreate(Sender: TObject);
 var
   I: Integer;
 begin
+  FLastLoadedTemplateName := '';
   FFindThread:= nil;
   FSearchingActive := False;
   FFrmAttributesEdit := nil;
@@ -390,12 +395,60 @@ begin
   end;
 end;
 
+procedure TfrmFindDlg.ClearFilter;
+begin
+  FLastLoadedTemplateName := '';
+  cmbFindFileMask.Text:= '*';
+  edtFindPathStart.Text:= '';
+  cbSearchDepth.ItemIndex := 0;
+  cbRegExp.Checked := False;
+  cbPartialNameSearch.Checked := False;
+  // attributes
+  edtAttrib.Text:= '';
+  // file date/time
+
+  ZVDateFrom.DateTime:=Now();
+  ZVDateTo.DateTime:=Now();
+  ZVTimeFrom.DateTime:=Now();
+  ZVTimeTo.DateTime:=Now();
+  cbDateFrom.Checked:=False;
+  cbDateTo.Checked:=False;
+  cbTimeFrom.Checked:=False;
+  cbTimeTo.Checked:=False;
+
+  cmbFileSizeUnit.ItemIndex := 1; // Kilobytes
+  edtFindPathStart.ShowHidden := gShowSystemFiles;
+  cbPartialNameSearch.Checked:= gPartialNameSearch;
+
+  // not older then
+  cbNotOlderThan.Checked:= False;
+  seNotOlderThan.Value:= 1;
+  cmbNotOlderThanUnit.ItemIndex := 3; // Days
+  // file size
+  cbFileSizeFrom.Checked:= False;
+  cbFileSizeTo.Checked:= False;
+  seFileSizeFrom.Value:= 0;
+  seFileSizeTo.Value:= 10;
+  cmbFileSizeUnit.ItemIndex := 1; // Kilobytes
+  // find/replace text
+  cbFindText.Checked:= False;
+  //do not clear search text just clear checkbox
+//  cmbFindText.Text:= '';
+  cbReplaceText.Checked:= False;
+//  cmbReplaceText.Text:= '';
+  cbCaseSens.Checked:= False;
+  cbNotContainingText.Checked:= False;
+  cmbEncoding.ItemIndex := 0;
+  cmbPlugin.Text:= '';
+end;
+
 procedure TfrmFindDlg.btnSearchLoadClick(Sender: TObject);
 var
   SearchTemplate: TSearchTemplate;
 begin
   if lbSearchTemplates.ItemIndex < 0 then Exit;
   SearchTemplate:= gSearchTemplateList.Templates[lbSearchTemplates.ItemIndex];
+  FLastLoadedTemplateName := SearchTemplate.TemplateName;
   with SearchTemplate.SearchRecord do
   begin
     cmbFindFileMask.Text:= FilesMasks;
@@ -411,13 +464,21 @@ begin
     edtAttrib.Text:= AttributesPattern;
     // file date/time
     cbDateFrom.Checked:= IsDateFrom;
+    if IsDateFrom then
+      ZVDateFrom.Date:= DateTimeFrom;
+
     cbDateTo.Checked:= IsDateTo;
-    ZVDateFrom.Date:= DateTimeFrom;
-    ZVDateTo.Date:= DateTimeTo;
+    if IsDateTo then
+      ZVDateTo.Date:= DateTimeTo;
+
     cbTimeFrom.Checked:= IsTimeFrom;
+    if IsTimeFrom then
+      ZVTimeFrom.Time:= DateTimeFrom;
+
     cbTimeTo.Checked:= IsTimeTo;
-    ZVTimeFrom.Time:= DateTimeFrom;
-    ZVTimeTo.Time:= DateTimeTo;
+    if IsTimeTo then
+      ZVTimeTo.Time:= DateTimeTo;
+
     // not older then
     cbNotOlderThan.Checked:= IsNotOlderThan;
     seNotOlderThan.Value:= NotOlderThan;
@@ -468,7 +529,7 @@ var
   sName: UTF8String;
   SearchTemplate: TSearchTemplate;
 begin
-  sName := '';
+  sName := FLastLoadedTemplateName;
   if not InputQuery(rsFindSaveTemplateCaption, rsFindSaveTemplateTitle, sName) then
   begin
     ModalResult:= mrCancel;
@@ -484,9 +545,14 @@ begin
   end;
 
   SearchTemplate:= TSearchTemplate.Create;
-  SearchTemplate.TemplateName:= sName;
-  FillFindOptions(SearchTemplate.SearchRecord);
-  gSearchTemplateList.Add(SearchTemplate);
+  try
+    SearchTemplate.TemplateName:= sName;
+    FillFindOptions(SearchTemplate.SearchRecord);
+    gSearchTemplateList.Add(SearchTemplate);
+  except
+    FreeAndNil(SearchTemplate);
+    raise;
+  end;
   tsLoadSaveShow(nil);
 end;
 
