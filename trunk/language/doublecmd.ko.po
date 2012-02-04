@@ -2166,6 +2166,16 @@ msgstr "로그 창 비우기"
 msgid "Compare by &Contents"
 msgstr "컨텐츠로 비교 (&C)"
 
+#: TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION
+msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION"
+msgid "Compare Directories"
+msgstr ""
+
+#: TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT
+msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
+msgid "Compare Directories"
+msgstr ""
+
 #: TFRMMAIN.ACTCONTEXTMENU.CAPTION
 msgid "Show context menu"
 msgstr "환경 메뉴 보이기"
@@ -2787,8 +2797,8 @@ msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
 msgid ".."
 msgstr ".."
 
-#: TFRMMAIN.CAPTION
-msgctxt "TFRMMAIN.CAPTION"
+#: TFRMMAIN.FRMMAIN.CAPTION
+msgctxt "TFRMMAIN.FRMMAIN.CAPTION"
 msgid "Double Commander"
 msgstr "Double Commander"
 
@@ -2921,6 +2931,11 @@ msgstr "-"
 
 #: TFRMMAIN.MILINE32.CAPTION
 msgctxt "TFRMMAIN.MILINE32.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMMAIN.MILINE37.CAPTION
+msgctxt "TFRMMAIN.MILINE37.CAPTION"
 msgid "-"
 msgstr "-"
 
