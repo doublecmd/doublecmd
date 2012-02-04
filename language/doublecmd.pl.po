@@ -2124,6 +2124,16 @@ msgstr "Wyczyść okno logów"
 msgid "Compare by &Contents"
 msgstr "Porównaj &zawartość"
 
+#: TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION
+msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION"
+msgid "Compare Directories"
+msgstr ""
+
+#: TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT
+msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
+msgid "Compare Directories"
+msgstr ""
+
 #: TFRMMAIN.ACTCONTEXTMENU.CAPTION
 msgid "Show context menu"
 msgstr "Pokaż menu kontekstowe"
@@ -2660,8 +2670,8 @@ msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
 msgid ".."
 msgstr ".."
 
-#: TFRMMAIN.CAPTION
-msgctxt "TFRMMAIN.CAPTION"
+#: TFRMMAIN.FRMMAIN.CAPTION
+msgctxt "TFRMMAIN.FRMMAIN.CAPTION"
 msgid "Double Commander"
 msgstr "Double Commander"
 
@@ -2794,6 +2804,11 @@ msgstr "-"
 
 #: TFRMMAIN.MILINE32.CAPTION
 msgctxt "TFRMMAIN.MILINE32.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMMAIN.MILINE37.CAPTION
+msgctxt "TFRMMAIN.MILINE37.CAPTION"
 msgid "-"
 msgstr "-"
 
@@ -6993,44 +7008,6 @@ msgctxt "ulng.rsoptionseditorquicksearch"
 msgid "Quick search/filter"
 msgstr "Szybkie wyszukiwanie/filtr"
 
-#: ulng.rsoptionseditorterminal
-msgctxt "ulng.rsoptionseditorterminal"
-msgid "Terminal"
-msgstr "Terminal"
-
-#: ulng.rsoptionseditortools
-msgctxt "ulng.rsoptionseditortools"
-msgid "Tools"
-msgstr "Narzędzia"
-
-#: ulng.rsoptionseditortooltips
-msgctxt "ulng.rsoptionseditortooltips"
-msgid "Tooltips"
-msgstr "Podpowiedzi"
-
-#: ulng.rsoptmouseselectionbutton
-msgid "Left button;Right button;"
-msgstr "Lewy klawisz;Prawy klawisz;"
-
-#: ulng.rsoptpluginalreadyassigned
-msgid "Plugin %s is already assigned for the following extensions:"
-msgstr "Wtyczka %s jest już przypisana do następujących rozszerzeń:"
-
-#: ulng.rsoptpluginsactive
-msgctxt "ulng.rsoptpluginsactive"
-msgid "Active"
-msgstr "Stan"
-
-#: ulng.rsoptpluginsfilename
-msgctxt "ulng.rsoptpluginsfilename"
-msgid "File name"
-msgstr "Nazwa pliku"
-
-#: ulng.rsoptpluginsname
-msgctxt "ulng.rsoptpluginsname"
-msgid "Name"
-msgstr "Nazwa"
-
 #~ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 #~ msgid "OK"
 #~ msgstr "OK"
@@ -7130,6 +7107,44 @@ msgstr "Nazwa"
 #~ msgstr "Filtr:"
 #~ msgid "Find:"
 #~ msgstr "Znajdź:"
+#: ulng.rsoptionseditorterminal
+msgctxt "ulng.rsoptionseditorterminal"
+msgid "Terminal"
+msgstr "Terminal"
+
+#: ulng.rsoptionseditortools
+msgctxt "ulng.rsoptionseditortools"
+msgid "Tools"
+msgstr "Narzędzia"
+
+#: ulng.rsoptionseditortooltips
+msgctxt "ulng.rsoptionseditortooltips"
+msgid "Tooltips"
+msgstr "Podpowiedzi"
+
+#: ulng.rsoptmouseselectionbutton
+msgid "Left button;Right button;"
+msgstr "Lewy klawisz;Prawy klawisz;"
+
+#: ulng.rsoptpluginalreadyassigned
+msgid "Plugin %s is already assigned for the following extensions:"
+msgstr "Wtyczka %s jest już przypisana do następujących rozszerzeń:"
+
+#: ulng.rsoptpluginsactive
+msgctxt "ulng.rsoptpluginsactive"
+msgid "Active"
+msgstr "Stan"
+
+#: ulng.rsoptpluginsfilename
+msgctxt "ulng.rsoptpluginsfilename"
+msgid "File name"
+msgstr "Nazwa pliku"
+
+#: ulng.rsoptpluginsname
+msgctxt "ulng.rsoptpluginsname"
+msgid "Name"
+msgstr "Nazwa"
+
 #: ulng.rsoptpluginsregisteredfor
 msgctxt "ulng.rsoptpluginsregisteredfor"
 msgid "Registered for"

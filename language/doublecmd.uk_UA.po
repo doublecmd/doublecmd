@@ -2131,6 +2131,16 @@ msgstr "Очистити вікно звіту"
 msgid "Compare by &Contents"
 msgstr "Порівняти за &вмістом"
 
+#: TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION
+msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION"
+msgid "Compare Directories"
+msgstr ""
+
+#: TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT
+msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
+msgid "Compare Directories"
+msgstr ""
+
 #: TFRMMAIN.ACTCONTEXTMENU.CAPTION
 msgid "Show context menu"
 msgstr "Показати контекстне меню"
@@ -2724,8 +2734,8 @@ msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
 msgid ".."
 msgstr ".."
 
-#: TFRMMAIN.CAPTION
-msgctxt "TFRMMAIN.CAPTION"
+#: TFRMMAIN.FRMMAIN.CAPTION
+msgctxt "TFRMMAIN.FRMMAIN.CAPTION"
 msgid "Double Commander"
 msgstr "Double Commander"
 
@@ -2858,6 +2868,11 @@ msgstr "-"
 
 #: TFRMMAIN.MILINE32.CAPTION
 msgctxt "TFRMMAIN.MILINE32.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMMAIN.MILINE37.CAPTION
+msgctxt "TFRMMAIN.MILINE37.CAPTION"
 msgid "-"
 msgstr "-"
 

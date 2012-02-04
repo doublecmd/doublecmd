@@ -2133,6 +2133,16 @@ msgstr "Počisti dnevniško okno"
 msgid "Compare by &Contents"
 msgstr "Primerjaj po &vsebini"
 
+#: TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION
+msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION"
+msgid "Compare Directories"
+msgstr ""
+
+#: TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT
+msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
+msgid "Compare Directories"
+msgstr ""
+
 #: TFRMMAIN.ACTCONTEXTMENU.CAPTION
 msgid "Show context menu"
 msgstr "Pokaži vsebinski meni"
@@ -2675,8 +2685,8 @@ msgctxt "TFRMMAIN.BTNRIGHTUP.CAPTION"
 msgid ".."
 msgstr ".."
 
-#: TFRMMAIN.CAPTION
-msgctxt "TFRMMAIN.CAPTION"
+#: TFRMMAIN.FRMMAIN.CAPTION
+msgctxt "TFRMMAIN.FRMMAIN.CAPTION"
 msgid "Double Commander"
 msgstr "Double Commander"
 
@@ -2809,6 +2819,11 @@ msgstr "-"
 
 #: TFRMMAIN.MILINE32.CAPTION
 msgctxt "TFRMMAIN.MILINE32.CAPTION"
+msgid "-"
+msgstr "-"
+
+#: TFRMMAIN.MILINE37.CAPTION
+msgctxt "TFRMMAIN.MILINE37.CAPTION"
 msgid "-"
 msgstr "-"
 
@@ -5884,6 +5899,7 @@ msgstr "Razdeli"
 msgid "Testing..."
 msgstr "Preizkušanje ..."
 
+# multiple
 #: ulng.rsdlgunknownoperation
 msgid "Unknown operation"
 msgstr "Neznana vrsta opravila"
@@ -5912,7 +5928,6 @@ msgstr "nova_datoteka.txt"
 msgid "Filename:"
 msgstr "Ime datoteke:"
 
-# multiple
 #: ulng.rseditnewopen
 msgid "Open file"
 msgstr "Odpri datoteko"
@@ -5958,6 +5973,7 @@ msgstr "le trenutno raven"
 msgid "Directory %s does not exist!"
 msgstr "Mapa %s ne obstaja!"
 
+# multiple
 #: ulng.rsfindfound
 msgctxt "ulng.rsfindfound"
 msgid "Found: %d"
@@ -5989,7 +6005,6 @@ msgstr "Najdi datoteke"
 msgid "Begin at"
 msgstr "Začni pri"
 
-# multiple
 #: ulng.rsfreemsg
 msgid "Free %s from %s bytes"
 msgstr "Sprosti %s od %s bajtov"
@@ -6149,6 +6164,7 @@ msgstr "Poglej"
 msgid "Account:"
 msgstr "Račun:"
 
+# multiple
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Dodatni parametri arhiva v ukazni vrstici:"
@@ -6165,6 +6181,7 @@ msgstr "Ni mogoče izbrisati mape %s"
 msgid "ChDir to [%s] failed!"
 msgstr "Ukaz chdir v [%s] je spodletel!"
 
+# multiple
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
 msgstr "Ali naj se odstranijo vsi nedejavni zavihke?"
@@ -6177,7 +6194,6 @@ msgstr "Zavihek (%s) je zaklenjen! Ali naj se vseeno zapre?"
 msgid "Are you sure you want to quit?"
 msgstr "Ali ste prepričani, da želite končati?"
 
-# multiple
 #: ulng.rsmsgcpfldr
 msgid "Copy %d selected files/directories?"
 msgstr "Ali naj se kopira %d izbranih datotek ali map?"
@@ -6194,7 +6210,6 @@ msgstr "Ali naj se delno kopirana datoteka izbriše?"
 msgid "Delete %d selected files/directories?"
 msgstr "Ali naj se izbrani predmeti izbrišejo (%d predmetov)?"
 
-# multiple
 #: ulng.rsmsgdelfldrt
 msgid "Delete %d selected files/directories into trash can?"
 msgstr "Ali naj se izbrani predmeti premaknejo v smeti (%d predmetov)?"
@@ -6503,6 +6518,7 @@ msgstr "Geslo:"
 msgid "Passwords are different!"
 msgstr "Gesli sta različni!"
 
+# multiple
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
 msgstr "Vnesite geslo:"
@@ -6515,6 +6531,7 @@ msgstr "Geslo (požarni zid):"
 msgid "Please re-enter the password for verification:"
 msgstr "Ponovno vnesite geslo za overitev:"
 
+# double multiple
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
 msgstr "&Dodaj %s"
@@ -6532,7 +6549,6 @@ msgstr "&Izbriši %s"
 msgid "Preset \"%s\" already exists. Overwrite?"
 msgstr "Shranjen predmet \"%s\" že obstaja. Ali naj se prepiše?"
 
-# multiple
 #: ulng.rsmsgrenfldr
 msgid "Rename/move %d selected files/directories?"
 msgstr "Ali naj se izbrani predmeti preimenujejo oziroma premaknejo (%d predmetov)?"
@@ -6545,7 +6561,6 @@ msgstr "Ali naj se predmet \"%s\" preimenuje oziroma premakne?"
 msgid "Please, restart Double Commander in order to apply changes"
 msgstr "Za uveljavitev sprememb je treba program ponovno zagnati."
 
-# double multiple
 #: ulng.rsmsgselected
 msgid "Selected %s of %s in %d of %d files"
 msgstr "Izbrano: %s od %s v %d od %d datotekah"
@@ -6570,6 +6585,7 @@ msgstr "Preimenuj zavihek"
 msgid "New tab name:"
 msgstr "Novo ime zavihka:"
 
+# multiple
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
 msgstr "Ciljna pot:"
@@ -6598,7 +6614,6 @@ msgstr "Oznaka dela arhiva:"
 msgid "Please enter the volume size:"
 msgstr "Velikost dela arhiva:"
 
-# multiple
 #: ulng.rsmsgwipefldr
 msgid "Wipe %d selected files/directories?"
 msgstr "Ali naj se varno izbriše %d izbranih datotek oziroma map?"
@@ -7069,6 +7084,7 @@ msgstr "Neznana vrsta"
 msgid "Yes (%s)"
 msgstr "Da (%s)"
 
+# multiple + window to small
 #: ulng.rssearchresult
 msgid "Search result"
 msgstr "Rezultati iskanja"
@@ -7100,7 +7116,6 @@ msgstr "Megabajti"
 msgid "Terabytes"
 msgstr "Terabajti"
 
-# multiple + window to small
 #: ulng.rsspacemsg
 msgid "Files: %d, Dirs: %d, Size: %s (%s bytes)"
 msgstr "Datoteke: %d, Mape: %d, Velikost: %s (%s bajtov)"
@@ -7183,6 +7198,8 @@ msgstr "Napaka odpiranja terminala"
 msgid "Error opening viewer"
 msgstr "Napaka odpiranja pregledovalnika"
 
+#~ msgid "Comments"
+#~ msgstr "Opombe"
 #: ulng.rstoolterminal
 msgctxt "ulng.rstoolterminal"
 msgid "Terminal"
@@ -7215,5 +7232,3 @@ msgstr "Nabor znakov"
 msgid "%s not found!"
 msgstr "%s ni mogoče najti!"
 
-#~ msgid "Comments"
-#~ msgstr "Opombe"
