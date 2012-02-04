@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2012-01-16 14:34+0100\n"
+"PO-Revision-Date: 2012-02-04 14:34+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2156,12 +2156,12 @@ msgstr "Anhand des Inhalts vergleichen"
 #: TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION
 msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION"
 msgid "Compare Directories"
-msgstr ""
+msgstr "Vergleiche Ordner/Verzeichnisse"
 
 #: TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT
 msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
 msgid "Compare Directories"
-msgstr ""
+msgstr "Vergleiche Ordner/Verzeichnisse"
 
 #: TFRMMAIN.ACTCONTEXTMENU.CAPTION
 msgid "Show context menu"
@@ -5473,11 +5473,11 @@ msgstr "Um 90 Grad drehen"
 #: TFRMVIEWER.ACTSAVEAS.CAPTION
 msgctxt "TFRMVIEWER.ACTSAVEAS.CAPTION"
 msgid "Save As..."
-msgstr "Speichern als ..."
+msgstr "Speichern unter ..."
 
 #: TFRMVIEWER.ACTSAVEAS.HINT
 msgid "Save File As..."
-msgstr ""
+msgstr "Datei speichern unter ..."
 
 #: TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION
 msgctxt "TFRMVIEWER.ACTSTRETCHIMAGE.CAPTION"
@@ -7088,7 +7088,7 @@ msgstr "Tastaturkürzel erstellen"
 
 #: ulng.rsopthotkeyscannotaddshortcut
 msgid "Cannot add shortcut"
-msgstr ""
+msgstr "Kann die Verknüpfung nicht erstellen"
 
 #: ulng.rsopthotkeyscommand
 msgid "Command"
