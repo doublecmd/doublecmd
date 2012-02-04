@@ -143,7 +143,6 @@ type
     procedure SelectFile(AFile: TDisplayFile); virtual;
     procedure InvertFileSelection(AFile: TDisplayFile);
     procedure InvertAll; virtual;
-    procedure MarkFile(AFile: TDisplayFile; bMarked: Boolean);
     procedure MarkAllFiles(bMarked: Boolean);
     procedure MarkGroup(const sMask: String; bSelect: Boolean);
     function MarkMinus: Boolean; virtual;
@@ -221,6 +220,10 @@ type
     property LastActiveFile: String read FLastActiveFile write FLastActiveFile;
     property RequestedActiveFile: String read FRequestedActiveFile write FRequestedActiveFile;
     property WorkersThread: TFunctionThread read GetWorkersThread;
+
+  public
+    procedure MarkFile(AFile: TDisplayFile; bMarked: Boolean);
+    property  DisplayFiles: TDisplayFiles read FFiles;
 
   public
     constructor Create(AOwner: TWinControl;

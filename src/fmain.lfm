@@ -1365,6 +1365,12 @@ object frmMain: TfrmMain
       object miCopyFullNamesToClip: TMenuItem
         Action = actCopyFullNamesToClip
       end
+      object miLine37: TMenuItem
+        Caption = '-'
+      end
+      object miCompareDirectories: TMenuItem
+        Action = actCompareDirectories
+      end
     end
     object mnuCmd: TMenuItem
       Caption = '&Commands'
@@ -2193,6 +2199,12 @@ object frmMain: TfrmMain
     object actRenameTab: TAction
       Category = 'Tabs'
       Caption = 'Re&name Tab'
+      OnExecute = actExecute
+    end
+    object actCompareDirectories: TAction
+      Category = 'Mark'
+      Caption = 'Compare Directories'
+      Hint = 'Compare Directories'
       OnExecute = actExecute
     end
   end
