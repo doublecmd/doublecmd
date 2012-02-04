@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-01-14 19:24+0300\n"
+"PO-Revision-Date: 2012-01-23 22:04+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -3953,7 +3953,7 @@ msgstr "Сортування"
 
 #: TFRMOPTIONSFILESVIEWS.LBLCASESENSITIVITY.CAPTION
 msgid "Case sensitivity:"
-msgstr ""
+msgstr "Чутливість до регістру:"
 
 #: TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
@@ -3962,7 +3962,7 @@ msgstr "Формат дати і часу:"
 
 #: TFRMOPTIONSFILESVIEWS.LBLSORTFOLDERMODE.CAPTION
 msgid "Sorting directories:"
-msgstr ""
+msgstr "Сортування каталогів:"
 
 #: TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION"
@@ -4680,7 +4680,7 @@ msgstr "Показати спливаючі підказки"
 #, fuzzy
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
 msgid "Category hint:"
-msgstr "Підказка категорій:"
+msgstr "Підказка категорії:"
 
 #: TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSMASK.CAPTION"
@@ -6162,7 +6162,7 @@ msgstr "Коментар"
 
 #: ulng.rsfunccompressedsize
 msgid "Compressed size"
-msgstr ""
+msgstr "Стиснутий розмір"
 
 #: ulng.rsfuncctime
 msgid "Creation date/time"
@@ -6921,38 +6921,32 @@ msgid "Text"
 msgstr "Текст"
 
 #: ulng.rsopthotkeysadddeleteshortcut
-#, fuzzy
 msgid "Add shortcut to delete file"
-msgstr "Додати ярлик для видалення файлів"
+msgstr "Додати гар.клавішу для видалення файлів"
 
 #: ulng.rsopthotkeysadddeleteshortcutlong
-#, fuzzy
 msgid "Shortcut %s for cm_Delete will be registered, so it can be used to reverse this setting."
-msgstr "Ярлик %s  для cm_Delete буде зареєстровано, тому його можна використовувати, щоб змінити це налаштування."
+msgstr "Буде зареєстровано гар.клавішу %s  для cm_Delete , таким чином вона буде використана для реверсінгу налаштування."
 
 #: ulng.rsopthotkeysaddshortcutbutton
-#, fuzzy
 msgid "Add shortcut"
-msgstr "Додати ярлик"
+msgstr "Додати гар.клавішу"
 
 #: ulng.rsopthotkeyscannotaddshortcut
-#, fuzzy
 msgid "Cannot add shortcut"
-msgstr "Помилка додавання ярлика"
+msgstr "Помилка додавання гар.клавіши"
 
 #: ulng.rsopthotkeyscommand
 msgid "Command"
 msgstr "Команди"
 
 #: ulng.rsopthotkeysdeleteshortcutalreadyassigned
-#, fuzzy
 msgid "Shortcut %s for cm_Delete is already assigned, so it cannot be used to reverse this setting."
-msgstr "Ярлик %s для cm_Delete вже призначено, тому він не може використовуватися, щоб змінити це налаштування."
+msgstr "Гаряча клавіша  %s для cm_Delete вже призначена, тому вона не може використовуватися, для реверсування налаштування."
 
 #: ulng.rsopthotkeysdeleteshortcutwrongparams
-#, fuzzy
 msgid "Current shortcut %s for cm_Delete has parameters that don't depend on this setting, so the setting will have no effect."
-msgstr "Поточний %s  для cm_Delete має параметри, які не залежать від цих налаштувань, так що налаштування будуть мати ніякого ефекту."
+msgstr "Поточна гар.клавіша %s  для cm_Delete має параметри, які не залежать від цих налаштувань, тому налаштування не буде мати ніякого ефекту."
 
 #: ulng.rsopthotkeysdescription
 msgid "Description"
@@ -7163,7 +7157,7 @@ msgstr "не чутливі до регістру; залежно від нал�
 
 #: ulng.rsoptsortfoldermode
 msgid "sort by name and show first;sort like files and show first;sort like files"
-msgstr ""
+msgstr "сортувати по імені і показувати першими; сортувати як файли і показувати першими; сортувати як файли"
 
 #: ulng.rsoptsortmethod
 msgid "Alphabetical, considering accents;Natural sorting: alphabetical and numbers"
