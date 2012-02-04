@@ -84,6 +84,7 @@ type
     actHorizontalFilePanels: TAction;
     actGoToFirstFile: TAction;
     actGoToLastFile: TAction;
+    actCompareDirectories: TAction;
     actRenameTab: TAction;
     actOperationsViewer: TAction;
     actNetworkDisconnect: TAction;
@@ -159,6 +160,8 @@ type
     AllOpCancel: TMenuItem;
     AllOpStart: TMenuItem;
     AllOpPct: TMenuItem;
+    miCompareDirectories: TMenuItem;
+    miLine37: TMenuItem;
     miRenameTab: TMenuItem;
     tbChangeDir: TMenuItem;
     mnuShowHorizontalFilePanels: TMenuItem;

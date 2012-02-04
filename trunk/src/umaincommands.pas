@@ -203,6 +203,7 @@ type
    procedure cm_NetworkDisconnect(Param: String='');
    procedure cm_HorizontalFilePanels(Param: String='');
    procedure cm_OperationsViewer(Param: String='');
+   procedure cm_CompareDirectories(Param: String='');
 
    // Internal commands
    procedure cm_Int_RunCommandFromBarFile(Param: String='');
@@ -210,13 +211,13 @@ type
 
 implementation
 
-uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, dmHelpManager, typinfo,
-     fMain, fPackDlg, fFileOpDlg, fMkDir, fFileAssoc, fExtractDlg, fAbout,
-     fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
+uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHashList,
+     dmHelpManager, typinfo, fMain, fPackDlg, fFileOpDlg, fMkDir, fFileAssoc,
+     fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
      fOptionsFrame,
      uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uGlobsPaths,
-     uClassesEx, uShowForm, uShellExecute, uClipboard, uHash,
+     uClassesEx, uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile,
      uFilePanelSelect, uFile, uFileSystemFileSource, uQuickViewPanel,
      uOperationsManager, uFileSourceOperationTypes, uWfxPluginFileSource,
      uFileSystemDeleteOperation, uFileSourceExecuteOperation,
@@ -2658,6 +2659,58 @@ end;
 procedure TMainCommands.cm_OperationsViewer(Param: String='');
 begin
   ShowOperationsViewer;
+end;
+
+procedure TMainCommands.cm_CompareDirectories(Param: String);
+var
+  I: LongWord;
+  SourceFile: TDisplayFile;
+  TargetFile: TDisplayFile;
+  SourceList: TStringHashList;
+  SourceFiles: TDisplayFiles = nil;
+  TargetFiles: TDisplayFiles = nil;
+  FileTimeDiff: TDateTime;
+begin
+  SourceList:= TStringHashList.Create(FileNameCaseSensitive);
+  with frmMain do
+  try
+    SourceFiles:= ActiveFrame.DisplayFiles;
+    TargetFiles:= NotActiveFrame.DisplayFiles;
+    for I:= 0 to SourceFiles.Count - 1 do
+    begin
+      SourceFile:= SourceFiles[I];
+      if SourceFile.FSFile.IsDirectory or SourceFile.FSFile.IsLinkToDirectory then
+        Continue;
+      ActiveFrame.MarkFile(SourceFile, True);
+      SourceList.Add(SourceFile.FSFile.Name, SourceFile);
+    end;
+    for I:= 0 to TargetFiles.Count - 1 do
+    begin
+      TargetFile:= TargetFiles[I];
+      if TargetFile.FSFile.IsDirectory or TargetFile.FSFile.IsLinkToDirectory then
+        Continue;
+      SourceFile:= TDisplayFile(SourceList.Data[TargetFile.FSFile.Name]);
+      if (SourceFile = nil) then
+        NotActiveFrame.MarkFile(TargetFile, True)
+      else
+        begin
+          FileTimeDiff:= SourceFile.FSFile.ModificationTime - TargetFile.FSFile.ModificationTime;
+          if FileTimeDiff = 0 then
+            ActiveFrame.MarkFile(SourceFile, False)
+          else if FileTimeDiff > 0 then
+            NotActiveFrame.MarkFile(TargetFile, False)
+          else if FileTimeDiff < 0 then
+            begin
+              ActiveFrame.MarkFile(SourceFile, False);
+              NotActiveFrame.MarkFile(TargetFile, True);
+            end;
+        end;
+    end;
+  finally
+    SourceList.Free;
+    ActiveFrame.UpdateView;
+    NotActiveFrame.UpdateView;
+  end;
 end;
 
 procedure TMainCommands.cm_Int_RunCommandFromBarFile(Param: String='');
