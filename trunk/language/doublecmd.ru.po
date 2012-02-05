@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-01-15 11:50+0400\n"
+"PO-Revision-Date: 2012-02-05 17:18+0400\n"
 "Last-Translator: Alexander Koblov <Alexx2000@mail.ru>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2142,12 +2142,12 @@ msgstr "Сравнивать п&о содержимому"
 #: TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION
 msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION"
 msgid "Compare Directories"
-msgstr ""
+msgstr "Сравнить &каталоги"
 
 #: TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT
 msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
 msgid "Compare Directories"
-msgstr ""
+msgstr "Сравнить &каталоги"
 
 #: TFRMMAIN.ACTCONTEXTMENU.CAPTION
 msgid "Show context menu"
@@ -3919,7 +3919,7 @@ msgstr "Инверсное выделение"
 #: TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION"
 msgid "Drive Free Space Indicator"
-msgstr ""
+msgstr "Индикатор свободного места"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.GBEXAMPLE.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.GBEXAMPLE.CAPTION"
@@ -5952,7 +5952,7 @@ msgstr "Копировать в"
 
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
-msgstr ""
+msgstr "Копировать в (для всех)"
 
 #: ulng.rsdlgbuttonno
 msgid "&No"
@@ -5977,7 +5977,7 @@ msgstr "Переписать &все"
 
 #: ulng.rsdlgbuttonoverwriteolder
 msgid "Overwrite All Ol&der"
-msgstr ""
+msgstr "Заменить более &старые"
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
@@ -6097,11 +6097,11 @@ msgstr "Стереть файл(ы)"
 
 #: ulng.rsdrivenolabel
 msgid "<no label>"
-msgstr ""
+msgstr "<нет метки>"
 
 #: ulng.rsdrivenomedia
 msgid "<no media>"
-msgstr ""
+msgstr "<нет носителя>"
 
 #: ulng.rseditabouttext
 msgid "Internal Editor of Double Commander."
@@ -6138,7 +6138,7 @@ msgstr "Заменить"
 
 #: ulng.rsfilterstatus
 msgid "FILTER"
-msgstr ""
+msgstr "ФИЛЬТР"
 
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
@@ -6499,7 +6499,7 @@ msgstr "Функция не поддерживается!"
 
 #: ulng.rsmsgerrorincontextmenucommand
 msgid "Error in context menu command"
-msgstr ""
+msgstr "Ошибка в команде контекстного меню"
 
 #: ulng.rsmsgerrregexpsyntax
 msgid "Syntax error in regular expression!"
