@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, ComCtrls, StdCtrls, ColorBox, ExtCtrls, Dialogs,
-  fOptionsFrame;
+  DividerBevel, fOptionsFrame;
 
 type
 
@@ -41,6 +41,8 @@ type
     btnCursorText: TButton;
     btnForeColor: TButton;
     btnMarkColor: TButton;
+    btnIndColor: TButton;
+    btnIndBackColor: TButton;
     cbBackColor: TColorBox;
     cbBackColor2: TColorBox;
     cbbUseFrameCursor: TCheckBox;
@@ -49,7 +51,14 @@ type
     cbCursorText: TColorBox;
     cbMarkColor: TColorBox;
     cbTextColor: TColorBox;
+    cbIndColor: TColorBox;
+    cbIndBackColor: TColorBox;
+    cbbUseGradientInd: TCheckBox;
+    dbFreeSpaceIndicator: TDividerBevel;
+    dbOptions: TDividerBevel;
     gbExample: TGroupBox;
+    lblIndBackColor: TLabel;
+    lblIndColor: TLabel;
     lblBackgroundColor: TLabel;
     lblBackgroundColor2: TLabel;
     lblCursorColor: TLabel;
@@ -65,7 +74,10 @@ type
     procedure btnCursorColorClick(Sender: TObject);
     procedure btnCursorTextClick(Sender: TObject);
     procedure btnForeColorClick(Sender: TObject);
+    procedure btnIndBackColorClick(Sender: TObject);
+    procedure btnIndColorClick(Sender: TObject);
     procedure btnMarkColorClick(Sender: TObject);
+    procedure cbbUseGradientIndChange(Sender: TObject);
     procedure cbColorBoxChange(Sender: TObject);
     procedure pbExamplePaint(Sender: TObject);
   protected
@@ -104,8 +116,11 @@ begin
   SetColorInColorBox(cbMarkColor, gMarkColor);
   SetColorInColorBox(cbCursorColor, gCursorColor);
   SetColorInColorBox(cbCursorText, gCursorText);
+  SetColorInColorBox(cbIndColor, gIndForeColor);
+  SetColorInColorBox(cbIndBackColor, gIndBackColor);
   cbbUseInvertedSelection.Checked:= gUseInvertedSelection;
   cbbUseFrameCursor.Checked:= gUseFrameCursor;
+  cbbUseGradientInd.Checked := gIndUseGradient;
   tbInactivePanelBrightness.Position:= gInactivePanelBrightness;
 end;
 
@@ -117,9 +132,12 @@ begin
   gMarkColor := cbMarkColor.Selected;
   gCursorColor := cbCursorColor.Selected;
   gCursorText := cbCursorText.Selected;
+  gIndForeColor :=  cbIndColor.Selected;
+  gIndBackColor := cbIndBackColor.Selected;
   gUseInvertedSelection := cbbUseInvertedSelection.Checked;
   gInactivePanelBrightness := tbInactivePanelBrightness.Position;
   gUseFrameCursor := cbbUseFrameCursor.Checked;
+  gIndUseGradient := cbbUseGradientInd.Checked;
   Result := [];
 end;
 
@@ -173,6 +191,26 @@ begin
   end;
 end;
 
+procedure TfrmOptionsFilePanelsColors.btnIndBackColorClick(Sender: TObject);
+begin
+  optColorDialog.Color:= cbIndBackColor.Selected;
+  if optColorDialog.Execute then
+  begin
+    SetColorInColorBox(cbIndBackColor, optColorDialog.Color);
+    //pbExample.Repaint;
+  end;
+end;
+
+procedure TfrmOptionsFilePanelsColors.btnIndColorClick(Sender: TObject);
+begin
+  optColorDialog.Color:= cbIndColor.Selected;
+  if optColorDialog.Execute then
+  begin
+    SetColorInColorBox(cbIndColor, optColorDialog.Color);
+    //pbExample.Repaint;
+  end;
+end;
+
 procedure TfrmOptionsFilePanelsColors.btnMarkColorClick(Sender: TObject);
 begin
   optColorDialog.Color:= cbMarkColor.Selected;
@@ -181,6 +219,16 @@ begin
     SetColorInColorBox(cbMarkColor, optColorDialog.Color);
     pbExample.Repaint;
   end;
+end;
+
+procedure TfrmOptionsFilePanelsColors.cbbUseGradientIndChange(Sender: TObject);
+begin
+  lblIndColor.Enabled     := not(cbbUseGradientInd.Checked);
+  lblIndBackColor.Enabled := not(cbbUseGradientInd.Checked);
+  cbIndColor.Enabled      := not(cbbUseGradientInd.Checked);
+  cbIndBackColor.Enabled  := not(cbbUseGradientInd.Checked);
+  btnIndColor.Enabled     := not(cbbUseGradientInd.Checked);
+  btnIndBackColor.Enabled := not(cbbUseGradientInd.Checked);
 end;
 
 procedure TfrmOptionsFilePanelsColors.cbColorBoxChange(Sender: TObject);
