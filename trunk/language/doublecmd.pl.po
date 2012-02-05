@@ -3789,6 +3789,16 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNFORECOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+#: TFRMOPTIONSFILEPANELSCOLORS.BTNINDBACKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDBACKCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSFILEPANELSCOLORS.BTNINDCOLOR.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
 #: TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
@@ -3799,10 +3809,19 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEFRAMECURSOR.CAPTION"
 msgid "Use Frame Cursor"
 msgstr "Używaj kursora jako ramki"
 
+#: TFRMOPTIONSFILEPANELSCOLORS.CBBUSEGRADIENTIND.CAPTION
+msgid "Use Gradient Indicator"
+msgstr ""
+
 #: TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
 msgid "Use Inverted Selection"
 msgstr "Używaj odwrotnej selekcji"
+
+#: TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION"
+msgid "Drive Free Space Indicator"
+msgstr ""
 
 #: TFRMOPTIONSFILEPANELSCOLORS.GBEXAMPLE.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.GBEXAMPLE.CAPTION"
@@ -3833,6 +3852,14 @@ msgstr "Tekst pod kursorem:"
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION"
 msgid "Brightness level of inactive panel"
 msgstr "Przyciemnienie nieaktywnego panelu"
+
+#: TFRMOPTIONSFILEPANELSCOLORS.LBLINDBACKCOLOR.CAPTION
+msgid "Indicator Back Color:"
+msgstr ""
+
+#: TFRMOPTIONSFILEPANELSCOLORS.LBLINDCOLOR.CAPTION
+msgid "Indicator Fore Color:"
+msgstr ""
 
 #: TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
@@ -5833,6 +5860,10 @@ msgstr "&Zastąp"
 msgid "Overwrite &All"
 msgstr "Zastąp wszystko"
 
+#: ulng.rsdlgbuttonoverwriteolder
+msgid "Overwrite All Ol&der"
+msgstr ""
+
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
 msgstr ""
@@ -6984,30 +7015,6 @@ msgctxt "ulng.rsoptionseditorlayout"
 msgid "Layout"
 msgstr "Wygląd"
 
-#: ulng.rsoptionseditorlog
-msgctxt "ulng.rsoptionseditorlog"
-msgid "Log"
-msgstr "Logi"
-
-#: ulng.rsoptionseditormiscellaneous
-msgctxt "ulng.rsoptionseditormiscellaneous"
-msgid "Miscellaneous"
-msgstr "Różne"
-
-#: ulng.rsoptionseditormouse
-msgid "Mouse"
-msgstr "Mysz"
-
-#: ulng.rsoptionseditorplugins
-msgctxt "ulng.rsoptionseditorplugins"
-msgid "Plugins"
-msgstr "Wtyczki"
-
-#: ulng.rsoptionseditorquicksearch
-msgctxt "ulng.rsoptionseditorquicksearch"
-msgid "Quick search/filter"
-msgstr "Szybkie wyszukiwanie/filtr"
-
 #~ msgctxt "TFRMABOUT.OKBUTTON.CAPTION"
 #~ msgid "OK"
 #~ msgstr "OK"
@@ -7107,6 +7114,30 @@ msgstr "Szybkie wyszukiwanie/filtr"
 #~ msgstr "Filtr:"
 #~ msgid "Find:"
 #~ msgstr "Znajdź:"
+#: ulng.rsoptionseditorlog
+msgctxt "ulng.rsoptionseditorlog"
+msgid "Log"
+msgstr "Logi"
+
+#: ulng.rsoptionseditormiscellaneous
+msgctxt "ulng.rsoptionseditormiscellaneous"
+msgid "Miscellaneous"
+msgstr "Różne"
+
+#: ulng.rsoptionseditormouse
+msgid "Mouse"
+msgstr "Mysz"
+
+#: ulng.rsoptionseditorplugins
+msgctxt "ulng.rsoptionseditorplugins"
+msgid "Plugins"
+msgstr "Wtyczki"
+
+#: ulng.rsoptionseditorquicksearch
+msgctxt "ulng.rsoptionseditorquicksearch"
+msgid "Quick search/filter"
+msgstr "Szybkie wyszukiwanie/filtr"
+
 #: ulng.rsoptionseditorterminal
 msgctxt "ulng.rsoptionseditorterminal"
 msgid "Terminal"

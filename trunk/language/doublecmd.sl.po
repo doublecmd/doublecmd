@@ -3774,6 +3774,16 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNFORECOLOR.CAPTION"
 msgid ">>"
 msgstr ">>"
 
+#: TFRMOPTIONSFILEPANELSCOLORS.BTNINDBACKCOLOR.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDBACKCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
+#: TFRMOPTIONSFILEPANELSCOLORS.BTNINDCOLOR.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNINDCOLOR.CAPTION"
+msgid ">>"
+msgstr ">>"
+
 #: TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.BTNMARKCOLOR.CAPTION"
 msgid ">>"
@@ -3783,9 +3793,18 @@ msgstr ">>"
 msgid "Use Frame Cursor"
 msgstr "Uporabi kazalko z okvirjem"
 
+#: TFRMOPTIONSFILEPANELSCOLORS.CBBUSEGRADIENTIND.CAPTION
+msgid "Use Gradient Indicator"
+msgstr ""
+
 #: TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION
 msgid "Use Inverted Selection"
 msgstr "Uporabi obrnjen izbor"
+
+#: TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION
+msgctxt "TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION"
+msgid "Drive Free Space Indicator"
+msgstr ""
 
 #: TFRMOPTIONSFILEPANELSCOLORS.GBEXAMPLE.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.GBEXAMPLE.CAPTION"
@@ -3814,6 +3833,14 @@ msgstr "Besedilo kazalke:"
 #: TFRMOPTIONSFILEPANELSCOLORS.LBLINACTIVEPANELBRIGHTNESS.CAPTION
 msgid "Brightness level of inactive panel"
 msgstr "Raven svetlosti nedejavnega okna"
+
+#: TFRMOPTIONSFILEPANELSCOLORS.LBLINDBACKCOLOR.CAPTION
+msgid "Indicator Back Color:"
+msgstr ""
+
+#: TFRMOPTIONSFILEPANELSCOLORS.LBLINDCOLOR.CAPTION
+msgid "Indicator Fore Color:"
+msgstr ""
 
 #: TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
@@ -5792,6 +5819,10 @@ msgstr "&Prepiši"
 msgid "Overwrite &All"
 msgstr "Prepiši &vse"
 
+#: ulng.rsdlgbuttonoverwriteolder
+msgid "Overwrite All Ol&der"
+msgstr ""
+
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
 msgstr "&Nadaljuj"
@@ -5878,6 +5909,7 @@ msgctxt "ulng.rsdlgqueuein"
 msgid "In"
 msgstr "V vrsto"
 
+# multiple
 #: ulng.rsdlgqueueout
 msgid "Out"
 msgstr "Iz vrste"
@@ -5899,7 +5931,6 @@ msgstr "Razdeli"
 msgid "Testing..."
 msgstr "Preizkušanje ..."
 
-# multiple
 #: ulng.rsdlgunknownoperation
 msgid "Unknown operation"
 msgstr "Neznana vrsta opravila"
@@ -5953,6 +5984,7 @@ msgstr "Zamenjaj"
 msgid "FILTER"
 msgstr "Filter"
 
+# multiple
 #: ulng.rsfinddefinetemplate
 msgid "Define template"
 msgstr "Določitev predloge"
@@ -5973,7 +6005,6 @@ msgstr "le trenutno raven"
 msgid "Directory %s does not exist!"
 msgstr "Mapa %s ne obstaja!"
 
-# multiple
 #: ulng.rsfindfound
 msgctxt "ulng.rsfindfound"
 msgid "Found: %d"
@@ -6143,6 +6174,7 @@ msgstr "Novo"
 msgid "No media available"
 msgstr "Nosilec ni na voljo"
 
+# multiple
 #: ulng.rsmnuopenwith
 msgid "Open with ..."
 msgstr "Odpri z ..."
@@ -6160,11 +6192,11 @@ msgctxt "ulng.rsmnuview"
 msgid "View"
 msgstr "Poglej"
 
+# multiple
 #: ulng.rsmsgaccount
 msgid "Account:"
 msgstr "Račun:"
 
-# multiple
 #: ulng.rsmsgarchivercustomparams
 msgid "Additional parameters for archiver command-line:"
 msgstr "Dodatni parametri arhiva v ukazni vrstici:"
@@ -6181,7 +6213,6 @@ msgstr "Ni mogoče izbrisati mape %s"
 msgid "ChDir to [%s] failed!"
 msgstr "Ukaz chdir v [%s] je spodletel!"
 
-# multiple
 #: ulng.rsmsgcloseallinactivetabs
 msgid "Remove all inactive tabs?"
 msgstr "Ali naj se odstranijo vsi nedejavni zavihke?"
@@ -6498,6 +6529,7 @@ msgstr "Ni izbranih datotek."
 msgid "No enough free space on target drive, Continue?"
 msgstr "Ni dovolj prostora na ciljnem pogonu. Ali naj se opravilo vseeno nadaljuje?"
 
+# multiple
 #: ulng.rsmsgnofreespaceretry
 msgid "No enough free space on target drive, Retry?"
 msgstr "Ni dovolj prostora na ciljnem pogonu. Ali naj se prostor ponovno izračuna?"
@@ -6510,6 +6542,7 @@ msgstr "Ni mogoče izbrisati datoteke %s"
 msgid "Not implemented."
 msgstr "Ni podprto."
 
+# double multiple
 #: ulng.rsmsgpassword
 msgid "Password:"
 msgstr "Geslo:"
@@ -6518,7 +6551,6 @@ msgstr "Geslo:"
 msgid "Passwords are different!"
 msgstr "Gesli sta različni!"
 
-# multiple
 #: ulng.rsmsgpasswordenter
 msgid "Please enter the password:"
 msgstr "Vnesite geslo:"
@@ -6531,7 +6563,6 @@ msgstr "Geslo (požarni zid):"
 msgid "Please re-enter the password for verification:"
 msgstr "Ponovno vnesite geslo za overitev:"
 
-# double multiple
 #: ulng.rsmsgpopuphotadd
 msgid "&Add %s"
 msgstr "&Dodaj %s"
@@ -6565,6 +6596,7 @@ msgstr "Za uveljavitev sprememb je treba program ponovno zagnati."
 msgid "Selected %s of %s in %d of %d files"
 msgstr "Izbrano: %s od %s v %d od %d datotekah"
 
+# multiple
 #: ulng.rsmsgselectonlychecksumfiles
 msgid "Please select only check sum files!"
 msgstr "Izbrati je treba datoteko nadzorne vsote!"
@@ -6585,7 +6617,6 @@ msgstr "Preimenuj zavihek"
 msgid "New tab name:"
 msgstr "Novo ime zavihka:"
 
-# multiple
 #: ulng.rsmsgtargetdir
 msgid "Target path:"
 msgstr "Ciljna pot:"
@@ -7064,6 +7095,7 @@ msgstr "Ne"
 msgid "Socket"
 msgstr "Vtič"
 
+# multiple + window to small
 #: ulng.rspropsspblkdev
 msgid "Special block device"
 msgstr "Posebna bločna naprava"
@@ -7084,7 +7116,6 @@ msgstr "Neznana vrsta"
 msgid "Yes (%s)"
 msgstr "Da (%s)"
 
-# multiple + window to small
 #: ulng.rssearchresult
 msgid "Search result"
 msgstr "Rezultati iskanja"
@@ -7177,6 +7208,8 @@ msgstr "leta"
 msgid "Differ"
 msgstr "Primerjalnik"
 
+#~ msgid "Comments"
+#~ msgstr "Opombe"
 #: ulng.rstooleditor
 msgctxt "ulng.rstooleditor"
 msgid "Editor"
@@ -7198,8 +7231,6 @@ msgstr "Napaka odpiranja terminala"
 msgid "Error opening viewer"
 msgstr "Napaka odpiranja pregledovalnika"
 
-#~ msgid "Comments"
-#~ msgstr "Opombe"
 #: ulng.rstoolterminal
 msgctxt "ulng.rstoolterminal"
 msgid "Terminal"
