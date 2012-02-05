@@ -172,7 +172,7 @@ implementation
 
 uses
   uDebug, uOSUtils, uDCUtils, FileUtil, uFindEx, uClassesEx, uFileProcs, uLng,
-  uTypes, uFileSource, uFileSystemFileSource, uFileProperty;
+  uTypes, uFileSource, uFileSystemFileSource, uFileProperty, uDateTimeUtils;
 
 procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
 var
@@ -1341,13 +1341,23 @@ function TFileSystemOperationHelper.FileExists(
              AbsoluteTargetFileName: String;
              AllowAppend: Boolean): TFileSourceOperationOptionFileExists;
 const
-  Responses: array[0..6] of TFileSourceOperationUIResponse
-    = (fsourOverwrite, fsourSkip, fsourAppend, fsourOverwriteAll, fsourSkipAll,
-       fsourResume, fsourCancel);
-  ResponsesNoAppend: array[0..4] of TFileSourceOperationUIResponse
-    = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll, fsourCancel);
+  Responses: array[0..7] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourAppend, fsourOverwriteAll,
+       fsourSkipAll, fsourResume, fsourOverwriteOlder, fsourCancel);
+  ResponsesNoAppend: array[0..5] of TFileSourceOperationUIResponse
+    = (fsourOverwrite, fsourSkip, fsourOverwriteAll, fsourSkipAll,
+       fsourOverwriteOlder, fsourCancel);
 var
   PossibleResponses: array of TFileSourceOperationUIResponse;
+
+  function OverwriteOlder: TFileSourceOperationOptionFileExists;
+  begin
+    if aFile.ModificationTime > FileTimeToDateTime(mbFileAge(AbsoluteTargetFileName)) then
+      Result := fsoofeOverwrite
+    else
+      Result := fsoofeSkip;
+  end;
+
 begin
   case FFileExistsOption of
     fsoofeNone:
@@ -1382,10 +1392,19 @@ begin
               FFileExistsOption := fsoofeSkip;
               Result := fsoofeSkip;
             end;
+          fsourOverwriteOlder:
+            begin
+              FFileExistsOption := fsoofeOverwriteOlder;
+              Result:= OverwriteOlder;
+            end;
           fsourNone,
           fsourCancel:
             AbortOperation;
         end;
+      end;
+    fsoofeOverwriteOlder:
+      begin
+        Result:= OverwriteOlder;
       end;
 
     else

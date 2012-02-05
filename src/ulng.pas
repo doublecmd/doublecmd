@@ -168,6 +168,7 @@ resourcestring
   rsDlgButtonCopyIntoAll = 'Copy Into &All';
   rsDlgButtonOverwrite = '&Overwrite';
   rsDlgButtonOverwriteAll = 'Overwrite &All';
+  rsDlgButtonOverwriteOlder = 'Overwrite All Ol&der';
   rsDlgButtonSkip = '&Skip';
   rsDlgButtonSkipAll = 'S&kip All';
   rsDlgButtonAll = 'A&ll';

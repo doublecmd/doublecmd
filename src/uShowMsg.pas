@@ -22,12 +22,14 @@ uses
 
 type
   TMyMsgResult=(mmrOK, mmrNo, mmrYes, mmrCancel, mmrNone,
-                mmrAppend, mmrResume, mmrCopyInto, mmrCopyIntoAll, mmrOverwrite,
-                mmrOverwriteAll, mmrSkip, mmrSkipAll, mmrAll, mmrRetry, mmrAbort);
+                mmrAppend, mmrResume, mmrCopyInto, mmrCopyIntoAll,
+                mmrOverwrite, mmrOverwriteAll, mmrOverwriteOlder, mmrSkip,
+                mmrSkipAll, mmrAll, mmrRetry, mmrAbort);
 
   TMyMsgButton=(msmbOK, msmbNo, msmbYes, msmbCancel, msmbNone,
-                msmbAppend, msmbResume, msmbCopyInto, msmbCopyIntoAll, msmbOverwrite,
-                msmbOverwriteAll, msmbSkip, msmbSkipAll, msmbAll, msmbRetry, msmbAbort);
+                msmbAppend, msmbResume, msmbCopyInto, msmbCopyIntoAll,
+                msmbOverwrite, msmbOverwriteAll, msmbOverwriteOlder, msmbSkip,
+                msmbSkipAll, msmbAll, msmbRetry, msmbAbort);
 
 
   { TDialogMainThread }
@@ -480,22 +482,23 @@ end;
 
 procedure msgLoadLng;
 begin
-  cLngButton[msmbOK]           := rsDlgButtonOK;
-  cLngButton[msmbNo]           := rsDlgButtonNo;
-  cLngButton[msmbYes]          := rsDlgButtonYes;
-  cLngButton[msmbCancel]       := rsDlgButtonCancel;
-  cLngButton[msmbNone]         := rsDlgButtonNone;
-  cLngButton[msmbAppend]       := rsDlgButtonAppend;
-  cLngButton[msmbResume]       := rsDlgButtonResume;
-  cLngButton[msmbCopyInto]     := rsDlgButtonCopyInto;
-  cLngButton[msmbCopyIntoAll]  := rsDlgButtonCopyIntoAll;
-  cLngButton[msmbOverwrite]    := rsDlgButtonOverwrite;
-  cLngButton[msmbOverwriteAll] := rsDlgButtonOverwriteAll;
-  cLngButton[msmbSkip]         := rsDlgButtonSkip;
-  cLngButton[msmbSkipAll]      := rsDlgButtonSkipAll;
-  cLngButton[msmbAll]          := rsDlgButtonAll;
-  cLngButton[msmbRetry]        := rsDlgButtonRetry;
-  cLngButton[msmbAbort]        := rsDlgButtonAbort;
+  cLngButton[msmbOK]             := rsDlgButtonOK;
+  cLngButton[msmbNo]             := rsDlgButtonNo;
+  cLngButton[msmbYes]            := rsDlgButtonYes;
+  cLngButton[msmbCancel]         := rsDlgButtonCancel;
+  cLngButton[msmbNone]           := rsDlgButtonNone;
+  cLngButton[msmbAppend]         := rsDlgButtonAppend;
+  cLngButton[msmbResume]         := rsDlgButtonResume;
+  cLngButton[msmbCopyInto]       := rsDlgButtonCopyInto;
+  cLngButton[msmbCopyIntoAll]    := rsDlgButtonCopyIntoAll;
+  cLngButton[msmbOverwrite]      := rsDlgButtonOverwrite;
+  cLngButton[msmbOverwriteAll]   := rsDlgButtonOverwriteAll;
+  cLngButton[msmbOverwriteOlder] := rsDlgButtonOverwriteOlder;
+  cLngButton[msmbSkip]           := rsDlgButtonSkip;
+  cLngButton[msmbSkipAll]        := rsDlgButtonSkipAll;
+  cLngButton[msmbAll]            := rsDlgButtonAll;
+  cLngButton[msmbRetry]          := rsDlgButtonRetry;
+  cLngButton[msmbAbort]          := rsDlgButtonAbort;
 end;
 
 procedure InitDialogButtonWidth;
