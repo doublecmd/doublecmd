@@ -22,6 +22,7 @@ type
      fsourCopyIntoAll, // for directories
      fsourOverwrite,
      fsourOverwriteAll,
+     fsourOverwriteOlder,
      fsourSkip,
      fsourSkipAll,
      fsourAll,
