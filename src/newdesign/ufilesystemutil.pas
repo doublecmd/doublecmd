@@ -175,8 +175,18 @@ uses
   uTypes, uFileSource, uFileSystemFileSource, uFileProperty;
 
 procedure SplitFileMask(const DestMask: String; out DestNameMask: String; out DestExtMask: String);
+var
+  iPos: LongInt;
 begin
-  DivFileName(DestMask, DestNameMask, DestExtMask);
+  // Special case for mask that contains '*.*' ('*.*.old' for example)
+  iPos:= Pos('*.*', DestMask);
+  if (iPos = 0) then
+    DivFileName(DestMask, DestNameMask, DestExtMask)
+  else
+    begin
+      DestNameMask := Copy(DestMask, 1, iPos);
+      DestExtMask := Copy(DestMask, iPos + 1, MaxInt);
+    end;
   // Treat empty mask as '*.*'.
   if (DestNameMask = '') and (DestExtMask = '') then
   begin
