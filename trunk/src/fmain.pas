@@ -2917,24 +2917,36 @@ begin
     pbxDrive.Canvas.FillRect(2, 0, pbxDrive.Width - 2, pbxDrive.Height - 1);
 
     ARect:= Rect(3, 1, pbxDrive.Width - 3, pbxDrive.Height - 2);
-    pbxDrive.Canvas.GradientFill(ARect, clSilver, clWhite, gdVertical);
 
-    for i:= 0 to IndexColor - 1 do
-    begin
-      if i <= 50 then
-        pbxDrive.Canvas.Brush.Color:= RGB(0 + 5 * i, 255, 0)
-      else
-        pbxDrive.Canvas.Brush.Color:= RGB(255, 255 - 5 * (i - 50), 0);
+    if not gIndUseGradient then
+      begin
+        AColor := gIndBackColor;
+        pbxDrive.Canvas.GradientFill(ARect, DarkColor(AColor, 25), LightColor(AColor, 25), gdVertical);
+        ARect := Rect(3, 1, 3+indexColor * (pbxDrive.Width - 6) div 100, pbxDrive.Height - 2);
+        AColor := gIndForeColor;
+        pbxDrive.Canvas.GradientFill(ARect, LightColor(AColor, 25), DarkColor(AColor, 25), gdVertical);
+      end
+    else
+      begin
+        pbxDrive.Canvas.GradientFill(ARect, clSilver, clWhite, gdVertical);
 
-      AColor:= DarkColor(pbxDrive.Canvas.Brush.Color, 50);
+        for i:= 0 to IndexColor - 1 do
+        begin
+          if i <= 50 then
+            pbxDrive.Canvas.Brush.Color:= RGB(0 + 5 * i, 255, 0)
+          else
+            pbxDrive.Canvas.Brush.Color:= RGB(255, 255 - 5 * (i - 50), 0);
 
-      ARect:= Rect(3 + i * (pbxDrive.Width - 6) div 100, 1,
-                   3 + (i + 1) * (pbxDrive.Width - 6) div 100,
-                   pbxDrive.Height - 2);
+          AColor:= DarkColor(pbxDrive.Canvas.Brush.Color, 50);
 
-      pbxDrive.Canvas.GradientFill(ARect, pbxDrive.Canvas.Brush.Color,
+          ARect:= Rect(3 + i * (pbxDrive.Width - 6) div 100, 1,
+                       3 + (i + 1) * (pbxDrive.Width - 6) div 100,
+                       pbxDrive.Height - 2);
+
+           pbxDrive.Canvas.GradientFill(ARect, pbxDrive.Canvas.Brush.Color,
                                    AColor, gdVertical);
-    end;
+        end;
+      end;
   end;
 end;
 
@@ -4908,4 +4920,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+

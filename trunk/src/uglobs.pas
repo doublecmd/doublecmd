@@ -205,10 +205,14 @@ var
   gForeColor,  //text color
   gMarkColor,  // Mark color
   gCursorColor, //Cursor color
-  gCursorText : TColor; //text color under cursor
+  gCursorText,  //text color under cursor
+  gIndForeColor,    // foreColor of use space on drive label
+  gIndBackColor: TColor; // backColor of free space on drive label
+
   gUseInvertedSelection: Boolean;
   gInactivePanelBrightness: Integer; // 0 .. 100 (black .. full color)
   gUseFrameCursor: Boolean;
+  gIndUseGradient : Boolean;             // use gradient on drive label
 
   gShowIcons: TShowIconsMode;
   gShowIconsNew: TShowIconsMode;
@@ -738,8 +742,11 @@ begin
   gMarkColor := clRed;
   gCursorColor := clHighlight;
   gCursorText := clHighlightText;
+  gIndForeColor := clBlack;
+  gIndBackColor := clWhite;
   gUseInvertedSelection := False;
   gInactivePanelBrightness := 100; // Full brightness
+  gIndUseGradient := True;
 
   { Layout page }
   gMainMenu := True;
@@ -1574,6 +1581,9 @@ begin
       gUseInvertedSelection := GetValue(Node, 'UseInvertedSelection', gUseInvertedSelection);
       gInactivePanelBrightness := GetValue(Node, 'InactivePanelBrightness', gInactivePanelBrightness);
       gUseFrameCursor:= GetValue(Node,'UseFrameCursor', gUseFrameCursor);
+      gIndForeColor := GetValue(Node, 'FreeSpaceIndicator/ForeColor', gIndForeColor);
+      gIndBackColor := GetValue(Node, 'FreeSpaceIndicator/BackColor', gIndBackColor);
+      gIndUseGradient := GetValue(Node, 'FreeSpaceIndicator/UseGradient', gIndUseGradient);
 
       gColorExt.Load(gConfig, Node);
     end;
@@ -1915,6 +1925,9 @@ begin
     SetValue(Node, 'UseInvertedSelection', gUseInvertedSelection);
     SetValue(Node, 'InactivePanelBrightness', gInactivePanelBrightness);
     SetValue(Node, 'UseFrameCursor', gUseFrameCursor);
+    SetValue(Node, 'FreeSpaceIndicator/ForeColor', gIndForeColor);
+    SetValue(Node, 'FreeSpaceIndicator/BackColor', gIndBackColor);
+    SetValue(Node, 'FreeSpaceIndicator/UseGradient', gIndUseGradient);
     gColorExt.Save(gConfig, Node);
 
     { ToolTips page }
@@ -2132,4 +2145,4 @@ initialization
 
 finalization
   DestroyGlobs;
-end.
+end.
