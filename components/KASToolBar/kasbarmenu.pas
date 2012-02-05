@@ -146,7 +146,10 @@ begin
   For I:=0 to Fbar.ButtonCount-1 do
     begin
       Item:=TMenuItem.Create(Self);
-      Item.Caption:=Fbar.GetButtonX(I,MenuX);
+      if Fbar.GetButtonX(I,MiskX) <> '' then
+         Item.Caption:=Fbar.GetButtonX(I,MenuX)+' ('+Fbar.GetButtonX(I,MiskX)+')'
+      else
+         Item.Caption:=Fbar.GetButtonX(I,MenuX);
       //------------------------------------------------------
       if Assigned(FOnLoadButtonGlyph) then
         BitmapTmp := FOnLoadButtonGlyph(FBar.GetButtonX(I,ButtonX), 16, clMenu)
