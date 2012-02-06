@@ -20,6 +20,7 @@ type
     FServerIPC: TSimpleIPCServer;
     FClientIPC: TSimpleIPCClient;
     FOnMessage: TOnUniqueInstanceMessage;
+    FMyProgramCreateSemaphore:Boolean;
 
     procedure OnNative(Sender: TObject);
 
@@ -129,6 +130,8 @@ var
   arg: tsemun;
 
   function semlock(semid: longint): boolean;
+  // increase special Value in semaphore structure (value decreases automatically
+  // when program completed incorrectly)
   var
     p_buf: tsembuf;
   begin
@@ -141,23 +144,49 @@ var
 begin
   Result := False;
   semkey := ftok(PAnsiChar(ParamStr(0)), 0);
+  // try create semapore for semkey
+  // If semflg specifies both IPC_CREAT and IPC_EXCL and a semaphore set already
+  // exists for semkey, then semget() return -1 and errno set to EEXIST
   FHandle := semget(semkey, 1, SEM_PERM or IPC_CREAT or IPC_EXCL);
+
+  // if semaphore exists
   if FHandle = -1 then
     begin
+      // get semaphore id
       FHandle := semget(semkey, 1, 0);
+      // get special Value from semaphore structure
       status := semctl(FHandle, 0, SEM_GETVAL, arg);
+
       if status = 1 then
-        Result := True
+      // There is other running copy of the program
+        begin
+          Result := True;
+          // Not to release semaphore when exiting from the program
+          FMyProgramCreateSemaphore := false;
+        end
       else
+      begin
+      // Other copy of the program has created a semaphore but has been completed incorrectly
+      // increase special Value in semaphore structure (value decreases automatically
+      // when program completed incorrectly)
         semlock(FHandle);
+
+      // its one copy of program running, release semaphore when exiting from the program
+        FMyProgramCreateSemaphore := true;
+      end;
     end
   else
     begin
+      // its one copy of program running, release semaphore when exiting from the program
+      FMyProgramCreateSemaphore := true;
+      // set special Value in semaphore structure to 0
       arg.val := 0;
       status := semctl(FHandle, 0, SEM_SETVAL, arg);
+      // increase special Value in semaphore structure (value decreases automatically
+      // when program completed incorrectly)
       semlock(FHandle);
     end;
-end;
+  end;
 {$ENDIF}
 
 procedure TUniqueInstance.DisposeMutex;
@@ -169,7 +198,9 @@ end;
 var
   arg: tsemun;
 begin
-  semctl(FHandle, 0, IPC_RMID, arg);
+  // If my copy of the program created a semaphore then released it
+  if FMyProgramCreateSemaphore then
+    semctl(FHandle, 0, IPC_RMID, arg);
 end;
 {$ENDIF}
 
@@ -187,7 +218,9 @@ var
 begin
   CreateClient;
   FClientIPC.ServerID:= FInstanceName;
-  if not FClientIPC.ServerRunning then Exit;
+  if not FClientIPC.ServerRunning then
+	 Exit;
+
   sTemp:= EmptyStr;
   for I:= 1 to ParamCount do
     sTemp:= sTemp + SysToUTF8(ParamStr(I)) + Separator;
