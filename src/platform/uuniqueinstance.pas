@@ -21,6 +21,9 @@ type
     FClientIPC: TSimpleIPCClient;
     FOnMessage: TOnUniqueInstanceMessage;
     FMyProgramCreateSemaphore:Boolean;
+    {$IF DEFINED(UNIX)}
+    FPeekThread: TThreadID;
+    {$ENDIF}
 
     procedure OnNative(Sender: TObject);
 
@@ -66,6 +69,22 @@ uses
 
 const
   Separator = '|';
+
+{$IF DEFINED(UNIX)}
+type
+  TUnixIPCServer = class(TSimpleIPCServer) end;
+
+function PeekMessage(Parameter: Pointer): PtrInt;
+var
+  UnixIPC: TUnixIPCServer absolute Parameter;
+begin
+  while UnixIPC.Active do
+  begin
+    if UnixIPC.PeekMessage(-1, False) then
+      TThread.Synchronize(nil, @UnixIPC.ReadMessage);
+  end;
+end;
+{$ENDIF}
 
 { TUniqueInstance }
 
@@ -219,7 +238,7 @@ begin
   CreateClient;
   FClientIPC.ServerID:= FInstanceName;
   if not FClientIPC.ServerRunning then
-	 Exit;
+    Exit;
 
   sTemp:= EmptyStr;
   for I:= 1 to ParamCount do
@@ -251,6 +270,9 @@ begin
   FServerIPC.ServerID:= FInstanceName;
   FServerIPC.Global:= True;
   FServerIPC.StartServer;
+  {$IF DEFINED(UNIX)}
+  FPeekThread:= BeginThread(@PeekMessage, FServerIPC);
+  {$ENDIF}
 end;
 
 procedure TUniqueInstance.StopListen;
@@ -258,6 +280,9 @@ begin
   DisposeMutex;
   if FServerIPC = nil then Exit;
   FServerIPC.StopServer;
+  {$IF DEFINED(UNIX)}
+  CloseThread(FPeekThread);
+  {$ENDIF}
 end;
 
 constructor TUniqueInstance.Create(aInstanceName: String);
@@ -299,4 +324,4 @@ finalization
       FreeAndNil(UniqueInstance);
     end;
 end.
-
+
