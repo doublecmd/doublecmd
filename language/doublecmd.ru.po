@@ -1143,7 +1143,7 @@ msgstr "&Файл"
 
 #: TFRMEDITOR.MIHIGHLIGHT.CAPTION
 msgid "Syntax highlight"
-msgstr "&Подсветка синтаксиса"
+msgstr "Подсветка &синтаксиса"
 
 #: TFRMEDITOR.MILINEENDTYPE.CAPTION
 msgid "End Of Line"
@@ -5707,7 +5707,7 @@ msgstr "В виде &текста"
 #: TFRMVIEWER.MIVIEW.CAPTION
 msgctxt "TFRMVIEWER.MIVIEW.CAPTION"
 msgid "&View"
-msgstr "&Просмотр"
+msgstr "&Вид"
 
 #: TFRMVIEWER.MIWRAPTEXT.CAPTION
 msgid "Show as &Wrap text"
