@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-01-23 22:04+0300\n"
+"PO-Revision-Date: 2012-02-06 23:08+0300\n"
 "Last-Translator: Максим aka ma$terok\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2134,12 +2134,12 @@ msgstr "Порівняти за &вмістом"
 #: TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION
 msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.CAPTION"
 msgid "Compare Directories"
-msgstr ""
+msgstr "Порівняти каталоги"
 
 #: TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT
 msgctxt "TFRMMAIN.ACTCOMPAREDIRECTORIES.HINT"
 msgid "Compare Directories"
-msgstr ""
+msgstr "Порівняти каталоги"
 
 #: TFRMMAIN.ACTCONTEXTMENU.CAPTION
 msgid "Show context menu"
@@ -3878,7 +3878,7 @@ msgstr "Використовувати курсор-рамку"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.CBBUSEGRADIENTIND.CAPTION
 msgid "Use Gradient Indicator"
-msgstr ""
+msgstr "Використовувати градієнтну заливку індикатора"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
@@ -3888,7 +3888,7 @@ msgstr "Використовувати інверсне виділення"
 #: TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION"
 msgid "Drive Free Space Indicator"
-msgstr ""
+msgstr "Керування індикатором вільного місця"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.GBEXAMPLE.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.GBEXAMPLE.CAPTION"
@@ -3923,11 +3923,11 @@ msgstr "Рівень яскравості неактивної панелі"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.LBLINDBACKCOLOR.CAPTION
 msgid "Indicator Back Color:"
-msgstr ""
+msgstr "Колір вільного місця:"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.LBLINDCOLOR.CAPTION
 msgid "Indicator Fore Color:"
-msgstr ""
+msgstr "Колір заповнення:"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
@@ -5952,7 +5952,7 @@ msgstr "Пере&записати все"
 
 #: ulng.rsdlgbuttonoverwriteolder
 msgid "Overwrite All Ol&der"
-msgstr ""
+msgstr "Замінити всі ста&рі"
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
