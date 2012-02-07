@@ -34,11 +34,8 @@ uses
 }
 
 const
-  { NewMenu Object (Creates a "New" context menu for a Shell item) }
-  CLSID_NewMenu: TGUID = '{D969A300-E7FF-11d0-A93B-00A0C90F2719}';
-
    // QueryContextMenu uFlags
-   CMF_FINDHACK            = $00000080;
+   CMF_FINDHACK               = $00000080;
 
    SEE_MASK_UNICODE           = $00004000; //Correction
    SEE_MASK_HMONITOR          = $00200000;
@@ -55,6 +52,8 @@ const
 // CMIC_MASK_FLAG_SEP_VDM = SEE_MASK_FLAG_SEPVDM; ??
 // CMIC_MASK_HASTITLE     = SEE_MASK_HASTITLE;    ??
 
+   // User canceled the current action
+   COPYENGINE_E_USER_CANCELLED: HRESULT = $80270000;
 
 { IPersistFolder3 Interface }
 {

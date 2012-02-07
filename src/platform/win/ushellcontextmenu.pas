@@ -262,6 +262,7 @@ var
   bHandled : Boolean = False;
   ZVerb: array[0..255] of char;
   sVerb : String;
+  Result: HRESULT;
   FormCommands: IFormCommands;
 begin
   try
@@ -384,15 +385,7 @@ begin
             begin
               sVerb := StrPas(ZVerb);
 
-              if SameText(sVerb, sCmdVerbDelete) then
-                begin
-                  if ssShift in GetKeyShiftState then
-                    frmMain.Commands.cm_Delete('recyclesettingrev')
-                  else
-                    frmMain.Commands.cm_Delete('recyclesetting');
-                  bHandled := True;
-                end
-              else if SameText(sVerb, sCmdVerbRename) then
+              if SameText(sVerb, sCmdVerbRename) then
                 begin
                   if FFiles.Count = 1 then
                     with FFiles[0] do
@@ -452,15 +445,18 @@ begin
               FillChar(cmici, SizeOf(cmici), #0);
               with cmici do
               begin
-                cbSize := sizeof(cmici);
+                cbSize := SizeOf(cmici);
                 hwnd := FParent.Handle;
                 lpVerb := PChar(PtrUInt(cmd - 1));
                 nShow := SW_NORMAL;
               end;
-              OleCheckUTF8(FShellMenu1.InvokeCommand(cmici));
+
+              Result:= FShellMenu1.InvokeCommand(cmici);
+              if not (Succeeded(Result) or (Result = COPYENGINE_E_USER_CANCELLED)) then
+                OleErrorUTF8(Result);
 
               // Reload after possible changes on the filesystem.
-              if SameText(sVerb, sCmdVerbLink) then
+              if SameText(sVerb, sCmdVerbLink) or SameText(sVerb, sCmdVerbDelete) then
                 frmMain.ActiveFrame.FileSource.Reload(frmMain.ActiveFrame.CurrentPath);
             end;
 
