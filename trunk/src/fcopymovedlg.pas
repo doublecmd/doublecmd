@@ -5,7 +5,7 @@ unit fCopyMoveDlg;
 interface
 
 uses
-  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls, Menus,
+  SysUtils, Classes, Controls, Forms, StdCtrls, Buttons, ExtCtrls, Menus, KASPathEdit,
   uFileViewNotebook,
   uFileSourceOperation,
   uFileSourceOperationOptionsUI,
@@ -22,7 +22,7 @@ type
     btnOK: TBitBtn;
     btnOptions: TButton;
     btnSaveOptions: TButton;
-    edtDst: TEdit;
+    edtDst: TKASPathEdit;
     grpOptions: TGroupBox;
     lblCopySrc: TLabel;
     miAutoStart: TMenuItem;
