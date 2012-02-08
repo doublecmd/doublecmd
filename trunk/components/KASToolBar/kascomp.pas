@@ -7,7 +7,8 @@ unit KASComp;
 interface
 
 uses
-  KASToolBar, KASBarMenu, KASBarFiles, KASProgressBar, LazarusPackageIntf;
+  KASToolBar, KASBarMenu, KASBarFiles, KASProgressBar, KASPathEdit, 
+  LazarusPackageIntf;
 
 implementation
 
@@ -16,6 +17,7 @@ begin
   RegisterUnit('KASToolBar', @KASToolBar.Register); 
   RegisterUnit('KASBarMenu', @KASBarMenu.Register); 
   RegisterUnit('KASProgressBar', @KASProgressBar.Register); 
+  RegisterUnit('KASPathEdit', @KASPathEdit.Register); 
 end; 
 
 initialization
