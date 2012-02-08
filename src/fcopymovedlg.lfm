@@ -34,7 +34,7 @@ object frmCopyDlg: TfrmCopyDlg
     Caption = 'Copy %s:'
     ParentColor = False
   end
-  object edtDst: TEdit
+  object edtDst: TKASPathEdit
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = lblCopySrc
     AnchorSideTop.Side = asrBottom

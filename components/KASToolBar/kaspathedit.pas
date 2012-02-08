@@ -38,13 +38,18 @@ type
   TKASPathEdit = class(TEdit)
   private
     FListBox: TListBox;
+    FAutoComplete: Boolean;
     FObjectTypes: TObjectTypes;
     FFileSortType: TFileSortType;
   private
     function GetAnchorControl: TControl;
     procedure SetAnchorControl(AControl: TControl);
     procedure AutoComplete(const Path: UTF8String);
+    procedure SetObjectTypes(const AValue: TObjectTypes);
   protected
+{$IF DEFINED(LCLWIN32)}
+    procedure CreateWnd; override;
+{$ENDIF}
     procedure SetParent(NewParent: TWinControl); override;
     procedure DoExit; override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
@@ -53,7 +58,7 @@ type
     constructor Create(AOwner: TComponent); override;
   published
     property ListBox: TListBox read FListBox;
-    property ObjectTypes: TObjectTypes read FObjectTypes write FObjectTypes;
+    property ObjectTypes: TObjectTypes read FObjectTypes write SetObjectTypes;
     property FileSortType: TFileSortType read FFileSortType write FFileSortType;
     property AnchorControl: TControl read GetAnchorControl write SetAnchorControl;
   end;
@@ -63,7 +68,36 @@ procedure Register;
 implementation
 
 uses
-  LCLProc, Math;
+  LCLProc, Math
+  {$IF DEFINED(LCLWIN32)}
+  , ComObj
+  {$ENDIF}
+  ;
+
+{$IF DEFINED(LCLWIN32)}
+
+const
+  SHACF_AUTOAPPEND_FORCE_ON  = $40000000;
+  SHACF_AUTOSUGGEST_FORCE_ON = $10000000;
+  SHACF_FILESYS_ONLY         = $00000010;
+  SHACF_FILESYS_DIRS         = $00000020;
+
+function SHAutoComplete(hwndEdit: HWND; dwFlags: DWORD): HRESULT; stdcall; external 'shlwapi.dll';
+
+function SHAutoCompleteX(hwndEdit: HWND; ObjectTypes: TObjectTypes): Boolean;
+var
+  dwFlags: DWORD;
+begin
+  if (ObjectTypes = []) then Exit(False);
+  dwFlags := SHACF_AUTOAPPEND_FORCE_ON or SHACF_AUTOSUGGEST_FORCE_ON;
+  if (otNonFolders in ObjectTypes) then
+    dwFlags := dwFlags or SHACF_FILESYS_ONLY
+  else if (otFolders in ObjectTypes) then
+    dwFlags := dwFlags or SHACF_FILESYS_DIRS;
+  Result:= (SHAutoComplete(hwndEdit, dwFlags) = 0);
+end;
+
+{$ENDIF}
 
 procedure Register;
 begin
@@ -110,12 +144,41 @@ begin
                                        );
     if (FListBox.Items.Count > 0) then
     begin
+      // Make absolute file name
       for I := 0 to FListBox.Items.Count - 1 do
       FListBox.Items[I] := BasePath + FListBox.Items[I];
+      // Calculate ListBox height
+      if FListBox.Items.Count = 1 then
+        FListBox.ClientHeight:= ClientHeight
+      else if FListBox.Items.Count > 10 then
+        FListBox.ClientHeight:= FListBox.ItemHeight * 10
+      else
+        FListBox.ClientHeight:= FListBox.ItemHeight * FListBox.Items.Count;
     end;
   end;
   FListBox.Visible:= FListBox.Items.Count > 0;
 end;
+
+procedure TKASPathEdit.SetObjectTypes(const AValue: TObjectTypes);
+begin
+  if FObjectTypes = AValue then Exit;
+  FObjectTypes:= AValue;
+{$IF DEFINED(LCLWIN32)}
+  if HandleAllocated then RecreateWnd(Self);
+  if FAutoComplete then
+{$ENDIF}
+  FAutoComplete:= (FObjectTypes <> []);
+end;
+
+{$IF DEFINED(LCLWIN32)}
+
+procedure TKASPathEdit.CreateWnd;
+begin
+  inherited CreateWnd;
+  FAutoComplete:= not SHAutoCompleteX(Handle, FObjectTypes);
+end;
+
+{$ENDIF}
 
 procedure TKASPathEdit.SetParent(NewParent: TWinControl);
 begin
@@ -182,7 +245,7 @@ end;
 
 procedure TKASPathEdit.KeyUpAfterInterface(var Key: Word; Shift: TShiftState);
 begin
-  if not (Key in [VK_ESCAPE, VK_RETURN, VK_SELECT, VK_UP, VK_DOWN]) then
+  if FAutoComplete and not (Key in [VK_ESCAPE, VK_RETURN, VK_SELECT, VK_UP, VK_DOWN]) then
     AutoComplete(Text);
   inherited KeyDownAfterInterface(Key, Shift);
 end;
@@ -195,6 +258,7 @@ begin
   FListBox.Visible := False;
   FListBox.TabStop := False;
 
+  FAutoComplete := True;
   FFileSortType := fstFoldersFirst;
   FObjectTypes  := [otNonFolders, otFolders];
 end;

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Controls, ExtCtrls, ComCtrls, StdCtrls,
-  uPathLabel, uFileView;
+  uPathLabel, uFileView, KASPathEdit;
 
 type
 
@@ -17,7 +17,7 @@ type
     FFileView: TFileView;
     FAddressLabel: TPathLabel;
     FPathLabel: TPathLabel;
-    FPathEdit: TEdit;
+    FPathEdit: TKASPathEdit;
     procedure HeaderResize(Sender: TObject);
     procedure PathEditExit(Sender: TObject);
     procedure PathEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -56,7 +56,7 @@ type
 implementation
 
 uses
-  LCLType, uDCUtils, uOSUtils, fMain, uFileSourceUtil;
+  LCLType, ShellCtrls, uDCUtils, uOSUtils, fMain, uFileSourceUtil;
 
 { TFileViewHeader }
 
@@ -167,10 +167,12 @@ begin
   FPathLabel.Align := alTop;
   FAddressLabel.Align := alTop;
 
-  FPathEdit:= TEdit.Create(FPathLabel);
+  FPathEdit:= TKASPathEdit.Create(FPathLabel);
   FPathEdit.Parent:= Self;
   FPathEdit.Visible:= False;
   FPathEdit.TabStop:= False;
+  FPathEdit.ObjectTypes:= [otFolders, otHidden];
+  FPathEdit.AnchorControl:= Self;
 
   OnResize:= @HeaderResize;
 
