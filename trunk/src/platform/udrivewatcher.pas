@@ -795,12 +795,18 @@ begin
                 DriveLabel := Path;
                 FileSystem := StrPas(pme^.mnt_type);
 
-                if IsPartOfString(['ISO9660', 'CDROM', 'CDRW', 'DVD'], UpperCase(FileSystem)) then
+                if IsPartOfString(['ISO9660', 'CDROM', 'CDRW', 'DVD', 'UDF'], UpperCase(FileSystem)) then // for external usb cdrom and dvd
+                    DriveType := dtOptical else
+                if IsPartOfString(['ISO9660', 'CDROM', 'CDRW', 'DVD'], UpperCase(DeviceFile)) then
                   DriveType := dtOptical else
                 if IsPartOfString(['FLOPPY'], UpperCase(FileSystem)) then
                   DriveType := dtFloppy else
+                if IsPartOfString(['FLOPPY', '/DEV/FD'], UpperCase(DeviceFile)) then
+                  DriveType := dtFloppy else
                 if IsPartOfString(['ZIP', 'USB', 'CAMERA'], UpperCase(FileSystem)) then
                   DriveType := dtFlash else
+                if IsPartOfString(['/MEDIA/'], UpperCase(MountPoint)) then
+                    DriveType := dtFlash else
                 if IsPartOfString(['NFS', 'SMB', 'NETW', 'CIFS'], UpperCase(FileSystem)) then
                   DriveType := dtNetwork
                 else
@@ -809,7 +815,9 @@ begin
                 IsMediaAvailable:= True;
                 IsMediaEjectable:= (DriveType = dtOptical);
                 IsMediaRemovable:= DriveType in [dtFloppy, dtOptical, dtFlash];
-                IsMounted:= False; // Checked via mtab below.
+                // If drive from /etc/mtab then it is mounted
+                // else it will be checked via mtab below
+                IsMounted:= (MntEntFileList[I] = _PATH_MOUNTED);
               end;
             end
             // Mark drive as mounted if found in mtab.
