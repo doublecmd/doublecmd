@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alphaReport-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-20 12:40+0300\n"
-"PO-Revision-Date: 2012-02-04 14:34+0100\n"
+"PO-Revision-Date: 2012-02-07 16:12+0100\n"
 "Last-Translator: Vacon <vacon@users.sourceforge.net>\n"
 "Language-Team: Deutsch <vacon@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -302,7 +302,7 @@ msgstr "Version"
 #: TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.BTNCANCEL.CAPTION"
 msgid "&Cancel"
-msgstr "&Abbruch"
+msgstr "Abbru&ch"
 
 #: TFRMATTRIBUTESEDIT.BTNOK.CAPTION
 msgctxt "TFRMATTRIBUTESEDIT.BTNOK.CAPTION"
@@ -4012,7 +4012,7 @@ msgstr "Einfügemarke nur als Rahmen darstellen"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.CBBUSEGRADIENTIND.CAPTION
 msgid "Use Gradient Indicator"
-msgstr ""
+msgstr "Verwende Farbverlauf als Indikator"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.CBBUSEINVERTEDSELECTION.CAPTION"
@@ -4022,7 +4022,7 @@ msgstr "Umgekehrte Auswahl nutzen"
 #: TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.DBFREESPACEINDICATOR.CAPTION"
 msgid "Drive Free Space Indicator"
-msgstr ""
+msgstr "Indikator für freien Speicherplatz auf Laufwerken"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.GBEXAMPLE.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.GBEXAMPLE.CAPTION"
@@ -4058,11 +4058,11 @@ msgstr "Helligkeitswert des inaktiven Panels"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.LBLINDBACKCOLOR.CAPTION
 msgid "Indicator Back Color:"
-msgstr ""
+msgstr "Hintergrundfarbe für Indikator:
 
 #: TFRMOPTIONSFILEPANELSCOLORS.LBLINDCOLOR.CAPTION
 msgid "Indicator Fore Color:"
-msgstr ""
+msgstr "Vordergrundfarbe für Indikator:"
 
 #: TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION
 msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLMARKCOLOR.CAPTION"
@@ -6071,15 +6071,15 @@ msgstr "An&hängen"
 #: ulng.rsdlgbuttoncancel
 msgctxt "ulng.rsdlgbuttoncancel"
 msgid "&Cancel"
-msgstr "&Abbruch"
+msgstr "Abbru&ch"
 
 #: ulng.rsdlgbuttoncopyinto
 msgid "Copy &Into"
-msgstr "H&inein kopieren"
+msgstr "Zunächst nur d&ieses Verzeichnis kopieren"
 
 #: ulng.rsdlgbuttoncopyintoall
 msgid "Copy Into &All"
-msgstr "In &alle einfügen"
+msgstr "&Alle bestehenden Verzeichnisse kopieren"
 
 #: ulng.rsdlgbuttonno
 msgid "&No"
@@ -6104,7 +6104,7 @@ msgstr "Alle &vorhandenen Dateien überschreiben"
 
 #: ulng.rsdlgbuttonoverwriteolder
 msgid "Overwrite All Ol&der"
-msgstr ""
+msgstr "Alle älteren &Dateien überschreiben"
 
 #: ulng.rsdlgbuttonresume
 msgid "&Resume"
@@ -6522,11 +6522,11 @@ msgstr "Teilweise kopierte Datei löschen?"
 
 #: ulng.rsmsgdelfldr
 msgid "Delete %d selected files/directories?"
-msgstr "Löschen von %d Dateien / Verzeichnissen?"
+msgstr "Löschen von %d ausgewählten Dateien/Verzeichnissen?"
 
 #: ulng.rsmsgdelfldrt
 msgid "Delete %d selected files/directories into trash can?"
-msgstr "%d markierte Dateien/Ordner in den Papierkorb löschen?"
+msgstr "%d markierte Dateien/Verzeichnisse in den Papierkorb löschen?"
 
 #: ulng.rsmsgdelsel
 msgid "Delete selected \"%s\"?"
@@ -6690,7 +6690,7 @@ msgstr "Die Grösse der Datei \"%s\" ist zu gross für das Dateisystem des Ziel-
 
 #: ulng.rsmsgfolderexistsrwrt
 msgid "Folder %s exists, overwrite?"
-msgstr "Verzeichnis besteht bereits. Soll es überschrieben werden"
+msgstr "Verzeichnis %s besteht bereits. Bitte eine Auswahl treffen:"
 
 #: ulng.rsmsgfollowsymlink
 msgid "Follow symlink \"%s\"?"
