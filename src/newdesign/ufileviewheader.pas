@@ -172,7 +172,6 @@ begin
   FPathEdit.Visible:= False;
   FPathEdit.TabStop:= False;
   FPathEdit.ObjectTypes:= [otFolders, otHidden];
-  FPathEdit.AnchorControl:= Self;
 
   OnResize:= @HeaderResize;
 
@@ -317,4 +316,4 @@ begin
 end;
 
 end.
-
+
