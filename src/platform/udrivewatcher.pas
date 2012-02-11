@@ -57,11 +57,11 @@ uses
    , BSD, BaseUnix, StrUtils, FileUtil
    {$ENDIF}
    {$IFDEF LINUX}
-   , uUDisks, uFileSystemWatcher, uDCUtils, FileUtil
+   , uUDisks, uFileSystemWatcher, uDCUtils, uOSUtils, FileUtil
    {$ENDIF}
    {$IFDEF DARWIN}
    , MacOSAll
- 	 {$ENDIF}
+   {$ENDIF}
   {$ENDIF}
   {$IFDEF MSWINDOWS}
   uMyWindows, Windows, JwaDbt
@@ -352,6 +352,8 @@ begin
       else
         Drive^.DriveType := dtUnknown;
     end
+    else if DeviceIsSystemInternal then
+      Drive^.DriveType := dtHardDisk
     else
       Drive^.DriveType := dtUnknown;
 
@@ -616,6 +618,15 @@ end;
         Exit(Devices[i].DeviceObjectPath);
     Result := EmptyStr;
   end;
+function UDisksGetDeviceObjectByDeviceFile(const DeviceFile: String; const Devices: TUDisksDevicesInfos): String;
+var
+  i: Integer;
+begin
+  for i := Low(Devices) to High(Devices) do
+    if Devices[i].DeviceFile = DeviceFile then
+      Exit(Devices[i].DeviceObjectPath);
+  Result := EmptyStr;
+end;
 
 var
   AddedDevices: TStringList = nil;
@@ -749,6 +760,12 @@ begin
                   GetStrMaybeQuoted(Copy(DeviceFile, 7, MaxInt)), UDisksDevices);
               if UDisksDeviceObject <> EmptyStr then
                 DeviceFile := '/dev/' + ExtractFileName(UDisksDeviceObject);
+              HandledByUDisks := True;
+            end
+            else if StrBegins(DeviceFile, '/dev/mapper') then
+            begin
+              DeviceFile:= mbReadAllLinks(DeviceFile);
+              UDisksDeviceObject := UDisksGetDeviceObjectByDeviceFile(DeviceFile, UDisksDevices);
               HandledByUDisks := True;
             end
             else if StrBegins(DeviceFile, '/dev/') then
@@ -1190,4 +1207,4 @@ end;
 {$ENDIF}
 
 end.
-
+
