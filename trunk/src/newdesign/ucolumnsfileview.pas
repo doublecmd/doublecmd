@@ -3265,8 +3265,22 @@ var
 
     if gCutTextToColWidth then
     begin
-      while Canvas.TextWidth(s) - (aRect.Right - aRect.Left) - 4 > 0 do
-        Delete(s, Length(s), 1);
+      Y:= ((aRect.Right - aRect.Left) - 4 - Canvas.TextWidth('W'));
+      if (gShowIcons <> sim_none) then Y:= Y - gIconsSize;
+      if Canvas.TextWidth(s) - Y > 0 then
+      begin
+        repeat
+          IconID:= UTF8Length(s);
+          UTF8Delete(s, IconID, 1);
+        until (Canvas.TextWidth(s) - Y < 1) or (IconID = 0);
+        if (IconID > 0) then
+        begin
+          if gDirBrackets and (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) then
+            s:= UTF8Copy(s, 1, IconID - 3) + '..]'
+          else
+            s:= UTF8Copy(s, 1, IconID - 3) + '...';
+        end;
+      end;
     end;
 
     if (gShowIcons <> sim_none) then
@@ -3895,4 +3909,4 @@ begin
 end;
 
 end.
-
+
