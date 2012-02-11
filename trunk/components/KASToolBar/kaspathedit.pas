@@ -37,30 +37,33 @@ type
 
   TKASPathEdit = class(TEdit)
   private
+    FPanel: THintWindow;
     FListBox: TListBox;
+    FKeyDown: Word;
     FAutoComplete: Boolean;
     FObjectTypes: TObjectTypes;
     FFileSortType: TFileSortType;
   private
-    function GetAnchorControl: TControl;
-    procedure SetAnchorControl(AControl: TControl);
     procedure AutoComplete(const Path: UTF8String);
     procedure SetObjectTypes(const AValue: TObjectTypes);
+    procedure FormChangeBoundsEvent(Sender: TObject);
+    procedure ListBoxClick(Sender: TObject);
+    procedure ListBoxMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+  private
+    procedure ShowListBox;
+    procedure HideListBox;
   protected
 {$IF DEFINED(LCLWIN32)}
     procedure CreateWnd; override;
 {$ENDIF}
-    procedure SetParent(NewParent: TWinControl); override;
     procedure DoExit; override;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure KeyUpAfterInterface(var Key: Word; Shift: TShiftState); override;
   public
     constructor Create(AOwner: TComponent); override;
   published
-    property ListBox: TListBox read FListBox;
     property ObjectTypes: TObjectTypes read FObjectTypes write SetObjectTypes;
     property FileSortType: TFileSortType read FFileSortType write FFileSortType;
-    property AnchorControl: TControl read GetAnchorControl write SetAnchorControl;
   end;
 
 procedure Register;
@@ -106,26 +109,6 @@ end;
 
 { TKASPathEdit }
 
-function TKASPathEdit.GetAnchorControl: TControl;
-begin
-  Result:= FListBox.AnchorSide[akTop].Control;
-end;
-
-procedure TKASPathEdit.SetAnchorControl(AControl: TControl);
-begin
-  if (AControl.Parent <> nil) then
-  begin
-    FListBox.Parent := AControl.Parent;
-    FListBox.Anchors := [akTop, akLeft, akRight];
-    FListBox.AnchorSide[akTop].Control := AControl;
-    FListBox.AnchorSide[akTop].Side := asrBottom;
-    FListBox.AnchorSide[akLeft].Control := AControl;
-    FListBox.AnchorSide[akLeft].Side := asrLeft;
-    FListBox.AnchorSide[akRight].Control := AControl;
-    FListBox.AnchorSide[akRight].Side := asrRight;
-  end;
-end;
-
 procedure TKASPathEdit.AutoComplete(const Path: UTF8String);
 var
   I: LongWord;
@@ -144,19 +127,23 @@ begin
                                        );
     if (FListBox.Items.Count > 0) then
     begin
+      ShowListBox;
       // Make absolute file name
-      for I := 0 to FListBox.Items.Count - 1 do
-      FListBox.Items[I] := BasePath + FListBox.Items[I];
+      for I:= 0 to FListBox.Items.Count - 1 do
+      FListBox.Items[I]:= BasePath + FListBox.Items[I];
       // Calculate ListBox height
-      if FListBox.Items.Count = 1 then
-        FListBox.ClientHeight:= ClientHeight
-      else if FListBox.Items.Count > 10 then
-        FListBox.ClientHeight:= FListBox.ItemHeight * 10
-      else
-        FListBox.ClientHeight:= FListBox.ItemHeight * FListBox.Items.Count;
+      with FListBox.ItemRect(0) do
+      I:= Bottom - Top; // TListBox.ItemHeight sometimes don't work under GTK2
+      with FListBox do
+      begin
+        if Items.Count = 1 then
+          FPanel.ClientHeight:= Self.Height
+        else
+          FPanel.ClientHeight:= I * IfThen(Items.Count > 10, 11, Items.Count + 1);
+      end;
     end;
   end;
-  FListBox.Visible:= FListBox.Items.Count > 0;
+  if (FListBox.Items.Count = 0) then HideListBox;
 end;
 
 procedure TKASPathEdit.SetObjectTypes(const AValue: TObjectTypes);
@@ -170,6 +157,59 @@ begin
   FAutoComplete:= (FObjectTypes <> []);
 end;
 
+procedure TKASPathEdit.FormChangeBoundsEvent(Sender: TObject);
+begin
+  HideListBox;
+end;
+
+procedure TKASPathEdit.ListBoxClick(Sender: TObject);
+begin
+  if FListBox.ItemIndex >= 0 then
+  begin
+    Text:= FListBox.Items[FListBox.ItemIndex];
+    SelStart:= UTF8Length(Text);
+    HideListBox;
+    SetFocus;
+  end;
+end;
+
+procedure TKASPathEdit.ListBoxMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+begin
+  FListBox.ItemIndex:= FListBox.ItemAtPos(Classes.Point(X, Y), True);
+end;
+
+procedure TKASPathEdit.ShowListBox;
+begin
+  if (FPanel = nil) then
+  begin
+    FPanel:= THintWindow.Create(Self);
+    FPanel.Color:= clForm;
+    FListBox.Parent:= FPanel;
+
+    with Parent.ClientToScreen(CLasses.Point(Left, Top)) do
+    begin
+      FPanel.Left:= X;
+      FPanel.Top:= Y + Height;
+    end;
+
+    FPanel.Width:= Width;
+    FPanel.Visible:= True;
+
+    GetParentForm(Self).AddHandlerOnChangeBounds(FormChangeBoundsEvent, True);
+  end;
+end;
+
+procedure TKASPathEdit.HideListBox;
+begin
+  if (FPanel <> nil) then
+  begin
+    FPanel.Visible:= False;
+    FListBox.Parent:= nil;
+    FreeAndNil(FPanel);
+    GetParentForm(Self).RemoveHandlerOnChangeBounds(FormChangeBoundsEvent);
+  end;
+end;
+
 {$IF DEFINED(LCLWIN32)}
 
 procedure TKASPathEdit.CreateWnd;
@@ -180,87 +220,85 @@ end;
 
 {$ENDIF}
 
-procedure TKASPathEdit.SetParent(NewParent: TWinControl);
-begin
-  inherited SetParent(NewParent);
-  SetAnchorControl(Self);
-end;
-
 procedure TKASPathEdit.DoExit;
 begin
-  FListBox.Visible:= False;
+  HideListBox;
   inherited DoExit;
 end;
 
 procedure TKASPathEdit.KeyDown(var Key: Word; Shift: TShiftState);
 begin
+  FKeyDown:= Key;
   case Key of
     VK_ESCAPE,
     VK_RETURN,
     VK_SELECT:
       begin
-        FListBox.Visible := False;
+        HideListBox;
       end;
     VK_UP:
-      if FListBox.Visible then
+      if Assigned(FPanel) then
       begin
-        Key := 0;
+        Key:= 0;
         if FListBox.ItemIndex = -1 then
-          FListBox.ItemIndex := FListBox.Items.Count - 1
+          FListBox.ItemIndex:= FListBox.Items.Count - 1
         else if FListBox.ItemIndex - 1 < 0 then
-          FListBox.ItemIndex := - 1
+          FListBox.ItemIndex:= - 1
         else
-          FListBox.ItemIndex := FListBox.ItemIndex - 1;
+          FListBox.ItemIndex:= FListBox.ItemIndex - 1;
 
         if FListBox.ItemIndex >= 0 then
-          Text := FListBox.Items[FListBox.ItemIndex]
+          Text:= FListBox.Items[FListBox.ItemIndex]
         else
-          Text := ExtractFilePath(Text);
-        SelStart := UTF8Length(Text);
+          Text:= ExtractFilePath(Text);
+        SelStart:= UTF8Length(Text);
       end;
     VK_DOWN:
-      if FListBox.Visible then
+      if Assigned(FPanel) then
       begin
-        Key := 0;
+        Key:= 0;
         if FListBox.ItemIndex + 1 >= FListBox.Items.Count then
-          FListBox.ItemIndex := -1
+          FListBox.ItemIndex:= -1
         else if FListBox.ItemIndex = -1 then
-          FListBox.ItemIndex := IfThen(FListBox.Items.Count > 0, 0, -1)
+          FListBox.ItemIndex:= IfThen(FListBox.Items.Count > 0, 0, -1)
         else
-          FListBox.ItemIndex := FListBox.ItemIndex + 1;
+          FListBox.ItemIndex:= FListBox.ItemIndex + 1;
 
         if FListBox.ItemIndex >= 0 then
-          Text := FListBox.Items[FListBox.ItemIndex]
+          Text:= FListBox.Items[FListBox.ItemIndex]
         else
-          Text := ExtractFilePath(Text);
-        SelStart := UTF8Length(Text);
+          Text:= ExtractFilePath(Text);
+        SelStart:= UTF8Length(Text);
       end;
   end;
   inherited KeyDown(Key, Shift);
-  {$IFDEF LCLGTK2}
+{$IFDEF LCLGTK2}
   // Workaround for GTK2 - up and down arrows moving through controls.
-  if Key in [VK_UP, VK_DOWN] then Key := 0;
-  {$ENDIF}
+  if Key in [VK_UP, VK_DOWN] then Key:= 0;
+{$ENDIF}
 end;
 
 procedure TKASPathEdit.KeyUpAfterInterface(var Key: Word; Shift: TShiftState);
 begin
-  if FAutoComplete and not (Key in [VK_ESCAPE, VK_RETURN, VK_SELECT, VK_UP, VK_DOWN]) then
+  if (FKeyDown = Key) and FAutoComplete and not (Key in [VK_ESCAPE, VK_RETURN, VK_SELECT, VK_UP, VK_DOWN]) then
     AutoComplete(Text);
-  inherited KeyDownAfterInterface(Key, Shift);
+  inherited KeyUpAfterInterface(Key, Shift);
 end;
 
 constructor TKASPathEdit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  FListBox := TListBox.Create(Self);
-  FListBox.Visible := False;
-  FListBox.TabStop := False;
+  FListBox:= TListBox.Create(Self);
+  FListBox.TabStop:= False;
+  FListBox.Align:= alClient;
+  FListBox.ClickOnSelChange:= False;
+  FListBox.OnClick:= ListBoxClick;
+  FListBox.OnMouseMove:= ListBoxMouseMove;
 
-  FAutoComplete := True;
-  FFileSortType := fstFoldersFirst;
-  FObjectTypes  := [otNonFolders, otFolders];
+  FAutoComplete:= True;
+  FFileSortType:= fstFoldersFirst;
+  FObjectTypes:= [otNonFolders, otFolders];
 end;
 
 end.
