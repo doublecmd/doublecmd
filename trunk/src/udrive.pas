@@ -32,13 +32,14 @@ uses
 
 type
   TDriveType = (dtUnknown,
-                dtFlash,      // Flash drive
-                dtFloppy,     // 3.5'', ZIP drive, etc.
-                dtHardDisk,   // Hard disk drive
-                dtNetwork,    // Network share
-                dtOptical,    // CD, DVD, Blu-Ray, etc.
-                dtRamDisk,    // Ram-disk
-                dtRemovable); // Drive with removable media
+                dtFlash,         // Flash drive
+                dtFloppy,        // 3.5'', ZIP drive, etc.
+                dtHardDisk,      // Hard disk drive
+                dtNetwork,       // Network share
+                dtOptical,       // CD, DVD, Blu-Ray, etc.
+                dtRamDisk,       // Ram-disk
+                dtRemovable,     // Drive with removable media
+                dtRemovableUsb); // Drive connected via USB
 
   { TDrive }
 

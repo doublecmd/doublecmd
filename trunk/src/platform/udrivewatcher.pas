@@ -336,7 +336,10 @@ begin
          OwnerDevice.DeviceIsRemovable then
       begin
         // Removable partition usually means pen-drive type.
-        Drive^.DriveType := dtRemovable;
+        if BeginsWithString(['usb'], OwnerDevice.DriveConnectionInterface) then
+          Drive^.DriveType := dtRemovableUsb
+        else
+          Drive^.DriveType := dtRemovable;
       end
       else
         Drive^.DriveType := dtHardDisk;
@@ -349,6 +352,8 @@ begin
         Drive^.DriveType := dtFloppy
       else if BeginsWithString(['optical'], DriveMediaCompatibility) then
         Drive^.DriveType := dtOptical
+      else if BeginsWithString(['usb'], DriveConnectionInterface) then
+        Drive^.DriveType := dtRemovableUsb
       else
         Drive^.DriveType := dtUnknown;
     end
