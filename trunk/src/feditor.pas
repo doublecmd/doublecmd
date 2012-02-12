@@ -198,7 +198,7 @@ implementation
 uses
   dmCommonData, dmHigh, SynEditHighlighter, SynEditTypes, SynEditLines, LCLType,
   LConvEncoding, uLng, uShowMsg, fEditSearch, uGlobsPaths, uGlobs, fEditorConf,
-  uOSUtils, uClassesEx, uConvEncoding, uSynEditFiler;
+  uOSUtils, uConvEncoding, uSynEditFiler;
 
 procedure ShowEditor(const sFileName:String);
 var
@@ -871,4 +871,4 @@ begin
       mnuMenuItem.Items[I].Checked:= True;
 end;
 
-end.
+end.

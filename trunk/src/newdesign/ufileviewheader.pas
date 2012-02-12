@@ -5,7 +5,7 @@ unit uFileViewHeader;
 interface
 
 uses
-  Classes, SysUtils, Controls, ExtCtrls, ComCtrls, StdCtrls,
+  Classes, SysUtils, Controls, ExtCtrls, ComCtrls,
   uPathLabel, uFileView, KASPathEdit;
 
 type
