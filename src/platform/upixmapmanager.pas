@@ -68,7 +68,8 @@ type
     bmMediaOptical,
     bmDriveNetwork,
     bmDriveVirtual,
-    bmDriveRemovableMedia: TBitmap;
+    bmDriveRemovableMedia,
+    bmDriveRemovableMediaUsb: TBitmap;
   end;
 
   { TPixMapManager }
@@ -1160,6 +1161,7 @@ begin
       if Assigned(bmDriveNetwork) then FreeAndNil(bmDriveNetwork);
       if Assigned(bmDriveVirtual) then FreeAndNil(bmDriveVirtual);
       if Assigned(bmDriveRemovableMedia) then FreeAndNil(bmDriveRemovableMedia);
+      if Assigned(bmDriveRemovableMediaUsb) then FreeAndNil(bmDriveRemovableMediaUsb);
     end;
 
   {$IF DEFINED(MSWINDOWS)}
@@ -1225,6 +1227,7 @@ begin
       bmDriveNetwork:= LoadIconThemeBitmapLocked('network-wired', iPixmapSize);
       bmDriveVirtual:= LoadIconThemeBitmapLocked('folder-virtual', iPixmapSize);
       bmDriveRemovableMedia:= LoadIconThemeBitmapLocked('drive-removable-media', iPixmapSize);
+      bmDriveRemovableMediaUsb:= LoadIconThemeBitmapLocked('drive-removable-media-usb', iPixmapSize);
     end;
 
   // load emblems
@@ -1827,6 +1830,8 @@ begin
     Bitmap := bmDriveNetwork;
   dtRemovable:
     Bitmap := bmDriveRemovableMedia;
+  dtRemovableUsb:
+    Bitmap := bmDriveRemovableMediaUsb;
   else
     Bitmap := bmDriveHardDisk;
   end;
@@ -1924,4 +1929,4 @@ finalization
   end;
 
 end.
-
+
