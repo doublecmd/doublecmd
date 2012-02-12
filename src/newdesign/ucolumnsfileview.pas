@@ -8,7 +8,6 @@ uses
   Classes, SysUtils, Graphics, Controls, Forms, StdCtrls, ExtCtrls, Grids,
   LMessages, LCLIntf, LCLType, Menus,
   uDragDropEx,
-  uPathLabel,
   uFile,
   uFileProperty,
   uFileView,
@@ -3275,10 +3274,11 @@ var
         until (Canvas.TextWidth(s) - Y < 1) or (IconID = 0);
         if (IconID > 0) then
         begin
+          s:= UTF8Copy(s, 1, IconID - 3);
           if gDirBrackets and (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) then
-            s:= UTF8Copy(s, 1, IconID - 3) + '..]'
+            s:= s + '..]'
           else
-            s:= UTF8Copy(s, 1, IconID - 3) + '...';
+            s:= s + '...';
         end;
       end;
     end;
@@ -3909,4 +3909,4 @@ begin
 end;
 
 end.
-
+

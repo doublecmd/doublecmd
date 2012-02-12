@@ -33,7 +33,6 @@ uses
   uGlobs, uLog, uWcxModule, WcxPlugin, uClassesEx,
   uFile,
   uFileSource,
-  uFileSourceOperationOptions,
   uFileSourceOperationUI,
   uFileSourceOperation,
   uFileSourceCopyOperation;
@@ -799,4 +798,4 @@ begin
 end;
 
 end.
-
+
