@@ -325,7 +325,10 @@ begin
     else
     begin
       Drive^.Path := EmptyStr;
-      Drive^.DisplayName := ExtractFileName(DeviceFile);
+      if (IdLabel <> EmptyStr) then
+        Drive^.DisplayName := IdLabel
+      else
+        Drive^.DisplayName := ExtractFileName(DeviceFile);
     end;
     Drive^.DriveLabel := IdLabel;
     Drive^.FileSystem := IdType;
