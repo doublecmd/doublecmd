@@ -284,6 +284,11 @@ function mbSetEnvironmentVariable(const sName, sValue: UTF8String): Boolean;
 function mbLoadLibrary(const Name: UTF8String): TLibHandle;
 function mbSysErrorMessage(ErrorCode: Integer): UTF8String;
 function HasPathInvalidCharacters(Path: UTF8String): Boolean;
+{en
+   Extract the root directory part of a file name.
+   @returns(Drive letter under Windows and mount point under Unix)
+}
+function ExtractRootDir(const FileName: UTF8String): UTF8String;
 
 procedure FixFormIcon(Handle: LCLType.HWND);
 procedure HideConsoleWindow;
@@ -1910,6 +1915,17 @@ begin
   Result := ContainsOneOf(Path, '*?');
 end;
 
+function ExtractRootDir(const FileName: UTF8String): UTF8String;
+{$IFDEF UNIX}
+begin
+  Result:= ExcludeTrailingPathDelimiter(FindMountPointPath(ExcludeTrailingPathDelimiter(FileName)));
+end;
+{$ELSE}
+begin
+  Result:= ExtractFileDrive(FileName);
+end;
+{$ENDIF}
+
 procedure FixFormIcon(Handle: LCLType.HWND);
 begin
   // Workaround for Lazarus issue 0018484.
@@ -1948,4 +1964,4 @@ begin
   inherited Create(rsMsgInvalidQuoting);
 end;
 
-end.
+end.
