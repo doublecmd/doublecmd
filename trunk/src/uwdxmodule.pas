@@ -633,7 +633,7 @@ var
 begin
   if assigned(ContentSetDefaultParams) then
   begin
-    dps.DefaultIniName := gpCfgDir + WdxIniFileName;
+    dps.DefaultIniName := mbFileNameToSysEnc(gpCfgDir + WdxIniFileName);
     dps.PluginInterfaceVersionHi := 1;
     dps.PluginInterfaceVersionLow := 50;
     dps.size := SizeOf(tContentDefaultParamStruct);

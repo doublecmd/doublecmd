@@ -617,7 +617,7 @@ var
 begin
     if Assigned(FsSetDefaultParams) then
     begin
-      dps.DefaultIniName := gpCfgDir + WfxIniFileName;
+      dps.DefaultIniName := mbFileNameToSysEnc(gpCfgDir + WfxIniFileName);
       dps.PluginInterfaceVersionHi:= 2;
       dps.PluginInterfaceVersionLow:= 0;
       dps.Size:= SizeOf(dps);
