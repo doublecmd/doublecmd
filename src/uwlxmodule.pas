@@ -414,7 +414,7 @@ begin
   if not assigned(ListSetDefaultParams) then exit;
 
   GetMem(dps,SizeOf(tListDefaultParamStruct));
-  dps^.DefaultIniName:=gpCfgDir + WlxIniFileName;
+  dps^.DefaultIniName:= mbFileNameToSysEnc(gpCfgDir + WlxIniFileName);
   dps^.PluginInterfaceVersionHi:=1;
   dps^.PluginInterfaceVersionLow:=80;
   dps^.size:=SizeOf(tListDefaultParamStruct);
