@@ -108,6 +108,8 @@ type
     FRootDir: TFile;
     FCheckFreeSpace: Boolean;
     FSkipAllBigFiles: Boolean;
+    FSkipReadError: Boolean;
+    FSkipWriteError: Boolean;
     FAutoRenameItSelf: Boolean;
     FDropReadOnlyAttribute: Boolean;
     FCorrectSymLinks: Boolean;
@@ -551,6 +553,8 @@ begin
 
   FCheckFreeSpace := True;
   FSkipAllBigFiles := False;
+  FSkipReadError := False;
+  FSkipWriteError := False;
   FDropReadOnlyAttribute := False;
   FFileExistsOption := fsoofeNone;
   FDirExistsOption := fsoodeNone;
@@ -764,9 +768,10 @@ begin
                         end
                       else
                         begin
+                          if FSkipWriteError then Exit;
                           case AskQuestion(rsMsgErrEWrite + ' ' + TargetFileName + ':',
                                            E.Message,
-                                           [fsourRetry, fsourSkip, fsourAbort],
+                                           [fsourRetry, fsourSkip, fsourSkipAll, fsourAbort],
                                            fsourRetry, fsourSkip) of
                             fsourRetry:
                               bRetryWrite := True;
@@ -774,6 +779,11 @@ begin
                               AbortOperation;
                             fsourSkip:
                               Exit;
+                            fsourSkipAll:
+                              begin
+                                FSkipWriteError := True;
+                                Exit;
+                              end;
                           end; // case
                         end;
 
@@ -783,9 +793,10 @@ begin
             except
               on E: EReadError do
                 begin
+                  if FSkipReadError then Exit;
                   case AskQuestion(rsMsgErrERead + ' ' + SourceFile.FullPath + ':',
                                    E.Message,
-                                   [fsourRetry, fsourSkip, fsourAbort],
+                                   [fsourRetry, fsourSkip, fsourSkipAll, fsourAbort],
                                    fsourRetry, fsourSkip) of
                     fsourRetry:
                       bRetryRead := True;
@@ -793,6 +804,11 @@ begin
                       AbortOperation;
                     fsourSkip:
                       Exit;
+                    fsourSkipAll:
+                      begin
+                        FSkipReadError := True;
+                        Exit;
+                      end;
                   end; // case
                 end;
             end;
