@@ -768,6 +768,7 @@ begin
                         end
                       else
                         begin
+                          DeleteFile := FSkipWriteError and not (Mode in [fsohcmAppend, fsohcmResume]);
                           if FSkipWriteError then Exit;
                           case AskQuestion(rsMsgErrEWrite + ' ' + TargetFileName + ':',
                                            E.Message,
@@ -781,6 +782,7 @@ begin
                               Exit;
                             fsourSkipAll:
                               begin
+                                DeleteFile := not (Mode in [fsohcmAppend, fsohcmResume]);
                                 FSkipWriteError := True;
                                 Exit;
                               end;
@@ -793,6 +795,7 @@ begin
             except
               on E: EReadError do
                 begin
+                  DeleteFile := FSkipReadError and not (Mode in [fsohcmAppend, fsohcmResume]);
                   if FSkipReadError then Exit;
                   case AskQuestion(rsMsgErrERead + ' ' + SourceFile.FullPath + ':',
                                    E.Message,
@@ -806,6 +809,7 @@ begin
                       Exit;
                     fsourSkipAll:
                       begin
+                        DeleteFile := not (Mode in [fsohcmAppend, fsohcmResume]);
                         FSkipReadError := True;
                         Exit;
                       end;
