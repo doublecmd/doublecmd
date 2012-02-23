@@ -4727,8 +4727,11 @@ begin
             sboxDrive.Tag := -1;
           sboxDrive.Invalidate;
         end;
-      lblDriveInfo.Caption := Format(rsFreeMsgShort, [cnvFormatFileSize(FreeSize)]);
       lblDriveInfo.Hint := Format(rsFreeMsg, [cnvFormatFileSize(FreeSize), cnvFormatFileSize(TotalSize)]);
+      if gShortFormatDriveInfo then
+        lblDriveInfo.Caption := Format(rsFreeMsgShort, [cnvFormatFileSize(FreeSize)])
+      else
+        lblDriveInfo.Caption := lblDriveInfo.Hint;
       sboxDrive.Hint := lblDriveInfo.Hint;
     end
   else

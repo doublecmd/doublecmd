@@ -1,15 +1,17 @@
 inherited frmOptionsLayout: TfrmOptionsLayout
-  Height = 588
+  Height = 550
   Width = 784
-  ClientHeight = 588
+  ClientHeight = 550
   ClientWidth = 784
+  DesignLeft = 319
+  DesignTop = 146
   object gbScreenLayout: TGroupBox[0]
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 572
+    Height = 427
     Top = 6
     Width = 772
     Anchors = [akTop, akLeft, akRight]
@@ -18,14 +20,14 @@ inherited frmOptionsLayout: TfrmOptionsLayout
     Caption = ' Screen layout '
     ChildSizing.LeftRightSpacing = 12
     ChildSizing.TopBottomSpacing = 6
-    ClientHeight = 550
+    ClientHeight = 409
     ClientWidth = 768
     TabOrder = 0
     object cbShowMainMenu: TCheckBox
       Left = 12
-      Height = 25
+      Height = 17
       Top = 6
-      Width = 146
+      Width = 100
       Caption = 'Show main menu'
       TabOrder = 0
     end
@@ -33,9 +35,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbShowMainMenu
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 33
-      Width = 140
+      Height = 17
+      Top = 25
+      Width = 100
       BorderSpacing.Top = 2
       Caption = 'Show &button bar'
       TabOrder = 1
@@ -44,9 +46,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbFlatToolBar
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 87
-      Width = 158
+      Height = 17
+      Top = 63
+      Width = 113
       BorderSpacing.Top = 2
       Caption = 'Show &drive buttons'
       OnChange = cbShowDiskPanelChange
@@ -56,9 +58,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbFlatDiskPanel
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 168
-      Width = 182
+      Height = 17
+      Top = 120
+      Width = 129
       BorderSpacing.Top = 2
       Caption = 'Show d&rives list button'
       TabOrder = 6
@@ -67,9 +69,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbShowTabs
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 276
-      Width = 179
+      Height = 17
+      Top = 215
+      Width = 130
       BorderSpacing.Top = 2
       Caption = 'Show &current directory'
       TabOrder = 10
@@ -78,9 +80,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbShowCurDir
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 303
-      Width = 171
+      Height = 17
+      Top = 234
+      Width = 123
       BorderSpacing.Top = 2
       Caption = 'Show &tabstop header'
       TabOrder = 11
@@ -89,9 +91,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbShowTabHeader
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 330
-      Width = 136
+      Height = 17
+      Top = 253
+      Width = 98
       BorderSpacing.Top = 2
       Caption = 'Show &status bar'
       TabOrder = 12
@@ -100,9 +102,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbShowStatusBar
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 357
-      Width = 165
+      Height = 17
+      Top = 272
+      Width = 113
       BorderSpacing.Top = 2
       Caption = 'Show command &line'
       TabOrder = 13
@@ -111,9 +113,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbShowCmdLine
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 384
-      Width = 208
+      Height = 17
+      Top = 291
+      Width = 148
       BorderSpacing.Top = 2
       Caption = 'Show &function key buttons'
       TabOrder = 14
@@ -123,9 +125,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbTwoDiskPanels
       AnchorSideTop.Side = asrBottom
       Left = 28
-      Height = 25
-      Top = 141
-      Width = 109
+      Height = 17
+      Top = 101
+      Width = 78
       BorderSpacing.Top = 2
       Caption = 'Flat buttons'
       Enabled = False
@@ -136,9 +138,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbShowDiskPanel
       AnchorSideTop.Side = asrBottom
       Left = 28
-      Height = 25
-      Top = 114
-      Width = 437
+      Height = 17
+      Top = 82
+      Width = 315
       BorderSpacing.Left = 16
       BorderSpacing.Top = 2
       Caption = 'Show two drive button bars (fixed width, above file windows)'
@@ -149,9 +151,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbFreespaceInd
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 249
-      Width = 141
+      Height = 17
+      Top = 196
+      Width = 101
       BorderSpacing.Top = 2
       Caption = 'Sho&w folder tabs'
       TabOrder = 9
@@ -160,9 +162,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbShowKeysPanel
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 411
-      Width = 116
+      Height = 17
+      Top = 310
+      Width = 84
       BorderSpacing.Top = 2
       Caption = 'Flat interface'
       TabOrder = 15
@@ -172,9 +174,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbShowMainToolBar
       AnchorSideTop.Side = asrBottom
       Left = 28
-      Height = 25
-      Top = 60
-      Width = 109
+      Height = 17
+      Top = 44
+      Width = 78
       BorderSpacing.Left = 16
       BorderSpacing.Top = 2
       Caption = 'Flat buttons'
@@ -184,9 +186,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbFlatInterface
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 438
-      Width = 145
+      Height = 17
+      Top = 329
+      Width = 102
       BorderSpacing.Top = 2
       Caption = 'Show log window'
       TabOrder = 16
@@ -195,21 +197,21 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbLogWindow
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 465
-      Width = 181
+      Height = 17
+      Top = 348
+      Width = 126
       BorderSpacing.Top = 2
       Caption = 'Show terminal window'
       OnChange = cbTermWindowChange
       TabOrder = 17
     end
     object cbFreespaceInd: TCheckBox
-      AnchorSideTop.Control = cbShowDriveFreeSpace
+      AnchorSideTop.Control = cbShowShortDriveFreeSpace
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 222
-      Width = 296
+      Height = 17
+      Top = 177
+      Width = 211
       BorderSpacing.Top = 2
       Caption = 'Show free space indicator on drive label'
       TabOrder = 8
@@ -218,9 +220,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbTermWindow
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 492
-      Width = 274
+      Height = 17
+      Top = 367
+      Width = 192
       BorderSpacing.Top = 2
       Caption = 'Show common progress in menu bar'
       TabOrder = 18
@@ -229,9 +231,9 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbProgInMenuBar
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 519
-      Width = 293
+      Height = 17
+      Top = 386
+      Width = 207
       BorderSpacing.Top = 2
       Caption = 'Show panel of operation in background'
       TabOrder = 19
@@ -240,12 +242,25 @@ inherited frmOptionsLayout: TfrmOptionsLayout
       AnchorSideTop.Control = cbShowDrivesListButton
       AnchorSideTop.Side = asrBottom
       Left = 12
-      Height = 25
-      Top = 195
-      Width = 175
+      Height = 17
+      Top = 139
+      Width = 125
       BorderSpacing.Top = 2
       Caption = 'Show free space label'
+      OnChange = cbShowDriveFreeSpaceChange
       TabOrder = 7
+    end
+    object cbShowShortDriveFreeSpace: TCheckBox
+      AnchorSideLeft.Control = cbFlatDiskPanel
+      AnchorSideTop.Control = cbShowDriveFreeSpace
+      AnchorSideTop.Side = asrBottom
+      Left = 28
+      Height = 17
+      Top = 158
+      Width = 153
+      BorderSpacing.Top = 2
+      Caption = 'Show short free space label'
+      TabOrder = 20
     end
   end
 end
