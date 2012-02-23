@@ -55,8 +55,10 @@ type
     cbShowTabs: TCheckBox;
     cbTermWindow: TCheckBox;
     cbTwoDiskPanels: TCheckBox;
+    cbShowShortDriveFreeSpace: TCheckBox;
     gbScreenLayout: TGroupBox;
     procedure cbShowDiskPanelChange(Sender: TObject);
+    procedure cbShowDriveFreeSpaceChange(Sender: TObject);
     procedure cbTermWindowChange(Sender: TObject);
   protected
     procedure Load; override;
@@ -80,6 +82,13 @@ begin
   cbTwoDiskPanels.Enabled := cbShowDiskPanel.Checked;
   cbFlatDiskPanel.Enabled := cbShowDiskPanel.Checked;
 end;
+
+procedure TfrmOptionsLayout.cbShowDriveFreeSpaceChange(Sender: TObject);
+begin
+  cbShowShortDriveFreeSpace.Enabled:= cbShowDriveFreeSpace.Checked;
+  if not(cbShowDriveFreeSpace.Checked) then cbShowShortDriveFreeSpace.Checked:= false;
+end;
+
 
 procedure TfrmOptionsLayout.cbTermWindowChange(Sender: TObject);
 begin
@@ -129,6 +138,7 @@ begin
   cbFreespaceInd.Checked := gDriveInd;
   cbProgInMenuBar.Checked := gProgInMenuBar;
   cbPanelOfOperations.Checked := gPanelOfOp;
+  cbShowShortDriveFreeSpace.Checked:= gShortFormatDriveInfo;
 end;
 
 function TfrmOptionsLayout.Save: TOptionsEditorSaveFlags;
@@ -155,6 +165,7 @@ begin
   gDriveInd := cbFreespaceInd.Checked;
   gProgInMenuBar := cbProgInMenuBar.Checked;
   gPanelOfOp := cbPanelOfOperations.Checked;
+  gShortFormatDriveInfo := cbShowShortDriveFreeSpace.Checked;
 end;
 
 end.

@@ -143,7 +143,8 @@ var
   gDriveFreeSpace,
   gProgInMenuBar,
   gPanelOfOp,
-  gHorizontalFilePanels: Boolean;
+  gHorizontalFilePanels,
+  gShortFormatDriveInfo: Boolean;
   gDrivesListButtonOptions: TDrivesListButtonOptions;
 
   { Toolbar }
@@ -771,6 +772,7 @@ begin
   gDriveFreeSpace := True;
   gProgInMenuBar := False;
   gPanelOfOp := True;
+  gShortFormatDriveInfo := True;
   gHorizontalFilePanels := False;
   gDrivesListButtonOptions := [dlbShowLabel, dlbShowFileSystem, dlbShowFreeSpace];
 
@@ -1642,6 +1644,7 @@ begin
       gProgInMenuBar := GetValue(Node, 'ProgressInMenuBar', gProgInMenuBar);
       gPanelOfOp := GetValue(Node, 'PanelOfOperationsInBackground', gPanelOfOp);
       gHorizontalFilePanels := GetValue(Node, 'HorizontalFilePanels', gHorizontalFilePanels);
+      gShortFormatDriveInfo := GetValue(Node, 'ShortFormatDriveInfo', gShortFormatDriveInfo);
     end;
 
     { Files views }
@@ -1966,6 +1969,7 @@ begin
     SetValue(Node, 'ProgressInMenuBar', gProgInMenuBar);
     SetValue(Node, 'PanelOfOperationsInBackground', gPanelOfOp);
     SetValue(Node, 'HorizontalFilePanels', gHorizontalFilePanels);
+    SetValue(Node, 'ShortFormatDriveInfo', gShortFormatDriveInfo);
 
     { Files views }
     Node := FindNode(Root, 'FilesViews', True);
