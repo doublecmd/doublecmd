@@ -206,6 +206,8 @@ end;
 { TShellContextMenu }
 
 constructor TShellContextMenu.Create(Parent: TWinControl; var Files : TFiles; Background: Boolean);
+var
+  UFlags: UINT = CMF_EXPLORE or CMF_CANRENAME;
 begin
   // Replace window procedure
   {$PUSH}{$HINTS OFF}
@@ -215,13 +217,16 @@ begin
   FFiles:= Files;
   FBackground:= Background;
   FShellMenu:= 0;
+  // Add extended verbs if shift key is down
+  if (ssShift in GetKeyShiftState) then
+    UFlags:= UFlags or CMF_EXTENDEDVERBS;
   try
     try
       FShellMenu1 := GetShellContextMenu(Parent.Handle, Files, Background);
       if Assigned(FShellMenu1) then
       begin
         FShellMenu := CreatePopupMenu;
-        OleCheckUTF8(FShellMenu1.QueryContextMenu(FShellMenu, 0, 1, USER_CMD_ID - 1, CMF_EXPLORE or CMF_CANRENAME));
+        OleCheckUTF8(FShellMenu1.QueryContextMenu(FShellMenu, 0, 1, USER_CMD_ID - 1, UFlags));
         FShellMenu1.QueryInterface(IID_IContextMenu2, ShellMenu2); // to handle submenus.
         FShellMenu1.QueryInterface(IID_IContextMenu3, ShellMenu3); // to handle submenus.
       end;
