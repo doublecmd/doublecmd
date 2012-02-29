@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     Shell context menu implementation.
 
-    Copyright (C) 2006-2010  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -73,7 +73,7 @@ implementation
 
 uses
   LCLProc, Dialogs, uGlobs, uLng, uMyWindows, uShellExecute,
-  fMain, uDCUtils, uFormCommands, uOSUtils;
+  fMain, uDCUtils, uFormCommands, uOSUtils, uShowMsg;
 
 const
   USER_CMD_ID = $1000;
@@ -201,6 +201,62 @@ begin
     Result:= GetBackgroundContextMenu(Handle, Files)
   else
     Result:= GetForegroundContextMenu(Handle, Files);
+end;
+
+type
+
+  { TShellThread }
+
+  TShellThread = class(TThread)
+  private
+    FParent: HWND;
+    FVerb: AnsiString;
+    FShellMenu: IContextMenu;
+  protected
+    procedure Execute; override;
+  public
+    constructor Create(Parent: HWND; ShellMenu: IContextMenu; Verb: AnsiString); reintroduce;
+    destructor Destroy; override;
+  end;
+
+{ TShellThread }
+
+procedure TShellThread.Execute;
+var
+  Result: HRESULT;
+  cmici: TCMINVOKECOMMANDINFO;
+begin
+  CoInitializeEx(nil, COINIT_APARTMENTTHREADED);
+  try
+    FillByte(cmici, SizeOf(cmici), 0);
+    with cmici do
+    begin
+      cbSize := SizeOf(cmici);
+      hwnd := FParent;
+      lpVerb := PAnsiChar(FVerb);
+      nShow := SW_NORMAL;
+    end;
+    Result:= FShellMenu.InvokeCommand(cmici);
+    if not (Succeeded(Result) or (Result = COPYENGINE_E_USER_CANCELLED)) then
+      msgError(Self, mbSysErrorMessage(Result));
+  finally
+    CoUninitialize;
+  end;
+end;
+
+constructor TShellThread.Create(Parent: HWND; ShellMenu: IContextMenu; Verb: AnsiString);
+begin
+  inherited Create(True);
+  FVerb:= Verb;
+  FParent:= Parent;
+  FShellMenu:= ShellMenu;
+  FreeOnTerminate:= True;
+end;
+
+destructor TShellThread.Destroy;
+begin
+  FShellMenu:= nil;
+  inherited Destroy;
 end;
 
 { TShellContextMenu }
@@ -433,14 +489,14 @@ begin
                   frmMain.actCopyToClipboard.Execute;
                   bHandled := True;
                 end
-              else if SameText(sVerb, sCmdVerbPaste) then
-                begin
-                  frmMain.actPasteFromClipboard.Execute;
-                  bHandled := True;
-                end
               else if SameText(sVerb, sCmdVerbNewFolder) then
                 begin
                   frmMain.actMakeDir.Execute;
+                  bHandled := True;
+                end
+              else if SameText(sVerb, sCmdVerbPaste) or SameText(sVerb, sCmdVerbDelete) then
+                begin
+                  TShellThread.Create(FParent.Handle, FShellMenu1, sVerb).Start;
                   bHandled := True;
                 end;
             end;
@@ -471,7 +527,10 @@ begin
           sCmd:= sl.Strings[cmd - USER_CMD_ID];
           if FBackground then
             begin
-              FormCommands.ExecuteCommand(sCmd);
+              if SameText(sCmd, 'cm_PasteFromClipboard') then
+                TShellThread.Create(FParent.Handle, FShellMenu1, sCmdVerbPaste).Start
+              else
+                FormCommands.ExecuteCommand(sCmd);
               bHandled:= True;
             end
           else
