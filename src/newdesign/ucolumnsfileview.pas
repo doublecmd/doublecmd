@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Graphics, Controls, Forms, StdCtrls, ExtCtrls, Grids,
-  LMessages, LCLIntf, LCLType, Menus,
+  LMessages, LCLIntf, LCLType, Menus, LCLVersion,
   uDragDropEx,
   uFile,
   uFileProperty,
@@ -116,6 +116,8 @@ type
 
     // Adapted from TCustomGrid.GetVisibleGrid only for visible rows.
     function GetVisibleRows: TRange;
+
+    function IsRowVisible(aRow: Integer): Boolean;
   end;
 
   { TColumnsFileView }
@@ -239,6 +241,9 @@ type
 
     procedure dgPanelEnter(Sender: TObject);
     procedure dgPanelExit(Sender: TObject);
+{$IF lcl_fullversion >= 093100}
+    procedure dgPanelBeforeSelection(Sender: TObject; aCol, aRow: Integer);
+{$ENDIF}
     procedure dgPanelDblClick(Sender: TObject);
     procedure dgPanelKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -1055,6 +1060,10 @@ procedure TColumnsFileView.dgPanelSelection(Sender: TObject; aCol, aRow: Integer
 var
   aFile: TFile = nil;
 begin
+{$IF lcl_fullversion >= 093100}
+  dgPanel.Options := dgPanel.Options - [goDontScrollPartCell];
+{$ENDIF}
+
   if (FLastActiveRow <> aRow) and (not FUpdatingGrid) then
     begin
       SetLastActiveFile(aRow);
@@ -1808,6 +1817,14 @@ begin
   UnMarkAll;
 end;
 
+{$IF lcl_fullversion >= 093100}
+procedure TColumnsFileView.dgPanelBeforeSelection(Sender: TObject; aCol, aRow: Integer);
+begin
+  if dgPanel.IsRowVisible(aRow) then
+    dgPanel.Options := dgPanel.Options + [goDontScrollPartCell];
+end;
+{$ENDIF}
+
 procedure TColumnsFileView.dgPanelDblClick(Sender: TObject);
 var
   Point : TPoint;
@@ -2349,6 +2366,9 @@ begin
   dgPanel.OnMouseWheelUp := @dgPanelMouseWheelUp;
   dgPanel.OnMouseWheelDown := @dgPanelMouseWheelDown;
   dgPanel.OnSelection:= @dgPanelSelection;
+{$IF lcl_fullversion >= 093100}
+  dgPanel.OnBeforeSelection:= @dgPanelBeforeSelection;
+{$ENDIF}
   dgPanel.OnShowHint:= @dgPanelShowHint;
   dgPanel.OnTopLeftChanged:= @dgPanelTopLeftChanged;
   dgpanel.OnResize:= @dgPanelResize;
@@ -3827,6 +3847,12 @@ begin
   end;
 end;
 
+function TDrawGridEx.IsRowVisible(aRow: Integer): Boolean;
+begin
+  with GCache.FullVisibleGrid do
+    Result:= (Top<=aRow)and(aRow<=Bottom);
+end;
+
 // -- TColumnsSortings --------------------------------------------------------
 
 procedure TColumnsSortings.AddSorting(iColumn : Integer; SortDirection : TSortDirection);
@@ -3909,4 +3935,4 @@ begin
 end;
 
 end.
-
+
