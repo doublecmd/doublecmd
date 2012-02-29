@@ -47,7 +47,7 @@ uses
   uGlobs, uOSUtils, uDCUtils, uLng, uDateTimeUtils, uFileSystemUtil, uTypes,
   uFileSourceOperationUI
   {$IF DEFINED(MSWINDOWS)}
-    , LCLProc
+    , Windows, ShellAPI, LCLProc
   {$ELSEIF DEFINED(UNIX)}
     , BaseUnix, FileUtil
   {$ENDIF}
@@ -255,6 +255,7 @@ var
   OldFileStat, NewFileStat: stat;
 {$ELSE}
   NewFileAttrs: TFileAttrs;
+  FileOpStruct: TSHFileOpStructW;
 {$ENDIF}
 begin
   if FileSource.GetPathType(NewName) <> ptAbsolute then
@@ -371,7 +372,15 @@ begin
     end;
   end;
 
-  if mbRenameFile(OldName, NewName) then
+  FillByte(FileOpStruct, SizeOf(FileOpStruct), 0);
+  with FileOpStruct do
+  begin
+    Wnd   := GetForegroundWindow;
+    wFunc := FO_RENAME;
+    pFrom := PWideChar(UTF8Decode(OldName) + #0);
+    pTo   := PWideChar(UTF8Decode(NewName) + #0);
+  end;
+  if (SHFileOperationW(@FileOpStruct) = 0) and (not FileOpStruct.fAnyOperationsAborted) then
 {$ENDIF}
 
     Result := sfprSuccess
