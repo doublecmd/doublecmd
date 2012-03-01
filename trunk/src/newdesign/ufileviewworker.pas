@@ -125,8 +125,8 @@ type
     class procedure MakeDisplayFileList(aFileSource: IFileSource;
                                         aFileSourceFiles: TFiles;
                                         aFiles: TDisplayFiles;
-                                        aFileFilter: String;
-                                        aFilterOptions: TQuickSearchOptions);
+                                        const aFileFilter: String;
+                                        const aFilterOptions: TQuickSearchOptions);
   end;
 
   { TFilePropertiesRetriever }
@@ -410,7 +410,7 @@ begin
 
     if Assigned(FTmpFileSourceFiles) then
     begin
-      TFileSorter.Sort(FTmpFileSourceFiles, FSortings);
+        TFileSorter.Sort(FTmpFileSourceFiles, FSortings);
 
       // Check if up-dir '..' is present.
       // If it is present it will usually be the first file.
@@ -475,8 +475,8 @@ class procedure TFileListBuilder.MakeDisplayFileList(
                   aFileSource: IFileSource;
                   aFileSourceFiles: TFiles;
                   aFiles: TDisplayFiles;
-                  aFileFilter: String;
-                  aFilterOptions: TQuickSearchOptions);
+                  const aFileFilter: String;
+                  const aFilterOptions: TQuickSearchOptions);
 var
   AFile: TDisplayFile;
   i: Integer;

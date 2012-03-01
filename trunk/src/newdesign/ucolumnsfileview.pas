@@ -234,8 +234,8 @@ type
 
     procedure edtRenameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 
-    procedure quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; ASearchOptions: TQuickSearchOptions; ASearchDirection: TQuickSearchDirection);
-    procedure quickSearchChangeFilter(Sender: TObject; AFilterText: UTF8String; AFilterOptions: TQuickSearchOptions);
+    procedure quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; const ASearchOptions: TQuickSearchOptions; ASearchDirection: TQuickSearchDirection);
+    procedure quickSearchChangeFilter(Sender: TObject; AFilterText: UTF8String; const AFilterOptions: TQuickSearchOptions);
     procedure quickSearchExecute(Sender: TObject);
     procedure quickSearchHide(Sender: TObject);
 
@@ -1692,14 +1692,14 @@ begin
   end;
 end;
 
-procedure TColumnsFileView.quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; ASearchOptions: TQuickSearchOptions; ASearchDirection: TQuickSearchDirection);
+procedure TColumnsFileView.quickSearchChangeSearch(Sender: TObject; ASearchText: UTF8String; const ASearchOptions: TQuickSearchOptions; ASearchDirection: TQuickSearchDirection);
 begin
   SetActive(True);
 
   SearchFile(ASearchText, ASearchOptions, ASearchDirection);
 end;
 
-procedure TColumnsFileView.quickSearchChangeFilter(Sender: TObject; AFilterText: UTF8String; AFilterOptions: TQuickSearchOptions);
+procedure TColumnsFileView.quickSearchChangeFilter(Sender: TObject; AFilterText: UTF8String; const AFilterOptions: TQuickSearchOptions);
 begin
   SetActive(True);
 
@@ -1711,9 +1711,6 @@ begin
 
   lblFilter.Caption := Format('(%s: %s)', [rsFilterStatus, AFilterText]);
   lblFilter.Visible := Filtered;
-
-  // force update
-  UpdateView;
 end;
 
 procedure TColumnsFileView.quickSearchExecute(Sender: TObject);
