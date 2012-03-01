@@ -21,8 +21,8 @@ type
     Items: TQuickSearchItems;
   end;
 
-  TOnChangeSearch = procedure(Sender: TObject; ASearchText: UTF8String; ASearchOptions: TQuickSearchOptions; Direction: TQuickSearchDirection = qsdNone) of Object;
-  TOnChangeFilter = procedure(Sender: TObject; AFilterText: UTF8String; AFilterOptions: TQuickSearchOptions) of Object;
+  TOnChangeSearch = procedure(Sender: TObject; ASearchText: UTF8String; const ASearchOptions: TQuickSearchOptions; Direction: TQuickSearchDirection = qsdNone) of Object;
+  TOnChangeFilter = procedure(Sender: TObject; AFilterText: UTF8String; const AFilterOptions: TQuickSearchOptions) of Object;
   TOnExecute = procedure(Sender: TObject) of Object;
   TOnHide = procedure(Sender: TObject) of Object;
 

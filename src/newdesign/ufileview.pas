@@ -335,7 +335,7 @@ type
     procedure GoToPrevHistory;
     procedure GoToNextHistory;
 
-    procedure SetFileFilter(const NewFilter: String; NewFilterOptions: TQuickSearchOptions);
+    procedure SetFileFilter(NewFilter: String; NewFilterOptions: TQuickSearchOptions);
 
     property CurrentAddress: String read GetCurrentAddress;
     property CurrentFileSourceIndex: Integer read GetCurrentFileSourceIndex;
@@ -1536,7 +1536,7 @@ begin
   Result := FWatchPath <> EmptyStr;
 end;
 
-procedure TFileView.SetFileFilter(const NewFilter: String; NewFilterOptions: TQuickSearchOptions);
+procedure TFileView.SetFileFilter(NewFilter: String; NewFilterOptions: TQuickSearchOptions);
 begin
   // do not reload if filter has not changed
   if (FFileFilter = NewFilter) and (FFilterOptions = NewFilterOptions) then
