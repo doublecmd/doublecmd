@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Double Commander 0.5.5 alpha\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-07 21:08+0300\n"
-"PO-Revision-Date: 2012-02-07 21:08+0300\n"
+"PO-Revision-Date: 2012-02-17 18:18+0300\n"
 "Last-Translator: Roberto Rossi (http://www.redchar.net)\n"
 "Language-Team: Roberto Rossi (http://www.redchar.net)\n"
 "MIME-Version: 1.0\n"
@@ -1443,7 +1443,7 @@ msgstr "Apri"
 
 #: TFRMFILEASSOC.MISHELL.CAPTION
 msgid "Run in terminal"
-msgstr "Exécuter dans un terminal"
+msgstr "Esegui in modalità terminale"
 
 #: TFRMFILEASSOC.MIVFS.CAPTION
 msgid "Open in VFS"
@@ -1466,7 +1466,7 @@ msgstr "&Chiudi"
 #: TFRMFILEEXECUTEYOURSELF.CAPTION
 msgctxt "TFRMFILEEXECUTEYOURSELF.CAPTION"
 msgid "Wait..."
-msgstr "Attendre..."
+msgstr "Attendere..."
 
 #: TFRMFILEEXECUTEYOURSELF.LBLFILENAME.CAPTION
 msgid "File name:"
@@ -1966,7 +1966,7 @@ msgstr "Crea un Hard Link"
 #: TFRMHARDLINK.LBLEXISTINGFILE.CAPTION
 msgctxt "TFRMHARDLINK.LBLEXISTINGFILE.CAPTION"
 msgid "Destination that the link will point to"
-msgstr "Destinazione a cui punto il collegamento"
+msgstr "Destinazione a cui punta il collegamento"
 
 #: TFRMHARDLINK.LBLLINKTOCREATE.CAPTION
 msgctxt "TFRMHARDLINK.LBLLINKTOCREATE.CAPTION"
@@ -2562,7 +2562,7 @@ msgstr "&Visita il sito di Double Commander"
 
 #: TFRMMAIN.ACTWIPE.CAPTION
 msgid "Wipe"
-msgstr "Wipe"
+msgstr "Azzera"
 
 #: TFRMMAIN.ALLOPCANCEL.CAPTION
 msgctxt "TFRMMAIN.ALLOPCANCEL.CAPTION"
@@ -3183,7 +3183,7 @@ msgstr "[E] Estensione"
 #: TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION
 msgctxt "TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION"
 msgid "MultiRename"
-msgstr "Multi Rinomina"
+msgstr "Rinomina Multipla"
 
 #: TFRMMULTIRENAME.GBCOUNTER.CAPTION
 msgid "Counter"
@@ -3203,7 +3203,7 @@ msgstr "Filtro"
 
 #: TFRMMULTIRENAME.GBPRESETS.CAPTION
 msgid "Presets"
-msgstr "Preseletionati"
+msgstr "Preselezionati"
 
 #: TFRMMULTIRENAME.LBEXT.CAPTION
 msgid "&Extension"
@@ -4532,7 +4532,7 @@ msgstr "Usa programma esterno"
 
 #: TFRMOPTIONSTOOLBASE.LBLTOOLSPARAMETERS.CAPTION
 msgid "Additional parameters"
-msgstr "Parametri addizzionali"
+msgstr "Parametri addizionali"
 
 #: TFRMOPTIONSTOOLBASE.LBLTOOLSPATH.CAPTION
 msgid "Path to program to execute"
@@ -4571,7 +4571,7 @@ msgstr "Campi personalizzati per tipo file"
 #: TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.GBSHOWTOOLTIP.CAPTION"
 msgid "Show tool tip"
-msgstr "Mostra tooltip"
+msgstr "Mostra trucco"
 
 #: TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.LBLFIELDSLIST.CAPTION"
@@ -4591,7 +4591,7 @@ msgstr "Nome categoria:"
 #: TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPALLFILES.CAPTION"
 msgid "Show tool tip for all files in file panel"
-msgstr "Mostra tooltip per tutti i file del pannello"
+msgstr "Mostra trucchi per tutti i file del pannello"
 
 #: TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPNONE.CAPTION"
@@ -4601,7 +4601,7 @@ msgstr "Non mostrare"
 #: TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION
 msgctxt "TFRMOPTIONSTOOLTIPS.RBTOOLTIPONLYLARGE.CAPTION"
 msgid "Show tool tip for files in file panel if truncated"
-msgstr "Mostra tooltip per i file nel pannello file se troncato"
+msgstr "Mostra trucchi per i file nel pannello file se troncato"
 
 #: TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION
 msgctxt "TFRMOPTIONSVIEWER.BTNBACKVIEWERCOLOR.CAPTION"
@@ -5701,7 +5701,7 @@ msgstr "Date"
 
 #: ulng.rscolext
 msgid "Ext"
-msgstr "Ext"
+msgstr "Estensione"
 
 #: ulng.rscolname
 msgctxt "ulng.rscolname"
@@ -7189,7 +7189,7 @@ msgstr "Anno(s)"
 
 #: ulng.rstooldiffer
 msgid "Differ"
-msgstr "Differene"
+msgstr "Differenze"
 
 #: ulng.rstooleditor
 msgctxt "ulng.rstooleditor"
