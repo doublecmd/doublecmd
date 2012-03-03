@@ -4243,8 +4243,8 @@ begin
           else
             begin
               sDir:= Trim(RemoveQuotation(Copy(sCmd, iIndex + 3, Length(sCmd))));
-              sDir:= IncludeTrailingBackslash(sDir);
-              sDir:= ReplaceTilde(sDir);
+              sDir:= ReplaceTilde(IncludeTrailingBackslash(sDir));
+              sDir:= GetAbsoluteFileName(ActiveFrame.CurrentPath, sDir);
             end;
 
           // Choose FileSource by path
