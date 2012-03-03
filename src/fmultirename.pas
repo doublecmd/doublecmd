@@ -616,7 +616,11 @@ begin
         // Assume it is date/time formatting string ([h][n][s][Y][M][D]).
         with FFiles.Items[ItemNr] do
           if fpModificationTime in SupportedProperties then
+          try
             Result := SysToUTF8(FormatDateTime(sFormatStr, ModificationTime));
+          except
+            Result := sFormatStr;
+          end;
       end;
     end;
   end;
@@ -1188,4 +1192,4 @@ begin
 end;
 
 end.
-
+
