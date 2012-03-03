@@ -3,7 +3,7 @@
     -------------------------------------------------------------------------
     This unit contains platform depended functions.
 
-    Copyright (C) 2006-2011  Koblov Alexander (Alexx2000@mail.ru)
+    Copyright (C) 2006-2012  Koblov Alexander (Alexx2000@mail.ru)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -1023,10 +1023,11 @@ function IsAvailable(Drive: PDrive; TryMount: Boolean): Boolean;
 var
   Drv: String;
   DriveLabel: String;
+  NetResource: TNetResourceW;
 begin
   Drv:= ExtractFileDrive(Drive^.Path) + PathDelim;
 
-  { Close CD/DVD }
+  // Try to close CD/DVD drive
   if (GetDriveType(PChar(Drv)) = DRIVE_CDROM) and
      TryMount and (not mbDriveReady(Drv)) then
     begin
@@ -1034,6 +1035,16 @@ begin
        mbCloseCD(Drv);
        if mbDriveReady(Drv) then
          mbWaitLabelChange(Drv, DriveLabel);
+    end;
+  // Try to connect to mapped network drive
+  if (Drive^.DriveType = dtNetwork) and
+     TryMount and (not mbDriveReady(Drv)) then
+    begin
+      FillChar(NetResource, SizeOf(NetResource), #0);
+      NetResource.dwType:= RESOURCETYPE_DISK;
+      NetResource.lpLocalName:= PWideChar(UTF8Decode(ExtractFileDrive(Drive^.Path)));
+      NetResource.lpRemoteName:= PWideChar(UTF8Decode(Drive^.DriveLabel));
+      WNetAddConnection2W(NetResource, nil, nil, CONNECT_INTERACTIVE);
     end;
   Result:= mbDriveReady(Drv);
 end;
