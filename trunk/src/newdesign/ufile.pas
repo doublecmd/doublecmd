@@ -181,10 +181,13 @@ type
 
   // --------------------------------------------------------------------------
 
+  { TFiles }
+
   TFiles = class { A list of TFile }
 
   private
     FList: TFPList;
+    FOwnsObjects: Boolean;
     FPath: String; //<en path of all files
 
   protected
@@ -213,6 +216,7 @@ type
     property Count: Integer read GetCount write SetCount;
     property Items[Index: Integer]: TFile read Get write Put; default;
     property List: TFPList read FList;
+    property OwnsObjects: Boolean read FOwnsObjects write FOwnsObjects;
     property Path: String read FPath write SetPath;
 
   end;
@@ -740,6 +744,7 @@ constructor TFiles.Create(const APath: String);
 begin
   inherited Create;
   FList := TFPList.Create;
+  FOwnsObjects := True;
   Path := APath;
 end;
 
@@ -791,11 +796,13 @@ var
   i: Integer;
   p: Pointer;
 begin
-  for i := 0 to FList.Count - 1 do
+  if OwnsObjects then
   begin
-    p := FList.Items[i];
-    if Assigned(p) then
+    for i := 0 to FList.Count - 1 do
+    begin
+      p := FList.Items[i];
       TFile(p).Free;
+    end;
   end;
 
   FList.Clear;

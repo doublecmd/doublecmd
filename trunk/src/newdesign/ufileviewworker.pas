@@ -5,7 +5,7 @@ unit uFileViewWorker;
 interface
 
 uses
-  Classes, SysUtils, contnrs, syncobjs,
+  Classes, SysUtils, contnrs, syncobjs, StringHashList,
   uDisplayFile, uFile, uFileSource, uFileSorting, uFileProperty,
   uFileSourceOperation,
   uFileSourceListOperation,
@@ -68,8 +68,8 @@ type
     property Data[Index: Integer]: Pointer read GetData;
   end;
 
-  TSetFileListMethod = procedure (var NewDisplayFiles: TDisplayFiles;
-                                  var NewFileSourceFiles: TFiles) of object;
+  TSetFileListMethod = procedure (var NewAllDisplayFiles: TDisplayFiles;
+                                  var NewFilteredDisplayFiles: TDisplayFiles) of object;
   TUpdateFileMethod = procedure (const UpdatedFile: TDisplayFile;
                                  const UserData: Pointer) of object;
 
@@ -77,8 +77,9 @@ type
 
   TFileListBuilder = class(TFileViewWorker)
   private
-    FTmpFileSourceFiles: TFiles;
-    FTmpDisplayFiles: TDisplayFiles;
+    FFilteredDisplayFiles: TDisplayFiles;
+    FAllDisplayFiles: TDisplayFiles;
+    FExistingDisplayFilesHashed: TStringHashList;
     FSetFileListMethod: TSetFileListMethod;
     FListOperation: TFileSourceListOperation;
     FListOperationLock: TCriticalSection;
@@ -114,7 +115,9 @@ type
                        const ASorting: TFileSortings;
                        AThread: TThread;
                        AFilePropertiesNeeded: TFilePropertiesTypes;
-                       ASetFileListMethod: TSetFileListMethod); reintroduce;
+                       ASetFileListMethod: TSetFileListMethod;
+                       var ExistingDisplayFiles: TDisplayFiles;
+                       var ExistingDisplayFilesHashed: TStringHashList); reintroduce;
     destructor Destroy; override;
     procedure Abort; override;
 
@@ -122,11 +125,21 @@ type
        Fills aFiles with files from aFileSourceFiles.
        Filters out any files that shouldn't be shown using aFileFilter.
     }
-    class procedure MakeDisplayFileList(aFileSource: IFileSource;
-                                        aFileSourceFiles: TFiles;
-                                        aFiles: TDisplayFiles;
+    class procedure MakeDisplayFileList(allDisplayFiles: TDisplayFiles;
+                                        filteredDisplayFiles: TDisplayFiles;
                                         const aFileFilter: String;
                                         const aFilterOptions: TQuickSearchOptions);
+
+    class procedure MakeAllDisplayFileList(aFileSource: IFileSource;
+                                           aFileSourceFiles: TFiles;
+                                           aDisplayFiles: TDisplayFiles;
+                                           const aSortings: TFileSortings);
+
+    class procedure MakeAllDisplayFileList(aFileSource: IFileSource;
+                                           aFileSourceFiles: TFiles;
+                                           aExistingDisplayFiles: TDisplayFiles;
+                                           const aSortings: TFileSortings;
+                                           aExistingDisplayFilesHashed: TStringHashList);
   end;
 
   { TFilePropertiesRetriever }
@@ -188,9 +201,15 @@ type
     procedure Abort; override;
   end;
 
+{$IFDEF timeFileView}
+var
+  filelistLoaderTime: TDateTime;
+{$ENDIF}
+
 implementation
 
 uses
+  {$IFDEF timeFileView} uDebug, {$ENDIF}
   LCLProc,
   uFileSourceOperationTypes, uOSUtils, uDCUtils, uExceptions,
   uGlobs, uMasks, uPixMapManager, uFileSourceProperty,
@@ -217,8 +236,7 @@ function TFVWorkerFileList.AddClone(const AFile: TDisplayFile; UserData: Pointer
 var
   ClonedFile: TDisplayFile;
 begin
-  ClonedFile := AFile.Clone(AFile.FSFile.Clone);
-  ClonedFile.OwnsFSFile := True;
+  ClonedFile := AFile.Clone(True);
   Result := FFiles.Add(ClonedFile);
   FUserData.Add(UserData);
 end;
@@ -327,15 +345,20 @@ constructor TFileListBuilder.Create(AFileSource: IFileSource;
                                     const ASorting: TFileSortings;
                                     AThread: TThread;
                                     AFilePropertiesNeeded: TFilePropertiesTypes;
-                                    ASetFileListMethod: TSetFileListMethod);
+                                    ASetFileListMethod: TSetFileListMethod;
+                                    var ExistingDisplayFiles: TDisplayFiles;
+                                    var ExistingDisplayFilesHashed: TStringHashList);
 begin
   inherited Create(AThread);
 
-  FTmpFileSourceFiles := nil;
-  FTmpDisplayFiles    := nil;
-  FWorkType           := fvwtCreate;
-  FListOperation      := nil;
-  FListOperationLock  := TCriticalSection.Create;
+  FAllDisplayFiles            := ExistingDisplayFiles;
+  ExistingDisplayFiles        := nil;
+  FExistingDisplayFilesHashed := ExistingDisplayFilesHashed;
+  ExistingDisplayFilesHashed  := nil;
+
+  FWorkType              := fvwtCreate;
+  FListOperation         := nil;
+  FListOperationLock     := TCriticalSection.Create;
 
   FFileSource           := AFileSource;
   FFileSourcesCount     := AFileSourcesCount;
@@ -351,6 +374,9 @@ destructor TFileListBuilder.Destroy;
 begin
   inherited Destroy;
   FListOperationLock.Free;
+  FExistingDisplayFilesHashed.Free;
+  FFilteredDisplayFiles.Free;
+  FAllDisplayFiles.Free;
 end;
 
 procedure TFileListBuilder.Abort;
@@ -371,6 +397,7 @@ var
   AFile: TFile;
   i: Integer;
   HaveUpDir: Boolean = False;
+  FileSourceFiles: TFiles;
 begin
   try
     if Aborted then
@@ -390,7 +417,7 @@ begin
         FListOperation.AssignThread(Thread);
         FListOperation.Execute;
         if FListOperation.Result = fsorFinished then
-          FTmpFileSourceFiles := FListOperation.ReleaseFiles;
+          FileSourceFiles := FListOperation.ReleaseFiles;
       finally
         FListOperationLock.Acquire;
         try
@@ -402,21 +429,19 @@ begin
     end;
 
     {$IFDEF timeFileView}
-    DCDebug('Loaded files   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+    DCDebug('Loaded files         : ' + IntToStr(DateTimeToTimeStamp(Now - filelistLoaderTime).Time));
     {$ENDIF}
 
     if Aborted then
       Exit;
 
-    if Assigned(FTmpFileSourceFiles) then
+    if Assigned(FileSourceFiles) then
     begin
-        TFileSorter.Sort(FTmpFileSourceFiles, FSortings);
-
       // Check if up-dir '..' is present.
       // If it is present it will usually be the first file.
-      for i := 0 to FTmpFileSourceFiles.Count - 1 do
+      for i := 0 to FileSourceFiles.Count - 1 do
       begin
-        if FTmpFileSourceFiles[i].Name = '..' then
+        if FileSourceFiles[i].Name = '..' then
         begin
           HaveUpDir := True;
           Break;
@@ -432,23 +457,43 @@ begin
         AFile.Name := '..';
         if fpAttributes in AFile.SupportedProperties then
           AFile.Attributes := faFolder;
-        FTmpFileSourceFiles.Insert(AFile, 0);
+        FileSourceFiles.Insert(AFile, 0);
       end;
     end;
 
     if Aborted then
       Exit;
 
+    // Make display file list from file source file list.
+    if Assigned(FAllDisplayFiles) and Assigned(FExistingDisplayFilesHashed) then
+    begin
+      // Updating existing list.
+      MakeAllDisplayFileList(
+        FFileSource, FileSourceFiles, FAllDisplayFiles, FSortings, FExistingDisplayFilesHashed);
+    end
+    else
+    begin
+      // Creating new list.
+      if Assigned(FAllDisplayFiles) then
+        FAllDisplayFiles.Clear
+      else
+        FAllDisplayFiles := TDisplayFiles.Create(True);
+      MakeAllDisplayFileList(FFileSource, FileSourceFiles, FAllDisplayFiles, FSortings);
+    end;
+
+    // By now the TFile objects have been transfered to FAllDisplayFiles.
+    if Assigned(FileSourceFiles) then
+      FileSourceFiles.OwnsObjects := False;
+
     {$IFDEF timeFileView}
-    DCDebug('Sorted files   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+    DCDebug('Made sorted disp.lst: ' + IntToStr(DateTimeToTimeStamp(Now - filelistLoaderTime).Time));
     {$ENDIF}
 
-    // Make display file list from file source file list.
-    FTmpDisplayFiles := TDisplayFiles.Create;
-    MakeDisplayFileList(FFileSource, FTmpFileSourceFiles, FTmpDisplayFiles, FFileFilter, FFilterOptions);
+    FFilteredDisplayFiles := TDisplayFiles.Create(False);
+    MakeDisplayFileList(FAllDisplayFiles, FFilteredDisplayFiles, FFileFilter, FFilterOptions);
 
     {$IFDEF timeFileView}
-    DCDebug('Made disp. list: ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+    DCDebug('Made filtered list  : ' + IntToStr(DateTimeToTimeStamp(Now - filelistLoaderTime).Time));
     {$ENDIF}
 
     if Aborted then
@@ -458,27 +503,26 @@ begin
     TThread.Synchronize(Thread, @DoSetFilelist);
 
     {$IFDEF timeFileView}
-    DCDebug('Grid updated   : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+    DCDebug('Grid files updated  : ' + IntToStr(DateTimeToTimeStamp(Now - filelistLoaderTime).Time));
     {$ENDIF}
 
   finally
     {$IFDEF timeFileView}
-    DCDebug('Finished       : ' + IntToStr(DateTimeToTimeStamp(Now - startTime).Time));
+    DCDebug('Finished            : ' + IntToStr(DateTimeToTimeStamp(Now - filelistLoaderTime).Time));
     {$ENDIF}
 
-    FreeThenNil(FTmpDisplayFiles);
-    FreeThenNil(FTmpFileSourceFiles);
+    FreeAndNil(FFilteredDisplayFiles);
+    FreeAndNil(FileSourceFiles);
+    FreeAndNil(FAllDisplayFiles);
   end;
 end;
 
 class procedure TFileListBuilder.MakeDisplayFileList(
-                  aFileSource: IFileSource;
-                  aFileSourceFiles: TFiles;
-                  aFiles: TDisplayFiles;
-                  const aFileFilter: String;
-                  const aFilterOptions: TQuickSearchOptions);
+  allDisplayFiles: TDisplayFiles;
+  filteredDisplayFiles: TDisplayFiles;
+  const aFileFilter: String;
+  const aFilterOptions: TQuickSearchOptions);
 var
-  AFile: TDisplayFile;
   i: Integer;
   invalidFilter: Boolean = False;
   sFileName,
@@ -487,9 +531,9 @@ var
   localFilter: String;
   filter: Boolean;
 begin
-  aFiles.Clear;
+  filteredDisplayFiles.Clear;
 
-  if Assigned(aFileSourceFiles) then
+  if Assigned(allDisplayFiles) then
   begin
     // Prepare filter string based on options.
     if aFileFilter <> EmptyStr then
@@ -513,18 +557,18 @@ begin
         end;
     end;
 
-    for i := 0 to aFileSourceFiles.Count - 1 do
+    for i := 0 to allDisplayFiles.Count - 1 do
     begin
       if gShowSystemFiles = False then
       begin
-        if aFileSourceFiles[i].IsSysFile and (aFileSourceFiles[i].Name <> '..') then
+        if allDisplayFiles[i].FSFile.IsSysFile and (allDisplayFiles[i].FSFile.Name <> '..') then
           Continue;
       end;
 
       // Ignore list
       if gIgnoreListFileEnabled then
       begin
-        if MatchesMaskListEx(aFileSourceFiles[i], glsIgnoreList) then Continue;
+        if MatchesMaskListEx(allDisplayFiles[i].FSFile, glsIgnoreList) then Continue;
       end;
 
       // Filter files.
@@ -533,24 +577,24 @@ begin
         try
           filter := True;
 
-          if (aFileSourceFiles[i].Name = '..') or
-             (aFileSourceFiles[i].Name = '.') then
+          if (allDisplayFiles[i].FSFile.Name = '..') or
+             (allDisplayFiles[i].FSFile.Name = '.') then
             filter := False;
 
           if (aFilterOptions.Items = qsiFiles) and
-             (aFileSourceFiles[i].IsDirectory or
-              aFileSourceFiles[i].IsLinkToDirectory) then
+             (allDisplayFiles[i].FSFile.IsDirectory or
+              allDisplayFiles[i].FSFile.IsLinkToDirectory) then
             filter := False;
 
           if (aFilterOptions.Items = qsiDirectories) and
-             not aFileSourceFiles[i].IsDirectory and
-             not aFileSourceFiles[i].IsLinkToDirectory then
+             not allDisplayFiles[i].FSFile.IsDirectory and
+             not allDisplayFiles[i].FSFile.IsLinkToDirectory then
             filter := False;
 
           if aFilterOptions.SearchCase = qscSensitive then
-            sFileName := aFileSourceFiles[i].Name
+            sFileName := allDisplayFiles[i].FSFile.Name
           else
-            sFileName := UTF8LowerCase(aFileSourceFiles[i].Name);
+            sFileName := UTF8LowerCase(allDisplayFiles[i].FSFile.Name);
 
           if MatchesMask(sFileName,
                          localFilter,
@@ -567,6 +611,26 @@ begin
         end;
       end;
 
+      filteredDisplayFiles.Add(allDisplayFiles[i]);
+    end;
+  end;
+end;
+
+class procedure TFileListBuilder.MakeAllDisplayFileList(
+  aFileSource: IFileSource;
+  aFileSourceFiles: TFiles;
+  aDisplayFiles: TDisplayFiles;
+  const aSortings: TFileSortings);
+var
+  i: PtrInt;
+  AFile: TDisplayFile;
+begin
+  aDisplayFiles.Clear;
+
+  if Assigned(aFileSourceFiles) then
+  begin
+    for i := 0 to aFileSourceFiles.Count - 1 do
+    begin
       AFile := TDisplayFile.Create(aFileSourceFiles[i]);
 
       if gShowIcons <> sim_none then
@@ -576,8 +640,70 @@ begin
                                                     not gLoadIconsSeparately);
       end;
 
-      aFiles.Add(AFile);
+      aDisplayFiles.Add(AFile);
     end;
+    TFileSorter.Sort(aDisplayFiles, aSortings);
+  end;
+end;
+
+class procedure TFileListBuilder.MakeAllDisplayFileList(
+  aFileSource: IFileSource;
+  aFileSourceFiles: TFiles;
+  aExistingDisplayFiles: TDisplayFiles;
+  const aSortings: TFileSortings;
+  aExistingDisplayFilesHashed: TStringHashList);
+var
+  i: PtrInt;
+  j: Integer;
+  AFile: TDisplayFile;
+  aNewFiles: TDisplayFiles;
+begin
+  if Assigned(aFileSourceFiles) then
+  begin
+    aNewFiles := TDisplayFiles.Create(False);
+    try
+      for i := 0 to aFileSourceFiles.Count - 1 do
+      begin
+        j := aExistingDisplayFilesHashed.Find(aFileSourceFiles[i].Name);
+        if j >= 0 then
+        begin
+          // Existing file.
+          AFile := TDisplayFile(aExistingDisplayFilesHashed.List[j]^.Data);
+          AFile.FSFile := aFileSourceFiles[i];
+        end
+        else
+        begin
+          AFile := TDisplayFile.Create(aFileSourceFiles[i]);
+
+          if gShowIcons <> sim_none then
+          begin
+            AFile.IconID := PixMapManager.GetIconByFile(AFile.FSFile,
+                                                        fspDirectAccess in aFileSource.Properties,
+                                                        not gLoadIconsSeparately);
+          end;
+
+          // New file.
+          aNewFiles.Add(AFile);
+        end;
+      end;
+
+      // Remove files that don't exist anymore.
+      for i := aExistingDisplayFiles.Count - 1 downto 0 do
+      begin
+        if not Assigned(aExistingDisplayFiles[i].FSFile) then
+          aExistingDisplayFiles.Delete(i);
+      end;
+
+      // Merge new files into existing files list.
+      TFileSorter.InsertSort(aNewFiles, aExistingDisplayFiles, aSortings);
+
+    finally
+      aNewFiles.Free;
+    end;
+  end
+  else
+  begin
+    aExistingDisplayFiles.Clear;
   end;
 end;
 
@@ -585,7 +711,7 @@ procedure TFileListBuilder.DoSetFileList;
 begin
   DoneWorking;
   if not Aborted and Assigned(FSetFileListMethod) then
-    FSetFileListMethod(FTmpDisplayFiles, FTmpFileSourceFiles);
+    FSetFileListMethod(FAllDisplayFiles, FFilteredDisplayFiles);
 end;
 
 { TFilePropertiesRetriever }
