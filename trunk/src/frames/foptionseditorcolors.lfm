@@ -1,0 +1,1172 @@
+inherited frmOptionsEditorColors: TfrmOptionsEditorColors
+  Height = 357
+  Width = 606
+  ClientHeight = 357
+  ClientWidth = 606
+  DesignLeft = 334
+  DesignTop = 116
+  object pnlTop: TPanel[0]
+    Left = 0
+    Height = 24
+    Top = 0
+    Width = 606
+    Align = alTop
+    AutoSize = True
+    BevelOuter = bvNone
+    ChildSizing.HorizontalSpacing = 3
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 4
+    ClientHeight = 24
+    ClientWidth = 606
+    Constraints.MaxWidth = 1000
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 0
+    object cmbLanguage: TComboBox
+      AnchorSideTop.Side = asrBottom
+      Left = 0
+      Height = 21
+      Top = 3
+      Width = 319
+      BorderSpacing.Top = 3
+      ItemHeight = 13
+      OnChange = cmbLanguageChange
+      Style = csDropDownList
+      TabOrder = 0
+    end
+    object stFileExtensions: TStaticText
+      AnchorSideBottom.Side = asrBottom
+      Left = 322
+      Height = 21
+      Top = 3
+      Width = 284
+      TabOrder = 1
+    end
+  end
+  object PnlTop2: TPanel[1]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = pnlTop
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 0
+    Height = 133
+    Top = 24
+    Width = 606
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BevelOuter = bvNone
+    ClientHeight = 133
+    ClientWidth = 606
+    TabOrder = 1
+    inline ColorPreview: TSynEdit
+      Left = 211
+      Height = 132
+      Top = 1
+      Width = 395
+      Align = alClient
+      BorderSpacing.Left = 1
+      BorderSpacing.Top = 1
+      Font.Height = -16
+      Font.Name = 'courier'
+      Font.Pitch = fpFixed
+      Font.Quality = fqNonAntialiased
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 0
+      TabStop = False
+      BookMarkOptions.Xoffset = 30
+      Gutter.Width = 59
+      Gutter.MouseActions = <      
+        item
+          ClickCount = ccAny
+          ClickDir = cdDown
+          Command = emcOnMainGutterClick
+        end      
+        item
+          Button = mbRight
+          Command = emcContextMenu
+        end>
+      RightGutter.Width = 0
+      RightGutter.MouseActions = <      
+        item
+          ClickCount = ccAny
+          ClickDir = cdDown
+          Command = emcOnMainGutterClick
+        end      
+        item
+          Button = mbRight
+          Command = emcContextMenu
+        end>
+      Keystrokes = <      
+        item
+          Command = ecUp
+          ShortCut = 38
+        end      
+        item
+          Command = ecSelUp
+          ShortCut = 8230
+        end      
+        item
+          Command = ecScrollUp
+          ShortCut = 16422
+        end      
+        item
+          Command = ecDown
+          ShortCut = 40
+        end      
+        item
+          Command = ecSelDown
+          ShortCut = 8232
+        end      
+        item
+          Command = ecScrollDown
+          ShortCut = 16424
+        end      
+        item
+          Command = ecLeft
+          ShortCut = 37
+        end      
+        item
+          Command = ecSelLeft
+          ShortCut = 8229
+        end      
+        item
+          Command = ecWordLeft
+          ShortCut = 16421
+        end      
+        item
+          Command = ecSelWordLeft
+          ShortCut = 24613
+        end      
+        item
+          Command = ecRight
+          ShortCut = 39
+        end      
+        item
+          Command = ecSelRight
+          ShortCut = 8231
+        end      
+        item
+          Command = ecWordRight
+          ShortCut = 16423
+        end      
+        item
+          Command = ecSelWordRight
+          ShortCut = 24615
+        end      
+        item
+          Command = ecPageDown
+          ShortCut = 34
+        end      
+        item
+          Command = ecSelPageDown
+          ShortCut = 8226
+        end      
+        item
+          Command = ecPageBottom
+          ShortCut = 16418
+        end      
+        item
+          Command = ecSelPageBottom
+          ShortCut = 24610
+        end      
+        item
+          Command = ecPageUp
+          ShortCut = 33
+        end      
+        item
+          Command = ecSelPageUp
+          ShortCut = 8225
+        end      
+        item
+          Command = ecPageTop
+          ShortCut = 16417
+        end      
+        item
+          Command = ecSelPageTop
+          ShortCut = 24609
+        end      
+        item
+          Command = ecLineStart
+          ShortCut = 36
+        end      
+        item
+          Command = ecSelLineStart
+          ShortCut = 8228
+        end      
+        item
+          Command = ecEditorTop
+          ShortCut = 16420
+        end      
+        item
+          Command = ecSelEditorTop
+          ShortCut = 24612
+        end      
+        item
+          Command = ecLineEnd
+          ShortCut = 35
+        end      
+        item
+          Command = ecSelLineEnd
+          ShortCut = 8227
+        end      
+        item
+          Command = ecEditorBottom
+          ShortCut = 16419
+        end      
+        item
+          Command = ecSelEditorBottom
+          ShortCut = 24611
+        end      
+        item
+          Command = ecToggleMode
+          ShortCut = 45
+        end      
+        item
+          Command = ecCopy
+          ShortCut = 16429
+        end      
+        item
+          Command = ecPaste
+          ShortCut = 8237
+        end      
+        item
+          Command = ecDeleteChar
+          ShortCut = 46
+        end      
+        item
+          Command = ecCut
+          ShortCut = 8238
+        end      
+        item
+          Command = ecDeleteLastChar
+          ShortCut = 8
+        end      
+        item
+          Command = ecDeleteLastChar
+          ShortCut = 8200
+        end      
+        item
+          Command = ecDeleteLastWord
+          ShortCut = 16392
+        end      
+        item
+          Command = ecUndo
+          ShortCut = 32776
+        end      
+        item
+          Command = ecRedo
+          ShortCut = 40968
+        end      
+        item
+          Command = ecLineBreak
+          ShortCut = 13
+        end      
+        item
+          Command = ecSelectAll
+          ShortCut = 16449
+        end      
+        item
+          Command = ecCopy
+          ShortCut = 16451
+        end      
+        item
+          Command = ecBlockIndent
+          ShortCut = 24649
+        end      
+        item
+          Command = ecLineBreak
+          ShortCut = 16461
+        end      
+        item
+          Command = ecInsertLine
+          ShortCut = 16462
+        end      
+        item
+          Command = ecDeleteWord
+          ShortCut = 16468
+        end      
+        item
+          Command = ecBlockUnindent
+          ShortCut = 24661
+        end      
+        item
+          Command = ecPaste
+          ShortCut = 16470
+        end      
+        item
+          Command = ecCut
+          ShortCut = 16472
+        end      
+        item
+          Command = ecDeleteLine
+          ShortCut = 16473
+        end      
+        item
+          Command = ecDeleteEOL
+          ShortCut = 24665
+        end      
+        item
+          Command = ecUndo
+          ShortCut = 16474
+        end      
+        item
+          Command = ecRedo
+          ShortCut = 24666
+        end      
+        item
+          Command = ecGotoMarker0
+          ShortCut = 16432
+        end      
+        item
+          Command = ecGotoMarker1
+          ShortCut = 16433
+        end      
+        item
+          Command = ecGotoMarker2
+          ShortCut = 16434
+        end      
+        item
+          Command = ecGotoMarker3
+          ShortCut = 16435
+        end      
+        item
+          Command = ecGotoMarker4
+          ShortCut = 16436
+        end      
+        item
+          Command = ecGotoMarker5
+          ShortCut = 16437
+        end      
+        item
+          Command = ecGotoMarker6
+          ShortCut = 16438
+        end      
+        item
+          Command = ecGotoMarker7
+          ShortCut = 16439
+        end      
+        item
+          Command = ecGotoMarker8
+          ShortCut = 16440
+        end      
+        item
+          Command = ecGotoMarker9
+          ShortCut = 16441
+        end      
+        item
+          Command = ecSetMarker0
+          ShortCut = 24624
+        end      
+        item
+          Command = ecSetMarker1
+          ShortCut = 24625
+        end      
+        item
+          Command = ecSetMarker2
+          ShortCut = 24626
+        end      
+        item
+          Command = ecSetMarker3
+          ShortCut = 24627
+        end      
+        item
+          Command = ecSetMarker4
+          ShortCut = 24628
+        end      
+        item
+          Command = ecSetMarker5
+          ShortCut = 24629
+        end      
+        item
+          Command = ecSetMarker6
+          ShortCut = 24630
+        end      
+        item
+          Command = ecSetMarker7
+          ShortCut = 24631
+        end      
+        item
+          Command = ecSetMarker8
+          ShortCut = 24632
+        end      
+        item
+          Command = ecSetMarker9
+          ShortCut = 24633
+        end      
+        item
+          Command = ecNormalSelect
+          ShortCut = 24654
+        end      
+        item
+          Command = ecColumnSelect
+          ShortCut = 24643
+        end      
+        item
+          Command = ecLineSelect
+          ShortCut = 24652
+        end      
+        item
+          Command = ecTab
+          ShortCut = 9
+        end      
+        item
+          Command = ecShiftTab
+          ShortCut = 8201
+        end      
+        item
+          Command = ecMatchBracket
+          ShortCut = 24642
+        end>
+      MouseActions = <      
+        item
+          ShiftMask = [ssShift, ssAlt]
+          ClickDir = cdDown
+          Command = emcStartSelections
+          MoveCaret = True
+        end      
+        item
+          Shift = [ssShift]
+          ShiftMask = [ssShift, ssAlt]
+          ClickDir = cdDown
+          Command = emcStartSelections
+          MoveCaret = True
+          Option = 1
+        end      
+        item
+          Shift = [ssAlt]
+          ShiftMask = [ssShift, ssAlt]
+          ClickDir = cdDown
+          Command = emcStartColumnSelections
+          MoveCaret = True
+        end      
+        item
+          Shift = [ssShift, ssAlt]
+          ShiftMask = [ssShift, ssAlt]
+          ClickDir = cdDown
+          Command = emcStartColumnSelections
+          MoveCaret = True
+          Option = 1
+        end      
+        item
+          Button = mbRight
+          Command = emcContextMenu
+        end      
+        item
+          ClickCount = ccDouble
+          ClickDir = cdDown
+          Command = emcSelectWord
+          MoveCaret = True
+        end      
+        item
+          ClickCount = ccTriple
+          ClickDir = cdDown
+          Command = emcSelectLine
+          MoveCaret = True
+        end      
+        item
+          ClickCount = ccQuad
+          ClickDir = cdDown
+          Command = emcSelectPara
+          MoveCaret = True
+        end      
+        item
+          Button = mbMiddle
+          ClickDir = cdDown
+          Command = emcPasteSelection
+          MoveCaret = True
+        end      
+        item
+          Shift = [ssCtrl]
+          ShiftMask = [ssShift, ssAlt, ssCtrl]
+          Command = emcMouseLink
+        end>
+      MouseSelActions = <      
+        item
+          ClickDir = cdDown
+          Command = emcStartDragMove
+        end>
+      Lines.Strings = (
+        'ColorPreview'
+      )
+      VisibleSpecialChars = [vscSpace, vscTabAtLast]
+      BracketHighlightStyle = sbhsBoth
+      BracketMatchColor.Background = clNone
+      BracketMatchColor.Foreground = clNone
+      BracketMatchColor.Style = [fsBold]
+      FoldedCodeColor.Background = clNone
+      FoldedCodeColor.Foreground = clGray
+      FoldedCodeColor.FrameColor = clGray
+      MouseLinkColor.Background = clNone
+      MouseLinkColor.Foreground = clBlue
+      LineHighlightColor.Background = clNone
+      LineHighlightColor.Foreground = clNone
+      inline TSynGutterPartList
+        object TSynGutterMarks
+          Width = 24
+          MouseActions = <>
+        end
+        object TSynGutterLineNumber
+          Width = 19
+          MouseActions = <>
+          MarkupInfo.Background = clBtnFace
+          MarkupInfo.Foreground = clNone
+          DigitCount = 2
+          ShowOnlyLineNumbersMultiplesOf = 1
+          ZeroStart = False
+          LeadingZeros = False
+        end
+        object TSynGutterChanges
+          Width = 4
+          MouseActions = <>
+          ModifiedColor = 59900
+          SavedColor = clGreen
+        end
+        object TSynGutterSeparator
+          Width = 2
+          MouseActions = <>
+        end
+        object TSynGutterCodeFolding
+          MouseActions = <          
+            item
+              Button = mbRight
+              Command = emcCodeFoldContextMenu
+            end          
+            item
+              ShiftMask = [ssShift]
+              Button = mbMiddle
+              ClickCount = ccAny
+              ClickDir = cdDown
+              Command = emcCodeFoldCollaps
+            end          
+            item
+              Shift = [ssShift]
+              ShiftMask = [ssShift]
+              Button = mbMiddle
+              ClickCount = ccAny
+              ClickDir = cdDown
+              Command = emcCodeFoldCollaps
+              Option = 1
+            end          
+            item
+              ClickCount = ccAny
+              ClickDir = cdDown
+              Command = emcNone
+            end>
+          MarkupInfo.Background = clNone
+          MarkupInfo.Foreground = clGray
+          MouseActionsExpanded = <          
+            item
+              ClickCount = ccAny
+              ClickDir = cdDown
+              Command = emcCodeFoldCollaps
+            end>
+          MouseActionsCollapsed = <          
+            item
+              Shift = [ssCtrl]
+              ShiftMask = [ssCtrl]
+              ClickCount = ccAny
+              ClickDir = cdDown
+              Command = emcCodeFoldExpand
+            end          
+            item
+              ShiftMask = [ssCtrl]
+              ClickCount = ccAny
+              ClickDir = cdDown
+              Command = emcCodeFoldExpand
+              Option = 1
+            end>
+        end
+      end
+    end
+    object Splitter1: TSplitter
+      Left = 205
+      Height = 133
+      Top = 0
+      Width = 5
+    end
+    object ColorElementTree: TListBox
+      Left = 0
+      Height = 133
+      Top = 0
+      Width = 205
+      Align = alLeft
+      ItemHeight = 0
+      OnDrawItem = ColorElementTreeDrawItem
+      OnSelectionChange = ColorElementTreeSelectionChange
+      Style = lbOwnerDrawFixed
+      TabOrder = 2
+    end
+  end
+  object pnlElementAttributes: TPanel[2]
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = PnlTop2
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 0
+    Height = 200
+    Top = 157
+    Width = 606
+    Anchors = [akLeft, akRight, akBottom]
+    AutoSize = True
+    BevelOuter = bvNone
+    ClientHeight = 200
+    ClientWidth = 606
+    Constraints.MinHeight = 200
+    TabOrder = 2
+    OnResize = pnlElementAttributesResize
+    object ForeGroundLabel: TLabel
+      AnchorSideLeft.Control = pnlElementAttributes
+      AnchorSideTop.Control = ForegroundColorBox
+      AnchorSideTop.Side = asrCenter
+      Left = 6
+      Height = 14
+      Top = 24
+      Width = 57
+      BorderSpacing.Left = 6
+      Caption = 'Foreground'
+      ParentColor = False
+      Visible = False
+    end
+    object BackGroundLabel: TLabel
+      AnchorSideLeft.Control = pnlElementAttributes
+      AnchorSideTop.Control = BackGroundColorBox
+      AnchorSideTop.Side = asrCenter
+      Left = 6
+      Height = 14
+      Top = 49
+      Width = 57
+      BorderSpacing.Left = 6
+      Caption = 'Background'
+      ParentColor = False
+      Visible = False
+    end
+    object ForeGroundUseDefaultCheckBox: TCheckBox
+      AnchorSideLeft.Control = pnlElementAttributes
+      AnchorSideTop.Control = ForegroundColorBox
+      AnchorSideTop.Side = asrCenter
+      Left = 6
+      Height = 17
+      Top = 23
+      Width = 76
+      BorderSpacing.Left = 6
+      Caption = 'Foreground'
+      TabOrder = 0
+    end
+    object ForegroundColorBox: TColorBox
+      AnchorSideLeft.Control = ColumnPosBevel
+      AnchorSideTop.Control = bvlAttributeSection
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlElementAttributes
+      AnchorSideRight.Side = asrBottom
+      Left = 88
+      Height = 22
+      Top = 20
+      Width = 200
+      DefaultColorColor = clWhite
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeDefault, cbCustomColor, cbPrettyNames, cbCustomColors]
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 3
+      Constraints.MaxWidth = 200
+      ItemHeight = 16
+      OnChange = ForegroundColorBoxChange
+      TabOrder = 1
+    end
+    object BackGroundColorBox: TColorBox
+      AnchorSideLeft.Control = ColumnPosBevel
+      AnchorSideTop.Control = ForegroundColorBox
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlElementAttributes
+      AnchorSideRight.Side = asrBottom
+      Left = 88
+      Height = 22
+      Top = 45
+      Width = 200
+      DefaultColorColor = clWhite
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeDefault, cbCustomColor, cbPrettyNames, cbCustomColors]
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 3
+      Constraints.MaxWidth = 200
+      ItemHeight = 16
+      OnChange = ForegroundColorBoxChange
+      TabOrder = 3
+    end
+    object BackGroundUseDefaultCheckBox: TCheckBox
+      AnchorSideLeft.Control = pnlElementAttributes
+      AnchorSideTop.Control = BackGroundColorBox
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Side = asrBottom
+      Left = 6
+      Height = 17
+      Top = 48
+      Width = 76
+      BorderSpacing.Left = 6
+      Caption = 'Background'
+      TabOrder = 2
+    end
+    object FrameColorBox: TColorBox
+      AnchorSideLeft.Control = ColumnPosBevel
+      AnchorSideTop.Control = BackGroundColorBox
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = pnlElementAttributes
+      AnchorSideRight.Side = asrBottom
+      Left = 88
+      Height = 22
+      Top = 70
+      Width = 200
+      DefaultColorColor = clWhite
+      Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeDefault, cbCustomColor, cbPrettyNames, cbCustomColors]
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 3
+      Constraints.MaxWidth = 200
+      ItemHeight = 16
+      OnChange = ForegroundColorBoxChange
+      TabOrder = 5
+    end
+    object FrameColorUseDefaultCheckBox: TCheckBox
+      AnchorSideLeft.Control = pnlElementAttributes
+      AnchorSideTop.Control = FrameColorBox
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Side = asrBottom
+      Left = 6
+      Height = 17
+      Top = 73
+      Width = 69
+      BorderSpacing.Left = 6
+      Caption = 'Text-mark'
+      TabOrder = 4
+    end
+    object bvlAttributeSection: TDividerBevel
+      Left = 0
+      Height = 17
+      Top = 0
+      Width = 606
+      Caption = 'Element Attributes'
+      Align = alTop
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object pnlUnderline: TPanel
+      AnchorSideLeft.Control = pnlElementAttributes
+      AnchorSideTop.Control = FrameEdgesBox
+      AnchorSideTop.Side = asrBottom
+      Left = 6
+      Height = 36
+      Top = 119
+      Width = 131
+      AutoSize = True
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 3
+      BevelOuter = bvNone
+      ClientHeight = 36
+      ClientWidth = 131
+      TabOrder = 6
+      object TextUnderlineRadioPanel: TPanel
+        AnchorSideLeft.Control = TextUnderlineCheckBox
+        AnchorSideTop.Control = TextUnderlineCheckBox
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Side = asrBottom
+        Left = 0
+        Height = 19
+        Top = 17
+        Width = 131
+        AutoSize = True
+        BevelInner = bvLowered
+        BevelOuter = bvNone
+        ClientHeight = 19
+        ClientWidth = 131
+        TabOrder = 0
+        object TextUnderlineRadioOn: TRadioButton
+          Tag = 3
+          AnchorSideLeft.Control = TextUnderlineRadioPanel
+          AnchorSideTop.Control = TextUnderlineRadioPanel
+          AnchorSideRight.Control = TextUnderlineRadioOff
+          Left = 4
+          Height = 17
+          Top = 1
+          Width = 34
+          BorderSpacing.Left = 3
+          BorderSpacing.Right = 3
+          Caption = 'On'
+          Checked = True
+          OnChange = TextStyleRadioOnChange
+          TabOrder = 0
+          TabStop = True
+        end
+        object TextUnderlineRadioOff: TRadioButton
+          Tag = 3
+          AnchorSideLeft.Control = TextUnderlineRadioOn
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = TextUnderlineRadioOn
+          AnchorSideRight.Control = TextUnderlineRadioInvert
+          Left = 41
+          Height = 17
+          Top = 1
+          Width = 36
+          BorderSpacing.Left = 3
+          BorderSpacing.Right = 3
+          Caption = 'Off'
+          OnChange = TextStyleRadioOnChange
+          TabOrder = 1
+        end
+        object TextUnderlineRadioInvert: TRadioButton
+          Tag = 3
+          AnchorSideLeft.Control = TextUnderlineRadioOff
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = TextUnderlineRadioPanel
+          AnchorSideRight.Control = TextUnderlineRadioPanel
+          AnchorSideRight.Side = asrBottom
+          Left = 80
+          Height = 17
+          Top = 1
+          Width = 50
+          BorderSpacing.Left = 3
+          Caption = 'Invert'
+          OnChange = TextStyleRadioOnChange
+          TabOrder = 2
+        end
+      end
+      object TextUnderlineCheckBox: TCheckBox
+        AnchorSideLeft.Control = pnlUnderline
+        AnchorSideTop.Control = pnlUnderline
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 65
+        Caption = 'Underline'
+        OnChange = TextStyleRadioOnChange
+        TabOrder = 1
+      end
+    end
+    object pnlBold: TPanel
+      AnchorSideLeft.Control = pnlUnderline
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = pnlUnderline
+      Left = 143
+      Height = 36
+      Top = 119
+      Width = 131
+      AutoSize = True
+      BorderSpacing.Left = 6
+      BevelOuter = bvNone
+      ClientHeight = 36
+      ClientWidth = 131
+      TabOrder = 7
+      object TextBoldRadioPanel: TPanel
+        AnchorSideLeft.Control = TextBoldCheckBox
+        AnchorSideTop.Control = TextBoldCheckBox
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Side = asrBottom
+        Left = 0
+        Height = 19
+        Top = 17
+        Width = 131
+        AutoSize = True
+        BevelInner = bvLowered
+        BevelOuter = bvNone
+        ClientHeight = 19
+        ClientWidth = 131
+        TabOrder = 0
+        object TextBoldRadioInvert: TRadioButton
+          Tag = 2
+          AnchorSideLeft.Control = TextBoldRadioOff
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = TextBoldRadioPanel
+          AnchorSideRight.Control = TextBoldRadioPanel
+          AnchorSideRight.Side = asrBottom
+          Left = 80
+          Height = 17
+          Top = 1
+          Width = 50
+          BorderSpacing.Left = 3
+          Caption = 'Invert'
+          OnChange = TextStyleRadioOnChange
+          TabOrder = 2
+        end
+        object TextBoldRadioOn: TRadioButton
+          Tag = 2
+          AnchorSideLeft.Control = TextBoldRadioPanel
+          AnchorSideTop.Control = TextBoldRadioPanel
+          AnchorSideRight.Control = TextBoldRadioOff
+          Left = 4
+          Height = 17
+          Top = 1
+          Width = 34
+          BorderSpacing.Left = 3
+          BorderSpacing.Right = 3
+          Caption = 'On'
+          Checked = True
+          OnChange = TextStyleRadioOnChange
+          TabOrder = 0
+          TabStop = True
+        end
+        object TextBoldRadioOff: TRadioButton
+          Tag = 2
+          AnchorSideLeft.Control = TextBoldRadioOn
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = TextBoldRadioPanel
+          AnchorSideRight.Control = TextBoldRadioInvert
+          Left = 41
+          Height = 17
+          Top = 1
+          Width = 36
+          BorderSpacing.Left = 3
+          BorderSpacing.Right = 3
+          Caption = 'Off'
+          OnChange = TextStyleRadioOnChange
+          TabOrder = 1
+        end
+      end
+      object TextBoldCheckBox: TCheckBox
+        AnchorSideLeft.Control = pnlBold
+        AnchorSideTop.Control = pnlBold
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 40
+        Caption = 'Bold'
+        OnChange = TextStyleRadioOnChange
+        TabOrder = 1
+      end
+    end
+    object pnlItalic: TPanel
+      AnchorSideLeft.Control = pnlBold
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = pnlUnderline
+      Left = 280
+      Height = 36
+      Top = 119
+      Width = 131
+      AutoSize = True
+      BorderSpacing.Left = 6
+      BevelOuter = bvNone
+      ClientHeight = 36
+      ClientWidth = 131
+      TabOrder = 8
+      object TextItalicRadioPanel: TPanel
+        AnchorSideLeft.Control = TextItalicCheckBox
+        AnchorSideTop.Control = TextItalicCheckBox
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Side = asrBottom
+        Left = 0
+        Height = 19
+        Top = 17
+        Width = 131
+        AutoSize = True
+        BevelInner = bvLowered
+        BevelOuter = bvNone
+        ClientHeight = 19
+        ClientWidth = 131
+        TabOrder = 0
+        object TextItalicRadioInvert: TRadioButton
+          Tag = 2
+          AnchorSideLeft.Control = TextItalicRadioOff
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = TextItalicRadioPanel
+          AnchorSideRight.Control = TextItalicRadioPanel
+          AnchorSideRight.Side = asrBottom
+          Left = 80
+          Height = 17
+          Top = 1
+          Width = 50
+          BorderSpacing.Left = 3
+          Caption = 'Invert'
+          OnChange = TextStyleRadioOnChange
+          TabOrder = 2
+        end
+        object TextItalicRadioOn: TRadioButton
+          Tag = 2
+          AnchorSideLeft.Control = TextItalicRadioPanel
+          AnchorSideTop.Control = TextItalicRadioPanel
+          AnchorSideRight.Control = TextItalicRadioOff
+          Left = 4
+          Height = 17
+          Top = 1
+          Width = 34
+          BorderSpacing.Left = 3
+          BorderSpacing.Right = 3
+          Caption = 'On'
+          Checked = True
+          OnChange = TextStyleRadioOnChange
+          TabOrder = 0
+          TabStop = True
+        end
+        object TextItalicRadioOff: TRadioButton
+          Tag = 2
+          AnchorSideLeft.Control = TextItalicRadioOn
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = TextItalicRadioPanel
+          AnchorSideRight.Control = TextItalicRadioInvert
+          Left = 41
+          Height = 17
+          Top = 1
+          Width = 36
+          BorderSpacing.Left = 3
+          BorderSpacing.Right = 3
+          Caption = 'Off'
+          OnChange = TextStyleRadioOnChange
+          TabOrder = 1
+        end
+      end
+      object TextItalicCheckBox: TCheckBox
+        AnchorSideLeft.Control = pnlItalic
+        AnchorSideTop.Control = pnlItalic
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 43
+        Caption = 'Italic'
+        OnChange = TextStyleRadioOnChange
+        TabOrder = 1
+      end
+    end
+    object FrameStyleBox: TComboBox
+      AnchorSideLeft.Control = FrameEdgesBox
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = FrameEdgesBox
+      Left = 191
+      Height = 21
+      Top = 95
+      Width = 97
+      BorderSpacing.Left = 6
+      ItemHeight = 15
+      ItemIndex = 0
+      Items.Strings = (
+        'slsSolid'
+        'slsDashed'
+        'slsDotted'
+        'slsWaved'
+      )
+      OnChange = ForegroundColorBoxChange
+      OnDrawItem = FrameStyleBoxDrawItem
+      ReadOnly = True
+      Style = csOwnerDrawFixed
+      TabOrder = 9
+      Text = 'slsSolid'
+    end
+    object FrameEdgesBox: TComboBox
+      AnchorSideLeft.Control = FrameColorBox
+      AnchorSideTop.Control = FrameColorBox
+      AnchorSideTop.Side = asrBottom
+      Left = 88
+      Height = 21
+      Top = 95
+      Width = 97
+      BorderSpacing.Top = 3
+      ItemHeight = 15
+      ItemIndex = 0
+      Items.Strings = (
+        'Around'
+        'Bottom'
+        'Left'
+      )
+      OnChange = ForegroundColorBoxChange
+      OnDrawItem = FrameEdgesBoxDrawItem
+      ReadOnly = True
+      Style = csOwnerDrawFixed
+      TabOrder = 10
+      Text = 'Around'
+    end
+    object ColumnPosBevel: TPanel
+      AnchorSideLeft.Control = ForeGroundUseDefaultCheckBox
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = pnlUnderline
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Control = pnlElementAttributes
+      AnchorSideBottom.Side = asrBottom
+      Left = 88
+      Height = 1
+      Top = 155
+      Width = 50
+      AutoSize = True
+      BorderSpacing.Left = 6
+      BevelOuter = bvNone
+      Constraints.MinHeight = 1
+      Constraints.MinWidth = 50
+      TabOrder = 11
+    end
+    object pnlStrikeOut: TPanel
+      AnchorSideLeft.Control = pnlItalic
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = pnlUnderline
+      Left = 417
+      Height = 36
+      Top = 119
+      Width = 131
+      AutoSize = True
+      BorderSpacing.Left = 6
+      BevelOuter = bvNone
+      ClientHeight = 36
+      ClientWidth = 131
+      TabOrder = 12
+      object TextStrikeOutRadioPanel: TPanel
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Side = asrBottom
+        Left = 0
+        Height = 19
+        Top = 17
+        Width = 131
+        AutoSize = True
+        BevelInner = bvLowered
+        BevelOuter = bvNone
+        ClientHeight = 19
+        ClientWidth = 131
+        TabOrder = 0
+        object TextStrikeOutRadioInvert: TRadioButton
+          Tag = 2
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideRight.Side = asrBottom
+          Left = 80
+          Height = 17
+          Top = 1
+          Width = 50
+          BorderSpacing.Left = 3
+          Caption = 'Invert'
+          OnChange = TextStyleRadioOnChange
+          TabOrder = 2
+        end
+        object TextStrikeOutRadioOn: TRadioButton
+          Tag = 2
+          Left = 4
+          Height = 17
+          Top = 1
+          Width = 34
+          BorderSpacing.Left = 3
+          BorderSpacing.Right = 3
+          Caption = 'On'
+          Checked = True
+          OnChange = TextStyleRadioOnChange
+          TabOrder = 0
+          TabStop = True
+        end
+        object TextStrikeOutRadioOff: TRadioButton
+          Tag = 2
+          AnchorSideLeft.Side = asrBottom
+          Left = 41
+          Height = 17
+          Top = 1
+          Width = 36
+          BorderSpacing.Left = 3
+          BorderSpacing.Right = 3
+          Caption = 'Off'
+          OnChange = TextStyleRadioOnChange
+          TabOrder = 1
+        end
+      end
+      object TextStrikeOutCheckBox: TCheckBox
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 68
+        Caption = 'Strike Out'
+        OnChange = TextStyleRadioOnChange
+        TabOrder = 1
+      end
+    end
+  end
+end
