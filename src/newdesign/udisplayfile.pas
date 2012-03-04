@@ -13,11 +13,13 @@ type
   {en
      Describes the file displayed in the file view.
   }
+
+  { TDisplayFile }
+
   TDisplayFile = class
 
   private
     FFSFile: TFile;          //<en reference to file source's file
-    FOwnsReferenceFile: Boolean; //<en If @true then reference file is destroyed on Destroy.
 
     // Other properties.
     FSelected: Boolean;      //<en If is selected
@@ -29,8 +31,9 @@ type
 
   public
     {en
-       A reference TFile must be passed as a parameter.
-       TDisplayFile object is invalid without a reference file.
+       @param(ReferenceFile
+              Reference file source file that will be associated with this display file.
+              The TDisplayFile takes ownership and will destroy the FS file.)
     }
     constructor Create(ReferenceFile: TFile); virtual reintroduce;
 
@@ -38,15 +41,21 @@ type
 
     {en
        Creates an identical copy of the object (as far as object data is concerned).
+       @param(NewReferenceFile
+              FS file to assign as the reference file (possibly a clone too).)
     }
-    function Clone(ReferenceFiles: TFiles;
-                   ClonedReferenceFiles: TFiles): TDisplayFile; virtual;
-    function Clone(NewReferenceFile: TFile): TDisplayFile; virtual;
+    function Clone(NewReferenceFile: TFile): TDisplayFile;
+    {en
+       Creates an identical copy of the object (as far as object data is concerned).
+       @param(CloneFSFile
+              If @false then the reference FS file must be later manually assigned.
+              Also, if @false DisplayStrings are not cloned.)
+    }
+    function Clone(CloneFSFile: Boolean): TDisplayFile; virtual;
 
     procedure CloneTo(AFile: TDisplayFile); virtual;
 
     property FSFile: TFile read FFSFile write FFSFile;
-    property OwnsFSFile: Boolean read FOwnsReferenceFile write FOwnsReferenceFile;
     property Selected: Boolean read FSelected write FSelected;
     property IconID: PtrInt read FIconID write FIconID;
     property IconOverlayID: PtrInt read FIconOverlayID write FIconOverlayID;
@@ -58,6 +67,7 @@ type
 
   private
     FList: TFPList;
+    FOwnsObjects: Boolean;
 
   protected
     function GetCount: Integer;
@@ -67,29 +77,27 @@ type
     procedure Put(Index: Integer; AFile: TDisplayFile);
 
   public
-    constructor Create; virtual;
+    constructor Create(AOwnsObjects: Boolean = True); virtual;
     destructor Destroy; override;
 
     {en
        Create a list with cloned files.
-       @param(ReferenceFiles
-              A list to which the reference file of each display file is pointing.)
-       @param(ClonedReferenceFiles
-              A cloned list of reference files to which each cloned display file should point.)
+       @param(CloneFSFiles
+              If @true automatically clones all FS reference files too.
+              If @false does not clone reference files and some properties
+              that are affected by reference FS files.)
     }
-    function Clone(ReferenceFiles: TFiles;
-                   ClonedReferenceFiles: TFiles): TDisplayFiles; virtual;
-
-    procedure CloneTo(Files: TDisplayFiles;
-                      ReferenceFiles: TFiles;
-                      ClonedReferenceFiles: TFiles); virtual;
+    function Clone(CloneFSFiles: Boolean): TDisplayFiles; virtual;
+    procedure CloneTo(Files: TDisplayFiles; CloneFSFiles: Boolean); virtual;
 
     function Add(AFile: TDisplayFile): Integer;
     procedure Clear;
+    procedure Delete(Index: Integer);
 
     property Count: Integer read GetCount write SetCount;
     property Items[Index: Integer]: TDisplayFile read Get write Put; default;
     property List: TFPList read FList;
+    property OwnsObjects: Boolean read FOwnsObjects write FOwnsObjects;
 
   end;
 
@@ -97,48 +105,18 @@ implementation
 
 constructor TDisplayFile.Create(ReferenceFile: TFile);
 begin
-  if not Assigned(ReferenceFile) then
-    raise Exception.Create('Reference file cannot be nil');
-
   FSelected := False;
   FIconID := -1;
   FIconOverlayID := -1;
   FFSFile := ReferenceFile;
-  FOwnsReferenceFile := False;
   FDisplayStrings := TStringList.Create;
 end;
 
 destructor TDisplayFile.Destroy;
 begin
   inherited Destroy;
-  if Assigned(FDisplayStrings) then
-    FreeAndNil(FDisplayStrings);
-  if OwnsFSFile then
-    FSFile.Free;
-end;
-
-function TDisplayFile.Clone(ReferenceFiles: TFiles;
-                            ClonedReferenceFiles: TFiles): TDisplayFile;
-var
-  ClonedFile: TFile = nil;
-  i: Integer;
-begin
-  // Search reference list for own reference file and clone this fileview file
-  // with a reference file pointing to the cloned reference file.
-  for i := 0 to ReferenceFiles.Count - 1 do
-  begin
-    if FFSFile = ReferenceFiles[i] then
-    begin
-      ClonedFile := ClonedReferenceFiles[i];
-      break;
-    end;
-  end;
-
-  if not Assigned(ClonedFile) then
-    raise Exception.Create('Invalid reference file');
-
-  Result := TDisplayFile.Create(ClonedFile);
-  CloneTo(Result);
+  FDisplayStrings.Free;
+  FSFile.Free;
 end;
 
 function TDisplayFile.Clone(NewReferenceFile: TFile): TDisplayFile;
@@ -147,23 +125,39 @@ begin
   CloneTo(Result);
 end;
 
+function TDisplayFile.Clone(CloneFSFile: Boolean): TDisplayFile;
+var
+  AFile: TFile;
+begin
+  if CloneFSFile then
+    AFile := FSFile.Clone
+  else
+    AFile := nil;
+  Result := TDisplayFile.Create(AFile);
+  CloneTo(Result);
+end;
+
 procedure TDisplayFile.CloneTo(AFile: TDisplayFile);
 begin
   if Assigned(AFile) then
   begin
-    AFile.FOwnsReferenceFile := FOwnsReferenceFile;
     AFile.FSelected := FSelected;
     AFile.FIconID := FIconID;
     AFile.FIconOverlayID := FIconOverlayID;
-    AFile.FDisplayStrings.AddStrings(FDisplayStrings);
+
+    if Assigned(AFile.FFSFile) then
+    begin
+      AFile.FDisplayStrings.AddStrings(FDisplayStrings);
+    end;
   end;
 end;
 
 // ----------------------------------------------------------------------------
 
-constructor TDisplayFiles.Create;
+constructor TDisplayFiles.Create(AOwnsObjects: Boolean = True);
 begin
-  inherited;
+  inherited Create;
+  FOwnsObjects := AOwnsObjects;
   FList := TFPList.Create;
 end;
 
@@ -174,22 +168,19 @@ begin
   inherited;
 end;
 
-function TDisplayFiles.Clone(ReferenceFiles: TFiles;
-                             ClonedReferenceFiles: TFiles): TDisplayFiles;
+function TDisplayFiles.Clone(CloneFSFiles: Boolean): TDisplayFiles;
 begin
-  Result := TDisplayFiles.Create;
-  CloneTo(Result, ReferenceFiles, ClonedReferenceFiles);
+  Result := TDisplayFiles.Create(FOwnsObjects);
+  CloneTo(Result, CloneFSFiles);
 end;
 
-procedure TDisplayFiles.CloneTo(Files: TDisplayFiles;
-                                ReferenceFiles: TFiles;
-                                ClonedReferenceFiles: TFiles);
+procedure TDisplayFiles.CloneTo(Files: TDisplayFiles; CloneFSFiles: Boolean);
 var
   i: Integer;
 begin
   for i := 0 to FList.Count - 1 do
   begin
-    Files.Add(Get(i).Clone(ReferenceFiles, ClonedReferenceFiles));
+    Files.Add(Get(i).Clone(CloneFSFiles));
   end;
 end;
 
@@ -213,14 +204,23 @@ var
   i: Integer;
   p: Pointer;
 begin
-  for i := 0 to FList.Count - 1 do
+  if FOwnsObjects then
   begin
-    p := FList.Items[i];
-    if Assigned(p) then
+    for i := 0 to FList.Count - 1 do
+    begin
+      p := FList.Items[i];
       TDisplayFile(p).Free;
+    end;
   end;
 
   FList.Clear;
+end;
+
+procedure TDisplayFiles.Delete(Index: Integer);
+begin
+  if FOwnsObjects then
+    TDisplayFile(FList.Items[Index]).Free;
+  FList.Delete(Index);
 end;
 
 function TDisplayFiles.Get(Index: Integer): TDisplayFile;

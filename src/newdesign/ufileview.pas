@@ -65,6 +65,7 @@ type
     FFilePropertiesNeeded: TFilePropertiesTypes;
     FFileViewWorkers: TFileViewWorkers;
     FHashedFiles: TBucketList;  //<en Contains pointers to file source files for quick checking if a file object is still valid
+    FHashedNames: TStringHashList;
     FReloading: Boolean;        //<en If currently reloading file list
     FReloadNeeded: Boolean;     //<en If file list should be reloaded
     FWorkersThread: TFunctionThread;
@@ -85,6 +86,8 @@ type
     FFilterOptions: TQuickSearchOptions;
     FWatchPath: String;
     FLastMark: String;
+    FLastLoadedFileSource: IFileSource;
+    FLastLoadedPath: String;
 
     FMethods: TFormCommands;
 
@@ -108,8 +111,8 @@ type
     {en
        Assigns the built lists to the file view and displays new the file list.
     }
-    procedure SetFileList(var NewDisplayFiles: TDisplayFiles;
-                          var NewFileSourceFiles: TFiles);
+    procedure SetFileList(var NewAllDisplayFiles: TDisplayFiles;
+                          var NewFilteredDisplayFiles: TDisplayFiles);
     procedure EnableWatcher(Enable: Boolean);
 
     procedure ActivateEvent(Sender: TObject);
@@ -120,10 +123,9 @@ type
     procedure WatcherEvent(const EventData: TFSWatcherEventData);
 
   protected
-    FFiles: TDisplayFiles;      //<en List of displayed files
-    FFileSourceFiles: TFiles;   //<en List of files from file source
+    FAllDisplayFiles: TDisplayFiles;    //<en List of all files that can be displayed
+    FFiles: TDisplayFiles;              //<en List of displayed files (filtered)
     FSavedSelection: TStringListEx;
-    FCurrentSelection: TStringHashList;
 
     {en
        Initializes parts of the view common to all creation methods.
@@ -194,7 +196,7 @@ type
     procedure SetSorting(const NewSortings: TFileSortings); virtual;
 
     {en
-       Retrieves file list from file source into FFileSourceFiles.
+       Retrieves file list from file source into FAllDisplayFiles.
        Either runs directly or starts a new thread.
     }
     procedure MakeFileSourceFileList;
@@ -453,7 +455,6 @@ begin
   FMethods := TFormCommands.Create(Self);
   FHistory := TFileViewHistory.Create;
   FSavedSelection:= TStringListEx.Create;
-  FCurrentSelection := TStringHashList.Create(True);
   FActive := False;
   FLastActiveFile := '';
   FRequestedActiveFile := '';
@@ -462,7 +463,7 @@ begin
   FFilterOptions := gQuickSearchOptions;
   FFiles := nil;
   FHashedFiles := nil;
-  FFileSourceFiles := nil;
+  FHashedNames := TStringHashList.Create(True);
   FWorkersThread := nil;
   FReloading := False;
   FReloadNeeded := False;
@@ -523,16 +524,15 @@ begin
 
   if Assigned(FFiles) then
     FreeAndNil(FFiles);
-  if Assigned(FFileSourceFiles) then
-    FreeAndNil(FFileSourceFiles);
+  FreeAndNil(FAllDisplayFiles);
   if Assigned(FHashedFiles) then
     FreeAndNil(FHashedFiles);
+  FreeAndNil(FHashedNames);
 
   inherited Destroy;
 
   FreeAndNil(FHistory);
   FreeThenNil(FSavedSelection);
-  FreeAndNil(FCurrentSelection); // After inherited, because FCurrentSelection might be used through inherited Destroy.
 end;
 
 function TFileView.Clone(NewParent: TWinControl): TFileView;
@@ -558,19 +558,16 @@ begin
     for I := 0 to FSavedSelection.Count - 1 do
       AFileView.FSavedSelection.Add(FSavedSelection.Strings[I]);
 
-    for i := 0 to FCurrentSelection.Count - 1 do
-      AFileView.FCurrentSelection.Add(FCurrentSelection.List[i]^.Key);
-
     AFileView.FHistory.Assign(Self.FHistory);
     AFileView.FSortings := CloneSortings(Self.FSortings);
     AFileView.FLastActiveFile := Self.FLastActiveFile;
     AFileView.FRequestedActiveFile := Self.FRequestedActiveFile;
     AFileView.FReloadNeeded := Self.FReloadNeeded;
 
-    if Assigned(Self.FFileSourceFiles) then
-      AFileView.FFileSourceFiles := Self.FFileSourceFiles.Clone;
-    AFileView.FFiles := Self.FFiles.Clone(Self.FFileSourceFiles, AFileView.FFileSourceFiles);
-    AFileView.HashFileList;
+    AFileView.FAllDisplayFiles := Self.FAllDisplayFiles.Clone(True);
+
+    // FFiles need to be recreated because the filter is not cloned.
+    // This is done in AFileView.UpdateView.
   end;
 end;
 
@@ -727,13 +724,7 @@ end;
 procedure TFileView.MarkFile(AFile: TDisplayFile; bMarked: Boolean);
 begin
   if IsItemValid(AFile) then
-  begin
     AFile.Selected := bMarked;
-    if bMarked then
-      FCurrentSelection.Add(AFile.FSFile.Name)
-    else
-      FCurrentSelection.Remove(AFile.FSFile.Name);
-  end;
 end;
 
 procedure TFileView.MarkAllFiles(bMarked: Boolean);
@@ -759,10 +750,6 @@ begin
             if SearchTemplate.CheckFile(FFiles[I].FSFile) then
               begin
                 FFiles[I].Selected := bSelect;
-                if bSelect then
-                  FCurrentSelection.Add(FFiles[I].FSFile.Name)
-                else
-                  FCurrentSelection.Remove(FFiles[I].FSFile.Name);
               end;
           end;
     end
@@ -773,10 +760,6 @@ begin
         if MatchesMaskList(FFiles[I].FSFile.Name, sMask) then
           begin
             FFiles[I].Selected := bSelect;
-            if bSelect then
-              FCurrentSelection.Add(FFiles[I].FSFile.Name)
-            else
-              FCurrentSelection.Remove(FFiles[I].FSFile.Name);
           end;
       end;
 end;
@@ -855,19 +838,34 @@ procedure TFileView.MakeFileSourceFileList;
 var
   Worker: TFileViewWorker;
   AThread: TFunctionThread = nil;
+  ClonedDisplayFiles: TDisplayFiles = nil;
+  DisplayFilesHashed: TStringHashList = nil;
+  i: Integer;
 begin
   if csDestroying in ComponentState then
     Exit;
 
   {$IFDEF timeFileView}
-  startTime := Now;
-  DCDebug('---- Start ----');
+  filelistLoaderTime := Now;
+  DCDebug('--------- Start ---------');
   {$ENDIF}
 
   StopWorkers;
 
   if gListFilesInThread then
     AThread := GetWorkersThread;
+
+  if FileSource.Equals(FLastLoadedFileSource) and
+     (FLastLoadedPath = CurrentPath) then
+  begin
+    // Clone all properties of display files, but don't clone the FS files
+    // themselves because new ones will be retrieved from FileSource.
+    ClonedDisplayFiles := FAllDisplayFiles.Clone(False);
+    DisplayFilesHashed := TStringHashList.Create(True);
+    // Map filename to display file.
+    for i := 0 to FAllDisplayFiles.Count - 1 do
+      DisplayFilesHashed.Add(FAllDisplayFiles[i].FSFile.Name, ClonedDisplayFiles[i]);
+  end;
 
   Worker := TFileListBuilder.Create(
     FileSource,
@@ -878,17 +876,18 @@ begin
     Sorting,
     AThread,
     FilePropertiesNeeded,
-    @SetFileList);
+    @SetFileList,
+    ClonedDisplayFiles,
+    DisplayFilesHashed);
 
   AddWorker(Worker);
 
   if gListFilesInThread then
   begin
     // Clear files.
-    if Assigned(FFileSourceFiles) then
+    if Assigned(FFiles) then
     begin
       FFiles.Clear; // Clear references to files from the source.
-      FreeAndNil(FFileSourceFiles);
     end;
 
     BeforeMakeFileList;
@@ -902,25 +901,7 @@ begin
 end;
 
 procedure TFileView.AfterMakeFileList;
-var
-  I: Integer;
-  OldSelection: TStringHashList;
 begin
-  OldSelection := FCurrentSelection;
-  FCurrentSelection := TStringHashList.Create(True);
-
-  // Restore last selection on reload and remove not existing files from the selection.
-  for I := 0 to FFiles.Count - 1 do
-    with FFiles[I] do
-    begin
-      if OldSelection.Find(FSFile.Name) >= 0 then
-      begin
-        Selected := True;
-        FCurrentSelection.Add(FSFile.Name);
-      end;
-    end;
-
-  OldSelection.Free;
 end;
 
 procedure TFileView.BeforeMakeFileList;
@@ -978,8 +959,12 @@ begin
     FHashedFiles.Free;
   // TBucketList seems to do fairly well without needing a proper hash table.
   FHashedFiles := TBucketList.Create(bl256);
-  for i := 0 to FFiles.Count - 1 do
-    FHashedFiles.Add(FFiles[i], nil);
+  FHashedNames.Clear;
+  for i := 0 to FAllDisplayFiles.Count - 1 do
+  begin
+    FHashedFiles.Add(FAllDisplayFiles[i], nil);
+    FHashedNames.Add(FAllDisplayFiles[i].FSFile.Name, FAllDisplayFiles[i]);
+  end;
 end;
 
 function TFileView.HasSelectedFiles: Boolean;
@@ -1331,8 +1316,6 @@ begin
   FLoadFilesFinishTime := 0;
   FLoadFilesNoDelayCount := 0;
 
-  FCurrentSelection.Clear;
-
   if Assigned(OnAfterChangePath) then
     OnAfterChangePath(Self);
 end;
@@ -1548,18 +1531,19 @@ begin
   ReDisplayFileList;
 end;
 
-procedure TFileView.SetFilelist(var NewDisplayFiles: TDisplayFiles;
-                                var NewFileSourceFiles: TFiles);
+procedure TFileView.SetFilelist(var NewAllDisplayFiles: TDisplayFiles;
+                                var NewFilteredDisplayFiles: TDisplayFiles);
 begin
-  if Assigned(FFiles) then
-    FFiles.Free;
-  FFiles := NewDisplayFiles;
-  NewDisplayFiles := nil;
+  FFiles.Free;
+  FFiles := NewFilteredDisplayFiles;
+  NewFilteredDisplayFiles := nil;
 
-  if Assigned(FFileSourceFiles) then
-    FFileSourceFiles.Free;
-  FFileSourceFiles := NewFileSourceFiles;
-  NewFileSourceFiles := nil;
+  FAllDisplayFiles.Free;
+  FAllDisplayFiles := NewAllDisplayFiles;
+  NewAllDisplayFiles := nil;
+
+  FLastLoadedFileSource := FileSource;
+  FLastLoadedPath := CurrentPath;
 
   HashFileList;
   AfterMakeFileList;
@@ -1745,9 +1729,10 @@ begin
   // Redisplaying file list is done in the main thread because it takes
   // relatively short time, so the user usually won't notice it and it is
   // a bit faster this way.
+  if not Assigned(FFiles) then
+    FFiles := TDisplayFiles.Create(False);
   TFileListBuilder.MakeDisplayFileList(
-    FileSource, FFileSourceFiles, FFiles, FileFilter, FFilterOptions);
-  HashFileList;
+    FAllDisplayFiles, FFiles, FileFilter, FFilterOptions);
   AfterMakeFileList;
 end;
 

@@ -23,8 +23,6 @@ uses
   uFileViewHeader
   ;
 
-//{$DEFINE timeFileView}
-
 type
 
   { Columns sorting }
@@ -192,8 +190,8 @@ type
     {en
        Format and cache all columns strings.
     }
-    procedure MakeColumnsStrings;
     procedure MakeColumnsStrings(AFile: TDisplayFile);
+    procedure MakeColumnsStrings(AFile: TDisplayFile; ColumnsClass: TPanelColumnsClass);
     procedure EnsureDisplayProperties;
     procedure UpdateFile(const UpdatedFile: TDisplayFile;
                          const UserData: Pointer);
@@ -385,11 +383,6 @@ const
   CANCEL_FILTER = 0;
   CANCEL_OPERATION = 1;
 
-{$IFDEF timeFileView}
-var
-  startTime: TDateTime;
-{$ENDIF}
-
 function TColumnsFileView.Focused: Boolean;
 begin
   Result := Assigned(dgPanel) and dgPanel.Focused;
@@ -415,7 +408,7 @@ procedure TColumnsFileView.SetSorting(const NewSortings: TFileSortings);
 begin
   SetColumnsSorting(NewSortings);
   inherited SetSorting(PrepareSortings); // NewSortings
-  TFileSorter.Sort(FFileSourceFiles, Sorting);
+  TFileSorter.Sort(FAllDisplayFiles, Sorting);
   ReDisplayFileList;
 end;
 
@@ -1018,7 +1011,7 @@ begin
 
   FColumnsSorting.AddSorting(Index, SortingDirection);
   inherited SetSorting(PrepareSortings);
-  TFileSorter.Sort(FFileSourceFiles, Sorting);
+  TFileSorter.Sort(FAllDisplayFiles, Sorting);
   ReDisplayFileList;
 end;
 
@@ -1149,7 +1142,7 @@ procedure TColumnsFileView.tmClearGridTimer(Sender: TObject);
 begin
   tmClearGrid.Enabled := False;
 
-  if not Assigned(FFileSourceFiles) or (FFileSourceFiles.Count = 0) then
+  if not Assigned(FFiles) or (FFiles.Count = 0) then
   begin
     SetRowCount(0);
     RedrawGrid;
@@ -1494,25 +1487,28 @@ begin
 
     SizeSupported := fpSize in FileSource.SupportedFileProperties;
 
-    for i := 0 to FFiles.Count - 1 do
+    if Assigned(FFiles) then
     begin
-      with FFiles[i] do
+      for i := 0 to FFiles.Count - 1 do
       begin
-        if FSFile.Name = '..' then Continue;
-
-        inc(FilesInDir);
-        if Selected then
-          inc(FilesSelected);
-
-        // Count size if Size property is supported.
-        if SizeSupported then
+        with FFiles[i] do
         begin
-          SizeProperty := FSFile.SizeProperty;
+          if FSFile.Name = '..' then Continue;
 
+          inc(FilesInDir);
           if Selected then
-            SizeSelected := SizeSelected + SizeProperty.Value;
+            inc(FilesSelected);
 
-          SizeInDir := SizeInDir + SizeProperty.Value;
+          // Count size if Size property is supported.
+          if SizeSupported then
+          begin
+            SizeProperty := FSFile.SizeProperty;
+
+            if Selected then
+              SizeSelected := SizeSelected + SizeProperty.Value;
+
+            SizeInDir := SizeInDir + SizeProperty.Value;
+          end;
         end;
       end;
     end;
@@ -2470,8 +2466,6 @@ end;
 
 procedure TColumnsFileView.DisplayFileListHasChanged;
 begin
-  MakeColumnsStrings;
-
   // Update grid row count.
   SetRowCount(FFiles.Count);
   RedrawGrid;
@@ -2485,33 +2479,15 @@ begin
   UpdateInfoPanel;
 end;
 
-procedure TColumnsFileView.MakeColumnsStrings;
-var
-  i, ACol: Integer;
-  ColumnsClass: TPanelColumnsClass;
-  AFile: TDisplayFile;
+procedure TColumnsFileView.MakeColumnsStrings(AFile: TDisplayFile);
 begin
-  ColumnsClass := GetColumnsClass;
-
-  for i := 0 to FFiles.Count - 1 do
-  begin
-    AFile := FFiles[i];
-    AFile.DisplayStrings.Clear;
-    for ACol := 0 to ColumnsClass.Count - 1 do
-    begin
-      AFile.DisplayStrings.Add(ColumnsClass.GetColumnItemResultString(
-        ACol, AFile.FSFile, FileSource));
-    end;
-  end;
+  MakeColumnsStrings(AFile, GetColumnsClass);
 end;
 
-procedure TColumnsFileView.MakeColumnsStrings(AFile: TDisplayFile);
+procedure TColumnsFileView.MakeColumnsStrings(AFile: TDisplayFile; ColumnsClass: TPanelColumnsClass);
 var
   ACol: Integer;
-  ColumnsClass: TPanelColumnsClass;
 begin
-  ColumnsClass := GetColumnsClass;
-
   AFile.DisplayStrings.Clear;
   for ACol := 0 to ColumnsClass.Count - 1 do
   begin
@@ -2551,8 +2527,11 @@ begin
                                                                     fspDirectAccess in FileSource.Properties);
         end;
         {$ENDIF}
-        FileSource.RetrieveProperties(AFile.FSFile, FilePropertiesNeeded);
-        MakeColumnsStrings(AFile);
+        if FileSource.CanRetrieveProperties(AFile.FSFile, FilePropertiesNeeded) then
+        begin
+          FileSource.RetrieveProperties(AFile.FSFile, FilePropertiesNeeded);
+          MakeColumnsStrings(AFile);
+        end;
       end;
     end;
   end
@@ -2654,7 +2633,7 @@ begin
   inherited;
   if Worker is TCalculateSpaceWorker then
   begin
-    TFileSorter.Sort(FFileSourceFiles, Sorting);
+    TFileSorter.Sort(FAllDisplayFiles, Sorting);
     ReDisplayFileList;
   end;
   dgPanel.Cursor := crDefault;
@@ -2664,6 +2643,7 @@ end;
 procedure TColumnsFileView.UpdateView;
 var
   bLoadingFilelist: Boolean;
+  i: Integer;
 begin
   inherited;
 
@@ -2682,8 +2662,19 @@ begin
 
   if bLoadingFilelist then
     MakeFileSourceFileList
-  else if Assigned(FFiles) then  // This condition is needed when cloning.
-    ReDisplayFileList;
+  else
+  begin
+    if Assigned(FAllDisplayFiles) then
+    begin
+      // Clear display strings in case columns have changed.
+      for i := 0 to FAllDisplayFiles.Count - 1 do
+        FAllDisplayFiles[i].DisplayStrings.Clear;
+
+      // This condition is needed when cloning to recreate filtered files.
+      if not Assigned(FFiles) then
+        ReDisplayFileList;
+    end;
+  end;
 end;
 
 function TColumnsFileView.GetActiveDisplayFile: TDisplayFile;
@@ -3277,6 +3268,8 @@ var
 
     end;
 
+    if AFile.DisplayStrings.Count = 0 then
+      ColumnsView.MakeColumnsStrings(AFile, ColumnsSet);
     s := AFile.DisplayStrings.Strings[ACol];
 
     if gCutTextToColWidth then
@@ -3312,6 +3305,8 @@ var
   var
     tw, cw: Integer;
   begin
+    if AFile.DisplayStrings.Count = 0 then
+      ColumnsView.MakeColumnsStrings(AFile, ColumnsSet);
     s := AFile.DisplayStrings.Strings[ACol];
 
     if gCutTextToColWidth then
