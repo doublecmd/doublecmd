@@ -105,7 +105,6 @@ implementation
 
 constructor TDisplayFile.Create(ReferenceFile: TFile);
 begin
-  FSelected := False;
   FIconID := -1;
   FIconOverlayID := -1;
   FFSFile := ReferenceFile;

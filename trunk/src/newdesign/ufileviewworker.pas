@@ -26,6 +26,7 @@ type
   TFileViewWorker = class
   strict private
     FAborted: Boolean;
+    {en After FCanBeDestroyed is set to True the worker may be destroyed.}
     FCanBeDestroyed: Boolean;
     FWorking: Boolean;
     FOnStarting: TStartingWorkMethod;
@@ -260,17 +261,11 @@ end;
 
 constructor TFileViewWorker.Create(AThread: TThread);
 begin
-  FAborted := False;
-  // After FCanBeDestroyed is set to True the worker may be destroyed.
-  FCanBeDestroyed := False;
-
   // Set Working=True on creation because these workers are usually scheduled
   // to run by a non-main thread, so it might take a while for Execute to be called.
   FWorking := True;
   FWorkType := fvwtNone;
 
-  FOnStarting := nil;
-  FOnFinished := nil;
   FThread := AThread;
 end;
 
@@ -872,12 +867,10 @@ begin
           end;
 
         finally
-          if Assigned(TargetFiles) then
-            FreeAndNil(TargetFiles);
+          FreeAndNil(TargetFiles);
           FOperationLock.Acquire;
           try
-            if Assigned(FOperation) then
-              FreeAndNil(FOperation);
+            FreeAndNil(FOperation);
           finally
             FOperationLock.Release;
           end;

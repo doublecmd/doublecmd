@@ -69,12 +69,9 @@ begin
   FRecycle := False;
   FDeleteReadOnly := fsoogNone;
   FDeleteDirectly:= fsoogNone;
-  FFullFilesTreeToDelete := nil;
 
   if gProcessComments then
-    FDescription := TDescription.Create(True)
-  else
-    FDescription := nil;
+    FDescription := TDescription.Create(True);
 
   inherited Create(aTargetFileSource, theFilesToDelete);
 end;
@@ -91,8 +88,7 @@ begin
 
   if not FRecycle then
   begin
-    if Assigned(FFullFilesTreeToDelete) then
-      FreeAndNil(FFullFilesTreeToDelete);
+    FreeAndNil(FFullFilesTreeToDelete);
   end;
 end;
 

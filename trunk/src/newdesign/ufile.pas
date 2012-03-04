@@ -279,10 +279,6 @@ var
 begin
   inherited Create;
 
-  FSupportedProperties := [];
-  for PropertyType := Low(TFilePropertyType) to High(TFilePropertyType) do
-    FProperties[PropertyType] := nil;
-
   // Name property always present.
   NameProperty := TFileNameProperty.Create;
 
@@ -853,8 +849,7 @@ var
 begin
   inherited Destroy;
 
-  if Assigned(FFile) then
-    FreeAndNil(FFile);
+  FreeAndNil(FFile);
 
   if Assigned(FSubNodes) then
   begin
@@ -863,8 +858,7 @@ begin
     FreeAndNil(FSubNodes);
   end;
 
-  if Assigned(FData) then
-    FreeAndNil(FData);
+  FreeAndNil(FData);
 end;
 
 function TFileTreeNode.AddSubNode(aFile: TFile): Integer;

@@ -425,19 +425,12 @@ begin
   FState := fsosNotStarted;
   FDesiredState := fsosRunning;  // set for auto-start unless prevented by PreventStart
   FOperationResult := fsorFinished;
-  FProgress := 0;
   FPauseEvent := RTLEventCreate;
   FConnectionAvailableEvent := RTLEventCreate;
   FStateLock := TCriticalSection.Create;
   FEventsLock := TCriticalSection.Create;
-  FThread := nil;
-  FConnection := nil;
-  FOperationInitialized := False;
-  FParentOperation := nil;
 
 {$IFNDEF fsoSynchronizeEvents}
-  FScheduledEventsListenersCalls := 0;
-
   FNoEventsListenersCallsScheduledEvent := RTLEventCreate;
   // Set at start because we don't have any calls scheduled at this time.
   RTLeventSetEvent(FNoEventsListenersCallsScheduledEvent);
@@ -449,8 +442,6 @@ begin
   RTLeventResetEvent(FUserInterfaceAssignedEvent);
 
   FStateChangedEventListeners := TFPList.Create;
-
-  FStartTime := 0;
 
   FFileSource := aFileSource;
 

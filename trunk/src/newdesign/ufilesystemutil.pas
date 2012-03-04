@@ -27,8 +27,6 @@ type
   public
     // True if any of the subnodes (recursively) are links.
     SubnodesHaveLinks: Boolean;
-
-    constructor Create;
   end;
 
   TUpdateStatisticsFunction = procedure(var NewStatistics: TFileSourceCopyOperationStatistics) of object;
@@ -313,21 +311,12 @@ end;
 
 // ----------------------------------------------------------------------------
 
-constructor TFileTreeNodeData.Create;
-begin
-  SubnodesHaveLinks := False;
-end;
-
-// ----------------------------------------------------------------------------
-
 constructor TFileSystemTreeBuilder.Create(AskQuestionFunction: TAskQuestionFunction;
                                           CheckOperationStateFunction: TCheckOperationStateFunction);
 begin
   AskQuestion := AskQuestionFunction;
   CheckOperationState := CheckOperationStateFunction;
 
-  FFilesTree := nil;
-  FExcludeRootDir := False;
   FRecursive := True;
   FSymlinkOption := fsooslNone;
 end;
@@ -335,17 +324,14 @@ end;
 destructor TFileSystemTreeBuilder.Destroy;
 begin
   inherited Destroy;
-
-  if Assigned(FFilesTree) then
-    FreeAndNil(FFilesTree);
+  FFilesTree.Free;
 end;
 
 procedure TFileSystemTreeBuilder.BuildFromFiles(Files: TFiles);
 var
   i: Integer;
 begin
-  if Assigned(FFilesTree) then
-    FreeAndNil(FFilesTree);
+  FreeAndNil(FFilesTree);
 
   FFilesTree := TFileTreeNode.Create;
   FFilesTree.Data := TFileTreeNodeData.Create;
@@ -841,8 +827,7 @@ begin
       end;
 
     finally
-      if Assigned(SourceFileStream) then
-        FreeAndNil(SourceFileStream);
+      FreeAndNil(SourceFileStream);
       if Assigned(TargetFileStream) then
       begin
         FreeAndNil(TargetFileStream);
