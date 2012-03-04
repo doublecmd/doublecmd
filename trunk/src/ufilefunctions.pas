@@ -192,7 +192,7 @@ begin
       fsfExtension:
         begin
           if AFile.Extension <> '' then
-            Result := '.' + AFile.Extension;
+            Result := AFile.Extension;
         end;
 
       fsfSize:
