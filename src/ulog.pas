@@ -70,7 +70,7 @@ begin
   begin
     LogSplitter.Visible:= bShow;
     seLogWindow.Visible:= bShow;
-    Application.ProcessMessages;
+    LogSplitter.Top := seLogWindow.Top - LogSplitter.Height;
   end;
 end;
 
@@ -148,4 +148,4 @@ begin
   TThread.Synchronize(FThread, @LogWriteInTheThread);
 end;
 
-end.
+end.
