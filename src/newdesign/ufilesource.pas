@@ -365,8 +365,6 @@ begin
   inherited Create;
 
   FReloadEventListeners := TMethodList.Create;
-  for OperationType := Low(OperationType) to High(OperationType) do
-    FOperationsClasses[OperationType] := nil;
 
   FileSourceManager.Add(Self); // Increases RefCount
 
@@ -413,7 +411,7 @@ begin
   else
     DCDebug('Error: Cannot remove file source - manager already destroyed!');
 
-  FreeThenNil(FReloadEventListeners);
+  FreeAndNil(FReloadEventListeners);
 
   inherited Destroy;
 end;
@@ -763,7 +761,6 @@ end;
 
 constructor TFileSourceConnection.Create;
 begin
-  FAssignedOperation := nil;
   FOperationLock := TCriticalSection.Create;
   inherited Create;
   DCDebug('Creating connection ', ClassName);
@@ -778,8 +775,7 @@ begin
 
   DCDebug('Destroying connection ', ClassName);
 
-  if Assigned(FOperationLock) then
-    FreeAndNil(FOperationLock);
+  FreeAndNil(FOperationLock);
 end;
 
 function TFileSourceConnection.GetAssignedOperation: TFileSourceOperation;
@@ -872,10 +868,9 @@ begin
     end;
   end;
 
-  if Assigned(FFileSources) then
-    FreeAndNil(FFileSources);
+  FreeAndNil(FFileSources);
 
-  inherited;
+  inherited Destroy;
 end;
 
 procedure TFileSourceManager.Add(aFileSource: IFileSource);

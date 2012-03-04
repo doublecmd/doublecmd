@@ -2271,18 +2271,11 @@ procedure TColumnsFileView.CreateDefault(AOwner: TWinControl);
 begin
   DCDebug('TColumnsFileView.Create components');
 
-  dgPanel := nil;
-
   BorderStyle := bsNone; // Before Create or the window handle may be recreated
   inherited CreateDefault(AOwner);
   Align := alClient;
 
-  ActiveColm := '';
-  ActiveColmSlave := nil;
-  isSlave := False;
-  FColumnsSorting := nil;
   FLastSelectionStartRow := -1;
-  FUpdatingGrid := False;
   FFileNameColumn := -1;
   FExtensionColumn := -1;
 
@@ -2388,8 +2381,9 @@ begin
   if Assigned(HotMan) then
     HotMan.UnRegister(dgPanel);
 
-  FreeThenNil(FColumnsSorting);
   inherited Destroy;
+
+  FColumnsSorting.Free;
 end;
 
 function TColumnsFileView.Clone(NewParent: TWinControl): TColumnsFileView;
@@ -2564,8 +2558,7 @@ begin
       end;
 
     finally
-      if Assigned(AFileList) then
-        FreeAndNil(AFileList);
+      FreeAndNil(AFileList);
     end;
   end;
 end;
@@ -2735,8 +2728,7 @@ begin
     CalculateSpace(AFileList);
 
   finally
-    if Assigned(AFileList) then
-      FreeAndNil(AFileList);
+    FreeAndNil(AFileList);
   end;
 end;
 
@@ -2757,8 +2749,7 @@ begin
     CalculateSpace(AFileList);
 
   finally
-    if Assigned(AFileList) then
-      FreeAndNil(AFileList);
+    FreeAndNil(AFileList);
   end;
 end;
 
@@ -2833,8 +2824,7 @@ begin
     frmMain.DoDragDropOperation(Operation, DropParams);
 
   finally
-    if Assigned(DropParams) then
-      FreeAndNil(DropParams);
+    FreeAndNil(DropParams);
   end;
 end;
 
@@ -3166,10 +3156,8 @@ end;
 
 procedure TDrawGridEx.FinalizeWnd;
 begin
-  if Assigned(DragDropSource) then
-    FreeAndNil(DragDropSource);
-  if Assigned(DragDropTarget) then
-    FreeAndNil(DragDropTarget);
+  FreeAndNil(DragDropSource);
+  FreeAndNil(DragDropTarget);
 
   inherited;
 end;

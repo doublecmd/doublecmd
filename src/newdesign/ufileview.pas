@@ -445,36 +445,16 @@ end;
 
 procedure TFileView.CreateDefault(AOwner: TWinControl);
 begin
-  FOnBeforeChangePath := nil;
-  FOnAfterChangePath := nil;
-  FOnChangeActiveFile := nil;
-  FOnActivate := nil;
-  FOnReload := nil;
-  FSortings := nil;
-  FFilePropertiesNeeded := [];
   FMethods := TFormCommands.Create(Self);
   FHistory := TFileViewHistory.Create;
   FSavedSelection:= TStringListEx.Create;
-  FActive := False;
-  FLastActiveFile := '';
-  FRequestedActiveFile := '';
   FLastMark := '*';
-  FFileFilter := '';
   FFilterOptions := gQuickSearchOptions;
-  FFiles := nil;
-  FHashedFiles := nil;
   FHashedNames := TStringHashList.Create(True);
-  FWorkersThread := nil;
-  FReloading := False;
-  FReloadNeeded := False;
   FFileViewWorkers := TFileViewWorkers.Create(False);
-  FWatchPath := EmptyStr;
   FReloadTimer := TTimer.Create(Self);
   FReloadTimer.Enabled := False;
   FReloadTimer.OnTimer := @ReloadTimerEvent;
-  FLoadFilesStartTime := 0;
-  FLoadFilesFinishTime := 0;
-  FLoadFilesNoDelayCount := 0;
 
   inherited Create(AOwner);
   Parent := AOwner;
@@ -522,11 +502,9 @@ begin
 
   RemoveAllFileSources;
 
-  if Assigned(FFiles) then
-    FreeAndNil(FFiles);
+  FreeAndNil(FFiles);
   FreeAndNil(FAllDisplayFiles);
-  if Assigned(FHashedFiles) then
-    FreeAndNil(FHashedFiles);
+  FreeAndNil(FHashedFiles);
   FreeAndNil(FHashedNames);
 
   inherited Destroy;
@@ -955,8 +933,7 @@ var
   i: Integer;
 begin
   // Cannot use FHashedFiles.Clear because it also destroys the buckets.
-  if Assigned(FHashedFiles) then
-    FHashedFiles.Free;
+  FHashedFiles.Free;
   // TBucketList seems to do fairly well without needing a proper hash table.
   FHashedFiles := TBucketList.Create(bl256);
   FHashedNames.Clear;
@@ -1788,8 +1765,8 @@ end;
 
 destructor TDropParams.Destroy;
 begin
-  if Assigned(Files) then
-    FreeAndNil(Files);
+  inherited Destroy;
+  FreeAndNil(Files);
 end;
 
 function TDropParams.GetDragDropType: TDragDropType;

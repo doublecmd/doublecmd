@@ -59,9 +59,6 @@ constructor TFileSystemMoveOperation.Create(aFileSource: IFileSource;
                                             var theSourceFiles: TFiles;
                                             aTargetPath: String);
 begin
-  FSourceFilesTree := nil;
-  FOperationHelper := nil;
-
   // Here we can read global settings if there are any.
   FFileExistsOption := gOperationOptionFileExists;
   FDirExistsOption := gOperationOptionDirectoryExists;
@@ -75,12 +72,8 @@ end;
 destructor TFileSystemMoveOperation.Destroy;
 begin
   inherited Destroy;
-
-  if Assigned(FSourceFilesTree) then
-    FreeAndNil(FSourceFilesTree);
-
-  if Assigned(FOperationHelper) then
-    FreeAndNil(FOperationHelper);
+  FreeAndNil(FSourceFilesTree);
+  FreeAndNil(FOperationHelper);
 end;
 
 procedure TFileSystemMoveOperation.Initialize;

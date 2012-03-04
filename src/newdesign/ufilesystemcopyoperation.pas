@@ -95,9 +95,6 @@ constructor TFileSystemCopyOperation.Create(aSourceFileSource: IFileSource;
                                             var theSourceFiles: TFiles;
                                             aTargetPath: String);
 begin
-  FSourceFilesTree := nil;
-  FOperationHelper := nil;
-
   // Here we can read global settings if there are any.
   FDropReadOnlyAttribute := False;
   FSymLinkOption := gOperationOptionSymLinks;
@@ -114,12 +111,8 @@ end;
 destructor TFileSystemCopyOperation.Destroy;
 begin
   inherited Destroy;
-
-  if Assigned(FSourceFilesTree) then
-    FreeAndNil(FSourceFilesTree);
-
-  if Assigned(FOperationHelper) then
-    FreeAndNil(FOperationHelper);
+  FreeAndNil(FSourceFilesTree);
+  FreeAndNil(FOperationHelper);
 end;
 
 procedure TFileSystemCopyOperation.Initialize;
@@ -176,8 +169,7 @@ end;
 
 procedure TFileSystemCopyOperation.Finalize;
 begin
-  if Assigned(FOperationHelper) then
-    FreeAndNil(FOperationHelper);
+  FreeAndNil(FOperationHelper);
 end;
 
 class function TFileSystemCopyOperation.GetOptionsUIClass: TFileSourceOperationOptionsUIClass;

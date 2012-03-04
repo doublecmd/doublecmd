@@ -147,9 +147,6 @@ begin
   with AFile do
   begin
     OwnerProperty := TFileOwnerProperty.Create;
-    OwnerProperty.Owner := 0;
-    OwnerProperty.Group := 0;
-
     if GetFileOwner(FullPath, sUser, sGroup) then
     begin
       OwnerProperty.OwnerStr := sUser;
@@ -285,9 +282,8 @@ end;
 
 destructor TFileSystemFileSource.Destroy;
 begin
-  if Assigned(FDescr) then
-    FreeAndNil(FDescr);
   inherited Destroy;
+  FDescr.Free;
 end;
 
 class function TFileSystemFileSource.CreateFile(const APath: String): TFile;
