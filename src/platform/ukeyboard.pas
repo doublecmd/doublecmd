@@ -1105,9 +1105,8 @@ begin
   UnhookKeyboardLayoutChanged;
 end;
 
-
-initialization
 {$IF DEFINED(UNIX)}
+initialization
   // Get connection to X server.
   {$IF DEFINED(LCLGTK)}
   XDisplay := gdk_display;
@@ -1118,9 +1117,8 @@ initialization
   {$ENDIF}
 {$ENDIF}
 
-
-finalization
 {$IF DEFINED(UNIX) and DEFINED(LCLQT)}
+finalization
   XCloseDisplay(XDisplay);
 {$ENDIF}
 
