@@ -2905,47 +2905,50 @@ end;
 procedure TfrmMain.sboxDrivePaint(Sender: TObject);
 var
   pbxDrive: TPaintBox absolute Sender;
-  indexColor: Int64;
+  FillPercentage: PtrInt;
   i: Integer;
-  AColor: TColor;
+  AColor, AColor2: TColor;
   ARect: TRect;
 begin
-  indexColor:= pbxDrive.Tag;
-  if indexColor <> -1 then
+  FillPercentage:= pbxDrive.Tag;
+  if FillPercentage <> -1 then
   begin
-    pbxDrive.Canvas.Brush.Color:= clGray;
-    pbxDrive.Canvas.FillRect(2, 0, pbxDrive.Width - 2, pbxDrive.Height - 1);
+    pbxDrive.Canvas.Brush.Color:= clBlack;
+    pbxDrive.Canvas.FrameRect(0, 0, pbxDrive.Width - 1, pbxDrive.Height - 1);
 
-    ARect:= Rect(3, 1, pbxDrive.Width - 3, pbxDrive.Height - 2);
+    ARect.Top    := 1;
+    ARect.Bottom := pbxDrive.Height - 2;
 
     if not gIndUseGradient then
       begin
-        AColor := gIndBackColor;
-        pbxDrive.Canvas.GradientFill(ARect, DarkColor(AColor, 25), LightColor(AColor, 25), gdVertical);
-        ARect := Rect(3, 1, 3+indexColor * (pbxDrive.Width - 6) div 100, pbxDrive.Height - 2);
+        ARect.Left  := 1;
+        ARect.Right := 1 + FillPercentage * (pbxDrive.Width - 2) div 100;
         AColor := gIndForeColor;
         pbxDrive.Canvas.GradientFill(ARect, LightColor(AColor, 25), DarkColor(AColor, 25), gdVertical);
+        ARect.Left  := ARect.Right + 1;
+        ARect.Right := pbxDrive.Width - 2;
+        AColor := gIndBackColor;
+        pbxDrive.Canvas.GradientFill(ARect, DarkColor(AColor, 25), LightColor(AColor, 25), gdVertical);
       end
     else
       begin
-        pbxDrive.Canvas.GradientFill(ARect, clSilver, clWhite, gdVertical);
-
-        for i:= 0 to IndexColor - 1 do
+        ARect.Right := 1;
+        for i := 0 to FillPercentage - 1 do
         begin
           if i <= 50 then
-            pbxDrive.Canvas.Brush.Color:= RGB(0 + 5 * i, 255, 0)
+            AColor:= RGB(0 + 5 * i, 255, 0)
           else
-            pbxDrive.Canvas.Brush.Color:= RGB(255, 255 - 5 * (i - 50), 0);
+            AColor:= RGB(255, 255 - 5 * (i - 50), 0);
+          AColor2:= DarkColor(AColor, 50);
 
-          AColor:= DarkColor(pbxDrive.Canvas.Brush.Color, 50);
+          ARect.Left  := ARect.Right;
+          ARect.Right := 1 + (i + 1) * (pbxDrive.Width - 2) div 100;
 
-          ARect:= Rect(3 + i * (pbxDrive.Width - 6) div 100, 1,
-                       3 + (i + 1) * (pbxDrive.Width - 6) div 100,
-                       pbxDrive.Height - 2);
-
-           pbxDrive.Canvas.GradientFill(ARect, pbxDrive.Canvas.Brush.Color,
-                                   AColor, gdVertical);
+          pbxDrive.Canvas.GradientFill(ARect, AColor, AColor2, gdVertical);
         end;
+        ARect.Left  := ARect.Right;
+        ARect.Right := pbxDrive.Width - 2;
+        pbxDrive.Canvas.GradientFill(ARect, clSilver, clWhite, gdVertical);
       end;
   end;
 end;
@@ -3958,6 +3961,7 @@ begin
     lblLeftDriveInfo.Visible:= gDriveFreeSpace;
     pbxLeftDrive.Visible := gDriveInd;
     pnlLeftTools.Visible:= gDrivesListButton or gDriveFreeSpace or gDriveInd;
+    pnlLeftTools.DoubleBuffered := True;
 
     btnRightDrive.Visible := gDrivesListButton;
     btnRightDrive.Flat := gInterfaceFlat;
@@ -3974,6 +3978,7 @@ begin
     lblRightDriveInfo.Visible:= gDriveFreeSpace;
     pbxRightDrive.Visible := gDriveInd;
     pnlRightTools.Visible:= gDrivesListButton or gDriveFreeSpace or gDriveInd;
+    pnlRightTools.DoubleBuffered := True;
 
     // Free space indicator.
     if gDriveFreeSpace then
