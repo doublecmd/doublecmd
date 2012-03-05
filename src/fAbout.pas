@@ -72,13 +72,13 @@ uses
 const
   cIndention = LineEnding + #32#32;
   cAboutMsg =
-    'This program is free software under GNU GPL 2 license, see COPYING file' + LineEnding +
+    'This program is free software under GNU GPL 2 license, see COPYING.txt file.' + LineEnding + LineEnding +
     'Active developers: '+ cIndention +
     'Alexander Koblov (Alexx2000@mail.ru) - author, core developer' + cIndention +
-    'Przemysław Nagay (cobines@gmail.com) - core developer' + LineEnding +
+    'Przemysław Nagay (cobines@gmail.com) - core developer' + LineEnding + LineEnding +
     'Recent developers: ' + cIndention +
     'Dmitry Kolomiets (B4rr4cuda@rambler.ru) - developer' + cIndention +
-    'Radek Cervinka (radek.cervinka@centrum.cz) - author of Seksi Commander' + LineEnding +
+    'Radek Cervinka (radek.cervinka@centrum.cz) - author of Seksi Commander' + LineEnding + LineEnding +
     'Contributors:' + cIndention +
     'Tolstov Igor (attid@yandex.ru)' + cIndention +
     'Rustem Rakhimov (dok_rust@bk.ru)' + cIndention +
@@ -92,12 +92,13 @@ const
     'Vaclav Juza (vaclavjuza@seznam.cz)' + cIndention +
     'Martin Matusu (xmat@volny.cz) - chown, chgrp' + cIndention +
     'Radek Polak - some viewer fixes' + cIndention +
-    'translators (see detail in lng files)  ' + LineEnding + LineEnding +
-    'In program used icons from:' + LineEnding +
+    'Dmytro Zheludko (doublecmd@zheludko.mail.ua)' + cIndention +
+    'translators (see details in language files)  ' + LineEnding + LineEnding +
+    'Double Commander uses icons from:' + LineEnding +
     '- Tango Icon Library (http://tango.freedesktop.org/Tango_Icon_Library)' + LineEnding +
     '- Silk icon set 1.3 by Mark James (http://www.famfamfam.com/lab/icons/silk/)' + LineEnding +
     '- Oxygen icon theme (http://oxygen-icons.org)' + LineEnding + LineEnding +
-    'Big thanks to Lazarus and FreePascal Team';
+    'Big thanks to Lazarus and Free Pascal Team!';
 
 procedure ShowAboutBox;
 begin
