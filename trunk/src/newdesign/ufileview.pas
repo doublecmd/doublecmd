@@ -97,6 +97,7 @@ type
     FOnActivate : TOnActivate;
     FOnReload : TOnReload;
 
+    procedure AddFile(FileName, APath: String);
     function GetCurrentAddress: String;
     function GetNotebookPage: TCustomPage;
     function GetCurrentFileSource: IFileSource;
@@ -108,6 +109,10 @@ type
     function GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
     function GetPathsCount(FileSourceIndex: Integer): Integer;
     function GetWatcherActive: Boolean;
+    procedure RemoveFile(FileName: String);
+    procedure RenameFile(NewFileName, OldFileName: String);
+    procedure ResortFile(ADisplayFile: TDisplayFile);
+    procedure UpdateFile(FileName: String);
     {en
        Assigns the built lists to the file view and displays new the file list.
     }
@@ -555,6 +560,102 @@ begin
     Result := Parent as TCustomPage
   else
     Result := nil;
+end;
+
+procedure TFileView.AddFile(FileName, APath: String);
+var
+  AFile: TFile;
+  ADisplayFile: TDisplayFile;
+  I: Integer;
+begin
+  I := FHashedNames.Find(FileName);
+  if I >= 0 then
+    UpdateFile(FileName)
+  else
+  begin
+    AFile := TFile.Create(APath);
+    AFile.Name := FileName;
+    ADisplayFile := TDisplayFile.Create(AFile);
+    FHashedFiles.Add(ADisplayFile, nil);
+    FHashedNames.Add(FileName, ADisplayFile);
+    FileSource.RetrieveProperties(AFile, FilePropertiesNeeded);
+    TFileSorter.InsertSort(ADisplayFile, FAllDisplayFiles, Sorting);
+    ReDisplayFileList;
+  end;
+end;
+
+procedure TFileView.RemoveFile(FileName: String);
+var
+  ADisplayFile: TDisplayFile;
+  I, J: Integer;
+begin
+  I := FHashedNames.Find(FileName);
+  if I >= 0 then
+  begin
+    ADisplayFile := TDisplayFile(FHashedNames.List[I]^.Data);
+    FHashedNames.Remove(FileName);
+    FHashedFiles.Remove(ADisplayFile);
+    for J := 0 to FAllDisplayFiles.Count - 1 do
+      if FAllDisplayFiles[J] = ADisplayFile then
+      begin
+        FAllDisplayFiles.Delete(J);
+        Break;
+      end;
+    ReDisplayFileList;
+  end;
+end;
+
+procedure TFileView.RenameFile(NewFileName, OldFileName: String);
+var
+  ADisplayFile: TDisplayFile;
+  I, J: Integer;
+begin
+  I := FHashedNames.Find(OldFileName);
+  if I >= 0 then
+  begin
+    ADisplayFile := TDisplayFile(FHashedNames.List[I]^.Data);
+    ADisplayFile.FSFile.Name := NewFileName;
+    FHashedNames.Remove(OldFileName);
+    FHashedNames.Add(NewFileName, ADisplayFile);
+    ADisplayFile.IconID := -1;
+    ADisplayFile.IconOverlayID := -1;
+    ADisplayFile.DisplayStrings.Clear;
+    ResortFile(ADisplayFile);
+    ReDisplayFileList;
+  end;
+end;
+
+procedure TFileView.ResortFile(ADisplayFile: TDisplayFile);
+var
+  I: Integer;
+begin
+  for I := 0 to FAllDisplayFiles.Count - 1 do
+    if FAllDisplayFiles[I] = ADisplayFile then
+    begin
+      FAllDisplayFiles[I] := nil; // Set to nil so that it isn't freed when deleting.
+      FAllDisplayFiles.Delete(I);
+      TFileSorter.InsertSort(ADisplayFile, FAllDisplayFiles, Sorting);
+      Break;
+    end;
+end;
+
+procedure TFileView.UpdateFile(FileName: String);
+var
+  AFile: TFile;
+  ADisplayFile: TDisplayFile;
+  I: Integer;
+begin
+  I := FHashedNames.Find(FileName);
+  if I >= 0 then
+  begin
+    ADisplayFile := TDisplayFile(FHashedNames.List[I]^.Data);
+    AFile := ADisplayFile.FSFile;
+    AFile.ClearProperties;
+    FileSource.RetrieveProperties(AFile, FilePropertiesNeeded);
+    ADisplayFile.DisplayStrings.Clear;
+    ResortFile(ADisplayFile);
+    ReDisplayFileList;
+  end;
 end;
 
 function TFileView.GetCurrentAddress: String;
@@ -1613,7 +1714,21 @@ end;
 
 procedure TFileView.WatcherEvent(const EventData: TFSWatcherEventData);
 begin
-  Reload(EventData.Path);
+  if IncludeTrailingPathDelimiter(EventData.Path) = CurrentPath then
+  begin
+    case EventData.EventType of
+      fswFileCreated:
+        Self.AddFile(EventData.FileName, EventData.Path);
+      fswFileChanged:
+        Self.UpdateFile(EventData.FileName);
+      fswFileDeleted:
+        Self.RemoveFile(EventData.FileName);
+      fswFileRenamed:
+        Self.RenameFile(EventData.FileName, EventData.OldFileName);
+      else
+        Reload(EventData.Path);
+    end;
+  end;
 end;
 
 procedure TFileView.GoToHistoryIndex(aFileSourceIndex, aPathIndex: Integer);

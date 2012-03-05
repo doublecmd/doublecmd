@@ -713,7 +713,13 @@ end;
 function TFileSystemFileSource.GetRetrievableFileProperties: TFilePropertiesTypes;
 begin
   Result := inherited GetRetrievableFileProperties
-          + [fpOwner,
+          + [fpSize,
+             fpAttributes,
+             fpModificationTime,
+             fpCreationTime,
+             fpLastAccessTime,
+             uFileProperty.fpLink,
+             fpOwner,
              fpType,
              fpComment
              {$IF DEFINED(MSWINDOWS)}
