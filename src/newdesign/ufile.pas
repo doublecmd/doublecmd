@@ -94,6 +94,10 @@ type
     function Clone: TFile;
     procedure CloneTo(AFile: TFile);
 
+    {en
+       Frees all properties except for Name (which is always required).
+    }
+    procedure ClearProperties;
     function ReleaseProperty(PropType: TFilePropertyType): TFileProperty;
 
     {en
@@ -326,6 +330,15 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TFile.ClearProperties;
+var
+  PropertyType: TFilePropertyType;
+begin
+  for PropertyType := Succ(fpName) to High(TFilePropertyType) do
+    FreeAndNil(FProperties[PropertyType]);
+  FSupportedProperties := [fpName];
 end;
 
 function TFile.ReleaseProperty(PropType: TFilePropertyType): TFileProperty;

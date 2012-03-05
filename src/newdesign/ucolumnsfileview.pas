@@ -1357,7 +1357,6 @@ end;
 procedure TColumnsFileView.edtRenameExit(Sender: TObject);
 begin
   edtRename.Visible := False;
-  UnMarkAll;
 
   // dgPanelEnter don't called automatically (bug?)
   dgPanelEnter(dgPanel);
