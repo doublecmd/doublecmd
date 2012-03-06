@@ -90,7 +90,7 @@ implementation
 {$R *.lfm}
 
 uses
-  fMain, LCLType, uGlobs, uLng, uHotkeyManager;
+  fMain, LCLType, LCLVersion, uGlobs, uLng, uHotkeyManager;
 
 const
   HotkeysCategory = 'Copy/Move Dialog';
@@ -233,6 +233,7 @@ begin
         TButton(pnlSelector.Controls[9]).Click;
     end;
 
+  {$IF lcl_fullversion < 093100}
   case Key of
     VK_ESCAPE: // Must handle before drag manager. Lazarus bug 0020676.
       begin
@@ -240,12 +241,13 @@ begin
         Key := 0;
       end;
   end;
+  {$ENDIF}
 end;
 
 procedure TfrmCopyDlg.btnCancelMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+{$IF (DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100)}
   if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
     ModalResult := btnCancel.ModalResult;
 {$ENDIF}
@@ -253,15 +255,15 @@ end;
 
 procedure TfrmCopyDlg.btnAddToQueueClick(Sender: TObject);
 begin
-{$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
-    FOperationStartingState := ossQueueLast;
+{$IF NOT ((DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100))}
+  FOperationStartingState := ossQueueLast;
 {$ENDIF}
 end;
 
 procedure TfrmCopyDlg.btnAddToQueueMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+{$IF (DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100)}
   if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
   begin
     cm_AddToQueue('');
@@ -271,7 +273,7 @@ end;
 
 procedure TfrmCopyDlg.btnOKClick(Sender: TObject);
 begin
-{$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+{$IF NOT ((DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100))}
   FOperationStartingState := ossAutoStart;
 {$ENDIF}
 end;
@@ -279,7 +281,7 @@ end;
 procedure TfrmCopyDlg.btnOkMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+{$IF (DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100)}
   if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
   begin
      FOperationStartingState := ossAutoStart;
@@ -290,7 +292,7 @@ end;
 
 procedure TfrmCopyDlg.btnOptionsClick(Sender: TObject);
 begin
-{$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+{$IF NOT ((DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100))}
   ShowOptions(not pnlOptions.Visible);
 {$ENDIF}
 end;
@@ -298,7 +300,7 @@ end;
 procedure TfrmCopyDlg.btnOptionsMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+{$IF (DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100)}
   if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
     ShowOptions(not pnlOptions.Visible);
 {$ENDIF}
@@ -392,4 +394,4 @@ end;
 initialization
   TFormCommands.RegisterCommandsForm(TfrmCopyDlg, HotkeysCategory, @rsHotkeyCategoryCopyMoveDialog);
 
-end.
+end.
