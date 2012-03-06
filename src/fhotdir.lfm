@@ -53,6 +53,7 @@ object frmHotDir: TfrmHotDir
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 8
     BorderSpacing.Right = 6
+    Cancel = True
     Caption = 'Cancel'
     Kind = bkCancel
     ModalResult = 2
