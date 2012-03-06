@@ -112,13 +112,17 @@ type
     bPerm: Boolean;
     iCurrent: Integer;
     FFileSource: IFileSource;
-    fFiles: TFiles;
+    FFiles: TFiles;
     FPropertyFormatter: IFilePropertyFormatter;
     FFileSourceCalcStatisticsOperation: TFileSourceCalcStatisticsOperation;
     ChangeTriggersEnabled: Boolean;
+    OriginalAttr: TFileAttrs;
+    OriginalUser, OriginalGroup: String;
+    FChangedProperties: Boolean;
 
-    procedure ShowAttr(Mode: TFileAttrs);
+    procedure ShowPermissions(Mode: TFileAttrs);
     function ChangeProperties: Boolean;
+    function CheckIfChangedProperties: Boolean;
     function GetModeFromForm: TFileAttrs;
     procedure ShowFile(iIndex:Integer);
     procedure AllowChange(Allow: Boolean);
@@ -157,11 +161,9 @@ end;
 
 constructor TfrmFileProperties.Create(AOwner: TComponent; aFileSource: IFileSource; theFiles: TFiles);
 begin
-  iCurrent := 0;
   FFileSource:= aFileSource;
-  fFiles := theFiles;
+  FFiles := theFiles;
   FPropertyFormatter := MaxDetailsFilePropertyFormatter;
-  FFileSourceCalcStatisticsOperation:= nil;
   ChangeTriggersEnabled := True;
 
   inherited Create(AOwner);
@@ -194,6 +196,8 @@ end;
 
 procedure TfrmFileProperties.btnCloseClick(Sender: TObject);
 begin
+  if FChangedProperties then
+    FFileSource.Reload(FFiles.Path);
   Close;
 end;
 
@@ -219,7 +223,7 @@ begin
   if ChangeTriggersEnabled then
   begin
     ChangeTriggersEnabled := False;
-    ShowAttr(OctToDec(edtOctal.Text));
+    ShowPermissions(OctToDec(edtOctal.Text));
     ChangeTriggersEnabled := True;
   end;
 end;
@@ -229,11 +233,12 @@ begin
   repeat
     if not ChangeProperties then Exit;
     Inc (iCurrent);
-  until (iCurrent = fFiles.Count);
+  until (iCurrent = FFiles.Count);
+  FFileSource.Reload(FFiles.Path);
   Close;
 end;
 
-procedure TfrmFileProperties.ShowAttr(Mode: TFileAttrs);
+procedure TfrmFileProperties.ShowPermissions(Mode: TFileAttrs);
 begin
   cbReadOwner.Checked:= ((Mode AND S_IRUSR) = S_IRUSR);
   cbWriteOwner.Checked:= ((Mode AND S_IWUSR) = S_IWUSR);
@@ -255,21 +260,28 @@ end;
 function TfrmFileProperties.ChangeProperties: Boolean;
 begin
   Result:= True;
-  if not fFiles[iCurrent].IsLink then
+  if not FFiles[iCurrent].IsLink then
   begin
-    if fpchmod(PAnsiChar(UTF8ToSys(fFiles[iCurrent].FullPath)), GetModeFromForm) <> 0 then
+    if fpchmod(PAnsiChar(UTF8ToSys(FFiles[iCurrent].FullPath)), GetModeFromForm) <> 0 then
       begin
-        if MessageDlg(Caption, Format(rsPropsErrChMod, [fFiles[iCurrent].Name]), mtError, mbOKCancel, 0) = mrCancel then
+        if MessageDlg(Caption, Format(rsPropsErrChMod, [FFiles[iCurrent].Name]), mtError, mbOKCancel, 0) = mrCancel then
           Exit(False);
       end;
   end;
   if not bPerm then Exit;
-  if fplchown(PChar(UTF8ToSys(fFiles[iCurrent].FullPath)), StrToUID(cbxUsers.Text),
+  if fplchown(PChar(UTF8ToSys(FFiles[iCurrent].FullPath)), StrToUID(cbxUsers.Text),
               StrToGID(cbxGroups.Text)) <> 0 then
     begin
-      if MessageDlg(Caption, Format(rsPropsErrChOwn, [fFiles[iCurrent].Name]), mtError, mbOKCancel, 0) = mrCancel then
+      if MessageDlg(Caption, Format(rsPropsErrChOwn, [FFiles[iCurrent].Name]), mtError, mbOKCancel, 0) = mrCancel then
         Exit(False);
     end;
+end;
+
+function TfrmFileProperties.CheckIfChangedProperties: Boolean;
+begin
+  Result := (OriginalAttr  <> GetModeFromForm) or
+            (OriginalUser  <> cbxUsers.Text) or
+            (OriginalGroup <> cbxGroups.Text);
 end;
 
 procedure TfrmFileProperties.ShowFile(iIndex:Integer);
@@ -283,7 +295,7 @@ begin
   StopCalcFolderSize; // Stop previous calculate folder size operation
   isFileSystem := FFileSource.IsClass(TFileSystemFileSource);
 
-  with fFiles[iIndex] do
+  with FFiles[iIndex] do
   begin
     lblFileName.Caption:= Name;
     lblFile.Caption:= Name;
@@ -326,13 +338,15 @@ begin
     // Chown
     if isFileSystem and (fpLStat(PChar(UTF8ToSys(FullPath)), sb) = 0) then
     begin
+      OriginalUser  := UIDToStr(sb.st_uid);
+      OriginalGroup := GIDToStr(sb.st_gid);
       iMyUID:= fpGetUID; //get user's UID
       bPerm:= (iMyUID = sb.st_uid);
-      cbxUsers.Text:= UIDToStr(sb.st_uid);
+      cbxUsers.Text:= OriginalUser;
       if(imyUID = 0) then
         GetUsers(cbxUsers.Items); //huh, a ROOT :))
       cbxUsers.Enabled:= (imyUID = 0);
-      cbxGroups.Text:= GIDToStr(sb.st_gid);
+      cbxGroups.Text:= OriginalGroup;
       if(bPerm or (iMyUID = 0)) then
         GetUsrGroups(iMyUID, cbxGroups.Items);
       cbxGroups.Enabled:= (bPerm or (iMyUID = 0));
@@ -342,10 +356,11 @@ begin
     if fpAttributes in SupportedProperties then
     begin
       Attrs := AttributesProperty.Value;
+      OriginalAttr := Attrs and $0FFF;
       //if Attrs is TUnixFileAttributesProperty
       //if Attrs is TNtfsFileAttributesProperty
 
-      ShowAttr(Attrs);
+      ShowPermissions(Attrs);
       edtOctal.Text:= DecToOct(GetModeFromForm);
       lblAttrText.Caption := Properties[fpAttributes].Format(DefaultFilePropertyFormatter);
 
@@ -403,6 +418,8 @@ end;
 
 procedure TfrmFileProperties.btnOKClick(Sender: TObject);
 begin
+  if CheckIfChangedProperties then
+    FChangedProperties := True;
   if not ChangeProperties then Exit;
   btnSkipClick(Self);
 end;
@@ -410,8 +427,12 @@ end;
 procedure TfrmFileProperties.btnSkipClick(Sender: TObject);
 begin
   inc(iCurrent);
-  if iCurrent >= fFiles.Count Then
-    Close
+  if iCurrent >= FFiles.Count then
+  begin
+    if FChangedProperties then
+      FFileSource.Reload(FFiles.Path);
+    Close;
+  end
   else
     ShowFile(iCurrent);
 end;
