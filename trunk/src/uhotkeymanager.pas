@@ -88,6 +88,7 @@ type
     procedure Delete(Shortcut: String); reintroduce;
     procedure Remove(var hotkey: THotkey); reintroduce;
     function Find(Shortcut: String): THotkey; overload;
+    function FindByCommand(Command: String): THotkey;
     function FindByContents(Hotkey: THotkey): THotkey;
     property OnChange: THotkeyEvent read FOnChange write FOnChange;
   end;
@@ -311,6 +312,16 @@ var
 begin
   for i := 0 to Count - 1 do
     if Items[i].ShortCut = Shortcut then
+      Exit(Items[i]);
+  Result := nil;
+end;
+
+function THotkeys.FindByCommand(Command: String): THotkey;
+var
+  i: Integer;
+begin
+  for i := 0 to Count - 1 do
+    if Items[i].Command = Command then
       Exit(Items[i]);
   Result := nil;
 end;
