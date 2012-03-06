@@ -90,7 +90,7 @@ implementation
 {$R *.lfm}
 
 uses
-  fMain, LCLType, uGlobs, uLng;
+  fMain, LCLType, uGlobs, uLng, uHotkeyManager;
 
 const
   HotkeysCategory = 'Copy/Move Dialog';
@@ -316,6 +316,9 @@ begin
 end;
 
 procedure TfrmCopyDlg.FormCreate(Sender: TObject);
+var
+  HMForm: THMForm;
+  Hotkey: THotkey;
 begin
   pnlSelector.Visible := gShowCopyTabSelectPanel;
 
@@ -342,7 +345,11 @@ begin
   btnOK.Caption := rsOperStartStateAutoStart;
   FOperationStartingState := ossAutoStart;
 
-  HotMan.Register(Self, HotkeysCategory);
+  HMForm := HotMan.Register(Self, HotkeysCategory);
+  Hotkey := HMForm.Hotkeys.FindByCommand('cm_AddToQueue');
+
+  if Assigned(Hotkey) then
+    btnAddToQueue.Caption := btnAddToQueue.Caption + ' (' + Hotkey.Shortcut + ')';
 end;
 
 procedure TfrmCopyDlg.FormDestroy(Sender: TObject);
