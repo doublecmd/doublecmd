@@ -2625,8 +2625,11 @@ begin
   inherited;
   if Worker is TCalculateSpaceWorker then
   begin
-    TFileSorter.Sort(FAllDisplayFiles, Sorting);
-    ReDisplayFileList;
+    if TCalculateSpaceWorker(Worker).CompletedCalculations > 1 then
+    begin
+      TFileSorter.Sort(FAllDisplayFiles, Sorting);
+      ReDisplayFileList;
+    end;
   end;
   dgPanel.Cursor := crDefault;
   UpdateInfoPanel;

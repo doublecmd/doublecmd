@@ -179,6 +179,7 @@ type
     FWorkingFile: TDisplayFile;
     FWorkingUserData: Pointer;
     FFileList: TFVWorkerFileList;
+    FCompletedCalculations: Integer;
     FUpdateFileMethod: TUpdateFileMethod;
     FFileSource: IFileSource;
     FOperation: TFileSourceOperation;
@@ -200,6 +201,7 @@ type
                        var AFileList: TFVWorkerFileList); reintroduce;
     destructor Destroy; override;
     procedure Abort; override;
+    property CompletedCalculations: Integer read FCompletedCalculations;
   end;
 
 {$IFDEF timeFileView}
@@ -858,6 +860,7 @@ begin
           begin
             CalcStatisticsOperationStatistics := CalcStatisticsOperation.RetrieveStatistics;
             AFile.Size := CalcStatisticsOperationStatistics.Size;
+            Inc(FCompletedCalculations);
 
             if Aborted then
               Exit;
