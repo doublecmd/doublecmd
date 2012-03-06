@@ -9,7 +9,8 @@ uses
   uFileViewNotebook,
   uFileSourceOperation,
   uFileSourceOperationOptionsUI,
-  uOperationsManager;
+  uOperationsManager,
+  uFormCommands;
 
 type
 
@@ -17,25 +18,25 @@ type
 
   { TfrmCopyDlg }
 
-  TfrmCopyDlg = class(TForm)
+  TfrmCopyDlg = class(TForm, IFormCommands)
     btnCancel: TBitBtn;
     btnOK: TBitBtn;
+    btnAddToQueue: TBitBtn;
     btnOptions: TButton;
     btnSaveOptions: TButton;
     edtDst: TKASPathEdit;
     grpOptions: TGroupBox;
     lblCopySrc: TLabel;
-    miAutoStart: TMenuItem;
-    miQueueFirst: TMenuItem;
-    miQueueLast: TMenuItem;
-    miManualStart: TMenuItem;
     pnlButtons: TPanel;
     pnlOptions: TPanel;
     pnlSelector: TPanel;
-    btnStartMode: TSpeedButton;
-    pmOperationStartMode: TPopupMenu;
+    btnCreateSpecialQueue: TSpeedButton;
+    procedure btnAddToQueueClick(Sender: TObject);
     procedure btnCancelMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure btnAddToQueueMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure btnOKClick(Sender: TObject);
     procedure btnOKMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure btnOptionsClick(Sender: TObject);
@@ -44,14 +45,12 @@ type
     procedure btnSaveOptionsClick(Sender: TObject);
     procedure btnStartModeClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure frmCopyDlgShow(Sender: TObject);
-    procedure miAutoStartClick(Sender: TObject);
-    procedure miManualStartClick(Sender: TObject);
-    procedure miQueueFirstClick(Sender: TObject);
-    procedure miQueueLastClick(Sender: TObject);
 
   private
+    FCommands: TFormCommands;
     FDialogType: TCopyMoveDlgType;
     noteb: TFileViewNotebook;
     FOperationStartingState: TOperationStartingState;
@@ -64,15 +63,25 @@ type
                                     Shift: TShiftState; X, Y: Integer);
     procedure ShowOptions(bShow: Boolean);
 
-    procedure SetStartModeMenuText;
-    procedure UnCheckStartModeMenuItems;
+    property Commands: TFormCommands read FCommands{$IF FPC_FULLVERSION >= 020501} implements IFormCommands{$ENDIF};
 
   public
     constructor Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType;
                        AOperationOptionsUIClass: TFileSourceOperationOptionsUIClass); reintroduce;
+    constructor Create(TheOwner: TComponent); override;
     procedure SetOperationOptions(Operation: TFileSourceOperation);
 
     property OperationStartingState: TOperationStartingState read FOperationStartingState;
+
+    {$IF FPC_FULLVERSION < 020501}
+    // "implements" does not work in FPC < 2.5.1
+    function ExecuteCommand(Command: string; Param: String=''): TCommandFuncResult;
+    function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
+    procedure GetCommandsList(List: TStrings);
+    {$ENDIF}
+
+  published
+    procedure cm_AddToQueue(Param: String = '');
   end;
 
 
@@ -83,22 +92,34 @@ implementation
 uses
   fMain, LCLType, uGlobs, uLng;
 
+const
+  HotkeysCategory = 'Copy/Move Dialog';
+
 constructor TfrmCopyDlg.Create(TheOwner: TComponent; DialogType: TCopyMoveDlgType;
                                AOperationOptionsUIClass: TFileSourceOperationOptionsUIClass);
 begin
-  noteb := nil;
   FDialogType := DialogType;
   FOperationOptionsUIClass := AOperationOptionsUIClass;
-  FOperationOptionsUI := nil;
   FOperationStartingState := ossAutoStart;
-  pmOperationStartMode := nil;
+  FCommands := TFormCommands.Create(Self);
   inherited Create(TheOwner);
+end;
+
+constructor TfrmCopyDlg.Create(TheOwner: TComponent);
+begin
+  Create(TheOwner, cmdtCopy, nil);
 end;
 
 procedure TfrmCopyDlg.SetOperationOptions(Operation: TFileSourceOperation);
 begin
   if Assigned(FOperationOptionsUI) then
     FOperationOptionsUI.SetOperationOptions(Operation);
+end;
+
+procedure TfrmCopyDlg.cm_AddToQueue(Param: String);
+begin
+  FOperationStartingState := ossQueueLast;
+  ModalResult := btnAddToQueue.ModalResult;
 end;
 
 procedure TfrmCopyDlg.TabsSelector(Sender: TObject);
@@ -200,38 +221,6 @@ begin
   edtDst.SetFocus;
 end;
 
-procedure TfrmCopyDlg.miAutoStartClick(Sender: TObject);
-begin
-  btnOK.Caption := rsOperStartStateAutoStart;
-  UnCheckStartModeMenuItems;
-  miAutoStart.Checked := True;
-  FOperationStartingState := ossAutoStart;
-end;
-
-procedure TfrmCopyDlg.miManualStartClick(Sender: TObject);
-begin
-  btnOK.Caption := rsOperStartStateManualStart;
-  UnCheckStartModeMenuItems;
-  miManualStart.Checked := True;
-  FOperationStartingState := ossManualStart;
-end;
-
-procedure TfrmCopyDlg.miQueueFirstClick(Sender: TObject);
-begin
-  btnOK.Caption := rsOperStartStateQueueFirst;
-  UnCheckStartModeMenuItems;
-  miQueueFirst.Checked := True;
-  FOperationStartingState := ossQueueFirst;
-end;
-
-procedure TfrmCopyDlg.miQueueLastClick(Sender: TObject);
-begin
-  btnOK.Caption := rsOperStartStateQueueLast;
-  UnCheckStartModeMenuItems;
-  miQueueLast.Checked := True;
-  FOperationStartingState := ossQueueLast;
-end;
-
 procedure TfrmCopyDlg.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -262,12 +251,40 @@ begin
 {$ENDIF}
 end;
 
-procedure TfrmCopyDlg.btnOKMouseUp(Sender: TObject; Button: TMouseButton;
+procedure TfrmCopyDlg.btnAddToQueueClick(Sender: TObject);
+begin
+{$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+    FOperationStartingState := ossQueueLast;
+{$ENDIF}
+end;
+
+procedure TfrmCopyDlg.btnAddToQueueMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
 {$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
   if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
-    ModalResult := btnOk.ModalResult;
+  begin
+    cm_AddToQueue('');
+  end;
+{$ENDIF}
+end;
+
+procedure TfrmCopyDlg.btnOKClick(Sender: TObject);
+begin
+{$IF NOT (DEFINED(LCLGTK) or DEFINED(LCLGTK2))}
+  FOperationStartingState := ossAutoStart;
+{$ENDIF}
+end;
+
+procedure TfrmCopyDlg.btnOkMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+{$IF DEFINED(LCLGTK) or DEFINED(LCLGTK2)}
+  if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
+  begin
+     FOperationStartingState := ossAutoStart;
+     ModalResult := btnOk.ModalResult;
+  end;
 {$ENDIF}
 end;
 
@@ -309,6 +326,9 @@ begin
                        pnlSelector.BorderSpacing.Top +
                        pnlSelector.BorderSpacing.Bottom);
 
+  // Set initial size.
+  Self.Height := pnlOptions.Top;
+
   // Operation options.
   if Assigned(FOperationOptionsUIClass) then
   begin
@@ -319,9 +339,15 @@ begin
     btnOptions.Visible := False;
   ShowOptions(False);
 
-  // Start mode menu.
-  SetStartModeMenuText;
-  miAutoStartClick(nil);
+  btnOK.Caption := rsOperStartStateAutoStart;
+  FOperationStartingState := ossAutoStart;
+
+  HotMan.Register(Self, HotkeysCategory);
+end;
+
+procedure TfrmCopyDlg.FormDestroy(Sender: TObject);
+begin
+  HotMan.UnRegister(Self);
 end;
 
 procedure TfrmCopyDlg.ShowOptions(bShow: Boolean);
@@ -339,20 +365,24 @@ begin
   end;
 end;
 
-procedure TfrmCopyDlg.SetStartModeMenuText;
+{$IF FPC_FULLVERSION < 020501}
+function TfrmCopyDlg.ExecuteCommand(Command: string; Param: String): TCommandFuncResult;
 begin
-  miAutoStart.Caption   := rsOperStartStateAutoStart;
-  miManualStart.Caption := rsOperStartStateManualStart;
-  miQueueFirst.Caption  := rsOperStartStateQueueFirst;
-  miQueueLast.Caption   := rsOperStartStateQueueLast;
+  Result := FCommands.ExecuteCommand(Command, Param);
 end;
 
-procedure TfrmCopyDlg.UnCheckStartModeMenuItems;
-var
-  i: Integer;
+function TfrmCopyDlg.GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
 begin
-  for i := 0 to pmOperationStartMode.Items.Count - 1 do
-    pmOperationStartMode.Items[i].Checked := False;
+  Result := FCommands.GetCommandCaption(Command, CaptionType);
 end;
+
+procedure TfrmCopyDlg.GetCommandsList(List: TStrings);
+begin
+  FCommands.GetCommandsList(List);
+end;
+{$ENDIF}
+
+initialization
+  TFormCommands.RegisterCommandsForm(TfrmCopyDlg, HotkeysCategory, @rsHotkeyCategoryCopyMoveDialog);
 
 end.
