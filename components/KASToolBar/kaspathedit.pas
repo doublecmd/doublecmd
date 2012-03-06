@@ -283,6 +283,11 @@ begin
   if (FKeyDown = Key) and FAutoComplete and not (Key in [VK_ESCAPE, VK_RETURN, VK_SELECT, VK_UP, VK_DOWN]) then
     AutoComplete(Text);
   inherited KeyUpAfterInterface(Key, Shift);
+{$IF DEFINED(LCLWIN32)}
+  // Windows auto-completer eats the TAB so LCL doesn't get it and doesn't move to next control.
+  if not FAutoComplete and (Key = VK_TAB) then
+    GetParentForm(Self).SelectNext(Self, True, True);
+{$ENDIF}
 end;
 
 constructor TKASPathEdit.Create(AOwner: TComponent);
