@@ -84,7 +84,7 @@ type
 
 const
   { Default hotkey list version number }
-  hkVersion     = 7;
+  hkVersion     = 8;
 
   // Previously existing names if reused must check for ConfigVersion >= X.
   // History:
@@ -455,6 +455,12 @@ begin
       AddIfNotExists('F2','cm_Reload','');
       AddIfNotExists('N','cm_LoadNextFile','');
       AddIfNotExists('P','cm_LoadPrevFile','');
+    end;
+
+  HMForm := HotMan.Forms.FindOrCreate('Copy/Move Dialog');
+  with HMForm.Hotkeys do
+    begin
+      AddIfNotExists('F2','cm_AddToQueue','');
     end;
 
   if not mbFileExists(gpCfgDir + gNameSCFile) then

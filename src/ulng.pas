@@ -426,6 +426,7 @@ resourcestring
   rsOptHotkeysUsedBy = 'used for %s in %s';
   rsHotkeyCategoryMain = 'Main';
   rsHotkeyCategoryViewer = 'Viewer';
+  rsHotkeyCategoryCopyMoveDialog = 'Copy/Move Dialog';
   // Plugins
   rsOptPluginsActive = 'Active';
   rsOptPluginsName = 'Name';
