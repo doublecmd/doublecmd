@@ -109,6 +109,7 @@ type
     function GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
     function GetPathsCount(FileSourceIndex: Integer): Integer;
     function GetWatcherActive: Boolean;
+    procedure RemoveFile(ADisplayFile: TDisplayFile);
     procedure RemoveFile(FileName: String);
     procedure RenameFile(NewFileName, OldFileName: String);
     procedure ResortFile(ADisplayFile: TDisplayFile);
@@ -575,10 +576,18 @@ begin
   begin
     AFile := TFile.Create(APath);
     AFile.Name := FileName;
+    try
+      FileSource.RetrieveProperties(AFile, FilePropertiesNeeded);
+    except
+      on EFileSourceException do
+        begin
+          FreeAndNil(AFile);
+          Exit;
+        end;
+    end;
     ADisplayFile := TDisplayFile.Create(AFile);
     FHashedFiles.Add(ADisplayFile, nil);
     FHashedNames.Add(FileName, ADisplayFile);
-    FileSource.RetrieveProperties(AFile, FilePropertiesNeeded);
     TFileSorter.InsertSort(ADisplayFile, FAllDisplayFiles, Sorting);
     ReDisplayFileList;
   end;
@@ -586,23 +595,26 @@ end;
 
 procedure TFileView.RemoveFile(FileName: String);
 var
-  ADisplayFile: TDisplayFile;
-  I, J: Integer;
+  I: Integer;
 begin
   I := FHashedNames.Find(FileName);
   if I >= 0 then
-  begin
-    ADisplayFile := TDisplayFile(FHashedNames.List[I]^.Data);
-    FHashedNames.Remove(FileName);
-    FHashedFiles.Remove(ADisplayFile);
-    for J := 0 to FAllDisplayFiles.Count - 1 do
-      if FAllDisplayFiles[J] = ADisplayFile then
-      begin
-        FAllDisplayFiles.Delete(J);
-        Break;
-      end;
-    ReDisplayFileList;
-  end;
+    RemoveFile(TDisplayFile(FHashedNames.List[I]^.Data));
+end;
+
+procedure TFileView.RemoveFile(ADisplayFile: TDisplayFile);
+var
+  I: Integer;
+begin
+  FHashedNames.Remove(ADisplayFile.FSFile.Name);
+  FHashedFiles.Remove(ADisplayFile);
+  for I := 0 to FAllDisplayFiles.Count - 1 do
+    if FAllDisplayFiles[I] = ADisplayFile then
+    begin
+      FAllDisplayFiles.Delete(I);
+      Break;
+    end;
+  ReDisplayFileList;
 end;
 
 procedure TFileView.RenameFile(NewFileName, OldFileName: String);
@@ -651,7 +663,15 @@ begin
     ADisplayFile := TDisplayFile(FHashedNames.List[I]^.Data);
     AFile := ADisplayFile.FSFile;
     AFile.ClearProperties;
-    FileSource.RetrieveProperties(AFile, FilePropertiesNeeded);
+    try
+      FileSource.RetrieveProperties(AFile, FilePropertiesNeeded);
+    except
+      on EFileSourceException do
+        begin
+          RemoveFile(ADisplayFile);
+          Exit;
+        end;
+    end;
     ADisplayFile.DisplayStrings.Clear;
     ResortFile(ADisplayFile);
     ReDisplayFileList;
