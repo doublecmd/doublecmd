@@ -525,6 +525,7 @@ var
   sFilterExt,
   localFilter: String;
   filter: Boolean;
+  AFile: TFile;
 begin
   filteredDisplayFiles.Clear;
 
@@ -554,16 +555,17 @@ begin
 
     for i := 0 to allDisplayFiles.Count - 1 do
     begin
+      AFile := allDisplayFiles[i].FSFile;
       if gShowSystemFiles = False then
       begin
-        if allDisplayFiles[i].FSFile.IsSysFile and (allDisplayFiles[i].FSFile.Name <> '..') then
+        if AFile.IsSysFile and (AFile.Name <> '..') then
           Continue;
       end;
 
       // Ignore list
       if gIgnoreListFileEnabled then
       begin
-        if MatchesMaskListEx(allDisplayFiles[i].FSFile, glsIgnoreList) then Continue;
+        if MatchesMaskListEx(AFile, glsIgnoreList) then Continue;
       end;
 
       // Filter files.
@@ -572,24 +574,21 @@ begin
         try
           filter := True;
 
-          if (allDisplayFiles[i].FSFile.Name = '..') or
-             (allDisplayFiles[i].FSFile.Name = '.') then
+          if (AFile.Name = '..') or (AFile.Name = '.') then
             filter := False;
 
           if (aFilterOptions.Items = qsiFiles) and
-             (allDisplayFiles[i].FSFile.IsDirectory or
-              allDisplayFiles[i].FSFile.IsLinkToDirectory) then
+             (AFile.IsDirectory or AFile.IsLinkToDirectory) then
             filter := False;
 
           if (aFilterOptions.Items = qsiDirectories) and
-             not allDisplayFiles[i].FSFile.IsDirectory and
-             not allDisplayFiles[i].FSFile.IsLinkToDirectory then
+             not AFile.IsDirectory and not AFile.IsLinkToDirectory then
             filter := False;
 
           if aFilterOptions.SearchCase = qscSensitive then
-            sFileName := allDisplayFiles[i].FSFile.Name
+            sFileName := AFile.Name
           else
-            sFileName := UTF8LowerCase(allDisplayFiles[i].FSFile.Name);
+            sFileName := UTF8LowerCase(AFile.Name);
 
           if MatchesMask(sFileName,
                          localFilter,
