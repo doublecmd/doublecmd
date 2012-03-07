@@ -26,7 +26,7 @@ type
   TOnAfterChangePath = procedure (FileView: TFileView) of object;
   TOnChangeActiveFile = procedure (FileView: TFileView; const aFile : TFile) of object;
   TOnActivate = procedure (aFileView: TFileView) of object;
-  TOnReload = procedure (aFileView: TFileView) of object;
+  TOnFileListChanged = procedure (aFileView: TFileView) of object;
 
   TDropParams = class;
   TDragDropType = (ddtInternal, ddtExternal);
@@ -66,7 +66,6 @@ type
     FFileViewWorkers: TFileViewWorkers;
     FHashedFiles: TBucketList;  //<en Contains pointers to file source files for quick checking if a file object is still valid
     FHashedNames: TStringHashList;
-    FReloading: Boolean;        //<en If currently reloading file list
     FReloadNeeded: Boolean;     //<en If file list should be reloaded
     FWorkersThread: TFunctionThread;
     FReloadTimer: TTimer;
@@ -95,7 +94,7 @@ type
     FOnAfterChangePath : TOnAfterChangePath;
     FOnChangeActiveFile: TOnChangeActiveFile;
     FOnActivate : TOnActivate;
-    FOnReload : TOnReload;
+    FOnFileListChanged : TOnFileListChanged;
 
     procedure AddFile(FileName, APath: String);
     function GetCurrentAddress: String;
@@ -139,7 +138,7 @@ type
     procedure CreateDefault(AOwner: TWinControl); virtual;
 
     procedure AddWorker(const Worker: TFileViewWorker; SetEvents: Boolean = True);
-    procedure DoOnReload;
+    procedure DoOnFileListChanged;
     function GetCurrentPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
     function GetActiveDisplayFile: TDisplayFile; virtual; abstract;
@@ -366,7 +365,12 @@ type
     property OnAfterChangePath : TOnAfterChangePath read FOnAfterChangePath write FOnAfterChangePath;
     property OnChangeActiveFile : TOnChangeActiveFile read FOnChangeActiveFile write FOnChangeActiveFile;
     property OnActivate : TOnActivate read FOnActivate write FOnActivate;
-    property OnReload : TOnReload read FOnReload write FOnReload;
+    {en
+       Called when files on the file source in the currently displayed path
+       change (are added, removed or updated). It is not called when simply
+       the list of files is filtered.
+    }
+    property OnFileListChanged : TOnFileListChanged read FOnFileListChanged write FOnFileListChanged;
   end;
 
   { TDropParams }
@@ -537,7 +541,7 @@ begin
     AFileView.OnBeforeChangePath := Self.OnBeforeChangePath;
     AFileView.OnAfterChangePath := Self.OnAfterChangePath;
     AFileView.OnActivate := Self.OnActivate;
-    AFileView.OnReload := Self.OnReload;
+    AFileView.OnFileListChanged := Self.OnFileListChanged;
 
     for I := 0 to FSavedSelection.Count - 1 do
       AFileView.FSavedSelection.Add(FSavedSelection.Strings[I]);
@@ -590,6 +594,7 @@ begin
     FHashedNames.Add(FileName, ADisplayFile);
     TFileSorter.InsertSort(ADisplayFile, FAllDisplayFiles, Sorting);
     ReDisplayFileList;
+    DoOnFileListChanged;
   end;
 end;
 
@@ -615,6 +620,7 @@ begin
       Break;
     end;
   ReDisplayFileList;
+  DoOnFileListChanged;
 end;
 
 procedure TFileView.RenameFile(NewFileName, OldFileName: String);
@@ -634,6 +640,7 @@ begin
     ADisplayFile.DisplayStrings.Clear;
     ResortFile(ADisplayFile);
     ReDisplayFileList;
+    DoOnFileListChanged;
   end;
 end;
 
@@ -675,6 +682,7 @@ begin
     ADisplayFile.DisplayStrings.Clear;
     ResortFile(ADisplayFile);
     ReDisplayFileList;
+    DoOnFileListChanged;
   end;
 end;
 
@@ -697,14 +705,10 @@ begin
   end;
 end;
 
-procedure TFileView.DoOnReload;
+procedure TFileView.DoOnFileListChanged;
 begin
-  if FReloading then
-  begin
-    FReloading := False;
-    if Assigned(OnReload) then
-      OnReload(Self);
-  end;
+  if Assigned(OnFileListChanged) then
+    OnFileListChanged(Self);
 end;
 
 function TFileView.GetCurrentPath: String;
@@ -1408,7 +1412,6 @@ begin
   RequestedActiveFile := '';
 
   FReloadNeeded := False;
-  FReloading := False;
   FReloadTimer.Enabled := False;
   FLoadFilesStartTime := 0;
   FLoadFilesFinishTime := 0;
@@ -1651,7 +1654,7 @@ begin
   // get selected on further reloads.
   RequestedActiveFile := '';
 
-  DoOnReload;
+  DoOnFileListChanged;
 end;
 
 procedure TFileView.EnableWatcher(Enable: Boolean);
@@ -1713,7 +1716,6 @@ end;
 
 procedure TFileView.DoReload;
 begin
-  FReloading := True;
   FReloadNeeded := False;
   MakeFileSourceFileList;
 end;
