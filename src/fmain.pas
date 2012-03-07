@@ -490,7 +490,7 @@ type
     function FileViewBeforeChangePath(FileView: TFileView; NewFileSource: IFileSource; const NewPath : String): Boolean;
     procedure FileViewAfterChangePath(FileView: TFileView);
     procedure FileViewActivate(FileView: TFileView);
-    procedure FileViewReload(FileView: TFileView);
+    procedure FileViewFilesChanged(FileView: TFileView);
     procedure edtCommandKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure edtCommandExit(Sender: TObject);
@@ -3222,7 +3222,6 @@ begin
           end;
 
           UpdateSelectedDrive(ANoteBook);
-          UpdateFreeSpace(ANoteBook.Side);
           UpdatePrompt;
         end;
       end;
@@ -3249,7 +3248,7 @@ begin
     end;
 end;
 
-procedure TfrmMain.FileViewReload(FileView: TFileView);
+procedure TfrmMain.FileViewFilesChanged(FileView: TFileView);
 var
   Page: TFileViewPage;
 begin
@@ -3405,7 +3404,7 @@ begin
     OnBeforeChangePath := @FileViewBeforeChangePath;
     OnAfterChangePath := @FileViewAfterChangePath;
     OnActivate := @FileViewActivate;
-    OnReload := @FileViewReload;
+    OnFileListChanged := @FileViewFilesChanged;
   end;
 end;
 
