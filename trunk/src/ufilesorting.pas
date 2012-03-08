@@ -26,6 +26,8 @@ type
       FDisplaySortList: TDisplayFiles;
       FFileToInsert: TDisplayFile;
       FFilesToInsert: TDisplayFiles;
+      FFileIndexToResort: Integer;
+      FResortSingle: Boolean;
       FSortings: TFileSortings;
 
       function MultiCompare(item1, item2: Pointer):Integer;
@@ -41,12 +43,19 @@ type
               @br  0 equal
               @br  1 greater)
       }
-      function Compare(FileSorting: TFileSorting; File1, File2: TFile): Integer;
+      class function Compare(const FileSorting: TFileSorting; File1, File2: TFile): Integer;
 
       procedure QuickSort(FList: PPointerList; L, R : Longint);
       procedure QuickSortDisplay(FList: PPointerList; L, R : Longint);
+      procedure BinaryInsertSortDisplay(UnsortedIndex: Integer; PList: PPointerList; L, R : Longint);
       procedure InsertSort(FilesToInsert, AlreadySortedFiles: TDisplayFiles);
       procedure InsertSort(FileToInsert: TDisplayFile; AlreadySortedFiles: TDisplayFiles);
+      {en
+         The single file at index IndexToResort should be repositioned in the
+         SortedFiles list. All other elements, except for the element at IndexToResort,
+         must be already sorted.
+      }
+      procedure ResortSingle(IndexToResort: Integer; SortedFiles: TDisplayFiles);
 
       {en
          Checks the files list for supported properties and removes
@@ -66,9 +75,11 @@ type
       constructor Create(Files: TFiles; Sortings: TFileSortings);
       constructor Create(Files: TDisplayFiles; Sortings: TFileSortings);
       constructor Create(FilesToInsert, AlreadySortedFiles: TDisplayFiles;
-                         Sortings: TFileSortings);
+                         const Sortings: TFileSortings);
       constructor Create(FileToInsert: TDisplayFile; AlreadySortedFiles: TDisplayFiles;
-                         Sortings: TFileSortings);
+                         const Sortings: TFileSortings);
+      constructor Create(IndexToResort: Integer; SortedFiles: TDisplayFiles;
+                         const Sortings: TFileSortings);
 
       procedure Sort;
 
@@ -81,6 +92,8 @@ type
                                  const ASortings: TFileSortings);
       class procedure InsertSort(FileToInsert: TDisplayFile; AlreadySortedFiles: TDisplayFiles;
                                  const ASortings: TFileSortings);
+      class procedure ResortSingle(IndexToResort: Integer; SortedFiles: TDisplayFiles;
+                                   const ASortings: TFileSortings);
   end;
 
   {en
@@ -139,6 +152,18 @@ uses
 var
   fileSortingTimer: TDateTime;
 {$ENDIF}
+
+procedure TFPListFastMove(CurIndex, NewIndex: Integer; PList: PPointerList);
+var
+  Temp: Pointer;
+begin
+  Temp := PList^[CurIndex];
+  if NewIndex > CurIndex then
+    System.Move(PList^[CurIndex+1], PList^[CurIndex], (NewIndex - CurIndex) * SizeOf(Pointer))
+  else
+    System.Move(PList^[NewIndex], PList^[NewIndex+1], (CurIndex - NewIndex) * SizeOf(Pointer));
+  PList^[NewIndex] := Temp;
+end;
 
 function HasSortFunction(FileFunctions: TFileFunctions;
                          SortFunction: TFileFunction): Boolean;
@@ -431,7 +456,7 @@ begin
   inherited Create;
 end;
 
-constructor TFileSorter.Create(FilesToInsert, AlreadySortedFiles: TDisplayFiles; Sortings: TFileSortings);
+constructor TFileSorter.Create(FilesToInsert, AlreadySortedFiles: TDisplayFiles; const Sortings: TFileSortings);
 begin
   FFilesToInsert := FilesToInsert;
   FDisplaySortList := AlreadySortedFiles;
@@ -447,7 +472,7 @@ begin
   inherited Create;
 end;
 
-constructor TFileSorter.Create(FileToInsert: TDisplayFile; AlreadySortedFiles: TDisplayFiles; Sortings: TFileSortings);
+constructor TFileSorter.Create(FileToInsert: TDisplayFile; AlreadySortedFiles: TDisplayFiles; const Sortings: TFileSortings);
 begin
   FFileToInsert := FileToInsert;
   FDisplaySortList := AlreadySortedFiles;
@@ -459,6 +484,19 @@ begin
     CheckSupportedProperties(FDisplaySortList[0].FSFile.SupportedProperties);
     CheckSupportedProperties(FFileToInsert.FSFile.SupportedProperties);
   end;
+
+  inherited Create;
+end;
+
+constructor TFileSorter.Create(IndexToResort: Integer; SortedFiles: TDisplayFiles; const Sortings: TFileSortings);
+begin
+  FFileIndexToResort := IndexToResort;
+  FResortSingle := True;
+  FDisplaySortList := SortedFiles;
+  FSortings := Sortings;
+
+  if Assigned(FDisplaySortList) and (FDisplaySortList.Count > 0) then
+    CheckSupportedProperties(FDisplaySortList[0].FSFile.SupportedProperties);
 
   inherited Create;
 end;
@@ -505,7 +543,14 @@ begin
 
   if Length(FSortings) > 0 then
   begin
-    if Assigned(FFileToInsert) and Assigned(FDisplaySortList) then
+    if FResortSingle and Assigned(FDisplaySortList) then
+    begin
+      ResortSingle(FFileIndexToResort, FDisplaySortList);
+      {$IFDEF fileSortingTime}
+      DCDebug('FileSorter: Resort time: ', IntToStr(DateTimeToTimeStamp(Now - fileSortingTimer).Time));
+      {$ENDIF}
+    end
+    else if Assigned(FFileToInsert) and Assigned(FDisplaySortList) then
     begin
       InsertSort(FFileToInsert, FDisplaySortList);
       {$IFDEF fileSortingTime}
@@ -584,6 +629,18 @@ begin
   end;
 end;
 
+class procedure TFileSorter.ResortSingle(IndexToResort: Integer; SortedFiles: TDisplayFiles; const ASortings: TFileSortings);
+var
+  FileListSorter: TFileSorter;
+begin
+  FileListSorter := TFileSorter.Create(IndexToResort, SortedFiles, CloneAndAddNameSortingIfNeeded(ASortings));
+  try
+    FileListSorter.Sort;
+  finally
+    FreeAndNil(FileListSorter);
+  end;
+end;
+
 { Return Values for ICompareByxxxx function
 
 > 0 (positive)   Item1 is greater than Item2
@@ -643,7 +700,7 @@ begin
   end;
 end;
 
-function TFileSorter.Compare(FileSorting: TFileSorting; File1, File2: TFile): Integer;
+class function TFileSorter.Compare(const FileSorting: TFileSorting; File1, File2: TFile): Integer;
 var
   i: Integer;
   bNegative: Boolean;
@@ -789,6 +846,42 @@ begin
  until I >= R;
 end;
 
+procedure TFileSorter.BinaryInsertSortDisplay(UnsortedIndex: Integer; PList: PPointerList; L, R: Longint);
+var
+  I, J, K : Longint;
+  CompareRes: Integer;
+  PUnsorted: Pointer;
+begin
+  I := L;
+  J := R;
+  PUnsorted := PList^[UnsortedIndex];
+  repeat
+    K := (I + J) div 2;
+    CompareRes := MultiCompareDisplay(PUnsorted, PList^[K]);
+    if CompareRes < 0 then
+      J := K - 1
+    else if CompareRes > 0 then
+      I := K + 1
+    else
+    begin
+      TFPListFastMove(UnsortedIndex, K, PList);
+      Exit;
+    end;
+  until I > J;
+
+  if UnsortedIndex < K then
+  begin
+    if CompareRes < 0 then
+      K := J;
+  end
+  else
+  begin
+    if CompareRes > 0 then
+      K := I;
+  end;
+  TFPListFastMove(UnsortedIndex, K, PList);
+end;
+
 procedure TFileSorter.InsertSort(FilesToInsert, AlreadySortedFiles: TDisplayFiles);
 var
   i, j, SortedIndex: PtrInt;
@@ -850,6 +943,33 @@ begin
     Inc(SortedIndex);
 
   AlreadySortedFiles.List.Insert(SortedIndex, FileToInsert);
+end;
+
+procedure TFileSorter.ResortSingle(IndexToResort: Integer; SortedFiles: TDisplayFiles);
+var
+  PUnsorted: Pointer;
+  PSorted: PPointerList;
+begin
+  PSorted   := SortedFiles.List.List;
+  PUnsorted := PSorted^[IndexToResort];
+  // The element at IndexToResort must either be moved left or right,
+  // or should stay where it is.
+  if (IndexToResort > 0) and
+     (MultiCompareDisplay(PUnsorted, PSorted^[IndexToResort - 1]) < 0) then
+  begin
+    if IndexToResort = 1 then
+      SortedFiles.List.Exchange(IndexToResort, IndexToResort - 1)
+    else
+      BinaryInsertSortDisplay(IndexToResort, PSorted, 0, IndexToResort - 1);
+  end
+  else if (IndexToResort < SortedFiles.List.Count - 1) and
+          (MultiCompareDisplay(PUnsorted, PSorted^[IndexToResort + 1]) > 0) then
+  begin
+    if IndexToResort = SortedFiles.List.Count - 2 then
+      SortedFiles.List.Exchange(IndexToResort, IndexToResort + 1)
+    else
+      BinaryInsertSortDisplay(IndexToResort, PSorted, IndexToResort + 1, SortedFiles.List.Count - 1);
+  end;
 end;
 
 end.
