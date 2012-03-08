@@ -51,7 +51,7 @@ implementation
 uses
   LCLProc, syncobjs
   {$IF lcl_fullversion >= 093100}
-  , LazLogger
+  , LazLogger, LazLoggerBase, LazClasses
   {$ENDIF}
   ;
 
@@ -60,7 +60,7 @@ type
   {en
      Logger with thread-safe DebugLn and DbgOut.
   }
-  TDCLogger = class(TLazLogger)
+  TDCLogger = class(TLazLoggerFile)
   private
     DebugLnLock: TCriticalSection;
   protected
@@ -73,6 +73,12 @@ type
 
 var
   DCLogger: TDCLogger;
+
+function CreateDCLogger: TRefCountedObject;
+begin
+  Result := TDCLogger.Create;
+  TDCLogger(Result).Assign(GetExistingDebugLogger);
+end;
 
 { TDCLogger }
 
@@ -236,17 +242,16 @@ end;
 
 initialization
   {$IF lcl_fullversion >= 093100}
-  DCLogger := TDCLogger.Create;
-  LazLogger.SetDebugLogger(DCLogger);
+  LazDebugLoggerCreator := @CreateDCLogger;
+  RecreateDebugLogger;
   {$ELSE}
   DebugLnLock := TCriticalSection.Create;
   {$ENDIF}
 
+{$IF lcl_fullversion < 093100}
 finalization
-  {$IF lcl_fullversion >= 093100}
-  {$ELSE}
   DebugLnLock.Free;
-  {$ENDIF}
+{$ENDIF}
 
 end.
 
