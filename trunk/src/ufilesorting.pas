@@ -781,46 +781,50 @@ end;
 
 procedure TDisplayFileSorter.InsertSort(FilesToInsert, AlreadySortedFiles: TDisplayFiles);
 var
-  i, j, SortedIndex: PtrInt;
-  Psrc, Pdst: PPointerList;
+  i, j: PtrInt;
+  L, R, FoundIndex: Longint;
+  Psrc: PPointerList;
   Pcur: Pointer;
-  Cnt: Integer;
+  SearchResult: Integer;
+  DestList: TFPList;
 begin
   if FFilesToInsert.Count > 0 then
   begin
-    if FFilesToInsert.Count > 1 then
+    if FFilesToInsert.Count = 1 then
+    begin
+      InsertSort(FFilesToInsert[0], AlreadySortedFiles);
+      Exit;
+    end
+    else
     begin
       // First sort the files to insert of which there should be only a small number.
       QuickSort(FilesToInsert.List.List, 0, FilesToInsert.List.Count-1);
     end;
-    Psrc := FilesToInsert.List.List;
-    Cnt := AlreadySortedFiles.List.Count;
 
-    SortedIndex := 0;
+    Psrc := FilesToInsert.List.List;
+    DestList := AlreadySortedFiles.List;
+    L := 0;
+    R := DestList.Count - 1;
+    FoundIndex := 0;
     for i := 0 to FilesToInsert.Count - 1 do
     begin
-       Pcur := Psrc^[i];
-       // This pointer might change when adding items due to reallocating memory,
-       // so read it on every turn.
-       Pdst := AlreadySortedFiles.List.List;
+      Pcur := Psrc^[i];
+      SearchResult := BinarySearch(Pcur, DestList.List, L, R, FoundIndex);
+      // Insert Pcur after FoundIndex if it was greater.
+      if SearchResult > 0 then
+        Inc(FoundIndex);
 
-       while (SortedIndex < Cnt) and
-             (MultiCompare(Pcur, Pdst^[SortedIndex]) >= 0) do
-         Inc(SortedIndex);
+      if FoundIndex > R then
+      begin
+        // Add remaining files at the end.
+        for j := i to FilesToInsert.Count - 1 do
+          DestList.Add(Psrc^[j]);
+        Break;
+      end;
 
-       if SortedIndex >= Cnt then
-       begin
-         // Add remaining files at the end.
-         for j := i to FilesToInsert.Count - 1 do
-           AlreadySortedFiles.List.Add(Psrc^[j]);
-         Break;
-       end
-       else
-       begin
-         AlreadySortedFiles.List.Insert(SortedIndex, Pcur);
-         Inc(SortedIndex);
-         Inc(Cnt);
-       end;
+      DestList.Insert(FoundIndex, Pcur);
+      L := FoundIndex + 1; // Next time start searching from the next element after the one just inserted.
+      Inc(R); // Number of elements has increased so also increase right boundary.
     end;
   end;
 end;
