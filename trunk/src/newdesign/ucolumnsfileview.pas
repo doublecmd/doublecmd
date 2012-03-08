@@ -213,7 +213,7 @@ type
     }
     function GetFilePropertiesNeeded: TFilePropertiesTypes;
 
-    procedure ShowRenameFileEdit(const sFileName:String);
+    procedure ShowRenameFileEdit(aFile: TFile);
     {en
        Search and position in a file that matches name taking into account
        passed options
@@ -1166,9 +1166,10 @@ begin
   pnlHeader.UpdatePathLabel;
 end;
 
-procedure TColumnsFileView.ShowRenameFileEdit(const sFileName:String);
+procedure TColumnsFileView.ShowRenameFileEdit(aFile: TFile);
 var
   ALeft, ATop, AWidth, AHeight: Integer;
+  sFileName, sExtension: String;
 begin
   if FFileNameColumn <> -1 then
   begin
@@ -1187,17 +1188,17 @@ begin
 
     edtRename.SetBounds(ALeft, ATop, AWidth, AHeight);
 
-    edtRename.Hint:=sFileName;
-    edtRename.Text:=ExtractFileName(sFileName);
-    edtRename.Visible:=True;
+    edtRename.Hint := aFile.FullPath;
+    edtRename.Text := aFile.Name;
+    edtRename.Visible := True;
     edtRename.SetFocus;
-    if gRenameSelOnlyName then
+    if gRenameSelOnlyName and (aFile.Extension <> EmptyStr) and (aFile.Name <> EmptyStr) then
       begin
         {$IFDEF LCLGTK2}
         edtRename.SelStart:=1;
         {$ENDIF}
         edtRename.SelStart:=0;
-        edtRename.SelLength:= UTF8Length(edtRename.Text)-UTF8Length(ExtractFileExt(edtRename.Text));
+        edtRename.SelLength:= UTF8Length(aFile.Name) - UTF8Length(aFile.Extension) - 1;
       end
     else
       edtRename.SelectAll;
@@ -2974,7 +2975,7 @@ begin
       if Assigned(aFile) then
       try
         if aFile.IsNameValid then
-          ShowRenameFileEdit(CurrentPath + aFile.Name)
+          ShowRenameFileEdit(aFile)
         else
           pnlHeader.ShowPathEdit;
       finally
