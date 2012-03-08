@@ -47,7 +47,9 @@ type
 
       procedure QuickSort(FList: PPointerList; L, R : Longint);
       procedure QuickSortDisplay(FList: PPointerList; L, R : Longint);
-      procedure BinaryInsertSortDisplay(UnsortedIndex: Integer; PList: PPointerList; L, R : Longint);
+      procedure BinaryInsertSingleDisplay(FileToInsert: TDisplayFile; List: TFPList; L, R: Longint);
+      procedure BinaryResortSingleDisplay(UnsortedIndex: Integer; PList: PPointerList; L, R : Longint);
+      function BinarySearchDisplay(DisplayFile: Pointer; PList: PPointerList; L, R: Longint; out FoundIndex: Longint): Integer;
       procedure InsertSort(FilesToInsert, AlreadySortedFiles: TDisplayFiles);
       procedure InsertSort(FileToInsert: TDisplayFile; AlreadySortedFiles: TDisplayFiles);
       {en
@@ -846,40 +848,62 @@ begin
  until I >= R;
 end;
 
-procedure TFileSorter.BinaryInsertSortDisplay(UnsortedIndex: Integer; PList: PPointerList; L, R: Longint);
+procedure TFileSorter.BinaryInsertSingleDisplay(FileToInsert: TDisplayFile; List: TFPList; L, R: Longint);
+var
+  CompareRes: Integer;
+  FoundIndex: Longint;
+begin
+  CompareRes := BinarySearchDisplay(FileToInsert, List.List, L, R, FoundIndex);
+  if CompareRes > 0 then
+    Inc(FoundIndex); // Insert after because it's greater than FoundIndex item.
+  List.Insert(FoundIndex, FileToInsert);
+end;
+
+procedure TFileSorter.BinaryResortSingleDisplay(UnsortedIndex: Integer; PList: PPointerList; L, R: Longint);
+var
+  CompareRes: Integer;
+  FoundIndex: Longint;
+begin
+  CompareRes := BinarySearchDisplay(PList^[UnsortedIndex], PList, L, R, FoundIndex);
+  if CompareRes = 0 then
+    TFPListFastMove(UnsortedIndex, FoundIndex, PList)
+  else
+  begin
+    if UnsortedIndex < FoundIndex then
+    begin
+      if CompareRes < 0 then
+        Dec(FoundIndex);
+    end
+    else
+    begin
+      if CompareRes > 0 then
+        Inc(FoundIndex);
+    end;
+    TFPListFastMove(UnsortedIndex, FoundIndex, PList);
+  end;
+end;
+
+function TFileSorter.BinarySearchDisplay(
+  DisplayFile: Pointer;
+  PList: PPointerList;
+  L, R: Longint;
+  out FoundIndex: Longint): Integer;
 var
   I, J, K : Longint;
-  CompareRes: Integer;
-  PUnsorted: Pointer;
 begin
   I := L;
   J := R;
-  PUnsorted := PList^[UnsortedIndex];
   repeat
     K := (I + J) div 2;
-    CompareRes := MultiCompareDisplay(PUnsorted, PList^[K]);
-    if CompareRes < 0 then
+    Result := MultiCompareDisplay(DisplayFile, PList^[K]);
+    if Result < 0 then
       J := K - 1
-    else if CompareRes > 0 then
+    else if Result > 0 then
       I := K + 1
     else
-    begin
-      TFPListFastMove(UnsortedIndex, K, PList);
-      Exit;
-    end;
+      Break;
   until I > J;
-
-  if UnsortedIndex < K then
-  begin
-    if CompareRes < 0 then
-      K := J;
-  end
-  else
-  begin
-    if CompareRes > 0 then
-      K := I;
-  end;
-  TFPListFastMove(UnsortedIndex, K, PList);
+  FoundIndex := K;
 end;
 
 procedure TFileSorter.InsertSort(FilesToInsert, AlreadySortedFiles: TDisplayFiles);
@@ -929,20 +953,8 @@ begin
 end;
 
 procedure TFileSorter.InsertSort(FileToInsert: TDisplayFile; AlreadySortedFiles: TDisplayFiles);
-var
-  i, j, SortedIndex: PtrInt;
-  Pdst: PPointerList;
-  Cnt: Integer;
 begin
-  SortedIndex := 0;
-  Cnt := AlreadySortedFiles.List.Count;
-  Pdst := AlreadySortedFiles.List.List;
-
-  while (SortedIndex < Cnt) and
-        (MultiCompareDisplay(FileToInsert, Pdst^[SortedIndex]) >= 0) do
-    Inc(SortedIndex);
-
-  AlreadySortedFiles.List.Insert(SortedIndex, FileToInsert);
+  BinaryInsertSingleDisplay(FileToInsert, AlreadySortedFiles.List, 0, AlreadySortedFiles.Count - 1);
 end;
 
 procedure TFileSorter.ResortSingle(IndexToResort: Integer; SortedFiles: TDisplayFiles);
@@ -960,7 +972,7 @@ begin
     if IndexToResort = 1 then
       SortedFiles.List.Exchange(IndexToResort, IndexToResort - 1)
     else
-      BinaryInsertSortDisplay(IndexToResort, PSorted, 0, IndexToResort - 1);
+      BinaryResortSingleDisplay(IndexToResort, PSorted, 0, IndexToResort - 1);
   end
   else if (IndexToResort < SortedFiles.List.Count - 1) and
           (MultiCompareDisplay(PUnsorted, PSorted^[IndexToResort + 1]) > 0) then
@@ -968,7 +980,7 @@ begin
     if IndexToResort = SortedFiles.List.Count - 2 then
       SortedFiles.List.Exchange(IndexToResort, IndexToResort + 1)
     else
-      BinaryInsertSortDisplay(IndexToResort, PSorted, IndexToResort + 1, SortedFiles.List.Count - 1);
+      BinaryResortSingleDisplay(IndexToResort, PSorted, IndexToResort + 1, SortedFiles.List.Count - 1);
   end;
 end;
 
