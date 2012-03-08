@@ -1126,16 +1126,21 @@ begin
   // show context menu
   MousePoint:= dgPanel.ScreenToClient(Mouse.CursorPos);
   Background:= not dgPanel.MouseOnGrid(MousePoint.x, MousePoint.y);
-  frmMain.Commands.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y, Background);
+
   if not Background then
   begin
     // get current row
     dgPanel.MouseToCell(MousePoint.x, MousePoint.y, iCol, iRow);
-    if iRow < dgPanel.FixedRows then Exit;
-    AFile := FFiles[iRow - dgPanel.FixedRows]; // get current file
-    MarkFile(AFile, False); // unselect file
-    dgPanel.InvalidateRow(iRow); // invalidate current row
+    if iRow >= dgPanel.FixedRows then
+    begin
+      AFile := FFiles[iRow - dgPanel.FixedRows]; // get current file
+      MarkFile(AFile, not FLastSelectionState);
+      UpdateInfoPanel;
+      dgPanel.InvalidateRow(iRow);
+    end;
   end;
+
+  frmMain.Commands.DoContextMenu(Self, Mouse.CursorPos.x, Mouse.CursorPos.y, Background);
 end;
 
 procedure TColumnsFileView.tmClearGridTimer(Sender: TObject);
