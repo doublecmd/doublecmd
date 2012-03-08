@@ -13,6 +13,9 @@ uses
   clocale,
   {$IFDEF LCLGTK2}
   uOverlayScrollBarFix,
+  gtk2,
+  Gtk2Int,
+  LCLVersion,
   {$ENDIF}
   {$ENDIF}
   Interfaces,
@@ -117,6 +120,14 @@ begin
        Application.CreateForm(TdmHelpManager, dmHelpMgr); // help manager
        Application.CreateForm(TfrmMkDir, frmMkDir);  // 21.05.2009 - makedir form
 
+       {$IF DEFINED(LCLGTK2) AND (lcl_fullversion >= 093100)}
+       // LCLGTK2 uses Application.MainForm as the clipboard widget, however our
+       // MainForm is TfrmHackForm and it never gets realized. GTK2 doesn't
+       // seem to allow a not realized widget to have clipboard ownership.
+       // We switch to frmMain instead which will be realized at some point.
+       GTK2WidgetSet.SetClipboardWidget(PGtkWidget(frmMain.Handle));
+       {$ENDIF}
+
        // Calculate buttons width of message dialogs
        InitDialogButtonWidth;
 
@@ -133,4 +144,4 @@ begin
 
   uKeyboard.CleanupKeyboard;
   DCDebug('Finished Double Commander');
-end.
+end.
