@@ -592,7 +592,7 @@ begin
     ADisplayFile := TDisplayFile.Create(AFile);
     FHashedFiles.Add(ADisplayFile, nil);
     FHashedNames.Add(FileName, ADisplayFile);
-    TFileSorter.InsertSort(ADisplayFile, FAllDisplayFiles, Sorting);
+    TDisplayFileSorter.InsertSort(ADisplayFile, FAllDisplayFiles, Sorting);
     ReDisplayFileList;
     DoOnFileListChanged;
   end;
@@ -651,7 +651,7 @@ begin
   for I := 0 to FAllDisplayFiles.Count - 1 do
     if FAllDisplayFiles[I] = ADisplayFile then
     begin
-      TFileSorter.ResortSingle(I, FAllDisplayFiles, Sorting);
+      TDisplayFileSorter.ResortSingle(I, FAllDisplayFiles, Sorting);
       Break;
     end;
 end;
