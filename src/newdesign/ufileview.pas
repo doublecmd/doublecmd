@@ -651,9 +651,7 @@ begin
   for I := 0 to FAllDisplayFiles.Count - 1 do
     if FAllDisplayFiles[I] = ADisplayFile then
     begin
-      FAllDisplayFiles[I] := nil; // Set to nil so that it isn't freed when deleting.
-      FAllDisplayFiles.Delete(I);
-      TFileSorter.InsertSort(ADisplayFile, FAllDisplayFiles, Sorting);
+      TFileSorter.ResortSingle(I, FAllDisplayFiles, Sorting);
       Break;
     end;
 end;
