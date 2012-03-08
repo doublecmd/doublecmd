@@ -638,7 +638,7 @@ begin
 
       aDisplayFiles.Add(AFile);
     end;
-    TFileSorter.Sort(aDisplayFiles, aSortings);
+    TDisplayFileSorter.Sort(aDisplayFiles, aSortings);
   end;
 end;
 
@@ -691,7 +691,7 @@ begin
       end;
 
       // Merge new files into existing files list.
-      TFileSorter.InsertSort(aNewFiles, aExistingDisplayFiles, aSortings);
+      TDisplayFileSorter.InsertSort(aNewFiles, aExistingDisplayFiles, aSortings);
 
     finally
       aNewFiles.Free;
