@@ -1563,7 +1563,7 @@ end;
 { -------------------------------------------------------------------------- }
 function AbDOS2UnixFileAttributes(Attr: LongWord): LongWord;
 begin
-  {$IFDEF LINUX} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
+  {$IFDEF LINUX} {$IF NOT ((FPC_VERSION = 2) and (FPC_RELEASE = 6) and (FPC_PATCH = 0))} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF} {$ENDIF}
   {$IFDEF Version6} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
   Result := { default permissions }
     AB_FPERMISSION_OWNERREAD or
@@ -1581,12 +1581,12 @@ begin
   else
     Result := Result or AB_FMODE_FILE;
   {$IFDEF Version6} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
-  {$IFDEF LINUX} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
+  {$IFDEF LINUX} {$IF NOT ((FPC_VERSION = 2) and (FPC_RELEASE = 6) and (FPC_PATCH = 0))} {$WARN SYMBOL_PLATFORM ON} {$ENDIF} {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 function AbUnix2DosFileAttributes(Attr: LongWord): LongWord;
 begin
-  {$IFDEF LINUX} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
+  {$IFDEF LINUX} {$IF NOT ((FPC_VERSION = 2) and (FPC_RELEASE = 6) and (FPC_PATCH = 0))} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF} {$ENDIF}
   {$IFDEF Version6} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
   Result := 0;
   case (Attr and $F000) of
@@ -1609,19 +1609,19 @@ begin
   if (Attr and AB_FPERMISSION_OWNERWRITE) = 0 then
     Result := Result or faReadOnly;
   {$IFDEF Version6} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
-  {$IFDEF LINUX} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
+  {$IFDEF LINUX} {$IF NOT ((FPC_VERSION = 2) and (FPC_RELEASE = 6) and (FPC_PATCH = 0))} {$WARN SYMBOL_PLATFORM ON} {$ENDIF} {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 function AbFileGetAttr(const aFileName : string) : Integer;
 {$IFDEF LINUX}
-{$WARN SYMBOL_PLATFORM OFF}
+{$IF NOT ((FPC_VERSION = 2) and (FPC_RELEASE = 6) and (FPC_PATCH = 0))} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
 var
 {$IFDEF FPC}
   SB: TStat;
 {$ELSE}
   SB: TStatBuf;
 {$ENDIF}
-{$WARN SYMBOL_PLATFORM ON}
+{$IF NOT ((FPC_VERSION = 2) and (FPC_RELEASE = 6) and (FPC_PATCH = 0))} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
 {$ENDIF LINUX}
 begin
   {$IFDEF MSWINDOWS}
@@ -1631,14 +1631,14 @@ begin
   {$ENDIF}
 
   {$IFDEF LINUX}
-  {$WARN SYMBOL_PLATFORM OFF}
+  {$IF NOT ((FPC_VERSION = 2) and (FPC_RELEASE = 6) and (FPC_PATCH = 0))} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
   {$IFDEF FPC}
   fpstat(PAnsiChar(aFileName), SB);
   {$ELSE}
   stat(PAnsiChar(aFileName), SB);
   {$ENDIF}
   Result := SB.st_mode;
-  {$WARN SYMBOL_PLATFORM ON}
+  {$IF NOT ((FPC_VERSION = 2) and (FPC_RELEASE = 6) and (FPC_PATCH = 0))} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
   {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
@@ -1647,24 +1647,6 @@ begin
   {$IFDEF FPC} {$PUSH} {$R-,Q-} {$ENDIF}
   mbFileSetAttr(aFileName, aAttr);
   {$IFDEF FPC} {$POP} {$ENDIF}
-
-  {$IFDEF MSWINDOWS}
-  {$IFDEF Version6} {$WARN SYMBOL_PLATFORM OFF} {$ENDIF}
-  //FileSetAttr(aFileName, aAttr);
-  {$IFDEF Version6} {$WARN SYMBOL_PLATFORM ON} {$ENDIF}
-  {$ENDIF}
-
-  //FileSetAttr not implemented on FPC for Unix
-
-  {$IFDEF LINUX}
-  {$WARN SYMBOL_PLATFORM OFF}
-  {$IFDEF FPC}
-  //fpchmod(PAnsiChar(aFileName), aAttr);
-  {$ELSE}
-  //chmod(PAnsiChar(aFileName), aAttr);
-  {$ENDIF}
-  {$WARN SYMBOL_PLATFORM ON}
-  {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 {!!.01 -- Added }
@@ -1856,4 +1838,4 @@ begin
 end;
 {$ENDIF}
 
-end.
+end.
