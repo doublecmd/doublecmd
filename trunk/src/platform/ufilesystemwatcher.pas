@@ -654,13 +654,13 @@ begin
                   EventType := fswFileChanged;
                 end
               else if (ev^.mask and (IN_CREATE or
-                                     IN_MOVED_FROM)) <> 0 then
+                                     IN_MOVED_TO)) <> 0 then
                 begin
                   EventType := fswFileCreated;
                 end
               else if (ev^.mask and (IN_DELETE or
                                      IN_DELETE_SELF or
-                                     IN_MOVED_TO)) <> 0 then
+                                     IN_MOVED_FROM)) <> 0 then
                 begin
                   EventType := fswFileDeleted;
                 end
@@ -1391,4 +1391,4 @@ finalization
   TFileSystemWatcher.DestroyFileSystemWatcher;
 
 end.
-
+
