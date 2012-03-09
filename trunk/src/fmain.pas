@@ -515,6 +515,7 @@ type
     nbLeft, nbRight: TFileViewNotebook;
     cmdConsole: TCmdBox;
     FCommands: TMainCommands;
+    FInitializedView: Boolean;
     {en
        Used to pass drag&drop parameters to pmDropMenu. Single variable
        can be used, because the user can do only one menu popup at a time. }
@@ -613,6 +614,7 @@ type
     procedure ToggleConsole;
     procedure UpdateWindowView;
     procedure MinimizeWindow;
+    procedure LoadTabs;
     procedure LoadWindowState;
     procedure SaveWindowState;
     procedure SaveMainToolBar;
@@ -732,14 +734,7 @@ begin
 
   InitPropStorage(Self);
 
-  DrivesList := nil;
-  FDropParams := nil;
-  cmdConsole:= nil;
-
   PanelSelected:=fpLeft;
-  HiddenToTray := False;
-  HidingTrayIcon := False;
-  FResizingFilePanels := False;
 
   HMMainForm := HotMan.Register(Self, HotkeysCategory);
   HotMan.Register(edtCommand, 'Command Line');
@@ -757,9 +752,6 @@ begin
   if gOnlyOneAppInstance and Assigned(UniqueInstance) then
     UniqueInstance.OnMessage:= @OnUniqueInstanceMessage;
 
-  // frost_asm begin
-  MainSplitterLeftMouseBtnDown:=false;
-  // frost_asm end
   MainFormCreate(Self);
 
   if mbFileExists(gpCfgDir + cHistoryFile) then
@@ -804,8 +796,8 @@ begin
   // frost_asm end
 
   UpdateWindowView;
+
   //DCDebug('frmMain.FormCreate Done');
-  Draging:=false;
 
 {$IFDEF LCLQT}
   // Fixes bug - [0000033] "DC cancels shutdown in KDE"
@@ -813,6 +805,8 @@ begin
   QEventHook:= QObject_hook_create(TQtWidget(Self.Handle).Widget);
   QObject_hook_hook_events(QEventHook, @QObjectEventFilter);
 {$ENDIF}
+
+  LoadTabs;
 end;
 
 procedure TfrmMain.btnLeftClick(Sender: TObject);
@@ -3915,11 +3909,6 @@ begin
 
     // Create disk panels after assigning parent.
     UpdateDiskCount; // Update list of showed drives
-
-    UpdateDriveToolbarSelection(dskLeft, FrameLeft);
-    UpdateDriveToolbarSelection(dskRight, FrameRight);
-    UpdateDriveButtonSelection(btnLeftDrive, FrameLeft);
-    UpdateDriveButtonSelection(btnRightDrive, FrameRight);
     (*/ Disk Panels *)
 
     FDrivesListPopup.UpdateView;
@@ -4002,10 +3991,6 @@ begin
       end;
     end;
 
-    // Tabs
-    UpdateNoteBook(nbLeft);
-    UpdateNoteBook(nbRight);
-
     // Log window
     seLogWindow.Visible := gLogWindow;
     LogSplitter.Visible := gLogWindow;
@@ -4033,10 +4018,18 @@ begin
           (pnlKeys.Controls[I] as TSpeedButton).Flat := gInterfaceFlat;
     end;
 
+    if FInitializedView then
+    begin
+      UpdateNoteBook(nbLeft);
+      UpdateNoteBook(nbRight);
+
+      UpdateFreeSpace(fpLeft);
+      UpdateFreeSpace(fpRight);
+    end;
+
     ShowTrayIcon(gAlwaysShowTrayIcon);
 
-    UpdateFreeSpace(fpLeft);
-    UpdateFreeSpace(fpRight);
+    FInitializedView := True;
   finally
     EnableAutoSizing;
   end;
@@ -4317,6 +4310,20 @@ begin
 end;
 //LaBero end
 
+procedure TfrmMain.LoadTabs;
+begin
+  if Assigned(gIni) then
+  begin
+    LoadTabsIni(nbLeft);
+    LoadTabsIni(nbRight);
+  end
+  else
+  begin
+    LoadTabsXml(nbLeft);
+    LoadTabsXml(nbRight);
+  end;
+end;
+
 procedure TfrmMain.LoadWindowState;
 var
   ANode: TXmlNode;
@@ -4343,18 +4350,6 @@ begin
       if gConfig.GetValue(ANode, 'Maximized', True) then
         Self.WindowState := wsMaximized;
     end;
-  end;
-
-  (* Load all tabs *)
-  if Assigned(gIni) then
-  begin
-    LoadTabsIni(nbLeft);
-    LoadTabsIni(nbRight);
-  end
-  else
-  begin
-    LoadTabsXml(nbLeft);
-    LoadTabsXml(nbRight);
   end;
 end;
 
