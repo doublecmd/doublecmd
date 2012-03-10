@@ -289,14 +289,4 @@ object dmHighl: TdmHighl
     left = 168
     top = 200
   end
-  object SynPoSyn1: TSynPoSyn
-    DefaultFilter = 'Po Files (*.po)|*.po'
-    Enabled = False
-    CommentAttri.FrameEdges = sfeAround
-    TextAttri.FrameEdges = sfeAround
-    KeyAttri.FrameEdges = sfeAround
-    SpaceAttri.FrameEdges = sfeAround
-    left = 240
-    top = 200
-  end
 end
