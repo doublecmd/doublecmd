@@ -3,6 +3,7 @@ object frmAbout: TfrmAbout
   Height = 400
   Top = 125
   Width = 667
+  BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'About'
   ClientHeight = 400
   ClientWidth = 667
