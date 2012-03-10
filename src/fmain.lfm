@@ -174,7 +174,6 @@ object frmMain: TfrmMain
           Constraints.MinHeight = 24
           NumGlyphs = 0
           OnMouseUp = btnDriveMouseUp
-          ShowCaption = False
         end
         object btnLeftHome: TSpeedButton
           Left = 465
@@ -307,7 +306,6 @@ object frmMain: TfrmMain
           Constraints.MinHeight = 24
           NumGlyphs = 0
           OnMouseUp = btnDriveMouseUp
-          ShowCaption = False
         end
         object btnRightHome: TSpeedButton
           Left = 201
