@@ -46,15 +46,11 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
     end
   end
   object PnlTop2: TPanel[1]
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = pnlTop
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 133
     Top = 24
     Width = 606
+    Align = alTop
     Anchors = [akTop, akLeft, akRight, akBottom]
     BevelOuter = bvNone
     ClientHeight = 133
@@ -626,7 +622,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       AnchorSideTop.Side = asrCenter
       Left = 6
       Height = 14
-      Top = 24
+      Top = 48
       Width = 57
       BorderSpacing.Left = 6
       Caption = 'Foreground'
@@ -639,7 +635,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       AnchorSideTop.Side = asrCenter
       Left = 6
       Height = 14
-      Top = 49
+      Top = 73
       Width = 57
       BorderSpacing.Left = 6
       Caption = 'Background'
@@ -652,21 +648,22 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       AnchorSideTop.Side = asrCenter
       Left = 6
       Height = 17
-      Top = 23
+      Top = 47
       Width = 76
       BorderSpacing.Left = 6
       Caption = 'Foreground'
+      OnChange = GeneralCheckBoxOnChange
       TabOrder = 0
     end
     object ForegroundColorBox: TColorBox
       AnchorSideLeft.Control = ColumnPosBevel
-      AnchorSideTop.Control = bvlAttributeSection
+      AnchorSideTop.Control = ToolBar1
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = pnlElementAttributes
       AnchorSideRight.Side = asrBottom
       Left = 88
       Height = 22
-      Top = 20
+      Top = 44
       Width = 200
       DefaultColorColor = clWhite
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeDefault, cbCustomColor, cbPrettyNames, cbCustomColors]
@@ -685,7 +682,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       AnchorSideRight.Side = asrBottom
       Left = 88
       Height = 22
-      Top = 45
+      Top = 69
       Width = 200
       DefaultColorColor = clWhite
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeDefault, cbCustomColor, cbPrettyNames, cbCustomColors]
@@ -703,10 +700,11 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       AnchorSideRight.Side = asrBottom
       Left = 6
       Height = 17
-      Top = 48
+      Top = 72
       Width = 76
       BorderSpacing.Left = 6
       Caption = 'Background'
+      OnChange = GeneralCheckBoxOnChange
       TabOrder = 2
     end
     object FrameColorBox: TColorBox
@@ -717,7 +715,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       AnchorSideRight.Side = asrBottom
       Left = 88
       Height = 22
-      Top = 70
+      Top = 94
       Width = 200
       DefaultColorColor = clWhite
       Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeDefault, cbCustomColor, cbPrettyNames, cbCustomColors]
@@ -735,10 +733,11 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       AnchorSideRight.Side = asrBottom
       Left = 6
       Height = 17
-      Top = 73
+      Top = 97
       Width = 69
       BorderSpacing.Left = 6
       Caption = 'Text-mark'
+      OnChange = GeneralCheckBoxOnChange
       TabOrder = 4
     end
     object bvlAttributeSection: TDividerBevel
@@ -757,7 +756,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       AnchorSideTop.Side = asrBottom
       Left = 6
       Height = 36
-      Top = 119
+      Top = 143
       Width = 131
       AutoSize = True
       BorderSpacing.Left = 6
@@ -839,7 +838,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
         Top = 0
         Width = 65
         Caption = 'Underline'
-        OnChange = TextStyleRadioOnChange
+        OnChange = GeneralCheckBoxOnChange
         TabOrder = 1
       end
     end
@@ -849,7 +848,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       AnchorSideTop.Control = pnlUnderline
       Left = 143
       Height = 36
-      Top = 119
+      Top = 143
       Width = 131
       AutoSize = True
       BorderSpacing.Left = 6
@@ -930,7 +929,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
         Top = 0
         Width = 40
         Caption = 'Bold'
-        OnChange = TextStyleRadioOnChange
+        OnChange = GeneralCheckBoxOnChange
         TabOrder = 1
       end
     end
@@ -940,7 +939,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       AnchorSideTop.Control = pnlUnderline
       Left = 280
       Height = 36
-      Top = 119
+      Top = 143
       Width = 131
       AutoSize = True
       BorderSpacing.Left = 6
@@ -1021,7 +1020,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
         Top = 0
         Width = 43
         Caption = 'Italic'
-        OnChange = TextStyleRadioOnChange
+        OnChange = GeneralCheckBoxOnChange
         TabOrder = 1
       end
     end
@@ -1031,7 +1030,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       AnchorSideTop.Control = FrameEdgesBox
       Left = 191
       Height = 21
-      Top = 95
+      Top = 119
       Width = 97
       BorderSpacing.Left = 6
       ItemHeight = 15
@@ -1055,7 +1054,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       AnchorSideTop.Side = asrBottom
       Left = 88
       Height = 21
-      Top = 95
+      Top = 119
       Width = 97
       BorderSpacing.Top = 3
       ItemHeight = 15
@@ -1081,7 +1080,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       AnchorSideBottom.Side = asrBottom
       Left = 88
       Height = 1
-      Top = 155
+      Top = 179
       Width = 50
       AutoSize = True
       BorderSpacing.Left = 6
@@ -1096,7 +1095,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       AnchorSideTop.Control = pnlUnderline
       Left = 417
       Height = 36
-      Top = 119
+      Top = 143
       Width = 131
       AutoSize = True
       BorderSpacing.Left = 6
@@ -1164,8 +1163,51 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
         Top = 0
         Width = 68
         Caption = 'Strike Out'
-        OnChange = TextStyleRadioOnChange
+        OnChange = GeneralCheckBoxOnChange
         TabOrder = 1
+      end
+    end
+    object ToolBar1: TToolBar
+      Left = 3
+      Height = 24
+      Top = 17
+      Width = 600
+      AutoSize = True
+      BorderSpacing.Left = 3
+      BorderSpacing.Right = 3
+      Caption = 'ToolBar1'
+      EdgeBorders = [ebBottom]
+      ParentShowHint = False
+      ShowCaptions = True
+      ShowHint = True
+      TabOrder = 13
+      object tbtnGlobal: TToolButton
+        Tag = 1
+        Left = 1
+        Top = 0
+        AutoSize = True
+        Caption = 'Use (and edit) global scheme settings'
+        Down = True
+        Grouped = True
+        OnClick = tbtnGlobalClick
+        Style = tbsCheck
+      end
+      object tbtnLocal: TToolButton
+        Tag = 1
+        Left = 188
+        Top = 0
+        AutoSize = True
+        Caption = 'Use local scheme settings'
+        Grouped = True
+        OnClick = tbtnGlobalClick
+        Style = tbsCheck
+      end
+      object ToolButton3: TToolButton
+        Left = 318
+        Top = 0
+        Width = 10
+        Caption = 'ToolButton3'
+        Style = tbsSeparator
       end
     end
   end

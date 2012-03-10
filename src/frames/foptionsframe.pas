@@ -113,6 +113,7 @@ uses
   fOptionsTabs,
   fOptionsTerminal,
   fOptionsTools,
+  fOptionsEditorColors,
   fOptionsToolTips;
 
 { TOptionsEditorRec }
@@ -227,13 +228,15 @@ var
   Keyboard,
   Layout,
   Mouse,
-  Tools: TOptionsEditorRec;
+  Tools,
+  Editor: TOptionsEditorRec;
 begin
   Main.Add(TfrmOptionsLanguage);
   Main.Add(TfrmOptionsBehavior);
   Tools := Main.Add(TOptionsToolsGroup);
   Tools.Add(TfrmOptionsViewer);
-  Tools.Add(TfrmOptionsEditor);
+  Editor:= Tools.Add(TfrmOptionsEditor);
+  Editor.Add(TfrmOptionsEditorColors);
   Tools.Add(TfrmOptionsDiffer);
   Tools.Add(TfrmOptionsTerminal);
   Main.Add(TfrmOptionsFonts);
