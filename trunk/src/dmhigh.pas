@@ -5,13 +5,13 @@ unit dmHigh;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, SynEdit, StringHashList,
+  Classes, SysUtils, Forms, Controls, SynEdit, StringHashList, LCLVersion,
   SynEditHighlighter, SynHighlighterPas, SynHighlighterCPP, SynHighlighterJava,
   SynHighlighterHTML, SynHighlighterXML, SynHighlighterLFM,
   SynHighlighterUNIXShellScript, SynHighlighterPHP, SynHighlighterTeX,
   SynHighlighterSQL, SynHighlighterPerl, SynHighlighterCss,
   SynHighlighterPython, SynHighlighterDiff, SynHighlighterVB, SynHighlighterBat,
-  SynHighlighterIni, SynHighlighterPo;
+  SynHighlighterIni;
 
 
 const
@@ -41,7 +41,6 @@ type
     SynPasSyn1: TSynPasSyn;
     SynPerlSyn1: TSynPerlSyn;
     SynPHPSyn1: TSynPHPSyn;
-    SynPoSyn1: TSynPoSyn;
     SynPythonSyn1: TSynPythonSyn;
     SynSQLSyn1: TSynSQLSyn;
     SynTeXSyn1: TSynTeXSyn;
@@ -78,7 +77,11 @@ implementation
 
 uses
   Graphics, SynEditTypes, uHighlighterProcs, uXMLConfig, uGlobsPaths,
-  uClassesEx, uOSUtils, uLng;
+  uClassesEx, uOSUtils, uLng
+{$IF lcl_fullversion >= 093100}
+  , SynHighlighterPo
+{$ENDIF}
+  ;
 
 const
   csDefaultName = 'editor.col';
@@ -111,6 +114,9 @@ begin
   SynHighlighterList:= TStringList.Create;
   SynHighlighterHashList:= TStringHashList.Create(True);
   SynPlainTextHighlighter:= TSynPlainTextHighlighter.Create(Self);
+{$IF lcl_fullversion >= 093100}
+  TSynPoSyn.Create(Self).Tag:= 1; // Will be destroyed by owner
+{$ENDIF}
   GetHighlighters(Self, SynHighlighterList, False);
   for I:= 0 to SynHighlighterList.Count - 1 do
   begin
