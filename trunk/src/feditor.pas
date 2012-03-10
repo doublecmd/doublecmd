@@ -197,7 +197,7 @@ implementation
 
 uses
   dmCommonData, dmHigh, SynEditHighlighter, SynEditTypes, SynEditLines, LCLType,
-  LConvEncoding, uLng, uShowMsg, fEditSearch, uGlobsPaths, uGlobs, fEditorConf,
+  LConvEncoding, uLng, uShowMsg, fEditSearch, uGlobsPaths, uGlobs, fOptions,
   uOSUtils, uConvEncoding, uSynEditFiler;
 
 procedure ShowEditor(const sFileName:String);
@@ -205,7 +205,6 @@ var
   editor: TfrmEditor;
 begin
   editor := TfrmEditor.Create(Application);
-  LoadAttrFromFile(gpCfgDir + csDefaultName);
 
   if sFileName = '' then
     editor.actFileNew.Execute
@@ -230,11 +229,10 @@ begin
 
 // update menu highlighting
   miHighlight.Clear;
-  for i:=0 to dmHighl.ComponentCount -1 do
-    if dmHighl.Components[i] is TSynCustomHighlighter then
+  for i:=0 to dmHighl.SynHighlighterList.Count - 1 do
     begin
       mi:=TMenuItem.Create(miHighlight);
-      mi.Caption:=TSynCustomHighlighter(dmHighl.Components[i]).GetLanguageName;
+      mi.Caption:=TSynCustomHighlighter(dmHighl.SynHighlighterList.Objects[i]).GetLanguageName;
       mi.Tag:=i;
 //      mi.Name:='miHigh'+IntToStr(i);
       mi.Enabled:=True;
@@ -311,8 +309,8 @@ end;
 
 function TfrmEditor.OpenFile(const aFileName: UTF8String): Boolean;
 var
-  h: TSynCustomHighlighter;
   Reader: TSynEditFileReader;
+  Highlighter: TSynCustomHighlighter;
 begin
   Result := False;
   try
@@ -362,9 +360,8 @@ begin
   if sEncodingIn <> EncodingUTF8 then
     Editor.Lines.Text := ConvertEncoding(sOriginalText, sEncodingIn, EncodingUTF8);
   // set up highlighter
-  h := dmHighl.GetHighlighterByExt(ExtractFileExt(aFileName));
-  SetupColorOfHighlighter(h);
-  Editor.Highlighter := h;
+  Highlighter := dmHighl.GetHighlighterByExt(ExtractFileExt(aFileName));
+  dmHighl.SetHighlighter(Editor, Highlighter);
   UpdateHighlighterStatus;
   FileName := aFileName;
   bChanged := False;
@@ -546,15 +543,12 @@ end;
 
 procedure TfrmEditor.SetHighLighter(Sender:TObject);
 var
-  h:TSynCustomHighlighter;
+  Highlighter: TSynCustomHighlighter;
 begin
-//  TQSynHighlighter(dmHigh.Components[TMenuItem(Sender).HelpContext]);
-  h:=TSynCustomHighlighter(dmHighl.Components[TMenuItem(Sender).Tag]);
-  SetupColorOfHighlighter(h);
-  Editor.Highlighter:=h;
+  Highlighter:= TSynCustomHighlighter(dmHighl.SynHighlighterList.Objects[TMenuItem(Sender).Tag]);
+  dmHighl.SetHighlighter(Editor, Highlighter);
   UpdateHighlighterStatus;
 end;
-
 
 (*
 This is code for multi tabs editor, it's buggy because
@@ -844,14 +838,17 @@ end;
 
 procedure TfrmEditor.actConfHighExecute(Sender: TObject);
 begin
-  inherited;
-  with TfrmEditorConf.Create(Application) do
-  begin
-    try
-      ShowModal;
-    finally
-      Free;
-    end;
+  if Assigned(frmOptions) then
+    begin
+      if frmOptions.WindowState = wsMinimized then
+        frmOptions.WindowState:= wsNormal
+      else
+        frmOptions.BringToFront;
+    end
+  else
+    begin
+      frmOptions := TfrmOptions.Create(Application, 'TfrmOptionsEditorColors');
+      frmOptions.Show;
   end;
 end;
 
@@ -871,4 +868,4 @@ begin
       mnuMenuItem.Items[I].Checked:= True;
 end;
 
-end.
+end.

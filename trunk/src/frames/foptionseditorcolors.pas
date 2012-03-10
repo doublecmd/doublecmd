@@ -1,3 +1,28 @@
+{
+    Double Commander
+    -------------------------------------------------------------------------
+    Internal editor highlighters configuration frame
+
+    Copyright (C) 2012  Alexander Koblov (alexx2000@mail.ru)
+
+    Based on Lazarus IDE editor configuration frame (Editor/Display/Colors)
+
+    This source is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This code is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    General Public License for more details.
+
+    A copy of the GNU General Public License is available on the World
+    Wide Web at <http://www.gnu.org/copyleft/gpl.html>. You can also
+    obtain it by writing to the Free Software Foundation,
+    Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+}
+
 unit fOptionsEditorColors;
 
 {$mode objfpc}{$H+}
@@ -7,7 +32,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, SynEdit, Forms, Controls, StdCtrls, ExtCtrls,
   ColorBox, ComCtrls, Dialogs, Menus, Buttons, fOptionsFrame, DividerBevel, types,
-  Graphics, SynEditHighlighter;
+  Graphics, SynEditHighlighter, dmHigh;
 
 type
 
@@ -38,6 +63,8 @@ type
     pnlUnderline: TPanel;
     Splitter1: TSplitter;
     stFileExtensions: TStaticText;
+    tbtnGlobal: TToolButton;
+    tbtnLocal: TToolButton;
     TextBoldCheckBox: TCheckBox;
     TextBoldRadioInvert: TRadioButton;
     TextBoldRadioOff: TRadioButton;
@@ -58,6 +85,8 @@ type
     TextUnderlineRadioOff: TRadioButton;
     TextUnderlineRadioOn: TRadioButton;
     TextUnderlineRadioPanel: TPanel;
+    ToolBar1: TToolBar;
+    ToolButton3: TToolButton;
     procedure FrameStyleBoxDrawItem(Control: TWinControl; Index: Integer;
       ARect: TRect; State: TOwnerDrawState);
     procedure cmbLanguageChange(Sender: TObject);
@@ -67,13 +96,22 @@ type
     procedure ColorElementTreeDrawItem(Control: TWinControl; Index: Integer;
       NodeRect: TRect; State: TOwnerDrawState);
     procedure ColorElementTreeSelectionChange(Sender: TObject; User: boolean);
+    procedure GeneralCheckBoxOnChange(Sender: TObject);
     procedure pnlElementAttributesResize(Sender: TObject);
+    procedure tbtnGlobalClick(Sender: TObject);
     procedure TextStyleRadioOnChange(Sender: TObject);
+    procedure SynPlainTextHighlighterChange(Sender: TObject);
   private
+    FHighl: TdmHighl;
+    FDefHighlightElement,
     FCurHighlightElement: TSynHighlighterAttributes;
+    FCurrentHighlighter: TSynCustomHighlighter;
+    FIsEditingDefaults: Boolean;
     UpdatingColor: Boolean;
+    procedure UpdateCurrentScheme;
   protected
     procedure Init; override;
+    procedure Done; override;
     procedure Load; override;
     function Save: TOptionsEditorSaveFlags; override;
   public
@@ -86,8 +124,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, LCLIntf, SynEditTypes, SynEditStrConst, GraphUtil,
-  dmHigh;
+  LCLType, LCLIntf, SynEditTypes, GraphUtil, uLng;
 
 const
   COLOR_NODE_PREFIX = ' abc  ';
@@ -106,6 +143,16 @@ begin
     Result := clDefault
   else
     Result := AColor;
+end;
+
+function SynAttributeSortCompare(List: TStringList; Index1, Index2: Integer): Integer;
+begin
+  if CompareStr(List[Index1], rsSynDefaultText) = 0 then
+    Result:= -1
+  else if CompareStr(List[Index2], rsSynDefaultText) = 0 then
+    Result:=  1
+  else
+    Result:= CompareStr(List[Index1], List[Index2]);
 end;
 
 { TfrmOptionsEditorColors }
@@ -180,17 +227,33 @@ end;
 procedure TfrmOptionsEditorColors.cmbLanguageChange(Sender: TObject);
 var
   I: LongInt;
-  HighLighter: TSynCustomHighlighter;
+  AttributeList: TStringList;
 begin
   if (cmbLanguage.ItemIndex < 0) then Exit;
-  HighLighter:= TSynCustomHighlighter(cmbLanguage.Items.Objects[cmbLanguage.ItemIndex]);
-  stFileExtensions.Caption:= Copy(HighLighter.DefaultFilter, 1, Pos('|', HighLighter.DefaultFilter) - 1);
-  ColorPreview.Lines.Text:= HighLighter.SampleSource;
-  ColorPreview.Highlighter:= HighLighter;
-  ColorElementTree.Items.Clear;
-  for i:=0 to HighLighter.AttrCount-1 do
-    ColorElementTree.Items.AddObject(HighLighter.Attribute[i].StoredName, HighLighter.Attribute[i]);
-  if (ColorElementTree.Count > 0) then ColorElementTree.ItemIndex:= 0;
+  AttributeList:= TStringList.Create;
+  try
+    FCurrentHighlighter:= TSynCustomHighlighter(cmbLanguage.Items.Objects[cmbLanguage.ItemIndex]);
+    stFileExtensions.Caption:= Copy(FCurrentHighlighter.DefaultFilter, 1, Pos('|', FCurrentHighlighter.DefaultFilter) - 1);
+    ColorPreview.Lines.Text:= FHighl.GetSampleSource(FCurrentHighlighter);
+    if ColorPreview.Lines.Text = EmptyStr then
+    try
+      ColorPreview.Lines.Text:= FCurrentHighlighter.SampleSource;
+    except
+      ColorPreview.Lines.Text:= EmptyStr;
+    end;
+    FHighl.SetHighlighter(ColorPreview, FCurrentHighlighter);
+    ColorElementTree.Items.Clear;
+    for I:=0 to FCurrentHighlighter.AttrCount - 1 do
+      AttributeList.AddObject(FCurrentHighlighter.Attribute[I].Name, FCurrentHighlighter.Attribute[I]);
+    if (AttributeList.Count > 0) then
+    begin
+      AttributeList.CustomSort(@SynAttributeSortCompare);
+      ColorElementTree.Items.Assign(AttributeList);
+      ColorElementTree.ItemIndex:= 0;
+    end;
+  finally
+    AttributeList.Free;
+  end;
 end;
 
 procedure TfrmOptionsEditorColors.ForegroundColorBoxChange(Sender: TObject); //+++
@@ -198,10 +261,13 @@ var
   AttrToEdit: TSynHighlighterAttributes;
 begin
   if (FCurHighlightElement = nil) or UpdatingColor then
-    exit;
+    Exit;
   UpdatingColor := True;
 
-  AttrToEdit := FCurHighlightElement;
+  if FIsEditingDefaults then
+    AttrToEdit := FHighl.SynPlainTextHighlighter.Attribute[FHighl.SynPlainTextHighlighter.AttrCount-1]
+  else
+    AttrToEdit := FCurHighlightElement;
 
   if Sender = ForegroundColorBox then
   begin
@@ -230,6 +296,7 @@ begin
   end;
 
   UpdatingColor := False;
+  UpdateCurrentScheme;
 end;
 
 procedure TfrmOptionsEditorColors.ColorElementTreeDrawItem(Control: TWinControl;
@@ -238,11 +305,13 @@ var
   FullAbcWidth, AbcWidth: Integer;
   Attri: TSynHighlighterAttributes;
   TextY: Integer;
-  AttriIdx: LongInt;
   c: TColor;
   s: String;
 begin
-  Attri := TSynHighlighterAttributes(ColorElementTree.Items.Objects[Index]);
+  if (Index = 0) and FIsEditingDefaults then
+    Attri := FDefHighlightElement
+  else
+    Attri := TSynHighlighterAttributes(ColorElementTree.Items.Objects[Index]);
 
   if (Attri = nil) then Exit;
 
@@ -303,11 +372,19 @@ begin
   end;
 end;
 
+procedure TfrmOptionsEditorColors.SynPlainTextHighlighterChange(Sender: TObject);
+var
+  SynPlainTextHighlighter: TSynHighlighterAttributes absolute Sender;
+begin
+  ColorPreview.Color:= SynPlainTextHighlighter.Background;
+  ColorPreview.Font.Color:= SynPlainTextHighlighter.Foreground;
+end;
+
 procedure TfrmOptionsEditorColors.ColorElementTreeSelectionChange(
   Sender: TObject; User: boolean); //+++
 var
   AttrToShow: TSynHighlighterAttributes;
-  CanGlobal: Boolean;
+  IsDefault, CanGlobal: Boolean;
 begin
   if (ColorElementTree.ItemIndex < 0) or UpdatingColor then
     Exit;
@@ -316,17 +393,32 @@ begin
   DisableAlign;
   try
 
-  AttrToShow := FCurHighlightElement;
-  CanGlobal := (cmbLanguage.ItemIndex <> 0);
+  FDefHighlightElement:= FHighl.SynPlainTextHighlighter.Attribute[FHighl.SynPlainTextHighlighter.AttrCount - 1];
+
+  IsDefault := SameText(rsSynDefaultText, FCurHighlightElement.Name);
+  CanGlobal := (cmbLanguage.ItemIndex > 0) and IsDefault;
+  FIsEditingDefaults:= CanGlobal and (FCurrentHighlighter.Tag = 1);
+
+  tbtnGlobal.Enabled := CanGlobal;
+  tbtnLocal.Enabled := CanGlobal;
+  tbtnGlobal.AllowAllUp := not CanGlobal;
+  tbtnLocal.AllowAllUp := not CanGlobal;
+  tbtnGlobal.Down := (FCurrentHighlighter.Tag = 1) and CanGlobal;
+  tbtnLocal.Down  := (FCurrentHighlighter.Tag = 0) and CanGlobal;
+
+  if FIsEditingDefaults then
+    AttrToShow := FDefHighlightElement
+  else
+    AttrToShow := FCurHighlightElement;
 
   ForegroundColorBox.Style := ForegroundColorBox.Style + [cbIncludeDefault];
   BackGroundColorBox.Style := BackGroundColorBox.Style + [cbIncludeDefault];
 
   // Forground
   ForeGroundLabel.Visible              := (hafForeColor in AttrToShow.Features) and
-                                          (CanGlobal = False);
+                                          (IsDefault = True);
   ForeGroundUseDefaultCheckBox.Visible := (hafForeColor in AttrToShow.Features) and
-                                          (CanGlobal = True);
+                                          (IsDefault = False);
   ForegroundColorBox.Visible           := (hafForeColor in AttrToShow.Features);
 
   ForegroundColorBox.Selected := NoneToDefault(AttrToShow.Foreground);
@@ -338,9 +430,9 @@ begin
 
   // BackGround
   BackGroundLabel.Visible              := (hafBackColor in AttrToShow.Features) and
-                                          (CanGlobal = False);
+                                          (IsDefault = True);
   BackGroundUseDefaultCheckBox.Visible := (hafBackColor in AttrToShow.Features) and
-                                          (CanGlobal = True);
+                                          (IsDefault = False);
   BackGroundColorBox.Visible           := (hafBackColor in AttrToShow.Features);
 
   BackGroundColorBox.Selected := NoneToDefault(AttrToShow.Background);
@@ -435,11 +527,126 @@ begin
     TextStrikeOutCheckBox.Checked := fsStrikeOut in AttrToShow.Style;
   end;
 
+  if SameText(AttrToShow.Name, rsSynDefaultText) then
+  begin
+    AttrToShow.OnChange:= @SynPlainTextHighlighterChange;
+  end;
+
   UpdatingColor := False;
   finally
     EnableAlign;
   end;
   pnlElementAttributesResize(nil);
+end;
+
+procedure TfrmOptionsEditorColors.GeneralCheckBoxOnChange(Sender: TObject);
+var
+  TheColorBox: TColorBox;
+  AttrToEdit: TSynHighlighterAttributes;
+begin
+  if FCurHighlightElement = nil then Exit;
+
+  if FIsEditingDefaults then
+    AttrToEdit := FDefHighlightElement
+  else
+    AttrToEdit := FCurHighlightElement;
+
+  if UpdatingColor = False then begin
+    UpdatingColor := True;
+
+    TheColorBox := nil;
+    if Sender = ForeGroundUseDefaultCheckBox then TheColorBox := ForegroundColorBox;
+    if Sender = BackGroundUseDefaultCheckBox then TheColorBox := BackGroundColorBox;
+    if Sender = FrameColorUseDefaultCheckBox then TheColorBox := FrameColorBox;
+    if Assigned(TheColorBox) then begin
+      if TCheckBox(Sender).Checked then begin
+        TheColorBox.Selected := TheColorBox.Tag;
+      end
+      else begin
+        TheColorBox.Tag := TheColorBox.Selected;
+        TheColorBox.Selected := clDefault;
+      end;
+
+      if (Sender = ForeGroundUseDefaultCheckBox) and
+         (DefaultToNone(ForegroundColorBox.Selected) <> AttrToEdit.Foreground)
+      then begin
+        AttrToEdit.Foreground := DefaultToNone(ForegroundColorBox.Selected);
+        UpdateCurrentScheme;
+      end;
+      if (Sender = BackGroundUseDefaultCheckBox) and
+         (DefaultToNone(BackGroundColorBox.Selected) <> AttrToEdit.Background)
+      then begin
+        AttrToEdit.Background := DefaultToNone(BackGroundColorBox.Selected);
+        UpdateCurrentScheme;
+      end;
+      if (Sender = FrameColorUseDefaultCheckBox) and
+         (DefaultToNone(FrameColorBox.Selected) <> AttrToEdit.FrameColor)
+      then begin
+        AttrToEdit.FrameColor := DefaultToNone(FrameColorBox.Selected);
+        FrameEdgesBox.Enabled := TCheckBox(Sender).Checked;
+        FrameStyleBox.Enabled := TCheckBox(Sender).Checked;
+        UpdateCurrentScheme;
+      end;
+    end;
+
+    UpdatingColor := False;
+  end;
+
+  if Sender = TextBoldCheckBox then begin
+    if hafStyleMask in AttrToEdit.Features then
+      TextStyleRadioOnChange(Sender)
+    else
+    if TextBoldCheckBox.Checked xor (fsBold in AttrToEdit.Style) then
+    begin
+      if TextBoldCheckBox.Checked then
+        AttrToEdit.Style := AttrToEdit.Style + [fsBold]
+      else
+        AttrToEdit.Style := AttrToEdit.Style - [fsBold];
+      UpdateCurrentScheme;
+    end;
+  end;
+
+  if Sender = TextItalicCheckBox then begin
+    if hafStyleMask in AttrToEdit.Features then
+      TextStyleRadioOnChange(Sender)
+    else
+    if TextItalicCheckBox.Checked xor (fsItalic in AttrToEdit.Style) then
+    begin
+      if TextItalicCheckBox.Checked then
+        AttrToEdit.Style := AttrToEdit.Style + [fsItalic]
+      else
+        AttrToEdit.Style := AttrToEdit.Style - [fsItalic];
+      UpdateCurrentScheme;
+    end;
+  end;
+
+  if Sender = TextUnderlineCheckBox then begin
+    if hafStyleMask in AttrToEdit.Features then
+      TextStyleRadioOnChange(Sender)
+    else
+    if TextUnderlineCheckBox.Checked xor (fsUnderline in AttrToEdit.Style) then
+    begin
+      if TextUnderlineCheckBox.Checked then
+        AttrToEdit.Style := AttrToEdit.Style + [fsUnderline]
+      else
+        AttrToEdit.Style := AttrToEdit.Style - [fsUnderline];
+      UpdateCurrentScheme;
+    end;
+  end;
+
+  if Sender = TextStrikeOutCheckBox then begin
+    if hafStyleMask in AttrToEdit.Features then
+      TextStyleRadioOnChange(Sender)
+    else
+    if TextStrikeOutCheckBox.Checked xor (fsStrikeOut in AttrToEdit.Style) then
+    begin
+      if TextStrikeOutCheckBox.Checked then
+        AttrToEdit.Style := AttrToEdit.Style + [fsStrikeOut]
+      else
+        AttrToEdit.Style := AttrToEdit.Style - [fsStrikeOut];
+      UpdateCurrentScheme;
+    end;
+  end;
 end;
 
 procedure TfrmOptionsEditorColors.pnlElementAttributesResize(Sender: TObject); //+++
@@ -466,6 +673,16 @@ begin
   CheckControl(FrameColorUseDefaultCheckBox);
 
   ColumnPosBevel.AnchorSide[akLeft].Control := MinAnchor;
+end;
+
+procedure TfrmOptionsEditorColors.tbtnGlobalClick(Sender: TObject);
+begin
+  if (FCurHighlightElement = nil) or UpdatingColor then
+    Exit;
+
+  FCurrentHighlighter.Tag := PtrInt(tbtnGlobal.Down);
+  ColorElementTreeSelectionChange(ColorElementTree, True);
+  UpdateCurrentScheme;
 end;
 
 procedure TfrmOptionsEditorColors.TextStyleRadioOnChange(Sender: TObject); //+++
@@ -508,7 +725,10 @@ begin
   if UpdatingColor or not (hafStyleMask in FCurHighlightElement.Features) then
     Exit;
 
-  AttrToEdit := FCurHighlightElement;
+  if FIsEditingDefaults then
+    AttrToEdit := FDefHighlightElement
+  else
+    AttrToEdit := FCurHighlightElement;
 
   if (Sender = TextBoldCheckBox) or
      (Sender = TextBoldRadioOn) or
@@ -539,31 +759,35 @@ begin
                     TextStrikeOutRadioInvert, fsStrikeOut, TextStrikeOutRadioPanel);
 end;
 
+procedure TfrmOptionsEditorColors.UpdateCurrentScheme;
+begin
+  ColorElementTree.Invalidate;
+end;
+
 procedure TfrmOptionsEditorColors.Init;
-var
-  I: LongInt;
-  Highlighter: TSynCustomHighlighter;
 begin
   inherited Init;
-  cmbLanguage.Items.AddObject(dmHighl.FSynGlobalHighlighter.LanguageName, dmHighl.FSynGlobalHighlighter);
-  for I:= 0 to dmHighl.slHighLighters.Count - 1 do
-  begin
-    Highlighter:= TSynCustomHighlighter(dmHighl.slHighLighters.Objects[I]);
-    cmbLanguage.Items.AddObject(Highlighter.LanguageName, Highlighter);
-  end;
-  cmbLanguage.ItemIndex:= 0;
-  cmbLanguageChange(nil);
+  FHighl:= TdmHighl.Create(nil, True);
+end;
+
+procedure TfrmOptionsEditorColors.Done;
+begin
+  FHighl.Free;
+  inherited Done;
 end;
 
 procedure TfrmOptionsEditorColors.Load;
 begin
-  //inherited Load;
+  FHighl.Assign(dmHighl);
+  cmbLanguage.Items.Assign(FHighl.SynHighlighterList);
+  cmbLanguage.ItemIndex:= 0;
+  cmbLanguageChange(nil);
 end;
 
 function TfrmOptionsEditorColors.Save: TOptionsEditorSaveFlags;
 begin
-  //Result:=inherited Save;
- // dmHighl.SaveToFile('d:\test.xml');
+  Result:= [];
+  dmHighl.Assign(FHighl);
 end;
 
 class function TfrmOptionsEditorColors.GetIconIndex: Integer;
@@ -573,7 +797,7 @@ end;
 
 class function TfrmOptionsEditorColors.GetTitle: String;
 begin
-  Result:= 'Highlighters'
+  Result:= rsOptionsEditorHighlighters;
 end;
 
 end.

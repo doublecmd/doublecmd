@@ -365,6 +365,7 @@ resourcestring
   rsOptionsEditorFilesViews = 'Files views';
   rsOptionsEditorFolderTabs = 'Folder tabs';
   rsOptionsEditorFonts = 'Fonts';
+  rsOptionsEditorHighlighters = 'Highlighters';
   rsOptionsEditorHotKeys = 'Hot keys';
   rsOptionsEditorIcons = 'Icons';
   rsOptionsEditorIgnoreList = 'Ignore list';
