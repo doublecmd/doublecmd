@@ -39,6 +39,7 @@ type
     cbDirBrackets: TCheckBox;
     cbListFilesInThread: TCheckBox;
     cbLoadIconsSeparately: TCheckBox;
+    cbDelayLoadingTabs: TCheckBox;
     cbShortFileSizeFormat: TCheckBox;
     cbShowSystemFiles: TCheckBox;
     cbSortMethod: TComboBox;
@@ -108,6 +109,7 @@ begin
   cbShowSystemFiles.Checked:= gShowSystemFiles;
   cbListFilesInThread.Checked:= gListFilesInThread;
   cbLoadIconsSeparately.Checked:= gLoadIconsSeparately;
+  cbDelayLoadingTabs.Checked:= gDelayLoadingTabs;
 end;
 
 function TfrmOptionsFilesViews.Save: TOptionsEditorSaveFlags;
@@ -130,6 +132,7 @@ begin
   gShowSystemFiles:= cbShowSystemFiles.Checked;
   gListFilesInThread:= cbListFilesInThread.Checked;
   gLoadIconsSeparately:= cbLoadIconsSeparately.Checked;
+  gDelayLoadingTabs := cbDelayLoadingTabs.Checked;
 
   Result := [];
 end;

@@ -74,7 +74,7 @@ type
       function GetActiveDisplayFile: TDisplayFile; override;
       procedure Resize; override;
   public
-    constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode); override;
+    constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
     destructor Destroy; override;
 
     procedure AddFileSource(aFileSource: IFileSource; aPath: String); override;
@@ -721,13 +721,12 @@ end;
 
 procedure TBriefFileView.AfterChangePath;
 begin
-  inherited AfterChangePath;
-
 //  FUpdatingGrid := True;
   dgPanel.Row := 0;
 //  FUpdatingGrid := False;
 
-  MakeFileSourceFileList;
+  inherited AfterChangePath;
+
   pnlHeader.UpdatePathLabel;
 end;
 
@@ -759,17 +758,18 @@ begin
 end;
 
 constructor TBriefFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig;
-  ANode: TXmlNode);
+  ANode: TXmlNode; AFlags: TFileViewFlags = []);
 begin
-  inherited Create(AOwner, AConfig, ANode);
+  inherited Create(AOwner, AConfig, ANode, AFlags);
 
   LoadConfiguration(AConfig, ANode);
 
+  // Update view before making file source file list,
+  // so that file list isn't unnecessarily displayed twice.
+  UpdateView;
+
   if FileSourcesCount > 0 then
   begin
-    // Update view before making file source file list,
-    // so that file list isn't unnecessarily displayed twice.
-    UpdateView;
     MakeFileSourceFileList;
   end;
 end;
