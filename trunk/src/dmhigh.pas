@@ -330,7 +330,7 @@ begin
           while Assigned(FormNode) do
           begin
             LanguageName:= Config.GetAttr(FormNode, 'Name', EmptyStr);
-            Highlighter:= TSynCustomHighlighter(SynHighlighterHashList.Find(LanguageName));
+            Highlighter:= TSynCustomHighlighter(SynHighlighterHashList.Data[LanguageName]);
             if Assigned(Highlighter) then
             begin
               Highlighter.Tag := Config.GetAttr(FormNode, 'Tag', 1);
