@@ -433,7 +433,7 @@ end;
 
 procedure TdmHighl.SetHighlighter(SynEdit: TCustomSynEdit; Highlighter: TSynCustomHighlighter);
 var
-  I: LongWord;
+  I: LongInt;
   Attribute: TSynHighlighterAttributes;
 begin
   if (Highlighter = nil) then Exit;
