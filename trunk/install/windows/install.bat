@@ -34,8 +34,6 @@ copy doublecmd.exe                  %DC_INSTALL_DIR%\
 copy doublecmd.zdli                 %DC_INSTALL_DIR%\
 copy install\windows\doublecmd.xml  %DC_INSTALL_DIR%\
 copy doublecmd.ext.example          %DC_INSTALL_DIR%\
-copy editor.col                     %DC_INSTALL_DIR%\
-copy twilight.col                   %DC_INSTALL_DIR%\
 copy pixmaps.txt                    %DC_INSTALL_DIR%\
 copy default.bar                    %DC_INSTALL_DIR%\
 copy multiarc.ini                   %DC_INSTALL_DIR%\
