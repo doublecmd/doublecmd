@@ -552,6 +552,11 @@ type
     procedure DriveListDriveSelected(Sender: TObject; ADriveIndex: Integer;
       APanel: TFilePanelSelect);
     procedure DriveListClose(Sender: TObject);
+    function  FindMatchingDrive(Path: UTF8String): Integer;
+    procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
+    procedure UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
+    procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
+    procedure UpdateSelectedDrives;
     procedure SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);
     procedure SetPanelDrive(aPanel: TFilePanelSelect; Drive: PDrive);
     procedure OnDriveWatcherEvent(EventType: TDriveWatcherEvent; const ADrive: PDrive);
@@ -619,10 +624,6 @@ type
     procedure SaveWindowState;
     procedure SaveMainToolBar;
     function  IsCommandLineVisible: Boolean;
-    function  FindMatchingDrive(Path: UTF8String): Integer;
-    procedure UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileView: TFileView);
-    procedure UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
-    procedure UpdateSelectedDrive(ANoteBook: TFileViewNotebook);
     procedure ShowDrivesList(APanel: TFilePanelSelect);
     procedure ExecuteCommandLine(bRunInTerm: Boolean);
     procedure UpdatePrompt;
@@ -731,6 +732,10 @@ begin
 
   //Caption of main window
   Self.Caption := GenerateTitle();
+  // Remove the initial caption of the button, which is just a text of the associated action.
+  // The text would otherwise be briefly shown before the drive button was updated.
+  btnLeftDrive.Caption := '';
+  btnRightDrive.Caption := '';
 
   InitPropStorage(Self);
 
@@ -806,11 +811,11 @@ begin
 
   LoadTabs;
 
-  // Initialize selected drive on non-active panel.
-  // Active panel drive is initialized on focus.
-  // Other properties are initialized in nbPageChanged after loading.
-  if tb_activate_panel_on_click in gDirTabOptions then
-    UpdateSelectedDrive(NotActiveNotebook);
+  // Update selected drive and free space before main form is shown,
+  // otherwise there is a bit of delay.
+  UpdateSelectedDrives;
+  UpdateFreeSpace(fpLeft);
+  UpdateFreeSpace(fpRight);
 end;
 
 procedure TfrmMain.btnLeftClick(Sender: TObject);
@@ -4039,7 +4044,7 @@ begin
     begin
       UpdateNoteBook(nbLeft);
       UpdateNoteBook(nbRight);
-
+      UpdateSelectedDrives;
       UpdateFreeSpace(fpLeft);
       UpdateFreeSpace(fpRight);
     end;
@@ -4457,15 +4462,12 @@ procedure TfrmMain.UpdateDriveToolbarSelection(DriveToolbar: TKAStoolBar; FileVi
 var
   DriveIndex: Integer;
 begin
-  if DriveToolbar.IsVisible then
-  begin
-    DriveIndex := FindMatchingDrive(FileView.CurrentPath);
-    if (DriveIndex >= 0) and (DriveIndex < DriveToolbar.ButtonCount) then
-      DriveToolbar.Buttons[DriveIndex].Down := True
-    else
-      // Path not found in toolbar.
-      DriveToolbar.UncheckAllButtons;
-  end;
+  DriveIndex := FindMatchingDrive(FileView.CurrentPath);
+  if (DriveIndex >= 0) and (DriveIndex < DriveToolbar.ButtonCount) then
+    DriveToolbar.Buttons[DriveIndex].Down := True
+  else
+    // Path not found in toolbar.
+    DriveToolbar.UncheckAllButtons;
 end;
 
 procedure TfrmMain.UpdateDriveButtonSelection(DriveButton: TSpeedButton; FileView: TFileView);
@@ -4515,21 +4517,41 @@ begin
     // Change left drive toolbar for left drive button.
     if (ANoteBook = nbLeft) then
     begin
-      UpdateDriveToolbarSelection(dskLeft, FileView);
+      if gDriveBar1 then // If drives toolbar enabled at all
+      begin
+        if gDriveBar2 then // If showing two toolbars
+          UpdateDriveToolbarSelection(dskLeft, FileView)
+        else
+          // dskRight is the main toolbar.
+          UpdateDriveToolbarSelection(dskRight, FileView);
+      end;
       UpdateDriveButtonSelection(btnLeftDrive, FileView);
-
-      // If only one drive toolbar is displayed then also change it.
-      if gDriveBar1 and not gDriveBar2 then
-        // dskRight is the main toolbar.
-        UpdateDriveToolbarSelection(dskRight, FileView);
     end
     // Change right drive toolbar for right drive button
     else if (ANoteBook = nbRight) then
     begin
-      UpdateDriveToolbarSelection(dskRight, FileView);
+      if gDriveBar1 then
+        UpdateDriveToolbarSelection(dskRight, FileView);
       UpdateDriveButtonSelection(btnRightDrive, FileView);
     end;
   end;
+end;
+
+procedure TfrmMain.UpdateSelectedDrives;
+begin
+  if gDriveBar1 then
+  begin
+    if gDriveBar2 then
+    begin
+      UpdateDriveToolbarSelection(dskLeft, FrameLeft);
+      UpdateDriveToolbarSelection(dskRight, FrameRight);
+    end
+    else
+      // dskRight is the main toolbar.
+      UpdateDriveToolbarSelection(dskRight, ActiveFrame);
+  end;
+  UpdateDriveButtonSelection(btnLeftDrive, FrameLeft);
+  UpdateDriveButtonSelection(btnRightDrive, FrameRight);
 end;
 
 procedure TfrmMain.ShowDrivesList(APanel: TFilePanelSelect);
@@ -4946,4 +4968,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+
