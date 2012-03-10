@@ -797,8 +797,6 @@ begin
 
   UpdateWindowView;
 
-  //DCDebug('frmMain.FormCreate Done');
-
 {$IFDEF LCLQT}
   // Fixes bug - [0000033] "DC cancels shutdown in KDE"
   // http://doublecmd.sourceforge.net/mantisbt/view.php?id=33
@@ -807,6 +805,12 @@ begin
 {$ENDIF}
 
   LoadTabs;
+
+  // Initialize selected drive on non-active panel.
+  // Active panel drive is initialized on focus.
+  // Other properties are initialized in nbPageChanged after loading.
+  if tb_activate_panel_on_click in gDirTabOptions then
+    UpdateSelectedDrive(NotActiveNotebook);
 end;
 
 procedure TfrmMain.btnLeftClick(Sender: TObject);
@@ -1860,14 +1864,14 @@ begin
     if Page.LockState = tlsPathResets then // if locked with directory change
       Page.FileView.CurrentPath := Page.LockPath;
 
-  // Update selected drive only on non-active panel,
-  // because active panel is updated on focus change.
-    if Assigned(ActiveFrame) and (ActiveFrame.Parent.Parent <> Sender) and
-     not (tb_activate_panel_on_click in gDirTabOptions) then
-  begin
-    UpdateSelectedDrive(Notebook);
-    UpdateFreeSpace(Notebook.Side);
-  end;
+    // Update selected drive only on non-active panel,
+    // because active panel is updated on focus change.
+    if (PanelSelected <> Notebook.Side) and
+       not (tb_activate_panel_on_click in gDirTabOptions) then
+    begin
+      UpdateSelectedDrive(Notebook);
+      UpdateFreeSpace(Notebook.Side);
+    end;
   end;
   if Assigned(QuickViewPanel) then
     Commands.cm_QuickView('Close');
