@@ -65,7 +65,7 @@ uses
   {$ELSEIF DEFINED(UNIX)}
   ipc,
   {$ENDIF}
-  StrUtils, FileUtil, uGlobs;
+  StrUtils, FileUtil, uGlobs, uDebug;
 
 const
   Separator = '|';
@@ -80,7 +80,7 @@ var
 begin
   while UnixIPC.Active do
   begin
-    if UnixIPC.PeekMessage(-1, False) then
+    if UnixIPC.PeekMessage(100, False) then
       TThread.Synchronize(nil, @UnixIPC.ReadMessage);
   end;
 end;
@@ -281,6 +281,9 @@ begin
   if FServerIPC = nil then Exit;
   FServerIPC.StopServer;
   {$IF DEFINED(UNIX)}
+  DCDebug('Waiting for UniqueInstance thread');
+  WaitForThreadTerminate(FPeekThread, 0);
+  DCDebug('Close UniqueInstance thread');
   CloseThread(FPeekThread);
   {$ENDIF}
 end;
