@@ -3,7 +3,7 @@ object frmCheckSumCalc: TfrmCheckSumCalc
   Height = 136
   Top = 175
   Width = 460
-  BorderIcons = [biSystemMenu, biMinimize]
+  BorderIcons = [biSystemMenu]
   Caption = 'Calculate check sum...'
   ClientHeight = 136
   ClientWidth = 460
