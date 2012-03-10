@@ -2405,7 +2405,6 @@ begin
     Exit;
   if (FBlockEnd - FBlockBeg) > 1024 * 1024 then // Max 1 MB to clipboard
     Exit;
-  Clipboard.Clear;   // prevent multiple formats in Clipboard (specially synedit)
   SetString(sText, GetDataAdr + FBlockBeg, FBlockEnd - FBlockBeg);
   Clipboard.AsText := ConvertToUTF8(sText);
 end;
