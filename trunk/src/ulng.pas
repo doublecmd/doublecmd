@@ -52,7 +52,7 @@ resourcestring
   rsMsgRenFlDr = 'Rename/move %d selected files/directories?';
   rsMsgRenSel = 'Rename/move selected "%s"?';
   rsMsgErrForceDir = 'Can not create directory %s!';
-  rsMsgSelected = 'Selected %s of %s in %d of %d files';
+  rsMsgSelectedInfo = 'Selected: %s of %s, files: %d of %d, folders: %d of %d';
   rsMsgPopUpHotAdd = '&Add %s';
   rsMsgPopUpHotCnf = '&Configure';
   rsMsgCloseLockedTab = 'This tab (%s) is locked! Close anyway?';

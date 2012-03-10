@@ -1472,7 +1472,7 @@ end;
 procedure TColumnsFileView.UpdateInfoPanel;
 var
   i: Integer;
-  FilesInDir, FilesSelected: Integer;
+  FilesInDir, FilesSelected, FolderInDir, FolderSelected: Integer;
   SizeInDir, SizeSelected: Int64;
   SizeProperty: TFileSizeProperty;
   SizeSupported: Boolean;
@@ -1487,6 +1487,8 @@ begin
     FilesSelected := 0;
     SizeInDir := 0;
     SizeSelected := 0;
+    FolderInDir := 0;
+    FolderSelected := 0;
 
     SizeSupported := fpSize in FileSource.SupportedFileProperties;
 
@@ -1497,11 +1499,18 @@ begin
         with FFiles[i] do
         begin
           if FSFile.Name = '..' then Continue;
-
-          inc(FilesInDir);
+          if FSFile.IsDirectory then 
+            inc(FolderInDir) 
+          else
+            inc(FilesInDir);
           if Selected then
-            inc(FilesSelected);
-
+          begin
+            if FSFile.IsDirectory then 
+              inc(FolderSelected) 
+            else 
+              inc(FilesSelected);
+          end;
+  
           // Count size if Size property is supported.
           if SizeSupported then
           begin
@@ -1516,11 +1525,13 @@ begin
       end;
     end;
 
-    lblInfo.Caption := Format(rsMsgSelected,
+    lblInfo.Caption := Format(rsMsgSelectedInfo,
                               [cnvFormatFileSize(SizeSelected),
                                cnvFormatFileSize(SizeInDir),
                                FilesSelected,
-                               FilesInDir]);
+                               FilesInDir,
+                               FolderSelected,
+                               FolderInDir]);
   end
   else if not (csDestroying in ComponentState) then
     lblInfo.Caption := '';
