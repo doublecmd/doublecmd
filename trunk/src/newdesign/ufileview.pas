@@ -552,8 +552,10 @@ var
 begin
   if Assigned(AFileView) then
   begin
-    AFileView.FLastMark := FLastMark;
     AFileView.FFlags := FFlags;
+    AFileView.FLastLoadedFileSource := FLastLoadedFileSource;
+    AFileView.FLastLoadedPath := FLastLoadedPath;
+    AFileView.FLastMark := FLastMark;
     // FFileSource should have been passed to FileView constructor already.
     // FMethods are created in FileView constructor.
     AFileView.OnBeforeChangePath := Self.OnBeforeChangePath;
@@ -571,6 +573,8 @@ begin
     AFileView.FReloadNeeded := Self.FReloadNeeded;
 
     AFileView.FAllDisplayFiles := Self.FAllDisplayFiles.Clone(True);
+    AFileView.HashFileList;
+    AFileView.DoOnFileListChanged;
 
     // FFiles need to be recreated because the filter is not cloned.
     // This is done in AFileView.UpdateView.
@@ -1979,4 +1983,4 @@ begin
 end;
 
 end.
-
+
