@@ -255,6 +255,7 @@ begin
     edtFindPathStart.Text := sActPath;
     btnSaveTemplate.Visible:= False;
     btnStart.Visible:= True;
+    BorderIcons:= [biSystemMenu, biMinimize, biMaximize];
     Show;
     BringToFront;
   end;
@@ -270,6 +271,7 @@ begin
     edtFindPathStart.Text:= EmptyStr;
     btnSaveTemplate.Visible:= True;
     btnStart.Visible:= False;
+    BorderIcons:= [biSystemMenu, biMaximize];
     Result:= (ShowModal = mrOK);
     if Result and (lbSearchTemplates.Count > 0) then
     begin
