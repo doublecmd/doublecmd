@@ -3,7 +3,7 @@
    -------------------------------------------------------------------------
    WCX plugin for working with *.zip, *.gz, *.tar, *.tgz archives
 
-   Copyright (C) 2007-2011  Koblov Alexander (Alexx2000@mail.ru)
+   Copyright (C) 2007-2012  Koblov Alexander (Alexx2000@mail.ru)
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -894,12 +894,21 @@ end;
 
 procedure TAbZipKitEx.AbArchiveItemProgressEvent(Sender: TObject;
   Item: TAbArchiveItem; Progress: Byte; var Abort: Boolean);
+var
+  pacFileName: PAnsiChar = nil;
+  pwcFileName: PWideChar = nil;
 begin
   try
     if Assigned(FProcessDataProcW) then
-      Abort := (FProcessDataProcW(PWideChar(UTF8Decode(Item.FileName)), -(Progress)) = 0)
+      begin
+        if Assigned(Item) then pwcFileName:= PWideChar(UTF8Decode(Item.FileName));
+        Abort := (FProcessDataProcW(pwcFileName, -(Progress)) = 0);
+      end
     else if Assigned(FProcessDataProc) then
-      Abort := (FProcessDataProc(PChar(Item.FileName), -(Progress)) = 0);
+      begin
+        if Assigned(Item) then pacFileName:= PAnsiChar(Item.FileName);
+        Abort := (FProcessDataProc(pacFileName, -(Progress)) = 0);
+      end;
   except
     Abort := True;
   end;
@@ -937,4 +946,4 @@ begin
 end;
 
 end.
-
+
