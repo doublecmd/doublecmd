@@ -621,12 +621,6 @@ begin
       // pixmaps file
       if not mbFileExists(gpCfgDir + 'pixmaps.txt') then
         CopyFile(gpGlobalCfgDir + 'pixmaps.txt', gpCfgDir + 'pixmaps.txt');
-      // editor highlight file1
-      if not mbFileExists(gpCfgDir + 'editor.col') then
-        CopyFile(gpGlobalCfgDir + 'editor.col', gpCfgDir + 'editor.col');
-      // editor highlight file2
-      if not mbFileExists(gpCfgDir + 'twilight.col') then
-        CopyFile(gpGlobalCfgDir + 'twilight.col', gpCfgDir + 'twilight.col');
       // multiarc configuration file
       if not mbFileExists(gpCfgDir + 'multiarc.ini') then
         CopyFile(gpGlobalCfgDir + 'multiarc.ini', gpCfgDir + 'multiarc.ini');
