@@ -36,6 +36,9 @@ type
 
   TFileViewWorkers = specialize TFPGObjectList<TFileViewWorker>;
 
+  TFileViewFlag = (fvfDelayLoadingFiles, fvfDontLoadFiles, fvfDontWatch);
+  TFileViewFlags = set of TFileViewFlag;
+
   {en
      Base class for any view of a file or files.
      There should always be at least one file displayed on the view.
@@ -64,6 +67,7 @@ type
     }
     FFilePropertiesNeeded: TFilePropertiesTypes;
     FFileViewWorkers: TFileViewWorkers;
+    FFlags: TFileViewFlags;
     FHashedFiles: TBucketList;  //<en Contains pointers to file source files for quick checking if a file object is still valid
     FHashedNames: TStringHashList;
     FReloadNeeded: Boolean;     //<en If file list should be reloaded
@@ -97,6 +101,7 @@ type
     FOnFileListChanged : TOnFileListChanged;
 
     procedure AddFile(FileName, APath: String);
+    function FileListLoaded: Boolean;
     function GetCurrentAddress: String;
     function GetNotebookPage: TCustomPage;
     function GetCurrentFileSource: IFileSource;
@@ -112,6 +117,7 @@ type
     procedure RemoveFile(FileName: String);
     procedure RenameFile(NewFileName, OldFileName: String);
     procedure ResortFile(ADisplayFile: TDisplayFile);
+    procedure SetFlags(AValue: TFileViewFlags);
     procedure UpdateFile(FileName: String);
     {en
        Assigns the built lists to the file view and displays new the file list.
@@ -156,6 +162,8 @@ type
     function MarkPlus: Boolean; virtual;
     function MarkShiftPlus: Boolean; virtual;
     function MarkShiftMinus: Boolean; virtual;
+
+    function IsVisibleToUser: Boolean;
 
     {en
        This function should set active file by reference of TFile
@@ -235,16 +243,20 @@ type
   public
     constructor Create(AOwner: TWinControl;
                        AFileSource: IFileSource;
-                       APath: String); virtual reintroduce;
+                       APath: String;
+                       AFlags: TFileViewFlags = []); virtual reintroduce;
     constructor Create(AOwner: TWinControl;
-                       AFileView: TFileView); virtual reintroduce;
+                       AFileView: TFileView;
+                       AFlags: TFileViewFlags = []); virtual reintroduce;
     constructor Create(AOwner: TWinControl;
                        AConfig: TIniFileEx;
                        ASectionName: String;
-                       ATabIndex: Integer); virtual reintroduce;
+                       ATabIndex: Integer;
+                       AFlags: TFileViewFlags = []); virtual reintroduce;
     constructor Create(AOwner: TWinControl;
                        AConfig: TXmlConfig;
-                       ANode: TXmlNode); virtual reintroduce;
+                       ANode: TXmlNode;
+                       AFlags: TFileViewFlags = []); virtual reintroduce;
 
     destructor Destroy; override;
 
@@ -354,6 +366,7 @@ type
     property FileSource: IFileSource read GetCurrentFileSource;
     property FileSources[Index: Integer]: IFileSource read GetFileSource;
     property FileSourcesCount: Integer read GetFileSourcesCount;
+    property Flags: TFileViewFlags read FFlags write SetFlags;
     property Path[FileSourceIndex, PathIndex: Integer]: UTF8String read GetPath;
     property PathsCount[FileSourceIndex: Integer]: Integer read GetPathsCount;
 
@@ -427,29 +440,33 @@ uses
 const
   MinimumReloadInterval  = 1000; // 1 second
 
-constructor TFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String);
+constructor TFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags = []);
 begin
+  FFlags := AFlags;
   CreateDefault(AOwner);
 
   FHistory.Add(AFileSource, aPath);
   FileSource.AddReloadEventListener(@ReloadEvent);
 end;
 
-constructor TFileView.Create(AOwner: TWinControl; AFileView: TFileView);
+constructor TFileView.Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []);
 begin
+  FFlags := AFlags;
   CreateDefault(AOwner);
   AFileView.CloneTo(Self);
   if Assigned(FileSource) then
     FileSource.AddReloadEventListener(@ReloadEvent);
 end;
 
-constructor TFileView.Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer);
+constructor TFileView.Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer; AFlags: TFileViewFlags = []);
 begin
+  FFlags := AFlags;
   CreateDefault(AOwner);
 end;
 
-constructor TFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode);
+constructor TFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []);
 begin
+  FFlags := AFlags;
   CreateDefault(AOwner);
 end;
 
@@ -536,6 +553,7 @@ begin
   if Assigned(AFileView) then
   begin
     AFileView.FLastMark := FLastMark;
+    AFileView.FFlags := FFlags;
     // FFileSource should have been passed to FileView constructor already.
     // FMethods are created in FileView constructor.
     AFileView.OnBeforeChangePath := Self.OnBeforeChangePath;
@@ -557,6 +575,11 @@ begin
     // FFiles need to be recreated because the filter is not cloned.
     // This is done in AFileView.UpdateView.
   end;
+end;
+
+function TFileView.FileListLoaded: Boolean;
+begin
+  Result := Assigned(FAllDisplayFiles);
 end;
 
 function TFileView.GetNotebookPage: TCustomPage;
@@ -626,7 +649,7 @@ end;
 procedure TFileView.RenameFile(NewFileName, OldFileName: String);
 var
   ADisplayFile: TDisplayFile;
-  I, J: Integer;
+  I: Integer;
 begin
   I := FHashedNames.Find(OldFileName);
   if I >= 0 then
@@ -726,6 +749,30 @@ begin
     FHistory.DebugShow;
     {$ENDIF}
   end;
+end;
+
+procedure TFileView.SetFlags(AValue: TFileViewFlags);
+var
+  AddedFlags, RemovedFlags: TFileViewFlags;
+begin
+  if FFlags = AValue then Exit;
+
+  AddedFlags   := AValue - FFlags;
+  RemovedFlags := FFlags - AValue;
+  FFlags := AValue;
+
+  if fvfDontWatch in AddedFlags then
+    EnableWatcher(False);
+
+  if ([fvfDelayLoadingFiles, fvfDontLoadFiles] * RemovedFlags <> []) then
+  begin
+    if not (FileListLoaded or (GetCurrentWorkType = fvwtCreate)) then
+      Reload;
+    EnableWatcher(True);
+  end;
+
+  if fvfDontWatch in RemovedFlags then
+    EnableWatcher(True);
 end;
 
 function TFileView.CloneActiveFile: TFile;
@@ -917,6 +964,14 @@ begin
    end;
 end;
 
+function TFileView.IsVisibleToUser: Boolean;
+begin
+  if NotebookPage is TFileViewPage then
+    Result := TFileViewPage(NotebookPage).IsActive
+  else
+    Result := True;
+end;
+
 procedure TFileView.SetActiveFile(const aFile: TFile);
 begin
 end;
@@ -943,7 +998,8 @@ var
   DisplayFilesHashed: TStringHashList = nil;
   i: Integer;
 begin
-  if csDestroying in ComponentState then
+  if (csDestroying in ComponentState) or (FileSourcesCount = 0) or
+     ([fvfDelayLoadingFiles, fvfDontLoadFiles] * Flags <> []) then
     Exit;
 
   {$IFDEF timeFileView}
@@ -986,9 +1042,10 @@ begin
   if gListFilesInThread then
   begin
     // Clear files.
-    if Assigned(FFiles) then
+    if Assigned(FAllDisplayFiles) then
     begin
-      FFiles.Clear; // Clear references to files from the source.
+      FFiles.Clear;
+      FAllDisplayFiles.Clear; // Clear references to files from the source.
     end;
 
     BeforeMakeFileList;
@@ -1417,6 +1474,8 @@ begin
 
   if Assigned(OnAfterChangePath) then
     OnAfterChangePath(Self);
+
+  MakeFileSourceFileList;
 end;
 
 procedure TFileView.ChangePathToParent(AllowChangingFileSource: Boolean);
@@ -1662,7 +1721,8 @@ var
 begin
   if Enable then
   begin
-    if Assigned(FileSource) and
+    if ([fvfDelayLoadingFiles, fvfDontWatch] * Flags = []) and
+       Assigned(FileSource) and
        FileSource.IsClass(TFileSystemFileSource) and
        (FWatchPath <> CurrentPath) then
     begin
@@ -1703,13 +1763,14 @@ end;
 
 procedure TFileView.ActivateEvent(Sender: TObject);
 begin
+  SetFlags(Flags - [fvfDelayLoadingFiles]);
   ReloadIfNeeded;
 end;
 
 function TFileView.CheckIfDelayReload: Boolean;
 begin
   Result := ((watch_only_foreground in gWatchDirs) and (not Application.Active)) or
-            ((NotebookPage is TFileViewPage) and not TFileViewPage(NotebookPage).IsActive);
+            (not IsVisibleToUser);
 end;
 
 procedure TFileView.DoReload;
@@ -1736,18 +1797,23 @@ procedure TFileView.WatcherEvent(const EventData: TFSWatcherEventData);
 begin
   if IncludeTrailingPathDelimiter(EventData.Path) = CurrentPath then
   begin
-    case EventData.EventType of
-      fswFileCreated:
-        Self.AddFile(EventData.FileName, EventData.Path);
-      fswFileChanged:
-        Self.UpdateFile(EventData.FileName);
-      fswFileDeleted:
-        Self.RemoveFile(EventData.FileName);
-      fswFileRenamed:
-        Self.RenameFile(EventData.FileName, EventData.OldFileName);
-      else
-        Reload(EventData.Path);
-    end;
+    if FileListLoaded then
+    begin
+      case EventData.EventType of
+        fswFileCreated:
+          Self.AddFile(EventData.FileName, EventData.Path);
+        fswFileChanged:
+          Self.UpdateFile(EventData.FileName);
+        fswFileDeleted:
+          Self.RemoveFile(EventData.FileName);
+        fswFileRenamed:
+          Self.RenameFile(EventData.FileName, EventData.OldFileName);
+        else
+          Reload(EventData.Path);
+      end;
+    end
+    else
+      Reload(EventData.Path);
   end;
 end;
 
@@ -1841,7 +1907,7 @@ begin
   // Redisplaying file list is done in the main thread because it takes
   // relatively short time, so the user usually won't notice it and it is
   // a bit faster this way.
-  if not Assigned(FFiles) then
+  if Assigned(FAllDisplayFiles) and not Assigned(FFiles) then
     FFiles := TDisplayFiles.Create(False);
   TFileListBuilder.MakeDisplayFileList(
     FAllDisplayFiles, FFiles, FileFilter, FFilterOptions);

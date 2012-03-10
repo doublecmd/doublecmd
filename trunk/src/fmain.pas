@@ -3374,23 +3374,31 @@ begin
 end;
 
 function TfrmMain.CreateFileView(sType: String; Page: TFileViewPage; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer): TFileView;
+var
+  FileViewFlags: TFileViewFlags = [];
 begin
   // This function should be changed to a separate TFileView factory.
 
+  if gDelayLoadingTabs then
+    FileViewFlags := [fvfDelayLoadingFiles];
   if sType = 'columns' then
-    Result := TColumnsFileView.Create(Page, AConfig, ASectionName, ATabIndex)
+    Result := TColumnsFileView.Create(Page, AConfig, ASectionName, ATabIndex, FileViewFlags)
   else
     raise Exception.Create('Invalid file view type');
 end;
 
 function TfrmMain.CreateFileView(sType: String; Page: TFileViewPage; AConfig: TXmlConfig; ANode: TXmlNode): TFileView;
+var
+  FileViewFlags: TFileViewFlags = [];
 begin
   // This function should be changed to a separate TFileView factory.
 
+  if gDelayLoadingTabs then
+    FileViewFlags := [fvfDelayLoadingFiles];
   if sType = 'columns' then
-    Result := TColumnsFileView.Create(Page, AConfig, ANode)
+    Result := TColumnsFileView.Create(Page, AConfig, ANode, FileViewFlags)
   else if sType = 'brief' then
-    Result := TBriefFileView.Create(Page, AConfig, ANode)
+    Result := TBriefFileView.Create(Page, AConfig, ANode, FileViewFlags)
   else
     raise Exception.Create('Invalid file view type');
 end;
@@ -3525,6 +3533,7 @@ var
   iActiveTab: Integer;
   Page: TFileViewPage;
   AFileView: TFileView;
+  AFileViewFlags: TFileViewFlags;
   aFileSource: IFileSource;
   RootNode, TabNode, ViewNode: TXmlNode;
 begin
@@ -3602,7 +3611,11 @@ begin
     Page := ANoteBook.AddPage(EmptyStr);
     Page.UpdateCaption(GetLastDir(sPath));
     aFileSource := TFileSystemFileSource.GetFileSource;
-    AFileView := TColumnsFileView.Create(Page, aFileSource, sPath);
+    if gDelayLoadingTabs then
+      AFileViewFlags := [fvfDelayLoadingFiles]
+    else
+      AFileViewFlags := [];
+    AFileView := TColumnsFileView.Create(Page, aFileSource, sPath, AFileViewFlags);
     AssignEvents(AFileView);
   end
   else if Assigned(RootNode) then
@@ -4325,6 +4338,13 @@ begin
   begin
     LoadTabsXml(nbLeft);
     LoadTabsXml(nbRight);
+  end;
+
+  if gDelayLoadingTabs then
+  begin
+    // Load only the current active tab of each notebook.
+    FrameLeft.Flags  := FrameLeft.Flags  - [fvfDelayLoadingFiles];
+    FrameRight.Flags := FrameRight.Flags - [fvfDelayLoadingFiles];
   end;
 end;
 

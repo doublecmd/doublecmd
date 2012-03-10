@@ -186,6 +186,7 @@ var
   gDriveBlackList: String;
   gListFilesInThread: Boolean;
   gLoadIconsSeparately: Boolean;
+  gDelayLoadingTabs: Boolean;
   gLastUsedPacker: String;
 
   { Tools page }
@@ -718,6 +719,7 @@ begin
   gShowSystemFiles := False;
   gListFilesInThread := True;
   gLoadIconsSeparately := True;
+  gDelayLoadingTabs := True;
   gDriveBlackList := '';
 
   { Tools page }
@@ -1561,6 +1563,7 @@ begin
       gShowSystemFiles := GetValue(Node, 'ShowSystemFiles', gShowSystemFiles);
       gListFilesInThread := GetValue(Node, 'ListFilesInThread', gListFilesInThread);
       gLoadIconsSeparately := GetValue(Node, 'LoadIconsSeparately', gLoadIconsSeparately);
+      gDelayLoadingTabs := GetValue(Node, 'DelayLoadingTabs', gDelayLoadingTabs);
       gDriveBlackList := GetValue(Node, 'DriveBlackList', gDriveBlackList);
     end;
 
@@ -1909,6 +1912,7 @@ begin
     SetValue(Node, 'ShowSystemFiles', gShowSystemFiles);
     SetValue(Node, 'ListFilesInThread', gListFilesInThread);
     SetValue(Node, 'LoadIconsSeparately', gLoadIconsSeparately);
+    SetValue(Node, 'DelayLoadingTabs', gDelayLoadingTabs);
     SetValue(Node, 'DriveBlackList', gDriveBlackList);
 
     { Tools page }

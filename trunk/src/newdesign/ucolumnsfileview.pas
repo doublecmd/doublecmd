@@ -299,10 +299,10 @@ type
     isSlave:boolean;
 //---------------------
 
-    constructor Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String); override;
-    constructor Create(AOwner: TWinControl; AFileView: TFileView); override;
-    constructor Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer); override;
-    constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode); override;
+    constructor Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags = []); override;
+    constructor Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []); override;
+    constructor Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer; AFlags: TFileViewFlags = []); override;
+    constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
 
     destructor Destroy; override;
 
@@ -1156,20 +1156,18 @@ end;
 
 procedure TColumnsFileView.AfterChangePath;
 begin
-  inherited AfterChangePath;
-
   FUpdatingGrid := True;
   dgPanel.Row := 0;
   FUpdatingGrid := False;
 
-  MakeFileSourceFileList;
+  inherited AfterChangePath;
+
   pnlHeader.UpdatePathLabel;
 end;
 
 procedure TColumnsFileView.ShowRenameFileEdit(aFile: TFile);
 var
   ALeft, ATop, AWidth, AHeight: Integer;
-  sFileName, sExtension: String;
 begin
   if FFileNameColumn <> -1 then
   begin
@@ -2224,9 +2222,9 @@ begin
     dgPanel.Options := dgPanel.Options - [goVertLine]
 end;
 
-constructor TColumnsFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String);
+constructor TColumnsFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags = []);
 begin
-  inherited Create(AOwner, AFileSource, APath);
+  inherited Create(AOwner, AFileSource, APath, AFlags);
 
   FFiles := TDisplayFiles.Create;
   FColumnsSorting := TColumnsSortings.Create;
@@ -2238,15 +2236,15 @@ begin
   MakeFileSourceFileList;
 end;
 
-constructor TColumnsFileView.Create(AOwner: TWinControl; AFileView: TFileView);
+constructor TColumnsFileView.Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []);
 begin
-  inherited Create(AOwner, AFileView);
+  inherited Create(AOwner, AFileView, AFlags);
   UpdateView;
 end;
 
-constructor TColumnsFileView.Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer);
+constructor TColumnsFileView.Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer; AFlags: TFileViewFlags = []);
 begin
-  inherited Create(AOwner, AConfig, ASectionName, ATabIndex);
+  inherited Create(AOwner, AConfig, ASectionName, ATabIndex, AFlags);
 
   FFiles := TDisplayFiles.Create;
   FColumnsSorting := TColumnsSortings.Create;
@@ -2254,20 +2252,21 @@ begin
   LoadConfiguration(ASectionName, ATabIndex);
 end;
 
-constructor TColumnsFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode);
+constructor TColumnsFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []);
 begin
-  inherited Create(AOwner, AConfig, ANode);
+  inherited Create(AOwner, AConfig, ANode, AFlags);
 
   FFiles := TDisplayFiles.Create;
   FColumnsSorting := TColumnsSortings.Create;
 
   LoadConfiguration(AConfig, ANode);
 
+  // Update view before making file source file list,
+  // so that file list isn't unnecessarily displayed twice.
+  UpdateView;
+
   if FileSourcesCount > 0 then
   begin
-    // Update view before making file source file list,
-    // so that file list isn't unnecessarily displayed twice.
-    UpdateView;
     MakeFileSourceFileList;
   end;
 end;
