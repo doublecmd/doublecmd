@@ -216,7 +216,6 @@ object frmFileOp: TfrmFileOp
       Width = 494
       Align = alTop
       BorderSpacing.Top = 3
-      Caption = 'lblEstimated'
       ParentColor = False
     end
   end

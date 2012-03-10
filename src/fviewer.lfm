@@ -2290,7 +2290,6 @@ object frmViewer: TfrmViewer
     end
   end
   object SavePictureDialog: TSavePictureDialog
-    Title = 'Сохранить файл как'
     left = 304
     top = 64
   end
