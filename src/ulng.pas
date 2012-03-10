@@ -227,6 +227,9 @@ resourcestring
   rsViewEncoding = 'Encoding';
   // Editor
   rsEditAboutText = 'Internal Editor of Double Commander.';
+  // Editor Highlighters
+  rsSynLangPlainText = 'Plain text';
+  rsSynDefaultText   = 'Default text';
   
   // Columns in file panel
   rsColName = 'Name';

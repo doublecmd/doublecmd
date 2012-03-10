@@ -13,9 +13,6 @@ uses
   SynHighlighterPython, SynHighlighterDiff, SynHighlighterVB, SynHighlighterBat,
   SynHighlighterIni, SynHighlighterPo;
 
-resourcestring
-  rsSynLangPlainText = 'Plain text';
-  rsSynDefaultText   = 'Default text';
 
 const
   HighlighterConfig = 'highlighters.xml';
@@ -63,7 +60,7 @@ type
     SynPlainTextHighlighter: TSynPlainTextHighlighter;
     function GetSampleSource(Highlighter: TSynCustomHighlighter): string;
   public
-    constructor Create(AOwner: TComponent; ATemp: Boolean);
+    constructor Create(AOwner: TComponent; ATemp: Boolean); overload;
     procedure Assign(Source: TPersistent); override;
     function LoadFromFile(const FileName: UTF8String): Boolean;
     function SaveToFile(const FileName: UTF8String): Boolean;
@@ -80,8 +77,8 @@ implementation
 {$R *.lfm}
 
 uses
-  SynEditTypes, uHighlighterProcs, uXMLConfig,
-  uGlobsPaths, uClassesEx, graphics, uOSUtils;
+  Graphics, SynEditTypes, uHighlighterProcs, uXMLConfig, uGlobsPaths,
+  uClassesEx, uOSUtils, uLng;
 
 const
   csDefaultName = 'editor.col';
