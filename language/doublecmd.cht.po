@@ -13,10 +13,12 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: dmhigh.rssyndefaulttext
+msgctxt "dmhigh.rssyndefaulttext"
 msgid "Default text"
 msgstr ""
 
 #: dmhigh.rssynlangplaintext
+msgctxt "dmhigh.rssynlangplaintext"
 msgid "Plain text"
 msgstr ""
 
@@ -444,21 +446,16 @@ msgctxt "TFRMCHECKSUMCALC.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "確定&O"
 
-#: tfrmchecksumcalc.caption
-msgctxt "TFRMCHECKSUMCALC.CAPTION"
-msgid "Calculate check sum..."
-msgstr "計算校驗..."
-
 #: tfrmchecksumcalc.cbseparatefile.caption
 #, fuzzy
 #| msgid "Create separate MD5/SHA1 files for each file"
 msgid "Create separate checksum file for each file"
 msgstr "為每個檔案建立單獨的 MD5/SHA1 檔案"
 
-#: tfrmchecksumcalc.cmbhashalgorithm.text
-msgctxt "TFRMCHECKSUMCALC.CMBHASHALGORITHM.TEXT"
-msgid "MD5"
-msgstr ""
+#: tfrmchecksumcalc.frmchecksumcalc.caption
+msgctxt "tfrmchecksumcalc.frmchecksumcalc.caption"
+msgid "Calculate check sum..."
+msgstr "計算校驗..."
 
 #: tfrmchecksumcalc.lblsaveto.caption
 msgid "Save check sum file(s) to:"
@@ -627,6 +624,10 @@ msgstr "連線管理"
 #: tfrmconnectionmanager.gbconnectto.caption
 msgid "Connect to:"
 msgstr "連線到:"
+
+#: tfrmcopydlg.btnaddtoqueue.caption
+msgid "Add To Queue"
+msgstr ""
 
 #: tfrmcopydlg.btncancel.caption
 msgctxt "TFRMCOPYDLG.BTNCANCEL.CAPTION"
@@ -1020,12 +1021,27 @@ msgctxt "TFRMEDITOR.ACTABOUT.CAPTION"
 msgid "About"
 msgstr "關於"
 
+#: tfrmeditor.actabout.hint
+msgctxt "tfrmeditor.actabout.hint"
+msgid "About"
+msgstr "關於"
+
 #: tfrmeditor.actconfhigh.caption
 msgid "&Configuration"
 msgstr "設置 &C"
 
+#: tfrmeditor.actconfhigh.hint
+msgctxt "tfrmeditor.actconfhigh.hint"
+msgid "Configuration"
+msgstr "設置"
+
 #: tfrmeditor.acteditcopy.caption
 msgctxt "TFRMEDITOR.ACTEDITCOPY.CAPTION"
+msgid "Copy"
+msgstr "複製"
+
+#: tfrmeditor.acteditcopy.hint
+msgctxt "tfrmeditor.acteditcopy.hint"
 msgid "Copy"
 msgstr "複製"
 
@@ -1034,8 +1050,18 @@ msgctxt "TFRMEDITOR.ACTEDITCUT.CAPTION"
 msgid "Cut"
 msgstr "剪下"
 
+#: tfrmeditor.acteditcut.hint
+msgctxt "tfrmeditor.acteditcut.hint"
+msgid "Cut"
+msgstr "剪下"
+
 #: tfrmeditor.acteditdelete.caption
 msgctxt "TFRMEDITOR.ACTEDITDELETE.CAPTION"
+msgid "Delete"
+msgstr "刪除"
+
+#: tfrmeditor.acteditdelete.hint
+msgctxt "tfrmeditor.acteditdelete.hint"
 msgid "Delete"
 msgstr "刪除"
 
@@ -1043,19 +1069,48 @@ msgstr "刪除"
 msgid "&Find"
 msgstr "尋找 &F"
 
+#: tfrmeditor.acteditfind.hint
+msgctxt "tfrmeditor.acteditfind.hint"
+msgid "Find"
+msgstr "尋找"
+
 #: tfrmeditor.acteditfindnext.caption
+msgctxt "tfrmeditor.acteditfindnext.caption"
+msgid "Find next"
+msgstr "尋找下一個"
+
+#: tfrmeditor.acteditfindnext.hint
+msgctxt "tfrmeditor.acteditfindnext.hint"
 msgid "Find next"
 msgstr "尋找下一個"
 
 #: tfrmeditor.acteditlineendcr.caption
+msgctxt "tfrmeditor.acteditlineendcr.caption"
+msgid "Mac (CR)"
+msgstr ""
+
+#: tfrmeditor.acteditlineendcr.hint
+msgctxt "tfrmeditor.acteditlineendcr.hint"
 msgid "Mac (CR)"
 msgstr ""
 
 #: tfrmeditor.acteditlineendcrlf.caption
+msgctxt "tfrmeditor.acteditlineendcrlf.caption"
+msgid "Windows (CRLF)"
+msgstr ""
+
+#: tfrmeditor.acteditlineendcrlf.hint
+msgctxt "tfrmeditor.acteditlineendcrlf.hint"
 msgid "Windows (CRLF)"
 msgstr ""
 
 #: tfrmeditor.acteditlineendlf.caption
+msgctxt "tfrmeditor.acteditlineendlf.caption"
+msgid "Unix (LF)"
+msgstr ""
+
+#: tfrmeditor.acteditlineendlf.hint
+msgctxt "tfrmeditor.acteditlineendlf.hint"
 msgid "Unix (LF)"
 msgstr ""
 
@@ -1064,8 +1119,18 @@ msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
 msgid "Paste"
 msgstr "貼上"
 
+#: tfrmeditor.acteditpaste.hint
+msgctxt "tfrmeditor.acteditpaste.hint"
+msgid "Paste"
+msgstr "貼上"
+
 #: tfrmeditor.acteditredo.caption
 msgctxt "TFRMEDITOR.ACTEDITREDO.CAPTION"
+msgid "Redo"
+msgstr "重做"
+
+#: tfrmeditor.acteditredo.hint
+msgctxt "tfrmeditor.acteditredo.hint"
 msgid "Redo"
 msgstr "重做"
 
@@ -1073,12 +1138,27 @@ msgstr "重做"
 msgid "&Replace"
 msgstr "替換 &R"
 
+#: tfrmeditor.acteditrplc.hint
+msgctxt "tfrmeditor.acteditrplc.hint"
+msgid "Replace"
+msgstr "替換"
+
 #: tfrmeditor.acteditselectall.caption
 msgid "Select&All"
 msgstr "取消 &A"
 
+#: tfrmeditor.acteditselectall.hint
+msgctxt "tfrmeditor.acteditselectall.hint"
+msgid "Select All"
+msgstr "全選"
+
 #: tfrmeditor.acteditundo.caption
 msgctxt "TFRMEDITOR.ACTEDITUNDO.CAPTION"
+msgid "Undo"
+msgstr "回復"
+
+#: tfrmeditor.acteditundo.hint
+msgctxt "tfrmeditor.acteditundo.hint"
 msgid "Undo"
 msgstr "回復"
 
@@ -1087,35 +1167,68 @@ msgctxt "TFRMEDITOR.ACTFILECLOSE.CAPTION"
 msgid "&Close"
 msgstr "關閉 &C"
 
+#: tfrmeditor.actfileclose.hint
+msgctxt "tfrmeditor.actfileclose.hint"
+msgid "Close"
+msgstr "關閉"
+
 #: tfrmeditor.actfileexit.caption
 msgctxt "TFRMEDITOR.ACTFILEEXIT.CAPTION"
 msgid "E&xit"
 msgstr "退出 &x"
+
+#: tfrmeditor.actfileexit.hint
+msgid "Exit"
+msgstr ""
 
 #: tfrmeditor.actfilenew.caption
 msgctxt "TFRMEDITOR.ACTFILENEW.CAPTION"
 msgid "&New"
 msgstr "新建 &N"
 
+#: tfrmeditor.actfilenew.hint
+#, fuzzy
+msgctxt "tfrmeditor.actfilenew.hint"
+msgid "New"
+msgstr "新增"
+
 #: tfrmeditor.actfileopen.caption
 msgid "&Open"
 msgstr "打開 &O"
+
+#: tfrmeditor.actfileopen.hint
+msgctxt "tfrmeditor.actfileopen.hint"
+msgid "Open"
+msgstr "打開"
 
 #: tfrmeditor.actfilesave.caption
 msgctxt "TFRMEDITOR.ACTFILESAVE.CAPTION"
 msgid "&Save"
 msgstr "儲存 &S"
 
+#: tfrmeditor.actfilesave.hint
+msgctxt "tfrmeditor.actfilesave.hint"
+msgid "Save"
+msgstr "儲存"
+
 #: tfrmeditor.actfilesaveas.caption
 msgid "Save &As.."
 msgstr "另存為 &A..."
+
+#: tfrmeditor.actfilesaveas.hint
+msgid "Save As"
+msgstr ""
 
 #: tfrmeditor.actsaveall.caption
 msgid "Sa&ve All"
 msgstr "全部儲存 &v"
 
+#: tfrmeditor.actsaveall.hint
+msgid "Save All"
+msgstr ""
+
 #: tfrmeditor.frmeditor.caption
-msgctxt "TFRMEDITOR.FRMEDITOR.CAPTION"
+msgctxt "tfrmeditor.frmeditor.caption"
 msgid "Editor"
 msgstr "編輯器"
 
@@ -1496,28 +1609,36 @@ msgid "Click on Close when the temporary file can be deleted!"
 msgstr "關閉時暫時檔案會被刪除！"
 
 #: tfrmfileop.bthopend.caption
-msgid "End"
+#, fuzzy
+#| msgid "End"
+msgid "&End"
 msgstr "結束"
 
 #: tfrmfileop.btncancel.caption
+#, fuzzy
+#| msgid "Cancel"
 msgctxt "TFRMFILEOP.BTNCANCEL.CAPTION"
-msgid "Cancel"
+msgid "&Cancel"
 msgstr "取消"
 
 #: tfrmfileop.btnophome.caption
-msgid "Home"
+#, fuzzy
+#| msgid "Home"
+msgid "&Home"
 msgstr "Home 頭"
 
 #: tfrmfileop.btntoqueue.caption
-msgid "To Queue"
+#, fuzzy
+#| msgid "To Queue"
+msgid "To &Queue"
 msgstr "到佇列"
 
 #: tfrmfileop.btnworkinbackground.caption
 msgid "Work in &background"
 msgstr "在背景中執行(&b)"
 
-#: tfrmfileop.caption
-msgctxt "TFRMFILEOP.CAPTION"
+#: tfrmfileop.frmfileop.caption
+msgctxt "tfrmfileop.frmfileop.caption"
 msgid "Process file(s)"
 msgstr "處理檔案"
 
@@ -2750,7 +2871,7 @@ msgid ".."
 msgstr ".."
 
 #: tfrmmain.frmmain.caption
-msgctxt "TFRMMAIN.FRMMAIN.CAPTION"
+msgctxt "tfrmmain.frmmain.caption"
 msgid "Double Commander"
 msgstr "Double Commander"
 
@@ -3269,7 +3390,7 @@ msgid "[E] Extension"
 msgstr "[E] 副檔名"
 
 #: tfrmmultirename.frmmultirename.caption
-msgctxt "TFRMMULTIRENAME.FRMMULTIRENAME.CAPTION"
+msgctxt "tfrmmultirename.frmmultirename.caption"
 msgid "MultiRename"
 msgstr "多檔案重新命名"
 
@@ -3470,17 +3591,17 @@ msgid "-"
 msgstr "-"
 
 #: tfrmmultirename.stringgrid.columns[0].tgridcolumntitle.caption
-msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[0].TGRIDCOLUMNTITLE.CAPTION"
+msgctxt "tfrmmultirename.stringgrid.columns[0].tgridcolumntitle.caption"
 msgid "Old File Name"
 msgstr "舊檔名"
 
 #: tfrmmultirename.stringgrid.columns[1].tgridcolumntitle.caption
-msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[1].TGRIDCOLUMNTITLE.CAPTION"
+msgctxt "tfrmmultirename.stringgrid.columns[1].tgridcolumntitle.caption"
 msgid "New File Name"
 msgstr "新檔名"
 
 #: tfrmmultirename.stringgrid.columns[2].tgridcolumntitle.caption
-msgctxt "TFRMMULTIRENAME.STRINGGRID.COLUMNS[2].TGRIDCOLUMNTITLE.CAPTION"
+msgctxt "tfrmmultirename.stringgrid.columns[2].tgridcolumntitle.caption"
 msgid "File Path"
 msgstr "檔案路徑"
 
@@ -3499,8 +3620,8 @@ msgctxt "TFRMOPTIONS.BTNOK.CAPTION"
 msgid "&OK"
 msgstr "確定(&O)"
 
-#: tfrmoptions.caption
-msgctxt "TFRMOPTIONS.CAPTION"
+#: tfrmoptions.frmoptions.caption
+msgctxt "tfrmoptions.frmoptions.caption"
 msgid "Options"
 msgstr "選項"
 
@@ -3643,16 +3764,6 @@ msgctxt "TFRMOPTIONSBEHAVIOR.CBALWAYSSHOWTRAYICON.CAPTION"
 msgid "Always show tray icon"
 msgstr "始終顯示托盤圖示"
 
-#: tfrmoptionsbehavior.cblistfilesinthread.caption
-msgctxt "TFRMOPTIONSBEHAVIOR.CBLISTFILESINTHREAD.CAPTION"
-msgid "Load file list in separate thread"
-msgstr ""
-
-#: tfrmoptionsbehavior.cbloadiconsseparately.caption
-msgctxt "TFRMOPTIONSBEHAVIOR.CBLOADICONSSEPARATELY.CAPTION"
-msgid "Load icons after file list"
-msgstr "在檔案清單後載入圖示"
-
 #: tfrmoptionsbehavior.cbminimizetotray.caption
 msgctxt "TFRMOPTIONSBEHAVIOR.CBMINIMIZETOTRAY.CAPTION"
 msgid "Mo&ve icon to system tray when minimized"
@@ -3662,12 +3773,6 @@ msgstr "最小化到系統欄圖示(&V)"
 msgctxt "TFRMOPTIONSBEHAVIOR.CBONLYONCE.CAPTION"
 msgid "Allow only one copy of DC at a time"
 msgstr ""
-
-#: tfrmoptionsbehavior.cbshowsystemfiles.caption
-#| msgid "Show hidden/system files"
-msgctxt "TFRMOPTIONSBEHAVIOR.CBSHOWSYSTEMFILES.CAPTION"
-msgid "Show system and hidden files"
-msgstr "顯示系統及隱藏檔案"
 
 #: tfrmoptionsbehavior.edtdrivesblacklist.hint
 msgid "Here you can enter one or more drives or mount points, separated by \";\"."
@@ -4122,6 +4227,10 @@ msgctxt "TFRMOPTIONSFILEPANELSCOLORS.LBLTEXTCOLOR.CAPTION"
 msgid "Text Color:"
 msgstr "文字顏色:"
 
+#: tfrmoptionsfilesviews.cbdelayloadingtabs.caption
+msgid "Don't load file list until a tab is activated"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cbdirbrackets.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION"
 msgid "Show square brackets around directories"
@@ -4300,15 +4409,20 @@ msgctxt "TFRMOPTIONSHOTKEYS.CGHKCONTROLS.CAPTION"
 msgid "Only for these controls"
 msgstr "      --fuzzy                 等於 --only-fuzzy --clear-fuzzy"
 
-#: tfrmoptionshotkeys.lbcommands.caption
-msgctxt "TFRMOPTIONSHOTKEYS.LBCOMMANDS.CAPTION"
-msgid "Commands:"
-msgstr "命令:"
-
 #: tfrmoptionshotkeys.lbfilter.caption
 msgctxt "TFRMOPTIONSHOTKEYS.LBFILTER.CAPTION"
 msgid "Filter"
 msgstr "篩選"
+
+#: tfrmoptionshotkeys.lblcategories.caption
+msgctxt "tfrmoptionshotkeys.lblcategories.caption"
+msgid "Categories:"
+msgstr "類別"
+
+#: tfrmoptionshotkeys.lblcommands.caption
+msgctxt "tfrmoptionshotkeys.lblcommands.caption"
+msgid "Commands:"
+msgstr "命令:"
 
 #: tfrmoptionshotkeys.lblhotkey.caption
 msgctxt "TFRMOPTIONSHOTKEYS.LBLHOTKEY.CAPTION"
@@ -4325,11 +4439,6 @@ msgstr "參數:"
 msgctxt "TFRMOPTIONSHOTKEYS.LBLSCFILES.CAPTION"
 msgid "Shortcut files:"
 msgstr "第 %d 個文件處理中(共有 %d 個)... "
-
-#: tfrmoptionshotkeys.lbtypes.caption
-msgctxt "TFRMOPTIONSHOTKEYS.LBTYPES.CAPTION"
-msgid "Categories:"
-msgstr "類別"
 
 #: tfrmoptionshotkeys.stghotkeys.columns[0].title.caption
 #, fuzzy
@@ -4516,6 +4625,10 @@ msgstr "顯示調試菜單(&S)"
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWMAINTOOLBAR.CAPTION"
 msgid "Show &button bar"
 msgstr "顯示按鈕欄(&B)"
+
+#: tfrmoptionslayout.cbshowshortdrivefreespace.caption
+msgid "Show short free space label"
+msgstr ""
 
 #: tfrmoptionslayout.cbshowstatusbar.caption
 msgctxt "TFRMOPTIONSLAYOUT.CBSHOWSTATUSBAR.CAPTION"
@@ -5098,6 +5211,66 @@ msgstr "壓縮者:"
 msgid "Time:"
 msgstr "時間:"
 
+#: tfrmquicksearch.btncancel.caption
+msgctxt "tfrmquicksearch.btncancel.caption"
+msgid "X"
+msgstr ""
+
+#: tfrmquicksearch.lblsearch.caption
+msgctxt "tfrmquicksearch.lblsearch.caption"
+msgid "Search"
+msgstr "搜索"
+
+#: tfrmquicksearch.sbcasesensitive.caption
+msgid "Aa"
+msgstr ""
+
+#: tfrmquicksearch.sbcasesensitive.hint
+msgid "Case Sensitive"
+msgstr ""
+
+#: tfrmquicksearch.sbdirectories.caption
+msgid "D"
+msgstr ""
+
+#: tfrmquicksearch.sbdirectories.hint
+msgid "Directories"
+msgstr ""
+
+#: tfrmquicksearch.sbfiles.caption
+msgid "F"
+msgstr ""
+
+#: tfrmquicksearch.sbfiles.hint
+msgid "Files"
+msgstr ""
+
+#: tfrmquicksearch.sbmatchbeginning.caption
+msgid "{"
+msgstr ""
+
+#: tfrmquicksearch.sbmatchbeginning.hint
+msgid "Match Beginning"
+msgstr ""
+
+#: tfrmquicksearch.sbmatchending.caption
+msgid "}"
+msgstr ""
+
+#: tfrmquicksearch.sbmatchending.hint
+msgid "Match Ending"
+msgstr ""
+
+#: tfrmquicksearch.tglfilter.caption
+msgctxt "tfrmquicksearch.tglfilter.caption"
+msgid "Filter"
+msgstr "篩選"
+
+#: tfrmquicksearch.tgloptions.caption
+msgctxt "tfrmquicksearch.tgloptions.caption"
+msgid "Options"
+msgstr "選項"
+
 #: tfrmselecttextrange.btppanel.cancelbutton.caption
 msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.CANCELBUTTON.CAPTION"
 msgid "Cancel"
@@ -5114,10 +5287,9 @@ msgid "&Help"
 msgstr "幫助(&H)"
 
 #: tfrmselecttextrange.btppanel.okbutton.caption
-#| msgid "&ОК"
-msgctxt "TFRMSELECTTEXTRANGE.BTPPANEL.OKBUTTON.CAPTION"
+msgctxt "tfrmselecttextrange.btppanel.okbutton.caption"
 msgid "&OK"
-msgstr "確定 &O "
+msgstr "確定 &O"
 
 #: tfrmselecttextrange.lblselecttext.caption
 msgid "Select the characters to insert:"
@@ -5703,7 +5875,7 @@ msgid "1"
 msgstr "1"
 
 #: tfrmviewer.frmviewer.caption
-msgctxt "TFRMVIEWER.FRMVIEWER.CAPTION"
+msgctxt "tfrmviewer.frmviewer.caption"
 msgid "Viewer"
 msgstr "檢視器"
 
@@ -6329,6 +6501,7 @@ msgid "&Forward"
 msgstr "前一個(&F)"
 
 #: ulng.rseditsearchreplace
+msgctxt "ulng.rseditsearchreplace"
 msgid "Replace"
 msgstr "替換"
 
@@ -6522,6 +6695,7 @@ msgstr "解掛"
 
 #: ulng.rsmnunew
 #, fuzzy
+msgctxt "ulng.rsmnunew"
 msgid "New"
 msgstr "新增"
 
@@ -7535,6 +7709,16 @@ msgstr "選擇的目錄:"
 #: ulng.rssymerrcreate
 msgid "Error creating symlink."
 msgstr "建立符號捷徑出現錯誤."
+
+#: ulng.rssyndefaulttext
+msgctxt "ulng.rssyndefaulttext"
+msgid "Default text"
+msgstr ""
+
+#: ulng.rssynlangplaintext
+msgctxt "ulng.rssynlangplaintext"
+msgid "Plain text"
+msgstr ""
 
 #: ulng.rstimeunitday
 msgctxt "ulng.rstimeunitday"
