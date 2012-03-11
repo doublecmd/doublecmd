@@ -57,6 +57,8 @@ const
 
 type
 
+  TForEachViewFunction = procedure (AFileView: TFileView; UserData: Pointer) of object;
+
   { TfrmMain }
 
   TfrmMain = class(TForm, IFormCommands)
@@ -571,6 +573,7 @@ type
     function NotActiveNotebook: TFileViewNotebook;
     function FrameLeft: TFileView;
     function FrameRight: TFileView;
+    procedure ForEachView(CallbackFunction: TForEachViewFunction; UserData: Pointer);
     //check selected count and generate correct msg, parameters is lng indexs
     Function GetFileDlgStr(sLngOne, sLngMulti : String; Files: TFiles):String;
     procedure HotDirSelected(Sender:TObject);
@@ -2038,6 +2041,19 @@ end;
 function TfrmMain.FrameRight: TFileView;
 begin
   Result := nbRight.ActiveView;
+end;
+
+procedure TfrmMain.ForEachView(CallbackFunction: TForEachViewFunction; UserData: Pointer);
+  procedure EnumerateNotebook(ANoteBook: TFileViewNotebook);
+  var
+    i: Integer;
+  begin
+    for i := 0 to ANoteBook.PageCount - 1 do
+      CallbackFunction(ANoteBook.View[i], UserData);
+  end;
+begin
+  EnumerateNotebook(nbLeft);
+  EnumerateNotebook(nbRight);
 end;
 
 procedure TfrmMain.AppException(Sender: TObject; E: Exception);
@@ -4968,4 +4984,4 @@ initialization
   TFormCommands.RegisterCommandsForm(TfrmMain, HotkeysCategory, @rsHotkeyCategoryMain);
 
 end.
-
+

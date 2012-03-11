@@ -73,6 +73,11 @@ type
     // but was released in another window or another application.
     procedure ClearMouseButtonAfterDrag;
 
+    function GetGridHorzLine: Boolean;
+    function GetGridVertLine: Boolean;
+    procedure SetGridHorzLine(const AValue: Boolean);
+    procedure SetGridVertLine(const AValue: Boolean);
+
     // If internal dragging is currently in effect, this function
     // stops internal dragging and starts external.
     procedure TransformDraggingToExternal(ScreenPoint: TPoint);
@@ -116,6 +121,9 @@ type
     function GetVisibleRows: TRange;
 
     function IsRowVisible(aRow: Integer): Boolean;
+
+    property GridVertLine: Boolean read GetGridVertLine write SetGridVertLine;
+    property GridHorzLine: Boolean read GetGridHorzLine write SetGridHorzLine;
   end;
 
   { TColumnsFileView }
@@ -143,10 +151,6 @@ type
     tmContextMenu: TTimer;
     tmClearGrid: TTimer;
 
-    function GetGridHorzLine: Boolean;
-    function GetGridVertLine: Boolean;
-    procedure SetGridHorzLine(const AValue: Boolean);
-    procedure SetGridVertLine(const AValue: Boolean);
     function GetColumnsClass: TPanelColumnsClass;
     function GetVisibleFilesIndexes: TRange;
 
@@ -192,6 +196,8 @@ type
     }
     procedure MakeColumnsStrings(AFile: TDisplayFile);
     procedure MakeColumnsStrings(AFile: TDisplayFile; ColumnsClass: TPanelColumnsClass);
+    procedure ClearAllColumnsStrings;
+    procedure EachViewUpdateColumns(AFileView: TFileView; UserData: Pointer);
     procedure EnsureDisplayProperties;
     procedure UpdateFile(const UpdatedFile: TDisplayFile;
                          const UserData: Pointer);
@@ -329,9 +335,6 @@ type
     procedure DoDragDropOperation(Operation: TDragDropOperation;
                                   var DropParams: TDropParams); override;
 
-    property GridVertLine: Boolean read GetGridVertLine write SetGridVertLine;
-    property GridHorzLine: Boolean read GetGridHorzLine write SetGridHorzLine;
-
   published  // commands
     procedure cm_MarkInvert(param: string='');
     procedure cm_MarkMarkAll(param: string='');
@@ -382,6 +385,15 @@ uses
 const
   CANCEL_FILTER = 0;
   CANCEL_OPERATION = 1;
+
+type
+  TEachViewCallbackReason = (evcrUpdateColumns);
+  TEachViewCallbackMsg = record
+    Reason: TEachViewCallbackReason;
+    UpdatedColumnsSetName: String;
+    NewColumnsSetName: String; // If columns name renamed
+  end;
+  PEachViewCallbackMsg = ^TEachViewCallbackMsg;
 
 function TColumnsFileView.Focused: Boolean;
 begin
@@ -1892,6 +1904,8 @@ var
   ColumnsClass: TPanelColumnsClass;
   OldFilePropertiesNeeded: TFilePropertiesTypes;
 begin
+  ClearAllColumnsStrings;
+
   // If the ActiveColm set doesn't exist this will retrieve either
   // the first set or the default set.
   ColumnsClass := GetColumnsClass;
@@ -1902,6 +1916,7 @@ begin
 
   dgPanel.FocusRectVisible := ColumnsClass.GetCursorBorder and not gUseFrameCursor;
   dgPanel.FocusColor := ColumnsClass.GetCursorBorderColor;
+  dgPanel.UpdateView;
 
   OldFilePropertiesNeeded := FilePropertiesNeeded;
   FilePropertiesNeeded := GetFilePropertiesNeeded;
@@ -2153,12 +2168,16 @@ var
   frmColumnsSetConf: TfColumnsSetConf;
   frmOptions: TfrmOptions = nil;
   Index: Integer;
+  Msg: TEachViewCallbackMsg;
 begin
   Case (Sender as TMenuItem).Tag of
     1000: //This
           begin
             frmColumnsSetConf := TfColumnsSetConf.Create(nil);
             try
+              Msg.Reason := evcrUpdateColumns;
+              Msg.UpdatedColumnsSetName := ActiveColm;
+
               {EDIT Set}
               frmColumnsSetConf.edtNameofColumnsSet.Text:=ColSet.GetColumnSet(ActiveColm).CurrentColumnsSetName;
               Index:=ColSet.Items.IndexOf(ActiveColm);
@@ -2170,7 +2189,8 @@ begin
               begin
                 // Force saving changes to config file.
                 SaveGlobs;
-                UpdateView;
+                Msg.NewColumnsSetName := frmColumnsSetConf.GetColumnsClass.Name;
+                frmMain.ForEachView(@EachViewUpdateColumns, @Msg);
               end;
             finally
               FreeAndNil(frmColumnsSetConf);
@@ -2180,8 +2200,7 @@ begin
           begin
             frmOptions := TfrmOptions.Create(Application, 'TfrmOptionsCustomColumns');
             try
-              if frmOptions.ShowModal = mrOK then
-                UpdateView;
+              frmOptions.ShowModal;
             finally
               frmOptions.Free;
             end;
@@ -2189,7 +2208,8 @@ begin
   else
     begin
       ActiveColm:=ColSet.Items[(Sender as TMenuItem).Tag];
-      UpdateView;
+      UpdateColumnsView;
+      RedrawGrid;
     end;
   end;
 end;
@@ -2205,32 +2225,6 @@ begin
     CANCEL_OPERATION:
       StopWorkers;
   end;
-end;
-
-function TColumnsFileView.GetGridHorzLine: Boolean;
-begin
-  Result := goHorzLine in dgPanel.Options;
-end;
-
-function TColumnsFileView.GetGridVertLine: Boolean;
-begin
-  Result := goVertLine in dgPanel.Options;
-end;
-
-procedure TColumnsFileView.SetGridHorzLine(const AValue: Boolean);
-begin
-  if AValue then
-    dgPanel.Options := dgPanel.Options + [goHorzLine]
-  else
-    dgPanel.Options := dgPanel.Options - [goHorzLine];
-end;
-
-procedure TColumnsFileView.SetGridVertLine(const AValue: Boolean);
-begin
-  if AValue then
-    dgPanel.Options := dgPanel.Options + [goVertLine]
-  else
-    dgPanel.Options := dgPanel.Options - [goVertLine]
 end;
 
 constructor TColumnsFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags = []);
@@ -2505,6 +2499,36 @@ begin
   end;
 end;
 
+procedure TColumnsFileView.ClearAllColumnsStrings;
+var
+  i: Integer;
+begin
+  if Assigned(FAllDisplayFiles) then
+  begin
+    // Clear display strings in case columns have changed.
+    for i := 0 to FAllDisplayFiles.Count - 1 do
+      FAllDisplayFiles[i].DisplayStrings.Clear;
+  end;
+end;
+
+procedure TColumnsFileView.EachViewUpdateColumns(AFileView: TFileView; UserData: Pointer);
+var
+  ColumnsView: TColumnsFileView;
+  PMsg: PEachViewCallbackMsg;
+begin
+  if AFileView is TColumnsFileView then
+  begin
+    ColumnsView := TColumnsFileView(AFileView);
+    PMsg := UserData;
+    if ColumnsView.ActiveColm = PMsg^.UpdatedColumnsSetName then
+    begin
+      ColumnsView.ActiveColm := PMsg^.NewColumnsSetName;
+      ColumnsView.UpdateColumnsView;
+      ColumnsView.RedrawGrid;
+    end;
+  end;
+end;
+
 procedure TColumnsFileView.EnsureDisplayProperties;
 var
   VisibleFiles: TRange;
@@ -2663,28 +2687,18 @@ begin
 
   pnlHeader.Visible := gCurDir;  // Current directory
   pnlFooter.Visible := gStatusBar;  // Status bar
-  GridVertLine:= gGridVertLine;
-  GridHorzLine:= gGridHorzLine;
 
   pnlHeader.UpdateAddressLabel;
   pnlHeader.UpdatePathLabel;
-  dgPanel.UpdateView;
   UpdateColumnsView;
 
   if bLoadingFilelist then
     MakeFileSourceFileList
   else
   begin
-    if Assigned(FAllDisplayFiles) then
-    begin
-      // Clear display strings in case columns have changed.
-      for i := 0 to FAllDisplayFiles.Count - 1 do
-        FAllDisplayFiles[i].DisplayStrings.Clear;
-
-      // This condition is needed when cloning to recreate filtered files.
-      if not Assigned(FFiles) then
-        ReDisplayFileList;
-    end;
+    // This condition is needed when cloning to recreate filtered files.
+    if Assigned(FAllDisplayFiles) and not Assigned(FFiles) then
+      ReDisplayFileList;
   end;
 end;
 
@@ -3130,6 +3144,8 @@ begin
   Color := ColumnsView.DimColor(gBackColor);
   AutoFillColumns:= gAutoFillColumns;
   ShowHint:= (gShowToolTipMode <> []);
+  GridVertLine:= gGridVertLine;
+  GridHorzLine:= gGridHorzLine;
 
   // Calculate row height.
   TempRowHeight := CalculateDefaultRowHeight;
@@ -3809,6 +3825,32 @@ begin
 
   // reset TCustomGrid state
   FGridState := gsNormal;
+end;
+
+function TDrawGridEx.GetGridHorzLine: Boolean;
+begin
+  Result := goHorzLine in Options;
+end;
+
+function TDrawGridEx.GetGridVertLine: Boolean;
+begin
+  Result := goVertLine in Options;
+end;
+
+procedure TDrawGridEx.SetGridHorzLine(const AValue: Boolean);
+begin
+  if AValue then
+    Options := Options + [goHorzLine]
+  else
+    Options := Options - [goHorzLine];
+end;
+
+procedure TDrawGridEx.SetGridVertLine(const AValue: Boolean);
+begin
+  if AValue then
+    Options := Options + [goVertLine]
+  else
+    Options := Options - [goVertLine];
 end;
 
 {$IFDEF LCLGTK2}

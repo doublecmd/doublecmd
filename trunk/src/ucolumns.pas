@@ -198,8 +198,8 @@ type
     procedure Load(AConfig: TXmlConfig; ANode: TXmlNode); overload;
     procedure Save(Ini: TIniFileEx); overload;
     procedure Save(AConfig: TXmlConfig; ANode: TXmlNode); overload;
-    function Add(AName: String; Item: TPanelColumnsClass): Integer;
-    procedure Insert(AIndex: Integer; AName: String; Item: TPanelColumnsClass);
+    function Add(Item: TPanelColumnsClass): Integer;
+    procedure Insert(AIndex: Integer; Item: TPanelColumnsClass);
     procedure DeleteColumnSet(SetName: String);
     procedure DeleteColumnSet(SetIndex: Integer); overload;
     procedure CopyColumnSet(SetName, NewSetName: String);
@@ -1010,15 +1010,14 @@ begin
     end;
 end;
 
-function TPanelColumnsList.Add(AName: String; Item: TPanelColumnsClass): Integer;
+function TPanelColumnsList.Add(Item: TPanelColumnsClass): Integer;
 begin
-  Result := Fset.AddObject(AName, Item);
+  Result := Fset.AddObject(Item.Name, Item);
 end;
 
-procedure TPanelColumnsList.Insert(AIndex: Integer; AName: String;
-  Item: TPanelColumnsClass);
+procedure TPanelColumnsList.Insert(AIndex: Integer; Item: TPanelColumnsClass);
 begin
-  Fset.InsertObject(AIndex, AName, Item);
+  Fset.InsertObject(AIndex, Item.Name, Item);
 end;
 
 procedure TPanelColumnsList.DeleteColumnSet(SetName: String);
