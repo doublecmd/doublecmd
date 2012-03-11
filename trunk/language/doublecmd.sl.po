@@ -3795,6 +3795,22 @@ msgstr "Nastavi stolpce za datotečni sistem:"
 msgid "Show confirmation dialog after drop"
 msgstr "Pokaži potrditveno okno po spuščanju datotek"
 
+#: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
+msgid "Show file system"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
+msgid "Show free space"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.cbshowlabel.caption
+msgid "Show label"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.gbdriveslist.caption
+msgid "Drives list"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Background"
@@ -5980,6 +5996,16 @@ msgstr "Vrsta:"
 #: tfrmviewoperations.lblrunning.caption
 msgid "for running"
 msgstr "za zagnano"
+
+#: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
+msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
+msgid "When file exists"
+msgstr "Če datoteka že obstaja,"
+
+#: twcxarchivecopyoperationoptionsui.lblfileexists.caption
+msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
+msgid "When file exists"
+msgstr "Če datoteka že obstaja,"
 
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"

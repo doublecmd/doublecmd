@@ -3891,6 +3891,22 @@ msgstr "Konfigurace sloupců pro systém souborů:"
 msgid "Show confirmation dialog after drop"
 msgstr "Ukázat potvrzovací dialog po upuštění "
 
+#: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
+msgid "Show file system"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
+msgid "Show free space"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.cbshowlabel.caption
+msgid "Show label"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.gbdriveslist.caption
+msgid "Drives list"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Background"
@@ -6130,6 +6146,16 @@ msgstr "Fronta:"
 #: tfrmviewoperations.lblrunning.caption
 msgid "for running"
 msgstr "pro běžící"
+
+#: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
+msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
+msgid "When file exists"
+msgstr "Pokud soubor existuje"
+
+#: twcxarchivecopyoperationoptionsui.lblfileexists.caption
+msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
+msgid "When file exists"
+msgstr "Pokud soubor existuje"
 
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"
