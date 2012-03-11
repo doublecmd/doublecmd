@@ -2226,51 +2226,26 @@ end;
 
 constructor TColumnsFileView.Create(AOwner: TWinControl; AFileSource: IFileSource; APath: String; AFlags: TFileViewFlags = []);
 begin
-  inherited Create(AOwner, AFileSource, APath, AFlags);
-
-  FFiles := TDisplayFiles.Create;
   FColumnsSorting := TColumnsSortings.Create;
   ActiveColm := 'Default';
-
-  // Update view before making file source file list,
-  // so that file list isn't unnecessarily displayed twice.
-  UpdateView;
-  MakeFileSourceFileList;
+  inherited Create(AOwner, AFileSource, APath, AFlags);
 end;
 
 constructor TColumnsFileView.Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []);
 begin
   inherited Create(AOwner, AFileView, AFlags);
-  UpdateView;
 end;
 
 constructor TColumnsFileView.Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer; AFlags: TFileViewFlags = []);
 begin
-  inherited Create(AOwner, AConfig, ASectionName, ATabIndex, AFlags);
-
-  FFiles := TDisplayFiles.Create;
   FColumnsSorting := TColumnsSortings.Create;
-
-  LoadConfiguration(ASectionName, ATabIndex);
+  inherited Create(AOwner, AConfig, ASectionName, ATabIndex, AFlags);
 end;
 
 constructor TColumnsFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []);
 begin
-  inherited Create(AOwner, AConfig, ANode, AFlags);
-
-  FFiles := TDisplayFiles.Create;
   FColumnsSorting := TColumnsSortings.Create;
-
-  LoadConfiguration(AConfig, ANode);
-
-  // Update view before making file source file list,
-  // so that file list isn't unnecessarily displayed twice.
-  UpdateView;
-
-  if FileSourcesCount > 0 then
-  begin
-    MakeFileSourceFileList;
-  end;
+  inherited Create(AOwner, AConfig, ANode, AFlags);
 end;
 
 procedure TColumnsFileView.CreateDefault(AOwner: TWinControl);
