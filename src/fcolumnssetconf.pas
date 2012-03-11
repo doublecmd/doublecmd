@@ -187,10 +187,6 @@ type
     procedure OpenColorsPanel;
     procedure UpdateColorsPanelHeader(const Index: Integer);
 
-  public
-    { public declarations }
-    procedure SetColumnsClass(AColumnsClass: TPanelColumnsClass);
-
   private
     { Editing controls. }
     updWidth: TSpinEdit;
@@ -210,6 +206,10 @@ type
     Showed: boolean;
     ColumnClassOwnership: Boolean;
     FUpdating: Boolean;
+
+  public
+    function GetColumnsClass: TPanelColumnsClass;
+    procedure SetColumnsClass(AColumnsClass: TPanelColumnsClass);
   end;
 
 implementation
@@ -289,6 +289,7 @@ var i,indx:integer;
   ColumnClass.CustomView:= chkUseCustomView.Checked;
   ColumnClass.SetCursorBorder(cbCursorBorder.Checked);
   ColumnClass.SetCursorBorderColor(cbCursorBorderColor.Selected);
+  ColumnClass.Name := edtNameofColumnsSet.Text;
 
   PreviewPan.UpdateColumnsView;
   PreviewPan.Reload;
@@ -742,11 +743,11 @@ begin
   UpdateColumnClass;
 
   case Self.Tag of
-  -1: ColSet.Add(edtNameofColumnsSet.Text,ColumnClass);
+  -1: ColSet.Add(ColumnClass);
   else
     begin
       ColSet.DeleteColumnSet(Self.Tag);
-      Colset.Insert(Self.Tag,edtNameofColumnsSet.Text,ColumnClass);
+      Colset.Insert(Self.Tag,ColumnClass);
     end;
   end;
 
@@ -1133,6 +1134,11 @@ procedure TfColumnsSetConf.UpdateColorsPanelHeader(const Index: Integer);
 begin
   pnlCustHead.Caption := rsConfCustHeader + ' ' + IntToStr(Index+1) + ': '
                        + #39 + ColumnClass.GetColumnTitle(Index) + #39;
+end;
+
+function TfColumnsSetConf.GetColumnsClass: TPanelColumnsClass;
+begin
+  Result := ColumnClass;
 end;
 
 procedure TfColumnsSetConf.SetColumnsClass(AColumnsClass: TPanelColumnsClass);
