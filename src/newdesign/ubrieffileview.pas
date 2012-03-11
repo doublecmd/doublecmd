@@ -760,17 +760,6 @@ constructor TBriefFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig;
   ANode: TXmlNode; AFlags: TFileViewFlags = []);
 begin
   inherited Create(AOwner, AConfig, ANode, AFlags);
-
-  LoadConfiguration(AConfig, ANode);
-
-  // Update view before making file source file list,
-  // so that file list isn't unnecessarily displayed twice.
-  UpdateView;
-
-  if FileSourcesCount > 0 then
-  begin
-    MakeFileSourceFileList;
-  end;
 end;
 
 destructor TBriefFileView.Destroy;

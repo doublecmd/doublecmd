@@ -448,6 +448,11 @@ begin
 
   FHistory.Add(AFileSource, aPath);
   FileSource.AddReloadEventListener(@ReloadEvent);
+
+  // Update view before making file source file list,
+  // so that file list isn't unnecessarily displayed twice.
+  UpdateView;
+  MakeFileSourceFileList;
 end;
 
 constructor TFileView.Create(AOwner: TWinControl; AFileView: TFileView; AFlags: TFileViewFlags = []);
@@ -457,18 +462,31 @@ begin
   AFileView.CloneTo(Self);
   if Assigned(FileSource) then
     FileSource.AddReloadEventListener(@ReloadEvent);
+  UpdateView;
 end;
 
 constructor TFileView.Create(AOwner: TWinControl; AConfig: TIniFileEx; ASectionName: String; ATabIndex: Integer; AFlags: TFileViewFlags = []);
 begin
   FFlags := AFlags;
   CreateDefault(AOwner);
+  LoadConfiguration(ASectionName, ATabIndex);
 end;
 
 constructor TFileView.Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []);
 begin
   FFlags := AFlags;
   CreateDefault(AOwner);
+
+  LoadConfiguration(AConfig, ANode);
+
+  // Update view before making file source file list,
+  // so that file list isn't unnecessarily displayed twice.
+  UpdateView;
+
+  if FileSourcesCount > 0 then
+  begin
+    MakeFileSourceFileList;
+  end;
 end;
 
 procedure TFileView.CreateDefault(AOwner: TWinControl);
@@ -1461,7 +1479,8 @@ begin
   else
   begin
     // Always recreate file list because things like ignore list might have changed.
-    ReDisplayFileList;
+    if Assigned(FAllDisplayFiles) then
+      ReDisplayFileList;
   end;
 
   EnableWatcher(IsFileSystemWatcher);
