@@ -15,13 +15,13 @@ uses
   uOverlayScrollBarFix,
   gtk2,
   Gtk2Int,
-  LCLVersion,
   {$ENDIF}
   {$ENDIF}
   Interfaces,
   LCLProc,
   SysUtils,
   Forms,
+  LCLVersion,
   {$IF DEFINED(NIGHTLY_BUILD)}
   {$IF NOT DEFINED(DARWIN)}
   un_lineinfo,
@@ -85,6 +85,12 @@ begin
 
   // Use only current directory separator
   AllowDirectorySeparators:= [DirectorySeparator];
+  {$IF lcl_fullversion >= 093100}
+  // Disable because we set a few of our own format settings and we don't want
+  // them to be changed. There's no way currently to react to Application.IntfSettingsChange.
+  // If in future we move to a Unicode RTL this could be removed.
+  Application.UpdateFormatSettings := False;
+  {$ENDIF}
   ThousandSeparator:= ' ';
   {$IFDEF UNIX}
   uMyUnix.FixDateTimeSeparators;
@@ -144,4 +150,4 @@ begin
 
   uKeyboard.CleanupKeyboard;
   DCDebug('Finished Double Commander');
-end.
+end.
