@@ -36,9 +36,9 @@
             <Filename Value="..\doublecmd"/>
           </Target>
           <SearchPaths>
-            <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\components\chsdet\src\mbclass;..\components\chsdet\src\stat"/>
+            <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk"/>
             <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;newdesign;newdesign\fileproperties;frames;..\components\dcpcrypt;..\components\dcpcrypt\Hashes;..\components\chsdet\src;..\components\chsdet\src\sbseq"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;newdesign;newdesign\fileproperties;frames"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -85,9 +85,9 @@
             <Filename Value="..\doublecmd"/>
           </Target>
           <SearchPaths>
-            <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\components\chsdet\src\mbclass;..\components\chsdet\src\stat"/>
+            <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk"/>
             <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;newdesign;newdesign\fileproperties;frames;..\components\dcpcrypt;..\components\dcpcrypt\Hashes;..\components\chsdet\src;..\components\chsdet\src\sbseq"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;newdesign;newdesign\fileproperties;frames"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -129,9 +129,9 @@
             <Filename Value="..\doublecmd"/>
           </Target>
           <SearchPaths>
-            <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\components\chsdet\src\mbclass;..\components\chsdet\src\stat"/>
+            <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk"/>
             <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;newdesign;newdesign\fileproperties;frames;..\components\dcpcrypt;..\components\dcpcrypt\Hashes;..\components\chsdet\src;..\components\chsdet\src\sbseq"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;newdesign;newdesign\fileproperties;frames"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -173,9 +173,9 @@
             <Filename Value="..\doublecmd"/>
           </Target>
           <SearchPaths>
-            <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\components\chsdet\src\mbclass;..\components\chsdet\src\stat"/>
+            <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk"/>
             <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
-            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;newdesign;newdesign\fileproperties;frames;..\components\dcpcrypt;..\components\dcpcrypt\Hashes;..\components\chsdet\src;..\components\chsdet\src\sbseq"/>
+            <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;newdesign;newdesign\fileproperties;frames"/>
             <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
             <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
           </SearchPaths>
@@ -234,37 +234,43 @@
         <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="8">
+    <RequiredPackages Count="10">
       <Item1>
-        <PackageName Value="LazControls"/>
-        <MinVersion Valid="True"/>
+        <PackageName Value="dcpcrypt"/>
       </Item1>
       <Item2>
-        <PackageName Value="ZVDateTimeCtrls"/>
-        <MinVersion Major="1" Minor="2" Valid="True"/>
+        <PackageName Value="chsdet"/>
       </Item2>
       <Item3>
-        <PackageName Value="pkg_gifanim"/>
-        <MinVersion Major="1" Minor="4" Valid="True"/>
+        <PackageName Value="LazControls"/>
+        <MinVersion Valid="True"/>
       </Item3>
       <Item4>
-        <PackageName Value="cmdbox"/>
+        <PackageName Value="ZVDateTimeCtrls"/>
+        <MinVersion Major="1" Minor="2" Valid="True"/>
       </Item4>
       <Item5>
-        <PackageName Value="KASComp"/>
-        <MinVersion Major="1" Release="1" Build="1" Valid="True"/>
+        <PackageName Value="pkg_gifanim"/>
+        <MinVersion Major="1" Minor="4" Valid="True"/>
       </Item5>
       <Item6>
-        <PackageName Value="LCL"/>
-        <MinVersion Major="1" Valid="True"/>
+        <PackageName Value="cmdbox"/>
       </Item6>
       <Item7>
-        <PackageName Value="SynEdit"/>
-        <MinVersion Major="1" Valid="True"/>
+        <PackageName Value="KASComp"/>
+        <MinVersion Major="1" Release="1" Build="1" Valid="True"/>
       </Item7>
       <Item8>
-        <PackageName Value="viewerpackage"/>
+        <PackageName Value="LCL"/>
+        <MinVersion Major="1" Valid="True"/>
       </Item8>
+      <Item9>
+        <PackageName Value="SynEdit"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item9>
+      <Item10>
+        <PackageName Value="viewerpackage"/>
+      </Item10>
     </RequiredPackages>
     <Units Count="159">
       <Unit0>
@@ -1252,7 +1258,10 @@
       <Unit158>
         <Filename Value="newdesign\fwcxarchivecopyoperationoptions.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="WcxArchiveCopyOperationOptionsUI"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="fWcxArchiveCopyOperationOptions"/>
       </Unit158>
     </Units>
   </ProjectOptions>
@@ -1263,9 +1272,9 @@
       <Filename Value="..\doublecmd"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk;..\components\chsdet\src\mbclass;..\components\chsdet\src\stat"/>
+      <IncludeFiles Value="$(LazarusDir)\ide;$(ProjOutDir);..\sdk"/>
       <Libraries Value="$(ProjPath)\..\libraries\$(TargetCPU)-$(TargetOS)"/>
-      <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;newdesign;newdesign\fileproperties;frames;..\components\dcpcrypt;..\components\dcpcrypt\Hashes;..\components\chsdet\src;..\components\chsdet\src\sbseq"/>
+      <OtherUnitFiles Value="platform;platform\$(SrcOS);..\sdk;newdesign;newdesign\fileproperties;frames"/>
       <UnitOutputDirectory Value="..\units\$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
       <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType);$(fpcsrcdir)\packages\fcl-base\src"/>
     </SearchPaths>

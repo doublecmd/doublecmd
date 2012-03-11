@@ -5,9 +5,9 @@
     <AddToProjectUsesSection Value="False"/>
     <Author Value="David Barton, Barko &amp; Graeme Geldenhuys"/>
     <CompilerOptions>
-      <Version Value="8"/>
+      <Version Value="9"/>
       <SearchPaths>
-        <OtherUnitFiles Value="Ciphers/;Hashes/;$(PkgOutDir)/"/>
+        <OtherUnitFiles Value="Ciphers;Hashes;$(PkgOutDir)"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -17,9 +17,13 @@
           <IncludeAssertionCode Value="True"/>
           <AllowLabel Value="False"/>
           <CPPInline Value="False"/>
-          <UseAnsiStrings Value="True"/>
         </SyntaxOptions>
       </Parsing>
+      <Linking>
+        <Debugging>
+          <GenerateDebugInfo Value="True"/>
+        </Debugging>
+      </Linking>
       <Other>
         <CustomOptions Value="-Xd"/>
         <CompilerPath Value="$(CompPath)"/>
@@ -31,7 +35,7 @@
 www.cityinthesky.co.uk/cryptography.html
 "/>
     <Version Major="2" Release="4" Build="1"/>
-    <Files Count="30">
+    <Files Count="18">
       <Item1>
         <Filename Value="dcpbase64.pas"/>
         <UnitName Value="DCPbase64"/>
@@ -49,109 +53,61 @@ www.cityinthesky.co.uk/cryptography.html
         <UnitName Value="DCPcrypt2"/>
       </Item4>
       <Item5>
-        <Filename Value="Ciphers/dcpblowfish.pas"/>
-        <UnitName Value="DCPblowfish"/>
-      </Item5>
-      <Item6>
-        <Filename Value="Ciphers/dcpcast128.pas"/>
-        <UnitName Value="DCPcast128"/>
-      </Item6>
-      <Item7>
-        <Filename Value="Ciphers/dcpcast256.pas"/>
-        <UnitName Value="DCPcast256"/>
-      </Item7>
-      <Item8>
-        <Filename Value="Ciphers/dcpdes.pas"/>
-        <UnitName Value="DCPdes"/>
-      </Item8>
-      <Item9>
-        <Filename Value="Ciphers/dcpgost.pas"/>
-        <UnitName Value="DCPgost"/>
-      </Item9>
-      <Item10>
-        <Filename Value="Ciphers/dcpice.pas"/>
-        <UnitName Value="DCPice"/>
-      </Item10>
-      <Item11>
-        <Filename Value="Ciphers/dcpidea.pas"/>
-        <UnitName Value="DCPidea"/>
-      </Item11>
-      <Item12>
-        <Filename Value="Ciphers/dcpmars.pas"/>
-        <UnitName Value="DCPmars"/>
-      </Item12>
-      <Item13>
-        <Filename Value="Ciphers/dcpmisty1.pas"/>
-        <UnitName Value="DCPmisty1"/>
-      </Item13>
-      <Item14>
-        <Filename Value="Ciphers/dcprc2.pas"/>
-        <UnitName Value="DCPrc2"/>
-      </Item14>
-      <Item15>
-        <Filename Value="Ciphers/dcprc4.pas"/>
-        <UnitName Value="DCPrc4"/>
-      </Item15>
-      <Item16>
-        <Filename Value="Ciphers/dcprc5.pas"/>
-        <UnitName Value="DCPrc5"/>
-      </Item16>
-      <Item17>
-        <Filename Value="Ciphers/dcprc6.pas"/>
-        <UnitName Value="DCPrc6"/>
-      </Item17>
-      <Item18>
-        <Filename Value="Ciphers/dcprijndael.pas"/>
-        <UnitName Value="DCPrijndael"/>
-      </Item18>
-      <Item19>
-        <Filename Value="Ciphers/dcpserpent.pas"/>
-        <UnitName Value="DCPserpent"/>
-      </Item19>
-      <Item20>
-        <Filename Value="Ciphers/dcptea.pas"/>
-        <UnitName Value="DCPtea"/>
-      </Item20>
-      <Item21>
-        <Filename Value="Ciphers/dcptwofish.pas"/>
-        <UnitName Value="DCPtwofish"/>
-      </Item21>
-      <Item22>
         <Filename Value="Hashes/dcphaval.pas"/>
         <UnitName Value="DCPhaval"/>
-      </Item22>
-      <Item23>
+      </Item5>
+      <Item6>
         <Filename Value="Hashes/dcpmd4.pas"/>
         <UnitName Value="DCPmd4"/>
-      </Item23>
-      <Item24>
+      </Item6>
+      <Item7>
         <Filename Value="Hashes/dcpmd5.pas"/>
         <UnitName Value="DCPmd5"/>
-      </Item24>
-      <Item25>
+      </Item7>
+      <Item8>
         <Filename Value="Hashes/dcpripemd128.pas"/>
         <UnitName Value="DCPripemd128"/>
-      </Item25>
-      <Item26>
+      </Item8>
+      <Item9>
         <Filename Value="Hashes/dcpripemd160.pas"/>
         <UnitName Value="DCPripemd160"/>
-      </Item26>
-      <Item27>
+      </Item9>
+      <Item10>
         <Filename Value="Hashes/dcpsha1.pas"/>
         <UnitName Value="DCPsha1"/>
-      </Item27>
-      <Item28>
+      </Item10>
+      <Item11>
         <Filename Value="Hashes/dcpsha256.pas"/>
         <UnitName Value="DCPsha256"/>
-      </Item28>
-      <Item29>
+      </Item11>
+      <Item12>
         <Filename Value="Hashes/dcpsha512.pas"/>
         <UnitName Value="DCPsha512"/>
-      </Item29>
-      <Item30>
+      </Item12>
+      <Item13>
         <Filename Value="Hashes/dcptiger.pas"/>
         <UnitName Value="DCPtiger"/>
-      </Item30>
+      </Item13>
+      <Item14>
+        <Filename Value="Hashes/DCPhaval3.inc"/>
+        <Type Value="Include"/>
+      </Item14>
+      <Item15>
+        <Filename Value="Hashes/DCPhaval4.inc"/>
+        <Type Value="Include"/>
+      </Item15>
+      <Item16>
+        <Filename Value="Hashes/DCPhaval5.inc"/>
+        <Type Value="Include"/>
+      </Item16>
+      <Item17>
+        <Filename Value="Hashes/dcpsfv.pas"/>
+        <UnitName Value="DCPsfv"/>
+      </Item17>
+      <Item18>
+        <Filename Value="Hashes/DCPtiger.inc"/>
+        <Type Value="Include"/>
+      </Item18>
     </Files>
     <RequiredPkgs Count="1">
       <Item1>
