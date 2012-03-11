@@ -73,6 +73,7 @@ type
       procedure AfterChangePath; override;
       function GetActiveDisplayFile: TDisplayFile; override;
       procedure Resize; override;
+      procedure DoUpdateView; override;
   public
     constructor Create(AOwner: TWinControl; AConfig: TXmlConfig; ANode: TXmlNode; AFlags: TFileViewFlags = []); override;
     destructor Destroy; override;
@@ -82,7 +83,6 @@ type
 
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); override;
 
-    procedure UpdateView; override;
     {en
        Handles drag&drop operations onto the file view.
        Does any graphic work and executes operations with dropped files if allowed.
@@ -506,7 +506,6 @@ var
   AFile: TDisplayFile;
 begin
   if (csDestroying in ComponentState) or
-     (not Assigned(FFiles)) or
      (GetCurrentWorkType = fvwtCreate) then
     Exit;
 
@@ -809,11 +808,9 @@ begin
   AConfig.SetAttr(ANode, 'Type', 'brief');
 end;
 
-procedure TBriefFileView.UpdateView;
+procedure TBriefFileView.DoUpdateView;
 begin
-  inherited UpdateView;
   dgPanel.UpdateView;
-  MakeFileSourceFileList;
 end;
 
 procedure TBriefFileView.DoDragDropOperation(Operation: TDragDropOperation;

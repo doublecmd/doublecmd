@@ -186,6 +186,7 @@ type
     }
     procedure BeforeMakeFileList; virtual;
     procedure ChooseFile(const AFile: TDisplayFile; FolderMode: Boolean = False); virtual;
+    procedure DoUpdateView; virtual;
     {en
        Returns current work type in progress.
     }
@@ -311,7 +312,7 @@ type
     procedure LoadConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); virtual;
     procedure SaveConfiguration(AConfig: TXmlConfig; ANode: TXmlNode); virtual;
 
-    procedure UpdateView; virtual;
+    procedure UpdateView;
 
     {en
        Moves the selection focus to the file specified by aFilePath.
@@ -476,6 +477,7 @@ begin
   FHistory := TFileViewHistory.Create;
   FSavedSelection:= TStringListEx.Create;
   FLastMark := '*';
+  FFiles := TDisplayFiles.Create(False);
   FFilterOptions := gQuickSearchOptions;
   FHashedNames := TStringHashList.Create(True);
   FFileViewWorkers := TFileViewWorkers.Create(False);
@@ -1099,6 +1101,11 @@ begin
   end;
 end;
 
+procedure TFileView.DoUpdateView;
+begin
+  // Empty.
+end;
+
 function TFileView.GetCurrentWorkType: TFileViewWorkType;
 var
   i: Integer;
@@ -1441,7 +1448,22 @@ begin
 end;
 
 procedure TFileView.UpdateView;
+var
+  bLoadingFilelist: Boolean;
 begin
+  bLoadingFilelist := GetCurrentWorkType = fvwtCreate;
+  StopWorkers;
+
+  DoUpdateView;
+
+  if bLoadingFilelist then
+    MakeFileSourceFileList
+  else
+  begin
+    // Always recreate file list because things like ignore list might have changed.
+    ReDisplayFileList;
+  end;
+
   EnableWatcher(IsFileSystemWatcher);
 end;
 
@@ -1911,8 +1933,6 @@ begin
   // Redisplaying file list is done in the main thread because it takes
   // relatively short time, so the user usually won't notice it and it is
   // a bit faster this way.
-  if Assigned(FAllDisplayFiles) and not Assigned(FFiles) then
-    FFiles := TDisplayFiles.Create(False);
   TFileListBuilder.MakeDisplayFileList(
     FAllDisplayFiles, FFiles, FileFilter, FFilterOptions);
   AfterMakeFileList;
@@ -1983,4 +2003,4 @@ begin
 end;
 
 end.
-
+

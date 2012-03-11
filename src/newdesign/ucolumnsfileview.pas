@@ -287,6 +287,7 @@ type
 
     procedure BeforeMakeFileList; override;
     procedure AfterMakeFileList; override;
+    procedure DoUpdateView; override;
     {en
        Changes drawing colors depending on if this panel is active.
     }
@@ -330,7 +331,6 @@ type
     procedure UnselectAllFiles; override;
 
     procedure UpdateColumnsView;
-    procedure UpdateView; override;
 
     procedure DoDragDropOperation(Operation: TDragDropOperation;
                                   var DropParams: TDropParams); override;
@@ -1159,7 +1159,7 @@ procedure TColumnsFileView.tmClearGridTimer(Sender: TObject);
 begin
   tmClearGrid.Enabled := False;
 
-  if not Assigned(FFiles) or (FFiles.Count = 0) then
+  if IsEmpty then
   begin
     SetRowCount(0);
     RedrawGrid;
@@ -1504,35 +1504,32 @@ begin
 
     SizeSupported := fpSize in FileSource.SupportedFileProperties;
 
-    if Assigned(FFiles) then
+    for i := 0 to FFiles.Count - 1 do
     begin
-      for i := 0 to FFiles.Count - 1 do
+      with FFiles[i] do
       begin
-        with FFiles[i] do
+        if FSFile.Name = '..' then Continue;
+        if FSFile.IsDirectory then
+          inc(FolderInDir)
+        else
+          inc(FilesInDir);
+        if Selected then
         begin
-          if FSFile.Name = '..' then Continue;
-          if FSFile.IsDirectory then 
-            inc(FolderInDir) 
+          if FSFile.IsDirectory then
+            inc(FolderSelected)
           else
-            inc(FilesInDir);
+            inc(FilesSelected);
+        end;
+
+        // Count size if Size property is supported.
+        if SizeSupported then
+        begin
+          SizeProperty := FSFile.SizeProperty;
+
           if Selected then
-          begin
-            if FSFile.IsDirectory then 
-              inc(FolderSelected) 
-            else 
-              inc(FilesSelected);
-          end;
-  
-          // Count size if Size property is supported.
-          if SizeSupported then
-          begin
-            SizeProperty := FSFile.SizeProperty;
+            SizeSelected := SizeSelected + SizeProperty.Value;
 
-            if Selected then
-              SizeSelected := SizeSelected + SizeProperty.Value;
-
-            SizeInDir := SizeInDir + SizeProperty.Value;
-          end;
+          SizeInDir := SizeInDir + SizeProperty.Value;
         end;
       end;
     end;
@@ -2538,7 +2535,6 @@ var
   AFile: TDisplayFile;
 begin
   if (csDestroying in ComponentState) or
-     (not Assigned(FFiles)) or
      (GetCurrentWorkType = fvwtCreate) then
     Exit;
 
@@ -2675,31 +2671,13 @@ begin
   UpdateInfoPanel;
 end;
 
-procedure TColumnsFileView.UpdateView;
-var
-  bLoadingFilelist: Boolean;
-  i: Integer;
+procedure TColumnsFileView.DoUpdateView;
 begin
-  inherited;
-
-  bLoadingFilelist := GetCurrentWorkType = fvwtCreate;
-  StopWorkers;
-
   pnlHeader.Visible := gCurDir;  // Current directory
   pnlFooter.Visible := gStatusBar;  // Status bar
-
   pnlHeader.UpdateAddressLabel;
   pnlHeader.UpdatePathLabel;
   UpdateColumnsView;
-
-  if bLoadingFilelist then
-    MakeFileSourceFileList
-  else
-  begin
-    // This condition is needed when cloning to recreate filtered files.
-    if Assigned(FAllDisplayFiles) and not Assigned(FFiles) then
-      ReDisplayFileList;
-  end;
 end;
 
 function TColumnsFileView.GetActiveDisplayFile: TDisplayFile;
