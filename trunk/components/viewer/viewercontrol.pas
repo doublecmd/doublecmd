@@ -2399,14 +2399,21 @@ end;
 
 procedure TViewerControl.CopyToClipboard;
 var
-  sText: string;
+  sText, utf8Text: string;
 begin
   if (FBlockEnd - FBlockBeg) <= 0 then
     Exit;
   if (FBlockEnd - FBlockBeg) > 1024 * 1024 then // Max 1 MB to clipboard
     Exit;
   SetString(sText, GetDataAdr + FBlockBeg, FBlockEnd - FBlockBeg);
-  Clipboard.AsText := ConvertToUTF8(sText);
+  utf8Text := ConvertToUTF8(sText);
+  {$IFDEF LCLGTK2}
+  // Workaround for Lazarus bug #0021453. LCL adds trailing zero to clipboard in Clipboard.AsText.
+  Clipboard.Clear;
+  Clipboard.AddFormat(PredefinedClipboardFormat(pcfText), utf8Text[1], Length(utf8Text));
+  {$ELSE}
+  Clipboard.AsText := utf8Text;
+  {$ENDIF}
 end;
 
 function TViewerControl.GetNextCharAsAscii(const iPosition: PtrInt; out CharLenInBytes: Integer): Cardinal;
