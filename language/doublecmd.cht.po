@@ -3911,6 +3911,22 @@ msgstr "為檔案系統設置列"
 msgid "Show confirmation dialog after drop"
 msgstr "拖拽操作時顯示確認對話框"
 
+#: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
+msgid "Show file system"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
+msgid "Show free space"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.cbshowlabel.caption
+msgid "Show label"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.gbdriveslist.caption
+msgid "Drives list"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Background"
@@ -6198,6 +6214,16 @@ msgstr "佇列 :"
 #: tfrmviewoperations.lblrunning.caption
 msgid "for running"
 msgstr "執行時"
+
+#: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
+msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
+msgid "When file exists"
+msgstr "當檔案存在時"
+
+#: twcxarchivecopyoperationoptionsui.lblfileexists.caption
+msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
+msgid "When file exists"
+msgstr "當檔案存在時"
 
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 #, fuzzy

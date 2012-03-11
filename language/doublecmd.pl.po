@@ -3521,7 +3521,7 @@ msgstr "&ОК"
 #: tfrmoptions.frmoptions.caption
 msgctxt "tfrmoptions.frmoptions.caption"
 msgid "Options"
-msgstr "Opcje"
+msgstr "Konfiguracja"
 
 #: tfrmoptionsarchivers.btnautoconfig.caption
 msgctxt "TFRMOPTIONSARCHIVERS.BTNAUTOCONFIG.CAPTION"
@@ -3802,6 +3802,22 @@ msgstr "Konfiguracja kolumn dla systemu plików:"
 #: tfrmoptionsdragdrop.cbshowconfirmationdialog.caption
 msgid "Show confirmation dialog after drop"
 msgstr "Pokaż okno dialogowe po upuszczeniu"
+
+#: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
+msgid "Show file system"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
+msgid "Show free space"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.cbshowlabel.caption
+msgid "Show label"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.gbdriveslist.caption
+msgid "Drives list"
+msgstr ""
 
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
@@ -6027,6 +6043,16 @@ msgstr "Kolejka:"
 #: tfrmviewoperations.lblrunning.caption
 msgid "for running"
 msgstr "dla działających"
+
+#: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
+msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
+msgid "When file exists"
+msgstr "Gdy plik istnieje"
+
+#: twcxarchivecopyoperationoptionsui.lblfileexists.caption
+msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
+msgid "When file exists"
+msgstr "Gdy plik istnieje"
 
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"

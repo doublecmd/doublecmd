@@ -1232,7 +1232,7 @@ msgstr ""
 #: tfrmeditor.frmeditor.caption
 msgctxt "tfrmeditor.frmeditor.caption"
 msgid "Editor"
-msgstr "Editor"
+msgstr "Text-Editor"
 
 #: tfrmeditor.help1.caption
 msgctxt "TFRMEDITOR.HELP1.CAPTION"
@@ -3996,6 +3996,22 @@ msgstr "Bearbeite Spalten für Dateisystem"
 msgid "Show confirmation dialog after drop"
 msgstr "Zeige Bestätigungsdialog nach dem Ziehen und Ablegen von Dateien"
 
+#: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
+msgid "Show file system"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
+msgid "Show free space"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.cbshowlabel.caption
+msgid "Show label"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.gbdriveslist.caption
+msgid "Drives list"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Background"
@@ -6265,6 +6281,16 @@ msgstr "Warteschlange"
 #: tfrmviewoperations.lblrunning.caption
 msgid "for running"
 msgstr "für laufende"
+
+#: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
+msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
+msgid "When file exists"
+msgstr "Wenn die Datei vorhanden ist"
+
+#: twcxarchivecopyoperationoptionsui.lblfileexists.caption
+msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
+msgid "When file exists"
+msgstr "Wenn die Datei vorhanden ist"
 
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 msgctxt "TWFXPLUGINCOPYMOVEOPERATIONOPTIONSUI.LBLFILEEXISTS.CAPTION"

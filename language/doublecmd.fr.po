@@ -3896,6 +3896,22 @@ msgstr "Configurer les colonnes pour l'affichage des dossiers/fichiers"
 msgid "Show confirmation dialog after drop"
 msgstr ""
 
+#: tfrmoptionsdriveslistbutton.cbshowfilesystem.caption
+msgid "Show file system"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.cbshowfreespace.caption
+msgid "Show free space"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.cbshowlabel.caption
+msgid "Show label"
+msgstr ""
+
+#: tfrmoptionsdriveslistbutton.gbdriveslist.caption
+msgid "Drives list"
+msgstr ""
+
 #: tfrmoptionseditorcolors.backgroundlabel.caption
 msgctxt "tfrmoptionseditorcolors.backgroundlabel.caption"
 msgid "Background"
@@ -6195,6 +6211,18 @@ msgstr "File d'attente :"
 #: tfrmviewoperations.lblrunning.caption
 msgid "for running"
 msgstr "en cours"
+
+#: tmultiarchivecopyoperationoptionsui.lblfileexists.caption
+#, fuzzy
+msgctxt "tmultiarchivecopyoperationoptionsui.lblfileexists.caption"
+msgid "When file exists"
+msgstr "Quand le fichier existe"
+
+#: twcxarchivecopyoperationoptionsui.lblfileexists.caption
+#, fuzzy
+msgctxt "twcxarchivecopyoperationoptionsui.lblfileexists.caption"
+msgid "When file exists"
+msgstr "Quand le fichier existe"
 
 #: twfxplugincopymoveoperationoptionsui.lblfileexists.caption
 #, fuzzy
