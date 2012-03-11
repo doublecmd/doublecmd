@@ -266,7 +266,7 @@
         <PackageName Value="viewerpackage"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="157">
+    <Units Count="159">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1201,7 +1201,7 @@
         <UnitName Value="fOptionsColumnsView"/>
       </Unit148>
       <Unit149>
-        <Filename Value="foptionsdriveslistbutton.pas"/>
+        <Filename Value="frames\foptionsdriveslistbutton.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmOptionsDrivesListButton"/>
         <ResourceBaseClass Value="Frame"/>
@@ -1244,6 +1244,16 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fOptionsEditorColors"/>
       </Unit156>
+      <Unit157>
+        <Filename Value="newdesign\fmultiarchivecopyoperationoptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit157>
+      <Unit158>
+        <Filename Value="newdesign\fwcxarchivecopyoperationoptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit158>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
