@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="3">
+    <PathDelim Value="\"/>
+    <Name Value="chsdet"/>
+    <CompilerOptions>
+      <Version Value="9"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="src;src\sbseq"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <CodeGeneration>
+        <Checks>
+          <RangeChecks Value="True"/>
+          <OverflowChecks Value="True"/>
+        </Checks>
+      </CodeGeneration>
+      <Linking>
+        <Debugging>
+          <GenerateDebugInfo Value="True"/>
+        </Debugging>
+      </Linking>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Files Count="46">
+      <Item1>
+        <Filename Value="src\Big5Freq.pas"/>
+        <UnitName Value="Big5Freq"/>
+      </Item1>
+      <Item2>
+        <Filename Value="src\CharDistribution.pas"/>
+        <UnitName Value="CharDistribution"/>
+      </Item2>
+      <Item3>
+        <Filename Value="src\chsdIntf.pas"/>
+        <UnitName Value="chsdIntf"/>
+      </Item3>
+      <Item4>
+        <Filename Value="src\CustomDetector.pas"/>
+        <UnitName Value="CustomDetector"/>
+      </Item4>
+      <Item5>
+        <Filename Value="src\dbg.inc"/>
+        <Type Value="Include"/>
+      </Item5>
+      <Item6>
+        <Filename Value="src\EUCKRFreq.pas"/>
+        <UnitName Value="EUCKRFreq"/>
+      </Item6>
+      <Item7>
+        <Filename Value="src\EUCSampler.pas"/>
+        <UnitName Value="EUCSampler"/>
+      </Item7>
+      <Item8>
+        <Filename Value="src\EUCTWFreq.pas"/>
+        <UnitName Value="EUCTWFreq"/>
+      </Item8>
+      <Item9>
+        <Filename Value="src\GB2312Freq.pas"/>
+        <UnitName Value="GB2312Freq"/>
+      </Item9>
+      <Item10>
+        <Filename Value="src\JISFreq.pas"/>
+        <UnitName Value="JISFreq"/>
+      </Item10>
+      <Item11>
+        <Filename Value="src\JpCntx.pas"/>
+        <UnitName Value="JpCntx"/>
+      </Item11>
+      <Item12>
+        <Filename Value="src\mbclass\Big5LangModel.inc"/>
+        <Type Value="Include"/>
+      </Item12>
+      <Item13>
+        <Filename Value="src\mbclass\EUCJPLangModel.inc"/>
+        <Type Value="Include"/>
+      </Item13>
+      <Item14>
+        <Filename Value="src\mbclass\EUCKRLangModel.inc"/>
+        <Type Value="Include"/>
+      </Item14>
+      <Item15>
+        <Filename Value="src\mbclass\EUCTWLangModel.inc"/>
+        <Type Value="Include"/>
+      </Item15>
+      <Item16>
+        <Filename Value="src\mbclass\GB18030LangModel.inc"/>
+        <Type Value="Include"/>
+      </Item16>
+      <Item17>
+        <Filename Value="src\mbclass\HZLangModel.inc"/>
+        <Type Value="Include"/>
+      </Item17>
+      <Item18>
+        <Filename Value="src\mbclass\ISO2022CNLangModel.inc"/>
+        <Type Value="Include"/>
+      </Item18>
+      <Item19>
+        <Filename Value="src\mbclass\ISO2022JPLangModel.inc"/>
+        <Type Value="Include"/>
+      </Item19>
+      <Item20>
+        <Filename Value="src\mbclass\ISO2022KRLangModel.inc"/>
+        <Type Value="Include"/>
+      </Item20>
+      <Item21>
+        <Filename Value="src\mbclass\SJISLangModel.inc"/>
+        <Type Value="Include"/>
+      </Item21>
+      <Item22>
+        <Filename Value="src\mbclass\UCS2BELangModel.inc"/>
+        <Type Value="Include"/>
+      </Item22>
+      <Item23>
+        <Filename Value="src\mbclass\UCS2LELangModel.inc"/>
+        <Type Value="Include"/>
+      </Item23>
+      <Item24>
+        <Filename Value="src\mbclass\UTF8LangModel.inc"/>
+        <Type Value="Include"/>
+      </Item24>
+      <Item25>
+        <Filename Value="src\MBUnicodeMultiProber.pas"/>
+        <UnitName Value="MBUnicodeMultiProber"/>
+      </Item25>
+      <Item26>
+        <Filename Value="src\MultiModelProber.pas"/>
+        <UnitName Value="MultiModelProber"/>
+      </Item26>
+      <Item27>
+        <Filename Value="src\nsCodingStateMachine.pas"/>
+        <UnitName Value="nsCodingStateMachine"/>
+      </Item27>
+      <Item28>
+        <Filename Value="src\nsCore.pas"/>
+        <UnitName Value="nsCore"/>
+      </Item28>
+      <Item29>
+        <Filename Value="src\nsEscCharsetProber.pas"/>
+        <UnitName Value="nsEscCharsetProber"/>
+      </Item29>
+      <Item30>
+        <Filename Value="src\nsGroupProber.pas"/>
+        <UnitName Value="nsGroupProber"/>
+      </Item30>
+      <Item31>
+        <Filename Value="src\nsHebrewProber.pas"/>
+        <UnitName Value="nsHebrewProber"/>
+      </Item31>
+      <Item32>
+        <Filename Value="src\nsLatin1Prober.pas"/>
+        <UnitName Value="nsLatin1Prober"/>
+      </Item32>
+      <Item33>
+        <Filename Value="src\nsMBCSMultiProber.pas"/>
+        <UnitName Value="nsMBCSMultiProber"/>
+      </Item33>
+      <Item34>
+        <Filename Value="src\nsPkg.pas"/>
+        <UnitName Value="nsPkg"/>
+      </Item34>
+      <Item35>
+        <Filename Value="src\nsSBCharSetProber.pas"/>
+        <UnitName Value="nsSBCharSetProber"/>
+      </Item35>
+      <Item36>
+        <Filename Value="src\nsSBCSGroupProber.pas"/>
+        <UnitName Value="nsSBCSGroupProber"/>
+      </Item36>
+      <Item37>
+        <Filename Value="src\nsUniversalDetector.pas"/>
+        <UnitName Value="nsUniversalDetector"/>
+      </Item37>
+      <Item38>
+        <Filename Value="src\sbseq\LangBulgarianModel.pas"/>
+        <UnitName Value="LangBulgarianModel"/>
+      </Item38>
+      <Item39>
+        <Filename Value="src\sbseq\LangCyrillicModel.pas"/>
+        <UnitName Value="LangCyrillicModel"/>
+      </Item39>
+      <Item40>
+        <Filename Value="src\sbseq\LangGreekModel.pas"/>
+        <UnitName Value="LangGreekModel"/>
+      </Item40>
+      <Item41>
+        <Filename Value="src\sbseq\LangHebrewModel.pas"/>
+        <UnitName Value="LangHebrewModel"/>
+      </Item41>
+      <Item42>
+        <Filename Value="src\stat\Big5Statistics.inc"/>
+        <Type Value="Include"/>
+      </Item42>
+      <Item43>
+        <Filename Value="src\stat\EUCJPStatistics.inc"/>
+        <Type Value="Include"/>
+      </Item43>
+      <Item44>
+        <Filename Value="src\stat\EUCKRStatistics.inc"/>
+        <Type Value="Include"/>
+      </Item44>
+      <Item45>
+        <Filename Value="src\stat\EUCTWStatistics.inc"/>
+        <Type Value="Include"/>
+      </Item45>
+      <Item46>
+        <Filename Value="src\stat\GB2312Statistics.inc"/>
+        <Type Value="Include"/>
+      </Item46>
+    </Files>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

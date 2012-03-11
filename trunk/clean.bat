@@ -41,3 +41,11 @@ del /Q components\KASToolBar\lib\i386-win32\*.*
 del /Q components\KASToolBar\lib\x86_64-win64\*.*
 del /Q components\viewer\lib\i386-win32\*.*
 del /Q components\viewer\lib\x86_64-win64\*.*
+del /Q components\chsdet\lib\i386-win32\*.*
+del /Q components\chsdet\lib\x86_64-win64\*.*
+del /Q components\dcpcrypt\lib\i386-win32\*.*
+del /Q components\dcpcrypt\lib\x86_64-win64\*.*
+del /Q components\gifanim\lib\i386-win32\*.*
+del /Q components\gifanim\lib\x86_64-win64\*.*
+del /Q components\ZVDateTimeCtrls\lib\i386-win32\*.*
+del /Q components\ZVDateTimeCtrls\lib\x86_64-win64\*.*

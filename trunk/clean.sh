@@ -9,6 +9,10 @@ rm -f units/x86_64-linux-qt/*
 rm -rf components/CmdLine/lib/*
 rm -rf components/KASToolBar/lib/*
 rm -rf components/viewer/lib/*
+rm -rf components/chsdet/lib/*
+rm -rf components/dcpcrypt/lib/*
+rm -rf components/gifanim/lib/*
+rm -rf components/ZVDateTimeCtrls/lib/*
 
 # Clean up all temporary files
 find . -iname '*.compiled' -delete
