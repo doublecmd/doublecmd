@@ -256,6 +256,7 @@ var
 {$ELSE}
   NewFileAttrs: TFileAttrs;
   FileOpStruct: TSHFileOpStructW;
+  wsFromName, wsToName: WideString;
 {$ENDIF}
 begin
   if FileSource.GetPathType(NewName) <> ptAbsolute then
@@ -372,13 +373,15 @@ begin
     end;
   end;
 
+  wsFromName := UTF8Decode(OldName) + #0;
+  wsToName   := UTF8Decode(NewName) + #0;
   FillByte(FileOpStruct, SizeOf(FileOpStruct), 0);
   with FileOpStruct do
   begin
     Wnd   := GetForegroundWindow;
     wFunc := FO_RENAME;
-    pFrom := PWideChar(UTF8Decode(OldName) + #0);
-    pTo   := PWideChar(UTF8Decode(NewName) + #0);
+    pFrom := PWideChar(wsFromName);
+    pTo   := PWideChar(wsToName);
   end;
   if (SHFileOperationW(@FileOpStruct) = 0) and (not FileOpStruct.fAnyOperationsAborted) then
 {$ENDIF}

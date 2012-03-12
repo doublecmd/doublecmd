@@ -1024,6 +1024,7 @@ var
   Drv: String;
   DriveLabel: String;
   NetResource: TNetResourceW;
+  wsLocalName, wsRemoteName: WideString;
 begin
   Drv:= ExtractFileDrive(Drive^.Path) + PathDelim;
 
@@ -1040,10 +1041,12 @@ begin
   if (Drive^.DriveType = dtNetwork) and
      TryMount and (not mbDriveReady(Drv)) then
     begin
+      wsLocalName  := UTF8Decode(ExtractFileDrive(Drive^.Path));
+      wsRemoteName := UTF8Decode(Drive^.DriveLabel);
       FillChar(NetResource, SizeOf(NetResource), #0);
       NetResource.dwType:= RESOURCETYPE_DISK;
-      NetResource.lpLocalName:= PWideChar(UTF8Decode(ExtractFileDrive(Drive^.Path)));
-      NetResource.lpRemoteName:= PWideChar(UTF8Decode(Drive^.DriveLabel));
+      NetResource.lpLocalName:= PWideChar(wsLocalName);
+      NetResource.lpRemoteName:= PWideChar(wsRemoteName);
       WNetAddConnection2W(NetResource, nil, nil, CONNECT_INTERACTIVE);
     end;
   Result:= mbDriveReady(Drv);
