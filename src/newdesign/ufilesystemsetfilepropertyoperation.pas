@@ -357,7 +357,7 @@ begin
 
 {$ELSE}
 
-  // Windows XP doesn't allow two filenames that differ only by case (even on NTFS).
+  {// Windows XP doesn't allow two filenames that differ only by case (even on NTFS).
   if UTF8LowerCase(OldName) <> UTF8LowerCase(NewName) then
   begin
     NewFileAttrs := mbFileGetAttr(NewName);
@@ -371,7 +371,7 @@ begin
           RaiseAbortOperation;
       end;
     end;
-  end;
+  end;}
 
   wsFromName := UTF8Decode(OldName) + #0;
   wsToName   := UTF8Decode(NewName) + #0;
@@ -379,7 +379,7 @@ begin
   with FileOpStruct do
   begin
     Wnd   := GetForegroundWindow;
-    wFunc := FO_RENAME;
+    wFunc := FO_MOVE;
     pFrom := PWideChar(wsFromName);
     pTo   := PWideChar(wsToName);
   end;
