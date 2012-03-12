@@ -3320,14 +3320,16 @@ var
   var
     TextColor: TColor = -1;
     BackgroundColor: TColor;
+    IsCursor: Boolean;
   //---------------------
   begin
     Canvas.Font.Name   := ColumnsSet.GetColumnFontName(ACol);
     Canvas.Font.Size   := ColumnsSet.GetColumnFontSize(ACol);
     Canvas.Font.Style  := ColumnsSet.GetColumnFontStyle(ACol);
 
+    IsCursor := (gdSelected in aState) and ColumnsView.Active and (not gUseFrameCursor);
     // Set up default background color first.
-    if (gdSelected in aState) and ColumnsView.Active and (not gUseFrameCursor) then
+    if IsCursor then
       BackgroundColor := ColumnsSet.GetColumnCursorColor(ACol)
     else
       begin
@@ -3349,7 +3351,7 @@ var
       if gUseInvertedSelection then
         begin
           //------------------------------------------------------
-          if (gdSelected in aState) and ColumnsView.Active and (not gUseFrameCursor) then
+          if IsCursor then
             begin
               Canvas.Font.Color := InvertColor(ColumnsSet.GetColumnCursorText(ACol));
             end
@@ -3365,7 +3367,7 @@ var
           Canvas.Font.Color := ColumnsSet.GetColumnMarkColor(ACol);
         end;
     end
-    else if (gdSelected in aState) and ColumnsView.Active and (not gUseFrameCursor) then
+    else if IsCursor then
       begin
         Canvas.Font.Color := ColumnsSet.GetColumnCursorText(ACol);
       end
