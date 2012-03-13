@@ -894,20 +894,21 @@ end;
 
 procedure TAbZipKitEx.AbArchiveItemProgressEvent(Sender: TObject;
   Item: TAbArchiveItem; Progress: Byte; var Abort: Boolean);
-var
-  pacFileName: PAnsiChar = nil;
-  pwcFileName: PWideChar = nil;
 begin
   try
     if Assigned(FProcessDataProcW) then
       begin
-        if Assigned(Item) then pwcFileName:= PWideChar(UTF8Decode(Item.FileName));
-        Abort := (FProcessDataProcW(pwcFileName, -(Progress)) = 0);
+        if Assigned(Item) then
+          Abort := (FProcessDataProcW(PWideChar(UTF8Decode(Item.FileName)), -(Progress)) = 0)
+        else
+          Abort := (FProcessDataProcW(nil, -(Progress)) = 0);
       end
     else if Assigned(FProcessDataProc) then
       begin
-        if Assigned(Item) then pacFileName:= PAnsiChar(Item.FileName);
-        Abort := (FProcessDataProc(pacFileName, -(Progress)) = 0);
+        if Assigned(Item) then
+          Abort := (FProcessDataProc(PAnsiChar(Item.FileName), -(Progress)) = 0)
+        else
+          Abort := (FProcessDataProc(nil, -(Progress)) = 0);
       end;
   except
     Abort := True;
@@ -946,4 +947,4 @@ begin
 end;
 
 end.
-
+
