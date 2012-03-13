@@ -1047,7 +1047,8 @@ begin
     AThread := GetWorkersThread;
 
   if FileSource.Equals(FLastLoadedFileSource) and
-     (FLastLoadedPath = CurrentPath) then
+     (FLastLoadedPath = CurrentPath) and
+     (FAllDisplayFiles.Count > 0) then
   begin
     // Clone all properties of display files, but don't clone the FS files
     // themselves because new ones will be retrieved from FileSource.
@@ -2027,4 +2028,4 @@ begin
 end;
 
 end.
-
+

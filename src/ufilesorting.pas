@@ -726,9 +726,14 @@ var
   CompareRes: Integer;
   FoundIndex: Longint;
 begin
-  CompareRes := BinarySearch(FileToInsert, List.List, L, R, FoundIndex);
-  if CompareRes > 0 then
-    Inc(FoundIndex); // Insert after because it's greater than FoundIndex item.
+  if List.Count = 0 then
+    FoundIndex := 0
+  else
+  begin
+    CompareRes := BinarySearch(FileToInsert, List.List, L, R, FoundIndex);
+    if CompareRes > 0 then
+      Inc(FoundIndex); // Insert after because it's greater than FoundIndex item.
+  end;
   List.Insert(FoundIndex, FileToInsert);
 end;
 
@@ -805,26 +810,35 @@ begin
     DestList := AlreadySortedFiles.List;
     L := 0;
     R := DestList.Count - 1;
-    FoundIndex := 0;
-    for i := 0 to FilesToInsert.Count - 1 do
+    if R < 0 then
     begin
-      Pcur := Psrc^[i];
-      SearchResult := BinarySearch(Pcur, DestList.List, L, R, FoundIndex);
-      // Insert Pcur after FoundIndex if it was greater.
-      if SearchResult > 0 then
-        Inc(FoundIndex);
-
-      if FoundIndex > R then
+      // Add remaining files at the end.
+      for j := 0 to FilesToInsert.Count - 1 do
+        DestList.Add(Psrc^[j]);
+    end
+    else
+    begin
+      FoundIndex := 0;
+      for i := 0 to FilesToInsert.Count - 1 do
       begin
-        // Add remaining files at the end.
-        for j := i to FilesToInsert.Count - 1 do
-          DestList.Add(Psrc^[j]);
-        Break;
-      end;
+        Pcur := Psrc^[i];
+        SearchResult := BinarySearch(Pcur, DestList.List, L, R, FoundIndex);
+        // Insert Pcur after FoundIndex if it was greater.
+        if SearchResult > 0 then
+          Inc(FoundIndex);
 
-      DestList.Insert(FoundIndex, Pcur);
-      L := FoundIndex + 1; // Next time start searching from the next element after the one just inserted.
-      Inc(R); // Number of elements has increased so also increase right boundary.
+        if FoundIndex > R then
+        begin
+          // Add remaining files at the end.
+          for j := i to FilesToInsert.Count - 1 do
+            DestList.Add(Psrc^[j]);
+          Break;
+        end;
+
+        DestList.Insert(FoundIndex, Pcur);
+        L := FoundIndex + 1; // Next time start searching from the next element after the one just inserted.
+        Inc(R); // Number of elements has increased so also increase right boundary.
+      end;
     end;
   end;
 end;
