@@ -27,6 +27,7 @@ type
     procedure SplitIntoNameAndExtension(const FileName: string;
                                         var aFileNameOnly: string;
                                         var aExtension: string);
+    procedure UpdateNameAndExtension(const FileName: string);
 
   protected
     function GetProperty(PropType: TFilePropertyType): TFileProperty;
@@ -366,20 +367,7 @@ end;
 procedure TFile.SetName(NewName: String);
 begin
   TFileNameProperty(FProperties[fpName]).Value := NewName;
-
-  // Cache Extension and NameNoExt.
-
-  if (NewName = '') or IsDirectory or IsLinkToDirectory or (NewName[1] = '.')
-  then
-  begin
-    // For directories and files beginning with '.' there is no extension.
-    FExtension := '';
-    FNameNoExt := NewName;
-  end
-  else
-  begin
-    SplitIntoNameAndExtension(NewName, FNameNoExt, FExtension);
-  end;
+  UpdateNameAndExtension(NewName);
 end;
 
 function TFile.GetProperty(PropType: TFilePropertyType): TFileProperty;
@@ -438,6 +426,7 @@ end;
 procedure TFile.SetAttributes(NewAttributes: TFileAttrs);
 begin
   TFileAttributesProperty(FProperties[fpAttributes]).Value := NewAttributes;
+  UpdateNameAndExtension(Name);
 end;
 
 function TFile.GetSize: Int64;
@@ -536,7 +525,10 @@ procedure TFile.SetAttributesProperty(NewValue: TFileAttributesProperty);
 begin
   FProperties[fpAttributes] := NewValue;
   if Assigned(NewValue) then
-    Include(FSupportedProperties, fpAttributes)
+  begin
+    Include(FSupportedProperties, fpAttributes);
+    UpdateNameAndExtension(Name);
+  end
   else
     Exclude(FSupportedProperties, fpAttributes);
 end;
@@ -744,6 +736,23 @@ begin
   begin
     aFileNameOnly := FileName;
     aExtension := '';
+  end;
+end;
+
+procedure TFile.UpdateNameAndExtension(const FileName: string);
+begin
+  // Cache Extension and NameNoExt.
+
+  if (FileName = '') or IsDirectory or IsLinkToDirectory or (FileName[1] = '.')
+  then
+  begin
+    // For directories and files beginning with '.' there is no extension.
+    FExtension := '';
+    FNameNoExt := FileName;
+  end
+  else
+  begin
+    SplitIntoNameAndExtension(FileName, FNameNoExt, FExtension);
   end;
 end;
 
