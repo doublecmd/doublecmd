@@ -76,7 +76,7 @@ Index: VirtualTrees.pas
        if (FUpdateCount = 0) and not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions) then
          ScrollIntoView(FFocusedNode, (toCenterScrollIntoView in FOptions.SelectionOptions) and
 -          (MouseButtonDown * FStates = []), True);
-+          (MouseButtonDown * FStates = []), toDisableAutoscrollHorizontal in FOptions.FAutoOptions);
++          (MouseButtonDown * FStates = []), not (toDisableAutoscrollHorizontal in FOptions.FAutoOptions));
      end;
  
      // Reset range anchor if necessary.
@@ -176,26 +176,6 @@ Index: VirtualTrees.pas
      if NewOffset <> FEffectiveOffsetX then
      begin
        if UseRightToLeftAlignment then
-Index: VTConfig.inc
-===================================================================
---- VTConfig.inc	(revision 2334)
-+++ VTConfig.inc	(working copy)
-@@ -22,7 +22,7 @@
- 
- 
- //Lazarus port options
--{$define EnableOLE}
-+{.$define EnableOLE}
- {.$define EnableNativeTVM}
- {.$define EnablePrint}
- {.$define EnableNCFunctions}
-@@ -42,5 +42,5 @@
- 
- //under linux the performance is poor with threading enabled
- {$ifdef Windows}
--  {$define EnableThreadSupport}
-+  {.$define EnableThreadSupport}
- {$endif}
 Index: virtualtreeview_package.lpk
 ===================================================================
 --- virtualtreeview_package.lpk	(revision 2334)
@@ -232,3 +212,23 @@ Index: virtualtreeview_package.lpk
        <Other>
          <CompilerPath Value="$(CompPath)"/>
        </Other>
+Index: VTConfig.inc
+===================================================================
+--- VTConfig.inc	(revision 2334)
++++ VTConfig.inc	(working copy)
+@@ -22,7 +22,7 @@
+ 
+ 
+ //Lazarus port options
+-{$define EnableOLE}
++{.$define EnableOLE}
+ {.$define EnableNativeTVM}
+ {.$define EnablePrint}
+ {.$define EnableNCFunctions}
+@@ -42,5 +42,5 @@
+ 
+ //under linux the performance is poor with threading enabled
+ {$ifdef Windows}
+-  {$define EnableThreadSupport}
++  {.$define EnableThreadSupport}
+ {$endif}

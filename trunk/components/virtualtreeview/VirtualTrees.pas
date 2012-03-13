@@ -18592,7 +18592,7 @@ begin
       InvalidateNode(FFocusedNode);
       if (FUpdateCount = 0) and not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions) then
         ScrollIntoView(FFocusedNode, (toCenterScrollIntoView in FOptions.SelectionOptions) and
-          (MouseButtonDown * FStates = []), toDisableAutoscrollHorizontal in FOptions.FAutoOptions);
+          (MouseButtonDown * FStates = []), not (toDisableAutoscrollHorizontal in FOptions.FAutoOptions));
     end;
 
     // Reset range anchor if necessary.
