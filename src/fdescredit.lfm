@@ -4,6 +4,7 @@ object frmDescrEdit: TfrmDescrEdit
   Top = 175
   Width = 400
   ActiveControl = memDescr
+  BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'File/folder comment'
   ClientHeight = 300
   ClientWidth = 400
