@@ -314,6 +314,7 @@ var
   gBookFontColor: TColor;
   gTextPosition:PtrInt;
 
+  gUseShellForFileOperations: Boolean;
 
 function InitGlobs: Boolean;
 function LoadGlobs: Boolean;
@@ -346,7 +347,11 @@ implementation
 uses
    LCLProc, SysUtils, uGlobsPaths, uLng, uShowMsg, uFileProcs, uOSUtils,
    uDCUtils, fMultiRename, uFile, uDCVersion, uDebug, uFileFunctions,
-   uDefaultPlugins, Lua, uKeyboard;
+   uDefaultPlugins, Lua, uKeyboard
+   {$IF DEFINED(MSWINDOWS)}
+    , win32proc
+   {$ENDIF}
+   ;
 
 const
   TKeyTypingModifierToNodeName: array[TKeyTypingModifier] of String =
@@ -877,6 +882,8 @@ begin
   gLuaLib := LuaDLL;
   gNameSCFile := 'shortcuts.scf';
   gLastUsedPacker := 'zip';
+  gUseShellForFileOperations :=
+    {$IF DEFINED(MSWINDOWS)}WindowsVersion >= wvVista{$ELSE}False{$ENDIF};
 
   gExts.Clear;
   gColorExt.Clear;
@@ -1831,6 +1838,7 @@ begin
     gLuaLib := GetValue(Root, 'Lua/PathToLibrary', gLuaLib);
     gNameSCFile:= GetValue(Root, 'NameShortcutFile', gNameSCFile);
     gLastUsedPacker:= GetValue(Root, 'LastUsedPacker', gLastUsedPacker);
+    gUseShellForFileOperations:= GetValue(Root, 'UseShellForFileOperations', gUseShellForFileOperations);
   end;
 
   { Search template list }
@@ -2101,6 +2109,7 @@ begin
     SetValue(Root, 'Lua/PathToLibrary', gLuaLib);
     SetValue(Root, 'NameShortcutFile', gNameSCFile);
     SetValue(Root, 'LastUsedPacker', gLastUsedPacker);
+    SetValue(Root, 'UseShellForFileOperations', gUseShellForFileOperations);
   end;
 
   { Search template list }
