@@ -9,6 +9,7 @@ object frmSplitter: TfrmSplitter
   VertScrollBar.Range = 227
   ActiveControl = cmbxSize
   AutoSize = True
+  BorderIcons = [biSystemMenu]
   Caption = 'Splitter'
   ChildSizing.LeftRightSpacing = 6
   ChildSizing.TopBottomSpacing = 6
