@@ -258,8 +258,6 @@ type
     procedure dgPanelBeforeItemErase(Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode; const ItemRect: TRect; var ItemColor: TColor; var EraseAction: TItemEraseAction);
     procedure dgPanelHeaderDrawQueryElements(Sender: TVTHeader; var PaintInfo: THeaderPaintInfo;
       var Elements: THeaderPaintElements);
-    procedure dgPanelInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
-      var InitialStates: TVirtualNodeInitStates);
     procedure dgPanelDblClick(Sender: TObject);
     procedure dgPanelKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -1866,16 +1864,6 @@ begin
   SetActive(False);
 end;
 
-procedure TColumnsFileViewVTV.dgPanelInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
-  var InitialStates: TVirtualNodeInitStates);
-var
-  aDisplayFile: TDisplayFile;
-begin
-  aDisplayFile := dgPanel.GetNodeFile(Node);
-  //PColumnsDrawTreeRecord(dgPanel.GetNodeData(Node))^.DisplayFile := aDisplayFile;
-  MakeColumnsStrings(aDisplayFile);
-end;
-
 procedure TColumnsFileViewVTV.MakeSelectedVisible;
 begin
   MakeVisible(dgPanel.FocusedNode);
@@ -2473,7 +2461,6 @@ begin
   dgPanel.OnFocusChanged:=@dgPanelFocusChanged;
   dgPanel.OnFocusChanging:=@dgPanelFocusChanging;
   dgPanel.OnHeaderDrawQueryElements:=@dgPanelHeaderDrawQueryElements;
-  dgPanel.OnInitNode:=@dgPanelInitNode;
   dgPanel.OnKeyUp:=@dgPanelKeyUp;
   dgPanel.OnKeyDown:=@dgPanelKeyDown;
   dgPanel.OnHeaderClick:=@dgPanelHeaderClick;
