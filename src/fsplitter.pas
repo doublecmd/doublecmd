@@ -180,7 +180,7 @@ procedure TfrmSplitter.btnFTChoiceClick(Sender: TObject);
 var
   sDir: string;
 begin
-  if SelectDirectory(rsSplitSelDir, '', sDir) then
+  if SelectDirectory(rsSplitSelDir, edDirTarget.Text, sDir) then
   // Select directory:
   // must change on linux!!!
   begin
