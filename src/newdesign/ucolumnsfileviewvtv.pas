@@ -1424,8 +1424,10 @@ end;
 procedure TColumnsFileViewVTV.SetRowCount(Count: Integer);
 begin
   FUpdatingGrid := True;
+  dgPanel.BeginUpdate;
   dgPanel.Clear;
   dgPanel.RootNodeCount := Count;
+  dgPanel.EndUpdate;
   FUpdatingGrid := False;
 end;
 
@@ -3536,17 +3538,20 @@ begin
   aRect := PaintInfo.ContentRect;
   aCol := PaintInfo.Column;
 
-  ColumnsSet := ColumnsView.GetColumnsClass;
-
   AFile := GetNodeFile(PaintInfo.Node);
   if not Assigned(AFile) then
+  begin
+    PaintInfo.Canvas.Brush.Color := Self.Color;
+    PaintInfo.Canvas.FillRect(aRect);
     Exit;
+  end;
 
   FileSourceDirectAccess := fspDirectAccess in ColumnsView.FileSource.Properties;
   if AFile.DisplayStrings.Count = 0 then
     ColumnsView.MakeColumnsStrings(AFile, ColumnsSet);
 
   IsFocused := PaintInfo.Node = FocusedNode;
+  ColumnsSet := ColumnsView.GetColumnsClass;
 
   PrepareColors;
 
