@@ -2140,18 +2140,23 @@ begin
         //Key := 0; // not needed!
       end;
 
-    // cursors keys in Lynx like mode
     VK_LEFT:
-      if (Shift = []) and gLynxLike then
+      if (Shift = []) then
       begin
-        ChangePathToParent(True);
+        if gLynxLike then
+          ChangePathToParent(True)
+        else
+          dgPanel.OffsetX := dgPanel.OffsetX + 20;
         Key := 0;
       end;
 
     VK_RIGHT:
-      if (Shift = []) and gLynxLike then
+      if (Shift = []) then
       begin
-        ChooseFile(GetActiveDisplayFile, True);
+        if gLynxLike then
+          ChooseFile(GetActiveDisplayFile, True)
+        else
+          dgPanel.OffsetX := dgPanel.OffsetX - 20;
         Key := 0;
       end;
 
@@ -3546,12 +3551,12 @@ begin
     Exit;
   end;
 
+  ColumnsSet := ColumnsView.GetColumnsClass;
   FileSourceDirectAccess := fspDirectAccess in ColumnsView.FileSource.Properties;
   if AFile.DisplayStrings.Count = 0 then
     ColumnsView.MakeColumnsStrings(AFile, ColumnsSet);
 
   IsFocused := PaintInfo.Node = FocusedNode;
-  ColumnsSet := ColumnsView.GetColumnsClass;
 
   PrepareColors;
 
