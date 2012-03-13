@@ -121,6 +121,7 @@ type
     function GetVisibleRows: TRange;
 
     function IsRowVisible(aRow: Integer): Boolean;
+    procedure ScrollHorizontally(ForwardDirection: Boolean);
 
     property GridVertLine: Boolean read GetGridVertLine write SetGridVertLine;
     property GridHorzLine: Boolean read GetGridHorzLine write SetGridHorzLine;
@@ -2018,16 +2019,22 @@ begin
 
     // cursors keys in Lynx like mode
     VK_LEFT:
-      if (Shift = []) and gLynxLike then
+      if (Shift = []) then
       begin
-        ChangePathToParent(True);
+        if gLynxLike then
+          ChangePathToParent(True)
+        else
+          dgPanel.ScrollHorizontally(False);
         Key := 0;
       end;
 
     VK_RIGHT:
-      if (Shift = []) and gLynxLike then
+      if (Shift = []) then
       begin
-        ChooseFile(GetActiveDisplayFile, True);
+        if gLynxLike then
+          ChooseFile(GetActiveDisplayFile, True)
+        else
+          dgPanel.ScrollHorizontally(True);
         Key := 0;
       end;
 
@@ -3429,8 +3436,8 @@ begin
       DrawOtherCell;
   end;
 
-  DrawCellGrid(aCol,aRow,aRect,aState);
-  DrawLines;
+    DrawCellGrid(aCol,aRow,aRect,aState);
+    DrawLines;
 end;
 
 procedure TDrawGridEx.MouseMove(Shift: TShiftState; X, Y: Integer);
@@ -3850,6 +3857,30 @@ function TDrawGridEx.IsRowVisible(aRow: Integer): Boolean;
 begin
   with GCache.FullVisibleGrid do
     Result:= (Top<=aRow)and(aRow<=Bottom);
+end;
+
+procedure TDrawGridEx.ScrollHorizontally(ForwardDirection: Boolean);
+  function TryMove(ACol: Integer): Boolean;
+  begin
+    Result := not IscellVisible(ACol, Row);
+    if Result then
+      MoveExtend(False, ACol, Row);
+  end;
+var
+  i: Integer;
+begin
+  if ForwardDirection then
+  begin
+    for i := Col + 1 to ColCount - 1 do
+      if TryMove(i) then
+        Break;
+  end
+  else
+  begin
+    for i := Col - 1 downto 0 do
+      if TryMove(i) then
+        Break;
+  end;
 end;
 
 // -- TColumnsSortings --------------------------------------------------------
