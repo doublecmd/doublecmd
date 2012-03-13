@@ -85,7 +85,7 @@ begin
   begin
     case ShowModal of
     mrCancel:
-      Result:= fseorSuccess;
+      Result:= fseorCancelled;
     mrOK:
       Result:= fseorYourSelf;
     mrAll:
@@ -162,4 +162,4 @@ begin
 end;
 
 end.
-
+
