@@ -675,7 +675,11 @@ uses
   uFileSourceOperationTypes, uFileSourceCopyOperation, uFileSourceMoveOperation,
   fFileOpDlg, uFileSourceProperty, uFileSourceExecuteOperation, uArchiveFileSource,
   uShellExecute, fSymLink, fHardLink, uExceptions, uUniqueInstance, Clipbrd,
-  uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil;
+  uFileSourceOperationOptionsUI, uDebug, uHotkeyManager, uFileSourceUtil
+  {$IFDEF COLUMNSFILEVIEW_VTV}
+  , uColumnsFileViewVtv
+  {$ENDIF}
+  ;
 
 const
   HotkeysCategory = 'Main';
@@ -3417,7 +3421,11 @@ begin
   if gDelayLoadingTabs then
     FileViewFlags := [fvfDelayLoadingFiles];
   if sType = 'columns' then
+    {$IFDEF COLUMNSFILEVIEW_VTV}
+    Result := TColumnsFileViewVTV.Create(Page, AConfig, ANode, FileViewFlags)
+    {$ELSE}
     Result := TColumnsFileView.Create(Page, AConfig, ANode, FileViewFlags)
+    {$ENDIF}
   else if sType = 'brief' then
     Result := TBriefFileView.Create(Page, AConfig, ANode, FileViewFlags)
   else

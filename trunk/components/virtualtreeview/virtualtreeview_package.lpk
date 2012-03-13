@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="virtualtreeview_package"/>
+    <AddToProjectUsesSection Value="True"/>
+    <Author Value="Mike Lischke (LCL Port: Luiz Américo)"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <IncludeFiles Value="include/intf/$(LCLWidgetType);units;include/intf"/>
+        <OtherUnitFiles Value="units/$(LCLWidgetType)"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <UseAnsiStrings Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
+      <CodeGeneration>
+        <Checks>
+          <RangeChecks Value="True"/>
+          <OverflowChecks Value="True"/>
+        </Checks>
+      </CodeGeneration>
+      <Linking>
+        <Debugging>
+          <DebugInfoType Value="dsDwarf2Set"/>
+        </Debugging>
+      </Linking>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="Virtual Treeview is an advanced component originally created for Delphi
+"/>
+    <License Value=" Mozilla Public License 1.1 (MPL 1.1) or GNU Lesser General Public License
+"/>
+    <Version Major="4" Minor="8" Release="7" Build="1"/>
+    <Files Count="7">
+      <Item1>
+        <Filename Value="virtualtrees.lrs"/>
+        <Type Value="LRS"/>
+      </Item1>
+      <Item2>
+        <Filename Value="VirtualTrees.pas"/>
+        <UnitName Value="VirtualTrees"/>
+      </Item2>
+      <Item3>
+        <Filename Value="VTHeaderPopup.pas"/>
+        <UnitName Value="VTHeaderPopup"/>
+      </Item3>
+      <Item4>
+        <Filename Value="registervirtualtreeview.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="registervirtualtreeview"/>
+      </Item4>
+      <Item5>
+        <Filename Value="ideicons.lrs"/>
+        <Type Value="LRS"/>
+      </Item5>
+      <Item6>
+        <Filename Value="VTConfig.inc"/>
+        <Type Value="Include"/>
+      </Item6>
+      <Item7>
+        <Filename Value="VTGraphics.pas"/>
+        <UnitName Value="VTGraphics"/>
+      </Item7>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="lclextensions_package"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

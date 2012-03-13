@@ -1,0 +1,234 @@
+Index: VirtualTrees.pas
+===================================================================
+--- VirtualTrees.pas	(revision 2334)
++++ VirtualTrees.pas	(working copy)
+@@ -745,6 +745,7 @@
+     toAutoHideButtons,          // Node buttons are hidden when there are child nodes, but all are invisible.
+     toAutoDeleteMovedNodes,     // Delete nodes which where moved in a drag operation (if not directed otherwise).
+     toDisableAutoscrollOnFocus, // Disable scrolling a node or column into view if it gets focused.
++    toDisableAutoscrollHorizontal, // Only autoscroll on focus vertically never horizontally
+     toAutoChangeScale,          // Change default node height automatically if the system's font scale is set to big fonts.
+     toAutoFreeOnCollapse,       // Frees any child node after a node has been collapsed (HasChildren flag stays there).
+     toDisableAutoscrollOnEdit,  // Do not center a node horizontally when it is edited.
+@@ -2013,7 +2014,7 @@
+     var Allowed: Boolean) of object;
+   TVTDragOverEvent = procedure(Sender: TBaseVirtualTree; Source: TObject; Shift: TShiftState; State: TDragState;
+     const Pt: TPoint; Mode: TDropMode; var Effect: Integer; var Accept: Boolean) of object;
+-  TVTDragDropEvent = procedure(Sender: TBaseVirtualTree; Source: TObject; DataObject: IDataObject;
++  TVTDragDropEvent = procedure(Sender: TBaseVirtualTree; Source: TObject; {DataObject: IDataObject;}
+     Formats: TFormatArray; Shift: TShiftState; const Pt: TPoint; var Effect: Integer; Mode: TDropMode) of object;
+   TVTRenderOLEDataEvent = procedure(Sender: TBaseVirtualTree; const FormatEtcIn: TFormatEtc; out Medium: TStgMedium;
+     ForClipboard: Boolean; var Result: HRESULT) of object;
+@@ -2472,7 +2473,7 @@
+     procedure CMDenySubclassing(var Message: TLMessage); message CM_DENYSUBCLASSING;
+     //procedure CMDrag(var Message: TCMDrag); message CM_DRAG;
+     procedure CMFontChanged(var Message: TLMessage); message CM_FONTCHANGED;
+-    procedure CMHintShow(var Message: TCMHintShow); message CM_HINTSHOW;
++    procedure CMHintShow(var Message: TCMHintShow); //message CM_HINTSHOW;
+     procedure CMMouseLeave(var Message: TLMessage); message CM_MOUSELEAVE;
+     procedure CMMouseWheel(var Message: TLMMouseEvent); message LM_MOUSEWHEEL;
+     {$ifdef EnableNativeTVM}
+@@ -3008,6 +3009,7 @@
+     function GetNextNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
+     function GetNextSelected(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
+     function GetNextSibling(Node: PVirtualNode): PVirtualNode;
++    function GetNextSiblingNoInit(Node: PVirtualNode): PVirtualNode;
+     function GetNextVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
+     function GetNextVisibleNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
+     function GetNextVisibleSibling(Node: PVirtualNode): PVirtualNode;
+@@ -3026,6 +3028,7 @@
+     function GetPreviousNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
+     function GetPreviousSelected(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
+     function GetPreviousSibling(Node: PVirtualNode): PVirtualNode;
++    function GetPreviousSiblingNoInit(Node: PVirtualNode): PVirtualNode;
+     function GetPreviousVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
+     function GetPreviousVisibleNoInit(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
+     function GetPreviousVisibleSibling(Node: PVirtualNode): PVirtualNode;
+@@ -13869,7 +13872,7 @@
+     FFocusedColumn := Value;
+     if Assigned(FFocusedNode) and not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions) then
+     begin
+-      if ScrollIntoView(FFocusedNode, toCenterScrollIntoView in FOptions.SelectionOptions, True) then
++      if ScrollIntoView(FFocusedNode, toCenterScrollIntoView in FOptions.SelectionOptions, not (toDisableAutoscrollHorizontal in FOptions.FAutoOptions)) then
+         InvalidateNode(FFocusedNode);
+     end;
+ 
+@@ -15672,7 +15675,7 @@
+                 if (Shift = [ssCtrlOS]) and not ActAsGrid then
+                 begin
+                   ScrollIntoView(Node, toCenterScrollIntoView in FOptions.SelectionOptions,
+-                    not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions));
++                    not (toDisableAutoscrollHorizontal in FOptions.FAutoOptions));
+                   if (CharCode = VK_HOME) and not UseRightToLeftAlignment then
+                     SetOffsetX(0)
+                   else
+@@ -18437,7 +18440,7 @@
+ 
+ begin
+   if Assigned(FOnDragDrop) then
+-    FOnDragDrop(Self, Source, DataObject, Formats, Shift, Pt, Effect, Mode);
++    FOnDragDrop(Self, Source, {DataObject, }Formats, Shift, Pt, Effect, Mode);
+ end;
+ 
+ //----------------------------------------------------------------------------------------------------------------------
+@@ -18589,7 +18592,7 @@
+       InvalidateNode(FFocusedNode);
+       if (FUpdateCount = 0) and not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions) then
+         ScrollIntoView(FFocusedNode, (toCenterScrollIntoView in FOptions.SelectionOptions) and
+-          (MouseButtonDown * FStates = []), True);
++          (MouseButtonDown * FStates = []), toDisableAutoscrollHorizontal in FOptions.FAutoOptions);
+     end;
+ 
+     // Reset range anchor if necessary.
+@@ -21122,7 +21125,7 @@
+       if NewNode or NewColumn then
+       begin
+         ScrollIntoView(FFocusedNode, toCenterScrollIntoView in FOptions.SelectionOptions,
+-                       not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions));
++                       not (toDisableAutoscrollHorizontal in FOptions.FAutoOptions));
+         DoFocusChange(FFocusedNode, FFocusedColumn);
+       end;
+     end;
+@@ -26469,6 +26472,22 @@
+ 
+ //----------------------------------------------------------------------------------------------------------------------
+ 
++function TBaseVirtualTree.GetNextSiblingNoInit(Node: PVirtualNode): PVirtualNode;
++
++// Returns the next sibling of Node performing no initialization.
++
++begin
++  Result := Node;
++  if Assigned(Result) then
++  begin
++    Assert(Result <> FRoot, 'Node must not be the hidden root node.');
++
++    Result := Result.NextSibling;
++  end;
++end;
++
++//----------------------------------------------------------------------------------------------------------------------
++
+ function TBaseVirtualTree.GetNextVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
+ 
+ // Returns next node in tree, with regard to Node, which is visible.
+@@ -27087,6 +27106,22 @@
+ 
+ //----------------------------------------------------------------------------------------------------------------------
+ 
++function TBaseVirtualTree.GetPreviousSiblingNoInit(Node: PVirtualNode): PVirtualNode;
++
++// Get next sibling of Node, performes no initialization.
++
++begin
++  Result := Node;
++  if Assigned(Result) then
++  begin
++    Assert(Result <> FRoot, 'Node must not be the hidden root node.');
++
++    Result := Result.PrevSibling;
++  end;
++end;
++
++//----------------------------------------------------------------------------------------------------------------------
++
+ function TBaseVirtualTree.GetPreviousVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
+ 
+ // Returns the previous node in tree, with regard to Node, which is visible.
+@@ -29272,6 +29307,7 @@
+   HScrollBarVisible: Boolean;
+   ScrolledVertically,
+   ScrolledHorizontally: Boolean;
++  OffY, OffYM: Integer;
+ 
+ begin
+   //todo: minimize calls to ClientHeight and ClientWidth
+@@ -29316,7 +29352,13 @@
+         if Center then
+           SetOffsetY(FOffsetY - R.Bottom + ClientHeight div 2)
+         else
+-          SetOffsetY(FOffsetY - R.Bottom + ClientHeight);
++        begin
++          OffY  := FOffsetY - R.Bottom + ClientHeight;
++          OffYM := OffY mod DefaultNodeHeight;
++          if OffYM <> 0 then
++            OffY := OffY - (DefaultNodeHeight + OffYM);
++          SetOffsetY(OffY);
++        end;
+         // When scrolling up and the horizontal scroll appears because of the operation
+         // then we have to move up the node the horizontal scrollbar's height too
+         // in order to avoid that the scroll bar hides the node which we wanted to have in view.
+@@ -29370,10 +29412,13 @@
+   end
+   else
+   begin
+-    if ColumnRight > ClientWidth then
+-      NewOffset := FEffectiveOffsetX + (ColumnRight - ClientWidth)
+-    else if ColumnLeft < Header.Columns.GetVisibleFixedWidth then
+-      NewOffset := FEffectiveOffsetX - (Header.Columns.GetVisibleFixedWidth - ColumnLeft);
++    if FHeader.Columns.Count > 1 then
++    begin
++      if ColumnRight > ClientWidth then
++        NewOffset := FEffectiveOffsetX + (ColumnRight - ClientWidth)
++      else if ColumnLeft < Header.Columns.GetVisibleFixedWidth then
++        NewOffset := FEffectiveOffsetX - (Header.Columns.GetVisibleFixedWidth - ColumnLeft);
++    end;
+     if NewOffset <> FEffectiveOffsetX then
+     begin
+       if UseRightToLeftAlignment then
+Index: VTConfig.inc
+===================================================================
+--- VTConfig.inc	(revision 2334)
++++ VTConfig.inc	(working copy)
+@@ -22,7 +22,7 @@
+ 
+ 
+ //Lazarus port options
+-{$define EnableOLE}
++{.$define EnableOLE}
+ {.$define EnableNativeTVM}
+ {.$define EnablePrint}
+ {.$define EnableNCFunctions}
+@@ -42,5 +42,5 @@
+ 
+ //under linux the performance is poor with threading enabled
+ {$ifdef Windows}
+-  {$define EnableThreadSupport}
++  {.$define EnableThreadSupport}
+ {$endif}
+Index: virtualtreeview_package.lpk
+===================================================================
+--- virtualtreeview_package.lpk	(revision 2334)
++++ virtualtreeview_package.lpk	(working copy)
+@@ -1,10 +1,11 @@
+ <?xml version="1.0"?>
+ <CONFIG>
+-  <Package Version="3">
++  <Package Version="4">
+     <Name Value="virtualtreeview_package"/>
++    <AddToProjectUsesSection Value="True"/>
+     <Author Value="Mike Lischke (LCL Port: Luiz Américo)"/>
+     <CompilerOptions>
+-      <Version Value="10"/>
++      <Version Value="11"/>
+       <SearchPaths>
+         <IncludeFiles Value="include/intf/$(LCLWidgetType);units;include/intf"/>
+         <OtherUnitFiles Value="units/$(LCLWidgetType)"/>
+@@ -15,6 +16,17 @@
+           <UseAnsiStrings Value="False"/>
+         </SyntaxOptions>
+       </Parsing>
++      <CodeGeneration>
++        <Checks>
++          <RangeChecks Value="True"/>
++          <OverflowChecks Value="True"/>
++        </Checks>
++      </CodeGeneration>
++      <Linking>
++        <Debugging>
++          <DebugInfoType Value="dsDwarf2Set"/>
++        </Debugging>
++      </Linking>
+       <Other>
+         <CompilerPath Value="$(CompPath)"/>
+       </Other>
