@@ -105,6 +105,7 @@ resourcestring
   rsMsgTargetDir = 'Target path:';
   rsMsgURL = 'URL:';
   rsMsgLoadingFileList = 'Loading file list...';
+  rsMsgNoFiles = 'No files';
   rsMsgErrSetAttribute = 'Can not set attributes for "%s"';
   rsMsgErrSetDateTime = 'Can not set date/time for "%s"';
   rsMsgErrDateNotSupported = 'Date %s is not supported';

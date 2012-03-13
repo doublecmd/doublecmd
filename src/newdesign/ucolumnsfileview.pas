@@ -1493,6 +1493,10 @@ begin
   begin
     lblInfo.Caption := rsMsgLoadingFileList;
   end
+  else if not Assigned(FAllDisplayFiles) or (FAllDisplayFiles.Count = 0) then
+  begin
+    lblInfo.Caption := rsMsgNoFiles;
+  end
   else if Assigned(FileSource) then
   begin
     FilesInDir := 0;
