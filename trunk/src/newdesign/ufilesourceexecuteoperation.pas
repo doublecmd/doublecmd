@@ -16,6 +16,7 @@ type
   TFileSourceExecuteOperationResult =
      (fseorSuccess,   //<en the command was executed successfully
       fseorError,     //<en execution failed
+      fseorCancelled, //<en cancelled by user (nothing happened)
       fseorYourSelf,  //<en DC should download/extract the file and execute it locally
       fseorWithAll,   //<en DC should download/extract all files and execute chosen file locally
       fseorSymLink);  //<en this was a (symbolic) link or .lnk file pointing to a different directory
@@ -79,6 +80,7 @@ begin
   FExecutableFile := aExecutableFile;
   aExecutableFile := nil;
   FVerb := aVerb;
+  FExecuteOperationResult := fseorCancelled;
 
   FAbsolutePath := FExecutableFile.FullPath;
   FRelativePath := FExecutableFile.Name;
@@ -102,8 +104,9 @@ end;
 
 procedure TFileSourceExecuteOperation.DoReloadFileSources;
 begin
-  FFileSource.Reload(FCurrentPath);
+  if FExecuteOperationResult <> fseorCancelled then
+    FFileSource.Reload(FCurrentPath);
 end;
 
 end.
-
+

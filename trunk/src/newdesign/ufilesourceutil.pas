@@ -128,7 +128,6 @@ begin
               end;
             end;
           end; // case
-          aFileView.Reload;
         end; // assigned
     finally
       FreeAndNil(aFileCopy);
@@ -313,4 +312,4 @@ begin
 end;
 
 end.
-
+
