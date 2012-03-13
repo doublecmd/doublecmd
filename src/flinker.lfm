@@ -8,6 +8,7 @@ object frmLinker: TfrmLinker
   VertScrollBar.Page = 363
   VertScrollBar.Range = 331
   ActiveControl = edSave
+  BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Linker'
   ClientHeight = 337
   ClientWidth = 360
