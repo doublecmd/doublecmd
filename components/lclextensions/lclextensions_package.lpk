@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="lclextensions_package"/>
+    <AddToProjectUsesSection Value="True"/>
+    <Author Value="Luiz Americo Pereira Câmara"/>
+    <CompilerOptions>
+      <Version Value="10"/>
+      <SearchPaths>
+        <IncludeFiles Value="include/$(LCLWidgetType)"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <UseAnsiStrings Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Linking>
+        <Debugging>
+          <GenerateDebugInfo Value="True"/>
+          <DebugInfoType Value="dsDwarf2Set"/>
+        </Debugging>
+      </Linking>
+      <Other>
+        <CompilerMessages>
+          <UseMsgFile Value="True"/>
+        </CompilerMessages>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="LCL Extensions provides additional functions to be used together with LCL
+"/>
+    <License Value="Modified LGPL
+"/>
+    <Version Minor="4"/>
+    <Files Count="3">
+      <Item1>
+        <Filename Value="delphicompat.pas"/>
+        <UnitName Value="DelphiCompat"/>
+      </Item1>
+      <Item2>
+        <Filename Value="oleutils.pas"/>
+        <UnitName Value="oleutils"/>
+      </Item2>
+      <Item3>
+        <Filename Value="lclext.pas"/>
+        <UnitName Value="LclExt"/>
+      </Item3>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
