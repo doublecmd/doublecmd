@@ -119,6 +119,7 @@ type
     procedure ResortFile(ADisplayFile: TDisplayFile);
     procedure SetFlags(AValue: TFileViewFlags);
     procedure UpdateFile(FileName: String);
+    procedure UpdatePath(UpdateAddressToo: Boolean);
     {en
        Assigns the built lists to the file view and displays new the file list.
     }
@@ -592,9 +593,12 @@ begin
     AFileView.FRequestedActiveFile := Self.FRequestedActiveFile;
     AFileView.FReloadNeeded := Self.FReloadNeeded;
 
-    AFileView.FAllDisplayFiles := Self.FAllDisplayFiles.Clone(True);
-    AFileView.HashFileList;
-    AFileView.DoOnFileListChanged;
+    if Assigned(Self.FAllDisplayFiles) then
+    begin
+      AFileView.FAllDisplayFiles := Self.FAllDisplayFiles.Clone(True);
+      AFileView.HashFileList;
+      AFileView.DoOnFileListChanged;
+    end;
 
     // FFiles need to be recreated because the filter is not cloned.
     // This is done in AFileView.UpdateView.
@@ -729,6 +733,12 @@ begin
     ReDisplayFileList;
     DoOnFileListChanged;
   end;
+end;
+
+procedure TFileView.UpdatePath(UpdateAddressToo: Boolean);
+begin
+  // Maybe better to do via some notification like FileSourceHasChanged.
+  UpdateView;
 end;
 
 function TFileView.GetCurrentAddress: String;
@@ -1535,8 +1545,6 @@ begin
     if (FileSourcesCount > 1) and AllowChangingFileSource then
     begin
       RemoveCurrentFileSource;
-      Reload;
-      UpdateView;
     end;
   end
   else
@@ -1582,8 +1590,7 @@ begin
 
     if Assigned(FileSource) and IsNewFileSource then
     begin
-      Reload;
-      UpdateView;
+      UpdatePath(True);
       FileSource.AddReloadEventListener(@ReloadEvent);
     end;
 
@@ -1623,8 +1630,7 @@ begin
 
       if Assigned(FileSource) and IsNewFileSource then
       begin
-        Reload;
-        UpdateView;
+        UpdatePath(True);
         FileSource.AddReloadEventListener(@ReloadEvent);
       end;
 
@@ -1659,9 +1665,9 @@ begin
   FileSource.RemoveReloadEventListener(@ReloadEvent);
   EnableWatcher(False);
   FHistory.Assign(otherFileView.FHistory);
-  Reload;
-  UpdateView;
+  UpdatePath(True);
   FileSource.AddReloadEventListener(@ReloadEvent);
+  AfterChangePath;
   EnableWatcher(True);
 end;
 
@@ -1879,8 +1885,7 @@ begin
 
     if Assigned(FileSource) and IsNewFileSource then
     begin
-      Reload;
-      UpdateView;
+      UpdatePath(True);
       FileSource.AddReloadEventListener(@ReloadEvent);
     end;
 
