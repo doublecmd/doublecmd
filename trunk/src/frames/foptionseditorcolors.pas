@@ -124,7 +124,7 @@ implementation
 {$R *.lfm}
 
 uses
-  LCLType, LCLIntf, SynEditTypes, GraphUtil, uLng;
+  LCLType, LCLIntf, SynEditTypes, GraphUtil, uLng, uGlobs;
 
 const
   COLOR_NODE_PREFIX = ' abc  ';
@@ -768,6 +768,7 @@ procedure TfrmOptionsEditorColors.Init;
 begin
   inherited Init;
   FHighl:= TdmHighl.Create(nil, True);
+  FontOptionsToFont(gFonts[dcfEditor], ColorPreview.Font);
 end;
 
 procedure TfrmOptionsEditorColors.Done;
