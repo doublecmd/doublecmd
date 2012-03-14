@@ -137,6 +137,7 @@ begin
     else
       begin
         ImportFromOldFormat;
+        SaveToFile(gpCfgDir + HighlighterConfig);
         mbRenameFile(gpCfgDir + csDefaultName, gpCfgDir + csDefaultName + '.obsolete');
       end;
   end;
@@ -188,7 +189,6 @@ begin
         end;
       end;
     end;
-    FChanged:= True;
   finally
     aFile.Free;
   end;
