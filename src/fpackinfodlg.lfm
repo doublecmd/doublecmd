@@ -286,6 +286,7 @@ object frmPackInfoDlg: TfrmPackInfoDlg
       Caption = 'Close'
       Default = True
       ModalResult = 2
+      OnKeyUp = btnCloseKeyUp
       TabOrder = 0
     end
     object btnUnpackAndExec: TButton
