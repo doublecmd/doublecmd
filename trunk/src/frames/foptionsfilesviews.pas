@@ -42,6 +42,7 @@ type
     cbDelayLoadingTabs: TCheckBox;
     cbShortFileSizeFormat: TCheckBox;
     cbShowSystemFiles: TCheckBox;
+    cbNewFilesPosition: TComboBox;
     cbSortMethod: TComboBox;
     cbSpaceMovesDown: TCheckBox;
     cbCaseSensitivity: TComboBox;
@@ -53,6 +54,7 @@ type
     lblCaseSensitivity: TLabel;
     lblDateTimeExample: TLabel;
     lblDateTimeFormat: TLabel;
+    lblNewFilesPosition: TLabel;
     lblSortMethod: TLabel;
     procedure cbDateTimeFormatChange(Sender: TObject);
   protected
@@ -83,6 +85,7 @@ begin
   ParseLineToList(rsOptSortMethod, cbSortMethod.Items);
   ParseLineToList(rsOptSortCaseSens, cbCaseSensitivity.Items);
   ParseLineToList(rsOptSortFolderMode, cbSortFolderMode.Items);
+  ParseLineToList(rsOptNewFilesPosition, cbNewFilesPosition.Items);
 end;
 
 procedure TfrmOptionsFilesViews.Load;
@@ -100,6 +103,12 @@ begin
     sfmSortNameShowFirst:      cbSortFolderMode.ItemIndex := 0;
     sfmSortLikeFileShowFirst:  cbSortFolderMode.ItemIndex := 1;
     sfmSortLikeFile:           cbSortFolderMode.ItemIndex := 2;
+  end;
+  case gNewFilesPosition of
+    nfpTop:                 cbNewFilesPosition.ItemIndex := 0;
+    nfpTopAfterDirectories: cbNewFilesPosition.ItemIndex := 1;
+    nfpSortedPosition:      cbNewFilesPosition.ItemIndex := 2;
+    nfpBottom:              cbNewFilesPosition.ItemIndex := 3;
   end;
   cbShortFileSizeFormat.Checked :=gShortFileSizeFormat;
   cbDateTimeFormat.Text := gDateTimeFormat;
@@ -124,6 +133,12 @@ begin
     0: gSortFolderMode := sfmSortNameShowFirst;
     1: gSortFolderMode := sfmSortLikeFileShowFirst;
     2: gSortFolderMode := sfmSortLikeFile;
+  end;
+  case cbNewFilesPosition.ItemIndex of
+    0: gNewFilesPosition := nfpTop;
+    1: gNewFilesPosition := nfpTopAfterDirectories;
+    2: gNewFilesPosition := nfpSortedPosition;
+    3: gNewFilesPosition := nfpBottom;
   end;
   gShortFileSizeFormat := cbShortFileSizeFormat.Checked;
   gDateTimeFormat := cbDateTimeFormat.Text;

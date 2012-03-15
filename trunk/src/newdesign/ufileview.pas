@@ -209,6 +209,7 @@ type
     function IsItemValid(AFile: TDisplayFile): Boolean;
 
     procedure SetSorting(const NewSortings: TFileSortings); virtual;
+    procedure SortAllDisplayFiles;
 
     {en
        Retrieves file list from file source into FAllDisplayFiles.
@@ -619,10 +620,36 @@ begin
 end;
 
 procedure TFileView.AddFile(FileName, APath: String);
+
+var
+  ADisplayFile: TDisplayFile;
+
+  procedure InsertAfterUpDir;
+  var
+    i, InsertPos: Integer;
+  begin
+    InsertPos := FAllDisplayFiles.Count;
+    for i := 0 to FAllDisplayFiles.Count - 1 do
+    begin
+      if (FAllDisplayFiles[i].FSFile.Name <> '..') and
+         (FAllDisplayFiles[i].FSFile.Name <> '.') then
+      begin
+        InsertPos := i;
+        Break;
+      end;
+    end;
+    FAllDisplayFiles.List.Insert(InsertPos, ADisplayFile);
+  end;
+
+  procedure InsertIntoSortedPosition;
+  begin
+    TDisplayFileSorter.InsertSort(ADisplayFile, FAllDisplayFiles, CloneAndAddSortByNameIfNeeded(Sorting));
+  end;
+
 var
   AFile: TFile;
-  ADisplayFile: TDisplayFile;
   I: Integer;
+  EmptySortings: TFileSortings;
 begin
   I := FHashedNames.Find(FileName);
   if I >= 0 then
@@ -643,7 +670,27 @@ begin
     ADisplayFile := TDisplayFile.Create(AFile);
     FHashedFiles.Add(ADisplayFile, nil);
     FHashedNames.Add(FileName, ADisplayFile);
-    TDisplayFileSorter.InsertSort(ADisplayFile, FAllDisplayFiles, Sorting);
+
+    if ADisplayFile.FSFile.IsDirectory or ADisplayFile.FSFile.IsLinkToDirectory then
+      InsertIntoSortedPosition
+    else
+      case gNewFilesPosition of
+        nfpTop:
+          InsertAfterUpDir;
+        nfpTopAfterDirectories:
+          if gSortFolderMode <> sfmSortLikeFile then
+            // Will only sort by directory attribute.
+            TDisplayFileSorter.InsertSort(ADisplayFile, FAllDisplayFiles, EmptySortings, True)
+          else
+            InsertIntoSortedPosition;
+        nfpSortedPosition:
+          InsertIntoSortedPosition;
+        nfpBottom:
+          FAllDisplayFiles.Add(ADisplayFile);
+        else
+          raise Exception.Create('Unsupported NewFilesPosition setting.');
+      end;
+
     ReDisplayFileList;
     DoOnFileListChanged;
   end;
@@ -702,7 +749,7 @@ begin
   for I := 0 to FAllDisplayFiles.Count - 1 do
     if FAllDisplayFiles[I] = ADisplayFile then
     begin
-      TDisplayFileSorter.ResortSingle(I, FAllDisplayFiles, Sorting);
+      TDisplayFileSorter.ResortSingle(I, FAllDisplayFiles, CloneAndAddSortByNameIfNeeded(Sorting));
       Break;
     end;
 end;
@@ -1022,6 +1069,11 @@ end;
 procedure TFileView.SetSorting(const NewSortings: TFileSortings);
 begin
   FSortings := CloneSortings(NewSortings);
+end;
+
+procedure TFileView.SortAllDisplayFiles;
+begin
+  TDisplayFileSorter.Sort(FAllDisplayFiles, CloneAndAddSortByNameIfNeeded(Sorting));
 end;
 
 procedure TFileView.MakeFileSourceFileList;
@@ -2028,4 +2080,4 @@ begin
 end;
 
 end.
-
+

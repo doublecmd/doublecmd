@@ -9,7 +9,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 132
+    Height = 166
     Top = 6
     Width = 622
     Anchors = [akTop, akLeft, akRight]
@@ -21,7 +21,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     ChildSizing.HorizontalSpacing = 6
     ChildSizing.VerticalSpacing = 12
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ClientHeight = 110
+    ClientHeight = 144
     ClientWidth = 618
     TabOrder = 0
     object lblSortMethod: TLabel
@@ -114,6 +114,31 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Style = csDropDownList
       TabOrder = 2
     end
+    object lblNewFilesPosition: TLabel
+      Left = 12
+      Height = 22
+      Top = 110
+      Width = 127
+      Caption = 'Insert new files'
+      ParentColor = False
+    end
+    object cbNewFilesPosition: TComboBox
+      AnchorSideLeft.Control = lblNewFilesPosition
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblNewFilesPosition
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = gbSorting
+      AnchorSideRight.Side = asrBottom
+      Left = 149
+      Height = 29
+      Top = 107
+      Width = 457
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 10
+      ItemHeight = 21
+      Style = csDropDownList
+      TabOrder = 3
+    end
   end
   object gbMisc: TGroupBox[1]
     AnchorSideLeft.Control = Owner
@@ -123,7 +148,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 216
-    Top = 249
+    Top = 283
     Width = 622
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -193,7 +218,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 99
-    Top = 144
+    Top = 178
     Width = 622
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Around = 6

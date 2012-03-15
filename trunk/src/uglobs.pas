@@ -52,6 +52,8 @@ type
   TScrollMode = (smLineByLineCursor, smLineByLine, smPageByPage);
   { Sorting directories mode }
   TSortFolderMode = (sfmSortNameShowFirst, sfmSortLikeFileShowFirst, sfmSortLikeFile);
+  { Where to insert new files in the filelist }
+  TNewFilesPosition = (nfpTop, nfpTopAfterDirectories, nfpSortedPosition, nfpBottom);
 
   TExternalTool = (etViewer, etEditor, etDiffer);
   TExternalToolOptions = record
@@ -159,6 +161,7 @@ var
   gSortCaseSensitivity: TCaseSensitivity;
   gSortNatural: Boolean;
   gSortFolderMode: TSortFolderMode;
+  gNewFilesPosition: TNewFilesPosition;
   gLynxLike:Boolean;
   gFirstTextSearch: Boolean;
 
@@ -704,6 +707,7 @@ begin
   gSortCaseSensitivity := cstNotSensitive;
   gSortNatural := False;
   gSortFolderMode := sfmSortNameShowFirst;
+  gNewFilesPosition := nfpSortedPosition;
   gShortFileSizeFormat := True;
   gMinimizeToTray := False;
   gAlwaysShowTrayIcon := False;
@@ -1670,6 +1674,7 @@ begin
         gSortCaseSensitivity := TCaseSensitivity(GetValue(SubNode, 'CaseSensitivity', Integer(gSortCaseSensitivity)));
         gSortNatural := GetValue(SubNode, 'NaturalSorting', gSortNatural);
         gSortFolderMode:= TSortFolderMode(GetValue(SubNode, 'SortFolderMode', Integer(gSortFolderMode)));
+        gNewFilesPosition :=TNewFilesPosition(GetValue(SubNode, 'NewFilesPosition', Integer(gNewFilesPosition)));
       end;
     end;
 
@@ -1992,6 +1997,7 @@ begin
     SetValue(SubNode, 'CaseSensitivity', Integer(gSortCaseSensitivity));
     SetValue(SubNode, 'NaturalSorting', gSortNatural);
     SetValue(SubNode, 'SortFolderMode', Integer(gSortFolderMode));
+    SetValue(SubNode, 'NewFilesPosition', Integer(gNewFilesPosition));
 
     { Keys page }
     Node := FindNode(Root, 'Keyboard', True);
