@@ -432,7 +432,7 @@ procedure TColumnsFileViewVTV.SetSorting(const NewSortings: TFileSortings);
 begin
   SetColumnsSorting(NewSortings);
   inherited SetSorting(PrepareSortings); // NewSortings
-  TDisplayFileSorter.Sort(FAllDisplayFiles, Sorting);
+  SortAllDisplayFiles;
   ReDisplayFileList;
 end;
 
@@ -1028,7 +1028,7 @@ begin
 
         FColumnsSorting.AddSorting(Column, SortingDirection);
         inherited SetSorting(PrepareSortings);
-        TDisplayFileSorter.Sort(FAllDisplayFiles, Sorting);
+        SortAllDisplayFiles;
         ReDisplayFileList;
       end;
 
@@ -2800,7 +2800,7 @@ begin
   begin
     if TCalculateSpaceWorker(Worker).CompletedCalculations > 1 then
     begin
-      TDisplayFileSorter.Sort(FAllDisplayFiles, Sorting);
+      SortAllDisplayFiles;
       ReDisplayFileList;
     end;
   end;

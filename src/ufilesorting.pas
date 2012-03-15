@@ -83,6 +83,7 @@ type
       FFilesToInsert: TDisplayFiles;
       FFileIndexToResort: Integer;
       FResortSingle: Boolean;
+      FSequentialSearch: Boolean; // Use sequential search instead of binary
 
     protected
       procedure BinaryInsertSingle(FileToInsert: TDisplayFile; List: TFPList; L, R: Longint);
@@ -98,13 +99,14 @@ type
          must be already sorted.
       }
       procedure ResortSingle(IndexToResort: Integer; SortedFiles: TDisplayFiles);
+      procedure SequentialInsertSingle(FileToInsert: TDisplayFile; List: TFPList);
 
     public
       constructor Create(Files: TDisplayFiles; Sortings: TFileSortings);
       constructor Create(FilesToInsert, AlreadySortedFiles: TDisplayFiles;
                          const Sortings: TFileSortings);
       constructor Create(FileToInsert: TDisplayFile; AlreadySortedFiles: TDisplayFiles;
-                         const Sortings: TFileSortings);
+                         const Sortings: TFileSortings; ASequentialSearch: Boolean = False);
       constructor Create(IndexToResort: Integer; SortedFiles: TDisplayFiles;
                          const Sortings: TFileSortings);
 
@@ -113,7 +115,7 @@ type
       class procedure InsertSort(FilesToInsert, AlreadySortedFiles: TDisplayFiles;
                                  const ASortings: TFileSortings);
       class procedure InsertSort(FileToInsert: TDisplayFile; AlreadySortedFiles: TDisplayFiles;
-                                 const ASortings: TFileSortings);
+                                 const ASortings: TFileSortings; ASequentialSearch: Boolean = False);
       class procedure ResortSingle(IndexToResort: Integer; SortedFiles: TDisplayFiles;
                                    const ASortings: TFileSortings);
       class procedure Sort(FilesToSort: TDisplayFiles; const ASortings: TFileSortings);
@@ -159,6 +161,7 @@ type
   function ICompareByDate(date1, date2: TDateTime; bSortNegative: Boolean):Integer;
   function ICompareByAttr(item1, item2: TFile; bSortNegative: Boolean):Integer;
 
+  function CloneAndAddSortByNameIfNeeded(const Sortings: TFileSortings): TFileSortings;
   function ReverseSortDirection(SortDirection: TSortDirection): TSortDirection;
   function ReverseSortDirection(Sortings: TFileSortings): TFileSortings;
 
@@ -311,7 +314,7 @@ begin
   end;
 end;
 
-function CloneAndAddNameSortingIfNeeded(const Sortings: TFileSortings): TFileSortings;
+function CloneAndAddSortByNameIfNeeded(const Sortings: TFileSortings): TFileSortings;
 begin
   Result := CloneSortings(Sortings);
 
@@ -502,6 +505,8 @@ var
   i: Integer;
   bNegative: Boolean;
 begin
+  Result := 0;
+
   case FileSorting.SortDirection of
     sdAscending:
       bNegative := False;
@@ -513,75 +518,68 @@ begin
       Exit;
   end;
 
-  if Length(FileSorting.SortFunctions) > 0 then
+  for i := 0 to Length(FileSorting.SortFunctions) - 1 do
   begin
-    Result := 0;
-
-    for i := 0 to Length(FileSorting.SortFunctions) - 1 do
-    begin
-      //------------------------------------------------------
-      // Only DC internal functions supported.
-      case FileSorting.SortFunctions[i] of
-        fsfName:
-          Result := ICompareByName(File1, File2, bNegative);
-        fsfExtension:
-          Result := ICompareByExt(File1, File2, bNegative);
-        fsfSize:
-          Result := ICompareBySize(File1, File2, bNegative);
-        fsfAttr:
-          Result := ICompareByAttr(File1, File2, bNegative);
-        fsfPath:
-          begin
-            Result := mbCompareText(File1.Path, File2.Path);
-            if bNegative then
-              Result := -Result;
-          end;
-        fsfGroup:
-          begin
-            Result := mbCompareText(File1.OwnerProperty.GroupStr,
-                                    File2.OwnerProperty.GroupStr);
-            if bNegative then
-              Result := -Result;
-          end;
-        fsfOwner:
-          begin
-            Result := mbCompareText(File1.OwnerProperty.OwnerStr,
-                                    File2.OwnerProperty.OwnerStr);
-            if bNegative then
-              Result := -Result;
-          end;
-        fsfModificationTime:
-          Result := ICompareByDate(File1.ModificationTime,
-                                   File2.ModificationTime,
-                                   bNegative);
-        fsfCreationTime:
-          Result := ICompareByDate(File1.CreationTime,
-                                   File2.CreationTime,
-                                   bNegative);
-        fsfLastAccessTime:
-          Result := ICompareByDate(File1.LastAccessTime,
-                                   File2.LastAccessTime,
-                                   bNegative);
-        fsfLinkTo:
-          begin
-            Result := mbCompareText(File1.LinkProperty.LinkTo,
-                                    File2.LinkProperty.LinkTo);
-            if bNegative then
-              Result := -Result;
-          end;
-        fsfNameNoExtension:
-          Result := ICompareByNameNoExt(File1, File2, bNegative);
-        fsfType:
-          Result := mbCompareText(File1.TypeProperty.Value,
-                                  File2.TypeProperty.Value);
-      end;
-
-      if Result <> 0 then
-        Exit;
+    //------------------------------------------------------
+    // Only DC internal functions supported.
+    case FileSorting.SortFunctions[i] of
+      fsfName:
+        Result := ICompareByName(File1, File2, bNegative);
+      fsfExtension:
+        Result := ICompareByExt(File1, File2, bNegative);
+      fsfSize:
+        Result := ICompareBySize(File1, File2, bNegative);
+      fsfAttr:
+        Result := ICompareByAttr(File1, File2, bNegative);
+      fsfPath:
+        begin
+          Result := mbCompareText(File1.Path, File2.Path);
+          if bNegative then
+            Result := -Result;
+        end;
+      fsfGroup:
+        begin
+          Result := mbCompareText(File1.OwnerProperty.GroupStr,
+                                  File2.OwnerProperty.GroupStr);
+          if bNegative then
+            Result := -Result;
+        end;
+      fsfOwner:
+        begin
+          Result := mbCompareText(File1.OwnerProperty.OwnerStr,
+                                  File2.OwnerProperty.OwnerStr);
+          if bNegative then
+            Result := -Result;
+        end;
+      fsfModificationTime:
+        Result := ICompareByDate(File1.ModificationTime,
+                                 File2.ModificationTime,
+                                 bNegative);
+      fsfCreationTime:
+        Result := ICompareByDate(File1.CreationTime,
+                                 File2.CreationTime,
+                                 bNegative);
+      fsfLastAccessTime:
+        Result := ICompareByDate(File1.LastAccessTime,
+                                 File2.LastAccessTime,
+                                 bNegative);
+      fsfLinkTo:
+        begin
+          Result := mbCompareText(File1.LinkProperty.LinkTo,
+                                  File2.LinkProperty.LinkTo);
+          if bNegative then
+            Result := -Result;
+        end;
+      fsfNameNoExtension:
+        Result := ICompareByNameNoExt(File1, File2, bNegative);
+      fsfType:
+        Result := mbCompareText(File1.TypeProperty.Value,
+                                File2.TypeProperty.Value);
     end;
-  end
-  else
-   Result := -1;
+
+    if Result <> 0 then
+      Exit;
+  end;
 end;
 
 { TDisplayFileSorter }
@@ -609,11 +607,12 @@ begin
   end;
 end;
 
-constructor TDisplayFileSorter.Create(FileToInsert: TDisplayFile; AlreadySortedFiles: TDisplayFiles; const Sortings: TFileSortings);
+constructor TDisplayFileSorter.Create(FileToInsert: TDisplayFile; AlreadySortedFiles: TDisplayFiles; const Sortings: TFileSortings; ASequentialSearch: Boolean);
 begin
   inherited Create(Sortings);
   FFileToInsert := FileToInsert;
   FDisplaySortList := AlreadySortedFiles;
+  FSequentialSearch := ASequentialSearch;
 
   if Assigned(FDisplaySortList) and (FDisplaySortList.Count > 0) and
      Assigned(FFileToInsert) then
@@ -640,7 +639,10 @@ begin
   fileSortingTimer := Now;
   {$ENDIF}
 
-  if Length(FSortings) > 0 then
+  // Restore this check when independent SortFunctions are implemented and sorting
+  // by directory condition (gSortFolderMode <> sfmSortLikeFile) is removed from
+  // the sorter and moved into Sortings.
+  //if Length(FSortings) > 0 then
   begin
     if FResortSingle and Assigned(FDisplaySortList) then
     begin
@@ -677,7 +679,7 @@ class procedure TDisplayFileSorter.InsertSort(FilesToInsert, AlreadySortedFiles:
 var
   FileListSorter: TDisplayFileSorter;
 begin
-  FileListSorter := TDisplayFileSorter.Create(FilesToInsert, AlreadySortedFiles, CloneAndAddNameSortingIfNeeded(ASortings));
+  FileListSorter := TDisplayFileSorter.Create(FilesToInsert, AlreadySortedFiles, ASortings);
   try
     FileListSorter.Sort;
   finally
@@ -685,11 +687,11 @@ begin
   end;
 end;
 
-class procedure TDisplayFileSorter.InsertSort(FileToInsert: TDisplayFile; AlreadySortedFiles: TDisplayFiles; const ASortings: TFileSortings);
+class procedure TDisplayFileSorter.InsertSort(FileToInsert: TDisplayFile; AlreadySortedFiles: TDisplayFiles; const ASortings: TFileSortings; ASequentialSearch: Boolean);
 var
   FileListSorter: TDisplayFileSorter;
 begin
-  FileListSorter := TDisplayFileSorter.Create(FileToInsert, AlreadySortedFiles, CloneAndAddNameSortingIfNeeded(ASortings));
+  FileListSorter := TDisplayFileSorter.Create(FileToInsert, AlreadySortedFiles, ASortings, ASequentialSearch);
   try
     FileListSorter.Sort;
   finally
@@ -701,7 +703,7 @@ class procedure TDisplayFileSorter.ResortSingle(IndexToResort: Integer; SortedFi
 var
   FileListSorter: TDisplayFileSorter;
 begin
-  FileListSorter := TDisplayFileSorter.Create(IndexToResort, SortedFiles, CloneAndAddNameSortingIfNeeded(ASortings));
+  FileListSorter := TDisplayFileSorter.Create(IndexToResort, SortedFiles, ASortings);
   try
     FileListSorter.Sort;
   finally
@@ -713,7 +715,7 @@ class procedure TDisplayFileSorter.Sort(FilesToSort: TDisplayFiles; const ASorti
 var
   FileListSorter: TDisplayFileSorter;
 begin
-  FileListSorter := TDisplayFileSorter.Create(FilesToSort, CloneAndAddNameSortingIfNeeded(ASortings));
+  FileListSorter := TDisplayFileSorter.Create(FilesToSort, ASortings);
   try
     FileListSorter.Sort;
   finally
@@ -845,7 +847,10 @@ end;
 
 procedure TDisplayFileSorter.InsertSort(FileToInsert: TDisplayFile; AlreadySortedFiles: TDisplayFiles);
 begin
-  BinaryInsertSingle(FileToInsert, AlreadySortedFiles.List, 0, AlreadySortedFiles.Count - 1);
+  if FSequentialSearch then
+    SequentialInsertSingle(FileToInsert, AlreadySortedFiles.List)
+  else
+    BinaryInsertSingle(FileToInsert, AlreadySortedFiles.List, 0, AlreadySortedFiles.Count - 1);
 end;
 
 function TDisplayFileSorter.MultiCompare(item1, item2: Pointer): Integer;
@@ -925,6 +930,21 @@ begin
   end;
 end;
 
+procedure TDisplayFileSorter.SequentialInsertSingle(FileToInsert: TDisplayFile; List: TFPList);
+var
+  i, j, SortedIndex: PtrInt;
+  Pdst: PPointerList;
+begin
+  SortedIndex := 0;
+  Pdst := List.List;
+
+  while (SortedIndex < List.Count) and
+        (MultiCompare(FileToInsert, Pdst^[SortedIndex]) > 0) do
+    Inc(SortedIndex);
+
+  List.Insert(SortedIndex, FileToInsert);
+end;
+
 { TFileSorter }
 
 constructor TFileSorter.Create(Files: TFiles; Sortings: TFileSortings);
@@ -942,7 +962,10 @@ begin
   fileSortingTimer := Now;
   {$ENDIF}
 
-  if Length(FSortings) > 0 then
+  // Restore this check when independent SortFunctions are implemented and sorting
+  // by directory condition (gSortFolderMode <> sfmSortLikeFile) is removed from
+  // the sorter and moved into Sortings.
+  //if Length(FSortings) > 0 then
   begin
     if Assigned(FSortList) and (FSortList.Count > 1) then
     begin
@@ -958,7 +981,7 @@ class procedure TFileSorter.Sort(FilesToSort: TFiles; const ASortings: TFileSort
 var
   FileListSorter: TFileSorter;
 begin
-  FileListSorter := TFileSorter.Create(FilesToSort, CloneAndAddNameSortingIfNeeded(ASortings));
+  FileListSorter := TFileSorter.Create(FilesToSort, ASortings);
   try
     FileListSorter.Sort;
   finally
