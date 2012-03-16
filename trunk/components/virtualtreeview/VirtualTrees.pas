@@ -15050,7 +15050,8 @@ begin
   LeaveStates := [tsHint];
   if [tsWheelPanning, tsWheelScrolling] * FStates = [] then
   begin
-    KillTimer(Handle, ScrollTimer);
+    if HandleAllocated then
+      KillTimer(Handle, ScrollTimer);
     LeaveStates := LeaveStates + [tsScrollPending, tsScrolling];
   end;
   DoStateChange([], LeaveStates);
