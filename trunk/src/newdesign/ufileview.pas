@@ -759,9 +759,7 @@ var
   EmptySortings: TFileSortings;
 begin
   I := FHashedNames.Find(FileName);
-  if I >= 0 then
-    UpdateFile(FileName)
-  else
+  if I < 0 then
   begin
     AFile := TFile.Create(APath);
     AFile.Name := FileName;
