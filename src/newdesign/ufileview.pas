@@ -39,6 +39,14 @@ type
   TFileViewFlag = (fvfDelayLoadingFiles, fvfDontLoadFiles, fvfDontWatch);
   TFileViewFlags = set of TFileViewFlag;
 
+  TFileViewRequest = (fvrqApplyPendingFilesChanges,   // Pending files changes need to be applied to the file list
+                      fvrqHashFileList,               // Files names need rehashing due to file list changes
+                      fvrqMakeDisplayFileList);       // Filtered file list needs to be created
+  TFileViewRequests = set of TFileViewRequest;
+  TFileViewNotification = (fvnDisplayFileListChanged,     // Filtered file list was created (filter changed, show/hide hidden files option changed, etc.)
+                           fvnFileSourceFileListChanged); // File list was loaded from FileSource
+  TFileViewNotifications = set of TFileViewNotification;
+
   {en
      Base class for any view of a file or files.
      There should always be at least one file displayed on the view.
@@ -77,6 +85,9 @@ type
     FLoadFilesStartTime: TDateTime;
     FLoadFilesFinishTime: TDateTime;
     FLoadFilesNoDelayCount: Integer; //<en How many reloads have been accepted without delay
+    FNotifications: TFileViewNotifications;
+    FRequests: TFileViewRequests;
+    FUpdateCount: Integer;           //<en Nr of times BeginUpdate was called without corresponding EndUpdate
 
     FActive: Boolean;             //<en Is this view active
     FLastActiveFile: String;      //<en Last active file (cursor)
@@ -105,6 +116,7 @@ type
     procedure AddEventToPendingFilesChanges(const EventData: TFSWatcherEventData);
     procedure ApplyPendingFilesChanges;
     procedure ClearPendingFilesChanges;
+    procedure DoOnFileListChanged;
     function FileListLoaded: Boolean;
     function GetCurrentAddress: String;
     function GetNotebookPage: TCustomPage;
@@ -117,9 +129,17 @@ type
     function GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
     function GetPathsCount(FileSourceIndex: Integer): Integer;
     function GetWatcherActive: Boolean;
+    procedure HandleNotifications;
+    procedure HandleRequests;
+    {en
+       Store pointers to file source files in a fast to read structure.
+    }
+    procedure HashFileList;
+    procedure Notify(NewNotifications: TFileViewNotifications);
     procedure RemoveFile(ADisplayFile: TDisplayFile);
     procedure RemoveFile(FileName: String);
     procedure RenameFile(NewFileName, OldFileName: String);
+    procedure Request(NewRequests: TFileViewRequests);
     procedure ResortFile(ADisplayFile: TDisplayFile);
     procedure SetFlags(AValue: TFileViewFlags);
     procedure UpdateFile(FileName: String);
@@ -150,7 +170,8 @@ type
     procedure CreateDefault(AOwner: TWinControl); virtual;
 
     procedure AddWorker(const Worker: TFileViewWorker; SetEvents: Boolean = True);
-    procedure DoOnFileListChanged;
+    procedure BeginUpdate;
+    procedure EndUpdate;
     function GetCurrentPath: String; virtual;
     procedure SetCurrentPath(NewPath: String); virtual;
     function GetActiveDisplayFile: TDisplayFile; virtual; abstract;
@@ -197,10 +218,6 @@ type
        Returns current work type in progress.
     }
     function GetCurrentWorkType: TFileViewWorkType;
-    {en
-       Store pointers to file source files in a fast to read structure.
-    }
-    procedure HashFileList;
     function IsActiveItemValid: Boolean;
     function IsReferenceValid(aFile: TDisplayFile): Boolean;
     {en
@@ -604,8 +621,8 @@ begin
     if Assigned(Self.FAllDisplayFiles) then
     begin
       AFileView.FAllDisplayFiles := Self.FAllDisplayFiles.Clone(True);
-      AFileView.HashFileList;
-      AFileView.DoOnFileListChanged;
+      AFileView.Notify([fvnFileSourceFileListChanged]);
+      AFileView.Request([fvrqHashFileList]);
     end;
 
     // FFiles need to be recreated because the filter is not cloned.
@@ -650,7 +667,9 @@ begin
     FPendingFilesChanges.CaseSensitive := True;
   end;
 
-  if FPendingFilesChanges.Count > FAllDisplayFiles.Count div 4 then
+  if (Assigned(FAllDisplayFiles) and
+      (FPendingFilesChanges.Count > FAllDisplayFiles.Count div 4)) or
+     (FPendingFilesChanges.Count > 100) then
   begin
     // Too many changes. Reload the whole file list again.
     Reload(EventData.Path);
@@ -682,18 +701,23 @@ var
 begin
   if Assigned(FPendingFilesChanges) then
   begin
-    // Check if another reload was not issued.
-    if FileListLoaded and (GetCurrentWorkType <> fvwtCreate) then
-    begin
-      for i := 0 to FPendingFilesChanges.Count - 1 do
+    BeginUpdate;
+    try
+      // Check if another reload was not issued.
+      if FileListLoaded and (GetCurrentWorkType <> fvwtCreate) then
       begin
-        pEvent := PFSWatcherEventData(FPendingFilesChanges.Objects[i]);
-        // Insert new files at sorted position since the filelist hasn't been
-        // shown to the user yet, so no need to use user setting.
-        HandleFSWatcherEvent(pEvent^, nfpSortedPosition);
+        for i := 0 to FPendingFilesChanges.Count - 1 do
+        begin
+          pEvent := PFSWatcherEventData(FPendingFilesChanges.Objects[i]);
+          // Insert new files at sorted position since the filelist hasn't been
+          // shown to the user yet, so no need to use user setting.
+          HandleFSWatcherEvent(pEvent^, nfpSortedPosition);
+        end;
       end;
+      ClearPendingFilesChanges;
+    finally
+      EndUpdate;
     end;
-    ClearPendingFilesChanges;
   end;
 end;
 
@@ -709,7 +733,8 @@ begin
       pEvent := PFSWatcherEventData(FPendingFilesChanges.Objects[i]);
       Dispose(pEvent);
     end;
-    FPendingFilesChanges.Clear;
+    {$IFDEF FPC_FULLVERSION < 020601} FPendingFilesChanges.Clear; {$ENDIF}
+    FreeAndNil(FPendingFilesChanges);
   end;
 end;
 
@@ -796,8 +821,8 @@ begin
           raise Exception.Create('Unsupported NewFilesPosition setting.');
       end;
 
-    ReDisplayFileList;
-    DoOnFileListChanged;
+    Request([fvrqMakeDisplayFileList]);
+    Notify([fvnFileSourceFileListChanged]);
   end;
 end;
 
@@ -822,8 +847,8 @@ begin
       FAllDisplayFiles.Delete(I);
       Break;
     end;
-  ReDisplayFileList;
-  DoOnFileListChanged;
+  Request([fvrqMakeDisplayFileList]);
+  Notify([fvnFileSourceFileListChanged]);
 end;
 
 procedure TFileView.RenameFile(NewFileName, OldFileName: String);
@@ -842,9 +867,16 @@ begin
     ADisplayFile.IconOverlayID := -1;
     ADisplayFile.DisplayStrings.Clear;
     ResortFile(ADisplayFile);
-    ReDisplayFileList;
-    DoOnFileListChanged;
+    Request([fvrqMakeDisplayFileList]);
+    Notify([fvnFileSourceFileListChanged]);
   end;
+end;
+
+procedure TFileView.Request(NewRequests: TFileViewRequests);
+begin
+  FRequests := FRequests + NewRequests;
+  if FUpdateCount = 0 then
+    HandleRequests;
 end;
 
 procedure TFileView.ResortFile(ADisplayFile: TDisplayFile);
@@ -882,8 +914,8 @@ begin
     end;
     ADisplayFile.DisplayStrings.Clear;
     ResortFile(ADisplayFile);
-    ReDisplayFileList;
-    DoOnFileListChanged;
+    Request([fvrqMakeDisplayFileList]);
+    Notify([fvnFileSourceFileListChanged]);
   end;
 end;
 
@@ -912,10 +944,32 @@ begin
   end;
 end;
 
+procedure TFileView.BeginUpdate;
+begin
+  Inc(FUpdateCount);
+end;
+
 procedure TFileView.DoOnFileListChanged;
 begin
   if Assigned(OnFileListChanged) then
     OnFileListChanged(Self);
+end;
+
+procedure TFileView.EndUpdate;
+begin
+  Dec(FUpdateCount);
+  if (FUpdateCount = 0) and
+     // This condition prevents endless recursion.
+     ((FRequests <> []) or (FNotifications <> [])) then
+  begin
+    BeginUpdate;
+    try
+      HandleRequests;
+      HandleNotifications;
+    finally
+      EndUpdate;
+    end;
+  end;
 end;
 
 function TFileView.GetCurrentPath: String;
@@ -1650,7 +1704,7 @@ begin
   begin
     // Always recreate file list because things like ignore list might have changed.
     if Assigned(FAllDisplayFiles) then
-      ReDisplayFileList;
+      Request([fvrqMakeDisplayFileList]);
   end;
 
   EnableWatcher(IsFileSystemWatcher);
@@ -1888,6 +1942,64 @@ begin
   Result := FWatchPath <> EmptyStr;
 end;
 
+procedure TFileView.HandleNotifications;
+begin
+  BeginUpdate;
+  try
+    while FNotifications <> [] do
+    begin
+      if fvnFileSourceFileListChanged in FNotifications then
+      begin
+        FNotifications := FNotifications - [fvnFileSourceFileListChanged];
+        DoOnFileListChanged;
+      end
+      else if fvnDisplayFileListChanged in FNotifications then
+      begin
+        FNotifications := FNotifications - [fvnDisplayFileListChanged];
+        AfterMakeFileList;
+      end;
+    end;
+  finally
+    EndUpdate;
+  end;
+end;
+
+procedure TFileView.HandleRequests;
+begin
+  BeginUpdate;
+  try
+    while FRequests <> [] do
+    begin
+      // Order is important because of dependencies.
+      // Remove request before acting on it, since a function called may request it again.
+      if fvrqHashFileList in FRequests then
+      begin
+        FRequests := FRequests - [fvrqHashFileList];
+        HashFileList;
+      end
+      else if fvrqApplyPendingFilesChanges in FRequests then
+      begin
+        FRequests := FRequests - [fvrqApplyPendingFilesChanges];
+        ApplyPendingFilesChanges;
+      end
+      else if fvrqMakeDisplayFileList in FRequests then
+      begin
+        FRequests := FRequests - [fvrqMakeDisplayFileList];
+        ReDisplayFileList;
+      end;
+    end;
+  finally
+    EndUpdate;
+  end;
+end;
+
+procedure TFileView.Notify(NewNotifications: TFileViewNotifications);
+begin
+  FNotifications := FNotifications + NewNotifications;
+  if FUpdateCount = 0 then
+    HandleNotifications;
+end;
+
 procedure TFileView.SetFileFilter(NewFilter: String; NewFilterOptions: TQuickSearchOptions);
 begin
   // do not reload if filter has not changed
@@ -1897,7 +2009,7 @@ begin
   FFileFilter := NewFilter;
   FFilterOptions := NewFilterOptions;
 
-  ReDisplayFileList;
+  Request([fvrqMakeDisplayFileList]);
 end;
 
 procedure TFileView.SetFilelist(var NewAllDisplayFiles: TDisplayFiles;
@@ -1914,16 +2026,18 @@ begin
   FLastLoadedFileSource := FileSource;
   FLastLoadedPath := CurrentPath;
 
-  HashFileList;
-  ApplyPendingFilesChanges; // After hashing new file list.
-  AfterMakeFileList;
+  BeginUpdate;
+  try
+    Request([fvrqHashFileList, fvrqApplyPendingFilesChanges]);
+    Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
+  finally
+    EndUpdate;
+  end;
 
   // We have just reloaded file list, so the requested file should be there.
   // Regardless if it is there or not it should be cleared so that it doesn't
   // get selected on further reloads.
   RequestedActiveFile := '';
-
-  DoOnFileListChanged;
 end;
 
 procedure TFileView.EnableWatcher(Enable: Boolean);
@@ -2134,7 +2248,7 @@ begin
   // a bit faster this way.
   TFileListBuilder.MakeDisplayFileList(
     FAllDisplayFiles, FFiles, FileFilter, FFilterOptions);
-  AfterMakeFileList;
+  Notify([fvnDisplayFileListChanged]);
 end;
 
 procedure TFileView.WorkerStarting(const Worker: TFileViewWorker);
