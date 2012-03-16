@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, Controls, ExtCtrls, ComCtrls, contnrs, fgl,
   uFile, uDisplayFile, uFileSource, uFormCommands, uDragDropEx, uXmlConfig,
   uClassesEx, uFileSorting, uFileViewHistory, uFileProperty, uFileViewWorker,
-  uFunctionThread, uFileSystemWatcher, fQuickSearch, StringHashList;
+  uFunctionThread, uFileSystemWatcher, fQuickSearch, StringHashList, uGlobs;
 
 type
 
@@ -70,6 +70,7 @@ type
     FFlags: TFileViewFlags;
     FHashedFiles: TBucketList;  //<en Contains pointers to file source files for quick checking if a file object is still valid
     FHashedNames: TStringHashList;
+    FPendingFilesChanges: TStringList;
     FReloadNeeded: Boolean;     //<en If file list should be reloaded
     FWorkersThread: TFunctionThread;
     FReloadTimer: TTimer;
@@ -100,7 +101,10 @@ type
     FOnActivate : TOnActivate;
     FOnFileListChanged : TOnFileListChanged;
 
-    procedure AddFile(FileName, APath: String);
+    procedure AddFile(FileName, APath: String; NewFilesPosition: TNewFilesPosition);
+    procedure AddEventToPendingFilesChanges(const EventData: TFSWatcherEventData);
+    procedure ApplyPendingFilesChanges;
+    procedure ClearPendingFilesChanges;
     function FileListLoaded: Boolean;
     function GetCurrentAddress: String;
     function GetNotebookPage: TCustomPage;
@@ -130,6 +134,7 @@ type
     procedure ActivateEvent(Sender: TObject);
     function CheckIfDelayReload: Boolean;
     procedure DoReload;
+    procedure HandleFSWatcherEvent(const EventData: TFSWatcherEventData; NewFilesPosition: TNewFilesPosition);
     procedure ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
     procedure ReloadTimerEvent(Sender: TObject);
     procedure WatcherEvent(const EventData: TFSWatcherEventData);
@@ -438,7 +443,7 @@ implementation
 uses
   Dialogs, LCLProc, Forms, StrUtils, uMasks, fMaskInputDlg,
   uDebug, uLng, uShowMsg, uFileSystemFileSource, uFileSourceUtil,
-  uDCUtils, uGlobs, uFileViewNotebook, uSearchTemplate, uOSUtils;
+  uDCUtils, uFileViewNotebook, uSearchTemplate, uOSUtils;
 
 const
   MinimumReloadInterval  = 1000; // 1 second
@@ -549,6 +554,7 @@ begin
     FreeAndNil(FFileViewWorkers);
   end;
 
+  ClearPendingFilesChanges;
   RemoveAllFileSources;
 
   FreeAndNil(FFiles);
@@ -560,6 +566,7 @@ begin
 
   FreeAndNil(FHistory);
   FreeThenNil(FSavedSelection);
+  FPendingFilesChanges.Free;
 end;
 
 function TFileView.Clone(NewParent: TWinControl): TFileView;
@@ -606,6 +613,106 @@ begin
   end;
 end;
 
+procedure TFileView.AddEventToPendingFilesChanges(const EventData: TFSWatcherEventData);
+  function CheckLast(const sFileName: String; const EventType: TFSWatcherEventTypes; bDelete: Boolean): Boolean;
+  var
+    i: Integer;
+    pEvent: PFSWatcherEventData;
+  begin
+    Result := False;
+    for i := FPendingFilesChanges.Count - 1 downto 0 do
+      if FPendingFilesChanges.Strings[i] = sFileName then
+      begin
+        pEvent := PFSWatcherEventData(FPendingFilesChanges.Objects[i]);
+        if pEvent^.EventType in EventType then
+        begin
+          Result := True;
+          if bDelete then
+          begin
+            Dispose(pEvent);
+            FPendingFilesChanges.Delete(i);
+          end
+          else
+            Break;
+        end
+        else
+          Break;
+      end;
+  end;
+var
+  pEvent: PFSWatcherEventData;
+  Index: Integer;
+begin
+  if not Assigned(FPendingFilesChanges) then
+  begin
+    FPendingFilesChanges := TStringList.Create;
+    // Need to have exact comparison so that rename events that only change case work.
+    FPendingFilesChanges.CaseSensitive := True;
+  end;
+
+  if FPendingFilesChanges.Count > FAllDisplayFiles.Count div 4 then
+  begin
+    // Too many changes. Reload the whole file list again.
+    Reload(EventData.Path);
+  end
+  else
+  begin
+    // Remove obsolete events if they exist.
+    // If last event was fswFileChange then new one is not scheduled at all.
+    case EventData.EventType of
+      fswFileCreated:
+        CheckLast(EventData.FileName, [fswFileCreated, fswFileDeleted, fswFileChanged], True);
+      fswFileDeleted:
+        CheckLast(EventData.FileName, [fswFileCreated, fswFileDeleted, fswFileChanged], True);
+      fswFileChanged:
+        if CheckLast(EventData.FileName, [fswFileChanged], False) then
+          // fswFileChange already pending.
+          Exit;
+    end;
+    New(pEvent);
+    FPendingFilesChanges.AddObject(EventData.FileName, TObject(pEvent));
+    pEvent^ := EventData;
+  end;
+end;
+
+procedure TFileView.ApplyPendingFilesChanges;
+var
+  i: Integer;
+  pEvent: PFSWatcherEventData;
+begin
+  if Assigned(FPendingFilesChanges) then
+  begin
+    // Check if another reload was not issued.
+    if FileListLoaded and (GetCurrentWorkType <> fvwtCreate) then
+    begin
+      for i := 0 to FPendingFilesChanges.Count - 1 do
+      begin
+        pEvent := PFSWatcherEventData(FPendingFilesChanges.Objects[i]);
+        // Insert new files at sorted position since the filelist hasn't been
+        // shown to the user yet, so no need to use user setting.
+        HandleFSWatcherEvent(pEvent^, nfpSortedPosition);
+      end;
+    end;
+    ClearPendingFilesChanges;
+  end;
+end;
+
+procedure TFileView.ClearPendingFilesChanges;
+var
+  pEvent: PFSWatcherEventData;
+  i: Integer;
+begin
+  if Assigned(FPendingFilesChanges) then
+  begin
+    for i := 0 to FPendingFilesChanges.Count - 1 do
+    begin
+      pEvent := PFSWatcherEventData(FPendingFilesChanges.Objects[i]);
+      Dispose(pEvent);
+    end;
+    FPendingFilesChanges.Clear;
+  end;
+end;
+
 function TFileView.FileListLoaded: Boolean;
 begin
   Result := Assigned(FAllDisplayFiles);
@@ -619,7 +726,7 @@ begin
     Result := nil;
 end;
 
-procedure TFileView.AddFile(FileName, APath: String);
+procedure TFileView.AddFile(FileName, APath: String; NewFilesPosition: TNewFilesPosition);
 
 var
   ADisplayFile: TDisplayFile;
@@ -674,7 +781,7 @@ begin
     if ADisplayFile.FSFile.IsDirectory or ADisplayFile.FSFile.IsLinkToDirectory then
       InsertIntoSortedPosition
     else
-      case gNewFilesPosition of
+      case NewFilesPosition of
         nfpTop:
           InsertAfterUpDir;
         nfpTopAfterDirectories:
@@ -1280,6 +1387,8 @@ begin
       Exit;
   end;
 
+  ClearPendingFilesChanges;
+
   if FReloadTimer.Enabled then
   begin
     // Reload is already scheduled.
@@ -1808,6 +1917,7 @@ begin
   FLastLoadedPath := CurrentPath;
 
   HashFileList;
+  ApplyPendingFilesChanges; // After hashing new file list.
   AfterMakeFileList;
 
   // We have just reloaded file list, so the requested file should be there.
@@ -1883,6 +1993,22 @@ begin
   MakeFileSourceFileList;
 end;
 
+procedure TFileView.HandleFSWatcherEvent(const EventData: TFSWatcherEventData; NewFilesPosition: TNewFilesPosition);
+begin
+  case EventData.EventType of
+    fswFileCreated:
+      Self.AddFile(EventData.FileName, EventData.Path, NewFilesPosition);
+    fswFileChanged:
+      Self.UpdateFile(EventData.FileName);
+    fswFileDeleted:
+      Self.RemoveFile(EventData.FileName);
+    fswFileRenamed:
+      Self.RenameFile(EventData.NewFileName, EventData.FileName);
+    else
+      Reload(EventData.Path);
+  end;
+end;
+
 procedure TFileView.ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
 begin
   // Reload file view but only if the file source is currently viewed
@@ -1901,23 +2027,21 @@ procedure TFileView.WatcherEvent(const EventData: TFSWatcherEventData);
 begin
   if IncludeTrailingPathDelimiter(EventData.Path) = CurrentPath then
   begin
-    if FileListLoaded then
+    if GetCurrentWorkType = fvwtCreate then
     begin
-      case EventData.EventType of
-        fswFileCreated:
-          Self.AddFile(EventData.FileName, EventData.Path);
-        fswFileChanged:
-          Self.UpdateFile(EventData.FileName);
-        fswFileDeleted:
-          Self.RemoveFile(EventData.FileName);
-        fswFileRenamed:
-          Self.RenameFile(EventData.FileName, EventData.OldFileName);
-        else
-          Reload(EventData.Path);
-      end;
+      // If some unknown change then we can only reload the whole file list.
+      if EventData.EventType <> fswUnknownChange then
+        AddEventToPendingFilesChanges(EventData)
+      else
+        Reload(EventData.Path);
     end
     else
-      Reload(EventData.Path);
+    begin
+      if FileListLoaded then
+        HandleFSWatcherEvent(EventData, gNewFilesPosition)
+      else
+        Reload(EventData.Path);
+    end;
   end;
 end;
 
