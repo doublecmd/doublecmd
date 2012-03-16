@@ -40,14 +40,16 @@ type
                          fswFileDeleted,
                          fswFileRenamed,
                          fswUnknownChange);
+  TFSWatcherEventTypes = set of TFSWatcherEventType;
 
   TFSWatcherEventData = record
     Path: UTF8String;
     EventType: TFSWatcherEventType;
     FileName: UTF8String;    // Valid for fswFileCreated, fswFileChanged, fswFileDeleted, fswFileRenamed
-    OldFileName: UTF8String; // Valid for fswFileRenamed
+    NewFileName: UTF8String; // Valid for fswFileRenamed
     UserData: Pointer;
   end;
+  PFSWatcherEventData = ^TFSWatcherEventData;
 
   TFSWatcherEvent = procedure(const EventData: TFSWatcherEventData) of object;
 
@@ -331,7 +333,7 @@ begin
       // known that something has changed but all specific events have been lost.
       FCurrentEventData.EventType := fswUnknownChange;
       FCurrentEventData.FileName := EmptyStr;
-      FCurrentEventData.OldFileName := EmptyStr;
+      FCurrentEventData.NewFileName := EmptyStr;
       Synchronize(@DoWatcherEvent);
       Exit;
     end;
@@ -343,7 +345,7 @@ begin
     while True do
     begin
       SetString(wFilename, PWideChar(@fnInfo^.FileName), fnInfo^.FileNameLength div SizeOf(WideChar));
-      FCurrentEventData.OldFileName := EmptyStr;
+      FCurrentEventData.NewFileName := EmptyStr;
 
       case fnInfo^.Action of
         FILE_ACTION_ADDED:
@@ -383,8 +385,8 @@ begin
           end;
         FILE_ACTION_RENAMED_NEW_NAME:
           begin
-            FCurrentEventData.OldFileName := Watch.FOldFileName;
-            FCurrentEventData.FileName := UTF8Encode(wFilename);
+            FCurrentEventData.FileName := Watch.FOldFileName;
+            FCurrentEventData.NewFileName := UTF8Encode(wFilename);
             FCurrentEventData.EventType := fswFileRenamed;
             {$IFDEF DEBUG_WATCHER}
             DCDebug('FSWatcher: Process watch ', hexStr(Watch), ': Rename to ',
@@ -630,7 +632,7 @@ begin
             begin
               Path := FOSWatchers[i].WatchPath;
               FileName := StrPas(PChar(@ev^.name));
-              OldFileName := EmptyStr;
+              NewFileName := EmptyStr;
 
               // IN_MOVED_FROM is converted to FileDelete.
               // IN_MOVED_TO is converted to FileCreate.
@@ -667,7 +669,7 @@ begin
               else if (ev^.mask and IN_MOVE_SELF) <> 0 then
                 begin
                   EventType := fswFileRenamed;
-                  OldFileName := FileName;
+                  NewFileName := FileName;
                 end
               else
                 EventType := fswUnknownChange;
@@ -714,7 +716,7 @@ begin
           Path := TOSWatch(ke.uData).WatchPath;
           EventType := fswUnknownChange;
           FileName := EmptyStr;
-          OldFileName := EmptyStr;
+          NewFileName := EmptyStr;
         end;
 
         Synchronize(@DoWatcherEvent);
@@ -1391,4 +1393,4 @@ finalization
   TFileSystemWatcher.DestroyFileSystemWatcher;
 
 end.
-
+
