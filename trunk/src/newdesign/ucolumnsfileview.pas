@@ -1488,7 +1488,6 @@ var
   FilesInDir, FilesSelected, FolderInDir, FolderSelected: Integer;
   SizeInDir, SizeSelected: Int64;
   SizeProperty: TFileSizeProperty;
-  SizeSupported: Boolean;
 begin
   if GetCurrentWorkType = fvwtCreate then
   begin
@@ -1507,8 +1506,6 @@ begin
     FolderInDir := 0;
     FolderSelected := 0;
 
-    SizeSupported := fpSize in FileSource.SupportedFileProperties;
-
     for i := 0 to FFiles.Count - 1 do
     begin
       with FFiles[i] do
@@ -1526,8 +1523,8 @@ begin
             inc(FilesSelected);
         end;
 
-        // Count size if Size property is supported.
-        if SizeSupported then
+        // Count size if Size property exists.
+        if fpSize in FSFile.AssignedProperties then
         begin
           SizeProperty := FSFile.SizeProperty;
 
@@ -3965,4 +3962,4 @@ begin
 end;
 
 end.
-
+
