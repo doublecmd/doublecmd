@@ -1478,23 +1478,26 @@ begin
 end;
 
 procedure TColumnsFileViewVTV.SearchFile(SearchTerm: UTF8String; SearchOptions: TQuickSearchOptions; SearchDirection: TQuickSearchDirection);
+  function NextNode(Node: PVirtualNode): PVirtualNode;
+  begin
+    Result := Node^.NextSibling;
+    if not Assigned(Result) then
+      Result := dgPanel.GetFirstNoInit;
+  end;
+  function PrevNode(Node: PVirtualNode): PVirtualNode;
+  begin
+    Result := Node^.PrevSibling;
+    if not Assigned(Result) then
+      Result := dgPanel.GetLastNoInit;
+  end;
 var
-  I, StartPos : Integer;
+  I : Integer;
   Result : Boolean;
   sFileName,
   sSearchName,
   sSearchNameNoExt,
   sSearchExt : UTF8String;
-  Node: PVirtualNode;
-
-  procedure CheckOutOfBounds(var RowIndex: Integer);
-  begin
-    if RowIndex < 0 then
-      RowIndex := Max(FFiles.Count - 1, 0);
-
-    if RowIndex >= FFiles.Count then
-      RowIndex := 0;
-  end;
+  StartNode, Node: PVirtualNode;
 begin
   if FFiles.Count = 0 then
     Exit;
@@ -1522,24 +1525,24 @@ begin
   end;
 
   Node := dgPanel.FocusedNode;
-  StartPos := Node^.Index; // start search from current cursor position
+  if not Assigned(Node) then
+    Node := dgPanel.GetFirstNoInit;
   case SearchDirection of
     qsdFirst:
-      StartPos := 0; // begin search from first file
+      Node := dgPanel.GetFirstNoInit;
     qsdLast:
-      StartPos := FFiles.Count - 1; // begin search from last file
+      Node := dgPanel.GetLastNoInit;
     qsdNext:
-      StartPos := StartPos + 1; // begin search from next file
+      Node := NextNode(Node);
     qsdPrevious:
-      StartPos := StartPos - 1; // begin search from previous file
+      Node := PrevNode(Node);
   end;
 
-  CheckOutOfBounds(StartPos);
-  I := StartPos;
-
+  StartNode := Node;
   try
     repeat
       Result := True;
+      I := Node^.Index;
 
       sFileName := FFiles[I].FSFile.Name;
 
@@ -1562,24 +1565,16 @@ begin
       if Result then
       begin
         dgPanel.FocusedNode := Node;
-        MakeVisible(Node);
         Exit;
       end;
 
       // check next file depending on search direction
       if SearchDirection in [qsdNone, qsdFirst, qsdNext] then
-      begin
-        Inc(I);
-        Node := Node^.NextSibling;
-      end
+        Node := NextNode(Node)
       else
-      begin
-        Dec(I);
-        Node := Node^.PrevSibling;
-      end;
+        Node := PrevNode(Node);
 
-      CheckOutOfBounds(I);
-    until I = StartPos;
+    until Node = StartNode;
 
   except
     on EConvertError do; // bypass
@@ -4178,4 +4173,4 @@ begin
 end;
 
 end.
-
+
