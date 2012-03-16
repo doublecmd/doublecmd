@@ -1,3 +1,59 @@
+Index: VTConfig.inc
+===================================================================
+--- VTConfig.inc	(revision 2334)
++++ VTConfig.inc	(working copy)
+@@ -22,7 +22,7 @@
+ 
+ 
+ //Lazarus port options
+-{$define EnableOLE}
++{.$define EnableOLE}
+ {.$define EnableNativeTVM}
+ {.$define EnablePrint}
+ {.$define EnableNCFunctions}
+@@ -42,5 +42,5 @@
+ 
+ //under linux the performance is poor with threading enabled
+ {$ifdef Windows}
+-  {$define EnableThreadSupport}
++  {.$define EnableThreadSupport}
+ {$endif}
+Index: virtualtreeview_package.lpk
+===================================================================
+--- virtualtreeview_package.lpk	(revision 2334)
++++ virtualtreeview_package.lpk	(working copy)
+@@ -1,10 +1,11 @@
+ <?xml version="1.0"?>
+ <CONFIG>
+-  <Package Version="3">
++  <Package Version="4">
+     <Name Value="virtualtreeview_package"/>
++    <AddToProjectUsesSection Value="True"/>
+     <Author Value="Mike Lischke (LCL Port: Luiz Américo)"/>
+     <CompilerOptions>
+-      <Version Value="10"/>
++      <Version Value="11"/>
+       <SearchPaths>
+         <IncludeFiles Value="include/intf/$(LCLWidgetType);units;include/intf"/>
+         <OtherUnitFiles Value="units/$(LCLWidgetType)"/>
+@@ -15,6 +16,17 @@
+           <UseAnsiStrings Value="False"/>
+         </SyntaxOptions>
+       </Parsing>
++      <CodeGeneration>
++        <Checks>
++          <RangeChecks Value="True"/>
++          <OverflowChecks Value="True"/>
++        </Checks>
++      </CodeGeneration>
++      <Linking>
++        <Debugging>
++          <DebugInfoType Value="dsDwarf2Set"/>
++        </Debugging>
++      </Linking>
+       <Other>
+         <CompilerPath Value="$(CompPath)"/>
+       </Other>
 Index: VirtualTrees.pas
 ===================================================================
 --- VirtualTrees.pas	(revision 2334)
@@ -53,7 +109,17 @@ Index: VirtualTrees.pas
          InvalidateNode(FFocusedNode);
      end;
  
-@@ -15672,7 +15675,7 @@
+@@ -15047,7 +15050,8 @@
+   LeaveStates := [tsHint];
+   if [tsWheelPanning, tsWheelScrolling] * FStates = [] then
+   begin
+-    KillTimer(Handle, ScrollTimer);
++    if HandleAllocated then
++      KillTimer(Handle, ScrollTimer);
+     LeaveStates := LeaveStates + [tsScrollPending, tsScrolling];
+   end;
+   DoStateChange([], LeaveStates);
+@@ -15672,7 +15676,7 @@
                  if (Shift = [ssCtrlOS]) and not ActAsGrid then
                  begin
                    ScrollIntoView(Node, toCenterScrollIntoView in FOptions.SelectionOptions,
@@ -62,7 +128,7 @@ Index: VirtualTrees.pas
                    if (CharCode = VK_HOME) and not UseRightToLeftAlignment then
                      SetOffsetX(0)
                    else
-@@ -18437,7 +18440,7 @@
+@@ -18437,7 +18441,7 @@
  
  begin
    if Assigned(FOnDragDrop) then
@@ -71,7 +137,7 @@ Index: VirtualTrees.pas
  end;
  
  //----------------------------------------------------------------------------------------------------------------------
-@@ -18589,7 +18592,7 @@
+@@ -18589,7 +18593,7 @@
        InvalidateNode(FFocusedNode);
        if (FUpdateCount = 0) and not (toDisableAutoscrollOnFocus in FOptions.FAutoOptions) then
          ScrollIntoView(FFocusedNode, (toCenterScrollIntoView in FOptions.SelectionOptions) and
@@ -80,7 +146,7 @@ Index: VirtualTrees.pas
      end;
  
      // Reset range anchor if necessary.
-@@ -21122,7 +21125,7 @@
+@@ -21122,7 +21126,7 @@
        if NewNode or NewColumn then
        begin
          ScrollIntoView(FFocusedNode, toCenterScrollIntoView in FOptions.SelectionOptions,
@@ -89,7 +155,7 @@ Index: VirtualTrees.pas
          DoFocusChange(FFocusedNode, FFocusedColumn);
        end;
      end;
-@@ -26469,6 +26472,22 @@
+@@ -26469,6 +26473,22 @@
  
  //----------------------------------------------------------------------------------------------------------------------
  
@@ -112,7 +178,7 @@ Index: VirtualTrees.pas
  function TBaseVirtualTree.GetNextVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
  
  // Returns next node in tree, with regard to Node, which is visible.
-@@ -27087,6 +27106,22 @@
+@@ -27087,6 +27107,22 @@
  
  //----------------------------------------------------------------------------------------------------------------------
  
@@ -135,7 +201,7 @@ Index: VirtualTrees.pas
  function TBaseVirtualTree.GetPreviousVisible(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = True): PVirtualNode;
  
  // Returns the previous node in tree, with regard to Node, which is visible.
-@@ -29272,6 +29307,7 @@
+@@ -29272,6 +29308,7 @@
    HScrollBarVisible: Boolean;
    ScrolledVertically,
    ScrolledHorizontally: Boolean;
@@ -143,7 +209,7 @@ Index: VirtualTrees.pas
  
  begin
    //todo: minimize calls to ClientHeight and ClientWidth
-@@ -29316,7 +29352,13 @@
+@@ -29316,7 +29353,13 @@
          if Center then
            SetOffsetY(FOffsetY - R.Bottom + ClientHeight div 2)
          else
@@ -158,7 +224,7 @@ Index: VirtualTrees.pas
          // When scrolling up and the horizontal scroll appears because of the operation
          // then we have to move up the node the horizontal scrollbar's height too
          // in order to avoid that the scroll bar hides the node which we wanted to have in view.
-@@ -29370,10 +29412,13 @@
+@@ -29370,10 +29413,13 @@
    end
    else
    begin
@@ -176,59 +242,3 @@ Index: VirtualTrees.pas
      if NewOffset <> FEffectiveOffsetX then
      begin
        if UseRightToLeftAlignment then
-Index: virtualtreeview_package.lpk
-===================================================================
---- virtualtreeview_package.lpk	(revision 2334)
-+++ virtualtreeview_package.lpk	(working copy)
-@@ -1,10 +1,11 @@
- <?xml version="1.0"?>
- <CONFIG>
--  <Package Version="3">
-+  <Package Version="4">
-     <Name Value="virtualtreeview_package"/>
-+    <AddToProjectUsesSection Value="True"/>
-     <Author Value="Mike Lischke (LCL Port: Luiz Américo)"/>
-     <CompilerOptions>
--      <Version Value="10"/>
-+      <Version Value="11"/>
-       <SearchPaths>
-         <IncludeFiles Value="include/intf/$(LCLWidgetType);units;include/intf"/>
-         <OtherUnitFiles Value="units/$(LCLWidgetType)"/>
-@@ -15,6 +16,17 @@
-           <UseAnsiStrings Value="False"/>
-         </SyntaxOptions>
-       </Parsing>
-+      <CodeGeneration>
-+        <Checks>
-+          <RangeChecks Value="True"/>
-+          <OverflowChecks Value="True"/>
-+        </Checks>
-+      </CodeGeneration>
-+      <Linking>
-+        <Debugging>
-+          <DebugInfoType Value="dsDwarf2Set"/>
-+        </Debugging>
-+      </Linking>
-       <Other>
-         <CompilerPath Value="$(CompPath)"/>
-       </Other>
-Index: VTConfig.inc
-===================================================================
---- VTConfig.inc	(revision 2334)
-+++ VTConfig.inc	(working copy)
-@@ -22,7 +22,7 @@
- 
- 
- //Lazarus port options
--{$define EnableOLE}
-+{.$define EnableOLE}
- {.$define EnableNativeTVM}
- {.$define EnablePrint}
- {.$define EnableNCFunctions}
-@@ -42,5 +42,5 @@
- 
- //under linux the performance is poor with threading enabled
- {$ifdef Windows}
--  {$define EnableThreadSupport}
-+  {.$define EnableThreadSupport}
- {$endif}
