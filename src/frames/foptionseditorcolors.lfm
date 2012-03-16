@@ -74,27 +74,7 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       TabStop = False
       BookMarkOptions.Xoffset = 30
       Gutter.Width = 59
-      Gutter.MouseActions = <      
-        item
-          ClickCount = ccAny
-          ClickDir = cdDown
-          Command = emcOnMainGutterClick
-        end      
-        item
-          Button = mbRight
-          Command = emcContextMenu
-        end>
       RightGutter.Width = 0
-      RightGutter.MouseActions = <      
-        item
-          ClickCount = ccAny
-          ClickDir = cdDown
-          Command = emcOnMainGutterClick
-        end      
-        item
-          Button = mbRight
-          Command = emcContextMenu
-        end>
       Keystrokes = <      
         item
           Command = ecUp
@@ -416,78 +396,9 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
           Command = ecMatchBracket
           ShortCut = 24642
         end>
-      MouseActions = <      
-        item
-          ShiftMask = [ssShift, ssAlt]
-          ClickDir = cdDown
-          Command = emcStartSelections
-          MoveCaret = True
-        end      
-        item
-          Shift = [ssShift]
-          ShiftMask = [ssShift, ssAlt]
-          ClickDir = cdDown
-          Command = emcStartSelections
-          MoveCaret = True
-          Option = 1
-        end      
-        item
-          Shift = [ssAlt]
-          ShiftMask = [ssShift, ssAlt]
-          ClickDir = cdDown
-          Command = emcStartColumnSelections
-          MoveCaret = True
-        end      
-        item
-          Shift = [ssShift, ssAlt]
-          ShiftMask = [ssShift, ssAlt]
-          ClickDir = cdDown
-          Command = emcStartColumnSelections
-          MoveCaret = True
-          Option = 1
-        end      
-        item
-          Button = mbRight
-          Command = emcContextMenu
-        end      
-        item
-          ClickCount = ccDouble
-          ClickDir = cdDown
-          Command = emcSelectWord
-          MoveCaret = True
-        end      
-        item
-          ClickCount = ccTriple
-          ClickDir = cdDown
-          Command = emcSelectLine
-          MoveCaret = True
-        end      
-        item
-          ClickCount = ccQuad
-          ClickDir = cdDown
-          Command = emcSelectPara
-          MoveCaret = True
-        end      
-        item
-          Button = mbMiddle
-          ClickDir = cdDown
-          Command = emcPasteSelection
-          MoveCaret = True
-        end      
-        item
-          Shift = [ssCtrl]
-          ShiftMask = [ssShift, ssAlt, ssCtrl]
-          Command = emcMouseLink
-        end>
-      MouseSelActions = <      
-        item
-          ClickDir = cdDown
-          Command = emcStartDragMove
-        end>
       Lines.Strings = (
         'ColorPreview'
       )
-      VisibleSpecialChars = [vscSpace, vscTabAtLast]
       BracketHighlightStyle = sbhsBoth
       BracketMatchColor.Background = clNone
       BracketMatchColor.Foreground = clNone
@@ -502,11 +413,9 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
       inline TSynGutterPartList
         object TSynGutterMarks
           Width = 24
-          MouseActions = <>
         end
         object TSynGutterLineNumber
           Width = 19
-          MouseActions = <>
           MarkupInfo.Background = clBtnFace
           MarkupInfo.Foreground = clNone
           DigitCount = 2
@@ -516,64 +425,15 @@ inherited frmOptionsEditorColors: TfrmOptionsEditorColors
         end
         object TSynGutterChanges
           Width = 4
-          MouseActions = <>
           ModifiedColor = 59900
           SavedColor = clGreen
         end
         object TSynGutterSeparator
           Width = 2
-          MouseActions = <>
         end
         object TSynGutterCodeFolding
-          MouseActions = <          
-            item
-              Button = mbRight
-              Command = emcCodeFoldContextMenu
-            end          
-            item
-              ShiftMask = [ssShift]
-              Button = mbMiddle
-              ClickCount = ccAny
-              ClickDir = cdDown
-              Command = emcCodeFoldCollaps
-            end          
-            item
-              Shift = [ssShift]
-              ShiftMask = [ssShift]
-              Button = mbMiddle
-              ClickCount = ccAny
-              ClickDir = cdDown
-              Command = emcCodeFoldCollaps
-              Option = 1
-            end          
-            item
-              ClickCount = ccAny
-              ClickDir = cdDown
-              Command = emcNone
-            end>
           MarkupInfo.Background = clNone
           MarkupInfo.Foreground = clGray
-          MouseActionsExpanded = <          
-            item
-              ClickCount = ccAny
-              ClickDir = cdDown
-              Command = emcCodeFoldCollaps
-            end>
-          MouseActionsCollapsed = <          
-            item
-              Shift = [ssCtrl]
-              ShiftMask = [ssCtrl]
-              ClickCount = ccAny
-              ClickDir = cdDown
-              Command = emcCodeFoldExpand
-            end          
-            item
-              ShiftMask = [ssCtrl]
-              ClickCount = ccAny
-              ClickDir = cdDown
-              Command = emcCodeFoldExpand
-              Option = 1
-            end>
         end
       end
     end
