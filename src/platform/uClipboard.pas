@@ -349,8 +349,6 @@ var
   hGlobalBuffer: HGLOBAL;
   PreferredEffect: DWORD = DROPEFFECT_COPY;
   formatEtc: TFormatEtc = (CfFormat: 0; Ptd: nil; dwAspect: 0; lindex: 0; tymed: TYMED_HGLOBAL);
-const
-  DummyPoint: TPoint = (x: 0; y: 0);
 {$ENDIF}
 
 {$IFDEF UNIX}
@@ -376,7 +374,7 @@ begin
 
   { Create a helper object. }
 
-  DragDropInfo := TDragDropInfo.Create(DummyPoint, True, PreferredEffect);
+  DragDropInfo := TDragDropInfo.Create(PreferredEffect);
 
   try
 
