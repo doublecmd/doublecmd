@@ -52,10 +52,6 @@ type
 
   private
 
-    FInClientArea: boolean;
-
-    FDropPoint: TPoint;
-
     FFileList: TStringList;
 
     FPreferredWinDropEffect: DWORD;
@@ -69,8 +65,7 @@ type
 
   public
 
-    constructor Create(ADropPoint: TPoint; AInClient: boolean;
-                       PreferredWinDropEffect: DWORD);
+    constructor Create(PreferredWinDropEffect: DWORD);
 
     destructor Destroy; override;
 
@@ -79,10 +74,6 @@ type
     function MakeDataInFormat(const formatEtc: TFormatEtc): HGlobal;
 
     function CreatePreferredDropEffect(WinDropEffect: DWORD): HGlobal;
-
-    property InClientArea: boolean Read FInClientArea;
-
-    property DropPoint: TPoint Read FDropPoint;
 
     property Files: TStringList Read FFileList;
 
@@ -165,8 +156,7 @@ type
 
   public
 
-    constructor Create(ADropPoint: TPoint; AInClient: boolean;
-                       PreferredWinDropEffect: DWORD);
+    constructor Create(PreferredWinDropEffect: DWORD);
 
     destructor Destroy; override;
 
@@ -444,18 +434,13 @@ end;
 
 { TDragDropInfo }
 
-constructor TDragDropInfo.Create(ADropPoint: TPoint; AInClient: boolean;
-                                 PreferredWinDropEffect: DWORD);
+constructor TDragDropInfo.Create(PreferredWinDropEffect: DWORD);
 
 begin
 
   inherited Create;
 
   FFileList := TStringList.Create;
-
-  FDropPoint := ADropPoint;
-
-  FInClientArea := AInClient;
 
   FPreferredWinDropEffect := PreferredWinDropEffect;
 
@@ -872,9 +857,14 @@ begin
 
     DropFiles.pFiles := SizeOf(TDropFiles);
 
-    DropFiles.pt := Self.FDropPoint;
+    if Windows.GetCursorPos(@DropFiles.pt) = False then
+    begin
+      DropFiles.pt.x := 0;
 
-    DropFiles.fNC := Self.InClientArea;
+      DropFiles.pt.y := 0;
+    end;
+
+    DropFiles.fNC := True;  // Pass cursor coordinates as screen coords
 
     DropFiles.fWide := bUnicode;
 
@@ -1066,10 +1056,6 @@ var
 
   FileNames: TStringList;
 
-  InClient: boolean;
-
-  DropPoint: TPoint;
-
   DropEffect: TDropEffect;
 
 begin
@@ -1132,14 +1118,9 @@ begin
 
       begin
 
-        InClient := DragQueryPoint(Medium.hGlobal, @DropPoint);
-
-        if (DropPoint.X = 0) and (DropPoint.Y = 0) then
-          DropPoint := pt;
-
         { Создаем объект TDragDropInfo }
 
-        DropInfo := TDragDropInfo.Create(DropPoint, InClient, dwEffect);
+        DropInfo := TDragDropInfo.Create(dwEffect);
 
 
         { Retrieve file names }
@@ -1173,7 +1154,7 @@ begin
 
           DropEffect := WinEffectToDropEffect(dwEffect);
 
-          if FDragDropTarget.GetDropEvent()(DropInfo.Files, DropEffect, DropInfo.DropPoint) = False then
+          if FDragDropTarget.GetDropEvent()(DropInfo.Files, DropEffect, pt) = False then
 
             ;
 
@@ -1383,8 +1364,7 @@ end;
 
 { THDropDataObject }
 
-constructor THDropDataObject.Create(ADropPoint: TPoint; AInClient: boolean;
-                                    PreferredWinDropEffect: DWORD);
+constructor THDropDataObject.Create(PreferredWinDropEffect: DWORD);
 
 begin
 
@@ -1392,7 +1372,7 @@ begin
 
   _AddRef;
 
-  FDropInfo := TDragDropInfo.Create(ADropPoint, AInClient, PreferredWinDropEffect);
+  FDropInfo := TDragDropInfo.Create(PreferredWinDropEffect);
 
 end;
 
@@ -1697,8 +1677,7 @@ begin
     DropSource:= TFileDropSource.Create;
 
     // and data object
-    DropData:= THDropDataObject.Create(ScreenStartPoint, False,
-                                       DROPEFFECT_COPY { default effect } );
+    DropData:= THDropDataObject.Create(DROPEFFECT_COPY { default effect } );
 
     for I:= 0 to FileNamesList.Count - 1 do
       DropData.Add (FileNamesList[i]);
