@@ -78,7 +78,7 @@ type
     FFlags: TFileViewFlags;
     FHashedFiles: TBucketList;  //<en Contains pointers to file source files for quick checking if a file object is still valid
     FHashedNames: TStringHashList;
-    FPendingFilesChanges: TStringList;
+    FPendingFilesChanges: TFPList;
     FReloadNeeded: Boolean;     //<en If file list should be reloaded
     FWorkersThread: TFunctionThread;
     FReloadTimer: TTimer;
@@ -638,9 +638,10 @@ procedure TFileView.AddEventToPendingFilesChanges(const EventData: TFSWatcherEve
   begin
     Result := False;
     for i := FPendingFilesChanges.Count - 1 downto 0 do
-      if FPendingFilesChanges.Strings[i] = sFileName then
+    begin
+      pEvent := PFSWatcherEventData(FPendingFilesChanges[i]);
+      if pEvent^.FileName = sFileName then
       begin
-        pEvent := PFSWatcherEventData(FPendingFilesChanges.Objects[i]);
         if pEvent^.EventType in EventType then
         begin
           Result := True;
@@ -655,16 +656,13 @@ procedure TFileView.AddEventToPendingFilesChanges(const EventData: TFSWatcherEve
         else
           Break;
       end;
+    end;
   end;
 var
   pEvent: PFSWatcherEventData;
 begin
   if not Assigned(FPendingFilesChanges) then
-  begin
-    FPendingFilesChanges := TStringList.Create;
-    // Need to have exact comparison so that rename events that only change case work.
-    FPendingFilesChanges.CaseSensitive := True;
-  end;
+    FPendingFilesChanges := TFPList.Create;
 
   if (Assigned(FAllDisplayFiles) and (FAllDisplayFiles.Count > 0) and
       (FPendingFilesChanges.Count > FAllDisplayFiles.Count div 4)) or
@@ -690,7 +688,7 @@ begin
         CheckLast(EventData.FileName, [fswFileChanged, fswFileCreated, fswFileDeleted], True);
     end;
     New(pEvent);
-    FPendingFilesChanges.AddObject(EventData.FileName, TObject(pEvent));
+    FPendingFilesChanges.Add(pEvent);
     pEvent^ := EventData;
   end;
 end;
@@ -709,7 +707,7 @@ begin
       begin
         for i := 0 to FPendingFilesChanges.Count - 1 do
         begin
-          pEvent := PFSWatcherEventData(FPendingFilesChanges.Objects[i]);
+          pEvent := PFSWatcherEventData(FPendingFilesChanges[i]);
           // Insert new files at sorted position since the filelist hasn't been
           // shown to the user yet, so no need to use user setting.
           HandleFSWatcherEvent(pEvent^, nfpSortedPosition);
@@ -731,10 +729,9 @@ begin
   begin
     for i := 0 to FPendingFilesChanges.Count - 1 do
     begin
-      pEvent := PFSWatcherEventData(FPendingFilesChanges.Objects[i]);
+      pEvent := PFSWatcherEventData(FPendingFilesChanges[i]);
       Dispose(pEvent);
     end;
-    {$IFDEF FPC_FULLVERSION < 020601} FPendingFilesChanges.Clear; {$ENDIF}
     FreeAndNil(FPendingFilesChanges);
   end;
 end;
