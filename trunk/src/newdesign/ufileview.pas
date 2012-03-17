@@ -135,12 +135,13 @@ type
        Store pointers to file source files in a fast to read structure.
     }
     procedure HashFileList;
+    procedure InsertFile(ADisplayFile: TDisplayFile; AFileList: TDisplayFiles; NewFilesPosition: TNewFilesPosition);
     procedure Notify(NewNotifications: TFileViewNotifications);
     procedure RemoveFile(ADisplayFile: TDisplayFile);
     procedure RemoveFile(const FileName: String);
     procedure RenameFile(const NewFileName, OldFileName, APath: String; NewFilesPosition: TNewFilesPosition);
     procedure Request(NewRequests: TFileViewRequests);
-    procedure ResortFile(ADisplayFile: TDisplayFile);
+    procedure ResortFile(ADisplayFile: TDisplayFile; AFileList: TDisplayFiles);
     procedure SetFlags(AValue: TFileViewFlags);
     procedure UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition);
     procedure UpdatePath(UpdateAddressToo: Boolean);
@@ -750,36 +751,10 @@ begin
 end;
 
 procedure TFileView.AddFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition);
-
 var
   ADisplayFile: TDisplayFile;
-
-  procedure InsertAfterUpDir;
-  var
-    i, InsertPos: Integer;
-  begin
-    InsertPos := FAllDisplayFiles.Count;
-    for i := 0 to FAllDisplayFiles.Count - 1 do
-    begin
-      if (FAllDisplayFiles[i].FSFile.Name <> '..') and
-         (FAllDisplayFiles[i].FSFile.Name <> '.') then
-      begin
-        InsertPos := i;
-        Break;
-      end;
-    end;
-    FAllDisplayFiles.List.Insert(InsertPos, ADisplayFile);
-  end;
-
-  procedure InsertIntoSortedPosition;
-  begin
-    TDisplayFileSorter.InsertSort(ADisplayFile, FAllDisplayFiles, CloneAndAddSortByNameIfNeeded(Sorting));
-  end;
-
-var
   AFile: TFile;
   I: Integer;
-  EmptySortings: TFileSortings = nil;
 begin
   I := FHashedNames.Find(FileName);
   if I < 0 then
@@ -798,29 +773,14 @@ begin
     ADisplayFile := TDisplayFile.Create(AFile);
     FHashedFiles.Add(ADisplayFile, nil);
     FHashedNames.Add(FileName, ADisplayFile);
-
-    if ADisplayFile.FSFile.IsDirectory or ADisplayFile.FSFile.IsLinkToDirectory then
-      InsertIntoSortedPosition
+    InsertFile(ADisplayFile, FAllDisplayFiles, NewFilesPosition);
+    if not TFileListBuilder.MatchesFilter(ADisplayFile.FSFile, FileFilter, FFilterOptions) then
+    begin
+      InsertFile(ADisplayFile, FFiles, NewFilesPosition);
+      Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
+    end
     else
-      case NewFilesPosition of
-        nfpTop:
-          InsertAfterUpDir;
-        nfpTopAfterDirectories:
-          if gSortFolderMode <> sfmSortLikeFile then
-            // Will only sort by directory attribute.
-            TDisplayFileSorter.InsertSort(ADisplayFile, FAllDisplayFiles, EmptySortings, True)
-          else
-            InsertIntoSortedPosition;
-        nfpSortedPosition:
-          InsertIntoSortedPosition;
-        nfpBottom:
-          FAllDisplayFiles.Add(ADisplayFile);
-        else
-          raise Exception.Create('Unsupported NewFilesPosition setting.');
-      end;
-
-    Request([fvrqMakeDisplayFileList]);
-    Notify([fvnFileSourceFileListChanged]);
+      Notify([fvnFileSourceFileListChanged]);
   end
   else
     UpdateFile(FileName, APath, NewFilesPosition);
@@ -841,20 +801,16 @@ var
 begin
   FHashedNames.Remove(ADisplayFile.FSFile.Name);
   FHashedFiles.Remove(ADisplayFile);
-  for I := 0 to FAllDisplayFiles.Count - 1 do
-    if FAllDisplayFiles[I] = ADisplayFile then
-    begin
-      FAllDisplayFiles.Delete(I);
-      Break;
-    end;
-  Request([fvrqMakeDisplayFileList]);
-  Notify([fvnFileSourceFileListChanged]);
+  FFiles.Remove(ADisplayFile);
+  FAllDisplayFiles.Remove(ADisplayFile);
+  Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
 end;
 
 procedure TFileView.RenameFile(const NewFileName, OldFileName, APath: String; NewFilesPosition: TNewFilesPosition);
 var
   ADisplayFile: TDisplayFile;
-  OldIndex, NewIndex: Integer;
+  OldIndex, NewIndex, FilteredFilesIndex: Integer;
+  bFilter: Boolean;
 begin
   OldIndex := FHashedNames.Find(OldFileName);
   NewIndex := FHashedNames.Find(NewFileName);
@@ -869,9 +825,19 @@ begin
       ADisplayFile.IconID := -1;
       ADisplayFile.IconOverlayID := -1;
       ADisplayFile.DisplayStrings.Clear;
-      ResortFile(ADisplayFile);
-      Request([fvrqMakeDisplayFileList]);
-      Notify([fvnFileSourceFileListChanged]);
+      ResortFile(ADisplayFile, FAllDisplayFiles);
+      bFilter := TFileListBuilder.MatchesFilter(ADisplayFile.FSFile, FileFilter, FFilterOptions);
+      FilteredFilesIndex := FFiles.Find(ADisplayFile);
+      if FilteredFilesIndex >= 0 then
+      begin
+        if not bFilter then
+          ResortFile(ADisplayFile, FFiles)
+        else
+          FFiles.Delete(FilteredFilesIndex);
+      end
+      else if not bFilter then
+        InsertFile(ADisplayFile, FFiles, NewFilesPosition);
+      Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
     end
     else
     begin
@@ -895,16 +861,13 @@ begin
     HandleRequests;
 end;
 
-procedure TFileView.ResortFile(ADisplayFile: TDisplayFile);
+procedure TFileView.ResortFile(ADisplayFile: TDisplayFile; AFileList: TDisplayFiles);
 var
   I: Integer;
 begin
-  for I := 0 to FAllDisplayFiles.Count - 1 do
-    if FAllDisplayFiles[I] = ADisplayFile then
-    begin
-      TDisplayFileSorter.ResortSingle(I, FAllDisplayFiles, CloneAndAddSortByNameIfNeeded(Sorting));
-      Break;
-    end;
+  I := AFileList.Find(ADisplayFile);
+  if I >= 0 then
+    TDisplayFileSorter.ResortSingle(I, AFileList, CloneAndAddSortByNameIfNeeded(Sorting));
 end;
 
 procedure TFileView.UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition);
@@ -933,9 +896,9 @@ begin
         end;
     end;
     ADisplayFile.DisplayStrings.Clear;
-    ResortFile(ADisplayFile);
-    Request([fvrqMakeDisplayFileList]);
-    Notify([fvnFileSourceFileListChanged]);
+    ResortFile(ADisplayFile, FAllDisplayFiles);
+    ResortFile(ADisplayFile, FFiles);
+    Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
   end
   else
     AddFile(FileName, APath, NewFilesPosition);
@@ -1395,6 +1358,54 @@ begin
     FHashedFiles.Add(FAllDisplayFiles[i], nil);
     FHashedNames.Add(FAllDisplayFiles[i].FSFile.Name, FAllDisplayFiles[i]);
   end;
+end;
+
+procedure TFileView.InsertFile(ADisplayFile: TDisplayFile; AFileList: TDisplayFiles; NewFilesPosition: TNewFilesPosition);
+
+  procedure InsertAfterUpDir;
+  var
+    i, InsertPos: Integer;
+  begin
+    InsertPos := AFileList.Count;
+    for i := 0 to AFileList.Count - 1 do
+    begin
+      if (AFileList[i].FSFile.Name <> '..') and
+         (AFileList[i].FSFile.Name <> '.') then
+      begin
+        InsertPos := i;
+        Break;
+      end;
+    end;
+    AFileList.List.Insert(InsertPos, ADisplayFile);
+  end;
+
+  procedure InsertIntoSortedPosition;
+  begin
+    TDisplayFileSorter.InsertSort(ADisplayFile, AFileList, CloneAndAddSortByNameIfNeeded(Sorting));
+  end;
+
+var
+  EmptySortings: TFileSortings = nil;
+begin
+  if ADisplayFile.FSFile.IsDirectory or ADisplayFile.FSFile.IsLinkToDirectory then
+    InsertIntoSortedPosition
+  else
+    case NewFilesPosition of
+      nfpTop:
+        InsertAfterUpDir;
+      nfpTopAfterDirectories:
+        if gSortFolderMode <> sfmSortLikeFile then
+          // Will only sort by directory attribute.
+          TDisplayFileSorter.InsertSort(ADisplayFile, AFileList, EmptySortings, True)
+        else
+          InsertIntoSortedPosition;
+      nfpSortedPosition:
+        InsertIntoSortedPosition;
+      nfpBottom:
+        AFileList.Add(ADisplayFile);
+      else
+        raise Exception.Create('Unsupported NewFilesPosition setting.');
+    end;
 end;
 
 function TFileView.HasSelectedFiles: Boolean;

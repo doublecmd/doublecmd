@@ -93,6 +93,8 @@ type
     function Add(AFile: TDisplayFile): Integer;
     procedure Clear;
     procedure Delete(Index: Integer);
+    function Find(AFile: TDisplayFile): Integer;
+    procedure Remove(AFile: TDisplayFile);
 
     property Count: Integer read GetCount write SetCount;
     property Items[Index: Integer]: TDisplayFile read Get write Put; default;
@@ -220,6 +222,20 @@ begin
   if FOwnsObjects then
     TDisplayFile(FList.Items[Index]).Free;
   FList.Delete(Index);
+end;
+
+function TDisplayFiles.Find(AFile: TDisplayFile): Integer;
+begin
+  Result := FList.IndexOf(AFile);
+end;
+
+procedure TDisplayFiles.Remove(AFile: TDisplayFile);
+var
+  i: Integer;
+begin
+  i := Find(AFile);
+  if i >= 0 then
+    Delete(i);
 end;
 
 function TDisplayFiles.Get(Index: Integer): TDisplayFile;
