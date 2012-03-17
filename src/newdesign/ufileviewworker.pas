@@ -100,6 +100,15 @@ type
     }
     procedure DoSetFileList;
 
+    class function InternalMatchesFilter(aFile: TFile;
+                                         const aFileFilter: String;
+                                         const aFilterOptions: TQuickSearchOptions): Boolean;
+    {en
+       Prepare filter string based on options.
+    }
+    class function PrepareFilter(const aFileFilter: String;
+                                 const aFilterOptions: TQuickSearchOptions): String;
+
   protected
     {en
        Retrieves file list from file source, sorts and creates a display file list.
@@ -128,7 +137,7 @@ type
     }
     class procedure MakeDisplayFileList(allDisplayFiles: TDisplayFiles;
                                         filteredDisplayFiles: TDisplayFiles;
-                                        const aFileFilter: String;
+                                        aFileFilter: String;
                                         const aFilterOptions: TQuickSearchOptions);
 
     class procedure MakeAllDisplayFileList(aFileSource: IFileSource;
@@ -141,6 +150,10 @@ type
                                            aExistingDisplayFiles: TDisplayFiles;
                                            const aSortings: TFileSortings;
                                            aExistingDisplayFilesHashed: TStringHashList);
+
+    class function MatchesFilter(aFile: TFile;
+                                 aFileFilter: String;
+                                 const aFilterOptions: TQuickSearchOptions): Boolean;
   end;
 
   { TFilePropertiesRetriever }
@@ -514,100 +527,106 @@ begin
   end;
 end;
 
+class function TFileListBuilder.InternalMatchesFilter(aFile: TFile;
+                                                      const aFileFilter: String;
+                                                      const aFilterOptions: TQuickSearchOptions): Boolean;
+var
+  sFileName: String;
+begin
+  if (gShowSystemFiles = False) and AFile.IsSysFile and (AFile.Name <> '..') then
+    Result := True
+
+  // Ignore list
+  else if gIgnoreListFileEnabled and MatchesMaskListEx(AFile, glsIgnoreList) then
+    Result := True
+
+  // Filter files.
+  else if aFileFilter <> EmptyStr then
+  begin
+    Result := True;
+
+    if (AFile.Name = '..') or (AFile.Name = '.') then
+      Result := False
+    else
+    if (aFilterOptions.Items = qsiFiles) and
+       (AFile.IsDirectory or AFile.IsLinkToDirectory) then
+      Result := False
+    else
+    if (aFilterOptions.Items = qsiDirectories) and
+       not AFile.IsDirectory and not AFile.IsLinkToDirectory then
+      Result := False
+    else
+    begin
+      if aFilterOptions.SearchCase = qscSensitive then
+        sFileName := AFile.Name
+      else
+        sFileName := UTF8LowerCase(AFile.Name);
+
+      if MatchesMask(sFileName,
+                     aFileFilter,
+                     aFilterOptions.SearchCase = qscSensitive)
+      then
+        Result := False;
+    end;
+  end
+  else
+    Result := False;
+end;
+
+class function TFileListBuilder.PrepareFilter(const aFileFilter: String;
+                                              const aFilterOptions: TQuickSearchOptions): String;
+var
+  sFilterNameNoExt: String;
+begin
+  Result := aFileFilter;
+  if Result <> EmptyStr then
+  begin
+    if Pos('.', Result) <> 0 then
+      begin
+        sFilterNameNoExt := ExtractOnlyFileName(Result);
+        if not (qsmBeginning in aFilterOptions.Match) then
+          sFilterNameNoExt := '*' + sFilterNameNoExt;
+        if not (qsmEnding in aFilterOptions.Match) then
+          sFilterNameNoExt := sFilterNameNoExt + '*';
+        Result := sFilterNameNoExt + ExtractFileExt(Result) + '*';
+      end
+    else
+      begin
+        if not (qsmBeginning in aFilterOptions.Match) then
+          Result := '*' + Result;
+        Result := Result + '*';
+      end;
+  end;
+end;
+
 class procedure TFileListBuilder.MakeDisplayFileList(
   allDisplayFiles: TDisplayFiles;
   filteredDisplayFiles: TDisplayFiles;
-  const aFileFilter: String;
+  aFileFilter: String;
   const aFilterOptions: TQuickSearchOptions);
 var
   i: Integer;
-  invalidFilter: Boolean = False;
-  sFileName,
-  sFilterNameNoExt,
-  sFilterExt,
-  localFilter: String;
-  filter: Boolean;
   AFile: TFile;
+  filter: Boolean;
 begin
   filteredDisplayFiles.Clear;
 
   if Assigned(allDisplayFiles) then
   begin
-    // Prepare filter string based on options.
-    if aFileFilter <> EmptyStr then
-    begin
-      localFilter := aFileFilter;
-      if Pos('.', aFileFilter) <> 0 then
-        begin
-          sFilterNameNoExt := ExtractOnlyFileName(localFilter);
-          sFilterExt := ExtractFileExt(localFilter);
-          if not (qsmBeginning in aFilterOptions.Match) then
-            sFilterNameNoExt := '*' + sFilterNameNoExt;
-          if not (qsmEnding in aFilterOptions.Match) then
-            sFilterNameNoExt := sFilterNameNoExt + '*';
-          localFilter := sFilterNameNoExt + sFilterExt + '*';
-        end
-      else
-        begin
-          if not (qsmBeginning in aFilterOptions.Match) then
-            localFilter := '*' + localFilter;
-          localFilter := localFilter + '*';
-        end;
-    end;
-
+    aFileFilter := PrepareFilter(aFileFilter, aFilterOptions);
     for i := 0 to allDisplayFiles.Count - 1 do
     begin
       AFile := allDisplayFiles[i].FSFile;
-      if gShowSystemFiles = False then
-      begin
-        if AFile.IsSysFile and (AFile.Name <> '..') then
-          Continue;
+
+      try
+        filter := InternalMatchesFilter(AFile, aFileFilter, aFilterOptions);
+      except
+        on EConvertError do
+          aFileFilter := EmptyStr;
       end;
 
-      // Ignore list
-      if gIgnoreListFileEnabled then
-      begin
-        if MatchesMaskListEx(AFile, glsIgnoreList) then Continue;
-      end;
-
-      // Filter files.
-      if (aFileFilter <> EmptyStr) and (invalidFilter = False) then
-      begin
-        try
-          filter := True;
-
-          if (AFile.Name = '..') or (AFile.Name = '.') then
-            filter := False;
-
-          if (aFilterOptions.Items = qsiFiles) and
-             (AFile.IsDirectory or AFile.IsLinkToDirectory) then
-            filter := False;
-
-          if (aFilterOptions.Items = qsiDirectories) and
-             not AFile.IsDirectory and not AFile.IsLinkToDirectory then
-            filter := False;
-
-          if aFilterOptions.SearchCase = qscSensitive then
-            sFileName := AFile.Name
-          else
-            sFileName := UTF8LowerCase(AFile.Name);
-
-          if MatchesMask(sFileName,
-                         localFilter,
-                         aFilterOptions.SearchCase = qscSensitive)
-          then
-            filter := False;
-
-          if filter then
-            Continue;
-
-        except
-          on EConvertError do
-            invalidFilter := True;
-        end;
-      end;
-
-      filteredDisplayFiles.Add(allDisplayFiles[i]);
+      if not filter then
+        filteredDisplayFiles.Add(allDisplayFiles[i]);
     end;
   end;
 end;
@@ -700,6 +719,19 @@ begin
   else
   begin
     aExistingDisplayFiles.Clear;
+  end;
+end;
+
+class function TFileListBuilder.MatchesFilter(aFile: TFile;
+                                              aFileFilter: String;
+                                              const aFilterOptions: TQuickSearchOptions): Boolean;
+begin
+  aFileFilter := PrepareFilter(aFileFilter, aFilterOptions);
+  try
+    Result := InternalMatchesFilter(AFile, aFileFilter, aFilterOptions);
+  except
+    on EConvertError do
+      Result := False;
   end;
 end;
 
