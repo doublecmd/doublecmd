@@ -1827,7 +1827,7 @@ procedure TFileView.AddFileSource(aFileSource: IFileSource; aPath: String);
 var
   IsNewFileSource: Boolean;
 begin
-  IsNewFileSource := aFileSource <> FileSource;
+  IsNewFileSource := not aFileSource.Equals(FileSource);
 
   if BeforeChangePath(aFileSource, aPath) then
   begin
@@ -1867,7 +1867,7 @@ begin
       NewFileSource := FHistory.FileSource[PrevIndex];
       NewPath := FHistory.Path[PrevIndex, FHistory.PathsCount[PrevIndex] - 1];
     end;
-    IsNewFileSource := NewFileSource <> FileSource;
+    IsNewFileSource := not NewFileSource.Equals(FileSource);
 
     if BeforeChangePath(NewFileSource, NewPath) then
     begin
@@ -2201,7 +2201,7 @@ procedure TFileView.GoToHistoryIndex(aFileSourceIndex, aPathIndex: Integer);
 var
   IsNewFileSource: Boolean;
 begin
-  IsNewFileSource := FHistory.FileSource[aFileSourceIndex] <> FHistory.CurrentFileSource;
+  IsNewFileSource := not FHistory.FileSource[aFileSourceIndex].Equals(FHistory.CurrentFileSource);
 
   if BeforeChangePath(FHistory.FileSource[aFileSourceIndex],
                       FHistory.Path[aFileSourceIndex, aPathIndex]) then
