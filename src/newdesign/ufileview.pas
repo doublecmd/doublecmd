@@ -112,7 +112,7 @@ type
     FOnActivate : TOnActivate;
     FOnFileListChanged : TOnFileListChanged;
 
-    procedure AddFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition);
+    procedure AddFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure AddEventToPendingFilesChanges(const EventData: TFSWatcherEventData);
     procedure ApplyPendingFilesChanges;
     procedure ClearPendingFilesChanges;
@@ -140,11 +140,11 @@ type
     procedure Notify(NewNotifications: TFileViewNotifications);
     procedure RemoveFile(ADisplayFile: TDisplayFile);
     procedure RemoveFile(const FileName: String);
-    procedure RenameFile(const NewFileName, OldFileName, APath: String; NewFilesPosition: TNewFilesPosition);
+    procedure RenameFile(const NewFileName, OldFileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure Request(NewRequests: TFileViewRequests);
     procedure ResortFile(ADisplayFile: TDisplayFile; AFileList: TDisplayFiles);
     procedure SetFlags(AValue: TFileViewFlags);
-    procedure UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition);
+    procedure UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure UpdatePath(UpdateAddressToo: Boolean);
     {en
        Assigns the built lists to the file view and displays new the file list.
@@ -156,7 +156,9 @@ type
     procedure ActivateEvent(Sender: TObject);
     function CheckIfDelayReload: Boolean;
     procedure DoReload;
-    procedure HandleFSWatcherEvent(const EventData: TFSWatcherEventData; NewFilesPosition: TNewFilesPosition);
+    procedure HandleFSWatcherEvent(const EventData: TFSWatcherEventData;
+                                   NewFilesPosition: TNewFilesPosition;
+                                   UpdatedFilesPosition: TUpdatedFilesPosition);
     procedure ReloadEvent(const aFileSource: IFileSource; const ReloadedPaths: TPathsArray);
     procedure ReloadTimerEvent(Sender: TObject);
     procedure WatcherEvent(const EventData: TFSWatcherEventData);
@@ -713,7 +715,7 @@ begin
           pEvent := PFSWatcherEventData(FPendingFilesChanges[i]);
           // Insert new files at sorted position since the filelist hasn't been
           // shown to the user yet, so no need to use user setting.
-          HandleFSWatcherEvent(pEvent^, nfpSortedPosition);
+          HandleFSWatcherEvent(pEvent^, nfpSortedPosition, ufpSortedPosition);
         end;
       end;
       ClearPendingFilesChanges;
@@ -752,7 +754,7 @@ begin
     Result := nil;
 end;
 
-procedure TFileView.AddFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition);
+procedure TFileView.AddFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
 var
   ADisplayFile: TDisplayFile;
   AFile: TFile;
@@ -785,7 +787,7 @@ begin
       Notify([fvnFileSourceFileListChanged]);
   end
   else
-    UpdateFile(FileName, APath, NewFilesPosition);
+    UpdateFile(FileName, APath, NewFilesPosition, UpdatedFilesPosition);
 end;
 
 procedure TFileView.RemoveFile(const FileName: String);
@@ -808,7 +810,7 @@ begin
   Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
 end;
 
-procedure TFileView.RenameFile(const NewFileName, OldFileName, APath: String; NewFilesPosition: TNewFilesPosition);
+procedure TFileView.RenameFile(const NewFileName, OldFileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
 var
   ADisplayFile: TDisplayFile;
   OldIndex, NewIndex, FilteredFilesIndex: Integer;
@@ -844,15 +846,15 @@ begin
     else
     begin
       RemoveFile(ADisplayFile);
-      UpdateFile(NewFileName, APath, NewFilesPosition);
+      UpdateFile(NewFileName, APath, NewFilesPosition, UpdatedFilesPosition);
     end;
   end
   else
   begin
     if NewIndex < 0 then
-      AddFile(NewFileName, APath, NewFilesPosition)
+      AddFile(NewFileName, APath, NewFilesPosition, UpdatedFilesPosition)
     else
-      UpdateFile(NewFileName, APath, NewFilesPosition);
+      UpdateFile(NewFileName, APath, NewFilesPosition, UpdatedFilesPosition);
   end;
 end;
 
@@ -872,11 +874,18 @@ begin
     TDisplayFileSorter.ResortSingle(I, AFileList, SortingForSorter);
 end;
 
-procedure TFileView.UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition);
+procedure TFileView.UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
 var
   AFile: TFile;
   ADisplayFile: TDisplayFile;
   I: Integer;
+
+  procedure Resort;
+  begin
+    ResortFile(ADisplayFile, FAllDisplayFiles);
+    ResortFile(ADisplayFile, FFiles);
+  end;
+
 begin
   I := FHashedNames.Find(FileName);
   if I >= 0 then
@@ -898,12 +907,30 @@ begin
         end;
     end;
     ADisplayFile.DisplayStrings.Clear;
-    ResortFile(ADisplayFile, FAllDisplayFiles);
-    ResortFile(ADisplayFile, FFiles);
+
+    case UpdatedFilesPosition of
+      ufpNoChange: ; // Do nothing
+      ufpSameAsNewFiles:
+        if NewFilesPosition = nfpSortedPosition then
+          Resort
+        else
+        begin
+          FAllDisplayFiles.OwnsObjects := False;
+          FAllDisplayFiles.Remove(ADisplayFile); // Remove only temporarily
+          FAllDisplayFiles.OwnsObjects := True;
+          InsertFile(ADisplayFile, FAllDisplayFiles, NewFilesPosition);
+          FFiles.Remove(ADisplayFile);
+          InsertFile(ADisplayFile, FFiles, NewFilesPosition);
+        end;
+      ufpSortedPosition:
+        Resort;
+      else
+        raise Exception.Create('Unsupported UpdatedFilesPosition setting.');
+    end;
     Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
   end
   else
-    AddFile(FileName, APath, NewFilesPosition);
+    AddFile(FileName, APath, NewFilesPosition, UpdatedFilesPosition);
 end;
 
 procedure TFileView.UpdatePath(UpdateAddressToo: Boolean);
@@ -2145,17 +2172,17 @@ begin
   MakeFileSourceFileList;
 end;
 
-procedure TFileView.HandleFSWatcherEvent(const EventData: TFSWatcherEventData; NewFilesPosition: TNewFilesPosition);
+procedure TFileView.HandleFSWatcherEvent(const EventData: TFSWatcherEventData; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
 begin
   case EventData.EventType of
     fswFileCreated:
-      Self.AddFile(EventData.FileName, EventData.Path, NewFilesPosition);
+      Self.AddFile(EventData.FileName, EventData.Path, NewFilesPosition, UpdatedFilesPosition);
     fswFileChanged:
-      Self.UpdateFile(EventData.FileName, EventData.Path, NewFilesPosition);
+      Self.UpdateFile(EventData.FileName, EventData.Path, NewFilesPosition, UpdatedFilesPosition);
     fswFileDeleted:
       Self.RemoveFile(EventData.FileName);
     fswFileRenamed:
-      Self.RenameFile(EventData.NewFileName, EventData.FileName, EventData.Path, NewFilesPosition);
+      Self.RenameFile(EventData.NewFileName, EventData.FileName, EventData.Path, NewFilesPosition, UpdatedFilesPosition);
     else
       Reload(EventData.Path);
   end;
@@ -2190,7 +2217,7 @@ begin
     else
     begin
       if FileListLoaded then
-        HandleFSWatcherEvent(EventData, gNewFilesPosition)
+        HandleFSWatcherEvent(EventData, gNewFilesPosition, gUpdatedFilesPosition)
       else
         Reload(EventData.Path);
     end;
