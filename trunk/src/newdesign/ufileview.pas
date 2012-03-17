@@ -112,7 +112,7 @@ type
     FOnActivate : TOnActivate;
     FOnFileListChanged : TOnFileListChanged;
 
-    procedure AddFile(FileName, APath: String; NewFilesPosition: TNewFilesPosition);
+    procedure AddFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition);
     procedure AddEventToPendingFilesChanges(const EventData: TFSWatcherEventData);
     procedure ApplyPendingFilesChanges;
     procedure ClearPendingFilesChanges;
@@ -137,12 +137,12 @@ type
     procedure HashFileList;
     procedure Notify(NewNotifications: TFileViewNotifications);
     procedure RemoveFile(ADisplayFile: TDisplayFile);
-    procedure RemoveFile(FileName: String);
-    procedure RenameFile(NewFileName, OldFileName: String);
+    procedure RemoveFile(const FileName: String);
+    procedure RenameFile(const NewFileName, OldFileName, APath: String; NewFilesPosition: TNewFilesPosition);
     procedure Request(NewRequests: TFileViewRequests);
     procedure ResortFile(ADisplayFile: TDisplayFile);
     procedure SetFlags(AValue: TFileViewFlags);
-    procedure UpdateFile(FileName: String);
+    procedure UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition);
     procedure UpdatePath(UpdateAddressToo: Boolean);
     {en
        Assigns the built lists to the file view and displays new the file list.
@@ -658,7 +658,6 @@ procedure TFileView.AddEventToPendingFilesChanges(const EventData: TFSWatcherEve
   end;
 var
   pEvent: PFSWatcherEventData;
-  Index: Integer;
 begin
   if not Assigned(FPendingFilesChanges) then
   begin
@@ -667,7 +666,7 @@ begin
     FPendingFilesChanges.CaseSensitive := True;
   end;
 
-  if (Assigned(FAllDisplayFiles) and
+  if (Assigned(FAllDisplayFiles) and (FAllDisplayFiles.Count > 0) and
       (FPendingFilesChanges.Count > FAllDisplayFiles.Count div 4)) or
      (FPendingFilesChanges.Count > 100) then
   begin
@@ -677,16 +676,18 @@ begin
   else
   begin
     // Remove obsolete events if they exist.
-    // If last event was fswFileChange then new one is not scheduled at all.
     case EventData.EventType of
       fswFileCreated:
-        CheckLast(EventData.FileName, [fswFileCreated, fswFileDeleted, fswFileChanged], True);
+        CheckLast(EventData.FileName, [fswFileChanged, fswFileCreated, fswFileDeleted], True);
       fswFileDeleted:
-        CheckLast(EventData.FileName, [fswFileCreated, fswFileDeleted, fswFileChanged], True);
+        CheckLast(EventData.FileName, [fswFileChanged, fswFileCreated, fswFileDeleted], True);
       fswFileChanged:
-        if CheckLast(EventData.FileName, [fswFileChanged], False) then
-          // fswFileChange already pending.
+        // If FileChanged or FileCreated already exists then new one is not scheduled.
+        // FileCreated will cause update anyway if a file already exists in the filelist.
+        if CheckLast(EventData.FileName, [fswFileChanged, fswFileCreated], False) then
           Exit;
+      fswFileRenamed:
+        CheckLast(EventData.FileName, [fswFileChanged, fswFileCreated, fswFileDeleted], True);
     end;
     New(pEvent);
     FPendingFilesChanges.AddObject(EventData.FileName, TObject(pEvent));
@@ -751,7 +752,7 @@ begin
     Result := nil;
 end;
 
-procedure TFileView.AddFile(FileName, APath: String; NewFilesPosition: TNewFilesPosition);
+procedure TFileView.AddFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition);
 
 var
   ADisplayFile: TDisplayFile;
@@ -781,7 +782,7 @@ var
 var
   AFile: TFile;
   I: Integer;
-  EmptySortings: TFileSortings;
+  EmptySortings: TFileSortings = nil;
 begin
   I := FHashedNames.Find(FileName);
   if I < 0 then
@@ -823,10 +824,12 @@ begin
 
     Request([fvrqMakeDisplayFileList]);
     Notify([fvnFileSourceFileListChanged]);
-  end;
+  end
+  else
+    UpdateFile(FileName, APath, NewFilesPosition);
 end;
 
-procedure TFileView.RemoveFile(FileName: String);
+procedure TFileView.RemoveFile(const FileName: String);
 var
   I: Integer;
 begin
@@ -851,24 +854,40 @@ begin
   Notify([fvnFileSourceFileListChanged]);
 end;
 
-procedure TFileView.RenameFile(NewFileName, OldFileName: String);
+procedure TFileView.RenameFile(const NewFileName, OldFileName, APath: String; NewFilesPosition: TNewFilesPosition);
 var
   ADisplayFile: TDisplayFile;
-  I: Integer;
+  OldIndex, NewIndex: Integer;
 begin
-  I := FHashedNames.Find(OldFileName);
-  if I >= 0 then
+  OldIndex := FHashedNames.Find(OldFileName);
+  NewIndex := FHashedNames.Find(NewFileName);
+  if OldIndex >= 0 then
   begin
-    ADisplayFile := TDisplayFile(FHashedNames.List[I]^.Data);
-    ADisplayFile.FSFile.Name := NewFileName;
-    FHashedNames.Remove(OldFileName);
-    FHashedNames.Add(NewFileName, ADisplayFile);
-    ADisplayFile.IconID := -1;
-    ADisplayFile.IconOverlayID := -1;
-    ADisplayFile.DisplayStrings.Clear;
-    ResortFile(ADisplayFile);
-    Request([fvrqMakeDisplayFileList]);
-    Notify([fvnFileSourceFileListChanged]);
+    ADisplayFile := TDisplayFile(FHashedNames.List[OldIndex]^.Data);
+    if NewIndex < 0 then
+    begin
+      ADisplayFile.FSFile.Name := NewFileName;
+      FHashedNames.Remove(OldFileName);
+      FHashedNames.Add(NewFileName, ADisplayFile);
+      ADisplayFile.IconID := -1;
+      ADisplayFile.IconOverlayID := -1;
+      ADisplayFile.DisplayStrings.Clear;
+      ResortFile(ADisplayFile);
+      Request([fvrqMakeDisplayFileList]);
+      Notify([fvnFileSourceFileListChanged]);
+    end
+    else
+    begin
+      RemoveFile(ADisplayFile);
+      UpdateFile(NewFileName, APath, NewFilesPosition);
+    end;
+  end
+  else
+  begin
+    if NewIndex < 0 then
+      AddFile(NewFileName, APath, NewFilesPosition)
+    else
+      UpdateFile(NewFileName, APath, NewFilesPosition);
   end;
 end;
 
@@ -891,7 +910,7 @@ begin
     end;
 end;
 
-procedure TFileView.UpdateFile(FileName: String);
+procedure TFileView.UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition);
 var
   AFile: TFile;
   ADisplayFile: TDisplayFile;
@@ -906,9 +925,13 @@ begin
     try
       FileSource.RetrieveProperties(AFile, FilePropertiesNeeded);
     except
-      on EFileSourceException do
+      on EFileNotFound do
         begin
           RemoveFile(ADisplayFile);
+          Exit;
+        end;
+      on EFileSourceException do
+        begin
           Exit;
         end;
     end;
@@ -916,7 +939,9 @@ begin
     ResortFile(ADisplayFile);
     Request([fvrqMakeDisplayFileList]);
     Notify([fvnFileSourceFileListChanged]);
-  end;
+  end
+  else
+    AddFile(FileName, APath, NewFilesPosition);
 end;
 
 procedure TFileView.UpdatePath(UpdateAddressToo: Boolean);
@@ -2111,11 +2136,11 @@ begin
     fswFileCreated:
       Self.AddFile(EventData.FileName, EventData.Path, NewFilesPosition);
     fswFileChanged:
-      Self.UpdateFile(EventData.FileName);
+      Self.UpdateFile(EventData.FileName, EventData.Path, NewFilesPosition);
     fswFileDeleted:
       Self.RemoveFile(EventData.FileName);
     fswFileRenamed:
-      Self.RenameFile(EventData.NewFileName, EventData.FileName);
+      Self.RenameFile(EventData.NewFileName, EventData.FileName, EventData.Path, NewFilesPosition);
     else
       Reload(EventData.Path);
   end;
