@@ -128,6 +128,7 @@ type
     function GetFiltered: Boolean;
     function GetPath(FileSourceIndex, PathIndex: Integer): UTF8String;
     function GetPathsCount(FileSourceIndex: Integer): Integer;
+    function GetSortingForSorter: TFileSortings;
     function GetWatcherActive: Boolean;
     procedure HandleNotifications;
     procedure HandleRequests;
@@ -260,6 +261,7 @@ type
     property FilePropertiesNeeded: TFilePropertiesTypes read FFilePropertiesNeeded write FFilePropertiesNeeded;
     property LastActiveFile: String read FLastActiveFile write FLastActiveFile;
     property RequestedActiveFile: String read FRequestedActiveFile write FRequestedActiveFile;
+    property SortingForSorter: TFileSortings read GetSortingForSorter;
     property WorkersThread: TFunctionThread read GetWorkersThread;
 
   public
@@ -867,7 +869,7 @@ var
 begin
   I := AFileList.Find(ADisplayFile);
   if I >= 0 then
-    TDisplayFileSorter.ResortSingle(I, AFileList, CloneAndAddSortByNameIfNeeded(Sorting));
+    TDisplayFileSorter.ResortSingle(I, AFileList, SortingForSorter);
 end;
 
 procedure TFileView.UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition);
@@ -1217,7 +1219,7 @@ end;
 
 procedure TFileView.SortAllDisplayFiles;
 begin
-  TDisplayFileSorter.Sort(FAllDisplayFiles, CloneAndAddSortByNameIfNeeded(Sorting));
+  TDisplayFileSorter.Sort(FAllDisplayFiles, SortingForSorter);
 end;
 
 procedure TFileView.MakeFileSourceFileList;
@@ -1261,7 +1263,7 @@ begin
     FileFilter,
     FilterOptions,
     CurrentPath,
-    Sorting,
+    SortingForSorter,
     AThread,
     FilePropertiesNeeded,
     @SetFileList,
@@ -1381,7 +1383,7 @@ procedure TFileView.InsertFile(ADisplayFile: TDisplayFile; AFileList: TDisplayFi
 
   procedure InsertIntoSortedPosition;
   begin
-    TDisplayFileSorter.InsertSort(ADisplayFile, AFileList, CloneAndAddSortByNameIfNeeded(Sorting));
+    TDisplayFileSorter.InsertSort(ADisplayFile, AFileList, SortingForSorter);
   end;
 
 var
@@ -1968,6 +1970,11 @@ begin
     else
       Result := 0;
   end;
+end;
+
+function TFileView.GetSortingForSorter: TFileSortings;
+begin
+  Result := CloneAndAddSortByNameIfNeeded(Sorting);
 end;
 
 function TFileView.GetWatcherActive: Boolean;
