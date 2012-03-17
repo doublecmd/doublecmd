@@ -9,7 +9,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 6
-    Height = 166
+    Height = 200
     Top = 6
     Width = 622
     Anchors = [akTop, akLeft, akRight]
@@ -21,7 +21,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     ChildSizing.HorizontalSpacing = 6
     ChildSizing.VerticalSpacing = 12
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ClientHeight = 144
+    ClientHeight = 178
     ClientWidth = 618
     TabOrder = 0
     object lblSortMethod: TLabel
@@ -29,7 +29,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Left = 12
       Height = 22
       Top = 8
-      Width = 127
+      Width = 130
       Caption = 'Sort &method:'
       ParentColor = False
     end
@@ -40,10 +40,10 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbSorting
       AnchorSideRight.Side = asrBottom
-      Left = 149
+      Left = 152
       Height = 29
       Top = 5
-      Width = 457
+      Width = 454
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
       ItemHeight = 21
@@ -58,7 +58,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Left = 12
       Height = 22
       Top = 42
-      Width = 127
+      Width = 130
       Caption = 'Case sensitivity:'
       ParentColor = False
     end
@@ -69,10 +69,10 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbSorting
       AnchorSideRight.Side = asrBottom
-      Left = 149
+      Left = 152
       Height = 29
       Top = 39
-      Width = 457
+      Width = 454
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
       ItemHeight = 21
@@ -88,7 +88,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Left = 12
       Height = 22
       Top = 76
-      Width = 127
+      Width = 130
       Caption = 'Sorting directories:'
       ParentColor = False
     end
@@ -99,10 +99,10 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbSorting
       AnchorSideRight.Side = asrBottom
-      Left = 149
+      Left = 152
       Height = 29
       Top = 73
-      Width = 457
+      Width = 454
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
       ItemHeight = 21
@@ -118,7 +118,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       Left = 12
       Height = 22
       Top = 110
-      Width = 127
+      Width = 130
       Caption = 'Insert new files'
       ParentColor = False
     end
@@ -129,15 +129,40 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = gbSorting
       AnchorSideRight.Side = asrBottom
-      Left = 149
+      Left = 152
       Height = 29
       Top = 107
-      Width = 457
+      Width = 454
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 10
       ItemHeight = 21
       Style = csDropDownList
       TabOrder = 3
+    end
+    object lblUpdatedFilesPosition: TLabel
+      Left = 12
+      Height = 22
+      Top = 144
+      Width = 130
+      Caption = 'Move updated files'
+      ParentColor = False
+    end
+    object cbUpdatedFilesPosition: TComboBox
+      AnchorSideLeft.Control = lblUpdatedFilesPosition
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = lblUpdatedFilesPosition
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = gbSorting
+      AnchorSideRight.Side = asrBottom
+      Left = 152
+      Height = 29
+      Top = 141
+      Width = 454
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 10
+      ItemHeight = 21
+      Style = csDropDownList
+      TabOrder = 4
     end
   end
   object gbMisc: TGroupBox[1]
@@ -148,7 +173,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 216
-    Top = 283
+    Top = 317
     Width = 622
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
@@ -218,7 +243,7 @@ inherited frmOptionsFilesViews: TfrmOptionsFilesViews
     AnchorSideRight.Side = asrBottom
     Left = 6
     Height = 99
-    Top = 178
+    Top = 212
     Width = 622
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Around = 6

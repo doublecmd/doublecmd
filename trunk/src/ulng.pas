@@ -443,6 +443,7 @@ resourcestring
   rsOptSortCaseSens = 'not case sensitive;according to locale settings (aAbBcC);first upper then lower case (ABCabc)';
   rsOptSortFolderMode = 'sort by name and show first;sort like files and show first;sort like files';
   rsOptNewFilesPosition = 'at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list';
+  rsOptUpdatedFilesPosition = 'don''t change position;use the same setting as for new files;to sorted position';
 
   //Columns Menu
   rsMenuConfigureCustomColumns= 'Configure custom columns';
