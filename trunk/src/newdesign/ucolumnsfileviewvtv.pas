@@ -2079,13 +2079,11 @@ begin
           if IsActiveItemValid then
             SelectFile(GetActiveDisplayFile);
           Node := dgPanel.FocusedNode;
-          dgPanel.InvalidateNode(Node);
           NextNode := dgPanel.GetNextSiblingNoInit(Node);
           if (Node <> NextNode) and Assigned(NextNode) then
-          begin
-            dgPanel.FocusedNode := NextNode;
-            MakeVisible(NextNode);
-          end;
+            dgPanel.FocusedNode := NextNode
+          else
+            dgPanel.InvalidateNode(Node);
         end;
         Key := 0;
       end;
@@ -2196,16 +2194,16 @@ begin
           end;
 
           Node := dgPanel.FocusedNode;
-          dgPanel.InvalidateNode(Node);
           if gSpaceMovesDown then
           begin
             NextNode := dgPanel.GetNextSiblingNoInit(Node);
             if (Node <> NextNode) and Assigned(NextNode) then
-            begin
-              dgPanel.FocusedNode := NextNode;
-              MakeVisible(NextNode);
-            end;
-          end;
+              dgPanel.FocusedNode := NextNode
+            else
+              dgPanel.InvalidateNode(Node);
+          end
+          else
+            dgPanel.InvalidateNode(Node);
           Key := 0;
         end;
       end;
