@@ -1040,22 +1040,22 @@ msgstr "&Копировать"
 #: tfrmeditor.acteditcopy.hint
 msgctxt "tfrmeditor.acteditcopy.hint"
 msgid "Copy"
-msgstr "&Копировать"
+msgstr "Копировать"
 
 #: tfrmeditor.acteditcut.caption
 msgctxt "TFRMEDITOR.ACTEDITCUT.CAPTION"
 msgid "Cut"
-msgstr "В&ырезать"
+msgstr "&Вырезать"
 
 #: tfrmeditor.acteditcut.hint
 msgctxt "tfrmeditor.acteditcut.hint"
 msgid "Cut"
-msgstr "В&ырезать"
+msgstr "Вырезать"
 
 #: tfrmeditor.acteditdelete.caption
 msgctxt "TFRMEDITOR.ACTEDITDELETE.CAPTION"
 msgid "Delete"
-msgstr "Удалить"
+msgstr "&Удалить"
 
 #: tfrmeditor.acteditdelete.hint
 msgctxt "tfrmeditor.acteditdelete.hint"
@@ -1114,17 +1114,17 @@ msgstr "Unix (LF)"
 #: tfrmeditor.acteditpaste.caption
 msgctxt "TFRMEDITOR.ACTEDITPASTE.CAPTION"
 msgid "Paste"
-msgstr "&Вставить"
+msgstr "Вст&авить"
 
 #: tfrmeditor.acteditpaste.hint
 msgctxt "tfrmeditor.acteditpaste.hint"
 msgid "Paste"
-msgstr "&Вставить"
+msgstr "Вставить"
 
 #: tfrmeditor.acteditredo.caption
 msgctxt "TFRMEDITOR.ACTEDITREDO.CAPTION"
 msgid "Redo"
-msgstr "Повторить"
+msgstr "&Повторить"
 
 #: tfrmeditor.acteditredo.hint
 msgctxt "tfrmeditor.acteditredo.hint"
@@ -1142,17 +1142,17 @@ msgstr "Заменить"
 
 #: tfrmeditor.acteditselectall.caption
 msgid "Select&All"
-msgstr "Выделить &всё"
+msgstr "В&ыделить всё"
 
 #: tfrmeditor.acteditselectall.hint
 msgctxt "tfrmeditor.acteditselectall.hint"
 msgid "Select All"
-msgstr "Выделить &всё"
+msgstr "Выделить всё"
 
 #: tfrmeditor.acteditundo.caption
 msgctxt "TFRMEDITOR.ACTEDITUNDO.CAPTION"
 msgid "Undo"
-msgstr "Отменить"
+msgstr "&Отменить"
 
 #: tfrmeditor.acteditundo.hint
 msgctxt "tfrmeditor.acteditundo.hint"
@@ -1172,11 +1172,11 @@ msgstr "Закрыть"
 #: tfrmeditor.actfileexit.caption
 msgctxt "TFRMEDITOR.ACTFILEEXIT.CAPTION"
 msgid "E&xit"
-msgstr "Вы&ход"
+msgstr "В&ыход"
 
 #: tfrmeditor.actfileexit.hint
 msgid "Exit"
-msgstr ""
+msgstr "Выход"
 
 #: tfrmeditor.actfilenew.caption
 msgctxt "TFRMEDITOR.ACTFILENEW.CAPTION"
@@ -1200,7 +1200,7 @@ msgstr "Открыть"
 #: tfrmeditor.actfilesave.caption
 msgctxt "TFRMEDITOR.ACTFILESAVE.CAPTION"
 msgid "&Save"
-msgstr "&Сохранить"
+msgstr "Со&хранить"
 
 #: tfrmeditor.actfilesave.hint
 msgctxt "tfrmeditor.actfilesave.hint"
@@ -1213,7 +1213,7 @@ msgstr "Сохранить &как..."
 
 #: tfrmeditor.actfilesaveas.hint
 msgid "Save As"
-msgstr ""
+msgstr "Сохранить как..."
 
 #: tfrmeditor.actsaveall.caption
 msgid "Sa&ve All"
@@ -1221,7 +1221,7 @@ msgstr "Сохранить все"
 
 #: tfrmeditor.actsaveall.hint
 msgid "Save All"
-msgstr ""
+msgstr "Сохранить все"
 
 #: tfrmeditor.frmeditor.caption
 msgctxt "tfrmeditor.frmeditor.caption"
