@@ -866,6 +866,8 @@ begin
       begin
         if not bFilter then
         begin
+          if GetActiveDisplayFile = ADisplayFile then
+            RequestedActiveFile := ADisplayFile.FSFile.FullPath;
           ResortFile(ADisplayFile, FFiles);
           VisualizeFileUpdate(ADisplayFile);
         end
