@@ -4099,6 +4099,10 @@ msgstr ""
 msgid "Show square brackets around directories"
 msgstr ""
 
+#: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
+msgid "Highlight new and updated files"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
 msgid "Load file list in separate thread"
@@ -4138,12 +4142,20 @@ msgstr ""
 msgid "Date and time format:"
 msgstr ""
 
+#: tfrmoptionsfilesviews.lblnewfilesposition.caption
+msgid "Insert new files"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "Sorting directories:"
 msgstr ""
 
 #: tfrmoptionsfilesviews.lblsortmethod.caption
 msgid "Sort &method:"
+msgstr ""
+
+#: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
+msgid "Move updated files"
 msgstr ""
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
@@ -6840,6 +6852,10 @@ msgstr ""
 msgid "Next volume will be unpacked"
 msgstr ""
 
+#: ulng.rsmsgnofiles
+msgid "No files"
+msgstr ""
+
 #: ulng.rsmsgnofilesselected
 msgid "No files selected."
 msgstr ""
@@ -7345,6 +7361,10 @@ msgstr ""
 msgid "Left button;Right button;"
 msgstr ""
 
+#: ulng.rsoptnewfilesposition
+msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
+msgstr ""
+
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
 msgstr ""
@@ -7383,6 +7403,10 @@ msgstr ""
 
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
+msgstr ""
+
+#: ulng.rsoptupdatedfilesposition
+msgid "don't change position;use the same setting as for new files;to sorted position"
 msgstr ""
 
 #: ulng.rspropserrchmod

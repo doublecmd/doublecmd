@@ -4237,6 +4237,10 @@ msgctxt "TFRMOPTIONSFILESVIEWS.CBDIRBRACKETS.CAPTION"
 msgid "Show square brackets around directories"
 msgstr "Показывать квадратные скобки вокруг имён папок"
 
+#: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
+msgid "Highlight new and updated files"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
 msgid "Load file list in separate thread"
@@ -4280,6 +4284,10 @@ msgctxt "TFRMOPTIONSFILESVIEWS.LBLDATETIMEFORMAT.CAPTION"
 msgid "Date and time format:"
 msgstr "Формат даты и времени:"
 
+#: tfrmoptionsfilesviews.lblnewfilesposition.caption
+msgid "Insert new files"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 msgid "Sorting directories:"
 msgstr "Сортировка каталогов:"
@@ -4288,6 +4296,10 @@ msgstr "Сортировка каталогов:"
 msgctxt "TFRMOPTIONSFILESVIEWS.LBLSORTMETHOD.CAPTION"
 msgid "Sort &method:"
 msgstr "Метод &сортировки:"
+
+#: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
+msgid "Move updated files"
+msgstr ""
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 msgctxt "TFRMOPTIONSFILETYPESCOLORS.BTNADDCATEGORY.CAPTION"
@@ -7012,6 +7024,10 @@ msgstr "Новый файл"
 msgid "Next volume will be unpacked"
 msgstr "Следующий том будет распакован"
 
+#: ulng.rsmsgnofiles
+msgid "No files"
+msgstr ""
+
 #: ulng.rsmsgnofilesselected
 msgid "No files selected."
 msgstr "Нет выделенных файлов."
@@ -7526,6 +7542,10 @@ msgstr "Подсказки"
 msgid "Left button;Right button;"
 msgstr "Левая клавиша;Правая клавиша;"
 
+#: ulng.rsoptnewfilesposition
+msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
+msgstr ""
+
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
 msgstr "Плагин %s уже назначен для следующих расширений:"
@@ -7565,6 +7585,10 @@ msgstr "Алфавитная, с учётом особенностей язык�
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
 msgstr "Вверху;Внизу;"
+
+#: ulng.rsoptupdatedfilesposition
+msgid "don't change position;use the same setting as for new files;to sorted position"
+msgstr ""
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
