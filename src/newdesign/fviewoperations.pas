@@ -124,10 +124,14 @@ end;
 
 procedure TfrmViewOperations.btnAllInQueueClick(Sender: TObject);
 var
-i: integer;
+  OpManItem: TOperationsManagerItem;
+  i: integer;
 begin
-  for i:=0 to OperationsManager.OperationsCount-1 do
-   OperationsManager.InQueue (OperationsManager.GetHandleById(i), true);
+  for i := 0 to OperationsManager.OperationsCount - 1 do
+  begin
+    OpManItem := OperationsManager.GetItemByIndex(i);
+    OperationsManager.InQueue(OpManItem.Handle, True);
+  end;
 end;
 
 procedure TfrmViewOperations.btnAllStartClick(Sender: TObject);
@@ -136,8 +140,12 @@ begin
 end;
 
 procedure TfrmViewOperations.btnCancelCurOpClick(Sender: TObject);
+var
+  OpManItem: TOperationsManagerItem;
 begin
-  OperationsManager.GetOperationByIndex(indexFocus).Stop;
+  OpManItem := OperationsManager.GetItemByIndex(indexFocus);
+  if Assigned(OpManItem) then
+    OpManItem.Operation.Stop;
 end;
 
 procedure TfrmViewOperations.btnDnCurOpClick(Sender: TObject);
@@ -166,7 +174,7 @@ end;
 
 procedure TfrmViewOperations.OnUpdateTimer(Sender: TObject);
 var
-  Operation: TFileSourceOperation;
+  OpManItem: TOperationsManagerItem;
   i: Integer;
 begin
   if indexFocus > OperationsManager.OperationsCount-1 then
@@ -194,11 +202,9 @@ begin
   begin
     // Timer is called from main thread, so it is safe
     // to use reference to Operation from OperationsManager.
-    Operation := OperationsManager.GetOperationByIndex(i);
-    if Assigned(Operation) then
-    begin
+    OpManItem := OperationsManager.GetItemByIndex(i);
+    if Assigned(OpManItem) then
       sboxOperations.Invalidate;     // force redraw
-    end;
   end;
 end;
 
@@ -207,15 +213,17 @@ var
   OperationNumber: Integer;
   CursorPos: TPoint;
   OperationDialog: TfrmFileOp;
+  OpManItem: TOperationsManagerItem;
 begin
   CursorPos := Mouse.CursorPos;
   CursorPos := sboxOperations.ScreenToClient(CursorPos);
 
   OperationNumber := CursorPos.Y div aRowHeight;
-  if OperationsManager.GetFormCreate(OperationsManager.GetHandleById(OperationNumber))= false then
+  OpManItem := OperationsManager.GetItemByIndex(OperationNumber);
+  if Assigned(OpManItem) and (OpManItem.Form = False) then
   begin
-  OperationDialog := TfrmFileOp.Create(OperationsManager.GetHandleById(OperationNumber));
-  OperationDialog.Show;
+    OperationDialog := TfrmFileOp.Create(OpManItem.Handle);
+    OperationDialog.Show;
   end;
 end;
 
@@ -265,9 +273,7 @@ end;
 
 procedure TfrmViewOperations.sboxOperationsPaint(Sender: TObject);
 var
-  Operation: TFileSourceOperation;
-  OperationHandle: TOperationHandle;
-  StartingState: TOperationStartingState;
+  OpManItem: TOperationsManagerItem;
   i: Integer;
   OutString: String;
 begin
@@ -276,12 +282,10 @@ begin
     // Timer is called from main thread, so it is safe
     // to use reference to Operation from OperationsManager.
 
-    Operation := OperationsManager.GetOperationByIndex(i);
-    if Assigned(Operation) then
+    OpManItem := OperationsManager.GetItemByIndex(i);
+    if Assigned(OpManItem) then
     begin
-      OperationHandle := OperationsManager.GetHandleById(i);
-
-      case Operation.ID of
+      case OpManItem.Operation.ID of
         fsoCopy, fsoCopyIn, fsoCopyOut:
           OutString := rsDlgCp;
         fsoMove:
@@ -296,51 +300,41 @@ begin
           OutString := rsDlgUnknownOperation;
       end;
 
-      OutString := IntToStr(OperationHandle) + ': '
+      OutString := IntToStr(OpManItem.Handle) + ': '
                  + OutString + ' - '
-                 + FloatToStrF(Operation.Progress * 100, ffFixed, 0, 0) + ' %'
-                 + ' (' + FileSourceOperationStateText[Operation.State] + ')';
-
-      StartingState := OperationsManager.GetStartingState(OperationHandle);
-      if not (StartingState in [ossInvalid, ossManualStart]) then
-        OutString := OutString + ' [' + OperationStartingStateText[StartingState] + ']';
+                 + FloatToStrF(OpManItem.Operation.Progress * 100, ffFixed, 0, 0) + ' %'
+                 + ' (' + FileSourceOperationStateText[OpManItem.Operation.State] + ')';
 
       sboxOperations.Canvas.Brush.Color := Canvas.Brush.Color;
       sboxOperations.Canvas.Rectangle(0, 0 + (aRowHeight * i), sboxOperations.Width, aRowHeight + (aRowHeight * i));
       sboxOperations.Canvas.TextOut(5, 5 + (aRowHeight * i), OutString);
       sboxOperations.Caption := OutString;
 
-      if i<> indexFocus then sboxOperations.Canvas.Brush.Color := clMenu else
+      if i <> indexFocus then
+        sboxOperations.Canvas.Brush.Color := clMenu
+      else
       begin
-      sboxOperations.Canvas.Brush.Color := clHighlight;                    // изменение цвета полоски если на ней фокус
-      lblCurrentOperation.Caption:=OutString;                              // загаловок для текущей операции в CurrentOperation panel определяется индексом
+        sboxOperations.Canvas.Brush.Color := clHighlight;                    // изменение цвета полоски если на ней фокус
+        lblCurrentOperation.Caption := OutString;                              // загаловок для текущей операции в CurrentOperation panel определяется индексом
 
-      if (StartingState in [ossQueueFirst, ossQueueLast, ossQueueIn]) then
-        btnCurOpQueueInOut.Caption:= rsDlgQueueOut
-      else
-        btnCurOpQueueInOut.Caption:= rsDlgQueueIn;
-
-      if Operation.State = fsosRunning then
-        btnStartPauseCurOp.Caption:= rsDlgOpPause
-      else
-        btnStartPauseCurOp.Caption:= rsDlgOpStart;
+        if OpManItem.Operation.State = fsosRunning then
+          btnStartPauseCurOp.Caption:= rsDlgOpPause
+        else
+          btnStartPauseCurOp.Caption:= rsDlgOpStart;
       end;
 
       sboxOperations.Canvas.FillRect(
         5,
         5 + (aRowHeight * i) + sboxOperations.Canvas.TextHeight('Pg'),
-        Round(5 + (sboxOperations.Width - 10) * Operation.Progress),
+        Round(5 + (sboxOperations.Width - 10) * OpManItem.Operation.Progress),
         aRowHeight * (i + 1) - 5);
-
-     end;
-
+    end;
   end;
-
 end;
 
 procedure TfrmViewOperations.btnCurOpQueueInOutClick(Sender: TObject);
 begin
-  if (OperationsManager.GetStartingState(OperationsManager.GetHandleById(indexFocus)) in [ossQueueFirst, ossQueueLast, ossQueueIn])  then
+{  if (OperationsManager.GetStartingState(OperationsManager.GetHandleById(indexFocus)) in [ossQueueFirst, ossQueueLast, ossQueueIn])  then
     begin
       OperationsManager.InQueue(OperationsManager.GetHandleById(indexFocus), false);
       btnCurOpQueueInOut.Caption:= rsDlgQueueIn;
@@ -349,23 +343,29 @@ begin
     begin
       OperationsManager.InQueue(OperationsManager.GetHandleById(indexFocus), true);
       btnCurOpQueueInOut.Caption:= rsDlgQueueOut;
-    end;
+    end;}
 end;
 
 procedure TfrmViewOperations.btnStartPauseCurOpClick(Sender: TObject);
+var
+  OpManItem: TOperationsManagerItem;
 begin
-  if OperationsManager.GetOperationByIndex(indexFocus).State=fsosRunning then
-    begin
-      OperationsManager.GetOperationByIndex(indexFocus).pause;
-      btnStartPauseCurOp.Caption:= rsDlgOpStart;
-      OperationsManager.CheckQueuedOperations;
-    end
-  else
-    begin
-      OperationsManager.GetOperationByIndex(indexFocus).Start;
-      OperationsManager.SetPauseRunning(OperationsManager.GetHandleById(indexFocus), False);
-      btnStartPauseCurOp.Caption:= rsDlgOpPause;
-    end;
+  OpManItem := OperationsManager.GetItemByIndex(indexFocus);
+  if Assigned(OpManItem) then
+  begin
+    if OpManItem.Operation.State = fsosRunning then
+      begin
+        OpManItem.Operation.Pause;
+        btnStartPauseCurOp.Caption := rsDlgOpStart;
+        OperationsManager.CheckQueuedOperations;
+      end
+    else
+      begin
+        OpManItem.Operation.Start;
+        OpManItem.PauseRunning := False;
+        btnStartPauseCurOp.Caption:= rsDlgOpPause;
+      end;
+  end;
 end;
 
 procedure TfrmViewOperations.btnStartQueueClick(Sender: TObject);
