@@ -89,9 +89,11 @@ uses
   uDebug, uFileProperty, uFileSystemFileSource;
   
 function TParserControl.calculate(aFile: TFile; operand1,operand2,Aoperator:Tmathchar):string;
-var tmp:string;
+var
+  tmp, data1: String;
 begin
  result:='false';
+ data1:= UpperCase(operand1.data);
 
  //Not
  if (operand1.data='NOT') and ((operand2.data='true') or (operand2.data='false')) then
@@ -110,7 +112,7 @@ begin
     end;
 
    //EXT= EXT!=
-   if (operand1.data='EXT') then
+   if (data1 = 'EXT') then
      begin
        //---------------------
        tmp:= aFile.Extension;
@@ -124,7 +126,7 @@ begin
      end;
 
    //SIZE > < = !=
-   if (operand1.data='SIZE') and (fpSize in aFile.SupportedProperties) then
+   if (data1 = 'SIZE') and (fpSize in aFile.SupportedProperties) then
      begin
        tmp:= IntToStr(aFile.Size);
         case Aoperator.op of
@@ -135,8 +137,6 @@ begin
         end;
      end;
 
-
- 
 { case Aoperator.op of
    moneq: ;
    moequ: ;
@@ -152,7 +152,6 @@ function TParserControl.TestFileResult(const aFile: TFile):boolean;
 begin
   Result:= getresult(aFile);
 end;
-
 
 function TParserControl.TestFileResult(const aFileName: UTF8String): boolean;
 var
@@ -416,4 +415,4 @@ end;
  end;
 
  end.
-
+
