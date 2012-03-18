@@ -141,7 +141,6 @@ type
     FColumnsSorting: TColumnsSortings;
     FFileNameColumn: Integer;
     FExtensionColumn: Integer;
-    FLastActiveNode: PVirtualNode;    //<en Last active node
     FLastActiveRow: Integer;
     FUpdatingGrid: Boolean;
     FLastSelectionStartRow: Integer;
@@ -971,9 +970,8 @@ var
 begin
   dgPanel.TreeOptions.AutoOptions := dgPanel.TreeOptions.AutoOptions - [toDisableAutoscrollOnFocus];
 
-  if (FLastActiveNode <> Node) and (not FUpdatingGrid) then
+  if Assigned(Node) and (FLastActiveRow <> Node^.Index) and (not FUpdatingGrid) then
     begin
-      FLastActiveNode:= Node;
       FLastActiveRow := Node^.Index;
 
       if Assigned(Node) then
@@ -2574,7 +2572,15 @@ begin
     // Requested file was not found, restore position to last active file.
     if not SetActiveFileNow(LastActiveFile) then
     begin
-      if FLastActiveRow >= 0 then
+      if FLastActiveRow >= dgPanel.RootNodeCount then
+      begin
+        FUpdatingGrid := True;
+        dgPanel.FocusedNode := dgPanel.GetLastNoInit;
+        FUpdatingGrid := False;
+        SetLastActiveFile(FLastActiveRow);
+        AFocused := True;
+      end
+      else if FLastActiveRow >= 0 then
       begin
         Node := dgPanel.GetFirstNoInit;
         while Assigned(Node) do
