@@ -191,6 +191,7 @@ procedure SetChangeVolProc(hArcData : TArcHandle; pChangeVolProc : TChangeVolPro
 procedure SetChangeVolProcW(hArcData : TArcHandle; pChangeVolProc : TChangeVolProcW);dcpcall;
 procedure SetProcessDataProc(hArcData : TArcHandle; pProcessDataProc : TProcessDataProc);dcpcall;
 procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);dcpcall;
+function GetPackerCaps : Integer; dcpcall;
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;
 
 implementation
@@ -684,6 +685,11 @@ end;
 procedure SetProcessDataProcW(hArcData : TArcHandle; pProcessDataProc : TProcessDataProcW);dcpcall;
 begin
   ProcessDataProcW := pProcessDataProc;
+end;
+
+function GetPackerCaps: Integer; dcpcall;
+begin
+  Result := PK_CAPS_MULTIPLE or PK_CAPS_BY_CONTENT;
 end;
 
 procedure ExtensionInitialize(StartupInfo: PExtensionStartupInfo); dcpcall;

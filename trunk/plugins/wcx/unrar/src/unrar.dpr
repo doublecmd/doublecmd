@@ -4,6 +4,7 @@ uses
   SysUtils, DynLibs, UnRARFunc;
 
 exports
+  { Mandatory }
   OpenArchive,
   OpenArchiveW,
   ReadHeader,
@@ -16,6 +17,9 @@ exports
   SetChangeVolProcW,
   SetProcessDataProc,
   SetProcessDataProcW,
+  { Optional }
+  GetPackerCaps,
+  { Extension API }
   ExtensionInitialize;
 
 begin

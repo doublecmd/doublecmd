@@ -75,7 +75,7 @@
       <WcxPlugin Enabled="True">
         <ArchiveExt>rar</ArchiveExt>
         <Path>%commander_path%\plugins\wcx\unrar\unrar.wcx</Path>
-        <Flags>4</Flags>
+        <Flags>68</Flags>
       </WcxPlugin>
     </WcxPlugins>
     <WdxPlugins>
