@@ -4,7 +4,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-31 22:53+0900\n"
 "PO-Revision-Date: 2012-03-11 02:34+0900\n"
-"Last-Translator: sheppaul <sheppaul@gmail.com>\nLee, Cheon-Pung <salm2000@gmail.com>\n"
+"Last-Translator: sheppaul <sheppaul@gmail.com>\n"
+"Lee, Cheon-Pung <salm2000@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -4299,6 +4300,10 @@ msgstr ""
 msgid "Show square brackets around directories"
 msgstr "폴더 이름 양 옆에 대괄호 [] 보이기"
 
+#: tfrmoptionsfilesviews.cbhighlightupdatedfiles.caption
+msgid "Highlight new and updated files"
+msgstr ""
+
 #: tfrmoptionsfilesviews.cblistfilesinthread.caption
 #, fuzzy
 msgctxt "TFRMOPTIONSFILESVIEWS.CBLISTFILESINTHREAD.CAPTION"
@@ -4344,6 +4349,10 @@ msgstr "대/소문자 구별(&A)"
 msgid "Date and time format:"
 msgstr "날짜 및 시간 형식:"
 
+#: tfrmoptionsfilesviews.lblnewfilesposition.caption
+msgid "Insert new files"
+msgstr ""
+
 #: tfrmoptionsfilesviews.lblsortfoldermode.caption
 #, fuzzy
 msgid "Sorting directories:"
@@ -4352,6 +4361,10 @@ msgstr "하위 폴더 찾기(&B):"
 #: tfrmoptionsfilesviews.lblsortmethod.caption
 msgid "Sort &method:"
 msgstr "정렬 방식(&M)"
+
+#: tfrmoptionsfilesviews.lblupdatedfilesposition.caption
+msgid "Move updated files"
+msgstr ""
 
 #: tfrmoptionsfiletypescolors.btnaddcategory.caption
 #, fuzzy
@@ -7224,6 +7237,10 @@ msgstr "새 파일"
 msgid "Next volume will be unpacked"
 msgstr "다음 볼륨의 압축을 풀었습니다"
 
+#: ulng.rsmsgnofiles
+msgid "No files"
+msgstr ""
+
 #: ulng.rsmsgnofilesselected
 msgid "No files selected."
 msgstr "선택한 파일이 없습니다."
@@ -7761,6 +7778,10 @@ msgstr "풍선 도움말"
 msgid "Left button;Right button;"
 msgstr "왼쪽 버튼;오른쪽 버튼;"
 
+#: ulng.rsoptnewfilesposition
+msgid "at the top of the file list;after directories (if directories are sorted before files);at sorted position;at the bottom of the file list"
+msgstr ""
+
 #: ulng.rsoptpluginalreadyassigned
 msgid "Plugin %s is already assigned for the following extensions:"
 msgstr "%s 플러그인은 이미 다음 확장자와 연결되어 있습니다:"
@@ -7800,6 +7821,10 @@ msgstr "액센트를 고려하여 알파벳순으로;자연스럽게 정렬: 알
 #: ulng.rsopttabsposition
 msgid "Top;Bottom;"
 msgstr "위;아래;"
+
+#: ulng.rsoptupdatedfilesposition
+msgid "don't change position;use the same setting as for new files;to sorted position"
+msgstr ""
 
 #: ulng.rspropserrchmod
 msgid "Can not change access rights for \"%s\""
