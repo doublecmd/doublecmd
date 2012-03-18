@@ -90,9 +90,9 @@ begin
 
   I:= gWCXPlugins.IndexOfName('rar');
   if I < 0 then
-    gWCXPlugins.Add('rar', 4, Folder + 'unrar' + PathDelim + 'unrar.wcx')
+    gWCXPlugins.Add('rar', 68, Folder + 'unrar' + PathDelim + 'unrar.wcx')
   else
-    gWCXPlugins.Flags[I]:= 4;
+    gWCXPlugins.Flags[I]:= 68;
 
   // Wfx plugins
   Folder:= '%commander_path%' + PathDelim + 'plugins' + PathDelim + 'wfx' + PathDelim;
