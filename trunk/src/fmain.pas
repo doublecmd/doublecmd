@@ -2981,7 +2981,7 @@ procedure TfrmMain.sboxOperationsMouseDown(Sender: TObject;
 var
   OperationNumber: Integer;
   CursorPos: TPoint;
-  Operation: TFileSourceOperation;
+  OpManItem: TOperationsManagerItem;
 begin
   CursorPos := Mouse.CursorPos;
   CursorPos := sboxOperations.ScreenToClient(CursorPos);
@@ -2994,20 +2994,20 @@ begin
       end;
     mbRight:
       begin
-        Operation:=OperationsManager.GetOperationByIndex(OperationNumber);
-         if Assigned(Operation) then
-           begin
-             if Operation.State = fsosRunning then
-               begin
-                 OperationsManager.SetPauseRunning(OperationsManager.GetHandleById(OperationNumber), True);
-                 Operation.Pause;
-               end
-             else
-               begin
-                 OperationsManager.InQueue(OperationsManager.GetHandleById(OperationNumber), true);
-               end;
-           end;
-      end;
+        OpManItem := OperationsManager.GetItemByIndex(OperationNumber);
+        if Assigned(OpManItem) then
+          begin
+            if OpManItem.Operation.State = fsosRunning then
+              begin
+                OpManItem.PauseRunning := True;
+                OpManItem.Operation.Pause;
+              end
+            else
+              begin
+                OperationsManager.InQueue(OpManItem.Handle, True);
+              end;
+          end;
+     end;
     mbLeft:
       begin
         indexFocus:= OperationNumber;
@@ -3027,31 +3027,35 @@ procedure TfrmMain.sboxOperationsMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   OperationDialog: TfrmFileOp;
+  OpManItem: TOperationsManagerItem;
 begin
   if Button=mbLeft then
     begin
-      PressLMB:=false;
-      if (ItemEnd < 0) then OperationsManager.MoveOperation(IndexFocus, 0);
-      if (ItemEnd > OperationsManager.OperationsCount) then OperationsManager.MoveOperation(IndexFocus, OperationsManager.OperationsCount);
-      if IndexFocus=ItemEnd then
+      PressLMB := False;
+      if (ItemEnd < 0) then
+        OperationsManager.MoveOperation(IndexFocus, 0);
+      if (ItemEnd > OperationsManager.OperationsCount) then
+        OperationsManager.MoveOperation(IndexFocus, OperationsManager.OperationsCount);
+
+      if IndexFocus = ItemEnd then
         begin
-          if OperationsManager.GetFormCreate (OperationsManager.GetHandleById(IndexFocus)) = False then //Check if current operation has a form
+          OpManItem := OperationsManager.GetItemByIndex(indexFocus);
+          if Assigned(OpManItem) and (OpManItem.Form = False) then //Check if current operation has a form
             begin
-              OperationDialog := TfrmFileOp.Create(OperationsManager.GetHandleById(IndexFocus)); // create it if it hasn't
+              OperationDialog := TfrmFileOp.Create(OpManItem.Handle); // create it if it hasn't
               OperationDialog.Show;
-              OperationsManager.SetFormCreate (OperationsManager.GetHandleById(IndexFocus), True); // Show form presence
+              OpManItem.Form := True; // Show form presence
             end;
          end
-      else OperationsManager.MoveOperation(IndexFocus, ItemEnd);
+      else
+        OperationsManager.MoveOperation(IndexFocus, ItemEnd);
     end;
   IndexFocus:=ItemEnd;
 end;
 
 procedure TfrmMain.sboxOperationsPaint(Sender: TObject);
 var
-  Operation: TFileSourceOperation;
-  OperationHandle: TOperationHandle;
-  StartingState: TOperationStartingState;
+  OpManItem: TOperationsManagerItem;
   I: Integer;
   OutString: String;
   ARect: TRect;
@@ -3097,12 +3101,9 @@ begin
         end
       else
         begin
-          Operation := OperationsManager.GetOperationByIndex(I);
-          if Assigned(Operation) then
+          OpManItem := OperationsManager.GetItemByIndex(I);
+          if Assigned(OpManItem) then
           begin
-            OperationHandle := OperationsManager.GetHandleById(I);
-            StartingState := OperationsManager.GetStartingState(OperationHandle);
-
             // set progress bar color by operation state
 
             // If it is stopped then it should be red
@@ -3110,39 +3111,39 @@ begin
             AStop:=  RGB(255, 110, 103);
 
             // Orange if in queue
-            if (StartingState in [ossQueueIn, ossQueueFirst, ossQueueLast]) then
+            {if (StartingState in [ossQueueIn, ossQueueFirst, ossQueueLast]) then
             begin
               AStart:= RGB(255, 202, 100);
               AStop:=  RGB(255, 153, 4);
-            end;
+            end;}
 
             // Green if running
-            if Operation.State = fsosRunning then
+            if OpManItem.Operation.State = fsosRunning then
             begin
               AStart:= RGB(203, 233, 171);
               AStop:=  RGB(146, 208, 80);
             end;
 
-            case Operation.ID of
-            fsoCopy, fsoCopyIn, fsoCopyOut:
-              OutString := 'Copying';
-            fsoMove:
-              OutString := 'Moving';
-            fsoDelete:
-              OutString := 'Delete';
-            fsoWipe:
-              OutString := 'Erasing';
-            fsoCalcChecksum:
-              OutString := 'Counting';
-            else
-              OutString := 'Unknown';
+            case OpManItem.Operation.ID of
+              fsoCopy, fsoCopyIn, fsoCopyOut:
+                OutString := 'Copying';
+              fsoMove:
+                OutString := 'Moving';
+              fsoDelete:
+                OutString := 'Delete';
+              fsoWipe:
+                OutString := 'Erasing';
+              fsoCalcChecksum:
+                OutString := 'Counting';
+              else
+                OutString := 'Unknown';
             end;
 
-          OutString := IntToStr(OperationHandle) + ': '
+          OutString := IntToStr(OpManItem.Handle) + ': '
                        + OutString + ' - '
-                       + FloatToStrF(Operation.Progress * 100, ffFixed, 0, 0) + ' %';
+                       + FloatToStrF(OpManItem.Operation.Progress * 100, ffFixed, 0, 0) + ' %';
 
-          if OperationsManager.GetFormCreate (OperationHandle) = True then
+          if OpManItem.Form = True then
             sboxOperations.Canvas.Pen.Color := clMenuHighlight
           else
             sboxOperations.Canvas.Pen.Color := LightColor(cl3DDkShadow, 40);
@@ -3155,7 +3156,7 @@ begin
           ARect.TopLeft.x:= 3 + (widthOfItem * I);
           ARect.TopLeft.y:= 3;
 
-          ARect.BottomRight.x:= Round(5 + (widthOfItem * I) + (widthOfItem - 10) * Operation.Progress);
+          ARect.BottomRight.x:= Round(5 + (widthOfItem * I) + (widthOfItem - 10) * OpManItem.Operation.Progress);
           ARect.BottomRight.y:= HeightSbox - 7;
 
           sboxOperations.Canvas.GradientFill(ARect, AStart, AStop, gdVertical);
@@ -4834,6 +4835,7 @@ var
   Pct: string;
   i, AllProgressPoint: integer;
   visiblePanel: boolean;
+  OpManItem: TOperationsManagerItem;
 begin
   // Hide progress bar if there are no operations
   if OperationsManager.OperationsCount = 0 then
@@ -4852,16 +4854,17 @@ begin
           PanelAllProgress.Height := sboxOperations.Canvas.TextHeight('Pg') * 2 + 8;
           // Make panel visible if at least one operation has no form
           visiblePanel:= False;
-           for i := 0 to  OperationsManager.OperationsCount - 1 do
-           begin
-             if OperationsManager.GetFormCreate(OperationsManager.GetHandleById(i)) = False then
-               visiblePanel:= True;
-           end;
-           if visiblePanel = True then
-             PanelAllProgress.Visible:= True
-           else
-             PanelAllProgress.Visible:= False;
-           sboxOperations.Invalidate; // force redraw
+          for i := 0 to  OperationsManager.OperationsCount - 1 do
+          begin
+            OpManItem := OperationsManager.GetItemByIndex(i);
+            if OpManItem.Form = False then
+              visiblePanel:= True;
+          end;
+          if visiblePanel = True then
+            PanelAllProgress.Visible:= True
+          else
+            PanelAllProgress.Visible:= False;
+          sboxOperations.Invalidate; // force redraw
         end;
 
       if gProgInMenuBar = true then

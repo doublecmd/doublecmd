@@ -94,8 +94,6 @@ type
     procedure UpdateTestArchiveOperation(Operation: TFileSourceOperation);
 
   public
-
-
     // Change to override later.
     constructor Create(OperationHandle: TOperationHandle); overload;
     destructor Destroy; override;
@@ -103,7 +101,6 @@ type
     function CloseQuery: Boolean; override;
 
     property ProgressBarStyle: TProgressBarStyle read GetProgressBarStyle write SetProgressBarStyle;
-
   end;
 
 implementation
@@ -127,13 +124,11 @@ uses
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
 var
-  Operation: TFileSourceOperation;
+  OpManItem: TOperationsManagerItem;
 begin
-  Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
-  if Assigned(Operation) then
-  begin
-    Operation.Stop;
-  end;
+  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  if Assigned(OpManItem) then
+    OpManItem.Operation.Stop;
   ModalResult:= mrCancel;
 end;
 
@@ -151,19 +146,19 @@ end;
 
 procedure TfrmFileOp.btnPauseStartClick(Sender: TObject);
 var
-  Operation: TFileSourceOperation;
+  OpManItem: TOperationsManagerItem;
 begin
-  Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
-  if Assigned(Operation) then
+  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  if Assigned(OpManItem) then
   begin
-    if Operation.State in [fsosNotStarted, fsosPaused] then
+    if OpManItem.Operation.State in [fsosNotStarted, fsosPaused] then
     begin
-      Operation.Start;
+      OpManItem.Operation.Start;
       SetPauseGlyph;
     end
-    else if Operation.State in [fsosRunning, fsosWaitingForConnection] then
+    else if OpManItem.Operation.State in [fsosRunning, fsosWaitingForConnection] then
     begin
-      Operation.Pause;
+      OpManItem.Operation.Pause;
       SetPlayGlyph;
       OperationsManager.CheckQueuedOperations;
     end;
@@ -172,13 +167,13 @@ end;
 
 procedure TfrmFileOp.btnToQueueClick(Sender: TObject);
 var
-Operation: TFileSourceOperation;
+  OpManItem: TOperationsManagerItem;
 begin
-  Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
-  if Assigned(Operation) then
+  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  if Assigned(OpManItem) then
   begin
-    OperationsManager.SetFormCreate (FOperationHandle, false);
-    OperationsManager.InQueue(FOperationHandle, true);
+    OpManItem.Form := False;
+    //OperationsManager.InQueue(FOperationHandle, true);
   end;
   FStopOperationOnClose := False;
   Close;
@@ -187,10 +182,11 @@ end;
 
 procedure TfrmFileOp.btnWorkInBackgroundClick(Sender: TObject);
 var
-Operation: TFileSourceOperation;
+  OpManItem: TOperationsManagerItem;
 begin
-  Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
-  if Assigned(Operation) then   OperationsManager.SetFormCreate (FOperationHandle, false);
+  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  if Assigned(OpManItem) then
+    OpManItem.Form := False;
   FStopOperationOnClose := False;
   Close;
   OperationsManager.CheckQueuedOperations;
@@ -203,37 +199,37 @@ end;
 
 procedure TfrmFileOp.FormCreate(Sender: TObject);
 var
-  Operation: TFileSourceOperation;
+  OpManItem: TOperationsManagerItem;
 begin
   pbFirst.DoubleBuffered:= True;
   pbSecond.DoubleBuffered:= True;
   Self.DoubleBuffered:= True;
 
-  Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
-  if Assigned(Operation) then
+  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  if Assigned(OpManItem) then
   begin
     ProgressBarStyle:= pbstMarquee;
 
-    case Operation.ID of
+    case OpManItem.Operation.ID of
 
       fsoCopy, fsoCopyIn, fsoCopyOut:
-        InitializeCopyOperation(Operation);
+        InitializeCopyOperation(OpManItem.Operation);
       fsoMove:
-        InitializeMoveOperation(Operation);
+        InitializeMoveOperation(OpManItem.Operation);
       fsoDelete:
-        InitializeDeleteOperation(Operation);
+        InitializeDeleteOperation(OpManItem.Operation);
       fsoWipe:
-        InitializeWipeOperation(Operation);
+        InitializeWipeOperation(OpManItem.Operation);
       fsoSplit:
-        InitializeSplitOperation(Operation);
+        InitializeSplitOperation(OpManItem.Operation);
       fsoCombine:
-        InitializeCombineOperation(Operation);
+        InitializeCombineOperation(OpManItem.Operation);
       fsoCalcChecksum:
-        InitializeCalcChecksumOperation(Operation);
+        InitializeCalcChecksumOperation(OpManItem.Operation);
       fsoTestArchive:
-        InitializeTestArchiveOperation(Operation);
+        InitializeTestArchiveOperation(OpManItem.Operation);
       fsoCalcStatistics:
-        InitializeCalcStatisticsOperation(Operation);
+        InitializeCalcStatisticsOperation(OpManItem.Operation);
 
       else
         begin
@@ -242,7 +238,7 @@ begin
         end;
     end;
 
-    UpdatePauseStartButton(Operation.State);
+    UpdatePauseStartButton(OpManItem.Operation.State);
   end
   else
   begin
@@ -254,19 +250,15 @@ begin
   FUpdateTimer.OnTimer := @OnUpdateTimer;
   FUpdateTimer.Enabled := True;
 
-  OperationsManager.SetFormCreate (FOperationHandle, true);
+  OpManItem.Form := True;
 end;
 
 
 constructor TfrmFileOp.Create(OperationHandle: TOperationHandle);
 var
-  Operation: TFileSourceOperation;
+  OpManItem: TOperationsManagerItem;
 begin
   FOperationHandle := OperationHandle;
-
-//  if not Assigned(frmFileOp(FOperationHandle)) then
-//  begin
-
 
   inherited Create(Application);
 
@@ -274,28 +266,27 @@ begin
 
   FStopOperationOnClose := True;
 
-  Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
-  if Assigned(Operation) then
+  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  if Assigned(OpManItem) then
   begin
     FUserInterface := TFileSourceOperationMessageBoxesUI.Create;
-    Operation.AddUserInterface(FUserInterface);
+    OpManItem.Operation.AddUserInterface(FUserInterface);
   end
   else
     FUserInterface := nil;
-
 end;
 
 destructor TfrmFileOp.Destroy;
 var
-  Operation: TFileSourceOperation;
+  OpManItem: TOperationsManagerItem;
 begin
   inherited Destroy;
 
   if Assigned(FUserInterface) then
   begin
-    Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
-    if Assigned(Operation) then
-      Operation.RemoveUserInterface(FUserInterface);
+    OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+    if Assigned(OpManItem) then
+      OpManItem.Operation.RemoveUserInterface(FUserInterface);
 
     FreeAndNil(FUserInterface);
   end;
@@ -303,68 +294,68 @@ end;
 
 function TfrmFileOp.CloseQuery: Boolean;
 var
-  Operation: TFileSourceOperation;
+  OpManItem: TOperationsManagerItem;
 begin
   Result := True;
 
   if FStopOperationOnClose then
   begin
-    Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
-    if Assigned(Operation) and (Operation.State <> fsosStopped) then
+    OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+    if Assigned(OpManItem) and (OpManItem.Operation.State <> fsosStopped) then
     begin
       Result := False;
-      Operation.Stop;
+      OpManItem.Operation.Stop;
     end
   end;
 end;
 
 procedure TfrmFileOp.OnUpdateTimer(Sender: TObject);
 var
-  Operation: TFileSourceOperation;
+  OpManItem: TOperationsManagerItem;
   NewCaption: String;
 begin
-  Operation := OperationsManager.GetOperationByHandle(FOperationHandle);
-  if Assigned(Operation) and (Operation.State <> fsosStopped) then
+  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
+  if Assigned(OpManItem) and (OpManItem.Operation.State <> fsosStopped) then
   begin
-    if (Operation.State = fsosRunning) and (ProgressBarStyle = pbstMarquee) then
+    if (OpManItem.Operation.State = fsosRunning) and (ProgressBarStyle = pbstMarquee) then
     begin
       ProgressBarStyle:= pbstNormal;
     end;
 
-    case Operation.ID of
+    case OpManItem.Operation.ID of
 
       fsoCopy, fsoCopyIn, fsoCopyOut:
-        UpdateCopyOperation(Operation);
+        UpdateCopyOperation(OpManItem.Operation);
       fsoMove:
-        UpdateMoveOperation(Operation);
+        UpdateMoveOperation(OpManItem.Operation);
       fsoDelete:
-        UpdateDeleteOperation(Operation);
+        UpdateDeleteOperation(OpManItem.Operation);
       fsoWipe:
-        UpdateWipeOperation(Operation);
+        UpdateWipeOperation(OpManItem.Operation);
       fsoSplit:
-        UpdateSplitOperation(Operation);
+        UpdateSplitOperation(OpManItem.Operation);
       fsoCombine:
-        UpdateCombineOperation(Operation);
+        UpdateCombineOperation(OpManItem.Operation);
       fsoCalcChecksum:
-        UpdateCalcChecksumOperation(Operation);
+        UpdateCalcChecksumOperation(OpManItem.Operation);
       fsoCalcStatistics:
-        UpdateCalcStatisticsOperation(Operation);
+        UpdateCalcStatisticsOperation(OpManItem.Operation);
       fsoTestArchive:
-        UpdateTestArchiveOperation(Operation);
+        UpdateTestArchiveOperation(OpManItem.Operation);
 
       else
       begin
         // Operation not currently supported for display.
         // Only show general progress.
-        pbFirst.Position := Round(Operation.Progress * pbFirst.Max);
+        pbFirst.Position := Round(OpManItem.Operation.Progress * pbFirst.Max);
       end;
     end;
 
-    UpdatePauseStartButton(Operation.State);
+    UpdatePauseStartButton(OpManItem.Operation.State);
 
-    NewCaption := FloatToStrF(Operation.Progress * 100, ffFixed, 0, 0) + '% ' + Hint;
-    if Operation.State <> fsosRunning then
-      NewCaption := NewCaption + ' [' + FileSourceOperationStateText[Operation.State] + ']';
+    NewCaption := FloatToStrF(OpManItem.Operation.Progress * 100, ffFixed, 0, 0) + '% ' + Hint;
+    if OpManItem.Operation.State <> fsosRunning then
+      NewCaption := NewCaption + ' [' + FileSourceOperationStateText[OpManItem.Operation.State] + ']';
     Caption := NewCaption;
   end
   else
