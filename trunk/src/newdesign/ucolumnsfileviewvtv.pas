@@ -177,9 +177,9 @@ type
     procedure SetColumns;
     procedure RedrawGrid;
     {en
-       Redraw row containing DisplayFile if it is visible.
+       Redraw node containing DisplayFile if it is visible.
     }
-    procedure RedrawFile(DisplayFile: TDisplayFile);
+    procedure RedrawFile(DisplayFile: TDisplayFile); override;
 
     procedure MakeVisible(Node: PVirtualNode);
     procedure MakeSelectedVisible;
@@ -3481,32 +3481,37 @@ var
           //------------------------------------------------------
           if IsCursor then
             begin
-              PaintInfo.Canvas.Font.Color := InvertColor(ColumnsSet.GetColumnCursorText(ACol));
+              TextColor := InvertColor(ColumnsSet.GetColumnCursorText(ACol));
             end
           else
             begin
               BackgroundColor := ColumnsSet.GetColumnMarkColor(ACol);
-              PaintInfo.Canvas.Font.Color := ColumnsSet.GetColumnBackground(ACol);
+              TextColor := ColumnsSet.GetColumnBackground(ACol);
             end;
           //------------------------------------------------------
         end
       else
         begin
-          PaintInfo.Canvas.Font.Color := ColumnsSet.GetColumnMarkColor(ACol);
+          TextColor := ColumnsSet.GetColumnMarkColor(ACol);
         end;
     end
     else if IsCursor then
       begin
-        PaintInfo.Canvas.Font.Color := ColumnsSet.GetColumnCursorText(ACol);
-      end
-    else
-      begin
-        PaintInfo.Canvas.Font.Color := TextColor;
+        TextColor := ColumnsSet.GetColumnCursorText(ACol);
       end;
 
+    BackgroundColor := ColumnsView.DimColor(BackgroundColor);
+
+    if AFile.RecentlyUpdatedPct <> 0 then
+    begin
+      TextColor := LightColor(TextColor, AFile.RecentlyUpdatedPct);
+      BackgroundColor := LightColor(BackgroundColor, AFile.RecentlyUpdatedPct);
+    end;
+
     // Draw background.
-    PaintInfo.Canvas.Brush.Color := ColumnsView.DimColor(BackgroundColor);
+    PaintInfo.Canvas.Brush.Color := BackgroundColor;
     PaintInfo.Canvas.FillRect(aRect);
+    PaintInfo.Canvas.Font.Color := TextColor;
   end;// of PrepareColors;
 
   procedure DrawLines;

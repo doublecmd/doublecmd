@@ -54,6 +54,7 @@ type
   TSortFolderMode = (sfmSortNameShowFirst, sfmSortLikeFileShowFirst, sfmSortLikeFile);
   { Where to insert new files in the filelist }
   TNewFilesPosition = (nfpTop, nfpTopAfterDirectories, nfpSortedPosition, nfpBottom);
+  { Where to move updated files in the filelist }
   TUpdatedFilesPosition = (ufpSameAsNewFiles, ufpSortedPosition, ufpNoChange);
 
   TExternalTool = (etViewer, etEditor, etDiffer);
@@ -192,6 +193,7 @@ var
   gListFilesInThread: Boolean;
   gLoadIconsSeparately: Boolean;
   gDelayLoadingTabs: Boolean;
+  gHighlightUpdatedFiles: Boolean;
   gLastUsedPacker: String;
 
   { Tools page }
@@ -726,6 +728,7 @@ begin
   gListFilesInThread := True;
   gLoadIconsSeparately := True;
   gDelayLoadingTabs := True;
+  gHighlightUpdatedFiles := True;
   gDriveBlackList := '';
 
   { Tools page }
@@ -1575,6 +1578,7 @@ begin
       gListFilesInThread := GetValue(Node, 'ListFilesInThread', gListFilesInThread);
       gLoadIconsSeparately := GetValue(Node, 'LoadIconsSeparately', gLoadIconsSeparately);
       gDelayLoadingTabs := GetValue(Node, 'DelayLoadingTabs', gDelayLoadingTabs);
+      gHighlightUpdatedFiles := GetValue(Node, 'HighlightUpdatedFiles', gHighlightUpdatedFiles);
       gDriveBlackList := GetValue(Node, 'DriveBlackList', gDriveBlackList);
     end;
 
@@ -1927,6 +1931,7 @@ begin
     SetValue(Node, 'ListFilesInThread', gListFilesInThread);
     SetValue(Node, 'LoadIconsSeparately', gLoadIconsSeparately);
     SetValue(Node, 'DelayLoadingTabs', gDelayLoadingTabs);
+    SetValue(Node, 'HighlightUpdatedFiles', gHighlightUpdatedFiles);
     SetValue(Node, 'DriveBlackList', gDriveBlackList);
 
     { Tools page }

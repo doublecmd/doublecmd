@@ -25,6 +25,11 @@ type
     FSelected: Boolean;      //<en If is selected
     FIconID: PtrInt;         //<en Icon ID for PixmapManager
     FIconOverlayID: PtrInt;  //<en Overlay icon ID for PixmapManager
+    {en
+       Used to indicate that the file has been recently updated.
+       Value goes from 100 to 0. 0 - not recently updated, 100 - just updated.
+    }
+    FRecentlyUpdatedPct: Integer;
 
     // Cache of displayed strings.
     FDisplayStrings: TStringList;
@@ -60,6 +65,7 @@ type
     property IconID: PtrInt read FIconID write FIconID;
     property IconOverlayID: PtrInt read FIconOverlayID write FIconOverlayID;
     property DisplayStrings: TStringList read FDisplayStrings;
+    property RecentlyUpdatedPct: Integer read FRecentlyUpdatedPct write FRecentlyUpdatedPct;
 
   end;
 
