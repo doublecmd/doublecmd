@@ -1424,10 +1424,7 @@ end;
 procedure TColumnsFileViewVTV.SetRowCount(Count: Integer);
 begin
   FUpdatingGrid := True;
-  dgPanel.BeginUpdate;
-  dgPanel.Clear;
   dgPanel.RootNodeCount := Count;
-  dgPanel.EndUpdate;
   FUpdatingGrid := False;
 end;
 
