@@ -86,6 +86,8 @@ type
     FLoadFilesFinishTime: TDateTime;
     FLoadFilesNoDelayCount: Integer; //<en How many reloads have been accepted without delay
     FNotifications: TFileViewNotifications;
+    FRecentlyUpdatedFiles: TDisplayFiles;    //<en Recently updated files.
+    FRecentlyUpdatedFilesTimer: TTimer;
     FRequests: TFileViewRequests;
     FUpdateCount: Integer;           //<en Nr of times BeginUpdate was called without corresponding EndUpdate
 
@@ -116,6 +118,7 @@ type
     procedure AddEventToPendingFilesChanges(const EventData: TFSWatcherEventData);
     procedure ApplyPendingFilesChanges;
     procedure ClearPendingFilesChanges;
+    procedure ClearRecentlyUpdatedFiles;
     procedure DoOnFileListChanged;
     function FileListLoaded: Boolean;
     function GetCurrentAddress: String;
@@ -144,8 +147,11 @@ type
     procedure Request(NewRequests: TFileViewRequests);
     procedure ResortFile(ADisplayFile: TDisplayFile; AFileList: TDisplayFiles);
     procedure SetFlags(AValue: TFileViewFlags);
+    procedure StartRecentlyUpdatedTimerIfNeeded;
     procedure UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
+    procedure UpdatedFilesTimerEvent(Sender: TObject);
     procedure UpdatePath(UpdateAddressToo: Boolean);
+    procedure VisualizeFileUpdate(AFile: TDisplayFile);
     {en
        Assigns the built lists to the file view and displays new the file list.
     }
@@ -256,6 +262,10 @@ type
        Makes a new display file list and redisplays the changed list.
     }
     procedure ReDisplayFileList;
+    {en
+       Redraw DisplayFile if it is visible.
+    }
+    procedure RedrawFile(DisplayFile: TDisplayFile); virtual;
     procedure WorkerStarting(const Worker: TFileViewWorker); virtual;
     procedure WorkerFinished(const Worker: TFileViewWorker); virtual;
 
@@ -577,6 +587,7 @@ begin
   end;
 
   ClearPendingFilesChanges;
+  ClearRecentlyUpdatedFiles;
   RemoveAllFileSources;
 
   FreeAndNil(FFiles);
@@ -589,6 +600,7 @@ begin
   FreeAndNil(FHistory);
   FreeThenNil(FSavedSelection);
   FPendingFilesChanges.Free;
+  FRecentlyUpdatedFiles.Free;
 end;
 
 function TFileView.Clone(NewParent: TWinControl): TFileView;
@@ -741,6 +753,23 @@ begin
   end;
 end;
 
+procedure TFileView.ClearRecentlyUpdatedFiles;
+var
+  i: Integer;
+  AFile: TDisplayFile;
+begin
+  if Assigned(FRecentlyUpdatedFilesTimer) then
+  begin
+    FRecentlyUpdatedFilesTimer.Enabled := False;
+    for i := 0 to FRecentlyUpdatedFiles.Count - 1 do
+    begin
+      AFile := FRecentlyUpdatedFiles[i];
+      AFile.RecentlyUpdatedPct := 0;
+    end;
+    FRecentlyUpdatedFiles.Clear;
+  end;
+end;
+
 function TFileView.FileListLoaded: Boolean;
 begin
   Result := Assigned(FAllDisplayFiles);
@@ -781,6 +810,7 @@ begin
     if not TFileListBuilder.MatchesFilter(ADisplayFile.FSFile, FileFilter, FFilterOptions) then
     begin
       InsertFile(ADisplayFile, FFiles, NewFilesPosition);
+      VisualizeFileUpdate(ADisplayFile);
       Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
     end
     else
@@ -800,13 +830,13 @@ begin
 end;
 
 procedure TFileView.RemoveFile(ADisplayFile: TDisplayFile);
-var
-  I: Integer;
 begin
   FHashedNames.Remove(ADisplayFile.FSFile.Name);
   FHashedFiles.Remove(ADisplayFile);
   FFiles.Remove(ADisplayFile);
   FAllDisplayFiles.Remove(ADisplayFile);
+  if Assigned(FRecentlyUpdatedFiles) then
+    FRecentlyUpdatedFiles.Remove(ADisplayFile);
   Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
 end;
 
@@ -835,12 +865,22 @@ begin
       if FilteredFilesIndex >= 0 then
       begin
         if not bFilter then
-          ResortFile(ADisplayFile, FFiles)
+        begin
+          ResortFile(ADisplayFile, FFiles);
+          VisualizeFileUpdate(ADisplayFile);
+        end
         else
+        begin
           FFiles.Delete(FilteredFilesIndex);
+          if Assigned(FRecentlyUpdatedFiles) then
+            FRecentlyUpdatedFiles.Remove(ADisplayFile);
+        end;
       end
       else if not bFilter then
+      begin
         InsertFile(ADisplayFile, FFiles, NewFilesPosition);
+        VisualizeFileUpdate(ADisplayFile);
+      end;
       Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
     end
     else
@@ -872,6 +912,20 @@ begin
   I := AFileList.Find(ADisplayFile);
   if I >= 0 then
     TDisplayFileSorter.ResortSingle(I, AFileList, SortingForSorter);
+end;
+
+procedure TFileView.StartRecentlyUpdatedTimerIfNeeded;
+begin
+  if Assigned(FRecentlyUpdatedFiles) and (FRecentlyUpdatedFiles.Count > 0) then
+  begin
+    if not Assigned(FRecentlyUpdatedFilesTimer) then
+    begin
+      FRecentlyUpdatedFilesTimer := TTimer.Create(Self);
+      FRecentlyUpdatedFilesTimer.Interval := 50;
+      FRecentlyUpdatedFilesTimer.OnTimer  := @UpdatedFilesTimerEvent;
+    end;
+    FRecentlyUpdatedFilesTimer.Enabled := True;
+  end;
 end;
 
 procedure TFileView.UpdateFile(const FileName, APath: String; NewFilesPosition: TNewFilesPosition; UpdatedFilesPosition: TUpdatedFilesPosition);
@@ -927,16 +981,54 @@ begin
       else
         raise Exception.Create('Unsupported UpdatedFilesPosition setting.');
     end;
+    VisualizeFileUpdate(ADisplayFile);
     Notify([fvnFileSourceFileListChanged, fvnDisplayFileListChanged]);
   end
   else
     AddFile(FileName, APath, NewFilesPosition, UpdatedFilesPosition);
 end;
 
+procedure TFileView.UpdatedFilesTimerEvent(Sender: TObject);
+var
+  AFile: TDisplayFile;
+  i: Integer = 0;
+begin
+  while i < FRecentlyUpdatedFiles.Count do
+  begin
+    AFile := FRecentlyUpdatedFiles[i];
+    if AFile.RecentlyUpdatedPct = 0 then
+    begin
+      FRecentlyUpdatedFiles.Delete(i);
+    end
+    else
+    begin
+      AFile.RecentlyUpdatedPct := AFile.RecentlyUpdatedPct - 10;
+      Inc(i);
+      RedrawFile(AFile);
+    end;
+  end;
+  if i = 0 then
+    FRecentlyUpdatedFilesTimer.Enabled := False;
+end;
+
 procedure TFileView.UpdatePath(UpdateAddressToo: Boolean);
 begin
   // Maybe better to do via some notification like FileSourceHasChanged.
   UpdateView;
+end;
+
+procedure TFileView.VisualizeFileUpdate(AFile: TDisplayFile);
+begin
+  if gHighlightUpdatedFiles then
+  begin
+    if not Assigned(FRecentlyUpdatedFiles) then
+      FRecentlyUpdatedFiles := TDisplayFiles.Create(False);
+    if FRecentlyUpdatedFiles.Find(AFile) < 0 then
+    begin
+      FRecentlyUpdatedFiles.Add(AFile);
+      AFile.RecentlyUpdatedPct := 100;
+    end;
+  end;
 end;
 
 function TFileView.GetCurrentAddress: String;
@@ -1304,6 +1396,8 @@ begin
     // Clear files.
     if Assigned(FAllDisplayFiles) then
     begin
+      if Assigned(FRecentlyUpdatedFiles) then
+        FRecentlyUpdatedFiles.Clear;
       FFiles.Clear;
       FAllDisplayFiles.Clear; // Clear references to files from the source.
     end;
@@ -1502,6 +1596,7 @@ begin
   end;
 
   ClearPendingFilesChanges;
+  ClearRecentlyUpdatedFiles;
 
   if FReloadTimer.Enabled then
   begin
@@ -2024,6 +2119,7 @@ begin
       begin
         FNotifications := FNotifications - [fvnDisplayFileListChanged];
         AfterMakeFileList;
+        StartRecentlyUpdatedTimerIfNeeded;
       end;
     end;
   finally
@@ -2316,6 +2412,11 @@ begin
   TFileListBuilder.MakeDisplayFileList(
     FAllDisplayFiles, FFiles, FileFilter, FFilterOptions);
   Notify([fvnDisplayFileListChanged]);
+end;
+
+procedure TFileView.RedrawFile(DisplayFile: TDisplayFile);
+begin
+  // Empty.
 end;
 
 procedure TFileView.WorkerStarting(const Worker: TFileViewWorker);

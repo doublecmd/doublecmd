@@ -36,6 +36,7 @@ type
 
   TfrmOptionsFilesViews = class(TOptionsEditor)
     cbDateTimeFormat: TComboBox;
+    cbHighlightUpdatedFiles: TCheckBox;
     cbDirBrackets: TCheckBox;
     cbListFilesInThread: TCheckBox;
     cbLoadIconsSeparately: TCheckBox;
@@ -127,6 +128,7 @@ begin
   cbListFilesInThread.Checked:= gListFilesInThread;
   cbLoadIconsSeparately.Checked:= gLoadIconsSeparately;
   cbDelayLoadingTabs.Checked:= gDelayLoadingTabs;
+  cbHighlightUpdatedFiles.Checked:= gHighlightUpdatedFiles;
 end;
 
 function TfrmOptionsFilesViews.Save: TOptionsEditorSaveFlags;
@@ -161,6 +163,7 @@ begin
   gListFilesInThread:= cbListFilesInThread.Checked;
   gLoadIconsSeparately:= cbLoadIconsSeparately.Checked;
   gDelayLoadingTabs := cbDelayLoadingTabs.Checked;
+  gHighlightUpdatedFiles := cbHighlightUpdatedFiles.Checked;
 
   Result := [];
 end;

@@ -173,7 +173,7 @@ type
     {en
        Redraw row containing DisplayFile if it is visible.
     }
-    procedure RedrawFile(DisplayFile: TDisplayFile);
+    procedure RedrawFile(DisplayFile: TDisplayFile); override;
 
     procedure MakeVisible(iRow: Integer);
     procedure MakeSelectedVisible;
@@ -3361,32 +3361,37 @@ var
           //------------------------------------------------------
           if IsCursor then
             begin
-              Canvas.Font.Color := InvertColor(ColumnsSet.GetColumnCursorText(ACol));
+              TextColor := InvertColor(ColumnsSet.GetColumnCursorText(ACol));
             end
           else
             begin
               BackgroundColor := ColumnsSet.GetColumnMarkColor(ACol);
-              Canvas.Font.Color := ColumnsSet.GetColumnBackground(ACol);
+              TextColor := ColumnsSet.GetColumnBackground(ACol);
             end;
           //------------------------------------------------------
         end
       else
         begin
-          Canvas.Font.Color := ColumnsSet.GetColumnMarkColor(ACol);
+          TextColor := ColumnsSet.GetColumnMarkColor(ACol);
         end;
     end
     else if IsCursor then
       begin
-        Canvas.Font.Color := ColumnsSet.GetColumnCursorText(ACol);
-      end
-    else
-      begin
-        Canvas.Font.Color := TextColor;
+        TextColor := ColumnsSet.GetColumnCursorText(ACol);
       end;
 
+    BackgroundColor := ColumnsView.DimColor(BackgroundColor);
+
+    if AFile.RecentlyUpdatedPct <> 0 then
+    begin
+      TextColor := LightColor(TextColor, AFile.RecentlyUpdatedPct);
+      BackgroundColor := LightColor(BackgroundColor, AFile.RecentlyUpdatedPct);
+    end;
+
     // Draw background.
-    Canvas.Brush.Color := ColumnsView.DimColor(BackgroundColor);
+    Canvas.Brush.Color := BackgroundColor;
     Canvas.FillRect(aRect);
+    Canvas.Font.Color := TextColor;
   end;// of PrepareColors;
 
   procedure DrawLines;
@@ -3962,4 +3967,4 @@ begin
 end;
 
 end.
-
+
