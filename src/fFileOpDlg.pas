@@ -100,6 +100,9 @@ type
 
     function CloseQuery: Boolean; override;
 
+    class function IsOpenedFor(AOperationHandle: TOperationHandle): Boolean;
+    class procedure ShowFor(AOperationHandle: TOperationHandle);
+
     property ProgressBarStyle: TProgressBarStyle read GetProgressBarStyle write SetProgressBarStyle;
   end;
 
@@ -121,6 +124,10 @@ uses
    uFileSourceTestArchiveOperation,
    uFileSourceOperationMessageBoxesUI
    ;
+
+var
+  OpenedForms: TFPList;
+  OpenedHandles: TFPList;
 
 procedure TfrmFileOp.btnCancelClick(Sender: TObject);
 var
@@ -172,7 +179,6 @@ begin
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
   if Assigned(OpManItem) then
   begin
-    OpManItem.Form := False;
     //OperationsManager.InQueue(FOperationHandle, true);
   end;
   FStopOperationOnClose := False;
@@ -185,16 +191,19 @@ var
   OpManItem: TOperationsManagerItem;
 begin
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
-  if Assigned(OpManItem) then
-    OpManItem.Form := False;
   FStopOperationOnClose := False;
   Close;
   OperationsManager.CheckQueuedOperations;
 end;
 
 procedure TfrmFileOp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+var
+  i: Integer;
 begin
   CloseAction:= caFree;
+  i := OpenedHandles.Remove(Pointer(FOperationHandle));
+  if i >= 0 then
+    OpenedForms.Delete(i);
 end;
 
 procedure TfrmFileOp.FormCreate(Sender: TObject);
@@ -250,9 +259,12 @@ begin
   FUpdateTimer.OnTimer := @OnUpdateTimer;
   FUpdateTimer.Enabled := True;
 
-  OpManItem.Form := True;
+  if OpenedHandles.IndexOf(Pointer(FOperationHandle)) < 0 then
+  begin
+    OpenedForms.Add(Self);
+    OpenedHandles.Add(Pointer(FOperationHandle));
+  end;
 end;
-
 
 constructor TfrmFileOp.Create(OperationHandle: TOperationHandle);
 var
@@ -306,6 +318,32 @@ begin
       Result := False;
       OpManItem.Operation.Stop;
     end
+  end;
+end;
+
+class function TfrmFileOp.IsOpenedFor(AOperationHandle: TOperationHandle): Boolean;
+begin
+  Result := OpenedHandles.IndexOf(Pointer(AOperationHandle)) >= 0;
+end;
+
+class procedure TfrmFileOp.ShowFor(AOperationHandle: TOperationHandle);
+var
+  OperationDialog: TfrmFileOp;
+  Index: Integer;
+begin
+  if AOperationHandle <> InvalidOperationHandle then
+  begin
+    Index := OpenedHandles.IndexOf(Pointer(AOperationHandle));
+    if Index < 0 then
+    begin
+      OperationDialog := TfrmFileOp.Create(AOperationHandle);
+      OperationDialog.Show;
+    end
+    else
+    begin
+      OperationDialog := TfrmFileOp(OpenedForms[Index]);
+      OperationDialog.ShowOnTop;
+    end;
   end;
 end;
 
@@ -688,5 +726,13 @@ begin
   pbFirst.Style:= AValue;
   pbSecond.Style:= AValue;
 end;
+
+initialization
+  OpenedForms := TFPList.Create;
+  OpenedHandles := TFPList.Create;
+
+finalization
+  OpenedForms.Free;
+  OpenedHandles.Free;
 
 end.

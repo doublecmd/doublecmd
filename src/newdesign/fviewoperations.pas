@@ -212,7 +212,6 @@ procedure TfrmViewOperations.sboxOperationsDblClick(Sender: TObject);
 var
   OperationNumber: Integer;
   CursorPos: TPoint;
-  OperationDialog: TfrmFileOp;
   OpManItem: TOperationsManagerItem;
 begin
   CursorPos := Mouse.CursorPos;
@@ -220,11 +219,8 @@ begin
 
   OperationNumber := CursorPos.Y div aRowHeight;
   OpManItem := OperationsManager.GetItemByIndex(OperationNumber);
-  if Assigned(OpManItem) and (OpManItem.Form = False) then
-  begin
-    OperationDialog := TfrmFileOp.Create(OpManItem.Handle);
-    OperationDialog.Show;
-  end;
+  if Assigned(OpManItem) then
+    TfrmFileOp.ShowFor(OpManItem.Handle);
 end;
 
 procedure TfrmViewOperations.sboxOperationsMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);

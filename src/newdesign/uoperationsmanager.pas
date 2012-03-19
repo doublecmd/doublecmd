@@ -45,10 +45,8 @@ type
     FOperation    : TFileSourceOperation;
     FHandle       : TOperationHandle;
     FStartingState: TOperationStartingState;
-    FForm         : Boolean;
     FPauseRunning : Boolean;
   public
-    property Form: Boolean read FForm write FForm;
     property Handle: TOperationHandle read FHandle;
     property Operation: TFileSourceOperation read FOperation;
     property PauseRunning: Boolean read FPauseRunning write FPauseRunning;
@@ -250,7 +248,6 @@ begin
         Item.FThread := Thread;
         Item.FHandle := GetNextUnusedHandle;
         Item.FStartingState := StartingState;
-        Item.FForm := True;
         Item.FPauseRunning := False;
 
         if StartingState = ossQueueFirst then
