@@ -167,7 +167,6 @@ begin
     begin
       OpManItem.Operation.Pause;
       SetPlayGlyph;
-      OperationsManager.CheckQueuedOperations;
     end;
   end;
 end;
@@ -183,7 +182,6 @@ begin
   end;
   FStopOperationOnClose := False;
   Close;
-  OperationsManager.CheckQueuedOperations;
 end;
 
 procedure TfrmFileOp.btnWorkInBackgroundClick(Sender: TObject);
@@ -193,7 +191,6 @@ begin
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
   FStopOperationOnClose := False;
   Close;
-  OperationsManager.CheckQueuedOperations;
 end;
 
 procedure TfrmFileOp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -276,13 +273,12 @@ begin
 
   AutoSize := True;
 
-  FStopOperationOnClose := True;
-
   OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
   if Assigned(OpManItem) then
   begin
     FUserInterface := TFileSourceOperationMessageBoxesUI.Create;
     OpManItem.Operation.AddUserInterface(FUserInterface);
+    FStopOperationOnClose := True;
   end
   else
     FUserInterface := nil;

@@ -892,7 +892,7 @@ begin
       if Assigned(Operation) then
       begin
         // Start operation.
-        OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+        OperationHandle := OperationsManager.AddOperation(Operation);
 
         ProgressDialog := TfrmFileOp.Create(OperationHandle);
         ProgressDialog.Show;
@@ -1405,7 +1405,7 @@ begin
           end;
 
         // Start operation.
-        OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+        OperationHandle := OperationsManager.AddOperation(Operation);
 
         ProgressDialog := TfrmFileOp.Create(OperationHandle);
         ProgressDialog.Show;
@@ -1480,7 +1480,7 @@ begin
           Operation.Algorithm := HashAlgorithm;
 
           // Start operation.
-          OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+          OperationHandle := OperationsManager.AddOperation(Operation);
 
           ProgressDialog := TfrmFileOp.Create(OperationHandle);
           ProgressDialog.Show;
@@ -1544,7 +1544,7 @@ begin
         Operation.Mode := checksum_verify;
 
         // Start operation.
-        OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+        OperationHandle := OperationsManager.AddOperation(Operation);
 
         ProgressDialog := TfrmFileOp.Create(OperationHandle);
         ProgressDialog.Show;
@@ -2206,7 +2206,7 @@ begin
     try
       Operation := ActiveFrame.FileSource.CreateCalcStatisticsOperation(SelectedFiles);
       Operation.AddStateChangedListener([fsosStopped], @OnCalcStatisticsStateChanged);
-      OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+      OperationHandle := OperationsManager.AddOperation(Operation);
       ProgressDialog := TfrmFileOp.Create(OperationHandle);
       ProgressDialog.Show;
     finally
@@ -2260,7 +2260,7 @@ begin
           begin
             if ShowChangeFilePropertiesDialog(Operation) then
               begin
-                OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+                OperationHandle := OperationsManager.AddOperation(Operation);
                 Operation := nil; // So it doesn't get destroyed below.
                 ProgressDialog := TfrmFileOp.Create(OperationHandle);
                 ProgressDialog.Show;
@@ -2578,7 +2578,7 @@ begin
         begin
           if Operation is TFileSystemCopyOperation then
             (Operation as TFileSystemCopyOperation).AutoRenameItSelf:= True;
-          OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+          OperationHandle := OperationsManager.AddOperation(Operation);
           ProgressDialog := TfrmFileOp.Create(OperationHandle);
           ProgressDialog.Show;
 
@@ -2752,4 +2752,4 @@ begin
 end;
 
 end.
-
+

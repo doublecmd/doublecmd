@@ -493,7 +493,7 @@ begin
       FFileSourceCalcStatisticsOperation.SkipErrors:= True;
       FFileSourceCalcStatisticsOperation.SymLinkOption:= fsooslDontFollow;
       FFileSourceCalcStatisticsOperation.AddStateChangedListener([fsosStopped], @FileSourceOperationStateChangedNotify);
-      OperationsManager.AddOperation(FFileSourceCalcStatisticsOperation, ossAutoStart);
+      OperationsManager.AddOperation(FFileSourceCalcStatisticsOperation);
       tmUpdateFolderSize.Enabled:= True;
     end;
 end;

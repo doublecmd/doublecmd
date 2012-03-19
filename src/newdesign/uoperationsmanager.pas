@@ -5,52 +5,81 @@ unit uOperationsManager;
 interface
 
 uses
-  Classes, SysUtils, uLng, uOperationThread, uFileSourceOperation;
+  Classes, SysUtils, uOperationThread, uFileSourceOperation;
 
 type
-
   {en Handle to OperationsManager's operation.}
   TOperationHandle = Longint;
 
 const
   InvalidOperationHandle = TOperationHandle(0);
+  FreeOperationsQueueId = 0;
+  SingleQueueId = 1; // TODO: Hard-coded for now
 
 type
+  TOperationsManagerQueueIdentifier = type Integer;
 
-  {en
-     Possible options when adding a new operation.
-  }
-  TOperationStartingState =
-    (ossInvalid,
-     ossManualStart,    //<en Don't start automatically. Must be explicitly started.
-     ossAutoStart,      //<en Start automatically, regardless if any operations are currently running.
-     ossQueueFirst,     //<en Don't start automatically,
-                        //<en unless there are no other operations working.
-                        //<en Will be started when there are no operation running.
-                        //<en This option will put the operation to the head of the queue.
-     ossQueueLast,      //<en Same as ossQueueFirst, but this option will put the
-                        //<en operation to the back of the queue.
-     ossQueueIn         //<en insert operation to queue.
-    );
+  TOperationsManagerQueue = class;
 
-const
-  OperationStartingStateText: array[TOperationStartingState] of string =
-    ('', rsOperManualStart, rsOperAutoStart, rsOperQueue, rsOperQueue, rsOperQueue);
-
-type
+  { TOperationsManagerItem }
 
   TOperationsManagerItem = class
-  private
-    FThread       : TOperationThread;
-    FOperation    : TFileSourceOperation;
+  strict private
     FHandle       : TOperationHandle;
-    FStartingState: TOperationStartingState;
+    FOperation    : TFileSourceOperation;
     FPauseRunning : Boolean;
+    FQueue        : TOperationsManagerQueue;
+    FThread       : TOperationThread;
+
   public
+    constructor Create(AHandle: TOperationHandle;
+                       AOperation: TFileSourceOperation;
+                       AThread: TOperationThread);
+    destructor Destroy; override;
+
+    procedure SetQueue(NewQueue: TOperationsManagerQueue; InsertAtFront: Boolean = False);
+
     property Handle: TOperationHandle read FHandle;
     property Operation: TFileSourceOperation read FOperation;
     property PauseRunning: Boolean read FPauseRunning write FPauseRunning;
+    property Queue: TOperationsManagerQueue read FQueue;
     property Thread: TOperationThread read FThread;
+  end;
+
+  { TOperationsManagerQueue }
+
+  TOperationsManagerQueue = class
+  strict private
+    FList: TFPList;
+    FIdentifier: TOperationsManagerQueueIdentifier;
+    function GetItem(Index: Integer): TOperationsManagerItem;
+    function GetOperationsCount: Integer;
+    procedure RunNextOperation(Index: Integer);
+    procedure RunOperation(Item: TOperationsManagerItem);
+  public
+    constructor Create(AIdentifier: TOperationsManagerQueueIdentifier);
+    destructor Destroy; override;
+
+    {en
+       Inserts new item into the queue.
+       @param(InsertAt
+              If -1 (default) it adds to the back of the queue.
+              If 0 inserts at the front.
+              If 0 < InsertAt < Count it inserts at specific position.)
+    }
+    function Insert(Item: TOperationsManagerItem; InsertAt: Integer = -1): Integer;
+    {en
+       Inserts new item into the queue.
+       @param(InsertAtFront
+              If @true then inserts at the front,
+              if @false then inserts at the back.)
+    }
+    function Insert(Item: TOperationsManagerItem; InsertAtFront: Boolean): Integer;
+    function Remove(Item: TOperationsManagerItem): Boolean;
+
+    property Count: Integer read GetOperationsCount;
+    property Items[Index: Integer]: TOperationsManagerItem read GetItem;
+    property Identifier: TOperationsManagerQueueIdentifier read FIdentifier;
   end;
 
   TOperationManagerEvent =
@@ -74,21 +103,19 @@ type
 
   TOperationsManager = class
   private
-    FOperations: TFPList;         //<en List of TOperationsManagerItem
     FLastUsedHandle: TOperationHandle;
     FEventsListeners: array[TOperationManagerEvent] of TFPList;
+    FQueues: TFPList;
 
     procedure ThreadTerminatedEvent(Sender: TObject);
 
     function GetOperationsCount: Integer;
-
     function GetNextUnusedHandle: TOperationHandle;
+    function GetQueueByIndex(Index: Integer): TOperationsManagerQueue;
+    function GetQueueByIdentifier(Identifier: TOperationsManagerQueueIdentifier): TOperationsManagerQueue;
+    function GetQueuesCount: Integer;
 
-    {en
-       Returns @true if there is at least one operation currently running.
-    }
-    function AreOperationsRunning: Boolean;
-
+    procedure MoveToQueue(Item: TOperationsManagerItem; QueueIdentifier: TOperationsManagerQueueIdentifier);
     procedure StartOperation(Item: TOperationsManagerItem);
 
     procedure AddOperationListeners(Operation: TFileSourceOperation);
@@ -107,19 +134,14 @@ type
     destructor Destroy; override;
 
     {en
-       Checks if there is any queued operation and if all other operations
-       are stopped, then the next queued operations is started.
+       Adds an operation to the manager.
+       @param(QueueNumber
+              Specifies to which queue to put the operation.
+              If QueueNumber is FreeOperationsQueue the operation is not put into any queue (a free operation).)
     }
-    procedure CheckQueuedOperations;
-
-    {en
-       Add or remove operation from queue by Handle
-    }
-
-    procedure InQueue (Handle: TOperationHandle; setQueue: boolean);
-
     function AddOperation(Operation: TFileSourceOperation;
-                          StartingState: TOperationStartingState): TOperationHandle;
+                          QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
+                          InsertAtFrontOfQueue: Boolean = False): TOperationHandle;
 
     {en
        Operations retrieved this way can be safely used from the main GUI thread.
@@ -134,6 +156,7 @@ type
     function GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
     function GetItemByOperation(Operation: TFileSourceOperation): TOperationsManagerItem;
     function GetItemByIndex(Index: Integer): TOperationsManagerItem;
+    function GetOrCreateQueue(Identifier: TOperationsManagerQueueIdentifier): TOperationsManagerQueue;
 
     {en
        Changes the Item's (and thus operation's) position in the list.
@@ -171,6 +194,9 @@ type
                                    FunctionToCall: TOperationManagerEventNotify);
 
     property OperationsCount: Integer read GetOperationsCount;
+    property QueuesCount: Integer read GetQueuesCount;
+    property QueueByIndex[Index: Integer]: TOperationsManagerQueue read GetQueueByIndex;
+    property QueueByIdentifier[Identifier: TOperationsManagerQueueIdentifier]: TOperationsManagerQueue read GetQueueByIdentifier;
   end;
 
 var
@@ -184,11 +210,115 @@ type
     EventFunction: TOperationManagerEventNotify;
   end;
 
+{ TOperationsManagerItem }
+
+constructor TOperationsManagerItem.Create(AHandle: TOperationHandle; AOperation: TFileSourceOperation; AThread: TOperationThread);
+begin
+  FHandle := AHandle;
+  FOperation := AOperation;
+  FThread := AThread;
+end;
+
+destructor TOperationsManagerItem.Destroy;
+begin
+  inherited Destroy;
+  FOperation.Free;
+end;
+
+procedure TOperationsManagerItem.SetQueue(NewQueue: TOperationsManagerQueue; InsertAtFront: Boolean);
+begin
+  if (Queue <> NewQueue) and Assigned(NewQueue) then
+  begin
+    if Queue.Remove(Self) then
+      NewQueue.Insert(Self, InsertAtFront);
+  end;
+end;
+
+{ TOperationsManagerQueue }
+
+function TOperationsManagerQueue.GetItem(Index: Integer): TOperationsManagerItem;
+begin
+  Result := TOperationsManagerItem(FList.Items[Index]);
+end;
+
+function TOperationsManagerQueue.GetOperationsCount: Integer;
+begin
+  Result := FList.Count;
+end;
+
+procedure TOperationsManagerQueue.RunNextOperation(Index: Integer);
+var
+  Item: TOperationsManagerItem;
+begin
+  if Count > 0 then
+  begin
+    if Index = 0 then
+    begin
+      Item := Items[0];
+      if Item.Operation.State in [fsosNotStarted, fsosPaused] then
+        RunOperation(Item);
+    end;
+  end;
+end;
+
+procedure TOperationsManagerQueue.RunOperation(Item: TOperationsManagerItem);
+begin
+  OperationsManager.StartOperation(Item);
+end;
+
+constructor TOperationsManagerQueue.Create(AIdentifier: TOperationsManagerQueueIdentifier);
+begin
+  FList := TFPList.Create;
+  FIdentifier := AIdentifier;
+end;
+
+destructor TOperationsManagerQueue.Destroy;
+var
+  i: Integer;
+begin
+  inherited Destroy;
+  for i := 0 to FList.Count - 1 do
+    Items[i].Free;
+  FList.Free;
+end;
+
+function TOperationsManagerQueue.Insert(Item: TOperationsManagerItem; InsertAt: Integer): Integer;
+begin
+  if InsertAt = -1 then
+    InsertAt := FList.Count;
+  FList.Insert(InsertAt, Item);
+  Result := InsertAt;
+  if FIdentifier = FreeOperationsQueueId then
+    RunOperation(Item)
+  else
+    RunNextOperation(InsertAt);
+end;
+
+function TOperationsManagerQueue.Insert(Item: TOperationsManagerItem; InsertAtFront: Boolean): Integer;
+begin
+  if InsertAtFront then
+    Result := Insert(Item, 0)  // Insert at the front of the queue.
+  else
+    Result := Insert(Item);    // Add at the back of the queue.
+end;
+
+function TOperationsManagerQueue.Remove(Item: TOperationsManagerItem): Boolean;
+var
+  Index: Integer;
+begin
+  Index := FList.Remove(Item);
+  Result := Index <> -1;
+  if Result and (FIdentifier <> FreeOperationsQueueId) then
+    RunNextOperation(Index);
+end;
+
+{ TOperationsManager }
+
 constructor TOperationsManager.Create;
 var
   Event: TOperationManagerEvent;
 begin
-  FOperations := TFPList.Create;
+  FQueues := TFPList.Create;
   FLastUsedHandle := 0;
 
   for Event := Low(FEventsListeners) to High(FEventsListeners) do
@@ -200,17 +330,23 @@ end;
 destructor TOperationsManager.Destroy;
 var
   i: Integer;
+  OperIndex, QueueIndex: Integer;
   Item: TOperationsManagerItem;
   Event: TOperationManagerEvent;
+  Queue: TOperationsManagerQueue;
 begin
   inherited Destroy;
 
   // If any operations still exist, remove listeners as we're destroying the object.
-  for i := 0 to FOperations.Count - 1 do
+  for QueueIndex := 0 to QueuesCount - 1 do
   begin
-    Item := TOperationsManagerItem(FOperations.Items[i]);
-    RemoveOperationListeners(Item.Operation);
-    Item.Free;
+    Queue := QueueByIndex[QueueIndex];
+    for OperIndex := 0 to Queue.Count - 1 do
+    begin
+      Item := Queue.Items[i];
+      RemoveOperationListeners(Item.Operation);
+    end;
+    Queue.Free;
   end;
 
   for Event := Low(FEventsListeners) to High(FEventsListeners) do
@@ -221,40 +357,34 @@ begin
     FreeAndNil(FEventsListeners[Event]);
   end;
 
-  FreeAndNil(FOperations);
+  FreeAndNil(FQueues);
 end;
 
-function TOperationsManager.AddOperation(Operation: TFileSourceOperation;
-                                         StartingState: TOperationStartingState): TOperationHandle;
+function TOperationsManager.AddOperation(
+  Operation: TFileSourceOperation;
+  QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
+  InsertAtFrontOfQueue: Boolean = False): TOperationHandle;
 var
   Thread: TOperationThread;
   Item: TOperationsManagerItem;
+  Queue: TOperationsManagerQueue;
 begin
   Result := InvalidOperationHandle;
 
   if Assigned(Operation) then
   begin
-    Item := TOperationsManagerItem.Create;
-    if Assigned(Item) then
-    try
-      Thread := TOperationThread.Create(True, Operation);
+    Thread := TOperationThread.Create(True, Operation);
+    if Assigned(Thread) then
+    begin
+      if Assigned(Thread.FatalException) then
+        raise Thread.FatalException;
 
-      if Assigned(Thread) then
-      begin
-        if Assigned(Thread.FatalException) then
-          raise Thread.FatalException;
+      Item := TOperationsManagerItem.Create(GetNextUnusedHandle, Operation, Thread);
+      if Assigned(Item) then
+      try
+        Item.PauseRunning := False;
 
-        Item.FOperation := Operation;
-        Item.FThread := Thread;
-        Item.FHandle := GetNextUnusedHandle;
-        Item.FStartingState := StartingState;
-        Item.FPauseRunning := False;
-
-        if StartingState = ossQueueFirst then
-          FOperations.Insert(0, Item)  // Insert at the top of the queue.
-        else
-          FOperations.Add(Item);       // Add at the back of the queue.
-
+        Operation.PreventStart;
         AddOperationListeners(Operation);
 
         Result := Item.Handle;
@@ -264,106 +394,112 @@ begin
         //  Thread.WaitFor  (or WaitForThreadTerminate(Thread.ThreadID))
         Thread.OnTerminate := @ThreadTerminatedEvent;
 
+        Queue := GetOrCreateQueue(QueueIdentifier);
+        Queue.Insert(Item, InsertAtFrontOfQueue);
+
         NotifyEvents(Operation, [omevOperationAdded]);
 
-        case StartingState of
-          ossAutoStart:
-            begin
-              StartOperation(Item);
-            end;
-
-          ossQueueFirst, ossQueueLast, ossQueueIn:
-            begin
-              if not AreOperationsRunning then
-                StartOperation(Item)
-              else
-              begin
-                // It will be started later when currently running operations finish.
-                Operation.PreventStart;
-              end;
-            end;
-
-          else
-            // It will be started by some user trigger.
-            Operation.PreventStart;
-        end;
-
         Thread.Resume;
-      end
-      else
+      except
         Item.Free;
-
-    except
-      Item.Free;
-    end;
-  end;
-end;
-
-function TOperationsManager.GetOperationsCount: Integer;
-begin
-  Result := FOperations.Count;
-end;
-
-function TOperationsManager.GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
-var
-  Item: TOperationsManagerItem = nil;
-  i: Integer;
-begin
-  Result := nil;
-
-  if (Handle <> InvalidOperationHandle) then
-  begin
-    // Search for operation identified by given handle.
-    for i := 0 to FOperations.Count - 1 do
-    begin
-      Item := TOperationsManagerItem(FOperations.Items[i]);
-      if Item.Handle = Handle then
-      begin
-        Result := Item;
-        break;
       end;
     end;
   end;
 end;
 
+function TOperationsManager.GetOperationsCount: Integer;
+var
+  QueueIndex: Integer;
+  Queue: TOperationsManagerQueue;
+begin
+  Result := 0;
+  for QueueIndex := 0 to QueuesCount - 1 do
+  begin
+    Queue := QueueByIndex[QueueIndex];
+    Inc(Result, Queue.Count);
+  end;
+end;
+
+function TOperationsManager.GetQueuesCount: Integer;
+begin
+  Result := FQueues.Count;
+end;
+
+function TOperationsManager.GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
+var
+  OperIndex, QueueIndex: Integer;
+  Item: TOperationsManagerItem;
+  Queue: TOperationsManagerQueue;
+begin
+  for QueueIndex := 0 to QueuesCount - 1 do
+  begin
+    Queue := QueueByIndex[QueueIndex];
+    for OperIndex := 0 to Queue.Count - 1 do
+    begin
+      Item := Queue.Items[OperIndex];
+      if Item.Handle = Handle then
+        Exit(Item);
+    end;
+  end;
+  Result := nil;
+end;
+
 function TOperationsManager.GetItemByOperation(Operation: TFileSourceOperation): TOperationsManagerItem;
 var
+  OperIndex, QueueIndex: Integer;
   Item: TOperationsManagerItem;
-  i: Integer;
+  Queue: TOperationsManagerQueue;
 begin
-  Result := nil;
-
-  for i := 0 to FOperations.Count - 1 do
+  for QueueIndex := 0 to QueuesCount - 1 do
   begin
-    Item := TOperationsManagerItem(FOperations.Items[i]);
-    if Item.Operation = Operation then
+    Queue := QueueByIndex[QueueIndex];
+    for OperIndex := 0 to Queue.Count - 1 do
     begin
-      Result := Item;
-      Exit;
-    end
+      Item := Queue.Items[OperIndex];
+      if Item.Operation = Operation then
+        Exit(Item);
+    end;
   end;
+  Result := nil;
 end;
 
 function TOperationsManager.GetItemByIndex(Index: Integer): TOperationsManagerItem;
+var
+  OperIndex, QueueIndex: Integer;
+  Item: TOperationsManagerItem;
+  Queue: TOperationsManagerQueue;
+  Counter: Integer;
 begin
-  if (Index >= 0) and (Index < FOperations.Count) then
-    Result := TOperationsManagerItem(FOperations.Items[Index])
-  else
-    Result := nil;
+  Counter := 0;
+  for QueueIndex := 0 to QueuesCount - 1 do
+  begin
+    Queue := QueueByIndex[QueueIndex];
+    for OperIndex := 0 to Queue.Count - 1 do
+    begin
+      if Counter = Index then
+        Exit(Queue.Items[OperIndex]);
+      Inc(Counter);
+    end;
+  end;
+  Result := nil;
 end;
 
-procedure TOperationsManager.InQueue (Handle: TOperationHandle; setQueue: boolean);
-var
-  Item: TOperationsManagerItem = nil;
+function TOperationsManager.GetOrCreateQueue(Identifier: TOperationsManagerQueueIdentifier): TOperationsManagerQueue;
 begin
-  Item := GetItemByHandle(Handle);
-  if Assigned(Item) then
+  Result := QueueByIdentifier[Identifier];
+  if not Assigned(Result) then
   begin
-    if setQueue = true then
-      Item.FStartingState := ossQueueIn
-    else
-      Item.FStartingState := ossManualStart;
+    Result := TOperationsManagerQueue.Create(Identifier);
+    FQueues.Add(Result);
   end;
+end;
+
+procedure TOperationsManager.MoveToQueue(Item: TOperationsManagerItem; QueueIdentifier: TOperationsManagerQueueIdentifier);
+var
+  Queue: TOperationsManagerQueue;
+begin
+  Queue := GetOrCreateQueue(QueueIdentifier);
+  Item.SetQueue(Queue);
 end;
 
 function TOperationsManager.GetNextUnusedHandle: TOperationHandle;
@@ -376,89 +512,67 @@ begin
     Result := InterLockedIncrement(FLastUsedHandle);
 end;
 
+function TOperationsManager.GetQueueByIndex(Index: Integer): TOperationsManagerQueue;
+begin
+  if (Index >= 0) and (Index < FQueues.Count) then
+    Result := TOperationsManagerQueue(FQueues.Items[Index])
+  else
+    Result := nil;
+end;
+
+function TOperationsManager.GetQueueByIdentifier(Identifier: TOperationsManagerQueueIdentifier): TOperationsManagerQueue;
+var
+  i: Integer;
+  Queue: TOperationsManagerQueue;
+begin
+  for i := 0 to FQueues.Count - 1 do
+  begin
+    Queue := QueueByIndex[i];
+    if Queue.Identifier = Identifier then
+      Exit(Queue);
+  end;
+  Result := nil;
+end;
+
 procedure TOperationsManager.ThreadTerminatedEvent(Sender: TObject);
 var
   Thread: TOperationThread;
-  Item: TOperationsManagerItem = nil;
-  Index: Integer = -1;
+  Item: TOperationsManagerItem;
+  OperIndex, QueueIndex: Integer;
+  Queue: TOperationsManagerQueue;
 begin
   // This function is executed from the GUI thread (through Synchronize).
 
   Thread := Sender as TOperationThread;
 
   // Search the terminated thread in the operations list.
-  for Index := 0 to FOperations.Count - 1 do
+  for QueueIndex := 0 to QueuesCount - 1 do
   begin
-    Item := TOperationsManagerItem(FOperations.Items[Index]);
-    if Item.Thread = Thread then
+    Queue := QueueByIndex[QueueIndex];
+    for OperIndex := 0 to Queue.Count - 1 do
     begin
-      NotifyEvents(Item.Operation, [omevOperationFinished]);
-
-      FOperations.Delete(Index);
-
-      NotifyEvents(Item.Operation, [omevOperationRemoved]);
-
-      Item.FThread := nil;  // Thread frees itself automatically on terminate.
-
-      // Here the operation should not be used anymore
-      // (by the thread and by any operations viewer).
-      FreeAndNil(Item.FOperation);
-
-      Item.Free;
-
-      Break;
-    end;
-  end;
-
-  CheckQueuedOperations;
-end;
-
-procedure TOperationsManager.CheckQueuedOperations;
-var
-  i: Integer;
-  Item: TOperationsManagerItem = nil;
-begin
-  // Should a queued operation start when there are paused operations?
-  // How about operations that are waiting for input from user?
-
-  if not AreOperationsRunning then
-  begin
-    for i := 0 to FOperations.Count - 1 do
-    begin
-      Item := TOperationsManagerItem(FOperations.Items[i]);
-
-      if (Item.FStartingState in [ossQueueFirst, ossQueueLast, ossQueueIn]) then
-
-      //  and  (Item.Operation.State = fsosNotStarted)
+      Item := TOperationsManagerItem(Queue.Items[OperIndex]);
+      if Item.Thread = Thread then
       begin
-        StartOperation(Item);
+        NotifyEvents(Item.Operation, [omevOperationFinished]);
+
+        Queue.Remove(Item);
+
+        NotifyEvents(Item.Operation, [omevOperationRemoved]);
+
+        // Here the operation should not be used anymore
+        // (by the thread and by any operations viewer).
+        Item.Free;
+
         Exit;
       end;
     end;
   end;
 end;
 
-function TOperationsManager.AreOperationsRunning: Boolean;
-var
-  Item: TOperationsManagerItem = nil;
-  Index: Integer = -1;
-begin
-  // Search for a running operation.
-  for Index := 0 to FOperations.Count - 1 do
-  begin
-    Item := TOperationsManagerItem(FOperations.Items[Index]);
-           // (Item.Operation.State in [fsosNotStarted, fsosStopped])
-    if Item.Operation.State = fsosRunning then
-      Exit(True);  // There is an operation running.
-  end;
-  Result := False;
-end;
-
 procedure TOperationsManager.StartOperation(Item: TOperationsManagerItem);
 begin
-  Item.FStartingState := ossManualStart; // Reset state.
   Item.Operation.Start;
-
   NotifyEvents(Item.Operation, [omevOperationStarted]);
 end;
 
@@ -466,6 +580,7 @@ procedure TOperationsManager.MoveOperation(FromIndex: Integer; ToIndex: Integer)
 var
   Item: TOperationsManagerItem = nil;
 begin
+{
   if (FromIndex >= 0) and (FromIndex < FOperations.Count) and
      (ToIndex >= 0) and (ToIndex < FOperations.Count) then
   begin
@@ -475,6 +590,7 @@ begin
     FOperations.Delete(FromIndex);
     FOperations.Insert(ToIndex, Item);
   end;
+}
 end;
 
 procedure TOperationsManager.CancelAll;
@@ -612,8 +728,6 @@ begin
   begin
     if State = fsosStarting then
     begin
-      // Remove 'queue' flag, because the operation was manually started by the user.
-      Item.FStartingState := ossManualStart;
       // Listener is not needed anymore.
       Operation.RemoveStateChangedListener(fsosAllStates, @OperationStateChangedEvent);
     end;
