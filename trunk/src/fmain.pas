@@ -3040,13 +3040,9 @@ begin
       if IndexFocus = ItemEnd then
         begin
           OpManItem := OperationsManager.GetItemByIndex(indexFocus);
-          if Assigned(OpManItem) and (OpManItem.Form = False) then //Check if current operation has a form
-            begin
-              OperationDialog := TfrmFileOp.Create(OpManItem.Handle); // create it if it hasn't
-              OperationDialog.Show;
-              OpManItem.Form := True; // Show form presence
-            end;
-         end
+          if Assigned(OpManItem) then
+            TfrmFileOp.ShowFor(OpManItem.Handle);
+        end
       else
         OperationsManager.MoveOperation(IndexFocus, ItemEnd);
     end;
@@ -3143,7 +3139,7 @@ begin
                        + OutString + ' - '
                        + FloatToStrF(OpManItem.Operation.Progress * 100, ffFixed, 0, 0) + ' %';
 
-          if OpManItem.Form = True then
+          if TfrmFileOp.IsOpenedFor(OpManItem.Handle) then
             sboxOperations.Canvas.Pen.Color := clMenuHighlight
           else
             sboxOperations.Canvas.Pen.Color := LightColor(cl3DDkShadow, 40);
@@ -4854,10 +4850,10 @@ begin
           PanelAllProgress.Height := sboxOperations.Canvas.TextHeight('Pg') * 2 + 8;
           // Make panel visible if at least one operation has no form
           visiblePanel:= False;
-          for i := 0 to  OperationsManager.OperationsCount - 1 do
+          for i := 0 to OperationsManager.OperationsCount - 1 do
           begin
             OpManItem := OperationsManager.GetItemByIndex(i);
-            if OpManItem.Form = False then
+            if not TfrmFileOp.IsOpenedFor(OpManItem.Handle) then
               visiblePanel:= True;
           end;
           if visiblePanel = True then
