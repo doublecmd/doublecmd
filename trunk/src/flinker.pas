@@ -95,7 +95,7 @@ begin
           Operation:= aFileSource.CreateCombineOperation(xFiles, edSave.Text) as TFileSourceCombineOperation;
           if Assigned(Operation) then
           begin
-            OperationHandle:= OperationsManager.AddOperation(Operation, ossAutoStart);
+            OperationHandle:= OperationsManager.AddOperation(Operation);
             ProgressDialog:= TfrmFileOp.Create(OperationHandle);
             ProgressDialog.Show;
           end;

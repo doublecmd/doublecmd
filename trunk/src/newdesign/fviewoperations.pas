@@ -130,7 +130,7 @@ begin
   for i := 0 to OperationsManager.OperationsCount - 1 do
   begin
     OpManItem := OperationsManager.GetItemByIndex(i);
-    OperationsManager.InQueue(OpManItem.Handle, True);
+    //OperationsManager.InQueue(OpManItem.Handle, True);
   end;
 end;
 
@@ -330,16 +330,6 @@ end;
 
 procedure TfrmViewOperations.btnCurOpQueueInOutClick(Sender: TObject);
 begin
-{  if (OperationsManager.GetStartingState(OperationsManager.GetHandleById(indexFocus)) in [ossQueueFirst, ossQueueLast, ossQueueIn])  then
-    begin
-      OperationsManager.InQueue(OperationsManager.GetHandleById(indexFocus), false);
-      btnCurOpQueueInOut.Caption:= rsDlgQueueIn;
-    end
-  else
-    begin
-      OperationsManager.InQueue(OperationsManager.GetHandleById(indexFocus), true);
-      btnCurOpQueueInOut.Caption:= rsDlgQueueOut;
-    end;}
 end;
 
 procedure TfrmViewOperations.btnStartPauseCurOpClick(Sender: TObject);
@@ -353,7 +343,6 @@ begin
       begin
         OpManItem.Operation.Pause;
         btnStartPauseCurOp.Caption := rsDlgOpStart;
-        OperationsManager.CheckQueuedOperations;
       end
     else
       begin
@@ -366,7 +355,6 @@ end;
 
 procedure TfrmViewOperations.btnStartQueueClick(Sender: TObject);
 begin
-  OperationsManager.CheckQueuedOperations;
 end;
 
 procedure TfrmViewOperations.btnUpCurOpClick(Sender: TObject);

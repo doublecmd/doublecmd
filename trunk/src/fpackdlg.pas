@@ -112,7 +112,7 @@ var
   aFile: TFile = nil;
   aFiles: TFiles = nil;
 
-  procedure Pack(var FilesToPack: TFiles; StartingState: TOperationStartingState);
+  procedure Pack(var FilesToPack: TFiles; QueueIdentifier: TOperationsManagerQueueIdentifier);
   var
     sPassword,
     sPasswordTmp: UTF8String;
@@ -173,7 +173,7 @@ var
                 end;
 
                 // Start operation.
-                OperationHandle := OperationsManager.AddOperation(Operation, StartingState);
+                OperationHandle := OperationsManager.AddOperation(Operation, QueueIdentifier);
 
                 ProgressDialog := TfrmFileOp.Create(OperationHandle);
                 ProgressDialog.Show;
@@ -258,9 +258,9 @@ begin
 
                       // Pack current item, if files count > 1 then put to queue
                       if (I > 0) then
-                        Pack(aFiles, ossQueueLast)
+                        Pack(aFiles, SingleQueueId)
                       else
-                        Pack(aFiles, ossAutoStart);
+                        Pack(aFiles, FreeOperationsQueueId);
                     finally
                       FreeAndNil(aFile);
                     end;
@@ -285,7 +285,7 @@ begin
                   end;
 
                   // Pack files
-                  Pack(Files, ossAutoStart);
+                  Pack(Files, FreeOperationsQueueId);
                 end;
             end;
 

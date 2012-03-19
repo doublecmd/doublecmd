@@ -125,7 +125,7 @@ begin
           begin
             Operation.VolumeSize:= iVolumeSize;
             Operation.VolumeNumber:= iVolumeNumber;
-            OperationHandle:= OperationsManager.AddOperation(Operation, ossAutoStart);
+            OperationHandle:= OperationsManager.AddOperation(Operation);
             ProgressDialog:= TfrmFileOp.Create(OperationHandle);
             ProgressDialog.Show;
           end;

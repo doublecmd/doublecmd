@@ -215,7 +215,7 @@ resourcestring
   rsDlgCalcStatistics = 'Calculate files and folders';
   rsDlgCheckSumVerify = 'Verify check sum...';
   rsDlgAllOpProgress = 'Progress of all operations %d %%';
-  rsDlgAllOpComplete = 'All operations is complete';
+  rsDlgAllOpComplete = 'All operations completed';
   rsDlgUnknownOperation = 'Unknown operation';
   rsDlgOpStart = 'Start';
   rsDlgOpPause = 'Pause';
@@ -461,9 +461,7 @@ resourcestring
   rsOperStopped = 'Stopped';
   rsOperFinished = 'Finished';
   rsOperAborted = 'Aborted';
-  rsOperManualStart = 'Manually started';
-  rsOperAutoStart = 'Auto-started';
-  rsOperQueue = 'Queued';
+  rsOperQueued = 'Queued';
 
   // Operation starting options.
   rsOperStartStateManualStart = 'Manual start';

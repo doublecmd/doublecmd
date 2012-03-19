@@ -52,8 +52,8 @@ type
   private
     FCommands: TFormCommands;
     FDialogType: TCopyMoveDlgType;
+    FQueueIdentifier: TOperationsManagerQueueIdentifier;
     noteb: TFileViewNotebook;
-    FOperationStartingState: TOperationStartingState;
     FOperationOptionsUIClass: TFileSourceOperationOptionsUIClass;
     FOperationOptionsUI: TFileSourceOperationOptionsUI;
 
@@ -71,7 +71,7 @@ type
     constructor Create(TheOwner: TComponent); override;
     procedure SetOperationOptions(Operation: TFileSourceOperation);
 
-    property OperationStartingState: TOperationStartingState read FOperationStartingState;
+    property QueueIdentifier: TOperationsManagerQueueIdentifier read FQueueIdentifier;
 
     {$IF FPC_FULLVERSION < 020501}
     // "implements" does not work in FPC < 2.5.1
@@ -100,7 +100,7 @@ constructor TfrmCopyDlg.Create(TheOwner: TComponent; DialogType: TCopyMoveDlgTyp
 begin
   FDialogType := DialogType;
   FOperationOptionsUIClass := AOperationOptionsUIClass;
-  FOperationStartingState := ossAutoStart;
+  FQueueIdentifier := FreeOperationsQueueId;
   FCommands := TFormCommands.Create(Self);
   inherited Create(TheOwner);
 end;
@@ -118,7 +118,7 @@ end;
 
 procedure TfrmCopyDlg.cm_AddToQueue(Param: String);
 begin
-  FOperationStartingState := ossQueueLast;
+  FQueueIdentifier := SingleQueueId;
   ModalResult := btnAddToQueue.ModalResult;
 end;
 
@@ -256,7 +256,7 @@ end;
 procedure TfrmCopyDlg.btnAddToQueueClick(Sender: TObject);
 begin
 {$IF NOT ((DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100))}
-  FOperationStartingState := ossQueueLast;
+  FQueueIdentifier := SingleQueueId;
 {$ENDIF}
 end;
 
@@ -274,7 +274,7 @@ end;
 procedure TfrmCopyDlg.btnOKClick(Sender: TObject);
 begin
 {$IF NOT ((DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100))}
-  FOperationStartingState := ossAutoStart;
+  FQueueIdentifier := FreeOperationsQueueId;
 {$ENDIF}
 end;
 
@@ -284,7 +284,7 @@ begin
 {$IF (DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100)}
   if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
   begin
-     FOperationStartingState := ossAutoStart;
+     FQueueNumber := FreeOperationsQueue;
      ModalResult := btnOk.ModalResult;
   end;
 {$ENDIF}
@@ -345,7 +345,7 @@ begin
   ShowOptions(False);
 
   btnOK.Caption := rsOperStartStateAutoStart;
-  FOperationStartingState := ossAutoStart;
+  FQueueIdentifier := FreeOperationsQueueId;
 
   HMForm := HotMan.Register(Self, HotkeysCategory);
   Hotkey := HMForm.Hotkeys.FindByCommand('cm_AddToQueue');
@@ -394,4 +394,4 @@ end;
 initialization
   TFormCommands.RegisterCommandsForm(TfrmCopyDlg, HotkeysCategory, @rsHotkeyCategoryCopyMoveDialog);
 
-end.
+end.

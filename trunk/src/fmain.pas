@@ -2434,7 +2434,7 @@ var
   OperationType: TFileSourceOperationType;
   ProgressDialog: TfrmFileOp;
   CopyDialog: TfrmCopyDlg = nil;
-  OperationStartingState: TOperationStartingState = ossAutoStart;
+  QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
   OperationClass: TFileSourceOperationClass;
   OperationOptionsUIClass: TFileSourceOperationOptionsUIClass = nil;
 begin
@@ -2493,7 +2493,6 @@ begin
           Exit;
 
         sDestination := CopyDialog.edtDst.Text;
-        OperationStartingState := CopyDialog.OperationStartingState;
 
         GetDestinationPathAndMask(SourceFiles, TargetFileSource, sDestination,
                                   SourceFiles.Path, TargetPath, sDstMaskTemp);
@@ -2504,6 +2503,8 @@ begin
         else
           Break;
       end;
+
+      QueueIdentifier := CopyDialog.QueueIdentifier;
     end
     else
       GetDestinationPathAndMask(SourceFiles, TargetFileSource, sDestination,
@@ -2540,7 +2541,7 @@ begin
         CopyDialog.SetOperationOptions(Operation);
 
       // Start operation.
-      OperationHandle := OperationsManager.AddOperation(Operation, OperationStartingState);
+      OperationHandle := OperationsManager.AddOperation(Operation, QueueIdentifier);
 
       ProgressDialog := TfrmFileOp.Create(OperationHandle);
       ProgressDialog.Show;
@@ -2569,7 +2570,7 @@ var
   ProgressDialog: TfrmFileOp;
   bMove: Boolean;
   MoveDialog: TfrmCopyDlg = nil;
-  OperationStartingState: TOperationStartingState = ossAutoStart;
+  QueueIdentifier: TOperationsManagerQueueIdentifier = FreeOperationsQueueId;
 begin
   Result := False;
   try
@@ -2618,7 +2619,6 @@ begin
           Exit;
 
         sDestination := MoveDialog.edtDst.Text;
-        OperationStartingState := MoveDialog.OperationStartingState;
 
         GetDestinationPathAndMask(SourceFiles, TargetFileSource, sDestination,
                                   SourceFiles.Path, TargetPath, sDstMaskTemp);
@@ -2630,7 +2630,7 @@ begin
           Break;
       end;
 
-      OperationStartingState := MoveDialog.OperationStartingState;
+      QueueIdentifier := MoveDialog.QueueIdentifier;
     end
     else
       GetDestinationPathAndMask(SourceFiles, TargetFileSource, sDestination,
@@ -2650,7 +2650,7 @@ begin
           MoveDialog.SetOperationOptions(Operation);
 
         // Start operation.
-        OperationHandle := OperationsManager.AddOperation(Operation, OperationStartingState);
+        OperationHandle := OperationsManager.AddOperation(Operation, QueueIdentifier);
 
         ProgressDialog := TfrmFileOp.Create(OperationHandle);
         ProgressDialog.Show;
@@ -3004,7 +3004,7 @@ begin
               end
             else
               begin
-                OperationsManager.InQueue(OpManItem.Handle, True);
+                //OperationsManager.InQueue(OpManItem.Handle, True);
               end;
           end;
      end;
@@ -3102,22 +3102,25 @@ begin
           begin
             // set progress bar color by operation state
 
-            // If it is stopped then it should be red
-            AStart:= RGB(255, 153, 149);
-            AStop:=  RGB(255, 110, 103);
-
-            // Orange if in queue
-            {if (StartingState in [ossQueueIn, ossQueueFirst, ossQueueLast]) then
-            begin
-              AStart:= RGB(255, 202, 100);
-              AStop:=  RGB(255, 153, 4);
-            end;}
-
-            // Green if running
-            if OpManItem.Operation.State = fsosRunning then
-            begin
-              AStart:= RGB(203, 233, 171);
-              AStop:=  RGB(146, 208, 80);
+            case OpManItem.Operation.State of
+              // Green if running
+              fsosRunning:
+                begin
+                  AStart:= RGB(203, 233, 171);
+                  AStop:=  RGB(146, 208, 80);
+                end;
+              // Orange if in paused/waiting
+              fsosNotStarted, fsosPaused, fsosWaitingForFeedback, fsosWaitingForConnection:
+                begin
+                  AStart:= RGB(255, 202, 100);
+                  AStop:=  RGB(255, 153, 4);
+                end;
+              // Red if stopped
+              fsosStopped:
+                begin
+                  AStart:= RGB(255, 153, 149);
+                  AStop:=  RGB(255, 110, 103);
+                end;
             end;
 
             case OpManItem.Operation.ID of

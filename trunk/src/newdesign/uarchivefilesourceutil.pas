@@ -181,7 +181,7 @@ begin
            if Assigned(Operation) then
              begin
                // Start operation.
-               OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+               OperationHandle := OperationsManager.AddOperation(Operation);
 
                ProgressDialog := TfrmFileOp.Create(OperationHandle);
                ProgressDialog.Show;
@@ -217,7 +217,7 @@ begin
                         if Assigned(Operation) then
                           begin
                             // Start operation.
-                            OperationHandle := OperationsManager.AddOperation(Operation, ossAutoStart);
+                            OperationHandle := OperationsManager.AddOperation(Operation);
 
                             ProgressDialog := TfrmFileOp.Create(OperationHandle);
                             ProgressDialog.Show;
