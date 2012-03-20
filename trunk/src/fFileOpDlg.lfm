@@ -14,31 +14,31 @@ object frmFileOp: TfrmFileOp
   LCLVersion = '0.9.30.2'
   object pnlClient: TPanel
     Left = 3
-    Height = 131
+    Height = 139
     Top = 3
     Width = 494
     Align = alTop
     AutoSize = True
     BorderSpacing.Around = 3
     BevelOuter = bvNone
-    ClientHeight = 131
+    ClientHeight = 139
     ClientWidth = 494
     TabOrder = 0
     object pnlFrom: TPanel
       Left = 0
-      Height = 14
+      Height = 22
       Top = 0
       Width = 494
       Align = alTop
       AutoSize = True
       BorderSpacing.Bottom = 3
       BevelOuter = bvNone
-      ClientHeight = 14
+      ClientHeight = 22
       ClientWidth = 494
       TabOrder = 0
       object lblFrom: TLabel
         Left = 0
-        Height = 14
+        Height = 22
         Top = 0
         Width = 40
         Align = alLeft
@@ -48,7 +48,7 @@ object frmFileOp: TfrmFileOp
       end
       object lblFileNameFrom: TLabel
         Left = 40
-        Height = 14
+        Height = 22
         Top = 0
         Width = 454
         Align = alClient
@@ -58,20 +58,20 @@ object frmFileOp: TfrmFileOp
     end
     object pnlTo: TPanel
       Left = 0
-      Height = 14
-      Top = 17
+      Height = 22
+      Top = 25
       Width = 494
       Align = alTop
       AutoSize = True
       BorderSpacing.Top = 3
       BorderSpacing.Bottom = 3
       BevelOuter = bvNone
-      ClientHeight = 14
+      ClientHeight = 22
       ClientWidth = 494
       TabOrder = 1
       object lblFileNameTo: TLabel
         Left = 40
-        Height = 14
+        Height = 22
         Top = 0
         Width = 454
         Align = alClient
@@ -80,7 +80,7 @@ object frmFileOp: TfrmFileOp
       end
       object lblTo: TLabel
         Left = 0
-        Height = 14
+        Height = 22
         Top = 0
         Width = 40
         Align = alLeft
@@ -91,33 +91,33 @@ object frmFileOp: TfrmFileOp
     end
     object pnlButtons: TPanel
       Left = 0
-      Height = 30
-      Top = 101
+      Height = 35
+      Top = 104
       Width = 494
       Align = alTop
       AutoSize = True
       BorderSpacing.Top = 3
       BevelOuter = bvNone
-      ClientHeight = 30
+      ClientHeight = 35
       ClientWidth = 494
       TabOrder = 4
-      object btnWorkInBackground: TButton
-        Left = 0
-        Height = 30
+      object btnViewOperations: TButton
+        Left = 91
+        Height = 35
         Top = 0
-        Width = 121
+        Width = 78
         Align = alLeft
         AutoSize = True
         BorderSpacing.Right = 3
-        Caption = 'Work in &background'
-        OnClick = btnWorkInBackgroundClick
+        Caption = '&View all'
+        OnClick = btnViewOperationsClick
         TabOrder = 2
       end
       object btnCancel: TBitBtn
-        Left = 360
-        Height = 30
+        Left = 347
+        Height = 35
         Top = 0
-        Width = 81
+        Width = 94
         Align = alRight
         AutoSize = True
         BorderSpacing.Left = 3
@@ -133,7 +133,7 @@ object frmFileOp: TfrmFileOp
       end
       object btnPauseStart: TBitBtn
         Left = 444
-        Height = 30
+        Height = 35
         Top = 0
         Width = 50
         Align = alRight
@@ -145,50 +145,23 @@ object frmFileOp: TfrmFileOp
         Spacing = 0
         TabOrder = 1
       end
-      object btnToQueue: TBitBtn
-        Left = 180
-        Height = 30
+      object btnMinimizeToPanel: TButton
+        Left = 0
+        Height = 35
         Top = 0
-        Width = 73
+        Width = 88
         Align = alLeft
         AutoSize = True
-        BorderSpacing.Left = 3
         BorderSpacing.Right = 3
-        Caption = 'To &Queue'
-        OnClick = btnToQueueClick
-        TabOrder = 4
-      end
-      object bthOpEnd: TBitBtn
-        Left = 256
-        Height = 30
-        Top = 0
-        Width = 44
-        Align = alLeft
-        AutoSize = True
-        BorderSpacing.Left = 3
-        BorderSpacing.Right = 3
-        Caption = '&End'
-        OnClick = bthOpEndClick
-        TabOrder = 5
-      end
-      object btnOpHome: TBitBtn
-        Left = 124
-        Height = 30
-        Top = 0
-        Width = 53
-        Align = alLeft
-        AutoSize = True
-        BorderSpacing.Left = 3
-        BorderSpacing.Right = 3
-        Caption = '&Home'
-        OnClick = btnOpHomeClick
+        Caption = '&Minimize'
+        OnClick = btnMinimizeToPanelClick
         TabOrder = 3
       end
     end
     object pbFirst: TKASProgressBar
       Left = 0
       Height = 22
-      Top = 51
+      Top = 54
       Width = 494
       Align = alTop
       BorderSpacing.Top = 3
@@ -200,7 +173,7 @@ object frmFileOp: TfrmFileOp
     object pbSecond: TKASProgressBar
       Left = 0
       Height = 22
-      Top = 76
+      Top = 79
       Width = 494
       Align = alTop
       BorderSpacing.Top = 3
@@ -211,8 +184,8 @@ object frmFileOp: TfrmFileOp
     end
     object lblEstimated: TLabel
       Left = 0
-      Height = 14
-      Top = 34
+      Height = 1
+      Top = 50
       Width = 494
       Align = alTop
       BorderSpacing.Top = 3
