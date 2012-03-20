@@ -127,9 +127,6 @@ type
 
 procedure ShowOperationsViewer(AOperationHandle: TOperationHandle = InvalidOperationHandle);
 
-var
-  IndexFocus: Integer = -1; // TODO: Remove later
-
 implementation
 
 {$R *.lfm}
@@ -348,7 +345,7 @@ constructor TViewQueueItem.Create(ANode: TTreeNode; AQueueId: TOperationsManager
 begin
   FQueueIdentifier := AQueueId;
   inherited Create(ANode);
-  FText := 'Queue [#' + IntToStr(AQueueId) + ']';
+  FText := rsDlgQueue + ' [#' + IntToStr(AQueueId) + ']';
 end;
 
 procedure TViewQueueItem.Draw(Canvas: TCanvas; NodeRect: TRect);

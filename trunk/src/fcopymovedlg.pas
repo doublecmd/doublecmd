@@ -344,7 +344,7 @@ begin
     btnOptions.Visible := False;
   ShowOptions(False);
 
-  btnOK.Caption := rsOperStartStateAutoStart;
+  btnOK.Caption := rsDlgOpStart;
   FQueueIdentifier := FreeOperationsQueueId;
 
   HMForm := HotMan.Register(Self, HotkeysCategory);

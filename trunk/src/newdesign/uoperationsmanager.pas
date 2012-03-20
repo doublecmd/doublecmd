@@ -53,6 +53,7 @@ type
     FList: TFPList;
     FIdentifier: TOperationsManagerQueueIdentifier;
     function GetItem(Index: Integer): TOperationsManagerItem;
+    function GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
     function GetOperationsCount: Integer;
     procedure RunNextOperation(Index: Integer);
     procedure RunOperation(Item: TOperationsManagerItem);
@@ -79,6 +80,7 @@ type
 
     property Count: Integer read GetOperationsCount;
     property Items[Index: Integer]: TOperationsManagerItem read GetItem;
+    property ItemByHandle[Handle: TOperationHandle]: TOperationsManagerItem read GetItemByHandle;
     property Identifier: TOperationsManagerQueueIdentifier read FIdentifier;
   end;
 
@@ -239,6 +241,19 @@ end;
 function TOperationsManagerQueue.GetItem(Index: Integer): TOperationsManagerItem;
 begin
   Result := TOperationsManagerItem(FList.Items[Index]);
+end;
+
+function TOperationsManagerQueue.GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
+var
+  Index: Integer;
+begin
+  for Index := 0 to Count - 1 do
+  begin
+    Result := Items[Index];
+    if Result.Handle = Handle then
+      Exit;
+  end;
+  Result := nil;
 end;
 
 function TOperationsManagerQueue.GetOperationsCount: Integer;
@@ -425,19 +440,15 @@ end;
 
 function TOperationsManager.GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
 var
-  OperIndex, QueueIndex: Integer;
-  Item: TOperationsManagerItem;
+  QueueIndex: Integer;
   Queue: TOperationsManagerQueue;
 begin
   for QueueIndex := 0 to QueuesCount - 1 do
   begin
-    Queue := QueueByIndex[QueueIndex];
-    for OperIndex := 0 to Queue.Count - 1 do
-    begin
-      Item := Queue.Items[OperIndex];
-      if Item.Handle = Handle then
-        Exit(Item);
-    end;
+    Queue  := QueueByIndex[QueueIndex];
+    Result := Queue.ItemByHandle[Handle];
+    if Assigned(Result) then
+      Exit;
   end;
   Result := nil;
 end;
