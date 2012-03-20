@@ -46,7 +46,8 @@ uses
   uCmdBox, uFilePanelSelect, uBriefFileView,
   uFileView, uColumnsFileView, uFileSource, uFileViewNotebook, uFile,
   uOperationsManager, uFileSourceOperation, uDrivesList, uTerminal, uClassesEx,
-  uXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands
+  uXmlConfig, uDrive, uDriveWatcher, uDCVersion, uMainCommands, uFormCommands,
+  uOperationsPanel
   {$IFDEF LCLQT}
   , Qt4, QtWidgets
   {$ENDIF}
@@ -179,7 +180,6 @@ type
     Timer: TTimer;
     PanelAllProgress: TPanel;
     pbxRightDrive: TPaintBox;
-    sboxOperations: TScrollBox;
     pbxLeftDrive: TPaintBox;
     tbPaste: TMenuItem;
     tbCopy: TMenuItem;
@@ -416,7 +416,6 @@ type
       NumberOfButton: Integer);
     procedure MainToolBarToolButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer; NumberOfButton: Integer);
 
-
     procedure miLogMenuClick(Sender: TObject);
     procedure miTrayIconExitClick(Sender: TObject);
     procedure miTrayIconRestoreClick(Sender: TObject);
@@ -479,13 +478,6 @@ type
     procedure pnlNotebooksResize(Sender: TObject);
     procedure pnlRightResize(Sender: TObject);
     procedure sboxDrivePaint(Sender: TObject);
-    procedure sboxOperationsMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure sboxOperationsMouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure sboxOperationsMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure sboxOperationsPaint(Sender: TObject);
     procedure seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
       var Special: boolean; var FG, BG: TColor);
 
@@ -523,6 +515,7 @@ type
        can be used, because the user can do only one menu popup at a time. }
     FDropParams: TDropParams;
     FDrivesListPopup: TDrivesListPopup;
+    FOperationsPanel: TOperationsPanel;
 
     // frost_asm begin
     // mainsplitter
@@ -532,8 +525,6 @@ type
     // lastWindowState
     lastWindowState:TWindowState;
     // frost_asm end
-    PressLMB: boolean;
-    widthOfItem, ItemEnd: integer;
     // for dragging buttons and etc
     NumberOfMoveButton, NumberOfNewMoveButton: integer;
     Draging : boolean;
@@ -2976,198 +2967,6 @@ begin
   end;
 end;
 
-procedure TfrmMain.sboxOperationsMouseDown(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-var
-  OperationNumber: Integer;
-  CursorPos: TPoint;
-  OpManItem: TOperationsManagerItem;
-begin
-  CursorPos := Mouse.CursorPos;
-  CursorPos := sboxOperations.ScreenToClient(CursorPos);
-  OperationNumber := CursorPos.X div widthOfItem;
-  if (OperationNumber < 0) or (OperationNumber > OperationsManager.OperationsCount) then Exit;
-  case Button of
-    mbMiddle:
-      begin
-        OperationsManager.MoveOperation(OperationNumber, OperationNumber - 1);
-      end;
-    mbRight:
-      begin
-        OpManItem := OperationsManager.GetItemByIndex(OperationNumber);
-        if Assigned(OpManItem) then
-          begin
-            if OpManItem.Operation.State = fsosRunning then
-              begin
-                OpManItem.PauseRunning := True;
-                OpManItem.Operation.Pause;
-              end
-            else
-              begin
-                //OperationsManager.InQueue(OpManItem.Handle, True);
-              end;
-          end;
-     end;
-    mbLeft:
-      begin
-        indexFocus:= OperationNumber;
-        PressLMB:=true;
-        ItemEnd:= OperationNumber;
-      end;
-  end;
-end;
-
-procedure TfrmMain.sboxOperationsMouseMove(Sender: TObject; Shift: TShiftState;
-  X, Y: Integer);
-begin
-  if PressLMB then ItemEnd:= X div widthOfItem;
-end;
-
-procedure TfrmMain.sboxOperationsMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-var
-  OperationDialog: TfrmFileOp;
-  OpManItem: TOperationsManagerItem;
-begin
-  if Button=mbLeft then
-    begin
-      PressLMB := False;
-      if (ItemEnd < 0) then
-        OperationsManager.MoveOperation(IndexFocus, 0);
-      if (ItemEnd > OperationsManager.OperationsCount) then
-        OperationsManager.MoveOperation(IndexFocus, OperationsManager.OperationsCount);
-
-      if IndexFocus = ItemEnd then
-        begin
-          OpManItem := OperationsManager.GetItemByIndex(indexFocus);
-          if Assigned(OpManItem) then
-            TfrmFileOp.ShowFor(OpManItem.Handle);
-        end
-      else
-        OperationsManager.MoveOperation(IndexFocus, ItemEnd);
-    end;
-  IndexFocus:=ItemEnd;
-end;
-
-procedure TfrmMain.sboxOperationsPaint(Sender: TObject);
-var
-  OpManItem: TOperationsManagerItem;
-  I: Integer;
-  OutString: String;
-  ARect: TRect;
-  HeightSbox: Integer;
-  AStart, AStop: TColor;
-begin
-  if OperationsManager.OperationsCount > 0 then
-  begin
-    HeightSbox:= sboxOperations.Height;
-
-    ARect:= sboxOperations.ClientRect;
-
-    sboxOperations.Canvas.Pen.Color:= cl3DDkShadow;
-    sboxOperations.Canvas.Rectangle(ARect);
-
-    Inc(ARect.Left);
-    Inc(ARect.Top);
-    Dec(ARect.Right, 2);
-    Dec(ARect.Bottom);
-
-    sboxOperations.Canvas.GradientFill(ARect, LightColor(clBtnHiLight, 20),
-                                       clBtnFace, gdVertical);
-
-    // Calculate item width
-    if (sboxOperations.Width / OperationsManager.OperationsCount) < 120 then
-      widthOfItem := Round(sboxOperations.Width / OperationsManager.OperationsCount)
-    else
-      widthOfItem := 120;
-
-    for I := 0 to OperationsManager.OperationsCount - 1 do
-    begin
-      if (I = ItemEnd) and (PressLMB) or (I = IndexFocus) and (PressLMB) then
-        begin
-          sboxOperations.Canvas.Pen.Color := cl3DDkShadow;
-          sboxOperations.Canvas.Brush.Color := clMenuHighlight;
-          sboxOperations.Canvas.Brush.Style:= bsSolid;
-          // TODO: Localize strings
-          sboxOperations.Canvas.Rectangle(10 + (widthOfItem * I), 3, widthOfItem - 10 + (widthOfItem * I), sboxOperations.Height - 7);
-          if IndexFocus <> ItemEnd then OutString:= 'Move here' else OutString:= 'Move from';
-          if I = IndexFocus then OutString:= 'Move from';
-          sboxOperations.Canvas.Brush.Style:= bsClear;
-          sboxOperations.Canvas.TextOut(18 + (widthOfItem * I), 7, OutString);
-        end
-      else
-        begin
-          OpManItem := OperationsManager.GetItemByIndex(I);
-          if Assigned(OpManItem) then
-          begin
-            // set progress bar color by operation state
-
-            case OpManItem.Operation.State of
-              // Green if running
-              fsosRunning:
-                begin
-                  AStart:= RGB(203, 233, 171);
-                  AStop:=  RGB(146, 208, 80);
-                end;
-              // Orange if in paused/waiting
-              fsosNotStarted, fsosPaused, fsosWaitingForFeedback, fsosWaitingForConnection:
-                begin
-                  AStart:= RGB(255, 202, 100);
-                  AStop:=  RGB(255, 153, 4);
-                end;
-              // Red if stopped
-              fsosStopped:
-                begin
-                  AStart:= RGB(255, 153, 149);
-                  AStop:=  RGB(255, 110, 103);
-                end;
-            end;
-
-            case OpManItem.Operation.ID of
-              fsoCopy, fsoCopyIn, fsoCopyOut:
-                OutString := 'Copying';
-              fsoMove:
-                OutString := 'Moving';
-              fsoDelete:
-                OutString := 'Delete';
-              fsoWipe:
-                OutString := 'Erasing';
-              fsoCalcChecksum:
-                OutString := 'Counting';
-              else
-                OutString := 'Unknown';
-            end;
-
-          OutString := IntToStr(OpManItem.Handle) + ': '
-                       + OutString + ' - '
-                       + FloatToStrF(OpManItem.Operation.Progress * 100, ffFixed, 0, 0) + ' %';
-
-          if TfrmFileOp.IsOpenedFor(OpManItem.Handle) then
-            sboxOperations.Canvas.Pen.Color := clMenuHighlight
-          else
-            sboxOperations.Canvas.Pen.Color := LightColor(cl3DDkShadow, 40);
-
-          sboxOperations.Canvas.Brush.Style:= bsClear;
-          // Draw border
-          sboxOperations.Canvas.Rectangle(2 + (widthOfItem * I), 2, widthOfItem + (widthOfItem * I), HeightSbox - 6);
-
-          // Draw progress bar
-          ARect.TopLeft.x:= 3 + (widthOfItem * I);
-          ARect.TopLeft.y:= 3;
-
-          ARect.BottomRight.x:= Round(5 + (widthOfItem * I) + (widthOfItem - 10) * OpManItem.Operation.Progress);
-          ARect.BottomRight.y:= HeightSbox - 7;
-
-          sboxOperations.Canvas.GradientFill(ARect, AStart, AStop, gdVertical);
-
-          // Draw output string
-          sboxOperations.Canvas.TextOut(3 + (widthOfItem * I), 2, OutString);
-        end;
-      end;
-    end;
-  end;
-end;
-
 procedure TfrmMain.seLogWindowSpecialLineColors(Sender: TObject; Line: integer;
   var Special: boolean; var FG, BG: TColor);
 var
@@ -4037,6 +3836,16 @@ begin
       end;
     end;
 
+    if gPanelOfOp then
+    begin
+      FOperationsPanel := TOperationsPanel.Create(Self);
+      FOperationsPanel.Parent := PanelAllProgress;
+      FOperationsPanel.DoubleBuffered := True;
+      PanelAllProgress.OnResize := @FOperationsPanel.ParentResized;
+    end
+    else
+      FreeAndNil(FOperationsPanel);
+
     // Log window
     seLogWindow.Visible := gLogWindow;
     LogSplitter.Visible := gLogWindow;
@@ -4850,7 +4659,6 @@ begin
     begin
       if gPanelOfOp = True then
         begin
-          PanelAllProgress.Height := sboxOperations.Canvas.TextHeight('Pg') * 2 + 8;
           // Make panel visible if at least one operation has no form
           visiblePanel:= False;
           for i := 0 to OperationsManager.OperationsCount - 1 do
@@ -4859,11 +4667,8 @@ begin
             if not TfrmFileOp.IsOpenedFor(OpManItem.Handle) then
               visiblePanel:= True;
           end;
-          if visiblePanel = True then
-            PanelAllProgress.Visible:= True
-          else
-            PanelAllProgress.Visible:= False;
-          sboxOperations.Invalidate; // force redraw
+          PanelAllProgress.Visible := visiblePanel;
+          FOperationsPanel.UpdateView;
         end;
 
       if gProgInMenuBar = true then
@@ -4884,7 +4689,6 @@ begin
           AllOpCancel.Visible:= true;
         end;
     end;
-    if not(PanelAllProgress.Visible) then PressLMB:= PanelAllProgress.Visible;
 end;
 
 procedure TfrmMain.SetFileSystemPath(aFileView: TFileView; aPath: UTF8String);

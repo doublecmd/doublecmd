@@ -272,7 +272,7 @@
         <PackageName Value="viewerpackage"/>
       </Item10>
     </RequiredPackages>
-    <Units Count="159">
+    <Units Count="160">
       <Unit0>
         <Filename Value="doublecmd.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -1263,6 +1263,11 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="fWcxArchiveCopyOperationOptions"/>
       </Unit158>
+      <Unit159>
+        <Filename Value="uoperationspanel.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uOperationsPanel"/>
+      </Unit159>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

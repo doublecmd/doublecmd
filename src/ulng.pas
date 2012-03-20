@@ -219,9 +219,7 @@ resourcestring
   rsDlgUnknownOperation = 'Unknown operation';
   rsDlgOpStart = 'Start';
   rsDlgOpPause = 'Pause';
-  rsDlgQueueIn = 'In';
-  rsDlgQueueOut = 'Out';
-  rsDlgOpCaption = 'Caption of operation';
+  rsDlgQueue = 'Queue';
   // Viewer
   rsViewAboutText = 'Internal Viewer of Double Commander.';
   rsViewNotFound = '%s not found!';
@@ -462,12 +460,6 @@ resourcestring
   rsOperFinished = 'Finished';
   rsOperAborted = 'Aborted';
   rsOperQueued = 'Queued';
-
-  // Operation starting options.
-  rsOperStartStateManualStart = 'Manual start';
-  rsOperStartStateAutoStart = 'Start';
-  rsOperStartStateQueueFirst = 'Queue as first';
-  rsOperStartStateQueueLast = 'Queue as last';
 
   // Unhandled error.
   rsUnhandledExceptionMessage =

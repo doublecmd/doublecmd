@@ -122,23 +122,23 @@ object frmMain: TfrmMain
   end
   object pnlNotebooks: TPanel
     Left = 0
-    Height = 154
+    Height = 157
     Top = 46
     Width = 760
     Align = alClient
-    ClientHeight = 154
+    ClientHeight = 157
     ClientWidth = 760
     FullRepaint = False
     TabOrder = 1
     OnResize = pnlNotebooksResize
     object pnlLeft: TPanel
       Left = 1
-      Height = 152
+      Height = 155
       Top = 1
       Width = 511
       Align = alLeft
       BevelOuter = bvNone
-      ClientHeight = 152
+      ClientHeight = 155
       ClientWidth = 511
       TabOrder = 0
       OnDblClick = pnlLeftRightDblClick
@@ -155,18 +155,18 @@ object frmMain: TfrmMain
       end
       object pnlLeftTools: TPanel
         Left = 0
-        Height = 24
+        Height = 25
         Top = 10
         Width = 511
         Align = alTop
         AutoSize = True
         BevelOuter = bvNone
-        ClientHeight = 24
+        ClientHeight = 25
         ClientWidth = 511
         TabOrder = 0
         object btnLeftDrive: TSpeedButton
           Left = 0
-          Height = 24
+          Height = 25
           Top = 0
           Width = 48
           Action = actLeftOpenDrives
@@ -177,7 +177,7 @@ object frmMain: TfrmMain
         end
         object btnLeftHome: TSpeedButton
           Left = 465
-          Height = 24
+          Height = 25
           Hint = 'Go to home directory'
           Top = 0
           Width = 23
@@ -188,7 +188,7 @@ object frmMain: TfrmMain
         end
         object btnLeftUp: TSpeedButton
           Left = 442
-          Height = 24
+          Height = 25
           Hint = 'Go to parent directory'
           Top = 0
           Width = 23
@@ -199,7 +199,7 @@ object frmMain: TfrmMain
         end
         object btnLeftRoot: TSpeedButton
           Left = 419
-          Height = 24
+          Height = 25
           Hint = 'Go to root directory'
           Top = 0
           Width = 23
@@ -210,7 +210,7 @@ object frmMain: TfrmMain
         end
         object btnLeftDirectoryHotlist: TSpeedButton
           Left = 396
-          Height = 24
+          Height = 25
           Hint = 'Directory hotlist'
           Top = 0
           Width = 23
@@ -221,7 +221,7 @@ object frmMain: TfrmMain
         end
         object btnLeftEqualRight: TSpeedButton
           Left = 488
-          Height = 24
+          Height = 25
           Hint = 'Show current directory of the right panel in the left panel'
           Top = 0
           Width = 23
@@ -265,12 +265,12 @@ object frmMain: TfrmMain
     end
     object pnlRight: TPanel
       Left = 512
-      Height = 152
+      Height = 155
       Top = 1
       Width = 247
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 152
+      ClientHeight = 155
       ClientWidth = 247
       TabOrder = 1
       OnDblClick = pnlLeftRightDblClick
@@ -287,18 +287,18 @@ object frmMain: TfrmMain
       end
       object pnlRightTools: TPanel
         Left = 0
-        Height = 24
+        Height = 25
         Top = 10
         Width = 247
         Align = alTop
         AutoSize = True
         BevelOuter = bvNone
-        ClientHeight = 24
+        ClientHeight = 25
         ClientWidth = 247
         TabOrder = 0
         object btnRightDrive: TSpeedButton
           Left = 0
-          Height = 24
+          Height = 25
           Top = 0
           Width = 48
           Action = actRightOpenDrives
@@ -309,7 +309,7 @@ object frmMain: TfrmMain
         end
         object btnRightHome: TSpeedButton
           Left = 201
-          Height = 24
+          Height = 25
           Top = 0
           Width = 23
           Align = alRight
@@ -319,7 +319,7 @@ object frmMain: TfrmMain
         end
         object btnRightUp: TSpeedButton
           Left = 178
-          Height = 24
+          Height = 25
           Top = 0
           Width = 23
           Align = alRight
@@ -329,7 +329,7 @@ object frmMain: TfrmMain
         end
         object btnRightRoot: TSpeedButton
           Left = 155
-          Height = 24
+          Height = 25
           Top = 0
           Width = 23
           Align = alRight
@@ -339,7 +339,7 @@ object frmMain: TfrmMain
         end
         object btnRightDirectoryHotlist: TSpeedButton
           Left = 132
-          Height = 24
+          Height = 25
           Top = 0
           Width = 23
           Align = alRight
@@ -349,7 +349,7 @@ object frmMain: TfrmMain
         end
         object btnRightEqualLeft: TSpeedButton
           Left = 224
-          Height = 24
+          Height = 25
           Hint = 'Show current directory of the left panel in the right panel'
           Top = 0
           Width = 23
@@ -408,37 +408,14 @@ object frmMain: TfrmMain
     end
   end
   object PanelAllProgress: TPanel
-    Left = 3
+    Left = 0
     Height = 0
-    Top = 200
-    Width = 754
+    Top = 203
+    Width = 760
     Align = alBottom
-    BorderSpacing.Left = 3
-    BorderSpacing.Right = 3
-    BorderSpacing.Bottom = 3
-    BorderSpacing.CellAlignHorizontal = ccaRightBottom
-    BorderSpacing.CellAlignVertical = ccaCenter
-    ClientHeight = 0
-    ClientWidth = 754
+    AutoSize = True
+    BevelOuter = bvNone
     TabOrder = 6
-    object sboxOperations: TScrollBox
-      AnchorSideTop.Control = PanelAllProgress
-      AnchorSideBottom.Control = PanelAllProgress
-      AnchorSideBottom.Side = asrBottom
-      Left = 1
-      Height = 0
-      Top = 0
-      Width = 755
-      HorzScrollBar.Page = 755
-      VertScrollBar.Page = 1
-      Anchors = [akTop, akLeft, akRight, akBottom]
-      AutoSize = True
-      TabOrder = 0
-      OnMouseDown = sboxOperationsMouseDown
-      OnMouseMove = sboxOperationsMouseMove
-      OnMouseUp = sboxOperationsMouseUp
-      OnPaint = sboxOperationsPaint
-    end
   end
   object ConsoleSplitter: TSplitter
     Cursor = crVSplit
