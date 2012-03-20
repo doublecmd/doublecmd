@@ -20,7 +20,7 @@ interface
 uses
   SysUtils, Classes, Controls, Forms, StdCtrls, ComCtrls, Buttons, ExtCtrls,
   KASProgressBar, uOperationsManager, uFileSourceOperation,
-  uFileSourceOperationUI, fViewOperations;
+  uFileSourceOperationUI;
 
 type
 
@@ -30,12 +30,10 @@ type
   { TfrmFileOp }
 
   TfrmFileOp = class(TForm)
-    bthOpEnd: TBitBtn;
     btnCancel: TBitBtn;
-    btnOpHome: TBitBtn;
     btnPauseStart: TBitBtn;
-    btnToQueue: TBitBtn;
-    btnWorkInBackground: TButton;
+    btnViewOperations: TButton;
+    btnMinimizeToPanel: TButton;
     lblEstimated: TLabel;
     lblFileNameFrom: TLabel;
     lblFileNameTo: TLabel;
@@ -47,12 +45,10 @@ type
     pnlClient: TPanel;
     pnlFrom: TPanel;
     pnlTo: TPanel;
-    procedure bthOpEndClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
-    procedure btnOpHomeClick(Sender: TObject);
+    procedure btnMinimizeToPanelClick(Sender: TObject);
     procedure btnPauseStartClick(Sender: TObject);
-    procedure btnToQueueClick(Sender: TObject);
-    procedure btnWorkInBackgroundClick(Sender: TObject);
+    procedure btnViewOperationsClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     function GetProgressBarStyle: TProgressBarStyle;
@@ -112,6 +108,7 @@ implementation
 
 uses
    dmCommonData, uLng, uDCUtils,
+   fViewOperations,
    uFileSourceOperationTypes,
    uFileSourceCopyOperation,
    uFileSourceMoveOperation,
@@ -139,16 +136,10 @@ begin
   ModalResult:= mrCancel;
 end;
 
-procedure TfrmFileOp.bthOpEndClick(Sender: TObject);
+procedure TfrmFileOp.btnMinimizeToPanelClick(Sender: TObject);
 begin
-  OperationsManager.MoveOperation(indexFocus, OperationsManager.OperationsCount-1);
-  indexFocus:= OperationsManager.OperationsCount-1;
-end;
-
-procedure TfrmFileOp.btnOpHomeClick(Sender: TObject);
-begin
-  OperationsManager.MoveOperation(indexFocus, 0);
-  indexFocus:= 0;
+  FStopOperationOnClose := False;
+  Close;
 end;
 
 procedure TfrmFileOp.btnPauseStartClick(Sender: TObject);
@@ -171,26 +162,9 @@ begin
   end;
 end;
 
-procedure TfrmFileOp.btnToQueueClick(Sender: TObject);
-var
-  OpManItem: TOperationsManagerItem;
+procedure TfrmFileOp.btnViewOperationsClick(Sender: TObject);
 begin
-  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
-  if Assigned(OpManItem) then
-  begin
-    //OperationsManager.InQueue(FOperationHandle, true);
-  end;
-  FStopOperationOnClose := False;
-  Close;
-end;
-
-procedure TfrmFileOp.btnWorkInBackgroundClick(Sender: TObject);
-var
-  OpManItem: TOperationsManagerItem;
-begin
-  OpManItem := OperationsManager.GetItemByHandle(FOperationHandle);
-  FStopOperationOnClose := False;
-  Close;
+  ShowOperationsViewer(FOperationHandle);
 end;
 
 procedure TfrmFileOp.FormClose(Sender: TObject; var CloseAction: TCloseAction);
