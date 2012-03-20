@@ -56,10 +56,7 @@ type
     function GetOperationsCount: Integer;
     procedure RunNextOperation(Index: Integer);
     procedure RunOperation(Item: TOperationsManagerItem);
-  public
-    constructor Create(AIdentifier: TOperationsManagerQueueIdentifier);
-    destructor Destroy; override;
-
+  private
     {en
        Inserts new item into the queue.
        @param(InsertAt
@@ -76,6 +73,9 @@ type
     }
     function Insert(Item: TOperationsManagerItem; InsertAtFront: Boolean): Integer;
     function Remove(Item: TOperationsManagerItem): Boolean;
+  public
+    constructor Create(AIdentifier: TOperationsManagerQueueIdentifier);
+    destructor Destroy; override;
 
     property Count: Integer read GetOperationsCount;
     property Items[Index: Integer]: TOperationsManagerItem read GetItem;
@@ -147,11 +147,8 @@ type
        Operations retrieved this way can be safely used from the main GUI thread.
        But they should not be stored for longer use, because they
        may be destroyed by the Operations Manager when they finish.
-       Operation handle can always be used to safely query OperationsManager
-       for a specific operation.
-       Also OperationExists function can be used to query OperationsManager
-       if the given pointer to a operation is still registered (and thus not
-       yet destroyed).
+       Operation handle can always be used to query OperationsManager if the
+       operation item is still alive.
     }
     function GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
     function GetItemByOperation(Operation: TFileSourceOperation): TOperationsManagerItem;
@@ -229,8 +226,11 @@ procedure TOperationsManagerItem.SetQueue(NewQueue: TOperationsManagerQueue; Ins
 begin
   if (Queue <> NewQueue) and Assigned(NewQueue) then
   begin
-    if Queue.Remove(Self) then
+    if not Assigned(Queue) or Queue.Remove(Self) then
+    begin
+      FQueue := NewQueue;
       NewQueue.Insert(Self, InsertAtFront);
+    end;
   end;
 end;
 
@@ -343,7 +343,7 @@ begin
     Queue := QueueByIndex[QueueIndex];
     for OperIndex := 0 to Queue.Count - 1 do
     begin
-      Item := Queue.Items[i];
+      Item := Queue.Items[OperIndex];
       RemoveOperationListeners(Item.Operation);
     end;
     Queue.Free;
@@ -367,7 +367,6 @@ function TOperationsManager.AddOperation(
 var
   Thread: TOperationThread;
   Item: TOperationsManagerItem;
-  Queue: TOperationsManagerQueue;
 begin
   Result := InvalidOperationHandle;
 
@@ -394,8 +393,7 @@ begin
         //  Thread.WaitFor  (or WaitForThreadTerminate(Thread.ThreadID))
         Thread.OnTerminate := @ThreadTerminatedEvent;
 
-        Queue := GetOrCreateQueue(QueueIdentifier);
-        Queue.Insert(Item, InsertAtFrontOfQueue);
+        Item.SetQueue(GetOrCreateQueue(QueueIdentifier), InsertAtFrontOfQueue);
 
         NotifyEvents(Operation, [omevOperationAdded]);
 
@@ -557,6 +555,12 @@ begin
         NotifyEvents(Item.Operation, [omevOperationFinished]);
 
         Queue.Remove(Item);
+
+        if Queue.Count = 0 then
+        begin
+          FQueues.Remove(Queue);
+          Queue.Free;
+        end;
 
         NotifyEvents(Item.Operation, [omevOperationRemoved]);
 
