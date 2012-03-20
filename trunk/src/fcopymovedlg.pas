@@ -284,7 +284,7 @@ begin
 {$IF (DEFINED(LCLGTK) or DEFINED(LCLGTK2)) and (lcl_fullversion < 093100)}
   if (Button = mbLeft) and (Sender = FindLCLControl(Mouse.CursorPos)) then
   begin
-     FQueueNumber := FreeOperationsQueue;
+     FQueueIdentifier := FreeOperationsQueueId;
      ModalResult := btnOk.ModalResult;
   end;
 {$ENDIF}
