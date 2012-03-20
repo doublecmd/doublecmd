@@ -4642,8 +4642,6 @@ procedure TfrmMain.AllProgressOnUpdateTimer(Sender: TObject);
 var
   Pct: string;
   i, AllProgressPoint: integer;
-  visiblePanel: boolean;
-  OpManItem: TOperationsManagerItem;
 begin
   // Hide progress bar if there are no operations
   if OperationsManager.OperationsCount = 0 then
@@ -4653,23 +4651,14 @@ begin
       AllOpProgressInd.Visible:= false;
       AllOpStart.Visible:= false;
       AllOpPause.Visible:= false;
-      AllOpCancel.Visible:= false;
     end
   else
     begin
       if gPanelOfOp = True then
-        begin
-          // Make panel visible if at least one operation has no form
-          visiblePanel:= False;
-          for i := 0 to OperationsManager.OperationsCount - 1 do
-          begin
-            OpManItem := OperationsManager.GetItemByIndex(i);
-            if not TfrmFileOp.IsOpenedFor(OpManItem.Handle) then
-              visiblePanel:= True;
-          end;
-          PanelAllProgress.Visible := visiblePanel;
-          FOperationsPanel.UpdateView;
-        end;
+      begin
+        FOperationsPanel.UpdateView;
+        PanelAllProgress.Visible := FOperationsPanel.Visible;
+      end;
 
       if gProgInMenuBar = true then
         begin
@@ -4686,7 +4675,6 @@ begin
           AllOpProgressInd.Visible:= true;
           AllOpStart.Visible:= true;
           AllOpPause.Visible:= true;
-          AllOpCancel.Visible:= true;
         end;
     end;
 end;

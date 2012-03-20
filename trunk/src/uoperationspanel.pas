@@ -38,8 +38,6 @@ type
   private
     FOperations, FQueues: TFPList;
     FParentWidth: Integer;
-    PressLMB: boolean;
-    ItemEnd: integer;
     procedure ClearItems;
     procedure DeleteItem(List: TFPList; Index: Integer);
     function GetProgressString(Progress: Double): String;
@@ -169,6 +167,7 @@ var
   OperationItem: POperationPanelItem;
   OverallHeight: Integer = MinimumHeight;
   OverallWidth: Integer = 0;
+  Visibility: Boolean = False;
 
   procedure SetSize;
   begin
@@ -204,6 +203,9 @@ begin
             OutString := IntToStr(OpManItem.Handle) + ': ' +
               GetOperationDescription(OpManItem.Operation) + ' - ' + GetProgressString(100);
             SetSize;
+
+            if not TfrmFileOp.IsOpenedFor(OpManItem.Handle) then
+              Visibility := True;
           end;
         end;
       end
@@ -217,12 +219,16 @@ begin
         OutString := rsDlgQueue + ' ' + IntToStr(Queue.Identifier) + ' - ' + GetProgressString(100) +
           LineEnding + GetOperationDescription(Queue.Items[0].Operation);
         SetSize;
+
+        if not TfrmFileOp.IsOpenedFor(Queue.Items[0].Handle) then
+          Visibility := True;
       end;
     end;
   end;
 
   ClientHeight := OverallHeight + 2;
   ClientWidth := Max(OverallWidth - HorizontalSpaceBetween, FParentWidth);
+  Visible := Visibility;
 end;
 
 constructor TOperationsPanel.Create(AOwner: TComponent);
