@@ -165,7 +165,6 @@ end;
 procedure TfrmOptionsFileTypesColors.btnApplyCategoryClick(Sender: TObject);
 var
   MaskItem : TMaskItem;
-  I, iCount : Integer;
 begin
   if (lbCategories.ItemIndex <> -1) then
   begin

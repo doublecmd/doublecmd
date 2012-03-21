@@ -9,7 +9,9 @@ uses
 
 type
   {en Handle to OperationsManager's operation.}
-  TOperationHandle = Longint;
+  TOperationHandle = type Longint;
+  {en Identifier of OperationsManager's queue.}
+  TOperationsManagerQueueIdentifier = type Longint;
 
 const
   InvalidOperationHandle = TOperationHandle(0);
@@ -17,8 +19,6 @@ const
   SingleQueueId = 1; // TODO: Hard-coded for now
 
 type
-  TOperationsManagerQueueIdentifier = type Integer;
-
   TOperationsManagerQueue = class;
 
   { TOperationsManagerItem }
@@ -111,6 +111,8 @@ type
 
     procedure ThreadTerminatedEvent(Sender: TObject);
 
+    function GetItemByOperation(Operation: TFileSourceOperation): TOperationsManagerItem;
+    function GetItemByIndex(Index: Integer): TOperationsManagerItem;
     function GetOperationsCount: Integer;
     function GetNextUnusedHandle: TOperationHandle;
     function GetQueueByIndex(Index: Integer): TOperationsManagerQueue;
@@ -153,8 +155,6 @@ type
        operation item is still alive.
     }
     function GetItemByHandle(Handle: TOperationHandle): TOperationsManagerItem;
-    function GetItemByOperation(Operation: TFileSourceOperation): TOperationsManagerItem;
-    function GetItemByIndex(Index: Integer): TOperationsManagerItem;
     function GetOrCreateQueue(Identifier: TOperationsManagerQueueIdentifier): TOperationsManagerQueue;
 
     {en
@@ -166,19 +166,9 @@ type
     procedure MoveOperation(FromIndex: Integer; ToIndex: Integer);
 
     procedure CancelAll;
-    procedure StartAll;
-    procedure PauseAll;
     procedure PauseRunning;
     procedure StartRunning;
     function  AllProgressPoint: Double;
-
-    {en
-       This function is used to check if the pointer to an operation is still
-       valid. If an operation is registered in OperationsManager the function
-       returns @true.
-       @param(Operation is the pointer which should be checked.)
-    }
-    function OperationExists(Operation: TFileSourceOperation): Boolean;
 
     {en
        Adds a function to call on specific events.
@@ -475,7 +465,6 @@ end;
 function TOperationsManager.GetItemByIndex(Index: Integer): TOperationsManagerItem;
 var
   OperIndex, QueueIndex: Integer;
-  Item: TOperationsManagerItem;
   Queue: TOperationsManagerQueue;
   Counter: Integer;
 begin
@@ -622,34 +611,6 @@ begin
   end;
 end;
 
-procedure TOperationsManager.StartAll;
-var
-  Item: TOperationsManagerItem;
-  i: Integer;
-begin
-  // Start all operations
-  for i := 0 to OperationsCount - 1 do
-  begin
-    Item := OperationsManager.GetItemByIndex(i);
-    if Assigned(Item) then
-      Item.Operation.Start;
-  end;
-end;
-
-procedure TOperationsManager.PauseAll;
-var
-  Item: TOperationsManagerItem;
-  i: Integer;
-begin
-  // Pause all operations
-  for i := 0 to OperationsCount do
-  begin
-    Item := OperationsManager.GetItemByIndex(i);
-    if Assigned(Item) then
-      Item.Operation.Pause;
-  end;
-end;
-
 procedure TOperationsManager.PauseRunning;
 var
   Item: TOperationsManagerItem;
@@ -713,14 +674,6 @@ begin
     end;
     Result := Result / OperationsManager.OperationsCount;  // Показываем средний прогресс
   end;
-end;
-
-function TOperationsManager.OperationExists(Operation: TFileSourceOperation): Boolean;
-var
-  Item: TOperationsManagerItem = nil;
-begin
-  Item := GetItemByOperation(Operation);
-  Result := Assigned(Item);
 end;
 
 procedure TOperationsManager.AddOperationListeners(Operation: TFileSourceOperation);

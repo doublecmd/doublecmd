@@ -357,8 +357,6 @@ uses
 { TFileSource }
 
 constructor TFileSource.Create;
-var
-  OperationType: TFileSourceOperationType;
 begin
   if ClassType = TFileSource then
     raise Exception.Create('Cannot construct abstract class');

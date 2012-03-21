@@ -5,7 +5,7 @@ unit uSynDiffControls;
 interface
 
 uses
-  Classes, SysUtils, Graphics, SynEdit, SynEditMarkupSpecialLine,
+  Classes, SysUtils, Graphics, SynEdit,
   SynEditMiscClasses, SynGutterBase, SynTextDrawer, uDiff;
 
 const
@@ -89,7 +89,6 @@ type
   private
     FPaintStyle: TPaintStyle;
     FDiff: TDiff;
-    FSpecialLineMarkupEvent: TSpecialLineMarkupEvent;
     FDiffCount: Integer;
     FEncoding: String;
     FColors: TDiffColors;
@@ -579,4 +578,4 @@ begin
 end;
 
 end.
-
+

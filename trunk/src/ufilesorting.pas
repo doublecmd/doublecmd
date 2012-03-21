@@ -932,7 +932,7 @@ end;
 
 procedure TDisplayFileSorter.SequentialInsertSingle(FileToInsert: TDisplayFile; List: TFPList);
 var
-  i, j, SortedIndex: PtrInt;
+  SortedIndex: PtrInt;
   Pdst: PPointerList;
 begin
   SortedIndex := 0;

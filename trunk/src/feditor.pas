@@ -197,7 +197,7 @@ implementation
 
 uses
   dmCommonData, dmHigh, SynEditHighlighter, SynEditTypes, SynEditLines, LCLType,
-  LConvEncoding, uLng, uShowMsg, fEditSearch, uGlobsPaths, uGlobs, fOptions,
+  LConvEncoding, uLng, uShowMsg, fEditSearch, uGlobs, fOptions,
   uOSUtils, uConvEncoding, uSynEditFiler;
 
 procedure ShowEditor(const sFileName:String);

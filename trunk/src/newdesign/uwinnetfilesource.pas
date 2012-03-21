@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Dialogs,
-  uFileSourceProperty, uFileSourceOperationTypes,
+  uFileSourceProperty,
   uVirtualFileSource, uFileSystemFileSource, uFileProperty, uFileSource,
   uFileSourceOperation, uFile;
 

@@ -71,9 +71,6 @@ type
     destructor Destroy; override;
   end;
 
-var
-  DCLogger: TDCLogger;
-
 function CreateDCLogger: TRefCountedObject;
 begin
   Result := TDCLogger.Create;

@@ -109,7 +109,6 @@ procedure TdmHighl.dmHighlCreate(Sender: TObject);
 var
   I: LongWord;
   HighLighter: TSynCustomHighlighter;
-  Attribute: TSynHighlighterAttributes;
 begin
   SynHighlighterList:= TStringList.Create;
   SynHighlighterHashList:= TStringHashList.Create(True);
@@ -280,7 +279,6 @@ procedure TdmHighl.Assign(Source: TPersistent);
 var
   I: LongWord;
   Highl: TdmHighl absolute Source;
-  Highlighter: TSynCustomHighlighter;
 
   procedure CopyAttributes(SourceHighlighter, TargetHighlighter: TSynCustomHighlighter);
   var
@@ -311,7 +309,7 @@ end;
 
 function TdmHighl.LoadFromFile(const FileName: UTF8String): Boolean;
 var
-  I, J: LongInt;
+  J: LongInt;
   Config: TXmlConfig = nil;
   Root, FormNode, AttributeNode: TXmlNode;
   Highlighter: TSynCustomHighlighter;
