@@ -39,6 +39,8 @@ type
 {R}  TFsLinksToLocalFiles = function:boolean;
 {R}  TFsGetLocalName = function (RemoteName:pchar;maxlen:integer):boolean;
 //------------------------------------------------------
+     TFsGetBackgroundFlags = function: integer;
+//------------------------------------------------------
 {R}  TFsContentPluginUnloading = procedure;
 {U}  TFsContentGetDetectString = procedure (DetectString:pchar;maxlen:integer);
 {U}  TFsContentGetSupportedField = function (FieldIndex:integer;FieldName:pchar;  Units:pchar;maxlen:integer):integer;

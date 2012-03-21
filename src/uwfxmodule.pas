@@ -62,6 +62,7 @@ type
   private
     FModuleHandle: TLibHandle;  // Handle to .DLL or .so
     FModuleFileName: UTF8String;
+    FBackgroundFlags: Integer;
   public
   { Mandatory }
     FsInit : TFsInit;
@@ -89,6 +90,8 @@ type
     FsGetPreviewBitmap:TFsGetPreviewBitmap;
     FsLinksToLocalFiles:TFsLinksToLocalFiles;
     FsGetLocalName:TFsGetLocalName;
+    //---------------------
+    FsGetBackgroundFlags: TFsGetBackgroundFlags;
     //---------------------
     FsContentGetDetectString:TFsContentGetDetectString;
     FsContentGetSupportedField:TFsContentGetSupportedField;
@@ -155,6 +158,8 @@ type
     function VFSRootName: UTF8String;
 
     function IsLoaded: Boolean;
+
+    property BackgroundFlags: Integer read FBackgroundFlags write FBackgroundFlags;
   end;
 
   { TWFXModuleList }
@@ -510,6 +515,8 @@ begin
   FsLinksToLocalFiles := TFsLinksToLocalFiles (GetProcAddress(FModuleHandle,'FsLinksToLocalFiles'));
   FsGetLocalName := TFsGetLocalName (GetProcAddress(FModuleHandle,'FsGetLocalName'));
   //---------------------
+  FsGetBackgroundFlags := TFsGetBackgroundFlags (GetProcAddress(FModuleHandle,'FsGetBackgroundFlags'));
+  //---------------------
   FsContentGetDetectString := TFsContentGetDetectString (GetProcAddress(FModuleHandle,'FsContentGetDetectString'));
   FsContentGetSupportedField := TFsContentGetSupportedField (GetProcAddress(FModuleHandle,'FsContentGetSupportedField'));
   FsContentGetValue := TFsContentGetValue (GetProcAddress(FModuleHandle,'FsContentGetValue'));
@@ -576,6 +583,8 @@ begin
   FsLinksToLocalFiles := nil;
   FsGetLocalName := nil;
   //---------------------
+  FsGetBackgroundFlags := nil;
+  //---------------------
   FsContentGetDetectString := nil;
   FsContentGetSupportedField := nil;
   FsContentGetValue := nil;
@@ -615,14 +624,19 @@ var
   dps: tFsDefaultParamStruct;
   StartupInfo: TExtensionStartupInfo;
 begin
-    if Assigned(FsSetDefaultParams) then
-    begin
-      dps.DefaultIniName := mbFileNameToSysEnc(gpCfgDir + WfxIniFileName);
-      dps.PluginInterfaceVersionHi:= 2;
-      dps.PluginInterfaceVersionLow:= 0;
-      dps.Size:= SizeOf(dps);
-      FsSetDefaultParams(@dps);
-    end;
+  if Assigned(FsSetDefaultParams) then
+  begin
+    dps.DefaultIniName := mbFileNameToSysEnc(gpCfgDir + WfxIniFileName);
+    dps.PluginInterfaceVersionHi:= 2;
+    dps.PluginInterfaceVersionLow:= 0;
+    dps.Size:= SizeOf(dps);
+    FsSetDefaultParams(@dps);
+  end;
+
+  if not Assigned(FsGetBackgroundFlags) then
+    FBackgroundFlags:= 0
+  else
+    FBackgroundFlags:= FsGetBackgroundFlags();
 
   // Extension API
   if Assigned(ExtensionInitialize) then
