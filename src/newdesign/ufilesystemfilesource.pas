@@ -118,12 +118,12 @@ type
 implementation
 
 uses
-  uOSUtils, uFindEx, uDateTimeUtils, uGlobs,
+  uOSUtils, uDateTimeUtils, uGlobs,
 {$IFDEF MSWINDOWS}
   uMyWindows, Windows,
 {$ENDIF}
 {$IFDEF UNIX}
-  BaseUnix, uUsersGroups, FileUtil, uMyUnix,
+  BaseUnix, uUsersGroups, FileUtil, uMyUnix, uFindEx,
 {$ENDIF}
   uFileSystemListOperation,
   uFileSystemCopyOperation,

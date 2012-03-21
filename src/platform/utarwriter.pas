@@ -30,7 +30,7 @@ interface
 
 uses
   Classes, SysUtils,
-  uGlobs, uLog, uWcxModule, WcxPlugin, uClassesEx,
+  uGlobs, uWcxModule, WcxPlugin, uClassesEx,
   uFile,
   uFileSource,
   uFileSourceOperationUI,
@@ -136,12 +136,11 @@ implementation
 
 uses
   {$IF DEFINED(MSWINDOWS)}
-  Windows,
+  Windows, uFileAttributes,
   {$ELSEIF DEFINED(UNIX)}
   BaseUnix, FileUtil, uUsersGroups,
   {$ENDIF}
-  uLng, uShowMsg, uDCUtils, uOSUtils, uFileAttributes,
-  uFileSystemFileSource;
+  uLng, uDCUtils, uOSUtils;
 
 {$IF DEFINED(MSWINDOWS)}
 const
@@ -509,7 +508,6 @@ end;
 
 function TTarWriter.ReadData(BytesToRead: Int64): Int64;
 var
-  iTotalDiskSize, iFreeDiskSize: Int64;
   bRetryRead: Boolean;
   BytesRead: Int64;
 begin
@@ -637,8 +635,6 @@ end;
 
 function TTarWriter.WriteFile(const FileName: UTF8String; var Statistics: TFileSourceCopyOperationStatistics): Boolean;
 var
-  iTotalDiskSize, iFreeDiskSize: Int64;
-  bRetryRead, bRetryWrite: Boolean;
   BytesRead, BytesToRead, BytesToWrite: Int64;
   TotalBytesToRead: Int64 = 0;
 begin
@@ -798,4 +794,4 @@ begin
 end;
 
 end.
-
+

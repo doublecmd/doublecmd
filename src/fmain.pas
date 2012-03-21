@@ -1352,8 +1352,6 @@ end;
 {$ENDIF}
 
 procedure TfrmMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
-var
-  ModifierKeys: TShiftState;
 begin
   // Either left or right panel has to be focused.
   if not FrameLeft.Focused and
@@ -1365,13 +1363,11 @@ begin
   // Check for certain Ascii keys.
   if (not ((Length(UTF8Key) = 1) and (UTF8Key[1] in ['-', '*', '+', #0..#32]))) then
   begin
-    ModifierKeys := GetKeyShiftStateEx;
-
     if (gKeyTyping[ktmNone] = ktaCommandLine)
 {$IFDEF MSWINDOWS}
        // Allow entering international characters with Ctrl+Alt on Windows,
        // if there is no action for Ctrl+Alt and command line typing has no modifiers.
-       or ((ModifierKeys * KeyModifiersShortcutNoText = [ssCtrl, ssAlt]) and
+       or ((GetKeyShiftStateEx * KeyModifiersShortcutNoText = [ssCtrl, ssAlt]) and
            (gKeyTyping[ktmCtrlAlt] = ktaNone))
 {$ENDIF}
       then

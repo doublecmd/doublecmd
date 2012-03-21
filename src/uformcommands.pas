@@ -34,12 +34,11 @@ type
   TCommandFunc = procedure(Param: String) of object;
   TCommandCaptionType = (cctShort, cctLong);
 
-  {
+  (*
     The commands are 'user' functions which can be assigned to toolbar
     button, hotkey, menu item, executed by scripts, etc.
     Only published functions and procedures can by found by MethodAddress.
-  }
-  {
+
     How to set up a form to handle hotkeys:
     1. Specify that the form class implements IFormCommands (class (TForm, IFormCommands)).
     2. Add private FCommands: TFormCommands that will implement the interface.
@@ -56,7 +55,7 @@ type
         function GetCommandCaption(Command: String; CaptionType: TCommandCaptionType): String;
         procedure GetCommandsList(List: TStrings);
         {$ENDIF}
-  }
+  *)
 
   { IFormCommands }
 

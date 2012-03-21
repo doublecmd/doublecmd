@@ -215,7 +215,6 @@ uses Forms, Controls, Dialogs, Clipbrd, strutils, LCLProc, HelpIntfs, StringHash
      dmHelpManager, typinfo, fMain, fPackDlg, fFileOpDlg, fMkDir, fFileAssoc,
      fExtractDlg, fAbout, fOptions, fDiffer, fFindDlg, fSymLink, fHardLink, fMultiRename,
      fLinker, fSplitter, fDescrEdit, fCheckSumVerify, fCheckSumCalc, fSetFileProperties,
-     fOptionsFrame,
      uGlobs, uLng, uLog, uShowMsg, uOSForms, uOSUtils, uDCUtils, uGlobsPaths,
      uClassesEx, uShowForm, uShellExecute, uClipboard, uHash, uDisplayFile,
      uFilePanelSelect, uFile, uFileSystemFileSource, uQuickViewPanel,

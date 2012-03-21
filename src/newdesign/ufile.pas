@@ -279,8 +279,6 @@ uses
 {$ENDIF}
 
 constructor TFile.Create(const APath: String);
-var
-  PropertyType: TFilePropertyType;
 begin
   inherited Create;
 

@@ -173,7 +173,6 @@ procedure TXmlConfig.Clear;
 begin
   FreeThenNil(FDoc);
   FDoc := TXMLDocument.Create;
-  FDoc.Encoding := 'UTF-8';  // It is unused currently.
   FDoc.AppendChild(FDoc.CreateElement(ApplicationName));
 end;
 

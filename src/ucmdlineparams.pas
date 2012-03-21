@@ -9,7 +9,10 @@ procedure ProcessCommandLineParams;
 implementation
 
 uses
-  uDCUtils, uGlobsPaths, FileUtil, uOSUtils;
+  {$IF DEFINED(NIGHTLY_BUILD)}
+  uOSUtils,
+  {$ENDIF}
+  uDCUtils, uGlobsPaths, FileUtil;
 
 procedure ProcessCommandLineParams;
 var

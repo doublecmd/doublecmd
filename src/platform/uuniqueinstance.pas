@@ -20,8 +20,8 @@ type
     FServerIPC: TSimpleIPCServer;
     FClientIPC: TSimpleIPCClient;
     FOnMessage: TOnUniqueInstanceMessage;
-    FMyProgramCreateSemaphore:Boolean;
     {$IF DEFINED(UNIX)}
+    FMyProgramCreateSemaphore:Boolean;
     FPeekThread: TThreadID;
     {$ENDIF}
 
@@ -327,4 +327,4 @@ finalization
       FreeAndNil(UniqueInstance);
     end;
 end.
-
+

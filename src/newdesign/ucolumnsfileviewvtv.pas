@@ -824,7 +824,6 @@ procedure TColumnsFileViewVTV.dgPanelDragOver(Sender: TBaseVirtualTree;
   const Pt: TPoint; Mode: TDropMode; var Effect: Integer; var Accept: Boolean);
 var
   AFile: TDisplayFile = nil;
-  iRow: Integer;
   SourcePanel: TColumnsFileViewVTV = nil;
   TargetPanel: TColumnsFileViewVTV = nil;
   SourceDir, TargetDir: String;
@@ -854,10 +853,7 @@ begin
   Node := dgPanel.GetNodeAt(pt.x, pt.y);
 
   if Assigned(Node) then
-  begin
     AFile := dgPanel.GetNodeFile(Node);
-    iRow := Node^.Index;
-  end;
 
   if Assigned(AFile) and
      (AFile.FSFile.IsDirectory or AFile.FSFile.IsLinkToDirectory) and
@@ -2053,8 +2049,6 @@ var
   aFile: TDisplayFile;
   mi: TMenuItem;
   Node, NextNode: PVirtualNode;
-  n: TNodeRange;
-  ni: TRange;
 begin
   // check if ShiftState is equal to quick search / filter modes
   if quickSearch.CheckSearchOrFilter(Key) then
@@ -2557,8 +2551,6 @@ end;
 
 procedure TColumnsFileViewVTV.DisplayFileListHasChanged;
 var
-  c: TControlState;
-  i: Integer;
   AFocused: Boolean = False;
   Node: PVirtualNode;
 begin
