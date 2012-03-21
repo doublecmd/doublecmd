@@ -804,28 +804,13 @@ begin
 end;
 
 procedure TfrmViewOperations.UpdateItems;
-var
-  OperIndex, QueueIndex: Integer;
-  Queue: TOperationsManagerQueue;
-  OpManItem: TOperationsManagerItem;
-  Item: TViewBaseItem;
-  QueueNode, OperNode: TTreeNode;
-begin
-  tvOperations.Items.Clear;
-  for QueueIndex := 0 to OperationsManager.QueuesCount - 1 do
+  procedure AddOperations(Queue: TOperationsManagerQueue; QueueNode: TTreeNode);
+  var
+    OperIndex: Integer;
+    OpManItem: TOperationsManagerItem;
+    OperNode: TTreeNode;
+    Item: TViewBaseItem;
   begin
-    Queue := OperationsManager.QueueByIndex[QueueIndex];
-    if Queue.Identifier = FreeOperationsQueueId then
-      // Add free operations directly at root node.
-      QueueNode := nil
-    else
-    begin
-      QueueNode := tvOperations.Items.Add(nil, '');
-      Item := TViewQueueItem.Create(QueueNode, Queue.Identifier);
-      QueueNode.Data := Item;
-      QueueNode.Height := Item.GetHeight(tvOperations.Canvas);
-    end;
-
     for OperIndex := 0 to Queue.Count - 1 do
     begin
       OpManItem := Queue.Items[OperIndex];
@@ -835,6 +820,31 @@ begin
       OperNode.Height := Item.GetHeight(tvOperations.Canvas);
       TViewOperationItem(Item).OnStatusIconClick := @OnItemStatusIconClick;
       Item.OnClick := @OnOperationItemClick;
+    end;
+  end;
+var
+  QueueIndex: Integer;
+  Queue: TOperationsManagerQueue;
+  QueueNode: TTreeNode;
+  Item: TViewBaseItem;
+begin
+  tvOperations.Items.Clear;
+
+  // First add all free operations.
+  Queue := OperationsManager.QueueByIdentifier[FreeOperationsQueueId];
+  if Assigned(Queue) then
+    AddOperations(Queue, nil);
+
+  for QueueIndex := 0 to OperationsManager.QueuesCount - 1 do
+  begin
+    Queue := OperationsManager.QueueByIndex[QueueIndex];
+    if Queue.Identifier <> FreeOperationsQueueId then
+    begin
+      QueueNode := tvOperations.Items.AddChild(nil, '');
+      Item := TViewQueueItem.Create(QueueNode, Queue.Identifier);
+      QueueNode.Data := Item;
+      QueueNode.Height := Item.GetHeight(tvOperations.Canvas);
+      AddOperations(Queue, QueueNode);
     end;
   end;
 end;
