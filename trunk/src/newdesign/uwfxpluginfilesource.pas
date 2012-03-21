@@ -61,9 +61,27 @@ type
 
     function GetPluginNumber: LongInt;
     function GetWfxModule: TWfxModule;
+
+    function CreateConnection: TFileSourceConnection;
+    procedure CreateConnections;
+
+    procedure AddToConnectionQueue(Operation: TFileSourceOperation);
+    procedure RemoveFromConnectionQueue(Operation: TFileSourceOperation);
+    procedure AddConnection(Connection: TFileSourceConnection);
+    procedure RemoveConnection(Connection: TFileSourceConnection);
+
+    {en
+       Searches connections list for a connection assigned to operation.
+    }
+    function FindConnectionByOperation(operation: TFileSourceOperation): TFileSourceConnection; virtual;
+
+    procedure NotifyNextWaitingOperation(allowedOps: TFileSourceOperationTypes);
+
+    procedure ClearCurrentOperation(Operation: TFileSourceOperation);
   protected
     function GetSupportedFileProperties: TFilePropertiesTypes; override;
     function GetCurrentAddress: String; override;
+    procedure OperationFinished(Operation: TFileSourceOperation); override;
   public
     procedure FillAndCount(Files: TFiles; CountDirs: Boolean; ExcludeRootDir: Boolean;
                            out NewFiles: TFiles; out FilesCount: Int64; out FilesSize: Int64);
@@ -104,9 +122,24 @@ type
 
     class function CreateByRootName(aRootName: String): IWfxPluginFileSource;
 
+    function GetConnection(Operation: TFileSourceOperation): TFileSourceConnection; override;
+    procedure RemoveOperationFromQueue(Operation: TFileSourceOperation); override;
+
     property PluginNumber: LongInt read FPluginNumber;
     property WfxModule: TWfxModule read FWfxModule;
 
+  end;
+
+  { TWfxPluginFileSourceConnection }
+
+  TWfxPluginFileSourceConnection = class(TFileSourceConnection)
+  private
+    FWfxModule: TWfxModule;
+
+  public
+    constructor Create(aWfxModule: TWfxModule); reintroduce;
+
+    property WfxModule: TWfxModule read FWfxModule;
   end;
 
 var
@@ -117,10 +150,22 @@ implementation
 
 uses
   LCLProc, FileUtil, StrUtils, {} LCLType, uShowMsg, {} uGlobs, uDCUtils, uLog,
-  uDebug, uLng, uCryptProc, uFileAttributes, uConnectionManager,
+  uDebug, uLng, uCryptProc, uFileAttributes, uConnectionManager, contnrs, syncobjs,
   uWfxPluginCopyInOperation, uWfxPluginCopyOutOperation,  uWfxPluginMoveOperation,
   uWfxPluginExecuteOperation, uWfxPluginListOperation, uWfxPluginCreateDirectoryOperation,
   uWfxPluginDeleteOperation, uWfxPluginSetFilePropertyOperation, uWfxPluginCopyOperation;
+
+const
+  connCopyIn      = 0;
+  connCopyOut     = 1;
+  connDelete      = 2;
+
+var
+  // Always use appropriate lock to access these lists.
+  WfxConnections: TObjectList; // store connections created by Wcx file sources
+  WfxOperationsQueue: TObjectList; // store queued operations, use only under FOperationsQueueLock
+  WfxConnectionsLock: TCriticalSection; // used to synchronize access to connections
+  WfxOperationsQueueLock: TCriticalSection; // used to synchronize access to operations queue
 
 { CallBack functions }
 
@@ -441,6 +486,8 @@ begin
   FOperationsClasses[fsoCreateDirectory] := TWfxPluginCreateDirectoryOperation.GetOperationClass;
   FOperationsClasses[fsoSetFileProperty] := TWfxPluginSetFilePropertyOperation.GetOperationClass;
   FOperationsClasses[fsoExecute]         := TWfxPluginExecuteOperation.GetOperationClass;
+
+  CreateConnections;
 end;
 
 destructor TWfxPluginFileSource.Destroy;
@@ -530,10 +577,10 @@ end;
 
 function TWfxPluginFileSource.GetProperties: TFileSourceProperties;
 begin
-  Result := [];
+  Result := [fspUsesConnections];
   with FWfxModule do
   if Assigned(FsLinksToLocalFiles) and FsLinksToLocalFiles() then
-    Result:= [fspLinksToLocalFiles];
+    Result:= Result + [fspLinksToLocalFiles];
 end;
 
 function TWfxPluginFileSource.GetSupportedFileProperties: TFilePropertiesTypes;
@@ -777,6 +824,201 @@ begin
     end;
 end;
 
+procedure TWfxPluginFileSource.AddToConnectionQueue(Operation: TFileSourceOperation);
+begin
+  WfxOperationsQueueLock.Acquire;
+  try
+    if WfxOperationsQueue.IndexOf(Operation) < 0 then
+      WfxOperationsQueue.Add(Operation);
+  finally
+    WfxOperationsQueueLock.Release;
+  end;
+end;
+
+procedure TWfxPluginFileSource.RemoveFromConnectionQueue(Operation: TFileSourceOperation);
+begin
+  WfxOperationsQueueLock.Acquire;
+  try
+    WfxOperationsQueue.Remove(Operation);
+  finally
+    WfxOperationsQueueLock.Release;
+  end;
+end;
+
+procedure TWfxPluginFileSource.AddConnection(Connection: TFileSourceConnection);
+begin
+  WfxConnectionsLock.Acquire;
+  try
+    if WfxConnections.IndexOf(Connection) < 0 then
+      WfxConnections.Add(Connection);
+  finally
+    WfxConnectionsLock.Release;
+  end;
+end;
+
+procedure TWfxPluginFileSource.RemoveConnection(Connection: TFileSourceConnection);
+begin
+  WfxConnectionsLock.Acquire;
+  try
+    WfxConnections.Remove(Connection);
+  finally
+    WfxConnectionsLock.Release;
+  end;
+end;
+
+function TWfxPluginFileSource.GetConnection(Operation: TFileSourceOperation): TFileSourceConnection;
+begin
+  Result := nil;
+  case Operation.ID of
+    fsoCopyIn:
+      Result := WfxConnections[connCopyIn] as TFileSourceConnection;
+    fsoCopyOut:
+      Result := WfxConnections[connCopyOut] as TFileSourceConnection;
+    fsoDelete:
+      Result := WfxConnections[connDelete] as TFileSourceConnection;
+    else
+      begin
+        Result := CreateConnection;
+        if Assigned(Result) then
+          AddConnection(Result);
+      end;
+  end;
+
+  if Assigned(Result) then
+    Result := TryAcquireConnection(Result, Operation);
+
+  // No available connection - wait.
+  if not Assigned(Result) then
+    AddToConnectionQueue(Operation)
+  else
+    // Connection acquired.
+    // The operation may have been waiting in the queue
+    // for the connection, so remove it from the queue.
+    RemoveFromConnectionQueue(Operation);
+end;
+
+procedure TWfxPluginFileSource.RemoveOperationFromQueue(Operation: TFileSourceOperation);
+begin
+  RemoveFromConnectionQueue(Operation);
+end;
+
+function TWfxPluginFileSource.CreateConnection: TFileSourceConnection;
+begin
+  Result := TWfxPluginFileSourceConnection.Create(FWfxModule);
+end;
+
+procedure TWfxPluginFileSource.CreateConnections;
+begin
+  WfxConnectionsLock.Acquire;
+  try
+    if WfxConnections.Count = 0 then
+    begin
+      // Reserve some connections (only once).
+      WfxConnections.Add(CreateConnection); // connCopyIn
+      WfxConnections.Add(CreateConnection); // connCopyOut
+      WfxConnections.Add(CreateConnection); // connDelete
+    end;
+  finally
+    WfxConnectionsLock.Release;
+  end;
+end;
+
+function TWfxPluginFileSource.FindConnectionByOperation(operation: TFileSourceOperation): TFileSourceConnection;
+var
+  i: Integer;
+  connection: TFileSourceConnection;
+begin
+  Result := nil;
+  WfxConnectionsLock.Acquire;
+  try
+    for i := 0 to WfxConnections.Count - 1 do
+    begin
+      connection := WfxConnections[i] as TFileSourceConnection;
+      if connection.AssignedOperation = operation then
+        Exit(connection);
+    end;
+  finally
+    WfxConnectionsLock.Release;
+  end;
+end;
+
+procedure TWfxPluginFileSource.OperationFinished(Operation: TFileSourceOperation);
+var
+  allowedIDs: TFileSourceOperationTypes = [];
+  connection: TFileSourceConnection;
+begin
+  ClearCurrentOperation(Operation);
+
+  connection := FindConnectionByOperation(Operation);
+  if Assigned(connection) then
+  begin
+    connection.Release; // unassign operation
+
+    WfxConnectionsLock.Acquire;
+    try
+      // If there are operations waiting, take the first one and notify
+      // that a connection is available.
+      // Only check operation types for which there are reserved connections.
+      if Operation.ID in [fsoCopyIn, fsoCopyOut, fsoDelete, fsoTestArchive] then
+      begin
+        Include(allowedIDs, Operation.ID);
+        NotifyNextWaitingOperation(allowedIDs);
+      end
+      else
+      begin
+        WfxConnections.Remove(connection);
+      end;
+
+    finally
+      WfxConnectionsLock.Release;
+    end;
+  end;
+end;
+
+procedure TWfxPluginFileSource.NotifyNextWaitingOperation(allowedOps: TFileSourceOperationTypes);
+var
+  i: Integer;
+  operation: TFileSourceOperation;
+begin
+  WfxOperationsQueueLock.Acquire;
+  try
+    for i := 0 to WfxOperationsQueue.Count - 1 do
+    begin
+      operation := WfxOperationsQueue.Items[i] as TFileSourceOperation;
+      if (operation.State = fsosWaitingForConnection) and
+         (operation.ID in allowedOps) then
+      begin
+        operation.ConnectionAvailableNotify;
+        Exit;
+      end;
+    end;
+  finally
+    WfxOperationsQueueLock.Release;
+  end;
+end;
+
+procedure TWfxPluginFileSource.ClearCurrentOperation(Operation: TFileSourceOperation);
+begin
+  {
+  case Operation.ID of
+    fsoCopyIn:
+      TWfxPluginCopyInOperation.ClearCurrentOperation;
+    fsoCopyOut:
+      TWfxPluginCopyOutOperation.ClearCurrentOperation;
+    fsoDelete:
+      TWfxPluginDeleteOperation.ClearCurrentOperation;
+  end;
+  }
+end;
+
+{ TWfxPluginFileSourceConnection }
+
+constructor TWfxPluginFileSourceConnection.Create(aWfxModule: TWfxModule);
+begin
+  FWfxModule := aWfxModule;
+  inherited Create;
+end;
+
 { TCallbackDataClass }
 
 constructor TCallbackDataClass.Create(aFileSource: TWfxPluginFileSource);
@@ -788,8 +1030,16 @@ end;
 
 initialization
   WfxOperationList:= TStringList.Create;
+  WfxConnections := TObjectList.Create(True); // True = destroy objects when destroying list
+  WfxConnectionsLock := TCriticalSection.Create;
+  WfxOperationsQueue := TObjectList.Create(False); // False = don't destroy operations (only store references)
+  WfxOperationsQueueLock := TCriticalSection.Create;
+
 finalization
-  if Assigned(WfxOperationList) then
-    FreeAndNil(WfxOperationList);
+  FreeThenNil(WfxOperationList);
+  FreeThenNil(WfxConnections);
+  FreeThenNil(WfxConnectionsLock);
+  FreeThenNil(WfxOperationsQueue);
+  FreeThenNil(WfxOperationsQueueLock);
 
 end.

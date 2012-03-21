@@ -95,12 +95,16 @@ begin
   with FWfxPluginFileSource do
   FCallbackDataClass:= TCallbackDataClass(WfxOperationList.Objects[PluginNumber]);
 
-  if theSourceFiles.Count > 1 then
+  inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
+
+  FNeedsConnection:= (FWfxPluginFileSource.WfxModule.BackgroundFlags and BG_UPLOAD = 0);
+
+  if (FNeedsConnection = False) then
+    FInfoOperation:= FS_STATUS_OP_PUT_MULTI_THREAD
+  else if (theSourceFiles.Count > 1) then
     FInfoOperation:= FS_STATUS_OP_PUT_MULTI
   else
     FInfoOperation:= FS_STATUS_OP_PUT_SINGLE;
-
-  inherited Create(aSourceFileSource, aTargetFileSource, theSourceFiles, aTargetPath);
 end;
 
 destructor TWfxPluginCopyInOperation.Destroy;

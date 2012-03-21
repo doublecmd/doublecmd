@@ -127,6 +127,10 @@ const FS_STATUS_START=0;
 
       FS_STATUS_OP_SYNC_DELETE=18;
 
+      FS_STATUS_OP_GET_MULTI_THREAD=19;
+
+      FS_STATUS_OP_PUT_MULTI_THREAD=20;
+
 {Flags for FsExtractCustomIcon}
 
 const FS_ICONFLAG_SMALL=1;
@@ -166,6 +170,14 @@ const FS_BITMAP_NONE=0;
       FS_CRYPT_DELETE_PASSWORD=6;
 
       FS_CRYPTOPT_MASTERPASS_SET=1;   {The user already has a master password defined}
+
+{Flags for FsGetBackgroundFlags}
+
+      BG_DOWNLOAD=1;  { Plugin supports downloads in background }
+
+      BG_UPLOAD=2;    { Plugin supports uploads in background }
+
+      BG_ASK_USER=4;  { Plugin requires separate connection for background transfers -> ask user first }
 
 type
   { Unsigned integer with pointer size }
@@ -542,6 +554,8 @@ function FsContentGetDefaultView(ViewContents,ViewHeaders,ViewWidths,
 function FsContentGetDefaultViewW(ViewContents,ViewHeaders,ViewWidths,
 
   ViewOptions:pwidechar;maxlen:integer):bool; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
+
+function FsGetBackgroundFlags:integer; {$IFDEF MSWINDOWS}stdcall{$ELSE}cdecl{$ENDIF};
 
 *)
 
