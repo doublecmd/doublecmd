@@ -115,6 +115,7 @@ type
     procedure tvOperationsMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure tvOperationsSelectionChanged(Sender: TObject);
   private
+    FDraggedOperation: TOperationHandle;
     FMenuOperation: TOperationHandle;
     function GetFocusedItem: TViewBaseItem;
     procedure SetFocusItem(AOperationHandle: TOperationHandle);
@@ -608,54 +609,53 @@ end;
 
 procedure TfrmViewOperations.tvOperationsDragDrop(Sender, Source: TObject; X, Y: Integer);
 var
-  SourceNode, TargetNode: TTreeNode;
+  TargetNode: TTreeNode;
   NodeRect: TRect;
   TargetItem: TViewBaseItem;
-  SourceItem: TViewOperationItem;
+  QueueItem: TViewQueueItem;
+  OperItem: TViewOperationItem;
   SourceOpManItem, TargetOpManItem: TOperationsManagerItem;
   TargetQueue: TOperationsManagerQueue;
+  TargetQueueId: TOperationsManagerQueueIdentifier;
   HitTopPart: Boolean;
 begin
-  SourceNode := tvOperations.Selected;
   TargetNode := tvOperations.GetNodeAt(X, Y);
   if not Assigned(TargetNode) then
     TargetNode := tvOperations.Items.GetLastNode;
-  if (Source = tvOperations) and Assigned(SourceNode) and Assigned(TargetNode) then
+  if (Source = tvOperations) and Assigned(TargetNode) then
   begin
-    SourceItem := TViewBaseItem(SourceNode.Data) as TViewOperationItem;
-    SourceOpManItem := OperationsManager.GetItemByHandle(SourceItem.FOperationHandle);
+    SourceOpManItem := OperationsManager.GetItemByHandle(FDraggedOperation);
     if Assigned(SourceOpManItem) then
     begin
       NodeRect := TargetNode.DisplayRect(False);
       TargetItem := TViewBaseItem(TargetNode.Data);
+      HitTopPart := Y - NodeRect.Top < (NodeRect.Bottom - NodeRect.Top) div 2;
 
-      HitTopPart := Y - NodeRect.Bottom < (NodeRect.Bottom - NodeRect.Top) div 2;
-
-      if HitTopPart and
-         (SourceNode = tvOperations.Items.GetFirstNode) and
-         (TargetItem is TViewQueueItem) and
-         (TViewQueueItem(TargetItem).FQueueIdentifier <> FreeOperationsQueueId) then
+      if TargetItem is TViewQueueItem then
       begin
-        TargetQueue := OperationsManager.QueueByIdentifier[FreeOperationsQueueId];
-        SourceOpManItem.SetQueue(TargetQueue);
-      end
-      else if TargetItem is TViewQueueItem then
-      begin
-        TargetQueue := OperationsManager.QueueByIdentifier[TViewQueueItem(TargetItem).FQueueIdentifier];
-        SourceOpManItem.SetQueue(TargetQueue);
-      end
-      else if TargetItem is TViewOperationItem then
-      begin
-        TargetOpManItem := OperationsManager.GetItemByHandle(TViewOperationItem(TargetItem).FOperationHandle);
-        if Assigned(TargetOpManItem) then
+        QueueItem := TViewQueueItem(TargetItem);
+        if HitTopPart and
+           (TargetNode = tvOperations.Items.GetFirstNode) and
+           (QueueItem.FQueueIdentifier <> FreeOperationsQueueId) then
         begin
-          TargetQueue := TargetOpManItem.Queue;
-          {if HitTopPart then
-            AttachMode := naInsert
-          else
-            AttachMode := naInsertBehind;}
-          SourceOpManItem.SetQueue(TargetQueue);
+          // There are no free operations and item was dropped at the top of the list
+          // on some queue. Create a free operations queue and move to it.
+          TargetQueueId := FreeOperationsQueueId;
+        end
+        else
+        begin
+          TargetQueueId := QueueItem.FQueueIdentifier;
         end;
+        TargetQueue := OperationsManager.QueueByIdentifier[TargetQueueId];
+        SourceOpManItem.SetQueue(TargetQueue);
+      end
+      else if (TargetItem is TViewOperationItem) and
+              (FDraggedOperation <> TViewOperationItem(TargetItem).FOperationHandle) then
+      begin
+        OperItem := TViewOperationItem(TargetItem);
+        TargetOpManItem := OperationsManager.GetItemByHandle(OperItem.FOperationHandle);
+        if Assigned(TargetOpManItem) then
+          SourceOpManItem.Move(TargetOpManItem.Handle, HitTopPart);
       end;
     end;
   end;
@@ -671,11 +671,14 @@ var
   Node: TTreeNode;
   NodeRect: TRect;
 begin
+  FDraggedOperation := InvalidOperationHandle;
   Node := tvOperations.GetNodeAt(X, Y);
   if Assigned(Node) then
   begin
     NodeRect := Node.DisplayRect(False);
     TViewBaseItem(Node.Data).Click(Point(X - NodeRect.Left, Y - NodeRect.Top), Button, Shift);
+    if TViewBaseItem(Node.Data) is TViewOperationItem then
+      FDraggedOperation := TViewOperationItem(Node.Data).FOperationHandle;
   end;
 end;
 
