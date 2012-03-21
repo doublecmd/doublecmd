@@ -1099,6 +1099,7 @@ procedure SaveGlobs;
 var
   TmpConfig: TXmlConfig;
   Ini: TIniFileEx = nil;
+  FileName: UTF8String;
 begin
   if (gUseConfigInProgramDirNew <> gUseConfigInProgramDir) and
      (gpCmdLineCfgDir = EmptyStr) then
@@ -1145,8 +1146,9 @@ begin
   end;
   if gIgnoreListFileEnabled then
   begin
-    mbForceDirectory(ExtractFileDir(gIgnoreListFile));
-    glsIgnoreList.SaveToFile(ReplaceEnvVars(gIgnoreListFile));
+    FileName:= ReplaceEnvVars(gIgnoreListFile);
+    mbForceDirectory(ExtractFileDir(FileName));
+    glsIgnoreList.SaveToFile(FileName);
   end;
   gMultiArcList.SaveToFile(gpCfgDir + 'multiarc.ini');
 
